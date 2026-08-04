@@ -58,6 +58,21 @@ and the corpus that prompted this is Markdown:
 either the extraction lives outside olski and the document says where,
 or the markup boundary in `olski/cli.py` gets revisited deliberately.
 
+`pattern-density` expresses a ceiling and nothing else.
+`_validate_density` in `olski/checks.py` requires `max_per_1000_words`,
+and the check returns without a hit whenever the rate sits at or below it.
+Fact density in
+[`docs/linter.md`](docs/linter.md#candidate-rule-inventory) runs the other way:
+dates, numerals and proper nouns all match at tier A,
+and what the source reports is that generated text carries too few of them,
+so a rule already on the inventory cannot be written with the parameters
+the check accepts.
+The move is a `min_per_1000_words` beside the ceiling,
+both optional and at least one required,
+plus a reported field naming which side fired,
+because `limit` alone leaves a message unable to say
+whether the text ran hot or cold.
+
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates the `fields` set each check registers,
 and the `params=dict(...)` blocks restate what each validator accepts,
