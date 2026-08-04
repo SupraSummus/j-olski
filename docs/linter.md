@@ -430,6 +430,12 @@ does not appear to exist.
 The harder and more interesting wish:
 some way for language models to write good Polish prose.
 
+[fiction.md](fiction.md) is the survey behind this section:
+the catalogue of documented failure modes,
+the evidence that post-training rather than prompting produces them,
+and the interventions that have results behind them.
+What follows is the summary.
+
 A linter cannot deliver that,
 and it is worth being precise about why.
 A linter removes defects.
@@ -448,6 +454,9 @@ and they are as mechanical as the technical ones:
   the `serce zabiło mocniej` family.
   This is the most tractable fiction rule of all,
   and it is pure tier A.
+  The corpus is the trap, not the rule:
+  see [fiction.md](fiction.md#what-this-means-for-olski)
+  on why mining Wolne Lektury yields period marking rather than cliché.
 - **Filter words** — `poczuł, że`, `zauważył, że`, `wydawało się, że`,
   constructions that hold the reader one step away from the scene
 - **Adverbial dialogue tags** — `powiedział cicho`, `odparła nerwowo`
@@ -501,6 +510,13 @@ has something to actually act on.
 Explainable and deterministic beats
 judgement-by-another-model here,
 precisely because it is the same complaint every time.
+
+This is the best-supported of the three,
+and the support is measured rather than aesthetic:
+model judges rank generated fiction above New Yorker short stories,
+so a revision loop with a model critic
+optimizes toward the defect it was meant to remove.
+See [fiction.md](fiction.md#the-evaluation-trap) for the evidence.
 
 Honest asymmetry:
 the technical-documentation linter is a project that can be finished.
