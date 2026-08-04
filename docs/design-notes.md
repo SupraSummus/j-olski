@@ -280,6 +280,10 @@ That curve is the experiment.
 How much real Polish per unit of formal power
 is a question with a real answer
 that nobody has computed for this grammar.
+Its first point is now computed:
+tier 0 admits 1.5% of Składnica,
+and [corpus.md](corpus.md) has the breakdown
+and the reasons not to over-read the figure.
 It also supplies a principled way to say no:
 if scrambling buys three percent of sentences
 for a jump from cubic to sixth-power parsing,

@@ -52,6 +52,9 @@ done at full scale.
 a constituency treebank of Polish, aligned with Świgra's output.
 Useful as a source of test sentences
 and as evidence of which constructions actually occur.
+Now a dependency of the measurement, not of the package:
+see [corpus.md](corpus.md) for how it is fetched and what it is allowed to prove.
+<https://zil.ipipan.waw.pl/Składnica>
 
 **POLFIE** —
 an LFG grammar of Polish implemented in XLE.
