@@ -157,8 +157,11 @@ So the project needs a paired corpus:
   edited journalism, and some deliberately good expository writing.
 - **Generated Polish**, from several models,
   on comparable topics and in comparable registers.
-  This half is easy and cheap to produce,
-  which is a real advantage over most corpus work.
+  This half is cheap, on the condition that it is generated and then left alone.
+  Text that has been edited against style detectors
+  reports a floor rather than a rate,
+  which [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
+  measures on a corpus that had been.
 
 Then every rule carries two numbers:
 how often it fires on generated text,
@@ -302,7 +305,10 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Paragraph-length uniformity
 - Three-item list frequency *cited*
 - Bullet density inside prose
-- `nie tylko X, ale także Y` and other parallel-negation frames
+- `nie tylko X, ale także Y` and other parallel-negation frames.
+  The frame's commonest Polish form is punctuated rather than lexical,
+  so this entry and the em dash above are one construction:
+  see [generated-polish.md](generated-polish.md#what-the-em-dashes-are-doing)
 - Lemma type-token ratio *cited*
 - Fact density: dates, numerals, proper nouns; low in generated text *cited*
 - Absence of inversion and other emphatic reorderings *cited*
