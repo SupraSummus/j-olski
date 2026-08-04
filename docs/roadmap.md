@@ -178,6 +178,9 @@ and the three directions that look more promising than linting:
 generative constraints,
 stylometric targets rather than stylometric alarms,
 and the linter as a deterministic critic inside a revision loop.
+[fiction.md](fiction.md) surveys the research underneath that:
+the documented failure modes,
+and the finding that post-training rather than prompting produces them.
 
 Deliberately not a milestone.
 Labelling a research question as a deliverable

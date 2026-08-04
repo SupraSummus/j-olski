@@ -121,6 +121,10 @@ a roadmap, and open questions.
   what the linter is for, which rules need how much analysis,
   why calibration decides everything,
   and what is and is not lintable in fiction
+- [docs/fiction.md](docs/fiction.md) —
+  what goes wrong in model fiction, why post-training causes it,
+  why model judges rank it above the New Yorker,
+  and which of it is lintable
 - [docs/roadmap.md](docs/roadmap.md) —
   milestones and their exit criteria
 - [docs/similar-work.md](docs/similar-work.md) —

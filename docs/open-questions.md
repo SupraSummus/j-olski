@@ -65,7 +65,9 @@ Several metrics work for both registers with inverted thresholds,
 which is cheap.
 The rest of the fiction problem is not linting,
 and is recorded as a wish rather than a plan.
-See [linter.md](linter.md#and-fiction).
+See [linter.md](linter.md#and-fiction),
+and [fiction.md](fiction.md#what-this-means-for-olski)
+for which defects a pack could reach and which sit below any rule.
 
 ## Grammar-track questions
 
