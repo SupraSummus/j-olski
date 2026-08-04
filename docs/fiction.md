@@ -428,6 +428,9 @@ No Polish equivalent of the phrase profiles,
 the discourse-feature work, or the flattening experiment exists.
 The gap noted in linter.md for technical Polish
 is wider for literary Polish.
+[generated-polish.md](generated-polish.md) narrows one corner of it,
+by measuring two of the failure modes catalogued here
+on a body of Polish that one model wrote.
 
 **Much of it is detection research wearing a critic's hat.**
 StoryScope and the stylometric work select features for *separability*.

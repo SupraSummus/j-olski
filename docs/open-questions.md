@@ -51,8 +51,11 @@ and if so how they are dated and retired.
 Which human Polish counts as the good side of the pair.
 NKJP, Wolne Lektury, edited journalism, technical documentation,
 and in what proportion.
-The generated side is easy;
-the human side determines everything the rules learn.
+The human side determines everything the rules learn.
+The generated side is easy only if it is generated for the purpose:
+[generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
+measures a body of Polish that was edited against style detectors first,
+and whether such a corpus counts as the generated half is undecided.
 
 **How registers are configured.**
 Rules belong to packs and packs belong to registers.

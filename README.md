@@ -125,6 +125,10 @@ a roadmap, and open questions.
   what goes wrong in model fiction, why post-training causes it,
   why model judges rank it above the New Yorker,
   and which of it is lintable
+- [docs/generated-polish.md](docs/generated-polish.md) —
+  what a real body of generated Polish measures,
+  which patterns it puts on the inventory,
+  and why a corpus edited against detectors is a floor and not a sample
 - [docs/roadmap.md](docs/roadmap.md) —
   milestones and their exit criteria
 - [docs/similar-work.md](docs/similar-work.md) —

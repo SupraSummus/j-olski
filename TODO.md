@@ -41,6 +41,23 @@ and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
+Every rate in [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
+was produced by an extraction written once and thrown away,
+so the document reports numbers this repository cannot recompute.
+Milestone 1 needs the harness regardless,
+and the first half of it is small:
+the CLI already walks a directory and already builds a `Report`,
+so a per-rule firing rate over a corpus
+is an output format over the run it already does,
+not a new subsystem.
+What that mode cannot do alone is rank rules by discrimination,
+which needs the human half of the pair,
+so it ships as a one-sided report or not at all.
+Note also that `TEXT_SUFFIXES` keeps Markdown out on purpose,
+and the corpus that prompted this is Markdown:
+either the extraction lives outside olski and the document says where,
+or the markup boundary in `olski/cli.py` gets revisited deliberately.
+
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates the `fields` set each check registers,
 and the `params=dict(...)` blocks restate what each validator accepts,
