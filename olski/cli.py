@@ -11,7 +11,8 @@ from textwrap import fill
 
 from olski import __version__
 from olski.checks import ParamError
-from olski.engine import Report, lint_path, lint_text
+from olski.document import Document
+from olski.engine import Report, lint_corpus, lint_text, read
 from olski.rules import PACK_PACKAGE, Rule, RuleError, load_packs, select
 
 #: Extensions collected when a directory is given. Only plain text for now:
@@ -108,9 +109,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     for path in missing:
         print(f"olski: no such file or directory: {path}", file=sys.stderr)
 
-    report = Report()
-    for file in files:
-        report.extend(lint_path(file, rules))
+    documents, errors = _read(files)
+    report = lint_corpus(documents, rules)
+    report.errors.extend(errors)
     if not files and not missing:
         print("olski: nothing to lint", file=sys.stderr)
 
@@ -131,6 +132,23 @@ def main(argv: Sequence[str] | None = None) -> int:
 def lint_string(text: str, path: str = "<text>") -> Report:
     """Lint a string with the shipped packs. The convenient entry point."""
     return lint_text(text, load_packs(), path)
+
+
+def _read(files: Sequence[Path]) -> tuple[list[Document], list[tuple[str, str]]]:
+    """Read every file before linting any of them.
+
+    A rule may be measuring the corpus rather than a file, so the whole corpus
+    has to exist before the first rule runs.
+    """
+    documents: list[Document] = []
+    errors: list[tuple[str, str]] = []
+    for file in files:
+        document, error = read(file)
+        if document is None:
+            errors.append((str(file), error))
+        else:
+            documents.append(document)
+    return documents, errors
 
 
 def _collect(paths: Sequence[str]) -> tuple[list[Path], list[str]]:

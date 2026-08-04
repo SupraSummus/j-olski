@@ -6,6 +6,8 @@ This document reports what one already-written generated half contains.
 
 Two shipped rules get their first datapoint,
 two patterns go onto the candidate inventory,
+one defect from above the phrase turns out to be countable
+and gets a check written against it,
 and the word *easy* loses a condition.
 
 ## What was measured
@@ -180,6 +182,56 @@ which is the shape
 [the critic in a revision loop](linter.md#what-would-actually-help-and-is-not-linting)
 already wants.
 
+## Two entities in five are introduced and dropped
+
+The notes set an entity up with apparatus 509 times —
+a capitalized word followed by a parenthesis containing a number,
+which is how this corpus introduces a person
+(*Nara (fizyczka, 31, Iris, Sol)*) and a place alike.
+214 of those entities, 42%,
+are named fewer than three times in the note that introduced them,
+the introduction counted among the three.
+Such an entity is a walk-on.
+
+The corpus's own documentation reaches the same defect by reading
+rather than by counting:
+its account of what makes one of its notes weak
+describes characters arriving with a parenthetical CV,
+performing the function the note's topic requires, and exiting.
+Two methods over one corpus is weaker than two corpora,
+but a defect that reading and counting both arrive at
+is the kind [fiction.md](fiction.md#how-much-of-this-is-actually-established)
+says to trust further than one that only one of them finds.
+
+A single walk-on is not a defect,
+which is the whole reason the figure is a share over a body of text.
+Plenty of entities are named once because once is what they are worth,
+and only the rate says whether a text has a habit.
+`entity-recurrence` in [rules.md](rules.md#entity-recurrence) is that measurement,
+and this is the number it was written against.
+
+What the figure is a rate over is worth stating precisely.
+The pattern captures one capitalized word,
+so a two-word system name enters the count as its second word —
+*Ceti*, *Eridani*, *Centauri* are all among the 201 distinct captures —
+and a sentence-initial adverb standing before a parenthesized number
+enters it as a name, which is how *Teraz* got in.
+The second kind of error inflates the answer,
+because a word that is not an entity is rarely repeated
+and therefore counts as a walk-on,
+so 42% is an upper bound on the thing it is measuring
+rather than an estimate of it.
+Narrowing the pattern is the obvious next move
+and it needs the same human baseline everything else here needs:
+a rate this loose is worth having only against another rate
+measured the same loose way.
+
+This is a count over the files as they stand,
+so it belongs with the quotation marks rather than with the rates,
+and anyone with the clone can redo it.
+What is new is that the check is in this repository:
+redoing it means running a rule rather than writing an extraction.
+
 ## What happened when the rules were deleted
 
 The agent wrote regex detectors for its own Polish prose patterns,
@@ -232,6 +284,19 @@ That is the same division
 between the mechanical consistency classes and everything above them,
 arrived at from the other end by someone with a book to finish.
 
+The same commit deleted a second tool aimed a layer higher,
+and it failed differently.
+Beside the prose detectors stood a registry of eleven genre-exhausted ideas —
+the unknowable alien, the multi-generational war, the lone operator —
+each with the works it comes from and a note on how to avoid leaning on it,
+and a checker that detected them by keyword.
+The reason recorded against it names the gap exactly:
+an idea-level cliché is a matter of how an idea is treated,
+not of whether certain words appear.
+The registry was deleted along with the checker,
+which is the part worth keeping in view:
+the taxonomy was the durable half and it lived inside the disposable one.
+
 The patterns returned.
 `nikt nie`, driven down by hand-editing during the campaign,
 stands in 211 of the 527 Polish notes.
@@ -281,4 +346,7 @@ and the distinction is invisible in the text itself.
   the decision to delete the detectors,
   and the design principle written down afterwards
 - commit `8a3de57` in that repository —
-  what was deleted and the reason recorded against each check
+  what was deleted, the reason recorded against each check,
+  and the idea-level registry that went with them
+- `book2/README.md` in that repository —
+  the corpus's own account of what makes one of its notes weak

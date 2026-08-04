@@ -9,13 +9,23 @@ from olski.rules import Pack, RuleError
 pack = Pack(name="test", origin="tests/test_checks.py")
 
 
+def over(rule, documents):
+    return list(CHECKS[rule.check].run(rule, documents))
+
+
 def run(rule, text):
     document = text if isinstance(text, Document) else from_text(text)
-    return list(CHECKS[rule.check].run(rule, document))
+    return over(rule, [document])
 
 
 def hits(rule, text):
     return [outcome for outcome in run(rule, text) if isinstance(outcome, Hit)]
+
+
+def corpus(*texts):
+    """A corpus whose files are named after their position, so that a finding's
+    document can be named in an assertion."""
+    return [from_text(text, f"{n}.txt") for n, text in enumerate(texts, start=1)]
 
 
 # --------------------------------------------------------------------------- #
@@ -139,6 +149,122 @@ def test_density_abstains_rather_than_measure_a_rate_over_too_few_words():
 
 
 # --------------------------------------------------------------------------- #
+# The corpus scope: rules that measure a body of text rather than a file.
+# --------------------------------------------------------------------------- #
+
+over_corpus = pack.rule(
+    id="test-corpus-density",
+    check="pattern-density",
+    params=dict(pattern=r"—", unit="corpus", max_per_1000_words=100, min_count=2),
+    message="{count} in {words} words, {rate} per 1000",
+    justification="a test",
+)
+
+
+def test_a_corpus_rate_pools_every_document_rather_than_taking_the_first():
+    #  One dash in each of two five-word files: 200 per 1000 either way, but the
+    #  denominator is only right if both files were counted.
+    found = over(over_corpus, corpus("raz dwa — trzy cztery", "pięć sześć — siedem osiem"))
+    assert len(found) == 1
+    assert found[0].fields["count"] == 2
+    assert found[0].fields["words"] == 8
+
+
+def test_a_corpus_rate_is_one_finding_anchored_in_the_file_it_first_occurs_in():
+    found = over(over_corpus, corpus("bez znaku", "raz — dwa — trzy"))
+    assert len(found) == 1
+    assert found[0].document.path == "2.txt"
+
+
+def test_a_per_document_rule_still_names_the_file_each_finding_is_in():
+    found = over(straight_quote, corpus('pierwsze "x"', 'drugie "y"'))
+    assert [h.document.path for h in found] == ["1.txt", "1.txt", "2.txt", "2.txt"]
+
+
+corpus_floor = pack.rule(
+    id="test-corpus-floor",
+    check="pattern-density",
+    params=dict(pattern=r"—", unit="corpus", max_per_1000_words=1, min_count=1, min_words=50),
+    message="{count} dashes",
+    justification="a test",
+)
+
+
+def test_a_corpus_abstention_belongs_to_no_single_file():
+    outcomes = over(corpus_floor, corpus("raz — dwa", "trzy — cztery"))
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert outcomes[0].document is None
+
+
+# --------------------------------------------------------------------------- #
+# entity-recurrence
+# --------------------------------------------------------------------------- #
+
+walk_ons = pack.rule(
+    id="test-walk-on",
+    check="entity-recurrence",
+    params=dict(
+        introduce=r"\b([A-ZĄĆĘŁŃÓŚŹŻ]\w+) \([^)]*\d[^)]*\)",
+        min_mentions=3,
+        max_walk_on_share=0.5,
+    ),
+    message="{walk_ons} of {introductions} ({share}, over {limit}); {entity} is named {mentions}",
+    justification="a test",
+)
+
+DROPPED = "Nara (fizyczka, 31) sprawdziła czujnik.\n"
+KEPT = (
+    "Rho (technik, 44) sprawdził wyrzutnię.\n"
+    "Rho czekał do rana.\n"
+    "Potem Rho wrócił do pracy.\n"
+)
+
+
+def test_entity_recurrence_fires_only_above_the_share():
+    #  Three walk-ons in four introductions is 75%, over the limit of 50%.
+    assert len(over(walk_ons, corpus(DROPPED, DROPPED, DROPPED, KEPT))) == 1
+    #  One in three comes in under it.
+    assert over(walk_ons, corpus(DROPPED, KEPT, KEPT)) == []
+
+
+def test_entity_recurrence_reports_the_measurement_it_used():
+    found = over(walk_ons, corpus(DROPPED, DROPPED, DROPPED, KEPT))
+    assert found[0].fields["walk_ons"] == 3
+    assert found[0].fields["introductions"] == 4
+    assert found[0].fields["share"] == "75%"
+    #  Named once, and the once is the introduction.
+    assert found[0].fields["entity"] == "Nara"
+    assert found[0].fields["mentions"] == 1
+
+
+def test_one_entity_introduced_twice_in_a_file_is_one_introduction():
+    #  Counting introductions rather than entities would double the denominator,
+    #  so the share would improve every time a text reintroduced someone.
+    found = over(walk_ons, corpus(DROPPED + DROPPED, DROPPED, KEPT))
+    assert found[0].fields["introductions"] == 3
+
+
+floored_recurrence = pack.rule(
+    id="test-walk-on-floor",
+    check="entity-recurrence",
+    params=dict(
+        introduce=r"\b([A-ZĄĆĘŁŃÓŚŹŻ]\w+) \([^)]*\d[^)]*\)",
+        max_walk_on_share=0.1,
+        min_introductions=20,
+    ),
+    message="{share} walk-ons",
+    justification="a test",
+)
+
+
+def test_entity_recurrence_abstains_rather_than_share_a_handful():
+    outcomes = over(floored_recurrence, corpus(DROPPED, DROPPED))
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert "too few" in outcomes[0].reason
+    assert outcomes[0].document is None
+
+
+# --------------------------------------------------------------------------- #
 # line-end-word
 # --------------------------------------------------------------------------- #
 
@@ -248,6 +374,28 @@ def test_negative_threshold_is_refused():
             check="pattern-density",
             params=dict(pattern="a", max_per_1000_words=-1),
             message="{count}",
+            justification="j",
+        )
+
+
+def test_an_introduce_pattern_that_captures_nothing_is_refused():
+    with pytest.raises(RuleError, match="exactly one group, and this one has 0"):
+        pack.rule(
+            id="x9",
+            check="entity-recurrence",
+            params=dict(introduce=r"[A-Z]\w+", max_walk_on_share=0.5),
+            message="{share}",
+            justification="j",
+        )
+
+
+def test_a_share_above_one_is_refused():
+    with pytest.raises(RuleError, match="cannot exceed 1"):
+        pack.rule(
+            id="x10",
+            check="entity-recurrence",
+            params=dict(introduce=r"([A-Z]\w+)", max_walk_on_share=50),
+            message="{share}",
             justification="j",
         )
 

@@ -90,6 +90,38 @@ the thresholds in the typography pack are lenient.
 Milestone 1 replaces that string with two numbers.
 Until then a threshold is an opinion with a decimal point.
 
+## A rule may be asking about the corpus
+
+Every check sees all the files a run covers, not one file at a time.
+One file is a corpus of one,
+so a rule about a quotation mark is unaffected
+and is written as though the corpus did not exist.
+
+The scope exists because some defects are not properties of any one file.
+A phrase is a tic because it recurs,
+and an ending is a formula because the other endings are the same.
+Each instance is a legitimate choice on its own,
+and no per-file view can tell a choice from a habit,
+because the evidence is in the files it is not looking at.
+
+**A corpus rule reports one finding, anchored at one example.**
+It does not raise the measurement against every site that fed it.
+A rate is a property of the body of text and not of any sentence in it,
+so a list of every site would be an invitation
+to edit the sites until the number moves,
+which leaves the prose worse and the measurement meaningless.
+That is not a hypothetical:
+[generated-polish.md](generated-polish.md#what-happened-when-the-rules-were-deleted)
+records a body of prose edited into its detectors' image,
+and the detectors deleted afterwards rather than before.
+The anchor is there so the number can be checked.
+
+A share measured over five introductions is not a share,
+so a corpus rule that cannot see enough text
+declines to answer and says why rather than report one.
+Such an [abstention](#abstention-is-not-silence) belongs to no file,
+since no file owns the answer.
+
 ## Check kinds
 
 A check is the machinery; a rule is the decision to use it.
@@ -100,8 +132,9 @@ and is meant to be the rarer event.
 | Check | Fires on | Reports |
 | --- | --- | --- |
 | `pattern` | Each match of a regular expression | `{match}` |
-| `pattern-density` | A unit where matches exceed a rate per 1000 words | `{count}`, `{words}`, `{rate}`, `{limit}`, `{match}` |
+| `pattern-density` | A scope where matches exceed a rate per 1000 words | `{count}`, `{words}`, `{rate}`, `{limit}`, `{match}` |
 | `line-end-word` | A listed word left at the end of a line | `{word}` |
+| `entity-recurrence` | A corpus that introduces entities and drops them | `{entity}`, `{mentions}`, `{walk_ons}`, `{introductions}`, `{share}`, `{limit}` |
 
 A message may only use the placeholders its check reports.
 Using another one is an error at import time, not a surprise at runtime.
@@ -133,7 +166,7 @@ costs the reader's trust in every other rule.
 ```python
 params=dict(
     pattern=r"[—–]",
-    unit="document",        # or "paragraph"
+    unit="document",        # or "paragraph", or "corpus"
     max_per_1000_words=10,
     min_count=3,
     min_words=150,
@@ -147,6 +180,9 @@ Below `min_words` the rule abstains and says so.
 Below `min_count` it simply does not match,
 which is a different thing.
 
+`unit="corpus"` pools every file the run covers into one rate.
+See [what a corpus scope is for](#a-rule-may-be-asking-about-the-corpus).
+
 ### `line-end-word`
 
 ```python
@@ -158,6 +194,35 @@ is a line break in the output.
 On a document whose breaks are soft the rule abstains,
 because a source line says nothing about a rendered line
 and guessing would flag correct text.
+
+### `entity-recurrence`
+
+```python
+params=dict(
+    introduce=r"\b([A-ZĄĆĘŁŃÓŚŹŻ]\w+) \([^)]*\d[^)]*\)",
+    min_mentions=3,
+    min_introductions=50,
+    max_walk_on_share=0.25,
+)
+```
+
+`introduce` matches the place a text sets an entity up with apparatus —
+a name with a parenthesis after it, a term with its expansion —
+and captures the entity's name in its one group.
+An entity named fewer than `min_mentions` times
+in the file that introduced it is a walk-on,
+the introduction counted among the mentions,
+and the finding is the share of walk-ons across the corpus.
+
+A single walk-on is not a defect.
+Plenty of things are named once because once is what they are worth,
+which is why this reports a share and not a site,
+and why no shipped pack declares a rule against it:
+the share that separates a text from a habit
+is exactly what [milestone 1](roadmap.md#milestone-1-the-calibration-harness)
+is for, and a threshold chosen before then
+is an opinion with a decimal point.
+The check exists because the measurement has to come first.
 
 ## Abstention is not silence
 
