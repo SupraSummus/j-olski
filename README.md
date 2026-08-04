@@ -113,6 +113,10 @@ a roadmap, and open questions.
 - [docs/rules.md](docs/rules.md) —
   how a rule is written, which check kinds exist,
   and the difference between abstaining and finding nothing
+- [docs/corpus.md](docs/corpus.md) —
+  how the grammar is measured against the Składnica treebank,
+  what the first measurement says,
+  and what a coverage figure against one grammar's own output cannot prove
 - [docs/linter.md](docs/linter.md) —
   what the linter is for, which rules need how much analysis,
   why calibration decides everything,

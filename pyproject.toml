@@ -15,6 +15,7 @@ dev = ["pytest>=8", "ruff>=0.5"]
 [project.scripts]
 olski = "olski.cli:main"
 olski-check = "olski.check:main"
+olski-corpus = "olski.coverage:main"
 
 [tool.setuptools.packages.find]
 include = ["olski*"]
