@@ -28,6 +28,15 @@ and as an optional track pursued for its own sake.
 Rules are cheap to invent and worthless uncalibrated.
 Build the measurement before building the rule set.
 
+That is also the field's own account
+of why models write usable code and unreadable prose:
+code came with a verifier and prose did not.
+See [fiction.md](fiction.md#why-this-happens).
+The account carries its own warning,
+because a verifier teaches only what it checks —
+[generated-polish.md](generated-polish.md#what-happened-when-the-rules-were-deleted)
+records a body of Polish edited into its detectors' image.
+
 ## Milestone 0: rule engine and the typography pack
 
 A rule engine over plain Polish text,

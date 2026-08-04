@@ -57,6 +57,27 @@ The generated side is easy only if it is generated for the purpose:
 measures a body of Polish that was edited against style detectors first,
 and whether such a corpus counts as the generated half is undecided.
 
+**Whether a measurement may need a language model.**
+The README promises judgements produced as in a compiler,
+not as in a language model,
+and every rule shipped so far keeps that promise.
+The surprise metric in
+[fiction.md](fiction.md#the-evaluation-trap) does not:
+it scores how unexpected a text is under a model.
+It keeps the determinism —
+at temperature zero the same input scores the same twice —
+and it is the cheapest measurement in that survey to redo on Polish,
+wanting human Polish, generated Polish and one model to score both,
+with no annotators and no panel.
+What it loses is the explanation.
+A surprise score arrives without a rule behind it
+and cannot say what to change,
+which may be tolerable for a number that calibrates a rule set
+and not for a finding shown to a writer.
+Against it either way:
+depending on a model means depending on a particular model,
+which dates the way a fingerprint rule dates.
+
 **How registers are configured.**
 Rules belong to packs and packs belong to registers.
 Whether a document declares its register,

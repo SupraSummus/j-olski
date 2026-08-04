@@ -191,6 +191,18 @@ because none of them is a prose problem.
 
 ## Why this happens
 
+An absence sits underneath both mechanisms below.
+Reinforcement learning against a verifier
+produced the jumps in code and mathematics,
+where a rule-based checker returns a binary signal for free.
+Writing has no such checker,
+so the only signal available at scale is human preference,
+and what that preference contains decides everything downstream.
+The same literature names the limit inside code as well:
+what the verifier does not check —
+maintainability, and the later consequences of a design —
+goes unlearned there too.
+
 Two mechanisms have real evidence, and they point the same way.
 
 **Typicality bias in preference data.**
@@ -255,6 +267,20 @@ by repeatedly predicting how the story ends
 and treating prediction failure as evidence of tension.
 It ranks New Yorker stories far above model output,
 which is the ordering the rubric judges inverted.
+
+**A second metric of the same kind measures surprise directly.**
+Human continuations are markedly less predictable to a model
+than the model's own,
+the gap is wider for creative writing than for news or essays,
+and instruction-tuned and reasoning variants widen it further —
+the flattening experiment above, arrived at through a different instrument.
+Its shape matters as much as its direction.
+Quality against unpredictability is an inverted U,
+peaking high but short of the extreme,
+so the quantity has an optimum rather than a maximum.
+Its cost is that computing it takes a language model,
+which is a fork for this repository;
+[open-questions.md](open-questions.md#linter-questions) owns it.
 
 Three things follow.
 
@@ -410,10 +436,28 @@ Nothing at any tier reaches
 theme over-explanation, premature climax, arc monotony,
 undifferentiated dialogue, or shallow interiority.
 Those are the defects that make model fiction unreadable.
+
+**Four of those five look like one defect.**
+Each is a failure to hold several models of a mind apart across a text:
+the characters' and the reader's.
+Nobody has an idiolect because nobody is a separate mind,
+interiority stays shallow because there is no mind there to render,
+the theme gets explained because nothing tracks what the reader has inferred,
+and tension collapses early because nothing tracks
+what the reader has been made to expect.
+Arc monotony is the loose one
+and groups with the positivity bias above instead.
+Read this way the ceiling is a prediction rather than a policy:
+the four move when mind-modelling moves,
+and not for a better rule, a better prompt or a longer context.
+The reading is this document's rather than the literature's,
+and [the honesty section](#how-much-of-this-is-actually-established)
+says what would settle it.
+
 A tool that removes every defect it *can* see
 produces prose with no tells and no voice,
-which is the failure linter.md already named,
-now with a literature behind it.
+which is the failure linter.md already names,
+with this document as its evidence.
 
 ## How much of this is actually established
 
@@ -443,6 +487,18 @@ The catalogue above is more trustworthy where independent lines converge —
 expert editors, detection features and reader anecdote
 all naming the same defect — and thinner where only one does.
 
+**The single-cause reading of the ceiling is this document's.**
+The studies catalogue those defects separately and do not connect them,
+and whether models model minds at all is contested in both directions:
+they reach adult scores on higher-order false-belief tasks,
+those scores fall apart under small perturbations of the task,
+and contamination is plausible either way,
+because the tasks are decades old and published.
+The reading asks for less than that debate settles.
+What would test it is whether dialogue differentiation and interiority
+move together with a measure of mental-state tracking maintained over a text,
+which nobody has built.
+
 **The corpora are short stories.**
 The narrative-structure findings mostly rest on synopses and short fiction.
 Novel-length claims come from consistency benchmarks
@@ -464,6 +520,9 @@ Research:
 - <https://arxiv.org/abs/2604.09854> —
   narrative forecasting as a tension metric,
   and rubric judges ranking AI fiction above New Yorker fiction
+- <https://arxiv.org/abs/2602.16162> —
+  the surprise gap between human and model continuations,
+  and quality as an inverted U over unpredictability
 - <https://aclanthology.org/2024.emnlp-main.978/> —
   story arcs, turning points and affective range in LLM narratives
 - <https://arxiv.org/abs/2409.14509> —
@@ -472,6 +531,9 @@ Research:
   Antislop: the backtracking sampler, the profiling pipeline, and FTPO
 - <https://arxiv.org/abs/2510.01171> —
   Verbalized Sampling, typicality bias, and distribution-level prompting
+- <https://arxiv.org/abs/2506.00103> —
+  why writing gets no verifier,
+  and what a verifier leaves unlearned inside code
 - <https://arxiv.org/abs/2510.02025> —
   Style over Story: model judges weighting polish over narrative substance
 - <https://arxiv.org/abs/2601.18353> —
@@ -482,6 +544,10 @@ Research:
   dynamic hierarchical outlining for long-form stories
 - <https://arxiv.org/abs/2507.00769> —
   LitBench, on evaluating creative-writing verifiers
+- <https://www.pnas.org/doi/10.1073/pnas.2405460121> —
+  models at or above adult scores on false-belief tasks
+- <https://arxiv.org/abs/2310.19619> —
+  theory of mind across situated tasks, finding none coherent
 
 Tools and lists:
 
