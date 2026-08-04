@@ -1,0 +1,8 @@
+{
+  // All rules on by default.
+  "default": true,
+
+  // Prose in this repository uses semantic line breaks (https://sembr.org).
+  // Line lengths vary by clause, so a length limit is meaningless here.
+  "MD013": false
+}

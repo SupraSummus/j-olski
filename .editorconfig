@@ -1,0 +1,16 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Prose uses semantic line breaks (https://sembr.org),
+# so line length is intentionally uneven and must not be enforced.
+# Trailing whitespace is trimmed, which means the two-space Markdown
+# hard break is unavailable; use a trailing backslash instead.
+[*.{md,txt}]
+max_line_length = off
