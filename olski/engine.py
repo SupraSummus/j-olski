@@ -1,14 +1,18 @@
-"""Running rules over documents.
+"""Running rules over a corpus.
 
-The engine knows nothing about Polish. It walks rules, hands each one the
-document and the check it named, turns every hit into a located finding with a
-rendered message, and keeps abstentions separately so that silence-by-decision
-stays distinguishable from silence-by-no-match.
+The engine knows nothing about Polish. It walks rules, hands each one the corpus
+and the check it named, turns every hit into a located finding with a rendered
+message, and keeps abstentions separately so that silence-by-decision stays
+distinguishable from silence-by-no-match.
+
+The corpus rather than the document is the unit, because a rule may be asking a
+question no single file can answer. One file is a corpus of one, so nothing about
+the ordinary case changes.
 """
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -57,36 +61,46 @@ class Report:
         return sorted(self.findings, key=lambda f: (f.path, f.line, f.column, f.rule.id))
 
 
-def lint(document: Document, rules: Iterable[Rule]) -> Report:
-    report = Report(paths=[document.path])
+#: Stands where a path would, for a rule that measured the corpus and found no
+#: single file to blame. The angle brackets match ``<text>`` in :func:`lint_text`.
+CORPUS = "<corpus>"
+
+
+def lint_corpus(documents: Sequence[Document], rules: Iterable[Rule]) -> Report:
+    report = Report(paths=[document.path for document in documents])
     for rule in rules:
         check = get_check(rule.check, f"rule {rule.id}")
-        for outcome in check.run(rule, document):
+        for outcome in check.run(rule, documents):
             if isinstance(outcome, Abstain):
-                report.abstentions.append(Abstention(rule, document.path, outcome.reason))
+                path = outcome.document.path if outcome.document else CORPUS
+                report.abstentions.append(Abstention(rule, path, outcome.reason))
             elif isinstance(outcome, Hit):
-                report.findings.append(_finding(rule, document, outcome))
+                report.findings.append(_finding(rule, outcome))
     return report
+
+
+def lint(document: Document, rules: Iterable[Rule]) -> Report:
+    return lint_corpus([document], rules)
 
 
 def lint_text(text: str, rules: Iterable[Rule], path: str = "<text>") -> Report:
     return lint(from_text(text, path), rules)
 
 
-def lint_path(path: str | Path, rules: Iterable[Rule]) -> Report:
+def read(path: str | Path) -> tuple[Document | None, str]:
+    """Read one file into a document, or say why it could not be read."""
     path = Path(path)
     try:
-        text = path.read_text(encoding="utf-8")
+        return from_text(path.read_text(encoding="utf-8"), str(path)), ""
     except (OSError, UnicodeDecodeError) as error:
-        return Report(errors=[(str(path), str(error))])
-    return lint_text(text, rules, str(path))
+        return None, str(error)
 
 
-def _finding(rule: Rule, document: Document, hit: Hit) -> Finding:
-    line, column = document.position(hit.span.start)
+def _finding(rule: Rule, hit: Hit) -> Finding:
+    line, column = hit.document.position(hit.span.start)
     return Finding(
         rule=rule,
-        path=document.path,
+        path=hit.document.path,
         line=line,
         column=column,
         span=hit.span,

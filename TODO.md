@@ -42,21 +42,31 @@ what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
 Every rate in [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
+except the walk-on share
 was produced by an extraction written once and thrown away,
 so the document reports numbers this repository cannot recompute.
 Milestone 1 needs the harness regardless,
-and the first half of it is small:
-the CLI already walks a directory and already builds a `Report`,
-so a per-rule firing rate over a corpus
-is an output format over the run it already does,
+and what is left of its first half is the output format:
+the CLI reads every file into one corpus before any rule runs,
+so a per-rule firing rate over that corpus
+is a way of printing the run it already does,
 not a new subsystem.
 What that mode cannot do alone is rank rules by discrimination,
 which needs the human half of the pair,
 so it ships as a one-sided report or not at all.
-Note also that `TEXT_SUFFIXES` keeps Markdown out on purpose,
-and the corpus that prompted this is Markdown:
-either the extraction lives outside olski and the document says where,
-or the markup boundary in `olski/cli.py` gets revisited deliberately.
+
+The markup boundary is the other half,
+and running a corpus rate over the notes has put a price on it.
+`TEXT_SUFFIXES` keeps Markdown out on purpose
+and the corpus that prompted this is Markdown,
+so a rate measured over those files runs well above
+the one their extracted prose gives:
+the link list closing every note puts an em dash on every line,
+and the density rule counts each one.
+Either the extraction lives outside olski and the document says where,
+or the boundary in `olski/cli.py` gets revisited deliberately.
+Deciding it is what makes the harness's numbers mean anything,
+so it comes before the output format rather than after.
 
 `pattern-density` expresses a ceiling and nothing else.
 `_validate_density` in `olski/checks.py` requires `max_per_1000_words`,

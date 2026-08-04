@@ -477,6 +477,53 @@ fiction wants high, and low variance is the flag.
 That means one engine and one set of measurements,
 with per-pack targets rather than per-pack code.
 
+### The handle on a defect above the phrase is position or recurrence
+
+The list above stops where it does because a rule matches a string,
+and the defects that make model fiction unreadable are not strings.
+Two of them turn out to be reachable anyway,
+and neither is reachable as a string.
+One is a property of *where* a sentence stands,
+the other of *how often* the text comes back to something.
+Both are countable.
+
+**Position.** A theme explained in the last sentence of a section
+is not a sentence a blacklist can hold,
+but the position is a place a tool can point at,
+and the rate at that position is a number.
+[generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different)
+owns the measurement.
+
+**Recurrence.** An entity introduced with apparatus and then dropped
+is a legitimate choice once and a habit at scale,
+so the defect exists at the corpus and not in any file.
+[generated-polish.md](generated-polish.md#two-entities-in-five-are-introduced-and-dropped)
+owns that measurement, and `entity-recurrence` in
+[rules.md](rules.md#entity-recurrence) is the check written against it.
+
+Both reach a trace and not a cause,
+which is worth saying before the inventory grows on the strength of them.
+[fiction.md](fiction.md#what-this-means-for-olski) reads
+four of the ceiling defects as one failure to model minds across a text,
+and a text can end fewer sections on a negation
+without acquiring anyone to have written them.
+What a rate buys is a critic with something specific to say,
+which is the whole of the claim in
+[what would actually help](#what-would-actually-help-and-is-not-linting)
+and none of the claim that the defect has been addressed.
+
+The generalization is worth stating as a constraint on this inventory:
+a candidate rule aimed above the phrase
+either names a position or names a thing that recurs,
+or it is a trope, and a trope is not lintable.
+The third case has been attempted and is worth learning from:
+[generated-polish.md](generated-polish.md#what-happened-when-the-rules-were-deleted)
+records a taxonomy of genre-exhausted ideas
+reimplemented as keyword lists, and deleted with them.
+What is worth keeping after such an attempt is the taxonomy,
+which is an argument for `justification` and `sources`
+being fields of a rule declaration rather than comments in a checker.
+
 ### What would actually help, and is not linting
 
 Three directions, none of them a linter,
