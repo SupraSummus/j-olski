@@ -30,21 +30,26 @@ Build the measurement before building the rule set.
 
 ## Milestone 0: rule engine and the typography pack
 
-A rule engine over plain text and Markdown,
+A rule engine over plain Polish text,
 plus the rules that need nothing but a tokenizer:
 em dash frequency,
 Polish quotation marks,
 single-letter words at line end,
-stray Markdown emphasis in prose,
 spacing artifacts.
 
 Rules live in data, not in code,
 carry an identifier, a message, a register pack,
 and a recorded justification.
 
-**Exit:** the engine runs over this repository's own Markdown
+Markup formats are not in scope.
+This is a linter for Polish, not a document-format library,
+and a rule that cannot tell prose from markup
+belongs to whatever reads the markup, not here.
+
+**Exit:** the engine runs over a plain Polish text file
 and reports findings with locations,
 and adding a rule requires editing data rather than code.
+Met, see [rules.md](rules.md).
 
 ## Milestone 1: the calibration harness
 

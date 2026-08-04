@@ -51,10 +51,68 @@ The project is for fun.
 
 ## Status
 
-Nothing is implemented.
-The repository holds design notes, a survey of the field,
+Two things run.
+
+**A grammar for a subset of Polish**, over Morfeusz 2,
+where a sentence is olski when it has exactly one reading.
+Not merely one derivation: `Koszt samej szynki przewyższa koszt szynki z dodatkami.`
+parses two ways and means the opposite thing in each,
+so olski rejects it.
+
+```sh
+python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings
+```
+
+```text
+<text>: valid     Zapisz plik konfiguracyjny .
+                  one reading
+                  - Object: plik konfiguracyjny, Verb: Zapisz
+<text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami .
+                  3 readings, differing in Object, Subject
+<text>: rejected  Nowa program zapisuje ustawienia .
+                  no reading: nothing in olski derives this
+```
+
+Agreement is the parse rather than a check on it:
+`Nowa program` has no derivation, so it is not a rule that fires but a sentence
+that does not exist.
+See [docs/subset.md](docs/subset.md) for what the grammar covers,
+what it does not, and the open problem of prepositional attachment.
+
+**A rule engine and the typography pack** over plain Polish text.
+
+```sh
+python3 -m olski tekst.txt
+python3 -m olski tekst.txt --explain          # with each rule's reasoning
+python3 -m olski --list-rules
+```
+
+```text
+tekst.txt:3:42: warning: [quote-straight] Straight quotation mark; Polish takes „ opening and ” closing.
+tekst.txt:3:78: warning: [orphan-single-letter-word] Single-letter word w left at the end of a line
+tekst.txt: abstained: [em-dash-density] 82 words in this document is too short to measure a rate over
+```
+
+Rules of this kind earn their keep only where the judgement is about characters
+rather than about structure — quotation marks, spacing, a stray dash.
+Anything that needs to know what a word *is* belongs to the grammar,
+which is why the plain-Polish rules are not written as patterns.
+Nine rules, all tier A, all marked `uncalibrated`,
+because none of them has been measured against human Polish yet
+and a threshold without that measurement is an opinion with a decimal point.
+Input is plain Polish text;
+markup formats are out of scope.
+See [docs/rules.md](docs/rules.md).
+
+The rest of the repository holds design notes, a survey of the field,
 a roadmap, and open questions.
 
+- [docs/subset.md](docs/subset.md) —
+  what the grammar admits, why validity means a single reading,
+  and what prepositional attachment costs
+- [docs/rules.md](docs/rules.md) —
+  how a rule is written, which check kinds exist,
+  and the difference between abstaining and finding nothing
 - [docs/linter.md](docs/linter.md) —
   what the linter is for, which rules need how much analysis,
   why calibration decides everything,

@@ -1,0 +1,212 @@
+"""The grammar formalism: symbols, productions, and feature unification.
+
+A grammar is data, in Python, like the rule packs. What a production says is:
+this constituent is made of these parts, and these features of the parts must be
+the same feature. Agreement is therefore not a check bolted onto the parse; it is
+the parse. A noun phrase whose adjective disagrees with its noun has no
+derivation, so it is not olski.
+
+Feature values are sets, because a Polish form is usually ambiguous:
+``pliku`` is genitive, locative or vocative, and ``program`` is nominative or
+accusative. Unification intersects those sets, and a constituent survives only
+while every intersection stays non-empty. That is how ``Program zapisuje
+ustawienia`` resolves — nominative for the subject, accusative for the object —
+without anything having to choose a reading up front.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Var:
+    """A feature variable, shared between the parts of one production."""
+
+    name: str
+
+    def __repr__(self) -> str:
+        return f"?{self.name}"
+
+
+def V(name: str) -> Var:
+    return Var(name)
+
+
+#: What a feature may be constrained to: a variable, or a set of literal values.
+Spec = Var | frozenset
+
+
+def _spec(value) -> Spec:
+    if isinstance(value, Var):
+        return value
+    if isinstance(value, str):
+        return frozenset(value.split("."))
+    return frozenset(value)
+
+
+def _constraints(features: dict) -> frozenset[tuple[str, Spec]]:
+    return frozenset((name, _spec(value)) for name, value in features.items())
+
+
+@dataclass(frozen=True)
+class Sym:
+    """A reference to a non-terminal, with constraints on its features."""
+
+    name: str
+    constraints: frozenset[tuple[str, Spec]] = frozenset()
+
+    def __repr__(self) -> str:
+        if not self.constraints:
+            return self.name
+        inner = ", ".join(f"{n}={v!r}" for n, v in sorted(self.constraints, key=lambda c: c[0]))
+        return f"{self.name}[{inner}]"
+
+
+@dataclass(frozen=True)
+class Word:
+    """A terminal: one morphological reading, constrained by tag and lemma."""
+
+    pos: frozenset[str]
+    constraints: frozenset[tuple[str, Spec]] = frozenset()
+    lemmas: frozenset[str] | None = None
+
+    def __repr__(self) -> str:
+        return f"<{'|'.join(sorted(self.pos))}>"
+
+
+Part = Sym | Word
+
+
+@dataclass(frozen=True)
+class Production:
+    """One way of building a constituent, and the features it comes out with."""
+
+    head: str
+    body: tuple[Part, ...]
+    #: Features of the resulting constituent, usually variables shared with the
+    #: body so that a phrase inherits the number and case of its head word.
+    features: frozenset[tuple[str, Spec]] = frozenset()
+
+    def __repr__(self) -> str:
+        return f"{self.head} → {' '.join(repr(part) for part in self.body)}"
+
+
+def nt(name: str, **features) -> Sym:
+    """Refer to a non-terminal: ``nt("NP", case="nom", number=V("n"))``."""
+    return Sym(name=name, constraints=_constraints(features))
+
+
+def word(pos: str, lemma: str | None = None, **features) -> Word:
+    """Match a morphological reading: ``word("subst", case=V("c"))``.
+
+    ``pos`` may name alternatives, as in ``"fin|praet"``.
+    """
+    return Word(
+        pos=frozenset(pos.split("|")),
+        constraints=_constraints(features),
+        lemmas=None if lemma is None else frozenset(lemma.split("|")),
+    )
+
+
+class Grammar:
+    """A set of productions, indexed by the constituent they build."""
+
+    def __init__(self, start: str) -> None:
+        self.start = start
+        self.productions: list[Production] = []
+        self._by_head: dict[str, list[Production]] = {}
+
+    def rule(self, head: str, body: list[Part], **features) -> Production:
+        production = Production(head=head, body=tuple(body), features=_constraints(features))
+        self.productions.append(production)
+        self._by_head.setdefault(head, []).append(production)
+        return production
+
+    def for_head(self, head: str) -> list[Production]:
+        return self._by_head.get(head, [])
+
+    def heads(self) -> frozenset[str]:
+        return frozenset(self._by_head)
+
+    def undefined(self) -> frozenset[str]:
+        """Non-terminals referred to by some production and defined by none."""
+        referenced = {
+            part.name
+            for production in self.productions
+            for part in production.body
+            if isinstance(part, Sym)
+        }
+        return frozenset(referenced | {self.start}) - self.heads()
+
+    def __len__(self) -> int:
+        return len(self.productions)
+
+
+# --------------------------------------------------------------------------- #
+# Unification
+# --------------------------------------------------------------------------- #
+
+
+@dataclass(frozen=True)
+class Env:
+    """Variable bindings, immutable so that chart items can be hashed."""
+
+    bindings: frozenset[tuple[str, frozenset[str]]] = frozenset()
+
+    def get(self, name: str) -> frozenset[str] | None:
+        for bound, values in self.bindings:
+            if bound == name:
+                return values
+        return None
+
+    def bind(self, name: str, values: frozenset[str]) -> Env:
+        kept = frozenset((n, v) for n, v in self.bindings if n != name)
+        return Env(kept | {(name, values)})
+
+    def resolve(self, spec: Spec) -> frozenset[str] | None:
+        """The values a spec stands for, or None if a variable is still free."""
+        return self.get(spec.name) if isinstance(spec, Var) else spec
+
+
+EMPTY = Env()
+
+
+def unify(
+    constraints: frozenset[tuple[str, Spec]],
+    features: dict[str, frozenset[str]],
+    env: Env,
+) -> Env | None:
+    """Match constraints against a constituent's features.
+
+    Returns the extended bindings, or None if some feature's values do not
+    intersect — which is what disagreement looks like from here.
+
+    A feature the constituent does not carry cannot disagree, so it is skipped
+    rather than failed: an uninflected part of speech is not in violation of an
+    agreement it takes no part in.
+    """
+    for name, spec in sorted(constraints, key=lambda c: c[0]):
+        available = features.get(name)
+        if not available:
+            continue
+        if isinstance(spec, Var):
+            bound = env.get(spec.name)
+            merged = available if bound is None else bound & available
+            if not merged:
+                return None
+            env = env.bind(spec.name, merged)
+        else:
+            if not (spec & available):
+                return None
+    return env
+
+
+def features_of(production: Production, env: Env) -> dict[str, frozenset[str]]:
+    """The features a completed constituent carries out of its production."""
+    resolved: dict[str, frozenset[str]] = {}
+    for name, spec in production.features:
+        values = env.resolve(spec)
+        if values:
+            resolved[name] = values
+    return resolved
