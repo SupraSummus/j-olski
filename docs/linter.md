@@ -315,6 +315,33 @@ the rest are hypotheses to be calibrated, not conclusions.
   `badania pokazują`, `eksperci twierdzą` *cited*
 - Subject-predicate distance and position *cited*
 
+### From the repository's own writing conventions
+
+The conventions in [CLAUDE.md](../CLAUDE.md) name three patterns
+the groups above do not reach.
+They are defects of documentation specifically,
+which is the declared target register,
+and they are hypotheses in Polish like everything else here.
+
+- **Temporal anchors** — `jeszcze`, `już`, `nadal`, `na razie`, `obecnie` —
+  which pin a sentence to the moment it was written
+  and let documentation rot rather than merely age.
+  A word list is tier A,
+  but the temporal and the logical sense share a form,
+  so a rule that fires on the list alone
+  will flag correct Polish more often than not.
+  What has to be found first is a context test that separates the two.
+- **Echo sentences** — two adjacent sentences carrying one thought,
+  usually a plain version and a rhetorical one side by side.
+  Lemma overlap between neighbouring sentences measures it, tier B,
+  with no parse involved.
+- **Ungrounded superlatives and exclusivity** —
+  `naj-` forms, `jedyny`, `wyłącznie`.
+  Distinct from booster inflation:
+  the claim is checkable in principle and simply unchecked,
+  so the flag asks for grounds rather than for a smaller word.
+  The `naj-` prefix is tier A+, the rest tier B.
+
 ## What already exists
 
 **Prose linters.**
