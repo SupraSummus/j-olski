@@ -145,4 +145,6 @@ a roadmap, and open questions.
 
 Prose in this repository follows
 [Semantic Line Breaks](https://sembr.org).
-See [CONTRIBUTING.md](CONTRIBUTING.md) before editing Markdown.
+[CLAUDE.md](CLAUDE.md) holds the conventions —
+prose, code, tests and commits —
+and [TODO.md](TODO.md) the open work inside the repository.
