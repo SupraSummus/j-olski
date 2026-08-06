@@ -17,11 +17,15 @@ declaring that olski is SVO and reading the first noun phrase as the subject —
 would make those sentences unambiguous to a reader who knows the convention and
 still ambiguous to every other Polish speaker. Rejecting them keeps the promise
 that olski is readable as ordinary Polish.
+
+That property is about Polish, and a dictionary offers readings Polish does not,
+so the subset excludes readings as well as constructions: see ``admissible``
+below.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Segment, analyse
@@ -174,6 +178,58 @@ class Verdict:
         return f"{count}, differing in {', '.join(differing)}"
 
 
+#: The closed-class parts of speech. A noun reading of a form that also reads as
+#: one of these is competing with the reading the form nearly always carries.
+CLOSED_CLASS = frozenset({"prep", "conj", "comp", "qub", "part", "pred", "interj"})
+
+#: The seven cases. A noun reading carrying all of them inflects for nothing, so
+#: no case demand can fail against it.
+EVERY_CASE = frozenset({"nom", "gen", "dat", "acc", "inst", "loc", "voc"})
+
+
+def _acronym(form: str) -> bool:
+    """Whether a form is written the way Polish writes an acronym.
+
+    ``PO``, ``AA`` and ``UP`` inflect for nothing either, and their letters spell
+    function words, so the exclusion below would take exactly the reading that is
+    right. In capitals the noun is what the form is. One capital says nothing,
+    every sentence starting with one.
+    """
+    return len(form) > 1 and form.isupper()
+
+
+def admissible(segment: Segment) -> Segment:
+    """Drop the noun reading of a form olski reads as a function word.
+
+    Morfeusz reads ``do`` as the preposition and as the musical note, and the
+    note inflects for nothing: carrying all seven cases, it satisfies every
+    demand unification can make, which is the only filter olski has. So every
+    ``do`` in a text hands its sentence a second reading. That is ambiguity in
+    the dictionary rather than in Polish, and no parse can tell the two apart,
+    so the lexicon rules it out instead. docs/subset.md argues the criterion and
+    docs/corpus.md measures what it is worth and what it costs.
+    """
+    if _acronym(segment.form):
+        return segment
+    if not any(reading.tag.pos in CLOSED_CLASS for reading in segment.readings):
+        return segment
+    kept = tuple(
+        reading
+        for reading in segment.readings
+        if not (reading.tag.pos == "subst" and reading.tag.get("case") >= EVERY_CASE)
+    )
+    if len(kept) == len(segment.readings):
+        return segment
+    # A closed-class reading is not a noun reading, so the one that spared this
+    # segment is itself among the survivors and the tuple is never emptied.
+    return replace(segment, readings=kept)
+
+
+def morphology(text: str) -> list[Segment]:
+    """Analyse text as olski reads it: Morfeusz, minus the readings above."""
+    return [admissible(segment) for segment in analyse(text)]
+
+
 def sentences(text: str) -> list[list[Segment]]:
     """Split analysed text into sentences at final punctuation.
 
@@ -183,7 +239,7 @@ def sentences(text: str) -> list[list[Segment]]:
     """
     found: list[list[Segment]] = []
     current: list[Segment] = []
-    for segment in analyse(text):
+    for segment in morphology(text):
         current.append(segment)
         if segment.form in TERMINATORS:
             found.append(current)
