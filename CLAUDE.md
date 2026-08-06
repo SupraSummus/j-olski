@@ -367,6 +367,14 @@ and `tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
 fail to collect,
 which stops the whole run rather than a part of it.
 
+One more check applies to a change in the grammar
+or in the readings it is given.
+The tables in [`docs/corpus.md`](docs/corpus.md) are the output of a run
+over a corpus no test can reach,
+so such a change moves numbers nothing will catch.
+Fetch the corpus as that document says, rerun `olski-corpus`,
+and correct the tables in the same commit.
+
 ## Code
 
 **Prefer removing a branch to adding one, and unify divergent paths.**

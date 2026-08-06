@@ -36,9 +36,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from olski.corpus import Sentence, walk
-from olski.morph import Segment, analyse
+from olski.morph import Segment
 from olski.parse import Result, parse
-from olski.subset import GRAMMAR
+from olski.subset import GRAMMAR, morphology
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
@@ -197,9 +197,16 @@ def _bucket(tokens: int) -> str:
 
 
 def segments_for(sentence: Sentence, source: str) -> list[Segment]:
+    """The morphology to measure the grammar against.
+
+    The live run goes through ``subset.morphology`` rather than through Morfeusz
+    directly, so that the corpus is read the same way a checked document is. The
+    gold run needs no equivalent: the annotators chose one reading per terminal,
+    so the readings ``admissible`` drops are not there to drop.
+    """
     if source == "gold":
         return list(sentence.segments)
-    return analyse(sentence.text)
+    return morphology(sentence.text)
 
 
 def measure(

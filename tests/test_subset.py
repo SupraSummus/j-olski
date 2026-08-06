@@ -8,8 +8,9 @@ olski either.
 import pytest
 
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
+from olski.morph import analyse
 from olski.parse import LeftRecursion, parse
-from olski.subset import GRAMMAR, check, sentences
+from olski.subset import GRAMMAR, admissible, check, sentences
 
 
 def verdict(text):
@@ -159,7 +160,44 @@ def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():
     #  zapisuje belongs to two homonymous verbs, and ustawienia has several
     #  noun readings. None of that gives a reader anything to choose between,
     #  so the sentence has one reading.
-    assert verdict("Program zapisuje ustawienia.").result.readings.__len__() == 1
+    assert len(verdict("Program zapisuje ustawienia.").result.readings) == 1
+
+
+# --------------------------------------------------------------------------- #
+# Readings the dictionary offers and olski does not take
+# --------------------------------------------------------------------------- #
+
+
+def test_a_preposition_is_not_also_read_as_the_note_of_the_same_name():
+    #  Morfeusz reads do as the preposition and as the musical note. The note
+    #  inflects for nothing, so unification can never rule it out, and do Włoch
+    #  would derive as a noun phrase as well as a prepositional one.
+    #  docs/corpus.md counts how much of the corpus that reaches.
+    found = verdict("Jedziemy do Włoch.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Modifier"] == "do Włoch"
+
+
+def test_an_uninflected_noun_stays_where_its_form_is_only_a_noun():
+    #  The other half of the exclusion: jury inflects for nothing either, and
+    #  nothing else reads it, so it is an ordinary Polish noun and stays.
+    assert verdict("Jury ogłasza wyniki.").status == "valid"
+
+
+def test_an_acronym_keeps_the_noun_reading_the_exclusion_would_take():
+    #  PO inflects for nothing, exactly as the note does, and shares its letters
+    #  with a preposition. In capitals the noun is what the form is, so this is
+    #  where the exclusion has to stop.
+    assert verdict("PO ogłasza wyniki.").status == "valid"
+
+
+def test_excluding_a_reading_never_leaves_a_form_with_none():
+    #  A segment with no readings at all is a form Morfeusz does not know, which
+    #  is a different verdict and a wrong one here. What spares the segment is
+    #  the function-word reading, so that one is always among the survivors.
+    unfiltered = analyse("do")[0]
+    assert {reading.tag.pos for reading in unfiltered.readings} == {"prep", "subst"}
+    assert [reading.tag.pos for reading in admissible(unfiltered).readings] == ["prep"]
 
 
 # --------------------------------------------------------------------------- #

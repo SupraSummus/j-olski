@@ -102,6 +102,17 @@ plus a reported field naming which side fired,
 because `limit` alone leaves a message unable to say
 whether the text ran hot or cold.
 
+`docs/corpus.md` twice points at a list that does not hold what it promises.
+The past tense is "the obvious next thing to do"
+and valency "belongs on the same list as the past tense",
+while [what olski does not cover yet](docs/subset.md#what-it-does-not-cover-yet)
+holds the copula, coordination, subordination, negation, numerals and pronouns
+and neither of those two.
+Either both go on that list,
+which then has to say whether valency is a construction it is missing
+or a gap of another kind,
+or the two sentences in `docs/corpus.md` stop pointing at it.
+
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates the `fields` set each check registers,
 and the `params=dict(...)` blocks restate what each validator accepts,

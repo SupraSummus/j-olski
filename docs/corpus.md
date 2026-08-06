@@ -191,24 +191,75 @@ anywhere the grammar is this incomplete.
 
 ## What morphological ambiguity costs
 
-The same run with Morfeusz on the raw text instead of the gold tags:
+The same run with Morfeusz on the raw text instead of the gold tags,
+and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,815 | 12,724 |
-| valid | 196 | 200 |
-| ambiguous | 14 | 101 |
+| rejected | 12,815 | 12,726 |
+| valid | 196 | 233 |
+| ambiguous | 14 | 66 |
 
-Acceptance barely moves.
-Ambiguity multiplies by seven.
-That is the answer to a question [subset.md](subset.md) leaves open —
-how much of olski's uniqueness property survives a real tagger —
-and it is a much better result than it looks,
-because 87 extra ambiguous sentences out of 13,025
-is the tagger costing olski 0.7% of the corpus,
+Ambiguity is where the tagger's cost lands:
+52 more sentences carry more than one reading,
+which is 0.4% of the 13,025 measured,
 not the constant hazard the design notes worried about.
+That is the answer to a question [subset.md](subset.md) leaves open —
+how much of olski's uniqueness property survives a real tagger.
 
-The four extra acceptances are the warning in the table.
+The live column depends on an exclusion the gold column has no use for,
+the annotators having already chosen one reading per token.
+Olski drops an uninflected noun reading
+wherever the form also reads as a function word,
+for the reasons
+[subset.md](subset.md#the-dictionary-offers-readings-polish-does-not) gives.
+`do` is the form that makes it worth doing:
+the corpus's ninth commonest token and its fourth commonest preposition,
+1,706 occurrences among 151,525,
+every one of which Morfeusz also reads as the musical note.
+Leave those readings in and the live column reads 12,724, 200 and 101.
+Thirty-five of those 101 ambiguities are readings nobody can have meant;
+without them 34 of the sentences have exactly one reading and one has none.
+
+Across the annotated sentences the exclusion reaches 19 forms
+and 1,854 tokens, all but 150 of them `do`.
+Most of the rest is surnames:
+`Tam`, `Tylko`, `Tym` and `Ponieważ` are each one in Morfeusz's dictionary,
+indeclinable in the feminine,
+so a sentence opening on any of those words
+hands olski a noun it can put anywhere.
+
+Five times in the corpus the exclusion removes the reading
+the annotators themselves chose: `La` four times and `Amen` once.
+That is both the shape of the mistake it can make
+and the rate at which it makes it.
+
+It also turns two derivations into rejections,
+and the gold trees say both of them were wrong:
+
+```text
+Tam siedzi nasz umrzyk.
+Do zwykłego koła wystarczy sam sznurek.
+```
+
+`Tam` is the adverb, but Morfeusz also offers the surname,
+indeclinable exactly as the note is,
+and olski was reading it as the object of `siedzi` —
+in one reading, and therefore confidently.
+In the second sentence all four readings
+made `Do zwykłego koła` the subject or the object,
+where the gold tree has a prepositional phrase before the verb —
+a construction olski does not derive at all.
+Rejecting is what the grammar should say about a sentence it cannot analyse.
+
+A difference between two totals is not a set of sentences,
+and here a 37-sentence difference stands on 99 disagreements.
+The two runs accept the same 165 sentences.
+Live accepts 68 that gold rejects,
+and gold accepts 31 that live does not settle on:
+23 it finds ambiguous, 8 it rejects.
+
+The 68 are the warning in the table.
 At least one is accepted for a reason the annotators would reject:
 
 ```text
@@ -239,7 +290,7 @@ One tagset caveat.
 Składnica's tags are NKJP's, Morfeusz 2's are its own,
 and they differ on names olski's report shows:
 `qub` in the gold run is `part` in the live one,
-and the live run has an `ign` row — 330 forms Morfeusz does not know —
+and the live run has an `ign` row — 328 forms Morfeusz does not know —
 that the gold run cannot have.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,
