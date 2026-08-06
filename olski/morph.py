@@ -100,6 +100,12 @@ class Segment:
     ``start`` and ``end`` are node numbers in that graph. A text whose
     segmentation is unambiguous — most of them — produces edges where each
     ``end`` is the next ``start``, and then the graph is a chain.
+
+    They are positions in the graph and not offsets into the text, so nothing
+    here can say where in a file a form was found. Morfeusz emits the gaps as
+    ``sp`` edges under ``KEEP_WHITESPACES``, which is what walking a path and
+    summing form lengths would need; this asks for ``SKIP_WHITESPACES`` because
+    the parser wants words.
     """
 
     start: int

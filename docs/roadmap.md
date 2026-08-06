@@ -99,8 +99,15 @@ it is what LanguageTool already uses for Polish,
 it is freely licensed,
 and this project needs analysis rather than generation.
 
+Whichever analyser wins,
+it owes its callers character offsets and not just forms,
+because a finding is a location and an analysis is not:
+`Segment` in `olski/morph.py` carries node numbers of a segmentation graph,
+which is the shape of the problem rather than an accident of Morfeusz.
+
 **Exit:** a lexical rule written as a lemma
-catches every inflected form of it in running text.
+catches every inflected form of it in running text,
+and its findings point at the forms they matched.
 
 ## Milestone 3: the plain-Polish pack
 

@@ -137,6 +137,45 @@ all leave the critical path.
 They become an optional deeper track,
 not the project.
 
+### Recognizing a phrase by what it is not costs more
+
+The suffix finding moves rules down a tier.
+One kind of rule moves the other way,
+and it is worth naming before an inventory entry is filed too cheaply:
+a rule that has to know a phrase is *not* the subject.
+Rules about word order are of this kind.
+
+`Trzech pozostałych wskaźników projekt nie ustala`
+puts a genitive phrase where the subject belongs,
+and every step of recognizing that is contested.
+`trzech` has a nominative reading beside its genitive one,
+`projekt` is nominative or accusative,
+and a numeral in the nominative takes a genitive noun anyway,
+so the fronted phrase reads as a subject
+until gender government rules it out —
+the numeral's nominative reading is masculine personal
+and `wskaźnik` is not.
+Settling that is agreement over a chunk, not a tag over a word,
+which is tier C.
+A better regex does not reach it,
+and neither does a lemma.
+
+Nor does the precision-first escape:
+fire only where every reading agrees, and stay quiet otherwise.
+On real Polish that rule never fires.
+`nie` carries a pronoun reading beside the particle,
+so no negated sentence ever qualifies,
+and the genitive of negation is what puts a fronted object
+in the genitive to begin with.
+A check that declines everywhere is not a cautious check;
+it is one that does not reach its input,
+which [is a different thing from abstaining](#abstention-is-allowed).
+
+Tier C here means chunking.
+It does not mean the parse forests,
+so the honest consequence above survives:
+what these rules need is the shallow end of the deeper track.
+
 ## The thing that makes or breaks it: calibration
 
 **A rule without a measured false-positive rate on good human Polish
@@ -311,7 +350,8 @@ the rest are hypotheses to be calibrated, not conclusions.
   see [generated-polish.md](generated-polish.md#what-the-em-dashes-are-doing)
 - Lemma type-token ratio *cited*
 - Fact density: dates, numerals, proper nouns; low in generated text *cited*
-- Absence of inversion and other emphatic reorderings *cited*
+- Absence of inversion and other emphatic reorderings *cited*,
+  which the fronting entry below approaches from the other direction
 
 ### Discourse, tier C or D
 
@@ -320,6 +360,37 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Vague attribution:
   `badania pokazują`, `eksperci twierdzą` *cited*
 - Subject-predicate distance and position *cited*
+- **Fronting for gravity** *cited* —
+  a bare complement or a whole subordinate clause
+  set before the subject and the verb:
+  `Trzech pozostałych wskaźników projekt nie ustala`,
+  `Czego ochrona takiego terenu wymaga, nazywa uzasadnienie projektu`.
+  Plain order says the same thing at once,
+  instead of asking the reader to hold the opening in memory
+  until the verb arrives.
+  What is cited is the position:
+  the plain-Polish norm asks for subject and predicate
+  near the start of the sentence,
+  and fronting pushes them away from it.
+  The gravity the examples reach for is nobody's norm but this entry's.
+  Subject-predicate distance above counts that position in words
+  and owns the interpolation case;
+  this entry names the construction,
+  and [why it is tier C](#recognizing-a-phrase-by-what-it-is-not-costs-more)
+  is argued above.
+  The clause-fronted variant is the cheap half,
+  reachable at tier A as an interrogative or relative pronoun
+  opening a sentence whose clause closes on a comma.
+  A fronted phrase carrying the sentence's link to the one before it
+  is doing work, and nothing at these tiers tells work from decoration,
+  so the finding is a share of sentences over a document
+  rather than an accusation against one of them.
+  The absence-of-inversion entry above counts the same construction
+  and reads a low rate as the generated tell,
+  which makes the two a floor and a ceiling on one measurement.
+  These examples are official Polish rather than model output,
+  and [the calibration harness](roadmap.md#milestone-1-the-calibration-harness)
+  has to say whether both hold at once, and in which register.
 
 ### From the repository's own writing conventions
 
