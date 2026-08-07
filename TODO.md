@@ -80,6 +80,50 @@ which then has to say whether valency is a construction it is missing
 or a gap of another kind,
 or the two sentences in `docs/corpus.md` stop pointing at it.
 
+A rate rule's denominator counts scopes the rule could never have judged.
+`pattern_density` in `olski/checks.py` tests its bounds before its two floors,
+so a scope reaches `min_words` only when it was about to be reported,
+and `min_count` turns away a scope above the ceiling by returning rather than abstaining.
+[The pilot run](docs/firing-rates.md#what-the-report-mode-did-when-rules-declined)
+gives both halves a number:
+283 of the 291 documents in one denominator
+hold fewer words than `em-dash-density` needs to answer at all,
+and of 38 scopes over the threshold that went unjudged, 34 left no record.
+Settle first whether falling under a floor is a decision.
+If it is, `min_count` abstains as `min_words` does,
+and the floors are tested before the bounds so that every scope failing one says so.
+If it is not, `measured` subtracts the scopes that fail a floor,
+so that a share is taken over what the rule could reach.
+The present code does neither, and reports a denominator
+that describes the corpus rather than the rule.
+
+`orphan-single-letter-word` reads the Roman numeral `I` as the conjunction `i`.
+Folding case is right for `A` and `W` opening a sentence
+and wrong for the numeral Polish numbers its chapters and its monarchs with:
+70 of the 124 hits over
+[the pilot corpus](docs/firing-rates.md#orphan-single-letter-word-fired-124-times-and-found-nothing)
+are `Tom I`, `Rozdział I` and `Mieszko I`.
+The rule cannot fix this by itself,
+because `case_sensitive` is one flag for the whole word list
+and the list needs `i` folded and `I` not.
+So either that parameter becomes a per-word one,
+or `line-end-word` grows the exemption `pattern` already carries
+in `unless_preceded_by` and `unless_followed_by`,
+which is the smaller change and buys precision back the way the pack does elsewhere.
+
+A directory walk that skips files says nothing about having skipped them.
+`_collect` in `olski/cli.py` takes `.txt` and `.text` out of a directory
+and passes over everything else without a word,
+so `olski ksef-docs/` over a repository of 32 Markdown files
+lints its `LICENSE.txt` and prints a nine-row report over 169 words of English.
+`_note_markup` beside it has the shape the fix wants:
+one line to stderr, counted off the run rather than off the input,
+saying how many files the walk passed by
+and that naming them on the command line is what reaches them.
+Settle first whether that line names the suffixes it skipped,
+which is what tells a reader to reach for a converter
+rather than for a different directory.
+
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,

@@ -214,6 +214,17 @@ What belongs to olski is knowing the job has not been done.
 A file's suffix is the whole of the evidence available,
 and one olski does not recognize is read as text it cannot vouch for.
 
+Recognizing a suffix is weaker evidence than it reads as,
+because a guarantee belongs to a format and a suffix is not one.
+[firing-rates.md](firing-rates.md#what-the-hits-turned-out-to-be)
+measures both guarantees failing across a corpus of `.txt`:
+a table laid out with runs of spaces and emphasis written as `*`
+are apparatus in a file that answered for prose,
+and a paragraph set on one line however long it runs
+puts a newline where the page has a paragraph break rather than a line end.
+A check that trusted either one measured the export instead of the Polish,
+and nothing in the file said so.
+
 ## Check kinds
 
 A check is the machinery; a rule is the decision to use it.
@@ -466,7 +477,14 @@ a rule that declined on every file measured nothing,
 so it reports no rate at all rather than a rate of zero,
 which would say it had looked.
 The abstentions have a column of their own beside the findings,
-so how much of a rule's silence was a decision stays visible.
+so a rule that stayed quiet can be told from one that never looked.
+What that column does not hold is every scope a rate rule turned away.
+`min_words` abstains; `min_count` returns without recording anything,
+which [firing-rates.md](firing-rates.md#what-the-report-mode-did-when-rules-declined)
+measures at 34 scopes against the first's 4 over one corpus.
+Whether falling under `min_count` is a decision or merely no finding
+decides which of the two behaviours is the defect,
+and [TODO.md](../TODO.md) holds the question with both moves written out.
 
 **The report is one side of a pair.**
 A firing rate says whether a rule has anything to do.
