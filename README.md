@@ -125,6 +125,11 @@ which owns what that step invents.
 The rest of the repository holds design notes, a survey of the field,
 a roadmap, and open questions.
 
+- [docs/roles.md](docs/roles.md) —
+  the roles somebody reads this repository in,
+  where each one enters and what ruins its path,
+  and why one person holds all of them;
+  written in Polish
 - [docs/subset.md](docs/subset.md) —
   what the grammar admits, why validity means a single reading,
   and what prepositional attachment costs
