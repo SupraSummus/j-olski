@@ -163,6 +163,34 @@ and what technical documentation has none of.
 That row is a reminder that the corpus is not drawn from olski's register,
 and a construction frequent here is not automatically worth admitting.
 
+The queue was ranked on a treebank,
+and the register olski is aimed at can be asked whether it agrees.
+Its own README is Polish documentation, so it answers:
+
+```sh
+python3 -m harness.markdown README.md --into proza/
+python3 -m olski.check proza/README.txt
+```
+
+One sentence of that README derives.
+What stops the rest is the table above in another order:
+the comma first, where the treebank's row is led by the dash,
+then adverbs, the past tense, numerals and gerunds.
+The ranking names the token each parse stopped on
+and this names every word no production takes,
+which is coarser and puts the same constructions in front,
+so the queue holds in a register the corpus does not contain.
+
+Two things in that run belong to the register and not to the queue.
+A form Morfeusz does not know stops a sentence,
+and gold morphology leaves a treebank no such form to rank,
+which is why [subset.md](subset.md#what-it-does-not-cover-yet) owns it.
+And the command counts 68 sentences
+where the splitter in `olski/document.py` finds 40:
+a full stop inside `docs/linter.md` is a boundary for one and not for the other.
+That is the splitter rather than the grammar,
+and [TODO.md](../TODO.md) holds it.
+
 ## Agreement, which matters more than acceptance
 
 Accepting a sentence proves nothing if the reading is wrong.
