@@ -26,6 +26,8 @@ Markup formats are out of scope:
 this is a linter for Polish,
 and reading a document format is a different job
 that belongs to whatever produced the document.
+What happens when a file arrives in one anyway
+is [a question of what each check needs](#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
 
 ## A rule
 
@@ -121,6 +123,43 @@ so a corpus rule that cannot see enough text
 declines to answer and says why rather than report one.
 Such an [abstention](#abstention-is-not-silence) belongs to no file,
 since no file owns the answer.
+
+## A check may be asking more of a document than its format gives
+
+Plain text carries two guarantees at once:
+every character in it is prose,
+and every newline in it is a newline on the page.
+A markup format carries neither.
+Its frontmatter, headings, tables and link lists — its apparatus —
+are text like any other,
+and a single newline in it is whitespace the renderer collapses.
+
+Which guarantee a check needs follows from how much of a document it looks at.
+A check pointing at a site is answerable on a file of any format,
+because the reader can look at the site and judge it:
+a straight quotation mark inside a code span
+is one a reader dismisses at a glance,
+and a rate over the wrong denominator is not something anyone can dismiss.
+A check measuring a whole scope is measuring the apparatus along with the prose,
+and a check reading a line end is reading where the file wraps
+rather than where the page does.
+Those two decline, and name the file they declined on.
+
+So `olski notatka.md` reports the quotation marks and the spacing
+and abstains on the rates.
+Refusing the file outright would throw away the half that is correct,
+and measuring it anyway is the failure this is written against:
+[generated-polish.md](generated-polish.md#the-apparatus-biases-a-rate-by-an-amount-the-corpus-decides)
+measures one rule running a quarter high over one body of Markdown
+and true over another by the same writer,
+so the error cannot be discounted in general.
+
+Separating prose from apparatus is a job for whatever reads the format,
+which is where [milestone 0](roadmap.md#milestone-0-rule-engine-and-the-typography-pack)
+puts it.
+What belongs to olski is knowing the job has not been done.
+A file's suffix is the whole of the evidence available,
+and one olski does not recognize is read as text it cannot vouch for.
 
 ## Check kinds
 
@@ -253,8 +292,10 @@ params=dict(words=["a", "i", "o", "u", "w", "z"], case_sensitive=False)
 ```
 
 Only meaningful where a line break in the source
-is a line break in the output.
-On a document whose breaks are soft the rule abstains,
+is a line break in the output,
+which is one of the two things
+[plain text guarantees and a markup format does not](#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
+Elsewhere the rule abstains,
 because a source line says nothing about a rendered line
 and guessing would flag correct text.
 
@@ -308,6 +349,15 @@ That distinction comes from
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure),
 where deliberate abstention cost 2 rows in 1000
 and lack of coverage cost 202.
+
+The middle case is stated as *could have fired* and is sometimes weaker.
+A rule declining because a file's format is one olski does not read
+has counted nothing,
+so it does not know whether there was anything to count;
+what it reports is that it did not measure.
+That is the honest claim,
+and it is the useful one,
+because the alternative is a number nobody can tell from a measurement.
 
 ## A project's own pack
 

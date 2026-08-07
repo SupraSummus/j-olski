@@ -10,15 +10,10 @@ from pathlib import Path
 from textwrap import fill
 
 from olski import __version__
-from olski.checks import ParamError
-from olski.document import Document
+from olski.checks import NOT_PLAIN_TEXT, ParamError
+from olski.document import TEXT_SUFFIXES, Document
 from olski.engine import Report, lint_corpus, lint_text, read
 from olski.rules import PACK_PACKAGE, Rule, RuleError, load_packs, select
-
-#: Extensions collected when a directory is given. Only plain text for now:
-#: nothing here understands markup, so a Markdown file walked by accident would
-#: be linted as if its markup were prose.
-TEXT_SUFFIXES = (".txt", ".text")
 
 USAGE = """
   olski text.txt                 lint a file
@@ -114,6 +109,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     report.errors.extend(errors)
     if not files and not missing:
         print("olski: nothing to lint", file=sys.stderr)
+    _note_markup(report)
 
     if args.format == "json":
         json.dump(_as_json(report, args), out, ensure_ascii=False, indent=2)
@@ -149,6 +145,25 @@ def _read(files: Sequence[Path]) -> tuple[list[Document], list[tuple[str, str]]]
         else:
             documents.append(document)
     return documents, errors
+
+
+def _note_markup(report: Report) -> None:
+    """Say once that a rule declined because the input was not plain text.
+
+    Abstentions are quiet unless asked for, so a run over Markdown would
+    otherwise read as a run over prose that happened to find less. Counted off
+    the report rather than off the input, because a run that selected only the
+    rules a character settles lost nothing and needs no notice.
+    """
+    declined = {a.path for a in report.abstentions if a.reason == NOT_PLAIN_TEXT}
+    if not declined:
+        return
+    print(
+        f"olski: the rules that measure a whole file declined on "
+        f"{_count(len(declined), 'file')} in a format olski does not read as prose; "
+        "--show-abstentions names them",
+        file=sys.stderr,
+    )
 
 
 def _collect(paths: Sequence[str]) -> tuple[list[Path], list[str]]:

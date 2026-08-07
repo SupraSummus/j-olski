@@ -314,11 +314,12 @@ def test_line_end_word_looks_past_trailing_punctuation():
     assert len(hits(orphans, "Wybór między a,\nb oraz c.")) == 1
 
 
-def test_line_end_word_abstains_when_line_breaks_are_soft():
-    reflowed = Document(path="reflowed", text="Zapisano to w\npliku.\n", line_breaks="soft")
+def test_line_end_word_abstains_where_a_source_line_is_not_a_rendered_line():
+    #  The line this would flag ends where the file wraps, not where the page
+    #  does, so the letter it points at is mid-line for every reader.
+    reflowed = Document(path="reflowed.md", text="Zapisano to w\npliku.\n", plain_text=False)
     outcomes = run(orphans, reflowed)
     assert [type(o) for o in outcomes] == [Abstain]
-    assert "soft" in outcomes[0].reason
 
 
 # --------------------------------------------------------------------------- #
@@ -412,6 +413,56 @@ def test_variation_abstains_on_a_document_with_no_words_to_average():
     outcomes = run(monotony, "— — —\n\n…\n")
     assert [type(o) for o in outcomes] == [Abstain]
     assert "too short" in outcomes[0].reason
+
+
+# --------------------------------------------------------------------------- #
+# What every check owes a document whose format olski does not read.
+# --------------------------------------------------------------------------- #
+
+#: One rule per check kind, and whether that check points at a site it can show
+#: the reader or measures a scope it has to trust the whole of.
+BY_SCOPE = [
+    (straight_quote, True),
+    (dashes, False),
+    (orphans, False),
+    (monotony, False),
+    (walk_ons, False),
+]
+
+#: Enough of everything for every rule above to fire on it: a straight quote,
+#: dashes far over the rate, three sentences of exactly one length, an entity
+#: introduced and then dropped, and a single-letter word at a line end.
+LOUD = (
+    'Nara (fizyczka, 31) — "tak" — sprawdziła czujnik i\n'
+    "wyszła.\n"
+    "Rho — technik — zapisał wynik i wyszedł stąd.\n"
+    "Iva — pilotka — czekała na sygnał i odeszła.\n"
+)
+
+
+@pytest.mark.parametrize(
+    ("rule", "points_at_a_site"), BY_SCOPE, ids=[rule.check for rule, _ in BY_SCOPE]
+)
+def test_a_check_that_measures_a_whole_scope_declines_on_markup(rule, points_at_a_site):
+    def fired(document):
+        return any(isinstance(outcome, Hit) for outcome in over(rule, [document]))
+
+    #  Without this the declining half of the test passes on any fixture,
+    #  including one the rule had nothing to say about in the first place.
+    assert fired(from_text(LOUD, "note.txt")), "the fixture gives this rule nothing to find"
+    assert fired(Document(path="note.md", text=LOUD, plain_text=False)) == points_at_a_site
+
+
+def test_every_check_kind_is_classified_by_scope():
+    #  A new check that measures a rate and forgets to say so would otherwise
+    #  report a number over somebody's frontmatter, and nothing would notice.
+    assert {rule.check for rule, _ in BY_SCOPE} == set(CHECKS)
+
+
+def test_a_mixed_corpus_is_measured_on_its_plain_files_and_declined_on_the_rest():
+    outcomes = over(dashes, [from_text(LOUD, "a.txt"), Document("b.md", LOUD, plain_text=False)])
+    assert [o.document.path for o in outcomes if isinstance(o, Hit)] == ["a.txt"]
+    assert [o.document.path for o in outcomes if isinstance(o, Abstain)] == ["b.md"]
 
 
 # --------------------------------------------------------------------------- #

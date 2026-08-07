@@ -39,10 +39,31 @@ def test_a_directory_is_walked_for_text_files(tmp_path, capsys):
     write(tmp_path, "one.txt", DIRTY)
     (tmp_path / "nested").mkdir()
     write(tmp_path / "nested", "two.txt", DIRTY)
-    # Not plain text, so not walked: nothing here understands markup yet.
+    # Not plain text, so the walk leaves it alone. Naming it lints it anyway,
+    # for the rules a character settles; the next test is that difference.
     write(tmp_path, "three.md", DIRTY)
     assert main([str(tmp_path)]) == 1
     assert "in 2 files" in capsys.readouterr().out
+
+
+def test_a_named_markup_file_is_linted_for_what_a_character_settles(tmp_path, capsys):
+    path = write(tmp_path, "note.md", 'Kliknij przycisk "Zapisz" — tak.\n')
+    assert main([str(path), "--show-abstentions"]) == 1
+    captured = capsys.readouterr()
+    #  A straight quotation mark is a straight quotation mark in any format.
+    assert "[quote-straight]" in captured.out
+    #  A rate over the whole file would be a rate over its markup as well.
+    assert "abstained: [em-dash-density]" in captured.out
+    assert "declined on 1 file in a format olski does not read" in captured.err
+
+
+def test_the_markup_notice_speaks_only_where_a_rule_actually_declined(tmp_path, capsys):
+    #  With one character rule selected nothing was suppressed, so a line saying
+    #  rules declined would be telling the reader about something that did not
+    #  happen.
+    path = write(tmp_path, "note.md", 'Kliknij przycisk "Zapisz" — tak.\n')
+    assert main([str(path), "--rule", "quote-straight"]) == 1
+    assert capsys.readouterr().err == ""
 
 
 def test_rule_selection_narrows_what_runs(tmp_path, capsys):

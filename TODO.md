@@ -55,18 +55,28 @@ What that mode cannot do alone is rank rules by discrimination,
 which needs the human half of the pair,
 so it ships as a one-sided report or not at all.
 
-The markup boundary is the other half,
-and running a corpus rate over the notes has put a price on it.
-`TEXT_SUFFIXES` keeps Markdown out on purpose
-and the corpus that prompted this is Markdown,
-so a rate measured over those files runs well above
-the one their extracted prose gives:
-the link list closing every note puts an em dash on every line,
-and the density rule counts each one.
-Either the extraction lives outside olski and the document says where,
-or the boundary in `olski/cli.py` gets revisited deliberately.
-Deciding it is what makes the harness's numbers mean anything,
-so it comes before the output format rather than after.
+Nothing in this repository turns a Markdown corpus into the prose
+[the harness has to measure](docs/roadmap.md#milestone-1-the-calibration-harness),
+and the checks that measure a whole file decline rather than guess,
+so the corpus that [docs/generated-polish.md](docs/generated-polish.md#what-was-measured) reports on
+cannot be measured here at all.
+An extraction outside the `olski` package fixes that,
+since milestone 0 keeps document formats out of the linter itself.
+What it owes on arrival is an account of what it invents:
+the two throwaway extractions both delete inline markup
+and leave the space that stood in front of it,
+which takes `space-before-punctuation` from 8 findings over the notes to 92,
+so an unaccountable extractor trades one set of false findings for another.
+The obvious first shape is the smallest one that serves the harness —
+frontmatter, fenced code, headings, tables and trailing link lists dropped,
+inline markup replaced by the text it wrapped rather than deleted,
+hard-wrapped paragraphs joined —
+and a test over a fixture carrying each of those.
+It also brings that document's rates under
+[the check CLAUDE.md asks of the corpus tables](CLAUDE.md#checks):
+a run somebody can redo,
+so a change to what counts as a word moves a number a person can correct
+instead of one nothing will catch.
 
 `pattern-density` expresses a ceiling and nothing else.
 `_validate_density` in `olski/checks.py` requires `max_per_1000_words`,
