@@ -400,6 +400,50 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Connector density:
   `Ponadto`, `Co więcej`, `Dodatkowo`, `Niemniej jednak`
 - Repetitive evaluative vocabulary *cited*
+- **Unconventional collocation** —
+  a verb paired with an argument it is rarely paired with,
+  as in `zaloguj się do bazy danych`,
+  where what has an account to log into
+  is the server serving the database.
+  The defect is the elided step,
+  which a reader restores or does not,
+  and the wish behind the entry is that olski type-check prose:
+  a slot expecting one kind of thing, filled by another.
+
+  That framing is the wrong instrument,
+  and the reason is worth keeping,
+  because the mismatch is real and carries no verdict.
+  The same mismatch stands in `kliknij w link`, `dysk padł`
+  and `Warszawa zdecydowała`,
+  which are Polish rather than faults in it.
+  A check over selectional preferences is a metonymy detector.
+  What separates a shorthand a reader restores
+  from one that leaves them guessing
+  is how established the pairing is, rather than what it pairs,
+  and that is a count over a corpus.
+  So the ontology the type framing reaches for drops out of the rule,
+  and with it the layer over [Walenty](prior-art.md)
+  that would have had to supply preferences
+  on top of the frames that dictionary records.
+
+  What is left is cheap to compute.
+  The pairing is a verb lemma, a preposition,
+  and the noun lemma heading the phrase after it,
+  which wants lemmas and no parse,
+  because the head of a prepositional phrase sits beside its preposition.
+  That is [the suffix finding](#suffixes-buy-more-than-expected) again:
+  a rule that reads as tier C turns out to want tier B.
+  What is not cheap is deciding whether it may fire.
+  Rare is not wrong,
+  and in fiction a rare pairing is frequently the point,
+  so this entry stands on the declared register or it does not stand —
+  [register is how false positives get in](#limits-worth-stating-up-front).
+  Its answer depends on the site rather than on the rate,
+  so it owes
+  [an audit](#what-a-rate-on-human-polish-means-depends-on-the-rule),
+  and it is the expensive kind to read:
+  every hit is a judgement about whether the missing step comes back,
+  where a quotation mark is a quotation mark.
 
 ### Morphosyntactic, tier B
 
