@@ -114,8 +114,9 @@ and measuring against edited prose alone,
 as the authors note, says nothing about how a rule performs
 where the defects actually are.
 The paired corpus in [linter.md](linter.md#the-thing-that-makes-or-breaks-it-calibration)
-is that missing second half: a rule that fires equally on both sides is worthless,
-and a single-sided score cannot see it.
+is that missing second half:
+a single-sided score says whether a rule is quiet where it should be
+and cannot say whether it has anything to do.
 
 The paper also ranks usage errors by detection difficulty,
 from one-to-one replacement up through regular expressions,
@@ -233,8 +234,7 @@ and those are the findings that survive translation into another language.
 ## What beating them takes
 
 **Take the lint score, knowing what it is not.**
-The two numbers milestone 1 puts in a rule's `calibration` field
-are firing rates, and a false discovery rate is not one:
+A firing rate is not a false discovery rate:
 a rate counts hits, and `a = F / (T + F)` needs each hit
 classified as a real defect or a false alarm,
 which is a human reading every one of them.
@@ -244,9 +244,13 @@ that a hit on prose that good is a false alarm —
 under which the human-side rate estimates `a`
 and the lint score follows for free.
 The assumption is the part to say out loud,
-because a good writer's paragraph can still hold a real defect.
-The pair then measures more than proselint could:
-one side estimates trustworthiness, the other discrimination.
+because a good writer's paragraph can still hold a real defect,
+and [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+draws the consequence:
+it carries some of olski's rules and leaves the rest owing their hits a reading.
+The pair then measures more than proselint could,
+one side answering whether a rule can be trusted
+and the other whether it has anything to do.
 The Polish corpus can also be released,
 because Wolne Lektury is public domain
 and the generated half is generated,

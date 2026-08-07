@@ -52,10 +52,11 @@ class Rule:
     registers: tuple[str, ...] = ()
     tier: str = "A"
     severity: str = "warning"
-    #: What is known about this rule's discrimination. Every rule ships
-    #: ``uncalibrated`` until the milestone 1 harness gives it two numbers:
-    #: how often it fires on generated Polish, and how often on good human
-    #: Polish. A rule that fires equally on both is worthless.
+    #: What has been measured about this rule. Every rule ships
+    #: ``uncalibrated`` until the milestone 1 harness gives it two numbers,
+    #: which answer whether it can be trusted and whether it has anything to
+    #: do. Which numbers those are depends on the rule; docs/linter.md owns
+    #: the argument.
     calibration: str = "uncalibrated"
     origin: str = "<memory>"
 

@@ -69,7 +69,7 @@ Morfeusz specifically, and not Morfologik,
 because this track needs **generation**:
 a lemma plus a tag yielding a surface form.
 The linter track needs only analysis,
-and [reaches for Morfologik instead](roadmap.md#milestone-2-morphology-binding).
+and [reaches for Morfologik instead](roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it).
 Two dictionaries for two jobs,
 not one decision recorded twice.
 

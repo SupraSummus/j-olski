@@ -282,7 +282,7 @@ Below it the rule abstains.
 No rule in this repository declares this check.
 The numbers above illustrate the format,
 and a threshold that means anything comes from
-[milestone 4](roadmap.md#milestone-4-statistical-rules)
+[milestone 3](roadmap.md#milestone-3-statistical-rules)
 and the corpus behind it.
 
 ### `line-end-word`

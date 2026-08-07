@@ -22,9 +22,11 @@ Only the first group blocks the working goal.
   on good human Polish.
 - The tool is a linter, not a detector,
   and must not be described as one.
-- Two morphological dictionaries for two jobs:
-  Morfeusz for generation on the grammar track,
-  Morfologik for analysis on the linter track.
+- Two morphological dictionaries for two jobs.
+  The grammar track needs generation and only Morfeusz does it,
+  which leaves the linter track free to take Morfologik,
+  the analyser LanguageTool is built on.
+  See [design-notes.md](design-notes.md#decisions-taken).
 
 Further grammar-track decisions are recorded in
 [design-notes.md](design-notes.md#decisions-taken).
@@ -49,6 +51,9 @@ What it charges for that is depth.
 Vale's tagger ships an English model,
 so a Vale style reaches tier A in Polish and stops:
 see [prose-linters.md](prose-linters.md#vale-is-the-architecture-to-study).
+So the answer decides whether the morphology work happens at all,
+which is why [the roadmap](roadmap.md#milestone-4-the-delivery-decision)
+puts the decision in front of that work rather than at the end.
 
 **Rule provenance policy.**
 Every rule needs a justification,
@@ -62,22 +67,50 @@ Which human Polish counts as the good side of the pair.
 NKJP, Wolne Lektury, edited journalism, technical documentation,
 and in what proportion.
 The human side determines everything the rules learn.
+The rules impose their own constraints on the answer.
+A threshold is a point in this distribution,
+so the register a pack is scoped to has to be in the corpus
+or the threshold is read off the wrong prose.
+The rules against anglicisms and calques
+need to know whether the Polish technical documentation available
+was written in Polish or translated into it,
+since a translated baseline licenses exactly the calques they flag.
+And the good side may be two corpora rather than one:
+[linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+argues a typographic rule measured against typeset prose
+is measured against nothing,
+so those rules want Polish caught at the stage a linter runs at
+while the rate rules want prose somebody edited.
 The generated side is easy only if it is generated for the purpose:
 [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
 measures a body of Polish that was edited against style detectors first,
 and whether such a corpus counts as the generated half is undecided.
 
 **Whether hits get annotated.**
-The two numbers milestone 1 produces are firing rates,
-and a false discovery rate is a different measurement:
-it needs a human deciding, hit by hit,
-whether the rule caught a defect or a good sentence.
+A false discovery rate needs a human deciding, hit by hit,
+whether the rule caught a defect or a good sentence,
+where a firing rate only counts.
 The one published evaluation in the field rests on that reading,
 and [prose-linters.md](prose-linters.md#what-beating-them-takes)
 records the assumption under which a rate on human Polish stands in for it.
-Whether olski pays for the annotation
-or ships with the estimate and names the assumption
-is undecided.
+
+What is undecided is narrower than it first looks.
+The assumption is vacuous for the rules a typesetter's corpus
+has already been cleaned of,
+so their hits have to be read whatever else is decided,
+and [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+argues they are the cheap ones to read.
+The question is what happens to the rest:
+whether olski pays for annotating them too,
+or ships their rates as the estimate and names the assumption.
+
+A third source is worth pricing before either is chosen.
+Suppression, undecided in [rules.md](rules.md#not-yet-decided),
+would have a reader marking a named rule as wrong at a named site,
+which is the annotation someone else would be paid to produce.
+It is not a sample, because a hit suppressed out of impatience
+leaves the same mark as one suppressed for being false,
+so it can feed an estimate and cannot settle one.
 
 **Whether a measurement may need a language model.**
 The README promises judgements produced as in a compiler,

@@ -1,8 +1,8 @@
 """The typography pack: rules that need nothing but a tokenizer.
 
 Every threshold here is provisional, which is what ``calibration`` records.
-Until the milestone 1 harness gives each rule two numbers — how often it fires
-on generated Polish and how often on good human Polish — a threshold is an
+Until the milestone 1 harness gives each rule two numbers — one for whether it
+can be trusted, one for whether it has anything to do — a threshold is an
 opinion with a decimal point.
 See docs/roadmap.md and docs/rules.md.
 """
