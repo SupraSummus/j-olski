@@ -75,12 +75,10 @@ Each of these is unoccupied ground rather than a complaint,
 and together they are the grammar track's reason to exist.
 
 **Ambiguity reported to the author instead of resolved for them.**
-A parser that says "this has two readings, here they are"
-is a different product from one that picks the likelier reading,
-and it is the one a writer can act on.
-[subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
-owns the decision that makes this olski's,
-and [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
+[roadmap.md](roadmap.md#optional-track-the-grammar) owns that purpose,
+and Świgra is where the survey found it empty:
+it picks the likelier reading where olski would hand both back.
+[glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
 records the same move being made by accident
 in a system with no linguistic ambitions at all,
 which is evidence that it is natural rather than clever.

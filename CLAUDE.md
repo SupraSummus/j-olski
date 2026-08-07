@@ -460,9 +460,9 @@ If a change deliberately hands some information over to git history —
 a deleted done-marker, a dropped section — the message says so
 rather than implying nothing was lost.
 
-## Git in remote sessions: the clone is shallow
+## Git in remote sessions: history is truncated or stale
 
-Claude Code sessions on the web get a shallow clone.
+A Claude Code session on the web may get a shallow clone.
 `.git/shallow` truncates history,
 and branches outside the task are fetched shallower still and staler.
 Such a clone manufactures illusions:
@@ -476,6 +476,15 @@ check `git rev-parse --is-shallow-repository`
 and deepen the clone with `git fetch origin --unshallow`,
 which also refreshes the truncated remote refs.
 Only a complete clone tells the truth about where a commit came from.
+
+Shallowness is one of two causes, and its check reads `false` for the other.
+A remote-tracking ref that has not moved since the container started
+produces the same illusions against complete history,
+so a `main` that looks one commit long
+is not explained by `--is-shallow-repository` answering `false`.
+`git fetch --all` settles both at once,
+and [rewriting history](#rewriting-history) owns the trap
+in the form where it costs the most.
 
 ## Rewriting history
 
