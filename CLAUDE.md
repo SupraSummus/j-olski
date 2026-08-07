@@ -40,6 +40,21 @@ Po polsku da się ten tekst przepuścić przez olski,
 i `tests/test_docs.py` przepuszcza każdy dokument, który po polsku stoi,
 więc żądanie schodzi z deklaracji do checka dokument po dokumencie.
 
+Checkiem jest tu silnik reguł, a nie gramatyka.
+Gramatyka jest drugim żądaniem i znacznie węższym:
+zdanie z przecinkiem, przysłówkiem albo rzeczownikiem odczasownikowym
+nie ma w olskim wyprowadzenia,
+a proza tych dokumentów składa się z takich zdań prawie w całości —
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+trzyma polecenie, które to pokazuje nad README, i kolejkę tego, czego brakuje.
+Więc gramatyki nad tymi dokumentami nie uruchamiamy
+i nie przepisujemy ich pod nią.
+Przepisanie kosztowałoby to, po co README jest:
+podzbiór nie ma zdania podrzędnego,
+a [rama przed szczegółem](#the-reader-goes-sentence-by-sentence)
+stoi na uzasadnieniach, które podrzędnego wymagają.
+Kolejka rośnie od strony gramatyki, nie od strony tych plików.
+
 Reguła obejmuje prozę z listy na początku tego pliku,
 komentarze i docstringi, które do prozy liczy
 [łamanie wierszy](#semantic-line-breaks),
@@ -486,6 +501,9 @@ moves the tables in [`docs/corpus.md`](docs/corpus.md),
 which are the output of a run over a treebank the suite does not hold.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
+One figure in that document comes from neither the treebank nor that command:
+the run over this repository's own prose,
+whose two commands stand beside it and need nothing fetched.
 
 Each of these runs takes minutes, which invites starting it and editing on,
 and a run reads the code once at import.

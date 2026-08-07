@@ -415,6 +415,34 @@ since a fronted predicative and a fronted object
 compete on every form whose case is syncretic between the two,
 which is most of them.
 
+Podział na zdania tnie na kropce, która stoi w nazwie pliku.
+`sentences` w `olski/subset.py` kończy zdanie na każdej kropce
+i nazywa ten podział dokładnym, bo olski nie ma skrótów,
+a dokumentacja techniczna pisze `docs/linter.md`,
+gdzie kropka jest tym samym znakiem.
+Nad prozą wyciągniętą z README ten podział liczy 68 zdań,
+gdzie README ma ich 40:
+28 jego granic to kropka, po której nie stoi spacja,
+a `Cały wywód prowadzi docs / linter .` i osobno `md .` są tego przykładem.
+Drugi podział na zdania w tym repozytorium tego nie robi.
+`SENTENCE_END` w `olski/document.py` żąda po kropce białego znaku albo końca tekstu,
+a `_mid_sentence` zdejmuje skróty i liczebniki porządkowe,
+więc ruchem jest dzielić nim tekst przed analizą,
+zamiast dzielić listę segmentów po niej,
+i zostaje wtedy jeden podział tam, gdzie stoją dwa.
+Po analizie tej spacji nie ma już czym zobaczyć:
+Morfeusz jest wołany z `SKIP_WHITESPACES`,
+a `Segment` niesie numery węzłów grafu, a nie przesunięcia w tekście.
+Ruch łączy przy okazji dwa tory:
+`olski/document.py` stoi po stronie lintera,
+nic z toru gramatycznego z niego nie bierze,
+a poza wyrażeniami regularnymi moduł nie ciągnie za sobą nic.
+Do przeczytania jest proza dokumentacji, a nie Składnica:
+`olski/coverage.py` bierze zdania z banku drzew i tego podziału nie woła,
+więc usterka siedzi wyłącznie na drodze `olski-check` nad plikiem,
+którą [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+pokazuje czytelnikowi.
+
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve
 and the blocker ranking by part of speech,

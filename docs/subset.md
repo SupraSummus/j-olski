@@ -229,7 +229,7 @@ and should not be:
 - Numerals, which are common
   and are their own self-contained problem.
 
-One entry is not a construction but a demand every construction makes:
+Two entries are not constructions but demands every construction makes:
 
 - **Valency.** Nothing records which complements a verb actually takes,
   so `być` accepts an accusative object
@@ -240,6 +240,18 @@ One entry is not a construction but a demand every construction makes:
   between the predicative a reader has and an object nobody means.
   [corpus.md](corpus.md#what-morphological-ambiguity-costs)
   found the same gap from the other side.
+- **A form the dictionary does not have.**
+  Morfeusz is asked not to guess at one (`olski/morph.py`),
+  so it comes back tagged `ign`,
+  which no production takes and no agreement can rescue.
+  `olski` is such a form:
+  `Język polski jest podzbiorem polszczyzny.` derives
+  and `Język olski jest podzbiorem polszczyzny.` does not,
+  so the language cannot say in itself what it is.
+  Gold morphology leaves a treebank no such form,
+  which is why the queue in
+  [corpus.md](corpus.md#where-the-analyses-stop) does not rank it
+  and a run over documentation does.
 
 ## The open problem: prepositional attachment
 
