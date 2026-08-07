@@ -251,6 +251,14 @@ an editor decided about the defect instead of removing it,
 which is exactly when the assumption does its job
 and the rate stands on its own.
 
+The typesetter is one such step and not the only one,
+which matters when the corpus gets chosen.
+A corpus build renormalizes characters as thoroughly,
+and [corpora.md](corpora.md#its-text-layer-has-been-character-normalized)
+measures that happening to the reference corpus of Polish,
+so what these rules ask for is not prose from before typesetting
+but prose that reached its reader through no step that rewrote its characters.
+
 So one demand, in two shapes:
 
 - **A rule whose answer depends on the site rather than on the rate**

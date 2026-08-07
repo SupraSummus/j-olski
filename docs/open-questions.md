@@ -64,10 +64,8 @@ and if so how they are dated and retired.
 
 **Corpus sourcing.**
 Which human Polish counts as the good side of the pair.
-NKJP, Wolne Lektury, edited journalism, technical documentation,
-and in what proportion.
-The human side determines everything the rules learn.
-The rules impose their own constraints on the answer.
+The human side determines everything the rules learn,
+and the rules impose their own constraints on the answer.
 A threshold is a point in this distribution,
 so the register a pack is scoped to has to be in the corpus
 or the threshold is read off the wrong prose.
@@ -81,10 +79,38 @@ argues a typographic rule measured against typeset prose
 is measured against nothing,
 so those rules want Polish caught at the stage a linter runs at
 while the rate rules want prose somebody edited.
-The generated side is easy only if it is generated for the purpose:
+
+[corpora.md](corpora.md) surveys what is obtainable against those constraints,
+and [three of its findings](corpora.md#what-the-survey-settles)
+narrow the question rather than close it.
+The register is nearly absent from the corpora that exist,
+so a distribution over Polish technical documentation is assembled or it is nothing.
+Provenance is recorded only in the translated pool,
+where the file format keeps the English beside the Polish,
+which makes Polish-first origin a property of how a corpus is gathered.
+And the stage a typographic rule needs is not the typesetter's:
+NKJP's own text layer carries more straight quotation marks than Polish ones,
+so a corpus build renormalizes characters as thoroughly as typesetting does.
+
+The survey recommends two human corpora rather than one —
+documentation cloned from version control for the rules that audit their hits,
+and edited original expository Polish for the rules that report a rate —
+and [the composition](corpora.md#the-composition-this-argues-for)
+holds the parts, the proportions and the reason each share is capped where it is.
+It also recommends an answer to the generated half.
+Śmigiel, the PolEval 2025 dataset, is generated for the purpose,
+with no editing pass in the pipeline its authors describe,
+which is what
 [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
-measures a body of Polish that was edited against style detectors first,
-and whether such a corpus counts as the generated half is undecided.
+asks of that half,
+so a corpus edited against style detectors need not serve as it
+and stays the harder case rather than the sample.
+
+What is left to decide is whether to pay for the assembly.
+The cheap alternative is to measure over Śmigiel and Polish Wikipedia as they are
+and state the register assumption out loud,
+which produces numbers sooner
+and produces them over prose nobody claims is in the target register.
 
 **Whether hits get annotated.**
 A false discovery rate needs a human deciding, hit by hit,
