@@ -1,7 +1,21 @@
 import pytest
 
 from olski import rules as rules_module
-from olski.rules import Pack, Rule, RuleError, load_packs, select
+from olski.rules import (
+    UNCALIBRATED,
+    Audit,
+    Distribution,
+    Pack,
+    Rule,
+    RuleError,
+    load_packs,
+    select,
+)
+
+AUDIT_NUMBERS = dict(hits=124, defects=119, corpus="drafts-2026", taken="2026-08-07")
+SPREAD_NUMBERS = dict(
+    median=2.1, accused=0.03, scopes=812, corpus="nkjp-expository", taken="2026-08-07"
+)
 
 
 def test_shipped_packs_load():
@@ -15,8 +29,76 @@ def test_every_shipped_rule_carries_what_the_roadmap_asks_for():
         assert rule.id and rule.pack and rule.registers
         assert rule.message.strip()
         assert rule.justification.strip()
-        # No rule ships claiming a discrimination it has not been measured for.
-        assert rule.calibration == "uncalibrated"
+
+
+@pytest.mark.parametrize(
+    ("check", "params", "calibration"),
+    [
+        ("pattern", dict(pattern="a"), Audit(**AUDIT_NUMBERS)),
+        (
+            "pattern-density",
+            dict(pattern="a", max_per_1000_words=10),
+            Distribution(**SPREAD_NUMBERS),
+        ),
+    ],
+)
+def test_a_measured_rule_says_what_its_numbers_were_taken_over(check, params, calibration):
+    """Either shape reads back with its provenance, which is what --explain
+    prints and what somebody redoing the measurement needs."""
+    rule = Pack(name="p").rule(
+        id="a",
+        check=check,
+        params=params,
+        message="m",
+        justification="j",
+        calibration=calibration,
+    )
+    assert rule.calibration.corpus in str(rule.calibration)
+    assert rule.calibration.taken in str(rule.calibration)
+
+
+def test_an_audit_reports_the_share_of_hits_that_were_real_defects():
+    assert Audit(**AUDIT_NUMBERS).precision == pytest.approx(119 / 124)
+    assert "96%" in str(Audit(**AUDIT_NUMBERS))
+
+
+@pytest.mark.parametrize(
+    ("shape", "fields", "complaint"),
+    [
+        (Audit, {**AUDIT_NUMBERS, "hits": 0}, "whole number"),
+        (Audit, {**AUDIT_NUMBERS, "defects": 200}, "cannot find"),
+        (Audit, {**AUDIT_NUMBERS, "corpus": " "}, "names the corpus"),
+        (Audit, {**AUDIT_NUMBERS, "taken": "August 2026"}, "not an ISO date"),
+        (Distribution, {**SPREAD_NUMBERS, "accused": 3.0}, "cannot exceed 1"),
+        (Distribution, {**SPREAD_NUMBERS, "scopes": 0}, "whole number"),
+    ],
+)
+def test_a_number_no_measurement_could_have_produced_is_refused(shape, fields, complaint):
+    with pytest.raises(RuleError, match=complaint):
+        shape(**fields)
+
+
+@pytest.mark.parametrize(
+    ("check", "params", "calibration"),
+    [
+        ("pattern", dict(pattern="a"), "audited over drafts, mostly fine"),
+        ("pattern", dict(pattern="a"), Distribution(**SPREAD_NUMBERS)),
+        ("pattern-density", dict(pattern="a", max_per_1000_words=10), Audit(**AUDIT_NUMBERS)),
+    ],
+)
+def test_a_rule_carries_only_the_calibration_its_check_calls_for(check, params, calibration):
+    """Three ways to get it wrong. Prose says a number was taken without saying
+    which, over what, or when. A distribution on a rule with no threshold has no
+    threshold to place, and an audit on a rate rule reads hits nobody read."""
+    with pytest.raises(RuleError, match="calls for"):
+        Pack(name="p").rule(
+            id="a",
+            check=check,
+            params=params,
+            message="m",
+            justification="j",
+            calibration=calibration,
+        )
 
 
 def test_pack_defaults_apply_and_a_rule_can_override_them():
@@ -36,6 +118,7 @@ def test_pack_defaults_apply_and_a_rule_can_override_them():
     assert inherited.pack == "p"
     assert inherited.registers == ("technical", "general")
     assert inherited.severity == "warning"
+    assert inherited.calibration is UNCALIBRATED
     assert overridden.severity == "note"
     assert overridden.registers == ("technical",)
 

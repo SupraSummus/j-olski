@@ -85,12 +85,65 @@ Anchor it to a Polish style norm where one exists.
 A rule justified by *this is what models do* dates;
 a rule justified by *this is bad Polish style* does not.
 
-**`calibration`** records what has been measured.
-Every rule shipped so far reads `uncalibrated`,
+**`calibration`** records what has been measured, as data rather than as prose.
+Every rule ships `UNCALIBRATED`,
 which is honest and also the reason
-the thresholds in the typography pack are lenient.
-Milestone 1 replaces that string with two numbers.
-Until then a threshold is an opinion with a decimal point.
+the thresholds in the typography pack are lenient:
+a threshold with no number behind it is an opinion with a decimal point.
+
+The milestone 1 harness replaces that with one of two shapes.
+[What a rate on human Polish means](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+owns the argument:
+a rule pointing at a site owes its hits, read,
+while a rule comparing a measurement to a threshold
+owes the human distribution that threshold has to sit outside.
+Which of the two a check is doing is the check's own business,
+so the shape is the check's to call for rather than the rule's to choose,
+and a rule carrying the other one is refused when its pack is imported.
+
+A rule whose hits were read carries how many there were
+and how many of them were real defects:
+
+```python
+from olski.rules import Audit
+
+calibration=Audit(
+    hits=124,
+    defects=119,
+    corpus="drafts, characters as typed",
+    taken="2026-08-07",
+)
+```
+
+A rule with a threshold carries where edited Polish sits
+on the statistic it measures, `median`,
+and the share of that prose its threshold fires on, `accused`,
+over however many scopes the distribution was taken across:
+
+```python
+from olski.rules import Distribution
+
+calibration=Distribution(
+    median=2.1,
+    accused=0.03,
+    scopes=812,
+    corpus="expository NKJP",
+    taken="2026-08-07",
+)
+```
+
+`corpus` names prose somebody else can fetch and `taken` the date it was measured,
+because what a number can mean is decided by the body of text it came from.
+The threshold itself stays in `params`,
+so moving a threshold moves one number and not two.
+
+Both shapes answer the first of
+[the two questions milestone 1 asks](roadmap.md#two-numbers-and-the-two-questions-behind-them),
+whether the rule can be trusted.
+Whether it has anything to do is [the report](#a-firing-rate-per-rule)'s number,
+which a run recomputes over whatever corpus it is pointed at,
+and what a declaration records is what no run reproduces:
+hits a person read, and a distribution over a corpus that may not be at hand.
 
 ## A rule may be asking about the corpus
 

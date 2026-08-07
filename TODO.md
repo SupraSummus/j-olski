@@ -174,20 +174,15 @@ which is the same argument `docs/roadmap.md` uses for having no dates.
 Decide it once and either add the workflow or write the decision
 into the roadmap's guiding principles so it stops coming up.
 
-`calibration` is a free string,
-and the plan promises to replace it with two numbers.
-`Rule.calibration` in `olski/rules.py` defaults to `"uncalibrated"`,
-and `test_every_shipped_rule_carries_what_the_roadmap_asks_for`
-asserts every shipped rule still says exactly that,
-so the first calibrated rule breaks that test
-and nothing checks that what replaces the string is well formed.
-[What each kind of rule owes](docs/linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
-means it is not one shape:
-an audited rule carries the share of its hits that were real defects,
-a rate rule carries where its threshold sits in the human distribution.
-The move is a frozen dataclass beside `Rule` carrying whichever pair it is,
-along with the corpus the numbers came from and the date they were taken,
-with `uncalibrated` staying the default
-and the test asserting a rule is one of the two rather than any string.
-Settling it before the first measurement is taken
-is what stops that measurement from choosing the format by accident.
+An uncalibrated rule does not say what it owes.
+`--explain` prints `calibration: uncalibrated` and stops there,
+so whoever takes the first measurement has to read `calibrated_by`
+in `olski/checks.py` to learn whether a rule wants its hits read
+or a threshold placed in a distribution of human Polish,
+which is what decides
+[which corpus they need](docs/roadmap.md#milestone-1-the-calibration-harness).
+The move is to make the line one function
+instead of the copy `_write_text` and `_list_rules` in `olski/cli.py` each hold,
+and have it name the shape the check calls for while there is nothing measured.
+Against it: the shape follows from the check kind,
+and `docs/rules.md` states in a sentence which kind calls for which.

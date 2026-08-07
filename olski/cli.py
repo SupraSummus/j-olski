@@ -347,7 +347,7 @@ def _as_json(report: Report, args) -> dict:
                 "pack": f.rule.pack,
                 "severity": f.rule.severity,
                 "message": f.message,
-                "calibration": f.rule.calibration,
+                "calibration": str(f.rule.calibration),
                 **(
                     {"justification": f.rule.justification, "sources": list(f.rule.sources)}
                     if args.explain

@@ -1,19 +1,17 @@
 """The typography pack: rules that need nothing but a tokenizer.
 
-Every threshold here is provisional, which is what ``calibration`` records.
-Until the milestone 1 harness gives each rule two numbers — one for whether it
-can be trusted, one for whether it has anything to do — a threshold is an
-opinion with a decimal point.
+Every threshold here is provisional, which is what ``calibration`` records
+and what the milestone 1 harness settles.
 See docs/roadmap.md and docs/rules.md.
 """
 
-from olski.rules import Pack
+from olski.rules import UNCALIBRATED, Pack
 
 pack = Pack(
     name="typography",
     tier="A",
     severity="warning",
-    calibration="uncalibrated",
+    calibration=UNCALIBRATED,
     # Typographic convention does not shift with register: a Polish quotation
     # mark is a Polish quotation mark in a manual and in a novel. Rules whose
     # threshold does depend on register override this per rule.
