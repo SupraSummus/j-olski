@@ -335,7 +335,7 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Impersonal `-no` and `-to` forms, and `się` passives *cited*
 - Hedges `można`, `trzeba`, `należy`, `warto` *cited*
 - Adjective stacking before a noun
-- Participle chains: `będąc`, `mając`
+- Participle chains: `będąc`, `mając` *cited*
 - Comparative adjective frequency *cited*
 
 ### Structural and statistical, tier A with sentence splitting
@@ -422,14 +422,12 @@ and they are hypotheses in Polish like everything else here.
 ## What already exists
 
 **Prose linters.**
-Vale is the architecture to study:
-open source, syntax-aware, extensible through a YAML rule format,
-organized around the idea of a style guide,
-and able to read Markdown, HTML, AsciiDoc and more.
-proselint is the fixed-rule-set counterpart, in Python.
-textlint is pluggable and configurable with nothing enabled by default.
-The useful split is rule-based-and-configurable versus heuristic-and-fixed;
-olski wants the former.
+Half a dozen mature engines exist for English,
+and [prose-linters.md](prose-linters.md) is the survey:
+what their rule formats reach,
+which of their mechanisms have no Polish data behind them,
+and what the one tool that measured its own false-positive rate
+asks of a rule set.
 
 **LanguageTool is the most important existing thing.**
 It is an open-source rule-based proofreading tool
@@ -484,6 +482,24 @@ lean on auxiliary verbs,
 carry fewer content words,
 and fail to reproduce the stylistic variation
 that distinguishes human genres from one another.
+
+The same work puts rates on three constructions rather than on words,
+which is what makes it usable outside English.
+Instruction-tuned models write present participial clauses
+at two to five times the human rate
+and nominalizations at one and a half to two times.
+Both are in [the inventory](#candidate-rule-inventory),
+and the Polish counterpart of an English participial clause
+is the `-ąc` form the participle-chain entry names,
+which makes that entry's citation a mapping across languages
+rather than a measurement on Polish.
+The agentless passive runs the other way,
+at roughly half the human rate,
+against the intuition that model prose is the more impersonal.
+The impersonal and `się`-passive entry survives that,
+because what cites it is the plain-Polish norm and not model behaviour —
+[anchoring to norms](#anchor-to-polish-norms-not-to-model-fingerprints)
+earning its keep in the one case where the two disagree.
 
 Polish work points at
 repetitive sentence structures,
@@ -692,8 +708,6 @@ and no rule ships without knowing which pack it is in.
 
 ## Sources
 
-- <https://vale.sh/> — Vale, the configurable prose linter
-- <https://github.com/amperser/proselint> — proselint
 - <https://onlinelibrary.wiley.com/doi/abs/10.1002/spe.971> — Miłkowski, developing an open-source rule-based proofreading tool
 - <https://community.languagetool.org/?lang=pl> — LanguageTool's Polish rule community
 - <https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup/Guide> — WikiProject AI Cleanup guide

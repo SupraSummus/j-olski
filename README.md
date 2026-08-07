@@ -132,6 +132,10 @@ a roadmap, and open questions.
   and why a corpus edited against detectors is a floor and not a sample
 - [docs/roadmap.md](docs/roadmap.md) —
   milestones and their exit criteria
+- [docs/prose-linters.md](docs/prose-linters.md) —
+  the engines English and Japanese already have,
+  the one that measured its own false-positive rate,
+  and what beating them takes in Polish
 - [docs/similar-work.md](docs/similar-work.md) —
   a hundred controlled natural languages,
   how the field classifies them,
