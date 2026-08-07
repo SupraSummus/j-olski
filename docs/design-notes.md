@@ -187,6 +187,49 @@ matters more than any other fact in the tradeoff.
 Tiers 0 through 2 are the same asymptotic parser with a larger grammar.
 Tier 3 is a different algorithm in a different complexity class.
 
+### The ladder is not the Chomsky hierarchy
+
+The ladder's rungs are chosen by what a formalism buys over Polish
+and by what parsing one costs,
+so the hierarchy's own next class does not appear on it.
+A context-sensitive grammar in the type-1 sense writes `αAβ → αγβ`:
+one non-terminal on the left,
+productions named the way a CFG's are.
+It is still the wrong thing to reach for.
+
+Deciding whether a sentence is in the language of a type-1 grammar
+is PSPACE-complete,
+the class being exactly what a linear-bounded automaton accepts
+(Kuroda 1964),
+which ends parsing rather than making it expensive.
+And a type-1 derivation is a sequence of rewrites and not a tree,
+where every question olski asks is a question about a tree:
+which phrase is the subject,
+where a modifier attached,
+and whether two derivations are
+[one reading](subset.md#what-counts-as-one-reading).
+Nor is the surplus one Polish has a use for.
+Type 1 adds copying and counting,
+which is the direction the Swiss German and Bambara arguments run in
+and the direction Polish does not go.
+
+Where Polish does exceed context-free is discontinuity,
+and named productions reach it without any of the above.
+An MCFG production is written and named like a CFG's,
+and what changes is that a non-terminal spans a tuple of intervals
+rather than a single one:
+
+```text
+A(x1 y1, x2 y2) → B(x1, x2) C(y1, y2)
+```
+
+`A` there has **fan-out** two — its yield arrives in two pieces —
+and the production says how its daughters' pieces interleave,
+which is a discontinuous constituent stated as a named rule.
+So the quantity to trade against is fan-out
+rather than a position in the hierarchy,
+and [the cliff](#the-cliff-discontinuity) is what fan-out two would buy.
+
 ### The cliff: discontinuity
 
 Polish permits left-branch extraction
@@ -270,22 +313,35 @@ See [similar-work.md](similar-work.md#pens-and-why-it-matters-here).
 For the coverage side there is a ready benchmark:
 Składnica holds thousands of real Polish sentences with gold trees.
 For each tier of the ladder,
-measure what fraction of a sample olski accepts
-with a correct reading in the forest,
-and plot coverage against tier.
+measure what fraction of a sample olski accepts —
+one reading, and the gold one —
+and plot that against tier.
 
 That curve is the experiment.
 How much real Polish per unit of formal power
 is a question with a real answer
 that nobody has computed for this grammar.
-Its first point is computed:
-tier 0 admits 1.5% of Składnica,
-and [corpus.md](corpus.md) has the breakdown
-and the reasons not to over-read the figure.
-It also supplies a principled way to say no:
-if scrambling buys three percent of sentences
-for a jump from cubic to sixth-power parsing,
-the decision makes itself.
+Its first point is computed,
+and [corpus.md](corpus.md) holds it,
+with the breakdown and the reasons not to over-read the figure.
+
+The curve does not only rise,
+because what olski accepts is uniqueness rather than derivability.
+Admitting a construction only ever adds derivations,
+so a tier buys the sentences it makes derivable
+and charges for the ones that had a single reading and now have two.
+Each point is a net of those two counts,
+and a tier can cost more sentences than it buys.
+Tier 0 already spends that way on purpose in one place:
+[the bare verb-initial order](subset.md#the-bare-verb-initial-order-keeps-the-predicative-one-honest)
+was admitted knowing it takes a sentence's uniqueness with it,
+and [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+watches the same exchange arriving from the morphology instead.
+
+The curve also supplies a principled way to say no:
+a tier whose net comes to three percent of sentences
+for a jump from cubic to sixth-power parsing
+decides itself.
 
 ## Angle one: parsing
 

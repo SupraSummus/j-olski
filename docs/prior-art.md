@@ -142,3 +142,18 @@ unbounded reduplication in Bambara, to the same end.
 the dismantling of the earlier arguments that English is not context-free.
 Worth reading to calibrate how much the hierarchy question
 actually matters in practice, which is: less than it seems.
+
+**Kuroda (1964)** —
+the context-sensitive languages are exactly
+what a linear-bounded automaton accepts,
+which is where the cost of parsing them comes from.
+
+**Vijay-Shanker, Weir and Joshi (1987)** —
+LCFRS, and what structural descriptions the various formalisms produce.
+One of the three that
+[tier 3 of the cost ladder](design-notes.md#the-cost-ladder) names.
+
+**Seki, Matsumura, Fujii and Kasami (1991)** —
+multiple context-free grammars,
+which are the same class stated differently,
+with the polynomial parsing bound worked out.

@@ -393,6 +393,11 @@ The move is in `olski/coverage.py`:
 carry the blocking form beside its part of speech in `Report.blockers`,
 add the exclusion-free morphology as a third `SOURCES` entry,
 and let the CLI take two runs and print what they disagree about.
+That last part has a second caller,
+so it should not be tied to the morphology sources:
+a point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
+is a net of what a tier buys against what it costs in uniqueness,
+which is two grammars disagreeing rather than two morphologies.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
 
