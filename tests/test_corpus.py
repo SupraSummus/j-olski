@@ -16,6 +16,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
+pytest.importorskip("morfeusz2")
+
 from olski.corpus import FULL, Sentence, parse_forest, read, walk
 from olski.coverage import Outcome, measure, render
 from olski.parse import parse

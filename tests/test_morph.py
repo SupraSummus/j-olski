@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("morfeusz2")
+
 from olski.morph import analyse, tag, unknown
 
 
