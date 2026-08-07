@@ -41,6 +41,15 @@ and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
+An entry names the evidence it has to read,
+and not only the files it changes.
+Two entries can edit disjoint files
+and still turn on one judgment about one body of text,
+such as what a rule's hits over a corpus are.
+A file list does not show that overlap,
+so the two are picked up together
+and the judgment is reached twice.
+
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
 reaches the rules through a program this repository holds.
