@@ -453,6 +453,86 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Adjective stacking before a noun
 - Participle chains: `będąc`, `mając` *cited*
 - Comparative adjective frequency *cited*
+- **Ambiguous pronoun antecedent** —
+  a third-person pronoun that agrees with more than one antecedent.
+  Article 1 of the Universal Declaration of Human Rights reads, in Polish,
+  `Wszyscy ludzie rodzą się wolni i równi pod względem swej godności i swych praw.
+  Są oni obdarzeni rozumem i sumieniem
+  i powinni postępować wobec innych w duchu braterstwa.`,
+  where `oni` reaches back across the sentence boundary to `Wszyscy ludzie`
+  and reaches nothing else.
+  What keeps the pointer single is agreement rather than position.
+  `oni` is masculine personal and plural,
+  and an antecedent answers it in whatever case it stood in,
+  so every noun phrase in the first sentence is a candidate by position
+  and exactly one survives agreement:
+  Morfeusz reads `ludzie` as `subst:pl:nom.voc:m1`
+  and `praw` as `subst:pl:gen:n:ncol`.
+  Substitute `swych niewolników`, which it reads as `subst:pl:gen.acc:m1`,
+  and the filter passes two phrases where it passed one.
+  The nearer of the two is the substitute,
+  and what follows the pronoun settles nothing,
+  since reason and conscience are said of people and slaves are people,
+  so a reader who takes the pointer the other way has misread the sentence
+  and has no way to find that out.
+
+  A rule for this need not resolve the pointer.
+  Its finding is that agreement failed to pick one antecedent out,
+  which is a count over candidates and not a choice between them,
+  and the count wants number and gender per form and no parse.
+  That inverts what
+  [ambiguity as a confidence measure](glr-in-practice.md#ambiguity-as-a-confidence-measure)
+  makes of the same observation,
+  where more than one reading is the reason to say nothing;
+  here it is the entire report.
+  What the count cannot be is a verdict, and the same pair says why:
+  what makes the substitution ambiguous rather than merely two-candidate
+  is that reason and conscience fit slaves as well as people,
+  which no tier here reads.
+  So a hit is a site for a reader,
+  and a rule ships only if something structural makes such sites rare.
+
+  What the count runs over is where the difficulty sits.
+  Counted over forms it goes wrong twice:
+  `Wszyscy` and `ludzie` are one phrase counted as two,
+  and the predicative `wolni` and `równi` carry the pronoun's own features
+  while being no candidate for it at all.
+  Over runs of adjacent forms
+  that share number, gender and case and end in a noun,
+  it returns `Wszyscy ludzie` for the article
+  and `Wszyscy ludzie` beside `swych niewolników` for the substitution,
+  which is the distinction the rule needs.
+  A run of that kind is adjacency and agreement rather than a parse,
+  so the pair is settled at tier B
+  where resolving the pointer would be tier D.
+  One kind of antecedent is above a run anyway:
+  a coordination can be a plural no form inside it carries,
+  `Jan i Maria` answering `oni` where neither noun is plural or masculine personal,
+  and reaching that is chunking rather than adjacency.
+  The analyser sets the noise floor, not the procedure:
+  the same runs over the second sentence return `braterstwa`,
+  which Morfeusz reads as a masculine personal plural,
+  and that is [a reading Polish does not have](subset.md#the-dictionary-offers-readings-polish-does-not).
+  The tags are Morfeusz's because it is the analyser this repository runs,
+  and Morfologik, which
+  [the linter track takes instead](open-questions.md#settled),
+  marks number and gender in a tagset of its own.
+
+  When such a rule may fire is the undecided half.
+  Two agreeing candidates need not be a defect,
+  since subjecthood, recency and topic continuity
+  settle pointers that agreement leaves open,
+  and a plural pronoun contributes one bit of gender to the filter,
+  so how often the count reaches two in edited Polish
+  decides whether it may fire on the count at all.
+  The pair names the configuration to measure first —
+  the intended antecedent is the subject, the competitor is the nearer one,
+  so the two preferences disagree,
+  which cannot happen where only one candidate survives, as in the article.
+  Whether that configuration is the defect
+  or a property of an example built by substitution
+  is what [an audit](#what-a-rate-on-human-polish-means-depends-on-the-rule)
+  settles rather than a rate.
 
 ### Structural and statistical, tier A with sentence splitting
 
@@ -836,3 +916,4 @@ and no rule ships without knowing which pack it is in.
 - <https://dobratresc.com/2019/02/14/rzeczowniki-zombie-i-slowa-bufony-kontra-prosta-polszczyzna/> — rzeczowniki zombie and plain Polish
 - <https://mycompanypolska.pl/artykul/10-zasad-prostej-polszczyzny/16380> — ten rules of plain Polish
 - <https://jasnopis.pl/prosty-jezyk/> — Jasnopis and plain Polish
+- <https://pl.wikisource.org/wiki/Powszechna_Deklaracja_Praw_Człowieka> — the Polish text of the Universal Declaration of Human Rights
