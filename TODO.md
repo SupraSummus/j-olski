@@ -182,19 +182,6 @@ which is where the entry on where a file wraps arrives,
 removes the evidence rather than the false positive:
 `Rozdział I` at the end of a line somebody wrapped to a width is still one.
 
-A directory walk that skips files says nothing about having skipped them.
-`_collect` in `olski/cli.py` takes `.txt` and `.text` out of a directory
-and passes over everything else without a word,
-so `olski ksef-docs/` over a repository of 32 Markdown files
-lints its `LICENSE.txt` and prints a nine-row report over 169 words of English.
-`_note_markup` beside it has the shape the fix wants:
-one line to stderr, counted off the run rather than off the input,
-saying how many files the walk passed by
-and that naming them on the command line is what reaches them.
-Settle first whether that line names the suffixes it skipped,
-which is what tells a reader to reach for a converter
-rather than for a different directory.
-
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -223,6 +210,9 @@ the way it already points readers at `--list-rules`,
 or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
+Either option waits on the entry
+that makes a check's fields a function of its validated parameters,
+since both read a set that is about to become a call.
 
 A `pattern-density` rule that sets only `min_per_1000_words`
 may use `{match}` in its message and render an empty string.
@@ -260,25 +250,6 @@ The reason to make it before the analyser rather than alongside one:
 the same change made afterwards
 has to be made through whatever wired the analyser in.
 
-`Rule.tier` declares how deep a rule has to see, and nothing reads the declaration.
-`olski/rules.py` validates it against `TIERS`
-and `olski/cli.py` prints it in `--list-rules`,
-which is the whole of its use,
-so a rule carrying the wrong tier is wrong in a field no run consults.
-[`docs/linter.md`](docs/linter.md#how-deep-does-each-rule-have-to-see)
-owns what the tiers mean,
-and the use the field is shaped for is bounding work:
-the deepest tier among the selected rules
-is the deepest analysis a run needs,
-so nothing below it has to be computed at all.
-Building that now would be a dispatch over one value,
-every shipped rule being tier A with no analysis to skip.
-So the move here is the smaller one:
-say in `olski/rules.py` that the field documents a rule rather than steering a run,
-and leave the bounding to the change that adds the first rule which is not tier A.
-That change wants the analyses lazy as well,
-which is the entry on what `Document` computes.
-
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
 Świgra's evaluation walks its packed forest per sentence
@@ -302,15 +273,18 @@ Reading a GPL v3 parser of Polish is what raised it
 (see [`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)),
 and the answer decides whether olski could ever link against such a thing.
 
-An uncalibrated rule does not say what it owes.
-`--explain` prints `calibration: uncalibrated` and stops there,
-so whoever takes the first measurement has to read `calibrated_by`
-in `olski/checks.py` to learn whether a rule wants its hits read
-or a threshold placed in a distribution of human Polish,
-which is what decides
-[which corpus they need](docs/roadmap.md#milestone-1-the-calibration-harness).
-The move is to make the line one function
-instead of the copy `_write_text` and `_list_rules` in `olski/cli.py` each hold,
-and have it name the shape the check calls for while there is nothing measured.
-Against it: the shape follows from the check kind,
-and `docs/rules.md` states in a sentence which kind calls for which.
+[Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
+"prose in comments and docstrings", and no module here writes them that way.
+Every file in `olski/` and `harness/` wraps its comments to a column instead,
+a median comment line of 52 characters and a ninetieth percentile of 80,
+so the rule and the code have disagreed for as long as both have existed
+and a new docstring following the rule reads as a typo beside its neighbours.
+Two ways out, and the choice is a judgement about the whole package
+rather than about whichever function is being edited at the time:
+narrow the rule in `CLAUDE.md` to Markdown, commit messages
+and the prose fields of a declaration,
+which is where the tighter diff is actually collected,
+or keep the rule and reflow the docstrings under
+[lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
+The second answer also needs saying out loud,
+because the mixed state it passes through is what a reader will read as drift.

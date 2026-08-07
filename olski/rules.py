@@ -155,6 +155,16 @@ Calibration = Uncalibrated | Measurement
 #: which is where the names come from.
 SHAPES = {"audit": Audit, "distribution": Distribution}
 
+#: What a rule owes while nothing has been measured, one phrase per shape, for
+#: ``--explain`` to print under a rule that ships ``UNCALIBRATED``. Keyed as
+#: :data:`SHAPES` is, since both answer ``Check.calibrated_by``. Each phrase
+#: names the prose the first measurement is taken over, because that is what
+#: differs and what decides which corpus has to be fetched.
+OWED = {
+    "audit": "an audit of its hits, read one by one",
+    "distribution": "a distribution over human Polish",
+}
+
 
 def _whole(value, what: str, least: int) -> None:
     if not isinstance(value, int) or isinstance(value, bool) or value < least:
@@ -189,6 +199,13 @@ class Rule:
     sources: tuple[str, ...] = ()
     pack: str = "unnamed"
     registers: tuple[str, ...] = ()
+    #: How deep an analysis the rule needs, one of :data:`TIERS`; docs/linter.md
+    #: owns what the tiers mean. The field documents a rule rather than steering
+    #: a run: nothing dispatches on it, so a wrong tier is wrong where no run
+    #: looks. The use it is shaped for is bounding work, since the deepest tier
+    #: among the selected rules is the deepest analysis a run needs and nothing
+    #: below it has to be computed. That waits for the first rule which is not
+    #: tier A, because over the shipped packs it would dispatch over one value.
     tier: str = "A"
     severity: str = "warning"
     #: What has been measured about this rule, as a :class:`Calibration`: the

@@ -2,6 +2,8 @@ import pytest
 
 from olski import rules as rules_module
 from olski.rules import (
+    OWED,
+    SHAPES,
     UNCALIBRATED,
     Audit,
     Distribution,
@@ -76,6 +78,12 @@ def test_an_audit_reports_the_share_of_hits_that_were_real_defects():
 def test_a_number_no_measurement_could_have_produced_is_refused(shape, fields, complaint):
     with pytest.raises(RuleError, match=complaint):
         shape(**fields)
+
+
+def test_every_calibration_shape_says_what_an_uncalibrated_rule_owes():
+    """A shape added without its phrase would raise on the first --explain,
+    since that line looks the shape up by the name a check calls for."""
+    assert set(OWED) == set(SHAPES)
 
 
 @pytest.mark.parametrize(

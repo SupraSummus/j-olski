@@ -16,9 +16,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 #: The suffixes olski reads as plain Polish prose. Nothing here understands
-#: markup, so this list is both what a directory walk picks up and what
-#: :func:`is_plain_text` recognizes: one fact, so that naming a file and walking
-#: to it cannot disagree about what the file is.
+#: markup, and :func:`is_plain_text` is the only reader of this list: a
+#: directory walk asks it too rather than matching the suffixes itself, so
+#: naming a file and walking to it cannot disagree about what the file is.
 TEXT_SUFFIXES = (".txt", ".text")
 
 #: A word, for the purposes of counting them. Requires a letter at each end, so

@@ -140,7 +140,10 @@ The `find` is not decoration.
 A directory walk collects `.txt` and `.text` and nothing else,
 so `olski ksef-docs/` reaches one file —
 `LICENSE.txt`, the MIT licence, in English, 169 words —
-and prints a nine-row table over it without saying what it passed by.
+and prints a nine-row table over it.
+The run says on stderr how many files it went past and in which formats,
+which warns and does not reach them:
+naming the files is what the `find` is for.
 
 ## The rates
 
