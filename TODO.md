@@ -50,24 +50,74 @@ A file list does not show that overlap,
 so the two are picked up together
 and the judgment is reached twice.
 
-Two documents give the same repository two counts of the same character
-and one of them says they are the same count.
-[`docs/firing-rates.md`](docs/firing-rates.md#the-quotation-mark-rules-had-nothing-to-find)
-splits 978 hits of `quote-straight` over the KSeF Markdown into 646 in code
-and 332 in running prose,
-and calls that 332 the figure the survey took by hand,
-where [`docs/corpora.md`](docs/corpora.md#polish-technical-documentation-original-and-translated)
-now reports 312 over the same 32 files,
-having stopped counting by hand when the extraction arrived.
-The evidence is the same repository at the commit
-[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list) pins,
-read twice: the raw Markdown with its code split off by a reader,
-and the extracted prose, which keeps an inline code span and drops a fenced block,
-so the two disagree by whatever falls in that gap.
-The move is to find where the 20 marks are and say so in the sentence,
-or to drop the claim that the two numbers are one number.
-This reads the same hits as the entry on the audit's documentation column,
-so the two are picked up together.
+A triple-backtick code span opening a line is read as a code fence,
+and `harness/markdown.py` then drops the prose down to the next fence-only line.
+`FENCE` in that module matches ```` ``` ```` and takes the rest of the line
+as an info string,
+where CommonMark forbids a backtick inside a backtick fence's info string,
+so ```` ```KOD I``` zawiera link ```` is a paragraph to a renderer
+and an opening fence to the extraction.
+Three of the 32 `ksef-docs` files are written that way,
+`kody-qr.md`, `tokeny-ksef.md` and `uwierzytelnianie.md`,
+and between them they lose the better part of a thousand words
+of running Polish;
+[the corpus](docs/firing-rates.md#the-audit-corpus) owns how much exactly,
+and reports its figures as the corpus stands.
+The move is the CommonMark condition in `FENCE`,
+plus the closing-fence test that goes with it,
+and then rerunning the three sets of tables that hold extracted figures:
+[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
+[`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
+and [`docs/firing-rates.md`](docs/firing-rates.md#the-rates).
+The evidence to read is the prose the three `ksef-docs` files extract to,
+since the fix is only worth the rerun if what comes back is Polish
+rather than more of the code the fence was swallowing.
+
+The line that says what a walk went past counts a repository's `.git` with it.
+`_collect` in `olski/cli.py` reaches every file under a named directory,
+so `olski rit-dokumentacja/` reports going past 39 files
+in `.sample`, no suffix, `.md`, `.png`, `.idx`, `.pack` and `.rev`,
+where the 7 Markdown files are the only ones a reader would have guessed at
+and the pack and index files are git's own.
+The walk always descended there and the count is what made it visible,
+which is the warning working rather than a second defect.
+The move is for the walk to skip a directory whose name begins with a dot,
+and to say in `_collect` that a repository is the expected input
+and its version control is not part of the corpus.
+Against it: a dotted directory somebody names outright is then unreachable,
+so the skip belongs to the walk and not to the suffix test.
+
+Nothing in the harness says which construct a finding came out of,
+so every audit of extracted prose maps its hits back by hand.
+`docs/extraction.md` did it for a couple of hundred spacing findings,
+and [the audit corpus's tables](docs/firing-rates.md#what-the-hits-over-the-audit-corpus-turned-out-to-be)
+for more than a thousand hits,
+both with a throwaway script and neither with anything reusable.
+The classes that cost the most to reach are the ones a program could settle:
+whether a hit stands in a table, a code span, a link's text or a raw tag.
+So the move is for `prose` in `harness/markdown.py`
+to record what each stretch of output came from,
+and for something to print that beside a finding —
+which is a second output from the extraction
+and wants deciding whether it rides along with the prose files
+or is a separate mode over one document.
+Against it: the classes that decide whether a hit is a *defect*
+are the ones needing a reader anyway,
+so this halves an audit rather than removing it,
+and a corpus of this size can be read by hand, as it twice already has been.
+
+`docs/extraction.md` compares one member of the audit corpus against its files
+and the corpus has two.
+Its table runs the notes, the memoir and `ksef-docs` twice each,
+where [`docs/firing-rates.md`](docs/firing-rates.md#the-audit-corpus)
+audits `rit-dokumentacja` beside `ksef-docs`
+and finds the extraction's own gaps accounting for 553 of the corpus's findings,
+every one of them in that second member.
+The move is a fourth column,
+which means running `rit-dokumentacja` with its names changed to `.txt`
+and checking the spacing findings one by one against their source
+the way the section's own method demands,
+since a count that agrees is not yet a hit that points at the same place.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -90,29 +140,6 @@ The move is to decide, per corpus, whether it joins the harness
 as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
-
-The documentation half of [`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
-audits the pack over apparatus that the harness can now take away.
-Its KSeF column is the 32 Markdown files as they stand,
-where `missing-space-after-full-stop` fires 748 times for one defect
-and `trailing-space` 426 times for none,
-and [`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
-holds what the same rules report over the extracted prose.
-Two readings of one corpus in two documents is one too many.
-The move is to make the audit's documentation column the extracted one,
-since that is the corpus
-[the audit corpus](docs/audit-corpus.md#the-list) is,
-and keep the as-they-stand figures only where they are the argument
-for extracting at all.
-That means rereading the hits, not just recounting them:
-156 hits of a rule are a different audit from 748.
-It also means both members rather than the first,
-which is what turns the column from a repository into a corpus,
-and the two do not fire alike:
-`missing-space-after-full-stop` reports 156 hits over `ksef-docs` and none over
-`rit-dokumentacja`, and `missing-space-after-punctuation` 10 against 195.
-This reads the same hits as the entry
-on the two counts of the same character, so the two are picked up together.
 
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"
