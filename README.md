@@ -93,7 +93,7 @@ python3 -m olski --list-rules
 ```text
 tekst.txt:3:42: warning: [quote-straight] Straight quotation mark; Polish takes „ opening and ” closing.
 tekst.txt:3:78: warning: [orphan-single-letter-word] Single-letter word w left at the end of a line
-tekst.txt: abstained: [em-dash-density] 82 words in this document is too short to measure a rate over
+tekst.txt: abstained: [em-dash-density] this document is under the 150-word floor a rate over it needs
 ```
 
 Rules of this kind earn their keep only where the judgement is about characters

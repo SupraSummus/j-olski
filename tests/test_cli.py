@@ -10,6 +10,11 @@ CLEAN = "Kliknij przycisk „Zapisz”.\n"
 #: number an assertion can name rather than one the test has to recompute.
 TEN_WORDS = 'Kliknij przycisk "Zapisz" i zamknij okno "Ustawienia" w tym module.\n'
 
+#: 200 words of clean Polish, over the 150 the pack's one rate rule asks for
+#: before it reports a number. Every shorter fixture here makes that rule decline,
+#: so a report over one says nothing about what it measures.
+LONG_ENOUGH = " ".join(["Program zapisuje ustawienia w pliku."] * 40) + "\n"
+
 
 def write(tmp_path, name, text):
     path = tmp_path / name
@@ -188,13 +193,23 @@ def test_the_report_rates_every_rule_including_the_ones_that_found_nothing(tmp_p
 def test_a_rule_reporting_on_a_whole_scope_is_rated_over_scopes_and_not_over_words(
     tmp_path, capsys
 ):
-    write(tmp_path, "one.txt", TEN_WORDS)
-    write(tmp_path, "two.txt", TEN_WORDS)
+    write(tmp_path, "one.txt", LONG_ENOUGH)
+    write(tmp_path, "two.txt", LONG_ENOUGH)
     main([str(tmp_path), "--format", "report"])
     out = capsys.readouterr().out
     #  em-dash-density fires at most once per document, so a rate per thousand
     #  words would be the rate of something that cannot happen.
     assert row(out, "em-dash-density") == "em-dash-density 0 0 2 documents 0.0%"
+
+
+def test_a_scope_a_rate_rule_could_not_have_judged_comes_off_its_denominator(tmp_path, capsys):
+    write(tmp_path, "long.txt", LONG_ENOUGH)
+    write(tmp_path, "short.txt", TEN_WORDS)
+    main([str(tmp_path), "--format", "report"])
+    out = capsys.readouterr().out
+    #  The short file is one the rule could not have reported on whatever it held,
+    #  so a share over both would be a share of the corpus rather than of the rule.
+    assert row(out, "em-dash-density") == "em-dash-density 0 1 1 document 0.0%"
 
 
 def test_a_rule_that_abstained_everywhere_reports_no_rate_rather_than_a_rate_of_zero(
@@ -234,8 +249,9 @@ def test_list_rules_shows_the_pack_and_exits_zero(capsys):
 
 
 def test_abstentions_are_reported_only_when_asked(tmp_path, capsys):
-    #  Nothing abstains on plain text, so asking is quiet rather than noisy.
-    path = write(tmp_path, "clean.txt", CLEAN)
+    #  Plain text long enough for every rule to answer about, so asking is quiet
+    #  rather than noisy.
+    path = write(tmp_path, "clean.txt", LONG_ENOUGH)
     main([str(path), "--show-abstentions"])
     assert "abstained" not in capsys.readouterr().out
 
