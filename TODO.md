@@ -50,6 +50,30 @@ A file list does not show that overlap,
 so the two are picked up together
 and the judgment is reached twice.
 
+A one-character emphasis span swallows the next one and leaves a marker behind.
+The optional tail in `INLINE` in `harness/markdown.py`,
+`(?:.*?[^\s*])?` inside the emphasis alternative, is greedy,
+so it prefers a body of three characters or more to a body of one,
+and `*p*, a razem z nim *p*` extracts as `p*, a razem z nim *p`
+where a renderer sets two emphases.
+The stray marker is the failure the module was written against,
+since it reaches the rules as a character somebody typed,
+and the same tail sits in all five wrapping alternatives,
+`**`, `__`, `~~`, `*` and `_`, each of which swallows the next span of its kind.
+The move is to make those five tails lazy, `??` rather than `?`,
+which leaves every span of two characters or more matching as it does now,
+with a case in `tests/test_extraction.py`
+for two spans of one character in one paragraph.
+It is its own change because it moves what the extraction keeps,
+so the figures in
+[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
+and [`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
+are rerun with it.
+The evidence to read is how often the pattern occurs in those corpora at all:
+the README hit it on the first Polish paragraph it had,
+and if the corpora hold nothing like it the rerun returns the same tables.
+
 A triple-backtick code span opening a line is read as a code fence,
 and `harness/markdown.py` then drops the prose down to the next fence-only line.
 `FENCE` in that module matches ```` ``` ```` and takes the rest of the line
