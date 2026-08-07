@@ -74,10 +74,13 @@ The notes and the memoir are the two bodies
 [generated-polish.md](generated-polish.md#what-was-measured) reports on,
 and KSeF is the first repository in
 [the audit corpus](audit-corpus.md#the-list).
-Its file column is [the pilot run](firing-rates.md#the-rates) rerun,
-and it differs from that run in one place:
-naming the files `.txt` is what lets `orphan-single-letter-word` measure them
-rather than decline.
+The prose half of its cells is one member of the corpus
+[the typography pack is audited over](firing-rates.md#the-rates),
+and the file half is that member before the step,
+which is the argument for having the step.
+Naming the files `.txt` is what lets `orphan-single-letter-word`
+measure them rather than decline,
+so its row is the one place the file half needed something done to it.
 
 Counting the same is not the same as pointing at the same place,
 so the 234 findings of the spacing rules — the ones a deletion invents —
@@ -101,8 +104,8 @@ as a full stop with no space after it,
 and so does a source file used as a link's visible text.
 
 Over KSeF that shows up in one rule.
-[The audit of the same files as they stand](firing-rates.md#two-rules-pointed-at-real-defects)
-reads all 748 of `missing-space-after-full-stop`'s hits
+[The audit](firing-rates.md#missing-space-after-full-stop-read-the-text-of-a-link)
+reads all 748 of `missing-space-after-full-stop`'s hits over the files as they stand
 and finds one defect among them, the rest code and links.
 The extraction removes 592 of the 748,
 which is the fenced code and every link target.

@@ -217,7 +217,7 @@ and one olski does not recognize is read as text it cannot vouch for.
 
 Recognizing a suffix is weaker evidence than it reads as,
 because a guarantee belongs to a format and a suffix is not one.
-[firing-rates.md](firing-rates.md#what-the-hits-turned-out-to-be)
+[firing-rates.md](firing-rates.md#what-the-hits-over-published-polish-turned-out-to-be)
 measures both guarantees failing across a corpus of `.txt`:
 a table laid out with runs of spaces and emphasis written as `*`
 are apparatus in a file that answered for prose,

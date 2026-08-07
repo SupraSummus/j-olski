@@ -412,11 +412,16 @@ The same holds for the figures in
 [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
 the ones over the Markdown corpus in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
-and the sizes in
+the sizes in
 [`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
+and the audit corpus half of `docs/firing-rates.md`,
 with one more thing that moves them:
 a change in what [the extraction](docs/extraction.md) keeps.
-Each of the three prints the commands that produce its figures,
+That last one is why the extraction is in this list twice over:
+it decides both the sizes a document reports
+and which characters a rule is shown,
+so a change to it moves a count and can move a class as well.
+Each of them prints the commands that produce its figures,
 which is the whole reason those commands are there.
 
 ## Code
