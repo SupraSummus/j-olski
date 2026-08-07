@@ -390,7 +390,7 @@ A standing verdict on the front page of a hobby repository
 is the same way of making it feel like work
 that [`docs/roadmap.md`](docs/roadmap.md) refuses dates for.
 
-Two more checks apply where a change moves a number
+Three more checks apply where a change moves a number
 that lives in a document because no test can reach it.
 Each names the document, and each is part of the change rather than after it.
 
@@ -407,6 +407,15 @@ Refetch as that document says and rerun the commands it prints.
 A change to a threshold or an exemption also moves what the hits *are*,
 so the classes that document reports having read
 are corrected along with the counts, or the audit stops describing the pack.
+
+The same holds for the figures in
+[`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
+and the ones over the Markdown corpus in
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
+with one more thing that moves them:
+a change in what [the extraction](docs/extraction.md) keeps.
+Both documents print the commands that produce their figures,
+which is the whole reason those commands are there.
 
 ## Code
 

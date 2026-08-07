@@ -94,13 +94,14 @@ because milestone 0 keeps document formats out of olski
 and that makes the extraction a step before the harness rather than part of it.
 [generated-polish.md](generated-polish.md#the-apparatus-biases-a-rate-by-an-amount-the-corpus-decides)
 prices skipping it:
-one rule reads a quarter high over one body of Markdown
+one mark reads a quarter high over one body of Markdown
 and true over another by the same writer,
 so a rate measured over apparatus is not comparable
 to a rate measured over prose,
 nor to the next corpus's rate over its own apparatus.
-[TODO.md](../TODO.md) holds the shape it has to have
-and the account it owes of the findings it invents.
+`harness/markdown.py` does it for Markdown,
+and [extraction.md](extraction.md) owns the account
+of what it invents by doing it.
 
 **The human half, which is the blocking one.**
 Which Polish counts as the good side is **corpus sourcing** in

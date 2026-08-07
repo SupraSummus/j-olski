@@ -1,0 +1,5 @@
+#  The extraction's fixture is malformed on purpose: a setext heading, an image
+#  with no description, a table nobody would lay out that way. It is input to a
+#  program rather than prose anybody reads, so the prose linter has nothing to
+#  say about it.
+tests/fixtures/

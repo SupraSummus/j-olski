@@ -249,9 +249,13 @@ def _write_report(report: Report, out, args, rules: list[Rule]) -> None:
     sorting on them would rank a share of documents against a count per thousand
     words, and a fixed order is what lets two runs be put side by side.
     """
+    #  Words and sentences are the denominators the rows are rates over, so the
+    #  header is also what a document citing one of those rates has to state
+    #  about the corpus it was taken on.
     out.write(
         f"{_count(len(report.documents), 'file')}, "
         f"{_count(count_units('word', report.documents), 'word')}, "
+        f"{_count(count_units('sentence', report.documents), 'sentence')}, "
         f"{_count(len(rules), 'rule')}\n\n"
     )
     ordered = sorted(report.tally(rules), key=lambda tally: tally.rule.id)
