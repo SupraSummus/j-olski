@@ -57,6 +57,11 @@ def build() -> Grammar:
     )
     grammar.rule("Clause", [nt("Predicate")])
 
+    # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
+    # from behind it, so in front of a clause there is no noun to attach to and
+    # the attachment ambiguity docs/subset.md is about cannot arise.
+    grammar.rule("Clause", [nt("Modifier"), nt("Clause")])
+
     grammar.rule("Subject", [nt("NP", case="nom", number=V("n"))], number=V("n"))
     grammar.rule("Object", [nt("NP", case="acc")])
 
