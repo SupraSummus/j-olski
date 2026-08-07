@@ -172,4 +172,22 @@ Against it: the project is for fun,
 and a red badge on a hobby repository is a way of making it feel like work,
 which is the same argument `docs/roadmap.md` uses for having no dates.
 Decide it once and either add the workflow or write the decision
-into the roadmap's guiding principle so it stops coming up.
+into the roadmap's guiding principles so it stops coming up.
+
+`calibration` is a free string,
+and the plan promises to replace it with two numbers.
+`Rule.calibration` in `olski/rules.py` defaults to `"uncalibrated"`,
+and `test_every_shipped_rule_carries_what_the_roadmap_asks_for`
+asserts every shipped rule still says exactly that,
+so the first calibrated rule breaks that test
+and nothing checks that what replaces the string is well formed.
+[What each kind of rule owes](docs/linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+means it is not one shape:
+an audited rule carries the share of its hits that were real defects,
+a rate rule carries where its threshold sits in the human distribution.
+The move is a frozen dataclass beside `Rule` carrying whichever pair it is,
+along with the corpus the numbers came from and the date they were taken,
+with `uncalibrated` staying the default
+and the test asserting a rule is one of the two rather than any string.
+Settling it before the harness runs
+is what stops the first measurement from choosing the format by accident.

@@ -202,16 +202,80 @@ So the project needs a paired corpus:
   which [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
   measures on a corpus that had been.
 
-Then every rule carries two numbers:
-how often it fires on generated text,
-and how often it fires on good human text.
-A rule that fires equally on both is worthless
-regardless of how strongly anyone feels about it.
+Then every rule carries two numbers,
+and the two questions behind them are
+whether the rule can be trusted
+and whether it has anything to do.
 
 This is the replacement for the coverage curve,
 and it is a better experiment:
 cheaper to run, and it produces a rule set
 that has earned each of its rules.
+
+### What a rate on human Polish means depends on the rule
+
+The number that decides whether a rule ships is the one on the human side,
+and reading a firing rate there as a false-positive rate assumes something.
+proselint made the assumption by choosing its corpus:
+a hit on prose from a magazine that edits properly is a false alarm,
+because a real defect would have been taken out before it was printed.
+[prose-linters.md](prose-linters.md#what-beating-them-takes)
+holds the score that rests on the assumption
+and says it has to be stated out loud.
+
+Stated out loud, it turns out to be a claim about the corpus,
+and the corpus that makes it true of one rule makes it vacuous for another.
+Typesetting removes a double space and a straight quotation mark mechanically,
+so `double-space` and `quote-straight` fire on published Polish
+at a rate near zero,
+and that rate measures the typesetter rather than the rule.
+The corpus could not have held what they look for.
+
+What they look for lives one stage earlier,
+which is also the stage a linter runs at.
+A straight quotation mark in a draft is usually ambiguous —
+an inch mark, a fragment of code, a citation left in English,
+which is [generated-polish.md](generated-polish.md#polish-closing-quotation-marks-are-absent)'s
+list and its account of the corpus where it happened not to bite —
+and that ambiguity is the rule's real false-positive risk,
+out of reach on prose that has been through a typesetter.
+So these rules ask for prose caught where the linter will see it,
+and their hits there have to be read rather than counted.
+Reading them is cheap, which is the good half of the bargain:
+a quotation mark is a quotation mark,
+and a hundred of them are settled in an afternoon.
+Where reading every hit would be expensive —
+a nominalization that might be the right word,
+a dash that might be the right mark —
+an editor decided about the defect instead of removing it,
+which is exactly when the assumption does its job
+and the rate stands on its own.
+
+So one demand, in two shapes:
+
+- **A rule whose answer depends on the site rather than on the rate**
+  owes an audit, over prose at the stage it will run on.
+  Its hits are read, and the share of them that were real defects
+  is the number.
+- **A rule reporting a rate against a norm** owes a distribution
+  over prose somebody edited.
+  Where good human Polish sits on the statistic it measures
+  is where a threshold can go
+  without accusing the writing the rule was built to protect.
+
+The two shapes want different corpora, which
+**corpus sourcing** in [open-questions.md](open-questions.md#linter-questions)
+has to answer for.
+
+Discrimination between the human and the generated half
+belongs to the second shape alone,
+and there it sets a threshold rather than deciding that a rule exists.
+A detector's figure of merit is discrimination and a linter's is precision.
+The two come apart here:
+a rule catching a real defect in human and generated Polish alike
+is doing the job a linter is for and failing the job a detector is for,
+and [olski is the first of those](#limits-worth-stating-up-front).
+What no rule may do is fire on Polish that is fine.
 
 ### Abstention is allowed
 

@@ -34,7 +34,7 @@ that authors cannot feel where a whitelist's boundary lies.
 
 **Now.** A rule engine, a calibrated rule set,
 and a paired corpus of human and generated Polish
-that tells us which rules discriminate
+that tells us which rules can be trusted
 and which are merely opinions.
 See [docs/linter.md](docs/linter.md).
 
