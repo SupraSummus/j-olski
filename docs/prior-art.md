@@ -2,7 +2,6 @@
 
 Things to read before writing code,
 so that reimplementation is a choice rather than an accident.
-Nothing here is a dependency yet.
 
 Mostly resources for the optional
 [grammar track](design-notes.md).
@@ -68,7 +67,7 @@ rather than merely permits.
 a constituency treebank of Polish, aligned with Świgra's output.
 Useful as a source of test sentences
 and as evidence of which constructions actually occur.
-Now a dependency of the measurement, not of the package:
+A dependency of the measurement, not of the package:
 see [corpus.md](corpus.md) for how it is fetched and what it is allowed to prove.
 <https://zil.ipipan.waw.pl/Składnica>
 

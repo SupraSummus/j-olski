@@ -533,7 +533,7 @@ distilled from thousands of flagged articles since 2023,
 explicitly descriptive rather than prescriptive.
 It is English, and it is a model for how to organize such a catalogue.
 
-**Jasnopis** remains the Polish readability tool,
+**Jasnopis** is the Polish readability tool,
 scoring difficulty from 1 to 7 and simplifying automatically since 2023.
 Readability is adjacent to, not the same as, style linting.
 

@@ -1,7 +1,5 @@
 # Design notes
 
-These notes record design conversations from 2026-08-04.
-Nothing here is implemented yet.
 Decisions that have been taken are marked as such;
 everything still open lives in [open-questions.md](open-questions.md).
 
@@ -280,7 +278,7 @@ That curve is the experiment.
 How much real Polish per unit of formal power
 is a question with a real answer
 that nobody has computed for this grammar.
-Its first point is now computed:
+Its first point is computed:
 tier 0 admits 1.5% of Składnica,
 and [corpus.md](corpus.md) has the breakdown
 and the reasons not to over-read the figure.
@@ -465,7 +463,7 @@ whose 2020 edition characterizes nearly 456,000 Polish lexemes,
 and both are distributed under a liberal BSD licence.
 That one dependency is the difference
 between a weekend-scale core and a years-scale one,
-which is why the open lexicon is now a settled decision.
+which is why the open lexicon is a settled decision.
 
 ## The round-trip invariant
 

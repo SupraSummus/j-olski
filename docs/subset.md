@@ -1,6 +1,6 @@
 # The subset, as implemented
 
-What `olski/subset.py` currently admits,
+What `olski/subset.py` admits,
 and the decisions that shaped it.
 For the theory behind the track, see [design-notes.md](design-notes.md).
 
@@ -138,7 +138,7 @@ and a sentence that cannot satisfy it is not in the language.
 
 ## What it does not cover yet
 
-Each of these is a sentence that gets rejected today
+Each of these is a sentence that gets rejected
 and should not be:
 
 - The copula with an instrumental predicate.

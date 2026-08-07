@@ -300,9 +300,6 @@ which is what buys one engine for two registers:
 see [the fiction section of linter.md](linter.md#what-is-nevertheless-lintable-in-fiction),
 and note that which side a *technical* pack sets
 is one of the open questions it points at.
-`{side}` says which of the two fired,
-because a number alone leaves a message unable to tell a writer
-whether the text ran hot or cold.
 
 `min_units` is the same kind of floor as `min_words` above,
 and it is the one that matters here:
@@ -353,9 +350,7 @@ Plenty of things are named once because once is what they are worth,
 which is why this reports a share and not a site,
 and why no shipped pack declares a rule against it:
 the share that separates a text from a habit
-is exactly what [milestone 1](roadmap.md#milestone-1-the-calibration-harness)
-is for, and a threshold chosen before then
-is an opinion with a decimal point.
+is exactly what [milestone 1](roadmap.md#milestone-1-the-calibration-harness) is for.
 The check exists because the measurement has to come first.
 
 ## Abstention is not silence
