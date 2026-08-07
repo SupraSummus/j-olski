@@ -68,6 +68,13 @@ class Check:
     #: Field names a finding of this check can report, and therefore the
     #: placeholders a rule's message may use.
     fields: frozenset[str]
+    #: The unit a rate over this check's findings is a rate of, given a rule's
+    #: validated parameters: what the check can fire at most once per. A check
+    #: with no such bound, since a pattern matches as often as the prose gives
+    #: it cause, is counted against the quantity of prose instead. Every check
+    #: says which it is rather than inheriting a default, because a wrong
+    #: denominator is a wrong number rather than a missing one.
+    counted_over: Callable[[dict], str]
     validate: Callable[[dict, str], dict]
     run: Callable[[object, Sequence[Document]], Iterator[Outcome]]
 
@@ -88,9 +95,17 @@ class ParamError(Exception):
     """A rule's parameters do not fit the check it names."""
 
 
-def _register(name: str, fields: set[str], validate) -> Callable:
+def _register(
+    name: str, fields: set[str], validate, counted_over: Callable[[dict], str]
+) -> Callable:
     def decorate(run):
-        CHECKS[name] = Check(name=name, fields=frozenset(fields), validate=validate, run=run)
+        CHECKS[name] = Check(
+            name=name,
+            fields=frozenset(fields),
+            counted_over=counted_over,
+            validate=validate,
+            run=run,
+        )
         return run
 
     return decorate
@@ -199,6 +214,33 @@ UNIT_SPANS = {
 #: The stretches of text a rate can be measured over, widest last.
 UNITS = (*UNIT_SPANS, "corpus")
 
+#: How much of a unit one document holds, which is the denominator a firing
+#: rate is taken against. Three of these count what :data:`UNIT_SPANS` yields.
+#: ``line`` is here as well because a rule about a line end fires at most once
+#: per line, and ``word`` because a check with no such bound is counted against
+#: the quantity of prose instead. A corpus is absent for the reason it is
+#: absent above, and :func:`count_units` owns that difference.
+UNIT_COUNTS = {
+    "word": lambda document: document.word_count(),
+    #  Not ``line_count``, which counts the position after a trailing newline:
+    #  nothing is written there, so no rule can ever fire on it.
+    "line": lambda document: len(document.text.splitlines()),
+    "sentence": lambda document: len(document.sentences),
+    "paragraph": lambda document: len(document.paragraphs),
+    "document": lambda document: 1,
+}
+
+
+def count_units(unit: str, documents: Sequence[Document]) -> int:
+    """How many of a unit a corpus holds.
+
+    A corpus is one of itself rather than one per document, and none at all when
+    there is nothing in it, since a rate needs something to divide by.
+    """
+    if unit == "corpus":
+        return 1 if documents else 0
+    return sum(UNIT_COUNTS[unit](document) for document in documents)
+
 
 def _unit(params: dict, where: str, allowed: tuple[str, ...] = UNITS, default="document") -> str:
     """Validate the scope a check was pointed at, against the scopes it accepts.
@@ -275,7 +317,7 @@ def _validate_pattern(params: dict, where: str) -> dict:
     return validated
 
 
-@_register("pattern", {"match"}, _validate_pattern)
+@_register("pattern", {"match"}, _validate_pattern, lambda params: "word")
 @per_document
 def pattern(rule, document: Document) -> Iterator[Outcome]:
     """Flag every match of a regular expression.
@@ -327,6 +369,9 @@ def _validate_density(params: dict, where: str) -> dict:
     "pattern-density",
     {"count", "words", "rate", "limit", "side", "match"},
     _validate_density,
+    #  The scope the rate is measured over is the scope one finding covers, so
+    #  this is the only check whose denominator its rule chooses.
+    lambda params: params["unit"],
 )
 @needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
@@ -427,7 +472,7 @@ def _validate_line_end(params: dict, where: str) -> dict:
     return {"words": tuple(words), "case_sensitive": case_sensitive}
 
 
-@_register("line-end-word", {"word"}, _validate_line_end)
+@_register("line-end-word", {"word"}, _validate_line_end, lambda params: "line")
 @needs_plain_text
 @per_document
 def line_end_word(rule, document: Document) -> Iterator[Outcome]:
@@ -489,6 +534,9 @@ def _validate_variation(params: dict, where: str) -> dict:
     "length-variation",
     {"unit", "count", "words", "mean", "sd", "variation", "limit", "side"},
     _validate_variation,
+    #  Not the unit in the parameters: that is what the lengths vary across,
+    #  while the spread they make is a property of the whole document.
+    lambda params: "document",
 )
 @needs_plain_text
 @per_document
@@ -579,6 +627,7 @@ def _validate_recurrence(params: dict, where: str) -> dict:
     "entity-recurrence",
     {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
     _validate_recurrence,
+    lambda params: "corpus",
 )
 @needs_plain_text
 def entity_recurrence(rule, documents: Sequence[Document]) -> Iterator[Outcome]:

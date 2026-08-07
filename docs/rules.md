@@ -389,6 +389,45 @@ That is the honest claim,
 and it is the useful one,
 because the alternative is a number nobody can tell from a measurement.
 
+## A firing rate per rule
+
+`olski --format report` prints one row per rule
+instead of one line per finding:
+how often the rule fired, how often it abstained,
+how much text it measured,
+and what the firing comes to over that much.
+Every selected rule gets a row, the ones that never fired included,
+since whether a rule has anything to do
+is half of what the rate is being asked.
+
+**The denominator is what a check can fire at most once per.**
+A check reporting on a whole scope raises one finding about it,
+so its findings are counted against the scopes it was given
+and reported as a share of them;
+a rule against a word left at a line end is counted in lines the same way.
+A check with no such bound is counted against the quantity of prose instead,
+since a pattern can match twenty times in a paragraph,
+and reported per thousand words.
+Which of the two a check is, and in what unit,
+is the check's own business and `olski/checks.py` owns it.
+
+**What a rule declined comes off the denominator.**
+[Abstention is not silence](#abstention-is-not-silence),
+and it is not a firing rate of zero either:
+a rule that declined on every file measured nothing,
+so it reports no rate at all rather than a rate of zero,
+which would say it had looked.
+The abstentions have a column of their own beside the findings,
+so how much of a rule's silence was a decision stays visible.
+
+**The report is one side of a pair.**
+A firing rate says whether a rule has anything to do.
+Whether it can be trusted is the other number
+[milestone 1](roadmap.md#milestone-1-the-calibration-harness) asks for,
+and ranking rules by what they discriminate
+needs a human half to compare against,
+which no run over one body of text can supply.
+
 ## A project's own pack
 
 Any importable module or `.py` file that declares a module-level `pack` works:

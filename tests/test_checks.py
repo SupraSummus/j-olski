@@ -1,6 +1,6 @@
 import pytest
 
-from olski.checks import CHECKS, Abstain, Hit
+from olski.checks import CHECKS, Abstain, Hit, count_units
 from olski.document import Document, from_text
 from olski.rules import Pack, RuleError
 
@@ -546,6 +546,14 @@ def test_every_check_kind_is_classified_by_scope():
     #  A new check that measures a rate and forgets to say so would otherwise
     #  report a number over somebody's frontmatter, and nothing would notice.
     assert {rule.check for rule, _ in BY_SCOPE} == set(CHECKS)
+
+
+@pytest.mark.parametrize("rule", [rule for rule, _ in BY_SCOPE], ids=[r.check for r, _ in BY_SCOPE])
+def test_every_check_counts_its_findings_over_something_a_corpus_can_be_measured_in(rule):
+    #  A check naming a unit nothing counts, or reading a parameter its rules do
+    #  not carry, breaks where a report is printed rather than where the check
+    #  was written.
+    assert count_units(CHECKS[rule.check].counted_over(rule.params), corpus(LOUD)) > 0
 
 
 def test_a_mixed_corpus_is_measured_on_its_plain_files_and_declined_on_the_rest():

@@ -41,20 +41,6 @@ and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
-Every rate in [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
-except the walk-on share
-was produced by an extraction written once and thrown away,
-so the document reports numbers this repository cannot recompute.
-Milestone 1 needs the harness regardless,
-and what is left of its first half is the output format:
-the CLI reads every file into one corpus before any rule runs,
-so a per-rule firing rate over that corpus
-is a way of printing the run it already does,
-not a new subsystem.
-What that mode cannot do alone is rank rules by discrimination,
-which needs the human half of the pair,
-so it ships as a one-sided report or not at all.
-
 Nothing in this repository turns a Markdown corpus into the prose
 [the harness has to measure](docs/roadmap.md#milestone-1-the-calibration-harness),
 and the checks that measure a whole file decline rather than guess,
@@ -181,5 +167,5 @@ The move is a frozen dataclass beside `Rule` carrying whichever pair it is,
 along with the corpus the numbers came from and the date they were taken,
 with `uncalibrated` staying the default
 and the test asserting a rule is one of the two rather than any string.
-Settling it before the harness runs
-is what stops the first measurement from choosing the format by accident.
+Settling it before the first measurement is taken
+is what stops that measurement from choosing the format by accident.

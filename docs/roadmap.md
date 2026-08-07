@@ -126,11 +126,12 @@ since a rule that fires on prose already edited against detectors
 is finding something the editing did not reach.
 
 **The report.**
-A per-rule firing rate over a corpus.
-The command line tool reads every file into one corpus before any rule runs,
-so the one-sided half of this is a way of printing the run it already does,
-and [TODO.md](../TODO.md) holds what is left of it.
-Ranking rules against each other needs both halves.
+A per-rule firing rate over a corpus, which `olski --format report` prints:
+the command line tool reads every file into one corpus before any rule runs,
+so the one-sided half of this is a way of printing the run it already does.
+Ranking rules against each other needs both halves,
+and [rules.md](rules.md#a-firing-rate-per-rule)
+holds what the one-sided half can and cannot say.
 
 ### Two numbers, and the two questions behind them
 

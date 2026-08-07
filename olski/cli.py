@@ -5,21 +5,31 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections.abc import Sequence
+from collections import Counter, defaultdict
+from collections.abc import Iterable, Sequence
 from pathlib import Path
 from textwrap import fill
 
 from olski import __version__
-from olski.checks import NOT_PLAIN_TEXT, ParamError
+from olski.checks import NOT_PLAIN_TEXT, ParamError, count_units
 from olski.document import TEXT_SUFFIXES, Document
-from olski.engine import Report, lint_corpus, lint_text, read
+from olski.engine import Report, Tally, lint_corpus, lint_text, read
 from olski.rules import PACK_PACKAGE, Rule, RuleError, load_packs, select
 
 USAGE = """
   olski text.txt                 lint a file
   olski notes/ --explain         lint a directory, with each rule's reasoning
+  olski notes/ --format report   what each rule did over the corpus
   olski --list-rules             show the rules that would run
 """
+
+#: What a firing rate cannot say. Printed under every report as well as in the
+#: help, because a table pasted somewhere else arrives without the help text.
+ONE_SIDED = (
+    "A firing rate says whether a rule has anything to do, not whether it can be "
+    "trusted, and ranking rules by what they discriminate needs the human half of "
+    "the pair; see docs/roadmap.md#milestone-1-the-calibration-harness."
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -53,9 +63,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--format",
-        choices=("text", "json"),
+        choices=("text", "json", "report"),
         default="text",
-        help="output format (default: text)",
+        help="output format (default: text). 'report' gives a per-rule firing rate "
+        f"over the corpus. {ONE_SIDED}",
     )
     parser.add_argument(
         "--explain",
@@ -114,6 +125,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.format == "json":
         json.dump(_as_json(report, args), out, ensure_ascii=False, indent=2)
         out.write("\n")
+    elif args.format == "report":
+        _write_report(report, out, args, rules)
     else:
         _write_text(report, out, args)
 
@@ -210,8 +223,99 @@ def _summary(report: Report) -> str:
     )
 
 
+#: Nouns in the output whose plural is not the singular with an s.
+PLURALS = {"corpus": "corpora"}
+
+
 def _count(number: int, noun: str) -> str:
-    return f"{number} {noun}" if number == 1 else f"{number} {noun}s"
+    return f"{number} {noun}" if number == 1 else f"{number} {PLURALS.get(noun, noun + 's')}"
+
+
+#: The report's columns, and which way each one reads: a name from the left, a
+#: number from the right.
+REPORT_COLUMNS = (
+    ("rule", "<"),
+    ("fired", ">"),
+    ("abstained", ">"),
+    ("measured", ">"),
+    ("rate", ">"),
+)
+
+
+def _write_report(report: Report, out, args, rules: list[Rule]) -> None:
+    """Print what each rule did over the corpus, one row per rule.
+
+    Ordered by rule id rather than by rate. The rates are in different units, so
+    sorting on them would rank a share of documents against a count per thousand
+    words, and a fixed order is what lets two runs be put side by side.
+    """
+    out.write(
+        f"{_count(len(report.documents), 'file')}, "
+        f"{_count(count_units('word', report.documents), 'word')}, "
+        f"{_count(len(rules), 'rule')}\n\n"
+    )
+    ordered = sorted(report.tally(rules), key=lambda tally: tally.rule.id)
+    out.write(_table(_cells(tally) for tally in ordered))
+    if args.show_abstentions:
+        _write_reasons(report, out)
+    out.write("\n" + fill(ONE_SIDED, width=76) + "\n")
+
+
+def _cells(tally: Tally) -> tuple[str, ...]:
+    """One rule's row, in the order :data:`REPORT_COLUMNS` names the columns."""
+    return (
+        tally.rule.id,
+        str(tally.findings),
+        str(tally.abstentions),
+        _count(tally.measured, tally.unit),
+        _rate(tally),
+    )
+
+
+def _rate(tally: Tally) -> str:
+    """How often a rule fired over what it measured.
+
+    A share where the check fires at most once per unit, and a rate per thousand
+    words where it has no such bound and fires as often as the prose gives it
+    cause. An em dash where the rule measured nothing, since a rule that
+    declined everywhere has no rate, and 0 is the answer of a rule that looked.
+    """
+    if tally.rate is None:
+        return "—"
+    if tally.unit == "word":
+        return f"{1000 * tally.rate:.1f} per 1000"
+    return f"{tally.rate:.1%}"
+
+
+def _table(rows: Iterable[Sequence[str]]) -> str:
+    """Lay rows out under the column headings, each column as wide as it needs."""
+    headings = tuple(heading for heading, _ in REPORT_COLUMNS)
+    lines = [headings, *rows]
+    widths = [max(len(cell) for cell in column) for column in zip(*lines, strict=True)]
+    return "".join(
+        "  ".join(
+            f"{cell:{align}{width}}"
+            for cell, (_, align), width in zip(line, REPORT_COLUMNS, widths, strict=True)
+        ).rstrip()
+        + "\n"
+        for line in lines
+    )
+
+
+def _write_reasons(report: Report, out) -> None:
+    """Why each rule that abstained did, with the reasons counted.
+
+    A run over a corpus repeats one reason as often as it has files, so what a
+    reader can use is the reason and how often it came up rather than a line
+    per file.
+    """
+    reasons: dict[str, Counter] = defaultdict(Counter)
+    for abstention in report.abstentions:
+        reasons[abstention.rule.id][abstention.reason] += 1
+    for rule_id in sorted(reasons):
+        out.write(f"\n{rule_id} abstained:\n")
+        for reason, count in reasons[rule_id].most_common():
+            out.write(_indent(f"{count}  {reason}"))
 
 
 def _list_rules(rules: list[Rule], out, explain: bool) -> None:
