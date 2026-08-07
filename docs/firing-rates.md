@@ -26,7 +26,8 @@ The remaining eight rules come out of the two bodies ranked differently,
 which is the reason for reading both.
 `quote-english` finds nothing in either,
 for the reason `quote-straight` finds nothing in the first.
-`orphan-single-letter-word` fires 136 times across the two and finds no defect,
+`orphan-single-letter-word` reads 295 of the 365 files and fires nought times,
+having declined the other 70 as text whose line ends are not a page's,
 and `trailing-space` finds a table in the first body
 and cannot fire at all in the second.
 Four rules do point at the defect they name somewhere,
@@ -114,9 +115,11 @@ The delimiter occurs exactly once in each of the 326 files,
 so the cut is settled rather than guessed at,
 and what it removes is worth a number rather than a shrug.
 Write the second half of the same split to a second tree and lint that,
-and the notices report 12 straight quotation marks,
-12 runs of two or more spaces and 7 line-end orphans over 64,468 words,
+and the notices report 12 straight quotation marks
+and 12 runs of two or more spaces over 64,468 words,
 which is what the trim keeps out of every number below.
+The line-end rule declines all 326 of them,
+each notice being a set of paragraphs on a line apiece.
 
 The files are CRLF throughout, and no rule sees it,
 because `Path.read_text` translates line endings before a document is built.
@@ -187,7 +190,7 @@ double-space                       139          0  1940517 words  0.1 per 1000
 em-dash-density                     21        287   39 documents         53.8%
 missing-space-after-full-stop       11          0  1940517 words  0.0 per 1000
 missing-space-after-punctuation     31          0  1940517 words  0.0 per 1000
-orphan-single-letter-word          124          0   107280 lines          0.1%
+orphan-single-letter-word            0         31     5481 lines          0.0%
 quote-english                        0          0  1940517 words  0.0 per 1000
 quote-straight                       0          0  1940517 words  0.0 per 1000
 space-before-punctuation            67          0  1940517 words  0.0 per 1000
@@ -204,7 +207,7 @@ double-space                        88          0   38937 words   2.3 per 1000
 em-dash-density                      7          9  30 documents          23.3%
 missing-space-after-full-stop      156          0   38937 words   4.0 per 1000
 missing-space-after-punctuation    205          0   38937 words   5.3 per 1000
-orphan-single-letter-word           12          0    4778 lines           0.3%
+orphan-single-letter-word            0         39       0 lines              —
 quote-english                        0          0   38937 words   0.0 per 1000
 quote-straight                     750          0   38937 words  19.3 per 1000
 space-before-punctuation             7          0   38937 words   0.2 per 1000
@@ -222,7 +225,7 @@ and one writer's habit from the corpus:
 | `em-dash-density` | 11 of 11 | 10 of 20 | 0 of 8 | 0 of 326 | 5 of 24 | 2 of 6 |
 | `missing-space-after-full-stop` | 3 | 8 | 0 | 1 | 156 | 0 |
 | `missing-space-after-punctuation` | 0 | 31 | 0 | 0 | 10 | 195 |
-| `orphan-single-letter-word` | 35 | 89 | 0 | 7 | 4 | 8 |
+| `orphan-single-letter-word` | declined | declined | 0 | declined | declined | declined |
 | `quote-english` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `quote-straight` | 0 | 0 | 0 | 12 | 312 | 438 |
 | `space-before-punctuation` | 10 | 57 | 0 | 0 | 4 | 3 |
@@ -262,13 +265,24 @@ is [the last of the readings below](#quote-straight-fired-750-times-and-was-righ
 ## What the hits over published Polish turned out to be
 
 A rule whose answer depends on the site owes an audit rather than a rate.
-All 482 site-anchored hits over Wolne Lektury were classified,
+All 358 site-anchored hits over Wolne Lektury were classified,
 and each class read.
 
-### `orphan-single-letter-word` fired 124 times and found nothing
+### `orphan-single-letter-word` reads one stratum of the three
 
-Not one of the 124 is a one-letter word left at the end of a line,
-because nothing that lays out a page broke a line in this corpus.
+The rule measures the 5,481 lines of `wiersze`,
+which are lines a poet wrote as lines,
+and fires nought times over them.
+It declines the 31 files of `proza` and `wykład`,
+where the export sets a paragraph on a line however long it runs,
+so that a newline there is a paragraph break
+and the premise the rule needs is absent.
+
+Both of those come out of an audit,
+and the audit is the reason to believe them.
+With case folded and no precondition on the document,
+the rule fires 124 times over all 326 files,
+and not one of the 124 is a one-letter word left at the end of a line.
 
 | hits | | what it is |
 | --- | --- | --- |
@@ -278,20 +292,53 @@ because nothing that lays out a page broke a line in this corpus.
 | 5 | 4% | a line of verse quoted inside criticism, broken where the poet broke it |
 | 3 | 2% | the abbreviation `w.` for *wiek* |
 
-The largest class is a parameter meeting Polish:
-`case_sensitive=False` folds `I` into the listed `i`,
-and Polish numbers its chapters in Roman.
-The second is the rule's premise failing rather than the rule misreading anything —
+The largest class is a fold meeting Polish:
+folding case reads the listed `i` into the numeral
+Polish counts its chapters and its monarchs in.
+So the rule's list is lower case,
+and what that costs is the sentence opening on `A` or `W`
+at the very end of a line.
+The second class is the premise failing rather than the rule misreading anything —
 a word at the end of a paragraph has nothing after it to be separated from,
 so there is no orphan whatever the measure of the line.
+The fourth is the premise holding
+in the one place in these two strata where it does,
+and it is inside a file of prose that is declined around it,
+which is what a per-file precondition costs:
+`wyka-rzecz-wyobrazni` quotes the verse it discusses,
+and one answer for the file has to be the careful one.
 The third and fifth are a tokenizer question:
-neither the `a` after an apostrophe nor the `w` of `w.` is a word.
+neither the `a` after an apostrophe nor the `w` of `w.` is a word,
+and [TODO.md](../TODO.md) holds them.
 
-The `wiersze` stratum is where the premise holds,
-its 5,481 lines being lines a poet wrote as lines,
-and there the rule fires nought times.
-The rule found nothing wherever it could have been right
-and 124 things wherever it could not.
+What tells the strata apart is how many of a file's paragraphs run past one line:
+
+```sh
+python3 -c '
+import pathlib, statistics
+from olski.document import from_text
+for name in ("proza", "wyklad", "wiersze"):
+    shares = []
+    for f in sorted(pathlib.Path("polszczyzna", name).glob("*.txt")):
+        d = from_text(f.read_text(encoding="utf-8"))
+        shares.append(sum("\n" in d.slice(p) for p in d.paragraphs) / len(d.paragraphs))
+    print(name, f"{min(shares):.2f}", f"{statistics.median(shares):.2f}", f"{max(shares):.2f}")'
+```
+
+`proza` runs from 0.00 to 0.02 and `wykład` from 0.00 to 0.24,
+against 0.50 to 0.93 for `wiersze`,
+and `HARD_WRAP_SHARE` in `olski/document.py` sits at 0.3.
+It sits at the low end of that gap because the same files as downloaded
+put `wiersze` at 0.36,
+the library's notice being a run of one-line paragraphs
+appended to a short poem.
+
+So the rule found nothing wherever it could have been right,
+and 124 things wherever it could not,
+and it declines the second kind of place instead of reporting from it.
+What that leaves is a rule with a firing rate over one stratum of verse
+and no false-positive rate over prose at all,
+because no body of prose in either corpus is laid out in lines.
 
 ### `double-space` and `trailing-space` measured two tables
 
@@ -346,7 +393,7 @@ and one an initial running into a surname, `Pan J. St.Mill`.
 
 ## What the hits over the audit corpus turned out to be
 
-All 1,218 site-anchored hits over the audit corpus were classified as well.
+All 1,206 site-anchored hits over the audit corpus were classified as well.
 One class runs through four of the rules and is named once here.
 
 **A table written without leading pipes reaches the prose whole.**
@@ -359,28 +406,32 @@ Four of that member's seven documents carry such a table,
 and each row arrives as part of one long line holding the cells,
 the tabs between them, the `<br>` tags inside them
 and the JSON examples the cells quote.
-553 of the corpus's 1,218 site-anchored findings stand inside those four files,
+553 of the corpus's 1,206 site-anchored findings stand inside those four files,
 which is one gap in one extraction
 producing more hits than every rule's real defects put together.
 
-### `orphan-single-letter-word` fired 12 times and found nothing either
+### `orphan-single-letter-word` declines all 39 files
 
-The rule that found no defect in 124 hits over published Polish
-finds none in 12 here, and for the same reason:
-joining a paragraph onto one line
-leaves the end of a paragraph as the only line end there is.
+Joining a paragraph onto one line
+leaves the end of a paragraph as the only line end there is,
+so every file here fails the precondition
+and the rule measures none of them.
+
+Run without it, the rule fires 12 times and finds no defect:
 
 | hits | | what it is |
 | --- | --- | --- |
 | 7 | 58% | a one-letter word ending a paragraph, five of them a preposition introducing the list below it: `złożony z:`, `chodzi więc o:` |
 | 5 | 42% | a designator or an abbreviation: `XAdES-A`, `w kontekście podmiotu A.`, `Betacom S.A.` |
 
-Neither class is new.
-The first is the premise failing, as it does over Wolne Lektury,
-and the second is the one
-[extraction.md](extraction.md#after-joining-a-line-end-rule-measures-a-different-line)
-reads out of the rule over a body of notes.
-136 hits across the two corpora have produced no instance of the defect,
+Neither class is new,
+and between them they are the two things the rule now does differently.
+The first is the premise failing, as it does over Wolne Lektury.
+The second is a capital `A`, which a lower-case list does not match,
+and it is the class
+[extraction.md](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
+reads out of the rule over a body of notes as well.
+136 hits across the two corpora produced no instance of the defect,
 and the one stratum where the premise held produced no hits.
 
 ### `missing-space-after-punctuation` read a table and a raw tag
@@ -575,8 +626,10 @@ and the rate column reads `—`.
 That is the intended answer,
 and it is a different answer from the `0.0%`
 the same rule prints over the `wiersze` stratum.
-It is also the answer the extraction exists to make unnecessary:
-over the prose the same two rules reach 30 documents and 4,778 lines.
+What the extraction then does is answer for one of the two and not the other:
+over the prose `em-dash-density` reaches 30 of the documents,
+where the line-end rule declines all 39 a second time,
+joining having left it one paragraph to a line.
 What the next two decisions settle is what that `0.0%` is a share of.
 
 **The denominator is what the rule could reach rather than what the corpus held.**
@@ -617,14 +670,15 @@ with less evidence behind it than `min_count` asks for.
 That one file is the only place in either body
 where the report tells the two floors apart.
 
-The `orphan-single-letter-word` row shows a denominator going wrong the other way.
-Its Wolne Lektury denominator of 107,280 lines
-is 101,799 lines of the prose strata,
-where a line is a paragraph or the blank between two,
-and 5,481 lines of verse.
-Only the second kind is a line in the sense the rule means.
-The unit is right about what the check can fire at most once per
-and wrong about what the rule is asking.
+The `orphan-single-letter-word` row is the other half of the same point:
+a unit can be right about the check and wrong about the rule.
+The unit counts what the check can fire at most once per, which is a line,
+and 101,799 of this corpus's 107,280 lines
+are paragraphs of the prose strata or the blanks between them.
+Only the remaining 5,481 are lines in the sense the rule means.
+What keeps the others out of the rate is not the unit but the refusal:
+the rule declines those 31 files whole,
+and a file declined whole takes its lines with it.
 
 ## What these numbers are not
 
@@ -648,7 +702,7 @@ The audit corpus is that stage and fails the other half of the demand.
 It is two repositories where
 [corpora.md](corpora.md#the-composition-this-argues-for) asks for a list of them,
 one of its files supplies nine tenths of one member's quotation marks,
-and 553 of its 1,218 findings come from a single gap in the extraction
+and 553 of its 1,206 findings come from a single gap in the extraction
 rather than from anything a writer did.
 The same passage asks a rate rule for a distribution over prose somebody edited,
 and twenty documents from one library's public-domain holdings

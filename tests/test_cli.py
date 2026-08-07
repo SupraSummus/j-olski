@@ -12,8 +12,11 @@ TEN_WORDS = 'Kliknij przycisk "Zapisz" i zamknij okno "Ustawienia" w tym module.
 
 #: 200 words of clean Polish, over the 150 the pack's one rate rule asks for
 #: before it reports a number. Every shorter fixture here makes that rule decline,
-#: so a report over one says nothing about what it measures.
-LONG_ENOUGH = " ".join(["Program zapisuje ustawienia w pliku."] * 40) + "\n"
+#: so a report over one says nothing about what it measures. Laid out one sentence
+#: to a line, because a rule reading a line end declines on a file that runs a
+#: paragraph past any measure, and this fixture is here for the runs where every
+#: rule answers.
+LONG_ENOUGH = "\n".join(["Program zapisuje ustawienia w pliku."] * 40) + "\n"
 
 
 def write(tmp_path, name, text):

@@ -444,6 +444,8 @@ are corrected along with the counts, or the audit stops describing the pack.
 
 The same holds for the figures in
 [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
+the pairs per rule in
+[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
 the ones over the Markdown corpus in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
 the sizes in

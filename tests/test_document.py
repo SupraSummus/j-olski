@@ -111,6 +111,17 @@ def test_excerpt_collapses_whitespace_and_truncates():
     assert document.excerpt(Span(0, 13), limit=6) == "ala m…"
 
 
+def test_one_quoted_poem_does_not_make_a_novel_laid_out_in_lines():
+    #  The case the threshold exists for. An export sets each paragraph on a line
+    #  of its own, and a novel quoting verse has a handful that run past one, so
+    #  the reading is a share and not the presence of a single multi-line
+    #  paragraph. docs/firing-rates.md owns the distribution behind the number.
+    export = "\n\n".join(["Akapit stoi w jednej linii."] * 9 + ["Wers pierwszy,\nwers drugi."])
+    assert from_text(export).hard_wrapped is False
+    verse = "\n\n".join(["Wers pierwszy,\nwers drugi."] * 2 + ["Podpis."])
+    assert from_text(verse).hard_wrapped is True
+
+
 @pytest.mark.parametrize(
     ("name", "plain"),
     [

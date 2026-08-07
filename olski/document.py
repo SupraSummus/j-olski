@@ -1,11 +1,16 @@
 """The object every rule sees.
 
 Input is plain Polish text: every character is prose, and every newline is a
-real one. Those are two separate guarantees with one source — the file's format —
-and :attr:`Document.plain_text` is where a check goes to ask for them. A
-markup-aware source would answer both questions properly rather than trivially,
-by carrying prose spans and a break policy; lacking one, a file olski does not
-read has neither answer and says so.
+real one. Those are two separate guarantees, and they are not evidenced the same
+way. :attr:`Document.plain_text` answers the first from the file's format, which
+is the only evidence there is that a character is prose rather than apparatus.
+:attr:`Document.hard_wrapped` answers the second from the text itself, because a
+format cannot say where a line ends: a plain-text export that sets a paragraph on
+one line however long it runs puts newlines nowhere near a page's line breaks.
+
+A markup-aware source would answer the first question properly rather than
+trivially, by carrying prose spans; lacking one, a file olski does not read has no
+answer and says so.
 """
 
 from __future__ import annotations
@@ -72,6 +77,13 @@ TOKEN_REACH = 12
 #: numeral that ends a sentence.
 NEXT_WORD = re.compile(r"\s*(\w)", re.UNICODE)
 
+#: How many of a document's paragraphs have to run past a single line before its
+#: newlines count as the line breaks a reader sees. The number sits in a gap that
+#: was measured rather than assumed, and docs/firing-rates.md owns the distribution
+#: it was read off and the command that prints it. Line length is what this is not:
+#: a short file carries its provenance notice in lines longer than any of its verse.
+HARD_WRAP_SHARE = 0.3
+
 
 @dataclass(frozen=True)
 class Span:
@@ -126,6 +138,31 @@ class Document:
         """Yield ``(line_number, span)`` for every line, newline excluded."""
         for number in range(1, self.line_count + 1):
             yield number, self.line_span(number)
+
+    @property
+    def hard_wrapped(self) -> bool:
+        """Whether the newlines in the text are the line breaks a reader sees.
+
+        A document laid out in lines has paragraphs that run past one line, and it
+        does not matter whether a wrapper put the breaks there or a poet did:
+        either way a word at the end of a line is at the end of a line for the
+        reader. A document that sets each paragraph on a line of its own has
+        newlines that are paragraph breaks, and a word before one of those has
+        nothing after it to be separated from.
+
+        This is what a check reading a line end asks for, and it is asked of the
+        text because a suffix cannot answer it. A document of both kinds — the
+        criticism that quotes the verse it discusses — is declined along with the
+        prose, one answer per file having to be the careful one.
+
+        What this cannot see is a document that separates its paragraphs with a
+        single newline instead of a blank line, since the paragraphs then read as
+        one and one paragraph running past a line is all this asks for.
+        """
+        if not self.paragraphs:
+            return False
+        over_a_line = sum(1 for span in self.paragraphs if "\n" in self.slice(span))
+        return over_a_line > HARD_WRAP_SHARE * len(self.paragraphs)
 
     def slice(self, span: Span | None = None) -> str:
         return self.text if span is None else self.text[span.start : span.end]

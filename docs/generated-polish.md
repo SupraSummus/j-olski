@@ -171,12 +171,17 @@ A rule that would have said *this is too short to measure*
 reports a number instead.
 
 **A rule about where a line ends is simply wrong on a hard-wrapped file.**
-`orphan-single-letter-word` reports 56 findings across the two bodies,
+`orphan-single-letter-word` reports 27 findings across the two bodies,
+10 over the notes and 17 over the memoir,
 and every one of them is a letter that stands mid-line for every reader,
 since a single newline in Markdown is a space.
-Seven are the `I` numbering a chapter heading.
-What the same rule reports over the prose is
-[a different and usable number](extraction.md#after-joining-a-line-end-rule-measures-a-different-line).
+The rule's own precondition catches 183 of the 527 notes and none of the memoir,
+which is the second guarantee failing where the first one already has:
+those notes set each paragraph on a line.
+The other 344 are wrapped,
+so nothing but the suffix says their line ends are not a reader's.
+Over the extracted prose the rule declines every file and reports
+[nothing at all](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read).
 
 The three effects sort by how much of a document a rule has to look at,
 which is the line the engine draws.

@@ -11,7 +11,7 @@ from pathlib import Path
 from textwrap import fill
 
 from olski import __version__
-from olski.checks import CHECKS, NOT_PLAIN_TEXT, ParamError, count_units
+from olski.checks import CHECKS, ParamError, count_units
 from olski.document import Document, is_plain_text
 from olski.engine import Report, Tally, lint_corpus, lint_text, read
 from olski.rules import OWED, PACK_PACKAGE, Rule, RuleError, Uncalibrated, load_packs, select
@@ -168,8 +168,13 @@ def _note_markup(report: Report) -> None:
     otherwise read as a run over prose that happened to find less. Counted off
     the report rather than off the input, because a run that selected only the
     rules a character settles lost nothing and needs no notice.
+
+    Which files are markup is read off the documents rather than off the reason a
+    rule gave, because a file is markup or it is not whatever any check says, and
+    a rule can decline plain text for reasons of its own.
     """
-    declined = {a.path for a in report.abstentions if a.reason == NOT_PLAIN_TEXT}
+    markup = {document.path for document in report.documents if not document.plain_text}
+    declined = {a.path for a in report.abstentions} & markup
     if not declined:
         return
     print(

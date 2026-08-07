@@ -18,7 +18,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.checks import NOT_PLAIN_TEXT, Abstain, Hit, count_units, get_check
+from olski.checks import Abstain, Hit, count_units, get_check
 from olski.document import Document, Span, from_text, is_plain_text
 from olski.rules import Rule
 
@@ -42,6 +42,9 @@ class Abstention:
     rule: Rule
     path: str
     reason: str
+    #: Whether the rule declined the file rather than one scope in it. See
+    #: :class:`olski.checks.Abstain`, which is where a check says so.
+    whole_file: bool = False
 
 
 @dataclass(frozen=True)
@@ -104,8 +107,10 @@ def _tally(
     unit = get_check(rule.check, f"rule {rule.id}").counted_over(rule.params)
     #  Both kinds of abstention come off the denominator, and they differ in how
     #  much they take with them: a rule that declined a file never saw the scopes
-    #  in it, where one that declined a scope saw that scope and no other.
-    whole_files = [a for a in abstentions if a.reason == NOT_PLAIN_TEXT]
+    #  in it, where one that declined a scope saw that scope and no other. Which
+    #  of the two it was rides along on the abstention, because it is the check
+    #  that knows and a reason string only reads as though it said.
+    whole_files = [a for a in abstentions if a.whole_file]
     unread = {abstention.path for abstention in whole_files}
     scopes = count_units(unit, [d for d in documents if d.path not in unread])
     return Tally(
@@ -129,7 +134,9 @@ def lint_corpus(documents: Sequence[Document], rules: Iterable[Rule]) -> Report:
         for outcome in check.run(rule, documents):
             if isinstance(outcome, Abstain):
                 path = outcome.document.path if outcome.document else CORPUS
-                report.abstentions.append(Abstention(rule, path, outcome.reason))
+                report.abstentions.append(
+                    Abstention(rule, path, outcome.reason, outcome.whole_file)
+                )
             elif isinstance(outcome, Hit):
                 report.findings.append(_finding(rule, outcome))
     return report

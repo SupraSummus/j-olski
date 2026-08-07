@@ -18,7 +18,10 @@ The scope a check needs also decides which input it can answer about at all. A
 check that points at one site is answerable on a file of any format, because the
 reader can look at the site and judge it. A check that measures the whole of a
 document is measuring that document's markup along with its prose, so it says so
-with :func:`needs_plain_text`.
+with :func:`needs_plain_text`. A check reading a line end needs one thing more,
+which no format promises and the text itself answers, and asks for it with
+:func:`needs_hard_wrap`. Both are built by :func:`precondition` and both decline
+the whole file, since a file that fails such a test fails it everywhere.
 """
 
 from __future__ import annotations
@@ -53,10 +56,17 @@ class Abstain:
 
     ``document`` is the file the refusal belongs to, and ``None`` when the rule
     was measuring the corpus and no single file owns the answer.
+
+    ``whole_file`` is how much the refusal covers. A precondition on the file means
+    the rule never saw the scopes in it, where a floor on one scope means it saw
+    that scope and no other, and the engine subtracts the two differently. The
+    check that declined is what knows which of them this is, so it says so here
+    rather than leaving a caller to read it back out of the reason.
     """
 
     reason: str
     document: Document | None = None
+    whole_file: bool = False
 
 
 Outcome = Hit | Abstain
@@ -136,41 +146,64 @@ def _register(
 #: Why a check that has to look at a whole document declines on one whose format
 #: olski does not read. One reason for every such check, because the cause is the
 #: same and which guarantee a given rule wanted is in that rule's justification.
-#: It is also how a caller picks this abstention out from the others.
 NOT_PLAIN_TEXT = (
     "this file is not plain text, and olski reads no other format, so it cannot "
     "vouch for the text as prose laid out as written"
 )
 
+#: Why a check that reads a line end declines on a document whose newlines are not
+#: the reader's line breaks. The reason names the evidence rather than the cause,
+#: since the evidence is what somebody can check against the file.
+NOT_HARD_WRAPPED = (
+    "this file sets its paragraphs on a line each, so its newlines are paragraph "
+    "breaks rather than the line breaks a reader sees"
+)
 
-def needs_plain_text(run) -> Callable:
-    """Decline on documents whose whole text olski cannot vouch for.
 
-    A count is a count of something, and in a markup file the something takes in
-    the frontmatter, the headings and the link lists. The error that makes is not
-    a bias anyone could discount later — docs/generated-polish.md measures one
-    rule reading a quarter high over one body of Markdown and true over another
-    by the same writer — so this declines instead.
+def precondition(holds: Callable[[Document], bool], reason: str) -> Callable:
+    """Build a decorator declining every document that fails a test on the file.
+
+    A guarantee a check needs of a whole file is asked for the same way whichever
+    guarantee it is, so there is one walk rather than one per precondition, and a
+    check that needs one is written as though every document had it. The refusal
+    covers the whole file, because a document failing the test fails it for every
+    scope in it.
 
     The documents that do carry the guarantee are passed through, so a run over
     a mixed directory measures what it can and says what it skipped.
     """
 
-    @wraps(run)
-    def over_prose(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
-        prose = []
-        for document in documents:
-            if document.plain_text:
-                prose.append(document)
-            else:
-                yield Abstain(NOT_PLAIN_TEXT, document=document)
-        # Nothing left to measure is not the same thing as a corpus too small to
-        # measure over, and handing an empty one down says the second: a check
-        # with a floor would add its own abstention on top of the ones above.
-        if prose:
-            yield from run(rule, prose)
+    def decorate(run):
+        @wraps(run)
+        def over_qualifying(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
+            kept = []
+            for document in documents:
+                if holds(document):
+                    kept.append(document)
+                else:
+                    yield Abstain(reason, document=document, whole_file=True)
+            # Nothing left to measure is not the same thing as a corpus too small
+            # to measure over, and handing an empty one down says the second: a
+            # check with a floor would add its own abstention on top of these.
+            if kept:
+                yield from run(rule, kept)
 
-    return over_prose
+        return over_qualifying
+
+    return decorate
+
+
+#: A count is a count of something, and in a markup file the something takes in
+#: the frontmatter, the headings and the link lists. The error that makes is not
+#: a bias anyone could discount later — docs/generated-polish.md measures one
+#: rule reading a quarter high over one body of Markdown and true over another
+#: by the same writer — so a check measuring a whole scope declines instead.
+needs_plain_text = precondition(lambda document: document.plain_text, NOT_PLAIN_TEXT)
+
+#: What a check reading a line end asks on top of the format, the format having no
+#: answer to it. docs/rules.md owns why a suffix is weaker evidence than it reads
+#: as, and docs/firing-rates.md is what trusting it cost.
+needs_hard_wrap = precondition(lambda document: document.hard_wrapped, NOT_HARD_WRAPPED)
 
 
 def per_document(run) -> Callable:
@@ -500,7 +533,7 @@ def _scopes(documents: Sequence[Document], unit: str) -> Iterator[_Scope]:
 # line-end-word: Polish typography, and the abstention that goes with it.
 # --------------------------------------------------------------------------- #
 
-LINE_END_PARAMS = {"words", "case_sensitive"}
+LINE_END_PARAMS = {"words"}
 
 
 def _validate_line_end(params: dict, where: str) -> dict:
@@ -508,10 +541,7 @@ def _validate_line_end(params: dict, where: str) -> dict:
     words = params.get("words")
     if not isinstance(words, list) or not words or not all(isinstance(w, str) and w for w in words):
         raise ParamError(f"{where}: 'words' must be a non-empty list of words")
-    case_sensitive = params.get("case_sensitive", False)
-    if not isinstance(case_sensitive, bool):
-        raise ParamError(f"{where}: 'case_sensitive' must be true or false")
-    return {"words": tuple(words), "case_sensitive": case_sensitive}
+    return {"words": tuple(words)}
 
 
 @_register(
@@ -522,26 +552,35 @@ def _validate_line_end(params: dict, where: str) -> dict:
     calibrated_by=AUDIT,
 )
 @needs_plain_text
+@needs_hard_wrap
 @per_document
 def line_end_word(rule, document: Document) -> Iterator[Outcome]:
     """Flag listed words left at the end of a line.
 
     Polish typography does not leave a one-letter conjunction or preposition
     hanging at a line end. Whether that has happened depends on where lines
-    actually break in the output, which is why this is one of the checks that
-    needs a plain-text document: a source line of a format that reflows says
-    nothing about the rendered line, and guessing would flag correct text.
+    actually break in the output, so this asks two things of a document before
+    measuring it. The format has to be one olski reads, since a source line of a
+    format that reflows says nothing about the rendered line. And the lines
+    themselves have to be lines, which the format does not answer and the text
+    does; docs/firing-rates.md is what trusting the format for the second cost.
+
+    Words are matched as written, so a rule lists the forms it means. Folding case
+    is what a list of one-letter words cannot afford: `I` is the numeral Polish
+    counts its chapters and its monarchs in, which was the largest class in that
+    audit, while `A` labels a section and `W` is the watt. What the fold would buy
+    is a sentence opening on a one-letter word at the very end of a line, which is
+    rarer than any of the three, so a lower-case list is the trade and the
+    omission is deliberate.
     """
     words = rule.params["words"]
-    lookup = words if rule.params["case_sensitive"] else tuple(w.lower() for w in words)
     for number, span in document.lines():
         if number == document.line_count and not document.slice(span).strip():
             continue
         last = _last_word(document.slice(span))
         if last is None:
             continue
-        candidate = last.group() if rule.params["case_sensitive"] else last.group().lower()
-        if candidate in lookup:
+        if last.group() in words:
             hit = Span(span.start + last.start(), span.start + last.end())
             yield Hit(hit, {"word": document.slice(hit)})
 
