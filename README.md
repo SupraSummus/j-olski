@@ -103,8 +103,10 @@ which is why the plain-Polish rules are not written as patterns.
 Nine rules, all tier A, all marked `uncalibrated`,
 because none of them has been measured against human Polish
 and a threshold without that measurement is an opinion with a decimal point.
-The report mode is the half of that measurement a single run can produce:
-how often each rule fired over a whole corpus, and over how much of it.
+The report mode is the half of that measurement a single run can produce —
+how often each rule fired over a whole corpus, and over how much of it —
+and [docs/firing-rates.md](docs/firing-rates.md) is what it printed
+over two bodies of Polish somebody wrote.
 Input is plain Polish text.
 A file in a markup format gets the rules a character settles,
 and abstentions from the rules that would otherwise measure its apparatus.
@@ -139,6 +141,10 @@ a roadmap, and open questions.
   which Polish is obtainable for the human half,
   what each candidate corpus records about its register, provenance and licence,
   and the composition the survey argues for
+- [docs/firing-rates.md](docs/firing-rates.md) —
+  what the typography pack does over Polish somebody wrote,
+  what its hits turn out to be when they are read,
+  and why a rate of nought can mean the corpus rather than the rule
 - [docs/roadmap.md](docs/roadmap.md) —
   milestones and their exit criteria
 - [docs/prose-linters.md](docs/prose-linters.md) —

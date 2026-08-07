@@ -367,13 +367,23 @@ and `tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
 fail to collect,
 which stops the whole run rather than a part of it.
 
-One more check applies to a change in the grammar
-or in the readings it is given.
-The tables in [`docs/corpus.md`](docs/corpus.md) are the output of a run
-over a corpus no test can reach,
-so such a change moves numbers nothing will catch.
+Two more checks apply where a change moves a number
+that lives in a document because no test can reach it.
+Each names the document, and each is part of the change rather than after it.
+
+A change in the grammar or in the readings it is given
+moves the tables in [`docs/corpus.md`](docs/corpus.md),
+which are the output of a run over a treebank the suite does not hold.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
+
+A change in the typography pack, in a check,
+or in what counts as a word, a line or a sentence
+moves the tables in [`docs/firing-rates.md`](docs/firing-rates.md) the same way.
+Refetch as that document says and rerun the commands it prints.
+A change to a threshold or an exemption also moves what the hits *are*,
+so the classes that document reports having read
+are corrected along with the counts, or the audit stops describing the pack.
 
 ## Code
 
