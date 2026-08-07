@@ -142,6 +142,25 @@ def test_paragraph_unit_measures_each_paragraph_separately():
     assert found[0].span.start == text.index("—")
 
 
+per_sentence = pack.rule(
+    id="test-sentence-density",
+    check="pattern-density",
+    params=dict(pattern=r"—", unit="sentence", max_per_1000_words=100, min_count=1),
+    message="{count} dashes in this sentence",
+    justification="a test",
+)
+
+
+def test_sentence_unit_measures_each_sentence_separately():
+    #  The first sentence is short enough for one dash to run over the rate, the
+    #  second long enough for one to come in under it. A document-wide rate would
+    #  average them and find nothing.
+    text = "Raz — dwa trzy. " + " ".join(["Słowo"] + ["słowo"] * 40) + " — koniec."
+    found = hits(per_sentence, text)
+    assert len(found) == 1
+    assert found[0].span.start == text.index("—")
+
+
 def test_density_abstains_rather_than_measure_a_rate_over_too_few_words():
     outcomes = run(floored, "raz — dwa")
     assert [type(o) for o in outcomes] == [Abstain]
@@ -303,6 +322,99 @@ def test_line_end_word_abstains_when_line_breaks_are_soft():
 
 
 # --------------------------------------------------------------------------- #
+# length-variation
+# --------------------------------------------------------------------------- #
+
+monotony = pack.rule(
+    id="test-monotony",
+    check="length-variation",
+    params=dict(unit="sentence", min_variation=0.3),
+    message="{count} {unit}s vary by {variation}, {side} {limit}",
+    justification="a test",
+)
+
+erratic = pack.rule(
+    id="test-erratic",
+    check="length-variation",
+    params=dict(unit="sentence", max_variation=0.3),
+    message="{variation} is {side} {limit}",
+    justification="a test",
+)
+
+floored_variation = pack.rule(
+    id="test-variation-floor",
+    check="length-variation",
+    params=dict(unit="sentence", min_variation=0.3, min_units=4),
+    message="{variation}",
+    justification="a test",
+)
+
+#  Four sentences of four words each: a spread of exactly nothing.
+UNIFORM = (
+    "Program zapisuje twoje ustawienia. Plik zawiera cztery opcje. "
+    "Katalog trzyma dwa pliki. Serwer czyta ten katalog."
+)
+
+VARIED = (
+    "Zapisz plik. Program zapisuje twoje ustawienia w katalogu domowym, "
+    "a potem zamyka okno i czeka na następne polecenie. Gotowe."
+)
+
+
+@pytest.mark.parametrize(
+    ("rule", "text", "side"),
+    [
+        (monotony, UNIFORM, "below"),
+        (monotony, VARIED, None),
+        (erratic, UNIFORM, None),
+        (erratic, VARIED, "above"),
+    ],
+    ids=["floor-fires", "floor-quiet", "ceiling-quiet", "ceiling-fires"],
+)
+def test_one_measurement_answers_a_floor_and_a_ceiling(rule, text, side):
+    #  A pack decides which side of a spread is the defect, so both halves of
+    #  this table have to work without a second code path behind them.
+    assert [hit.fields["side"] for hit in hits(rule, text)] == ([side] if side else [])
+
+
+def test_variation_reports_the_measurement_it_used():
+    found = hits(monotony, UNIFORM)
+    assert found[0].fields["count"] == 4
+    assert found[0].fields["mean"] == "4.0"
+    assert found[0].fields["sd"] == "0.0"
+    assert found[0].fields["variation"] == "0.00"
+    assert found[0].fields["limit"] == "0.3"
+
+
+def test_variation_is_scale_free():
+    #  Doubling every sentence leaves the shape of the document alone, so the
+    #  coefficient of variation may not move. A raw standard deviation would
+    #  double, and a threshold built on one would mean nothing.
+    single = hits(erratic, "Raz dwa. Raz dwa trzy cztery.")
+    doubled = hits(erratic, "Raz dwa raz dwa. Raz dwa trzy cztery raz dwa trzy cztery.")
+    assert single[0].fields["variation"] == doubled[0].fields["variation"]
+
+
+def test_the_finding_is_anchored_at_the_whole_document():
+    #  Anchoring it at a sentence would invite editing that sentence until the
+    #  number moved, which is the failure docs/rules.md warns about.
+    found = hits(monotony, UNIFORM)
+    assert (found[0].span.start, found[0].span.end) == (0, len(UNIFORM))
+
+
+def test_variation_abstains_rather_than_measure_a_spread_over_too_few_sentences():
+    outcomes = run(floored_variation, "Program zapisuje ustawienia. Plik jest gotowy.")
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert "too few" in outcomes[0].reason
+
+
+def test_variation_abstains_on_a_document_with_no_words_to_average():
+    outcomes = run(monotony, "— — —\n\n…\n")
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert "too short" in outcomes[0].reason
+
+
+# --------------------------------------------------------------------------- #
 # Parameter validation, which happens when a rule is declared.
 # --------------------------------------------------------------------------- #
 
@@ -396,6 +508,41 @@ def test_a_share_above_one_is_refused():
             check="entity-recurrence",
             params=dict(introduce=r"([A-Z]\w+)", max_walk_on_share=50),
             message="{share}",
+            justification="j",
+        )
+
+
+def test_a_bound_with_neither_side_set_is_refused():
+    with pytest.raises(RuleError, match="needs 'min_variation', 'max_variation', or both"):
+        pack.rule(
+            id="x11",
+            check="length-variation",
+            params=dict(unit="sentence"),
+            message="{variation}",
+            justification="j",
+        )
+
+
+def test_a_floor_above_its_ceiling_is_refused():
+    with pytest.raises(RuleError, match="no text can pass both"):
+        pack.rule(
+            id="x12",
+            check="length-variation",
+            params=dict(min_variation=0.8, max_variation=0.2),
+            message="{variation}",
+            justification="j",
+        )
+
+
+def test_variation_over_a_corpus_is_refused():
+    #  A corpus mixes documents whose lengths have no reason to agree, so it is
+    #  the one unit this measurement cannot be taken over.
+    with pytest.raises(RuleError, match="'unit' must be one of sentence, paragraph"):
+        pack.rule(
+            id="x13",
+            check="length-variation",
+            params=dict(unit="corpus", min_variation=0.3),
+            message="{variation}",
             justification="j",
         )
 
