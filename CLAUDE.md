@@ -584,6 +584,10 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
 
 - **Direction.** Which concrete problem disappears with this change?
   A change that only moves text has no direction.
+- **Whose path.** Which role does the change fall on,
+  and does somebody in that posture still meet a text written for them?
+  [`docs/roles.md`](docs/roles.md) names the roles,
+  where each one enters, and what ruins its path.
 - **Elegance.** Simple and closed:
   no orphaned sections, no half-finished moves.
 - **The four forces.** Put every changed place through each of the four tests.

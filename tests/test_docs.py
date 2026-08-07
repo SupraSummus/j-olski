@@ -11,6 +11,10 @@ The check commands are the same problem with something other than a name.
 The block in ``CLAUDE.md`` is what a person runs,
 the workflow's steps are what a push runs,
 and nothing derives one from the other.
+
+A document the README does not list is the same rot with nothing renamed:
+it is on no reader's path, and adding one without listing it costs nothing.
+Which path a document sits on is what ``docs/roles.md`` names.
 """
 
 import re
@@ -28,6 +32,9 @@ SOURCES = sorted(
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
+#: An entry in the README's list of documents, which is the only place that
+#: puts a document on somebody's path.
+LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md)\]")
 HEADING = re.compile(r"(?m)^#+\s+(.*)$")
 LISTED_CHECKS = re.compile(r"(?ms)^## Checks\n.*?^```sh\n(.*?)^```")
 WORKFLOW_STEP = re.compile(r"(?m)^\s*- run: (.*)$")
@@ -73,6 +80,11 @@ def test_every_relative_link_resolves(document: Path, target: str):
 def test_every_document_cited_from_code_resolves(source: Path, target: str):
     path, _, anchor = target.partition("#")
     assert_resolves(ROOT / path, anchor, source.name)
+
+
+def test_every_document_is_listed_in_the_readme():
+    listed = set(LISTED_DOCUMENT.findall((ROOT / "README.md").read_text()))
+    assert {path.name for path in (ROOT / "docs").glob("*.md")} == listed
 
 
 def test_the_checks_a_person_runs_are_the_checks_a_push_runs():
