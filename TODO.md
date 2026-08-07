@@ -264,6 +264,60 @@ because the enumerator builds no forest to walk
 and caps enumeration at `MAX_READINGS`,
 which is exactly the tail a burial-depth number would be measuring.
 
+The archives these documents send a reader to fetch are pinned by URL and by nothing else.
+[Składnica](docs/corpus.md#fetching-it)
+and [NKJP](docs/corpora.md#the-national-corpus-of-polish)
+name a release in the query string of a wiki attachment,
+and Świgra is `swigra_current.zip`, which names none,
+so [`docs/swigra.md`](docs/swigra.md#what-was-read-and-what-was-not)
+dates it by the timestamps of the files inside instead.
+[The audit corpus](docs/audit-corpus.md#the-list) pins its members to a commit
+and says what a pin is for:
+so that a second person fetches the same bytes.
+The archives make that promise
+and give a reader no way to hold anyone to it.
+The move is `sha256sum` over each one,
+with the digest beside the command that fetches it,
+which turns a substitution upstream into a failed check
+rather than a figure that quietly stops reproducing.
+
+The corpora these documents send a reader to fetch
+come from hosts that gain nothing by serving them,
+once per session rather than once per person,
+because a Claude Code session on the web starts from an empty container.
+[The Wolne Lektury run](docs/firing-rates.md#wolne-lektury)
+takes 326 files at one request each from a volunteer library,
+[Składnica](docs/corpus.md#fetching-it) is 92 MB
+that [the checks](CLAUDE.md#checks) make a condition of touching the grammar,
+and [NKJP](docs/corpora.md#the-national-corpus-of-polish)
+is a tarball from the institute that serves Składnica.
+The licences do not run in that order.
+NKJP carries CC BY, which permits the redistribution a mirror is,
+every Wolne Lektury file ships the library's licence in its own tail,
+which that run cuts off before counting,
+and Składnica is GPL,
+which the fetching section raises against vendoring
+and which settles nothing about mirroring,
+since a mirror redistributes under Składnica's terms
+whatever this repository decides about its own.
+So the order of work is NKJP, Wolne Lektury, Składnica,
+and the transport is the smaller half of each.
+A release asset on a mirror repository holds 2 GB per file against no quota
+and keeps the fetch the `curl -L` those sections print,
+where git LFS asks for an install that the session clone precedes,
+so tracked files arrive as pointer files and a hook has to pull them,
+and spends an allowance that GitHub's billing documentation puts at
+1 GB stored and 1 GB of bandwidth a month,
+which is ten fetches of Składnica.
+LFS buys that back over a binary somebody versions,
+and these are frozen archives.
+The audit corpus needs none of it,
+being clones pinned to a commit, which is what a mirror would be.
+None of this starts before the entry on digests,
+since a mirror nobody can check against upstream
+is the second copy of a fact that
+[`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
+
 The repository ships no licence.
 `pyproject.toml` carries no `license` field and there is no `LICENSE` file,
 so the terms under which any of this may be used are unstated.
