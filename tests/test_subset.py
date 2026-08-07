@@ -7,6 +7,8 @@ olski either.
 
 import pytest
 
+pytest.importorskip("morfeusz2")
+
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import LeftRecursion, parse

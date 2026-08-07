@@ -120,15 +120,6 @@ Against it: an empty placeholder shows itself the first time a rule runs,
 where the mistake this guard was built for raises `KeyError` instead,
 and a callable costs more to read than a frozenset.
 
-Without Morfeusz 2 installed,
-`tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
-fail during collection, which aborts the entire run,
-so an environment where the wheel did not build reports zero tests
-rather than the linter-track tests it could have run.
-`pytest.importorskip("morfeusz2")` at the top of the three modules fixes it.
-The question to settle first is whether a silent skip is acceptable
-while nothing but a human run notices it.
-
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
 Świgra's evaluation walks its packed forest per sentence
@@ -163,16 +154,6 @@ and set `license` in `pyproject.toml` to match.
 Reading a GPL v3 parser of Polish is what raised it
 (see [`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)),
 and the answer decides whether olski could ever link against such a thing.
-
-Nothing runs `ruff check .` and `python3 -m pytest` except a person
-who remembers to.
-A workflow under `.github/workflows/` would run both,
-plus `markdownlint` over the prose, on every push.
-Against it: the project is for fun,
-and a red badge on a hobby repository is a way of making it feel like work,
-which is the same argument `docs/roadmap.md` uses for having no dates.
-Decide it once and either add the workflow or write the decision
-into the roadmap's guiding principles so it stops coming up.
 
 An uncalibrated rule does not say what it owes.
 `--explain` prints `calibration: uncalibrated` and stops there,

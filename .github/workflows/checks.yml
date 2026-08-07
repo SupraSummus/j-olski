@@ -1,0 +1,29 @@
+name: checks
+
+on: push
+
+permissions:
+  contents: read
+
+#  A branch here gets amended and force-pushed,
+#  and the superseded run is measuring a commit that no longer exists.
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          #  The floor `pyproject.toml` declares, so a change that outgrows it
+          #  fails here rather than in somebody's install.
+          python-version: "3.11"
+      - run: pip install -e '.[dev]'
+      - run: python3 -m pytest
+      - run: ruff check .
+      #  Pinned, so a run goes red because somebody pushed something
+      #  rather than because a linter shipped a new default rule.
+      - run: npx --yes markdownlint-cli@0.45.0 '**/*.md'

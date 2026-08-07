@@ -358,14 +358,37 @@ The other list may carry a one-line pointer, and nothing more.
 pip install -e '.[dev]'
 python3 -m pytest
 ruff check .
+npx --yes markdownlint-cli@0.45.0 '**/*.md'
 ```
 
 Morfeusz 2 is a runtime dependency and installs from PyPI,
 so the editable install brings it along with pytest and ruff.
-Without it the grammar modules fail to import
-and `tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
-fail to collect,
-which stops the whole run rather than a part of it.
+Where its wheel does not build,
+`tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
+skip rather than failing to collect,
+so the run reports the linter-track tests instead of zero tests.
+A green run in such an environment has not been near
+the grammar, the morphology or the treebank reader,
+and the skip count is where that shows.
+
+[`.github/workflows/checks.yml`](.github/workflows/checks.yml)
+runs the same checks on every push.
+The reason to have it is that a change here
+is usually verified by the session that made it and by nothing else,
+and sessions do not see each other's work,
+so the combination of two of them is what the workflow runs and a person does not.
+Its install step is also what makes the skip above safe:
+it takes Morfeusz from PyPI and fails the job when that fails,
+so a branch's latest commit is never covered by a partial run alone.
+The command list above and the workflow's steps are two copies,
+because a runner cannot read prose,
+and `tests/test_docs.py` holds them equal,
+so a check added to one fails the suite until it is in the other.
+
+The workflow carries no badge.
+A standing verdict on the front page of a hobby repository
+is the same way of making it feel like work
+that [`docs/roadmap.md`](docs/roadmap.md) refuses dates for.
 
 One more check applies to a change in the grammar
 or in the readings it is given.
