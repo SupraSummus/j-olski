@@ -1,15 +1,25 @@
 import json
 
-from olski.cli import main
+from olski.cli import ONE_SIDED, main
 
 DIRTY = 'Kliknij przycisk "Zapisz".\n'
 CLEAN = "Kliknij przycisk „Zapisz”.\n"
+
+#: Ten words and four straight quotation marks, so that a rate over it is a
+#: number an assertion can name rather than one the test has to recompute.
+TEN_WORDS = 'Kliknij przycisk "Zapisz" i zamknij okno "Ustawienia" w tym module.\n'
 
 
 def write(tmp_path, name, text):
     path = tmp_path / name
     path.write_text(text, encoding="utf-8")
     return path
+
+
+def row(out, rule_id):
+    """One rule's row of a report, with the column padding taken out."""
+    line = next((line for line in out.splitlines() if line.startswith(f"{rule_id} ")), "")
+    return " ".join(line.split())
 
 
 def test_clean_file_exits_zero(tmp_path, capsys):
@@ -97,6 +107,58 @@ def test_json_output_is_machine_readable(tmp_path, capsys):
     assert payload["findings"][0]["rule"] == "quote-straight"
     assert payload["findings"][0]["line"] == 1
     assert payload["findings"][0]["calibration"] == "uncalibrated"
+
+
+def test_the_report_rates_every_rule_including_the_ones_that_found_nothing(tmp_path, capsys):
+    path = write(tmp_path, "text.txt", TEN_WORDS)
+    assert main([str(path), "--format", "report"]) == 1
+    out = capsys.readouterr().out
+    assert "1 file, 10 words, 9 rules" in out
+    assert row(out, "quote-straight") == "quote-straight 4 0 10 words 400.0 per 1000"
+    #  Whether a rule has anything to do is half of what the rate is asked, so a
+    #  rule that ran and found nothing gets a row rather than being left out.
+    assert row(out, "double-space") == "double-space 0 0 10 words 0.0 per 1000"
+
+
+def test_a_rule_reporting_on_a_whole_scope_is_rated_over_scopes_and_not_over_words(
+    tmp_path, capsys
+):
+    write(tmp_path, "one.txt", TEN_WORDS)
+    write(tmp_path, "two.txt", TEN_WORDS)
+    main([str(tmp_path), "--format", "report"])
+    out = capsys.readouterr().out
+    #  em-dash-density fires at most once per document, so a rate per thousand
+    #  words would be the rate of something that cannot happen.
+    assert row(out, "em-dash-density") == "em-dash-density 0 0 2 documents 0.0%"
+
+
+def test_a_rule_that_abstained_everywhere_reports_no_rate_rather_than_a_rate_of_zero(
+    tmp_path, capsys
+):
+    path = write(tmp_path, "note.md", TEN_WORDS)
+    main([str(path), "--format", "report"])
+    out = capsys.readouterr().out
+    #  Zero would say the rule looked at the document and found nothing in it.
+    assert row(out, "em-dash-density") == "em-dash-density 0 1 0 documents —"
+    #  On the same corpus a rule that could measure reports zero, which is what
+    #  the row above would be indistinguishable from.
+    assert row(out, "quote-straight") == "quote-straight 4 0 10 words 400.0 per 1000"
+
+
+def test_the_report_names_why_a_rule_abstained_when_asked(tmp_path, capsys):
+    path = write(tmp_path, "note.md", TEN_WORDS)
+    main([str(path), "--format", "report", "--show-abstentions"])
+    out = capsys.readouterr().out
+    assert "em-dash-density abstained:" in out
+    assert "1  this file is not plain text" in out
+
+
+def test_the_report_says_that_it_is_one_side_of_the_pair(tmp_path, capsys):
+    #  Without it a table pasted somewhere else reads as a ranking of rules,
+    #  which is the one thing a run over a single corpus cannot produce.
+    path = write(tmp_path, "text.txt", TEN_WORDS)
+    main([str(path), "--format", "report"])
+    assert ONE_SIDED in " ".join(capsys.readouterr().out.split())
 
 
 def test_list_rules_shows_the_pack_and_exits_zero(capsys):

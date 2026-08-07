@@ -84,6 +84,7 @@ what it does not, and the open problem of prepositional attachment.
 ```sh
 python3 -m olski tekst.txt
 python3 -m olski tekst.txt --explain          # with each rule's reasoning
+python3 -m olski korpus/ --format report      # what each rule did over the corpus
 python3 -m olski --list-rules
 ```
 
@@ -100,6 +101,8 @@ which is why the plain-Polish rules are not written as patterns.
 Nine rules, all tier A, all marked `uncalibrated`,
 because none of them has been measured against human Polish yet
 and a threshold without that measurement is an opinion with a decimal point.
+The report mode is the half of that measurement a single run can produce:
+how often each rule fired over a whole corpus, and over how much of it.
 Input is plain Polish text.
 A file in a markup format gets the rules a character settles,
 and abstentions from the rules that would otherwise measure its apparatus.
