@@ -50,25 +50,24 @@ A file list does not show that overlap,
 so the two are picked up together
 and the judgment is reached twice.
 
-The audit corpus is described as a list this repository keeps,
-and no such list is in it.
-[`docs/corpora.md`](docs/corpora.md#the-audit-corpus-polish-documentation-in-version-control)
-has the corpus cloned from a list of repositories kept here,
-then names its members in running prose instead:
-`CIRFMF/ksef-docs`, which
-[`docs/firing-rates.md`](docs/firing-rates.md#polish-documentation-in-version-control)
-also fetches by hand,
-and `pot-gov-pl/rit-dokumentacja` in a clause.
-A repository named in a paragraph cannot be fetched by a command,
-and it has nowhere to carry the admission test that document asks for beside it —
-that its documentation was written in Polish first, and how somebody established that.
-The move is the file, one row per repository
-with a clone command, the commit the figures were taken at, and that reason,
-and the two named repositories moved into it
-so that the prose points at the list rather than holding it.
-Which repositories join beyond those two is not work in here:
-[`docs/corpora.md`](docs/corpora.md#not-yet-decided) keeps that question,
-and this file is what an answer to it lands in.
+Two documents give the same repository two counts of the same character
+and one of them says they are the same count.
+[`docs/firing-rates.md`](docs/firing-rates.md#the-quotation-mark-rules-had-nothing-to-find)
+splits 978 hits of `quote-straight` over the KSeF Markdown into 646 in code
+and 332 in running prose,
+and calls that 332 the figure the survey took by hand,
+where [`docs/corpora.md`](docs/corpora.md#polish-technical-documentation-original-and-translated)
+now reports 312 over the same 32 files,
+having stopped counting by hand when the extraction arrived.
+The evidence is the same repository at the commit
+[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list) pins,
+read twice: the raw Markdown with its code split off by a reader,
+and the extracted prose, which keeps an inline code span and drops a fenced block,
+so the two disagree by whatever falls in that gap.
+The move is to find where the 20 marks are and say so in the sentence,
+or to drop the claim that the two numbers are one number.
+This reads the same hits as the entry on the audit's documentation column,
+so the two are picked up together.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -102,12 +101,18 @@ holds what the same rules report over the extracted prose.
 Two readings of one corpus in two documents is one too many.
 The move is to make the audit's documentation column the extracted one,
 since that is the corpus
-[the audit corpus](docs/corpora.md#the-audit-corpus-polish-documentation-in-version-control)
-will actually be,
+[the audit corpus](docs/audit-corpus.md#the-list) is,
 and keep the as-they-stand figures only where they are the argument
 for extracting at all.
 That means rereading the hits, not just recounting them:
 156 hits of a rule are a different audit from 748.
+It also means both members rather than the first,
+which is what turns the column from a repository into a corpus,
+and the two do not fire alike:
+`missing-space-after-full-stop` reports 156 hits over `ksef-docs` and none over
+`rit-dokumentacja`, and `missing-space-after-punctuation` 10 against 195.
+This reads the same hits as the entry
+on the two counts of the same character, so the two are picked up together.
 
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"
@@ -195,7 +200,9 @@ and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
 the second surveys the corpora the linter would calibrate against.
 A link to either one reads the same,
-and a grep for one of them finds both.
+and a grep for one of them finds both,
+and finds `docs/audit-corpus.md` too,
+which is about one of the corpora the second surveys.
 The move is to rename `docs/corpus.md` to `docs/skladnica.md`,
 which says what it holds and matches `docs/swigra.md` beside it,
 and to carry the rename through

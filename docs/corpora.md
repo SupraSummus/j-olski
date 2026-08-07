@@ -60,7 +60,10 @@ so that a second person picks the same text.
 
 One of the corpora comes with the program that did the counting as well.
 The Markdown one, [KSeF](#polish-technical-documentation-original-and-translated),
-is extracted by `harness/markdown.py` and counted by `olski --format report`:
+is cloned by the command
+[audit-corpus.md](audit-corpus.md#the-list) prints rather than by one printed here,
+because that document owns which repositories the corpus holds.
+It is extracted by `harness/markdown.py` and counted by `olski --format report`:
 
 ```sh
 python3 -m harness.markdown ksef-docs --into proza/ksef
@@ -329,20 +332,16 @@ produced by rendering *based on* into Polish
 reports the translator's habit as the norm.
 
 **The original pool has to be gathered repository by repository.**
-The largest single item found is the API documentation
-of the Polish national e-invoicing system,
-published by the Ministry of Finance under the MIT licence:
-
-```sh
-git clone --depth 1 https://github.com/CIRFMF/ksef-docs
-```
-
-32 Markdown files at `1c34fe2`, 23,825 words of extracted prose.
+The largest single item found is `CIRFMF/ksef-docs`,
+the API documentation of the Polish national e-invoicing system,
+published by the Ministry of Finance under the MIT licence.
 It is written in Polish because the system, its law and its readers are Polish,
 which is the property that makes a repository worth adding
 and the one no licence field records.
-Beyond it the pool thins quickly.
-`pot-gov-pl/rit-dokumentacja` is a handful of files,
+[audit-corpus.md](audit-corpus.md#the-list) holds it,
+with the command that fetches it at the commit the figures here are taken at.
+Beyond it the pool thins.
+`pot-gov-pl/rit-dokumentacja`, in that list as well, is the only other item found,
 and the catalogue of open-source repositories of Polish state institutions
 covers 21 institutions across 25 GitHub accounts
 without describing a single one of their repositories as documentation.
@@ -447,10 +446,11 @@ want different prose, and one corpus cannot be both.
 
 ### The audit corpus: Polish documentation in version control
 
-Original Polish technical documentation, cloned from a list of repositories
-kept in this repository, prose extracted from Markdown by
-[the step the harness already has](extraction.md)
-and from AsciiDoc by one it does not.
+Original Polish technical documentation, cloned from
+[a list of repositories](audit-corpus.md) this repository keeps,
+prose extracted by [the step the harness already has](extraction.md),
+which reads Markdown,
+and by whatever second extraction the format of a later member calls for.
 Every rule whose answer depends on the site rather than on the rate audits here:
 the whole typography pack, and any later rule with the same property.
 
@@ -460,9 +460,11 @@ and one repository of that size supplies more hits than an afternoon settles.
 What one repository cannot supply is authors:
 nine tenths of KSeF's straight quotation marks are in one of its files.
 So the corpus grows by adding repositories rather than by adding words,
-and the list is where the admission test is written down —
-a repository joins if its documentation was written in Polish first,
-with the reason it was recorded beside it.
+and a repository joins if its documentation was written in Polish first.
+[The list](audit-corpus.md#what-a-repository-has-to-show)
+is where that test is written down and applied,
+with the reason recorded beside each member
+and with the three further things a repository has to show.
 
 ### The distribution corpus: edited original expository Polish
 
@@ -524,7 +526,8 @@ and stays what that document calls it: a floor, and the harder case.
 - Whether PLSC's abstracts are Polish-first.
   A Polish journal publishing in English carries a translated Polish abstract,
   and the dataset records the journal, which is where the answer starts.
-- Which repositories join the audit corpus beyond the two named here,
+- Which repositories join the audit corpus
+  beyond the two in [the list](audit-corpus.md#the-list),
   and how many authors it takes before a hit rate in it
   stops describing whoever wrote the largest file.
 - Whether SpeakLeash's manifests hold a slice of this register

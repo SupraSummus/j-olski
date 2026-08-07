@@ -167,9 +167,10 @@ and [the distribution corpus](corpora.md#the-distribution-corpus-edited-original
 unblocks one.
 
 Their costs run the other way.
-The audit corpus is a list of repositories with a clone command against each,
+The audit corpus is [a list of repositories](audit-corpus.md)
+with a clone command against each,
 and it grows by admitting a repository rather than by gathering words,
-so what it costs is a file and the searching to fill it.
+so what it costs is that file and the searching to fill it.
 The distribution corpus is a composition:
 sources in stated proportions,
 each share bounded by a defect somebody has to establish it carries,
@@ -182,12 +183,12 @@ It is that [milestone 3](#milestone-3-statistical-rules) reads every threshold i
 off the same distribution,
 so two milestones pay for one corpus.
 
-Which extractions this milestone owes follows from the repository list
+Which extractions this milestone owes follows from
+[the repository list](audit-corpus.md#the-list)
 rather than being settled apart from it.
 `harness/markdown.py` reads one format,
-[corpora.md](corpora.md#the-audit-corpus-polish-documentation-in-version-control)
-names AsciiDoc as a second,
-and whether that one gets written is settled by admitting a repository that uses it.
+the list records which format each member is in,
+and a second extraction gets written when a repository worth admitting uses another.
 So the list is chosen before the extraction is scoped, not after.
 
 **Exit:** every rule in the typography pack carries the two numbers its kind owes,

@@ -118,18 +118,14 @@ and the report is the one describing what olski was shown.
 
 ### Polish documentation in version control
 
-The repository
-[corpora.md](corpora.md#polish-technical-documentation-original-and-translated)
-names as the first member of the audit corpus:
-
-```sh
-git clone --depth 1 https://github.com/CIRFMF/ksef-docs
-```
+The first member of the audit corpus is `ksef-docs`,
+cloned at the commit [the list](audit-corpus.md#the-list) pins
+and with the command that document prints.
 
 32 Markdown files, 36,550 words as olski counts them over the files as they stand.
 That is apparatus and prose together,
 which is the point here and is why the figure
-[corpora.md](corpora.md#polish-technical-documentation-original-and-translated)
+[the list](audit-corpus.md#the-list)
 gives for the same repository is a third smaller.
 
 ## What ran
