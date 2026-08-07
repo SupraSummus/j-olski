@@ -1,0 +1,23 @@
+Akapit złamany w źródle na dwie linie, bo tak pisze się w tym repozytorium.
+
+Kliknij Zapisz, a potem Zamknij — plik nazywa się config.yaml. Opisuje to dokumentacja, a wersję angielską dokumentacja pomija.
+
+Wzorzec nie *kursywa* zostaje taki, jaki jest.
+
+Znak zapytania stoi tuż po odnośniku? Tak.
+
+Rysunek nie ma opisu.
+
+Zdanie z komentarzem w środku.
+
+Akapit, w który wcina się cytat.
+
+Cytat blokowy jest prozą, więc zostaje bez znaku cytowania.
+
+Lista, której elementy są zdaniami:
+
+Pierwszy element listy.
+
+Drugi element listy, dłuższy, złamany w źródle.
+
+Ostatni akapit.

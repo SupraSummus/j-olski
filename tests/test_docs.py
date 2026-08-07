@@ -20,7 +20,11 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
-SOURCES = sorted((ROOT / "olski").rglob("*.py"))
+#: Every module the repository holds, because a citation rots wherever it
+#: stands: in the linter, in the harness beside it, or in a test's docstring.
+SOURCES = sorted(
+    path for package in ("olski", "harness", "tests") for path in (ROOT / package).rglob("*.py")
+)
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")

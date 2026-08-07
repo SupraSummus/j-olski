@@ -209,7 +209,8 @@ so the error cannot be discounted in general.
 
 Separating prose from apparatus is a job for whatever reads the format,
 which is where [milestone 0](roadmap.md#milestone-0-rule-engine-and-the-typography-pack)
-puts it.
+puts it,
+and [extraction.md](extraction.md) is the step that does it for Markdown.
 What belongs to olski is knowing the job has not been done.
 A file's suffix is the whole of the evidence available,
 and one olski does not recognize is read as text it cannot vouch for.

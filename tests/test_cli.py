@@ -113,7 +113,7 @@ def test_the_report_rates_every_rule_including_the_ones_that_found_nothing(tmp_p
     path = write(tmp_path, "text.txt", TEN_WORDS)
     assert main([str(path), "--format", "report"]) == 1
     out = capsys.readouterr().out
-    assert "1 file, 10 words, 9 rules" in out
+    assert "1 file, 10 words, 1 sentence, 9 rules" in out
     assert row(out, "quote-straight") == "quote-straight 4 0 10 words 400.0 per 1000"
     #  Whether a rule has anything to do is half of what the rate is asked, so a
     #  rule that ran and found nothing gets a row rather than being left out.

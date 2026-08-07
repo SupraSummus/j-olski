@@ -56,32 +56,35 @@ over the files as they stand,
 by fetching a corpus with the command printed beside it
 and counting words and characters over what came down.
 Each count says which files it ran over and which selection of them,
-so that a second person picks the same text;
-what it does not come with is the program that did the counting,
-which was written for this survey and is not in this repository.
+so that a second person picks the same text.
 
-That is the defect [TODO.md](../TODO.md) already records
-against the rates in
-[generated-polish.md](generated-polish.md#what-was-measured),
-and it closes the same way.
-`olski --format report` prints a per-rule rate over a corpus,
-which is the run the typographic counts here approximate by hand,
-and what stands between the two is the extraction that entry asks for.
-Until it lands, a figure here is checkable by rewriting the count,
-which the stated selection makes possible and does not make free.
+One of the corpora comes with the program that did the counting as well.
+The Markdown one, [KSeF](#polish-technical-documentation-original-and-translated),
+is extracted by `harness/markdown.py` and counted by `olski --format report`:
+
+```sh
+python3 -m harness.markdown ksef-docs --into proza/ksef
+python3 -m olski proza/ksef --format report --packs harness/counts.py \
+                                            --packs olski.packs.typography
+```
+
+The rest are XML, JSONL, PO files and plain-text exports,
+which that extraction does not read,
+so their figures come from a program written for this survey
+that is not in this repository.
+A figure of that kind is checkable by rewriting the count,
+which the stated selection makes possible and does not make free,
+and [TODO.md](../TODO.md) holds the question
+of whether the other formats get an extraction of their own.
 
 These are counts of characters and words rather than rule firings either way,
 and they are here to characterize a corpus rather than to calibrate anything.
-
-The crude extraction they use has the price
-[generated-polish.md](generated-polish.md#the-extraction-has-a-price-of-its-own)
-already names.
-Removing fenced and inline code from one of the Markdown corpora below
-leaves 280 runs of two or more spaces,
-and every one of them is padding inside a Markdown table.
-That figure is therefore not reported as a finding,
-which is the shape of correction an unaccounted extraction needs
-everywhere else as well.
+Every extraction has a price,
+and this one's is in [extraction.md](extraction.md).
+The visible half of it here is that dropping a corpus's tables
+drops what the padding inside them was counted as:
+KSeF carries 456 runs of two or more spaces as it stands and 4 once extracted,
+so a survey that skips the step reports table layout as a typing defect.
 
 ## The National Corpus of Polish
 
@@ -287,7 +290,7 @@ Both sit two orders of magnitude below the threshold `em-dash-density` sets,
 and the machine half sits below the human one,
 which is the reverse of the direction
 [generated-polish.md](generated-polish.md#the-em-dash-rate-has-room-above-the-threshold)
-found at 35.9 per thousand
+found at 35.4 per thousand
 over generated Polish written as whole notes
 rather than as continuations of somebody else's sentence.
 One of the thirteen human source labels reaches the threshold's neighbourhood:
@@ -334,7 +337,7 @@ published by the Ministry of Finance under the MIT licence:
 git clone --depth 1 https://github.com/CIRFMF/ksef-docs
 ```
 
-32 Markdown files, 31,286 words once fenced and inline code are removed.
+32 Markdown files at `1c34fe2`, 23,825 words of extracted prose.
 It is written in Polish because the system, its law and its readers are Polish,
 which is the property that makes a repository worth adding
 and the one no licence field records.
@@ -345,8 +348,8 @@ covers 21 institutions across 25 GitHub accounts
 without describing a single one of their repositories as documentation.
 
 Its typographic state is the reason this material is worth the gathering.
-Straight quotation marks outnumber `„` by 332 to 13,
-en dashes outnumber em dashes by 148 to 12,
+Straight quotation marks outnumber `„` by 312 to 13,
+en dashes outnumber em dashes by 128 to 10,
 and the straight marks are around Polish phrases in running prose —
 *"Uwierzytelnianie zakończone niepowodzeniem z powodu błędnego tokenu"*,
 *"Profil Zaufany"*, *"Certyfikat zawieszony"*.
@@ -354,9 +357,9 @@ This is prose caught at the stage the linter runs at,
 holding what NKJP and Wolne Lektury cannot hold.
 
 The distribution of those hits is the caution that goes with the finding.
-279 of the 332 are in `api-changelog.md`,
+279 of the 312 are in `api-changelog.md`,
 which quotes the wording of API error messages release by release,
-so one document with one habit supplies five sixths of them.
+so one document with one habit supplies nine tenths of them.
 A pack audited against this repository alone
 would be audited against a handful of authors,
 which is the argument for the corpus being a list of repositories
@@ -445,8 +448,9 @@ want different prose, and one corpus cannot be both.
 ### The audit corpus: Polish documentation in version control
 
 Original Polish technical documentation, cloned from a list of repositories
-kept in this repository, prose extracted from Markdown and AsciiDoc,
-fenced code dropped.
+kept in this repository, prose extracted from Markdown by
+[the step the harness already has](extraction.md)
+and from AsciiDoc by one it does not.
 Every rule whose answer depends on the site rather than on the rate audits here:
 the whole typography pack, and any later rule with the same property.
 
@@ -454,7 +458,7 @@ It is small on purpose, and it is a list rather than a body.
 An audit reads its hits, so tens of thousands of words is a working corpus,
 and one repository of that size supplies more hits than an afternoon settles.
 What one repository cannot supply is authors:
-five sixths of KSeF's straight quotation marks are in one of its files.
+nine tenths of KSeF's straight quotation marks are in one of its files.
 So the corpus grows by adding repositories rather than by adding words,
 and the list is where the admission test is written down —
 a repository joins if its documentation was written in Polish first,

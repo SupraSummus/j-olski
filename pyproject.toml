@@ -22,6 +22,9 @@ include = ["olski*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+#  The calibration harness is not part of the linter and is not installed with
+#  it, so its tests reach it the way a run from a clone does.
+pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100

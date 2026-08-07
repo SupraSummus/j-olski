@@ -18,14 +18,41 @@ It holds two separate bodies of Polish prose:
 
 | | documents | prose words | sentences |
 | --- | --- | --- | --- |
-| Notes for an unwritten science-fiction novel | 527 | 155,413 | 14,890 |
-| A philosophical memoir | 9 | 25,424 | 3,001 |
+| Notes for an unwritten science-fiction novel | 527 | 157,885 | 16,190 |
+| A philosophical memoir | 9 | 25,355 | 3,208 |
 
 One model family, one author, and a session log
 running from 2026-02 to 2026-04.
 
-The numbers below come from two different places,
+The numbers below come from three different places,
 and the difference decides how much weight each carries.
+
+**A run anyone can redo.**
+That table, and every rate a rule reports below, come out of three commands:
+
+```sh
+git clone --depth 1 https://github.com/SupraSummus/the-agent
+python3 -m harness.markdown the-agent/book2/notes --into proza/notes --polish 0.05
+python3 -m olski proza/notes --format report --packs harness/counts.py \
+                                             --packs olski.packs.typography
+```
+
+The memoir is the nine chapters of `the-agent/book` —
+`prolog.md`, `epilog.md` and `rozdzial-01` through `rozdzial-07` —
+extracted and reported the same way.
+The figures here are that corpus at `f132deb`, cloned on 2026-08-07;
+a shallow clone gives whatever it has become since,
+so a rerun that disagrees may be reporting a corpus that moved.
+The extraction is what separates the prose from the apparatus,
+and `--polish` is what leaves out
+the 40 of the 567 notes written in English;
+[extraction.md](extraction.md) owns both, and what they invent.
+The second pack is there because `em-dash-density` reports
+the share of documents over its threshold rather than a rate per thousand words,
+and the rate is what characterizes a corpus:
+`harness/counts.py` counts the mark and leaves the judging to the rule.
+So a change to what counts as a word moves a number somebody can correct,
+rather than one nothing will catch.
 
 **Counts over the files as they stand.**
 The quotation figures are of this kind:
@@ -33,27 +60,15 @@ walk the quotation marks of every file in order
 and record what closes each `„`.
 Anyone with the clone can redo that and should get the same answer.
 
-**Counts over extracted prose.**
-Every rate and every positional figure needs a denominator,
-so it needs the prose separated from the apparatus first:
-YAML frontmatter, headings, tables, the link lists that close each note
-and the question-and-answer blocks under them removed,
-hard-wrapped source unwrapped before sentences are split,
-and 40 of the 567 notes dropped for being written in English,
-which the share of words carrying a Polish diacritic separates cleanly.
-That extraction was written for this measurement and is not in this repository,
-so these figures are reported rather than reproducible.
-The only check available on them is a second extraction written the same way,
-which keeps 517 of the notes rather than 527
-and reaches 155,780 prose words and 36.8 dashes per thousand
-against the 155,413 and the 35.9 below:
-close enough to say the two separate the same prose from the same apparatus,
-and no further than that.
-That second extraction is the prose
-[what the apparatus costs](#the-apparatus-biases-a-rate-by-an-amount-the-corpus-decides)
-compares the files against,
-and it is out of this repository as well;
-[TODO.md](../TODO.md) names the next move.
+**Figures from a program that is not in this repository.**
+The frames in [what the em dashes are doing](#what-the-em-dashes-are-doing)
+and the positional figures in
+[the closing sentence](#the-closing-sentence-is-measurably-different)
+were counted by a program written for this measurement,
+over an extraction of its own
+whose prose came to 155,413 words against the 157,885 above.
+They are reported rather than reproducible,
+and the denominator they are rates over is that extraction's rather than this one's.
 
 The property that makes the corpus worth reading
 is not its size but its git history,
@@ -102,7 +117,7 @@ and a reason to measure this rule before the ones with numbers in them.
 ## The em dash rate has room above the threshold
 
 `em-dash-density` allows 10 per thousand words.
-The notes run at 35.9 and the memoir at 34.7.
+The notes run at 35.4 and the memoir at 35.0.
 
 This does not calibrate the rule.
 Calibration is the firing rate on good human Polish,
@@ -118,17 +133,22 @@ in two independently written bodies.
 Both bodies are Markdown,
 and the two rates above are measured over prose pulled out of them.
 Skipping that step does not move a rate by an amount anyone can correct for.
-`em-dash-density` reads 46.0 per thousand words over the notes as they stand
-against 36.8 over their extracted prose,
-and 34.4 against 34.8 over the memoir:
+The other side of the comparison is the same files with their names changed
+to the suffix olski reads,
+which is how a run asserts the guarantee the format does not give.
+The notes carry 45.3 em dashes per thousand words as they stand
+against 35.4 over their extracted prose,
+and the memoir 34.4 against 35.0:
 a quarter too high in one body and right in the other,
-from one writer and one rule.
+from one writer and one mark.
 
-The closing link list is the difference.
-477 of the 517 notes end in one,
-and it runs at 104.0 dashes per thousand words,
-so the link lists hold 16% of the notes' words and 35% of their dashes —
-every entry is a title, an em dash and a gloss.
+The apparatus of the notes is where the difference sits.
+It is 45,538 of the 203,423 words the files hold
+and 3,616 of their 9,213 em dashes,
+so it runs at 79 dashes per thousand words against the prose's 35.4.
+The closing list of links is most of it:
+514 of the 527 notes end in one,
+and every entry is a title, an em dash and a gloss.
 The memoir has no link lists,
 its apparatus is a heading here and there,
 and its rate barely moves.
@@ -142,7 +162,7 @@ Two smaller effects run alongside it.
 
 **Markup inflates a denominator, so a rule stops declining to answer.**
 Shown their prose, `em-dash-density`
-[abstains](rules.md#abstention-is-not-silence) on 27 of the 517 notes,
+[abstains](rules.md#abstention-is-not-silence) on 26 of the 527 notes,
 which fall under the 150 words it asks for before reporting a rate.
 Shown the files, it declines on none of them:
 frontmatter, headings and link titles carry every one of them over the floor.
@@ -150,32 +170,36 @@ A rule that would have said *this is too short to measure*
 reports a number instead.
 
 **A rule about where a line ends is simply wrong on a hard-wrapped file.**
-`orphan-single-letter-word` reports 55 findings across the two bodies,
+`orphan-single-letter-word` reports 56 findings across the two bodies,
 and every one of them is a letter that stands mid-line for every reader,
 since a single newline in Markdown is a space.
-One is the `I` numbering a chapter heading.
+Seven are the `I` numbering a chapter heading.
+What the same rule reports over the prose is
+[a different and usable number](extraction.md#after-joining-a-line-end-rule-measures-a-different-line).
 
 The three effects sort by how much of a document a rule has to look at,
 which is the line the engine draws.
-A rule matching a character is nearly untouched —
-`quote-straight` counts 1,735 against 1,670 —
-so it runs on a file of any format.
-A rule dividing by a word count, and a rule reading a line end,
-[decline instead](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
+A rule matching a character is barely moved:
+`quote-straight` counts 1,772 straight quotation marks over the notes as they stand
+and 1,649 over their prose, a difference of 7%,
+where its rate per thousand words moves by 20% in the other direction
+because the denominator moved further than the count did.
+So a character rule runs on a file of any format,
+and a rule dividing by a word count, or reading a line end,
+[declines instead](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
 
 ### The extraction has a price of its own
 
 Reporting only the markup half would understate what a harness has to build.
-The extraction measured here deletes inline markup
-and leaves the space that stood in front of it,
-so `space-before-punctuation` reports 8 findings over the notes as they stand
-and 92 over their extracted prose,
-and `double-space` reports none over the memoir and 40 over its prose.
-Each of those is the extractor's own artifact.
 An extraction is a transformation rules fire on,
 so it owes an account of what it invents
-exactly as a rule owes a false-positive rate,
-and [TODO.md](../TODO.md) names writing one on those terms.
+exactly as a rule owes a false-positive rate.
+The two extractions written before this repository had one
+deleted inline markup and left the space that stood in front of it,
+which a reader reads as somebody's typing.
+[extraction.md](extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
+owns that account, the price the rates above pay,
+and what the two earlier extractions cost.
 
 ## What the em dashes are doing
 

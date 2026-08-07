@@ -126,7 +126,11 @@ names as the first member of the audit corpus:
 git clone --depth 1 https://github.com/CIRFMF/ksef-docs
 ```
 
-32 Markdown files, 36,550 words as olski counts them.
+32 Markdown files, 36,550 words as olski counts them over the files as they stand.
+That is apparatus and prose together,
+which is the point here and is why the figure
+[corpora.md](corpora.md#polish-technical-documentation-original-and-translated)
+gives for the same repository is a third smaller.
 
 ## What ran
 
@@ -315,6 +319,9 @@ That is the rule's own false positive — a dotted identifier quoted bare —
 arriving at a rate its justification does not anticipate,
 because the justification assumes the linter is not shown the code spans
 and this run showed it 32 files of them.
+Showing it the prose instead leaves 156 of the 748,
+and [extraction.md](extraction.md#what-the-reader-sees-is-not-always-polish)
+reads those.
 
 ## `em-dash-density` has a distribution now
 

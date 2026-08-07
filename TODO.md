@@ -41,33 +41,44 @@ and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
-Nothing in this repository turns a Markdown corpus into the prose
-[the harness has to measure](docs/roadmap.md#milestone-1-the-calibration-harness),
-and the checks that measure a whole file decline rather than guess,
-so the corpus that [docs/generated-polish.md](docs/generated-polish.md#what-was-measured) reports on
-cannot be measured here at all.
-An extraction outside the `olski` package fixes that,
-since milestone 0 keeps document formats out of the linter itself.
-What it owes on arrival is an account of what it invents:
-the two throwaway extractions both delete inline markup
-and leave the space that stood in front of it,
-which takes `space-before-punctuation` from 8 findings over the notes to 92,
-so an unaccountable extractor trades one set of false findings for another.
-The obvious first shape is the smallest one that serves the harness —
-frontmatter, fenced code, headings, tables and trailing link lists dropped,
-inline markup replaced by the text it wrapped rather than deleted,
-hard-wrapped paragraphs joined —
-and a test over a fixture carrying each of those.
-It also brings that document's rates under
-[the check CLAUDE.md asks of the corpus tables](CLAUDE.md#checks):
-a run somebody can redo,
-so a change to what counts as a word moves a number a person can correct
-instead of one nothing will catch.
-The same holds for the typographic counts in
-[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
-which were taken by hand for the same reason
-and which `olski --format report` prints once an extraction feeds it,
-so retaking them is part of this entry rather than an entry of its own.
+Only one of the corpora in
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
+reaches the rules through a program this repository holds.
+`harness/markdown.py` reads Markdown,
+which is what the KSeF figures there are taken with,
+while NKJP is XML, Śmigiel is JSONL,
+`python-docs-pl` is PO files and Wolne Lektury is plain-text exports,
+so every figure over those is still counted by hand.
+One of the four needs no extraction at all,
+since a text export is what olski reads,
+and what it needs instead is a selection anybody can repeat:
+the Wolne Lektury count in that document
+runs over "the first forty `Epika` entries the catalogue returns",
+which is not an order to rerun into.
+[`docs/firing-rates.md`](docs/firing-rates.md#wolne-lektury)
+already fetches the same library by naming every slug it takes,
+so that half is a rewrite of one paragraph rather than a program.
+The move is to decide, per corpus, whether it joins the harness
+as an extraction beside the Markdown one,
+as a fetch-and-select command in the document that cites it,
+or not at all because the survey has already ruled the corpus out.
+
+The documentation half of [`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
+audits the pack over apparatus that the harness can now take away.
+Its KSeF column is the 32 Markdown files as they stand,
+where `missing-space-after-full-stop` fires 748 times for one defect
+and `trailing-space` 426 times for none,
+and [`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
+holds what the same rules report over the extracted prose.
+Two readings of one corpus in two documents is one too many.
+The move is to make the audit's documentation column the extracted one,
+since that is the corpus
+[the audit corpus](docs/corpora.md#the-audit-corpus-polish-documentation-in-version-control)
+will actually be,
+and keep the as-they-stand figures only where they are the argument
+for extracting at all.
+That means rereading the hits, not just recounting them:
+156 hits of a rule are a different audit from 748.
 
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"

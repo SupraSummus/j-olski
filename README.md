@@ -112,6 +112,16 @@ A file in a markup format gets the rules a character settles,
 and abstentions from the rules that would otherwise measure its apparatus.
 See [docs/rules.md](docs/rules.md).
 
+What turns a Markdown corpus into prose the rest of the rules can measure
+sits beside the linter rather than in it:
+
+```sh
+python3 -m harness.markdown korpus/ --into proza/
+```
+
+See [docs/extraction.md](docs/extraction.md),
+which owns what that step invents.
+
 The rest of the repository holds design notes, a survey of the field,
 a roadmap, and open questions.
 
@@ -137,6 +147,9 @@ a roadmap, and open questions.
   what a real body of generated Polish measures,
   which patterns it puts on the inventory,
   and why a corpus edited against detectors is a floor and not a sample
+- [docs/extraction.md](docs/extraction.md) —
+  how a Markdown corpus reaches the rules as prose,
+  and what the step invents in the process
 - [docs/corpora.md](docs/corpora.md) —
   which Polish is obtainable for the human half,
   what each candidate corpus records about its register, provenance and licence,
