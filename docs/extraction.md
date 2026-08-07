@@ -128,10 +128,10 @@ A hit a reader dismisses at a glance is the cheaper of the two,
 and 147 hits on the text of a link are a document to correct
 rather than a rate to discount.
 
-## After joining, a line-end rule measures a different line
+## After joining, a line-end rule has nothing left to read
 
 Two rules read where a line ends,
-and both of them measure something else once a paragraph is one line.
+and neither of them can once a paragraph is one line.
 
 `trailing-space` cannot fire at all:
 joining strips the whitespace at every line end it consumes.
@@ -140,20 +140,25 @@ and none of them is recoverable from the prose,
 so a corpus is audited for trailing whitespace over its files
 or not at all.
 
-`orphan-single-letter-word` starts measuring the right thing instead.
-Over the notes as they stand it reports 32 findings,
-every one of them a letter that stands mid-line for every reader,
-because a single newline in Markdown is a space.
-Over the prose it reports 23,
-each at the end of a paragraph,
-and reading them gives the rule's own false-positive class
-rather than the format's:
-a designator (*sekcja A*), a unit (*10¹⁸ W*),
-an abbreviation (*z XXI w.*), and the label *Q&A:*.
-Those are the classes
-[the audit over published Polish](firing-rates.md#orphan-single-letter-word-fired-124-times-and-found-nothing)
-reads out of the rule as well.
-That is the number a calibration can use.
+`orphan-single-letter-word` declines rather than measuring something else.
+Over the notes as they stand it reports 10 findings
+and declines 183 of the 527 files.
+The 10 are letters standing mid-line for every reader,
+because a single newline in Markdown is a space,
+and the 183 are the notes that already set each paragraph on a line of its own —
+which is what joining then does to the remaining 344,
+so over the prose the rule declines every file and reports nothing.
+
+What it would have reported there is 6 findings over the notes
+and 2 over the memoir,
+none of them a word left at the end of a line:
+the `a` of an apostrophe genitive (*Lagrange'a*, *hardware'u*),
+the abbreviation `w.` for *wiek* (*z XXI w.*),
+a shell flag (*env -i.*),
+and a preposition at the end of a paragraph, which has no line to be left at.
+[The audit over published Polish](firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
+reads the same classes out of the rule,
+and a corpus of joined prose is one no line-end rule can be calibrated against.
 
 ## What it does not recognize
 

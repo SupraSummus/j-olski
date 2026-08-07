@@ -91,8 +91,14 @@ pack.rule(
     The usual fix is a non-breaking space
     between the letter and the word it governs.
     This rule can only apply where a line break in the source
-    is a line break in the output;
-    where the text is reflowed downstream it abstains.
+    is a line break in the output,
+    so it abstains on a document whose own lines say otherwise
+    as well as on a format olski does not read.
+    The list is lower case, which leaves out the sentence
+    that opens on one of these words at a line end:
+    the capitals belong to a Roman numeral, a section label and a unit
+    more often than to a conjunction,
+    and one list cannot hold `Tom I` out and let `I` in.
     """,
     sources=("docs/linter.md#typography-tier-a",),
 )

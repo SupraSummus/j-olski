@@ -400,9 +400,10 @@ def test_line_end_word_ignores_the_same_letter_mid_line():
     assert hits(orphans, "Zapisano to w pliku\ntekstowym.\n") == []
 
 
-def test_line_end_word_is_case_insensitive_by_default():
-    found = hits(orphans, "Zdanie kończy się na W\nnowej linii.")
-    assert [h.fields["word"] for h in found] == ["W"]
+def test_line_end_word_matches_the_case_the_rule_listed():
+    #  Folding case is what read the Roman numeral as the conjunction, and the
+    #  numeral is how Polish counts a volume, a chapter and a monarch.
+    assert hits(orphans, "Zaczyna się Tom I\nnowej powieści.") == []
 
 
 def test_line_end_word_looks_past_trailing_punctuation():
@@ -415,6 +416,29 @@ def test_line_end_word_abstains_where_a_source_line_is_not_a_rendered_line():
     reflowed = Document(path="reflowed.md", text="Zapisano to w\npliku.\n", plain_text=False)
     outcomes = run(orphans, reflowed)
     assert [type(o) for o in outcomes] == [Abstain]
+    assert outcomes[0].whole_file
+
+
+def test_line_end_word_abstains_on_plain_text_that_sets_a_paragraph_on_one_line():
+    #  The export a whole published corpus arrives in, where the rule fired 124
+    #  times and every hit stood mid-line for every reader. The second paragraph
+    #  ends on a listed word, so the refusal is what keeps it from being a finding.
+    export = (
+        "Zapisano to w pliku tekstowym i nic więcej się nie stało.\n\n"
+        "Drugi akapit również stoi w jednej linii, jak w eksporcie, a\n\n"
+        "Trzeci akapit tak samo, cały na jednej linii.\n"
+    )
+    outcomes = run(orphans, export)
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert outcomes[0].whole_file
+
+
+def test_line_end_word_measures_a_document_whose_paragraphs_run_past_a_line():
+    #  Verse is not wrapped to a width and its line ends are line ends all the
+    #  same, so what the precondition reads is where a paragraph ends and not how
+    #  long a line is.
+    verse = "Nie porzucaj nadzieje,\nJakoć się kolwiek dzieje: a\nbo świeci.\n"
+    assert [h.fields["word"] for h in hits(orphans, verse)] == ["a"]
 
 
 # --------------------------------------------------------------------------- #

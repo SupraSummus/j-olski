@@ -108,8 +108,8 @@ and how many of them were real defects:
 from olski.rules import Audit
 
 calibration=Audit(
-    hits=124,
-    defects=119,
+    hits=83,
+    defects=79,
     corpus="drafts, characters as typed",
     taken="2026-08-07",
 )
@@ -212,7 +212,7 @@ which is where [milestone 0](roadmap.md#milestone-0-rule-engine-and-the-typograp
 puts it,
 and [extraction.md](extraction.md) is the step that does it for Markdown.
 What belongs to olski is knowing the job has not been done.
-A file's suffix is the whole of the evidence available,
+A file's suffix is the whole of the evidence available about its characters,
 and one olski does not recognize is read as text it cannot vouch for.
 
 Recognizing a suffix is weaker evidence than it reads as,
@@ -223,8 +223,19 @@ a table laid out with runs of spaces and emphasis written as `*`
 are apparatus in a file that answered for prose,
 and a paragraph set on one line however long it runs
 puts a newline where the page has a paragraph break rather than a line end.
-A check that trusted either one measured the export instead of the Polish,
-and nothing in the file said so.
+
+The two are not evidenced alike, so they are not asked for alike.
+Whether a character is prose or apparatus is a question about a format,
+and a suffix is the only thing that answers it at all.
+Whether a newline is a line break is a question about the text,
+and the text answers it:
+a document that broke its own lines has paragraphs running past one,
+where an export has a paragraph to a line.
+So the second guarantee is measured rather than taken on the suffix's word,
+and `Document.hard_wrapped` is what a check asks for it with.
+That audit is the price of having asked the suffix instead,
+and every finding in it stood in a file
+whose own lines said it was not laid out in them.
 
 ## Check kinds
 
@@ -395,16 +406,23 @@ and the corpus behind it.
 ### `line-end-word`
 
 ```python
-params=dict(words=["a", "i", "o", "u", "w", "z"], case_sensitive=False)
+params=dict(words=["a", "i", "o", "u", "w", "z"])
 ```
 
 Only meaningful where a line break in the source
 is a line break in the output,
-which is one of the two things
-[plain text guarantees and a markup format does not](#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
-Elsewhere the rule abstains,
+which takes a format olski reads
+and a document that used its newlines to break lines:
+[the two are asked for separately](#a-check-may-be-asking-more-of-a-document-than-its-format-gives),
+and failing either one the rule abstains,
 because a source line says nothing about a rendered line
 and guessing would flag correct text.
+
+Words are matched as written rather than folded,
+so a list carries the forms it means.
+The fold is what read `Tom I` as a conjunction,
+and [firing-rates.md](firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
+holds what it cost and what leaving it out costs in return.
 
 ### `entity-recurrence`
 

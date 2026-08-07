@@ -152,65 +152,56 @@ which then has to say whether valency is a construction it is missing
 or a gap of another kind,
 or the two sentences in `docs/corpus.md` stop pointing at it.
 
-The engine tells a declined file from a declined scope by comparing a reason string.
-`_tally` in `olski/engine.py` subtracts the two differently,
-since a rule that declined a file never saw the scopes in it
-where one that declined a scope saw that scope and no other,
-and what it tells them apart with
-is whether the reason equals `NOT_PLAIN_TEXT`.
-Every abstention the checks can raise is classified right by that test,
-so this is about the next one rather than about a wrong number in a report:
-a rule declining a whole document for any other reason
-counts as having declined a single scope.
-Give `line-end-word` the wrap precondition
-the entry on where a file wraps asks for,
-and declining a 50-line file leaves 49 of its lines in the denominator.
-The move is to make the width part of the outcome instead of reading it off the prose,
-with an `Abstain` saying whether it refuses a scope or the whole file,
-which also relieves `NOT_PLAIN_TEXT` of doubling as a tag,
-a job `olski/checks.py` documents it as having.
-That entry is what makes this reachable,
-so whoever picks it up needs this as well.
+A check and a document disagree about where a word ends.
+`WORD` in `olski/document.py` keeps an apostrophe inside a word,
+so `Lagrange'a` is one word to every count olski takes,
+while `_last_word` in `olski/checks.py` matches `[^\W\d_]+` of its own
+and finds the word `a` at the end of it.
+It is a class of its own in
+[the audit](docs/firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
+and in the one over the notes in
+[`docs/extraction.md`](docs/extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
+every hit in it an apostrophe genitive: `Locke'a`, `Farrère'a`, `hardware'u`.
+The move is for `_last_word` to take the last `WORD` match instead of its own,
+which leaves the class standing beside it:
+`w.` for *wiek* is the word `w` and a full stop,
+and `ABBREVIATIONS` in `olski/document.py` does not list `w.`,
+so a rule reading a line end still reads an abbreviation as a preposition.
+Whoever takes this settles whether the abbreviation test belongs to the check
+or to the word notion both of them would then share.
+The evidence is those two classes and what a `WORD`-based reading does to them,
+which is the whole of what the change is for.
 
-`line-end-word` reads where a file wraps and reports it as where a page wraps.
-The check's docstring in `olski/checks.py` says the judgement depends on
-where lines break in the output,
-and takes a plain-text suffix as the evidence that they do,
-which [`docs/rules.md`](docs/rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
-prices as weaker evidence than it reads as.
-[The pilot](docs/firing-rates.md#orphan-single-letter-word-fired-124-times-and-found-nothing)
-is that price paid: 124 hits over a corpus of `.txt` and not one of them the defect,
-because the export sets a paragraph on one line however long it runs,
-and 35 of the 124 are a word ending a paragraph rather than a line.
-The evidence the suffix stands in for is in the file itself:
-a document wrapped to a width has its line lengths clustered under one,
-where a paragraph-per-line document has a long tail.
-So the move is a precondition on the document rather than an exemption in the rule,
-with `line-end-word` abstaining where the lines were not wrapped to a width,
-the way a rate rule abstains on a document too short to measure.
-Settle first whether that reading belongs to the check or to `Document`,
-since it is a property of the file
-and every later rule that counts lines would ask the same of it.
-This reads the same 124 hits as the entry on the Roman numeral,
-so the two are picked up together.
+A run says which files a format made a rule decline, and not which ones the text did.
+`_note_markup` in `olski/cli.py` prints one line
+when a whole-file rule declined on a file in a format olski does not read,
+because a run over Markdown would otherwise read as a run over prose
+that happened to find less.
+A precondition on the text is followed by the same silence:
+`olski powiesc.txt` over a paragraph-per-line export
+prints no line-end finding and no notice,
+and only `--format report` shows that nothing was measured.
+The move is a decision about how much the default mode says —
+a notice for every precondition a run tripped,
+which is `--show-abstentions` in summary,
+or the format notice alone,
+on the grounds that a reader can see the shape of their own file
+and cannot see what a suffix promised on its behalf.
 
-`orphan-single-letter-word` reads the Roman numeral `I` as the conjunction `i`.
-Folding case is right for `A` and `W` opening a sentence
-and wrong for the numeral Polish numbers its chapters and its monarchs with:
-70 of the 124 hits over
-[the pilot corpus](docs/firing-rates.md#orphan-single-letter-word-fired-124-times-and-found-nothing)
-are `Tom I`, `Rozdział I` and `Mieszko I`.
-The rule cannot fix this by itself,
-because `case_sensitive` is one flag for the whole word list
-and the list needs `i` folded and `I` not.
-So either that parameter becomes a per-word one,
-or `line-end-word` grows the exemption `pattern` already carries
-in `unless_preceded_by` and `unless_followed_by`,
-which is the smaller change and buys precision back the way the pack does elsewhere.
-Having the rule decline the pilot corpus outright,
-which is where the entry on where a file wraps arrives,
-removes the evidence rather than the false positive:
-`Rozdział I` at the end of a line somebody wrapped to a width is still one.
+A word at the end of a paragraph is not a word left at the end of a line.
+`line_end_word` in `olski/checks.py` reads every line of a document it accepts,
+and the last line of a paragraph ends where the paragraph does,
+so a one-letter word before a paragraph break is a finding
+with nothing after it to be separated from.
+It is the largest class of either audit after the Roman numeral,
+and the precondition on the document does not reach it:
+a corpus laid out in lines still ends every paragraph somewhere.
+The move is for the check to skip a line whose end is a paragraph's end,
+which `Document.paragraphs` already holds the spans for.
+No figure moves,
+since the rule fires nought times over the one stratum it reads,
+so what this buys is the class not returning
+the first time somebody points the rule at prose wrapped to a width.
 
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
@@ -266,6 +257,13 @@ and the descriptor writes the instance dictionary directly.
 The reason to make it before the analyser rather than alongside one:
 the same change made afterwards
 has to be made through whatever wired the analyser in.
+A second reason arrived with `hard_wrapped`,
+which is a precondition computed from `paragraphs`:
+a `Document` built by its constructor rather than by `from_text`
+has that field empty and answers the precondition falsely,
+so a rule declines a file nobody said anything wrong about.
+Only tests build one that way today,
+and a lazy analysis is what stops the half-built state from existing at all.
 
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
