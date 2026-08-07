@@ -243,9 +243,6 @@ the way it already points readers at `--list-rules`,
 or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
-Either option waits on the entry
-that makes a check's fields a function of its validated parameters,
-since both read a set that is about to become a call.
 
 `Document` computes an analysis nobody asked for
 and recomputes one everybody does.

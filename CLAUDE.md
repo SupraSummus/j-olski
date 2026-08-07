@@ -352,6 +352,40 @@ the list in the document that owns the topic,
 or a document's own `Not yet decided`.
 The other list may carry a one-line pointer, and nothing more.
 
+## Splitting work across sessions
+
+Several sessions can run at once,
+and what decides whether they may is the judgment each one settles
+rather than the files each one touches.
+Two sessions editing one document cost a merge.
+Two sessions answering one question cost the answer twice,
+and the two answers need not agree,
+which no merge tool reports and no test catches.
+
+So a split names, per session, the decision that session settles —
+whether falling under a rate rule's floor is a decision, say,
+which the docstring of `pattern_density` in `olski/checks.py` settles.
+Where two come out the same, it is one session.
+This is the demand [`TODO.md`](TODO.md) makes of a single entry —
+that it name the evidence it reads and not only the files it changes —
+applied to a batch of them.
+
+A session is worth starting when one decision settles several entries.
+An entry that cannot be settled until another session answers
+is parked rather than parallelised,
+and stays on the list with the blocker named,
+so that whoever picks it up next does not start it cold.
+The session that answers deletes the blocker,
+because nothing rereads a parked entry until somebody picks it up.
+
+Where two sessions both correct figures in one document,
+split by the kind of number rather than by the section,
+since a section is a place and a number has a cause:
+one moves hit counts, the other denominators,
+and whoever lands second reruns the tables.
+Splitting by section reads as clean and is not,
+because one decision reaches wherever its number went.
+
 ## Checks
 
 ```sh
