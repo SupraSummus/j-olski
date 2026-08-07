@@ -22,7 +22,9 @@ of outcomes.
 Implementation note. This is a memoizing top-down enumerator over the
 segmentation graph, which is enough for a grammar without left recursion and
 detects the case it cannot handle rather than looping. When the grammar needs
-left recursion — or when enumerating readings costs more than counting them — it
+left recursion — or when enumerating readings costs more than counting them, or
+when a measurement wants to walk a forest rather than a reading list, as in
+docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold — it
 gets replaced by a chart parser with a packed forest, which is what
 docs/design-notes.md has always assumed.
 """

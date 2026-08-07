@@ -153,6 +153,10 @@ a roadmap, and open questions.
   that runs a GLR parser over real Polish,
   what it does with the forest,
   and what its grammar measures at over a thousand rows
+- [docs/swigra.md](docs/swigra.md) —
+  which ground the closest existing parser of Polish occupies,
+  what it leaves open for the grammar track,
+  and the mechanisms worth taking from its source
 
 ## Conventions
 

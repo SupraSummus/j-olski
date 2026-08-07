@@ -3,6 +3,9 @@
 A renamed section leaves a live-looking link behind,
 and nothing in a Markdown file fails when that happens,
 so the review pass had to grep for it by hand.
+Code names documents too — a rule's ``sources`` cite the section
+its justification comes from — and those rot the same way,
+out of reach of a check that only reads Markdown.
 """
 
 import re
@@ -12,13 +15,24 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
+SOURCES = sorted((ROOT / "olski").rglob("*.py"))
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
+CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
 HEADING = re.compile(r"(?m)^#+\s+(.*)$")
 
 
 def anchor_of(heading: str) -> str:
     """Slug a heading as GitHub does for ordinary headings: fold case, drop punctuation."""
     return re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", heading.strip().lower()))
+
+
+def assert_resolves(destination: Path, anchor: str, origin: str) -> None:
+    assert destination.exists(), f"{origin} names a document that is not there"
+    if anchor:
+        headings = HEADING.findall(destination.read_text())
+        assert anchor in {anchor_of(heading) for heading in headings}, (
+            f"{origin} names #{anchor}, which no heading in {destination.name} makes"
+        )
 
 
 def relative_links():
@@ -29,13 +43,21 @@ def relative_links():
     ]
 
 
+def cited_documents():
+    return [
+        pytest.param(source, citation.group(0), id=f"{source.name} -> {citation.group(0)}")
+        for source in SOURCES
+        for citation in CITED_DOCUMENT.finditer(source.read_text())
+    ]
+
+
 @pytest.mark.parametrize(("document", "target"), relative_links())
 def test_every_relative_link_resolves(document: Path, target: str):
     path, _, anchor = target.partition("#")
-    destination = document.parent / path if path else document
-    assert destination.exists(), f"{document.name} links to a file that is not there"
-    if anchor:
-        headings = HEADING.findall(destination.read_text())
-        assert anchor in {anchor_of(heading) for heading in headings}, (
-            f"{document.name} links to #{anchor}, which no heading in {destination.name} makes"
-        )
+    assert_resolves(document.parent / path if path else document, anchor, document.name)
+
+
+@pytest.mark.parametrize(("source", "target"), cited_documents())
+def test_every_document_cited_from_code_resolves(source: Path, target: str):
+    path, _, anchor = target.partition("#")
+    assert_resolves(ROOT / path, anchor, source.name)

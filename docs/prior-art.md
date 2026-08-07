@@ -42,11 +42,27 @@ See [linter.md](linter.md#what-already-exists).
 
 **GFJP** and **Świgra** —
 Świdziński's *Gramatyka formalna języka polskiego*,
-and Woliński's chart parser implementing it.
-A working constituency parser for real Polish,
-using a metamorphosis-grammar formalism with attributes.
-The closest existing thing to the parsing angle,
-done at full scale.
+and Woliński's parser,
+which ships both a faithful implementation of GFJP
+and a larger grammar of his own descended from it.
+A working constituency parser for real Polish at full scale,
+built on an extended Definite Clause Grammar formalism.
+Which ground it occupies, what it leaves open,
+and what its source is worth taking from,
+is in [swigra.md](swigra.md).
+
+**Walenty** —
+a valency dictionary of Polish,
+recording for each lemma the syntactic frames it admits.
+The October 2017 version bundled with Świgra
+characterizes 17,820 lemmata with 97,293 schemata,
+and it is distributed under CC BY-SA 4.0 —
+a friendlier licence than the parser
+whose lexicons are generated from it.
+It is what olski would need
+in order to say which arguments a verb requires
+rather than merely permits.
+<http://walenty.ipipan.waw.pl/>
 
 **Składnica** —
 a constituency treebank of Polish, aligned with Świgra's output.

@@ -160,6 +160,13 @@ It should probably be answered by measurement rather than taste:
 find out what fraction of real Polish sentences need it
 before paying for it.
 
+One parser of Polish reaches common discontinuity without paying.
+Świgra threads a single gap through its free-order sequence
+and forbids subjects from extracting,
+which is a tier-2 answer to a tier-3 problem;
+what it gives up is the measurement nobody has taken.
+See [swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class).
+
 ### The rest of the subset
 
 Each row is a real fork, not a difficulty level.
@@ -252,6 +259,13 @@ Whatever the format,
 argues the parser must accept a grammar as data,
 because a precedence preprocessor generates productions
 rather than writing them.
+
+Świgra takes the first option and compiles it,
+which is evidence that a bespoke file with its own compiler
+can carry a grammar of Polish at full scale.
+That file also carries its test cases,
+a job the three options above are silent about:
+see [swigra.md](swigra.md#the-grammar-carries-its-own-examples).
 
 ### What the output is
 

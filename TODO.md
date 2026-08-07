@@ -129,6 +129,41 @@ rather than the linter-track tests it could have run.
 The question to settle first is whether a silent skip is acceptable
 while nothing but a human run notices it.
 
+`olski-corpus` asks Składnica whether a sentence derives at all,
+where the same treebank supports a sharper question.
+Świgra's evaluation walks its packed forest per sentence
+and counts the trees consistent with the corpus disambiguation
+(see [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
+so coverage becomes whether the gold reading is among the readings
+and how deeply it is buried,
+rather than whether anything came out at all.
+This is ordered behind the chart parser
+that the implementation note in `olski/parse.py` defers,
+because the enumerator builds no forest to walk
+and caps enumeration at `MAX_READINGS`,
+which is exactly the tail a burial-depth number would be measuring.
+
+[`docs/roadmap.md`](docs/roadmap.md) describes the optional grammar track
+as a parts list — Earley, parse forests, free word order and LCFRS —
+and never says what the track is for.
+The purpose is stated in
+[`docs/swigra.md`](docs/swigra.md#what-it-leaves-open) instead,
+which reaches it by surveying somebody else's parser:
+reporting ambiguity to the author rather than resolving it for them
+is the ground that survey found unoccupied.
+That belongs in the roadmap section owning the track,
+above its machinery,
+and then `swigra.md` restates it in a clause and points there.
+
+The repository ships no licence.
+`pyproject.toml` carries no `license` field and there is no `LICENSE` file,
+so the terms under which any of this may be used are unstated.
+The move is to pick one, add the file,
+and set `license` in `pyproject.toml` to match.
+Reading a GPL v3 parser of Polish is what raised it
+(see [`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)),
+and the answer decides whether olski could ever link against such a thing.
+
 Nothing runs `ruff check .` and `python3 -m pytest` except a person
 who remembers to.
 A workflow under `.github/workflows/` would run both,
