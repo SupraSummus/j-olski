@@ -63,6 +63,11 @@ It also brings that document's rates under
 a run somebody can redo,
 so a change to what counts as a word moves a number a person can correct
 instead of one nothing will catch.
+The same holds for the typographic counts in
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
+which were taken by hand for the same reason
+and which `olski --format report` prints once an extraction feeds it,
+so retaking them is part of this entry rather than an entry of its own.
 
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"
@@ -74,6 +79,23 @@ Either both go on that list,
 which then has to say whether valency is a construction it is missing
 or a gap of another kind,
 or the two sentences in `docs/corpus.md` stop pointing at it.
+
+`docs/corpus.md` and `docs/corpora.md` differ by two letters
+and hold unrelated things:
+the first measures the grammar against the Składnica treebank,
+the second surveys the corpora the linter would calibrate against.
+A link to either one reads the same,
+and a grep for one of them finds both.
+The move is to rename `docs/corpus.md` to `docs/skladnica.md`,
+which says what it holds and matches `docs/swigra.md` beside it,
+and to carry the rename through
+`CLAUDE.md`, `README.md`, this file,
+`docs/design-notes.md`, `docs/prior-art.md`, `docs/subset.md`, `docs/swigra.md`,
+and the citations in `olski/corpus.py`, `olski/coverage.py`, `olski/subset.py`
+and `tests/test_subset.py`.
+`tests/test_docs.py` catches the Markdown links and the citations in code,
+and nothing catches the plain-prose mentions,
+so those are the ones to grep for.
 
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates the `fields` set each check registers,

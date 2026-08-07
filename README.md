@@ -133,6 +133,10 @@ a roadmap, and open questions.
   what a real body of generated Polish measures,
   which patterns it puts on the inventory,
   and why a corpus edited against detectors is a floor and not a sample
+- [docs/corpora.md](docs/corpora.md) —
+  which Polish is obtainable for the human half,
+  what each candidate corpus records about its register, provenance and licence,
+  and the composition the survey argues for
 - [docs/roadmap.md](docs/roadmap.md) —
   milestones and their exit criteria
 - [docs/prose-linters.md](docs/prose-linters.md) —

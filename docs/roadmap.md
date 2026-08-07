@@ -105,14 +105,16 @@ and the account it owes of the findings it invents.
 **The human half, which is the blocking one.**
 Which Polish counts as the good side is **corpus sourcing** in
 [open-questions.md](open-questions.md#linter-questions),
-a question the outside world answers rather than a file to write.
-The rules below make specific demands of it.
-A threshold is a point in the human distribution,
-so the register a pack is scoped to has to be represented in that distribution;
-a rule against calques needs a baseline written in Polish
-rather than translated into it;
-and a typographic rule needs prose that has not been through a typesetter,
-which is a second corpus rather than a proportion of the first.
+a question answered by gathering text rather than by writing code.
+The rules below make specific demands of it —
+a register represented in the distribution,
+a baseline written in Polish rather than translated into it,
+and prose whose characters nobody renormalized —
+and [corpora.md](corpora.md) surveys what meets them.
+Its answer is that the register is scarce enough
+that the distribution gets assembled rather than chosen,
+and that the rules whose hits get read
+want a second corpus rather than a proportion of the first.
 
 **The generated half, generated for the purpose and then left alone.**
 [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
@@ -147,7 +149,7 @@ owns the argument and what each kind of rule owes.
 
 So the pack that exists exits in two pieces.
 Its typographic rules exit with their hits read,
-over the corpus above that has not been through a typesetter,
+over the corpus above whose characters nobody renormalized,
 and `em-dash-density` exits with the human distribution
 its threshold has to sit outside.
 
