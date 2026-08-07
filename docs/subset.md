@@ -21,7 +21,20 @@ So the sentence parses two ways
 and says the opposite thing in each,
 without a Polish reader being able to tell which was meant.
 
-Two answers were available.
+Nothing in the comparison itself does this.
+Give the same verb a subject and an object whose cases do not collide
+and the sentence has one reading:
+
+```text
+Chałka przewyższa zwykłą bułkę.
+```
+
+`chałka` is nominative and nothing else,
+`bułkę` accusative and nothing else,
+so OVS has nowhere to derive,
+and the syncretism is what costs the first sentence its meaning.
+
+Where the cases do collide, two answers were available.
 Declare olski to be SVO and read the first noun phrase as the subject,
 or reject the sentence.
 Rejecting it wins,
@@ -127,6 +140,8 @@ and the form carries another one that is what it almost always is.
 - Noun phrases with an adjective before or after the noun,
   a genitive modifier, or a prepositional modifier
 - Prepositional phrases, with the preposition governing the case
+- A prepositional phrase in front of the clause,
+  which modifies the clause rather than any noun in it
 - Agreement throughout, as unification rather than as a separate check:
   `Nowa program zapisuje ustawienia.` has no derivation at all
 
@@ -171,11 +186,54 @@ is ambiguous the same way,
 which means the uniqueness property as stated
 excludes a large and ordinary part of technical Polish.
 
-Three ways out, none yet chosen:
+The comparison this document opens with runs into it.
+`przewyższać` compares along a dimension —
+what one thing exceeds another *in* —
+and leaving the dimension out is what makes
+`Chałka przewyższa zwykłą bułkę.` read stiffly,
+so a person writing it names one:
+`Chałka przewyższa zwykłą bułkę pod względem smaku.`
+That is two readings again,
+one where the dimension belongs to the comparison
+and one where it belongs to the roll.
+
+One position escapes it, and the grammar takes it:
+
+```text
+Pod względem smaku chałka przewyższa zwykłą bułkę.
+```
+
+A prepositional phrase modifies a Polish noun only from behind it,
+so in front of the clause there is no noun for it to attach to
+and the reading where the taste belongs to the roll does not exist —
+for the parser and for a Polish reader alike.
+Fronting asks nothing of the reader,
+being a position the language already has,
+and [corpus.md](corpus.md#where-the-analyses-stop)
+counts what admitting it reaches on the treebank.
+
+It settles one of the two readings and not the other.
+The verb reading gets a position that isolates it and the noun reading gets none,
+so an author who means *the settings that are in the file*
+has nowhere to put the phrase where only that reading survives.
+`Ustawienia w pliku zapisuje program.` looks like that position
+and is not one:
+the OVS rule takes no modifier of its own,
+so the phrase can only reach the noun,
+and olski calls the sentence unambiguous
+where a Polish reader still has both readings.
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
+shows the same narrowness on the treebank,
+where it accounts for every disagreement with a gold tree.
+
+Three ways out of the reading that is left, none yet chosen:
 
 1. **Accept the cost.** Olski is small, and this is what small means.
-   The author writes `Program zapisuje w pliku ustawienia.`
-   or splits the sentence.
+   The author fronts the phrase or splits the sentence.
+   Moving it in front of the object instead does not work:
+   `Program zapisuje w pliku ustawienia.` is accepted
+   with `w pliku ustawienia` read as one phrase and no object at all,
+   because no `Predicate` rule takes a modifier before its object.
 2. **Attach consistently.** Declare that a prepositional phrase
    attaches to the verb unless something forces otherwise.
    Cheap, and it makes the language depend on a convention

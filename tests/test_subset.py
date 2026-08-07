@@ -77,6 +77,14 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         #  OVS resolved by agreement: the singular verb picks the singular noun
         #  as its subject, whatever order they come in.
         "Programy zapisuje ustawienie.",
+        #  A modifier in front of the clause, which is the position where a
+        #  prepositional phrase has no noun to attach to and so stays out of the
+        #  attachment ambiguity the same phrase carries after an object.
+        "Pod względem smaku chałka przewyższa zwykłą bułkę.",
+        #  In front of the clause whatever order the clause is in, and in front
+        #  of a subjectless one too.
+        "Pod względem smaku zwykłą bułkę przewyższa chałka.",
+        "W pliku zapisuje ustawienia.",
     ],
 )
 def test_these_are_olski(text):
@@ -88,6 +96,15 @@ def test_a_valid_sentence_says_what_fills_each_role():
     assert roles["Subject"] == "Program"
     assert roles["Object"] == "ustawienia"
     assert roles["Verb"] == "zapisuje"
+
+
+def test_a_fronted_modifier_belongs_to_the_clause_and_not_to_the_subject():
+    #  Nothing but the clause rule can take it there, and the failure to guard
+    #  against is the subject swallowing it: NP → subst Modifier is what makes
+    #  the same phrase between the subject and the verb come out valid and wrong.
+    roles = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings[0]
+    assert roles["Subject"] == "chałka"
+    assert roles["Modifier"] == "Pod względem smaku"
 
 
 def test_object_first_order_is_polish_and_is_read_that_way():
@@ -141,11 +158,25 @@ def test_case_syncretism_plus_free_word_order_makes_a_sentence_ambiguous():
     assert "Subject" in found.explain()
 
 
+def test_the_same_comparison_is_unambiguous_when_the_cases_are_not_syncretic():
+    #  Same verb in the same frame as the sentence above, but chałka is
+    #  nominative only and bułkę accusative only, so OVS has nowhere to derive:
+    #  what that sentence loses, it loses to the syncretism and not to the verb.
+    found = verdict("Chałka przewyższa zwykłą bułkę.")
+    assert found.status == "valid", found.explain()
+    assert found.readings == [
+        {"Subject": "Chałka", "Object": "zwykłą bułkę", "Verb": "przewyższa"}
+    ]
+
+
 @pytest.mark.parametrize(
     "text",
     [
         "Program zapisuje ustawienia w pliku.",
         "Program zapisuje ustawienia w pliku konfiguracyjnym.",
+        #  Here the phrase cannot be dropped: przewyższać compares along a
+        #  dimension, so naming it is what makes the comparison read like Polish.
+        "Chałka przewyższa zwykłą bułkę pod względem smaku.",
     ],
 )
 def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):

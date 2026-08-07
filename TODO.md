@@ -362,3 +362,38 @@ or keep the rule and reflow the docstrings under
 [lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
+
+A modifier between the subject and the verb has nowhere to go but the subject.
+`Chałka pod względem smaku przewyższa zwykłą bułkę.` comes out `valid`
+with the taste made part of the challah,
+because `NP → subst Modifier` is the only rule that can take a phrase in that position
+and the clause rules have no slot there.
+That is the narrowness
+[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
+already caught on `Przybysze z najnowszej fali na ogół`,
+reached from the other side:
+a fronted modifier now has a rule of its own and a preverbal one does not.
+The move is a `Clause → Subject Modifier Predicate` rule,
+which turns those sentences from silently wrong into honestly ambiguous.
+What has to be read before taking it is the same run both ways:
+what the rule does to the accepted count
+and to the four disagreements in that table,
+since the sentences it costs are ones olski accepts today.
+
+Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
+`olski-corpus` prints the verdict tables, the length curve
+and the blocker ranking by part of speech,
+while the commonest forms under each blocker,
+the count of sentences the two runs both accept,
+and the column with `admissible` switched off
+come from scripts written for one session and thrown away.
+So a change to the grammar updates the tables that have a command
+and silently leaves the rest stale,
+which is the failure the rerun rule in
+[`CLAUDE.md`](CLAUDE.md#checks) exists to prevent.
+The move is in `olski/coverage.py`:
+carry the blocking form beside its part of speech in `Report.blockers`,
+add the exclusion-free morphology as a third `SOURCES` entry,
+and let the CLI take two runs and print what they disagree about.
+The section that owns the reproduction path says meanwhile which figures are hand-taken,
+and that sentence goes when the commands cover them.
