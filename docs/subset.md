@@ -137,8 +137,27 @@ and the form carries another one that is what it almost always is.
 - Clauses in SVO and OVS order, and subjectless clauses,
   both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`)
+- A verb before its subject, with a predicative after it or without one:
+  `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
+- Reflexive verbs, with `się` in the position after the verb
+- The copula, with a predicative agreeing with the subject
+  or a noun phrase in the instrumental,
+  and the same predicative under a verb that is not the copula:
+  `Ludzie rodzą się wolni.`
+- A modal with its infinitive.
+  `powinien` inflects for gender and not for person,
+  so the clause it heads agrees with its subject in gender
+  and leaves person to whatever else constrains it.
 - Noun phrases with an adjective before or after the noun,
   a genitive modifier, or a prepositional modifier
+- Pronouns, and with them first and second person subjects.
+  Person comes from the subject rather than being fixed at the third,
+  so `Ja zapisuje plik.` is a disagreement
+  in the way `Nowa program` is one.
+- Coordination, of noun phrases, of adjective phrases and of clauses,
+  joined by a conjunction
+- Any number of prepositional adjuncts on one verb,
+  because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case
 - A prepositional phrase in front of the clause,
   which modifies the clause rather than any noun in it
@@ -151,20 +170,76 @@ There is no rule that says an adjective must agree with its noun.
 There is only a production that shares a variable between them,
 and a sentence that cannot satisfy it is not in the language.
 
+## The bare verb-initial order keeps the predicative one honest
+
+```text
+Trwa akcja protestacyjna.
+```
+
+The adjective is attributive or it is predicated,
+and Polish gives a reader both.
+Admit only the verb-initial order that takes a predicative
+and the second reading has nothing to compete with,
+so olski calls it the one reading and is confidently wrong.
+That is the failure
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance) counts,
+and admitting the bare order beside it
+costs the sentence its uniqueness and keeps its honesty.
+
+The subject takes no complements of its own in either order,
+which is what stops `Zapisuje program ustawienia.` deriving
+and stops every SVO sentence competing with a verb-initial reading of itself.
+
+## Nothing above a coordination distributes into it
+
+A coordination is one **conjunct**, a conjunction, and the rest,
+and the grammar's symbols are named for it:
+`NPConjunct` is a noun phrase with no coordination in it,
+`NP` is one that may have.
+An adjective attaches inside a conjunct and never above the coordination,
+so `nowe programy i pliki` is `[nowe programy] i [pliki]`
+and never `nowe [programy i pliki]`.
+That is a narrowing rather than a reading of Polish,
+and what it buys is an agreement that can still fail.
+
+A coordination has no gender of its own.
+Polish resolves the gender of `rozum i sumienie`
+by rules unification cannot state,
+and a feature a phrase does not carry
+is one no agreement can fail against,
+so an adjective scoping over the coordination
+would be an adjective agreeing with nothing
+and `nowa programy i pliki` would derive.
+Refusing the wider attachment is what keeps that a rejection.
+
 ## What it does not cover yet
 
 Each of these is a sentence that gets rejected
 and should not be:
 
-- The copula with an instrumental predicate.
-  `Plany są niczym, ale planowanie jest wszystkim.`
-  fails at the third segment.
-- Coordination, of clauses and of phrases.
+- Clause-level punctuation.
+  Two clauses join with a conjunction and not with a comma,
+  so `Plany są niczym, ale planowanie jest wszystkim.`
+  fails at the third segment, on the comma.
+- The past tense, which
+  [corpus.md](corpus.md#where-the-analyses-stop)
+  ranks as the cheapest large gain left.
 - Subordination with `że` and `który`.
 - Negation and the genitive of negation.
 - Numerals, which are common
   and are their own self-contained problem.
-- Pronouns, and therefore first and second person subjects.
+
+One entry is not a construction but a demand every construction makes:
+
+- **Valency.** Nothing records which complements a verb actually takes,
+  so `być` accepts an accusative object
+  and any verb accepts a predicative.
+  `On jest wolny.` is where that shows:
+  `wolny` reads as an adjective and as a noun,
+  so the sentence comes out ambiguous
+  between the predicative a reader has and an object nobody means.
+  [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+  found the same gap from the other side.
 
 ## The open problem: prepositional attachment
 

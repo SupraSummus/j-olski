@@ -32,11 +32,16 @@ from olski.morph import Segment, analyse
 from olski.parse import Result, describe, parse
 
 #: The roles a reading is summarized by when two of them have to be told apart.
-ROLES = ("Subject", "Object", "Verb", "Modifier")
+ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
 
 #: Sentence-final punctuation. Olski excludes abbreviations, so a full stop is
 #: always a sentence boundary and splitting is exact rather than heuristic.
 TERMINATORS = frozenset({".", "!", "?"})
+
+#: The three features a Polish noun or adjective phrase agrees in, as the
+#: variables every production sharing them uses. Spelling them out once is what
+#: keeps two parts of one phrase demonstrably talking about the same agreement.
+AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 
 
 def build() -> Grammar:
@@ -44,102 +49,216 @@ def build() -> Grammar:
 
     grammar.rule("Sentence", [nt("Clause"), word("interp", lemma=".|!|?")])
 
+    # Coordination is one conjunct, a conjunction, and the rest, at each of the
+    # three levels that have it. X → X conj X would say the same and the parser
+    # refuses a left-recursive grammar. Whatever a conjunct may contain is what
+    # decides where the coordination can be attached to from outside, which
+    # docs/subset.md argues under "Nothing above a coordination distributes into
+    # it".
+    grammar.rule("Clause", [nt("ClauseConjunct")])
+    grammar.rule("Clause", [nt("ClauseConjunct"), word("conj"), nt("Clause")])
+
     # A finite clause, in the two orders Polish actually uses, plus the
     # subjectless form: Zapisz plik has no subject and needs none, and neither
     # does Zapisuje ustawienia.
+    #
+    # Person comes from the subject rather than being fixed at ter, which is
+    # what admits a first or second person pronoun as one. A noun phrase headed
+    # by a noun says person=ter itself, so an imperative still cannot take one.
     grammar.rule(
-        "Clause",
-        [nt("Subject", number=V("n")), nt("Predicate", number=V("n"), person="ter")],
+        "ClauseConjunct",
+        [
+            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
+            nt("Predicate", number=V("n"), gender=V("g"), person=V("p")),
+        ],
     )
     grammar.rule(
-        "Clause",
-        [nt("Object"), nt("Verb", number=V("n"), person="ter"), nt("Subject", number=V("n"))],
+        "ClauseConjunct",
+        [
+            nt("Object"),
+            nt("Verb", number=V("n"), person=V("p")),
+            nt("Subject", number=V("n"), person=V("p")),
+        ],
     )
-    grammar.rule("Clause", [nt("Predicate")])
+    grammar.rule("ClauseConjunct", [nt("Predicate")])
+
+    # Verb before subject: Nadchodzi druga rewolucja, Są oni obdarzeni rozumem.
+    # The subject takes no complements of its own here, so Zapisuje program
+    # ustawienia does not derive and no SVO sentence competes with a
+    # verb-initial reading of itself.
+    grammar.rule(
+        "ClauseConjunct",
+        [
+            nt("Verb", number=V("n"), person=V("p")),
+            nt("Subject", number=V("n"), person=V("p")),
+        ],
+    )
+    grammar.rule(
+        "ClauseConjunct",
+        [
+            nt("Verb", number=V("n"), person=V("p")),
+            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
+            nt("Predicative", number=V("n"), gender=V("g")),
+        ],
+    )
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
     # the attachment ambiguity docs/subset.md is about cannot arise.
-    grammar.rule("Clause", [nt("Modifier"), nt("Clause")])
+    grammar.rule("ClauseConjunct", [nt("Modifier"), nt("ClauseConjunct")])
 
-    grammar.rule("Subject", [nt("NP", case="nom", number=V("n"))], number=V("n"))
+    grammar.rule(
+        "Subject",
+        [nt("NP", case="nom", number=V("n"), gender=V("g"), person=V("p"))],
+        number=V("n"),
+        gender=V("g"),
+        person=V("p"),
+    )
     grammar.rule("Object", [nt("NP", case="acc")])
 
-    # A predicate is a verb with what it takes, in the order it takes it.
-    for body in ([], [nt("Object")], [nt("Modifier")], [nt("Object"), nt("Modifier")]):
-        grammar.rule(
-            "Predicate",
-            [nt("Verb", number=V("n"), person=V("p")), *body],
-            number=V("n"),
-            person=V("p"),
-        )
+    # A predicate is a verb with what it takes. What it takes is one symbol
+    # rather than a list of bodies, so that the finite verb and the infinitive
+    # below share it instead of each carrying its own copy.
+    grammar.rule(
+        "Predicate",
+        [nt("Verb", number=V("n"), person=V("p"))],
+        number=V("n"),
+        person=V("p"),
+    )
+    grammar.rule(
+        "Predicate",
+        [
+            nt("Verb", number=V("n"), person=V("p")),
+            nt("Complements", number=V("n"), gender=V("g")),
+        ],
+        number=V("n"),
+        person=V("p"),
+        gender=V("g"),
+    )
 
-    # Finite and imperative verbs, so that a subjectless imperative is a clause
-    # while a subjectless indicative is one only through pro-drop.
+    # A modal and its infinitive. Powinien inflects for gender and not for
+    # person, so the clause it heads agrees with its subject in gender and
+    # leaves person to whatever else constrains it.
+    grammar.rule(
+        "Predicate",
+        [word("winien", number=V("n"), gender=V("g")), nt("InfinitivePhrase")],
+        number=V("n"),
+        gender=V("g"),
+    )
+    grammar.rule("InfinitivePhrase", [word("inf")])
+    grammar.rule("InfinitivePhrase", [word("inf"), nt("Complements")])
+
+    grammar.rule("Complements", [nt("Object")])
+    grammar.rule("Complements", [nt("Adjuncts")])
+    grammar.rule("Complements", [nt("Object"), nt("Adjuncts")])
+    grammar.rule(
+        "Complements",
+        [nt("Predicative", number=V("n"), gender=V("g"))],
+        number=V("n"),
+        gender=V("g"),
+    )
+    grammar.rule(
+        "Complements",
+        [nt("Predicative", number=V("n"), gender=V("g")), nt("Adjuncts")],
+        number=V("n"),
+        gender=V("g"),
+    )
+
+    # More than one adjunct, because postępować wobec innych w duchu braterstwa
+    # has two and a verb that takes one of them takes any number.
+    grammar.rule("Adjuncts", [nt("Modifier")])
+    grammar.rule("Adjuncts", [nt("Modifier"), nt("Adjuncts")])
+
+    # What is predicated of the subject: an adjective phrase agreeing with it,
+    # or a noun phrase in the instrumental. Both are what być takes, and the
+    # first is also what rodzą się wolni i równi predicates without one.
+    grammar.rule(
+        "Predicative",
+        [nt("AP", case="nom", number=V("n"), gender=V("g"))],
+        number=V("n"),
+        gender=V("g"),
+    )
+    grammar.rule("Predicative", [nt("NP", case="inst")])
+
+    # Finite and imperative verbs in one production, since they differ in the
+    # features their tags carry and in nothing this rule says. A reflexive verb
+    # is the form with się after it: the particle can stand elsewhere in Polish,
+    # and olski takes only the adjacent position.
     grammar.rule(
         "Verb",
-        [word("fin", number=V("n"), person=V("p"))],
+        [word("fin|impt", number=V("n"), person=V("p"))],
         number=V("n"),
         person=V("p"),
     )
     grammar.rule(
         "Verb",
-        [word("impt", number=V("n"), person=V("p"))],
+        [word("fin|impt", number=V("n"), person=V("p")), word("part", lemma="się")],
         number=V("n"),
         person=V("p"),
+    )
+
+    grammar.rule(
+        "NP",
+        [nt("NPConjunct", person=V("p"), **AGREE)],
+        person=V("p"),
+        **AGREE,
+    )
+    # A coordination of noun phrases is plural and third person whatever its
+    # conjuncts are, and it carries no gender: Polish resolves the gender of
+    # rozum i sumienie by rules unification cannot state, and a feature a phrase
+    # does not carry is one no agreement can fail against.
+    grammar.rule(
+        "NP",
+        [nt("NPConjunct", case=V("c")), word("conj"), nt("NP", case=V("c"))],
+        case=V("c"),
+        number="pl",
+        person="ter",
     )
 
     # Noun phrases: a noun, an agreeing adjective before it, a genitive
-    # modifier after it. Agreement is the unification, not a separate check.
+    # modifier after it. Agreement is the unification, not a separate check,
+    # and every one of these shares the same three variables, so they are named
+    # once. A conjunct headed by a noun is third person by saying so; leaving
+    # that off one of them would quietly let a first person verb take it.
     grammar.rule(
-        "NP",
-        [word("subst", case=V("c"), number=V("n"), gender=V("g"))],
-        case=V("c"),
-        number=V("n"),
-        gender=V("g"),
+        "NPConjunct", [word("subst", **AGREE)], person="ter", **AGREE
     )
     grammar.rule(
-        "NP",
-        [
-            word("adj", case=V("c"), number=V("n"), gender=V("g")),
-            nt("NP", case=V("c"), number=V("n"), gender=V("g")),
-        ],
-        case=V("c"),
-        number=V("n"),
-        gender=V("g"),
+        "NPConjunct", [word("adj", **AGREE), nt("NPConjunct", **AGREE)], person="ter", **AGREE
     )
     grammar.rule(
-        "NP",
-        [
-            word("subst", case=V("c"), number=V("n"), gender=V("g")),
-            nt("NP", case="gen"),
-        ],
-        case=V("c"),
-        number=V("n"),
-        gender=V("g"),
+        "NPConjunct", [word("subst", **AGREE), nt("NP", case="gen")], person="ter", **AGREE
     )
     # Polish puts an attributive adjective after the noun in terminology:
     # plik konfiguracyjny, język polski. Both orders are the language, so both
     # are here, and where a sentence admits both readings it is ambiguous.
     grammar.rule(
-        "NP",
-        [
-            word("subst", case=V("c"), number=V("n"), gender=V("g")),
-            word("adj", case=V("c"), number=V("n"), gender=V("g")),
-        ],
-        case=V("c"),
-        number=V("n"),
-        gender=V("g"),
+        "NPConjunct", [word("subst", **AGREE), word("adj", **AGREE)], person="ter", **AGREE
     )
     grammar.rule(
-        "NP",
-        [
-            word("subst", case=V("c"), number=V("n"), gender=V("g")),
-            nt("Modifier"),
-        ],
-        case=V("c"),
-        number=V("n"),
-        gender=V("g"),
+        "NPConjunct", [word("subst", **AGREE), nt("Modifier")], person="ter", **AGREE
+    )
+    # A pronoun is the one conjunct that carries its own person, which is the
+    # whole reason it is here: without one, first and second person subjects
+    # have no noun phrase to be.
+    grammar.rule(
+        "NPConjunct",
+        [word("ppron3|ppron12", person=V("p"), **AGREE)],
+        person=V("p"),
+        **AGREE,
+    )
+
+    # Adjective phrases, coordinated the same way and agreeing throughout, so
+    # that wolni i równi is one predicative and wolna i równi is none.
+    grammar.rule("AP", [nt("APConjunct", **AGREE)], **AGREE)
+    grammar.rule(
+        "AP", [nt("APConjunct", **AGREE), word("conj"), nt("AP", **AGREE)], **AGREE
+    )
+    # A passive participle is an adjective for these purposes, and it keeps the
+    # complement its verb governed: obdarzeni rozumem i sumieniem.
+    grammar.rule("APConjunct", [word("adj|ppas", **AGREE)], **AGREE)
+    grammar.rule(
+        "APConjunct", [word("adj|ppas", **AGREE), nt("NP", case="inst")], **AGREE
     )
 
     # A preposition governs a case, and the noun phrase has to be in it.

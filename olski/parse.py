@@ -165,31 +165,53 @@ class _Parser:
             self.edges.setdefault(segment.start, []).append(segment)
         self.furthest = _first(segments)
         self._active: set[tuple[str, int]] = set()
+        self._memo: dict[tuple[str, int], list[tuple[Node, int, dict]]] = {}
 
     def symbol(self, symbol: Sym, position: int, env: Env):
         """Yield ``(tree, end position, env)`` for every way of building it here."""
-        key = (symbol.name, position)
+        for node, end, features in self.analyses(symbol.name, position):
+            merged = unify(symbol.constraints, features, env)
+            if merged is None:
+                continue
+            yield node, end, merged
+
+    def analyses(self, name: str, position: int) -> list[tuple[Node, int, dict]]:
+        """Every constituent of this name starting here, computed once.
+
+        What makes the cache sound is that a production's body is enumerated
+        against ``EMPTY`` rather than against the caller's bindings: what a
+        symbol can build at a position does not depend on who asked for it, and
+        the caller's constraints are applied afterwards, in ``symbol``. So two
+        productions that begin with the same symbol — which is what a
+        coordination rule and the plain rule beside it are — read one answer
+        instead of computing it twice each, and a noun phrase nested n deep
+        stops costing 2**n.
+        """
+        key = (name, position)
+        cached = self._memo.get(key)
+        if cached is not None:
+            return cached
         if key in self._active:
             raise LeftRecursion(
-                f"{symbol.name} can begin with itself at position {position}; "
+                f"{name} can begin with itself at position {position}; "
                 "this parser needs a grammar without left recursion"
             )
         self._active.add(key)
+        found: list[tuple[Node, int, dict]] = []
         try:
-            for production in self.grammar.for_head(symbol.name):
+            for production in self.grammar.for_head(name):
                 for children, end, inner in self.body(production.body, position, EMPTY):
                     features = features_of(production, inner)
-                    merged = unify(symbol.constraints, features, env)
-                    if merged is None:
-                        continue
                     node = Node(
                         label=production.head,
                         children=tuple(children),
                         features=frozenset(features.items()),
                     )
-                    yield node, end, merged
+                    found.append((node, end, features))
         finally:
             self._active.discard(key)
+        self._memo[key] = found
+        return found
 
     def body(self, parts: tuple[Part, ...], position: int, env: Env):
         if not parts:

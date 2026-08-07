@@ -434,6 +434,13 @@ which are the output of a run over a treebank the suite does not hold.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 
+Each of these runs takes minutes, which invites starting it and editing on,
+and a run reads the code once at import.
+So a run started before an edit measures the code as it was,
+two runs chained behind one command need not measure the same code at all,
+and neither says so anywhere in its output.
+Rerun after the last edit, not alongside it.
+
 A change in the typography pack, in a check,
 or in what counts as a word, a line or a sentence
 moves the tables in [`docs/firing-rates.md`](docs/firing-rates.md) the same way.
