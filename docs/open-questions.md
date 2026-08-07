@@ -222,6 +222,10 @@ Admitting that means discontinuous constituents,
 which means leaving the context-free tier
 for LCFRS, MCFG, or TAG,
 and moving from cubic parsing to sixth power at fan-out two.
+Those and not the hierarchy's own type 1,
+which keeps named productions
+and gives up the derivation tree and the polynomial parser:
+see [the ladder is not the Chomsky hierarchy](design-notes.md#the-ladder-is-not-the-chomsky-hierarchy).
 
 This is not a difficulty gradient.
 It is the one place where the cost curve jumps by an exponent.
@@ -230,8 +234,11 @@ See [the cost ladder](design-notes.md#the-cost-ladder).
 Refusing it keeps everything at tier 2.
 Every other decision below is cheap next to this one.
 It should probably be answered by measurement rather than taste:
-find out what fraction of real Polish sentences need it
+find out what fraction of real Polish sentences need it,
+and what admitting it costs the sentences that already have one reading,
 before paying for it.
+[Making the trade measurable](design-notes.md#making-the-trade-measurable)
+owns why that second count exists.
 
 One parser of Polish reaches common discontinuity without paying.
 Świgra threads a single gap through its free-order sequence
