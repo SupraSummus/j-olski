@@ -45,6 +45,10 @@ turns from a convenience into a step somebody has to take:
 Vale reads Markdown and AsciiDoc itself,
 so a style delivered through it gets prose separated from apparatus for free
 where a standalone olski asks for it in front.
+What it charges for that is depth.
+Vale's tagger ships an English model,
+so a Vale style reaches tier A in Polish and stops:
+see [prose-linters.md](prose-linters.md#vale-is-the-architecture-to-study).
 
 **Rule provenance policy.**
 Every rule needs a justification,
@@ -62,6 +66,18 @@ The generated side is easy only if it is generated for the purpose:
 [generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
 measures a body of Polish that was edited against style detectors first,
 and whether such a corpus counts as the generated half is undecided.
+
+**Whether hits get annotated.**
+The two numbers milestone 1 produces are firing rates,
+and a false discovery rate is a different measurement:
+it needs a human deciding, hit by hit,
+whether the rule caught a defect or a good sentence.
+The one published evaluation in the field rests on that reading,
+and [prose-linters.md](prose-linters.md#what-beating-them-takes)
+records the assumption under which a rate on human Polish stands in for it.
+Whether olski pays for the annotation
+or ships with the estimate and names the assumption
+is undecided.
 
 **Whether a measurement may need a language model.**
 The README promises judgements produced as in a compiler,
