@@ -85,10 +85,43 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         #  of a subjectless one too.
         "Pod względem smaku zwykłą bułkę przewyższa chałka.",
         "W pliku zapisuje ustawienia.",
+        #  A reflexive verb, which is the form with się after it.
+        "Program zapisuje się.",
+        #  The copula, with a predicative agreeing with the subject and with a
+        #  noun phrase in the instrumental.
+        "Ludzie są wolni.",
+        "Jan jest nauczycielem.",
+        #  A predicative under a verb that is not the copula.
+        "Ludzie rodzą się wolni.",
+        #  Coordination, of noun phrases and of clauses.
+        "Ludzie mają rozum i sumienie.",
+        "Program zapisuje ustawienia i program zapisuje dane.",
+        #  A modal and its infinitive, agreeing with the subject in gender
+        #  because powinien inflects for one and not for person.
+        "Ludzie powinni postępować.",
+        #  A pronoun subject, and with it a person that is not the third.
+        "Ja zapisuję plik.",
     ],
 )
 def test_these_are_olski(text):
     assert verdict(text).status == "valid", verdict(text).explain()
+
+
+def test_the_first_article_of_the_declaration_is_olski():
+    #  The sentence that drove the constructions above into the grammar: a
+    #  reflexive verb, a coordinated predicative, a coordinated genitive
+    #  modifier, and a quantifier, in one 13-token sentence of ordinary Polish.
+    found = verdict(
+        "Wszyscy ludzie rodzą się wolni i równi "
+        "pod względem swej godności i swych praw."
+    )
+    assert found.status == "valid", found.explain()
+    assert found.readings[0] == {
+        "Subject": "Wszyscy ludzie",
+        "Predicative": "wolni i równi",
+        "Verb": "rodzą się",
+        "Modifier": "pod względem swej godności i swych praw",
+    }
 
 
 def test_a_valid_sentence_says_what_fills_each_role():
@@ -100,7 +133,7 @@ def test_a_valid_sentence_says_what_fills_each_role():
 
 def test_a_fronted_modifier_belongs_to_the_clause_and_not_to_the_subject():
     #  Nothing but the clause rule can take it there, and the failure to guard
-    #  against is the subject swallowing it: NP → subst Modifier is what makes
+    #  against is the subject swallowing it: NPConjunct → subst Modifier makes
     #  the same phrase between the subject and the verb come out valid and wrong.
     roles = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings[0]
     assert roles["Subject"] == "chałka"
@@ -129,15 +162,31 @@ def test_object_first_order_is_polish_and_is_read_that_way():
         "Program zapisują ustawienie.",
         #  A form Morfeusz does not know cannot be given a part of speech.
         "Program zapisuje plikx.",
+        #  The predicative disagrees with the subject in gender.
+        "Ludzie są wolna.",
+        #  So does the modal, which inflects for gender and not for person.
+        "Ludzie powinna postępować.",
+        #  A first person subject with a third person verb: person comes from
+        #  the subject, so this disagrees the way Nowa program does.
+        "Ja zapisuje plik.",
     ],
 )
 def test_these_have_no_reading(text):
     assert verdict(text).status == "rejected"
 
 
+def test_coordination_does_not_loosen_agreement_inside_a_conjunct():
+    #  The failure to guard against: an adjective scoping over the whole
+    #  coordination, which would let a singular feminine one head two masculine
+    #  plural nouns. An adjective attaches inside a conjunct, so nowe programy i
+    #  pliki is [nowe programy] i [pliki] and the disagreement below has nowhere
+    #  to hide.
+    assert verdict("Nowa programy i pliki mają nazwy.").status == "rejected"
+
+
 def test_a_rejection_says_how_far_the_analysis_got():
-    #  A copula with an instrumental predicate, and coordination, are both
-    #  outside the grammar so far, and the failure point says where it stopped.
+    #  The copula and the coordination are both in the grammar; the comma
+    #  joining two clauses is not, and the failure point is where it stands.
     result = verdict("Plany są niczym, ale planowanie jest wszystkim.").result
     assert result.rejected
     assert result.furthest == 3
@@ -187,6 +236,35 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     found = verdict(text)
     assert found.status == "ambiguous"
     assert len({reading["Object"] for reading in found.readings}) == 2
+
+
+def test_the_second_article_sentence_derives_and_is_still_not_olski():
+    #  Everything it needs is in the grammar — verb before subject with a
+    #  predicative, a participle with its instrumental complement, a modal, two
+    #  coordinations — and what stops it is the attachment problem alone: w
+    #  duchu braterstwa is an adjunct of postępować or a modifier of innych.
+    found = verdict(
+        "Są oni obdarzeni rozumem i sumieniem "
+        "i powinni postępować wobec innych w duchu braterstwa."
+    )
+    assert found.status == "ambiguous"
+    assert {reading["Modifier"] for reading in found.readings} == {
+        "wobec innych",
+        "wobec innych w duchu braterstwa",
+    }
+
+
+def test_a_predicative_that_also_reads_as_an_object_needs_valency_to_settle():
+    #  wolny is an adjective and a noun, and być takes no accusative object, so
+    #  the object reading is one no reader of the sentence has. Nothing in the
+    #  grammar rules it out, because olski has no valency, and this is what the
+    #  gap costs: a sentence with one reading in Polish has two here.
+    found = verdict("On jest wolny.")
+    assert found.status == "ambiguous"
+    assert {frozenset(reading) for reading in found.readings} == {
+        frozenset({"Subject", "Object", "Verb"}),
+        frozenset({"Subject", "Predicative", "Verb"}),
+    }
 
 
 def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():

@@ -90,16 +90,16 @@ Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 12,794 | 98.2% |
-| valid | 215 | 1.7% |
-| ambiguous | 16 | 0.1% |
+| rejected | 12,680 | 97.4% |
+| valid | 295 | 2.3% |
+| ambiguous | 50 | 0.4% |
 
 By length, which is the shape the curve actually has:
 
 | tokens | valid |
 | --- | --- |
-| 1–5 | 6.5% |
-| 6–10 | 1.5% |
+| 1–5 | 8.3% |
+| 6–10 | 2.4% |
 | 11–20 | 0.1% |
 | 21–40 | 0.0% |
 
@@ -117,17 +117,18 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 3,025 | `-` (1,238), `,` (805), `.`, `–` |
-| `praet` | 2,697 | the past tense: `był`, `była`, `miał` |
-| `qub` | 1,588 | particles: `nie` (525), `się` (287), `czy` |
-| `adv` | 1,066 | `teraz`, `potem`, `dlatego` |
-| `conj` | 731 | coordination: `i` (358), `ale`, `a` |
-| `psubst` | 347 | nominal pronouns: `to`, `co`, `kto` |
-| `ppron3` | 314 | third-person pronouns: `jego`, `jej`, `on` |
-| `num` | 311 | numerals: `kilka`, `obaj`, `dwie` |
-| `pred` | 298 | `to` (176), `można`, `trzeba` |
+| `interp` | 3,116 | `-` (1,242), `,` (896), `.`, `–` |
+| `praet` | 2,770 | the past tense: `był`, `była`, `było` |
+| `qub` | 1,679 | particles: `nie` (542), `się` (327), `czy` |
+| `adv` | 1,106 | `teraz`, `bardzo`, `potem` |
+| `conj` | 484 | coordination: `i` (158), `ale`, `a` |
+| `psubst` | 360 | nominal pronouns: `to`, `co`, `kto` |
+| `num` | 321 | numerals: `kilka`, `wielu`, `dwa` |
+| `pred` | 307 | `to` (183), `można`, `trzeba` |
+| `ger` | 291 | gerunds: `przyjęcie`, `głosowania` |
+| `fin` | 230 | `jest` (70), `są` (14), `może` |
 
-The first two are the whole answer to "why 1.7%".
+The first two are the whole answer to "why 2.3%".
 Olski has no past tense and no clause-level punctuation,
 and between them they account for nearly half of the rejections
 without touching the interesting questions
@@ -137,11 +138,22 @@ it is another verb form in the `Verb` rule —
 which makes it the cheapest large gain available
 and the obvious next thing to do.
 
+Two entries say where a construction the grammar *has* stops short of Polish.
+`się` is second in the particle row at 327:
+the reflexive is admitted after its verb,
+and Polish puts it before one as readily.
+A finite verb blocks 230 sentences and `jest` is 70 of them,
+39 of which carry a nominative or instrumental adjective or noun
+immediately in front of the copula:
+`Dużą trudnością jest udowodnienie molestowania.`
+That is the predicative before its verb,
+the order olski has for an object and not for a predicative.
+
 No `prep` row is in that table,
 and the rule for a phrase in front of the clause
 ([subset.md](subset.md#the-open-problem-prepositional-attachment)) is why.
-Drop that one production and the row ranks third at 1,941 sentences;
-keep it and 179 are left,
+Drop that one production and the row ranks third at 1,954 sentences;
+keep it and 192 are left,
 `z` and `w` in the positions no rule takes.
 
 The dash at the top of the `interp` row is not a stray:
@@ -161,15 +173,15 @@ The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 127 accepted sentences where the gold tree marks a role to compare:
+On the 200 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 123 | 96.9% |
-| disagrees | 4 | 3.1% |
+| agrees | 191 | 95.5% |
+| disagrees | 9 | 4.5% |
 
-The denominator is 127 and not 215
-because the other 88 accepted sentences have no role to compare against:
+The denominator is 200 and not 295
+because the other 95 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
 The report prints that count under the table
@@ -180,13 +192,15 @@ olski never read a subject as an object or the other way round,
 which is the failure the uniqueness property exists to prevent
 and the one that would have been worst to find.
 
-One of the four got something right:
+One of the nine got the hard half right:
 in `Juniorską reprezentację w najbliższym czasie czekają półfinały ME w Essen`
 olski picked `półfinały ME w Essen` as the subject,
 which is the annotators' answer and is not the first noun phrase.
-The OVS rule earns its place.
+The OVS rule earns its place,
+and what the sentence is counted wrong for
+is the extent of the object rather than which phrase fills it.
 
-The four disagreements are all the same over-generation,
+Eight of the nine are prepositional attachment,
 and the corpus found it on the first run:
 
 ```text
@@ -195,16 +209,29 @@ Przybysze z najnowszej fali na ogół stronią od polonijnych organizacji społe
 
 Olski reads the subject as `Przybysze z najnowszej fali na ogół`,
 swallowing the adverbial `na ogół` into the noun phrase,
-because `NP → subst Modifier` lets any prepositional phrase attach to a noun.
-Worse, it reads it *unambiguously*:
-the `Predicate` rules take at most one `Modifier`,
-which `od polonijnych organizacji społecznych` has already used,
-so the adverbial has nowhere else to go
-and the wrong reading is the only reading.
-The grammar's own narrowness hid the ambiguity
-that would otherwise have caused the sentence to be rejected —
-which is a caution about reading `valid` as `correct`
-anywhere the grammar is this incomplete.
+because `NPConjunct → subst Modifier` lets any prepositional phrase attach
+to a noun.
+`Trwa dochodzenie w tej sprawie` and `Sen w tym wypadku jest najczulszym
+instrumentem` lose their subjects the same way,
+and `Prowadzę nadzór specjalistyczny do spraw chirurgii dziecięcej na Mazowszu`
+loses its object to the opposite mistake,
+the phrase reaching the verb where the gold tree gives it to the noun.
+The subset owns the fork
+([subset.md](subset.md#the-open-problem-prepositional-attachment));
+this is the count of what it costs against a treebank.
+
+The ninth is valency:
+
+```text
+Kwitnie handel paszportami.
+```
+
+`paszportami` is instrumental, a predicative is a noun phrase in that case,
+and no rule says `kwitnąć` does not take one,
+so olski reads the trade as being predicated of rather than being *in*
+passports.
+That is the same gap `To są oczywistości.` shows below,
+and [subset.md](subset.md#what-it-does-not-cover-yet) lists it as one.
 
 ## What morphological ambiguity costs
 
@@ -213,16 +240,18 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,794 | 12,682 |
-| valid | 215 | 261 |
-| ambiguous | 16 | 82 |
+| rejected | 12,680 | 12,453 |
+| valid | 295 | 377 |
+| ambiguous | 50 | 195 |
 
 Ambiguity is where the tagger's cost lands:
-66 more sentences carry more than one reading,
-which is 0.5% of the 13,025 measured,
-not the constant hazard the design notes worried about.
+145 more sentences carry more than one reading,
+which is 1.1% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
-how much of olski's uniqueness property survives a real tagger.
+how much of olski's uniqueness property survives a real tagger —
+and the rate to watch as the grammar grows,
+since every construction admitted gives the tagger's spare readings
+one more place to derive something.
 
 The live column depends on an exclusion the gold column has no use for,
 the annotators having already chosen one reading per token.
@@ -234,8 +263,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,681, 228 and 116.
-Thirty-four of those 116 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,451, 342 and 232.
+Thirty-six of those 232 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -270,23 +299,25 @@ Where the exclusion does not reach is a competing noun that inflects:
 Do zwykłego koła wystarczy sam sznurek.
 ```
 
-Six readings without it and two with it.
+Eight readings without it and four with it.
 It takes the four that make `Do zwykłego koła` a noun phrase
 rather than the fronted modifier the gold tree has,
-and leaves two that differ over `sam`,
-which Morfeusz reads as the adjective and as the self-service shop.
+and leaves four that differ over `sam`,
+which Morfeusz reads as the adjective and as the self-service shop,
+and over whether `sam sznurek` is the subject of a verb-initial clause
+or the object of a pro-drop one.
 The criterion asks for a reading that inflects for nothing
 and the shop declines like any other noun,
 so the sentence stays out of olski on a reading no reader of it has.
 
 A difference between two totals is not a set of sentences,
-and here a 46-sentence difference stands on 112 disagreements.
-The two runs accept the same 182 sentences.
-Live accepts 79 that gold rejects,
-and gold accepts 33 that live does not settle on:
-25 it finds ambiguous, 8 it rejects.
+and here an 82-sentence difference stands on 210 disagreements.
+The two runs accept the same 231 sentences.
+Live accepts 146 that gold rejects,
+and gold accepts 64 that live does not settle on:
+56 it finds ambiguous, 8 it rejects.
 
-The 79 are the warning in the table.
+The 146 are the warning in the table.
 At least one is accepted for a reason the annotators would reject:
 
 ```text
@@ -304,7 +335,8 @@ but olski has no valency, so nothing stops it.
 
 Two things follow.
 Adding valency would remove this,
-and it belongs on the same list as the past tense.
+and [subset.md](subset.md#what-it-does-not-cover-yet) lists it
+beside the past tense.
 And the agreement check cannot see any of it:
 under live morphology the parser numbers positions in characters
 while the gold tree numbers them in tokens,
@@ -317,7 +349,7 @@ One tagset caveat.
 Składnica's tags are NKJP's, Morfeusz 2's are its own,
 and they differ on names olski's report shows:
 `qub` in the gold run is `part` in the live one,
-and the live run has an `ign` row — 382 sentences stopped on a form
+and the live run has an `ign` row — 404 sentences stopped on a form
 Morfeusz does not know — that the gold run cannot have.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,

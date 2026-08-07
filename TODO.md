@@ -141,17 +141,6 @@ as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
 
-`docs/corpus.md` twice points at a list that does not hold what it promises.
-The past tense is "the obvious next thing to do"
-and valency "belongs on the same list as the past tense",
-while [what olski does not cover yet](docs/subset.md#what-it-does-not-cover-yet)
-holds the copula, coordination, subordination, negation, numerals and pronouns
-and neither of those two.
-Either both go on that list,
-which then has to say whether valency is a construction it is missing
-or a gap of another kind,
-or the two sentences in `docs/corpus.md` stop pointing at it.
-
 A check and a document disagree about where a word ends.
 `WORD` in `olski/document.py` keeps an apostrophe inside a word,
 so `Lagrange'a` is one word to every count olski takes,
@@ -361,19 +350,33 @@ because the mixed state it passes through is what a reader will read as drift.
 A modifier between the subject and the verb has nowhere to go but the subject.
 `Chałka pod względem smaku przewyższa zwykłą bułkę.` comes out `valid`
 with the taste made part of the challah,
-because `NP → subst Modifier` is the only rule that can take a phrase in that position
+because `NPConjunct → subst Modifier` is the only rule
+that can take a phrase in that position
 and the clause rules have no slot there.
 That is the narrowness
 [`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
 already caught on `Przybysze z najnowszej fali na ogół`,
 reached from the other side:
 a fronted modifier now has a rule of its own and a preverbal one does not.
-The move is a `Clause → Subject Modifier Predicate` rule,
+The move is a `ClauseConjunct → Subject Modifier Predicate` rule,
 which turns those sentences from silently wrong into honestly ambiguous.
 What has to be read before taking it is the same run both ways:
 what the rule does to the accepted count
 and to the four disagreements in that table,
 since the sentences it costs are ones olski accepts today.
+
+A predicative before its verb has no rule and an object in the same place has one.
+`ClauseConjunct → Object Verb Subject` is the mirror of SVO for an object,
+and nothing mirrors `Predicate → Verb Complements` for a predicative,
+so `Dużą trudnością jest udowodnienie molestowania.` is rejected
+where `Juniorską reprezentację czekają półfinały.` is not.
+[The blocker table](docs/corpus.md#where-the-analyses-stop) prices it:
+`jest` stops 70 sentences and 39 of them are that order.
+The move is a `ClauseConjunct → Predicative Verb Subject` rule.
+What has to be read before taking it is what the new order costs in ambiguity,
+since a fronted predicative and a fronted object
+compete on every form whose case is syncretic between the two,
+which is most of them.
 
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve
