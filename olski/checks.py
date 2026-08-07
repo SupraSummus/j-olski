@@ -301,7 +301,15 @@ def pattern(rule, document: Document) -> Iterator[Outcome]:
 # pattern-density: how often something happens per thousand words.
 # --------------------------------------------------------------------------- #
 
-DENSITY_PARAMS = {"pattern", "flags", "unit", "max_per_1000_words", "min_count", "min_words"}
+DENSITY_PARAMS = {
+    "pattern",
+    "flags",
+    "unit",
+    "min_per_1000_words",
+    "max_per_1000_words",
+    "min_count",
+    "min_words",
+}
 
 
 def _validate_density(params: dict, where: str) -> dict:
@@ -309,29 +317,33 @@ def _validate_density(params: dict, where: str) -> dict:
     return {
         "pattern": _pattern(params, where),
         "unit": _unit(params, where),
-        "max_per_1000_words": _number(params, "max_per_1000_words", where),
         "min_count": int(_number(params, "min_count", where, default=1)),
         "min_words": int(_number(params, "min_words", where, default=0)),
+        **_bounds(params, "per_1000_words", where),
     }
 
 
 @_register(
     "pattern-density",
-    {"count", "words", "rate", "limit", "match"},
+    {"count", "words", "rate", "limit", "side", "match"},
     _validate_density,
 )
 @needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
-    """Flag a scope where a pattern occurs more often than a rate allows.
+    """Flag a scope where a pattern occurs more often than a rate allows, or less.
 
-    ``min_count`` and ``min_words`` exist because a rate computed over a short
-    scope is noise: one em dash in a nine-word paragraph is 111 per thousand
-    words and means nothing. Below either floor the rule abstains rather than
-    reporting a number it does not believe.
+    The two floors guard two different things, and only one of them guards both
+    sides. ``min_words`` is the denominator: a rate over a short scope is noise,
+    since one em dash in a nine-word paragraph is 111 per thousand words and
+    means nothing, so below it the rule abstains rather than report a number it
+    does not believe. ``min_count`` is the evidence a *hot* reading needs, and it
+    does not stand under the floor, where too few matches is the finding rather
+    than a reason to doubt one: the scope a rule with a floor most wants is the
+    one where the pattern never occurs at all.
 
     At ``unit="corpus"`` the rate is one number for the whole body of text,
-    anchored at the first match rather than raised against every one of them.
-    See docs/rules.md for why that is the point rather than a shortcut.
+    anchored at one place in it rather than raised against every match. See
+    docs/rules.md for why that is the point rather than a shortcut.
     """
     params = rule.params
     for owner, pieces in _scopes(documents, params["unit"]):
@@ -340,27 +352,39 @@ def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
             for document, piece in pieces
             for match in params["pattern"].finditer(document.slice(piece))
         ]
-        if len(found) < params["min_count"]:
-            continue
         words = sum(document.word_count(piece) for document, piece in pieces)
-        if words < params["min_words"]:
+        rate = 1000 * len(found) / words if words else 0.0
+        outside = _outside(rate, params, "per_1000_words")
+        if outside is None:
+            continue
+        side, limit = outside
+        hot = side == "above"
+        if hot and len(found) < params["min_count"]:
+            continue
+        #  At least one word whatever the rule asked for, since a rate over no
+        #  words is not one. Reached only by a scope the rule was about to
+        #  report, because a scope it had nothing to say about is not a scope it
+        #  declined to judge.
+        if words < max(params["min_words"], 1):
             yield Abstain(
                 f"{words} words in this {params['unit']} is too short to measure a rate over",
                 document=owner,
             )
             continue
-        rate = 1000 * len(found) / words if words else 0.0
-        if rate <= params["max_per_1000_words"]:
-            continue
-        document, first = found[0]
+        #  A hot finding points at the first occurrence, so that the number can
+        #  be checked against the text. A cold one has no occurrence to point
+        #  at — what it found is the text that went by without one — so it
+        #  points at the scope, as length-variation points at its document.
+        document, span = found[0] if hot else pieces[0]
         yield Hit(
-            first,
+            span,
             {
                 "count": len(found),
                 "words": words,
                 "rate": f"{rate:.1f}",
-                "limit": f"{params['max_per_1000_words']:g}",
-                "match": document.excerpt(first),
+                "limit": f"{limit:g}",
+                "side": side,
+                "match": document.excerpt(span) if hot else "",
             },
             document=document,
         )

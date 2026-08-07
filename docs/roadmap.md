@@ -211,12 +211,8 @@ and no rule yet declares.
 These need thresholds, not just patterns,
 and a threshold is a point in the human distribution from milestone 1.
 
-Two kinds of machinery are missing.
-Fact density runs the other way from every shipped rate rule,
-because what the source reports is too few dates and numerals rather than too many,
-and `pattern-density` expresses a ceiling only;
-[TODO.md](../TODO.md) holds the floor it needs.
-And a share over units — of sections, of sentences — is a statistic
+One kind of machinery is missing.
+A share over units — of sections, of sentences — is a statistic
 no check computes, since a rate per thousand words is not one.
 [generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different)
 measures the negation share and says why such a finding
