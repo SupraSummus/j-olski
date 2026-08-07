@@ -29,6 +29,8 @@ is a subset of Polish either way.
 Defining it by exclusion is enormously cheaper,
 and it removes the problem
 that authors cannot feel where a whitelist's boundary lies.
+[docs/linter.md](docs/linter.md#this-is-the-same-subset-approached-from-behind)
+makes the argument in full.
 
 ## Direction
 
@@ -99,7 +101,7 @@ rather than about structure — quotation marks, spacing, a stray dash.
 Anything that needs to know what a word *is* belongs to the grammar,
 which is why the plain-Polish rules are not written as patterns.
 Nine rules, all tier A, all marked `uncalibrated`,
-because none of them has been measured against human Polish yet
+because none of them has been measured against human Polish
 and a threshold without that measurement is an opinion with a decimal point.
 The report mode is the half of that measurement a single run can produce:
 how often each rule fired over a whole corpus, and over how much of it.

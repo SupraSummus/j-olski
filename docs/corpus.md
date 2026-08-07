@@ -95,7 +95,7 @@ By length, which is the shape the curve actually has:
 | 11–20 | 0.1% |
 | 21–40 | 0.0% |
 
-So olski is a subset of short declarative Polish and nothing else yet,
+So olski is a subset of short declarative Polish and nothing else,
 and coverage falls off a cliff at about ten tokens.
 That is the honest starting point of the curve,
 and the point of recording it is that the next tier has something to beat.
@@ -163,7 +163,7 @@ olski never read a subject as an object or the other way round,
 which is the failure the uniqueness property exists to prevent
 and the one that would have been worst to find.
 
-One of the four is worth noting for what it got right:
+One of the four got something right:
 in `Juniorską reprezentację w najbliższym czasie czekają półfinały ME w Essen`
 olski picked `półfinały ME w Essen` as the subject,
 which is the annotators' answer and is not the first noun phrase.
