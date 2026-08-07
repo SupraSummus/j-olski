@@ -52,7 +52,7 @@ and a recorded justification.
 
 Markup formats are not in scope.
 This is a linter for Polish, not a document-format library,
-and a rule that cannot tell prose from markup
+and separating prose from markup
 belongs to whatever reads the markup, not here.
 
 **Exit:** the engine runs over a plain Polish text file
@@ -72,6 +72,17 @@ Before the interesting rules, the thing that makes them honest.
   firing rate on good human text
 - A report that ranks rules by discrimination
   and names the ones that fire equally on both
+
+Both halves reach the rules as plain text,
+because milestone 0 keeps document formats out of olski
+and that makes the extraction a step before the harness rather than part of it.
+[generated-polish.md](generated-polish.md#the-apparatus-biases-a-rate-by-an-amount-the-corpus-decides)
+prices skipping it:
+one rule reads a quarter high over one body of Markdown
+and true over another by the same writer,
+so a rate measured over apparatus is not comparable
+to a rate measured over prose,
+nor to the next corpus's rate over its own apparatus.
 
 **Exit:** every rule from milestone 0 carries two numbers,
 and at least one rule has been deleted for failing them.

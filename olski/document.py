@@ -1,9 +1,11 @@
 """The object every rule sees.
 
 Input is plain Polish text: every character is prose, and every newline is a
-real one. Markup-aware sources (Markdown first) will arrive later and will have
-to answer two extra questions this module answers trivially — which characters
-are prose, and whether a newline in the file is a newline on the page.
+real one. Those are two separate guarantees with one source — the file's format —
+and :attr:`Document.plain_text` is where a check goes to ask for them. A
+markup-aware source would answer both questions properly rather than trivially,
+by carrying prose spans and a break policy; lacking one, a file olski does not
+read has neither answer and says so.
 """
 
 from __future__ import annotations
@@ -11,6 +13,13 @@ from __future__ import annotations
 import re
 from bisect import bisect_right
 from dataclasses import dataclass, field
+from pathlib import Path
+
+#: The suffixes olski reads as plain Polish prose. Nothing here understands
+#: markup, so this list is both what a directory walk picks up and what
+#: :func:`is_plain_text` recognizes: one fact, so that naming a file and walking
+#: to it cannot disagree about what the file is.
+TEXT_SUFFIXES = (".txt", ".text")
 
 #: A word, for the purposes of counting them. Requires a letter at each end, so
 #: that numbers, bullets and stray punctuation do not inflate a density.
@@ -85,10 +94,12 @@ class Document:
     #: Sentences, which do not cross a paragraph boundary. The narrowest unit a
     #: rate or a spread can be measured over.
     sentences: tuple[Span, ...] = ()
-    #: ``hard`` if a newline in the source is a newline in the rendered output.
-    #: Plain text is always hard; a rule about line ends is only meaningful when
-    #: nothing downstream reflows the text.
-    line_breaks: str = "hard"
+    #: Whether every character of the text is prose and every newline in it is a
+    #: newline on the page. Plain text gives both; a markup format gives neither,
+    #: since its apparatus is text like any other and a single newline in it is
+    #: whitespace the renderer collapses. A check that has to look at the whole
+    #: of a document, rather than at one site in it, asks this before measuring.
+    plain_text: bool = True
     _line_starts: tuple[int, ...] = field(init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
@@ -128,14 +139,26 @@ class Document:
         return sum(1 for _ in WORD.finditer(self.slice(span)))
 
 
-def from_text(text: str, path: str = "<text>") -> Document:
+def from_text(text: str, path: str = "<text>", plain_text: bool = True) -> Document:
     paragraphs = tuple(_paragraphs(text))
     return Document(
         path=path,
         text=text,
         paragraphs=paragraphs,
         sentences=tuple(_sentences(text, paragraphs)),
+        plain_text=plain_text,
     )
+
+
+def is_plain_text(path: str | Path) -> bool:
+    """Whether a file's name says olski can read it as prose laid out as written.
+
+    A suffix is a weak claim about a file's contents and it is the only claim
+    available, so the conservative reading is the one that costs nothing: a
+    missed defect is free, and a rate computed over somebody's frontmatter is
+    not.
+    """
+    return Path(path).suffix.lower() in TEXT_SUFFIXES
 
 
 def _paragraphs(text: str):

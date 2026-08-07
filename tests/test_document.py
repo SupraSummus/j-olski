@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from olski.document import Span, from_text
+from olski.document import Span, from_text, is_plain_text
 
 
 def test_positions_are_one_based():
@@ -109,3 +109,18 @@ def test_excerpt_collapses_whitespace_and_truncates():
     document = from_text("ala   ma\nkota")
     assert document.excerpt(Span(0, 13)) == "ala ma kota"
     assert document.excerpt(Span(0, 13), limit=6) == "ala m…"
+
+
+@pytest.mark.parametrize(
+    ("name", "plain"),
+    [
+        ("notatka.txt", True),
+        ("notatka.TXT", True),
+        ("notatka.md", False),
+        #  No suffix says nothing about the contents, and the permissive guess is
+        #  the one that invents findings.
+        ("README", False),
+    ],
+)
+def test_only_a_plain_text_suffix_carries_the_plain_text_guarantee(name, plain):
+    assert is_plain_text(f"notes/{name}") is plain

@@ -13,6 +13,12 @@ Every check sees the whole corpus, because some defects exist only across files
 and no per-document view can reach them. A single file is a corpus of one, so
 there is one protocol rather than two, and a check whose question is about one
 document says so with :func:`per_document` rather than walking the corpus itself.
+
+The scope a check needs also decides which input it can answer about at all. A
+check that points at one site is answerable on a file of any format, because the
+reader can look at the site and judge it. A check that measures the whole of a
+document is measuring that document's markup along with its prose, so it says so
+with :func:`needs_plain_text`.
 """
 
 from __future__ import annotations
@@ -88,6 +94,46 @@ def _register(name: str, fields: set[str], validate) -> Callable:
         return run
 
     return decorate
+
+
+#: Why a check that has to look at a whole document declines on one whose format
+#: olski does not read. One reason for every such check, because the cause is the
+#: same and which guarantee a given rule wanted is in that rule's justification.
+#: It is also how a caller picks this abstention out from the others.
+NOT_PLAIN_TEXT = (
+    "this file is not plain text, and olski reads no other format, so it cannot "
+    "vouch for the text as prose laid out as written"
+)
+
+
+def needs_plain_text(run) -> Callable:
+    """Decline on documents whose whole text olski cannot vouch for.
+
+    A count is a count of something, and in a markup file the something takes in
+    the frontmatter, the headings and the link lists. The error that makes is not
+    a bias anyone could discount later — docs/generated-polish.md measures one
+    rule reading a quarter high over one body of Markdown and true over another
+    by the same writer — so this declines instead.
+
+    The documents that do carry the guarantee are passed through, so a run over
+    a mixed directory measures what it can and says what it skipped.
+    """
+
+    @wraps(run)
+    def over_prose(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
+        prose = []
+        for document in documents:
+            if document.plain_text:
+                prose.append(document)
+            else:
+                yield Abstain(NOT_PLAIN_TEXT, document=document)
+        # Nothing left to measure is not the same thing as a corpus too small to
+        # measure over, and handing an empty one down says the second: a check
+        # with a floor would add its own abstention on top of the ones above.
+        if prose:
+            yield from run(rule, prose)
+
+    return over_prose
 
 
 def per_document(run) -> Callable:
@@ -274,6 +320,7 @@ def _validate_density(params: dict, where: str) -> dict:
     {"count", "words", "rate", "limit", "match"},
     _validate_density,
 )
+@needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
     """Flag a scope where a pattern occurs more often than a rate allows.
 
@@ -357,24 +404,17 @@ def _validate_line_end(params: dict, where: str) -> dict:
 
 
 @_register("line-end-word", {"word"}, _validate_line_end)
+@needs_plain_text
 @per_document
 def line_end_word(rule, document: Document) -> Iterator[Outcome]:
     """Flag listed words left at the end of a line.
 
     Polish typography does not leave a one-letter conjunction or preposition
     hanging at a line end. Whether that has happened depends on where lines
-    actually break in the output, so the rule only applies to text whose line
-    breaks survive rendering. Where they do not, it abstains: a soft-wrapped
-    source says nothing about the rendered line, and guessing would flag
-    correct text.
+    actually break in the output, which is why this is one of the checks that
+    needs a plain-text document: a source line of a format that reflows says
+    nothing about the rendered line, and guessing would flag correct text.
     """
-    if document.line_breaks != "hard":
-        yield Abstain(
-            "line breaks in this document are soft, so a word at the end of a "
-            "source line is not a word at the end of a rendered line"
-        )
-        return
-
     words = rule.params["words"]
     lookup = words if rule.params["case_sensitive"] else tuple(w.lower() for w in words)
     for number, span in document.lines():
@@ -426,6 +466,7 @@ def _validate_variation(params: dict, where: str) -> dict:
     {"unit", "count", "words", "mean", "sd", "variation", "limit", "side"},
     _validate_variation,
 )
+@needs_plain_text
 @per_document
 def length_variation(rule, document: Document) -> Iterator[Outcome]:
     """Report a document whose units are too alike in length, or too unlike.
@@ -515,6 +556,7 @@ def _validate_recurrence(params: dict, where: str) -> dict:
     {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
     _validate_recurrence,
 )
+@needs_plain_text
 def entity_recurrence(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
     """Report the share of what a corpus introduces that it then never uses.
 

@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from olski.checks import Abstain, Hit, get_check
-from olski.document import Document, Span, from_text
+from olski.document import Document, Span, from_text, is_plain_text
 from olski.rules import Rule
 
 
@@ -88,12 +88,20 @@ def lint_text(text: str, rules: Iterable[Rule], path: str = "<text>") -> Report:
 
 
 def read(path: str | Path) -> tuple[Document | None, str]:
-    """Read one file into a document, or say why it could not be read."""
+    """Read one file into a document, or say why it could not be read.
+
+    A file olski cannot read as prose is read all the same, because the rules
+    that point at a site are answerable on it and the reader may well have meant
+    to run them. What it does not get is the plain-text guarantee, so the rules
+    that measure the whole of it decline instead of reporting a number about
+    somebody's markup.
+    """
     path = Path(path)
     try:
-        return from_text(path.read_text(encoding="utf-8"), str(path)), ""
+        text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as error:
         return None, str(error)
+    return from_text(text, str(path), plain_text=is_plain_text(path)), ""
 
 
 def _finding(rule: Rule, hit: Hit) -> Finding:

@@ -39,6 +39,12 @@ a Vale-compatible style,
 or LanguageTool XML rules over Morfologik.
 The last inherits an installed base and a Polish morphology layer;
 the first inherits nothing and owes nothing.
+The Vale route inherits a third thing that
+[the markup boundary](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
+turns from a convenience into a step somebody has to take:
+Vale reads Markdown and AsciiDoc itself,
+so a style delivered through it gets prose separated from apparatus for free
+where a standalone olski asks for it in front.
 
 **Rule provenance policy.**
 Every rule needs a justification,

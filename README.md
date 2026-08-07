@@ -100,8 +100,9 @@ which is why the plain-Polish rules are not written as patterns.
 Nine rules, all tier A, all marked `uncalibrated`,
 because none of them has been measured against human Polish yet
 and a threshold without that measurement is an opinion with a decimal point.
-Input is plain Polish text;
-markup formats are out of scope.
+Input is plain Polish text.
+A file in a markup format gets the rules a character settles,
+and abstentions from the rules that would otherwise measure its apparatus.
 See [docs/rules.md](docs/rules.md).
 
 The rest of the repository holds design notes, a survey of the field,
