@@ -84,8 +84,27 @@ Whether a document declares its register,
 or the tool guesses,
 or the user picks a pack explicitly.
 
+**Sentence-length variance in technical Polish.**
+Which side of the spread is the defect is read two ways here.
+[The candidate inventory](linter.md#candidate-rule-inventory)
+files low variance as the tell in technical documentation,
+which asks a rule for a floor.
+[fiction.md](fiction.md#what-this-means-for-olski)
+reports the literature measuring the metric in both registers,
+with fiction wanting range where technical documentation wants uniformity,
+and a register that wants uniformity
+is one where a ceiling is the flag.
+Both readings hold at once if the sign never changes and only the number does:
+the tell would be uniformity below a *human technical* norm,
+with that norm sitting lower than a literary one.
+That is a reading and not a measurement,
+and a human technical baseline is what settles it.
+`length-variation` takes a floor and a ceiling
+so that the answer is a rule's parameter rather than a rewrite.
+
 **Whether fiction gets a pack at all.**
-Several metrics work for both registers with inverted thresholds,
+Several metrics work for both registers
+once the threshold is a pack's parameter rather than a check's,
 which is cheap.
 The rest of the fiction problem is not linting,
 and is recorded as a wish rather than a plan.

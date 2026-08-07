@@ -542,11 +542,23 @@ and they are as mechanical as the technical ones:
   where model prose reliably drifts abstract
 
 And a structural observation worth keeping:
-several metrics serve both registers with **inverted thresholds**.
-Technical documentation wants low sentence-length variance;
-fiction wants high, and low variance is the flag.
-That means one engine and one set of measurements,
-with per-pack targets rather than per-pack code.
+several metrics serve both registers with **inverted thresholds**,
+and [fiction.md](fiction.md#what-this-means-for-olski)
+holds the measurements behind that.
+It means one engine and one set of measurements,
+with per-pack targets rather than per-pack code,
+which is why `length-variation` in [rules.md](rules.md#length-variation)
+carries a floor and a ceiling and asks each pack for either.
+
+Which of the two a technical pack sets
+has to be settled before a rule declares one.
+[The inventory above](#structural-and-statistical-tier-a-with-sentence-splitting)
+files low variance as the tell in technical documentation,
+which asks for the floor,
+while a register described as wanting uniformity
+is one where the ceiling is the flag.
+**Sentence-length variance in technical Polish** in
+[open-questions.md](open-questions.md#linter-questions) owns the disagreement.
 
 ### The handle on a defect above the phrase is position or recurrence
 

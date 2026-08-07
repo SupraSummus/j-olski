@@ -133,6 +133,7 @@ and is meant to be the rarer event.
 | --- | --- | --- |
 | `pattern` | Each match of a regular expression | `{match}` |
 | `pattern-density` | A scope where matches exceed a rate per 1000 words | `{count}`, `{words}`, `{rate}`, `{limit}`, `{match}` |
+| `length-variation` | A document whose units are too alike in length, or too unlike | `{unit}`, `{count}`, `{words}`, `{mean}`, `{sd}`, `{variation}`, `{limit}`, `{side}` |
 | `line-end-word` | A listed word left at the end of a line | `{word}` |
 | `entity-recurrence` | A corpus that introduces entities and drops them | `{entity}`, `{mentions}`, `{walk_ons}`, `{introductions}`, `{share}`, `{limit}` |
 
@@ -166,7 +167,7 @@ costs the reader's trust in every other rule.
 ```python
 params=dict(
     pattern=r"[—–]",
-    unit="document",        # or "paragraph", or "corpus"
+    unit="document",        # or "sentence", "paragraph", "corpus"
     max_per_1000_words=10,
     min_count=3,
     min_words=150,
@@ -182,6 +183,68 @@ which is a different thing.
 
 `unit="corpus"` pools every file the run covers into one rate.
 See [what a corpus scope is for](#a-rule-may-be-asking-about-the-corpus).
+
+`unit="sentence"` is the narrowest scope
+and the only one that is inferred rather than read off the text.
+A blank line is a paragraph boundary and a file is a file,
+while a full stop in Polish is a sentence boundary only sometimes:
+`m.in.`, `w 2011 r.`, `art. 6`, `12. dzień` and a bare `zabytek.pl`
+all put one in the middle of a sentence.
+`olski/document.py` owns the abbreviation list that settles it,
+and with it the choice of which way to be wrong:
+an abbreviation that does close a sentence merges it with the next,
+so the splitter loses a boundary rather than inventing one.
+A rate measured per sentence carries that error,
+which is worth knowing before a rule reports a number it did not compute alone.
+
+### `length-variation`
+
+```python
+params=dict(
+    unit="sentence",        # or "paragraph"
+    min_variation=0.35,
+    min_units=8,
+)
+```
+
+Uniformity is what this check is for.
+Sentence length varying less than in human prose
+is among the most robust of the documented differences,
+which [what the research says](linter.md#what-the-research-says) owns,
+and it is a property of the document and of no sentence in it,
+so the finding is anchored at the whole document.
+Anchoring it at a sentence would invite editing that sentence
+until the number moved,
+which is the failure
+[a corpus rule avoids the same way](#a-rule-may-be-asking-about-the-corpus).
+
+The statistic is the coefficient of variation:
+the standard deviation of the units' word counts, over their mean.
+Dividing by the mean is what lets one threshold serve every document,
+since a spread of four words means one thing among nine-word sentences
+and another among thirty-word ones.
+
+`min_variation` and `max_variation` are a pair
+and a rule sets either or both, but not neither.
+A measurement's defective side belongs to the pack rather than to the check,
+which is what buys one engine for two registers:
+see [the fiction section of linter.md](linter.md#what-is-nevertheless-lintable-in-fiction),
+and note that which side a *technical* pack sets
+is one of the open questions it points at.
+`{side}` says which of the two fired,
+because a number alone leaves a message unable to tell a writer
+whether the text ran hot or cold.
+
+`min_units` is the same kind of floor as `min_words` above,
+and it is the one that matters here:
+three sentences have a standard deviation and not a distribution.
+Below it the rule abstains.
+
+No rule in this repository declares this check.
+The numbers above illustrate the format,
+and a threshold that means anything comes from
+[milestone 4](roadmap.md#milestone-4-statistical-rules)
+and the corpus behind it.
 
 ### `line-end-word`
 

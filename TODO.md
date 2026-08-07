@@ -41,25 +41,6 @@ and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
-A `Document` has lines and paragraphs and no sentences,
-and `UNITS` in `olski/checks.py` offers a rate over a paragraph,
-a document or the corpus,
-so nothing measures anything per sentence.
-A whole group of the candidate inventory in
-[`docs/linter.md`](docs/linter.md#structural-and-statistical-tier-a-with-sentence-splitting)
-is filed as tier A *with sentence splitting* and waits on this.
-The move is a `sentences` span tuple beside `paragraphs`
-and `"sentence"` in `UNITS`.
-The splitting is where the work is:
-Polish abbreviations put a full stop mid-sentence —
-`r.`, `np.`, `tj.`, `m.in.`, `art.`, `ust.`, `ok.` —
-and so does a bare domain name,
-which `olski/subset.py` escapes only because olski excludes abbreviations.
-A pattern confined to one sentence by a character class that bans the dot
-misses `, dostępna w serwisie zabytek.pl,` and `, wydane w 2011 r.,`,
-and one that admits the dot runs across the next sentence boundary,
-so the abbreviation list is the deliverable rather than a detail of it.
-
 Every rate in [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
 except the walk-on share
 was produced by an extraction written once and thrown away,
@@ -101,6 +82,12 @@ both optional and at least one required,
 plus a reported field naming which side fired,
 because `limit` alone leaves a message unable to say
 whether the text ran hot or cold.
+`_bounds` and `_outside` in `olski/checks.py`
+do that validation and that comparison for `length-variation`,
+so what is left is calling them and settling `min_count`,
+which skips a scope with too few matches
+and would therefore skip what a floor rule is looking hardest for:
+a document with no numerals in it at all.
 
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"

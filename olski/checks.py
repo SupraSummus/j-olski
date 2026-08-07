@@ -21,6 +21,7 @@ import re
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field, replace
 from functools import wraps
+from math import sqrt
 
 from olski.document import Document, Span
 
@@ -140,15 +141,62 @@ def _number(params: dict, key: str, where: str, default=None) -> float:
     return float(value)
 
 
+#: How to find one document's worth of a unit, narrowest first. A corpus is not
+#: here because it is every document at once rather than a span of one, and
+#: :func:`_scopes` owns that difference.
+UNIT_SPANS = {
+    "sentence": lambda document: document.sentences,
+    "paragraph": lambda document: document.paragraphs,
+    "document": lambda document: (Span(0, len(document.text)),),
+}
+
 #: The stretches of text a rate can be measured over, widest last.
-UNITS = ("paragraph", "document", "corpus")
+UNITS = (*UNIT_SPANS, "corpus")
 
 
-def _unit(params: dict, where: str) -> str:
-    unit = params.get("unit", "document")
-    if unit not in UNITS:
-        raise ParamError(f"{where}: 'unit' must be one of {', '.join(UNITS)}")
+def _unit(params: dict, where: str, allowed: tuple[str, ...] = UNITS, default="document") -> str:
+    """Validate the scope a check was pointed at, against the scopes it accepts.
+
+    Which units are meaningful is the check's business — a spread cannot be
+    measured over a corpus — so the allowed set is a parameter and the checking
+    of it happens once.
+    """
+    unit = params.get("unit", default)
+    if unit not in allowed:
+        raise ParamError(f"{where}: 'unit' must be one of {', '.join(allowed)}")
     return unit
+
+
+def _bounds(params: dict, quantity: str, where: str) -> dict:
+    """Validate an optional floor and ceiling, of which a rule sets at least one.
+
+    A one-sided threshold can only say a text has too much of something, and
+    several of the measurements this project wants have a register where too
+    little is the defect: fact density is reported *low* in generated prose, and
+    monotony is a spread that is too narrow.
+    """
+    low, high = f"min_{quantity}", f"max_{quantity}"
+    if low not in params and high not in params:
+        raise ParamError(f"{where}: needs '{low}', '{high}', or both")
+    bounds = {key: _number(params, key, where) for key in (low, high) if key in params}
+    if len(bounds) == 2 and bounds[low] > bounds[high]:
+        raise ParamError(f"{where}: '{low}' stands above '{high}', so no text can pass both")
+    return bounds
+
+
+def _outside(value: float, params: dict, quantity: str) -> tuple[str, float] | None:
+    """Which bound a measurement fell outside, and the value of that bound.
+
+    A finding has to name the side, or its message cannot tell a writer whether
+    the text ran hot or cold.
+    """
+    low = params.get(f"min_{quantity}")
+    high = params.get(f"max_{quantity}")
+    if low is not None and value < low:
+        return "below", low
+    if high is not None and value > high:
+        return "above", high
+    return None
 
 
 def _share(params: dict, key: str, where: str, default=None) -> float:
@@ -279,15 +327,14 @@ def _scopes(documents: Sequence[Document], unit: str) -> Iterator[_Scope]:
 
     Each is the file an abstention would belong to — ``None`` for a corpus,
     where no single file owns the answer — and the pieces the stretch is made
-    of. A paragraph and a document are one piece; a corpus is every document at
+    of. Every unit below a corpus is one piece; a corpus is every document at
     once, which is why a scope is a list of pieces rather than one span.
     """
     if unit == "corpus":
         yield None, tuple((d, Span(0, len(d.text))) for d in documents)
         return
     for document in documents:
-        whole = (Span(0, len(document.text)),)
-        for piece in whole if unit == "document" else document.paragraphs:
+        for piece in UNIT_SPANS[unit](document):
             yield document, ((document, piece),)
 
 
@@ -350,6 +397,88 @@ def _last_word(line: str) -> re.Match | None:
         return None
     last = matches[-1]
     return last if re.fullmatch(r"\W*", stripped[last.end() :]) else None
+
+
+# --------------------------------------------------------------------------- #
+# length-variation: whether a document's units are all the same length.
+# --------------------------------------------------------------------------- #
+
+#: What a length can vary across inside one document. A document is not among
+#: them: here it is the scope the measurement is taken over rather than a piece
+#: of itself, and a corpus mixes documents whose lengths have no reason to agree.
+VARIATION_UNITS = ("sentence", "paragraph")
+
+VARIATION_PARAMS = {"unit", "min_variation", "max_variation", "min_units", "min_words"}
+
+
+def _validate_variation(params: dict, where: str) -> dict:
+    _known(params, VARIATION_PARAMS, where)
+    return {
+        "unit": _unit(params, where, VARIATION_UNITS, default="sentence"),
+        "min_units": int(_number(params, "min_units", where, default=2)),
+        "min_words": int(_number(params, "min_words", where, default=0)),
+        **_bounds(params, "variation", where),
+    }
+
+
+@_register(
+    "length-variation",
+    {"unit", "count", "words", "mean", "sd", "variation", "limit", "side"},
+    _validate_variation,
+)
+@per_document
+def length_variation(rule, document: Document) -> Iterator[Outcome]:
+    """Report a document whose units are too alike in length, or too unlike.
+
+    The statistic is the coefficient of variation: the standard deviation of the
+    units' word counts, over their mean. Dividing by the mean is what lets one
+    threshold serve every document, since a spread of four words means one thing
+    among nine-word sentences and another among thirty-word ones. The deviation
+    is taken over every unit the document has rather than a sample of them, so it
+    divides by their count and not by one less.
+
+    Uniformity is why this check exists: sentence-length variance is among the
+    most robust of the documented differences between generated and human prose.
+    It is a property of the document and of no sentence in it, so the finding is
+    anchored at the whole document. Anchoring it at a sentence would invite
+    editing that sentence until the number moved, which leaves the prose worse
+    and the measurement meaningless. See docs/rules.md and docs/linter.md.
+    """
+    params = rule.params
+    lengths = [document.word_count(span) for span in UNIT_SPANS[params["unit"]](document)]
+    words = sum(lengths)
+    if len(lengths) < params["min_units"]:
+        yield Abstain(
+            f"{len(lengths)} {params['unit']}s in this document "
+            "is too few to measure a spread over"
+        )
+        return
+    #  At least one word whatever the rule asked for: a mean of zero has no
+    #  coefficient to report.
+    if words < max(params["min_words"], 1):
+        yield Abstain(f"{words} words in this document is too short to measure a spread over")
+        return
+
+    mean = words / len(lengths)
+    sd = sqrt(sum((length - mean) ** 2 for length in lengths) / len(lengths))
+    variation = sd / mean
+    outside = _outside(variation, params, "variation")
+    if outside is None:
+        return
+    side, limit = outside
+    yield Hit(
+        Span(0, len(document.text)),
+        {
+            "unit": params["unit"],
+            "count": len(lengths),
+            "words": words,
+            "mean": f"{mean:.1f}",
+            "sd": f"{sd:.1f}",
+            "variation": f"{variation:.2f}",
+            "limit": f"{limit:g}",
+            "side": side,
+        },
+    )
 
 
 # --------------------------------------------------------------------------- #
