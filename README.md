@@ -154,6 +154,10 @@ a roadmap, and open questions.
   which Polish is obtainable for the human half,
   what each candidate corpus records about its register, provenance and licence,
   and the composition the survey argues for
+- [docs/audit-corpus.md](docs/audit-corpus.md) —
+  which repositories the audit corpus is made of,
+  what one has to show to join,
+  and how to fetch them at the commits the figures were taken at
 - [docs/firing-rates.md](docs/firing-rates.md) —
   what the typography pack does over Polish somebody wrote,
   what its hits turn out to be when they are read,

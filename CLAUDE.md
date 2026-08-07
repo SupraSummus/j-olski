@@ -409,12 +409,14 @@ so the classes that document reports having read
 are corrected along with the counts, or the audit stops describing the pack.
 
 The same holds for the figures in
-[`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured)
-and the ones over the Markdown corpus in
+[`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
+the ones over the Markdown corpus in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
+and the sizes in
+[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
 with one more thing that moves them:
 a change in what [the extraction](docs/extraction.md) keeps.
-Both documents print the commands that produce their figures,
+Each of the three prints the commands that produce its figures,
 which is the whole reason those commands are there.
 
 ## Code

@@ -72,8 +72,8 @@ Each cell below is the findings over the prose against the findings over the fil
 No rule reports more over the prose than over the file it came from.
 The notes and the memoir are the two bodies
 [generated-polish.md](generated-polish.md#what-was-measured) reports on,
-and KSeF is the Polish documentation repository in
-[corpora.md](corpora.md#polish-technical-documentation-original-and-translated).
+and KSeF is the first repository in
+[the audit corpus](audit-corpus.md#the-list).
 Its file column is [the pilot run](firing-rates.md#the-rates) rerun,
 and it differs from that run in one place:
 naming the files `.txt` is what lets `orphan-single-letter-word` measure them
@@ -190,13 +190,16 @@ so the share and the rates it selects for are measured over the same tokens.
 
 ```sh
 git clone --depth 1 https://github.com/SupraSummus/the-agent
-git clone --depth 1 https://github.com/CIRFMF/ksef-docs
 
 python3 -m harness.markdown the-agent/book2/notes --into proza/notes --polish 0.05
 python3 -m harness.markdown ksef-docs --into proza/ksef
 
 python3 -m olski proza/notes --format report
 ```
+
+`ksef-docs` arrives by the command
+[audit-corpus.md](audit-corpus.md#the-list) prints,
+which pins it at the commit the KSeF column above was measured at.
 
 The memoir is the nine chapters of `the-agent/book`:
 `prolog.md`, `epilog.md` and `rozdzial-01` through `rozdzial-07`.
