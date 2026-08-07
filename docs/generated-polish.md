@@ -162,10 +162,11 @@ Two smaller effects run alongside it.
 
 **Markup inflates a denominator, so a rule stops declining to answer.**
 Shown their prose, `em-dash-density`
-[abstains](rules.md#abstention-is-not-silence) on 26 of the 527 notes,
-which fall under the 150 words it asks for before reporting a rate.
+[abstains](rules.md#abstention-is-not-silence) on 29 of the 527 notes:
+27 fall under the 150 words it asks for before reporting a rate,
+and 2 run above its threshold on fewer dashes than it reads as evidence.
 Shown the files, it declines on none of them:
-frontmatter, headings and link titles carry every one of them over the floor.
+frontmatter, headings and link titles carry every one of them over both floors.
 A rule that would have said *this is too short to measure*
 reports a number instead.
 

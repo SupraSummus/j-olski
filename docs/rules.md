@@ -236,13 +236,18 @@ and is meant to be the rarer event.
 | Check | Fires on | Reports |
 | --- | --- | --- |
 | `pattern` | Each match of a regular expression | `{match}` |
-| `pattern-density` | A scope whose matches per 1000 words run over a rate, or under one | `{count}`, `{words}`, `{rate}`, `{limit}`, `{side}`, `{match}` |
+| `pattern-density` | A scope whose matches per 1000 words run over a rate, or under one | `{count}`, `{words}`, `{rate}`, `{limit}`, `{side}`, and `{match}` where the rule set a ceiling |
 | `length-variation` | A document whose units are too alike in length, or too unlike | `{unit}`, `{count}`, `{words}`, `{mean}`, `{sd}`, `{variation}`, `{limit}`, `{side}` |
 | `line-end-word` | A listed word left at the end of a line | `{word}` |
 | `entity-recurrence` | A corpus that introduces entities and drops them | `{entity}`, `{mentions}`, `{walk_ons}`, `{introductions}`, `{share}`, `{limit}` |
 
 A message may only use the placeholders its check reports.
 Using another one is an error at import time, not a surprise at runtime.
+What a check reports is read off the rule's parameters,
+which is why the `pattern-density` row carries a condition:
+a rule that set no ceiling can only ever report a reading below its floor,
+and such a reading has no occurrence to quote,
+so `{match}` there is refused rather than left to render an empty string.
 
 ### `pattern`
 
@@ -291,14 +296,15 @@ is too few dates, numerals and proper nouns rather than too many.
 because a number alone leaves a message unable to tell a writer
 whether the text ran hot or cold.
 
-`min_count` and `min_words` bound the evidence rather than the rate.
+`min_count` and `min_words` bound the evidence rather than the rate,
+and falling under either one is the rule declining rather than the rule finding nothing.
 `min_words` is the denominator:
 a rate over a short scope is noise,
-since one dash in nine words is 111 per 1000 and means nothing,
-so below it the rule abstains and says so.
-It abstains where it would otherwise have reported and nowhere else,
-because a scope a rule had nothing to say about
-is not a scope it declined to judge.
+since one dash in nine words is 111 per 1000 and means nothing.
+It is tested before the bounds,
+so a scope under it abstains whatever that scope turned out to hold,
+and the scopes the rule could never have judged
+come off the denominator [the report](#a-firing-rate-per-rule) divides by.
 
 `min_count` is the evidence a reading above the ceiling needs,
 and it does not stand under the floor,
@@ -306,12 +312,21 @@ where too few matches is the finding rather than a reason to doubt one.
 Running it against both sides would skip
 what a floor rule is looking hardest for:
 the document with no numerals in it at all.
+So it is tested where the side is known,
+and there the rule abstains as it does under the word floor.
+
+Both abstentions name the floor they refused on rather than what the scope held,
+because the floor is the number a writer can act on,
+and because a reason carrying a per-scope measurement is a distinct reason per scope,
+which turns `--show-abstentions` from a count of causes into a line per file.
 
 A finding above the ceiling points at the first occurrence in the scope,
 so that the number can be checked against the text.
 One below the floor has no occurrence to point at —
 what it found is the text that went by without one —
 so it points at the scope it measured, and `{match}` is empty.
+A rule that set no ceiling has no other kind of finding to make,
+which is why `{match}` is not among the placeholders it may use at all.
 
 `unit="corpus"` pools every file the run covers into one rate.
 See [what a corpus scope is for](#a-rule-may-be-asking-about-the-corpus).
@@ -443,8 +458,12 @@ and lack of coverage cost 202.
 The middle case is stated as *could have fired* and is sometimes weaker.
 A rule declining because a file's format is one olski does not read
 has counted nothing,
-so it does not know whether there was anything to count;
-what it reports is that it did not measure.
+so it does not know whether there was anything to count.
+A rate rule under one of [its floors](#pattern-density) has counted,
+and found either the scope too short to divide by
+or the count too small to stand behind.
+Neither of the two could have fired,
+and what each reports is that it did not measure.
 That is the honest claim,
 and it is the useful one,
 because the alternative is a number nobody can tell from a measurement.
@@ -479,13 +498,22 @@ so it reports no rate at all rather than a rate of zero,
 which would say it had looked.
 The abstentions have a column of their own beside the findings,
 so a rule that stayed quiet can be told from one that never looked.
-What that column does not hold is every scope a rate rule turned away.
-`min_words` abstains; `min_count` returns without recording anything,
-which [firing-rates.md](firing-rates.md#what-the-report-mode-did-when-rules-declined)
-measures at 34 scopes against the first's 4 over one corpus.
-Whether falling under `min_count` is a decision or merely no finding
-decides which of the two behaviours is the defect,
-and [TODO.md](../TODO.md) holds the question with both moves written out.
+
+**A scope a rule could not have judged is a scope it declined.**
+A rate rule under [either of its floors](#pattern-density) has refused to answer,
+so it abstains and the scope leaves the denominator with every other refusal.
+The alternative is to pass over such a scope in silence
+and have the report take it out afterwards,
+by asking each check which of the scopes it was handed it could reach:
+a second protocol beside the one that reports outcomes,
+and one that leaves `--show-abstentions` nothing to print,
+where the reason is what tells a reader
+that a corpus was the wrong shape for the rule
+rather than that the rule looked and found nothing.
+[firing-rates.md](firing-rates.md#what-the-report-mode-did-when-rules-declined)
+is the choice measured:
+one stratum's denominator falls from 295 documents
+to the 8 the rule was in a position to report on.
 
 **The report is one side of a pair.**
 A firing rate says whether a rule has anything to do.

@@ -125,22 +125,25 @@ which then has to say whether valency is a construction it is missing
 or a gap of another kind,
 or the two sentences in `docs/corpus.md` stop pointing at it.
 
-A rate rule's denominator counts scopes the rule could never have judged.
-`pattern_density` in `olski/checks.py` tests its bounds before its two floors,
-so a scope reaches `min_words` only when it was about to be reported,
-and `min_count` turns away a scope above the ceiling by returning rather than abstaining.
-[The pilot run](docs/firing-rates.md#what-the-report-mode-did-when-rules-declined)
-gives both halves a number:
-283 of the 291 documents in one denominator
-hold fewer words than `em-dash-density` needs to answer at all,
-and of 38 scopes over the threshold that went unjudged, 34 left no record.
-Settle first whether falling under a floor is a decision.
-If it is, `min_count` abstains as `min_words` does,
-and the floors are tested before the bounds so that every scope failing one says so.
-If it is not, `measured` subtracts the scopes that fail a floor,
-so that a share is taken over what the rule could reach.
-The present code does neither, and reports a denominator
-that describes the corpus rather than the rule.
+The engine tells a declined file from a declined scope by comparing a reason string.
+`_tally` in `olski/engine.py` subtracts the two differently,
+since a rule that declined a file never saw the scopes in it
+where one that declined a scope saw that scope and no other,
+and what it tells them apart with
+is whether the reason equals `NOT_PLAIN_TEXT`.
+Every abstention the checks can raise is classified right by that test,
+so this is about the next one rather than about a wrong number in a report:
+a rule declining a whole document for any other reason
+counts as having declined a single scope.
+Give `line-end-word` the wrap precondition
+the entry on where a file wraps asks for,
+and declining a 50-line file leaves 49 of its lines in the denominator.
+The move is to make the width part of the outcome instead of reading it off the prose,
+with an `Abstain` saying whether it refuses a scope or the whole file,
+which also relieves `NOT_PLAIN_TEXT` of doubling as a tag,
+a job `olski/checks.py` documents it as having.
+That entry is what makes this reachable,
+so whoever picks it up needs this as well.
 
 `line-end-word` reads where a file wraps and reports it as where a page wraps.
 The check's docstring in `olski/checks.py` says the judgement depends on
@@ -215,27 +218,17 @@ and nothing catches the plain-prose mentions,
 so those are the ones to grep for.
 
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
-Its `Reports` column restates the `fields` set each check registers,
+Its `Reports` column restates what each check's `fields` answers,
 and the `params=dict(...)` blocks restate what each validator accepts,
 so both drift silently as soon as a check gains a parameter.
+`fields` is a function of a rule's validated parameters,
+which the `pattern-density` row carries as a condition in prose,
+so whichever move is picked reaches a check's fields through some rule's parameters.
 Either the CLI grows a `--list-checks` output that the document points at,
 the way it already points readers at `--list-rules`,
 or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
-
-A `pattern-density` rule that sets only `min_per_1000_words`
-may use `{match}` in its message and render an empty string.
-`Check.fields` in `olski/checks.py` is one set per check kind,
-so the placeholder check in `Rule.__post_init__` measures a message
-against everything the check can ever report,
-while a finding below the floor reports a strict subset of that:
-there is no occurrence to quote, which is the point of such a finding.
-The move is to make a check's fields a function of its validated parameters,
-which `Rule.__post_init__` already holds when it checks the message.
-Against it: an empty placeholder shows itself the first time a rule runs,
-where the mistake this guard was built for raises `KeyError` instead,
-and a callable costs more to read than a frozenset.
 
 `Document` computes an analysis nobody asked for
 and recomputes one everybody does.

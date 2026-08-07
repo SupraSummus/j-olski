@@ -178,7 +178,7 @@ class Rule:
     #: The name of a check in :mod:`olski.checks`.
     check: str
     #: A format template. Placeholders are filled from the fields the check
-    #: reports, and are checked against that check on construction.
+    #: reports for these parameters, and are checked against them on construction.
     message: str
     #: Why this rule exists, in prose. Anchored to a Polish style norm where one
     #: exists, because a rule justified by a model's habits dates and a rule
@@ -228,10 +228,14 @@ class Rule:
                 f"so this rule carries UNCALIBRATED or {owed.__name__}, not {self.calibration!r}"
             )
 
-        unsupported = _placeholders(self.message) - check.fields
+        #  What a check reports can follow from the parameters just validated —
+        #  a rate rule with no ceiling has no occurrence to quote — so the fields
+        #  are asked for after the validation and not before it.
+        fields = check.fields(self.params)
+        unsupported = _placeholders(self.message) - fields
         if unsupported:
             named = ", ".join(sorted(unsupported))
-            reports = ", ".join(sorted(check.fields)) or "nothing"
+            reports = ", ".join(sorted(fields)) or "nothing"
             raise RuleError(
                 f"{where}: message uses {named}, but check {self.check!r} reports {reports}"
             )

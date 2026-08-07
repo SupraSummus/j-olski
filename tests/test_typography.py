@@ -65,8 +65,9 @@ def test_dash_density_is_quiet_on_occasional_dashes():
     assert fired(sparse, "em-dash-density") == []
 
 
-def test_dash_density_says_nothing_about_a_short_text():
-    #  Below min_words the rule refuses to compute a rate at all.
+def test_dash_density_reports_nothing_about_a_text_under_its_word_floor():
+    #  Four words carrying three dashes is 750 per 1000 and evidence of nothing,
+    #  which is the number min_words=150 is in the pack to keep out of a report.
     assert fired("Raz — dwa — trzy — cztery.", "em-dash-density") == []
 
 

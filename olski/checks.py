@@ -71,9 +71,12 @@ DISTRIBUTION = "distribution"
 @dataclass(frozen=True)
 class Check:
     name: str
-    #: Field names a finding of this check can report, and therefore the
-    #: placeholders a rule's message may use.
-    fields: frozenset[str]
+    #: Field names a finding of this check can report, given a rule's validated
+    #: parameters, and therefore the placeholders that rule's message may use. A
+    #: function of the parameters rather than one set per kind, because what a
+    #: finding has to report follows from which findings the rule asked for: a
+    #: rate rule that set no ceiling has no occurrence to quote.
+    fields: Callable[[dict], set[str]]
     #: Which shape of calibration a rule using this check owes: an audit where
     #: the check points at a site and its hits are read one by one, a
     #: distribution where it compares a measurement to a threshold the rule
@@ -106,9 +109,12 @@ class ParamError(Exception):
     """A rule's parameters do not fit the check it names."""
 
 
+#  Keyword-only past the name: two of the four arguments are functions of a
+#  rule's parameters, and position alone does not tell them apart.
 def _register(
     name: str,
-    fields: set[str],
+    *,
+    fields: Callable[[dict], set[str]],
     validate,
     counted_over: Callable[[dict], str],
     calibrated_by: str,
@@ -116,7 +122,7 @@ def _register(
     def decorate(run):
         CHECKS[name] = Check(
             name=name,
-            fields=frozenset(fields),
+            fields=fields,
             calibrated_by=calibrated_by,
             counted_over=counted_over,
             validate=validate,
@@ -333,7 +339,13 @@ def _validate_pattern(params: dict, where: str) -> dict:
     return validated
 
 
-@_register("pattern", {"match"}, _validate_pattern, lambda params: "word", AUDIT)
+@_register(
+    "pattern",
+    fields=lambda params: {"match"},
+    validate=_validate_pattern,
+    counted_over=lambda params: "word",
+    calibrated_by=AUDIT,
+)
 @per_document
 def pattern(rule, document: Document) -> Iterator[Outcome]:
     """Flag every match of a regular expression.
@@ -383,25 +395,32 @@ def _validate_density(params: dict, where: str) -> dict:
 
 @_register(
     "pattern-density",
-    {"count", "words", "rate", "limit", "side", "match"},
-    _validate_density,
+    #  ``match`` only where the rule set a ceiling, since only a reading above one
+    #  has an occurrence to quote.
+    fields=lambda params: {"count", "words", "rate", "limit", "side"}
+    | ({"match"} if "max_per_1000_words" in params else set()),
+    validate=_validate_density,
     #  The scope the rate is measured over is the scope one finding covers, so
     #  this is the only check whose denominator its rule chooses.
-    lambda params: params["unit"],
-    DISTRIBUTION,
+    counted_over=lambda params: params["unit"],
+    calibrated_by=DISTRIBUTION,
 )
 @needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
     """Flag a scope where a pattern occurs more often than a rate allows, or less.
 
-    The two floors guard two different things, and only one of them guards both
-    sides. ``min_words`` is the denominator: a rate over a short scope is noise,
-    since one em dash in a nine-word paragraph is 111 per thousand words and
-    means nothing, so below it the rule abstains rather than report a number it
-    does not believe. ``min_count`` is the evidence a *hot* reading needs, and it
+    The two floors guard two different things, and falling under either one is
+    the rule declining rather than the rule finding nothing. ``min_words`` is the
+    denominator: a rate over a short scope is noise, since one em dash in a
+    nine-word paragraph is 111 per thousand words and means nothing, so it is
+    tested before the bounds and below it the rule abstains whatever the scope
+    turns out to hold. ``min_count`` is the evidence a *hot* reading needs, and it
     does not stand under the floor, where too few matches is the finding rather
     than a reason to doubt one: the scope a rule with a floor most wants is the
-    one where the pattern never occurs at all.
+    one where the pattern never occurs at all. So it is tested where the side is
+    known, and there it abstains too. Both abstain rather than pass the scope
+    over, because a refusal is what the engine takes off the denominator a rate is
+    reported against; docs/rules.md owns why that is the right place for it.
 
     At ``unit="corpus"`` the rate is one number for the whole body of text,
     anchored at one place in it rather than raised against every match. See
@@ -409,27 +428,33 @@ def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
     """
     params = rule.params
     for owner, pieces in _scopes(documents, params["unit"]):
+        words = sum(document.word_count(piece) for document, piece in pieces)
+        #  At least one word whatever the rule asked for, since a rate over no
+        #  words is not one.
+        floor = max(params["min_words"], 1)
+        if words < floor:
+            #  The floor rather than this scope's own count: a per-scope number
+            #  makes a distinct reason per scope, and the report counts causes.
+            yield Abstain(
+                f"this {params['unit']} is under the {floor}-word floor a rate over it needs",
+                document=owner,
+            )
+            continue
         found = [
             (document, Span(piece.start + match.start(), piece.start + match.end()))
             for document, piece in pieces
             for match in params["pattern"].finditer(document.slice(piece))
         ]
-        words = sum(document.word_count(piece) for document, piece in pieces)
-        rate = 1000 * len(found) / words if words else 0.0
+        rate = 1000 * len(found) / words
         outside = _outside(rate, params, "per_1000_words")
         if outside is None:
             continue
         side, limit = outside
         hot = side == "above"
         if hot and len(found) < params["min_count"]:
-            continue
-        #  At least one word whatever the rule asked for, since a rate over no
-        #  words is not one. Reached only by a scope the rule was about to
-        #  report, because a scope it had nothing to say about is not a scope it
-        #  declined to judge.
-        if words < max(params["min_words"], 1):
             yield Abstain(
-                f"{words} words in this {params['unit']} is too short to measure a rate over",
+                f"this {params['unit']} is under the {params['min_count']}-match floor "
+                f"a rate above {limit:g} needs",
                 document=owner,
             )
             continue
@@ -489,7 +514,13 @@ def _validate_line_end(params: dict, where: str) -> dict:
     return {"words": tuple(words), "case_sensitive": case_sensitive}
 
 
-@_register("line-end-word", {"word"}, _validate_line_end, lambda params: "line", AUDIT)
+@_register(
+    "line-end-word",
+    fields=lambda params: {"word"},
+    validate=_validate_line_end,
+    counted_over=lambda params: "line",
+    calibrated_by=AUDIT,
+)
 @needs_plain_text
 @per_document
 def line_end_word(rule, document: Document) -> Iterator[Outcome]:
@@ -549,12 +580,12 @@ def _validate_variation(params: dict, where: str) -> dict:
 
 @_register(
     "length-variation",
-    {"unit", "count", "words", "mean", "sd", "variation", "limit", "side"},
-    _validate_variation,
+    fields=lambda params: {"unit", "count", "words", "mean", "sd", "variation", "limit", "side"},
+    validate=_validate_variation,
     #  Not the unit in the parameters: that is what the lengths vary across,
     #  while the spread they make is a property of the whole document.
-    lambda params: "document",
-    DISTRIBUTION,
+    counted_over=lambda params: "document",
+    calibrated_by=DISTRIBUTION,
 )
 @needs_plain_text
 @per_document
@@ -643,10 +674,10 @@ def _validate_recurrence(params: dict, where: str) -> dict:
 
 @_register(
     "entity-recurrence",
-    {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
-    _validate_recurrence,
-    lambda params: "corpus",
-    DISTRIBUTION,
+    fields=lambda params: {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
+    validate=_validate_recurrence,
+    counted_over=lambda params: "corpus",
+    calibrated_by=DISTRIBUTION,
 )
 @needs_plain_text
 def entity_recurrence(rule, documents: Sequence[Document]) -> Iterator[Outcome]:

@@ -190,6 +190,15 @@ def test_a_count_floor_holds_back_a_hot_reading_and_not_a_cold_one(text, side):
     assert [hit.fields["side"] for hit in hits(band, text)] == ([side] if side else [])
 
 
+def test_the_count_floor_declines_a_hot_reading_rather_than_passing_over_it():
+    #  Both floors are the rule refusing to answer, so both say so. Returning here
+    #  instead would leave the scope in a denominator as though the rule had looked
+    #  at it and found nothing.
+    outcomes = run(band, "3 pliki 7 stron")
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert outcomes[0].reason == "this document is under the 3-match floor a rate above 300 needs"
+
+
 def test_paragraph_unit_measures_each_paragraph_separately():
     text = "raz — dwa trzy\n\n" + " ".join(["słowo"] * 40) + " — koniec"
     found = hits(per_paragraph, text)
@@ -216,17 +225,14 @@ def test_sentence_unit_measures_each_sentence_separately():
     assert found[0].span.start == text.index("—")
 
 
-def test_density_abstains_rather_than_measure_a_rate_over_too_few_words():
-    outcomes = run(floored, "raz — dwa")
+@pytest.mark.parametrize("text", ["raz — dwa", "raz dwa trzy"], ids=["over-the-rate", "under-it"])
+def test_a_scope_under_the_word_floor_is_declined_whatever_its_rate(text):
+    #  Three words either way, one carrying a dash and one not, so the first would
+    #  have been reported and the second would not. The floor is tested before the
+    #  bounds, so neither stays in the denominator of a rate over three words.
+    outcomes = run(floored, text)
     assert [type(o) for o in outcomes] == [Abstain]
-    assert "too short" in outcomes[0].reason
-
-
-def test_a_scope_a_rule_had_nothing_to_say_about_is_not_one_it_declined_to_judge():
-    #  The document above without its dash: as short, and now with a rate the
-    #  rule would not have reported at any length. Abstaining here would report
-    #  that it did not measure a document nobody was asking it about.
-    assert run(floored, "raz dwa trzy") == []
+    assert outcomes[0].reason == "this document is under the 20-word floor a rate over it needs"
 
 
 def test_density_abstains_on_a_scope_with_no_words_to_measure_a_rate_over():
@@ -234,7 +240,7 @@ def test_density_abstains_on_a_scope_with_no_words_to_measure_a_rate_over():
     #  otherwise report as a finding about a document with no prose to have one.
     outcomes = run(sparse, "— — —\n")
     assert [type(o) for o in outcomes] == [Abstain]
-    assert "too short" in outcomes[0].reason
+    assert "1-word floor" in outcomes[0].reason
 
 
 # --------------------------------------------------------------------------- #
@@ -612,6 +618,27 @@ def test_message_placeholder_must_be_a_field_the_check_reports():
             check="pattern",
             params=dict(pattern="a"),
             message="{rate} per 1000",
+            justification="j",
+        )
+
+
+def test_what_a_density_rule_may_quote_follows_from_the_bounds_it_set():
+    #  A reading above a ceiling has a first occurrence to point at, and one below
+    #  a floor is the text that went by without one, so `{match}` there could only
+    #  ever render empty.
+    pack.rule(
+        id="x14-ceiling",
+        check="pattern-density",
+        params=dict(pattern=r"\d+", max_per_1000_words=100),
+        message="too many, such as {match}",
+        justification="j",
+    )
+    with pytest.raises(RuleError, match="message uses match, but check 'pattern-density' reports"):
+        pack.rule(
+            id="x14-floor",
+            check="pattern-density",
+            params=dict(pattern=r"\d+", min_per_1000_words=100),
+            message="too few, such as {match}",
             justification="j",
         )
 

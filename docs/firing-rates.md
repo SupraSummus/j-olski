@@ -147,11 +147,11 @@ and prints a nine-row table over it without saying what it passed by.
 Over all 326 files of Wolne Lektury:
 
 ```text
-326 files, 1940517 words, 9 rules
+326 files, 1940517 words, 135192 sentences, 9 rules
 
 rule                             fired  abstained       measured          rate
 double-space                       139          0  1940517 words  0.1 per 1000
-em-dash-density                     21          4  322 documents          6.5%
+em-dash-density                     21        287   39 documents         53.8%
 missing-space-after-full-stop       11          0  1940517 words  0.0 per 1000
 missing-space-after-punctuation     31          0  1940517 words  0.0 per 1000
 orphan-single-letter-word          124          0   107280 lines          0.1%
@@ -164,7 +164,7 @@ trailing-space                     110          0  1940517 words  0.1 per 1000
 Over the 32 Markdown files of KSeF:
 
 ```text
-32 files, 36550 words, 9 rules
+32 files, 36550 words, 2468 sentences, 9 rules
 
 rule                             fired  abstained     measured           rate
 double-space                       456          0  36550 words  12.5 per 1000
@@ -184,7 +184,7 @@ Findings by stratum, so that a register can be told from a rule:
 | --- | --- | --- | --- | --- | --- |
 | words | 912,377 | 1,011,472 | 16,668 | 64,468 | 36,550 |
 | `double-space` | 0 | 139 | 0 | 12 | 456 |
-| `em-dash-density` | 11 of 11 | 10 of 20 | 0 | 0 | declined |
+| `em-dash-density` | 11 of 11 | 10 of 20 | 0 of 8 | 0 of 326 | declined |
 | `missing-space-after-full-stop` | 3 | 8 | 0 | 1 | 748 |
 | `missing-space-after-punctuation` | 0 | 31 | 0 | 0 | 76 |
 | `orphan-single-letter-word` | 35 | 89 | 0 | 7 | declined |
@@ -367,27 +367,34 @@ and the rate column reads `—`.
 That is the intended answer,
 and it is a different answer from the `0.0%`
 the same rule prints over the `wiersze` stratum.
-The two remaining decisions are about how much that `0.0%` is worth.
+What the next two decisions settle is what that `0.0%` is a share of.
 
-**A rate rule is counted over the scopes it was given.**
-The `wiersze` stratum shows what that denominator holds.
-Of its 295 documents, 4 abstain and 291 are counted as measured,
-and 8 of the 295 hold the 150 words the rule needs.
-So 283 of the 291 are documents the rule could not have reported on
-whatever they contained, and the row says nothing of it.
-The share is honest about what the rule did
-and silent about what it was in a position to do.
+**The denominator is what the rule could reach rather than what the corpus held.**
+The `wiersze` stratum is where that decision is worth a number.
+287 of its 295 fraszki hold fewer than the 150 words `em-dash-density` needs,
+so the rule abstains on each of them
+and `measured` reads 8 documents rather than 295.
+The share is then taken over the documents the rule could have reported on,
+which is why that 8 is also the `wiersze` count in
+[the distribution](#em-dash-density-has-a-distribution-now):
+the denominator of the row and the population of the table are one number.
+Over all 326 files the same accounting reads 21 findings over 39 documents:
+a rate of 53.8%, where the run was handed 326 documents
+and a share taken over those would have been a share of the download.
 
-**Two floors mean the same thing and only one of them is recorded.**
-`min_words` abstains and names the reason.
-`min_count`, the evidence a reading above the ceiling needs, returns silently.
-Across the corpus 21 documents were reported,
-4 abstained on `min_words`,
-and 34 stood above the ceiling and were turned away by `min_count` without a word.
-So the abstention column accounts for 4 of the 38 scopes
-that stood over the threshold and went unjudged,
-and whether the other 34 are declining or simply not finding anything
-is a question this run raises rather than settles.
+**Both floors record the decision, and here one of them had nothing to record.**
+`min_words` and `min_count` are each the rule refusing to answer,
+so each abstains and names the floor it refused on.
+`min_words` is tested first, and that is what leaves the second silent:
+of the 39 documents standing over the word floor,
+not one runs above the ceiling on fewer than the 3 dashes `min_count` asks for,
+so all 287 abstentions are the word floor
+and the count floor turns nothing away in the whole download.
+A corpus where it does is in
+[generated-polish.md](generated-polish.md#the-apparatus-biases-a-rate-by-an-amount-the-corpus-decides).
+The 18 documents that are in neither the 21 nor the 287
+are documents the rule measured and found within its ceiling,
+which is the one silence a firing rate is entitled to.
 
 The `orphan-single-letter-word` row shows a denominator going wrong the other way.
 Its denominator of 107,280 lines is 101,799 lines of the prose strata,
