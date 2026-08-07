@@ -414,22 +414,6 @@ which is two grammars disagreeing rather than two morphologies.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
 
-The prose in this repository is English and [`docs/roles.md`](docs/roles.md) is not,
-so the language of the next document is settled by whichever neighbour it imitates.
-Decide it either way:
-translate the roles document and keep Polish out of the prose,
-or admit Polish and write the boundary into
-[`CLAUDE.md`](CLAUDE.md#adopt-these-rules-lazily) beside the prose rules,
-saying which documents it covers.
-What has to be read before deciding is what the pack does with either option,
-which `python3 -m olski docs/ CLAUDE.md README.md` prints:
-a Polish document is the only prose here its own rules can judge at all,
-and over the English documents the same rules report the English text itself,
-most of it the straight quotation marks English prose is set with.
-Whichever way it goes, `Message language` in
-[`docs/rules.md`](docs/rules.md#not-yet-decided) moves with it,
-because that entry defers a Polish message set on the documentation being English.
-
 `missing-space-after-punctuation` reads the colon of a label such as `**Exit:**`
 in [`docs/roadmap.md`](docs/roadmap.md#milestone-4-the-delivery-decision)
 as a missing space,

@@ -363,10 +363,9 @@ which is why the decision can wait this long,
 and by here there is a calibrated pack to deliver,
 which is why it need not wait longer.
 
-Two things a route either supplies or leaves to be built,
-both waiting in [rules.md](rules.md#not-yet-decided):
-a way to silence a rule on one line or one file,
-and whether the messages a Polish author reads are in Polish.
+One thing a route either supplies or leaves to be built,
+waiting in [rules.md](rules.md#not-yet-decided):
+a way to silence a rule on one line or one file.
 
 **Exit:** a decision with its reasoning recorded.
 

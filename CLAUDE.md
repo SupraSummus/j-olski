@@ -26,6 +26,56 @@ because only the change at hand can do them:
 when an item closes, its history goes in the same commit,
 and when you edit a section, the stale narration inside it goes with the edit.
 
+## Piszemy po polsku, także w kodzie
+
+Materiałem tego projektu jest polska proza,
+a taką prozę repozytorium pisze samo o sobie.
+Reguły tego lintera są pisane dla polszczyzny
+i nad angielskim tekstem nie mają czego mierzyć,
+więc dopóki dokumenty stoją po angielsku,
+żądanie, żeby własny tekst repozytorium nie potykał się o to, co linter wytyka
+(zob. [gotowe frazy](#a-phrase-that-arrived-ready-made-was-not-chosen)),
+zostaje deklaracją.
+Po polsku da się ten tekst przepuścić przez olski.
+
+Reguła obejmuje prozę z listy na początku tego pliku,
+komentarze i docstringi, które do prozy liczy
+[łamanie wierszy](#semantic-line-breaks),
+komunikaty, które narzędzie drukuje,
+oraz nazwy, które w kodzie wybieramy:
+modułów, klas, funkcji, testów, poleceń i flag.
+Po angielsku zostaje to, czego nie wybieramy:
+słowa kluczowe Pythona, API bibliotek, klucze konfiguracji i nazwy formatów.
+
+Nazwa w kodzie niesie znaki diakrytyczne, tak samo jak zdanie.
+Tekst, który ich nie ma, nie liczy się tu jako polszczyzna:
+[ekstrakcja](docs/extraction.md#which-documents-enter-the-corpus)
+wyrzuca dokument, w którym diakrytyk pada rzadziej niż zadany próg,
+i nie pyta, skąd ten brak się wziął.
+Python przyjmuje takie identyfikatory,
+a pliki repozytorium są w UTF-8 (`.editorconfig`).
+
+Reguła nie wywodzi się z [czterech sił](#four-forces) i nie jest od nich wyjątkiem.
+One rozstrzygają, jak zdanie jest zbudowane, a ta, w jakim jest języku,
+więc stoi przed nimi, żeby zdanie „każda reguła niżej” dalej było prawdziwe.
+
+Przyjmujemy ją [leniwie](#adopt-these-rules-lazily) jak resztę,
+z jedną różnicą co do jednostki.
+Reguły prozy schodzą do zdania, bo zdanie poprawia się osobno.
+Język tak nisko nie schodzi,
+bo mieszanina języków wewnątrz akapitu, docstringa albo nazwy
+czyta się gorzej niż każda z wersji z osobna,
+a przemianowana funkcja sięga wszystkich swoich wywołań.
+Jednostką jest więc sekcja, docstring, komunikat albo nazwa wraz z wywołaniami.
+Nowa powstaje po polsku, także w dokumencie, który po polsku nie jest,
+a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
+dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
+Nie ma z tego przebiegu porządkowego ani wpisu w `TODO.md`,
+bo tekst napisany przed regułą nie jest usterką.
+[`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
+ta sekcja stoi po polsku w pliku, który po polsku nie jest,
+i jedno, i drugie jest zgodne z regułą.
+
 ## Four forces
 
 Every rule below follows from one of four forces.

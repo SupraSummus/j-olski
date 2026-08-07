@@ -54,7 +54,7 @@ pack.rule(
 | --- | --- | --- |
 | `id` | yes | Stable identifier, used to select and to suppress the rule |
 | `check` | yes | Name of a check kind, from the table below |
-| `message` | yes | What the reader is told, as a format template |
+| `message` | yes | What the reader is told, as a format template, [in Polish](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie) |
 | `justification` | yes | Why the rule exists, in prose |
 | `params` | per check | Parameters for the named check |
 | `sources` | no | Where the justification comes from |
@@ -573,9 +573,6 @@ a pack declares data and calls nothing but `pack.rule`.
 
 ## Not yet decided
 
-- **Message language.** Messages are English while the documentation is.
-  A linter for Polish authors should probably speak Polish,
-  and that is a localization decision, not a rule decision.
 - **Suppression.** No way yet to silence a rule on one line or one file.
 - **Delivery route.** Whether this stays a standalone tool,
   becomes a Vale style, or becomes LanguageTool XML.
