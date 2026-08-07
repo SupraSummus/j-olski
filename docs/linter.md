@@ -547,7 +547,13 @@ the rest are hypotheses to be calibrated, not conclusions.
 - Lemma type-token ratio *cited*
 - Fact density: dates, numerals, proper nouns; low in generated text *cited*
 - Absence of inversion and other emphatic reorderings *cited*,
-  which the fronting entry below approaches from the other direction
+  which the fronting entry below approaches from the other direction.
+  Absence is the harder of the two sides to measure.
+  A count at this tier reaches the clause-fronted variant that entry names
+  and not the phrase-fronted one,
+  so prose that inverts only in the ways a pattern cannot see
+  reads here exactly like prose that does not invert,
+  the way [lack of coverage reads like a clean document](rules.md#abstention-is-not-silence)
 
 ### Discourse, tier C or D
 
