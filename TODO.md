@@ -141,25 +141,53 @@ as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
 
-A check and a document disagree about where a word ends.
-`WORD` in `olski/document.py` keeps an apostrophe inside a word,
-so `Lagrange'a` is one word to every count olski takes,
-while `_last_word` in `olski/checks.py` matches `[^\W\d_]+` of its own
-and finds the word `a` at the end of it.
-It is a class of its own in
-[the audit](docs/firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
-and in the one over the notes in
-[`docs/extraction.md`](docs/extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
-every hit in it an apostrophe genitive: `Locke'a`, `Farrère'a`, `hardware'u`.
-The move is for `_last_word` to take the last `WORD` match instead of its own,
-which leaves the class standing beside it:
+Two rules read where a line ends, and the target register has no such line.
+`trailing-space` and `orphan-single-letter-word` are both audit-shaped,
+so each owes the share of its hits that were real defects,
+and [the roadmap](docs/roadmap.md#milestone-1-the-calibration-harness)
+records that neither corpus
+[`docs/corpora.md`](docs/corpora.md#the-composition-this-argues-for) argues for
+can supply that share.
+The pack half-admits the mismatch already:
+`trailing-space` justifies itself on whitespace
+that changes nothing about the rendered text,
+and two trailing spaces in Markdown are a line break.
+So the decision comes before either fix below,
+and it is whether the pack claims prose laid out in lines as a register of its own
+or the two rules go.
+The evidence is three readings already taken:
+the audits over
+[published Polish](docs/firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
+and over
+[the audit corpus](docs/firing-rates.md#orphan-single-letter-word-declines-all-39-files),
+which between them turn up no instance of the defect in either body
+and no hit at all in the one stratum where the premise held,
+and [what the extraction removes](docs/extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
+which for these two rules is every trailing space and every line end there was.
+Deleting them frees machinery on one side,
+which is the other half of what the decision is worth:
+the `line-end-word` check kind, `needs_hard_wrap` in `olski/checks.py`,
+and `hard_wrapped` and `HARD_WRAP_SHARE` in `olski/document.py`
+exist for `orphan-single-letter-word` and for nothing else,
+where `trailing-space` is a `pattern` rule and would leave nothing behind.
+Two known misreadings of it follow the decision the other way
+and are worth fixing only if the rule stays.
+`_last_word` in `olski/checks.py` matches `[^\W\d_]+` of its own
+where `WORD` in `olski/document.py` keeps an apostrophe inside a word,
+so `Lagrange'a` ends in the word `a`,
+and the move is for `_last_word` to take the last `WORD` match instead.
+That leaves the class beside it standing:
 `w.` for *wiek* is the word `w` and a full stop,
-and `ABBREVIATIONS` in `olski/document.py` does not list `w.`,
-so a rule reading a line end still reads an abbreviation as a preposition.
-Whoever takes this settles whether the abbreviation test belongs to the check
+`ABBREVIATIONS` in `olski/document.py` does not list `w.`,
+and whoever takes this settles whether the abbreviation test belongs to the check
 or to the word notion both of them would then share.
-The evidence is those two classes and what a `WORD`-based reading does to them,
-which is the whole of what the change is for.
+The other is that a line whose end is a paragraph's end
+has nothing after it for a word to be separated from,
+which `Document.paragraphs` already holds the spans to skip.
+No figure moves for that one,
+since the rule fires nought times over the one stratum it reads,
+so what it buys is the class not returning
+the first time somebody points the rule at prose wrapped to a width.
 
 A run says which files a format made a rule decline, and not which ones the text did.
 `_note_markup` in `olski/cli.py` prints one line
@@ -176,21 +204,6 @@ which is `--show-abstentions` in summary,
 or the format notice alone,
 on the grounds that a reader can see the shape of their own file
 and cannot see what a suffix promised on its behalf.
-
-A word at the end of a paragraph is not a word left at the end of a line.
-`line_end_word` in `olski/checks.py` reads every line of a document it accepts,
-and the last line of a paragraph ends where the paragraph does,
-so a one-letter word before a paragraph break is a finding
-with nothing after it to be separated from.
-It is the largest class of either audit after the Roman numeral,
-and the precondition on the document does not reach it:
-a corpus laid out in lines still ends every paragraph somewhere.
-The move is for the check to skip a line whose end is a paragraph's end,
-which `Document.paragraphs` already holds the spans for.
-No figure moves,
-since the rule fires nought times over the one stratum it reads,
-so what this buys is the class not returning
-the first time somebody points the rule at prose wrapped to a width.
 
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:

@@ -35,9 +35,8 @@ makes the argument in full.
 ## Direction
 
 **Now.** A rule engine, a calibrated rule set,
-and a paired corpus of human and generated Polish
-that tells us which rules can be trusted
-and which are merely opinions.
+and the human Polish that decides
+which rules can be trusted and which are merely opinions.
 See [docs/linter.md](docs/linter.md).
 
 **Optional, for its own sake.** A parser for a designed subset of Polish,
