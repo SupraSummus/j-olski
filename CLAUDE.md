@@ -36,7 +36,9 @@ więc dopóki dokumenty stoją po angielsku,
 żądanie, żeby własny tekst repozytorium nie potykał się o to, co linter wytyka
 (zob. [gotowe frazy](#a-phrase-that-arrived-ready-made-was-not-chosen)),
 zostaje deklaracją.
-Po polsku da się ten tekst przepuścić przez olski.
+Po polsku da się ten tekst przepuścić przez olski,
+i `tests/test_docs.py` przepuszcza każdy dokument, który po polsku stoi,
+więc żądanie schodzi z deklaracji do checka dokument po dokumencie.
 
 Reguła obejmuje prozę z listy na początku tego pliku,
 komentarze i docstringi, które do prozy liczy
@@ -213,7 +215,8 @@ History that earns its place, always as rationale for the current state:
 
 - **A rejected alternative and the reason for rejecting it**,
   which saves the next person from proposing it again.
-  "Why this is still a subset of Polish" in the README is the reference example:
+  [Dlaczego mimo wszystko jest to podzbiór polszczyzny](README.md#dlaczego-mimo-wszystko-jest-to-podzbiór-polszczyzny)
+  in the README is the reference example:
   the whitelist framing is named, and priced, and turned down.
 - **A deliberate reversal or renaming**, so that nobody restores it by accident.
   `docs/roadmap.md` says the grammar is no longer the goal

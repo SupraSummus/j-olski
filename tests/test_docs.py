@@ -15,12 +15,22 @@ and nothing derives one from the other.
 A document the README does not list is the same rot with nothing renamed:
 it is on no reader's path, and adding one without listing it costs nothing.
 Which path a document sits on is what ``docs/roles.md`` names.
+
+The last of them is the linter turned on the prose that asks for it. While a
+document stands in English the rules have nothing to measure over it, so the
+demand that this repository not trip over what its own tool reports is a
+declaration; over a document written in Polish it is a check, and this is where
+it runs.
 """
 
 import re
 from pathlib import Path
 
 import pytest
+
+from harness.markdown import polish_share, prose
+from olski.engine import lint_text
+from olski.rules import load_packs
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
@@ -30,6 +40,11 @@ SOURCES = sorted(
     path for package in ("olski", "harness", "tests") for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
+#: Where a document counts as Polish. ``harness/markdown.py`` owns the
+#: measurement this sits in the middle of, English documents reaching 3% and
+#: Polish ones starting at 13%, so anything between the two selects the same
+#: files.
+POLISH = 0.05
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
 #: An entry in the README's list of documents, which is the only place that
@@ -80,6 +95,23 @@ def test_every_relative_link_resolves(document: Path, target: str):
 def test_every_document_cited_from_code_resolves(source: Path, target: str):
     path, _, anchor = target.partition("#")
     assert_resolves(ROOT / path, anchor, source.name)
+
+
+def polish_documents():
+    extracted = [(document, prose(document.read_text())) for document in DOCUMENTS]
+    return [
+        pytest.param(text, id=document.name)
+        for document, text in extracted
+        if polish_share(text) >= POLISH
+    ]
+
+
+@pytest.mark.parametrize("text", polish_documents())
+def test_every_polish_document_passes_the_linter_this_repository_is_about(text: str):
+    report = lint_text(text, load_packs())
+    #  The findings rather than their count, so that a failure reads as the
+    #  sentence somebody would have to fix.
+    assert [f"{finding.rule.id}: {finding.message}" for finding in report.sorted()] == []
 
 
 def test_every_document_is_listed_in_the_readme():

@@ -20,7 +20,7 @@ tu stoi druga połowa tego pytania, czyli kogo ta zmiana dotyczy.
 Wszystkie role z tej listy obsadza autor repozytorium, jedna osoba na wszystkie,
 plus sesje agenta, które mają w historii gita własne commity.
 Nie ma wydania, nie ma pakietu, nie ma aplikacji, która to napędza:
-[README](../README.md#direction) mówi, że projekt jest dla przyjemności.
+[README](../README.md#kierunek) mówi, że projekt jest dla przyjemności.
 
 To jest stan, którego warto pilnować, a nie brak do nadrobienia.
 Alienacja pracy, którą Marks opisał
@@ -68,7 +68,7 @@ to autor czytający README po dłuższej przerwie.
 ## Ktoś, kto to uruchamia
 
 Pyta, jak odpalić i co znaczy komunikat, który dostał.
-Wchodzi przez bloki polecenia w [README](../README.md#status),
+Wchodzi przez bloki polecenia w [README](../README.md#co-działa),
 a dalej instrukcją jest samo narzędzie:
 `--help` mówi, co przyjmuje, `--list-rules` co się uruchomi,
 `--explain` dokłada uzasadnienie każdej reguły.
