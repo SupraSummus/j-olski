@@ -171,7 +171,7 @@ and is meant to be the rarer event.
 | Check | Fires on | Reports |
 | --- | --- | --- |
 | `pattern` | Each match of a regular expression | `{match}` |
-| `pattern-density` | A scope where matches exceed a rate per 1000 words | `{count}`, `{words}`, `{rate}`, `{limit}`, `{match}` |
+| `pattern-density` | A scope whose matches per 1000 words run over a rate, or under one | `{count}`, `{words}`, `{rate}`, `{limit}`, `{side}`, `{match}` |
 | `length-variation` | A document whose units are too alike in length, or too unlike | `{unit}`, `{count}`, `{words}`, `{mean}`, `{sd}`, `{variation}`, `{limit}`, `{side}` |
 | `line-end-word` | A listed word left at the end of a line | `{word}` |
 | `entity-recurrence` | A corpus that introduces entities and drops them | `{entity}`, `{mentions}`, `{walk_ons}`, `{introductions}`, `{share}`, `{limit}` |
@@ -207,18 +207,46 @@ costs the reader's trust in every other rule.
 params=dict(
     pattern=r"[—–]",
     unit="document",        # or "sentence", "paragraph", "corpus"
-    max_per_1000_words=10,
+    max_per_1000_words=10,  # or min_per_1000_words, or both
     min_count=3,
     min_words=150,
 )
 ```
 
-`min_count` and `min_words` are floors, and they are not optional in spirit.
-A rate computed over a short unit is noise:
-one dash in nine words is 111 per 1000 and means nothing.
-Below `min_words` the rule abstains and says so.
-Below `min_count` it simply does not match,
-which is a different thing.
+`min_per_1000_words` and `max_per_1000_words` are a floor and a ceiling,
+and a rule sets either or both, but not neither.
+A ceiling reports a text that overuses something,
+which is what the em dash rule is for.
+A floor reports one that underuses it,
+which is what fact density on
+[the candidate inventory](linter.md#candidate-rule-inventory) needs:
+what the source there reports of generated text
+is too few dates, numerals and proper nouns rather than too many.
+`{side}` says which of the two fired,
+because a number alone leaves a message unable to tell a writer
+whether the text ran hot or cold.
+
+`min_count` and `min_words` bound the evidence rather than the rate.
+`min_words` is the denominator:
+a rate over a short scope is noise,
+since one dash in nine words is 111 per 1000 and means nothing,
+so below it the rule abstains and says so.
+It abstains where it would otherwise have reported and nowhere else,
+because a scope a rule had nothing to say about
+is not a scope it declined to judge.
+
+`min_count` is the evidence a reading above the ceiling needs,
+and it does not stand under the floor,
+where too few matches is the finding rather than a reason to doubt one.
+Running it against both sides would skip
+what a floor rule is looking hardest for:
+the document with no numerals in it at all.
+
+A finding above the ceiling points at the first occurrence in the scope,
+so that the number can be checked against the text.
+One below the floor has no occurrence to point at —
+what it found is the text that went by without one —
+so it points at the scope it measured, and `{match}` is empty.
 
 `unit="corpus"` pools every file the run covers into one rate.
 See [what a corpus scope is for](#a-rule-may-be-asking-about-the-corpus).
@@ -263,8 +291,10 @@ Dividing by the mean is what lets one threshold serve every document,
 since a spread of four words means one thing among nine-word sentences
 and another among thirty-word ones.
 
-`min_variation` and `max_variation` are a pair
-and a rule sets either or both, but not neither.
+`min_variation` and `max_variation` are the floor and ceiling pair
+that [`pattern-density`](#pattern-density) describes,
+set here over a spread rather than over a rate,
+and `{side}` names which of the two fired.
 A measurement's defective side belongs to the pack rather than to the check,
 which is what buys one engine for two registers:
 see [the fiction section of linter.md](linter.md#what-is-nevertheless-lintable-in-fiction),

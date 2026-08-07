@@ -78,27 +78,6 @@ a run somebody can redo,
 so a change to what counts as a word moves a number a person can correct
 instead of one nothing will catch.
 
-`pattern-density` expresses a ceiling and nothing else.
-`_validate_density` in `olski/checks.py` requires `max_per_1000_words`,
-and the check returns without a hit whenever the rate sits at or below it.
-Fact density in
-[`docs/linter.md`](docs/linter.md#candidate-rule-inventory) runs the other way:
-dates, numerals and proper nouns all match at tier A,
-and what the source reports is that generated text carries too few of them,
-so a rule already on the inventory cannot be written with the parameters
-the check accepts.
-The move is a `min_per_1000_words` beside the ceiling,
-both optional and at least one required,
-plus a reported field naming which side fired,
-because `limit` alone leaves a message unable to say
-whether the text ran hot or cold.
-`_bounds` and `_outside` in `olski/checks.py`
-do that validation and that comparison for `length-variation`,
-so what is left is calling them and settling `min_count`,
-which skips a scope with too few matches
-and would therefore skip what a floor rule is looking hardest for:
-a document with no numerals in it at all.
-
 `docs/corpus.md` twice points at a list that does not hold what it promises.
 The past tense is "the obvious next thing to do"
 and valency "belongs on the same list as the past tense",
@@ -119,6 +98,19 @@ the way it already points readers at `--list-rules`,
 or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
+
+A `pattern-density` rule that sets only `min_per_1000_words`
+may use `{match}` in its message and render an empty string.
+`Check.fields` in `olski/checks.py` is one set per check kind,
+so the placeholder check in `Rule.__post_init__` measures a message
+against everything the check can ever report,
+while a finding below the floor reports a strict subset of that:
+there is no occurrence to quote, which is the point of such a finding.
+The move is to make a check's fields a function of its validated parameters,
+which `Rule.__post_init__` already holds when it checks the message.
+Against it: an empty placeholder shows itself the first time a rule runs,
+where the mistake this guard was built for raises `KeyError` instead,
+and a callable costs more to read than a frozenset.
 
 Without Morfeusz 2 installed,
 `tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`

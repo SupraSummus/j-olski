@@ -108,18 +108,43 @@ floored = pack.rule(
     justification="a test",
 )
 
+sparse = pack.rule(
+    id="test-density-sparse",
+    check="pattern-density",
+    params=dict(pattern=r"\d+", unit="document", min_per_1000_words=100),
+    message="{count} numerals in {words} words, {rate} per 1000, {side} {limit}",
+    justification="a test",
+)
 
-def test_density_fires_only_above_the_rate():
-    #  Ten words, two dashes: 200 per 1000, over the limit of 100.
-    over = "raz dwa trzy — cztery pięć sześć siedem — osiem dziewięć dziesięć"
-    assert len(hits(dashes, over)) == 1
-    # The same two dashes spread over enough words to come in under it.
-    under = over + " " + " ".join(["słowo"] * 15)
-    assert hits(dashes, under) == []
+
+#  Ten words and two dashes: 200 per 1000, over the limit of 100.
+DASHY = "raz dwa trzy — cztery pięć sześć siedem — osiem dziewięć dziesięć"
+#  The same two dashes, spread over enough words to come in under it.
+SPREAD = DASHY + " " + " ".join(["słowo"] * 15)
+#  Twenty words and not a numeral among them: 0 per 1000, under the floor of 100.
+NO_NUMERALS = " ".join(["słowo"] * 20)
+#  Two numerals in ten words: 200 per 1000, clear of the same floor.
+NUMERALS = "3 pliki 7 stron " + " ".join(["słowo"] * 8)
+
+
+@pytest.mark.parametrize(
+    ("rule", "text", "side"),
+    [
+        (dashes, DASHY, "above"),
+        (dashes, SPREAD, None),
+        (sparse, NO_NUMERALS, "below"),
+        (sparse, NUMERALS, None),
+    ],
+    ids=["ceiling-fires", "ceiling-quiet", "floor-fires", "floor-quiet"],
+)
+def test_one_rate_answers_a_ceiling_and_a_floor(rule, text, side):
+    #  Fact density runs the other way from every rate rule the packs ship, so
+    #  both halves of this table have to work without a second code path.
+    assert [hit.fields["side"] for hit in hits(rule, text)] == ([side] if side else [])
 
 
 def test_density_reports_the_measurement_it_used():
-    found = hits(dashes, "raz dwa trzy — cztery pięć sześć siedem — osiem dziewięć dziesięć")
+    found = hits(dashes, DASHY)
     assert found[0].fields["count"] == 2
     assert found[0].fields["words"] == 10
     assert found[0].fields["rate"] == "200.0"
@@ -127,12 +152,42 @@ def test_density_reports_the_measurement_it_used():
 
 
 def test_density_points_at_the_first_occurrence_in_the_unit():
-    text = "raz dwa trzy — cztery pięć sześć siedem — osiem dziewięć dziesięć"
-    assert hits(dashes, text)[0].span.start == text.index("—")
+    assert hits(dashes, DASHY)[0].span.start == DASHY.index("—")
 
 
-def test_min_count_keeps_a_single_occurrence_quiet():
-    assert hits(dashes, "raz — dwa") == []
+def test_a_cold_finding_points_at_the_scope_rather_than_at_an_occurrence():
+    #  Which is also all `{match}` can show, there being no occurrence to quote.
+    found = hits(sparse, NO_NUMERALS)
+    assert (found[0].span.start, found[0].span.end) == (0, len(NO_NUMERALS))
+    assert found[0].fields["count"] == 0
+    assert found[0].fields["match"] == ""
+
+
+band = pack.rule(
+    id="test-density-band",
+    check="pattern-density",
+    params=dict(
+        pattern=r"\d+",
+        unit="document",
+        min_per_1000_words=100,
+        max_per_1000_words=300,
+        min_count=3,
+    ),
+    message="{count} numerals, {rate} per 1000, {side} {limit}",
+    justification="a test",
+)
+
+
+@pytest.mark.parametrize(
+    ("text", "side"),
+    [("3 pliki 7 stron", None), (NO_NUMERALS, "below")],
+    ids=["hot-held-back", "cold-fires"],
+)
+def test_a_count_floor_holds_back_a_hot_reading_and_not_a_cold_one(text, side):
+    #  Two numerals in two words is 1000 per 1000 and evidence of nothing, which
+    #  is what min_count is for. Held against the other side it would skip the
+    #  document a rate floor is looking hardest for: the one with no matches.
+    assert [hit.fields["side"] for hit in hits(band, text)] == ([side] if side else [])
 
 
 def test_paragraph_unit_measures_each_paragraph_separately():
@@ -167,6 +222,21 @@ def test_density_abstains_rather_than_measure_a_rate_over_too_few_words():
     assert "too short" in outcomes[0].reason
 
 
+def test_a_scope_a_rule_had_nothing_to_say_about_is_not_one_it_declined_to_judge():
+    #  The document above without its dash: as short, and now with a rate the
+    #  rule would not have reported at any length. Abstaining here would report
+    #  that it did not measure a document nobody was asking it about.
+    assert run(floored, "raz dwa trzy") == []
+
+
+def test_density_abstains_on_a_scope_with_no_words_to_measure_a_rate_over():
+    #  Nothing counted over nothing is a rate of zero, which a floor would
+    #  otherwise report as a finding about a document with no prose to have one.
+    outcomes = run(sparse, "— — —\n")
+    assert [type(o) for o in outcomes] == [Abstain]
+    assert "too short" in outcomes[0].reason
+
+
 # --------------------------------------------------------------------------- #
 # The corpus scope: rules that measure a body of text rather than a file.
 # --------------------------------------------------------------------------- #
@@ -193,6 +263,25 @@ def test_a_corpus_rate_is_one_finding_anchored_in_the_file_it_first_occurs_in():
     found = over(over_corpus, corpus("bez znaku", "raz — dwa — trzy"))
     assert len(found) == 1
     assert found[0].document.path == "2.txt"
+
+
+corpus_sparse = pack.rule(
+    id="test-corpus-sparse",
+    check="pattern-density",
+    params=dict(pattern=r"\d+", unit="corpus", min_per_1000_words=100),
+    message="{count} numerals across the corpus, {side} {limit}",
+    justification="a test",
+)
+
+
+def test_a_cold_corpus_finding_names_a_file_although_no_file_owns_the_answer():
+    #  An abstention over a corpus belongs to no file, but a finding is a
+    #  location, and a cold reading has no occurrence to take one from. The
+    #  corpus starts somewhere, and that is what it points at.
+    found = over(corpus_sparse, corpus(NO_NUMERALS, NO_NUMERALS))
+    assert len(found) == 1
+    assert found[0].document.path == "1.txt"
+    assert found[0].span.start == 0
 
 
 def test_a_per_document_rule_still_names_the_file_each_finding_is_in():
@@ -563,13 +652,23 @@ def test_a_share_above_one_is_refused():
         )
 
 
-def test_a_bound_with_neither_side_set_is_refused():
-    with pytest.raises(RuleError, match="needs 'min_variation', 'max_variation', or both"):
+@pytest.mark.parametrize(
+    ("check", "params", "quantity"),
+    [
+        ("length-variation", dict(unit="sentence"), "variation"),
+        ("pattern-density", dict(pattern="a"), "per_1000_words"),
+    ],
+    ids=["length-variation", "pattern-density"],
+)
+def test_a_bound_with_neither_side_set_is_refused(check, params, quantity):
+    #  Both checks take the same pair, so a rule that names neither side has
+    #  said nothing about what it would report.
+    with pytest.raises(RuleError, match=f"needs 'min_{quantity}', 'max_{quantity}', or both"):
         pack.rule(
-            id="x11",
-            check="length-variation",
-            params=dict(unit="sentence"),
-            message="{variation}",
+            id=f"x11-{check}",
+            check=check,
+            params=params,
+            message="{limit}",
             justification="j",
         )
 
