@@ -1,7 +1,7 @@
 # j-olski
 
 *Język olski* is *język polski* with the *p* filed off,
-along with the parts of Polish that make it hard.
+along with the parts of Polish that make it hard for rigid cold machines.
 
 The working goal is a **style linter for Polish technical documentation**,
 useful among other things for checking texts
