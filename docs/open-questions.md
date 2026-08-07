@@ -106,11 +106,25 @@ asks of that half,
 so a corpus edited against style detectors need not serve as it
 and stays the harder case rather than the sample.
 
-What is left to decide is whether to pay for the assembly.
+What is left to decide is whether to pay for the assembly,
+and that is two decisions rather than one,
+because the recommendation is two corpora and they cost different amounts.
+
 The cheap alternative is to measure over Śmigiel and Polish Wikipedia as they are
 and state the register assumption out loud,
 which produces numbers sooner
 and produces them over prose nobody claims is in the target register.
+It answers for the distribution corpus and not for the audit one.
+Register is what that trade concedes,
+and register is the binding constraint on only one of the two:
+a rule whose hits get read wants a single stage of production,
+and Śmigiel's human half is thirteen sources with a stage each:
+its Filmweb slice runs 5,672 straight quotation marks against 38 Polish ones
+and its Wikipedia slice runs the other way,
+so a share of hits taken over the whole measures the mixture.
+The audit corpus has no cheap version for that reason,
+and it is the cheaper of the two to assemble anyway,
+being a list somebody fills rather than a distribution somebody balances.
 
 **Whether hits get annotated.**
 A false discovery rate needs a human deciding, hit by hit,

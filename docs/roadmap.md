@@ -154,6 +154,42 @@ over the corpus above whose characters nobody renormalized,
 and `em-dash-density` exits with the human distribution
 its threshold has to sit outside.
 
+### The two pieces are not the same size
+
+Which piece to build first follows from the pack's composition
+rather than from the order the four deliverables are listed in.
+`Check.calibrated_by` in `olski/checks.py` says which of the two a check owes,
+an audit of its hits or a distribution to place a threshold in,
+and the pack is audit-shaped throughout but for its single rate rule,
+so [the audit corpus](corpora.md#the-audit-corpus-polish-documentation-in-version-control)
+unblocks nearly every rule shipped
+and [the distribution corpus](corpora.md#the-distribution-corpus-edited-original-expository-polish)
+unblocks one.
+
+Their costs run the other way.
+The audit corpus is a list of repositories with a clone command against each,
+and it grows by admitting a repository rather than by gathering words,
+so what it costs is a file and the searching to fill it.
+The distribution corpus is a composition:
+sources in stated proportions,
+each share bounded by a defect somebody has to establish it carries,
+and a recomputation with each source dropped in turn to find the thresholds
+that measure a source rather than the language.
+
+The audit piece therefore goes first,
+and the argument for building the second is not the one rate rule it calibrates.
+It is that [milestone 3](#milestone-3-statistical-rules) reads every threshold it owns
+off the same distribution,
+so two milestones pay for one corpus.
+
+Which extractions this milestone owes follows from the repository list
+rather than being settled apart from it.
+`harness/markdown.py` reads one format,
+[corpora.md](corpora.md#the-audit-corpus-polish-documentation-in-version-control)
+names AsciiDoc as a second,
+and whether that one gets written is settled by admitting a repository that uses it.
+So the list is chosen before the extraction is scoped, not after.
+
 **Exit:** every rule in the typography pack carries the two numbers its kind owes,
 over a corpus anyone can fetch and a run anyone can redo,
 and the pack has changed because of them —
@@ -191,13 +227,28 @@ Whether that cost is affordable is what the two numbers are for,
 and the two impersonal endings are where it is likeliest to prove not to be.
 
 **Exit:** the pack is calibrated,
-and its false discovery rate on edited human technical documentation
+and its false discovery rate
+on [the audit corpus](corpora.md#the-audit-corpus-polish-documentation-in-version-control)
 is at or below the figure proselint reported for itself —
 one false positive per ten true positives,
 which is about nine false alarms in every hundred hits —
 or the milestone records why a different bar is the right one for Polish.
 [prose-linters.md](prose-linters.md#proselint-measured-what-everyone-else-asserts)
 owns that figure and the corpus it was measured on.
+
+Why that corpus and not the other follows from the shape of the number.
+A false discovery rate is a share of hits a reader judged,
+so it is the audit shape and it wants documentation rather than a distribution,
+which leaves one candidate among the two corpora milestone 1 assembles.
+What the audit corpus supplies is documentation somebody reviewed before merging,
+where proselint's figure was taken over prose a copy editor worked on,
+and the two are not the same pass.
+The bar is quoted here against a different kind of editing,
+which is one of the reasons the milestone is allowed to argue for another bar.
+The other is authors:
+a share measured over a corpus whose largest file is one person's habit
+describes the person, and
+[corpora.md](corpora.md#not-yet-decided) holds how many it takes before it stops.
 
 ## Milestone 3: statistical rules
 
@@ -332,7 +383,16 @@ with the added machinery justified by that rule's calibration numbers.
 
 ## Optional track: the grammar
 
-Everything in [design-notes.md](design-notes.md)
+What the track is for is a parser that hands ambiguity back.
+One reporting that a sentence has two readings, and which two,
+is a different tool from one picking the likelier of them,
+and it is the one whose output a writer can act on.
+[subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
+owns the decision that makes it olski's,
+and [swigra.md](swigra.md#what-it-leaves-open) is where the ground was found empty:
+the closest existing parser of Polish resolves where olski would report.
+
+The machinery is everything in [design-notes.md](design-notes.md)
 about Earley, parse forests, free word order and LCFRS.
 
 It is not on the critical path for the linter.

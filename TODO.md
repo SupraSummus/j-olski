@@ -50,6 +50,26 @@ A file list does not show that overlap,
 so the two are picked up together
 and the judgment is reached twice.
 
+The audit corpus is described as a list this repository keeps,
+and no such list is in it.
+[`docs/corpora.md`](docs/corpora.md#the-audit-corpus-polish-documentation-in-version-control)
+has the corpus cloned from a list of repositories kept here,
+then names its members in running prose instead:
+`CIRFMF/ksef-docs`, which
+[`docs/firing-rates.md`](docs/firing-rates.md#polish-documentation-in-version-control)
+also fetches by hand,
+and `pot-gov-pl/rit-dokumentacja` in a clause.
+A repository named in a paragraph cannot be fetched by a command,
+and it has nowhere to carry the admission test that document asks for beside it —
+that its documentation was written in Polish first, and how somebody established that.
+The move is the file, one row per repository
+with a clone command, the commit the figures were taken at, and that reason,
+and the two named repositories moved into it
+so that the prose points at the list rather than holding it.
+Which repositories join beyond those two is not work in here:
+[`docs/corpora.md`](docs/corpora.md#not-yet-decided) keeps that question,
+and this file is what an answer to it lands in.
+
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
 reaches the rules through a program this repository holds.
@@ -117,6 +137,28 @@ so that a share is taken over what the rule could reach.
 The present code does neither, and reports a denominator
 that describes the corpus rather than the rule.
 
+`line-end-word` reads where a file wraps and reports it as where a page wraps.
+The check's docstring in `olski/checks.py` says the judgement depends on
+where lines break in the output,
+and takes a plain-text suffix as the evidence that they do,
+which [`docs/rules.md`](docs/rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
+prices as weaker evidence than it reads as.
+[The pilot](docs/firing-rates.md#orphan-single-letter-word-fired-124-times-and-found-nothing)
+is that price paid: 124 hits over a corpus of `.txt` and not one of them the defect,
+because the export sets a paragraph on one line however long it runs,
+and 35 of the 124 are a word ending a paragraph rather than a line.
+The evidence the suffix stands in for is in the file itself:
+a document wrapped to a width has its line lengths clustered under one,
+where a paragraph-per-line document has a long tail.
+So the move is a precondition on the document rather than an exemption in the rule,
+with `line-end-word` abstaining where the lines were not wrapped to a width,
+the way a rate rule abstains on a document too short to measure.
+Settle first whether that reading belongs to the check or to `Document`,
+since it is a property of the file
+and every later rule that counts lines would ask the same of it.
+This reads the same 124 hits as the entry on the Roman numeral,
+so the two are picked up together.
+
 `orphan-single-letter-word` reads the Roman numeral `I` as the conjunction `i`.
 Folding case is right for `A` and `W` opening a sentence
 and wrong for the numeral Polish numbers its chapters and its monarchs with:
@@ -130,6 +172,10 @@ So either that parameter becomes a per-word one,
 or `line-end-word` grows the exemption `pattern` already carries
 in `unless_preceded_by` and `unless_followed_by`,
 which is the smaller change and buys precision back the way the pack does elsewhere.
+Having the rule decline the pilot corpus outright,
+which is where the entry on where a file wraps arrives,
+removes the evidence rather than the false positive:
+`Rozdział I` at the end of a line somebody wrapped to a width is still one.
 
 A directory walk that skips files says nothing about having skipped them.
 `_collect` in `olski/cli.py` takes `.txt` and `.text` out of a directory
@@ -184,6 +230,48 @@ Against it: an empty placeholder shows itself the first time a rule runs,
 where the mistake this guard was built for raises `KeyError` instead,
 and a callable costs more to read than a frozenset.
 
+`Document` computes an analysis nobody asked for
+and recomputes one everybody does.
+`from_text` in `olski/document.py` splits paragraphs and sentences
+for every document it builds,
+where a run selecting only `pattern` rules reads neither,
+and `word_count` runs `WORD.finditer` afresh on every call
+from the three sites in `olski/checks.py` that reach for it,
+once per rule and once per scope.
+Neither costs much while every analysis here is a regex pass over the text.
+Both are the shape the first expensive tier arrives in:
+[the roadmap](docs/roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it)
+puts an analyser behind a lemma rule,
+and a typography run paying for morphology over a corpus
+is this eagerness with a number attached.
+The move is to make the analyses lazy and memoized
+rather than fields set at construction,
+which `functools.cached_property` does on a frozen dataclass,
+since freezing replaces `__setattr__`
+and the descriptor writes the instance dictionary directly.
+The reason to make it before the analyser rather than alongside one:
+the same change made afterwards
+has to be made through whatever wired the analyser in.
+
+`Rule.tier` declares how deep a rule has to see, and nothing reads the declaration.
+`olski/rules.py` validates it against `TIERS`
+and `olski/cli.py` prints it in `--list-rules`,
+which is the whole of its use,
+so a rule carrying the wrong tier is wrong in a field no run consults.
+[`docs/linter.md`](docs/linter.md#how-deep-does-each-rule-have-to-see)
+owns what the tiers mean,
+and the use the field is shaped for is bounding work:
+the deepest tier among the selected rules
+is the deepest analysis a run needs,
+so nothing below it has to be computed at all.
+Building that now would be a dispatch over one value,
+every shipped rule being tier A with no analysis to skip.
+So the move here is the smaller one:
+say in `olski/rules.py` that the field documents a rule rather than steering a run,
+and leave the bounding to the change that adds the first rule which is not tier A.
+That change wants the analyses lazy as well,
+which is the entry on what `Document` computes.
+
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
 Świgra's evaluation walks its packed forest per sentence
@@ -197,18 +285,6 @@ that the implementation note in `olski/parse.py` defers,
 because the enumerator builds no forest to walk
 and caps enumeration at `MAX_READINGS`,
 which is exactly the tail a burial-depth number would be measuring.
-
-[`docs/roadmap.md`](docs/roadmap.md) describes the optional grammar track
-as a parts list — Earley, parse forests, free word order and LCFRS —
-and never says what the track is for.
-The purpose is stated in
-[`docs/swigra.md`](docs/swigra.md#what-it-leaves-open) instead,
-which reaches it by surveying somebody else's parser:
-reporting ambiguity to the author rather than resolving it for them
-is the ground that survey found unoccupied.
-That belongs in the roadmap section owning the track,
-above its machinery,
-and then `swigra.md` restates it in a clause and points there.
 
 The repository ships no licence.
 `pyproject.toml` carries no `license` field and there is no `LICENSE` file,
