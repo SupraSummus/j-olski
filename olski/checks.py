@@ -62,12 +62,23 @@ class Abstain:
 Outcome = Hit | Abstain
 
 
+#: The two shapes a calibration takes, named as strings because a check cannot
+#: know what a rule is. ``olski.rules`` holds the classes that carry them.
+AUDIT = "audit"
+DISTRIBUTION = "distribution"
+
+
 @dataclass(frozen=True)
 class Check:
     name: str
     #: Field names a finding of this check can report, and therefore the
     #: placeholders a rule's message may use.
     fields: frozenset[str]
+    #: Which shape of calibration a rule using this check owes: an audit where
+    #: the check points at a site and its hits are read one by one, a
+    #: distribution where it compares a measurement to a threshold the rule
+    #: sets. docs/linter.md owns the argument.
+    calibrated_by: str
     #: The unit a rate over this check's findings is a rate of, given a rule's
     #: validated parameters: what the check can fire at most once per. A check
     #: with no such bound, since a pattern matches as often as the prose gives
@@ -96,12 +107,17 @@ class ParamError(Exception):
 
 
 def _register(
-    name: str, fields: set[str], validate, counted_over: Callable[[dict], str]
+    name: str,
+    fields: set[str],
+    validate,
+    counted_over: Callable[[dict], str],
+    calibrated_by: str,
 ) -> Callable:
     def decorate(run):
         CHECKS[name] = Check(
             name=name,
             fields=frozenset(fields),
+            calibrated_by=calibrated_by,
             counted_over=counted_over,
             validate=validate,
             run=run,
@@ -317,7 +333,7 @@ def _validate_pattern(params: dict, where: str) -> dict:
     return validated
 
 
-@_register("pattern", {"match"}, _validate_pattern, lambda params: "word")
+@_register("pattern", {"match"}, _validate_pattern, lambda params: "word", AUDIT)
 @per_document
 def pattern(rule, document: Document) -> Iterator[Outcome]:
     """Flag every match of a regular expression.
@@ -372,6 +388,7 @@ def _validate_density(params: dict, where: str) -> dict:
     #  The scope the rate is measured over is the scope one finding covers, so
     #  this is the only check whose denominator its rule chooses.
     lambda params: params["unit"],
+    DISTRIBUTION,
 )
 @needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
@@ -472,7 +489,7 @@ def _validate_line_end(params: dict, where: str) -> dict:
     return {"words": tuple(words), "case_sensitive": case_sensitive}
 
 
-@_register("line-end-word", {"word"}, _validate_line_end, lambda params: "line")
+@_register("line-end-word", {"word"}, _validate_line_end, lambda params: "line", AUDIT)
 @needs_plain_text
 @per_document
 def line_end_word(rule, document: Document) -> Iterator[Outcome]:
@@ -537,6 +554,7 @@ def _validate_variation(params: dict, where: str) -> dict:
     #  Not the unit in the parameters: that is what the lengths vary across,
     #  while the spread they make is a property of the whole document.
     lambda params: "document",
+    DISTRIBUTION,
 )
 @needs_plain_text
 @per_document
@@ -628,6 +646,7 @@ def _validate_recurrence(params: dict, where: str) -> dict:
     {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
     _validate_recurrence,
     lambda params: "corpus",
+    DISTRIBUTION,
 )
 @needs_plain_text
 def entity_recurrence(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
