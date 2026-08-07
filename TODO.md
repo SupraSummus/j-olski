@@ -446,3 +446,40 @@ The exemption is the more expensive of the two,
 because it moves what the rule's hits are
 and so drags the rerun [`CLAUDE.md`](CLAUDE.md#checks) demands
 over both corpora and over the classes that document reports having read.
+
+The booster stems are the last pattern
+[milestone 2](docs/roadmap.md#milestone-2-the-plain-polish-pack-without-an-analyser)
+rests on that nothing has been run over,
+and `harness/endings.py` does not reach them as it stands.
+A `Probe` there matches with `endswith`,
+where `kluczow` and `istotn` are what a word begins with,
+so either the declaration grows a matching side beside the classes it carries,
+or the boosters get a run of their own and this module stays about endings.
+The choice is worth making on the classes rather than on the matching,
+which is the cheaper half and the one the two probes there settle by example:
+each of them turns on a tag, `ger` and `imps`,
+and a booster's question is whether an adjective is doing any work,
+which no tag answers and which
+[the nominalization probe](docs/linter.md#what-the-nominalization-endings-match)
+already shows a run can come back undecidable on.
+So the run to write first is the one that says
+how much of what the stems match is the adjective at all,
+and it belongs in front of the rules rather than after them,
+because what it decides is whether the rule exists rather than how it is tuned.
+
+The `verb` class of `NOMINALIZATION` in `harness/endings.py`
+stands before every nominal one,
+which is right for `zostanie` and wrong for `dacie`.
+Both carry a verb reading beside a nominal one,
+and a document dating an invoice means the locative of `data`
+where the order files the second person plural of `dać`,
+so the inflected share quoted in
+[`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
+is a floor and not a count.
+The move is either an order the corpus settles —
+the nominal reading first where the verb reading is a person the register does not use —
+or the floor stated wherever the share is quoted,
+which is that section alone,
+the roadmap having taken the same finding coarsely and quoted no number.
+The evidence is 7 words: 6 `dacie` and 1 `powiecie`,
+both of which the register uses as nouns.

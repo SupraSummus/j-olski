@@ -240,18 +240,42 @@ which are also, conveniently, model tells:
 Each rule cites the plain-Polish source it comes from,
 not a model it was observed in.
 
-None of it needs morphology, which is why it stands here
-rather than behind the analyser.
-[linter.md](linter.md#suffixes-buy-more-than-expected) is the argument:
-the central rules of the pack are suffix patterns by definition,
-and a stem reaches an adjective's paradigm without a lemma.
-What the suffix route costs is a lexical false-positive class
-a lemma would remove.
-`zdanie` and `mieszkanie` are not zombie nouns,
-`-cie` is also the second person plural of a verb,
-and a great many Polish adverbs end in `-no`.
+Two of the three nominalization endings need no morphology,
+which is why the pack stands here rather than behind the analyser,
+and the third one does.
+[linter.md](linter.md#what-the-nominalization-endings-match) holds the measurement:
+`-cie` matches the locative singular of `format` and `kontekst`
+more often than it matches a nominalization,
+where the other two barely match an inflected form at all,
+and a stem reaches an adjective's paradigm without a lemma either way.
+
+What the suffix route costs beyond that ending is not a class a lemma removes.
+Morfeusz gives `zdanie` and `mieszkanie`, which are not zombie nouns,
+the pair of readings it gives `pobranie`,
+so the analyser agrees with the ending about the words the ending gets wrong,
+and half of this pack's matches over the audit corpus sit in that agreement.
 Whether that cost is affordable is what the two numbers are for,
-and the two impersonal endings are where it is likeliest to prove not to be.
+and the ambiguity is where it is likeliest to prove not to be,
+because it is the half no later milestone is holding a fix for.
+
+The impersonal pair comes out of the same run the other way,
+and [linter.md](linter.md#the-impersonal-endings-come-out-the-other-way)
+holds it.
+A tag answers what a judgement had to answer above,
+so `-no` is the cleanest ending measured anywhere here
+and the adverbs this milestone warns of are a twentieth of its matches,
+while `-to` is one common word away from the same,
+that word being the pronoun.
+So the pack is three rules with three prognoses rather than one with one,
+and which of the three a rule is
+does not follow from all of them being suffixes.
+
+What is left unmeasured is the boosters,
+whose stems are not endings and want a match this run does not do.
+[TODO.md](../TODO.md) holds them,
+in front of the rules rather than after them,
+a class a pattern cannot separate deciding whether a rule exists
+rather than how it is tuned.
 
 **Exit:** the pack is calibrated,
 and its false discovery rate
