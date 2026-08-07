@@ -1,6 +1,7 @@
 import json
 
-from olski.cli import ONE_SIDED, main
+from olski.cli import ONE_SIDED, _calibration, main
+from olski.rules import OWED, Audit, Pack
 
 DIRTY = 'Kliknij przycisk "Zapisz".\n'
 CLEAN = "Kliknij przycisk „Zapisz”.\n"
@@ -56,6 +57,46 @@ def test_a_directory_is_walked_for_text_files(tmp_path, capsys):
     assert "in 2 files" in capsys.readouterr().out
 
 
+def test_the_walk_says_how_many_files_it_went_past_and_in_which_formats(tmp_path, capsys):
+    #  Without the notice the run below reports over one file of English and
+    #  reads as a report over the directory.
+    write(tmp_path, "licence.txt", CLEAN)
+    write(tmp_path, "one.md", DIRTY)
+    write(tmp_path, "two.md", DIRTY)
+    write(tmp_path, "logo.png", "")
+    assert main([str(tmp_path)]) == 0
+    err = capsys.readouterr().err
+    assert "went past 3 files in a format olski does not read as prose" in err
+    #  The suffixes, most common first, are what say whether the answer is the
+    #  extraction or a different directory.
+    assert "(.md, .png)" in err
+    assert "harness.markdown" in err
+
+
+def test_the_walk_is_quiet_where_it_went_past_nothing(tmp_path, capsys):
+    write(tmp_path, "one.txt", CLEAN)
+    assert main([str(tmp_path)]) == 0
+    assert capsys.readouterr().err == ""
+
+
+def test_naming_a_markup_file_is_not_reported_as_going_past_it(tmp_path, capsys):
+    #  Naming a file is the move the notice recommends, so making it and being
+    #  told the file was skipped would contradict the advice.
+    path = write(tmp_path, "note.md", DIRTY)
+    assert main([str(path)]) == 1
+    assert "went past" not in capsys.readouterr().err
+
+
+def test_the_walk_reads_a_suffix_the_way_naming_the_file_would(tmp_path, capsys):
+    #  One list of suffixes, read through one function, so that a walk and a
+    #  named path cannot disagree about what a file is.
+    write(tmp_path, "SZUM.TXT", DIRTY)
+    assert main([str(tmp_path)]) == 1
+    captured = capsys.readouterr()
+    assert "2 findings in 1 file" in captured.out
+    assert captured.err == ""
+
+
 def test_a_named_markup_file_is_linted_for_what_a_character_settles(tmp_path, capsys):
     path = write(tmp_path, "note.md", 'Kliknij przycisk "Zapisz" — tak.\n')
     assert main([str(path), "--show-abstentions"]) == 1
@@ -97,6 +138,30 @@ def test_explain_prints_the_justification_and_the_calibration_state(tmp_path, ca
     assert "Polish typography uses" in out
     assert "calibration: uncalibrated" in out
     assert "see docs/linter.md#typography-tier-a" in out
+
+
+def test_an_uncalibrated_rule_names_the_measurement_it_is_waiting_for(capsys):
+    #  Which shape a rule owes is which corpus the first measurement needs, and
+    #  reading it off the check kind is the lookup this line exists to save. The
+    #  shipped pack reaches both shapes, so both phrases have to come out.
+    assert main(["--list-rules", "--explain"]) == 0
+    lines = capsys.readouterr().out.splitlines()
+    printed = {line.split("calibration: ")[1] for line in lines if "calibration: " in line}
+    assert printed == {f"uncalibrated; owes {phrase}" for phrase in OWED.values()}
+
+
+def test_a_measured_rule_reports_its_numbers_and_owes_nothing():
+    #  What a rule owes is what it has not got, so the phrase goes the moment
+    #  somebody takes the measurement.
+    rule = Pack(name="p").rule(
+        id="a",
+        check="pattern",
+        params=dict(pattern="a"),
+        message="m",
+        justification="j",
+        calibration=Audit(hits=124, defects=119, corpus="drafts-2026", taken="2026-08-07"),
+    )
+    assert _calibration(rule) == str(rule.calibration)
 
 
 def test_json_output_is_machine_readable(tmp_path, capsys):

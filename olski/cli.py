@@ -11,10 +11,10 @@ from pathlib import Path
 from textwrap import fill
 
 from olski import __version__
-from olski.checks import NOT_PLAIN_TEXT, ParamError, count_units
-from olski.document import TEXT_SUFFIXES, Document
+from olski.checks import CHECKS, NOT_PLAIN_TEXT, ParamError, count_units
+from olski.document import Document, is_plain_text
 from olski.engine import Report, Tally, lint_corpus, lint_text, read
-from olski.rules import PACK_PACKAGE, Rule, RuleError, load_packs, select
+from olski.rules import OWED, PACK_PACKAGE, Rule, RuleError, Uncalibrated, load_packs, select
 
 USAGE = """
   olski text.txt                 lint a file
@@ -111,9 +111,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("olski: give at least one file or directory to lint", file=sys.stderr)
         return 2
 
-    files, missing = _collect(args.paths)
+    files, missing, skipped = _collect(args.paths)
     for path in missing:
         print(f"olski: no such file or directory: {path}", file=sys.stderr)
+    _note_skipped(skipped)
 
     documents, errors = _read(files)
     report = lint_corpus(documents, rules)
@@ -179,20 +180,58 @@ def _note_markup(report: Report) -> None:
     )
 
 
-def _collect(paths: Sequence[str]) -> tuple[list[Path], list[str]]:
+def _collect(paths: Sequence[str]) -> tuple[list[Path], list[str], Counter]:
+    """Find the files to lint, and count the ones a directory walk went past.
+
+    A named file is linted whatever its format, for the rules a single character
+    settles, while a walk takes the plain-text suffixes only: a rate over a
+    directory must not be a rate over its markup. Which suffixes those are is
+    :func:`is_plain_text`'s answer rather than a second reading of the same
+    list, so naming a file and walking to it cannot disagree about what it is.
+
+    What the walk went past is counted by suffix rather than listed by name,
+    because the notice reports formats, and a directory of one format has one
+    entry however many files it holds.
+    """
     files: list[Path] = []
     missing: list[str] = []
+    skipped: Counter = Counter()
     for raw in paths:
         path = Path(raw)
         if path.is_dir():
-            files.extend(
-                sorted(p for p in path.rglob("*") if p.is_file() and p.suffix in TEXT_SUFFIXES)
-            )
+            for found in sorted(p for p in path.rglob("*") if p.is_file()):
+                if is_plain_text(found):
+                    files.append(found)
+                else:
+                    skipped[found.suffix.lower() or "no suffix"] += 1
         elif path.is_file():
             files.append(path)
         else:
             missing.append(raw)
-    return files, missing
+    return files, missing, skipped
+
+
+def _note_skipped(skipped: Counter) -> None:
+    """Say once that a directory walk went past files it does not read as prose.
+
+    A walk that skips in silence reports over whatever plain text happened to
+    sit in the directory, so ``olski ksef-docs/`` lints the MIT licence and
+    calls it a corpus. A directory holding nothing but text went past nothing,
+    and is silent.
+
+    The line names the suffixes because they are what separates the two moves
+    the reader has: naming a file lints it for what a character settles
+    whatever its format, and Markdown has an extraction as well.
+    """
+    if not skipped:
+        return
+    suffixes = ", ".join(suffix for suffix, _ in skipped.most_common())
+    print(
+        f"olski: the walk went past {_count(sum(skipped.values()), 'file')} in a format "
+        f"olski does not read as prose ({suffixes}); naming one lints it for what a "
+        "character settles, and harness.markdown turns Markdown into text olski reads",
+        file=sys.stderr,
+    )
 
 
 def _write_text(report: Report, out, args) -> None:
@@ -200,10 +239,7 @@ def _write_text(report: Report, out, args) -> None:
         rule = finding.rule
         out.write(f"{finding.location}: {rule.severity}: [{rule.id}] {finding.message}\n")
         if args.explain:
-            out.write(_indent(rule.justification))
-            for source in rule.sources:
-                out.write(f"    see {source}\n")
-            out.write(f"    calibration: {rule.calibration}\n")
+            _explain(rule, out)
 
     if args.show_abstentions:
         for abstention in report.abstentions:
@@ -328,11 +364,33 @@ def _list_rules(rules: list[Rule], out, explain: bool) -> None:
         out.write(f"{rule.id}  [{rule.pack}, tier {rule.tier}, {registers}]\n")
         out.write(f"    {rule.check}: {rule.message}\n")
         if explain:
-            out.write(_indent(rule.justification))
-            for source in rule.sources:
-                out.write(f"    see {source}\n")
-            out.write(f"    calibration: {rule.calibration}\n")
+            _explain(rule, out)
     out.write(_count(len(rules), "rule") + "\n")
+
+
+def _explain(rule: Rule, out) -> None:
+    """What ``--explain`` adds, under a finding and under a listing alike.
+
+    One block rather than two, because the reader of a finding and the reader
+    of a listing are asking the same question of the same rule.
+    """
+    out.write(_indent(rule.justification))
+    for source in rule.sources:
+        out.write(f"    see {source}\n")
+    out.write(f"    calibration: {_calibration(rule)}\n")
+
+
+def _calibration(rule: Rule) -> str:
+    """What has been measured about a rule, or what it owes while nothing has.
+
+    ``uncalibrated`` alone says a number is missing and not which number, and
+    the two shapes are taken over different prose, so naming the shape is what
+    tells whoever takes the first measurement which corpus to fetch. The check
+    owns which shape it calls for, so this reads that rather than restating it.
+    """
+    if not isinstance(rule.calibration, Uncalibrated):
+        return str(rule.calibration)
+    return f"{rule.calibration}; owes {OWED[CHECKS[rule.check].calibrated_by]}"
 
 
 def _indent(prose: str, width: int = 76) -> str:
