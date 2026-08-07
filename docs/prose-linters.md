@@ -248,13 +248,13 @@ because a good writer's paragraph can still hold a real defect,
 and [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
 draws the consequence:
 it carries some of olski's rules and leaves the rest owing their hits a reading.
-The pair then measures more than proselint could,
-one side answering whether a rule can be trusted
-and the other whether it has anything to do.
-The Polish corpus can also be released,
-because Wolne Lektury is public domain
-and the generated half is generated,
-which is the wall proselint's copyrighted corpus hit.
+Reading them measures more than proselint could,
+because a share of hits that were defects stands
+where proselint has a rate and an assumption behind it.
+The figure can be published whatever the prose behind it is licensed as,
+because [the audit corpus](audit-corpus.md#what-a-repository-has-to-show)
+ships a URL and a commit rather than any text,
+which is how it gets around the wall proselint's copyrighted corpus hit.
 
 **Leave markup scoping alone.**
 Vale, textlint and RedPen parse the markup themselves

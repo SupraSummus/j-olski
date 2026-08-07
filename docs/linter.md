@@ -191,9 +191,12 @@ without measuring.
 
 So the project needs a paired corpus:
 
-- **Human Polish**, ideally across registers.
-  NKJP, Wolne Lektury for literary prose,
-  edited journalism, and some deliberately good expository writing.
+- **Human Polish**, in the register a pack is scoped to
+  and at the stage a linter runs at.
+  [corpora.md](corpora.md#the-composition-this-argues-for) surveys what is obtainable
+  and arrives at two bodies rather than one,
+  because a rule whose hits get read
+  and a rule reporting a rate against a norm want different prose.
 - **Generated Polish**, from several models,
   on comparable topics and in comparable registers.
   This half is cheap, on the condition that it is generated and then left alone.
@@ -206,6 +209,13 @@ Then every rule carries two numbers,
 and the two questions behind them are
 whether the rule can be trusted
 and whether it has anything to do.
+Trust is a number on the human side whatever the rule.
+A rule whose hits get read has both of its numbers out of that one reading,
+its hits and the defects among them,
+and it is a rule reporting a rate against a threshold
+that wants the generated half for the second:
+where human Polish sits on a statistic
+says nothing yet about how much generated Polish stands beyond the threshold.
 
 This is the replacement for the coverage curve,
 and it is a better experiment:

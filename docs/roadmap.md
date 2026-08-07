@@ -86,7 +86,9 @@ Met, see [rules.md](rules.md).
 ## Milestone 1: the calibration harness
 
 Before the interesting rules, the thing that makes them honest.
-Four deliverables, in the order they unblock each other.
+Four deliverables.
+They unblock each other in the order listed,
+and they do not unblock the same rules.
 
 **An extraction from markup to prose.**
 Both halves reach the rules as plain text,
@@ -151,8 +153,9 @@ owns the argument and what each kind of rule owes.
 So the pack that exists exits in two pieces.
 Its typographic rules exit with their hits read,
 over the corpus above whose characters nobody renormalized,
-and `em-dash-density` exits with the human distribution
-its threshold has to sit outside.
+and `em-dash-density` exits with two numbers of its own:
+the human distribution its threshold has to sit outside,
+and the share of the generated half standing beyond it.
 
 ### The two pieces are not the same size
 
@@ -183,6 +186,11 @@ It is that [milestone 3](#milestone-3-statistical-rules) reads every threshold i
 off the same distribution,
 so two milestones pay for one corpus.
 
+The generated half is built with the distribution corpus and not before it,
+and the same two milestones pay for it:
+it is the second number of that one rate rule
+and of every threshold milestone 3 sets.
+
 Which extractions this milestone owes follows from
 [the repository list](audit-corpus.md#the-list)
 rather than being settled apart from it.
@@ -196,6 +204,24 @@ over a corpus anyone can fetch and a run anyone can redo,
 and the pack has changed because of them —
 a rule deleted, a threshold moved, or an exemption added —
 with the number that caused the change recorded beside it.
+
+Two rules in the pack cannot reach that exit,
+and the register is the reason rather than any corpus chosen for it.
+`trailing-space` and `orphan-single-letter-word` read where a line ends,
+and documentation is written in a markup format,
+where a single newline is a space and no line end is one a reader sees.
+So the extraction that makes such a corpus readable
+takes both properties out with the markup —
+[extraction.md](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
+holds what each rule reports on either side of that step —
+and running them over the files instead reads the format's line ends
+rather than a reader's,
+which [rules.md](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
+refuses.
+Each of the two therefore exits on a decision rather than on a number —
+a register the pack does not claim, or the rule deleted —
+and [TODO.md](../TODO.md) holds that decision
+beside the audits that price it.
 
 ## Milestone 2: the plain-Polish pack, without an analyser
 
