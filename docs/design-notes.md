@@ -393,6 +393,147 @@ i to jest powodem, dla którego typ 1 hierarchii odpada mimo swojej siły
 Mechanizm, który którąś z tych własności łamie, odpada przez nią,
 a nie przez to, że stoi wyżej niż gramatyka bezkontekstowa.
 
+### Podłoże więzowe zmierzone sondą
+
+Otwartość środków była deklaracją, dopóki nikt żadnego innego nie wycenił.
+`sonda/` wycenia jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
+gdzie zgodność jest warunkiem na parę słów,
+szyk osobnym polem deklaracji,
+a spójność frazy jednym warunkiem globalnym, który wolno zdjąć.
+Wyszło z tego, że oba opisy mówią nad prozą README prawie to samo,
+że szyk i przyłączenie nie kosztują po tej stronie ani jednej deklaracji,
+a nieciągłość jest jedną wartością logiczną,
+i że cena stoi w trzech miejscach wymienionych niżej.
+Wyszło z tego także to, czego nikt nie szukał:
+dwa z trzech zysków nie żądają tego podłoża wcale.
+Szyk i przyłączenie kupuje rozdzielenie dominacji od precedencji,
+czyli szczebel 1 [drabiny](#the-cost-ladder), sześcian i gramatyka bezkontekstowa,
+i tylko nieciągłość zostaje przy podłożu, którego olski nie ma.
+Decyzji o przeniesieniu olskiego na to podłoże nie ma,
+a ruch, który z sondy wynika, jest tańszy niż ona sama
+i trzyma go [TODO.md](../TODO.md).
+
+Powtarzają to te polecenia, a ostatnie warto puścić także bez flagi:
+
+```sh
+python3 -m harness.markdown README.md --into proza/
+python3 -m sonda proza/README.txt
+python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
+```
+
+Proza README ma 43 zdania.
+42 z nich sonda rozbiera w budżecie 10 sekund na zdanie,
+żadnemu nie zajmując więcej niż dziesiątej części sekundy.
+41 z tych 42 dostaje od obu programów ten sam werdykt,
+a 40 tę samą liczbę czytań,
+i to drugie jest mocniejszym z dwóch odczytów:
+werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
+a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
+wychodzi po obu stronach dokładnie sześcioma.
+
+**Szyk i przyłączenie schodzą z produkcji na nic.**
+`olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
+bo każdy szyk wypisuje się osobno, a każdy z nich jeszcze raz w tylu wersjach,
+ile ma miejsc na okolicznik.
+Łuk podmiotu nie mówi o porządku nic,
+więc SVO i OVS są tam jedną deklaracją,
+a jedenaście pozycji na okolicznik jest trzema, po jednej na głowę,
+i dwa czytania `Program zapisuje ustawienia w pliku`
+biorą się z tego, że dozwolone są oba łuki.
+
+**Nieciągłość przestaje być szczeblem.**
+`Dobrą Jan pisze polszczyznę` nie wyprowadza się w olskim wcale,
+a po zdjęciu spójności wychodzi z niego czytanie,
+w którym `Dobrą polszczyznę` jest jedną frazą przerwaną podmiotem i orzeczeniem.
+Kosztuje to jedno pole i zero deklaracji,
+bo spójność jest tu warunkiem wystawianym, a nie własnością formalizmu.
+[Urwisko](#the-cliff-discontinuity) wycenia to samo na szósty stopień
+i wycenia poprawnie, tylko że wycenia szczebel, a nie zjawisko:
+przy tym podłożu fan-out nie jest pokrętłem, którym się cokolwiek kręci.
+
+**Odrzucenie zaczyna mówić, na czym stanęło.**
+Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
+i nad zdaniem o konwencjach z README wychodzą z tego trzy przecinki i `commitów`.
+Jest to ta sama informacja, którą `olski-corpus` liczy jako bloker
+i której `olski-check` nie podaje wcale,
+tylko wzięta nie z najdalszego osiągniętego punktu, a z pustej dziedziny.
+Podłoże daje ją przy tym za darmo, bo licencja łuku i tak stoi policzona.
+
+**Cena pierwsza: cztery rodzaje deklaracji ponad licencję łuku.**
+Każdy z nich nazywa coś, co produkcja ma darmo,
+i każdy znalazł się nie przy pisaniu, tylko przy pierwszej rozbieżności.
+Zgodność orzecznika z podmiotem idzie w produkcji przez wspólną matkę,
+a między parą słów nie przechodzi,
+bo forma osobowa rodzaju nie niesie.
+Przyimek bez swojej grupy imiennej jest dozwolonym okolicznikiem,
+dopóki nikt nie napisze, że grupy brakować nie może.
+Dwa rzeczowniki obok siebie są członami współrzędnymi bez spójnika,
+dopóki łuk członu nie zażąda spójnika i odwrotnie.
+Czasownik bierze naraz dopełnienie i orzecznik,
+dopóki nie napisze się, że tych dwóch razem nie bierze.
+
+**Cena druga: jednoznaczność olskiego stoi częściowo na braku produkcji.**
+Trzy razy sonda pokazała czytanie,
+którego gramatyka bezkontekstowa nie ma nie dlatego, że je wyklucza,
+tylko dlatego, że nikt odpowiedniego ciała nie wypisał:
+dopełnienie przed czasownikiem bez podmiotu,
+dwa dopełniacze przy jednym rzeczowniku,
+i dopełnienie doczepione do dalszego bezokolicznika w łańcuchu
+`ma pomagać pisać`.
+Dwa pierwsze zamyka deklaracja i są w `sonda/polszczyzna.py` zamknięte.
+Trzeciego nie zamyka nic poza leksykonem walencyjnym,
+i to jest ta jedna rozbieżność, która nad próbką została:
+`To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
+a w sondzie trzema czytaniami różniącymi się tym, który czasownik bierze biernik.
+Etap walencji jest więc [w planie](roadmap.md#etap-2-walencja) tam,
+gdzie stoi, i drugie dojście do niego wypadło tutaj.
+
+**Cena trzecia: nie ma ograniczenia, które ma parser tablicowy,
+i widać to na jednym zdaniu.**
+Earley jest sześcianem w najgorszym przypadku, a przeszukiwanie więzów nie jest
+niczym, i najdroższe jest tam, gdzie żadne słowo nie wypada lokalnie,
+bo wtedy przycinanie dziedzin nie ma czego uciąć,
+a policzenie czytań każe przejść całą przestrzeń.
+Takim zdaniem jest w README dokładnie jedno,
+to samo, które [corpus.md](corpus.md#where-the-analyses-stop) wskazuje
+jako jedyne odrzucone bez ani jednej formy, której jakaś produkcja nie bierze,
+czyli stojące na kształcie, a nie na słowniku:
+`Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
+polszczyzny w jednym i w drugim przypadku`.
+Sonda liczy je kilkadziesiąt sekund,
+gdzie każdemu z pozostałych 42 zdań wydaje werdykt
+poniżej dziesiątej części sekundy, czyli o trzy rzędy wielkości szybciej.
+Tej różnicy nie zdejmie lepsze przycinanie,
+bo tu nie ma czego przyciąć:
+każdy łuk tego zdania jest dozwolony,
+a wykluczanie zostaje na kształcie całego drzewa.
+Pytanie „czy czytanie jest jedno” tego nie ratuje,
+choć wygląda, jakby miało:
+werdykt „dwa czytania” zamyka się na drugim modelu i wychodzi tanio,
+a werdykt „jedno czytanie” wymaga przeszukania wszystkiego i nie tanieje wcale.
+
+To samo zdanie mówi jeszcze coś, czego sonda nie miała mierzyć.
+Wychodzi z niej jednym czytaniem, którego olski nie ma wcale,
+a to czytanie nie jest tym, które ma czytelnik:
+`w jednym i w drugim przypadku` wychodzi tam współrzędnością rzeczowników
+zamiast dwoma wyrażeniami przyimkowymi.
+Jednoznaczność bez trafności jest więc osiągalna,
+i to jest ten argument, dla którego pomiar pokrycia
+chce wiedzieć, czy złote czytanie jest wśród czytań,
+a nie tylko ile ich jest
+([swigra.md](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)).
+
+Zostaje przy tym poza pomiarem to,
+czego sonda nie umie i o czym nie da się przez to powiedzieć nic.
+Współrzędność wisi w niej pierwszym członem,
+więc liczba całej grupy jest liczbą pierwszego członu,
+a `rozum i sumienie` w roli podmiotu mnogiego przez parę słów nie przechodzi.
+Zdania, którego graf segmentacji się rozchodzi, sonda nie rozbiera wcale.
+I trzecia rzecz, ta najbliższa temu, po co olski jest:
+raport nazywa podmiot napisem tylko dopóki spójność stoi,
+bo poddrzewo bez niej jest zbiorem słów, a nie odcinkiem tekstu.
+Nieciągłość kupuje się więc na parserze, a płaci na wydruku.
+
 ## Angle one: parsing
 
 Whatever parses olski must produce a **forest, not a tree**,

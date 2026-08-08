@@ -599,6 +599,17 @@ which categories are a clause and which a noun phrase,
 what standing after a verb means —
 and there the rerun is owed like any other.
 
+One set of figures is moved by two programs rather than one.
+[The comparison the sonda took](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
+counts the sentences olski and a second substrate agree about,
+so a change to the grammar moves it exactly as a change to `sonda/` does,
+and the session editing `olski/subset.py` has no reason to look in that document.
+`tests/test_sonda.py` catches the coarse half of that drift,
+a verdict that stopped agreeing, and catches nothing about the counts,
+so the rerun is owed there as it is everywhere else in this list.
+It is also the cheapest one to owe: the figures come from this repository's own
+README and the command beside them fetches nothing.
+
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —
 so the text under a figure holds still

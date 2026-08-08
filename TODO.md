@@ -69,6 +69,40 @@ tak samo jak przy wpisie, który się zamknął,
 z powodem w komunikacie commita,
 bo skasowany wpis nie zostawia po sobie nic innego.
 
+Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
+od precedencji.
+`build` w `olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
+bo każdy szyk wypisuje się osobno,
+a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
+i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
+[Sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą) zmierzyła,
+że po stronie więzów SVO i OVS są jedną deklaracją, a okolicznik trzema,
+i że nie potrzeba do tego ani innego podłoża, ani innej klasy złożoności:
+dominacja rozdzielona od precedencji jest
+[szczeblem 1](docs/design-notes.md#the-cost-ladder), dalej sześciennym i
+bezkontekstowym, i tak samo radzi z tym GPSG, co
+[kąt parsujący](docs/design-notes.md#angle-one-parsing) już wylicza.
+Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
+precedencji, i preprocesor rozwijający jedno w drugie przed parsowaniem.
+Kupuje to jeszcze jedną rzecz, którą sonda pokazała mimochodem:
+szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
+Do przeczytania jest, co ten preprocesor robi z liczbą czytań,
+bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
+a próba nad prozą README stoi w `sonda/` gotowa do porównania.
+Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
+`sonda/polszczyzna.py` jest drugą deklaracją tego samego podzbioru,
+czyli tym drugim właścicielem faktu, przed którym broni
+[`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
+i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
+Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
+kiedy szyk zejdzie do warunków precedencji i zostanie zmierzony,
+przestaje, i wtedy idzie `git rm -r sonda/`
+wraz z `tests/test_sonda.py`, z nazwą `sonda` w `SOURCES` z `tests/test_docs.py`,
+z figurami tamtej sekcji i z wierszem o niej w [sekcji Checks](CLAUDE.md#checks).
+Zostaje z sekcji to, co figur nie potrzebuje:
+że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
+i że jednoznaczność bywa osiągana bez trafności.
+
 The line that says what a walk went past counts a repository's `.git` with it.
 `_collect` in `olski/cli.py` reaches every file under a named directory,
 so `olski rit-dokumentacja/` reports going past 39 files
