@@ -1,7 +1,9 @@
 import json
 
+from olski.calibration import Audit
+from olski.checks import CHECKS
 from olski.cli import ONE_SIDED, _calibration, main
-from olski.rules import OWED, Audit, Pack
+from olski.rules import Pack
 
 DIRTY = 'Kliknij przycisk "Zapisz".\n'
 CLEAN = "Kliknij przycisk „Zapisz”.\n"
@@ -153,7 +155,8 @@ def test_an_uncalibrated_rule_names_the_measurement_it_is_waiting_for(capsys):
     assert main(["--list-rules", "--explain"]) == 0
     lines = capsys.readouterr().out.splitlines()
     printed = {line.split("calibration: ")[1] for line in lines if "calibration: " in line}
-    assert printed == {f"uncalibrated; owes {phrase}" for phrase in OWED.values()}
+    owed = {check.calibrated_by.owed for check in CHECKS.values()}
+    assert printed == {f"uncalibrated; owes {phrase}" for phrase in owed}
 
 
 def test_a_measured_rule_reports_its_numbers_and_owes_nothing():

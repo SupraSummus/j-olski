@@ -1,21 +1,13 @@
 import pytest
 
 from olski import rules as rules_module
-from olski.rules import (
-    OWED,
-    SHAPES,
-    UNCALIBRATED,
-    Audit,
-    Distribution,
-    Pack,
-    Rule,
-    RuleError,
-    load_packs,
-    select,
-)
+from olski.calibration import UNCALIBRATED, Audit, Distribution
+from olski.rules import Pack, Rule, RuleError, load_packs, select
 
-AUDIT_NUMBERS = dict(hits=124, defects=119, corpus="drafts-2026", taken="2026-08-07")
-SPREAD_NUMBERS = dict(
+#: A calibration of either shape, for the rule that may not carry it. The shapes
+#: themselves are tests/test_calibration.py's.
+AUDIT = Audit(hits=124, defects=119, corpus="drafts-2026", taken="2026-08-07")
+SPREAD = Distribution(
     median=2.1, accused=0.03, scopes=812, corpus="nkjp-expository", taken="2026-08-07"
 )
 
@@ -36,62 +28,9 @@ def test_every_shipped_rule_carries_what_the_roadmap_asks_for():
 @pytest.mark.parametrize(
     ("check", "params", "calibration"),
     [
-        ("pattern", dict(pattern="a"), Audit(**AUDIT_NUMBERS)),
-        (
-            "pattern-density",
-            dict(pattern="a", max_per_1000_words=10),
-            Distribution(**SPREAD_NUMBERS),
-        ),
-    ],
-)
-def test_a_measured_rule_says_what_its_numbers_were_taken_over(check, params, calibration):
-    """Either shape reads back with its provenance, which is what --explain
-    prints and what somebody redoing the measurement needs."""
-    rule = Pack(name="p").rule(
-        id="a",
-        check=check,
-        params=params,
-        message="m",
-        justification="j",
-        calibration=calibration,
-    )
-    assert rule.calibration.corpus in str(rule.calibration)
-    assert rule.calibration.taken in str(rule.calibration)
-
-
-def test_an_audit_reports_the_share_of_hits_that_were_real_defects():
-    assert Audit(**AUDIT_NUMBERS).precision == pytest.approx(119 / 124)
-    assert "96%" in str(Audit(**AUDIT_NUMBERS))
-
-
-@pytest.mark.parametrize(
-    ("shape", "fields", "complaint"),
-    [
-        (Audit, {**AUDIT_NUMBERS, "hits": 0}, "whole number"),
-        (Audit, {**AUDIT_NUMBERS, "defects": 200}, "cannot find"),
-        (Audit, {**AUDIT_NUMBERS, "corpus": " "}, "names the corpus"),
-        (Audit, {**AUDIT_NUMBERS, "taken": "August 2026"}, "not an ISO date"),
-        (Distribution, {**SPREAD_NUMBERS, "accused": 3.0}, "cannot exceed 1"),
-        (Distribution, {**SPREAD_NUMBERS, "scopes": 0}, "whole number"),
-    ],
-)
-def test_a_number_no_measurement_could_have_produced_is_refused(shape, fields, complaint):
-    with pytest.raises(RuleError, match=complaint):
-        shape(**fields)
-
-
-def test_every_calibration_shape_says_what_an_uncalibrated_rule_owes():
-    """A shape added without its phrase would raise on the first --explain,
-    since that line looks the shape up by the name a check calls for."""
-    assert set(OWED) == set(SHAPES)
-
-
-@pytest.mark.parametrize(
-    ("check", "params", "calibration"),
-    [
         ("pattern", dict(pattern="a"), "audited over drafts, mostly fine"),
-        ("pattern", dict(pattern="a"), Distribution(**SPREAD_NUMBERS)),
-        ("pattern-density", dict(pattern="a", max_per_1000_words=10), Audit(**AUDIT_NUMBERS)),
+        ("pattern", dict(pattern="a"), SPREAD),
+        ("pattern-density", dict(pattern="a", max_per_1000_words=10), AUDIT),
     ],
 )
 def test_a_rule_carries_only_the_calibration_its_check_calls_for(check, params, calibration):

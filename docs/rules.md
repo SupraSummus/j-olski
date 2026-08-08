@@ -105,7 +105,7 @@ A rule whose hits were read carries how many there were
 and how many of them were real defects:
 
 ```python
-from olski.rules import Audit
+from olski.calibration import Audit
 
 calibration=Audit(
     hits=83,
@@ -121,7 +121,7 @@ and the share of that prose its threshold fires on, `accused`,
 over however many scopes the distribution was taken across:
 
 ```python
-from olski.rules import Distribution
+from olski.calibration import Distribution
 
 calibration=Distribution(
     median=2.1,

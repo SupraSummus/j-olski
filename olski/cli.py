@@ -11,10 +11,11 @@ from pathlib import Path
 from textwrap import fill
 
 from olski import __version__
+from olski.calibration import CalibrationError, Uncalibrated
 from olski.checks import CHECKS, ParamError, count_units
 from olski.document import Document, is_plain_text
 from olski.engine import Report, Tally, lint_corpus, read
-from olski.rules import OWED, PACK_PACKAGE, Rule, RuleError, Uncalibrated, load_packs, select
+from olski.rules import PACK_PACKAGE, Rule, RuleError, load_packs, select
 
 USAGE = """
   olski text.txt                 lint a file
@@ -94,7 +95,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         rules = select(load_packs(args.packs or None), args.pack, args.rule)
-    except (RuleError, ParamError) as error:
+    except (RuleError, ParamError, CalibrationError) as error:
         print(f"olski: {error}", file=sys.stderr)
         return 2
 
@@ -390,7 +391,7 @@ def _calibration(rule: Rule) -> str:
     """
     if not isinstance(rule.calibration, Uncalibrated):
         return str(rule.calibration)
-    return f"{rule.calibration}; owes {OWED[CHECKS[rule.check].calibrated_by]}"
+    return f"{rule.calibration}; owes {CHECKS[rule.check].calibrated_by.owed}"
 
 
 def _indent(prose: str, width: int = 76) -> str:

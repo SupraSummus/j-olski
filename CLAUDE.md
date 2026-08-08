@@ -87,6 +87,11 @@ więc nowy symbol idzie po angielsku razem z nimi.
 Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
 więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
 
+To samo stoi za modułem, który taki słownik trzyma.
+`Audit` i `Distribution` stoją w `olski/calibration.py`,
+więc polska nazwa pliku dałaby tę mieszaninę w każdym imporcie,
+a przekład nazwy modułu idzie razem z przekładem słownika.
+
 Nazwa w kodzie niesie znaki diakrytyczne, tak samo jak zdanie.
 Tekst, który ich nie ma, nie liczy się tu jako polszczyzna:
 [ekstrakcja](docs/extraction.md#which-documents-enter-the-corpus)
