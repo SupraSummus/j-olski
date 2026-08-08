@@ -100,7 +100,7 @@ i nie pyta, skąd ten brak się wziął.
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
 
-Reguła nie wywodzi się z [czterech sił](#four-forces) i nie jest od nich wyjątkiem.
+Reguła nie wywodzi się z [pięciu sił](#five-forces) i nie jest od nich wyjątkiem.
 One rozstrzygają, jak zdanie jest zbudowane, a ta, w jakim jest języku,
 więc stoi przed nimi, żeby zdanie „każda reguła niżej” dalej było prawdziwe.
 
@@ -128,9 +128,9 @@ bo tekst napisany przed regułą nie jest usterką.
 ta sekcja stoi po polsku w pliku, który po polsku nie jest,
 i jedno, i drugie jest zgodne z regułą.
 
-## Four forces
+## Five forces
 
-Every rule below follows from one of four forces.
+Every rule below follows from one of five forces.
 A rule you can derive from a force needs no separate justification,
 and a newly noticed failure mode has an obvious place to go —
 or a reason not to be written down at all.
@@ -149,12 +149,18 @@ or a reason not to be written down at all.
 - **Checkability.**
   A claim about the world names what would settle it.
   Test: what do I show someone who asks how I know?
+- **The reader's time.**
+  A passage is paid for by everyone who reads past it,
+  whether it was needed or not.
+  Test: what does this passage buy someone who has read what stands above it?
 
-None of the four follows from the others.
+None of the five follows from the others.
 Two identical copies of a fact read perfectly from top to bottom
 and rot at the first edit to one of them.
-A failure mode that derives from none of the four
-means either that a fifth force is missing
+A passage answering a question nobody would ask passes the other four,
+and is paid for by everyone who reads past it.
+A failure mode that derives from none of the five
+means either that a sixth force is missing
 or that the rule is not worth having.
 
 ## The reader goes sentence by sentence
@@ -763,7 +769,7 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
   where each one enters, and what ruins its path.
 - **Elegance.** Simple and closed:
   no orphaned sections, no half-finished moves.
-- **The four forces.** Put every changed place through each of the four tests.
+- **The five forces.** Put every changed place through each of the five tests.
   Check reading order separately on anything you moved:
   a section lifted upward now precedes what used to introduce it,
   and that is invisible from the altitude a file is read at before editing.
