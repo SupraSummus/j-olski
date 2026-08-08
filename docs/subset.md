@@ -549,11 +549,12 @@ owns that distinction.
 It is a memoizing top-down enumerator,
 which is enough for a grammar without left recursion
 and reports that case rather than looping.
-When the grammar outgrows it —
-left recursion, or an ambiguity count large enough
-that enumerating is the wrong way to count —
-it becomes a chart parser over a packed forest,
-which is what [design-notes.md](design-notes.md) always assumed.
+It builds no forest,
+and that is what the verdict wants sooner than the grammar does:
+a sentence with several undecided attachments
+is one role name in a reading list and would be several packed nodes.
+[Werdykt jest zapytaniem o las](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+owns that argument and the chart parser it argues for.
 
 `olski/subset.py` is olski itself:
 the grammar, what it reads as one word,

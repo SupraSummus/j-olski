@@ -587,6 +587,166 @@ This also keeps the subset honest:
 a permutation excluded from olski
 is excluded by an explicit constraint rather than by omission.
 
+### Werdykt jest zapytaniem o las, a nie listą czytań
+
+Earley oddaje las ze współdzielonymi węzłami sam z siebie,
+a nota w `olski/parse.py` odkłada go na moment,
+w którym wymusi go lewa rekursja albo cena wyliczania.
+Wymusza go wcześniej to, co werdykt ma powiedzieć autorowi,
+i pokazują to dwa polecenia:
+
+```sh
+python3 -m olski.check -c "Program zapisuje ustawienia w pliku w katalogu." --readings
+python3 -m olski.check -c "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
+```
+
+Każde doklejone wyrażenie przyimkowe podwaja liczbę czytań,
+bo dochodzi do czasownika albo do rzeczownika przed nim,
+a te wybory są od siebie niezależne.
+Werdykt przestaje przy tym mówić cokolwiek nowego już przy drugim wyrażeniu.
+`explain` w `olski/subset.py` nazywa te role, które się między czytaniami różnią,
+i nad czterema czytaniami pierwszego zdania wypisuje `Modifier, Object`,
+a nad sześćdziesięcioma czterema czytaniami drugiego wypisuje to samo,
+bo `describe` w `olski/parse.py` bierze pierwszy węzeł roli, a nie wszystkie.
+Liczba przestaje przy tym być liczbą,
+bo `MAX_READINGS` ucina ją i werdykt czyta `64+`.
+README obiecuje, że parser mówi, *jak* zdanie czyta się dwojako,
+a lista czytań tej obietnicy nie dowozi nad zdaniem,
+którego rejestr olskiego jest pełen.
+Oba te napisy trzyma `tests/test_subset.py`,
+więc sekcja nie rozjedzie się z kodem po cichu.
+
+Wyliczanie nie jest tu drogie i nie o cenę idzie.
+Nierozstrzygniętych decyzji stoi w drugim z tych zdań sześć,
+po jednej na wyrażenie, a czytań sześćdziesiąt cztery,
+i las ze współdzielonymi węzłami trzyma sześć węzłów spakowanych
+zamiast sześćdziesięciu czterech drzew.
+Werdykt wychodzący z takiego lasu wskazuje przyimek i dwie głowy,
+do których dochodzi, czyli mówi to, co autor ma poprawić.
+Tę samą wielkość nazywa już
+[pytanie o czytelność prefiksu](open-questions.md#czy-jednoznaczność-prefiksu-mierzy-czytelność):
+liczy się liczba nierozstrzygniętych decyzji, a nie liczba czytań.
+Jedno pytanie i drugie żądają więc tego samego prymitywu.
+
+Tańsze wyjście wygląda na dwie poprawki w kodzie i nim nie jest,
+więc stoi tu zapisane, żeby nikt go nie proponował drugi raz.
+`describe` nazywające wszystkie węzły roli zamiast pierwszego,
+przy zdjętym `MAX_READINGS`,
+daje nad drugim z tych zdań sześćdziesiąt cztery wiersze do porównania ręką.
+Wydruk rośnie wtedy z liczbą czytań, czyli wykładniczo,
+a nazwać trzeba liczbę decyzji, która rośnie z długością zdania.
+
+Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
+czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
+i czy złote czytanie jest wśród czytań oraz jak głęboko,
+o co [pomiar chce pytać bank drzew](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
+Żadne z tych pytań nie żąda innego parsera, tylko innego podsumowania.
+
+### Co się pakuje, rozstrzyga tożsamość czytania
+
+Pakowanie ma jeden warunek i on decyduje, czy las odpowie na pytanie olskiego.
+Czytanie jest kwotowane po lematach i po wartościach cech
+([subset.md](subset.md#what-counts-as-one-reading)),
+więc pozycja tablicy trzymana osobno dla każdego środowiska cech
+nie spakuje niczego i policzy wyprowadzenia zamiast czytań.
+Jest to dokładnie ten błąd, który zapisuje
+[glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure),
+i ten, przez który
+[obudowanie Świgry](swigra.md#why-wrapping-it-does-not-get-there)
+jest pisaniem gramatyki po raz drugi.
+
+Dzisiejszy enumerator tę dyscyplinę ma,
+i dlatego zamiana nie jest przepisaniem:
+`analyses` w `olski/parse.py` pamięta wynik pod `(nazwa, pozycja)`
+i wylicza ciało wobec `EMPTY`, a żądania wołającego stosuje po fakcie,
+więc tożsamość pozycji cech nie niesie.
+Brakuje samego spakowania,
+czyli wyprowadzeń grupowanych po sygnaturze,
+gdzie sygnatura niesie zbiór środowisk cech, z którymi przechodzi.
+Nadmiar, który to zdejmuje, bierze się z tego samego kwotowania:
+`zapisuje` ma dwa lematy, a lemat do sygnatury nie wchodzi,
+więc `Program zapisuje ustawienia.` wyprowadza się dwa razy na jedną sygnaturę,
+i mnoży się to przez każde następne słowo, któremu słownik daje dwa lematy.
+
+### Więzy wchodzą wyprowadzone z gramatyki, a nie napisane obok niej
+
+Sonda pokazała dwie rzeczy, które więzy robią taniej niż produkcja:
+przycinanie dziedzin przed szukaniem drzewa
+i powiedzenie, na czym odrzucenie stanęło.
+Drugiej olski nie ma.
+`blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
+i sam mówi, że między czytaniami wybiera dowolnie,
+a Świgra trzyma „Morfeusz tej formy nie zna”
+osobno od „gramatyka tego nie licencjonuje”.
+
+Kryterium, po którym taka warstwa wchodzi, jest jedno:
+musi się wyprowadzać z gramatyki.
+Napisana obok niej jest gramatyką napisaną dwa razy,
+czyli tym drugim właścicielem faktu, przed którym broni
+[`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
+i jest to ten sam zarzut, który przewraca obudowanie Świgry
+oraz ten, który [`TODO.md`](../TODO.md) stawia `sonda/polszczyzna.py`.
+Wyprowadzona nie kosztuje ani jednej deklaracji.
+Najtańszym kawałkiem takiej warstwy jest licencja terminala,
+i daje ona oba zyski naraz:
+czytanie, którego nie bierze żaden `Word` w gramatyce, wypada przed rozbiorem,
+a forma, której w ten sposób nie zostaje ani jedno czytanie,
+jest tym, na czym odrzucenie stanęło.
+
+### Kierunek: produkcja się rozwarstwia, a podłoże zostaje
+
+Wychodzi z tego kierunek i nie jest nim zmiana podłoża.
+Produkcja zlewa w jedno trzy rzeczy,
+i te trzy [sonda](#podłoże-więzowe-zmierzone-sondą) rozdziela:
+zgodność, porządek i to, że konstytuent jest jednym odcinkiem tekstu.
+Każda z nich ma wyjście, które zostaje przy szczeblu 2
+[drabiny](#the-cost-ladder).
+Zgodność wyszła do cech, zanim to pytanie stanęło.
+Porządek wychodzi do warunków precedencji i ten ruch trzyma
+[`TODO.md`](../TODO.md).
+Spójność wychodzi do luki przeciąganej przez ciąg o swobodnym szyku,
+więc [urwisko](#the-cliff-discontinuity) wycenia szczebel, a nie zjawisko.
+Zostaje w produkcji to jedno, czego z niczym nie zlewa:
+z czego konstytuent się składa.
+
+Walencji produkcja nie mówi wcale, i jest to brak innego rodzaju niż tamte trzy.
+Nie ma jej skąd wyprowadzić, bo stoi w leksykonie,
+a dopisana produkcjami mnoży je przez czasowniki,
+co [etap 2](roadmap.md#etap-2-walencja) liczy jako powód swojej kolejności.
+Wchodzi więc jako zasób, który się zużywa,
+a kształt tego zasobu pokazuje
+[Świgra](swigra.md#valency-as-a-resource-that-gets-consumed).
+
+Między dwoma wyjściami z nieciągłości rozstrzyga wydruk.
+Sonda zdejmuje spójność jednym warunkiem globalnym
+i traci nazwanie podmiotu napisem,
+bo poddrzewo bez spójności jest zbiorem słów, a nie odcinkiem tekstu.
+Luka oddaje pożyczone żądanie frazie, która je pożyczyła,
+więc rozpiętość zostaje odcinkiem tekstu,
+a werdykt olskiego wypełnioną rolę nazywa napisem.
+Ile polszczyzny oddaje dyscyplina jednej luki, nie mówi żadne z dwóch wyjść,
+i [Świgra tego też nie mówi](swigra.md#one-gap-instead-of-a-different-complexity-class);
+a to jest ten pomiar, który cały ten kierunek by przewrócił.
+
+Kolejność bierze się z tego, czego która rzecz potrzebuje.
+Las idzie pierwszy, bo nie rusza ani jednej produkcji,
+więc da się go porównać werdykt po werdykcie z tym, co stoi.
+Walencja idzie przed precedencją, bo kasuje czytania,
+a rozwinięcie permutacji je dopisuje,
+i [`TODO.md`](../TODO.md) pyta wprost,
+co preprocesor precedencji robi z ich liczbą,
+czego bez lasu nie ma czym przeczytać.
+
+Zostaje droga trzecia, czyli formalizm leksykalizowany,
+i odpada ona na tym samym kwotowaniu.
+Gramatyka kategorialna kupuje swobodny szyk kompozycją,
+a płaci wieloznacznością pozorną:
+jedna struktura zależności ma w niej wiele wyprowadzeń.
+Kwotowanie po niej nazywa się postacią normalną i trzeba je utrzymywać,
+czyli jest to ta sama robota, którą wycenia
+[tożsamość czytania](#co-się-pakuje-rozstrzyga-tożsamość-czytania),
+tylko wniesiona do własnej gramatyki zamiast napotkanej w cudzej.
+
 ## Angle two: skład
 
 Generation inverts every difficulty in parsing.

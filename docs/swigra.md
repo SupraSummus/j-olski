@@ -308,10 +308,11 @@ and how deeply it is buried among alternatives.
 That is a better question than the one olski asks of Składnica,
 and olski cannot ask it with the parser it has.
 `olski/parse.py` enumerates distinct readings and builds no forest to walk,
-and its own note defers the packed forest
-until left recursion or enumeration cost forces one.
-This is a third reason to want it,
-and the first that comes from the measurement rather than the parser.
+so this measurement waits on the chart parser that
+[design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+argues for and orders,
+where what asks for the forest first is the verdict rather than any measurement.
+This is the reason for it that comes from the measurement rather than the report.
 
 ## Sources
 
