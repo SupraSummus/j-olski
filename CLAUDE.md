@@ -97,6 +97,12 @@ czyta się gorzej niż każda z wersji z osobna,
 a przemianowana funkcja sięga wszystkich swoich wywołań.
 Jednostką jest więc sekcja, docstring, komentarz, komunikat
 albo nazwa wraz z wywołaniami.
+Gdzie prozy nie trzyma żadna sekcja, jednostką jest akapit:
+`TODO.md` ma jeden nagłówek na cały plik,
+więc sekcją jest tam wszystko,
+a wpisy tej listy i tak stoją po polsku po jednym.
+Powód wyżej na to przystaje,
+bo mieszanina, przed którą broni, jest mieszaniną wewnątrz akapitu.
 Nowa powstaje po polsku, także w dokumencie, który po polsku nie jest,
 a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
@@ -426,7 +432,8 @@ Something noticed while working on another topic
 belongs on a list rather than in the current change,
 and which list follows from who closes the entry.
 A commit in this repository closes it: [`TODO.md`](TODO.md),
-whose header owns that boundary and the conventions for entries.
+whose header owns that boundary, the conventions for entries,
+and what an entry is worth to whoever picks it up.
 The outside world closes it:
 the list in the document that owns the topic,
 [`docs/open-questions.md`](docs/open-questions.md)
