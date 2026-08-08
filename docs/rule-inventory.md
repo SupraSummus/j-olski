@@ -17,6 +17,8 @@ a jej pole `sources` cytuje sekcję, z której pozycja wyszła.
 Pozycja, która wyszła, zostaje tu bez znacznika:
 co jest wysłane, mówi `python3 -m olski --list-rules`,
 i tamta odpowiedź nie rozjedzie się z pakietem.
+Pozycja, którą pomiar z pakietu usunął, niesie to przy sobie,
+bo inaczej ktoś zbuduje ją drugi raz.
 
 Prozy literackiej ta lista nie obejmuje.
 [To, co w niej mimo wszystko da się lintować](linter.md#what-is-nevertheless-lintable-in-fiction),
@@ -29,7 +31,12 @@ trzyma jako życzenie, a nie jako milestone.
 
 - Em dash frequency, and em dashes used where Polish would not use them *cited*
 - Straight quotes where Polish takes „ and ”
-- Single-letter words left at end of line
+- Single-letter words left at end of line.
+  Zbudowana i usunięta,
+  bo rejestrem, który tę regułę utrzymuje, jest tekst, który ktoś złoży,
+  a nie dokumentacja;
+  trafienia, na których to stanęło, trzyma
+  [odczyt, który ją usunął](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
 - Markdown emphasis left unreviewed in running prose *cited*
 - Excess spacing and other generation artifacts *cited*
 

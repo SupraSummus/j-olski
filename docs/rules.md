@@ -179,24 +179,19 @@ since no file owns the answer.
 
 ## A check may be asking more of a document than its format gives
 
-Plain text carries two guarantees at once:
-every character in it is prose,
-and every newline in it is a newline on the page.
-A markup format carries neither.
-Its frontmatter, headings, tables and link lists — its apparatus —
-are text like any other,
-and a single newline in it is whitespace the renderer collapses.
+Plain text carries a guarantee a markup format does not:
+every character in it is prose.
+A markup format's frontmatter, headings, tables and link lists — its apparatus —
+are text like any other.
 
-Which guarantee a check needs follows from how much of a document it looks at.
+Whether a check needs that guarantee follows from how much of a document it looks at.
 A check pointing at a site is answerable on a file of any format,
 because the reader can look at the site and judge it:
 a straight quotation mark inside a code span
 is one a reader dismisses at a glance,
 and a rate over the wrong denominator is not something anyone can dismiss.
 A check measuring a whole scope is measuring the apparatus along with the prose,
-and a check reading a line end is reading where the file wraps
-rather than where the page does.
-Those two decline, and name the file they declined on.
+so it declines, and names the file it declined on.
 
 So `olski notatka.md` reports the quotation marks and the spacing
 and abstains on the rates.
@@ -218,24 +213,19 @@ and one olski does not recognize is read as text it cannot vouch for.
 Recognizing a suffix is weaker evidence than it reads as,
 because a guarantee belongs to a format and a suffix is not one.
 [firing-rates.md](firing-rates.md#what-the-hits-over-published-polish-turned-out-to-be)
-measures both guarantees failing across a corpus of `.txt`:
+measures it failing across a corpus of `.txt`:
 a table laid out with runs of spaces and emphasis written as `*`
-are apparatus in a file that answered for prose,
-and a paragraph set on one line however long it runs
-puts a newline where the page has a paragraph break rather than a line end.
+are apparatus in a file that answered for prose.
 
-The two are not evidenced alike, so they are not asked for alike.
-Whether a character is prose or apparatus is a question about a format,
-and a suffix is the only thing that answers it at all.
-Whether a newline is a line break is a question about the text,
-and the text answers it:
-a document that broke its own lines has paragraphs running past one,
-where an export has a paragraph to a line.
-So the second guarantee is measured rather than taken on the suffix's word,
-and `Document.hard_wrapped` is what a check asks for it with.
-That audit is the price of having asked the suffix instead,
-and every finding in it stood in a file
-whose own lines said it was not laid out in them.
+Whether a newline is a line break is a second question,
+and one a suffix answers no better:
+an export sets a paragraph on a line however long it runs,
+which puts a newline where the page has a paragraph break.
+Nothing asks it.
+The two rules that did are gone, along with
+[what they turned out to fire on](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt),
+and a check wanting the answer measures the text for it
+rather than taking it on the suffix's word.
 
 ## Check kinds
 
@@ -249,7 +239,6 @@ and is meant to be the rarer event.
 | `pattern` | Each match of a regular expression | `{match}` |
 | `pattern-density` | A scope whose matches per 1000 words run over a rate, or under one | `{count}`, `{words}`, `{rate}`, `{limit}`, `{side}`, and `{match}` where the rule set a ceiling |
 | `length-variation` | A document whose units are too alike in length, or too unlike | `{unit}`, `{count}`, `{words}`, `{mean}`, `{sd}`, `{variation}`, `{limit}`, `{side}` |
-| `line-end-word` | A listed word left at the end of a line | `{word}` |
 | `entity-recurrence` | A corpus that introduces entities and drops them | `{entity}`, `{mentions}`, `{walk_ons}`, `{introductions}`, `{share}`, `{limit}` |
 
 A message may only use the placeholders its check reports.
@@ -407,27 +396,6 @@ and a threshold that means anything comes from
 [milestone 3](roadmap.md#milestone-3-statistical-rules)
 and the corpus behind it.
 
-### `line-end-word`
-
-```python
-params=dict(words=["a", "i", "o", "u", "w", "z"])
-```
-
-Only meaningful where a line break in the source
-is a line break in the output,
-which takes a format olski reads
-and a document that used its newlines to break lines:
-[the two are asked for separately](#a-check-may-be-asking-more-of-a-document-than-its-format-gives),
-and failing either one the rule abstains,
-because a source line says nothing about a rendered line
-and guessing would flag correct text.
-
-Words are matched as written rather than folded,
-so a list carries the forms it means.
-The fold is what read `Tom I` as a conjunction,
-and [firing-rates.md](firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
-holds what it cost and what leaving it out costs in return.
-
 ### `entity-recurrence`
 
 ```python
@@ -504,8 +472,7 @@ is half of what the rate is being asked.
 **The denominator is what a check can fire at most once per.**
 A check reporting on a whole scope raises one finding about it,
 so its findings are counted against the scopes it was given
-and reported as a share of them;
-a rule against a word left at a line end is counted in lines the same way.
+and reported as a share of them.
 A check with no such bound is counted against the quantity of prose instead,
 since a pattern can match twenty times in a paragraph,
 and reported per thousand words.

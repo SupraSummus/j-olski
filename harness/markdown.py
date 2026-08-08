@@ -1,9 +1,8 @@
 """Markdown in, Polish prose out.
 
-The rules that measure a whole file need two guarantees plain text gives and
-Markdown does not: every character is prose, and every newline is a newline on
-the page. This produces both, by dropping the apparatus and by joining what the
-renderer would have joined.
+The rules that measure a whole file need a guarantee plain text gives and Markdown
+does not: every character is prose. This produces it, by dropping the apparatus
+and by joining what the renderer would have joined.
 
 Three decisions run through the whole module and are worth stating once.
 
@@ -22,8 +21,9 @@ extractions written before this one. Where a construct has no text to leave
 behind, the space in front of it goes with it.
 
 **A line is a line of source, not a line of the page.** Everything a paragraph
-holds is joined with single spaces, so a rule about where a line ends measures
-where the prose ends rather than where the author's editor wrapped.
+holds is joined with single spaces, because that is what a renderer does with a
+newline inside one, and where the author's editor wrapped then leaves no trace
+for a rule to read.
 
 Which documents enter the corpus is the same step's business, and it is the
 harness package that holds it: a rate over Polish must not have another language

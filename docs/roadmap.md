@@ -67,7 +67,6 @@ A rule engine over plain Polish text,
 plus the rules that need nothing but a tokenizer:
 em dash frequency,
 Polish quotation marks,
-single-letter words at line end,
 spacing artifacts.
 
 Rules live in data, not in code,
@@ -209,23 +208,28 @@ and the pack has changed because of them —
 a rule deleted, a threshold moved, or an exemption added —
 with the number that caused the change recorded beside it.
 
-Two rules in the pack cannot reach that exit,
-and the register is the reason rather than any corpus chosen for it.
+Two rules could not reach that exit, and are gone.
 `trailing-space` and `orphan-single-letter-word` read where a line ends,
 and documentation is written in a markup format,
 where a single newline is a space and no line end is one a reader sees.
 So the extraction that makes such a corpus readable
 takes both properties out with the markup —
 [extraction.md](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
-holds what each rule reports on either side of that step —
+holds what the step removes —
 and running them over the files instead reads the format's line ends
 rather than a reader's,
 which [rules.md](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
 refuses.
-Each of the two therefore exits on a decision rather than on a number —
-a register the pack does not claim, or the rule deleted —
-and [TODO.md](../TODO.md) holds that decision
-beside the audits that price it.
+Neither could therefore exit on a number,
+so each exited on a decision:
+either the pack claims prose laid out in lines as a register of its own,
+or the two rules go, and they went.
+What settled it was reading their hits across both corpora,
+which turned up no instance of either defect,
+and [firing-rates.md](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
+holds those counts along with the machinery the deletion took with them.
+That is the shape the exit above asks for,
+a rule deleted with the number that caused it recorded beside it.
 
 ## Milestone 2: the plain-Polish pack, without an analyser
 

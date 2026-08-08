@@ -79,31 +79,6 @@ pack.rule(
 )
 
 pack.rule(
-    id="orphan-single-letter-word",
-    check="line-end-word",
-    params=dict(words=["a", "i", "o", "u", "w", "z"]),
-    message="Single-letter word {word} left at the end of a line; "
-    "Polish typography moves it to the next line with a non-breaking space.",
-    justification="""
-    Polish has one-letter conjunctions and prepositions,
-    and typographic practice does not leave them at the end of a line,
-    because the reader meets a word with nothing yet to attach it to.
-    The usual fix is a non-breaking space
-    between the letter and the word it governs.
-    This rule can only apply where a line break in the source
-    is a line break in the output,
-    so it abstains on a document whose own lines say otherwise
-    as well as on a format olski does not read.
-    The list is lower case, which leaves out the sentence
-    that opens on one of these words at a line end:
-    the capitals belong to a Roman numeral, a section label and a unit
-    more often than to a conjunction,
-    and one list cannot hold `Tom I` out and let `I` in.
-    """,
-    sources=("docs/rule-inventory.md#typography-tier-a",),
-)
-
-pack.rule(
     id="double-space",
     check="pattern",
     params=dict(pattern=r"(?<=\S)[ ]{2,}(?=\S)"),
@@ -112,20 +87,6 @@ pack.rule(
     Polish typesetting sets a single space between words, including after a full stop.
     Runs of spaces inside a line are an editing artifact,
     and they survive into rendered output as visible gaps.
-    """,
-    sources=("docs/rule-inventory.md#typography-tier-a",),
-)
-
-pack.rule(
-    id="trailing-space",
-    check="pattern",
-    severity="note",
-    params=dict(pattern=r"[ \t]+$", flags=["multiline"]),
-    message="Trailing whitespace at the end of a line.",
-    justification="""
-    Trailing whitespace is invisible to the author,
-    changes nothing about the rendered text,
-    and shows up in every later diff of the line that carries it.
     """,
     sources=("docs/rule-inventory.md#typography-tier-a",),
 )

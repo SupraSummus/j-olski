@@ -100,7 +100,7 @@ python3 -m olski --list-rules
 
 ```text
 tekst.txt:3:42: warning: [quote-straight] Straight quotation mark; Polish takes „ opening and ” closing.
-tekst.txt:3:78: warning: [orphan-single-letter-word] Single-letter word w left at the end of a line
+tekst.txt:5:15: warning: [missing-space-after-punctuation] No space after ,.
 tekst.txt: abstained: [em-dash-density] this document is under the 150-word floor a rate over it needs
 ```
 
@@ -109,7 +109,7 @@ gdzie rozstrzyga znak, a nie struktura:
 cudzysłów, odstęp, zabłąkana pauza.
 Reguła, która musi wiedzieć, czym słowo *jest*, należy do gramatyki,
 i dlatego pakietu wzorców nad samą polszczyzną nie ma.
-Dziewięć reguł, wszystkie z poziomu A, wszystkie oznaczone jako `uncalibrated`,
+Siedem reguł, wszystkie z poziomu A, wszystkie oznaczone jako `uncalibrated`,
 bo żadnej nie zmierzono na polszczyźnie pisanej przez ludzi,
 a próg bez takiego pomiaru jest opinią z przecinkiem.
 Tryb raportu jest tą połową pomiaru, którą jeden przebieg umie wyprodukować:

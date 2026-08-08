@@ -71,16 +71,6 @@ def test_dash_density_reports_nothing_about_a_text_under_its_word_floor():
     assert fired("Raz — dwa — trzy — cztery.", "em-dash-density") == []
 
 
-def test_orphan_single_letter_word_is_flagged_at_a_line_end():
-    text = "Ustawienia zapisujemy w\npliku konfiguracyjnym.\n"
-    assert len(fired(text, "orphan-single-letter-word")) == 1
-
-
-def test_a_longer_word_at_a_line_end_is_fine():
-    text = "Ustawienia zapisujemy do\npliku konfiguracyjnym.\n"
-    assert fired(text, "orphan-single-letter-word") == []
-
-
 def test_double_space_is_flagged_but_a_single_one_is_not():
     assert len(fired("Program  zapisuje ustawienia.", "double-space")) == 1
     assert fired("Program zapisuje ustawienia.", "double-space") == []
@@ -88,10 +78,6 @@ def test_double_space_is_flagged_but_a_single_one_is_not():
 
 def test_indentation_is_not_a_double_space():
     assert fired("Akapit.\n    Wcięty wiersz ciągu dalszego.\n", "double-space") == []
-
-
-def test_trailing_space_is_flagged_on_the_line_that_has_it():
-    assert len(fired("Pierwsza linia.   \nDruga linia.\n", "trailing-space")) == 1
 
 
 def test_space_before_punctuation_is_flagged():

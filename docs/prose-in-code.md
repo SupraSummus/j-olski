@@ -70,19 +70,21 @@ bo taki mówi o tym wierszu, a nie ciągnie zdania z góry.
 Nad Markdownem sklejenie oddaje to, co zrobiłby renderer.
 Tutaj rendererem jest czytelnik, który czyta źródło,
 więc koniec wiersza w komentarzu jest końcem wiersza, który ktoś widzi,
-i [dwie reguły czytające koniec wiersza](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
-miałyby tu przesłankę, której rejestr dokumentacji im nie daje.
-Nie dostają jej.
+i reguła czytająca koniec wiersza miałaby tu przesłankę,
+której rejestr dokumentacji jej nie daje.
+Nie dostaje jej.
 
 Łamanie wiersza w komentarzu jest albo zawinięciem na kolumnie,
 albo łamaniem semantycznym,
 jednym i drugim w tym samym pliku,
-a to, o co te reguły proszą, czyli twarda spacja przed jednoliterowym słowem,
+a to, o co taka reguła prosi, czyli twarda spacja przed jednoliterowym słowem,
 w kodzie źródłowym czyta się gorzej niż to słowo zostawione na końcu wiersza.
-Rejestrem, którego te reguły chcą, jest tekst, który ktoś złoży,
+Rejestrem, którego takie reguły chcą, jest tekst, który ktoś złoży,
 a nie każdy tekst, który stoi w wierszach.
-[TODO.md](../TODO.md) trzyma decyzję, czy pakiet taki rejestr ogłasza,
-i ta ekstrakcja jej nie wyprzedza.
+Pakiet miał dwie takie reguły i nie ma żadnej,
+a ten akapit jest jednym z powodów:
+resztę trzyma
+[odczyt, który je usunął](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt).
 
 ## Przykład wychodzi po wcięciu, bo ogrodzenia w docstringu nie ma
 

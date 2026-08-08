@@ -12,11 +12,6 @@ def test_positions_are_one_based():
     assert document.position(10) == (2, 2)
 
 
-def test_line_span_excludes_the_newline():
-    document = Document("ala\nma kota\n")
-    assert document.slice(document.line_span(2)) == "ma kota"
-
-
 def test_paragraphs_are_blank_line_separated_and_trimmed():
     document = Document("Pierwszy akapit.\nDruga linia.\n\n\nDrugi akapit.\n")
     assert [document.slice(p) for p in document.paragraphs] == [
@@ -109,17 +104,6 @@ def test_excerpt_collapses_whitespace_and_truncates():
     document = Document("ala   ma\nkota")
     assert document.excerpt(Span(0, 13)) == "ala ma kota"
     assert document.excerpt(Span(0, 13), limit=6) == "ala m…"
-
-
-def test_one_quoted_poem_does_not_make_a_novel_laid_out_in_lines():
-    #  The case the threshold exists for. An export sets each paragraph on a line
-    #  of its own, and a novel quoting verse has a handful that run past one, so
-    #  the reading is a share and not the presence of a single multi-line
-    #  paragraph. docs/firing-rates.md owns the distribution behind the number.
-    export = "\n\n".join(["Akapit stoi w jednej linii."] * 9 + ["Wers pierwszy,\nwers drugi."])
-    assert Document(export).hard_wrapped is False
-    verse = "\n\n".join(["Wers pierwszy,\nwers drugi."] * 2 + ["Podpis."])
-    assert Document(verse).hard_wrapped is True
 
 
 @pytest.mark.parametrize(

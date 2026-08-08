@@ -161,77 +161,21 @@ bo wszystkie stoją po angielsku,
 a nad angielszczyzną ten check jest deklaracją tak samo,
 jak był nad modułem, zanim ekstrakcja powstała.
 
-Two rules read where a line ends, and the target register has no such line.
-`trailing-space` and `orphan-single-letter-word` are both audit-shaped,
-so each owes the share of its hits that were real defects,
-and [the roadmap](docs/roadmap.md#milestone-1-the-calibration-harness)
-records that neither corpus
-[`docs/corpora.md`](docs/corpora.md#the-composition-this-argues-for) argues for
-can supply that share.
-The pack half-admits the mismatch already:
-`trailing-space` justifies itself on whitespace
-that changes nothing about the rendered text,
-and two trailing spaces in Markdown are a line break.
-So the decision comes before either fix below,
-and it is whether the pack claims prose laid out in lines as a register of its own
-or the two rules go.
-The evidence is three readings already taken:
-the audits over
-[published Polish](docs/firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
-and over
-[the audit corpus](docs/firing-rates.md#orphan-single-letter-word-declines-all-39-files),
-which between them turn up no instance of the defect in either body
-and no hit at all in the one stratum where the premise held,
-and [what the extraction removes](docs/extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
-which for these two rules is every trailing space and every line end there was.
-A fourth reading is what the register would have to be if it were claimed.
-A comment in a source file is prose laid out in lines a reader sees,
-which is the premise these two rules want and documentation cannot give,
-and the second extraction joins those lines anyway
-rather than hand them the premise —
-[why it does](docs/prose-in-code.md#wiersze-akapitu-sklejają-się-choć-pliku-źródłowego-nikt-nie-składa)
-is that what the rule then asks for is a non-breaking space in source,
-so the register these rules want is text somebody will typeset
-rather than any text standing in lines.
-Deleting them frees machinery on one side,
-which is the other half of what the decision is worth:
-the `line-end-word` check kind, `needs_hard_wrap` in `olski/checks.py`,
-and `hard_wrapped` and `HARD_WRAP_SHARE` in `olski/document.py`
-exist for `orphan-single-letter-word` and for nothing else,
-where `trailing-space` is a `pattern` rule and would leave nothing behind.
-Two known misreadings of it follow the decision the other way
-and are worth fixing only if the rule stays.
-`_last_word` in `olski/checks.py` matches `[^\W\d_]+` of its own
-where `WORD` in `olski/document.py` keeps an apostrophe inside a word,
-so `Lagrange'a` ends in the word `a`,
-and the move is for `_last_word` to take the last `WORD` match instead.
-That leaves the class beside it standing:
-`w.` for *wiek* is the word `w` and a full stop,
-`ABBREVIATIONS` in `olski/document.py` does not list `w.`,
-and whoever takes this settles whether the abbreviation test belongs to the check
-or to the word notion both of them would then share.
-The other is that a line whose end is a paragraph's end
-has nothing after it for a word to be separated from,
-which `Document.paragraphs` already holds the spans to skip.
-No figure moves for that one,
-since the rule fires nought times over the one stratum it reads,
-so what it buys is the class not returning
-the first time somebody points the rule at prose wrapped to a width.
-
 A run says which files a format made a rule decline, and not which ones the text did.
 `_note_markup` in `olski/cli.py` prints one line
 when a whole-file rule declined on a file in a format olski does not read,
 because a run over Markdown would otherwise read as a run over prose
 that happened to find less.
-A precondition on the text is followed by the same silence:
-`olski powiesc.txt` over a paragraph-per-line export
-prints no line-end finding and no notice,
-and only `--format report` shows that nothing was measured.
+A refusal the text caused is followed by the same silence:
+`olski notatka.txt` over a file under `em-dash-density`'s word floor
+prints no finding and no notice,
+and only `--format report` or `--show-abstentions`
+shows that nothing was measured.
 The move is a decision about how much the default mode says —
-a notice for every precondition a run tripped,
+a notice for every refusal a run tripped,
 which is `--show-abstentions` in summary,
 or the format notice alone,
-on the grounds that a reader can see the shape of their own file
+on the grounds that a reader can see how long their own file is
 and cannot see what a suffix promised on its behalf.
 
 `docs/corpus.md` and `docs/corpora.md` differ by two letters

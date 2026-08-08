@@ -171,17 +171,19 @@ A rule that would have said *this is too short to measure*
 reports a number instead.
 
 **A rule about where a line ends is simply wrong on a hard-wrapped file.**
-`orphan-single-letter-word` reports 27 findings across the two bodies,
+The pack no longer has such a rule, and this run is part of the reason.
+`orphan-single-letter-word` reported 27 findings across the two bodies,
 10 over the notes and 17 over the memoir,
-and every one of them is a letter that stands mid-line for every reader,
+and every one of them was a letter standing mid-line for every reader,
 since a single newline in Markdown is a space.
-The rule's own precondition catches 183 of the 527 notes and none of the memoir,
-which is the second guarantee failing where the first one already has:
-those notes set each paragraph on a line.
-The other 344 are wrapped,
-so nothing but the suffix says their line ends are not a reader's.
-Over the extracted prose the rule declines every file and reports
-[nothing at all](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read).
+Its own precondition caught 183 of the 527 notes and none of the memoir —
+those notes set each paragraph on a line —
+while the other 344 are wrapped,
+so nothing but the suffix said their line ends were not a reader's.
+Over the extracted prose it declined every file and reported
+[nothing at all](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
+and [what it and `trailing-space` turned out to fire on](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
+is what removed them both.
 
 The three effects sort by how much of a document a rule has to look at,
 which is the line the engine draws.
@@ -191,7 +193,7 @@ and 1,649 over their prose, a difference of 7%,
 where its rate per thousand words moves by 20% in the other direction
 because the denominator moved further than the count did.
 So a character rule runs on a file of any format,
-and a rule dividing by a word count, or reading a line end,
+and a rule dividing by a word count
 [declines instead](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
 
 ### The extraction has a price of its own
