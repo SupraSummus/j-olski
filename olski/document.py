@@ -17,7 +17,8 @@ from __future__ import annotations
 
 import re
 from bisect import bisect_right
-from dataclasses import dataclass, field
+from dataclasses import KW_ONLY, dataclass, field
+from functools import cached_property
 from pathlib import Path
 
 #: The suffixes olski reads as plain Polish prose. Nothing here understands
@@ -108,25 +109,50 @@ class Span:
 
 @dataclass(frozen=True)
 class Document:
-    path: str
+    """Tekst i to, co się z niego wylicza.
+
+    Wyliczenia są leniwe i pamiętane, bo każdy przebieg pyta o co innego: pakiet
+    typograficzny nie schodzi niżej niż znak, a o akapit i o zdanie pytają tylko
+    te reguły, które liczą nad nimi częstość. Wszystko poza tekstem wylicza się
+    przy pierwszym pytaniu, więc nie ma dokumentu półgotowego: dwa o tym samym
+    tekście odpowiadają tak samo, obojętne, które miejsce w programie je
+    zbudowało.
+    """
+
     text: str
-    #: Blank-line separated paragraphs, the unit a density can be measured over.
-    paragraphs: tuple[Span, ...] = ()
-    #: Sentences, which do not cross a paragraph boundary. The narrowest unit a
-    #: rate or a spread can be measured over.
-    sentences: tuple[Span, ...] = ()
+    #: Reszta po nazwie, bo tekst i ścieżka są oba napisami: zamienione miejscami
+    #: dają dokument, który lintuje własną nazwę, i nic tego nie zgłasza.
+    _: KW_ONLY
+    path: str = "<text>"
     #: Whether every character of the text is prose and every newline in it is a
     #: newline on the page. Plain text gives both; a markup format gives neither,
     #: since its apparatus is text like any other and a single newline in it is
     #: whitespace the renderer collapses. A check that has to look at the whole
     #: of a document, rather than at one site in it, asks this before measuring.
     plain_text: bool = True
-    _line_starts: tuple[int, ...] = field(init=False, repr=False, compare=False)
+    #: Zliczone słowa, po jednym wpisie na zakres, o który ktoś zapytał.
+    _counted: dict[Span | None, int] = field(
+        default_factory=dict, init=False, repr=False, compare=False
+    )
 
-    def __post_init__(self) -> None:
+    @cached_property
+    def paragraphs(self) -> tuple[Span, ...]:
+        """Blank-line separated paragraphs, the unit a density can be measured over."""
+        return tuple(_paragraphs(self.text))
+
+    @cached_property
+    def sentences(self) -> tuple[Span, ...]:
+        """Sentences, which do not cross a paragraph boundary.
+
+        The narrowest unit a rate or a spread can be measured over.
+        """
+        return tuple(_sentences(self.text, self.paragraphs))
+
+    @cached_property
+    def _line_starts(self) -> tuple[int, ...]:
         starts = [0]
         starts.extend(m.end() for m in re.finditer(r"\n", self.text))
-        object.__setattr__(self, "_line_starts", tuple(starts))
+        return tuple(starts)
 
     def position(self, offset: int) -> tuple[int, int]:
         """Return the 1-based line and column of a character offset."""
@@ -168,8 +194,6 @@ class Document:
         single newline instead of a blank line, since the paragraphs then read as
         one and one paragraph running past a line is all this asks for.
         """
-        if not self.paragraphs:
-            return False
         over_a_line = sum(1 for span in self.paragraphs if "\n" in self.slice(span))
         return over_a_line > HARD_WRAP_SHARE * len(self.paragraphs)
 
@@ -182,18 +206,10 @@ class Document:
         return raw if len(raw) <= limit else raw[: limit - 1] + "…"
 
     def word_count(self, span: Span | None = None) -> int:
-        return sum(1 for _ in WORD.finditer(self.slice(span)))
-
-
-def from_text(text: str, path: str = "<text>", plain_text: bool = True) -> Document:
-    paragraphs = tuple(_paragraphs(text))
-    return Document(
-        path=path,
-        text=text,
-        paragraphs=paragraphs,
-        sentences=tuple(_sentences(text, paragraphs)),
-        plain_text=plain_text,
-    )
+        """Zliczone raz na zakres, bo o ten sam zakres pyta każda reguła licząca częstość."""
+        if span not in self._counted:
+            self._counted[span] = sum(1 for _ in WORD.finditer(self.slice(span)))
+        return self._counted[span]
 
 
 def is_plain_text(path: str | Path) -> bool:

@@ -321,36 +321,6 @@ or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
 
-`Document` computes an analysis nobody asked for
-and recomputes one everybody does.
-`from_text` in `olski/document.py` splits paragraphs and sentences
-for every document it builds,
-where a run selecting only `pattern` rules reads neither,
-and `word_count` runs `WORD.finditer` afresh on every call
-from the three sites in `olski/checks.py` that reach for it,
-once per rule and once per scope.
-Neither costs much while every analysis here is a regex pass over the text.
-Both are the shape the first expensive tier arrives in:
-[the roadmap](docs/roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it)
-puts an analyser behind a lemma rule,
-and a typography run paying for morphology over a corpus
-is this eagerness with a number attached.
-The move is to make the analyses lazy and memoized
-rather than fields set at construction,
-which `functools.cached_property` does on a frozen dataclass,
-since freezing replaces `__setattr__`
-and the descriptor writes the instance dictionary directly.
-The reason to make it before the analyser rather than alongside one:
-the same change made afterwards
-has to be made through whatever wired the analyser in.
-A second reason arrived with `hard_wrapped`,
-which is a precondition computed from `paragraphs`:
-a `Document` built by its constructor rather than by `from_text`
-has that field empty and answers the precondition falsely,
-so a rule declines a file nobody said anything wrong about.
-Only tests build one that way today,
-and a lazy analysis is what stops the half-built state from existing at all.
-
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
 Świgra's evaluation walks its packed forest per sentence
@@ -502,6 +472,27 @@ Do rozstrzygnięcia jest to, co druga komenda robi z pominiętymi:
 `olski` mówi o nich, bo pominięcie zmienia mianownik częstości,
 a `olski-check` ma już mianownik, o który się w tej sesji rozegrało,
 więc nie jest oczywiste, czy to jest ta sama notatka, czy druga obok niej.
+
+`olski-check` daje dokumentowi liczbę i nie ma pod sobą żadnego testu.
+Nic w `tests/` nie importuje `olski/check.py`:
+werdykt nad zdaniem czyta `tests/test_subset.py` przez `check()` w `olski/subset.py`,
+a opakowanie wokół niego nie jest czytane nigdzie.
+Zostają w nim trzy kody wyjścia
+(2 bez argumentów i nad ścieżką, której nie da się przeczytać,
+1 wtedy, gdy nie każde zdanie przeszło),
+liczenie fragmentów obok zdań
+oraz układ wierszy, które komenda wypisuje.
+Ostatni z nich jest tym, po co dokument tę komendę woła:
+[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
+bierze liczbę fragmentów nad korpusem audytowym z ostatniego wiersza wydruku,
+więc figura w dokumencie stoi na formacie, którego nic nie trzyma.
+Druga komenda ma `tests/test_cli.py`, więc wzór jest na miejscu:
+wołanie `main` z listą argumentów i czytanie `capsys`.
+Testem nie jest wydruk przepisany wiersz po wierszu:
+kosztuje przy każdej zmianie układu
+i nie broni niczego, czego by czytelnik nie zobaczył.
+Warte pisania są dwie rzeczy: podsumowanie, bo jest figurą, którą cytuje dokument,
+i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
 Przecinek stoi na czele kolejki i sam nie kupuje nic.
 `interp` prowadzi [tabelę blokerów](docs/corpus.md#where-the-analyses-stop),
@@ -660,6 +651,54 @@ co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
 czytnik banku drzew i program pomiarowy są w nim dziś,
 a nikt, kto lintuje tekst, ich nie woła.
+
+Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.
+`dependencies` w `pyproject.toml` żąda `morfeusz2` bezwarunkowo,
+a tor linterowy nie sięga po niego ani razu:
+`olski/cli.py`, `olski/engine.py`, `olski/checks.py`, `olski/document.py`,
+`olski/rules.py` i `olski/packs/` nie importują `olski/morph.py`,
+czyli jedynego miejsca, w którym stoi `import morfeusz2`,
+a wołają go `olski/parse.py`, `olski/subset.py`, `olski/corpus.py`
+i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`.
+[Sekcja Checks](CLAUDE.md#checks) opisuje środowisko,
+w którym koło Morfeusza się nie zbudowało,
+a `tests/test_morph.py`, `tests/test_subset.py` i `tests/test_corpus.py`
+pomijają się zamiast wywracać zbiórkę.
+Udokumentowana instalacja do tego środowiska nie prowadzi:
+`pip install -e '.[dev]'` kończy się wtedy błędem, a nie środowiskiem z pytestem,
+więc pomijanie broni stanu, w który wchodzi się bokiem,
+instalując pytest osobno i wołając go z klonu.
+Ruchem jest zejście `morfeusz2` z `dependencies`
+do `[project.optional-dependencies] grammar`,
+po czym instalacja w workflow bierze oba dodatki, `dev` i `grammar`,
+żeby przebieg na pushu dalej dotykał gramatyki;
+kroki workflow i blok w `CLAUDE.md` trzyma równe
+`test_the_checks_a_person_runs_are_the_checks_a_push_runs`,
+więc obie kopie ruszają się razem.
+Wpis nie zamyka się razem z granicą harnessu:
+gdyby czytnik banku drzew i program pomiarowy poszły do `harness/`,
+`morph`, `parse`, `subset` i `check` zostają w pakiecie i dalej ciągną Morfeusza.
+Do przeczytania jest, na których platformach PyPI ma gotowe koło,
+bo to rozstrzyga, czy podział kupuje instalację, której dziś nie ma,
+czy tylko nazywa dwa tory drugi raz:
+`morfeusz2` 1.99.15 wchodzi na Linuksie x86-64 pod Pythonem 3.11
+bez budowania czegokolwiek.
+
+Jedyna deklaracja reguł poza pakietem nie jest przez nic ładowana.
+`harness/counts.py` deklaruje cztery liczniki,
+`tests/test_rules.py` sprawdza pakiety z `olski/packs/`,
+a ten pakiet podaje się ścieżką do `--packs` i wchodzi tylko wtedy,
+gdy ktoś ręcznie przelicza tabele w
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
+albo w [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured).
+Walidacja dzieje się przy budowie reguły,
+więc zmiana w rodzajach checków albo w ich parametrach
+przewraca ten plik dopiero w środku przebiegu, który trwa minuty.
+Ruchem jest test ładujący go tak, jak ładuje go `--packs`.
+Przeciw: reguł tego pakietu nie da się sprawdzić tak, jak sprawdza się wysyłane,
+bo o polszczyźnie niczego nie twierdzą i po to stoją poza linterem,
+więc zostaje z tego asercja, że plik się wczytuje,
+i trzeba zdecydować, czy tyle jest warte testu.
 
 `docs/linter.md` jest i wywodem, i kolejką reguł, a kod wskazuje na kolejkę.
 Każda z dziewięciu reguł pakietu typograficznego ma w `sources`

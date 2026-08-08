@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from olski.checks import Abstain, Hit, count_units, get_check
-from olski.document import Document, Span, from_text, is_plain_text
+from olski.document import Document, Span, is_plain_text
 from olski.rules import Rule, load_packs
 
 
@@ -147,7 +147,7 @@ def lint(document: Document, rules: Iterable[Rule]) -> Report:
 
 
 def lint_text(text: str, rules: Iterable[Rule], path: str = "<text>") -> Report:
-    return lint(from_text(text, path), rules)
+    return lint(Document(text, path=path), rules)
 
 
 def lint_string(text: str, path: str = "<text>") -> Report:
@@ -169,7 +169,7 @@ def read(path: str | Path) -> tuple[Document | None, str]:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as error:
         return None, str(error)
-    return from_text(text, str(path), plain_text=is_plain_text(path)), ""
+    return Document(text, path=str(path), plain_text=is_plain_text(path)), ""
 
 
 def _finding(rule: Rule, hit: Hit) -> Finding:

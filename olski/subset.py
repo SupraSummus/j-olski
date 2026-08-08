@@ -27,7 +27,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
-from olski.document import SENTENCE_CLOSE, from_text
+from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Segment, analyse
 from olski.parse import Result, describe, parse
@@ -393,7 +393,7 @@ def sentences(text: str) -> list[str]:
     w tekście, więc po analizie nie ma już czym zobaczyć spacji, która odróżnia
     granicę zdania od nazwy pliku.
     """
-    document = from_text(text)
+    document = Document(text)
     return [document.slice(span) for span in document.sentences]
 
 

@@ -316,11 +316,11 @@ What tells the strata apart is how many of a file's paragraphs run past one line
 ```sh
 python3 -c '
 import pathlib, statistics
-from olski.document import from_text
+from olski.document import Document
 for name in ("proza", "wyklad", "wiersze"):
     shares = []
     for f in sorted(pathlib.Path("polszczyzna", name).glob("*.txt")):
-        d = from_text(f.read_text(encoding="utf-8"))
+        d = Document(f.read_text(encoding="utf-8"))
         shares.append(sum("\n" in d.slice(p) for p in d.paragraphs) / len(d.paragraphs))
     print(name, f"{min(shares):.2f}", f"{statistics.median(shares):.2f}", f"{max(shares):.2f}")'
 ```

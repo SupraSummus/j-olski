@@ -6,7 +6,7 @@ with them, and getting that wrong is a wrong number rather than a missing one, s
 the arithmetic is what these tests are about.
 """
 
-from olski.document import Document, from_text
+from olski.document import Document
 from olski.engine import lint_corpus
 from olski.rules import Pack
 
@@ -45,14 +45,14 @@ def test_a_declined_file_takes_all_of_its_lines_off_the_denominator():
     #  The two files hold nine lines between them and the rule reached a verdict on
     #  two of them. Counting the refusal as one line would leave six lines nobody
     #  looked at in the denominator, and the rate would be over those as well.
-    documents = [from_text(WRAPPED, "wrapped.txt"), from_text(UNWRAPPED, "export.txt")]
+    documents = [Document(WRAPPED, path="wrapped.txt"), Document(UNWRAPPED, path="export.txt")]
     tally = tally_of(orphans, documents)
     assert tally.unit == "line"
     assert (tally.findings, tally.abstentions, tally.measured) == (1, 1, 2)
 
 
 def test_a_rule_that_declined_every_file_reports_no_rate_rather_than_a_rate_of_nought():
-    tally = tally_of(orphans, [from_text(UNWRAPPED, "export.txt")])
+    tally = tally_of(orphans, [Document(UNWRAPPED, path="export.txt")])
     assert tally.measured == 0
     assert tally.rate is None
 
@@ -64,7 +64,7 @@ def test_the_two_kinds_of_refusal_subtract_differently():
     #  comes off alone.
     text = "Krótki akapit.\n\n" + "Dłuższy akapit z myślnikiem — i dalszą treścią. " * 2
     documents = [
-        from_text(text, "prose.txt"),
+        Document(text, path="prose.txt"),
         Document(path="notes.md", text="Akapit w składni Markdown.\n", plain_text=False),
     ]
     tally = tally_of(density, documents)
