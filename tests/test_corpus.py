@@ -18,8 +18,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.corpus import FULL, Sentence, parse_forest, read, walk
-from olski.coverage import Outcome, measure, render
+from olski.corpus import FULL, Sentence, parse_forest, pliki, read
+from olski.coverage import Outcome, main, measure, przebieg, render, scal
 from olski.parse import parse
 from olski.subset import GRAMMAR
 
@@ -35,8 +35,10 @@ def forest(nodes, text="Program zapisuje ustawienia.", verdict=FULL, sent_id="t/
 
 
 def terminal(nid, start, end, orth, tag, lemma=None, chosen="true"):
+    #  ``chosen=None`` zostawia węzeł bez tej flagi, bo Składnica takie pisze.
+    flaga = f' chosen="{chosen}"' if chosen else ""
     return (
-        f'<node nid="{nid}" from="{start}" to="{end}" chosen="{chosen}">'
+        f'<node nid="{nid}" from="{start}" to="{end}"{flaga}>'
         f'<terminal token_id="s.{nid}-seg" disamb="true">'
         f"<orth>{orth}</orth><base>{lemma or orth}</base>"
         f'<f type="tag">{tag}</f>'
@@ -186,6 +188,31 @@ def test_a_forest_file_reads_the_same_as_the_element(tmp_path):
     assert read(path).tokens == parse_forest(forest(SVO)).tokens
 
 
+def test_niewybrany_węzeł_wycięty_z_pliku_nie_zmienia_odpowiedzi(tmp_path):
+    #  Czytanie wycina niewybrane węzły, zanim XML z pliku powstanie, bo las jest
+    #  w większości rozwinięciami, których odpowiedź nie bierze. Test jest o tym,
+    #  że wycięcie niczego nie zabiera: ten sam las z takim rozwinięciem i bez
+    #  niego czyta się na to samo zdanie.
+    obce = phrase(30, 0, 1, "fno", [31], chosen="false")
+    dalsze = terminal(31, 0, 1, "Program", "subst:sg:voc:m3", chosen="false")
+    z_lasem = read(write(tmp_path, "a-s.xml", SVO + obce + dalsze))
+    bez_lasu = read(write(tmp_path, "b-s.xml", SVO))
+    assert z_lasem == bez_lasu
+    assert z_lasem.tokens == ("Program", "zapisuje", "ustawienia", ".")
+
+
+def test_węzeł_bez_flagi_wyboru_zostaje_w_lesie(tmp_path):
+    #  Zejście po dowiązaniach dosięga takiego węzła tak samo jak reszty, więc
+    #  wycięcie wszystkiego, co nie jest wybrane, zabrałoby zdaniu token.
+    węzły = (
+        phrase(0, 0, 2, "wypowiedzenie", [1, 3])
+        + phrase(1, 0, 1, "fw", [2], slot="subj")
+        + terminal(2, 0, 1, "Program", "subst:sg:nom:m3", chosen=None)
+        + terminal(3, 1, 2, ".", "interp")
+    )
+    assert read(write(tmp_path, "a-s.xml", węzły)).tokens == ("Program", ".")
+
+
 def test_a_broken_file_is_named_in_the_error(tmp_path):
     #  Walking twenty thousand files, a parse error that says only "line 1,
     #  column 0" identifies nothing.
@@ -198,15 +225,8 @@ def test_a_broken_file_is_named_in_the_error(tmp_path):
 def test_walking_a_directory_finds_forests_at_any_depth(tmp_path):
     write(tmp_path, "doc/morph_1-p/a-s.xml", SVO)
     write(tmp_path, "doc/morph_2-p/b-s.xml", "", verdict="TOO_DIFFICULT")
-    found = list(walk(tmp_path))
+    found = [read(path) for path in pliki(tmp_path)]
     assert [sentence.verdict for sentence in found] == [FULL, "TOO_DIFFICULT"]
-
-
-def test_walking_can_keep_only_the_annotated_forests(tmp_path):
-    write(tmp_path, "doc/morph_1-p/a-s.xml", SVO)
-    write(tmp_path, "doc/morph_2-p/b-s.xml", "", verdict="NO_TREE")
-    found = list(walk(tmp_path, verdicts=frozenset({FULL})))
-    assert [sentence.verdict for sentence in found] == [FULL]
 
 
 # --------------------------------------------------------------------------- #
@@ -292,7 +312,7 @@ def test_agreement_is_not_claimed_when_spans_are_not_comparable():
 def test_measuring_counts_every_forest_but_parses_only_the_annotated_ones(tmp_path):
     write(tmp_path, "a-s.xml", SVO)
     write(tmp_path, "b-s.xml", "", verdict="NO_TREE")
-    report = measure(walk(tmp_path))
+    report = przebieg(pliki(tmp_path), jobs=1)
     assert report.verdicts == {FULL: 1, "NO_TREE": 1}
     assert report.measured == 1
     assert report.statuses["valid"] == 1
@@ -300,7 +320,7 @@ def test_measuring_counts_every_forest_but_parses_only_the_annotated_ones(tmp_pa
 
 def test_a_sentence_too_long_to_afford_is_reported_rather_than_dropped(tmp_path):
     write(tmp_path, "a-s.xml", SVO)
-    report = measure(walk(tmp_path), max_tokens=2)
+    report = przebieg(pliki(tmp_path), jobs=1, max_tokens=2)
     assert report.measured == 0
     assert sum(report.skipped.values()) == 1
 
@@ -312,10 +332,45 @@ def test_an_unknown_morphology_source_is_refused():
 
 def test_the_report_renders_what_it_measured(tmp_path):
     write(tmp_path, "a-s.xml", SVO)
-    text = render(measure(walk(tmp_path), keep_examples=1))
+    text = render(przebieg(pliki(tmp_path), jobs=1, keep_examples=1))
     assert "gold morphology" in text
     assert "valid" in text
     assert "Program zapisuje ustawienia." in text
+
+
+@pytest.mark.parametrize("max_tokens", [40, 3])
+def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path, max_tokens):
+    #  Proces roboczy oddaje `Report` za swój kawałek listy plików, więc każdy
+    #  wiersz wydruku stoi na tym, że kawałki scalają się w raport z jednego
+    #  przebiegu. Przy trzech tokenach nic się nie mierzy, więc drugi przebieg
+    #  przepuszcza przez scalanie wiersz niemierzonych, którego pierwszy nie ma.
+    #
+    #  Teksty są różne, bo przykłady sprawdzają to najostrzej: `Report.record`
+    #  zachowuje pierwsze zdanie, jakie dostał, więc kawałki scalone nie w
+    #  kolejności korpusu drukowałyby inne zdanie niż jeden przebieg.
+    write(tmp_path, "a-s.xml", SVO, text="Program zapisuje ustawienia.")
+    write(tmp_path, "b-s.xml", svo(subject=None, obj=None), sent_id="t/2-s", text="Zapisuje.")
+    write(tmp_path, "c-s.xml", svo(tag="praet:sg:m3:imperf"), sent_id="t/3-s", text="Zapisał to.")
+    write(tmp_path, "d-s.xml", "", verdict="NO_TREE", sent_id="t/4-s", text="Bez drzewa.")
+
+    ścieżki = pliki(tmp_path)
+    całość = measure((read(path) for path in ścieżki), keep_examples=1, max_tokens=max_tokens)
+    kawałki = [measure([read(path)], keep_examples=1, max_tokens=max_tokens) for path in ścieżki]
+    assert render(scal(kawałki, source="gold", keep_examples=1)) == render(całość)
+
+
+def test_pula_procesów_drukuje_to_samo_co_jeden_proces(tmp_path, capsys):
+    #  Przez granicę procesu idzie licznik, a nie las, który go zbudował, więc to
+    #  jest o tym, że licznik daje się przez nią przenieść i złożyć z powrotem.
+    write(tmp_path, "a-s.xml", SVO)
+    write(tmp_path, "b-s.xml", svo(tag="praet:sg:m3:imperf"), sent_id="t/2-s")
+    main([str(tmp_path), "--examples", "1", "--jobs", "1"])
+    jeden = capsys.readouterr().out
+    main([str(tmp_path), "--examples", "1", "--jobs", "2"])
+    assert capsys.readouterr().out == jeden
+    #  Pula, która zgubiłaby kawałek, dalej drukowałaby to samo co jeden proces,
+    #  gdyby jeden proces gubił go tak samo, więc liczba lasów jest tu osobno.
+    assert "corpus: 2 forests" in jeden
 
 
 def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path):
@@ -324,7 +379,7 @@ def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path)
     #  table's denominator would quietly become the sentences it could judge.
     write(tmp_path, "a-s.xml", SVO)
     write(tmp_path, "b-s.xml", svo(subject=None, obj=None), sent_id="t/2-s")
-    report = measure(walk(tmp_path))
+    report = przebieg(pliki(tmp_path), jobs=1)
     assert report.statuses["valid"] == 2
     assert sum(report.agreements.values()) == 1
     assert report.unjudged == 1

@@ -30,12 +30,15 @@ from __future__ import annotations
 
 import argparse
 import collections
+import concurrent.futures
+import functools
+import os
 import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import Sentence, walk
+from olski.corpus import Sentence, pliki, read
 from olski.morph import Segment
 from olski.parse import Result, parse
 from olski.subset import GRAMMAR, morphology
@@ -247,6 +250,87 @@ def measure(
 
 
 # --------------------------------------------------------------------------- #
+# Przebiegi
+# --------------------------------------------------------------------------- #
+
+#: Ile lasów bierze jeden kawałek pracy.
+#:
+#: Kawałek jest tym, co proces roboczy dostaje i za co oddaje `Report`, więc przez
+#: granicę procesu idzie licznik, a nie las, który go zbudował. Mniejszy kawałek
+#: równa obciążenie — lasy różnią się rozmiarem o rzędy wielkości, bo długie
+#: zdanie ma większy las — a częściej płaci za to przejście.
+KAWAŁEK = 64
+
+
+def _kawałek(
+    ścieżki: Sequence[Path],
+    source: str,
+    keep_examples: int,
+    max_tokens: int | None,
+) -> Report:
+    """Odcinek listy plików, przeczytany i zmierzony tam, gdzie stoi."""
+    return measure((read(path) for path in ścieżki), source, keep_examples, max_tokens)
+
+
+def przebieg(
+    ścieżki: Sequence[Path],
+    jobs: int,
+    source: str = "gold",
+    keep_examples: int = 0,
+    max_tokens: int | None = None,
+) -> Report:
+    """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
+
+    `measure` mierzy zdania, a to mierzy pliki, bo dopiero plik daje się oddać
+    procesowi roboczemu bez przenoszenia przez granicę procesu tego, co się z
+    niego czyta.
+
+    Jeden proces liczy na miejscu, a nie w puli o jednym pracowniku, żeby został
+    ślad wyjątku i profil, które granica procesu zabiera.
+    """
+    kawałki = [ścieżki[start : start + KAWAŁEK] for start in range(0, len(ścieżki), KAWAŁEK)]
+    praca = functools.partial(
+        _kawałek, source=source, keep_examples=keep_examples, max_tokens=max_tokens
+    )
+    if jobs == 1:
+        raporty = [praca(kawałek) for kawałek in kawałki]
+    else:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pula:
+            raporty = list(pula.map(praca, kawałki))
+    return scal(raporty, source, keep_examples)
+
+
+def scal(raporty: Iterable[Report], source: str, keep_examples: int = 0) -> Report:
+    """Złóż raporty kawałków w jeden.
+
+    Kawałki są ciągłymi odcinkami jednej posortowanej listy plików i wchodzą tu w
+    kolejności tej listy, więc scalony raport jest tym samym raportem, co z
+    jednego przebiegu nad całością. Przykłady sprawdzają to najostrzej:
+    `Report.record` zachowuje pierwsze zdania, jakie dostał, więc przykład
+    wybrany przez to, który proces skończył pierwszy, byłby innym wydrukiem z
+    tego samego korpusu.
+
+    Morfologię nazywa wołający, choć każdy raport swoją niesie, bo katalog bez
+    lasów nie oddaje żadnego raportu, a nagłówek wydruku i tak ją drukuje.
+    """
+    scalony = Report(source=source)
+    for raport in raporty:
+        scalony.verdicts.update(raport.verdicts)
+        scalony.statuses.update(raport.statuses)
+        scalony.blockers.update(raport.blockers)
+        scalony.agreements.update(raport.agreements)
+        scalony.skipped.update(raport.skipped)
+        scalony.unjudged += raport.unjudged
+        for bucket, counts in raport.lengths.items():
+            scalony.lengths.setdefault(bucket, collections.Counter()).update(counts)
+        for key, kept in raport.examples.items():
+            zebrane = scalony.examples.setdefault(key, [])
+            zebrane.extend(kept)
+            del zebrane[keep_examples:]
+    return scalony
+
+
+# --------------------------------------------------------------------------- #
 # Reporting
 # --------------------------------------------------------------------------- #
 
@@ -330,7 +414,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("--blockers", type=int, default=12, help="how many blockers to rank")
     parser.add_argument("--examples", type=int, default=0, help="sentences to show per outcome")
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=os.cpu_count() or 1,
+        help="processes to read and measure with; 1 runs in this one",
+    )
     args = parser.parse_args(argv)
+    if args.jobs < 1:
+        parser.error("--jobs takes at least one process")
 
     root = Path(args.root)
     if not root.is_dir():
@@ -338,21 +430,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("olski-corpus: see docs/corpus.md for how to fetch the corpus", file=sys.stderr)
         return 2
 
-    report = measure(
-        _sentences(root, args.limit),
+    report = przebieg(
+        pliki(root)[: args.limit],
+        args.jobs,
         source=args.morphology,
         keep_examples=args.examples,
         max_tokens=args.max_tokens,
     )
     print(render(report, args.blockers))
     return 0
-
-
-def _sentences(root: Path, limit: int | None) -> Iterable[Sentence]:
-    for seen, sentence in enumerate(walk(root)):
-        if limit is not None and seen >= limit:
-            return
-        yield sentence
 
 
 if __name__ == "__main__":  # pragma: no cover
