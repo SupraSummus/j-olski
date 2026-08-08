@@ -76,6 +76,8 @@ since it reaches the rules as a character somebody typed,
 and the same tail sits in all five wrapping alternatives,
 `**`, `__`, `~~`, `*` and `_`, each of which swallows the next span of its kind.
 The move is to make those five tails lazy, `??` rather than `?`,
+which `INLINE` in `harness/python.py` already writes that way
+for the one wrapping construct it reads,
 which leaves every span of two characters or more matching as it does now,
 with a case in `tests/test_extraction.py`
 for two spans of one character in one paragraph.
@@ -182,6 +184,23 @@ as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
 
+Uzasadnienie reguły jest prozą, której nie czyta żaden check.
+[Reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+liczy pole `justification` deklaracji do prozy,
+dokładnie tak jak liczy docstring i komentarz,
+a `tests/test_docs.py` puszcza przez linter dokument i jednostkę modułu,
+i nie puszcza żadnego uzasadnienia,
+bo [ekstrakcja nad modułem](docs/prose-in-code.md) czyta docstringi i komentarze,
+a uzasadnienie jest łańcuchem pod kluczem i tędy nie wychodzi.
+Ruchem jest wzięcie ich stamtąd, skąd bierze się je do raportu,
+czyli z `load_packs()`, a nie z tekstu pliku:
+`_fold` w `olski/rules.py` składa je do jednego akapitu przed użyciem,
+więc do lintera trafiłoby to samo, co czyta ktoś, kto raport dostaje.
+Do przeczytania jest to, co pakiet zgłasza nad tymi polami dzisiaj,
+bo wszystkie stoją po angielsku,
+a nad angielszczyzną ten check jest deklaracją tak samo,
+jak był nad modułem, zanim ekstrakcja powstała.
+
 Two rules read where a line ends, and the target register has no such line.
 `trailing-space` and `orphan-single-letter-word` are both audit-shaped,
 so each owes the share of its hits that were real defects,
@@ -205,6 +224,15 @@ which between them turn up no instance of the defect in either body
 and no hit at all in the one stratum where the premise held,
 and [what the extraction removes](docs/extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
 which for these two rules is every trailing space and every line end there was.
+A fourth reading is what the register would have to be if it were claimed.
+A comment in a source file is prose laid out in lines a reader sees,
+which is the premise these two rules want and documentation cannot give,
+and the second extraction joins those lines anyway
+rather than hand them the premise —
+[why it does](docs/prose-in-code.md#wiersze-akapitu-sklejają-się-choć-pliku-źródłowego-nikt-nie-składa)
+is that what the rule then asks for is a non-breaking space in source,
+so the register these rules want is text somebody will typeset
+rather than any text standing in lines.
 Deleting them frees machinery on one side,
 which is the other half of what the decision is worth:
 the `line-end-word` check kind, `needs_hard_wrap` in `olski/checks.py`,

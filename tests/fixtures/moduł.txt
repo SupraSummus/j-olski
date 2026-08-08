@@ -1,0 +1,27 @@
+Moduł próbny, po jednym z każdej konstrukcji, którą ekstrakcja rozstrzyga.
+
+Akapit złamany w źródle na dwa wiersze, bo tak pisze się w tym repozytorium.
+
+Znaczniki reST w wierszu: kod, nazwa, funkcja i wyróżnienie, a po nich pytajnik tuż za STAŁA? Tak.
+
+Lista, której pozycje są zdaniami:
+
+Pierwsza pozycja listy, złamana w źródle, i ciągnąca się w drugim wierszu.
+
+Druga pozycja listy.
+
+Przykład, którego nikt nie czyta jako polszczyzny:
+
+Ostatni akapit docstringa.
+
+Komentarz z dwukropkiem, którym dokumentujemy stałą, złamany na dwa wiersze.
+
+Komentarz narracyjny, pisany od dwóch spacji, i o dwa wiersze dłuższy niż stała pod nim.
+
+Drugi akapit tego samego komentarza.
+
+Komentarz dopisany na końcu wiersza, czyli własny akapit.
+
+Docstring funkcji, bo jednostką jest docstring, a nie plik.
+
+Komentarz w ciele funkcji, wcięty w źródle i przez to samo niebędący przykładem.

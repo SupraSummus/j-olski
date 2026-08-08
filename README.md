@@ -161,6 +161,9 @@ plan i otwarte pytania.
 - [docs/extraction.md](docs/extraction.md):
   jak korpus w Markdownie dociera do reguł jako proza
   i co ten krok po drodze zmyśla
+- [docs/prose-in-code.md](docs/prose-in-code.md):
+  jak do tych samych reguł dochodzi proza, którą repozytorium pisze
+  w docstringach i komentarzach, i czym ten krok różni się od tamtego
 - [docs/corpora.md](docs/corpora.md):
   jaką polszczyznę pisaną przez ludzi da się w ogóle zdobyć,
   co każdy kandydat na korpus mówi o swoim rejestrze, pochodzeniu i licencji,
