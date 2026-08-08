@@ -34,6 +34,10 @@ One paragraph per entry, paragraphs separated by a blank line,
 without bullets, numbering or headings,
 so that adding or removing an entry gives a clean diff
 and leaves its neighbours alone.
+An entry that names another one names it by what it is about,
+because that is all there is to name it by:
+a pointer saying which way to scroll is wrong
+as soon as anything lands between the two.
 Inside a paragraph the lines break
 [semantically](CLAUDE.md#semantic-line-breaks).
 Write so that the entry can be picked up cold,
@@ -65,8 +69,14 @@ tak samo jak przy wpisie, który się zamknął,
 z powodem w komunikacie commita,
 bo skasowany wpis nie zostawia po sobie nic innego.
 
-A one-character emphasis span swallows the next one and leaves a marker behind.
-The optional tail in `INLINE` in `harness/markdown.py`,
+Two regexes in `harness/markdown.py` read a construct as something else,
+and the two fixes are one session:
+each moves what the extraction keeps,
+so between them they drag one rerun,
+whose list of documents [`CLAUDE.md`](CLAUDE.md#checks) owns.
+The first is that a one-character emphasis span
+swallows the next one and leaves a marker behind.
+The optional tail in `INLINE`,
 `(?:.*?[^\s*])?` inside the emphasis alternative, is greedy,
 so it prefers a body of three characters or more to a body of one,
 and `*p*, a razem z nim *p*` extracts as `p*, a razem z nim *p`
@@ -81,20 +91,14 @@ for the one wrapping construct it reads,
 which leaves every span of two characters or more matching as it does now,
 with a case in `tests/test_extraction.py`
 for two spans of one character in one paragraph.
-It is its own change because it moves what the extraction keeps,
-so the figures in
-[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
-[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
-[`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
-and [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
-are rerun with it.
-The evidence to read is how often the pattern occurs in those corpora at all:
+The evidence to read is how often the pattern occurs
+in the corpora behind that rerun at all:
 no document in this repository emphasizes two single characters in one paragraph,
 and if the corpora hold nothing like it either the rerun returns the same tables.
-
-A triple-backtick code span opening a line is read as a code fence,
-and `harness/markdown.py` then drops the prose down to the next fence-only line.
-`FENCE` in that module matches ```` ``` ```` and takes the rest of the line
+The second is that a triple-backtick code span opening a line
+is read as a code fence,
+and the module then drops the prose down to the next fence-only line.
+`FENCE` matches ```` ``` ```` and takes the rest of the line
 as an info string,
 where CommonMark forbids a backtick inside a backtick fence's info string,
 so ```` ```KOD I``` zawiera link ```` is a paragraph to a renderer
@@ -106,15 +110,11 @@ of running Polish;
 [the corpus](docs/firing-rates.md#the-audit-corpus) owns how much exactly,
 and reports its figures as the corpus stands.
 The move is the CommonMark condition in `FENCE`,
-plus the closing-fence test that goes with it,
-and then rerunning the four sets of tables that hold extracted figures:
-[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
-[`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it),
-[`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
-and [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match).
-The evidence to read is the prose the three `ksef-docs` files extract to,
-since the fix is only worth the rerun if what comes back is Polish
-rather than more of the code the fence was swallowing.
+plus the closing-fence test that goes with it.
+What that one is worth has been read rather than left to whoever takes it:
+the corpus section named above measures what the condition puts back
+and what one rule does with it,
+so what the fence was swallowing is prose and not more code.
 
 The line that says what a walk went past counts a repository's `.git` with it.
 `_collect` in `olski/cli.py` reaches every file under a named directory,
@@ -440,6 +440,11 @@ and the prose fields of a declaration,
 which is where the tighter diff is actually collected,
 or keep the rule and reflow the docstrings under
 [lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
+Narrowing costs a second rule as well:
+[the language rule](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+reaches comments and docstrings
+by pointing at semantic line breaks for what counts as prose,
+so narrowing them out there takes them out of Polish too.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
 
@@ -563,6 +568,10 @@ so it should not be tied to the morphology sources:
 a point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
 is a net of what a tier buys against what it costs in uniqueness,
 which is two grammars disagreeing rather than two morphologies.
+The entry that takes `blocker` down to `Result` in `olski/parse.py`
+moves the property the blocking form would be carried on,
+so whichever of the two is taken first decides where it is computed
+and they are one session.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
 
@@ -574,14 +583,22 @@ Either the documents settle on a label that leaves no mark inside the emphasis,
 which is what [`docs/roles.md`](docs/roles.md) does
 by opening the sentence with the bold phrase itself,
 or the rule gets an exemption for an emphasis marker after the mark,
-which is what its own audit argues for:
-markup accounts for the large majority of its hits over both corpora,
-counted in
+which is what its audit over published Polish argues for:
+most of its hits there are that class, counted in
 [`docs/firing-rates.md`](docs/firing-rates.md#missing-space-after-punctuation-mostly-read-an-emphasis-marker).
-The exemption is the more expensive of the two,
+That audit is one corpus and not both.
+The audit corpus reaches the rules through the extraction,
+which puts back what an emphasis wrapped and drops the markers,
+so the rule never meets the class there and
+[the audit over that corpus](docs/firing-rates.md#missing-space-after-punctuation-read-a-table-and-a-raw-tag)
+reads a table and a raw tag instead.
+The hit above survives because a named file is linted whatever its format,
+which is how this repository's own documents are run
+and is not the run either audit was taken over.
+So the exemption is still the more expensive of the two,
 because it moves what the rule's hits are
 and so drags the rerun [`CLAUDE.md`](CLAUDE.md#checks) demands
-over both corpora and over the classes that document reports having read.
+over published Polish and over the classes that document reports having read.
 
 The booster stems are the last pattern
 [milestone 2](docs/roadmap.md#milestone-2-the-plain-polish-pack-without-an-analyser)
