@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from olski.grammar import EMPTY, Word, unify
+from olski.grammar import EMPTY, Word, bierze
 from olski.morph import Reading, Segment
 
 #: Głowa łuku, którego nie ma: korzeń zdania.
@@ -413,12 +413,15 @@ def _strona_zgadza(więz: Więz, zależny: int, głowa: int) -> bool:
 
 
 def _pasuje(żądanie: Word, czytanie: Reading, środowisko):
-    if czytanie.tag.pos not in żądanie.pos:
-        return None
-    if żądanie.lemmas is not None and czytanie.lemma not in żądanie.lemmas:
-        return None
-    cechy = dict(czytanie.tag.features)
-    return unify(żądanie.constraints, cechy, środowisko)
+    """Czy słowo bierze to czytanie, pytane tym samym testem, co w produkcjach.
+
+    Warunek na czytanie ma jedną kopię, a nie dwie: sonda porównuje podłoża, a nie
+    dwa sposoby dopasowania terminala, więc każdy warunek dopisany po stronie
+    olskiego obowiązuje tu bez przepisywania go drugi raz.
+    """
+    return bierze(
+        żądanie, czytanie.tag.pos, czytanie.lemma, dict(czytanie.tag.features), środowisko
+    )
 
 
 def _drzewa(tablica: _Tablica, dziedziny: list[set[int]], spójne: bool):

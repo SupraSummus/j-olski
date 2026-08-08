@@ -493,9 +493,10 @@ więc żądanie „bądź kopulą” postawione czasownikowi przechodziłoby ka�
 Ruchem jest ujemna lemma w `word()` z `olski/grammar.py`:
 produkcja ogólna `Verb` przestaje brać lematy kopuli, kopula dostaje własną
 z cechą, którą wtedy obie niosą, i węzeł w obu przypadkach nazywa się `Verb`.
-Przeciw: byłby to pierwszy warunek ujemny w tej gramatyce,
-gdzie unifikacja jest przecięciem, a przecięcie negacji nie zna,
-więc symetria jest z `lemmas`, a nie z cechami.
+Maszyneria jest już na miejscu, bo `bez_lematu` stoi w `word()`
+i trzyma [warunek na zaimek rzeczowny](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
+i tam też stoi odpowiedź na to, co przeciw temu ruchowi zapisano:
+lemat leży poza unifikacją, więc negacja na nim nie żąda niczego od przecięcia cech.
 Do przeczytania jest, czy podział lematami rozłącza czytania:
 forma bywa dwoma lematami naraz, a warunek działa na czytaniu, nie na formie.
 
@@ -556,48 +557,32 @@ bo przecinek między zdaniami konkuruje z przecinkiem w grupie imiennej
 wszędzie tam, gdzie po przecinku stoi rzeczownik,
 a to jest ta wieloznaczność, której olski nie znosi.
 
-Rzeczownikowe czytanie przymiotnika zabiera README jedno zdanie.
+Rzeczownikowe czytanie przymiotnika zabiera README ostatnie zdanie
+i nie widać przy nim tego, co zdjęło zaimek.
 `Linter pomaga pisać dobry kod.` wychodzi dwoma czytaniami tego samego kształtu,
 bo Morfeusz daje `dobry` czytanie `subst:sg:nom.acc:m3` obok przymiotnikowego,
 a `kod` czytanie lematu `koda` w dopełniaczu mnogim,
 więc `dobry kod` jest raz przymiotnikiem przed rzeczownikiem,
 a raz rzeczownikiem z dopełniaczem po nim.
-Wykluczenie z `admissible` w `olski/subset.py` tu nie dochodzi,
-bo żąda naraz czytania nieodmiennego i wyrazu funkcyjnego obok niego,
-a to czytanie odmienia się i wyrazu funkcyjnego przy sobie nie ma;
-[`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)
-trzyma tę samą granicę zmierzoną na `sam` nad bankiem drzew.
-Zdanie jest pierwszą połową pary, którą README stawia obok siebie,
-a druga połowa się wyprowadza,
-więc stoi na nim [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
-Ruchem jest kryterium, a nie ten jeden przypadek,
-i pierwszym pytaniem jest, czy jakiekolwiek kryterium tu jest.
-Warunek na kształt drzewa — odpada czytanie rzeczownikowe formy,
-którą Morfeusz zna też jako przymiotnik, jeśli stoi przed dopełniaczem —
-zabiera każde zdanie, w którym rzeczownik odprzymiotnikowy dopełniaczem rządzi.
-Do przeczytania jest więc, ile takich zdań niesie Składnica,
-bo w prozie tego repozytorium jest ich tyle, co to jedno.
-
-Nazwisko ze słownika zabiera README drugie zdanie.
-`Celem jest parser tego podzbioru.` wychodzi dwoma czytaniami tego samego kształtu,
-bo Morfeusz daje formie `Celem` lemat `Cel:Sm1` obok lematu `cel`,
-czyli nazwisko obok rzeczownika pospolitego, oba w narzędniku liczby pojedynczej.
-Wykluczenie z `admissible` w `olski/subset.py` tu nie dochodzi,
-bo żąda czytania, które się nie odmienia, a nazwisko się odmienia;
-[`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
-wymienia `Tam` jako ten sam przypadek
-i mówi, dlaczego etykieta słownika tej klasy nie oddziela.
-Klasa jest szersza niż to jedno zdanie,
-bo czytanie nazwiskowe uprawdopodabnia wielka litera,
-a wielką literą zaczyna się każde zdanie,
-więc dotyczy każdego rzeczownika stojącego w tej pozycji.
-Ruchem jest kryterium na pozycję:
-czytanie nazwiskowe odpada tam, gdzie wielka litera bierze się z początku zdania,
-a nie z samego wyrazu.
-Do przeczytania jest, ile zdań Składnicy takie kryterium zabiera,
-bo nazwisko na początku zdania jest w gazecie zwyczajne,
-a w dokumentacji go nie ma;
-stoi na tym [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
+Zaimek rzeczowny zdjął z tej klasy
+[warunek w produkcji](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
+bo `to` dopełniacza nie bierze,
+a `dobry` bierze: rzeczownik odprzymiotnikowy dopełniaczem rządzi
+i kryterium na tę pozycję zabiera zdania Składnicy, w których rządzi,
+co zmierzone stoi w
+[`docs/subset.md`](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
+Zostaje więc sąsiad, nie głowa:
+pary nie ma bez dopełniacza `kod`, czyli bez lematu `koda`,
+którego ten rejestr nie zna,
+a rzadkość formalnego znamienia nie ma.
+Do przeczytania jest, czy da się ją policzyć tak,
+żeby liczba mówiła o polszczyźnie, a nie o korpusie, w którym się ją policzyło,
+i pierwszym pytaniem jest, czy jakiekolwiek kryterium tu jest;
+wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
+co [`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
+pokazuje na `jury` i `menu`.
+Stoi na tym zdaniu
+[kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
 
 Jedna forma o dwóch czytaniach nominalnych daje olskiemu dwa czytania zdania.
 `wejście` ma w Morfeuszu czytanie `subst` i czytanie `ger`,

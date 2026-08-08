@@ -168,10 +168,25 @@ a każde takie czytanie jest dla olskiego drugim czytaniem całego zdania.
 czytanie nieodmienne stojące obok wyrazu funkcyjnego,
 i [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)
 mówi, czemu akurat te dwa warunki naraz.
-README rozpada się na klasach, których to kryterium nie obejmuje:
-na rzeczownikowym czytaniu przymiotnika
-i na nazwiskowym czytaniu rzeczownika, który zaczyna zdanie.
-Obie trzyma [TODO.md](../TODO.md) wraz z ruchem, który przy każdej proponuje.
+README rozpada się na jednej klasie, której to kryterium nie obejmuje:
+na rzeczownikowym czytaniu formy, którą Morfeusz zna też jako przymiotnik.
+Stoi na niej `Linter pomaga pisać dobry kod.`,
+a to, co z niej zostaje otwarte, trzyma [TODO.md](../TODO.md).
+
+Połowa tej klasy jest zamknięta i zamknęła się nie tam, gdzie ten etap patrzy.
+Formy paradygmatu `ten` niosły to czytanie licznie,
+a zdejmuje je nie wykluczenie w słowniku, tylko warunek w produkcji:
+zaimek rzeczowny nie rządzi dopełniaczem
+([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+Czytanie, którego polszczyzna nie ma, wolno więc odebrać dwiema drogami,
+i tańsza bywa ta, która pyta nie o to, co słownik oferuje,
+ale o to, co produkcja licencjonuje.
+
+Nazwiskowe czytanie rzeczownika, który zaczyna zdanie, z tej listy zeszło.
+Para lematów jednej formy nie jest dwoma czytaniami
+([subset.md](subset.md#what-counts-as-one-reading)),
+więc jednoznaczności ta klasa nie kosztuje,
+a kryterium na pozycję nie kupuje ani jednego zdania i kosztuje zdania Składnicy.
 
 Etap stoi między tamtymi a konstrukcjami,
 bo wieloznaczność zawęża, a pokrycia nie podnosi,
@@ -179,10 +194,13 @@ i jest pierwszym, przy którym nie wiadomo, czy kryterium w ogóle istnieje.
 Wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
 co tamten dokument pokazuje na `jury` i `menu`,
 więc odpowiedzią bywa tu decyzja, że klasy się nie da wykluczyć.
+Oba kryteria, jakie na te klasy zaproponowano, są taką odpowiedzią,
+a cenę każdego trzyma
+[subset.md](subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
 
-**Wyjście:** obie klasy rozstrzygnięte,
-każda kryterium albo zapisaną decyzją, że kryterium nie ma,
-a każde przyjęte kryterium zmierzone na Składnicy tym, ile zdań zabiera.
+**Wyjście:** klasa rozstrzygnięta kryterium
+albo zapisaną decyzją, że kryterium nie ma,
+a kryterium przyjęte zmierzone na Składnicy tym, ile zdań zabiera.
 
 ## Etap 4: zdanie złożone
 

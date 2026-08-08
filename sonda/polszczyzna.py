@@ -12,7 +12,7 @@ tutaj.
 from __future__ import annotations
 
 from olski.grammar import V, word
-from olski.subset import AGREE, KOPULA
+from olski.subset import AGREE, KOPULA, ZAIMEK_RZECZOWNY
 from sonda.wiezy import PO, PRZED, Gramatyka, Więz, Zgoda, Żąda
 
 #: Formy osobowe, które olski bierze: oznajmująca i rozkaźnik.
@@ -113,8 +113,9 @@ WIĘZY = (
     Więz("Attr", word("subst", **AGREE), word(PRZYMIOTNIK, **AGREE), jedyny=False),
     # Dopełniacz jest jeden na rzeczownik, tak jak jedno ``NP[gen]`` w ciele
     # produkcji: bez tego ``tego podzbioru`` wisi u ``parser`` dwoma dopełniaczami
-    # obok siebie i wychodzi z tego czytanie, którego olski nie ma.
-    Więz("Gen", word("subst"), word("subst", case="gen"), strona=PO),
+    # obok siebie i wychodzi z tego czytanie, którego olski nie ma. Głową nie jest
+    # zaimek rzeczowny, i to jest ten sam warunek ujemny, który stoi w produkcji.
+    Więz("Gen", word("subst", bez_lematu=ZAIMEK_RZECZOWNY), word("subst", case="gen"), strona=PO),
     # Okolicznik: przyimek dochodzi do czasownika, do rzeczownika i do
     # przymiotnika, czyli do tych trzech głów, pod którymi olski ma pozycje na
     # Modifier. Trzy deklaracje zamiast jedenastu pozycji.

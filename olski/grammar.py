@@ -70,6 +70,11 @@ class Word:
     pos: frozenset[str]
     constraints: frozenset[tuple[str, Spec]] = frozenset()
     lemmas: frozenset[str] | None = None
+    #: Lematy, których ten terminal nie bierze, czyli warunek ujemny. Stoi na
+    #: lemacie, bo lemat jest osobnym testem w :func:`bierze`, a nie żądaniem
+    #: wobec cech, których przecięcie negacji nie zna; docs/subset.md wywodzi to
+    #: pod jedynym warunkiem tego rodzaju, jaki gramatyka stawia.
+    bez_lematów: frozenset[str] | None = None
 
     def __repr__(self) -> str:
         return f"<{'|'.join(sorted(self.pos))}>"
@@ -97,15 +102,19 @@ def nt(name: str, **features) -> Sym:
     return Sym(name=name, constraints=_constraints(features))
 
 
-def word(pos: str, lemma: str | None = None, **features) -> Word:
+def word(
+    pos: str, lemma: str | None = None, bez_lematu: str | None = None, **features
+) -> Word:
     """Match a morphological reading: ``word("subst", case=V("c"))``.
 
     ``pos`` may name alternatives, as in ``"fin|praet"``.
+    ``bez_lematu`` names alternatives the same way and excludes them instead.
     """
     return Word(
         pos=frozenset(pos.split("|")),
         constraints=_constraints(features),
         lemmas=None if lemma is None else frozenset(lemma.split("|")),
+        bez_lematów=None if bez_lematu is None else frozenset(bez_lematu.split("|")),
     )
 
 
@@ -253,6 +262,8 @@ def bierze(
     if pos not in terminal.pos:
         return None
     if terminal.lemmas is not None and lemma not in terminal.lemmas:
+        return None
+    if terminal.bez_lematów is not None and lemma in terminal.bez_lematów:
         return None
     return unify(terminal.constraints, features, env)
 

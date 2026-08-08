@@ -599,6 +599,17 @@ which categories are a clause and which a noun phrase,
 what standing after a verb means —
 and there the rerun is owed like any other.
 
+One pair of figures prices something the code does not contain.
+[The two exclusion criteria that were measured and refused](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi)
+count the Składnica sentences each would take,
+so no production moves them and no rule above reaches them either.
+What moves them is a change to what `admissible` in `olski/subset.py` keeps,
+since both were measured behind it,
+or a change to what `signature` in `olski/parse.py` counts as one reading,
+on which the finding that one of them buys nothing rests.
+A criterion refused stays refused when its price moves,
+so what the rerun protects is the number and not the decision.
+
 One set of figures is moved by two programs rather than one.
 [The comparison the sonda took](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 counts the sentences olski and a second substrate agree about,

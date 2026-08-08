@@ -392,6 +392,29 @@ def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():
     assert len(verdict("Program zapisuje ustawienia.").result.readings) == 1
 
 
+def test_zaimek_rzeczowny_nie_bierze_dopełniacza():
+    #  tego jest dopełniaczem ten przy podzbioru i dopełniaczem to obok niego, a
+    #  te dwa czytania różnią się częścią mowy, więc bez warunku ujemnego zdanie
+    #  wychodzi dwoma czytaniami tego samego kształtu.
+    found = verdict("Celem jest parser tego podzbioru.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Subject"] == "parser tego podzbioru"
+
+
+def test_rzeczownik_dalej_bierze_dopełniacz_po_sobie():
+    #  Druga połowa warunku: wyłączony jest jeden lemat, a nie produkcja, więc
+    #  grupa imienna z dopełniaczem po głowie stoi tam, gdzie stała.
+    found = verdict("Wejściem jest opis podzbioru.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Subject"] == "opis podzbioru"
+
+
+def test_zaimek_rzeczowny_zostaje_wszędzie_indziej():
+    #  Warunek stoi na jednej pozycji jednej produkcji, więc zaimek rzeczowny
+    #  dalej jest tym, czym w polszczyźnie jest.
+    assert verdict("To ma pomagać pisać dobrą polszczyznę.").status == "valid"
+
+
 # --------------------------------------------------------------------------- #
 # Readings the dictionary offers and olski does not take
 # --------------------------------------------------------------------------- #
