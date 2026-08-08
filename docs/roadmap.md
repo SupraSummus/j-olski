@@ -465,6 +465,10 @@ Tor gramatyczny stoi poza tą numeracją i to samo pytanie ma,
 a odpowiedzią jest [README](../README.md) tego repozytorium:
 tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
 i gdy każde ma jedno czytanie.
+Kryterium mówi, co ma zajść nad zdaniem,
+a nie czym ma być wyprowadzone,
+więc wybór formalizmu zostaje przy cenie, a nie przy zobowiązaniu,
+i trzyma go [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem).
 
 Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
 Nagłówek, pozycja listy i wiersz tabeli

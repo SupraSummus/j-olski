@@ -47,6 +47,10 @@ jest najgłębszym poziomem analizy,
 do którego schodzą tylko te reguły, które sobie na to zasłużą.
 Własny cel ma jeden i jest nim ten plik:
 gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu.
+Celem nie jest też sam formalizm:
+gramatyka bezkontekstowa jest tym, na czym olski stoi,
+a nie tym, do czego zmierza,
+więc o sięgnięciu po mocniejszy mechanizm rozstrzyga cena.
 Zobacz [docs/design-notes.md](docs/design-notes.md)
 oraz [docs/roadmap.md](docs/roadmap.md#celem-toru-jest-to-readme).
 
@@ -193,7 +197,8 @@ plan i otwarte pytania.
 - [docs/design-notes.md](docs/design-notes.md):
   opcjonalny tor gramatyczny,
   czyli co czyni polszczyznę trudną do parsowania,
-  drabina kosztów i urwisko nieciągłości
+  drabina kosztów, urwisko nieciągłości
+  i to, że sam formalizm jest na tym torze środkiem
 - [docs/open-questions.md](docs/open-questions.md):
   rozwidlenia, na których nie zapadła decyzja
 - [docs/prior-art.md](docs/prior-art.md):

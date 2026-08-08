@@ -362,6 +362,9 @@ so the grammar underneath the features is context-free,
 for the reason [design-notes.md](design-notes.md#why-a-subset-really) gives.
 Reading a segmentation graph rather than a string does not reach past it,
 the context-free languages being closed under intersection with a regular one.
+Tier 0 is where the implementation stands and not what the track is committed to;
+[design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem)
+owns that distinction.
 
 `olski/parse.py` enumerates distinct readings.
 It is a memoizing top-down enumerator,

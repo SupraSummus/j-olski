@@ -52,6 +52,13 @@ every cost buys some quantity of representable structure,
 and the exchange rate is the thing worth studying.
 See [the cost ladder](#the-cost-ladder) for what the currency actually is.
 
+**No formalism is committed to.**
+The track's target names a property of a sentence and no machinery,
+so a mechanism stronger than a context-free grammar,
+or one standing beside the grammar rather than inside it,
+is a question of price rather than of permission.
+See [Formalizm jest środkiem, a nie celem](#formalizm-jest-środkiem-a-nie-celem).
+
 **Olski is a proper subset of Polish.**
 Every olski sentence must be a well-formed Polish sentence.
 No helper notation in the surface form,
@@ -272,7 +279,12 @@ and it is not a difficulty gradient:
 **may olski scramble across constituent boundaries?**
 No keeps the project at tier 2
 with a cubic parser and a large grammar.
-Yes means writing an LCFRS parser.
+Yes means paying for discontinuity,
+which the ladder prices at tier 3.
+A bounded gap buys the common cases from tier 2 instead,
+giving up a fraction of Polish nobody has measured:
+[swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class)
+holds a parser of Polish that takes that route.
 Everything else in the subset is cheap next to this.
 
 ### The second currency: ambiguity
@@ -344,6 +356,49 @@ The curve also supplies a principled way to say no:
 a tier whose net comes to three percent of sentences
 for a jump from cubic to sixth-power parsing
 decides itself.
+
+## Formalizm jest środkiem, a nie celem
+
+Drabina wycenia formalizmy i żadnego nie obiecuje.
+Gramatyka bezkontekstowa z cechami jest tym, na czym olski stoi,
+a nie tym, do czego zmierza:
+kryterium, po którym poznać koniec tego toru,
+mówi, co ma zajść nad zdaniem, a nie czym ma być wyprowadzone,
+i trzyma je [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
+Wybór szczebla jest więc rachunkiem, a nie deklaracją.
+
+Ruszyć wolno obie warstwy.
+W warstwie implementacji ruszają się parser i sposób liczenia czytań:
+[subset.md](subset.md#implementation) mówi, co stoi dzisiaj,
+a [sekcja niżej](#angle-one-parsing) mówi, co po tym przyjdzie.
+W warstwie siły rusza się to, co produkcja w ogóle umie powiedzieć,
+i [urwisko](#the-cliff-discontinuity) jest miejscem,
+w którym ten ruch kosztuje wykładnik,
+a nie miejscem, w którym coś jest zakazane.
+
+Środek nie musi też stać na drabinie,
+a repozytorium już tak pracuje, więc jest to opis, a nie obietnica.
+Czytania, których żadna produkcja nie odbiera, odbiera kod obok gramatyki:
+`admissible` w `olski/subset.py` wyrzuca rzeczownik nieodmienny tam,
+gdzie ta sama forma czyta się także jako słowo funkcyjne,
+a po co, mówi [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not).
+Nieciągłość zaś ma wyjście tańsze niż szczebel, na którym stoi:
+Świgra przeciąga przez ciąg o swobodnym szyku jedną lukę
+([swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class)),
+co jest odpowiedzią z tier 2 na problem z tier 3.
+Odpowiedzią na to, co olski ma przyjmować, nie musi więc być
+ani produkcja, ani wyższa klasa złożoności.
+
+Otwarte są środki, a nie własności.
+Wiąże to, [czym olski jest](#what-olski-is):
+sprawdzalny tanio, deterministycznie i z wyjaśnieniem.
+Wiąże to, co [rozstrzygnięto](#decisions-taken):
+olski zostaje podzbiorem polszczyzny bez notacji pomocniczej.
+Wiąże wreszcie to, czym czytanie jest, czyli drzewo,
+i to jest powodem, dla którego typ 1 hierarchii odpada mimo swojej siły
+([drabina to nie hierarchia](#the-ladder-is-not-the-chomsky-hierarchy)).
+Mechanizm, który którąś z tych własności łamie, odpada przez nią,
+a nie przez to, że stoi wyżej niż gramatyka bezkontekstowa.
 
 ## Angle one: parsing
 
