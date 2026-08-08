@@ -40,6 +40,16 @@ Po polsku da się ten tekst przepuścić przez olski,
 i `tests/test_docs.py` przepuszcza każdy dokument, który po polsku stoi,
 więc żądanie schodzi z deklaracji do checka dokument po dokumencie.
 
+Dokument mieszany do tego checka nie wchodzi.
+Wchodzące wybiera próg udziału znaków diakrytycznych w całym pliku,
+a przekroczenie tego progu należy do przekładu całego dokumentu,
+a nie do jednej sekcji, którą ktoś w nim właśnie napisał po polsku.
+Powodem jest to, co pakiet robi nad angielskim zdaniem:
+puszczony nad angielską połowę takiego pliku
+zgłasza nad nią polską typografię.
+Dlaczego wybór nie schodzi za to do sekcji,
+mówi `polish_share` w `harness/markdown.py`.
+
 Checkiem jest tu silnik reguł, a nie gramatyka.
 Gramatyka jest drugim żądaniem i znacznie węższym:
 zdanie z przecinkiem, przysłówkiem albo rzeczownikiem odczasownikowym
@@ -504,6 +514,9 @@ moves the tables in [`docs/corpus.md`](docs/corpus.md),
 which are the output of a run over a treebank the suite does not hold.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
+The same change moves what that document says about the run over the README,
+which is the other half of the same demand and needs no fetch at all:
+rerun the two commands it prints and correct the sentences under them.
 
 Each of these runs takes minutes, which invites starting it and editing on,
 and a run reads the code once at import.

@@ -250,6 +250,14 @@ def polish_share(text: str) -> float:
     every Polish one is above 13%, so any threshold between the two picks the
     same documents. Words are counted as olski counts them, so the share and the
     rates it selects for are measured over the same tokens.
+
+    A third population sits between those two: a document whose prose is English
+    and whose sections are being written in Polish one at a time. No threshold
+    separates it from either, so what settles it is the unit rather than the
+    number. The share is asked of a whole document, and a mixed one is left out
+    until it has been translated. Asked of a paragraph it separates nothing at
+    all, an English paragraph quoting Polish examples carrying as many diacritics
+    as a Polish one, so the finer unit is not available.
     """
     words = WORD.findall(text)
     return sum(1 for word in words if DIACRITIC.search(word)) / len(words) if words else 0.0

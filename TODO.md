@@ -406,30 +406,6 @@ blocker nazywa pierwsze z nich,
 a nad dokumentacją nikt czytań nie ujednoznacznia,
 więc blocker jest tam zawsze tym przybliżonym.
 
-Próg, po którym dokument jest lintowany, wybiera plik, a język wybiera sekcję.
-`POLISH` w `tests/test_docs.py` mierzy udział znaków diakrytycznych w całym pliku,
-a [reguła języka](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) schodzi do sekcji,
-więc dokument przekładany sekcja po sekcji przekracza próg w połowie drogi
-i wpuszcza pakiet typograficzny na tę resztę, która stoi po angielsku.
-`docs/roadmap.md`, `TODO.md` i `CLAUDE.md` mają polskie sekcje w angielskiej prozie
-i są plikami, które dojdą do progu pierwsze,
-a jak blisko są, mówi `polish_share(prose(...))` z `harness/markdown.py`.
-Ruchem jest rozstrzygnięcie, czy próg wybiera plik, czy fragment:
-albo `polish_documents` dzieli dokument na sekcje
-i lintuje te, które próg przechodzą,
-albo próg zostaje przy pliku,
-a przekroczenie go jest częścią przekładu całego dokumentu,
-co trzeba wtedy powiedzieć w
-[`CLAUDE.md`](CLAUDE.md#piszemy-po-polsku-także-w-kodzie).
-Za pierwszą opcją przemawia to, co pakiet zgłasza nad angielską prozą tych plików.
-Jest to przede wszystkim `quote-straight` na prostym cudzysłowie,
-którym angielszczyzna cytuje słowo,
-czyli reguła polskiej typografii mierząca tekst, który polszczyzną nie jest,
-a obok niej `space-before-punctuation`, `double-space`
-i `missing-space-after-punctuation`.
-Druga opcja kosztuje więc przepisanie tych zdań albo wyjątki dla nich,
-i to nad plikiem, którego polska sekcja jest jedną z kilkunastu.
-
 A modifier between the subject and the verb has nowhere to go but the subject.
 `Chałka pod względem smaku przewyższa zwykłą bułkę.` comes out `valid`
 with the taste made part of the challah,
@@ -476,14 +452,36 @@ zdanie, które niesie w tym pliku przecinek,
 niesie też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy,
 więc reguła sama z siebie nie wyprowadzi tam ani jednego zdania
 i wchodzi razem z podrzędnym albo nie wchodzi wcale.
-Przysłówek jako modyfikator i czas przeszły w regule `Verb`
-zmierzone tak samo dają tyle samo, czyli nic,
-więc jest to własność tej kolejki, a nie tej jednej reguły:
-nad tym plikiem konstrukcje z listy przychodzą razem albo nie przychodzą.
+Jest to własność całej kolejki, a nie tej jednej reguły,
+i pomiar nad czterema pozostałymi konstrukcjami trzyma
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop).
 Do przeczytania zostaje cena nad Składnicą,
 bo przecinek między zdaniami konkuruje z przecinkiem w grupie imiennej
 wszędzie tam, gdzie po przecinku stoi rzeczownik,
 a to jest ta wieloznaczność, której olski nie znosi.
+
+Jedna forma o dwóch czytaniach nominalnych daje olskiemu dwa czytania zdania.
+`wejście` ma w Morfeuszu czytanie `subst` i czytanie `ger`,
+a sygnatura czytania w `olski/parse.py` rozróżnia części mowy,
+więc produkcja z `ger` w głowie grupy imiennej
+daje `Wejściem jest zwykły tekst polski.` drugie czytanie tego samego kształtu
+i zabiera jedno z tych zdań, które olski dziś przyjmuje;
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) mierzy ten spadek.
+Rozstrzygnąć da się w dwóch miejscach i wybrać trzeba jedno.
+Albo `admissible` w `olski/subset.py`,
+które dziś żąda czytania funkcyjnego obok rzeczownikowego
+i tej pary nie obejmuje, dostaje drugie kryterium.
+Albo sygnatura przestaje liczyć część mowy tam, gdzie kształt drzewa jest ten sam,
+co jest tym samym argumentem, którym już pomija lematy,
+i wtedy `do` jako przyimek i jako nuta dalej są dwoma czytaniami,
+bo różnią się kształtem.
+Do przeczytania jest, ile takich par ten rejestr niesie:
+formy z czytaniem `ger` i `subst` naraz
+nad prozą wyciągniętą z dokumentów tego repozytorium,
+bo jedno zdanie nie mówi, które z dwóch wyjść jest warte swojej maszynerii.
+Wpis stoi przed rzeczownikiem odczasownikowym w gramatyce, a nie za nim,
+bo reguła dodana pierwsza obniża pokrycie
+i sesja, która ją doda, zmierzy spadek zamiast zysku.
 
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve
@@ -561,30 +559,3 @@ which is that section alone,
 the roadmap having taken the same finding coarsely and quoted no number.
 The evidence is 7 words: 6 `dacie` and 1 `powiecie`,
 both of which the register uses as nouns.
-
-Sekcja po polsku w dokumencie po angielsku wpuszcza linter nad angielszczyznę.
-`polish_share` w `harness/markdown.py` wybiera cały plik,
-a jego docstring uzasadnia próg tym, że obie populacje się rozdzielają,
-z angielskimi notatkami nisko i polskimi wysoko.
-`docs/open-questions.md` stoi między nimi,
-bo jedna jego sekcja jest po polsku, a reszta po angielsku,
-i `test_every_polish_document_passes_the_linter_this_repository_is_about`
-mierzy nad nim angielskie zdania.
-Przechodzi, a to nie jest własność, na której da się polegać:
-wystarczy angielskie `a` na końcu wiersza albo prosty cudzysłów w cytacie,
-żeby suite zgłosił regułę typograficzną nad angielskim zdaniem,
-czego nikt nie odgadnie z komunikatu.
-Ruch jest jeden z dwóch:
-albo wybór schodzi do sekcji, skoro
-[reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-robi z sekcji jednostkę i takie pliki będzie produkować dalej,
-albo dokument zostaje przełożony w całości, co jest osobną zmianą.
-Docstring żąda poprawki tak czy inaczej,
-bo dokument mieszany jest trzecią populacją, której nie opisuje.
-Dowodem do przeczytania są udziały wszystkich dokumentów naraz —
-`polish_share(prose(path.read_text()))` po `*.md` i `docs/*.md` —
-bo od tego, ile plików siedzi w luce, zależy, który z dwóch ruchów się opłaca.
-Pierwszy ruch spotyka się z wpisem, który chce,
-żeby `prose` mówiło, z czego wyszedł każdy kawałek wyjścia:
-obu potrzebna jest ta sama rzecz, czyli granice zachowane w wyjściu ekstrakcji,
-więc albo idą razem, albo ta sama decyzja zapada dwa razy.

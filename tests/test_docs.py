@@ -40,11 +40,13 @@ SOURCES = sorted(
     path for package in ("olski", "harness", "tests") for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
-#: Where a document counts as Polish. ``harness/markdown.py`` owns the
-#: measurement this sits in the middle of, English documents reaching 3% and
-#: Polish ones starting at 13%, so anything between the two selects the same
-#: files.
-POLISH = 0.05
+#: Where a document counts as Polish, which is where it counts as translated.
+#: ``harness/markdown.py`` owns the measurement, and this sits at the bottom of
+#: the range it puts Polish in rather than in the gap below it, because the gap is
+#: where a document being translated section by section sits. Selecting one is
+#: what the threshold is set high to avoid: the pack pointed at the English half
+#: of a mixed file reports Polish typography over English sentences.
+POLISH = 0.13
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
 #: An entry in the README's list of documents, which is the only place that
