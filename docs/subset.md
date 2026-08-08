@@ -304,6 +304,12 @@ and should not be:
 - Negation and the genitive of negation.
 - Numerals, which are common
   and are their own self-contained problem.
+- `to` as a copula.
+  `Kot to zwierzę.` is rejected where `Kot jest zwierzęciem.` derives,
+  and the form heads two of the rows
+  [corpus.md](corpus.md#where-the-analyses-stop) ranks,
+  one of predicatives and one of nominal pronouns,
+  which is the ambiguity admitting it has to survive.
 
 Two entries are not constructions but demands every construction makes:
 

@@ -32,11 +32,13 @@ Maszyneria jest tym wszystkim, co [design-notes.md](design-notes.md)
 mówi o Earleyu, lesie rozbiorów, swobodnym szyku i LCFRS.
 
 Za budowaniem tego przemawia kształt takiego werdyktu.
-Wskazuje on zdanie i mówi, co z nim zrobić,
-a reguła mierząca stopę wzorca na tysiąc słów tego nie robi:
-jest raportem o dokumencie, a nie zarzutem wobec zdania,
-co nazywa i mierzy
-[generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different).
+Mówi on o zdaniu, które wskazuje.
+Reguła mierząca stopę wzorca na tysiąc słów tego nie mówi:
+jest raportem o dokumencie, a nie zarzutem wobec zdania
+([generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different)),
+a wystąpienie, w które trafia, wskazuje po to,
+żeby dało się sprawdzić liczbę, i nie twierdzi o nim nic
+([rules.md](rules.md#pattern-density)).
 
 Linter stylu dla polskiej dokumentacji technicznej stoi obok, na torze opcjonalnym,
 i zachowuje swój plan wraz z numeracją, [niżej](#tor-opcjonalny-linter).
@@ -119,7 +121,10 @@ Rozstrzygnięcie po napisaniu tamtych produkcji jest więc przepisaniem ich wszy
 
 **Wyjście:** jedno z trzech wyjść wybrane,
 z uzasadnieniem wziętym z prawdziwej polszczyzny, a nie z gustu,
-i gramatyka, która to wyjście realizuje.
+i gramatyka, o której da się powiedzieć, że je realizuje.
+Pierwsze z nich żąda tego, co gramatyka już robi,
+więc zamyka etap zapisaną decyzją i niczym poza nią,
+i to jest ta różnica, dla której wybór stoi przed konstrukcjami, a nie po nich.
 
 ## Etap 2: walencja
 
@@ -141,13 +146,40 @@ razy konstrukcje, w których ten czasownik stoi,
 więc leksykon dopisany po nich sprawdza się naraz wobec wszystkich.
 
 **Wyjście:** dopełnienia czasownika biorą się z leksykonu, a nie z produkcji,
-i `On jest wolny.` ma jedno czytanie.
+i `On jest wolny.` traci czytanie z dopełnieniem.
+Jednego czytania sama walencja temu zdaniu nie daje:
+zostaje przy nim para, którą robi rzeczownikowe czytanie przymiotnika,
+a ta należy do słownika i do etapu niżej.
 
-## Etap 3: zdanie złożone
+## Etap 3: czytania, których polszczyzna nie ma
+
+Morfeusz daje formie czytania, których czytelnik nie ma,
+a każde takie czytanie jest dla olskiego drugim czytaniem całego zdania.
+`admissible` w `olski/subset.py` wyklucza dziś jedną ich klasę,
+czytanie nieodmienne stojące obok wyrazu funkcyjnego,
+i [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)
+mówi, czemu akurat te dwa warunki naraz.
+README rozpada się na klasach, których to kryterium nie obejmuje:
+na rzeczownikowym czytaniu przymiotnika
+i na nazwiskowym czytaniu rzeczownika, który zaczyna zdanie.
+Obie trzyma [TODO.md](../TODO.md) wraz z ruchem, który przy każdej proponuje.
+
+Etap stoi między tamtymi a konstrukcjami,
+bo wieloznaczność zawęża, a pokrycia nie podnosi,
+i jest pierwszym, przy którym nie wiadomo, czy kryterium w ogóle istnieje.
+Wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
+co tamten dokument pokazuje na `jury` i `menu`,
+więc odpowiedzią bywa tu decyzja, że klasy się nie da wykluczyć.
+
+**Wyjście:** obie klasy rozstrzygnięte,
+każda kryterium albo zapisaną decyzją, że kryterium nie ma,
+a każde przyjęte kryterium zmierzone na Składnicy tym, ile zdań zabiera.
+
+## Etap 4: zdanie złożone
 
 Przecinek zdaniowy oraz podrzędność z `że` i `który`.
 W kolejce z banku drzew interpunkcja stoi na czele,
-a liczbą, którą się w tym wierszu czyta, jest przecinek, nie myślnik:
+a formą, którą się w tym wierszu czyta, jest przecinek, nie myślnik:
 myślnik jest tam dialogiem z gazety,
 czego rejestr olskiego nie ma wcale
 ([corpus.md](corpus.md#where-the-analyses-stop)).
@@ -158,7 +190,7 @@ bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
 wyprowadza się i wyprowadza raz,
 a pokrycie nad README idzie w górę o te zdania, które na tym stały.
 
-## Etap 4: słowa, których słownik nie ma
+## Etap 5: słowa, których słownik nie ma
 
 Morfeusz zwraca `ign` na formę, której nie zna,
 a formy `ign` nie bierze żadna produkcja.
@@ -173,7 +205,7 @@ trzyma tę klasę osobno od tamtej.
 `Język olski jest podzbiorem polszczyzny.` się nie wyprowadza,
 więc język nie umie powiedzieć sam w sobie, czym jest.
 
-Etap nie zależy od trzech powyżej ani one od niego,
+Etap nie zależy od czterech powyżej ani one od niego,
 a numeracja żąda tylko tego, żeby żaden nie potrzebował późniejszego.
 Stoi tutaj, bo rejestr, o który chodzi, jest takich słów pełen,
 a bank drzew tej klasy nie pokazuje w ogóle:
@@ -184,26 +216,28 @@ i widać ją dopiero w przebiegu nad dokumentacją.
 **Wyjście:** `Język olski jest podzbiorem polszczyzny.`
 wyprowadza się i wyprowadza raz.
 
-## Etap 5: reszta konstrukcji
+## Etap 6: reszta konstrukcji
 
-Czas przeszły, przysłówek, negacja wraz z dopełniaczem negacji,
+Czas przeszły, przysłówek, `to` w roli łącznika,
+negacja wraz z dopełniaczem negacji,
 liczebniki i rzeczowniki odczasownikowe.
-Nad Składnicą to jest czoło kolejki:
+Kolejka ze Składnicy stawia je na czele:
 czas przeszły nie kosztuje tam nic w mocy formalizmu
 i jest najtańszym dużym zyskiem, jaki wobec tamtego korpusu został.
-Wobec README te pozycje dodane po jednej pokrycia nie podnoszą,
-a rzeczownik odczasownikowy je obniża,
-co jedno i drugie mierzy
-[corpus.md](corpus.md#where-the-analyses-stop).
+Wobec README podnoszą pokrycie dopiero razem,
+a rzeczownik odczasownikowy dodany sam je obniża.
+[corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
+a nad łącznikiem i negacją nie mierzy nic,
+więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
 
 Ta rozbieżność jest tym, co je tutaj ustawia.
 Etapy porządkuje kryterium wyjścia toru, a nie ranking z banku drzew,
 i to jest cena za wybranie takiego kryterium,
 a nie usterka w kolejce.
 
-**Wyjście:** konstrukcje z listy w
-[subset.md](subset.md#what-it-does-not-cover-yet) są w gramatyce,
-a tabele w [corpus.md](corpus.md) są przeliczone tym, co z nich wyszło.
+**Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
+bo etap jest ostatnim, który ma z niej co brać,
+a tabele w [corpus.md](corpus.md) są przeliczone tym, co ją opróżniło.
 
 ## Czego ta numeracja nie obejmuje
 
