@@ -69,6 +69,62 @@ tak samo jak przy wpisie, który się zamknął,
 z powodem w komunikacie commita,
 bo skasowany wpis nie zostawia po sobie nic innego.
 
+Werdykt nad zdaniem o kilku nierozstrzygniętych przyłączeniach nie mówi,
+o które przyłączenia idzie, i nie zdejmie tego szybsze wyliczanie.
+`explain` w `olski/subset.py` nazywa role, które się między czytaniami różnią,
+a `describe` w `olski/parse.py` bierze pierwszy węzeł roli, a nie wszystkie,
+więc ta sama para nazw wychodzi nad zdaniem o dwóch przyłączeniach i o sześciu,
+gdzie liczba stoi już urwana o `MAX_READINGS`.
+Do przeczytania jest wyjście dwóch poleceń,
+wraz z odrzuconym wyjściem tańszym, które te polecenia stawiają pod nosem,
+i trzyma jedno i drugie
+[`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
+Ruchem jest parser tablicowy nad lasem ze współdzielonymi węzłami,
+w którym nierozstrzygnięte przyłączenia są osobnymi spakowanymi węzłami,
+a nie iloczynem drzew,
+i werdykt wskazuje przyimek wraz z głowami, do których dochodzi.
+Warunkiem, bez którego las na to pytanie nie odpowie,
+jest pakowanie po sygnaturze czytania, a nie po środowisku cech;
+`analyses` w `olski/parse.py` tę dyscyplinę już trzyma i trzeba ją zachować.
+Zmiana nie rusza ani jednej produkcji,
+więc sprawdza się ją werdykt po werdykcie wobec tego, co stoi,
+nad prozą README i nad Składnicą.
+Zamyka to wpis o głębokości zagrzebania złotego czytania,
+bo dopiero po lesie jest po czym chodzić.
+Otwiera przy tym dwie rzeczy, i to są dwie osobne sesje, a nie część tej.
+Zakaz lewej rekursji przestaje wiązać,
+a na nim stoi „nic ponad współrzędnością się do niej nie rozdziela”
+z [`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it):
+zawężenie jest tam obronione na własnych prawach,
+więc po lesie staje się wyborem i trzeba je przeargumentować, a nie odziedziczyć.
+I `--max-tokens`, którym `olski-corpus` omija zdania, na jakie enumeratora nie stać:
+liczenie czytań bez wyliczania ich powinno ten próg podnieść,
+a o ile, jest do zmierzenia, a nie do założenia.
+
+Odrzucenie nie mówi, na czym stanęło, a przebieg wyprowadzony z gramatyki by mówił.
+`blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
+i sam w docstringu mówi, że między czytaniami formy wybiera dowolnie,
+więc kolejka z [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+jest rankingiem stojącym na tym wyborze.
+Świgra trzyma formę, której Morfeusz nie zna,
+osobno od konstrukcji, której gramatyka nie licencjonuje
+([`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
+a olski te dwie odpowiedzi zlewa w jedną.
+Ruchem jest przebieg przed rozbiorem,
+pytający dla każdego czytania formy, czy bierze je jakikolwiek `Word` w `GRAMMAR`,
+i wypisujący te formy, nad którymi nie stoi żaden.
+Wyprowadzenie z gramatyki jest tu warunkiem, a nie wygodą:
+warstwa napisana obok gramatyki jest drugim właścicielem tego samego faktu,
+czyli tym, przed czym broni
+[`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
+i tym zarzutem, który stoi przy `sonda/polszczyzna.py` w tej samej liście.
+Mierzy się to nad dokumentacją, a nie nad bankiem drzew,
+i tę różnicę trzeba przeczytać przed wybraniem korpusu:
+złota morfologia zostawia bank drzew bez ani jednej formy nieznanej,
+więc tam ten przebieg nie rozdzieli niczego,
+a nad prozą README brak w słowniku stoi w kolejce z
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) zaraz za przecinkiem.
+
 Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
 od precedencji.
 `build` w `olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
@@ -89,6 +145,10 @@ szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
 Do przeczytania jest, co ten preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
 a próba nad prozą README stoi w `sonda/` gotowa do porównania.
+Tego pytania nie ma czym przeczytać nad listą czytań urwaną o `MAX_READINGS`,
+więc wpis o parserze tablicowym nad lasem idzie przed tym,
+a walencja idzie przed jednym i drugim, bo kasuje czytania,
+które rozwinięcie permutacji dopisuje.
 Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
 `sonda/polszczyzna.py` jest drugą deklaracją tego samego podzbioru,
 czyli tym drugim właścicielem faktu, przed którym broni
@@ -303,8 +363,8 @@ and counts the trees consistent with the corpus disambiguation
 so coverage becomes whether the gold reading is among the readings
 and how deeply it is buried,
 rather than whether anything came out at all.
-This is ordered behind the chart parser
-that the implementation note in `olski/parse.py` defers,
+This is ordered behind the entry about the verdict that names no attachment,
+whose move is the chart parser and the packed forest,
 because the enumerator builds no forest to walk
 and caps enumeration at `MAX_READINGS`,
 which is exactly the tail a burial-depth number would be measuring.

@@ -21,12 +21,14 @@ of outcomes.
 
 Implementation note. This is a memoizing top-down enumerator over the
 segmentation graph, which is enough for a grammar without left recursion and
-detects the case it cannot handle rather than looping. When the grammar needs
-left recursion — or when enumerating readings costs more than counting them, or
-when a measurement wants to walk a forest rather than a reading list, as in
-docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold — it
-gets replaced by a chart parser with a packed forest, which is what
-docs/design-notes.md has always assumed.
+detects the case it cannot handle rather than looping. A chart parser over a
+packed forest replaces it,
+and what asks for that first is the verdict rather than the grammar:
+several undecided attachments are several packed nodes
+and one role name in a reading list.
+docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań owns that
+argument, the ordering it puts the move in,
+and what left recursion and a forest walk add to it.
 """
 
 from __future__ import annotations

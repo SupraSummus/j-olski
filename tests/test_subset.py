@@ -261,6 +261,20 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     assert len({reading["Object"] for reading in found.readings}) == 2
 
 
+def test_werdykt_nie_nazywa_ani_jednego_z_nierozstrzygniętych_przyłączeń():
+    #  Przypięta jest tu usterka, a nie własność, i po to jest ten komentarz:
+    #  drugie zdanie ma sześć nierozstrzygniętych przyłączeń i szesnaście razy
+    #  więcej czytań niż pierwsze, a werdykt oddaje ten sam napis. Kiedy werdykt
+    #  zacznie wskazywać same przyłączenia, ten test padnie, i wtedy razem z nim
+    #  idzie sekcja docs/design-notes.md, która na tych dwóch napisach stoi.
+    dwa = verdict("Program zapisuje ustawienia w pliku w katalogu.")
+    sześć = verdict(
+        "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
+    )
+    assert dwa.explain() == "4 readings, differing in Modifier, Object"
+    assert sześć.explain() == "64+ readings, differing in Modifier, Object"
+
+
 @pytest.mark.parametrize(
     "text",
     [
