@@ -31,8 +31,8 @@ not a download manager: docs/corpus.md gives the command.
 
 from __future__ import annotations
 
+import re
 import xml.etree.ElementTree as ET
-from collections.abc import Iterator
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -112,11 +112,28 @@ class Sentence:
         return frozenset((start, end) for name, start, end in self.roles if name == role)
 
 
+#: Węzeł, którego żadne wybrane wyprowadzenie nie używa.
+#:
+#: Plik trzyma cały las, a odpowiedź jest w nim jednym drzewem, więc budowa
+#: drzewa XML idzie w większości pod węzły, których odpowiedź nie bierze, i to
+#: ona, a nie gramatyka za nią, jest tym, na czym przebieg nad bankiem drzew
+#: stoi — profil przebiegu to pokazuje. Tekst tych węzłów znika więc, zanim `ET`
+#: go zobaczy.
+#:
+#: Wolno je wyciąć, bo `_gold` schodzi z korzenia po wybranych dowiązaniach
+#: ``children``, a węzeł, którego ``chosen`` przeczy, nie wchodzi w żadne wybrane
+#: wyprowadzenie. Tak to znaczy format, i na tym to stoi, bo nic tutaj tego nie
+#: sprawdza: wydanie, które by temu przeczyło, zabrałoby zdaniu token, nie
+#: mówiąc nic. Węzeł bez tej flagi zostaje — zejście idzie po dowiązaniach, a nie
+#: po flagach — i Składnica takie węzły pisze.
+NIEWYBRANY = re.compile(rb'<node[^>]*chosen="false"[^>]*>.*?</node>\s*', re.DOTALL)
+
+
 def read(path: Path | str) -> Sentence:
     """Read one forest file."""
     path = Path(path)
     try:
-        forest = ET.parse(path).getroot()
+        forest = ET.fromstring(NIEWYBRANY.sub(b"", path.read_bytes()))
     except ET.ParseError as error:
         # ParseError carries a line and column and not the file they are in,
         # which is no help at all when the caller is walking twenty thousand
@@ -230,14 +247,11 @@ def _segment(terminal: ET.Element, span: tuple[int, int]) -> Segment:
     )
 
 
-def walk(root: Path | str, verdicts: frozenset[str] | None = None) -> Iterator[Sentence]:
-    """Read every forest under a directory, in a stable order.
+def pliki(root: Path | str) -> list[Path]:
+    """Lasy pod katalogiem, w stałym porządku.
 
-    ``verdicts`` keeps only the annotators' verdicts named. The default keeps
-    everything, because the rejected forests are evidence too: they say what even
-    a full-scale grammar of Polish could not analyse.
+    Lista, a nie czytanie po kolei, bo pulę procesów w `olski/coverage.py` dzieli
+    się właśnie na niej, a czyta się już w procesach roboczych. Porządek jest
+    stały, bo na nim stoi to, że kawałki scalają się w wydruk jednego przebiegu.
     """
-    for path in sorted(Path(root).rglob("*.xml")):
-        sentence = read(path)
-        if verdicts is None or sentence.verdict in verdicts:
-            yield sentence
+    return sorted(Path(root).rglob("*.xml"))

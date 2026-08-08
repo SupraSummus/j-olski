@@ -225,29 +225,22 @@ or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
 
-`olski-corpus` jest tu jedynym przebiegiem dość długim,
-żeby drugi rdzeń miał znaczenie, i chodzi na jednym.
-Czytanie lasów to `xml.etree` nad całym rozpakowanym bankiem drzew,
-zanim gramatyka zobaczy pierwsze zdanie,
-a parsowanie za nim jest enumeratorem,
-którego najgorszy przypadek `--max-tokens` ucina, zamiast go płacić.
-Obie połowy idą plik po pliku i nie zależą od siebie,
-więc ruchem jest pula procesów nad listą plików w `olski/coverage.py`,
-gdzie proces roboczy oddaje `Report`, a nie drzewa, które zbudował,
-bo przez granicę procesu ma przechodzić licznik, a nie las.
-Wątki nie są tym ruchem:
-`re`, `xml.etree` i enumerator trzymają GIL,
-a przy `--morphology live` proces roboczy i tak chce własnego analizatora.
-Dwie rzeczy muszą się trzymać, zanim to wejdzie.
-`walk` w `olski/corpus.py` obiecuje stały porządek,
-a `Report.examples` zachowuje pierwsze zdania, które dostał,
-więc scalanie ten porządek zachowuje
-albo ten sam korpus drukuje inne przykłady w kolejnych przebiegach,
-wbrew temu, czego [`CLAUDE.md`](CLAUDE.md#checks) żąda od powtórzenia.
-Dowodem do przeczytania najpierw jest profil prawdziwego przebiegu,
-bo on rozstrzyga, czy pula opłaca się nad czytaniem, czy nad parsowaniem:
-te dwa układają się inaczej przy morfologii złotej, a inaczej przy żywej,
-i żadne z nich nie było mierzone nad samym korpusem.
+Czytelnik Składnicy gubi węzeł bez słowa w dwóch miejscach,
+a gubi go z drzewa, którym mierzy się jedyną liczbę, jaką to repozytorium podaje.
+`_gold` w `olski/corpus.py` pomija dziecko, którego `nid` do niczego nie prowadzi,
+a `NIEWYBRANY` wycina węzły, którym `chosen` przeczy,
+i stoi na tym, że format tak to znaczy, a nie na sprawdzeniu.
+Łapie oba jedno kryterium: terminale wybranego drzewa
+mają pokrywać rozpiętość korzenia bez dziur i bez zakładek.
+Nad wydaniem 2018 żaden las z werdyktem `FULL` mu nie przeczy,
+a lasy bez werdyktu przeczą mu masowo,
+bo tam `_root` schodzi do najszerszego wybranego węzła i znajduje fragment,
+więc kryterium obejmuje `annotated` i nic poza tym.
+Do rozstrzygnięcia zostaje, co ma się stać z lasem, który mu przeczy:
+przerwać przebieg czy wejść do niemierzonych obok zdań dłuższych niż `--max-tokens`,
+i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
+Sprawdzianem do napisania obok jest las, który kryterium łamie,
+bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.

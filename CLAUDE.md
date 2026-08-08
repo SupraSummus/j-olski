@@ -542,8 +542,8 @@ The same change moves what that document says about the run over the README,
 which is the other half of the same demand and needs no fetch at all:
 rerun the two commands it prints and correct the sentences under them.
 
-Each of these runs takes minutes, which invites starting it and editing on,
-and a run reads the code once at import.
+A run reads the code once at import,
+and it lasts long enough to invite starting it and editing on.
 So a run started before an edit measures the code as it was,
 two runs chained behind one command need not measure the same code at all,
 and neither says so anywhere in its output.
