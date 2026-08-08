@@ -27,16 +27,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
+from olski.document import from_text
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Segment, analyse
 from olski.parse import Result, describe, parse
 
 #: The roles a reading is summarized by when two of them have to be told apart.
 ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
-
-#: Sentence-final punctuation. Olski excludes abbreviations, so a full stop is
-#: always a sentence boundary and splitting is exact rather than heuristic.
-TERMINATORS = frozenset({".", "!", "?"})
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -274,6 +271,9 @@ GRAMMAR = build()
 class Verdict:
     """What olski says about one sentence."""
 
+    #: Zdanie tak, jak stoi w tekście. Segmenty są krawędziami grafu, a nie
+    #: listą, więc sklejone dają naraz każdy podział, jaki Morfeusz na formie
+    #: widzi: ``ktoś`` wychodzi wtedy jako ``kto ktoś ś``.
     text: str
     result: Result
 
@@ -352,30 +352,28 @@ def morphology(text: str) -> list[Segment]:
     return [admissible(segment) for segment in analyse(text)]
 
 
-def sentences(text: str) -> list[list[Segment]]:
-    """Split analysed text into sentences at final punctuation.
+def sentences(text: str) -> list[str]:
+    """Tnie tekst na zdania i oddaje je tak, jak stoją.
 
-    Exact, because olski has no abbreviations: see the abbreviation exclusion in
-    the docs. On Polish that does contain them this would be a guess, which is
-    the point of excluding them.
+    Podział jest ten, którym idzie linter, czyli :mod:`olski.document`: żąda po
+    kropce białego znaku i zna skróty. Sam olski skrótów nie ma, więc nad nim
+    cięcie na każdej kropce byłoby dokładne. Wejściem jest jednak dokumentacja,
+    gdzie ``docs/linter.md`` jest jednym słowem, a cięcie na kropce w jego środku
+    wymyśla dwa zdania, których nikt nie napisał.
+
+    Cięcie stoi więc przed analizą, a nie po niej. Morfeusz jest wołany z
+    ``SKIP_WHITESPACES``, a segment niesie numery węzłów grafu zamiast przesunięć
+    w tekście, więc po analizie nie ma już czym zobaczyć spacji, która odróżnia
+    granicę zdania od nazwy pliku.
     """
-    found: list[list[Segment]] = []
-    current: list[Segment] = []
-    for segment in morphology(text):
-        current.append(segment)
-        if segment.form in TERMINATORS:
-            found.append(current)
-            current = []
-    if current:
-        found.append(current)
-    return found
+    document = from_text(text)
+    return [document.slice(span) for span in document.sentences]
 
 
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     """Check every sentence of a text against the grammar."""
     grammar = grammar or GRAMMAR
-    verdicts = []
-    for segments in sentences(text):
-        rendered = " ".join(segment.form for segment in segments)
-        verdicts.append(Verdict(text=rendered, result=parse(grammar, segments)))
-    return verdicts
+    return [
+        Verdict(text=sentence, result=parse(grammar, morphology(sentence)))
+        for sentence in sentences(text)
+    ]

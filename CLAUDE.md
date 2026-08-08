@@ -85,7 +85,8 @@ Język tak nisko nie schodzi,
 bo mieszanina języków wewnątrz akapitu, docstringa albo nazwy
 czyta się gorzej niż każda z wersji z osobna,
 a przemianowana funkcja sięga wszystkich swoich wywołań.
-Jednostką jest więc sekcja, docstring, komunikat albo nazwa wraz z wywołaniami.
+Jednostką jest więc sekcja, docstring, komentarz, komunikat
+albo nazwa wraz z wywołaniami.
 Nowa powstaje po polsku, także w dokumencie, który po polsku nie jest,
 a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
