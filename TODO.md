@@ -69,53 +69,6 @@ tak samo jak przy wpisie, który się zamknął,
 z powodem w komunikacie commita,
 bo skasowany wpis nie zostawia po sobie nic innego.
 
-Two regexes in `harness/markdown.py` read a construct as something else,
-and the two fixes are one session:
-each moves what the extraction keeps,
-so between them they drag one rerun,
-whose list of documents [`CLAUDE.md`](CLAUDE.md#checks) owns.
-The first is that a one-character emphasis span
-swallows the next one and leaves a marker behind.
-The optional tail in `INLINE`,
-`(?:.*?[^\s*])?` inside the emphasis alternative, is greedy,
-so it prefers a body of three characters or more to a body of one,
-and `*p*, a razem z nim *p*` extracts as `p*, a razem z nim *p`
-where a renderer sets two emphases.
-The stray marker is the failure the module was written against,
-since it reaches the rules as a character somebody typed,
-and the same tail sits in all five wrapping alternatives,
-`**`, `__`, `~~`, `*` and `_`, each of which swallows the next span of its kind.
-The move is to make those five tails lazy, `??` rather than `?`,
-which `INLINE` in `harness/python.py` already writes that way
-for the one wrapping construct it reads,
-which leaves every span of two characters or more matching as it does now,
-with a case in `tests/test_extraction.py`
-for two spans of one character in one paragraph.
-The evidence to read is how often the pattern occurs
-in the corpora behind that rerun at all:
-no document in this repository emphasizes two single characters in one paragraph,
-and if the corpora hold nothing like it either the rerun returns the same tables.
-The second is that a triple-backtick code span opening a line
-is read as a code fence,
-and the module then drops the prose down to the next fence-only line.
-`FENCE` matches ```` ``` ```` and takes the rest of the line
-as an info string,
-where CommonMark forbids a backtick inside a backtick fence's info string,
-so ```` ```KOD I``` zawiera link ```` is a paragraph to a renderer
-and an opening fence to the extraction.
-Three of the 32 `ksef-docs` files are written that way,
-`kody-qr.md`, `tokeny-ksef.md` and `uwierzytelnianie.md`,
-and between them they lose the better part of a thousand words
-of running Polish;
-[the corpus](docs/firing-rates.md#the-audit-corpus) owns how much exactly,
-and reports its figures as the corpus stands.
-The move is the CommonMark condition in `FENCE`,
-plus the closing-fence test that goes with it.
-What that one is worth has been read rather than left to whoever takes it:
-the corpus section named above measures what the condition puts back
-and what one rule does with it,
-so what the fence was swallowing is prose and not more code.
-
 The line that says what a walk went past counts a repository's `.git` with it.
 `_collect` in `olski/cli.py` reaches every file under a named directory,
 so `olski rit-dokumentacja/` reports going past 39 files
@@ -134,16 +87,23 @@ Nothing in the harness says which construct a finding came out of,
 so every audit of extracted prose maps its hits back by hand.
 `docs/extraction.md` did it for a couple of hundred spacing findings,
 and [the audit corpus's tables](docs/firing-rates.md#what-the-hits-over-the-audit-corpus-turned-out-to-be)
-for more than a thousand hits,
+for several hundred more,
 both with a throwaway script and neither with anything reusable.
 The classes that cost the most to reach are the ones a program could settle:
-whether a hit stands in a table, a code span, a link's text or a raw tag.
-So the move is for `prose` in `harness/markdown.py`
-to record what each stretch of output came from,
-and for something to print that beside a finding —
-which is a second output from the extraction
+whether a hit stands in a code span or in a link's text,
+which is what the two largest non-defect classes over the audit corpus are.
+The parser hands that over already —
+every stretch of a paragraph comes out of a node with a type —
+so the move is for `prose` in `harness/markdown.py`
+to keep the type beside the characters it produced,
+and for something to print it beside a finding.
+That is a second output from the extraction
 and wants deciding whether it rides along with the prose files
 or is a separate mode over one document.
+What the parser does not hand over is where in the source the node was:
+a block token carries a line range and an inline token carries nothing,
+so a mode that prints the source line as well
+is a second pass over the document rather than a field to pick up.
 Against it: the classes that decide whether a hit is a *defect*
 are the ones needing a reader anyway,
 so this halves an audit rather than removing it,
@@ -154,8 +114,8 @@ and the corpus has two.
 Its table runs the notes, the memoir and `ksef-docs` twice each,
 where [`docs/firing-rates.md`](docs/firing-rates.md#the-audit-corpus)
 audits `rit-dokumentacja` beside `ksef-docs`
-and finds the extraction's own gaps accounting for 553 of the corpus's findings,
-every one of them in that second member.
+and finds that member losing three quarters of its Markdown to the extraction,
+which is the case the table has no column for.
 The move is a fourth column,
 which means running `rit-dokumentacja` with its names changed to `.txt`
 and checking the spacing findings one by one against their source
@@ -581,8 +541,8 @@ That audit is one corpus and not both.
 The audit corpus reaches the rules through the extraction,
 which puts back what an emphasis wrapped and drops the markers,
 so the rule never meets the class there and
-[the audit over that corpus](docs/firing-rates.md#missing-space-after-punctuation-read-a-table-and-a-raw-tag)
-reads a table and a raw tag instead.
+[the audit over that corpus](docs/firing-rates.md#missing-space-after-punctuation-read-a-colon-inside-an-identifier)
+reads a colon inside an identifier instead.
 The hit above survives because a named file is linted whatever its format,
 which is how this repository's own documents are run
 and is not the run either audit was taken over.

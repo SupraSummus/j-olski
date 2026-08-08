@@ -63,12 +63,17 @@ and its prose stays where it was cloned from.
 
 | repository | Markdown files | words of prose | licence | authors |
 | --- | --- | --- | --- | --- |
-| [CIRFMF/ksef-docs](https://github.com/CIRFMF/ksef-docs) | 32 | 23,825 | MIT | 9 |
-| [pot-gov-pl/rit-dokumentacja](https://github.com/pot-gov-pl/rit-dokumentacja) | 7 | 15,112 | none stated | 2 |
+| [CIRFMF/ksef-docs](https://github.com/CIRFMF/ksef-docs) | 32 | 24,663 | MIT | 9 |
+| [pot-gov-pl/rit-dokumentacja](https://github.com/pot-gov-pl/rit-dokumentacja) | 7 | 6,754 | none stated | 2 |
 
-39 files and 38,937 words of prose.
-Five of the 39 extract to nothing,
+39 files and 31,417 words of prose.
+Six of the 39 extract to nothing,
 being files of tables and code blocks with no sentence in them.
+The second member is where that shape is common:
+four of its seven documents write their API tables without leading pipes,
+which is most of what they hold,
+so the column above reports 6,754 words of prose
+in a repository whose Markdown runs to 17,264.
 
 One run fetches the corpus and builds its prose.
 The commits sit in the command rather than in a column of their own,
@@ -149,10 +154,10 @@ so what it adds to the corpus is one writer rather than two.
 
 ## What a second repository buys
 
-The prose extracted from the two carries 750 straight quotation marks,
-279 of them in `api-changelog.md`.
-Over one repository the largest file holds nine tenths of that statistic,
-and over two it holds 37%,
+The prose extracted from the two carries 442 straight quotation marks,
+257 of them in `api-changelog.md`.
+Over one repository the largest file holds four fifths of that statistic,
+and over two it holds 58%,
 which is what admitting a repository is for:
 the corpus grows in authors, and in words only incidentally.
 

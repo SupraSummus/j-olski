@@ -486,7 +486,8 @@ npx --yes markdownlint-cli@0.45.0 '**/*.md'
 ```
 
 Morfeusz 2 is a runtime dependency and installs from PyPI,
-so the editable install brings it along with pytest and ruff.
+so the editable install brings it along with pytest, ruff
+and the parser the harness reads Markdown with.
 Where its wheel does not build,
 `tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
 skip rather than failing to collect,

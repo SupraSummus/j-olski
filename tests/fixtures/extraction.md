@@ -43,6 +43,29 @@ Lista, której elementy są zdaniami:
 - Drugi element listy, dłuższy,
   złamany w źródle.
 
+```KOD I``` otwiera wiersz i jest wstawką kodu, a nie płotkiem.
+
+Emfaza jednoznakowa nie połyka następnej: *a*, a potem *b*.
+
+Zdanie ~~skreślone~~ i zdanie z tagiem <br> w środku.
+
+Zdanie przed twardym złamaniem wiersza.\
+**Wyjątek:** zdanie za nim.
+
+Tabela bez kresek wiodących:
+
+kolumna | wartość
+--- | ---
+czas | 12
+
+Blok kodu z wcięcia:
+
+    echo "to jest kod, a nie polszczyzna"
+
+<details>
+<summary>Blok surowego HTML-a</summary>
+</details>
+
 Nagłówek w stylu setext
 =======================
 

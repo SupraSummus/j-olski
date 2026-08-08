@@ -5,7 +5,15 @@ Markdown does not: every character is prose, and every newline is a newline on
 the page. This produces both, by dropping the apparatus and by joining what the
 renderer would have joined.
 
-Two decisions run through the whole module and are worth stating once.
+Three decisions run through the whole module and are worth stating once.
+
+**A parser says where a construct is; this module says what to do with it.**
+Which characters are markup is a question about CommonMark, and markdown-it-py
+answers it, so that what no pattern settles — which of two adjacent emphases a
+marker closes, whether a run of backticks opens a fence or a code span — is
+settled by something tested against the specification. What stays here is the
+half a renderer has no opinion on: which constructs are apparatus, and what a
+construct leaves behind when it goes.
 
 **Inline markup is replaced by the text it wrapped, never deleted.** A deletion
 leaves the space that stood in front of it, and that space arrives at the rules
@@ -27,87 +35,45 @@ holds two languages is an entry in TODO.md rather than a case this handles.
 from __future__ import annotations
 
 import re
-from collections.abc import Sequence
+from collections.abc import Iterable, Iterator, Sequence
 
-from harness import BULLET, Czytnik, Jednostka, uruchom
+from markdown_it import MarkdownIt
+from markdown_it.tree import SyntaxTreeNode
+
+from harness import Czytnik, Jednostka, uruchom
 
 MARKDOWN_SUFFIX = ".md"
 
+#: CommonMark, plus the two GitHub constructs the corpora are written with. A
+#: table is apparatus and goes whole, so what enabling it buys is the row that
+#: opens without a pipe; strikethrough wraps prose the way emphasis does, and
+#: without it a struck sentence reaches the rules with its tildes still in.
+PARSER = MarkdownIt("commonmark").enable(["table", "strikethrough"])
+
 #: YAML frontmatter: a fence of three dashes opening the file, and everything
-#: down to the line that closes it.
+#: down to the line that closes it. It is matched rather than parsed because it
+#: is not Markdown: to a parser those dashes are a heading's underline.
 FRONTMATTER = re.compile(r"\A---[ \t]*\n.*?\n(?:---|\.\.\.)[ \t]*(?:\n|\Z)", re.DOTALL)
 
-#: An HTML comment, which renders as nothing wherever it stands, taking the
-#: whitespace in front of it: a comment closing a line leaves that line empty,
-#: and one inside a sentence leaves the sentence spaced as it was written.
-COMMENT = re.compile(r"[ \t]*<!--.*?-->", re.DOTALL)
+#: Węzły, które trzymają akapity, a same akapitem nie są. Prozą jest to, co w
+#: środku: znak listy i znak cytowania są aparatem wokół niej, a każda pozycja
+#: listy jest osobnym akapitem, bo zdanie nie biegnie z jednej do następnej.
+CONTAINERS = frozenset({"blockquote", "bullet_list", "ordered_list", "list_item"})
 
-#: A fenced code block's opening or closing line, capturing the fence so that a
-#: shorter run of the other character inside the block does not close it.
-FENCE = re.compile(r"[ ]{0,3}(`{3,}|~{3,})")
+LISTS = frozenset({"bullet_list", "ordered_list"})
 
-#: One level of blockquote marker, which is apparatus around prose rather than
-#: prose: the quoted text is what the reader reads.
-BLOCKQUOTE = re.compile(r"[ \t]*>[ \t]?")
+#: Węzły w linii, których treść jest tekstem tak, jak stoi. Treść wstawki
+#: kodowej prozą nie jest — znaczniki w jej środku są znakami i po to ta wstawka
+#: jest — a zostaje mimo to, bo identyfikator stojący tam, gdzie czytelnik go
+#: widzi, kosztuje mniej niż punktacja, którą kasowanie zostawia stykiem.
+#: docs/extraction.md ma obie ceny.
+LITERAL = frozenset({"text", "text_special", "code_inline"})
 
-HEADING = re.compile(r"[ ]{0,3}#{1,6}(?:[ \t]|\Z)")
+#: Węzły, które prozę owijają, więc zostaje po nich to, co owinęły.
+WRAPPING = frozenset({"link", "image", "em", "strong", "s"})
 
-#: A table row, recognized by the pipe that opens it. A table written without
-#: leading pipes is not recognized, which docs/extraction.md records.
-TABLE_ROW = re.compile(r"[ ]{0,3}\|")
-
-#: A line of nothing but rule characters. Under a paragraph it is a setext
-#: heading's underline and under a blank line it is a thematic break, and the
-#: two need no telling apart: both drop, and a heading drops with its underline.
-UNDERLINE = re.compile(r"[ ]{0,3}(?:=+|(?:[-_*][ \t]*){3,})[ \t]*\Z")
-
-#: An item that opens with a link, which is what a list of links is made of.
-LINK_ITEM = re.compile(r"\[[^\]]*\]\(")
-
-#: Where a reference link's target is declared. It renders as nothing, so it is
-#: apparatus wherever it stands.
-LINK_DEFINITION = re.compile(r"[ ]{0,3}\[[^\]]*\]:[ \t]")
-
-#: Every inline construct, in one pass, so that the markers inside a code span
-#: are code and the emphasis around a link is emphasis. The leading whitespace
-#: is captured with the construct: a construct with nothing inside it takes that
-#: whitespace along when it goes.
-INLINE = re.compile(
-    r"""
-    (?P<space>[ \t]*)
-    (?:
-        \\(?P<escaped>[!-/:-@\[-`{-~])
-      | (?P<ticks>`+)(?P<code>.+?)(?P=ticks)
-      | !\[(?P<alt>[^\]]*)\](?:\([^)]*\)|\[[^\]]*\])
-      | \[(?P<link>[^\]]*)\](?:\([^)]*\)|\[[^\]]*\])
-      | <(?P<autolink>[a-zA-Z][\w+.-]*:[^>\s]*)>
-      | \*\*(?P<strong>\S(?:.*?\S)?)\*\*
-      | (?<![\w\\])__(?P<strong_underscore>\S(?:.*?\S)?)__(?!\w)
-      | ~~(?P<struck>\S(?:.*?\S)?)~~
-      | \*(?P<emphasis>[^\s*](?:.*?[^\s*])?)\*
-      | (?<![\w\\])_(?P<emphasis_underscore>[^\s_](?:.*?[^\s_])?)_(?!\w)
-    )
-    """,
-    re.VERBOSE,
-)
-
-#: The groups :data:`INLINE` can match, each with whether what it captured is
-#: prose in its own right. A code span's content is not — the markers inside it
-#: are literal, which is the point of the span — and it is kept anyway, because
-#: an identifier standing where the reader sees one costs less than the
-#: punctuation a deletion leaves touching. docs/extraction.md has both prices.
-INLINE_GROUPS = (
-    ("escaped", False),
-    ("code", False),
-    ("alt", True),
-    ("link", True),
-    ("autolink", False),
-    ("strong", True),
-    ("strong_underscore", True),
-    ("struck", True),
-    ("emphasis", True),
-    ("emphasis_underscore", True),
-)
+#: Złamanie wiersza w źródle, które renderuje się jako odstęp.
+BREAKS = frozenset({"softbreak", "hardbreak"})
 
 
 def prose(text: str) -> str:
@@ -116,9 +82,8 @@ def prose(text: str) -> str:
     Blank lines separate paragraphs, so that a sentence does not run from one
     paragraph into the next, and nothing else in the result is a line break.
     """
-    stripped = COMMENT.sub("", FRONTMATTER.sub("", text))
-    lines = _without_trailing_links(stripped.splitlines())
-    paragraphs = (_inline(" ".join(block)).strip() for block in _blocks(lines))
+    root = SyntaxTreeNode(PARSER.parse(FRONTMATTER.sub("", text)))
+    paragraphs = (paragraph.strip() for paragraph in _paragraphs(_without_trailing_links(root)))
     #  A block can come out empty — an image with no description is a paragraph
     #  of nothing — and an empty line between two others would read as a break.
     body = "\n\n".join(paragraph for paragraph in paragraphs if paragraph)
@@ -136,100 +101,79 @@ def jednostki(text: str) -> list[Jednostka]:
     return [Jednostka(1, prose(text).rstrip("\n"))]
 
 
-def _without_trailing_links(lines: list[str]) -> list[str]:
+def _paragraphs(nodes: Iterable[SyntaxTreeNode]) -> Iterator[str]:
+    """Zejdź po drzewie i wydaj prozę każdego akapitu, jeden ciąg na akapit.
+
+    Akapit jest jedynym węzłem, który prozę niesie, a poza nim i pojemnikami
+    wszystko jest aparatem: nagłówek, tabela, blok kodu — z wcięcia tak samo jak
+    spod płotka — blok surowego HTML-a i linia oddzielająca odpadają razem z
+    tym, co w środku. Tekst, który przy tym pada, jest tekstem, którego reguła
+    i tak by nie zmierzyła: nagłówek i komórka tabeli nie są zdaniem, a
+    ``<summary>`` stoi w bloku, który renderer bierze w całości jako HTML.
+    """
+    for node in nodes:
+        if node.type == "paragraph":
+            yield _inline(node.children[0].children)
+        elif node.type in CONTAINERS:
+            yield from _paragraphs(node.children)
+
+
+def _inline(nodes: Iterable[SyntaxTreeNode]) -> str:
+    """Złóż prozę akapitu z tego, co zostawiają po sobie jego konstrukcje.
+
+    Konstrukcja, po której nic nie zostaje — obrazek bez opisu, komentarz HTML,
+    surowy tag — zabiera ze sobą odstęp, który przed nią stał. To jest ta
+    usterka, przeciw której moduł powstał: kasowanie, które odstęp zostawia,
+    dochodzi do reguł jako znak, który ktoś wpisał.
+
+    Tekst idzie osobną gałęzią właśnie dlatego, a nie dla porządku. Parser
+    stawia węzeł tekstu pustej długości tam, gdzie sam nic nie zjadł — za twardym
+    złamaniem wiersza stoi taki węzeł — więc wpuszczony do gałęzi konstrukcji
+    zabrałby odstęp, który złamanie wnosi, i skleiłby dwa zdania w jedno.
+
+    To, co owija prozę, przechodzi tędy jeszcze raz, więc emfaza wokół odnośnika
+    zostawia tekst odnośnika, a nie jego nawiasy.
+    """
+    text = ""
+    for node in nodes:
+        if node.type in LITERAL:
+            text += node.content
+        elif node.type in BREAKS:
+            text += " "
+        else:
+            wnętrze = _inline(node.children) if node.type in WRAPPING else ""
+            text = text + wnętrze if wnętrze else text.rstrip(" \t")
+    return text
+
+
+def _without_trailing_links(root: SyntaxTreeNode) -> list[SyntaxTreeNode]:
     """Drop the list of links that closes a document.
 
     Such a list is an index rather than prose — every entry is a title, a dash
     and a gloss — and it carries dashes at several times the rate of the text
     above it. Only a list closing the document goes, and only while every item
     of it opens with a link, so an ordinary list that happens to end a document
-    stays.
+    stays, and so does an entry standing above an aside in the middle of one.
     """
-    end = len(lines)
-    for index in range(len(lines) - 1, -1, -1):
-        if not lines[index].strip():
-            continue
-        item = BULLET.match(lines[index])
-        if item is None or not LINK_ITEM.match(lines[index][item.end() :]):
-            break
-        end = index
-    return lines[:end]
+    blocks = list(root.children)
+    while blocks and blocks[-1].type in LISTS:
+        items = list(blocks[-1].children)
+        while items and _opens_with_link(items[-1]):
+            items.pop()
+        #  Whatever stayed takes the list's place, which is also what ends the
+        #  walk: an item is not a list, so only a list that went whole lets the
+        #  outer loop reach the block above it.
+        blocks[-1:] = items
+    return blocks
 
 
-def _blocks(lines: Sequence[str]) -> list[list[str]]:
-    """Group the lines that make up each paragraph, apparatus dropped."""
-    blocks: list[list[str]] = [[]]
-    fence: str | None = None
-    quoted = False
-    for raw in lines:
-        line = _unquoted(raw)
-        #  A quotation interrupts the paragraph above it and is interrupted by
-        #  the paragraph below, so the two do not join into one line of prose.
-        was_quoted, quoted = quoted, line != raw
-        if quoted != was_quoted:
-            blocks.append([])
-        if fence is not None:
-            if _closes(fence, line):
-                fence = None
-        elif opening := FENCE.match(line):
-            fence = opening.group(1)
-            blocks.append([])
-        elif UNDERLINE.match(line):
-            blocks[-1].clear()
-        elif not line.strip() or _apparatus(line):
-            blocks.append([])
-        elif item := BULLET.match(line):
-            blocks.append([line[item.end() :].strip()])
-        else:
-            blocks[-1].append(line.strip())
-    return [block for block in blocks if block]
-
-
-def _apparatus(line: str) -> bool:
-    """Whether a line is a whole line of apparatus, which ends the paragraph above it."""
-    return any(pattern.match(line) for pattern in (HEADING, TABLE_ROW, LINK_DEFINITION))
-
-
-def _unquoted(line: str) -> str:
-    while marker := BLOCKQUOTE.match(line):
-        line = line[marker.end() :]
-    return line
-
-
-def _closes(fence: str, line: str) -> bool:
-    closing = FENCE.match(line)
-    return (
-        closing is not None
-        and closing.group(1)[0] == fence[0]
-        and len(closing.group(1)) >= len(fence)
-        and not line[closing.end() :].strip()
-    )
-
-
-def _inline(text: str) -> str:
-    return INLINE.sub(_replace, text)
-
-
-def _replace(match: re.Match) -> str:
-    """Put back what a construct wrapped, and nothing else.
-
-    What a construct wraps is prose in its own right, so it goes through the
-    same pass again: emphasis around a link leaves the link's text behind rather
-    than its brackets. The recursion terminates because every construct here
-    spends at least two characters on its own markers.
-
-    A construct with nothing inside it — an image with no description — takes
-    the whitespace in front of it along. That is the failure this module was
-    written against: a deletion that leaves the space behind reports it as a
-    defect somebody typed.
-    """
-    for name, nested in INLINE_GROUPS:
-        inner = match.group(name)
-        if inner is None:
-            continue
-        inner = _inline(inner) if nested else inner
-        return (match.group("space") + inner) if inner else ""
-    raise AssertionError(f"INLINE matched {match.group()!r} with no group")
+def _opens_with_link(item: SyntaxTreeNode) -> bool:
+    """Whether a list item is an entry of an index rather than something said."""
+    opening = item.children[0] if item.children else None
+    if opening is None or opening.type != "paragraph":
+        return False
+    inline = opening.children[0].children
+    return bool(inline) and inline[0].type == "link"
 
 
 # --------------------------------------------------------------------------- #

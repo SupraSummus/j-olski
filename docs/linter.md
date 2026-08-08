@@ -142,10 +142,10 @@ not the project.
 
 ### What the nominalization endings match
 
-Over the 38,937 words of prose extracted from
+Over the 31,417 words of prose extracted from
 [the audit corpus](audit-corpus.md#the-list),
 at the commits that list pins,
-`-anie`, `-enie` and `-cie` match 1,045 words.
+`-anie`, `-enie` and `-cie` match 906 words.
 `harness/endings.py` asks Morfeusz what each match is
 and files it by the first class its readings satisfy.
 The run that list prints is what leaves the prose in `proza/`,
@@ -157,33 +157,33 @@ python3 -m harness.endings proza --probe nominalization --probe impersonal
 
 | class | words | | commonest |
 | --- | --- | --- | --- |
-| gerund and ordinary noun both | 539 | 51.6% | `pobranie`, `przeznaczenie`, `uprawnienie` |
-| a gerund and nothing else | 304 | 29.1% | `wywołanie`, `uwierzytelnianie`, `sprawdzenie` |
-| an inflected form of another word | 144 | 13.8% | `formacie`, `kontekście`, `dokumencie` |
-| a verb form | 41 | 3.9% | `zostanie`, `dacie` |
-| no verb behind it and no other lemma | 9 | 0.9% | `oczywiście`, `kilkanaście` |
-| no reading | 8 | 0.8% | `samofakturowanie` |
+| gerund and ordinary noun both | 446 | 49.2% | `pobranie`, `uprawnienie`, `nadanie` |
+| a gerund and nothing else | 259 | 28.6% | `uwierzytelnianie`, `pobieranie`, `uwierzytelnienie` |
+| an inflected form of another word | 147 | 16.2% | `kontekście`, `formacie`, `dokumencie` |
+| a verb form | 37 | 4.1% | `zostanie`, `dacie` |
+| no verb behind it and no other lemma | 9 | 1.0% | `liście`, `oczywiście`, `kilkanaście` |
+| no reading | 8 | 0.9% | `samofakturowanie` |
 
 Two of the classes move the rule between tiers,
 and they move it in opposite directions.
 
-**A lemma removes three quarters of `-cie` and leaves nothing to act on.**
-130 of that ending's 196 matches are the locative singular of a masculine noun
-whose stem ends in `t` — `format`, `kontekst`, `dokument`, `element`, `moment` —
+**A lemma removes two thirds of `-cie` and leaves nothing to act on.**
+135 of that ending's 198 matches are the locative singular of a masculine noun
+whose stem ends in `t` — `format`, `kontekst`, `dokument`, `moment`, `certyfikat` —
 where the ending is an inflection and not a suffix,
-and 9 more are adverbs, a numeral and a region:
-`oczywiście`, `osobiście`, `kilkanaście`, `Podkarpacie`.
-The other two endings carry 14 inflected forms between them,
+and 9 more are adverbs, a numeral, a region and a plural noun:
+`oczywiście`, `osobiście`, `kilkanaście`, `Podkarpacie`, `liście`.
+The other two endings carry 12 inflected forms between them,
 so the contamination belongs to this ending rather than to the three,
 and it grows with the register,
 Polish technical prose taking its nouns from English and Latin stems in `t`.
-What survives the lemma is 49 words,
+What survives the lemma is 46 words,
 every one of them in the ambiguous class below:
 this ending's gerund column is empty
-where `-anie` fills it 246 times.
-So a lemma moves the rule from firing on 196 words to firing on 49
-and does not make one of the 49 decidable.
-That 130 is a floor rather than a count:
+where `-anie` fills it 202 times.
+So a lemma moves the rule from firing on 198 words to firing on 46
+and does not make one of the 46 decidable.
+That 135 is a floor rather than a count:
 the classifier tests for a verb first, on the strength of `zostanie`,
 which files the 6 occurrences of `dacie` as the second person plural of `dać`
 where a document dating an invoice means the locative of `data`.
@@ -203,15 +203,15 @@ morphology answers whether a word derives from a verb,
 where the rule asks whether a verb would do instead.
 The two questions have the same answer often enough
 for the suffix to look like a cheap version of a lemma rule,
-and they come apart over half of this corpus.
+and they come apart over nearly half of this corpus.
 
 The consequence for [the roadmap](roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it)
 is that its escape hatch is shut for this rule.
 A milestone-2 rule ships as a suffix
 on the promise that milestone 5's lemma version has to beat it on the numbers,
 and here the lemma version is the same rule:
-it removes the 144 inflected forms and the 9 words with no verb behind them,
-and cannot touch the 539.
+it removes the 147 inflected forms and the 9 words with no verb behind them,
+and cannot touch the 446.
 What would settle those is a count of how established each pairing is,
 which is a corpus and not an analyser,
 and is the instrument
@@ -226,19 +226,19 @@ Morfeusz reads an impersonal form as `imps`, and there is nothing to argue about
 
 | ending | matched | the `imps` target | what the rest is |
 | --- | --- | --- | --- |
-| `-no` | 428 | 375, 87.6% | 24 adverbs, 20 unread, 9 else |
-| `-to` | 170 | 39, 22.9% | 109 of the pronoun `to`, 22 else |
+| `-no` | 395 | 362, 91.6% | 24 adverbs, 9 else |
+| `-to` | 153 | 39, 25.5% | 99 of the pronoun `to`, 15 else |
 
 **The predicted problem is the smaller one.**
 The roadmap warns that a great many Polish adverbs end in `-no`,
-and 24 of 428 do: `zarówno` 17 times and `osobno` 7.
-At 5.6% that ending is the cleanest measured anywhere in this section,
+and 24 of 395 do: `zarówno` 17 times and `osobno` 7.
+At 6.1% that ending is the cleanest measured anywhere in this section,
 and `dodano`, `rozszerzono` and `zaktualizowano` are what it is finding.
 
 **What costs is one word.**
-109 of `-to`'s 170 matches are the pronoun `to`,
+99 of `-to`'s 153 matches are the pronoun `to`,
 which is among the commonest words in the language,
-and taking that single word out leaves 61 matches of which 39 are the target.
+and taking that single word out leaves 54 matches of which 39 are the target.
 So this is not the undecidable class above but a stoplist,
 and buying precision back in the data
 is what `unless_preceded_by` in [rules.md](rules.md) already does for a check.
@@ -251,9 +251,9 @@ and which of the three a rule is
 cannot be read off the fact that all three are suffixes.
 
 A smaller thing the run turns up belongs to the corpus rather than to an ending.
-30 of the two endings' matches are English identifiers reaching the prose —
-`page_no`, `pageno`, `validto`, `dateto` —
-which is [the extraction](extraction.md) leaving a name where a reader sees one,
+3 of the two endings' matches are an English identifier reaching the prose,
+`validto`, which is [the extraction](extraction.md)
+leaving a name where a reader sees one,
 and it puts a floor under any rate either ending reports over documentation.
 
 ### Recognizing a phrase by what it is not costs more
