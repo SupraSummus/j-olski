@@ -193,6 +193,10 @@ polszczyzny w jednym i w drugim przypadku.` —
 which is that coarseness in the open:
 every word there is one some production takes,
 and what stops the sentence is the shape they are in.
+The run says which is which rather than leaving it to be worked out:
+a rejected sentence names the words no production takes,
+or says that nothing derives it when every word is one some production does,
+which is the sentence above.
 
 That order is not the order of what an addition buys.
 Both rankings count the sentences a construction stopped,

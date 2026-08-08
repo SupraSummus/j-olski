@@ -116,15 +116,49 @@ class Grammar:
         self.start = start
         self.productions: list[Production] = []
         self._by_head: dict[str, list[Production]] = {}
+        self._po_części_mowy: dict[str, tuple[Word, ...]] | None = None
 
     def rule(self, head: str, body: list[Part], **features) -> Production:
         production = Production(head=head, body=tuple(body), features=_constraints(features))
         self.productions.append(production)
         self._by_head.setdefault(head, []).append(production)
+        self._po_części_mowy = None
         return production
 
     def for_head(self, head: str) -> list[Production]:
         return self._by_head.get(head, [])
+
+    def licencjonuje(self, pos: str, lemma: str, features: dict[str, frozenset[str]]) -> bool:
+        """Czy jakikolwiek terminal tej gramatyki bierze takie czytanie formy.
+
+        Pytanie stawiane przed rozbiorem i wyprowadzone z gramatyki, a nie
+        napisane obok niej: czytanie, którego nie bierze tu żaden terminal, nie
+        przejdzie przy żadnym środowisku cech, bo unifikacja tylko zawęża. Forma,
+        której w ten sposób nie zostaje ani jedno czytanie, jest tym, na czym
+        odrzucenie stanęło; docs/design-notes.md wywodzi, czemu warstwa mówiąca
+        to samo obok gramatyki byłaby gramatyką napisaną dwa razy.
+        """
+        return any(
+            bierze(terminal, pos, lemma, features, EMPTY) is not None
+            for terminal in self._terminale_dla(pos)
+        )
+
+    def _terminale_dla(self, pos: str) -> tuple[Word, ...]:
+        """Terminale, które w ogóle biorą tę część mowy.
+
+        Pytanie o licencję pada raz na czytanie formy, a odpowiada za nie część
+        mowy w większości przypadków, więc indeks stoi na niej: bez niego każde
+        czytanie przechodzi przez wszystkie terminale gramatyki.
+        """
+        if self._po_części_mowy is None:
+            indeks: dict[str, list[Word]] = {}
+            for production in self.productions:
+                for part in production.body:
+                    if isinstance(part, Word):
+                        for nazwa in part.pos:
+                            indeks.setdefault(nazwa, []).append(part)
+            self._po_części_mowy = {nazwa: tuple(słowa) for nazwa, słowa in indeks.items()}
+        return self._po_części_mowy.get(pos, ())
 
     def heads(self) -> frozenset[str]:
         return frozenset(self._by_head)
@@ -200,6 +234,27 @@ def unify(
             if not (spec & available):
                 return None
     return env
+
+
+def bierze(
+    terminal: Word,
+    pos: str,
+    lemma: str,
+    features: dict[str, frozenset[str]],
+    env: Env,
+) -> Env | None:
+    """Czy terminal bierze to czytanie formy, i z jakimi wiązaniami.
+
+    Warunek na czytanie stoi tu raz, a pytają o niego dwie rzeczy. Rozbiór pyta
+    ze środowiskiem, które przyszło od rodzeństwa, a :meth:`Grammar.licencjonuje`
+    pyta z ``EMPTY``, żeby odpowiedź nie zależała od zdania, w którym forma
+    stanęła.
+    """
+    if pos not in terminal.pos:
+        return None
+    if terminal.lemmas is not None and lemma not in terminal.lemmas:
+        return None
+    return unify(terminal.constraints, features, env)
 
 
 def features_of(production: Production, env: Env) -> dict[str, frozenset[str]]:

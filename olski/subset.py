@@ -341,6 +341,11 @@ class Verdict:
     #: widzi: ``ktoś`` wychodzi wtedy jako ``kto ktoś ś``.
     text: str
     result: Result
+    #: Formy nie do ominięcia, którym żadna produkcja nie bierze ani jednego
+    #: czytania: odrzucenie stanęło na nich, a nie na strukturze. Pola bez
+    #: wartości domyślnej, bo pusta krotka jest tu twierdzeniem o zdaniu, a
+    #: ``Nowa program zapisuje ustawienia.`` ma je puste i jest odrzucone.
+    nielicencjonowane: tuple[str, ...]
 
     @property
     def status(self) -> str:
@@ -358,6 +363,11 @@ class Verdict:
         if self.result.valid:
             return "one reading"
         if self.result.rejected:
+            if self.nielicencjonowane:
+                # Cudzysłów jest treścią: najczęstszą formą bez licencji jest
+                # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
+                formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
+                return f"no reading: no production takes {formy}"
             return "no reading: nothing in olski derives this"
         summaries = self.readings
         differing = sorted(
@@ -482,6 +492,52 @@ def _krawędzie(forma: str) -> list[Segment]:
     return [Segment(start=0, end=1, form=forma, readings=(Reading(forma, forma, NIEODMIENNY),))]
 
 
+def bez_licencji(segments: list[Segment], grammar: Grammar) -> tuple[str, ...]:
+    """Formy nie do ominięcia, którym gramatyka nie bierze ani jednego czytania.
+
+    Odrzucenie ma dwie przyczyny i są to dwie różne roboty do zrobienia: forma,
+    po którą nie sięga żadna produkcja, i struktura, której gramatyka nie
+    licencjonuje. Świgra trzyma je osobno (docs/swigra.md), a tę pierwszą widać
+    przed rozbiorem i widać ją wyprowadzoną z gramatyki: skoro unifikacja tylko
+    zawęża, czytanie odrzucone przez każdy terminal wobec ``EMPTY`` nie
+    przejdzie w żadnym zdaniu.
+
+    Liczy się przy tym krawędź, bez której nie ma drogi przez zdanie, a nie
+    każda pusta dziedzina: podział, który Morfeusz dokłada obok formy całej, nie
+    jest słowem, które ktokolwiek napisał. Wywód i to, co ten warunek daje za
+    darmo, trzyma docs/design-notes.md.
+
+    Forma stoi na liście raz, choćby w zdaniu powtórzyła się kilka razy, bo
+    odpowiedzią jest to, czego gramatyka nie bierze, a nie ile razy autor to
+    napisał.
+    """
+    formy: list[str] = []
+    for segment in segments:
+        if any(
+            grammar.licencjonuje(reading.tag.pos, reading.lemma, dict(reading.tag.features))
+            for reading in segment.readings
+        ):
+            continue
+        if _omijalna(segments, segment) or segment.form in formy:
+            continue
+        formy.append(segment.form)
+    return tuple(formy)
+
+
+def _omijalna(segments: list[Segment], krawędź: Segment) -> bool:
+    """Czy przez graf segmentacji idzie droga, która tej krawędzi nie bierze.
+
+    Krawędzie idą w górę po numerach węzłów, więc osiągalność liczy się jednym
+    przejściem po posortowanych, bez cofania się.
+    """
+    ujście = max(segment.end for segment in segments)
+    osiągalne = {min(segment.start for segment in segments)}
+    for segment in sorted(segments, key=lambda segment: segment.start):
+        if segment is not krawędź and segment.start in osiągalne:
+            osiągalne.add(segment.end)
+    return ujście in osiągalne
+
+
 def sentences(text: str) -> list[str]:
     """Tnie tekst na zdania i oddaje je tak, jak stoją.
 
@@ -503,7 +559,14 @@ def sentences(text: str) -> list[str]:
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     """Check every sentence of a text against the grammar."""
     grammar = grammar or GRAMMAR
-    return [
-        Verdict(text=sentence, result=parse(grammar, morphology(sentence)))
-        for sentence in sentences(text)
-    ]
+    verdicts = []
+    for sentence in sentences(text):
+        segments = morphology(sentence)
+        verdicts.append(
+            Verdict(
+                text=sentence,
+                result=parse(grammar, segments),
+                nielicencjonowane=bez_licencji(segments, grammar),
+            )
+        )
+    return verdicts

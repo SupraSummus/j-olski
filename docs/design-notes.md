@@ -673,11 +673,6 @@ i mnoży się to przez każde następne słowo, któremu słownik daje dwa lemat
 Sonda pokazała dwie rzeczy, które więzy robią taniej niż produkcja:
 przycinanie dziedzin przed szukaniem drzewa
 i powiedzenie, na czym odrzucenie stanęło.
-Drugiej olski nie ma.
-`blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
-i sam mówi, że między czytaniami wybiera dowolnie,
-a Świgra trzyma „Morfeusz tej formy nie zna”
-osobno od „gramatyka tego nie licencjonuje”.
 
 Kryterium, po którym taka warstwa wchodzi, jest jedno:
 musi się wyprowadzać z gramatyki.
@@ -687,11 +682,58 @@ czyli tym drugim właścicielem faktu, przed którym broni
 i jest to ten sam zarzut, który przewraca obudowanie Świgry
 oraz ten, który [`TODO.md`](../TODO.md) stawia `sonda/polszczyzna.py`.
 Wyprowadzona nie kosztuje ani jednej deklaracji.
+
 Najtańszym kawałkiem takiej warstwy jest licencja terminala,
-i daje ona oba zyski naraz:
-czytanie, którego nie bierze żaden `Word` w gramatyce, wypada przed rozbiorem,
-a forma, której w ten sposób nie zostaje ani jedno czytanie,
-jest tym, na czym odrzucenie stanęło.
+czyli pytanie, czy czytanie formy bierze jakikolwiek `Word` w gramatyce.
+`licencjonuje` w `olski/grammar.py` stawia je wobec `EMPTY`,
+i wolno tak, bo unifikacja tylko zawęża:
+czytanie, którego bez środowiska nie bierze żaden terminal,
+nie przejdzie przy żadnym.
+Warunek na czytanie stoi przy tym raz, w `bierze` obok niej,
+i pytają o niego rozbiór i licencja,
+bo dwie kopie tego warunku byłyby dwoma właścicielami tego samego faktu
+tak samo jak warstwa napisana obok gramatyki.
+
+Drugi z dwóch zysków wychodzi z tego prawie wprost.
+Forma, której w ten sposób nie zostaje ani jedno czytanie,
+jest tym, na czym odrzucenie stanęło, i werdykt ją wypisuje:
+
+```sh
+python3 -m olski.check -c "Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md."
+python3 -m olski.check -c "Nowa program zapisuje ustawienia."
+```
+
+Pierwsze zdanie stoi na przecinku i na polskiej formie, której słownik nie zna,
+a drugie ma każdą formę wziętą i stoi na zgodności rodzaju.
+Są to dwie różne odpowiedzi i dwie różne roboty do zrobienia,
+i dlatego werdykt je rozdziela, tak jak
+[rozdziela je Świgra](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
+
+Owo „prawie” jest jedną rzeczą i bierze się stąd, że segmenty są krawędziami
+grafu, a nie listą.
+Morfeusz dzieli `Ktoś` na `Kto` i `ś` obok formy całej,
+a `ś` nie ma ani jednego czytania, które bierze jakakolwiek produkcja,
+i nie jest przy tym słowem, które ktokolwiek napisał.
+Werdykt nazywa więc nie każdą pustą dziedzinę,
+tylko krawędź, bez której nie ma drogi przez zdanie,
+i `Ktoś zna docs/rules.md.` wychodzi przez to przyjęte, nie mówiąc o `ś` nic.
+Zdanie, które ma czytanie, nie zgłasza tym samym żadnej formy,
+i nie zgłasza jej z dowodu, a nie z przybliżenia:
+ścieżka, którą to czytanie się wyprowadza, omija każdą krawędź, której nie wzięła.
+Sonda tego pytania nie miała, bo
+[zdania o rozchodzącym się grafie nie rozbiera wcale](#podłoże-więzowe-zmierzone-sondą).
+
+Pierwszego zysku nie ma, a cena za niego stoi poza parserem.
+Czytanie bez licencji nie zmienia dziś żadnego werdyktu,
+bo `terminal` w `olski/parse.py` odrzuca je tak samo,
+ani nie rusza `furthest`, który idzie w górę wyłącznie po dopasowaniu udanym,
+więc wycięcie takiego czytania przed rozbiorem oddaje ten sam `Result`, tylko szybciej.
+Rusza się co innego: `blocker` w `olski/coverage.py`
+nazywa część mowy pierwszego czytania formy,
+więc formie wyciętej do zera nazwałby brak struktury zamiast braku licencji,
+a na tym odczycie stoi kolejka z [corpus.md](corpus.md#where-the-analyses-stop).
+Wycięcie jest więc zmianą w kolejce, a nie w parserze,
+i [`TODO.md`](../TODO.md) trzyma je razem z przebiegiem, który jest winne.
 
 ### Kierunek: produkcja się rozwarstwia, a podłoże zostaje
 

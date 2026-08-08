@@ -86,6 +86,8 @@ i werdykt wskazuje przyimek wraz z głowami, do których dochodzi.
 Warunkiem, bez którego las na to pytanie nie odpowie,
 jest pakowanie po sygnaturze czytania, a nie po środowisku cech;
 `analyses` w `olski/parse.py` tę dyscyplinę już trzyma i trzeba ją zachować.
+Czy sama ta dyscyplina wystarcza, pyta wpis o warunku pakowania,
+i idzie on przed tym, bo rozstrzyga, co ten parser pakuje.
 Zmiana nie rusza ani jednej produkcji,
 więc sprawdza się ją werdykt po werdykcie wobec tego, co stoi,
 nad prozą README i nad Składnicą.
@@ -101,29 +103,59 @@ I `--max-tokens`, którym `olski-corpus` omija zdania, na jakie enumeratora nie 
 liczenie czytań bez wyliczania ich powinno ten próg podnieść,
 a o ile, jest do zmierzenia, a nie do założenia.
 
-Odrzucenie nie mówi, na czym stanęło, a przebieg wyprowadzony z gramatyki by mówił.
-`blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
-i sam w docstringu mówi, że między czytaniami formy wybiera dowolnie,
+Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
+`licencjonuje` w `olski/grammar.py` odpowiada na to wyprowadzone z gramatyki,
+i `olski-check` tę odpowiedź nad zdaniem wypisuje,
+gdzie `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
+i sam w docstringu mówi, że między czytaniami wybiera dowolnie,
 więc kolejka z [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-jest rankingiem stojącym na tym wyborze.
-Świgra trzyma formę, której Morfeusz nie zna,
-osobno od konstrukcji, której gramatyka nie licencjonuje
-([`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
-a olski te dwie odpowiedzi zlewa w jedną.
-Ruchem jest przebieg przed rozbiorem,
-pytający dla każdego czytania formy, czy bierze je jakikolwiek `Word` w `GRAMMAR`,
-i wypisujący te formy, nad którymi nie stoi żaden.
-Wyprowadzenie z gramatyki jest tu warunkiem, a nie wygodą:
-warstwa napisana obok gramatyki jest drugim właścicielem tego samego faktu,
-czyli tym, przed czym broni
-[`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
-i tym zarzutem, który stoi przy `sonda/polszczyzna.py` w tej samej liście.
-Mierzy się to nad dokumentacją, a nie nad bankiem drzew,
+jest rankingiem stojącym na tym wyborze,
+choć ten dokument opisuje ją jako listę słów, których żadna produkcja nie bierze.
+Ruchem jest wycięcie czytań bez licencji przed rozbiorem,
+po którym forma bez ani jednego czytania jest dla `blockera` brakiem licencji,
+a nie brakiem struktury, którym ją dziś nazwie.
+Samo wycięcie nie rusza ani jednego werdyktu i wywód na to trzyma
+[`docs/design-notes.md`](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej):
+`terminal` w `olski/parse.py` odrzuca te czytania tak samo,
+a `furthest` idzie w górę wyłącznie po dopasowaniu udanym.
+Rusza za to kolejkę, więc wpis jest winien pobranie Składnicy,
+oba przebiegi `olski-corpus` i poprawienie tabel,
+czego [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w czytaniach,
+jakie gramatyka dostaje.
+Do przeczytania jest, ile ta kolejka na tym się zmienia,
 i tę różnicę trzeba przeczytać przed wybraniem korpusu:
 złota morfologia zostawia bank drzew bez ani jednej formy nieznanej,
-więc tam ten przebieg nie rozdzieli niczego,
-a nad prozą README brak w słowniku stoi w kolejce z
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) zaraz za przecinkiem.
+więc tam wycięcie nie rozdzieli niczego,
+a nad prozą README brak w słowniku stoi w tej kolejce zaraz za przecinkiem.
+Zostaje przy tym pytanie, którego werdykt nad zdaniem nie zadaje:
+`olski-check` mówi o zdaniu, a nie o pliku,
+więc rankingu form bez licencji nad dokumentem nie wypisuje nikt,
+i do rozstrzygnięcia jest, czy jest to wiersz tej komendy, czy tryb obok niej.
+
+Warunek, który postawiono pakowaniu lasu rozbiorów, jest konieczny i nie widać, żeby wystarczał.
+[Tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
+żąda pakowania po sygnaturze czytania, a nie po środowisku cech,
+i zdejmuje tym nadmiar, który robią dwa lematy jednej formy.
+Drugiego nie zdejmuje.
+Sygnatura cech nie niesie, a produkcja wiąże cechy rodzeństwa jedną zmienną
+(`AGREE` w `olski/subset.py`),
+więc węzeł spakowany po nazwie i rozpiętości niesie zbiór środowisk,
+z których część przechodzi wyłącznie w parze z konkretnym środowiskiem sąsiada.
+Liczba czytań wzięta z takiego lasu jako suma iloczynów liczy wtedy pary,
+których unifikacja nie przepuszcza.
+Jest to nadmiar wzięty z przeciwnej strony niż ten,
+przed którym tamta sekcja broni: tamten bierze się z rozdzielenia pozycji,
+a ten ze sklejenia, i oba kończą się liczbą większą od liczby czytań.
+Do przeczytania jest najpierw sama gramatyka, bo to jest czytanie tanie:
+potrzeba produkcji, która dzieli zmienną między dwoma symbolami,
+z których przynajmniej jeden ma nad jedną rozpiętością
+dwa różne zestawy dzieci wychodzące z różnymi cechami.
+Jeśli takiej nie ma, warunek wystarcza dla tej gramatyki i trzeba to zapisać,
+bo następna produkcja może go zabrać.
+Jeśli jest, potwierdza to przebieg porównujący nad prozą README i nad Składnicą
+liczbę czytań z enumeratora z sumą iloczynów po lesie,
+i pierwsze zdanie niezgodne mówi, na czym pakowanie trzeba oprzeć inaczej.
+Wpis stoi przed wpisem o parserze tablicowym, bo rozstrzyga, co ten parser pakuje.
 
 Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
 od precedencji.
@@ -467,29 +499,6 @@ więc symetria jest z `lemmas`, a nie z cechami.
 Do przeczytania jest, czy podział lematami rozłącza czytania:
 forma bywa dwoma lematami naraz, a warunek działa na czytaniu, nie na formie.
 
-`olski-check` nie mówi, na czym zdanie stanęło, a `olski-corpus` mówi.
-`Outcome.blocker` w `olski/coverage.py` nazywa część mowy tokenu,
-na którym rozbiór się zatrzymał, i `Report.blockers` z tego rankuje kolejkę,
-gdzie `Verdict` w `olski/subset.py` ma na odrzucenie jedno zdanie:
-`no reading: nothing in olski derives this`.
-Obie drogi wołają ten sam parser,
-więc różnica jest w tym, co która z nich z niego wyjmuje, a nie w tym, co widzi.
-Kolejność, w jakiej README ustawia braki gramatyki, z tego polecenia więc nie wychodzi:
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-opisuje ją jako listę słów, których żadna produkcja nie bierze,
-a [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme)
-każe ten sam przebieg powtarzać po każdej zmianie w gramatyce.
-Ruchem jest zejście `blocker` na `Result` w `olski/parse.py`,
-tak jak zeszedł tam `status`, który stał w obu klasach w dwóch kopiach,
-plus segmenty, których `Verdict` nie niesie, a `blocker` ich potrzebuje,
-i wypisanie rankingu przez `olski-check` nad plikiem.
-Do przeczytania jest to, czy blocker liczony nad żywą morfologią
-mówi cokolwiek ponad to, co mówi lista form nieznanych:
-`docs/corpus.md` ostrzega, że przy wielu czytaniach formy
-blocker nazywa pierwsze z nich,
-a nad dokumentacją nikt czytań nie ujednoznacznia,
-więc blocker jest tam zawsze tym przybliżonym.
-
 `olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
 `_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik
 i liczy to, co minął, żeby przebieg nad katalogiem nie lintował licencji,
@@ -633,9 +642,9 @@ so it should not be tied to the morphology sources:
 a point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
 is a net of what a tier buys against what it costs in uniqueness,
 which is two grammars disagreeing rather than two morphologies.
-The entry that takes `blocker` down to `Result` in `olski/parse.py`
-moves the property the blocking form would be carried on,
-so whichever of the two is taken first decides where it is computed
+The entry about cutting unlicensed readings before the parse
+moves what `blocker` reads off a form,
+so whichever of the two is taken first decides what the blocking form is,
 and they are one session.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
