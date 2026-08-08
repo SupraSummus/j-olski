@@ -235,7 +235,7 @@ and 155 of 881 in the memoir — 23% and 18%.
 is the frame in its pure form.
 
 Two entries in
-[the candidate inventory](linter.md#candidate-rule-inventory)
+[the candidate inventory](rule-inventory.md)
 are therefore one construction:
 em dash frequency, filed under typography,
 and parallel-negation frames, filed under structural and statistical.

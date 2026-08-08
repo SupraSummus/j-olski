@@ -660,24 +660,6 @@ bo o polszczyźnie niczego nie twierdzą i po to stoją poza linterem,
 więc zostaje z tego asercja, że plik się wczytuje,
 i trzeba zdecydować, czy tyle jest warte testu.
 
-`docs/linter.md` jest i wywodem, i kolejką reguł, a kod wskazuje na kolejkę.
-Każda z dziewięciu reguł pakietu typograficznego ma w `sources`
-`docs/linter.md#typography-tier-a`, czyli podsekcję inwentarza kandydatów,
-więc `--explain` odsyła czytelnika do najdłuższego pliku w repozytorium,
-a [`docs/roles.md`](docs/roles.md) posyła tam autora reguły
-po następną pozycję do zrobienia.
-Ruchem jest wyjęcie inwentarza do własnego dokumentu,
-który README wymienia, `sources` cytują,
-a `docs/linter.md` streszcza zdaniem i linkuje —
-tak jak dziś streszcza [`docs/prose-linters.md`](docs/prose-linters.md)
-i [`docs/fiction.md`](docs/fiction.md).
-Zostaje wtedy wywód, po który reszta dokumentów naprawdę tam chodzi.
-`tests/test_docs.py` łapie linki i cytowania z kodu,
-więc kosztem jest przecelowanie ich, a nie znalezienie.
-Do przeczytania jest, co jeszcze jest inwentarzem, a nie wywodem:
-lista reguł lintowalnych w prozie literackiej
-stoi poza sekcją inwentarza i jest taką samą listą kandydatów.
-
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
 Sekcja `Settled` powtarza cel roboczy (README i [`docs/linter.md`](docs/linter.md)),
@@ -717,7 +699,7 @@ więc każda dostanie wtedy pola, których dziś nie ma.
 
 Lista dokumentów w README miesza dwa tory, które sekcja nad nią rozdziela.
 [`Co działa`](README.md#co-działa) mówi, że działają dwie rzeczy,
-a lista pod nią ma dziewiętnaście pozycji bez podziału,
+a lista pod nią biegnie bez podziału i rośnie z każdym dokumentem,
 więc czytelnik toru gramatycznego i autor reguły
 przechodzą przez cudze pozycje, zanim dojdą do swoich.
 Ruchem jest pogrupowanie listy — tor linterowy, tor gramatyczny

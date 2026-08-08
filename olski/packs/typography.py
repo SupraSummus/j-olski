@@ -44,7 +44,7 @@ pack.rule(
     which is also why it is one of the more visible signatures of generated text.
     """,
     sources=(
-        "docs/linter.md#typography-tier-a",
+        "docs/rule-inventory.md#typography-tier-a",
         "https://en.wikipedia.org/wiki/Wikipedia_talk:Signs_of_AI_writing",
     ),
 )
@@ -59,7 +59,7 @@ pack.rule(
     A straight ASCII quote is a keyboard artifact rather than a Polish mark,
     and it carries no information about which end of the quotation it is.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -75,7 +75,7 @@ pack.rule(
     and the closing ” is the same character in both.
     An opening “ in Polish text is half-applied English typesetting.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -100,7 +100,7 @@ pack.rule(
     more often than to a conjunction,
     and one list cannot hold `Tom I` out and let `I` in.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -113,7 +113,7 @@ pack.rule(
     Runs of spaces inside a line are an editing artifact,
     and they survive into rendered output as visible gaps.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -127,7 +127,7 @@ pack.rule(
     changes nothing about the rendered text,
     and shows up in every later diff of the line that carries it.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -149,7 +149,7 @@ pack.rule(
     set tight against the preceding word.
     A space before one is a French convention or a typing slip, not a Polish one.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -164,7 +164,7 @@ pack.rule(
     The missing space is nearly always a concatenation artifact rather than a choice,
     which is why this rule is safe to state without a threshold.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 
 pack.rule(
@@ -189,5 +189,5 @@ pack.rule(
     which is code rather than Polish
     and belongs in a code span the linter is not being shown.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )

@@ -182,7 +182,7 @@ or the user picks a pack explicitly.
 
 **Sentence-length variance in technical Polish.**
 Which side of the spread is the defect is read two ways here.
-[The candidate inventory](linter.md#candidate-rule-inventory)
+[The candidate inventory](rule-inventory.md#structural-and-statistical-tier-a-with-sentence-splitting)
 files low variance as the tell in technical documentation,
 which asks a rule for a floor.
 [fiction.md](fiction.md#what-this-means-for-olski)

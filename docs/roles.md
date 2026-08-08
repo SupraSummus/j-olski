@@ -114,7 +114,7 @@ z testami w `tests/test_checks.py`.
 Dwa wymagania idą z tą rolą od początku:
 [ile analizy regule wolno zażądać](linter.md#how-deep-does-each-rule-have-to-see)
 oraz [to, że bez kalibracji próg jest opinią z przecinkiem](linter.md#the-thing-that-makes-or-breaks-it-calibration).
-Inwentarz kandydatów w [linter.md](linter.md#candidate-rule-inventory)
+Inwentarz kandydatów w [rule-inventory.md](rule-inventory.md)
 jest listą, z której ta rola bierze następną regułę,
 a [fiction.md](fiction.md) i [generated-polish.md](generated-polish.md)
 tłumaczą, skąd część tych pozycji się tam wzięła.

@@ -145,7 +145,7 @@ def test_explain_prints_the_justification_and_the_calibration_state(tmp_path, ca
     out = capsys.readouterr().out
     assert "Polish typography uses" in out
     assert "calibration: uncalibrated" in out
-    assert "see docs/linter.md#typography-tier-a" in out
+    assert "see docs/rule-inventory.md#typography-tier-a" in out
 
 
 def test_an_uncalibrated_rule_names_the_measurement_it_is_waiting_for(capsys):
