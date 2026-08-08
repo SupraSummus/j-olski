@@ -589,6 +589,16 @@ are declared there rather than read off the corpus.
 Each of them prints the commands that produce its figures,
 which is the whole reason those commands are there.
 
+One table in this list is not moved by the grammar at all,
+and it is the one easiest to leave stale for that reason.
+[The attachment table](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia)
+counts other people's trees,
+so no production moves it and the reruns above never reach it.
+What moves it is a change to what `olski/attachment.py` counts —
+which categories are a clause and which a noun phrase,
+what standing after a verb means —
+and there the rerun is owed like any other.
+
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —
 so the text under a figure holds still

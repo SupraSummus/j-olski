@@ -178,6 +178,25 @@ or the format notice alone,
 on the grounds that a reader can see how long their own file is
 and cannot see what a suffix promised on its behalf.
 
+Raport nie odróżnia dwóch czytań, które różni samo miejsce przyłączenia.
+`Koszt samej szynki przewyższa koszt szynki z dodatkami.` ma sześć czytań,
+a `describe` w `olski/parse.py` streszcza je rolami z `ROLES`,
+więc dwie pary wychodzą z tego identyczne:
+`z dodatkami` dochodzi raz do `koszt`, a raz do `szynki`,
+i w obu przypadkach dopełnieniem jest ten sam `koszt szynki z dodatkami`,
+a modyfikatorem ten sam `z dodatkami`.
+Czytelnik dostaje więc dwa razy ten sam wiersz i nie ma z czego zobaczyć,
+czym te czytania się różnią,
+a jest to dokładnie to rozróżnienie, dla którego
+[te pozycje](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
+w gramatyce stoją.
+Ruchem jest nazwanie w streszczeniu tego, do czego modyfikator doszedł,
+czyli rozpiętości albo roli węzła, pod którym stoi;
+`Node` w `olski/parse.py` niesie rozpiętość, więc jest to pytanie o wydruk,
+a nie o parser.
+Do rozstrzygnięcia jest, czy `ROLES` zostaje listą ról,
+skoro to, co trzeba dopisać, rolą nie jest.
+
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -376,24 +395,6 @@ mówi cokolwiek ponad to, co mówi lista form nieznanych:
 blocker nazywa pierwsze z nich,
 a nad dokumentacją nikt czytań nie ujednoznacznia,
 więc blocker jest tam zawsze tym przybliżonym.
-
-A modifier between the subject and the verb has nowhere to go but the subject.
-`Chałka pod względem smaku przewyższa zwykłą bułkę.` comes out `valid`
-with the taste made part of the challah,
-because `NPConjunct → subst Modifier` is the only rule
-that can take a phrase in that position
-and the clause rules have no slot there.
-That is the narrowness
-[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-already caught on `Przybysze z najnowszej fali na ogół`,
-reached from the other side:
-a fronted modifier now has a rule of its own and a preverbal one does not.
-The move is a `ClauseConjunct → Subject Modifier Predicate` rule,
-which turns those sentences from silently wrong into honestly ambiguous.
-What has to be read before taking it is the same run both ways:
-what the rule does to the accepted count
-and to the four disagreements in that table,
-since the sentences it costs are ones olski accepts today.
 
 `olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
 `_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik
@@ -613,9 +614,14 @@ dochodzi do reguł tędy, a nie przez `olski`,
 a `harness/endings.py` dokłada, że stoi tam,
 bo o polszczyźnie niczego nie twierdzi.
 Oba kryteria trafiają w `olski/corpus.py`, który czyta XML Składnicy,
-i w `olski/coverage.py`, który mierzy nim gramatykę
-i produkuje tabele [`docs/corpus.md`](docs/corpus.md).
-Oba są liśćmi — w `olski` nikt ich nie importuje poza nimi samymi —
+w `olski/coverage.py`, który mierzy nim gramatykę
+i produkuje tabele [`docs/corpus.md`](docs/corpus.md),
+oraz w `olski/attachment.py`, który mierzy nim sam korpus
+i produkuje tabelę
+[`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia).
+Trzeci z nich jest przy tym przypadkiem najostrzejszym,
+bo o gramatyce nie mówi nic, tak samo jak `harness/endings.py`.
+Wszystkie trzy są liśćmi — w `olski` nikt ich nie importuje poza nimi samymi —
 a mimo to instalują się z pakietem (`include = ["olski*"]` w `pyproject.toml`)
 i jeden z nich ma własną komendę,
 gdzie tak samo pomiarowe programy toru linterowego
@@ -628,7 +634,7 @@ i w [sekcji Checks](CLAUDE.md#checks),
 albo `harness/__init__.py` mówi, że jest harnessem toru linterowego,
 co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
-czytnik banku drzew i program pomiarowy są w nim dziś,
+czytnik banku drzew i dwa programy pomiarowe są w nim,
 a nikt, kto lintuje tekst, ich nie woła.
 
 Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.
@@ -638,7 +644,8 @@ a tor linterowy nie sięga po niego ani razu:
 `olski/rules.py`, `olski/calibration.py` i `olski/packs/` nie importują `olski/morph.py`,
 czyli jedynego miejsca, w którym stoi `import morfeusz2`,
 a wołają go `olski/parse.py`, `olski/subset.py`, `olski/corpus.py`
-i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`.
+i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`,
+a przez `corpus` także `olski/attachment.py`.
 [Sekcja Checks](CLAUDE.md#checks) opisuje środowisko,
 w którym koło Morfeusza się nie zbudowało,
 a `tests/test_morph.py`, `tests/test_subset.py` i `tests/test_corpus.py`

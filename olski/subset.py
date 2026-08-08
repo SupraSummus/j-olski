@@ -70,63 +70,62 @@ def build() -> Grammar:
     grammar.rule("Clause", [nt("ClauseConjunct")])
     grammar.rule("Clause", [nt("ClauseConjunct"), word("conj"), nt("Clause")])
 
-    # A finite clause, in the two orders Polish actually uses, plus the
-    # subjectless form: Zapisz plik has no subject and needs none, and neither
-    # does Zapisuje ustawienia.
+    # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
+    # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
+    # obiekt mówią dalej każda o swojej zgodności. Rodzaj podmiotu niosą tylko te
+    # szyki, w których coś się z podmiotem w rodzaju zgadza.
+    podmiot = nt("Subject", number=V("n"), person=V("p"))
+    podmiot_rodzaju = nt("Subject", number=V("n"), gender=V("g"), person=V("p"))
+    orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"))
+    czasownik = nt("Verb", number=V("n"), person=V("p"))
+    łącznik = nt("Copula", number=V("n"), person=V("p"))
+    orzecznik = nt("Predicative", case="nom", number=V("n"), gender=V("g"))
+    orzecznik_narzędnika = nt("Predicative", case="inst")
+    orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
+    dopełnienie = nt("Object")
+    okoliczniki = nt("Adjuncts")
+
+    # Szyki zdania, każdy w tylu wersjach, ile ma miejsc na okolicznik.
     #
-    # Person comes from the subject rather than being fixed at ter, which is
-    # what admits a first or second person pronoun as one. A noun phrase headed
-    # by a noun says person=ter itself, so an imperative still cannot take one.
-    grammar.rule(
-        "ClauseConjunct",
-        [
-            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
-            nt("Predicate", number=V("n"), gender=V("g"), person=V("p")),
-        ],
-    )
-    grammar.rule(
-        "ClauseConjunct",
-        [
-            nt("Object"),
-            nt("Verb", number=V("n"), person=V("p")),
-            nt("Subject", number=V("n"), person=V("p")),
-        ],
-    )
+    # Wersje z okolicznikiem są jedną decyzją, a nie ośmioma: przyłączenie
+    # wyrażenia przyimkowego olski oddaje czytelnikowi, więc każde miejsce, w
+    # którym grupa imienna takie wyrażenie bierze, musi umieć oddać je też
+    # zdaniu. Pozycji brakującej nie widać po zdaniu odrzuconym, tylko po
+    # przyjętym: wychodzi ono jednym czytaniem, bo drugie nie miało gdzie się
+    # wyprowadzić. docs/subset.md trzyma wywód i cenę.
+    #
+    # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
+    # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
+    # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
+    grammar.rule("ClauseConjunct", [podmiot_rodzaju, orzeczenie])
+    grammar.rule("ClauseConjunct", [podmiot_rodzaju, okoliczniki, orzeczenie])
+
+    # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
+    # jak Zapisuje ustawienia.
     grammar.rule("ClauseConjunct", [nt("Predicate")])
 
-    # Verb before subject: Nadchodzi druga rewolucja, Są oni obdarzeni rozumem.
-    # The subject takes no complements of its own here, so Zapisuje program
-    # ustawienia does not derive and no SVO sentence competes with a
-    # verb-initial reading of itself.
-    grammar.rule(
-        "ClauseConjunct",
-        [
-            nt("Verb", number=V("n"), person=V("p")),
-            nt("Subject", number=V("n"), person=V("p")),
-        ],
-    )
-    grammar.rule(
-        "ClauseConjunct",
-        [
-            nt("Verb", number=V("n"), person=V("p")),
-            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
-            nt("Predicative", case="nom", number=V("n"), gender=V("g")),
-        ],
-    )
+    grammar.rule("ClauseConjunct", [dopełnienie, czasownik, podmiot])
+    grammar.rule("ClauseConjunct", [dopełnienie, okoliczniki, czasownik, podmiot])
+    grammar.rule("ClauseConjunct", [dopełnienie, czasownik, podmiot, okoliczniki])
+
+    # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
+    # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
+    # ustawienia się nie wyprowadza i żadne zdanie SVO nie konkuruje z czytaniem
+    # samego siebie od czasownika.
+    grammar.rule("ClauseConjunct", [czasownik, podmiot])
+    grammar.rule("ClauseConjunct", [czasownik, podmiot, okoliczniki])
+    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, orzecznik])
+    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, okoliczniki, orzecznik])
+    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, orzecznik, okoliczniki])
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
     # predykatyw nie miał, więc ten sam szyk wychodził raz tak, a raz wcale,
     # zależnie od tego, co po czasowniku stoi. Przypadek orzecznika stoi tu otwarty,
     # bo oba szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku.
-    grammar.rule(
-        "ClauseConjunct",
-        [
-            nt("Predicative", number=V("n"), gender=V("g")),
-            nt("Copula", number=V("n"), person=V("p")),
-            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
-        ],
-    )
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, łącznik, podmiot_rodzaju])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, łącznik, podmiot_rodzaju])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, łącznik, podmiot_rodzaju, okoliczniki])
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -145,18 +144,10 @@ def build() -> Grammar:
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
     # below share it instead of each carrying its own copy.
+    grammar.rule("Predicate", [czasownik], number=V("n"), person=V("p"))
     grammar.rule(
         "Predicate",
-        [nt("Verb", number=V("n"), person=V("p"))],
-        number=V("n"),
-        person=V("p"),
-    )
-    grammar.rule(
-        "Predicate",
-        [
-            nt("Verb", number=V("n"), person=V("p")),
-            nt("Complements", number=V("n"), gender=V("g")),
-        ],
+        [czasownik, nt("Complements", number=V("n"), gender=V("g"))],
         number=V("n"),
         person=V("p"),
         gender=V("g"),
@@ -165,19 +156,10 @@ def build() -> Grammar:
     # Kopula i orzecznik rzeczownikowy, którego nie bierze nic poza nią: Jan jest
     # nauczycielem. Bez tego ograniczenia narzędnik okolicznikowy czyta się jako
     # orzecznik pod każdym czasownikiem, co docs/corpus.md liczy nad bankiem drzew.
+    grammar.rule("Predicate", [łącznik, orzecznik_narzędnika], number=V("n"), person=V("p"))
     grammar.rule(
         "Predicate",
-        [nt("Copula", number=V("n"), person=V("p")), nt("Predicative", case="inst")],
-        number=V("n"),
-        person=V("p"),
-    )
-    grammar.rule(
-        "Predicate",
-        [
-            nt("Copula", number=V("n"), person=V("p")),
-            nt("Predicative", case="inst"),
-            nt("Adjuncts"),
-        ],
+        [łącznik, orzecznik_narzędnika, okoliczniki],
         number=V("n"),
         person=V("p"),
     )
@@ -194,21 +176,15 @@ def build() -> Grammar:
     grammar.rule("InfinitivePhrase", [word("inf")])
     grammar.rule("InfinitivePhrase", [word("inf"), nt("Complements")])
 
-    grammar.rule("Complements", [nt("Object")])
-    grammar.rule("Complements", [nt("Adjuncts")])
-    grammar.rule("Complements", [nt("Object"), nt("Adjuncts")])
-    grammar.rule(
-        "Complements",
-        [nt("Predicative", case="nom", number=V("n"), gender=V("g"))],
-        number=V("n"),
-        gender=V("g"),
-    )
-    grammar.rule(
-        "Complements",
-        [nt("Predicative", case="nom", number=V("n"), gender=V("g")), nt("Adjuncts")],
-        number=V("n"),
-        gender=V("g"),
-    )
+    grammar.rule("Complements", [dopełnienie])
+    grammar.rule("Complements", [okoliczniki])
+    grammar.rule("Complements", [dopełnienie, okoliczniki])
+    # Okolicznik przed dopełnieniem: Program zapisuje w pliku ustawienia. Bez tej
+    # pozycji zdanie wychodzi jednym czytaniem, w którym w pliku ustawienia jest
+    # jedną frazą, a dopełnienia nie ma wcale.
+    grammar.rule("Complements", [okoliczniki, dopełnienie])
+    grammar.rule("Complements", [orzecznik], number=V("n"), gender=V("g"))
+    grammar.rule("Complements", [orzecznik, okoliczniki], number=V("n"), gender=V("g"))
     # Bezokolicznik jest tym, co czasownik bierze, tak jak dopełnienie: Linter
     # pomaga pisać dobry kod. Łańcuch nie potrzebuje własnej reguły, bo
     # InfinitivePhrase → inf Complements wraca tutaj i ma pomagać pisać wychodzi
@@ -218,7 +194,7 @@ def build() -> Grammar:
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
     # has two and a verb that takes one of them takes any number.
     grammar.rule("Adjuncts", [nt("Modifier")])
-    grammar.rule("Adjuncts", [nt("Modifier"), nt("Adjuncts")])
+    grammar.rule("Adjuncts", [nt("Modifier"), okoliczniki])
 
     # What is predicated of the subject: an adjective phrase agreeing with it,
     # or a noun phrase in the instrumental. Both are what być takes, and the
@@ -305,6 +281,22 @@ def build() -> Grammar:
     grammar.rule(
         "NPConjunct", [word("subst", **AGREE), nt("Modifier")], person="ter", **AGREE
     )
+    # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
+    # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce. Bez
+    # tych dwóch pozycji przyłączenie do rzeczownika w takiej grupie nie
+    # istnieje, a zdanie wychodzi jednym czytaniem przez czasownik.
+    grammar.rule(
+        "NPConjunct",
+        [word("subst", **AGREE), word("adj", **AGREE), nt("Modifier")],
+        person="ter",
+        **AGREE,
+    )
+    grammar.rule(
+        "NPConjunct",
+        [word("subst", **AGREE), nt("NP", case="gen"), nt("Modifier")],
+        person="ter",
+        **AGREE,
+    )
     # A pronoun is the one conjunct that carries its own person, which is the
     # whole reason it is here: without one, first and second person subjects
     # have no noun phrase to be.
@@ -327,6 +319,9 @@ def build() -> Grammar:
     grammar.rule(
         "APConjunct", [word("adj|ppas", **AGREE), nt("NP", case="inst")], **AGREE
     )
+    # Trzecie miejsce, do którego wyrażenie przyimkowe dochodzi: powiązani z
+    # interesami postkomunistów, przeznaczany na budowę.
+    grammar.rule("APConjunct", [word("adj|ppas", **AGREE), nt("Modifier")], **AGREE)
 
     # A preposition governs a case, and the noun phrase has to be in it.
     grammar.rule("Modifier", [word("prep", case=V("c")), nt("NP", case=V("c"))])

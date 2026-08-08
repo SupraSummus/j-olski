@@ -237,6 +237,13 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
 - Prepositional phrases, with the preposition governing the case
 - A prepositional phrase in front of the clause,
   which modifies the clause rather than any noun in it
+- An adjunct in every other position a prepositional phrase can follow
+  a noun phrase in: around the verb in each of the orders,
+  before the object, after a noun that already carries
+  an adjective or a genitive, and after a participle.
+  The positions are one decision rather than a list,
+  and [Przyłączanie wyrażeń przyimkowych](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
+  is where it is taken, enumerated and priced.
 - Agreement throughout, as unification rather than as a separate check:
   `Nowa program zapisuje ustawienia.` has no derivation at all
 
@@ -345,88 +352,176 @@ Two entries are not constructions but demands every construction makes:
   [corpus.md](corpus.md#where-the-analyses-stop) does not rank it
   and a run over documentation does.
 
-## The open problem: prepositional attachment
-
-This is the largest thing found so far,
-and it is not a bug.
+## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 
 ```text
 Program zapisuje ustawienia w pliku.
 ```
 
-`w pliku` attaches to the verb or to the object,
-and those are different claims about where the settings are.
-Both derivations are real Polish,
-so the uniqueness property rejects the sentence.
+`w pliku` dochodzi do czasownika albo do dopełnienia,
+a to są dwa różne zdania o tym, gdzie te ustawienia są.
+Oba wyprowadzenia są polszczyzną,
+więc własność jednoznaczności to zdanie odrzuca.
 
-The trouble is that this is not a rare construction.
-Nearly every sentence with a prepositional phrase after an object
-is ambiguous the same way,
-which means the uniqueness property as stated
-excludes a large and ordinary part of technical Polish.
+Konstrukcja nie jest przy tym rzadka.
+Niemal każde zdanie z wyrażeniem przyimkowym po dopełnieniu
+jest wieloznaczne tak samo,
+więc własność w tym brzmieniu
+wyklucza dużą i zwyczajną część technicznej polszczyzny.
 
-The comparison this document opens with runs into it.
-`przewyższać` compares along a dimension —
-what one thing exceeds another *in* —
-and leaving the dimension out is what makes
-`Chałka przewyższa zwykłą bułkę.` read stiffly,
-so a person writing it names one:
+Porównanie, którym ten dokument się otwiera, na to trafia.
+`przewyższać` porównuje pod jakimś względem —
+w czym jedno przewyższa drugie —
+i to brak tego względu każe `Chałka przewyższa zwykłą bułkę.`
+czytać sztywno,
+więc kto pisze to zdanie, ten ten wzgląd nazywa:
 `Chałka przewyższa zwykłą bułkę pod względem smaku.`
-That is two readings again,
-one where the dimension belongs to the comparison
-and one where it belongs to the roll.
+A to znowu są dwa czytania,
+jedno, w którym wzgląd należy do porównania,
+i drugie, w którym należy do bułki.
 
-One position escapes it, and the grammar takes it:
+Jedna pozycja z tego wychodzi i gramatyka ją bierze:
 
 ```text
 Pod względem smaku chałka przewyższa zwykłą bułkę.
 ```
 
-A prepositional phrase modifies a Polish noun only from behind it,
-so in front of the clause there is no noun for it to attach to
-and the reading where the taste belongs to the roll does not exist —
-for the parser and for a Polish reader alike.
-Fronting asks nothing of the reader,
-being a position the language already has,
-and [corpus.md](corpus.md#where-the-analyses-stop)
-counts what admitting it reaches on the treebank.
+Wyrażenie przyimkowe określa polski rzeczownik tylko zza niego,
+więc przed zdaniem nie ma rzeczownika, do którego mogłoby dojść,
+i czytania, w którym smak należy do bułki, nie ma —
+ani dla parsera, ani dla polskiego czytelnika.
+Wysunięcie nie żąda od czytelnika niczego,
+bo jest pozycją, którą język ma,
+a co daje jego dopuszczenie nad bankiem drzew,
+liczy [corpus.md](corpus.md#where-the-analyses-stop).
 
-It settles one of the two readings and not the other.
-The verb reading gets a position that isolates it and the noun reading gets none,
-so an author who means *the settings that are in the file*
-has nowhere to put the phrase where only that reading survives.
-`Ustawienia w pliku zapisuje program.` looks like that position
-and is not one:
-the OVS rule takes no modifier of its own,
-so the phrase can only reach the noun,
-and olski calls the sentence unambiguous
-where a Polish reader still has both readings.
-[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
-shows the same narrowness on the treebank,
-where it accounts for every disagreement with a gold tree.
+Wyjścia z tego są trzy: przyjąć koszt i odrzucać takie zdania,
+przyłączać zawsze do czasownika, chyba że coś wymusza inaczej,
+albo uznać, że te dwa czytania mówią o jednej sytuacji
+i liczyć je za jedno.
+Rozstrzyga między nimi prawdziwa polszczyzna, a nie gust.
 
-Three ways out of the reading that is left, none yet chosen:
+### Bank drzew nie zna domyślnego przyłączenia
 
-1. **Accept the cost.** Olski is small, and this is what small means.
-   The author fronts the phrase or splits the sentence.
-   Moving it in front of the object instead does not work:
-   `Program zapisuje w pliku ustawienia.` is accepted
-   with `w pliku ustawienia` read as one phrase and no object at all,
-   because no `Predicate` rule takes a modifier before its object.
-2. **Attach consistently.** Declare that a prepositional phrase
-   attaches to the verb unless something forces otherwise.
-   Cheap, and it makes the language depend on a convention
-   the reader does not know — the objection that killed
-   fixing the word order.
-3. **Decide it is not an ambiguity worth having.**
-   The two readings may describe the same situation often enough
-   that treating them as one reading is honest.
-   That is a claim about Polish semantics
-   and would need to be argued rather than assumed.
+Ściągnięcie korpusu opisuje [corpus.md](corpus.md#fetching-it), a potem:
 
-The question is the same shape as the word-order one
-and deserves the same treatment: answered by looking at real Polish,
-not by taste.
+```sh
+python3 -m olski.attachment Składnica-frazowa-180723/
+```
+
+W wydaniu 2018 Składnicy stoi 5 837 wyrażeń przyimkowych
+w pozycji, w której olski widzi dwa czytania:
+tuż za grupą imienną, która się na nich kończy,
+więc przyłączenie do rzeczownika jest do wzięcia.
+4 517 z nich stoi w zdaniu, w którym czasownik stoi przed wyrażeniem,
+czyli przyłączenie do czasownika jest do wzięcia tak samo.
+Wybór anotatorów rozkłada się na nich tak:
+
+| dokąd doszło | wyrażeń | |
+| --- | --- | --- |
+| do rzeczownika | 2 698 | 59.7% |
+| do czasownika albo do zdania | 1 378 | 30.5% |
+| gdzie indziej | 441 | 9.8% |
+
+„Gdzie indziej” to fraza wymagana szersza niż samo wyrażenie,
+fraza przymiotnikowa i drugie wyrażenie przyimkowe;
+żadne z tych trzech nie jest tym wyborem, o który tu chodzi.
+
+Tabeli nie rusza zmiana w gramatyce, bo mierzone są cudze drzewa
+i żadna produkcja olskiego nic do tych liczb nie wnosi.
+Rusza ją wydanie korpusu i to, co `olski/attachment.py` liczy:
+które kategorie są zdaniem, a które grupą imienną, i co znaczy „po czasowniku”.
+
+Rozkład nie zmienia się na tyle, żeby przyimek go przewidywał.
+Odsetki niżej liczą się z dwóch przyłączeń, o które tu chodzi,
+a nie z całej tabeli wyżej, więc porównują się do 66.2%,
+czyli do tego, ile z tych dwóch bierze rzeczownik.
+Nad `w` jest to 65.0% do rzeczownika, nad `na` 65.2%,
+nad `do` 60.6%, a najbardziej przechylone `dla` daje 83.1%,
+więc nawet leksykon przyimków myliłby się co szóste zdanie,
+a nad najczęstszymi co trzecie.
+
+### Dlatego olski przyjmuje koszt
+
+Wyjście drugie, przyłączaj do czasownika, jest czytaniem mniejszościowym:
+stawiałoby na 30% wtedy, gdy polszczyzna wybiera 60%.
+Konwencja, która myli się ponad dwa razy częściej, niż trafia,
+nie jest konwencją, którą czytelnik ma;
+to jest ten sam zarzut, który obalił ustalenie szyku na SVO,
+tyle że tutaj z liczbą pod spodem.
+
+Wyjście trzecie musiałoby twierdzić, że te dwa czytania
+mówią o jednej sytuacji.
+Klasa się na to nie zgadza, i mierzy to ta sama komenda:
+576 przyłączeń do czasownika to frazy, których czasownik wymaga swoim schematem,
+a 214 przyłączeń do rzeczownika to frazy, których żąda sam rzeczownik.
+Po żadnej z tych dwóch stron nie ma parafrazy:
+przeczytanie frazy wymaganej po drugiej stronie
+łamie schemat tego, kto jej żądał.
+Twierdzenia o jednej sytuacji nie da się postawić nad taką klasą.
+
+Zostaje wyjście pierwsze i olski je bierze.
+Autor wysuwa wyrażenie przed zdanie albo dzieli zdanie na dwa,
+a olski melduje dwa czytania i zdania nie przyjmuje.
+
+### Przyjąć koszt to znaczy dać oba czytania wszędzie
+
+Wyjście pierwsze wygląda na takie, które od gramatyki nie żąda niczego,
+i to jest w nim mylące.
+Odrzucenie jest uczciwe tylko wtedy,
+gdy oba przyłączenia w ogóle mają gdzie się wyprowadzić.
+Pozycja, w której gramatyka ma regułę na jedno z nich i nie ma na drugie,
+nie odrzuca zdania — przyjmuje je z jednym czytaniem,
+czyli wybiera przez przeoczenie to,
+czego ta decyzja wybierać zabrania.
+
+Takich pozycji jest tyle, ile zdanie ma miejsc,
+w których za grupą imienną może stanąć wyrażenie przyimkowe,
+i każda z nich jest zwyczajną polszczyzną:
+
+- po podmiocie w szyku SVO, przed orzeczeniem
+  (`Przybysze z najnowszej fali na ogół stronią od organizacji.`)
+- po dopełnieniu i po podmiocie w szyku OVS
+  (`Ustawienia w pliku zapisuje program.`)
+- po podmiocie w szykach z czasownikiem na czele,
+  przed orzecznikiem i za nim
+  (`Trwa dochodzenie w tej sprawie.`)
+- po orzeczniku wysuniętym przed kopulę i po podmiocie za nią
+  (`Wejściem w tym trybie jest zwykły tekst.`)
+- przed dopełnieniem, wewnątrz orzeczenia
+  (`Program zapisuje w pliku ustawienia.`)
+- po rzeczowniku, który już ma przy sobie przymiotnik albo dopełniacz
+  (`akcja zbrojna w Strefie Gazy`),
+  oraz po imiesłowie (`powiązani z interesami postkomunistów`)
+
+Wierszy jest sześć, a produkcji dwanaście,
+bo pozycja powtarza się w każdym szyku, który ją ma,
+a szyk jest w tej gramatyce osobną produkcją.
+
+Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
+i nie jest to zdanie odrzucone.
+`Ustawienia w pliku zapisuje program.` wygląda na pozycję,
+w której zostaje samo czytanie rzeczownikowe, i nią nie jest:
+gdy reguła OVS okolicznika nie bierze, wyrażenie dochodzi tylko do rzeczownika,
+a zdanie wychodzi jednoznaczne tam, gdzie polski czytelnik ma oba czytania.
+`Program zapisuje w pliku ustawienia.` wychodzi wtedy jednym czytaniem,
+w którym `w pliku ustawienia` jest jedną frazą i dopełnienia nie ma wcale.
+Oba zdania są wieloznaczne, a bez swojej pozycji każde z nich zostaje przyjęte,
+i to jest ta różnica, której po samym werdykcie nie widać.
+
+Nad Składnicą płaci się za to przyjętymi zdaniami,
+a kupuje czytania, których olski nie czyta odwrotnie:
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dziewięć zdań,
+a z nimi jedno, i to jedno nie jest wyborem, którego olski dokonał.
+Liczby trzyma
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).
+
+Klasa nie jest przez to zamknięta.
+Walencja zdejmuje z niej tę część, w której czasownik frazy wymaga —
+576 z 4 517 wyrażeń wyżej, czyli 13% —
+bo tam czytanie rzeczownikowe łamie schemat czasownika,
+a nie konkuruje z nim.
+To jest [etap 2](roadmap.md#etap-2-walencja), nie ten.
 
 ## Implementation
 
