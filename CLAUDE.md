@@ -522,7 +522,7 @@ are corrected along with the counts, or the audit stops describing the pack.
 
 The same holds for the figures in
 [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
-the pairs per rule in
+the pairs per rule and the fragment counts in
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
 the ones over the Markdown corpus in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
@@ -548,7 +548,7 @@ and nothing tells the person rewording a README
 that a count in another document was taken over it.
 What moves the number is the line.
 A claim about the code stays, because a rerun is what it waits for:
-that one sentence of the README derives
+how many sentences of the README derive
 moves when the grammar does, like any other figure above.
 A count of the text itself stays out —
 how many sentences it holds, how long its comment lines run —

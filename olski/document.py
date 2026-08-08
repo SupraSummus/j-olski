@@ -32,11 +32,20 @@ WORD = re.compile(r"[^\W\d_](?:[\w’'-]*[^\W\d_])?", re.UNICODE)
 
 PARAGRAPH_BREAK = re.compile(r"\n[ \t]*\n")
 
-#: Sentence-final punctuation, taking the closing marks that ride along with it,
-#: and requiring whitespace after. That requirement is what keeps a bare domain
-#: name whole: the stop in ``zabytek.pl`` has a letter after it and never looks
-#: like a boundary.
-SENTENCE_END = re.compile(r"[.!?…]+[”»\"')\]]*(?=\s|\Z)", re.UNICODE)
+#: Sentence-final punctuation, taking the closing marks that ride along with it.
+CLOSING_MARK = r"[.!?…]+[”»\"')\]]*"
+
+#: Where a sentence ends: the punctuation above, with whitespace required after.
+#: That requirement is what keeps a bare domain name whole: the stop in
+#: ``zabytek.pl`` has a letter after it and never looks like a boundary.
+SENTENCE_END = re.compile(CLOSING_MARK + r"(?=\s|\Z)", re.UNICODE)
+
+#: To samo zamknięcie na końcu tekstu, czyli pytanie „czy to jest zdanie”.
+#: Podział niżej oddaje też akapit, którego nic nie punktuje, bo inaczej nagłówek
+#: wpadłby w prozę pod sobą, a kto pyta o zdanie, pyta tym wyrażeniem. Mierzy ono
+#: to, czym zdanie zamyka polszczyzna, a nie to, co bierze gramatyka olskiego,
+#: bo akapit zamknięty wielokropkiem jest zdaniem, którego olski nie wyprowadza.
+SENTENCE_CLOSE = re.compile(CLOSING_MARK + r"\s*\Z", re.UNICODE)
 
 #: Abbreviations whose full stop is not the end of a sentence. An entry earns its
 #: place by ordinarily continuing the sentence it stands in, which is why ``itd.``

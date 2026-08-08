@@ -139,6 +139,8 @@ and the form carries another one that is what it almost always is.
   and pro-drop indicative (`Zapisuje ustawienia.`)
 - A verb before its subject, with a predicative after it or without one:
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
+- A predicative before its verb, which is the mirror of OVS:
+  `Wejściem jest zwykły tekst polski.`
 - Reflexive verbs, with `się` in the position after the verb
 - The copula, with a predicative agreeing with the subject
   or a noun phrase in the instrumental,
@@ -148,6 +150,12 @@ and the form carries another one that is what it almost always is.
   `powinien` inflects for gender and not for person,
   so the clause it heads agrees with its subject in gender
   and leaves person to whatever else constrains it.
+- An infinitive as what any other verb takes:
+  `Program pozwala zapisać ustawienia.`
+  A chain of them needs no rule of its own,
+  because an infinitive phrase takes complements
+  and an infinitive phrase is one of them,
+  so `ma pomagać pisać` comes out of the two productions already there.
 - Noun phrases with an adjective before or after the noun,
   a genitive modifier, or a prepositional modifier
 - Pronouns, and with them first and second person subjects.
@@ -232,8 +240,8 @@ and should not be:
 Two entries are not constructions but demands every construction makes:
 
 - **Valency.** Nothing records which complements a verb actually takes,
-  so `być` accepts an accusative object
-  and any verb accepts a predicative.
+  so `być` accepts an accusative object,
+  and any verb accepts a predicative or an infinitive.
   `On jest wolny.` is where that shows:
   `wolny` reads as an adjective and as a noun,
   so the sentence comes out ambiguous

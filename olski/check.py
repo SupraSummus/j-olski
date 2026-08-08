@@ -12,7 +12,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from olski.subset import check
+from olski.subset import FRAGMENT, check
 
 STATUS_WIDTH = 9
 
@@ -48,18 +48,24 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     accepted = 0
     total = 0
+    fragments = 0
     for name, text in sources:
         for verdict in check(text):
-            total += 1
-            accepted += verdict.status == "valid"
-            print(f"{name}: {verdict.status:{STATUS_WIDTH}} {verdict.text}")
+            status = verdict.status
+            fragments += status == FRAGMENT
+            total += status != FRAGMENT
+            accepted += status == "valid"
+            print(f"{name}: {status:{STATUS_WIDTH}} {verdict.text}")
             print(f"{' ' * len(name)}  {' ' * STATUS_WIDTH} {verdict.explain()}")
             if args.readings:
                 for reading in verdict.readings:
                     parts = ", ".join(f"{role}: {fill}" for role, fill in reading.items())
                     print(f"{' ' * len(name)}  {' ' * STATUS_WIDTH} - {parts}")
 
-    print(f"{accepted} of {total} sentences are olski")
+    summary = f"{accepted} of {total} sentences are olski"
+    if fragments:
+        summary += f", beside {fragments} fragments that are not sentences"
+    print(summary)
     return 0 if accepted == total else 1
 
 

@@ -160,6 +160,42 @@ and a preposition at the end of a paragraph, which has no line to be left at.
 reads the same classes out of the rule,
 and a corpus of joined prose is one no line-end rule can be calibrated against.
 
+## Nie każdy akapit, który stąd wychodzi, jest zdaniem
+
+Akapitem jest tu wszystko, co stoi między pustymi wierszami,
+więc nagłówek, pozycja listy, wiersz tabeli
+i wiersz zapowiadający blok kodu wychodzą stąd jako akapity,
+a podział na zdania oddaje akapit, którego nic nie punktuje,
+bo inaczej nagłówek wpadałby w prozę pod sobą.
+
+Regułom pakietu to nie przeszkadza:
+reguła mierzy znaki i słowa i niczego od zdania nie żąda.
+Gramatyce przeszkadza.
+Produkcja `Sentence` w `olski/subset.py` żąda na końcu kropki,
+wykrzyknika albo pytajnika,
+więc fragment, który takiego znaku nie niesie,
+nie wyprowadzi się przy żadnej gramatyce,
+a policzony jako odrzucony mierzyłby ten krok zamiast podzbioru.
+Dlatego `olski-check` ma na niego werdykt `fragment` obok `rejected`,
+i dlatego [kryterium wyjścia toru gramatycznego](roadmap.md#celem-toru-jest-to-readme)
+liczy jedno, a nie drugie.
+
+Werdykt, a nie ciche pominięcie przy podziale.
+Przebieg, który zwęża sobie mianownik i nic o tym nie mówi,
+jest tym, czego
+[sprawdzenie ról](corpus.md#agreement-which-matters-more-than-acceptance)
+odmawia po swojej stronie,
+i dlatego liczba fragmentów stoi w podsumowaniu obok liczby zdań.
+
+Klasa jest szeroka i należy do rejestru, a nie do jednego repozytorium.
+Nad korpusem audytowym `olski-check` liczy 1980 zdań
+i 1411 fragmentów obok nich:
+1002 na 2226 nad `ksef-docs` i 409 na 1165 nad `rit-dokumentacja`.
+Są tam nagłówki, wiersze tabel, ścieżki końcówek API
+i zapowiedzi zakończone dwukropkiem,
+a obok nich pozycje listy, które ciągną zdanie zaczęte w wierszu nad sobą
+i kropkę zostawiają dopiero ostatniej z nich.
+
 ## What it does not recognize
 
 Four things reach the prose that a renderer would not have shown,
@@ -201,13 +237,19 @@ git clone --depth 1 https://github.com/SupraSummus/the-agent
 
 python3 -m harness.markdown the-agent/book2/notes --into proza/notes --polish 0.05
 python3 -m harness.markdown ksef-docs --into proza/ksef
+python3 -m harness.markdown rit-dokumentacja --into proza/rit
 
 python3 -m olski proza/notes --format report
+python3 -m olski.check $(find proza/ksef -name '*.txt')
+python3 -m olski.check $(find proza/rit -name '*.txt')
 ```
 
-`ksef-docs` arrives by the command
+`ksef-docs` and `rit-dokumentacja` arrive by the command
 [audit-corpus.md](audit-corpus.md#the-list) prints,
-which pins it at the commit the KSeF column above was measured at.
+which pins them at the commits the columns above were measured at.
+The last line of what `olski-check` prints is the count of fragments
+the section above quotes,
+and `find` is in front of it because that command takes files and not a tree.
 
 The memoir is the nine chapters of `the-agent/book`:
 `prolog.md`, `epilog.md` and `rozdzial-01` through `rozdzial-07`.
