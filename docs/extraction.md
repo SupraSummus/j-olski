@@ -18,6 +18,11 @@ An extraction is a transformation the rules then fire on,
 so it owes an account of what it invents
 exactly as a rule owes a false-positive rate.
 That account is this document.
+The other body of Polish these rules measure
+is the one this repository writes in its own code,
+which reaches them through a second reader of the same shape:
+[prose-in-code.md](prose-in-code.md) owes that one's account
+and holds the decisions where it differs from this one.
 
 What makes it worth having is the two extractions written before this one.
 Both deleted inline markup and left the space that stood in front of it,

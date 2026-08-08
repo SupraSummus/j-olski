@@ -38,7 +38,9 @@ więc dopóki dokumenty stoją po angielsku,
 zostaje deklaracją.
 Po polsku da się ten tekst przepuścić przez olski,
 i `tests/test_docs.py` przepuszcza każdy dokument, który po polsku stoi,
-więc żądanie schodzi z deklaracji do checka dokument po dokumencie.
+oraz każdy docstring i każdy blok komentarza, które po polsku stoją
+(zob. [`docs/prose-in-code.md`](docs/prose-in-code.md)),
+więc żądanie schodzi z deklaracji do checka jednostka po jednostce.
 
 Dokument mieszany do tego checka nie wchodzi.
 Wchodzące wybiera próg udziału znaków diakrytycznych w całym pliku,
@@ -48,7 +50,7 @@ Powodem jest to, co pakiet robi nad angielskim zdaniem:
 puszczony nad angielską połowę takiego pliku
 zgłasza nad nią polską typografię.
 Dlaczego wybór nie schodzi za to do sekcji,
-mówi `polish_share` w `harness/markdown.py`.
+mówi `polish_share` w `harness/__init__.py`.
 
 Checkiem jest tu silnik reguł, a nie gramatyka.
 Gramatyka jest drugim żądaniem i znacznie węższym:

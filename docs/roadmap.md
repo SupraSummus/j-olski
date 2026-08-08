@@ -199,6 +199,9 @@ rather than being settled apart from it.
 the list records which format each member is in,
 and a second extraction gets written when a repository worth admitting uses another.
 So the list is chosen before the extraction is scoped, not after.
+The reader of Python modules in the harness is not one of these:
+it serves this repository's own prose,
+which [prose-in-code.md](prose-in-code.md) says and prices.
 
 **Exit:** every rule in the typography pack carries the two numbers its kind owes,
 over a corpus anyone can fetch and a run anyone can redo,

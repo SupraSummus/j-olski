@@ -17,27 +17,21 @@ behind, the space in front of it goes with it.
 holds is joined with single spaces, so a rule about where a line ends measures
 where the prose ends rather than where the author's editor wrapped.
 
-Which documents enter the corpus is the same step's business and is here too,
-below the Markdown: a rate over Polish must not have another language in its
-denominator, and the extracted prose is what says which language a file is in.
+Which documents enter the corpus is the same step's business, and it is the
+harness package that holds it: a rate over Polish must not have another language
+in its denominator, and the extracted prose is what says which language a file is
+in. A document is one unit of that selection, and the case where one document
+holds two languages is an entry in TODO.md rather than a case this handles.
 """
 
 from __future__ import annotations
 
-import argparse
 import re
-import sys
-from collections.abc import Iterator, Sequence
-from pathlib import Path
+from collections.abc import Sequence
 
-from olski.document import TEXT_SUFFIXES, WORD
+from harness import BULLET, Czytnik, Jednostka, uruchom
 
 MARKDOWN_SUFFIX = ".md"
-
-#: What the extraction writes, taken from olski rather than spelled again, so
-#: that the format this produces and the format the linter walks cannot drift
-#: apart. The first entry is the ordinary one.
-PROSE_SUFFIX = TEXT_SUFFIXES[0]
 
 #: YAML frontmatter: a fence of three dashes opening the file, and everything
 #: down to the line that closes it.
@@ -66,10 +60,6 @@ TABLE_ROW = re.compile(r"[ ]{0,3}\|")
 #: heading's underline and under a blank line it is a thematic break, and the
 #: two need no telling apart: both drop, and a heading drops with its underline.
 UNDERLINE = re.compile(r"[ ]{0,3}(?:=+|(?:[-_*][ \t]*){3,})[ \t]*\Z")
-
-#: A list marker, bulleted or numbered. Each item is a paragraph of its own,
-#: because a sentence does not run from one item into the next.
-BULLET = re.compile(r"[ \t]*(?:[-*+]|\d{1,9}[.)])[ \t]+")
 
 #: An item that opens with a link, which is what a list of links is made of.
 LINK_ITEM = re.compile(r"\[[^\]]*\]\(")
@@ -133,6 +123,17 @@ def prose(text: str) -> str:
     #  of nothing — and an empty line between two others would read as a break.
     body = "\n\n".join(paragraph for paragraph in paragraphs if paragraph)
     return body + "\n" if body else ""
+
+
+def jednostki(text: str) -> list[Jednostka]:
+    """Cały dokument, bo dokument jest napisany w jednym języku.
+
+    Ekstrakcja z modułu tnie plik na docstringi i komentarze, każdy z osobna,
+    a dokument tnie się na sekcje, których ten krok nie zna: sekcja jest
+    nagłówkiem plus prozą pod nim, a tu nagłówki już poszły. TODO.md trzyma to
+    jako wpis, bo płaci za to dokument pisany w dwóch językach naraz.
+    """
+    return [Jednostka(1, prose(text).rstrip("\n"))]
 
 
 def _without_trailing_links(lines: list[str]) -> list[str]:
@@ -232,38 +233,6 @@ def _replace(match: re.Match) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Which documents enter the corpus
-# --------------------------------------------------------------------------- #
-
-#: A letter Polish spelling has and English spelling does not, which is the
-#: cheapest evidence available about which language a document is in.
-DIACRITIC = re.compile(r"[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]")
-
-
-def polish_share(text: str) -> float:
-    """The share of a text's words that carry a Polish diacritic.
-
-    A repository of notes holds the ones its author wrote in English, and a rate
-    over Polish should not have them in its denominator. The two populations
-    separate rather than shade into each other: over the notes
-    docs/generated-polish.md measures, one English note in forty reaches 3% and
-    every Polish one is above 13%, so any threshold between the two picks the
-    same documents. Words are counted as olski counts them, so the share and the
-    rates it selects for are measured over the same tokens.
-
-    A third population sits between those two: a document whose prose is English
-    and whose sections are being written in Polish one at a time. No threshold
-    separates it from either, so what settles it is the unit rather than the
-    number. The share is asked of a whole document, and a mixed one is left out
-    until it has been translated. Asked of a paragraph it separates nothing at
-    all, an English paragraph quoting Polish examples carrying as many diacritics
-    as a Polish one, so the finer unit is not available.
-    """
-    words = WORD.findall(text)
-    return sum(1 for word in words if DIACRITIC.search(word)) / len(words) if words else 0.0
-
-
-# --------------------------------------------------------------------------- #
 # The command line
 # --------------------------------------------------------------------------- #
 
@@ -273,65 +242,18 @@ USAGE = """
 """
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="harness.markdown",
-        description="Extract Polish prose from Markdown, for olski to measure.",
-        epilog=USAGE,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument("paths", nargs="+", help=f"{MARKDOWN_SUFFIX} files or directories of them")
-    parser.add_argument(
-        "--into",
-        metavar="DIR",
-        required=True,
-        help=f"where to write the prose, as {PROSE_SUFFIX} files mirroring the input tree",
-    )
-    parser.add_argument(
-        "--polish",
-        metavar="SHARE",
-        type=float,
-        default=0.0,
-        help="leave out a document whose words carry a Polish diacritic less often than this "
-        "(default: 0, which keeps every document)",
-    )
-    return parser
+CZYTNIK = Czytnik(
+    komenda="harness.markdown",
+    sufiks=MARKDOWN_SUFFIX,
+    nazwa_jednostki="document",
+    opis="Extract Polish prose from Markdown, for olski to measure.",
+    użycie=USAGE,
+    jednostki=jednostki,
+)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    into = Path(args.into)
-    missing = [path for path in args.paths if not Path(path).exists()]
-    for path in missing:
-        print(f"harness.markdown: no such file or directory: {path}", file=sys.stderr)
-
-    written, left_out = 0, 0
-    for relative, file in _sources(args.paths):
-        extracted = prose(file.read_text(encoding="utf-8"))
-        if polish_share(extracted) < args.polish:
-            left_out += 1
-            continue
-        destination = into / relative.with_suffix(PROSE_SUFFIX)
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(extracted, encoding="utf-8")
-        written += 1
-    print(f"{written} files into {into}, {left_out} left out by --polish")
-    return 2 if missing else 0
-
-
-def _sources(paths: Sequence[str]) -> Iterator[tuple[Path, Path]]:
-    """Yield each Markdown file with the path it keeps under the output directory.
-
-    A directory is walked and its tree preserved; a named file arrives as itself,
-    since the tree of a single file is its name.
-    """
-    for raw in paths:
-        path = Path(raw)
-        if path.is_dir():
-            for file in sorted(path.rglob(f"*{MARKDOWN_SUFFIX}")):
-                yield file.relative_to(path), file
-        elif path.is_file():
-            yield Path(path.name), path
+    return uruchom(argv, CZYTNIK)
 
 
 if __name__ == "__main__":
