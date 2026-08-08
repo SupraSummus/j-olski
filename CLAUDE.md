@@ -47,13 +47,15 @@ nie ma w olskim wyprowadzenia,
 a proza tych dokumentów składa się z takich zdań prawie w całości —
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
 trzyma polecenie, które to pokazuje nad README, i kolejkę tego, czego brakuje.
-Więc gramatyki nad tymi dokumentami nie uruchamiamy
-i nie przepisujemy ich pod nią.
+Więc tych dokumentów pod gramatykę nie przepisujemy.
 Przepisanie kosztowałoby to, po co README jest:
 podzbiór nie ma zdania podrzędnego,
 a [rama przed szczegółem](#the-reader-goes-sentence-by-sentence)
 stoi na uzasadnieniach, które podrzędnego wymagają.
-Kolejka rośnie od strony gramatyki, nie od strony tych plików.
+Kolejka rośnie od strony gramatyki, nie od strony tych plików,
+a celem, do którego rośnie, jest README:
+kryterium wyjścia trzyma
+[`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme).
 
 Reguła obejmuje prozę z listy na początku tego pliku,
 komentarze i docstringi, które do prozy liczy
@@ -501,9 +503,6 @@ moves the tables in [`docs/corpus.md`](docs/corpus.md),
 which are the output of a run over a treebank the suite does not hold.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
-One figure in that document comes from neither the treebank nor that command:
-the run over this repository's own prose,
-whose two commands stand beside it and need nothing fetched.
 
 Each of these runs takes minutes, which invites starting it and editing on,
 and a run reads the code once at import.
@@ -537,6 +536,23 @@ and which characters a rule is shown,
 so a change to it moves a count and can move a class as well.
 Each of them prints the commands that produce its figures,
 which is the whole reason those commands are there.
+
+**A figure measured over this repository's own prose is not written down.**
+Every corpus above is pinned — a dated release, a repository at a commit —
+so the text under a figure holds still
+and only a change to the code moves it,
+which is what the reruns catch.
+Our own text moves with any commit that touches it,
+and nothing tells the person rewording a README
+that a count in another document was taken over it.
+What moves the number is the line.
+A claim about the code stays, because a rerun is what it waits for:
+that one sentence of the README derives
+moves when the grammar does, like any other figure above.
+A count of the text itself stays out —
+how many sentences it holds, how long its comment lines run —
+because a reword moves it and no rerun rule reaches a reword.
+The command stands beside the claim, as it does for a fetched corpus.
 
 ## Code
 

@@ -72,9 +72,7 @@ class Outcome:
 
     @property
     def status(self) -> str:
-        if self.result.valid:
-            return "valid"
-        return "ambiguous" if self.result.ambiguous else "rejected"
+        return self.result.status
 
     @property
     def blocker(self) -> str | None:

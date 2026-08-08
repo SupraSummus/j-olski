@@ -5,7 +5,9 @@ everything still open lives in [open-questions.md](open-questions.md).
 
 > **Scope.**
 > This document describes the **grammar track**,
-> which is optional and pursued for its own sake.
+> which is optional and off the linter's critical path,
+> with a target of its own in
+> [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
 > The working goal of the repository is a style linter for Polish;
 > see [linter.md](linter.md).
 > The grammar survives here as the deepest analysis tier,

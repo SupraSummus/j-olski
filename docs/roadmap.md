@@ -24,7 +24,8 @@ The grammar and parser work described in
 is no longer the goal.
 It survives as the deepest analysis tier,
 reached only by rules that genuinely need it,
-and as an optional track pursued for its own sake.
+and as an optional track with a target of its own,
+[this repository's README](#celem-toru-jest-to-readme).
 
 ## Guiding principles
 
@@ -452,8 +453,74 @@ so it stays in the repository as a track that may be picked up
 whenever the linter stops being the more entertaining thing to work on.
 
 If it is ever built,
-the linter gains tier D
-and the grammar gains a reason to exist.
+the linter gains tier D.
+
+### Celem toru jest to README
+
+Plan otwiera się zdaniem, że każdy milestone ma kryterium wyjścia.
+Tor gramatyczny stoi poza tą numeracją i to samo pytanie ma,
+a odpowiedzią jest [README](../README.md) tego repozytorium:
+tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
+i gdy każde ma jedno czytanie.
+
+Za tym plikiem przemawia to, czym on jest, a nie to, że leży pod ręką.
+Stoi po polsku, w rejestrze, o który olskiemu chodzi,
+i nikt go pod gramatykę nie pisał,
+więc mierzy ją tak, jak zmierzyłby ją cudzy dokument.
+[corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie,
+które go przez olskiego przepuszcza,
+i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
+
+README stoi, a rusza się gramatyka.
+Przepisanie go pod ten podzbiór kosztowałoby to, po co on jest,
+a rachunek trzyma
+[CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
+więc to, co niżej, jest listą tego, co gramatyka ma dobrać.
+
+Między tym, co ten przebieg pokazuje, a kryterium
+stoją trzy rzeczy i tylko jedna z nich jest gramatyką.
+
+**Aparat.** Przebieg dzieli README na więcej zdań, niż README ma,
+bo kropka w nazwie pliku kończy zdanie dla podziału, którym idzie,
+a ekstrakcja z Markdownu zostawia w prozie ślady po własnych usterkach.
+Obie rzeczy trzyma [TODO.md](../TODO.md)
+i obie stoją przed pracą nad gramatyką,
+bo dopóki stoją, liczba mierzy aparat zamiast podzbioru.
+
+**Konstrukcje.** Przecinek zdaniowy, zdanie podrzędne, czas przeszły,
+liczebnik i rzeczownik odczasownikowy:
+listę trzyma [subset.md](subset.md#what-it-does-not-cover-yet),
+a README ustawia ją w swojej kolejności.
+Zdanie podrzędne jest tu tym najdroższym,
+bo README stoi na uzasadnieniach, a uzasadnienie go wymaga.
+
+**Słowa, których słownik nie ma.** `olski`, `linter`, `lintować`, `Markdown`:
+Morfeusz zwraca `ign`, a formy `ign` nie bierze żadna produkcja.
+[subset.md](subset.md#what-it-does-not-cover-yet) nazywa to z drugiej strony,
+bo olski nie umie powiedzieć sam w sobie, czym jest.
+Kolejka z banku drzew tej klasy nie ustawia,
+bo tam każdy token ma rozbiór wybrany przez człowieka,
+a formy, której słownik nie zna, w takim banku nie ma,
+więc pokazuje ją dopiero przebieg nad dokumentacją.
+Rejestr, o który tu chodzi, jest takich słów pełen,
+więc jest to osobne żądanie, a nie skutek uboczny dwóch powyższych.
+
+Druga połowa kryterium jest droższa od pierwszej.
+Wyprowadzenie każdego zdania to pokrycie,
+a jedno czytanie na zdanie to ta własność, dla której olski jest podzbiorem,
+i żeby README ją miało,
+przyłączanie wyrażeń przyimkowych musi przestać być otwartym problemem.
+[subset.md](subset.md#the-open-problem-prepositional-attachment)
+trzyma trzy wyjścia z niego
+i mówi, że własność w tym brzmieniu
+wyklucza dużą i zwyczajną część technicznej polszczyzny.
+README jest taką polszczyzną,
+więc kryterium żąda wybrania jednego z tych trzech.
+
+**Wyjście:** każde zdanie [README](../README.md) wyprowadza się w olskim
+i każde ma dokładnie jedno czytanie,
+a pokazuje to polecenie, które
+[corpus.md](corpus.md#where-the-analyses-stop) drukuje.
 
 ## Wish, not milestone: prose and fiction
 

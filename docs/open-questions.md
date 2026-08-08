@@ -13,9 +13,10 @@ Only the first group blocks the working goal.
   scoped to technical documentation.
   See [linter.md](linter.md).
 - The grammar and parser track is optional
-  and pursued for its own sake,
-  not on the linter's critical path.
-  See [design-notes.md](design-notes.md).
+  and not on the linter's critical path,
+  and it exits when this repository's README derives, one reading per sentence.
+  See [design-notes.md](design-notes.md)
+  and [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
 - Olski is as close to Polish as possible,
   and a proper subset of it.
 - No rule ships without a measured false-positive rate

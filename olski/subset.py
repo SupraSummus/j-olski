@@ -279,9 +279,7 @@ class Verdict:
 
     @property
     def status(self) -> str:
-        if self.result.valid:
-            return "valid"
-        return "ambiguous" if self.result.ambiguous else "rejected"
+        return self.result.status
 
     @property
     def readings(self) -> list[dict[str, str]]:
