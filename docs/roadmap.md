@@ -480,12 +480,15 @@ więc to, co niżej, jest listą tego, co gramatyka ma dobrać.
 Między tym, co ten przebieg pokazuje, a kryterium
 stoją trzy rzeczy i tylko jedna z nich jest gramatyką.
 
-**Aparat.** Przebieg dzieli README na więcej zdań, niż README ma,
-bo kropka w nazwie pliku kończy zdanie dla podziału, którym idzie,
-a ekstrakcja z Markdownu zostawia w prozie ślady po własnych usterkach.
-Obie rzeczy trzyma [TODO.md](../TODO.md)
-i obie stoją przed pracą nad gramatyką,
-bo dopóki stoją, liczba mierzy aparat zamiast podzbioru.
+**Aparat.** Przebieg bierze za zdania i te akapity, które zdaniami nie są.
+Ekstrakcja robi akapit z każdej pozycji listy dokumentów
+i z wiersza, który zapowiada blok kodu,
+a żaden z nich nie kończy się kropką,
+której żąda produkcja `Sentence`,
+więc żaden nie wyprowadzi się nigdy i przy żadnej gramatyce.
+Rozstrzygnięcie, co kryterium liczy, trzyma [TODO.md](../TODO.md)
+i stoi przed pracą nad gramatyką,
+bo dopóki stoi, liczba mierzy aparat zamiast podzbioru.
 
 **Konstrukcje.** Przecinek zdaniowy, zdanie podrzędne, czas przeszły,
 liczebnik i rzeczownik odczasownikowy:

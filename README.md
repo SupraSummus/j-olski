@@ -69,12 +69,12 @@ python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings
 ```
 
 ```text
-<text>: valid     Zapisz plik konfiguracyjny .
+<text>: valid     Zapisz plik konfiguracyjny.
                   one reading
                   - Object: plik konfiguracyjny, Verb: Zapisz
-<text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami .
+<text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
                   3 readings, differing in Object, Subject
-<text>: rejected  Nowa program zapisuje ustawienia .
+<text>: rejected  Nowa program zapisuje ustawienia.
                   no reading: nothing in olski derives this
 ```
 

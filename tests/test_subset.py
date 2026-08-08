@@ -12,7 +12,7 @@ pytest.importorskip("morfeusz2")
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import LeftRecursion, parse
-from olski.subset import GRAMMAR, admissible, check, sentences
+from olski.subset import GRAMMAR, admissible, check, morphology, sentences
 
 
 def verdict(text):
@@ -49,14 +49,14 @@ def test_a_left_recursive_grammar_is_reported_rather_than_looped_on():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("A"), word("interp")])
     with pytest.raises(LeftRecursion):
-        parse(grammar, sentences("plik.")[0])
+        parse(grammar, morphology("plik."))
 
 
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("Nieznane")])
     with pytest.raises(ValueError, match="undefined symbols: Nieznane"):
-        parse(grammar, sentences("plik.")[0])
+        parse(grammar, morphology("plik."))
 
 
 # --------------------------------------------------------------------------- #
@@ -316,12 +316,20 @@ def test_excluding_a_reading_never_leaves_a_form_with_none():
 # --------------------------------------------------------------------------- #
 
 
-def test_text_splits_into_sentences_at_final_punctuation():
-    found = sentences("Zapisz plik. Program zapisuje ustawienia.")
-    assert [[segment.form for segment in group] for group in found] == [
-        ["Zapisz", "plik", "."],
-        ["Program", "zapisuje", "ustawienia", "."],
+def test_tekst_dzieli_się_na_zdania_tak_jak_dzieli_go_linter():
+    #  Kropka w docs/linter.md granicą nie jest, a granica akapitu jest, choć
+    #  kropki tam nie ma. Jedno i drugie ma olski/document.py i żadnego nie ma
+    #  cięcie na każdej kropce, którym ten podział szedł.
+    assert sentences("Co działa\n\nCały wywód prowadzi docs/linter.md.") == [
+        "Co działa",
+        "Cały wywód prowadzi docs/linter.md.",
     ]
+
+
+def test_werdykt_niesie_zdanie_tak_jak_stoi_a_nie_graf_segmentacji():
+    #  Morfeusz dzieli ktoś na kto i ś obok formy całej, więc jest to zdanie,
+    #  które wypisywało się jako cztery słowa, choć stoją w nim trzy.
+    assert verdict("Ktoś zapisał plik.").text == "Ktoś zapisał plik."
 
 
 def test_every_sentence_of_a_text_is_checked():

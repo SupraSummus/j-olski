@@ -71,8 +71,8 @@ so the figures in
 and [`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
 are rerun with it.
 The evidence to read is how often the pattern occurs in those corpora at all:
-the README hit it on the first Polish paragraph it had,
-and if the corpora hold nothing like it the rerun returns the same tables.
+no document in this repository emphasizes two single characters in one paragraph,
+and if the corpora hold nothing like it either the rerun returns the same tables.
 
 A triple-backtick code span opening a line is read as a code fence,
 and `harness/markdown.py` then drops the prose down to the next fence-only line.
@@ -461,32 +461,33 @@ since a fronted predicative and a fronted object
 compete on every form whose case is syncretic between the two,
 which is most of them.
 
-Podział na zdania tnie na kropce, która stoi w nazwie pliku.
-`sentences` w `olski/subset.py` kończy zdanie na każdej kropce
-i nazywa ten podział dokładnym, bo olski nie ma skrótów,
-a dokumentacja techniczna pisze `docs/linter.md`,
-gdzie kropka jest tym samym znakiem.
-Nad prozą wyciągniętą z README ten podział znajduje więcej zdań, niż README ma,
-a różnicę robi kropka, po której nie stoi spacja:
-`Cały wywód prowadzi docs / linter .` i osobno `md .` są tego przykładem.
-Drugi podział na zdania w tym repozytorium tego nie robi.
-`SENTENCE_END` w `olski/document.py` żąda po kropce białego znaku albo końca tekstu,
-a `_mid_sentence` zdejmuje skróty i liczebniki porządkowe,
-więc ruchem jest dzielić nim tekst przed analizą,
-zamiast dzielić listę segmentów po niej,
-i zostaje wtedy jeden podział tam, gdzie stoją dwa.
-Po analizie tej spacji nie ma już czym zobaczyć:
-Morfeusz jest wołany z `SKIP_WHITESPACES`,
-a `Segment` niesie numery węzłów grafu, a nie przesunięcia w tekście.
-Ruch łączy przy okazji dwa tory:
-`olski/document.py` stoi po stronie lintera,
-nic z toru gramatycznego z niego nie bierze,
-a poza wyrażeniami regularnymi moduł nie ciągnie za sobą nic.
-Do przeczytania jest proza dokumentacji, a nie Składnica:
-`olski/coverage.py` bierze zdania z banku drzew i tego podziału nie woła,
-więc usterka siedzi wyłącznie na drodze `olski-check` nad plikiem,
-którą [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-pokazuje czytelnikowi.
+Kryterium wyjścia toru gramatycznego liczy jako zdania rzeczy, które zdaniami nie są.
+[Kryterium](docs/roadmap.md#celem-toru-jest-to-readme) żąda,
+żeby każde zdanie README wyprowadzało się w olskim,
+a mianownikiem jest to, co `sentences` w `olski/subset.py`
+znajduje w prozie wyciągniętej z README.
+`prose` w `harness/markdown.py` robi akapit z każdej pozycji listy dokumentów
+i osobny akapit z wiersza, który zapowiada blok kodu,
+podział na zdania nie łączy akapitów,
+a produkcja `Sentence` w `olski/subset.py`
+żąda na końcu znaku, który zdanie zamyka:
+kropki, wykrzyknika albo pytajnika,
+a żaden z tych fragmentów takiego znaku nie niesie.
+Ani jeden z nich nie wyprowadzi się więc przy żadnej gramatyce,
+a mianownik liczy je razem z resztą.
+Wyjścia są trzy i różnią się tym, gdzie kładą decyzję:
+kryterium liczy tylko te fragmenty, które kończy kropka,
+co jest zdaniem w [`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)
+i niczym w kodzie;
+`olski-check` dostaje tryb, który fragment bez kropki odróżnia od zdania odrzuconego,
+co czyni z tego trzeci werdykt obok `valid`, `ambiguous` i `rejected`;
+albo gramatyka bierze zdanie bez kropki,
+czego nie chce, bo kropka jest w niej granicą zdania i niczym innym.
+Do przeczytania jest to, czym te fragmenty są nad korpusem audytowym,
+a nie nad samym README:
+pozycja listy dokumentów jest w README nazwą pliku i wyliczeniem po dwukropku,
+i dopiero drugi korpus mówi, czy klasa jest tak wąska w rejestrze,
+czy tylko w tym jednym pliku.
 
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve
