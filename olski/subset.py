@@ -27,13 +27,19 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
-from olski.document import from_text
+from olski.document import SENTENCE_CLOSE, from_text
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Segment, analyse
 from olski.parse import Result, describe, parse
 
 #: The roles a reading is summarized by when two of them have to be told apart.
 ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
+
+#: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
+#: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
+#: zdanie o tekście i inna robota do zrobienia; docs/extraction.md trzyma wywód i
+#: mierzy, jak dużą częścią rejestru ta klasa jest.
+FRAGMENT = "fragment"
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -99,6 +105,18 @@ def build() -> Grammar:
         ],
     )
 
+    # Predykatyw przed swoim czasownikiem: Wejściem jest zwykły tekst polski.
+    # Lustro reguły OVS, którego predykatyw nie miał, więc ten sam szyk wychodził
+    # raz tak, a raz wcale, zależnie od tego, co po czasowniku stoi.
+    grammar.rule(
+        "ClauseConjunct",
+        [
+            nt("Predicative", number=V("n"), gender=V("g")),
+            nt("Verb", number=V("n"), person=V("p")),
+            nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
+        ],
+    )
+
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
     # the attachment ambiguity docs/subset.md is about cannot arise.
@@ -160,6 +178,11 @@ def build() -> Grammar:
         number=V("n"),
         gender=V("g"),
     )
+    # Bezokolicznik jest tym, co czasownik bierze, tak jak dopełnienie: Linter
+    # pomaga pisać dobry kod. Łańcuch nie potrzebuje własnej reguły, bo
+    # InfinitivePhrase → inf Complements wraca tutaj i ma pomagać pisać wychodzi
+    # z tych dwóch produkcji.
+    grammar.rule("Complements", [nt("InfinitivePhrase")])
 
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
     # has two and a verb that takes one of them takes any number.
@@ -279,6 +302,8 @@ class Verdict:
 
     @property
     def status(self) -> str:
+        if not SENTENCE_CLOSE.search(self.text):
+            return FRAGMENT
         return self.result.status
 
     @property
@@ -286,6 +311,8 @@ class Verdict:
         return [describe(reading, ROLES) for reading in self.result.readings]
 
     def explain(self) -> str:
+        if self.status == FRAGMENT:
+            return "not a sentence: nothing punctuates it as one"
         if self.result.valid:
             return "one reading"
         if self.result.rejected:

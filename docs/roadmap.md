@@ -463,6 +463,14 @@ a odpowiedzią jest [README](../README.md) tego repozytorium:
 tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
 i gdy każde ma jedno czytanie.
 
+Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
+Nagłówek, pozycja listy i wiersz tabeli
+dochodzą do olskiego jako akapity, których nic nie punktuje,
+i w mianowniku kryterium nie stoją,
+bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
+Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
+[extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
+
 Za tym plikiem przemawia to, czym on jest, a nie to, że leży pod ręką.
 Stoi po polsku, w rejestrze, o który olskiemu chodzi,
 i nikt go pod gramatykę nie pisał,
@@ -478,17 +486,7 @@ a rachunek trzyma
 więc to, co niżej, jest listą tego, co gramatyka ma dobrać.
 
 Między tym, co ten przebieg pokazuje, a kryterium
-stoją trzy rzeczy i tylko jedna z nich jest gramatyką.
-
-**Aparat.** Przebieg bierze za zdania i te akapity, które zdaniami nie są.
-Ekstrakcja robi akapit z każdej pozycji listy dokumentów
-i z wiersza, który zapowiada blok kodu,
-a żaden z nich nie kończy się kropką,
-której żąda produkcja `Sentence`,
-więc żaden nie wyprowadzi się nigdy i przy żadnej gramatyce.
-Rozstrzygnięcie, co kryterium liczy, trzyma [TODO.md](../TODO.md)
-i stoi przed pracą nad gramatyką,
-bo dopóki stoi, liczba mierzy aparat zamiast podzbioru.
+stoją dwie rzeczy i tylko jedna z nich jest gramatyką.
 
 **Konstrukcje.** Przecinek zdaniowy, zdanie podrzędne, czas przeszły,
 liczebnik i rzeczownik odczasownikowy:
@@ -506,7 +504,7 @@ bo tam każdy token ma rozbiór wybrany przez człowieka,
 a formy, której słownik nie zna, w takim banku nie ma,
 więc pokazuje ją dopiero przebieg nad dokumentacją.
 Rejestr, o który tu chodzi, jest takich słów pełen,
-więc jest to osobne żądanie, a nie skutek uboczny dwóch powyższych.
+więc jest to osobne żądanie, a nie skutek uboczny tego powyżej.
 
 Druga połowa kryterium jest droższa od pierwszej.
 Wyprowadzenie każdego zdania to pokrycie,

@@ -448,46 +448,42 @@ what the rule does to the accepted count
 and to the four disagreements in that table,
 since the sentences it costs are ones olski accepts today.
 
-A predicative before its verb has no rule and an object in the same place has one.
-`ClauseConjunct → Object Verb Subject` is the mirror of SVO for an object,
-and nothing mirrors `Predicate → Verb Complements` for a predicative,
-so `Dużą trudnością jest udowodnienie molestowania.` is rejected
-where `Juniorską reprezentację czekają półfinały.` is not.
-[The blocker table](docs/corpus.md#where-the-analyses-stop) prices it:
-`jest` stops 70 sentences and 39 of them are that order.
-The move is a `ClauseConjunct → Predicative Verb Subject` rule.
-What has to be read before taking it is what the new order costs in ambiguity,
-since a fronted predicative and a fronted object
-compete on every form whose case is syncretic between the two,
-which is most of them.
+`olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
+`_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik
+i liczy to, co minął, żeby przebieg nad katalogiem nie lintował licencji,
+a `main` w `olski/check.py` czyta po prostu każdą podaną ścieżkę.
+Widać to w poleceniu, którym
+[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
+bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
+Ruchem jest wyjęcie `_collect` z `olski/cli.py` do wspólnego miejsca
+i zawołanie go z obu komend, po czym `find` z tamtego polecenia znika.
+Do rozstrzygnięcia jest to, co druga komenda robi z pominiętymi:
+`olski` mówi o nich, bo pominięcie zmienia mianownik częstości,
+a `olski-check` ma już mianownik, o który się w tej sesji rozegrało,
+więc nie jest oczywiste, czy to jest ta sama notatka, czy druga obok niej.
 
-Kryterium wyjścia toru gramatycznego liczy jako zdania rzeczy, które zdaniami nie są.
-[Kryterium](docs/roadmap.md#celem-toru-jest-to-readme) żąda,
-żeby każde zdanie README wyprowadzało się w olskim,
-a mianownikiem jest to, co `sentences` w `olski/subset.py`
-znajduje w prozie wyciągniętej z README.
-`prose` w `harness/markdown.py` robi akapit z każdej pozycji listy dokumentów
-i osobny akapit z wiersza, który zapowiada blok kodu,
-podział na zdania nie łączy akapitów,
-a produkcja `Sentence` w `olski/subset.py`
-żąda na końcu znaku, który zdanie zamyka:
-kropki, wykrzyknika albo pytajnika,
-a żaden z tych fragmentów takiego znaku nie niesie.
-Ani jeden z nich nie wyprowadzi się więc przy żadnej gramatyce,
-a mianownik liczy je razem z resztą.
-Wyjścia są trzy i różnią się tym, gdzie kładą decyzję:
-kryterium liczy tylko te fragmenty, które kończy kropka,
-co jest zdaniem w [`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)
-i niczym w kodzie;
-`olski-check` dostaje tryb, który fragment bez kropki odróżnia od zdania odrzuconego,
-co czyni z tego trzeci werdykt obok `valid`, `ambiguous` i `rejected`;
-albo gramatyka bierze zdanie bez kropki,
-czego nie chce, bo kropka jest w niej granicą zdania i niczym innym.
-Do przeczytania jest to, czym te fragmenty są nad korpusem audytowym,
-a nie nad samym README:
-pozycja listy dokumentów jest w README nazwą pliku i wyliczeniem po dwukropku,
-i dopiero drugi korpus mówi, czy klasa jest tak wąska w rejestrze,
-czy tylko w tym jednym pliku.
+Przecinek stoi na czele kolejki i sam nie kupuje nic.
+`interp` prowadzi [tabelę blokerów](docs/corpus.md#where-the-analyses-stop),
+przecinek jest w tym wierszu drugą formą po pauzie,
+a pauza należy do rejestru, którego dokumentacja nie ma,
+więc to przecinek jest tym, co ta tabela naprawdę stawia jako następne.
+Ruchem jest koordynacja przecinkiem tam, gdzie stoi dziś spójnik:
+`Clause`, `NP` i `AP` mają każde swoją produkcję ze spójnikiem
+i żadne nie ma jej z przecinkiem.
+Przeczytane jest to, co te trzy produkcje robią nad prozą wyciągniętą z README,
+i nie robią nic:
+zdanie, które niesie w tym pliku przecinek,
+niesie też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy,
+więc reguła sama z siebie nie wyprowadzi tam ani jednego zdania
+i wchodzi razem z podrzędnym albo nie wchodzi wcale.
+Przysłówek jako modyfikator i czas przeszły w regule `Verb`
+zmierzone tak samo dają tyle samo, czyli nic,
+więc jest to własność tej kolejki, a nie tej jednej reguły:
+nad tym plikiem konstrukcje z listy przychodzą razem albo nie przychodzą.
+Do przeczytania zostaje cena nad Składnicą,
+bo przecinek między zdaniami konkuruje z przecinkiem w grupie imiennej
+wszędzie tam, gdzie po przecinku stoi rzeczownik,
+a to jest ta wieloznaczność, której olski nie znosi.
 
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve

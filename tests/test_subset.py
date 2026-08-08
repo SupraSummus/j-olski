@@ -12,7 +12,7 @@ pytest.importorskip("morfeusz2")
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import LeftRecursion, parse
-from olski.subset import GRAMMAR, admissible, check, morphology, sentences
+from olski.subset import FRAGMENT, GRAMMAR, admissible, check, morphology, sentences
 
 
 def verdict(text):
@@ -99,6 +99,11 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         #  A modal and its infinitive, agreeing with the subject in gender
         #  because powinien inflects for one and not for person.
         "Ludzie powinni postępować.",
+        #  Bezokolicznik pod zwykłym czasownikiem, i łańcuch bezokoliczników,
+        #  którego żadna reguła nie opisuje: fraza bezokolicznikowa bierze
+        #  dopełnienia, a jest jednym z nich.
+        "Program pozwala zapisać ustawienia.",
+        "To ma pomagać pisać dobrą polszczyznę.",
         #  A pronoun subject, and with it a person that is not the third.
         "Ja zapisuję plik.",
     ],
@@ -121,6 +126,19 @@ def test_the_first_article_of_the_declaration_is_olski():
         "Predicative": "wolni i równi",
         "Verb": "rodzą się",
         "Modifier": "pod względem swej godności i swych praw",
+    }
+
+
+def test_predykatyw_przed_czasownikiem_nie_jest_czytany_jako_podmiot():
+    #  Lustro reguły OVS. Bez niego ten sam szyk wychodził raz tak, a raz wcale,
+    #  zależnie od tego, czy po czasowniku stoi dopełnienie, czy orzecznik, a
+    #  ryzykiem przy nim jest zamiana ról: podmiot stoi tu za czasownikiem.
+    found = verdict("Wejściem jest zwykły tekst polski.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0] == {
+        "Subject": "zwykły tekst polski",
+        "Predicative": "Wejściem",
+        "Verb": "jest",
     }
 
 
@@ -330,6 +348,13 @@ def test_werdykt_niesie_zdanie_tak_jak_stoi_a_nie_graf_segmentacji():
     #  Morfeusz dzieli ktoś na kto i ś obok formy całej, więc jest to zdanie,
     #  które wypisywało się jako cztery słowa, choć stoją w nim trzy.
     assert verdict("Ktoś zapisał plik.").text == "Ktoś zapisał plik."
+
+
+def test_fragment_bez_znaku_zamykajacego_nie_jest_zdaniem_odrzuconym():
+    #  Nagłówek i pozycja listy dochodzą do olskiego jako akapity, a produkcja
+    #  Sentence żąda na końcu kropki, więc odrzucone mierzyłyby ekstrakcję.
+    assert verdict("Zapisywanie pliku").status == FRAGMENT
+    assert verdict("Nowa program zapisuje ustawienia.").status == "rejected"
 
 
 def test_every_sentence_of_a_text_is_checked():
