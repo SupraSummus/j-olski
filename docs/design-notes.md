@@ -651,7 +651,12 @@ o co [pomiar chce pytać bank drzew](swigra.md#failure-is-diagnosable-and-covera
 
 ### Co się pakuje, rozstrzyga tożsamość czytania
 
-Pakowanie ma jeden warunek i on decyduje, czy las odpowie na pytanie olskiego.
+Las odpowiada na pytanie olskiego pod dwoma warunkami:
+pod jedną pozycję ma iść to, co jest jednym czytaniem,
+a liczba z jednej pozycji ma się łączyć z liczbą z sąsiedniej tak,
+jak łączy je unifikacja.
+Pierwszy ma odpowiedź, drugi jej nie ma.
+
 Czytanie jest kwotowane po lematach i po wartościach cech
 ([subset.md](subset.md#what-counts-as-one-reading)),
 więc pozycja tablicy trzymana osobno dla każdego środowiska cech
@@ -674,6 +679,33 @@ Nadmiar, który to zdejmuje, bierze się z tego samego kwotowania:
 `zapisuje` ma dwa lematy, a lemat do sygnatury nie wchodzi,
 więc `Program zapisuje ustawienia.` wyprowadza się dwa razy na jedną sygnaturę,
 i mnoży się to przez każde następne słowo, któremu słownik daje dwa lematy.
+
+Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
+
+```sh
+python3 -m olski.check -c "Zobacz docs/rules.md."
+```
+
+Czytanie ma jedno, a suma iloczynów po lesie liczy nad nim dwa.
+`Complements` nad `docs/rules.md` buduje się dwiema produkcjami
+z `build` w `olski/subset.py`, raz przez `Object`, raz przez `Predicative`,
+bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
+Obie są czytaniami tej rozpiętości, więc pakowanie stawia je pod jedną pozycją
+i robi z nimi to, czego pierwszy warunek żąda.
+Rozchodzi się dopiero to, czym pozycja jest dla rodzica:
+`Predicate → Verb Complements` wiąże jedną wspólną zmienną
+ramę czasownika z pozycją, którą dopełnienie zajmuje,
+a `zobacz` ma ramę domyślną, w której narzędnika nie ma.
+Rodzic wskazuje pozycję, a nie wariant,
+więc liczy oba, choć unifikacja przepuściła jeden.
+
+Nadmiar jest więc wzięty z przeciwnej strony niż ten wyżej:
+tamten bierze się z rozdzielenia pozycji, a ten ze sklejenia.
+Cena jest przy tym inna, bo olski pyta o liczbę czytań, a nie o czytania:
+zdanie przyjęte wychodzi z takiego lasu dwuznaczne,
+czyli przewraca się werdykt, a nie sama liczba obok niego.
+Na czym liczba ma stanąć zamiast iloczynu, trzyma [`TODO.md`](../TODO.md).
 
 ### Więzy wchodzą wyprowadzone z gramatyki, a nie napisane obok niej
 
