@@ -132,20 +132,88 @@ What makes the exclusion safe is that it asks for both at once:
 the reading inflects for nothing,
 and the form carries another one that is what it almost always is.
 
+## Notacja tego rejestru jest słowem, którego słownik nie ma
+
+Wykluczenie wyżej odbiera formie czytanie, którego Polak nie ma.
+Notacja jest przypadkiem odwrotnym:
+słownik nie ma tu czytania żadnego, a czytelnik ma jedno.
+
+`docs/linter.md` jest dla Morfeusza pięcioma segmentami,
+bo ukośnik i kropka są dla niego interpunkcją,
+a `docs` nie jest żadnym polskim słowem, więc wraca jako `ign`,
+którego nie bierze ani jedna produkcja.
+Rejestr, o który olskiemu chodzi, jest takich form pełen —
+ścieżka, nazwa pliku, nazwa modułu, nazwa polecenia —
+i stoją one w zdaniach na miejscach rzeczownika,
+bo tym w takim zdaniu są.
+
+Olski daje więc takiej formie jedną krawędź i jedno czytanie:
+rzeczownik nieodmienny, dokładnie ten tag,
+który Morfeusz daje `menu` i `atelier`
+(`subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol`).
+Rzeczownikiem nieodmiennym taka forma jest w polszczyźnie naprawdę,
+a jedno czytanie znaczy, że nie ona daje zdaniu drugie.
+Sklejenie stoi przed analizą, a nie za nią,
+bo segment niesie numery węzłów grafu, a nie przesunięcia w tekście,
+więc po analizie nie ma już czym zobaczyć spacji,
+która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
+
+Wzorzec, który to rozpoznaje, stoi w `NOTACJA` w `olski/subset.py`,
+a tu stoi to, przed czym każde jego żądanie broni,
+bo z samego wzorca tego nie widać.
+`np.` i `r.` mają kropkę i nie są notacją,
+więc kropka spaja tylko wtedy, gdy nie ma po niej spacji.
+`m.in.` i `S.A.` spajają się bez spacji i notacją nie są,
+więc człon musi być dłuższy niż litera —
+za co płaci się ścieżką, której człon jest jednoznakowy,
+i takiej olski nie sklei.
+`czarno-biały` Morfeusz zna po członach
+i sklejony w jedno wypadłby ze słownika razem z gramatyką,
+więc łącznik spaja tylko wewnątrz ścieżki, którą trzyma już kropka:
+`design-notes.md` wchodzi całe.
+`2018.07.23` spaja się kropkami jak ścieżka, a rzeczownikiem nie jest,
+i Morfeusz zna tę formę jako liczbę,
+więc notacja musi nieść przynajmniej jedną literę.
+
+Własność, przez którą wykluczenie wyżej istnieje, jest tu ceną.
+Forma nieodmienna spełnia każde żądanie przypadku,
+jakie unifikacja umie postawić,
+więc notacja stoi w zdaniu wszędzie tam, gdzie stoi jakikolwiek rzeczownik.
+`Cały wywód prowadzi docs/linter.md.` wychodzi z tego dwoma czytaniami,
+SVO i OVS, i jest to ta sama wieloznaczność,
+którą polszczyzna ma na `Koszt samej szynki przewyższa koszt szynki`:
+zdanie naprawdę nie mówi, co tu prowadzi co.
+
+To jest połowa klasy, a nie cała.
+Drugą połową jest polskie słowo odmienione, którego słownik nie ma,
+i tej olski nie wpuszcza;
+powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover-yet).
+
 ## What the grammar covers
 
 - Clauses in SVO and OVS order, and subjectless clauses,
   both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`)
-- A verb before its subject, with a predicative after it or without one:
+- A verb before its subject, with an agreeing predicative after it or without one:
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
-- A predicative before its verb, which is the mirror of OVS:
+- A predicative before the copula, which is the mirror of OVS:
   `Wejściem jest zwykły tekst polski.`
 - Reflexive verbs, with `się` in the position after the verb
-- The copula, with a predicative agreeing with the subject
-  or a noun phrase in the instrumental,
-  and the same predicative under a verb that is not the copula:
-  `Ludzie rodzą się wolni.`
+- An agreeing predicative, under the copula and under a verb that is not one:
+  `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
+- A nominal predicative in the instrumental, under the copula and nowhere else:
+  `Jan jest nauczycielem.`
+  The copula is a closed list of lemmas
+  (`być`, `zostać`, `zostawać`, `pozostać`, `pozostawać`),
+  which is what keeps an instrumental adjunct from reading as a predicative
+  under every other verb —
+  the mistake [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
+  counts on `Kwitnie handel paszportami.`
+  What the list leaves out is the copula that takes `się`:
+  `okazać się` and `stać się` govern the same case
+  and the production has no place for the particle.
+- The register's own notation as an indeclinable noun:
+  `Zobacz docs/rules.md.`, argued above
 - A modal with its infinitive.
   `powinien` inflects for gender and not for person,
   so the clause it heads agrees with its subject in gender
@@ -241,14 +309,17 @@ Two entries are not constructions but demands every construction makes:
 
 - **Valency.** Nothing records which complements a verb actually takes,
   so `być` accepts an accusative object,
-  and any verb accepts a predicative or an infinitive.
+  and any verb accepts an agreeing predicative or an infinitive.
   `On jest wolny.` is where that shows:
   `wolny` reads as an adjective and as a noun,
   so the sentence comes out ambiguous
   between the predicative a reader has and an object nobody means.
   [corpus.md](corpus.md#what-morphological-ambiguity-costs)
   found the same gap from the other side.
-- **A form the dictionary does not have.**
+  The instrumental predicative is the one slot this has been taken out of,
+  by the closed list of copulas above,
+  and what that leaves is a lexicon rather than a list.
+- **A Polish form the dictionary does not have.**
   Morfeusz is asked not to guess at one (`olski/morph.py`),
   so it comes back tagged `ign`,
   which no production takes and no agreement can rescue.
@@ -256,6 +327,13 @@ Two entries are not constructions but demands every construction makes:
   `Język polski jest podzbiorem polszczyzny.` derives
   and `Język olski jest podzbiorem polszczyzny.` does not,
   so the language cannot say in itself what it is.
+  Notation is the half of this class olski does admit,
+  and the reason the rest stays out is that the form is inflected:
+  `lintuje` is a finite verb, `znacznikowym` an adjective in the instrumental,
+  `commitów` a genitive plural,
+  and reading any of them as the indeclinable noun notation gets
+  would invent a reading that is not merely unknown but wrong,
+  against the promise that every olski sentence is well-formed Polish.
   Gold morphology leaves a treebank no such form,
   which is why the queue in
   [corpus.md](corpus.md#where-the-analyses-stop) does not rank it
@@ -377,7 +455,8 @@ it becomes a chart parser over a packed forest,
 which is what [design-notes.md](design-notes.md) always assumed.
 
 `olski/subset.py` is olski itself:
-the grammar, the readings it declines to consider, and the verdicts.
+the grammar, what it reads as one word,
+the readings it declines to consider, and the verdicts.
 
 ```sh
 python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings

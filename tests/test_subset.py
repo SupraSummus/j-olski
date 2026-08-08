@@ -91,6 +91,7 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         #  noun phrase in the instrumental.
         "Ludzie są wolni.",
         "Jan jest nauczycielem.",
+        "Jan zostaje nauczycielem.",
         #  A predicative under a verb that is not the copula.
         "Ludzie rodzą się wolni.",
         #  Coordination, of noun phrases and of clauses.
@@ -106,6 +107,8 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         "To ma pomagać pisać dobrą polszczyznę.",
         #  A pronoun subject, and with it a person that is not the third.
         "Ja zapisuję plik.",
+        #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
+        "Zobacz docs/rules.md.",
     ],
 )
 def test_these_are_olski(text):
@@ -138,7 +141,7 @@ def test_predykatyw_przed_czasownikiem_nie_jest_czytany_jako_podmiot():
     assert found.readings[0] == {
         "Subject": "zwykły tekst polski",
         "Predicative": "Wejściem",
-        "Verb": "jest",
+        "Copula": "jest",
     }
 
 
@@ -276,13 +279,27 @@ def test_a_predicative_that_also_reads_as_an_object_needs_valency_to_settle():
     #  wolny is an adjective and a noun, and być takes no accusative object, so
     #  the object reading is one no reader of the sentence has. Nothing in the
     #  grammar rules it out, because olski has no valency, and this is what the
-    #  gap costs: a sentence with one reading in Polish has two here.
+    #  gap costs: a sentence with one reading in Polish has three here. The third
+    #  is a second gap in the same sentence, and the readings are named one by one
+    #  because a set of role names hid it: On is an indeclinable surname in
+    #  Morfeusz's dictionary, so it stands where a fronted predicative stands, and
+    #  the exclusion below leaves it because a pronoun is not a function word.
     found = verdict("On jest wolny.")
     assert found.status == "ambiguous"
-    assert {frozenset(reading) for reading in found.readings} == {
-        frozenset({"Subject", "Object", "Verb"}),
-        frozenset({"Subject", "Predicative", "Verb"}),
-    }
+    assert found.readings == [
+        {"Subject": "On", "Object": "wolny", "Verb": "jest"},
+        {"Subject": "On", "Predicative": "wolny", "Verb": "jest"},
+        {"Subject": "wolny", "Predicative": "On", "Copula": "jest"},
+    ]
+
+
+def test_orzecznik_w_narzędniku_bierze_tylko_kopula():
+    #  Ta sama luka, z której da się wyjąć jeden slot i nie więcej. Bez
+    #  ograniczenia narzędnik okolicznikowy czyta się jako orzecznik pod każdym
+    #  czasownikiem, co docs/corpus.md liczy jako niezgodność z bankiem drzew:
+    #  handel wychodzi wtedy orzekany o paszportach, a nie kwitnący w nich.
+    assert verdict("Kwitnie handel paszportami.").status == "rejected"
+    assert verdict("Jan jest nauczycielem.").status == "valid"
 
 
 def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():
@@ -327,6 +344,58 @@ def test_excluding_a_reading_never_leaves_a_form_with_none():
     unfiltered = analyse("do")[0]
     assert {reading.tag.pos for reading in unfiltered.readings} == {"prep", "subst"}
     assert [reading.tag.pos for reading in admissible(unfiltered).readings] == ["prep"]
+
+
+# --------------------------------------------------------------------------- #
+# Notacja rejestru, czyli słowo, którego słownik nie ma
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    "text, formy",
+    [
+        #  Ścieżkę Morfeusz rozbija na pięć krawędzi, bo ukośnik i kropka są dla
+        #  niego interpunkcją, a czytelnik ma tam jedno słowo, którego rozbitego
+        #  nie bierze żadna produkcja. Łącznik idzie z nią, bo stoi w jej środku.
+        ("Zobacz docs/design-notes.md.", ["Zobacz", "docs/design-notes.md", "."]),
+        #  Łącznik sam ścieżki nie robi, a złożenie przymiotnikowe Morfeusz zna po
+        #  członach: sklejone w jedno wypadłoby ze słownika i z gramatyki.
+        ("czarno-biały", ["czarno", "-", "biały"]),
+        #  Skrót z kropką w środku ma człony jednoliterowe, więc wzorzec go mija.
+        ("m.in.", ["m.in", "."]),
+        #  Data spaja się kropkami tak samo jak ścieżka, a rzeczownikiem nie jest.
+        ("2018.07.23", ["2018.07.23"]),
+    ],
+)
+def test_notacja_jest_jednym_słowem_i_nic_poza_nią_nim_nie_jest(text, formy):
+    assert [segment.form for segment in morphology(text)] == formy
+
+
+def test_graf_kawałka_niejednoznacznego_zszywa_się_z_notacją_bez_przesunięcia():
+    #  Sklejanie stawia grafy kolejnych kawałków jeden za drugim, więc pomyłka o
+    #  jeden węzeł rozerwałaby zdanie w miejscu, którego nikt nie zobaczy w
+    #  formach. Morfeusz dzieli ktoś na kto i ś obok formy całej, czyli daje temu
+    #  kawałkowi graf, który się rozchodzi, i to on tę pomyłkę pokazuje.
+    krawędzie = [(s.start, s.end, s.form) for s in morphology("Ktoś zna docs/rules.md.")]
+    assert krawędzie == [
+        (0, 1, "Kto"),
+        (0, 2, "Ktoś"),
+        (1, 2, "ś"),
+        (2, 3, "zna"),
+        (3, 4, "docs/rules.md"),
+        (4, 5, "."),
+    ]
+
+
+def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
+    #  Notacja niesie jedno czytanie, i to nieodmienne, czyli dokładnie to, co
+    #  admissible odrzuca — broni jej przed tym drugi warunek, ten o wyrazie
+    #  funkcyjnym obok. Bez niego notacja wychodziłaby stąd bez czytań, a to jest
+    #  werdykt o formie, której Morfeusz nie zna, i tutaj byłby fałszywy.
+    segment = morphology("docs/rules.md")[0]
+    assert [reading.tag.raw for reading in segment.readings] == [
+        "subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol"
+    ]
 
 
 # --------------------------------------------------------------------------- #

@@ -507,9 +507,17 @@ dodane po jednym pokrycia nad tym plikiem nie podnoszą,
 a ostatni z nich je obniża, co mierzy
 [corpus.md](corpus.md#where-the-analyses-stop).
 
-**Słowa, których słownik nie ma.** `olski`, `linter`, `lintować`, `Markdown`:
-Morfeusz zwraca `ign`, a formy `ign` nie bierze żadna produkcja.
-[subset.md](subset.md#what-it-does-not-cover-yet) nazywa to z drugiej strony,
+**Słowa, których słownik nie ma.** Morfeusz zwraca na nie `ign`,
+a formy `ign` nie bierze żadna produkcja.
+Klasa ma dwie połowy i olski wpuszcza jedną z nich.
+Notacja tego rejestru — `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
+dochodzi do gramatyki jako jeden rzeczownik nieodmienny
+([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
+bo rzeczownikiem nieodmiennym taka forma w polszczyźnie jest.
+Zostaje polskie słowo odmienione, którego słownik nie zna:
+`olski`, `lintuje`, `abstencje`, `commitów`.
+Dla niego to samo czytanie byłoby nie tylko nieznane, ale fałszywe,
+a [subset.md](subset.md#what-it-does-not-cover-yet) nazywa to z drugiej strony,
 bo olski nie umie powiedzieć sam w sobie, czym jest.
 Kolejka z banku drzew tej klasy nie ustawia,
 bo tam każdy token ma rozbiór wybrany przez człowieka,

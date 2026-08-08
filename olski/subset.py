@@ -25,21 +25,30 @@ below.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, replace
 
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, V, nt, word
-from olski.morph import Segment, analyse
+from olski.morph import Reading, Segment, analyse, tag
 from olski.parse import Result, describe, parse
 
 #: The roles a reading is summarized by when two of them have to be told apart.
-ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
+#: ``Copula`` stoi obok ``Verb``, bo raport nazywa węzeł, który znalazł, a
+#: orzecznik w narzędniku bierze osobna produkcja: to samo ``jest`` wychodzi więc
+#: raz jednym, a raz drugim.
+ROLES = ("Subject", "Object", "Predicative", "Verb", "Copula", "Modifier")
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
 #: zdanie o tekście i inna robota do zrobienia; docs/extraction.md trzyma wywód i
 #: mierzy, jak dużą częścią rejestru ta klasa jest.
 FRAGMENT = "fragment"
+
+#: Czasowniki, które biorą orzecznik w narzędniku. Lista jest zamknięta, więc
+#: stoi w lemmach, a nie w słowniku walencyjnym, którego olski nie ma;
+#: docs/subset.md wywodzi, czego na niej nie ma i dlaczego.
+KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -101,18 +110,20 @@ def build() -> Grammar:
         [
             nt("Verb", number=V("n"), person=V("p")),
             nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
-            nt("Predicative", number=V("n"), gender=V("g")),
+            nt("Predicative", case="nom", number=V("n"), gender=V("g")),
         ],
     )
 
-    # Predykatyw przed swoim czasownikiem: Wejściem jest zwykły tekst polski.
-    # Lustro reguły OVS, którego predykatyw nie miał, więc ten sam szyk wychodził
-    # raz tak, a raz wcale, zależnie od tego, co po czasowniku stoi.
+    # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
+    # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
+    # predykatyw nie miał, więc ten sam szyk wychodził raz tak, a raz wcale,
+    # zależnie od tego, co po czasowniku stoi. Przypadek orzecznika stoi tu otwarty,
+    # bo oba szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku.
     grammar.rule(
         "ClauseConjunct",
         [
             nt("Predicative", number=V("n"), gender=V("g")),
-            nt("Verb", number=V("n"), person=V("p")),
+            nt("Copula", number=V("n"), person=V("p")),
             nt("Subject", number=V("n"), gender=V("g"), person=V("p")),
         ],
     )
@@ -151,6 +162,26 @@ def build() -> Grammar:
         gender=V("g"),
     )
 
+    # Kopula i orzecznik rzeczownikowy, którego nie bierze nic poza nią: Jan jest
+    # nauczycielem. Bez tego ograniczenia narzędnik okolicznikowy czyta się jako
+    # orzecznik pod każdym czasownikiem, co docs/corpus.md liczy nad bankiem drzew.
+    grammar.rule(
+        "Predicate",
+        [nt("Copula", number=V("n"), person=V("p")), nt("Predicative", case="inst")],
+        number=V("n"),
+        person=V("p"),
+    )
+    grammar.rule(
+        "Predicate",
+        [
+            nt("Copula", number=V("n"), person=V("p")),
+            nt("Predicative", case="inst"),
+            nt("Adjuncts"),
+        ],
+        number=V("n"),
+        person=V("p"),
+    )
+
     # A modal and its infinitive. Powinien inflects for gender and not for
     # person, so the clause it heads agrees with its subject in gender and
     # leaves person to whatever else constrains it.
@@ -168,13 +199,13 @@ def build() -> Grammar:
     grammar.rule("Complements", [nt("Object"), nt("Adjuncts")])
     grammar.rule(
         "Complements",
-        [nt("Predicative", number=V("n"), gender=V("g"))],
+        [nt("Predicative", case="nom", number=V("n"), gender=V("g"))],
         number=V("n"),
         gender=V("g"),
     )
     grammar.rule(
         "Complements",
-        [nt("Predicative", number=V("n"), gender=V("g")), nt("Adjuncts")],
+        [nt("Predicative", case="nom", number=V("n"), gender=V("g")), nt("Adjuncts")],
         number=V("n"),
         gender=V("g"),
     )
@@ -192,13 +223,17 @@ def build() -> Grammar:
     # What is predicated of the subject: an adjective phrase agreeing with it,
     # or a noun phrase in the instrumental. Both are what być takes, and the
     # first is also what rodzą się wolni i równi predicates without one.
+    #
+    # Przypadek wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
+    # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
     grammar.rule(
         "Predicative",
         [nt("AP", case="nom", number=V("n"), gender=V("g"))],
+        case="nom",
         number=V("n"),
         gender=V("g"),
     )
-    grammar.rule("Predicative", [nt("NP", case="inst")])
+    grammar.rule("Predicative", [nt("NP", case="inst")], case="inst")
 
     # Finite and imperative verbs in one production, since they differ in the
     # features their tags carry and in nothing this rule says. A reflexive verb
@@ -213,6 +248,18 @@ def build() -> Grammar:
     grammar.rule(
         "Verb",
         [word("fin|impt", number=V("n"), person=V("p")), word("part", lemma="się")],
+        number=V("n"),
+        person=V("p"),
+    )
+
+    # Kopula jest osobnym symbolem, a nie cechą czasownika, bo cechy, której
+    # konstytuent nie niesie, unifikacja nie sprawdza: żądanie „bądź kopulą”
+    # przechodziłoby wtedy każdemu czasownikowi. Kopula jest też zwykłym Verb, bo
+    # Jan jest w domu orzecznika nie ma, i te dwa czytania nie konkurują, bo żadna
+    # produkcja z Verb nie bierze orzecznika w narzędniku.
+    grammar.rule(
+        "Copula",
+        [word("fin|impt", lemma=KOPULA, number=V("n"), person=V("p"))],
         number=V("n"),
         person=V("p"),
     )
@@ -374,9 +421,70 @@ def admissible(segment: Segment) -> Segment:
     return replace(segment, readings=kept)
 
 
+#: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu. Człony spaja
+#: ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe albo
+#: więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko wewnątrz
+#: takiej ścieżki. docs/subset.md wywodzi, co każde z tych czterech żądań trzyma na
+#: zewnątrz i dlaczego. Klasa w podglądzie jest sumą pozostałych, bo litery szuka
+#: dokładnie tam, gdzie sięgnie dopasowanie: znak spajający dodany do wzorca
+#: dodaje się i tam.
+CZŁON = r"\w{2,}"
+NOTACJA = re.compile(
+    rf"(?<![\w./])(?=[\w./_-]*[^\W\d_]){CZŁON}(?:[-_]{CZŁON})*(?:[./]{CZŁON}(?:[-_]{CZŁON})*)+"
+)
+
+#: Czytanie, które notacja dostaje: rzeczownik nieodmienny, dokładnie ten tag,
+#: który Morfeusz daje `menu` i `atelier`.
+NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
+
+
 def morphology(text: str) -> list[Segment]:
-    """Analyse text as olski reads it: Morfeusz, minus the readings above."""
-    return [admissible(segment) for segment in analyse(text)]
+    """Analizuje tekst tak, jak czyta go olski.
+
+    Dwie rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
+    krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
+    krawędzi, a czytelnik ma tam jedno słowo. Reszta idzie do Morfeusza i traci te
+    czytania, które odrzuca :func:`admissible`.
+
+    Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
+    grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
+    spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
+    """
+    return [admissible(segment) for segment in _segmenty(text)]
+
+
+def _segmenty(text: str) -> list[Segment]:
+    """Krawędzie grafu segmentacji, notację liczące za jedną z nich.
+
+    Grafy kolejnych kawałków stają jeden za drugim, przesunięte o numer węzła, na
+    którym poprzedni się skończył. Wolno tak, bo każdy z nich ma jedno źródło i
+    jedno ujście: Morfeusz numeruje od zera, a wszystkie ścieżki przez kawałek
+    kończą się na tym samym węźle, choćby w środku rozchodziły się na dwie.
+    """
+    segmenty: list[Segment] = []
+    węzeł = 0
+    for kawałek, notacja in _kawałki(text):
+        krawędzie = _krawędzie(kawałek) if notacja else analyse(kawałek)
+        segmenty.extend(
+            replace(segment, start=segment.start + węzeł, end=segment.end + węzeł)
+            for segment in krawędzie
+        )
+        węzeł += max((segment.end for segment in krawędzie), default=0)
+    return segmenty
+
+
+def _kawałki(text: str):
+    """Tnie tekst na kawałki, każdy z odpowiedzią, czy jest notacją."""
+    znak = 0
+    for match in NOTACJA.finditer(text):
+        yield text[znak : match.start()], False
+        yield match.group(), True
+        znak = match.end()
+    yield text[znak:], False
+
+
+def _krawędzie(forma: str) -> list[Segment]:
+    return [Segment(start=0, end=1, form=forma, readings=(Reading(forma, forma, NIEODMIENNY),))]
 
 
 def sentences(text: str) -> list[str]:
