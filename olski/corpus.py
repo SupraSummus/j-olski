@@ -131,15 +131,19 @@ NIEWYBRANY = re.compile(rb'<node[^>]*chosen="false"[^>]*>.*?</node>\s*', re.DOTA
 
 def read(path: Path | str) -> Sentence:
     """Read one forest file."""
+    return parse_forest(read_forest(path))
+
+
+def read_forest(path: Path | str) -> ET.Element:
+    """Jeden las, bez węzłów, których wybrane wyprowadzenie nie bierze."""
     path = Path(path)
     try:
-        forest = ET.fromstring(NIEWYBRANY.sub(b"", path.read_bytes()))
+        return ET.fromstring(NIEWYBRANY.sub(b"", path.read_bytes()))
     except ET.ParseError as error:
         # ParseError carries a line and column and not the file they are in,
         # which is no help at all when the caller is walking twenty thousand
         # files and one of them is broken.
         raise ET.ParseError(f"{path}: {error}") from error
-    return parse_forest(forest)
 
 
 def parse_forest(forest: ET.Element) -> Sentence:
@@ -156,7 +160,7 @@ def parse_forest(forest: ET.Element) -> Sentence:
 
     segments = []
     roles = []
-    for node in gold:
+    for node, _ in gold:
         span = _span(node)
         if span is None:
             continue
@@ -176,33 +180,79 @@ def parse_forest(forest: ET.Element) -> Sentence:
     return replace(sentence, segments=tuple(segments), roles=tuple(sorted(roles)))
 
 
-def _gold(nodes: dict[str, ET.Element]) -> list[ET.Element]:
-    """The nodes of the chosen tree, from the root down.
+@dataclass(frozen=True)
+class Constituent:
+    """Nieterminal wybranego drzewa: kategoria, rozpiętość i to, pod czym stoi.
+
+    Rodzic jest tu polem, a nie listą dzieci, bo pytanie, dla którego to jest
+    czytane, biegnie w tę stronę: fraza pyta, do czego doszła.
+    """
+
+    category: str
+    start: int
+    end: int
+    parent: Constituent | None = None
+
+
+def constituents(forest: ET.Element) -> list[Constituent]:
+    """Nieterminale wybranego drzewa, rodzic przed dzieckiem.
+
+    Terminale zostają na zewnątrz: co niosą, trzyma :class:`Sentence`, a tu
+    liczy się kształt drzewa nad nimi. ``olski/attachment.py`` jest tym, co o ten
+    kształt pyta.
+    """
+    nodes = {node.get("nid"): node for node in forest.findall("node") if node.get("nid")}
+    zbudowane: dict[str, Constituent] = {}
+    found = []
+    for node, parent in _gold(nodes):
+        span = _span(node)
+        nonterminal = node.find("nonterminal")
+        if span is None or nonterminal is None:
+            continue
+        constituent = Constituent(
+            category=(nonterminal.findtext("category") or "").strip(),
+            start=span[0],
+            end=span[1],
+            parent=zbudowane.get(parent.get("nid") or "") if parent is not None else None,
+        )
+        zbudowane[node.get("nid") or ""] = constituent
+        found.append(constituent)
+    return found
+
+
+def _gold(nodes: dict[str, ET.Element]) -> list[tuple[ET.Element, ET.Element | None]]:
+    """The nodes of the chosen tree, from the root down, each with its parent.
 
     Following chosen ``children`` rather than trusting a node's own ``chosen``
     attribute, which marks participation in some chosen derivation and is true of
     nodes the answer does not use.
+
+    Rodzic jest tym, po co drzewo się schodzi, a nie zbiera:
+    ``fpm`` pod ``fno`` i ``fpm`` pod ``zdanie`` to ten sam węzeł
+    i dopiero to, pod czym stoi, mówi, dokąd wyrażenie doszło.
+    Wychodzi stąd w porządku, w którym rodzic stoi przed dzieckiem,
+    bo zejście zaczyna się od korzenia.
     """
     root = _root(nodes)
     if root is None:
         return []
-    found: list[ET.Element] = []
+    found: list[tuple[ET.Element, ET.Element | None]] = []
     seen: set[str] = set()
-    stack = [root]
+    stack = [(root, None)]
     while stack:
-        node = stack.pop()
+        node, parent = stack.pop()
         nid = node.get("nid") or ""
         if nid in seen:
             continue
         seen.add(nid)
-        found.append(node)
+        found.append((node, parent))
         for children in node.findall("children"):
             if children.get("chosen") != "true":
                 continue
             for child in children.findall("child"):
                 target = nodes.get(child.get("nid") or "")
                 if target is not None:
-                    stack.append(target)
+                    stack.append((target, node))
             # One chosen expansion per node; a second would be two answers.
             break
     return found

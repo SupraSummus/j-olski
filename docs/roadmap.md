@@ -107,7 +107,7 @@ Zaliczone, zob. [subset.md](subset.md) i [corpus.md](corpus.md).
 `Program zapisuje ustawienia w pliku.` ma dwa czytania i oba są polszczyzną,
 więc własność jednoznaczności to zdanie odrzuca.
 Konstrukcja nie jest przy tym rzadka:
-[subset.md](subset.md#the-open-problem-prepositional-attachment)
+[subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 trzyma trzy wyjścia z tego i mówi, że własność w tym brzmieniu
 wyklucza dużą i zwyczajną część technicznej polszczyzny.
 README jest taką polszczyzną, więc kryterium żąda wybrania jednego z trzech.
@@ -122,9 +122,18 @@ Rozstrzygnięcie po napisaniu tamtych produkcji jest więc przepisaniem ich wszy
 **Wyjście:** jedno z trzech wyjść wybrane,
 z uzasadnieniem wziętym z prawdziwej polszczyzny, a nie z gustu,
 i gramatyka, o której da się powiedzieć, że je realizuje.
-Pierwsze z nich żąda tego, co gramatyka już robi,
-więc zamyka etap zapisaną decyzją i niczym poza nią,
-i to jest ta różnica, dla której wybór stoi przed konstrukcjami, a nie po nich.
+Zaliczone: wybrane jest pierwsze, czyli olski nie wybiera przyłączenia,
+a wzięło się to z tego, że bank drzew żadnego przyłączenia nie ma za domyślne,
+zob. [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
+
+Ten etap płaci też za oczekiwanie, które trzeba znieść z niego na następne.
+Wyjście, które od gramatyki nie żąda niczego, wyglądało tu na jedno z trzech,
+a nie było nim żadne:
+odrzucenie jest uczciwe dopiero wtedy, gdy oba czytania mają gdzie się wyprowadzić,
+więc razem z decyzją weszły do gramatyki wszystkie pozycje okolicznika,
+których brak był wyborem robionym po cichu.
+Ile to kosztowało przyjętych zdań, trzyma
+[corpus.md](corpus.md#the-measurement).
 
 ## Etap 2: walencja
 

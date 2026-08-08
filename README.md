@@ -89,7 +89,7 @@ Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim:
 `Nowa program` nie ma wyprowadzenia,
 więc nie jest to reguła, która strzeliła, tylko zdanie, którego nie ma.
 Co gramatyka obejmuje, czego nie obejmuje
-i na czym polega otwarty problem przyłączania wyrażeń przyimkowych,
+i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku,
 mówi [docs/subset.md](docs/subset.md).
 
 **Silnik reguł i pakiet typograficzny**, nad zwykłym tekstem polskim.

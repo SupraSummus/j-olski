@@ -115,20 +115,20 @@ def test_these_are_olski(text):
     assert verdict(text).status == "valid", verdict(text).explain()
 
 
-def test_the_first_article_of_the_declaration_is_olski():
-    #  The sentence that drove the constructions above into the grammar: a
-    #  reflexive verb, a coordinated predicative, a coordinated genitive
-    #  modifier, and a quantifier, in one 13-token sentence of ordinary Polish.
+def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimkowego():
+    #  Zdanie, które wpędziło do gramatyki konstrukcje wyliczone wyżej: czasownik
+    #  zwrotny, orzecznik i dopełniacz w koordynacji, kwantyfikator. Wszystkie w
+    #  nim są, a zdaniem olskim nie jest, bo pod względem swej godności określa
+    #  równych albo całe zdanie, i te dwa czytania olski melduje zamiast wybierać
+    #  jedno z nich.
     found = verdict(
         "Wszyscy ludzie rodzą się wolni i równi "
         "pod względem swej godności i swych praw."
     )
-    assert found.status == "valid", found.explain()
-    assert found.readings[0] == {
-        "Subject": "Wszyscy ludzie",
-        "Predicative": "wolni i równi",
-        "Verb": "rodzą się",
-        "Modifier": "pod względem swej godności i swych praw",
+    assert found.status == "ambiguous", found.explain()
+    assert {reading["Predicative"] for reading in found.readings} == {
+        "wolni i równi",
+        "wolni i równi pod względem swej godności i swych praw",
     }
 
 
@@ -224,7 +224,9 @@ def test_case_syncretism_plus_free_word_order_makes_a_sentence_ambiguous():
     found = verdict("Koszt samej szynki przewyższa koszt szynki z dodatkami.")
     assert found.status == "ambiguous"
     subjects = {reading["Subject"] for reading in found.readings}
-    assert subjects == {"Koszt samej szynki", "koszt szynki z dodatkami"}
+    #  Trzeci podmiot jest z drugiej wieloznaczności, nie z tej: z dodatkami
+    #  dochodzi do zdania zamiast do kosztu, więc podmiotem zostaje sam koszt.
+    assert subjects == {"Koszt samej szynki", "koszt szynki z dodatkami", "koszt szynki"}
     assert "Subject" in found.explain()
 
 
@@ -259,6 +261,35 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     assert len({reading["Object"] for reading in found.readings}) == 2
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        #  Po podmiocie w szyku SVO, i po dopełnieniu w szyku OVS.
+        "Program w tym trybie zapisuje ustawienia.",
+        "Ustawienia w pliku zapisuje program.",
+        #  Po podmiocie w szykach z czasownikiem na czele, przed orzecznikiem i za nim.
+        "Trwa dochodzenie w tej sprawie.",
+        "Są ludzie w tej sprawie wolni.",
+        #  Po orzeczniku wysuniętym przed kopulę.
+        "Wejściem w tym trybie jest zwykły tekst.",
+        #  Przed dopełnieniem, wewnątrz orzeczenia.
+        "Program zapisuje w pliku ustawienia.",
+        #  Po rzeczowniku, który ma już przy sobie przymiotnik albo dopełniacz,
+        #  i po imiesłowie.
+        "Trwa akcja zbrojna w Strefie Gazy.",
+        "Rozmieszczenie ogrodów w Polsce jest nierównomierne.",
+        "Ludzie są powiązani z interesami.",
+    ],
+)
+def test_żadna_pozycja_okolicznika_nie_daje_jednego_czytania(text):
+    #  Cena decyzji z docs/subset.md o przyłączaniu wyrażeń przyimkowych, i to ta
+    #  jej połowa, której nie widać po zdaniach odrzuconych. Gdy gramatyka ma
+    #  regułę na jedno z dwóch przyłączeń, zdanie wychodzi jednoznaczne i olski
+    #  wybiera po cichu to, czego wybierać nie miał. Każde zdanie tutaj stoi na
+    #  innej pozycji okolicznika i żadne nie ma wychodzić jednym czytaniem.
+    assert verdict(text).status == "ambiguous", verdict(text).explain()
+
+
 def test_the_second_article_sentence_derives_and_is_still_not_olski():
     #  Everything it needs is in the grammar — verb before subject with a
     #  predicative, a participle with its instrumental complement, a modal, two
@@ -271,6 +302,7 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     assert found.status == "ambiguous"
     assert {reading["Modifier"] for reading in found.readings} == {
         "wobec innych",
+        "wobec innych w duchu",
         "wobec innych w duchu braterstwa",
     }
 
