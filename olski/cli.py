@@ -13,7 +13,7 @@ from textwrap import fill
 from olski import __version__
 from olski.checks import CHECKS, ParamError, count_units
 from olski.document import Document, is_plain_text
-from olski.engine import Report, Tally, lint_corpus, lint_text, read
+from olski.engine import Report, Tally, lint_corpus, read
 from olski.rules import OWED, PACK_PACKAGE, Rule, RuleError, Uncalibrated, load_packs, select
 
 USAGE = """
@@ -137,11 +137,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     if missing or report.errors:
         return 2
     return 1 if report.findings else 0
-
-
-def lint_string(text: str, path: str = "<text>") -> Report:
-    """Lint a string with the shipped packs. The convenient entry point."""
-    return lint_text(text, load_packs(), path)
 
 
 def _read(files: Sequence[Path]) -> tuple[list[Document], list[tuple[str, str]]]:

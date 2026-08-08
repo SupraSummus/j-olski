@@ -8,6 +8,9 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 
+[*.py]
+indent_size = 4
+
 # Prose uses semantic line breaks (https://sembr.org),
 # so line length is intentionally uneven and must not be enforced.
 # Trailing whitespace is trimmed, which means the two-space Markdown

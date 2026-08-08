@@ -15,7 +15,7 @@ import pytest
 
 from harness.markdown import PROSE_SUFFIX, main, prose
 from olski.checks import get_check
-from olski.cli import lint_string
+from olski.engine import lint_string
 from olski.rules import load_packs
 
 HARNESS = Path(__file__).parent.parent / "harness"
