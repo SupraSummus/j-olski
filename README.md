@@ -40,12 +40,15 @@ i ta polszczyzna pisana przez ludzi, która rozstrzyga,
 którym regułom można ufać, a które są tylko opiniami.
 Zobacz [docs/linter.md](docs/linter.md).
 
-**Opcjonalnie, samo dla siebie.** Parser zaprojektowanego podzbioru polszczyzny,
+**Opcjonalnie, na własny cel.** Parser zaprojektowanego podzbioru polszczyzny,
 a przy nim kalambur: *skład* obok *składni*.
-Gramatyka nie jest już celem;
+Gramatyka nie jest celem lintera;
 jest najgłębszym poziomem analizy,
 do którego schodzą tylko te reguły, które sobie na to zasłużą.
-Zobacz [docs/design-notes.md](docs/design-notes.md).
+Własny cel ma jeden i jest nim ten plik:
+gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu.
+Zobacz [docs/design-notes.md](docs/design-notes.md)
+oraz [docs/roadmap.md](docs/roadmap.md#celem-toru-jest-to-readme).
 
 Nie ma aplikacji, która by to wszystko napędzała.
 Projekt jest dla przyjemności.

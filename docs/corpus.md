@@ -185,11 +185,19 @@ Two things in that run belong to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,
 and gold morphology leaves a treebank no such form to rank,
 which is why [subset.md](subset.md#what-it-does-not-cover-yet) owns it.
-And the command counts 68 sentences
-where the splitter in `olski/document.py` finds 40:
+And the command splits that README into more sentences
+than the splitter in `olski/document.py` does:
 a full stop inside `docs/linter.md` is a boundary for one and not for the other.
 That is the splitter rather than the grammar,
 and [TODO.md](../TODO.md) holds it.
+
+That run is also what the grammar track is aimed at.
+[roadmap.md](roadmap.md#celem-toru-jest-to-readme) makes it the track's exit criterion —
+every sentence of that README deriving, and deriving once —
+which puts the splitter above in front of the grammar rather than beside it,
+a number taken over a bad split measuring the apparatus instead.
+The unknown form is the other way round:
+it is a demand on the grammar that this register makes and the treebank cannot.
 
 ## Agreement, which matters more than acceptance
 

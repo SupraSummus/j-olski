@@ -127,6 +127,13 @@ class Result:
     def rejected(self) -> bool:
         return not self.readings
 
+    @property
+    def status(self) -> str:
+        """Which of the three the sentence is, as the verdict a reader is shown."""
+        if self.valid:
+            return "valid"
+        return "ambiguous" if self.ambiguous else "rejected"
+
 
 def parse(grammar: Grammar, segments: list[Segment], start: str | None = None) -> Result:
     """Enumerate the distinct readings of a segmented sentence."""

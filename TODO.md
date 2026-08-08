@@ -371,7 +371,6 @@ and the answer decides whether olski could ever link against such a thing.
 [Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
 "prose in comments and docstrings", and no module here writes them that way.
 Every file in `olski/` and `harness/` wraps its comments to a column instead,
-a median comment line of 52 characters and a ninetieth percentile of 80,
 so the rule and the code have disagreed for as long as both have existed
 and a new docstring following the rule reads as a typo beside its neighbours.
 Two ways out, and the choice is a judgement about the whole package
@@ -383,6 +382,53 @@ or keep the rule and reflow the docstrings under
 [lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
+
+`olski-check` nie mówi, na czym zdanie stanęło, a `olski-corpus` mówi.
+`Outcome.blocker` w `olski/coverage.py` nazywa część mowy tokenu,
+na którym rozbiór się zatrzymał, i `Report.blockers` z tego rankuje kolejkę,
+gdzie `Verdict` w `olski/subset.py` ma na odrzucenie jedno zdanie:
+`no reading: nothing in olski derives this`.
+Obie drogi wołają ten sam parser,
+więc różnica jest w tym, co która z nich z niego wyjmuje, a nie w tym, co widzi.
+Kolejność, w jakiej README ustawia braki gramatyki, z tego polecenia więc nie wychodzi:
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+opisuje ją jako listę słów, których żadna produkcja nie bierze,
+a [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme)
+każe ten sam przebieg powtarzać po każdej zmianie w gramatyce.
+Ruchem jest zejście `blocker` na `Result` w `olski/parse.py`,
+tak jak zeszedł tam `status`, który stał w obu klasach w dwóch kopiach,
+plus segmenty, których `Verdict` nie niesie, a `blocker` ich potrzebuje,
+i wypisanie rankingu przez `olski-check` nad plikiem.
+Do przeczytania jest to, czy blocker liczony nad żywą morfologią
+mówi cokolwiek ponad to, co mówi lista form nieznanych:
+`docs/corpus.md` ostrzega, że przy wielu czytaniach formy
+blocker nazywa pierwsze z nich,
+a nad dokumentacją nikt czytań nie ujednoznacznia,
+więc blocker jest tam zawsze tym przybliżonym.
+
+Próg, po którym dokument jest lintowany, wybiera plik, a język wybiera sekcję.
+`POLISH` w `tests/test_docs.py` mierzy udział znaków diakrytycznych w całym pliku,
+a [reguła języka](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) schodzi do sekcji,
+więc dokument przekładany sekcja po sekcji przekracza próg w połowie drogi
+i wpuszcza pakiet typograficzny na tę resztę, która stoi po angielsku.
+`docs/roadmap.md`, `TODO.md` i `CLAUDE.md` mają polskie sekcje w angielskiej prozie
+i są plikami, które dojdą do progu pierwsze,
+a jak blisko są, mówi `polish_share(prose(...))` z `harness/markdown.py`.
+Ruchem jest rozstrzygnięcie, czy próg wybiera plik, czy fragment:
+albo `polish_documents` dzieli dokument na sekcje
+i lintuje te, które próg przechodzą,
+albo próg zostaje przy pliku,
+a przekroczenie go jest częścią przekładu całego dokumentu,
+co trzeba wtedy powiedzieć w
+[`CLAUDE.md`](CLAUDE.md#piszemy-po-polsku-także-w-kodzie).
+Za pierwszą opcją przemawia to, co pakiet zgłasza nad angielską prozą tych plików.
+Jest to przede wszystkim `quote-straight` na prostym cudzysłowie,
+którym angielszczyzna cytuje słowo,
+czyli reguła polskiej typografii mierząca tekst, który polszczyzną nie jest,
+a obok niej `space-before-punctuation`, `double-space`
+i `missing-space-after-punctuation`.
+Druga opcja kosztuje więc przepisanie tych zdań albo wyjątki dla nich,
+i to nad plikiem, którego polska sekcja jest jedną z kilkunastu.
 
 A modifier between the subject and the verb has nowhere to go but the subject.
 `Chałka pod względem smaku przewyższa zwykłą bułkę.` comes out `valid`
@@ -420,10 +466,9 @@ Podział na zdania tnie na kropce, która stoi w nazwie pliku.
 i nazywa ten podział dokładnym, bo olski nie ma skrótów,
 a dokumentacja techniczna pisze `docs/linter.md`,
 gdzie kropka jest tym samym znakiem.
-Nad prozą wyciągniętą z README ten podział liczy 68 zdań,
-gdzie README ma ich 40:
-28 jego granic to kropka, po której nie stoi spacja,
-a `Cały wywód prowadzi docs / linter .` i osobno `md .` są tego przykładem.
+Nad prozą wyciągniętą z README ten podział znajduje więcej zdań, niż README ma,
+a różnicę robi kropka, po której nie stoi spacja:
+`Cały wywód prowadzi docs / linter .` i osobno `md .` są tego przykładem.
 Drugi podział na zdania w tym repozytorium tego nie robi.
 `SENTENCE_END` w `olski/document.py` żąda po kropce białego znaku albo końca tekstu,
 a `_mid_sentence` zdejmuje skróty i liczebniki porządkowe,
