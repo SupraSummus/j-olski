@@ -274,7 +274,11 @@ params=dict(
 Either one matching the context around a match
 means the match is a legitimate use and the rule stays quiet.
 `unless_preceded_by` is anchored to the match,
-so a pattern that matches earlier in the text does not exempt anything.
+so a pattern that matches earlier in the text does not exempt anything,
+and it is shown a bounded stretch of what comes before rather than all of it.
+That bound costs a fixed-width exemption nothing
+and cuts one written to stretch back across a document;
+`ZASIĘG_KONTEKSTU` in `olski/checks.py` owns how far it reaches and why.
 
 Each exemption is a deliberate miss.
 That is the trade the project has chosen:

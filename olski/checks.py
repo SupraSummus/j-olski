@@ -355,6 +355,32 @@ def _share(params: dict, key: str, where: str, default=None) -> float:
 
 PATTERN_PARAMS = {"pattern", "flags", "unless_preceded_by", "unless_followed_by"}
 
+#: Ile tekstu przed trafieniem dostaje do obejrzenia ``unless_preceded_by``.
+#: Podanie mu wszystkiego, co stoi wcześniej,
+#: czyni ten check kwadratowym względem długości dokumentu,
+#: z powodu, który ``TOKEN_REACH`` w ``olski/document.py`` notuje o dzieleniu zdań:
+#: wzorzec jest zakotwiczony na końcu,
+#: więc silnik próbuje go na każdej wcześniejszej pozycji
+#: i za każdym razem niczego nie znajduje, raz na trafienie.
+#: Płaci za to akurat ta reguła,
+#: która pada dość często i nad dość długą prozą,
+#: żeby wyjątek był jej do czegokolwiek potrzebny.
+#:
+#: Wyjątek o stałej szerokości nie traci na tym oknie nic, jakiekolwiek by ono było.
+#: Zakotwiczenie i tak każe mu skończyć się tam, gdzie trafienie się zaczyna,
+#: więc dopasować się może tylko do tych kilku znaków, które tam stoją,
+#: a przebieg wstecz po reszcie dokumentu był robotą, która nie miała jak się udać.
+#: Okno tnie wyjątek napisany tak, żeby się rozciągać,
+#: czyli taki, którego dopasowanie wolno zacząć daleko od miejsca jego końca.
+#: Tam jest to ograniczenie, a nie równoważność:
+#: wyjątek sięgający wstecz dalej niż tyle nie pada.
+#: Dwieście znaków jest więcej, niż wynosi kontekst, po który taki wzorzec sięga,
+#: czyli fraza albo wtrącenie w nawiasie, wewnątrz którego trafienie stoi.
+#: Reguła, która chce warunkować na większym kawałku dokumentu,
+#: prosi o niewłaściwy check:
+#: to, co ma, jest częstością, a częstości mierzy ``pattern-density``.
+ZASIĘG_KONTEKSTU = 200
+
 
 def _validate_pattern(params: dict, where: str) -> dict:
     _known(params, PATTERN_PARAMS, where)
@@ -392,7 +418,8 @@ def pattern(rule, document: Document) -> Iterator[Outcome]:
     before = rule.params.get("unless_preceded_by")
     after = rule.params.get("unless_followed_by")
     for match in rule.params["pattern"].finditer(document.text):
-        if before is not None and before.search(document.text, 0, match.start()):
+        reach = max(0, match.start() - ZASIĘG_KONTEKSTU)
+        if before is not None and before.search(document.text, reach, match.start()):
             continue
         if after is not None and after.match(document.text, match.end()):
             continue
