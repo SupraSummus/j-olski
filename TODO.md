@@ -69,6 +69,8 @@ tak samo jak przy wpisie, który się zamknął,
 z powodem w komunikacie commita,
 bo skasowany wpis nie zostawia po sobie nic innego.
 
+---
+
 Werdykt nad zdaniem o kilku nierozstrzygniętych przyłączeniach nie mówi,
 o które przyłączenia idzie, i nie zdejmie tego szybsze wyliczanie.
 `explain` w `olski/subset.py` nazywa role, które się między czytaniami różnią,
