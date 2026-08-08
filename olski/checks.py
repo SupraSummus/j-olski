@@ -30,6 +30,7 @@ from dataclasses import dataclass, field, replace
 from functools import wraps
 from math import sqrt
 
+from olski.calibration import Audit, Distribution, Measurement
 from olski.document import Document, Span
 
 
@@ -70,12 +71,6 @@ class Abstain:
 Outcome = Hit | Abstain
 
 
-#: The two shapes a calibration takes, named as strings because a check cannot
-#: know what a rule is. ``olski.rules`` holds the classes that carry them.
-AUDIT = "audit"
-DISTRIBUTION = "distribution"
-
-
 @dataclass(frozen=True)
 class Check:
     name: str
@@ -85,11 +80,12 @@ class Check:
     #: finding has to report follows from which findings the rule asked for: a
     #: rate rule that set no ceiling has no occurrence to quote.
     fields: Callable[[dict], set[str]]
-    #: Which shape of calibration a rule using this check owes: an audit where
-    #: the check points at a site and its hits are read one by one, a
-    #: distribution where it compares a measurement to a threshold the rule
-    #: sets. docs/linter.md owns the argument.
-    calibrated_by: str
+    #: Which shape of calibration a rule using this check owes, named by the
+    #: class that carries it: an :class:`~olski.calibration.Audit` where the
+    #: check points at a site and its hits are read one by one, a
+    #: :class:`~olski.calibration.Distribution` where it compares a measurement
+    #: to a threshold the rule sets. docs/linter.md owns the argument.
+    calibrated_by: type[Measurement]
     #: The unit a rate over this check's findings is a rate of, given a rule's
     #: validated parameters: what the check can fire at most once per. A check
     #: with no such bound, since a pattern matches as often as the prose gives
@@ -125,7 +121,7 @@ def _register(
     fields: Callable[[dict], set[str]],
     validate,
     counted_over: Callable[[dict], str],
-    calibrated_by: str,
+    calibrated_by: type[Measurement],
 ) -> Callable:
     def decorate(run):
         CHECKS[name] = Check(
@@ -376,7 +372,7 @@ def _validate_pattern(params: dict, where: str) -> dict:
     fields=lambda params: {"match"},
     validate=_validate_pattern,
     counted_over=lambda params: "word",
-    calibrated_by=AUDIT,
+    calibrated_by=Audit,
 )
 @per_document
 def pattern(rule, document: Document) -> Iterator[Outcome]:
@@ -436,7 +432,7 @@ def _validate_density(params: dict, where: str) -> dict:
     #  The scope the rate is measured over is the scope one finding covers, so
     #  this is the only check whose denominator its rule chooses.
     counted_over=lambda params: params["unit"],
-    calibrated_by=DISTRIBUTION,
+    calibrated_by=Distribution,
 )
 @needs_plain_text
 def pattern_density(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
@@ -558,7 +554,7 @@ def _validate_variation(params: dict, where: str) -> dict:
     #  Not the unit in the parameters: that is what the lengths vary across,
     #  while the spread they make is a property of the whole document.
     counted_over=lambda params: "document",
-    calibrated_by=DISTRIBUTION,
+    calibrated_by=Distribution,
 )
 @needs_plain_text
 @per_document
@@ -650,7 +646,7 @@ def _validate_recurrence(params: dict, where: str) -> dict:
     fields=lambda params: {"entity", "mentions", "walk_ons", "introductions", "share", "limit"},
     validate=_validate_recurrence,
     counted_over=lambda params: "corpus",
-    calibrated_by=DISTRIBUTION,
+    calibrated_by=Distribution,
 )
 @needs_plain_text
 def entity_recurrence(rule, documents: Sequence[Document]) -> Iterator[Outcome]:

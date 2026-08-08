@@ -5,7 +5,8 @@ and what the milestone 1 harness settles.
 See docs/roadmap.md and docs/rules.md.
 """
 
-from olski.rules import UNCALIBRATED, Pack
+from olski.calibration import UNCALIBRATED
+from olski.rules import Pack
 
 pack = Pack(
     name="typography",

@@ -621,7 +621,7 @@ Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.
 `dependencies` w `pyproject.toml` żąda `morfeusz2` bezwarunkowo,
 a tor linterowy nie sięga po niego ani razu:
 `olski/cli.py`, `olski/engine.py`, `olski/checks.py`, `olski/document.py`,
-`olski/rules.py` i `olski/packs/` nie importują `olski/morph.py`,
+`olski/rules.py`, `olski/calibration.py` i `olski/packs/` nie importują `olski/morph.py`,
 czyli jedynego miejsca, w którym stoi `import morfeusz2`,
 a wołają go `olski/parse.py`, `olski/subset.py`, `olski/corpus.py`
 i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`.
@@ -686,21 +686,25 @@ Przeciw: lista zamkniętych rozwidleń oszczędza komuś otwierania ich z powrot
 Do przeczytania jest więc, czy któraś pozycja niesie odrzuconą alternatywę,
 której jej właściciel nie trzyma — taka zostaje, a reszta idzie.
 
-Kształty kalibracji są jednym faktem rozciętym kierunkiem importu.
-`olski/checks.py` trzyma `AUDIT` i `DISTRIBUTION` jako gołe napisy,
-z komentarzem, że check nie może wiedzieć, czym jest reguła,
-a `olski/rules.py` mapuje te same dwie nazwy z powrotem
-na klasy (`SHAPES`) i na zdania (`OWED`).
-Kalibracja regułą nie jest, więc ta przeszkoda jest do zdjęcia:
-osobny moduł z `Uncalibrated`, `Measurement`, `Audit`, `Distribution` i `OWED`
-pozwala checkowi nazwać kształt wprost,
-a `olski/rules.py` zostaje przy deklaracji reguły.
-Jest to ta [rozdwojona ścieżka](CLAUDE.md#code), którą repozytorium każe scalać.
-Ruch opłaca się przed milestone'em 1, a nie po nim,
-bo to jest miejsce, w które ten milestone pisze:
-[harness kalibracyjny](docs/roadmap.md#milestone-1-the-calibration-harness)
-zastępuje `UNCALIBRATED` jedną z tych dwóch klas,
-więc każda dostanie wtedy pola, których dziś nie ma.
+Ten sam zepsuty pakiet raportuje się dwiema drogami inaczej.
+`_import_file` w `olski/rules.py` łapie `Exception`,
+więc pakiet podany ścieżką wychodzi wierszem `olski:` i kodem 2,
+a ten sam plik podany nazwą modułu idzie przez `_import`,
+które zawija tylko `ImportError`, i drukuje ślad stosu z kodem 1.
+Do przeczytania jest pakiet podnoszący cokolwiek poza tym,
+co moduły tego pakietu nazywają:
+`--packs ./pakiet.py` obok `--packs pakiet` nad tym samym plikiem.
+Nazwą modułu ładują się pakiety wysyłane z olskim,
+więc tą gorszą drogą chodzi ten, kto edytuje `olski/packs/`.
+Drugą połową tego samego jest krotka w `main` z `olski/cli.py`:
+`RuleError`, `ParamError` i `CalibrationError` łapane razem,
+bo dla tego, kto woła komendę, są jednym zdarzeniem,
+a każdy następny moduł, który cokolwiek waliduje, dokłada do niej element.
+Ruchem jest jedna klasa bazowa dla tych trzech,
+łapana zamiast krotki, plus `_import` zawijające tak jak `_import_file`.
+Do rozstrzygnięcia zostaje, gdzie ta klasa stoi,
+bo moduł poniżej wszystkich trzech powstałby dla niej samej,
+a `olski/calibration.py` stoi najniżej i o deklaracjach nie mówi nic.
 
 Lista dokumentów w README miesza dwa tory, które sekcja nad nią rozdziela.
 [`Co działa`](README.md#co-działa) mówi, że działają dwie rzeczy,
