@@ -47,16 +47,19 @@ WIĘZY = (
     ),
     # Dopełnienie, czyli Object → NP[acc], w dwóch deklaracjach zamiast jednej: za
     # czasownikiem bez warunku, przed nim z tym, który uzasadnia pole ``wymaga``.
+    # Głową nie jest kopula, bo biernika nie bierze, i to jest tu cała walencja:
+    # rama, którą olski wypuszcza z czasownika, wychodzi po tej stronie warunkiem
+    # na lemat głowy łuku.
     Więz(
         "Object",
-        word(CZASOWNIK),
+        word(CZASOWNIK, bez_lematu=KOPULA),
         word(NOMINALNE, case="acc"),
         strona=PO,
         zakazuje=("Predicative", "PredInst"),
     ),
     Więz(
         "Object",
-        word(CZASOWNIK),
+        word(CZASOWNIK, bez_lematu=KOPULA),
         word(NOMINALNE, case="acc"),
         strona=PRZED,
         wymaga=("Subject",),
@@ -64,7 +67,7 @@ WIĘZY = (
     ),
     # Orzecznik w narzędniku, którego nie bierze nic poza kopulą, i orzecznik
     # przymiotnikowy, który bierze każdy czasownik. Ograniczenie lematem jest to
-    # samo, którym olski trzyma osobny symbol ``Copula``.
+    # samo, którym olski trzyma ramę kopuli.
     #
     # Dwie etykiety, a nie jedna, bo z podmiotem zgadza się orzecznik
     # przymiotnikowy, a narzędnikowy nie: w olskim ``Predicative → NP[inst]``

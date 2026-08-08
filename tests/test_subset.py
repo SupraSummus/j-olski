@@ -154,7 +154,7 @@ def test_predykatyw_przed_czasownikiem_nie_jest_czytany_jako_podmiot():
     assert found.readings[0] == {
         "Subject": "zwykły tekst polski",
         "Predicative": "Wejściem",
-        "Copula": "jest",
+        "Verb": "jest",
     }
 
 
@@ -358,21 +358,19 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     }
 
 
-def test_a_predicative_that_also_reads_as_an_object_needs_valency_to_settle():
-    #  wolny is an adjective and a noun, and być takes no accusative object, so
-    #  the object reading is one no reader of the sentence has. Nothing in the
-    #  grammar rules it out, because olski has no valency, and this is what the
-    #  gap costs: a sentence with one reading in Polish has three here. The third
-    #  is a second gap in the same sentence, and the readings are named one by one
-    #  because a set of role names hid it: On is an indeclinable surname in
-    #  Morfeusz's dictionary, so it stands where a fronted predicative stands, and
-    #  the exclusion below leaves it because a pronoun is not a function word.
+def test_rama_kopuli_zdejmuje_dopełnienie_którego_nikt_w_tym_zdaniu_nie_ma():
+    #  wolny czyta się jako przymiotnik i jako rzeczownik, a być dopełnienia w
+    #  bierniku nie bierze, więc czytania z dopełnieniem nie ma żaden czytelnik
+    #  tego zdania. Zabiera je rama kopuli i to jest to, co walencja kupuje.
+    #  Zostają dwa czytania i każde stoi na innej dziurze: rzeczownikowym czytaniu
+    #  przymiotnika, i na tym, że On jest w słowniku Morfeusza nazwiskiem
+    #  nieodmiennym, więc staje tam, gdzie stoi orzecznik wysunięty, a wykluczenie
+    #  słownikowe go zostawia, bo zaimek wyrazem funkcyjnym nie jest.
     found = verdict("On jest wolny.")
     assert found.status == "ambiguous"
     assert found.readings == [
-        {"Subject": "On", "Object": "wolny", "Verb": "jest"},
         {"Subject": "On", "Predicative": "wolny", "Verb": "jest"},
-        {"Subject": "wolny", "Predicative": "On", "Copula": "jest"},
+        {"Subject": "wolny", "Predicative": "On", "Verb": "jest"},
     ]
 
 
@@ -383,6 +381,33 @@ def test_orzecznik_w_narzędniku_bierze_tylko_kopula():
     #  handel wychodzi wtedy orzekany o paszportach, a nie kwitnący w nich.
     assert verdict("Kwitnie handel paszportami.").status == "rejected"
     assert verdict("Jan jest nauczycielem.").status == "valid"
+
+
+@pytest.mark.parametrize(
+    ("text", "status"),
+    [
+        ("Program pozwala zostać nauczycielem.", "valid"),
+        ("Program pozwala zapisać ustawienia.", "valid"),
+        ("Program pozwala zapisać nauczycielem.", "rejected"),
+        ("Program pozwala zostać ustawienia.", "rejected"),
+    ],
+)
+def test_rama_dochodzi_do_bezokolicznika_tak_samo_jak_do_formy_osobowej(text, status):
+    #  Bezokolicznik bierze dopełnienia z tego samego leksykonu, co forma osobowa,
+    #  i widać to dopiero na parze zdań: samo przyjęcie dwóch pierwszych
+    #  przechodziłoby też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
+    assert verdict(text).status == status
+
+
+@pytest.mark.parametrize(
+    "text", ["Na to jest zbyt wielkim tchórzem.", "Inne wymagają ustalenia."]
+)
+def test_pozycja_orzecznika_żąda_ramy_sama_zamiast_dzielić_z_nią_zmienną(text):
+    #  Trzy pozycje orzecznika wyglądają na jedną, w której orzecznik i czasownik
+    #  dzielą zmienną walencyjną, a te dwa zdania ze Składnicy są ceną takiego
+    #  zlania: oba wychodzą z niego przyjęte i oba przeczytane na opak, raz z
+    #  podmiotem zbyt, a raz z podmiotem ustalenia. docs/subset.md trzyma pomiar.
+    assert verdict(text).status == "rejected"
 
 
 def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():

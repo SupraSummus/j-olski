@@ -124,14 +124,14 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 3,251 | `-` (1,243), `,` (980), `.` (354), `–` |
+| `interp` | 3,258 | `-` (1,243), `,` (983), `.` (356), `–` |
 | `praet` | 2,849 | the past tense: `był` (92), `była`, `było` |
-| `qub` | 1,722 | particles: `nie` (552), `się` (335), `czy` |
-| `adv` | 1,131 | `teraz` (62), `bardzo`, `potem` |
-| `conj` | 477 | coordination: `i` (153), `ale`, `a` |
+| `qub` | 1,734 | particles: `nie` (552), `się` (345), `czy` |
+| `adv` | 1,133 | `teraz` (62), `bardzo`, `potem` |
+| `conj` | 476 | coordination: `i` (153), `ale`, `a` |
 | `psubst` | 364 | nominal pronouns: `to` (104), `co`, `kto` |
 | `num` | 328 | numerals: `kilka` (20), `wielu`, `wiele` |
-| `ger` | 311 | gerunds: `przyjęcie`, `głosowania` |
+| `ger` | 312 | gerunds: `przyjęcie`, `głosowania` |
 | `pred` | 309 | `to` (185), `można`, `trzeba` |
 | `comp` | 230 | subordinators: `gdy` (40), `jeśli`, `bo` |
 
@@ -147,18 +147,18 @@ What it is worth against the register olski is aimed at
 is a separate question, and the run below answers it differently.
 
 One entry says where a construction the grammar *has* stops short of Polish.
-`się` is second in the particle row at 335:
+`się` is second in the particle row at 345:
 the reflexive is admitted after its verb,
 and Polish puts it before one as readily.
 
 A preposition does not rank in this table at all,
 and two groups of productions are why.
 Drop the one that puts a modifier in front of the clause
-and a `prep` row ranks third at 1,832 sentences, led by `W` (665) and `Na` (252).
+and a `prep` row ranks third at 1,839 sentences, led by `W` (665) and `Na` (252).
 Drop instead the adjunct positions
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
-takes prepositional attachment to demand, and the row reads 234.
-With both in place it reads 50, `z` (14) and `w` (12) in front,
+takes prepositional attachment to demand, and the row reads 241.
+With both in place it reads 59, `z` (15) and `w` (13) in front,
 which is a preposition standing where no rule reaches
 rather than a construction the grammar lacks.
 
@@ -228,11 +228,12 @@ That exception says what else has to arrive.
 and admitting one makes the sentence ambiguous rather than accepted:
 `dwie rzeczy` is nominative or accusative,
 a subjectless clause takes an object,
-and nothing records that `działać` takes none,
+and `działać` has no entry in
+[the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 so olski reads two things as acting and as being acted upon.
-That is the valency entry in
-[subset.md](subset.md#what-it-does-not-cover-yet),
-reached from this register rather than from the treebank.
+That is what the lexicon's one entry does not reach,
+found in this register rather than in the treebank,
+and it is what a second entry would be for.
 
 What the gerund costs comes from the dictionary rather than from the grammar.
 `wejście` carries a `ger` reading beside its `subst` one,
@@ -343,7 +344,7 @@ rather than an attachment olski chose.
 Drop the adjunct positions
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 takes prepositional attachment to demand
-and this row holds nine sentences instead of one,
+and this row holds ten sentences instead of one,
 every one of them an attachment.
 That is what those positions buy,
 at the price in accepted sentences the table above carries,
@@ -369,22 +370,27 @@ Kwitnie handel paszportami.
 
 `paszportami` is instrumental,
 a nominal predicative is a noun phrase in that case,
-and nothing here records which complements a verb takes,
-so the trade comes out predicated of passports rather than blooming in them.
-What keeps it out is a restriction on the predicative rather than on the verb:
-the instrumental one belongs to a closed list of copulas
-([subset.md](subset.md#what-the-grammar-covers)).
-That restriction costs four of the sentences this corpus would otherwise accept,
-and the four are one mistake:
+so a grammar recording no valency
+has the trade predicated of passports rather than blooming in them.
+Two things keep it out and neither is about the predicative.
+`Kwitnąć` takes no instrumental,
+which is what the copula's frame says, the copula being the lexicon's only entry
+([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+and the verb-initial order with a predicative takes the agreeing one alone,
+which is a second refusal of the same sentence.
+Dropped wherever it stands, the restriction costs four of the sentences
+this corpus would otherwise accept, and the four are one mistake:
 `Abakanowicz pracuje seriami.`,
 `Zygmunt biegnie drugim chodnikiem.`
 and `O delfinach może mówić godzinami.` beside the sentence above,
 each an instrumental adjunct read as what its verb predicates.
+Three of the four are the frame's alone, the sentence above being the position's.
 Four fewer accepted and four fewer read backwards is the trade this section is for.
 
-The gap they come out of is wider than the restriction.
-`To są oczywistości.` below is the same missing valency from the other side,
-and [subset.md](subset.md#what-it-does-not-cover-yet) holds what is left of it.
+That is the whole of what the lexicon moves under gold morphology.
+Its other half — that `być` takes no accusative object —
+moves nothing here,
+and the run it moves is the one below.
 
 ## What morphological ambiguity costs
 
@@ -393,13 +399,13 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,625 | 12,383 |
-| valid | 300 | 377 |
-| ambiguous | 100 | 265 |
+| rejected | 12,625 | 12,394 |
+| valid | 300 | 371 |
+| ambiguous | 100 | 260 |
 
 Ambiguity is where the tagger's cost lands:
-165 more sentences carry more than one reading,
-which is 1.3% of the 13,025 measured.
+160 more sentences carry more than one reading,
+which is 1.2% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
 and the rate to watch as the grammar grows,
@@ -416,8 +422,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,381, 349 and 295.
-Twenty-nine of those 295 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,392, 343 and 290.
+Twenty-nine of those 290 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -492,33 +498,51 @@ so the four stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here a 77-sentence difference stands on 209 disagreements.
-The two runs accept the same 234 sentences.
-Live accepts 143 that gold rejects,
-and gold accepts 66 that live does not settle on:
-56 it finds ambiguous, 10 it rejects.
+and here a 71-sentence difference stands on 199 disagreements.
+The two runs accept the same 236 sentences.
+Live accepts 135 that gold rejects,
+and gold accepts 64 that live does not settle on:
+54 it finds ambiguous, 10 it rejects.
 
-The 143 are the warning in the table.
-At least one is accepted for a reason the annotators would reject:
+The 135 are the warning in the table,
+and the largest single class of it is the one
+[the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
 ```text
 To są oczywistości.
 ```
 
-Gold tags call `To` a `pred`, olski has no rule for one, and the sentence is
-rejected.
-Morfeusz also offers `subst:sg:acc:n`,
-so olski reads the sentence as OVS
-with `To` as the accusative object of `są`,
-finds exactly one such reading, and calls it valid.
+Gold tags call `To` a `pred`, olski has no rule for one,
+and the sentence is rejected on either morphology.
+What Morfeusz adds is `subst:sg:acc:n`,
+which stands exactly where an accusative object stands,
+so a grammar recording no valency reads the sentence as OVS,
+finds one such reading, and calls it valid.
 `Być` takes no accusative object,
-but olski has no valency, so nothing stops it.
+and the frame is what says so.
 
-Two things follow.
-Adding valency would remove this,
-and [subset.md](subset.md#what-it-does-not-cover-yet) lists it
-beside the past tense.
-And the agreement check cannot see any of it:
+Twelve sentences of this corpus stand on that reading,
+and the frame takes it off all twelve.
+Eleven have nothing else, so the frame is what rejects them —
+`Ten syfon jest jego.`, `W tobie jest niebo i piekło.`,
+`Nie jest to łatwe zadanie.` — and the twelfth stands on it twice over.
+Every one of them names an object no reader of the sentence has:
+`To nie` in one, `Ale` in another, `Kiedy` in a third.
+That is the trade `Tam siedzi nasz umrzyk.` above is quoted for,
+at eleven times the count.
+
+Five more sentences the frame settles rather than refuses,
+the reading it removes being the one they are otherwise ambiguous against:
+`Powód jest prosty.`, `Jaki jest skutek?`, `To jest jedno pytanie.`
+Ten stay ambiguous with fewer readings,
+and one derives that otherwise derives not at all,
+`Zawarte na wideokasecie wypowiedzi mogą być interesującym materiałem`,
+which is the instrumental predicative reaching an infinitive
+for the reason [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) gives.
+None of it happens under gold morphology and no verdict there moves,
+the annotators having chosen one reading per token.
+
+The agreement check cannot see any of it:
 under live morphology the parser numbers positions in characters
 while the gold tree numbers them in tokens,
 so `olski-corpus --morphology live` reports no agreement column at all

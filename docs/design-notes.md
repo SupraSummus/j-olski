@@ -422,9 +422,9 @@ python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
 Proza README ma 43 zdania.
-42 z nich sonda rozbiera w budżecie 10 sekund na zdanie,
-żadnemu nie zajmując więcej niż dziesiątej części sekundy.
-41 z tych 42 dostaje od obu programów ten sam werdykt,
+Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
+a jednemu z nich zajmuje to ponad sześć sekund, gdy reszcie nie więcej niż trzy setne.
+41 z tych 43 dostaje od obu programów ten sam werdykt,
 a 40 tę samą liczbę czytań,
 i to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
@@ -485,8 +485,9 @@ Trzeciego nie zamyka nic poza leksykonem walencyjnym,
 i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
 a w sondzie trzema czytaniami różniącymi się tym, który czasownik bierze biernik.
-Etap walencji jest więc [w planie](roadmap.md#etap-2-walencja) tam,
-gdzie stoi, i drugie dojście do niego wypadło tutaj.
+[Leksykon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) do tego nie sięga,
+bo ma jeden wpis i nie ma w nim żadnego z trzech czasowników łańcucha,
+a sięgnąłby wpisem, a nie produkcją, i to jest to, co ten etap kupił.
 
 **Cena trzecia: nie ma ograniczenia, które ma parser tablicowy,
 i widać to na jednym zdaniu.**
@@ -500,9 +501,15 @@ jako jedyne odrzucone bez ani jednej formy, której jakaś produkcja nie bierze,
 czyli stojące na kształcie, a nie na słowniku:
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku`.
-Sonda liczy je kilkadziesiąt sekund,
+Sonda liczy je ponad sześć sekund,
 gdzie każdemu z pozostałych 42 zdań wydaje werdykt
-poniżej dziesiątej części sekundy, czyli o trzy rzędy wielkości szybciej.
+poniżej trzech setnych sekundy, czyli o dwa rzędy wielkości szybciej.
+Trzyma tę liczbę warunek na lemat kopuli w deklaracji dopełnienia,
+czyli walencja powiedziana po tej stronie:
+bez niego to samo zdanie liczy się ponad dwadzieścia sekund
+i budżetu nie dowozi wcale,
+więc przestrzeń, którą przycina jedna pozycja ramy,
+jest tutaj trzema czwartymi najgorszego przypadku.
 Tej różnicy nie zdejmie lepsze przycinanie,
 bo tu nie ma czego przyciąć:
 każdy łuk tego zdania jest dozwolony,
@@ -755,8 +762,12 @@ Walencji produkcja nie mówi wcale, i jest to brak innego rodzaju niż tamte trz
 Nie ma jej skąd wyprowadzić, bo stoi w leksykonie,
 a dopisana produkcjami mnoży je przez czasowniki,
 co [etap 2](roadmap.md#etap-2-walencja) liczy jako powód swojej kolejności.
-Wchodzi więc jako zasób, który się zużywa,
-a kształt tego zasobu pokazuje
+Wchodzi więc cechą, którą czasownik niesie z leksykonu,
+a to, co przy nim stoi, żąda w niej swojej pozycji
+([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+Mówi przez to, co czasownik bierze, i nie mówi, ile tego bierze:
+liczba dopełnień zostaje w produkcjach,
+a rama, która się zużywa, jest tym, czego olski nie ma i co pokazuje
 [Świgra](swigra.md#valency-as-a-resource-that-gets-consumed).
 
 Między dwoma wyjściami z nieciągłości rozstrzyga wydruk.

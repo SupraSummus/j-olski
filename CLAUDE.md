@@ -541,6 +541,8 @@ and correct the tables in the same commit.
 The same change moves what that document says about the run over the README,
 which is the other half of the same demand and needs no fetch at all:
 rerun the two commands it prints and correct the sentences under them.
+The README prints a run of its own, verdicts and reading counts included,
+and it goes with those: a figure there is the first one a reader checks.
 
 A run reads the code once at import,
 and it lasts long enough to invite starting it and editing on.
