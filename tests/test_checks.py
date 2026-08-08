@@ -1,6 +1,6 @@
 import pytest
 
-from olski.checks import CHECKS, Abstain, Hit, count_units
+from olski.checks import CHECKS, ZASIĘG_KONTEKSTU, Abstain, Hit, count_units
 from olski.document import Document
 from olski.rules import Pack, RuleError
 
@@ -78,6 +78,36 @@ def test_unless_preceded_by_exempts_what_comes_before_the_match():
     assert hits(abbreviated, "Sprawdź np.Zapisz w menu.") == []
     #  Anchored to the match, so the same word earlier in the text does not exempt.
     assert len(hits(abbreviated, "Sprawdź np. w menu. Zapisz plik.Potem zamknij.")) == 1
+
+
+rozciągnięty = pack.rule(
+    id="test-unless-preceded-by-stretch",
+    check="pattern",
+    #  Wyjątek biegnie od skrótu aż do trafienia,
+    #  bo tylko taki ma czego stracić na zasięgu:
+    #  wyjątek o stałej szerokości i tak kończy się tam, gdzie trafienie się zaczyna,
+    #  więc nigdy nie sięga poza okno.
+    params=dict(pattern=r"\.(?=[A-Z])", unless_preceded_by=r"\bnp\b[^.]*"),
+    message="run-together {match}",
+    justification="a test",
+)
+
+
+@pytest.mark.parametrize("odległość", (ZASIĘG_KONTEKSTU - 10, ZASIĘG_KONTEKSTU + 10))
+def test_wyjątek_przestaje_patrzeć_wstecz_na_zasięgu(odległość):
+    """Zasięg ogranicza wyjątek, który się rozciąga, a pominięcie za nim jest umyślne.
+
+    Warto to przybić, bo nic innego nie zauważyłoby, że zasięg się ruszył.
+    Przywrócenie przebiegu bez ograniczenia zostawia każdy inny test zielonym,
+    a check kwadratowym względem długości dokumentu;
+    zwężenie okna po cichu gubi wyjątki, na których paczka reguł stała.
+    """
+    #  Wypełniacz po dwa znaki,
+    #  żeby skrót stał dokładnie tyle znaków przed trafieniem, ile mówi parametr.
+    #  Kropki w nim nie ma:
+    #  kończyłaby dopasowanie wyjątku przed trafieniem, które ten wyjątek ma zdejmować.
+    tekst = "np" + " x" * ((odległość - 2) // 2) + ".Zapisz"
+    assert bool(hits(rozciągnięty, tekst)) is (odległość > ZASIĘG_KONTEKSTU)
 
 
 # --------------------------------------------------------------------------- #

@@ -281,6 +281,30 @@ or the table stays hand-written and a test asserts it against `CHECKS`,
 the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
 
+`olski-corpus` jest tu jedynym przebiegiem dość długim,
+żeby drugi rdzeń miał znaczenie, i chodzi na jednym.
+Czytanie lasów to `xml.etree` nad całym rozpakowanym bankiem drzew,
+zanim gramatyka zobaczy pierwsze zdanie,
+a parsowanie za nim jest enumeratorem,
+którego najgorszy przypadek `--max-tokens` ucina, zamiast go płacić.
+Obie połowy idą plik po pliku i nie zależą od siebie,
+więc ruchem jest pula procesów nad listą plików w `olski/coverage.py`,
+gdzie proces roboczy oddaje `Report`, a nie drzewa, które zbudował,
+bo przez granicę procesu ma przechodzić licznik, a nie las.
+Wątki nie są tym ruchem:
+`re`, `xml.etree` i enumerator trzymają GIL,
+a przy `--morphology live` proces roboczy i tak chce własnego analizatora.
+Dwie rzeczy muszą się trzymać, zanim to wejdzie.
+`walk` w `olski/corpus.py` obiecuje stały porządek,
+a `Report.examples` zachowuje pierwsze zdania, które dostał,
+więc scalanie ten porządek zachowuje
+albo ten sam korpus drukuje inne przykłady w kolejnych przebiegach,
+wbrew temu, czego [`CLAUDE.md`](CLAUDE.md#checks) żąda od powtórzenia.
+Dowodem do przeczytania najpierw jest profil prawdziwego przebiegu,
+bo on rozstrzyga, czy pula opłaca się nad czytaniem, czy nad parsowaniem:
+te dwa układają się inaczej przy morfologii złotej, a inaczej przy żywej,
+i żadne z nich nie było mierzone nad samym korpusem.
+
 `olski-corpus` asks Składnica whether a sentence derives at all,
 where the same treebank supports a sharper question.
 Świgra's evaluation walks its packed forest per sentence
