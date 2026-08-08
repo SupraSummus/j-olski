@@ -78,6 +78,15 @@ modułów, klas, funkcji, testów, poleceń i flag.
 Po angielsku zostaje to, czego nie wybieramy:
 słowa kluczowe Pythona, API bibliotek, klucze konfiguracji i nazwy formatów.
 
+Nazwy symboli gramatyki są jednym słownikiem i zostają razem.
+`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py`
+stały po angielsku, zanim ta reguła powstała,
+a jeden symbol dopisany po polsku dałby mieszaninę wewnątrz nazwy,
+przed którą ta reguła broni,
+więc nowy symbol idzie po angielsku razem z nimi.
+Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
+więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
+
 Nazwa w kodzie niesie znaki diakrytyczne, tak samo jak zdanie.
 Tekst, który ich nie ma, nie liczy się tu jako polszczyzna:
 [ekstrakcja](docs/extraction.md#which-documents-enter-the-corpus)

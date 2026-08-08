@@ -402,6 +402,21 @@ so narrowing them out there takes them out of Polish too.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
 
+To samo `jest` wychodzi w raporcie raz kopulą, a raz czasownikiem.
+`Ludzie są wolni.` daje rolę `Verb`, a `Jan jest nauczycielem.` rolę `Copula`,
+bo orzecznik w narzędniku bierze osobna produkcja, i `ROLES` wymienia oba.
+`Copula` w `olski/subset.py` jest osobnym symbolem, a nie cechą czasownika,
+bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc żądanie „bądź kopulą” postawione czasownikowi przechodziłoby każdemu.
+Ruchem jest ujemna lemma w `word()` z `olski/grammar.py`:
+produkcja ogólna `Verb` przestaje brać lematy kopuli, kopula dostaje własną
+z cechą, którą wtedy obie niosą, i węzeł w obu przypadkach nazywa się `Verb`.
+Przeciw: byłby to pierwszy warunek ujemny w tej gramatyce,
+gdzie unifikacja jest przecięciem, a przecięcie negacji nie zna,
+więc symetria jest z `lemmas`, a nie z cechami.
+Do przeczytania jest, czy podział lematami rozłącza czytania:
+forma bywa dwoma lematami naraz, a warunek działa na czytaniu, nie na formie.
+
 `olski-check` nie mówi, na czym zdanie stanęło, a `olski-corpus` mówi.
 `Outcome.blocker` w `olski/coverage.py` nazywa część mowy tokenu,
 na którym rozbiór się zatrzymał, i `Report.blockers` z tego rankuje kolejkę,
@@ -499,6 +514,28 @@ Do przeczytania zostaje cena nad Składnicą,
 bo przecinek między zdaniami konkuruje z przecinkiem w grupie imiennej
 wszędzie tam, gdzie po przecinku stoi rzeczownik,
 a to jest ta wieloznaczność, której olski nie znosi.
+
+Rzeczownikowe czytanie przymiotnika zabiera README jedno zdanie.
+`Linter pomaga pisać dobry kod.` wychodzi dwoma czytaniami tego samego kształtu,
+bo Morfeusz daje `dobry` czytanie `subst:sg:nom.acc:m3` obok przymiotnikowego,
+a `kod` czytanie lematu `koda` w dopełniaczu mnogim,
+więc `dobry kod` jest raz przymiotnikiem przed rzeczownikiem,
+a raz rzeczownikiem z dopełniaczem po nim.
+Wykluczenie z `admissible` w `olski/subset.py` tu nie dochodzi,
+bo żąda naraz czytania nieodmiennego i wyrazu funkcyjnego obok niego,
+a to czytanie odmienia się i wyrazu funkcyjnego przy sobie nie ma;
+[`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)
+trzyma tę samą granicę zmierzoną na `sam` nad bankiem drzew.
+Zdanie jest pierwszą połową pary, którą README stawia obok siebie,
+a druga połowa się wyprowadza,
+więc stoi na nim [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
+Ruchem jest kryterium, a nie ten jeden przypadek,
+i pierwszym pytaniem jest, czy jakiekolwiek kryterium tu jest.
+Warunek na kształt drzewa — odpada czytanie rzeczownikowe formy,
+którą Morfeusz zna też jako przymiotnik, jeśli stoi przed dopełniaczem —
+zabiera każde zdanie, w którym rzeczownik odprzymiotnikowy dopełniaczem rządzi.
+Do przeczytania jest więc, ile takich zdań niesie Składnica,
+bo w prozie tego repozytorium jest ich tyle, co to jedno.
 
 Jedna forma o dwóch czytaniach nominalnych daje olskiemu dwa czytania zdania.
 `wejście` ma w Morfeuszu czytanie `subst` i czytanie `ger`,
