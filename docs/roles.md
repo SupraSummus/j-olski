@@ -188,9 +188,11 @@ i dostaje klon,
 
 **Psuje ją** konwencja, która istnieje tylko w komunikacie commita
 albo w pamięci innej sesji,
-oraz podział pracy zrobiony po plikach zamiast po rozstrzyganych decyzjach,
+podział pracy zrobiony po plikach zamiast po rozstrzyganych decyzjach,
 bo dwie sesje dochodzą wtedy do tego samego wniosku dwa razy
-i żaden merge tego nie zgłasza.
+i żaden merge tego nie zgłasza,
+oraz wpis z [TODO.md](../TODO.md) wykonany tak, jak stoi,
+bo nie ma kogo zapytać, czy nazwany w nim ruch jest czymś więcej niż zgadnięciem.
 
 **Obsadzają ją** sesje agenta, które mają w gicie własne commity,
 i cały [CLAUDE.md](../CLAUDE.md) jest pisany pod tę rolę.

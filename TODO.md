@@ -50,6 +50,21 @@ A file list does not show that overlap,
 so the two are picked up together
 and the judgment is reached twice.
 
+Wpis nie jest rozstrzygnięciem.
+Po to ta lista jest: kto go pisał, siedział wtedy przy czymś innym,
+a notatka dostała tyle uwagi, ile zostało.
+Pewne jest w takim wpisie to, że autor na coś trafił,
+a nie to, że dobrze zgadł, co z tym zrobić.
+Kto wpis podnosi, dochodzi więc do ruchu sam:
+zaczyna od dowodu, który wpis nazywa,
+a nazwany ruch czyta jako propozycję, a nie jako polecenie.
+Wychodzi z tego czasem ruch inny niż nazwany, a czasem żaden,
+bo problemu nie ma albo naprawa kosztuje więcej niż to, co kupuje.
+Wtedy całą zmianą jest skasowanie wpisu,
+tak samo jak przy wpisie, który się zamknął,
+z powodem w komunikacie commita,
+bo skasowany wpis nie zostawia po sobie nic innego.
+
 A one-character emphasis span swallows the next one and leaves a marker behind.
 The optional tail in `INLINE` in `harness/markdown.py`,
 `(?:.*?[^\s*])?` inside the emphasis alternative, is greedy,
