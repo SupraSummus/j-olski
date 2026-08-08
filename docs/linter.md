@@ -134,12 +134,13 @@ and what the other two want is not morphology at all.
 is that measured rather than predicted.
 
 The honest consequence:
-tiers A and B probably carry most of the value,
+tiers A and B probably carry most of this tool's value,
 and the Earley parser, the parse forests,
 the LCFRS question and the Składnica coverage curve
-all leave the critical path.
-They become an optional deeper track,
-not the project.
+all leave its critical path.
+They are the other track,
+which [roadmap.md](roadmap.md#co-jest-budowane) makes what is being built,
+and the linter reaches it only as tier D.
 
 ### What the nominalization endings match
 

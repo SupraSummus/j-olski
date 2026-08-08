@@ -75,7 +75,7 @@ Each of these is unoccupied ground rather than a complaint,
 and together they are the grammar track's reason to exist.
 
 **Ambiguity reported to the author instead of resolved for them.**
-[roadmap.md](roadmap.md#optional-track-the-grammar) owns that purpose,
+[roadmap.md](roadmap.md#co-jest-budowane) owns that purpose,
 and Świgra is where the survey found it empty:
 it picks the likelier reading where olski would hand both back.
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
@@ -108,13 +108,15 @@ whichever admits more Polish.
 See [similar-work.md](similar-work.md#pens-and-why-it-matters-here).
 
 And the largest one, which is not about grammars at all.
-[roadmap.md](roadmap.md#what-is-being-built) settles
-that the linter is what is being built
-and that the grammar survives as its deepest tier.
-Świgra is a rival to the optional track and to nothing else,
-so the size of grammar olski needs is set by the rules that earn
-[the deepest tier](linter.md#how-deep-does-each-rule-have-to-see),
-not by how much Polish a parser could cover.
+[roadmap.md](roadmap.md#celem-toru-jest-to-readme)
+sets the size of grammar olski needs by a document
+rather than by a coverage figure:
+the track exits when this repository's README derives,
+one reading per sentence.
+Świgra admits more Polish than that and will go on doing so,
+which decides nothing here,
+because the two are not measured on the same axis
+and covering more is not what would make olski done.
 
 ## Why wrapping it does not get there
 

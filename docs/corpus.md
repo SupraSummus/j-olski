@@ -174,7 +174,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Six sentences of that README derive once, and two derive twice.
+Six sentences of that README derive once, and three derive twice.
 What stops the rest is the table above in another order:
 the comma first, where the treebank's row is led by the dash,
 then the Polish form Morfeusz does not know,
@@ -201,17 +201,16 @@ the adverb in
 `Wyznaczenie go przez wykluczanie jest nieporównanie tańsze`
 stands in a sentence that also has a gerund and a relative clause,
 and the past tense in
-`Każdy werdykt przychodzi z regułą, która go wydała`
+`Każdy werdykt przychodzi z tym, co go wydało`
 stands in one that also has a numeral and a relative clause.
 So a production for the adverb, the past tense or the numeral,
 added by itself, leaves the accepted count exactly where it stands,
 the gerund puts it one lower,
 and all four at once come out below that count rather than above it.
 The class at the top of the queue behaves the same way.
-`Gramatyka nie jest celem lintera; jest najgłębszym poziomem analizy`
-and `Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md`
-are the sentences it alone would unblock,
-and each carries clause punctuation as well.
+`Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md`
+is the sentence it alone would unblock,
+and it carries clause punctuation as well.
 What the list still holds is the comma and the subordinate clause,
 and [TODO.md](../TODO.md) holds the finding that over this file
 those two arrive together or not at all.
@@ -255,7 +254,7 @@ The notation the register writes —
 reaches the grammar as one indeclinable noun rather than as five segments
 ([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
 and three of the six sentences accepted here rest on it,
-as does one of the two that derive twice.
+as does one of the three that derive twice.
 What is left is the inflected Polish word Morfeusz lacks —
 `lintuje`, `commitów`, `znacznikowym` —
 which is the class ranked second above.

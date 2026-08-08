@@ -62,7 +62,7 @@ It should be.
 
 ### Where olski aims
 
-This positioning describes the optional
+This positioning describes the
 [grammar track](design-notes.md),
 which is the only part of the project
 that would be a controlled natural language at all.
