@@ -561,3 +561,30 @@ which is that section alone,
 the roadmap having taken the same finding coarsely and quoted no number.
 The evidence is 7 words: 6 `dacie` and 1 `powiecie`,
 both of which the register uses as nouns.
+
+Sekcja po polsku w dokumencie po angielsku wpuszcza linter nad angielszczyznę.
+`polish_share` w `harness/markdown.py` wybiera cały plik,
+a jego docstring uzasadnia próg tym, że obie populacje się rozdzielają,
+z angielskimi notatkami nisko i polskimi wysoko.
+`docs/open-questions.md` stoi między nimi,
+bo jedna jego sekcja jest po polsku, a reszta po angielsku,
+i `test_every_polish_document_passes_the_linter_this_repository_is_about`
+mierzy nad nim angielskie zdania.
+Przechodzi, a to nie jest własność, na której da się polegać:
+wystarczy angielskie `a` na końcu wiersza albo prosty cudzysłów w cytacie,
+żeby suite zgłosił regułę typograficzną nad angielskim zdaniem,
+czego nikt nie odgadnie z komunikatu.
+Ruch jest jeden z dwóch:
+albo wybór schodzi do sekcji, skoro
+[reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+robi z sekcji jednostkę i takie pliki będzie produkować dalej,
+albo dokument zostaje przełożony w całości, co jest osobną zmianą.
+Docstring żąda poprawki tak czy inaczej,
+bo dokument mieszany jest trzecią populacją, której nie opisuje.
+Dowodem do przeczytania są udziały wszystkich dokumentów naraz —
+`polish_share(prose(path.read_text()))` po `*.md` i `docs/*.md` —
+bo od tego, ile plików siedzi w luce, zależy, który z dwóch ruchów się opłaca.
+Pierwszy ruch spotyka się z wpisem, który chce,
+żeby `prose` mówiło, z czego wyszedł każdy kawałek wyjścia:
+obu potrzebna jest ta sama rzecz, czyli granice zachowane w wyjściu ekstrakcji,
+więc albo idą razem, albo ta sama decyzja zapada dwa razy.

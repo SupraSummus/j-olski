@@ -272,6 +272,84 @@ and they are also a self-contained module,
 so they are a good candidate
 for being deferred rather than excluded.
 
+### Czy jednoznaczność prefiksu mierzy czytelność
+
+Hipoteza: tekst czyta się tym łatwiej,
+im mniej rozbiorów dopuszcza każdy jego kolejny prefiks.
+Czytelnik idzie słowo po słowie i nie wraca,
+więc prefiks, który rozkłada się na kilka sposobów,
+zostawia go z kilkoma rozbiorami naraz,
+dopóki dalsze słowo ich nie unieważni.
+
+Mierzy to co innego niż
+[kryterium jednoznaczności](subset.md#validity-is-uniqueness-not-just-derivability),
+i obie wielkości rozjeżdżają się w obie strony.
+`Koszt samej szynki przewyższa koszt szynki z dodatkami.`
+czyta się gładko i ma kilka czytań,
+bo koszt płaci się przy rozumieniu, a nie przy czytaniu,
+i płaci niewidocznie, skoro czytelnik nie wie, że wybrał.
+Zdanie ze ścieżką ogrodową jest odwrotne:
+jedno czytanie na końcu i długi prefiks, który trzymał inne.
+Kryterium stoi więc na poprawności,
+a hipoteza go nie podpiera i stawia obok niego drugą wielkość.
+
+Trzy rzeczy trzeba w niej zaostrzyć, zanim da się ją zmierzyć.
+
+Liczba rozbiorów nie jest kosztem pamięci.
+Wykładniczo wiele czytań mieści się
+w wielomianowym lesie ze współdzielonymi węzłami,
+więc prefiks z dwudziestoma czytaniami różniącymi się jednym przyłączeniem
+to jedna decyzja nierozstrzygnięta, a nie dwadzieścia.
+Liczy się liczba takich decyzji,
+czyli to samo rozróżnienie, które
+[subset.md](subset.md#what-counts-as-one-reading) robi dla całego zdania.
+
+Rozbiory nie są równoprawdopodobne.
+Prefiks, którego jedno czytanie bierze prawie całe prawdopodobieństwo,
+nie obciąża nikogo, choćby reszta była liczna.
+Policzalną wersję hipotezy pole ma więc w postaci rozkładu, a nie zbioru:
+*surprisal* Hale'a mierzy, ile prawdopodobieństwa traci przy kolejnym słowie
+ta część rozbiorów, którą to słowo unieważnia,
+i przewiduje z tego czasy czytania.
+Wyjaśnienie konkurencyjne liczy pamięć wprost,
+bliżej tego, jak hipoteza jest tu postawiona:
+u Gibsona koszt bierze się z odległości między członami zależności,
+czyli z tego, jak długo człon czeka na swoje dopełnienie.
+Która z dwóch wielkości niesie tu więcej, rozstrzyga pomiar.
+
+Kosztuje nie to, *że* prefiks był wieloznaczny,
+tylko jak długo taki został
+i czy rozstrzygnięcie unieważnia czytanie, które było preferowane.
+Wieloznaczność ginąca na następnym słowie jest darmowa,
+a to jest ten sam przypadek, który
+[glr-in-practice.md](glr-in-practice.md#what-this-does-and-does-not-tell-us-about-glr-for-olski)
+nazywa lokalnym i zakotwiczonym.
+Gdyby hipoteza się utrzymała,
+dobór kotwic przestałby być dźwignią samego kosztu parsowania.
+
+Rozstrzygają ją czasy czytania nad polszczyzną,
+zestawione z krzywą wieloznaczności prefiksu.
+Sprawdzone są dwa korpusy okulograficzne i żaden nie wystarcza.
+MECO nie ma polszczyzny ani w pierwszej fali, ani w drugiej.
+MultiplEYE wymienia polski wśród dwudziestu siedmiu języków,
+a czy wyszły jakiekolwiek dane, jest do sprawdzenia:
+strona projektu nie mówi o żadnym wydaniu.
+
+Druga przeszkoda stoi po stronie olskiego i dotyczy doboru próby.
+Krzywą prefiksu umie policzyć tylko gramatyka,
+a policzy ją dla tych zdań, które wyprowadza, i dla żadnych innych.
+Próbą jest więc to, co gramatyka obejmuje,
+a obejmuje podzbiór dobrany przez wykluczanie konstrukcji trudnych do rozebrania —
+[subset.md](subset.md#what-it-does-not-cover-yet) wymienia je,
+[corpus.md](corpus.md#the-measurement) mierzy, ile polszczyzny zostaje —
+czyli próba jest przesiana po tej samej własności, którą hipoteza bada.
+
+Regule linterowej odpowiedź nie da nic przed gramatyką,
+bo miara po prefiksach potrzebuje rozbioru,
+czyli [najgłębszego poziomu analizy](linter.md#how-deep-does-each-rule-have-to-see).
+Torowi gramatycznemu daje drugie uzasadnienie kryterium jednoznaczności
+albo nie daje żadnego.
+
 ### What the author writes
 
 Three architectures, described at length in
@@ -387,3 +465,17 @@ Both tracks need one, and it need not be the same one.
   and Morfeusz has usable Python and C++ bindings.
 - The project is for fun,
   so enjoying the language matters more than it usually would.
+
+## Sources
+
+- <https://aclanthology.org/N01-1021/> —
+  Hale, probabilistyczny parser Earleya jako model psycholingwistyczny,
+  gdzie definiuje się *surprisal*
+- <https://www.sciencedirect.com/science/article/abs/pii/S0010027707001436> —
+  Levy, rozumienie składni oparte na oczekiwaniu
+- <https://tedlab.mit.edu/tedlab_website/researchpapers/Gibson_2000_DLT.pdf> —
+  Gibson, teoria lokalności zależności
+- <https://www.nature.com/articles/s41597-025-05453-3> —
+  druga fala korpusu MECO i trzynaście języków, które obejmuje
+- <https://www.cl.uzh.ch/en/research-groups/digital-linguistics/research/MultiplEYE.html> —
+  MultiplEYE i lista jego dwudziestu siedmiu języków
