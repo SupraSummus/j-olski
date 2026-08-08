@@ -20,4 +20,16 @@ Pierwszy element listy.
 
 Drugi element listy, dłuższy, złamany w źródle.
 
+KOD I otwiera wiersz i jest wstawką kodu, a nie płotkiem.
+
+Emfaza jednoznakowa nie połyka następnej: a, a potem b.
+
+Zdanie skreślone i zdanie z tagiem w środku.
+
+Zdanie przed twardym złamaniem wiersza. Wyjątek: zdanie za nim.
+
+Tabela bez kresek wiodących:
+
+Blok kodu z wcięcia:
+
 Ostatni akapit.

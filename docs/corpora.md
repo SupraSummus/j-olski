@@ -86,7 +86,7 @@ Every extraction has a price,
 and this one's is in [extraction.md](extraction.md).
 The visible half of it here is that dropping a corpus's tables
 drops what the padding inside them was counted as:
-KSeF carries 456 runs of two or more spaces as it stands and 4 once extracted,
+KSeF carries 456 runs of two or more spaces as it stands and 5 once extracted,
 so a survey that skips the step reports table layout as a typing defect.
 
 ## The National Corpus of Polish
@@ -347,8 +347,8 @@ covers 21 institutions across 25 GitHub accounts
 without describing a single one of their repositories as documentation.
 
 Its typographic state is the reason this material is worth the gathering.
-Straight quotation marks outnumber `„` by 312 to 13,
-en dashes outnumber em dashes by 128 to 10,
+Straight quotation marks outnumber `„` by 314 to 13,
+en dashes outnumber em dashes by 131 to 11,
 and the straight marks are around Polish phrases in running prose —
 *"Uwierzytelnianie zakończone niepowodzeniem z powodu błędnego tokenu"*,
 *"Profil Zaufany"*, *"Certyfikat zawieszony"*.
@@ -356,9 +356,9 @@ This is prose caught at the stage the linter runs at,
 holding what NKJP and Wolne Lektury cannot hold.
 
 The distribution of those hits is the caution that goes with the finding.
-279 of the 312 are in `api-changelog.md`,
+257 of the 314 are in `api-changelog.md`,
 which quotes the wording of API error messages release by release,
-so one document with one habit supplies nine tenths of them.
+so one document with one habit supplies four fifths of them.
 A pack audited against this repository alone
 would be audited against a handful of authors,
 which is the argument for the corpus being a list of repositories
@@ -458,7 +458,7 @@ It is small on purpose, and it is a list rather than a body.
 An audit reads its hits, so tens of thousands of words is a working corpus,
 and one repository of that size supplies more hits than an afternoon settles.
 What one repository cannot supply is authors:
-nine tenths of KSeF's straight quotation marks are in one of its files.
+four fifths of KSeF's straight quotation marks are in one of its files.
 So the corpus grows by adding repositories rather than by adding words,
 and a repository joins if its documentation was written in Polish first.
 [The list](audit-corpus.md#what-a-repository-has-to-show)

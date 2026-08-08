@@ -17,7 +17,7 @@ cloned from version control and extracted to prose,
 which has reached nobody.
 The rule against the straight ASCII quotation mark reads the difference:
 `quote-straight` fires nought times in 1,940,517 words of the first
-and 750 times in 38,937 words of the second.
+and 442 times in 31,417 words of the second.
 
 That pair of numbers is
 [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)'s
@@ -31,7 +31,7 @@ having declined the other 70 as text whose line ends are not a page's,
 and `trailing-space` finds a table in the first body
 and cannot fire at all in the second.
 Four rules do point at the defect they name somewhere,
-at shares running from nothing in 205 hits to eleven in eleven,
+at shares running from one in 166 hits to thirty-five in thirty-five,
 and which of the two bodies a rule is right about
 is not the same from rule to rule.
 The eighth is the pack's only rate rule,
@@ -133,28 +133,26 @@ Both repositories are cloned at the commits
 [the list](audit-corpus.md#the-list) pins
 and extracted to prose by the run that document prints.
 The prose is what this document measures:
-39 files and 38,937 words,
-23,825 of them `ksef-docs` and 15,112 `rit-dokumentacja`.
+39 files and 31,417 words,
+24,663 of them `ksef-docs` and 6,754 `rit-dokumentacja`.
 
 The same 39 files as they stand are 53,814 words,
 and the difference is the argument for having an extraction step at all.
 `missing-space-after-full-stop` fires 748 times over the files
-and 156 times over the prose, for the same one defect either way,
+and 166 times over the prose, for the same one defect either way,
 and `trailing-space` fires 431 times over the files
 and cannot fire over the prose at all.
 [extraction.md](extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
 holds the pair per rule for `ksef-docs`, and what the step costs to buy them.
 
-One thing the extraction gets wrong belongs to the corpus rather than to a rule,
-and the figures below are the corpus as it stands.
-A line opening with a triple-backtick code span, as `` ```KOD I``` `` does,
-is read as a code fence,
-and the block it opens then runs to the next line that is nothing but a fence,
-so three of the 32 `ksef-docs` files lose the prose between the two.
-Reading the fence as CommonMark does,
-where a backtick fence's info string may not contain a backtick,
-adds 919 words to that member and takes `quote-straight` over it from 312 to 338.
-[TODO.md](../TODO.md) holds the fix.
+The two members lose different amounts to that step, and the reason is a format.
+`rit-dokumentacja` writes its API tables without leading pipes,
+four of its seven documents are mostly such tables,
+and a table is apparatus,
+so 17,264 words of its Markdown come out as 6,754 of prose
+where `ksef-docs` keeps two thirds of its own.
+That is the corpus the figures below are over,
+and the same difference is most of what the hits below are not.
 
 ## What ran
 
@@ -200,18 +198,18 @@ trailing-space                     110          0  1940517 words  0.1 per 1000
 Over the prose extracted from the audit corpus:
 
 ```text
-39 files, 38937 words, 3391 sentences, 9 rules
+39 files, 31417 words, 2915 sentences, 9 rules
 
 rule                             fired  abstained      measured           rate
-double-space                        88          0   38937 words   2.3 per 1000
-em-dash-density                      7          9  30 documents          23.3%
-missing-space-after-full-stop      156          0   38937 words   4.0 per 1000
-missing-space-after-punctuation    205          0   38937 words   5.3 per 1000
+double-space                        35          0   31417 words   1.1 per 1000
+em-dash-density                      7         10  29 documents          24.1%
+missing-space-after-full-stop      166          0   31417 words   5.3 per 1000
+missing-space-after-punctuation     11          0   31417 words   0.4 per 1000
 orphan-single-letter-word            0         39       0 lines              —
-quote-english                        0          0   38937 words   0.0 per 1000
-quote-straight                     750          0   38937 words  19.3 per 1000
-space-before-punctuation             7          0   38937 words   0.2 per 1000
-trailing-space                       0          0   38937 words   0.0 per 1000
+quote-english                        0          0   31417 words   0.0 per 1000
+quote-straight                     442          0   31417 words  14.1 per 1000
+space-before-punctuation             5          0   31417 words   0.2 per 1000
+trailing-space                       0          0   31417 words   0.0 per 1000
 ```
 
 Findings by stratum and by repository,
@@ -220,20 +218,21 @@ and one writer's habit from the corpus:
 
 | rule | proza | wykład | wiersze | notices | `ksef-docs` | `rit-dokumentacja` |
 | --- | --- | --- | --- | --- | --- | --- |
-| words | 912,377 | 1,011,472 | 16,668 | 64,468 | 23,825 | 15,112 |
-| `double-space` | 0 | 139 | 0 | 12 | 4 | 84 |
-| `em-dash-density` | 11 of 11 | 10 of 20 | 0 of 8 | 0 of 326 | 5 of 24 | 2 of 6 |
-| `missing-space-after-full-stop` | 3 | 8 | 0 | 1 | 156 | 0 |
-| `missing-space-after-punctuation` | 0 | 31 | 0 | 0 | 10 | 195 |
+| words | 912,377 | 1,011,472 | 16,668 | 64,468 | 24,663 | 6,754 |
+| `double-space` | 0 | 139 | 0 | 12 | 5 | 30 |
+| `em-dash-density` | 11 of 11 | 10 of 20 | 0 of 8 | 0 of 326 | 6 of 25 | 1 of 4 |
+| `missing-space-after-full-stop` | 3 | 8 | 0 | 1 | 166 | 0 |
+| `missing-space-after-punctuation` | 0 | 31 | 0 | 0 | 3 | 8 |
 | `orphan-single-letter-word` | declined | declined | 0 | declined | declined | declined |
 | `quote-english` | 0 | 0 | 0 | 0 | 0 | 0 |
-| `quote-straight` | 0 | 0 | 0 | 12 | 312 | 438 |
-| `space-before-punctuation` | 10 | 57 | 0 | 0 | 4 | 3 |
+| `quote-straight` | 0 | 0 | 0 | 12 | 314 | 128 |
+| `space-before-punctuation` | 10 | 57 | 0 | 0 | 4 | 1 |
 | `trailing-space` | 0 | 110 | 0 | 2 | 0 | 0 |
 
 The two members disagree as sharply as the two bodies do.
-`missing-space-after-full-stop` fires 156 times over the first
-and not once over the second, and `missing-space-after-punctuation` 10 against 195,
+`missing-space-after-full-stop` fires 166 times over the first
+and not once over the second, and `double-space` 5 against 30
+over a quarter of the words,
 which is what admitting a second repository is for:
 a share read over one of them is one project's convention
 until a second one either repeats it or does not.
@@ -257,10 +256,10 @@ predicts of exactly these two rules.
 Half of that reading holds over the audit corpus too.
 `quote-english` fires nought times there as well,
 and this time it is the intended answer rather than the empty one:
-a body carrying 750 straight marks
+a body carrying 442 straight marks
 carries not one English opening `“` to be confused with them.
-What `quote-straight` does with its 750
-is [the last of the readings below](#quote-straight-fired-750-times-and-was-right-about-316).
+What `quote-straight` does with its 442
+is [the last of the readings below](#quote-straight-fired-442-times-and-was-right-about-296).
 
 ## What the hits over published Polish turned out to be
 
@@ -393,22 +392,10 @@ and one an initial running into a surname, `Pan J. St.Mill`.
 
 ## What the hits over the audit corpus turned out to be
 
-All 1,206 site-anchored hits over the audit corpus were classified as well.
-One class runs through four of the rules and is named once here.
-
-**A table written without leading pipes reaches the prose whole.**
-The extraction recognizes a row by the `|` that opens it,
-which [extraction.md](extraction.md#what-it-does-not-recognize) records as a gap,
-and `rit-dokumentacja` writes its API tables in the style the gap lets through:
-a header, a `--- | ---` separator and one line per parameter,
-none of them opening with a pipe.
-Four of that member's seven documents carry such a table,
-and each row arrives as part of one long line holding the cells,
-the tabs between them, the `<br>` tags inside them
-and the JSON examples the cells quote.
-553 of the corpus's 1,206 site-anchored findings stand inside those four files,
-which is one gap in one extraction
-producing more hits than every rule's real defects put together.
+All 659 site-anchored hits over the audit corpus were classified as well,
+each by what stands around it:
+a source path, a quoted identifier, a colon inside a name,
+a run of two spaces in running Polish.
 
 ### `orphan-single-letter-word` declines all 39 files
 
@@ -417,129 +404,116 @@ leaves the end of a paragraph as the only line end there is,
 so every file here fails the precondition
 and the rule measures none of them.
 
-Run without it, the rule fires 12 times and finds no defect:
-
-| hits | | what it is |
-| --- | --- | --- |
-| 7 | 58% | a one-letter word ending a paragraph, five of them a preposition introducing the list below it: `złożony z:`, `chodzi więc o:` |
-| 5 | 42% | a designator or an abbreviation: `XAdES-A`, `w kontekście podmiotu A.`, `Betacom S.A.` |
-
-Neither class is new,
-and between them they are the two things the rule now does differently.
-The first is the premise failing, as it does over Wolne Lektury.
-The second is a capital `A`, which a lower-case list does not match,
+Run without it, the rule fires 9 times, finds no defect,
+and finds one thing nine times over:
+a one-letter word ending a paragraph,
+eight of them a preposition introducing the list below it —
+`złożony z:`, `chodzi więc o:`, `informacji o:` —
+and the ninth a preposition ending a paragraph outright.
+That is the premise failing, as it does over Wolne Lektury,
 and it is the class
 [extraction.md](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
 reads out of the rule over a body of notes as well.
-136 hits across the two corpora produced no instance of the defect,
+133 hits across the two corpora produced no instance of the defect,
 and the one stratum where the premise held produced no hits.
 
-### `missing-space-after-punctuation` read a table and a raw tag
+### `missing-space-after-punctuation` read a colon inside an identifier
 
-Not one of the 205 is the defect.
+Not one of the 11 is the defect, and all 11 are one class:
 
 | hits | | what it is |
 | --- | --- | --- |
-| 106 | 52% | a JSON example quoted inside a cell of such a table: `{"cat_attributes":[],"id":77,"name":"Root"}` |
-| 81 | 40% | a comma or a colon against the `<br>` that ends a line inside such a cell: `wartości:<br>SHORT_TEXT` |
-| 8 | 4% | a colon inside a quoted value: `"xml:lang"`, `"HH:MM"` |
-| 7 | 3% | the same `<br>`, or a `</font>`, standing outside a table: `podmiotu:<br/>`, `<font color="red">Uwaga:</font>` |
-| 3 | 1% | the axis separator of an XPath expression: `ancestor-or-self::ds:Signature` |
+| 8 | 73% | a colon inside a quoted value: `"xml:lang"`, `"HH:MM"` |
+| 3 | 27% | the axis separator of an XPath expression: `ancestor-or-self::ds:Signature` |
 
-The second and fourth classes are one gap seen with and without a table around it:
-`<br>` is a raw HTML tag, and
-[extraction.md](extraction.md#what-it-does-not-recognize)
-keeps one as the characters it is written with,
-so the punctuation that closed the line before it arrives touching a tag.
-The third and fifth are the rule's own false positive,
-a colon separating the parts of an identifier rather than a clause from a clause.
-Over published Polish the same rule read an emphasis marker for 22 of its 31 hits;
-over documentation 194 of its 205 are markup,
-and the 11 that are not are that colon.
+Both are the rule's own false positive,
+a colon separating the parts of an identifier rather than a clause from a clause,
+and the rule has no way to tell that colon from the one it is looking for.
+Over published Polish the same rule read an emphasis marker for 22 of its 31 hits,
+which is the corpus supplying the noise;
+here the corpus supplies none and the rule supplies all of it.
 
 ### `missing-space-after-full-stop` read the text of a link
 
-156 hits, one of them the defect.
+166 hits, one of them the defect.
 
 | hits | | what it is |
 | --- | --- | --- |
-| 149 | 96% | a source path standing as the visible text of a link to the file it names: `KSeF.Client.Tests.Core\E2E\Certificates\CertificatesE2ETests.cs` |
+| 157 | 95% | a source path standing as the visible text of a link to the file it names: `KSeF.Client.Tests.Core\E2E\Certificates\CertificatesE2ETests.cs` |
 | 6 | 4% | a dotted identifier: `InvoiceQueryFormType.RR`, `securitySchemes.Bearer`, `operation.Status` |
+| 2 | 1% | a project name inside a code span inside such a link: `KSeF.Client.Tests.CertTestApp` |
 | 1 | 0.6% | the defect: `części paczki.Po upływie` |
 
 The extraction is doing what it promised and the cost is visible here.
 A link leaves its text behind so that the space in front of it has somewhere to go,
-and in this repository that text is 149 full stops inside a path.
+and in this repository that text is 157 full stops inside a path.
 [extraction.md](extraction.md#what-the-reader-sees-is-not-always-polish)
-prices the alternative, which is worse,
-and splits the same 156 by the construct each arrives through
+prices the alternative, which is worse on the pack and better on this rule,
+and splits the same 166 by the construct each arrives through
 rather than by what the token is.
 
 Over the same files as they stand the rule fires 748 times
 for the identical single defect,
 because the justification assumes the linter is not shown the code spans
 and such a run shows it 32 files of them.
-That is the number to compare 156 against:
-the extraction removes four fifths of a rule's hits
+That is the number to compare 166 against:
+the extraction removes more than three quarters of a rule's hits
 and none of its evidence.
 
 ### `double-space` and `space-before-punctuation` pointed at real defects
 
-`double-space` fired 88 times, and 34 of those are the defect:
-a run of two or more spaces somebody typed in running Polish prose.
+`double-space` fired 35 times and every one of them is the defect:
+a run of two or more spaces somebody typed in running Polish prose —
+`zostanie/powinien zostać  zignorowany`, `z obiektów  InvoiceMetadataSeller`,
+`o  którym mowa w  art.  47 ust. 1`.
+Every hit was traced back to the file it came from,
+because a run of spaces is the finding an extraction is likeliest to invent:
+the two spaces stand in the Markdown for all 35.
 
-| hits | | what it is |
-| --- | --- | --- |
-| 54 | 61% | space used to lay out a table written without leading pipes |
-| 34 | 39% | the defect: `zostanie/powinien zostać  zignorowany`, `z obiektów  InvoiceMetadataSeller`, `o  którym mowa w  art.  47 ust. 1` |
-
-30 of the 34 are in `rit-dokumentacja`,
+30 of the 35 are in `rit-dokumentacja`,
 and they are the first defects this rule has found
 over any body measured in this repository.
 Over Wolne Lektury this rule fired 139 times and found no defect at all,
 every hit being a table laid out with spaces in a file that claimed to be prose,
 and the difference between the two readings is not the rule:
 it is that one corpus reached its reader through a typesetter and the other did not.
-One of the four hits in `ksef-docs` is worth naming for where it sits.
+One of the five hits in `ksef-docs` is worth naming for where it sits.
 The run is inside an image's description, `QR  Certyfikat`,
 which the extraction keeps as prose because a reader can be shown it,
 so the defect is in text nobody proofreads.
 
-`space-before-punctuation` fired 7 times and 4 are the defect:
+`space-before-punctuation` fired 5 times and 4 are the defect:
 `na format : Schemat_{systemCode}`, `IsTruncated = false , kolejne`,
 `przykładowe implementacje .`, and `na adres URL tego dokumentu, .`
-Of the other three, two are an empty cell in one of those tables,
-arriving as `, ,`,
-and the third is an ellipsis standing for text left out,
+The fifth is an ellipsis standing for text left out,
 `Authorization: Bearer ...)`,
 which is the class the same rule's row of spaced full stops
 falls into over published Polish.
 
-### `quote-straight` fired 750 times and was right about 316
+### `quote-straight` fired 442 times and was right about 296
 
-318 of the 750 are the defect,
+296 of the 442 are the defect,
 more than the eight other rules turned up between them
 over both bodies together:
 
 | hits | | what it is |
 | --- | --- | --- |
-| 316 | 42% | a word, a phrase or a whole sentence in straight quotes |
-| 310 | 41% | a cell of a table written without leading pipes |
-| 122 | 16% | a name or a value the system uses, quoted where a code span belongs |
-| 2 | 0.3% | a straight mark closing a quotation that opened with `„` |
+| 296 | 67% | a word, a phrase or a whole sentence in straight quotes |
+| 144 | 33% | a name or a value the system uses, quoted where a code span belongs |
+| 2 | 0.5% | a straight mark closing a quotation that opened with `„` |
 
 The first class is the defect the rule names,
 and in `ksef-docs` it is one document's habit:
 `api-changelog.md` quotes API error messages and OpenAPI field descriptions
 release by release — *"Uwierzytelnianie zakończone niepowodzeniem z powodu
 błędnego tokenu"*, *"Certyfikat zawieszony"* —
-and holds nine tenths of that member's hits by itself.
+and holds four fifths of that member's hits by itself.
 [The list](audit-corpus.md#what-a-second-repository-buys)
 owns that share and what a second repository does to it.
 
-The third class is a straight mark that is right as a character
+The second class is a straight mark that is right as a character
 and wrong as markup: `"status"`, `"InvoiceRead"`, `"en-GB"`, `"image/jpeg"`,
-`"2015-05-01"`, and the attribute in `<font color="red">`.
+`"2015-05-01"`, `"xml:lang"`.
 A JSON field name carries a straight mark in the JSON,
 so what the writer owed here was a code span rather than a Polish quotation,
 and no rule reading characters can tell the two apart.
@@ -561,8 +535,8 @@ Per document, over the scopes long enough for the rule to believe its own number
 | proza | 11 | 20.2 | 43.1 | 52.0 | 11 |
 | wykład | 20 | 1.8 | 10.0 | 18.8 | 10 |
 | wiersze | 8 | 0.0 | 0.0 | 8.2 | 0 |
-| `ksef-docs` | 25 | 0.0 | 7.8 | 59.6 | 6 |
-| `rit-dokumentacja` | 6 | 0.0 | 7.5 | 18.6 | 2 |
+| `ksef-docs` | 25 | 0.0 | 5.7 | 59.6 | 6 |
+| `rit-dokumentacja` | 4 | 0.0 | 3.3 | 13.5 | 1 |
 
 The narrative half of Wolne Lektury sits entirely above the threshold
 and its median at four times it,
@@ -583,23 +557,24 @@ and the spread runs an order of magnitude, from 1.8 to 18.8.
 The audit corpus is the target register itself, and its two medians land under it.
 Its `ksef-docs` row is where this table and
 [the row over the same member](#the-rates) part by one document:
-six documents run above the threshold and five are reported,
+seven documents run above the threshold and six are reported,
 because a rate exists wherever the words do
 and reporting one takes the evidence `min_count` asks for as well.
 Reading the dashes then gives the literary corpus's failure a second time,
 with a different convention doing it.
-Of the 118 dashes in the seven documents that fire,
-105 separate a term from its gloss, one item to a line or a cell:
-`SHORT_TEXT – krótki tekst`, `east – długość geograficzna wschodnia`,
+Of the 70 dashes in the seven documents that fire,
+47 separate a term from its gloss, one item to a line:
+`SHORT_TEXT – krótki tekst`, `TO_ARCHIVE – przeniesienie do archiwum`,
 `RRRRMMDD – data przyjęcia faktury`.
 Four are a numeric or alphabetic range, `[0–9 A–F]`,
 which the rule counts because its pattern takes the en dash alongside the em dash.
-Nine are the parenthetical aside the rule was built to count:
-`Przy wysyłce faktury – zarówno w trybie interaktywnym, jak i wsadowym – należy`.
+The remaining 19 stand in running prose, where the rule is aimed,
+and only two of them are the paired aside —
+`Przy wysyłce faktury – zarówno w trybie interaktywnym, jak i wsadowym – należy` —
+the rest being a single dash where a colon or a comma would do:
+`nie ma odpowiednika w systemie RIT – w takiej sytuacji należy`.
 So the highest rate in the table, 59.6 over the 151 words of `numer-ksef.md`,
-is a document defining the parts of an identifier,
-and the two `rit-dokumentacja` documents above the threshold
-are dashes inside the tables the extraction did not recognize.
+is a document defining the parts of an identifier.
 A dash rate over documentation measures the definition list
 the way a dash rate over fiction measures the dialogue.
 
@@ -627,7 +602,7 @@ That is the intended answer,
 and it is a different answer from the `0.0%`
 the same rule prints over the `wiersze` stratum.
 What the extraction then does is answer for one of the two and not the other:
-over the prose `em-dash-density` reaches 30 of the documents,
+over the prose `em-dash-density` reaches 29 of the documents,
 where the line-end rule declines all 39 a second time,
 joining having left it one paragraph to a line.
 What the next two decisions settle is what that `0.0%` is a share of.
@@ -661,9 +636,9 @@ are documents the rule measured and found within its ceiling,
 which is the one silence a firing rate is entitled to.
 
 The audit corpus is nearer than that, and records on the count floor once.
-The rule reaches 30 of its documents and abstains on 9,
-eight of them under the word floor.
-The ninth is one `ksef-docs` file
+The rule reaches 29 of its documents and abstains on 10,
+nine of them under the word floor.
+The tenth is one `ksef-docs` file
 standing at 10.2 dashes per 1000 words on 2 of them:
 a reading above the ceiling
 with less evidence behind it than `min_count` asks for.
@@ -687,7 +662,7 @@ and no rule here should carry one because of these runs.**
 A hit count beside a defect count is the shape of an
 [`Audit`](rules.md#two-fields-that-are-not-decoration),
 and this document reports several:
-124 hits and no defects, 11 hits and 11, 750 hits and 316.
+124 hits and no defects, 11 hits and 11, 442 hits and 296.
 What an `Audit` also carries is the corpus,
 and that field is where these pairs fail rather than in the counting.
 [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
@@ -701,9 +676,9 @@ was read over 11 hits, which is a quantity of evidence and not a rate.
 The audit corpus is that stage and fails the other half of the demand.
 It is two repositories where
 [corpora.md](corpora.md#the-composition-this-argues-for) asks for a list of them,
-one of its files supplies nine tenths of one member's quotation marks,
-and 553 of its 1,206 findings come from a single gap in the extraction
-rather than from anything a writer did.
+one of its files supplies four fifths of one member's quotation marks,
+and one of the two members supplies six sevenths of another rule's hits
+on a quarter of the words.
 The same passage asks a rate rule for a distribution over prose somebody edited,
 and twenty documents from one library's public-domain holdings
 are a shape rather than a norm,
@@ -714,8 +689,8 @@ Every property reported here belongs to a corpus,
 and several belong to a corpus *build* or to an extraction:
 the CRLF endings, the asterisk emphasis, the space-aligned tables
 and the licence notice were all put there by whoever made the text export,
-and the pipe-less tables and the surviving `<br>`
-are what `harness/markdown.py` does not recognize.
+and a path standing where a reader sees a link's text
+is what `harness/markdown.py` keeps on purpose.
 [corpora.md](corpora.md#what-the-survey-settles) states the general form of this,
 having measured it on corpora that announce themselves as builds.
 What these runs add is that a plain-text file carries the same freight,

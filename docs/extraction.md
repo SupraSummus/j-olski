@@ -34,9 +34,55 @@ Neither extraction is in this repository,
 so those two figures are quoted from the runs that produced them
 and are the last numbers here that cannot be redone.
 
+## Markdown czyta parser, a nie wzorzec
+
+Gdzie konstrukcja się zaczyna i gdzie kończy, rozstrzyga `markdown-it-py`,
+a ten moduł rozstrzyga, co z nią zrobić.
+Podział jest taki, że pierwsza połowa jest pytaniem o CommonMark,
+na które odpowiada coś sprawdzanego wobec specyfikacji,
+a druga jest decyzją tego repozytorium
+i żaden renderer nie ma o niej zdania:
+co jest aparatem i co konstrukcja po sobie zostawia, kiedy odpada.
+
+Kupuje to te konstrukcje, których wzorzec nie rozstrzyga,
+a dwie z nich rozstrzygał źle.
+Emfaza jednoznakowa połykała następną i zostawiała po sobie znacznik,
+więc `*p*, a razem z nim *p*` wychodziło jako `p*, a razem z nim *p`,
+czyli dokładnie jako znak, którego nikt nie napisał.
+Wstawka kodowa z trzech grawisów otwierająca wiersz
+czytała się jako płotek bloku kodu,
+choć CommonMark zabrania grawisu w napisie informacyjnym płotka,
+i proza pod nią przepadała aż do następnego wiersza z samym płotkiem.
+Obie klasy znikają razem z dopasowywaniem, i znikają razem:
+parser albo składa dokument tak, jak renderer, albo nie,
+więc nie ma tu usterki do poprawienia osobno.
+
+Trzecia klasa jest tą, której nikt nie zauważył: znacznik w zagnieżdżeniu.
+`- > „Przyjeżdżam."` jest cytatem w pozycji listy,
+a `- 1. → 3 lata` listą w liście,
+i wzorzec zdejmował z takiego wiersza znacznik zewnętrzny,
+a wewnętrzny zostawiał w prozie.
+Wszystkie trzy klasy stoją w korpusach, a nie tylko w teorii:
+zagnieżdżenie w 13 z 527 notatek,
+a emfaza w jednym z dziewięciu rozdziałów wspomnienia
+— [generated-polish.md](generated-polish.md#what-was-measured)
+mierzy oba te ciała — gdzie zostawiała dwie osierocone gwiazdki.
+Żadna reguła pakietu żadnej z nich nie zgłaszała,
+bo znak aparatu nie jest tym, na co te reguły patrzą,
+i dlatego trzecia klasa mogła tam siedzieć nienazwana.
+Znalazło ją przeliczenie: przebieg przed zmianą i po niej
+nad tym samym korpusem, plik po pliku.
+
+Cena stoi w [`pyproject.toml`](../pyproject.toml).
+Parser jest zależnością harnessu, a nie lintera —
+olski czyta czysty tekst i o formacie dokumentu zdania nie ma —
+więc deklaruje się tam, gdzie instalują się checki,
+a powierzchnia zależności samego pakietu zostaje jednym wpisem, jakim była.
+
 ## What it drops and what it keeps
 
-Frontmatter, fenced code, headings, tables, HTML comments
+Frontmatter, fenced and indented code, headings, tables,
+raw HTML — a block of it, an inline tag and a comment alike —
 and the list of links that closes a document go.
 Inline markup is replaced by the text it wrapped rather than deleted,
 list and blockquote markers are dropped and their text kept,
@@ -66,11 +112,11 @@ Each cell below is the findings over the prose against the findings over the fil
 
 | | notes | memoir | KSeF |
 | --- | --- | --- | --- |
-| `double-space` | 0 / 0 | 0 / 0 | 4 / 456 |
-| `missing-space-after-full-stop` | 0 / 0 | 0 / 0 | 156 / 748 |
-| `missing-space-after-punctuation` | 23 / 309 | 34 / 34 | 10 / 76 |
-| `orphan-single-letter-word` | 23 / 32 | 2 / 24 | 4 / 12 |
-| `quote-straight` | 1,649 / 1,772 | 481 / 481 | 312 / 978 |
+| `double-space` | 0 / 0 | 0 / 0 | 5 / 456 |
+| `missing-space-after-full-stop` | 0 / 0 | 0 / 0 | 166 / 748 |
+| `missing-space-after-punctuation` | 23 / 309 | 34 / 34 | 3 / 76 |
+| `orphan-single-letter-word` | 6 / 32 | 2 / 24 | 4 / 12 |
+| `quote-straight` | 1,649 / 1,772 | 481 / 481 | 314 / 978 |
 | `space-before-punctuation` | 1 / 9 | 2 / 2 | 4 / 45 |
 | `trailing-space` | 0 / 0 | 0 / 0 | 0 / 426 |
 
@@ -83,12 +129,16 @@ The prose half of its cells is one member of the corpus
 [the typography pack is audited over](firing-rates.md#the-rates),
 and the file half is that member before the step,
 which is the argument for having the step.
-Naming the files `.txt` is what lets `orphan-single-letter-word`
-measure them rather than decline,
-so its row is the one place the file half needed something done to it.
+The `orphan-single-letter-word` row is the one place
+neither half is the run above.
+Naming the files `.txt` is what lets the rule measure them rather than decline,
+and over the prose it declines every file whichever way it is fetched,
+so the prose half is the rule run with its precondition taken out —
+[what it would have reported](#after-joining-a-line-end-rule-has-nothing-left-to-read),
+which is the only number there is to set against the file half.
 
 Counting the same is not the same as pointing at the same place,
-so the 234 findings of the spacing rules — the ones a deletion invents —
+so the 238 findings of the spacing rules — the ones a deletion invents —
 were checked one by one against the source they came from:
 for every one of them, the five characters around the mark
 stand in the Markdown file as well,
@@ -112,25 +162,31 @@ Over KSeF that shows up in one rule.
 [The audit](firing-rates.md#missing-space-after-full-stop-read-the-text-of-a-link)
 reads all 748 of `missing-space-after-full-stop`'s hits over the files as they stand
 and finds one defect among them, the rest code and links.
-The extraction removes 592 of the 748,
+The extraction removes 582 of the 748,
 which is the fenced code and every link target.
-Of the 156 left, 8 stand inside a code span,
-147 are a source path standing as the text of a link to the file it names —
-142 of them the same path,
-`KSeF.Client.Tests.Core\E2E\Invoice\InvoiceE2ETests.cs` —
+Of the 166 left,
+157 are a source path standing as the text of a link to the file it names —
+79 occurrences of 29 paths, the commonest of them ten times,
+`KSeF.Client.Tests.Core\E2E\KsefToken\KsefTokenE2ETests.cs` —
+6 are a dotted identifier, 2 stand inside a code span,
 and the last is the defect the audit found.
-The same keeping accounts for 34 of the 312 straight quotation marks
-and for 1,888 words, one in thirteen of what a rate there is divided by.
+The same keeping accounts for 16 of the 314 straight quotation marks
+and for 3,181 words, one in eight of what a rate there is divided by.
 
-Deleting the spans instead was tried and is worse.
+Deleting the spans instead was tried and is worse,
+though not on every rule at once.
 It leaves the punctuation that separated them touching:
 `(enum: A, B, C)` written with each value in a code span
 extracts to `(enum:,,,)`,
-which took `missing-space-after-punctuation` over KSeF from 10 findings to 102
-and put nine tenths of that rule's hits inside a parenthesis
+which takes `missing-space-after-punctuation` over KSeF from 3 findings to 106
+and puts nearly all of that rule's hits inside a parenthesis
 where a reader can no longer see what stood there.
+It also leaves `missing-space-after-full-stop` with the single defect and nothing else,
+which is that rule's best reading anywhere in this repository,
+so the choice is between one rule's noise and another's,
+and it is settled by what a reader can do with a hit.
 A hit a reader dismisses at a glance is the cheaper of the two,
-and 147 hits on the text of a link are a document to correct
+and 157 hits on the text of a link are a document to correct
 rather than a rate to discount.
 
 ## After joining, a line-end rule has nothing left to read
@@ -167,11 +223,10 @@ and a corpus of joined prose is one no line-end rule can be calibrated against.
 
 ## Nie każdy akapit, który stąd wychodzi, jest zdaniem
 
-Akapitem jest tu wszystko, co stoi między pustymi wierszami,
-więc nagłówek, pozycja listy, wiersz tabeli
-i wiersz zapowiadający blok kodu wychodzą stąd jako akapity,
+Akapitem jest tu wszystko, co parser czyta jako akapit,
+więc pozycja listy i wiersz zapowiadający blok kodu wychodzą stąd jako akapity,
 a podział na zdania oddaje akapit, którego nic nie punktuje,
-bo inaczej nagłówek wpadałby w prozę pod sobą.
+bo inaczej zapowiedź wpadałaby w prozę pod sobą.
 
 Regułom pakietu to nie przeszkadza:
 reguła mierzy znaki i słowa i niczego od zdania nie żąda.
@@ -193,11 +248,10 @@ odmawia po swojej stronie,
 i dlatego liczba fragmentów stoi w podsumowaniu obok liczby zdań.
 
 Klasa jest szeroka i należy do rejestru, a nie do jednego repozytorium.
-Nad korpusem audytowym `olski-check` liczy 1980 zdań
-i 1411 fragmentów obok nich:
-1002 na 2226 nad `ksef-docs` i 409 na 1165 nad `rit-dokumentacja`.
-Są tam nagłówki, wiersze tabel, ścieżki końcówek API
-i zapowiedzi zakończone dwukropkiem,
+Nad korpusem audytowym `olski-check` liczy 1535 zdań
+i 1380 fragmentów obok nich:
+1054 na 2322 nad `ksef-docs` i 326 na 593 nad `rit-dokumentacja`.
+Są tam ścieżki końcówek API i zapowiedzi zakończone dwukropkiem,
 a obok nich pozycje listy, które ciągną zdanie zaczęte w wierszu nad sobą
 i kropkę zostawiają dopiero ostatniej z nich.
 
@@ -213,22 +267,24 @@ Dlatego przykład cytowany w środku zdania stoi bez kropki,
 jak `Koszt samej szynki przewyższa koszt szynki z dodatkami` w README,
 a blok pod tym zdaniem pokazuje go tak, jak olski go czyta.
 
-## What it does not recognize
+## Where the prose parts from the page
 
-Four things reach the prose that a renderer would not have shown,
-and each is worth revisiting when a corpus that leans on it arrives:
+Two things stand in one and not in the other,
+and neither is the parser failing to recognize a construct:
+one is a rule about notes and one is a decision about apparatus.
 
-- **A table written without leading pipes.**
-  A row is recognized by the `|` that opens it.
-- **An indented code block.**
-  Only fenced code is dropped.
-- **A raw HTML block.**
-  Comments go; a `<details>` or a `<br>` stays as the characters it is written with.
 - **A link list something interrupts.**
   The trailing list goes only while every item opens with a link,
   so a note whose index has a reviewer's aside or a question in the middle of it
   keeps the entries standing above the interruption.
   16 of the notes are written that way.
+- **Text inside a raw HTML block.**
+  A renderer shows what a `<summary>` holds and this drops it with the block,
+  because a block of raw HTML is markup by the paragraph rather than by the tag
+  and nothing here would tell one from the other.
+  What that costs is words rather than a class of hit:
+  an inline `<br>` and `<font>` drop as apparatus,
+  which is what they render as.
 
 A label above a link list — a line reading *Powiązane:* — survives the same way,
 since it is a paragraph rather than an item of the list,

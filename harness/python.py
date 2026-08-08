@@ -35,9 +35,13 @@ import textwrap
 import tokenize
 from collections.abc import Iterator, Sequence
 
-from harness import BULLET, Czytnik, Jednostka, uruchom
+from harness import Czytnik, Jednostka, uruchom
 
 PYTHON_SUFFIX = ".py"
+
+#: Znak pozycji listy, punktowanej albo numerowanej. Każda pozycja jest
+#: osobnym akapitem, bo zdanie nie biegnie z jednej do następnej.
+BULLET = re.compile(r"[ \t]*(?:[-*+]|\d{1,9}[.)])[ \t]+")
 
 #: Znak komentarza wraz z dwukropkiem, którym Sphinx dokumentuje stałą. Spacja
 #: po nim zostaje, bo jest wcięciem, a wcięcie bloku zdejmuje się całe naraz:

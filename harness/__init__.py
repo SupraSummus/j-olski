@@ -66,12 +66,6 @@ class Czytnik:
     jednostki: Callable[[str], Sequence[Jednostka]]
 
 
-#: A list marker, bulleted or numbered. Each item is a paragraph of its own,
-#: because a sentence does not run from one item into the next. Markdown and
-#: reStructuredText write the marker the same way, so both extractions read it
-#: with this.
-BULLET = re.compile(r"[ \t]*(?:[-*+]|\d{1,9}[.)])[ \t]+")
-
 #: A letter Polish spelling has and English spelling does not, which is the
 #: cheapest evidence available about which language a text is in.
 DIACRITIC = re.compile(r"[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]")

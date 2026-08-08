@@ -2,7 +2,11 @@
 
 The fixture beside this file carries one instance of every construct each
 extraction handles, and the prose beside it is the whole answer: a change in
-what the extraction keeps shows up as a diff a reader can judge. The other
+what the extraction keeps shows up as a diff a reader can judge. Its tail is
+the constructs the parser and the enabled rules settle rather than this
+repository — a table written without leading pipes, a code span of three
+backticks opening a line, two one-character emphases in a row — so a preset
+narrowed to plain CommonMark, or widened, moves the fixture. The other
 tests here are the mistakes that would not show up that way — an extraction
 that quietly drops prose, and one that leaves findings behind where markup
 stood, which is the failure docs/extraction.md was written against — and the

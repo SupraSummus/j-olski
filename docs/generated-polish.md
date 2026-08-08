@@ -18,7 +18,7 @@ It holds two separate bodies of Polish prose:
 
 | | documents | prose words | sentences |
 | --- | --- | --- | --- |
-| Notes for an unwritten science-fiction novel | 527 | 157,885 | 16,190 |
+| Notes for an unwritten science-fiction novel | 527 | 157,885 | 16,184 |
 | A philosophical memoir | 9 | 25,355 | 3,208 |
 
 One model family, one author, and a session log
