@@ -348,7 +348,7 @@ and frame before detail buys comprehension.
 The cutting applies to words that buy nothing.
 
 These are also, in Polish, much of what this project's own rule inventory is about;
-see [`docs/linter.md`](docs/linter.md#candidate-rule-inventory).
+see [`docs/rule-inventory.md`](docs/rule-inventory.md).
 Writing them into the repository's own prose
 would be a poor advertisement for the tool.
 

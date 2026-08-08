@@ -149,6 +149,10 @@ plan i otwarte pytania.
   po co jest linter, ile analizy potrzebuje która reguła,
   dlaczego kalibracja rozstrzyga wszystko
   i co w prozie literackiej da się, a czego nie da się lintować
+- [docs/rule-inventory.md](docs/rule-inventory.md):
+  kolejka reguł do napisania, pogrupowana poziomem analizy,
+  którego każda pozycja potrzebuje,
+  i to, które pozycje mają za sobą źródło, a które są hipotezami
 - [docs/fiction.md](docs/fiction.md):
   co psuje się w prozie literackiej z modelu,
   dlaczego odpowiada za to post-training,

@@ -46,7 +46,7 @@ pack.rule(
     and ” for the closing one.
     A straight ASCII quote is a keyboard artifact rather than a Polish mark.
     """,
-    sources=("docs/linter.md#typography-tier-a",),
+    sources=("docs/rule-inventory.md#typography-tier-a",),
 )
 ```
 
@@ -300,7 +300,7 @@ A ceiling reports a text that overuses something,
 which is what the em dash rule is for.
 A floor reports one that underuses it,
 which is what fact density on
-[the candidate inventory](linter.md#candidate-rule-inventory) needs:
+[the candidate inventory](rule-inventory.md#structural-and-statistical-tier-a-with-sentence-splitting) needs:
 what the source there reports of generated text
 is too few dates, numerals and proper nouns rather than too many.
 `{side}` says which of the two fired,
