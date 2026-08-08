@@ -5,18 +5,18 @@ The point of writing them down
 is that none of them get made by accident.
 
 Questions are grouped by which track they block.
-Only the first group blocks the working goal.
+Only the first group blocks what is being built.
 
 ## Settled
 
-- The working goal is a style linter for Polish,
-  scoped to technical documentation.
-  See [linter.md](linter.md).
-- The grammar and parser track is optional
-  and not on the linter's critical path,
+- What is being built is a parser of a designed subset of Polish,
+  which hands ambiguity back instead of resolving it,
   and it exits when this repository's README derives, one reading per sentence.
   See [design-notes.md](design-notes.md)
   and [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
+- A style linter for Polish, scoped to technical documentation,
+  is the optional track beside it and keeps its own plan.
+  See [linter.md](linter.md).
 - Olski is as close to Polish as possible,
   and a proper subset of it.
 - No rule ships without a measured false-positive rate
@@ -32,187 +32,10 @@ Only the first group blocks the working goal.
 Further grammar-track decisions are recorded in
 [design-notes.md](design-notes.md#decisions-taken).
 
-## Linter questions
-
-These block the working goal.
-
-**Delivery route.**
-Standalone tool with its own rule format,
-a Vale-compatible style,
-or LanguageTool XML rules over Morfologik.
-The last inherits an installed base and a Polish morphology layer;
-the first inherits nothing and owes nothing.
-The Vale route inherits a third thing that
-[the markup boundary](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
-turns from a convenience into a step somebody has to take:
-Vale reads Markdown and AsciiDoc itself,
-so a style delivered through it gets prose separated from apparatus for free
-where a standalone olski asks for it in front.
-What it charges for that is depth.
-Vale's tagger ships an English model,
-so a Vale style reaches tier A in Polish and stops:
-see [prose-linters.md](prose-linters.md#vale-is-the-architecture-to-study).
-So the answer decides whether the morphology work happens at all,
-which is why [the roadmap](roadmap.md#milestone-4-the-delivery-decision)
-puts the decision in front of that work rather than at the end.
-
-**Rule provenance policy.**
-Every rule needs a justification,
-and justifications anchored to Polish style norms
-outlive justifications anchored to model fingerprints.
-Open question is whether fingerprint rules are admitted at all,
-and if so how they are dated and retired.
-
-**Corpus sourcing.**
-Which human Polish counts as the good side of the pair.
-The human side determines everything the rules learn,
-and the rules impose their own constraints on the answer.
-A threshold is a point in this distribution,
-so the register a pack is scoped to has to be in the corpus
-or the threshold is read off the wrong prose.
-The rules against anglicisms and calques
-need to know whether the Polish technical documentation available
-was written in Polish or translated into it,
-since a translated baseline licenses exactly the calques they flag.
-And the good side may be two corpora rather than one:
-[linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
-argues a typographic rule measured against typeset prose
-is measured against nothing,
-so those rules want Polish caught at the stage a linter runs at
-while the rate rules want prose somebody edited.
-
-[corpora.md](corpora.md) surveys what is obtainable against those constraints,
-and [three of its findings](corpora.md#what-the-survey-settles)
-narrow the question rather than close it.
-The register is nearly absent from the corpora that exist,
-so a distribution over Polish technical documentation is assembled or it is nothing.
-Provenance is recorded only in the translated pool,
-where the file format keeps the English beside the Polish,
-which makes Polish-first origin a property of how a corpus is gathered.
-And the stage a typographic rule needs is not the typesetter's:
-NKJP's own text layer carries more straight quotation marks than Polish ones,
-so a corpus build renormalizes characters as thoroughly as typesetting does.
-
-The survey recommends two human corpora rather than one —
-documentation cloned from version control for the rules that audit their hits,
-and edited original expository Polish for the rules that report a rate —
-and [the composition](corpora.md#the-composition-this-argues-for)
-holds the parts, the proportions and the reason each share is capped where it is.
-It also recommends an answer to the generated half.
-Śmigiel, the PolEval 2025 dataset, is generated for the purpose,
-with no editing pass in the pipeline its authors describe,
-which is what
-[generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
-asks of that half,
-so a corpus edited against style detectors need not serve as it
-and stays the harder case rather than the sample.
-
-What is left to decide is whether to pay for the assembly,
-and that is two decisions rather than one,
-because the recommendation is two corpora and they cost different amounts.
-
-The cheap alternative is to measure over Śmigiel and Polish Wikipedia as they are
-and state the register assumption out loud,
-which produces numbers sooner
-and produces them over prose nobody claims is in the target register.
-It answers for the distribution corpus and not for the audit one.
-Register is what that trade concedes,
-and register is the binding constraint on only one of the two:
-a rule whose hits get read wants a single stage of production,
-and Śmigiel's human half is thirteen sources with a stage each:
-its Filmweb slice runs 5,672 straight quotation marks against 38 Polish ones
-and its Wikipedia slice runs the other way,
-so a share of hits taken over the whole measures the mixture.
-The audit corpus has no cheap version for that reason,
-and it is the cheaper of the two to assemble anyway,
-being a list somebody fills rather than a distribution somebody balances.
-
-**Whether hits get annotated.**
-A false discovery rate needs a human deciding, hit by hit,
-whether the rule caught a defect or a good sentence,
-where a firing rate only counts.
-The one published evaluation in the field rests on that reading,
-and [prose-linters.md](prose-linters.md#what-beating-them-takes)
-records the assumption under which a rate on human Polish stands in for it.
-
-What is undecided is narrower than it first looks.
-The assumption is vacuous for the rules a typesetter's corpus
-has already been cleaned of,
-so their hits have to be read whatever else is decided,
-and [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
-argues they are the cheap ones to read.
-The question is what happens to the rest:
-whether olski pays for annotating them too,
-or ships their rates as the estimate and names the assumption.
-
-A third source is worth pricing before either is chosen.
-Suppression, undecided in [rules.md](rules.md#not-yet-decided),
-would have a reader marking a named rule as wrong at a named site,
-which is the annotation someone else would be paid to produce.
-It is not a sample, because a hit suppressed out of impatience
-leaves the same mark as one suppressed for being false,
-so it can feed an estimate and cannot settle one.
-
-**Whether a measurement may need a language model.**
-The README promises judgements produced as in a compiler,
-not as in a language model,
-and every rule shipped so far keeps that promise.
-The surprise metric in
-[fiction.md](fiction.md#the-evaluation-trap) does not:
-it scores how unexpected a text is under a model.
-It keeps the determinism —
-at temperature zero the same input scores the same twice —
-and it is the cheapest measurement in that survey to redo on Polish,
-wanting human Polish, generated Polish and one model to score both,
-with no annotators and no panel.
-What it loses is the explanation.
-A surprise score arrives without a rule behind it
-and cannot say what to change,
-which may be tolerable for a number that calibrates a rule set
-and not for a finding shown to a writer.
-Against it either way:
-depending on a model means depending on a particular model,
-which dates the way a fingerprint rule dates.
-
-**How registers are configured.**
-Rules belong to packs and packs belong to registers.
-Whether a document declares its register,
-or the tool guesses,
-or the user picks a pack explicitly.
-
-**Sentence-length variance in technical Polish.**
-Which side of the spread is the defect is read two ways here.
-[The candidate inventory](rule-inventory.md#structural-and-statistical-tier-a-with-sentence-splitting)
-files low variance as the tell in technical documentation,
-which asks a rule for a floor.
-[fiction.md](fiction.md#what-this-means-for-olski)
-reports the literature measuring the metric in both registers,
-with fiction wanting range where technical documentation wants uniformity,
-and a register that wants uniformity
-is one where a ceiling is the flag.
-Both readings hold at once if the sign never changes and only the number does:
-the tell would be uniformity below a *human technical* norm,
-with that norm sitting lower than a literary one.
-That is a reading and not a measurement,
-and a human technical baseline is what settles it.
-`length-variation` takes a floor and a ceiling
-so that the answer is a rule's parameter rather than a rewrite.
-
-**Whether fiction gets a pack at all.**
-Several metrics work for both registers
-once the threshold is a pack's parameter rather than a check's,
-which is cheap.
-The rest of the fiction problem is not linting,
-and is recorded as a wish rather than a plan.
-See [linter.md](linter.md#and-fiction),
-and [fiction.md](fiction.md#what-this-means-for-olski)
-for which defects a pack could reach and which sit below any rule.
-
 ## Grammar-track questions
 
-None of these block the linter.
-They are the interesting problems,
-which is a different thing.
+The linter runs without any of them answered,
+which is what makes it the track that can be left alone.
 
 ### The big fork: may olski scramble
 
@@ -450,6 +273,182 @@ Committing to that is committing to write the spec properly.
 It might be the most valuable artifact the grammar track could produce,
 or an obligation that kills the fun.
 Undecided.
+
+## Linter questions
+
+These block the optional track and nothing above it.
+
+**Delivery route.**
+Standalone tool with its own rule format,
+a Vale-compatible style,
+or LanguageTool XML rules over Morfologik.
+The last inherits an installed base and a Polish morphology layer;
+the first inherits nothing and owes nothing.
+The Vale route inherits a third thing that
+[the markup boundary](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
+turns from a convenience into a step somebody has to take:
+Vale reads Markdown and AsciiDoc itself,
+so a style delivered through it gets prose separated from apparatus for free
+where a standalone olski asks for it in front.
+What it charges for that is depth.
+Vale's tagger ships an English model,
+so a Vale style reaches tier A in Polish and stops:
+see [prose-linters.md](prose-linters.md#vale-is-the-architecture-to-study).
+So the answer decides whether the morphology work happens at all,
+which is why [the roadmap](roadmap.md#milestone-4-the-delivery-decision)
+puts the decision in front of that work rather than at the end.
+
+**Rule provenance policy.**
+Every rule needs a justification,
+and justifications anchored to Polish style norms
+outlive justifications anchored to model fingerprints.
+Open question is whether fingerprint rules are admitted at all,
+and if so how they are dated and retired.
+
+**Corpus sourcing.**
+Which human Polish counts as the good side of the pair.
+The human side determines everything the rules learn,
+and the rules impose their own constraints on the answer.
+A threshold is a point in this distribution,
+so the register a pack is scoped to has to be in the corpus
+or the threshold is read off the wrong prose.
+The rules against anglicisms and calques
+need to know whether the Polish technical documentation available
+was written in Polish or translated into it,
+since a translated baseline licenses exactly the calques they flag.
+And the good side may be two corpora rather than one:
+[linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+argues a typographic rule measured against typeset prose
+is measured against nothing,
+so those rules want Polish caught at the stage a linter runs at
+while the rate rules want prose somebody edited.
+
+[corpora.md](corpora.md) surveys what is obtainable against those constraints,
+and [three of its findings](corpora.md#what-the-survey-settles)
+narrow the question rather than close it.
+The register is nearly absent from the corpora that exist,
+so a distribution over Polish technical documentation is assembled or it is nothing.
+Provenance is recorded only in the translated pool,
+where the file format keeps the English beside the Polish,
+which makes Polish-first origin a property of how a corpus is gathered.
+And the stage a typographic rule needs is not the typesetter's:
+NKJP's own text layer carries more straight quotation marks than Polish ones,
+so a corpus build renormalizes characters as thoroughly as typesetting does.
+
+The survey recommends two human corpora rather than one —
+documentation cloned from version control for the rules that audit their hits,
+and edited original expository Polish for the rules that report a rate —
+and [the composition](corpora.md#the-composition-this-argues-for)
+holds the parts, the proportions and the reason each share is capped where it is.
+It also recommends an answer to the generated half.
+Śmigiel, the PolEval 2025 dataset, is generated for the purpose,
+with no editing pass in the pipeline its authors describe,
+which is what
+[generated-polish.md](generated-polish.md#what-this-corpus-cannot-support)
+asks of that half,
+so a corpus edited against style detectors need not serve as it
+and stays the harder case rather than the sample.
+
+What is left to decide is whether to pay for the assembly,
+and that is two decisions rather than one,
+because the recommendation is two corpora and they cost different amounts.
+
+The cheap alternative is to measure over Śmigiel and Polish Wikipedia as they are
+and state the register assumption out loud,
+which produces numbers sooner
+and produces them over prose nobody claims is in the target register.
+It answers for the distribution corpus and not for the audit one.
+Register is what that trade concedes,
+and register is the binding constraint on only one of the two:
+a rule whose hits get read wants a single stage of production,
+and Śmigiel's human half is thirteen sources with a stage each:
+its Filmweb slice runs 5,672 straight quotation marks against 38 Polish ones
+and its Wikipedia slice runs the other way,
+so a share of hits taken over the whole measures the mixture.
+The audit corpus has no cheap version for that reason,
+and it is the cheaper of the two to assemble anyway,
+being a list somebody fills rather than a distribution somebody balances.
+
+**Whether hits get annotated.**
+A false discovery rate needs a human deciding, hit by hit,
+whether the rule caught a defect or a good sentence,
+where a firing rate only counts.
+The one published evaluation in the field rests on that reading,
+and [prose-linters.md](prose-linters.md#what-beating-them-takes)
+records the assumption under which a rate on human Polish stands in for it.
+
+What is undecided is narrower than it first looks.
+The assumption is vacuous for the rules a typesetter's corpus
+has already been cleaned of,
+so their hits have to be read whatever else is decided,
+and [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+argues they are the cheap ones to read.
+The question is what happens to the rest:
+whether olski pays for annotating them too,
+or ships their rates as the estimate and names the assumption.
+
+A third source is worth pricing before either is chosen.
+Suppression, undecided in [rules.md](rules.md#not-yet-decided),
+would have a reader marking a named rule as wrong at a named site,
+which is the annotation someone else would be paid to produce.
+It is not a sample, because a hit suppressed out of impatience
+leaves the same mark as one suppressed for being false,
+so it can feed an estimate and cannot settle one.
+
+**Whether a measurement may need a language model.**
+The README promises judgements produced as in a compiler,
+not as in a language model,
+and every rule shipped so far keeps that promise.
+The surprise metric in
+[fiction.md](fiction.md#the-evaluation-trap) does not:
+it scores how unexpected a text is under a model.
+It keeps the determinism —
+at temperature zero the same input scores the same twice —
+and it is the cheapest measurement in that survey to redo on Polish,
+wanting human Polish, generated Polish and one model to score both,
+with no annotators and no panel.
+What it loses is the explanation.
+A surprise score arrives without a rule behind it
+and cannot say what to change,
+which may be tolerable for a number that calibrates a rule set
+and not for a finding shown to a writer.
+Against it either way:
+depending on a model means depending on a particular model,
+which dates the way a fingerprint rule dates.
+
+**How registers are configured.**
+Rules belong to packs and packs belong to registers.
+Whether a document declares its register,
+or the tool guesses,
+or the user picks a pack explicitly.
+
+**Sentence-length variance in technical Polish.**
+Which side of the spread is the defect is read two ways here.
+[The candidate inventory](rule-inventory.md#structural-and-statistical-tier-a-with-sentence-splitting)
+files low variance as the tell in technical documentation,
+which asks a rule for a floor.
+[fiction.md](fiction.md#what-this-means-for-olski)
+reports the literature measuring the metric in both registers,
+with fiction wanting range where technical documentation wants uniformity,
+and a register that wants uniformity
+is one where a ceiling is the flag.
+Both readings hold at once if the sign never changes and only the number does:
+the tell would be uniformity below a *human technical* norm,
+with that norm sitting lower than a literary one.
+That is a reading and not a measurement,
+and a human technical baseline is what settles it.
+`length-variation` takes a floor and a ceiling
+so that the answer is a rule's parameter rather than a rewrite.
+
+**Whether fiction gets a pack at all.**
+Several metrics work for both registers
+once the threshold is a pack's parameter rather than a check's,
+which is cheap.
+The rest of the fiction problem is not linting,
+and is recorded as a wish rather than a plan.
+See [linter.md](linter.md#and-fiction),
+and [fiction.md](fiction.md#what-this-means-for-olski)
+for which defects a pack could reach and which sit below any rule.
 
 ## Shared questions
 

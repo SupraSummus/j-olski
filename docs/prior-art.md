@@ -3,9 +3,9 @@
 Things to read before writing code,
 so that reimplementation is a choice rather than an accident.
 
-Mostly resources for the optional
+Mostly resources for the
 [grammar track](design-notes.md).
-Tools for the linter track —
+Tools for the optional linter track —
 prose linters, LanguageTool, StyloMetrix —
 are listed in [linter.md](linter.md#what-already-exists),
 and the wider landscape in [similar-work.md](similar-work.md).
