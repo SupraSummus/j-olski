@@ -531,6 +531,10 @@ and every reading of every form, choosing none of them.
 `olski/grammar.py` is the formalism:
 productions, symbols, and feature unification.
 A grammar is Python data, like the rule packs.
+It also answers whether any terminal takes a reading at all,
+which is what lets a rejected sentence say what it stood on:
+[więzy wyprowadzone z gramatyki](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
+owns why that question belongs here rather than in a layer beside the grammar.
 
 That formalism is tier 0 of
 [the cost ladder](design-notes.md#the-cost-ladder):

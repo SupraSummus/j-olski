@@ -64,55 +64,68 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
 # --------------------------------------------------------------------------- #
 
 
-@pytest.mark.parametrize(
-    "text",
-    [
-        #  An imperative with no subject, which needs none.
-        "Zapisz plik.",
-        "Program zapisuje ustawienia.",
-        #  Pro-drop: the subject is understood, which is ordinary Polish.
-        "Zapisuje ustawienia.",
-        #  An attributive adjective after its noun, as Polish terminology puts it.
-        "Zapisz plik konfiguracyjny.",
-        #  OVS resolved by agreement: the singular verb picks the singular noun
-        #  as its subject, whatever order they come in.
-        "Programy zapisuje ustawienie.",
-        #  A modifier in front of the clause, which is the position where a
-        #  prepositional phrase has no noun to attach to and so stays out of the
-        #  attachment ambiguity the same phrase carries after an object.
-        "Pod względem smaku chałka przewyższa zwykłą bułkę.",
-        #  In front of the clause whatever order the clause is in, and in front
-        #  of a subjectless one too.
-        "Pod względem smaku zwykłą bułkę przewyższa chałka.",
-        "W pliku zapisuje ustawienia.",
-        #  A reflexive verb, which is the form with się after it.
-        "Program zapisuje się.",
-        #  The copula, with a predicative agreeing with the subject and with a
-        #  noun phrase in the instrumental.
-        "Ludzie są wolni.",
-        "Jan jest nauczycielem.",
-        "Jan zostaje nauczycielem.",
-        #  A predicative under a verb that is not the copula.
-        "Ludzie rodzą się wolni.",
-        #  Coordination, of noun phrases and of clauses.
-        "Ludzie mają rozum i sumienie.",
-        "Program zapisuje ustawienia i program zapisuje dane.",
-        #  A modal and its infinitive, agreeing with the subject in gender
-        #  because powinien inflects for one and not for person.
-        "Ludzie powinni postępować.",
-        #  Bezokolicznik pod zwykłym czasownikiem, i łańcuch bezokoliczników,
-        #  którego żadna reguła nie opisuje: fraza bezokolicznikowa bierze
-        #  dopełnienia, a jest jednym z nich.
-        "Program pozwala zapisać ustawienia.",
-        "To ma pomagać pisać dobrą polszczyznę.",
-        #  A pronoun subject, and with it a person that is not the third.
-        "Ja zapisuję plik.",
-        #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
-        "Zobacz docs/rules.md.",
-    ],
-)
+#: Zdania, które olski przyjmuje. Stoją jedną listą, bo pytania są o nie dwa:
+#: czy się wyprowadzają i czy werdykt nad nimi milczy o formach bez licencji.
+PRZYJMOWANE = [
+    #  An imperative with no subject, which needs none.
+    "Zapisz plik.",
+    "Program zapisuje ustawienia.",
+    #  Pro-drop: the subject is understood, which is ordinary Polish.
+    "Zapisuje ustawienia.",
+    #  An attributive adjective after its noun, as Polish terminology puts it.
+    "Zapisz plik konfiguracyjny.",
+    #  OVS resolved by agreement: the singular verb picks the singular noun
+    #  as its subject, whatever order they come in.
+    "Programy zapisuje ustawienie.",
+    #  A modifier in front of the clause, which is the position where a
+    #  prepositional phrase has no noun to attach to and so stays out of the
+    #  attachment ambiguity the same phrase carries after an object.
+    "Pod względem smaku chałka przewyższa zwykłą bułkę.",
+    #  In front of the clause whatever order the clause is in, and in front
+    #  of a subjectless one too.
+    "Pod względem smaku zwykłą bułkę przewyższa chałka.",
+    "W pliku zapisuje ustawienia.",
+    #  A reflexive verb, which is the form with się after it.
+    "Program zapisuje się.",
+    #  The copula, with a predicative agreeing with the subject and with a
+    #  noun phrase in the instrumental.
+    "Ludzie są wolni.",
+    "Jan jest nauczycielem.",
+    "Jan zostaje nauczycielem.",
+    #  A predicative under a verb that is not the copula.
+    "Ludzie rodzą się wolni.",
+    #  Coordination, of noun phrases and of clauses.
+    "Ludzie mają rozum i sumienie.",
+    "Program zapisuje ustawienia i program zapisuje dane.",
+    #  A modal and its infinitive, agreeing with the subject in gender
+    #  because powinien inflects for one and not for person.
+    "Ludzie powinni postępować.",
+    #  Bezokolicznik pod zwykłym czasownikiem, i łańcuch bezokoliczników,
+    #  którego żadna reguła nie opisuje: fraza bezokolicznikowa bierze
+    #  dopełnienia, a jest jednym z nich.
+    "Program pozwala zapisać ustawienia.",
+    "To ma pomagać pisać dobrą polszczyznę.",
+    #  A pronoun subject, and with it a person that is not the third.
+    "Ja zapisuję plik.",
+    #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
+    "Zobacz docs/rules.md.",
+    #  Zdanie, którego graf segmentacji się rozchodzi: Morfeusz dzieli Ktoś
+    #  na Kto i ś obok formy całej, a ś nie ma ani jednego czytania, które
+    #  bierze jakakolwiek produkcja.
+    "Ktoś zna docs/rules.md.",
+]
+
+
+@pytest.mark.parametrize("text", PRZYJMOWANE)
 def test_these_are_olski(text):
     assert verdict(text).status == "valid", verdict(text).explain()
+
+
+@pytest.mark.parametrize("text", PRZYJMOWANE)
+def test_zdanie_z_czytaniem_nie_zgłasza_żadnej_formy(text):
+    #  Usterka, którą to łapie: werdykt nad zdaniem przyjętym nazywa ś z Ktoś,
+    #  czyli krawędź, której ścieżka tego czytania w ogóle nie bierze.
+    assert verdict(text).nielicencjonowane == ()
 
 
 def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimkowego():
@@ -203,6 +216,30 @@ def test_coordination_does_not_loosen_agreement_inside_a_conjunct():
     #  pliki is [nowe programy] i [pliki] and the disagreement below has nowhere
     #  to hide.
     assert verdict("Nowa programy i pliki mają nazwy.").status == "rejected"
+
+
+def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji():
+    #  Dwie odpowiedzi, które Świgra trzyma osobno, i dwie różne roboty do
+    #  zrobienia. Przecinka i formy, której Morfeusz odmienioną nie zna, nie
+    #  bierze żaden terminal; Nowa program ma każdą formę wziętą i stoi na
+    #  zgodności rodzaju, więc test pilnuje, żeby zdania zostały dwa.
+    forma = verdict("Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md.")
+    assert forma.nielicencjonowane == (",", "commitów")
+    assert "no production takes" in forma.explain()
+    struktura = verdict("Nowa program zapisuje ustawienia.")
+    assert struktura.nielicencjonowane == ()
+    assert struktura.explain() == "no reading: nothing in olski derives this"
+
+
+def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
+    #  Gramatyka, która nie ma czasownika, przestaje licencjonować jego czytanie:
+    #  gdyby licencja stała napisana obok, ta zmiana nie doszłaby do niej wcale.
+    uboga = Grammar(start="NP")
+    uboga.rule("NP", [word("subst")])
+    czytanie = next(r for r in analyse("zapisuje")[0].readings if r.tag.pos == "fin")
+    cechy = dict(czytanie.tag.features)
+    assert not uboga.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
+    assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
 
 
 def test_a_rejection_says_how_far_the_analysis_got():

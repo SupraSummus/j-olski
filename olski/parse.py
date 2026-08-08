@@ -35,7 +35,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from olski.grammar import EMPTY, Env, Grammar, Part, Sym, Word, features_of, unify
+from olski.grammar import EMPTY, Env, Grammar, Part, Sym, Word, bierze, features_of, unify
 from olski.morph import Reading, Segment
 
 #: Enumeration is capped, because an ambiguous sentence can have very many
@@ -240,12 +240,9 @@ class _Parser:
     def terminal(self, terminal: Word, position: int, env: Env):
         for segment in self.edges.get(position, ()):
             for reading in segment.readings:
-                if reading.tag.pos not in terminal.pos:
-                    continue
-                if terminal.lemmas is not None and reading.lemma not in terminal.lemmas:
-                    continue
-                features = {name: values for name, values in reading.tag.features}
-                merged = unify(terminal.constraints, features, env)
+                merged = bierze(
+                    terminal, reading.tag.pos, reading.lemma, dict(reading.tag.features), env
+                )
                 if merged is None:
                     continue
                 self.furthest = max(self.furthest, segment.end)
