@@ -152,9 +152,10 @@ a sąsiedztwo tego toru opisują
 i [prior-art.md](prior-art.md).
 W kodzie to `olski/grammar.py` i `olski/check.py`.
 
-**Psuje ją** czytanie gramatyki jako celu projektu,
-którym [nie jest](roadmap.md#what-is-being-built),
-więc każdy dokument tego toru mówi to sam, zanim wejdzie w mechanizm.
+**Psuje ją** dokument tego toru otwierający się zastrzeżeniem,
+że tor jest opcjonalny i czyta się go drugi:
+gramatyka jest [tym, co budowane](roadmap.md#co-jest-budowane),
+więc takie zdanie odsyła czytelnika, który przyszedł po główną rzecz.
 
 **Obsadza ją** autor, z przerwami.
 

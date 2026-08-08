@@ -5,15 +5,13 @@ everything still open lives in [open-questions.md](open-questions.md).
 
 > **Scope.**
 > This document describes the **grammar track**,
-> which is optional and off the linter's critical path,
-> with a target of its own in
+> which is what the repository is building,
+> and whose target is
 > [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
-> The working goal of the repository is a style linter for Polish;
+> A style linter for Polish is the optional track beside it;
 > see [linter.md](linter.md).
-> The grammar survives here as the deepest analysis tier,
-> reached only by rules that earn it,
-> and as the more interesting computational problem.
-> Read this second.
+> The grammar reaches that track as its deepest analysis tier,
+> and rules earn their way down to it.
 
 ## What olski is
 

@@ -5,18 +5,19 @@ The point of writing them down
 is that none of them get made by accident.
 
 Questions are grouped by which track they block.
-Only the first group blocks the working goal.
+The grammar-track group blocks what is being built;
+the linter group blocks the optional track beside it.
 
 ## Settled
 
-- The working goal is a style linter for Polish,
-  scoped to technical documentation.
-  See [linter.md](linter.md).
-- The grammar and parser track is optional
-  and not on the linter's critical path,
+- What is being built is a parser of a designed subset of Polish,
+  which hands ambiguity back instead of resolving it,
   and it exits when this repository's README derives, one reading per sentence.
   See [design-notes.md](design-notes.md)
   and [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
+- A style linter for Polish, scoped to technical documentation,
+  is the optional track beside it and keeps its own plan.
+  See [linter.md](linter.md).
 - Olski is as close to Polish as possible,
   and a proper subset of it.
 - No rule ships without a measured false-positive rate
@@ -210,9 +211,9 @@ for which defects a pack could reach and which sit below any rule.
 
 ## Grammar-track questions
 
-None of these block the linter.
-They are the interesting problems,
-which is a different thing.
+These block what is being built.
+The linter runs without any of them answered,
+which is what makes it the track that can be left alone.
 
 ### The big fork: may olski scramble
 

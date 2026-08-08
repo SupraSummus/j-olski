@@ -4,18 +4,22 @@
 a razem z nim te części polszczyzny,
 przez które jest ona trudna dla sztywnych zimnych maszyn.
 
-Roboczym celem jest **linter stylu dla polskiej dokumentacji technicznej**,
+Celem jest **parser tego podzbioru**.
+Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie,
+więc taki parser mówi autorowi, że jego zdanie czyta się dwojako, i jak,
+zamiast wybierać za niego czytanie prawdopodobniejsze.
+
+Obok stoi **linter stylu dla polskiej dokumentacji technicznej**,
 przydatny między innymi do sprawdzania tekstów,
 które napisały modele językowe.
 Nie do błędów składniowych, bo tych modele robią rzadko,
 tylko do wzorców, w które wpadają z przyzwyczajenia.
-
 Linter pomaga pisać dobry kod.
 To ma pomagać pisać dobrą polszczyznę.
 
-Tanio, deterministycznie i z wyjaśnieniem:
+Jedno i drugie tanio, deterministycznie i z wyjaśnieniem:
 jak w kompilatorze, a nie jak w modelu językowym.
-Każdy werdykt przychodzi z regułą, która go wydała,
+Każdy werdykt przychodzi z tym, co go wydało, regułą albo czytaniem,
 a to samo wejście dwa razy daje tę samą odpowiedź.
 
 ## Dlaczego mimo wszystko jest to podzbiór polszczyzny
@@ -35,24 +39,23 @@ Cały wywód prowadzi
 
 ## Kierunek
 
-**Teraz.** Silnik reguł, skalibrowany zestaw reguł
-i ta polszczyzna pisana przez ludzi, która rozstrzyga,
-którym regułom można ufać, a które są tylko opiniami.
-Zobacz [docs/linter.md](docs/linter.md).
-
-**Opcjonalnie, na własny cel.** Parser zaprojektowanego podzbioru polszczyzny,
-a przy nim kalambur: *skład* obok *składni*.
-Gramatyka nie jest celem lintera;
-jest najgłębszym poziomem analizy,
-do którego schodzą tylko te reguły, które sobie na to zasłużą.
-Własny cel ma jeden i jest nim ten plik:
+**Teraz.** Gramatyka zaprojektowanego podzbioru polszczyzny,
+a przy niej kalambur: *skład* obok *składni*.
+Cel ma jeden i jest nim ten plik:
 gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu.
-Celem nie jest też sam formalizm:
+Celem nie jest sam formalizm:
 gramatyka bezkontekstowa jest tym, na czym olski stoi,
 a nie tym, do czego zmierza,
 więc o sięgnięciu po mocniejszy mechanizm rozstrzyga cena.
 Zobacz [docs/design-notes.md](docs/design-notes.md)
 oraz [docs/roadmap.md](docs/roadmap.md#celem-toru-jest-to-readme).
+
+**Opcjonalnie, obok.** Silnik reguł, skalibrowany zestaw reguł
+i ta polszczyzna pisana przez ludzi, która rozstrzyga,
+którym regułom można ufać, a które są tylko opiniami.
+Gramatyka dochodzi do tego toru jako najgłębszy poziom analizy,
+do którego schodzą tylko te reguły, które sobie na to zasłużą.
+Zobacz [docs/linter.md](docs/linter.md).
 
 Nie ma aplikacji, która by to wszystko napędzała.
 Projekt jest dla przyjemności.
@@ -185,7 +188,8 @@ plan i otwarte pytania.
   czym okazują się jego trafienia, kiedy się je przeczyta,
   i dlaczego zerowa częstość może mówić o korpusie zamiast o regule
 - [docs/roadmap.md](docs/roadmap.md):
-  każdy milestone i jego kryterium wyjścia
+  etapy obu torów, każdy ze swoim kryterium wyjścia,
+  i to, dlaczego numeracja jednego nie sięga drugiego
 - [docs/prose-linters.md](docs/prose-linters.md):
   silniki, które angielski i japoński już mają,
   ten jeden, który zmierzył własną częstość fałszywych trafień,
@@ -195,7 +199,7 @@ plan i otwarte pytania.
   jak pole je klasyfikuje
   i które z ich obietnic ktoś naprawdę zmierzył
 - [docs/design-notes.md](docs/design-notes.md):
-  opcjonalny tor gramatyczny,
+  tor gramatyczny,
   czyli co czyni polszczyznę trudną do parsowania,
   drabina kosztów, urwisko nieciągłości
   i to, że sam formalizm jest na tym torze środkiem

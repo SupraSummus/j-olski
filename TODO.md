@@ -474,6 +474,27 @@ zabiera każde zdanie, w którym rzeczownik odprzymiotnikowy dopełniaczem rząd
 Do przeczytania jest więc, ile takich zdań niesie Składnica,
 bo w prozie tego repozytorium jest ich tyle, co to jedno.
 
+Nazwisko ze słownika zabiera README drugie zdanie.
+`Celem jest parser tego podzbioru.` wychodzi dwoma czytaniami tego samego kształtu,
+bo Morfeusz daje formie `Celem` lemat `Cel:Sm1` obok lematu `cel`,
+czyli nazwisko obok rzeczownika pospolitego, oba w narzędniku liczby pojedynczej.
+Wykluczenie z `admissible` w `olski/subset.py` tu nie dochodzi,
+bo żąda czytania, które się nie odmienia, a nazwisko się odmienia;
+[`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
+wymienia `Tam` jako ten sam przypadek
+i mówi, dlaczego etykieta słownika tej klasy nie oddziela.
+Klasa jest szersza niż to jedno zdanie,
+bo czytanie nazwiskowe uprawdopodabnia wielka litera,
+a wielką literą zaczyna się każde zdanie,
+więc dotyczy każdego rzeczownika stojącego w tej pozycji.
+Ruchem jest kryterium na pozycję:
+czytanie nazwiskowe odpada tam, gdzie wielka litera bierze się z początku zdania,
+a nie z samego wyrazu.
+Do przeczytania jest, ile zdań Składnicy takie kryterium zabiera,
+bo nazwisko na początku zdania jest w gazecie zwyczajne,
+a w dokumentacji go nie ma;
+stoi na tym [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
+
 Jedna forma o dwóch czytaniach nominalnych daje olskiemu dwa czytania zdania.
 `wejście` ma w Morfeuszu czytanie `subst` i czytanie `ger`,
 a sygnatura czytania w `olski/parse.py` rozróżnia części mowy,
@@ -660,9 +681,9 @@ i trzeba zdecydować, czy tyle jest warte testu.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
-Sekcja `Settled` powtarza cel roboczy (README i [`docs/linter.md`](docs/linter.md)),
-opcjonalność toru gramatycznego wraz z kryterium wyjścia
+Sekcja `Settled` powtarza to, co jest budowane, wraz z kryterium wyjścia
 ([`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)),
+opcjonalność toru linterowego (README i [`docs/linter.md`](docs/linter.md)),
 bliskość polszczyzny
 ([`docs/design-notes.md`](docs/design-notes.md#decisions-taken)),
 kalibrację

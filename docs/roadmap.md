@@ -1,33 +1,244 @@
 # Roadmap
 
-A high-level ordering, not a schedule.
-There are no dates,
-because the project is for fun
-and a dated plan for a hobby is a way of making it feel like work.
+Uporządkowanie, a nie harmonogram.
+Dat tu nie ma, bo projekt jest dla przyjemności,
+a datowany plan hobby jest sposobem na to, żeby zaczęło przypominać pracę.
 
-Each milestone has an exit criterion,
-because "when is this done" is the only part of planning
-that reliably pays for itself.
-The numbering is the order and it is load-bearing:
-a milestone that turns out to need a later one
-is a defect in the plan rather than a discovery about the work.
+Każdy etap ma kryterium wyjścia,
+bo „kiedy to jest skończone” jest tą częścią planowania,
+która regularnie na siebie zarabia.
 
-## What is being built
+Tory są dwa i każdy ma własną numerację.
+Numeracja jest kolejnością zależności wewnątrz toru:
+etap, który potrzebuje późniejszego, jest usterką planu,
+a nie odkryciem na temat pracy.
+Poprzez granicę torów taka zależność nie biegnie w żadną stronę,
+więc numer z jednego z drugim się nie zestawia
+i żaden nie mówi, na co drugi czeka.
 
-A style linter for Polish technical documentation,
-used among other things
-to check texts produced by language models.
-See [linter.md](linter.md).
+## Co jest budowane
 
-The grammar and parser work described in
-[design-notes.md](design-notes.md)
-is no longer the goal.
-It survives as the deepest analysis tier,
-reached only by rules that genuinely need it,
-and as an optional track with a target of its own,
-[this repository's README](#celem-toru-jest-to-readme).
+Tor gramatyczny:
+parser zaprojektowanego podzbioru polszczyzny,
+który wieloznaczność oddaje autorowi, zamiast rozstrzygać ją za niego.
+Zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie,
+więc werdykt takiego parsera jest wypowiedzią o zdaniu:
+mówi, że się nie wyprowadza, albo że wyprowadza się na dwa sposoby, i na jakie.
+[subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
+trzyma decyzję, która czyni tę własność olskiego własnością,
+a [swigra.md](swigra.md#what-it-leaves-open) miejsce, w którym przegląd zastał puste pole:
+najbliższy istniejący parser polszczyzny rozstrzyga tam, gdzie olski by zgłaszał.
+Maszyneria jest tym wszystkim, co [design-notes.md](design-notes.md)
+mówi o Earleyu, lesie rozbiorów, swobodnym szyku i LCFRS.
 
-## Guiding principles
+Za budowaniem tego przemawia kształt takiego werdyktu.
+Wskazuje on zdanie i mówi, co z nim zrobić,
+a reguła mierząca stopę wzorca na tysiąc słów tego nie robi:
+jest raportem o dokumencie, a nie zarzutem wobec zdania,
+co nazywa i mierzy
+[generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different).
+
+Linter stylu dla polskiej dokumentacji technicznej stoi obok, na torze opcjonalnym,
+i zachowuje swój plan wraz z numeracją, [niżej](#tor-opcjonalny-linter).
+Odwrócenie jest zamierzone:
+linter stał tu jako cel, a gramatyka jako tor obok niego,
+i tamten układ nie ma wracać przez przeoczenie.
+
+## Celem toru jest to README
+
+Kryterium wyjścia toru gramatycznego jest [README](../README.md) tego repozytorium:
+tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
+i gdy każde ma jedno czytanie.
+Kryterium mówi, co ma zajść nad zdaniem,
+a nie czym ma być wyprowadzone,
+więc wybór formalizmu zostaje przy cenie, a nie przy zobowiązaniu,
+i trzyma go [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem).
+
+Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
+Nagłówek, pozycja listy i wiersz tabeli
+dochodzą do olskiego jako akapity, których nic nie punktuje,
+i w mianowniku kryterium nie stoją,
+bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
+Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
+[extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
+
+Za tym plikiem przemawia to, czym on jest, a nie to, że leży pod ręką.
+Stoi po polsku, w rejestrze, o który olskiemu chodzi,
+i nikt go pod gramatykę nie pisał,
+więc mierzy ją tak, jak zmierzyłby ją cudzy dokument.
+[corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie,
+które go przez olskiego przepuszcza,
+i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
+
+README stoi, a rusza się gramatyka.
+Przepisanie go pod ten podzbiór kosztowałoby to, po co on jest,
+a rachunek trzyma
+[CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie).
+
+Druga połowa kryterium jest droższa od pierwszej
+i to ona porządkuje etapy niżej.
+Wyprowadzenie każdego zdania to pokrycie,
+a jedno czytanie na zdanie to ta własność, dla której olski jest podzbiorem,
+i każda konstrukcja dopisana do gramatyki wnosi jej tyle samo kłopotu, co pokrycia.
+Więc to, co wieloznaczność zawęża, idzie przed tym, co pokrycie podnosi.
+
+**Wyjście:** każde zdanie [README](../README.md) wyprowadza się w olskim
+i każde ma dokładnie jedno czytanie,
+a pokazuje to polecenie, które
+[corpus.md](corpus.md#where-the-analyses-stop) drukuje.
+
+## Etap 0: gramatyka, która stoi
+
+Gramatyka podzbioru nad Morfeuszem 2,
+w której poprawność zdania znaczy dokładnie jedno czytanie,
+polecenie wydające werdykt zdanie po zdaniu,
+i pomiar tego wszystkiego na banku drzew.
+
+**Wyjście:** zdanie dostaje werdykt wraz z rolami,
+które w każdym jego czytaniu coś wypełnia,
+a pokrycie i zgodność z ręcznymi rozbiorami są zmierzone na korpusie,
+który da się ściągnąć.
+Zaliczone, zob. [subset.md](subset.md) i [corpus.md](corpus.md).
+
+## Etap 1: przyłączanie wyrażeń przyimkowych
+
+`Program zapisuje ustawienia w pliku.` ma dwa czytania i oba są polszczyzną,
+więc własność jednoznaczności to zdanie odrzuca.
+Konstrukcja nie jest przy tym rzadka:
+[subset.md](subset.md#the-open-problem-prepositional-attachment)
+trzyma trzy wyjścia z tego i mówi, że własność w tym brzmieniu
+wyklucza dużą i zwyczajną część technicznej polszczyzny.
+README jest taką polszczyzną, więc kryterium żąda wybrania jednego z trzech.
+
+Etap stoi pierwszy, bo te trzy wyjścia
+nie żądają tego samego od produkcji pisanych później.
+Drugie z nich — przyłączaj do czasownika, chyba że coś wymusza inaczej —
+jest regułą, którą każda nowa produkcja z wyrażeniem przyimkowym ma realizować,
+a trzecie zmienia to, co w ogóle liczy się jako dwa czytania.
+Rozstrzygnięcie po napisaniu tamtych produkcji jest więc przepisaniem ich wszystkich.
+
+**Wyjście:** jedno z trzech wyjść wybrane,
+z uzasadnieniem wziętym z prawdziwej polszczyzny, a nie z gustu,
+i gramatyka, która to wyjście realizuje.
+
+## Etap 2: walencja
+
+Nic nie zapisuje, jakich dopełnień czasownik naprawdę wymaga,
+więc `być` przyjmuje dopełnienie w bierniku,
+a `On jest wolny.` wychodzi wieloznaczne
+między orzecznikiem, który czytelnik ma,
+a dopełnieniem, którego nikt nie ma na myśli.
+[subset.md](subset.md#what-it-does-not-cover-yet) nazywa to żądaniem,
+które stawia każda konstrukcja, a nie konstrukcją obok innych,
+a [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+znalazł tę samą dziurę od strony banku drzew.
+
+Etap stoi przed konstrukcjami z tego samego powodu co poprzedni,
+i powód ten jest tu arytmetyczny.
+Wieloznaczność, którą wnosi brak walencji,
+nie jest jedna na gramatykę, tylko jedna na czasownik
+razy konstrukcje, w których ten czasownik stoi,
+więc leksykon dopisany po nich sprawdza się naraz wobec wszystkich.
+
+**Wyjście:** dopełnienia czasownika biorą się z leksykonu, a nie z produkcji,
+i `On jest wolny.` ma jedno czytanie.
+
+## Etap 3: zdanie złożone
+
+Przecinek zdaniowy oraz podrzędność z `że` i `który`.
+W kolejce z banku drzew interpunkcja stoi na czele,
+a liczbą, którą się w tym wierszu czyta, jest przecinek, nie myślnik:
+myślnik jest tam dialogiem z gazety,
+czego rejestr olskiego nie ma wcale
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Wobec kryterium wyjścia tego toru jest to pozycja najdroższa i nie do ominięcia,
+bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
+
+**Wyjście:** zdanie łączące dwa zdania składowe przecinkiem albo spójnikiem podrzędnym
+wyprowadza się i wyprowadza raz,
+a pokrycie nad README idzie w górę o te zdania, które na tym stały.
+
+## Etap 4: słowa, których słownik nie ma
+
+Morfeusz zwraca `ign` na formę, której nie zna,
+a formy `ign` nie bierze żadna produkcja.
+Notację tego rejestru — `docs/linter.md`, `harness/markdown.py` —
+olski wpuszcza jako rzeczownik nieodmienny,
+bo rzeczownikiem nieodmiennym taka forma w polszczyźnie jest.
+Zostaje polskie słowo odmienione, którego słownik nie zna:
+`olski`, `lintuje`, `abstencje`, `commitów`.
+Dla niego to samo czytanie byłoby nie tylko nieznane, ale fałszywe,
+i dlatego [subset.md](subset.md#what-it-does-not-cover-yet)
+trzyma tę klasę osobno od tamtej.
+`Język olski jest podzbiorem polszczyzny.` się nie wyprowadza,
+więc język nie umie powiedzieć sam w sobie, czym jest.
+
+Etap nie zależy od trzech powyżej ani one od niego,
+a numeracja żąda tylko tego, żeby żaden nie potrzebował późniejszego.
+Stoi tutaj, bo rejestr, o który chodzi, jest takich słów pełen,
+a bank drzew tej klasy nie pokazuje w ogóle:
+tam każdy token ma rozbiór wybrany przez człowieka,
+więc kolejki z niego ta klasa nie ustawia
+i widać ją dopiero w przebiegu nad dokumentacją.
+
+**Wyjście:** `Język olski jest podzbiorem polszczyzny.`
+wyprowadza się i wyprowadza raz.
+
+## Etap 5: reszta konstrukcji
+
+Czas przeszły, przysłówek, negacja wraz z dopełniaczem negacji,
+liczebniki i rzeczowniki odczasownikowe.
+Nad Składnicą to jest czoło kolejki:
+czas przeszły nie kosztuje tam nic w mocy formalizmu
+i jest najtańszym dużym zyskiem, jaki wobec tamtego korpusu został.
+Wobec README te pozycje dodane po jednej pokrycia nie podnoszą,
+a rzeczownik odczasownikowy je obniża,
+co jedno i drugie mierzy
+[corpus.md](corpus.md#where-the-analyses-stop).
+
+Ta rozbieżność jest tym, co je tutaj ustawia.
+Etapy porządkuje kryterium wyjścia toru, a nie ranking z banku drzew,
+i to jest cena za wybranie takiego kryterium,
+a nie usterka w kolejce.
+
+**Wyjście:** konstrukcje z listy w
+[subset.md](subset.md#what-it-does-not-cover-yet) są w gramatyce,
+a tabele w [corpus.md](corpus.md) są przeliczone tym, co z nich wyszło.
+
+## Czego ta numeracja nie obejmuje
+
+Czy olski może przestawiać — czyli czy wpuszcza konstytuenty nieciągłe,
+jak `Jakie Jan czyta książki?` —
+jest jedynym miejscem, w którym krzywa kosztu skacze o wykładnik,
+bo odpowiedź na tak wyprowadza cały podzbiór poza gramatyki bezkontekstowe.
+Pytanie trzyma
+[open-questions.md](open-questions.md#the-big-fork-may-olski-scramble),
+razem z tym, że rozstrzyga je pomiar, a nie gust.
+
+Etapem to nie jest, bo kryterium wyjścia toru mówi,
+co ma zajść nad zdaniem, a nie czym ma być wyprowadzone.
+Formalizm zostaje więc ceną płaconą tam, gdzie któryś etap jej zażąda,
+a nie pozycją, którą się planuje osobno.
+
+## Tor opcjonalny: linter
+
+Linter stylu dla polskiej dokumentacji technicznej,
+przydatny między innymi do sprawdzania tekstów,
+które napisały modele językowe.
+Zob. [linter.md](linter.md).
+Silnik reguł i pakiet typograficzny stoją, a reguły w nim stoją nieskalibrowane,
+więc plan niżej jest w większości niewykonany, a nie porzucony.
+
+Gramatyka dochodzi do tego toru jako poziom D,
+najgłębszy z poziomów analizy, jakie
+[linter.md](linter.md#how-deep-does-each-rule-have-to-see) wylicza,
+i schodzą do niego tylko te reguły, które sobie na to zasłużą.
+W drugą stronę tor ten nie sięga po nic:
+milestone 5 bierze Morfologika i zostawia Morfeusza torowi gramatycznemu
+([open-questions.md](open-questions.md#settled)),
+więc plan niżej wykonuje się w całości przy gramatyce stojącej tam, gdzie stoi.
+
+### Guiding principles
 
 **Rules are cheap to invent and worthless uncalibrated.**
 Build the measurement before building the rule set.
@@ -61,7 +272,7 @@ breaks a norm a pack encodes
 closes that milestone by deleting the pack.
 A harness whose answer is known in advance is not measuring anything.
 
-## Milestone 0: rule engine and the typography pack
+### Milestone 0: rule engine and the typography pack
 
 A rule engine over plain Polish text,
 plus the rules that need nothing but a tokenizer:
@@ -83,7 +294,7 @@ and reports findings with locations,
 and adding a rule requires editing data rather than code.
 Met, see [rules.md](rules.md).
 
-## Milestone 1: the calibration harness
+### Milestone 1: the calibration harness
 
 Before the interesting rules, the thing that makes them honest.
 Four deliverables.
@@ -138,7 +349,7 @@ Ranking rules against each other needs both halves,
 and [rules.md](rules.md#a-firing-rate-per-rule)
 holds what the one-sided half can and cannot say.
 
-### Two numbers, and the two questions behind them
+#### Two numbers, and the two questions behind them
 
 Every rule leaves this milestone carrying two numbers:
 one saying whether it can be trusted,
@@ -157,7 +368,7 @@ and `em-dash-density` exits with two numbers of its own:
 the human distribution its threshold has to sit outside,
 and the share of the generated half standing beyond it.
 
-### The two pieces are not the same size
+#### The two pieces are not the same size
 
 Which piece to build first follows from the pack's composition
 rather than from the order the four deliverables are listed in.
@@ -231,7 +442,7 @@ holds those counts along with the machinery the deletion took with them.
 That is the shape the exit above asks for,
 a rule deleted with the number that caused it recorded beside it.
 
-## Milestone 2: the plain-Polish pack, without an analyser
+### Milestone 2: the plain-Polish pack, without an analyser
 
 The rules with a citable Polish norm behind them,
 which are also, conveniently, model tells:
@@ -309,7 +520,7 @@ a share measured over a corpus whose largest file is one person's habit
 describes the person, and
 [corpora.md](corpora.md#not-yet-decided) holds how many it takes before it stops.
 
-## Milestone 3: statistical rules
+### Milestone 3: statistical rules
 
 Sentence-length variance,
 paragraph-length uniformity,
@@ -345,7 +556,7 @@ with the point and the distribution recorded,
 and the generated half saying for each threshold
 how much of it lies beyond.
 
-## Milestone 4: the delivery decision
+### Milestone 4: the delivery decision
 
 Three routes:
 
@@ -377,7 +588,7 @@ a way to silence a rule on one line or one file.
 
 **Exit:** a decision with its reasoning recorded.
 
-## Milestone 5: morphology binding, and the rules that needed it
+### Milestone 5: morphology binding, and the rules that needed it
 
 Lemmatization and part-of-speech tagging,
 so lexical rules match inflected forms
@@ -413,7 +624,7 @@ the lemma version beats it on the numbers from milestone 1;
 where it does not, the approximation stays
 and the analyser has not paid for itself.
 
-## Milestone 6: deeper analysis, only where earned
+### Milestone 6: deeper analysis, only where earned
 
 Chunking or dependency parsing,
 for the rules that need constructions rather than strings:
@@ -439,115 +650,7 @@ which makes it the candidate this milestone exists for.
 working at tier C,
 with the added machinery justified by that rule's calibration numbers.
 
-## Optional track: the grammar
-
-What the track is for is a parser that hands ambiguity back.
-One reporting that a sentence has two readings, and which two,
-is a different tool from one picking the likelier of them,
-and it is the one whose output a writer can act on.
-[subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
-owns the decision that makes it olski's,
-and [swigra.md](swigra.md#what-it-leaves-open) is where the ground was found empty:
-the closest existing parser of Polish resolves where olski would report.
-
-The machinery is everything in [design-notes.md](design-notes.md)
-about Earley, parse forests, free word order and LCFRS.
-
-It is not on the critical path for the linter.
-It remains the more interesting computational problem,
-and the project is for fun,
-so it stays in the repository as a track that may be picked up
-whenever the linter stops being the more entertaining thing to work on.
-
-If it is ever built,
-the linter gains tier D.
-
-### Celem toru jest to README
-
-Plan otwiera się zdaniem, że każdy milestone ma kryterium wyjścia.
-Tor gramatyczny stoi poza tą numeracją i to samo pytanie ma,
-a odpowiedzią jest [README](../README.md) tego repozytorium:
-tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
-i gdy każde ma jedno czytanie.
-Kryterium mówi, co ma zajść nad zdaniem,
-a nie czym ma być wyprowadzone,
-więc wybór formalizmu zostaje przy cenie, a nie przy zobowiązaniu,
-i trzyma go [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem).
-
-Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
-Nagłówek, pozycja listy i wiersz tabeli
-dochodzą do olskiego jako akapity, których nic nie punktuje,
-i w mianowniku kryterium nie stoją,
-bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
-Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
-[extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
-
-Za tym plikiem przemawia to, czym on jest, a nie to, że leży pod ręką.
-Stoi po polsku, w rejestrze, o który olskiemu chodzi,
-i nikt go pod gramatykę nie pisał,
-więc mierzy ją tak, jak zmierzyłby ją cudzy dokument.
-[corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie,
-które go przez olskiego przepuszcza,
-i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
-
-README stoi, a rusza się gramatyka.
-Przepisanie go pod ten podzbiór kosztowałoby to, po co on jest,
-a rachunek trzyma
-[CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
-więc to, co niżej, jest listą tego, co gramatyka ma dobrać.
-
-Między tym, co ten przebieg pokazuje, a kryterium
-stoją dwie rzeczy i tylko jedna z nich jest gramatyką.
-
-**Konstrukcje.** Przecinek zdaniowy, zdanie podrzędne, czas przeszły,
-liczebnik i rzeczownik odczasownikowy:
-listę trzyma [subset.md](subset.md#what-it-does-not-cover-yet),
-a README ustawia ją w swojej kolejności.
-Zdanie podrzędne jest tu tym najdroższym,
-bo README stoi na uzasadnieniach, a uzasadnienie go wymaga.
-Kolejność nie jest tu harmonogramem.
-Przysłówek, czas przeszły, liczebnik i rzeczownik odczasownikowy
-dodane po jednym pokrycia nad tym plikiem nie podnoszą,
-a ostatni z nich je obniża, co mierzy
-[corpus.md](corpus.md#where-the-analyses-stop).
-
-**Słowa, których słownik nie ma.** Morfeusz zwraca na nie `ign`,
-a formy `ign` nie bierze żadna produkcja.
-Klasa ma dwie połowy i olski wpuszcza jedną z nich.
-Notacja tego rejestru — `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
-dochodzi do gramatyki jako jeden rzeczownik nieodmienny
-([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
-bo rzeczownikiem nieodmiennym taka forma w polszczyźnie jest.
-Zostaje polskie słowo odmienione, którego słownik nie zna:
-`olski`, `lintuje`, `abstencje`, `commitów`.
-Dla niego to samo czytanie byłoby nie tylko nieznane, ale fałszywe,
-a [subset.md](subset.md#what-it-does-not-cover-yet) nazywa to z drugiej strony,
-bo olski nie umie powiedzieć sam w sobie, czym jest.
-Kolejka z banku drzew tej klasy nie ustawia,
-bo tam każdy token ma rozbiór wybrany przez człowieka,
-a formy, której słownik nie zna, w takim banku nie ma,
-więc pokazuje ją dopiero przebieg nad dokumentacją.
-Rejestr, o który tu chodzi, jest takich słów pełen,
-więc jest to osobne żądanie, a nie skutek uboczny tego powyżej.
-
-Druga połowa kryterium jest droższa od pierwszej.
-Wyprowadzenie każdego zdania to pokrycie,
-a jedno czytanie na zdanie to ta własność, dla której olski jest podzbiorem,
-i żeby README ją miało,
-przyłączanie wyrażeń przyimkowych musi przestać być otwartym problemem.
-[subset.md](subset.md#the-open-problem-prepositional-attachment)
-trzyma trzy wyjścia z niego
-i mówi, że własność w tym brzmieniu
-wyklucza dużą i zwyczajną część technicznej polszczyzny.
-README jest taką polszczyzną,
-więc kryterium żąda wybrania jednego z tych trzech.
-
-**Wyjście:** każde zdanie [README](../README.md) wyprowadza się w olskim
-i każde ma dokładnie jedno czytanie,
-a pokazuje to polecenie, które
-[corpus.md](corpus.md#where-the-analyses-stop) drukuje.
-
-## Wish, not milestone: prose and fiction
+### Wish, not milestone: prose and fiction
 
 Making language models write good Polish fiction
 is an open research question,
@@ -566,7 +669,7 @@ Deliberately not a milestone.
 Labelling a research question as a deliverable
 is how hobby projects die.
 
-## What would count as finished enough
+### What would count as finished enough
 
 - A rule pack for Polish technical documentation
   where every rule carries its two numbers
