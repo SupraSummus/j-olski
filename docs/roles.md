@@ -132,10 +132,7 @@ a pakiet typograficzny jest tym, co ta rola zdążyła zrobić.
 Pyta, która liczba się ruszyła i co trzeba przeliczyć.
 Wchodzi w [sekcję Checks](../CLAUDE.md#checks),
 bo to ona wymienia dokumenty z liczbami, do których nie dosięga żaden test,
-a dalej idzie do dokumentu, który jest właścicielem danej liczby:
-[corpus.md](corpus.md), [firing-rates.md](firing-rates.md),
-[generated-polish.md](generated-polish.md), [extraction.md](extraction.md),
-[corpora.md](corpora.md), [audit-corpus.md](audit-corpus.md).
+a dalej idzie do tego z nich, który jest właścicielem danej liczby.
 Każdy z nich wypisuje polecenia, które jego tabele produkują,
 i po to te polecenia tam są.
 

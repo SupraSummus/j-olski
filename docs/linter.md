@@ -147,7 +147,13 @@ Over the 38,937 words of prose extracted from
 at the commits that list pins,
 `-anie`, `-enie` and `-cie` match 1,045 words.
 `harness/endings.py` asks Morfeusz what each match is
-and files it by the first class its readings satisfy:
+and files it by the first class its readings satisfy.
+The run that list prints is what leaves the prose in `proza/`,
+and one command over it produces this table and the one in the next section:
+
+```sh
+python3 -m harness.endings proza --probe nominalization --probe impersonal
+```
 
 | class | words | | commonest |
 | --- | --- | --- | --- |

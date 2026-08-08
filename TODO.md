@@ -67,8 +67,9 @@ for two spans of one character in one paragraph.
 It is its own change because it moves what the extraction keeps,
 so the figures in
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
-[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
-and [`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
+[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
+[`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
+and [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
 are rerun with it.
 The evidence to read is how often the pattern occurs in those corpora at all:
 no document in this repository emphasizes two single characters in one paragraph,
@@ -89,10 +90,11 @@ of running Polish;
 and reports its figures as the corpus stands.
 The move is the CommonMark condition in `FENCE`,
 plus the closing-fence test that goes with it,
-and then rerunning the three sets of tables that hold extracted figures:
+and then rerunning the four sets of tables that hold extracted figures:
 [`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
-[`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
-and [`docs/firing-rates.md`](docs/firing-rates.md#the-rates).
+[`docs/extraction.md`](docs/extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it),
+[`docs/firing-rates.md`](docs/firing-rates.md#the-rates)
+and [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match).
 The evidence to read is the prose the three `ksef-docs` files extract to,
 since the fix is only worth the rerun if what comes back is Polish
 rather than more of the code the fence was swallowing.
@@ -247,6 +249,21 @@ and `tests/test_subset.py`.
 `tests/test_docs.py` catches the Markdown links and the citations in code,
 and nothing catches the plain-prose mentions,
 so those are the ones to grep for.
+The package has the same collision twice over and the same argument settles it.
+`olski/check.py` is the grammar command
+and `olski/checks.py` is the linter's check kinds,
+one letter apart and on opposite tracks:
+[`docs/roles.md`](docs/roles.md) sends the grammar reader to the first
+and [`docs/rules.md`](docs/rules.md#check-kinds) sends the rule author to the second,
+and the two already stand a few lines apart in this file.
+`olski-corpus` is the third: it runs `olski/coverage.py`,
+where `olski/corpus.py` is the treebank reader beside it,
+so the command, the module and the document
+are three names for what a reader takes to be one thing.
+Renaming the document alone leaves both of those in place,
+which is why they are one entry:
+what has to be decided is what these things are called,
+and the answer for the document is the answer for the module and the command.
 
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates what each check's `fields` answers,
@@ -559,3 +576,98 @@ which is that section alone,
 the roadmap having taken the same finding coarsely and quoted no number.
 The evidence is 7 words: 6 `dacie` and 1 `powiecie`,
 both of which the register uses as nouns.
+
+Granica harnessu jest napisana raz, a stosuje się dwa razy inaczej.
+`harness/__init__.py` mówi, że korpus w formacie znacznikowym
+dochodzi do reguł tędy, a nie przez `olski`,
+a `harness/endings.py` dokłada, że stoi tam,
+bo o polszczyźnie niczego nie twierdzi.
+Oba kryteria trafiają w `olski/corpus.py`, który czyta XML Składnicy,
+i w `olski/coverage.py`, który mierzy nim gramatykę
+i produkuje tabele [`docs/corpus.md`](docs/corpus.md).
+Oba są liśćmi — w `olski` nikt ich nie importuje poza nimi samymi —
+a mimo to instalują się z pakietem (`include = ["olski*"]` w `pyproject.toml`)
+i jeden z nich ma własną komendę,
+gdzie tak samo pomiarowe programy toru linterowego
+nie mają ani instalacji, ani komendy.
+Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
+albo obie idą do `harness/`, a `olski-corpus` staje się
+`python3 -m harness.coverage` jak dwie pozostałe komendy pomiarowe,
+co przepisuje polecenia w [`docs/corpus.md`](docs/corpus.md#fetching-it)
+i w [sekcji Checks](CLAUDE.md#checks),
+albo `harness/__init__.py` mówi, że jest harnessem toru linterowego,
+co nie kosztuje nic i przestaje odpowiadać dwa razy.
+Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
+czytnik banku drzew i program pomiarowy są w nim dziś,
+a nikt, kto lintuje tekst, ich nie woła.
+
+`docs/linter.md` jest i wywodem, i kolejką reguł, a kod wskazuje na kolejkę.
+Każda z dziewięciu reguł pakietu typograficznego ma w `sources`
+`docs/linter.md#typography-tier-a`, czyli podsekcję inwentarza kandydatów,
+więc `--explain` odsyła czytelnika do najdłuższego pliku w repozytorium,
+a [`docs/roles.md`](docs/roles.md) posyła tam autora reguły
+po następną pozycję do zrobienia.
+Ruchem jest wyjęcie inwentarza do własnego dokumentu,
+który README wymienia, `sources` cytują,
+a `docs/linter.md` streszcza zdaniem i linkuje —
+tak jak dziś streszcza [`docs/prose-linters.md`](docs/prose-linters.md)
+i [`docs/fiction.md`](docs/fiction.md).
+Zostaje wtedy wywód, po który reszta dokumentów naprawdę tam chodzi.
+`tests/test_docs.py` łapie linki i cytowania z kodu,
+więc kosztem jest przecelowanie ich, a nie znalezienie.
+Do przeczytania jest, co jeszcze jest inwentarzem, a nie wywodem:
+lista reguł lintowalnych w prozie literackiej
+stoi poza sekcją inwentarza i jest taką samą listą kandydatów.
+
+`docs/open-questions.md` trzyma listę decyzji zamkniętych,
+a każda z nich ma właściciela gdzie indziej.
+Sekcja `Settled` powtarza cel roboczy (README i [`docs/linter.md`](docs/linter.md)),
+opcjonalność toru gramatycznego wraz z kryterium wyjścia
+([`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)),
+bliskość polszczyzny
+([`docs/design-notes.md`](docs/design-notes.md#decisions-taken)),
+kalibrację
+([`docs/linter.md`](docs/linter.md#the-thing-that-makes-or-breaks-it-calibration)),
+to, że narzędzie nie jest detektorem
+([`docs/linter.md`](docs/linter.md#limits-worth-stating-up-front)),
+i dwa słowniki do dwóch zadań,
+czyli tę jedną decyzję, przy której `docs/design-notes.md` pisze wprost,
+że nie jest zapisana dwa razy.
+Ruchem jest usunięcie sekcji na rzecz zdania mówiącego, gdzie decyzje zapadłe stoją,
+czyli [zakaz znaczników zrobionego](CLAUDE.md#documents-describe-the-present-git-owns-the-past)
+zastosowany do listy otwartych pytań.
+Przeciw: lista zamkniętych rozwidleń oszczędza komuś otwierania ich z powrotem.
+Do przeczytania jest więc, czy któraś pozycja niesie odrzuconą alternatywę,
+której jej właściciel nie trzyma — taka zostaje, a reszta idzie.
+
+Kształty kalibracji są jednym faktem rozciętym kierunkiem importu.
+`olski/checks.py` trzyma `AUDIT` i `DISTRIBUTION` jako gołe napisy,
+z komentarzem, że check nie może wiedzieć, czym jest reguła,
+a `olski/rules.py` mapuje te same dwie nazwy z powrotem
+na klasy (`SHAPES`) i na zdania (`OWED`).
+Kalibracja regułą nie jest, więc ta przeszkoda jest do zdjęcia:
+osobny moduł z `Uncalibrated`, `Measurement`, `Audit`, `Distribution` i `OWED`
+pozwala checkowi nazwać kształt wprost,
+a `olski/rules.py` zostaje przy deklaracji reguły.
+Jest to ta [rozdwojona ścieżka](CLAUDE.md#code), którą repozytorium każe scalać.
+Ruch opłaca się przed milestone'em 1, a nie po nim,
+bo to jest miejsce, w które ten milestone pisze:
+[harness kalibracyjny](docs/roadmap.md#milestone-1-the-calibration-harness)
+zastępuje `UNCALIBRATED` jedną z tych dwóch klas,
+więc każda dostanie wtedy pola, których dziś nie ma.
+
+Lista dokumentów w README miesza dwa tory, które sekcja nad nią rozdziela.
+[`Co działa`](README.md#co-działa) mówi, że działają dwie rzeczy,
+a lista pod nią ma dziewiętnaście pozycji bez podziału,
+więc czytelnik toru gramatycznego i autor reguły
+przechodzą przez cudze pozycje, zanim dojdą do swoich.
+Ruchem jest pogrupowanie listy — tor linterowy, tor gramatyczny
+i to, co obsługuje oba — bez ruszania linków,
+czyli najtańsza zmiana, jaką ta lista przyjmie.
+Przeciw katalogom w `docs/`: przepisałyby każdy link względny po to,
+żeby dać indeks, którym ta lista już jest.
+Do rozstrzygnięcia jest, gdzie idą pozycje graniczne,
+bo [`docs/roles.md`](docs/roles.md), [`docs/roadmap.md`](docs/roadmap.md)
+i [`docs/open-questions.md`](docs/open-questions.md) obsługują oba tory.
+Etykiety grup nie ruszą `test_every_document_is_listed_in_the_readme`,
+który czyta pozycje wzorcem `^- [docs/…]` i nie patrzy, co stoi między nimi.

@@ -20,7 +20,7 @@ from pathlib import Path
 
 from olski.checks import Abstain, Hit, count_units, get_check
 from olski.document import Document, Span, from_text, is_plain_text
-from olski.rules import Rule
+from olski.rules import Rule, load_packs
 
 
 @dataclass(frozen=True)
@@ -148,6 +148,11 @@ def lint(document: Document, rules: Iterable[Rule]) -> Report:
 
 def lint_text(text: str, rules: Iterable[Rule], path: str = "<text>") -> Report:
     return lint(from_text(text, path), rules)
+
+
+def lint_string(text: str, path: str = "<text>") -> Report:
+    """Lint a string with the shipped packs. The convenient entry point."""
+    return lint_text(text, load_packs(), path)
 
 
 def read(path: str | Path) -> tuple[Document | None, str]:
