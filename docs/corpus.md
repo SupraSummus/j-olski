@@ -178,7 +178,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Six sentences of that README derive once, and three derive twice.
+Seven sentences of that README derive once, and two derive twice.
 What stops the rest is the table above in another order:
 the comma first, where the treebank's row is led by the dash,
 then the Polish form Morfeusz does not know,
@@ -261,8 +261,8 @@ The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
 reaches the grammar as one indeclinable noun rather than as five segments
 ([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
-and three of the six sentences accepted here rest on it,
-as does one of the three that derive twice.
+and three of the seven sentences accepted here rest on it,
+as does one of the two that derive twice.
 What is left is the inflected Polish word Morfeusz lacks —
 `lintuje`, `commitów`, `znacznikowym` —
 which is the class ranked second above.
@@ -393,12 +393,12 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,625 | 12,382 |
-| valid | 300 | 372 |
-| ambiguous | 100 | 271 |
+| rejected | 12,625 | 12,383 |
+| valid | 300 | 377 |
+| ambiguous | 100 | 265 |
 
 Ambiguity is where the tagger's cost lands:
-171 more sentences carry more than one reading,
+165 more sentences carry more than one reading,
 which is 1.3% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
@@ -416,8 +416,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,380, 344 and 301.
-Twenty-nine of those 301 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,381, 349 and 295.
+Twenty-nine of those 295 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -466,14 +466,39 @@ The criterion asks for a reading that inflects for nothing
 and the shop declines like any other noun,
 so the sentence stays out of olski on a reading no reader of it has.
 
-A difference between two totals is not a set of sentences,
-and here a 72-sentence difference stands on 210 disagreements.
-The two runs accept the same 231 sentences.
-Live accepts 141 that gold rejects,
-and gold accepts 69 that live does not settle on:
-59 it finds ambiguous, 10 it rejects.
+One reading Polish does not have is refused by the grammar and not by the lexicon,
+and the live column is the run with that refusal in force.
+The substantival pronoun takes no genitive after it
+([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+and without that condition five of these sentences carry
+a second reading of the same shape —
+`Weźmy dzieje sztuki tego okresu.`,
+`Od tego momentu jest naszym pośrednikiem.` —
+where `tego` is once the adjective in front of its noun
+and once a pronoun governing it.
+The condition turns one sentence from ambiguous into rejected,
+and that sentence is why the count is not a cost:
 
-The 141 are the warning in the table.
+```text
+Dotyczy to wszystkich kategorii zawodowych.
+```
+
+Four readings without the condition,
+and each of the four reads `to wszystkich kategorii zawodowych` as one noun phrase.
+Polish has `to` as the subject
+and the genitive as what `dotyczyć` governs,
+which is a production olski does not have,
+so the four stood on a phrase nobody wrote,
+and rejecting is what the grammar should say about a sentence it cannot analyse.
+
+A difference between two totals is not a set of sentences,
+and here a 77-sentence difference stands on 209 disagreements.
+The two runs accept the same 234 sentences.
+Live accepts 143 that gold rejects,
+and gold accepts 66 that live does not settle on:
+56 it finds ambiguous, 10 it rejects.
+
+The 143 are the warning in the table.
 At least one is accepted for a reason the annotators would reject:
 
 ```text

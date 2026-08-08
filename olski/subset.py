@@ -50,6 +50,12 @@ FRAGMENT = "fragment"
 #: docs/subset.md wywodzi, czego na niej nie ma i dlaczego.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
+#: Zaimek rzeczowny, którego Morfeusz daje obok przymiotnikowego `ten`. Dopełniacza
+#: nie bierze: `tego podzbioru` jest przymiotnikiem przy rzeczowniku i niczym
+#: więcej, a produkcja z dopełniaczem po głowie czyta to drugi raz jako zaimek
+#: rządzący rzeczownikiem. docs/subset.md wywodzi kryterium i mierzy jego cenę.
+ZAIMEK_RZECZOWNY = "to"
+
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
 #: keeps two parts of one phrase demonstrably talking about the same agreement.
@@ -269,8 +275,15 @@ def build() -> Grammar:
     grammar.rule(
         "NPConjunct", [word("adj", **AGREE), nt("NPConjunct", **AGREE)], person="ter", **AGREE
     )
+    # Głowa z dopełniaczem po niej nie jest zaimkiem rzeczownym, i to jest jedyny
+    # warunek ujemny w tej gramatyce. Bez niego każda forma paradygmatu ten, którą
+    # Morfeusz zna też jako rzeczownik, daje grupie imiennej drugie czytanie tego
+    # samego kształtu.
     grammar.rule(
-        "NPConjunct", [word("subst", **AGREE), nt("NP", case="gen")], person="ter", **AGREE
+        "NPConjunct",
+        [word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE), nt("NP", case="gen")],
+        person="ter",
+        **AGREE,
     )
     # Polish puts an attributive adjective after the noun in terminology:
     # plik konfiguracyjny, język polski. Both orders are the language, so both
@@ -293,7 +306,11 @@ def build() -> Grammar:
     )
     grammar.rule(
         "NPConjunct",
-        [word("subst", **AGREE), nt("NP", case="gen"), nt("Modifier")],
+        [
+            word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE),
+            nt("NP", case="gen"),
+            nt("Modifier"),
+        ],
         person="ter",
         **AGREE,
     )

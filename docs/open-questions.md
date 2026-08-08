@@ -95,6 +95,40 @@ and they are also a self-contained module,
 so they are a good candidate
 for being deferred rather than excluded.
 
+### Kryterium wyjścia toru żąda jednoznaczności od zdania, które jej nie ma
+
+`Cały wywód prowadzi docs/linter.md.` stoi w README i ma dwa czytania,
+SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
+Zdanie naprawdę nie mówi, co tu prowadzi co,
+i [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+trzyma to jako cenę przyjętą świadomie.
+
+Trzy rzeczy, każda obroniona osobno, nie mogą stać razem.
+Kryterium wyjścia toru żąda jednego czytania dla każdego zdania README
+([roadmap.md](roadmap.md#celem-toru-jest-to-readme)).
+README stoi, a rusza się gramatyka, bo przepisanie go pod podzbiór
+kosztowałoby to, po co ten plik jest
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+A olski wpuszcza OVS, bo polszczyzna go ma,
+i deklaracja, że pierwsza grupa imienna jest podmiotem,
+czytałaby się jednoznacznie tylko temu, kto zna konwencję
+([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)).
+
+Czwarte wyjście jest tym, którego szuka to pytanie:
+że kryterium wyjścia ma wyjątek dla zdania wieloznacznego w polszczyźnie,
+czyli mierzy nie „jedno czytanie”, a „jedno czytanie tam, gdzie czytelnik ma jedno”.
+Kosztem jest miara, której nie policzy program:
+dla każdego zdania spornego ktoś musi powiedzieć, ile czytań ma sam,
+a wtedy kryterium wyjścia przestaje być czymś, co drukuje polecenie.
+Zdanie olskie ma jedno czytanie z definicji podzbioru,
+więc to nie olski się tu zmienia, tylko to, co README ma o sobie dowodzić.
+
+Rozstrzyga to jedno zdanie, a klasa jest szersza:
+syncretyzm mianownika z biernikiem ma w polszczyźnie każdy rzeczownik rodzaju m3
+i nieodmienny każdy,
+więc każde zdanie przechodnie o dwóch takich grupach imiennych tu wraca.
+Ile ich jest w tym rejestrze, nie jest zmierzone.
+
 ### Czy jednoznaczność prefiksu mierzy czytelność
 
 Hipoteza: tekst czyta się tym łatwiej,

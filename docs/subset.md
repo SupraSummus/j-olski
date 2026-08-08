@@ -132,6 +132,57 @@ What makes the exclusion safe is that it asks for both at once:
 the reading inflects for nothing,
 and the form carries another one that is what it almost always is.
 
+### Dwa szersze kryteria zmierzono i żadne nie stoi
+
+Wykluczenie sięga czytania nieodmiennego i dalej nie sięga.
+Dwa kryteria, które szły dalej, mają cenę policzoną
+na 13 035 lasach Składnicy z pełnym drzewem,
+a miarą jest to, ile z nich traci czytanie wybrane przez anotatorów.
+Tą samą miarą [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+liczy wykluczenie, które stoi, i wychodzi mu pięć.
+
+**Wielka litera z początku zdania nie jest świadectwem nazwiska.**
+Morfeusz daje formie `Celem` lemat `Cel` obok lematu `cel`,
+a wielką literą zaczyna się każde zdanie,
+więc na pierwszej pozycji ta litera o wyrazie nie mówi nic.
+Kryterium, które kasuje tam czytanie o lemacie różniącym się od innego
+czytania tej samej formy samą wielką literą,
+traci 88 zdań — `Paweł`, `Niemcy`, `Bóg`, `Nowak`, `Róża` —
+i nie kupuje ani jednego.
+Kupić nie ma czego, bo taka para nie jest dwoma czytaniami:
+[czytanie liczy kształt i części mowy](#what-counts-as-one-reading),
+a nazwisko i rzeczownik pospolity są oba rzeczownikami.
+Drugie czytanie tego zdania robił zaimek rzeczowny,
+którego dopełniacza [gramatyka nie bierze](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
+i to jest ta różnica, przy której kryterium na wielką literę
+mierzyło coś, czego nie było.
+Klasa kosztuje więc trafność, a nie jednoznaczność,
+bo czytanie nazwy własnej bywa jedynym, które coś licencjonuje,
+i tak wychodzi `Tam siedzi nasz umrzyk.` z
+[corpus.md](corpus.md#what-morphological-ambiguity-costs),
+gdzie kosztem jest jedno czytanie zdania przeczytanego na opak.
+Tam sięga wykluczenie wyżej, bo nazwisko jest w tej formie nieodmienne,
+a odmienne zostaje w słowniku i tego wyprowadzenia nikt mu nie odbiera.
+
+**Rzeczownik odprzymiotnikowy przed dopełniaczem jest zwyczajny.**
+`dobry` ma obok czytania przymiotnikowego czytanie `subst`,
+a `kod` czytanie lematu `koda` w dopełniaczu mnogim,
+więc `Linter pomaga pisać dobry kod.` wychodzi dwoma czytaniami:
+raz jest to przymiotnik przed rzeczownikiem,
+a raz rzeczownik z dopełniaczem po nim.
+Te dwa różnią się częścią mowy, więc są dwoma.
+Kryterium, które kasuje czytanie `subst` formy znanej też jako przymiotnik,
+gdy stoi ona przed rzeczownikiem z czytaniem w dopełniaczu,
+traci 155 zdań, i tracą je te, w których taki rzeczownik dopełniaczem rządzi:
+`przewodniczący Rady`, `ministrowi spraw`, `prawa jazdy`, `dobra kraju`.
+Zostaje drugie miejsce, w którym tę parę da się rozciąć, czyli sąsiad:
+`koda` jest wyrazem, którego ten rejestr nie zna,
+a rzadkość formalnego znamienia nie ma,
+więc kryterium na nią żąda liczby z korpusu, której olski nie ma.
+[TODO.md](../TODO.md) trzyma to, co z tej klasy zostaje otwarte,
+wraz z pomiarem mówiącym, że nad prozą tego repozytorium
+niesie ją paradygmat zaimkowy, a nie przymiotnik.
+
 ## Notacja tego rejestru jest słowem, którego słownik nie ma
 
 Wykluczenie wyżej odbiera formie czytanie, którego Polak nie ma.
@@ -294,6 +345,46 @@ so an adjective scoping over the coordination
 would be an adjective agreeing with nothing
 and `nowa programy i pliki` would derive.
 Refusing the wider attachment is what keeps that a rejection.
+
+## Zaimek rzeczowny nie rządzi dopełniaczem
+
+Morfeusz daje formom paradygmatu `ten` czytanie rzeczownikowe obok
+przymiotnikowego: `tego` jest dopełniaczem przymiotnika `ten`
+i dopełniaczem zaimka `to`, a `tym` narzędnikiem jednego i drugiego.
+Te dwa czytania różnią się częścią mowy,
+więc [są dwoma czytaniami](#what-counts-as-one-reading),
+a nie jednym jak para lematów.
+Produkcja, która daje głowie grupy imiennej dopełniacz po niej,
+bierze wtedy oba: `parser tego podzbioru` jest przymiotnikiem przy rzeczowniku,
+a drugi raz zaimkiem, który rządzi rzeczownikiem.
+Bez warunku niżej `Celem jest parser tego podzbioru.` wychodzi dwoma czytaniami
+o identycznym streszczeniu ról.
+
+Drugiego z nich polszczyzna nie ma.
+Zaimek rzeczowny stoi za przyimkiem i przy czasowniku — `do tego`, `tego nie wiem` —
+a dopełniacza po sobie nie bierze,
+więc nie jest to wieloznaczność, którą czytelnik ma rozstrzygać.
+Warunek stoi więc w tej jednej pozycji tej jednej produkcji:
+głowa z dopełniaczem po niej nie jest zaimkiem rzeczownym.
+Gdzie indziej czytanie zostaje, bo gdzie indziej jest tym, czym w polszczyźnie jest.
+
+Jest to jedyny warunek ujemny w tej gramatyce i lemat jest tym,
+na czym wolno go postawić.
+Cechy takiego warunku mieć nie mogą:
+unifikacja jest przecięciem, a przecięcie negacji nie zna,
+więc żądanie „nie bądź w narzędniku” nie jest żądaniem,
+które da się postawić środowisku cech.
+Lemat leży poza unifikacją, bo jest osobnym testem w `bierze`
+z `olski/grammar.py`, więc negacja jest tam tym samym testem odwróconym.
+Symetria jest zatem z `lemmas`, a nie z cechami,
+i to samo rozstrzyga, czym mógłby być
+[warunek na kopulę](../TODO.md), gdyby ktoś go postawił.
+
+Cena jest zerowa i jest to wynik pomiaru, a nie założenie.
+Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdanie,
+bo tam każda forma ma jedno czytanie wybrane przez człowieka.
+Pod Morfeuszem [warunek podnosi liczbę zdań przyjętych](corpus.md#what-morphological-ambiguity-costs),
+a jedyne zdanie, które odrzuca, stało na frazie, której polszczyzna nie ma.
 
 ## What it does not cover yet
 
