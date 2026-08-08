@@ -409,69 +409,6 @@ def test_entity_recurrence_abstains_rather_than_share_a_handful():
 
 
 # --------------------------------------------------------------------------- #
-# line-end-word
-# --------------------------------------------------------------------------- #
-
-orphans = pack.rule(
-    id="test-orphan",
-    check="line-end-word",
-    params=dict(words=["a", "i", "w", "z"]),
-    message="orphan {word}",
-    justification="a test",
-)
-
-
-def test_line_end_word_flags_a_single_letter_at_a_line_end():
-    found = hits(orphans, "Zapisano to w\npliku tekstowym.\n")
-    assert [h.fields["word"] for h in found] == ["w"]
-
-
-def test_line_end_word_ignores_the_same_letter_mid_line():
-    assert hits(orphans, "Zapisano to w pliku\ntekstowym.\n") == []
-
-
-def test_line_end_word_matches_the_case_the_rule_listed():
-    #  Folding case is what read the Roman numeral as the conjunction, and the
-    #  numeral is how Polish counts a volume, a chapter and a monarch.
-    assert hits(orphans, "Zaczyna się Tom I\nnowej powieści.") == []
-
-
-def test_line_end_word_looks_past_trailing_punctuation():
-    assert len(hits(orphans, "Wybór między a,\nb oraz c.")) == 1
-
-
-def test_line_end_word_abstains_where_a_source_line_is_not_a_rendered_line():
-    #  The line this would flag ends where the file wraps, not where the page
-    #  does, so the letter it points at is mid-line for every reader.
-    reflowed = Document(path="reflowed.md", text="Zapisano to w\npliku.\n", plain_text=False)
-    outcomes = run(orphans, reflowed)
-    assert [type(o) for o in outcomes] == [Abstain]
-    assert outcomes[0].whole_file
-
-
-def test_line_end_word_abstains_on_plain_text_that_sets_a_paragraph_on_one_line():
-    #  The export a whole published corpus arrives in, where the rule fired 124
-    #  times and every hit stood mid-line for every reader. The second paragraph
-    #  ends on a listed word, so the refusal is what keeps it from being a finding.
-    export = (
-        "Zapisano to w pliku tekstowym i nic więcej się nie stało.\n\n"
-        "Drugi akapit również stoi w jednej linii, jak w eksporcie, a\n\n"
-        "Trzeci akapit tak samo, cały na jednej linii.\n"
-    )
-    outcomes = run(orphans, export)
-    assert [type(o) for o in outcomes] == [Abstain]
-    assert outcomes[0].whole_file
-
-
-def test_line_end_word_measures_a_document_whose_paragraphs_run_past_a_line():
-    #  Verse is not wrapped to a width and its line ends are line ends all the
-    #  same, so what the precondition reads is where a paragraph ends and not how
-    #  long a line is.
-    verse = "Nie porzucaj nadzieje,\nJakoć się kolwiek dzieje: a\nbo świeci.\n"
-    assert [h.fields["word"] for h in hits(orphans, verse)] == ["a"]
-
-
-# --------------------------------------------------------------------------- #
 # length-variation
 # --------------------------------------------------------------------------- #
 
@@ -573,17 +510,15 @@ def test_variation_abstains_on_a_document_with_no_words_to_average():
 BY_SCOPE = [
     (straight_quote, True),
     (dashes, False),
-    (orphans, False),
     (monotony, False),
     (walk_ons, False),
 ]
 
 #: Enough of everything for every rule above to fire on it: a straight quote,
-#: dashes far over the rate, three sentences of exactly one length, an entity
-#: introduced and then dropped, and a single-letter word at a line end.
+#: dashes far over the rate, three sentences of exactly one length, and an entity
+#: introduced and then dropped.
 LOUD = (
-    'Nara (fizyczka, 31) — "tak" — sprawdziła czujnik i\n'
-    "wyszła.\n"
+    'Nara (fizyczka, 31) — "tak" — sprawdziła czujnik i wyszła.\n'
     "Rho — technik — zapisał wynik i wyszedł stąd.\n"
     "Iva — pilotka — czekała na sygnał i odeszła.\n"
 )
@@ -783,16 +718,5 @@ def test_variation_over_a_corpus_is_refused():
             check="length-variation",
             params=dict(unit="corpus", min_variation=0.3),
             message="{variation}",
-            justification="j",
-        )
-
-
-def test_empty_word_list_is_refused():
-    with pytest.raises(RuleError, match="'words' must be"):
-        pack.rule(
-            id="x8",
-            check="line-end-word",
-            params=dict(words=[]),
-            message="{word}",
             justification="j",
         )

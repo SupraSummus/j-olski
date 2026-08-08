@@ -12,14 +12,6 @@ from olski.rules import Pack
 
 pack = Pack(name="test", origin="tests/test_engine.py")
 
-orphans = pack.rule(
-    id="test-orphan",
-    check="line-end-word",
-    params=dict(words=["a", "i", "w"]),
-    message="orphan {word}",
-    justification="a test",
-)
-
 density = pack.rule(
     id="test-density",
     check="pattern-density",
@@ -28,12 +20,16 @@ density = pack.rule(
     justification="a test",
 )
 
-#  One paragraph over two lines, both of them lines a reader sees.
-WRAPPED = "Zapisano to w\npliku tekstowym.\n"
+#  Three paragraphs: one over the rate the rule sets, one under the word floor it
+#  asks for before answering, and one it measures and finds nothing in.
+PROSE = (
+    "Akapit z myślnikiem — i dalszą treścią, która ciągnie się jeszcze przez chwilę.\n\n"
+    "Krótki akapit.\n\n" + "słowo " * 20
+)
 
-#  Four paragraphs on a line each, which is what a plain-text export gives and what
-#  a line-end rule declines. Seven lines with the blank ones between them.
-UNWRAPPED = "\n\n".join(["Akapit stoi tu w jednej linii, jak w eksporcie."] * 4) + "\n"
+#  The same three under a heading, in a format olski does not read, which is what a
+#  rule measuring a whole scope declines: its apparatus is prose to nothing but a suffix.
+MARKUP = "# Nagłówek\n\n" + PROSE
 
 
 def tally_of(rule, documents):
@@ -41,32 +37,21 @@ def tally_of(rule, documents):
     return tally
 
 
-def test_a_declined_file_takes_all_of_its_lines_off_the_denominator():
-    #  The two files hold nine lines between them and the rule reached a verdict on
-    #  two of them. Counting the refusal as one line would leave six lines nobody
-    #  looked at in the denominator, and the rate would be over those as well.
-    documents = [Document(WRAPPED, path="wrapped.txt"), Document(UNWRAPPED, path="export.txt")]
-    tally = tally_of(orphans, documents)
-    assert tally.unit == "line"
-    assert (tally.findings, tally.abstentions, tally.measured) == (1, 1, 2)
-
-
-def test_a_rule_that_declined_every_file_reports_no_rate_rather_than_a_rate_of_nought():
-    tally = tally_of(orphans, [Document(UNWRAPPED, path="export.txt")])
-    assert tally.measured == 0
-    assert tally.rate is None
-
-
 def test_the_two_kinds_of_refusal_subtract_differently():
-    #  Two paragraphs, one of them under the word floor the rule asks for, and a
-    #  markup file beside them that the rule never reads. The refusals subtract
-    #  differently: the file's paragraph comes off with the file, the short one
-    #  comes off alone.
-    text = "Krótki akapit.\n\n" + "Dłuższy akapit z myślnikiem — i dalszą treścią. " * 2
+    #  The two files hold seven paragraphs and the rule answered about two of them.
+    #  The markup file's four come off with the file and the short one comes off
+    #  alone; counting either refusal as nothing would put paragraphs nobody looked
+    #  at in the denominator, and the rate would be over those as well.
     documents = [
-        Document(text, path="prose.txt"),
-        Document(path="notes.md", text="Akapit w składni Markdown.\n", plain_text=False),
+        Document(PROSE, path="prose.txt"),
+        Document(MARKUP, path="notes.md", plain_text=False),
     ]
     tally = tally_of(density, documents)
     assert tally.unit == "paragraph"
-    assert (tally.abstentions, tally.measured) == (2, 1)
+    assert (tally.findings, tally.abstentions, tally.measured) == (1, 2, 2)
+
+
+def test_a_rule_that_declined_every_file_reports_no_rate_rather_than_a_rate_of_nought():
+    tally = tally_of(density, [Document(MARKUP, path="notes.md", plain_text=False)])
+    assert tally.measured == 0
+    assert tally.rate is None

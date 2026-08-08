@@ -552,6 +552,15 @@ A change to a threshold or an exemption also moves what the hits *are*,
 so the classes that document reports having read
 are corrected along with the counts, or the audit stops describing the pack.
 
+Deleting a rule is the one change to a pack that needs no fetch.
+It takes that rule's row out of every table and moves no other row,
+because a rule is measured on its own,
+and what shows it is cheaper than the corpora:
+run the pack before the change and after it over any corpus at hand
+and read the rows that survive.
+A run whose surviving rows differ is not a deletion,
+and then the refetch above is owed after all.
+
 The same holds for the figures in
 [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
 the pairs per rule and the fragment counts in

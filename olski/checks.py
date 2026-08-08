@@ -18,10 +18,8 @@ The scope a check needs also decides which input it can answer about at all. A
 check that points at one site is answerable on a file of any format, because the
 reader can look at the site and judge it. A check that measures the whole of a
 document is measuring that document's markup along with its prose, so it says so
-with :func:`needs_plain_text`. A check reading a line end needs one thing more,
-which no format promises and the text itself answers, and asks for it with
-:func:`needs_hard_wrap`. Both are built by :func:`precondition` and both decline
-the whole file, since a file that fails such a test fails it everywhere.
+with :func:`needs_plain_text`, which declines the whole file, since a file that
+fails that test fails it everywhere.
 """
 
 from __future__ import annotations
@@ -151,59 +149,38 @@ NOT_PLAIN_TEXT = (
     "vouch for the text as prose laid out as written"
 )
 
-#: Why a check that reads a line end declines on a document whose newlines are not
-#: the reader's line breaks. The reason names the evidence rather than the cause,
-#: since the evidence is what somebody can check against the file.
-NOT_HARD_WRAPPED = (
-    "this file sets its paragraphs on a line each, so its newlines are paragraph "
-    "breaks rather than the line breaks a reader sees"
-)
 
+def needs_plain_text(run) -> Callable:
+    """Decline every document whose format olski does not read.
 
-def precondition(holds: Callable[[Document], bool], reason: str) -> Callable:
-    """Build a decorator declining every document that fails a test on the file.
+    A count is a count of something, and in a markup file the something takes in
+    the frontmatter, the headings and the link lists. The error that makes is not
+    a bias anyone could discount later — docs/generated-polish.md measures one
+    rule reading a quarter high over one body of Markdown and true over another by
+    the same writer — so a check measuring a whole scope declines instead, and is
+    written as though every document it saw were prose.
 
-    A guarantee a check needs of a whole file is asked for the same way whichever
-    guarantee it is, so there is one walk rather than one per precondition, and a
-    check that needs one is written as though every document had it. The refusal
-    covers the whole file, because a document failing the test fails it for every
-    scope in it.
-
-    The documents that do carry the guarantee are passed through, so a run over
-    a mixed directory measures what it can and says what it skipped.
+    The refusal covers the whole file, because a file failing this fails it for
+    every scope in it. The documents that do carry the guarantee are passed
+    through, so a run over a mixed directory measures what it can and says what it
+    skipped.
     """
 
-    def decorate(run):
-        @wraps(run)
-        def over_qualifying(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
-            kept = []
-            for document in documents:
-                if holds(document):
-                    kept.append(document)
-                else:
-                    yield Abstain(reason, document=document, whole_file=True)
-            # Nothing left to measure is not the same thing as a corpus too small
-            # to measure over, and handing an empty one down says the second: a
-            # check with a floor would add its own abstention on top of these.
-            if kept:
-                yield from run(rule, kept)
+    @wraps(run)
+    def over_plain_text(rule, documents: Sequence[Document]) -> Iterator[Outcome]:
+        kept = []
+        for document in documents:
+            if document.plain_text:
+                kept.append(document)
+            else:
+                yield Abstain(NOT_PLAIN_TEXT, document=document, whole_file=True)
+        # Nothing left to measure is not the same thing as a corpus too small to
+        # measure over, and handing an empty one down says the second: a check
+        # with a floor would add its own abstention on top of these.
+        if kept:
+            yield from run(rule, kept)
 
-        return over_qualifying
-
-    return decorate
-
-
-#: A count is a count of something, and in a markup file the something takes in
-#: the frontmatter, the headings and the link lists. The error that makes is not
-#: a bias anyone could discount later — docs/generated-polish.md measures one
-#: rule reading a quarter high over one body of Markdown and true over another
-#: by the same writer — so a check measuring a whole scope declines instead.
-needs_plain_text = precondition(lambda document: document.plain_text, NOT_PLAIN_TEXT)
-
-#: What a check reading a line end asks on top of the format, the format having no
-#: answer to it. docs/rules.md owns why a suffix is weaker evidence than it reads
-#: as, and docs/firing-rates.md is what trusting it cost.
-needs_hard_wrap = precondition(lambda document: document.hard_wrapped, NOT_HARD_WRAPPED)
+    return over_plain_text
 
 
 def per_document(run) -> Callable:
@@ -270,16 +247,12 @@ UNIT_SPANS = {
 UNITS = (*UNIT_SPANS, "corpus")
 
 #: How much of a unit one document holds, which is the denominator a firing
-#: rate is taken against. Three of these count what :data:`UNIT_SPANS` yields.
-#: ``line`` is here as well because a rule about a line end fires at most once
-#: per line, and ``word`` because a check with no such bound is counted against
-#: the quantity of prose instead. A corpus is absent for the reason it is
-#: absent above, and :func:`count_units` owns that difference.
+#: rate is taken against. Three of these count what :data:`UNIT_SPANS` yields,
+#: and ``word`` is here because a check with no such bound is counted against the
+#: quantity of prose instead. A corpus is absent for the reason it is absent
+#: above, and :func:`count_units` owns that difference.
 UNIT_COUNTS = {
     "word": lambda document: document.word_count(),
-    #  Not ``line_count``, which counts the position after a trailing newline:
-    #  nothing is written there, so no rule can ever fire on it.
-    "line": lambda document: len(document.text.splitlines()),
     "sentence": lambda document: len(document.sentences),
     "paragraph": lambda document: len(document.paragraphs),
     "document": lambda document: 1,
@@ -554,72 +527,6 @@ def _scopes(documents: Sequence[Document], unit: str) -> Iterator[_Scope]:
     for document in documents:
         for piece in UNIT_SPANS[unit](document):
             yield document, ((document, piece),)
-
-
-# --------------------------------------------------------------------------- #
-# line-end-word: Polish typography, and the abstention that goes with it.
-# --------------------------------------------------------------------------- #
-
-LINE_END_PARAMS = {"words"}
-
-
-def _validate_line_end(params: dict, where: str) -> dict:
-    _known(params, LINE_END_PARAMS, where)
-    words = params.get("words")
-    if not isinstance(words, list) or not words or not all(isinstance(w, str) and w for w in words):
-        raise ParamError(f"{where}: 'words' must be a non-empty list of words")
-    return {"words": tuple(words)}
-
-
-@_register(
-    "line-end-word",
-    fields=lambda params: {"word"},
-    validate=_validate_line_end,
-    counted_over=lambda params: "line",
-    calibrated_by=AUDIT,
-)
-@needs_plain_text
-@needs_hard_wrap
-@per_document
-def line_end_word(rule, document: Document) -> Iterator[Outcome]:
-    """Flag listed words left at the end of a line.
-
-    Polish typography does not leave a one-letter conjunction or preposition
-    hanging at a line end. Whether that has happened depends on where lines
-    actually break in the output, so this asks two things of a document before
-    measuring it. The format has to be one olski reads, since a source line of a
-    format that reflows says nothing about the rendered line. And the lines
-    themselves have to be lines, which the format does not answer and the text
-    does; docs/firing-rates.md is what trusting the format for the second cost.
-
-    Words are matched as written, so a rule lists the forms it means. Folding case
-    is what a list of one-letter words cannot afford: `I` is the numeral Polish
-    counts its chapters and its monarchs in, which was the largest class in that
-    audit, while `A` labels a section and `W` is the watt. What the fold would buy
-    is a sentence opening on a one-letter word at the very end of a line, which is
-    rarer than any of the three, so a lower-case list is the trade and the
-    omission is deliberate.
-    """
-    words = rule.params["words"]
-    for number, span in document.lines():
-        if number == document.line_count and not document.slice(span).strip():
-            continue
-        last = _last_word(document.slice(span))
-        if last is None:
-            continue
-        if last.group() in words:
-            hit = Span(span.start + last.start(), span.start + last.end())
-            yield Hit(hit, {"word": document.slice(hit)})
-
-
-def _last_word(line: str) -> re.Match | None:
-    """Return the final word of a line, looking past trailing punctuation."""
-    stripped = line.rstrip()
-    matches = list(re.finditer(r"[^\W\d_]+", stripped, re.UNICODE))
-    if not matches:
-        return None
-    last = matches[-1]
-    return last if re.fullmatch(r"\W*", stripped[last.end() :]) else None
 
 
 # --------------------------------------------------------------------------- #

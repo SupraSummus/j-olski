@@ -88,8 +88,7 @@ Inline markup is replaced by the text it wrapped rather than deleted,
 list and blockquote markers are dropped and their text kept,
 and the lines of a paragraph are joined with single spaces,
 so a line of the result is a paragraph
-and a rule about where a line ends
-measures where the prose ends rather than where the author's editor wrapped.
+and where the author's editor wrapped leaves no trace for a rule to read.
 `harness/markdown.py` is the truthful copy of all of that;
 what follows is what the code cannot show.
 
@@ -115,10 +114,8 @@ Each cell below is the findings over the prose against the findings over the fil
 | `double-space` | 0 / 0 | 0 / 0 | 5 / 456 |
 | `missing-space-after-full-stop` | 0 / 0 | 0 / 0 | 166 / 748 |
 | `missing-space-after-punctuation` | 23 / 309 | 34 / 34 | 3 / 76 |
-| `orphan-single-letter-word` | 6 / 32 | 2 / 24 | 4 / 12 |
 | `quote-straight` | 1,649 / 1,772 | 481 / 481 | 314 / 978 |
 | `space-before-punctuation` | 1 / 9 | 2 / 2 | 4 / 45 |
-| `trailing-space` | 0 / 0 | 0 / 0 | 0 / 426 |
 
 No rule reports more over the prose than over the file it came from.
 The notes and the memoir are the two bodies
@@ -129,13 +126,6 @@ The prose half of its cells is one member of the corpus
 [the typography pack is audited over](firing-rates.md#the-rates),
 and the file half is that member before the step,
 which is the argument for having the step.
-The `orphan-single-letter-word` row is the one place
-neither half is the run above.
-Naming the files `.txt` is what lets the rule measure them rather than decline,
-and over the prose it declines every file whichever way it is fetched,
-so the prose half is the rule run with its precondition taken out —
-[what it would have reported](#after-joining-a-line-end-rule-has-nothing-left-to-read),
-which is the only number there is to set against the file half.
 
 Counting the same is not the same as pointing at the same place,
 so the 238 findings of the spacing rules — the ones a deletion invents —
@@ -191,34 +181,39 @@ rather than a rate to discount.
 
 ## After joining, a line-end rule has nothing left to read
 
-Two rules read where a line ends,
-and neither of them can once a paragraph is one line.
+Joining a paragraph onto one line takes two properties out of the text
+along with the markup, and both of them are ones a rule could have read.
 
-`trailing-space` cannot fire at all:
-joining strips the whitespace at every line end it consumes.
-Over KSeF that is 426 findings the extraction removes,
-and none of them is recoverable from the prose,
+Whitespace before a line end does not survive,
+because joining strips it at every line end it consumes.
+Over KSeF that is 426 findings a rule against trailing whitespace reports
+over the files and cannot report over the prose,
+and none of them is recoverable from it,
 so a corpus is audited for trailing whitespace over its files
 or not at all.
 
-`orphan-single-letter-word` declines rather than measuring something else.
-Over the notes as they stand it reports 10 findings
+A line end a reader sees does not survive either,
+the end of a paragraph becoming the only line end there is.
+A rule against a one-letter word left at a line end
+reports 10 findings over the notes as they stand
 and declines 183 of the 527 files.
 The 10 are letters standing mid-line for every reader,
 because a single newline in Markdown is a space,
 and the 183 are the notes that already set each paragraph on a line of its own —
 which is what joining then does to the remaining 344,
-so over the prose the rule declines every file and reports nothing.
+so over the prose such a rule declines every file and reports nothing.
 
-What it would have reported there is 6 findings over the notes
-and 2 over the memoir,
+Run over the prose with that refusal taken out,
+it reports 6 findings over the notes and 2 over the memoir,
 none of them a word left at the end of a line:
 the `a` of an apostrophe genitive (*Lagrange'a*, *hardware'u*),
 the abbreviation `w.` for *wiek* (*z XXI w.*),
 a shell flag (*env -i.*),
 and a preposition at the end of a paragraph, which has no line to be left at.
-[The audit over published Polish](firing-rates.md#orphan-single-letter-word-reads-one-stratum-of-the-three)
-reads the same classes out of the rule,
+The pack had both rules and has neither,
+and this step is part of the reason:
+[what they turned out to fire on](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
+reads the same classes out of them over two published corpora,
 and a corpus of joined prose is one no line-end rule can be calibrated against.
 
 ## Nie każdy akapit, który stąd wychodzi, jest zdaniem
