@@ -88,8 +88,9 @@ i werdykt wskazuje przyimek wraz z głowami, do których dochodzi.
 Warunkiem, bez którego las na to pytanie nie odpowie,
 jest pakowanie po sygnaturze czytania, a nie po środowisku cech;
 `analyses` w `olski/parse.py` tę dyscyplinę już trzyma i trzeba ją zachować.
-Czy sama ta dyscyplina wystarcza, pyta wpis o warunku pakowania,
-i idzie on przed tym, bo rozstrzyga, co ten parser pakuje.
+Sama ona nie wystarcza, a na czym liczba ma stanąć zamiast iloczynu,
+pyta wpis o sumie iloczynów, i idzie on przed tym,
+bo rozstrzyga, co ten parser pakuje.
 Zmiana nie rusza ani jednej produkcji,
 więc sprawdza się ją werdykt po werdykcie wobec tego, co stoi,
 nad prozą README i nad Składnicą.
@@ -134,29 +135,26 @@ Zostaje przy tym pytanie, którego werdykt nad zdaniem nie zadaje:
 więc rankingu form bez licencji nad dokumentem nie wypisuje nikt,
 i do rozstrzygnięcia jest, czy jest to wiersz tej komendy, czy tryb obok niej.
 
-Warunek, który postawiono pakowaniu lasu rozbiorów, jest konieczny i nie widać, żeby wystarczał.
-[Tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
-żąda pakowania po sygnaturze czytania, a nie po środowisku cech,
-i zdejmuje tym nadmiar, który robią dwa lematy jednej formy.
-Drugiego nie zdejmuje.
-Sygnatura cech nie niesie, a produkcja wiąże cechy rodzeństwa jedną zmienną
-(`AGREE` w `olski/subset.py`),
-więc węzeł spakowany po nazwie i rozpiętości niesie zbiór środowisk,
-z których część przechodzi wyłącznie w parze z konkretnym środowiskiem sąsiada.
-Liczba czytań wzięta z takiego lasu jako suma iloczynów liczy wtedy pary,
-których unifikacja nie przepuszcza.
-Jest to nadmiar wzięty z przeciwnej strony niż ten,
-przed którym tamta sekcja broni: tamten bierze się z rozdzielenia pozycji,
-a ten ze sklejenia, i oba kończą się liczbą większą od liczby czytań.
-Do przeczytania jest najpierw sama gramatyka, bo to jest czytanie tanie:
-potrzeba produkcji, która dzieli zmienną między dwoma symbolami,
-z których przynajmniej jeden ma nad jedną rozpiętością
-dwa różne zestawy dzieci wychodzące z różnymi cechami.
-Jeśli takiej nie ma, warunek wystarcza dla tej gramatyki i trzeba to zapisać,
-bo następna produkcja może go zabrać.
-Jeśli jest, potwierdza to przebieg porównujący nad prozą README i nad Składnicą
-liczbę czytań z enumeratora z sumą iloczynów po lesie,
-i pierwsze zdanie niezgodne mówi, na czym pakowanie trzeba oprzeć inaczej.
+Suma iloczynów po lesie rozbiorów liczy pary, których unifikacja nie przepuszcza,
+i nie widać, które z dwóch wyjść jest tańsze.
+Zdanie, które to pokazuje, wraz z mechanizmem trzyma
+[tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania),
+a zostaje po nim pytanie, na czym liczba ma stanąć zamiast iloczynu.
+Pierwszym wyjściem jest pozycja rozszczepiona po cechach, które wypuszcza:
+dwa warianty `Complements` z tamtego zdania stoją wtedy w tablicy osobno,
+para nieunifikująca się nie powstaje wcale i iloczyn jest poprawny.
+Rozszczepienie idzie tu po cechach wypuszczanych, a nie po całym środowisku,
+więc jest węższe od tego, przed którym tamta sekcja broni,
+i do przeczytania jest, czy dość węższe:
+pozycja rozszczepiona po każdej wartości wraca do liczenia wyprowadzeń.
+Drugim jest iloczyn liczony po parach, które unifikacja przepuszcza,
+co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
+Rozstrzyga między nimi to, ile pozycji rozszczepienie naprawdę rozdziela,
+a tego nie widać z gramatyki, bo rozdziela je dopiero forma stojąca w zdaniu:
+liczy się to przebiegiem nad prozą README i nad Składnicą.
+Nadmiar ma przy tym gotową pułapkę:
+zdanie z tamtej sekcji stoi w `PRZYJMOWANE` w `tests/test_subset.py`,
+więc las liczący iloczynem przewraca test, a nie samą liczbę.
 Wpis stoi przed wpisem o parserze tablicowym, bo rozstrzyga, co ten parser pakuje.
 
 Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
