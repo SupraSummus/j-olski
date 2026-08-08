@@ -34,10 +34,7 @@ from olski.morph import Reading, Segment, analyse, tag
 from olski.parse import Result, describe, parse
 
 #: The roles a reading is summarized by when two of them have to be told apart.
-#: ``Copula`` stoi obok ``Verb``, bo raport nazywa węzeł, który znalazł, a
-#: orzecznik w narzędniku bierze osobna produkcja: to samo ``jest`` wychodzi więc
-#: raz jednym, a raz drugim.
-ROLES = ("Subject", "Object", "Predicative", "Verb", "Copula", "Modifier")
+ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -45,10 +42,25 @@ ROLES = ("Subject", "Object", "Predicative", "Verb", "Copula", "Modifier")
 #: mierzy, jak dużą częścią rejestru ta klasa jest.
 FRAGMENT = "fragment"
 
-#: Czasowniki, które biorą orzecznik w narzędniku. Lista jest zamknięta, więc
-#: stoi w lemmach, a nie w słowniku walencyjnym, którego olski nie ma;
-#: docs/subset.md wywodzi, czego na niej nie ma i dlaczego.
+#: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
+#: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
+
+#: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami. Ramą jest
+#: zbiór dopełnień, nazwanych przypadkiem grupy, którą czasownik bierze, wraz z
+#: ``inf`` dla bezokolicznika, bo bezokolicznik przypadka nie ma.
+#:
+#: Leksykon jest otwarty: stoi w nim czasownik, którego rama jest węższa od
+#: domyślnej, a każdy inny bierze domyślną, więc czasownik dopisuje się wpisem, a
+#: nie produkcją i nie kosztuje ani jednego przyjętego zdania, dopóki go nie ma.
+#: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
+WALENCJA = {KOPULA: "nom.inst"}
+
+#: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny i
+#: bezokolicznik. Narzędnika w niej nie ma, i to jest to jedno miejsce, w którym
+#: rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze kopula i nikt
+#: poza nią.
+RAMA_DOMYŚLNA = "nom.acc.inf"
 
 #: Zaimek rzeczowny, którego Morfeusz daje obok przymiotnikowego `ten`. Dopełniacza
 #: nie bierze: `tego podzbioru` jest przymiotnikiem przy rzeczowniku i niczym
@@ -60,6 +72,17 @@ ZAIMEK_RZECZOWNY = "to"
 #: variables every production sharing them uses. Spelling them out once is what
 #: keeps two parts of one phrase demonstrably talking about the same agreement.
 AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
+
+
+def _klasy() -> list[tuple[dict[str, str], str]]:
+    """Klasy walencyjne: warunek na lemat i rama, którą ten warunek wpuszcza.
+
+    Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
+    leksykonu naraz, bo klasy mają się nie zachodzić: forma wzięta dwiema klasami
+    byłaby dwoma czytaniami tego samego kształtu.
+    """
+    klasy = [({"lemma": lematy}, rama) for lematy, rama in WALENCJA.items()]
+    return [*klasy, ({"bez_lematu": "|".join(WALENCJA)}, RAMA_DOMYŚLNA)]
 
 
 def build() -> Grammar:
@@ -84,12 +107,30 @@ def build() -> Grammar:
     podmiot_rodzaju = nt("Subject", number=V("n"), gender=V("g"), person=V("p"))
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"))
     czasownik = nt("Verb", number=V("n"), person=V("p"))
-    łącznik = nt("Copula", number=V("n"), person=V("p"))
-    orzecznik = nt("Predicative", case="nom", number=V("n"), gender=V("g"))
-    orzecznik_narzędnika = nt("Predicative", case="inst")
-    orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
-    dopełnienie = nt("Object")
     okoliczniki = nt("Adjuncts")
+
+    # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
+    # siebie swoją ramę, dopełnienie mówi, którą pozycję ramy zajmuje, a
+    # unifikacja przecina jedno z drugim. Czasownik, przy którym nic nie stoi,
+    # ramy nie ogłasza nikomu i stoi tu bez niej.
+    czasownik_ramy = nt("Verb", number=V("n"), person=V("p"), valency=V("w"))
+    dopełnienie = nt("Object", valency=V("w"))
+    orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
+    orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
+
+    # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
+    # ``nom``, a nie wspólna zmienna, bo rama nie zastępuje pozycji: wspólna
+    # zmienna wpuszcza tu kopulę z narzędnikiem i przyjmuje nad Składnicą
+    # ``Na to jest zbyt wielkim tchórzem.``, gdzie podmiotem wychodzi ``zbyt``.
+    # docs/subset.md trzyma ten pomiar wraz z drugim takim.
+    orzecznik = nt("Predicative", valency="nom", number=V("n"), gender=V("g"))
+    czasownik_orzecznika = nt("Verb", number=V("n"), person=V("p"), valency="nom")
+
+    # Kopula po zwinięciu jej w ramę: czasownik, który bierze orzecznik w
+    # narzędniku. Osobnego symbolu nie ma, bo rama mówi to samo, a jeden lemat
+    # wychodził spod dwóch nazw. Żądanie jest tu na czasowniku, a nie wspólną
+    # zmienną z orzecznikiem, i to jest ta sama cena co wyżej.
+    kopula = nt("Verb", number=V("n"), person=V("p"), valency="inst")
 
     # Szyki zdania, każdy w tylu wersjach, ile ma miejsc na okolicznik.
     #
@@ -110,9 +151,9 @@ def build() -> Grammar:
     # jak Zapisuje ustawienia.
     grammar.rule("ClauseConjunct", [nt("Predicate")])
 
-    grammar.rule("ClauseConjunct", [dopełnienie, czasownik, podmiot])
-    grammar.rule("ClauseConjunct", [dopełnienie, okoliczniki, czasownik, podmiot])
-    grammar.rule("ClauseConjunct", [dopełnienie, czasownik, podmiot, okoliczniki])
+    grammar.rule("ClauseConjunct", [dopełnienie, czasownik_ramy, podmiot])
+    grammar.rule("ClauseConjunct", [dopełnienie, okoliczniki, czasownik_ramy, podmiot])
+    grammar.rule("ClauseConjunct", [dopełnienie, czasownik_ramy, podmiot, okoliczniki])
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
@@ -120,18 +161,20 @@ def build() -> Grammar:
     # samego siebie od czasownika.
     grammar.rule("ClauseConjunct", [czasownik, podmiot])
     grammar.rule("ClauseConjunct", [czasownik, podmiot, okoliczniki])
-    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, orzecznik])
-    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, okoliczniki, orzecznik])
-    grammar.rule("ClauseConjunct", [czasownik, podmiot_rodzaju, orzecznik, okoliczniki])
+    grammar.rule("ClauseConjunct", [czasownik_orzecznika, podmiot_rodzaju, orzecznik])
+    grammar.rule("ClauseConjunct", [czasownik_orzecznika, podmiot_rodzaju, okoliczniki, orzecznik])
+    grammar.rule("ClauseConjunct", [czasownik_orzecznika, podmiot_rodzaju, orzecznik, okoliczniki])
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
     # predykatyw nie miał, więc ten sam szyk wychodził raz tak, a raz wcale,
-    # zależnie od tego, co po czasowniku stoi. Przypadek orzecznika stoi tu otwarty,
-    # bo oba szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku.
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, łącznik, podmiot_rodzaju])
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, łącznik, podmiot_rodzaju])
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, łącznik, podmiot_rodzaju, okoliczniki])
+    # zależnie od tego, co po czasowniku stoi. Orzecznik stoi tu otwarty, bo oba
+    # szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku: żądanie
+    # narzędnika postawione czasownikowi jest tym, co w tej gramatyce znaczy
+    # „kopula”, i wysunięcie należy do niej także wtedy, gdy orzecznik jest zgodny.
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, kopula, podmiot_rodzaju])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, kopula, podmiot_rodzaju])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, kopula, podmiot_rodzaju, okoliczniki])
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -145,7 +188,10 @@ def build() -> Grammar:
         gender=V("g"),
         person=V("p"),
     )
-    grammar.rule("Object", [nt("NP", case="acc")])
+    # Dopełnienie wychodzi z pozycją ramy, którą zajmuje, bo tym jest przypadek,
+    # który czasownik rządzi: żądanie wobec czasownika stoi więc raz, tutaj, a nie
+    # w każdym szyku, w którym dopełnienie stoi.
+    grammar.rule("Object", [nt("NP", case="acc")], valency="acc")
 
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
@@ -153,21 +199,10 @@ def build() -> Grammar:
     grammar.rule("Predicate", [czasownik], number=V("n"), person=V("p"))
     grammar.rule(
         "Predicate",
-        [czasownik, nt("Complements", number=V("n"), gender=V("g"))],
+        [czasownik_ramy, nt("Complements", number=V("n"), gender=V("g"), valency=V("w"))],
         number=V("n"),
         person=V("p"),
         gender=V("g"),
-    )
-
-    # Kopula i orzecznik rzeczownikowy, którego nie bierze nic poza nią: Jan jest
-    # nauczycielem. Bez tego ograniczenia narzędnik okolicznikowy czyta się jako
-    # orzecznik pod każdym czasownikiem, co docs/corpus.md liczy nad bankiem drzew.
-    grammar.rule("Predicate", [łącznik, orzecznik_narzędnika], number=V("n"), person=V("p"))
-    grammar.rule(
-        "Predicate",
-        [łącznik, orzecznik_narzędnika, okoliczniki],
-        number=V("n"),
-        person=V("p"),
     )
 
     # A modal and its infinitive. Powinien inflects for gender and not for
@@ -180,22 +215,30 @@ def build() -> Grammar:
         gender=V("g"),
     )
     grammar.rule("InfinitivePhrase", [word("inf")])
-    grammar.rule("InfinitivePhrase", [word("inf"), nt("Complements")])
 
-    grammar.rule("Complements", [dopełnienie])
+    grammar.rule("Complements", [dopełnienie], valency=V("w"))
     grammar.rule("Complements", [okoliczniki])
-    grammar.rule("Complements", [dopełnienie, okoliczniki])
+    grammar.rule("Complements", [dopełnienie, okoliczniki], valency=V("w"))
     # Okolicznik przed dopełnieniem: Program zapisuje w pliku ustawienia. Bez tej
     # pozycji zdanie wychodzi jednym czytaniem, w którym w pliku ustawienia jest
     # jedną frazą, a dopełnienia nie ma wcale.
-    grammar.rule("Complements", [okoliczniki, dopełnienie])
-    grammar.rule("Complements", [orzecznik], number=V("n"), gender=V("g"))
-    grammar.rule("Complements", [orzecznik, okoliczniki], number=V("n"), gender=V("g"))
+    grammar.rule("Complements", [okoliczniki, dopełnienie], valency=V("w"))
+    # Orzecznik, zgodny albo w narzędniku: Ludzie są wolni, Jan jest nauczycielem.
+    # Jedna pozycja na oba, bo różni je to, którą pozycję ramy zajmują, a nie to,
+    # gdzie stoją; narzędnik dochodzi więc do kopuli i do nikogo poza nią.
+    grammar.rule("Complements", [orzecznik_ramy], number=V("n"), gender=V("g"), valency=V("w"))
+    grammar.rule(
+        "Complements",
+        [orzecznik_ramy, okoliczniki],
+        number=V("n"),
+        gender=V("g"),
+        valency=V("w"),
+    )
     # Bezokolicznik jest tym, co czasownik bierze, tak jak dopełnienie: Linter
     # pomaga pisać dobry kod. Łańcuch nie potrzebuje własnej reguły, bo
     # InfinitivePhrase → inf Complements wraca tutaj i ma pomagać pisać wychodzi
     # z tych dwóch produkcji.
-    grammar.rule("Complements", [nt("InfinitivePhrase")])
+    grammar.rule("Complements", [nt("InfinitivePhrase")], valency="inf")
 
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
     # has two and a verb that takes one of them takes any number.
@@ -206,45 +249,47 @@ def build() -> Grammar:
     # or a noun phrase in the instrumental. Both are what być takes, and the
     # first is also what rodzą się wolni i równi predicates without one.
     #
-    # Przypadek wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
+    # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
     grammar.rule(
         "Predicative",
         [nt("AP", case="nom", number=V("n"), gender=V("g"))],
-        case="nom",
+        valency="nom",
         number=V("n"),
         gender=V("g"),
     )
-    grammar.rule("Predicative", [nt("NP", case="inst")], case="inst")
+    grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst")
 
-    # Finite and imperative verbs in one production, since they differ in the
-    # features their tags carry and in nothing this rule says. A reflexive verb
-    # is the form with się after it: the particle can stand elsewhere in Polish,
-    # and olski takes only the adjacent position.
-    grammar.rule(
-        "Verb",
-        [word("fin|impt", number=V("n"), person=V("p"))],
-        number=V("n"),
-        person=V("p"),
-    )
-    grammar.rule(
-        "Verb",
-        [word("fin|impt", number=V("n"), person=V("p")), word("part", lemma="się")],
-        number=V("n"),
-        person=V("p"),
-    )
-
-    # Kopula jest osobnym symbolem, a nie cechą czasownika, bo cechy, której
-    # konstytuent nie niesie, unifikacja nie sprawdza: żądanie „bądź kopulą”
-    # przechodziłoby wtedy każdemu czasownikowi. Kopula jest też zwykłym Verb, bo
-    # Jan jest w domu orzecznika nie ma, i te dwa czytania nie konkurują, bo żadna
-    # produkcja z Verb nie bierze orzecznika w narzędniku.
-    grammar.rule(
-        "Copula",
-        [word("fin|impt", lemma=KOPULA, number=V("n"), person=V("p"))],
-        number=V("n"),
-        person=V("p"),
-    )
+    # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
+    # to, co mówi ta produkcja. Zwrotny czasownik jest formą z się po niej:
+    # cząstka stoi w polszczyźnie i gdzie indziej, a olski bierze tylko tę pozycję.
+    #
+    # Ramę niosą wszystkie te produkcje, a nie tylko niektóre. Cechy, której
+    # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
+    # czasowników przechodziłaby reszcie za darmo, a żądanie „bądź kopulą” nie
+    # byłoby wtedy żądaniem. Po to leksykon ma ramę domyślną.
+    for warunek, rama in _klasy():
+        grammar.rule(
+            "Verb",
+            [word("fin|impt", number=V("n"), person=V("p"), **warunek)],
+            number=V("n"),
+            person=V("p"),
+            valency=rama,
+        )
+        grammar.rule(
+            "Verb",
+            [
+                word("fin|impt", number=V("n"), person=V("p"), **warunek),
+                word("part", lemma="się"),
+            ],
+            number=V("n"),
+            person=V("p"),
+            valency=rama,
+        )
+        grammar.rule(
+            "InfinitivePhrase",
+            [word("inf", **warunek), nt("Complements", valency=rama)],
+        )
 
     grammar.rule(
         "NP",

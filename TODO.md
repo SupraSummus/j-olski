@@ -180,9 +180,11 @@ Do przeczytania jest, co ten preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
 a próba nad prozą README stoi w `sonda/` gotowa do porównania.
 Tego pytania nie ma czym przeczytać nad listą czytań urwaną o `MAX_READINGS`,
-więc wpis o parserze tablicowym nad lasem idzie przed tym,
-a walencja idzie przed jednym i drugim, bo kasuje czytania,
-które rozwinięcie permutacji dopisuje.
+więc wpis o parserze tablicowym nad lasem idzie przed tym.
+Idzie przed tym także wpis o rosnącym leksykonie walencyjnym,
+bo to leksykon kasuje czytania, które rozwinięcie permutacji dopisuje,
+a mechanizm sam z siebie nie kasuje żadnego:
+ramę ma dziś kopula i nikt poza nią.
 Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
 `sonda/polszczyzna.py` jest drugą deklaracją tego samego podzbioru,
 czyli tym drugim właścicielem faktu, przed którym broni
@@ -486,21 +488,44 @@ so narrowing them out there takes them out of Polish too.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
 
-To samo `jest` wychodzi w raporcie raz kopulą, a raz czasownikiem.
-`Ludzie są wolni.` daje rolę `Verb`, a `Jan jest nauczycielem.` rolę `Copula`,
-bo orzecznik w narzędniku bierze osobna produkcja, i `ROLES` wymienia oba.
-`Copula` w `olski/subset.py` jest osobnym symbolem, a nie cechą czasownika,
-bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
-więc żądanie „bądź kopulą” postawione czasownikowi przechodziłoby każdemu.
-Ruchem jest ujemna lemma w `word()` z `olski/grammar.py`:
-produkcja ogólna `Verb` przestaje brać lematy kopuli, kopula dostaje własną
-z cechą, którą wtedy obie niosą, i węzeł w obu przypadkach nazywa się `Verb`.
-Maszyneria jest już na miejscu, bo `bez_lematu` stoi w `word()`
-i trzyma [warunek na zaimek rzeczowny](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
-i tam też stoi odpowiedź na to, co przeciw temu ruchowi zapisano:
-lemat leży poza unifikacją, więc negacja na nim nie żąda niczego od przecięcia cech.
-Do przeczytania jest, czy podział lematami rozłącza czytania:
-forma bywa dwoma lematami naraz, a warunek działa na czytaniu, nie na formie.
+`docs/subset.md` przeszedł próg polszczyzny, będąc dalej dokumentem mieszanym.
+`POLISH` w `tests/test_docs.py` stoi na 0,13 i ma przy sobie zapisane, po co:
+przy niższym pakiet dostaje angielską połowę pliku
+i zgłasza nad angielskimi zdaniami polską typografię.
+Udział liczony nad całym plikiem tego nie odróżnia,
+więc sekcja dopisana po polsku przeniosła ten plik przez próg,
+a angielska większość została tam, gdzie była.
+Dziś check nad nim przechodzi i to jest jedyny powód, dla którego to nie boli.
+Do przeczytania jest, ile trafień pakiet ma nad angielską połową tego pliku,
+bo dopiero to mówi, czy to jest usterka doboru, czy próg dobrze postawiony
+nad dokumentem, który i tak zaraz będzie przełożony.
+Wyjść są dwa i drugie jest tańsze, niż wygląda:
+przekład całego `docs/subset.md`, czego
+[reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) i tak od progu żąda,
+albo dobór pytający o jednostkę zamiast o plik,
+czego `polish_share` w `harness/__init__.py` w docstringu odmawia nad akapitem
+i czym nad sekcją nie jest to samo pytanie.
+
+Leksykon walencyjny ma jeden wpis i nie widać, skąd wziąć drugi.
+[Rama](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) stoi w
+`WALENCJA` w `olski/subset.py`, dopisanie czasownika jest tam jednym wierszem,
+a tym, czego nie ma, jest podstawa, żeby ten wiersz napisać:
+`działać` dopełnienia nie bierze i mówi to
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
+ale mówi to z jednego zdania, a rama ma obowiązywać wszędzie.
+Do przeczytania jest to, co bank drzew o walencji trzyma sam:
+`SLOT` w `olski/corpus.py` czyta pole `tfw` fraz wymaganych,
+z którego dziś bierze się tylko podmiot i dopełnienie,
+a stoi w nim cała rama każdego zdania z werdyktem `FULL`.
+Ruchem jest przebieg zbierający ramy po lematach czasowników
+i przeczytanie, ile razy trzeba czasownik zobaczyć, żeby jego ramie wierzyć:
+rama wyprowadzona z jednego wystąpienia zabrania wszystkiego,
+czego to jedno zdanie nie miało, a takich lematów jest w banku najwięcej.
+Odpowiedzią bywa próg, a bywa Walenty
+([`docs/prior-art.md`](docs/prior-art.md)), czyli słownik pisany po to,
+i wtedy pytaniem jest jego licencja i rozmiar, a nie rzadkość.
+Zysk i cenę widać po tej stronie, którą rusza morfologia żywa,
+bo pod złotą walencja nie rusza ani jednego werdyktu.
 
 `olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
 `_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik

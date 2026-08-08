@@ -137,15 +137,15 @@ Ile to kosztowało przyjętych zdań, trzyma
 
 ## Etap 2: walencja
 
-Nic nie zapisuje, jakich dopełnień czasownik naprawdę wymaga,
-więc `być` przyjmuje dopełnienie w bierniku,
+Czego czasownik wymaga, nie mówi produkcja, i mówić to musi leksykon.
+Bez niego `być` przyjmuje dopełnienie w bierniku,
 a `On jest wolny.` wychodzi wieloznaczne
 między orzecznikiem, który czytelnik ma,
 a dopełnieniem, którego nikt nie ma na myśli.
 [subset.md](subset.md#what-it-does-not-cover-yet) nazywa to żądaniem,
 które stawia każda konstrukcja, a nie konstrukcją obok innych,
 a [corpus.md](corpus.md#what-morphological-ambiguity-costs)
-znalazł tę samą dziurę od strony banku drzew.
+dochodzi do tej samej dziury od strony banku drzew.
 
 Etap stoi przed konstrukcjami z tego samego powodu co poprzedni,
 i powód ten jest tu arytmetyczny.
@@ -157,8 +157,18 @@ więc leksykon dopisany po nich sprawdza się naraz wobec wszystkich.
 **Wyjście:** dopełnienia czasownika biorą się z leksykonu, a nie z produkcji,
 i `On jest wolny.` traci czytanie z dopełnieniem.
 Jednego czytania sama walencja temu zdaniu nie daje:
-zostaje przy nim para, którą robi rzeczownikowe czytanie przymiotnika,
-a ta należy do słownika i do etapu niżej.
+zostaje przy nim para, na którą składa się rzeczownikowe czytanie przymiotnika
+wraz z nazwiskowym czytaniem, jakie Morfeusz daje formie `On`,
+a jedno i drugie należy do słownika i do etapu niżej.
+Zaliczone: rama czasownika jest cechą braną z leksykonu,
+który ma ramę domyślną i jeden wpis, i wpisem tym jest kopula,
+zob. [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+
+Jeden wpis wystarcza temu etapowi, bo etap kupuje mechanizm, a nie leksykon.
+Czasownik dopisany później jest wpisem, a nie produkcją,
+i to jest ta własność, dla której etap stoi przed konstrukcjami;
+kolejny wpis jest robotą tej wielkości, co pomiar, który go uzasadni,
+i [TODO.md](../TODO.md) trzyma, skąd taki pomiar wziąć.
 
 ## Etap 3: czytania, których polszczyzna nie ma
 

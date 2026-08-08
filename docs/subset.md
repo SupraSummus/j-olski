@@ -84,7 +84,7 @@ One class of those is a second reading no Polish speaker has.
 
 Morfeusz reads `do` as the preposition and as the musical note,
 and the note is indeclinable:
-`subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol` is every case at once.
+its tag carries all seven cases at once.
 Unification is the only filter olski has,
 so a reading that satisfies every case demand
 is one no context can rule out.
@@ -200,8 +200,7 @@ bo tym w takim zdaniu są.
 
 Olski daje więc takiej formie jedną krawędź i jedno czytanie:
 rzeczownik nieodmienny, dokładnie ten tag,
-który Morfeusz daje `menu` i `atelier`
-(`subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol`).
+który Morfeusz daje `menu` i `atelier`.
 Rzeczownikiem nieodmiennym taka forma jest w polszczyźnie naprawdę,
 a jedno czytanie znaczy, że nie ona daje zdaniu drugie.
 Sklejenie stoi przed analizą, a nie za nią,
@@ -256,6 +255,8 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   `Jan jest nauczycielem.`
   The copula is a closed list of lemmas
   (`być`, `zostać`, `zostawać`, `pozostać`, `pozostawać`),
+  and it is closed because it is the one entry the valency lexicon has
+  ([below](#walencja-jest-leksykonem-o-ramie-domyślnej)),
   which is what keeps an instrumental adjunct from reading as a predicative
   under every other verb —
   the mistake [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
@@ -263,6 +264,9 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   What the list leaves out is the copula that takes `się`:
   `okazać się` and `stać się` govern the same case
   and the production has no place for the particle.
+- What a verb takes, from a lexicon rather than from a production:
+  `być` takes no accusative object,
+  so `On jest wolny.` loses the reading in which `wolny` is one.
 - The register's own notation as an indeclinable noun:
   `Zobacz docs/rules.md.`, argued above
 - A modal with its infinitive.
@@ -368,7 +372,7 @@ Warunek stoi więc w tej jednej pozycji tej jednej produkcji:
 głowa z dopełniaczem po niej nie jest zaimkiem rzeczownym.
 Gdzie indziej czytanie zostaje, bo gdzie indziej jest tym, czym w polszczyźnie jest.
 
-Jest to jedyny warunek ujemny w tej gramatyce i lemat jest tym,
+Jest to pierwszy warunek ujemny w tej gramatyce i lemat jest tym,
 na czym wolno go postawić.
 Cechy takiego warunku mieć nie mogą:
 unifikacja jest przecięciem, a przecięcie negacji nie zna,
@@ -377,14 +381,97 @@ które da się postawić środowisku cech.
 Lemat leży poza unifikacją, bo jest osobnym testem w `bierze`
 z `olski/grammar.py`, więc negacja jest tam tym samym testem odwróconym.
 Symetria jest zatem z `lemmas`, a nie z cechami,
-i to samo rozstrzyga, czym mógłby być
-[warunek na kopulę](../TODO.md), gdyby ktoś go postawił.
+i to samo rozstrzygnęło, czym jest klasa domyślna
+[leksykonu walencyjnego](#walencja-jest-leksykonem-o-ramie-domyślnej):
+bierze ona każdy lemat, którego leksykon nie wymienia,
+i jest to drugi warunek ujemny, jaki ta gramatyka stawia.
 
 Cena jest zerowa i jest to wynik pomiaru, a nie założenie.
 Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdanie,
 bo tam każda forma ma jedno czytanie wybrane przez człowieka.
 Pod Morfeuszem [warunek podnosi liczbę zdań przyjętych](corpus.md#what-morphological-ambiguity-costs),
 a jedyne zdanie, które odrzuca, stało na frazie, której polszczyzna nie ma.
+
+## Walencja jest leksykonem o ramie domyślnej
+
+Czasownik bierze te dopełnienia, których wymaga,
+a nie te, które pasują kształtem.
+`być` nie bierze dopełnienia w bierniku,
+a `On jest wolny.` ma czytanie, w którym bierze:
+`wolny` czyta się jako przymiotnik i jako rzeczownik,
+[a te dwa są dwoma czytaniami](#what-counts-as-one-reading),
+więc rzeczownikowe staje tam, gdzie produkcja czeka na biernik.
+Takiego czytania nie ma żaden czytelnik tego zdania.
+
+Ramą jest zbiór dopełnień, jakie czasownik bierze,
+nazwanych przypadkiem grupy, którą bierze,
+wraz z `inf` dla bezokolicznika, bo bezokolicznik przypadka nie ma.
+Czasownik wypuszcza ramę z siebie jako cechę,
+dopełnienie mówi, którą pozycję ramy zajmuje,
+i zgadza je ta sama unifikacja, która zgadza rodzaj z liczbą.
+Walencja nie jest więc sprawdzeniem doklejonym do rozbioru, tylko rozbiorem,
+dokładnie tak jak [zgodność](#what-the-grammar-covers).
+
+Leksykon jest otwarty i ma ramę domyślną.
+Stoi w nim czasownik, którego rama jest węższa niż domyślna,
+a każdy inny bierze domyślną,
+więc czasownik dopisuje się wpisem, a nie produkcją,
+i nie kosztuje ani jednego przyjętego zdania, dopóki wpisu nie ma.
+Wpis jest jeden i jest nim kopula:
+narzędnika rama domyślna nie ma, a biernika nie ma rama kopuli.
+
+Rama domyślna nie jest wygodą, tylko warunkiem, żeby żądanie było żądaniem.
+Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc rama postawiona części czasowników przechodziłaby reszcie za darmo
+i „bądź kopulą” nie byłoby wtedy żądaniem.
+Jest to zarazem argument, dla którego kopula osobnym symbolem gramatyki nie jest,
+choć wygląda na argument za nim:
+rama, którą niesie każdy czasownik, żąda tego samego,
+a osobny symbol daje jednemu lematowi dwie nazwy w raporcie —
+`Ludzie są wolni.` czytałoby się przez jedną, a `Jan jest nauczycielem.` przez drugą.
+
+Rama nie zastępuje przy tym pozycji, i to jest zmierzone.
+Orzecznik stoi w trzech miejscach — po czasowniku, po podmiocie w szyku
+z czasownikiem na czele, i przed czasownikiem — a rama każe zapytać,
+czy te trzy nie są jedną pozycją, w której orzecznik i czasownik dzielą zmienną.
+Nie są, i widać to na tym, co zlanie ich w jedną przyjmuje.
+Pozycja po podmiocie wpuszcza wtedy kopulę z narzędnikiem,
+czyli `Jest Jan nauczycielem.`, którego olski nie ma, a polszczyzna ma,
+i to jest cały zysk.
+Nad Składnicą tego zdania nie ma, a są dwa inne,
+i oba wychodzą przeczytane na opak.
+`Na to jest zbyt wielkim tchórzem.` dostaje wtedy podmiot `zbyt`,
+a `Inne wymagają ustalenia.` podmiot `ustalenia`;
+to drugie przychodzi z pozycji przed czasownikiem,
+kiedy wpuścić do niej czasownik, który kopulą nie jest.
+Dwa zdania przyjęte więcej i dwa przeczytane na opak
+to ta sama zamiana, którą [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+liczy w drugą stronę i tam nazywa najgorszym wyjściem tego pomiaru,
+więc każda z trzech pozycji zostaje przy swoim żądaniu wobec czasownika.
+
+Zwinięcie kopuli w ramę daje jej przy tym pozycję, do której osobny symbol nie sięga.
+Rama dochodzi do bezokolicznika tą samą drogą, co do formy osobowej,
+więc `mogą być interesującym materiałem` się wyprowadza,
+a produkcja wypisana osobno dla formy osobowej sięga tylko jej.
+
+Cena i zysk są zmierzone i stoją po jednej stronie morfologii.
+Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdanie
+ani o ani jedno czytanie,
+bo anotatorzy wybrali po jednym czytaniu na token
+i czytania, które rama zdejmuje, nie ma tam czego zdejmować.
+Pod Morfeuszem rama zabiera te zdania,
+w których `być` bierze biernik i jest to jedyne ich czytanie,
+a daje jednoznaczność tym, które stoją na nim obok czytania prawdziwego;
+[corpus.md](corpus.md#what-morphological-ambiguity-costs) trzyma liczby
+i zdania, które za nimi stoją.
+
+Leksykon o jednym wpisie zamyka tyle, ile ten wpis, i widać to na dwóch zdaniach.
+`Działają dwie rzeczy.` czeka na wpis mówiący, że `działać` dopełnienia nie bierze
+([corpus.md](corpus.md#where-the-analyses-stop) dochodzi do tego z drugiej strony),
+a `To ma pomagać pisać dobrą polszczyznę.` na ramy trzech czasowników naraz,
+bo tam pytanie brzmi, który z nich bierze biernik
+([design-notes.md](design-notes.md#podłoże-więzowe-zmierzone-sondą)).
+Czym rósłby ten leksykon i skąd, trzyma [TODO.md](../TODO.md).
 
 ## What it does not cover yet
 
@@ -411,18 +498,16 @@ and should not be:
 
 Two entries are not constructions but demands every construction makes:
 
-- **Valency.** Nothing records which complements a verb actually takes,
-  so `być` accepts an accusative object,
-  and any verb accepts an agreeing predicative or an infinitive.
-  `On jest wolny.` is where that shows:
-  `wolny` reads as an adjective and as a noun,
-  so the sentence comes out ambiguous
-  between the predicative a reader has and an object nobody means.
-  [corpus.md](corpus.md#what-morphological-ambiguity-costs)
-  found the same gap from the other side.
-  The instrumental predicative is the one slot this has been taken out of,
-  by the closed list of copulas above,
-  and what that leaves is a lexicon rather than a list.
+- **Valency, past its one entry.**
+  The lexicon [above](#walencja-jest-leksykonem-o-ramie-domyślnej)
+  records what the copula takes and what every other verb takes by default,
+  so any verb still accepts an accusative object,
+  an agreeing predicative and an infinitive.
+  `Działają dwie rzeczy.` is where that shows next,
+  and it shows in a register the treebank does not have:
+  [corpus.md](corpus.md#where-the-analyses-stop)
+  reads the numeral as acted upon
+  because nothing records that `działać` takes nothing.
 - **A Polish form the dictionary does not have.**
   Morfeusz is asked not to guess at one (`olski/morph.py`),
   so it comes back tagged `ign`,
@@ -608,11 +693,15 @@ Liczby trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).
 
 Klasa nie jest przez to zamknięta.
-Walencja zdejmuje z niej tę część, w której czasownik frazy wymaga —
+Zdejmuje z niej tę część, w której czasownik frazy wymaga —
 576 z 4 517 wyrażeń wyżej, czyli 13% —
+[leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-domyślnej),
 bo tam czytanie rzeczownikowe łamie schemat czasownika,
 a nie konkuruje z nim.
-To jest [etap 2](roadmap.md#etap-2-walencja), nie ten.
+Leksykon o jednym wpisie nie sięga do tych 13% nigdzie:
+kopula wyrażenia przyimkowego nie wymaga,
+więc liczba mówi, co zdjąłby leksykon dochodzący do każdego czasownika,
+a nie co zdejmuje ten.
 
 ## Implementation
 
