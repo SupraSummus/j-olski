@@ -857,3 +857,13 @@ bo [`docs/roles.md`](docs/roles.md), [`docs/roadmap.md`](docs/roadmap.md)
 i [`docs/open-questions.md`](docs/open-questions.md) obsługują oba tory.
 Etykiety grup nie ruszą `test_every_document_is_listed_in_the_readme`,
 który czyta pozycje wzorcem `^- [docs/…]` i nie patrzy, co stoi między nimi.
+
+`docs/firing-rates.md` wyprowadza drugi raz to, co należy do
+[listy korpusu audytowego](docs/audit-corpus.md#the-list):
+dlaczego `rit-dokumentacja` traci na ekstrakcji tyle, ile traci,
+czyli że jej tabele API stoją bez wiodących kresek
+i że takie tabele są większością jej dokumentów.
+Przyczyna stoi w obu miejscach w pełnej precyzji,
+a jeden właściciel rozumowania żąda tam zdania ze wskaźnikiem.
+Wniosek, po który `firing-rates.md` po nią sięga, zostaje:
+różnica formatu jest większością tego, czym trafienia niżej nie są.
