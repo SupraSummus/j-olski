@@ -60,7 +60,7 @@ Działają dwie rzeczy.
 **Gramatyka podzbioru polszczyzny**, nad Morfeuszem 2,
 w której zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie.
 Nie chodzi o samo jedno wyprowadzenie:
-`Koszt samej szynki przewyższa koszt szynki z dodatkami.`
+`Koszt samej szynki przewyższa koszt szynki z dodatkami`
 rozkłada się na kilka czytań, a dwa z nich mówią rzecz przeciwną,
 więc olski to zdanie odrzuca.
 

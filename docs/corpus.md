@@ -136,8 +136,9 @@ without touching the interesting questions
 about discontinuity and formal power at all.
 Adding the past tense costs nothing in formal power —
 it is another verb form in the `Verb` rule —
-which makes it the cheapest large gain available
-and the obvious next thing to do.
+which makes it the cheapest large gain available against this corpus.
+What it is worth against the register olski is aimed at
+is a separate question, and the run below answers it differently.
 
 One entry says where a construction the grammar *has* stops short of Polish.
 `się` is second in the particle row at 344:
@@ -167,7 +168,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Three sentences of that README derive.
+Three sentences of that README derive once, and a fourth derives twice.
 What stops the rest is the table above in another order:
 the comma first, where the treebank's row is led by the dash,
 then adverbs, the past tense, numerals and gerunds.
@@ -175,6 +176,52 @@ The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
+
+That order is not the order of what an addition buys.
+Both rankings count the sentences a construction stopped,
+which is not the count of sentences admitting it would accept,
+and here the two come apart completely.
+Read the rejected sentences the run prints,
+and each one carrying a construction from the list carries a second one as well,
+bar a single exception:
+the adverb in
+`Wyznaczenie go przez wykluczanie jest nieporównanie tańsze`
+stands in a sentence that also has a gerund and a relative clause,
+and the past tense in
+`Każdy werdykt przychodzi z regułą, która go wydała`
+stands in one that also has a numeral and a relative clause.
+So a production for the adverb, the past tense or the numeral,
+added by itself, leaves the accepted count exactly where it stands,
+the gerund puts it one lower,
+and all four at once come out below that count rather than above it.
+What the list still holds is the comma and the subordinate clause,
+and [TODO.md](../TODO.md) holds the finding that over this file
+those two arrive together or not at all.
+
+That exception says what else has to arrive.
+`Działają dwie rzeczy` needs the numeral and nothing else,
+and admitting one makes the sentence ambiguous rather than accepted:
+`dwie rzeczy` is nominative or accusative,
+a subjectless clause takes an object,
+and nothing records that `działać` takes none,
+so olski reads two things as acting and as being acted upon.
+That is the valency entry in
+[subset.md](subset.md#what-it-does-not-cover-yet),
+reached from this register rather than from the treebank.
+
+What the gerund costs comes from the dictionary rather than from the grammar.
+`wejście` carries a `ger` reading beside its `subst` one,
+and a reading is told apart by the part of speech of each word
+(`olski/parse.py`),
+so a production admitting a gerund as the head of a noun phrase
+gives `Wejściem jest zwykły tekst polski` a second reading of the same shape,
+differing in nothing a reader could act on.
+The run accepts that sentence, so the count falls by one.
+This is the class
+[subset.md](subset.md#the-dictionary-offers-readings-polish-does-not) owns,
+under a criterion that section does not yet have:
+the exclusion there asks for a function-word reading beside the noun,
+and here both readings are nominal.
 
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,

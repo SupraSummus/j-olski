@@ -494,6 +494,11 @@ listę trzyma [subset.md](subset.md#what-it-does-not-cover-yet),
 a README ustawia ją w swojej kolejności.
 Zdanie podrzędne jest tu tym najdroższym,
 bo README stoi na uzasadnieniach, a uzasadnienie go wymaga.
+Kolejność nie jest tu harmonogramem.
+Przysłówek, czas przeszły, liczebnik i rzeczownik odczasownikowy
+dodane po jednym pokrycia nad tym plikiem nie podnoszą,
+a ostatni z nich je obniża, co mierzy
+[corpus.md](corpus.md#where-the-analyses-stop).
 
 **Słowa, których słownik nie ma.** `olski`, `linter`, `lintować`, `Markdown`:
 Morfeusz zwraca `ign`, a formy `ign` nie bierze żadna produkcja.

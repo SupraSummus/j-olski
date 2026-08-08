@@ -196,6 +196,18 @@ i zapowiedzi zakończone dwukropkiem,
 a obok nich pozycje listy, które ciągną zdanie zaczęte w wierszu nad sobą
 i kropkę zostawiają dopiero ostatniej z nich.
 
+W drugą stronę ta sama granica dokłada zdanie, którego nikt nie napisał.
+Zawartość spanu kodu wychodzi stąd dosłownie,
+więc kropka w jego środku punktuje prozę wokół niego,
+a zdanie z przykładem zamkniętym kropką
+dochodzi do olskiego jako dwa, z których drugie zaczyna się małą literą.
+Poprawka należy do zdania, a nie do tego kroku,
+bo kropka w spanie kodu jest znakiem, który ktoś napisał,
+i nic tutaj nie odgadnie, że nie kończy ona zdania.
+Dlatego przykład cytowany w środku zdania stoi bez kropki,
+jak `Koszt samej szynki przewyższa koszt szynki z dodatkami` w README,
+a blok pod tym zdaniem pokazuje go tak, jak olski go czyta.
+
 ## What it does not recognize
 
 Four things reach the prose that a renderer would not have shown,
