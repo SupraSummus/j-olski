@@ -1,7 +1,7 @@
 import pytest
 
 from olski.checks import CHECKS, Abstain, Hit, count_units
-from olski.document import Document, from_text
+from olski.document import Document
 from olski.rules import Pack, RuleError
 
 # Rules under test are declared here rather than taken from the shipped pack, so
@@ -14,7 +14,7 @@ def over(rule, documents):
 
 
 def run(rule, text):
-    document = text if isinstance(text, Document) else from_text(text)
+    document = text if isinstance(text, Document) else Document(text)
     return over(rule, [document])
 
 
@@ -25,7 +25,7 @@ def hits(rule, text):
 def corpus(*texts):
     """A corpus whose files are named after their position, so that a finding's
     document can be named in an assertion."""
-    return [from_text(text, f"{n}.txt") for n, text in enumerate(texts, start=1)]
+    return [Document(text, path=f"{n}.txt") for n, text in enumerate(texts, start=1)]
 
 
 # --------------------------------------------------------------------------- #
@@ -568,7 +568,7 @@ def test_a_check_that_measures_a_whole_scope_declines_on_markup(rule, points_at_
 
     #  Without this the declining half of the test passes on any fixture,
     #  including one the rule had nothing to say about in the first place.
-    assert fired(from_text(LOUD, "note.txt")), "the fixture gives this rule nothing to find"
+    assert fired(Document(LOUD, path="note.txt")), "the fixture gives this rule nothing to find"
     assert fired(Document(path="note.md", text=LOUD, plain_text=False)) == points_at_a_site
 
 
@@ -587,7 +587,8 @@ def test_every_check_counts_its_findings_over_something_a_corpus_can_be_measured
 
 
 def test_a_mixed_corpus_is_measured_on_its_plain_files_and_declined_on_the_rest():
-    outcomes = over(dashes, [from_text(LOUD, "a.txt"), Document("b.md", LOUD, plain_text=False)])
+    mixed = [Document(LOUD, path="a.txt"), Document(LOUD, path="b.md", plain_text=False)]
+    outcomes = over(dashes, mixed)
     assert [o.document.path for o in outcomes if isinstance(o, Hit)] == ["a.txt"]
     assert [o.document.path for o in outcomes if isinstance(o, Abstain)] == ["b.md"]
 
