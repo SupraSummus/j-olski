@@ -590,8 +590,8 @@ bo `olski/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
 co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
 
 Cena i zysk są zmierzone nad Składnicą i idą w obie strony.
-Pod żywą morfologią przebieg przyjmuje 382 zdania zamiast 377,
-a wieloznacznych ma 232 zamiast 254.
+Pod żywą morfologią przebieg przyjmuje 379 zdań zamiast 374,
+a wieloznacznych ma 245 zamiast 267.
 Odrzuconych przybywa przy tym siedemnaście,
 i jest to jedna klasa: zdanie stało na dopełnieniu, którego w nim nie ma.
 `Wzrośnie w tym roku dostępność studiów wyższych.`
@@ -603,7 +603,7 @@ które jest okolicznikiem w bierniku, a takiego okolicznika olski nie ma.
 Ani jedno z tych czytań nie jest czytaniem, które ma czytelnik,
 więc odrzucenie stoi tu w miejscu analizy fałszywej, a nie w miejscu trafnej.
 To ostatnie zdanie jest zarazem jedynym, o które rusza się przebieg pod złotą
-morfologią: jedno z 300 przyjętych zdań ubywa i nie ubywa ani jedno czytanie,
+morfologią: jedno z 294 przyjętych zdań ubywa i nie ubywa ani jedno czytanie,
 bo anotatorzy wybrali po jednym czytaniu na token.
 
 Plik wejściowy nie stoi w repozytorium, tak samo jak bank drzew:

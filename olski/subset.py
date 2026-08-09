@@ -258,31 +258,39 @@ def build() -> Grammar:
         number=V("n"),
         gender=V("g"),
     )
-    grammar.rule("InfinitivePhrase", [word("inf")])
+    # Fraza bezokolicznikowa niesie pozycję ramy, którą zajmuje, tak samo jak
+    # dopełnienie i orzecznik, więc żądanie wobec czasownika stoi raz, na niej, a
+    # nie w każdym ciele, w którym stoi ona. Łańcuch nie potrzebuje przy tym
+    # własnej produkcji, bo InfinitivePhrase → inf Complements wraca do ciał niżej
+    # i ma pomagać pisać wychodzi z tych dwóch.
+    grammar.rule("InfinitivePhrase", [word("inf")], valency="inf")
 
-    grammar.rule("Complements", [dopełnienie], valency=V("w"))
+    # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
+    # Dopełnienie w bierniku, bezokolicznik i orzecznik — zgodny albo w narzędniku —
+    # różnią się tym, którą pozycję ramy zajmują, a nie tym, gdzie stoją, więc każde
+    # wychodzi z tych samych czterech ciał: Program zapisuje ustawienia, Linter
+    # pomaga pisać dobry kod, Ludzie są wolni, Jan jest nauczycielem. Narzędnik
+    # dochodzi przez to do kopuli i do nikogo poza nią, bo tylko jej rama go ma.
+    #
+    # Cztery ciała są jedną decyzją, a nie dwunastoma, i jest to ta sama decyzja,
+    # którą szyki zdania podejmują wyżej: brakująca pozycja okolicznika nie odrzuca
+    # zdania, tylko wypuszcza jednym czytaniem takie, które ma dwa przyłączenia,
+    # jak Muszę jechać do domu.
+    for wypełnienie in (
+        dopełnienie,
+        nt("InfinitivePhrase", valency=V("w")),
+        orzecznik_ramy,
+    ):
+        for ciało in (
+            [wypełnienie],
+            [okoliczniki, wypełnienie],
+            [wypełnienie, okoliczniki],
+            [okoliczniki, wypełnienie, okoliczniki],
+        ):
+            grammar.rule(
+                "Complements", ciało, number=V("n"), gender=V("g"), valency=V("w")
+            )
     grammar.rule("Complements", [okoliczniki])
-    grammar.rule("Complements", [dopełnienie, okoliczniki], valency=V("w"))
-    # Okolicznik przed dopełnieniem: Program zapisuje w pliku ustawienia. Bez tej
-    # pozycji zdanie wychodzi jednym czytaniem, w którym w pliku ustawienia jest
-    # jedną frazą, a dopełnienia nie ma wcale.
-    grammar.rule("Complements", [okoliczniki, dopełnienie], valency=V("w"))
-    # Orzecznik, zgodny albo w narzędniku: Ludzie są wolni, Jan jest nauczycielem.
-    # Jedna pozycja na oba, bo różni je to, którą pozycję ramy zajmują, a nie to,
-    # gdzie stoją; narzędnik dochodzi więc do kopuli i do nikogo poza nią.
-    grammar.rule("Complements", [orzecznik_ramy], number=V("n"), gender=V("g"), valency=V("w"))
-    grammar.rule(
-        "Complements",
-        [orzecznik_ramy, okoliczniki],
-        number=V("n"),
-        gender=V("g"),
-        valency=V("w"),
-    )
-    # Bezokolicznik jest tym, co czasownik bierze, tak jak dopełnienie: Linter
-    # pomaga pisać dobry kod. Łańcuch nie potrzebuje własnej reguły, bo
-    # InfinitivePhrase → inf Complements wraca tutaj i ma pomagać pisać wychodzi
-    # z tych dwóch produkcji.
-    grammar.rule("Complements", [nt("InfinitivePhrase")], valency="inf")
 
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
     # has two and a verb that takes one of them takes any number.
@@ -323,6 +331,7 @@ def build() -> Grammar:
         grammar.rule(
             "InfinitivePhrase",
             [word("inf", **warunek), nt("Complements", valency=rama)],
+            valency="inf",
         )
 
     # Czasownik zwrotny pyta o swój leksykon, bo bierze co innego niż forma bez
