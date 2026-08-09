@@ -272,6 +272,26 @@ def _kawałek(
     return measure((read(path) for path in ścieżki), source, keep_examples, max_tokens)
 
 
+def po_kawałkach(ścieżki: Sequence[Path], jobs: int, praca):
+    """Podziel listę lasów na kawałki i oddaj to, co każdy z nich policzył.
+
+    Dzieli pliki, a nie zdania, bo dopiero plik daje się oddać procesowi
+    roboczemu bez przenoszenia przez granicę procesu tego, co się z niego czyta.
+
+    Jeden proces liczy na miejscu, a nie w puli o jednym pracowniku, żeby został
+    ślad wyjątku i profil, które granica procesu zabiera.
+
+    Wołający dostaje listę w kolejności kawałków i sam ją składa, bo licznik,
+    który z kawałka wraca, jest jego, a nie tego podziału. Drugim wołającym jest
+    `sonda/przecinek.py`, i po to ten podział stoi osobno od `scal` niżej.
+    """
+    kawałki = [ścieżki[start : start + KAWAŁEK] for start in range(0, len(ścieżki), KAWAŁEK)]
+    if jobs == 1:
+        return [praca(kawałek) for kawałek in kawałki]
+    with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pula:
+        return list(pula.map(praca, kawałki))
+
+
 def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
@@ -279,25 +299,11 @@ def przebieg(
     keep_examples: int = 0,
     max_tokens: int | None = None,
 ) -> Report:
-    """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
-
-    `measure` mierzy zdania, a to mierzy pliki, bo dopiero plik daje się oddać
-    procesowi roboczemu bez przenoszenia przez granicę procesu tego, co się z
-    niego czyta.
-
-    Jeden proces liczy na miejscu, a nie w puli o jednym pracowniku, żeby został
-    ślad wyjątku i profil, które granica procesu zabiera.
-    """
-    kawałki = [ścieżki[start : start + KAWAŁEK] for start in range(0, len(ścieżki), KAWAŁEK)]
+    """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
     praca = functools.partial(
         _kawałek, source=source, keep_examples=keep_examples, max_tokens=max_tokens
     )
-    if jobs == 1:
-        raporty = [praca(kawałek) for kawałek in kawałki]
-    else:
-        with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pula:
-            raporty = list(pula.map(praca, kawałki))
-    return scal(raporty, source, keep_examples)
+    return scal(po_kawałkach(ścieżki, jobs, praca), source, keep_examples)
 
 
 def scal(raporty: Iterable[Report], source: str, keep_examples: int = 0) -> Report:

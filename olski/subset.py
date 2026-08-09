@@ -112,6 +112,11 @@ ZAIMEK_RZECZOWNY = "to"
 #: keeps two parts of one phrase demonstrably talking about the same agreement.
 AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 
+#: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
+#: ``interp`` niesie całą interpunkcję naraz, a średnika, myślnika i nawiasu ten
+#: podzbiór nie bierze.
+PRZECINEK = word("interp", lemma=",")
+
 
 def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     """Klasy walencyjne: warunek na lemat i rama, którą ten warunek wpuszcza.
@@ -134,14 +139,27 @@ def build() -> Grammar:
 
     grammar.rule("Sentence", [nt("Clause"), word("interp", lemma=".|!|?")])
 
-    # Coordination is one conjunct, a conjunction, and the rest, at each of the
-    # three levels that have it. X → X conj X would say the same and the parser
-    # refuses a left-recursive grammar. Whatever a conjunct may contain is what
-    # decides where the coordination can be attached to from outside, which
-    # docs/subset.md argues under "Nothing above a coordination distributes into
-    # it".
+    # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
+    # na każdym z trzech poziomów, które ją mają.
+    # X → X conj X powiedziałoby to samo,
+    # a parser gramatyki lewostronnie rekurencyjnej nie bierze.
+    # To, co człon może zawierać, rozstrzyga,
+    # do czego koordynację da się przyłączyć z zewnątrz.
+    #
+    # Znakiem koordynacji jest spójnik albo przecinek,
+    # i dlatego stoją po dwie produkcje na poziom,
+    # a nie jedna z osobnym symbolem na oba znaki.
+    # Wspólny symbol powiedziałby to samo raz,
+    # ale przecinek przestałby stać przy swoim poziomie,
+    # a cena i zakup każdego z trzech są osobnymi liczbami,
+    # które `sonda/przecinek.py` bierze, zdejmując te produkcje po jednej.
+    #
+    # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
+    # coordination distributes into it”, a cenę przecinka
+    # docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania.
     grammar.rule("Clause", [nt("ClauseConjunct")])
     grammar.rule("Clause", [nt("ClauseConjunct"), word("conj"), nt("Clause")])
+    grammar.rule("Clause", [nt("ClauseConjunct"), PRZECINEK, nt("Clause")])
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
     # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
@@ -365,6 +383,13 @@ def build() -> Grammar:
         number="pl",
         person="ter",
     )
+    grammar.rule(
+        "NP",
+        [nt("NPConjunct", case=V("c")), PRZECINEK, nt("NP", case=V("c"))],
+        case=V("c"),
+        number="pl",
+        person="ter",
+    )
 
     # Noun phrases: a noun, an agreeing adjective before it, a genitive
     # modifier after it. Agreement is the unification, not a separate check,
@@ -431,6 +456,9 @@ def build() -> Grammar:
     grammar.rule("AP", [nt("APConjunct", **AGREE)], **AGREE)
     grammar.rule(
         "AP", [nt("APConjunct", **AGREE), word("conj"), nt("AP", **AGREE)], **AGREE
+    )
+    grammar.rule(
+        "AP", [nt("APConjunct", **AGREE), PRZECINEK, nt("AP", **AGREE)], **AGREE
     )
     # A passive participle is an adjective for these purposes, and it keeps the
     # complement its verb governed: obdarzeni rozumem i sumieniem.

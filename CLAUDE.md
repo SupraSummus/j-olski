@@ -579,6 +579,17 @@ rerun the two commands it prints and correct the sentences under them.
 The README prints a run of its own, verdicts and reading counts included,
 and it goes with those: a figure there is the first one a reader checks.
 
+Two figures over that treebank live in `docs/subset.md` instead,
+where [what prepositional attachment costs](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
+counts the productions that give it a position
+and the sentences the grammar reads backwards without them.
+They move with the same run and are the easiest in this list to miss,
+because the document they sit in is the one a grammar change is written from
+rather than the one it reports into.
+A counterfactual figure of that kind also has to name the productions it drops,
+or the next session cannot take it again
+and has only the choice between leaving a stale number and inventing a new one.
+
 A rewrite of the grammar that moves no verdict still moves those tables,
 so "the language did not change" is not a reason to skip the rerun.
 Where a rejected sentence stopped is the furthest point some analysis reached,
@@ -685,13 +696,23 @@ and the reason for the entry is lost with it.
 One set of figures is moved by two programs rather than one.
 [The comparison the sonda took](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 counts the sentences olski and a second substrate agree about,
-so a change to the grammar moves it exactly as a change to `sonda/` does,
+so a change to the grammar moves it
+exactly as a change to `sonda/polszczyzna.py` or `sonda/wiezy.py` does,
 and the session editing `olski/subset.py` has no reason to look in that document.
 `tests/test_sonda.py` catches the coarse half of that drift,
 a verdict that stopped agreeing, and catches nothing about the counts,
 so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
+
+One more set is a difference rather than a count,
+and that is what makes it easy to leave stale.
+[What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
+is the gap between olski and olski with three productions taken out,
+so everything that moves the tables above moves it,
+and so does a change to `sonda/przecinek.py`, which decides what comes out.
+What a test holds there is only that the probe measures this grammar
+and not a copy of it, the numbers themselves having nothing to disagree with.
 
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —
