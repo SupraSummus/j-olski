@@ -16,9 +16,12 @@ wywód trzyma
 Czego drzewo nie niesie, jest tu decyzją, a nie brakiem.
 Nie ma w nim przypadka, bo przypadek bierze się z pozycji.
 Nie ma rodzaju, bo rodzaj rzeczownika jest leksykalny.
-Nie ma szyku, i to jedno jest dziurą, a nie decyzją:
-polszczyzna niesie szykiem temat i remat, więc jest co powiedzieć,
-a ten zapis nie ma czym. Trzyma to ``TODO.md``.
+Dziury są dwie i obie są dziurami, a nie decyzjami.
+Nie ma szyku, choć polszczyzna niesie nim temat i remat,
+więc jest co powiedzieć, a ten zapis nie ma czym.
+Rzecz stoi tu pod lematem, choć jednym napisem odmieniają się leksemy
+o różnej odmianie, więc wybiera je kolejność odpowiedzi słownika.
+Trzyma to ``TODO.md``, a kolejność ``docs/roadmap.md``.
 """
 
 from __future__ import annotations

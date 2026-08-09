@@ -8,7 +8,7 @@ Każdy etap ma kryterium wyjścia,
 bo „kiedy to jest skończone” jest tą częścią planowania,
 która regularnie na siebie zarabia.
 
-Tory są dwa i każdy ma własną numerację.
+Tory są trzy i każdy ma własną numerację.
 Numeracja jest kolejnością zależności wewnątrz toru:
 etap, który potrzebuje późniejszego, jest usterką planu,
 a nie odkryciem na temat pracy.
@@ -39,6 +39,18 @@ jest raportem o dokumencie, a nie zarzutem wobec zdania
 a wystąpienie, w które trafia, wskazuje po to,
 żeby dało się sprawdzić liczbę, i nie twierdzi o nim nic
 ([rules.md](rules.md#pattern-density)).
+
+Tor składu idzie w drugą stronę:
+wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie.
+Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny,
+i to jest decyzja, która czyni ten tor tym, czym jest,
+bo rozbioru zdania pisanego z góry nikt nie chce pisać
+([design-notes.md](design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)).
+Zgodność jest tu liczona, a nie sprawdzana,
+więc trudność, dla której olski istnieje, przy tym kierunku nie powstaje,
+a gramatyka podzbioru nie jest temu torowi potrzebna do niczego:
+parser stoi w nim jako świadek, a nie jako zależność
+([design-notes.md](design-notes.md#the-round-trip-invariant)).
 
 Linter stylu dla polskiej dokumentacji technicznej stoi obok, na torze opcjonalnym,
 i zachowuje swój plan wraz z numeracją, [niżej](#tor-opcjonalny-linter).
@@ -310,6 +322,170 @@ Etapem to nie jest, bo kryterium wyjścia toru mówi,
 co ma zajść nad zdaniem, a nie czym ma być wyprowadzone.
 Formalizm zostaje więc ceną płaconą tam, gdzie któryś etap jej zażąda,
 a nie pozycją, którą się planuje osobno.
+
+## Tor składu: drzewo wchodzi, polskie zdanie wychodzi
+
+### Kryterium wyjścia toru składu to znów README
+
+Kryterium wyjścia jest ten sam plik, którym mierzy się tor gramatyczny,
+i przemawia za nim to samo, co [wyżej](#celem-toru-jest-to-readme):
+stoi po polsku, w rejestrze, o który olskiemu chodzi,
+i nikt go pod skład nie pisał.
+Żądanie jest jednak drugie.
+Tam każde zdanie ma się wyprowadzić i wyprowadzić raz;
+tutaj każde ma dać się wypuścić z drzewa napisanego ręcznie,
+znak w znak z tym, co w pliku stoi.
+Co jest tu zdaniem, rozstrzyga tamta sekcja i rozstrzyga tak samo,
+więc oba kryteria czytają jeden tekst.
+
+Znak w znak, bo słabszego porównania nie ma czym zrobić.
+Sprawdzanie wyjścia parserem oddałoby kryterium gramatyce,
+a ta [temu torowi zależnością nie jest](design-notes.md#the-round-trip-invariant)
+i nad zdaniem spoza podzbioru nie ma czego powiedzieć.
+Zostaje tekst i tekst, a różnica między nimi jest tym, co ten tor czyta.
+
+Drzewa są przy tym pisane w kategoriach składni,
+a nie dobierane pod zdanie, które ma wyjść.
+Zdanie trafione konstruktorem napisanym dla niego jednego
+nie mówi o składzie nic i kryterium nie zalicza.
+
+Kryterium ma pod sobą dwa pytania, na które odpowiada dopiero rozbieżność.
+Pierwsze: gdzie skład nie trafia w zdanie README,
+brakuje kategorii, którą warto dopisać, czy stoi tam wariant, który nic nie niesie?
+Rozstrzygnięcie jest osądem i zapisuje je etap, przy którym pada,
+bo różnicy tego rodzaju nie widać z liczby.
+Za samym przełącznikiem szyku dopisanym do linearyzacji nie przemawia nic:
+taki parametr opisuje zdanie, a to drzewo opisuje to, o czym zdanie jest.
+Drugie: przepisane zdanie README unieważnia drzewo, które je wypuszczało,
+więc co tor gramatyczny płaci przy zmianie kodu, ten płaci przy zmianie prozy.
+Reguły przeliczania tego rodzaju trzyma [CLAUDE.md](../CLAUDE.md#checks),
+a ta dojdzie tam razem z pierwszym plikiem drzew.
+
+Etapy niżej porządkuje jedna zasada:
+to, co zmienia drzewo, idzie przed tym, co zmienia linearyzację.
+Kategoria dopisana do składni każe przepisać każde drzewo napisane wcześniej,
+a poprawka wewnątrz linearyzacji sięga wszystkich drzew, nie ruszając żadnego,
+więc kolejność jest tu ceną przepisywania, a nie rankingiem ważności.
+
+**Wyjście:** każde zdanie [README](../README.md) wychodzi znak w znak
+z drzewa napisanego w kategoriach `skład.składnia`,
+a pokazuje to polecenie, które jedno z drugim porównuje.
+
+### Etap 0: skład, który stoi
+
+Drzewo kategorii dziedziny, linearyzacja licząca zgodność
+i morfologia wzięta z Morfeusza czytanego w drugą stronę.
+
+**Wyjście:** drzewo złożone z konstruktorów wypuszcza polskie zdanie,
+a forma, której słownik nie ma, zgłasza się wyjątkiem, zamiast zostać zgadnięta.
+Zaliczone, zob. `skład/` oraz [design-notes.md](design-notes.md#angle-two-skład).
+
+### Etap 1: temat i remat
+
+Polszczyzna niesie szykiem to, co stoi na czele, a to drzewo nie ma czym.
+`Jest` w `skład/składnia.py` wysuwa orzecznik zawsze,
+a `Jaki` stawia przymiotnik przed rzeczownikiem zawsze,
+choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
+Widać to na jednym zdaniu, bez żadnego pomiaru:
+README pisze `zwykły tekst polski`, a to samo drzewo wypuszcza `zwykły polski tekst`.
+Ruch wraz z tym, co do niego przeczytać, trzyma [TODO.md](../TODO.md).
+
+Etap stoi pierwszy, bo każdy etap dokładający nowy szyk zdania
+będzie tę kategorię realizował,
+a drzewa napisane bez niej trzeba by przepisać razem z konstruktorami.
+
+**Wyjście:** `Wejściem jest zwykły tekst polski.`
+i `Zwykły tekst polski jest wejściem.` biorą się z dwóch różnych drzew,
+a szyku nie ma zaszytego żaden konstruktor.
+
+### Etap 2: walencja czytana raz
+
+`Robi` daje dopełnieniu biernik, nie pytając leksykonu,
+który to samo pytanie po stronie parsera już zadaje,
+więc `V.pomagać(R.linter, A.dobry * R.kod)` wypuszcza `Linter pomaga dobry kod.`
+i nie mówi o tym nigdzie.
+Ruch jest jeden — oba kierunki czytają `olski/leksykon.txt` —
+i trzyma go [TODO.md](../TODO.md).
+
+Etap stoi przed konstrukcjami z tego samego powodu,
+co [etap 2 toru gramatycznego](#etap-2-walencja):
+każda konstrukcja z nową rolą zaszywałaby przypadek osobno,
+a leksykon dopisany przed nimi sprawdza się naraz wobec wszystkich.
+
+**Wyjście:** rama czasownika przychodzi z leksykonu,
+a drzewo żądające dopełnienia od czasownika, który go nie bierze,
+zgłasza się zamiast wypuścić zdanie, którego polszczyzna nie ma.
+
+### Etap 3: lemat nie wskazuje formy
+
+`odmień` w `skład/morfologia.py` bierze pierwszą z form, które żądaniu odpowiadają,
+a odpowiada ich kilka z trzech różnych powodów, i tylko trzeci jest wyborem.
+
+Pierwszym jest kwalifikator, którym słownik odsyła formę poza ten rejestr,
+do dawnej polszczyzny albo do potocznej, a którego ten moduł nie czyta,
+więc kryterium na tę klasę jest w danych i wystarczy przestać je wyrzucać.
+Drugim jest leksem, którego lemat nie wskazuje,
+bo jednym napisem odmieniają się dwie rzeczy o różnej odmianie,
+a identyfikator, który je rozróżnia, gubią oba kierunki naraz.
+Trzecim jest wybór, który po tamtych dwóch zostaje,
+i dopiero on wymaga rozstrzygnięcia, czym ma być.
+Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
+[design-notes.md](design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
+a ruch trzyma [TODO.md](../TODO.md);
+kryterium po stronie analizy stoi tam, gdzie
+[`admissible`](subset.md#the-dictionary-offers-readings-polish-does-not).
+
+**Wyjście:** forma z kwalifikatorem, którego ten rejestr nie bierze, nie wychodzi,
+leksem jest tym, co drzewo nazywa,
+a wybór między formami, które oba kryteria zostawią, jest zapisany,
+a nie brany pierwszy z brzegu.
+
+### Etap 4: leksykon projektu
+
+SGJP nie zna słów, które rejestr techniczny tworzy sam,
+ani leksemów, które ten rejestr dokłada do słów znanych,
+więc leksykon projektu jest tym, czego brakuje pod każdym etapem wyżej.
+Czym taki plik ma być, co wpis ma nazywać
+i dlaczego nie jest to słownik dołożony Morfeuszowi, trzyma
+[design-notes.md](design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr).
+
+Etapu tego nie dokłada się do kryterium, tylko kryterium go żąda:
+README pisze `olski`, `lintuje` i `commitów`,
+a żadnego z nich nie ma jak wypuścić z drzewa.
+
+**Wyjście:** `Język olski jest podzbiorem polszczyzny.` wychodzi z drzewa,
+czyli to samo zdanie, na którym tor gramatyczny ma
+[etap 5](#etap-5-słowa-których-słownik-nie-ma),
+a każdy wpis leksykonu projektu niesie to, skąd się w nim wziął.
+
+### Etap 5: konstrukcje, których żąda README
+
+Negacja wraz z dopełniaczem negacji, podrzędność, koordynacja,
+wyrażenie przyimkowe, przysłówek, bezokolicznik po czasowniku,
+zaimek wskazujący i liczebnik.
+
+Kolejki nie ustawia tu żaden bank drzew,
+i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
+Bank drzew rankinguje to, na czym staje parser,
+czyli konstrukcje, które w tekście ktoś napisał;
+generator staje na tym, czego nie ma czym powiedzieć,
+a tego nie widać w żadnym korpusie, tylko w dokumencie, który ma wyjść.
+Kolejkę ustawia więc README i nic poza nim.
+
+**Wyjście:** każda konstrukcja z tej listy wychodzi z drzewa,
+a to, czego po nich brakuje, mówi już różnica między składem a README,
+a nie lista spisana z góry.
+
+### Czego numeracja tego toru nie obejmuje
+
+Skład w sensie łamania tekstu — nierozdzielna spacja po wyrazie jednoliterowym,
+cudzysłowy, pisownia `nie` — nie potrzebuje ani drzewa, ani gramatyki,
+i stoi jako warstwa osobna w
+[design-notes.md](design-notes.md#the-separable-typographic-layer).
+Etapem nie jest, bo nic w tym torze na niego nie czeka,
+a jego miejsce w repozytorium rozstrzyga to,
+że reguły tej warstwy stoją już w pakiecie typograficznym lintera,
+czyli po stronie sprawdzania, a nie wypuszczania.
 
 ## Tor opcjonalny: linter
 

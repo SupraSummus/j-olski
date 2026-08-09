@@ -952,8 +952,6 @@ mówi o tym, czego drzewo nie niesie.
 Ruchem jest kategoria, która to rozstrzyga, dopisana do składni,
 a nie parametr szyku dopisany do linearyzacji:
 szyk jest tu skutkiem, a rzeczą do powiedzenia jest to, co stoi na czele.
-Wpis idzie przed każdym, który dokłada nowy szyk zdania,
-bo tamte będą tę kategorię realizować.
 
 `Robi` w `skład/składnia.py` daje dopełnieniu biernik,
 nie pytając leksykonu, który to samo pytanie po drugiej stronie już zadaje.
@@ -971,15 +969,52 @@ więc ruch nie dokłada danych, tylko odbiera zaszycie.
 
 `odmień` w `skład/morfologia.py` bierze pierwszą formę,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
-Pod spodem stoi drugie pytanie tego samego rodzaju:
-SGJP charakteryzuje także wyrazy potencjalne,
-więc synteza wypuszcza `projekta` obok `projekty`,
-a analiza ma na tę klasę `admissible` w `olski/subset.py`,
-czyli wykluczenie czytań, których polszczyzna nie ma.
-Do przeczytania jest wyjście `paradygmat` dla kilkunastu lematów tego rejestru
-wraz z tym, co [`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
-mówi o kryterium po drugiej stronie.
-Ruchem jest jedno kryterium czytane w obie strony,
-a nie drugie wykluczenie napisane obok tamtego,
-i dopiero po nim rozstrzygnięcie, czym ma być wybór między formami,
-które kryterium zostawi obie.
+Powody, dla których odpowiada kilka, są trzy i wyborem jest dopiero trzeci.
+Pierwszym jest kwalifikator, który `paradygmat` wyrzuca razem z resztą pól:
+`projekta` obok `projekty` i `dokumenta` obok `dokumenty`
+stoją w SGJP oznaczone jako `daw.`
+Drugim jest leksem, którego lemat nie wskazuje:
+`zamek:Sm3~a` i `zamek:Sm3~u` różnią się dopełniaczem,
+`Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` miejscownikiem,
+a identyfikator, który je rozróżnia, gubią oba kierunki,
+bo `olski/morph.py` ucina go przy analizie, a synteza pyta samym lematem.
+Trzecim jest to, co po tamtych dwóch zostaje.
+Do przeczytania jest wyjście polecenia, które te trzy klasy stawia obok siebie,
+z [`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
+wraz z tym, co `admissible` w `olski/subset.py` wyklucza po drugiej stronie
+i co o tym kryterium mówi
+[`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not).
+Ruchem jest czytanie obu pól, które słownik już niesie,
+oraz leksem postawiony tam, gdzie dziś stoi lemat, w drzewie i w czytaniu,
+a dopiero po nich rozstrzygnięcie, czym ma być wybór między formami,
+które oba kryteria zostawią.
+
+Leksykonu projektu nie ma, a rejestr, w którym się pisze, żąda go od obu kierunków:
+`komit`, `olski` i `lintować` dostają z SGJP `ign`,
+więc synteza nie ma czego wypuścić, a analiza czyta formę, której nie zna.
+Osobno stoi leksem, którego słownik nie ma, choć napis zna:
+projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
+a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego,
+czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
+Do przeczytania jest to, co
+[`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
+mówi o cenie słownika dołożonego Morfeuszowi i o tym, co wpis ma nazywać,
+wraz z `olski/leksykon.txt`, czyli jedynym plikiem tego rodzaju, który już stoi.
+Ruchem jest rozstrzygnięcie, czy wpis wypisuje formy,
+czy wskazuje leksem, wedle którego się odmienia,
+a po nim plik z wpisami na te słowa, których to repozytorium używa o sobie.
+
+Liczby wzięte nad własnym README stoją w dwóch dokumentach,
+a [`CLAUDE.md`](CLAUDE.md#checks) żąda, żeby liczby nad własną prozą nie zapisywać,
+bo rusza ją przeredagowanie, którego żadna reguła przeliczania nie dosięga.
+Jedno przeredagowanie rusza tam cztery liczby naraz:
+mianownik i dwie zgodności w
+[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
+oraz licznik klasy zdań w
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
+a temu, kto przeredagowuje, nie mówi o tym nic.
+Do przeczytania jest ta reguła wraz z listą przeliczeń pod nią i oba te akapity.
+Ruchem jest rozstrzygnięcie, które z dwojga:
+albo reguła dostaje wyjątek na figurę o kodzie liczoną nad własną prozą,
+wraz z przeliczeniem należnym przy przeredagowaniu README,
+albo te akapity przestają nosić mianownik i mówią o zgodzie bez niego.
