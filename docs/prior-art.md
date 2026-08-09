@@ -102,6 +102,32 @@ which is exactly the round-trip invariant made structural.
 There is a Polish concrete syntax in the Resource Grammar Library.
 Read this first.
 
+What it gives and where it stops for Polish are different answers.
+The abstract syntax is the part worth taking, and
+[design-notes.md](design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+owns what taking it means here.
+The morphology is the part olski is better equipped for,
+and the RGL's own status table says so:
+Polish carries Paradigms, Lexicon, Syntax and API,
+and carries neither `Dict` nor `WordNet` nor irregular verbs.
+So the words are where an application grammar stops.
+`LexiconPol.gf` is the RGL test vocabulary, a few hundred entries written by hand
+(`bad_A = mkRegAdj "zły" "gorszy" "źle" "gorzej"`),
+the public API in `ParadigmsPol.gf` offers `mkN`, `mkA2` and `mkAdv` and no verb
+constructor at all,
+and `mkN` picks an inflection pattern by matching the ending
+against the numbered tables in `NounMorphoPol.gf`,
+whose comments record the guesser as approximate.
+A verb goes in through the internal `VerbMorphoPol.gf`,
+which asks for two stems and two conjugation classes per lemma.
+Against that, SGJP below Morfeusz answers for nearly 456,000 lexemes
+without being asked to guess,
+which is the one place where this repository starts ahead.
+Read at commit-time state of the `master` branch;
+the files are in `src/polish/`.
+<https://www.grammaticalframework.org/lib/doc/status.html>
+<https://github.com/GrammaticalFramework/gf-rgl>
+
 **Attempto Controlled English** —
 a controlled natural language
 whose sentences map deterministically into first-order logic.

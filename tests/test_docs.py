@@ -43,7 +43,7 @@ DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
 #: is a document, or in a test's docstring.
 SOURCES = sorted(
     path
-    for package in ("olski", "harness", "sonda", "tests")
+    for package in ("olski", "harness", "skład", "sonda", "tests")
     for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"

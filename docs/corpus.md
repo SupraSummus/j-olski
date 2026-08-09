@@ -181,10 +181,10 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Seven sentences of that README derive once, and two derive twice.
+Eight sentences of that README derive once, and two derive twice.
 What stops the rest is the table above in another order:
-adverbs first, then the Polish form Morfeusz does not know,
-then subordinators level with the colon,
+adverbs and subordinators level at the front,
+then the Polish form Morfeusz does not know, level with the colon,
 then gerunds and the past tense, and numerals last.
 The comma stands in neither ranking, the grammar having it,
 and the punctuation left here is the colon that opens a list.
@@ -192,7 +192,7 @@ The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
-Six rejected sentences have no such word at all —
+Eight rejected sentences have no such word at all —
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku.` —
 which is that coarseness in the open:
