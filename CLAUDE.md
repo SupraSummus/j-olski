@@ -37,20 +37,34 @@ więc dopóki dokumenty stoją po angielsku,
 (zob. [gotowe frazy](#a-phrase-that-arrived-ready-made-was-not-chosen)),
 zostaje deklaracją.
 Po polsku da się ten tekst przepuścić przez olski,
-i `tests/test_docs.py` przepuszcza każdy dokument, który po polsku stoi,
-oraz każdy docstring i każdy blok komentarza, które po polsku stoją
+i `tests/test_docs.py` przepuszcza każdy plik, którego proza po polsku stoi:
+dokument prozą, a moduł docstringiem i blokiem komentarza
 (zob. [`docs/prose-in-code.md`](docs/prose-in-code.md)),
-więc żądanie schodzi z deklaracji do checka jednostka po jednostce.
+więc żądanie schodzi z deklaracji do checka plik po pliku.
 
-Dokument mieszany do tego checka nie wchodzi.
-Wchodzące wybiera próg udziału znaków diakrytycznych w całym pliku,
-a przekroczenie tego progu należy do przekładu całego dokumentu,
-a nie do jednej sekcji, którą ktoś w nim właśnie napisał po polsku.
-Powodem jest to, co pakiet robi nad angielskim zdaniem:
-puszczony nad angielską połowę takiego pliku
-zgłasza nad nią polską typografię.
-Dlaczego wybór nie schodzi za to do sekcji,
+Które to pliki, mówi lista [`tests/nie-po-polsku.txt`](tests/nie-po-polsku.txt).
+Plik na niej wypisany stoi poza checkiem,
+a plik, którego na niej nie ma, wchodzi cały,
+więc dokument mieszany i moduł mieszany czekają na przekład,
+a przekład, na który czekają, jest przekładem całego pliku.
+Wpis bierze się z rozstrzygnięcia, a nie z pomiaru nad tekstem,
+bo pomiar rusza się sam:
+udział znaków diakrytycznych liczony nad plikiem zmienia się z każdym akapitem,
+więc sekcja dopisana po polsku wciągnęłaby do checka plik mieszany,
+a przeredagowane zdanie wypchnęłoby z niego plik przełożony,
+i jedno, i drugie bez commitu, który by o tym rozstrzygał.
+Pierwsze kosztuje od razu, bo pakiet puszczony nad angielską połową pliku
+zgłasza nad nią polską typografię;
+drugie kosztuje ciszej, bo zdejmuje check i nie mówi o tym nigdzie.
+Czego taki pomiar nie rozstrzyga i nad czyim korpusem zostaje,
 mówi `polish_share` w `harness/__init__.py`.
+
+Wpis z listy zdejmuje przekład całego pliku, tym samym commitem co przekład.
+Jednostką pokrycia jest plik,
+bo tyle da się zadeklarować, nie zaglądając plikowi do środka.
+Plik, który dopiero powstaje, na liście nie stoi,
+więc check czyta go od pierwszego commitu,
+czego ta reguła od nowej prozy i tak żąda.
 
 Checkiem jest tu silnik reguł, a nie gramatyka.
 Gramatyka jest drugim żądaniem i znacznie węższym:

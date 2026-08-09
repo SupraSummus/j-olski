@@ -8,13 +8,17 @@ jest checkiem, bo [ekstrakcja](extraction.md) wyjmuje z dokumentu prozę.
 Nad modułem robi to samo `harness/python.py`:
 
 ```sh
-python3 -m harness.python olski harness tests --into proza/ \
-    --polish 0.12 --min-words 20
+python3 -m harness.python sonda --into proza/
 python3 -m olski proza/ --format report
 ```
 
-`tests/test_docs.py` robi to samo bez katalogu pośrodku,
-jednostka po jednostce, i tam ten check stoi.
+`tests/test_docs.py` robi to samo bez katalogu pośrodku
+i tam ten check stoi.
+Ekstrakcja o język nie pyta,
+więc puszczona nad modułem mieszanym wyciąga i angielskie docstringi.
+Pyta o niego lista plików, których proza po polsku w całości nie stoi,
+czyli [`tests/nie-po-polsku.txt`](../tests/nie-po-polsku.txt),
+a `sonda/` stoi w poleceniu wyżej dlatego, że lista jej nie wymienia.
 
 Ekstrakcja jest przekształceniem, na którym dopiero strzelają reguły,
 więc jest winna rachunek z tego, co zmyśla,
@@ -41,25 +45,27 @@ Projekt, którego polszczyzna siedzi w komentarzach,
 miałby czym zostać przeczytany, gdyby na listę wszedł,
 ale decyzją byłoby jego wejście, a nie istnienie tego pliku.
 
-## Jednostką jest docstring albo blok komentarza, a nie plik
+## Ekstrakcja schodzi do docstringa, a pokrycie zostaje przy pliku
 
 Dokument stoi w jednym języku, a moduł miesza dwa z założenia:
 słowa kluczowe, klucze konfiguracji i API bibliotek zostają po angielsku,
 a sekcja napisana przed regułą językową zostaje taka, jaka jest,
 bo regułę przyjmujemy leniwie.
-Próg policzony nad całym plikiem nie ma więc nad czym stanąć.
+Wychodzi więc stąd docstring i blok komentarza z osobna, a nie plik naraz,
+bo tyle stoi w jednym języku i tyle daje się nad cudzym repozytorium wybrać.
 
-Policzony nad jednostką potrzebuje jeszcze podłogi.
-Jednostka bywa krótsza od zdania,
-a udział diakrytyków nad ośmioma słowami skacze o całą ósmą,
-więc dobór ma obok progu podłogę na słowa,
-a jednostka spod podłogi wypada z korpusu,
-bo nad taką ten udział nie mówi, w jakim ona stoi języku.
-Obie liczby stoją w `tests/test_docs.py` i nie stoją w żadnym dokumencie,
-bo mierzy się je nad prozą tego repozytorium,
-którą rusza każde przeredagowanie komentarza,
-a [tam żadna reguła przebiegu nie sięga](../CLAUDE.md#checks).
-Ten dobór pokazuje polecenie wypisane wyżej.
+Doborem to nie jest, a przynajmniej nie tutaj.
+Które pliki tego repozytorium check czyta,
+mówi [lista](../tests/nie-po-polsku.txt) i nic poza nią,
+a [dlaczego wypisana, a nie policzona](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
+stoi przy regule językowej.
+Nad plikiem, którego lista nie wymienia, check bierze każdą jednostkę,
+także tę krótszą od zdania:
+w pliku zadeklarowanym po polsku nie ma czego wybierać.
+Próg i podłoga na słowa zostają przy `--polish` i `--min-words`,
+czyli przy ekstrakcji nad korpusem, którego nikt za nas nie zadeklarował,
+i to, czego one nie rozstrzygają,
+mówi `polish_share` w `harness/__init__.py`.
 
 Blokiem komentarza jest tyle sąsiadujących wierszy, ile czyta się naraz.
 Przerywa go wiersz kodu i przerywa go komentarz dopisany na końcu wiersza kodu,
@@ -125,11 +131,11 @@ czyli czytaną jak przykład, czyli wyrzucaną w całości.
   Nad tym repozytorium taki plik przewraca wcześniej cały suite,
   więc pominięcie go byłoby ciszą kupioną za nic.
 - **Dwa języki w jednej jednostce.**
-  Dobór schodzi do docstringa i niżej się nie zapuszcza,
+  Ekstrakcja schodzi do docstringa i niżej się nie zapuszcza,
   więc polskie zdanie w angielskim docstringu
-  albo przepada razem z tym docstringiem, albo wciąga go całego do korpusu.
-  Nad dokumentem to samo jest rozstrzygnięte i rozstrzygnięte inaczej:
-  plik mieszany [czeka na przekład w całości](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
-  bo tam jednostką mniejszą od pliku byłby akapit,
-  a akapit po angielsku cytujący polskie przykłady
-  niesie diakrytyków tyle samo, co polski.
+  albo przepada razem z tym docstringiem, albo wciąga go całego do korpusu,
+  zależnie od tego, co z tym docstringiem zrobi dobór nad cudzym repozytorium.
+  Nad tym repozytorium nic na tym nie stoi:
+  pokrycie bierze plik w całości,
+  a plik mieszany [czeka na przekład](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+  tak samo jak dokument.
