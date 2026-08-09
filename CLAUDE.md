@@ -539,9 +539,13 @@ Three more checks apply where a change moves a number
 that lives in a document because no test can reach it.
 Each names the document, and each is part of the change rather than after it.
 
-A change in the grammar or in the readings it is given
+A change in the grammar, in the readings it is given,
+or in what counts as one reading
 moves the tables in [`docs/corpus.md`](docs/corpus.md),
 which are the output of a run over a treebank the suite does not hold.
+The third of those is the one a session can make without noticing:
+`signature` in `olski/parse.py` is four lines and no production,
+and it moves every verdict the other two move.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 The same change moves what that document says about the run over the README,

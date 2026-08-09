@@ -631,28 +631,28 @@ pokazuje na `jury` i `menu`.
 Stoi na tym zdaniu
 [kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
 
-Jedna forma o dwóch czytaniach nominalnych daje olskiemu dwa czytania zdania.
-`wejście` ma w Morfeuszu czytanie `subst` i czytanie `ger`,
-a sygnatura czytania w `olski/parse.py` rozróżnia części mowy,
-więc produkcja z `ger` w głowie grupy imiennej
-daje `Wejściem jest zwykły tekst polski.` drugie czytanie tego samego kształtu
-i zabiera jedno z tych zdań, które olski dziś przyjmuje;
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) mierzy ten spadek.
-Rozstrzygnąć da się w dwóch miejscach i wybrać trzeba jedno.
-Albo `admissible` w `olski/subset.py`,
-które dziś żąda czytania funkcyjnego obok rzeczownikowego
-i tej pary nie obejmuje, dostaje drugie kryterium.
-Albo sygnatura przestaje liczyć część mowy tam, gdzie kształt drzewa jest ten sam,
-co jest tym samym argumentem, którym już pomija lematy,
-i wtedy `do` jako przyimek i jako nuta dalej są dwoma czytaniami,
-bo różnią się kształtem.
-Do przeczytania jest, ile takich par ten rejestr niesie:
-formy z czytaniem `ger` i `subst` naraz
-nad prozą wyciągniętą z dokumentów tego repozytorium,
-bo jedno zdanie nie mówi, które z dwóch wyjść jest warte swojej maszynerii.
-Wpis stoi przed rzeczownikiem odczasownikowym w gramatyce, a nie za nim,
-bo reguła dodana pierwsza obniża pokrycie
-i sesja, która ją doda, zmierzy spadek zamiast zysku.
+Wykluczenie ze słownika nie sięga po zaimek, a `go` jest grą.
+`CLOSED_CLASS` w `olski/subset.py` wylicza siedem klas zamkniętych,
+od przyimka po wykrzyknik, a zaimka wśród nich nie ma,
+więc `admissible` zostawia formie `go` czytanie `subst` obok `ppron3`,
+choć jest ono nieodmienne dokładnie tak jak nuta,
+której to samo wykluczenie odmawia
+([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)).
+Tam, gdzie oba czytania dają jeden kształt, nie kosztuje to nic,
+bo [czytanie jest kształtem](docs/subset.md#co-się-liczy-jako-jedno-czytanie),
+i tak wychodzą trzy z sześciu zdań, które tamta sekcja liczy.
+Zostaje to, gdzie kształty się różnią,
+czyli produkcja dająca głowie grupy imiennej dopełniacz po niej:
+zaimka jako głowy ta produkcja nie bierze, a rzeczownik bierze.
+Do przeczytania jest najpierw to, czy takie zdanie w ogóle jest,
+bo dopiero ono mówi, czy jest tu co naprawiać;
+przebieg nad Składnicą, który to pokaże, jest tym samym,
+którym mierzy się cenę
+[dwóch szerszych kryteriów](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi),
+czyli liczbą lasów tracących czytanie wybrane przez anotatorów.
+Ruchem, gdyby było, jest `ppron3` i `ppron12` dopisane do `CLOSED_CLASS`.
+Przeciw: zaimek nie jest wyrazem funkcyjnym w tym sensie, w którym są nim tamte,
+a kryterium rozszerzone na niego przestaje mówić to, co mówi dziś.
 
 Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
 `olski-corpus` prints the verdict tables, the length curve

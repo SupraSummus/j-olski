@@ -464,10 +464,19 @@ def test_readings_differing_only_in_lemma_or_feature_values_are_one_reading():
     assert len(verdict("Program zapisuje ustawienia.").result.readings) == 1
 
 
+def test_czytania_różniące_się_samą_częścią_mowy_są_jednym_czytaniem():
+    #  go jest zaimkiem i jest grą, a dopełnieniem jest jedno słowo tak czy tak,
+    #  więc oba wyprowadzenia mają ten sam kształt i czytelnik nie ma między czym
+    #  wybierać. Dochodzą tam dwiema produkcjami, a nie jednym terminalem, i jest
+    #  to zarazem czytanie, po które wykluczenie ze słownika nie sięga.
+    assert verdict("Znam go.").status == "valid"
+
+
 def test_zaimek_rzeczowny_nie_bierze_dopełniacza():
-    #  tego jest dopełniaczem ten przy podzbioru i dopełniaczem to obok niego, a
-    #  te dwa czytania różnią się częścią mowy, więc bez warunku ujemnego zdanie
-    #  wychodzi dwoma czytaniami tego samego kształtu.
+    #  tego jest dopełniaczem ten przy podzbioru i dopełniaczem to obok niego,
+    #  czyli raz przymiotnikiem przy rzeczowniku, a raz zaimkiem rządzącym
+    #  rzeczownikiem, więc bez warunku ujemnego zdanie wychodzi dwoma drzewami o
+    #  różnym kształcie i o identycznym streszczeniu ról.
     found = verdict("Celem jest parser tego podzbioru.")
     assert found.status == "valid", found.explain()
     assert found.readings[0]["Subject"] == "parser tego podzbioru"

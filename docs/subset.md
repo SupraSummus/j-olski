@@ -51,34 +51,97 @@ Rather than pay for machinery that resolves ambiguity,
 olski excludes the constructions that create it,
 and every later rule inherits the exclusion.
 
-## What counts as one reading
+## Co się liczy jako jedno czytanie
 
-Two derivations are the same reading
-when they have the same shape and the same parts of speech.
-Feature values and lemmas are deliberately excluded.
+Dwa wyprowadzenia są jednym czytaniem, kiedy mają ten sam kształt.
+Liczy się więc to, co strukturę zmienia:
+która fraza jest podmiotem, co jest dopełnieniem
+i gdzie przyłącza się modyfikator.
+Rozmyślnie wyłączone są trzy rzeczy, a każda z innego powodu.
 
-- **Lemmas.** `zapisuje` belongs to both `zapisywać` and `zapisować`.
-  Polish forms are homonymous everywhere,
-  so counting that as ambiguity would reject nearly the whole language.
-  Lexical ambiguity is the reader's to resolve.
-- **Feature values.** Whether a phrase settled on neuter plural
-  or masculine singular is not something a reader chooses between.
-  Agreement has already been enforced by unification.
+- **Lematy.** `zapisuje` należy i do `zapisywać`, i do `zapisować`.
+  Polskie formy są homonimiczne wszędzie,
+  więc liczone jako wieloznaczność odrzuciłyby prawie całą polszczyznę.
+  Wieloznaczność leksykalna jest do rozstrzygnięcia dla czytelnika.
+- **Wartości cech.** To, czy fraza stanęła na nijakiej mnogiej,
+  czy na męskiej pojedynczej,
+  nie jest rzeczą, między którą czytelnik wybiera.
+  Zgodność wymusiła już unifikacja.
+- **Części mowy.** Tam, gdzie część mowy zmienia strukturę,
+  różni te wyprowadzenia już kształt,
+  więc `do` jako przyimek i jako nuta dalej są dwoma czytaniami.
+  Zostaje przypadek, w którym kształt jest ten sam,
+  i tam nie ma czym różnicy uzasadnić.
 
-What does count is anything that changes the structure:
-which phrase is the subject, what the object is,
-where a modifier attaches,
-and whether a word is being read as a noun or a gerund.
+Ostatnie z tych trzech jest odwróceniem
+i stoi tu po to, żeby nikt go nie przywrócił przez przeoczenie:
+część mowy liczyła się obok kształtu.
+Rozstrzyga odsłownik.
+Morfeusz daje formie `zdanie` czytanie `subst` i czytanie `ger`,
+a produkcja z odsłownikiem w głowie grupy imiennej
+dawałaby każdemu takiemu zdaniu drugie wyprowadzenie tego samego kształtu,
+różniące się niczym, na co czytelnik mógłby zareagować.
+Nie jest to jedna forma ani klasa rzadka.
+Tę parę czytań niosą rzeczowniki,
+którymi ten rejestr mówi o samym sobie:
 
-This is the distinction
+```sh
+python3 -c 'import sys
+from olski.morph import analyse
+for forma in sys.argv[1:]:
+    print(forma, sorted({r.tag.pos for r in analyse(forma)[0].readings}))' \
+  zdanie czytanie wyrażenie polecenie wejście wyjście dopełnienie żądanie
+```
+
+Drugie wyjście z tej klasy było wykluczeniem w słowniku
+i stanęło na tym, że nie ma czego wykluczyć.
+Olski takie wykluczenie ma i pyta ono o czytanie funkcyjne obok rzeczownikowego
+([niżej](#the-dictionary-offers-readings-polish-does-not)),
+a tutaj oba czytania są nominalne,
+i szersze kryterium kasowałoby czytanie, które polszczyzna ma:
+`zdanie` jest i rzeczą, i czynnością.
+Wykluczenie odbiera formie czytanie, którego czytelnik nie ma,
+a to nie jest ten przypadek.
+
+Odwrócenie kupuje nad Składnicą 180723 sześć zdań,
+które pod żywą morfologią przechodzą z wieloznacznych do przyjętych,
+i ani jednego pod złotą, gdzie anotatorzy wybrali po jednym czytaniu na token;
+totale obu przebiegów trzyma
+[corpus.md](corpus.md#what-morphological-ambiguity-costs).
+Nad prozą README nie rusza ani jednego werdyktu.
+
+Te sześć zdań stoi na trzech parach części mowy i na dwóch mechanizmach.
+Dwie pary bierze jeden terminal:
+`Dziewczyna milknie zakłopotana.` stoi na `adj|ppas`,
+a `Mam ogromną prośbę.` na `fin|impt`.
+Trzeciej nie bierze żaden.
+`Znam go.` ma `subst` obok `ppron3`,
+a te dochodzą do grupy imiennej dwiema różnymi produkcjami,
+z których każda robi ją z jednego słowa.
+
+Ta trzecia jest zarazem czytaniem, którego polszczyzna nie ma,
+tyle że wziętym z drugiej strony.
+`go` jest grą i jest nieodmienne dokładnie tak jak nuta,
+więc wykluczenie ze słownika byłoby tu na miejscu i nie sięga,
+bo zaimek do klas zamkniętych nie należy.
+Kształt załatwia to za darmo,
+bo dopełnieniem jest tu jedno słowo tak czy tak.
+
+Reszta tego, co się kupuje, dopiero przyjdzie:
+odsłownik dopisany do gramatyki podnosi pokrycie, zamiast je obniżać,
+i to jest warunek, pod którym
+[roadmap.md](roadmap.md#etap-6-reszta-konstrukcji) go bierze.
+
+To jest to rozróżnienie, na którym
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
-got wrong and recorded:
-counting attempts rather than outcomes
-made it fall silent on lines it had understood perfectly.
+się przewrócił i to zapisał:
+liczenie prób zamiast wyników
+kazało tamtemu narzędziu milczeć nad wierszami, które zrozumiało bez reszty.
 
 ## The dictionary offers readings Polish does not
 
-Whether a word is read as a noun or as something else changes the structure,
+A word read as a noun rather than as a function word
+lands in a different shape,
 so by the rule above it is a second reading.
 One class of those is a second reading no Polish speaker has.
 
@@ -150,8 +213,8 @@ czytania tej samej formy samą wielką literą,
 traci 88 zdań — `Paweł`, `Niemcy`, `Bóg`, `Nowak`, `Róża` —
 i nie kupuje ani jednego.
 Kupić nie ma czego, bo taka para nie jest dwoma czytaniami:
-[czytanie liczy kształt i części mowy](#what-counts-as-one-reading),
-a nazwisko i rzeczownik pospolity są oba rzeczownikami.
+[czytanie jest swoim kształtem](#co-się-liczy-jako-jedno-czytanie),
+a nazwisko i rzeczownik pospolity stają w tym samym miejscu tego samego drzewa.
 Drugie czytanie tego zdania robił zaimek rzeczowny,
 którego dopełniacza [gramatyka nie bierze](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
 i to jest ta różnica, przy której kryterium na wielką literę
@@ -356,12 +419,12 @@ Refusing the wider attachment is what keeps that a rejection.
 Morfeusz daje formom paradygmatu `ten` czytanie rzeczownikowe obok
 przymiotnikowego: `tego` jest dopełniaczem przymiotnika `ten`
 i dopełniaczem zaimka `to`, a `tym` narzędnikiem jednego i drugiego.
-Te dwa czytania różnią się częścią mowy,
-więc [są dwoma czytaniami](#what-counts-as-one-reading),
-a nie jednym jak para lematów.
 Produkcja, która daje głowie grupy imiennej dopełniacz po niej,
-bierze wtedy oba: `parser tego podzbioru` jest przymiotnikiem przy rzeczowniku,
+bierze oba: `parser tego podzbioru` jest przymiotnikiem przy rzeczowniku,
 a drugi raz zaimkiem, który rządzi rzeczownikiem.
+Te dwa drzewa mają różny kształt,
+więc [są dwoma czytaniami](#co-się-liczy-jako-jedno-czytanie),
+a nie jednym jak para lematów.
 Bez warunku niżej `Celem jest parser tego podzbioru.` wychodzi dwoma czytaniami
 o identycznym streszczeniu ról.
 
@@ -400,8 +463,8 @@ a nie te, które pasują kształtem.
 `być` nie bierze dopełnienia w bierniku,
 a `On jest wolny.` ma czytanie, w którym bierze:
 `wolny` czyta się jako przymiotnik i jako rzeczownik,
-[a te dwa są dwoma czytaniami](#what-counts-as-one-reading),
-więc rzeczownikowe staje tam, gdzie produkcja czeka na biernik.
+a rzeczownikowe staje tam, gdzie produkcja czeka na biernik,
+[więc są to dwa czytania](#co-się-liczy-jako-jedno-czytanie).
 Takiego czytania nie ma żaden czytelnik tego zdania.
 
 Ramą jest zbiór dopełnień, jakie czasownik bierze,
@@ -527,8 +590,8 @@ bo `olski/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
 co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
 
 Cena i zysk są zmierzone nad Składnicą i idą w obie strony.
-Pod żywą morfologią przebieg przyjmuje 376 zdań zamiast 371,
-a wieloznacznych ma 238 zamiast 260.
+Pod żywą morfologią przebieg przyjmuje 382 zdania zamiast 377,
+a wieloznacznych ma 232 zamiast 254.
 Odrzuconych przybywa przy tym siedemnaście,
 i jest to jedna klasa: zdanie stało na dopełnieniu, którego w nim nie ma.
 `Wzrośnie w tym roku dostępność studiów wyższych.`

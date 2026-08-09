@@ -211,10 +211,11 @@ stands in a sentence that also has a gerund and a relative clause,
 and the past tense in
 `Każdy werdykt przychodzi z tym, co go wydało`
 stands in one that also has a numeral and a relative clause.
-So a production for the adverb, the past tense or the numeral,
-added by itself, leaves the accepted count exactly where it stands,
-the gerund puts it one lower,
-and all four at once come out below that count rather than above it.
+So a production for the adverb, the past tense, the numeral or the gerund,
+added by itself, leaves the accepted count exactly where it stands.
+What the four together come to is not read off those four,
+since the sentences above carry two of them each,
+and it gets measured when they are written.
 The class at the top of the queue behaves the same way.
 `Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md`
 is the sentence it alone would unblock,
@@ -233,19 +234,15 @@ so olski read two things as acting and as being acted upon.
 says `działać` takes no accusative object and that reading is gone,
 which leaves the numeral holding the sentence on its own.
 
-What the gerund costs comes from the dictionary rather than from the grammar.
+What the gerund would cost is the dictionary's to decide rather than the grammar's,
+and it comes to nothing.
 `wejście` carries a `ger` reading beside its `subst` one,
-and a reading is told apart by the part of speech of each word
-(`olski/parse.py`),
 so a production admitting a gerund as the head of a noun phrase
-gives `Wejściem jest zwykły tekst polski` a second reading of the same shape,
+gives `Wejściem jest zwykły tekst polski` a second derivation of the same shape,
 differing in nothing a reader could act on.
-The run accepts that sentence, so the count falls by one.
-This is the class
-[subset.md](subset.md#the-dictionary-offers-readings-polish-does-not) owns,
-under a criterion that section does not yet have:
-the exclusion there asks for a function-word reading beside the noun,
-and here both readings are nominal.
+Two derivations of one shape are
+[one reading](subset.md#co-się-liczy-jako-jedno-czytanie),
+so the run accepts that sentence either way.
 
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,
@@ -404,12 +401,12 @@ and with the exclusion below in force:
 | | gold | live |
 | --- | --- | --- |
 | rejected | 12,626 | 12,411 |
-| valid | 299 | 376 |
-| ambiguous | 100 | 238 |
+| valid | 299 | 382 |
+| ambiguous | 100 | 232 |
 
 Ambiguity is where the tagger's cost lands:
-138 more sentences carry more than one reading,
-which is 1.1% of the 13,025 measured.
+132 more sentences carry more than one reading,
+which is 1.0% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
 and the rate to watch as the grammar grows,
@@ -426,8 +423,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,409, 363 and 253.
-Fourteen of those 253 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,409, 369 and 247.
+Fourteen of those 247 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -480,7 +477,7 @@ and the live column is the run with that refusal in force.
 The substantival pronoun takes no genitive after it
 ([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
 and without that condition four of these sentences carry
-a second reading of the same shape —
+a second reading —
 `Weźmy dzieje sztuki tego okresu.`,
 `Od tego momentu jest naszym pośrednikiem.` —
 where `tego` is once the adjective in front of its noun
@@ -501,13 +498,13 @@ so both stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here a 77-sentence difference stands on 199 disagreements.
-The two runs accept the same 238 sentences.
-Live accepts 138 that gold rejects,
-and gold accepts 61 that live does not settle on:
-51 it finds ambiguous, 10 it rejects.
+and here an 83-sentence difference stands on 199 disagreements.
+The two runs accept the same 241 sentences.
+Live accepts 141 that gold rejects,
+and gold accepts 58 that live does not settle on:
+48 it finds ambiguous, 10 it rejects.
 
-The 138 are the warning in the table,
+The 141 are the warning in the table,
 and the largest single class of it is the one
 [the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 

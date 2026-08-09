@@ -127,8 +127,9 @@ and four things stop it.
 It counts derivations where olski counts readings.
 `counttrees` in `birnam_cleanforest.pl`
 multiplies subtree counts through the packed forest,
-while [subset.md](subset.md#what-counts-as-one-reading)
-quotients over lemmas and feature values so that only structure counts,
+while [subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)
+quotients over lemmas, feature values and parts of speech
+so that only structure counts,
 and writing that quotient against somebody else's tree shapes
 is most of the work with none of the design freedom.
 Deriving everything is the wrong primitive for a subset,
