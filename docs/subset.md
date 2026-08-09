@@ -255,7 +255,8 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   `Jan jest nauczycielem.`
   The copula is a closed list of lemmas
   (`być`, `zostać`, `zostawać`, `pozostać`, `pozostawać`),
-  and it is closed because it is the one entry the valency lexicon has
+  and it is closed because it is the one entry of the valency lexicon
+  that is written by hand
   ([below](#walencja-jest-leksykonem-o-ramie-domyślnej)),
   which is what keeps an instrumental adjunct from reading as a predicative
   under every other verb —
@@ -417,8 +418,10 @@ Stoi w nim czasownik, którego rama jest węższa niż domyślna,
 a każdy inny bierze domyślną,
 więc czasownik dopisuje się wpisem, a nie produkcją,
 i nie kosztuje ani jednego przyjętego zdania, dopóki wpisu nie ma.
-Wpis jest jeden i jest nim kopula:
+Ręcznie stoi w nim jeden wpis i jest nim kopula:
 narzędnika rama domyślna nie ma, a biernika nie ma rama kopuli.
+Reszta wpisów bierze się z Walentego i mówi jedno zdanie na lemat,
+o czym niżej.
 
 Rama domyślna nie jest wygodą, tylko warunkiem, żeby żądanie było żądaniem.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
@@ -454,7 +457,7 @@ Rama dochodzi do bezokolicznika tą samą drogą, co do formy osobowej,
 więc `mogą być interesującym materiałem` się wyprowadza,
 a produkcja wypisana osobno dla formy osobowej sięga tylko jej.
 
-Cena i zysk są zmierzone i stoją po jednej stronie morfologii.
+Cena i zysk kopuli są zmierzone i stoją po jednej stronie morfologii.
 Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdanie
 ani o ani jedno czytanie,
 bo anotatorzy wybrali po jednym czytaniu na token
@@ -465,13 +468,100 @@ a daje jednoznaczność tym, które stoją na nim obok czytania prawdziwego;
 [corpus.md](corpus.md#what-morphological-ambiguity-costs) trzyma liczby
 i zdania, które za nimi stoją.
 
-Leksykon o jednym wpisie zamyka tyle, ile ten wpis, i widać to na dwóch zdaniach.
-`Działają dwie rzeczy.` czeka na wpis mówiący, że `działać` dopełnienia nie bierze
-([corpus.md](corpus.md#where-the-analyses-stop) dochodzi do tego z drugiej strony),
-a `To ma pomagać pisać dobrą polszczyznę.` na ramy trzech czasowników naraz,
-bo tam pytanie brzmi, który z nich bierze biernik
-([design-notes.md](design-notes.md#podłoże-więzowe-zmierzone-sondą)).
-Czym rósłby ten leksykon i skąd, trzyma [TODO.md](../TODO.md).
+### Leksykon mówi jedno zdanie na lemat i bierze je z Walentego
+
+Wpis pisany ręcznie kosztuje tyle, co rozstrzygnięcie o jednym czasowniku,
+a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to.
+[Walenty](prior-art.md) charakteryzuje 17 224 lematy czasownikowe
+64 022 schematami i idzie na licencji CC BY-SA 4.0.
+Mówi przy tym o czasowniku znacznie więcej, niż ta gramatyka umie żądać,
+a rama olskiego ma cztery pozycje,
+więc przekład jest zejściem w dół i bierze z Walentego jedno zdanie:
+że czasownik nie bierze dopełnienia w bierniku.
+Zdanie jest ujemne, bo wpis leksykonu tylko zawęża.
+`olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
+czyli lematy, o których to zdanie jest prawdziwe;
+7 941 stoi ich tam dziś, licząc formy zwrotne osobno.
+Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
+Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
+
+Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
+Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,
+a wziąć mogą co innego,
+więc rama trzymana pod samym lematem zlewałaby te dwa czasowniki w jeden.
+Widać to na parze zdań, w której jedno przechodzi, a drugie nie:
+`Otwierają się drzwi.` wyprowadza się jednym czytaniem z podmiotem `drzwi`,
+a `Otwierają drzwi.` zostaje wieloznaczne, bo tam biernik stoi w ramie.
+
+Narzędnika przekład nie bierze, choć Walenty go zna.
+`inst` jest u olskiego pozycją orzecznika,
+a Walenty nie odróżnia jej od argumentu narzędnikowego — `bawić się czymś` —
+więc wpis wzięty stamtąd wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie.
+Dlatego kopula zostaje listą pisaną ręcznie.
+
+Bezokolicznika przekład też nie bierze, i to jest wynik pomiaru.
+Leksykon odmawiający bezokolicznika tym lematom, którym odmawia go Walenty,
+przyjmuje nad Składnicą dwa zdania mniej
+i nie kupuje za to ani jednej jednoznaczności.
+Płaci za to cząstka `się`, która staje przy formie osobowej,
+należąc do bezokolicznika za nią:
+`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
+któremu Walenty bezokolicznika nie daje.
+
+Bank drzew mówi o walencji sam.
+Frazy wymagane niosą w Składnicy swoją pozycję,
+więc każde zdanie z werdyktem `FULL` daje ramę swojego czasownika,
+a 13 035 takich zdań daje 17 896 wystąpień czasownika i 2 856 lematów.
+Źródłem ramy bank być nie może, bo 1 328 z tych lematów widać w nim raz,
+a rama wyprowadzona z jednego zdania zabrania wszystkiego, czego to zdanie nie miało.
+Sprawdzianem być może: z 616 lematów,
+którym Walenty odmawia biernika i które bank drzew zna,
+potwierdza 615.
+Jedynym sprzecznym jest `być` z 61 wystąpieniami,
+i są to zaprzeczone zdania egzystencjalne,
+w których pozycja `accgen` jest dopełniaczem, a nie biernikiem,
+czyli konstrukcja, [której olski nie ma](#what-it-does-not-cover-yet).
+Liczby tego akapitu bierze się ręcznie nad tym samym bankiem,
+tak jak te, o których mówi [corpus.md](corpus.md#fetching-it),
+bo `olski/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
+co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
+
+Cena i zysk są zmierzone nad Składnicą i idą w obie strony.
+Pod żywą morfologią przebieg przyjmuje 376 zdań zamiast 371,
+a wieloznacznych ma 238 zamiast 260.
+Odrzuconych przybywa przy tym siedemnaście,
+i jest to jedna klasa: zdanie stało na dopełnieniu, którego w nim nie ma.
+`Wzrośnie w tym roku dostępność studiów wyższych.`
+czytało się z dopełnieniem `dostępność studiów wyższych`,
+`Uczy się wykorzystania odpowiednich narzędzi.` z dopełnieniem `wykorzystania`,
+które jest tam dopełniaczem liczby pojedynczej, a czytało się jako biernik mnogiej,
+a `Pracujemy nad tą grupą dzień i noc.` z dopełnieniem `dzień i noc`,
+które jest okolicznikiem w bierniku, a takiego okolicznika olski nie ma.
+Ani jedno z tych czytań nie jest czytaniem, które ma czytelnik,
+więc odrzucenie stoi tu w miejscu analizy fałszywej, a nie w miejscu trafnej.
+To ostatnie zdanie jest zarazem jedynym, o które rusza się przebieg pod złotą
+morfologią: jedno z 300 przyjętych zdań ubywa i nie ubywa ani jedno czytanie,
+bo anotatorzy wybrali po jednym czytaniu na token.
+
+Plik wejściowy nie stoi w repozytorium, tak samo jak bank drzew:
+
+```sh
+curl -L -o walenty.zip \
+  'http://zil.ipipan.waw.pl/Walenty?action=AttachFile&do=get&target=walenty_20160418-text.zip'
+unzip walenty.zip
+python3 -m olski.walenty walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt \
+  > olski/leksykon.txt
+```
+
+Wpis wyprowadzony z Walentego jest utworem zależnym od niego,
+więc `olski/leksykon.txt` niesie w nagłówku atrybucję i tę samą licencję.
+
+Leksykon zamyka tyle, ile mówi, i widać to na zdaniu, które go doczekało.
+`Działają dwie rzeczy.` czekało na wpis mówiący, że `działać` dopełnienia nie bierze,
+i wpis ten stoi, a zdanie dalej się nie wyprowadza:
+zatrzymuje się teraz na liczebniku,
+czyli na [konstrukcji, której olski nie ma](#what-it-does-not-cover-yet),
+a nie na ramie.
 
 ## What it does not cover yet
 
@@ -498,16 +588,14 @@ and should not be:
 
 Two entries are not constructions but demands every construction makes:
 
-- **Valency, past its one entry.**
+- **Valency, past the accusative.**
   The lexicon [above](#walencja-jest-leksykonem-o-ramie-domyślnej)
-  records what the copula takes and what every other verb takes by default,
-  so any verb still accepts an accusative object,
-  an agreeing predicative and an infinitive.
-  `Działają dwie rzeczy.` is where that shows next,
-  and it shows in a register the treebank does not have:
-  [corpus.md](corpus.md#where-the-analyses-stop)
-  reads the numeral as acted upon
-  because nothing records that `działać` takes nothing.
+  records which verbs take no accusative object and nothing else,
+  so an agreeing predicative and an infinitive still go to every verb,
+  and so does the accusative for a lemma Walenty does not carry.
+  The infinitive is the position that was measured and left alone,
+  and what it waits on is `się` reaching the verb it belongs to
+  rather than the one it stands beside.
 - **A Polish form the dictionary does not have.**
   Morfeusz is asked not to guess at one (`olski/morph.py`),
   so it comes back tagged `ign`,
@@ -698,9 +786,9 @@ Zdejmuje z niej tę część, w której czasownik frazy wymaga —
 [leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-domyślnej),
 bo tam czytanie rzeczownikowe łamie schemat czasownika,
 a nie konkuruje z nim.
-Leksykon o jednym wpisie nie sięga do tych 13% nigdzie:
-kopula wyrażenia przyimkowego nie wymaga,
-więc liczba mówi, co zdjąłby leksykon dochodzący do każdego czasownika,
+Leksykon nie sięga do tych 13% nigdzie,
+bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
+więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
 a nie co zdejmuje ten.
 
 ## Implementation

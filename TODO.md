@@ -179,10 +179,9 @@ bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inn
 a próba nad prozą README stoi w `sonda/` gotowa do porównania.
 Tego pytania nie ma czym przeczytać nad listą czytań urwaną o `MAX_READINGS`,
 więc wpis o parserze tablicowym nad lasem idzie przed tym.
-Idzie przed tym także wpis o rosnącym leksykonie walencyjnym,
-bo to leksykon kasuje czytania, które rozwinięcie permutacji dopisuje,
-a mechanizm sam z siebie nie kasuje żadnego:
-ramę ma dziś kopula i nikt poza nią.
+Blokerem nie jest już leksykon walencyjny,
+bo to on kasuje czytania, które rozwinięcie permutacji dopisuje,
+i kasuje je dziś dla 7 934 lematów, a nie dla samej kopuli.
 Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
 `sonda/polszczyzna.py` jest drugą deklaracją tego samego podzbioru,
 czyli tym drugim właścicielem faktu, przed którym broni
@@ -504,26 +503,49 @@ albo dobór pytający o jednostkę zamiast o plik,
 czego `polish_share` w `harness/__init__.py` w docstringu odmawia nad akapitem
 i czym nad sekcją nie jest to samo pytanie.
 
-Leksykon walencyjny ma jeden wpis i nie widać, skąd wziąć drugi.
-[Rama](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) stoi w
-`WALENCJA` w `olski/subset.py`, dopisanie czasownika jest tam jednym wierszem,
-a tym, czego nie ma, jest podstawa, żeby ten wiersz napisać:
-`działać` dopełnienia nie bierze i mówi to
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
-ale mówi to z jednego zdania, a rama ma obowiązywać wszędzie.
-Do przeczytania jest to, co bank drzew o walencji trzyma sam:
-`SLOT` w `olski/corpus.py` czyta pole `tfw` fraz wymaganych,
-z którego dziś bierze się tylko podmiot i dopełnienie,
-a stoi w nim cała rama każdego zdania z werdyktem `FULL`.
-Ruchem jest przebieg zbierający ramy po lematach czasowników
-i przeczytanie, ile razy trzeba czasownik zobaczyć, żeby jego ramie wierzyć:
-rama wyprowadzona z jednego wystąpienia zabrania wszystkiego,
-czego to jedno zdanie nie miało, a takich lematów jest w banku najwięcej.
-Odpowiedzią bywa próg, a bywa Walenty
-([`docs/prior-art.md`](docs/prior-art.md)), czyli słownik pisany po to,
-i wtedy pytaniem jest jego licencja i rozmiar, a nie rzadkość.
-Zysk i cenę widać po tej stronie, którą rusza morfologia żywa,
-bo pod złotą walencja nie rusza ani jednego werdyktu.
+Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
+`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
+bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
+i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
+gdy zwrotny jest bezokolicznik.
+Płaci za to [leksykon](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
+a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
+więc przekład go nie bierze i mówi w `olski/walenty.py`, dlaczego.
+Ruchem jest cząstka licencjonowana przez czasownik, do którego należy,
+a nie przez ten, przy którym stoi.
+Do rozstrzygnięcia jest, czy da się to postawić bez czytania,
+w którym oba czasowniki biorą ją naraz,
+bo takie czytanie jest drugim czytaniem tego samego zdania.
+Zamierzone jest po tym powtórzenie tamtego pomiaru,
+bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
+
+Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
+[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-jedno-zdanie-na-lemat-i-bierze-je-z-walentego)
+— 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
+bo `_slot_role` w `olski/corpus.py` czyta z pola `tfw` dwie role olskiego,
+a rama czasownika stoi w tym polu cała.
+Ruchem jest zejście po wybranym drzewie do węzłów `zdanie`,
+wzięcie lematu głowy i pozycji fraz wymaganych obok niej,
+i porównanie tego z `WALENCJA` w `olski/subset.py`.
+Do rozstrzygnięcia jest, co taki przebieg drukuje:
+sama niezgodność jest liczbą, a pożytek z niej ma dopiero ten,
+kto widzi lemat, zdanie i pozycję, o którą poszło.
+Do rozstrzygnięcia jest też, czy to jest flaga `olski-corpus`,
+czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
+Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
+`olski/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
+
+Leksykon walencyjny mówi o bierniku i nie mówi o niczym innym.
+Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+nie bierze, bo `inst` jest u olskiego pozycją orzecznika,
+a Walenty nie odróżnia jej od argumentu narzędnikowego,
+więc kopula zostaje listą pisaną ręcznie w `olski/subset.py`.
+Do przeczytania jest, czy bank drzew tę różnicę widzi:
+pozycja `adjp(pred)` stoi w polu `tfw` obok `np(inst)`,
+a `olski/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.
+Gdyby ją widział, kopula przestaje być listą, a staje się wpisem jak każdy inny,
+i wtedy pytaniem jest, ile czasowników poza nią orzecznik w narzędniku bierze.
 
 `olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
 `_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik

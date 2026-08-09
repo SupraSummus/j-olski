@@ -55,12 +55,16 @@ a valency dictionary of Polish,
 recording for each lemma the syntactic frames it admits.
 The October 2017 version bundled with Świgra
 characterizes 17,820 lemmata with 97,293 schemata,
-and it is distributed under CC BY-SA 4.0 —
+and the April 2016 text release published on its own page has 17,224 verbal lemmata
+and 64,022 schemata.
+It is distributed under CC BY-SA 4.0 —
 a friendlier licence than the parser
 whose lexicons are generated from it.
-It is what olski would need
-in order to say which arguments a verb requires
-rather than merely permits.
+Olski's valency lexicon is derived from it,
+taking the one fact its own frame can carry —
+which verbs take no accusative object —
+and leaving the rest,
+for the reasons [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) gives.
 <http://walenty.ipipan.waw.pl/>
 
 **Składnica** —

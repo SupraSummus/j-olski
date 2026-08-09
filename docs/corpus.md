@@ -97,8 +97,8 @@ Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 12,625 | 96.9% |
-| valid | 300 | 2.3% |
+| rejected | 12,626 | 96.9% |
+| valid | 299 | 2.3% |
 | ambiguous | 100 | 0.8% |
 
 By length, which is the shape the curve actually has:
@@ -106,7 +106,7 @@ By length, which is the shape the curve actually has:
 | tokens | valid |
 | --- | --- |
 | 1–5 | 8.5% |
-| 6–10 | 2.4% |
+| 6–10 | 2.3% |
 | 11–20 | 0.1% |
 | 21–40 | 0.0% |
 
@@ -124,7 +124,7 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 3,258 | `-` (1,243), `,` (983), `.` (356), `–` |
+| `interp` | 3,259 | `-` (1,243), `,` (983), `.` (356), `–` |
 | `praet` | 2,849 | the past tense: `był` (92), `była`, `było` |
 | `qub` | 1,734 | particles: `nie` (552), `się` (345), `czy` |
 | `adv` | 1,133 | `teraz` (62), `bardzo`, `potem` |
@@ -224,16 +224,14 @@ and [TODO.md](../TODO.md) holds the finding that over this file
 those two arrive together or not at all.
 
 That exception says what else has to arrive.
-`Działają dwie rzeczy` needs the numeral and nothing else,
-and admitting one makes the sentence ambiguous rather than accepted:
-`dwie rzeczy` is nominative or accusative,
-a subjectless clause takes an object,
-and `działać` has no entry in
-[the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
-so olski reads two things as acting and as being acted upon.
-That is what the lexicon's one entry does not reach,
-found in this register rather than in the treebank,
-and it is what a second entry would be for.
+`Działają dwie rzeczy` needs the numeral and nothing else.
+Admitting one would once have made the sentence ambiguous rather than accepted,
+`dwie rzeczy` being nominative or accusative
+and a subjectless clause taking an object,
+so olski read two things as acting and as being acted upon.
+[The valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+says `działać` takes no accusative object and that reading is gone,
+which leaves the numeral holding the sentence on its own.
 
 What the gerund costs comes from the dictionary rather than from the grammar.
 `wejście` carries a `ger` reading beside its `subst` one,
@@ -301,8 +299,8 @@ On the 199 accepted sentences where the gold tree marks a role to compare:
 | disagrees | 1 | 0.5% |
 | partial | 1 | 0.5% |
 
-The denominator is 199 and not 300
-because the other 101 accepted sentences have no role to compare against:
+The denominator is 199 and not 299
+because the other 100 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
 The report prints that count under the table
@@ -374,7 +372,7 @@ so a grammar recording no valency
 has the trade predicated of passports rather than blooming in them.
 Two things keep it out and neither is about the predicative.
 `Kwitnąć` takes no instrumental,
-which is what the copula's frame says, the copula being the lexicon's only entry
+which is what the copula's frame says, the copula being the lexicon's hand-written entry
 ([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 and the verb-initial order with a predicative takes the agreeing one alone,
 which is a second refusal of the same sentence.
@@ -387,10 +385,16 @@ each an instrumental adjunct read as what its verb predicates.
 Three of the four are the frame's alone, the sentence above being the position's.
 Four fewer accepted and four fewer read backwards is the trade this section is for.
 
-That is the whole of what the lexicon moves under gold morphology.
-Its other half — that `być` takes no accusative object —
-moves nothing here,
-and the run it moves is the one below.
+The rest of the lexicon moves one sentence here and it moves it the same way.
+`Pracujemy nad tą grupą dzień i noc.` was accepted with `dzień i noc` for an object,
+`pracować` takes no accusative object,
+and olski has no accusative adjunct to read it as instead,
+so the sentence goes from read backwards to rejected.
+One fewer accepted and one fewer read backwards is the same trade again,
+and it is the whole of what the lexicon moves under gold morphology:
+no sentence loses a reading it had beside a true one,
+because the annotators chose one reading per token.
+The run the lexicon moves is the one below.
 
 ## What morphological ambiguity costs
 
@@ -399,13 +403,13 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,625 | 12,394 |
-| valid | 300 | 371 |
-| ambiguous | 100 | 260 |
+| rejected | 12,626 | 12,411 |
+| valid | 299 | 376 |
+| ambiguous | 100 | 238 |
 
 Ambiguity is where the tagger's cost lands:
-160 more sentences carry more than one reading,
-which is 1.2% of the 13,025 measured.
+138 more sentences carry more than one reading,
+which is 1.1% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
 and the rate to watch as the grammar grows,
@@ -422,8 +426,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,392, 343 and 290.
-Twenty-nine of those 290 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,409, 363 and 253.
+Fourteen of those 253 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -461,13 +465,12 @@ Where the exclusion does not reach is a competing noun that inflects:
 Do zwykłego koła wystarczy sam sznurek.
 ```
 
-Eight readings without it and four with it.
-It takes the four that make `Do zwykłego koła` a noun phrase
-rather than the fronted modifier the gold tree has,
-and leaves four that differ over `sam`,
-which Morfeusz reads as the adjective and as the self-service shop,
-and over whether `sam sznurek` is the subject of a verb-initial clause
-or the object of a pro-drop one.
+Two readings with it and the same two without it,
+so the exclusion reaches nothing here.
+They agree that `Do zwykłego koła` is the fronted modifier the gold tree has
+and that `sam sznurek` is the subject,
+and differ over `sam` alone,
+which Morfeusz reads as the adjective and as the self-service shop.
 The criterion asks for a reading that inflects for nothing
 and the shop declines like any other noun,
 so the sentence stays out of olski on a reading no reader of it has.
@@ -476,7 +479,7 @@ One reading Polish does not have is refused by the grammar and not by the lexico
 and the live column is the run with that refusal in force.
 The substantival pronoun takes no genitive after it
 ([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
-and without that condition five of these sentences carry
+and without that condition four of these sentences carry
 a second reading of the same shape —
 `Weźmy dzieje sztuki tego okresu.`,
 `Od tego momentu jest naszym pośrednikiem.` —
@@ -489,22 +492,22 @@ and that sentence is why the count is not a cost:
 Dotyczy to wszystkich kategorii zawodowych.
 ```
 
-Four readings without the condition,
-and each of the four reads `to wszystkich kategorii zawodowych` as one noun phrase.
+Two readings without the condition,
+and both read `to wszystkich kategorii zawodowych` as one noun phrase.
 Polish has `to` as the subject
 and the genitive as what `dotyczyć` governs,
 which is a production olski does not have,
-so the four stood on a phrase nobody wrote,
+so both stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here a 71-sentence difference stands on 199 disagreements.
-The two runs accept the same 236 sentences.
-Live accepts 135 that gold rejects,
-and gold accepts 64 that live does not settle on:
-54 it finds ambiguous, 10 it rejects.
+and here a 77-sentence difference stands on 199 disagreements.
+The two runs accept the same 238 sentences.
+Live accepts 138 that gold rejects,
+and gold accepts 61 that live does not settle on:
+51 it finds ambiguous, 10 it rejects.
 
-The 135 are the warning in the table,
+The 138 are the warning in the table,
 and the largest single class of it is the one
 [the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 

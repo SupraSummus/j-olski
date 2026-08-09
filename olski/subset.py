@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, replace
+from pathlib import Path
 
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, V, nt, word
@@ -46,6 +47,50 @@ FRAGMENT = "fragment"
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
+#: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny i
+#: bezokolicznik. Narzędnika w niej nie ma, i to jest to jedno miejsce, w którym
+#: rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze kopula i nikt
+#: poza nią.
+RAMA_DOMYŚLNA = "nom.acc.inf"
+
+#: Rama lematu, o którym leksykon mówi, że biernika nie bierze. Wyliczona z
+#: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
+RAMA_BEZ_BIERNIKA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "acc")
+
+#: Lematy, którym Walenty odmawia dopełnienia w bierniku, generowane przez
+#: ``olski/walenty.py``, który mówi, co stamtąd bierze, a czego nie.
+LEKSYKON = Path(__file__).parent / "leksykon.txt"
+
+
+def _walencja(path: Path) -> tuple[dict[str, str], dict[str, str]]:
+    """Leksykon jako klasy walencyjne, osobno dla formy z cząstką ``się`` i bez niej.
+
+    Zwrotność jest drugim wymiarem klucza, a nie częścią lematu, bo Morfeusz daje
+    obu formom ten sam lemat, a wziąć mogą co innego: ``otwierać`` bierze
+    dopełnienie w bierniku, a ``otwierać się`` go nie bierze. Leksykon trzymany
+    pod samym lematem zlewałby te dwa czasowniki w jeden i kłamał o obu.
+
+    Kluczem klasy jest rama, a nie lemat, bo tak wychodzi produkcja: powstaje raz
+    na ramę, a nie raz na lemat. Kopula zabiera leksykonowi swoje lematy, zamiast
+    stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
+    co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
+    """
+    gołe: set[str] = set()
+    zwrotne: set[str] = set()
+    for wiersz in path.read_text(encoding="utf-8").splitlines():
+        if wiersz.startswith("#") or not wiersz.strip():
+            continue
+        lemat, cząstka = wiersz.split("\t")
+        (zwrotne if cząstka == "się" else gołe).add(lemat)
+    return (
+        {
+            RAMA_BEZ_BIERNIKA: "|".join(sorted(gołe - set(KOPULA.split("|")))),
+            "nom.inst": KOPULA,
+        },
+        {RAMA_BEZ_BIERNIKA: "|".join(sorted(zwrotne))},
+    )
+
+
 #: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami. Ramą jest
 #: zbiór dopełnień, nazwanych przypadkiem grupy, którą czasownik bierze, wraz z
 #: ``inf`` dla bezokolicznika, bo bezokolicznik przypadka nie ma.
@@ -54,13 +99,7 @@ KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 #: domyślnej, a każdy inny bierze domyślną, więc czasownik dopisuje się wpisem, a
 #: nie produkcją i nie kosztuje ani jednego przyjętego zdania, dopóki go nie ma.
 #: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
-WALENCJA = {KOPULA: "nom.inst"}
-
-#: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny i
-#: bezokolicznik. Narzędnika w niej nie ma, i to jest to jedno miejsce, w którym
-#: rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze kopula i nikt
-#: poza nią.
-RAMA_DOMYŚLNA = "nom.acc.inf"
+WALENCJA, WALENCJA_ZWROTNA = _walencja(LEKSYKON)
 
 #: Zaimek rzeczowny, którego Morfeusz daje obok przymiotnikowego `ten`. Dopełniacza
 #: nie bierze: `tego podzbioru` jest przymiotnikiem przy rzeczowniku i niczym
@@ -74,15 +113,20 @@ ZAIMEK_RZECZOWNY = "to"
 AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 
 
-def _klasy() -> list[tuple[dict[str, str], str]]:
+def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     """Klasy walencyjne: warunek na lemat i rama, którą ten warunek wpuszcza.
 
     Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
     leksykonu naraz, bo klasy mają się nie zachodzić: forma wzięta dwiema klasami
     byłaby dwoma czytaniami tego samego kształtu.
+
+    Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
+    lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
+    jak każdy inny nieznany.
     """
-    klasy = [({"lemma": lematy}, rama) for lematy, rama in WALENCJA.items()]
-    return [*klasy, ({"bez_lematu": "|".join(WALENCJA)}, RAMA_DOMYŚLNA)]
+    leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
+    klasy = [({"lemma": lematy}, rama) for rama, lematy in leksykon.items()]
+    return [*klasy, ({"bez_lematu": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
 
 
 def build() -> Grammar:
@@ -268,7 +312,7 @@ def build() -> Grammar:
     # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
     # czasowników przechodziłaby reszcie za darmo, a żądanie „bądź kopulą” nie
     # byłoby wtedy żądaniem. Po to leksykon ma ramę domyślną.
-    for warunek, rama in _klasy():
+    for warunek, rama in _klasy(zwrotne=False):
         grammar.rule(
             "Verb",
             [word("fin|impt", number=V("n"), person=V("p"), **warunek)],
@@ -276,6 +320,14 @@ def build() -> Grammar:
             person=V("p"),
             valency=rama,
         )
+        grammar.rule(
+            "InfinitivePhrase",
+            [word("inf", **warunek), nt("Complements", valency=rama)],
+        )
+
+    # Czasownik zwrotny pyta o swój leksykon, bo bierze co innego niż forma bez
+    # cząstki: otwierać bierze dopełnienie w bierniku, a otwierać się go nie bierze.
+    for warunek, rama in _klasy(zwrotne=True):
         grammar.rule(
             "Verb",
             [
@@ -285,10 +337,6 @@ def build() -> Grammar:
             number=V("n"),
             person=V("p"),
             valency=rama,
-        )
-        grammar.rule(
-            "InfinitivePhrase",
-            [word("inf", **warunek), nt("Complements", valency=rama)],
         )
 
     grammar.rule(

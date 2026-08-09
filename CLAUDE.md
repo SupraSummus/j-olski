@@ -618,6 +618,19 @@ on which the finding that one of them buys nothing rests.
 A criterion refused stays refused when its price moves,
 so what the rerun protects is the number and not the decision.
 
+One file in this repository is generated, and regenerating it is part of the change.
+`olski/leksykon.txt` is the valency lexicon,
+which `olski/walenty.py` derives from Walenty,
+so a change to what that translation takes moves the file itself
+and the figures under
+[the lexicon's section](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+along with it.
+That document prints the command and says where the input comes from,
+as the corpora above do.
+The file is not edited by hand:
+an entry written into it directly is lost by the next run of the generator,
+and the reason for the entry is lost with it.
+
 One set of figures is moved by two programs rather than one.
 [The comparison the sonda took](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 counts the sentences olski and a second substrate agree about,
