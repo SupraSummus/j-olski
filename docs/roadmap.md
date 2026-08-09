@@ -58,6 +58,17 @@ Odwrócenie jest zamierzone:
 linter stał tu jako cel, a gramatyka jako tor obok niego,
 i tamten układ nie ma wracać przez przeoczenie.
 
+Opcjonalność jest przy tym rozstrzygnięciem o tym, przy czym się siada,
+a nie oceną planu niżej:
+praca idzie w oba tory wyżej,
+a tor lintera czeka.
+Przemawia za tym to samo, co wyżej za budowaniem parsera, czyli kształt werdyktu:
+reguła nad znakami wskazuje wystąpienie i nie twierdzi o nim nic,
+a wypowiedzieć się o zdaniu umie dopiero gramatyka.
+Wpisy dotyczące lintera zostają w [TODO.md](../TODO.md) na tych samych prawach
+co każdy inny, bo notatka o usterce nie przestaje być prawdziwa przez to,
+że tor czeka.
+
 ## Celem toru jest to README
 
 Kryterium wyjścia toru gramatycznego jest [README](../README.md) tego repozytorium:
@@ -400,12 +411,12 @@ a szyku nie ma zaszytego żaden konstruktor.
 
 ### Etap 2: walencja czytana raz
 
-`Robi` daje dopełnieniu biernik, nie pytając leksykonu,
-który to samo pytanie po stronie parsera już zadaje,
-więc `V.pomagać(R.linter, A.dobry * R.kod)` wypuszcza `Linter pomaga dobry kod.`
-i nie mówi o tym nigdzie.
-Ruch jest jeden — oba kierunki czytają `olski/leksykon.txt` —
-i trzyma go [TODO.md](../TODO.md).
+Rama czasownika jest faktem o słowie, a nie o kierunku, w którym się go używa,
+więc oba kierunki czytają `olski/leksykon.txt` przez `olski/walencja.py`:
+parser robi z niego klasy walencyjne, bo z klasy powstaje produkcja,
+a `Robi` w `skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewie.
+`V.pomagać(R.linter, A.dobry * R.kod)` zgłasza się więc zamiast wypuścić
+`Linter pomaga dobry kod.`
 
 Etap stoi przed konstrukcjami z tego samego powodu,
 co [etap 2 toru gramatycznego](#etap-2-walencja):
@@ -415,6 +426,7 @@ a leksykon dopisany przed nimi sprawdza się naraz wobec wszystkich.
 **Wyjście:** rama czasownika przychodzi z leksykonu,
 a drzewo żądające dopełnienia od czasownika, który go nie bierze,
 zgłasza się zamiast wypuścić zdanie, którego polszczyzna nie ma.
+Zaliczone, zob. `olski/walencja.py` oraz `PozaRamą` w `skład/składnia.py`.
 
 ### Etap 3: lemat nie wskazuje formy
 

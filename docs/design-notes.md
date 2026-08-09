@@ -1179,8 +1179,12 @@ the naturalness the project is aiming for.
 It follows that the **lexicon** is one declarative source read in both
 directions: what `używać` governs is a fact about a word,
 and a second copy of it drifts.
-[Walenty is already that source](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
-for the parsing direction.
+[Walenty is that source](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+and `olski/walencja.py` is what each direction reads it through:
+the parser turns it into the valency classes its productions need,
+and `Robi` in `skład/składnia.py` asks it about the one lemma it was handed.
+The two ask different questions of it, which is why what they share is the
+lexicon rather than an answer.
 
 The **grammar** is not, and binding the two costs more than it buys.
 Generation never meets the problem the grammar exists to solve:

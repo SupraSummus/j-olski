@@ -11,6 +11,11 @@ and the review also checks whether a change deleted the entries it closes.
 Look here before starting new work —
 the list doubles as a map of the places that sag.
 
+Lista nie mówi jednak, w który tor praca idzie.
+Wpis jest notatką po tym, na co ktoś przy innej robocie trafił,
+a nie kolejką, którą się odbiera po kolei,
+i rozstrzyga to [docs/roadmap.md](docs/roadmap.md#co-jest-budowane).
+
 An entry belongs here only if a commit in this repository closes it.
 A question the outside world answers —
 a measurement, which human Polish counts as the good half of the corpus,
@@ -953,19 +958,21 @@ Ruchem jest kategoria, która to rozstrzyga, dopisana do składni,
 a nie parametr szyku dopisany do linearyzacji:
 szyk jest tu skutkiem, a rzeczą do powiedzenia jest to, co stoi na czele.
 
-`Robi` w `skład/składnia.py` daje dopełnieniu biernik,
-nie pytając leksykonu, który to samo pytanie po drugiej stronie już zadaje.
-`olski/leksykon.txt` mówi, którym lematom Walenty biernika odmawia,
-a `WALENCJA` w `olski/subset.py` czyta go jako ramę czasownika,
-więc dwa tory mają tu jedno źródło i sięga po nie jeden.
-Do przeczytania jest ten leksykon wraz z tym,
-co [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
-mówi o ramie domyślnej i o tym, czego ten leksykon nie niesie.
-Ruchem jest wspólne czytanie leksykonu przez oba kierunki
-oraz `BrakFormy` albo wyjątek obok niego tam,
-gdzie drzewo żąda dopełnienia od czasownika, który go nie bierze.
-Rama domyślna jest tu tą samą odpowiedzią co przy parsowaniu,
-więc ruch nie dokłada danych, tylko odbiera zaszycie.
+`Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
+`Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
+w `tests/test_subset.py`, a ze składu nie wyjdzie,
+bo ten konstruktor woła `odmień` po lemacie `być` wpisanym w niego na stałe.
+Widać to dopiero od zmiany, po której rama czasownika przychodzi z leksykonu:
+`KOPULA` w `olski/subset.py` jest tą częścią walencji, której Walenty nie niesie,
+i [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+nazywa ją jedynym wpisem leksykonu pisanym ręcznie,
+a stoi ona w gramatyce, a nie w `olski/walencja.py`, czyli tam, gdzie leksykon.
+Do przeczytania jest ta sekcja wraz z wpisem o narzędniku,
+bo ten sam przekład rozstrzyga, czy kopula w ogóle zostaje listą.
+Ruchem jest `KOPULA` przeniesiona do `olski/walencja.py`
+oraz `Jest` biorące lemat tak, jak bierze go `Robi`,
+wraz z odmową dla czasownika, którego ta lista nie wymienia.
+Czyta ją stamtąd także `sonda/polszczyzna.py`, więc import idzie razem z nią.
 
 `odmień` w `skład/morfologia.py` bierze pierwszą formę,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.

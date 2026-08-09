@@ -627,6 +627,9 @@ czyli lematy, o których to zdanie jest prawdziwe;
 7 941 stoi ich tam dziś, licząc formy zwrotne osobno.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
+Czyta go `olski/walencja.py`, i czyta dla obu kierunków naraz,
+bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
+wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
 
 Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
 Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,

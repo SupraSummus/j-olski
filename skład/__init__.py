@@ -10,6 +10,9 @@ Podział jest dwuwarstwowy i to on jest tu decyzją.
 powiedzieć, i nie ma w sobie ani przypadka, ani rodzaju, ani szyku.
 ``skład.morfologia`` trzyma formy, które z tego wychodzą.
 Autor pisze drzewo, a zgodność jest liczona po drodze, a nie sprawdzana po niej.
+Liczona jest zgodność, a nie wszystko: rama czasownika przychodzi z leksykonu,
+więc drzewo, które żąda dopełnienia od czasownika biorącego co innego,
+zgłasza się przez ``PozaRamą``, zamiast powstać.
 
 Poziomem tych kategorii jest dziedzina, a nie język.
 ``Czyj`` mówi, co czego dotyczy, a nie że stoi tam dopełniacz,
@@ -17,7 +20,18 @@ i dlatego drzewo nie jest rozbiorem zdania zapisanym z góry.
 """
 
 from skład.morfologia import BrakFormy, odmień, rodzaj_rzeczownika
-from skład.składnia import Byt, Czyj, Jaki, Jest, Nominalne, Robi, Rzecz, byt, kompiluj
+from skład.składnia import (
+    Byt,
+    Czyj,
+    Jaki,
+    Jest,
+    Nominalne,
+    PozaRamą,
+    Robi,
+    Rzecz,
+    byt,
+    kompiluj,
+)
 
 __all__ = [
     "BrakFormy",
@@ -26,6 +40,7 @@ __all__ = [
     "Jaki",
     "Jest",
     "Nominalne",
+    "PozaRamą",
     "Robi",
     "Rzecz",
     "byt",

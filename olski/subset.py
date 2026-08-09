@@ -27,12 +27,12 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, replace
-from pathlib import Path
 
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Reading, Segment, analyse, tag
 from olski.parse import Result, describe, parse
+from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
 #: The roles a reading is summarized by when two of them have to be told apart.
 ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
@@ -57,37 +57,25 @@ RAMA_DOMYŚLNA = "nom.acc.inf"
 #: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
 RAMA_BEZ_BIERNIKA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "acc")
 
-#: Lematy, którym Walenty odmawia dopełnienia w bierniku, generowane przez
-#: ``olski/walenty.py``, który mówi, co stamtąd bierze, a czego nie.
-LEKSYKON = Path(__file__).parent / "leksykon.txt"
 
-
-def _walencja(path: Path) -> tuple[dict[str, str], dict[str, str]]:
+def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     """Leksykon jako klasy walencyjne, osobno dla formy z cząstką ``się`` i bez niej.
 
-    Zwrotność jest drugim wymiarem klucza, a nie częścią lematu, bo Morfeusz daje
-    obu formom ten sam lemat, a wziąć mogą co innego: ``otwierać`` bierze
-    dopełnienie w bierniku, a ``otwierać się`` go nie bierze. Leksykon trzymany
-    pod samym lematem zlewałby te dwa czasowniki w jeden i kłamał o obu.
+    Zwrotność jest drugim wymiarem klucza, a nie częścią lematu, i dlaczego,
+    mówi ``olski/walencja.py``, czyli ten, który leksykon czyta dla obu
+    kierunków. Tutaj zostaje to, co jest zdaniem samej gramatyki.
 
     Kluczem klasy jest rama, a nie lemat, bo tak wychodzi produkcja: powstaje raz
     na ramę, a nie raz na lemat. Kopula zabiera leksykonowi swoje lematy, zamiast
     stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
     co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
     """
-    gołe: set[str] = set()
-    zwrotne: set[str] = set()
-    for wiersz in path.read_text(encoding="utf-8").splitlines():
-        if wiersz.startswith("#") or not wiersz.strip():
-            continue
-        lemat, cząstka = wiersz.split("\t")
-        (zwrotne if cząstka == "się" else gołe).add(lemat)
     return (
         {
-            RAMA_BEZ_BIERNIKA: "|".join(sorted(gołe - set(KOPULA.split("|")))),
+            RAMA_BEZ_BIERNIKA: "|".join(sorted(BEZ_BIERNIKA - set(KOPULA.split("|")))),
             "nom.inst": KOPULA,
         },
-        {RAMA_BEZ_BIERNIKA: "|".join(sorted(zwrotne))},
+        {RAMA_BEZ_BIERNIKA: "|".join(sorted(BEZ_BIERNIKA_ZWROTNE))},
     )
 
 
@@ -99,7 +87,7 @@ def _walencja(path: Path) -> tuple[dict[str, str], dict[str, str]]:
 #: domyślnej, a każdy inny bierze domyślną, więc czasownik dopisuje się wpisem, a
 #: nie produkcją i nie kosztuje ani jednego przyjętego zdania, dopóki go nie ma.
 #: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
-WALENCJA, WALENCJA_ZWROTNA = _walencja(LEKSYKON)
+WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
 #: Zaimek rzeczowny, którego Morfeusz daje obok przymiotnikowego `ten`. Dopełniacza
 #: nie bierze: `tego podzbioru` jest przymiotnikiem przy rzeczowniku i niczym
