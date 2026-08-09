@@ -936,3 +936,50 @@ Przyczyna stoi w obu miejscach w pełnej precyzji,
 a jeden właściciel rozumowania żąda tam zdania ze wskaźnikiem.
 Wniosek, po który `firing-rates.md` po nią sięga, zostaje:
 różnica formatu jest większością tego, czym trafienia niżej nie są.
+
+Skład nie ma czym powiedzieć, co w zdaniu jest tematem, a co rematem,
+więc szyk jest zaszyty w linearyzacji i nie należy do niczyjej decyzji.
+`Jest` w `skład/składnia.py` zawsze wysuwa orzecznik,
+a `Jaki` zawsze stawia przymiotnik przed rzeczownikiem,
+choć polszczyzna ma oba szyki i różnią się one tym, co niosą:
+przymiotnik po rzeczowniku nazywa, a przed nim określa.
+Widać to bez żadnego pomiaru, na jednym zdaniu:
+README pisze `zwykły tekst polski`,
+a to samo drzewo wypuszcza `zwykły polski tekst`.
+Do przeczytania jest ta para wraz z tym,
+co [`docs/design-notes.md`](docs/design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+mówi o tym, czego drzewo nie niesie.
+Ruchem jest kategoria, która to rozstrzyga, dopisana do składni,
+a nie parametr szyku dopisany do linearyzacji:
+szyk jest tu skutkiem, a rzeczą do powiedzenia jest to, co stoi na czele.
+Wpis idzie przed każdym, który dokłada nowy szyk zdania,
+bo tamte będą tę kategorię realizować.
+
+`Robi` w `skład/składnia.py` daje dopełnieniu biernik,
+nie pytając leksykonu, który to samo pytanie po drugiej stronie już zadaje.
+`olski/leksykon.txt` mówi, którym lematom Walenty biernika odmawia,
+a `WALENCJA` w `olski/subset.py` czyta go jako ramę czasownika,
+więc dwa tory mają tu jedno źródło i sięga po nie jeden.
+Do przeczytania jest ten leksykon wraz z tym,
+co [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+mówi o ramie domyślnej i o tym, czego ten leksykon nie niesie.
+Ruchem jest wspólne czytanie leksykonu przez oba kierunki
+oraz `BrakFormy` albo wyjątek obok niego tam,
+gdzie drzewo żąda dopełnienia od czasownika, który go nie bierze.
+Rama domyślna jest tu tą samą odpowiedzią co przy parsowaniu,
+więc ruch nie dokłada danych, tylko odbiera zaszycie.
+
+`odmień` w `skład/morfologia.py` bierze pierwszą formę,
+gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
+Pod spodem stoi drugie pytanie tego samego rodzaju:
+SGJP charakteryzuje także wyrazy potencjalne,
+więc synteza wypuszcza `projekta` obok `projekty`,
+a analiza ma na tę klasę `admissible` w `olski/subset.py`,
+czyli wykluczenie czytań, których polszczyzna nie ma.
+Do przeczytania jest wyjście `paradygmat` dla kilkunastu lematów tego rejestru
+wraz z tym, co [`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
+mówi o kryterium po drugiej stronie.
+Ruchem jest jedno kryterium czytane w obie strony,
+a nie drugie wykluczenie napisane obok tamtego,
+i dopiero po nim rozstrzygnięcie, czym ma być wybór między formami,
+które kryterium zostawi obie.

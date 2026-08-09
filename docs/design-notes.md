@@ -960,10 +960,15 @@ Something in the spirit of:
 → Kot widział myszy.
 ```
 
-The third option was the working preference.
-The predictive-editor finding below
-partly rehabilitates the second,
-which is a better outcome than either.
+The third option is the working preference among these three,
+and the predictive-editor finding below partly rehabilitates the second.
+
+What is built is none of them but a fourth,
+because all three describe the sentence
+where the fourth describes what the sentence is about,
+and the ergonomic objection to the first therefore misses it:
+[Czwarta architektura](#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+owns it.
 
 ### The predictive editor changes this
 
@@ -986,6 +991,48 @@ and it is the strongest argument found so far
 for the second architecture over the third.
 
 See [similar-work.md](similar-work.md#the-habitability-problem).
+
+### Czwarta architektura: poziom dziedziny, a nie poziom języka
+
+Trzy powyższe stoją na poziomie rozbioru zdania albo niżej,
+i pierwsza z nich została odrzucona dokładnie za to:
+prozy nikt nie chce pisać drzewem rozbioru.
+Czwarta bierze drzewo, którego kategorie nie są kategoriami polszczyzny,
+tylko kategoriami tego, o czym się mówi,
+i zarzut wobec pierwszej jej nie dosięga.
+
+Ten poziom jest tym, co Grammatical Framework nazywa składnią abstrakcyjną,
+i tym, co ma się od niej wziąć.
+Konstruktor mówi, że jedna rzecz jest określeniem drugiej,
+a nie że stoi tam dopełniacz;
+że czegoś jest wiele, a nie że rzeczownik ma liczbę mnogą.
+Przypadek, rodzaj i formę liczy linearyzacja,
+bo żadne z nich nie jest rzeczą, którą autor chce powiedzieć:
+przypadek bierze się z pozycji, a rodzaj rzeczownika z leksykonu.
+
+Jednoznaczności ten zapis nie musi sprawdzać, bo ją ma:
+drzewo dobrze złożone jest jednoznaczne z definicji.
+To zdejmuje przy okazji wieloznaczność, której sam worek słów nie odróżnia,
+a która nad polszczyzną jest zwyczajna:
+`parser podzbioru` i `podzbiór parsera` są dwoma różnymi drzewami,
+choć stoją w nich te same lematy w tych samych rolach.
+
+Buduje to `skład/`, a `skład/składnia.py` trzyma kategorie i konstruktory.
+Zgodność jest tam liczona, a nie sprawdzana,
+więc gramatyki podzbioru ten kierunek nie potrzebuje
+([niżej](#the-round-trip-invariant)).
+
+Jednej rzeczy to drzewo nie niesie i jest to brak, a nie decyzja.
+Polszczyzna niesie szykiem temat i remat,
+więc `Wejściem jest zwykły tekst polski.` i `Zwykły tekst polski jest wejściem.`
+mówią to samo zdanie logiczne i co innego stawiają na czele.
+Drugi taki wybór jest wewnątrz grupy imiennej:
+przymiotnik przed rzeczownikiem określa, a po rzeczowniku nazywa,
+i dlatego README pisze `zwykły tekst polski`,
+a kompilator z tego samego drzewa wypuszcza `zwykły polski tekst`.
+Języki o szyku ustalonym tego wyboru nie mają,
+więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
+Co ma go rozstrzygać, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).
 
 ### Checks that are cheap, deterministic, and explainable
 
@@ -1074,10 +1121,30 @@ That still catches real generator bugs,
 and it stops the invariant from silently forbidding
 the naturalness the project is aiming for.
 
-It follows that grammar and lexicon
-should be one declarative source consumed by both directions,
-rather than a parser and a generator that drift apart.
-The rules should not be written twice.
+It follows that the **lexicon** is one declarative source read in both
+directions: what `używać` governs is a fact about a word,
+and a second copy of it drifts.
+[Walenty is already that source](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+for the parsing direction.
+
+The **grammar** is not, and binding the two costs more than it buys.
+Generation never meets the problem the grammar exists to solve:
+agreement stops being a constraint to reconcile and becomes a value to compute,
+as the section above says,
+so linearization needs no productions at all.
+What it would inherit instead is the parser's coverage,
+which over the [README](../README.md) is a handful of its sentences
+([corpus.md](corpus.md#where-the-analyses-stop) counts them),
+so a compiler restricted to the grammar could not produce that document.
+
+So the parser stays a witness rather than a dependency.
+Where a generated sentence happens to fall inside the subset,
+the round trip tests it and reports whichever way it reads;
+outside, it has nothing to say and the compiler is unaffected.
+`tests/test_skład.py` uses it in exactly that posture.
+The dependency also runs the other way than it first appears:
+generation exposes what the grammar *over*generates,
+which the parsing side sees only against a treebank.
 
 ## Known limits
 

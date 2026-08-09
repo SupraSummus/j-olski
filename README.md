@@ -62,7 +62,7 @@ Projekt jest dla przyjemności.
 
 ## Co działa
 
-Działają dwie rzeczy.
+Działają trzy rzeczy.
 
 **Gramatyka podzbioru polszczyzny**, nad Morfeuszem 2,
 w której zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie.
@@ -134,6 +134,25 @@ python3 -m harness.markdown korpus/ --into proza/
 
 Właścicielem tego, co ten krok zmyśla,
 jest [docs/extraction.md](docs/extraction.md).
+
+**Skład**, czyli ten sam Morfeusz czytany w drugą stronę.
+Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie.
+
+```python
+from skład import kompiluj
+from skład.słownik import A, R, V, jest
+
+kompiluj(jest(R.parser / R.podzbiór, R.cel))     # Celem jest parser podzbioru.
+kompiluj(V.sprawdzać(R.linter, ~(A.polski * R.tekst)))  # Linter sprawdza polskie teksty.
+```
+
+Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny:
+mówią, że jedna rzecz jest określeniem drugiej, a nie że stoi tam dopełniacz.
+Zgodność jest liczona po drodze, a nie sprawdzana po niej,
+więc ten kierunek nie potrzebuje gramatyki i nie dziedziczy jej pokrycia.
+Szyku to drzewo nie niesie i jest to jedyna dziura, o której wiadomo,
+że jest dziurą.
+Zobacz [docs/design-notes.md](docs/design-notes.md).
 
 Reszta repozytorium to notatki projektowe, przegląd pola,
 plan i otwarte pytania.
