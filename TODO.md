@@ -283,6 +283,9 @@ Ruchem jest wzięcie ich stamtąd, skąd bierze się je do raportu,
 czyli z `load_packs()`, a nie z tekstu pliku:
 `_fold` w `olski/rules.py` składa je do jednego akapitu przed użyciem,
 więc do lintera trafiłoby to samo, co czyta ktoś, kto raport dostaje.
+Do rozstrzygnięcia jest przy tym, co takie uzasadnienie wybiera:
+czy idzie za wpisem swojego modułu na [liście](tests/nie-po-polsku.txt),
+czy deklaracja jest tu jednostką osobną od pliku, w którym stoi.
 Do przeczytania jest to, co pakiet zgłasza nad tymi polami dzisiaj,
 bo wszystkie stoją po angielsku,
 a nad angielszczyzną ten check jest deklaracją tak samo,
@@ -485,23 +488,14 @@ so narrowing them out there takes them out of Polish too.
 The second answer also needs saying out loud,
 because the mixed state it passes through is what a reader will read as drift.
 
-`docs/subset.md` przeszedł próg polszczyzny, będąc dalej dokumentem mieszanym.
-`POLISH` w `tests/test_docs.py` stoi na 0,13 i ma przy sobie zapisane, po co:
-przy niższym pakiet dostaje angielską połowę pliku
-i zgłasza nad angielskimi zdaniami polską typografię.
-Udział liczony nad całym plikiem tego nie odróżnia,
-więc sekcja dopisana po polsku przeniosła ten plik przez próg,
-a angielska większość została tam, gdzie była.
-Dziś check nad nim przechodzi i to jest jedyny powód, dla którego to nie boli.
-Do przeczytania jest, ile trafień pakiet ma nad angielską połową tego pliku,
-bo dopiero to mówi, czy to jest usterka doboru, czy próg dobrze postawiony
-nad dokumentem, który i tak zaraz będzie przełożony.
-Wyjść są dwa i drugie jest tańsze, niż wygląda:
-przekład całego `docs/subset.md`, czego
-[reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) i tak od progu żąda,
-albo dobór pytający o jednostkę zamiast o plik,
-czego `polish_share` w `harness/__init__.py` w docstringu odmawia nad akapitem
-i czym nad sekcją nie jest to samo pytanie.
+`docs/subset.md` jest dokumentem mieszanym i przez to stoi na
+[liście plików, których check nie czyta](tests/nie-po-polsku.txt).
+Polskie sekcje dopisano tam do angielskiego dokumentu,
+a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+żąda przekładu całego pliku,
+więc dopóki go nie ma, linter nie czyta także tych sekcji, które już stoją po polsku.
+Ruchem jest przekład reszty dokumentu
+i skreślenie wpisu z `tests/nie-po-polsku.txt` tym samym commitem.
 
 Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,

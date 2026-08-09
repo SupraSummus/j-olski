@@ -82,19 +82,19 @@ def polish_share(text: str) -> float:
     same documents. Words are counted as olski counts them, so the share and the
     rates it selects for are measured over the same tokens.
 
-    A third population sits between those two: a document whose prose is English
-    and whose sections are being written in Polish one at a time. No threshold
-    separates it from either, so what settles it is the unit rather than the
-    number. The share is asked of a whole document, and a mixed one is left out
-    until it has been translated. Asked of a paragraph it separates nothing at
-    all, an English paragraph quoting Polish examples carrying as many diacritics
-    as a Polish one, so the finer unit is not available.
+    A third population sits between those two: a text whose prose is English and
+    whose sections are being written in Polish one at a time. No threshold
+    separates it from either, and no finer unit rescues the measure, an English
+    paragraph quoting Polish examples carrying as many diacritics as a Polish
+    one. So a share is evidence about somebody else's corpus, where nothing has
+    been declared and a number is all there is to go on.
 
-    It is available where the unit is a docstring or a block of comment, since
-    that unit is not a paragraph but everything one author wrote in one language,
-    and a floor on words is what keeps the shortest of them out of the measure.
-    So the threshold belongs to the caller rather than to this function, and
-    docs/prose-in-code.md owns what it takes to set one over code.
+    Over this repository's own prose nobody is reduced to that: which files stand
+    in Polish is written down in tests/nie-po-polsku.txt and read from there. A
+    share taken over our own text moves with any reword, so a measured selection
+    would hand this repository's coverage to whoever last edited a paragraph.
+    The threshold belongs to the caller rather than to this function, and
+    docs/extraction.md owns what it takes to set one over a corpus.
     """
     words = WORD.findall(text)
     return sum(1 for word in words if DIACRITIC.search(word)) / len(words) if words else 0.0

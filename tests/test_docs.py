@@ -22,6 +22,8 @@ demand that this repository not trip over what its own tool reports is a
 declaration; over a document written in Polish it is a check, and this is where
 it runs. It runs the same way over a docstring and a block of comment, which the
 language rule counts as prose like any other and docs/prose-in-code.md extracts.
+Which files stand in Polish is declared in tests/nie-po-polsku.txt rather than
+measured here, so what this check covers moves in a commit and not in a reword.
 """
 
 import re
@@ -29,10 +31,8 @@ from pathlib import Path
 
 import pytest
 
-from harness import polish_share
 from harness.markdown import prose
 from harness.python import jednostki
-from olski.document import WORD
 from olski.engine import lint_text
 from olski.rules import load_packs
 
@@ -47,25 +47,15 @@ SOURCES = sorted(
     for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
-#: Where a document counts as Polish, which is where it counts as translated.
-#: ``harness/__init__.py`` owns the measurement, and this sits at the bottom of
-#: the range it puts Polish in rather than in the gap below it, because the gap is
-#: where a document being translated section by section sits. Selecting one is
-#: what the threshold is set high to avoid: the pack pointed at the English half
-#: of a mixed file reports Polish typography over English sentences.
-POLISH = 0.13
-
-#: Gdzie po polsku jest jednostka kodu, czyli docstring albo blok komentarza.
-#: Próg jest wyżej niż nad dokumentem i ma pod sobą podłogę, bo populacje leżą
-#: tu bliżej siebie: komentarz po angielsku cytuje polskie przykłady, a
-#: jednostka bywa krótsza od zdania, więc udział liczony nad nią skacze o całe
-#: dziesiąte części. Liczb nie zapisujemy, bo mierzy się je nad prozą tego
-#: repozytorium i rusza je każde przeredagowanie komentarza, a nie zmiana w
-#: kodzie; poleceniem, które ten dobór odtwarza, jest::
-#:
-#:     python3 -m harness.python olski harness tests --into proza/ \
-#:         --polish 0.12 --min-words 20
-POLISH_UNIT, UNIT_FLOOR = 0.12, 20
+#: Zasięg tego checka wypisany, zamiast liczonego nad tekstem: pliki, których
+#: proza po polsku w całości nie stoi. Regułę, z której lista się bierze, trzyma
+#: ``CLAUDE.md``, a sam plik mówi, co wpis zdejmuje i czego nie gwarantuje.
+NIE_PO_POLSKU = ROOT / "tests" / "nie-po-polsku.txt"
+WYPISANE = [
+    wpis
+    for wiersz in NIE_PO_POLSKU.read_text().splitlines()
+    if (wpis := wiersz.strip()) and not wpis.startswith("#")
+]
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
 #: An entry in the README's list of documents, which is the only place that
@@ -118,16 +108,19 @@ def test_every_document_cited_from_code_resolves(source: Path, target: str):
     assert_resolves(ROOT / path, anchor, source.name)
 
 
-def polish_documents():
-    extracted = [(document, prose(document.read_text())) for document in DOCUMENTS]
+def po_polsku(paths: list[Path]) -> list[Path]:
+    """Te ze ścieżek, których lista nie wymienia, czyli te, które check czyta."""
+    return [path for path in paths if str(path.relative_to(ROOT)) not in WYPISANE]
+
+
+def polskie_dokumenty():
     return [
-        pytest.param(text, id=document.name)
-        for document, text in extracted
-        if polish_share(text) >= POLISH
+        pytest.param(prose(document.read_text()), id=document.name)
+        for document in po_polsku(DOCUMENTS)
     ]
 
 
-@pytest.mark.parametrize("text", polish_documents())
+@pytest.mark.parametrize("text", polskie_dokumenty())
 def test_every_polish_document_passes_the_linter_this_repository_is_about(text: str):
     report = lint_text(text, load_packs())
     #  The findings rather than their count, so that a failure reads as the
@@ -138,10 +131,8 @@ def test_every_polish_document_passes_the_linter_this_repository_is_about(text: 
 def polskie_jednostki():
     return [
         pytest.param(jednostka.tekst, id=f"{source.relative_to(ROOT)}:{jednostka.wiersz}")
-        for source in SOURCES
+        for source in po_polsku(SOURCES)
         for jednostka in jednostki(source.read_text())
-        if polish_share(jednostka.tekst) >= POLISH_UNIT
-        and len(WORD.findall(jednostka.tekst)) >= UNIT_FLOOR
     ]
 
 
@@ -159,6 +150,32 @@ def test_każda_polska_jednostka_kodu_przechodzi_przez_linter(tekst: str):
     #  Znaleziska, a nie ich liczba, żeby porażka czytała się jak zdanie, które
     #  ktoś ma poprawić.
     assert [f"{finding.rule.id}: {finding.message}" for finding in report.sorted()] == []
+
+
+@pytest.mark.parametrize("ścieżka", WYPISANE)
+def test_każdy_wpis_listy_nazywa_plik_który_check_inaczej_by_przeczytał(ścieżka: str):
+    """Wpis po pliku, którego nie ma, mówi o zasięgu nieprawdę i nic tego nie prostuje.
+
+    Przemianowanie pliku zostawia po sobie wpis, który już nikogo nie wymienia,
+    a plik pod nową nazwą wchodzi do lintera całą swoją angielszczyzną i bywa,
+    że przechodzi: reguły są pisane dla polszczyzny i nad angielskim zdaniem
+    najczęściej nie mają czego zgłosić. Zielony przebieg nie jest więc sam z
+    siebie świadectwem, że lista mówi prawdę, i stąd ten check.
+    """
+    assert ROOT / ścieżka in set(DOCUMENTS) | set(SOURCES), (
+        f"{ścieżka} z {NIE_PO_POLSKU.name} nie jest plikiem, "
+        "który ten check bez tej listy by przeczytał"
+    )
+
+
+def test_lista_stoi_alfabetycznie_i_bez_powtórzeń():
+    """Po to, żeby ścieżkę dało się znaleźć wzrokiem, a nie czytaniem całej listy.
+
+    Drugi powód jest gitowy: dopisują do niej osobne sesje, które o sobie nie
+    wiedzą, więc wpis wstawiony na swoje miejsce nie zderza się z cudzym.
+    """
+    assert sorted(WYPISANE) == WYPISANE
+    assert len(WYPISANE) == len(set(WYPISANE))
 
 
 def test_every_document_is_listed_in_the_readme():
