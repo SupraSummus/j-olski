@@ -5,9 +5,22 @@ pytest.importorskip("morfeusz2")
 import skład.składnia as składnia
 from olski.subset import WALENCJA, check
 from olski.walencja import bierze_biernik
-from skład import BrakFormy, Byt, Czyj, Jaki, PozaRamą, Rzecz, byt, kompiluj, odmień
+from skład import (
+    BrakFormy,
+    Byt,
+    Czyj,
+    Jaki,
+    Kontekst,
+    Koordynacja,
+    PozaRamą,
+    Rzecz,
+    byt,
+    kompiluj,
+    nie,
+    odmień,
+)
 from skład.składnia import Jest, Robi
-from skład.słownik import A, R, V, jest
+from skład.słownik import A, D, Dokąd, Gdzie, R, Skąd, V, czym, jest, nowe, razem, temat
 
 
 def test_zgodność_jest_liczona_a_nie_żądana_od_autora():
@@ -28,7 +41,7 @@ def test_ta_sama_rzecz_odmienia_się_wedle_pozycji_w_zdaniu():
         "linter sprawdza polski tekst"
     )
     assert Jest(byt(tekst), byt(Rzecz("wejście"))).linearyzuj() == (
-        "wejściem jest polski tekst"
+        "polski tekst jest wejściem"
     )
 
 
@@ -40,10 +53,10 @@ def test_kierunek_relacji_dopełniaczowej_jest_kształtem_drzewa():
     """
     parser, podzbiór = Rzecz("parser"), Rzecz("podzbiór")
     assert kompiluj(Jest(byt(parser / podzbiór), byt(Rzecz("cel")))) == (
-        "Celem jest parser podzbioru."
+        "Parser podzbioru jest celem."
     )
     assert kompiluj(Jest(byt(podzbiór / parser), byt(Rzecz("cel")))) == (
-        "Celem jest podzbiór parsera."
+        "Podzbiór parsera jest celem."
     )
 
 
@@ -143,3 +156,130 @@ def test_to_co_skład_wypuszcza_czyta_się_w_olskim_raz(drzewo):
     """
     werdykt = check(kompiluj(drzewo))[0]
     assert werdykt.status == "valid", werdykt.explain()
+
+
+@pytest.mark.parametrize(
+    ("podmiot", "oczekiwane"),
+    [
+        (R.kot, "kot mieszkał"),
+        (R.mysz, "mysz mieszkała"),
+        (R.zwierzę, "zwierzę mieszkało"),
+        (~R.mieszkaniec, "mieszkańcy mieszkali"),
+        (~R.mysz, "myszy mieszkały"),
+    ],
+)
+def test_czas_przeszły_zgadza_się_z_podmiotem_rodzajem_wziętym_z_leksykonu(podmiot, oczekiwane):
+    """Pięć form, bo pomyłką, którą tu widać, jest wzięcie rodzaju z jednego miejsca.
+
+    Forma przeszła zgadza się rodzajem, a teraźniejsza osobą,
+    więc czas jest tu żądaniem innym co do treści, a nie tylko co do wartości,
+    i to jest cały powód, dla którego stoi w ``CZASY`` jako dane.
+    Liczba mnoga rozdziela się przy tym na dwa rodzaje, a nie na pięć,
+    i dlatego stoją tu obie.
+    """
+    assert V.mieszkać(podmiot).linearyzuj(Kontekst(czas="kiedyś")) == oczekiwane
+
+
+def test_czasownik_bez_dopełnienia_woła_się_tak_samo_jak_z_dopełnieniem():
+    """O dopełnienie pyta rama z leksykonu, a nie kształt wywołania.
+
+    ``mieszkać`` biernika nie bierze, więc zdanie z dopełnieniem się zgłasza,
+    a bez dopełnienia wychodzi, i jest to jedno wywołanie o dwóch długościach.
+    """
+    assert kompiluj(V.mieszkać(R.kot)) == "Kot mieszka."
+    with pytest.raises(PozaRamą):
+        V.mieszkać(R.kot, R.dom)
+
+
+def test_przeczenie_zabiera_dopełnieniu_biernik_na_rzecz_dopełniacza():
+    """Dwie rzeczy naraz i dlatego jedna decyzja: ``nie`` przed czasownikiem i przypadek niżej.
+
+    Dopełniacz negacji jest miejscem, w którym kompilator liczy coś,
+    czego autor w drzewie nie napisał i nie miałby gdzie napisać.
+    """
+    assert kompiluj(V.mieć(R.miasto, R.obrońca)) == "Miasto ma obrońcę."
+    assert kompiluj(nie(V.mieć(R.miasto, R.obrońca))) == "Miasto nie ma obrońcy."
+
+
+def test_koordynacja_bierze_przypadek_z_pozycji_a_liczbę_od_każdego_członu_osobno():
+    """Jedna pozycja, kilka rzeczy: przypadek wspólny, liczba własna.
+
+    Interpunkcja tej listy jest polska: przecinek między członami,
+    a spójnik dopiero przed ostatnim.
+    """
+    części = razem([A.koguci * R.dziób, A.wężowy * R.ogon, ~(A.żabi * R.oko)])
+    assert kompiluj(V.mieć(R.bazyliszek, części)) == (
+        "Bazyliszek ma koguci dziób, wężowy ogon i żabie oczy."
+    )
+    assert razem([R.kot, R.mysz]) == Koordynacja((byt(R.kot), byt(R.mysz)))
+
+
+def test_rodzaj_koordynacji_jest_męskoosobowy_gdy_choć_jeden_człon_taki_jest():
+    """Tyle mówi polska zgodność i tyle liczy ta właściwość, zamiast pytać autora."""
+    assert (R.mysz & R.mieszkaniec).rodzaj == "m1"
+    assert (R.mysz & R.zwierzę).rodzaj != "m1"
+
+
+def test_ten_sam_przyimek_w_dwóch_relacjach_daje_dwa_przypadki():
+    """Relacja stoi w drzewie, a przypadek wychodzi z leksykonu, i to jest cała mechanika.
+
+    Nad samym przyimkiem tych dwóch zdań nie da się rozróżnić,
+    więc jest to ta sama wieloznaczność, którą ``Czyj`` zdejmuje w grupie imiennej.
+    """
+    assert Gdzie.w(R.piwnica).linearyzuj() == "w piwnicy"
+    assert Dokąd.w(R.kamień).linearyzuj() == "w kamień"
+    assert Skąd.z(R.piwnica).linearyzuj() == "z piwnicy"
+    assert czym(R.wzrok).linearyzuj() == "wzrokiem"
+
+
+def test_przyimek_postawiony_w_relacji_której_leksykon_nie_ma_zgłasza_się_od_razu():
+    """Zgłoszenie pada przy budowaniu drzewa, tak samo jak przy ramie czasownika."""
+    with pytest.raises(PozaRamą):
+        Skąd.do(R.piwnica)
+
+
+def test_przysłówek_wychodzi_w_stopniu_równym_także_wtedy_gdy_stopnia_nie_ma():
+    """Dwa przysłówki, bo o odmienności rozstrzyga leksem, a nie część mowy.
+
+    ``nagle`` stopniuje się i pierwszą formą w słowniku nie musi być równa,
+    a ``wkrótce`` stopnia nie ma wcale.
+    """
+    assert D.nagle.linearyzuj() == "nagle"
+    assert D.wkrótce.linearyzuj() == "wkrótce"
+
+
+def test_wyróżnienie_przestawia_konstytuenty_a_czasownik_zostaje_na_miejscu():
+    """Szyk jest wnioskiem z tego, co drzewo mówi o temacie i o tym, co nowe.
+
+    Trzy drzewa różnią się tu tylko wyróżnieniem,
+    więc wychodzą z nich trzy zdania o jednym znaczeniu logicznym
+    i trzech różnych rzeczach postawionych na czele.
+    """
+    gdzie = Gdzie.w(R.piwnica)
+    assert kompiluj(V.mieszkać(R.bazyliszek, gdzie)) == "Bazyliszek mieszka w piwnicy."
+    assert kompiluj(V.mieszkać(R.bazyliszek, temat(gdzie))) == "W piwnicy bazyliszek mieszka."
+    assert kompiluj(V.mieszkać(nowe(R.bazyliszek), temat(gdzie))) == "W piwnicy mieszka bazyliszek."
+
+
+def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
+    """Zdanie z README w dwóch szykach, żaden z nich nie zaszyty w konstruktorze.
+
+    Wysunięty orzecznik jest tu wyborem zapisanym w drzewie,
+    więc oba zdania mają jedno znaczenie logiczne i dwie różne rzeczy na czele.
+    Widać tu przy okazji dziurę, która została:
+    README pisze `zwykły tekst polski`, a grupa imienna wypuszcza `zwykły polski tekst`,
+    bo wyróżnienia wewnątrz niej ten zapis nie ma.
+    """
+    tekst = A.zwykły * A.polski * R.tekst
+    assert kompiluj(jest(tekst, R.wejście)) == "Zwykły polski tekst jest wejściem."
+    assert kompiluj(jest(nowe(tekst), temat(R.wejście))) == "Wejściem jest zwykły polski tekst."
+
+
+def test_dwa_konstytuenty_wyróżnione_tak_samo_zgłaszają_się_zamiast_stanąć_obok_siebie():
+    """Na czele stoi jedna rzecz, więc drugi temat jest drzewem błędnym.
+
+    Bez tego zdanie wychodzi ciche i przestawione,
+    a to jest gorszy koniec niż wyjątek, bo autor nie ma po czym poznać, co zrobił.
+    """
+    with pytest.raises(PozaRamą):
+        kompiluj(V.mieszkać(temat(R.bazyliszek), temat(Gdzie.w(R.piwnica))))

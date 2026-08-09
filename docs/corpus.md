@@ -181,7 +181,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Eight sentences of that README derive once, and two derive twice.
+Eight sentences of that README derive once, and three derive twice.
 What stops the rest is the table above in another order:
 adverbs and subordinators level at the front,
 then the Polish form Morfeusz does not know, level with the colon,

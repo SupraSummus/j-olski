@@ -579,6 +579,16 @@ rerun the two commands it prints and correct the sentences under them.
 The README prints a run of its own, verdicts and reading counts included,
 and it goes with those: a figure there is the first one a reader checks.
 
+That count has a second thing that moves it, and it is not a change to the code.
+Rewording the README moves it too, because the sentences it counts are that file's,
+and the rule against writing down a figure measured over this repository's own prose
+does not reach it: the figure is about the grammar and lives in another document.
+So the demand lands here instead.
+A commit that touches README prose reruns those same two commands
+and corrects the sentences under them,
+and that includes a commit whose subject is anything else —
+a paragraph added about a new capability moves the count exactly as a rewrite does.
+
 Two figures over that treebank live in `docs/subset.md` instead,
 where [what prepositional attachment costs](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
 counts the productions that give it a position

@@ -370,7 +370,11 @@ taki parametr opisuje zdanie, a to drzewo opisuje to, o czym zdanie jest.
 Drugie: przepisane zdanie README unieważnia drzewo, które je wypuszczało,
 więc co tor gramatyczny płaci przy zmianie kodu, ten płaci przy zmianie prozy.
 Reguły przeliczania tego rodzaju trzyma [CLAUDE.md](../CLAUDE.md#checks),
-a ta dojdzie tam razem z pierwszym plikiem drzew.
+a ta dojdzie tam razem z pierwszym plikiem drzew pisanym pod README.
+Drzewa, które już stoją, są opowieścią, a nie kopią README
+([`opowieści/bazyliszek.py`](../opowieści/bazyliszek.py)),
+i tekst, który mają wypuszczać, trzyma test, a nie inny dokument,
+więc reguły przeliczania tamte drzewa nie potrzebują.
 
 Etapy niżej porządkuje jedna zasada:
 to, co zmienia drzewo, idzie przed tym, co zmienia linearyzację.
@@ -393,9 +397,18 @@ Zaliczone, zob. `skład/` oraz [design-notes.md](design-notes.md#angle-two-skła
 
 ### Etap 1: temat i remat
 
-Polszczyzna niesie szykiem to, co stoi na czele, a to drzewo nie ma czym.
-`Jest` w `skład/składnia.py` wysuwa orzecznik zawsze,
-a `Jaki` stawia przymiotnik przed rzeczownikiem zawsze,
+Polszczyzna niesie szykiem to, co stoi na czele,
+i niesie to na dwóch poziomach naraz, z których ten zapis ma jeden.
+
+Na poziomie zdania niesie to `Wyróżnienie`:
+`Wejściem jest zwykły tekst polski.` i `Zwykły tekst polski jest wejściem.`
+wychodzą z dwóch różnych drzew, a szyku nie zaszywa ani `Jest`, ani `Robi`.
+Czasownik przy tym nie rusza się nigdy, więc przestawia się to, co stoi wokół niego,
+i tyle wystarcza na oba szyki orzeczenia imiennego oraz na zdanie prezentujące,
+czyli takie, które nową rzecz odsyła na koniec.
+
+Wewnątrz grupy imiennej nie niesie tego nic:
+`Jaki` w `skład/składnia.py` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to na jednym zdaniu, bez żadnego pomiaru:
 README pisze `zwykły tekst polski`, a to samo drzewo wypuszcza `zwykły polski tekst`.
@@ -405,9 +418,9 @@ Etap stoi pierwszy, bo każdy etap dokładający nowy szyk zdania
 będzie tę kategorię realizował,
 a drzewa napisane bez niej trzeba by przepisać razem z konstruktorami.
 
-**Wyjście:** `Wejściem jest zwykły tekst polski.`
-i `Zwykły tekst polski jest wejściem.` biorą się z dwóch różnych drzew,
-a szyku nie ma zaszytego żaden konstruktor.
+**Wyjście:** `zwykły tekst polski` i `zwykły polski tekst`
+biorą się z dwóch różnych drzew,
+tak jak biorą się z nich oba szyki orzeczenia imiennego.
 
 ### Etap 2: walencja czytana raz
 
@@ -472,9 +485,9 @@ a każdy wpis leksykonu projektu niesie to, skąd się w nim wziął.
 
 ### Etap 5: konstrukcje, których żąda README
 
-Negacja wraz z dopełniaczem negacji, podrzędność, koordynacja,
-wyrażenie przyimkowe, przysłówek, bezokolicznik po czasowniku,
-zaimek wskazujący i liczebnik.
+Podrzędność, bezokolicznik po czasowniku, zaimek wskazujący i liczebnik.
+Negacja wraz z dopełniaczem negacji, koordynacja, wyrażenie przyimkowe
+i przysłówek stoją już w `skład/składnia.py`.
 
 Kolejki nie ustawia tu żaden bank drzew,
 i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
@@ -482,7 +495,14 @@ Bank drzew rankinguje to, na czym staje parser,
 czyli konstrukcje, które w tekście ktoś napisał;
 generator staje na tym, czego nie ma czym powiedzieć,
 a tego nie widać w żadnym korpusie, tylko w dokumencie, który ma wyjść.
-Kolejkę ustawia więc README i nic poza nim.
+Kolejkę ustawia więc dokument i nic poza nim,
+a którym dokumentem jest, rozstrzyga to, co ten dokument mówi.
+Cztery pozycje odjęte wyżej wzięła
+[legenda o bazyliszku](../opowieści/bazyliszek.py), a nie README,
+bo opowieść żąda przeczenia i okoliczników miejsca,
+a README, stojące w czasie teraźniejszym, nie żąda żadnego z nich.
+Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
+[design-notes.md](design-notes.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
 
 **Wyjście:** każda konstrukcja z tej listy wychodzi z drzewa,
 a to, czego po nich brakuje, mówi już różnica między składem a README,
@@ -498,6 +518,14 @@ Etapem nie jest, bo nic w tym torze na niego nie czeka,
 a jego miejsce w repozytorium rozstrzyga to,
 że reguły tej warstwy stoją już w pakiecie typograficznym lintera,
 czyli po stronie sprawdzania, a nie wypuszczania.
+
+Etapem nie jest także warstwa nad zdaniem, czyli `skład/opowieść.py`,
+choć stoi i choć wypuszcza czas przeszły oraz opuszczony podmiot.
+Jest tak dlatego, że numeracja tego toru liczy to, czego brakuje jednemu zdaniu,
+a te dwie rzeczy są własnościami tekstu i żadne zdanie ich w sobie nie ma:
+zdanie nie wie, kiedy to było, ani o kim mowa była przed chwilą.
+Wywód trzyma
+[design-notes.md](design-notes.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
 
 ## Tor opcjonalny: linter
 

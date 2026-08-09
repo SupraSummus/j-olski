@@ -942,10 +942,8 @@ a jeden właściciel rozumowania żąda tam zdania ze wskaźnikiem.
 Wniosek, po który `firing-rates.md` po nią sięga, zostaje:
 różnica formatu jest większością tego, czym trafienia niżej nie są.
 
-Skład nie ma czym powiedzieć, co w zdaniu jest tematem, a co rematem,
-więc szyk jest zaszyty w linearyzacji i nie należy do niczyjej decyzji.
-`Jest` w `skład/składnia.py` zawsze wysuwa orzecznik,
-a `Jaki` zawsze stawia przymiotnik przed rzeczownikiem,
+Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
+więc `Jaki` w `skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
 choć polszczyzna ma oba szyki i różnią się one tym, co niosą:
 przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to bez żadnego pomiaru, na jednym zdaniu:
@@ -954,9 +952,29 @@ a to samo drzewo wypuszcza `zwykły polski tekst`.
 Do przeczytania jest ta para wraz z tym,
 co [`docs/design-notes.md`](docs/design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
-Ruchem jest kategoria, która to rozstrzyga, dopisana do składni,
-a nie parametr szyku dopisany do linearyzacji:
-szyk jest tu skutkiem, a rzeczą do powiedzenia jest to, co stoi na czele.
+Ruchem jest ta sama kategoria, którą zdanie już ma, wpuszczona do grupy imiennej:
+`Wyróżnienie` stoi w `skład/składnia.py` i przestawia konstytuenty zdania,
+a wewnątrz grupy nie sięga niczego, bo `Cechy` w `skład/słownik.py`
+zwija przymiotniki, zanim spotkają rzeczownik.
+Rozstrzygnięcia żąda przy tym co innego niż w zdaniu:
+tam wyróżnienie przestawia to, co i tak stało osobno,
+a tu przymiotnik postawiony po rzeczowniku zmienia znaczenie całej grupy,
+więc nazwa `temat` na to nie przystaje.
+
+Anafora w `skład/opowieść.py` sięga podmiotu i nic poza nim,
+a opowieść o bazyliszku pokazuje, gdzie to boli:
+`opowieści/bazyliszek.py` pisze `wzrok potwora` dwa razy,
+a polszczyzna napisałaby drugi raz `jego wzrok`.
+Tak samo dopełnienie: `Lustro pokazało bazyliszka` zamiast `Lustro pokazało go`.
+Do przeczytania jest to, co
+[`docs/design-notes.md`](docs/design-notes.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
+mówi o wąskim opuszczaniu podmiotu,
+bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm:
+zaimek postawiony tam, gdzie czytelnik trafia na dwie osoby, jest gorszy od powtórzenia.
+Ruchem jest zaimek osobowy w miejscu roli innej niż podmiot,
+liczony z tego samego `Kontekst`, oraz rozstrzygnięcie,
+czy `swój` i `jego` są jedną kategorią, czy dwiema,
+bo pierwszy odsyła do podmiotu zdania, a drugi poza nie.
 
 `Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
 `Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
@@ -995,6 +1013,36 @@ Ruchem jest czytanie obu pól, które słownik już niesie,
 oraz leksem postawiony tam, gdzie dziś stoi lemat, w drzewie i w czytaniu,
 a dopiero po nich rozstrzygnięcie, czym ma być wybór między formami,
 które oba kryteria zostawią.
+Ten sam wybór stoi piętro wyżej w `rodzaj_rzeczownika` w tym samym pliku,
+które bierze rodzaj alfabetycznie pierwszy:
+`kot` dostaje stąd `m1`, bo SGJP zna go i jako osobę, i jako zwierzę,
+a rodzaj jest tu wartością, z której liczy się zgodność całego zdania.
+Rozstrzygnięcie jest jedno, bo przyczyna jest jedna, więc idą razem.
+
+`rodzaj_rzeczownika` w `skład/morfologia.py` zgłasza `BrakFormy` nad rzeczownikiem,
+który liczby pojedynczej nie ma, bo szuka rodzaju w mianowniku pojedynczym.
+Kosztuje to podmiot: `drzwi` i `Włochy` nie staną w zdaniu, z którego wyjdzie czasownik,
+i nie staną w koordynacji, która rodzaju od członów żąda,
+choć jako dopełnienie wychodzą, i tak stoją w `opowieści/bazyliszek.py`.
+Do przeczytania jest to, co `paradygmat` w tym samym pliku dostaje z SGJP
+dla takiego leksemu: rodzaj stoi tam przy formach liczby mnogiej,
+więc rzecz jest w miejscu, w którym się go szuka, a nie w danych.
+Ruchem jest rodzaj brany z mianownika tej liczby, którą ten leksem ma,
+wraz z testem na obie liczby, bo inaczej poprawka pokryje jedną z nich.
+
+`skład/przyimki.py` zna przyimek w jednej postaci,
+więc `we Wrocławiu`, `ze wsi` i `pode mną` z drzewa nie wyjdą,
+a wyjdzie z niego `w Wrocławiu`, którego polszczyzna nie ma.
+Danych do tego nie brakuje: Morfeusz znakuje obie postaci cechą `vocalicity`,
+a `olski/morph.py` tę cechę czyta, więc `we` stoi w słowniku obok `w`.
+Brakuje warunku, kiedy postać zgłoskotwórcza jest tą właściwą,
+a jest to warunek fonologiczny nad tym, co po przyimku stoi,
+czyli jedyna rzecz w tym pakiecie, której nie da się wziąć z lematu ani z pozycji.
+Do przeczytania jest wyjście `paradygmat` dla `w`, `z` i `pod`
+wraz z tym, co `docs/prior-art.md` mówi o tym, czego ten słownik nie niesie.
+Ruchem jest ten warunek zapisany raz, w linearyzacji okolicznika,
+wraz z rozstrzygnięciem, czy wpis leksykonu wymienia obie postaci,
+czy jedną, a drugą liczy się z niej.
 
 Leksykonu projektu nie ma, a rejestr, w którym się pisze, żąda go od obu kierunków:
 `komit`, `olski` i `lintować` dostają z SGJP `ign`,

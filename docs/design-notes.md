@@ -1022,17 +1022,72 @@ Zgodność jest tam liczona, a nie sprawdzana,
 więc gramatyki podzbioru ten kierunek nie potrzebuje
 ([niżej](#the-round-trip-invariant)).
 
-Jednej rzeczy to drzewo nie niesie i jest to brak, a nie decyzja.
+Szyk to drzewo niesie, ale niesie go na jednym poziomie z dwóch.
 Polszczyzna niesie szykiem temat i remat,
 więc `Wejściem jest zwykły tekst polski.` i `Zwykły tekst polski jest wejściem.`
-mówią to samo zdanie logiczne i co innego stawiają na czele.
-Drugi taki wybór jest wewnątrz grupy imiennej:
+mówią to samo zdanie logiczne i co innego stawiają na czele,
+a `Wyróżnienie` jest tą kategorią, z której oba wychodzą.
+Kolejność słów jest z niej wnioskiem, a nie wariantem dopisanym do linearyzacji:
+czasownik zostaje na miejscu, a przestawia się to, co stoi wokół niego.
+Wewnątrz grupy imiennej takiej kategorii nie ma i jest to brak, a nie decyzja:
 przymiotnik przed rzeczownikiem określa, a po rzeczowniku nazywa,
 i dlatego README pisze `zwykły tekst polski`,
 a kompilator z tego samego drzewa wypuszcza `zwykły polski tekst`.
 Języki o szyku ustalonym tego wyboru nie mają,
 więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
-Co ma go rozstrzygać, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).
+Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).
+
+### Tekst wie to, czego zdanie o sobie nie wie
+
+Zdanie skompilowane osobno wypisuje każdą rzecz pełną nazwą
+i stawia ją w czasie, w którym stoi samo.
+Tekst wie dwie rzeczy więcej i obie zmieniają to, co wychodzi,
+więc `skład.opowieść` stoi nad `skład.składnia`, a nie obok.
+
+Pierwszą jest czas.
+Opowieść mówi o tym, co się stało, i mówi tak o wszystkich swoich zdarzeniach,
+więc czas przeszły jest własnością opowiadania, a nie któregokolwiek z nich.
+To samo drzewo opowiedziane jako to, co się dzieje, dałoby czas teraźniejszy,
+i dlatego czasu nie ma w drzewie, tylko w kontekście, w którym drzewo się wypisuje.
+
+Drugą jest tożsamość.
+Podmiot powtarzany zdanie po zdaniu czyta się źle,
+a polszczyzna ma na to sposób zwykły i tani: opuszcza go,
+bo osobę, liczbę i rodzaj niesie sam czasownik.
+Żeby go opuścić, trzeba wiedzieć, że dwa wystąpienia lematu są tą samą rzeczą,
+a tego jedno drzewo nie ma czym powiedzieć.
+Niesie to `Postać`, a rozstrzyga o tym zmienna, którą jej nadano:
+dwa razy napisany `R.bazyliszek` jest dwoma bazyliszkami,
+a dwa razy użyta jedna `Postać` jest jednym.
+Tożsamość jest więc deklaracją autora, a nie wnioskiem ze słownika synonimów,
+i widać to w tej samej opowieści na drugim określeniu:
+`bazyliszek` i `potwór` są dla tego kompilatora dwiema rzeczami.
+
+Opuszczenie jest wąskie i jest wąskie z tego samego powodu,
+dla którego po drugiej stronie stoi kryterium jednego czytania:
+opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
+Podmiot znika, gdy zdanie wcześniej miało ten sam podmiot
+i gdy stoi ono w tym samym akapicie, a poza tym stoi wypisany.
+
+### Najpierw tekst, potem drzewo, na końcu biblioteka
+
+Kolejność, w której powstał `opowieści/bazyliszek.py`, była odwrotna do zwykłej.
+Najpierw stanął polski tekst, który miał wyjść,
+potem drzewa, z których miał wyjść, a dopiero po nich to,
+czego tym drzewom w bibliotece brakowało.
+Kolejka konstrukcji wzięła się więc z tekstu, a nie z listy spisanej z góry,
+i wyszło z niej co innego, niż wyszłoby z README:
+opowieść żąda czasu przeszłego, przeczenia i okoliczników miejsca,
+a README, które stoi w czasie teraźniejszym, nie żąda żadnej z tych rzeczy.
+
+Kosztu ta kolejność ma tyle, że tekst wybrany pod kompilator
+mówi o kompilatorze mniej niż tekst, którego nikt pod niego nie pisał,
+i dlatego kryterium wyjścia toru zostaje przy README
+([roadmap.md](roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)).
+Zysk jest za to natychmiastowy:
+tekst napisany pod jedną legendę mieści się w jednym pliku i w jednej sesji,
+a każda rzecz, której z niego nie dało się wypuścić,
+jest brakiem pokazanym na zdaniu zamiast wyliczonym w planie.
 
 ### Checks that are cheap, deterministic, and explainable
 

@@ -137,22 +137,49 @@ Właścicielem tego, co ten krok zmyśla,
 jest [docs/extraction.md](docs/extraction.md).
 
 **Skład**, czyli ten sam Morfeusz czytany w drugą stronę.
-Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie.
+Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie,
+a z kilku drzew postawionych obok siebie wychodzi tekst.
 
 ```python
 from skład import kompiluj
 from skład.słownik import A, R, V, jest
 
-kompiluj(jest(R.parser / R.podzbiór, R.cel))     # Celem jest parser podzbioru.
+kompiluj(jest(R.parser / R.podzbiór, R.cel))     # Parser podzbioru jest celem.
 kompiluj(V.sprawdzać(R.linter, ~(A.polski * R.tekst)))  # Linter sprawdza polskie teksty.
 ```
 
 Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny:
-mówią, że jedna rzecz jest określeniem drugiej, a nie że stoi tam dopełniacz.
+mówią, że jedna rzecz jest określeniem drugiej, a nie że stoi tam dopełniacz,
+i że coś jest celem, a nie że stoi tam biernik.
 Zgodność jest liczona po drodze, a nie sprawdzana po niej,
 więc ten kierunek nie potrzebuje gramatyki i nie dziedziczy jej pokrycia.
-Szyku to drzewo nie niesie, a rzecz nazywa lematem tam, gdzie stoi leksem,
-i to są dwie dziury w nim samym.
+
+Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie:
+kiedy to było i o kim mowa była przed chwilą.
+Pierwsze daje czas przeszły,
+a drugie podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
+
+```python
+from skład import Akapit, Opowieść, Postać
+from skład.słownik import A, Gdzie, R, V, nowe, razem, temat
+
+bazyliszek = Postać(R.bazyliszek)
+Opowieść(Akapit(
+    V.mieszkać(nowe(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
+    V.mieć(bazyliszek, razem([A.koguci * R.dziób, A.wężowy * R.ogon])),
+)).kompiluj()
+# W piwnicy starej kamienicy mieszkał bazyliszek. Miał koguci dziób i wężowy ogon.
+```
+
+Szyk jest tu wnioskiem, a nie zapisem:
+drzewo mówi, co w zdaniu jest tematem, a co nowe, i dopiero z tego wychodzi kolejność.
+Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone:
+zmienna nazywa postać, funkcja jest wzorcem zdania albo akapitu,
+a lista wchodzi do zdania jako koordynacja.
+Całą legendę o bazyliszku warszawskim trzyma `opowieści/bazyliszek.py`.
+
+Rzecz nazywa lematem tam, gdzie stoi leksem,
+a szyku wewnątrz grupy imiennej nie niesie, i to są dwie dziury w nim samym.
 Czego brakuje pod nim, w leksykonie i w formach, i w jakiej kolejności to dochodzi,
 mówi [docs/roadmap.md](docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Zobacz [docs/design-notes.md](docs/design-notes.md).
