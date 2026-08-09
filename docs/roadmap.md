@@ -193,7 +193,7 @@ ale o to, co produkcja licencjonuje.
 
 Nazwiskowe czytanie rzeczownika, który zaczyna zdanie, z tej listy zeszło.
 Para lematów jednej formy nie jest dwoma czytaniami
-([subset.md](subset.md#what-counts-as-one-reading)),
+([subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)),
 więc jednoznaczności ta klasa nie kosztuje,
 a kryterium na pozycję nie kupuje ani jednego zdania i kosztuje zdania Składnicy.
 
@@ -261,7 +261,7 @@ Kolejka ze Składnicy stawia je na czele:
 czas przeszły nie kosztuje tam nic w mocy formalizmu
 i jest najtańszym dużym zyskiem, jaki wobec tamtego korpusu został.
 Wobec README podnoszą pokrycie dopiero razem,
-a rzeczownik odczasownikowy dodany sam je obniża.
+a żaden z czterech zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
 a nad łącznikiem i negacją nie mierzy nic,
 więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.

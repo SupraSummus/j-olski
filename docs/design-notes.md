@@ -209,7 +209,7 @@ where every question olski asks is a question about a tree:
 which phrase is the subject,
 where a modifier attached,
 and whether two derivations are
-[one reading](subset.md#what-counts-as-one-reading).
+[one reading](subset.md#co-się-liczy-jako-jedno-czytanie).
 Nor is the surplus one Polish has a use for.
 Type 1 adds copying and counting,
 which is the direction the Swiss German and Bambara arguments run in
@@ -659,8 +659,8 @@ a liczba z jednej pozycji ma się łączyć z liczbą z sąsiedniej tak,
 jak łączy je unifikacja.
 Pierwszy ma odpowiedź, drugi jej nie ma.
 
-Czytanie jest kwotowane po lematach i po wartościach cech
-([subset.md](subset.md#what-counts-as-one-reading)),
+Czytanie jest kwotowane po lematach, po wartościach cech i po częściach mowy
+([subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)),
 więc pozycja tablicy trzymana osobno dla każdego środowiska cech
 nie spakuje niczego i policzy wyprowadzenia zamiast czytań.
 Jest to dokładnie ten błąd, który zapisuje

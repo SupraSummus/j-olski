@@ -13,11 +13,10 @@ The parser answers three questions, and the third is the one that matters most:
    and worse, cannot be read reliably by a person either.
 
 Distinct readings, not derivations. Two derivations that describe the same
-structure with the same word readings are one reading. The distinction is not
-pedantic: it is exactly the mistake recorded in
-docs/glr-in-practice.md#ambiguity-as-a-confidence-measure, where a system fell
-silent on lines it had understood perfectly because it counted attempts instead
-of outcomes.
+structure are one reading. The distinction is not pedantic: it is exactly the
+mistake recorded in docs/glr-in-practice.md#ambiguity-as-a-confidence-measure,
+where a system fell silent on lines it had understood perfectly because it
+counted attempts instead of outcomes.
 
 Implementation note. This is a memoizing top-down enumerator over the
 segmentation graph, which is enough for a grammar without left recursion and
@@ -42,21 +41,19 @@ from olski.morph import Reading, Segment
 #: derivations and the answer past the second one is always the same: too many.
 MAX_READINGS = 64
 
-#: What makes two readings the same reading.
+#: Co czyni dwa czytania jednym czytaniem.
 #:
-#: Olski's uniqueness property is about structure: who is the subject, what the
-#: object is, where a modifier attaches, and what part of speech each word is
-#: being taken as. All of that shows up in the tree — role assignment in the node
-#: labels, attachment in the spans — so a reading is identified by its shape and
-#: its parts of speech, and by nothing else.
+#: Czytanie jest swoim kształtem i niczym więcej: role stoją w etykietach
+#: węzłów, przyłączenie w rozpiętościach, a wszystko, o co olski pyta, jest
+#: pytaniem o drzewo. Wyłączone rozmyślnie: wartości cech, bo zgodność wymusiła
+#: już unifikacja; lematy, bo polskie formy są homonimiczne wszędzie i liczone
+#: jako dwa odrzuciłyby prawie całą polszczyznę; części mowy, bo tam, gdzie
+#: zmieniają strukturę, różni wyprowadzenia już kształt — ``do`` jako przyimek i
+#: jako nuta dalej są dwoma czytaniami.
 #:
-#: Deliberately excluded: feature values and lemmas. Agreement has already been
-#: enforced by unification, so whether a phrase settled on neuter plural or
-#: masculine singular does not give a reader two things to choose between. And a
-#: form that belongs to two homonymous lemmas is one sentence, not two: Polish
-#: forms are homonymous everywhere, so counting those would reject nearly all of
-#: it. Lexical ambiguity is the reader's to resolve; structural ambiguity is what
-#: leaves a sentence saying two things at once.
+#: Ostatnia z tych trzech zeszła stąd rozmyślnie i nie ma tu wracać przez
+#: przeoczenie. docs/subset.md wywodzi, co ją zdjęło, ile to kupuje nad bankiem
+#: drzew i czego było warunkiem.
 
 
 class LeftRecursion(Exception):
@@ -73,7 +70,7 @@ class Leaf:
         return (self.segment.start, self.segment.end)
 
     def signature(self):
-        return (self.segment.start, self.segment.end, self.reading.tag.pos)
+        return self.span
 
     def forms(self) -> list[str]:
         return [self.segment.form]
