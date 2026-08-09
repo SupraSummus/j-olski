@@ -231,13 +231,38 @@ def test_coordination_does_not_loosen_agreement_inside_a_conjunct():
     assert verdict("Nowa programy i pliki mają nazwy.").status == "rejected"
 
 
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        "Wstaję, wyglądam przez okno.",
+        "Kobiety muszą zakrywać włosy, ramiona, nogi.",
+        "Plik jest nowy, duży.",
+    ],
+)
+def test_przecinek_koordynuje_na_każdym_poziomie_i_wyprowadza_raz(zdanie: str):
+    #  Trzy poziomy, bo przecinek dopisany do dwóch z nich zostawia trzeci na
+    #  spójniku i nikt tego nie zobaczy po zdaniu odrzuconym gdzie indziej. Raz,
+    #  a nie w ogóle: przecinek zdaniowy miał konkurować z przecinkiem w grupie
+    #  imiennej, a docs/subset.md trzyma pomiar mówiący, ile tej konkurencji
+    #  jest nad bankiem drzew.
+    assert verdict(zdanie).status == "valid"
+
+
+def test_koordynacja_przecinkiem_żąda_zgodności_tak_samo_jak_spójnik():
+    #  Usterka, przed którą to stoi: produkcja z przecinkiem dopisana bez cech
+    #  zgodności, która wygląda jak lustro produkcji ze spójnikiem i przyjmuje
+    #  grupę przymiotnikową uzgodnioną z niczym.
+    assert verdict("Pliki są nowe, duże.").status == "valid"
+    assert verdict("Pliki są nowe, duży.").status == "rejected"
+
+
 def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji():
     #  Dwie odpowiedzi, które Świgra trzyma osobno, i dwie różne roboty do
-    #  zrobienia. Przecinka i formy, której Morfeusz odmienioną nie zna, nie
-    #  bierze żaden terminal; Nowa program ma każdą formę wziętą i stoi na
-    #  zgodności rodzaju, więc test pilnuje, żeby zdania zostały dwa.
+    #  zrobienia. Formy, której Morfeusz odmienioną nie zna, nie bierze żaden
+    #  terminal; Nowa program ma każdą formę wziętą i stoi na zgodności rodzaju,
+    #  więc test pilnuje, żeby zdania zostały dwa.
     forma = verdict("Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md.")
-    assert forma.nielicencjonowane == (",", "commitów")
+    assert forma.nielicencjonowane == ("commitów",)
     assert "no production takes" in forma.explain()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()
@@ -256,11 +281,12 @@ def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
 
 
 def test_a_rejection_says_how_far_the_analysis_got():
-    #  The copula and the coordination are both in the grammar; the comma
-    #  joining two clauses is not, and the failure point is where it stands.
+    #  The copula, the coordination and the comma joining two clauses are all in
+    #  the grammar. A comma standing in front of the conjunction is not, so the
+    #  analysis gets past the comma and stops on ale, which is where it stands.
     result = verdict("Plany są niczym, ale planowanie jest wszystkim.").result
     assert result.rejected
-    assert result.furthest == 3
+    assert result.furthest == 4
 
 
 # --------------------------------------------------------------------------- #

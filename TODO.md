@@ -163,8 +163,8 @@ od precedencji.
 bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
-Sześć pozycji na wyrażenie przyimkowe i dwanaście produkcji, w których stoją,
-wylicza
+Sześć pozycji na wyrażenie przyimkowe i dwadzieścia jeden produkcji,
+w których stoją, wylicza
 [subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 i to jest ten pomiar, od którego się tu zaczyna.
 [Sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą) zmierzyła,
@@ -203,11 +203,18 @@ Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
+Koordynacja przecinkiem jest pierwszym miejscem, w którym te dwie deklaracje
+mówią co innego: olski bierze przecinek na trzech poziomach, a sonda spójnik,
+i nad prozą README nie widać tego po żadnej liczbie, bo tam nie stoi na tym
+ani jedno zdanie.
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
 kiedy szyk zejdzie do warunków precedencji i zostanie zmierzony,
-przestaje, i wtedy idzie `git rm -r sonda/`
-wraz z `tests/test_sonda.py`, z nazwą `sonda` w `SOURCES` z `tests/test_docs.py`,
+przestaje, i wtedy idzie
+`git rm sonda/__main__.py sonda/polszczyzna.py sonda/wiezy.py`
+wraz z `tests/test_sonda.py`,
 z figurami tamtej sekcji i z wierszem o niej w [sekcji Checks](CLAUDE.md#checks).
+Katalog zostaje, bo `sonda/przecinek.py` jest osobną sondą wokół osobnej decyzji,
+i zostaje z nim nazwa `sonda` w `SOURCES` z `tests/test_docs.py`.
 Zostaje z sekcji to, co figur nie potrzebuje:
 że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
 i że jednoznaczność bywa osiągana bez trafności.
@@ -216,14 +223,20 @@ Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
 a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
 jakim udało się tę liczbę odtworzyć:
-produkcji z córką `Adjuncts` albo `Modifier` jest dwadzieścia trzy,
-a przed dołożeniem pozycji okolicznika przy dopełnieniu było siedemnaście;
-samo `Modifier` wymienia siedem, a same `ClauseConjunct` z okolicznikiem dziewięć.
-Ruchem jest dopisanie do komentarza reguły liczenia i poprawienie liczby zgodnie z nią,
-bo bez reguły żadna zmiana w gramatyce nie umie tej liczby ponieść,
+produkcji z córką `Adjuncts` albo `Modifier` jest dwadzieścia pięć,
+samo `Modifier` wymienia siedem,
+a same `ClauseConjunct` z okolicznikiem osiem.
+Regułę liczenia rozstrzygnęła po swojej stronie
+[`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie):
+liczy produkcje, i te, które zdejmuje, mierząc, co pozycje przyłączenia kupują,
+czyli okolicznik stojący obok czegoś jeszcze
+albo wyrażenie dochodzące do frazy, która już coś przy sobie ma,
+i wychodzi ich dwadzieścia jeden.
+Ruchem jest przepisanie komentarza na regułę i liczbę,
+przy czym sonda liczy miejsca w zdaniu, a tamten dokument produkcje,
+więc albo przejmuje tę regułę, albo mówi, czemu liczy co innego.
+Bez reguły żadna zmiana w gramatyce nie umie tej liczby ponieść,
 a [sekcja Checks](CLAUDE.md#checks) każe ponieść figury sondy razem z gramatyką.
-Do rozstrzygnięcia jest przy tym, czy liczy się produkcje, czy miejsca w zdaniu,
-bo `Complements` ma cztery ciała na jedno dopełnienie, a miejsc dokłada dwa.
 
 Rama mówi, co czasownik bierze, i nie mówi, ile tego bierze.
 Dopełnień stoi przy czasowniku najwyżej jedno,
@@ -626,28 +639,6 @@ kosztuje przy każdej zmianie układu
 i nie broni niczego, czego by czytelnik nie zobaczył.
 Warte pisania są dwie rzeczy: podsumowanie, bo jest figurą, którą cytuje dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
-
-Przecinek stoi na czele kolejki i sam nie kupuje nic.
-`interp` prowadzi [tabelę blokerów](docs/corpus.md#where-the-analyses-stop),
-przecinek jest w tym wierszu drugą formą po pauzie,
-a pauza należy do rejestru, którego dokumentacja nie ma,
-więc to przecinek jest tym, co ta tabela naprawdę stawia jako następne.
-Ruchem jest koordynacja przecinkiem tam, gdzie stoi dziś spójnik:
-`Clause`, `NP` i `AP` mają każde swoją produkcję ze spójnikiem
-i żadne nie ma jej z przecinkiem.
-Przeczytane jest to, co te trzy produkcje robią nad prozą wyciągniętą z README,
-i nie robią nic:
-zdanie, które niesie w tym pliku przecinek,
-niesie też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy,
-więc reguła sama z siebie nie wyprowadzi tam ani jednego zdania
-i wchodzi razem z podrzędnym albo nie wchodzi wcale.
-Jest to własność całej kolejki, a nie tej jednej reguły,
-i pomiar nad czterema pozostałymi konstrukcjami trzyma
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop).
-Do przeczytania zostaje cena nad Składnicą,
-bo przecinek między zdaniami konkuruje z przecinkiem w grupie imiennej
-wszędzie tam, gdzie po przecinku stoi rzeczownik,
-a to jest ta wieloznaczność, której olski nie znosi.
 
 Rzeczownikowe czytanie przymiotnika zabiera README ostatnie zdanie
 i nie widać przy nim tego, co zdjęło zaimek.

@@ -221,16 +221,29 @@ a kryterium przyjęte zmierzone na Składnicy tym, ile zdań zabiera.
 
 ## Etap 4: zdanie złożone
 
-Przecinek zdaniowy oraz podrzędność z `że` i `który`.
-W kolejce z banku drzew interpunkcja stoi na czele,
-a formą, którą się w tym wierszu czyta, jest przecinek, nie myślnik:
-myślnik jest tam dialogiem z gazety,
-czego rejestr olskiego nie ma wcale
-([corpus.md](corpus.md#where-the-analyses-stop)).
-Wobec kryterium wyjścia tego toru jest to pozycja najdroższa i nie do ominięcia,
+Podrzędność z `że` i `który`, obok koordynacji przecinkiem, która już stoi.
+Koordynacja weszła osobno, bo osobno się ją zmierzyło:
+nie odbiera nad Składnicą ani jednego zdania już przyjętego
+i dokłada dwadzieścia dwa nowe,
+co wraz z tabelą i poleceniem trzyma
+[subset.md](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania).
+Kryterium wyjścia toru nie ruszyła:
+nad README nie zmienia ani jednego werdyktu,
+bo zdanie z przecinkiem niesie tam także zdanie podrzędne.
+Podrzędność jest więc tym, na czym ten etap stoi,
+i wobec kryterium wyjścia pozycją najdroższą i nie do ominięcia,
 bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
 
-**Wyjście:** zdanie łączące dwa zdania składowe przecinkiem albo spójnikiem podrzędnym
+Interpunkcji zostaje w kolejce z banku drzew tyle, ile w niej po przecinku:
+wiersz prowadzi myślnik, który jest tam dialogiem z gazety,
+czego rejestr olskiego nie ma wcale
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Bliżej stoi przecinek przed spójnikiem,
+czyli `Plany są niczym, ale planowanie jest wszystkim.`,
+którego ten etap nie ma
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+
+**Wyjście:** zdanie łączące dwa zdania składowe spójnikiem podrzędnym
 wyprowadza się i wyprowadza raz,
 a pokrycie nad README idzie w górę o te zdania, które na tym stały.
 

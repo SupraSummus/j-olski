@@ -414,6 +414,86 @@ would be an adjective agreeing with nothing
 and `nowa programy i pliki` would derive.
 Refusing the wider attachment is what keeps that a rejection.
 
+### Przecinek zmierzono i nie odbiera ani jednego zdania
+
+Znakiem koordynacji jest spójnik albo przecinek, na każdym z trzech poziomów,
+więc `Wstaję, wyglądam przez okno.` wyprowadza się i wyprowadza raz.
+Argumentem przeciw niemu jest jednoznaczność:
+przecinek między zdaniami składowymi konkuruje z przecinkiem w grupie imiennej
+wszędzie tam, gdzie po przecinku stoi rzeczownik,
+a zdanie, które przez to wychodzi dwoma czytaniami, olski odrzuca.
+Cenę tej konkurencji liczy `sonda/przecinek.py` i wychodzi zero,
+i to jest ta liczba, na której przecinek w tej gramatyce stoi.
+
+Mierzony jest ruch werdyktu, a nie stan gramatyki:
+zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
+a liczy się to, na czym te dwa werdykty się różnią.
+Poziomy zdejmują się osobno, bo cena każdego z nich jest osobną liczbą.
+
+```sh
+python3 -m sonda.przecinek Składnica-frazowa-180723/
+```
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez przecinka | 293 | 110 | 12 622 |
+| zdaniowy | 307 | 110 | 12 608 |
+| imienny | 301 | 115 | 12 609 |
+| przymiotnikowy | 293 | 110 | 12 622 |
+| wszystkie trzy | 315 | 115 | 12 595 |
+
+Mianownik jest ten sam, co w tabelach tamtego dokumentu:
+13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
+a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów,
+na które enumerator nie ma budżetu.
+
+Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
+Wieloznacznych przybywa pięć i wszystkie pięć przychodzi z odrzuconych,
+czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
+Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
+zdanie po zdaniu, i nie znajduje jej ani razu:
+żadnego zdania nie ruszają poziom zdaniowy i imienny naraz,
+i o żadnym oba naraz nie mówią czego innego niż każdy z osobna.
+Argument o konkurencji nie ma więc nad tym korpusem czego mierzyć.
+
+Po drugiej stronie stoi zakup: dwadzieścia dwa zdania przechodzą
+z odrzuconych na przyjęte, czternaście za poziom zdaniowy i osiem za imienny.
+Osiemnaście z nich ma role zgodne z drzewem wzorcowym,
+cztery nie mają w nim żadnej roli do porównania,
+a odwróconych i niezgodnych nie ma ani jednego,
+więc są to zdania przeczytane tak, jak przeczytali je anotatorzy.
+
+Pięć nowych wieloznaczności nie bierze się z przecinka, tylko z przyłączenia.
+`Warszawska kuria metropolitalna ma wśród swoich licznych włości nieruchomość
+w podwarszawskim Skolimowie, uzdrowiskowej dzielnicy Konstancina-Jeziorny.`
+wychodzi dwoma czytaniami, bo wyrażenie przyimkowe dochodzi do rzeczownika
+albo do czasownika, i tak samo różnią się czytania pozostałych czterech.
+Jest to ta sama wieloznaczność, którą olski
+[oddaje czytelnikowi](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera):
+koordynacja przecinkiem daje jej więcej miejsc, w których się mieści,
+a nie nowy rodzaj sporu.
+
+Poziom przymiotnikowy nie rusza ani jednego zdania w żadną stronę.
+Czy jest to własność polszczyzny, czy tego korpusu, ta liczba nie mówi:
+`duży, ciężki plecak` jest polszczyzną,
+a nad Składnicą nie ma zdania, w którym ta produkcja byłaby ostatnią brakującą.
+
+Nad rejestrem, o który olskiemu chodzi, przecinek nie kupuje nic.
+To samo porównanie nad prozą wyciągniętą z README —
+
+```sh
+python3 -m harness.markdown README.md --into proza/
+python3 -m sonda.przecinek proza/README.txt
+```
+
+— nie rusza ani jednego werdyktu w żadnym z pięciu wariantów,
+bo każde zdanie tego pliku, które niesie przecinek,
+niesie też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
+Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
+a kryterium wyjścia toru czeka na to, co w tych zdaniach stoi obok niego,
+i pierwsza jest tam podrzędność
+([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
+
 ## Zaimek rzeczowny nie rządzi dopełniaczem
 
 Morfeusz daje formom paradygmatu `ten` czytanie rzeczownikowe obok
@@ -631,10 +711,13 @@ a nie na ramie.
 Each of these is a sentence that gets rejected
 and should not be:
 
-- Clause-level punctuation.
-  Two clauses join with a conjunction and not with a comma,
+- A comma standing in front of a conjunction.
+  Two clauses join with a conjunction or with a comma
+  ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))
+  and not with both at once,
   so `Plany są niczym, ale planowanie jest wszystkim.`
-  fails at the third segment, on the comma.
+  gets past the comma and fails on `ale`,
+  which is how Polish punctuates that coordination.
 - The past tense, which
   [corpus.md](corpus.md#where-the-analyses-stop)
   ranks as the cheapest large gain left.
@@ -831,9 +914,12 @@ i każda z nich jest zwyczajną polszczyzną:
   (`akcja zbrojna w Strefie Gazy`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
 
-Wierszy jest sześć, a produkcji dwanaście,
+Wierszy jest sześć, a produkcji dwadzieścia jeden,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
+Liczy się je tak, jak się je zdejmuje:
+produkcja, w której okolicznik stoi obok czegoś jeszcze,
+albo w której wyrażenie dochodzi do frazy, co już coś przy sobie ma.
 
 Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
 i nie jest to zdanie odrzucone.
@@ -848,7 +934,7 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dziewięć zdań,
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dziewiętnaście zdań,
 a z nimi jedno, i to jedno nie jest wyborem, którego olski dokonał.
 Liczby trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).
