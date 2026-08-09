@@ -54,16 +54,23 @@ def paradygmat(lemat: str, pos: str) -> tuple[tuple[str, frozenset], ...]:
 def odmień(lemat: str, pos: str, **żądane: str) -> str:
     """Forma lematu, która spełnia żądanie postawione cechami.
 
+    Cechy, której cały paradygmat nie ma, żądanie nie dotyczy.
+    Żądanie jest tu kryterium wyboru, a nad kolumną o jednej wartości
+    kryterium nie wybiera niczego, więc odsianie po niej byłoby odsianiem wszystkiego.
+    Widać to na przysłówku: ``nagle`` ma stopień i ``wkrótce`` go nie ma,
+    a żądać stopnia równego trzeba od obu, bo o odmienności rozstrzyga leksem.
+    Cecha, którą paradygmat ma, a której ta forma nie niesie, żądania nadal nie spełnia,
+    i to jest różnica między brakiem wyboru a wyborem chybionym.
+
     Gdzie żądaniu odpowiada kilka różnych form, bierze pierwszą.
     To jest jedyne miejsce, w którym kompilator wybiera i nie mówi o tym,
     a reszta wyborów stoi w drzewie, które napisał autor.
     Czym ten wybór ma być, nie zapadło, i trzyma to ``TODO.md``.
     """
-    trafienia = [
-        forma
-        for forma, cechy in paradygmat(lemat, pos)
-        if _spełnia(dict(cechy), żądane)
-    ]
+    formy = paradygmat(lemat, pos)
+    obecne = {nazwa for _forma, cechy in formy for nazwa, _wartości in cechy}
+    kryterium = {nazwa: wartość for nazwa, wartość in żądane.items() if nazwa in obecne}
+    trafienia = [forma for forma, cechy in formy if _spełnia(dict(cechy), kryterium)]
     if not trafienia:
         raise BrakFormy(f"{lemat} ({pos}) nie ma formy {żądane}")
     return trafienia[0]

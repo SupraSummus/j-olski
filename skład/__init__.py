@@ -5,46 +5,73 @@ zdania, więc łamacz sprawdzający składnię mieści się w jednym słowie.
 Wywód, po co ten kierunek stoi obok parsera, trzyma
 ``docs/design-notes.md``.
 
-Podział jest dwuwarstwowy i to on jest tu decyzją.
+Podział jest trójwarstwowy i to on jest tu decyzją.
 ``skład.składnia`` trzyma kategorie i konstruktory, czyli to, co da się
 powiedzieć, i nie ma w sobie ani przypadka, ani rodzaju, ani szyku.
 ``skład.morfologia`` trzyma formy, które z tego wychodzą.
+``skład.opowieść`` trzyma to, co widać dopiero nad kilkoma zdaniami naraz:
+czas opowiadania i tożsamość tego, o kim mowa.
 Autor pisze drzewo, a zgodność jest liczona po drodze, a nie sprawdzana po niej.
 Liczona jest zgodność, a nie wszystko: rama czasownika przychodzi z leksykonu,
 więc drzewo, które żąda dopełnienia od czasownika biorącego co innego,
 zgłasza się przez ``PozaRamą``, zamiast powstać.
+Rekcja przyimka przychodzi tak samo, z ``skład.przyimki``.
 
 Poziomem tych kategorii jest dziedzina, a nie język.
 ``Czyj`` mówi, co czego dotyczy, a nie że stoi tam dopełniacz,
+``Dokąd`` mówi, że coś jest celem, a nie że stoi tam biernik,
 i dlatego drzewo nie jest rozbiorem zdania zapisanym z góry.
 """
 
 from skład.morfologia import BrakFormy, odmień, rodzaj_rzeczownika
+from skład.opowieść import Akapit, Opowieść, Postać
+from skład.przyimki import PRZYIMKI, przypadek
 from skład.składnia import (
     Byt,
     Czyj,
     Jaki,
     Jest,
+    Kontekst,
+    Koordynacja,
     Nominalne,
+    Okolicznik,
     PozaRamą,
+    Przysłówek,
     Robi,
+    Rola,
     Rzecz,
+    Wyróżnienie,
     byt,
     kompiluj,
+    nie,
+    zdarzenie,
 )
 
 __all__ = [
+    "PRZYIMKI",
+    "Akapit",
     "BrakFormy",
     "Byt",
     "Czyj",
     "Jaki",
     "Jest",
+    "Kontekst",
+    "Koordynacja",
     "Nominalne",
+    "Okolicznik",
+    "Opowieść",
+    "Postać",
     "PozaRamą",
+    "Przysłówek",
     "Robi",
+    "Rola",
     "Rzecz",
+    "Wyróżnienie",
     "byt",
     "kompiluj",
+    "nie",
     "odmień",
+    "przypadek",
     "rodzaj_rzeczownika",
+    "zdarzenie",
 ]
