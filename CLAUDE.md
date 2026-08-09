@@ -568,6 +568,16 @@ rerun the two commands it prints and correct the sentences under them.
 The README prints a run of its own, verdicts and reading counts included,
 and it goes with those: a figure there is the first one a reader checks.
 
+A rewrite of the grammar that moves no verdict still moves those tables,
+so "the language did not change" is not a reason to skip the rerun.
+Where a rejected sentence stopped is the furthest point some analysis reached,
+and that depends on which productions were tried rather than on which succeeded,
+so two grammars accepting the same sentences with the same readings
+rank the blockers differently.
+Every figure taken behind a dropped group of productions moves for the same reason:
+the grammar it was measured on is the one with the group missing,
+and that one is not the same grammar twice.
+
 A run reads the code once at import,
 and it lasts long enough to invite starting it and editing on.
 So a run started before an edit measures the code as it was,

@@ -114,6 +114,10 @@ PRZYJMOWANE = [
     #  dopełnienia, a jest jednym z nich.
     "Program pozwala zapisać ustawienia.",
     "To ma pomagać pisać dobrą polszczyznę.",
+    #  Okolicznik przed orzecznikiem w narzędniku i przed bezokolicznikiem, czyli
+    #  dwie z pozycji, których lista dopełnień nie miała, choć polszczyzna je ma.
+    "Arek jest w głębi serca monogamistą.",
+    "Musi na niego skoczyć.",
     #  A pronoun subject, and with it a person that is not the third.
     "Ja zapisuję plik.",
     #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
@@ -334,6 +338,8 @@ def test_werdykt_nie_nazywa_ani_jednego_z_nierozstrzygniętych_przyłączeń():
         "Wejściem w tym trybie jest zwykły tekst.",
         #  Przed dopełnieniem, wewnątrz orzeczenia.
         "Program zapisuje w pliku ustawienia.",
+        #  Za bezokolicznikiem, gdzie dochodzi i do niego, i do formy osobowej.
+        "Muszę jechać do domu.",
         #  Po rzeczowniku, który ma już przy sobie przymiotnik albo dopełniacz,
         #  i po imiesłowie.
         "Trwa akcja zbrojna w Strefie Gazy.",
@@ -406,6 +412,16 @@ def test_rama_dochodzi_do_bezokolicznika_tak_samo_jak_do_formy_osobowej(text, st
     #  i widać to dopiero na parze zdań: samo przyjęcie dwóch pierwszych
     #  przechodziłoby też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
     assert verdict(text).status == status
+
+
+def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
+    #  Cztery ciała `Complements` stawiają okolicznik przed dopełnieniem i za nim,
+    #  a `Adjuncts` nawraca samo na siebie, więc dwie pozycje łatwo tu wypisać tak,
+    #  żeby jedno zdanie wychodziło dwoma kształtami drzewa. Nie widać tego po
+    #  werdykcie, bo zdanie jest wieloznaczne w jedną i w drugą stronę, i nie widać
+    #  po rolach, bo obie pary przyłączeń zostają te same; widać po liczbie czytań.
+    found = verdict("Program zapisuje w pliku w katalogu.")
+    assert found.explain() == "2 readings, differing in Modifier"
 
 
 @pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])

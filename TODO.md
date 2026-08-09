@@ -196,6 +196,38 @@ Zostaje z sekcji to, co figur nie potrzebuje:
 że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
 i że jednoznaczność bywa osiągana bez trafności.
 
+Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
+Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
+a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
+jakim udało się tę liczbę odtworzyć:
+produkcji z córką `Adjuncts` albo `Modifier` jest dwadzieścia trzy,
+a przed dołożeniem pozycji okolicznika przy dopełnieniu było siedemnaście;
+samo `Modifier` wymienia siedem, a same `ClauseConjunct` z okolicznikiem dziewięć.
+Ruchem jest dopisanie do komentarza reguły liczenia i poprawienie liczby zgodnie z nią,
+bo bez reguły żadna zmiana w gramatyce nie umie tej liczby ponieść,
+a [sekcja Checks](CLAUDE.md#checks) każe ponieść figury sondy razem z gramatyką.
+Do rozstrzygnięcia jest przy tym, czy liczy się produkcje, czy miejsca w zdaniu,
+bo `Complements` ma cztery ciała na jedno dopełnienie, a miejsc dokłada dwa.
+
+Rama mówi, co czasownik bierze, i nie mówi, ile tego bierze.
+Dopełnień stoi przy czasowniku najwyżej jedno,
+bo tyle stoi w ciele każdej produkcji `Complements` w `olski/subset.py`,
+a nie dlatego, że rama tak mówi;
+ruchem jest rama zużywana, czyli ta,
+[którą pokazuje Świgra](docs/swigra.md#valency-as-a-resource-that-gets-consumed):
+pozycja zajęta znika z tego, co niesie reszta grupy.
+Wolno ją wyrazić cechą o dziedzinie skończonej,
+bo pozycji jest w ramie skończenie wiele,
+więc rozwinięcie idzie przed parsowaniem i nie rusza klasy złożoności.
+Kupuje to jednak dokładnie tyle, ile jest ram o dwóch pozycjach naraz, a takich nie ma:
+biernik z bezokolicznikiem naraz zmierzono i nad Składnicą pod złotą morfologią
+przyjmuje 289 zdań zamiast 293, a wieloznacznych ma 116 zamiast 110,
+bo grupa imienna za bezokolicznikiem dochodzi wtedy i do niego, i do formy osobowej.
+Wpis czeka więc na pozycję, która z inną naprawdę stoi,
+czyli na dopełnienie w celowniku obok biernika — `dać uczniowi książkę` —
+którego produkcji olski dziś nie ma;
+bez niej mechanizm rozwija się na jedną pozycję i nie liczy niczego.
+
 The line that says what a walk went past counts a repository's `.git` with it.
 `_collect` in `olski/cli.py` reaches every file under a named directory,
 so `olski rit-dokumentacja/` reports going past 39 files
