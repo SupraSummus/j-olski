@@ -834,6 +834,85 @@ czyli jest to ta sama robota, którą wycenia
 [tożsamość czytania](#co-się-pakuje-rozstrzyga-tożsamość-czytania),
 tylko wniesiona do własnej gramatyki zamiast napotkanej w cudzej.
 
+### Cechy biorą to, co zawęża, jest symetryczne i lokalne
+
+Zgodność zeszła z produkcji do cech,
+a warto powiedzieć, co ją tam wpuściło,
+bo to samo pytanie stoi przed każdą następną rzeczą,
+którą ktoś zechce z produkcji wyprowadzić.
+Unifikacja wzięła zgodność, bo zgodność ma trzy własności naraz:
+przecięcie zbiorów tylko zawęża,
+zgodność jest symetryczna między dwoma wiązkami cech,
+a rozstrzyga się nad samą tą parą, bez oglądania się na resztę zdania.
+Rzecz, która ma te trzy, kosztuje jedną zmienną.
+Rzecz, której którejś brakuje, kanału cech nie dostaje,
+i w tym repozytorium widać każdą taką wychodzącą bokiem.
+
+Warunek ujemny nie zawęża, więc stoi poza `unify`.
+`bez_lematów` w `olski/grammar.py` jest osobnym polem i osobnym testem,
+bo przecięcie zbiorów nie ma jak powiedzieć „nie”.
+Monotoniczność, spod której ten warunek ucieka, jest przy tym nośna:
+`licencjonuje` pyta wobec `EMPTY` i odpowiada poprawnie tylko dlatego,
+że unifikacja nigdy nie poszerza,
+co [więzy wyprowadzone z gramatyki](#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
+biorą za darmo.
+Jedyny warunek ujemny tej gramatyki płaci więc polem za to,
+z czego wszystko obok niego żyje.
+
+Rodzaj grupy współrzędnej nie jest symetryczny między członami,
+bo polszczyzna wylicza go regułami, których unifikacja nie umie powiedzieć,
+więc taka grupa nie niesie tej cechy wcale i `olski/subset.py` mówi to
+przy tej produkcji.
+Działa to dlatego, że `unify` pomija cechę, której konstytuent nie ma,
+czyli tą samą linią, którą nieodmienna część mowy jest niewinna zgodności.
+Nieobecność jest tu mechanizmem, a nie dziurą.
+
+Walencja weszła tym kanałem i wypadła na lokalności.
+Rama jest stanem, a nie zasobem, więc pozycji już zajętej nie ma jak odnotować,
+a zajęcie zależy od pozostałych córek, a nie od samej pary głowy i zależnego.
+Sonda zapłaciła za to samo dwoma polami:
+`wymaga` i `zakazuje` w `sonda/wiezy.py` mówią o łukach jednej głowy naraz,
+więc sprawdza je `_dopuszczalne`, gdy drzewo stoi już całe,
+a nie tablica licencji, która stoi policzona przed szukaniem.
+Co z tego zostaje po stronie produkcji,
+mówi [kierunek](#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje) wyżej.
+
+### Wyliczone ciało myli się w stronę werdyktu
+
+Pozycja, której gramatyka nie ma, zdania nie odrzuca:
+wypuszcza je jednym czytaniem, czyli wybiera przez przeoczenie.
+Wywód wraz z listą takich pozycji i z ceną nad Składnicą trzyma
+[subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+Zostaje do tego dopisać kierunek, w którym ta pomyłka idzie,
+bo on mówi, ile ona waży.
+
+Zawężanie liczby czytań ma tu właścicieli wyłożonych i jednego niewyłożonego.
+`admissible` w `olski/subset.py` odbiera czytanie, którego polszczyzna nie ma,
+warunek na [zaimek rzeczowny](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
+odbiera grupie imiennej drugie czytanie tego samego kształtu,
+a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.
+Każde z tych trzech jest pojedynczą decyzją z wywodem i z ceną:
+pierwsze wykłada [kryterium słownikowe](subset.md#the-dictionary-offers-readings-polish-does-not),
+a ostatnie jest czterema wierszami, które
+[sekcja Checks](../CLAUDE.md#checks) wymienia z nazwy właśnie dlatego,
+że ruszają każdy werdykt.
+Lista ciał zawęża przez to, czego w niej nie ma,
+i tym się od tamtych różni: rośnie z każdą konstrukcją,
+nie ma jednego miejsca, w którym da się o nią spierać, i nie mierzy jej nic.
+
+Reszta tej drogi myli się w drugą stronę i dlatego nie waży tyle samo.
+Lemat, którego leksykon nie wymienia, dostaje ramę domyślną, czyli szerszą,
+a cecha, której forma nie niesie, jest przez `unify` pomijana:
+jedno i drugie dokłada czytania, więc zdanie wychodzi wieloznaczne,
+a wieloznaczność jest werdyktem, który ktoś przeczyta.
+`valid` czyta się inaczej, bo po niego ten tor jest.
+
+Warunki precedencji zabierają z tej listy pozycję ostatnią,
+bo miejsce zadeklarowane raz nie ma jak zostać zapomniane w jednym z ciał.
+Wyceny ruchu to nie jest — tę robi liczba deklaracji zmierzona
+[sondą](#podłoże-więzowe-zmierzone-sondą) —
+tylko to, co się przy nim kupuje poza nią.
+
 ## Angle two: skład
 
 Generation inverts every difficulty in parsing.
