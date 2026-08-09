@@ -368,6 +368,17 @@ The recurring patterns:
   so a sentence that drops it drops the next move along with it.
   A technical term doing its job is not decoration:
   "abstention", "false-positive rate", "type-token ratio" are precise and stay.
+- **The contrastive frame.**
+  A sentence taking its precision from what it excludes
+  rather than from what it asserts:
+  "X does Y, not Z", "the reading Polish does not have".
+  Strike the negated half and read what is left standing.
+  An exclusion somebody would actually propose survives that,
+  since a subset is documented by exclusion;
+  a foil invented to give the sentence a shape does not.
+  Where what is left says nothing definite,
+  the frame was doing the predicating and the verb under it was never chosen,
+  so the repair is a sharper assertion rather than a shorter sentence.
 
 Each pattern is a prompt to reread, not a verdict.
 The test: strike the suspect word, parenthesis or sentence

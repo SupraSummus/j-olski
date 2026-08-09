@@ -196,7 +196,16 @@ trzyma jako życzenie, a nie jako milestone.
 - `nie tylko X, ale także Y` and other parallel-negation frames.
   The frame's commonest Polish form is punctuated rather than lexical,
   so this entry and the em dash above are one construction:
-  see [generated-polish.md](generated-polish.md#what-the-em-dashes-are-doing)
+  see [generated-polish.md](generated-polish.md#what-the-em-dashes-are-doing).
+  The realization with `a` belongs here and is not among the rates measured there.
+  What does not belong here is the negated relative,
+  `czytanie, którego polszczyzna nie ma`,
+  which defines a thing by an absence and pairs nothing against anything;
+  it is tier A on the same machinery, a relative pronoun and a negated verb,
+  and it wants a rate of its own before it is called one construction with this.
+  [CLAUDE.md](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)
+  refuses both under a single convention,
+  which is a demand on prose and settles nothing about the count
 - Lemma type-token ratio *cited*
 - Fact density: dates, numerals, proper nouns; low in generated text *cited*
 - Absence of inversion and other emphatic reorderings *cited*,
@@ -249,7 +258,7 @@ trzyma jako życzenie, a nie jako milestone.
 
 ## From the repository's own writing conventions
 
-The conventions in [CLAUDE.md](../CLAUDE.md) name five patterns
+The conventions in [CLAUDE.md](../CLAUDE.md) name six patterns
 the groups above do not reach.
 They are defects of documentation specifically,
 which is the declared target register,
@@ -293,6 +302,38 @@ and they are hypotheses in Polish like everything else here.
   and deciding whether the subject is a thing is tier B,
   so what has to be measured first is how much of the pattern
   the cheap half already separates.
+- **A closed set of verbs carrying every predication** —
+  `stoi`, `mówi`, `bierze`, `czyta`, `trzyma`, `kupuje`,
+  each standing for a different relation in each place it appears.
+  This is the worn metaphor with no metaphor on the surface:
+  every one of those verbs is ordinary,
+  so no word list separates the tenth use from the first,
+  and what makes it a defect is the share of the text they carry.
+  The statistic is therefore a concentration,
+  the share of finite-verb lemmas taken by the commonest few,
+  and its denominator is what
+  [lemma type-token ratio](#structural-and-statistical-tier-a-with-sentence-splitting)
+  above does not reach:
+  measured over every lemma, the verbs are diluted
+  by terminology a technical document repeats on purpose,
+  so the two want separating before either is calibrated.
+  Lemmas and a part of speech are tier B,
+  and a concentration is a statistic no declaration produces,
+  so what this entry needs first is a check kind, which is code:
+  [rules.md](rules.md#check-kinds) owns what the kinds are
+  and what adding one costs.
+  Two things stand between the count and the defect.
+  `stoi` is read as `stać` and as `stoa` both,
+  so a rule taking one reading per form files this pattern under a portico,
+  and choosing between readings is what `olski/morph.py` refuses to do.
+  That reading is Morfeusz's, because it is the analyser this repository runs,
+  and the linter track takes
+  [Morfologik instead](open-questions.md#settled),
+  whose ambiguities are its own.
+  And a verb repeats where the relation repeats,
+  so what a rate here means is
+  [what an audit settles](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
+  rather than what a distribution does.
 
 ## Sources
 
