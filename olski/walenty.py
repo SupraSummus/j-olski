@@ -1,7 +1,7 @@
 """Walenty przeczytany o jedno zdanie: który czasownik nie bierze biernika.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
-więcej, niż ta gramatyka umie żądać: typ frazy, kontrolę, koordynację, warstwę
+więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
 semantyczną. Olski ma ramę o czterech pozycjach, więc czytanie jest zejściem w
 dół i bierze stąd jedno zdanie: że czasownik nie bierze dopełnienia w bierniku.
 Zdanie jest ujemne, bo wpis leksykonu tylko zawęża.

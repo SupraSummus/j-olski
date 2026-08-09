@@ -791,6 +791,16 @@ Zostaje wyjście pierwsze i olski je bierze.
 Autor wysuwa wyrażenie przed zdanie albo dzieli zdanie na dwa,
 a olski melduje dwa czytania i zdania nie przyjmuje.
 
+Ile ta decyzja kosztuje nad rejestrem, a nie nad bankiem drzew,
+jest zmierzone osobno i wychodzi wysoko:
+pozycję dwuznaczną niesie większość zdań polskiej dokumentacji,
+a czytelnik ma nad nią jedno rozumienie.
+Decyzji to nie przewraca, bo liczby wyżej mówią o tym,
+czego nie da się zgadnąć, a nie o tym, co czytelnik widzi,
+i te dwie rzeczy są prawdziwe naraz.
+Rachunek wraz z próbką przeczytaną ręką trzyma
+[open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma).
+
 ### Przyjąć koszt to znaczy dać oba czytania wszędzie
 
 Wyjście pierwsze wygląda na takie, które od gramatyki nie żąda niczego,

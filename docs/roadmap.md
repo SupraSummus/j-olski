@@ -77,6 +77,14 @@ Przepisanie go pod ten podzbiór kosztowałoby to, po co on jest,
 a rachunek trzyma
 [CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie).
 
+Kryterium ma przy tym pod sobą dwa pytania bez odpowiedzi.
+Zdanie wieloznaczne w samej polszczyźnie ma dwa czytania także u olskiego,
+więc kryterium żąda od niego tego, czego ono nie ma,
+a zdanie odwrotne jest znacznie liczniejsze:
+takie, w którym dwa czytania ma olski, a czytelnik jedno.
+Oba pytania wraz z pomiarem, który je wycenia, trzyma
+[open-questions.md](open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma).
+
 Druga połowa kryterium jest droższa od pierwszej
 i to ona porządkuje etapy niżej.
 Wyprowadzenie każdego zdania to pokrycie,

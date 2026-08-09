@@ -249,7 +249,7 @@ trzyma jako życzenie, a nie jako milestone.
 
 ## From the repository's own writing conventions
 
-The conventions in [CLAUDE.md](../CLAUDE.md) name three patterns
+The conventions in [CLAUDE.md](../CLAUDE.md) name five patterns
 the groups above do not reach.
 They are defects of documentation specifically,
 which is the declared target register,
@@ -273,6 +273,26 @@ and they are hypotheses in Polish like everything else here.
   the claim is checkable in principle and simply unchecked,
   so the flag asks for grounds rather than for a smaller word.
   The `naj-` prefix is tier A+, the rest tier B.
+- **The placeholder pronoun** — `coś`, `pewne rzeczy`, `takie sprawy` —
+  standing where the thing itself would be named.
+  Distinct from the dangling reference the reader force warns of:
+  that one points at an antecedent the reader cannot find,
+  and this one points at nothing and was never meant to.
+  The forms are few, so the pattern is tier A,
+  and it fires on correct Polish wherever the indefiniteness *is* the content,
+  as in `jeśli coś pójdzie nie tak`,
+  which is the same shape of problem the temporal anchors have.
+- **The modal that lends a will** —
+  `umie`, `chce`, `stara się`, `potrafi` in front of an infinitive
+  whose subject is a thing: `gramatyka umie żądać`, `dokument chce powiedzieć`.
+  Two defects arrive together and either alone is weaker:
+  the modal does the work of the plain verb in two words instead of one,
+  and the personification claims a mechanism nobody meant to claim,
+  which is what the word-choice force refuses in a worn metaphor.
+  A modal beside an infinitive is tier A,
+  and deciding whether the subject is a thing is tier B,
+  so what has to be measured first is how much of the pattern
+  the cheap half already separates.
 
 ## Sources
 
