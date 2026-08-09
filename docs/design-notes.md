@@ -485,9 +485,11 @@ Trzeciego nie zamyka nic poza leksykonem walencyjnym,
 i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
 a w sondzie trzema czytaniami różniącymi się tym, który czasownik bierze biernik.
-[Leksykon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) do tego nie sięga,
-bo ma jeden wpis i nie ma w nim żadnego z trzech czasowników łańcucha,
-a sięgnąłby wpisem, a nie produkcją, i to jest to, co ten etap kupił.
+[Leksykon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
+po stronie olskiego, bo mówi, że `pomagać` biernika nie bierze,
+a sonda ma po swojej stronie warunek na sam lemat kopuli,
+więc rozbieżność jest tym, o ile leksykon wyprzedził tamtą deklarację.
+Wpisem, a nie produkcją: to jest to, co ten etap kupił.
 
 **Cena trzecia: nie ma ograniczenia, które ma parser tablicowy,
 i widać to na jednym zdaniu.**

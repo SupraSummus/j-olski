@@ -24,6 +24,11 @@ olski-corpus = "olski.coverage:main"
 [tool.setuptools.packages.find]
 include = ["olski*"]
 
+#  Leksykon walencyjny jest danymi, a nie kodem, więc wchodzi do paczki stąd.
+#  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.
+[tool.setuptools.package-data]
+olski = ["leksykon.txt"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 #  The calibration harness is not part of the linter and is not installed with

@@ -161,14 +161,13 @@ zostaje przy nim para, na którą składa się rzeczownikowe czytanie przymiotni
 wraz z nazwiskowym czytaniem, jakie Morfeusz daje formie `On`,
 a jedno i drugie należy do słownika i do etapu niżej.
 Zaliczone: rama czasownika jest cechą braną z leksykonu,
-który ma ramę domyślną i jeden wpis, i wpisem tym jest kopula,
+który ma ramę domyślną i wpis na każdy lemat węższy od niej,
 zob. [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
 
-Jeden wpis wystarcza temu etapowi, bo etap kupuje mechanizm, a nie leksykon.
-Czasownik dopisany później jest wpisem, a nie produkcją,
-i to jest ta własność, dla której etap stoi przed konstrukcjami;
-kolejny wpis jest robotą tej wielkości, co pomiar, który go uzasadni,
-i [TODO.md](../TODO.md) trzyma, skąd taki pomiar wziąć.
+Leksykon urósł po tym etapie i urósł jednym zdaniem na lemat:
+że czasownik nie bierze dopełnienia w bierniku, wzięte z Walentego.
+Etap kupował mechanizm, a nie leksykon, i to widać po tym, czym urośnięcie było:
+zmianą danych i jednego wymiaru klucza, a nie zmianą ani jednej produkcji.
 
 ## Etap 3: czytania, których polszczyzna nie ma
 

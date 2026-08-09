@@ -12,7 +12,16 @@ pytest.importorskip("morfeusz2")
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import LeftRecursion, parse
-from olski.subset import FRAGMENT, GRAMMAR, admissible, check, morphology, sentences
+from olski.subset import (
+    FRAGMENT,
+    GRAMMAR,
+    WALENCJA,
+    WALENCJA_ZWROTNA,
+    admissible,
+    check,
+    morphology,
+    sentences,
+)
 
 
 def verdict(text):
@@ -397,6 +406,44 @@ def test_rama_dochodzi_do_bezokolicznika_tak_samo_jak_do_formy_osobowej(text, st
     #  i widać to dopiero na parze zdań: samo przyjęcie dwóch pierwszych
     #  przechodziłoby też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
     assert verdict(text).status == status
+
+
+@pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])
+def test_klasy_walencyjne_nie_zachodzą_na_siebie(leksykon):
+    #  Lemat wzięty dwiema klasami jest dwoma czytaniami tego samego kształtu, a
+    #  te dwa zwijają się w jedno, bo czytanie liczy kształt: werdykt tego nie
+    #  pokaże i żaden inny test tu nie sięga. Zachodzą klasy łatwo, bo Walenty
+    #  mówi o kopuli to samo, co o każdym innym lemacie leksykonu, więc wpis
+    #  ręczny musi swoje lematy leksykonowi zabrać, a nie stanąć obok nich.
+    lematy = [lemat for alternatywa in leksykon.values() for lemat in alternatywa.split("|")]
+    assert len(lematy) == len(set(lematy))
+
+
+def test_cząstka_się_pyta_leksykonu_o_inny_czasownik_niż_forma_bez_niej():
+    #  Otwierać bierze dopełnienie w bierniku, a otwierać się go nie bierze, i
+    #  Morfeusz daje obu formom ten sam lemat. Leksykon trzymany pod samym lematem
+    #  dałby więc jednemu z tych dwóch zdań ramę drugiego, a widać to dopiero na
+    #  parze: jedno przechodzi w każdą stronę, a drugie nie.
+    otwarcie = verdict("Otwierają się drzwi.")
+    assert otwarcie.readings == [{"Subject": "drzwi", "Verb": "Otwierają się"}]
+    assert verdict("Otwierają drzwi.").status == "ambiguous"
+
+
+def test_leksykon_nie_zabiera_czasownikowi_bezokolicznika():
+    #  Walenty mówi i o bezokoliczniku, a przekład go nie bierze, bo cząstka się
+    #  staje przy formie osobowej, należąc do bezokolicznika za nią: mieć się
+    #  bezokolicznika w Walentym nie ma, a to zdanie stoi na nim. Nad Składnicą
+    #  zawężenie o bezokolicznik kosztuje dwa zdania i nie kupuje ani jednej
+    #  jednoznaczności, i to jest ten pomiar; docs/subset.md go trzyma.
+    assert verdict("Zebranie ma się odbyć.").status == "valid"
+
+
+def test_leksykon_odrzuca_zdanie_czytane_dotąd_z_dopełnieniem_którego_tam_nie_ma():
+    #  Cena leksykonu, wypisana zdaniem ze Składnicy. Pracować dopełnienia w
+    #  bierniku nie bierze, więc dzień i noc nie jest tu dopełnieniem, tylko
+    #  okolicznikiem w bierniku, a okolicznika w bierniku olski nie ma. Zdanie
+    #  przechodziło, dopóki stało na czytaniu, którego nie ma żaden czytelnik.
+    assert verdict("Pracujemy nad tą grupą dzień i noc.").status == "rejected"
 
 
 @pytest.mark.parametrize(
