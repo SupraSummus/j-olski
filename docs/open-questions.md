@@ -109,25 +109,134 @@ Kryterium wyjścia toru żąda jednego czytania dla każdego zdania README
 README stoi, a rusza się gramatyka, bo przepisanie go pod podzbiór
 kosztowałoby to, po co ten plik jest
 ([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
-A olski wpuszcza OVS, bo polszczyzna go ma,
-i deklaracja, że pierwsza grupa imienna jest podmiotem,
+A olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,
+bo deklaracja, że pierwsza grupa imienna jest podmiotem,
 czytałaby się jednoznacznie tylko temu, kto zna konwencję
 ([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)).
 
 Czwarte wyjście jest tym, którego szuka to pytanie:
 że kryterium wyjścia ma wyjątek dla zdania wieloznacznego w polszczyźnie,
 czyli mierzy nie „jedno czytanie”, a „jedno czytanie tam, gdzie czytelnik ma jedno”.
-Kosztem jest miara, której nie policzy program:
+Kosztem jest werdykt, którego nie wyda program:
 dla każdego zdania spornego ktoś musi powiedzieć, ile czytań ma sam,
 a wtedy kryterium wyjścia przestaje być czymś, co drukuje polecenie.
 Zdanie olskie ma jedno czytanie z definicji podzbioru,
 więc to nie olski się tu zmienia, tylko to, co README ma o sobie dowodzić.
 
-Rozstrzyga to jedno zdanie, a klasa jest szersza:
-syncretyzm mianownika z biernikiem ma w polszczyźnie każdy rzeczownik rodzaju m3
+Rozstrzyga to jedno zdanie, a klasy są dwie.
+Obie są szerokie liczone pozycjami i obie wąskie liczone czytelnikiem,
+i to ta różnica jest tym, co pytanie dostaje niżej.
+Synkretyzm mianownika z biernikiem ma w polszczyźnie każdy rzeczownik rodzaju m3
 i nieodmienny każdy,
 więc każde zdanie przechodnie o dwóch takich grupach imiennych tu wraca.
-Ile ich jest w tym rejestrze, nie jest zmierzone.
+Druga klasa z tamtym zdaniem nie ma nic wspólnego i jest od niej większa:
+wyrażenie przyimkowe stojące tuż za grupą imienną
+dochodzi do niej albo do czasownika przed nią,
+a olski nie wybiera ani jednego, ani drugiego
+([subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
+więc zdanie z taką pozycją ma dwa czytania z tego samego powodu co tamto.
+
+Ile ich jest, pokazuje pomiar rejestru, a nie werdykt nad zdaniem.
+Gramatyka odrzuca w tym rejestrze prawie każde zdanie,
+więc zdanie wieloznaczne w polszczyźnie do werdyktu w ogóle nie dochodzi,
+i widać je dopiero wtedy, gdy pozycje liczy się w tekście.
+Klony korpusu audytowego stoją w
+[audit-corpus.md](audit-corpus.md#the-list), a potem:
+
+```sh
+python3 -m harness.markdown ksef-docs --into proza/ksef
+python3 -m harness.markdown rit-dokumentacja --into proza/rit
+python3 -m olski.wieloznaczność proza/ksef/*.txt proza/rit/*.txt
+```
+
+Pozycję którejś z dwóch klas niesie tam 734 z 1 183 zdań, czyli 62.0%:
+przyłączenie 56.1%, synkretyzm 18.0%,
+a 271 zdań niesie samych przyłączeń dwa albo więcej,
+czyli czytań ma po cztery i wzwyż.
+To samo polecenie puszczone nad prozą tego repozytorium
+daje udział niższy, bliższy połowie niż dwóm trzecim,
+a README nie odstaje w nim od reszty;
+liczby stąd nie stoją tu zapisane,
+bo rusza je przeredagowanie zdania, a nie zmiana w kodzie.
+
+Populacją to jest, a odpowiedzią nie, i czytanie jej zmienia wniosek.
+`--przykłady 12` bierze próbkę rozrzuconą po całej liście trafień,
+więc czyta się ją drugi raz po tym samym.
+Dwadzieścia cztery zdania z niej, po dwanaście na klasę, wychodzą tak:
+ani jedno nie zostawia czytelnika z dwoma rozumieniami,
+a dwa zostawiają go z wahaniem —
+`Dane te obejmują zarówno aktywne, jak i historyczne certyfikaty`,
+gdzie obie grupy są mnogie i każda mogłaby obejmować drugą.
+Reszta ma dwa drzewa i jedno rozumienie:
+`kompendium wiedzy dla deweloperów` przyłącza się do rzeczownika,
+bo przy czasowniku nie znaczyłoby nic innego,
+i tak samo `skrót SHA-256 w Base64`.
+Jest to jedna osoba nad dwudziestoma czterema zdaniami, a nie pomiar,
+i tyle z tego wynika.
+
+Wniosek wychodzi odwrotny do tego, na co 62.0% wygląda.
+Wyjątek, którego to pytanie szuka, objąłby zdania rzadkie, a nie większość rejestru,
+bo zdań, w których czytelnik naprawdę ma dwa czytania, jest w tej próbce tyle co nic.
+Liczba wycenia natomiast co innego, o co nikt tu nie pytał:
+jak często olski melduje wieloznaczność, której czytelnik nie ma.
+Nad korpusem audytowym jest to prawie każde zdanie z pozycją przyłączeniową.
+
+Liczba jest przy tym górnym oszacowaniem i myli się w jedną stronę.
+Grupą imienną jest tam ciąg form, a nie węzeł,
+więc apozycja liczy się jak dwie grupy —
+`podpis CERTYFIKAT`, `Element report` — choć jest jedną,
+a wyrażenia, którego czasownik żąda swoim schematem,
+ten pomiar od stojącego do wyboru nie odróżnia.
+Podnosi ją też każde czytanie, które słownik ma, a polszczyzna nie:
+`synkretyzm [go, gov.pl]` stoi na zaimku czytanym jako gra,
+czego wykluczenie ze słownika nie sięga.
+Osobno stoi to, co dokłada ekstrakcja:
+nagłówek sklejony ze zdaniem za nim daje parę, której nikt nie napisał,
+i należy to do [extraction.md](extraction.md), a nie tutaj.
+Wszystkie te klasy podnoszą populację,
+a wniosek wyżej idzie w tę samą stronę co one, więc żadna go nie odwraca.
+Zbiera się ich przy tym najwięcej pod synkretyzmem,
+więc to jego 18.0% jest z dwóch liczb tą miękką.
+
+### Olski melduje wieloznaczność, której czytelnik nie ma
+
+Pytanie wyżej zostawia po sobie drugie i to ono jest droższe.
+Skoro pozycja przyłączeniowa stoi w większości zdań korpusu audytowego,
+a czytelnik ma nad nią jedno rozumienie,
+to zdanie odrzucone przez własność jednoznaczności
+płaci za dwuznaczność, której nikt poza parserem nie miał.
+Liczby i próbkę trzyma pytanie wyżej, i to ono jest ich właścicielem.
+
+Decyzji o [przyjęciu kosztu](subset.md#dlatego-olski-przyjmuje-koszt) to nie przewraca,
+bo tamta stoi na czym innym.
+Bank drzew mówi, że żadne przyłączenie nie jest domyślne,
+czyli że wyboru między nimi nie zgadnie żadna konwencja,
+a nie że czytelnik ten wybór widzi.
+Obie rzeczy są prawdziwe naraz
+i dopiero razem mówią, ile ta decyzja kosztuje nad rejestrem,
+bo tamten pomiar wzięto nad bankiem drzew, a ten nad dokumentacją.
+
+Wyjścia z tego nie ma w gramatyce i to jest w tym pytaniu najtrudniejsze.
+Te zdania rozstrzyga znaczenie —
+`kompendium wiedzy dla deweloperów` nie przyłącza się do czasownika,
+bo nic by tam nie znaczyło —
+a znaczenia unifikacja nie dosięga.
+Zostają więc trzy odpowiedzi i żadna nie jest tania.
+Pierwsza: własność jednoznaczności zostaje, jak stoi,
+a kryterium wyjścia toru przestaje być osiągalne nad tym README,
+co czyni je kryterium innego rodzaju, niż jest opisane.
+Druga: wraca [wyjście drugie z etapu 1](subset.md#dlatego-olski-przyjmuje-koszt),
+czyli domyślne przyłączenie, odrzucone tam za to, że myli się dwa razy częściej,
+niż trafia; wobec tego pomiaru trzeba by je ważyć inaczej niż wtedy,
+bo po jednej stronie stoi pomyłka w drzewie, której czytelnik nie zauważa,
+a po drugiej odrzucenie zdania, które przeczytał raz.
+Trzecia: warstwa rozstrzygająca przyłączenie poza gramatyką,
+czyli to, czego olski nie ma i czego żaden etap nie planuje.
+
+Do przeczytania jest najpierw to, czy próbka wyżej się broni.
+Dwadzieścia cztery zdania przeczytane przez jedną osobę
+są podstawą wystarczającą, żeby pytanie postawić,
+i za wąską, żeby na nim stanąć.
 
 ### Czy jednoznaczność prefiksu mierzy czytelność
 

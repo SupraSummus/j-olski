@@ -555,7 +555,10 @@ Widać to w poleceniu, którym
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
 Ruchem jest wyjęcie `_collect` z `olski/cli.py` do wspólnego miejsca
-i zawołanie go z obu komend, po czym `find` z tamtego polecenia znika.
+i zawołanie go z każdej komendy, po czym `find` z tamtego polecenia znika.
+Komend jest przy tym trzy, a nie dwie:
+`main` w `olski/wieloznaczność.py` czyta ścieżki tak samo jak `olski-check`,
+i tak samo trzeba mu je rozwinąć powłoką.
 Do rozstrzygnięcia jest to, co druga komenda robi z pominiętymi:
 `olski` mówi o nich, bo pominięcie zmienia mianownik częstości,
 a `olski-check` ma już mianownik, o który się w tej sesji rozegrało,
@@ -644,8 +647,14 @@ i tak wychodzą trzy z sześciu zdań, które tamta sekcja liczy.
 Zostaje to, gdzie kształty się różnią,
 czyli produkcja dająca głowie grupy imiennej dopełniacz po niej:
 zaimka jako głowy ta produkcja nie bierze, a rzeczownik bierze.
-Do przeczytania jest najpierw to, czy takie zdanie w ogóle jest,
-bo dopiero ono mówi, czy jest tu co naprawiać;
+Kosztuje to już jedną figurę i to jest tańsza połowa dowodu.
+`olski/wieloznaczność.py` liczy nad korpusem audytowym to, co zostawia
+`admissible`, więc para `go` i `gov.pl` wychodzi tam dwiema grupami imiennymi,
+a udział, który stąd rośnie, cytuje
+[`docs/open-questions.md`](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+jako miękką z dwóch swoich liczb.
+Do przeczytania zostaje to, czy takie zdanie kosztuje także werdykt,
+bo dopiero ono mówi, czy jest tu co naprawiać w gramatyce;
 przebieg nad Składnicą, który to pokaże, jest tym samym,
 którym mierzy się cenę
 [dwóch szerszych kryteriów](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi),
@@ -756,9 +765,16 @@ i produkuje tabelę
 [`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia).
 Trzeci z nich jest przy tym przypadkiem najostrzejszym,
 bo o gramatyce nie mówi nic, tak samo jak `harness/endings.py`.
-Wszystkie trzy są liśćmi — w `olski` nikt ich nie importuje poza nimi samymi —
-a mimo to instalują się z pakietem (`include = ["olski*"]` w `pyproject.toml`)
-i jeden z nich ma własną komendę,
+Czwarty pokazuje, że samo kryterium jest za grube:
+`olski/wieloznaczność.py` też o gramatyce nie mówi nic
+i mimo to do `harness/` nie pójdzie,
+bo liczy przez `admissible` i przez leksykon walencyjny,
+czyli przez dwie decyzje toru gramatycznego naraz.
+Trzy z tych czterech są liśćmi,
+a czwarty odbiera `olski/attachment.py` bycie liściem, importując go,
+i wszystkie instalują się z pakietem
+(`include = ["olski*"]` w `pyproject.toml`),
+a jeden ma własną komendę,
 gdzie tak samo pomiarowe programy toru linterowego
 nie mają ani instalacji, ani komendy.
 Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
@@ -769,7 +785,7 @@ i w [sekcji Checks](CLAUDE.md#checks),
 albo `harness/__init__.py` mówi, że jest harnessem toru linterowego,
 co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
-czytnik banku drzew i dwa programy pomiarowe są w nim,
+czytnik banku drzew i trzy programy pomiarowe są w nim,
 a nikt, kto lintuje tekst, ich nie woła.
 
 Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.

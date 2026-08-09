@@ -611,6 +611,18 @@ which categories are a clause and which a noun phrase,
 what standing after a verb means —
 and there the rerun is owed like any other.
 
+One figure counts the register rather than anything this repository decides,
+and three separate things move it.
+[How much of the register reads two ways in Polish](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+is taken over the audit corpus with `olski/wieloznaczność.py`,
+so a change to what that module counts moves it,
+and so does a change to what `admissible` in `olski/subset.py` keeps
+or to the valency lexicon under it,
+both of which stand between the text and the count.
+The third is the extraction, as everywhere else in this list.
+The figure is the ground under an open question rather than under a rule,
+so a rerun that moves it moves what that question is asking about.
+
 One pair of figures prices something the code does not contain.
 [The two exclusion criteria that were measured and refused](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi)
 count the Składnica sentences each would take,
