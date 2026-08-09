@@ -28,6 +28,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from olski.walencja import bierze_biernik
 from skład.morfologia import odmień, rodzaj_rzeczownika
 
 
@@ -149,18 +150,40 @@ class Jest:
         return f"{self.czym.linearyzuj('inst')} {kopula} {self.co.linearyzuj('nom')}"
 
 
+class PozaRamą(Exception):
+    """Drzewo żąda od czasownika pozycji, której jego rama nie ma.
+
+    Wyjątek, a nie zdanie wypuszczone mimo to,
+    z tego samego powodu co ``BrakFormy`` w ``skład/morfologia.py``:
+    to jest błąd kompilacji,
+    bo `Linter pomaga dobry kod.` nie jest zdaniem polskim
+    i nikt takiego nie chciał napisać.
+    """
+
+
 @dataclass(frozen=True)
 class Robi:
     """Zdanie o czynności: program zapisuje ustawienia.
 
-    Dopełnienie idzie w bierniku, co jest ramą domyślną, a nie ramą czasownika:
-    walencja jest w tym repozytorium leksykonem i ten konstruktor jej nie pyta.
-    Trzyma to ``TODO.md``.
+    Dopełnienie idzie w bierniku wtedy,
+    gdy leksykon walencyjny czasownikowi biernika nie odmawia.
+    Pytany jest ten sam plik, o który pyta parser po drugiej stronie,
+    bo rama jest faktem o słowie, a nie o kierunku;
+    ``olski/walencja.py`` czyta go dla obu i trzyma wywód.
+
+    Pytanie pada w konstruktorze, a nie w linearyzacji,
+    bo to konstruktor mówi, co z czym wolno złożyć,
+    i bo drzewo, które tego nie przechodzi, jest błędne całe,
+    a nie w tym jednym miejscu, gdzie się je wypisuje.
     """
 
     kto: Byt
     czyn: str
     co: Byt
+
+    def __post_init__(self) -> None:
+        if not bierze_biernik(self.czyn):
+            raise PozaRamą(f"{self.czyn} nie bierze dopełnienia w bierniku")
 
     def linearyzuj(self) -> str:
         czasownik = odmień(self.czyn, "fin", number=self.kto.number, person="ter")

@@ -3,8 +3,9 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 import skład.składnia as składnia
-from olski.subset import check
-from skład import BrakFormy, Byt, Czyj, Jaki, Rzecz, byt, kompiluj, odmień
+from olski.subset import WALENCJA, check
+from olski.walencja import bierze_biernik
+from skład import BrakFormy, Byt, Czyj, Jaki, PozaRamą, Rzecz, byt, kompiluj, odmień
 from skład.składnia import Jest, Robi
 from skład.słownik import A, R, V, jest
 
@@ -63,6 +64,45 @@ def test_forma_której_słownik_nie_ma_zgłasza_się_zamiast_zostać_zgadnięta(
         odmień("podzbiór", "subst", case="nom", number="sg", gender="f")
     with pytest.raises(BrakFormy):
         odmień("zzznieistniejący", "subst", case="nom", number="sg")
+
+
+def test_czasownik_któremu_leksykon_odmawia_biernika_nie_wypuszcza_dopełnienia():
+    """Zdanie z roadmapy: `Linter pomaga dobry kod.` nie ma wyjść z tego drzewa.
+
+    Zgłoszenie pada przy budowaniu drzewa, a nie przy linearyzacji,
+    więc test niczego nie linearyzuje.
+    """
+    with pytest.raises(PozaRamą):
+        V.pomagać(R.linter, A.dobry * R.kod)
+
+
+def test_kopuli_biernik_odmówiony_jest_po_obu_stronach_tak_samo():
+    """Kopula jest lematem, na którym kopia leksykonu rozjechałaby się najpierw.
+
+    Czemu akurat ona, mówi ``olski/walencja.py``;
+    tutaj stoi zdanie, które by z tego rozjazdu wyszło.
+    """
+    with pytest.raises(PozaRamą):
+        V.być(R.program, ~R.ustawienie)
+
+
+def test_biernika_odmawiają_oba_kierunki_tym_samym_lematom():
+    """Jedno źródło znaczy tyle, że nie ma dwóch odpowiedzi na jedno pytanie.
+
+    Odmowy parsera liczone są z ram, a nie wypisane obok nich,
+    żeby rama dopisana do gramatyki weszła do tego porównania sama.
+    """
+    odmawia_parser = {
+        lemat
+        for rama, lematy in WALENCJA.items()
+        if "acc" not in rama.split(".")
+        for lemat in lematy.split("|")
+    }
+    assert {lemat for lemat in odmawia_parser if bierze_biernik(lemat)} == set()
+    #  Odmowa postawiona każdemu lematowi przeszłaby powyższe, więc świadek
+    #  z drugiej strony: `zapisywać` bierze ramę domyślną po obu.
+    assert "zapisywać" not in odmawia_parser
+    assert bierze_biernik("zapisywać")
 
 
 def test_przestrzenie_nazw_niczego_w_składni_nie_zmieniają():
