@@ -42,7 +42,8 @@ Cały wywód prowadzi
 **Teraz.** Gramatyka zaprojektowanego podzbioru polszczyzny,
 a przy niej kalambur: *skład* obok *składni*.
 Cel ma jeden i jest nim ten plik:
-gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu.
+gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu,
+a skład tak długo, aż każde jego zdanie wypuści z drzewa.
 Celem nie jest sam formalizm:
 gramatyka bezkontekstowa jest tym, na czym olski stoi,
 a nie tym, do czego zmierza,
@@ -150,8 +151,10 @@ Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny:
 mówią, że jedna rzecz jest określeniem drugiej, a nie że stoi tam dopełniacz.
 Zgodność jest liczona po drodze, a nie sprawdzana po niej,
 więc ten kierunek nie potrzebuje gramatyki i nie dziedziczy jej pokrycia.
-Szyku to drzewo nie niesie i jest to jedyna dziura, o której wiadomo,
-że jest dziurą.
+Szyku to drzewo nie niesie, a rzecz nazywa lematem tam, gdzie stoi leksem,
+i to są dwie dziury w nim samym.
+Czego brakuje pod nim, w leksykonie i w formach, i w jakiej kolejności to dochodzi,
+mówi [docs/roadmap.md](docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Zobacz [docs/design-notes.md](docs/design-notes.md).
 
 Reszta repozytorium to notatki projektowe, przegląd pola,
@@ -207,8 +210,8 @@ plan i otwarte pytania.
   czym okazują się jego trafienia, kiedy się je przeczyta,
   i dlaczego zerowa częstość może mówić o korpusie zamiast o regule
 - [docs/roadmap.md](docs/roadmap.md):
-  etapy obu torów, każdy ze swoim kryterium wyjścia,
-  i to, dlaczego numeracja jednego nie sięga drugiego
+  etapy trzech torów, każdy ze swoim kryterium wyjścia,
+  i to, dlaczego numeracja jednego nie sięga pozostałych
 - [docs/prose-linters.md](docs/prose-linters.md):
   silniki, które angielski i japoński już mają,
   ten jeden, który zmierzył własną częstość fałszywych trafień,

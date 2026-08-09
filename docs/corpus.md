@@ -192,7 +192,7 @@ The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
-Eight rejected sentences have no such word at all —
+Nine rejected sentences have no such word at all —
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku.` —
 which is that coarseness in the open:
@@ -201,7 +201,7 @@ and what stops the sentence is the shape they are in.
 The run says which is which rather than leaving it to be worked out:
 a rejected sentence names the words no production takes,
 or says that nothing derives it when every word is one some production does,
-which is those six.
+which is those nine.
 
 That order is not the order of what an addition buys.
 Both rankings count the sentences a construction stopped,
@@ -221,7 +221,7 @@ is not read off the rows and gets measured when they are written.
 
 Where a sentence carries one class alone, the list still does not settle it,
 because a sentence can also fail on the shape its words are in.
-Six of the rejected sentences fail that way and carry no unlicensed word at all,
+Nine of the rejected sentences fail that way and carry no unlicensed word at all,
 and one class carries three sentences of its own —
 `Teraz.`, `Opcjonalnie, obok.`
 and the sentence about a rule that has to know what a word is

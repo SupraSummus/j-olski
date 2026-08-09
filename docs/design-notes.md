@@ -421,11 +421,11 @@ python3 -m sonda proza/README.txt
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 43 zdania.
+Proza README ma 50 zdań.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
-a jednemu z nich zajmuje to ponad sześć sekund, gdy reszcie nie więcej niż trzy setne.
-41 z tych 43 dostaje od obu programów ten sam werdykt,
-a 40 tę samą liczbę czytań,
+a jednemu z nich zajmuje to ponad sześć sekund, gdy reszcie nie więcej niż cztery setne.
+48 z tych 50 dostaje od obu programów ten sam werdykt,
+a 47 tę samą liczbę czytań,
 i to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -1084,6 +1084,61 @@ and both are distributed under a liberal BSD licence.
 That one dependency is the difference
 between a weekend-scale core and a years-scale one,
 which is why the open lexicon is a settled decision.
+
+### Leksykon projektu: SGJP nie zna słów, których używa rejestr
+
+Słownik pod spodem nie zastępuje pisania w dwóch miejscach.
+Nie ma słów, które rejestr techniczny tworzy sam — `komit`, `olski`, `lintować`
+dostają `ign`, czyli nie mają czego wypuścić.
+I nie ma leksemów, które ten rejestr dokłada do napisów znanych:
+projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
+a `agenty`, które SGJP wydaje, jest formą deprecjatywną leksemu osobowego,
+czyli tym, czym mówi się o ludziach z góry, a nie liczbą mnogą rzeczy nieżywotnej.
+Wpis takiego leksykonu nazywa więc leksem wraz z odmianą,
+a nie sam napis dopisany do listy słów.
+
+Rozróżnianie leksemów jest przy tym pytaniem, które słownik już zadaje
+i na które sam odpowiada wszędzie tam, gdzie leksemy rozdzielił.
+`zamek:Sm3~a` i `zamek:Sm3~u` to dwa leksemy różniące się dopełniaczem,
+a `Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` to kraj i dzielnica Warszawy,
+różniące się miejscownikiem.
+Ten identyfikator gubią dziś oba kierunki:
+`skład.morfologia` pyta samym lematem i bierze pierwszą odpowiedź,
+a `olski/morph.py` ucina go przy analizie.
+Drugim, co słownik niesie, a repozytorium wyrzuca, jest kwalifikator:
+`projekta` obok `projekty` stoi w nim oznaczone jako `daw.`
+Brak słowa, zgubiony leksem i zgubiony kwalifikator
+widać naraz, nad `pl.sgjp.sgjp-2026.06.01`:
+
+```sh
+python3 -c "
+import morfeusz2
+morf = morfeusz2.Morfeusz()
+for lemat in ('projekt', 'zamek', 'komit'):
+    for forma, leksem, tag, _, kwalifikatory in morf.generate(lemat):
+        if 'pl:nom' in tag or 'sg:gen' in tag or tag == 'ign':
+            print(forma, leksem, tag, kwalifikatory)
+"
+```
+
+Leksykon projektu jest plikiem, który czyta to repozytorium,
+a nie słownikiem dołożonym Morfeuszowi, i decyduje o tym cena wejścia.
+Morfeusz przyjmuje słownik własny przez `dict_path`,
+ale przyjmuje go skompilowanego,
+a pakiet z PyPI wydaje bibliotekę wraz z wiązaniem do Pythona i nic poza tym,
+co widać po zawartości katalogu, w który się instaluje,
+więc tamta droga żąda łańcucha narzędzi spoza PyPI
+i zabiera to, co [`CLAUDE.md`](../CLAUDE.md#checks) ma za instalację jednym poleceniem.
+Plik czytany przez oba kierunki kupuje przy tym to samo,
+co kupuje [leksykon walencyjny](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+że `komit` jest słowem raz, a nie dwa razy.
+
+Czym wpis ma być, nie zapadło.
+Wypisanie form kosztuje pisanie i nie ma jak się pomylić;
+wskazanie leksemu, wedle którego wpis się odmienia,
+kosztuje jedno pole i łamie się tam, gdzie temat alternuje,
+bo `plik` ma w miejscowniku `pliku`, a temat zakończony na `t` bierze tam `cie`.
+Trzyma to [`TODO.md`](../TODO.md).
 
 ## The round-trip invariant
 
