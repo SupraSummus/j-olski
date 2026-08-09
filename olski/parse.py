@@ -41,20 +41,6 @@ from olski.morph import Reading, Segment
 #: derivations and the answer past the second one is always the same: too many.
 MAX_READINGS = 64
 
-#: Co czyni dwa czytania jednym czytaniem.
-#:
-#: Czytanie jest swoim kształtem i niczym więcej: role stoją w etykietach
-#: węzłów, przyłączenie w rozpiętościach, a wszystko, o co olski pyta, jest
-#: pytaniem o drzewo. Wyłączone rozmyślnie: wartości cech, bo zgodność wymusiła
-#: już unifikacja; lematy, bo polskie formy są homonimiczne wszędzie i liczone
-#: jako dwa odrzuciłyby prawie całą polszczyznę; części mowy, bo tam, gdzie
-#: zmieniają strukturę, różni wyprowadzenia już kształt — ``do`` jako przyimek i
-#: jako nuta dalej są dwoma czytaniami.
-#:
-#: Ostatnia z tych trzech zeszła stąd rozmyślnie i nie ma tu wracać przez
-#: przeoczenie. docs/subset.md wywodzi, co ją zdjęło, ile to kupuje nad bankiem
-#: drzew i czego było warunkiem.
-
 
 class LeftRecursion(Exception):
     """The grammar is left-recursive, which this parser cannot handle."""
@@ -70,6 +56,11 @@ class Leaf:
         return (self.segment.start, self.segment.end)
 
     def signature(self):
+        """Liść jest swoją rozpiętością i niczym więcej.
+
+        Część mowy zeszła stąd rozmyślnie i nie ma tu wracać przez przeoczenie;
+        co ją zdjęło, mówi :meth:`Node.signature`.
+        """
         return self.span
 
     def forms(self) -> list[str]:
@@ -87,6 +78,19 @@ class Node:
         return (self.children[0].span[0], self.children[-1].span[1])
 
     def signature(self):
+        """Co czyni dwa czytania jednym czytaniem.
+
+        Czytanie jest swoim kształtem i niczym więcej: role stoją w etykietach
+        węzłów, przyłączenie w rozpiętościach, a wszystko, o co olski pyta, jest
+        pytaniem o drzewo. Wyłączone rozmyślnie: wartości cech, bo zgodność
+        wymusiła już unifikacja; lematy, bo polskie formy są homonimiczne
+        wszędzie i liczone jako dwa odrzuciłyby prawie całą polszczyznę; części
+        mowy, bo tam, gdzie zmieniają strukturę, różni wyprowadzenia już
+        kształt — ``do`` jako przyimek i jako nuta dalej są dwoma czytaniami.
+
+        Ostatnią z tych trzech wywodzi docs/subset.md: co ją zdjęło, ile to
+        kupuje nad bankiem drzew i czego było warunkiem.
+        """
         return (self.label, tuple(child.signature() for child in self.children))
 
     def forms(self) -> list[str]:

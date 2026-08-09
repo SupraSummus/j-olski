@@ -163,6 +163,10 @@ od precedencji.
 bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
+Sześć pozycji na wyrażenie przyimkowe i dwanaście produkcji, w których stoją,
+wylicza
+[subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+i to jest ten pomiar, od którego się tu zaczyna.
 [Sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą) zmierzyła,
 że po stronie więzów SVO i OVS są jedną deklaracją, a okolicznik trzema,
 i że nie potrzeba do tego ani innego podłoża, ani innej klasy złożoności:
@@ -172,6 +176,18 @@ bezkontekstowym, i tak samo radzi z tym GPSG, co
 [kąt parsujący](docs/design-notes.md#angle-one-parsing) już wylicza.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
 precedencji, i preprocesor rozwijający jedno w drugie przed parsowaniem.
+Miejsce jest przy tym drugie i dochodzi się do niego inną drogą.
+`NPConjunct` ma osiem ciał, z czego sześć jest iloczynem
+trzech kształtów głowy przez obecność `Modifier` po niej,
+i mnoży to nie permutacja argumentów, tylko obecność i kolejność
+rodzajów przydawki, więc etap 4 dołoży tam trzeci rodzaj, a nie czwarty szyk.
+`Adjuncts` pokazuje w tym samym pliku wersję, która się nie mnoży,
+i pokazuje też, czemu tam wystarczyła: okoliczniki są jednego rodzaju.
+Pułapka na tej drodze jest jedna i leży poza gramatyką.
+Pozycja opcjonalna zwija się produkcją pustą, taka produkcja dziś się parsuje,
+ale `Node.span` w `olski/parse.py` sięga po `children[0]`,
+więc pusty węzeł wywraca każdego, kto o rozpiętość zapyta,
+a niezmiennika „węzeł ma dziecko” nie pilnuje nic.
 Kupuje to jeszcze jedną rzecz, którą sonda pokazała mimochodem:
 szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
 Do przeczytania jest, co ten preprocesor robi z liczbą czytań,

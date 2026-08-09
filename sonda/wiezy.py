@@ -110,10 +110,15 @@ class Gramatyka:
 class Czytanie:
     """Jeden rozbiór: drzewo zależności nad wybranymi czytaniami form.
 
-    Tożsamość czytania trzyma :meth:`sygnatura` i jest to ta sama decyzja, którą
-    ``signature`` podejmuje w ``olski/parse.py``: liczy się kształt i część mowy
-    każdego słowa, a nie wartości cech ani lematy. Dwa modele różniące się
+    Tożsamość czytania trzyma :meth:`sygnatura`: liczy się zbiór łuków i część
+    mowy każdego słowa, a nie wartości cech ani lematy. Dwa modele różniące się
     przypadkiem, który unifikacja i tak uzgodniła, są jednym czytaniem.
+
+    Część mowy jest tym, czym ta tożsamość różni się od ``signature`` w
+    ``olski/parse.py``, i robi tę różnicę podłoże. Tam część mowy, która zmienia
+    strukturę, zmienia razem z nią produkcję, więc stoi już w kształcie drzewa.
+    Tutaj rolę niesie etykieta łuku, a jeden więz bierze kilka części mowy naraz,
+    więc dwa czytania różniące się samą częścią mowy mają ten sam zbiór łuków.
     """
 
     formy: tuple[str, ...]
