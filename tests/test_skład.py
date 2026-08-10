@@ -35,8 +35,6 @@ from skład.słownik import (
     opis,
     potem,
     razem,
-    remat,
-    temat,
 )
 
 
@@ -406,8 +404,8 @@ def test_wyróżnienie_przestawia_konstytuenty_a_czasownik_zostaje_na_miejscu():
     """
     gdzie = Gdzie.w(R.piwnica)
     assert kompiluj(V.mieszkać(R.bazyliszek, gdzie)) == "Bazyliszek mieszka w piwnicy."
-    assert kompiluj(V.mieszkać(R.bazyliszek, temat(gdzie))) == "W piwnicy bazyliszek mieszka."
-    assert kompiluj(V.mieszkać(remat(R.bazyliszek), temat(gdzie))) == (
+    assert kompiluj(V.mieszkać(R.bazyliszek, gdzie.temat)) == "W piwnicy bazyliszek mieszka."
+    assert kompiluj(V.mieszkać(R.bazyliszek.remat, gdzie.temat)) == (
         "W piwnicy mieszka bazyliszek."
     )
 
@@ -423,7 +421,7 @@ def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
     """
     tekst = A.zwykły * A.polski * R.tekst
     assert kompiluj(jest(tekst, R.wejście)) == "Zwykły polski tekst jest wejściem."
-    assert kompiluj(jest(remat(tekst), temat(R.wejście))) == "Wejściem jest zwykły polski tekst."
+    assert kompiluj(jest(tekst.remat, R.wejście.temat)) == "Wejściem jest zwykły polski tekst."
 
 
 def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisywanej():
@@ -443,7 +441,7 @@ def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisy
         "Kamienne postaci, których nikt nie liczył, stały pod ścianą."
     )
     piwnica = A.ciemny * R.piwnica
-    mieszkał = opis(piwnica, V.mieszkać(remat(R.bazyliszek), Gdzie.w(piwnica)))
+    mieszkał = opis(piwnica, V.mieszkać(R.bazyliszek.remat, Gdzie.w(piwnica)))
     assert kompiluj(V.zejść(R.czeladnik, Dokąd.do(mieszkał)), Kontekst(czas="kiedyś")) == (
         "Czeladnik zszedł do ciemnej piwnicy, w której mieszkał bazyliszek."
     )
@@ -557,4 +555,4 @@ def test_dwa_konstytuenty_wyróżnione_tak_samo_zgłaszają_się_zamiast_staną�
     a to jest gorszy koniec niż wyjątek, bo autor nie ma po czym poznać, co zrobił.
     """
     with pytest.raises(PozaRamą):
-        kompiluj(V.mieszkać(temat(R.bazyliszek), temat(Gdzie.w(R.piwnica))))
+        kompiluj(V.mieszkać(R.bazyliszek.temat, Gdzie.w(R.piwnica).temat))

@@ -4,7 +4,7 @@ pytest.importorskip("morfeusz2")
 
 from opowieści.bazyliszek import OPOWIEŚĆ
 from skład import Akapit, Kontekst, Opowieść, Postać, PozaRamą, kompiluj
-from skład.słownik import A, Dlaczego, Gdzie, Kiedy, R, Skutek, V, jest, nie, opis, potem, temat
+from skład.słownik import A, Dlaczego, Gdzie, Kiedy, R, Skutek, V, jest, nie, opis, potem
 
 #: Tekst, który ma wyjść z drzew w ``opowieści/bazyliszek.py``, znak w znak.
 #: Pierwszy powstał tekst, a drzewa są tym, co go wypuszcza,
@@ -171,7 +171,7 @@ def test_okoliczność_wyrażona_zdarzeniem_odpowiada_na_to_samo_pytanie_co_rzec
     to samo zdanie stoi raz z okolicznością na czele, a raz z nią na swoim miejscu.
     """
     gdy = Kiedy.gdy(V.zgasnąć(R.świeca))
-    assert kompiluj(V.wrócić(R.czeladnik, temat(gdy)), Kontekst(czas="kiedyś")) == (
+    assert kompiluj(V.wrócić(R.czeladnik, gdy.temat), Kontekst(czas="kiedyś")) == (
         "Gdy świeca zgasła, czeladnik wrócił."
     )
     assert kompiluj(V.wrócić(R.czeladnik, gdy), Kontekst(czas="kiedyś")) == (
@@ -202,14 +202,14 @@ def test_o_czele_pary_zdań_rozstrzyga_spójnik_a_nie_autor():
     stoi za tym, przy którym stoi, i nie ma go czym przestawić.
     """
     zgasła = V.zgasnąć(R.świeca)
-    wróciła = nie(V.wrócić(R.córka, temat(Dlaczego.ponieważ(zgasła))))
+    wróciła = nie(V.wrócić(R.córka, Dlaczego.ponieważ(zgasła).temat))
     assert kompiluj(wróciła, Kontekst(czas="kiedyś")) == (
         "Ponieważ świeca zgasła, córka nie wróciła."
     )
     with pytest.raises(PozaRamą):
-        kompiluj(nie(V.wrócić(R.córka, temat(Dlaczego.bo(zgasła)))))
+        kompiluj(nie(V.wrócić(R.córka, Dlaczego.bo(zgasła).temat)))
     with pytest.raises(PozaRamą):
-        kompiluj(V.zamykać(R.kot, R.okno, temat(Skutek.więc(V.spać(R.mysz)))))
+        kompiluj(V.zamykać(R.kot, R.okno, Skutek.więc(V.spać(R.mysz)).temat))
 
 
 def test_podmiot_wraca_gdy_ktoś_inny_wyciąga_z_czasownika_tę_samą_formę():

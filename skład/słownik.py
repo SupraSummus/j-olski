@@ -11,6 +11,20 @@ Powód jest jeden: zdanie ma role, a role czyta się z nazw.
 Zapis operatorowy kazałby czytać je z kolejności
 oraz z pierwszeństwa działań, którego ten język nie projektował.
 
+Nazw nie brakuje za to łańcuchowi metod po zdaniu,
+czyli zapisowi ``V.zejść(kto).którędy_po(~R.schody)``, i on odpada z dwóch powodów.
+Relacja i słowo są dwiema osiami, które autor wybiera osobno,
+bo ``Gdzie.w`` i ``Dokąd.w`` są dwiema rzeczami do powiedzenia
+pisanymi jednym przyimkiem,
+a nazwa metody zwija te osie w jedną listę nazw w rodzaju ``gdzie_w``.
+Drugiego nie widać w zapisie, tylko w tym, co z nim robi ``ruff format``:
+znacznik tematu nie ma w takim łańcuchu czego wyróżnić poza tym,
+co dopisano ostatnio, więc staje się pozycyjny,
+a formater dokleja go do wywołania następnego,
+i wtedy źródło wyróżnia co innego, niż wygląda, że wyróżnia.
+Znacznik przyrostkowy tego nie ma, bo nie sięga poza konstytuent, przy którym stoi,
+i stoi razem z operatorami w ``skład.składnia``.
+
 Zwykłe konstrukcje Pythona są tu częścią zapisu, a nie obejściem.
 Zmienna nazywa poddrzewo i pozwala postawić je w dwóch zdaniach.
 Funkcja jest wzorcem zdania, a funkcja zwracająca listę jest wzorcem akapitu.
@@ -35,7 +49,6 @@ from skład.składnia import (
     Przysłówek,
     Rola,
     Rzecz,
-    Wyróżnienie,
     byt,
     nie,
     zdarzenie,
@@ -59,8 +72,6 @@ __all__ = [
     "opis",
     "potem",
     "razem",
-    "remat",
-    "temat",
 ]
 
 
@@ -236,22 +247,6 @@ def opis(rzecz: Rola, zdanie) -> Opis:
     a rzecz napisana dwa razy z osobna jest dwiema, jak wszędzie w tym pakiecie.
     """
     return Opis(byt(rzecz), zdanie)
-
-
-def temat(co) -> Wyróżnienie:
-    """To, o czym zdanie jest: staje na czele."""
-    return Wyróżnienie(byt(co), "czoło")
-
-
-def remat(co) -> Wyróżnienie:
-    """To, co zdanie o temacie dokłada: staje na końcu.
-
-    Nazwa jest tu parą do ``temat`` i dlatego jest terminem, a nie słowem zwykłym:
-    `nowe` nie zgadza się rodzajem z niczym, co się w nie wkłada,
-    a rozstrzygnięcie, które ta funkcja zapisuje, jest jedno z dwóch,
-    więc czyta się je z pary albo nie czyta się wcale.
-    """
-    return Wyróżnienie(byt(co), "koniec")
 
 
 def jest(co: Nominalne | Rola, czym: Nominalne | Rola) -> Jest:

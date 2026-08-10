@@ -243,7 +243,68 @@ def wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
     return rola.linearyzuj(case, kontekst)
 
 
-class Nominalne:
+@dataclass(frozen=True)
+class Wyróżnienie:
+    """Konstytuent wraz z tym, czym jest w zdaniu: tematem albo rematem.
+
+    To jest ta kategoria, którą polszczyzna niesie szykiem.
+    Drzewo mówi, o czym zdanie jest i co o tym dokłada,
+    a kolejność słów jest z tego wnioskiem, wyciąganym przy linearyzacji.
+    Wariantu szyku dopisanego do linearyzacji tu nie ma i nie ma być,
+    bo taki parametr opisywałby zdanie, a to drzewo opisuje to, o czym zdanie jest.
+    """
+
+    co: object
+    miejsce: str
+
+
+class Wyróżnialne:
+    """Znacznik tematu i rematu, dopisywany za konstytuentem.
+
+    Znacznik stoi za konstytuentem i wolno mu tam stać,
+    bo o tym, gdzie wypadną słowa wyróżnionego konstytuenta, nie mówi nic:
+    mówi ``_szyk`` niżej.
+    Zapis przedrostkowy kazałby czytelnikowi wracać po nawiasach do tego,
+    co znacznik objął,
+    a dopisany z tyłu czyta się tam, gdzie konstytuent się skończył.
+    Przeczenie z tyłu nie stanie i dlatego zostaje wywołaniem:
+    ``nie`` wypada w tekście przed czasownikiem,
+    więc zapis, który je tam stawia, mówi o wyjściu prawdę.
+
+    Znacznikiem, a nie wywołaniem, bo mówi, czym konstytuent w zdaniu jest,
+    a nie co się z nim robi.
+    Dochodzą tędy wszystkie kategorie, które konstytuentem bywają,
+    bo zawinięcie w rolę (``byt`` niżej) rzecz zawija,
+    a okoliczność i przysłówek przepuszcza nietknięte.
+    ``Wyróżnienie`` tych znaczników nie dziedziczy i nie ma dziedziczyć:
+    drugi znacznik na jednym konstytuencie łamie się wtedy na samym znaczniku,
+    a nie dopiero pod ``_goły``, który z zagnieżdżonego wyróżnienia
+    zdejmuje jedną warstwę.
+
+    Płaci się za to nawiasem tam, gdzie grupę zbudowały operatory.
+    Kropka wiąże mocniej niż tylda i niż gwiazdka,
+    więc liczba mnoga i określenie żądają nawiasu przed znacznikiem:
+    ``(~R.mieszczanin).remat`` i ``(A.duży * R.lustro).remat``.
+    """
+
+    @property
+    def temat(self) -> Wyróżnienie:
+        """To, o czym zdanie jest: staje na czele."""
+        return Wyróżnienie(byt(self), "czoło")
+
+    @property
+    def remat(self) -> Wyróżnienie:
+        """To, co zdanie o temacie dokłada: staje na końcu.
+
+        Nazwa jest tu parą do ``temat`` i dlatego jest terminem, a nie słowem zwykłym:
+        `nowe` nie zgadza się rodzajem z niczym, co się w nie wkłada,
+        a rozstrzygnięcie, które ten znacznik zapisuje, jest jedno z dwóch,
+        więc czyta się je z pary albo nie czyta się wcale.
+        """
+        return Wyróżnienie(byt(self), "koniec")
+
+
+class Nominalne(Wyróżnialne):
     """Wszystko, co może stanąć w grupie imiennej, wraz z zapisem operatorowym.
 
     Operatory stoją tutaj, a nie warstwę wyżej, bo są zapisem konstruktorów,
@@ -330,7 +391,7 @@ class Czyj(Nominalne):
         return _sklej([głowa, wypisz(self.określenie, "gen", kontekst)])
 
 
-class Rola:
+class Rola(Wyróżnialne):
     """To, co wypełnia w zdaniu jedną rolę: jeden byt albo kilka bytów naraz.
 
     Rola niesie liczbę i rodzaj, bo tego żąda od niej zgodność z czasownikiem,
@@ -422,7 +483,7 @@ def byt(rzecz):
 
 
 @dataclass(frozen=True)
-class Okolicznik:
+class Okolicznik(Wyróżnialne):
     """Okoliczność w relacji: w piwnicy, wzrokiem, gdy bazyliszek otworzył oczy.
 
     Relacja jest kategorią dziedziny i to ona stoi w drzewie,
@@ -492,7 +553,7 @@ class Okolicznik:
 
 
 @dataclass(frozen=True)
-class Przysłówek:
+class Przysłówek(Wyróżnialne):
     """Okoliczność wyrażona jednym słowem: wkrótce, nagle.
 
     Stopnia drzewo nie niesie i dlatego linearyzacja żąda równego:
@@ -506,21 +567,6 @@ class Przysłówek:
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         return Kawałek(odmień(self.lemat, "adv", degree="pos"))
-
-
-@dataclass(frozen=True)
-class Wyróżnienie:
-    """Konstytuent wraz z tym, czym jest w zdaniu: tematem albo tym, co nowe.
-
-    To jest ta kategoria, którą polszczyzna niesie szykiem.
-    Drzewo mówi, o czym zdanie jest i co o tym dokłada,
-    a kolejność słów jest z tego wnioskiem, wyciąganym przy linearyzacji.
-    Wariantu szyku dopisanego do linearyzacji tu nie ma i nie ma być,
-    bo taki parametr opisywałby zdanie, a to drzewo opisuje to, o czym zdanie jest.
-    """
-
-    co: object
-    miejsce: str
 
 
 def _goły(konstytuent):
