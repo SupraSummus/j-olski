@@ -526,6 +526,100 @@ więc zaimek i bezokolicznik są jedną zmianą, a nie dwiema stojącymi obok si
 Ruch trzyma [TODO.md](../TODO.md), a `jego wzrok` jest przy tym trzecią rzeczą:
 zaimek dzierżawczy przestawia grupę imienną, a nie wypełnia pozycję w zdaniu.
 
+## Drzewo jest jednoznaczne, a napis z niego nie musi być
+
+Drzewo dobrze złożone jest jednoznaczne z definicji,
+i [wyżej](#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+stoi to jako własność zapisu, którą ten tor dostaje za darmo.
+Napis jednoznaczny nie jest, bo przez linearyzację ta własność się nie przenosi:
+`Koszt szynki przewyższa koszt bułki.` wychodzi z drzewa, które mówi, co jest większe,
+a samo nie mówi tego wcale.
+Nie jest to wybór szyku, bo szyk jest tu SVO i innego nie ma —
+obie role stoją w formie równej mianownikowi i biernikowi naraz,
+a polszczyzna czyta taki ciąg i jako SVO, i jako OVS.
+Zgłasza to `skład/przegląd.py`, a ta sekcja mówi, na czym on stoi.
+
+**Liczone jest to z form, a nie z czytań.**
+Rola wraca czytelnikowi z dwóch rzeczy: z własnej formy i z czasownika,
+więc pyta się o jedno i o drugie.
+Czy podmiot brzmi w bierniku tak samo jak w mianowniku,
+czy dopełnienie brzmi w mianowniku tak samo jak tam, gdzie stoi,
+i czy te dwie role wyciągają z czasownika tę samą formę.
+Kiedy wszystkie trzy odpowiedzi są twierdzące, zamiana ról nie zmienia napisu,
+i wtedy zdanie nie mówi, która rola jest którą.
+Odpowiedzi biorą się z linearyzacji, bo wszystkie trzy są formami,
+a form skład nie zgaduje: wypisuje rolę drugi raz i porównuje napisy.
+
+To jest ten sam pomiar, który stoi w `pomijalny`, i warto to nazwać.
+Tamten pyta, czy podmiot wróci czytelnikowi z formy czasownika,
+i liczy to, wypisując tę formę dla każdego, kto mógłby ją z niego wyciągnąć.
+Tutaj pytanie jest o rolę zamiast o podmiot, a sposób jest ten sam.
+Kierunek generowania oddaje to za darmo, jak zapowiada początek tego dokumentu:
+parser widzi formy i musi z nich odgadnąć strukturę,
+a skład ma strukturę i formy liczy z niej.
+
+**Zgłasza, a nie odmawia**, i przesądza o tym rodzaj porażki.
+Skład rozdziela dziś trzy.
+Drzewa, którego nie ma, nie da się zbudować i mówi o tym `PozaRamą`;
+formy, której nie ma, nie da się wypisać i mówi o tym `BrakFormy`;
+a tu drzewo jest dobre i forma jest dobra, tylko czytelnik nie odzyska ról.
+`pomijalny` jest tu starszym przykładem tego trzeciego rodzaju
+i on wyznacza posturę: kiedy podmiotu nie da się odzyskać, wypisuje podmiot,
+zamiast cokolwiek odrzucać.
+Tam, gdzie bezpieczną powierzchnię da się policzyć, liczy ją linearyzacja,
+a przegląd bierze te miejsca, dla których polszczyzna wyjścia nie ma.
+
+Za zgłoszeniem zamiast odmowy stoi drugi powód i jest on mocniejszy.
+Czytań policzonych nad zdaniem czytelnik nie ma tyle samo,
+a `Program zapisuje plik.` czyta on raz, choć formalnie stoją tam dwa:
+o tym, co się z czym rozjeżdża, mówi
+[jednoznaczność prefiksu](open-questions.md#czy-jednoznaczność-prefiksu-mierzy-czytelność),
+i to ona jest właścicielem tego wywodu.
+Odmowa odbierałaby więc autorowi zdania, których nikt poza pomiarem nie czyta dwojako,
+a raport zostawia mu je wraz z powodem.
+
+**Gramatyki przegląd nie woła i nie potrzebuje.**
+Parser jest tu [świadkiem, a nie zależnością](design-notes.md#the-round-trip-invariant),
+a cała legenda o bazyliszku stoi w czasie przeszłym,
+którego gramatyka podzbioru nie ma,
+więc check postawiony na liczbie czytań milczałby nad całym wyjściem tego toru.
+Nie woła też `olski/wieloznaczność.py`, który tę samą klasę liczy nad tekstem,
+i to jest różnica warta zapisania, bo pokazuje, co ten kierunek daje.
+Tamten moduł musi zgadywać z form to, co tutaj wiadomo z drzewa:
+gdzie kończy się grupa imienna, co jest uczestnikiem, a co stoi pod przyimkiem,
+i przy którym orzeczeniu para stanęła — i sam nazywa przez to swoją liczbę
+górnym oszacowaniem.
+Tutaj żadne z tych pytań nie pada.
+
+Idzie to dalej, niż tamten pomiar sięga, i jest to usterka po tamtej stronie.
+`Mysz goni ogon.` czyta się dwojako, a tamten tego nie melduje,
+bo synkretyzm liczy z jednego czytania słownika,
+podczas gdy `mysz` niesie mianownik i biernik dwoma osobnymi wpisami.
+Porównanie napisów o wpisy nie pyta, więc tę parę widzi.
+Skład jest tu zatem świadkiem dla parsera, a nie odwrotnie,
+co jest tą samą wymianą, którą zapowiada
+[niezmiennik obiegu](design-notes.md#the-round-trip-invariant):
+generowanie pokazuje, czego druga strona nie widzi.
+Naprawa siedzi w tamtym module i rusza liczbę, którą on podaje,
+więc trzyma to [`TODO.md`](../TODO.md).
+
+Ile przegląd zgłasza, widać na tekście, którego nikt pod niego nie pisał:
+nad legendą o bazyliszku nie zgłasza nic,
+a przyczyną jest czas, w którym ta opowieść stoi.
+Czas przeszły niesie w polszczyźnie rodzaj, a teraźniejszy nie niesie żadnego,
+więc `Kufer zasłaniał lustro.` ma role przypięte,
+a `Kufer zasłania lustro.` nie ma ich wcale.
+Trzyma to `tests/test_przegląd.py` i trzyma mimo swojej zerowej liczby,
+bo liczba ta jest tu odpowiedzią, a nie brakiem przypadków.
+
+Klasa jest jedna z dwóch, które ta wieloznaczność ma nad polszczyzną.
+Przyłączenia przegląd nie zgłasza,
+bo o wyrażeniu przyimkowym drzewo mówi to, czego przy rolach nie mówi:
+okolicznik dochodzi w nim do zdarzenia zawsze,
+więc każde takie miejsce byłoby trafieniem,
+a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego.
+Czym to zawęzić, trzyma [`TODO.md`](../TODO.md).
+
 ## Checks that are cheap, deterministic, and explainable
 
 All finite-domain, all effectively linear time,

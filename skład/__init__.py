@@ -33,6 +33,7 @@ from skład.morfologia import (
     rodzaj_rzeczownika,
 )
 from skład.opowieść import Akapit, Opowieść, Postać
+from skład.przegląd import Kolizja, przejrzyj
 from skład.przyimki import PRZYIMKI, przypadek
 from skład.składnia import (
     Byt,
@@ -72,6 +73,7 @@ __all__ = [
     "Jaki",
     "Jest",
     "Kawałek",
+    "Kolizja",
     "Kontekst",
     "Koordynacja",
     "Nominalne",
@@ -94,6 +96,7 @@ __all__ = [
     "nie",
     "odmień",
     "pomijalny",
+    "przejrzyj",
     "przypadek",
     "rodzaj_rzeczownika",
     "staje_na_czele",

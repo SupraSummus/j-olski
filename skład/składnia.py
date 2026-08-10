@@ -59,7 +59,7 @@ CZASY = {
 }
 
 
-def _forma(czasownik: str, podmiot: Rola, kontekst: Kontekst) -> str:
+def forma_czasownika(czasownik: str, podmiot: Rola, kontekst: Kontekst) -> str:
     """Forma czasownika, którą ten podmiot z niego wyciąga.
 
     Tędy idzie każde zdanie, bo zgodność z podmiotem jest jedna
@@ -226,7 +226,7 @@ def _sklej(kawałki: list[Kawałek]) -> Kawałek:
     return Kawałek(napis, przed=kawałki[0].przed, po=kawałki[-1].po)
 
 
-def _wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
+def wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
     """Rola wypisana nazwą albo zaimkiem, gdy to ją wypisywane zdanie wskazuje.
 
     Tędy idzie każde miejsce, które rolę stawia,
@@ -327,7 +327,7 @@ class Czyj(Nominalne):
 
     def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> Kawałek:
         głowa = self.głowa.linearyzuj(case, number, kontekst)
-        return _sklej([głowa, _wypisz(self.określenie, "gen", kontekst)])
+        return _sklej([głowa, wypisz(self.określenie, "gen", kontekst)])
 
 
 class Rola:
@@ -408,7 +408,7 @@ class Koordynacja(Rola):
         return Koordynacja((*self.człony, byt(inne)))
 
     def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return _lista([_wypisz(człon, case, kontekst) for człon in self.człony])
+        return _lista([wypisz(człon, case, kontekst) for człon in self.człony])
 
 
 def byt(rzecz):
@@ -487,7 +487,7 @@ class Okolicznik:
         if self.zdarzeniem:
             sklejone = _sklej([Kawałek(self.słowo), self.co.linearyzuj(kontekst.podrzędne())])
             return replace(sklejone, przed=True, po=True)
-        grupa = _wypisz(self.co, przypadek(self.słowo, self.relacja), kontekst)
+        grupa = wypisz(self.co, przypadek(self.słowo, self.relacja), kontekst)
         return _sklej([Kawałek(self.słowo), grupa]) if self.słowo else grupa
 
 
@@ -588,7 +588,7 @@ def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, Kawałek]]:
     rola = _goły(pole)
     if kontekst.sprawca is not None or kontekst.pomija(rola):
         return []
-    return [(_miejsce(pole, kontekst), _wypisz(rola, "nom", kontekst))]
+    return [(_miejsce(pole, kontekst), wypisz(rola, "nom", kontekst))]
 
 
 def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
@@ -674,6 +674,41 @@ class Zdanie:
         """
         return (_rdzeń(self.podmiot),)
 
+    def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
+        """Role, które w tym zdaniu stoją jako uczestnik zdarzenia, wraz z przypadkiem.
+
+        Przypadek idzie razem z rolą, bo osobno żadne z dwojga nie mówi,
+        którą formą uczestnik w zdaniu stanie,
+        a to jest jedyne pytanie, dla którego ta lista istnieje.
+
+        Uczestnikiem nie jest okoliczność, i to jest tu cała treść:
+        rzecz spod przyimka staje w przypadku, którego żąda ten przyimek,
+        a nie w tym, który by jej przypadł z roli w zdarzeniu.
+        Przez to samo lista ta mówi coś, czego po samych formach nie widać,
+        i korzysta z tego ``skład/przegląd.py``.
+
+        Nie schodzi ona pod konstytuenty, inaczej niż ``podmioty`` wyżej,
+        bo uczestnicy dwóch zdań zestawieni w jedną listę
+        dawaliby parę, która przy żadnym orzeczeniu razem nie stanęła;
+        po zdania schodzi ``zdania`` niżej.
+        """
+        return ((self.podmiot, "nom"),)
+
+    @property
+    def zdania(self) -> tuple[Zdanie, ...]:
+        """To zdanie wraz z tymi, które stoją pod jego konstytuentami.
+
+        Jednostką jest tu orzeczenie, bo tyle wystarcza,
+        żeby o dwóch rolach powiedzieć, że stanęły przy jednym.
+        """
+        pod = (
+            niższe
+            for konstytuent in self.konstytuenty
+            for zdanie in _zdania_pod(konstytuent)
+            for niższe in zdanie.zdania
+        )
+        return (self, *pod)
+
     def _orzeczenie(self, kontekst: Kontekst) -> str:
         """Czasownik w formie, której żąda podmiot, wraz z przeczeniem.
 
@@ -683,7 +718,7 @@ class Zdanie:
         dopełnienie traci biernik na rzecz dopełniacza, a orzecznik nie ma czego stracić,
         bo narzędnika przeczenie w polszczyźnie nie rusza.
         """
-        forma = _forma(self.czasownik, self.podmiot, kontekst)
+        forma = forma_czasownika(self.czasownik, self.podmiot, kontekst)
         return f"nie {forma}" if self.przeczenie else forma
 
 
@@ -713,6 +748,9 @@ class Jest(Zdanie):
     def konstytuenty(self) -> tuple:
         return (self.co, self.czym)
 
+    def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
+        return ((self.podmiot, "nom"), (_goły(self.czym), "inst"))
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         return _szyk(
             [
@@ -720,7 +758,7 @@ class Jest(Zdanie):
                 (None, Kawałek(self._orzeczenie(kontekst))),
                 (
                     _miejsce(self.czym, kontekst),
-                    _wypisz(_goły(self.czym), "inst", kontekst),
+                    wypisz(_goły(self.czym), "inst", kontekst),
                 ),
             ]
         )
@@ -810,14 +848,41 @@ class Robi(Zdanie):
         i dlatego jedno przeczenie liczy się tu z dwóch pięter naraz.
         """
         dopełnienie = _goły(self.co)
-        przeczone = self.przeczenie or kontekst.pod_przeczeniem
         if isinstance(dopełnienie, Zdanie):
             return dopełnienie.linearyzuj(
                 replace(
-                    kontekst.podrzędne(), sprawca=_rdzeń(self.podmiot), pod_przeczeniem=przeczone
+                    kontekst.podrzędne(),
+                    sprawca=_rdzeń(self.podmiot),
+                    pod_przeczeniem=self._przeczone(kontekst),
                 )
             )
-        return _wypisz(dopełnienie, "gen" if przeczone else "acc", kontekst)
+        return wypisz(dopełnienie, self._przypadek(kontekst), kontekst)
+
+    def _przeczone(self, kontekst: Kontekst) -> bool:
+        """Czy to zdanie stoi pod przeczeniem, własnym albo cudzym."""
+        return self.przeczenie or kontekst.pod_przeczeniem
+
+    def _przypadek(self, kontekst: Kontekst) -> str:
+        """Przypadek, w którym staje dopełnienie: biernik, a pod przeczeniem dopełniacz.
+
+        Pytają o to dwa miejsca i muszą dostać tę samą odpowiedź:
+        linearyzacja, żeby dopełnienie wypisać,
+        i ``uczestnicy``, żeby powiedzieć, jaką formą ono stanęło.
+        Druga kopia rozjechałaby się z pierwszą zmianą przeczenia
+        i nie zgłosiłaby tego nigdzie, bo obie odpowiedzi są poprawnymi przypadkami.
+        """
+        return "gen" if self._przeczone(kontekst) else "acc"
+
+    def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
+        """Podmiot, a wraz z nim dopełnienie, o ile jest rzeczą, a nie zdarzeniem.
+
+        Bezokolicznik podmiotem nie stanie, więc uczestnikiem nie jest:
+        pytanie, dla którego ta lista istnieje, jest pytaniem o role wymienne.
+        """
+        dopełnienie = _goły(self.co)
+        if not isinstance(dopełnienie, Rola):
+            return ((self.podmiot, "nom"),)
+        return ((self.podmiot, "nom"), (dopełnienie, self._przypadek(kontekst)))
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         pozycje = _podmiot(self.kto, kontekst)
@@ -930,6 +995,22 @@ class Ciąg(Zdanie):
         """
         return tuple(sprawca for zdarzenie in self.zdarzenia for sprawca in zdarzenie.sprawcy)
 
+    def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
+        """Żadnych, bo ciąg własnego orzeczenia nie ma, tylko po jednym na zdarzenie.
+
+        Podmiot ciąg ma mimo to, i jest nim podmiot pierwszego zdarzenia,
+        bo o to pyta ``pomijalny``, składając ciąg ze zdaniem obok.
+        Tu odpowiedź jest inna, bo inne jest pytanie:
+        uczestnicy stają przy orzeczeniu, a nie przy zdaniu,
+        więc szuka się ich w ``zdania`` niżej, po jednym zdarzeniu naraz.
+        """
+        return ()
+
+    @property
+    def zdania(self) -> tuple[Zdanie, ...]:
+        """Zdania wszystkich zdarzeń, a nie samego ciągu."""
+        return tuple(zdanie for zdarzenie in self.zdarzenia for zdanie in zdarzenie.zdania)
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         poprzednie = self.zdarzenia[0]
         wypisane = [poprzednie.linearyzuj(kontekst)]
@@ -998,7 +1079,7 @@ class Opis(Rola):
         """
         wewnątrz = replace(kontekst.podrzędne(), wskazywany=self.rzecz)
         zdanie = replace(self.zdanie.linearyzuj(wewnątrz), przed=True)
-        return replace(_sklej([_wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
+        return replace(_sklej([wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
 
 
 def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst):
@@ -1027,13 +1108,13 @@ def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst):
         return None
     if poprzednie.podmiot.tożsamość is not tożsamość or isinstance(podmiot, Opis):
         return None
-    forma = _forma(zdanie.czasownik, podmiot, kontekst)
+    forma = forma_czasownika(zdanie.czasownik, podmiot, kontekst)
     mylące = (
         rola
         for rola in (*poprzednie.podmioty, *zdanie.podmioty)
         if rola.tożsamość is not tożsamość
     )
-    if any(_forma(zdanie.czasownik, rola, kontekst) == forma for rola in mylące):
+    if any(forma_czasownika(zdanie.czasownik, rola, kontekst) == forma for rola in mylące):
         return None
     return tożsamość
 
