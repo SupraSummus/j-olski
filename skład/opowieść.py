@@ -31,7 +31,7 @@ opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
 
 from __future__ import annotations
 
-from skład.składnia import Kontekst, Rola, byt, kompiluj
+from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj
 
 
 class Postać(Rola):
@@ -67,8 +67,8 @@ class Postać(Rola):
     def tożsamość(self) -> Postać:
         return self
 
-    def linearyzuj(self, case: str) -> str:
-        return self.kto.linearyzuj(case)
+    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> str:
+        return self.kto.linearyzuj(case, kontekst)
 
 
 def _rozwiń(elementy):

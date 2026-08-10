@@ -30,6 +30,7 @@ from skład.składnia import (
     Jest,
     Nominalne,
     Okolicznik,
+    Opis,
     Przysłówek,
     Rola,
     Rzecz,
@@ -44,6 +45,8 @@ __all__ = [
     "D",
     "Dokąd",
     "Gdzie",
+    "Kiedy",
+    "Którędy",
     "R",
     "Skąd",
     "V",
@@ -51,6 +54,7 @@ __all__ = [
     "jest",
     "nie",
     "nowe",
+    "opis",
     "razem",
     "temat",
 ]
@@ -161,6 +165,8 @@ D = Słownik(Przysłówek)
 Gdzie = Okoliczności("miejsce")
 Dokąd = Okoliczności("cel")
 Skąd = Okoliczności("źródło")
+Którędy = Okoliczności("droga")
+Kiedy = Okoliczności("czas")
 
 
 def czym(co: Nominalne | Rola) -> Okolicznik:
@@ -180,6 +186,18 @@ def razem(elementy) -> Rola:
     for element in człony[1:]:
         wynik = wynik & element
     return wynik
+
+
+def opis(rzecz: Rola, zdanie) -> Opis:
+    """Rzecz wraz ze zdarzeniem, które mówi, o którą rzecz chodzi.
+
+    Rzecz stoi tu dwa razy: raz jako ta opisywana, a raz w zdaniu, które ją opisuje,
+    i to drugie wystąpienie jest tym, co wyjdzie zaimkiem.
+    Zapisu na to nie ma, bo zapisem jest zmienna:
+    ta sama zmienna postawiona w obu miejscach jest tą samą rzeczą,
+    a rzecz napisana dwa razy z osobna jest dwiema, jak wszędzie w tym pakiecie.
+    """
+    return Opis(byt(rzecz), zdanie)
 
 
 def temat(co) -> Wyróżnienie:

@@ -20,6 +20,9 @@ Drzewo mówi, co w zdaniu jest tematem, a co nowe, przez ``Wyróżnienie``,
 i dopiero z tego wychodzi kolejność, w której konstytuenty się wypisują.
 Czasownik przy tym nie rusza się nigdy,
 więc wyróżnienie przestawia to, co wokół niego stoi, a nie całe zdanie.
+Jedną kolejność dokłada do tego ``Opis`` i tej autor nie wybiera:
+zaimek względny otwiera zdanie podrzędne zawsze,
+więc rzecz wskazana staje w nim na czele, czymkolwiek w nim jest.
 
 Czego drzewo nie niesie, jest tu decyzją, a nie brakiem.
 Nie ma w nim przypadka, bo przypadek bierze się z pozycji.
@@ -69,20 +72,28 @@ class PozaRamą(Exception):
 
 @dataclass(frozen=True)
 class Kontekst:
-    """Co linearyzacja wie poza drzewem: kiedy to było i o kim przed chwilą mowa.
+    """Czego linearyzacja nie znajduje w drzewie, które właśnie wypisuje.
 
-    Obie te rzeczy są własnościami tekstu, a nie zdania,
+    Pierwsze dwie rzeczy są własnościami tekstu, a nie zdania,
     więc zdanie ich w sobie nie trzyma:
     ta sama rzecz opowiedziana raz jako to, co się stało, a raz jako to, co się dzieje,
     jest jednym drzewem i dwoma czasami.
-    Kto tym kontekstem steruje, mówi ``skład/opowieść.py``.
+    Kto tymi dwoma steruje, mówi ``skład/opowieść.py``.
+
+    Trzecia jest własnością miejsca, w którym zdanie stoi.
+    Zdanie wypisywane jako opis rzeczy mówi o tej rzeczy zaimkiem, a nie nazwą,
+    i steruje tym drzewo, a nie tekst; mechanizm trzyma ``Opis`` niżej.
+    Stoi tu obok tamtych dwóch, bo pytanie jest jedno:
+    czego wypisywane drzewo o sobie nie wie.
 
     Wartość domyślna jest zdaniem stojącym samo:
-    dzieje się teraz i nie ma za sobą niczego, co dałoby się pominąć.
+    dzieje się teraz, nie ma za sobą nikogo, kogo dałoby się pominąć,
+    i niczego nie opisuje.
     """
 
     czas: str = "teraz"
     pomijany: object = None
+    wskazywany: object = None
 
     def pomija(self, rola: Rola) -> bool:
         """Czy podmiot jest tym, o kim mowa była zdanie wcześniej.
@@ -93,8 +104,49 @@ class Kontekst:
         """
         return self.pomijany is not None and rola.tożsamość is self.pomijany
 
+    def wskazuje(self, rola: Rola) -> bool:
+        """Czy to ta rola, którą wypisywane zdanie wskazuje.
+
+        Porównaniem jest tożsamość obiektu, a nie równość,
+        bo tą samą rzeczą jest tu ta sama zmienna, tak samo jak przy ``Postać``:
+        dwie równe grupy imienne są dwiema rzeczami, dopóki autor nie użyje jednej.
+        """
+        return self.wskazywany is not None and _rdzeń(rola) is _rdzeń(self.wskazywany)
+
 
 TERAZ = Kontekst()
+
+
+def _rdzeń(rola: Rola):
+    """Rzecz spod roli, bo dopiero ona jest tym, co autor nazwał zmienną.
+
+    ``byt`` zawija rzecz od nowa w każdym miejscu, w którym ona stoi,
+    więc jedna zmienna trzymająca samą rzecz stoi w dwóch różnych rolach,
+    a porównanie samych ról orzekłoby o niej, że jest dwiema rzeczami.
+    Zejście pod rolę zdejmuje autorowi pytanie, którego nie ma po co sobie zadawać:
+    czy zmienna, którą napisał, trzyma rzecz, czy rzecz wraz z liczbą.
+    Pod ``Postać`` to zejście nie schodzi, bo tam żądanie jest odwrotne:
+    dwie postaci o jednej rzeczy są dwiema rzeczami z rozmysłu,
+    bo opowieść bywa o dwóch braciach.
+    """
+    return rola.rzecz if isinstance(rola, Byt) else rola
+
+
+def _wypisz(rola: Rola, case: str, kontekst: Kontekst) -> str:
+    """Rola wypisana nazwą albo zaimkiem, gdy to ją wypisywane zdanie wskazuje.
+
+    Tędy idzie każde miejsce, które rolę stawia,
+    bo zaimek jest jedną decyzją i ma jedno miejsce, w którym zapada.
+    Zgadza się on z rzeczą rodzajem i liczbą, a przypadek dostaje z pozycji,
+    czyli tak samo jak wszystko inne w tym pliku.
+    Osobne w ``Opis`` jest tylko to, że pozycja ta stoi w zdaniu podrzędnym,
+    a rzecz, której zaimek dotyczy, w nadrzędnym.
+    """
+    if kontekst.wskazuje(rola):
+        return odmień(
+            "który", "adj", case=case, number=rola.number, gender=rola.rodzaj, degree="pos"
+        )
+    return rola.linearyzuj(case, kontekst)
 
 
 class Nominalne:
@@ -103,6 +155,11 @@ class Nominalne:
     Operatory stoją tutaj, a nie warstwę wyżej, bo są zapisem konstruktorów,
     a nie drugim sposobem mówienia: ``a / b`` buduje dokładnie ``Czyj(a, byt(b))``.
     Zdejmowalną warstwą są same przestrzenie nazw w ``skład.słownik``.
+
+    Kontekst wchodzi do każdej linearyzacji poniżej, choć rzeczownik go nie czyta.
+    Bierze się to z ``Czyj``: określeniem bywa rzecz opisana zdaniem,
+    a zdanie pyta o czas i o to, czy mówić o rzeczy zaimkiem,
+    więc gałąź, która kontekstu nie przekazuje, gubi go dopiero pod sobą.
     """
 
     def __truediv__(self, inne) -> Czyj:
@@ -128,7 +185,7 @@ class Rzecz(Nominalne):
     def rodzaj(self) -> str:
         return rodzaj_rzeczownika(self.lemat)
 
-    def linearyzuj(self, case: str, number: str) -> str:
+    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> str:
         return odmień(self.lemat, "subst", case=case, number=number)
 
 
@@ -147,11 +204,11 @@ class Jaki(Nominalne):
     def rodzaj(self) -> str:
         return self.rzecz.rodzaj
 
-    def linearyzuj(self, case: str, number: str) -> str:
+    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> str:
         przymiotnik = odmień(
             self.cecha, "adj", case=case, number=number, gender=self.rodzaj, degree="pos"
         )
-        return f"{przymiotnik} {self.rzecz.linearyzuj(case, number)}"
+        return f"{przymiotnik} {self.rzecz.linearyzuj(case, number, kontekst)}"
 
 
 @dataclass(frozen=True)
@@ -174,9 +231,9 @@ class Czyj(Nominalne):
     def rodzaj(self) -> str:
         return self.głowa.rodzaj
 
-    def linearyzuj(self, case: str, number: str) -> str:
-        głowa = self.głowa.linearyzuj(case, number)
-        return f"{głowa} {self.określenie.linearyzuj('gen')}"
+    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> str:
+        głowa = self.głowa.linearyzuj(case, number, kontekst)
+        return f"{głowa} {_wypisz(self.określenie, 'gen', kontekst)}"
 
 
 class Rola:
@@ -212,8 +269,24 @@ class Byt(Rola):
     def rodzaj(self) -> str:
         return self.rzecz.rodzaj
 
-    def linearyzuj(self, case: str) -> str:
-        return self.rzecz.linearyzuj(case, self.number)
+    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> str:
+        return self.rzecz.linearyzuj(case, self.number, kontekst)
+
+
+def _przecinkami(człony: list[str]) -> str:
+    """Człony rozdzielone przecinkiem, chyba że poprzedni już się nim zamknął.
+
+    ``Opis`` niżej zamyka zdanie podrzędne przecinkiem,
+    bo nie wie, czy coś po nim stanie.
+    Ta funkcja jest jedynym miejscem, które po konstytuencie stawia przecinek rozdzielający,
+    więc jedynym, które tamten przecinek musi zobaczyć.
+    Polszczyzna stawia tu jeden przecinek, a nie dwa,
+    bo zamknięcie zdania podrzędnego jest tym samym przecinkiem, co rozdzielenie listy.
+    """
+    wynik = człony[0]
+    for człon in człony[1:]:
+        wynik += f" {człon}" if wynik.endswith(",") else f", {człon}"
+    return wynik
 
 
 @dataclass(frozen=True)
@@ -244,9 +317,9 @@ class Koordynacja(Rola):
     def __and__(self, inne) -> Koordynacja:
         return Koordynacja((*self.człony, byt(inne)))
 
-    def linearyzuj(self, case: str) -> str:
-        wypisane = [człon.linearyzuj(case) for człon in self.człony]
-        return f"{', '.join(wypisane[:-1])} i {wypisane[-1]}"
+    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> str:
+        wypisane = [_wypisz(człon, case, kontekst) for człon in self.człony]
+        return f"{_przecinkami(wypisane[:-1])} i {wypisane[-1]}"
 
 
 def byt(rzecz):
@@ -282,8 +355,8 @@ class Okolicznik:
         if przypadek(self.przyimek, self.relacja) is None:
             raise PozaRamą(f"{self.przyimek or 'sam narzędnik'} nie stoi w relacji {self.relacja}")
 
-    def linearyzuj(self) -> str:
-        grupa = self.co.linearyzuj(przypadek(self.przyimek, self.relacja))
+    def linearyzuj(self, kontekst: Kontekst = TERAZ) -> str:
+        grupa = _wypisz(self.co, przypadek(self.przyimek, self.relacja), kontekst)
         return " ".join(część for część in (self.przyimek, grupa) if część)
 
 
@@ -300,7 +373,7 @@ class Przysłówek:
 
     lemat: str
 
-    def linearyzuj(self) -> str:
+    def linearyzuj(self, kontekst: Kontekst = TERAZ) -> str:
         return odmień(self.lemat, "adv", degree="pos")
 
 
@@ -324,9 +397,36 @@ def _goły(konstytuent):
     return konstytuent.co if isinstance(konstytuent, Wyróżnienie) else konstytuent
 
 
-def _miejsce(konstytuent):
-    """Gdzie ten konstytuent staje: na czele, na końcu albo tam, gdzie zwykle."""
-    return konstytuent.miejsce if isinstance(konstytuent, Wyróżnienie) else None
+def _wskazany(konstytuent, kontekst: Kontekst) -> bool:
+    """Czy to ten konstytuent niesie rzecz, którą wypisywane zdanie wskazuje.
+
+    Rola stoi w zdaniu na dwóch głębokościach: sama albo pod okolicznikiem,
+    bo `w której mieszkał bazyliszek` wskazuje piwnicę spod przyimka.
+    Głębiej ta funkcja nie schodzi, i dlatego ``Opis`` pyta o to samo,
+    zanim zdanie powstanie: rzecz wskazana spod grupy imiennej
+    nie miałaby jak wyjść na czoło, więc jest błędem, a nie zdaniem o dziwnym szyku.
+    """
+    goły = _goły(konstytuent)
+    if isinstance(goły, Okolicznik):
+        return kontekst.wskazuje(goły.co)
+    return kontekst.wskazuje(goły)
+
+
+def _miejsce(konstytuent, kontekst: Kontekst):
+    """Gdzie ten konstytuent staje: na czele, na końcu albo tam, gdzie zwykle.
+
+    Rzecz wskazana staje na czele i nie jest to wybór autora:
+    zaimek względny otwiera w polszczyźnie zdanie podrzędne,
+    a nie stoi w nim tam, gdzie stałaby rzecz, którą zastępuje.
+    Wyróżnienie napisane nad tą samą rzeczą jest więc albo tym samym czołem,
+    albo drzewem, które żąda dwóch rzeczy naraz, i wtedy się zgłasza.
+    """
+    napisane = konstytuent.miejsce if isinstance(konstytuent, Wyróżnienie) else None
+    if not _wskazany(konstytuent, kontekst):
+        return napisane
+    if napisane not in (None, "czoło"):
+        raise PozaRamą(f"rzecz wskazana nie staje jako {napisane}, bo staje na czele")
+    return "czoło"
 
 
 def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, str]]:
@@ -340,7 +440,7 @@ def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, str]]:
     rola = _goły(pole)
     if kontekst.pomija(rola):
         return []
-    return [(_miejsce(pole), rola.linearyzuj("nom"))]
+    return [(_miejsce(pole, kontekst), _wypisz(rola, "nom", kontekst))]
 
 
 def _szyk(pozycje: list[tuple[str | None, str]]) -> str:
@@ -383,13 +483,20 @@ class Jest:
     def podmiot(self) -> Rola:
         return _goły(self.co)
 
+    @property
+    def konstytuenty(self) -> tuple:
+        return (self.co, self.czym)
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> str:
         pos, cechy = CZASY[kontekst.czas](self.podmiot)
         return _szyk(
             [
                 *_podmiot(self.co, kontekst),
                 (None, odmień("być", pos, **cechy)),
-                (_miejsce(self.czym), _goły(self.czym).linearyzuj("inst")),
+                (
+                    _miejsce(self.czym, kontekst),
+                    _wypisz(_goły(self.czym), "inst", kontekst),
+                ),
             ]
         )
 
@@ -429,14 +536,26 @@ class Robi:
     def podmiot(self) -> Rola:
         return _goły(self.kto)
 
+    @property
+    def konstytuenty(self) -> tuple:
+        dopełnienie = () if self.co is None else (self.co,)
+        return (self.kto, *dopełnienie, *self.okoliczniki)
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> str:
         pozycje = _podmiot(self.kto, kontekst)
         pozycje.append((None, self._czasownik(kontekst)))
         if self.co is not None:
             przypadek_dopełnienia = "gen" if self.przeczenie else "acc"
-            pozycje.append((_miejsce(self.co), _goły(self.co).linearyzuj(przypadek_dopełnienia)))
+            pozycje.append(
+                (
+                    _miejsce(self.co, kontekst),
+                    _wypisz(_goły(self.co), przypadek_dopełnienia, kontekst),
+                )
+            )
         for okolicznik in self.okoliczniki:
-            pozycje.append((_miejsce(okolicznik), _goły(okolicznik).linearyzuj()))
+            pozycje.append(
+                (_miejsce(okolicznik, kontekst), _goły(okolicznik).linearyzuj(kontekst))
+            )
         return _szyk(pozycje)
 
     def _czasownik(self, kontekst: Kontekst) -> str:
@@ -484,11 +603,72 @@ def nie(zdanie: Robi) -> Robi:
     return replace(zdanie, przeczenie=True)
 
 
+@dataclass(frozen=True)
+class Opis(Rola):
+    """Rzecz wskazana zdarzeniem, w którym stoi: postaci, których nikt nie liczył.
+
+    Kategorią dziedziny jest tu wskazywanie, a nie zdanie podrzędne.
+    ``Jaki`` wskazuje rzecz cechą, ta klasa wskazuje ją zdarzeniem,
+    i pytanie jest w obu wypadkach jedno: o którą rzecz mowa.
+    Że wychodzi z tego przydawka zdaniowa wraz z zaimkiem i przecinkami,
+    rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
+
+    Które miejsce w zdarzeniu zostaje zaimkiem, mówi tożsamość obiektu,
+    a nie osobny znacznik postawiony w tym miejscu.
+    Autor pisze rzecz raz i stawia tę samą zmienną w zdaniu, które ją opisuje,
+    czyli robi to samo, co robi z ``Postać`` w ``skład/opowieść.py``:
+    tam ta sama zmienna dwa razy jest jedną rzeczą w dwóch zdaniach,
+    a tutaj jest jedną rzeczą w zdaniu nadrzędnym i podrzędnym naraz.
+
+    Zdanie, które tej rzeczy nie stawia w miejscu, skąd zaimek wyjdzie na czoło,
+    zgłasza się od razu, bo opis, który nie opisuje, jest błędem drzewa.
+    Czym jest to miejsce, mówi ``_wskazany``.
+    """
+
+    rzecz: Rola
+    zdanie: object
+
+    def __post_init__(self) -> None:
+        kontekst = Kontekst(wskazywany=self.rzecz)
+        if not any(_wskazany(część, kontekst) for część in self.zdanie.konstytuenty):
+            raise PozaRamą("zdanie opisujące nie stawia opisywanej rzeczy")
+
+    @property
+    def number(self) -> str:
+        return self.rzecz.number
+
+    @property
+    def rodzaj(self) -> str:
+        return self.rzecz.rodzaj
+
+    @property
+    def tożsamość(self):
+        return self.rzecz.tożsamość
+
+    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> str:
+        """Rzecz, przecinek, zdanie o niej i przecinek zamykający.
+
+        Przypadek dostaje sama rzecz, bo to ona stoi w zdaniu nadrzędnym,
+        a zdanie podrzędne rozdaje przypadki własne i dostaje od tego kontekstu
+        czas oraz to, którą rzecz ma powiedzieć zaimkiem.
+        Pomijanie podmiotu w nim nie działa, i to nie jest brak:
+        podmiot opuszczony w zdaniu podrzędnym czytałby się jako ten,
+        którego zaimek właśnie zastąpił.
+        """
+        wewnątrz = replace(kontekst, wskazywany=self.rzecz, pomijany=None)
+        return f"{_wypisz(self.rzecz, case, kontekst)}, {self.zdanie.linearyzuj(wewnątrz)},"
+
+
 def kompiluj(drzewo, kontekst: Kontekst = TERAZ) -> str:
     """Drzewo jako zdanie: wielka litera na początku i kropka na końcu.
 
     Wielkość litery należy do składu, a nie do lematu,
     bo ta sama rzecz stoi raz na początku zdania, a raz w jego środku.
+
+    Przecinek zamykający opis znika przed kropką, bo polszczyzna nie stawia obu.
+    Zamyka go ``Opis``, który nie wie, czy coś jeszcze po nim stanie,
+    a wie to dopiero to miejsce, i tylko o jednym miejscu w zdaniu:
+    o jego końcu.
     """
-    tekst = drzewo.linearyzuj(kontekst)
+    tekst = drzewo.linearyzuj(kontekst).removesuffix(",")
     return f"{tekst[0].upper()}{tekst[1:]}."

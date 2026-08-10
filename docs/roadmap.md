@@ -447,8 +447,10 @@ Zaliczone, zob. `olski/walencja.py` oraz `PozaRamą` w `skład/składnia.py`.
 a odpowiada ich kilka z trzech różnych powodów, i tylko trzeci jest wyborem.
 
 Pierwszym jest kwalifikator, którym słownik odsyła formę poza ten rejestr,
-do dawnej polszczyzny albo do potocznej, a którego ten moduł nie czyta,
-więc kryterium na tę klasę jest w danych i wystarczy przestać je wyrzucać.
+do dawnej polszczyzny albo do potocznej.
+Kryterium na tę klasę stoi w danych i czyta je `POZA_REJESTREM` w tym samym pliku,
+wraz z podziałem, którego ta klasa żąda:
+nazwa dziedziny formy poza rejestr nie odsyła, więc `oczy` zostają, a `któren` nie.
 Drugim jest leksem, którego lemat nie wskazuje,
 bo jednym napisem odmieniają się dwie rzeczy o różnej odmianie,
 a identyfikator, który je rozróżnia, gubią oba kierunki naraz.
@@ -464,6 +466,10 @@ kryterium po stronie analizy stoi tam, gdzie
 leksem jest tym, co drzewo nazywa,
 a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
+Pierwsze z tych trzech stoi, zob. `POZA_REJESTREM` w `skład/morfologia.py`
+oraz [design-notes.md](design-notes.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem);
+kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym
+[design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
 
 ### Etap 4: leksykon projektu
 
@@ -485,9 +491,12 @@ a każdy wpis leksykonu projektu niesie to, skąd się w nim wziął.
 
 ### Etap 5: konstrukcje, których żąda README
 
-Podrzędność, bezokolicznik po czasowniku, zaimek wskazujący i liczebnik.
-Negacja wraz z dopełniaczem negacji, koordynacja, wyrażenie przyimkowe
-i przysłówek stoją już w `skład/składnia.py`.
+Bezokolicznik po czasowniku, zaimek wskazujący, liczebnik
+oraz ta część podrzędności, która nie wskazuje rzeczy:
+okolicznik wyrażony zdarzeniem, czyli `gdy` i `bo`.
+Osobno stoi koordynacja zdarzeń, bo `&` w `skład/składnia.py` łączy byty.
+Negacja wraz z dopełniaczem negacji, koordynacja bytów, wyrażenie przyimkowe,
+przysłówek i przydawka zdaniowa stoją już w tym samym pliku.
 
 Kolejki nie ustawia tu żaden bank drzew,
 i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
@@ -497,10 +506,14 @@ generator staje na tym, czego nie ma czym powiedzieć,
 a tego nie widać w żadnym korpusie, tylko w dokumencie, który ma wyjść.
 Kolejkę ustawia więc dokument i nic poza nim,
 a którym dokumentem jest, rozstrzyga to, co ten dokument mówi.
-Cztery pozycje odjęte wyżej wzięła
+Pozycje odjęte wyżej wzięła
 [legenda o bazyliszku](../opowieści/bazyliszek.py), a nie README,
-bo opowieść żąda przeczenia i okoliczników miejsca,
-a README, stojące w czasie teraźniejszym, nie żąda żadnego z nich.
+bo opowieść żąda przeczenia, okoliczników miejsca i wskazania rzeczy zdarzeniem,
+a README, stojące w czasie teraźniejszym, nie żąda żadnej z tych rzeczy.
+Ostatnią z nich wzięła dopiero druga wersja tej legendy, i nie za długość:
+zdanie podrzędne dokłada się tam, gdzie ktoś ma powód coś zrobić,
+a zakończenie nie mówi, o czym opowieść była
+([design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
 Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
 [design-notes.md](design-notes.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
 

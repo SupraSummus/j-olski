@@ -20,7 +20,22 @@ from skład import (
     odmień,
 )
 from skład.składnia import Jest, Robi
-from skład.słownik import A, D, Dokąd, Gdzie, R, Skąd, V, czym, jest, nowe, razem, temat
+from skład.słownik import (
+    A,
+    D,
+    Dokąd,
+    Gdzie,
+    Kiedy,
+    R,
+    Skąd,
+    V,
+    czym,
+    jest,
+    nowe,
+    opis,
+    razem,
+    temat,
+)
 
 
 def test_zgodność_jest_liczona_a_nie_żądana_od_autora():
@@ -273,6 +288,121 @@ def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
     tekst = A.zwykły * A.polski * R.tekst
     assert kompiluj(jest(tekst, R.wejście)) == "Zwykły polski tekst jest wejściem."
     assert kompiluj(jest(nowe(tekst), temat(R.wejście))) == "Wejściem jest zwykły polski tekst."
+
+
+def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisywanej():
+    """Zaimek jest tu policzony z dwóch miejsc naraz i to jest cały mechanizm opisu.
+
+    Rodzaj i liczbę ma z rzeczy, która stoi w zdaniu nadrzędnym,
+    a przypadek z pozycji, którą zajmuje w podrzędnym,
+    więc dopełniacz negacji sięga go tak samo jak sięgnąłby rzeczy w tym miejscu.
+
+    Dwa zdania, bo zmienna raz trzyma rolę, a raz samą rzecz:
+    ``~R.postać`` jest rolą, a ``A.ciemny * R.piwnica`` nie,
+    i bez zejścia pod rolę drugie z nich zgłasza się jako opis, który nie opisuje.
+    """
+    postaci = A.kamienny * ~R.postać
+    stoją = V.stać(opis(postaci, nie(V.liczyć(R.nikt, postaci))), Gdzie.pod(R.ściana))
+    assert kompiluj(stoją, Kontekst(czas="kiedyś")) == (
+        "Kamienne postaci, których nikt nie liczył, stały pod ścianą."
+    )
+    piwnica = A.ciemny * R.piwnica
+    mieszkał = opis(piwnica, V.mieszkać(nowe(R.bazyliszek), Gdzie.w(piwnica)))
+    assert kompiluj(V.zejść(R.czeladnik, Dokąd.do(mieszkał)), Kontekst(czas="kiedyś")) == (
+        "Czeladnik zszedł do ciemnej piwnicy, w której mieszkał bazyliszek."
+    )
+
+
+def test_zaimek_względny_otwiera_zdanie_podrzędne_z_każdej_roli():
+    """Czoło zdania podrzędnego nie jest wyborem autora, bo tyle znaczy ten zaimek.
+
+    Raz stoi on w podmiocie, a raz pod przyimkiem w okoliczniku,
+    czyli w pozycjach, które bez opisu wypadają w zdaniu w dwóch różnych miejscach.
+    """
+    kot = R.kot
+    assert kompiluj(V.spać(opis(kot, V.zamykać(kot, R.okno)))) == "Kot, który zamyka okno, śpi."
+    assert kompiluj(V.spać(opis(kot, V.mieszkać(R.mysz, Gdzie.pod(kot))))) == (
+        "Kot, pod którym mysz mieszka, śpi."
+    )
+
+
+def test_zdanie_które_opisywanej_rzeczy_nie_stawia_zgłasza_się_od_razu():
+    """Opis, który nie wskazuje, jest błędem drzewa, a nie zdaniem podrzędnym o niczym.
+
+    Trzy sposoby na to samo: zdanie o kimś innym, ta sama rzecz napisana
+    drugi raz z osobna, bo tożsamością jest tu zmienna, a nie równość drzew,
+    oraz rzecz postawiona pod grupą imienną, skąd zaimek nie wyszedłby na czoło.
+    Trzecie jest granicą tej kategorii, a nie pomyłką autora,
+    bo `kot, którego ogon goni mysz` jest zdaniem polskim.
+    """
+    kot = R.kot
+    with pytest.raises(PozaRamą):
+        opis(kot, V.zamykać(R.mysz, R.okno))
+    with pytest.raises(PozaRamą):
+        opis(A.stary * R.kot, V.zamykać(A.stary * R.kot, R.okno))
+    with pytest.raises(PozaRamą):
+        opis(kot, V.gonić(R.mysz, R.ogon / kot))
+
+
+def test_przecinek_zamykający_opis_stoi_dokładnie_raz():
+    """Opis zamyka się przecinkiem, nie wiedząc, czy coś po nim stanie.
+
+    Stanąć może trzy rzeczy i każda rozstrzyga inaczej:
+    kropka przecinek zjada, dalszy konstytuent go zostawia,
+    a przecinek listy jest tym samym przecinkiem i nie dokłada drugiego.
+    """
+    kot = R.kot
+    opisany = opis(kot, V.spać(kot))
+    assert kompiluj(V.gonić(opisany, R.mysz)) == "Kot, który śpi, goni mysz."
+    assert kompiluj(V.gonić(R.mysz, opisany)) == "Mysz goni kota, który śpi."
+    assert kompiluj(V.gonić(R.mysz, razem([opisany, R.okno, R.pudełko]))) == (
+        "Mysz goni kota, który śpi, okno i pudełko."
+    )
+
+
+def test_czas_opowiadania_dochodzi_do_zdania_podrzędnego():
+    """Kontekst schodzi pod grupę imienną, bo inaczej gubi się dopiero tam.
+
+    Zdanie podrzędne stojące w czasie teraźniejszym wewnątrz opowieści
+    czyta się jako zdanie o tym, co jest, a nie o tym, co było,
+    więc pomyłka tego rodzaju nie zgłasza się nigdzie i wychodzi tekstem.
+    """
+    kot = R.kot
+    zdanie = V.gonić(R.mysz, R.ogon / opis(kot, V.zamykać(kot, R.okno)))
+    assert kompiluj(zdanie, Kontekst(czas="kiedyś")) == (
+        "Mysz goniła ogon kota, który zamykał okno."
+    )
+
+
+def test_forma_odesłana_kwalifikatorem_poza_rejestr_nie_wychodzi():
+    """Wybór pierwszej z form jest wyborem dopiero po odsianiu tych spoza rejestru.
+
+    Oba lematy pokazała ta opowieść, a nie plan:
+    ``któren`` wychodził na każdym zaimku względnym rodzaju męskiego,
+    a ``zgasnęła`` na świecy, i żaden z nich nie stoi w tym rejestrze.
+    """
+    assert odmień("który", "adj", case="nom", number="sg", gender="m1", degree="pos") == "który"
+    assert odmień("zgasnąć", "praet", number="sg", gender="f") == "zgasła"
+
+
+def test_kwalifikator_dziedzinowy_formy_nie_odsyła():
+    """Kwalifikator mówi o formie dwie różne rzeczy i tylko jedna z nich jest rejestrem.
+
+    ``oczy`` niosą kwalifikator anatomiczny i są zwykłą polszczyzną,
+    więc odsianie po każdym kwalifikatorze naraz zabrałoby je,
+    a zostawiłoby ``oka``, czyli oczka w sieci.
+    """
+    assert odmień("oko", "subst", case="nom", number="pl") == "oczy"
+
+
+def test_relacja_która_przypadka_nie_zmienia_jest_osobną_relacją_mimo_to():
+    """Relacja nazywa to, co autor powiedział, a nie to, w czym mu to wyjdzie.
+
+    ``w nocy`` i ``w piwnicy`` stoją w jednym przypadku i odpowiadają na dwa pytania,
+    więc wpis, po którym nic w tekście się nie zmienia, jest tu wpisem mimo to.
+    """
+    assert Kiedy.w(R.noc).linearyzuj() == "w nocy"
+    assert Gdzie.w(R.piwnica).linearyzuj() == "w piwnicy"
 
 
 def test_dwa_konstytuenty_wyróżnione_tak_samo_zgłaszają_się_zamiast_stanąć_obok_siebie():

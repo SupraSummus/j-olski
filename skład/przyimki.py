@@ -8,8 +8,14 @@ Klucz jest parą, bo sam przyimek przypadka nie wyznacza:
 Rozstrzyga między nimi relacja, którą autor postawił w drzewie,
 a relacja jest kategorią dziedziny, a nie polszczyzny:
 drzewo mówi, że coś jest celem, a nie że stoi tam biernik.
-Ta jedna para jest całym powodem, dla którego okolicznik niesie relację,
+Para taka jest całym powodem, dla którego okolicznik niesie relację,
 bo przyimek biorący jeden przypadek dałby się opisać samym napisem.
+
+Relacji jest przy tym więcej niż przypadków, które one rozdzielają,
+i widać to na tym samym przyimku: ``w nocy`` stoi w miejscowniku jak ``w piwnicy``,
+a mówi, kiedy, a nie gdzie.
+Wpis, który przypadka nie zmienia, jest tu wpisem mimo to,
+bo relacja nazywa to, co autor powiedział, a nie to, w czym mu to wyjdzie.
 
 Wpis pisany jest ręcznie, i jest to jedyny taki plik w tym pakiecie.
 Walenty opisuje czasowniki, a nie przyimki, więc nie ma stąd czego wygenerować.
@@ -35,11 +41,14 @@ PRZYIMKI: dict[tuple[str, str], str] = {
     ("na", "cel"): "acc",
     ("na", "miejsce"): "loc",
     ("od", "źródło"): "gen",
+    ("po", "droga"): "loc",
     ("pod", "cel"): "acc",
     ("pod", "miejsce"): "inst",
     ("przed", "miejsce"): "inst",
     ("w", "cel"): "acc",
+    ("w", "czas"): "loc",
     ("w", "miejsce"): "loc",
+    ("wśród", "miejsce"): "gen",
     ("z", "źródło"): "gen",
 }
 
