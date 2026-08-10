@@ -19,6 +19,7 @@ from skład import (
     nie,
     odmień,
 )
+from skład.przegląd import przejrzyj
 from skład.składnia import Jest, Robi
 from skład.słownik import (
     A,
@@ -164,15 +165,43 @@ def test_dwa_przymiotniki_zagnieżdżają_się_w_kolejności_zapisu():
         V.sprawdzać(R.linter, ~(A.polski * R.tekst)),
     ],
 )
-def test_to_co_skład_wypuszcza_czyta_się_w_olskim_raz(drzewo):
+def test_te_drzewa_wychodzą_zdaniem_o_jednym_czytaniu(drzewo):
     """Sprzężenie obu torów jest tu całe i jest jednostronne.
 
     Skład olskiego nie potrzebuje, bo zgodność liczy, zamiast ją sprawdzać, więc
     ten check jest świadkiem, a nie zależnością: nad zdaniem, którego gramatyka
     nie obejmuje, nie ma czego powiedzieć i wtedy takiego przypadku tu nie ma.
+
+    Zdania są tu wypisane, bo lista ta jest listą przypadków, a nie gwarancją:
+    czego ona nie trzyma, trzyma test niżej.
     """
     werdykt = check(kompiluj(drzewo))[0]
     assert werdykt.status == "valid", werdykt.explain()
+
+
+@pytest.mark.parametrize(
+    ("drzewo", "zdanie"),
+    [
+        (V.zapisywać(R.program, R.ustawienie), "Program zapisuje ustawienie."),
+        (V.sprawdzać(R.linter, A.polski * R.tekst), "Linter sprawdza polski tekst."),
+    ],
+)
+def test_liczba_mnoga_jest_powodem_dla_którego_tamte_czytają_się_raz(drzewo, zdanie):
+    """Lista wyżej przechodzi nie dlatego, że skład wypuszcza polszczyznę jednoznaczną.
+
+    To są te same dwa drzewa z liczbą pojedynczą zamiast mnogiej,
+    i czytają się dwojako, bo bez liczby, która podmiot odsiewa,
+    obie role stoją w formie równej mianownikowi i biernikowi naraz.
+    Bez tego przypadku tamta lista czyta się jak własność składu,
+    a jest listą pięciu zdań, w których liczba i narzędnik rozstrzygnęły za nią.
+
+    Czytanie samo w sobie nie jest tu usterką i dlatego nie ma tu odmowy:
+    czym jest, mówi ``skład/przegląd.py``, a ile tego wychodzi, liczy ten moduł.
+    """
+    tekst = kompiluj(drzewo)
+    assert tekst == zdanie
+    assert check(tekst)[0].status == "ambiguous"
+    assert przejrzyj(drzewo)
 
 
 @pytest.mark.parametrize(

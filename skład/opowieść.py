@@ -101,15 +101,23 @@ class Akapit:
     def __init__(self, *zdania) -> None:
         self.zdania = tuple(_rozwiń(zdania))
 
-    def kompiluj(self, czas: str) -> str:
+    def konteksty(self, czas: str):
+        """Zdania akapitu, każde wraz z kontekstem, w którym akapit je wypisuje.
+
+        Wydawane osobno od napisu, bo o ten sam kontekst pyta każdy,
+        kto chce zdanie tego akapitu obejrzeć, a nie tylko wypisać:
+        ``skład/przegląd.py`` jest pierwszym takim pytającym,
+        a kopia tej pętli u niego mierzyłaby akapit, którego ten plik już nie składa.
+        """
         kontekst = Kontekst(czas=czas)
-        wypisane = []
         poprzednie = None
         for zdanie in self.zdania:
             pomijany = pomijalny(zdanie, poprzednie, kontekst)
-            wypisane.append(kompiluj(zdanie, replace(kontekst, pomijany=pomijany)))
+            yield zdanie, replace(kontekst, pomijany=pomijany)
             poprzednie = zdanie
-        return " ".join(wypisane)
+
+    def kompiluj(self, czas: str) -> str:
+        return " ".join(kompiluj(zdanie, kontekst) for zdanie, kontekst in self.konteksty(czas))
 
 
 class Opowieść:

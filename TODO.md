@@ -1073,6 +1073,62 @@ jest jedną kategorią dziedziny niezależnie od tego, czym słownik to słowo z
 bo jeśli jest, to `Przysłówek` pyta o część mowy tam,
 gdzie od części mowy nie zależy ani szyk, ani zgodność, ani forma.
 
+`_obojętny` w `olski/wieloznaczność.py` liczy synkretyzm z jednego czytania,
+więc mija formę, której słownik daje mianownik i biernik dwoma osobnymi wpisami.
+`Mysz goni ogon.` olski czyta dwojako,
+a `miejsca` nie stawia tam żadnej pozycji,
+bo `mysz` wychodzi z Morfeusza jako `subst:sg:nom:f` i `subst:sg:acc:f` osobno,
+podczas gdy `ogon` wychodzi jako jedno `subst:sg:nom.acc:m3`.
+Pomiar sam nazywa swoją liczbę górnym oszacowaniem,
+a to jest błąd w drugą stronę i tam go nie ma.
+Zgłosił to skład, który tę samą klasę liczy porównaniem form i tej pary nie mija,
+i trzyma tę rozbieżność `tests/test_przegląd.py`.
+Do przeczytania jest, ile form rejestru dzieli te dwa przypadki na wpisy,
+oraz to, czym staje się wtedy zgoda:
+warunek żąda dziś liczby i rodzaju od jednego czytania,
+a nad dwoma trzeba wskazać, które z nich ma zgodzić się z orzeczeniem.
+Ruchem jest warunek pytany o segment zamiast o czytanie.
+Wpis jest zaparkowany, bo poprawka rusza liczbę,
+którą [`docs/open-questions.md`](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+podaje nad korpusem audytowym,
+więc zamyka go dopiero sesja, która ten korpus ściągnie i przebieg powtórzy.
+
+`przejrzyj` w `skład/przegląd.py` zgłasza jedną klasę z dwóch,
+bo przyłączenia zawęzić nie ma dziś czym.
+Okolicznik dochodzi w drzewie do zdarzenia zawsze,
+więc każde wyrażenie przyimkowe stojące za grupą imienną byłoby trafieniem,
+a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego:
+nad `opowieści/bazyliszek.py` dałby cztery zgłoszenia na piętnaście zdań
+i żadne z nich nie mówiłoby autorowi, co miałby z nim zrobić.
+Do przeczytania jest, czym się różnią te cztery miejsca,
+oraz to, co [`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia)
+mierzy nad Składnicą, bo tam ta sama klasa jest policzona nad cudzymi drzewami.
+Stoi nad tym wpisem pytanie
+[`docs/open-questions.md`](docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma),
+które pyta o to samo od strony parsera i mówi, że wyjścia nie ma w gramatyce.
+Przegląd stoi wobec niego inaczej i to jest tu jedyna nadzieja:
+on niczego nie odrzuca, więc pomyłka kosztuje tu wiersz raportu,
+a nie zdanie, którego autor nie napisze.
+Ruchem jest kryterium, które oddziela przyłączenie niosące różnicę znaczenia
+od tego, przy którym oba czytania mówią to samo,
+albo rozstrzygnięcie, że takiego kryterium nie ma
+i że ta klasa do przeglądu nie wchodzi.
+
+Stopnia nie ma w składzie żadnego, a jest on kategorią dziedziny.
+`Jaki` w `skład/składnia.py` żąda od przymiotnika stopnia równego na stałe,
+`Przysłówek` obok żąda tego samego i mówi w docstringu,
+że stopień wyższy „mówi co innego” i czeka na kategorię.
+Bez niego nie da się powiedzieć `Koszt szynki jest wyższy niż koszt bułki.`,
+czyli tego zdania, które mówi to samo co `Koszt szynki przewyższa koszt bułki.`
+i mówi to bez kolizji, którą `skład/przegląd.py` w drugim zgłasza.
+Do przeczytania jest, czy porównanie jest kategorią osobną od cechy,
+bo `wyższy` jest formą przymiotnika, a `niż koszt bułki` jest drugim uczestnikiem,
+więc drzewo ma tu do postawienia relację, a nie stopień przy rzeczy.
+Ruchem jest ta kategoria wraz z linearyzacją stawiającą `niż`,
+a nie przełącznik wybierający między dwoma zdaniami za autora:
+przegląd zgłasza, żeby autor napisał drugie drzewo,
+a nie żeby kompilator podmienił mu pierwsze.
+
 `Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
 `Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
 w `tests/test_subset.py`, a ze składu nie wyjdzie,
