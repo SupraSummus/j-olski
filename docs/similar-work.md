@@ -161,7 +161,7 @@ rather than writing text and receiving errors,
 the author is never able to write something invalid.
 
 It also dissolves a worry recorded in
-[design-notes.md](design-notes.md#three-architectures),
+[sklad.md](sklad.md#three-architectures),
 that chart parsers give unusable diagnostics.
 With look-ahead there are no diagnostics to give,
 because there are no errors.

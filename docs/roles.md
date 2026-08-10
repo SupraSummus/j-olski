@@ -159,6 +159,25 @@ więc takie zdanie odsyła czytelnika, który przyszedł po główną rzecz.
 
 **Obsadza ją** autor, z przerwami.
 
+## Czytelnik toru składu
+
+Pyta, co wchodzi do kompilatora i dlaczego drzewo mówi o rzeczach, a nie o przypadkach.
+Wchodzi w [sklad.md](sklad.md), a stamtąd w
+[etapy tego toru](roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi);
+gramatyki po drodze nie potrzebuje, bo parser stoi tu świadkiem, a nie zależnością
+([design-notes.md](design-notes.md#the-round-trip-invariant)).
+W kodzie to `skład/składnia.py` i `skład/morfologia.py`,
+a tekstem, na którym widać, czego brakuje, jest `opowieści/bazyliszek.py`.
+
+**Psuje ją** kategoria opisana słowem z rozbioru zdania,
+bo wtedy zapis, który miał mówić, o czym zdanie jest, mówi, jak zdanie stoi,
+oraz droga wiodąca przez dokument tamtego toru,
+bo czytelnik dostaje najpierw las rozbiorów, a potem to, po co przyszedł.
+
+**Obsadza ją** autor, i widać to po tym, że kolejkę konstrukcji ustawił tekst,
+a nie lista spisana z góry
+([sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
+
 ## Ktoś, kto zestawia to z tym, co już istnieje
 
 Pyta, czy to samo nie zostało już zrobione i czy nie zostało zrobione lepiej.

@@ -118,7 +118,7 @@ where a translated pool keeps the source beside the translation.
 394 commits touch its Markdown
 between 2025-07-11 and the pinned commit of 2026-07-21,
 and 320 of them are one person's.
-Nine tenths of its straight quotation marks are in one file,
+Four fifths of its straight quotation marks are in one file,
 `api-changelog.md`, which quotes API error messages release by release
 ([corpora.md](corpora.md#polish-technical-documentation-original-and-translated)
 has that count and what it is evidence of).

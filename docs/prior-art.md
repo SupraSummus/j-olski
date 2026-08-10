@@ -104,7 +104,7 @@ Read this first.
 
 What it gives and where it stops for Polish are different answers.
 The abstract syntax is the part worth taking, and
-[design-notes.md](design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+[sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 owns what taking it means here.
 The morphology is the part olski is better equipped for,
 and the RGL's own status table says so:
