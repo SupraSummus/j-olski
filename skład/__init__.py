@@ -15,7 +15,9 @@ Autor pisze drzewo, a zgodność jest liczona po drodze, a nie sprawdzana po nie
 Liczona jest zgodność, a nie wszystko: rama czasownika przychodzi z leksykonu,
 więc drzewo, które żąda dopełnienia od czasownika biorącego co innego,
 zgłasza się przez ``PozaRamą``, zamiast powstać.
-Rekcja przyimka przychodzi tak samo, z ``skład.przyimki``.
+Rekcja przyimka przychodzi tak samo, z ``skład.przyimki``,
+a który leksem stoi pod nazwą, mówi ``skład.leksemy``,
+bo lemat go nie wskazuje, a od wyboru zależy znaczenie zdania.
 
 Poziomem tych kategorii jest dziedzina, a nie język.
 ``Czyj`` mówi, co czego dotyczy, a nie że stoi tam dopełniacz,
@@ -23,7 +25,13 @@ Poziomem tych kategorii jest dziedzina, a nie język.
 i dlatego drzewo nie jest rozbiorem zdania zapisanym z góry.
 """
 
-from skład.morfologia import BrakFormy, odmień, rodzaj_rzeczownika
+from skład.leksemy import LEKSEMY, leksem
+from skład.morfologia import (
+    BrakFormy,
+    WieleLeksemów,
+    odmień,
+    rodzaj_rzeczownika,
+)
 from skład.opowieść import Akapit, Opowieść, Postać
 from skład.przyimki import PRZYIMKI, przypadek
 from skład.składnia import (
@@ -54,6 +62,7 @@ from skład.składnia import (
 from skład.spójniki import SPÓJNIKI, staje_na_czele, wprowadza
 
 __all__ = [
+    "LEKSEMY",
     "PRZYIMKI",
     "Akapit",
     "BrakFormy",
@@ -76,10 +85,12 @@ __all__ = [
     "Rola",
     "Rzecz",
     "SPÓJNIKI",
+    "WieleLeksemów",
     "Wyróżnienie",
     "Zdanie",
     "byt",
     "kompiluj",
+    "leksem",
     "nie",
     "odmień",
     "pomijalny",

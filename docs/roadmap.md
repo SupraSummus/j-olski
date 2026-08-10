@@ -452,8 +452,10 @@ Kryterium na tę klasę stoi w danych i czyta je `POZA_REJESTREM` w tym samym pl
 wraz z podziałem, którego ta klasa żąda:
 nazwa dziedziny formy poza rejestr nie odsyła, więc `oczy` zostają, a `któren` nie.
 Drugim jest leksem, którego lemat nie wskazuje,
-bo jednym napisem odmieniają się dwie rzeczy o różnej odmianie,
-a identyfikator, który je rozróżnia, gubią oba kierunki naraz.
+bo jednym napisem odmieniają się dwie rzeczy o różnej odmianie.
+Kryterium na tę klasę nie stoi w danych, bo rozstrzyga o nim autor,
+więc stoi w `skład/leksemy.py`, czyli w nazwach wybranych nad identyfikatorami,
+a `odmień` pyta o rozstrzygnięcie tam, gdzie leksemy dają różne formy.
 Trzecim jest wybór, który po tamtych dwóch zostaje,
 i dopiero on wymaga rozstrzygnięcia, czym ma być.
 Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
@@ -466,8 +468,10 @@ kryterium po stronie analizy stoi tam, gdzie
 leksem jest tym, co drzewo nazywa,
 a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
-Pierwsze z tych trzech stoi, zob. `POZA_REJESTREM` w `skład/morfologia.py`
-oraz [design-notes.md](design-notes.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem);
+Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` oraz `WieleLeksemów`
+w `skład/morfologia.py`, wraz z
+[kwalifikatorem](design-notes.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
+oraz [nazwą leksemu](design-notes.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
 kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym
 [design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
 

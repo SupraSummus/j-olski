@@ -188,8 +188,7 @@ zmienna nazywa postać, funkcja jest wzorcem zdania albo akapitu,
 a lista wchodzi do zdania jako koordynacja.
 Całą legendę o bazyliszku warszawskim trzyma `opowieści/bazyliszek.py`.
 
-Rzecz nazywa lematem tam, gdzie stoi leksem,
-a szyku wewnątrz grupy imiennej nie niesie, i to są dwie dziury w nim samym.
+Szyku wewnątrz grupy imiennej skład nie niesie, i to jest dziura w nim samym.
 Czego brakuje pod nim, w leksykonie i w formach, i w jakiej kolejności to dochodzi,
 mówi [docs/roadmap.md](docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Zobacz [docs/design-notes.md](docs/design-notes.md).
