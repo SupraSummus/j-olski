@@ -192,7 +192,7 @@ The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
-Eight rejected sentences have no such word at all —
+Nine rejected sentences have no such word at all —
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku.` —
 which is that coarseness in the open:

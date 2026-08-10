@@ -1043,35 +1043,32 @@ oraz `Jest` biorące lemat tak, jak bierze go `Robi`,
 wraz z odmową dla czasownika, którego ta lista nie wymienia.
 Czyta ją stamtąd także `sonda/polszczyzna.py`, więc import idzie razem z nią.
 
-`odmień` w `skład/morfologia.py` bierze pierwszą formę,
+`odmień` w `skład/morfologia.py` bierze pierwszą z form jednego leksemu,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
-Powody, dla których odpowiada kilka, są dwa i wyborem jest dopiero drugi.
-Pierwszym jest leksem, którego lemat nie wskazuje:
-`zamek:Sm3~a` i `zamek:Sm3~u` różnią się dopełniaczem,
-`Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` miejscownikiem,
-a identyfikator, który je rozróżnia, gubią oba kierunki,
-bo `olski/morph.py` ucina go przy analizie, a synteza pyta samym lematem.
-Kosztuje to więcej niż wariant pisowni, bo pod jednym napisem stoi też aspekt:
-`stać:Vi` i `stać:Vp` dzielą lemat, a forma dokonana w czasie teraźniejszym
-jest w polszczyźnie przyszłą,
-więc `V.stać(R.kot)` wypuszcza `Kot stanie.`, czyli zdanie o tym, co będzie.
-Drugim jest to, co po tamtym zostaje, czyli wariant w jednej komórce jednego leksemu:
-`postaci` obok `postacie`, oba bez kwalifikatora i oba w mianowniku mnogim,
-i pierwszy z nich wypisuje `opowieści/bazyliszek.py`,
+Jest to jedyne miejsce, w którym kompilator wybiera w milczeniu,
+i zostaje po dwóch kryteriach, na które ta klasa nie sięga:
+kwalifikatora ta forma nie ma, a leksem ma ten sam, co forma obok niej.
+Widać ją w dwóch postaciach, a przyczyna jest jedna, więc idą razem.
+Pierwszą jest wariant w jednej komórce: `postaci` obok `postacie`
+w mianowniku mnogim, i pierwszy z nich wypisuje `opowieści/bazyliszek.py`,
 bo pierwszy z nich wydaje słownik.
-Do przeczytania jest wyjście polecenia, które te klasy stawia obok siebie,
-z [`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
-wraz z tym, co `admissible` w `olski/subset.py` wyklucza po drugiej stronie
-i co o tym kryterium mówi
-[`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not).
-Ruchem jest leksem postawiony tam, gdzie dziś stoi lemat, w drzewie i w czytaniu,
-a dopiero po nim rozstrzygnięcie, czym ma być wybór między formami,
-które to kryterium zostawi.
-Ten sam wybór stoi piętro wyżej w `rodzaj_rzeczownika` w tym samym pliku,
-które bierze rodzaj alfabetycznie pierwszy:
-`kot` dostaje stąd `m1`, bo SGJP zna go i jako osobę, i jako zwierzę,
+Drugą jest rodzaj wypisany dwiema wartościami w jednym tagu,
+z których `rodzaj_rzeczownika` w tym samym pliku bierze alfabetycznie pierwszą:
+`anioł` dostaje stąd rodzaj osobowy, choć słownik nie rozstrzyga, czy jest osobowy,
 a rodzaj jest tu wartością, z której liczy się zgodność całego zdania.
-Rozstrzygnięcie jest jedno, bo przyczyna jest jedna, więc idą razem.
+Do przeczytania jest to, co
+[`docs/design-notes.md`](docs/design-notes.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)
+mówi o kryterium, które zostało zbudowane obok tej klasy,
+bo pytanie jest tu tym samym pytaniem o jedno piętro niżej:
+wybór między leksemami zapada w nazwie, a ten zapada pod jednym leksemem.
+Ruchem jest rozstrzygnięcie, czym ten wybór ma być, i kandydatów jest dwóch.
+Zgłoszenie jak `WieleLeksemów` żąda od autora wpisu przy każdym wariancie,
+także tam, gdzie oba warianty znaczą to samo, czyli przy `oczami` obok `oczyma`.
+Wpis wskazujący formę, jak `skład/leksemy.py` wskazuje leksem,
+kosztuje wpis tylko tam, gdzie ktoś na wariant trafi,
+a milczy dokładnie tak jak dziś, dopóki nikt go nie napisze.
+Rozstrzyga między nimi to, ile takich wariantów rejestr naprawdę spotyka,
+i tego nikt nie policzył.
 
 `rodzaj_rzeczownika` w `skład/morfologia.py` zgłasza `BrakFormy` nad rzeczownikiem,
 który liczby pojedynczej nie ma, bo szuka rodzaju w mianowniku pojedynczym.
@@ -1108,10 +1105,15 @@ czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
 Do przeczytania jest to, co
 [`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
 mówi o cenie słownika dołożonego Morfeuszowi i o tym, co wpis ma nazywać,
-wraz z `olski/leksykon.txt`, czyli jedynym plikiem tego rodzaju, który już stoi.
+wraz z `olski/leksykon.txt` i `skład/leksemy.py`, czyli dwoma leksykonami,
+które już stoją, a żaden z nich na to pytanie nie odpowiada.
 Ruchem jest rozstrzygnięcie, czy wpis wypisuje formy,
 czy wskazuje leksem, wedle którego się odmienia,
 a po nim plik z wpisami na te słowa, których to repozytorium używa o sobie.
+Drugą z tych dróg widać już na `skład/leksemy.py`, ale tylko połowę:
+wpis wskazuje tam leksem, który słownik ma,
+a tutaj trzeba wskazać leksem, wedle którego odmienia się słowo,
+którego słownik nie ma wcale.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach,
 a [`CLAUDE.md`](CLAUDE.md#checks) żąda, żeby liczby nad własną prozą nie zapisywać,

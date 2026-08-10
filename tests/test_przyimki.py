@@ -23,7 +23,7 @@ def test_przypadek_wypisany_przy_przyimku_jest_przypadkiem_który_ten_przyimek_b
     """
     bierze = {
         wartość
-        for _forma, cechy in paradygmat(przyimek, "prep")
+        for _forma, cechy, _leksem in paradygmat(przyimek, "prep")
         for nazwa, wartości in cechy
         if nazwa == "case"
         for wartość in wartości

@@ -418,13 +418,14 @@ Powtarzają to te polecenia, a ostatnie warto puścić także bez flagi:
 ```sh
 python3 -m harness.markdown README.md --into proza/
 python3 -m sonda proza/README.txt
+python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
 Proza README ma 56 zdań.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
-a jednemu z nich zajmuje to ponad pięć sekund,
-czyli więcej niż cała reszta razem, co widać po czasie całego przebiegu.
+a jednemu z nich zajmuje to ponad pięć sekund, czyli więcej niż cała reszta razem,
+i widać to po przebiegu z budżetem dziesiątej części sekundy: kończy go 55 z nich.
 54 z tych 56 dostaje od obu programów ten sam werdykt,
 a 53 tę samą liczbę czytań,
 i to drugie jest mocniejszym z dwóch odczytów:
@@ -1366,14 +1367,15 @@ i na które sam odpowiada wszędzie tam, gdzie leksemy rozdzielił.
 `zamek:Sm3~a` i `zamek:Sm3~u` to dwa leksemy różniące się dopełniaczem,
 a `Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` to kraj i dzielnica Warszawy,
 różniące się miejscownikiem.
-Ten identyfikator gubią oba kierunki:
-`skład.morfologia` pyta samym lematem i bierze pierwszą odpowiedź,
+Ten identyfikator czyta jeden kierunek:
+synteza pyta o niego przez `skład/leksemy.py`
+([niżej](#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)),
 a `olski/morph.py` ucina go przy analizie.
 Kwalifikator słownik niesie tym samym polem, a czyta go jeden kierunek:
 `POZA_REJESTREM` w `skład/morfologia.py` odsiewa nim formy przed syntezą,
 a analiza wyrzuca go razem z resztą pól,
 więc `projekta` oznaczone jako `daw.` ze składu nie wyjdzie, a do parsera wejdzie.
-Brak słowa, zgubiony leksem i przeczytany kwalifikator
+Brak słowa, rozdzielony leksem i przeczytany kwalifikator
 widać naraz, nad `pl.sgjp.sgjp-2026.06.01`:
 
 ```sh
@@ -1458,6 +1460,84 @@ Nazwa, której żaden przebieg nie pokazał, przechodzi jak nazwa dziedziny,
 i to ten podział kosztuje.
 Odwrotny domyślny kosztowałby więcej, bo formę odsianą przez pomyłkę
 widać dopiero wtedy, gdy jej brak wywali całą komórkę paradygmatu.
+
+### Nazwę leksemu wybiera autor, bo lemat go nie wskazuje
+
+Kwalifikator jest kryterium, które w danych stoi gotowe.
+Leksem jest kryterium, którego w danych nie ma:
+identyfikator słownik niesie, a które z dwóch znaczeń autor miał na myśli,
+mówi tylko autor.
+
+Że wybiera go autor, a nie cecha, widać na dwóch parach naraz.
+`oko` rozdziela się na leksem zbiorowy i niezbiorowy,
+a różnicę tę niesie tag, bo `oczy` mają cechę `col`, a `oka` `ncol`,
+więc dałoby się je rozróżnić żądaniem cechy, tak jak żąda się przypadka.
+`Włochy` rozdzielają się na kraj i dzielnicę Warszawy,
+a tag obu jest w miejscowniku ten sam, `subst:pl:loc:n:pt`,
+i różni je wyłącznie identyfikator.
+Kryterium cechowe pokryłoby więc pierwszą parę i nie tknęłoby drugiej,
+a leksem pokrywa obie.
+
+Drugą połową ustalenia jest to, że w drzewie stoi nazwa, a nie identyfikator.
+Poziomem kategorii tego pakietu jest
+[dziedzina](#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka),
+a kod paradygmatu jest napisem z wnętrza słownika innego projektu,
+więc drzewo pisze `R.oko_w_rosole`,
+a z identyfikatorem wiąże tę nazwę `skład/leksemy.py`.
+Wiązanie jest wiele do jednego z założenia:
+oczko w sieci i oko w rosole to jeden leksem i dwie rzeczy, o których się pisze,
+więc nazw jest tyle, ile rzeczy, a nie tyle, ile leksemów.
+Nazwa goła jest wpisem tego samego rodzaju:
+`oko` znaczy w tym repozytorium oko, a nie oczko,
+i tyle wystarcza, żeby legenda otwierała bazyliszkowi oczy
+bez wpisu przy każdym użyciu.
+
+Kiedy wpis jest potrzebny, rozstrzyga zgoda leksemów, a nie ich liczba.
+`dziób` ma dwa leksemy, z których jeden słownik odsyła do żeglarstwa,
+i oba mają w dopełniaczu `dzioba`,
+więc pytanie o dopełniacz ma odpowiedź, pod którą oba podpisują się naraz.
+`oko` w liczbie mnogiej odpowiedzi wspólnej nie ma,
+i wtedy `odmień` zgłasza `WieleLeksemów` wraz z formami, które z każdego wychodzą,
+bo autor rozstrzyga między znaczeniami i widzi je po tym, co z nich wyjdzie.
+
+Najdroższy przypadek nie jest przy tym rzeczownikiem:
+`stać` ma leksem niedokonany i dokonany,
+a forma dokonana w czasie teraźniejszym jest w polszczyźnie przyszła,
+więc milczenie wypuszczałoby stąd zdanie o tym, co będzie,
+zamiast zdania o tym, co jest.
+
+Tym samym kryterium schodzi rodzaj, który jest wartością, a nie formą:
+`potwór` ma leksem zwierzęcy oraz osobowo-zwierzęcy,
+więc zwierzę jest tym, pod czym podpisują się oba,
+a wybór alfabetyczny dałby tu osobę.
+
+Ceną tego kryterium jest cisza w miejscu, o które nikt nie pytał:
+leksemy różniące się poza żądaną komórką przechodzą bez zgłoszenia,
+bo pytanie brzmi „która forma”, a nie „który leksem”.
+Otwarte zostaje to, na co to kryterium nie sięga,
+i jest to słownik mówiący „albo tak, albo tak” pod jednym leksemem:
+`postaci` obok `postacie` w jednej komórce
+oraz `anioł` z rodzajem wypisanym dwiema wartościami w jednym tagu.
+Identyfikator nie rozstrzyga ani jednego, ani drugiego, i trzyma to
+[`TODO.md`](../TODO.md).
+
+Leksykon ten jest przy tym innym plikiem niż
+[leksykon projektu](#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
+bo odpowiada na inne pytanie:
+tamten dokłada leksem, którego słownik nie ma, a ten wybiera z tych, które ma.
+
+Po stronie analizy nie zmienia się nic i jest to rozstrzygnięcie, a nie zaległość.
+Identyfikatora nie potrzebuje tam nic:
+`Rosół ma oka.` i `Bazyliszek ma oczy.` wyprowadzają się po jednym czytaniu,
+a reguły o zbiorowość nie pytają.
+Leksem wpuszczony do czytania sięgnąłby za to każdego szukania po lemacie,
+czyli leksykonu walencyjnego i `KOPULA` w `olski/subset.py`,
+i każde z nich musiałoby powiedzieć, którą połowę identyfikatora dopasowuje.
+Wchodzi on tam wtedy, gdy będzie reguła, która tożsamości leksemu zażąda.
+Kryterium, które po tamtej stronie już stoi, jest innego rodzaju i nie zastępuje tego:
+[`admissible`](subset.md#the-dictionary-offers-readings-polish-does-not)
+wyrzuca czytanie, którego polszczyzna nie ma,
+a tutaj oba czytania polszczyzna ma i różnią się tym, o czym mówią.
 
 ## The round-trip invariant
 
