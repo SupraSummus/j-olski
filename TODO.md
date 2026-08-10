@@ -139,6 +139,10 @@ Zostaje przy tym pytanie, którego werdykt nad zdaniem nie zadaje:
 `olski-check` mówi o zdaniu, a nie o pliku,
 więc rankingu form bez licencji nad dokumentem nie wypisuje nikt,
 i do rozstrzygnięcia jest, czy jest to wiersz tej komendy, czy tryb obok niej.
+Czytelników takiego rankingu jest już dwóch:
+[kolejka nad rejestrem ustaw](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
+jest wzięta potokiem z grepem, który ten dokument drukuje,
+bo nie ma komendy, która by ją wypisała.
 
 Suma iloczynów po lesie rozbiorów liczy pary, których unifikacja nie przepuszcza,
 i nie widać, które z dwóch wyjść jest tańsze.
@@ -1149,3 +1153,24 @@ Ruchem jest rozstrzygnięcie, które z dwojga:
 albo reguła dostaje wyjątek na figurę o kodzie liczoną nad własną prozą,
 wraz z przeliczeniem należnym przy przeredagowaniu README,
 albo te akapity przestają nosić mianownik i mówią o zgodzie bez niego.
+
+Grupa imienna nie bierze rzeczownika z przymiotnikiem za nim i dopełniaczem pod nim,
+a rejestr, który nazywa terminy właśnie tak, trafia w tę dziurę zdaniem po zdaniu:
+`Rzeczpospolita Polska jest dobrem wspólnym wszystkich obywateli.` nie ma wyprowadzenia,
+a `wspólnym dobrem wszystkich obywateli` w tym samym zdaniu ma jedno.
+`NPConjunct` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
+osobno rzeczownik z dopełniaczem
+i osobno każdą z tych dwóch pozycji z wyrażeniem przyimkowym za nią,
+więc brakuje jednej pozycji w liście, którą cztery sąsiednie już mają.
+Do przeczytania jest ta lista wraz z
+[`docs/ustawy.md`](docs/ustawy.md#rejestr-znalazł-dziurę-w-grupie-imiennej),
+gdzie stoi, czym ten kształt jest w rejestrze ustaw,
+i wraz z [przyłączaniem wyrażeń przyimkowych](docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
+bo to ono uzasadnia dwie pozycje z tych czterech i ono powie, czy piąta jest tego samego rodzaju.
+Ruchem jest ta produkcja wraz z pomiarem, ile daje i ile odbiera:
+przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
+a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej,
+więc zakup trzeba przeczytać jako przejścia między werdyktami, a nie jako liczbę pokrycia.
+Wpis jest przez to winien pobranie Składnicy, przebiegi `olski-corpus` i poprawienie tabel,
+czego [sekcja Checks](CLAUDE.md#checks) żąda od każdej zmiany w gramatyce,
+a razem z nimi liczby w `docs/ustawy.md`, bo one stoją nad tym samym rejestrem.

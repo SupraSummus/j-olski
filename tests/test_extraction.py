@@ -1,4 +1,4 @@
-"""What the harness does to a document and to a module, and what it must not invent.
+"""What the harness does to a document, a module and a statute, and what it must not invent.
 
 The fixture beside this file carries one instance of every construct each
 extraction handles, and the prose beside it is the whole answer: a change in
@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pytest
 
-from harness import PROSE_SUFFIX, markdown, python
+from harness import PROSE_SUFFIX, markdown, python, ustawy
 from olski.checks import get_check
 from olski.engine import lint_string
 from olski.rules import load_packs
@@ -101,6 +101,58 @@ def test_the_command_mirrors_a_tree_into_files_olski_reads_as_prose(tmp_path, ca
     assert (tmp_path / "prose" / "deep" / f"two{PROSE_SUFFIX}").read_text(
         encoding="utf-8"
     ) == "Drugie zdanie.\n"
+
+
+#: Jednostka redakcyjna z jednostką pod sobą, w której typ tej niższej jest do
+#: wstawienia: o zszyciu rozstrzyga właśnie typ, a reszta zapisu jest bez zmian.
+JEDNOSTKA_W_JEDNOSTCE = """\
+<div class="unit unit_pass pro-text">
+   <h3>1.</h3>
+   <div class="unit-inner">
+      <div data-template="xText" CLASS="pro-text">Gmina wykonuje zadania:</div>
+      <div class="unit {typ} pro-text">
+         <h3>1)</h3>
+         <div class="unit-inner">
+            <div data-template="xText" CLASS="pro-text">własne.</div>
+         </div>
+      </div>
+   </div>
+</div>
+"""
+
+
+def test_ustawa_próbna_wychodzi_prozą_która_stoi_obok_niej():
+    źródło = (FIXTURES / "ustawa.html").read_text(encoding="utf-8")
+    oczekiwane = (FIXTURES / f"ustawa{PROSE_SUFFIX}").read_text(encoding="utf-8")
+    assert ustawy.proza(źródło) == oczekiwane
+
+
+def test_ekstrakcja_z_ustawy_nie_wymyśla_znaleziska_typograficznego():
+    """Proza fixture'u jest czysta, więc każde znalezisko nad nią jest ekstrakcji.
+
+    Wydawca wstawia adres publikacji między przecinek i przecinek, więc kasowanie,
+    które ślad po nim zostawia, daje przecinek podwojony i przecinek z odstępem
+    przed sobą. Po to fixture stawia jeden taki adres w środku zdania.
+    """
+    wyszło = ustawy.proza((FIXTURES / "ustawa.html").read_text(encoding="utf-8"))
+    raport = lint_string(wyszło, f"ustawa{PROSE_SUFFIX}")
+    assert [(f.rule.id, f.message) for f in raport.findings] == []
+
+
+@pytest.mark.parametrize(
+    ("typ", "zszyte"),
+    [("unit_pint", True), ("unit_lett", True), ("unit_pass", False), ("unit_tire", False)],
+    ids=["punkt", "litera", "ustęp", "typ, którego wydawca tu nie ma"],
+)
+def test_przesłankę_dostaje_pozycja_wyliczenia_a_nie_każda_jednostka_niżej(typ, zszyte):
+    """Zszycie w głąb bez warunku dokleja preambułę do każdego przepisu ustawy.
+
+    Ustęp stoi sam, więc tekst jednostki nad nim jest osobnym zdaniem, a punkt i
+    litera ciągną go dalej, bo wyliczenie dzieli przesłankę między pozycje. Typ
+    spoza tej listy idzie tam, gdzie ustęp, bo zszywa lista, a nie jej brak.
+    """
+    proza = ustawy.proza(JEDNOSTKA_W_JEDNOSTCE.format(typ=typ))
+    assert ("Gmina wykonuje zadania własne." in proza) is zszyte
 
 
 #: Moduł pisany w dwóch językach, czyli tak, jak pisany jest każdy moduł tego
