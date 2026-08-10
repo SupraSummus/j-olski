@@ -1067,8 +1067,18 @@ i widać to w tej samej opowieści na drugim określeniu:
 Opuszczenie jest wąskie i jest wąskie z tego samego powodu,
 dla którego po drugiej stronie stoi kryterium jednego czytania:
 opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
-Podmiot znika, gdy zdanie wcześniej miało ten sam podmiot
-i gdy stoi ono w tym samym akapicie, a poza tym stoi wypisany.
+Warunki trzyma `pomijalny` w `skład/składnia.py`,
+a nie akapit, bo o to samo pyta ciąg zdarzeń wewnątrz jednego zdania,
+i jeden z nich jest tu wart powtórzenia,
+bo mówi, czym ta ostrożność się mierzy.
+Po opuszczonym podmiocie zostaje forma czasownika i nic poza nią,
+więc podmiot wraca stamtąd tylko wtedy,
+gdy nikt inny tej samej formy z tego czasownika nie wyciąga.
+Kufer stojący w piwnicy nie odbiera córce krawca niczego, bo rodzaj ma inny,
+a skrzynia odbiera jej rodzaj żeński i wtedy podmiot staje wypisany.
+Liczy się to tym czasownikiem, który podmiotu nie wypisze,
+bo różnice, których on nie robi, nie są różnicami dla czytelnika:
+czas przeszły rozdziela rodzaje, a teraźniejszy nie rozdziela żadnego.
 
 ### Zdanie podrzędne jest tu wskazaniem rzeczy
 
@@ -1107,10 +1117,9 @@ i nie ma na to w kompilatorze osobnej gałęzi.
 Autor nie pisze przy tym ani przypadka, ani rodzaju, ani zaimka,
 ani tego, że zdanie podrzędne otwiera się nim niezależnie od roli, którą on w nim ma.
 
-Czego ta kategoria nie obejmuje, jest resztą zdania złożonego:
-okolicznikiem wyrażonym zdarzeniem, czyli `gdy` i `bo`,
-oraz koordynacją zdarzeń, bo `&` łączy byty.
-Oba trzyma [`TODO.md`](../TODO.md).
+Reszta zdania złożonego wychodzi z dwóch innych kategorii:
+[okoliczności wyrażonej zdarzeniem](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie)
+oraz [następstwa](#następstwo-zdarzeń-jest-kategorią-a-spójnik-jego-wnioskiem).
 
 Jedna granica leży przy tym w środku samej kategorii.
 Wskazana rzecz musi stać w zdaniu podrzędnym na pozycji, z której wyjdzie na czoło,
@@ -1119,6 +1128,84 @@ więc `kot, którego ogon goni mysz` jest zdaniem polskim, którego stąd nie ma
 Zgłasza się ono przy budowaniu drzewa, i to jest tu jedyna obrona,
 bo zaimek zostawiony w środku zdania podrzędnego wyszedłby tekstem,
 którego nikt nie chciał napisać.
+
+### Okoliczność nie pyta, czy stoi pod nią rzecz, czy zdarzenie
+
+Podrzędność, która rzeczy nie wskazuje, dochodzi do tego zapisu
+kategorią, którą on już ma, a nie kategorią nową.
+Okolicznik niesie relację i to, co pod nią stoi,
+a stanąć może rzecz albo zdarzenie, bo pytanie stawia się jedno:
+`w nocy` i `gdy zgasła świeca` odpowiadają, kiedy.
+
+Różnica między nimi jest różnicą w polszczyźnie, a nie w drzewie,
+i cała siedzi w słowie, którym relacja wychodzi na wierzch.
+Przed rzeczą stoi przyimek, który rządzi przypadkiem,
+i bierze go z `skład/przyimki.py`;
+przed zdarzeniem stoi spójnik, który nie rządzi niczym,
+bo zdanie podrzędne rozdaje przypadki własne,
+więc `skład/spójniki.py` mówi o nim mniej: to, w jakiej stoi relacji.
+Tyle jednak wystarcza, żeby `Kiedy.bo` się zgłosiło,
+i jest to ta sama odmowa, którą tamten plik wydaje na `Skąd.do`.
+Świadka ten leksykon ma przy tym pełniejszego niż tamten:
+SGJP odróżnia spójnik podrzędny od współrzędnego,
+więc `i` dopisane do tej tabeli zgłasza się w teście, a nie w tekście.
+
+Skutek jest w tym leksykonie odwrotnością przyczyny i mówi to samo,
+a różni się tym, przy którym zdarzeniu stoi:
+`bo` wprowadza zdanie o tym, skąd się wzięło to, przy czym stoi,
+a `więc` zdanie o tym, co z niego wyszło.
+Wybór między nimi jest wyborem głowy i widać go w tekście,
+bo głowa wypada pierwsza:
+`Wzrok potwora zamieniał ludzi w kamień, więc mieszczanie zabili okna deskami.`
+opowiada zdarzenia w kolejności, w której zaszły, a to samo napisane przez `bo`
+opowiada je od końca.
+Nazwy pytania ta relacja przy tym nie ma i nazywa się relacją,
+bo polszczyzna pytania o skutek jednym słowem nie ma;
+tyle jest w tej konwencji nazw, ile jest w niej pytań.
+
+Wysunięcie takiej okoliczności na czoło jest zwykłym `Wyróżnienie`,
+więc `Gdy bazyliszek otworzył oczy, czeladnik zasłonił twarz lustrem.`
+i to samo zdanie z okolicznością na końcu
+są jednym drzewem z jednym znacznikiem różnicy,
+a nie dwoma wariantami linearyzacji.
+Wysunąć się jednak nie da wszystkiego i rozstrzyga o tym leksykon,
+bo jest to fakt o słowie:
+`Ponieważ zgasła świeca, córka krawca nie wróciła.` jest zdaniem polskim,
+a to samo zdanie z `bo` na czele nie jest,
+choć oba te spójniki stoją w jednej relacji.
+Jest to jedyne miejsce w tym pakiecie, w którym leksykon mówi o kolejności,
+i jedyna jego kolumna bez świadka w słowniku,
+bo SGJP nie odróżnia tych dwóch słów niczym.
+
+Przecinek zaś jest przez to własnością konstytuenta, a nie znakiem w napisie.
+Zdanie podrzędne oddziela się nim z każdej strony, przy której coś stoi,
+więc konstytuent nie wie o swoich przecinkach tego, co o nich rozstrzyga,
+i wiedzieć nie może: rozstrzyga o nich sąsiad.
+`linearyzuj` zwraca przez to `Kawałek`, czyli napis wraz z żądaniami,
+a jedna funkcja te żądania spełnia i stawia jeden przecinek tam,
+gdzie dwóch sąsiadów zażądało go naraz.
+Krańce zdania nie spełniają żadnego, i to zdejmuje dwa warunki:
+kropka nie staje po przecinku, a lista nie dostaje dwóch.
+Bez tego pola przecinek jedzie w napisie, a każde miejsce,
+które po konstytuencie coś stawia — a jest ich trzy — czyta go z ogona tego napisu.
+
+### Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
+
+`Ciąg` w `skład/składnia.py` bierze kilka zdarzeń i wypuszcza jedno zdanie,
+a kategorią dziedziny jest w nim następstwo:
+jedno stało się po drugim i jest to jedna rzecz do opowiedzenia.
+Węższe to jest niż polskie `i`, które łączy także zdarzenia równoczesne,
+i węższe z rozmysłu, bo kolejność zdarzeń niesie tu kolejność zapisu.
+
+Koordynacją bytów piętro wyżej to nie jest,
+i widać to na tym, czego żąda opuszczenie podmiotu.
+Byty stoją w jednej roli i żaden nie ma czasownika,
+a zdarzenia mają go po jednym, więc drugie z nich podmiotu nie powtarza.
+Rozstrzyga o tym ten sam `pomijalny`,
+który rozstrzyga o tym [między zdaniami](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
+bo pytanie jest jedno: czy czytelnik odzyska podmiot, którego nie ma.
+Wspólna zostaje im interpunkcja, bo listę obie piszą tak samo,
+i stoi ona w jednym miejscu z tego właśnie powodu.
 
 ### Najpierw tekst, potem drzewo, na końcu biblioteka
 
@@ -1142,15 +1229,16 @@ jest brakiem pokazanym na zdaniu zamiast wyliczonym w planie.
 
 ### Lepszy tekst żąda czego innego niż dłuższy
 
-Ta sama legenda przeszła to samo drugi raz,
-i drugi raz nie po to, żeby stanąć w niej więcej zdań,
-tylko po to, żeby stała się opowieścią, a nie ciągiem zdań o jednym temacie.
-Kolejkę ustawiły dwie rzeczy, których pierwsza wersja nie miała.
-Pierwszą jest zakończenie, które przestaje mówić, o czym opowieść była,
+Ta legenda przechodzi ten cykl kilka razy i za każdym nie po to,
+żeby stanęło w niej więcej zdań,
+tylko po to, żeby była opowieścią, a nie ciągiem zdań o jednym temacie.
+Kolejkę ustawia więc to, czego opowieści brakuje jako opowieści,
+i wychodzi z tego co innego, niż wyszłoby z listy konstrukcji.
+Pierwszym takim żądaniem jest zakończenie, które nie mówi, o czym opowieść była,
 i to żądanie stoi w [fiction.md](fiction.md#narrative) wprost,
 razem z drugim, które to samo zakończenie spełnia: nie wypada ono dobrze.
-Drugą jest powód, dla którego ktoś schodzi do piwnicy,
-a ta jest rozstrzygnięciem tej wersji, a nie pozycją z tamtego katalogu.
+Obok niego stoi powód, dla którego ktoś schodzi do piwnicy,
+a ten jest rozstrzygnięciem tej opowieści, a nie pozycją z tamtego katalogu.
 Najbliżej stoi tam [płaskie wnętrze postaci](fiction.md#scene-and-character),
 czyli usterka o tym, czego postać nie ma, a nie o tym, czego nie robi.
 
@@ -1176,7 +1264,31 @@ i wywód za tą kolejnością się nie zmienia.
 Tekst nie czyta jednak numeracji i płaci od razu za wszystko,
 czego wymaga zdanie, które ma z niego wyjść.
 
-Trzecie jest po prostu tanie.
+Trzecie żądanie jest o rytm i stoi w tamtym katalogu wprost.
+[Jednostajność](fiction.md#sentence-and-paragraph) — zdania jednej długości,
+jeden kształt zdania powtórzony przez cały tekst — jest tam usterką wymienianą
+jako właściwość prozy modelowej, a opowieść złożona z samych zdań prostych ma ją całą.
+Zdanie długie nie powstaje jednak z dwóch krótkich postawionych obok siebie:
+potrzebne jest to, co je łączy, i stąd wzięły się
+[następstwo](#następstwo-zdarzeń-jest-kategorią-a-spójnik-jego-wnioskiem)
+wraz z [okolicznością wyrażoną zdarzeniem](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie).
+Bez nich `Podniosła deskę i zeszła po schodach.` rozpada się na dwa zdania,
+a przyczyna, którą niesie `bo`, zostaje czytelnikowi do wyciągnięcia
+z dwóch zdań postawionych obok siebie i niepołączonych niczym.
+
+Czwarte przyszło stamtąd, gdzie pierwsze: z warstwy pod tą, którą się ruszało.
+Zdanie podrzędne wstawia przed podmiot cudzy podmiot,
+więc `Gdy bazyliszek otworzył oczy, zasłonił twarz lustrem.`
+mówi, że twarz zasłonił bazyliszek.
+Ten sam podmiot w zdaniu obok jako jedyny warunek nie wystarcza,
+i pokazuje to zdanie złożone, choć nie jest to warunek o zdaniu złożonym.
+Warunek, który stoi tam zamiast niego, mierzy to, co po opuszczonym podmiocie zostaje,
+czyli formę czasownika ([wyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
+i sięga tak samo zdania obok:
+skrzynia postawiona w piwnicy zamiast kufra odbiera córce krawca opuszczenie,
+choć stoi w zdaniu podrzędnym, którego opowieść jest o czym innym.
+
+Ostatnie jest po prostu tanie.
 Trzy relacje okolicznikowe dopisały się bez namysłu,
 bo `w nocy`, `po schodach` i `wśród kamiennych postaci` są tym,
 czym opowieść odmierza czas i ruch, a nie nową kategorią.

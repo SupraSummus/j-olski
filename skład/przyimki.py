@@ -17,7 +17,8 @@ a mówi, kiedy, a nie gdzie.
 Wpis, który przypadka nie zmienia, jest tu wpisem mimo to,
 bo relacja nazywa to, co autor powiedział, a nie to, w czym mu to wyjdzie.
 
-Wpis pisany jest ręcznie, i jest to jedyny taki plik w tym pakiecie.
+Wpis pisany jest ręcznie, tak samo jak w ``skład/spójniki.py``,
+czyli w tym pliku, który to samo mówi o okoliczności wyrażonej zdarzeniem.
 Walenty opisuje czasowniki, a nie przyimki, więc nie ma stąd czego wygenerować.
 Połowa wpisu ma jednak świadka w słowniku:
 Morfeusz znakuje przyimek przypadkami, którymi ten przyimek rządzi,

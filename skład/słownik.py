@@ -26,6 +26,7 @@ from dataclasses import dataclass
 
 from skład.składnia import (
     Byt,
+    Ciąg,
     Jaki,
     Jest,
     Nominalne,
@@ -43,11 +44,13 @@ from skład.składnia import (
 __all__ = [
     "A",
     "D",
+    "Dlaczego",
     "Dokąd",
     "Gdzie",
     "Kiedy",
     "Którędy",
     "R",
+    "Skutek",
     "Skąd",
     "V",
     "czym",
@@ -55,6 +58,7 @@ __all__ = [
     "nie",
     "nowe",
     "opis",
+    "potem",
     "razem",
     "temat",
 ]
@@ -136,12 +140,17 @@ class Czyny:
 
 
 class Okoliczności:
-    """Przyimek jako nazwa, w relacji, którą ta przestrzeń nazw trzyma.
+    """Słowo jako nazwa, w relacji, którą ta przestrzeń nazw trzyma.
 
     Relacja jest tu wybrana raz, przy nazwie, bo to ona jest kategorią dziedziny,
-    a przyimek jest tylko słowem, które tę relację po polsku wyraża.
+    a przyimek albo spójnik jest tylko słowem, które tę relację po polsku wyraża.
     ``Gdzie.w`` i ``Dokąd.w`` są więc dwiema różnymi rzeczami do powiedzenia,
     choć piszą się jednym przyimkiem.
+
+    Rzecz i zdarzenie wchodzą jedną drogą, bo pytanie stawia się jedno:
+    ``Kiedy.w(R.noc)`` i ``Kiedy.gdy(V.zgasnąć(świeca))`` mówią, kiedy.
+    Nic tu tych dwóch nie rozdziela, bo ``byt`` przepuszcza wszystko,
+    co rzeczą nie jest, a co ze słowem zrobić, wie ``Okolicznik``.
     """
 
     def __init__(self, relacja: str) -> None:
@@ -150,8 +159,8 @@ class Okoliczności:
     def __getattr__(self, nazwa: str):
         if nazwa.startswith("_"):
             raise AttributeError(nazwa)
-        przyimek = _lemat(nazwa)
-        return lambda co: Okolicznik(przyimek, self._relacja, byt(co))
+        słowo = _lemat(nazwa)
+        return lambda co: Okolicznik(słowo, self._relacja, byt(co))
 
 
 #: Rzeczowniki, przymiotniki, czasowniki i przysłówki, każde pod jedną literą,
@@ -162,11 +171,18 @@ V = Czyny()
 D = Słownik(Przysłówek)
 
 #: Relacje okolicznikowe, każda pod swoim pytaniem, bo pytaniem się je rozróżnia.
+#: Pytanie jest jedno dla rzeczy i dla zdarzenia,
+#: więc ``Kiedy`` trzyma i ``w nocy``, i ``gdy zgasła świeca``.
 Gdzie = Okoliczności("miejsce")
 Dokąd = Okoliczności("cel")
 Skąd = Okoliczności("źródło")
 Którędy = Okoliczności("droga")
 Kiedy = Okoliczności("czas")
+Dlaczego = Okoliczności("przyczyna")
+
+#: Skutek pytania jednym słowem nie ma, więc nazywa się relacją:
+#: tyle jest w tej konwencji nazw, ile jest w niej pytań.
+Skutek = Okoliczności("skutek")
 
 
 def czym(co: Nominalne | Rola) -> Okolicznik:
@@ -186,6 +202,19 @@ def razem(elementy) -> Rola:
     for element in człony[1:]:
         wynik = wynik & element
     return wynik
+
+
+def potem(*zdarzenia) -> Ciąg:
+    """Zdarzenia jednym zdaniem, w kolejności, w której się stały.
+
+    Nazwa mówi o następstwie, a nie o spójniku, bo tyle autor rozstrzyga:
+    że jedno stało się po drugim i że jest to jedna rzecz do opowiedzenia.
+    Że wyjdzie z tego ``i``, a podmiot wyjdzie raz, rozstrzyga ``Ciąg``.
+
+    Jedno zdarzenie przechodzi tędy nietknięte, tak samo jak jeden byt przez
+    ``razem``: następstwo, w którym nic po niczym nie następuje, jest samym zdarzeniem.
+    """
+    return Ciąg(zdarzenia) if len(zdarzenia) > 1 else zdarzenia[0]
 
 
 def opis(rzecz: Rola, zdanie) -> Opis:

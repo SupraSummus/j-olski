@@ -965,7 +965,7 @@ tam wyróżnienie przestawia to, co i tak stało osobno,
 a tu przymiotnik postawiony po rzeczowniku zmienia znaczenie całej grupy,
 więc nazwa `temat` na to nie przystaje.
 
-Anafora w `skład/opowieść.py` sięga podmiotu i nic poza nim,
+Anafora sięga podmiotu i nic poza nim,
 a opowieść o bazyliszku pokazuje, gdzie to boli:
 `opowieści/bazyliszek.py` pisze `wzrok potwora` dwa razy,
 a polszczyzna napisałaby drugi raz `jego wzrok`.
@@ -973,12 +973,24 @@ Tak samo dopełnienie: `Lustro pokazało bazyliszka` zamiast `Lustro pokazało g
 Do przeczytania jest to, co
 [`docs/design-notes.md`](docs/design-notes.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o wąskim opuszczaniu podmiotu,
+wraz z `pomijalny` w `skład/składnia.py`, który te warunki trzyma,
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm:
 zaimek postawiony tam, gdzie czytelnik trafia na dwie osoby, jest gorszy od powtórzenia.
 Ruchem jest zaimek osobowy w miejscu roli innej niż podmiot,
 liczony z tego samego `Kontekst`, oraz rozstrzygnięcie,
 czy `swój` i `jego` są jedną kategorią, czy dwiema,
 bo pierwszy odsyła do podmiotu zdania, a drugi poza nie.
+
+`Zdanie.podmioty` w `skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
+czyli tam, gdzie sięga `_wskazany`, a zdanie podrzędne stoi czasem głębiej:
+`Mysz goniła ogon myszy, która spała.` ma dwa podmioty, a widać stąd jeden.
+Kosztuje to opuszczenie postawione tam, gdzie czytelnik trafia na dwie rzeczy
+wyciągające z czasownika jedną formę, czyli dokładnie to, przed czym ten warunek broni.
+Do przeczytania jest `_zdania_pod` wraz z `_wskazany` w tym samym pliku,
+bo schodzą tak samo głęboko i tylko jednej z nich to wystarcza:
+tamta pyta, skąd zaimek wyjdzie na czoło, a ta, na kogo czytelnik trafi.
+Ruchem jest zejście po całym drzewie roli zamiast po dwóch jego poziomach,
+i jest ono tańsze niż tamto, bo nie ma z niego nic do wyprowadzenia.
 
 Rama czasownika, o którą pyta `Robi` w `skład/składnia.py`,
 odpowiada na jedno pytanie: czy ten czasownik bierze dopełnienie w bierniku,
@@ -1002,44 +1014,6 @@ Ruchem jest rama jako zbiór pozycji, a nie jedno pytanie o biernik,
 oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
 a nie po kategorii okoliczności.
 
-Skład wypuszcza jedno zdarzenie na zdanie, a `Opis` w `skład/składnia.py`
-jest z tego wyjątkiem jednym i wąskim:
-zdanie podrzędne staje tam, gdzie stoi rzecz, którą ono wskazuje, i nigdzie poza tym.
-Zdania złożonego brakuje więc w dwóch postaciach,
-a legenda o bazyliszku pokazuje obie.
-`Podniosła deskę i zeszła po schodach.` stoi w niej jako dwa zdania,
-bo `&` łączy byty, a nie zdarzenia,
-i widać to na `schodzi_do_piwnicy` w `opowieści/bazyliszek.py`,
-które zwraca listę dwóch zdań tam, gdzie polszczyzna napisałaby jedno.
-`Gdy bazyliszek otworzył oczy, czeladnik trzymał lustro.` nie ma czym powstać,
-bo okolicznikiem jest tam całe zdarzenie, a `Okolicznik` bierze rolę.
-Do przeczytania jest to, co
-[`docs/design-notes.md`](docs/design-notes.md#zdanie-podrzędne-jest-tu-wskazaniem-rzeczy)
-mówi o tym, czym `Opis` jest na poziomie dziedziny,
-bo obie te konstrukcje żądają jednego rozstrzygnięcia:
-czym jest kategoria dziedziny nad zdarzeniem, które nie wskazuje rzeczy.
-Ruchem jest `Okolicznik` biorący zdarzenie wraz ze spójnikiem wziętym z relacji,
-czyli tak, jak dziś bierze przyimek,
-oraz koordynacja zdarzeń postawiona osobno od koordynacji bytów,
-bo spójnik i interpunkcja są w niej inne.
-
-Przecinek zamykający zdanie podrzędne jedzie w `skład/składnia.py` wewnątrz napisu,
-bo `Opis` dokleja go na końcu, nie wiedząc, czy coś po nim stanie.
-Wiedzą to dwa miejsca i oba muszą o tym przecinku pamiętać:
-`kompiluj` zjada go przed kropką, a `_przecinkami` nie dokłada drugiego w liście.
-Trzecie takie miejsce, dopisane bez tej wiedzy, wypuści `liczył,, mysz`,
-czyli tekst błędny i nigdzie nie zgłoszony,
-a `Okolicznik` biorący zdarzenie będzie właśnie takim miejscem,
-bo spójnik `gdy` domyka zdanie podrzędne tym samym przecinkiem.
-Do przeczytania jest `_przecinkami` wraz z `Opis.linearyzuj` w tym samym pliku
-oraz `test_przecinek_zamykający_opis_stoi_dokładnie_raz` w `tests/test_skład.py`,
-czyli trzy miejsca, w których po konstytuencie coś staje.
-Ruchem jest linearyzacja zwracająca konstytuent wraz z tym, czy jest domknięty,
-zamiast napisu, po którym trzeba to wywnioskować,
-a decyzją do podjęcia po drodze jest to, czy warto:
-zmiana sięga każdej metody `linearyzuj` i każdego testu, który ją woła wprost,
-a kupuje warunek, którego dziś nie ma jak sprawdzić.
-
 `Przysłówek` w `skład/składnia.py` żąda od słownika formy przysłówkowej,
 a część okoliczności polszczyzna wyraża partykułą:
 `znowu` ma w SGJP sam `part`, więc `D.znowu` zgłasza `BrakFormy`.
@@ -1056,7 +1030,7 @@ gdzie od części mowy nie zależy ani szyk, ani zgodność, ani forma.
 `Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
 `Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
 w `tests/test_subset.py`, a ze składu nie wyjdzie,
-bo ten konstruktor woła `odmień` po lemacie `być` wpisanym w niego na stałe.
+bo lemat kopuli stoi w tym konstruktorze jako stała, a nie jako pole drzewa.
 Widać to dopiero od zmiany, po której rama czasownika przychodzi z leksykonu:
 `KOPULA` w `olski/subset.py` jest tą częścią walencji, której Walenty nie niesie,
 i [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
