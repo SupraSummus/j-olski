@@ -44,8 +44,6 @@ from skład.słownik import (
     opis,
     potem,
     razem,
-    remat,
-    temat,
 )
 
 #: Postaciami jest to, do czego opowieść wraca; reszta rzeczy jest wymieniana raz.
@@ -127,7 +125,7 @@ def chce_zejść(kto):
 
 OPOWIEŚĆ = Opowieść(
     Akapit(
-        V.mieszkać(remat(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
+        V.mieszkać(bazyliszek.remat, Gdzie.w(R.piwnica / (A.stary * R.kamienica)).temat),
         zamienia_w_kamień(
             V.zamieniać,
             wzrok_potwora,
@@ -135,22 +133,22 @@ OPOWIEŚĆ = Opowieść(
             Skutek.więc(zabijają_wejście(~R.deska)),
         ),
         V.stać(
-            remat(opis(kamienne_postaci, nie(V.liczyć(nikt, kamienne_postaci)))),
-            temat(Gdzie.pod(R.ściana)),
+            opis(kamienne_postaci, nie(V.liczyć(nikt, kamienne_postaci))).remat,
+            Gdzie.pod(R.ściana).temat,
         ),
     ),
     Akapit(
         V.chcieć(
             córka_krawca,
-            V.wynieść(córka_krawca, remat(R.kufer / R.ojciec), Skąd.z(R.piwnica)),
+            V.wynieść(córka_krawca, (R.kufer / R.ojciec).remat, Skąd.z(R.piwnica)),
         ),
-        V.zapalić(córka_krawca, świeca, temat(Kiedy.w(R.noc))),
+        V.zapalić(córka_krawca, świeca, Kiedy.w(R.noc).temat),
         schodzi_do_piwnicy(córka_krawca),
         V.zgasnąć(świeca),
         nie(V.wrócić(córka_krawca)),
         V.stać(
             mieszczanie,
-            temat(D.rano),
+            D.rano.temat,
             Gdzie.przed(R.kamienica),
             Dlaczego.bo(nie(chce_zejść(nikt))),
         ),
@@ -160,8 +158,8 @@ OPOWIEŚĆ = Opowieść(
         chce_zejść(czeladnik),
         V.wziąć(
             czeladnik,
-            remat(A.duży * R.lustro),
-            temat(Kiedy(R.wieczór)),
+            (A.duży * R.lustro).remat,
+            Kiedy(R.wieczór).temat,
             Skąd.z(R.warsztat),
         ),
         schodzi_do_piwnicy(czeladnik),
@@ -169,14 +167,14 @@ OPOWIEŚĆ = Opowieść(
             czeladnik,
             R.twarz,
             Czym(R.lustro),
-            temat(Kiedy.gdy(V.otworzyć(bazyliszek, ~R.oko))),
+            Kiedy.gdy(V.otworzyć(bazyliszek, ~R.oko)).temat,
         ),
         V.zobaczyć(bazyliszek, A.własny * R.odbicie),
         zamienia_w_kamień(V.zamienić, wzrok_potwora, bazyliszek),
     ),
     Akapit(
         V.poznać(czeladnik, córka_krawca, Gdzie.wśród(kamienne_postaci)),
-        nie(V.wynieść(czeladnik, remat(R.lustro), Skąd.z(R.piwnica))),
+        nie(V.wynieść(czeladnik, R.lustro.remat, Skąd.z(R.piwnica))),
         zabijają_wejście(A.nowy * ~R.deska),
     ),
 )
