@@ -415,6 +415,9 @@ and `tests/test_subset.py`.
 `tests/test_docs.py` catches the Markdown links and the citations in code,
 and nothing catches the plain-prose mentions,
 so those are the ones to grep for.
+That name lands beside `docs/sklad.md`, which is the compiler and not the treebank,
+so a grep for `sklad` finds both,
+and the pair this entry is about becomes that one.
 The package has the same collision twice over and the same argument settles it.
 `olski/check.py` is the grammar command
 and `olski/checks.py` is the linter's check kinds,
@@ -954,7 +957,7 @@ Widać to bez żadnego pomiaru, na jednym zdaniu:
 README pisze `zwykły tekst polski`,
 a to samo drzewo wypuszcza `zwykły polski tekst`.
 Do przeczytania jest ta para wraz z tym,
-co [`docs/design-notes.md`](docs/design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+co [`docs/sklad.md`](docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
 Ruchem jest ta sama kategoria, którą zdanie już ma, wpuszczona do grupy imiennej:
 `Wyróżnienie` stoi w `skład/składnia.py` i przestawia konstytuenty zdania,
@@ -971,7 +974,7 @@ a opowieść o bazyliszku pokazuje, gdzie to boli:
 a polszczyzna napisałaby drugi raz `jego wzrok`.
 Tak samo dopełnienie: `Lustro pokazało bazyliszka` zamiast `Lustro pokazało go`.
 Do przeczytania jest to, co
-[`docs/design-notes.md`](docs/design-notes.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
+[`docs/sklad.md`](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o wąskim opuszczaniu podmiotu,
 wraz z `pomijalny` w `skład/składnia.py`, który te warunki trzyma,
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm:
@@ -1057,7 +1060,7 @@ z których `rodzaj_rzeczownika` w tym samym pliku bierze alfabetycznie pierwszą
 `anioł` dostaje stąd rodzaj osobowy, choć słownik nie rozstrzyga, czy jest osobowy,
 a rodzaj jest tu wartością, z której liczy się zgodność całego zdania.
 Do przeczytania jest to, co
-[`docs/design-notes.md`](docs/design-notes.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)
+[`docs/sklad.md`](docs/sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)
 mówi o kryterium, które zostało zbudowane obok tej klasy,
 bo pytanie jest tu tym samym pytaniem o jedno piętro niżej:
 wybór między leksemami zapada w nazwie, a ten zapada pod jednym leksemem.
@@ -1103,7 +1106,7 @@ projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
 a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego,
 czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
 Do przeczytania jest to, co
-[`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
+[`docs/sklad.md`](docs/sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
 mówi o cenie słownika dołożonego Morfeuszowi i o tym, co wpis ma nazywać,
 wraz z `olski/leksykon.txt` i `skład/leksemy.py`, czyli dwoma leksykonami,
 które już stoją, a żaden z nich na to pytanie nie odpowiada.

@@ -39,6 +39,7 @@ docs/roadmap.md
 docs/rule-inventory.md
 docs/rules.md
 docs/similar-work.md
+docs/sklad.md
 docs/subset.md
 docs/swigra.md
 harness/__init__.py

@@ -45,7 +45,7 @@ wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie.
 Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny,
 i to jest decyzja, która czyni ten tor tym, czym jest,
 bo rozbioru zdania pisanego z góry nikt nie chce pisać
-([design-notes.md](design-notes.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)).
+([sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)).
 Zgodność jest tu liczona, a nie sprawdzana,
 więc trudność, dla której olski istnieje, przy tym kierunku nie powstaje,
 a gramatyka podzbioru nie jest temu torowi potrzebna do niczego:
@@ -393,7 +393,7 @@ i morfologia wzięta z Morfeusza czytanego w drugą stronę.
 
 **Wyjście:** drzewo złożone z konstruktorów wypuszcza polskie zdanie,
 a forma, której słownik nie ma, zgłasza się wyjątkiem, zamiast zostać zgadnięta.
-Zaliczone, zob. `skład/` oraz [design-notes.md](design-notes.md#angle-two-skład).
+Zaliczone, zob. `skład/` oraz [sklad.md](sklad.md).
 
 ### Etap 1: temat i remat
 
@@ -459,7 +459,7 @@ a `odmień` pyta o rozstrzygnięcie tam, gdzie leksemy dają różne formy.
 Trzecim jest wybór, który po tamtych dwóch zostaje,
 i dopiero on wymaga rozstrzygnięcia, czym ma być.
 Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
-[design-notes.md](design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
+[sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
 a ruch trzyma [TODO.md](../TODO.md);
 kryterium po stronie analizy stoi tam, gdzie
 [`admissible`](subset.md#the-dictionary-offers-readings-polish-does-not).
@@ -470,10 +470,10 @@ a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
 Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` oraz `WieleLeksemów`
 w `skład/morfologia.py`, wraz z
-[kwalifikatorem](design-notes.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
-oraz [nazwą leksemu](design-notes.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
+[kwalifikatorem](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
+oraz [nazwą leksemu](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
 kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym
-[design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
+[sklad.md](sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
 
 ### Etap 4: leksykon projektu
 
@@ -482,7 +482,7 @@ ani leksemów, które ten rejestr dokłada do słów znanych,
 więc leksykon projektu jest tym, czego brakuje pod każdym etapem wyżej.
 Czym taki plik ma być, co wpis ma nazywać
 i dlaczego nie jest to słownik dołożony Morfeuszowi, trzyma
-[design-notes.md](design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr).
+[sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr).
 
 Etapu tego nie dokłada się do kryterium, tylko kryterium go żąda:
 README pisze `olski`, `lintuje` i `commitów`,
@@ -516,9 +516,9 @@ a README, stojące w czasie teraźniejszym, nie żąda żadnej z tych rzeczy.
 Żadnej z nich nie wzięła przy tym za długość:
 zdanie podrzędne dokłada się tam, gdzie ktoś ma powód coś zrobić,
 a spójnik tam, gdzie zdania mają przestać brzmieć jednakowo
-([design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
+([sklad.md](sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
 Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
-[design-notes.md](design-notes.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
+[sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
 
 **Wyjście:** każda konstrukcja z tej listy wychodzi z drzewa,
 a to, czego po nich brakuje, mówi już różnica między składem a README,
@@ -541,7 +541,7 @@ Jest tak dlatego, że numeracja tego toru liczy to, czego brakuje jednemu zdaniu
 a te dwie rzeczy są własnościami tekstu i żadne zdanie ich w sobie nie ma:
 zdanie nie wie, kiedy to było, ani o kim mowa była przed chwilą.
 Wywód trzyma
-[design-notes.md](design-notes.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
+[sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
 
 ## Tor opcjonalny: linter
 

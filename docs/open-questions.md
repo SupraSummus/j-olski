@@ -319,7 +319,7 @@ albo nie daje żadnego.
 ### What the author writes
 
 Three architectures, described at length in
-[design-notes.md](design-notes.md#three-architectures).
+[sklad.md](sklad.md#three-architectures).
 
 1. A typed abstract syntax tree
 2. Near-Polish text that gets parsed and validated
@@ -333,7 +333,7 @@ with a look-ahead editor
 the author writes something very close to Polish
 and cannot produce an invalid sentence,
 so the bad-diagnostics objection disappears.
-See [design-notes.md](design-notes.md#the-predictive-editor-changes-this).
+See [sklad.md](sklad.md#the-predictive-editor-changes-this).
 
 It decides whether the primary interface
 is a batch checker over files
