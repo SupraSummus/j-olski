@@ -976,6 +976,79 @@ liczony z tego samego `Kontekst`, oraz rozstrzygnięcie,
 czy `swój` i `jego` są jedną kategorią, czy dwiema,
 bo pierwszy odsyła do podmiotu zdania, a drugi poza nie.
 
+Rama czasownika, o którą pyta `Robi` w `skład/składnia.py`,
+odpowiada na jedno pytanie: czy ten czasownik bierze dopełnienie w bierniku,
+więc rola w przypadku innym nie ma po tej stronie o co zapytać
+i nie ma jak stanąć w drzewie.
+Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy
+i wszystkie trzy z niej wypadły.
+`Czeladnik nie powiedział nikomu.` żąda celownika,
+`Czeladnik szukał córki krawca.` żąda dopełniacza,
+i to drugie `Robi` odrzuca, bo leksykon `szukać` wymienia jako czasownik bez biernika,
+czyli mówi o nim prawdę i mówi ją w jedyny sposób, jaki ma.
+`Córka krawca nie wierzyła w bazyliszka.` żąda wyrażenia przyimkowego,
+którego czasownik wymaga, a nie takiego, które autor dokłada jako okoliczność,
+i ta klasa jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
+czyli powie, że ktoś w coś wierzy tak, jak mówi się, że ktoś dokądś idzie.
+Do przeczytania jest `olski/walenty.py` wraz z tym,
+co [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+mówi o tym, co ten przekład z Walentego bierze, a czego nie,
+bo Walenty niesie wszystkie te ramy i jest to jedna zmiana po obu stronach.
+Ruchem jest rama jako zbiór pozycji, a nie jedno pytanie o biernik,
+oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
+a nie po kategorii okoliczności.
+
+Skład wypuszcza jedno zdarzenie na zdanie, a `Opis` w `skład/składnia.py`
+jest z tego wyjątkiem jednym i wąskim:
+zdanie podrzędne staje tam, gdzie stoi rzecz, którą ono wskazuje, i nigdzie poza tym.
+Zdania złożonego brakuje więc w dwóch postaciach,
+a legenda o bazyliszku pokazuje obie.
+`Podniosła deskę i zeszła po schodach.` stoi w niej jako dwa zdania,
+bo `&` łączy byty, a nie zdarzenia,
+i widać to na `schodzi_do_piwnicy` w `opowieści/bazyliszek.py`,
+które zwraca listę dwóch zdań tam, gdzie polszczyzna napisałaby jedno.
+`Gdy bazyliszek otworzył oczy, czeladnik trzymał lustro.` nie ma czym powstać,
+bo okolicznikiem jest tam całe zdarzenie, a `Okolicznik` bierze rolę.
+Do przeczytania jest to, co
+[`docs/design-notes.md`](docs/design-notes.md#zdanie-podrzędne-jest-tu-wskazaniem-rzeczy)
+mówi o tym, czym `Opis` jest na poziomie dziedziny,
+bo obie te konstrukcje żądają jednego rozstrzygnięcia:
+czym jest kategoria dziedziny nad zdarzeniem, które nie wskazuje rzeczy.
+Ruchem jest `Okolicznik` biorący zdarzenie wraz ze spójnikiem wziętym z relacji,
+czyli tak, jak dziś bierze przyimek,
+oraz koordynacja zdarzeń postawiona osobno od koordynacji bytów,
+bo spójnik i interpunkcja są w niej inne.
+
+Przecinek zamykający zdanie podrzędne jedzie w `skład/składnia.py` wewnątrz napisu,
+bo `Opis` dokleja go na końcu, nie wiedząc, czy coś po nim stanie.
+Wiedzą to dwa miejsca i oba muszą o tym przecinku pamiętać:
+`kompiluj` zjada go przed kropką, a `_przecinkami` nie dokłada drugiego w liście.
+Trzecie takie miejsce, dopisane bez tej wiedzy, wypuści `liczył,, mysz`,
+czyli tekst błędny i nigdzie nie zgłoszony,
+a `Okolicznik` biorący zdarzenie będzie właśnie takim miejscem,
+bo spójnik `gdy` domyka zdanie podrzędne tym samym przecinkiem.
+Do przeczytania jest `_przecinkami` wraz z `Opis.linearyzuj` w tym samym pliku
+oraz `test_przecinek_zamykający_opis_stoi_dokładnie_raz` w `tests/test_skład.py`,
+czyli trzy miejsca, w których po konstytuencie coś staje.
+Ruchem jest linearyzacja zwracająca konstytuent wraz z tym, czy jest domknięty,
+zamiast napisu, po którym trzeba to wywnioskować,
+a decyzją do podjęcia po drodze jest to, czy warto:
+zmiana sięga każdej metody `linearyzuj` i każdego testu, który ją woła wprost,
+a kupuje warunek, którego dziś nie ma jak sprawdzić.
+
+`Przysłówek` w `skład/składnia.py` żąda od słownika formy przysłówkowej,
+a część okoliczności polszczyzna wyraża partykułą:
+`znowu` ma w SGJP sam `part`, więc `D.znowu` zgłasza `BrakFormy`.
+To zdanie legenda o bazyliszku chciała postawić w zakończeniu,
+gdzie miasto zabija wejście drugi raz, i postawiła je bez tego słowa.
+Do przeczytania jest wyjście `paradygmat` dla `znowu`, `tam` i `wkrótce`,
+bo `tam` niesie oba znakowania naraz i pokazuje,
+że granica między nimi nie idzie po tym, czym słowo jest w zdaniu.
+Ruchem jest rozstrzygnięcie, czy okoliczność wyrażona jednym słowem
+jest jedną kategorią dziedziny niezależnie od tego, czym słownik to słowo znakuje,
+bo jeśli jest, to `Przysłówek` pyta o część mowy tam,
+gdzie od części mowy nie zależy ani szyk, ani zgodność, ani forma.
+
 `Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
 `Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
 w `tests/test_subset.py`, a ze składu nie wyjdzie,
@@ -994,25 +1067,28 @@ Czyta ją stamtąd także `sonda/polszczyzna.py`, więc import idzie razem z ni�
 
 `odmień` w `skład/morfologia.py` bierze pierwszą formę,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
-Powody, dla których odpowiada kilka, są trzy i wyborem jest dopiero trzeci.
-Pierwszym jest kwalifikator, który `paradygmat` wyrzuca razem z resztą pól:
-`projekta` obok `projekty` i `dokumenta` obok `dokumenty`
-stoją w SGJP oznaczone jako `daw.`
-Drugim jest leksem, którego lemat nie wskazuje:
+Powody, dla których odpowiada kilka, są dwa i wyborem jest dopiero drugi.
+Pierwszym jest leksem, którego lemat nie wskazuje:
 `zamek:Sm3~a` i `zamek:Sm3~u` różnią się dopełniaczem,
 `Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` miejscownikiem,
 a identyfikator, który je rozróżnia, gubią oba kierunki,
 bo `olski/morph.py` ucina go przy analizie, a synteza pyta samym lematem.
-Trzecim jest to, co po tamtych dwóch zostaje.
-Do przeczytania jest wyjście polecenia, które te trzy klasy stawia obok siebie,
+Kosztuje to więcej niż wariant pisowni, bo pod jednym napisem stoi też aspekt:
+`stać:Vi` i `stać:Vp` dzielą lemat, a forma dokonana w czasie teraźniejszym
+jest w polszczyźnie przyszłą,
+więc `V.stać(R.kot)` wypuszcza `Kot stanie.`, czyli zdanie o tym, co będzie.
+Drugim jest to, co po tamtym zostaje, czyli wariant w jednej komórce jednego leksemu:
+`postaci` obok `postacie`, oba bez kwalifikatora i oba w mianowniku mnogim,
+i pierwszy z nich wypisuje `opowieści/bazyliszek.py`,
+bo pierwszy z nich wydaje słownik.
+Do przeczytania jest wyjście polecenia, które te klasy stawia obok siebie,
 z [`docs/design-notes.md`](docs/design-notes.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
 wraz z tym, co `admissible` w `olski/subset.py` wyklucza po drugiej stronie
 i co o tym kryterium mówi
 [`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not).
-Ruchem jest czytanie obu pól, które słownik już niesie,
-oraz leksem postawiony tam, gdzie dziś stoi lemat, w drzewie i w czytaniu,
-a dopiero po nich rozstrzygnięcie, czym ma być wybór między formami,
-które oba kryteria zostawią.
+Ruchem jest leksem postawiony tam, gdzie dziś stoi lemat, w drzewie i w czytaniu,
+a dopiero po nim rozstrzygnięcie, czym ma być wybór między formami,
+które to kryterium zostawi.
 Ten sam wybór stoi piętro wyżej w `rodzaj_rzeczownika` w tym samym pliku,
 które bierze rodzaj alfabetycznie pierwszy:
 `kot` dostaje stąd `m1`, bo SGJP zna go i jako osobę, i jako zwierzę,

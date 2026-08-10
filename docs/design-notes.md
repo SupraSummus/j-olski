@@ -1069,6 +1069,56 @@ opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
 Podmiot znika, gdy zdanie wcześniej miało ten sam podmiot
 i gdy stoi ono w tym samym akapicie, a poza tym stoi wypisany.
 
+### Zdanie podrzędne jest tu wskazaniem rzeczy
+
+Podrzędność jest miejscem, w którym ten zapis mógł rozjechać się
+z poziomem, na którym stoi.
+Zdanie w zdaniu jest kategorią składni, a nie dziedziny,
+i kategoria o takiej nazwie ściągnęłaby cały ten tor
+na trzecią architekturę [powyżej](#three-architectures),
+czyli na rozbiór zdania pisany z góry.
+
+Kategorią, która z tego wyszła, jest wskazywanie.
+`Jaki` wskazuje rzecz cechą, `Opis` w `skład/składnia.py` wskazuje ją zdarzeniem,
+a pytanie jest w obu wypadkach jedno i jest pytaniem o rzecz:
+o którą z nich mowa.
+`kamienne postaci` i `kamienne postaci, których nikt nie liczył`
+wskazują więc tak samo i różnią się tym, czym wskazują,
+a nie tym, że do drugiego doczepiono zdanie.
+Że wychodzi z tego przydawka zdaniowa wraz z zaimkiem względnym i dwoma przecinkami,
+rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
+
+Miejsce, które w zdaniu podrzędnym zostaje zaimkiem, nie jest zapisane.
+Autor pisze rzecz raz i stawia tę samą zmienną w zdaniu, które ją wskazuje,
+czyli robi to, co robi z `Postać` [powyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie):
+tam ta sama zmienna dwa razy jest jedną rzeczą w dwóch zdaniach,
+a tutaj jest jedną rzeczą w zdaniu nadrzędnym i podrzędnym naraz.
+Mechanizm jest ten sam co przy opuszczaniu podmiotu i stoi w jednym miejscu:
+`Kontekst` niesie to, czego wypisywane drzewo o sobie nie wie,
+a jedna funkcja rozstrzyga, czy rola wychodzi nazwą, czy zaimkiem.
+
+Co ta kategoria kupuje poza rytmem, widać na przypadku tego zaimka.
+`których nikt nie liczył` stoi w dopełniaczu,
+bo w zdaniu podrzędnym stoi na pozycji dopełnienia czasownika zaprzeczonego,
+a rodzaj i liczbę bierze z rzeczy, która stoi w zdaniu nadrzędnym.
+Dopełniacz negacji sięga więc zaimka tak samo, jak sięgnąłby rzeczy postawionej tam,
+i nie ma na to w kompilatorze osobnej gałęzi.
+Autor nie pisze przy tym ani przypadka, ani rodzaju, ani zaimka,
+ani tego, że zdanie podrzędne otwiera się nim niezależnie od roli, którą on w nim ma.
+
+Czego ta kategoria nie obejmuje, jest resztą zdania złożonego:
+okolicznikiem wyrażonym zdarzeniem, czyli `gdy` i `bo`,
+oraz koordynacją zdarzeń, bo `&` łączy byty.
+Oba trzyma [`TODO.md`](../TODO.md).
+
+Jedna granica leży przy tym w środku samej kategorii.
+Wskazana rzecz musi stać w zdaniu podrzędnym na pozycji, z której wyjdzie na czoło,
+czyli sama albo pod przyimkiem, a nie pod grupą imienną,
+więc `kot, którego ogon goni mysz` jest zdaniem polskim, którego stąd nie ma.
+Zgłasza się ono przy budowaniu drzewa, i to jest tu jedyna obrona,
+bo zaimek zostawiony w środku zdania podrzędnego wyszedłby tekstem,
+którego nikt nie chciał napisać.
+
 ### Najpierw tekst, potem drzewo, na końcu biblioteka
 
 Kolejność, w której powstał `opowieści/bazyliszek.py`, była odwrotna do zwykłej.
@@ -1088,6 +1138,52 @@ Zysk jest za to natychmiastowy:
 tekst napisany pod jedną legendę mieści się w jednym pliku i w jednej sesji,
 a każda rzecz, której z niego nie dało się wypuścić,
 jest brakiem pokazanym na zdaniu zamiast wyliczonym w planie.
+
+### Lepszy tekst żąda czego innego niż dłuższy
+
+Ta sama legenda przeszła to samo drugi raz,
+i drugi raz nie po to, żeby stanąć w niej więcej zdań,
+tylko po to, żeby stała się opowieścią, a nie ciągiem zdań o jednym temacie.
+Kolejkę ustawiły dwie rzeczy, których pierwsza wersja nie miała.
+Pierwszą jest zakończenie, które przestaje mówić, o czym opowieść była,
+i to żądanie stoi w [fiction.md](fiction.md#narrative) wprost,
+razem z drugim, które to samo zakończenie spełnia: nie wypada ono dobrze.
+Drugą jest powód, dla którego ktoś schodzi do piwnicy,
+a ta jest rozstrzygnięciem tej wersji, a nie pozycją z tamtego katalogu.
+Najbliżej stoi tam [płaskie wnętrze postaci](fiction.md#scene-and-character),
+czyli usterka o tym, czego postać nie ma, a nie o tym, czego nie robi.
+
+Oba prowadzą do jednego, i to jest tu ustalenie:
+powód i puenta, która nie podsumowuje, żądają zdania podrzędnego.
+Zdanie, które nie streszcza, musi coś pokazać,
+a rzecz pokazana bez podsumowania jest rzeczą, którą trzeba wskazać,
+i tego jedno zdanie proste nie robi.
+Wyszedł z tego `Opis` [powyżej](#zdanie-podrzędne-jest-tu-wskazaniem-rzeczy),
+czyli kategoria dziedziny w miejscu, w którym
+[roadmap.md](roadmap.md#etap-5-konstrukcje-których-żąda-readme) trzymała podrzędność,
+i pokrywa on z niej tyle, ile podrzędność wskazuje rzecz, a nie więcej.
+
+Drugie ustalenie jest ciekawsze, bo kolejka nie została w tej warstwie.
+Zaimek względny wychodził z morfologii jako `któren`,
+czyli forma, którą SGJP odsyła do gwary,
+więc nowa konstrukcja składniowa zażądała kryterium wyboru formy,
+stojącego pod nią o dwie warstwy niżej
+([kwalifikator](#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
+Plan tego tak nie ustawia i nie ma jak ustawić:
+roadmapa trzyma wybór formy jako etap 3, a podrzędność jako część etapu 5,
+i wywód za tą kolejnością się nie zmienia.
+Tekst nie czyta jednak numeracji i płaci od razu za wszystko,
+czego wymaga zdanie, które ma z niego wyjść.
+
+Trzecie jest po prostu tanie.
+Trzy relacje okolicznikowe dopisały się bez namysłu,
+bo `w nocy`, `po schodach` i `wśród kamiennych postaci` są tym,
+czym opowieść odmierza czas i ruch, a nie nową kategorią.
+Jedna z nich niesie przy tym coś poza sobą:
+`w nocy` stoi w tym samym przypadku co `w piwnicy`,
+więc jest wpisem, po którym w tekście nie zmienia się nic,
+i pokazuje, że relacja nazywa to, co autor powiedział,
+a nie to, w czym mu to wyjdzie.
 
 ### Checks that are cheap, deterministic, and explainable
 
@@ -1157,12 +1253,14 @@ i na które sam odpowiada wszędzie tam, gdzie leksemy rozdzielił.
 `zamek:Sm3~a` i `zamek:Sm3~u` to dwa leksemy różniące się dopełniaczem,
 a `Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` to kraj i dzielnica Warszawy,
 różniące się miejscownikiem.
-Ten identyfikator gubią dziś oba kierunki:
+Ten identyfikator gubią oba kierunki:
 `skład.morfologia` pyta samym lematem i bierze pierwszą odpowiedź,
 a `olski/morph.py` ucina go przy analizie.
-Drugim, co słownik niesie, a repozytorium wyrzuca, jest kwalifikator:
-`projekta` obok `projekty` stoi w nim oznaczone jako `daw.`
-Brak słowa, zgubiony leksem i zgubiony kwalifikator
+Kwalifikator słownik niesie tym samym polem, a czyta go jeden kierunek:
+`POZA_REJESTREM` w `skład/morfologia.py` odsiewa nim formy przed syntezą,
+a analiza wyrzuca go razem z resztą pól,
+więc `projekta` oznaczone jako `daw.` ze składu nie wyjdzie, a do parsera wejdzie.
+Brak słowa, zgubiony leksem i przeczytany kwalifikator
 widać naraz, nad `pl.sgjp.sgjp-2026.06.01`:
 
 ```sh
@@ -1194,6 +1292,59 @@ wskazanie leksemu, wedle którego wpis się odmienia,
 kosztuje jedno pole i łamie się tam, gdzie temat alternuje,
 bo `plik` ma w miejscowniku `pliku`, a temat zakończony na `t` bierze tam `cie`.
 Trzyma to [`TODO.md`](../TODO.md).
+
+### Kwalifikator mówi o formie dwie rzeczy i tylko jedna jest rejestrem
+
+Kwalifikator jest jedynym kryterium wyboru formy,
+które w danych stoi gotowe i nie żąda niczego poza przestaniem go wyrzucać.
+Co za tym stoi, widać na dwóch słowach, których obu żąda opowieść o bazyliszku,
+i widać na nich od razu, że kryterium nie jest jedno.
+
+Bez odsiania wychodzi polszczyzna, której nikt nie pisze.
+Zaimek względny rodzaju męskiego wychodził jako `któren`,
+oznaczone w SGJP jako `daw._dziś_gwar.`,
+a przeszła forma `zgasnąć` jako `zgasnęła`, oznaczone jako `rzad.`
+Obie stoją w słowniku przed formą zwykłą,
+więc kompilator brał je nie dlatego, że coś rozstrzygnął, tylko dlatego, że nie pytał.
+
+Po odsianiu każdego kwalifikatora naraz wychodzi polszczyzna o innym znaczeniu.
+SGJP rozdziela `oko` na dwa leksemy i temu o liczbie mnogiej `oczy`
+daje kwalifikator `anat.`, a temu o liczbie mnogiej `oka` nie daje żadnego,
+więc kryterium bez podziału zamieniłoby zdanie legendy
+`Bazyliszek otworzył oczy.` na `Bazyliszek otworzył oka.`,
+czyli na oczka w sieci albo w rosole.
+Nazwa dziedziny nie odsyła tu formy poza rejestr, tylko mówi, w którym znaczeniu
+leksem tak się odmienia, i jest to zupełnie inne zdanie o tej samej formie.
+
+Podział jest więc rozstrzygnięciem, a nie odczytem, i stoi w `POZA_REJESTREM`.
+Nazwy, które w słowniku występują, wypisuje polecenie
+nad listą lematów, którą to repozytorium już ma:
+
+```sh
+python3 -c "
+import collections, morfeusz2
+morf = morfeusz2.Morfeusz(generate=True, expand_tags=False)
+lematy = [w.split()[0] for w in open('olski/leksykon.txt') if not w.startswith('#')]
+nazwy = collections.Counter(
+    nazwa
+    for lemat in lematy
+    for *_, kwalifikatory in morf.generate(lemat)
+    for napis in kwalifikatory
+    for nazwa in napis.split(',')
+)
+for nazwa, ile in nazwy.most_common():
+    print(ile, nazwa)
+"
+```
+
+Zasięg tego polecenia jest zasięgiem tamtej listy, czyli czasownikami,
+i to jest jedyna słabość tego wywodu:
+`anat.`, `mors.` oraz `daw._dziś_gwar.` wychodzą dopiero na rzeczownikach,
+więc lista nazw jest sumą dwóch przebiegów, a nie wyjściem jednego polecenia.
+Nazwa, której żaden przebieg nie pokazał, przechodzi jak nazwa dziedziny,
+i to ten podział kosztuje.
+Odwrotny domyślny kosztowałby więcej, bo formę odsianą przez pomyłkę
+widać dopiero wtedy, gdy jej brak wywali całą komórkę paradygmatu.
 
 ## The round-trip invariant
 

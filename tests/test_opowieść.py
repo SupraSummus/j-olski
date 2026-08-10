@@ -4,26 +4,34 @@ pytest.importorskip("morfeusz2")
 
 from opowieści.bazyliszek import OPOWIEŚĆ
 from skład import Akapit, Kontekst, Opowieść, Postać, kompiluj
-from skład.słownik import A, R, V, jest
+from skład.słownik import A, R, V, jest, opis
 
 #: Tekst, który ma wyjść z drzew w ``opowieści/bazyliszek.py``, znak w znak.
 #: Pierwszy powstał tekst, a drzewa są tym, co go wypuszcza,
 #: więc różnica między jednym a drugim jest różnicą, którą ten kierunek mierzy.
 BAZYLISZEK = """\
 W piwnicy starej kamienicy mieszkał bazyliszek. \
-Miał koguci dziób, wężowy ogon i żabie oczy. \
 Wzrok potwora zamieniał ludzi w kamień. \
-Nikt nie wracał z ciemnej piwnicy.
+Kamienne postaci, których nikt nie liczył, stały pod ścianą. \
+Mieszczanie zabili okna i drzwi deskami.
 
-Mieszczanie zamykali okna i drzwi. \
-Nie wychodzili na ulicę. \
-Miasto nie miało obrońcy.
+W nocy córka krawca zapaliła świecę. \
+Podniosła deskę. \
+Zeszła po schodach. \
+Świeca zgasła. \
+Córka krawca nie wróciła.
 
-Odważny czeladnik zszedł do ciemnej piwnicy. \
-Zasłonił twarz dużym lustrem. \
-Bazyliszek zobaczył własne odbicie. \
-Wzrok potwora zamienił bazyliszka w kamień. \
-Wkrótce miasto odzyskało spokój."""
+Czeladnik, który znał córkę krawca, wziął z warsztatu duże lustro. \
+Podniósł deskę. \
+Zszedł po schodach. \
+Zasłonił twarz lustrem. \
+Bazyliszek otworzył oczy. \
+Zobaczył własne odbicie. \
+Wzrok potwora zamienił bazyliszka w kamień.
+
+Czeladnik poznał córkę krawca wśród kamiennych postaci. \
+Nie wyniósł z piwnicy lustra. \
+Mieszczanie zabili okna i drzwi nowymi deskami."""
 
 
 def test_opowieść_o_bazyliszku_wychodzi_z_drzew_znak_w_znak():
@@ -49,6 +57,35 @@ def test_ten_sam_podmiot_znika_a_wraca_wraz_z_akapitem():
         Akapit(V.otwierać(kot, R.okno)),
     )
     assert opowieść.kompiluj() == "Kot zamykał okno. Otwierał pudełko.\n\nKot otwierał okno."
+
+
+def test_podmiot_wraca_gdy_między_zdaniami_stanął_inny():
+    """Warunkiem opuszczenia jest zdanie poprzednie, a nie obecność wcześniej w akapicie.
+
+    Bez tego zdanie o kocie czytałoby się jako zdanie o pudełku,
+    bo podmiotu, który znika, czytelnik szuka w zdaniu tuż obok.
+    """
+    kot, pudełko = Postać(R.kot), Postać(R.pudełko)
+    opowieść = Opowieść(
+        Akapit(V.zamykać(kot, R.okno), V.stać(pudełko), V.otwierać(kot, R.pudełko))
+    )
+    assert opowieść.kompiluj() == "Kot zamykał okno. Pudełko stało. Kot otwierał pudełko."
+
+
+def test_rzecz_opisana_zdaniem_zostaje_tą_samą_rzeczą_w_zdaniu_następnym():
+    """Opis wskazuje rzecz, a nie robi z niej drugiej, więc podmiot dalej się opuszcza.
+
+    Zdanie podrzędne ma własny podmiot i to ono jest tu pomyłką do zrobienia:
+    gdyby tożsamość liczyła się z niego, opuszczał się dalej nie ten, o kim mowa.
+    """
+    kot = Postać(R.kot)
+    opowieść = Opowieść(
+        Akapit(
+            V.zamykać(opis(kot, V.gonić(R.mysz, kot)), R.okno),
+            V.otwierać(kot, R.pudełko),
+        )
+    )
+    assert opowieść.kompiluj() == "Kot, którego mysz goniła, zamykał okno. Otwierał pudełko."
 
 
 def test_dwie_postaci_o_jednym_lemacie_są_dwiema_rzeczami():

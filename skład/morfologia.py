@@ -11,6 +11,12 @@ Parsowanie godzi ze sobą dwie wiązki cech, z których każda niesie kilka wart
 a synteza żąda jednej formy po tagu, który już stoi rozstrzygnięty.
 Cała trudność, dla której olski istnieje, przy tym kierunku nie powstaje,
 i dlatego ten moduł jest krótki.
+
+Trudność, która przy nim powstaje, jest inna i jest w danych.
+Tag rozstrzygnięty wskazuje kilka form, a wybór między nimi jest wyborem,
+którego autor drzewa nie zrobił i nie ma gdzie zrobić.
+Jedną z klas tego wyboru zdejmuje kwalifikator, którym słownik odsyła formę
+poza rejestr, i tę klasę zdejmuje ``POZA_REJESTREM`` niżej.
 """
 
 from __future__ import annotations
@@ -30,23 +36,75 @@ class BrakFormy(Exception):
     """
 
 
+#: Kwalifikatory, którymi słownik odsyła formę poza rejestr tego kompilatora.
+#: Wypisane są odsyłające, a nie przyjmowane, bo kwalifikator mówi o formie
+#: dwie różne rzeczy i tylko jedna z nich jest rejestrem.
+#: ``anat.`` przy ``oczy`` i ``żegl.`` przy ``dziobie`` nazywają dziedzinę,
+#: czyli znaczenie, w którym leksem tak się odmienia,
+#: więc odsianie po każdym kwalifikatorze naraz zamieniłoby zdanie legendy
+#: `Bazyliszek otworzył oczy.` na `Bazyliszek otworzył oka.`, czyli na oczka w sieci.
+#: Podział ten kosztuje dwa razy i oba razy cicho:
+#: nazwa rejestru, której tu nie ma, przechodzi jak nazwa dziedziny,
+#: a nazwa wpisana tu z literówką nie odsiewa niczego i nie zgłasza tego nigdzie,
+#: bo świadka w słowniku ta lista nie ma, a leksykon przyimków obok ma połowę swojego.
+#: Skąd się wzięła i czym ją przeliczyć, mówi ``docs/design-notes.md``.
+POZA_REJESTREM = frozenset(
+    {
+        "daw.",
+        "daw._dziś_gwar.",
+        "gwar.",
+        "indyw.",
+        "podniosłe",
+        "poet.",
+        "pogard.",
+        "pot.",
+        "przest.",
+        "przest._dziś_książk.",
+        "reg.",
+        "rub.",
+        "rzad.",
+        "środ.",
+        "wulg.",
+        "żart.",
+    }
+)
+
+
 @functools.lru_cache(maxsize=1)
 def _synteza() -> morfeusz2.Morfeusz:
     """Morfeusz w trybie syntezy, trzymany jeden, bo słownik siedzi w pamięci."""
     return morfeusz2.Morfeusz(generate=True, expand_tags=False)
 
 
+def _w_rejestrze(kwalifikatory: list[str]) -> bool:
+    """Czy żaden kwalifikator formy nie odsyła jej poza rejestr.
+
+    Słownik wydaje kwalifikatory sklejone przecinkiem w jednym napisie,
+    a ``daw._dziś_gwar.`` jest jednym kwalifikatorem wraz z podkreślnikami,
+    więc rozdzielać wolno tylko przecinek.
+    Dość jednego odsyłającego, żeby forma wyszła, także obok nazwy dziedziny:
+    ``ócz`` niesie kwalifikator dawny razem z anatomicznym i wychodzi,
+    a ``oczy``, które niosą sam anatomiczny, zostają.
+    """
+    nazwy = {nazwa for napis in kwalifikatory for nazwa in napis.split(",")}
+    return not nazwy & POZA_REJESTREM
+
+
 @functools.lru_cache(maxsize=4096)
 def paradygmat(lemat: str, pos: str) -> tuple[tuple[str, frozenset], ...]:
-    """Wszystkie formy lematu w danej części mowy, wraz z cechami każdej.
+    """Formy lematu w danej części mowy, które ten rejestr bierze, wraz z cechami każdej.
 
     Liczone raz na lemat, bo linearyzacja pyta o ten sam lemat tyle razy,
     ile stoi on w drzewie, a Morfeusz i tak wydaje cały paradygmat naraz.
+
+    Odsianie stoi tutaj, a nie przy wyborze niżej,
+    bo forma odesłana poza rejestr nie jest wyborem gorszym, tylko żadnym:
+    ``odmień`` nie ma jej po co widzieć, a ``rodzaj_rzeczownika`` tym bardziej.
     """
     formy = []
-    for forma, _lemat, surowy, *_ in _synteza().generate(lemat):
+    for forma, _lemat, surowy, _nazwy, kwalifikatory in _synteza().generate(lemat):
         czytanie = tag(surowy)
-        if czytanie.pos == pos:
+        if czytanie.pos == pos and _w_rejestrze(kwalifikatory):
             formy.append((forma, czytanie.features))
     return tuple(formy)
 
@@ -65,7 +123,11 @@ def odmień(lemat: str, pos: str, **żądane: str) -> str:
     Gdzie żądaniu odpowiada kilka różnych form, bierze pierwszą.
     To jest jedyne miejsce, w którym kompilator wybiera i nie mówi o tym,
     a reszta wyborów stoi w drzewie, które napisał autor.
-    Czym ten wybór ma być, nie zapadło, i trzyma to ``TODO.md``.
+    Wybiera przy tym z form, które ``paradygmat`` już przepuścił,
+    więc forma odesłana poza rejestr nie stoi tu ani pierwsza, ani żadna:
+    ``któren`` i ``zgasnęła`` wychodziły stąd, dopóki kwalifikatora nikt nie czytał.
+    Zostaje po tym leksem, którego lemat nie wskazuje, i wybór między wariantami
+    jednej komórki jednego leksemu; oba trzyma ``TODO.md``.
     """
     formy = paradygmat(lemat, pos)
     obecne = {nazwa for _forma, cechy in formy for nazwa, _wartości in cechy}
