@@ -19,19 +19,19 @@ Niesie to ``Postać``, a rozstrzyga o tym zmienna, którą autor tej postaci nad
 dwa razy napisany ``R.bazyliszek`` jest dwoma bazyliszkami,
 a dwa razy użyta jedna ``Postać`` jest jednym.
 
-Opuszczenie jest wąskie i jest wąskie z rozmysłu.
-Podmiot znika tylko wtedy, gdy zdanie wcześniej miało ten sam podmiot
-i gdy stoi ono w tym samym akapicie,
-bo tyle wystarczy, żeby czytelnik nie miał na kogo innego trafić.
-Zdanie o kimś, o kim mowa była wcześniej, ale nie przed chwilą,
-dostaje pełną nazwę, i to jest ta sama ostrożność,
-którą po drugiej stronie ma kryterium jednego czytania:
-opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
+Opuszczenie jest wąskie i jest wąskie z rozmysłu:
+opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością,
+i jest to ta sama ostrożność, którą po drugiej stronie ma kryterium jednego czytania.
+Warunki trzyma ``pomijalny`` w ``skład/składnia.py``, a nie ten moduł,
+bo stawia je także ciąg zdarzeń wewnątrz jednego zdania.
+Akapit dokłada do nich jeden własny i jest to jego cała rola w tej regule:
+zdanie o kimś, o kim mowa była wcześniej, ale nie w zdaniu obok,
+dostaje pełną nazwę, a akapit jest tym, w czym „obok” się kończy.
 """
 
 from __future__ import annotations
 
-from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj
+from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, pomijalny
 
 
 class Postać(Rola):
@@ -91,7 +91,9 @@ class Akapit:
     Akapit jest jednostką, w której podmiot da się opuścić,
     bo jest jednostką, w której czytelnik trzyma jeden wątek.
     Pierwsze zdanie akapitu wypisuje podmiot zawsze,
-    także wtedy, gdy akapit poprzedni skończył się na tej samej postaci.
+    także wtedy, gdy akapit poprzedni skończył się na tej samej postaci,
+    i tyle akapit o opuszczeniu rozstrzyga:
+    resztę warunków stawia ``pomijalny`` w ``skład/składnia.py``.
     """
 
     def __init__(self, *zdania) -> None:
@@ -99,12 +101,11 @@ class Akapit:
 
     def kompiluj(self, czas: str) -> str:
         wypisane = []
-        poprzedni = None
+        poprzednie = None
         for zdanie in self.zdania:
-            tożsamość = zdanie.podmiot.tożsamość
-            pomijany = tożsamość if tożsamość is poprzedni else None
+            pomijany = pomijalny(zdanie, poprzednie, czas)
             wypisane.append(kompiluj(zdanie, Kontekst(czas=czas, pomijany=pomijany)))
-            poprzedni = tożsamość
+            poprzednie = zdanie
         return " ".join(wypisane)
 
 

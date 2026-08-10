@@ -44,18 +44,19 @@ def test_zgodność_jest_liczona_a_nie_żądana_od_autora():
     Trzy rodzaje naraz, bo pomyłką, którą da się tu zrobić, jest wzięcie rodzaju
     z jednego miejsca dla wszystkich: przy jednym rzeczowniku taki błąd nie widać.
     """
-    assert Jaki("dobry", Rzecz("kod")).linearyzuj("nom", "sg") == "dobry kod"
-    assert Jaki("dobry", Rzecz("dokumentacja")).linearyzuj("nom", "sg") == "dobra dokumentacja"
-    assert Jaki("dobry", Rzecz("narzędzie")).linearyzuj("nom", "sg") == "dobre narzędzie"
+    assert Jaki("dobry", Rzecz("kod")).linearyzuj("nom", "sg").napis == "dobry kod"
+    dokumentacja = Jaki("dobry", Rzecz("dokumentacja"))
+    assert dokumentacja.linearyzuj("nom", "sg").napis == "dobra dokumentacja"
+    assert Jaki("dobry", Rzecz("narzędzie")).linearyzuj("nom", "sg").napis == "dobre narzędzie"
 
 
 def test_ta_sama_rzecz_odmienia_się_wedle_pozycji_w_zdaniu():
     """Przypadek przychodzi od konstruktora zdania, a nie od autora grupy imiennej."""
     tekst = Jaki("polski", Rzecz("tekst"))
-    assert Robi(byt(Rzecz("linter")), "sprawdzać", byt(tekst)).linearyzuj() == (
+    assert Robi(byt(Rzecz("linter")), "sprawdzać", byt(tekst)).linearyzuj().napis == (
         "linter sprawdza polski tekst"
     )
-    assert Jest(byt(tekst), byt(Rzecz("wejście"))).linearyzuj() == (
+    assert Jest(byt(tekst), byt(Rzecz("wejście"))).linearyzuj().napis == (
         "polski tekst jest wejściem"
     )
 
@@ -78,10 +79,10 @@ def test_kierunek_relacji_dopełniaczowej_jest_kształtem_drzewa():
 def test_określenie_niesie_własną_liczbę_niezależnie_od_głowy():
     """Bez tego parser podzbiorów nie ma jak powstać, bo liczba głowy zjada obie."""
     parser = Rzecz("parser")
-    assert Czyj(parser, Byt(Rzecz("podzbiór"), "pl")).linearyzuj("nom", "sg") == (
+    assert Czyj(parser, Byt(Rzecz("podzbiór"), "pl")).linearyzuj("nom", "sg").napis == (
         "parser podzbiorów"
     )
-    assert Czyj(parser, Byt(Rzecz("podzbiór"))).linearyzuj("nom", "pl") == (
+    assert Czyj(parser, Byt(Rzecz("podzbiór"))).linearyzuj("nom", "pl").napis == (
         "parsery podzbioru"
     )
 
@@ -192,7 +193,7 @@ def test_czas_przeszły_zgadza_się_z_podmiotem_rodzajem_wziętym_z_leksykonu(po
     Liczba mnoga rozdziela się przy tym na dwa rodzaje, a nie na pięć,
     i dlatego stoją tu obie.
     """
-    assert V.mieszkać(podmiot).linearyzuj(Kontekst(czas="kiedyś")) == oczekiwane
+    assert V.mieszkać(podmiot).linearyzuj(Kontekst(czas="kiedyś")).napis == oczekiwane
 
 
 def test_czasownik_bez_dopełnienia_woła_się_tak_samo_jak_z_dopełnieniem():
@@ -211,9 +212,12 @@ def test_przeczenie_zabiera_dopełnieniu_biernik_na_rzecz_dopełniacza():
 
     Dopełniacz negacji jest miejscem, w którym kompilator liczy coś,
     czego autor w drzewie nie napisał i nie miałby gdzie napisać.
+    Orzeczenie imienne stoi obok, bo ``nie`` sięga obu orzeczeń tak samo,
+    a przypadek traci tylko dopełnienie: narzędnika przeczenie nie rusza.
     """
     assert kompiluj(V.mieć(R.miasto, R.obrońca)) == "Miasto ma obrońcę."
     assert kompiluj(nie(V.mieć(R.miasto, R.obrońca))) == "Miasto nie ma obrońcy."
+    assert kompiluj(nie(jest(R.kot, R.potwór))) == "Kot nie jest potworem."
 
 
 def test_koordynacja_bierze_przypadek_z_pozycji_a_liczbę_od_każdego_członu_osobno():
@@ -241,10 +245,10 @@ def test_ten_sam_przyimek_w_dwóch_relacjach_daje_dwa_przypadki():
     Nad samym przyimkiem tych dwóch zdań nie da się rozróżnić,
     więc jest to ta sama wieloznaczność, którą ``Czyj`` zdejmuje w grupie imiennej.
     """
-    assert Gdzie.w(R.piwnica).linearyzuj() == "w piwnicy"
-    assert Dokąd.w(R.kamień).linearyzuj() == "w kamień"
-    assert Skąd.z(R.piwnica).linearyzuj() == "z piwnicy"
-    assert czym(R.wzrok).linearyzuj() == "wzrokiem"
+    assert Gdzie.w(R.piwnica).linearyzuj().napis == "w piwnicy"
+    assert Dokąd.w(R.kamień).linearyzuj().napis == "w kamień"
+    assert Skąd.z(R.piwnica).linearyzuj().napis == "z piwnicy"
+    assert czym(R.wzrok).linearyzuj().napis == "wzrokiem"
 
 
 def test_przyimek_postawiony_w_relacji_której_leksykon_nie_ma_zgłasza_się_od_razu():
@@ -259,8 +263,8 @@ def test_przysłówek_wychodzi_w_stopniu_równym_także_wtedy_gdy_stopnia_nie_ma
     ``nagle`` stopniuje się i pierwszą formą w słowniku nie musi być równa,
     a ``wkrótce`` stopnia nie ma wcale.
     """
-    assert D.nagle.linearyzuj() == "nagle"
-    assert D.wkrótce.linearyzuj() == "wkrótce"
+    assert D.nagle.linearyzuj().napis == "nagle"
+    assert D.wkrótce.linearyzuj().napis == "wkrótce"
 
 
 def test_wyróżnienie_przestawia_konstytuenty_a_czasownik_zostaje_na_miejscu():
@@ -344,19 +348,28 @@ def test_zdanie_które_opisywanej_rzeczy_nie_stawia_zgłasza_się_od_razu():
         opis(kot, V.gonić(R.mysz, R.ogon / kot))
 
 
-def test_przecinek_zamykający_opis_stoi_dokładnie_raz():
-    """Opis zamyka się przecinkiem, nie wiedząc, czy coś po nim stanie.
+def test_przecinek_między_konstytuentami_stoi_dokładnie_raz():
+    """Przecinka żądają dwie konstrukcje i żadna nie wie, co obok niej stanie.
 
-    Stanąć może trzy rzeczy i każda rozstrzyga inaczej:
-    kropka przecinek zjada, dalszy konstytuent go zostawia,
-    a przecinek listy jest tym samym przecinkiem i nie dokłada drugiego.
+    Stanąć może pięć rzeczy i każda rozstrzyga inaczej:
+    kropka żądania nie spełnia, dalszy konstytuent spełnia je raz,
+    przecinek listy jest tym samym przecinkiem, a przed spójnikiem staje mimo to.
+    Piąte jest tym, dla którego przecinek przestał być znakiem w napisie:
+    dwa żądania spotkane naraz są jednym przecinkiem, a nie dwoma.
     """
     kot = R.kot
     opisany = opis(kot, V.spać(kot))
+    gdy = Kiedy.gdy(V.gasnąć(R.świeca))
     assert kompiluj(V.gonić(opisany, R.mysz)) == "Kot, który śpi, goni mysz."
     assert kompiluj(V.gonić(R.mysz, opisany)) == "Mysz goni kota, który śpi."
     assert kompiluj(V.gonić(R.mysz, razem([opisany, R.okno, R.pudełko]))) == (
         "Mysz goni kota, który śpi, okno i pudełko."
+    )
+    assert kompiluj(V.gonić(R.mysz, razem([opisany, R.okno]))) == (
+        "Mysz goni kota, który śpi, i okno."
+    )
+    assert kompiluj(V.gonić(R.mysz, opisany, gdy)) == (
+        "Mysz goni kota, który śpi, gdy świeca gaśnie."
     )
 
 
@@ -401,8 +414,8 @@ def test_relacja_która_przypadka_nie_zmienia_jest_osobną_relacją_mimo_to():
     ``w nocy`` i ``w piwnicy`` stoją w jednym przypadku i odpowiadają na dwa pytania,
     więc wpis, po którym nic w tekście się nie zmienia, jest tu wpisem mimo to.
     """
-    assert Kiedy.w(R.noc).linearyzuj() == "w nocy"
-    assert Gdzie.w(R.piwnica).linearyzuj() == "w piwnicy"
+    assert Kiedy.w(R.noc).linearyzuj().napis == "w nocy"
+    assert Gdzie.w(R.piwnica).linearyzuj().napis == "w piwnicy"
 
 
 def test_dwa_konstytuenty_wyróżnione_tak_samo_zgłaszają_się_zamiast_stanąć_obok_siebie():

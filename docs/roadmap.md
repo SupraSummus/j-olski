@@ -491,12 +491,10 @@ a każdy wpis leksykonu projektu niesie to, skąd się w nim wziął.
 
 ### Etap 5: konstrukcje, których żąda README
 
-Bezokolicznik po czasowniku, zaimek wskazujący, liczebnik
-oraz ta część podrzędności, która nie wskazuje rzeczy:
-okolicznik wyrażony zdarzeniem, czyli `gdy` i `bo`.
-Osobno stoi koordynacja zdarzeń, bo `&` w `skład/składnia.py` łączy byty.
-Negacja wraz z dopełniaczem negacji, koordynacja bytów, wyrażenie przyimkowe,
-przysłówek i przydawka zdaniowa stoją już w tym samym pliku.
+Bezokolicznik po czasowniku, zaimek wskazujący i liczebnik.
+Negacja wraz z dopełniaczem negacji, koordynacja bytów i zdarzeń,
+wyrażenie przyimkowe, przysłówek, przydawka zdaniowa
+oraz okolicznik wyrażony zdarzeniem stoją już w `skład/składnia.py`.
 
 Kolejki nie ustawia tu żaden bank drzew,
 i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
@@ -508,11 +506,12 @@ Kolejkę ustawia więc dokument i nic poza nim,
 a którym dokumentem jest, rozstrzyga to, co ten dokument mówi.
 Pozycje odjęte wyżej wzięła
 [legenda o bazyliszku](../opowieści/bazyliszek.py), a nie README,
-bo opowieść żąda przeczenia, okoliczników miejsca i wskazania rzeczy zdarzeniem,
+bo opowieść żąda przeczenia, okoliczników miejsca, wskazania rzeczy zdarzeniem
+oraz zdania złożonego w obu pozostałych postaciach,
 a README, stojące w czasie teraźniejszym, nie żąda żadnej z tych rzeczy.
-Ostatnią z nich wzięła dopiero druga wersja tej legendy, i nie za długość:
+Żadnej z nich nie wzięła przy tym za długość:
 zdanie podrzędne dokłada się tam, gdzie ktoś ma powód coś zrobić,
-a zakończenie nie mówi, o czym opowieść była
+a spójnik tam, gdzie zdania mają przestać brzmieć jednakowo
 ([design-notes.md](design-notes.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
 Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
 [design-notes.md](design-notes.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).

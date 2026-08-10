@@ -1,10 +1,10 @@
 """Bazyliszek warszawski, opowiedziany drzewami zamiast zdaniami.
 
-Legenda o potworze z piwnicy, o córce krawca, która zeszła tam ze świecą,
+Legenda o potworze z piwnicy, o córce krawca, która zeszła tam po kufer,
 i o czeladniku, który zszedł tam z lustrem,
 stoi tu jako drzewa w kategoriach ``skład.składnia``,
 a polski tekst jest tym, co z nich wychodzi.
-Dziewiętnaście zdań tej wersji trzyma ``tests/test_opowieść.py``,
+Piętnaście zdań tej wersji trzyma ``tests/test_opowieść.py``,
 znak w znak z tym, co ten moduł wypuszcza.
 
 Legendę tę Warszawa opowiada w wielu wersjach
@@ -22,17 +22,20 @@ a co z niego widać na kompilatorze i czego on od niego zażądał, mówi
 from skład import Akapit, Opowieść, Postać
 from skład.słownik import (
     A,
+    Dlaczego,
     Dokąd,
     Gdzie,
     Kiedy,
     Którędy,
     R,
+    Skutek,
     Skąd,
     V,
     czym,
     nie,
     nowe,
     opis,
+    potem,
     razem,
     temat,
 )
@@ -55,7 +58,7 @@ kamienne_postaci = Postać(A.kamienny * ~R.postać)
 wzrok_potwora = R.wzrok / R.potwór
 
 
-def zamienia_w_kamień(czyn, kto, kogo):
+def zamienia_w_kamień(czyn, kto, kogo, *reszta):
     """Zdanie o tym, co obraca w kamień, i o tym, kogo obraca.
 
     Funkcja stoi tu, bo to zdanie pada w opowieści dwa razy
@@ -64,30 +67,31 @@ def zamienia_w_kamień(czyn, kto, kogo):
     Czasownik jest argumentem, bo aspekt jest znaczeniem, a nie formą:
     raz mowa o tym, co działo się stale, a raz o tym, co stało się raz.
     """
-    return czyn(kto, kogo, Dokąd.w(R.kamień))
+    return czyn(kto, kogo, Dokąd.w(R.kamień), *reszta)
 
 
 def schodzi_do_piwnicy(kto):
-    """Dwa zdania o tym, jak się tam wchodzi, bo drzwi są zabite.
+    """Zdanie o tym, jak się tam wchodzi, bo drzwi są zabite.
 
-    Funkcja zwraca listę, więc jedno wywołanie dokłada do akapitu dwa zdania.
     Wywołań jest dwa i to one są tu treścią, a nie oszczędnością:
     czeladnik schodzi na dół tak samo jak dziewczyna, której szuka,
     i tyle wystarcza, żeby czytelnik wiedział, czym to się skończyło.
-    Podmiot stoi w obu zdaniach, a w tekście wyjdzie raz,
-    bo o opuszczeniu rozstrzyga akapit, a nie ten, kto zdania pisze.
+    Podmiot stoi w obu zdarzeniach, a w tekście wyjdzie raz,
+    bo o tym rozstrzyga ciąg, a nie ten, kto zdarzenia pisze.
     """
-    return [
+    return potem(
         V.podnieść(kto, R.deska),
         V.zejść(kto, Którędy.po(~R.schody)),
-    ]
+    )
 
 
 def zabijają_wejście(deski):
     """Zdanie o tym, co miasto robi z piwnicą, powiedziane dwa razy o różnych deskach.
 
-    Deski są argumentem, bo to w nich jest cała różnica między początkiem a końcem:
+    Deski są argumentem, bo to w nich jest widoczna różnica między początkiem a końcem:
     drugi raz są nowe, a poza tym nie stało się nic.
+    Za pierwszym razem to zdanie stoi jako skutek cudzego zdania, a za drugim samo,
+    i to jest tu echo: miasto robi to samo, a nie mówi już, przed czym.
     """
     return V.zabić(mieszczanie, razem([~R.okno, ~R.drzwi]), czym(deski))
 
@@ -95,15 +99,24 @@ def zabijają_wejście(deski):
 OPOWIEŚĆ = Opowieść(
     Akapit(
         V.mieszkać(nowe(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
-        zamienia_w_kamień(V.zamieniać, wzrok_potwora, ~R.człowiek),
-        V.stać(
-            opis(kamienne_postaci, nie(V.liczyć(R.nikt, kamienne_postaci))),
-            Gdzie.pod(R.ściana),
+        zamienia_w_kamień(
+            V.zamieniać,
+            wzrok_potwora,
+            ~R.człowiek,
+            Skutek.więc(zabijają_wejście(~R.deska)),
         ),
-        zabijają_wejście(~R.deska),
+        V.stać(
+            nowe(opis(kamienne_postaci, nie(V.liczyć(R.nikt, kamienne_postaci)))),
+            temat(Gdzie.pod(R.ściana)),
+        ),
     ),
     Akapit(
-        V.zapalić(córka_krawca, świeca, temat(Kiedy.w(R.noc))),
+        V.zapalić(
+            córka_krawca,
+            świeca,
+            temat(Kiedy.w(R.noc)),
+            Dlaczego.bo(V.stać(nowe(R.kufer / R.ojciec), temat(Gdzie.w(R.piwnica)))),
+        ),
         schodzi_do_piwnicy(córka_krawca),
         V.zgasnąć(świeca),
         nie(V.wrócić(córka_krawca)),
@@ -115,8 +128,12 @@ OPOWIEŚĆ = Opowieść(
             Skąd.z(R.warsztat),
         ),
         schodzi_do_piwnicy(czeladnik),
-        V.zasłonić(czeladnik, R.twarz, czym(R.lustro)),
-        V.otworzyć(bazyliszek, ~R.oko),
+        V.zasłonić(
+            czeladnik,
+            R.twarz,
+            czym(R.lustro),
+            temat(Kiedy.gdy(V.otworzyć(bazyliszek, ~R.oko))),
+        ),
         V.zobaczyć(bazyliszek, A.własny * R.odbicie),
         zamienia_w_kamień(V.zamienić, wzrok_potwora, bazyliszek),
     ),
