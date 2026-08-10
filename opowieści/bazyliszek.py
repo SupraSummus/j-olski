@@ -4,7 +4,7 @@ Legenda o potworze z piwnicy, o córce krawca, która zeszła tam po kufer,
 i o czeladniku, który zszedł tam z lustrem,
 stoi tu jako drzewa w kategoriach ``skład.składnia``,
 a polski tekst jest tym, co z nich wychodzi.
-Piętnaście zdań tej wersji trzyma ``tests/test_opowieść.py``,
+Tekst ten trzyma ``tests/test_opowieść.py``,
 znak w znak z tym, co ten moduł wypuszcza.
 
 Legendę tę Warszawa opowiada w wielu wersjach
@@ -14,6 +14,13 @@ Zakończenie, które nie mówi, o czym opowieść była, jest w niej wyborem,
 a nie tym, co po skracaniu zostało,
 i katalog, z którego ten wybór wyszedł, trzyma ``docs/fiction.md``.
 
+Dwie rzeczy w tej wersji niesie sama wola, a nie zdanie o kimś.
+Córka krawca chce wynieść kufer i to jest jej powód zejścia,
+a czeladnik chce zejść tam, gdzie nie chce zejść nikt,
+i to jest wszystko, co opowieść mówi o tym, jaki jest.
+Czasownik ``wynieść`` domyka przy tym opowieść:
+otwiera ją rzecz, którą ktoś chciał wynieść, a zamyka rzecz, której nikt nie wyniósł.
+
 Po co ten plik jest, mówi ``opowieści/__init__.py``,
 a co z niego widać na kompilatorze i czego on od niego zażądał, mówi
 ``docs/design-notes.md``.
@@ -22,6 +29,8 @@ a co z niego widać na kompilatorze i czego on od niego zażądał, mówi
 from skład import Akapit, Opowieść, Postać
 from skład.słownik import (
     A,
+    Czym,
+    D,
     Dlaczego,
     Dokąd,
     Gdzie,
@@ -31,12 +40,11 @@ from skład.słownik import (
     Skutek,
     Skąd,
     V,
-    czym,
     nie,
-    nowe,
     opis,
     potem,
     razem,
+    remat,
     temat,
 )
 
@@ -56,6 +64,14 @@ kamienne_postaci = Postać(A.kamienny * ~R.postać)
 #: Zmienna oszczędza tu powtórzenie, a nie niesie tożsamość:
 #: wzrok potwora jest za każdym razem tym samym wzrokiem, bo tyle znaczy opis.
 wzrok_potwora = R.wzrok / R.potwór
+
+#: Nikt, czyli rzecz, którą opowieść wymienia dwa razy i o której nie mówi.
+#: Postacią to nie jest i być nie może: postać jest kimś, do kogo tekst wraca,
+#: a tu nie ma do kogo wracać.
+#: Zmienna jest tu mimo to potrzebna, i to jest ta sama potrzeba,
+#: którą ma ``opis``: bezokolicznik żąda tego samego obiektu w dwóch miejscach,
+#: bo o wykonawcy rozstrzyga zmienna, a nie lemat.
+nikt = R.nikt
 
 
 def zamienia_w_kamień(czyn, kto, kogo, *reszta):
@@ -93,12 +109,25 @@ def zabijają_wejście(deski):
     Za pierwszym razem to zdanie stoi jako skutek cudzego zdania, a za drugim samo,
     i to jest tu echo: miasto robi to samo, a nie mówi już, przed czym.
     """
-    return V.zabić(mieszczanie, razem([~R.okno, ~R.drzwi]), czym(deski))
+    return V.zabić(mieszczanie, razem([~R.okno, ~R.drzwi]), Czym(deski))
+
+
+def chce_zejść(kto):
+    """Zdanie o woli, a nie o zejściu, powiedziane dwa razy o dwóch różnych ludziach.
+
+    Wywołań jest dwa i to one są tu treścią, tak samo jak przy schodzeniu wyżej,
+    tylko że tamte dwa są echem, a te dwa kontrastem:
+    nikt nie chce zejść, a czeladnik chce, i tyle wystarcza,
+    żeby o czeladniku nie trzeba było mówić, jaki jest.
+    Wykonawca stoi w tym zdaniu dwa razy, a w tekście wyjdzie raz,
+    bo bezokolicznik podmiotu nie ma i bierze go z czasownika nad sobą.
+    """
+    return V.chcieć(kto, V.zejść(kto, Dokąd.do(R.piwnica)))
 
 
 OPOWIEŚĆ = Opowieść(
     Akapit(
-        V.mieszkać(nowe(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
+        V.mieszkać(remat(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
         zamienia_w_kamień(
             V.zamieniać,
             wzrok_potwora,
@@ -106,32 +135,40 @@ OPOWIEŚĆ = Opowieść(
             Skutek.więc(zabijają_wejście(~R.deska)),
         ),
         V.stać(
-            nowe(opis(kamienne_postaci, nie(V.liczyć(R.nikt, kamienne_postaci)))),
+            remat(opis(kamienne_postaci, nie(V.liczyć(nikt, kamienne_postaci)))),
             temat(Gdzie.pod(R.ściana)),
         ),
     ),
     Akapit(
-        V.zapalić(
+        V.chcieć(
             córka_krawca,
-            świeca,
-            temat(Kiedy.w(R.noc)),
-            Dlaczego.bo(V.stać(nowe(R.kufer / R.ojciec), temat(Gdzie.w(R.piwnica)))),
+            V.wynieść(córka_krawca, remat(R.kufer / R.ojciec), Skąd.z(R.piwnica)),
         ),
+        V.zapalić(córka_krawca, świeca, temat(Kiedy.w(R.noc))),
         schodzi_do_piwnicy(córka_krawca),
         V.zgasnąć(świeca),
         nie(V.wrócić(córka_krawca)),
+        V.stać(
+            mieszczanie,
+            temat(D.rano),
+            Gdzie.przed(R.kamienica),
+            Dlaczego.bo(nie(chce_zejść(nikt))),
+        ),
     ),
     Akapit(
+        V.znać(czeladnik, córka_krawca),
+        chce_zejść(czeladnik),
         V.wziąć(
-            opis(czeladnik, V.znać(czeladnik, córka_krawca)),
-            nowe(A.duży * R.lustro),
+            czeladnik,
+            remat(A.duży * R.lustro),
+            temat(Kiedy(R.wieczór)),
             Skąd.z(R.warsztat),
         ),
         schodzi_do_piwnicy(czeladnik),
         V.zasłonić(
             czeladnik,
             R.twarz,
-            czym(R.lustro),
+            Czym(R.lustro),
             temat(Kiedy.gdy(V.otworzyć(bazyliszek, ~R.oko))),
         ),
         V.zobaczyć(bazyliszek, A.własny * R.odbicie),
@@ -139,7 +176,7 @@ OPOWIEŚĆ = Opowieść(
     ),
     Akapit(
         V.poznać(czeladnik, córka_krawca, Gdzie.wśród(kamienne_postaci)),
-        nie(V.wynieść(czeladnik, nowe(R.lustro), Skąd.z(R.piwnica))),
+        nie(V.wynieść(czeladnik, remat(R.lustro), Skąd.z(R.piwnica))),
         zabijają_wejście(A.nowy * ~R.deska),
     ),
 )

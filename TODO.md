@@ -575,10 +575,11 @@ Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
 i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
 gdy zwrotny jest bezokolicznik.
-Płaci za to [leksykon](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+Płaci za to [gramatyka](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego):
 zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
 a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
-więc przekład go nie bierze i mówi w `olski/walenty.py`, dlaczego.
+więc parser tego zdania leksykonu nie czyta, choć skład je czyta,
+i mówi w `olski/walenty.py`, dlaczego.
 Ruchem jest cząstka licencjonowana przez czasownik, do którego należy,
 a nie przez ten, przy którym stoi.
 Do rozstrzygnięcia jest, czy da się to postawić bez czytania,
@@ -588,7 +589,7 @@ Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
-[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-jedno-zdanie-na-lemat-i-bierze-je-z-walentego)
+[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
 bo `_slot_role` w `olski/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
@@ -603,7 +604,7 @@ czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
 Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
 `olski/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
 
-Leksykon walencyjny mówi o bierniku i nie mówi o niczym innym.
+Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 nie bierze, bo `inst` jest u olskiego pozycją orzecznika,
 a Walenty nie odróżnia jej od argumentu narzędnikowego,
@@ -968,6 +969,26 @@ tam wyróżnienie przestawia to, co i tak stało osobno,
 a tu przymiotnik postawiony po rzeczowniku zmienia znaczenie całej grupy,
 więc nazwa `temat` na to nie przystaje.
 
+Kolejne żądania legendy stoją w
+[`docs/sklad.md`](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)
+pod liczebnikami porządkowymi, a liczebnik jest złym kręgosłupem dla tej listy.
+Pozycje od `Pierwszym` do `Siódme` rozciągnęły tę sekcję na najdłuższą w pliku,
+a żądanie dopisane w środku każe przenumerować wszystko pod nim,
+choć kolejność nic tam nie niesie: nie jest ani czasem, ani wagą.
+Kręgosłup, który niesie coś, sekcja już znalazła i mówi o nim wprost:
+warstwa, która za żądanie zapłaciła.
+Jedne żądania zostały w składni, jedne zeszły o dwie warstwy niżej,
+do wyboru formy i do czytania cudzego słownika,
+a jedno zapłaciło samym zapisem, i to jest podział, który ta sekcja przy sobie robi
+zdaniem „dwa razy pod rząd nie jest zbiegiem”.
+Do przeczytania jest cała ta sekcja wraz z
+[etapem 5](docs/roadmap.md#etap-5-konstrukcje-których-żąda-readme),
+bo to on trzyma listę konstrukcji, a ta sekcja trzyma to, co je zamówiło,
+i przy podziale po warstwach te dwie listy przestają się mylić.
+Ruchem jest pogrupowanie akapitów po warstwie, która płaciła,
+i wyjęcie liczebników; wpisu żaden pomiar nie jest przy tym winien,
+bo nic pod tą sekcją nie stoi liczbą.
+
 Anafora sięga podmiotu i nic poza nim,
 a opowieść o bazyliszku pokazuje, gdzie to boli:
 `opowieści/bazyliszek.py` pisze `wzrok potwora` dwa razy,
@@ -980,8 +1001,21 @@ wraz z `pomijalny` w `skład/składnia.py`, który te warunki trzyma,
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm:
 zaimek postawiony tam, gdzie czytelnik trafia na dwie osoby, jest gorszy od powtórzenia.
 Ruchem jest zaimek osobowy w miejscu roli innej niż podmiot,
-liczony z tego samego `Kontekst`, oraz rozstrzygnięcie,
-czy `swój` i `jego` są jedną kategorią, czy dwiema,
+liczony z tego samego `Kontekst`.
+Trzy rzeczy stoją przy tym ruchu i każda robi go innym, niż wygląda,
+a wywód trzyma
+[`docs/sklad.md`](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
+Warunek jest ostrzejszy niż przy podmiocie, bo zaimek niesie rodzaj i liczbę,
+a nie osobę, więc blokuje go każda rzecz obok o tej samej formie zaimka,
+i wtedy do zmierzenia jest, czy pozycja zwalnia się w tej legendzie gdziekolwiek.
+Szyk jest drugi: `Chciał ją znaleźć.` stawia zaimek przed czasownikiem osobowym,
+czyli poza zdaniem, w którym on stoi,
+więc to jedna zmiana wraz z
+[dopełnieniem wyrażonym zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+a nie zmiana obok niego.
+Trzecim jest `jego wzrok`, czyli zaimek dzierżawczy:
+przestawia on grupę imienną, a nie wypełnia pozycję w zdaniu,
+i wtedy do rozstrzygnięcia jest, czy `swój` i `jego` są jedną kategorią, czy dwiema,
 bo pierwszy odsyła do podmiotu zdania, a drugi poza nie.
 
 `Zdanie.podmioty` w `skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
@@ -996,11 +1030,11 @@ Ruchem jest zejście po całym drzewie roli zamiast po dwóch jego poziomach,
 i jest ono tańsze niż tamto, bo nie ma z niego nic do wyprowadzenia.
 
 Rama czasownika, o którą pyta `Robi` w `skład/składnia.py`,
-odpowiada na jedno pytanie: czy ten czasownik bierze dopełnienie w bierniku,
+odpowiada na dwa pytania z listy: o biernik i o bezokolicznik,
 więc rola w przypadku innym nie ma po tej stronie o co zapytać
 i nie ma jak stanąć w drzewie.
-Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy
-i wszystkie trzy z niej wypadły.
+Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy,
+trzecia poprosiła o dwie z nich znowu i wszystkie trzy z niej wypadły.
 `Czeladnik nie powiedział nikomu.` żąda celownika,
 `Czeladnik szukał córki krawca.` żąda dopełniacza,
 i to drugie `Robi` odrzuca, bo leksykon `szukać` wymienia jako czasownik bez biernika,
@@ -1009,11 +1043,20 @@ czyli mówi o nim prawdę i mówi ją w jedyny sposób, jaki ma.
 którego czasownik wymaga, a nie takiego, które autor dokłada jako okoliczność,
 i ta klasa jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
 czyli powie, że ktoś w coś wierzy tak, jak mówi się, że ktoś dokądś idzie.
+Czwarty koszt jest cichy i przez to najgorszy z nich:
+`chcieć` ma u Walentego i dopełniacz, i przypadek strukturalny,
+więc przechodzi tu przez pytanie o biernik i wypuszcza `Kot chce mysz.`,
+czyli zdanie, którego polszczyzna woli nie mówić, a nikt tego nie zgłasza.
+Jedna pozycja znaczy tu więc nie tylko odmowę tam, gdzie brakuje przypadka,
+ale i wybór najgorszej z ram, które lemat ma.
 Do przeczytania jest `olski/walenty.py` wraz z tym,
-co [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+co [`docs/subset.md`](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego)
 mówi o tym, co ten przekład z Walentego bierze, a czego nie,
 bo Walenty niesie wszystkie te ramy i jest to jedna zmiana po obu stronach.
-Ruchem jest rama jako zbiór pozycji, a nie jedno pytanie o biernik,
+Bezokolicznik pokazał przy tym, ile z tej zmiany jest już zrobione, a ile nie:
+przekład umie wziąć drugie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
+i mimo to każde nowe pytanie jest osobnym polem oraz osobną gałęzią w konstruktorze.
+Ruchem jest rama jako zbiór pozycji, a nie lista pytań,
 oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
 a nie po kategorii okoliczności.
 

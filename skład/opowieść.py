@@ -31,6 +31,8 @@ dostaje pełną nazwę, a akapit jest tym, w czym „obok” się kończy.
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, pomijalny
 
 
@@ -100,11 +102,12 @@ class Akapit:
         self.zdania = tuple(_rozwiń(zdania))
 
     def kompiluj(self, czas: str) -> str:
+        kontekst = Kontekst(czas=czas)
         wypisane = []
         poprzednie = None
         for zdanie in self.zdania:
-            pomijany = pomijalny(zdanie, poprzednie, czas)
-            wypisane.append(kompiluj(zdanie, Kontekst(czas=czas, pomijany=pomijany)))
+            pomijany = pomijalny(zdanie, poprzednie, kontekst)
+            wypisane.append(kompiluj(zdanie, replace(kontekst, pomijany=pomijany)))
             poprzednie = zdanie
         return " ".join(wypisane)
 

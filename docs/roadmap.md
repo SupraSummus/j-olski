@@ -430,6 +430,9 @@ parser robi z niego klasy walencyjne, bo z klasy powstaje produkcja,
 a `Robi` w `skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewie.
 `V.pomagać(R.linter, A.dobry * R.kod)` zgłasza się więc zamiast wypuścić
 `Linter pomaga dobry kod.`
+Wspólny jest przy tym plik, a nie każde zdanie, które on mówi:
+bezokolicznik czyta stąd sam skład, bo tylko jemu to zdanie coś kupuje
+([subset.md](subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego)).
 
 Etap stoi przed konstrukcjami z tego samego powodu,
 co [etap 2 toru gramatycznego](#etap-2-walencja):
@@ -495,10 +498,11 @@ a każdy wpis leksykonu projektu niesie to, skąd się w nim wziął.
 
 ### Etap 5: konstrukcje, których żąda README
 
-Bezokolicznik po czasowniku, zaimek wskazujący i liczebnik.
+Zaimek wskazujący i liczebnik.
 Negacja wraz z dopełniaczem negacji, koordynacja bytów i zdarzeń,
-wyrażenie przyimkowe, przysłówek, przydawka zdaniowa
-oraz okolicznik wyrażony zdarzeniem stoją już w `skład/składnia.py`.
+wyrażenie przyimkowe, przysłówek, przydawka zdaniowa,
+okolicznik wyrażony zdarzeniem oraz bezokolicznik po czasowniku
+stoją już w `skład/składnia.py`.
 
 Kolejki nie ustawia tu żaden bank drzew,
 i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
@@ -511,11 +515,12 @@ a którym dokumentem jest, rozstrzyga to, co ten dokument mówi.
 Pozycje odjęte wyżej wzięła
 [legenda o bazyliszku](../opowieści/bazyliszek.py), a nie README,
 bo opowieść żąda przeczenia, okoliczników miejsca, wskazania rzeczy zdarzeniem
-oraz zdania złożonego w obu pozostałych postaciach,
+oraz zdania złożonego w każdej z trzech pozostałych postaci,
 a README, stojące w czasie teraźniejszym, nie żąda żadnej z tych rzeczy.
 Żadnej z nich nie wzięła przy tym za długość:
 zdanie podrzędne dokłada się tam, gdzie ktoś ma powód coś zrobić,
-a spójnik tam, gdzie zdania mają przestać brzmieć jednakowo
+spójnik tam, gdzie zdania mają przestać brzmieć jednakowo,
+a bezokolicznik tam, gdzie postać ma czegoś chcieć
 ([sklad.md](sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
 Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
 [sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).

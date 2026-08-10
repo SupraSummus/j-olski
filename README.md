@@ -171,11 +171,11 @@ a drugie podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
 
 ```python
 from skład import Akapit, Opowieść, Postać
-from skład.słownik import A, Gdzie, R, V, nowe, razem, temat
+from skład.słownik import A, Gdzie, R, V, razem, remat, temat
 
 bazyliszek = Postać(R.bazyliszek)
 Opowieść(Akapit(
-    V.mieszkać(nowe(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
+    V.mieszkać(remat(bazyliszek), temat(Gdzie.w(R.piwnica / (A.stary * R.kamienica)))),
     V.mieć(bazyliszek, razem([A.koguci * R.dziób, A.wężowy * R.ogon])),
 )).kompiluj()
 # W piwnicy starej kamienicy mieszkał bazyliszek. Miał koguci dziób i wężowy ogon.

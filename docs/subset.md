@@ -563,8 +563,8 @@ więc czasownik dopisuje się wpisem, a nie produkcją,
 i nie kosztuje ani jednego przyjętego zdania, dopóki wpisu nie ma.
 Ręcznie stoi w nim jeden wpis i jest nim kopula:
 narzędnika rama domyślna nie ma, a biernika nie ma rama kopuli.
-Reszta wpisów bierze się z Walentego i mówi jedno zdanie na lemat,
-o czym niżej.
+Reszta wpisów bierze się z Walentego i mówi o lemacie tyle,
+ile któryś z kierunków ma z tego czym zapytać, o czym niżej.
 
 Rama domyślna nie jest wygodą, tylko warunkiem, żeby żądanie było żądaniem.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
@@ -611,25 +611,36 @@ a daje jednoznaczność tym, które stoją na nim obok czytania prawdziwego;
 [corpus.md](corpus.md#what-morphological-ambiguity-costs) trzyma liczby
 i zdania, które za nimi stoją.
 
-### Leksykon mówi jedno zdanie na lemat i bierze je z Walentego
+### Leksykon mówi dwa zdania na lemat i bierze je z Walentego
 
 Wpis pisany ręcznie kosztuje tyle, co rozstrzygnięcie o jednym czasowniku,
 a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to.
 [Walenty](prior-art.md) charakteryzuje 17 224 lematy czasownikowe
 64 022 schematami i idzie na licencji CC BY-SA 4.0.
-Mówi przy tym o czasowniku znacznie więcej, niż ta gramatyka umie żądać,
-a rama olskiego ma cztery pozycje,
-więc przekład jest zejściem w dół i bierze z Walentego jedno zdanie:
-że czasownik nie bierze dopełnienia w bierniku.
-Zdanie jest ujemne, bo wpis leksykonu tylko zawęża.
+Mówi przy tym o czasowniku znacznie więcej, niż te dwa kierunki umieją żądać,
+więc przekład jest zejściem w dół i bierze z Walentego dwa zdania na lemat.
+Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
+Drugie jest twierdzące i mówi, że bierze bezokolicznik,
+którego wykonawcą jest jego własny podmiot.
+Kierunki są przeciwne, bo przeciwne są domyślności, od których oba odejmują:
+rama domyślna ma dopełnienie w bierniku i nie ma bezokolicznika.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
-czyli lematy, o których to zdanie jest prawdziwe;
-7 941 stoi ich tam dziś, licząc formy zwrotne osobno.
+czyli lematy wraz z tym, które z tych zdań są o nich prawdziwe;
+8 055 stoi ich tam dziś, licząc formy zwrotne osobno,
+z czego 7 941 niesie zdanie pierwsze, a 285 drugie.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
 Czyta go `olski/walencja.py`, i czyta dla obu kierunków naraz,
 bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
+
+Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
+Biernik czytają oba kierunki, a bezokolicznik czyta sam skład,
+i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
+Po stronie generatora jest jedyną obroną przed drzewem,
+które żąda bezokolicznika od czasownika, który go nie bierze,
+bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
+Po stronie parsera został zmierzony i pomiar stoi niżej w tej sekcji.
 
 Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
 Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,
@@ -645,14 +656,28 @@ a Walenty nie odróżnia jej od argumentu narzędnikowego — `bawić się czym�
 więc wpis wzięty stamtąd wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie.
 Dlatego kopula zostaje listą pisaną ręcznie.
 
-Bezokolicznika przekład też nie bierze, i to jest wynik pomiaru.
-Leksykon odmawiający bezokolicznika tym lematom, którym odmawia go Walenty,
+Bezokolicznik ma u Walentego dwa kształty, a nie jeden,
+i różnicę między nimi niesie kontrola, czyli to, kto wykonuje to,
+o czym mówi pozycja podrzędna.
+U `chcieć` etykietę kontrolującą nosi pozycja podmiotu,
+więc `Córka krawca chciała zejść.` mówi, że zeszłaby ona.
+U `kazać` nosi ją pozycja celownikowa,
+więc `Krawiec kazał córce zejść.` mówi, że zeszłaby córka.
+Przekład bierze pierwszy z tych kształtów i nie bierze drugiego,
+bo celownika ta gramatyka nie ma i wykonawcy nie miałaby czym postawić.
+Zdanie leksykonu jest przez to zdaniem o kontroli, a nie o samym kształcie frazy,
+i tyle wystarcza, żeby skład nie musiał o kontrolę pytać drugi raz.
+
+Czyta to zdanie na razie sam skład, a nie parser, i to jest wynik pomiaru.
+Gramatyka odmawiająca bezokolicznika tym lematom, którym odmawia go Walenty,
 przyjmuje nad Składnicą dwa zdania mniej
 i nie kupuje za to ani jednej jednoznaczności.
 Płaci za to cząstka `się`, która staje przy formie osobowej,
 należąc do bezokolicznika za nią:
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
 któremu Walenty bezokolicznika nie daje.
+Pomiar mówi o odmowie, a nie o wpisie,
+więc zdanie stojące w pliku i nieczytane przez parser nie kosztuje tam nic.
 
 Bank drzew mówi o walencji sam.
 Frazy wymagane niosą w Składnicy swoją pozycję,
