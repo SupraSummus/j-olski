@@ -532,6 +532,13 @@ and stays what that document calls it: a floor, and the harder case.
   stops describing whoever wrote the largest file.
 - Whether SpeakLeash's manifests hold a slice of this register
   that would be cheaper than gathering one.
+- Whether the register of statutes belongs in this survey.
+  It answers the five questions above where nothing here does:
+  no copyright to clear, one register declared by the rules acts are drafted under,
+  and a text that cannot change under the address it is fetched by.
+  What it costs to read, and the one thing it cannot support —
+  the typography, which its publisher normalizes away —
+  is in [ustawy.md](ustawy.md).
 
 ## Sources
 

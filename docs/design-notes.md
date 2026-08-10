@@ -421,11 +421,12 @@ python3 -m sonda proza/README.txt
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 50 zdań.
+Proza README ma 56 zdań.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
-a jednemu z nich zajmuje to ponad sześć sekund, gdy reszcie nie więcej niż cztery setne.
-48 z tych 50 dostaje od obu programów ten sam werdykt,
-a 47 tę samą liczbę czytań,
+a jednemu z nich zajmuje to ponad pięć sekund,
+czyli więcej niż cała reszta razem, co widać po czasie całego przebiegu.
+54 z tych 56 dostaje od obu programów ten sam werdykt,
+a 53 tę samą liczbę czytań,
 i to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`

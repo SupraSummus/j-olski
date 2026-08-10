@@ -27,6 +27,12 @@ bo z tamtej listy nikt następnej reguły nie bierze:
 rejestr, którego dotyczy, [linter.md](linter.md#and-fiction)
 trzyma jako życzenie, a nie jako milestone.
 
+Rejestru ustaw ta lista nie obejmuje z tego samego powodu.
+Czego „Zasady techniki prawodawczej” żądają od zdania w ustawie
+i co z tego dałoby się zmierzyć,
+trzyma [ustawy.md](ustawy.md#nierozstrzygnięte),
+bo tamten rejestr jest osobnym zakresem i chciałby osobnej kalibracji.
+
 ## Typography, tier A
 
 - Em dash frequency, and em dashes used where Polish would not use them *cited*

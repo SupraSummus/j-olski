@@ -136,6 +136,16 @@ python3 -m harness.markdown korpus/ --into proza/
 Właścicielem tego, co ten krok zmyśla,
 jest [docs/extraction.md](docs/extraction.md).
 
+Tą samą drogą dochodzi ustawa, tylko że nie akapitami,
+bo ustawa jest drzewem jednostek redakcyjnych, a nie ciągiem zdań:
+
+```sh
+python3 -m harness.ustawy ustawy/ --into proza/ustawy
+```
+
+Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie
+„Zasady techniki prawodawczej”, mówi [docs/ustawy.md](docs/ustawy.md).
+
 **Skład**, czyli ten sam Morfeusz czytany w drugą stronę.
 Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie,
 a z kilku drzew postawionych obok siebie wychodzi tekst.
@@ -201,6 +211,10 @@ plan i otwarte pytania.
   jak mierzy się gramatykę na banku drzew Składnica,
   co mówi pierwszy pomiar
   i czego nie dowodzi liczba pokrycia wzięta na wyjściu jednej gramatyki
+- [docs/ustawy.md](docs/ustawy.md):
+  czego „Zasady techniki prawodawczej” żądają od zdania w ustawie,
+  ile z tego rejestru gramatyka wyprowadza
+  i dlaczego regularne jest w nim drzewo jednostek redakcyjnych, a nie zdanie
 - [docs/linter.md](docs/linter.md):
   po co jest linter, ile analizy potrzebuje która reguła,
   dlaczego kalibracja rozstrzyga wszystko

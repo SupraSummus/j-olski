@@ -610,6 +610,19 @@ Every figure taken behind a dropped group of productions moves for the same reas
 the grammar it was measured on is the one with the group missing,
 and that one is not the same grammar twice.
 
+A grammar change moves one more set of tables,
+and they sit in the document furthest from where a grammar change is written:
+[what the grammar derives from statutes](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
+is a run over acts an API serves rather than over a treebank.
+A change to what `harness/ustawy.py` composes into a sentence moves them as well,
+since the sentences the grammar is shown there are the ones that step produced,
+and so does a change to the pack, which the same document reports firing nothing.
+The fetch is a command that document prints,
+and what it names is an ELI address rather than a commit,
+which is the one pin in this list that cannot move:
+an act is amended by another act carrying its own address,
+so the text under an address stays as it was promulgated.
+
 A run reads the code once at import,
 and it lasts long enough to invite starting it and editing on.
 So a run started before an edit measures the code as it was,
