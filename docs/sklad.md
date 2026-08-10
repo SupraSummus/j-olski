@@ -215,8 +215,9 @@ i nie ma na to w kompilatorze osobnej gałęzi.
 Autor nie pisze przy tym ani przypadka, ani rodzaju, ani zaimka,
 ani tego, że zdanie podrzędne otwiera się nim niezależnie od roli, którą on w nim ma.
 
-Reszta zdania złożonego wychodzi z dwóch innych kategorii:
-[okoliczności wyrażonej zdarzeniem](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie)
+Reszta zdania złożonego wychodzi z trzech innych kategorii:
+[okoliczności wyrażonej zdarzeniem](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie),
+[dopełnienia wyrażonego zdarzeniem](#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
 oraz [następstwa](#następstwo-zdarzeń-jest-kategorią-a-spójnik-jego-wnioskiem).
 
 Jedna granica leży przy tym w środku samej kategorii.
@@ -247,6 +248,17 @@ i jest to ta sama odmowa, którą tamten plik wydaje na `Skąd.do`.
 Świadka ten leksykon ma przy tym pełniejszego niż tamten:
 SGJP odróżnia spójnik podrzędny od współrzędnego,
 więc `i` dopisane do tej tabeli zgłasza się w teście, a nie w tekście.
+
+Słowa tego bywa zero, i nie jest to trzeci rodzaj okoliczności.
+Narzędzie polszczyzna wyraża samym narzędnikiem,
+a czas wyraża i tak, i tak: `wieczorem` obok `w nocy`.
+Zapis idzie za tym i nie dokłada nic:
+`Czym(R.lustro)` oraz `Kiedy(R.wieczór)` wołają przestrzeń nazw relacji,
+a `Kiedy.w(R.noc)` sięga w niej po słowo,
+więc relacja bez przyimka nie ma osobnej funkcji ani osobnej kategorii.
+Wpis w `skład/przyimki.py` stoi tam mimo to, bo przypadek trzeba skądś wziąć,
+a takie pary są jedynymi, których słownik nie ma czym potwierdzić:
+świadkiem jest znakowanie przyimka, a przyimka tam nie ma.
 
 Skutek jest w tym leksykonie odwrotnością przyczyny i mówi to samo,
 a różni się tym, przy którym zdarzeniu stoi:
@@ -286,6 +298,67 @@ Krańce zdania nie spełniają żadnego, i to zdejmuje dwa warunki:
 kropka nie staje po przecinku, a lista nie dostaje dwóch.
 Bez tego pola przecinek jedzie w napisie, a każde miejsce,
 które po konstytuencie coś stawia — a jest ich trzy — czyta go z ogona tego napisu.
+
+## Dopełnienie nie pyta, czy stoi pod nim rzecz, czy zdarzenie
+
+To samo, co [okolicznik](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie)
+robi z okolicznością, dopełnienie robi z uczestnikiem zdarzenia.
+`Czeladnik zaczął pracę.` i `Czeladnik zaczął pracować.`
+odpowiadają, co zaczął, i różnią się tym, czy zaczął rzecz, czy zdarzenie,
+a nie tym, że do drugiego doczepiono zdanie.
+Że wychodzi z tego raz biernik, a raz bezokolicznik bez podmiotu,
+rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
+
+Wykonawca jest tu tym, czego bezokolicznik o sobie nie mówi,
+i dlatego stoi w drzewie, a nie w formie.
+Autor pisze tę samą zmienną dwa razy, raz przy czasowniku i raz pod nim,
+czyli robi to, co robi przy `Postać` i przy `Opis`,
+a konstruktor zdania o czynności — `Robi` w `skład/składnia.py` —
+sprawdza, że są to te same obiekty.
+Zapisu na to poza zmienną nie ma i nie ma być:
+znacznik postawiony przy bezokoliczniku mówiłby o zdaniu,
+a to drzewo mówi o tym, kto co robi.
+
+Podmiot nie staje przez to w takim zdaniu nigdy,
+i jest to drugi powód, dla którego podmiotu w tekście bywa nie widać.
+Pierwszym jest forma czasownika, z której czytelnik go odzyskuje
+([wyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
+i tamten warunek mierzy się tym, co po opuszczeniu zostaje.
+Tu nie zostaje nic, bo bezokolicznik nie niesie ani osoby, ani rodzaju,
+więc tamten warunek odpowiada odmownie zawsze, a podmiot i tak nie staje.
+Dwa powody spotykają się w jednym miejscu — `_podmiot` w `skład/składnia.py` —
+i to jest wszystko, co je łączy.
+
+Odmów jest przy tej pozycji dwie i każda broni przed czym innym.
+Pierwsza jest leksykonu i broni przed czasownikiem, który bezokolicznika nie bierze.
+Waży ona więcej niż ta sama odmowa przy bierniku,
+bo bezokolicznik nie zgadza się z niczym:
+drzewo, które postawiło go przy `zamykać`, wychodzi tekstem zgodnym gramatycznie
+i nieistniejącym — `Kot zamyka spać.` —
+a leksykon jest jedynym świadkiem, jakiego ta pozycja ma.
+Druga jest drzewa i broni przed cudzym wykonawcą.
+`Czeladnik chciał, żeby córka krawca wróciła.` jest zdaniem polskim,
+którego bezokolicznik nie wyraża,
+więc drzewo żądające go dla cudzego zdarzenia nie ma wyjść tekstem,
+w którym wróciłby czeladnik.
+Tego, że pytanie o kontrolę pada raz, nie zawdzięcza przy tym drzewo sobie:
+[Walenty rozdziela kontrolę](subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego),
+więc `chcieć` bezokolicznik dostaje, a `kazać` nie dostaje go wcale,
+bo jego wykonawca stoi w celowniku, którego ta gramatyka nie ma.
+
+Przeczenie sięga przez tę pozycję o piętro niżej i nie ma na to gałęzi.
+`Nie chciał wynieść lustra.` przeczy raz, przy czasowniku osobowym,
+a przypadek zmienia się przy bezokoliczniku,
+więc `Kontekst` niesie przeczenie w dół tak samo, jak niesie wykonawcę.
+Jest to ten sam dopełniacz negacji, który
+[sięga zaimka względnego](#zdanie-podrzędne-jest-tu-wskazaniem-rzeczy),
+i tam, i tu policzony w jednym miejscu.
+
+Granica tej kategorii leży tam, gdzie granica wskazywania, i z innego powodu.
+`lustro, które chciał wynieść` jest zdaniem polskim, którego stąd nie ma,
+bo rzecz wskazana stoi w bezokoliczniku, czyli o dwa piętra od czoła,
+a `Opis` schodzi po nią jedno.
+Zgłasza się to przy budowaniu drzewa, jak każda z tych granic.
 
 ## Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
 
@@ -386,7 +459,7 @@ i sięga tak samo zdania obok:
 skrzynia postawiona w piwnicy zamiast kufra odbiera córce krawca opuszczenie,
 choć stoi w zdaniu podrzędnym, którego opowieść jest o czym innym.
 
-Ostatnie jest po prostu tanie.
+Piąte jest po prostu tanie.
 Trzy relacje okolicznikowe dopisały się bez namysłu,
 bo `w nocy`, `po schodach` i `wśród kamiennych postaci` są tym,
 czym opowieść odmierza czas i ruch, a nie nową kategorią.
@@ -395,6 +468,63 @@ Jedna z nich niesie przy tym coś poza sobą:
 więc jest wpisem, po którym w tekście nie zmienia się nic,
 i pokazuje, że relacja nazywa to, co autor powiedział,
 a nie to, w czym mu to wyjdzie.
+
+Szóste wróciło do usterki, którą pierwsze zaczęło, i nie dało się nią załatwić.
+Postać, która czegoś chce, ma wnętrze, a postać, która coś robi, ma tylko czynność,
+i tego zdanie podrzędne nie kupuje:
+`Opis` mówi, o którą rzecz chodzi, a nie czego ta rzecz chce.
+Kupuje to [dopełnienie wyrażone zdarzeniem](#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+i legenda żąda go dwa razy w dwóch różnych rolach.
+Raz jest powodem: córka krawca chce wynieść kufer,
+i to zdanie stoi teraz przed świecą, bo powód wyprzedza czynność.
+Raz jest kontrastem: nikt nie chce zejść do piwnicy, a czeladnik chce,
+i tyle wystarcza, żeby o czeladniku nie mówić, jaki jest,
+czyli żeby nie napisać zdania, którym
+[fiction.md](fiction.md#sentence-and-paragraph) nazywa nazwanie emocji zamiast pokazania jej.
+Poza tym echem to samo żądanie zdjęło z opowieści jedno zdanie o niczym:
+zamiast `Nikt nie zszedł po schodach.` stoi w niej miasto, które stoi na ulicy.
+
+Zapłaciło za to warstwą, którą pierwsze żądanie już raz odsłoniło,
+i to jest tu ustaleniem, bo dwa razy pod rząd nie jest zbiegiem.
+Bezokolicznik nie zgadza się z niczym, więc kategoria dziedziny postawiona wysoko
+zażądała czytania cudzego słownika o dwie warstwy niżej,
+tak jak wskazywanie rzeczy zażądało kryterium wyboru formy.
+Tym razem czytanie jest o kontroli, a nie o kształcie frazy,
+bo `chcieć` i `kazać` biorą w polszczyźnie ten sam bezokolicznik
+i wskazują nim dwóch różnych ludzi.
+Wyszło z tego coś, czego niezmiennik obiegu nie zapowiadał:
+plik leksykonu jest wspólny, a zdanie, które on mówi, czyta na razie jeden kierunek.
+Parser zmierzył to zawężenie i nie kupiło mu ono ani jednej jednoznaczności,
+a składowi jest jedyną obroną, jaką ta pozycja ma;
+liczby trzyma [subset.md](subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego).
+
+Siódme jest o czasie i kosztowało jeden wpis w leksykonie przyimków.
+Opowieść nie mówiła, ile go mija między zejściem dziewczyny a zejściem czeladnika,
+więc miasto stało przed kamienicą w tej samej chwili, w której gasła świeca.
+Trzy pory dnia zdejmują to bez żadnej kategorii nowej —
+noc, ranek i wieczór — a wieczór jest tym, który zażądał czegoś od zapisu:
+polszczyzna mówi `wieczorem` samym narzędnikiem, bez przyimka.
+Wyszło z tego zniesienie osobnej funkcji na narzędzie:
+relacja bez słowa jest wywołaniem swojej przestrzeni nazw
+([wyżej](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie)),
+więc `Czym(R.lustro)` i `Kiedy(R.wieczór)` piszą się jednym kształtem,
+a dwie funkcje na jedną kategorię nie powstały.
+
+Jedno żądanie z tego przebiegu nie zostało spełnione,
+a cena, którą pokazało, jest tu ustaleniem osobnym.
+Opowieść wypisuje rzecz pełną nazwą tam, gdzie polszczyzna napisałaby zaimek,
+i widać to na `wzroku potwora` postawionym dwa razy.
+Zaimek osobowy w roli innej niż podmiot ma jednak warunek
+ostrzejszy niż opuszczenie podmiotu:
+zaimek niesie rodzaj i liczbę, a nie osobę,
+więc blokuje go każda rzecz stojąca obok o tej samej formie zaimka,
+a takich rzeczy jest w tej legendzie tyle, że pozycja zwalnia się prawie nigdzie.
+Drugą połową ceny jest szyk, i to ona jest tu nowa:
+`Chciał ją znaleźć.` stawia zaimek przed czasownikiem osobowym,
+czyli poza zdaniem, do którego on należy,
+więc zaimek i bezokolicznik są jedną zmianą, a nie dwiema stojącymi obok siebie.
+Ruch trzyma [TODO.md](../TODO.md), a `jego wzrok` jest przy tym trzecią rzeczą:
+zaimek dzierżawczy przestawia grupę imienną, a nie wypełnia pozycję w zdaniu.
 
 ## Checks that are cheap, deterministic, and explainable
 

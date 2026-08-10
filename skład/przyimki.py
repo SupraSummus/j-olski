@@ -36,9 +36,12 @@ więc ``we Wrocławiu`` z drzewa nie wyjdzie; trzyma to ``TODO.md``.
 from __future__ import annotations
 
 #: Przypadek, którego żąda przyimek postawiony w danej relacji.
-#: Pusty napis jest przyimkiem żadnym, bo narzędzie polszczyzna wyraża
-#: samym narzędnikiem, a rola bez przyimka jest tu tym samym, co rola z nim.
+#: Pusty napis jest przyimkiem żadnym, bo część relacji polszczyzna wyraża
+#: samym przypadkiem, a rola bez przyimka jest tu tym samym, co rola z nim.
+#: Narzędzie wychodzi tak zawsze, a czas ma obie drogi naraz:
+#: ``wieczorem`` stoi bez przyimka, ``w nocy`` z przyimkiem, i mówią to samo.
 PRZYIMKI: dict[tuple[str, str], str] = {
+    ("", "czas"): "inst",
     ("", "narzędzie"): "inst",
     ("do", "cel"): "gen",
     ("na", "cel"): "acc",

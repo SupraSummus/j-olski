@@ -1,27 +1,33 @@
-"""Walenty przeczytany o jedno zdanie: który czasownik nie bierze biernika.
+"""Walenty przeczytany o dwa zdania: co czasownik bierze, a czego nie.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
 więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
-semantyczną. Olski ma ramę o czterech pozycjach, więc czytanie jest zejściem w
-dół i bierze stąd jedno zdanie: że czasownik nie bierze dopełnienia w bierniku.
-Zdanie jest ujemne, bo wpis leksykonu tylko zawęża.
+semantyczną. Olski ma ramę o kilku pozycjach, więc czytanie jest zejściem w dół i
+bierze stąd dwa zdania na lemat.
+
+Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
+Drugie jest twierdzące i mówi, że bierze bezokolicznik, którego wykonawcą jest
+jego własny podmiot. Kierunki są przeciwne, bo przeciwne są domyślności, od
+których oba odejmują: rama domyślna ma dopełnienie w bierniku i nie ma
+bezokolicznika, więc milczenie o lemacie znaczy przy pierwszym zdaniu, że biernik
+bierze, a przy drugim, że bezokolicznika nie bierze.
 
 Ramy ten moduł nie zna: nazywa ją ``olski/subset.py`` razem z resztą gramatyki, a
-stąd wychodzą same lematy, o których to zdanie jest prawdziwe.
+stąd wychodzą same lematy wraz z tym, które z tych zdań są o nich prawdziwe.
 
-Bezokolicznika to czytanie nie obejmuje, choć Walenty mówi i o nim, i jest to
-wynik pomiaru, a nie przeoczenie. Leksykon odmawiający bezokolicznika tym samym
-lematom, którym odmawia go Walenty, przyjmuje nad Składnicą dwa zdania mniej i
-nie kupuje za to ani jednej jednoznaczności. Płaci za to cząstka ``się``, która w
-polszczyźnie staje przy formie osobowej, należąc do bezokolicznika za nią:
-``ma się odbyć`` jest u olskiego czasownikiem ``mieć się``, któremu Walenty
-bezokolicznika nie daje.
+Kontrolę czytamy z Walentego, a nie z lematu, bo to ona odróżnia dwa czasowniki z
+bezokolicznikiem, których polszczyzna nie składa tak samo. U ``chcieć`` etykietę
+kontrolującą nosi pozycja podmiotu, czyli wykonawcą bezokolicznika jest podmiot, a
+u ``kazać`` nosi ją pozycja celownikowa, czyli wykonawcą jest ten, komu kazano.
+Celownika ta gramatyka nie ma, więc drugiego z nich nie ma jak zapisać, i lemat
+kontrolowany z celownika stąd nie wychodzi.
 
-Narzędnika też nie obejmuje, choć Walenty go zna. ``inst`` jest u olskiego
-pozycją orzecznika, a Walenty nie odróżnia jej od argumentu narzędnikowego
-(``bawić się czymś``), więc wpis wzięty stąd wpuszczałby orzecznik tam, gdzie
-polszczyzna ma dopełnienie. Kopula zostaje przez to listą pisaną ręcznie w
-``olski/subset.py``, i to ta lista, a nie ten moduł, wyłącza swoje lematy stąd.
+Czytanie ujemne obejmuje sam biernik, choć Walenty zna wszystkie przypadki.
+Narzędnika nie bierze, bo ``inst`` jest u olskiego pozycją orzecznika, a Walenty
+nie odróżnia jej od argumentu narzędnikowego (``bawić się czymś``), więc wpis
+wzięty stąd wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie. Kopula
+zostaje przez to listą pisaną ręcznie w ``olski/subset.py``, i to ta lista, a nie
+ten moduł, wyłącza swoje lematy stąd.
 
 Plik, który to czyta, nie stoi w repozytorium: pobiera się go tak, jak bank
 drzew, i docs/subset.md trzyma polecenie.
@@ -34,6 +40,8 @@ import sys
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
+from olski.walencja import BIERZE_BEZOKOLICZNIK, NIE_BIERZE_BIERNIKA
+
 #: Pozycja podmiotu. Podmiot ma u olskiego własną produkcję, a nie pozycję ramy,
 #: więc to czytanie go pomija i pyta tylko o to, co przy czasowniku stoi obok niego.
 PODMIOT = "subj"
@@ -43,6 +51,17 @@ PODMIOT = "subj"
 #: jest tym, czego olski szuka jako biernika. ``np(acc)`` stoi obok niego tam,
 #: gdzie wymiany nie ma.
 BIERNIK = ("np(str)", "np(acc)")
+
+#: Kształt frazy bezokolicznikowej. Aspekt stoi u Walentego w nawiasie —
+#: ``infp(_)`` obok ``infp(perf)`` — a olski aspektu nie żąda, więc szuka się
+#: samej nazwy kształtu.
+BEZOKOLICZNIK = "infp"
+
+#: Etykiety, którymi Walenty zapisuje kontrolę: kto wykonuje to, o czym mówi
+#: pozycja podrzędna. Pozycja kontrolowana jest tą, w której stoi bezokolicznik,
+#: a kontrolującą pyta się o to, czy jest nią podmiot.
+KONTROLUJĄCA = "controller"
+KONTROLOWANA = "controllee"
 
 #: Cząstka, którą Walenty pisze przy lemacie czasownika zwrotnego. Olski widzi ją
 #: jako osobny token, więc leksykon trzyma ją jako drugi wymiar klucza, a nie
@@ -86,6 +105,29 @@ def bierze(schematy_lematu: Sequence[str], czego: Sequence[str]) -> bool:
     )
 
 
+def bierze_bezokolicznik_podmiotu(schematy_lematu: Sequence[str]) -> bool:
+    """Czy któryś ze schematów daje bezokolicznik, którego wykonawcą jest podmiot.
+
+    Pytanie stawia się o cały schemat, a nie o jedną pozycję, bo kontrola jest
+    relacją między dwiema: bezokolicznik stoi w pozycji kontrolowanej, a olski
+    bierze ją tylko wtedy, gdy kontroluje ją podmiot tego samego schematu.
+    Schemat, w którym kontroluje kto inny — ``kazać`` kontrolowane z celownika —
+    daje polszczyźnie zdanie, którego ta gramatyka nie ma czym zapisać.
+    """
+    return any(_kontrola_podmiotu(schemat) for schemat in schematy_lematu)
+
+
+def _kontrola_podmiotu(schemat: str) -> bool:
+    wszystkie = list(pozycje(schemat))
+    kontroluje_podmiot = any(
+        PODMIOT in etykieta and KONTROLUJĄCA in etykieta for etykieta, _żądanie in wszystkie
+    )
+    stoi_bezokolicznik = any(
+        KONTROLOWANA in etykieta and BEZOKOLICZNIK in żądanie for etykieta, żądanie in wszystkie
+    )
+    return kontroluje_podmiot and stoi_bezokolicznik
+
+
 def schematy(path: Path | str) -> dict[str, list[str]]:
     """Schematy Walentego po lematach, prosto z wydania tekstowego.
 
@@ -105,22 +147,38 @@ def schematy(path: Path | str) -> dict[str, list[str]]:
     return zebrane
 
 
-def leksykon(path: Path | str) -> list[tuple[str, bool]]:
-    """Lematy bez dopełnienia w bierniku, każdy ze swoją zwrotnością.
+def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
+    """Które zdania tego leksykonu są o tym lemacie prawdziwe."""
+    orzeczone = []
+    if not bierze(schematy_lematu, BIERNIK):
+        orzeczone.append(NIE_BIERZE_BIERNIKA)
+    if bierze_bezokolicznik_podmiotu(schematy_lematu):
+        orzeczone.append(BIERZE_BEZOKOLICZNIK)
+    return tuple(orzeczone)
 
-    Lemat, który biernik bierze, nie wchodzi: leksykon mówi jedno zdanie i wpis o
-    lemacie, którego to zdanie nie dotyczy, niczego nie zabrania.
+
+def leksykon(path: Path | str) -> list[tuple[str, bool, tuple[str, ...]]]:
+    """Lematy, o których ten leksykon coś mówi, każdy ze zwrotnością i ze swoimi zdaniami.
+
+    Lemat, o którym prawdziwe nie jest żadne z tych zdań, nie wchodzi: zostaje mu
+    rama domyślna, a wpis, który tylko ją powtarza, niczego nie rozstrzyga.
     """
     return sorted(
-        (lemat.removesuffix(SIĘ), lemat.endswith(SIĘ))
+        (lemat.removesuffix(SIĘ), lemat.endswith(SIĘ), orzeczone)
         for lemat, ich_schematy in schematy(path).items()
-        if not bierze(ich_schematy, BIERNIK)
+        if (orzeczone := zdania(ich_schematy))
     )
 
 
-NAGŁÓWEK = """\
-# Leksykon walencyjny olskiego: lematy, które nie biorą dopełnienia w bierniku,
-# każdy z cząstką `się` albo z kreską w jej miejscu.
+NAGŁÓWEK = f"""\
+# Leksykon walencyjny olskiego: lematy, o których ten leksykon coś mówi. Kolumny
+# to lemat, cząstka `się` albo kreska w jej miejscu, oraz zdania rozdzielone
+# przecinkiem.
+#
+# `{NIE_BIERZE_BIERNIKA}` mówi, że czasownik nie bierze dopełnienia w bierniku.
+# `{BIERZE_BEZOKOLICZNIK}` mówi, że bierze bezokolicznik, którego wykonawcą jest
+# jego własny podmiot. Milczenie o lemacie zostawia mu ramę domyślną, czyli
+# biernik i brak bezokolicznika.
 #
 # Plik jest generowany i nie pisze się go ręcznie. Powstaje z Walentego,
 # słownika walencyjnego polszczyzny IPI PAN, wydanie tekstowe z 18 kwietnia
@@ -134,16 +192,16 @@ NAGŁÓWEK = """\
 """
 
 
-def zapisz(wpisy: Sequence[tuple[str, bool]], out) -> None:
+def zapisz(wpisy: Sequence[tuple[str, bool, tuple[str, ...]]], out) -> None:
     out.write(NAGŁÓWEK)
-    for lemat, zwrotny in wpisy:
-        out.write(f"{lemat}\t{'się' if zwrotny else '-'}\n")
+    for lemat, zwrotny, orzeczone in wpisy:
+        out.write(f"{lemat}\t{'się' if zwrotny else '-'}\t{','.join(orzeczone)}\n")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python3 -m olski.walenty",
-        description="Wypisz lematy, którym Walenty odmawia dopełnienia w bierniku.",
+        description="Wypisz lematy wraz ze zdaniami, które Walenty o ich ramie mówi.",
     )
     parser.add_argument("schematy", help="walenty_*_verbs_all.txt z wydania tekstowego")
     args = parser.parse_args(argv)

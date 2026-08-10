@@ -45,7 +45,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
-from olski.walencja import bierze_biernik
+from olski.walencja import bierze_bezokolicznik, bierze_biernik
 from skład.morfologia import odmień, rodzaj_rzeczownika
 from skład.przyimki import przypadek
 from skład.spójniki import staje_na_czele, wprowadza
@@ -59,7 +59,7 @@ CZASY = {
 }
 
 
-def _forma(czasownik: str, podmiot: Rola, czas: str) -> str:
+def _forma(czasownik: str, podmiot: Rola, kontekst: Kontekst) -> str:
     """Forma czasownika, którą ten podmiot z niego wyciąga.
 
     Tędy idzie każde zdanie, bo zgodność z podmiotem jest jedna
@@ -67,8 +67,15 @@ def _forma(czasownik: str, podmiot: Rola, czas: str) -> str:
     Tędy idzie też pytanie odwrotne, które stawia ``pomijalny``:
     forma jest wszystkim, co po opuszczonym podmiocie zostaje,
     więc jest też miarą tego, czy da się go opuścić.
+
+    Zdanie, którego wykonawca przychodzi z góry, nie pyta o zgodność wcale.
+    Bezokolicznik nie niesie ani osoby, ani rodzaju, ani czasu,
+    bo wszystkie trzy niesie czasownik nad nim,
+    i dlatego czasu nie ma tu czym uzgadniać ani po co.
     """
-    pos, cechy = CZASY[czas](podmiot)
+    if kontekst.sprawca is not None:
+        return odmień(czasownik, "inf")
+    pos, cechy = CZASY[kontekst.czas](podmiot)
     return odmień(czasownik, pos, **cechy)
 
 
@@ -99,20 +106,41 @@ class Kontekst:
     jest jednym drzewem i dwoma czasami.
     Kto tymi dwoma steruje, mówi ``skład/opowieść.py``.
 
-    Trzecia jest własnością miejsca, w którym zdanie stoi.
-    Zdanie wypisywane jako opis rzeczy mówi o tej rzeczy zaimkiem, a nie nazwą,
-    i steruje tym drzewo, a nie tekst; mechanizm trzyma ``Opis`` niżej.
-    Stoi tu obok tamtych dwóch, bo pytanie jest jedno:
+    Pozostałe są własnościami miejsca, w którym zdanie stoi.
+    Zdanie wypisywane jako opis rzeczy mówi o tej rzeczy zaimkiem, a nie nazwą.
+    Zdanie wypisywane jako dopełnienie czasownika nad nim nie ma podmiotu wcale,
+    bo wykonawcę bierze stamtąd, i wychodzi bezokolicznikiem;
+    to samo miejsce niesie przeczenie tamtego czasownika,
+    bo dopełniacz negacji sięga przez bezokolicznik do jego dopełnienia.
+    Steruje tym wszystkim drzewo, a nie tekst,
+    a mechanizmy trzymają ``Opis`` oraz ``Robi`` niżej.
+    Stoją tu obok czasu, bo pytanie jest jedno:
     czego wypisywane drzewo o sobie nie wie.
 
     Wartość domyślna jest zdaniem stojącym samo:
     dzieje się teraz, nie ma za sobą nikogo, kogo dałoby się pominąć,
-    i niczego nie opisuje.
+    niczego nie opisuje, orzeka o własnym podmiocie i nikt go nie przeczy.
     """
 
     czas: str = "teraz"
     pomijany: object = None
     wskazywany: object = None
+    sprawca: object = None
+    pod_przeczeniem: bool = False
+
+    def podrzędne(self) -> Kontekst:
+        """Kontekst, który dostaje zdanie postawione pod tym zdaniem.
+
+        Czas dziedziczy się, bo jest własnością opowiadania, a nie zdania.
+        Reszta nie dziedziczy się i każde pole ma na to własny powód:
+        zaimek względny wyszedłby z niższego zdania na czoło, którego ono nie ma,
+        podmiot opuszczony odsyłałby tam, gdzie stoi ktoś inny,
+        a bezokolicznik i przeczenie sięgają jednego piętra,
+        bo tyle sięga czasownik, który je narzucił.
+        Stoi to jedną metodą, bo pole dopisane do tej klasy i tu pominięte
+        przeciekłoby w dół po cichu, i to w miejscu, którego autor nie widzi.
+        """
+        return Kontekst(czas=self.czas)
 
     def pomija(self, rola: Rola) -> bool:
         """Czy podmiot jest tym, o kim mowa była zdanie wcześniej.
@@ -408,8 +436,11 @@ class Okolicznik:
     przed rzeczą stoi przyimek, który rządzi przypadkiem (``skład/przyimki.py``),
     a przed zdarzeniem spójnik, który nie rządzi niczym (``skład/spójniki.py``),
     bo zdanie podrzędne rozdaje przypadki własne.
-    Przyimkiem żadnym jest pusty napis, bo narzędzie polszczyzna wyraża
-    samym narzędnikiem, a rola bez przyimka jest tu tą samą kategorią co z nim.
+    Przyimkiem żadnym jest pusty napis, bo część relacji polszczyzna wyraża
+    samym przypadkiem, a rola bez przyimka jest tu tą samą kategorią co z nim.
+    Narzędzie wychodzi tak zawsze, a czas ma obie drogi naraz:
+    `wieczorem` i `w nocy` odpowiadają na jedno pytanie
+    i różnią się tym, czy relacja wyszła na wierzch słowem.
 
     Przyłączenie stoi w drzewie i to jest cała różnica między tym kierunkiem
     a parserem, któremu ``docs/subset.md`` zostawia je przy czytelniku:
@@ -450,13 +481,11 @@ class Okolicznik:
 
         Zdanie podrzędne oddziela się przecinkiem z każdej strony, przy której
         coś stoi, więc żąda go z obu, a krańce zdania żądania nie spełniają.
-        Wskazywania i pominięcia podrzędne nie dziedziczy, a czas dziedziczy:
-        zaimek wyszedłby z niego na czoło, którego nie ma, a podmiot opuszczony
-        odsyłałby do zdania nadrzędnego, czyli tam, gdzie stoi ktoś inny.
+        Co zdanie podrzędne z tego kontekstu dziedziczy, a czego nie,
+        rozstrzyga ``Kontekst.podrzędne`` i rozstrzyga to samo dla każdego z nich.
         """
         if self.zdarzeniem:
-            wewnątrz = replace(kontekst, wskazywany=None, pomijany=None)
-            sklejone = _sklej([Kawałek(self.słowo), self.co.linearyzuj(wewnątrz)])
+            sklejone = _sklej([Kawałek(self.słowo), self.co.linearyzuj(kontekst.podrzędne())])
             return replace(sklejone, przed=True, po=True)
         grupa = _wypisz(self.co, przypadek(self.słowo, self.relacja), kontekst)
         return _sklej([Kawałek(self.słowo), grupa]) if self.słowo else grupa
@@ -542,15 +571,22 @@ def _miejsce(konstytuent, kontekst: Kontekst):
 
 
 def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, Kawałek]]:
-    """Podmiot na swojej pozycji albo nic, gdy zdanie wcześniej miało ten sam.
+    """Podmiot na swojej pozycji albo nic, gdy czytelnik odzyska go bez niego.
 
     Lista, a nie napis, bo pominięty podmiot nie zostawia po sobie pozycji.
     Reguła stoi tu raz, bo zdanie o czynności i orzeczenie imienne
     opuszczają podmiot tak samo, a dwie kopie tej reguły rozjechałyby się
     na pierwszym zdaniu, które ma kopulę zamiast czasownika.
+
+    Odzyskuje go z dwóch różnych rzeczy i dlatego są tu dwa warunki.
+    Z formy czasownika, gdy zdanie obok orzekało o tym samym, i o tym mówi
+    ``pomijalny`` niżej; albo z czasownika nad tym zdaniem, gdy to on wskazał
+    wykonawcę, i wtedy podmiot nie stoi nigdy, bo bezokolicznik go nie ma.
+    Drugi warunek niczego tu nie sprawdza, bo sprawdził to konstruktor ``Robi``:
+    bezokolicznik orzekający o kimś innym niż czasownik nad nim nie powstaje.
     """
     rola = _goły(pole)
-    if kontekst.pomija(rola):
+    if kontekst.sprawca is not None or kontekst.pomija(rola):
         return []
     return [(_miejsce(pole, kontekst), _wypisz(rola, "nom", kontekst))]
 
@@ -624,6 +660,20 @@ class Zdanie:
         )
         return (self.podmiot, *pod)
 
+    @property
+    def sprawcy(self) -> tuple:
+        """Rzeczy, o których to zdanie orzeka wprost, bez zdań stojących pod nim.
+
+        Pyta o co innego niż ``podmioty`` i dlatego wydaje co innego.
+        Tamto szuka podmiotów, na które trafia czytelnik, więc wydaje role;
+        to szuka tych, których czasownik nad tym zdaniem ma wskazać,
+        gdy stoi ono jako bezokolicznik, więc wydaje rzeczy spod ról,
+        czyli dokładnie to, co niesie ``Kontekst.sprawca``.
+        Zdanie proste ma jednego sprawcę, a ciąg zdarzeń ma po jednym na zdarzenie,
+        bo bezokoliczników w nim wyjdzie tyle samo.
+        """
+        return (_rdzeń(self.podmiot),)
+
     def _orzeczenie(self, kontekst: Kontekst) -> str:
         """Czasownik w formie, której żąda podmiot, wraz z przeczeniem.
 
@@ -633,7 +683,7 @@ class Zdanie:
         dopełnienie traci biernik na rzecz dopełniacza, a orzecznik nie ma czego stracić,
         bo narzędnika przeczenie w polszczyźnie nie rusza.
         """
-        forma = _forma(self.czasownik, self.podmiot, kontekst.czas)
+        forma = _forma(self.czasownik, self.podmiot, kontekst)
         return f"nie {forma}" if self.przeczenie else forma
 
 
@@ -680,13 +730,27 @@ class Jest(Zdanie):
 class Robi(Zdanie):
     """Zdanie o czynności: program zapisuje ustawienia.
 
-    Dopełnienie idzie w bierniku wtedy,
-    gdy leksykon walencyjny czasownikowi biernika nie odmawia.
+    Dopełnienie nie pyta, czy stoi pod nim rzecz, czy zdarzenie,
+    i jest to ta sama jedna kategoria, którą ``Okolicznik`` ma o piętro obok.
+    `Czeladnik zaczął pracę.` i `Czeladnik zaczął pracować.`
+    mówią, co zaczął, a różnią się tym, czy zaczął rzecz, czy zdarzenie.
+    Że wychodzi z tego raz biernik, a raz bezokolicznik bez podmiotu,
+    rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
+
+    Pytany o oba jest leksykon walencyjny, bo oba są pozycjami ramy:
+    czy ten czasownik bierze dopełnienie w bierniku
+    i czy bierze bezokolicznik, którego wykonawcą jest jego własny podmiot.
     Pytany jest ten sam plik, o który pyta parser po drugiej stronie,
     bo rama jest faktem o słowie, a nie o kierunku;
     ``olski/walencja.py`` czyta go dla obu i trzyma wywód.
 
-    Pytanie pada w konstruktorze, a nie w linearyzacji,
+    Sprawca bezokolicznika stoi w drzewie, a nie w leksykonie,
+    i jest nim ta sama zmienna postawiona dwa razy, jak w ``Opis`` i w ``Postać``.
+    Drzewo, które postawiło tam kogoś innego, zgłasza się,
+    bo bezokolicznik podmiotu nie ma i wyszedłby tekstem o kimś innym;
+    czego polszczyzna mówi tam zamiast niego, trzyma ``docs/sklad.md``.
+
+    Pytania padają w konstruktorze, a nie w linearyzacji,
     bo to konstruktor mówi, co z czym wolno złożyć,
     i bo drzewo, które tego nie przechodzi, jest błędne całe,
     a nie w tym jednym miejscu, gdzie się je wypisuje.
@@ -701,12 +765,18 @@ class Robi(Zdanie):
 
     kto: Rola | Wyróżnienie
     czyn: str
-    co: Rola | Wyróżnienie | None = None
+    co: Rola | Wyróżnienie | Zdanie | None = None
     okoliczniki: tuple = ()
     przeczenie: bool = False
 
     def __post_init__(self) -> None:
-        if self.co is not None and not bierze_biernik(self.czyn):
+        dopełnienie = _goły(self.co)
+        if isinstance(dopełnienie, Zdanie):
+            if not bierze_bezokolicznik(self.czyn):
+                raise PozaRamą(f"{self.czyn} nie bierze bezokolicznika")
+            if any(sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy):
+                raise PozaRamą(f"bezokolicznik przy {self.czyn} orzeka o kimś innym")
+        elif dopełnienie is not None and not bierze_biernik(self.czyn):
             raise PozaRamą(f"{self.czyn} nie bierze dopełnienia w bierniku")
 
     @property
@@ -728,17 +798,32 @@ class Robi(Zdanie):
         dopełnienie = () if self.co is None else (self.co,)
         return (self.kto, *dopełnienie, *self.okoliczniki)
 
+    def _dopełnienie(self, kontekst: Kontekst) -> Kawałek:
+        """Dopełnienie wypisane jako grupa imienna albo jako bezokolicznik.
+
+        Zdarzenie dostaje kontekst zdania podrzędnego wraz z dwiema rzeczami,
+        których to zdanie o sobie nie wie i wiedzieć nie może.
+        Sprawcą jest podmiot tego zdania, więc bezokolicznik podmiotu nie wypisze
+        i weźmie z niego formę, której sam nie ma.
+        Przeczenie idzie tą samą drogą, bo dopełniacz negacji sięga przez bezokolicznik:
+        `Nie chciał wynieść lustra.` przeczy raz, a przypadek zmienia o piętro niżej,
+        i dlatego jedno przeczenie liczy się tu z dwóch pięter naraz.
+        """
+        dopełnienie = _goły(self.co)
+        przeczone = self.przeczenie or kontekst.pod_przeczeniem
+        if isinstance(dopełnienie, Zdanie):
+            return dopełnienie.linearyzuj(
+                replace(
+                    kontekst.podrzędne(), sprawca=_rdzeń(self.podmiot), pod_przeczeniem=przeczone
+                )
+            )
+        return _wypisz(dopełnienie, "gen" if przeczone else "acc", kontekst)
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         pozycje = _podmiot(self.kto, kontekst)
         pozycje.append((None, Kawałek(self._orzeczenie(kontekst))))
         if self.co is not None:
-            przypadek_dopełnienia = "gen" if self.przeczenie else "acc"
-            pozycje.append(
-                (
-                    _miejsce(self.co, kontekst),
-                    _wypisz(_goły(self.co), przypadek_dopełnienia, kontekst),
-                )
-            )
+            pozycje.append((_miejsce(self.co, kontekst), self._dopełnienie(kontekst)))
         for okolicznik in self.okoliczniki:
             pozycje.append(
                 (_miejsce(okolicznik, kontekst), _goły(okolicznik).linearyzuj(kontekst))
@@ -834,11 +919,22 @@ class Ciąg(Zdanie):
         """
         return tuple(rola for zdarzenie in self.zdarzenia for rola in zdarzenie.podmioty)
 
+    @property
+    def sprawcy(self) -> tuple:
+        """Sprawca każdego zdarzenia, bo bezokolicznik wyjdzie z każdego osobno.
+
+        Zdania pod zdarzeniami tu nie wchodzą, w odróżnieniu od ``podmioty``:
+        `Chciał podnieść deskę i zejść po schodach.` żąda jednego sprawcy
+        od dwóch bezokoliczników, a zdanie z ``bo`` pod którymś z nich
+        ma podmiot własny i wychodzi z formą osobową.
+        """
+        return tuple(sprawca for zdarzenie in self.zdarzenia for sprawca in zdarzenie.sprawcy)
+
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         poprzednie = self.zdarzenia[0]
         wypisane = [poprzednie.linearyzuj(kontekst)]
         for zdarzenie in self.zdarzenia[1:]:
-            pomijany = pomijalny(zdarzenie, poprzednie, kontekst.czas)
+            pomijany = pomijalny(zdarzenie, poprzednie, kontekst)
             wypisane.append(zdarzenie.linearyzuj(replace(kontekst, pomijany=pomijany)))
             poprzednie = zdarzenie
         return _lista(wypisane)
@@ -890,8 +986,8 @@ class Opis(Rola):
         """Rzecz, przecinek, zdanie o niej, a przecinek zamykający jako żądanie.
 
         Przypadek dostaje sama rzecz, bo to ona stoi w zdaniu nadrzędnym,
-        a zdanie podrzędne rozdaje przypadki własne i dostaje od tego kontekstu
-        czas oraz to, którą rzecz ma powiedzieć zaimkiem.
+        a zdanie podrzędne rozdaje przypadki własne i dostaje od ``podrzędne``
+        czas oraz od tej metody to, którą rzecz ma powiedzieć zaimkiem.
         Pomijanie podmiotu w nim nie działa, i to nie jest brak:
         podmiot opuszczony w zdaniu podrzędnym czytałby się jako ten,
         którego zaimek właśnie zastąpił.
@@ -900,12 +996,12 @@ class Opis(Rola):
         a zamykający zostaje żądaniem, bo stoi na jego krańcu
         i rozstrzyga o nim to, co obok stanie.
         """
-        wewnątrz = replace(kontekst, wskazywany=self.rzecz, pomijany=None)
+        wewnątrz = replace(kontekst.podrzędne(), wskazywany=self.rzecz)
         zdanie = replace(self.zdanie.linearyzuj(wewnątrz), przed=True)
         return replace(_sklej([_wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
 
 
-def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, czas: str):
+def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst):
     """Podmiot, którego nie trzeba wypisywać, bo czytelnik odzyska go z czasownika.
 
     Warunków jest cztery i każdy chroni przed inną stratą.
@@ -931,13 +1027,13 @@ def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, czas: str):
         return None
     if poprzednie.podmiot.tożsamość is not tożsamość or isinstance(podmiot, Opis):
         return None
-    forma = _forma(zdanie.czasownik, podmiot, czas)
+    forma = _forma(zdanie.czasownik, podmiot, kontekst)
     mylące = (
         rola
         for rola in (*poprzednie.podmioty, *zdanie.podmioty)
         if rola.tożsamość is not tożsamość
     )
-    if any(_forma(zdanie.czasownik, rola, czas) == forma for rola in mylące):
+    if any(_forma(zdanie.czasownik, rola, kontekst) == forma for rola in mylące):
         return None
     return tożsamość
 

@@ -43,6 +43,7 @@ from skład.składnia import (
 
 __all__ = [
     "A",
+    "Czym",
     "D",
     "Dlaczego",
     "Dokąd",
@@ -53,13 +54,12 @@ __all__ = [
     "Skutek",
     "Skąd",
     "V",
-    "czym",
     "jest",
     "nie",
-    "nowe",
     "opis",
     "potem",
     "razem",
+    "remat",
     "temat",
 ]
 
@@ -147,6 +147,13 @@ class Okoliczności:
     ``Gdzie.w`` i ``Dokąd.w`` są więc dwiema różnymi rzeczami do powiedzenia,
     choć piszą się jednym przyimkiem.
 
+    Relację bez słowa pisze się wywołaniem samej przestrzeni nazw,
+    bo polszczyzna wyraża część relacji samym przypadkiem:
+    ``Czym(R.lustro)`` daje `lustrem`, a ``Kiedy(R.wieczór)`` daje `wieczorem`.
+    Osobnej funkcji na to nie ma i nie ma być:
+    relacja bez przyimka jest tą samą kategorią co z nim,
+    a każda taka funkcja byłaby drugą drogą do jednego konstruktora.
+
     Rzecz i zdarzenie wchodzą jedną drogą, bo pytanie stawia się jedno:
     ``Kiedy.w(R.noc)`` i ``Kiedy.gdy(V.zgasnąć(świeca))`` mówią, kiedy.
     Nic tu tych dwóch nie rozdziela, bo ``byt`` przepuszcza wszystko,
@@ -155,6 +162,9 @@ class Okoliczności:
 
     def __init__(self, relacja: str) -> None:
         self._relacja = relacja
+
+    def __call__(self, co) -> Okolicznik:
+        return Okolicznik("", self._relacja, byt(co))
 
     def __getattr__(self, nazwa: str):
         if nazwa.startswith("_"):
@@ -180,14 +190,13 @@ Którędy = Okoliczności("droga")
 Kiedy = Okoliczności("czas")
 Dlaczego = Okoliczności("przyczyna")
 
+#: Narzędzie, czyli relacja, której polszczyzna nie poprzedza przyimkiem nigdy,
+#: więc jej przestrzeń nazw wywołuje się, a nie sięga po słowo.
+Czym = Okoliczności("narzędzie")
+
 #: Skutek pytania jednym słowem nie ma, więc nazywa się relacją:
 #: tyle jest w tej konwencji nazw, ile jest w niej pytań.
 Skutek = Okoliczności("skutek")
-
-
-def czym(co: Nominalne | Rola) -> Okolicznik:
-    """Narzędzie, czyli okolicznik, którego polszczyzna nie poprzedza przyimkiem."""
-    return Okolicznik("", "narzędzie", byt(co))
 
 
 def razem(elementy) -> Rola:
@@ -234,8 +243,14 @@ def temat(co) -> Wyróżnienie:
     return Wyróżnienie(byt(co), "czoło")
 
 
-def nowe(co) -> Wyróżnienie:
-    """To, co zdanie dokłada: staje na końcu."""
+def remat(co) -> Wyróżnienie:
+    """To, co zdanie o temacie dokłada: staje na końcu.
+
+    Nazwa jest tu parą do ``temat`` i dlatego jest terminem, a nie słowem zwykłym:
+    `nowe` nie zgadza się rodzajem z niczym, co się w nie wkłada,
+    a rozstrzygnięcie, które ta funkcja zapisuje, jest jedno z dwóch,
+    więc czyta się je z pary albo nie czyta się wcale.
+    """
     return Wyróżnienie(byt(co), "koniec")
 
 

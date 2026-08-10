@@ -22,6 +22,7 @@ from skład import (
 from skład.składnia import Jest, Robi
 from skład.słownik import (
     A,
+    Czym,
     D,
     Dokąd,
     Gdzie,
@@ -29,11 +30,11 @@ from skład.słownik import (
     R,
     Skąd,
     V,
-    czym,
     jest,
-    nowe,
     opis,
+    potem,
     razem,
+    remat,
     temat,
 )
 
@@ -220,6 +221,92 @@ def test_przeczenie_zabiera_dopełnieniu_biernik_na_rzecz_dopełniacza():
     assert kompiluj(nie(jest(R.kot, R.potwór))) == "Kot nie jest potworem."
 
 
+def test_dopełnieniem_bywa_zdarzenie_i_wychodzi_bezokolicznikiem_bez_podmiotu():
+    """Jedna pozycja, dwie rzeczy do powiedzenia: zaczynać rzecz i zaczynać zdarzenie.
+
+    Jeden lemat po obu stronach, bo pomyłką, którą tu widać,
+    jest osobna kategoria na zdarzenie stojące w tej pozycji.
+    Wykonawca stoi w drzewie dwa razy, a w tekście wyjdzie raz,
+    bo bezokolicznik podmiotu nie ma i bierze go z czasownika nad sobą.
+    Czas idzie tą samą drogą: zdanie stoi raz teraz, a raz kiedyś,
+    a bezokolicznik nie zmienia się w niczym, bo czasu nie niesie.
+    """
+    kot = R.kot
+    assert kompiluj(V.zaczynać(kot, R.praca)) == "Kot zaczyna pracę."
+    zaczyna = V.zaczynać(kot, V.zamykać(kot, R.okno))
+    assert kompiluj(zaczyna) == "Kot zaczyna zamykać okno."
+    assert kompiluj(zaczyna, Kontekst(czas="kiedyś")) == "Kot zaczynał zamykać okno."
+
+
+def test_bezokolicznika_odmawia_czasownik_któremu_odmawia_go_leksykon():
+    """Rama jest tu jedynym świadkiem, bo bezokolicznik nie zgadza się z niczym.
+
+    ``zamykać`` bezokolicznika nie bierze, więc `Kot zamyka spać.` nie powstaje,
+    a ``kazać`` bierze go w polszczyźnie z wykonawcą w celowniku,
+    czyli tak, jak tej gramatyki nie ma czym zapisać,
+    i dlatego leksykon odmawia mu razem z tamtym.
+    """
+    kot = R.kot
+    with pytest.raises(PozaRamą):
+        V.zamykać(kot, V.spać(kot))
+    with pytest.raises(PozaRamą):
+        V.kazać(kot, V.spać(kot))
+
+
+def test_bezokolicznik_orzekający_o_kimś_innym_zgłasza_się_zamiast_zmienić_wykonawcę():
+    """Zdanie polskie, którego bezokolicznik nie wyraża, ma się nie wypuścić.
+
+    `Kot chciał, żeby mysz spała.` mówi co innego niż `Kot chciał spać.`,
+    a drzewo, które postawiło pod ``chcieć`` cudze zdarzenie, mówiłoby to pierwsze
+    i wypuszczało drugie.
+    Sięga to każdego zdarzenia w ciągu, bo bezokolicznik wyjdzie z każdego osobno.
+    """
+    kot = R.kot
+    with pytest.raises(PozaRamą):
+        V.chcieć(kot, V.spać(R.mysz))
+    with pytest.raises(PozaRamą):
+        V.chcieć(kot, potem(V.spać(kot), V.spać(R.mysz)))
+
+
+def test_dopełniacz_negacji_sięga_przez_bezokolicznik():
+    """Przeczenie stoi przy jednym czasowniku, a przypadek zmienia się przy drugim.
+
+    Zdanie przeczy się raz, więc ``nie`` staje raz,
+    a dopełnienie stojące o piętro niżej traci biernik tak samo,
+    jakby stało przy czasowniku zaprzeczonym.
+    """
+    kot = R.kot
+    assert kompiluj(V.chcieć(kot, V.zamykać(kot, R.okno))) == "Kot chce zamykać okno."
+    assert kompiluj(nie(V.chcieć(kot, V.zamykać(kot, R.okno)))) == "Kot nie chce zamykać okna."
+
+
+def test_rzecz_stojąca_w_bezokoliczniku_nie_daje_się_wskazać_zdaniem():
+    """Granica wskazywania mierzy się piętrami, a bezokolicznik dokłada jedno.
+
+    `lustro, które chciał wynieść` jest zdaniem polskim,
+    a rzecz wskazana stoi w nim o dwa piętra od czoła zdania podrzędnego,
+    więc zaimek nie miałby jak stamtąd wyjść.
+    Zgłasza się to przy budowaniu drzewa, tak samo jak wskazanie rzeczy
+    stojącej pod grupą imienną.
+    """
+    czeladnik, lustro = R.czeladnik, R.lustro
+    with pytest.raises(PozaRamą):
+        opis(lustro, V.chcieć(czeladnik, V.wynieść(czeladnik, lustro)))
+
+
+def test_ciąg_pod_bezokolicznikiem_nie_odzyskuje_podmiotu():
+    """Wykonawca przychodzi z kontroli, a nie z formy, więc nie gubi się na drugim zdarzeniu.
+
+    Bezokolicznik nie niesie ani osoby, ani rodzaju,
+    więc warunek, którym ``pomijalny`` mierzy opuszczenie podmiotu,
+    nie ma tu czego zmierzyć i odpowiada odmownie na każde zdarzenie.
+    Podmiot mimo to nie staje, bo o jego opuszczeniu rozstrzyga tu co innego.
+    """
+    kot = R.kot
+    ciąg = potem(V.zamykać(kot, R.okno), V.otwierać(kot, R.pudełko))
+    assert kompiluj(V.chcieć(kot, ciąg)) == "Kot chce zamykać okno i otwierać pudełko."
+
+
 def test_koordynacja_bierze_przypadek_z_pozycji_a_liczbę_od_każdego_członu_osobno():
     """Jedna pozycja, kilka rzeczy: przypadek wspólny, liczba własna.
 
@@ -248,13 +335,27 @@ def test_ten_sam_przyimek_w_dwóch_relacjach_daje_dwa_przypadki():
     assert Gdzie.w(R.piwnica).linearyzuj().napis == "w piwnicy"
     assert Dokąd.w(R.kamień).linearyzuj().napis == "w kamień"
     assert Skąd.z(R.piwnica).linearyzuj().napis == "z piwnicy"
-    assert czym(R.wzrok).linearyzuj().napis == "wzrokiem"
+    assert Czym(R.wzrok).linearyzuj().napis == "wzrokiem"
 
 
 def test_przyimek_postawiony_w_relacji_której_leksykon_nie_ma_zgłasza_się_od_razu():
     """Zgłoszenie pada przy budowaniu drzewa, tak samo jak przy ramie czasownika."""
     with pytest.raises(PozaRamą):
         Skąd.do(R.piwnica)
+
+
+def test_jedna_relacja_wychodzi_i_z_przyimkiem_i_bez_niego():
+    """Relacja bez słowa jest tą samą kategorią, więc pisze się jej przestrzenią nazw.
+
+    Czas ma w polszczyźnie obie drogi i mówią one to samo,
+    więc obie idą przez ``Kiedy`` i różnią się tym, czy sięga się w niej po słowo.
+    Miejsce takiej drogi nie ma, i to leksykon o tym rozstrzyga, a nie zapis:
+    ``Gdzie`` wołane bez słowa zgłasza się jak każda para, której tam nie ma.
+    """
+    assert Kiedy(R.wieczór).linearyzuj().napis == "wieczorem"
+    assert Kiedy.w(R.noc).linearyzuj().napis == "w nocy"
+    with pytest.raises(PozaRamą):
+        Gdzie(R.piwnica)
 
 
 def test_przysłówek_wychodzi_w_stopniu_równym_także_wtedy_gdy_stopnia_nie_ma():
@@ -277,7 +378,9 @@ def test_wyróżnienie_przestawia_konstytuenty_a_czasownik_zostaje_na_miejscu():
     gdzie = Gdzie.w(R.piwnica)
     assert kompiluj(V.mieszkać(R.bazyliszek, gdzie)) == "Bazyliszek mieszka w piwnicy."
     assert kompiluj(V.mieszkać(R.bazyliszek, temat(gdzie))) == "W piwnicy bazyliszek mieszka."
-    assert kompiluj(V.mieszkać(nowe(R.bazyliszek), temat(gdzie))) == "W piwnicy mieszka bazyliszek."
+    assert kompiluj(V.mieszkać(remat(R.bazyliszek), temat(gdzie))) == (
+        "W piwnicy mieszka bazyliszek."
+    )
 
 
 def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
@@ -291,7 +394,7 @@ def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
     """
     tekst = A.zwykły * A.polski * R.tekst
     assert kompiluj(jest(tekst, R.wejście)) == "Zwykły polski tekst jest wejściem."
-    assert kompiluj(jest(nowe(tekst), temat(R.wejście))) == "Wejściem jest zwykły polski tekst."
+    assert kompiluj(jest(remat(tekst), temat(R.wejście))) == "Wejściem jest zwykły polski tekst."
 
 
 def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisywanej():
@@ -311,7 +414,7 @@ def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisy
         "Kamienne postaci, których nikt nie liczył, stały pod ścianą."
     )
     piwnica = A.ciemny * R.piwnica
-    mieszkał = opis(piwnica, V.mieszkać(nowe(R.bazyliszek), Gdzie.w(piwnica)))
+    mieszkał = opis(piwnica, V.mieszkać(remat(R.bazyliszek), Gdzie.w(piwnica)))
     assert kompiluj(V.zejść(R.czeladnik, Dokąd.do(mieszkał)), Kontekst(czas="kiedyś")) == (
         "Czeladnik zszedł do ciemnej piwnicy, w której mieszkał bazyliszek."
     )

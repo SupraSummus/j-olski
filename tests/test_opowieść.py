@@ -14,12 +14,16 @@ W piwnicy starej kamienicy mieszkał bazyliszek. \
 Wzrok potwora zamieniał ludzi w kamień, więc mieszczanie zabili okna i drzwi deskami. \
 Pod ścianą stały kamienne postaci, których nikt nie liczył.
 
-W nocy córka krawca zapaliła świecę, bo w piwnicy stał kufer ojca. \
+Córka krawca chciała wynieść z piwnicy kufer ojca. \
+W nocy zapaliła świecę. \
 Podniosła deskę i zeszła po schodach. \
 Świeca zgasła. \
-Córka krawca nie wróciła.
+Córka krawca nie wróciła. \
+Rano mieszczanie stali przed kamienicą, bo nikt nie chciał zejść do piwnicy.
 
-Czeladnik, który znał córkę krawca, wziął z warsztatu duże lustro. \
+Czeladnik znał córkę krawca. \
+Chciał zejść do piwnicy. \
+Wieczorem wziął z warsztatu duże lustro. \
 Podniósł deskę i zszedł po schodach. \
 Gdy bazyliszek otworzył oczy, czeladnik zasłonił twarz lustrem. \
 Bazyliszek zobaczył własne odbicie. \
@@ -53,6 +57,19 @@ def test_ten_sam_podmiot_znika_a_wraca_wraz_z_akapitem():
         Akapit(V.otwierać(kot, R.okno)),
     )
     assert opowieść.kompiluj() == "Kot zamykał okno. Otwierał pudełko.\n\nKot otwierał okno."
+
+
+def test_zdarzenie_pod_bezokolicznikiem_nie_odbiera_zdaniu_obok_opuszczenia():
+    """Wykonawca bezokolicznika jest tym samym podmiotem, a nie drugim, na którego się trafia.
+
+    Gdyby liczył się jako obcy, zdanie obok wypisałoby podmiot,
+    choć w tekście przed nim stoi on raz i nie stoi za nim nikt inny.
+    """
+    kot = Postać(R.kot)
+    opowieść = Opowieść(
+        Akapit(V.chcieć(kot, V.zamykać(kot, R.okno)), V.otwierać(kot, R.pudełko))
+    )
+    assert opowieść.kompiluj() == "Kot chciał zamykać okno. Otwierał pudełko."
 
 
 def test_podmiot_wraca_gdy_między_zdaniami_stanął_inny():
