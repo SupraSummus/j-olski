@@ -32,13 +32,11 @@ Nie ma w nim przypadka, bo przypadek bierze się z pozycji.
 Nie ma rodzaju, bo rodzaj rzeczownika jest leksykalny.
 Nie ma osoby ani czasu, bo obie te rzeczy niesie ``Kontekst``:
 czas jest własnością opowiadania, a nie pojedynczego zdarzenia.
-Dziury są dwie i obie są dziurami, a nie decyzjami.
-Wewnątrz grupy imiennej szyku nie ma nadal,
+Dziura jest jedna i jest dziurą, a nie decyzją.
+Wewnątrz grupy imiennej szyku nie ma,
 bo ``Jaki`` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
-Rzecz stoi tu pod lematem, choć jednym napisem odmieniają się leksemy
-o różnej odmianie, więc wybiera je kolejność odpowiedzi słownika.
-Trzyma to ``TODO.md``, a kolejność ``docs/roadmap.md``.
+Trzyma to ``TODO.md``, a miejsce w torze ``docs/roadmap.md``.
 """
 
 from __future__ import annotations

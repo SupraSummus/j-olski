@@ -534,11 +534,10 @@ Morfeusz 2 is a runtime dependency and installs from PyPI,
 so the editable install brings it along with pytest, ruff
 and the parser the harness reads Markdown with.
 Where its wheel does not build,
-`tests/test_morph.py`, `tests/test_subset.py` and `tests/test_corpus.py`
-skip rather than failing to collect,
+every test file that reaches the analyser skips rather than failing to collect,
 so the run reports the linter-track tests instead of zero tests.
 A green run in such an environment has not been near
-the grammar, the morphology or the treebank reader,
+the grammar, the morphology, the treebank reader or the compiler,
 and the skip count is where that shows.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)

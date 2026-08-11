@@ -717,7 +717,20 @@ tamten bierze się z rozdzielenia pozycji, a ten ze sklejenia.
 Cena jest przy tym inna, bo olski pyta o liczbę czytań, a nie o czytania:
 zdanie przyjęte wychodzi z takiego lasu dwuznaczne,
 czyli przewraca się werdykt, a nie sama liczba obok niego.
-Na czym liczba ma stanąć zamiast iloczynu, trzyma [`TODO.md`](../TODO.md).
+
+Wyjścia są z tego dwa i gramatyka nie mówi, które jest tańsze.
+Pierwszym jest pozycja rozszczepiona po cechach, które wypuszcza:
+dwa warianty `Complements` z tego zdania stoją wtedy w tablicy osobno,
+para nieunifikująca się nie powstaje wcale i iloczyn jest poprawny.
+Rozszczepienie idzie po cechach wypuszczanych, a nie po całym środowisku,
+więc jest węższe od tego, przed którym broni pierwszy warunek wyżej,
+a czy dość węższe, jest do przeczytania:
+pozycja rozszczepiona po każdej wartości wraca do liczenia wyprowadzeń.
+Drugim jest iloczyn liczony po parach, które unifikacja przepuszcza,
+co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
+Rozstrzyga między nimi to, ile pozycji rozszczepienie naprawdę rozdziela,
+a tego z gramatyki nie widać, bo rozdziela je dopiero forma stojąca w zdaniu.
+Pomiar, który to mówi, trzyma [`TODO.md`](../TODO.md).
 
 ### Więzy wchodzą wyprowadzone z gramatyki, a nie napisane obok niej
 
