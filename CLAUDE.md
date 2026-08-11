@@ -127,9 +127,9 @@ czyta się gorzej niż każda z wersji z osobna,
 a przemianowana funkcja sięga wszystkich swoich wywołań.
 Jednostką jest więc sekcja, docstring, komentarz, komunikat
 albo nazwa wraz z wywołaniami.
-Gdzie prozy nie trzyma żadna sekcja, jednostką jest akapit:
-`TODO.md` ma jeden nagłówek na cały plik,
-więc sekcją jest tam wszystko,
+Gdzie sekcja prozy nie trzyma, jednostką jest akapit:
+sekcja `TODO.md` grupuje wpisy i własnej prozy nie ma,
+więc jednostką jest tam wpis, czyli to, co jeden commit dopisuje i kasuje,
 a wpisy tej listy i tak stoją po polsku po jednym.
 Powód wyżej na to przystaje,
 bo mieszanina, przed którą broni, jest mieszaniną wewnątrz akapitu.
