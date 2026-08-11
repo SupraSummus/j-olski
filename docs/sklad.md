@@ -31,8 +31,12 @@ The source is a typed abstract syntax tree,
 with types encoding what agrees with what.
 Ill-formed input fails to typecheck;
 well-formed input compiles to text and cannot be wrong.
-Strongest guarantee, worst ergonomics:
-nobody wants to author prose as an AST.
+Strongest guarantee, and the ergonomics depend on what is being written:
+SimpleNLG, a realizer whose API takes a subject, a verb and features,
+offers exactly this level,
+and other people have ported it to five languages,
+so the objection is to authoring prose this way rather than to the level
+([similar-work.md](similar-work.md#generowanie-rozdziela-się-poziomem-wejścia)).
 
 **Write near-Polish and check it.**
 The source looks like Polish and is parsed and validated.
