@@ -183,8 +183,9 @@ a nie lista spisana z góry
 Pyta, czy to samo nie zostało już zrobione i czy nie zostało zrobione lepiej.
 Wchodzi w [prose-linters.md](prose-linters.md) po silniki,
 które angielski i japoński już mają,
-w [similar-work.md](similar-work.md) po sto języków kontrolowanych
-i po to, które z ich obietnic ktoś zmierzył,
+w [similar-work.md](similar-work.md) po sto języków kontrolowanych,
+po to, które z ich obietnic ktoś zmierzył,
+oraz po [poziom, na którym stoją generatory](similar-work.md#generowanie-rozdziela-się-poziomem-wejścia),
 a w [swigra.md](swigra.md) po tę samą rzecz na torze gramatycznym.
 
 **Psuje ją** ocena stopniująca bez podstawy, najlepszy albo jedyny,

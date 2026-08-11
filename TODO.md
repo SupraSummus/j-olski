@@ -958,7 +958,12 @@ legenda pisze `zamienił bazyliszka w kamień`,
 a polszczyzna napisałaby `zamienił go`.
 Ruchem jest zaimek osobowy w miejscu roli innej niż podmiot,
 liczony z tego samego `Kontekst`.
-Do przeczytania jest `pomijalny` w `skład/składnia.py`,
+Do przeczytania jest to, co o tej pozycji mówi
+[pole generowania](docs/similar-work.md#generowanie-rozdziela-się-poziomem-wejścia),
+bo ruch ten ma tam nazwę wraz z literaturą,
+a warunek, który dziedziczy, jest testem na zbiór dystraktorów,
+czyli tym, co tamten algorytm liczy nad opisem rzeczy.
+Do przeczytania jest też `pomijalny` w `skład/składnia.py`,
 który trzyma warunki [wąskiego opuszczania podmiotu](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm,
 wraz z [ceną tego ruchu](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy),

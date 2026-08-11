@@ -265,6 +265,78 @@ for natural language parsing and generation* (1990),
 the 1991 ACL workshop he chaired,
 and Dymetman's *Inherently Reversible Grammars*.
 
+## Generowanie rozdziela się poziomem wejścia
+
+Dwie tradycje wyżej czytają tekst, który ktoś napisał.
+Trzecia pisze go sama, i w niej stoi tor składu,
+czyli ten, który z drzewa wypuszcza polskie zdanie.
+Rozdziela ją jedno pytanie: co autor podaje na wejściu.
+Poziom wejścia rozstrzyga, co autor pisze, ile system musi wiedzieć o języku
+i czego z takiego wejścia nie da się już powiedzieć.
+Przegląd tego pola trzymają Gatt i Krahmer,
+*Survey of the State of the Art in Natural Language Generation*, JAIR 61 (2018),
+i jest on tym, co się tu czyta pierwsze.
+
+| Poziom wejścia | Co wchodzi | Kto tak stoi |
+| --- | --- | --- |
+| fakty | trójki RDF, aksjomaty ontologii | WebNLG, NaturalOWL |
+| dziedzina | konstruktory nazwane tym, o czym się mówi | gramatyka aplikacyjna GF, `skład` |
+| kategorie językowe | zdanie, grupa imienna, grupa czasownikowa | biblioteka gramatyk GF |
+| struktura głęboko-składniowa | zależności bez słów funkcyjnych | RealPro, FORGe |
+| struktura funkcjonalna | f-struktura gramatyki odwracalnej | XLE wraz z POLFIE |
+| drzewo lematów | szyk i odmiana do odzyskania | zadanie nad Universal Dependencies |
+| specyfikacja zdania | podmiot, orzeczenie, cechy zdania | SimpleNLG wraz z portami |
+| szablon | tekst wraz z miejscami do wypełnienia | RosaeNLG |
+| forma | lemat wraz z tagiem | sam Morfeusz |
+
+Dwa wiersze tej tabeli zajmuje GF, i jest to w nim podział:
+gramatyka aplikacyjna ma składnię abstrakcyjną opisującą dziedzinę,
+a stoi na bibliotece gramatyk, której kategorie opisują język.
+Skład bierze drugi wiersz na kategorie i ostatni na formy,
+a między nimi stawia trzy małe leksykony:
+ramę czasownika, rekcję przyimka i relację spójnika.
+Co ten wybór poziomu znaczy, trzyma
+[sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka).
+
+Poziom, który tamten dokument odrzuca jako pierwszą ze
+[trzech architektur](sklad.md#three-architectures),
+jest poziomem SimpleNLG, czyli realizatora,
+którego API bierze podmiot, orzeczenie, dopełnienie i cechy zdania.
+Inni ludzie przenieśli je na pięć języków: niemiecki, włoski, holenderski,
+hiszpański i portugalski brazylijski, a polskiego wśród nich nie ma.
+Zarzut, który tamten dokument stawia temu poziomowi, jest więc zarzutem o prozę:
+kto wypełnia szablon raportu, ten drzewo zdania pisze bez straty,
+bo zdania w raporcie nikt nie czyta dla rytmu.
+
+Dwie rzeczy, które skład robi nad zdaniem, mają w tym polu nazwy i literaturę.
+Potok Reitera i Dale'a rozdziela planowanie dokumentu, mikroplanowanie i realizację,
+a mikroplanowanie obejmuje generowanie wyrażeń referencyjnych oraz agregację.
+`Postać` wraz z `pomijalny` jest pierwszym z nich, a `Ciąg` drugim,
+więc skład zajmuje dwa moduły tego potoku, a planowania dokumentu nie ma wcale:
+o czym opowieść jest, rozstrzyga ten, kto pisze drzewa.
+Granicę akapitu pisze przy tym autor, a skład ją czyta,
+bo na niej kończy się to, co dla opuszczonego podmiotu jest zdaniem obok.
+Czwarty warunek `pomijalny` pyta, czy tej samej formy nie wyciąga z czasownika nikt inny,
+i jest to test na zbiór dystraktorów,
+czyli to samo, na czym stoi przyrostowy algorytm Dale'a i Reitera (1995).
+Wywód o tym warunku trzyma
+[sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie);
+ten akapit mówi tylko tyle, że nie jest on domowy.
+Ten sam mechanizm poza tradycją lingwistyczną ma RosaeNLG,
+gdzie wyrażenie referencyjne jest funkcją szablonu,
+a Fundacja LF AI zarchiwizowała ten projekt w 2026 roku.
+
+Zadanie realizacyjne nad drzewami Universal Dependencies (SR'18, SR'19, SR'20) pyta,
+czy z drzewa lematów wróci szyk wraz z odmianą, i liczy to nad wieloma językami,
+a jego wejście stoi o kilka wierszy niżej niż drzewo składu,
+więc liczba stamtąd nie przenosi się tutaj i nie ma czego z nią porównywać.
+Gramatyki odwracalne kupują za to jedno, czego ten tor nie ma:
+w GF ta sama deklaracja daje linearyzację i parser, bo składnia abstrakcyjna
+jest podpisem, a nie kodem,
+podczas gdy konstruktor składu jest klasą Pythona wraz z metodą `linearyzuj`.
+Dlaczego mimo to parser stoi tu świadkiem, a nie zależnością,
+rozstrzyga [design-notes.md](design-notes.md#the-round-trip-invariant).
+
 ## Outliers
 
 **Lojban** is the extreme of designing for parseability:
@@ -324,6 +396,19 @@ It is evidence that nobody will hand us the answer.
 - <https://clarin-pl.eu/dspace/handle/11321/253> — POLFIE
 - <https://aclanthology.org/W91-0100.pdf> — Reversible Grammar in Natural Language Processing, 1991 workshop
 - <https://link.springer.com/article/10.1007/s10590-021-09260-6> — recent advances in Apertium
+- <https://arxiv.org/abs/1703.09902> — Gatt and Krahmer, the survey of the generation field
+- <https://arxiv.org/abs/cmp-lg/9605002> — Reiter and Dale on the generation pipeline
+- <https://arxiv.org/abs/cmp-lg/9504020> — Dale and Reiter on referring expressions, the incremental algorithm
+- <https://aclanthology.org/W09-0613/> — SimpleNLG, a realisation engine for practical applications
+- <https://github.com/simplenlg/simplenlg> — SimpleNLG itself, whose wiki lists the ports
+- <https://aclanthology.org/W16-6630/> — adapting SimpleNLG to Italian, one of those ports
+- <https://aclanthology.org/A97-1039/> — RealPro, a realizer over deep syntactic structures
+- <https://aclanthology.org/S17-2158/> — FORGe, rule-based generation over meaning-text structures
+- <https://aclanthology.org/2020.msr-1.1/> — the third multilingual surface realisation shared task
+- <https://aclanthology.org/2020.webnlg-1.7/> — the WebNLG+ shared task, text from RDF triples
+- <https://arxiv.org/abs/1405.6164> — NaturalOWL, text from OWL ontologies
+- <https://github.com/RosaeNLG/rosaenlg> — RosaeNLG
+- <https://lfaidata.foundation/projects/rosaenlg/> — RosaeNLG at the LF AI foundation, and its archiving
 - <https://lojban.github.io/cll/21/1/> — Lojban formal grammars
 - <https://mw.lojban.org/papri/PEG> — the Lojban PEG proposal
 - <https://jasnopis.pl/prosty-jezyk/> — Jasnopis and plain Polish

@@ -123,6 +123,18 @@ which asks for two stems and two conjugation classes per lemma.
 Against that, SGJP below Morfeusz answers for nearly 456,000 lexemes
 without being asked to guess,
 which is the one place where this repository starts ahead.
+
+The library stops in a second place, and words are not it:
+that place is the one `Wyróżnienie`, the category carrying topic and comment,
+occupies here.
+`PredVP` in `SentencePol.gf` emits the subject, then the verb, then the rest,
+so the neutral order is fixed in the concrete syntax
+and information structure has no category to come from;
+`VerbPol.gf` records topicalization as a remark about where an adverbial lands.
+This is a library written for Polish declining a choice Polish has,
+so it says more than
+[sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+does about libraries taken from languages whose word order is fixed.
 Read at commit-time state of the `master` branch;
 the files are in `src/polish/`.
 <https://www.grammaticalframework.org/lib/doc/status.html>
