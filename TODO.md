@@ -51,13 +51,12 @@ what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
 
 An entry names the evidence it has to read,
-and not only the files it changes.
-Two entries can edit disjoint files
-and still turn on one judgment about one body of text,
-such as what a rule's hits over a corpus are.
-A file list does not show that overlap,
-so the two are picked up together
-and the judgment is reached twice.
+and not only the files it changes,
+because two entries editing disjoint files
+can still turn on one judgment about one body of text,
+which a file list does not show.
+What that costs is
+[splitting work across sessions](CLAUDE.md#splitting-work-across-sessions).
 
 Wpis nie jest rozstrzygnięciem.
 Po to ta lista jest: kto go pisał, siedział wtedy przy czymś innym,
@@ -69,10 +68,8 @@ zaczyna od dowodu, który wpis nazywa,
 a nazwany ruch czyta jako propozycję, a nie jako polecenie.
 Wychodzi z tego czasem ruch inny niż nazwany, a czasem żaden,
 bo problemu nie ma albo naprawa kosztuje więcej niż to, co kupuje.
-Wtedy całą zmianą jest skasowanie wpisu,
-tak samo jak przy wpisie, który się zamknął,
-z powodem w komunikacie commita,
-bo skasowany wpis nie zostawia po sobie nic innego.
+Wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita,
+bo nic innego po nim nie zostaje.
 
 ---
 
@@ -123,12 +120,9 @@ Ruchem jest wycięcie czytań bez licencji przed rozbiorem,
 po którym forma bez ani jednego czytania jest dla `blockera` brakiem licencji,
 a nie brakiem struktury, którym ją dziś nazwie.
 Samo wycięcie nie rusza ani jednego werdyktu i wywód na to trzyma
-[`docs/design-notes.md`](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej):
-`terminal` w `olski/parse.py` odrzuca te czytania tak samo,
-a `furthest` idzie w górę wyłącznie po dopasowaniu udanym.
-Rusza za to kolejkę, więc wpis jest winien pobranie Składnicy,
-oba przebiegi `olski-corpus` i poprawienie tabel,
-czego [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w czytaniach,
+[`docs/design-notes.md`](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
+Rusza za to kolejkę, więc wpis jest winien przebiegi,
+których [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w czytaniach,
 jakie gramatyka dostaje.
 Do przeczytania jest, ile ta kolejka na tym się zmienia,
 i tę różnicę trzeba przeczytać przed wybraniem korpusu:
@@ -146,21 +140,12 @@ bo nie ma komendy, która by ją wypisała.
 
 Suma iloczynów po lesie rozbiorów liczy pary, których unifikacja nie przepuszcza,
 i nie widać, które z dwóch wyjść jest tańsze.
-Zdanie, które to pokazuje, wraz z mechanizmem trzyma
-[tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania),
-a zostaje po nim pytanie, na czym liczba ma stanąć zamiast iloczynu.
-Pierwszym wyjściem jest pozycja rozszczepiona po cechach, które wypuszcza:
-dwa warianty `Complements` z tamtego zdania stoją wtedy w tablicy osobno,
-para nieunifikująca się nie powstaje wcale i iloczyn jest poprawny.
-Rozszczepienie idzie tu po cechach wypuszczanych, a nie po całym środowisku,
-więc jest węższe od tego, przed którym tamta sekcja broni,
-i do przeczytania jest, czy dość węższe:
-pozycja rozszczepiona po każdej wartości wraca do liczenia wyprowadzeń.
-Drugim jest iloczyn liczony po parach, które unifikacja przepuszcza,
-co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
-Rozstrzyga między nimi to, ile pozycji rozszczepienie naprawdę rozdziela,
-a tego nie widać z gramatyki, bo rozdziela je dopiero forma stojąca w zdaniu:
-liczy się to przebiegiem nad prozą README i nad Składnicą.
+Zdanie, które to pokazuje, mechanizm i oba wyjścia trzyma
+[tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
+Ruchem jest przebieg nad prozą README i nad Składnicą,
+bo rozstrzyga między tymi wyjściami to,
+ile pozycji rozszczepienie naprawdę rozdziela,
+a rozdziela je dopiero forma stojąca w zdaniu.
 Nadmiar ma przy tym gotową pułapkę:
 zdanie z tamtej sekcji stoi w `PRZYJMOWANE` w `tests/test_subset.py`,
 więc las liczący iloczynem przewraca test, a nie samą liczbę.
@@ -172,17 +157,16 @@ od precedencji.
 bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
-Sześć pozycji na wyrażenie przyimkowe i dwadzieścia jeden produkcji,
-w których stoją, wylicza
-[subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-i to jest ten pomiar, od którego się tu zaczyna.
+Pomiar, od którego się tu zaczyna, wylicza
+[subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie):
+pozycje na wyrażenie przyimkowe i produkcje, w których stoją.
 [Sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą) zmierzyła,
 że po stronie więzów SVO i OVS są jedną deklaracją, a okolicznik trzema,
 i że nie potrzeba do tego ani innego podłoża, ani innej klasy złożoności:
 dominacja rozdzielona od precedencji jest
-[szczeblem 1](docs/design-notes.md#the-cost-ladder), dalej sześciennym i
-bezkontekstowym, i tak samo radzi z tym GPSG, co
-[kąt parsujący](docs/design-notes.md#angle-one-parsing) już wylicza.
+[szczeblem 1](docs/design-notes.md#the-cost-ladder),
+i tak samo radzi z tym GPSG,
+co [kąt parsujący](docs/design-notes.md#angle-one-parsing) już wylicza.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
 precedencji, i preprocesor rozwijający jedno w drugie przed parsowaniem.
 Miejsce jest przy tym drugie i dochodzi się do niego inną drogą.
@@ -190,8 +174,7 @@ Miejsce jest przy tym drugie i dochodzi się do niego inną drogą.
 trzech kształtów głowy przez obecność `Modifier` po niej,
 i mnoży to nie permutacja argumentów, tylko obecność i kolejność
 rodzajów przydawki, więc etap 4 dołoży tam trzeci rodzaj, a nie czwarty szyk.
-`Adjuncts` pokazuje w tym samym pliku wersję, która się nie mnoży,
-i pokazuje też, czemu tam wystarczyła: okoliczniki są jednego rodzaju.
+`Adjuncts` w tym samym pliku się nie mnoży, bo okoliczniki są jednego rodzaju.
 Pułapka na tej drodze jest jedna i leży poza gramatyką.
 Pozycja opcjonalna zwija się produkcją pustą, taka produkcja dziś się parsuje,
 ale `Node.span` w `olski/parse.py` sięga po `children[0]`,
@@ -206,16 +189,17 @@ Tego pytania nie ma czym przeczytać nad listą czytań urwaną o `MAX_READINGS`
 więc wpis o parserze tablicowym nad lasem idzie przed tym.
 Blokerem nie jest już leksykon walencyjny,
 bo to on kasuje czytania, które rozwinięcie permutacji dopisuje,
-i kasuje je dziś dla 7 934 lematów, a nie dla samej kopuli.
-Tym samym ruchem sonda się wycofuje, i po to jest tu o niej ta ostatnia linia:
+i mówi o tysiącach lematów, a nie o samej kopuli;
+ile ich jest, trzyma
+[`docs/subset.md`](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego).
+Tym samym ruchem sonda się wycofuje:
 `sonda/polszczyzna.py` jest drugą deklaracją tego samego podzbioru,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
-Koordynacja przecinkiem jest pierwszym miejscem, w którym te dwie deklaracje
-mówią co innego: olski bierze przecinek na trzech poziomach, a sonda spójnik,
-i nad prozą README nie widać tego po żadnej liczbie, bo tam nie stoi na tym
-ani jedno zdanie.
+Te dwie deklaracje już się rozeszły na koordynacji przecinkiem:
+olski bierze przecinek na trzech poziomach, a sonda spójnik,
+i nad prozą README nie widać tego po żadnej liczbie.
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
 kiedy szyk zejdzie do warunków precedencji i zostanie zmierzony,
 przestaje, i wtedy idzie
@@ -232,9 +216,9 @@ Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
 a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
 jakim udało się tę liczbę odtworzyć:
-produkcji z córką `Adjuncts` albo `Modifier` jest dwadzieścia pięć,
-samo `Modifier` wymienia siedem,
-a same `ClauseConjunct` z okolicznikiem osiem.
+córkę `Adjuncts` albo `Modifier` ma szesnaście produkcji,
+samo `Modifier` stoi w siedmiu z nich,
+a produkcji `ClauseConjunct` z okolicznikiem jest osiem.
 Regułę liczenia rozstrzygnęła po swojej stronie
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie):
 liczy produkcje, i te, które zdejmuje, mierząc, co pozycje przyłączenia kupują,
@@ -265,20 +249,6 @@ Wpis czeka więc na pozycję, która z inną naprawdę stoi,
 czyli na dopełnienie w celowniku obok biernika — `dać uczniowi książkę` —
 którego produkcji olski dziś nie ma;
 bez niej mechanizm rozwija się na jedną pozycję i nie liczy niczego.
-
-The line that says what a walk went past counts a repository's `.git` with it.
-`_collect` in `olski/cli.py` reaches every file under a named directory,
-so `olski rit-dokumentacja/` reports going past 39 files
-in `.sample`, no suffix, `.md`, `.png`, `.idx`, `.pack` and `.rev`,
-where the 7 Markdown files are the only ones a reader would have guessed at
-and the pack and index files are git's own.
-The walk always descended there and the count is what made it visible,
-which is the warning working rather than a second defect.
-The move is for the walk to skip a directory whose name begins with a dot,
-and to say in `_collect` that a repository is the expected input
-and its version control is not part of the corpus.
-Against it: a dotted directory somebody names outright is then unreachable,
-so the skip belongs to the walk and not to the suffix test.
 
 Nothing in the harness says which construct a finding came out of,
 so every audit of extracted prose maps its hits back by hand.
@@ -311,7 +281,7 @@ and the corpus has two.
 Its table runs the notes, the memoir and `ksef-docs` twice each,
 where [`docs/firing-rates.md`](docs/firing-rates.md#the-audit-corpus)
 audits `rit-dokumentacja` beside `ksef-docs`
-and finds that member losing three quarters of its Markdown to the extraction,
+and finds that member losing three fifths of its Markdown to the extraction,
 which is the case the table has no column for.
 The move is a fourth column,
 which means running `rit-dokumentacja` with its names changed to `.txt`
@@ -356,10 +326,9 @@ więc do lintera trafiłoby to samo, co czyta ktoś, kto raport dostaje.
 Do rozstrzygnięcia jest przy tym, co takie uzasadnienie wybiera:
 czy idzie za wpisem swojego modułu na [liście](tests/nie-po-polsku.txt),
 czy deklaracja jest tu jednostką osobną od pliku, w którym stoi.
-Do przeczytania jest to, co pakiet zgłasza nad tymi polami dzisiaj,
+Do przeczytania jest to, co pakiet zgłasza nad tymi polami,
 bo wszystkie stoją po angielsku,
-a nad angielszczyzną ten check jest deklaracją tak samo,
-jak był nad modułem, zanim ekstrakcja powstała.
+a nad angielszczyzną ten check jest deklaracją, a nie sprawdzeniem.
 
 A run says which files a format made a rule decline, and not which ones the text did.
 `_note_markup` in `olski/cli.py` prints one line
@@ -385,9 +354,7 @@ więc dwie pary wychodzą z tego identyczne:
 `z dodatkami` dochodzi raz do `koszt`, a raz do `szynki`,
 i w obu przypadkach dopełnieniem jest ten sam `koszt szynki z dodatkami`,
 a modyfikatorem ten sam `z dodatkami`.
-Czytelnik dostaje więc dwa razy ten sam wiersz i nie ma z czego zobaczyć,
-czym te czytania się różnią,
-a jest to dokładnie to rozróżnienie, dla którego
+Jest to dokładnie to rozróżnienie, dla którego
 [te pozycje](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
 w gramatyce stoją.
 Ruchem jest nazwanie w streszczeniu tego, do czego modyfikator doszedł,
@@ -407,11 +374,7 @@ and finds `docs/audit-corpus.md` too,
 which is about one of the corpora the second surveys.
 The move is to rename `docs/corpus.md` to `docs/skladnica.md`,
 which says what it holds and matches `docs/swigra.md` beside it,
-and to carry the rename through
-`CLAUDE.md`, `README.md`, this file,
-`docs/design-notes.md`, `docs/prior-art.md`, `docs/subset.md`, `docs/swigra.md`,
-and the citations in `olski/corpus.py`, `olski/coverage.py`, `olski/subset.py`
-and `tests/test_subset.py`.
+and to carry the rename through every file that names it.
 `tests/test_docs.py` catches the Markdown links and the citations in code,
 and nothing catches the plain-prose mentions,
 so those are the ones to grep for.
@@ -433,6 +396,11 @@ Renaming the document alone leaves both of those in place,
 which is why they are one entry:
 what has to be decided is what these things are called,
 and the answer for the document is the answer for the module and the command.
+The entry about the harness boundary reaches the third of them on its own grounds,
+since one of the two answers it offers moves the treebank reader to `harness/`
+and takes the command along as `python3 -m harness.coverage`,
+which leaves nothing there to rename,
+so whichever entry is picked up first is answering for the other.
 
 The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
 Its `Reports` column restates what each check's `fields` answers,
@@ -448,7 +416,7 @@ the way `tests/test_docs.py` holds the links in the prose.
 Pick one and the document stops being a second copy.
 
 Czytelnik Składnicy gubi węzeł bez słowa w dwóch miejscach,
-a gubi go z drzewa, którym mierzy się jedyną liczbę, jaką to repozytorium podaje.
+a gubi go z drzewa, na którym stoi zgodność ról, a nie samo przyjęcie zdania.
 `_gold` w `olski/corpus.py` pomija dziecko, którego `nid` do niczego nie prowadzi,
 a `NIEWYBRANY` wycina węzły, którym `chosen` przeczy,
 i stoi na tym, że format tak to znaczy, a nie na sprawdzeniu.
@@ -518,13 +486,10 @@ So the order of work is NKJP, Wolne Lektury, Składnica,
 and the transport is the smaller half of each.
 A release asset on a mirror repository holds 2 GB per file against no quota
 and keeps the fetch the `curl -L` those sections print,
-where git LFS asks for an install that the session clone precedes,
-so tracked files arrive as pointer files and a hook has to pull them,
+where git LFS asks for an install that the session clone precedes
 and spends an allowance that GitHub's billing documentation puts at
-1 GB stored and 1 GB of bandwidth a month,
-which is ten fetches of Składnica.
-LFS buys that back over a binary somebody versions,
-and these are frozen archives.
+1 GB stored and 1 GB of bandwidth a month, which is ten fetches of Składnica.
+LFS buys that back over a binary somebody versions, and these are frozen archives.
 The audit corpus needs none of it,
 being clones pinned to a commit, which is what a mirror would be.
 None of this starts before the entry on digests,
@@ -542,24 +507,28 @@ Reading a GPL v3 parser of Polish is what raised it
 and the answer decides whether olski could ever link against such a thing.
 
 [Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
-"prose in comments and docstrings", and no module here writes them that way.
-Every file in `olski/` and `harness/` wraps its comments to a column instead,
-so the rule and the code have disagreed for as long as both have existed
-and a new docstring following the rule reads as a typo beside its neighbours.
+"prose in comments and docstrings", and the code is divided about it.
+`skład/`, `opowieści/`, `olski/walencja.py` and `harness/ustawy.py`
+break their comments at boundaries of meaning,
+and everything else in `olski/`, `harness/` and `sonda/` wraps to a column.
+The division follows neither track nor language:
+`olski/walenty.py` and `olski/wieloznaczność.py` wrap to a column
+though both stand in Polish
+and both sit beside `olski/walencja.py`, which does not.
 Two ways out, and the choice is a judgement about the whole package
 rather than about whichever function is being edited at the time:
 narrow the rule in `CLAUDE.md` to Markdown, commit messages
 and the prose fields of a declaration,
 which is where the tighter diff is actually collected,
-or keep the rule and reflow the docstrings under
+or keep the rule and reflow the rest under
 [lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
 Narrowing costs a second rule as well:
 [the language rule](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
 reaches comments and docstrings
 by pointing at semantic line breaks for what counts as prose,
-so narrowing them out there takes them out of Polish too.
-The second answer also needs saying out loud,
-because the mixed state it passes through is what a reader will read as drift.
+so narrowing them out there takes them out of Polish too,
+and it leaves the modules that already break semantically
+keeping a habit `CLAUDE.md` no longer asks for.
 
 `docs/subset.md` jest dokumentem mieszanym i przez to stoi na
 [liście plików, których check nie czyta](tests/nie-po-polsku.txt).
@@ -615,21 +584,33 @@ a `olski/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.
 Gdyby ją widział, kopula przestaje być listą, a staje się wpisem jak każdy inny,
 i wtedy pytaniem jest, ile czasowników poza nią orzecznik w narzędniku bierze.
 
-`olski` chodzi po katalogu, a `olski-check` bierze tylko pliki.
+`olski` chodzi po katalogu, a `olski-check` bierze tylko pliki,
+i to samo chodzenie schodzi do `.git`.
 `_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik
 i liczy to, co minął, żeby przebieg nad katalogiem nie lintował licencji,
 a `main` w `olski/check.py` czyta po prostu każdą podaną ścieżkę.
 Widać to w poleceniu, którym
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
+Ten sam `rglob` melduje nad `olski rit-dokumentacja/` 39 plików minionych
+w `.sample`, bez rozszerzenia, `.md`, `.png`, `.idx`, `.pack` i `.rev`,
+gdzie 7 markdownowych jest jedynymi, jakich czytelnik by się spodziewał,
+a paczki i indeksy są gitowe;
+schodził tam zawsze i pokazała to dopiero ta liczba,
+czyli ostrzeżenie działające, a nie druga usterka.
 Ruchem jest wyjęcie `_collect` z `olski/cli.py` do wspólnego miejsca
-i zawołanie go z każdej komendy, po czym `find` z tamtego polecenia znika.
+i zawołanie go z każdej komendy, po czym `find` z tamtego polecenia znika,
+wraz z pominięciem katalogu, którego nazwa zaczyna się kropką,
+i zdaniem w `_collect`, że wejściem jest repozytorium,
+a jego kontrola wersji nie jest częścią korpusu.
+Przeciw pominięciu: katalog z kropką podany wprost staje się wtedy nieosiągalny,
+więc należy ono do chodzenia, a nie do testu na rozszerzenie.
 Komend jest przy tym trzy, a nie dwie:
 `main` w `olski/wieloznaczność.py` czyta ścieżki tak samo jak `olski-check`,
 i tak samo trzeba mu je rozwinąć powłoką.
 Do rozstrzygnięcia jest to, co druga komenda robi z pominiętymi:
 `olski` mówi o nich, bo pominięcie zmienia mianownik częstości,
-a `olski-check` ma już mianownik, o który się w tej sesji rozegrało,
+a `olski-check` ma mianownik, który tamten dokument cytuje,
 więc nie jest oczywiste, czy to jest ta sama notatka, czy druga obok niej.
 
 `olski-check` daje dokumentowi liczbę i nie ma pod sobą żadnego testu.
@@ -819,7 +800,7 @@ czyli przez dwie decyzje toru gramatycznego naraz.
 Trzy z tych czterech są liśćmi,
 a czwarty odbiera `olski/attachment.py` bycie liściem, importując go,
 i wszystkie instalują się z pakietem
-(`include = ["olski*"]` w `pyproject.toml`),
+(`include = ["olski*", "skład*"]` w `pyproject.toml`),
 a jeden ma własną komendę,
 gdzie tak samo pomiarowe programy toru linterowego
 nie mają ani instalacji, ani komendy.
@@ -836,7 +817,7 @@ a nikt, kto lintuje tekst, ich nie woła.
 
 Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.
 `dependencies` w `pyproject.toml` żąda `morfeusz2` bezwarunkowo,
-a tor linterowy nie sięga po niego ani razu:
+a lintowanie nie sięga po niego ani razu:
 `olski/cli.py`, `olski/engine.py`, `olski/checks.py`, `olski/document.py`,
 `olski/rules.py`, `olski/calibration.py` i `olski/packs/` nie importują `olski/morph.py`,
 czyli jedynego miejsca, w którym stoi `import morfeusz2`,
@@ -845,8 +826,7 @@ i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`,
 a przez `corpus` także `olski/attachment.py`.
 [Sekcja Checks](CLAUDE.md#checks) opisuje środowisko,
 w którym koło Morfeusza się nie zbudowało,
-a `tests/test_morph.py`, `tests/test_subset.py` i `tests/test_corpus.py`
-pomijają się zamiast wywracać zbiórkę.
+a testy, które go wołają, pomijają się zamiast wywracać zbiórkę.
 Udokumentowana instalacja do tego środowiska nie prowadzi:
 `pip install -e '.[dev]'` kończy się wtedy błędem, a nie środowiskiem z pytestem,
 więc pomijanie broni stanu, w który wchodzi się bokiem,
@@ -860,28 +840,14 @@ kroki workflow i blok w `CLAUDE.md` trzyma równe
 więc obie kopie ruszają się razem.
 Wpis nie zamyka się razem z granicą harnessu:
 gdyby czytnik banku drzew i program pomiarowy poszły do `harness/`,
-`morph`, `parse`, `subset` i `check` zostają w pakiecie i dalej ciągną Morfeusza.
+`morph`, `parse`, `subset` i `check` zostają w pakiecie i dalej ciągną Morfeusza,
+a razem z nimi `skład/`, który instaluje się z tego samego wpisu
+i woła `morfeusz2` w drugą stronę.
 Do przeczytania jest, na których platformach PyPI ma gotowe koło,
 bo to rozstrzyga, czy podział kupuje instalację, której dziś nie ma,
 czy tylko nazywa dwa tory drugi raz:
 `morfeusz2` 1.99.15 wchodzi na Linuksie x86-64 pod Pythonem 3.11
 bez budowania czegokolwiek.
-
-Jedyna deklaracja reguł poza pakietem nie jest przez nic ładowana.
-`harness/counts.py` deklaruje cztery liczniki,
-`tests/test_rules.py` sprawdza pakiety z `olski/packs/`,
-a ten pakiet podaje się ścieżką do `--packs` i wchodzi tylko wtedy,
-gdy ktoś ręcznie przelicza tabele w
-[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
-albo w [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured).
-Walidacja dzieje się przy budowie reguły,
-więc zmiana w rodzajach checków albo w ich parametrach
-przewraca ten plik dopiero w środku przebiegu, który trwa minuty.
-Ruchem jest test ładujący go tak, jak ładuje go `--packs`.
-Przeciw: reguł tego pakietu nie da się sprawdzić tak, jak sprawdza się wysyłane,
-bo o polszczyźnie niczego nie twierdzą i po to stoją poza linterem,
-więc zostaje z tego asercja, że plik się wczytuje,
-i trzeba zdecydować, czy tyle jest warte testu.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
@@ -993,7 +959,9 @@ Anafora sięga podmiotu i nic poza nim,
 a opowieść o bazyliszku pokazuje, gdzie to boli:
 `opowieści/bazyliszek.py` pisze `wzrok potwora` dwa razy,
 a polszczyzna napisałaby drugi raz `jego wzrok`.
-Tak samo dopełnienie: `Lustro pokazało bazyliszka` zamiast `Lustro pokazało go`.
+Tak samo dopełnienie: po `Bazyliszek zobaczył własne odbicie.`
+legenda pisze `zamienił bazyliszka w kamień`,
+a polszczyzna napisałaby `zamienił go`.
 Do przeczytania jest to, co
 [`docs/sklad.md`](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o wąskim opuszczaniu podmiotu,
@@ -1092,15 +1060,18 @@ Wpis jest zaparkowany, bo poprawka rusza liczbę,
 którą [`docs/open-questions.md`](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
 podaje nad korpusem audytowym,
 więc zamyka go dopiero sesja, która ten korpus ściągnie i przebieg powtórzy.
+Tę samą liczbę rusza wpis o zaimku wykluczonym ze słownika,
+bo `admissible` stoi między tekstem a tym pomiarem,
+więc przebieg jest jeden i oba wpisy podnosi się razem.
 
 `przejrzyj` w `skład/przegląd.py` zgłasza jedną klasę z dwóch,
 bo przyłączenia zawęzić nie ma dziś czym.
 Okolicznik dochodzi w drzewie do zdarzenia zawsze,
 więc każde wyrażenie przyimkowe stojące za grupą imienną byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego:
-nad `opowieści/bazyliszek.py` dałby cztery zgłoszenia na piętnaście zdań
-i żadne z nich nie mówiłoby autorowi, co miałby z nim zrobić.
-Do przeczytania jest, czym się różnią te cztery miejsca,
+nad `opowieści/bazyliszek.py` trafiłby w kilka z dziewiętnastu zdań
+i żadne z tych zgłoszeń nie mówiłoby autorowi, co miałby z nim zrobić.
+Do przeczytania jest, czym się różnią te miejsca,
 oraz to, co [`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia)
 mierzy nad Składnicą, bo tam ta sama klasa jest policzona nad cudzymi drzewami.
 Stoi nad tym wpisem pytanie
@@ -1249,6 +1220,24 @@ Ruchem jest ta produkcja wraz z pomiarem, ile daje i ile odbiera:
 przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
 a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej,
 więc zakup trzeba przeczytać jako przejścia między werdyktami, a nie jako liczbę pokrycia.
-Wpis jest przez to winien pobranie Składnicy, przebiegi `olski-corpus` i poprawienie tabel,
-czego [sekcja Checks](CLAUDE.md#checks) żąda od każdej zmiany w gramatyce,
-a razem z nimi liczby w `docs/ustawy.md`, bo one stoją nad tym samym rejestrem.
+Wpis jest przez to winien przebiegi,
+których [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w gramatyce.
+
+Pomijania testów bez Morfeusza nie pilnuje nic, a raz już się rozeszło.
+[Sekcja Checks](CLAUDE.md#checks) mówi, że plik testowy sięgający analizatora
+pomija się zamiast wywracać zbiórkę,
+a `tests/test_przecinek.py` sięgał go bez `importorskip` odkąd powstał,
+bo `olski/subset.py` ciągnie `olski/morph.py`,
+gdzie `import morfeusz2` stoi na górze pliku.
+Brakującą linię ten plik ma, a własności, którą ona przywraca, nie pilnuje nic:
+przebieg z Morfeuszem przechodzi tak samo z nią i bez niej,
+więc rozejście widać wyłącznie w tym stanie, w który wchodzi się bokiem,
+a opisuje go wpis o `morfeusz2` w `dependencies`.
+Ruchem jest test czytający pliki z `tests/`:
+ten, którego import dochodzi do `olski/morph.py`,
+ma nad tym importem `pytest.importorskip("morfeusz2")`.
+Do rozstrzygnięcia jest, czy liczyć import wypisany w pliku,
+czy to, dokąd on dochodzi:
+`tests/test_przecinek.py` sięgał analizatora przez dwa moduły,
+a `tests/test_endings.py` nie sięga go wcale,
+bo `harness/endings.py` woła `morfeusz2` dopiero w `main`.

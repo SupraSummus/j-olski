@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import pytest
 
+pytest.importorskip("morfeusz2")
+
 from olski.subset import GRAMMAR, check
 from sonda.przecinek import POZIOMY, gramatyka
 
