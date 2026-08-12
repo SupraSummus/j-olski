@@ -611,23 +611,28 @@ a daje jednoznaczność tym, które stoją na nim obok czytania prawdziwego;
 [corpus.md](corpus.md#what-morphological-ambiguity-costs) trzyma liczby
 i zdania, które za nimi stoją.
 
-### Leksykon mówi dwa zdania na lemat i bierze je z Walentego
+### Leksykon mówi trzy zdania na lemat i bierze je z Walentego
 
 Wpis pisany ręcznie kosztuje tyle, co rozstrzygnięcie o jednym czasowniku,
 a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to.
 [Walenty](prior-art.md) charakteryzuje 17 224 lematy czasownikowe
 64 022 schematami i idzie na licencji CC BY-SA 4.0.
 Mówi przy tym o czasowniku znacznie więcej, niż te dwa kierunki umieją żądać,
-więc przekład jest zejściem w dół i bierze z Walentego dwa zdania na lemat.
+więc przekład jest zejściem w dół i bierze z Walentego trzy zdania na lemat.
 Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
 Drugie jest twierdzące i mówi, że bierze bezokolicznik,
 którego wykonawcą jest jego własny podmiot.
-Kierunki są przeciwne, bo przeciwne są domyślności, od których oba odejmują:
-rama domyślna ma dopełnienie w bierniku i nie ma bezokolicznika.
+Trzecie jest twierdzące jak drugie i mówi, że bierze zdanie podrzędne
+wprowadzone przez `że`, czyli że stoi przy nim to, co ktoś mówi albo wie
+([sklad.md](sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
+Kierunek pierwszego jest przeciwny niż dwóch pozostałych,
+bo przeciwne są domyślności, od których odejmują:
+rama domyślna ma dopełnienie w bierniku, a nie ma ani bezokolicznika,
+ani zdania podrzędnego.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli lematy wraz z tym, które z tych zdań są o nich prawdziwe;
-8 055 stoi ich tam dziś, licząc formy zwrotne osobno,
-z czego 7 941 niesie zdanie pierwsze, a 285 drugie.
+9 525 stoi ich tam dziś, licząc formy zwrotne osobno,
+z czego 7 941 niesie zdanie pierwsze, 285 drugie, a 2 498 trzecie.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
 Czyta go `olski/walencja.py`, i czyta dla obu kierunków naraz,
@@ -641,6 +646,14 @@ Po stronie generatora jest jedyną obroną przed drzewem,
 które żąda bezokolicznika od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
 Po stronie parsera został zmierzony i pomiar stoi niżej w tej sekcji.
+
+Zdanie trzecie czyta sam skład i jest to inny rodzaj rozdziału niż tamten.
+Bezokolicznik gramatyka ma i zmierzono, ile jej czytanie o nim kupuje;
+zdania podrzędnego nie ma wcale, więc po tamtej stronie nie ma nawet pozycji,
+o którą to pytanie miałoby pytać, i nie ma czego mierzyć.
+Obrona jest za to po tej stronie tej samej wagi co przy bezokoliczniku:
+`zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` nie jest zdaniem polskim,
+i leksykon jest jedyną rzeczą, która te dwa czasowniki rozdziela.
 
 Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
 Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,

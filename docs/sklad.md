@@ -221,9 +221,10 @@ i nie ma na to w kompilatorze osobnej gałęzi.
 Autor nie pisze przy tym ani przypadka, ani rodzaju, ani zaimka,
 ani tego, że zdanie podrzędne otwiera się nim niezależnie od roli, którą on w nim ma.
 
-Reszta zdania złożonego wychodzi z trzech innych kategorii:
+Reszta zdania złożonego wychodzi z czterech innych kategorii:
 [okoliczności wyrażonej zdarzeniem](#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie),
-[dopełnienia wyrażonego zdarzeniem](#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
+[dopełnienia wyrażonego zdarzeniem](#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+[treści](#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)
 oraz [następstwa](#następstwo-zdarzeń-jest-kategorią-a-spójnik-jego-wnioskiem).
 
 Jedna granica leży przy tym w środku samej kategorii.
@@ -348,7 +349,7 @@ którego bezokolicznik nie wyraża,
 więc drzewo żądające go dla cudzego zdarzenia nie ma wyjść tekstem,
 w którym wróciłby czeladnik.
 Tego, że pytanie o kontrolę pada raz, nie zawdzięcza przy tym drzewo sobie:
-[Walenty rozdziela kontrolę](subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego),
+[Walenty rozdziela kontrolę](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego),
 więc `chcieć` bezokolicznik dostaje, a `kazać` nie dostaje go wcale,
 bo jego wykonawca stoi w celowniku, którego ta gramatyka nie ma.
 
@@ -365,6 +366,61 @@ Granica tej kategorii leży tam, gdzie granica wskazywania, i z innego powodu.
 bo rzecz wskazana stoi w bezokoliczniku, czyli o dwa piętra od czoła,
 a `Opis` schodzi po nią jedno.
 Zgłasza się to przy budowaniu drzewa, jak każda z tych granic.
+
+## Treść jest zdarzeniem, o którym ktoś coś sądzi
+
+Ta sama pozycja bierze rzecz, zdarzenie wykonywane
+i zdarzenie, o którym podmiot tylko coś orzeka,
+a trzecie z nich jest osobną kategorią, bo pytanie przy nim jest inne.
+`Czeladnik chciał zejść.` mówi, co czeladnik zrobi,
+a `Czeladnik wiedział, że postaci stały pod ścianą.` mówi, co on o świecie sądzi.
+Nosi tę kategorię `Treść` w `skład/składnia.py`,
+i tam też stoi powód, dla którego jest zawinięciem, a nie wnioskiem z drzewa:
+to samo zdarzenie stoi pod `chcieć` i pod `wiedzieć`, a mówi dwie różne rzeczy,
+więc różnicy nie ma z czego policzyć.
+Rozstrzyga o niej przez to autor, a nie kompilator zgadujący z podmiotów,
+i jest to ta sama postawa, którą trzyma
+[przegląd](#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być):
+zgłaszać albo pytać, a nie podmieniać drzewo za autora.
+
+Jest to jedyna rzecz, którą ten zapis ma na wnętrze postaci, i po to tu jest.
+Jedno zdanie o tym, w co postać nie wierzy, mówi o niej więcej
+niż zdanie o tym, jaka ona jest, i mówi to bez nazywania emocji,
+czyli bez usterki, którą [fiction.md](fiction.md#sentence-and-paragraph) wylicza.
+Legenda o bazyliszku stoi na tym całym akapitem pierwszym:
+każde z trzech zdań, które on orzeka, wraca potem w innym akapicie,
+a dwa z nich wracają jako to, co postać o świecie sądzi,
+przy czym jedna sądzi przecząco i przez to schodzi do piwnicy.
+
+Od bezokolicznika w tej samej pozycji różni ją podmiot,
+który stoi w drzewie, zamiast przychodzić z góry,
+i z tego jednego idą trzy rzeczy, z których żadna nie ma osobnej gałęzi.
+Kontroli nie ma tu czego pytać.
+Dopełniacz negacji nie sięga w dół, bo zdanie podrzędne rozdaje przypadki własne,
+więc `Nie wierzył, że wyniosła kufer.` przeczy jednemu czasownikowi,
+a drugi zostaje przy swoim bierniku.
+Podmiot wypisuje się w takim zdaniu zawsze, także gdy jest tym samym,
+o którym orzeka czasownik nad nim, bo opuszczenie w zdaniu podrzędnym
+odsyłałoby czytelnika o piętro wyżej.
+
+W drugą stronę ten podmiot sięga jednak zdania obok
+i jest to jedyne miejsce, w którym treść zmienia coś poza sobą.
+`Wiedział, że skrzynia stała w piwnicy.` odbiera zdaniu następnemu opuszczenie
+dokładnie tak, jak odbiera je to samo zdarzenie postawione pod `bo`,
+bo warunek mierzy to, na kogo czytelnik trafia, a nie to, czym ten ktoś jest
+w zdaniu ([wyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
+Widać to w samej legendzie: `Czeladnik wiedział, że pod ścianą stały postaci.`
+podmiot opuszcza, bo postaci wyciągają z tego czasownika formę mnogą,
+a to samo zdanie o bazyliszku wypisałoby czeladnika,
+bo w czasie przeszłym obaj wyciągają z niego `wiedział`.
+
+Spójnik jest tu jeden i stoi w klasie, a nie w leksykonie,
+czyli odwrotnie niż przy okoliczności, gdzie autor wybiera między `bo` i `ponieważ`.
+Polszczyzna wybiera go tu za autora: `że` mówi, że tak jest, a `żeby`, że tak ma być,
+i to drugie jest inną kategorią dziedziny, której to drzewo nie ma.
+Odsłoniła ta pozycja jeszcze jedną, i jest nią czas zdania podrzędnego;
+obie trzyma [`TODO.md`](../TODO.md), a co pokazały,
+mówi [czego nie spełniono](#czego-nie-spełniono).
 
 ## Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
 
@@ -411,7 +467,20 @@ Ta legenda przechodzi ten cykl kilka razy i za każdym nie po to,
 tylko po to, żeby była opowieścią, a nie ciągiem zdań o jednym temacie.
 Kolejkę ustawia więc to, czego opowieści brakuje jako opowieści,
 i wychodzi z tego co innego, niż wyszłoby z listy konstrukcji.
-Pierwszym takim żądaniem jest zakończenie, które nie mówi, o czym opowieść była,
+
+Żądania te rozdzielają się warstwą, która za nie zapłaciła,
+i to ona jest tu porządkiem, bo kolejność, w której padły, nie niesie nic:
+nie jest ani czasem, ani wagą.
+Jedne zostały w składni i wyszły z nich nowe kategorie.
+Jedne zeszły o warstwę niżej, do wyboru formy i do czytania cudzego słownika,
+i to jest ustalenie tej sekcji, bo raz nie jest zbiegiem, a trzy razy nie jest.
+Jedno zapłaciło samym zapisem, nie ruszając ani kategorii, ani formy.
+A dwa nie zostały spełnione i to one pokazały ceny,
+których nikt przed nimi nie wycenił.
+
+### Co zostało w składni
+
+Pierwszym żądaniem jest zakończenie, które nie mówi, o czym opowieść była,
 i to żądanie stoi w [fiction.md](fiction.md#narrative) wprost,
 razem z drugim, które to samo zakończenie spełnia: nie wypada ono dobrze.
 Obok niego stoi powód, dla którego ktoś schodzi do piwnicy,
@@ -429,19 +498,7 @@ czyli kategoria dziedziny w miejscu, w którym
 [roadmap.md](roadmap.md#etap-5-konstrukcje-których-żąda-readme) trzymała podrzędność,
 i pokrywa on z niej tyle, ile podrzędność wskazuje rzecz, a nie więcej.
 
-Drugie ustalenie jest ciekawsze, bo kolejka nie została w tej warstwie.
-Zaimek względny wychodził z morfologii jako `któren`,
-czyli forma, którą SGJP odsyła do gwary,
-więc nowa konstrukcja składniowa zażądała kryterium wyboru formy,
-stojącego pod nią o dwie warstwy niżej
-([kwalifikator](#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
-Plan tego tak nie ustawia i nie ma jak ustawić:
-roadmapa trzyma wybór formy jako etap 3, a podrzędność jako część etapu 5,
-i wywód za tą kolejnością się nie zmienia.
-Tekst nie czyta jednak numeracji i płaci od razu za wszystko,
-czego wymaga zdanie, które ma z niego wyjść.
-
-Trzecie żądanie jest o rytm i stoi w tamtym katalogu wprost.
+Drugie żądanie jest o rytm i stoi w tamtym katalogu wprost.
 [Jednostajność](fiction.md#sentence-and-paragraph) — zdania jednej długości,
 jeden kształt zdania powtórzony przez cały tekst — jest tam usterką wymienianą
 jako właściwość prozy modelowej, a opowieść złożona z samych zdań prostych ma ją całą.
@@ -453,29 +510,7 @@ Bez nich `Podniosła deskę i zeszła po schodach.` rozpada się na dwa zdania,
 a przyczyna, którą niesie `bo`, zostaje czytelnikowi do wyciągnięcia
 z dwóch zdań postawionych obok siebie i niepołączonych niczym.
 
-Czwarte przyszło stamtąd, gdzie pierwsze: z warstwy pod tą, którą się ruszało.
-Zdanie podrzędne wstawia przed podmiot cudzy podmiot,
-więc `Gdy bazyliszek otworzył oczy, zasłonił twarz lustrem.`
-mówi, że twarz zasłonił bazyliszek.
-Ten sam podmiot w zdaniu obok jako jedyny warunek nie wystarcza,
-i pokazuje to zdanie złożone, choć nie jest to warunek o zdaniu złożonym.
-Warunek, który stoi tam zamiast niego, mierzy to, co po opuszczonym podmiocie zostaje,
-czyli formę czasownika ([wyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
-i sięga tak samo zdania obok:
-skrzynia postawiona w piwnicy zamiast kufra odbiera córce krawca opuszczenie,
-choć stoi w zdaniu podrzędnym, którego opowieść jest o czym innym.
-
-Piąte jest po prostu tanie.
-Trzy relacje okolicznikowe dopisały się bez namysłu,
-bo `w nocy`, `po schodach` i `wśród kamiennych postaci` są tym,
-czym opowieść odmierza czas i ruch, a nie nową kategorią.
-Jedna z nich niesie przy tym coś poza sobą:
-`w nocy` stoi w tym samym przypadku co `w piwnicy`,
-więc jest wpisem, po którym w tekście nie zmienia się nic,
-i pokazuje, że relacja nazywa to, co autor powiedział,
-a nie to, w czym mu to wyjdzie.
-
-Szóste wróciło do usterki, którą pierwsze zaczęło, i nie dało się nią załatwić.
+Trzecie wróciło do usterki, którą pierwsze zaczęło, i nie dało się nią załatwić.
 Postać, która czegoś chce, ma wnętrze, a postać, która coś robi, ma tylko czynność,
 i tego zdanie podrzędne nie kupuje:
 `Opis` mówi, o którą rzecz chodzi, a nie czego ta rzecz chce.
@@ -490,21 +525,79 @@ czyli żeby nie napisać zdania, którym
 Poza tym echem to samo żądanie zdjęło z opowieści jedno zdanie o niczym:
 zamiast `Nikt nie zszedł po schodach.` stoi w niej miasto, które stoi na ulicy.
 
-Zapłaciło za to warstwą, którą pierwsze żądanie już raz odsłoniło,
-i to jest tu ustaleniem, bo dwa razy pod rząd nie jest zbiegiem.
+Czwarte poszło dalej tą samą usterką i doszło tam, gdzie wola nie dochodzi.
+Postać, która czegoś chce, ma wnętrze płaskie,
+bo chcieć czegoś to znaczy zmierzać do rzeczy, którą opowieść i tak pokaże;
+postać, która sądzi o świecie coś, czego świat nie potwierdza, ma je własne.
+Legenda stoi na tym akapitem pierwszym: orzeka on trzy rzeczy,
+a każda z nich wraca potem w innym akapicie.
+Córka krawca nie wierzy w bazyliszka i dlatego schodzi po kufer,
+czyli jej powód jest teraz pomyłką, a nie odwagą;
+czeladnik wie o kamiennych postaciach i dlatego bierze lustro;
+a trzecie zdanie, o wzroku potwora, wraca na końcu przeciw temu, do kogo należał.
+Wyszła z tego [treść](#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
+a wraz z nią jedno zdanie mniej o tym, jaka postać jest,
+bo tego zdania w tej legendzie nie ma ani jednego.
+
+Piąte jest po prostu tanie.
+Trzy relacje okolicznikowe dopisały się bez namysłu,
+bo `w nocy`, `po schodach` i `wśród kamiennych postaci` są tym,
+czym opowieść odmierza czas i ruch, a nie nową kategorią.
+Jedna z nich niesie przy tym coś poza sobą:
+`w nocy` stoi w tym samym przypadku co `w piwnicy`,
+więc jest wpisem, po którym w tekście nie zmienia się nic,
+i pokazuje, że relacja nazywa to, co autor powiedział,
+a nie to, w czym mu to wyjdzie.
+
+### Co zeszło warstwę niżej
+
+Pierwsze zejście wyszło z tego samego żądania, co `Opis` powyżej,
+i jest ciekawsze niż ono, bo kolejka nie została w tej warstwie.
+Zaimek względny wychodził z morfologii jako `któren`,
+czyli forma, którą SGJP odsyła do gwary,
+więc nowa konstrukcja składniowa zażądała kryterium wyboru formy,
+stojącego pod nią o dwie warstwy niżej
+([kwalifikator](#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
+Plan tego tak nie ustawia i nie ma jak ustawić:
+roadmapa trzyma wybór formy jako etap 3, a podrzędność jako część etapu 5,
+i wywód za tą kolejnością się nie zmienia.
+Tekst nie czyta jednak numeracji i płaci od razu za wszystko,
+czego wymaga zdanie, które ma z niego wyjść.
+
+Drugie zejście przyszło stamtąd, gdzie pierwsze,
+i dotknęło opuszczania podmiotu, czyli tego, co widać dopiero nad tekstem.
+Zdanie podrzędne wstawia przed podmiot cudzy podmiot,
+więc `Gdy bazyliszek otworzył oczy, zasłonił twarz lustrem.`
+mówi, że twarz zasłonił bazyliszek.
+Ten sam podmiot w zdaniu obok jako jedyny warunek nie wystarcza,
+i pokazuje to zdanie złożone, choć nie jest to warunek o zdaniu złożonym.
+Warunek, który stoi tam zamiast niego, mierzy to, co po opuszczonym podmiocie zostaje,
+czyli formę czasownika ([wyżej](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
+i sięga tak samo zdania obok:
+skrzynia postawiona w piwnicy zamiast kufra odbiera córce krawca opuszczenie,
+choć stoi w zdaniu podrzędnym, którego opowieść jest o czym innym.
+
+Trzecie i czwarte zeszły do cudzego słownika, oba z pozycji dopełnienia,
+i to one czynią z tej pary ustalenie, bo dwa razy pod rząd nie jest zbiegiem.
 Bezokolicznik nie zgadza się z niczym, więc kategoria dziedziny postawiona wysoko
-zażądała czytania cudzego słownika o dwie warstwy niżej,
+zażądała czytania Walentego o dwie warstwy niżej,
 tak jak wskazywanie rzeczy zażądało kryterium wyboru formy.
-Tym razem czytanie jest o kontroli, a nie o kształcie frazy,
+Czytanie jest przy tym o kontroli, a nie o kształcie frazy,
 bo `chcieć` i `kazać` biorą w polszczyźnie ten sam bezokolicznik
 i wskazują nim dwóch różnych ludzi.
+Treść zażądała trzeciego zdania z tego samego słownika i o kontrolę nie pyta,
+bo zdanie podrzędne niesie podmiot własny;
+pyta o samą pozycję, i pyta o nią tym mocniej,
+że `zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` nie jest zdaniem polskim.
 Wyszło z tego coś, czego niezmiennik obiegu nie zapowiadał:
-plik leksykonu jest wspólny, a zdanie, które on mówi, czyta na razie jeden kierunek.
-Parser zmierzył to zawężenie i nie kupiło mu ono ani jednej jednoznaczności,
-a składowi jest jedyną obroną, jaką ta pozycja ma;
-liczby trzyma [subset.md](subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego).
+plik leksykonu jest wspólny, a dwa z trzech zdań, które on mówi, czyta jeden kierunek.
+Bezokolicznik parser zmierzył i nie kupiło mu to zawężenie ani jednej jednoznaczności,
+a zdania podrzędnego tamta gramatyka nie ma wcale, więc nie ma tam czego mierzyć;
+liczby trzyma [subset.md](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego).
 
-Siódme jest o czasie i kosztowało jeden wpis w leksykonie przyimków.
+### Co zapłaciło samym zapisem
+
+Jedno żądanie jest o czasie i kosztowało jeden wpis w leksykonie przyimków.
 Opowieść nie mówiła, ile go mija między zejściem dziewczyny a zejściem czeladnika,
 więc miasto stało przed kamienicą w tej samej chwili, w której gasła świeca.
 Trzy pory dnia zdejmują to bez żadnej kategorii nowej —
@@ -516,8 +609,10 @@ relacja bez słowa jest wywołaniem swojej przestrzeni nazw
 więc `Czym(R.lustro)` i `Kiedy(R.wieczór)` piszą się jednym kształtem,
 a dwie funkcje na jedną kategorię nie powstały.
 
-Jedno żądanie z tego przebiegu nie zostało spełnione,
-a cena, którą pokazało, jest tu ustaleniem osobnym.
+### Czego nie spełniono
+
+Anafora spełniona nie została,
+a cena, którą pokazała, jest tu ustaleniem osobnym.
 Opowieść wypisuje rzecz pełną nazwą tam, gdzie polszczyzna napisałaby zaimek,
 i widać to na `wzroku potwora` postawionym dwa razy.
 Zaimek osobowy w roli innej niż podmiot ma jednak warunek
@@ -531,6 +626,22 @@ czyli poza zdaniem, do którego on należy,
 więc zaimek i bezokolicznik są jedną zmianą, a nie dwiema stojącymi obok siebie.
 Ruch trzyma [TODO.md](../TODO.md), a `jego wzrok` jest przy tym trzecią rzeczą:
 zaimek dzierżawczy przestawia grupę imienną, a nie wypełnia pozycję w zdaniu.
+Czwartą odsłoniła treść i jest z tych czterech najtańsza,
+bo polszczyzna nie pisze tam zaimka wcale, tylko opuszcza podmiot:
+legenda chce zdania `Czeladnik znał córkę krawca. Nie wiedział, że stała pod ścianą.`,
+a warunek na to opuszczenie stoi i tę parę przepuszcza —
+brakuje zasięgu, bo antecedensem jest dziś podmiot zdania obok,
+a tu jest nim jego dopełnienie.
+
+Czas zdania podrzędnego odsłoniła ta sama pozycja i bez niej nie było go widać,
+bo dotąd każde orzeczenie tej opowieści stało obok innych, a nie pod nimi.
+Czas jest [własnością opowiadania](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
+więc opowieść stawia jeden czas wszędzie,
+a polszczyzna liczy czas zdania podrzędnego wobec zdania nad nim:
+`Wiedział, że pod ścianą stały postaci.` mówi co innego niż to samo ze `stoją`.
+Oba te zdania są polskie, więc jest to kategoria dziedziny, a nie forma do policzenia,
+i pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
+Trzyma to [TODO.md](../TODO.md), a legenda stoi na razie na wersji przeszłej.
 
 ## Drzewo jest jednoznaczne, a napis z niego nie musi być
 

@@ -30,6 +30,7 @@ from skład.słownik import (
     Kiedy,
     R,
     Skąd,
+    Treść,
     V,
     jest,
     opis,
@@ -332,6 +333,69 @@ def test_ciąg_pod_bezokolicznikiem_nie_odzyskuje_podmiotu():
     kot = R.kot
     ciąg = potem(V.zamykać(kot, R.okno), V.otwierać(kot, R.pudełko))
     assert kompiluj(V.chcieć(kot, ciąg)) == "Kot chce zamykać okno i otwierać pudełko."
+
+
+def test_treść_stoi_w_tej_samej_pozycji_co_bezokolicznik_i_niesie_własny_podmiot():
+    """Jedna pozycja, dwie rzeczy do powiedzenia: robić coś i wiedzieć, że ktoś to robi.
+
+    Ten sam kot i to samo zdarzenie stoją tu pod dwoma czasownikami,
+    a wychodzą raz bezokolicznikiem bez podmiotu, a raz zdaniem z podmiotem,
+    więc różnicy nie da się policzyć z tego, kto w zdarzeniu działa:
+    niesie ją zawinięcie, i to jest cały powód, dla którego ono jest.
+    Podmiot zdania podrzędnego wypisuje się zawsze, także wtedy,
+    gdy jest tym samym, o którym orzeka czasownik nad nim.
+    """
+    kot = R.kot
+    zamyka = V.zamykać(kot, R.okno)
+    assert kompiluj(V.chcieć(kot, zamyka)) == "Kot chce zamykać okno."
+    assert kompiluj(V.wiedzieć(kot, Treść(zamyka))) == "Kot wie, że kot zamyka okno."
+
+
+def test_zdania_podrzędnego_odmawiają_leksykon_i_kategoria_okoliczności():
+    """Dwie odmowy, każda przed czym innym, i obie zapadają przy budowaniu drzewa.
+
+    Leksykon broni przed czasownikiem, który zdania podrzędnego nie bierze,
+    i waży tu tyle samo, ile przy bezokoliczniku:
+    ``zamykać`` biernik bierze, więc bez leksykonu nic nie zatrzymuje
+    `Kot zamyka, że mysz śpi.`, a zgodność w tym zdaniu jest bez zarzutu.
+    Kategoria broni przed drugim spójnikiem postawionym przed pierwszym:
+    ``Treść`` zdaniem nie jest, więc tam, gdzie okoliczność czeka na zdarzenie,
+    nie stanie i nie wypuści `gdy że`.
+    """
+    with pytest.raises(PozaRamą):
+        V.zamykać(R.kot, Treść(V.spać(R.mysz)))
+    with pytest.raises(PozaRamą):
+        Kiedy.gdy(Treść(V.spać(R.mysz)))
+
+
+def test_dopełniacz_negacji_nie_sięga_przez_zdanie_podrzędne():
+    """Przeczenie sięga bezokolicznika, a zdania podrzędnego nie, i to jest różnica pozycji.
+
+    Bezokolicznik przypadka od czasownika nad sobą nie odgradza,
+    a zdanie podrzędne rozdaje przypadki własne,
+    więc `okno` zostaje tu w bierniku, choć zdanie nadrzędne jest zaprzeczone.
+    """
+    kot = R.kot
+    wie = V.wiedzieć(kot, Treść(V.zamykać(R.mysz, R.okno)))
+    assert kompiluj(wie) == "Kot wie, że mysz zamyka okno."
+    assert kompiluj(nie(wie)) == "Kot nie wie, że mysz zamyka okno."
+
+
+def test_treść_staje_na_końcu_zdania_a_nie_tam_gdzie_dopełnienie():
+    """Zdanie podrzędne stoi za całym zdaniem nadrzędnym i nie jest to wybór autora.
+
+    Okoliczność wypada tu przed nim, choć jako dopełnienie stoi po niej,
+    bo `Kot wie, że mysz śpi, wieczorem.` nie jest zdaniem o innej kolejności,
+    tylko zdaniem, którego polszczyzna nie ma.
+    Remat żądany od czegoś innego zgłasza się przez to,
+    zamiast stanąć za przecinkiem zamykającym.
+    """
+    kot = R.kot
+    assert kompiluj(V.wiedzieć(kot, Treść(V.spać(R.mysz)), Kiedy(R.wieczór))) == (
+        "Kot wie wieczorem, że mysz śpi."
+    )
+    with pytest.raises(PozaRamą):
+        kompiluj(V.wiedzieć(kot, Treść(V.spać(R.mysz)), Kiedy(R.wieczór).remat))
 
 
 def test_koordynacja_bierze_przypadek_z_pozycji_a_liczbę_od_każdego_członu_osobno():

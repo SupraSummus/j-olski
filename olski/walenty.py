@@ -1,9 +1,9 @@
-"""Walenty przeczytany o dwa zdania: co czasownik bierze, a czego nie.
+"""Walenty przeczytany o trzy zdania: co czasownik bierze, a czego nie.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
 więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
 semantyczną. Olski ma ramę o kilku pozycjach, więc czytanie jest zejściem w dół i
-bierze stąd dwa zdania na lemat.
+bierze stąd trzy zdania na lemat.
 
 Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
 Drugie jest twierdzące i mówi, że bierze bezokolicznik, którego wykonawcą jest
@@ -11,6 +11,13 @@ jego własny podmiot. Kierunki są przeciwne, bo przeciwne są domyślności, od
 których oba odejmują: rama domyślna ma dopełnienie w bierniku i nie ma
 bezokolicznika, więc milczenie o lemacie znaczy przy pierwszym zdaniu, że biernik
 bierze, a przy drugim, że bezokolicznika nie bierze.
+
+Trzecie jest twierdzące jak drugie i mówi, że czasownik bierze zdanie
+podrzędne wprowadzone przez ``że``, czyli że stoi przy nim to, co ktoś mówi,
+wie albo w co nie wierzy. Domyślność jest ta sama co przy bezokoliczniku, bo
+rama domyślna takiej pozycji nie ma, a bez tego zdania nic nie odróżnia
+``wiedzieć`` od ``zamykać``: oba biorą biernik, a zdanie podrzędne bierze
+jeden z nich.
 
 Ramy ten moduł nie zna: nazywa ją ``olski/subset.py`` razem z resztą gramatyki, a
 stąd wychodzą same lematy wraz z tym, które z tych zdań są o nich prawdziwe.
@@ -40,7 +47,7 @@ import sys
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
-from olski.walencja import BIERZE_BEZOKOLICZNIK, NIE_BIERZE_BIERNIKA
+from olski.walencja import BIERZE_BEZOKOLICZNIK, BIERZE_ZDANIE, NIE_BIERZE_BIERNIKA
 
 #: Pozycja podmiotu. Podmiot ma u olskiego własną produkcję, a nie pozycję ramy,
 #: więc to czytanie go pomija i pyta tylko o to, co przy czasowniku stoi obok niego.
@@ -56,6 +63,14 @@ BIERNIK = ("np(str)", "np(acc)")
 #: ``infp(_)`` obok ``infp(perf)`` — a olski aspektu nie żąda, więc szuka się
 #: samej nazwy kształtu.
 BEZOKOLICZNIK = "infp"
+
+#: Kształt zdania podrzędnego wprowadzonego przez ``że``. Spójnik stoi u
+#: Walentego w nawiasie — ``cp(int)`` obok ``cp(żeby)`` — a skład wypisuje jeden
+#: i o jeden pyta, więc szuka się kształtu wraz ze spójnikiem i wraz z nawiasem
+#: zamykającym: bez niego ten napis jest przedrostkiem ``cp(żeby)``. Sama nazwa
+#: kształtu oddziela go od ``ncp`` oraz ``prepncp``, czyli od zdania podrzędnego
+#: pod zaimkiem albo pod przyimkiem, których skład nie ma czym wypisać.
+ZDANIE = "cp(że)"
 
 #: Etykiety, którymi Walenty zapisuje kontrolę: kto wykonuje to, o czym mówi
 #: pozycja podrzędna. Pozycja kontrolowana jest tą, w której stoi bezokolicznik,
@@ -154,6 +169,8 @@ def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
         orzeczone.append(NIE_BIERZE_BIERNIKA)
     if bierze_bezokolicznik_podmiotu(schematy_lematu):
         orzeczone.append(BIERZE_BEZOKOLICZNIK)
+    if bierze(schematy_lematu, (ZDANIE,)):
+        orzeczone.append(BIERZE_ZDANIE)
     return tuple(orzeczone)
 
 
@@ -177,8 +194,9 @@ NAGŁÓWEK = f"""\
 #
 # `{NIE_BIERZE_BIERNIKA}` mówi, że czasownik nie bierze dopełnienia w bierniku.
 # `{BIERZE_BEZOKOLICZNIK}` mówi, że bierze bezokolicznik, którego wykonawcą jest
-# jego własny podmiot. Milczenie o lemacie zostawia mu ramę domyślną, czyli
-# biernik i brak bezokolicznika.
+# jego własny podmiot. `{BIERZE_ZDANIE}` mówi, że bierze zdanie podrzędne
+# wprowadzone przez `że`. Milczenie o lemacie zostawia mu ramę domyślną, czyli
+# biernik, brak bezokolicznika i brak zdania podrzędnego.
 #
 # Plik jest generowany i nie pisze się go ręcznie. Powstaje z Walentego,
 # słownika walencyjnego polszczyzny IPI PAN, wydanie tekstowe z 18 kwietnia

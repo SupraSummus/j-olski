@@ -25,6 +25,13 @@ i wtedy źródło wyróżnia co innego, niż wygląda, że wyróżnia.
 Znacznik przyrostkowy tego nie ma, bo nie sięga poza konstytuent, przy którym stoi,
 i stoi razem z operatorami w ``skład.składnia``.
 
+Wielka litera odróżnia tu kategorię od funkcji, która coś nad argumentem liczy.
+``razem`` składa listę, ``potem`` zwija jeden człon do samego siebie,
+a ``opis`` i ``jest`` dokładają domyślną liczbę, i dlatego są funkcjami;
+``Treść`` wraz z przestrzeniami nazw relacji mówi tylko, czym konstytuent jest,
+więc zostaje klasą wołaną wprost,
+bo druga nazwa dla jednego konstruktora nie kupiłaby nic poza małą literą.
+
 Zwykłe konstrukcje Pythona są tu częścią zapisu, a nie obejściem.
 Zmienna nazywa poddrzewo i pozwala postawić je w dwóch zdaniach.
 Funkcja jest wzorcem zdania, a funkcja zwracająca listę jest wzorcem akapitu.
@@ -49,6 +56,7 @@ from skład.składnia import (
     Przysłówek,
     Rola,
     Rzecz,
+    Treść,
     byt,
     nie,
     zdarzenie,
@@ -66,6 +74,7 @@ __all__ = [
     "R",
     "Skutek",
     "Skąd",
+    "Treść",
     "V",
     "jest",
     "nie",
