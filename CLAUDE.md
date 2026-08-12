@@ -659,6 +659,13 @@ Every figure taken behind a dropped group of productions moves for the same reas
 the grammar it was measured on is the one with the group missing,
 and that one is not the same grammar twice.
 
+The parser moves that ranking as well, and it is the easier of the two to miss,
+because a change there is not a change to the language at all.
+Which productions were tried is a fact about the traversal,
+so a rewrite of `olski/parse.py` that leaves every verdict alone
+can still rank the blockers differently,
+and the rerun is what says whether it did.
+
 A grammar change moves one more set of tables,
 and they sit in the document furthest from where a grammar change is written:
 [what the grammar derives from statutes](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
@@ -773,20 +780,16 @@ and so does a change to `sonda/przecinek.py`, which decides what comes out.
 What a test holds there is only that the probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
 
-One set of figures prices a table this repository does not build yet,
-so no rerun above reaches it.
+One set of figures is not moved by anything, for the same reason as the one above,
+and it sits in a section a grammar change is otherwise read from.
 [What packing decides](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
-is taken with `sonda/pakowanie.py` over Składnica and over the README,
-and what moves it is any production added or dropped,
-any change to the features a production releases,
-and any change to the readings a form is given —
-`admissible` in `olski/subset.py` stands between the corpus and the count
-the same way it does further up this list.
-One of the three runs beside those figures is there to say where not to take them:
-under gold morphology almost nothing separates,
-so a figure from that run would be a figure about the annotation.
-`tests/test_pakowanie.py` holds the two sentences the argument rests on
-and nothing about the counts.
+prices a table the parser was given instead of the one it has,
+and both the probe that took the figures
+and the enumerator they were measured against are gone.
+The section says so in the paragraph above them.
+What a test holds there is the two sentences the argument rests on,
+in `tests/test_subset.py`, where they now guard the counting itself,
+and nothing about those figures.
 
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —

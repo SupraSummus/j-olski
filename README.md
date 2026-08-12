@@ -83,7 +83,7 @@ Nowa program zapisuje ustawienia."
                   one reading
                   - Object: plik konfiguracyjny, Verb: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 readings, differing in Modifier, Object, Subject
+                  6 readings, differing in Object, Subject; „z dodatkami” → „Koszt samej szynki przewyższa koszt szynki”, „koszt szynki”, „szynki”
                   - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → szynki
                   - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt szynki
                   - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → Koszt samej szynki przewyższa koszt szynki
@@ -98,6 +98,9 @@ Nowa program zapisuje ustawienia."
 Czytania szynki różnią się szykiem i tym, do czego dochodzi `z dodatkami`.
 Pierwsze i czwarte dzieli sam szyk,
 a podmiot jednego jest dopełnieniem drugiego.
+Wiersz werdyktu nazywa przy tym sam wybór, a nie wylicza jego skutków:
+wierszy jest tyle, ile zdanie zostawia nierozstrzygniętych przyłączeń,
+a czytań bywa tyle, ile ich iloczyn.
 
 Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim:
 `Nowa program` nie ma wyprowadzenia,

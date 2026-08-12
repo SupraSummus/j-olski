@@ -11,10 +11,11 @@ pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
-from olski.parse import LeftRecursion, parse, wyprowadzenia
+from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Pozycja, las, parse
 from olski.subset import (
     FRAGMENT,
     GRAMMAR,
+    PRZYŁĄCZANY,
     PRZYŁĄCZENIA,
     WALENCJA,
     WALENCJA_ZWROTNA,
@@ -55,10 +56,29 @@ def test_a_feature_a_word_does_not_have_cannot_disagree():
     assert unify(frozenset({("case", V("c"))}), {}, EMPTY) is not None
 
 
-def test_a_left_recursive_grammar_is_reported_rather_than_looped_on():
+def test_lewa_rekursja_wyprowadza_się_zamiast_zapętlać():
+    #  Zakaz lewej rekursji był ceną enumeratora zstępującego, a tablica Earleya
+    #  jej nie płaci: `A` rośnie tu w lewo o interpunkcję i domyka się na
+    #  rzeczowniku, a czytanie wychodzi jedno. Wraca przez to wybór, którego olski
+    #  nie miał: koordynację wolno teraz napisać jedną produkcją zamiast trzech
+    #  poziomów, i TODO.md trzyma, co ten zapis rusza.
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("A"), word("interp")])
-    with pytest.raises(LeftRecursion):
+    grammar.rule("A", [word("subst")])
+    [reading] = parse(grammar, morphology("plik.")).readings
+    assert reading.span == (0, 2)
+    assert [node.span for node in reading.find("A")] == [(0, 2), (0, 1)]
+
+
+def test_pozycja_stojąca_sama_pod_sobą_jest_zgłaszana_zamiast_liczona():
+    #  Czytań jest wtedy nieskończenie wiele, więc liczba z takiego lasu nie jest
+    #  liczbą. Wychodzi to dopiero na produkcji jednostkowej w cyklu, bo lewa
+    #  rekursja przez terminal rozpiętość powiększa i cyklu nie robi.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [nt("B")])
+    grammar.rule("B", [nt("A")])
+    grammar.rule("B", [word("subst"), word("interp")])
+    with pytest.raises(Cykl):
         parse(grammar, morphology("plik."))
 
 
@@ -68,6 +88,8 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     #  Produkcji o pustym ciele gramatyka olskiego nie ma, więc test buduje własną:
     #  sprawdzić to można bez dopisywania do niej produkcji,
     #  choć zażąda tego dopiero rozwinięcie szyku do warunków precedencji.
+    #  Jest to zarazem jedyne przejście przez pustą produkcję w tablicy Earleya,
+    #  gdzie żąda ona osobnej obsługi, więc test pilnuje i tego.
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("Puste"), word("subst"), word("interp")])
     grammar.rule("Puste", [])
@@ -78,20 +100,107 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     assert reading.span == (0, 2)
 
 
-def test_tablica_trzyma_konstytuent_którego_rodzic_nie_wziął():
-    """Wyprowadzenie odrzucone przez unifikację zostaje w tablicy, choć nie ma go w czytaniu.
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Pod jedną pozycją stoją tu dwie produkcje, a rodzic przyjmuje jedną,
+        #  więc iloczyn liczony po samych pozycjach naliczyłby dwa czytania.
+        "Zobacz docs/subset.md.",
+        #  Tu jest odwrotnie: jeden kształt przechodzi na dwa sposoby, więc dwa
+        #  naliczyłaby pozycja rozdzielona po cechach.
+        "Projekt jest dla przyjemności.",
+    ],
+)
+def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str):
+    """Oba nadmiary są z przeciwnych stron, i las nie ma prawa na żaden z nich wpaść.
 
-    Na tym stoi pomiar pakowania: nadmiar sumy iloczynów bierze się dokładnie z
-    tych wyprowadzeń, więc tablica, która oddawałaby samo to, co przeszło do
-    korzenia, nie miałaby czego mierzyć. `zobacz` ma ramę domyślną, w której
-    narzędnika nie ma, a notacja rejestru stoi w każdym przypadku naraz, więc
-    `Predicative` buduje się nad nią i ginie dopiero u rodzica.
+    Zdanie, które przestało pokazywać swój nadmiar, zabiera podstawę wywodowi z
+    docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania, i nie widać
+    tego po żadnej liczbie: test przechodziłby wtedy sam z siebie.
     """
+    wynik = parse(GRAMMAR, morphology(zdanie))
+    assert wynik.ile == len(wynik.readings) == 1, wynik.status
+
+
+def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():
+    #  To jest przesłanka pierwszego z tych dwóch zdań i nie widać jej po liczbie
+    #  czytań: tablica domyka pozycję, gdy produkcja doszła do końca ciała, a o
+    #  cechy pyta dopiero unifikacja po lesie. `zobacz` ma ramę domyślną, bez
+    #  narzędnika, a notacja rejestru dostaje czytanie nieodmienne i przechodzi w
+    #  każdym przypadku, więc `Predicative` buduje się nad nią i ginie u rodzica.
     segments = morphology("Zobacz docs/subset.md.")
     [reading] = parse(GRAMMAR, segments).readings
     assert not reading.find("Predicative")
-    zbudowane = wyprowadzenia(GRAMMAR, segments)
-    assert [node.span for node in zbudowane if node.label == "Predicative"] == [(1, 2)]
+    assert las(GRAMMAR, segments).wyprowadzenia(Pozycja("Predicative", (1, 2)))
+
+
+def test_liczba_czytań_nie_urywa_się_tam_gdzie_lista_czytań():
+    """Werdykt nad zdaniem o siedmiu przyłączeniach ma być liczbą, a nie „64+”.
+
+    Las liczy sumą po klasach korzenia, więc `MAX_READINGS` ogranicza wypisywanie
+    drzew i nie ogranicza liczenia ich.
+    """
+    zdanie = (
+        "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci "
+        "w firmie w kraju w Polsce."
+    )
+    wynik = parse(GRAMMAR, morphology(zdanie))
+    assert wynik.ile == 128
+    assert len(wynik.readings) == MAX_READINGS
+    assert wynik.truncated
+
+
+def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
+    """Wpisów jest tyle, ile nierozstrzygniętych wyborów, a nie ile czytań.
+
+    Iloczyn rośnie tu z każdym wyrażeniem przyimkowym, a wyborów jest po jednym na
+    wyrażenie, i to jest ta różnica, dla której werdykt pyta las, a nie listę
+    czytań (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
+    """
+    zdanie = "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
+    wynik = parse(GRAMMAR, morphology(zdanie), attaching=PRZYŁĄCZANY, hosts=PRZYŁĄCZENIA)
+    assert wynik.ile == 64
+    przyłączenia = wynik.przyłączenia
+    assert [p.modyfikator for p in przyłączenia] == [
+        "w pliku",
+        "w katalogu",
+        "w systemie",
+        "w sieci",
+        "w firmie",
+        "w kraju",
+    ]
+    assert przyłączenia[0].gospodarze == ("Program zapisuje ustawienia", "ustawienia")
+    assert przyłączenia[-1].gospodarze == (
+        "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie",
+        "firmie",
+    )
+
+
+def test_gospodarzy_o_jednej_nazwie_rozdziela_symbol_konstytuenta():
+    """Grupa imienna na czele zdania ma z tym zdaniem wspólny materiał przed modyfikatorem.
+
+    Nazwa gospodarza jest ciągiem wziętym ze zdania, bo głowy nie wyróżnia żadna
+    produkcja, więc bez symbolu oba wychodzą jednym napisem i werdykt milczy o
+    wyborze, który zdanie zostawia. Zdanie stoi w
+    docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem
+    wypisane razem z werdyktem.
+    """
+    found = verdict("Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.")
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.modyfikator == "w Rzeczypospolitej Polskiej"
+    assert przyłączenie.gospodarze == (
+        "Władza zwierzchnia (NP)",
+        "Władza zwierzchnia (ClauseConjunct)",
+    )
+
+
+def test_symbol_nie_dochodzi_tam_gdzie_gospodarzy_rozdziela_sam_materiał():
+    #  Symbol dopisany wszędzie byłby szumem, a poza tym dwie pozycje o jednej
+    #  nazwie bywają jednym wyborem: grupa imienna dłuższa o inny modyfikator jest
+    #  tą samą grupą imienną. Dlatego symbol dochodzi dopiero przy zderzeniu nazw.
+    found = verdict("Sejm sprawuje kontrolę nad działalnością Rady Ministrów.")
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("Sejm sprawuje kontrolę", "kontrolę")
 
 
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
@@ -431,18 +540,22 @@ def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
     assert set(PRZYŁĄCZENIA) <= {production.head for production in GRAMMAR.productions}
 
 
-def test_werdykt_nie_nazywa_ani_jednego_z_nierozstrzygniętych_przyłączeń():
-    #  Przypięta jest tu usterka, a nie własność, i po to jest ten komentarz:
-    #  drugie zdanie ma sześć nierozstrzygniętych przyłączeń i szesnaście razy
-    #  więcej czytań niż pierwsze, a werdykt oddaje ten sam napis. Kiedy werdykt
-    #  zacznie wskazywać same przyłączenia, ten test padnie, i wtedy razem z nim
-    #  idzie sekcja docs/design-notes.md, która na tych dwóch napisach stoi.
+def test_werdykt_rośnie_z_liczbą_wyborów_a_nie_z_liczbą_czytań():
+    #  Drugie zdanie ma szesnaście razy więcej czytań niż pierwsze i trzy razy
+    #  więcej nierozstrzygniętych przyłączeń, i to ta druga krotność ma stać w
+    #  werdykcie. Na tych dwóch napisach stoi sekcja docs/design-notes.md o
+    #  werdykcie jako zapytaniu o las, więc padają razem.
     dwa = verdict("Program zapisuje ustawienia w pliku w katalogu.")
     sześć = verdict(
         "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
     )
-    assert dwa.explain() == "4 readings, differing in Modifier, Object"
-    assert sześć.explain() == "64+ readings, differing in Modifier, Object"
+    assert dwa.explain() == (
+        "4 readings, differing in Object; "
+        "„w pliku” → „Program zapisuje ustawienia”, „ustawienia”; "
+        "„w katalogu” → „Program zapisuje ustawienia w pliku”, „pliku”"
+    )
+    assert sześć.explain().count(PRZYŁĄCZONY_DO) == 6
+    assert sześć.explain().startswith("64 readings, differing in Object; „w pliku” → ")
 
 
 @pytest.mark.parametrize(
@@ -540,8 +653,10 @@ def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
     #  żeby jedno zdanie wychodziło dwoma kształtami drzewa. Nie widać tego po
     #  werdykcie, bo zdanie jest wieloznaczne w jedną i w drugą stronę, i nie widać
     #  po rolach, bo obie pary przyłączeń zostają te same; widać po liczbie czytań.
+    #  Werdykt nazywa tu jedno przyłączenie z dwóch, i to jest ta ostrość, którą
+    #  las kupuje: `w pliku` dochodzi do zdania w obu czytaniach.
     found = verdict("Program zapisuje w pliku w katalogu.")
-    assert found.explain() == "2 readings, differing in Modifier"
+    assert found.explain() == '2 readings; „w katalogu” → „Program zapisuje w pliku”, „pliku”'
 
 
 @pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])

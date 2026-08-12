@@ -265,7 +265,27 @@ a nad Składnicą jest to 27% (119 wieloznacznych na 437 przeczytanych).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
-Najdłuższe urywają się na 64 czytaniach, czyli na `MAX_READINGS` z `olski/parse.py`.
+Najdłuższe mają czytań tyle, że liczba przestaje o czymkolwiek mówić:
+
+```sh
+python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -rn | head -3
+```
+
+Osiemnaście zdań ma ich więcej niż 64, a najwięcej ma 28 042.
+Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
+a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań i nie sięga liczenia.
+
+Werdykt nad tym najdłuższym nazywa dwa przyłączenia,
+jedno o dwóch gospodarzach i jedno o czterech,
+i to samo mówi, ile z 28 042 czytań on wyjaśnia:
+osiem, a resztę zostawia bez nazwy.
+Zdanie jest wyliczeniem siedmiu grup imiennych
+spiętych przecinkiem i spójnikiem —
+`ministrów, sekretarzy stanu i podsekretarzy stanu, …` —
+a olski bierze [współrzędność na trzech poziomach](subset.md#nothing-above-a-coordination-distributes-into-it),
+więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
+Ile ich dokładnie i czy to one dobijają do tej liczby, nikt nie policzył,
+i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
 
 Kształt tej wieloznaczności widać najkrócej nad zdaniami,
 których w tym korpusie nie ma:
@@ -279,9 +299,9 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 
 ```text
 <text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
-                  4 readings, differing in Subject
+                  4 readings, differing in Subject; „w Rzeczypospolitej Polskiej” → „Władza zwierzchnia (NP)”, „Władza zwierzchnia (ClauseConjunct)”
 <text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
-                  2 readings, differing in Modifier, Object
+                  2 readings, differing in Object; „nad działalnością Rady Ministrów” → „Sejm sprawuje kontrolę”, „kontrolę”
 ```
 
 Drugie z tych zdań pokazuje, dlaczego 221 nie jest liczbą przepisów niejednoznacznych:
@@ -305,8 +325,8 @@ gdzie werdykt „wieloznaczne” ma adresata poza autorem tekstu.
 ## Gdzie stają analizy w tym rejestrze
 
 ```sh
-python3 -m olski.check proza/ustawy/*.txt | grep -oP '(?<=„)[^”]+(?=”)' \
-  | sort | uniq -c | sort -rn | head -20
+python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' \
+  | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
 Z 4631 odrzuceń 3799 stanęło na formie, której żadna produkcja nie bierze,

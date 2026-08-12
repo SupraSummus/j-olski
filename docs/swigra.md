@@ -307,13 +307,16 @@ but whether the gold reading is in the forest
 and how deeply it is buried among alternatives.
 
 That is a better question than the one olski asks of Składnica,
-and olski cannot ask it with the parser it has.
-`olski/parse.py` enumerates distinct readings and builds no forest to walk,
-so this measurement waits on the chart parser that
-[design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
-argues for and orders,
-where what asks for the forest first is the verdict rather than any measurement.
-This is the reason for it that comes from the measurement rather than the report.
+and there is now a forest to walk for it.
+`Las` in `olski/parse.py` holds the packed positions and counts the readings
+without enumerating them,
+so the depth a gold reading is buried at is no longer behind a truncated list.
+What the measurement still has to settle is where a gold tree meets a position,
+a position standing for a shape rather than for a tree,
+and [TODO.md](../TODO.md) holds that.
+The verdict is what asked for the forest first
+([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+and this is the reason for it that comes from the measurement instead.
 
 ## Sources
 
