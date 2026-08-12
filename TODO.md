@@ -123,6 +123,9 @@ so whichever entry is picked up first is answering for the other.
 `skład/`, `opowieści/`, `olski/walencja.py` and `harness/ustawy.py`
 break their comments at boundaries of meaning,
 and everything else in `olski/`, `harness/` and `sonda/` wraps to a column.
+`olski/parse.py` holds both kinds,
+which is what [lazy adoption](CLAUDE.md#adopt-these-rules-lazily) produces
+where a rule reaches a file already written the other way.
 The division follows neither track nor language:
 `olski/walenty.py` and `olski/wieloznaczność.py` wrap to a column
 though both stand in Polish
@@ -391,6 +394,19 @@ is the second copy of a fact that
 
 Werdykt nad zdaniem o kilku nierozstrzygniętych przyłączeniach nie mówi,
 o które przyłączenia idzie, i nie zdejmie tego szybsze wyliczanie.
+Widać to samo o wiersz niżej, w liście czytań:
+streszczenie nazywa konstytuent, do którego doszedł pierwszy modyfikator zdania,
+a o dalszych milczy,
+więc dwa czytania różne miejscem drugiego z nich wychodzą jednym wierszem.
+`Program zapisuje ustawienia w pliku w katalogu w systemie.`
+ma osiem czytań i sześć wierszy,
+a `Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.`
+([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem))
+ma cztery czytania i dwa wiersze.
+Nazwanie wszystkich modyfikatorów jest tą samą poprawką,
+którą tamten dokument wycenia i odrzuca:
+wierszy zostaje tyle, ile czytań, a każdy z nich rośnie,
+więc zdejmuje to dopiero werdykt wskazujący same przyłączenia.
 Do przeczytania jest wyjście dwóch poleceń,
 wraz z odrzuconym wyjściem tańszym, które te polecenia stawiają pod nosem,
 i trzyma jedno i drugie
@@ -519,17 +535,6 @@ więc wpis o parserze tablicowym nad lasem idzie przed tym.
 Kupuje to jeszcze jedną rzecz, którą sonda pokazała mimochodem:
 szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
 
-`Node.span` w `olski/parse.py` sięga po `children[0]` i po `children[-1]`,
-więc węzeł bez dzieci wywraca każdego, kto o rozpiętość zapyta,
-a niezmiennika „węzeł ma dziecko” nie pilnuje nic.
-Dziś nie kosztuje to nic, bo takiej produkcji w gramatyce nie ma,
-a wstawia ją pierwsza pozycja opcjonalna zwinięta produkcją pustą,
-czyli rozwinięcie szyku do warunków precedencji.
-Ruchem jest `span` odpowiadający także wtedy, gdy dzieci nie ma,
-wraz z testem na taki węzeł.
-Sprawdza się go bez ani jednej nowej produkcji,
-więc nie czeka na rozwinięcie szyku, choć to ono go zażąda.
-
 `sonda/polszczyzna.py` jest drugą deklaracją podzbioru,
 który deklaruje `olski/subset.py`,
 czyli tym drugim właścicielem faktu, przed którym broni
@@ -587,23 +592,6 @@ Wpis czeka więc na pozycję, która z inną naprawdę stoi,
 czyli na dopełnienie w celowniku obok biernika — `dać uczniowi książkę` —
 którego produkcji olski dziś nie ma;
 bez niej mechanizm rozwija się na jedną pozycję i nie liczy niczego.
-
-Raport nie odróżnia dwóch czytań, które różni samo miejsce przyłączenia.
-`Koszt samej szynki przewyższa koszt szynki z dodatkami.` ma sześć czytań,
-a `describe` w `olski/parse.py` streszcza je rolami z `ROLES`,
-więc dwie pary wychodzą z tego identyczne:
-`z dodatkami` dochodzi raz do `koszt`, a raz do `szynki`,
-i w obu przypadkach dopełnieniem jest ten sam `koszt szynki z dodatkami`,
-a modyfikatorem ten sam `z dodatkami`.
-Jest to dokładnie to rozróżnienie, dla którego
-[te pozycje](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-w gramatyce stoją.
-Ruchem jest nazwanie w streszczeniu tego, do czego modyfikator doszedł,
-czyli rozpiętości albo roli węzła, pod którym stoi;
-`Node` w `olski/parse.py` niesie rozpiętość, więc jest to pytanie o wydruk,
-a nie o parser.
-Do rozstrzygnięcia jest, czy `ROLES` zostaje listą ról,
-skoro to, co trzeba dopisać, rolą nie jest.
 
 Czytelnik Składnicy gubi węzeł bez słowa w dwóch miejscach,
 a gubi go z drzewa, na którym stoi zgodność ról, a nie samo przyjęcie zdania.

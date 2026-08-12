@@ -15,6 +15,7 @@ from olski.parse import LeftRecursion, parse
 from olski.subset import (
     FRAGMENT,
     GRAMMAR,
+    PRZYŁĄCZENIA,
     WALENCJA,
     WALENCJA_ZWROTNA,
     admissible,
@@ -59,6 +60,22 @@ def test_a_left_recursive_grammar_is_reported_rather_than_looped_on():
     grammar.rule("A", [nt("A"), word("interp")])
     with pytest.raises(LeftRecursion):
         parse(grammar, morphology("plik."))
+
+
+def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
+    #  Rozpiętość wyliczana z `children[0]` i `children[-1]` podnosi na takim węźle wyjątek,
+    #  a pyta o nią i zgodność ról z bankiem drzew, i streszczenie czytania.
+    #  Produkcji o pustym ciele gramatyka olskiego nie ma, więc test buduje własną:
+    #  sprawdzić to można bez dopisywania do niej produkcji,
+    #  choć zażąda tego dopiero rozwinięcie szyku do warunków precedencji.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [nt("Puste"), word("subst"), word("interp")])
+    grammar.rule("Puste", [])
+    [reading] = parse(grammar, morphology("plik.")).readings
+    [puste] = reading.find("Puste")
+    assert puste.children == ()
+    assert puste.span == (0, 0)
+    assert reading.span == (0, 2)
 
 
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
@@ -205,7 +222,11 @@ def test_a_fronted_modifier_belongs_to_the_clause_and_not_to_the_subject():
     #  the same phrase between the subject and the verb come out valid and wrong.
     roles = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings[0]
     assert roles["Subject"] == "chałka"
-    assert roles["Modifier"] == "Pod względem smaku"
+    #  Streszczenie nazywa konstytuent, do którego przyłączenie doszło, więc
+    #  zdanie z nazwy tego testu stoi w samym napisie, a nie tylko w podmiocie
+    #  obok. Wysunięty modyfikator nie ma przed sobą nic, więc nazywa go to, co
+    #  stoi za nim.
+    assert roles["Modifier"] == "Pod względem smaku → chałka przewyższa zwykłą bułkę"
 
 
 def test_object_first_order_is_polish_and_is_read_that_way():
@@ -358,6 +379,42 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     assert len({reading["Object"] for reading in found.readings}) == 2
 
 
+def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniami():
+    #  W tym zdaniu stoją dwie wieloznaczności naraz i po rolach widać jedną:
+    #  dwie pary czytań różnią się samym miejscem, do którego doszło `z dodatkami`,
+    #  a formy nad nim stojące zostają w każdej parze te same.
+    #  Streszczenie, które przyłączenia nie nazywa, oddaje więc cztery napisy na sześć czytań
+    #  i o dwóch milczy, choć są to dwa różne zdania o szynce.
+    found = verdict("Koszt samej szynki przewyższa koszt szynki z dodatkami.")
+    napisy = {tuple(sorted(reading.items())) for reading in found.readings}
+    assert len(napisy) == len(found.readings) == 6
+    assert {reading["Modifier"] for reading in found.readings} == {
+        "z dodatkami → koszt szynki",
+        "z dodatkami → szynki",
+        "z dodatkami → Koszt samej szynki przewyższa koszt szynki",
+    }
+
+
+def test_streszczenie_wiąże_okolicznik_ze_zdaniem_a_nie_z_dopełnieniem():
+    #  `Adjuncts` stoi w drzewie pod `Complements`, czyli tuż obok dopełnienia,
+    #  więc przyłączenie wzięte z najbliższego węzła z materiałem obok
+    #  nazwałoby okolicznik zdania określeniem dopełnienia —
+    #  i byłoby to akurat to drugie czytanie, od którego olski to pierwsze odróżnia.
+    found = verdict("Program zapisuje ustawienia w pliku w katalogu.")
+    zdaniowe = [reading for reading in found.readings if reading["Object"] == "ustawienia"]
+    assert {reading["Modifier"] for reading in zdaniowe} == {
+        "w pliku → Program zapisuje ustawienia",
+        "w pliku w katalogu → Program zapisuje ustawienia",
+    }
+
+
+def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
+    #  Symbol przemianowany w `build` nie zgłasza się tu niczym:
+    #  streszczenie nazywa wtedy całe zdanie zamiast grupy, do której przyłączenie doszło,
+    #  a żaden werdykt ani żadna liczba czytań się przez to nie rusza.
+    assert set(PRZYŁĄCZENIA) <= {production.head for production in GRAMMAR.productions}
+
+
 def test_werdykt_nie_nazywa_ani_jednego_z_nierozstrzygniętych_przyłączeń():
     #  Przypięta jest tu usterka, a nie własność, i po to jest ten komentarz:
     #  drugie zdanie ma sześć nierozstrzygniętych przyłączeń i szesnaście razy
@@ -414,9 +471,9 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     )
     assert found.status == "ambiguous"
     assert {reading["Modifier"] for reading in found.readings} == {
-        "wobec innych",
-        "wobec innych w duchu",
-        "wobec innych w duchu braterstwa",
+        "wobec innych → powinni postępować",
+        "wobec innych w duchu → powinni postępować",
+        "wobec innych w duchu braterstwa → powinni postępować",
     }
 
 
@@ -571,7 +628,7 @@ def test_a_preposition_is_not_also_read_as_the_note_of_the_same_name():
     #  docs/corpus.md counts how much of the corpus that reaches.
     found = verdict("Jedziemy do Włoch.")
     assert found.status == "valid", found.explain()
-    assert found.readings[0]["Modifier"] == "do Włoch"
+    assert found.readings[0]["Modifier"] == "do Włoch → Jedziemy"
 
 
 def test_an_uninflected_noun_stays_where_its_form_is_only_a_noun():

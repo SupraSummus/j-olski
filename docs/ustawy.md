@@ -281,7 +281,7 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 <text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
                   4 readings, differing in Subject
 <text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
-                  2 readings, differing in Object
+                  2 readings, differing in Modifier, Object
 ```
 
 Drugie z tych zdań pokazuje, dlaczego 221 nie jest liczbą przepisów niejednoznacznych:

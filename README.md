@@ -81,7 +81,7 @@ python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings
                   one reading
                   - Object: plik konfiguracyjny, Verb: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 readings, differing in Object, Subject
+                  6 readings, differing in Modifier, Object, Subject
 <text>: rejected  Nowa program zapisuje ustawienia.
                   no reading: nothing in olski derives this
 ```
