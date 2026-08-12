@@ -439,26 +439,6 @@ w tabelach obu tych dokumentów.
 Wpis jest winien przebiegi, których
 [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w mianowniku.
 
-Rozbiór dostaje deklarację gramatyki po jednym parametrze na podsumowanie.
-`parse` w `olski/parse.py` bierze dziś `attaching`, `hosts` i `roles`,
-`describe` obok niego bierze te same trzy jeszcze raz i w innej kolejności,
-a `olski/subset.py` podaje w obu wywołaniach tę samą trójkę stałych,
-raz przez `check`, a raz przez `Verdict.readings`.
-Parametr trzeci przyszedł razem z rolami różniącymi czytania,
-a czwartego zażąda podsumowanie następne,
-bo które symbole są rolami, wie gramatyka, a nie rozbiór,
-i to się nie zmieni.
-Ruchem jest jedna deklaracja niesiona razem, zamiast trzech pól przekazywanych osobno.
-Do rozstrzygnięcia jest, gdzie ona stoi:
-w `olski/parse.py` jako typ, który `olski/subset.py` wypełnia,
-albo w `olski/subset.py` jako to, co gramatyka o sobie mówi.
-Do przeczytania są oba wywołania w `check` i w `Verdict.readings`
-wraz z sygnaturami `parse` i `describe`.
-Przeciw: dziś nikt się na tym nie potknął,
-bo `attaching` i `hosts` różnią się typem, więc zamienione miejscami nie przejdą,
-a wołający, który podsumowań nie potrzebuje — `olski/coverage.py` i `sonda/przecinek.py` —
-nie podaje dziś żadnego z tych pól i po zmianie importowałby typ po to, żeby nic nie podać.
-
 Gospodarza przyłączenia nazywa materiał przed modyfikatorem, a nie głowa.
 Werdykt nad zdaniem wieloznacznym wskazuje przyimek i konstytuenty,
 do których dochodzi, a nazywa je ciągiem wziętym ze zdania,

@@ -88,7 +88,7 @@ ZNAKI_LISTY = ("i", ",")
 CZASOWNIKOWE = ("fin", "praet", "inf")
 
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
-#: Ta sama piątka stoi w ``ROLES`` w ``olski/subset.py``, gdzie jest listą ról
+#: Ta sama piątka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
 POZYCJE = ("Subject", "Object", "Predicative", "Verb", "Modifier")

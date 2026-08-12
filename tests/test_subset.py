@@ -13,10 +13,9 @@ from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Pozycja, las, parse
 from olski.subset import (
+    DEKLARACJA,
     FRAGMENT,
     GRAMMAR,
-    PRZYŁĄCZANY,
-    PRZYŁĄCZENIA,
     WALENCJA,
     WALENCJA_ZWROTNA,
     admissible,
@@ -190,7 +189,7 @@ def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
     czytań (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
     """
     zdanie = "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
-    wynik = parse(GRAMMAR, morphology(zdanie), attaching=PRZYŁĄCZANY, hosts=PRZYŁĄCZENIA)
+    wynik = parse(GRAMMAR, morphology(zdanie), deklaracja=DEKLARACJA)
     assert wynik.ile == 64
     przyłączenia = wynik.przyłączenia
     assert [p.modyfikator for p in przyłączenia] == [
@@ -569,7 +568,7 @@ def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
     #  Symbol przemianowany w `build` nie zgłasza się tu niczym:
     #  streszczenie nazywa wtedy całe zdanie zamiast grupy, do której przyłączenie doszło,
     #  a żaden werdykt ani żadna liczba czytań się przez to nie rusza.
-    assert set(PRZYŁĄCZENIA) <= {production.head for production in GRAMMAR.productions}
+    assert set(DEKLARACJA.gospodarze) <= {production.head for production in GRAMMAR.productions}
 
 
 def test_werdykt_rośnie_z_liczbą_wyborów_a_nie_z_liczbą_czytań():

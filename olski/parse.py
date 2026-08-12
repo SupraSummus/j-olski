@@ -188,6 +188,27 @@ class Przyłączenie:
     gospodarze: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class Deklaracja:
+    """Co gramatyka mówi o sobie podsumowaniom werdyktu.
+
+    Które symbole są rolami i gdzie szukać przyłączenia, wie gramatyka, a nie rozbiór,
+    więc :func:`parse` i :func:`describe` biorą to jedną wartością:
+    podsumowanie następne dokłada tutaj pole i nie rusza żadnej z dwóch sygnatur.
+    Wypełnia ją gramatyka, a typ definiuje rozbiór:
+    żądają go te dwie funkcje i nikt poza nimi,
+    a formalizm z ``olski/grammar.py`` niesie produkcje i o werdykcie nic nie wie.
+    """
+
+    #: Role, którymi streszcza się czytanie i o które czytania mogą się różnić.
+    role: tuple[str, ...]
+    #: Ta z ról, która się przyłącza,
+    #: czyli ta, przy której streszczenie nazywa jeszcze gospodarza.
+    przyłączany: str
+    #: Symbole konstytuentów, w których produkcjach to przyłączenie stoi.
+    gospodarze: tuple[str, ...]
+
+
 @dataclass
 class Result:
     """What the parser concluded about one sentence."""
@@ -205,12 +226,12 @@ class Result:
     #: Czy wyliczanie stanęło na :data:`MAX_READINGS`,
     #: czyli czy lista czytań jest krótsza niż :attr:`ile`.
     truncated: bool = False
-    #: Role, o które czytania się różnią, o ile :func:`parse` dostał ich listę.
+    #: Role, o które czytania się różnią, o ile :func:`parse` dostał :class:`Deklaracja`.
     #: Wzięte z lasu, a nie ze streszczeń, których jest najwyżej :data:`MAX_READINGS`;
     #: dlaczego, mówi :meth:`Las.różniące`.
     różniące: tuple[str, ...] = ()
     #: Przyłączenia, których czytania nie rozstrzygają,
-    #: o ile :func:`parse` dostał deklarację, gdzie one w gramatyce stoją.
+    #: z tej samej deklaracji co :attr:`różniące`.
     #: Wpisane tu, a nie odpytywane z lasu:
     #: las jednego zdania waży tyle, ile jego tablica,
     #: a werdyktów trzyma się naraz tyle, ile dokument ma zdań.
@@ -251,20 +272,12 @@ def parse(
     grammar: Grammar,
     segments: list[Segment],
     start: str | None = None,
-    attaching: str | None = None,
-    hosts: Sequence[str] = (),
-    roles: Sequence[str] = (),
+    deklaracja: Deklaracja | None = None,
 ) -> Result:
     """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte.
 
-    ``attaching`` wraz z ``hosts`` to ta sama deklaracja gramatyki,
-    jaką przyjmuje :func:`describe`:
-    która rola się przyłącza i w produkcjach których symboli.
-    ``roles`` wylicza role, o które czytania mogą się różnić, czyli to samo,
-    co :func:`describe` wypisuje w streszczeniu.
-    Bez tych deklaracji werdykt jest liczbą i listą czytań,
-    bo które symbole są rolami i gdzie szukać przyłączenia,
-    wie gramatyka, a nie rozbiór.
+    Bez deklaracji werdykt jest samą liczbą i listą czytań;
+    co ona niesie i czemu jest jedna, mówi :class:`Deklaracja`.
     """
     zbudowany = las(grammar, segments, start)
     ile = zbudowany.ile_czytań()
@@ -273,15 +286,21 @@ def parse(
         readings.append(tree)
         if len(readings) >= MAX_READINGS:
             break
+    różniące, przyłączenia = (
+        ((), ())
+        if deklaracja is None
+        else (
+            zbudowany.różniące(deklaracja.role),
+            tuple(zbudowany.przyłączenia(deklaracja.przyłączany, deklaracja.gospodarze)),
+        )
+    )
     return Result(
         ile,
         readings,
         zbudowany.najdalszy(),
         truncated=ile > len(readings),
-        różniące=zbudowany.różniące(roles),
-        przyłączenia=(
-            () if attaching is None else tuple(zbudowany.przyłączenia(attaching, hosts))
-        ),
+        różniące=różniące,
+        przyłączenia=przyłączenia,
     )
 
 
@@ -1011,9 +1030,7 @@ class Las:
 PRZYŁĄCZONY_DO = " → "
 
 
-def describe(
-    node: Node, roles: tuple[str, ...], attaching: str, hosts: tuple[str, ...]
-) -> dict[str, str]:
+def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     """Streszczenie czytania: co stoi w której roli i do czego doszedł modyfikator.
 
     Dwa czytania jednego zdania gdzieś się różnią,
@@ -1023,16 +1040,14 @@ def describe(
     i formy stojące nad nią zostają wtedy te same:
     ``koszt szynki z dodatkami`` jest tym samym dopełnieniem niezależnie od tego,
     czy ``z dodatkami`` doszło do ``koszt``, czy do ``szynki``.
-    Rola ``attaching`` dostaje więc obok wypełnienia to, co modyfikator określa.
+    Rola przyłączana dostaje więc obok wypełnienia to, co modyfikator określa.
 
     Żąda tego jedna rola, bo jedną gramatyka zostawia nierozstrzygniętą rozmyślnie:
     podmiot i dopełnienie rozstrzyga przypadek,
     a pozycje przyłączeniowe stoją po to, żeby dać oba czytania
     (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
     Dopisane jest wypełnienie, a nie pozycja obok niego,
-    więc ``roles`` zostaje listą ról.
-    ``hosts`` wylicza symbole konstytuentów, do których przyłączenie dochodzi,
-    i jest deklaracją gramatyki, a nie wiedzą tego wydruku.
+    więc :attr:`Deklaracja.role` zostaje listą ról.
 
     Nazwany jest pierwszy modyfikator czytania i tylko on,
     więc dwa czytania różne miejscem drugiego wychodzą stąd jednym napisem.
@@ -1041,13 +1056,13 @@ def describe(
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
     """
     summary = {}
-    for role in roles:
+    for role in deklaracja.role:
         found = node.find(role)
         if not found:
             continue
         summary[role] = " ".join(found[0].forms())
-        if role == attaching:
-            summary[role] += PRZYŁĄCZONY_DO + _attachment(node, found[0], hosts)
+        if role == deklaracja.przyłączany:
+            summary[role] += PRZYŁĄCZONY_DO + _attachment(node, found[0], deklaracja.gospodarze)
     return summary
 
 
@@ -1057,7 +1072,7 @@ def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
     Ani węzeł, pod którym modyfikator stoi bezpośrednio,
     ani najbliższy węzeł z materiałem obok na to pytanie nie odpowiadają:
     okolicznik zdania stoi w drzewie tuż obok dopełnienia, którego nie określa.
-    Odpowiada konstytuent nazwany w ``hosts``,
+    Odpowiada konstytuent wyliczony w :attr:`Deklaracja.gospodarze`,
     czyli ten, w którego produkcji to przyłączenie stoi.
     """
     gospodarz = _host(root, modifier, hosts, root)
