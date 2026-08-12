@@ -439,25 +439,25 @@ w tabelach obu tych dokumentów.
 Wpis jest winien przebiegi, których
 [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w mianowniku.
 
-`differing in` bierze się z listy czytań uciętej po 64, a liczba obok niej nie.
-`explain` w `olski/subset.py` nazywa role, które się między czytaniami różnią,
-i czyta do tego `Verdict.readings`,
-więc nad zdaniem o 28 042 czytaniach
-([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem))
-pyta o 64 z nich i o resztę nie pyta.
-Rola różniąca się dopiero poza tą granicą nie zostaje więc nazwana,
-a werdykt tego po sobie nie pokazuje.
-Las odpowiada na to bez granicy, bo pozycje ról stoją w nim wyliczone,
-i tą samą drogą, którą wyszły przyłączenia.
-Do rozstrzygnięcia jest, czym jest wtedy „ta sama rola w dwóch czytaniach”:
-streszczenie bierze pierwszy węzeł roli w drzewie,
-a nad lasem trzeba powiedzieć, które pozycje jednej etykiety są tym samym wystąpieniem,
-i dopiero to mówi, czy porównywać rozpiętości, czy formy.
-Do przeczytania jest `describe` w `olski/parse.py` wraz z `explain` obok niego.
-Ruchem jest zbiór rozpiętości żywych pozycji roli, wzięty z `Las`,
-w miejsce zbioru napisów ze streszczeń.
-Rusza to napisy werdyktu nad zdaniami dłuższymi niż 64 czytania,
-więc wpis jest winien przebieg nad rejestrem ustaw i poprawione zdania w tamtym dokumencie.
+Rozbiór dostaje deklarację gramatyki po jednym parametrze na podsumowanie.
+`parse` w `olski/parse.py` bierze dziś `attaching`, `hosts` i `roles`,
+`describe` obok niego bierze te same trzy jeszcze raz i w innej kolejności,
+a `olski/subset.py` podaje w obu wywołaniach tę samą trójkę stałych,
+raz przez `check`, a raz przez `Verdict.readings`.
+Parametr trzeci przyszedł razem z rolami różniącymi czytania,
+a czwartego zażąda podsumowanie następne,
+bo które symbole są rolami, wie gramatyka, a nie rozbiór,
+i to się nie zmieni.
+Ruchem jest jedna deklaracja niesiona razem, zamiast trzech pól przekazywanych osobno.
+Do rozstrzygnięcia jest, gdzie ona stoi:
+w `olski/parse.py` jako typ, który `olski/subset.py` wypełnia,
+albo w `olski/subset.py` jako to, co gramatyka o sobie mówi.
+Do przeczytania są oba wywołania w `check` i w `Verdict.readings`
+wraz z sygnaturami `parse` i `describe`.
+Przeciw: dziś nikt się na tym nie potknął,
+bo `attaching` i `hosts` różnią się typem, więc zamienione miejscami nie przejdą,
+a wołający, który podsumowań nie potrzebuje — `olski/coverage.py` i `sonda/przecinek.py` —
+nie podaje dziś żadnego z tych pól i po zmianie importowałby typ po to, żeby nic nie podać.
 
 Gospodarza przyłączenia nazywa materiał przed modyfikatorem, a nie głowa.
 Werdykt nad zdaniem wieloznacznym wskazuje przyimek i konstytuenty,

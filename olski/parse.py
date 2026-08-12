@@ -23,9 +23,10 @@ An Earley chart over the segmentation graph builds a forest with shared nodes:
 one :class:`Pozycja` per constituent shape,
 however many derivations stand under it,
 so six undecided attachments are six positions rather than sixty-four trees.
-Three summaries come off that forest and none of them needs another parser:
+Four summaries come off that forest and none of them needs another parser:
 how many readings there are,
 which of them a reader is shown,
+which roles the readings disagree about,
 and which attachment the sentence leaves open.
 docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
@@ -204,6 +205,10 @@ class Result:
     #: Czy wyliczanie stanęło na :data:`MAX_READINGS`,
     #: czyli czy lista czytań jest krótsza niż :attr:`ile`.
     truncated: bool = False
+    #: Role, o które czytania się różnią, o ile :func:`parse` dostał ich listę.
+    #: Wzięte z lasu, a nie ze streszczeń, których jest najwyżej :data:`MAX_READINGS`;
+    #: dlaczego, mówi :meth:`Las.różniące`.
+    różniące: tuple[str, ...] = ()
     #: Przyłączenia, których czytania nie rozstrzygają,
     #: o ile :func:`parse` dostał deklarację, gdzie one w gramatyce stoją.
     #: Wpisane tu, a nie odpytywane z lasu:
@@ -248,14 +253,18 @@ def parse(
     start: str | None = None,
     attaching: str | None = None,
     hosts: Sequence[str] = (),
+    roles: Sequence[str] = (),
 ) -> Result:
     """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte.
 
     ``attaching`` wraz z ``hosts`` to ta sama deklaracja gramatyki,
     jaką przyjmuje :func:`describe`:
     która rola się przyłącza i w produkcjach których symboli.
-    Bez niej werdykt jest liczbą i listą czytań,
-    bo gdzie w gramatyce szukać przyłączenia, wie gramatyka, a nie rozbiór.
+    ``roles`` wylicza role, o które czytania mogą się różnić, czyli to samo,
+    co :func:`describe` wypisuje w streszczeniu.
+    Bez tych deklaracji werdykt jest liczbą i listą czytań,
+    bo które symbole są rolami i gdzie szukać przyłączenia,
+    wie gramatyka, a nie rozbiór.
     """
     zbudowany = las(grammar, segments, start)
     ile = zbudowany.ile_czytań()
@@ -269,6 +278,7 @@ def parse(
         readings,
         zbudowany.najdalszy(),
         truncated=ile > len(readings),
+        różniące=zbudowany.różniące(roles),
         przyłączenia=(
             () if attaching is None else tuple(zbudowany.przyłączenia(attaching, hosts))
         ),
@@ -448,7 +458,7 @@ class _Tablica:
 
 
 class Las:
-    """Las ze współdzielonymi węzłami i trzy podsumowania, jakie z niego wychodzą.
+    """Las ze współdzielonymi węzłami i cztery podsumowania, jakie z niego wychodzą.
 
     Taki las odpowiada na pytanie olskiego pod dwoma warunkami.
     Jedną pozycję dostaje to, co jest jednym czytaniem,
@@ -485,6 +495,10 @@ class Las:
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
         self._rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] | None = None
         self._prefiksy: dict[tuple, frozenset[Env]] = {}
+        #: (para, etykieta) → rozpiętości, jakie pierwszy węzeł tej etykiety pod nią bierze.
+        self._pierwsze_role: dict[
+            tuple[tuple[Pozycja, Klasa], str], frozenset[tuple[int, int] | None]
+        ] = {}
         self._formy: dict[Pozycja, list[tuple[tuple[int, int], str]]] = {}
         self._najdalszy: int | None = None
 
@@ -781,6 +795,73 @@ class Las:
             if bierze(część, reading.tag.pos, reading.lemma, cechy, EMPTY) is not None:
                 return Leaf(segment, reading)
         raise AssertionError(f"liść {dziecko.span} stoi w lesie bez czytania, które go bierze")
+
+    # -- role, o które czytania się różnią ---------------------------------- #
+
+    def różniące(self, role: Sequence[str]) -> tuple[str, ...]:
+        """Te z ról, które nie mają w każdym czytaniu tego samego wypełnienia.
+
+        Pytamy las, a nie streszczenia czytań.
+        Streszczeń jest najwyżej :data:`MAX_READINGS`,
+        a zdanie ustawy ma czytań dziesiątki tysięcy,
+        więc rola różniąca się dopiero za tą granicą nie zostałaby nazwana,
+        choć liczba obok niej granicy nie ma.
+
+        Jednym wystąpieniem roli jest to, które nazywa :func:`describe`,
+        czyli pierwsze w porządku wyprowadzenia.
+        Etykieta pada w czytaniu kilka razy, bo zdanie współrzędne ma własny podmiot,
+        a dwa podmioty stojące obok siebie w jednym czytaniu
+        nie mówią nic o różnicy między czytaniami.
+
+        Porównujemy rozpiętości, a nie formy:
+        formy nad jedną rozpiętością są w każdym czytaniu te same,
+        a różni je podział na segmenty, którego streszczenie i tak nie pokazuje.
+        Rozpiętość ``None`` jest czytaniem bez tej roli,
+        tak jak streszczenie bez tego klucza.
+        """
+        znalezione = []
+        for etykieta in role:
+            wystąpienia = {
+                rozpiętość
+                for klasa in self.klasy(self.korzeń)
+                for rozpiętość in self._pierwsza_rola((self.korzeń, klasa), etykieta)
+            }
+            if len(wystąpienia) > 1:
+                znalezione.append(etykieta)
+        return tuple(znalezione)
+
+    def _pierwsza_rola(
+        self, para: tuple[Pozycja, Klasa], etykieta: str
+    ) -> frozenset[tuple[int, int] | None]:
+        """Czym bywa pierwszy węzeł tej etykiety pod tą parą; ``None``, gdy go nie ma.
+
+        Ciało przechodzi się od lewej i kończy na pierwszej córce,
+        która tę rolę niesie w każdym swoim czytaniu:
+        dalsze córki są wtedy za pierwszym wystąpieniem i nie nazywają go.
+        Wyborów córek nic nie wiąże, więc suma po nich jest tym, co dają czytania,
+        a wyników jest tyle, ile rozpiętości, a nie ile drzew.
+        """
+        pozycja, _klasa = para
+        if pozycja.label == etykieta:
+            return frozenset({pozycja.span})
+        gotowe = self._pierwsze_role.get((para, etykieta))
+        if gotowe is not None:
+            return gotowe
+        znalezione: set[tuple[int, int] | None] = set()
+        for kombinacja in self._krawędzie.get(para, {}):
+            bez_roli = True
+            for dziecko, klasa in kombinacja:
+                if dziecko.liść:
+                    continue
+                pod_córką = self._pierwsza_rola((dziecko, klasa), etykieta)
+                znalezione |= pod_córką - {None}
+                if None not in pod_córką:
+                    bez_roli = False
+                    break
+            if bez_roli:
+                znalezione.add(None)
+        self._pierwsze_role[(para, etykieta)] = frozenset(znalezione)
+        return self._pierwsze_role[(para, etykieta)]
 
     # -- przyłączenia ------------------------------------------------------- #
 
