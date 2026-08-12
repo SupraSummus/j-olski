@@ -3,24 +3,20 @@
 The running list of work inside the repository itself:
 rewrites, merges, documents that have drifted apart,
 dangling references, gaps, and code worth improving.
-Something noticed while working on another topic lands here
+Something noticed while working on another topic goes here
 instead of stretching the current change or being forgotten.
-The second inflow is [the review pass](CLAUDE.md#the-review-pass):
-a refactor too large to do on the spot comes down to this list,
+[The review pass](CLAUDE.md#the-review-pass) is the other way in:
+a refactor too large to do on the spot is written down rather than started,
 and the review also checks whether a change deleted the entries it closes.
-Look here before starting new work —
-the list doubles as a map of the places that sag.
+Read the list before starting new work,
+because it names the problems somebody has already found.
 
-Lista nie mówi jednak, w który tor praca idzie.
-Wpis jest notatką po tym, na co ktoś przy innej robocie trafił,
-a nie kolejką, którą się odbiera po kolei,
-i rozstrzyga to [docs/roadmap.md](docs/roadmap.md#co-jest-budowane).
+Lista nie przypisuje wpisów do torów i nikt nie podnosi ich po kolei,
+bo wpis notuje tylko to, na co ktoś trafił przy innej robocie.
+[docs/roadmap.md](docs/roadmap.md#co-jest-budowane) mówi, co jest budowane.
 
 An entry belongs here only if a commit in this repository closes it.
-A question the outside world answers —
-a measurement, which human Polish counts as the good half of the corpus,
-a fork not yet taken —
-is not work in the repository,
+A question the outside world answers is not work in the repository,
 and the document that owns the topic keeps it:
 [`docs/open-questions.md`](docs/open-questions.md)
 or a document's own `Not yet decided`.
@@ -29,60 +25,51 @@ waiting for somebody else's answer is an entry there,
 a file to write is an entry here.
 
 A register, not a changelog:
-an entry that closes, or that turns out to have been misjudged,
-is deleted by the same commit that settles it,
+an entry that closes is deleted by the same commit that settles it,
 which is the done-marker rule from
 [`CLAUDE.md`](CLAUDE.md#documents-describe-the-present-git-owns-the-past)
 applied to this file.
 
 One paragraph per entry, paragraphs separated by a blank line,
-without bullets or numbering,
+lines inside them broken [semantically](CLAUDE.md#semantic-line-breaks),
+and no bullets or numbering,
 so that adding or removing an entry gives a clean diff
 and leaves its neighbours alone.
-Numbering breaks that outright, since an entry landing in the middle
-renumbers everything below it,
+Numbering renumbers everything below an entry landing in the middle,
 and a bullet indents prose that is meant to read as prose.
 
-Sekcje ten diff trzymają, więc wpis stoi w jednej z nich.
-Mówią one, czego wpis dotyka, a nie tego, co jest budowane,
-bo o tym rozstrzyga [roadmapa](docs/roadmap.md#co-jest-budowane).
-Wpis, który sięga dwóch sekcji, stoi w tej,
-w której leży dowód do przeczytania,
-bo od niego zaczyna ten, kto wpis podnosi;
-sekcja pusta idzie razem z ostatnim wpisem, który z niej wyszedł,
-a sekcja nowa powstaje wtedy, gdy dotyka jej wpis, i nie wcześniej.
+Podział na sekcje zachowuje ten czysty diff,
+więc każdy wpis należy do jednej sekcji.
+Nazwa sekcji mówi, czego wpis dotyka, a nie co jest budowane.
+Wpis sięgający dwóch sekcji dopisz do tej,
+która obejmuje dowód do przeczytania,
+bo od dowodu zaczyna ten, kto wpis podnosi.
+Sekcję bez wpisów skasuj razem z ostatnim wpisem, który z niej wyszedł,
+a nową sekcję załóż dopiero wtedy, gdy masz do niej wpis.
 
 An entry that names another one names it by what it is about.
 A section name does not identify one, since a section holds many,
 and a pointer saying which way to scroll is wrong
 as soon as anything lands between the two.
-Inside a paragraph the lines break
-[semantically](CLAUDE.md#semantic-line-breaks).
-Write so that the entry can be picked up cold,
+
+Write so that an entry can be picked up cold,
 and name the concrete next move —
 what actually has to change in the text or in the code.
 "Check some day" is a hope, not a move.
-
-An entry names the evidence it has to read,
-and not only the files it changes,
-because two entries editing disjoint files
-can still turn on one judgment about one body of text,
-which a file list does not show.
-What that costs is
+Name the evidence to read as well, and not only the files to change,
+because two entries over disjoint files can turn on one judgment
+that a file list does not show,
+and what such an overlap costs is in
 [splitting work across sessions](CLAUDE.md#splitting-work-across-sessions).
 
-Wpis nie jest rozstrzygnięciem.
-Po to ta lista jest: kto go pisał, siedział wtedy przy czymś innym,
-a notatka dostała tyle uwagi, ile zostało.
-Pewne jest w takim wpisie to, że autor na coś trafił,
-a nie to, że dobrze zgadł, co z tym zrobić.
-Kto wpis podnosi, dochodzi więc do ruchu sam:
-zaczyna od dowodu, który wpis nazywa,
-a nazwany ruch czyta jako propozycję, a nie jako polecenie.
-Wychodzi z tego czasem ruch inny niż nazwany, a czasem żaden,
-bo problemu nie ma albo naprawa kosztuje więcej niż to, co kupuje.
-Wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita,
-bo nic innego po nim nie zostaje.
+Wpis nie jest rozstrzygnięciem, bo autor pisał go przy innej robocie
+i dał mu tyle uwagi, ile zostało.
+Pewne jest w nim jedno: autor na coś trafił.
+Kto wpis podnosi, dochodzi więc do ruchu sam
+i traktuje nazwany ruch jako propozycję, a nie jako polecenie.
+Czasem wychodzi mu ruch inny, a czasem żaden,
+bo problemu nie ma albo naprawa kosztuje więcej, niż jest warta;
+wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
