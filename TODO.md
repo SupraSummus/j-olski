@@ -404,55 +404,77 @@ is the second copy of a fact that
 
 ## Gramatyka, parser i pomiar pokrycia
 
-Werdykt nad zdaniem o kilku nierozstrzygniętych przyłączeniach nie mówi,
-o które przyłączenia idzie, i nie zdejmie tego szybsze wyliczanie.
-Widać to samo o wiersz niżej, w liście czytań:
-streszczenie nazywa konstytuent, do którego doszedł pierwszy modyfikator zdania,
-a o dalszych milczy,
-więc dwa czytania różne miejscem drugiego z nich wychodzą jednym wierszem.
-`Program zapisuje ustawienia w pliku w katalogu w systemie.`
-ma osiem czytań i sześć wierszy,
-a `Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.`
+Współrzędność wypisuje się trzema produkcjami, a mogłaby jedną, lewostronnie rekurencyjną.
+`X → X conj X` powiedziałoby o zasięgu to samo co trzy poziomy z `build`
+w `olski/subset.py`, bo zawężenie zasięgu stoi na rodzaju,
+którego koordynacja nie ma
+([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
+a nie na kształcie produkcji.
+Przeciw takiej produkcji był parser i już go nie ma:
+tablica Earleya bierze lewą rekursję, co pilnuje `tests/test_subset.py`.
+Różni te dwa zapisy liczba czytań ciągu współrzędnego,
+bo wyprowadzeń tego samego ciągu jest pod nimi inaczej wiele,
+i to jest jedyne, co tu jest do zmierzenia.
+Do przeczytania są figury, które nad tymi poziomami bierze
+[`sonda/przecinek.py`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+bo zmiana rusza je razem z werdyktami.
+Ruchem jest jedna produkcja w miejsce trzech, o ile pomiar pokaże,
+że czytań nie przybywa; przy przeciwnym wyniku ruchem jest samo zdanie w tej sekcji
+mówiące, że wybór padł na trzy poziomy dla liczby czytań, a nie dla parsera.
+Widać na czym mierzyć: zdanie ustawy o siedmiu członach ma dziś 28 042 czytania
+([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
+i nie jest policzone, ile z tej liczby bierze sama współrzędność.
+
+`--max-tokens` stoi na budżecie, którego już nie ma.
+`olski-corpus` omija nim zdania dłuższe niż czterdzieści segmentów,
+a próg wzięto pod enumerator, który każde czytanie wyliczał;
+las liczy je sumą po pozycjach korzenia i granicy z tego powodu nie potrzebuje.
+Do przeczytania jest, co ten próg kosztuje i co kosztuje jego podniesienie:
+dziesięć zdań Składnicy zostaje dziś poza mianownikiem tabel z
+[`docs/corpus.md`](docs/corpus.md#the-measurement),
+a cały przebieg nad bankiem drzew trwa pół minuty.
+Ruchem jest pomiar czasu i pamięci nad tymi dziesięcioma zdaniami,
+a potem próg podniesiony albo zdjęty wraz z mianownikiem poprawionym
+w tabelach obu tych dokumentów.
+Wpis jest winien przebiegi, których
+[sekcja Checks](CLAUDE.md#checks) żąda od zmiany w mianowniku.
+
+`differing in` bierze się z listy czytań uciętej po 64, a liczba obok niej nie.
+`explain` w `olski/subset.py` nazywa role, które się między czytaniami różnią,
+i czyta do tego `Verdict.readings`,
+więc nad zdaniem o 28 042 czytaniach
 ([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem))
-ma cztery czytania i dwa wiersze.
-Nazwanie wszystkich modyfikatorów jest tą samą poprawką,
-którą tamten dokument wycenia i odrzuca:
-wierszy zostaje tyle, ile czytań, a każdy z nich rośnie,
-więc zdejmuje to dopiero werdykt wskazujący same przyłączenia.
-Do przeczytania jest wyjście dwóch poleceń,
-wraz z odrzuconym wyjściem tańszym, które te polecenia stawiają pod nosem,
-i trzyma jedno i drugie
-[`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
-Ruchem jest parser tablicowy nad lasem ze współdzielonymi węzłami,
-w którym nierozstrzygnięte przyłączenia są osobnymi spakowanymi węzłami,
-a nie iloczynem drzew,
-i werdykt wskazuje przyimek wraz z głowami, do których dochodzi.
-Warunki, pod którymi las na to pytanie odpowiada, trzyma
-[tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania),
-i tam też stoi rozstrzygnięte, na czym liczba ma stanąć zamiast iloczynu:
-pozycja pakuje się po kształcie, a liczy po parach, które unifikacja przepuszcza,
-bo pozycja rozszczepiona po cechach kosztuje półtorej tablicy
-i myli się czterokrotnie częściej.
-Liczba wzięta wprost iloczynem ma przy tym gotową pułapkę:
-zdania, na których tamta sekcja oba nadmiary pokazuje,
-trzyma `tests/test_pakowanie.py`, a jedno z nich stoi jeszcze
-w `PRZYJMOWANE` w `tests/test_subset.py`,
-więc taki las przewraca test, a nie samą liczbę.
-Zmiana nie rusza ani jednej produkcji,
-więc sprawdza się ją werdykt po werdykcie wobec tego, co stoi,
-nad prozą README i nad Składnicą,
-a `sonda/pakowanie.py` bierze te same dwie tablice i mówi, ile zdań je różni.
-Zamyka to wpis o głębokości zagrzebania złotego czytania,
-bo dopiero po lesie jest po czym chodzić.
-Otwiera przy tym dwie rzeczy, i to są dwie osobne sesje, a nie część tej.
-Zakaz lewej rekursji przestaje wiązać,
-a na nim stoi „nic ponad współrzędnością się do niej nie rozdziela”
-z [`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it):
-zawężenie jest tam obronione na własnych prawach,
-więc po lesie staje się wyborem i trzeba je przeargumentować, a nie odziedziczyć.
-I `--max-tokens`, którym `olski-corpus` omija zdania, na jakie enumeratora nie stać:
-liczenie czytań bez wyliczania ich powinno ten próg podnieść,
-a o ile, jest do zmierzenia, a nie do założenia.
+pyta o 64 z nich i o resztę nie pyta.
+Rola różniąca się dopiero poza tą granicą nie zostaje więc nazwana,
+a werdykt tego po sobie nie pokazuje.
+Las odpowiada na to bez granicy, bo pozycje ról stoją w nim wyliczone,
+i tą samą drogą, którą wyszły przyłączenia.
+Do rozstrzygnięcia jest, czym jest wtedy „ta sama rola w dwóch czytaniach”:
+streszczenie bierze pierwszy węzeł roli w drzewie,
+a nad lasem trzeba powiedzieć, które pozycje jednej etykiety są tym samym wystąpieniem,
+i dopiero to mówi, czy porównywać rozpiętości, czy formy.
+Do przeczytania jest `describe` w `olski/parse.py` wraz z `explain` obok niego.
+Ruchem jest zbiór rozpiętości żywych pozycji roli, wzięty z `Las`,
+w miejsce zbioru napisów ze streszczeń.
+Rusza to napisy werdyktu nad zdaniami dłuższymi niż 64 czytania,
+więc wpis jest winien przebieg nad rejestrem ustaw i poprawione zdania w tamtym dokumencie.
+
+Gospodarza przyłączenia nazywa materiał przed modyfikatorem, a nie głowa.
+Werdykt nad zdaniem wieloznacznym wskazuje przyimek i konstytuenty,
+do których dochodzi, a nazywa je ciągiem wziętym ze zdania,
+bo głowy nie wyróżnia ani jedna produkcja w `build` z `olski/subset.py`.
+Grupa imienna na czele zdania ma przez to ten sam napis co zdanie,
+i rozdziela je dopiero dopisany symbol konstytuenta:
+`Władza zwierzchnia (NP)` obok `Władza zwierzchnia (ClauseConjunct)`.
+Symbol wystarcza, żeby wybór był widoczny,
+i nie wystarcza, żeby był nazwany tak, jak go autor widzi —
+`władza` obok `należy` byłoby tą nazwą.
+Do przeczytania jest `_nazwij` w `olski/parse.py` wraz z
+[wywodem tego werdyktu](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+bo obie nazwy — ta w streszczeniu czytania i ta w werdykcie — wychodzą z jednej reguły.
+Ruchem jest głowa wyróżniona w produkcji, po której nazwą gospodarza jest jedno słowo.
+Do rozstrzygnięcia jest, czy wyróżnia ją deklaracja obok produkcji, czy pozycja w jej ciele,
+i co się dzieje z produkcją, której nikt głowy nie przypisał.
 
 Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
 `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
@@ -535,9 +557,8 @@ podczas gdy `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
 Do przeczytania jest, co preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
-a próba nad prozą README stoi w `sonda/` gotowa do porównania;
-nad listą czytań urwaną o `MAX_READINGS` nie ma tego czym przeczytać,
-więc wpis o parserze tablicowym nad lasem idzie przed tym.
+a próba nad prozą README stoi w `sonda/` gotowa do porównania,
+i liczbę czytań podaje teraz las, bez granicy, jaką miała lista.
 Kupuje to jeszcze jedną rzecz, którą sonda pokazała mimochodem:
 szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
 
@@ -624,11 +645,14 @@ and counts the trees consistent with the corpus disambiguation
 so coverage becomes whether the gold reading is among the readings
 and how deeply it is buried,
 rather than whether anything came out at all.
-This is ordered behind the entry about the verdict that names no attachment,
-whose move is the chart parser and the packed forest,
-because the enumerator builds no forest to walk
-and caps enumeration at `MAX_READINGS`,
-which is exactly the tail a burial-depth number would be measuring.
+There is a forest to walk now, and `Las` in `olski/parse.py` is where it is:
+the packed positions, the shapes under each of them,
+and the count taken without enumerating trees,
+so the depth a gold reading is buried at
+is no longer a number `MAX_READINGS` truncates.
+What has to be decided is where the gold tree meets a packed position,
+because `_gold` in `olski/corpus.py` builds one tree
+and a position stands for a shape rather than for a tree.
 
 Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,

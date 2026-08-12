@@ -31,7 +31,7 @@ from dataclasses import dataclass, replace
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, V, nt, word
 from olski.morph import Reading, Segment, analyse, tag
-from olski.parse import Result, describe, parse
+from olski.parse import PRZYŁĄCZONY_DO, Przyłączenie, Result, describe, parse
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
 #: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
@@ -141,10 +141,12 @@ def build() -> Grammar:
 
     # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
     # na każdym z trzech poziomów, które ją mają.
-    # X → X conj X powiedziałoby to samo,
-    # a parser gramatyki lewostronnie rekurencyjnej nie bierze.
     # To, co człon może zawierać, rozstrzyga,
-    # do czego koordynację da się przyłączyć z zewnątrz.
+    # do czego koordynację da się przyłączyć z zewnątrz,
+    # i na tym stoi zawężenie zasięgu, a nie na kształcie tych produkcji.
+    # X → X conj X powiedziałoby to samo o zasięgu
+    # i tablica Earleya bierze taką produkcję bez skargi,
+    # a różni je liczba czytań ciągu współrzędnego; TODO.md trzyma ten wybór.
     #
     # Znakiem koordynacji jest spójnik albo przecinek,
     # i dlatego stoją po dwie produkcje na poziom,
@@ -497,6 +499,16 @@ def build() -> Grammar:
 GRAMMAR = build()
 
 
+def _nierozstrzygnięte(przyłączenie: Przyłączenie) -> str:
+    """Modyfikator i głowy, do których dochodzi, jako jeden wiersz werdyktu.
+
+    Cudzysłów jest treścią, bo gospodarz jest ciągiem wziętym ze zdania i sam
+    zawiera odstępy, więc bez niego nie widać, gdzie jeden się kończy.
+    """
+    głowy = ", ".join(f"„{głowa}”" for głowa in przyłączenie.gospodarze)
+    return f"„{przyłączenie.modyfikator}”{PRZYŁĄCZONY_DO}{głowy}"
+
+
 @dataclass(frozen=True)
 class Verdict:
     """What olski says about one sentence."""
@@ -537,14 +549,27 @@ class Verdict:
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
                 return f"no reading: no production takes {formy}"
             return "no reading: nothing in olski derives this"
+        przyłączenia = self.result.przyłączenia
+        # Streszczenia są ucięte po `MAX_READINGS`, więc rola różniąca się dopiero
+        # dalej nie wejdzie do `differing`; liczba obok niej granicy nie ma.
+        # Co by kosztowało pytanie o to samego lasu, mówi TODO.md.
         summaries = self.readings
         differing = sorted(
-            {role for role in ROLES if len({summary.get(role) for summary in summaries}) > 1}
+            {
+                role
+                for role in ROLES
+                # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
+                # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
+                if not (przyłączenia and role == PRZYŁĄCZANY)
+                if len({summary.get(role) for summary in summaries}) > 1
+            }
         )
-        count = f"{len(summaries)}{'+' if self.result.truncated else ''} readings"
-        if not differing:
-            return count
-        return f"{count}, differing in {', '.join(differing)}"
+        # Liczba jest liczbą, a nie „64+”: bierze ją las sumą po klasach korzenia,
+        # więc granica wyliczania sięga listy czytań i nie sięga werdyktu.
+        count = f"{self.result.ile} readings"
+        if differing:
+            count += f", differing in {', '.join(differing)}"
+        return "; ".join([count, *map(_nierozstrzygnięte, przyłączenia)])
 
 
 #: The closed-class parts of speech. A noun reading of a form that also reads as
@@ -733,7 +758,7 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
         verdicts.append(
             Verdict(
                 text=sentence,
-                result=parse(grammar, segments),
+                result=parse(grammar, segments, attaching=PRZYŁĄCZANY, hosts=PRZYŁĄCZENIA),
                 nielicencjonowane=bez_licencji(segments, grammar),
             )
         )

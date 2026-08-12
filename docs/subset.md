@@ -449,7 +449,7 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów,
-na które enumerator nie ma budżetu.
+których nie wpuszcza `--max-tokens`.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
 Wieloznacznych przybywa pięć i wszystkie pięć przychodzi z odrzuconych,
@@ -1047,16 +1047,19 @@ Tier 0 is where the implementation stands and not what the track is committed to
 [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem)
 owns that distinction.
 
-`olski/parse.py` enumerates distinct readings.
-It is a memoizing top-down enumerator,
-which is enough for a grammar without left recursion
-and reports that case rather than looping.
-It builds no forest,
-and that is what the verdict wants sooner than the grammar does:
-a sentence with several undecided attachments
-is one role name in a reading list and would be several packed nodes.
+`olski/parse.py` builds the forest and summarizes it.
+It is an Earley chart over the segmentation graph,
+so one packed position stands for a constituent shape
+however many derivations sit under it,
+and a sentence with six undecided attachments
+is six positions rather than sixty-four trees.
+That is what the verdict wanted sooner than the grammar did:
+the reader is shown the preposition and the heads it reaches,
+one line per undecided choice.
 [Werdykt jest zapytaniem o las](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
-owns that argument and the chart parser it argues for.
+owns that argument,
+and [tożsamość czytania](design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
+owns what may share a position and how the counting joins two of them.
 
 `olski/subset.py` is olski itself:
 the grammar, what it reads as one word,

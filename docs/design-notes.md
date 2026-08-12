@@ -592,15 +592,16 @@ GLR is the right shape of answer but probably the wrong specific choice:
 - Tomita's original algorithm breaks on nullable rules,
   so pro-drop would force RNGLR or BRNGLR (Scott and Johnstone).
 
-**Earley is the boring recommendation and probably the right first move.**
+**Earley was the boring recommendation and it is what `olski/parse.py` runs.**
 It handles any CFG, including left recursion and nullable rules,
 with no preprocessing;
 it produces a shared packed parse forest natively;
 its worst case is cubic but real grammars behave far better.
 Decisively for a project whose grammar is still being designed:
 the grammar can change without rebuilding an automaton.
-Get the grammar right against Earley,
-then treat GLR as an optimization if measurement ever demands one.
+GLR stays an optimization to reach for if measurement ever demands one,
+and no measurement does:
+a run over the whole of Składnica takes half a minute.
 
 One correction to the above,
 from measuring a working GLR system over real Polish:
@@ -629,52 +630,90 @@ is excluded by an explicit constraint rather than by omission.
 
 ### Werdykt jest zapytaniem o las, a nie listą czytań
 
-Earley oddaje las ze współdzielonymi węzłami sam z siebie,
-a nota w `olski/parse.py` odkłada go na moment,
-w którym wymusi go lewa rekursja albo cena wyliczania.
-Wymusza go wcześniej to, co werdykt ma powiedzieć autorowi,
-i pokazują to dwa polecenia:
+Werdykt wychodzi z lasu ze współdzielonymi węzłami, a nie z listy drzew,
+i po co, widać na dwóch poleceniach:
 
 ```sh
-python3 -m olski.check -c "Program zapisuje ustawienia w pliku w katalogu." --readings
+python3 -m olski.check -c "Program zapisuje ustawienia w pliku w katalogu."
 python3 -m olski.check -c "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
 ```
 
 Każde doklejone wyrażenie przyimkowe podwaja liczbę czytań,
 bo dochodzi do czasownika albo do rzeczownika przed nim,
 a te wybory są od siebie niezależne.
-Werdykt przestaje przy tym mówić cokolwiek nowego już przy drugim wyrażeniu.
-`explain` w `olski/subset.py` nazywa te role, które się między czytaniami różnią,
-i nad czterema czytaniami pierwszego zdania wypisuje `Modifier, Object`,
-a nad sześćdziesięcioma czterema czytaniami drugiego wypisuje to samo,
-bo `describe` w `olski/parse.py` bierze pierwszy węzeł roli, a nie wszystkie.
-Liczba przestaje przy tym być liczbą,
-bo `MAX_READINGS` ucina ją i werdykt czyta `64+`.
-README obiecuje, że parser mówi, *jak* zdanie czyta się dwojako,
-a lista czytań tej obietnicy nie dowozi nad zdaniem,
-którego rejestr olskiego jest pełen.
-Oba te napisy trzyma `tests/test_subset.py`,
-więc sekcja nie rozjedzie się z kodem po cichu.
+Drugie z tych zdań ma więc sześćdziesiąt cztery czytania
+i sześć nierozstrzygniętych decyzji, po jednej na wyrażenie,
+a werdykt wypisuje sześć wierszy:
+przyimek wraz z dwiema głowami, do których dochodzi.
+Wierszy jest tyle, ile decyzji,
+więc przybywa ich z długością zdania, a nie z liczbą czytań,
+i o tę różnicę krotności szło.
+Tę samą wielkość nazywa
+[pytanie o czytelność prefiksu](open-questions.md#czy-jednoznaczność-prefiksu-mierzy-czytelność),
+więc jedno pytanie i drugie stoją na tym samym prymitywie.
+Liczba czytań jest przy tym liczbą, a nie napisem `64+`:
+las podaje ją sumą po pozycjach korzenia,
+i granica z `MAX_READINGS` sięga wypisywania drzew, a nie liczenia ich.
 
-Wyliczanie nie jest tu drogie i nie o cenę idzie.
-Nierozstrzygniętych decyzji stoi w drugim z tych zdań sześć,
-po jednej na wyrażenie, a czytań sześćdziesiąt cztery,
-i las ze współdzielonymi węzłami trzyma sześć węzłów spakowanych
-zamiast sześćdziesięciu czterech drzew.
-Werdykt wychodzący z takiego lasu wskazuje przyimek i dwie głowy,
-do których dochodzi, czyli mówi to, co autor ma poprawić.
-Tę samą wielkość nazywa już
-[pytanie o czytelność prefiksu](open-questions.md#czy-jednoznaczność-prefiksu-mierzy-czytelność):
-liczy się liczba nierozstrzygniętych decyzji, a nie liczba czytań.
-Jedno pytanie i drugie żądają więc tego samego prymitywu.
+Lista czytań tego nie dowozi, i nie dowiozą jej dwie poprawki,
+które wyglądają na tańsze wyjście:
+streszczenie nazywające wszystkie węzły roli zamiast pierwszego,
+wraz ze zdjętą granicą wyliczania.
+Stoją tu zapisane, żeby nikt ich nie proponował drugi raz.
+Streszczenie czytania nazywa pierwszy węzeł roli,
+więc dwa czytania różne miejscem drugiego modyfikatora
+wychodzą z niego jednym napisem,
+a nazwanie wszystkich
+daje nad drugim z tych zdań sześćdziesiąt cztery wiersze do porównania ręką:
+wydruk rośnie wtedy wykładniczo,
+a nazwać trzeba liczbę decyzji.
 
-Tańsze wyjście wygląda na dwie poprawki w kodzie i nim nie jest,
-więc stoi tu zapisane, żeby nikt go nie proponował drugi raz.
-`describe` nazywające wszystkie węzły roli zamiast pierwszego,
-przy zdjętym `MAX_READINGS`,
-daje nad drugim z tych zdań sześćdziesiąt cztery wiersze do porównania ręką.
-Wydruk rośnie wtedy z liczbą czytań, czyli wykładniczo,
-a nazwać trzeba liczbę decyzji, która rośnie z długością zdania.
+Trzecie tańsze wyjście brzmi najmocniej i mierzy się najgorzej:
+zostawić enumerator i powiedzieć, że zdanie o więcej niż `MAX_READINGS` czytaniach
+jest po prostu za wieloznaczne, żeby je czytać.
+Werdykt „poddaję się” jest tu w porządku i nie o niego idzie.
+Idzie o to, że enumerator zstępujący nie umiał go wydać tanio.
+`analyses` w `olski/parse.py` przed tą zmianą (commit `9456a22`)
+wyliczał pod pozycją każde wyprowadzenie, zanim oddał pierwsze,
+więc granica ucinała wydruk, a nie pracę.
+Zdanie ustawy o 28 042 czytaniach —
+[najdłuższe z tego rejestru](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem) —
+kosztowało go 76 s, żeby oddać sześćdziesiąt cztery drzewa i napis `64+`.
+Las podaje nad nim liczbę dokładną w 0,05 s.
+Sekundy zależą od maszyny, a krotność jest trzema rzędami wielkości,
+i to o nią tu idzie.
+Obie liczby bierze to samo polecenie,
+raz nad plikiem z tamtego commita, a raz nad tym, który stoi:
+
+```sh
+git show 9456a22:olski/parse.py > /tmp/stary/parse.py
+PYTHONPATH=/tmp/stary python3 -c 'import time, sys
+from olski.subset import GRAMMAR, morphology
+parse = __import__(sys.argv[1]).parse
+s = morphology(open("zdanie.txt", encoding="utf-8").read().strip())
+t = time.time(); w = parse(GRAMMAR, s)
+print(len(w.readings), getattr(w, "ile", "—"), f"{time.time() - t:.2f}s")' parse
+```
+
+Enumerator pisany leniwie zmieściłby się w tej granicy,
+bo urwałby wyliczanie na sześćdziesiątym czwartym drzewie,
+i to jest jedyna uczciwa obrona tamtego wyjścia.
+Liczby nie podałby przy tym żadnym kosztem,
+a pamięć podręczna pod pozycją, czyli to, co go trzyma poniżej wykładniczej,
+z leniwym wyliczaniem sama się nie składa.
+
+Głowa stoi w tym werdykcie nazwana okrężnie i to jest jego słabsza połowa.
+Gospodarza nazywa materiał, który stoi w nim przed modyfikatorem,
+bo głowy nie wyróżnia ani jedna produkcja,
+a wtedy grupa imienna na czele zdania i to zdanie mają ten materiał wspólny
+i wychodzą jednym napisem.
+Rozdziela je dopisany symbol konstytuenta —
+`Władza zwierzchnia (NP)` obok `Władza zwierzchnia (ClauseConjunct)` —
+i tyle wystarcza, żeby wybór był widoczny,
+a nie tyle, żeby był nazwany po imieniu.
+Zdanie z tym werdyktem trzyma `tests/test_subset.py`,
+a co kosztowałaby głowa wyróżniona w produkcji, mówi
+[`TODO.md`](../TODO.md).
 
 Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
 czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
@@ -699,19 +738,12 @@ Jest to dokładnie ten błąd, który zapisuje
 i ten, przez który
 [obudowanie Świgry](swigra.md#why-wrapping-it-does-not-get-there)
 jest pisaniem gramatyki po raz drugi.
-
-Dzisiejszy enumerator tę dyscyplinę ma,
-i dlatego zamiana nie jest przepisaniem:
-`analyses` w `olski/parse.py` pamięta wynik pod `(nazwa, pozycja)`
-i wylicza ciało wobec `EMPTY`, a żądania wołającego stosuje po fakcie,
-więc tożsamość pozycji cech nie niesie.
-Brakuje samego spakowania,
-czyli wyprowadzeń grupowanych po sygnaturze,
-gdzie sygnatura niesie zbiór środowisk cech, z którymi przechodzi.
-Nadmiar, który to zdejmuje, bierze się z tego samego kwotowania:
+Pozycja niesie więc etykietę i rozpiętość, i nic ponad to,
+czyli dokładnie tyle, ile niesie sygnatura czytania.
+Zarabia to na siebie na tym samym kwotowaniu:
 `zapisuje` ma dwa lematy, a lemat do sygnatury nie wchodzi,
-więc `Program zapisuje ustawienia.` wyprowadza się dwa razy na jedną sygnaturę,
-i mnoży się to przez każde następne słowo, któremu słownik daje dwa lematy.
+więc `Program zapisuje ustawienia.` wyprowadza się dwa razy na jedną pozycję,
+i mnożyłoby się to przez każde następne słowo, któremu słownik daje dwa lematy.
 
 Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
 
@@ -719,7 +751,7 @@ Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
 python3 -m olski.check -c "Zobacz docs/subset.md."
 ```
 
-Czytanie ma jedno, a suma iloczynów po lesie liczy nad nim dwa.
+Czytanie ma jedno, a suma iloczynów po samych pozycjach liczy nad nim dwa.
 `Complements` nad `docs/subset.md` buduje się dwiema produkcjami
 z `build` w `olski/subset.py`, raz przez `Object`, raz przez `Predicative`,
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
@@ -760,20 +792,24 @@ Nadmiar wychodzi więc rozszczepieniu tam,
 gdzie cecha, która pozycje rozdzieliła, ginie u rodzica,
 a stamtąd ten iloczyn idzie w górę aż do korzenia.
 
-Zostaje wyjście drugie: iloczyn liczony po parach, które unifikacja przepuszcza,
+Stoi więc wyjście drugie: iloczyn liczony po parach, które unifikacja przepuszcza,
 co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
-Do niego liczy dzisiejszy enumerator,
-bo środowisko cech niesie w dół rozbioru zamiast pod pozycją,
-i on jest miarą, wobec której oba warianty tablicy zmierzono.
+Tak liczy `Las.klasy` w `olski/parse.py`:
+kształty jednej pozycji stoją w klasach po tym, jakie cechy wypuszczają,
+i kombinacja klas, której produkcja nie składa, nie wnosi ani jednego czytania.
+Miarą, wobec której oba warianty zmierzono, był enumerator zstępujący,
+który tę tablicę zastąpiła —
+on środowisko cech niósł w dół rozbioru zamiast pod pozycją,
+więc pary nieunifikującej się nie liczył.
 
 Zmierzono je trzema przebiegami nad dwoma korpusami,
-bo pozycje rozdziela dopiero forma stojąca w zdaniu:
-
-```sh
-python3 -m sonda.pakowanie Składnica-frazowa-180723/
-python3 -m sonda.pakowanie Składnica-frazowa-180723/ --morphology gold
-python3 -m sonda.pakowanie proza/README.txt
-```
+bo pozycje rozdziela dopiero forma stojąca w zdaniu.
+Liczby niżej są ceną, za jaką odrzucono rozszczepienie,
+i nie ma ich po co przeliczać:
+sonda, która je wzięła, poszła razem z enumeratorem będącym jej miarą,
+a wariant, który mierzyła, nie stoi w kodzie i nie ma jak się zmienić.
+Zdania, na których widać oba nadmiary, trzyma `tests/test_subset.py`,
+więc podstawa tego wywodu nie zniknie po cichu.
 
 Nad 13025 zdaniami Składnicy pod morfologią własną
 rozszczepienie rozdziela 31.6% pozycji, czyli 126814 rośnie do 189880,
@@ -910,6 +946,27 @@ a rozwinięcie permutacji je dopisuje,
 i [`TODO.md`](../TODO.md) pyta wprost,
 co preprocesor precedencji robi z ich liczbą,
 czego bez lasu nie ma czym przeczytać.
+
+Las, już zbudowany, przesunął przy tym granicę, za którą podłoże zostaje.
+Enumerator zstępujący wołał `bierze` i `unify` w środku obchodzenia wyprowadzeń,
+z środowiskiem cech niesionym w dół,
+więc zgodność była wpleciona w sam rozbiór.
+Tablica Earleya o cechy nie pyta wcale,
+a unifikacja przechodzi po lesie osobno i w jednym miejscu:
+`_zawężenia` w `olski/parse.py` rozstrzyga, czy córka pasuje do rodzica,
+i nikt poza nim tego nie rozstrzyga.
+Warunek precedencji ma się więc gdzie wpisać —
+`_przejdź` dostaje ciało wraz z rozpiętościami córek,
+czyli dokładnie to, o co taki warunek pyta —
+i nie żąda rozwinięcia permutacji po to, żeby zostać wypowiedzianym.
+Rozwinięcie zostaje wyborem o liczbę czytań, a nie ceną wejścia.
+
+Urwiska to nie dotyka i nie ma udawać, że dotyka.
+Pozycja lasu jest jednym odcinkiem tekstu,
+a luka przeciągana przez ciąg żąda zbioru odcinków,
+więc tam przerabia się tablicę, a nie warstwę nad nią,
+i szczebel zostaje wyceniony tak, jak wycenia go
+[urwisko](#the-cliff-discontinuity).
 
 Zostaje droga trzecia, czyli formalizm leksykalizowany,
 i odpada ona na tym samym kwotowaniu.
