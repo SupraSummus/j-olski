@@ -482,7 +482,7 @@ Czy jest to własność polszczyzny, czy tego korpusu, ta liczba nie mówi:
 `duży, ciężki plecak` jest polszczyzną,
 a nad Składnicą nie ma zdania, w którym ta produkcja byłaby ostatnią brakującą.
 
-Nad rejestrem, o który olskiemu chodzi, przecinek nie kupuje nic.
+Nad rejestrem, o który olskiemu chodzi, przecinek kupuje dwa zdania.
 To samo porównanie nad prozą wyciągniętą z README —
 
 ```sh
@@ -490,11 +490,16 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m sonda.przecinek proza/README.txt
 ```
 
-— nie rusza ani jednego werdyktu w żadnym z pięciu wariantów,
-bo każde zdanie tego pliku, które niesie przecinek,
-niesie też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
+— rusza dwa werdykty i oba na poziomie zdaniowym.
+`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
+gramatyka bez przecinka odrzuca, a z nim wyprowadza jednym czytaniem,
+a `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md`
+przechodzi z odrzucenia w wieloznaczność.
+Ani poziom imienny, ani przymiotnikowy nie rusza tu nic,
+bo pozostałe zdania tego pliku, które niosą przecinek,
+niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
 Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
-a kryterium wyjścia toru czeka na to, co w tych zdaniach stoi obok niego,
+a kryterium wyjścia toru czeka na to, co w reszcie tych zdań stoi obok niego,
 i pierwsza jest tam podrzędność
 ([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
 
