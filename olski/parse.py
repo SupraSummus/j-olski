@@ -122,6 +122,10 @@ class Leaf:
     def forms(self) -> list[str]:
         return [self.segment.form]
 
+    def forma_głowy(self) -> str:
+        """Głową słowa jest ono samo, i tu schodzenie po głowach się kończy."""
+        return self.segment.form
+
 
 @dataclass(frozen=True)
 class Node:
@@ -134,6 +138,11 @@ class Node:
     #: Takiej produkcji gramatyka olskiego nie ma,
     #: a żąda jej rozwinięcie szyku do warunków precedencji.
     span: tuple[int, int]
+    #: Która z córek jest głową, wzięta z produkcji, która ten węzeł złożyła.
+    #: Niesie ją węzeł, a nie odczytuje się jej z gramatyki,
+    #: bo streszczenie czytania gramatyki nie dostaje,
+    #: a węzeł powstaje tam, gdzie produkcja jest pod ręką.
+    głowa: int
 
     def signature(self):
         """Co czyni dwa czytania jednym czytaniem.
@@ -157,6 +166,15 @@ class Node:
 
     def forms(self) -> list[str]:
         return [form for child in self.children for form in child.forms()]
+
+    def forma_głowy(self) -> str:
+        """Forma głowy tego konstytuenta: jedno słowo, którym się go nazywa.
+
+        Schodzi po głowach aż do liścia,
+        bo głową grupy jest słowo, a nie podgrupa:
+        gospodarzem przyłączenia jest ``koszt``, a nie ``koszt szynki``.
+        """
+        return self.children[self.głowa].forma_głowy()
 
     def find(self, label: str) -> list[Node]:
         """Every node with this label, this one included, outermost first."""
@@ -184,7 +202,7 @@ class Przyłączenie:
     #: Formy modyfikatora, czyli to, co autor ma przestawić.
     modyfikator: str
     #: Konstytuenty, do których modyfikator w czytaniach dochodzi,
-    #: nazwane tym, co w nich stoi, i ustawione tak jak w zdaniu.
+    #: nazwane swoją głową i ustawione tak jak w zdaniu.
     gospodarze: tuple[str, ...]
 
 
@@ -518,7 +536,7 @@ class Las:
         self._pierwsze_role: dict[
             tuple[tuple[Pozycja, Klasa], str], frozenset[tuple[int, int] | None]
         ] = {}
-        self._formy: dict[Pozycja, list[tuple[tuple[int, int], str]]] = {}
+        self._przedstawiciele: dict[Pozycja, Node] = {}
         self._najdalszy: int | None = None
 
     # -- tablica -------------------------------------------------------------#
@@ -793,7 +811,12 @@ class Las:
         Tutaj każde drzewo kosztuje osobno.
         """
         if len(zebrane) == len(kombinacja):
-            yield Node(label=pozycja.label or "", children=zebrane, span=pozycja.span)
+            yield Node(
+                label=pozycja.label or "",
+                children=zebrane,
+                span=pozycja.span,
+                głowa=production.głowa,
+            )
             return
         część = production.body[len(zebrane)]
         dziecko, córka = kombinacja[len(zebrane)]
@@ -913,31 +936,18 @@ class Las:
             gospodarze_pozycji = sorted(u_kogo[początek], key=lambda p: p.span)
             if len(gospodarze_pozycji) < 2:
                 continue
+            # Dwie pozycje o jednej głowie są jednym wyborem,
+            # bo grupa imienna dłuższa o inny modyfikator jest tą samą grupą imienną.
             nazwy = list(
                 dict.fromkeys(
-                    _nazwij(self._liście(gospodarz), pozycja.span)
+                    self._przedstawiciel(gospodarz).forma_głowy()
                     for gospodarz in gospodarze_pozycji
                 )
             )
             if len(nazwy) < 2:
-                # Gospodarz krótszy bywa początkiem dłuższego,
-                # bo grupa imienna otwiera zdanie, które ją zawiera,
-                # i wtedy materiał przed modyfikatorem mają wspólny.
-                # Rozdziela ich dopiero symbol, dopisywany tu, a nie wyżej:
-                # dwie pozycje o jednej nazwie bywają jednym wyborem,
-                # bo grupa imienna dłuższa o inny modyfikator jest tą samą grupą imienną.
-                nazwy = list(
-                    dict.fromkeys(
-                        f"{_nazwij(self._liście(gospodarz), pozycja.span)} ({gospodarz.label})"
-                        for gospodarz in gospodarze_pozycji
-                    )
-                )
-            if len(nazwy) < 2:
                 continue
             znalezione.append(
-                Przyłączenie(
-                    " ".join(forma for _span, forma in self._liście(pozycja)), tuple(nazwy)
-                )
+                Przyłączenie(" ".join(self._przedstawiciel(pozycja).forms()), tuple(nazwy))
             )
         return znalezione
 
@@ -1000,24 +1010,25 @@ class Las:
         assert self._rodzice is not None
         return self._rodzice
 
-    def _liście(self, pozycja: Pozycja) -> list[tuple[tuple[int, int], str]]:
-        """Rozpiętości i formy liści pod tą pozycją, w kolejności zdania.
+    def _przedstawiciel(self, pozycja: Pozycja) -> Node:
+        """Jedno z drzew tej pozycji, do nazwania jej.
 
-        Wzięte z jednego drzewa, bo nazwać trzeba konstytuent, a nie czytanie.
-        Formy z tej rozpiętości są wspólne każdemu czytaniu tej pozycji;
-        różni je dopiero podział na segmenty, a tego ta nazwa nie pokazuje.
+        Nazwać trzeba konstytuent, a nie czytanie, a formy ma on w każdym swoim
+        czytaniu te same; różni je podział na segmenty, którego nazwa i tak nie
+        pokazuje. Głowa tak daleko nie sięga: ``dobry kod`` jest raz
+        przymiotnikiem przed rzeczownikiem, a raz rzeczownikiem z dopełniaczem
+        po nim, więc jedna rozpiętość ma tam dwie głowy, a nazwa bierze tę z
+        pierwszego drzewa i tego wyboru nie ogłasza. Co z tym zrobić, jest
+        otwarte w TODO.md.
         """
-        gotowe = self._formy.get(pozycja)
+        gotowe = self._przedstawiciele.get(pozycja)
         if gotowe is not None:
             return gotowe
-        znalezione: list[tuple[tuple[int, int], str]] = []
         for klasa in self.klasy(pozycja):
             for drzewo in self._drzewa(pozycja, klasa):
-                znalezione = [(liść.span, liść.segment.form) for liść in _leaves(drzewo)]
-                break
-            break
-        self._formy[pozycja] = znalezione
-        return znalezione
+                self._przedstawiciele[pozycja] = drzewo
+                return drzewo
+        raise AssertionError(f"pozycja {pozycja} stoi w lesie bez ani jednego drzewa")
 
 
 # --------------------------------------------------------------------------- #
@@ -1025,8 +1036,8 @@ class Las:
 # --------------------------------------------------------------------------- #
 
 #: Znak, którym streszczenie oddziela modyfikator od tego, do czego doszedł.
-#: Bez słowa, bo słowo żądałoby przypadka od tego, co po nim stoi,
-#: a stoi tam ciąg wzięty ze zdania i nieodmieniany.
+#: Bez słowa, bo słowo żądałoby przypadka od tego, co po nim następuje,
+#: a następuje tam forma wzięta ze zdania i nieodmieniana.
 PRZYŁĄCZONY_DO = " → "
 
 
@@ -1067,7 +1078,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
 
 
 def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
-    """Co modyfikator określa: konstytuent, do którego doszedł, nazwany tym, co w nim stoi.
+    """Co modyfikator określa: konstytuent, do którego doszedł, nazwany swoją głową.
 
     Ani węzeł, pod którym modyfikator stoi bezpośrednio,
     ani najbliższy węzeł z materiałem obok na to pytanie nie odpowiadają:
@@ -1075,24 +1086,7 @@ def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
     Odpowiada konstytuent wyliczony w :attr:`Deklaracja.gospodarze`,
     czyli ten, w którego produkcji to przyłączenie stoi.
     """
-    gospodarz = _host(root, modifier, hosts, root)
-    liście = [(liść.span, liść.segment.form) for liść in _leaves(gospodarz)]
-    return _nazwij(liście, modifier.span)
-
-
-def _nazwij(liście: Sequence[tuple[tuple[int, int], str]], modyfikator: tuple[int, int]) -> str:
-    """Konstytuent nazwany tym, co stoi w nim przed modyfikatorem, a inaczej za nim.
-
-    Ciąg wzięty ze zdania, a nie wybór z niego:
-    konstytuent bez samych modyfikatorów wychodzi napisem, którego nikt nie napisał,
-    bo materiał między dwoma okolicznikami do żadnego z nich nie należy.
-    Modyfikator wysunięty nie ma przed sobą niczego,
-    i nazywa go wtedy to, co za nim następuje.
-    """
-    start, end = modyfikator
-    przed = [forma for span, forma in liście if span[1] <= start]
-    za = [forma for span, forma in liście if span[0] >= end]
-    return " ".join(przed or za)
+    return _host(root, modifier, hosts, root).forma_głowy()
 
 
 def _host(tree: Tree, modifier: Node, hosts: tuple[str, ...], outer: Node) -> Node | None:
@@ -1111,10 +1105,3 @@ def _host(tree: Tree, modifier: Node, hosts: tuple[str, ...], outer: Node) -> No
         if found is not None:
             return found
     return None
-
-
-def _leaves(tree: Tree) -> list[Leaf]:
-    """Liście tego konstytuenta, w kolejności, w jakiej stoją w zdaniu."""
-    if isinstance(tree, Leaf):
-        return [tree]
-    return [leaf for child in tree.children for leaf in _leaves(child)]

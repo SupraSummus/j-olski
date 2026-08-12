@@ -717,18 +717,25 @@ więc nad lasem trzeba powiedzieć,
 które pozycje jednej etykiety są tym samym wystąpieniem.
 Jest nim to, które nazywa streszczenie, czyli pierwsze.
 
-Głowa stoi w tym werdykcie nazwana okrężnie i to jest jego słabsza połowa.
-Gospodarza nazywa materiał, który stoi w nim przed modyfikatorem,
-bo głowy nie wyróżnia ani jedna produkcja,
-a wtedy grupa imienna na czele zdania i to zdanie mają ten materiał wspólny
-i wychodzą jednym napisem.
-Rozdziela je dopisany symbol konstytuenta —
+Gospodarza nazywa jego głowa, czyli jedno słowo.
+`w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,
+a `z dodatkami` do `szynki`, do `koszt` albo do `przewyższa`,
+i po każdej z tych nazw widać, którą poprawkę autor ma rozważyć.
+Nazwa wzięta z materiału poprzedzającego modyfikator tego nie daje,
+i to jest powód, dla którego produkcja swoją głowę wyróżnia:
+grupa imienna otwierająca zdanie dzieli ten materiał z całym zdaniem,
+więc obaj gospodarze wychodzą jednym napisem,
+a rozdziela je dopiero dopisany symbol konstytuenta —
 `Władza zwierzchnia (NP)` obok `Władza zwierzchnia (ClauseConjunct)` —
-i tyle wystarcza, żeby wybór był widoczny,
-a nie tyle, żeby był nazwany po imieniu.
-Zdanie z tym werdyktem trzyma `tests/test_subset.py`,
-a co kosztowałaby głowa wyróżniona w produkcji, mówi
-[`TODO.md`](../TODO.md).
+po którym wybór jest widoczny, a nie nazwany po imieniu.
+
+Głowę wyróżnia znacznik `Głowa` wewnątrz ciała, a nie numer pozycji obok niego.
+Numer myli się bez śladu: przestawione ciało zostawia go niezmienionym
+i nikt tego nie zauważy, a znacznik przesuwa się razem ze swoją częścią.
+Ciało o kilku częściach bez znacznika nie powstaje wcale,
+więc produkcja dopisana bez głowy przerywa budowanie gramatyki na swoim wierszu,
+zamiast nazwać gospodarza pierwszą córką, którąkolwiek by ona była.
+Odmowę i oba zdania z tymi werdyktami sprawdza `tests/test_subset.py`.
 
 Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
 czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
