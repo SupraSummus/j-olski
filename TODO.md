@@ -582,6 +582,18 @@ i zostaje z nim nazwa `sonda` w `SOURCES` z `tests/test_docs.py`.
 Zostaje z sekcji to, co figur nie potrzebuje:
 że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
 i że jednoznaczność bywa osiągana bez trafności.
+Kasowanie zabiera przy tym jedyny mechanizm w repozytorium,
+który wypuszcza konstytuent nieciągły:
+`spójne` w `sonda/wiezy.py` jest warunkiem zdejmowanym,
+a produkcja z `olski/subset.py` spójności zdjąć nie umie.
+[Wielkie rozwidlenie](docs/open-questions.md#the-big-fork-may-olski-scramble)
+każe rozstrzygnąć przestawianie pomiarem, a nie gustem,
+więc do przeczytania jest, czy ten mechanizm jest częścią tego pomiaru.
+Przemawia przeciw to, że sonda czyta zwykły tekst, a nie Składnicę,
+i udziału zdań w polszczyźnie nie policzy bez wejścia korpusowego.
+Odpowiedź „nie" zamyka rzecz i kasowanie idzie bez zmian,
+a odpowiedź „tak" każe wybrać, czy ten kod czeka na tamten pomiar,
+czy pisze się go drugi raz.
 
 Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
