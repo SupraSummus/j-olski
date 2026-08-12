@@ -150,6 +150,38 @@ def test_liczba_czytań_nie_urywa_się_tam_gdzie_lista_czytań():
     assert wynik.truncated
 
 
+def test_rola_różniąca_czytania_zostaje_nazwana_zza_granicy_wyliczania():
+    """Werdykt liczony po streszczeniach milczałby o wyborze, który to zdanie zostawia.
+
+    Zdanie jest przepisem z rejestru ustaw
+    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+    i ma czytań więcej, niż `MAX_READINGS` wypisuje, a wypisane zgadzają się co
+    do podmiotu. Ta zgoda jest przesłanką testu: gdy zniknie, zdanie przestaje
+    pokazywać, o co tu idzie, a asercja niżej przechodzi sama z siebie.
+    """
+    werdykt = verdict(
+        "Plan ochrony dóbr kultury na czas wojny zawiera wskazanie zadań "
+        "ochrony dóbr kultury na czas wojny z określeniem niezbędnych priorytetów."
+    )
+    assert werdykt.result.truncated
+    assert len({streszczenie.get("Subject") for streszczenie in werdykt.readings}) == 1
+    assert "Subject" in werdykt.result.różniące
+
+
+def test_rola_stojąca_w_czytaniu_dwa_razy_nie_jest_niezgodą_między_czytaniami():
+    """Zdanie współrzędne ma własny podmiot, a to nie jest różnica między czytaniami.
+
+    Pozycje o etykiecie `Subject` mają w lesie tego zdania różne rozpiętości,
+    więc porównanie ich wszystkich naliczyłoby niezgodę tam, gdzie oba czytania
+    mówią to samo. Jednym wystąpieniem roli jest to, które nazywa streszczenie:
+    pierwsze w porządku wyprowadzenia.
+    """
+    werdykt = verdict("Program zapisuje ustawienia i użytkownik czyta plik w katalogu.")
+    assert werdykt.result.ile == 2
+    assert all(len(czytanie.find("Subject")) == 2 for czytanie in werdykt.result.readings)
+    assert werdykt.result.różniące == ()
+
+
 def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
     """Wpisów jest tyle, ile nierozstrzygniętych wyborów, a nie ile czytań.
 

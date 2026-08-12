@@ -702,6 +702,21 @@ Liczby nie podałby przy tym żadnym kosztem,
 a pamięć podręczna pod pozycją, czyli to, co go trzyma poniżej wykładniczej,
 z leniwym wyliczaniem sama się nie składa.
 
+Role, o które czytania się różnią, wychodzą z lasu tą samą drogą.
+Streszczeń jest najwyżej `MAX_READINGS`,
+więc rola, którą rozdziela dopiero sześćdziesiąte piąte czytanie,
+nie zostałaby z nich nazwana,
+a liczba obok niej granicy nie ma i tej niezgody po sobie nie pokazuje.
+Tak stoi
+[przepis o 28 042 czytaniach](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem):
+werdykt nazywa tam dopełnienie, którego wypisane czytania nie rozdzielają.
+Kosztuje to jedno rozstrzygnięcie, którego lista czytań nie potrzebuje.
+Etykieta roli pada w jednym czytaniu kilka razy,
+bo zdanie współrzędne ma własny podmiot,
+więc nad lasem trzeba powiedzieć,
+które pozycje jednej etykiety są tym samym wystąpieniem.
+Jest nim to, które nazywa streszczenie, czyli pierwsze.
+
 Głowa stoi w tym werdykcie nazwana okrężnie i to jest jego słabsza połowa.
 Gospodarza nazywa materiał, który stoi w nim przed modyfikatorem,
 bo głowy nie wyróżnia ani jedna produkcja,

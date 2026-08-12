@@ -273,7 +273,8 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -
 
 Osiemnaście zdań ma ich więcej niż 64, a najwięcej ma 28 042.
 Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
-a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań i nie sięga liczenia.
+a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań
+i nie sięga ani liczenia ich, ani ról, o które się one różnią.
 
 Werdykt nad tym najdłuższym nazywa dwa przyłączenia,
 jedno o dwóch gospodarzach i jedno o czterech,
@@ -286,6 +287,14 @@ a olski bierze [współrzędność na trzech poziomach](subset.md#nothing-above-
 więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
 Ile ich dokładnie i czy to one dobijają do tej liczby, nikt nie policzył,
 i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
+
+Werdykt nazywa obok tych dwóch przyłączeń dopełnienie
+jako rolę, o którą czytania tego zdania się różnią,
+a sześćdziesiąt cztery czytania, które `--readings` nad nim wypisuje,
+są co do dopełnienia zgodne.
+Rolę tę bierze
+[z lasu](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+a nie z tej listy, tak samo jak liczbę czytań obok niej.
 
 Kształt tej wieloznaczności widać najkrócej nad zdaniami,
 których w tym korpusie nie ma:

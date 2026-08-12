@@ -550,22 +550,15 @@ class Verdict:
                 return f"no reading: no production takes {formy}"
             return "no reading: nothing in olski derives this"
         przyłączenia = self.result.przyłączenia
-        # Streszczenia są ucięte po `MAX_READINGS`, więc rola różniąca się dopiero
-        # dalej nie wejdzie do `differing`; liczba obok niej granicy nie ma.
-        # Co by kosztowało pytanie o to samego lasu, mówi TODO.md.
-        summaries = self.readings
         differing = sorted(
-            {
-                role
-                for role in ROLES
-                # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
-                # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
-                if not (przyłączenia and role == PRZYŁĄCZANY)
-                if len({summary.get(role) for summary in summaries}) > 1
-            }
+            role
+            for role in self.result.różniące
+            # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
+            # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
+            if not (przyłączenia and role == PRZYŁĄCZANY)
         )
-        # Liczba jest liczbą, a nie „64+”: bierze ją las sumą po klasach korzenia,
-        # więc granica wyliczania sięga listy czytań i nie sięga werdyktu.
+        # Liczba i role wychodzą z lasu, więc granica wyliczania sięga listy
+        # czytań i nie sięga tego wiersza: liczba jest liczbą, a nie „64+”.
         count = f"{self.result.ile} readings"
         if differing:
             count += f", differing in {', '.join(differing)}"
@@ -758,7 +751,13 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
         verdicts.append(
             Verdict(
                 text=sentence,
-                result=parse(grammar, segments, attaching=PRZYŁĄCZANY, hosts=PRZYŁĄCZENIA),
+                result=parse(
+                    grammar,
+                    segments,
+                    attaching=PRZYŁĄCZANY,
+                    hosts=PRZYŁĄCZENIA,
+                    roles=ROLES,
+                ),
                 nielicencjonowane=bez_licencji(segments, grammar),
             )
         )
