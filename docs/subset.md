@@ -355,6 +355,15 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   in the way `Nowa program` is one.
 - Coordination, of noun phrases, of adjective phrases and of clauses,
   joined by a conjunction
+- A `że` clause as what a verb takes, which is a position in its frame
+  rather than a construction beside the others:
+  `Mieszkańcy grożą, że zablokują ulice.`
+- A relative clause on a noun phrase, agreeing with it in number and gender,
+  with the pronoun standing for the subject, for the object
+  or under a fronted preposition:
+  `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`
+  Both are argued and priced
+  [below](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case
@@ -402,6 +411,9 @@ A coordination is one **conjunct**, a conjunction, and the rest,
 and the grammar's symbols are named for it:
 `NPConjunct` is a noun phrase with no coordination in it,
 `NP` is one that may have.
+`NP` is also where a relative clause attaches,
+for a reason [below](#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)
+that has nothing to do with coordination.
 An adjective attaches inside a conjunct and never above the coordination,
 so `nowe programy i pliki` is `[nowe programy] i [pliki]`
 and never `nowe [programy i pliki]`.
@@ -440,11 +452,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 296 | 114 | 12 615 |
-| zdaniowy | 310 | 114 | 12 601 |
-| imienny | 304 | 119 | 12 602 |
-| przymiotnikowy | 296 | 114 | 12 615 |
-| wszystkie trzy | 318 | 119 | 12 588 |
+| bez przecinka | 303 | 117 | 12 605 |
+| zdaniowy | 317 | 117 | 12 591 |
+| imienny | 311 | 122 | 12 592 |
+| przymiotnikowy | 303 | 117 | 12 605 |
+| wszystkie trzy | 325 | 122 | 12 578 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -499,8 +511,10 @@ Ani poziom imienny, ani przymiotnikowy nie rusza tu nic,
 bo pozostałe zdania tego pliku, które niosą przecinek,
 niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
 Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
-a kryterium wyjścia toru czeka na to, co w reszcie tych zdań stoi obok niego,
-i pierwsza jest tam podrzędność
+a kryterium wyjścia toru czeka na to, co w reszcie tych zdań stoi obok niego.
+Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie ruszyła
+([niżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
+więc czeka ono na przysłówek, dwukropek i czas przeszły naraz
 ([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
@@ -655,20 +669,24 @@ bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
 
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, a bezokolicznik czyta sam skład,
+Biernik czytają oba kierunki, a bezokolicznik i zdanie podrzędne czyta sam skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
-Po stronie generatora jest jedyną obroną przed drzewem,
-które żąda bezokolicznika od czasownika, który go nie bierze,
+Po stronie generatora jest bezokolicznik jedyną obroną przed drzewem,
+które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
 Po stronie parsera został zmierzony i pomiar stoi niżej w tej sekcji.
 
-Zdanie trzecie czyta sam skład i jest to inny rodzaj rozdziału niż tamten.
-Bezokolicznik gramatyka ma i zmierzono, ile jej czytanie o nim kupuje;
-zdania podrzędnego nie ma wcale, więc po tamtej stronie nie ma nawet pozycji,
-o którą to pytanie miałoby pytać, i nie ma czego mierzyć.
-Obrona jest za to po tej stronie tej samej wagi co przy bezokoliczniku:
-`zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` nie jest zdaniem polskim,
-i leksykon jest jedyną rzeczą, która te dwa czasowniki rozdziela.
+Zdanie trzecie zmierzono po tej samej stronie i wyszło z tego to samo.
+Rama domyślna ma zdanie podrzędne, a leksykon wymienia 1 926 lematów,
+które je biorą, więc odjęcie reszty jest wobec Walentego prawdziwe:
+`zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` polszczyzną nie jest.
+Nad Składnicą to odjęcie kosztuje jedno zdanie —
+`Wystarczy, że ujmiesz w swej pracy twarz i ręce.`, bo `wystarczyć` na liście
+nie stoi — a jednoznaczności nie kupuje ani jednej,
+pod złotą morfologią i pod Morfeuszem tak samo.
+Rama zostaje więc szeroka, tak jak przy bezokoliczniku i z tego samego powodu:
+zawężenie prawdziwe, które nie odbiera ani jednego drugiego czytania,
+płaci pokryciem za nic.
 
 Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
 Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,
@@ -762,10 +780,180 @@ zatrzymuje się teraz na liczebniku,
 czyli na [konstrukcji, której olski nie ma](#what-it-does-not-cover-yet),
 a nie na ramie.
 
+## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
+
+Zdanie podrzędne otwiera w polszczyźnie ten sam znak,
+którym koordynacja łączy dwa zdania składowe,
+więc gramatyka, która ma przecinek i nie ma podrzędności,
+nie odrzuca zdania podrzędnego — czyta je jako współrzędne.
+`Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
+wychodziło jednym czytaniem, w którym `które zadania własne gminy`
+jest podmiotem drugiego zdania,
+i pomiar nad rejestrem ustaw liczył to zdanie jako pokrycie
+([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)).
+Jedno czytanie, pewne siebie i błędne, jest gorsze niż odmowa.
+
+Rozdziela je miejsce przecinka w produkcji, a nie warunek obok niej.
+Koordynacja ma przecinek na poziomie zdania i powtarza tam własny symbol:
+`Clause → ClauseConjunct , Clause`.
+Podrzędność wciąga przecinek do konstytuentu, który sama tworzy,
+więc `SubordinateClause → , że Clause` jest jednym konstytuentem wraz z przecinkiem,
+a `Clause` się w nim nie powtarza.
+Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse.py`)
+i po tym samym rozpoznaje go sonda, która przecinek zdejmuje.
+
+### Zdanie z `że` jest pozycją ramy, a nie konstrukcją obok niej
+
+Czym jest zdanie podrzędne dopełnieniowe dla czasownika,
+tym jest dopełnienie i bezokolicznik:
+pozycją ramy, którą [leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-domyślnej)
+czasownikowi daje albo odbiera.
+Wchodzi więc jako czwarta pozycja ramy domyślnej,
+a nie jako produkcja dopisana do każdego szyku zdania z osobna,
+i tak samo jak tamte trzy dochodzi do czasownika przez `Complements`.
+Kosztuje to jedno słowo w `RAMA_DOMYŚLNA` i jedno ciało w `olski/subset.py`.
+
+Spójnikiem jest `że` i nic poza nim,
+choć Morfeusz daje klasę `comp` także formom `gdy`, `jeśli` i `aby`.
+Tamte otwierają okolicznik zdania, a nie dopełnienie,
+więc wpuszczone tą produkcją stanęłyby w pozycji, której nie zajmują,
+a czasownikowi, który zdania podrzędnego nie bierze,
+dałyby czytanie, w którym je bierze.
+
+Pod złotą morfologią przebieg nad Składnicą rusza dziesięć zdań i wszystkie w tę samą stronę:
+siedem przechodzi z odrzucenia w jednoznaczność, trzy w wieloznaczność,
+a żadne zdanie już przyjęte nie traci werdyktu ani nie zyskuje drugiego czytania.
+Wśród nowo przyjętych zgodność z drzewem wzorcowym rośnie o cztery,
+a o ani jedno odwrócenie roli nie rośnie
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+
+```text
+Mieszkańcy grożą, że zablokują ulice.
+Dodaje, że zwolnienia są nieuniknione.
+```
+
+### Zaimek względny nie jest przymiotnikiem przy rzeczowniku
+
+Morfeusz daje `który` znacznik `adj`, czyli ten sam, co `nowy` i `polski`,
+i to jest cały powód, dla którego `które zadania własne gminy`
+wychodziło grupą imienną.
+Przymiotnikiem przy rzeczowniku ten wyraz w polszczyźnie nie bywa nigdy:
+zaczyna zdanie względne albo pytanie, a przydawki nie tworzy.
+Warunek jest więc taki sam jak przy [zaimku rzeczownym](#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
+i pada w tym samym miejscu — na terminalu, a nie w słowniku:
+przydawka i orzecznik tego lematu nie biorą, a bierze go czoło zdania względnego.
+
+Zdjęcie tego czytania jest tym, co odbiera czytanie współrzędne,
+i odbiera je bez produkcji, która by go zabraniała:
+`które zadania własne gminy` przestaje być grupą imienną,
+więc nie ma czym być podmiotem zdania po przecinku.
+Tańsza z dwóch dróg do czytania, którego polszczyzna nie ma,
+prowadzi tędy, a nie przez wykluczenie w `admissible`
+([roadmap.md](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
+
+Kosztuje to jedno zdanie i jest nim pytanie.
+Nad Składnicą pod Morfeuszem warunek odbiera dokładnie
+`Który aktor robi na tobie największe wrażenie?`,
+gdzie `Który` jest zaimkiem pytajnym przy rzeczowniku.
+Pytanie zależne — `określają, które zadania` — kosztuje tyle samo:
+zdanie, które wychodziło błędnie, wychodzi teraz odrzucone,
+a konstrukcji, która by je wyprowadzała poprawnie, ta gramatyka nie ma.
+Obie należą do tego samego braku i [TODO.md](../TODO.md) trzyma je razem.
+
+### Zdanie względne niesie liczbę i rodzaj swojego zaimka
+
+Przypadek zaimka względnego mówi o zdaniu podrzędnym,
+a liczba i rodzaj o poprzedniku:
+`który` bierze przypadek z roli, którą w zdaniu podrzędnym zajmuje,
+a zgadza się w liczbie i rodzaju z tym, co określa.
+Zdanie względne wypuszcza więc te dwie cechy do góry,
+a produkcja, która je przyłącza, żąda ich od grupy imiennej.
+
+Kupuje to przyłączenie, którego gramatyka nie musi wybierać:
+
+```text
+Zbiór tekstów, które są polskie, jest podzbiorem.
+Zbiór tekstu, który jest polski, jest podzbiorem.
+```
+
+Pierwsze ma jedno czytanie, bo `które` jest w liczbie mnogiej
+i do `Zbiór` przyłączyć się nie ma jak.
+Drugie ma dwa, bo `Zbiór` i `tekstu` są oba męskie i pojedyncze,
+i są to dwa czytania, które ma także czytelnik.
+Jest to ta sama postawa co przy
+[wyrażeniu przyimkowym](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera) —
+gramatyka przyłączenia nie wybiera —
+z tą różnicą, że tutaj większość wyborów odbiera zgodność,
+czyli to samo, czym odbiera je czytelnik.
+
+Zdanie względne dochodzi przy tym do `NP`, a nie do `NPConjunct`,
+i nie jest to wybór wygody.
+Produkcja rekurencyjna na poziomie członu daje `te [konstrukcje, które stoją]`
+obok `[te konstrukcje], które stoją`,
+czyli dwa wyprowadzenia jednej struktury,
+a tych dwóch nie ma czym odsiać:
+kształty są różne, więc [są dwoma czytaniami](#co-się-liczy-jako-jedno-czytanie).
+Wyżej ten wybór nie istnieje, bo `NPConjunct` bierze wszystko, co grupa niesie przed nim.
+Kosztuje to symetrię w koordynacji:
+człon prawy zdanie względne unieść może, a lewy nie,
+więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia.
+
+Zdanie względne wypełnia trzy role, bo tylu ten rejestr używa,
+a każda z nich jest tą, którą zaimek zabiera zdaniu podrzędnemu:
+podmiot (`reguła, która rozstrzyga`),
+dopełnienie (`polszczyzna, którą ktoś napisał`)
+i wyrażenie przyimkowe (`język, o którym to repozytorium jest`).
+Ostatnia sięga najdalej i jest jedną produkcją,
+bo za wysuniętym wyrażeniem przyimkowym następuje zdanie składowe całe,
+w każdym szyku, jaki ono ma.
+Podmiot za wysuniętym dopełnieniem stoi przy tym po czasowniku i przed nim,
+choć zdanie główne ma ten szyk tylko w pierwszej wersji:
+`które ktoś napisał` jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie,
+i różni je to, że zaimek względny wysuwa polszczyzna zawsze,
+a dopełnienie z wyboru.
+
+Wysunięte wyrażenie przyimkowe niesie przy tym sam zaimek i nic poza nim.
+Polszczyzna wysuwa razem z nim całą grupę, w której on stoi —
+`ustawy, na podstawie której jest ono wydawane` —
+i takiego zdania ta gramatyka nie wyprowadza,
+bo `której` jest tam dopełniaczem przy `podstawie`, a nie grupą pod przyimkiem.
+Nad „Zasadami techniki prawodawczej” jest to jedyne zdanie,
+które przechodzi z wieloznaczności w odrzucenie,
+i przechodzi dlatego, że stało na czytaniu współrzędnym.
+
+### Bank drzew taguje `który` inaczej niż Morfeusz
+
+Składnica taguje `który` jako `padj`, czyli zaimek przymiotny,
+a Morfeusz jako `adj`,
+więc gramatyka pisana pod tagset Morfeusza nie sięga po ani jedno wystąpienie
+w przebiegu pod złotą morfologią.
+Kolumna złota mierzy zatem samo zdanie z `że`,
+a zdanie względne mierzy kolumna z Morfeuszem i rejestr ustaw.
+
+Pod Morfeuszem 29 zdań Składnicy wychodzi z odrzucenia,
+osiem jednoznacznych i dwadzieścia jeden wieloznacznych,
+a zdanie względne niesie z nich dziewięć i pozostałe dwadzieścia niesie `że`.
+Traci werdykt tamto jedno zdanie pytające i tylko ono.
+Ani jedno zdanie przyjęte nie zyskuje drugiego czytania,
+więc jednoznaczność obie konstrukcje kosztują tu zero,
+a wieloznaczności przybywa wyłącznie na zdaniach, które wcześniej odpadały.
+
+```text
+Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.
+```
+
+Rozbieżność tagsetów jest przy tym faktem o korpusie, a nie o gramatyce,
+i jest tu dlatego, że bez niej kolumna złota mówiłaby o zdaniu względnym nieprawdę:
+liczba, która się nie ruszyła, czyta się jak konstrukcja, która nic nie kupuje.
+Ta sama rozbieżność stoi za wierszem `psubst`
+[w kolejce blokerów](corpus.md#where-the-analyses-stop):
+`to`, `co` i `kto` mają tam własną klasę,
+a Morfeusz daje im `subst`, więc produkcja pisana pod jego tagset
+tamtego wiersza nie ruszy, choćby zdanie z `to` wyprowadzała.
+
 ## What it does not cover yet
 
-Each of these is a sentence that gets rejected and should not be,
-except subordination, which gets accepted and should not be:
+Every one of these is a sentence that gets rejected and should not be:
 
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
@@ -777,16 +965,22 @@ except subordination, which gets accepted and should not be:
 - The past tense, which
   [corpus.md](corpus.md#where-the-analyses-stop)
   ranks as the cheapest large gain left.
-- Subordination with `że` and `który`, which is not merely missing.
-  A `który` clause after a comma derives as a coordination of clauses,
-  the comma being admitted at that level
-  ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
-  so `Ustawy określają, które zadania gminy mają charakter obowiązkowy.`
-  comes back valid with `które zadania gminy` for the subject of a second clause.
-  One reading, confidently wrong, is worse than a refusal,
-  and it is what admitting the comma without subordination buys:
-  [ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
-  found one such sentence counted as coverage.
+- The subordinators past `że`, which are the ones opening an adverbial clause:
+  `gdy`, `jeśli`, `aby`, `zanim`, `choć`.
+  The `comp` row [corpus.md](corpus.md#where-the-analyses-stop) ranks
+  is what they come to together,
+  and what keeps them out is that a `że` clause is a position in a verb's frame
+  while these modify a clause
+  ([above](#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej)).
+- `który` anywhere it is not the relative pronoun of a relative clause:
+  in a question (`Który aktor robi na tobie największe wrażenie?`),
+  in an indirect one (`Ustawy określają, które zadania mają charakter obowiązkowy.`),
+  and under a preposition that fronted the whole phrase it stands in
+  (`ustawy, na podstawie której jest ono wydawane`).
+  The first two are one construction and the third another,
+  and all three used to derive
+  — the first as an adjective before its noun, the other two as coordination —
+  so what this entry records is a rejection replacing a wrong reading.
 - Negation and the genitive of negation.
 - Numerals, which are common
   and are their own self-contained problem.
@@ -977,8 +1171,10 @@ i każda z nich jest zwyczajną polszczyzną:
 - po rzeczowniku, który już ma przy sobie przymiotnik, dopełniacz albo oba
   (`akcja zbrojna w Strefie Gazy`, `zadania ochrony ludności w gminie`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
+- wewnątrz zdania względnego, po obu stronach tego, co w nim zostało
+  (`reguła, która w tym trybie rozstrzyga`)
 
-Wierszy jest sześć, a produkcji dwadzieścia dwie,
+Wierszy jest siedem, a produkcji trzydzieści,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
@@ -1005,7 +1201,7 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dwadzieścia zdań,
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dwadzieścia jeden zdań,
 a z nimi jedno, i to jedno nie jest wyborem, którego olski dokonał.
 Liczby trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).

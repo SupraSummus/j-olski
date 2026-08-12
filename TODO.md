@@ -458,7 +458,74 @@ przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
-Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno.
+Zaimek `który` stoi w polszczyźnie w trzech konstrukcjach, a olski ma jedną.
+`RelativePronoun` w `olski/subset.py` bierze go na czele zdania względnego,
+a `przymiotnik` w tym samym pliku odbiera mu pozycję przydawki,
+więc pytanie — `Który aktor robi na tobie największe wrażenie?` —
+i pytanie zależne — `Ustawy określają, które zadania mają charakter obowiązkowy.` —
+nie wyprowadzają się wcale.
+Pierwsze wychodziło wcześniej jako przymiotnik przed rzeczownikiem
+i jest jedynym zdaniem, jakie warunek odbiera Składnicy pod Morfeuszem;
+drugie wychodziło jako zdanie współrzędne po przecinku, czyli błędnie,
+i cenę obu trzyma
+[`docs/subset.md`](docs/subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku).
+Ruchem jest grupa imienna z zaimkiem pytajnym na czele,
+wpuszczona w pozycji podmiotu i dopełnienia zdania pytającego
+oraz w pozycji ramy tam, gdzie dziś stoi `SubordinateClause`.
+Do rozstrzygnięcia jest przy tym, czy pytanie zależne jest tą samą pozycją ramy
+co zdanie z `że`, czy osobną: leksykon walencyjny mówi o nich to samo,
+a czasownik, który bierze jedno i nie bierze drugiego, tę pozycję rozdziela.
+Do przeczytania jest, ile zdanie pytające w ogóle w tych rejestrach waży,
+bo nad README nie ma go ani razu, a nad Składnicą wiersz `padj` prowadzi `który`.
+
+Zaimek względny wysunięty razem ze swoją grupą nie ma wyprowadzenia.
+`RelativeModifier` w `olski/subset.py` bierze przyimek i sam zaimek,
+a polszczyzna wysuwa razem z nim całą grupę, w której on stoi:
+`ustawy, na podstawie której jest ono wydawane` jest zdaniem
+„Zasad techniki prawodawczej”, które przez to przechodzi z wieloznaczności w odrzucenie
+([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
+Ruchem jest grupa imienna, w której zaimek stoi jako dopełniacz przy głowie,
+z liczbą i rodzajem wypuszczonymi z zaimka, a nie z głowy,
+bo to zaimek zgadza się z poprzednikiem, a nie rzeczownik, przy którym stoi.
+Do rozstrzygnięcia jest, jak daleko ta grupa sięga:
+polszczyzna wysuwa i `na podstawie której`, i `o którego zdaniu`,
+a każdy kolejny kształt jest osobnym ciałem,
+dopóki cechy nie przechodzą przez grupę imienną same.
+
+Człon lewy ciągu współrzędnego nie unosi zdania względnego.
+Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
+żąda członu, a produkcja koordynacji daje po lewej człon i po prawej ciąg,
+więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia,
+a `pliki i katalogi, które rosną` ma.
+Ruchem jest symbol między `NP` a `NPConjunct`, przez który idą oba człony,
+i ruch ten zbudowano na próbę, więc cena jest policzona, a zakup nie.
+Cena ma trzy pozycje.
+Nad Składnicą pod Morfeuszem jedno zdanie traci jednoznaczność —
+`Przez czynniki ekonomiczne należy rozumieć te, które kształtują rozmiary
+i strukturę dochodów oraz wydatków budżetowych.` wychodzi trzema czytaniami
+zamiast jednego, bo `te, które kształtują rozmiary` staje się członem ciągu —
+i jest to czytanie, które polszczyzna ma, więc nie jest to usterka, tylko cena.
+Pod złotą morfologią nie rusza się ani jedno zdanie.
+Trzecią pozycją jest `_role` w `skład/rozbiór.py`:
+czyta ono kształty gramatyki po etykiecie,
+więc każdy nowy poziom kosztuje tam gałąź, a obieg zamknięty bez niej pada.
+Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
+nad Składnicą i nad ustawami nie policzył ich nikt.
+Dopóki tej liczby nie ma, wpis stoi po stronie ceny,
+bo jednoznaczność płacona za pokrycie niepoliczone
+idzie wbrew kolejności, którą trzyma
+[`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme).
+
+Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno,
+a przy podrzędności nazywa cudzą rolę jako rolę zdania.
+`Reguła, która rozstrzyga o zdaniu, jest tania.` wychodzi wierszem
+`Subject: Reguła, która rozstrzyga o zdaniu,, Predicative: tania, Verb: rozstrzyga`,
+gdzie czasownikiem zdania jest `jest`, a `rozstrzyga` należy do zdania względnego:
+`describe` schodzi w głąb i pierwszy węzeł roli znajduje pod podmiotem,
+bo tam stoi całe zdanie podrzędne.
+Przy koordynacji ten sam mechanizm milczy o reszcie zdania,
+a tutaj mówi o niej nieprawdę, więc podrzędność podnosi cenę tego wpisu,
+a nie dokłada drugiego.
 `describe` w `olski/parse.py` nazywa pierwsze wystąpienie każdej roli,
 a `Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
 w którym `i szczęśliwi` jest drugim zdaniem współrzędnym:
@@ -481,6 +548,14 @@ Drugie do przeczytania jest `_pierwsza_rola` w `olski/parse.py`,
 która pierwsze wystąpienie wybiera z tego samego powodu i uzasadnia go w docstringu:
 dwa podmioty stojące obok siebie w jednym czytaniu
 nie mówią nic o różnicy między czytaniami, i to uzasadnienie zostaje.
+Ruch dla podrzędności jest przy tym inny niż dla koordynacji
+i tańszy o cały wydruk: rola brana z zewnętrznego zdania, a nie z pierwszego węzła,
+czyli zejście zatrzymane na `RelativeClause` i na `SubordinateClause`.
+Zatrzymanie musi objąć oba podsumowania naraz —
+`describe` i `Las._pierwsza_rola` — bo inaczej wiersz `differing in` mówi o rolach,
+których lista czytań pod nim nie nazywa,
+a cenę widać w tym, co wtedy przepada:
+wieloznaczność zamknięta wewnątrz zdania podrzędnego zostaje samą liczbą czytań.
 
 Werdykt nie ma kanału na dwa czytania o jednym streszczeniu.
 `explain` w `olski/subset.py` nazywa role, o które czytania się różnią,
@@ -598,9 +673,16 @@ a nie permutacja argumentów.
 Czwarty kształt głowy, czyli przymiotnik z dopełniaczem naraz,
 wszedł jako dwa ciała, bo `Modifier` musiał wejść razem z nim,
 i tyle samo zażąda każdy następny.
-Etap 4 dołoży tam trzeci rodzaj przydawki, a nie czwarty szyk,
-podczas gdy `Adjuncts` w tym samym pliku się nie mnoży,
+Zdanie względne tego iloczynu nie ruszyło i pokazuje, którędy się go omija:
+dochodzi ono do `NP`, czyli o poziom wyżej, więc jest jedną produkcją,
+a nie trzecim rodzajem przydawki razy cztery kształty głowy.
+Kosztowało to symetrię w koordynacji i osobny wpis wyżej,
+a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
+Samo zdanie względne dołożyło za to trzecie miejsce, w którym szyk się wypisuje:
+`RelativeCore` ma dziewięć ciał, bo rola wysunięta ma trzy kształty,
+a reszta zdania szyk i miejsca na okolicznik,
+więc preprocesor zastanie tu dwie rodziny symboli zdaniowych zamiast jednej.
 Do przeczytania jest, co preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
 a próba nad prozą README stoi w `sonda/` gotowa do porównania,
@@ -613,9 +695,10 @@ który deklaruje `olski/subset.py`,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
-Te dwie deklaracje już się rozeszły na koordynacji przecinkiem:
-olski bierze przecinek na trzech poziomach, a sonda spójnik,
-i nad prozą README nie widać tego po żadnej liczbie.
+Te dwie deklaracje rozeszły się na koordynacji przecinkiem
+— olski bierze przecinek na trzech poziomach, a sonda spójnik —
+i drugi raz na podrzędności, której sonda nie ma wcale,
+a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
 przestaje wtedy, gdy szyk zejdzie do warunków precedencji i zostanie zmierzony,
 więc wpis stoi za tamtym.

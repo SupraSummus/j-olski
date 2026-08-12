@@ -47,7 +47,10 @@ DEKLARACJA = Deklaracja(
     # grupa imienna, grupa przymiotnikowa i zdanie składowe.
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
     # a okolicznik zdania nie ma nad sobą żadnego z dwóch pierwszych i zostaje przy zdaniu.
-    gospodarze=("NP", "AP", "ClauseConjunct"),
+    # Zdanie względne jest tu czwarte i jest zdaniem tak samo jak ``ClauseConjunct``:
+    # bez niego okolicznik z jego wnętrza wychodzi w górę do grupy imiennej,
+    # którą to zdanie określa, i werdykt nazywa poprzednik zamiast orzeczenia.
+    gospodarze=("NP", "AP", "ClauseConjunct", "RelativeCore"),
     # Symbole, które się koordynują: grupa imienna, grupa przymiotnikowa i zdanie.
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
@@ -64,11 +67,25 @@ FRAGMENT = "fragment"
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
-#: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny i
-#: bezokolicznik. Narzędnika w niej nie ma, i to jest to jedno miejsce, w którym
-#: rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze kopula i nikt
-#: poza nią.
-RAMA_DOMYŚLNA = "nom.acc.inf"
+#: Spójnik, którym zdanie podrzędne dopełnieniowe zaczepia się o czasownik.
+#: Jeden, a nie cała klasa `comp`: `gdy`, `jeśli` i `aby` otwierają okolicznik
+#: zdania, więc wpuszczone tą produkcją stanęłyby w pozycji, której nie zajmują.
+SPÓJNIK_DOPEŁNIENIOWY = "że"
+
+#: Zaimek względny, któremu Morfeusz daje znacznik przymiotnika. Przymiotnikiem
+#: przy rzeczowniku nie jest nigdy, więc terminale przydawki i orzecznika go nie
+#: biorą, a bierze go czoło zdania względnego i nikt poza nim. Ten warunek
+#: odbiera zdaniu podrzędnemu czytanie współrzędne, i za ile,
+#: mierzy docs/subset.md.
+ZAIMEK_WZGLĘDNY = "który"
+
+#: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny,
+#: bezokolicznik i zdanie podrzędne. Narzędnika w niej nie ma, i to jest to jedno
+#: miejsce, w którym rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze
+#: kopula i nikt poza nią. Zdanie podrzędne stoi w niej mimo tego, że leksykon
+#: wylicza lematy, które je biorą: zawężenie zmierzono i nie odbiera ono ani
+#: jednego drugiego czytania, a kosztuje zdanie; docs/subset.md trzyma pomiar.
+RAMA_DOMYŚLNA = "nom.acc.inf.comp"
 
 #: Rama lematu, o którym leksykon mówi, że biernika nie bierze. Wyliczona z
 #: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
@@ -86,6 +103,9 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     na ramę, a nie raz na lemat. Kopula zabiera leksykonowi swoje lematy, zamiast
     stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
     co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
+
+    Zdanie leksykonu jest tu jedno, o bierniku, choć plik mówi trzy. Co zdejmuje
+    dwa pozostałe, mówi :data:`RAMA_DOMYŚLNA`.
     """
     return (
         {
@@ -141,6 +161,13 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
 
 def build() -> Grammar:
     grammar = Grammar(start="Sentence")
+
+    # Przymiotnik przy rzeczowniku i przymiotnik w orzeczniku, nazwane raz, bo
+    # oba wykluczają ten sam lemat i wykluczenie ma być w każdym ciele to samo.
+    # Zaimka względnego nie bierze ani jeden z nich: pozycję ma on jedną i stoi
+    # ona niżej, na czole zdania względnego.
+    przymiotnik = word("adj", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)
+    orzecznikowy = word("adj|ppas", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)
 
     grammar.rule("Sentence", [Głowa(nt("Clause")), word("interp", lemma=".|!|?")])
 
@@ -298,6 +325,17 @@ def build() -> Grammar:
     # i ma pomagać pisać wychodzi z tych dwóch.
     grammar.rule("InfinitivePhrase", [word("inf")], valency="inf")
 
+    # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
+    # ramy niesie ono tak samo jak dopełnienie i bezokolicznik, więc żądanie wobec
+    # czasownika stoi raz, tutaj, a nie w każdym szyku, w którym to zdanie stoi.
+    # Przecinek należy do tego konstytuentu, a nie do produkcji nad nim, i tym
+    # różni się podrzędność od koordynacji; wywód trzyma docs/subset.md.
+    grammar.rule(
+        "SubordinateClause",
+        [PRZECINEK, word("comp", lemma=SPÓJNIK_DOPEŁNIENIOWY), Głowa(nt("Clause"))],
+        valency="comp",
+    )
+
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
     # Dopełnienie w bierniku, bezokolicznik i orzecznik — zgodny albo w narzędniku —
     # różnią się tym, którą pozycję ramy zajmują, a nie tym, gdzie stoją, więc każde
@@ -313,6 +351,7 @@ def build() -> Grammar:
         dopełnienie,
         nt("InfinitivePhrase", valency=V("w")),
         orzecznik_ramy,
+        nt("SubordinateClause", valency=V("w")),
     ):
         for ciało in (
             [wypełnienie],
@@ -387,6 +426,25 @@ def build() -> Grammar:
         person=V("p"),
         **AGREE,
     )
+    # Zdanie względne po grupie imiennej, w liczbie i rodzaju swojego zaimka:
+    # `reguła, która rozstrzyga`. Przypadka nie niesie, bo zaimek bierze go z
+    # roli, którą zajmuje w zdaniu podrzędnym, a nie od poprzednika.
+    #
+    # Stoi to tutaj, a nie wśród ciał `NPConjunct`, i nie jest to wybór wygody:
+    # na tamtym poziomie produkcja rekurencyjna daje `te [konstrukcje, które
+    # stoją]` obok `[te konstrukcje], które stoją`, czyli dwa wyprowadzenia
+    # jednej struktury, których nie ma czym odsiać. Cenę tego poziomu — człon
+    # lewy zdania względnego nie unosi — trzyma TODO.md, a docs/subset.md
+    # wywodzi, co zgodność z poprzednikiem odbiera przyłączeniu.
+    grammar.rule(
+        "NP",
+        [
+            Głowa(nt("NPConjunct", person=V("p"), **AGREE)),
+            nt("RelativeClause", number=V("n"), gender=V("g")),
+        ],
+        person=V("p"),
+        **AGREE,
+    )
     # A coordination of noun phrases is plural and third person whatever its
     # conjuncts are, and it carries no gender: Polish resolves the gender of
     # rozum i sumienie by rules unification cannot state, and a feature a phrase
@@ -416,7 +474,7 @@ def build() -> Grammar:
     )
     grammar.rule(
         "NPConjunct",
-        [word("adj", **AGREE), Głowa(nt("NPConjunct", **AGREE))],
+        [przymiotnik, Głowa(nt("NPConjunct", **AGREE))],
         person="ter",
         **AGREE,
     )
@@ -437,7 +495,7 @@ def build() -> Grammar:
     # are here, and where a sentence admits both readings it is ambiguous.
     grammar.rule(
         "NPConjunct",
-        [Głowa(word("subst", **AGREE)), word("adj", **AGREE)],
+        [Głowa(word("subst", **AGREE)), przymiotnik],
         person="ter",
         **AGREE,
     )
@@ -454,7 +512,7 @@ def build() -> Grammar:
     # docs/ustawy.md trzyma, ile ta pozycja tam daje i ile odbiera.
     grammar.rule(
         "NPConjunct",
-        [Głowa(głowa_dopełniacza), word("adj", **AGREE), nt("NP", case="gen")],
+        [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen")],
         person="ter",
         **AGREE,
     )
@@ -467,7 +525,7 @@ def build() -> Grammar:
     # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
     grammar.rule(
         "NPConjunct",
-        [Głowa(word("subst", **AGREE)), word("adj", **AGREE), nt("Modifier")],
+        [Głowa(word("subst", **AGREE)), przymiotnik, nt("Modifier")],
         person="ter",
         **AGREE,
     )
@@ -479,7 +537,7 @@ def build() -> Grammar:
     )
     grammar.rule(
         "NPConjunct",
-        [Głowa(głowa_dopełniacza), word("adj", **AGREE), nt("NP", case="gen"), nt("Modifier")],
+        [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen"), nt("Modifier")],
         person="ter",
         **AGREE,
     )
@@ -504,16 +562,92 @@ def build() -> Grammar:
     )
     # A passive participle is an adjective for these purposes, and it keeps the
     # complement its verb governed: obdarzeni rozumem i sumieniem.
-    grammar.rule("APConjunct", [word("adj|ppas", **AGREE)], **AGREE)
+    grammar.rule("APConjunct", [orzecznikowy], **AGREE)
     grammar.rule(
-        "APConjunct", [Głowa(word("adj|ppas", **AGREE)), nt("NP", case="inst")], **AGREE
+        "APConjunct", [Głowa(orzecznikowy), nt("NP", case="inst")], **AGREE
     )
     # Trzecie miejsce, do którego wyrażenie przyimkowe dochodzi: powiązani z
     # interesami postkomunistów, przeznaczany na budowę.
-    grammar.rule("APConjunct", [Głowa(word("adj|ppas", **AGREE)), nt("Modifier")], **AGREE)
+    grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("Modifier")], **AGREE)
 
     # A preposition governs a case, and the noun phrase has to be in it.
     grammar.rule("Modifier", [Głowa(word("prep", case=V("c"))), nt("NP", case=V("c"))])
+
+    # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
+    # bez przecinków odgraniczających. Przecinek zamykający stawia polszczyzna
+    # wtedy, gdy zdanie nadrzędne biegnie dalej, więc oba ciała są tu razem, a
+    # zdanie dostaje to z nich, które pasuje do jego interpunkcji.
+    for ciało in (
+        [PRZECINEK, Głowa(nt("RelativeCore", number=V("n"), gender=V("g")))],
+        [PRZECINEK, Głowa(nt("RelativeCore", number=V("n"), gender=V("g"))), PRZECINEK],
+    ):
+        grammar.rule("RelativeClause", ciało, number=V("n"), gender=V("g"))
+
+    # Zaimek względny jest grupą imienną o jednym słowie i osobnym symbolem, bo
+    # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
+    # zdania względnego. Wpuszczony do grupy imiennej stanąłby w każdej jej
+    # pozycji, a `Program zapisuje który.` polszczyzną nie jest.
+    grammar.rule("RelativePronoun", [word("adj", lemma=ZAIMEK_WZGLĘDNY, **AGREE)], **AGREE)
+    grammar.rule(
+        "RelativeModifier",
+        [
+            Głowa(word("prep", case=V("c"))),
+            nt("RelativePronoun", case=V("c"), number=V("n"), gender=V("g")),
+        ],
+        number=V("n"),
+        gender=V("g"),
+    )
+
+    # Zdanie względne bez zaimka jest zdaniem bez tej roli, którą zaimek zajmuje,
+    # i dlatego szyków jest tu tyle, ile ról, a nie tyle, ile szyków ma zdanie.
+    # Zaimek stoi na czele zawsze, bo tak stawia go polszczyzna, więc pozycja
+    # brakująca jest zawsze pierwsza i reszta zdania jest ciałem, jakie gramatyka
+    # ma wypisane wyżej.
+    #
+    # Trzy role, bo trzy stoją w tym rejestrze: podmiot (`reguła, która
+    # rozstrzyga`), dopełnienie (`polszczyzna, którą ktoś napisał`) i wyrażenie
+    # przyimkowe (`język, o którym to repozytorium jest`). Ostatnia jest jedną
+    # produkcją i sięga najdalej, bo za wyrażeniem przyimkowym stoi zdanie
+    # składowe całe, w każdym szyku, jaki ono ma.
+    zaimek_podmiot = nt("RelativePronoun", case="nom", number=V("n"), gender=V("g"))
+    zaimek_dopełnienie = nt("RelativePronoun", case="acc", number=V("n"), gender=V("g"))
+    # Osoba i liczba orzeczenia biorą się tu z zaimka, bo on jest podmiotem;
+    # w ciałach z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
+    # zmienna liczby jest tam inna niż zmienna liczby zaimka.
+    orzeczenie_względne = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
+    czasownik_względny = nt("Verb", number=V("nv"), person=V("p"), valency="acc")
+    podmiot_względny = nt("Subject", number=V("nv"), person=V("p"))
+    grammar.rule(
+        "RelativeCore",
+        [nt("RelativeModifier", number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
+        number=V("n"),
+        gender=V("g"),
+    )
+    for ciało in (
+        [zaimek_podmiot, Głowa(orzeczenie_względne)],
+        [zaimek_podmiot, okoliczniki, Głowa(orzeczenie_względne)],
+    ):
+        grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
+
+    # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
+    # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
+    # jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie, i różni je to,
+    # że zaimek względny wysuwa polszczyzna zawsze, a dopełnienie z wyboru.
+    #
+    # Okolicznik dostaje obie strony reszty, tak samo jak w szykach zdania
+    # wyżej i z tego samego powodu: pozycji brakującej nie widać po zdaniu
+    # odrzuconym, tylko po przyjętym, które wychodzi jednym czytaniem, bo drugie
+    # nie miało gdzie się wyprowadzić.
+    for reszta in (
+        [Głowa(czasownik_względny), podmiot_względny],
+        [podmiot_względny, Głowa(czasownik_względny)],
+    ):
+        for ciało in (
+            [zaimek_dopełnienie, *reszta],
+            [zaimek_dopełnienie, okoliczniki, *reszta],
+            [zaimek_dopełnienie, *reszta, okoliczniki],
+        ):
+            grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
 
     return grammar
 

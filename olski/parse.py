@@ -1150,12 +1150,16 @@ def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
 
 
 def _koordynuje(node: Node, współrzędne: Sequence[str]) -> bool:
-    """Czy produkcja tego węzła koordynuje: symbol z deklaracji nad dwiema grupami.
+    """Czy produkcja tego węzła koordynuje: symbol z deklaracji stojący nad sobą.
 
-    Spójnik i przecinek są słowami, więc wśród produkcji tych symboli
-    dwie córki-konstytuenty ma koordynacja i nic poza nią.
+    Ciąg współrzędny jest resztą ciągu po odjęciu członu, więc symbol koordynacji
+    stoi wśród własnych córek i tym się poznaje. Liczba córek-konstytuentów tego
+    nie mówi: `NP → NPConjunct RelativeClause` ma je dwie i koordynacją nie jest,
+    a nawias postawiony nad nią pokazałby granicę członu tam, gdzie nie ma ciągu.
     """
-    return node.label in współrzędne and sum(isinstance(d, Node) for d in node.children) > 1
+    return node.label in współrzędne and any(
+        isinstance(dziecko, Node) and dziecko.label == node.label for dziecko in node.children
+    )
 
 
 def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:

@@ -430,13 +430,13 @@ python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 44 zdania.
+Proza README ma 45 zdań.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
 a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 42 z nich,
+Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 43 z nich,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`

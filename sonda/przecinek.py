@@ -42,7 +42,7 @@ from pathlib import Path
 
 from olski.corpus import Sentence, pliki, read
 from olski.coverage import Outcome, po_kawałkach
-from olski.grammar import Grammar, Production
+from olski.grammar import Grammar, Production, Sym
 from olski.parse import parse
 from olski.subset import FRAGMENT, PRZECINEK, build, check
 
@@ -68,13 +68,22 @@ WARIANTY = ("bez", *POZIOMY, "wszystkie")
 
 
 def _przecinkowa(produkcja: Production) -> bool:
-    """Czy produkcja jest tą, którą przecinek do gramatyki wnosi.
+    """Czy produkcja jest tą, którą przecinek wnosi jako znak koordynacji.
 
     Pytanie stawiane produkcji, a nie liście nazw obok gramatyki: przecinek
     dopisany kiedyś na czwartym poziomie wchodzi tu sam, a lista obok
     przemilczałaby go i sonda mierzyłaby dalej trzy.
+
+    Sam przecinek w ciele na to nie odpowiada, bo polszczyzna stawia go i tam,
+    gdzie nic się nie koordynuje: zdanie względne otwiera nim swoją granicę.
+    Ciąg współrzędny poznaje się po tym, że symbol stoi nad sobą, i tak samo
+    poznaje go werdykt (``_koordynuje`` w ``olski/parse.py``). Zdjęta produkcja
+    podrzędna zostawiłaby ponadto symbol bez ani jednego ciała, a gramatyka z
+    symbolem nieokreślonym nie rozbiera niczego.
     """
-    return PRZECINEK in produkcja.body
+    return PRZECINEK in produkcja.body and any(
+        isinstance(część, Sym) and część.name == produkcja.head for część in produkcja.body
+    )
 
 
 @functools.cache

@@ -49,14 +49,15 @@ from pathlib import Path
 from olski.attachment import CZASOWNIK
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Reading, Segment
-from olski.subset import (
-    KOPULA,
-    RAMA_BEZ_BIERNIKA,
-    WALENCJA,
-    WALENCJA_ZWROTNA,
-    morphology,
-    sentences,
-)
+from olski.subset import morphology, sentences
+
+# Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
+# cząstką ``się`` i bez niej, bo są to dwa czasowniki i biorą co innego. Zdanie z
+# takim czasownikiem czytania OVS nie ma: nie ma dopełnienia, którym pierwsza
+# grupa miałaby stanąć. Pytamy o nie leksykon, bo to on jest właścicielem tego
+# zdania; klasa walencyjna gramatyki jest jego odczytem pod inne pytanie i
+# odpowiada tu tylko dopóty, dopóki rama mówi to samo, co jedno zdanie pliku.
+from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
 #: Części mowy, którymi grupa imienna może się skończyć. Głowa i to, co stoi za
 #: nią: przymiotnik idzie w polszczyźnie i przed rzeczownikiem, i po nim.
@@ -71,14 +72,6 @@ GŁOWA_NP = frozenset({"subst", "depr", "ger", "num", "numcol"})
 #: pytanie o SVO i OVS w ogóle stoi. Imiesłów i bezokolicznik są tu wyłączone,
 #: choć CZASOWNIK je liczy: podmiotu przy sobie nie mają.
 OSOBOWY = frozenset({"fin", "praet", "bedzie", "impt", "winien"})
-
-#: Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
-#: cząstką ``się`` i bez niej, bo są to dwa czasowniki i biorą co innego. Kopula
-#: idzie do gołych, bo to ona zabrała leksykonowi swoje lematy. Zdanie z takim
-#: czasownikiem czytania OVS nie ma: nie ma dopełnienia, którym pierwsza grupa
-#: miałaby stanąć.
-BEZ_BIERNIKA = frozenset(WALENCJA[RAMA_BEZ_BIERNIKA].split("|") + KOPULA.split("|"))
-BEZ_BIERNIKA_ZWROTNE = frozenset(WALENCJA_ZWROTNA[RAMA_BEZ_BIERNIKA].split("|"))
 
 #: Znaki, po których ``_człony`` tnie zdanie na składowe.
 GRANICA = frozenset({",", ";", ":", "–", "—", "-"})
