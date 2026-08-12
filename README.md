@@ -83,13 +83,13 @@ Nowa program zapisuje ustawienia."
                   one reading
                   - Object: plik konfiguracyjny, Verb: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 readings, differing in Object, Subject; „z dodatkami” → „Koszt samej szynki przewyższa koszt szynki”, „koszt szynki”, „szynki”
+                  6 readings, differing in Object, Subject; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
                   - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → szynki
-                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt szynki
-                  - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → Koszt samej szynki przewyższa koszt szynki
+                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt
+                  - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
                   - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → szynki
-                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt szynki
-                  - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → Koszt samej szynki przewyższa koszt szynki
+                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt
+                  - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
                   no reading: nothing in olski derives this
 1 of 3 sentences are olski

@@ -439,22 +439,24 @@ w tabelach obu tych dokumentów.
 Wpis jest winien przebiegi, których
 [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w mianowniku.
 
-Gospodarza przyłączenia nazywa materiał przed modyfikatorem, a nie głowa.
-Werdykt nad zdaniem wieloznacznym wskazuje przyimek i konstytuenty,
-do których dochodzi, a nazywa je ciągiem wziętym ze zdania,
-bo głowy nie wyróżnia ani jedna produkcja w `build` z `olski/subset.py`.
-Grupa imienna na czele zdania ma przez to ten sam napis co zdanie,
-i rozdziela je dopiero dopisany symbol konstytuenta:
-`Władza zwierzchnia (NP)` obok `Władza zwierzchnia (ClauseConjunct)`.
-Symbol wystarcza, żeby wybór był widoczny,
-i nie wystarcza, żeby był nazwany tak, jak go autor widzi —
-`władza` obok `należy` byłoby tą nazwą.
-Do przeczytania jest `_nazwij` w `olski/parse.py` wraz z
-[wywodem tego werdyktu](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
-bo obie nazwy — ta w streszczeniu czytania i ta w werdykcie — wychodzą z jednej reguły.
-Ruchem jest głowa wyróżniona w produkcji, po której nazwą gospodarza jest jedno słowo.
-Do rozstrzygnięcia jest, czy wyróżnia ją deklaracja obok produkcji, czy pozycja w jej ciele,
-i co się dzieje z produkcją, której nikt głowy nie przypisał.
+Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
+`Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
+daje wiersz `„do udziału” → „może”, „przedstawiciela”`,
+a grupa imienna nazwana tam `przedstawiciela` jest w innym czytaniu grupą,
+w której głową jest `swojego`:
+przymiotnik ma czytanie rzeczownikowe, a rzeczownik dopełniaczowe,
+czyli tę samą parę, o którą pyta wpis o rzeczownikowym czytaniu przymiotnika.
+Wybór między tymi dwiema nazwami robi porządek, w jakim las wydaje drzewa,
+bo `_przedstawiciel` w `olski/parse.py` bierze pierwsze z nich,
+i nie jest to wybór, który ktokolwiek zadeklarował.
+Formom to nie grozi, bo konstytuent ma je w każdym czytaniu te same.
+Ruchem jest albo obie głowy w tym wierszu, albo pierwsza z zadeklarowanym kryterium.
+Przeciw pierwszemu: wiersz przyłączenia mówi o jednym wyborze,
+a `swojego` bierze się z czytania słownikowego, nie z przyłączenia,
+więc wiersz zaczyna mówić o dwóch wieloznacznościach naraz;
+przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi raz.
+Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
+bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
 Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
 `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy

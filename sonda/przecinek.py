@@ -92,7 +92,7 @@ def gramatyka(wariant: str) -> Grammar:
     for produkcja in pełna.productions:
         if wariant != "wszystkie" and _przecinkowa(produkcja) and produkcja.head not in zostają:
             continue
-        okrojona.rule(produkcja.head, list(produkcja.body), **dict(produkcja.features))
+        okrojona.dopisz(produkcja)
     return okrojona
 
 

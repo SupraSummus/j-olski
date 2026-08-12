@@ -84,6 +84,35 @@ Part = Sym | Word
 
 
 @dataclass(frozen=True)
+class Głowa:
+    """Znacznik na tej córce, którą konstytuent jest.
+
+    Znacznik wchodzi do ciała, a nie obok niego, bo obok byłby numerem pozycji,
+    a numer myli się bez śladu: przestawione ciało zostawia go niezmienionym i
+    nikt tego nie zauważy. Znacznik przesuwa się razem ze swoją częścią.
+    """
+
+    część: Part
+
+
+def _głowa(head: str, body: list[Part | Głowa]) -> tuple[tuple[Part, ...], int]:
+    """Ciało bez znaczników i pozycja głowy w nim.
+
+    Ciało o jednej części ma głowę bez wyboru, więc znacznika nie wymaga. Ciało
+    o kilku wymaga go i bez niego nie powstaje: produkcja, która nie mówi, którą
+    z córek jest ten konstytuent, zostawia werdykt bez nazwy dla gospodarza
+    przyłączenia, a po to jedno głowa tu jest.
+    """
+    zaznaczone = [i for i, część in enumerate(body) if isinstance(część, Głowa)]
+    if len(zaznaczone) > 1:
+        raise ValueError(f"{head}: ciało ma dwie głowy, a wolno mu mieć jedną")
+    if not zaznaczone and len(body) > 1:
+        raise ValueError(f"{head}: ciało o kilku częściach nie mówi, która jest głową")
+    części = tuple(część.część if isinstance(część, Głowa) else część for część in body)
+    return części, zaznaczone[0] if zaznaczone else 0
+
+
+@dataclass(frozen=True)
 class Production:
     """One way of building a constituent, and the features it comes out with."""
 
@@ -92,6 +121,12 @@ class Production:
     #: Features of the resulting constituent, usually variables shared with the
     #: body so that a phrase inherits the number and case of its head word.
     features: frozenset[tuple[str, Spec]] = frozenset()
+    #: Która z córek jest głową, czyli tą, którą ten konstytuent jest i po
+    #: której nazywa go werdykt jednym słowem. ``head`` nazywa symbol, który ta
+    #: produkcja definiuje, a ``głowa`` pozycję w jej ciele: jedno słowo w dwóch
+    #: językach na dwie różne rzeczy. Ciało puste głowy nie ma, a zero nie
+    #: nazywa w nim niczego, bo nie ma tam żadnej córki.
+    głowa: int = 0
 
     def __repr__(self) -> str:
         return f"{self.head} → {' '.join(repr(part) for part in self.body)}"
@@ -127,10 +162,21 @@ class Grammar:
         self._by_head: dict[str, list[Production]] = {}
         self._po_części_mowy: dict[str, tuple[Word, ...]] | None = None
 
-    def rule(self, head: str, body: list[Part], **features) -> Production:
-        production = Production(head=head, body=tuple(body), features=_constraints(features))
+    def rule(self, head: str, body: list[Part | Głowa], **features) -> Production:
+        części, głowa = _głowa(head, body)
+        return self.dopisz(
+            Production(head=head, body=części, features=_constraints(features), głowa=głowa)
+        )
+
+    def dopisz(self, production: Production) -> Production:
+        """Wpisz produkcję gotową, czyli wziętą z innej gramatyki.
+
+        Tędy powstaje wariant gramatyki: sonda przepisuje produkcje do gramatyki
+        uboższej takimi, jakie są. Złożona drugi raz z części gubiłaby to,
+        czego ``rule`` nie przyjmuje osobnym argumentem, czyli głowę.
+        """
         self.productions.append(production)
-        self._by_head.setdefault(head, []).append(production)
+        self._by_head.setdefault(production.head, []).append(production)
         self._po_części_mowy = None
         return production
 

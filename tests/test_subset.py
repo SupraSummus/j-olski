@@ -9,7 +9,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, V, nt, unify, word
+from olski.grammar import EMPTY, Grammar, Głowa, V, nt, unify, word
 from olski.morph import analyse
 from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Pozycja, las, parse
 from olski.subset import (
@@ -62,7 +62,7 @@ def test_lewa_rekursja_wyprowadza_się_zamiast_zapętlać():
     #  nie miał: koordynację wolno teraz napisać jedną produkcją zamiast trzech
     #  poziomów, i TODO.md trzyma, co ten zapis rusza.
     grammar = Grammar(start="A")
-    grammar.rule("A", [nt("A"), word("interp")])
+    grammar.rule("A", [Głowa(nt("A")), word("interp")])
     grammar.rule("A", [word("subst")])
     [reading] = parse(grammar, morphology("plik.")).readings
     assert reading.span == (0, 2)
@@ -76,7 +76,7 @@ def test_pozycja_stojąca_sama_pod_sobą_jest_zgłaszana_zamiast_liczona():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("B")])
     grammar.rule("B", [nt("A")])
-    grammar.rule("B", [word("subst"), word("interp")])
+    grammar.rule("B", [Głowa(word("subst")), word("interp")])
     with pytest.raises(Cykl):
         parse(grammar, morphology("plik."))
 
@@ -90,7 +90,7 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     #  Jest to zarazem jedyne przejście przez pustą produkcję w tablicy Earleya,
     #  gdzie żąda ona osobnej obsługi, więc test pilnuje i tego.
     grammar = Grammar(start="A")
-    grammar.rule("A", [nt("Puste"), word("subst"), word("interp")])
+    grammar.rule("A", [nt("Puste"), Głowa(word("subst")), word("interp")])
     grammar.rule("Puste", [])
     [reading] = parse(grammar, morphology("plik.")).readings
     [puste] = reading.find("Puste")
@@ -200,38 +200,40 @@ def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
         "w firmie",
         "w kraju",
     ]
-    assert przyłączenia[0].gospodarze == ("Program zapisuje ustawienia", "ustawienia")
-    assert przyłączenia[-1].gospodarze == (
-        "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie",
-        "firmie",
-    )
+    assert przyłączenia[0].gospodarze == ("zapisuje", "ustawienia")
+    assert przyłączenia[-1].gospodarze == ("zapisuje", "firmie")
 
 
-def test_gospodarzy_o_jednej_nazwie_rozdziela_symbol_konstytuenta():
-    """Grupa imienna na czele zdania ma z tym zdaniem wspólny materiał przed modyfikatorem.
+@pytest.mark.parametrize(
+    ("zdanie", "modyfikator", "gospodarze"),
+    [
+        (
+            "Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.",
+            "w Rzeczypospolitej Polskiej",
+            ("Władza", "należy"),
+        ),
+        (
+            "Sejm sprawuje kontrolę nad działalnością Rady Ministrów.",
+            "nad działalnością Rady Ministrów",
+            ("sprawuje", "kontrolę"),
+        ),
+    ],
+)
+def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
+    zdanie: str, modyfikator: str, gospodarze: tuple[str, ...]
+):
+    """Głowa rozdziela gospodarzy, którym materiał przed modyfikatorem jest wspólny.
 
-    Nazwa gospodarza jest ciągiem wziętym ze zdania, bo głowy nie wyróżnia żadna
-    produkcja, więc bez symbolu oba wychodzą jednym napisem i werdykt milczy o
-    wyborze, który zdanie zostawia. Zdanie stoi w
-    docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem
-    wypisane razem z werdyktem.
+    Grupa imienna otwierająca pierwsze z tych zdań dzieli ten materiał z całym
+    zdaniem, więc nazwa wzięta z materiału daje na oboje jeden napis; wywód
+    mieści docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
+    Oba zdania są wypisane razem z werdyktem w
+    docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem.
     """
-    found = verdict("Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.")
+    found = verdict(zdanie)
     [przyłączenie] = found.result.przyłączenia
-    assert przyłączenie.modyfikator == "w Rzeczypospolitej Polskiej"
-    assert przyłączenie.gospodarze == (
-        "Władza zwierzchnia (NP)",
-        "Władza zwierzchnia (ClauseConjunct)",
-    )
-
-
-def test_symbol_nie_dochodzi_tam_gdzie_gospodarzy_rozdziela_sam_materiał():
-    #  Symbol dopisany wszędzie byłby szumem, a poza tym dwie pozycje o jednej
-    #  nazwie bywają jednym wyborem: grupa imienna dłuższa o inny modyfikator jest
-    #  tą samą grupą imienną. Dlatego symbol dochodzi dopiero przy zderzeniu nazw.
-    found = verdict("Sejm sprawuje kontrolę nad działalnością Rady Ministrów.")
-    [przyłączenie] = found.result.przyłączenia
-    assert przyłączenie.gospodarze == ("Sejm sprawuje kontrolę", "kontrolę")
+    assert przyłączenie.modyfikator == modyfikator
+    assert przyłączenie.gospodarze == gospodarze
 
 
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
@@ -239,6 +241,15 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
     grammar.rule("A", [nt("Nieznane")])
     with pytest.raises(ValueError, match="undefined symbols: Nieznane"):
         parse(grammar, morphology("plik."))
+
+
+def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
+    #  Produkcja dopisana bez znacznika nazwałaby gospodarza przyłączenia pierwszą
+    #  córką, cokolwiek nią jest, a werdykt wskazywałby wtedy nie to słowo i nie
+    #  mówiłby o tym niczego. Odmowa pada na wierszu, na którym produkcja stoi.
+    grammar = Grammar(start="A")
+    with pytest.raises(ValueError, match="która jest głową"):
+        grammar.rule("A", [word("subst"), word("interp")])
 
 
 # --------------------------------------------------------------------------- #
@@ -378,11 +389,10 @@ def test_a_fronted_modifier_belongs_to_the_clause_and_not_to_the_subject():
     #  the same phrase between the subject and the verb come out valid and wrong.
     roles = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings[0]
     assert roles["Subject"] == "chałka"
-    #  Streszczenie nazywa konstytuent, do którego przyłączenie doszło, więc
-    #  zdanie z nazwy tego testu stoi w samym napisie, a nie tylko w podmiocie
-    #  obok. Wysunięty modyfikator nie ma przed sobą nic, więc nazywa go to, co
-    #  stoi za nim.
-    assert roles["Modifier"] == "Pod względem smaku → chałka przewyższa zwykłą bułkę"
+    #  Streszczenie nazywa konstytuent, do którego przyłączenie doszło, jego
+    #  głową, więc zdanie z nazwy tego testu stoi w samym napisie, a nie tylko w
+    #  podmiocie obok: gospodarzem jest tu czasownik, a nie `chałka`.
+    assert roles["Modifier"] == "Pod względem smaku → przewyższa"
 
 
 def test_object_first_order_is_polish_and_is_read_that_way():
@@ -545,9 +555,9 @@ def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniam
     napisy = {tuple(sorted(reading.items())) for reading in found.readings}
     assert len(napisy) == len(found.readings) == 6
     assert {reading["Modifier"] for reading in found.readings} == {
-        "z dodatkami → koszt szynki",
+        "z dodatkami → koszt",
         "z dodatkami → szynki",
-        "z dodatkami → Koszt samej szynki przewyższa koszt szynki",
+        "z dodatkami → przewyższa",
     }
 
 
@@ -559,8 +569,8 @@ def test_streszczenie_wiąże_okolicznik_ze_zdaniem_a_nie_z_dopełnieniem():
     found = verdict("Program zapisuje ustawienia w pliku w katalogu.")
     zdaniowe = [reading for reading in found.readings if reading["Object"] == "ustawienia"]
     assert {reading["Modifier"] for reading in zdaniowe} == {
-        "w pliku → Program zapisuje ustawienia",
-        "w pliku w katalogu → Program zapisuje ustawienia",
+        "w pliku → zapisuje",
+        "w pliku w katalogu → zapisuje",
     }
 
 
@@ -582,8 +592,8 @@ def test_werdykt_rośnie_z_liczbą_wyborów_a_nie_z_liczbą_czytań():
     )
     assert dwa.explain() == (
         "4 readings, differing in Object; "
-        "„w pliku” → „Program zapisuje ustawienia”, „ustawienia”; "
-        "„w katalogu” → „Program zapisuje ustawienia w pliku”, „pliku”"
+        "„w pliku” → „zapisuje”, „ustawienia”; "
+        "„w katalogu” → „zapisuje”, „pliku”"
     )
     assert sześć.explain().count(PRZYŁĄCZONY_DO) == 6
     assert sześć.explain().startswith("64 readings, differing in Object; „w pliku” → ")
@@ -631,9 +641,9 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     )
     assert found.status == "ambiguous"
     assert {reading["Modifier"] for reading in found.readings} == {
-        "wobec innych → powinni postępować",
-        "wobec innych w duchu → powinni postępować",
-        "wobec innych w duchu braterstwa → powinni postępować",
+        "wobec innych → powinni",
+        "wobec innych w duchu → powinni",
+        "wobec innych w duchu braterstwa → powinni",
     }
 
 
@@ -687,7 +697,7 @@ def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
     #  Werdykt nazywa tu jedno przyłączenie z dwóch, i to jest ta ostrość, którą
     #  las kupuje: `w pliku` dochodzi do zdania w obu czytaniach.
     found = verdict("Program zapisuje w pliku w katalogu.")
-    assert found.explain() == '2 readings; „w katalogu” → „Program zapisuje w pliku”, „pliku”'
+    assert found.explain() == '2 readings; „w katalogu” → „zapisuje”, „pliku”'
 
 
 @pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])
