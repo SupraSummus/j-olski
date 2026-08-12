@@ -773,6 +773,21 @@ and so does a change to `sonda/przecinek.py`, which decides what comes out.
 What a test holds there is only that the probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
 
+One set of figures prices a table this repository does not build yet,
+so no rerun above reaches it.
+[What packing decides](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
+is taken with `sonda/pakowanie.py` over Składnica and over the README,
+and what moves it is any production added or dropped,
+any change to the features a production releases,
+and any change to the readings a form is given —
+`admissible` in `olski/subset.py` stands between the corpus and the count
+the same way it does further up this list.
+One of the three runs beside those figures is there to say where not to take them:
+under gold morphology almost nothing separates,
+so a figure from that run would be a figure about the annotation.
+`tests/test_pakowanie.py` holds the two sentences the argument rests on
+and nothing about the counts.
+
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —
 so the text under a figure holds still

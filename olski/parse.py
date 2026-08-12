@@ -143,10 +143,6 @@ class Result:
 
 def parse(grammar: Grammar, segments: list[Segment], start: str | None = None) -> Result:
     """Enumerate the distinct readings of a segmented sentence."""
-    missing = grammar.undefined()
-    if missing:
-        raise ValueError(f"grammar refers to undefined symbols: {', '.join(sorted(missing))}")
-
     parser = _Parser(grammar, segments)
     goal = Sym(start or grammar.start)
     end = max((segment.end for segment in segments), default=0)
@@ -166,12 +162,35 @@ def parse(grammar: Grammar, segments: list[Segment], start: str | None = None) -
     return Result(readings, parser.furthest)
 
 
+def wyprowadzenia(
+    grammar: Grammar, segments: list[Segment], start: str | None = None
+) -> list[Node]:
+    """Każdy konstytuent, jaki rozbiór zbudował, także ten, którego rodzic nie wziął.
+
+    :func:`parse` oddaje czytania, czyli to, co doszło aż do korzenia, a tablica
+    pod nimi trzyma także wyprowadzenia, które unifikacja odrzuciła wyżej. Pyta o
+    nią pomiar, a nie werdykt: pozycja spakowana po kształcie niesie
+    wyprowadzenia różniące się cechami, których rodzic nie odróżnia, i stamtąd
+    bierze się nadmiar sumy iloczynów po lesie
+    (docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
+
+    Korzenia ta funkcja nie wylicza, bo wyliczanie czytań tablicę czyta i niczego
+    do niej nie dokłada.
+    """
+    parser = _Parser(grammar, segments)
+    parser.analyses(start or grammar.start, _first(segments))
+    return [node for found in parser._memo.values() for node, _end, _features in found]
+
+
 def _first(segments: list[Segment]) -> int:
     return min((segment.start for segment in segments), default=0)
 
 
 class _Parser:
     def __init__(self, grammar: Grammar, segments: list[Segment]) -> None:
+        missing = grammar.undefined()
+        if missing:
+            raise ValueError(f"grammar refers to undefined symbols: {', '.join(sorted(missing))}")
         self.grammar = grammar
         self.edges: dict[int, list[Segment]] = {}
         for segment in segments:

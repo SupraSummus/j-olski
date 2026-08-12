@@ -679,7 +679,7 @@ Las odpowiada na pytanie olskiego pod dwoma warunkami:
 pod jedną pozycję ma iść to, co jest jednym czytaniem,
 a liczba z jednej pozycji ma się łączyć z liczbą z sąsiedniej tak,
 jak łączy je unifikacja.
-Pierwszy ma odpowiedź, drugi jej nie ma.
+Pierwszy ma odpowiedź w gramatyce, a drugi dostał ją dopiero pomiarem.
 
 Czytanie jest kwotowane po lematach, po wartościach cech i po częściach mowy
 ([subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)),
@@ -730,19 +730,62 @@ Cena jest przy tym inna, bo olski pyta o liczbę czytań, a nie o czytania:
 zdanie przyjęte wychodzi z takiego lasu dwuznaczne,
 czyli przewraca się werdykt, a nie sama liczba obok niego.
 
-Wyjścia są z tego dwa i gramatyka nie mówi, które jest tańsze.
+Wyjścia są z tego dwa i tańsze jest drugie, bo pierwsze zmierzono i liczy gorzej.
 Pierwszym jest pozycja rozszczepiona po cechach, które wypuszcza:
 dwa warianty `Complements` z tego zdania stoją wtedy w tablicy osobno,
-para nieunifikująca się nie powstaje wcale i iloczyn jest poprawny.
+para nieunifikująca się nie powstaje wcale i to zdanie wychodzi z jednym czytaniem.
 Rozszczepienie idzie po cechach wypuszczanych, a nie po całym środowisku,
-więc jest węższe od tego, przed którym broni pierwszy warunek wyżej,
-a czy dość węższe, jest do przeczytania:
-pozycja rozszczepiona po każdej wartości wraca do liczenia wyprowadzeń.
-Drugim jest iloczyn liczony po parach, które unifikacja przepuszcza,
+więc jest węższe od tego, przed którym broni pierwszy warunek wyżej —
+ale nie dość węższe, i widać to na zdaniu, które olski przyjmuje tak samo:
+
+```sh
+python3 -m olski.check -c "Projekt jest dla przyjemności."
+```
+
+`przyjemności` ma pięć czytań, więc `NP` nad nim rozszczepia się na pięć pozycji,
+a `dla` przepuszcza z nich dwie, obie w dopełniaczu i różne liczbą.
+`Modifier` nad tym przypadka ani liczby nie wypuszcza,
+więc obie wracają pod jedną pozycję jako dwa wyprowadzenia jednego kształtu,
+i suma iloczynów liczy nad tym zdaniem dwa czytania zamiast jednego.
+Nadmiar wychodzi więc rozszczepieniu tam,
+gdzie cecha, która pozycje rozdzieliła, ginie u rodzica,
+a stamtąd ten iloczyn idzie w górę aż do korzenia.
+
+Zostaje wyjście drugie: iloczyn liczony po parach, które unifikacja przepuszcza,
 co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
-Rozstrzyga między nimi to, ile pozycji rozszczepienie naprawdę rozdziela,
-a tego z gramatyki nie widać, bo rozdziela je dopiero forma stojąca w zdaniu.
-Pomiar, który to mówi, trzyma [`TODO.md`](../TODO.md).
+Do niego liczy dzisiejszy enumerator,
+bo środowisko cech niesie w dół rozbioru zamiast pod pozycją,
+i on jest miarą, wobec której oba warianty tablicy zmierzono.
+
+Zmierzono je trzema przebiegami nad dwoma korpusami,
+bo pozycje rozdziela dopiero forma stojąca w zdaniu:
+
+```sh
+python3 -m sonda.pakowanie Składnica-frazowa-180723/
+python3 -m sonda.pakowanie Składnica-frazowa-180723/ --morphology gold
+python3 -m sonda.pakowanie proza/README.txt
+```
+
+Nad 13025 zdaniami Składnicy pod morfologią własną
+rozszczepienie rozdziela 31.6% pozycji, czyli 126814 rośnie do 189880,
+a najdalej rozdzielona pozycja idzie na dziesięć.
+Tablica spakowana liczy nad 56 zdaniami więcej czytań, niż zdanie ma,
+i przewraca przy tym 12 werdyktów, wszystkie z `valid` na `ambiguous`;
+tablica rozszczepiona myli się nad 224 zdaniami i przewraca 85.
+Trzy zdania z tego mianownika nie mają się z czym porównać,
+bo wyliczanie stanęło na nich na `MAX_READINGS`, a tablica granicy nie ma.
+Nad prozą README, gdzie zdań jest 43,
+pozycji przybywa w tej samej krotności — 811 rośnie do 1218 —
+a każdy wariant myli się nad dwoma zdaniami.
+Rozszczepienie kosztuje więc półtorej tablicy,
+a zdań liczy źle cztery razy tyle, co tablica, którą ma naprawiać.
+
+Trzeci przebieg mówi, skąd tych liczb nie brać.
+Pod złotą morfologią rozdziela się 71 pozycji z 71877
+i żaden wariant nie myli się ani na jednym zdaniu,
+bo anotatorzy wybrali po jednym czytaniu na terminal,
+a nadmiar bierze się z formy, której słownik daje ich kilka.
+Liczba stamtąd byłaby liczbą o anotacji, a nie o gramatyce.
 
 ### Więzy wchodzą wyprowadzone z gramatyki, a nie napisane obok niej
 
