@@ -34,8 +34,20 @@ from olski.morph import Reading, Segment, analyse, tag
 from olski.parse import Result, describe, parse
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
+#: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
+#: więc streszczenie czytania nazywa przy niej i to, co ona określa:
+#: bez tego dwa czytania różne samym miejscem przyłączenia wychodzą jednym napisem.
+PRZYŁĄCZANY = "Modifier"
+
 #: The roles a reading is summarized by when two of them have to be told apart.
-ROLES = ("Subject", "Object", "Predicative", "Verb", "Modifier")
+ROLES = ("Subject", "Object", "Predicative", "Verb", PRZYŁĄCZANY)
+
+#: Konstytuenty, do których wyrażenie przyimkowe dochodzi,
+#: czyli te, w których produkcji stoi ono wypisane:
+#: grupa imienna, grupa przymiotnikowa i zdanie składowe.
+#: Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
+#: a okolicznik zdania nie ma nad sobą żadnego z dwóch pierwszych i zostaje przy zdaniu.
+PRZYŁĄCZENIA = ("NP", "AP", "ClauseConjunct")
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -508,7 +520,10 @@ class Verdict:
 
     @property
     def readings(self) -> list[dict[str, str]]:
-        return [describe(reading, ROLES) for reading in self.result.readings]
+        return [
+            describe(reading, ROLES, PRZYŁĄCZANY, PRZYŁĄCZENIA)
+            for reading in self.result.readings
+        ]
 
     def explain(self) -> str:
         if self.status == FRAGMENT:

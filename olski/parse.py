@@ -71,11 +71,14 @@ class Leaf:
 class Node:
     label: str
     children: tuple[Leaf | Node, ...]
+    #: Skąd dokąd węzeł sięga w grafie segmentów.
+    #: Wpisana przy budowaniu,
+    #: bo węzeł produkcji o pustym ciele nie ma dzieci, z których dałoby się ją wyliczyć,
+    #: a stoi w miejscu, które zna parser.
+    #: Takiej produkcji gramatyka olskiego nie ma,
+    #: a żąda jej rozwinięcie szyku do warunków precedencji.
+    span: tuple[int, int]
     features: frozenset[tuple[str, frozenset[str]]] = frozenset()
-
-    @property
-    def span(self) -> tuple[int, int]:
-        return (self.children[0].span[0], self.children[-1].span[1])
 
     def signature(self):
         """Co czyni dwa czytania jednym czytaniem.
@@ -215,6 +218,7 @@ class _Parser:
                     node = Node(
                         label=production.head,
                         children=tuple(children),
+                        span=(position, end),
                         features=frozenset(features.items()),
                     )
                     found.append((node, end, features))
@@ -250,15 +254,95 @@ class _Parser:
                 yield Leaf(segment, reading), segment.end, merged
 
 
-def describe(node: Node, roles: tuple[str, ...]) -> dict[str, str]:
-    """Summarize a reading by what fills each named role, for reporting.
+#: Znak, którym streszczenie oddziela modyfikator od tego, do czego doszedł.
+#: Bez słowa, bo słowo żądałoby przypadka od tego, co po nim stoi,
+#: a stoi tam ciąg wzięty ze zdania i nieodmieniany.
+PRZYŁĄCZONY_DO = " → "
 
-    Two readings of the same sentence differ somewhere, and this is how the
-    difference gets shown to whoever has to fix it.
+
+def describe(
+    node: Node, roles: tuple[str, ...], attaching: str, hosts: tuple[str, ...]
+) -> dict[str, str]:
+    """Streszczenie czytania: co stoi w której roli i do czego doszedł modyfikator.
+
+    Dwa czytania jednego zdania gdzieś się różnią,
+    a streszczenie pokazuje tę różnicę temu, kto ma zdanie poprawić.
+    Same role tego nie pokazują,
+    bo grupa przyimkowa dochodzi raz do jednej głowy, a raz do drugiej,
+    i formy stojące nad nią zostają wtedy te same:
+    ``koszt szynki z dodatkami`` jest tym samym dopełnieniem niezależnie od tego,
+    czy ``z dodatkami`` doszło do ``koszt``, czy do ``szynki``.
+    Rola ``attaching`` dostaje więc obok wypełnienia to, co modyfikator określa.
+
+    Żąda tego jedna rola, bo jedną gramatyka zostawia nierozstrzygniętą rozmyślnie:
+    podmiot i dopełnienie rozstrzyga przypadek,
+    a pozycje przyłączeniowe stoją po to, żeby dać oba czytania
+    (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+    Dopisane jest wypełnienie, a nie pozycja obok niego,
+    więc ``roles`` zostaje listą ról.
+    ``hosts`` wylicza symbole konstytuentów, do których przyłączenie dochodzi,
+    i jest deklaracją gramatyki, a nie wiedzą tego wydruku.
+
+    Nazwany jest pierwszy modyfikator czytania i tylko on,
+    więc dwa czytania różne miejscem drugiego wychodzą stąd jednym napisem.
+    Nazwanie wszystkich wydłuża wiersz, a wierszy jest tyle, ile czytań,
+    więc odpowiada na to werdykt nad lasem ze współdzielonymi węzłami,
+    a nie ten wydruk:
+    docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
     """
     summary = {}
     for role in roles:
         found = node.find(role)
-        if found:
-            summary[role] = " ".join(found[0].forms())
+        if not found:
+            continue
+        summary[role] = " ".join(found[0].forms())
+        if role == attaching:
+            summary[role] += PRZYŁĄCZONY_DO + _attachment(node, found[0], hosts)
     return summary
+
+
+def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
+    """Co modyfikator określa: konstytuent, do którego doszedł, nazwany tym, co w nim stoi.
+
+    Ani węzeł, pod którym modyfikator stoi bezpośrednio,
+    ani najbliższy węzeł z materiałem obok na to pytanie nie odpowiadają:
+    okolicznik zdania stoi w drzewie tuż obok dopełnienia, którego nie określa.
+    Odpowiada konstytuent nazwany w ``hosts``,
+    czyli ten, w którego produkcji to przyłączenie stoi.
+
+    Nazywa go to, co stoi w nim przed modyfikatorem,
+    a przy modyfikatorze wysuniętym to, co stoi za nim,
+    czyli ciąg wzięty ze zdania, a nie wybór z niego:
+    konstytuent bez samych modyfikatorów wychodzi napisem, którego nikt nie napisał,
+    bo materiał między dwoma okolicznikami do żadnego z nich nie należy.
+    """
+    leaves = _leaves(_host(root, modifier, hosts, root))
+    start, end = modifier.span
+    before = [leaf for leaf in leaves if leaf.span[1] <= start]
+    after = [leaf for leaf in leaves if leaf.span[0] >= end]
+    return " ".join(leaf.segment.form for leaf in before or after)
+
+
+def _host(tree: Tree, modifier: Node, hosts: tuple[str, ...], outer: Node) -> Node | None:
+    """Najbliższy konstytuent z ``hosts``, w którym stoi ten modyfikator; ``None`` poza nim.
+
+    ``outer`` jest odpowiedzią dla korzenia,
+    bo modyfikator, nad którym nie stoi żaden z tych konstytuentów, określa całe czytanie.
+    """
+    if tree is modifier:
+        return outer
+    if isinstance(tree, Leaf):
+        return None
+    inner = tree if tree.label in hosts else outer
+    for child in tree.children:
+        found = _host(child, modifier, hosts, inner)
+        if found is not None:
+            return found
+    return None
+
+
+def _leaves(tree: Tree) -> list[Leaf]:
+    """Liście tego konstytuenta, w kolejności, w jakiej stoją w zdaniu."""
+    if isinstance(tree, Leaf):
+        return [tree]
+    return [leaf for child in tree.children for leaf in _leaves(child)]
