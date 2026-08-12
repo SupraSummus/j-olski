@@ -121,11 +121,11 @@ PRZYJMOWANE = [
     #  A pronoun subject, and with it a person that is not the third.
     "Ja zapisuję plik.",
     #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
-    "Zobacz docs/rules.md.",
+    "Zobacz docs/subset.md.",
     #  Zdanie, którego graf segmentacji się rozchodzi: Morfeusz dzieli Ktoś
     #  na Kto i ś obok formy całej, a ś nie ma ani jednego czytania, które
     #  bierze jakakolwiek produkcja.
-    "Ktoś zna docs/rules.md.",
+    "Ktoś zna docs/subset.md.",
 ]
 
 
@@ -605,13 +605,13 @@ def test_graf_kawałka_niejednoznacznego_zszywa_się_z_notacją_bez_przesunięci
     #  jeden węzeł rozerwałaby zdanie w miejscu, którego nikt nie zobaczy w
     #  formach. Morfeusz dzieli ktoś na kto i ś obok formy całej, czyli daje temu
     #  kawałkowi graf, który się rozchodzi, i to on tę pomyłkę pokazuje.
-    krawędzie = [(s.start, s.end, s.form) for s in morphology("Ktoś zna docs/rules.md.")]
+    krawędzie = [(s.start, s.end, s.form) for s in morphology("Ktoś zna docs/subset.md.")]
     assert krawędzie == [
         (0, 1, "Kto"),
         (0, 2, "Ktoś"),
         (1, 2, "ś"),
         (2, 3, "zna"),
-        (3, 4, "docs/rules.md"),
+        (3, 4, "docs/subset.md"),
         (4, 5, "."),
     ]
 
@@ -621,7 +621,7 @@ def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
     #  admissible odrzuca — broni jej przed tym drugi warunek, ten o wyrazie
     #  funkcyjnym obok. Bez niego notacja wychodziłaby stąd bez czytań, a to jest
     #  werdykt o formie, której Morfeusz nie zna, i tutaj byłby fałszywy.
-    segment = morphology("docs/rules.md")[0]
+    segment = morphology("docs/subset.md")[0]
     assert [reading.tag.raw for reading in segment.readings] == [
         "subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol"
     ]
@@ -632,7 +632,7 @@ def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
 # --------------------------------------------------------------------------- #
 
 
-def test_tekst_dzieli_się_na_zdania_tak_jak_dzieli_go_linter():
+def test_tekst_dzieli_się_na_zdania_a_nie_na_każdej_kropce():
     #  Kropka w docs/linter.md granicą nie jest, a granica akapitu jest, choć
     #  kropki tam nie ma. Jedno i drugie ma olski/document.py i żadnego nie ma
     #  cięcie na każdej kropce, którym ten podział szedł.

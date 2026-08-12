@@ -34,7 +34,7 @@ Trzy przepisy z nich mówią o tym samym, o czym jest to repozytorium:
   składni języka polskiego, unikając zdań wielokrotnie złożonych.”
 
 § 7 jest żądaniem podzbioru postawionym przez wykluczenie,
-czyli dokładnie tak, jak [wyznacza go linter](linter.md#this-is-the-same-subset-approached-from-behind):
+czyli tak, jak [wyznaczał go linter](linter.md#this-is-the-same-subset-approached-from-behind):
 składnia polska wolna, a jedna konstrukcja zabroniona.
 § 6 jest kryterium jednoznaczności:
 zrozumiały dla adresata jest przepis, który czyta się jednym sposobem,
@@ -150,8 +150,8 @@ Werdykt gramatyki dotyczy tego złożenia, a nie zapisu,
 i jest to jedyna forma, w której treść ustawy jest zdaniami w ogóle.
 
 **Przesłanka powielona.**
-Wychodzi raz na pozycję, więc częstość liczona nad tą prozą liczy ją wielokrotnie.
-Dlatego korpus idzie pod gramatykę, a nie pod pakiet reguł.
+Wychodzi raz na pozycję, więc częstość liczona nad tą prozą liczyłaby ją wielokrotnie.
+Dlatego korpus idzie pod gramatykę, która pyta o zdanie po zdaniu.
 
 **Kropka dopisana.**
 Gałąź kończy się średnikiem albo przecinkiem, a zdanie kropką.
@@ -168,15 +168,15 @@ Zdanie tego kształtu jest w tym korpusie odrzucone i nie jest to werdykt o pols
 
 **Biały znak znormalizowany.**
 Wcięcia HTML-a idą do jednej spacji,
-więc reguły, które mierzą podwójny odstęp i odstęp przed znakiem przestankowym,
-nad tą prozą nie mają czego znaleźć.
-Ich zero jest zerem ekstrakcji, nie rejestru.
+więc odstęp podwojony i odstęp przed znakiem przestankowym
+nad tą prozą nie stoją nigdzie.
+To zero jest zerem ekstrakcji, nie rejestru.
 
 **Myślnik, którego HTML nie ma.**
 Ustawa ogłoszona w PDF-ie ma w nazwie kodeksu półpauzę
 (`ustawa z dnia 14 czerwca 1960 r. – Kodeks postępowania administracyjnego`),
 a HTML tego samego aktu ma tam dywiz i półpauzy nie ma nigdzie.
-Reguła typograficzna nad tym HTML-em mierzy więc wydawcę, a nie prawodawcę,
+Kto liczy pauzy nad tym HTML-em, mierzy więc wydawcę, a nie prawodawcę,
 i jest to ta sama usterka korpusu, którą przegląd korpusów zgłasza
 [warstwie tekstowej NKJP](corpora.md#its-text-layer-has-been-character-normalized).
 
@@ -327,13 +327,10 @@ bo nazywa terminy rzeczownikiem z przymiotnikiem za nim
 a terminowi dokłada dopełniacz.
 Wpis stoi w [TODO.md](../TODO.md).
 
-## Pakiet typograficzny nad tym rejestrem milczy
+## Pakiet typograficzny nad tym rejestrem milczał
 
-```sh
-python3 -m olski proza/ustawy --format report --packs harness/counts.py \
-                              --packs olski.packs.typography
-```
-
+Pakiet jest wycofany ([linter.md](linter.md#what-closed-the-track)),
+więc ten przebieg jest zapisem, a nie poleceniem do powtórzenia.
 Nad 104 062 słowami nie strzeliła ani jedna reguła.
 Cudzysłowów prostych i angielskich nie ma,
 polskie stoją parami (116 otwierających i 116 zamykających),
@@ -341,38 +338,23 @@ pauzy nie ma żadnej, a znaki przestankowe mają po sobie odstęp wszędzie.
 Dwie z tych zer są zerami ekstrakcji, jak wyżej,
 a pozostałe są własnością tekstu, który złożyła Kancelaria Sejmu.
 
-Zero mówi tu więc o korpusie, a nie o regule,
+Zero mówiło tu więc o korpusie, a nie o regule,
 tak samo jak [tam, gdzie reguły cudzysłowu nie miały czego znaleźć](firing-rates.md#where-the-quotation-mark-rules-had-nothing-to-find):
-tekst, nad którym pakiet ma milczeć, jest podłogą, a nie próbką.
+tekst, nad którym pakiet milczy, jest podłogą, a nie próbką.
 Nad oboma korpusami, które [odczyt częstości](firing-rates.md#the-rates) trzyma,
-pakiet trafienia ma,
-więc jest to pierwszy korpus tego repozytorium, nad którym nie ma żadnego.
+pakiet trafienia miał,
+więc był to jedyny korpus tego repozytorium, nad którym nie miał żadnego.
 
 ## Nierozstrzygnięte
 
-Czy ten korpus wchodzi do
-[kalibracji](roadmap.md#milestone-1-the-calibration-harness)
-jako połowa pisana przez ludzi.
+Czy ten korpus wchodzi do przeglądu korpusów
+([corpora.md](corpora.md#the-composition-this-argues-for))
+jako polszczyzna pisana przez ludzi.
 Ma licencję, rejestr i etap produkcji, których tamten przegląd nie znalazł,
-a nie ma tego, czego reguła typograficzna potrzebuje:
+a nie ma tego, czego żądała od niego reguła typograficzna:
 biały znak i pauzę zjada albo ekstrakcja, albo wydawca.
 Rozstrzyga to pytanie ekstrakcja z PDF-a, którego API oddaje obok HTML-a,
-i dopóki jej nie ma, ten korpus mierzy gramatykę, a nie pakiet.
-
-Czy z § 7 wychodzi reguła.
-Zdanie wielokrotnie złożone da się policzyć spójnikami podrzędnymi w zdaniu,
-a próg ma tu pochodzenie, którego nie ma żaden inny próg w tym repozytorium:
-nie jest opinią, tylko przepisem.
-Reguła tego rodzaju nie należy jednak do pakietu, który stoi,
-bo tamten jest zakresem ustawiony na dokumentację techniczną,
-a rejestr ustaw jest osobnym zakresem z osobną kalibracją.
-
-Czy artykuł jednozdaniowy z § 55 ust. 2 jest w ogóle regułą lintera.
-Mierzy on jednostkę redakcyjną, a nie zdanie,
-więc czyta drzewo, którego linter nie widzi, bo widzi je ekstrakcja.
-Narzędzie, które by tego żądało, jest linterem projektu ustawy,
-a nie pakietem nad polszczyzną,
-i to jest inny program niż ten.
+a dopóki jej nie ma, ten korpus mierzy gramatykę i nic poza nią.
 
 ## Źródła
 

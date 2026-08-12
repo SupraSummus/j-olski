@@ -8,8 +8,7 @@ There is no separate contributor guide;
 this file is the only copy.
 
 The prose rules cover the README, everything under `docs/`,
-`TODO.md`, this file, the `justification` fields of rule declarations
-(see [`docs/rules.md`](docs/rules.md)),
+`TODO.md`, this file,
 commit messages, and pull request descriptions.
 
 ## Adopt these rules lazily
@@ -30,44 +29,15 @@ and when you edit a section, the stale narration inside it goes with the edit.
 
 Materiałem tego projektu jest polska proza,
 a taką prozę repozytorium pisze samo o sobie.
-Reguły tego lintera są pisane dla polszczyzny
-i nad angielskim tekstem nie mają czego mierzyć,
-więc dopóki dokumenty stoją po angielsku,
-żądanie, żeby własny tekst repozytorium nie potykał się o to, co linter wytyka
-(zob. [gotowe frazy](#a-phrase-that-arrived-ready-made-was-not-chosen)),
-zostaje deklaracją.
-Po polsku da się ten tekst przepuścić przez olski,
-i `tests/test_docs.py` przepuszcza każdy plik, którego proza po polsku stoi:
-dokument prozą, a moduł docstringiem i blokiem komentarza
-(zob. [`docs/prose-in-code.md`](docs/prose-in-code.md)),
-więc żądanie schodzi z deklaracji do checka plik po pliku.
+Żądanie, żeby ten własny tekst był dobrze napisany,
+niesie cały ten plik i nie ma pod sobą narzędzia:
+sprawdza je przegląd zmian, a nie przebieg testów.
+Pakiet reguł, który sprawdzał tu polską typografię, jest wycofany
+([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
+a razem z nim lista plików, nad którymi ten check biegł.
 
-Które to pliki, mówi lista [`tests/nie-po-polsku.txt`](tests/nie-po-polsku.txt).
-Plik na niej wypisany stoi poza checkiem,
-a plik, którego na niej nie ma, wchodzi cały,
-więc dokument mieszany i moduł mieszany czekają na przekład,
-a przekład, na który czekają, jest przekładem całego pliku.
-Wpis bierze się z rozstrzygnięcia, a nie z pomiaru nad tekstem,
-bo pomiar rusza się sam:
-udział znaków diakrytycznych liczony nad plikiem zmienia się z każdym akapitem,
-więc sekcja dopisana po polsku wciągnęłaby do checka plik mieszany,
-a przeredagowane zdanie wypchnęłoby z niego plik przełożony,
-i jedno, i drugie bez commitu, który by o tym rozstrzygał.
-Pierwsze kosztuje od razu, bo pakiet puszczony nad angielską połową pliku
-zgłasza nad nią polską typografię;
-drugie kosztuje ciszej, bo zdejmuje check i nie mówi o tym nigdzie.
-Czego taki pomiar nie rozstrzyga i nad czyim korpusem zostaje,
-mówi `polish_share` w `harness/__init__.py`.
-
-Wpis z listy zdejmuje przekład całego pliku, tym samym commitem co przekład.
-Jednostką pokrycia jest plik,
-bo tyle da się zadeklarować, nie zaglądając plikowi do środka.
-Plik, który dopiero powstaje, na liście nie stoi,
-więc check czyta go od pierwszego commitu,
-czego ta reguła od nowej prozy i tak żąda.
-
-Checkiem jest tu silnik reguł, a nie gramatyka.
-Gramatyka jest drugim żądaniem i znacznie węższym:
+Gramatyka checkiem tego tekstu nie jest i nie ma być.
+Jej żądanie jest znacznie węższe:
 zdanie z przecinkiem, przysłówkiem albo rzeczownikiem odczasownikowym
 nie ma w olskim wyprowadzenia,
 a proza tych dokumentów składa się z takich zdań prawie w całości —
@@ -100,11 +70,6 @@ przed którą ta reguła broni,
 więc nowy symbol idzie po angielsku razem z nimi.
 Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
 więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
-
-To samo stoi za modułem, który taki słownik trzyma.
-`Audit` i `Distribution` stoją w `olski/calibration.py`,
-więc polska nazwa pliku dałaby tę mieszaninę w każdym imporcie,
-a przekład nazwy modułu idzie razem z przekładem słownika.
 
 Nazwa w kodzie niesie znaki diakrytyczne, tak samo jak zdanie.
 Tekst, który ich nie ma, nie liczy się tu jako polszczyzna:
@@ -238,7 +203,7 @@ The tail of a document is fixed, because there the order follows from the role:
 a `Sources` section closes a document that cites,
 and the document's own list of unsettled things
 sits immediately before it —
-[`Not yet decided`](docs/rules.md#not-yet-decided) in `docs/rules.md`.
+[`Not yet decided`](docs/corpora.md#not-yet-decided) in `docs/corpora.md`.
 Such a list only enumerates;
 everything that justifies its entries is already behind the reader.
 
@@ -268,19 +233,18 @@ one clause per document, no numbers, and every entry links its owner.
 **Reasoning has an owner in the same way a fact does.**
 A mechanism is explained once,
 and other places state the conclusion in a sentence and point at it.
-`docs/rules.md` does this with the abstention-against-no-coverage distinction:
+`docs/linter.md` does this with the abstention-against-no-coverage distinction:
 it uses the conclusion and credits
 [`glr-in-practice.md`](docs/glr-in-practice.md#ambiguity-as-a-confidence-measure),
 which owns the argument and the numbers.
 
 **Code owns what is implemented; documents own what code cannot show.**
-Which parameters a check accepts, what a threshold is set to,
-what a rule fires on: the module is the truthful copy,
+Which productions the grammar has, what a lexicon entry says,
+what a probe counts: the module is the truthful copy,
 and a document restating it acquires a second version that goes stale silently.
 Documents own provenance, rejected alternatives,
 rationale that spans several modules, planned work, and open questions.
-An example that illustrates a *format* earns its place —
-this is what the declaration blocks in `docs/rules.md` are for —
+An example that illustrates a *format* earns its place,
 while a copy of behaviour does not.
 
 ## Documents describe the present; git owns the past
@@ -298,9 +262,9 @@ History that earns its place, always as rationale for the current state:
 
 - **A rejected alternative and the reason for rejecting it**,
   which saves the next person from proposing it again.
-  [Dlaczego mimo wszystko jest to podzbiór polszczyzny](README.md#dlaczego-mimo-wszystko-jest-to-podzbiór-polszczyzny)
+  [Dlaczego biała lista, skoro czarna była tańsza](README.md#dlaczego-biała-lista-skoro-czarna-była-tańsza)
   in the README is the reference example:
-  the whitelist framing is named, and priced, and turned down.
+  the linter framing is named, and priced, and turned down.
 - **A deliberate reversal or renaming**, so that nobody restores it by accident.
   `docs/roadmap.md` says the grammar is no longer the goal
   and what it survives as.
@@ -345,9 +309,6 @@ the target gets its own section naming what it supersedes,
 each superseded section gets a one-line pointer forward,
 and the instruction to merge them is written into the section itself.
 Executing that merge is part of the change that implements the decision.
-`docs/rules.md` carries two of these,
-where `calibration` reads `uncalibrated` until milestone 1
-and no-coverage reporting arrives with morphology.
 
 ## A phrase that arrived ready-made was not chosen
 
@@ -405,10 +366,9 @@ repeated context buys a document that stands on its own,
 and frame before detail buys comprehension.
 The cutting applies to words that buy nothing.
 
-These are also, in Polish, much of what this project's own rule inventory is about;
-see [`docs/rule-inventory.md`](docs/rule-inventory.md).
-Writing them into the repository's own prose
-would be a poor advertisement for the tool.
+These were also, in Polish, much of what the retired rule inventory was about.
+The inventory is gone and the demand is not:
+prose written this way reads worse, whether or not anything measures it.
 
 ## Dla kogo jest napisane zdanie
 
@@ -588,8 +548,8 @@ and the two answers need not agree,
 which no merge tool reports and no test catches.
 
 So a split names, per session, the decision that session settles —
-whether falling under a rate rule's floor is a decision, say,
-which the docstring of `pattern_density` in `olski/checks.py` settles.
+what makes two derivations one reading, say,
+which the docstring of `Node.signature` in `olski/parse.py` settles.
 Where two come out the same, it is one session.
 This is the demand [`TODO.md`](TODO.md) makes of a single entry —
 that it name the evidence it reads and not only the files it changes —
@@ -625,7 +585,7 @@ so the editable install brings it along with pytest, ruff
 and the parser the harness reads Markdown with.
 Where its wheel does not build,
 every test file that reaches the analyser skips rather than failing to collect,
-so the run reports the linter-track tests instead of zero tests.
+so the run reports the tests that stand clear of it instead of zero tests.
 A green run in such an environment has not been near
 the grammar, the morphology, the treebank reader or the compiler,
 and the skip count is where that shows.
@@ -704,8 +664,7 @@ and they sit in the document furthest from where a grammar change is written:
 [what the grammar derives from statutes](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
 is a run over acts an API serves rather than over a treebank.
 A change to what `harness/ustawy.py` composes into a sentence moves them as well,
-since the sentences the grammar is shown there are the ones that step produced,
-and so does a change to the pack, which the same document reports firing nothing.
+since the sentences the grammar is shown there are the ones that step produced.
 The fetch is a command that document prints,
 and what it names is an ELI address rather than a commit,
 which is the one pin in this list that cannot move:
@@ -719,24 +678,13 @@ two runs chained behind one command need not measure the same code at all,
 and neither says so anywhere in its output.
 Rerun after the last edit, not alongside it.
 
-A change in the typography pack, in a check,
-or in what counts as a word, a line or a sentence
-moves the tables in [`docs/firing-rates.md`](docs/firing-rates.md) the same way.
-Refetch as that document says and rerun the commands it prints.
-A change to a threshold or an exemption also moves what the hits *are*,
-so the classes that document reports having read
-are corrected along with the counts, or the audit stops describing the pack.
+[`docs/firing-rates.md`](docs/firing-rates.md) is the one document in this list
+that no change moves, because the pack it reports on is deleted.
+It is kept as the price the retirement was decided at,
+it says so in its own opening, and nothing in it is to be recomputed:
+a figure there that looks wrong is a figure about a program that is gone.
 
-Deleting a rule is the one change to a pack that needs no fetch.
-It takes that rule's row out of every table and moves no other row,
-because a rule is measured on its own,
-and what shows it is cheaper than the corpora:
-run the pack before the change and after it over any corpus at hand
-and read the rows that survive.
-A run whose surviving rows differ is not a deletion,
-and then the refetch above is owed after all.
-
-The same holds for the figures in
+The rerun is owed for the figures in
 [`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
 the pairs per rule and the fragment counts in
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
@@ -744,14 +692,13 @@ the ones over the Markdown corpus in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
 the sizes in
 [`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
-the ending tables in
+and the ending tables in
 [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match),
-and the audit corpus half of `docs/firing-rates.md`,
-with one more thing that moves them:
-a change in what [the extraction](docs/extraction.md) keeps.
-That last one is why the extraction is in this list twice over:
+and what moves them is a change in what
+[the extraction](docs/extraction.md) keeps.
+That is why the extraction is in this list twice over:
 it decides both the sizes a document reports
-and which characters a rule is shown,
+and which words a probe is shown,
 so a change to it moves a count and can move a class as well.
 The ending tables have a second thing of their own that moves them,
 since the classes a probe in `harness/endings.py` sorts into
@@ -871,10 +818,10 @@ it costs a read, it has to be kept working,
 and it demonstrates a property nobody doubted.
 The tests worth writing are the ones
 that would have caught a mistake somebody could plausibly make,
-which is what `tests/test_checks.py` spends its length on:
-an unknown check kind passing validation,
-a message using a placeholder its check does not report,
-a density rule measuring a rate over a document too short to have one.
+which is what `tests/test_subset.py` spends its length on:
+a production that admits a phrase nothing should derive,
+a segmentation graph stitched together one node out,
+a lexical exclusion taking a reading the grammar needed.
 
 ## Commit messages
 

@@ -279,8 +279,8 @@ Quality against unpredictability is an inverted U,
 peaking high but short of the extreme,
 so the quantity has an optimum rather than a maximum.
 Its cost is that computing it takes a language model,
-which is a fork for this repository;
-[open-questions.md](open-questions.md#linter-questions) owns it.
+which this repository does not use for anything
+and which the retired linter track declined to take on.
 
 Three things follow.
 

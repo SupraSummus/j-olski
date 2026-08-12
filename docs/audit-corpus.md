@@ -41,17 +41,15 @@ and the fourth is what the extraction needs.
   The pin is also what makes a figure here reproducible,
   since a repository goes on being written after it is admitted.
 - **A format the extraction reads.**
-  `harness/markdown.py` reads Markdown, and
-  [roadmap.md](roadmap.md#the-two-pieces-are-not-the-same-size)
-  makes admitting a repository the step that decides
+  `harness/markdown.py` reads Markdown,
+  so admitting a repository is the step that decides
   whether a second extraction gets written.
   The `Markdown files` column below is where that shows:
   a member in another format changes the column,
   and brings the extraction it needs with it.
 
 Licence is recorded and is not a fifth demand.
-[Milestone 1](roadmap.md#milestone-1-the-calibration-harness)
-exits on numbers taken over a corpus anyone can fetch,
+A figure here is taken over a corpus anyone can fetch,
 which a public repository satisfies whatever its terms say,
 because this list ships no text: it ships a URL and a commit.
 What a licence decides is the narrower question
@@ -87,10 +85,12 @@ git clone https://github.com/pot-gov-pl/rit-dokumentacja
 git -C rit-dokumentacja checkout -q 32f85cc
 python3 -m harness.markdown ksef-docs --into proza/ksef
 python3 -m harness.markdown rit-dokumentacja --into proza/rit
-python3 -m olski proza --format report --packs harness/counts.py \
-                                       --packs olski.packs.typography
 ```
 
+The word and character counts below were taken over `proza/`
+with the rule engine that ran the typography pack,
+which is retired ([linter.md](linter.md#what-closed-the-track)),
+so the last step is a count somebody redoing this writes for themselves.
 `--depth 1` is not in the clone,
 because a shallow clone cannot check out the commit that follows it.
 The word counts are of extracted prose rather than of the files as they stand,

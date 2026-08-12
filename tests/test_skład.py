@@ -480,12 +480,15 @@ def test_oba_szyki_orzeczenia_imiennego_biorą_się_z_dwóch_drzew():
     Wysunięty orzecznik jest tu wyborem zapisanym w drzewie,
     więc oba zdania mają jedno znaczenie logiczne i dwie różne rzeczy na czele.
     Widać tu przy okazji dziurę, która została:
-    README pisze `zwykły tekst polski`, a grupa imienna wypuszcza `zwykły polski tekst`,
+    README pisze `kontrolowanych języków naturalnych`, gdzie `naturalny` nazywa,
+    a grupa imienna wypuszcza `kontrolowany naturalny język`,
     bo wyróżnienia wewnątrz niej ten zapis nie ma.
     """
-    tekst = A.zwykły * A.polski * R.tekst
-    assert kompiluj(jest(tekst, R.wejście)) == "Zwykły polski tekst jest wejściem."
-    assert kompiluj(jest(tekst.remat, R.wejście.temat)) == "Wejściem jest zwykły polski tekst."
+    fraza = A.kontrolowany * A.naturalny * R.język
+    assert kompiluj(jest(fraza, R.wejście)) == "Kontrolowany naturalny język jest wejściem."
+    assert kompiluj(jest(fraza.remat, R.wejście.temat)) == (
+        "Wejściem jest kontrolowany naturalny język."
+    )
 
 
 def test_zaimek_względny_bierze_przypadek_z_pozycji_a_zgodność_z_rzeczy_opisywanej():

@@ -332,7 +332,7 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   `być` takes no accusative object,
   so `On jest wolny.` loses the reading in which `wolny` is one.
 - The register's own notation as an indeclinable noun:
-  `Zobacz docs/rules.md.`, argued above
+  `Zobacz docs/subset.md.`, argued above
 - A modal with its infinitive.
   `powinien` inflects for gender and not for person,
   so the clause it heads agrees with its subject in gender
@@ -793,8 +793,7 @@ Two entries are not constructions but demands every construction makes:
   so the language cannot say in itself what it is.
   Notation is the half of this class olski does admit,
   and the reason the rest stays out is that the form is inflected:
-  `lintuje` is a finite verb, `znacznikowym` an adjective in the instrumental,
-  `commitów` a genitive plural,
+  `Pythonem` is a noun in the instrumental and `commitów` a genitive plural,
   and reading any of them as the indeclinable noun notation gets
   would invent a reading that is not merely unknown but wrong,
   against the promise that every olski sentence is well-formed Polish.
@@ -998,7 +997,7 @@ and every reading of every form, choosing none of them.
 
 `olski/grammar.py` is the formalism:
 productions, symbols, and feature unification.
-A grammar is Python data, like the rule packs.
+A grammar is Python data rather than a notation of its own.
 It also answers whether any terminal takes a reading at all,
 which is what lets a rejected sentence say what it stood on:
 [więzy wyprowadzone z gramatyki](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)

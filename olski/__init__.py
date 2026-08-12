@@ -1,7 +1,7 @@
-"""olski — a style linter for Polish technical documentation.
+"""olski — a parser for a designed subset of Polish.
 
-Cheaply, deterministically, and explainably: every judgement comes with the
-rule that produced it, and the same input gives the same answer twice.
+Cheaply, deterministically, and explainably: every verdict comes with the
+reading that produced it, and the same input gives the same answer twice.
 """
 
 from __future__ import annotations

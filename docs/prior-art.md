@@ -5,7 +5,7 @@ so that reimplementation is a choice rather than an accident.
 
 Mostly resources for the
 [grammar track](design-notes.md).
-Tools for the optional linter track —
+Tools for the retired linter track —
 prose linters, LanguageTool, StyloMetrix —
 are listed in [linter.md](linter.md#what-already-exists),
 and the wider landscape in [similar-work.md](similar-work.md).
@@ -16,9 +16,8 @@ and the wider landscape in [similar-work.md](similar-work.md).
 morphological analyzer *and generator* for Polish, built over SGJP.
 Analysis returns a directed acyclic graph of segmentations with full tags;
 generation maps a lemma plus a tag to a surface form.
-The generator is the part the grammar track would lean on;
-the linter needs only the analyzer,
-and has a lighter option in Morfologik below.
+The generator is the part the grammar track leans on,
+and it is why Morfologik below is not the dictionary here.
 <http://morfeusz.sgjp.pl/>
 
 **SGJP**, *Słownik gramatyczny języka polskiego* —
@@ -35,7 +34,7 @@ the other freely licensed Polish morphological dictionary,
 with roughly 3.5 million forms,
 and the one LanguageTool uses for Polish.
 Lighter than SGJP and oriented toward analysis rather than generation,
-which makes it the likely choice for the linter track
+which is why the retired linter track would have taken it
 where no surface forms need to be produced.
 See [linter.md](linter.md#what-already-exists).
 

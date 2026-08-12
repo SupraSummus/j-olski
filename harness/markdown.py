@@ -1,8 +1,8 @@
 """Markdown in, Polish prose out.
 
-The rules that measure a whole file need a guarantee plain text gives and Markdown
-does not: every character is prose. This produces it, by dropping the apparatus
-and by joining what the renderer would have joined.
+The grammar needs a guarantee plain text gives and Markdown does not: every
+character is prose. This produces it, by dropping the apparatus and by joining
+what the renderer would have joined.
 
 Three decisions run through the whole module and are worth stating once.
 
@@ -15,21 +15,22 @@ half a renderer has no opinion on: which constructs are apparatus, and what a
 construct leaves behind when it goes.
 
 **Inline markup is replaced by the text it wrapped, never deleted.** A deletion
-leaves the space that stood in front of it, and that space arrives at the rules
-as a defect somebody typed: docs/extraction.md holds what that cost the two
+leaves the space that stood in front of it, and the sentence then reaches the
+grammar with a gap nobody typed: docs/extraction.md holds what that cost the two
 extractions written before this one. Where a construct has no text to leave
 behind, the space in front of it goes with it.
 
 **A line is a line of source, not a line of the page.** Everything a paragraph
 holds is joined with single spaces, because that is what a renderer does with a
 newline inside one, and where the author's editor wrapped then leaves no trace
-for a rule to read.
+in what comes out.
 
 Which documents enter the corpus is the same step's business, and it is the
-harness package that holds it: a rate over Polish must not have another language
-in its denominator, and the extracted prose is what says which language a file is
-in. A document is one unit of that selection, and the case where one document
-holds two languages is an entry in TODO.md rather than a case this handles.
+harness package that holds it: a coverage figure over Polish must not have
+another language in its denominator, and the extracted prose is what says which
+language a file is in. A document is one unit of that selection, and the case
+where one document holds two languages is an entry in TODO.md rather than a case
+this handles.
 """
 
 from __future__ import annotations
@@ -47,7 +48,7 @@ MARKDOWN_SUFFIX = ".md"
 #: CommonMark, plus the two GitHub constructs the corpora are written with. A
 #: table is apparatus and goes whole, so what enabling it buys is the row that
 #: opens without a pipe; strikethrough wraps prose the way emphasis does, and
-#: without it a struck sentence reaches the rules with its tildes still in.
+#: without it a struck sentence reaches the grammar with its tildes still in.
 PARSER = MarkdownIt("commonmark").enable(["table", "strikethrough"])
 
 #: YAML frontmatter: a fence of three dashes opening the file, and everything
@@ -107,9 +108,10 @@ def _paragraphs(nodes: Iterable[SyntaxTreeNode]) -> Iterator[str]:
     Akapit jest jedynym węzłem, który prozę niesie, a poza nim i pojemnikami
     wszystko jest aparatem: nagłówek, tabela, blok kodu — z wcięcia tak samo jak
     spod płotka — blok surowego HTML-a i linia oddzielająca odpadają razem z
-    tym, co w środku. Tekst, który przy tym pada, jest tekstem, którego reguła
-    i tak by nie zmierzyła: nagłówek i komórka tabeli nie są zdaniem, a
-    ``<summary>`` stoi w bloku, który renderer bierze w całości jako HTML.
+    tym, co w środku. Tekst, który przy tym pada, jest tekstem, którego
+    gramatyka i tak by nie wyprowadziła: nagłówek i komórka tabeli nie są
+    zdaniem, a ``<summary>`` stoi w bloku, który renderer bierze w całości jako
+    HTML.
     """
     for node in nodes:
         if node.type == "paragraph":
@@ -124,7 +126,7 @@ def _inline(nodes: Iterable[SyntaxTreeNode]) -> str:
     Konstrukcja, po której nic nie zostaje — obrazek bez opisu, komentarz HTML,
     surowy tag — zabiera ze sobą odstęp, który przed nią stał. To jest ta
     usterka, przeciw której moduł powstał: kasowanie, które odstęp zostawia,
-    dochodzi do reguł jako znak, który ktoś wpisał.
+    dochodzi do gramatyki jako znak, który ktoś wpisał.
 
     Tekst idzie osobną gałęzią właśnie dlatego, a nie dla porządku. Parser
     stawia węzeł tekstu pustej długości tam, gdzie sam nic nie zjadł — za twardym
