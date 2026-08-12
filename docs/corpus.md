@@ -97,15 +97,15 @@ Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 12,595 | 96.7% |
-| valid | 315 | 2.4% |
-| ambiguous | 115 | 0.9% |
+| rejected | 12,588 | 96.6% |
+| valid | 318 | 2.4% |
+| ambiguous | 119 | 0.9% |
 
 By length, which is the shape the curve actually has:
 
 | tokens | valid |
 | --- | --- |
-| 1–5 | 8.7% |
+| 1–5 | 8.8% |
 | 6–10 | 2.5% |
 | 11–20 | 0.2% |
 | 21–40 | 0.1% |
@@ -124,15 +124,15 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `praet` | 2,891 | the past tense: `był` (94), `była`, `było` |
-| `interp` | 2,390 | `-` (1,246), `.` (405), `–` (273) |
-| `qub` | 1,776 | particles: `nie` (563), `się` (351), `czy` |
-| `adv` | 1,165 | `teraz` (63), `bardzo`, `potem` |
-| `conj` | 525 | coordination: `i` (154), `a`, `ale` |
+| `praet` | 2,894 | the past tense: `był` (94), `była`, `było` |
+| `interp` | 2,381 | `-` (1,246), `.` (402), `–` (273) |
+| `qub` | 1,777 | particles: `nie` (563), `się` (352), `czy` |
+| `adv` | 1,167 | `teraz` (63), `bardzo`, `potem` |
+| `conj` | 525 | coordination: `i` (152), `a`, `ale` |
 | `comp` | 493 | subordinators: `że` (209), `gdy`, `jeśli` |
 | `psubst` | 376 | nominal pronouns: `to` (105), `co`, `kto` |
 | `num` | 336 | numerals: `kilka` (20), `wielu`, `wiele` |
-| `ger` | 324 | gerunds: `przyjęcie`, `głosowania` |
+| `ger` | 326 | gerunds: `przyjęcie`, `głosowania` |
 | `pred` | 317 | `to` (192), `można`, `trzeba` |
 
 The first two are the whole answer to "why 2.4%".
@@ -148,7 +148,7 @@ What it is worth against the register olski is aimed at
 is a separate question, and the run below answers it differently.
 
 One entry says where a construction the grammar *has* stops short of Polish.
-`się` is second in the particle row at 351:
+`się` is second in the particle row at 352:
 the reflexive is admitted after its verb,
 and Polish puts it before one as readily.
 
@@ -160,7 +160,7 @@ Drop instead the positions that hang a prepositional phrase on a noun or on an
 adjective — `Modifier` under `NPConjunct` and under `APConjunct`, which are the
 attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
-leaves to the reader — and the row reads 298, `w` (82) and `z` (69) in front.
+leaves to the reader — and the row reads 288, `w` (77) and `z` (68) in front.
 With both in place it reads 147, `w` (41) and `z` (28) in front,
 which is a preposition standing where no rule reaches
 rather than a construction the grammar lacks.
@@ -296,16 +296,16 @@ The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 214 accepted sentences where the gold tree marks a role to compare:
+On the 216 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 211 | 98.6% |
+| agrees | 213 | 98.6% |
 | partial | 2 | 0.9% |
 | disagrees | 1 | 0.5% |
 
-The denominator is 214 and not 315
-because the other 101 accepted sentences have no role to compare against:
+The denominator is 216 and not 318
+because the other 102 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
 The report prints that count under the table
@@ -349,13 +349,13 @@ rather than an attachment olski chose.
 Drop the positions
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 takes prepositional attachment to demand —
-the 21 productions in which an adjunct stands beside something else
+the 22 productions in which an adjunct stands beside something else
 or a modifier hangs on a phrase that already carries one —
-and this row holds 19 sentences instead of one,
+and this row holds 20 sentences instead of one,
 every one of them an attachment.
-Accepted goes the other way, 369 instead of 315,
-so those positions buy 18 fewer readings taken backwards
-for 54 sentences the grammar stops accepting,
+Accepted goes the other way, 374 instead of 318,
+so those positions buy 19 fewer readings taken backwards
+for 56 sentences the grammar stops accepting,
 and the sentence the corpus caught the problem on first shows how:
 
 ```text
@@ -413,12 +413,12 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,595 | 12,346 |
-| valid | 315 | 409 |
-| ambiguous | 115 | 270 |
+| rejected | 12,588 | 12,333 |
+| valid | 318 | 415 |
+| ambiguous | 119 | 277 |
 
 Ambiguity is where the tagger's cost lands:
-155 more sentences carry more than one reading,
+158 more sentences carry more than one reading,
 which is 1.2% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
@@ -436,8 +436,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,344, 395 and 286.
-Fifteen of those 286 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 12,331, 401 and 293.
+Fifteen of those 293 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -511,13 +511,13 @@ so both stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here a 94-sentence difference stands on 214 disagreements.
-The two runs accept the same 255 sentences.
-Live accepts 154 that gold rejects,
-and gold accepts 60 that live does not settle on:
-50 it finds ambiguous, 10 it rejects.
+and here a 97-sentence difference stands on 221 disagreements.
+The two runs accept the same 256 sentences.
+Live accepts 159 that gold rejects,
+and gold accepts 62 that live does not settle on:
+52 it finds ambiguous, 10 it rejects.
 
-The 154 are the warning in the table,
+The 159 are the warning in the table,
 and the largest single class of it is the one
 [the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
@@ -547,7 +547,7 @@ at eleven times the count.
 Five more sentences the frame settles rather than refuses,
 the reading it removes being the one they are otherwise ambiguous against:
 `Powód jest prosty.`, `Jaki jest skutek?`, `To jest jedno pytanie.`
-Ten stay ambiguous with fewer readings,
+Eleven stay ambiguous with fewer readings,
 and one derives that otherwise derives not at all,
 `Zawarte na wideokasecie wypowiedzi mogą być interesującym materiałem`,
 which is the instrumental predicative reaching an infinitive

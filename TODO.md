@@ -501,11 +501,14 @@ jego wycenę [sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
 a pomiar, od którego się zaczyna, wylicza
 [subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
 Drugie miejsce, w którym gramatyka mnoży ciała, dochodzi inną drogą:
-`NPConjunct` ma osiem ciał, z czego sześć jest iloczynem
-trzech kształtów głowy przez obecność `Modifier` po niej,
+`NPConjunct` ma dziesięć ciał, z czego osiem jest iloczynem
+czterech kształtów głowy przez obecność `Modifier` po niej,
 i mnoży to obecność oraz kolejność rodzajów przydawki,
-a nie permutacja argumentów,
-więc etap 4 dołoży tam trzeci rodzaj, a nie czwarty szyk,
+a nie permutacja argumentów.
+Czwarty kształt głowy, czyli przymiotnik z dopełniaczem naraz,
+wszedł jako dwa ciała, bo `Modifier` musiał wejść razem z nim,
+i tyle samo zażąda każdy następny.
+Etap 4 dołoży tam trzeci rodzaj przydawki, a nie czwarty szyk,
 podczas gdy `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
 Do przeczytania jest, co preprocesor robi z liczbą czytań,
@@ -760,25 +763,40 @@ Tę samą liczbę rusza wpis o zaimku wykluczonym ze słownika,
 bo `admissible` stoi między tekstem a tym pomiarem,
 więc przebieg jest jeden i oba wpisy podnosi się razem.
 
-Grupa imienna nie bierze rzeczownika z przymiotnikiem za nim i dopełniaczem pod nim,
-a rejestr, który nazywa terminy właśnie tak, trafia w tę dziurę zdaniem po zdaniu:
-`Rzeczpospolita Polska jest dobrem wspólnym wszystkich obywateli.` nie ma wyprowadzenia,
-a `wspólnym dobrem wszystkich obywateli` w tym samym zdaniu ma jedno.
-`NPConjunct` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
-osobno rzeczownik z dopełniaczem
-i osobno każdą z tych dwóch pozycji z wyrażeniem przyimkowym za nią,
-więc brakuje jednej pozycji w liście, którą cztery sąsiednie już mają.
-Do przeczytania jest ta lista wraz z
-[`docs/ustawy.md`](docs/ustawy.md#rejestr-znalazł-dziurę-w-grupie-imiennej),
-gdzie stoi, czym ten kształt jest w rejestrze ustaw,
-i wraz z [przyłączaniem wyrażeń przyimkowych](docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
-bo to ono uzasadnia dwie pozycje z tych czterech i ono powie, czy piąta jest tego samego rodzaju.
-Ruchem jest ta produkcja wraz z pomiarem, ile daje i ile odbiera:
-przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
-a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej,
-więc zakup trzeba przeczytać jako przejścia między werdyktami, a nie jako liczbę pokrycia.
-Wpis jest przez to winien przebiegi,
-których [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w gramatyce.
+Nie wiadomo, ile zdań przyjętych opiera się na czytaniu,
+którego polszczyzna nie ma.
+Nad rejestrem ustaw widać dwa takie z 69 na jednej klasie i jedno na drugiej
+([`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)),
+a przeczytano je okiem, nie policzono:
+`Kalisz.` wyprowadza się jako czasownik, a `Polski Czerwony Krzyż` jako nazwisko
+nieodmienne, czyli forma zgodna z każdą liczbą naraz.
+Zdanie przyjęte na takim czytaniu jest gorsze niż odrzucone,
+bo pokrycie liczy je jak zdanie przeczytane, a
+[wykluczenie ze słownika](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
+po nie nie sięga: żąda ono, żeby forma miała obok czytanie z klasy zamkniętej.
+Do przeczytania jest `admissible` w `olski/subset.py` wraz z tym wykluczeniem
+i z [pomiarem jego ceny](docs/corpus.md#what-morphological-ambiguity-costs),
+bo to on mówi, co dzisiejsze kryterium zdejmuje i za ile.
+Ruchem jest liczba: ile zdań przyjętych każdego korpusu traci czytanie,
+gdy zdjąć czytania nieodmienne wszędzie, a nie tylko przy klasie zamkniętej.
+Dopóki jej nie ma, nie wiadomo, czy szersze kryterium jest zakupem, czy stratą,
+bo [dwa szersze zmierzono i oba brały za dużo](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
+
+Figury `docs/corpus.md` brane nad gramatyką z wyjętą grupą produkcji
+bierze każda sesja własnym skryptem, bo żadnego nie ma w repozytorium,
+i dobiera do niego wariant, którego dokument nie nazywa.
+Przy pozycjach przyłączeniowych granica grupy jest już wypisana
+([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
+a przy [zdaniach, które rama zdejmuje](docs/corpus.md#what-morphological-ambiguity-costs)
+nie jest: trzy liczby z czterech odtwarza leksykon z biernikiem dopisanym kopuli,
+a czwarta — zdanie, które bez leksykonu nie wyprowadza się wcale —
+żąda wariantu jeszcze innego i nie mówi którego.
+Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
+bo ramę zawęża ona i tylko ona.
+Ruchem jest sonda obok `sonda/przecinek.py`, która te warianty buduje i drukuje,
+wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nią.
+Sonda zdejmuje z tych figur najdroższą pozycję:
+zgadywanie, co poprzednia sesja zmierzyła.
 
 ## Skład i opowieści
 

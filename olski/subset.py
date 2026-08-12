@@ -390,13 +390,15 @@ def build() -> Grammar:
     grammar.rule(
         "NPConjunct", [word("adj", **AGREE), nt("NPConjunct", **AGREE)], person="ter", **AGREE
     )
-    # Głowa z dopełniaczem po niej nie jest zaimkiem rzeczownym, i to jest jedyny
-    # warunek ujemny w tej gramatyce. Bez niego każda forma paradygmatu ten, którą
-    # Morfeusz zna też jako rzeczownik, daje grupie imiennej drugie czytanie tego
-    # samego kształtu.
+    # Głowa, która rządzi dopełniaczem, nie jest zaimkiem rzeczownym: bez tego
+    # warunku każda forma paradygmatu ten, którą Morfeusz zna też jako rzeczownik,
+    # daje grupie imiennej drugie czytanie tego samego kształtu. Nazwana raz, bo
+    # ciał z dopełniaczem pod głową jest kilka, a warunek ma być w każdym ten sam;
+    # wywód i cenę trzyma docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
+    głowa_dopełniacza = word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)
     grammar.rule(
         "NPConjunct",
-        [word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE), nt("NP", case="gen")],
+        [głowa_dopełniacza, nt("NP", case="gen")],
         person="ter",
         **AGREE,
     )
@@ -409,10 +411,24 @@ def build() -> Grammar:
     grammar.rule(
         "NPConjunct", [word("subst", **AGREE), nt("Modifier")], person="ter", **AGREE
     )
+    # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
+    # ochrony ludności. Bez tej pozycji dopełniacz dochodzi tylko do przymiotnika
+    # stojącego przed rzeczownikiem, więc termin nazwany drugim szykiem nie ma
+    # wyprowadzenia, a rejestr ustaw nazywa tak swoje terminy zdanie po zdaniu:
+    # docs/ustawy.md trzyma, ile ta pozycja tam daje i ile odbiera.
+    grammar.rule(
+        "NPConjunct",
+        [głowa_dopełniacza, word("adj", **AGREE), nt("NP", case="gen")],
+        person="ter",
+        **AGREE,
+    )
     # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
-    # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce. Bez
-    # tych dwóch pozycji przyłączenie do rzeczownika w takiej grupie nie
-    # istnieje, a zdanie wychodzi jednym czytaniem przez czasownik.
+    # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce,
+    # zadania ochrony ludności w gminie. Bez tych trzech pozycji przyłączenie do
+    # rzeczownika w takiej grupie nie istnieje, a zdanie wychodzi jednym
+    # czytaniem przez czasownik. Trzecia idzie razem z przydawką wyżej: bez niej
+    # wyrażenie po takim terminie dochodzi do dopełniacza i do nikogo więcej,
+    # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
     grammar.rule(
         "NPConjunct",
         [word("subst", **AGREE), word("adj", **AGREE), nt("Modifier")],
@@ -421,11 +437,13 @@ def build() -> Grammar:
     )
     grammar.rule(
         "NPConjunct",
-        [
-            word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE),
-            nt("NP", case="gen"),
-            nt("Modifier"),
-        ],
+        [głowa_dopełniacza, nt("NP", case="gen"), nt("Modifier")],
+        person="ter",
+        **AGREE,
+    )
+    grammar.rule(
+        "NPConjunct",
+        [głowa_dopełniacza, word("adj", **AGREE), nt("NP", case="gen"), nt("Modifier")],
         person="ter",
         **AGREE,
     )

@@ -118,6 +118,10 @@ PRZYJMOWANE = [
     #  dwie z pozycji, których lista dopełnień nie miała, choć polszczyzna je ma.
     "Arek jest w głębi serca monogamistą.",
     "Musi na niego skoczyć.",
+    #  Termin z przymiotnikiem za rzeczownikiem i dopełniaczem pod nim, czyli
+    #  kształt, którym rejestr ustaw nazywa swoje terminy. Zdanie jest § 54
+    #  „Zasad techniki prawodawczej”; docs/ustawy.md mierzy, ile ta pozycja daje.
+    "Podstawową jednostką redakcyjną ustawy jest artykuł.",
     #  A pronoun subject, and with it a person that is not the third.
     "Ja zapisuję plik.",
     #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
@@ -155,6 +159,23 @@ def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimko
     assert {reading["Predicative"] for reading in found.readings} == {
         "wolni i równi",
         "wolni i równi pod względem swej godności i swych praw",
+    }
+
+
+def test_termin_z_dopełniaczem_bierze_wyrażenie_przyimkowe_na_własną_głowę():
+    #  Usterka, przed którą to broni: pozycja z przymiotnikiem i dopełniaczem
+    #  dopisana bez swojej pozycji z okolicznikiem za nią. Zdanie zostaje wtedy
+    #  wieloznaczne, więc po werdykcie nie widać, że w pliku nie dochodzi już do
+    #  samych ustawień, choć polszczyzna to czytanie ma — i stąd liczba obok
+    #  zbioru, bo dwa z trzech czytań różnią się wewnątrz grupy imiennej i dają
+    #  to samo streszczenie ról
+    #  (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+    found = verdict("Program zapisuje ustawienia domyślne użytkownika w pliku.")
+    assert found.status == "ambiguous", found.explain()
+    assert len(found.readings) == 3
+    assert {reading["Object"] for reading in found.readings} == {
+        "ustawienia domyślne użytkownika w pliku",
+        "ustawienia domyślne użytkownika",
     }
 
 

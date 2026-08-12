@@ -250,6 +250,15 @@ Podrzędność jest więc tym, na czym ten etap stoi,
 i wobec kryterium wyjścia pozycją najdroższą i nie do ominięcia,
 bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
 
+Kupuje ona ponadto coś, czego pokrycie nie mierzy.
+Zdanie podrzędne z `które` nie jest dziś odrzucane, tylko czytane jako współrzędne,
+bo przecinek koordynuje zdania, a podrzędności nie ma
+([subset.md](subset.md#what-it-does-not-cover-yet)),
+i wychodzi z tego jedno czytanie, które mówi co innego niż zdanie.
+Nad rejestrem ustaw jedno takie zdanie jest policzone jako przyjęte
+([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)),
+więc ten etap zdejmuje werdykty błędne, a nie tylko dokłada nowe.
+
 Interpunkcji zostaje w kolejce z banku drzew tyle, ile w niej po przecinku:
 wiersz prowadzi myślnik, który jest tam dialogiem z gazety,
 czego rejestr olskiego nie ma wcale
@@ -261,7 +270,8 @@ którego ten etap nie ma
 
 **Wyjście:** zdanie łączące dwa zdania składowe spójnikiem podrzędnym
 wyprowadza się i wyprowadza raz,
-a pokrycie nad README idzie w górę o te zdania, które na tym stały.
+pokrycie nad README idzie w górę o te zdania, które na tym stały,
+a zdanie z `które` przestaje wychodzić czytaniem współrzędnym.
 
 ## Etap 5: słowa, których słownik nie ma
 

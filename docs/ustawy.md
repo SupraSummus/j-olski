@@ -9,10 +9,10 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 63 zdania z 4921,
-czyli 1,3%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 2,4%,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 69 zdań z 4921,
+czyli 1,4%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 2,4%,
 choć tamten bank drzew jest zbudowany z gazet i prozy.
-Wieloznacznych jest tu 4,1% wobec 0,9% tam,
+Wieloznacznych jest tu 4,5% wobec 0,9% tam,
 więc zdanie ustawy, które olski w ogóle czyta,
 czyta on najczęściej na kilka sposobów.
 Regularne w ustawie jest drzewo jednostek redakcyjnych,
@@ -190,22 +190,22 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 17 | 32 | 337 |
+| samorząd gminny (1990/95) | 386 | 20 | 35 | 331 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 0 | 84 |
 | informacja publiczna (2001/1198) | 126 | 0 | 1 | 125 |
-| Kodeks wyborczy (2011/112) | 2908 | 25 | 81 | 2802 |
+| Kodeks wyborczy (2011/112) | 2908 | 27 | 86 | 2795 |
 | petycje (2014/1195) | 48 | 3 | 2 | 43 |
 | zgromadzenia (2015/1485) | 127 | 0 | 1 | 126 |
-| ochrona ludności (2024/1907) | 1242 | 18 | 85 | 1139 |
-| razem | 4921 | 63 | 202 | 4656 |
+| ochrona ludności (2024/1907) | 1242 | 19 | 96 | 1127 |
+| razem | 4921 | 69 | 221 | 4631 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 4 jednoznaczne i 14 wieloznacznych.
+699 zdań, z tego 5 jednoznacznych i 16 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
-Zdania wyprowadzone jednoznacznie mają jeden kształt,
-i jest to kształt, dla którego olski powstał.
-Cztery z ustaw i dwa z „Zasad techniki prawodawczej”:
+Zdania wyprowadzone jednoznacznie mają kilka kształtów.
+Jeden z nich jest tym, dla którego olski powstał —
+cztery zdania z ustaw i dwa z „Zasad techniki prawodawczej”:
 
 ```text
 Gmina posiada osobowość prawną.
@@ -220,9 +220,39 @@ Dwa ostatnie są przepisami „Zasad techniki prawodawczej”:
 zdanie, które żąda od artykułu jednozdaniowości, jest jednym zdaniem olskiego,
 a definicja części ustawy z § 14 ust. 1 przechodzi przez ekstrakcję i przez gramatykę naraz.
 
+Inny jest terminem tego rejestru z dopełniaczem pod nim, czyli tym kształtem,
+[dla którego gramatyka ma pozycję](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa) —
+trzy zdania z ustaw i jedno z „Zasad techniki prawodawczej”:
+
+```text
+Organem wykonawczym gminy jest zarząd.
+Status prawny pracowników samorządowych określa odrębna ustawa.
+Podmiotami ochrony ludności są jednostki organizacyjne pomocy społecznej.
+Podstawową jednostką redakcyjną ustawy jest artykuł.
+```
+
+Ostatnie jest § 54 „Zasad techniki prawodawczej”, czyli przepisem,
+który nazywa artykuł podstawową jednostką redakcyjną ustawy
+i nazywa go dokładnie tym kształtem.
+
+Nie każde z tych 69 zdań napisał prawodawca, i widać to na dwóch klasach.
+Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
+wyborczych, którym ekstrakcja dopisała kropkę,
+a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
+więc wychodzi z nich zdanie bezpodmiotowe o jednym czytaniu.
+`Podmiotami ochrony ludności są Polski Czerwony Krzyż.` pokazuje drugą:
+składanie przesłanki z pozycją daje tu zdanie, które nie zgadza się co do liczby,
+a wyprowadza się, bo Morfeusz zna `Krzyż` także jako nazwisko nieodmienne,
+czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
+W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
+[wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
+po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
+Ilu zdań z 69 to dotyczy, ten pomiar nie liczy,
+a policzenie tego jest wpisem w [TODO.md](../TODO.md).
+
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
 a pokrycie gramatyki [urywa się nad dziesięcioma](corpus.md#the-measurement),
-więc 1,3% jest z tej długości, a nie z rejestru.
+więc 1,4% jest z tej długości, a nie z rejestru.
 Nad README ta sama gramatyka wyprowadza garść zdań
 i [tamten przebieg](corpus.md#where-the-analyses-stop) trzyma ich liczbę,
 więc różnica między jednym pomiarem a drugim
@@ -230,8 +260,8 @@ jest różnicą długości zdania, a nie staranności piszącego.
 
 ## Wieloznaczność jest tu odczytem z § 6, ale nie jest zarzutem
 
-Wieloznacznych jest 202, czyli 76% zdań, którym olski daje jakiekolwiek czytanie,
-a nad Składnicą jest to 27% (115 wieloznacznych na 430 przeczytanych).
+Wieloznacznych jest 221, czyli 76% zdań, którym olski daje jakiekolwiek czytanie,
+a nad Składnicą jest to 27% (119 wieloznacznych na 437 przeczytanych).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -254,10 +284,10 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
                   2 readings, differing in Object
 ```
 
-Drugie z tych zdań pokazuje, dlaczego 202 nie jest liczbą przepisów niejednoznacznych:
+Drugie z tych zdań pokazuje, dlaczego 221 nie jest liczbą przepisów niejednoznacznych:
 oba jego czytania mówią, że Sejm kontroluje działalność Rady Ministrów,
 i różnią się drzewem, a nie normą.
-202 jest liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
+221 jest liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
 a nie ze składni,
 i to jest wszystko, co pomiar tej wielkości mówi:
 [wieloznaczność mierzy pewność](glr-in-practice.md#ambiguity-as-a-confidence-measure),
@@ -279,8 +309,8 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP '(?<=„)[^”]+(?=”)' \
   | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4656 odrzuceń 3799 stanęło na formie, której żadna produkcja nie bierze,
-a 857 na samej strukturze.
+Z 4631 odrzuceń 3799 stanęło na formie, której żadna produkcja nie bierze,
+a 832 na samej strukturze.
 Formy z czoła tego rankingu grupują się w cztery klasy:
 
 | klasa | najczęstsze formy |
@@ -298,7 +328,7 @@ dywiz z nazwy kodeksu i nawias wokół adresu publikacji.
 Kolejka wychodzi więc inna niż ta,
 którą [Składnica ustawiła](corpus.md#where-the-analyses-stop),
 i różnica jest informacją o rejestrze.
-Czas przeszły stoi tam na pierwszym miejscu z 2891 zdaniami,
+Czas przeszły stoi tam na pierwszym miejscu z 2894 zdaniami,
 a tutaj cały daje 64 trafienia (`był`, `była`, `było`, `były`, `został`, `została`)
 i do dwudziestu pierwszych miejsc nie wchodzi:
 ustawa mówi w czasie teraźniejszym o tym, co ma być,
@@ -308,24 +338,81 @@ Zamiast niego stoi wysoko zdanie warunkowe,
 czyli kształt, w którym norma jest w ogóle zapisana:
 `Jeżeli` z 325 trafieniami na dwie pisownie jest tu tym, czym `był` jest tam.
 
-## Rejestr znalazł dziurę w grupie imiennej
+## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
+
+Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —
+`obrona cywilna`, `informacja publiczna`, `władza zwierzchnia`, `dobro wspólne` —
+a potem dokłada mu dopełniacz i pisze
+`zadania ochrony ludności`, `dobrem wspólnym wszystkich obywateli`.
+`NPConjunct` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
+osobno rzeczownik z dopełniaczem,
+osobno każde z nich z wyrażeniem przyimkowym za sobą,
+a obie przydawki naraz bierze pozycja dopisana dla tego rejestru:
+bez niej ten kształt nie ma w olskim ani jednego wyprowadzenia.
+Razem z nią wchodzi ta sama głowa z wyrażeniem przyimkowym na końcu,
+której żąda [przyłączanie wyrażeń przyimkowych](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera):
+bez tej drugiej wyrażenie po takim terminie
+dochodzi do dopełniacza i do nikogo więcej,
+czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
+
+Zakup czyta się przejściami między werdyktami, a nie liczbą pokrycia,
+bo przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
+a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej.
+Nad siedmioma ustawami 25 zdań przestaje być odrzuconych:
+10 wychodzi jednoznacznych, 15 wieloznacznych.
+W drugą stronę idą 4 zdania jednoznaczne, które przechodzą na wieloznaczne.
+Nad „Zasadami techniki prawodawczej” przejść pierwszego rodzaju jest 3,
+nad [Składnicą](corpus.md#the-measurement) 7,
+a drugiego rodzaju nie ma tam ani jednego.
+Jedno z tych dziesięciu jednoznacznych nie jest zakupem.
+`Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
+wychodzi jednym czytaniem, w którym zdanie podrzędne z `które`
+jest zdaniem współrzędnym po przecinku,
+a polszczyzna czyta je jako podrzędne.
+Pozycja z dopełniaczem dokłada tu ostatni brakujący kawałek wyprowadzenia,
+a resztę daje koordynacja przecinkiem, którą gramatyka ma bez podrzędności:
+`Ustawy określają, które zadania gminy mają charakter obowiązkowy.`
+wychodzi tym samym czytaniem i bez tej pozycji.
+Werdykt jednoznaczny nad zdaniem przeczytanym na opak jest najgorszym,
+jaki olski wydaje, i klasę tę nazywa
+[lista tego, czego gramatyka nie obejmuje](subset.md#what-it-does-not-cover-yet).
+
+Po drugiej stronie stoją te cztery zdania, które przeszły na wieloznaczne,
+i płacą one z dwóch różnych powodów.
 
 ```sh
-python3 -m olski.check -c "Rzeczpospolita Polska jest dobrem wspólnym wszystkich obywateli."
-python3 -m olski.check -c "Rzeczpospolita Polska jest wspólnym dobrem wszystkich obywateli."
+python3 -m olski.check -c "Za prawidłową gospodarkę finansową gminy odpowiada zarząd."
+python3 -m olski.check -c "Wynagrodzenie Szefa Krajowego Biura Wyborczego odpowiada wysokości wynagrodzenia sekretarza stanu."
+python3 -m olski.check -c "Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy."
 ```
 
-Pierwsze zdanie nie ma wyprowadzenia, drugie ma jedno.
-`NPConjunct` bierze rzeczownik z przymiotnikiem po nim,
-bierze rzeczownik z dopełniaczem po nim,
-bierze rzeczownik z przymiotnikiem i wyrażeniem przyimkowym,
-bierze rzeczownik z dopełniaczem i wyrażeniem przyimkowym,
-a rzeczownika z przymiotnikiem i dopełniaczem nie bierze.
-Rejestr trafia w tę dziurę stale,
-bo nazywa terminy rzeczownikiem z przymiotnikiem za nim
-(`obrona cywilna`, `informacja publiczna`, `władza zwierzchnia`, `dobro wspólne`),
-a terminowi dokłada dopełniacz.
-Wpis stoi w [TODO.md](../TODO.md).
+Trzy z nich są wieloznaczne w polszczyźnie i olski melduje to słusznie.
+Zdanie o gospodarce finansowej wychodzi trzema czytaniami,
+bo dopełniacz `gminy` ma gdzie stać poza pozycją dopełnienia,
+a kiedy tam stoi, `zarząd` jest i mianownikiem, i biernikiem, czyli tym synkretyzmem,
+który [własność jednoznaczności](subset.md#validity-is-uniqueness-not-just-derivability) odrzuca.
+Jedno czytanie miało ono nie dlatego, że jest jednoznaczne,
+tylko dlatego, że gramatyka nie miała gdzie tego dopełniacza postawić.
+
+Zdanie o wynagrodzeniu pyta, czyj jest przymiotnik:
+`Szefa Krajowego Biura Wyborczego` czyta się jako szefa Krajowego Biura Wyborczego
+i jako Szefa Krajowego przy Biurze Wyborczym,
+a to są dwa różne stanowiska w tej samej ustawie.
+Tak samo dzieli się `opiekunów prawnych tych osób` z ustawy o ochronie ludności,
+i to zdanie jest trzecim z tych trzech.
+Podział przydawki jest tym samym sporem, co przy
+[przyłączaniu wyrażenia przyimkowego](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
+o jeden poziom niżej: przydawka stoi między dwoma rzeczownikami
+i należy do tego po lewej albo do tego po prawej,
+a rozstrzyga to wiedza o urzędach, a nie składnia.
+Gramatyka bez tej pozycji przyjmuje takie zdanie z jednym z dwóch czytań
+i nie mówi, że drugie istnieje.
+
+Czwarte zdanie płaci za wieloznaczność słownika.
+Wychodzi dwoma czytaniami o tym samym streszczeniu ról,
+bo Morfeusz zna `zainteresowana` jako rzeczownik, a `rada` jako formę `rad`,
+i [wykluczenie](subset.md#the-dictionary-offers-readings-polish-does-not) tam nie sięga,
+bo żadne z tych dwóch czytań nie jest nieodmienne.
 
 ## Pakiet typograficzny nad tym rejestrem milczał
 
