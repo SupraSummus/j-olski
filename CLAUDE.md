@@ -8,7 +8,7 @@ There is no separate contributor guide;
 this file is the only copy.
 
 The prose rules cover the README, everything under `docs/`,
-`TODO.md`, the `justification` fields of rule declarations
+`TODO.md`, this file, the `justification` fields of rule declarations
 (see [`docs/rules.md`](docs/rules.md)),
 commit messages, and pull request descriptions.
 
@@ -114,7 +114,7 @@ i nie pyta, skąd ten brak się wziął.
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
 
-Reguła nie wywodzi się z [pięciu sił](#five-forces) i nie jest od nich wyjątkiem.
+Reguła nie wywodzi się z [sześciu sił](#six-forces) i nie jest od nich wyjątkiem.
 One rozstrzygają, jak zdanie jest zbudowane, a ta, w jakim jest języku,
 więc stoi przed nimi, żeby zdanie „każda reguła niżej” dalej było prawdziwe.
 
@@ -142,9 +142,9 @@ bo tekst napisany przed regułą nie jest usterką.
 ta sekcja stoi po polsku w pliku, który po polsku nie jest,
 i jedno, i drugie jest zgodne z regułą.
 
-## Five forces
+## Six forces
 
-Every rule below follows from one of five forces.
+Every rule below follows from one of six forces.
 A rule you can derive from a force needs no separate justification,
 and a newly noticed failure mode has an obvious place to go —
 or a reason not to be written down at all.
@@ -160,6 +160,11 @@ or a reason not to be written down at all.
 - **Word choice.**
   A phrase was picked rather than arriving together with the topic.
   Test: did I write this, or did it assemble itself?
+- **Plainness.**
+  A sentence is written for somebody who has to act on it,
+  rather than for somebody who will admire the writing.
+  Test: rewrite it in the plainest Polish you can —
+  what was lost besides the impression that the author can write?
 - **Checkability.**
   A claim about the world names what would settle it.
   Test: what do I show someone who asks how I know?
@@ -168,13 +173,21 @@ or a reason not to be written down at all.
   whether it was needed or not.
   Test: what does this passage buy someone who has read what stands above it?
 
-None of the five follows from the others.
+None of the six follows from the others.
 Two identical copies of a fact read perfectly from top to bottom
 and rot at the first edit to one of them.
-A passage answering a question nobody would ask passes the other four,
+A passage answering a question nobody would ask passes the other five,
 and is paid for by everyone who reads past it.
-A failure mode that derives from none of the five
-means either that a sixth force is missing
+A pose passes the other five as well:
+it is comprehensible in the place it stands, it copies no fact,
+it names what would settle its claims,
+and it can be shorter than the plain version.
+Word choice comes closest and its test acquits it,
+because a pose is laboured rather than automatic,
+which is how a repository can produce one at volume
+while breaking no rule below.
+A failure mode that derives from none of the six
+means either that a seventh force is missing
 or that the rule is not worth having.
 
 ## The reader goes sentence by sentence
@@ -396,6 +409,83 @@ These are also, in Polish, much of what this project's own rule inventory is abo
 see [`docs/rule-inventory.md`](docs/rule-inventory.md).
 Writing them into the repository's own prose
 would be a poor advertisement for the tool.
+
+## Dla kogo jest napisane zdanie
+
+Reguła wyżej pyta, czy fraza została wybrana.
+Ta reguła pyta o adresata: czy zdanie jest napisane dla kogoś,
+kto ma z nim coś zrobić,
+czy dla kogoś, kto ma docenić, że autor umie pisać.
+
+Tamten test popisu nie łapie,
+bo popis jest napisany starannie
+i na pytanie, czy złożył się sam, odpowiada „nie”.
+Test jest tu inny: przepisz zdanie najprostszą polszczyzną, jaką umiesz,
+i sprawdź, co ubyło.
+Jeżeli ubyło samo wrażenie, zostaje wersja prosta.
+
+Rejestr, który się w tym repozytorium wyhodował,
+to stylizacja na esejistykę inteligencką.
+Powtarza się w niej kilka chwytów.
+
+- **Peryfraza w miejscu nazwy.**
+  Zdanie omawia rzecz, którą umie nazwać.
+  Najbardziej szkodzi w temacie commita i w nagłówku,
+  bo tam zdanie czyta się bez akapitu pod spodem.
+  Naprawą jest rzeczownik, a nie skrócenie zdania.
+- **Wymyślony sprawca.**
+  Reguła o urzędowej frazie wyżej gubi wykonawcę,
+  a tutaj wykonawcą zostaje abstrakcja:
+  pomiar rusza się sam, zdanie gubi role, dokument dostaje wskazanie.
+  Skutek jest ten sam co przy zgubionym wykonawcy,
+  czyli nie widać, kto ma co zrobić.
+  Metonimia zwykła zostaje, bo dokument mówi i reguła żąda
+  bez udawania, że któreś z nich czegoś chce.
+  Wykreślamy dopiero to, co rzeczy przypisuje wolę albo doznanie.
+- **Czasownik domowy.**
+  „Stoi”, „trzyma”, „bierze”, „kosztuje”, „schodzi”
+  obsłużyły już w tych dokumentach tyle znaczeń,
+  że żadnego nie znaczą osobno:
+  „stoi” zastępuje jest, obowiązuje, zależy i znajduje się.
+  Czyta się to jak termin i nie jest zdefiniowane nigdzie.
+  Test podstawieniowy: wstaw czasownik dokładny i sprawdź, czy zdanie zyskało.
+  „Sklejenie stoi przed analizą” → „Sklejenie poprzedza analizę”.
+  Jest to ta sama wyblakła metafora co wyżej,
+  tylko wyblakła w tym repozytorium, a nie w polszczyźnie,
+  więc tamten test jej nie widzi.
+- **„To” jako podmiot akapitu.**
+  Zaimek odsyła do całego poprzedniego zdania, a nie do rzeczownika.
+  Autor takiego zdania nie zauważy, bo wie, o czym pisał.
+  Wstaw w miejsce zaimka rzeczownik.
+- **Jeden rytm na wszystko.**
+  Trzy zdania pod rząd o tym samym kształcie —
+  teza, przecinek, człon spięty przez „a”, „bo” albo „więc”,
+  podmiot odłożony za orzeczenie —
+  składają się na rejestr, w którym każde zdanie brzmi jak maksyma,
+  więc żadnego nie da się już wyróżnić.
+  Krótkie zdanie po trzech długich robi więcej niż „warto zauważyć”.
+  Test: przeczytaj trzy kolejne zdania na głos.
+
+Nie każde takie zdanie jest usterką.
+Projekt jest dla przyjemności, a materiałem jest polska proza
+([README](README.md#kierunek)),
+więc tekst, który się dobrze czyta, jest tu jednym z celów.
+Granica biegnie tam, gdzie tekstu nie czyta się już od początku do końca.
+Wywód może: README i te dokumenty, które o coś argumentują,
+czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
+Instrukcja nie może: ten plik, tematy commitów oraz `TODO.md`
+czyta się wyrywkowo, w pośpiechu i z listy,
+a zdanie, które trzeba najpierw rozszyfrować,
+przepada razem z tym, co miało powiedzieć.
+
+Ten rejestr bierze się głównie z tego pliku,
+bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem.
+Widać to w `git log --pretty=%s`,
+gdzie tematy powtarzają jeden szyk i jeden niewielki zbiór czasowników.
+Regułę przyjmujemy [leniwie](#adopt-these-rules-lazily) jak resztę,
+więc przebiegu porządkowego nad tym plikiem nie ma,
+a sekcję przepisywaną z innego powodu
+sprowadzamy przy okazji do zwykłej polszczyzny.
 
 ## A claim about the world says how to check it
 
@@ -792,6 +882,16 @@ The subject says why, in the imperative;
 the what is in the diff already.
 Aim for 50 characters and treat 72 as the limit;
 detail that does not fit goes in the body, in semantic line breaks.
+
+Where the change is a name, a number, a threshold or a decision,
+that word is in the subject.
+A subject is read alone, in `git log --oneline` and in a list of pull requests,
+so one that defers its content to the body has none:
+`Nazwij po imieniu to, co tor składu robi`
+announces that something was named and withholds the name,
+where `Nazwij tor składu realizacją powierzchniową`
+fits the same limit and says it.
+Test: does the subject carry the word the body turns on?
 If a change deliberately hands some information over to git history —
 a deleted done-marker, a dropped section — the message says so
 rather than implying nothing was lost.
@@ -876,7 +976,7 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
   where each one enters, and what ruins its path.
 - **Elegance.** Simple and closed:
   no orphaned sections, no half-finished moves.
-- **The five forces.** Put every changed place through each of the five tests.
+- **The six forces.** Put every changed place through each of the six tests.
   Check reading order separately on anything you moved:
   a section lifted upward now precedes what used to introduce it,
   and that is invisible from the altitude a file is read at before editing.
