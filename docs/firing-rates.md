@@ -1,14 +1,23 @@
-# What the typography pack fires on
+# What the typography pack fired on
 
-The typography pack sets its thresholds and its exemptions by judgement,
-and the prose in its test suite is written to exercise the machinery.
-This document is what the seven rules do when handed Polish somebody wrote:
+The typography pack set its thresholds and its exemptions by judgement,
+and the prose in its test suite was written to exercise the machinery.
+This document is what the seven rules did when handed Polish somebody wrote:
 how often each fired, over how much text,
 what its hits turned out to be when they were read,
 and what none of it can mean.
-Two more rules were run over the same two bodies and are no longer in the pack,
+Two more rules were run over the same two bodies and left the pack before it,
 which [the reading that removed them](#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
 holds along with their numbers.
+
+The pack is retired and so is the engine that ran it,
+and [linter.md](linter.md#what-closed-the-track) holds that decision.
+This document survives it because it is the price the decision was taken at:
+a reader who thinks the idea deserves another try
+should start from these numbers rather than from the intuition that produced them.
+No run reported here can be taken again.
+The commands below are what produced the figures, recorded rather than offered,
+and the code they name is in git.
 
 The text is two bodies, at the two ends of
 [the argument corpora.md settles](corpora.md#what-the-survey-settles).
@@ -19,7 +28,7 @@ the documentation of two Polish state IT systems,
 cloned from version control and extracted to prose,
 which has reached nobody.
 The rule against the straight ASCII quotation mark reads the difference:
-`quote-straight` fires nought times in 1,940,517 words of the first
+`quote-straight` fired nought times in 1,940,517 words of the first
 and 442 times in 31,417 words of the second.
 
 That pair of numbers is
@@ -267,9 +276,8 @@ Tlenek uranu zielony, U2O4    1,80
 
 The rule is not wrong about the characters in front of it.
 It is measuring a table rather than a sentence,
-which is the failure
-[rules.md](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
-attributes to markup formats,
+which is the failure the engine attributed to markup formats
+and declined to run a whole-file check over,
 happening inside a file whose format promised it would not.
 
 ### `missing-space-after-punctuation` mostly read an emphasis marker
@@ -543,11 +551,10 @@ where the report tells the two floors apart.
 a rejestr, o który temu pakietowi chodzi, takiego końca nie ma.
 Dokumentacja stoi w formacie znacznikowym,
 gdzie pojedynczy koniec wiersza jest spacją;
-[ekstrakcja](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read)
+[ekstrakcja](extraction.md#after-joining-a-line-end-is-not-there-to-be-read)
 skleja akapit w jeden wiersz i zabiera po drodze każdą spację, która stała na końcu;
 a przebieg nad plikami zamiast nad prozą czyta łamanie formatu, nie czytelnika,
-czego [rules.md](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
-odmawia.
+czego silnik odmawiał każdemu checkowi mierzącemu cały plik.
 Obie reguły są kształtu audytowego,
 więc każda jest winna udział trafień, które były usterkami,
 i żaden z korpusów, o które prosi
@@ -647,17 +654,15 @@ Rejestrem, którego te dwie reguły chcą, jest tekst, który ktoś złoży,
 a nie każdy tekst stojący w wierszach.
 Komentarz w pliku źródłowym stoi w wierszach, które czytelnik widzi,
 i jest najbliższym kandydatem, jaki to repozytorium ma;
-druga ekstrakcja skleja jednak i te wiersze,
-a [powód](prose-in-code.md#wiersze-akapitu-sklejają-się-choć-pliku-źródłowego-nikt-nie-składa)
-jest ten sam:
+ekstrakcja z modułu sklejała jednak i te wiersze, z tego samego powodu:
 regułą, która by tam strzeliła, byłoby żądanie twardej spacji w kodzie źródłowym.
 
 ## What these numbers are not
 
 **They are not a calibration of any rule,
 and no rule here should carry one because of these runs.**
-A hit count beside a defect count is the shape of an
-[`Audit`](rules.md#two-fields-that-are-not-decoration),
+A hit count beside a defect count is the shape of an audit,
+which is one of the two shapes a rule's calibration field could take,
 and this document reports several:
 139 hits and no defects, 11 hits and 11, 442 hits and 296.
 What an `Audit` also carries is the corpus,
@@ -691,9 +696,7 @@ is what `harness/markdown.py` keeps on purpose.
 [corpora.md](corpora.md#what-the-survey-settles) states the general form of this,
 having measured it on corpora that announce themselves as builds.
 What these runs add is that a plain-text file carries the same freight,
-which is why
-[rules.md](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives)
-reads a recognized suffix as a promise the format makes
+which is why the engine read a recognized suffix as a promise the format makes
 rather than as a fact about the file,
 and that an extraction acquires freight of its own,
 which is why [extraction.md](extraction.md) owes the account it gives.

@@ -1,35 +1,20 @@
-"""The object every rule sees.
+"""Gdzie w tekście kończy się jedno zdanie, a zaczyna następne.
 
-Input is plain Polish text, and :attr:`Document.plain_text` is what says so: the
-file's format is the only evidence there is that a character is prose rather than
-apparatus. A markup-aware source would answer that question properly rather than
-trivially, by carrying prose spans; lacking one, a file olski does not read has no
-answer and says so.
+Gramatyka bierze zdanie, a wejściem jest plik, więc ktoś musi jedno pociąć na
+drugie, zanim analizator zobaczy pierwszy segment. Robi to ten moduł i nic poza
+nim, bo cięcie jest rozstrzygnięciem o polszczyźnie — który skrót kończy zdanie,
+a który je ciągnie — a nie krokiem czytania pliku.
 
-Where a line ends is a question this deliberately does not answer. A plain-text
-export that sets a paragraph on one line however long it runs puts newlines
-nowhere near a page's line breaks, so the answer takes measuring the text rather
-than asking the format, and nothing asks for it: docs/firing-rates.md holds what
-the two rules that wanted it turned out to fire on, and why the pack has neither.
+Cięcie stoi przed analizą, a nie po niej, i dlaczego, mówi ``sentences`` w
+olski/subset.py: po analizie nie ma już czym zobaczyć spacji, która odróżnia
+granicę zdania od nazwy pliku.
 """
 
 from __future__ import annotations
 
 import re
-from bisect import bisect_right
-from dataclasses import KW_ONLY, dataclass, field
+from dataclasses import KW_ONLY, dataclass
 from functools import cached_property
-from pathlib import Path
-
-#: The suffixes olski reads as plain Polish prose. Nothing here understands
-#: markup, and :func:`is_plain_text` is the only reader of this list: a
-#: directory walk asks it too rather than matching the suffixes itself, so
-#: naming a file and walking to it cannot disagree about what the file is.
-TEXT_SUFFIXES = (".txt", ".text")
-
-#: A word, for the purposes of counting them. Requires a letter at each end, so
-#: that numbers, bullets and stray punctuation do not inflate a density.
-WORD = re.compile(r"[^\W\d_](?:[\w’'-]*[^\W\d_])?", re.UNICODE)
 
 PARAGRAPH_BREAK = re.compile(r"\n[ \t]*\n")
 
@@ -54,7 +39,7 @@ SENTENCE_CLOSE = re.compile(CLOSING_MARK + r"\s*\Z", re.UNICODE)
 #: merge two sentences wherever they occur. Some entries take a dot only in
 #: careless Polish, which writes ``dr``, ``mgr``, ``mln`` and ``pkt`` without one;
 #: they are listed because a stop nobody should have typed still splits a
-#: sentence, and this linter is pointed at text somebody is about to correct.
+#: sentence, and the text this reads is documentation rather than a fair copy.
 #:
 #: The reverse error is the accepted one: an abbreviation here can also end a
 #: sentence — ``Ustawa weszła w życie w 2011 r.`` is ordinary Polish — and then
@@ -93,89 +78,35 @@ class Span:
     start: int
     end: int
 
-    def __contains__(self, offset: int) -> bool:
-        return self.start <= offset < self.end
-
-    def __len__(self) -> int:
-        return self.end - self.start
-
 
 @dataclass(frozen=True)
 class Document:
-    """Tekst i to, co się z niego wylicza.
+    """Tekst i podział, który się z niego wylicza.
 
-    Wyliczenia są leniwe i pamiętane, bo każdy przebieg pyta o co innego: pakiet
-    typograficzny nie schodzi niżej niż znak, a o akapit i o zdanie pytają tylko
-    te reguły, które liczą nad nimi częstość. Wszystko poza tekstem wylicza się
-    przy pierwszym pytaniu, więc nie ma dokumentu półgotowego: dwa o tym samym
-    tekście odpowiadają tak samo, obojętne, które miejsce w programie je
-    zbudowało.
+    Podział jest leniwy i pamiętany, bo pyta o niego dopiero ten, kto zdania
+    liczy albo im się przygląda, a wylicza się przy pierwszym pytaniu, więc nie
+    ma dokumentu półgotowego: dwa o tym samym tekście odpowiadają tak samo,
+    obojętne, które miejsce w programie je zbudowało.
     """
 
     text: str
     #: Reszta po nazwie, bo tekst i ścieżka są oba napisami: zamienione miejscami
-    #: dają dokument, który lintuje własną nazwę, i nic tego nie zgłasza.
+    #: dają dokument, który tnie na zdania własną nazwę, i nic tego nie zgłasza.
     _: KW_ONLY
     path: str = "<text>"
-    #: Whether every character of the text is prose and every newline in it is a
-    #: newline on the page. Plain text gives both; a markup format gives neither,
-    #: since its apparatus is text like any other and a single newline in it is
-    #: whitespace the renderer collapses. A check that has to look at the whole
-    #: of a document, rather than at one site in it, asks this before measuring.
-    plain_text: bool = True
-    #: Zliczone słowa, po jednym wpisie na zakres, o który ktoś zapytał.
-    _counted: dict[Span | None, int] = field(
-        default_factory=dict, init=False, repr=False, compare=False
-    )
 
     @cached_property
     def paragraphs(self) -> tuple[Span, ...]:
-        """Blank-line separated paragraphs, the unit a density can be measured over."""
+        """Akapity rozdzielone pustym wierszem, wewnątrz których stoją zdania."""
         return tuple(_paragraphs(self.text))
 
     @cached_property
     def sentences(self) -> tuple[Span, ...]:
-        """Sentences, which do not cross a paragraph boundary.
-
-        The narrowest unit a rate or a spread can be measured over.
-        """
+        """Zdania, których żadne nie przechodzi przez granicę akapitu."""
         return tuple(_sentences(self.text, self.paragraphs))
-
-    @cached_property
-    def _line_starts(self) -> tuple[int, ...]:
-        starts = [0]
-        starts.extend(m.end() for m in re.finditer(r"\n", self.text))
-        return tuple(starts)
-
-    def position(self, offset: int) -> tuple[int, int]:
-        """Return the 1-based line and column of a character offset."""
-        line = bisect_right(self._line_starts, offset) - 1
-        return line + 1, offset - self._line_starts[line] + 1
 
     def slice(self, span: Span | None = None) -> str:
         return self.text if span is None else self.text[span.start : span.end]
-
-    def excerpt(self, span: Span, limit: int = 60) -> str:
-        """Return the text of a span on one line, short enough for a message."""
-        raw = " ".join(self.slice(span).split())
-        return raw if len(raw) <= limit else raw[: limit - 1] + "…"
-
-    def word_count(self, span: Span | None = None) -> int:
-        """Zliczone raz na zakres, bo o ten sam zakres pyta każda reguła licząca częstość."""
-        if span not in self._counted:
-            self._counted[span] = sum(1 for _ in WORD.finditer(self.slice(span)))
-        return self._counted[span]
-
-
-def is_plain_text(path: str | Path) -> bool:
-    """Whether a file's name says olski can read it as prose laid out as written.
-
-    A suffix is a weak claim about a file's contents and it is the only claim
-    available, so the conservative reading is the one that costs nothing: a
-    missed defect is free, and a rate computed over somebody's frontmatter is
-    not.
-    """
-    return Path(path).suffix.lower() in TEXT_SUFFIXES
 
 
 def _paragraphs(text: str):

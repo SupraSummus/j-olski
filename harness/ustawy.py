@@ -13,8 +13,8 @@ Bez składania gramatyka dostałaby urywki,
 a orzeczenie „to nie zdanie” mówiłoby o zapisie ustawy, a nie o polszczyźnie w niej.
 
 Cena jest po drugiej stronie i jest jedna: przesłanka wychodzi tyle razy, ile ma pozycji.
-Reguła, która liczy częstość nad tekstem, liczyłaby ją wielokrotnie,
-więc ta proza idzie pod gramatykę, a nie pod pakiet reguł.
+Kto liczyłby częstość nad tą prozą, liczyłby ją wielokrotnie,
+więc idzie ona pod gramatykę, która pyta o zdanie po zdaniu.
 Właścicielem pozostałych cen jest docs/ustawy.md.
 
 Wejściem jest HTML z API ELI, bo tam ustawa stoi jednostka w jednostce,
@@ -66,7 +66,7 @@ POMIJANE_ZNACZNIKI = frozenset({"sup"})
 PUSTE = frozenset({"br", "img", "hr", "meta", "link", "input", "col", "source"})
 
 #: Ten jeden z nich renderuje się odstępem, a nie niczym,
-#: więc bez niego dwa słowa złamane wierszem doszłyby do reguł sklejone w jedno.
+#: więc bez niego dwa słowa złamane wierszem doszłyby do gramatyki sklejone w jedno.
 ZŁAMANIE = "br"
 
 #: Czym jednostka kończy tekst, gdy ciąg dalszy stoi pod nią.
@@ -82,7 +82,7 @@ BIAŁE = re.compile(r"\s+")
 #: Ślady po tym, co odpadło ze środka zdania.
 #: Adres publikacji stoi w nawiasie wstawionym między przecinek i przecinek,
 #: więc po nim zostaje przecinek podwojony albo przecinek z odstępem przed sobą,
-#: a jedno i drugie doszłoby do reguł jako znak, który ktoś wpisał.
+#: a jedno i drugie doszłoby do gramatyki jako znak, który ktoś wpisał.
 ŚLADY = ((re.compile(r"\s+(?=[,;:.])"), ""), (re.compile(r",(\s*,)+"), ","))
 
 

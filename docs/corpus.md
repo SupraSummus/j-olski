@@ -31,7 +31,7 @@ It also decides what the corpus cannot prove, which is covered below.
 Not vendored, and not downloaded by any code here.
 The corpus is 92 MB compressed and 2.4 GB extracted,
 it is distributed under the GPL while this repository carries no licence file,
-and a linter is not a download manager.
+and a parser is not a download manager.
 
 ```sh
 curl -L -o skladnica.tar.gz \
@@ -181,27 +181,29 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Eight sentences of that README derive once, and three derive twice.
+Four sentences of that README derive once, and one derives twice.
 What stops the rest is the table above in another order:
-adverbs and subordinators level at the front,
-then the Polish form Morfeusz does not know, level with the colon,
-then gerunds and the past tense, and numerals last.
+adverbs and the colon level at the front, subordinators just behind them,
+then the Polish form Morfeusz does not know,
+then the past tense and numerals, and gerunds last.
+That order is read off the words the run names,
+which is a classification by hand rather than a second command.
 The comma stands in neither ranking, the grammar having it,
 and the punctuation left here is the colon that opens a list.
 The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
-Nine rejected sentences have no such word at all —
-`Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
-polszczyzny w jednym i w drugim przypadku.` —
+Five rejected sentences have no such word at all —
+`Reszta repozytorium to notatki projektowe, przegląd pola,
+plan i otwarte pytania.` —
 which is that coarseness in the open:
 every word there is one some production takes,
 and what stops the sentence is the shape they are in.
 The run says which is which rather than leaving it to be worked out:
 a rejected sentence names the words no production takes,
 or says that nothing derives it when every word is one some production does,
-which is those nine.
+which is those five.
 
 That order is not the order of what an addition buys.
 Both rankings count the sentences a construction stopped,
@@ -209,10 +211,10 @@ which is not the count of sentences admitting it would accept,
 and here the two come apart.
 Most of the sentences the run rejects carry two classes or more:
 the adverb in
-`Wyznaczenie go przez wykluczanie jest nieporównanie tańsze`
-stands beside two gerunds and a colon,
+`a wyznaczenie go przez wykluczanie jest nieporównanie tańsze`
+stands beside two gerunds,
 and the past tense in
-`Każdy werdykt przychodzi z tym, co go wydało`
+`Każdy werdykt przychodzi z czytaniem, które go wydało`
 stands beside a numeral.
 A production for either, added by itself,
 leaves those two sentences exactly where they stand,
@@ -221,12 +223,12 @@ is not read off the rows and gets measured when they are written.
 
 Where a sentence carries one class alone, the list still does not settle it,
 because a sentence can also fail on the shape its words are in.
-Nine of the rejected sentences fail that way and carry no unlicensed word at all,
+Five of the rejected sentences fail that way and carry no unlicensed word at all,
 and one class carries three sentences of its own —
-`Teraz.`, `Opcjonalnie, obok.`
-and the sentence about a rule that has to know what a word is
+`Teraz.`, `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.`
+and the sentence about what a past tense and a dropped subject come from
 are stopped by an adverb and by nothing else,
-while the first two have no verb for a clause to be built around.
+while the first has no verb for a clause to be built around.
 The exception below is the one where a single class really is the whole of it.
 
 `Działają dwie rzeczy` needs the numeral and nothing else.
@@ -239,14 +241,16 @@ says `działać` takes no accusative object and that reading is gone,
 which leaves the numeral holding the sentence on its own.
 
 What the gerund would cost is the dictionary's to decide rather than the grammar's,
-and it comes to nothing.
-`wejście` carries a `ger` reading beside its `subst` one,
+and on this file it comes to nothing.
+A word like `wejście` carries a `ger` reading beside its `subst` one,
 so a production admitting a gerund as the head of a noun phrase
-gives `Wejściem jest zwykły tekst polski` a second derivation of the same shape,
+gives a sentence built on one a second derivation of the same shape,
 differing in nothing a reader could act on.
 Two derivations of one shape are
 [one reading](subset.md#co-się-liczy-jako-jedno-czytanie),
-so the run accepts that sentence either way.
+so such a sentence is accepted either way.
+That was measured on a sentence this README no longer carries,
+and what it establishes is about the dictionary rather than about the sentence.
 
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,
@@ -261,10 +265,10 @@ The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
 reaches the grammar as one indeclinable noun rather than as five segments
 ([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
-and three of the seven sentences accepted here rest on it,
-as does one of the two that derive twice.
+and two of the four sentences accepted here rest on it,
+as does the one that derives twice.
 What is left is the inflected Polish word Morfeusz lacks —
-`lintuje`, `commitów`, `znacznikowym` —
+`commitów`, `Pythonem` —
 which is the class ranked second above.
 That the notation had to be found here rather than in the treebank
 is the register difference in one figure:
@@ -581,8 +585,9 @@ it flatters any grammar that shares them more closely,
 and it understates one that does not.
 The 41% of forests with no gold tree is the visible edge of the same problem.
 
-It is also not a per-rule measurement.
-The calibration harness in [roadmap.md](roadmap.md) needs paired human
-and generated Polish and measures firing rates;
+It is also not a measurement of style.
+The retired linter track
+[wanted paired human and generated Polish](linter.md#the-thing-that-makes-or-breaks-it-calibration)
+and would have measured firing rates;
 this measures what the grammar derives.
 The two are different numbers and neither substitutes for the other.

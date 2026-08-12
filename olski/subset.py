@@ -676,8 +676,8 @@ def _omijalna(segments: list[Segment], krawędź: Segment) -> bool:
 def sentences(text: str) -> list[str]:
     """Tnie tekst na zdania i oddaje je tak, jak stoją.
 
-    Podział jest ten, którym idzie linter, czyli :mod:`olski.document`: żąda po
-    kropce białego znaku i zna skróty. Sam olski skrótów nie ma, więc nad nim
+    Podziału nie ma tutaj, tylko w :mod:`olski.document`: żąda on po kropce
+    białego znaku i zna skróty. Sam olski skrótów nie ma, więc nad nim
     cięcie na każdej kropce byłoby dokładne. Wejściem jest jednak dokumentacja,
     gdzie ``docs/linter.md`` jest jednym słowem, a cięcie na kropce w jego środku
     wymyśla dwa zdania, których nikt nie napisał.

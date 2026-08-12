@@ -1,6 +1,6 @@
 """The grammar formalism: symbols, productions, and feature unification.
 
-A grammar is data, in Python, like the rule packs. What a production says is:
+A grammar is data, in Python. What a production says is:
 this constituent is made of these parts, and these features of the parts must be
 the same feature. Agreement is therefore not a check bolted onto the parse; it is
 the parse. A noun phrase whose adjective disagrees with its noun has no

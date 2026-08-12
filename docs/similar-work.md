@@ -66,8 +66,8 @@ This positioning describes the
 [grammar track](design-notes.md),
 which is the only part of the project
 that would be a controlled natural language at all.
-The linter is a checker, not a language,
-and has no PENS class.
+The retired linter was a checker, not a language,
+and had no PENS class.
 The S-versus-E reading below still applies to it,
 because implementation cost against coverage
 is the same trade under a different name.

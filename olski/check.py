@@ -1,9 +1,4 @@
-"""Checking a text against the grammar, from the command line.
-
-Separate from the rule-pack command for now, because the two answer different
-questions: ``olski`` says what is bad style in a text, ``olski-check`` says
-whether the text is olski at all.
-"""
+"""Checking a text against the grammar, from the command line."""
 
 from __future__ import annotations
 

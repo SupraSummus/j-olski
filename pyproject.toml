@@ -5,19 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "olski"
 version = "0.0.1"
-description = "A style linter for Polish technical documentation"
+description = "A parser for a designed subset of Polish"
 requires-python = ">=3.11"
 dependencies = ["morfeusz2>=1.99"]
 
 [project.optional-dependencies]
-#  markdown-it-py is the calibration harness's parser rather than the linter's:
-#  olski reads plain text and takes no view of a document format. It is declared
-#  here because this is what the checks install, and harness/ is not a package
-#  anybody installs.
+#  markdown-it-py is the harness's parser rather than olski's: the grammar reads
+#  plain text and takes no view of a document format. It is declared here because
+#  this is what the checks install, and harness/ is not a package anybody
+#  installs.
 dev = ["markdown-it-py>=3", "pytest>=8", "ruff>=0.5"]
 
 [project.scripts]
-olski = "olski.cli:main"
 olski-check = "olski.check:main"
 olski-corpus = "olski.coverage:main"
 
@@ -31,8 +30,8 @@ olski = ["leksykon.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-#  The calibration harness is not part of the linter and is not installed with
-#  it, so its tests reach it the way a run from a clone does.
+#  The harness is not part of the package and is not installed with it, so its
+#  tests reach it the way a run from a clone does.
 pythonpath = ["."]
 
 [tool.ruff]

@@ -1,10 +1,12 @@
-"""The calibration harness: what turns a corpus into something olski can read.
+"""What turns a corpus into something olski can read.
 
-Milestone 0 keeps document formats out of the linter, so a corpus in a markup
-format reaches the rules through here rather than through olski. What an
-extraction invents by doing that is docs/extraction.md for a document and
-docs/prose-in-code.md for a module, since a transformation rules fire on owes an
-account exactly as a rule owes a false-positive rate.
+The grammar takes plain Polish sentences, and a corpus arrives as Markdown or as
+an act of parliament served in HTML, so a body of text reaches the grammar
+through here rather than through olski: reading a document format is a different
+job from deriving a sentence, and keeping it out is what lets the grammar hold no
+view of any format. What an extraction invents on the way is docs/extraction.md,
+since a transformation the grammar is measured over owes an account of itself
+exactly as a coverage figure owes its corpus.
 
 Only the reading of one file differs between formats. The walk over a tree, the
 selection by language and the mirrored output are the same step every time, so
@@ -21,12 +23,12 @@ from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from olski.document import TEXT_SUFFIXES, WORD
+#: What an extraction writes, and what ``olski-check`` is then pointed at.
+PROSE_SUFFIX = ".txt"
 
-#: What an extraction writes, taken from olski rather than spelled again, so
-#: that the format this produces and the format the linter walks cannot drift
-#: apart. The first entry is the ordinary one.
-PROSE_SUFFIX = TEXT_SUFFIXES[0]
+#: A word, for the purposes of counting them. Requires a letter at each end, so
+#: that numbers, bullets and stray punctuation do not inflate a share.
+WORD = re.compile(r"[^\W\d_](?:[\w’'-]*[^\W\d_])?", re.UNICODE)
 
 
 @dataclass(frozen=True)
@@ -74,27 +76,21 @@ DIACRITIC = re.compile(r"[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]")
 def polish_share(text: str) -> float:
     """The share of a text's words that carry a Polish diacritic.
 
-    A repository of notes holds the ones its author wrote in English, and a rate
-    over Polish should not have them in its denominator. The two populations
-    separate rather than shade into each other: over the notes
+    A repository of notes holds the ones its author wrote in English, and a
+    coverage figure over Polish should not have them in its denominator. The two
+    populations separate rather than shade into each other: over the notes
     docs/generated-polish.md measures, one English note in forty reaches 3% and
     every Polish one is above 13%, so any threshold between the two picks the
-    same documents. Words are counted as olski counts them, so the share and the
-    rates it selects for are measured over the same tokens.
+    same documents.
 
     A third population sits between those two: a text whose prose is English and
     whose sections are being written in Polish one at a time. No threshold
     separates it from either, and no finer unit rescues the measure, an English
     paragraph quoting Polish examples carrying as many diacritics as a Polish
     one. So a share is evidence about somebody else's corpus, where nothing has
-    been declared and a number is all there is to go on.
-
-    Over this repository's own prose nobody is reduced to that: which files stand
-    in Polish is written down in tests/nie-po-polsku.txt and read from there. A
-    share taken over our own text moves with any reword, so a measured selection
-    would hand this repository's coverage to whoever last edited a paragraph.
-    The threshold belongs to the caller rather than to this function, and
-    docs/extraction.md owns what it takes to set one over a corpus.
+    been declared and a number is all there is to go on. The threshold belongs to
+    the caller rather than to this function, and docs/extraction.md owns what it
+    takes to set one over a corpus.
     """
     words = WORD.findall(text)
     return sum(1 for word in words if DIACRITIC.search(word)) / len(words) if words else 0.0

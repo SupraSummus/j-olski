@@ -8,7 +8,65 @@ models rarely make those —
 but for the patterns they habitually fall into.
 
 A linter helps write good code.
-This should help write good Polish.
+This was to help write good Polish.
+
+The track is retired.
+The rule engine, the typography pack and the command that ran them are gone,
+and this document is what remains of the reasoning,
+kept because what holds in it is about Polish rather than about a program.
+[firing-rates.md](firing-rates.md) keeps what the pack did
+over Polish somebody wrote,
+which is the price the decision was taken at
+and where every figure behind it lives.
+
+## What closed the track
+
+Three findings, and none of them is that the idea was uninteresting.
+
+**Every rule that shipped was decided by a character,
+and a character is not what this repository is about.**
+The pack held seven rules, and every one of them
+needed nothing but a tokenizer to fire:
+quotation marks, spacing, a stray dash.
+That is the shallowest of the depths
+[the tier ladder below](#how-deep-does-each-rule-have-to-see) sets out.
+A rule that has to know what a word *is* was never written,
+and the second finding is why.
+The grammar, by contrast, asks whether a sentence has exactly one reading,
+which is a question about what the sentence means to a reader,
+and the repository is for that question.
+
+**A deeper tier was expected to be the escape and is not.**
+The cheap version of the central plain-Polish rule
+matches `-anie`, `-enie` and `-cie`,
+and the plan was that a lemma-keyed version would supersede it
+once morphological analysis arrived.
+[What the nominalization endings match](#what-the-nominalization-endings-match)
+measured the succession instead of assuming it,
+and found that a lemma removes the matches that are inflections,
+which are a sixth of them,
+and cannot touch the ambiguous ones, which are half,
+because morphology answers whether a word derives from a verb
+where the rule asks whether a verb would do instead.
+So the shallow rule reads characters
+and the deep one does not answer the question either.
+
+**Calibration never happened, and without it a rule is an opinion.**
+[Calibration](#the-thing-that-makes-or-breaks-it-calibration)
+is stated below as the thing that makes or breaks the whole track,
+and no rule ever carried one: each shipped saying so in its own declaration.
+What ran instead was a firing rate over two bodies of Polish,
+which is [half of the pair](#what-a-rate-on-human-polish-means-depends-on-the-rule)
+and says whether a rule has anything to do
+rather than whether it can be trusted.
+Reading the hits said the rest, and it reads badly:
+the rule with the most hits was right about two thirds of them,
+another was measuring two tables rather than anybody's prose,
+and [the two rules that left the pack before it](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
+had fired over a hundred times without finding one defect.
+The counts are that document's.
+
+What follows is the design as it stood.
 
 ## The target register: technical documentation
 
@@ -121,11 +179,10 @@ nominalization density over `-anie`, `-enie` and `-cie`,
 is a suffix pattern by definition,
 so it needs no morphology at all.
 The same goes for impersonal `-no` and `-to` forms.
-Several of the rules that
-[the inventory](rule-inventory.md#morphosyntactic-tier-b) files under tier B
+Several rules that belong under tier B by their subject matter
 are really tier A with a better regex,
-which moves the morphology dependency later
-and makes the first useful rule pack cheaper than it looked.
+which moved the morphology dependency later
+and made the first useful rule pack look cheaper than it was.
 
 Lemma-keyed lexical rules need real morphology.
 So does one of the three nominalization endings,
@@ -140,7 +197,10 @@ the LCFRS question and the Składnica coverage curve
 all leave its critical path.
 They are the other track,
 which [roadmap.md](roadmap.md#co-jest-budowane) makes what is being built,
-and the linter reaches it only as tier D.
+and the linter reached it only as tier D.
+Read the other way round, which is how it ended up being read,
+that sentence says the linter had almost nothing to do
+with what this repository is for.
 
 ### What the nominalization endings match
 
@@ -195,8 +255,7 @@ Morfeusz reads `pobranie`, `przeznaczenie` and `uprawnienie`
 as a gerund and as an ordinary noun both,
 and it gives `zdanie` and `mieszkanie`
 the same pair of readings it gives `pobranie`.
-Those two are [the roadmap](roadmap.md#milestone-2-the-plain-polish-pack-without-an-analyser)'s
-own examples of words the rule must not fire on,
+Those two were the standing examples of words the rule must not fire on,
 so the analyser agrees with the ending about every word the ending gets wrong.
 What separates them is that a Polish reader has a verb available for one
 and only the noun for the other,
@@ -207,17 +266,16 @@ The two questions have the same answer often enough
 for the suffix to look like a cheap version of a lemma rule,
 and they come apart over nearly half of this corpus.
 
-The consequence for [the roadmap](roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it)
-is that its escape hatch is shut for this rule.
-A milestone-2 rule ships as a suffix
-on the promise that milestone 5's lemma version has to beat it on the numbers,
+This is the finding that shut the plan's escape hatch,
+and [it is one of the three that closed the track](#what-closed-the-track).
+A suffix rule was to ship early
+on the promise that a later lemma version would have to beat it on the numbers,
 and here the lemma version is the same rule:
 it removes the 147 inflected forms and the 9 words with no verb behind them,
 and cannot touch the 446.
 What would settle those is a count of how established each pairing is,
 which is a corpus and not an analyser,
-and is the instrument
-[the collocation entry](rule-inventory.md#lexical-tier-b) already argues for on other grounds.
+and no tier of analysis is a shortcut to one.
 
 ### The impersonal endings come out the other way
 
@@ -242,8 +300,8 @@ and `dodano`, `rozszerzono` and `zaktualizowano` are what it is finding.
 which is among the commonest words in the language,
 and taking that single word out leaves 54 matches of which 39 are the target.
 So this is not the undecidable class above but a stoplist,
-and buying precision back in the data
-is what `unless_preceded_by` in [rules.md](rules.md) already does for a check.
+and buying precision back with a list of exceptions in the data
+is cheaper than a tier of analysis.
 
 Between them the two pairs say the plain-Polish pack is not one prognosis.
 `-no` ships on a tag.
@@ -310,7 +368,7 @@ will punish exactly the human writing it claims to protect,
 and there is no way to know which rules are like that
 without measuring.
 
-So the project needs a paired corpus:
+So the track needed a paired corpus:
 
 - **Human Polish**, in the register a pack is scoped to
   and at the stage a linter runs at.
@@ -338,10 +396,12 @@ that wants the generated half for the second:
 where human Polish sits on a statistic
 says nothing yet about how much generated Polish stands beyond the threshold.
 
-This is the replacement for the coverage curve,
-and it is a better experiment:
+This was to be the replacement for the coverage curve,
+and it is the better experiment:
 cheaper to run, and it produces a rule set
 that has earned each of its rules.
+It is also the piece that never got built,
+which is [the third finding](#what-closed-the-track).
 
 ### What a rate on human Polish means depends on the rule
 
@@ -402,9 +462,8 @@ So one demand, in two shapes:
   is where a threshold can go
   without accusing the writing the rule was built to protect.
 
-The two shapes want different corpora, which
-**corpus sourcing** in [open-questions.md](open-questions.md#linter-questions)
-has to answer for.
+The two shapes want different corpora,
+and neither was ever sourced.
 
 Discrimination between the human and the generated half
 belongs to the second shape alone,
@@ -503,13 +562,15 @@ That overlap is the project's best piece of luck:
 the rules can be defended on Polish stylistic grounds
 and still do the job they were wanted for.
 
-## The candidate rules stand in a document of their own
+## The queue of candidate rules went with the track
 
-What the tiers, the calibration demand and those norms add up to
-is a queue of rules to write,
-and [rule-inventory.md](rule-inventory.md) is where the queue stands,
-cited by the `sources` field of every rule that has shipped from it.
-What stays here is the reasoning an item is judged against.
+What the tiers, the calibration demand and those norms added up to
+was a queue of rules to write, grouped by the depth each one needed
+and marked for whether it had a source behind it or was a hypothesis.
+It is deleted along with the pack it was feeding,
+and git holds it.
+What stays here is the reasoning an item was judged against,
+which is the part that would survive somebody picking the idea up again.
 
 ## What already exists
 
@@ -580,10 +641,10 @@ which is what makes it usable outside English.
 Instruction-tuned models write present participial clauses
 at two to five times the human rate
 and nominalizations at one and a half to two times.
-Both are in [the inventory](rule-inventory.md),
+Both were candidate rules here,
 and the Polish counterpart of an English participial clause
-is the `-ąc` form the participle-chain entry names,
-which makes that entry's citation a mapping across languages
+is the `-ąc` form,
+which makes the citation behind it a mapping across languages
 rather than a measurement on Polish.
 The agentless passive runs the other way,
 at roughly half the human rate,
@@ -655,18 +716,17 @@ and [fiction.md](fiction.md#what-this-means-for-olski)
 holds the measurements behind that.
 It means one engine and one set of measurements,
 with per-pack targets rather than per-pack code,
-which is why `length-variation` in [rules.md](rules.md#length-variation)
-carries a floor and a ceiling and asks each pack for either.
+which is why the check that measured sentence-length variation
+carried a floor and a ceiling and asked each pack for either.
 
 Which of the two a technical pack sets
-has to be settled before a rule declares one.
-[The inventory](rule-inventory.md#structural-and-statistical-tier-a-with-sentence-splitting)
-files low variance as the tell in technical documentation,
+would have had to be settled before a rule declared one,
+and it never was.
+Low variance is the tell in technical documentation,
 which asks for the floor,
 while a register described as wanting uniformity
-is one where the ceiling is the flag.
-**Sentence-length variance in technical Polish** in
-[open-questions.md](open-questions.md#linter-questions) owns the disagreement.
+is one where the ceiling is the flag,
+and nothing here decides between the two readings.
 
 ### The handle on a defect above the phrase is position or recurrence
 
@@ -689,12 +749,12 @@ owns the measurement.
 is a legitimate choice once and a habit at scale,
 so the defect exists at the corpus and not in any file.
 [generated-polish.md](generated-polish.md#two-entities-in-five-are-introduced-and-dropped)
-owns that measurement, and `entity-recurrence` in
-[rules.md](rules.md#entity-recurrence) is the check written against it.
+owns that measurement, and a check was written against it
+before the track closed.
 
 Both reach a trace and not a cause,
-which is worth saying before
-[the inventory](rule-inventory.md) grows on the strength of them.
+which is worth saying before a queue of rules
+grows on the strength of them.
 [fiction.md](fiction.md#what-this-means-for-olski) reads
 four of the ceiling defects as one failure to model minds across a text,
 and a text can end fewer sections on a negation
@@ -704,7 +764,7 @@ which is the whole of the claim in
 [what would actually help](#what-would-actually-help-and-is-not-linting)
 and none of the claim that the defect has been addressed.
 
-The generalization is worth stating as a constraint on that inventory:
+The generalization is worth stating as a constraint on such a queue:
 a candidate rule aimed above the phrase
 either names a position or names a thing that recurs,
 or it is a trope, and a trope is not lintable.
@@ -713,8 +773,8 @@ The third case has been attempted and is worth learning from:
 records a taxonomy of genre-exhausted ideas
 reimplemented as keyword lists, and deleted with them.
 What is worth keeping after such an attempt is the taxonomy,
-which is an argument for `justification` and `sources`
-being fields of a rule declaration rather than comments in a checker.
+which was the argument for making a rule's justification and its sources
+fields of the declaration rather than comments in a checker.
 
 ### What would actually help, and is not linting
 

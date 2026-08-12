@@ -1,28 +1,24 @@
 # Markdown in, prose out
 
-The rules that measure a whole file
-[decline on anything but plain text](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives),
-and the bodies
-[milestone 1](roadmap.md#milestone-1-the-calibration-harness) calibrates against
+The grammar takes plain Polish sentences,
+and the bodies it is measured against
 include documentation and notes kept in Markdown.
-So a step before the harness turns a corpus into files olski reads as prose:
+So a step before the grammar turns a corpus into files olski reads as prose:
 `harness/markdown.py`, outside the `olski` package,
-because milestone 0 keeps document formats out of the linter itself.
+because reading a document format is a different job from deriving a sentence.
 
 ```sh
 python3 -m harness.markdown korpus/ --into proza/
-python3 -m olski proza/ --format report
+python3 -m olski.check proza/*.txt
 ```
 
-An extraction is a transformation the rules then fire on,
+An extraction is a transformation the grammar is then measured over,
 so it owes an account of what it invents
-exactly as a rule owes a false-positive rate.
+exactly as a coverage figure owes its corpus.
 That account is this document.
-The other body of Polish these rules measure
-is the one this repository writes in its own code,
-which reaches them through a second reader of the same shape:
-[prose-in-code.md](prose-in-code.md) owes that one's account
-and holds the decisions where it differs from this one.
+A second reader of the same shape took the prose out of Python modules,
+so that the repository's own docstrings and comments could be measured too,
+and it is deleted along with what measured them.
 
 What makes it worth having is the two extractions written before this one.
 Both deleted inline markup and left the space that stood in front of it,
@@ -74,9 +70,9 @@ Znalazło ją przeliczenie: przebieg przed zmianą i po niej
 nad tym samym korpusem, plik po pliku.
 
 Cena stoi w [`pyproject.toml`](../pyproject.toml).
-Parser jest zależnością harnessu, a nie lintera —
-olski czyta czysty tekst i o formacie dokumentu zdania nie ma —
-więc deklaruje się tam, gdzie instalują się checki,
+Parser jest zależnością harnessu, a nie olskiego —
+gramatyka czyta czysty tekst i o formacie dokumentu zdania nie ma —
+więc deklaruje się tam, gdzie instalują się narzędzia do testów,
 a powierzchnia zależności samego pakietu zostaje jednym wpisem, jakim była.
 
 ## What it drops and what it keeps
@@ -88,13 +84,13 @@ Inline markup is replaced by the text it wrapped rather than deleted,
 list and blockquote markers are dropped and their text kept,
 and the lines of a paragraph are joined with single spaces,
 so a line of the result is a paragraph
-and where the author's editor wrapped leaves no trace for a rule to read.
+and where the author's editor wrapped leaves no trace in what comes out.
 `harness/markdown.py` is the truthful copy of all of that;
 what follows is what the code cannot show.
 
 ## An inline construct leaves its text, or takes the space with it
 
-The rule that keeps the extraction out of the rules' way
+The rule that keeps the extraction out of the reader's way
 is that a construct leaves behind the characters it wrapped.
 A link leaves its text and emphasis leaves what it emphasized,
 so there is no hole for the space in front of it to fall into.
@@ -102,12 +98,18 @@ The constructs that have no text to leave —
 an image with no description, an HTML comment —
 take that whitespace along instead.
 
-What that buys is measurable.
+What that buys is measurable, and it was measured with the typography pack,
+which is retired ([linter.md](linter.md#what-closed-the-track)).
+The instrument is gone and the property it was pointed at is what this step owes:
+a mark standing where nobody typed one is a mark somebody else's text does not have,
+and the sentence splitter under the grammar reads marks
+([`olski/document.py`](../olski/document.py)).
+So the tables here are dated rather than rerunnable,
+and what they establish still holds.
 Three corpora were run twice each,
 once over the extracted prose
-and once over the files as they stand with their names changed to `.txt`,
-which is how you assert a guarantee olski cannot check for itself.
-Each cell below is the findings over the prose against the findings over the file:
+and once over the files as they stand with their names changed to `.txt`.
+Each cell is the findings over the prose against the findings over the file:
 
 | | notes | memoir | KSeF |
 | --- | --- | --- | --- |
@@ -123,7 +125,7 @@ The notes and the memoir are the two bodies
 and KSeF is the first repository in
 [the audit corpus](audit-corpus.md#the-list).
 The prose half of its cells is one member of the corpus
-[the typography pack is audited over](firing-rates.md#the-rates),
+[the typography pack was audited over](firing-rates.md#the-rates),
 and the file half is that member before the step,
 which is the argument for having the step.
 
@@ -144,11 +146,11 @@ and on these three corpora it did not.
 
 A code span and a link both leave their text behind,
 and in documentation that text is often an identifier or a path.
-`nazwa.Pola` inside backticks reaches the rules
+`nazwa.Pola` inside backticks reaches the grammar
 as a full stop with no space after it,
 and so does a source file used as a link's visible text.
 
-Over KSeF that shows up in one rule.
+Over KSeF that showed up in one rule.
 [The audit](firing-rates.md#missing-space-after-full-stop-read-the-text-of-a-link)
 reads all 748 of `missing-space-after-full-stop`'s hits over the files as they stand
 and finds one defect among them, the rest code and links.
@@ -164,7 +166,7 @@ The same keeping accounts for 16 of the 314 straight quotation marks
 and for 3,181 words, one in eight of what a rate there is divided by.
 
 Deleting the spans instead was tried and is worse,
-though not on every rule at once.
+though it was not worse on every rule at once.
 It leaves the punctuation that separated them touching:
 `(enum: A, B, C)` written with each value in a code span
 extracts to `(enum:,,,)`,
@@ -179,10 +181,13 @@ A hit a reader dismisses at a glance is the cheaper of the two,
 and 157 hits on the text of a link are a document to correct
 rather than a rate to discount.
 
-## After joining, a line-end rule has nothing left to read
+## After joining, a line end is not there to be read
 
 Joining a paragraph onto one line takes two properties out of the text
-along with the markup, and both of them are ones a rule could have read.
+along with the markup, and both of them were ones a rule could have read.
+The rules are gone and the loss is not,
+because it is a property of what this step produces
+and it reaches anything that would ever want a line end back.
 
 Whitespace before a line end does not survive,
 because joining strips it at every line end it consumes.
@@ -210,7 +215,7 @@ the `a` of an apostrophe genitive (*Lagrange'a*, *hardware'u*),
 the abbreviation `w.` for *wiek* (*z XXI w.*),
 a shell flag (*env -i.*),
 and a preposition at the end of a paragraph, which has no line to be left at.
-The pack had both rules and has neither,
+The pack had both rules and lost them before it was itself retired,
 and this step is part of the reason:
 [what they turned out to fire on](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
 reads the same classes out of them over two published corpora,
@@ -307,7 +312,7 @@ python3 -m harness.markdown the-agent/book2/notes --into proza/notes --polish 0.
 python3 -m harness.markdown ksef-docs --into proza/ksef
 python3 -m harness.markdown rit-dokumentacja --into proza/rit
 
-python3 -m olski proza/notes --format report
+python3 -m olski.check $(find proza/notes -name '*.txt')
 python3 -m olski.check $(find proza/ksef -name '*.txt')
 python3 -m olski.check $(find proza/rit -name '*.txt')
 ```
@@ -321,10 +326,10 @@ and `find` is in front of it because that command takes files and not a tree.
 
 The memoir is the nine chapters of `the-agent/book`:
 `prolog.md`, `epilog.md` and `rozdzial-01` through `rozdzial-07`.
-The comparison column is the same corpus with `.md` renamed to `.txt`,
-and a count of a mark no rule reports a rate for —
-the dashes, the Polish quotation marks — comes from
-`--packs harness/counts.py`, which counts rather than judges.
+The comparison column is the same corpus with `.md` renamed to `.txt`.
+The counts of single marks beside it — the dashes, the Polish quotation marks —
+were taken with a pack of counting rules that went with the linter,
+so those columns are figures this repository no longer has a command for.
 
 Markdown is the only format this reads,
 and the corpora that come in others still reach their figures by hand:

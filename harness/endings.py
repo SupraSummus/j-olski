@@ -1,13 +1,15 @@
 """What an ending finds when the analyser is asked what it matched.
 
-[Milestone 2](../docs/roadmap.md) files the plain-Polish pack at tier A on the
-strength of an ending: a rule matches a suffix, so it ships before the analyser
-does. What that costs is every other word the ending also ends, and the roadmap
-names the cost lexically — ``zdanie`` and ``mieszkanie`` are not zombie nouns.
+The retired linter track filed its central rules at tier A on the strength of an
+ending: a rule matches a suffix, so it ships before the analyser does. What that
+costs is every other word the ending also ends, and the cost was named lexically
+— ``zdanie`` and ``mieszkanie`` are not zombie nouns.
 
 This is the program that reads the cost off a corpus instead of predicting it.
 For every word an ending matches it asks Morfeusz what the word is, and sorts
-the answer into classes.
+the answer into classes. It outlives the track it was written for because the
+figures it produces are what docs/linter.md rests its account on, and a figure
+whose program is gone cannot be taken again.
 
 The classes are the declaration and not the program, because an ending is a
 question and different endings ask different ones. ``-anie`` asks whether a word
@@ -18,8 +20,8 @@ class set over both would have to name the union and would answer neither, which
 is why a :class:`Probe` carries its own.
 
 It lives here rather than in ``olski`` because it asserts nothing about Polish.
-It reports what an ending matched, which is evidence for a rule that does not
-exist yet, where a rule in the linter is a claim that already stands.
+It reports what an ending matched, and what to make of that is docs/linter.md's
+to say.
 
     python3 -m harness.endings proza/ --probe nominalization
 """
@@ -31,7 +33,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from olski.document import WORD, is_plain_text
+from harness import PROSE_SUFFIX, WORD
 
 #: Tags that make a reading a finite verb rather than a noun. ``ger`` is absent
 #: because a gerund is what the nominalization probe is aimed at, and ``imps``
@@ -155,17 +157,17 @@ def read(analyser, word):
 
 
 def words(paths):
-    """Every word of every file ``olski`` would read, tokenized as it tokenizes.
+    """Every word of every file the extraction wrote, tokenized as it tokenizes.
 
-    Both halves of that are the linter's, and neither is restated here. A rate
-    printed against a denominator of this program's own is not the rate its
-    neighbours print, which ``harness/counts.py`` gives the general form of, and
+    Both halves of that come from the harness beside this module rather than
+    from a second reading here: a share printed against a denominator of this
+    program's own would not be a share of the corpus somebody else measured, and
     a walk of this program's own would reach a different set of files than the
-    run whose figures this one stands beside.
+    extraction that produced them.
     """
     for path in paths:
         for file in sorted(p for p in path.rglob("*") if p.is_file()):
-            if is_plain_text(file):
+            if file.suffix.lower() == PROSE_SUFFIX:
                 yield from WORD.findall(file.read_text(encoding="utf-8"))
 
 

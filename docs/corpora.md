@@ -1,16 +1,20 @@
 # Sourcing the human half
 
-[linter.md](linter.md#the-thing-that-makes-or-breaks-it-calibration)
-needs a paired corpus,
-and [milestone 1](roadmap.md#milestone-1-the-calibration-harness)
-calls the human half the blocking one.
+The retired linter track
+[needed a paired corpus](linter.md#the-thing-that-makes-or-breaks-it-calibration),
+and the human half was the blocking one.
 This document is the survey behind that half:
 what Polish is obtainable, and what each body of it can and cannot support.
+The track it was written for is gone,
+and the survey outlives it because the grammar is measured over Polish too:
+the audit corpus it argues for is where
+[the register's own ambiguity](open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+is counted.
 
 The answer it arrives at is that no existing corpus serves.
 The register olski is scoped to is nearly absent from the corpora that exist,
 the corpus that would say whether a text is a translation does not record it,
-and the typography a linter measures
+and the typography a linter would measure
 has been normalized out of the largest one.
 So the good side is assembled from named parts rather than chosen,
 and it is two corpora rather than one,
@@ -63,13 +67,16 @@ The Markdown one, [KSeF](#polish-technical-documentation-original-and-translated
 is cloned by the command
 [audit-corpus.md](audit-corpus.md#the-list) prints rather than by one printed here,
 because that document owns which repositories the corpus holds.
-It is extracted by `harness/markdown.py` and counted by `olski --format report`:
+It is extracted by `harness/markdown.py`:
 
 ```sh
 python3 -m harness.markdown ksef-docs --into proza/ksef
-python3 -m olski proza/ksef --format report --packs harness/counts.py \
-                                            --packs olski.packs.typography
 ```
+
+The counting was done by the rule engine that ran the typography pack,
+which is retired ([linter.md](linter.md#what-closed-the-track)),
+so the figures over it are dated
+and a second person redoing them writes the count.
 
 The rest are XML, JSONL, PO files and plain-text exports,
 which that extraction does not read,
@@ -311,7 +318,7 @@ Stage of production is a property of each source and not of the corpus.
 
 ## Polish technical documentation, original and translated
 
-This is the register the linter is scoped to,
+This is the register the linter was scoped to and the grammar is aimed at,
 and it is the hardest of the five to satisfy,
 because the bodies of it that are easiest to fetch are translations.
 
@@ -325,11 +332,11 @@ that NKJP's headers do not.
 The Kubernetes documentation localizes into Polish the same way,
 contributor guide and terminology glossary included,
 so the arrangement is a convention rather than one project's choice.
-A corpus built from these would be the baseline
-[open-questions.md](open-questions.md#linter-questions) warns about:
+A corpus built from these carries a hazard worth naming:
 a rule against `w oparciu o` measured against prose
 produced by rendering *based on* into Polish
-reports the translator's habit as the norm.
+reports the translator's habit as the norm,
+and the same holds for a coverage figure taken over translated documentation.
 
 **The original pool has to be gathered repository by repository.**
 The largest single item found is `CIRFMF/ksef-docs`,
@@ -352,7 +359,7 @@ en dashes outnumber em dashes by 131 to 11,
 and the straight marks are around Polish phrases in running prose —
 *"Uwierzytelnianie zakończone niepowodzeniem z powodu błędnego tokenu"*,
 *"Profil Zaufany"*, *"Certyfikat zawieszony"*.
-This is prose caught at the stage the linter runs at,
+This is prose caught at the stage a linter would run at,
 holding what NKJP and Wolne Lektury cannot hold.
 
 The distribution of those hits is the caution that goes with the finding.
@@ -442,7 +449,9 @@ where that can be checked rather than assumed.
 
 Two corpora, because the two shapes of rule in
 [linter.md](linter.md#what-a-rate-on-human-polish-means-depends-on-the-rule)
-want different prose, and one corpus cannot be both.
+wanted different prose, and one corpus cannot be both.
+Only the first of the two was ever assembled,
+and it is the one the grammar is measured over as well.
 
 ### The audit corpus: Polish documentation in version control
 
@@ -451,8 +460,9 @@ Original Polish technical documentation, cloned from
 prose extracted by [the step the harness already has](extraction.md),
 which reads Markdown,
 and by whatever second extraction the format of a later member calls for.
-Every rule whose answer depends on the site rather than on the rate audits here:
+Every rule whose answer depended on the site rather than on the rate audited here:
 the whole typography pack, and any later rule with the same property.
+What reads it now is the grammar, sentence by sentence.
 
 It is small on purpose, and it is a list rather than a body.
 An audit reads its hits, so tens of thousands of words is a working corpus,

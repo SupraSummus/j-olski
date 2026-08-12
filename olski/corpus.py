@@ -25,7 +25,7 @@ themselves chosen. On the 2018 release the two agree, but agreeing by accident i
 not the same as being right, and the walk is what the format actually specifies.
 
 Nothing here downloads anything. The corpus is 92 MB compressed and 2.4 GB
-extracted, it is under a different licence than this repository, and a linter is
+extracted, it is under a different licence than this repository, and a parser is
 not a download manager: docs/corpus.md gives the command.
 """
 

@@ -136,8 +136,8 @@ Kolejność słów jest z niej wnioskiem, a nie wariantem dopisanym do linearyza
 czasownik zostaje na miejscu, a przestawia się to, co stoi wokół niego.
 Wewnątrz grupy imiennej takiej kategorii nie ma i jest to brak, a nie decyzja:
 przymiotnik przed rzeczownikiem określa, a po rzeczowniku nazywa,
-i dlatego README pisze `zwykły tekst polski`,
-a kompilator z tego samego drzewa wypuszcza `zwykły polski tekst`.
+i dlatego README pisze `kontrolowanych języków naturalnych`,
+a kompilator z tego samego drzewa wypuszcza `kontrolowany naturalny język`.
 Języki o szyku ustalonym tego wyboru nie mają,
 więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
 Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).

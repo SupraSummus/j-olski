@@ -32,7 +32,7 @@ Wtedy o narzędziu decyduje ktoś, kto go nie używa,
 używa go ktoś, kto nie ma o nim nic do powiedzenia,
 i znika sprzężenie, które samo z siebie trzyma jakość.
 Tutaj tego rozejścia nie ma.
-Kto pisze regułę, jest tym, w kogo ta reguła potem strzela;
+Kto pisze produkcję, jest tym, czyje zdanie ona potem odrzuca;
 kto skraca akapit, sam go za tydzień czyta;
 kto odkłada wpis na listę, sam go z tej listy podnosi.
 Nieprzyjemna droga boli tego, kto ją zbudował,
@@ -56,7 +56,7 @@ a lista dokumentów na jego końcu jest wyjściem, nie treścią:
 cała droga tej roli mieści się w jednym pliku.
 
 **Psuje ją** mechanizm postawiony przed ramą
-i nazwa użyta przed wprowadzeniem, tier albo abstencja na pierwszej stronie.
+i nazwa użyta przed wprowadzeniem, czytanie albo walencja na pierwszej stronie.
 Obie rzeczy są niewidoczne dla autora, bo autor wie, co jest niżej,
 i dlatego [przegląd zmian](../CLAUDE.md#the-review-pass) każe czytać od miejsca edycji
 tak, jakby dalszej części nie było.
@@ -67,24 +67,22 @@ to autor czytający README po dłuższej przerwie.
 
 ## Ktoś, kto to uruchamia
 
-Pyta, jak odpalić i co znaczy komunikat, który dostał.
+Pyta, jak odpalić i co znaczy werdykt, który dostał.
 Wchodzi przez bloki polecenia w [README](../README.md#co-działa),
 a dalej instrukcją jest samo narzędzie:
-`--help` mówi, co przyjmuje, `--list-rules` co się uruchomi,
-`--explain` dokłada uzasadnienie każdej reguły.
+`--help` mówi, co przyjmuje, a `--readings` pokazuje,
+czym jedno czytanie różni się od drugiego.
 Osobnego podręcznika nie ma,
-a dokument powtarzający zachowanie reguły cicho się z nią rozjeżdża,
+a dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać:
-[czym różni się abstencja od braku trafień](rules.md#abstention-is-not-silence).
+[dlaczego poprawność znaczy tu jedno czytanie](subset.md#validity-is-uniqueness-not-just-derivability).
 
-**Psuje ją** komunikat, który nie mówi, która reguła go wypisała,
-oraz próg podany bez informacji, że jest nieskalibrowany.
+**Psuje ją** werdykt, który nie mówi, czym dwa czytania się różnią,
+oraz odrzucenie podane bez tego, dokąd analiza doszła.
 
 **Obsadza ją** autor, z klona repozytorium.
-Instalacji poza klonem nie ma,
-a którą drogą narzędzie miałoby trafiać do kogoś innego,
-rozstrzyga [milestone 4](roadmap.md#milestone-4-the-delivery-decision).
+Instalacji poza klonem nie ma.
 
 ## Planista
 
@@ -105,27 +103,23 @@ a plik do napisania odłożony między pytania do świata nie jest w ogóle robo
 **Obsadzają ją** autor i każda sesja agenta,
 bo nagłówek TODO.md każe zaglądać tam przed zaczęciem czegokolwiek.
 
-## Autor reguły
+## Autor produkcji
 
-Pyta, jak dopisać regułę i ile wolno jej wiedzieć.
-Wchodzi w [rules.md](rules.md), stamtąd w [rodzaje checków](rules.md#check-kinds),
-a przykładem roboczym jest pakiet typograficzny w `olski/packs/typography.py`
-z testami w `tests/test_checks.py`.
-Dwa wymagania idą z tą rolą od początku:
-[ile analizy regule wolno zażądać](linter.md#how-deep-does-each-rule-have-to-see)
-oraz [to, że bez kalibracji próg jest opinią z przecinkiem](linter.md#the-thing-that-makes-or-breaks-it-calibration).
-Inwentarz kandydatów w [rule-inventory.md](rule-inventory.md)
-jest listą, z której ta rola bierze następną regułę,
-a [fiction.md](fiction.md) i [generated-polish.md](generated-polish.md)
-tłumaczą, skąd część tych pozycji się tam wzięła.
+Pyta, jak dopisać gramatyce konstrukcję i co ona kosztuje.
+Wchodzi w [subset.md](subset.md), stamtąd w `olski/subset.py`,
+gdzie produkcje stoją jedna pod drugą, z testami w `tests/test_subset.py`.
+Wymaganie idzie z tą rolą od początku i jest jedno:
+konstrukcja dopisana gramatyce dokłada czytania każdemu zdaniu, które ją ma,
+a zdanie z dwoma czytaniami olski odrzuca,
+więc pokrycie kupione bez pomiaru bywa pokryciem ujemnym.
+Co pomiar mówi, trzyma [corpus.md](corpus.md).
 
-**Psuje ją** rodzaj checka, o którym dokument milczy,
-bo wtedy trzeba go przeczytać z silnika,
-i dokument powtarzający parametry checka,
+**Psuje ją** produkcja dopisana bez przebiegu nad bankiem drzew,
+bo wtedy nie widać, ile zdań straciła,
+i dokument powtarzający to, co produkcja robi,
 bo wtedy istnieją dwie wersje i nie widać, która obowiązuje.
 
-**Obsadzają ją** autor i sesje agenta,
-a pakiet typograficzny jest tym, co ta rola zdążyła zrobić.
+**Obsadzają ją** autor i sesje agenta.
 
 ## Ktoś, kto mierzy
 
@@ -135,6 +129,9 @@ bo to ona wymienia dokumenty z liczbami, do których nie dosięga żaden test,
 a dalej idzie do tego z nich, który jest właścicielem danej liczby.
 Każdy z nich wypisuje polecenia, które jego tabele produkują,
 i po to te polecenia tam są.
+Jeden wyjątek zna ta droga i jest nazwany na miejscu:
+[firing-rates.md](firing-rates.md) mierzył pakietem, którego już nie ma,
+więc wypisane w nim polecenia są zapisem, a nie robotą do powtórzenia.
 
 **Psuje ją** liczba w dokumencie bez polecenia, które ją wyprodukowało,
 oraz przebieg wystartowany przed ostatnią edycją,
@@ -223,6 +220,10 @@ i cały [CLAUDE.md](../CLAUDE.md) jest pisany pod tę rolę.
 Recenzent nie jest rolą, jest fazą,
 którą kończy każda postawa cokolwiek pisząca,
 i opisuje ją [przegląd zmian](../CLAUDE.md#the-review-pass).
+Nie ma autora reguły, bo wyszedł razem z torem lintera,
+a kto chciałby tę rolę obsadzić na nowo,
+zaczyna od tego, [co ją zamknęło](linter.md#what-closed-the-track),
+a nie od formatu, w którym reguła kiedyś stała.
 Nie ma też roli osoby dokładającej się z zewnątrz,
 i dlatego nie ma osobnego przewodnika dla współpracowników:
 CLAUDE.md jest jedyną kopią konwencji,

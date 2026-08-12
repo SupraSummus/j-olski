@@ -27,14 +27,14 @@ running from 2026-02 to 2026-04.
 The numbers below come from three different places,
 and the difference decides how much weight each carries.
 
-**A run anyone can redo.**
-That table, and every rate a rule reports below, come out of three commands:
+**A run that was redoable while the linter stood.**
+That table, and every rate a rule reports below, came out of three commands,
+of which the third is gone with the engine that ran it
+([linter.md](linter.md#what-closed-the-track)):
 
 ```sh
 git clone --depth 1 https://github.com/SupraSummus/the-agent
 python3 -m harness.markdown the-agent/book2/notes --into proza/notes --polish 0.05
-python3 -m olski proza/notes --format report --packs harness/counts.py \
-                                             --packs olski.packs.typography
 ```
 
 The memoir is the nine chapters of `the-agent/book` —
@@ -47,12 +47,13 @@ The extraction is what separates the prose from the apparatus,
 and `--polish` is what leaves out
 the 40 of the 567 notes written in English;
 [extraction.md](extraction.md) owns both, and what they invent.
-The second pack is there because `em-dash-density` reports
+A second pack of counting rules stood beside the typography one,
+because `em-dash-density` reported
 the share of documents over its threshold rather than a rate per thousand words,
 and the rate is what characterizes a corpus:
-`harness/counts.py` counts the mark and leaves the judging to the rule.
-So a change to what counts as a word moves a number somebody can correct,
-rather than one nothing will catch.
+it counted the mark and left the judging to the rule.
+Both are gone, so what a rerun of the two surviving commands gives
+is the corpus rather than the figures below.
 
 **Counts over the files as they stand.**
 The quotation figures are of this kind:
@@ -161,8 +162,8 @@ and measuring it needs the extraction it was supposed to replace.
 Two smaller effects run alongside it.
 
 **Markup inflates a denominator, so a rule stops declining to answer.**
-Shown their prose, `em-dash-density`
-[abstains](rules.md#abstention-is-not-silence) on 29 of the 527 notes:
+Shown their prose, `em-dash-density` abstained on 29 of the 527 notes,
+which the engine reported as a decision rather than as silence:
 27 fall under the 150 words it asks for before reporting a rate,
 and 2 run above its threshold on fewer dashes than it reads as evidence.
 Shown the files, it declines on none of them:
@@ -181,7 +182,7 @@ those notes set each paragraph on a line —
 while the other 344 are wrapped,
 so nothing but the suffix said their line ends were not a reader's.
 Over the extracted prose it declined every file and reported
-[nothing at all](extraction.md#after-joining-a-line-end-rule-has-nothing-left-to-read),
+[nothing at all](extraction.md#after-joining-a-line-end-is-not-there-to-be-read),
 and [what it and `trailing-space` turned out to fire on](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
 is what removed them both.
 
@@ -192,14 +193,13 @@ A rule matching a character is barely moved:
 and 1,649 over their prose, a difference of 7%,
 where its rate per thousand words moves by 20% in the other direction
 because the denominator moved further than the count did.
-So a character rule runs on a file of any format,
-and a rule dividing by a word count
-[declines instead](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
+So a character rule ran on a file of any format,
+and a rule dividing by a word count declined instead.
 
 ### The extraction has a price of its own
 
 Reporting only the markup half would understate what a harness has to build.
-An extraction is a transformation rules fire on,
+An extraction is a transformation something else is measured over,
 so it owes an account of what it invents
 exactly as a rule owes a false-positive rate.
 The two extractions written before this repository had one
@@ -236,8 +236,7 @@ and 155 of 881 in the memoir — 23% and 18%.
 *Na Reseda-3 ćwiczenie nie jest rutyną — jest wspomnieniem*
 is the frame in its pure form.
 
-Two entries in
-[the candidate inventory](rule-inventory.md)
+Two entries of the retired candidate inventory
 are therefore one construction:
 em dash frequency, filed under typography,
 and parallel-negation frames, filed under structural and statistical.
@@ -312,7 +311,7 @@ A single walk-on is not a defect,
 which is the whole reason the figure is a share over a body of text.
 Plenty of entities are named once because once is what they are worth,
 and only the rate says whether a text has a habit.
-`entity-recurrence` in [rules.md](rules.md#entity-recurrence) is that measurement,
+A check named `entity-recurrence` was that measurement,
 and this is the number it was written against.
 
 What the figure is a rate over is worth stating precisely.
@@ -434,12 +433,9 @@ and the distinction is invisible in the text itself.
 
 ## Not yet decided
 
-- Whether a corpus edited against style detectors counts as the generated half.
-  **Corpus sourcing** in
-  [open-questions.md](open-questions.md#linter-questions) owns it.
-- Whether the rule worth writing is
-  the em dash, the negation frame, or the two in one rule.
-  A human baseline decides it and nothing else can.
+- Whether a corpus edited against style detectors counts as the generated half
+  of a pair nobody is assembling any more.
+  The question outlived its track and nothing here closes it.
 
 ## Sources
 

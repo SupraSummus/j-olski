@@ -9,20 +9,18 @@ Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie,
 więc taki parser mówi autorowi, że jego zdanie czyta się dwojako, i jak,
 zamiast wybierać za niego czytanie prawdopodobniejsze.
 
-Obok stoi **linter stylu dla polskiej dokumentacji technicznej**,
-przydatny między innymi do sprawdzania tekstów,
-które napisały modele językowe.
-Nie do błędów składniowych, bo tych modele robią rzadko,
-tylko do wzorców, w które wpadają z przyzwyczajenia.
-Linter pomaga pisać dobry kod.
-To ma pomagać pisać dobrą polszczyznę.
-
-Jedno i drugie tanio, deterministycznie i z wyjaśnieniem:
+Tanio, deterministycznie i z wyjaśnieniem:
 jak w kompilatorze, a nie jak w modelu językowym.
-Każdy werdykt przychodzi z tym, co go wydało, regułą albo czytaniem,
+Każdy werdykt przychodzi z czytaniem, które go wydało,
 a to samo wejście dwa razy daje tę samą odpowiedź.
 
-## Dlaczego mimo wszystko jest to podzbiór polszczyzny
+Stał tu obok linter stylu dla polskiej dokumentacji technicznej
+i został wycofany razem z całą analizą, która schodziła do znaku.
+Dlaczego, mówi [docs/linter.md](docs/linter.md#what-closed-the-track);
+ile ten pakiet reguł kosztował, zanim wyszedł,
+mówi [docs/firing-rates.md](docs/firing-rates.md).
+
+## Dlaczego biała lista, skoro czarna była tańsza
 
 Język kontrolowany to biała lista:
 istnieją tylko te konstrukcje, które na niej stoją.
@@ -30,12 +28,21 @@ Linter to czarna lista:
 pisz, co chcesz, ale te wzorce zostaną zgłoszone.
 
 Zbiór tekstów przechodzących przez wszystkie reguły
-jest podzbiorem polszczyzny w jednym i w drugim przypadku.
-Wyznaczenie go przez wykluczanie jest nieporównanie tańsze
-i znika przy nim kłopot, który biała lista ma na stałe:
-autor nie czuje, którędy biegnie jej granica.
-Cały wywód prowadzi
-[docs/linter.md](docs/linter.md#this-is-the-same-subset-approached-from-behind).
+jest podzbiorem polszczyzny w jednym i w drugim przypadku,
+a wyznaczenie go przez wykluczanie jest nieporównanie tańsze.
+Po to ta czarna lista tu stała
+i [cały wywód za nią](docs/linter.md#this-is-the-same-subset-approached-from-behind)
+dalej stoi.
+
+Czarna lista kupowała jednak co innego, niż obiecywała.
+Reguła, która rozstrzyga o zdaniu znakiem w nim postawionym,
+nie mówi o polszczyźnie tego zdania nic,
+a niżej przestaje być tania:
+[pomiar](docs/linter.md#what-closed-the-track) nad dwoma korpusami mówi,
+że głębszy poziom analizy odpowiada na inne pytanie niż to, które reguła zadaje.
+Cenę białej listy płacimy więc tym, że autor nie czuje, którędy biegnie granica,
+a odrabiamy tym, że parser pokazuje oba czytania zamiast samej odmowy:
+granicę widać w odpowiedzi, a nie tylko w tym, że odpowiedzi nie ma.
 
 ## Kierunek
 
@@ -51,19 +58,12 @@ więc o sięgnięciu po mocniejszy mechanizm rozstrzyga cena.
 Zobacz [docs/design-notes.md](docs/design-notes.md)
 oraz [docs/roadmap.md](docs/roadmap.md#celem-toru-jest-to-readme).
 
-**Opcjonalnie, obok.** Silnik reguł, skalibrowany zestaw reguł
-i ta polszczyzna pisana przez ludzi, która rozstrzyga,
-którym regułom można ufać, a które są tylko opiniami.
-Gramatyka dochodzi do tego toru jako najgłębszy poziom analizy,
-do którego schodzą tylko te reguły, które sobie na to zasłużą.
-Zobacz [docs/linter.md](docs/linter.md).
-
 Nie ma aplikacji, która by to wszystko napędzała.
 Projekt jest dla przyjemności.
 
 ## Co działa
 
-Działają trzy rzeczy.
+Działają dwie rzeczy.
 
 **Gramatyka podzbioru polszczyzny**, nad Morfeuszem 2,
 w której zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie.
@@ -93,41 +93,8 @@ Co gramatyka obejmuje, czego nie obejmuje
 i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku,
 mówi [docs/subset.md](docs/subset.md).
 
-**Silnik reguł i pakiet typograficzny**, nad zwykłym tekstem polskim.
-
-```sh
-python3 -m olski tekst.txt
-python3 -m olski tekst.txt --explain          # z uzasadnieniem każdej reguły
-python3 -m olski korpus/ --format report      # co każda reguła zrobiła nad korpusem
-python3 -m olski --list-rules
-```
-
-```text
-tekst.txt:3:42: warning: [quote-straight] Straight quotation mark; Polish takes „ opening and ” closing.
-tekst.txt:5:15: warning: [missing-space-after-punctuation] No space after ,.
-tekst.txt: abstained: [em-dash-density] this document is under the 150-word floor a rate over it needs
-```
-
-Reguły tego rodzaju zarabiają na siebie tylko tam,
-gdzie rozstrzyga znak, a nie struktura:
-cudzysłów, odstęp, zabłąkana pauza.
-Reguła, która musi wiedzieć, czym słowo *jest*, należy do gramatyki,
-i dlatego pakietu wzorców nad samą polszczyzną nie ma.
-Siedem reguł, wszystkie z poziomu A, wszystkie oznaczone jako `uncalibrated`,
-bo żadnej nie zmierzono na polszczyźnie pisanej przez ludzi,
-a próg bez takiego pomiaru jest opinią z przecinkiem.
-Tryb raportu jest tą połową pomiaru, którą jeden przebieg umie wyprodukować:
-jak często każda reguła strzeliła nad całym korpusem i nad jaką jego częścią.
-[docs/firing-rates.md](docs/firing-rates.md) jest tym, co ten tryb wypisał
-nad dwoma zbiorami polszczyzny, które ktoś napisał.
-Wejściem jest zwykły tekst polski.
-Plik w formacie znacznikowym dostaje te reguły, które rozstrzyga sam znak,
-oraz abstencje od tych, które mierzyłyby jego aparat.
-Zobacz [docs/rules.md](docs/rules.md).
-
 To, co zamienia korpus w Markdownie w prozę,
-którą reszta reguł umie zmierzyć,
-stoi obok lintera, a nie w nim:
+którą gramatyka umie czytać, stoi obok niej, a nie w niej:
 
 ```sh
 python3 -m harness.markdown korpus/ --into proza/
@@ -155,7 +122,7 @@ from skład import kompiluj
 from skład.słownik import A, R, V, jest
 
 kompiluj(jest(R.parser / R.podzbiór, R.cel))     # Parser podzbioru jest celem.
-kompiluj(V.sprawdzać(R.linter, ~(A.polski * R.tekst)))  # Linter sprawdza polskie teksty.
+kompiluj(V.sprawdzać(R.parser, ~(A.polski * R.tekst)))  # Parser sprawdza polskie teksty.
 ```
 
 Kategorie tego drzewa są kategoriami dziedziny, a nie polszczyzny:
@@ -206,9 +173,6 @@ plan i otwarte pytania.
 - [docs/sklad.md](docs/sklad.md):
   na jakim poziomie stoją kategorie drzewa, co tekst wie ponad zdaniem
   i czego brakuje pod tym w leksykonie i w formach
-- [docs/rules.md](docs/rules.md):
-  jak pisze się regułę, jakie są rodzaje checków
-  i czym różni się abstencja od braku trafień
 - [docs/corpus.md](docs/corpus.md):
   jak mierzy się gramatykę na banku drzew Składnica,
   co mówi pierwszy pomiar
@@ -218,13 +182,9 @@ plan i otwarte pytania.
   ile z tego rejestru gramatyka wyprowadza
   i dlaczego regularne jest w nim drzewo jednostek redakcyjnych, a nie zdanie
 - [docs/linter.md](docs/linter.md):
-  po co jest linter, ile analizy potrzebuje która reguła,
-  dlaczego kalibracja rozstrzyga wszystko
-  i co w prozie literackiej da się, a czego nie da się lintować
-- [docs/rule-inventory.md](docs/rule-inventory.md):
-  kolejka reguł do napisania, pogrupowana poziomem analizy,
-  którego każda pozycja potrzebuje,
-  i to, które pozycje mają za sobą źródło, a które są hipotezami
+  po co był linter, ile analizy potrzebowała która reguła,
+  dlaczego kalibracja rozstrzygała wszystko
+  i co zamknęło ten tor
 - [docs/fiction.md](docs/fiction.md):
   co psuje się w prozie literackiej z modelu,
   dlaczego odpowiada za to post-training,
@@ -232,14 +192,11 @@ plan i otwarte pytania.
   i co z niej da się lintować
 - [docs/generated-polish.md](docs/generated-polish.md):
   co mierzy prawdziwy zbiór wygenerowanej polszczyzny,
-  które wzorce wnosi do inwentarza
+  które wzorce w niej widać
   i dlaczego korpus redagowany pod detektory jest podłogą, a nie próbką
 - [docs/extraction.md](docs/extraction.md):
-  jak korpus w Markdownie dociera do reguł jako proza
+  jak korpus w Markdownie dociera do gramatyki jako proza
   i co ten krok po drodze zmyśla
-- [docs/prose-in-code.md](docs/prose-in-code.md):
-  jak do tych samych reguł dochodzi proza, którą repozytorium pisze
-  w docstringach i komentarzach, i czym ten krok różni się od tamtego
 - [docs/corpora.md](docs/corpora.md):
   jaką polszczyznę pisaną przez ludzi da się w ogóle zdobyć,
   co każdy kandydat na korpus mówi o swoim rejestrze, pochodzeniu i licencji,
@@ -249,16 +206,16 @@ plan i otwarte pytania.
   co trzeba pokazać, żeby do niego wejść,
   i jak ściągnąć je na tych commitach, na których wzięto liczby
 - [docs/firing-rates.md](docs/firing-rates.md):
-  co pakiet typograficzny robi nad polszczyzną, którą ktoś napisał,
-  czym okazują się jego trafienia, kiedy się je przeczyta,
-  i dlaczego zerowa częstość może mówić o korpusie zamiast o regule
+  co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał,
+  czym okazały się jego trafienia, kiedy się je przeczytało,
+  i za jaką cenę ten tor został wycofany
 - [docs/roadmap.md](docs/roadmap.md):
-  etapy trzech torów, każdy ze swoim kryterium wyjścia,
-  i to, dlaczego numeracja jednego nie sięga pozostałych
+  etapy dwóch torów, każdy ze swoim kryterium wyjścia,
+  i to, dlaczego numeracja jednego nie sięga drugiego
 - [docs/prose-linters.md](docs/prose-linters.md):
   silniki, które angielski i japoński już mają,
   ten jeden, który zmierzył własną częstość fałszywych trafień,
-  i to, czego trzeba, żeby po polsku je pobić
+  i to, czego trzeba było, żeby po polsku je pobić
 - [docs/similar-work.md](docs/similar-work.md):
   sto kontrolowanych języków naturalnych,
   jak pole je klasyfikuje
@@ -286,7 +243,7 @@ plan i otwarte pytania.
 
 Proza w tym repozytorium łamie wiersze według
 [Semantic Line Breaks](https://sembr.org),
-a nowa powstaje po polsku, w języku, który to narzędzie lintuje,
+a nowa powstaje po polsku, w języku, o którym to repozytorium jest,
 więc czytelnik trafia na oba języki naraz.
 Konwencje prozy, kodu, testów i commitów trzyma [CLAUDE.md](CLAUDE.md),
 a otwartą robotę wewnątrz repozytorium [TODO.md](TODO.md).

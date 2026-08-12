@@ -4,9 +4,8 @@ Decisions that have been taken are marked as such;
 everything still open lives in [open-questions.md](open-questions.md).
 The target this grammar is grown towards is in
 [roadmap.md](roadmap.md#celem-toru-jest-to-readme),
-and the optional linter track beside it,
-which reaches this grammar as its deepest analysis tier,
-is in [linter.md](linter.md).
+and the linter track that stood beside it, now retired,
+is in [linter.md](linter.md#what-closed-the-track).
 The other direction over the same subset —
 a tree in, a Polish sentence out —
 is in [sklad.md](sklad.md).
@@ -28,11 +27,12 @@ and any construction may be cut for being boring or annoying.
 The scoreboard here is internal consistency:
 a grammar that contradicts itself is broken
 whether or not it matches usage.
-That is a narrower criterion than the linter's,
+That is a narrower criterion than the retired linter's,
 and the difference is deliberate.
-The linter is judged against a corpus of real Polish
-because its whole claim is about how Poles actually write;
-see [linter.md](linter.md#the-thing-that-makes-or-breaks-it-calibration).
+A linter is judged against a corpus of real Polish
+because its whole claim is about how Poles actually write,
+and [not doing that](linter.md#the-thing-that-makes-or-breaks-it-calibration)
+is what closed the track.
 A designed subset is judged against itself first,
 and against Składnica only when it wants a coverage number.
 
@@ -71,10 +71,10 @@ This settles what was the largest fork on this track.
 Morfeusz specifically, and not Morfologik,
 because this track needs **generation**:
 a lemma plus a tag yielding a surface form.
-The linter track needs only analysis,
-and [reaches for Morfologik instead](roadmap.md#milestone-5-morphology-binding-and-the-rules-that-needed-it).
+The retired linter track needed only analysis
+and would have reached for Morfologik instead.
 Two dictionaries for two jobs,
-not one decision recorded twice.
+and only one of the two jobs is left.
 
 ## Two angles of the grammar track
 
@@ -430,16 +430,28 @@ python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 56 zdań.
+Proza README ma 44 zdania.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
-a jednemu z nich zajmuje to ponad pięć sekund, czyli więcej niż cała reszta razem,
-i widać to po przebiegu z budżetem dziesiątej części sekundy: kończy go 55 z nich.
-54 z tych 56 dostaje od obu programów ten sam werdykt,
-a 53 tę samą liczbę czytań,
-i to drugie jest mocniejszym z dwóch odczytów:
+a każde poniżej dziesiątej części sekundy,
+więc przebieg z takim budżetem kończy je tak samo —
+i dlatego zamiast najwolniejszego czasu stoi tu próg,
+bo zegar rusza się między przebiegami, a próg nie.
+Wszystkie 44 dostają od obu programów ten sam werdykt i tę samą liczbę czytań,
+a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
-wychodzi po obu stronach dokładnie sześcioma.
+wychodzi po obu stronach dokładnie sześcioma —
+co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
+którego ekstrakcja nie wypuszcza.
+
+Ten pomiar mówi mniej, niż mówił, i nie dlatego, że któryś program się zmienił.
+Zdanie, którego rozbiór zajmował ponad pięć sekund,
+oraz dwa, o które oba programy się spierały,
+stały w tej połowie README, którą zdjęło wycofanie toru linterowego,
+więc zgodność jest teraz pełna nad tekstem, który ma mniej okazji ją złamać.
+Tak właśnie kosztuje figura brana nad własną prozą,
+przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
+a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
 `olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
@@ -695,11 +707,11 @@ i mnoży się to przez każde następne słowo, któremu słownik daje dwa lemat
 Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
 
 ```sh
-python3 -m olski.check -c "Zobacz docs/rules.md."
+python3 -m olski.check -c "Zobacz docs/subset.md."
 ```
 
 Czytanie ma jedno, a suma iloczynów po lesie liczy nad nim dwa.
-`Complements` nad `docs/rules.md` buduje się dwiema produkcjami
+`Complements` nad `docs/subset.md` buduje się dwiema produkcjami
 z `build` w `olski/subset.py`, raz przez `Object`, raz przez `Predicative`,
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
@@ -780,7 +792,7 @@ a `ś` nie ma ani jednego czytania, które bierze jakakolwiek produkcja,
 i nie jest przy tym słowem, które ktokolwiek napisał.
 Werdykt nazywa więc nie każdą pustą dziedzinę,
 tylko krawędź, bez której nie ma drogi przez zdanie,
-i `Ktoś zna docs/rules.md.` wychodzi przez to przyjęte, nie mówiąc o `ś` nic.
+i `Ktoś zna docs/subset.md.` wychodzi przez to przyjęte, nie mówiąc o `ś` nic.
 Zdanie, które ma czytanie, nie zgłasza tym samym żadnej formy,
 i nie zgłasza jej z dowodu, a nie z przybliżenia:
 ścieżka, którą to czytanie się wyprowadza, omija każdą krawędź, której nie wzięła.
@@ -1065,9 +1077,9 @@ rather than documentation, which is what this pack is scoped to.
 [firing-rates.md](firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)
 holds the reading that settled it.
 
-Typographic rules are lint rules,
-so it ships as part of
-[milestone 0](roadmap.md#milestone-0-rule-engine-and-the-typography-pack).
+Typographic rules were lint rules,
+so it shipped with the pack and went with it
+([linter.md](linter.md#what-closed-the-track)).
 
 ## Sources
 

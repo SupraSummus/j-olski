@@ -54,8 +54,8 @@ lists, blockquotes, code blocks, heading levels,
 and three word-complexity counts —
 and fires when the result crosses a threshold.
 Readability scores are one instance of it rather than a special case,
-which is the same generalization `length-variation` in
-[rules.md](rules.md#length-variation) makes for a different metric.
+which is the same generalization the retired sentence-length check
+made for a different metric.
 
 `sequence` matches a run of tokens
 where each token is a regular expression **or** a part-of-speech tag,
@@ -260,12 +260,11 @@ which is how it gets around the wall proselint's copyrighted corpus hit.
 Vale, textlint and RedPen parse the markup themselves
 and let a rule name the elements it applies to.
 olski settled that question the other way:
-formats stay outside the linter,
-and a check that needs prose
-[declines on a file whose format cannot give it](rules.md#a-check-may-be-asking-more-of-a-document-than-its-format-gives).
-The bill arrives in the delivery route,
-where a Vale style would get the separation for free,
-and [open-questions.md](open-questions.md#linter-questions) is where it is paid.
+formats stayed outside the linter,
+and a check that needed prose declined on a file whose format could not give it.
+The separation outlived the linter,
+because the grammar takes plain sentences on the same terms
+and [the extraction](extraction.md) is still a step in front of it.
 
 **Take the `sequence` shape.**
 A token pattern where each position is a regular expression or a tag
@@ -287,8 +286,8 @@ proselint's defence against the charge of homogenizing prose
 is that technical writing is the register where consistency is the point,
 and that defence lives in a paper:
 the rule set itself does not say which register it is for.
-An olski rule carries its registers as a field,
-and `--list-rules` prints them beside the pack and the tier,
+An olski rule carried its registers as a field,
+printed beside the pack and the tier,
 which is [declaring the target register](linter.md#the-target-register-technical-documentation)
 rather than assuming it.
 

@@ -89,7 +89,7 @@ bo nic innego po nim nie zostaje.
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
-the second surveys the corpora the linter would calibrate against.
+the second surveys the corpora of human Polish this repository can obtain.
 A link to either one reads the same,
 and a grep for one of them finds both,
 and finds `docs/audit-corpus.md` too,
@@ -103,13 +103,8 @@ so those are the ones to grep for.
 That name lands beside `docs/sklad.md`, which is the compiler and not the treebank,
 so a grep for `sklad` finds both,
 and the pair this entry is about becomes that one.
-The package has the same collision twice over and the same argument settles it.
-`olski/check.py` is the grammar command
-and `olski/checks.py` is the linter's check kinds,
-one letter apart and on opposite tracks:
-[`docs/roles.md`](docs/roles.md) sends the grammar reader to the first
-and [`docs/rules.md`](docs/rules.md#check-kinds) sends the rule author to the second.
-`olski-corpus` is the third: it runs `olski/coverage.py`,
+The package has the same collision and the same argument settles it.
+`olski-corpus` runs `olski/coverage.py`,
 where `olski/corpus.py` is the treebank reader beside it,
 so the command, the module and the document
 are three names for what a reader takes to be one thing.
@@ -147,27 +142,23 @@ so narrowing them out there takes them out of Polish too,
 and it leaves the modules that already break semantically
 keeping a habit `CLAUDE.md` no longer asks for.
 
-`docs/subset.md` jest dokumentem mieszanym i przez to stoi na
-[liście plików, których check nie czyta](tests/nie-po-polsku.txt).
+`docs/subset.md` jest dokumentem mieszanym.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-żąda przekładu całego pliku,
-więc dopóki go nie ma, linter nie czyta także tych sekcji, które już stoją po polsku.
-Ruchem jest przekład reszty dokumentu
-i skreślenie wpisu z `tests/nie-po-polsku.txt` tym samym commitem.
+żąda przekładu całego pliku.
+Ruchem jest przekład reszty, jednym commitem, bo mieszanina jest tym,
+co ta reguła liczy jako koszt, a pół dokumentu przełożonego jej nie zdejmuje.
+Wpis ważył więcej, dopóki lista plików była zasięgiem checka;
+checka nie ma, więc został sam powód, dla którego ta reguła stoi.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
 Sekcja `Settled` powtarza to, co jest budowane, wraz z kryterium wyjścia
 ([`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)),
-opcjonalność toru linterowego (README i [`docs/linter.md`](docs/linter.md)),
+wycofanie toru linterowego ([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
 bliskość polszczyzny
 ([`docs/design-notes.md`](docs/design-notes.md#decisions-taken)),
-kalibrację
-([`docs/linter.md`](docs/linter.md#the-thing-that-makes-or-breaks-it-calibration)),
-to, że narzędzie nie jest detektorem
-([`docs/linter.md`](docs/linter.md#limits-worth-stating-up-front)),
-i dwa słowniki do dwóch zadań,
+i słownik morfologiczny,
 czyli tę jedną decyzję, przy której `docs/design-notes.md` pisze wprost,
 że nie jest zapisana dwa razy.
 Ruchem jest usunięcie sekcji na rzecz zdania mówiącego, gdzie decyzje zapadłe stoją,
@@ -180,10 +171,10 @@ której jej właściciel nie trzyma — taka zostaje, a reszta idzie.
 Lista dokumentów w README miesza dwa tory, które sekcja nad nią rozdziela.
 [`Co działa`](README.md#co-działa) mówi, że działają dwie rzeczy,
 a lista pod nią biegnie bez podziału i rośnie z każdym dokumentem,
-więc czytelnik toru gramatycznego i autor reguły
+więc czytelnik toru gramatycznego i czytelnik toru składu
 przechodzą przez cudze pozycje, zanim dojdą do swoich.
-Ruchem jest pogrupowanie listy — tor linterowy, tor gramatyczny
-i to, co obsługuje oba — bez ruszania linków,
+Ruchem jest pogrupowanie listy — tor gramatyczny, tor składu,
+to, co obsługuje oba, i zapis toru wycofanego — bez ruszania linków,
 czyli najtańsza zmiana, jaką ta lista przyjmie.
 Przeciw katalogom w `docs/`: przepisałyby każdy link względny po to,
 żeby dać indeks, którym ta lista już jest.
@@ -202,6 +193,9 @@ Przyczyna stoi w obu miejscach w pełnej precyzji,
 a jeden właściciel rozumowania żąda tam zdania ze wskaźnikiem.
 Wniosek, po który `firing-rates.md` po nią sięga, zostaje:
 różnica formatu jest większością tego, czym trafienia niżej nie są.
+Wpis waży mniej, odkąd tamten dokument jest zapisem, którego nic nie rusza:
+zostaje z niego czytelnik trafiający na to samo wyprowadzenie dwa razy,
+a nie dwie kopie, które się rozjadą.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach,
 a [`CLAUDE.md`](CLAUDE.md#checks) żąda, żeby liczby nad własną prozą nie zapisywać,
@@ -218,85 +212,26 @@ albo reguła dostaje wyjątek na figurę o kodzie liczoną nad własną prozą,
 wraz z przeliczeniem należnym przy przeredagowaniu README,
 albo te akapity przestają nosić mianownik i mówią o zgodzie bez niego.
 
-## Reguły, checki i komendy lintera
+## Komendy i sondy
 
-Uzasadnienie reguły jest prozą, której nie czyta żaden check.
-[Reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-liczy pole `justification` deklaracji do prozy,
-dokładnie tak jak liczy docstring i komentarz,
-a `tests/test_docs.py` puszcza przez linter dokument i jednostkę modułu,
-i nie puszcza żadnego uzasadnienia,
-bo [ekstrakcja nad modułem](docs/prose-in-code.md) czyta docstringi i komentarze,
-a uzasadnienie jest łańcuchem pod kluczem i tędy nie wychodzi.
-Ruchem jest wzięcie ich stamtąd, skąd bierze się je do raportu,
-czyli z `load_packs()`, a nie z tekstu pliku:
-`_fold` w `olski/rules.py` składa je do jednego akapitu przed użyciem,
-więc do lintera trafiłoby to samo, co czyta ktoś, kto raport dostaje.
-Do rozstrzygnięcia jest przy tym, co takie uzasadnienie wybiera:
-czy idzie za wpisem swojego modułu na [liście](tests/nie-po-polsku.txt),
-czy deklaracja jest tu jednostką osobną od pliku, w którym stoi.
-Do przeczytania jest to, co pakiet zgłasza nad tymi polami,
-bo wszystkie stoją po angielsku,
-a nad angielszczyzną ten check jest deklaracją, a nie sprawdzeniem.
-
-A run says which files a format made a rule decline, and not which ones the text did.
-`_note_markup` in `olski/cli.py` prints one line
-when a whole-file rule declined on a file in a format olski does not read,
-because a run over Markdown would otherwise read as a run over prose
-that happened to find less.
-A refusal the text caused is followed by the same silence:
-`olski notatka.txt` over a file under `em-dash-density`'s word floor
-prints no finding and no notice,
-and only `--format report` or `--show-abstentions`
-shows that nothing was measured.
-The move is a decision about how much the default mode says —
-a notice for every refusal a run tripped,
-which is `--show-abstentions` in summary,
-or the format notice alone,
-on the grounds that a reader can see how long their own file is
-and cannot see what a suffix promised on its behalf.
-
-The check table in `docs/rules.md` copies data owned by `olski/checks.py`.
-Its `Reports` column restates what each check's `fields` answers,
-and the `params=dict(...)` blocks restate what each validator accepts,
-so both drift silently as soon as a check gains a parameter.
-`fields` is a function of a rule's validated parameters,
-which the `pattern-density` row carries as a condition in prose,
-so whichever move is picked reaches a check's fields through some rule's parameters.
-Either the CLI grows a `--list-checks` output that the document points at,
-the way it already points readers at `--list-rules`,
-or the table stays hand-written and a test asserts it against `CHECKS`,
-the way `tests/test_docs.py` holds the links in the prose.
-Pick one and the document stops being a second copy.
-
-`olski` chodzi po katalogu, a `olski-check` bierze tylko pliki,
-i to samo chodzenie schodzi do `.git`.
-`_collect` w `olski/cli.py` schodzi po `rglob`, pyta `is_plain_text` o każdy plik
-i liczy to, co minął, żeby przebieg nad katalogiem nie lintował licencji,
-a `main` w `olski/check.py` czyta po prostu każdą podaną ścieżkę.
+`olski` chodził po katalogu, a `olski-check` bierze tylko pliki.
 Widać to w poleceniu, którym
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
-Ten sam `rglob` melduje nad `olski rit-dokumentacja/` 39 plików minionych
-w `.sample`, bez rozszerzenia, `.md`, `.png`, `.idx`, `.pack` i `.rev`,
-gdzie 7 markdownowych jest jedynymi, jakich czytelnik by się spodziewał,
-a paczki i indeksy są gitowe;
-schodził tam zawsze i pokazała to dopiero ta liczba,
-czyli ostrzeżenie działające, a nie druga usterka.
-Ruchem jest wyjęcie `_collect` z `olski/cli.py` do wspólnego miejsca
-i zawołanie go z każdej komendy, po czym `find` z tamtego polecenia znika,
-wraz z pominięciem katalogu, którego nazwa zaczyna się kropką,
-i zdaniem w `_collect`, że wejściem jest repozytorium,
-a jego kontrola wersji nie jest częścią korpusu.
+Komenda, która po katalogu chodziła, wyszła razem z torem lintera,
+a chodzenia po drzewie nie ma teraz żadna z dwóch, które zostały:
+`main` w `olski/check.py` i `main` w `olski/wieloznaczność.py`
+czytają po prostu każdą podaną ścieżkę, więc obu rozwija się je powłoką.
+Ruchem jest jedno miejsce, które schodzi po `rglob`,
+bierze pliki o rozszerzeniu, które ekstrakcja pisze,
+pomija katalog o nazwie zaczynającej się kropką — bo korpus stoi w repozytorium,
+a jego kontrola wersji korpusem nie jest — i woła się z obu komend,
+po czym `find` z tamtego polecenia znika.
 Przeciw pominięciu: katalog z kropką podany wprost staje się wtedy nieosiągalny,
 więc należy ono do chodzenia, a nie do testu na rozszerzenie.
-Komend jest przy tym trzy, a nie dwie:
-`main` w `olski/wieloznaczność.py` czyta ścieżki tak samo jak `olski-check`,
-i tak samo trzeba mu je rozwinąć powłoką.
-Do rozstrzygnięcia jest to, co druga komenda robi z pominiętymi:
-`olski` mówi o nich, bo pominięcie zmienia mianownik częstości,
-a `olski-check` ma mianownik, który tamten dokument cytuje,
-więc nie jest oczywiste, czy to jest ta sama notatka, czy druga obok niej.
+Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
+`olski-check` ma mianownik, który tamten dokument cytuje,
+więc pominięcie w ciszy zmienia figurę, o której nikt się nie dowie.
 
 `olski-check` daje dokumentowi liczbę i nie ma pod sobą żadnego testu.
 Nic w `tests/` nie importuje `olski/check.py`:
@@ -311,95 +246,32 @@ Ostatni z nich jest tym, po co dokument tę komendę woła:
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów nad korpusem audytowym z ostatniego wiersza wydruku,
 więc figura w dokumencie stoi na formacie, którego nic nie trzyma.
-Druga komenda ma `tests/test_cli.py`, więc wzór jest na miejscu:
-wołanie `main` z listą argumentów i czytanie `capsys`.
+Wzorem jest wołanie `main` z listą argumentów i czytanie `capsys`,
+czyli to, co robi `tests/test_attachment.py`.
 Testem nie jest wydruk przepisany wiersz po wierszu:
 kosztuje przy każdej zmianie układu
 i nie broni niczego, czego by czytelnik nie zobaczył.
 Warte pisania są dwie rzeczy: podsumowanie, bo jest figurą, którą cytuje dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
-`missing-space-after-punctuation` reads the colon of a label such as `**Exit:**`
-in [`docs/roadmap.md`](docs/roadmap.md#milestone-4-the-delivery-decision)
-as a missing space,
-because that colon stands in front of an emphasis marker rather than a word.
-Either the documents settle on a label that leaves no mark inside the emphasis,
-which is what [`docs/roles.md`](docs/roles.md) does
-by opening the sentence with the bold phrase itself,
-or the rule gets an exemption for an emphasis marker after the mark,
-which is what its audit over published Polish argues for:
-most of its hits there are that class, counted in
-[`docs/firing-rates.md`](docs/firing-rates.md#missing-space-after-punctuation-mostly-read-an-emphasis-marker).
-That audit is one corpus and not both.
-The audit corpus reaches the rules through the extraction,
-which puts back what an emphasis wrapped and drops the markers,
-so the rule never meets the class there and
-[the audit over that corpus](docs/firing-rates.md#missing-space-after-punctuation-read-a-colon-inside-an-identifier)
-reads a colon inside an identifier instead.
-The hit above survives because a named file is linted whatever its format,
-which is how this repository's own documents are run
-and is not the run either audit was taken over.
-So the exemption is still the more expensive of the two,
-because it moves what the rule's hits are
-and so drags the rerun [`CLAUDE.md`](CLAUDE.md#checks) demands
-over published Polish and over the classes that document reports having read.
-
-The booster stems are the last pattern
-[milestone 2](docs/roadmap.md#milestone-2-the-plain-polish-pack-without-an-analyser)
-rests on that nothing has been run over,
-and `harness/endings.py` does not reach them as it stands.
-A `Probe` there matches with `endswith`,
-where `kluczow` and `istotn` are what a word begins with,
-so either the declaration grows a matching side beside the classes it carries,
-or the boosters get a run of their own and this module stays about endings.
-The choice is worth making on the classes rather than on the matching,
-which is the cheaper half and the one the two probes there settle by example:
-each of them turns on a tag, `ger` and `imps`,
-and a booster's question is whether an adjective is doing any work,
-which no tag answers and which
-[the nominalization probe](docs/linter.md#what-the-nominalization-endings-match)
-already shows a run can come back undecidable on.
-So the run to write first is the one that says
-how much of what the stems match is the adjective at all,
-and it belongs in front of the rules rather than after them,
-because what it decides is whether the rule exists rather than how it is tuned.
-
-The `verb` class of `NOMINALIZATION` in `harness/endings.py`
-stands before every nominal one,
-which is right for `zostanie` and wrong for `dacie`.
-Both carry a verb reading beside a nominal one,
-and a document dating an invoice means the locative of `data`
-where the order files the second person plural of `dać`,
-so the inflected share quoted in
+Klasa `verb` w `NOMINALIZATION` z `harness/endings.py`
+stoi przed każdą nominalną,
+co jest słuszne dla `zostanie` i niesłuszne dla `dacie`.
+Oba niosą czytanie czasownikowe obok nominalnego,
+a dokument datujący fakturę ma na myśli miejscownik od `data`
+tam, gdzie ta kolejność wpisuje drugą osobę liczby mnogiej od `dać`,
+więc udział form odmienionych cytowany w
 [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
-is a floor and not a count.
-The move is either an order the corpus settles —
-the nominal reading first where the verb reading is a person the register does not use —
-or the floor stated wherever the share is quoted,
-which is that section alone,
-the roadmap having taken the same finding coarsely and quoted no number.
-The evidence is 7 words: 6 `dacie` and 1 `powiecie`,
-both of which the register uses as nouns.
-
-Ten sam zepsuty pakiet raportuje się dwiema drogami inaczej.
-`_import_file` w `olski/rules.py` łapie `Exception`,
-więc pakiet podany ścieżką wychodzi wierszem `olski:` i kodem 2,
-a ten sam plik podany nazwą modułu idzie przez `_import`,
-które zawija tylko `ImportError`, i drukuje ślad stosu z kodem 1.
-Do przeczytania jest pakiet podnoszący cokolwiek poza tym,
-co moduły tego pakietu nazywają:
-`--packs ./pakiet.py` obok `--packs pakiet` nad tym samym plikiem.
-Nazwą modułu ładują się pakiety wysyłane z olskim,
-więc tą gorszą drogą chodzi ten, kto edytuje `olski/packs/`.
-Drugą połową tego samego jest krotka w `main` z `olski/cli.py`:
-`RuleError`, `ParamError` i `CalibrationError` łapane razem,
-bo dla tego, kto woła komendę, są jednym zdarzeniem,
-a każdy następny moduł, który cokolwiek waliduje, dokłada do niej element.
-Ruchem jest jedna klasa bazowa dla tych trzech,
-łapana zamiast krotki, plus `_import` zawijające tak jak `_import_file`.
-Do rozstrzygnięcia zostaje, gdzie ta klasa stoi,
-bo moduł poniżej wszystkich trzech powstałby dla niej samej,
-a `olski/calibration.py` stoi najniżej i o deklaracjach nie mówi nic.
+jest podłogą, a nie liczbą.
+Ruchem jest albo kolejność, którą rozstrzyga korpus —
+czytanie nominalne przed czasownikowym tam, gdzie czasownikowe jest osobą,
+której rejestr nie używa — albo podłoga wypisana tam, gdzie udział jest cytowany,
+czyli w tamtej sekcji i nigdzie indziej.
+Dowodem jest 7 słów: 6 razy `dacie` i raz `powiecie`,
+a rejestr obu używa jako rzeczowników.
+Waga wpisu spadła razem z torem, który tę sondę zamawiał:
+figura, którą on prostuje, jest teraz częścią zapisu o czymś wycofanym,
+a nie liczbą, na której coś stoi.
 
 ## Korpusy, ekstrakcja i figury
 
@@ -914,9 +786,9 @@ Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
 więc `Jaki` w `skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
 choć polszczyzna ma oba szyki i różnią się one tym, co niosą:
 przymiotnik po rzeczowniku nazywa, a przed nim określa.
-Widać to bez żadnego pomiaru, na jednym zdaniu:
-README pisze `zwykły tekst polski`,
-a to samo drzewo wypuszcza `zwykły polski tekst`.
+Widać to bez żadnego pomiaru, na jednej frazie:
+README pisze `kontrolowanych języków naturalnych`,
+a to samo drzewo wypuszcza `kontrolowany naturalny język`.
 Po drugiej stronie stoi to jako czytanie, które z
 [obiegu](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)
 nie wraca żadnym drzewem, i trzyma to `tests/test_rozbiór.py`.
@@ -1261,7 +1133,7 @@ and the answer decides whether olski could ever link against such a thing.
 
 Granica harnessu jest napisana raz, a stosuje się dwa razy inaczej.
 `harness/__init__.py` mówi, że korpus w formacie znacznikowym
-dochodzi do reguł tędy, a nie przez `olski`,
+dochodzi do gramatyki tędy, a nie przez `olski`,
 a `harness/endings.py` dokłada, że stoi tam,
 bo o polszczyźnie niczego nie twierdzi.
 Oba kryteria trafiają w `olski/corpus.py`, który czyta XML Składnicy,
@@ -1282,52 +1154,18 @@ a czwarty odbiera `olski/attachment.py` bycie liściem, importując go,
 i wszystkie instalują się z pakietem
 (`include = ["olski*", "skład*"]` w `pyproject.toml`),
 a jeden ma własną komendę,
-gdzie tak samo pomiarowe programy toru linterowego
+gdzie tak samo pomiarowe programy w `harness/`
 nie mają ani instalacji, ani komendy.
 Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
 albo obie idą do `harness/`, a `olski-corpus` staje się
 `python3 -m harness.coverage` jak dwie pozostałe komendy pomiarowe,
 co przepisuje polecenia w [`docs/corpus.md`](docs/corpus.md#fetching-it)
 i w [sekcji Checks](CLAUDE.md#checks),
-albo `harness/__init__.py` mówi, że jest harnessem toru linterowego,
+albo `harness/__init__.py` mówi, czym granica jest,
 co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
 czytnik banku drzew i trzy programy pomiarowe są w nim,
-a nikt, kto lintuje tekst, ich nie woła.
-
-Kto instaluje samego lintera, buduje przy okazji analizator morfologiczny.
-`dependencies` w `pyproject.toml` żąda `morfeusz2` bezwarunkowo,
-a lintowanie nie sięga po niego ani razu:
-`olski/cli.py`, `olski/engine.py`, `olski/checks.py`, `olski/document.py`,
-`olski/rules.py`, `olski/calibration.py` i `olski/packs/` nie importują `olski/morph.py`,
-czyli jedynego miejsca, w którym stoi `import morfeusz2`,
-a wołają go `olski/parse.py`, `olski/subset.py`, `olski/corpus.py`
-i `olski/coverage.py`, przez `subset` zaś także `olski/check.py`,
-a przez `corpus` także `olski/attachment.py`.
-[Sekcja Checks](CLAUDE.md#checks) opisuje środowisko,
-w którym koło Morfeusza się nie zbudowało,
-a testy, które go wołają, pomijają się zamiast wywracać zbiórkę.
-Udokumentowana instalacja do tego środowiska nie prowadzi:
-`pip install -e '.[dev]'` kończy się wtedy błędem, a nie środowiskiem z pytestem,
-więc pomijanie broni stanu, w który wchodzi się bokiem,
-instalując pytest osobno i wołając go z klonu.
-Ruchem jest zejście `morfeusz2` z `dependencies`
-do `[project.optional-dependencies] grammar`,
-po czym instalacja w workflow bierze oba dodatki, `dev` i `grammar`,
-żeby przebieg na pushu dalej dotykał gramatyki;
-kroki workflow i blok w `CLAUDE.md` trzyma równe
-`test_the_checks_a_person_runs_are_the_checks_a_push_runs`,
-więc obie kopie ruszają się razem.
-Wpis nie zamyka się razem z granicą harnessu:
-gdyby czytnik banku drzew i program pomiarowy poszły do `harness/`,
-`morph`, `parse`, `subset` i `check` zostają w pakiecie i dalej ciągną Morfeusza,
-a razem z nimi `skład/`, który instaluje się z tego samego wpisu
-i woła `morfeusz2` w drugą stronę.
-Do przeczytania jest, na których platformach PyPI ma gotowe koło,
-bo to rozstrzyga, czy podział kupuje instalację, której dziś nie ma,
-czy tylko nazywa dwa tory drugi raz:
-`morfeusz2` 1.99.15 wchodzi na Linuksie x86-64 pod Pythonem 3.11
-bez budowania czegokolwiek.
+a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
 
 Pomijania testów bez Morfeusza nie pilnuje nic, a raz już się rozeszło.
 [Sekcja Checks](CLAUDE.md#checks) mówi, że plik testowy sięgający analizatora
