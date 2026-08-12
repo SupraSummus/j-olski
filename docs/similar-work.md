@@ -270,7 +270,12 @@ and Dymetman's *Inherently Reversible Grammars*.
 Dwie tradycje wyżej czytają tekst, który ktoś napisał.
 Trzecia pisze go sama, i w niej stoi tor składu,
 czyli ten, który z drzewa wypuszcza polskie zdanie.
-Rozdziela ją jedno pytanie: co autor podaje na wejściu.
+Wypuszczenie zdania z drzewa ma w polu nazwę i jest nią realizacja:
+wyprowadzenie postaci powierzchniowej z reprezentacji, która pod nią stoi.
+Nazwa sięga dalej niż generowanie, bo realizacją jest i głoska wyprowadzona z fonemu,
+więc kto szuka literatury, ten szuka realizacji powierzchniowej,
+po angielsku *surface realization*.
+Rozdziela tę tradycję jedno pytanie: co autor podaje na wejściu.
 Poziom wejścia rozstrzyga, co autor pisze, ile system musi wiedzieć o języku
 i czego z takiego wejścia nie da się już powiedzieć.
 Przegląd tego pola trzymają Gatt i Krahmer,
@@ -325,6 +330,25 @@ ten akapit mówi tylko tyle, że nie jest on domowy.
 Ten sam mechanizm poza tradycją lingwistyczną ma RosaeNLG,
 gdzie wyrażenie referencyjne jest funkcją szablonu,
 a Fundacja LF AI zarchiwizowała ten projekt w 2026 roku.
+
+Sama realizacja rozkłada się na trzy części,
+a podział ten ma w SimpleNLG postać potoku:
+klasa `Realiser` puszcza element przez składnię, potem przez morfologię,
+a na końcu przez ortografię.
+Część składniowa wybiera odmianę, dostawia słowa funkcyjne i rozstrzyga szyk,
+morfologiczna wylicza z tego formę,
+a ortograficzna odpowiada za wielką literę, interpunkcję i formatowanie.
+Dwie pierwsze mają w pakiecie `skład` po module, `skład.składnia` i `skład.morfologia`,
+a trzeciej osobno nie ma i siedzi ona wewnątrz pierwszej.
+Interpunkcja stoi wewnątrz linearyzacji jako pole `Kawałek`,
+czyli jako żądanie konstytuenta wobec sąsiada, a nie jako znak w gotowym napisie,
+i wywód o tym trzyma docstring `Kawałek` w `skład/składnia.py`;
+etap puszczony po morfologii jest na to za późny.
+Wielka litera wraz z kropką staje za to na końcu, w `kompiluj`.
+Trójwarstwowy podział, który `skład/__init__.py` ogłasza swoją decyzją,
+jest więc innym podziałem niż te trzy części, choć dwie nazwy się pokrywają:
+warstwa trzecia, `skład.opowieść`, stoi nad zdaniem, a nie w nim,
+i trzyma tożsamość, której żąda wyrażenie referencyjne z akapitu wyżej.
 
 Zadanie realizacyjne nad drzewami Universal Dependencies (SR'18, SR'19, SR'20) pyta,
 czy z drzewa lematów wróci szyk wraz z odmianą, i liczy to nad wieloma językami,
@@ -399,8 +423,10 @@ It is evidence that nobody will hand us the answer.
 - <https://arxiv.org/abs/1703.09902> — Gatt and Krahmer, the survey of the generation field
 - <https://arxiv.org/abs/cmp-lg/9605002> — Reiter and Dale on the generation pipeline
 - <https://arxiv.org/abs/cmp-lg/9504020> — Dale and Reiter on referring expressions, the incremental algorithm
+- <https://en.wikipedia.org/wiki/Realization_(linguistics)> — realization, the term and the three kinds of processing
 - <https://aclanthology.org/W09-0613/> — SimpleNLG, a realisation engine for practical applications
 - <https://github.com/simplenlg/simplenlg> — SimpleNLG itself, whose wiki lists the ports
+- <https://github.com/simplenlg/simplenlg/blob/master/src/main/java/simplenlg/realiser/english/Realiser.java> — the three parts as a pipeline, syntax then morphology then orthography
 - <https://aclanthology.org/W16-6630/> — adapting SimpleNLG to Italian, one of those ports
 - <https://aclanthology.org/A97-1039/> — RealPro, a realizer over deep syntactic structures
 - <https://aclanthology.org/S17-2158/> — FORGe, rule-based generation over meaning-text structures

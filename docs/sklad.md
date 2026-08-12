@@ -13,6 +13,8 @@ a tor gramatyczny, czyli ten sam podzbiór czytany w drugą stronę,
 [design-notes.md](design-notes.md).
 Dlaczego parser stoi tu świadkiem, a nie zależnością,
 rozstrzyga [design-notes.md](design-notes.md#the-round-trip-invariant).
+Jak pole nazywa tę operację i na jakie trzy części ją rozkłada,
+trzyma [similar-work.md](similar-work.md#generowanie-rozdziela-się-poziomem-wejścia).
 
 Generation inverts every difficulty in parsing.
 
