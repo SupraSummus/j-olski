@@ -458,6 +458,70 @@ przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
+Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno.
+`describe` w `olski/parse.py` nazywa pierwsze wystąpienie każdej roli,
+a `Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
+w którym `i szczęśliwi` jest drugim zdaniem współrzędnym:
+Morfeusz zna `szczęśliwi` jako `szczęśliwić fin:sg:ter:imperf`,
+tak samo jak `wolni` jako `wolnić`, więc taki człon jest orzeczeniem bez podmiotu.
+Wiersz mówi wtedy `Predicative: wolni, równi`, o resztę zdania milczy
+i czyta się jak streszczenie całości.
+Kto czyta `--readings` nad takim zdaniem, nie dowie się,
+że dwa czytania różni rozcięcie zdania na dwa, a nie żadna rola.
+Do przeczytania jest najpierw
+[werdykt jako zapytanie o las](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+bo tam odrzucono już streszczenie nazywające wszystkie węzły roli zamiast pierwszego:
+wydruk rośnie po nim wykładniczo, a nazwać trzeba liczbę decyzji.
+Ta odmowa obejmuje każdy ruch, który dokłada wiersze,
+więc wiersz na zdanie składowe wychodzi spod niej odrzucony bez liczenia,
+a zostaje ruch, który wierszy nie dokłada:
+znak przy roli pokrywającej część zdania,
+czyli jedno miejsce w napisie zamiast drugiego wiersza.
+Drugie do przeczytania jest `_pierwsza_rola` w `olski/parse.py`,
+która pierwsze wystąpienie wybiera z tego samego powodu i uzasadnia go w docstringu:
+dwa podmioty stojące obok siebie w jednym czytaniu
+nie mówią nic o różnicy między czytaniami, i to uzasadnienie zostaje.
+
+Werdykt nie ma kanału na dwa czytania o jednym streszczeniu.
+`explain` w `olski/subset.py` nazywa role, o które czytania się różnią,
+i modyfikator, którego przyłączenia czytania nie rozstrzygają,
+a różnica bywa poza jednym i drugim:
+`Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.`
+z [`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
+daje dwa czytania o streszczeniach znak w znak tych samych,
+bo różni je czytanie słownikowe: `zainteresowana` jest tam i rzeczownikiem,
+a `rada` formą `rad`.
+Wiersz mówi wtedy samo `2 readings`, a `--readings` drukuje ten napis dwa razy,
+co po werdykcie czyta się jak usterka narzędzia.
+Czytania różne granicą członu zdejmuje z tej klasy nawias z `_nawiasuj`,
+a różnica słownikowa zostaje.
+Ruchem jest podsumowanie nad lasem, wzorowane na `Las.przyłączenia`:
+jeden wpis na wybór, a nie na parę czytań;
+kryterium samego ciągu jest już wypisane w `_koordynuje`.
+Do przeczytania jest przed tym `Node.signature` w `olski/parse.py`,
+bo tam jest wypisana cena tego ruchu:
+lemat i część mowy są z tożsamości czytania wyłączone rozmyślnie,
+więc kanał nazywający lemat mówiłby o czymś,
+czego liczba czytań obok niego nie liczy.
+
+Drzewo poprawnego zdania pokazuje na liściu czytanie, które tego drzewa nie licencjonuje.
+`Koszt szynki przewyższa koszt chleba.` wychodzi z `[NP szynki]`
+w pozycji dopełniacza pod `NPConjunct`,
+a liść pod nim niesie `szynki · szynk · subst:pl:nom.acc.voc:m3`,
+w którym dopełniacza nie ma; licencjonuje tę pozycję `szynka · subst:sg:gen:f`.
+Powodem jest pakowanie: `Node.signature` wyłącza z tożsamości czytania
+lemat i część mowy, więc wyprowadzenia różne samą morfologią są jedną klasą,
+a wyliczone drzewo jest jej przedstawicielem
+i czytania jego liści są dowolnymi czytaniami tych segmentów.
+Werdyktowi ta dowolność nie grozi, bo `describe` i `Przyłączenie`
+czytają z liści same formy, i dlatego nic jej nie zgłasza:
+myli ona dopiero tego, kto drzewo wypisuje, żeby zrozumieć wieloznaczność.
+Ruchem jest zdanie w docstringu `Node.signature` o tym,
+że przedstawiciel klasy niesie czytania liści dowolne,
+bo wybór spójny z wyprowadzeniem nie jest dla klasy zdefiniowany.
+Do rozstrzygnięcia jest, czy `Leaf` ma w ogóle wystawiać czytanie na zewnątrz,
+a odpowiedź zależy od tego, kto sięga po `Leaf.reading` poza rozbiorem.
+
 Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
 `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
 i sam w docstringu mówi, że między czytaniami wybiera dowolnie,

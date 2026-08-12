@@ -225,6 +225,9 @@ class Deklaracja:
     przyłączany: str
     #: Symbole konstytuentów, w których produkcjach to przyłączenie stoi.
     gospodarze: tuple[str, ...]
+    #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
+    #: nawiasuje człon ciągu współrzędnego.
+    współrzędne: tuple[str, ...]
 
 
 @dataclass
@@ -947,7 +950,7 @@ class Las:
             if len(nazwy) < 2:
                 continue
             znalezione.append(
-                Przyłączenie(" ".join(self._przedstawiciel(pozycja).forms()), tuple(nazwy))
+                Przyłączenie(_sklej_formy(self._przedstawiciel(pozycja).forms()), tuple(nazwy))
             )
         return znalezione
 
@@ -1040,6 +1043,25 @@ class Las:
 #: a następuje tam forma wzięta ze zdania i nieodmieniana.
 PRZYŁĄCZONY_DO = " → "
 
+#: Formy, przed którymi w napisie nie ma odstępu.
+#: Wewnątrz konstytuentu gramatyka bierze jeden znak interpunkcyjny, przecinek
+#: koordynacji; kropkę niesie węzeł nad rolami i do streszczenia nie dochodzi.
+PRZYLEGAJĄCE = frozenset({","})
+
+
+def _sklej_formy(formy: Iterable[str]) -> str:
+    """Formy jako jeden napis, tak jak stoją w zdaniu.
+
+    Przecinek jest osobnym segmentem, więc sklejenie przez sam odstęp
+    daje ``wolni , równi``, czego autor w swoim zdaniu nie napisał.
+    """
+    napis = ""
+    for forma in formy:
+        if napis and forma not in PRZYLEGAJĄCE:
+            napis += " "
+        napis += forma
+    return napis
+
 
 def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     """Streszczenie czytania: co stoi w której roli i do czego doszedł modyfikator.
@@ -1052,6 +1074,11 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     ``koszt szynki z dodatkami`` jest tym samym dopełnieniem niezależnie od tego,
     czy ``z dodatkami`` doszło do ``koszt``, czy do ``szynki``.
     Rola przyłączana dostaje więc obok wypełnienia to, co modyfikator określa.
+
+    Drugim takim miejscem jest granica członu w ciągu współrzędnym,
+    i tam odpowiada nawias, a nie nazwa obok:
+    granica biegnie wewnątrz wypełnienia, więc widać ją tylko w samym napisie.
+    Co dostaje nawias, a co nie, mówi :func:`_nawiasuj`.
 
     Żąda tego jedna rola, bo jedną gramatyka zostawia nierozstrzygniętą rozmyślnie:
     podmiot i dopełnienie rozstrzyga przypadek,
@@ -1071,10 +1098,64 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
         found = node.find(role)
         if not found:
             continue
-        summary[role] = " ".join(found[0].forms())
+        summary[role] = _nawiasuj(found[0], deklaracja.współrzędne)
         if role == deklaracja.przyłączany:
             summary[role] += PRZYŁĄCZONY_DO + _attachment(node, found[0], deklaracja.gospodarze)
     return summary
+
+
+def _nawiasuj(node: Node, współrzędne: Sequence[str]) -> str:
+    """Formy tej roli, z członem ciągu współrzędnego w nawiasie kwadratowym.
+
+    Ciąg współrzędny jest drugim po przyłączeniu miejscem,
+    w którym dwa czytania mają w jednej roli te same formy:
+    ``wolni i równi pod względem swej godności i swych praw``
+    jest jednym orzecznikiem niezależnie od tego,
+    czy wyrażenie przyimkowe należy do drugiego członu, czy do całego zdania.
+    Nawias pokazuje granicę członu,
+    więc te dwa przestają wychodzić jednym napisem.
+
+    Nawiasujemy ciąg, którym jest sama rola, a nie każdy ciąg pod nią,
+    i dlatego pętla niżej mija wyłącznie węzły o jednej córce.
+    Ciąg pod przyimkiem albo pod rzeczownikiem jest częścią wypełnienia,
+    a nie podziałem roli,
+    więc nawias nad nim wypadłby w każdym czytaniu ten sam
+    (``pod względem [swej godności] i [swych praw]``).
+    """
+    while not _koordynuje(node, współrzędne):
+        if len(node.children) != 1 or isinstance(node.children[0], Leaf):
+            return _sklej_formy(node.forms())
+        node = node.children[0]
+    return _sklej_formy(_kawałki(node, współrzędne))
+
+
+def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
+    """Ciąg rozpisany na napisy: człon dłuższy niż słowo w nawiasie, spójnik bez zmian.
+
+    Ciąg trzech członów jest w tej gramatyce ciągiem dwóch,
+    którego drugi jest ciągiem dwóch (``NP → NPConjunct conj NP``),
+    więc po prawym skraju schodzimy rekurencyjnie:
+    inaczej ``ustawienia, dane i pliki`` miałoby drugi człon długi na resztę ciągu.
+    Człon jednosłowny nawiasu nie dostaje, bo jego granicę widać po spójniku obok.
+    """
+    kawałki = []
+    for dziecko in ciąg.children:
+        if isinstance(dziecko, Node) and _koordynuje(dziecko, współrzędne):
+            kawałki.extend(_kawałki(dziecko, współrzędne))
+        elif len(dziecko.forms()) > 1:
+            kawałki.append(f"[{_sklej_formy(dziecko.forms())}]")
+        else:
+            kawałki.append(_sklej_formy(dziecko.forms()))
+    return kawałki
+
+
+def _koordynuje(node: Node, współrzędne: Sequence[str]) -> bool:
+    """Czy produkcja tego węzła koordynuje: symbol z deklaracji nad dwiema grupami.
+
+    Spójnik i przecinek są słowami, więc wśród produkcji tych symboli
+    dwie córki-konstytuenty ma koordynacja i nic poza nią.
+    """
+    return node.label in współrzędne and sum(isinstance(d, Node) for d in node.children) > 1
 
 
 def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:

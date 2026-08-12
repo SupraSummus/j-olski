@@ -48,6 +48,10 @@ DEKLARACJA = Deklaracja(
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
     # a okolicznik zdania nie ma nad sobą żadnego z dwóch pierwszych i zostaje przy zdaniu.
     gospodarze=("NP", "AP", "ClauseConjunct"),
+    # Symbole, które się koordynują: grupa imienna, grupa przymiotnikowa i zdanie.
+    # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
+    # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
+    współrzędne=("NP", "AP", "Clause"),
 )
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,

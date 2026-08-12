@@ -9,7 +9,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, Głowa, V, nt, unify, word
+from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, nt, unify, word
 from olski.morph import analyse
 from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Pozycja, las, parse
 from olski.subset import (
@@ -340,9 +340,12 @@ def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimko
         "pod względem swej godności i swych praw."
     )
     assert found.status == "ambiguous", found.explain()
+    #  Nawias nazywa człon, w którym wyrażenie się znalazło, czyli mówi, że wzgląd
+    #  określa samych równych: ciąg wiąże się w prawo, więc drugim członem jest
+    #  `równi` wraz z tym wyrażeniem, a nie para `wolni i równi`.
     assert {reading["Predicative"] for reading in found.readings} == {
         "wolni i równi",
-        "wolni i równi pod względem swej godności i swych praw",
+        "wolni i [równi pod względem swej godności i swych praw]",
     }
 
 
@@ -351,8 +354,8 @@ def test_termin_z_dopełniaczem_bierze_wyrażenie_przyimkowe_na_własną_głowę
     #  dopisana bez swojej pozycji z okolicznikiem za nią. Zdanie zostaje wtedy
     #  wieloznaczne, więc po werdykcie nie widać, że w pliku nie dochodzi już do
     #  samych ustawień, choć polszczyzna to czytanie ma — i stąd liczba obok
-    #  zbioru, bo dwa z trzech czytań różnią się wewnątrz grupy imiennej i dają
-    #  to samo streszczenie ról
+    #  zbioru, bo dwa z trzech czytań mają to samo dopełnienie i różnią się
+    #  wewnątrz niego, czyli tym, do czego w pliku doszło
     #  (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
     found = verdict("Program zapisuje ustawienia domyślne użytkownika w pliku.")
     assert found.status == "ambiguous", found.explain()
@@ -572,6 +575,45 @@ def test_streszczenie_wiąże_okolicznik_ze_zdaniem_a_nie_z_dopełnieniem():
         "w pliku → zapisuje",
         "w pliku w katalogu → zapisuje",
     }
+
+
+def test_streszczenie_nie_wstawia_odstępu_przed_przecinkiem():
+    #  Przecinek jest segmentem jak każde inne słowo, więc sklejenie form przez sam
+    #  odstęp dawało `ustawienia , dane i pliki`, czyli napis, którego w tym zdaniu
+    #  nikt nie napisał. Usterka jest widoczna w każdym zdaniu z koordynacją
+    #  przecinkiem i w żadnym innym.
+    roles = verdict("Program zapisuje ustawienia, dane i pliki.").readings[0]
+    assert roles["Object"] == "ustawienia, dane i pliki"
+
+
+def test_dwa_czytania_różne_granicą_członu_nie_wychodzą_jednym_napisem():
+    #  Usterka, którą to łapie: streszczenie sklejone z samych form. Dwa z tych
+    #  trzech czytań mają w każdej roli te same formy i różnią się granicą członu
+    #  wewnątrz dopełnienia, więc bez nawiasu dawały znak w znak ten sam wiersz,
+    #  co po werdykcie czyta się jak usterka narzędzia, a nie jak dwa czytania.
+    #  Ciąg wpuszcza tu `sera` dlatego, że forma jest i dopełniaczem od `ser`,
+    #  i biernikiem mnogim od `serum`, a biernika żąda pozycja dopełnienia.
+    found = verdict("Koszt szynki i sera przewyższa koszt chleba.")
+    streszczenia = [tuple(sorted(reading.items())) for reading in found.readings]
+    assert len(set(streszczenia)) == len(streszczenia), found.explain()
+    assert "[Koszt szynki] i sera" in {reading["Object"] for reading in found.readings}
+
+
+@pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)
+def test_dwie_grupy_ma_pod_tym_symbolem_tylko_produkcja_z_wyrazem_między_nimi(symbol):
+    #  Kryterium, na którym stoi nawiasowanie: `_nawiasuj` poznaje ciąg po tym, że
+    #  węzeł ma dwie córki-konstytuenty, bo spójnik i przecinek są tu wyrazami.
+    #  Produkcja dopisana temu symbolowi z dwiema grupami i bez wyrazu między nimi
+    #  dałaby nawias tam, gdzie koordynacji nie ma, a nie zgłosiłby tego ani werdykt,
+    #  ani liczba czytań. Pusta lista łapie przemianowany symbol.
+    dwie_grupy = [
+        production
+        for production in GRAMMAR.productions
+        if production.head == symbol
+        and sum(isinstance(part, Sym) for part in production.body) == 2
+    ]
+    assert dwie_grupy, symbol
+    assert all(any(isinstance(part, Word) for part in production.body) for production in dwie_grupy)
 
 
 def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
