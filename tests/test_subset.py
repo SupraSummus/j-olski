@@ -16,6 +16,7 @@ from olski.subset import (
     DEKLARACJA,
     FRAGMENT,
     GRAMMAR,
+    PRZECINEK,
     WALENCJA,
     WALENCJA_ZWROTNA,
     admissible,
@@ -600,20 +601,24 @@ def test_dwa_czytania_różne_granicą_członu_nie_wychodzą_jednym_napisem():
 
 
 @pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)
-def test_dwie_grupy_ma_pod_tym_symbolem_tylko_produkcja_z_wyrazem_między_nimi(symbol):
-    #  Kryterium, na którym stoi nawiasowanie: `_nawiasuj` poznaje ciąg po tym, że
-    #  węzeł ma dwie córki-konstytuenty, bo spójnik i przecinek są tu wyrazami.
-    #  Produkcja dopisana temu symbolowi z dwiema grupami i bez wyrazu między nimi
-    #  dałaby nawias tam, gdzie koordynacji nie ma, a nie zgłosiłby tego ani werdykt,
-    #  ani liczba czytań. Pusta lista łapie przemianowany symbol.
-    dwie_grupy = [
-        production
-        for production in GRAMMAR.productions
-        if production.head == symbol
-        and sum(isinstance(part, Sym) for part in production.body) == 2
-    ]
-    assert dwie_grupy, symbol
-    assert all(any(isinstance(part, Word) for part in production.body) for production in dwie_grupy)
+def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koordynacji(symbol):
+    #  Kryterium, na którym stoją dwie rzeczy naraz: `_nawiasuj` w `olski/parse.py`
+    #  poznaje ciąg współrzędny po tym, że symbol stoi nad sobą, i po tym samym
+    #  poznaje go `sonda/przecinek.py`, żeby wiedzieć, którą produkcję zdjąć.
+    #  Produkcja, która to rozdziela, psuje jedno z dwóch po cichu: nawias staje
+    #  tam, gdzie ciągu nie ma, albo sonda zdejmuje zdanie podrzędne zamiast
+    #  koordynacji. Pusta lista łapie przemianowany symbol.
+    produkcje = [production for production in GRAMMAR.productions if production.head == symbol]
+    assert produkcje, symbol
+    for production in produkcje:
+        nad_sobą = any(
+            isinstance(part, Sym) and part.name == symbol for part in production.body
+        )
+        ze_znakiem = any(
+            isinstance(part, Word) and (part == PRZECINEK or "conj" in part.pos)
+            for part in production.body
+        )
+        assert nad_sobą == ze_znakiem, production
 
 
 def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
@@ -828,6 +833,59 @@ def test_zaimek_rzeczowny_zostaje_wszędzie_indziej():
     #  Warunek stoi na jednej pozycji jednej produkcji, więc zaimek rzeczowny
     #  dalej jest tym, czym w polszczyźnie jest.
     assert verdict("To ma pomagać pisać dobrą polszczyznę.").status == "valid"
+
+
+# --------------------------------------------------------------------------- #
+# Podrzędność
+# --------------------------------------------------------------------------- #
+
+
+def test_zdanie_podrzędne_z_że_wyprowadza_się_raz_mimo_przecinka_koordynacji():
+    #  Przecinek koordynuje zdania, więc gramatyka, która bierze go na poziomie
+    #  zdania i nie ma podrzędności, czyta zdanie podrzędne jako współrzędne.
+    #  Rozdziela je miejsce przecinka: tutaj stoi on wewnątrz konstytuentu,
+    #  który zdanie podrzędne tworzy, a nie nad dwoma zdaniami.
+    found = verdict("Pomiar mówi, że gramatyka jest podzbiorem.")
+    assert found.status == "valid", found.explain()
+
+
+def test_zaimek_względny_nie_jest_przymiotnikiem_przy_rzeczowniku():
+    #  Morfeusz daje `które` ten sam znacznik co `nowe`, więc bez warunku
+    #  ujemnego `które zadania własne gminy` jest grupą imienną i staje się
+    #  podmiotem zdania po przecinku. Wychodzi z tego jedno czytanie, pewne
+    #  siebie i błędne, czyli werdykt najgorszy z tych, jakie olski wydaje.
+    found = verdict("Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.")
+    assert found.status == "rejected", found.explain()
+
+
+def test_zdanie_względne_zgadza_się_z_poprzednikiem_i_tym_odbiera_przyłączenie():
+    #  Liczba i rodzaj zaimka mówią o poprzedniku, a przypadek o roli w zdaniu
+    #  podrzędnym, więc `które` w liczbie mnogiej ma się do czego przyłączyć
+    #  tylko raz. Gramatyka przyłączenia nie wybiera, tak samo jak przy
+    #  wyrażeniu przyimkowym; odbiera je zgodność.
+    jedno = verdict("Zbiór tekstów, które są polskie, jest podzbiorem.")
+    assert jedno.status == "valid", jedno.explain()
+    dwa = verdict("Zbiór tekstu, który jest polski, jest podzbiorem.")
+    assert dwa.status == "ambiguous", dwa.explain()
+    assert dwa.result.ile == 2
+
+
+def test_zdanie_względne_nie_daje_dwóch_wyprowadzeń_jednej_struktury():
+    #  Usterka, którą to łapie: produkcja rekurencyjna na poziomie członu.
+    #  Zdanie względne dochodzi wtedy pod przymiotnikiem i nad nim, czyli
+    #  `te [konstrukcje, które stoją]` obok `[te konstrukcje], które stoją`,
+    #  a te dwa kształty są różne, więc liczą się jako dwa czytania.
+    found = verdict("Istnieją te konstrukcje, które na niej stoją.")
+    assert found.status == "valid", found.explain()
+
+
+def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():
+    #  Zdanie względne jest zdaniem, więc stoi wśród gospodarzy przyłączenia.
+    #  Bez tego okolicznik z jego wnętrza wychodzi w górę do grupy imiennej,
+    #  którą to zdanie określa, i werdykt nazywa poprzednik zamiast orzeczenia.
+    found = verdict("Reguła, która rozstrzyga o zdaniu, jest tania.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Modifier"] == f"o zdaniu{PRZYŁĄCZONY_DO}rozstrzyga"
 
 
 # --------------------------------------------------------------------------- #

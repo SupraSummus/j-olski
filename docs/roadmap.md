@@ -249,14 +249,19 @@ Podrzędność jest więc tym, na czym ten etap stoi,
 i wobec kryterium wyjścia pozycją najdroższą i nie do ominięcia,
 bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
 
-Kupuje ona ponadto coś, czego pokrycie nie mierzy.
-Zdanie podrzędne z `które` nie jest dziś odrzucane, tylko czytane jako współrzędne,
-bo przecinek koordynuje zdania, a podrzędności nie ma
-([subset.md](subset.md#what-it-does-not-cover-yet)),
-i wychodzi z tego jedno czytanie, które mówi co innego niż zdanie.
-Nad rejestrem ustaw jedno takie zdanie jest policzone jako przyjęte
+Kupuje ona ponadto coś, czego pokrycie nie mierzy,
+i to jest ta połowa etapu, którą stoi zaliczyć osobno.
+Zdanie podrzędne z `które` nie było odrzucane, tylko czytane jako współrzędne,
+bo przecinek koordynuje zdania, a podrzędności nie było,
+i wychodziło z tego jedno czytanie, które mówi co innego niż zdanie.
+Zdejmuje je warunek na lemat, a nie produkcja:
+zaimek względny nie jest przymiotnikiem przy rzeczowniku,
+więc `które zadania własne gminy` przestaje być grupą imienną
+i nie ma czym być podmiotem zdania po przecinku
+([subset.md](subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku)).
+Nad rejestrem ustaw to jedno zdanie policzone jako przyjęte przestaje nim być
 ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)),
-więc ten etap zdejmuje werdykty błędne, a nie tylko dokłada nowe.
+więc etap zdjął werdykt błędny, zanim dołożył nowe.
 
 Interpunkcji zostaje w kolejce z banku drzew tyle, ile w niej po przecinku:
 wiersz prowadzi myślnik, który jest tam dialogiem z gazety,
@@ -271,6 +276,23 @@ którego ten etap nie ma
 wyprowadza się i wyprowadza raz,
 pokrycie nad README idzie w górę o te zdania, które na tym stały,
 a zdanie z `które` przestaje wychodzić czytaniem współrzędnym.
+
+Zaliczone jest pierwsze i trzecie, a drugie nie, i drugie jest tu wynikiem.
+Zdanie dopełnieniowe z `że` i zdanie względne z `który` wyprowadzają się
+i pod złotą morfologią nie odbierają Składnicy ani jednego zdania przyjętego,
+a zdanie z `które` wychodzi odrzucone zamiast współrzędnego;
+tabelę i cenę trzyma
+[subset.md](subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
+Pokrycie nad README nie ruszyło się o ani jedno zdanie
+i mówi to o kryterium wyjścia więcej niż o podrzędności:
+zdania tego pliku, które na podrzędności stały, stoją także na przysłówku,
+na dwukropku, na czasie przeszłym i na liczebniku,
+czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
+niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
+Etap zostaje więc otwarty na tym, czego mu brakuje do własnego kryterium,
+a brakuje mu pytania zależnego, pozostałych spójników podrzędnych
+i zaimka wysuniętego razem z grupą, w której stoi;
+listę trzyma [subset.md](subset.md#what-it-does-not-cover-yet).
 
 ## Etap 5: słowa, których słownik nie ma
 

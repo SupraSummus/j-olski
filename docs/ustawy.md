@@ -10,9 +10,9 @@ pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
 Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 69 zdań z 4921,
-czyli 1,4%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 2,4%,
+czyli 1,4%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 2,5%,
 choć tamten bank drzew jest zbudowany z gazet i prozy.
-Wieloznacznych jest tu 4,5% wobec 0,9% tam,
+Wieloznacznych jest tu 4,6% wobec 0,9% tam,
 więc zdanie ustawy, które olski w ogóle czyta,
 czyta on najczęściej na kilka sposobów.
 Regularne w ustawie jest drzewo jednostek redakcyjnych,
@@ -190,17 +190,17 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 20 | 35 | 331 |
+| samorząd gminny (1990/95) | 386 | 20 | 36 | 330 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 0 | 84 |
 | informacja publiczna (2001/1198) | 126 | 0 | 1 | 125 |
-| Kodeks wyborczy (2011/112) | 2908 | 27 | 86 | 2795 |
+| Kodeks wyborczy (2011/112) | 2908 | 27 | 87 | 2794 |
 | petycje (2014/1195) | 48 | 3 | 2 | 43 |
-| zgromadzenia (2015/1485) | 127 | 0 | 1 | 126 |
+| zgromadzenia (2015/1485) | 127 | 0 | 6 | 121 |
 | ochrona ludności (2024/1907) | 1242 | 19 | 96 | 1127 |
-| razem | 4921 | 69 | 221 | 4631 |
+| razem | 4921 | 69 | 228 | 4624 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 5 jednoznacznych i 16 wieloznacznych.
+699 zdań, z tego 5 jednoznacznych i 18 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -260,8 +260,8 @@ jest różnicą długości zdania, a nie staranności piszącego.
 
 ## Wieloznaczność jest tu odczytem z § 6, ale nie jest zarzutem
 
-Wieloznacznych jest 221, czyli 76% zdań, którym olski daje jakiekolwiek czytanie,
-a nad Składnicą jest to 27% (119 wieloznacznych na 437 przeczytanych).
+Wieloznacznych jest 228, czyli 77% zdań, którym olski daje jakiekolwiek czytanie,
+a nad Składnicą jest to 27% (122 wieloznaczne na 447 przeczytanych).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -387,24 +387,27 @@ czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
 Zakup czyta się przejściami między werdyktami, a nie liczbą pokrycia,
 bo przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
 a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej.
-Nad siedmioma ustawami 25 zdań przestaje być odrzuconych:
-10 wychodzi jednoznacznych, 15 wieloznacznych.
+Nad siedmioma ustawami 24 zdania przestają być odrzucone:
+9 wychodzi jednoznacznych, 15 wieloznacznych.
 W drugą stronę idą 4 zdania jednoznaczne, które przechodzą na wieloznaczne.
 Nad „Zasadami techniki prawodawczej” przejść pierwszego rodzaju jest 3,
 nad [Składnicą](corpus.md#the-measurement) 7,
 a drugiego rodzaju nie ma tam ani jednego.
-Jedno z tych dziesięciu jednoznacznych nie jest zakupem.
+
+Dziesiątym jednoznacznym było zdanie przeczytane na opak.
 `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
-wychodzi jednym czytaniem, w którym zdanie podrzędne z `które`
+wychodziło jednym czytaniem, w którym zdanie podrzędne z `które`
 jest zdaniem współrzędnym po przecinku,
-a polszczyzna czyta je jako podrzędne.
-Pozycja z dopełniaczem dokłada tu ostatni brakujący kawałek wyprowadzenia,
-a resztę daje koordynacja przecinkiem, którą gramatyka ma bez podrzędności:
-`Ustawy określają, które zadania gminy mają charakter obowiązkowy.`
-wychodzi tym samym czytaniem i bez tej pozycji.
+a polszczyzna czyta je jako podrzędne:
+pozycja z dopełniaczem dokładała ostatni brakujący kawałek wyprowadzenia,
+a resztę dawała koordynacja przecinkiem, którą gramatyka miała bez podrzędności.
 Werdykt jednoznaczny nad zdaniem przeczytanym na opak jest najgorszym,
-jaki olski wydaje, i klasę tę nazywa
-[lista tego, czego gramatyka nie obejmuje](subset.md#what-it-does-not-cover-yet).
+jaki olski wydaje, i zdejmuje go
+[warunek na zaimek względny](subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
+a nie ta pozycja: zdanie jest dziś odrzucone i z tą pozycją, i bez niej.
+Poprawnie olski go nie wyprowadza, bo pytania zależnego nie ma,
+i tyle z tego zdania zostaje na
+[liście tego, czego gramatyka nie obejmuje](subset.md#what-it-does-not-cover-yet).
 
 Po drugiej stronie stoją te cztery zdania, które przeszły na wieloznaczne,
 i płacą one z dwóch różnych powodów.

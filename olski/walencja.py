@@ -20,14 +20,14 @@ i wypuszczałby ``Program jest ustawienia.``
 
 Wspólny jest też plik, a nie każde zdanie, które on mówi.
 Biernik czytają oba kierunki, a bezokolicznik oraz zdanie podrzędne
-czyta na razie sam skład,
+czyta sam skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co on komu kupuje:
 po stronie generatora jest jedyną obroną przed drzewem żądającym
 bezokolicznika od czasownika, który go nie bierze,
-a po stronie parsera został zmierzony i nie kupił ani jednej jednoznaczności;
+a po stronie parsera zmierzono oba i żadne nie kupiło ani jednej jednoznaczności;
 liczby trzyma docs/subset.md.
-Zdania podrzędnego gramatyka podzbioru nie ma wcale,
-więc po tamtej stronie nie ma dla niego nawet pozycji, o którą by pytał.
+Pozycję zdania podrzędnego gramatyka podzbioru już ma,
+więc jest to teraz ta sama decyzja co przy bezokoliczniku, a nie brak pozycji.
 
 Zbiory są dwa, bo forma z cząstką ``się`` jest innym czasownikiem:
 ``otwierać`` bierze dopełnienie w bierniku, a ``otwierać się`` go nie bierze,
@@ -135,7 +135,11 @@ def bierze_zdanie(lemat: str) -> bool:
     """Czy czasownik weźmie zdanie podrzędne wprowadzone przez ``że``.
 
     Domyślność jest ta sama co przy bezokoliczniku i z tego samego powodu:
-    rama domyślna takiej pozycji nie ma, więc milczenie o lemacie odmawia.
+    drzewo składu takiej pozycji nie stawia, dopóki ktoś jej nie postawi,
+    więc milczenie o lemacie odmawia.
+    Gramatyka podzbioru czyta to inaczej i pyta o to innym pytaniem:
+    tam pozycja stoi w ramie domyślnej i to zawężenie zmierzono,
+    o czym mówi ``RAMA_DOMYŚLNA`` w ``olski/subset.py``.
 
     O kontrolę to pytanie nie pyta i pytać nie ma czego:
     zdanie podrzędne niesie własny podmiot, więc nie ma tu nikogo,
