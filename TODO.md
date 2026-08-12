@@ -442,12 +442,19 @@ a nie iloczynem drzew,
 i werdykt wskazuje przyimek wraz z głowami, do których dochodzi.
 Warunki, pod którymi las na to pytanie odpowiada, trzyma
 [tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania),
-a na czym liczba ma stanąć zamiast iloczynu,
-pyta wpis o sumie iloczynów, i idzie on przed tym,
-bo rozstrzyga, co ten parser pakuje.
+i tam też stoi rozstrzygnięte, na czym liczba ma stanąć zamiast iloczynu:
+pozycja pakuje się po kształcie, a liczy po parach, które unifikacja przepuszcza,
+bo pozycja rozszczepiona po cechach kosztuje półtorej tablicy
+i myli się czterokrotnie częściej.
+Liczba wzięta wprost iloczynem ma przy tym gotową pułapkę:
+zdania, na których tamta sekcja oba nadmiary pokazuje,
+trzyma `tests/test_pakowanie.py`, a jedno z nich stoi jeszcze
+w `PRZYJMOWANE` w `tests/test_subset.py`,
+więc taki las przewraca test, a nie samą liczbę.
 Zmiana nie rusza ani jednej produkcji,
 więc sprawdza się ją werdykt po werdykcie wobec tego, co stoi,
-nad prozą README i nad Składnicą.
+nad prozą README i nad Składnicą,
+a `sonda/pakowanie.py` bierze te same dwie tablice i mówi, ile zdań je różni.
 Zamyka to wpis o głębokości zagrzebania złotego czytania,
 bo dopiero po lesie jest po czym chodzić.
 Otwiera przy tym dwie rzeczy, i to są dwie osobne sesje, a nie część tej.
@@ -514,19 +521,6 @@ so whichever of the two is taken first decides what the blocking form is,
 and they are one session.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
-
-Suma iloczynów po lesie rozbiorów liczy pary, których unifikacja nie przepuszcza,
-i nie widać, które z dwóch wyjść jest tańsze.
-Zdanie, które to pokazuje, mechanizm i oba wyjścia trzyma
-[tożsamość czytania](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
-Ruchem jest przebieg nad prozą README i nad Składnicą,
-bo rozstrzyga między tymi wyjściami to,
-ile pozycji rozszczepienie naprawdę rozdziela,
-a rozdziela je dopiero forma stojąca w zdaniu.
-Nadmiar ma przy tym gotową pułapkę:
-zdanie z tamtej sekcji stoi w `PRZYJMOWANE` w `tests/test_subset.py`,
-więc las liczący iloczynem przewraca test, a nie samą liczbę.
-Wpis stoi przed wpisem o parserze tablicowym, bo rozstrzyga, co ten parser pakuje.
 
 Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
 od precedencji.

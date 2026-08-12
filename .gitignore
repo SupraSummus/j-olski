@@ -6,3 +6,8 @@ __pycache__/
 build/
 dist/
 .venv/
+
+# Proza wyjęta z Markdownu przez `harness.markdown`, którą czytają polecenia
+# z docs/corpus.md i z sond. Jest kopią tekstu, który stoi obok w repozytorium,
+# i po każdej zmianie w nim jest nieprawdziwa, więc bierze się ją przebiegiem.
+proza/

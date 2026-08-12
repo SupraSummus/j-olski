@@ -11,7 +11,7 @@ pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, V, nt, unify, word
 from olski.morph import analyse
-from olski.parse import LeftRecursion, parse
+from olski.parse import LeftRecursion, parse, wyprowadzenia
 from olski.subset import (
     FRAGMENT,
     GRAMMAR,
@@ -76,6 +76,22 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     assert puste.children == ()
     assert puste.span == (0, 0)
     assert reading.span == (0, 2)
+
+
+def test_tablica_trzyma_konstytuent_którego_rodzic_nie_wziął():
+    """Wyprowadzenie odrzucone przez unifikację zostaje w tablicy, choć nie ma go w czytaniu.
+
+    Na tym stoi pomiar pakowania: nadmiar sumy iloczynów bierze się dokładnie z
+    tych wyprowadzeń, więc tablica, która oddawałaby samo to, co przeszło do
+    korzenia, nie miałaby czego mierzyć. `zobacz` ma ramę domyślną, w której
+    narzędnika nie ma, a notacja rejestru stoi w każdym przypadku naraz, więc
+    `Predicative` buduje się nad nią i ginie dopiero u rodzica.
+    """
+    segments = morphology("Zobacz docs/subset.md.")
+    [reading] = parse(GRAMMAR, segments).readings
+    assert not reading.find("Predicative")
+    zbudowane = wyprowadzenia(GRAMMAR, segments)
+    assert [node.span for node in zbudowane if node.label == "Predicative"] == [(1, 2)]
 
 
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
