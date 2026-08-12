@@ -917,6 +917,9 @@ przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to bez żadnego pomiaru, na jednym zdaniu:
 README pisze `zwykły tekst polski`,
 a to samo drzewo wypuszcza `zwykły polski tekst`.
+Po drugiej stronie stoi to jako czytanie, które z
+[obiegu](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)
+nie wraca żadnym drzewem, i trzyma to `tests/test_rozbiór.py`.
 Do przeczytania jest ta para wraz z tym,
 co [`docs/sklad.md`](docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
@@ -1203,6 +1206,47 @@ Drugą z tych dróg widać już na `skład/leksemy.py`, ale tylko połowę:
 wpis wskazuje tam leksem, który słownik ma,
 a tutaj trzeba wskazać leksem, wedle którego odmienia się słowo,
 którego słownik nie ma wcale.
+
+`skład/rozbiór.py` nie wypuszcza dopełnienia wyrażonego zdarzeniem,
+więc `Linter pomaga pisać dobry kod.` nie wraca żadnym drzewem,
+choć zdanie to mają oba tory naraz.
+Bierze się to z kolejności, w której rozbiór składa kandydatów:
+konstytuenty powstają, zanim wiadomo, co jest podmiotem,
+a bezokolicznik żąda tego samego obiektu, którym stoi podmiot nad nim,
+bo tyle sprawdza `Robi` w `skład/składnia.py`.
+Do przeczytania jest `_złóż` wraz z `_ciąg` w tym samym pliku,
+bo drugie z nich przekazuje już podmiot w dół, czego pierwsze potrzebuje,
+oraz [dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+które trzyma warunek o cudzym wykonawcy.
+Ruchem jest zbudowanie zdania pod bezokolicznikiem po podmiocie, a nie przed nim.
+
+Obieg mówi, że czytanie nie wróciło, a nie mówi dlaczego.
+`skład/rozbiór.py` zna powód w chwili, w której go wyrzuca:
+`PozaZapisem` niesie kształt, dla którego kategorii nie ma,
+a porównanie form wie, jaki napis wyszedł zamiast oczekiwanego,
+i jedno, i drugie ginie w `abstrahuj`, bo ono odpowiada samą pustą krotką.
+Zostaje z tego zdanie o tym, że tego czytania ten zapis nie mówi,
+a powodów jest kilka i rozdziela je
+[`docs/sklad.md`](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
+więc szukanie tego, który zadziałał, robi się ręcznie.
+Do przeczytania jest `explain` w `olski/subset.py`, czyli werdykt lintera:
+o to samo pyta czytelnik tekstu, a tamta strona odpowiada zdaniem wraz z formami.
+Ruchem jest powód zbierany po czytaniach i wypisywany przez `Obieg.opisz`.
+
+`Jest` w `skład/składnia.py` nie ma pozycji na okoliczność,
+choć `Robi` obok ma ich tyle, ile autor postawi,
+więc `Kot jest zwierzęciem w piwnicy.` nie wyjdzie ze składu,
+a olski to zdanie czyta i czyta je dwojako.
+Kosztuje to każde zdanie, które o czymś orzeka i mówi, gdzie albo kiedy,
+czyli klasę, której README nie żąda, a opowieść żądałaby jej w pierwszym akapicie.
+Do przeczytania jest `linearyzuj` w obu tych klasach,
+bo różnią się one o tę jedną pętlę, i
+[okoliczność](docs/sklad.md#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie),
+która trzyma wywód o tym, że okoliczność dochodzi do zdarzenia.
+Ruchem jest to samo pole na obu, wraz z rozstrzygnięciem,
+czy okoliczność przy orzeczeniu imiennym mówi o byciu czymś,
+czy o rzeczy, która czymś jest, bo `w piwnicy` przy `Kot jest zwierzęciem.`
+czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 
 ## Pakiet, instalacja i testy
 

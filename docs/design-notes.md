@@ -997,6 +997,12 @@ Where a generated sentence happens to fall inside the subset,
 the round trip tests it and reports whichever way it reads;
 outside, it has nothing to say and the compiler is unaffected.
 `tests/test_skład.py` uses it in exactly that posture.
+The membership test itself is `skład/rozbiór.py`,
+which reads a parser reading back as a tree of the abstract syntax,
+and what it recovers, what it cannot,
+and why one reading comes back as several trees
+is owned by
+[sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma).
 The dependency also runs the other way than it first appears:
 generation exposes what the grammar *over*generates,
 which the parsing side sees only against a treebank.

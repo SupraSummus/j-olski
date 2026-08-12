@@ -737,6 +737,98 @@ więc każde takie miejsce byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego.
 Czym to zawęzić, trzyma [`TODO.md`](../TODO.md).
 
+## Czytanie parsera wraca drzewem, a jedno czytanie kilkoma
+
+Niezmiennik obiegu żąda, żeby drzewo puszczone w tekst wróciło z tekstu drzewem,
+a [design-notes.md](design-notes.md#the-round-trip-invariant) trzyma jego postać:
+drzewo do napisu jest funkcją, napis do drzewa relacją,
+więc żąda się przynależności, a nie równości.
+Robi to `skład/rozbiór.py`, a ta sekcja mówi, na czym on stoi.
+
+Odwrotnością linearyzacji ten kierunek nie jest, bo oba tory stoją na dwóch poziomach.
+Parser wydaje wyprowadzenie nad symbolami gramatyki wraz z formami i ich cechami,
+a autor pisze kategorie dziedziny, w których przypadka nie ma,
+bo bierze się on z pozycji.
+Wspólny mają więc typ, a nie kod, i jest to druga funkcja,
+a nie ta sama przebiegnięta wstecz.
+Stoi ona w `skład/`, bo zależność biegnie tu w jedną stronę:
+skład czyta olskiego, a linter o kompilatorze nie wie nic i nie ma wiedzieć.
+
+**Rozstrzyga o tym linearyzacja, a nie rozbiór.**
+Drzewo wychodzi stamtąd tylko wtedy, gdy wypisane daje te formy,
+z których je przeczytano, więc mówi napisem to, co przeczytano, i nie ma jak skłamać.
+Zdejmuje to z tego pliku drugą kopię tego, co kompilator wie o szyku i o formach,
+a płaci wypisaniem kandydatów, czyli tym, co skład i tak robi.
+Jest to ten sam chwyt, którym mierzy
+[przegląd](#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być):
+formy nie zgaduje się z drzewa, tylko wypisuje się je i porównuje.
+
+**Jedno czytanie wraca kilkoma drzewami**, a mnoży je to, o czym napis milczy.
+Relacja okolicznika jest kategorią dziedziny, a w napisie stoi przyimek,
+więc `w piwnicy` wraca i relacją miejsca, i relacją czasu,
+a relacją celu nie wraca, bo ta żąda biernika, którego w napisie nie ma.
+Znacznik tematu jest drugą taką rzeczą: postawiony tam,
+gdzie konstytuent i tak stoi, nie przestawia niczego,
+a jest tym, co autor napisał.
+Odpowiedzią jest więc lista drzew, a nie wybór między nimi,
+bo wybierać musiałby ranking, a czy go budować,
+trzyma [`open-questions.md`](open-questions.md#the-round-trip-guarantee)
+jako pytanie otwarte.
+
+**Wartości bierze się z formy, a nie z wyprowadzenia, które zostało**,
+i żąda tego czytanie samo.
+Czytanie parsera jest swoim kształtem, a lematy i wartości cech
+są z niego wyłączone rozmyślnie, o czym mówi `signature` w `olski/parse.py`,
+więc dwa wyprowadzenia różniące się lematem są jednym czytaniem
+i to, które z nich w nim stoi, rozstrzygnęła kolejność.
+`Kot mieszka w piwnicy.` pokazuje cenę, jaką by to miało:
+w czytaniu, które zostaje, `Kot` jest nazwiskiem rodzaju żeńskiego,
+więc rozbiór czytający lemat z liścia wydałby drzewo o kimś innym,
+a liczby nie wydałby wcale.
+Pytana jest zatem krawędź grafu segmentacji, czyli wszystkie czytania formy,
+a zdanie to wraca oboma drzewami.
+Jest to jedno miejsce, w którym pojęcie jednego czytania po tamtej stronie
+jest grubsze niż to, czego ten zapis potrzebuje,
+i płaci się za to wyliczaniem, a nie zmianą tamtego pojęcia:
+lemat wpuszczony do sygnatury czytania odrzuciłby prawie całą polszczyznę,
+i mówi to tamten docstring wprost.
+
+Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
+Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
+okoliczności przy orzeczeniu imiennym
+oraz wyrażenia przyimkowego pod grupą imienną ten zapis nie ma czym powiedzieć.
+Przymiotnik po rzeczowniku kategorię ma, a wraca z niej inny szyk,
+bo `Jaki` stawia go przed rzeczownikiem zawsze,
+i to jest ta [dziura wewnątrz grupy imiennej](#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
+zmierzona z drugiej strony: `zwykły tekst polski` z README nie wraca niczym.
+Leksem jest trzecią, bo nazwa w drzewie jest nazwą, którą wybrał autor,
+a rozbiór stawia lemat, więc `Rosół ma oka.` nie wraca:
+goła nazwa `oko` znaczy w tym repozytorium oko.
+
+Tożsamość wraca stamtąd, gdzie napis ją niesie, i tylko stamtąd.
+Niesie ją opuszczony podmiot, czyli to, czego w zdaniu nie ma,
+więc wewnątrz jednego zdania rozbiór wie, że dwa zdarzenia mówią o jednej rzeczy,
+i wypuszcza `Postać`, żeby ten sam napis z tego drzewa wyszedł.
+Między zdaniami nie niesie jej nic i wtedy dwa wystąpienia lematu
+wracają jako dwie rzeczy, co jest tą samą granicą,
+którą [`Postać`](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie) zapisuje po drugiej stronie:
+tożsamość deklaruje autor.
+Dlatego porównanie stoi na `sygnatura`, a nie na równości drzew,
+i jest ono odpowiednikiem `signature` z `olski/parse.py`,
+czyli mówi, co czyni dwa drzewa tego zapisu jednym drzewem.
+Różnica jest jedna i jest nią właśnie tożsamość:
+wychodzi ona numerem nadanym po kolei, a nie obiektem,
+bo drzewo zbudowane z napisu nie ma jak dzielić obiektów z tym,
+z którego ten napis wyszedł.
+
+Przyłączenie widać na tym obiegu tak, jak je ten zapis rozstrzyga.
+`Program zapisuje ustawienia w repozytorium.` czyta się w olskim dwojako,
+bo wyrażenie przyimkowe dochodzi i do zdarzenia, i do rzeczy,
+a wraca z tego jedno czytanie, bo do rzeczy nie ma tu czym dojść.
+Jest to ta sama własność drzewa, na której stoi
+[przegląd](#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
+kiedy przyłączenia nie zgłasza.
+
 ## Checks that are cheap, deterministic, and explainable
 
 All finite-domain, all effectively linear time,
