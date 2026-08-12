@@ -344,7 +344,11 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   and an infinitive phrase is one of them,
   so `ma pomagać pisać` comes out of the two productions already there.
 - Noun phrases with an adjective before or after the noun,
-  a genitive modifier, or a prepositional modifier
+  a genitive modifier, or a prepositional modifier,
+  and an adjective after the noun with a genitive under it as well:
+  `dobrem wspólnym wszystkich obywateli`, which is how the register of statutes
+  names a term and then says whose it is
+  ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa))
 - Pronouns, and with them first and second person subjects.
   Person comes from the subject rather than being fixed at the third,
   so `Ja zapisuje plik.` is a disagreement
@@ -436,11 +440,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 293 | 110 | 12 622 |
-| zdaniowy | 307 | 110 | 12 608 |
-| imienny | 301 | 115 | 12 609 |
-| przymiotnikowy | 293 | 110 | 12 622 |
-| wszystkie trzy | 315 | 115 | 12 595 |
+| bez przecinka | 296 | 114 | 12 615 |
+| zdaniowy | 310 | 114 | 12 601 |
+| imienny | 304 | 119 | 12 602 |
+| przymiotnikowy | 296 | 114 | 12 615 |
+| wszystkie trzy | 318 | 119 | 12 588 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -512,8 +516,10 @@ Drugiego z nich polszczyzna nie ma.
 Zaimek rzeczowny stoi za przyimkiem i przy czasowniku — `do tego`, `tego nie wiem` —
 a dopełniacza po sobie nie bierze,
 więc nie jest to wieloznaczność, którą czytelnik ma rozstrzygać.
-Warunek stoi więc w tej jednej pozycji tej jednej produkcji:
-głowa z dopełniaczem po niej nie jest zaimkiem rzeczownym.
+Warunek obejmuje więc każdą głowę, która rządzi dopełniaczem,
+i mówi tyle: taka głowa nie jest zaimkiem rzeczownym.
+Produkcji z nią jest cztery, bo pod głową może stać jeszcze przymiotnik,
+wyrażenie przyimkowe albo jedno i drugie.
 Gdzie indziej czytanie zostaje, bo gdzie indziej jest tym, czym w polszczyźnie jest.
 
 Jest to pierwszy warunek ujemny w tej gramatyce i lemat jest tym,
@@ -535,6 +541,10 @@ Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdan
 bo tam każda forma ma jedno czytanie wybrane przez człowieka.
 Pod Morfeuszem [warunek podnosi liczbę zdań przyjętych](corpus.md#what-morphological-ambiguity-costs),
 a jedyne zdanie, które odrzuca, stało na frazie, której polszczyzna nie ma.
+Cała ta cena idzie na dwie z tych czterech produkcji, te bez przymiotnika:
+na pozostałych dwóch warunek nie rusza ani jednego zdania żadnego z korpusów,
+bo `to` z przymiotnikiem i dopełniaczem pod nim nie pojawia się w nich ani razu.
+Jest tam więc z wywodu, a nie z pomiaru.
 
 ## Walencja jest leksykonem o ramie domyślnej
 
@@ -749,8 +759,8 @@ a nie na ramie.
 
 ## What it does not cover yet
 
-Each of these is a sentence that gets rejected
-and should not be:
+Each of these is a sentence that gets rejected and should not be,
+except subordination, which gets accepted and should not be:
 
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
@@ -762,7 +772,16 @@ and should not be:
 - The past tense, which
   [corpus.md](corpus.md#where-the-analyses-stop)
   ranks as the cheapest large gain left.
-- Subordination with `że` and `który`.
+- Subordination with `że` and `który`, which is not merely missing.
+  A `który` clause after a comma derives as a coordination of clauses,
+  the comma being admitted at that level
+  ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
+  so `Ustawy określają, które zadania gminy mają charakter obowiązkowy.`
+  comes back valid with `które zadania gminy` for the subject of a second clause.
+  One reading, confidently wrong, is worse than a refusal,
+  and it is what admitting the comma without subordination buys:
+  [ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
+  found one such sentence counted as coverage.
 - Negation and the genitive of negation.
 - Numerals, which are common
   and are their own self-contained problem.
@@ -950,16 +969,23 @@ i każda z nich jest zwyczajną polszczyzną:
   (`Wejściem w tym trybie jest zwykły tekst.`)
 - przed dopełnieniem, wewnątrz orzeczenia
   (`Program zapisuje w pliku ustawienia.`)
-- po rzeczowniku, który już ma przy sobie przymiotnik albo dopełniacz
-  (`akcja zbrojna w Strefie Gazy`),
+- po rzeczowniku, który już ma przy sobie przymiotnik, dopełniacz albo oba
+  (`akcja zbrojna w Strefie Gazy`, `zadania ochrony ludności w gminie`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
 
-Wierszy jest sześć, a produkcji dwadzieścia jeden,
+Wierszy jest sześć, a produkcji dwadzieścia dwie,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Liczy się je tak, jak się je zdejmuje:
-produkcja, w której okolicznik stoi obok czegoś jeszcze,
-albo w której wyrażenie dochodzi do frazy, co już coś przy sobie ma.
+Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
+Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
+w tym obok drugiego okolicznika,
+oraz ta, w której `Modifier` dochodzi do głowy mającej już przydawkę
+albo do imiesłowu.
+Nie wchodzi `NPConjunct → subst Modifier`, czyli naga głowa z okolicznikiem:
+jest to sama grupa imienna z wyrażeniem przyimkowym,
+a nie drugie miejsce, w którym to wyrażenie się mieści.
+Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokumentach,
+a policzyć ją drugi raz można tylko wtedy, gdy wiadomo, co się liczy.
 
 Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
 i nie jest to zdanie odrzucone.
@@ -974,7 +1000,7 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dziewiętnaście zdań,
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dwadzieścia zdań,
 a z nimi jedno, i to jedno nie jest wyborem, którego olski dokonał.
 Liczby trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).
