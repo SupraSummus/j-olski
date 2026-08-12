@@ -243,9 +243,8 @@ nie odbiera nad Składnicą ani jednego zdania już przyjętego
 i dokłada dwadzieścia dwa nowe,
 co wraz z tabelą i poleceniem trzyma
 [subset.md](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania).
-Kryterium wyjścia toru nie ruszyła:
-nad README nie zmienia ani jednego werdyktu,
-bo zdanie z przecinkiem niesie tam także zdanie podrzędne.
+Kryterium wyjścia toru ruszyła o dwa zdania, oba na poziomie zdaniowym,
+a reszta zdań z przecinkiem niesie nad README także zdanie podrzędne.
 Podrzędność jest więc tym, na czym ten etap stoi,
 i wobec kryterium wyjścia pozycją najdroższą i nie do ominięcia,
 bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.

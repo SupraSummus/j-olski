@@ -430,13 +430,13 @@ python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 43 zdania.
+Proza README ma 44 zdania.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
 a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Wszystkie 43 dostają od obu programów ten sam werdykt i tę samą liczbę czytań,
+Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 42 z nich,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -444,11 +444,20 @@ wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
+Pozostałe dwa rozchodzą się na przecinku.
+`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
+wychodzi w olskim jednym czytaniem,
+`Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` czterema,
+a sonda odrzuca oba, bo przecinka nie ma do czego przyłączyć.
+Granica biegnie więc tam, gdzie olski bierze
+[przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+a sonda po swojej stronie ma spójnik.
+
 Ten pomiar mówi mniej, niż mówił, i nie dlatego, że któryś program się zmienił.
 Zdanie, którego rozbiór zajmował ponad pięć sekund,
 oraz dwa, o które oba programy się spierały,
 stały w tej połowie README, którą zdjęło wycofanie toru linterowego,
-więc zgodność jest teraz pełna nad tekstem, który ma mniej okazji ją złamać.
+a te dwa, które spór przywróciły, dopisała zmiana w tej samej prozie.
 Tak właśnie kosztuje figura brana nad własną prozą,
 przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.

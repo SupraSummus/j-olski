@@ -276,6 +276,31 @@ Waga wpisu spadła razem z torem, który tę sondę zamawiał:
 figura, którą on prostuje, jest teraz częścią zapisu o czymś wycofanym,
 a nie liczbą, na której coś stoi.
 
+`Cena trzecia` w
+[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
+opiera się na zdaniu, którego README nie ma.
+Cytuje `Zbiór tekstów przechodzących przez wszystkie reguły
+jest podzbiorem polszczyzny w jednym i w drugim przypadku`
+i liczy je ponad sześć sekund,
+a README niesie to zdanie z drugim członem,
+`a wyznaczenie go przez wykluczanie jest nieporównanie tańsze`,
+którego słów sonda nie przyłącza:
+dziedziny przycinają się wcześnie
+i cały plik kończy się najwolniejszym czasem poniżej dziesiątej części sekundy.
+Sam cytat podany przez `-c` liczy się ponad osiem sekund,
+więc zjawisko zostaje, a przykład z tego pliku wyszedł.
+Rozjeżdża się razem z nim drugie zdanie tamtego akapitu:
+mówi ono o `dokładnie jednym` zdaniu odrzuconym bez ani jednej formy spoza produkcji,
+gdzie [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) liczy takich pięć.
+Do przeczytania jest ten akapit obok `python3 -m sonda proza/README.txt`
+i tego samego zdania podanego przez `-c`.
+Ruchem jest albo zdanie, które README naprawdę ma i które ten czas pokazuje,
+albo powiedzenie tej ceny bez zdania z tego pliku.
+Liczby w tamtym akapicie zostały nieprzeliczone razem z resztą,
+bo przeliczenie jednej z nich w wywodzie bez dowodu czyta się jak uzgodnienie.
+Wpisu o figurach nad własną prozą to nie zamyka:
+tamten pyta, czy mianownik w ogóle zapisywać.
+
 ## Korpusy, ekstrakcja i figury
 
 Nothing in the harness says which construct a finding came out of,

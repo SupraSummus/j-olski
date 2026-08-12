@@ -181,11 +181,12 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Four sentences of that README derive once, and one derives twice.
+Five sentences of that README derive once, and two derive twice.
 What stops the rest is the table above in another order:
 adverbs and the colon level at the front, subordinators just behind them,
-then the Polish form Morfeusz does not know,
-then the past tense and numerals, and gerunds last.
+then numerals,
+then the Polish form Morfeusz does not know and the past tense,
+and gerunds last.
 That order is read off the words the run names,
 which is a classification by hand rather than a second command.
 The comma stands in neither ranking, the grammar having it,
@@ -224,11 +225,10 @@ is not read off the rows and gets measured when they are written.
 Where a sentence carries one class alone, the list still does not settle it,
 because a sentence can also fail on the shape its words are in.
 Five of the rejected sentences fail that way and carry no unlicensed word at all,
-and one class carries three sentences of its own —
-`Teraz.`, `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.`
+and one class carries two sentences of its own —
+`Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.`
 and the sentence about what a past tense and a dropped subject come from
-are stopped by an adverb and by nothing else,
-while the first has no verb for a clause to be built around.
+are stopped by an adverb and by nothing else.
 The exception below is the one where a single class really is the whole of it.
 
 `Działają dwie rzeczy` needs the numeral and nothing else.
@@ -265,11 +265,11 @@ The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
 reaches the grammar as one indeclinable noun rather than as five segments
 ([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
-and two of the four sentences accepted here rest on it,
-as does the one that derives twice.
+and two of the five sentences accepted here rest on it,
+as do both of the two that derive twice.
 What is left is the inflected Polish word Morfeusz lacks —
 `commitów`, `Pythonem` —
-which is the class ranked second above.
+which is the class the ordering above puts behind the numerals.
 That the notation had to be found here rather than in the treebank
 is the register difference in one figure:
 eight tokens of it occur in these 13,025 sentences,

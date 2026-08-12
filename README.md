@@ -46,9 +46,9 @@ granicę widać w odpowiedzi, a nie tylko w tym, że odpowiedzi nie ma.
 
 ## Kierunek
 
-**Teraz.** Gramatyka zaprojektowanego podzbioru polszczyzny,
-a przy niej kalambur: *skład* obok *składni*.
-Cel ma jeden i jest nim ten plik:
+Tory są dwa: gramatyka zaprojektowanego podzbioru polszczyzny
+i skład, nazwany kalamburem od *składni*.
+Cel mają jeden i jest nim ten plik:
 gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu,
 a skład tak długo, aż każde jego zdanie wypuści z drzewa.
 Celem nie jest sam formalizm:
@@ -73,7 +73,9 @@ rozkłada się na kilka czytań, a dwa z nich mówią rzecz przeciwną,
 więc olski to zdanie odrzuca.
 
 ```sh
-python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings
+python3 -m olski.check --readings -c "Zapisz plik konfiguracyjny.
+Koszt samej szynki przewyższa koszt szynki z dodatkami.
+Nowa program zapisuje ustawienia."
 ```
 
 ```text
@@ -82,9 +84,20 @@ python3 -m olski.check -c "Zapisz plik konfiguracyjny." --readings
                   - Object: plik konfiguracyjny, Verb: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
                   6 readings, differing in Modifier, Object, Subject
+                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → szynki
+                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt szynki
+                  - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → Koszt samej szynki przewyższa koszt szynki
+                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → szynki
+                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt szynki
+                  - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → Koszt samej szynki przewyższa koszt szynki
 <text>: rejected  Nowa program zapisuje ustawienia.
                   no reading: nothing in olski derives this
+1 of 3 sentences are olski
 ```
+
+Czytania szynki różnią się szykiem i tym, do czego dochodzi `z dodatkami`.
+Pierwsze i czwarte dzieli sam szyk,
+a podmiot jednego jest dopełnieniem drugiego.
 
 Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim:
 `Nowa program` nie ma wyprowadzenia,
@@ -93,15 +106,16 @@ Co gramatyka obejmuje, czego nie obejmuje
 i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku,
 mówi [docs/subset.md](docs/subset.md).
 
-To, co zamienia korpus w Markdownie w prozę,
-którą gramatyka umie czytać, stoi obok niej, a nie w niej:
+Ekstrakcja zamienia korpus w Markdownie w prozę
+i jest krokiem przed gramatyką, a nie jej częścią:
 
 ```sh
 python3 -m harness.markdown korpus/ --into proza/
+python3 -m olski.check proza/*.txt
 ```
 
-Właścicielem tego, co ten krok zmyśla,
-jest [docs/extraction.md](docs/extraction.md).
+Co ekstrakcja po drodze zmyśla,
+mówi [docs/extraction.md](docs/extraction.md).
 
 Tą samą drogą dochodzi ustawa, tylko że nie akapitami,
 bo ustawa jest drzewem jednostek redakcyjnych, a nie ciągiem zdań:
