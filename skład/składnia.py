@@ -20,12 +20,14 @@ Drzewo mówi, co w zdaniu jest tematem, a co nowe, przez ``Wyróżnienie``,
 i dopiero z tego wychodzi kolejność, w której konstytuenty się wypisują.
 Czasownik przy tym nie rusza się nigdy,
 więc wyróżnienie przestawia to, co wokół niego stoi, a nie całe zdanie.
-Dwie kolejności dokładają do tego konstrukcje, w których autor nie wybiera.
+Trzy kolejności dokładają do tego konstrukcje, w których autor nie wybiera.
 Zaimek względny otwiera zdanie podrzędne zawsze,
 więc rzecz wskazana przez ``Opis`` staje w nim na czele, czymkolwiek w nim jest.
 Okoliczność wyrażona zdarzeniem staje na czele zdania,
 o ile pozwala na to jej spójnik, i mówi o tym leksykon,
 bo jest to fakt o słowie, a nie o zdaniu, w którym ono stoi.
+``Treść`` staje na końcu zdania, bo zdanie podrzędne wprowadzone przez ``że``
+stoi za całym zdaniem nadrzędnym i nie ma czym wyjść przed nie.
 
 Czego drzewo nie niesie, jest tu decyzją, a nie brakiem.
 Nie ma w nim przypadka, bo przypadek bierze się z pozycji.
@@ -43,7 +45,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
-from olski.walencja import bierze_bezokolicznik, bierze_biernik
+from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
 from skład.morfologia import odmień, rodzaj_rzeczownika
 from skład.przyimki import przypadek
 from skład.spójniki import staje_na_czele, wprowadza
@@ -222,6 +224,23 @@ def _sklej(kawałki: list[Kawałek]) -> Kawałek:
         napis += _rozdziela(poprzedni, kawałek) + kawałek.napis
         poprzedni = kawałek
     return Kawałek(napis, przed=kawałki[0].przed, po=kawałki[-1].po)
+
+
+def _podrzędne(słowo: str, zdanie, kontekst: Kontekst) -> Kawałek:
+    """Zdanie podrzędne wraz ze słowem, które je wprowadza, i przecinkami z obu stron.
+
+    Stoi w jednym miejscu, bo zdanie podrzędne oddziela się przecinkiem z każdej
+    strony, przy której coś stoi, i nie zależy to od tego, czym to zdanie jest
+    w zdaniu nadrzędnym: okoliczność wyrażona zdarzeniem i treść czyjejś wiedzy
+    piszą się tu identycznie i różnią się tylko słowem oraz pozycją.
+    Żądanie idzie z obu stron, a krańce zdania go nie spełniają.
+
+    Co zdanie podrzędne z tego kontekstu dziedziczy, a czego nie,
+    rozstrzyga ``Kontekst.podrzędne`` i rozstrzyga to samo dla każdego z nich.
+    """
+    return replace(
+        _sklej([Kawałek(słowo), zdanie.linearyzuj(kontekst.podrzędne())]), przed=True, po=True
+    )
 
 
 def wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
@@ -536,16 +555,9 @@ class Okolicznik(Wyróżnialne):
             raise PozaRamą(f"{self.słowo or 'sam narzędnik'} nie stoi w relacji {self.relacja}")
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
-        """Słowo wraz z tym, co po nim stoi, a przecinki jako żądanie z obu stron.
-
-        Zdanie podrzędne oddziela się przecinkiem z każdej strony, przy której
-        coś stoi, więc żąda go z obu, a krańce zdania żądania nie spełniają.
-        Co zdanie podrzędne z tego kontekstu dziedziczy, a czego nie,
-        rozstrzyga ``Kontekst.podrzędne`` i rozstrzyga to samo dla każdego z nich.
-        """
+        """Słowo wraz z tym, co po nim stoi: zdanie podrzędne albo grupa imienna."""
         if self.zdarzeniem:
-            sklejone = _sklej([Kawałek(self.słowo), self.co.linearyzuj(kontekst.podrzędne())])
-            return replace(sklejone, przed=True, po=True)
+            return _podrzędne(self.słowo, self.co, kontekst)
         grupa = wypisz(self.co, przypadek(self.słowo, self.relacja), kontekst)
         return _sklej([Kawałek(self.słowo), grupa]) if self.słowo else grupa
 
@@ -565,6 +577,45 @@ class Przysłówek(Wyróżnialne):
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         return Kawałek(odmień(self.lemat, "adv", degree="pos"))
+
+
+@dataclass(frozen=True)
+class Treść:
+    """To, co ktoś mówi, wie albo w co nie wierzy: zdarzenie jako uczestnik.
+
+    Kategorią dziedziny jest tu treść, a nie zdanie podrzędne,
+    i zawinięcie jest potrzebne, bo drzewo samo tej różnicy nie niesie.
+    ``V.chcieć(kot, V.spać(kot))`` i ``V.wiedzieć(kot, Treść(V.spać(kot)))``
+    stawiają pod czasownikiem to samo zdarzenie i mówią dwie różne rzeczy,
+    więc nie ma jak policzyć tego z tego, kto w zdarzeniu działa.
+    Po co ta kategoria jest opowieści, mówi ``docs/sklad.md``.
+
+    Zdaniem ta klasa nie jest, choć zdanie w sobie trzyma,
+    i jest to rozstrzygnięcie, a nie wygoda dziedziczenia.
+    Zdaniem jest to, co orzeka o kimś, a treść o nikim nie orzeka:
+    stoi w roli uczestnika i o tym, kto ją niesie, mówi czasownik nad nią.
+    Gdyby zdaniem była, ``Okolicznik`` wpuściłby ją tam, gdzie czeka na zdarzenie,
+    i wypuścił `gdy że`, czyli dwa spójniki jeden po drugim.
+
+    Pól ta klasa nie ma poza objętym zdaniem i każde z brakujących ma swój powód.
+    Kontroli nie ma czego zapisywać, bo zdanie podrzędne niesie podmiot własny,
+    a przeczenia tym bardziej: dopełniacz negacji przez tę pozycję nie sięga,
+    bo zdanie podrzędne rozdaje przypadki własne.
+    Idzie to samo z siebie, bo ``Kontekst.podrzędne`` nie przekazuje w dół
+    ani wykonawcy, ani przeczenia, i jest to ta sama metoda, która puszcza czas.
+    Wyróżnienia ta klasa nie przyjmuje, bo pozycję ma jedną i wziętą z polszczyzny,
+    a nie z tego, o czym zdanie jest; rozstrzyga o niej ``_miejsce`` niżej.
+    """
+
+    zdanie: Zdanie
+
+    #: Spójnik, którym polszczyzna wprowadza treść orzekaną wprost. Stoi tu stałą,
+    #: a nie w leksykonie jak słowo okoliczności, bo autor nie ma tu czego wybierać:
+    #: ``żeby`` mówi, że tak ma być, czyli jest inną kategorią, i trzyma to ``TODO.md``.
+    SŁOWO = "że"
+
+    def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
+        return _podrzędne(self.SŁOWO, self.zdanie, kontekst)
 
 
 def _goły(konstytuent):
@@ -602,11 +653,21 @@ def _miejsce(konstytuent, kontekst: Kontekst):
     bo o tym rozstrzyga leksykon, a nie autor:
     zdanie z ``więc`` na przodzie nie jest zdaniem o innym szyku,
     tylko zdaniem, którego polszczyzna nie ma.
+
+    Treść staje na końcu i też nie jest to wybór autora:
+    zdanie podrzędne wprowadzone przez ``że`` stoi za całym zdaniem nadrzędnym,
+    więc `Powiedział, że zszedł, wieczorem.` nie jest zdaniem o innej kolejności,
+    tylko zdaniem, którego polszczyzna nie ma.
+    Wychodzi to pozycją, a nie znakiem w napisie, i dzięki temu drzewo,
+    które za tym zdaniem stawia jeszcze remat, zgłasza się w ``_szyk``,
+    zamiast wypuścić tekst z konstytuentem za przecinkiem zamykającym.
     """
     goły = _goły(konstytuent)
     napisane = konstytuent.miejsce if isinstance(konstytuent, Wyróżnienie) else None
     if napisane == "czoło" and isinstance(goły, Okolicznik) and not goły.wysuwalna:
         raise PozaRamą(f"{goły.słowo} nie staje na czele")
+    if isinstance(goły, Treść):
+        return "koniec"
     if not _wskazany(konstytuent, kontekst):
         return napisane
     if napisane not in (None, "czoło"):
@@ -644,6 +705,8 @@ def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
     Wyróżnione miejsce bierze jeden konstytuent, bo na czele stoi jedna rzecz,
     więc drugi zgłasza się tak samo jak drugie dopełnienie w ``zdarzenie``:
     dwa tematy naraz są drzewem błędnym, a nie zdaniem o dziwnym szyku.
+    Zgłoszenie mówi o staniu, a nie o wyróżnieniu, bo część konstytuentów
+    dostaje to miejsce od ``_miejsce`` i autor nie napisał przy nich znacznika.
     """
     wyróżnione: dict[str, Kawałek] = {}
     środek: list[Kawałek] = []
@@ -652,7 +715,7 @@ def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
             środek.append(kawałek)
             continue
         if miejsce in wyróżnione:
-            raise PozaRamą(f"dwa konstytuenty wyróżnione jako {miejsce}")
+            raise PozaRamą(f"dwa konstytuenty stają jako {miejsce}")
         wyróżnione[miejsce] = kawałek
     kolejność = (wyróżnione.get("czoło"), *środek, wyróżnione.get("koniec"))
     return _sklej([część for część in kolejność if część is not None])
@@ -664,8 +727,16 @@ def _zdania_pod(konstytuent):
     Schodzi tak głęboko jak ``_wskazany``, czyli do roli i do roli pod przyimkiem,
     i z tego samego powodu: głębiej zdanie podrzędne nie ma po co stać,
     bo nie ma stamtąd jak nic wyprowadzić.
+
+    Treść wchodzi tędy tak samo jak okoliczność wyrażona zdarzeniem,
+    bo jej podmiot jest kimś, na kogo czytelnik trafia:
+    `Wiedział, że skrzynia stała w piwnicy.` odbiera zdaniu obok opuszczenie
+    dokładnie tak, jak odbiera je to samo zdarzenie postawione pod ``bo``.
     """
     goły = _goły(konstytuent)
+    if isinstance(goły, Treść):
+        yield goły.zdanie
+        return
     if isinstance(goły, Okolicznik):
         if goły.zdarzeniem:
             yield goły.co
@@ -818,13 +889,19 @@ class Robi(Zdanie):
     mówią, co zaczął, a różnią się tym, czy zaczął rzecz, czy zdarzenie.
     Że wychodzi z tego raz biernik, a raz bezokolicznik bez podmiotu,
     rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
+    Trzecią rzeczą, która tam stoi, jest ``Treść`` wyżej,
+    czyli zdarzenie, o którym podmiot coś orzeka, zamiast je wykonywać.
 
-    Pytany o oba jest leksykon walencyjny, bo oba są pozycjami ramy:
-    czy ten czasownik bierze dopełnienie w bierniku
-    i czy bierze bezokolicznik, którego wykonawcą jest jego własny podmiot.
+    Pytany o wszystkie trzy jest leksykon walencyjny, bo wszystkie są pozycjami ramy:
+    czy ten czasownik bierze dopełnienie w bierniku,
+    czy bierze bezokolicznik, którego wykonawcą jest jego własny podmiot,
+    i czy bierze zdanie podrzędne.
     Pytany jest ten sam plik, o który pyta parser po drugiej stronie,
     bo rama jest faktem o słowie, a nie o kierunku;
     ``olski/walencja.py`` czyta go dla obu i trzyma wywód.
+    Ostatnie z tych pytań waży najwięcej przy czasowniku, który bierze i biernik:
+    ``zamykać`` biernik bierze, a `Zamykał, że okno stało.` nie jest zdaniem,
+    i to leksykon jest jedyną rzeczą, która te dwa czasowniki rozdziela.
 
     Sprawca bezokolicznika stoi w drzewie, a nie w leksykonie,
     i jest nim ta sama zmienna postawiona dwa razy, jak w ``Opis`` i w ``Postać``.
@@ -847,13 +924,16 @@ class Robi(Zdanie):
 
     kto: Rola | Wyróżnienie
     czyn: str
-    co: Rola | Wyróżnienie | Zdanie | None = None
+    co: Rola | Wyróżnienie | Zdanie | Treść | None = None
     okoliczniki: tuple = ()
     przeczenie: bool = False
 
     def __post_init__(self) -> None:
         dopełnienie = _goły(self.co)
-        if isinstance(dopełnienie, Zdanie):
+        if isinstance(dopełnienie, Treść):
+            if not bierze_zdanie(self.czyn):
+                raise PozaRamą(f"{self.czyn} nie bierze zdania podrzędnego")
+        elif isinstance(dopełnienie, Zdanie):
             if not bierze_bezokolicznik(self.czyn):
                 raise PozaRamą(f"{self.czyn} nie bierze bezokolicznika")
             if any(sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy):
@@ -881,7 +961,11 @@ class Robi(Zdanie):
         return (self.kto, *dopełnienie, *self.okoliczniki)
 
     def _dopełnienie(self, kontekst: Kontekst) -> Kawałek:
-        """Dopełnienie wypisane jako grupa imienna albo jako bezokolicznik.
+        """Dopełnienie wypisane jako grupa imienna, bezokolicznik albo treść.
+
+        Treść wypisuje się sama i nie dostaje stąd nic ponad to,
+        co ``Kontekst.podrzędne`` daje każdemu zdaniu podrzędnemu,
+        bo ma podmiot własny i własne przypadki.
 
         Zdarzenie dostaje kontekst zdania podrzędnego wraz z dwiema rzeczami,
         których to zdanie o sobie nie wie i wiedzieć nie może.
@@ -890,8 +974,13 @@ class Robi(Zdanie):
         Przeczenie idzie tą samą drogą, bo dopełniacz negacji sięga przez bezokolicznik:
         `Nie chciał wynieść lustra.` przeczy raz, a przypadek zmienia o piętro niżej,
         i dlatego jedno przeczenie liczy się tu z dwóch pięter naraz.
+        Treść tej drogi nie ma i to jest cała różnica między tymi dwiema pozycjami:
+        `Nie wierzył, że wyniosła kufer.` przeczy jednemu czasownikowi,
+        a drugi zostaje przy swoim bierniku.
         """
         dopełnienie = _goły(self.co)
+        if isinstance(dopełnienie, Treść):
+            return dopełnienie.linearyzuj(kontekst)
         if isinstance(dopełnienie, Zdanie):
             return dopełnienie.linearyzuj(
                 replace(

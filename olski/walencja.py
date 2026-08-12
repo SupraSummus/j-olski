@@ -19,12 +19,15 @@ miałby ``być`` za czasownik biorący biernik
 i wypuszczałby ``Program jest ustawienia.``
 
 Wspólny jest też plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, a bezokolicznik czyta na razie sam skład,
+Biernik czytają oba kierunki, a bezokolicznik oraz zdanie podrzędne
+czyta na razie sam skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co on komu kupuje:
 po stronie generatora jest jedyną obroną przed drzewem żądającym
 bezokolicznika od czasownika, który go nie bierze,
 a po stronie parsera został zmierzony i nie kupił ani jednej jednoznaczności;
 liczby trzyma docs/subset.md.
+Zdania podrzędnego gramatyka podzbioru nie ma wcale,
+więc po tamtej stronie nie ma dla niego nawet pozycji, o którą by pytał.
 
 Zbiory są dwa, bo forma z cząstką ``się`` jest innym czasownikiem:
 ``otwierać`` bierze dopełnienie w bierniku, a ``otwierać się`` go nie bierze,
@@ -50,6 +53,7 @@ LEKSYKON = Path(__file__).parent / "leksykon.txt"
 #: a plik czytają oba kierunki i one nie mają po co importować narzędzia.
 NIE_BIERZE_BIERNIKA = "nie_bierze_biernika"
 BIERZE_BEZOKOLICZNIK = "bierze_bezokolicznik"
+BIERZE_ZDANIE = "bierze_zdanie"
 
 
 def _czytaj(path: Path) -> dict[str, dict[bool, frozenset[str]]]:
@@ -90,6 +94,10 @@ BEZ_BIERNIKA_ZWROTNE = _lematy(NIE_BIERZE_BIERNIKA, zwrotny=True)
 #: bo cząstki ``się`` nie ma czym zapisać po tej stronie, a parser tego zdania nie czyta.
 Z_BEZOKOLICZNIKIEM = _lematy(BIERZE_BEZOKOLICZNIK, zwrotny=False)
 
+#: Lematy ze zdaniem podrzędnym wprowadzonym przez ``że``. Formy zwrotnej ta strona
+#: nie ma czym zapisać, tak samo jak przy bezokoliczniku, więc zbiór jest jeden.
+ZE_ZDANIEM = _lematy(BIERZE_ZDANIE, zwrotny=False)
+
 
 def bierze_biernik(lemat: str) -> bool:
     """Czy czasownik bez cząstki ``się`` weźmie dopełnienie w bierniku.
@@ -121,3 +129,16 @@ def bierze_bezokolicznik(lemat: str) -> bool:
     bo celownika w niej nie ma.
     """
     return lemat in Z_BEZOKOLICZNIKIEM
+
+
+def bierze_zdanie(lemat: str) -> bool:
+    """Czy czasownik weźmie zdanie podrzędne wprowadzone przez ``że``.
+
+    Domyślność jest ta sama co przy bezokoliczniku i z tego samego powodu:
+    rama domyślna takiej pozycji nie ma, więc milczenie o lemacie odmawia.
+
+    O kontrolę to pytanie nie pyta i pytać nie ma czego:
+    zdanie podrzędne niesie własny podmiot, więc nie ma tu nikogo,
+    kogo czasownik nad nim musiałby wskazać.
+    """
+    return lemat in ZE_ZDANIEM

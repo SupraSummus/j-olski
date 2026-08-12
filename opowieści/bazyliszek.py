@@ -14,11 +14,18 @@ Zakończenie, które nie mówi, o czym opowieść była, jest w niej wyborem,
 a nie tym, co po skracaniu zostało,
 i katalog, z którego ten wybór wyszedł, trzyma ``docs/fiction.md``.
 
-Dwie rzeczy w tej wersji niesie sama wola, a nie zdanie o kimś.
-Córka krawca chce wynieść kufer i to jest jej powód zejścia,
-a czeladnik chce zejść tam, gdzie nie chce zejść nikt,
-i to jest wszystko, co opowieść mówi o tym, jaki jest.
-Czasownik ``wynieść`` domyka przy tym opowieść:
+Pierwszy akapit orzeka trzy rzeczy, a każda z nich wraca potem w innym akapicie,
+i to jest cała budowa tej wersji.
+Córka krawca nie wierzy w bazyliszka i schodzi po kufer ojca;
+czeladnik wie o kamiennych postaciach i schodzi po nią z lustrem;
+a trzecie zdanie, o wzroku potwora, wraca na końcu przeciw temu, do kogo należał.
+Widać to w tym pliku po tym, co stoi w nim dwa razy:
+``mieszka_w_piwnicy`` i ``stoją_pod_ścianą`` są zdaniami akapitu pierwszego
+postawionymi drugi raz pod ``Treść``, czyli tam, gdzie ktoś o świecie coś sądzi.
+O żadnej postaci opowieść nie mówi przy tym, jaka jest ani co czuje:
+to, w co jedna nie wierzy, a druga wie, jest wszystkim, co o nich obu podaje.
+
+Czasownik ``wynieść`` domyka ją drugą klamrą:
 otwiera ją rzecz, którą ktoś chciał wynieść, a zamyka rzecz, której nikt nie wyniósł.
 
 Po co ten plik jest, mówi ``opowieści/__init__.py``,
@@ -39,6 +46,7 @@ from skład.słownik import (
     R,
     Skutek,
     Skąd,
+    Treść,
     V,
     nie,
     opis,
@@ -50,7 +58,7 @@ from skład.słownik import (
 #: Tożsamość niesie sama zmienna, więc ``bazyliszek`` użyty niżej dwa razy
 #: jest w obu miejscach jednym bazyliszkiem, a nie dwoma.
 #: Człowiekiem być przy tym nie trzeba: świeca zapalona i świeca zgasła
-#: są tą samą świecą, a kamienne postaci są jednym zbiorem widzianym dwa razy.
+#: są tą samą świecą, a kamienne postaci są jednym zbiorem widzianym trzy razy.
 bazyliszek = Postać(R.bazyliszek)
 mieszczanie = Postać(~R.mieszczanin)
 córka_krawca = Postać(R.córka / R.krawiec)
@@ -72,6 +80,16 @@ wzrok_potwora = R.wzrok / R.potwór
 nikt = R.nikt
 
 
+def mieszka_w_piwnicy(gdzie):
+    """Zdanie, którym opowieść się otwiera i w które córka krawca nie wierzy.
+
+    Wywołań jest dwa i drugie jest powodem, dla którego ona tam schodzi.
+    Miejsce jest argumentem, bo za pierwszym razem mówi, gdzie ta piwnica jest,
+    a za drugim tego nie powtarza: kamienica stoi już przed czytelnikiem.
+    """
+    return V.mieszkać(bazyliszek.remat, gdzie.temat)
+
+
 def zamienia_w_kamień(czyn, kto, kogo, *reszta):
     """Zdanie o tym, co obraca w kamień, i o tym, kogo obraca.
 
@@ -82,6 +100,16 @@ def zamienia_w_kamień(czyn, kto, kogo, *reszta):
     raz mowa o tym, co działo się stale, a raz o tym, co stało się raz.
     """
     return czyn(kto, kogo, Dokąd.w(R.kamień), *reszta)
+
+
+def stoją_pod_ścianą(kto):
+    """Zdanie, którym akapit pierwszy się zamyka i które czeladnik wie.
+
+    Wywołań jest dwa i drugie jest powodem, dla którego on bierze lustro.
+    Za pierwszym razem stoi w nim rzecz wskazana zdaniem, a za drugim goła,
+    bo o tym, że nikt tych postaci nie liczył, opowieść mówi raz.
+    """
+    return V.stać(kto.remat, Gdzie.pod(R.ściana).temat)
 
 
 def schodzi_do_piwnicy(kto):
@@ -125,23 +153,21 @@ def chce_zejść(kto):
 
 OPOWIEŚĆ = Opowieść(
     Akapit(
-        V.mieszkać(bazyliszek.remat, Gdzie.w(R.piwnica / (A.stary * R.kamienica)).temat),
+        mieszka_w_piwnicy(Gdzie.w(R.piwnica / (A.stary * R.kamienica))),
         zamienia_w_kamień(
             V.zamieniać,
             wzrok_potwora,
             ~R.człowiek,
             Skutek.więc(zabijają_wejście(~R.deska)),
         ),
-        V.stać(
-            opis(kamienne_postaci, nie(V.liczyć(nikt, kamienne_postaci))).remat,
-            Gdzie.pod(R.ściana).temat,
-        ),
+        stoją_pod_ścianą(opis(kamienne_postaci, nie(V.liczyć(nikt, kamienne_postaci)))),
     ),
     Akapit(
         V.chcieć(
             córka_krawca,
             V.wynieść(córka_krawca, (R.kufer / R.ojciec).remat, Skąd.z(R.piwnica)),
         ),
+        nie(V.wierzyć(córka_krawca, Treść(mieszka_w_piwnicy(Gdzie.w(R.piwnica))))),
         V.zapalić(córka_krawca, świeca, Kiedy.w(R.noc).temat),
         schodzi_do_piwnicy(córka_krawca),
         V.zgasnąć(świeca),
@@ -155,6 +181,7 @@ OPOWIEŚĆ = Opowieść(
     ),
     Akapit(
         V.znać(czeladnik, córka_krawca),
+        V.wiedzieć(czeladnik, Treść(stoją_pod_ścianą(kamienne_postaci))),
         chce_zejść(czeladnik),
         V.wziąć(
             czeladnik,

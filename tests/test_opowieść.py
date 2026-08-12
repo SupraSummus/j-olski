@@ -4,7 +4,20 @@ pytest.importorskip("morfeusz2")
 
 from opowieści.bazyliszek import OPOWIEŚĆ
 from skład import Akapit, Kontekst, Opowieść, Postać, PozaRamą, kompiluj
-from skład.słownik import A, Dlaczego, Gdzie, Kiedy, R, Skutek, V, jest, nie, opis, potem
+from skład.słownik import (
+    A,
+    Dlaczego,
+    Gdzie,
+    Kiedy,
+    R,
+    Skutek,
+    Treść,
+    V,
+    jest,
+    nie,
+    opis,
+    potem,
+)
 
 #: Tekst, który ma wyjść z drzew w ``opowieści/bazyliszek.py``, znak w znak.
 #: Pierwszy powstał tekst, a drzewa są tym, co go wypuszcza,
@@ -15,6 +28,7 @@ Wzrok potwora zamieniał ludzi w kamień, więc mieszczanie zabili okna i drzwi 
 Pod ścianą stały kamienne postaci, których nikt nie liczył.
 
 Córka krawca chciała wynieść z piwnicy kufer ojca. \
+Nie wierzyła, że w piwnicy mieszkał bazyliszek. \
 W nocy zapaliła świecę. \
 Podniosła deskę i zeszła po schodach. \
 Świeca zgasła. \
@@ -22,6 +36,7 @@ Córka krawca nie wróciła. \
 Rano mieszczanie stali przed kamienicą, bo nikt nie chciał zejść do piwnicy.
 
 Czeladnik znał córkę krawca. \
+Wiedział, że pod ścianą stały kamienne postaci. \
 Chciał zejść do piwnicy. \
 Wieczorem wziął z warsztatu duże lustro. \
 Podniósł deskę i zszedł po schodach. \
@@ -246,6 +261,29 @@ def test_podmiot_opisany_zdaniem_nie_znika_wraz_z_opisem():
         Akapit(V.zamykać(kot, R.okno), V.otwierać(opis(kot, V.spać(kot)), R.pudełko))
     )
     assert opowieść.kompiluj() == "Kot zamykał okno. Kot, który spał, otwierał pudełko."
+
+
+def test_podmiot_spod_treści_odbiera_zdaniu_obok_opuszczenie():
+    """Podmiot zdania podrzędnego jest kimś, na kogo czytelnik trafia.
+
+    Dwa akapity różnią się tym, co stoi pod ``Treść``, i tylko tym:
+    mysz nie odbiera kotu niczego, bo rodzaj ma inny,
+    a kufer odbiera mu formę męską, więc podmiot staje wypisany.
+    Jest to ten sam warunek, którym mierzy się okoliczność wyrażona zdarzeniem,
+    i stoi tu dlatego, że treść wchodzi do niego osobną drogą.
+    Czas idzie tą samą drogą i widać go tu przy okazji:
+    polszczyzna napisałaby `stoi` zamiast `stała`, bo liczy czas
+    względem zdania nad sobą, a trzyma to ``TODO.md``.
+    """
+
+    def wiedział(rzecz):
+        kot = Postać(R.kot)
+        return Opowieść(
+            Akapit(V.wiedzieć(kot, Treść(V.stać(rzecz))), V.zamykać(kot, R.okno))
+        ).kompiluj()
+
+    assert wiedział(R.mysz) == "Kot wiedział, że mysz stała. Zamykał okno."
+    assert wiedział(R.kufer) == "Kot wiedział, że kufer stał. Kot zamykał okno."
 
 
 def test_orzeczenie_imienne_opuszcza_podmiot_tak_samo_jak_zdanie_o_czynności():

@@ -766,7 +766,7 @@ Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
 i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
 gdy zwrotny jest bezokolicznik.
-Płaci za to [gramatyka](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego):
+Płaci za to [gramatyka](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego):
 zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
 a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
 więc parser tego zdania leksykonu nie czyta, choć skład je czyta,
@@ -780,7 +780,7 @@ Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
-[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego)
+[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
 bo `_slot_role` w `olski/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
@@ -929,25 +929,26 @@ tam wyróżnienie przestawia to, co i tak stało osobno,
 a tu przymiotnik postawiony po rzeczowniku zmienia znaczenie całej grupy,
 więc nazwa `temat` na to nie przystaje.
 
-Kolejne żądania legendy stoją w
-[`docs/sklad.md`](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)
-pod liczebnikami porządkowymi, a liczebnik jest złym kręgosłupem dla tej listy.
-Pozycje od `Pierwszym` do `Siódme` rozciągnęły tę sekcję na najdłuższą w pliku,
-a żądanie dopisane w środku każe przenumerować wszystko pod nim,
-choć kolejność nic tam nie niesie: nie jest ani czasem, ani wagą.
-Kręgosłup, który niesie coś, sekcja już znalazła i mówi o nim wprost:
-warstwa, która za żądanie zapłaciła.
-Jedne żądania zostały w składni, jedne zeszły o dwie warstwy niżej,
-do wyboru formy i do czytania cudzego słownika,
-a jedno zapłaciło samym zapisem, i to jest podział, który ta sekcja przy sobie robi
-zdaniem „dwa razy pod rząd nie jest zbiegiem”.
-Do przeczytania jest cała ta sekcja wraz z
-[etapem 5](docs/roadmap.md#etap-5-konstrukcje-których-żąda-readme),
-bo to on trzyma listę konstrukcji, a ta sekcja trzyma to, co je zamówiło,
-i przy podziale po warstwach te dwie listy przestają się mylić.
-Ruchem jest pogrupowanie akapitów po warstwie, która płaciła,
-i wyjęcie liczebników; wpisu żaden pomiar nie jest przy tym winien,
-bo nic pod tą sekcją nie stoi liczbą.
+Opowieść stawia jeden czas we wszystkich swoich orzeczeniach,
+a polszczyzna liczy czas zdania podrzędnego wobec zdania nad nim,
+więc `Wiedział, że pod ścianą stały postaci.` wychodzi tam,
+gdzie polszczyzna napisałaby `stoją`.
+Oba te zdania są polskie i mówią co innego,
+czyli brakuje tu kategorii dziedziny, a nie formy do policzenia:
+pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
+Widać to dopiero od [treści](docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
+bo okoliczność wyrażona zdarzeniem stoi obok zdarzenia nadrzędnego w czasie,
+a treść stoi pod nim, i tam czas przestaje być własnością samego opowiadania.
+Do przeczytania jest `CZASY` oraz `Kontekst` w `skład/składnia.py`
+wraz z tym, co [`docs/sklad.md`](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
+mówi o czasie jako własności tekstu,
+bo ta kategoria tego zdania nie odwołuje, tylko dokłada do niego drugie:
+czas opowiadania zostaje, a zdanie podrzędne dostaje go względem swojego zdania.
+Ruchem jest ta kategoria przy `Treść`,
+wraz z rozstrzygnięciem, czy jest ona tym samym co aspekt, czy czym innym,
+bo `stoją` i `stały` różnią się tu czasem, a nie dokonaniem.
+Do zmierzenia jest, ile zdań tej legendy wyszłoby wtedy inaczej,
+a jest ich dziś dwa i oba stoją pod `Treść`.
 
 Anafora sięga podmiotu i nic poza nim,
 a opowieść o bazyliszku pokazuje, gdzie to boli:
@@ -967,13 +968,37 @@ Do przeczytania jest też `pomijalny` w `skład/składnia.py`,
 który trzyma warunki [wąskiego opuszczania podmiotu](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm,
 wraz z [ceną tego ruchu](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy),
-która trzyma trzy rzeczy czyniące go innym, niż wygląda:
+która trzyma cztery rzeczy czyniące go innym, niż wygląda:
 ostrzejszy warunek na zaimek, szyk łączący go w jedną zmianę z
 [dopełnieniem wyrażonym zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
-i osobne miejsce zaimka dzierżawczego.
+osobne miejsce zaimka dzierżawczego,
+oraz podmiot zdania podrzędnego, który zaimka nie bierze wcale i stoi niżej.
 Do zmierzenia jest, czy pozycja zwalnia się w tej legendzie gdziekolwiek,
 a do rozstrzygnięcia, czy `swój` i `jego` są jedną kategorią, czy dwiema,
 bo pierwszy odsyła do podmiotu zdania, a drugi poza nie.
+
+Osobno stoi podmiot zdania podrzędnego, bo polszczyzna nie pisze tam zaimka,
+tylko go opuszcza, a `Kontekst.podrzędne` opuszczenie w dół nie przekazuje.
+Odbiera to legendzie zdanie, którego ona chce:
+`Czeladnik znał córkę krawca. Nie wiedział, że stała pod ścianą.`
+mówi, że on nie wiedział o niej, a nie o sobie, i mówi to samą formą,
+a wersja z wypisanym podmiotem powtarza `córkę krawca` w zdaniu obok.
+Pozycja jest tam wolna wedle warunku, który już stoi:
+`wiedzieć` rozdziela czeladnika od córki rodzajem, i `stać` rozdziela ich tak samo,
+więc oba opuszczenia mierzy dziś `pomijalny` i oba przechodzą.
+Brakuje zasięgu: dziś antecedensem jest podmiot zdania poprzedniego,
+a tu jest nim jego dopełnienie.
+Do rozstrzygnięcia jest, czy zasięg obejmuje też okoliczność wyrażoną zdarzeniem,
+i stoi za tym argument, którego treść nie ma:
+zdanie z `gdy` wysunięte na czoło stoi przed swoim antecedensem,
+więc opuszczenie w nim odsyłałoby wstecz do niczego,
+a treść stoi za zdaniem nadrzędnym zawsze.
+Do przeczytania jest `Kontekst.podrzędne` wraz z powodem,
+dla którego każde pole gaśnie tam osobno,
+bo ten ruch jednemu z nich ten powód odbiera.
+Ruchem jest antecedens liczony z uczestników zdania poprzedniego i nadrzędnego,
+a nie z samych ich podmiotów, wraz z testem na parę zdań,
+w której rodzaj tych dwóch ról jest wspólny, bo tam opuszczenie ma się nie stać.
 
 `Zdanie.podmioty` w `skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
 czyli tam, gdzie sięga `_wskazany`, a zdanie podrzędne stoi czasem głębiej:
@@ -987,7 +1012,7 @@ Ruchem jest zejście po całym drzewie roli zamiast po dwóch jego poziomach,
 i jest ono tańsze niż tamto, bo nie ma z niego nic do wyprowadzenia.
 
 Rama czasownika, o którą pyta `Robi` w `skład/składnia.py`,
-odpowiada na dwa pytania z listy: o biernik i o bezokolicznik,
+odpowiada na trzy pytania z listy: o biernik, o bezokolicznik i o zdanie podrzędne,
 więc rola w przypadku innym nie ma po tej stronie o co zapytać
 i nie ma jak stanąć w drzewie.
 Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy,
@@ -1000,6 +1025,11 @@ czyli mówi o nim prawdę i mówi ją w jedyny sposób, jaki ma.
 którego czasownik wymaga, a nie takiego, które autor dokłada jako okoliczność,
 i ta klasa jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
 czyli powie, że ktoś w coś wierzy tak, jak mówi się, że ktoś dokądś idzie.
+Czwarta wersja legendy obeszła to zdanie z drugiej strony,
+bo `nie wierzyła, że w piwnicy mieszkał bazyliszek` bierze
+[treść](docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)
+zamiast wyrażenia przyimkowego, a mówi to samo o postaci;
+klasa zostaje jednak w tej samej cenie, bo wiara w rzecz zdaniem podrzędnym nie wyjdzie.
 Czwarty koszt jest cichy i przez to najgorszy z nich:
 `chcieć` ma u Walentego i dopełniacz, i przypadek strukturalny,
 więc przechodzi tu przez pytanie o biernik i wypuszcza `Kot chce mysz.`,
@@ -1007,15 +1037,34 @@ czyli zdanie, którego polszczyzna woli nie mówić, a nikt tego nie zgłasza.
 Jedna pozycja znaczy tu więc nie tylko odmowę tam, gdzie brakuje przypadka,
 ale i wybór najgorszej z ram, które lemat ma.
 Do przeczytania jest `olski/walenty.py` wraz z tym,
-co [`docs/subset.md`](docs/subset.md#leksykon-mówi-dwa-zdania-na-lemat-i-bierze-je-z-walentego)
+co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
 mówi o tym, co ten przekład z Walentego bierze, a czego nie,
 bo Walenty niesie wszystkie te ramy i jest to jedna zmiana po obu stronach.
-Bezokolicznik pokazał przy tym, ile z tej zmiany jest już zrobione, a ile nie:
-przekład umie wziąć drugie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
-i mimo to każde nowe pytanie jest osobnym polem oraz osobną gałęzią w konstruktorze.
+Zdanie podrzędne dopisane po bezokoliczniku przesądziło ten wpis,
+bo pokazało, ile z tej zmiany jest zrobione, a ile nie:
+przekład umie wziąć trzecie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
+i mimo to każde nowe pytanie jest osobną gałęzią w konstruktorze,
+a `_dopełnienie` obok rozdziela dziś trzy kształty tam, gdzie rozdzielało dwa.
 Ruchem jest rama jako zbiór pozycji, a nie lista pytań,
 oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
 a nie po kategorii okoliczności.
+
+Treść bierze jeden spójnik i przez to jedną z dwóch rzeczy, które ta pozycja mówi.
+`że` orzeka, że tak jest, a `żeby` — że tak ma być,
+więc `Czeladnik chciał, żeby córka krawca wróciła.` z tego drzewa nie wyjdzie,
+choć jest to zdanie, którym polszczyzna mówi o cudzym zdarzeniu pod czyjąś wolą.
+Stoi to obok odmowy, którą `Robi` wydaje bezokolicznikowi o cudzym wykonawcy,
+i te dwie rzeczy są jedną dziurą widzianą z dwóch stron:
+[`docs/sklad.md`](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
+nazywa tamto zdanie polskim, którego bezokolicznik nie wyraża,
+a wyraża je dokładnie ta pozycja i ten drugi spójnik.
+Do przeczytania jest `cp(żeby)` obok `cp(że)` u Walentego,
+bo słownik te dwa kształty rozdziela i mówi, który lemat bierze który,
+oraz `Treść` w `skład/składnia.py`, gdzie spójnik stoi stałą.
+Ruchem jest kategoria dziedziny na to, czy treść jest orzekana, czy żądana,
+wraz z czwartym zdaniem leksykonu; wpis jest przez to winien
+przebieg `olski/walenty.py` oraz poprawkę liczb w
+[`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego).
 
 `Przysłówek` w `skład/składnia.py` żąda od słownika formy przysłówkowej,
 a część okoliczności polszczyzna wyraża partykułą:
@@ -1035,7 +1084,8 @@ bo przyłączenia zawęzić nie ma dziś czym.
 Okolicznik dochodzi w drzewie do zdarzenia zawsze,
 więc każde wyrażenie przyimkowe stojące za grupą imienną byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego:
-nad `opowieści/bazyliszek.py` trafiłby w kilka z dziewiętnastu zdań
+nad `opowieści/bazyliszek.py` trafiłby w trzynaście z dwudziestu jeden zdań,
+bo tyle z nich niesie wyrażenie przyimkowe,
 i żadne z tych zgłoszeń nie mówiłoby autorowi, co miałby z nim zrobić.
 Do przeczytania jest, czym się różnią te miejsca,
 oraz to, co [`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia)
