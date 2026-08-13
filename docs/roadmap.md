@@ -629,6 +629,14 @@ zdanie nie wie, kiedy to było, ani o kim mowa była przed chwilą.
 Wywód trzyma
 [sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
 
+Etapem nie jest wreszcie `skład/makieta.py`, czyli tekst do makiety losowany z drzew,
+bo kryterium tego toru mierzy zdanie napisane, a losowanie mierzy co innego:
+pokazuje, których faktów o polszczyźnie nie ma tu żaden leksykon,
+i pokazuje je dlatego, że autor drzewa wybiera je, nie zauważając, że wybrał.
+Cztery takie fakty wyszły z niego wprost do [`TODO.md`](../TODO.md),
+a wywód trzyma
+[sklad.md](sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
+
 ## Tor lintera jest wycofany
 
 Silnik reguł, pakiet typograficzny i polecenie, które je uruchamiało,

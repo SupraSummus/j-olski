@@ -166,7 +166,8 @@ Wchodzi w [sklad.md](sklad.md), a stamtąd w
 gramatyki po drodze nie potrzebuje, bo parser stoi tu świadkiem, a nie zależnością
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).
 W kodzie to `skład/składnia.py` i `skład/morfologia.py`,
-a tekstem, na którym widać, czego brakuje, jest `opowieści/bazyliszek.py`.
+a tekstem, na którym widać, czego brakuje, jest `opowieści/bazyliszek.py`;
+czego nie ma pod nim w żadnym leksykonie, pokazuje losowanie w `skład/makieta.py`.
 
 **Psuje ją** kategoria opisana słowem z rozbioru zdania,
 bo wtedy zapis, który miał mówić, o czym zdanie jest, mówi, jak zdanie stoi,

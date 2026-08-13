@@ -172,6 +172,26 @@ zmienna nazywa postać, funkcja jest wzorcem zdania albo akapitu,
 a lista wchodzi do zdania jako koordynacja.
 Całą legendę o bazyliszku warszawskim trzyma `opowieści/bazyliszek.py`.
 
+Tym samym kompilatorem wychodzi tekst do makiety,
+czyli to, po co zwykle sięga się do łacińskiej sieczki:
+
+```sh
+python3 -m skład.makieta --ziarno 1871 --akapity 1
+```
+
+```text
+Czeladnik zapłakał w wąskiej piwnicy. Próbował wrócić na ulicę. Sukno znalazło bochenki i nie stało w nocy. Czeladnik zasnął. Ponieważ córka zeszła od młodej wdowy, nie zamknął zegara. Sukno podniosło beczki i dużą skrzynię.
+```
+
+Losowane jest drzewo, a nie słowa wstawione w gotowe zdanie,
+więc zdania różnią się budową, a nie samymi lematami.
+Gramatyczności nie ma tu czym naruszyć, bo zgodność jest liczona po drodze,
+a jedyne, co losowanie odsiewa, to zdanie,
+z którego czytelnik nie odzyskałby ról.
+Czego takie losowanie zażądało od tego pakietu,
+a czego autor drzewa nie musiał nigdy napisać,
+mówi [docs/sklad.md](docs/sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
+
 Szyku wewnątrz grupy imiennej skład nie niesie, i to jest dziura w nim samym.
 Czego brakuje pod nim, w leksykonie i w formach, i w jakiej kolejności to dochodzi,
 mówi [docs/roadmap.md](docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
