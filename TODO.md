@@ -244,6 +244,25 @@ i nie broni niczego, czego by czytelnik nie zobaczył.
 Warte pisania są dwie rzeczy: podsumowanie, bo jest figurą, którą cytuje dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
+`sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
+liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
+czyli około stu osiemdziesięciu wierszy stojących drugi raz.
+Nie dało się ich wziąć stamtąd, bo `Sonda` w `ruch.py` składa wariant,
+zdejmując grupę produkcji, i ustawia warianty od najbiedniejszego,
+a warianty luki są bogatsze od mianownika i powstają przez przepisanie,
+więc `pytania` i `Raport._konkurencja` — dwa wiersze o tym,
+czy grupy wchodzą sobie w drogę — nad nimi nie znaczą nic.
+Ruchem jest `Sonda` biorąca gramatykę wariantu wprost, funkcją zamiast grupy,
+wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
+Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
+oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
+wiążącym wariant z grupą produkcji.
+Tej samej maszynerii żąda z drugiej strony wpis o figurach
+`docs/corpus.md` bez polecenia:
+tam wariantem są dwie gramatyki, a nie dwie morfologie,
+więc ten, kto podnosi którykolwiek z dwóch, wybiera kształt dla drugiego,
+i jest to jedna sesja.
+
 Klasa `verb` w `NOMINALIZATION` z `harness/endings.py`
 stoi przed każdą nominalną,
 co jest słuszne dla `zostanie` i niesłuszne dla `dacie`.
@@ -563,6 +582,46 @@ konstrukcja jest w rejestrze technicznym rzadka albo nieobecna,
 a w prozie literackiej Składnicy nie jest, i nikt nie policzył, ile jej tam.
 Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
+
+Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.
+Każde z dwunastu ciał `RelativeCore` z dopełnieniem ma w `olski/subset.py`
+wypisany `podmiot_względny`, więc `Dyrektor wymienia imprezy, które zorganizował.`
+nie wyprowadza się wcale, a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
+Nad Składnicą są to cztery zdania i wyszły one z
+[pomiaru luki](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze),
+który je kupił mimochodem, mierząc co innego:
+cechy przeciąganej te cztery zdania do kupienia nie potrzebują.
+Ruchem są ciała bez podmiotu obok tych z podmiotem,
+czyli to samo, co zdanie główne ma w `ClauseConjunct → Predicate`.
+Do przeczytania jest, ile ta pozycja dokłada wieloznaczności:
+zdanie względne bez podmiotu konkuruje z czytaniem, w którym podmiotem jest zaimek,
+a rodzina ta liczy piętnaście ciał i mnoży się przez szyk oraz przeczenie,
+więc pierwszym pytaniem jest, czy ciał ma być dwanaście nowych, czy mniej.
+Cenę i zakup bierze się sondą różnicową, tak jak przy każdym dopisaniu
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+a wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
+
+Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
+i na tym stanął pomiar cechy przeciąganej
+([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+`describe` w `olski/parse.py` nazywa rolę napisem wziętym ze zdania,
+więc werdykt wypisuje przy podmiocie napis pusty,
+a `agreement` w `olski/coverage.py` porównuje rozpiętości,
+więc rozpiętość pusta nie trafia w żadną złotą i liczy się jako niezgodna —
+wszystkie cztery zdania, jakie luka wyciągnęła ze Składnicy, wyszły tak,
+choć role widoczne mają dobre.
+Ruchem jest luka wskazująca zaimek, który ją wiąże, a nie miejsce, w którym stoi:
+etykieta roli nad zaimkiem, a nie nad pustym węzłem,
+czyli to, co bank drzew robi na tych zdaniach.
+Do rozstrzygnięcia jest, czy niesie ją produkcja, czy oba podsumowania,
+i różnicę robi to, że wybór po stronie gramatyki znosi te dwie ceny naraz,
+a wybór po stronie podsumowań zostawia las, w którym rola nie ma słowa.
+Do przeczytania jest przy tym `Node.span` w `olski/parse.py`,
+bo pole to wpisano pod produkcję o pustym ciele, a ta sonda jest jego pierwszym czytelnikiem.
+Nie zamyka tego wpisu cała cena: warunek precedencji na lukę pilnuje pozycji w ciele,
+a nie w napisie, więc zdanie zagnieżdżone dalej wychodzi dwoma kształtami,
+i tę resztę zamyka to samo rozdzielenie dominacji od precedencji,
+o które prosi wpis o szyku wypisanym w produkcjach.
 
 Zaimek `który` stoi w polszczyźnie w trzech konstrukcjach, a olski ma jedną.
 `RelativePronoun` w `olski/subset.py` bierze go na czele zdania względnego,
@@ -959,6 +1018,12 @@ więc każde ciało z dopełnieniem stoi w dwóch wersjach
 ([`docs/subset.md`](docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
 Preprocesor precedencji tego nie zdejmie, bo mnoży tu cecha, a nie kolejność,
 i jest to najbliższy przykład tego, co ten ruch zostawia po sobie.
+Drugim odbiorcą warunków precedencji jest luka, i on już czeka:
+[pomiar cechy przeciąganej](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
+pokazał, że luka bez takiego warunku odbiera jednoznaczność każdemu zdaniu względnemu,
+a warunek postawiony w ciele produkcji zdejmuje z tego tyle,
+ile pozycja w ciele mówi o pozycji w napisie, czyli nie wszystko.
+Preprocesor mówiący o napisie zdejmuje jedno i drugie naraz.
 Do przeczytania jest, co preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
 a próba nad prozą README stoi w `sonda/` gotowa do porównania,

@@ -488,6 +488,144 @@ Sonda liczy zakup razem z tymi blokerami po to,
 python3 -m sonda.nieciągłość Składnica-frazowa-180723/
 ```
 
+### Lukę zmierzono i olski jej nie bierze
+
+Rozwidlenie o przestawianiu zostawiło olskiego na szczeblu 2
+[drabiny](#the-cost-ladder),
+a maszynerii tego szczebla olski nie używa:
+cechy przeciąganej nie ma ani jedna produkcja.
+Pomiar wypadł tak samo jak przy nieciągłości:
+luka nie kupuje ani jednego zdania potwierdzonego bankiem drzew,
+a odbiera jednoznaczność zdaniom, które ją mają.
+Powodu nie ma jednak w drabinie.
+Jest nim to, że luka nie ma napisu.
+
+**Co luka miała kupić.**
+Zdanie względne wypisuje się rolą po roli:
+piętnaście ciał `RelativeCore` w `olski/subset.py`,
+po jednym na wysuniętą rolę razy szyk reszty zdania
+razy miejsce na okolicznik razy przeczenie,
+a role, które te ciała wypełniają, wywodzi
+[subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
+Każde ciało z wysuniętym dopełnieniem ma tam wypisany podmiot,
+a dopełnienie sięga tylko do formy osobowej,
+więc `Dyrektor wymienia imprezy, które zorganizował.`
+i `Ustawa, którą organ gminy może wydać, jest tania.` nie wyprowadzają się wcale.
+Cecha przeciągana zastępuje te ciała jedną produkcją:
+konstytuent ogłasza w cechach, czego mu w środku brakuje,
+luka jest produkcją o pustym ciele,
+a zdanie względne wiąże ją ze swoim zaimkiem.
+Zdanie względne dostaje wtedy każdy szyk i każde miejsce na okolicznik,
+jakie ma zdanie zwykłe, wraz z podmiotem opuszczonym i z wyjęciem z głębi,
+i oba te zdania przechodzą, każde jednym czytaniem.
+
+**Luka bez napisu nie ma czego przestawiać.**
+Ciało, które stawia ją między innym rodzeństwem, wydaje ten sam napis,
+a kształt inny, więc [jest to drugie czytanie](subset.md#co-się-liczy-jako-jedno-czytanie).
+`Reguła, która rozstrzyga, jest tania.` wychodzi dwoma czytaniami zamiast jednego,
+bo luka podmiotu wypada raz przed czasownikiem, a raz za nim;
+`Polszczyzna, którą ktoś napisał, jest trudna.` wychodzi trzema,
+a `Plik, który program zapisuje, jest konfiguracyjny.` sześcioma.
+Czytelnik ma w pierwszych dwóch zdaniach po jednym czytaniu, a w trzecim dwa,
+więc nadmiar bierze się w całości z miejsca, w które wypada luka.
+
+**Warunek precedencji na samą lukę odbiera większość tej ceny i nie całą.**
+Luka przypięta do pozycji swojej roli —
+podmiot na czele, dopełnienie tuż za czasownikiem, który je rządzi —
+oddaje pierwszym dwóm zdaniom po jednym czytaniu,
+a trzeciemu dwa, które polszczyzna ma:
+`który` jest tam i mianownikiem, i biernikiem,
+więc plik raz jest zapisywany, a raz zapisuje.
+Warunek pilnuje jednak pozycji w ciele produkcji,
+a pozycja w ciele przestaje być pozycją w napisie, kiedy zdanie się zagnieżdża.
+`Kwiaty otrzymali nauczyciele, którzy przed laty kształcili kolejarskich
+specjalistów.` wychodzi przez to dwoma czytaniami:
+okolicznik raz stoi w zdaniu za luką, a raz przed całym zdaniem z luką w środku.
+Streszczenia obu są znak w znak te same,
+więc werdykt melduje `2 readings` i nie nazywa ani jednej roli,
+czyli ten kształt wydruku, o którym [TODO.md](../TODO.md) pisze,
+że kanału na dwa czytania o jednym streszczeniu nie ma.
+
+**Kupuje przy tym jedną konstrukcję, a nie tę, po którą sięgano.**
+Nad 13 025 zdaniami Składnicy pod złotą morfologią
+luka przypięta wyciąga z odrzucenia cztery zdania,
+odbiera jednoznaczność dwóm
+i jedno przenosi z odrzucenia w wieloznaczność.
+Wszystkie cztery są zdaniem względnym z wysuniętym dopełnieniem
+i opuszczonym podmiotem — `Dyrektor wymienia imprezy, które zorganizował.` —
+a wyjęcia z głębi nie ma wśród nich ani jedno.
+Rejestr ustaw odpowiada mocniej: nad jego 4921 zdaniami
+([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza))
+luka nie wyciąga z odrzucenia ani jednego zdania i jedno kosztuje,
+a zdania o kształcie tamtej ustawy nie ma w tym rejestrze wcale
+([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
+Konstrukcja, dla której sięga się po szczebel 2, nie występuje więc
+w żadnym korpusie, jaki to repozytorium czyta,
+a kupione jest to, co przeciąganie daje mimochodem:
+zdanie składowe bez podmiotu.
+
+**Zakup jest przy tym zerem, bo bank drzew stawia tę rolę na zaimku.**
+Wszystkie cztery wyciągnięte olski czyta inaczej, niż czyta je drzewo wzorcowe,
+i czyta tak z samego mechanizmu:
+w `Myślę o tym człowieku, który mnie podglądał.`
+podmiotem wychodzi u niego rozpiętość pusta, a bank drzew wskazuje `który`.
+Role widoczne są przy tym dobre i o znaczeniu zdania luka nie kłamie:
+rozchodzi się drzewo, a nie odczyt.
+Rola wypełniona niczym nie jest jednak analizą, którą zatwierdził annotator,
+a [zdanie przeczytane odwrotnie zakupem nie
+jest](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+
+**Ostatnia cena idzie na wydruk i nie zdejmuje jej żaden warunek.**
+Streszczenie czytania nazywa rolę napisem wziętym ze zdania,
+a luka napisu nie ma, więc werdykt wypisuje przy podmiocie napis pusty.
+Tym samym płaci podłoże więzowe po zdjęciu spójności
+([sonda](#podłoże-więzowe-zmierzone-sondą)):
+lukę kupuje się na parserze, a płaci na wydruku.
+
+**Symboli nie ubywa.**
+`RelativeCore` schodzi z piętnastu ciał do dwóch,
+`ClauseConjunct` rośnie z dwudziestu dziewięciu do czterdziestu dwóch,
+bo przeciąganie żąda ciała na każdą córkę, która lukę unosi,
+i cała gramatyka rośnie ze 142 produkcji do 172.
+Drabina wycenia szczebel 2 na mnożenie się symboli i wycenia trafnie,
+tylko że mnożenie wypada na rodzinie zdaniowej, a nie na względnej.
+
+Parser nie kosztował ani jednej zmiany, i tyle drabina obiecała.
+Tablica Earleya przyjmuje produkcję o pustym ciele,
+a `Node.span` w `olski/parse.py` jest wpisywane przy budowaniu właśnie dlatego,
+że węzeł takiej produkcji nie ma dzieci, z których dałoby się rozpiętość wyliczyć.
+Cena szczebla 2 nie wypada więc w tym, co liczy rozbiór,
+a to jest ta sama obserwacja, którą robi
+[druga waluta](#the-second-currency-ambiguity) nad całą drabiną.
+
+Nad prozą README nie rusza się ani jeden werdykt,
+tak samo jak nie ruszyła go podrzędność,
+i mówi to o tym pliku to samo, co powiedziała ona
+([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
+Trzy rejestry, o które [kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
+każe pytać osobno, odpowiadają tu więc zgodnie, i to jest tu rzadkie.
+
+Wraca to rozwidlenie wtedy, gdy luka przestanie być węzłem o pustej rozpiętości,
+a zacznie wskazywać zaimek, który ją wiąże:
+zakup przestaje wtedy przeczyć bankowi drzew, a wydruk dostaje nazwę roli.
+Zostaje po tym ta reszta pierwszej ceny,
+której warunek precedencji nie zdjął.
+Ruch trzyma [TODO.md](../TODO.md),
+a zdanie składowe bez podmiotu stoi w nim osobno,
+bo tych czterech zdań luka do kupienia nie potrzebuje.
+
+Powtarzają ten pomiar te polecenia,
+a rejestr ustaw ściąga się tak, jak mówi
+[ustawy.md](ustawy.md#skąd-bierze-się-korpus):
+
+```sh
+python3 -m sonda.luka Składnica-frazowa-180723/
+python3 -m sonda.luka proza/README.txt
+cat proza/ustawy/*.txt > proza/ustawy-razem.txt
+python3 -m sonda.luka proza/ustawy-razem.txt
+python3 -m sonda.luka -c "Reguła, która rozstrzyga, jest tania."
+```
+
 ## Formalizm jest środkiem, a nie celem
 
 Drabina wycenia formalizmy i żadnego nie obiecuje.
