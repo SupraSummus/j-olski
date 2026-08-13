@@ -1089,9 +1089,33 @@ def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():
     #  Zdanie względne jest zdaniem, więc stoi wśród gospodarzy przyłączenia.
     #  Bez tego okolicznik z jego wnętrza wychodzi w górę do grupy imiennej,
     #  którą to zdanie określa, i werdykt nazywa poprzednik zamiast orzeczenia.
-    found = verdict("Reguła, która rozstrzyga o zdaniu, jest tania.")
-    assert found.status == "valid", found.explain()
-    assert found.readings[0]["Modifier"] == f"o zdaniu{PRZYŁĄCZONY_DO}rozstrzyga"
+    #  Widać to po wpisie o przyłączeniu, bo ten chodzi po lesie i granicy zdania
+    #  nie zna; streszczenie o tym okoliczniku milczy, jak o całym tym zdaniu.
+    found = verdict("Reguła, która rozstrzyga o zdaniu w pliku, jest tania.")
+    assert found.result.ile == 2, found.explain()
+    (przyłączenie,) = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("rozstrzyga", "zdaniu")
+
+
+def test_streszczenie_nazywa_czasownik_zdania_a_nie_zdania_względnego():
+    #  Usterka, którą to łapie: zejście do pierwszego węzła roli, gdziekolwiek on
+    #  stoi. Zdanie względne stoi tu w podmiocie, czyli przed czasownikiem
+    #  zdania, więc zejście bez granicy nazywa czasownikiem `rozstrzyga`, a
+    #  `jest` nie pada wtedy w wierszu wcale.
+    roles = verdict("Reguła, która rozstrzyga o zdaniu, jest tania.").readings[0]
+    assert roles["Verb"] == "jest"
+    assert "Modifier" not in roles
+
+
+def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
+    #  Druga granica, i tu widać ją mocniej: zdanie nadrzędne dopełnienia nie ma
+    #  wcale, więc `Object` wzięty ze zdania podrzędnego nazywa rolę, której to
+    #  zdanie nie ma. Wiersz werdyktu łapie przy tym drugie podsumowanie: bez tej
+    #  samej granicy ogłasza niezgodę o rolę, której lista czytań nie nazywa.
+    found = verdict("Ustawa mówi, że organ gminy wydaje przepis.")
+    assert found.result.ile == 2, found.explain()
+    assert all("Object" not in reading for reading in found.readings)
+    assert found.explain() == "2 readings"
 
 
 # --------------------------------------------------------------------------- #

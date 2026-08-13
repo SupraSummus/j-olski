@@ -191,12 +191,19 @@ class Node:
         """
         return self.children[self.głowa].forma_głowy()
 
-    def find(self, label: str) -> list[Node]:
-        """Every node with this label, this one included, outermost first."""
+    def find(self, label: str, skip: Sequence[str] = ()) -> list[Node]:
+        """Every node with this label, this one included, outermost first.
+
+        A subtree labelled with one of ``skip`` is not entered, which is how the
+        summary asks for the roles of the clause it summarises rather than for
+        the roles of a clause subordinate to it (:attr:`Deklaracja.podrzędne`).
+        The coverage check passes nothing, because the gold tree marks a role
+        wherever a clause has one.
+        """
         found = [self] if self.label == label else []
         for child in self.children:
-            if isinstance(child, Node):
-                found.extend(child.find(label))
+            if isinstance(child, Node) and child.label not in skip:
+                found.extend(child.find(label, skip))
         return found
 
 
@@ -231,11 +238,11 @@ class Deklaracja:
     """Co gramatyka mówi o sobie podsumowaniom werdyktu.
 
     Które symbole są rolami i gdzie szukać przyłączenia, wie gramatyka, a nie rozbiór,
-    więc :func:`parse` i :func:`describe` biorą to jedną wartością:
-    podsumowanie następne dokłada tutaj pole i nie rusza żadnej z dwóch sygnatur.
-    Wypełnia ją gramatyka, a typ definiuje rozbiór:
-    żądają go te dwie funkcje i nikt poza nimi,
-    a formalizm z ``olski/grammar.py`` niesie produkcje i o werdykcie nic nie wie.
+    więc każde podsumowanie bierze to jedną wartością —
+    :func:`parse`, :func:`describe` i obie metody :class:`Las` pod nimi —
+    a podsumowanie następne dokłada tutaj pole i nie rusza żadnej z tych sygnatur.
+    Wypełnia ją gramatyka, a typ definiuje rozbiór,
+    bo formalizm z ``olski/grammar.py`` niesie produkcje i o werdykcie nic nie wie.
     """
 
     #: Role, którymi streszcza się czytanie i o które czytania mogą się różnić.
@@ -248,6 +255,14 @@ class Deklaracja:
     #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
     #: nawiasuje człon ciągu współrzędnego.
     współrzędne: tuple[str, ...]
+    #: Symbole zdań podrzędnych, czyli tych, których wnętrze jest osobnym zdaniem.
+    #: Streszczenie i :meth:`Las.różniące` zatrzymują się na nich,
+    #: bo rola z wnętrza takiego zdania jest jego rolą, a nie rolą zdania nad nim.
+    #: Zatrzymać się muszą oba naraz, inaczej wiersz ``differing in``
+    #: nazywa rolę, której lista czytań pod nim nie nazywa.
+    #: Wywód, przykład i cenę trzyma
+    #: docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
+    podrzędne: tuple[str, ...]
 
 
 @dataclass
@@ -330,10 +345,7 @@ def parse(
     różniące, przyłączenia = (
         ((), ())
         if deklaracja is None
-        else (
-            zbudowany.różniące(deklaracja.role),
-            tuple(zbudowany.przyłączenia(deklaracja.przyłączany, deklaracja.gospodarze)),
-        )
+        else (zbudowany.różniące(deklaracja), tuple(zbudowany.przyłączenia(deklaracja)))
     )
     return Result(
         ile,
@@ -603,9 +615,11 @@ class Las:
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
         self._rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] | None = None
         self._prefiksy: dict[tuple, frozenset[Env]] = {}
-        #: (para, etykieta) → rozpiętości, jakie pierwszy węzeł tej etykiety pod nią bierze.
+        #: (para, etykieta, symbole mijane) → rozpiętości,
+        #: jakie pierwszy węzeł tej etykiety pod nią bierze.
         self._pierwsze_role: dict[
-            tuple[tuple[Pozycja, Klasa], str], frozenset[tuple[int, int] | None]
+            tuple[tuple[Pozycja, Klasa], str, tuple[str, ...]],
+            frozenset[tuple[int, int] | None],
         ] = {}
         #: (produkcja, kombinacja, żądane cechy) → czym jest w tym ciele każda córka.
         #: Kluczem jest całe ciało, a nie jedna córka,
@@ -1002,7 +1016,7 @@ class Las:
 
     # -- role, o które czytania się różnią ---------------------------------- #
 
-    def różniące(self, role: Sequence[str]) -> tuple[str, ...]:
+    def różniące(self, deklaracja: Deklaracja) -> tuple[str, ...]:
         """Te z ról, które nie mają w każdym czytaniu tego samego wypełnienia.
 
         Pytamy las, a nie streszczenia czytań.
@@ -1012,7 +1026,7 @@ class Las:
         choć liczba obok niej granicy nie ma.
 
         Jednym wystąpieniem roli jest to, które nazywa :func:`describe`,
-        czyli pierwsze w porządku wyprowadzenia.
+        czyli pierwsze w porządku wyprowadzenia i spoza zdań podrzędnych.
         Etykieta pada w czytaniu kilka razy, bo zdanie współrzędne ma własny podmiot,
         a dwa podmioty stojące obok siebie w jednym czytaniu
         nie mówią nic o różnicy między czytaniami.
@@ -1024,18 +1038,20 @@ class Las:
         tak jak streszczenie bez tego klucza.
         """
         znalezione = []
-        for etykieta in role:
+        for etykieta in deklaracja.role:
             wystąpienia = {
                 rozpiętość
                 for klasa in self.klasy(self.korzeń)
-                for rozpiętość in self._pierwsza_rola((self.korzeń, klasa), etykieta)
+                for rozpiętość in self._pierwsza_rola(
+                    (self.korzeń, klasa), etykieta, deklaracja.podrzędne
+                )
             }
             if len(wystąpienia) > 1:
                 znalezione.append(etykieta)
         return tuple(znalezione)
 
     def _pierwsza_rola(
-        self, para: tuple[Pozycja, Klasa], etykieta: str
+        self, para: tuple[Pozycja, Klasa], etykieta: str, podrzędne: tuple[str, ...]
     ) -> frozenset[tuple[int, int] | None]:
         """Czym bywa pierwszy węzeł tej etykiety pod tą parą; ``None``, gdy go nie ma.
 
@@ -1044,32 +1060,36 @@ class Las:
         dalsze córki są wtedy za pierwszym wystąpieniem i nie nazywają go.
         Wyborów córek nic nie wiąże, więc suma po nich jest tym, co dają czytania,
         a wyników jest tyle, ile rozpiętości, a nie ile drzew.
+
+        Córkę ze zdaniem podrzędnym mijamy tak jak liść,
+        bo rola z jej wnętrza jest rolą tamtego zdania (:attr:`Deklaracja.podrzędne`).
         """
         pozycja, _klasa = para
         if pozycja.label == etykieta:
             return frozenset({pozycja.span})
-        gotowe = self._pierwsze_role.get((para, etykieta))
+        klucz = (para, etykieta, podrzędne)
+        gotowe = self._pierwsze_role.get(klucz)
         if gotowe is not None:
             return gotowe
         znalezione: set[tuple[int, int] | None] = set()
         for kombinacja in self._krawędzie.get(para, {}):
             bez_roli = True
             for dziecko, klasa in kombinacja:
-                if dziecko.liść:
+                if dziecko.liść or dziecko.label in podrzędne:
                     continue
-                pod_córką = self._pierwsza_rola((dziecko, klasa), etykieta)
+                pod_córką = self._pierwsza_rola((dziecko, klasa), etykieta, podrzędne)
                 znalezione |= pod_córką - {None}
                 if None not in pod_córką:
                     bez_roli = False
                     break
             if bez_roli:
                 znalezione.add(None)
-        self._pierwsze_role[(para, etykieta)] = frozenset(znalezione)
-        return self._pierwsze_role[(para, etykieta)]
+        self._pierwsze_role[klucz] = frozenset(znalezione)
+        return self._pierwsze_role[klucz]
 
     # -- przyłączenia ------------------------------------------------------- #
 
-    def przyłączenia(self, przyłączany: str, gospodarze: Sequence[str]) -> list[Przyłączenie]:
+    def przyłączenia(self, deklaracja: Deklaracja) -> list[Przyłączenie]:
         """Modyfikatory, którym czytania dają więcej niż jednego gospodarza.
 
         Jeden wpis na wybór, bo tyle wyborów zdanie zostawia.
@@ -1088,11 +1108,13 @@ class Las:
         u_kogo: dict[int, set[Pozycja]] = {}
         najkrótsze: dict[int, Pozycja] = {}
         for pozycja in sorted({para[0] for para in self._żywe()}, key=lambda p: p.span):
-            if pozycja.label != przyłączany:
+            if pozycja.label != deklaracja.przyłączany:
                 continue
             początek = pozycja.span[0]
             najkrótsze.setdefault(początek, pozycja)
-            u_kogo.setdefault(początek, set()).update(self._gospodarze(pozycja, gospodarze))
+            u_kogo.setdefault(początek, set()).update(
+                self._gospodarze(pozycja, deklaracja.gospodarze)
+            )
         znalezione = []
         for początek, pozycja in sorted(najkrótsze.items()):
             # Etykieta rozstrzyga remis: `W skład rady wchodzą radni w liczbie.`
@@ -1253,10 +1275,13 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     Streszczenie jest po to jedno na czytanie, a wierszy jest tyle, ile czytań;
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
+
+    Zdanie podrzędne jest z tego wyszukiwania wyjęte
+    (:attr:`Deklaracja.podrzędne`), bo streszczane jest zdanie zewnętrzne.
     """
     summary = {}
     for role in deklaracja.role:
-        found = node.find(role)
+        found = node.find(role, deklaracja.podrzędne)
         if not found:
             continue
         summary[role] = _nawiasuj(found[0], deklaracja.współrzędne)
