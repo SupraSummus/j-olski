@@ -910,23 +910,33 @@ lemat i część mowy są z tożsamości czytania wyłączone rozmyślnie,
 więc kanał nazywający lemat mówiłby o czymś,
 czego liczba czytań obok niego nie liczy.
 
-Drzewo poprawnego zdania pokazuje na liściu czytanie, które tego drzewa nie licencjonuje.
-`Koszt szynki przewyższa koszt chleba.` wychodzi z `[NP szynki]`
-w pozycji dopełniacza pod `NPConjunct`,
-a liść pod nim niesie `szynki · szynk · subst:pl:nom.acc.voc:m3`,
-w którym dopełniacza nie ma; licencjonuje tę pozycję `szynka · subst:sg:gen:f`.
-Powodem jest pakowanie: `Node.signature` wyłącza z tożsamości czytania
-lemat i część mowy, więc wyprowadzenia różne samą morfologią są jedną klasą,
-a wyliczone drzewo jest jej przedstawicielem
-i czytania jego liści są dowolnymi czytaniami tych segmentów.
-Werdyktowi ta dowolność nie grozi, bo `describe` i `Przyłączenie`
-czytają z liści same formy, i dlatego nic jej nie zgłasza:
-myli ona dopiero tego, kto drzewo wypisuje, żeby zrozumieć wieloznaczność.
-Ruchem jest zdanie w docstringu `Node.signature` o tym,
-że przedstawiciel klasy niesie czytania liści dowolne,
-bo wybór spójny z wyprowadzeniem nie jest dla klasy zdefiniowany.
-Do rozstrzygnięcia jest, czy `Leaf` ma w ogóle wystawiać czytanie na zewnątrz,
-a odpowiedź zależy od tego, kto sięga po `Leaf.reading` poza rozbiorem.
+Kolejność, w jakiej las wydaje drzewa, jest inna w każdym przebiegu.
+`ciała` w `olski/parse.py` oddaje zbiór krotek pozycji,
+a `wyprowadzenia` przechodzi ten zbiór i od tego zależy kolejność klas,
+więc `olski-check --readings` wypisuje wiersze jednego zdania
+w kolejności zależnej od losowanego haszowania napisów,
+co widać po `PYTHONHASHSEED=1` i `PYTHONHASHSEED=2` nad
+`Nikt niczego nie wybiera, coś wybiera za nas.`
+Werdyktowi to nie grozi, bo liczba czytań jest sumą po klasach,
+i nie grozi zgodności ról, bo `agreement` w `olski/coverage.py`
+bierze `readings[0]` dopiero na zdaniu przyjętym, czyli z listy jednoelementowej,
+ale zdanie o czytaniach liczniejszych niż `MAX_READINGS` pokazuje
+za każdym przebiegiem inne sześćdziesiąt cztery z nich,
+a takich zdań pełen jest rejestr ustaw
+([`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)).
+Ruchem jest kolejność wypisana w tym jednym miejscu,
+czyli `ciała` oddające krotki w kolejności pozycji córek, a nie zbiór.
+Do rozstrzygnięcia jest, czy urwana lista ma być pierwszymi czytaniami
+jakiejkolwiek ustalonej kolejności, czy tymi, które czytelnikowi mówią najwięcej;
+pierwsze zamyka ten wpis, drugie jest rankingiem
+i pyta o to samo, o co [`open-questions.md`](docs/open-questions.md#the-round-trip-guarantee)
+pyta po stronie składu.
+Do przeczytania jest przy tym `_przedstawiciel` w `olski/parse.py`,
+bo nazwę gospodarza przyłączenia bierze on z pierwszego drzewa pozycji,
+czyli z tej samej kolejności, a werdykt tę nazwę drukuje.
+Nad `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
+stoi ona pod pięcioma ziarnami ta sama, więc nie wiadomo,
+czy pozycja gospodarza ma klas mniej niż korzeń, czy zbieg okoliczności był po niej.
 
 Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
 którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.

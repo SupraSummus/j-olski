@@ -1268,7 +1268,7 @@ z środowiskiem cech niesionym w dół,
 więc zgodność była wpleciona w sam rozbiór.
 Tablica Earleya o cechy nie pyta wcale,
 a unifikacja przechodzi po lesie osobno i w jednym miejscu:
-`_zawężenia` w `olski/parse.py` rozstrzyga, czy córka pasuje do rodzica,
+`_sposoby` w `olski/parse.py` rozstrzyga, czy córka pasuje do rodzica,
 i nikt poza nim tego nie rozstrzyga.
 Warunek precedencji ma się więc gdzie wpisać —
 `_przejdź` dostaje ciało wraz z rozpiętościami córek,

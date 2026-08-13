@@ -5,13 +5,15 @@ a sentence with no reading is not olski, and a sentence with more than one is no
 olski either.
 """
 
+from dataclasses import replace
+
 import pytest
 
 pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, nt, unify, word
 from olski.morph import analyse
-from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Pozycja, las, parse
+from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Leaf, Pozycja, las, parse
 from olski.subset import (
     DEKLARACJA,
     FRAGMENT,
@@ -120,6 +122,88 @@ def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str
     """
     wynik = parse(GRAMMAR, morphology(zdanie))
     assert wynik.ile == len(wynik.readings) == 1, wynik.status
+
+
+def _liście(drzewo):
+    return (
+        [drzewo]
+        if isinstance(drzewo, Leaf)
+        else [liść for dziecko in drzewo.children for liść in _liście(dziecko)]
+    )
+
+
+def _po_liściach(liście):
+    """Segmenty zdania zawężone do czytań, jakie te liście niosą.
+
+    Zdanie zawężone tak wyprowadza się dokładnie tyle razy,
+    ile razy te czytania to drzewo licencjonują,
+    i dlatego czytania liści sprawdza sam parser,
+    a nie unifikacja napisana w tym pliku drugi raz.
+    """
+    return [replace(liść.segment, readings=(liść.reading,)) for liść in liście]
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  szynki jest dopełniaczem szynki i mianownikiem szynk, a pozycja pod
+        #  NPConjunct licencjonuje z tych dwóch sam dopełniacz. Poprawnym zdaniem
+        #  to nie jest, więc czytelnik ogląda te drzewa, żeby zobaczyć różnicę.
+        "Koszt szynki przewyższa koszt chleba.",
+        #  Dobry jest przymiotnikiem zgodnym z kod i nazwiskiem rządzącym
+        #  dopełniaczem, a kod ma obok mianownika dopełniacz kody, więc dwa
+        #  czytania słownikowe wiążą się tu w ciele parami.
+        "Dobry kod zapisuje ustawienia.",
+        #  Zdanie poprawne, o jednym czytaniu: ustawienia jest dopełniaczem
+        #  liczby pojedynczej i biernikiem mnogiej, a pozycja dopełnienia bierze
+        #  drugie z nich.
+        "Program zapisuje ustawienia.",
+        #  Jeden kształt przechodzi tu na dwa sposoby, czyli w dwóch liczbach, i
+        #  cechy liścia idą wtedy za tą, którą drzewo pokazuje.
+        "Projekt jest dla przyjemności.",
+        #  Zdanie względne, żeby żądanie cech schodziło głębiej niż o jedną córkę.
+        "Program zapisuje ustawienia, które sprawdza linter.",
+    ],
+)
+def test_liść_wyliczonego_drzewa_niesie_czytanie_licencjonujące_jego_pozycję(zdanie: str):
+    """Drzewo pokazane czytelnikowi ma być tym, co gramatyka nad tymi czytaniami wyprowadza.
+
+    Pakowanie wyłącza z tożsamości czytania lemat i część mowy
+    (`Node.signature` w olski/parse.py),
+    więc wyprowadzenia różne samą morfologią są jedną klasą,
+    a przedstawiciel klasy mógłby nieść czytania liści wzięte spoza niej:
+    dopełniacz pod pozycją dopełniacza jest wtedy w drzewie mianownikiem,
+    i myli to jedynego czytelnika, jakiego drzewo ma —
+    tego, kto je wypisuje, żeby zrozumieć wieloznaczność.
+    """
+    for drzewo in parse(GRAMMAR, morphology(zdanie)).readings:
+        zawężone = las(GRAMMAR, _po_liściach(_liście(drzewo)))
+        sygnatury = {czytanie.signature() for czytanie in zawężone.czytania()}
+        assert drzewo.signature() in sygnatury, f"{zdanie}: {[*drzewo.forms()]}"
+
+
+def test_czytanie_liścia_spoza_licencjonujących_zabiera_drzewu_wyprowadzenie():
+    """Przesłanka testu wyżej: zawężenie do czytań liści potrafi wyjść źle.
+
+    Bez tego przechodziłby on sam z siebie,
+    bo zawężenie, którego żadne czytanie nie odrzuca, nie sprawdza niczego.
+    Mianownik `szynk` pod pozycją dopełniacza jest dokładnie tym,
+    co tamten test ma łapać, więc tutaj stoi wstawiony ręcznie.
+    """
+    for drzewo in parse(GRAMMAR, morphology("Koszt szynki przewyższa koszt chleba.")).readings:
+        liście = _liście(drzewo)
+        [szynki] = [liść for liść in liście if liść.segment.form == "szynki"]
+        assert szynki.reading.tag.get("case") == {"gen"}
+        [mianownik] = [
+            czytanie for czytanie in szynki.segment.readings if czytanie.lemma == "szynk"
+        ]
+        podmienione = [
+            replace(liść, reading=mianownik) if liść is szynki else liść for liść in liście
+        ]
+        zawężone = las(GRAMMAR, _po_liściach(podmienione))
+        assert drzewo.signature() not in {
+            czytanie.signature() for czytanie in zawężone.czytania()
+        }
 
 
 def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():

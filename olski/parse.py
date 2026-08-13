@@ -104,7 +104,15 @@ class Pozycja:
 
 @dataclass(frozen=True)
 class Leaf:
+    """Forma pod terminalem i czytanie, którym go bierze."""
+
     segment: Segment
+    #: Czytanie licencjonujące drzewo, w jakim ten liść stoi, a nie dowolne czytanie formy.
+    #: Licencjonujących bywa kilka i które z nich tu stoi, nie jest rozstrzygnięciem
+    #: gramatyki, a wyborem kolejności czytań z analizatora
+    #: (:meth:`Node.signature` mówi, dlaczego tak może być).
+    #: Kto pyta o lemat, tym wyborem wiązać się nie powinien:
+    #: ``skład/rozbiór.py`` pyta o lemat krawędź grafu i mówi, po co.
     reading: Reading
 
     @property
@@ -161,6 +169,13 @@ class Node:
         Pozycja lasu niesie dokładnie ten kształt,
         więc dwa drzewa wyliczone z lasu mają dwie różne sygnatury
         i nie ma tu czego odsiewać.
+
+        Wyliczone drzewo niesie za to więcej niż sygnaturę,
+        bo na liściach stoją czytania, a tych kształt nie liczy.
+        Klasa czytania zbiera wyprowadzenia różne samą morfologią,
+        więc nie rozstrzyga, które z nich w drzewie stoi;
+        rozstrzyga, że czytanie spoza niej jest w nim błędem,
+        i tyle drzewo dostaje (:meth:`Las._wybierz`).
         """
         return (self.label, tuple(child.signature() for child in self.children))
 
@@ -186,6 +201,11 @@ class Node:
 
 
 Tree = Leaf | Node
+
+#: Czym córka jest w jednym sposobie, na jaki przechodzi przez ciało produkcji:
+#: liściem, bo terminal bierze jedno czytanie formy,
+#: albo cechami, bo tyle rodzic z konstytuentu widzi.
+Wybór = Leaf | Cechy
 
 
 @dataclass(frozen=True)
@@ -497,6 +517,31 @@ class _Tablica:
 # --------------------------------------------------------------------------- #
 
 
+def _klucz_cech(cechy: Cechy) -> list[tuple[str, list[str]]]:
+    """Cechy w postaci, którą można porównać, bo zbiór własnej kolejności nie ma.
+
+    Wyliczone drzewo wybiera między cechami jednej klasy,
+    a wybór po kolejności zbioru byłby inny w każdym przebiegu,
+    bo haszowanie napisów jest losowane przy starcie.
+    Kolejności samych drzew to nie ustala i `TODO.md` mówi, co ją ustali:
+    jedno drzewo ma wyjść dwa razy takie samo,
+    a które z dwóch wychodzi pierwsze, jest osobnym pytaniem.
+    """
+    return sorted((nazwa, sorted(wartości)) for nazwa, wartości in cechy)
+
+
+def _jedne(klasa: Klasa) -> Cechy:
+    """Jedne cechy z tej klasy, do wyliczenia drzewa tam, gdzie cech nie żąda rodzic.
+
+    Klasa zbiera cechy, na jakie kształt przechodzi, a czytaniem jest kształt,
+    więc która z nich wychodzi na wierzch, żadnego czytania nie odróżnia:
+    ``dla przyjemności`` jest jedną grupą przyimkową w dwóch liczbach
+    i drzewo pokazuje ją w jednej.
+    Niżej w drzewie cech żąda rodzic, więc ten wybór pada raz na drzewo.
+    """
+    return min(klasa, key=_klucz_cech)
+
+
 class Las:
     """Las ze współdzielonymi węzłami i cztery podsumowania, jakie z niego wychodzą.
 
@@ -526,11 +571,15 @@ class Las:
             )
         self._wyprowadzenia: dict[Pozycja, dict[tuple[Pozycja, ...], tuple[Production, ...]]] = {}
         self._klasy: dict[Pozycja, dict[Klasa, int]] = {}
-        #: (pozycja, klasa) → kombinacja klas córek → produkcja, którą przeszła.
+        #: (pozycja, klasa) → kombinacja klas córek → produkcje, którymi przeszła.
         #: To jest las już po unifikacji:
         #: kombinacji, której ona nie przepuszcza, nie ma tu wcale,
         #: więc każda gałąź kończy się czytaniem.
-        self._krawędzie: dict[tuple[Pozycja, Klasa], dict[tuple, Production]] = {}
+        #: Produkcji jest tu kilka, bo dwie o jednym ciele są jednym kształtem,
+        #: a wypuszczać mogą różne cechy,
+        #: i wyliczenie drzewa wybiera stąd tę, która wypuszcza żądane
+        #: (:meth:`_drzewa`).
+        self._krawędzie: dict[tuple[Pozycja, Klasa], dict[tuple, tuple[Production, ...]]] = {}
         self._czynne: set[Pozycja] = set()
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
         self._rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] | None = None
@@ -539,6 +588,10 @@ class Las:
         self._pierwsze_role: dict[
             tuple[tuple[Pozycja, Klasa], str], frozenset[tuple[int, int] | None]
         ] = {}
+        #: (produkcja, kombinacja, żądane cechy) → czym jest w tym ciele każda córka.
+        #: Kluczem jest całe ciało, a nie jedna córka,
+        #: bo o czytaniu jednego liścia rozstrzyga unifikacja z pozostałymi.
+        self._wybory_ciał: dict[tuple, tuple[Wybór, ...] | None] = {}
         self._przedstawiciele: dict[Pozycja, Node] = {}
         self._najdalszy: int | None = None
 
@@ -607,47 +660,55 @@ class Las:
                 for kombinacja in product(*listy):
                     wybór = tuple(klasa for klasa, _ile in kombinacja)
                     wypuszczane: set[Cechy] = set()
-                    przeszła = None
+                    przeszłe = []
                     for production in produkcje:
                         cechy = self._przejdź(production, ciało, wybór)
                         if cechy:
                             wypuszczane |= cechy
-                            przeszła = przeszła or production
-                    if przeszła is None:
+                            przeszłe.append(production)
+                    if not przeszłe:
                         continue
                     klasa = frozenset(wypuszczane)
                     ile = math.prod(liczba for _klasa, liczba in kombinacja)
                     klasy[klasa] = klasy.get(klasa, 0) + ile
                     self._krawędzie.setdefault((pozycja, klasa), {}).setdefault(
-                        tuple(zip(ciało, wybór, strict=True)), przeszła
+                        tuple(zip(ciało, wybór, strict=True)), tuple(przeszłe)
                     )
         finally:
             self._czynne.discard(pozycja)
         self._klasy[pozycja] = klasy
         return klasy
 
-    def _zawężenia(
-        self, część: Part, dziecko: Pozycja, cechy: Iterable[Cechy], env: Env
-    ) -> Iterator[Env]:
-        """Na jakie środowiska ta córka zawęża to jedno; nic, gdy na żadne.
+    def _sposoby(
+        self, część: Part, dziecko: Pozycja, cechy: Sequence[Cechy], env: Env
+    ) -> Iterator[tuple[int, Wybór, Env]]:
+        """Na jakie środowiska ta córka zawęża to jedno, i czym za każdym razem jest.
 
         Córka wchodzi tu samymi cechami, jakie wypuszcza, bo tyle o niej rodzic wie;
         liść wchodzi czytaniami, bo terminal sprawdza i część mowy, i lemat.
+        Wychodzi stąd obok środowiska to, czym córka w tym sposobie była,
+        bo wyliczone drzewo pokazuje jeden z tych sposobów,
+        a nie czytanie spoza nich (:attr:`Leaf.reading`).
+        Numer jest pozycją sposobu w tym, co tu weszło,
+        i po nim wybiera :meth:`_wybierz`.
 
         Unifikacja dotyka lasu tylko w tym jednym miejscu,
         i dlatego to jedna metoda, a nie dwie:
-        wołają ją i liczenie kształtów, i szukanie punktu, na którym odrzucenie stanęło.
+        wołają ją liczenie kształtów, szukanie punktu, na którym odrzucenie stanęło,
+        i wyliczanie drzew.
         """
         if isinstance(część, Word):
-            for _segment, reading, cechy_formy in self._czytania_liścia.get(dziecko.span, ()):
+            for numer, (segment, reading, cechy_formy) in enumerate(
+                self._czytania_liścia.get(dziecko.span, ())
+            ):
                 złożone = bierze(część, reading.tag.pos, reading.lemma, cechy_formy, env)
                 if złożone is not None:
-                    yield złożone
+                    yield numer, Leaf(segment, reading), złożone
             return
-        for wypuszczone in cechy:
+        for numer, wypuszczone in enumerate(cechy):
             złożone = unify(część.constraints, dict(wypuszczone), env)
             if złożone is not None:
-                yield złożone
+                yield numer, wypuszczone, złożone
 
     def _dołóż(
         self,
@@ -656,12 +717,16 @@ class Las:
         cechy: Iterable[Cechy],
         środowiska: Iterable[Env],
     ) -> set[Env]:
-        """Środowiska po dołożeniu tej córki do tych, z jakimi ciało doszło przed nią."""
+        """Środowiska po dołożeniu tej córki do tych, z jakimi ciało doszło przed nią.
+
+        Sposób, którym córka przeszła, tu nie dochodzi,
+        bo liczenie kształtów pyta o liczbę, a nie o to, którędy.
+        """
         cechy = list(cechy)
         return {
             złożone
             for env in środowiska
-            for złożone in self._zawężenia(część, dziecko, cechy, env)
+            for _numer, _wybór, złożone in self._sposoby(część, dziecko, cechy, env)
         }
 
     def _przejdź(
@@ -712,12 +777,13 @@ class Las:
     def _przechodzi(
         self, terminal: Word, rozpiętość: tuple[int, int], środowiska: Iterable[Env]
     ) -> bool:
-        """Czy ten terminal przechodzi tę rozpiętość przy którymkolwiek z tych środowisk."""
-        return any(
-            bierze(terminal, reading.tag.pos, reading.lemma, cechy, env) is not None
-            for env in środowiska
-            for _segment, reading, cechy in self._czytania_liścia.get(rozpiętość, ())
-        )
+        """Czy ten terminal przechodzi tę rozpiętość przy którymkolwiek z tych środowisk.
+
+        Pyta o to samo, o co pyta dołożenie córki do ciała,
+        więc pyta tym samym: liściem jest tu rozpiętość bez etykiety,
+        czyli dokładnie to, czym stoi w ciele.
+        """
+        return bool(self._dołóż(terminal, Pozycja(None, rozpiętość), (), środowiska))
 
     def _przed_formą(self) -> Iterator[tuple[int, _Stan]]:
         """Analizy częściowe zatrzymane przed terminalem, pozycja po pozycji od lewej.
@@ -796,14 +862,43 @@ class Las:
         i nic ponad to.
         """
         for klasa in self.klasy(self.korzeń):
-            yield from self._drzewa(self.korzeń, klasa)
+            yield from self._drzewa(self.korzeń, klasa, _jedne(klasa))
 
-    def _drzewa(self, pozycja: Pozycja, klasa: Klasa) -> Iterator[Node]:
-        for kombinacja, production in self._krawędzie[(pozycja, klasa)].items():
-            yield from self._z_córek(pozycja, production, kombinacja, ())
+    def _drzewa(self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy) -> Iterator[Node]:
+        """Drzewa tej pozycji, wypuszczające te cechy: po jednym na kształt pod tą klasą.
+
+        Cechy przychodzą z góry, bo tylko rodzic wie, których żąda:
+        klasa zbiera wszystkie, na jakie ten kształt przechodzi,
+        a ``szynki`` w pozycji dopełniacza przechodzi tam jednym czytaniem z dwóch.
+        Bez tego żądania drzewo pokazywałoby na liściu czytanie dowolne,
+        więc i takie, którego pozycja nad nim nie licencjonuje.
+
+        Drzew jest tyle, ile kształtów, niezależnie od żądanych cech:
+        każda kombinacja z tej klasy wypuszcza każde cechy tej klasy,
+        bo klasą jest dokładnie zbiór cech tej kombinacji.
+        Dwie produkcje o jednym ciele są jednym kształtem, więc wychodzi z nich jedno drzewo,
+        i bierzemy tę, która żądane cechy wypuszcza.
+        """
+        for kombinacja, produkcje in self._krawędzie[(pozycja, klasa)].items():
+            for production in produkcje:
+                wybory = self._wybory_ciała(production, kombinacja, wymagane)
+                if wybory is None:
+                    continue
+                yield from self._z_córek(pozycja, production, kombinacja, wybory, ())
+                break
+            else:
+                raise AssertionError(
+                    f"{pozycja} nie wypuszcza {_klucz_cech(wymagane)} "
+                    "ciałem, które stoi w jej klasie"
+                )
 
     def _z_córek(
-        self, pozycja: Pozycja, production: Production, kombinacja: tuple, zebrane: tuple
+        self,
+        pozycja: Pozycja,
+        production: Production,
+        kombinacja: tuple,
+        wybory: tuple[Wybór, ...],
+        zebrane: tuple,
     ) -> Iterator[Node]:
         """Drzewa, jakie z tych córek wychodzą, budowane od lewej i po jednym.
 
@@ -821,25 +916,68 @@ class Las:
                 głowa=production.głowa,
             )
             return
-        część = production.body[len(zebrane)]
-        dziecko, córka = kombinacja[len(zebrane)]
-        córki = (
-            [self._liść(część, dziecko)] if dziecko.liść else self._drzewa(dziecko, córka)
-        )
+        miejsce = len(zebrane)
+        dziecko, córka = kombinacja[miejsce]
+        wybór = wybory[miejsce]
+        córki = [wybór] if dziecko.liść else self._drzewa(dziecko, córka, wybór)
         for drzewo in córki:
-            yield from self._z_córek(pozycja, production, kombinacja, (*zebrane, drzewo))
+            yield from self._z_córek(pozycja, production, kombinacja, wybory, (*zebrane, drzewo))
 
-    def _liść(self, część: Word, dziecko: Pozycja) -> Leaf:
-        """Liść nazwany pierwszym czytaniem, jakie ten terminal bierze.
+    def _wybory_ciała(
+        self, production: Production, kombinacja: tuple, wymagane: Cechy
+    ) -> tuple[Wybór, ...] | None:
+        """Czym jest każda córka w ciele, które wypuszcza te cechy; ``None``, gdy w żadnym.
 
-        Czytania jednej formy są jednym kształtem,
-        więc drzewo wybiera tu przedstawiciela, a nie czytanie.
-        Pytają o liść same formy, a forma jest wspólna każdemu czytaniu tej rozpiętości.
+        Wybór jest jeden na całe ciało, a nie jeden na córkę,
+        bo córki wiąże unifikacja:
+        czytanie przymiotnika wybrane przy pierwszej z nich
+        zawęża czytania rzeczownika, który się z nim zgadza,
+        i zawęża cechy, jakie ciało wypuszcza w górę.
         """
-        for segment, reading, cechy in self._czytania_liścia.get(dziecko.span, ()):
-            if bierze(część, reading.tag.pos, reading.lemma, cechy, EMPTY) is not None:
-                return Leaf(segment, reading)
-        raise AssertionError(f"liść {dziecko.span} stoi w lesie bez czytania, które go bierze")
+        klucz = (production, kombinacja, wymagane)
+        if klucz not in self._wybory_ciał:
+            self._wybory_ciał[klucz] = self._wybierz(
+                production, kombinacja, wymagane, 0, frozenset({EMPTY})
+            )
+        return self._wybory_ciał[klucz]
+
+    def _wybierz(
+        self,
+        production: Production,
+        kombinacja: tuple,
+        wymagane: Cechy,
+        miejsce: int,
+        środowiska: frozenset[Env],
+    ) -> tuple[Wybór, ...] | None:
+        """Sposoby od tego miejsca ciała w prawo; ``None``, gdy przy tych środowiskach żadnych.
+
+        Córka wchodzi w tyle sposobów, w ile ją przepuszcza unifikacja:
+        konstytuent w tyle, ile cech wypuszcza, a forma w tyle, ile ma tu czytań.
+        Sposób, po którym ciała nie da się domknąć żądanymi cechami,
+        oddaje ``None`` i nawrót bierze następny,
+        bo o cechach wypuszczanych rozstrzyga całe przebyte ciało, a nie jedna córka.
+        """
+        if miejsce == len(kombinacja):
+            domyka = any(
+                frozenset(features_of(production, env).items()) == wymagane
+                for env in środowiska
+            )
+            return () if domyka else None
+        część = production.body[miejsce]
+        dziecko, klasa = kombinacja[miejsce]
+        cechy = sorted(klasa, key=_klucz_cech) if klasa else ()
+        sposoby: dict[int, tuple[Wybór, set[Env]]] = {}
+        for env in środowiska:
+            for numer, wybór, złożone in self._sposoby(część, dziecko, cechy, env):
+                sposoby.setdefault(numer, (wybór, set()))[1].add(złożone)
+        for numer in sorted(sposoby):
+            wybór, dalej = sposoby[numer]
+            reszta = self._wybierz(
+                production, kombinacja, wymagane, miejsce + 1, frozenset(dalej)
+            )
+            if reszta is not None:
+                return (wybór, *reszta)
+        return None
 
     # -- role, o które czytania się różnią ---------------------------------- #
 
@@ -1028,7 +1166,7 @@ class Las:
         if gotowe is not None:
             return gotowe
         for klasa in self.klasy(pozycja):
-            for drzewo in self._drzewa(pozycja, klasa):
+            for drzewo in self._drzewa(pozycja, klasa, _jedne(klasa)):
                 self._przedstawiciele[pozycja] = drzewo
                 return drzewo
         raise AssertionError(f"pozycja {pozycja} stoi w lesie bez ani jednego drzewa")
