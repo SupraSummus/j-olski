@@ -361,6 +361,16 @@ def _first(segments: Sequence[Segment]) -> int:
 _Stan = tuple[Production, int, int]
 
 
+def _klucz_ciała(ciało: tuple[Pozycja, ...]) -> tuple[tuple[int, int], ...]:
+    """Ciało w postaci, którą można porównać: same rozpiętości córek.
+
+    Etykiety w kluczu nie ma, bo bierze się ją z produkcji:
+    córka na tym samym miejscu ma ją w każdym podziale tę samą,
+    więc dwa ciała różnią się rozpiętością i porządek po niej jest liniowy.
+    """
+    return tuple(pozycja.span for pozycja in ciało)
+
+
 class _Tablica:
     """Tablica Earleya nad grafem segmentów.
 
@@ -397,7 +407,7 @@ class _Tablica:
         #: bo ten nie ma już czego dokończyć.
         self._puste: dict[int, set[str]] = {}
         #: (produkcja, kropka, źródło, k) → ciała, jakie się w tym złożyły.
-        self._ciała_memo: dict[tuple, set[tuple]] = {}
+        self._ciała_memo: dict[tuple, tuple[tuple[Pozycja, ...], ...]] = {}
         #: Węzły grafu w kolejności rosnącej, bo krawędź nigdy nie idzie w tył.
         self.pozycje_grafu = sorted(
             {self.początek, self.koniec}
@@ -489,27 +499,37 @@ class _Tablica:
         """Czy ta produkcja doszła w tablicy do końca ciała na tej rozpiętości."""
         return (production, len(production.body), źródło) in self.stany.get(k, {})
 
-    def ciała(self, production: Production, kropka: int, źródło: int, k: int) -> set[tuple]:
+    def ciała(
+        self, production: Production, kropka: int, źródło: int, k: int
+    ) -> tuple[tuple[Pozycja, ...], ...]:
         """Ciała, jakimi ta produkcja doszła tutaj: krotki pozycji córek.
 
         Tablica pamięta same krawędzie wstecz, po jednej na córkę,
         więc ciało powstaje ze złożenia ich w łańcuch.
         Krotek jest tyle, na ile sposobów ta produkcja dzieli tu rozpiętość,
         czyli tyle, ile wyprowadzeń mieści jedna pozycja.
+
+        Uporządkowane rozpiętościami córek od lewej,
+        i to jedno miejsce ustala kolejność, w jakiej las wydaje drzewa:
+        dziedziczą ją klasy pozycji, krawędzie pod nimi i drzewa wyliczane z krawędzi.
+        Zbiór własnej kolejności nie ma, a haszowanie napisów jest losowane przy starcie,
+        więc ciała oddane zbiorem dawałyby w każdym przebiegu inną listę czytań,
+        a nad zdaniem urwanym po :data:`MAX_READINGS` — inne czytania.
         """
         if kropka == 0:
-            return {()} if źródło == k else set()
+            return ((),) if źródło == k else ()
         klucz = (production, kropka, źródło, k)
         gotowe = self._ciała_memo.get(klucz)
         if gotowe is not None:
             return gotowe
         stan = (production, kropka, źródło)
-        złożone: set[tuple] = set()
-        for j, dziecko in self.stany.get(k, {}).get(stan, ()):
-            for prefiks in self.ciała(production, kropka - 1, źródło, j):
-                złożone.add((*prefiks, dziecko))
-        self._ciała_memo[klucz] = złożone
-        return złożone
+        złożone = {
+            (*prefiks, dziecko)
+            for j, dziecko in self.stany.get(k, {}).get(stan, ())
+            for prefiks in self.ciała(production, kropka - 1, źródło, j)
+        }
+        self._ciała_memo[klucz] = tuple(sorted(złożone, key=_klucz_ciała))
+        return self._ciała_memo[klucz]
 
 
 # --------------------------------------------------------------------------- #
@@ -523,9 +543,8 @@ def _klucz_cech(cechy: Cechy) -> list[tuple[str, list[str]]]:
     Wyliczone drzewo wybiera między cechami jednej klasy,
     a wybór po kolejności zbioru byłby inny w każdym przebiegu,
     bo haszowanie napisów jest losowane przy starcie.
-    Kolejności samych drzew to nie ustala i `TODO.md` mówi, co ją ustali:
-    jedno drzewo ma wyjść dwa razy takie samo,
-    a które z dwóch wychodzi pierwsze, jest osobnym pytaniem.
+    Kolejności samych drzew to nie ustala:
+    ustala ją :meth:`_Tablica.ciała`, i tam jest wypisana.
     """
     return sorted((nazwa, sorted(wartości)) for nazwa, wartości in cechy)
 
@@ -854,7 +873,9 @@ class Las:
         return self._prefiksy[klucz]
 
     def czytania(self) -> Iterator[Node]:
-        """Czytania jako drzewa, po jednym na kształt i w porządku, w jakim las stoi.
+        """Czytania jako drzewa, po jednym na kształt.
+
+        Kolejność, w jakiej wychodzą, ustala :meth:`_Tablica.ciała`.
 
         Każda gałąź kończy się czytaniem,
         bo ``klasy`` odsiały już kombinacje, których unifikacja nie przepuszcza.
@@ -1074,7 +1095,9 @@ class Las:
             u_kogo.setdefault(początek, set()).update(self._gospodarze(pozycja, gospodarze))
         znalezione = []
         for początek, pozycja in sorted(najkrótsze.items()):
-            gospodarze_pozycji = sorted(u_kogo[początek], key=lambda p: p.span)
+            # Etykieta rozstrzyga remis: `W skład rady wchodzą radni w liczbie.`
+            # daje gospodarzy `AP` i `NP` o jednej rozpiętości, a zbiór ich nie porządkuje.
+            gospodarze_pozycji = sorted(u_kogo[początek], key=lambda p: (p.span, p.label))
             if len(gospodarze_pozycji) < 2:
                 continue
             # Dwie pozycje o jednej głowie są jednym wyborem,

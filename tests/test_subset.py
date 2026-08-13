@@ -5,6 +5,9 @@ a sentence with no reading is not olski, and a sentence with more than one is no
 olski either.
 """
 
+import os
+import subprocess
+import sys
 from dataclasses import replace
 
 import pytest
@@ -218,20 +221,50 @@ def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():
     assert las(GRAMMAR, segments).wyprowadzenia(Pozycja("Predicative", (1, 2)))
 
 
+#: Siedem przyłączeń, czyli czytań więcej, niż lista wypisuje.
+#: Oba testy pod spodem żądają od zdania tego samego, więc stoi tu raz.
+SIEDEM_PRZYŁĄCZEŃ = (
+    "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci "
+    "w firmie w kraju w Polsce."
+)
+
+
 def test_liczba_czytań_nie_urywa_się_tam_gdzie_lista_czytań():
     """Werdykt nad zdaniem o siedmiu przyłączeniach ma być liczbą, a nie „64+”.
 
     Las liczy sumą po klasach korzenia, więc `MAX_READINGS` ogranicza wypisywanie
     drzew i nie ogranicza liczenia ich.
     """
-    zdanie = (
-        "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci "
-        "w firmie w kraju w Polsce."
-    )
-    wynik = parse(GRAMMAR, morphology(zdanie))
+    wynik = parse(GRAMMAR, morphology(SIEDEM_PRZYŁĄCZEŃ))
     assert wynik.ile == 128
     assert len(wynik.readings) == MAX_READINGS
     assert wynik.truncated
+
+
+def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
+    """Urwana lista ma być za każdym razem tymi samymi czytaniami.
+
+    Kolejność ustala `ciała` w `olski/parse.py` i tam stoi wywód;
+    ten test pilnuje, żeby zbiór postawiony gdziekolwiek po drodze z lasu
+    nie oddał jej z powrotem haszowaniu napisów.
+    Po liczbie czytań tego nie widać, bo ta jest sumą po klasach,
+    a ziarno haszowania jest jedno na proces, więc przebiegi są dwa i osobne.
+    """
+    kod = f"import olski.check; olski.check.main(['--readings', '-c', {SIEDEM_PRZYŁĄCZEŃ!r}])"
+    przebiegi = [
+        subprocess.run(
+            [sys.executable, "-c", kod],
+            capture_output=True,
+            text=True,
+            env={**os.environ, "PYTHONHASHSEED": ziarno},
+        )
+        for ziarno in ("1", "2")
+    ]
+    for przebieg in przebiegi:
+        assert przebieg.returncode == 0, przebieg.stderr
+    wypisane = [w for w in przebiegi[0].stdout.splitlines() if w.lstrip().startswith("- ")]
+    assert len(wypisane) == MAX_READINGS
+    assert przebiegi[0].stdout == przebiegi[1].stdout
 
 
 def test_rola_różniąca_czytania_zostaje_nazwana_zza_granicy_wyliczania():

@@ -462,6 +462,24 @@ since a mirror nobody can check against upstream
 is the second copy of a fact that
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
 
+Wieloznaczność rejestru ustaw jest w jednym dokumencie policzona dwa razy i różnie.
+[Odczyt z § 6](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+mówi o 228 zdaniach wieloznacznych, czyli o 77% tych, którym olski daje czytanie,
+a [tabela wyżej](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza) w tym samym dokumencie
+ma 272 na 344, czyli 79%, i to tabela zgadza się z przebiegiem.
+Tamta sekcja ma jeszcze dwie liczby z tego samego przebiegu:
+zdań o czytaniach liczniejszych niż `MAX_READINGS` jest 21, a nie osiemnaście,
+a porównanie ze Składnicą mówi 27% (122 wieloznaczne na 447 przeczytanych),
+gdzie przebieg oddaje 32% (549 na 1728, [`docs/corpus.md`](docs/corpus.md#the-measurement)).
+Najdłuższe zdanie stoi niezmienione na 28 042 czytaniach,
+a zdanie o tym, że czytania różnią się najczęściej podmiotem i dopełnieniem,
+przebieg potwierdza: 160 razy podmiot i 114 dopełnienie na `differing in`.
+Ruchem jest więc poprawka samych liczb wraz ze zdaniami, które je czytają,
+a do przeczytania są oba polecenia, które ten dokument drukuje.
+Ekstrakcja rozejścia nie tłumaczy, bo zdań jest dalej 4921.
+Tabelę ktoś nad tym przebiegiem poprawił, a tamtej sekcji nie,
+więc poprawka ma przejść cały dokument, a nie same liczby wypisane tutaj.
+
 ## Gramatyka, parser i pomiar pokrycia
 
 Terminal nie umie zażądać, żeby forma jakąś cechę w ogóle niosła,
@@ -607,7 +625,8 @@ przymiotnik ma czytanie rzeczownikowe, a rzeczownik dopełniaczowe,
 czyli tę samą parę, o którą pyta wpis o rzeczownikowym czytaniu przymiotnika.
 Wybór między tymi dwiema nazwami robi porządek, w jakim las wydaje drzewa,
 bo `_przedstawiciel` w `olski/parse.py` bierze pierwsze z nich,
-i nie jest to wybór, który ktokolwiek zadeklarował.
+a porządek ten idzie po rozpiętościach córek (`ciała` w tym samym pliku)
+i o tym, która głowa nazywa grupę imienną, nie mówi nic.
 Formom to nie grozi, bo konstytuent ma je w każdym czytaniu te same.
 Ruchem jest albo obie głowy w tym wierszu, albo pierwsza z zadeklarowanym kryterium.
 Przeciw pierwszemu: wiersz przyłączenia mówi o jednym wyborze,
@@ -909,34 +928,6 @@ bo tam jest wypisana cena tego ruchu:
 lemat i część mowy są z tożsamości czytania wyłączone rozmyślnie,
 więc kanał nazywający lemat mówiłby o czymś,
 czego liczba czytań obok niego nie liczy.
-
-Kolejność, w jakiej las wydaje drzewa, jest inna w każdym przebiegu.
-`ciała` w `olski/parse.py` oddaje zbiór krotek pozycji,
-a `wyprowadzenia` przechodzi ten zbiór i od tego zależy kolejność klas,
-więc `olski-check --readings` wypisuje wiersze jednego zdania
-w kolejności zależnej od losowanego haszowania napisów,
-co widać po `PYTHONHASHSEED=1` i `PYTHONHASHSEED=2` nad
-`Nikt niczego nie wybiera, coś wybiera za nas.`
-Werdyktowi to nie grozi, bo liczba czytań jest sumą po klasach,
-i nie grozi zgodności ról, bo `agreement` w `olski/coverage.py`
-bierze `readings[0]` dopiero na zdaniu przyjętym, czyli z listy jednoelementowej,
-ale zdanie o czytaniach liczniejszych niż `MAX_READINGS` pokazuje
-za każdym przebiegiem inne sześćdziesiąt cztery z nich,
-a takich zdań pełen jest rejestr ustaw
-([`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)).
-Ruchem jest kolejność wypisana w tym jednym miejscu,
-czyli `ciała` oddające krotki w kolejności pozycji córek, a nie zbiór.
-Do rozstrzygnięcia jest, czy urwana lista ma być pierwszymi czytaniami
-jakiejkolwiek ustalonej kolejności, czy tymi, które czytelnikowi mówią najwięcej;
-pierwsze zamyka ten wpis, drugie jest rankingiem
-i pyta o to samo, o co [`open-questions.md`](docs/open-questions.md#the-round-trip-guarantee)
-pyta po stronie składu.
-Do przeczytania jest przy tym `_przedstawiciel` w `olski/parse.py`,
-bo nazwę gospodarza przyłączenia bierze on z pierwszego drzewa pozycji,
-czyli z tej samej kolejności, a werdykt tę nazwę drukuje.
-Nad `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
-stoi ona pod pięcioma ziarnami ta sama, więc nie wiadomo,
-czy pozycja gospodarza ma klas mniej niż korzeń, czy zbieg okoliczności był po niej.
 
 Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
 którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.
