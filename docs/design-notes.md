@@ -626,12 +626,14 @@ Rola wypełniona niczym nie jest jednak analizą, którą zatwierdził annotator
 a [zdanie przeczytane odwrotnie zakupem nie
 jest](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 
-**Ostatnia cena idzie na wydruk i nie zdejmuje jej żaden warunek.**
+**Na wydruku ta cena nie wypada, choć luka napisu nie ma.**
 Streszczenie czytania nazywa rolę napisem wziętym ze zdania,
-a luka napisu nie ma, więc werdykt wypisuje przy podmiocie napis pusty.
-Tym samym płaci podłoże więzowe po zdjęciu spójności
-([sonda](#podłoże-więzowe-zmierzone-sondą)):
-lukę kupuje się na parserze, a płaci na wydruku.
+ale luka stoi tylko wewnątrz zdania względnego, bo domyka ją zaimek,
+a tam streszczenie nie zagląda
+([werdykt jest zapytaniem o las](#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
+Roli wypełnionej luką werdykt więc nie nazywa,
+tak samo jak nie nazywa roli wypełnionej zaimkiem,
+i zostaje cena z akapitu wyżej: rozpiętość pusta nie trafia w żadną złotą.
 
 **Symboli nie ubywa.**
 `RelativeCore` schodzi z piętnastu ciał do dwóch,
@@ -1060,6 +1062,27 @@ bo zdanie współrzędne ma własny podmiot,
 więc nad lasem trzeba powiedzieć,
 które pozycje jednej etykiety są tym samym wystąpieniem.
 Jest nim to, które nazywa streszczenie, czyli pierwsze.
+
+Pierwsze w zdaniu streszczanym, a nie w zdaniu podrzędnym pod nim.
+Oba podsumowania zatrzymują się na zdaniu względnym i dopełnieniowym,
+bo rola z ich wnętrza należy do nich, a nie do zdania nad nimi:
+`Reguła, która rozstrzyga o zdaniu, jest tania.` ma czasownik `jest`,
+a bez tego zatrzymania werdykt nazywa czasownikiem `rozstrzyga`,
+czyli mówi o zdaniu nieprawdę.
+Zatrzymać się muszą oba naraz,
+bo inaczej wiersz `differing in` nazywa rolę,
+której lista czytań pod nim nie nazywa.
+Zdania współrzędnego to nie obejmuje,
+bo jego role należą do tego samego zdania.
+
+Cena idzie na wydruk: o wnętrzu zdania podrzędnego werdykt nie mówi nic.
+Wieloznaczność zamknięta w nim zostaje samą liczbą czytań,
+bo `Ustawa mówi, że organ gminy wydaje przepis.` ma dwa czytania
+o streszczeniach znak w znak tych samych,
+a różni je podmiot i dopełnienie tamtego zdania.
+Jest to ten sam brak, który [TODO.md](../TODO.md) opisuje jako brak kanału
+na dwa czytania o jednym streszczeniu,
+i wpis obejmuje tę klasę razem z różnicą słownikową.
 
 Gospodarza nazywa jego głowa, czyli jedno słowo.
 `w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,

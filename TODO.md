@@ -473,7 +473,7 @@ a porównanie ze Składnicą mówi 27% (122 wieloznaczne na 447 przeczytanych),
 gdzie przebieg oddaje 32% (549 na 1728, [`docs/corpus.md`](docs/corpus.md#the-measurement)).
 Najdłuższe zdanie stoi niezmienione na 28 042 czytaniach,
 a zdanie o tym, że czytania różnią się najczęściej podmiotem i dopełnieniem,
-przebieg potwierdza: 160 razy podmiot i 114 dopełnienie na `differing in`.
+przebieg potwierdza: 160 razy podmiot i 112 dopełnienie na `differing in`.
 Ruchem jest więc poprawka samych liczb wraz ze zdaniami, które je czytają,
 a do przeczytania są oba polecenia, które ten dokument drukuje.
 Ekstrakcja rozejścia nie tłumaczy, bo zdań jest dalej 4921.
@@ -688,18 +688,19 @@ a wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
 Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
 i na tym stanął pomiar cechy przeciąganej
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
-`describe` w `olski/parse.py` nazywa rolę napisem wziętym ze zdania,
-więc werdykt wypisuje przy podmiocie napis pusty,
-a `agreement` w `olski/coverage.py` porównuje rozpiętości,
+`agreement` w `olski/coverage.py` porównuje rozpiętości,
 więc rozpiętość pusta nie trafia w żadną złotą i liczy się jako niezgodna —
 wszystkie cztery zdania, jakie luka wyciągnęła ze Składnicy, wyszły tak,
 choć role widoczne mają dobre.
+Werdykt tej ceny nie płaci: luka stoi wewnątrz zdania względnego,
+gdzie streszczenie nie zagląda,
+więc o roli wypełnionej luką milczy tak samo jak o roli wypełnionej zaimkiem.
 Ruchem jest luka wskazująca zaimek, który ją wiąże, a nie miejsce, w którym stoi:
 etykieta roli nad zaimkiem, a nie nad pustym węzłem,
 czyli to, co bank drzew robi na tych zdaniach.
-Do rozstrzygnięcia jest, czy niesie ją produkcja, czy oba podsumowania,
-i różnicę robi to, że wybór po stronie gramatyki znosi te dwie ceny naraz,
-a wybór po stronie podsumowań zostawia las, w którym rola nie ma słowa.
+Do rozstrzygnięcia jest, czy niesie ją produkcja, czy porównanie ról,
+i różnicę robi to, że wybór po stronie gramatyki zostawia las, w którym rola ma słowo,
+a wybór po stronie porównania zostawia las, w którym go nie ma.
 Do przeczytania jest przy tym `Node.span` w `olski/parse.py`,
 bo pole to wpisano pod produkcję o pustym ciele, a ta sonda jest jego pierwszym czytelnikiem.
 Nie zamyka tego wpisu cała cena: warunek precedencji na lukę pilnuje pozycji w ciele,
@@ -866,16 +867,12 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
-Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno,
-a przy podrzędności nazywa cudzą rolę jako rolę zdania.
-`Reguła, która rozstrzyga o zdaniu, jest tania.` wychodzi wierszem
-`Subject: Reguła, która rozstrzyga o zdaniu,, Predicative: tania, Verb: rozstrzyga`,
-gdzie czasownikiem zdania jest `jest`, a `rozstrzyga` należy do zdania względnego:
-`describe` schodzi w głąb i pierwszy węzeł roli znajduje pod podmiotem,
-bo tam stoi całe zdanie podrzędne.
-Przy koordynacji ten sam mechanizm milczy o reszcie zdania,
-a tutaj mówi o niej nieprawdę, więc podrzędność podnosi cenę tego wpisu,
-a nie dokłada drugiego.
+Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno.
+Zdanie podrzędne jest z tego wyjęte, bo zejście zatrzymuje się na jego granicy
+([`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
+Zdanie współrzędne takiego zatrzymania nie dostanie,
+bo jego role są rolami tego samego zdania:
+streszczenie o nich milczy, a nie mówi o nich nieprawdy.
 `describe` w `olski/parse.py` nazywa pierwsze wystąpienie każdej roli,
 a `Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
 w którym `i szczęśliwi` jest drugim zdaniem współrzędnym:
@@ -897,15 +894,9 @@ czyli jedno miejsce w napisie zamiast drugiego wiersza.
 Drugie do przeczytania jest `_pierwsza_rola` w `olski/parse.py`,
 która pierwsze wystąpienie wybiera z tego samego powodu i uzasadnia go w docstringu:
 dwa podmioty stojące obok siebie w jednym czytaniu
-nie mówią nic o różnicy między czytaniami, i to uzasadnienie zostaje.
-Ruch dla podrzędności jest przy tym inny niż dla koordynacji
-i tańszy o cały wydruk: rola brana z zewnętrznego zdania, a nie z pierwszego węzła,
-czyli zejście zatrzymane na `RelativeClause` i na `SubordinateClause`.
-Zatrzymanie musi objąć oba podsumowania naraz —
-`describe` i `Las._pierwsza_rola` — bo inaczej wiersz `differing in` mówi o rolach,
-których lista czytań pod nim nie nazywa,
-a cenę widać w tym, co wtedy przepada:
-wieloznaczność zamknięta wewnątrz zdania podrzędnego zostaje samą liczbą czytań.
+nie mówią nic o różnicy między czytaniami.
+Uzasadnienie to zostaje, a samej metody ruch nie dotyczy,
+bo znak w napisie nie rusza rozpiętości, po których ona porównuje czytania.
 
 Werdykt nie ma kanału na dwa czytania o jednym streszczeniu.
 `explain` w `olski/subset.py` nazywa role, o które czytania się różnią,
@@ -919,7 +910,15 @@ a `rada` formą `rad`.
 Wiersz mówi wtedy samo `2 readings`, a `--readings` drukuje ten napis dwa razy,
 co po werdykcie czyta się jak usterka narzędzia.
 Czytania różne granicą członu zdejmuje z tej klasy nawias z `_nawiasuj`,
-a różnica słownikowa zostaje.
+a różnica słownikowa zostaje i obok niej druga:
+wieloznaczność zamknięta wewnątrz zdania podrzędnego,
+w które streszczenie nie zagląda.
+`Ustawa mówi, że organ gminy wydaje przepis.` daje przez to dwa czytania
+o jednym napisie, bo różni je podmiot i dopełnienie tamtego zdania, a nie tego.
+Kanał ma objąć obie.
+Na takim werdykcie psuje się przy tym droga roli, która to narzędzie uruchamia
+([`docs/roles.md`](docs/roles.md#ktoś-kto-to-uruchamia)),
+i to jest miara tego, ile ten wpis jest wart.
 Ruchem jest podsumowanie nad lasem, wzorowane na `Las.przyłączenia`:
 jeden wpis na wybór, a nie na parę czytań;
 kryterium samego ciągu jest już wypisane w `_koordynuje`.

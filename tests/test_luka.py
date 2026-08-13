@@ -91,12 +91,15 @@ def test_zdanie_bez_zaimka_względnego_luki_nie_dostaje(wariant: str):
 
 
 @pytest.mark.parametrize("wariant", WARIANTY[1:])
-def test_luka_nazywa_rolę_pustym_napisem(wariant: str):
-    """Cena, której warunek precedencji nie zdejmuje.
+def test_luka_wypełnia_rolę_pustą_rozpiętością(wariant: str):
+    """Na tym stanął pomiar, bo bank drzew stawia tę rolę na zaimku.
 
-    Rola wypełniona niczym jest tym, czym olski płaci na wydruku za to, co kupił
-    na parserze: streszczenie czytania nazywa podmiot napisem, a luka napisu nie
-    ma. Na tym stanął pomiar, bo bank drzew stawia tę rolę na zaimku.
+    Rola wypełniona niczym jest w drzewie i nie ma napisu, więc pomiar pokrycia
+    porównuje rozpiętość pustą ze złotą i liczy niezgodę. Werdykt tego nie
+    pokazuje: streszczenie czytania zatrzymuje się na zdaniu podrzędnym, więc o
+    roli z jego wnętrza milczy tak samo, jak milczy o roli wypełnionej zaimkiem.
     """
-    czytania = werdykt(wariant, "Myślę o tym człowieku, który mnie podglądał.").readings
-    assert czytania[0]["Subject"] == ""
+    jeden = werdykt(wariant, "Myślę o tym człowieku, który mnie podglądał.")
+    (podmiot,) = jeden.result.readings[0].find("Subject")
+    assert podmiot.forms() == []
+    assert "Subject" not in jeden.readings[0]

@@ -56,6 +56,14 @@ DEKLARACJA = Deklaracja(
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
     współrzędne=("NP", "AP", "Clause"),
+    # Zdania podrzędne: względne i dopełnieniowe.
+    # Oba symbole opakowują takie zdanie, a nie są symbolem samego zdania,
+    # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —
+    # więc zatrzymanie na nim objęłoby także zdanie współrzędne,
+    # którego role są rolami tego samego zdania.
+    # Brak, jaki na tym zostaje — streszczenie nazywa tylko pierwszy człon ciągu —
+    # jest osobnym wpisem w TODO.md.
+    podrzędne=("RelativeClause", "SubordinateClause"),
 )
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
