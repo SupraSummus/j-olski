@@ -304,8 +304,10 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
 
 ## What the grammar covers
 
-- Clauses in SVO and OVS order, and subjectless clauses,
-  both imperative (`Zapisz plik.`)
+- Clauses in all six orders the subject, the object and the verb stand in,
+  from `Program zapisuje ustawienia.` to `Zapisuje ustawienia program.`,
+  which is priced [below](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+- Subjectless clauses, both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`)
 - A verb before its subject, with an agreeing predicative after it or without one:
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
@@ -482,7 +484,7 @@ grupa pod przyimkiem zostaje w przypadku, którego przyimek żąda,
 a czasownik, o którym leksykon mówi, że biernika nie bierze,
 nie zyskuje przy przeczeniu nowej pozycji.
 
-### Negacja zmierzona: kupuje 146 zdań i odbiera jedno
+### Negacja zmierzona: kupuje 148 zdań i odbiera jedno
 
 ```sh
 python3 -m sonda.negacja Składnica-frazowa-180723/
@@ -491,26 +493,30 @@ python3 -m sonda.negacja proza/README.txt
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez negacji | 993 | 483 | 11 549 |
-| cząstka | 1092 | 507 | 11 426 |
-| dopełniacz | 993 | 483 | 11 549 |
-| obie | 1139 | 528 | 11 358 |
+| bez negacji | 1031 | 498 | 11 496 |
+| cząstka | 1130 | 522 | 11 373 |
+| dopełniacz | 1031 | 498 | 11 496 |
+| obie | 1179 | 549 | 11 297 |
 
 Wiersz dopełniacza jest kopią mianownika i to jest o nim odczyt, a nie
 przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
 przeczy, więc bez cząstki nie ma on jak wystrzelić.
-Cząstka bez niego kupuje 99 zdań, obie razem 146,
-czyli sam przypadek dokłada 47 zdań, których cząstka sama nie unosi,
+Cząstka bez niego kupuje 99 zdań, obie razem 148,
+czyli sam przypadek dokłada 49 zdań, których cząstka sama nie unosi,
 i te dwie rzeczy są jedną konstrukcją mierzoną z dwóch stron.
 
-Ani jedno z 993 zdań przyjętych wcześniej nie traci jednoznaczności,
+Ani jedno z 1031 zdań przyjętych wcześniej nie traci jednoznaczności,
 i nie znaczy to, że dopełniacz z niczym nie konkuruje.
-Konkuruje, i to z przydawką dopełniaczową, bo obie stawiają ten sam przypadek.
-Tam, gdzie obie mają gdzie stanąć, gramatyka ma jedno ciało, a nie dwa:
-za czasownikiem tylko dopełnienie, przed czasownikiem tylko przydawkę.
-Zero w tej kolumnie jest więc tą samą rzeczą co trzy zdania czytane odwrotnie
-[niżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań),
-oglądaną od strony liczby czytań.
+Konkuruje, i to z przydawką dopełniaczową, bo obie stawiają ten sam przypadek,
+a przed czasownikiem gramatyka ma dziś oba ciała naraz.
+Ta konkurencja nie wypada jednak w tej tabeli,
+bo wariant bez negacji dopełniacza w pozycji dopełnienia nie ma wcale,
+więc nie ma tam czego z przydawką pomylić.
+Wypada ona w sondzie, która mierzy szyk, i wynosi tam cztery zdania
+([niżej](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+Zero w tej kolumnie mówi więc, że cena tego sporu należy do szyku,
+a nie do negacji, i którą z dwóch produkcji zdejmuje sonda, rozstrzyga, gdzie ona
+stanie.
 
 Nad rejestrem ustaw jedno zdanie jednoznaczność traci
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
@@ -533,29 +539,173 @@ tak samo jak czas przeszły przed nią.
 
 ### Cena stoi w trafności, a nie w liczbie czytań
 
-Trzy zdania Składnicy olski po tej zmianie czyta inaczej niż drzewo wzorcowe
-i wszystkie trzy są jednym kształtem:
+Ta konstrukcja płaci nie liczbą czytań, tylko tym, które z nich wychodzi,
+i jedno zdanie Składnicy olski przez nią czyta inaczej niż drzewo wzorcowe:
+
+```text
+Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
+```
+
+Dopełnienie w dopełniaczu stoi przed swoim czasownikiem,
+a tam jest także przydawką dopełniaczową grupy imiennej przed nim,
+więc `premier większości` wychodzi jednym podmiotem
+w zdaniu składowym, które ma podmiot i dopełnienie.
+Oba czytania polszczyzna ma, a olski ma tu jedno,
+bo dopełnienie należy do bezokolicznika pod czasownikiem modalnym,
+a żadne ciało nie stawia go przed tą parą
+([niżej](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)),
+więc czytanie, które ma czytelnik, nie ma się czym wyprowadzić,
+i zamiast dwóch czytań wychodzi jedno, pewne siebie i błędne.
+Jest to ta sama pomyłka co przy [wyliczonym ciele](design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu),
+tylko widziana od strony konstrukcji, która ją wywołała.
+
+Dwa zdania tego samego kształtu z tej listy zeszły,
+i zdjął je szyk, a nie nic w negacji:
+`Apostołowie tego nie praktykowali.`
+oraz `Nikt niczego nie wybiera, coś wybiera za nas.`
+wychodzą dwoma czytaniami, odkąd dopełnienie ma ciało
+przed formą osobową swojego czasownika.
+Werdykt jest tam odmową i to jest cena zapłacona po tej zmianie w tej walucie,
+w której ta sekcja liczy: czytanie czytelnika stoi na wydruku obok drugiego,
+zamiast nie mieć się czym wyprowadzić.
+
+## Szyk zmierzono: kupuje 44 zdania i odbiera cztery
+
+Podmiot, dopełnienie i czasownik stoją w polszczyźnie w sześciu kolejnościach,
+a olski miał dwie, SVO i OVS, oraz czasownik na czele bez dopełnienia.
+Cztery brakujące nie były wykluczone decyzją, tylko brakiem ciała produkcji,
+czego [design-notes.md](design-notes.md#angle-one-parsing) tej gramatyce
+zabrania wprost: szyk spoza olskiego ma być wykluczony warunkiem,
+a nie przemilczeniem.
+Przeciw dopisaniu ich przemawiała jednoznaczność,
+bo synkretyzm mianownika z biernikiem czyni dwuznacznym każde zdanie,
+które da się przeczytać od podmiotu i od dopełnienia naraz,
+a szyk dopisany daje tej dwuznaczności nowe miejsca.
+
+Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzą cztery zdania.
+
+```sh
+python3 -m sonda.szyk Składnica-frazowa-180723/
+```
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez czterech szyków | 1139 | 528 | 11 358 |
+| SOV | 1151 | 533 | 11 341 |
+| OSV | 1150 | 530 | 11 345 |
+| VSO | 1143 | 535 | 11 347 |
+| VOS | 1152 | 535 | 11 338 |
+| wszystkie cztery | 1179 | 549 | 11 297 |
+
+Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
+a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
+
+Czterdzieści cztery zdania przechodzą z odrzuconych na przyjęte,
+siedemnaście z odrzuconych na wieloznaczne,
+a cztery z przyjętych na wieloznaczne, i te cztery są całą ceną.
+Zakup dzieli się między szyki na szesnaście, jedenaście, cztery i trzynaście,
+czyli sumuje się dokładnie,
+a sonda nie znajduje ani jednego zdania,
+które rusza się pod dwoma szykami naraz.
+Cztery szyki są więc czterema rozłącznymi zakupami, a nie jednym podzielonym,
+i płaci za nie sam SOV: pozostałe trzy nie odbierają jednoznaczności
+ani jednemu zdaniu, które ją miało.
+
+Zakup jest przy tym zakupem, a nie samym wyprowadzeniem:
+zdanie przyjęte odwrotnie niż w banku drzew nie jest zakupem dla nikogo.
+Czterdzieści dwa z czterdziestu czterech zdań
+mają role zgodne z drzewem wzorcowym,
+a odwróconego nie ma ani jednego,
+czyli szyk nie kupuje zdań przeczytanych na opak.
+Dwa niezgodne sonda wypisuje obok liczby,
+i żadne z nich nie jest przyłączeniem, które olski wybrał:
+
+```text
+Widzę, że ostatnia lekcja czegoś was nauczyła.
+Co pan sądzi o pomyśle Pawła Piskorskiego?
+```
+
+`Nauczyć` rządzi dopełniaczem obok biernika,
+a olski ma jedną pozycję dopełnienia,
+więc `czegoś` nie ma gdzie stanąć i wpada do podmiotu przed nim:
+podmiotem wychodzi `ostatnia lekcja czegoś` tam,
+gdzie bank drzew kończy go na `lekcja`.
+Jest to ta sama rozbieżność zasięgu, którą
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
+liczy nad `Policja prowadzi w tej sprawie intensywne śledztwo.`,
+tylko wywołana przez pozycję dopełnienia, a nie przez okolicznik.
+W drugim zdaniu olski czyta role tak, jak przeczytałby je czytelnik —
+`Co` jest dopełnieniem, `pan` podmiotem —
+a bank drzew dopełnienia tam nie oznacza wcale,
+więc niezgodność jest po stronie porównania, tak samo jak przy
+`Kampania nie przyniosła skutku.` w tamtym dokumencie.
+
+### Dwa z tych czterech zdań są naprawą, a nie ceną
+
+Cztery zdania tracą jednoznaczność, a dwa z nich tracą ją razem z czytaniem,
+którego polszczyzna nie ma, i to jest właściwy odczyt tej kolumny.
 
 ```text
 Apostołowie tego nie praktykowali.
 Nikt niczego nie wybiera, coś wybiera za nas.
 ```
 
-Dopełnienie w dopełniaczu stoi przed swoim czasownikiem,
-a tam jest także przydawką dopełniaczową grupy imiennej przed nim,
-więc `Apostołowie tego` wychodzi jednym podmiotem
-w zdaniu, które ma podmiot i dopełnienie.
-Oba czytania polszczyzna ma, a olski ma jedno:
-dopełnienie przed czasownikiem żąda w tej gramatyce podmiotu za czasownikiem
-([wyżej](#what-the-grammar-covers)),
-więc czytanie, które ma czytelnik, nie ma się czym wyprowadzić,
-i zamiast dwóch czytań wychodzi jedno, pewne siebie i błędne.
-Jest to ta sama pomyłka co przy [wyliczonym ciele](design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu),
-tylko widziana od strony konstrukcji, która ją wywołała:
-negacja płaci nie liczbą czytań, tylko tym, które z nich wychodzi.
-Szyk podmiot–dopełnienie–czasownik zamieniłby te trzy pomyłki
-na trzy zdania wieloznaczne, a ile zabrałby poza nimi, nie wie nikt;
-[TODO.md](../TODO.md) trzyma ten pomiar.
+Oba są wyżej ceną, którą negacja płaciła trafnością
+([wyżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)):
+dopełniacz negacji poprzedzał swój czasownik,
+brała go tam tylko przydawka dopełniaczowa,
+i olski wypuszczał jedno czytanie, pewne siebie i odwrotne niż drzewo wzorcowe.
+Szyk SOV daje czytaniu czytelnika ciało,
+więc oba zdania wychodzą teraz dwoma czytaniami,
+z których jedno jest tym, które ma bank drzew.
+Werdykt `ambiguous` jest w tej gramatyce odmową,
+a odmowa z dwoma czytaniami na wydruku
+jest lepszym werdyktem niż jedno czytanie przeczytane na opak.
+
+Pozostałe dwa są ceną i są tym samym sporem oglądanym bez naprawy:
+
+```text
+Kryterium wzrostu nie obowiązuje.
+Janka nic nie odpowiada i zamyka drzwi.
+```
+
+Dopełniacz stojący przed czasownikiem czyta się tu i jako dopełnienie,
+i jako przydawka rzeczownika przed nim,
+a olski ma teraz oba ciała, więc melduje oba czytania.
+
+Trzecie zdanie z tamtej trójki naprawy nie dostało
+i pokazuje granicę tych ciał:
+
+```text
+Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
+```
+
+Dopełnienie należy tu do bezokolicznika pod czasownikiem modalnym,
+a ciała dopisane umieszczają dopełnienie przy formie osobowej i tylko przy niej,
+więc `większości` dalej nie ma gdzie stanąć poza podmiotem przed sobą.
+Kolejność dopełnienia wobec bezokolicznika, który je bierze,
+jest osobnym zakupem i [TODO.md](../TODO.md) go trzyma.
+
+### Nad prozą ten szyk nie rusza ani jednego zdania
+
+```sh
+python3 -m harness.markdown README.md --into proza/
+python3 -m sonda.szyk proza/README.txt
+```
+
+Ani jeden werdykt nad tym plikiem się nie rusza,
+pod żadnym z czterech szyków osobno i pod wszystkimi naraz.
+Nad rejestrem ustaw te szyki nie kupują nic
+i czynią wieloznacznymi cztery zdania,
+z czego trzy przychodzą z odrzuconych, a jedno z przyjętych —
+`Przebieg losowania uwzględnia się w protokole wyników wyborów.`
+([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)).
+Dokumentacja i ustawa szyku więc nie przestawiają,
+a proza i prasa z banku drzew przestawiają,
+i to jest cała różnica między tymi trzema liczbami.
+Zakup tego szyku jest przez to zakupem pokrycia cudzej polszczyzny
+i naprawą dwóch czytań, a nie krokiem w rejestrze, do którego olski jest kierowany.
 
 ## The bare verb-initial order keeps the predicative one honest
 
@@ -624,11 +774,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 1061 | 495 | 11 469 |
-| zdaniowy | 1122 | 511 | 11 392 |
-| imienny | 1078 | 511 | 11 436 |
-| przymiotnikowy | 1061 | 495 | 11 469 |
-| wszystkie trzy | 1139 | 528 | 11 358 |
+| bez przecinka | 1099 | 514 | 11 412 |
+| zdaniowy | 1161 | 531 | 11 333 |
+| imienny | 1117 | 531 | 11 377 |
+| przymiotnikowy | 1099 | 514 | 11 412 |
+| wszystkie trzy | 1179 | 549 | 11 297 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -636,7 +786,7 @@ a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segment�
 których nie wpuszcza `--max-tokens`.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Wieloznacznych przybywa trzydzieści trzy i wszystkie przychodzą z odrzuconych,
+Wieloznacznych przybywa trzydzieści pięć i wszystkie przychodzą z odrzuconych,
 czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
 Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
 zdanie po zdaniu, i znajduje ją raz.
@@ -1210,23 +1360,23 @@ python3 -m sonda.liczebnik Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez liczebnika | 1066 | 478 | 11 481 |
-| zgodny | 1106 | 509 | 11 410 |
-| rządzący | 1097 | 496 | 11 432 |
-| oba | 1139 | 528 | 11 358 |
+| bez liczebnika | 1105 | 499 | 11 421 |
+| zgodny | 1145 | 530 | 11 350 |
+| rządzący | 1137 | 517 | 11 371 |
+| oba | 1179 | 549 | 11 297 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Siedemdziesiąt trzy przechodzą z odrzuconych na przyjęte
+Siedemdziesiąt cztery przechodzą z odrzuconych na przyjęte
 i pięćdziesiąt z odrzuconych na wieloznaczne,
 czyli cała cena jest zapłacona zdaniami,
 których gramatyka bez liczebnika nie wyprowadzała wcale.
-Zakup dzieli się między ciała prawie po połowie, na czterdzieści i trzydzieści jeden,
+Zakup dzieli się między ciała prawie po połowie, na czterdzieści i trzydzieści dwa,
 i żadne zdanie nie rusza się pod obydwoma,
-więc te dwa zbiory są rozłączne i sumują się do siedemdziesięciu jeden.
+więc te dwa zbiory są rozłączne i sumują się do siedemdziesięciu dwóch.
 Dwa zdania wymagają obu ciał naraz,
 tak samo jak jedno z pięćdziesięciu wieloznacznych,
 bo ma dwie grupy liczebnikowe i każda z nich przyłącza się inaczej:
@@ -1243,13 +1393,17 @@ więc te dwa wyprowadzenia wpadają do jednej klasy.
 Ta sama forma wypuszczona osobnym kształtem dałaby zdanie wieloznaczne,
 i tak właśnie płaci cyfra niżej.
 
-Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym czterdzieści pięć razy,
-osiem zdań nie ma w nim roli do porównania,
-a niezgodne są dwa i żadne z nich nie jest wyborem, którego olski dokonał.
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym pięćdziesiąt osiem razy,
+dziesięć zdań nie ma w nim roli do porównania, trzy mają ją tylko częściowo,
+a niezgodne są trzy i żadne z nich nie jest wyborem, którego olski dokonał.
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`
 czyta imiesłów jako orzecznik, gdzie bank drzew ma go w przydawce przy `osoby`,
 i jest to [przydawka imiesłowowa](#what-it-does-not-cover-yet), której olski nie ma;
 liczebnik tylko doprowadził analizę do miejsca, w którym ten brak widać.
+`Od dwu tygodni nie mam od ciebie listu!` jest rozbieżnością zasięgu,
+którą [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance) liczy
+razem z trzema takimi samymi: złote poddrzewo bierze w siebie wyrażenie
+przyimkowe, które olski wiesza na zdaniu.
 `Marzec przyniósł 6 zagranicznych delegacji.` olski czyta tak,
 jak przeczytałby je czytelnik, a niezgodność jest po stronie porównania:
 bank drzew daje grupie liczebnikowej w pozycji dopełnienia własne gniazdo, `np(part)`,
@@ -1529,6 +1683,9 @@ i każda z nich jest zwyczajną polszczyzną:
   (`Przybysze z najnowszej fali na ogół stronią od organizacji.`)
 - po dopełnieniu i po podmiocie w szyku OVS
   (`Ustawienia w pliku zapisuje program.`)
+- po każdej z dwóch grup imiennych w czterech
+  [pozostałych szykach](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+  (`Program ustawienia w pliku zapisuje.`)
 - po podmiocie w szykach z czasownikiem na czele,
   przed orzecznikiem i za nim
   (`Trwa dochodzenie w tej sprawie.`)
@@ -1542,14 +1699,16 @@ i każda z nich jest zwyczajną polszczyzną:
 - wewnątrz zdania względnego, po obu stronach tego, co w nim zostało
   (`reguła, która w tym trybie rozstrzyga`)
 
-Wierszy jest siedem, a produkcji trzydzieści,
+Wierszy jest osiem, a produkcji czterdzieści cztery,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
+Dziesięć z tych czterdziestu czterech dołożyły cztery szyki dopisane,
+i tyle właśnie znaczy w tej gramatyce jeden szyk więcej.
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
 oraz ta, w której `Modifier` dochodzi do głowy mającej już przydawkę
-albo do imiesłowu.
+albo do imiesłowu, czyli `APConjunct → adj|ppas Modifier`.
 Nie wchodzi `NPConjunct → subst Modifier`, czyli naga głowa z okolicznikiem:
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.

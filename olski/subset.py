@@ -11,12 +11,13 @@ them from context or from knowing what the writer meant. Olski excludes them,
 because a sentence with two readings has no checkable meaning and, more
 importantly, no reliable one.
 
-The grammar below admits both SVO and OVS, since Polish uses both, which is
-precisely why case syncretism makes some sentences ambiguous. The alternative —
-declaring that olski is SVO and reading the first noun phrase as the subject —
-would make those sentences unambiguous to a reader who knows the convention and
-still ambiguous to every other Polish speaker. Rejecting them keeps the promise
-that olski is readable as ordinary Polish.
+The grammar below admits every order the subject, the object and the verb can
+stand in, since Polish uses all six of them, which is precisely why case
+syncretism makes some sentences ambiguous. The alternative — declaring that olski
+is SVO and reading the first noun phrase as the subject — would make those
+sentences unambiguous to a reader who knows the convention and still ambiguous to
+every other Polish speaker. Rejecting them keeps the promise that olski is
+readable as ordinary Polish.
 
 That property is about Polish, and a dictionary offers readings Polish does not,
 so the subset excludes readings as well as constructions: see ``admissible``
@@ -318,6 +319,28 @@ def build() -> Grammar:
     grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
     grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, Głowa(kopula), podmiot])
     grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot, okoliczniki])
+
+    # Cztery pozostałe szyki podmiotu, dopełnienia i czasownika. Polszczyzna ma
+    # wszystkie sześć, a olski miał dwa, i brakujące cztery były wykluczone
+    # brakiem produkcji, nie decyzją, czego docs/design-notes.md#angle-one-parsing
+    # tej gramatyce zabrania. Cenę i zakup trzyma
+    # docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery.
+    #
+    # Miejsca na okolicznik wylicza tu pętla, a nie ręka: stoi jedno po każdej
+    # grupie imiennej i jedno na końcu zdania, a te dwa są jednym tam, gdzie
+    # grupa imienna zdanie zamyka. Szyki wyżej wypisują to samo ciałami, i tego
+    # ta pętla nie zdejmuje: ciało kończące się na ``Predicate`` okolicznika na
+    # końcu nie bierze, bo bierze go ``Complements`` niżej. TODO.md trzyma ruch.
+    for szyk in (
+        [podmiot, dopełnienie, Głowa(czasownik_ramy)],
+        [dopełnienie, podmiot, Głowa(czasownik_ramy)],
+        [Głowa(czasownik_ramy), podmiot, dopełnienie],
+        [Głowa(czasownik_ramy), dopełnienie, podmiot],
+    ):
+        grammar.rule("ClauseConjunct", szyk)
+        miejsca = {i + 1 for i, część in enumerate(szyk) if część in (podmiot, dopełnienie)}
+        for gdzie in sorted(miejsca | {len(szyk)}):
+            grammar.rule("ClauseConjunct", [*szyk[:gdzie], okoliczniki, *szyk[gdzie:]])
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
