@@ -559,6 +559,46 @@ def build() -> Grammar:
         person="ter",
         **AGREE,
     )
+    # Grupa liczebnikowa, w dwóch ciałach, bo polszczyzna ma dwa przyłączenia
+    # liczebnika i Morfeusz rozdziela je cechą `accommodability`.
+    #
+    # Liczebnik zgodny stoi jak przymiotnik przy rzeczowniku i zgadza się z nim
+    # we wszystkich trzech cechach: `dwie rzeczy`, `cztery wozy`, `oba pliki`.
+    # Głową jest rzeczownik, tak samo jak pod przymiotnikiem wyżej.
+    #
+    # Liczebnik rządzący wymaga dopełniacza mnogiego i wypuszcza grupę, której
+    # liczba i rodzaj nie są liczbą ani rodzajem żadnego słowa pod nią:
+    # `Pięć kobiet przyszło` żąda czasownika w liczbie pojedynczej i rodzaju
+    # nijakim, choć `kobiet` jest mnogie i żeńskie. Cechy są tu więc wypisane
+    # wartością, a nie zmienną wspólną z córką, tak samo jak w koordynacji niżej,
+    # z tą różnicą, że tam wartość opisuje ciąg, a tu przeczy każdemu słowu w
+    # środku. Zmienna wspólna wygląda tu poprawnie i odwraca zgodność: przyjmuje
+    # `Pięć kobiet przyszły`, którego polszczyzna nie ma.
+    # Głową jest liczebnik, tak samo jak pod rzeczownikiem rządzącym
+    # dopełniaczem: rządzi on przypadkiem tego, co pod nim stoi.
+    #
+    # Rodzaj przechodzi z liczebnika na dopełniacz, bo polszczyzna go tam żąda:
+    # `pięciu mężczyzn` ma rodzaj męskoosobowy, a `pięć kobiet` żeński, i są to
+    # dwie różne formy liczebnika. Cyfry żadne z tych ciał nie bierze i dlaczego,
+    # mówi docs/subset.md pod „Cyfry olski nie bierze”, gdzie stoi też pomiar obu.
+    grammar.rule(
+        "NPConjunct",
+        [word("num", accommodability="congr", **AGREE), Głowa(nt("NPConjunct", **AGREE))],
+        person="ter",
+        **AGREE,
+    )
+    grammar.rule(
+        "NPConjunct",
+        [
+            Głowa(word("num", accommodability="rec", case=V("c"), gender=V("g"))),
+            nt("NP", case="gen", number="pl", gender=V("g")),
+        ],
+        case=V("c"),
+        number="sg",
+        gender="n",
+        person="ter",
+    )
+
     # A pronoun is the one conjunct that carries its own person, which is the
     # whole reason it is here: without one, first and second person subjects
     # have no noun phrase to be.

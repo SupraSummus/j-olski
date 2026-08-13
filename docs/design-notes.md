@@ -409,9 +409,9 @@ więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowani
 
 **Zakup w olskim: zero.**
 Wszystkie 323 zdania olski odrzuca,
-a ich analizy kończą się na cząstce (57), na znaku przestankowym (32),
-na predykatywie (23), na przysłówku (23),
-a dalej po 22 na zaimku przymiotnikowym, bezokoliczniku i imiesłowie biernym,
+a ich analizy kończą się na cząstce (60), na znaku przestankowym (32),
+na zaimku przymiotnikowym (25), na predykatywie, przysłówku i imiesłowie biernym
+(po 23) oraz na bezokoliczniku (22),
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
@@ -432,10 +432,13 @@ produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 690 zdań, które olski przyjmuje jednym czytaniem,
+Z 746 zdań, które olski przyjmuje jednym czytaniem,
 podłoże czyta jednoznacznie 261 — deklaracja jest w nim węższa,
-więc 397 odrzuca, a 32 czyta dwojako —
+więc 453 odrzuca, a 32 czyta dwojako —
 i po zdjęciu spójności 60 z tych 261 przestaje mieć jedno czytanie.
+Mianownik rośnie z gramatyką, a te dwie liczby stoją,
+bo podłoże nie ma [grupy liczebnikowej](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+i każde zdanie, które ona olskiemu kupiła, odrzuca.
 
 Płaci się przy tym nie czasem rozbioru, a określeniem,
 które sięga ponad czasownik do rzeczownika po drugiej stronie.
@@ -470,7 +473,7 @@ więc zdanie z dwiema szczelinami w jednym ciągu albo z wysuniętym podmiotem
 siedzi wśród nich i tutaj się nie liczy.
 Cena jest ceną zdjęcia spójności z deklaracji bliskiej olskiemu,
 a nie z jego własnej gramatyki,
-i o ile ta deklaracja jest węższa, mówi 261 wobec 690.
+i o ile ta deklaracja jest węższa, mówi 261 wobec 746.
 Korpus jest wreszcie prozą i prasą,
 a nie dokumentacją techniczną, do której olski jest kierowany.
 
@@ -555,13 +558,13 @@ python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 45 zdań.
+Proza README ma 48 zdań.
 Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
 a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 42 z nich,
+Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 44 z nich,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -569,7 +572,7 @@ wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
-Pozostałe trzy rozchodzą się na przecinku.
+Trzy z pozostałych czterech rozchodzą się na przecinku.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
 wychodzi w olskim dwoma czytaniami,
 `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` czterema,
@@ -578,6 +581,17 @@ a sonda odrzuca wszystkie trzy, bo przecinka nie ma do czego przyłączyć.
 Granica biegnie więc tam, gdzie olski bierze
 [przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
 a sonda po swojej stronie ma spójnik.
+
+Czwarta rozbieżność nie mówi o formalizmie nic i mówi coś o samej sondzie.
+`Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
+odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
+a sonda liczebnika nie ma, więc to zdanie odrzuca.
+Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,
+więc zestarzeje się po cichu przy każdej produkcji dopisanej do olskiego,
+i ta rozbieżność jest pierwszą, która to pokazuje.
+Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
+trzyma [`TODO.md`](../TODO.md); dopóki to nie zapadnie,
+liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
 
 Ten pomiar mówi mniej, niż mówił, i nie dlatego, że któryś program się zmienił.
 Zdanie, którego rozbiór zajmował ponad pięć sekund,

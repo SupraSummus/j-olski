@@ -485,6 +485,43 @@ def test_koordynacja_przecinkiem_żąda_zgodności_tak_samo_jak_spójnik():
     assert verdict("Pliki są nowe, duży.").status == "rejected"
 
 
+def test_grupa_liczebnikowa_zgadza_się_tym_czego_nie_ma_w_środku():
+    #  Usterka, przed którą to stoi: liczba i rodzaj wypuszczone z liczebnika
+    #  zmienną wspólną, tak jak wypuszcza je każda inna produkcja tej gramatyki.
+    #  Wygląda to poprawnie i odwraca zgodność, bo `pięć` jest mnogie, a grupa,
+    #  którą buduje, żąda czasownika w liczbie pojedynczej i rodzaju nijakim.
+    #  Zdanie przyjęte tego nie łapie, bo cechy, której konstytuent nie niesie,
+    #  unifikacja nie sprawdza, więc para zdań rozstrzyga o obu stronach naraz.
+    assert verdict("Pięć kobiet przyszło.").status == "valid"
+    assert verdict("Pięć kobiet przyszły.").status == "rejected"
+
+
+def test_liczebnik_zgodny_zgadza_się_ze_swoim_rzeczownikiem():
+    #  Ciało zgodne jest tu tym, czym przymiotnik przed rzeczownikiem, więc pilnuje
+    #  go to samo, co tamtego: rodzaj złamany parą form, których polszczyzna obok
+    #  siebie nie stawia.
+    assert verdict("Dwie kobiety przyszły.").status == "valid"
+    assert verdict("Dwa kobiety przyszły.").status == "rejected"
+
+
+def test_liczebnik_rządzący_żąda_rodzaju_od_swojego_dopełniacza():
+    #  Rodzaj przechodzi z liczebnika na dopełniacz, choć grupa nad nimi wychodzi
+    #  nijaka, i bez tego warunku obie formy liczebnika biorą każdy rzeczownik:
+    #  rodzaj męskoosobowy ma w polszczyźnie własną formę i to ona tu rozstrzyga.
+    assert verdict("Pięciu mężczyzn przyszło.").status == "valid"
+    assert verdict("Pięć mężczyzn przyszło.").status == "rejected"
+
+
+def test_cyfra_nie_jest_liczebnikiem_bo_nie_niesie_ani_przypadka_ani_liczby():
+    #  Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą, a Morfeusz daje jej
+    #  tag `dig` bez ani jednej cechy, więc oba ciała biorą ją naraz i `14 dni`
+    #  wychodzi dwoma wyprowadzeniami o jednym streszczeniu. Odmowa jest przez to
+    #  rozstrzygnięciem, a nie przeoczeniem, i docs/subset.md trzyma jej cenę.
+    werdykt = verdict("Termin wynosi 14 dni.")
+    assert werdykt.status == "rejected"
+    assert werdykt.nielicencjonowane == ("14",)
+
+
 def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji():
     #  Dwie odpowiedzi, które Świgra trzyma osobno, i dwie różne roboty do
     #  zrobienia. Formy, której Morfeusz odmienioną nie zna, nie bierze żaden

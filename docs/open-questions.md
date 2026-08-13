@@ -42,7 +42,6 @@ serves the settled goal of resembling Polish.
 | --- | --- | --- | --- |
 | Word order | Fix subject-verb-object | Dominance plus precedence constraints | Expensive |
 | Subject | Require an overt noun phrase | Allow pro-drop | Expensive |
-| Numerals | Exclude entirely | Full numeral agreement fictions | Expensive, but defer |
 | Negation | Clause-wide `nie`, no case shift | Genitive of negation with propagation | Expensive |
 | Clauses | Main clauses only | `że` and `który` subordination | Expensive |
 | Coordination | Same-category only | Unlike categories, gapping | Unresolved |
@@ -50,11 +49,15 @@ serves the settled goal of resembling Polish.
 Closeness to Polish argues for the expensive column nearly everywhere,
 which is not a reason to build it all at once.
 
-Numerals deserve a note:
-they are extremely common in real Polish
-and they are also a self-contained module,
-so they are a good candidate
-for being deferred rather than excluded.
+Numerals had a row here and have one no longer.
+The fork was between excluding them and paying for the agreement fictions,
+the fictions cost one production feature written as a value rather than a variable,
+and the measurement behind that is in
+[subset.md](subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania).
+What is left of the area is not a fork but work,
+and it is the numeral written as a digit,
+which no production can take because `dig` carries no features at all
+([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
 ### Własność jednoznaczności żąda jej od zdania, które jej nie ma
 

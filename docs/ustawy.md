@@ -9,12 +9,12 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 69 zdań z 4921,
-czyli 1,4%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 2,5%,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 70 zdań z 4921,
+czyli 1,4%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 5,7%,
 choć tamten bank drzew jest zbudowany z gazet i prozy.
-Wieloznacznych jest tu 4,6% wobec 0,9% tam,
+Wieloznacznych jest tu 4,8% wobec 2,7% tam,
 więc zdanie ustawy, które olski w ogóle czyta,
-czyta on najczęściej na kilka sposobów.
+czyta on najczęściej na kilka sposobów, a zdanie Składnicy najczęściej na jeden.
 Regularne w ustawie jest drzewo jednostek redakcyjnych,
 a zdanie jest w niej długie i podrzędnie złożone,
 czyli takie, jakiego olski nie ma.
@@ -193,11 +193,11 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 | samorząd gminny (1990/95) | 386 | 20 | 36 | 330 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 0 | 84 |
 | informacja publiczna (2001/1198) | 126 | 0 | 1 | 125 |
-| Kodeks wyborczy (2011/112) | 2908 | 27 | 92 | 2789 |
+| Kodeks wyborczy (2011/112) | 2908 | 28 | 96 | 2784 |
 | petycje (2014/1195) | 48 | 3 | 2 | 43 |
 | zgromadzenia (2015/1485) | 127 | 0 | 6 | 121 |
 | ochrona ludności (2024/1907) | 1242 | 19 | 96 | 1127 |
-| razem | 4921 | 69 | 233 | 4619 |
+| razem | 4921 | 70 | 237 | 4614 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
 699 zdań, z tego 5 jednoznacznych i 18 wieloznacznych.
@@ -338,13 +338,13 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4619 odrzuceń 3777 stanęło na formie, której żadna produkcja nie bierze,
-a 842 na samej strukturze.
+Z 4614 odrzuceń 3758 stanęło na formie, której żadna produkcja nie bierze,
+a 856 na samej strukturze.
 Formy z czoła tego rankingu grupują się w cztery klasy:
 
 | klasa | najczęstsze formy |
 | --- | --- |
-| aparat odsyłaczowy | `art` 717, dywiz 666, `§` 595, `r` 254, nawiasy 232 i 223, liczby |
+| aparat odsyłaczowy | `art` 717, dywiz 666, `§` 595, `r` 254, nawiasy 232 i 223, cyfry |
 | przysłówki | `odpowiednio` 175, `niezwłocznie` 162, `także` 116, `również` 95 |
 | spójniki podrzędne | `Jeżeli` 171 i `jeżeli` 154, `gdy` 49 |
 | imiesłowy i odsłowniki | `obejmujący` 100, `wykonywania` 88, `wniesienia` 61 |
@@ -371,6 +371,23 @@ Zamiast niego stoi wysoko zdanie warunkowe,
 czyli kształt, w którym norma jest w ogóle zapisana:
 `Jeżeli` z 325 trafieniami na dwie pisownie
 jest tu tym, czym czas przeszły był tam.
+
+Liczebnik rozstrzyga ta kolejka jeszcze wyraźniej i rozstrzyga go na pół.
+[Grupa liczebnikowa](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+przenosi nad tymi siedmioma aktami jedno zdanie z odrzuconych na przyjęte
+i cztery na wieloznaczne, czyli tyle, ile czas przeszły, i w tę samą stronę.
+Trzy z tych czterech stoją na `więcej` i `najwięcej`,
+które Morfeusz zna jako liczebniki obok przysłówka `dużo`,
+więc `otrzymał więcej głosów` wychodzi i grupą liczebnikową, i okolicznikiem,
+i są to dwa czytania, które polszczyzna ma.
+Zakupu nie ma tu więcej dlatego, że ten rejestr liczebnika nie pisze słowem.
+Pisze go cyfrą, a cyfra stoi w tym rankingu na miejscach 3, 5, 6, 10 i 13
+(`1` 612, `2` 380, `3` 319, `5` 175, `4` 166),
+czyli wyżej niż cokolwiek, co gramatyka mogłaby dopisać jedną produkcją.
+Cyfry olski nie bierze i dlaczego, mówi
+[subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii):
+to jest ta połowa klasy, której ten rejestr używa,
+i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 

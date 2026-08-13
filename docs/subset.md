@@ -506,11 +506,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 643 | 307 | 12 075 |
-| zdaniowy | 677 | 313 | 12 035 |
-| imienny | 656 | 316 | 12 053 |
-| przymiotnikowy | 643 | 307 | 12 075 |
-| wszystkie trzy | 690 | 323 | 12 012 |
+| bez przecinka | 696 | 338 | 11 991 |
+| zdaniowy | 732 | 344 | 11 949 |
+| imienny | 710 | 351 | 11 964 |
+| przymiotnikowy | 696 | 338 | 11 991 |
+| wszystkie trzy | 746 | 358 | 11 921 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -518,7 +518,7 @@ a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segment�
 których nie wpuszcza `--max-tokens`.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Wieloznacznych przybywa szesnaście i wszystkie szesnaście przychodzi z odrzuconych,
+Wieloznacznych przybywa dwadzieścia i wszystkie dwadzieścia przychodzi z odrzuconych,
 czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
 Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
 zdanie po zdaniu, i znajduje ją raz.
@@ -536,10 +536,10 @@ Argument o konkurencji ma więc nad tym korpusem dokładnie jedno zdanie,
 i pojawiło się ono wraz z czasem przeszłym:
 zdanie stoi w nim całe, a przed tą zmianą nie wyprowadzało się pod żadnym wariantem.
 
-Po drugiej stronie stoi zakup: czterdzieści siedem zdań przechodzi
-z odrzuconych na przyjęte, trzydzieści cztery za poziom zdaniowy
-i trzynaście za imienny.
-Czterdzieści jeden z nich ma role zgodne z drzewem wzorcowym,
+Po drugiej stronie stoi zakup: pięćdziesiąt zdań przechodzi
+z odrzuconych na przyjęte, trzydzieści sześć za poziom zdaniowy
+i czternaście za imienny.
+Czterdzieści cztery z nich mają role zgodne z drzewem wzorcowym,
 sześć nie ma w nim żadnej roli do porównania,
 a odwróconych i niezgodnych nie ma ani jednego,
 więc są to zdania przeczytane tak, jak przeczytali je anotatorzy.
@@ -845,10 +845,13 @@ więc `olski/leksykon.txt` niesie w nagłówku atrybucję i tę samą licencję.
 
 Leksykon zamyka tyle, ile mówi, i widać to na zdaniu, które go doczekało.
 `Działają dwie rzeczy.` czekało na wpis mówiący, że `działać` dopełnienia nie bierze,
-i wpis ten stoi, a zdanie dalej się nie wyprowadza:
-zatrzymuje się teraz na liczebniku,
-czyli na [konstrukcji, której olski nie ma](#what-it-does-not-cover-yet),
-a nie na ramie.
+bo bez niego liczebnik dopisany do gramatyki dałby temu zdaniu dwa czytania,
+a nie jedno: `dwie rzeczy` jest mianownikiem i biernikiem naraz,
+a zdanie bez podmiotu bierze dopełnienie.
+Wpis stoi, [grupa liczebnikowa](#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+też stoi, i zdanie wychodzi jednym czytaniem.
+Leksykon kupił tu więc jednoznaczność, a nie pokrycie,
+i widać to dopiero z produkcją, której wtedy nie było.
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
 
@@ -1028,6 +1031,165 @@ Ta sama rozbieżność stoi za wierszem `psubst`
 a Morfeusz daje im `subst`, więc produkcja pisana pod jego tagset
 tamtego wiersza nie ruszy, choćby zdanie z `to` wyprowadzała.
 
+## Grupa liczebnikowa zgadza się tym, czego nie ma w środku
+
+Liczebnik przyłącza się w polszczyźnie dwoma sposobami
+i który to sposób, mówi tag, a nie kontekst:
+Morfeusz oznacza `dwie` jako `num:pl:nom.acc.voc:f:congr`,
+a `pięć` jako `num:pl:nom.acc.voc:m2.m3.f.n:rec`,
+czyli nazywa jeden zgodnym, a drugi rządzącym.
+Liczebnik zgodny jest przy rzeczowniku tym, czym przymiotnik przed nim,
+i zgadza się z nim w przypadku, liczbie i rodzaju:
+`dwie rzeczy`, `cztery wozy`, `oba pliki`.
+Liczebnik rządzący wymaga dopełniacza mnogiego,
+tak jak wymaga go rzeczownik z dopełniaczem pod głową:
+`pięć kobiet`, `kilka dni`, `piętnastu członków`.
+Produkcje są więc dwie, a nie jedna z warunkiem w środku,
+bo te dwa przyłączenia dzielą tylko nazwę części mowy.
+
+Grupa, którą buduje liczebnik rządzący, zgadza się czymś, czego nie ma pod nią.
+`Pięć kobiet przyszło.` żąda czasownika w liczbie pojedynczej i rodzaju nijakim,
+choć `kobiet` jest mnogie i żeńskie,
+więc liczba i rodzaj są w tej produkcji wypisane wartością,
+a nie zmienną wspólną z córką.
+Cecha wypisana wartością nie jest tu nowa:
+[ciąg współrzędny](#nothing-above-a-coordination-distributes-into-it)
+ogłasza liczbę mnogą i trzecią osobę tak samo, niezależnie od swoich członów.
+Nowe jest to, czemu ta wartość przeczy.
+Ciąg jest mnogi, bo dwie rzeczy są dwiema rzeczami,
+a `pięć kobiet` jest pojedyncze i nijakie wbrew każdemu słowu w środku,
+więc rodzaj nijaki nie opisuje tu niczego prócz zgodności, której polszczyzna żąda.
+Zmienna wspólna wygląda tam poprawnie i odwraca zgodność:
+przyjmuje `Pięć kobiet przyszły.`, którego polszczyzna nie ma,
+i odrzuca zdanie, które ma.
+Rodzaj przechodzi natomiast z liczebnika na dopełniacz,
+bo rodzaj męskoosobowy ma w polszczyźnie własną formę liczebnika:
+`Pięciu mężczyzn przyszło.` wyprowadza się, a `Pięć mężczyzn przyszło.` nie.
+Liczebnik zbiorowy wchodzi tą samą produkcją i nie kosztuje ani jednej pozycji,
+bo `dwoje` jest dla Morfeusza liczebnikiem rządzącym
+i różni się od `dwa` samą wartością cechy `collectivity`.
+
+Do drabiny [kosztów](design-notes.md#the-cost-ladder) taka cecha nic nie dokłada,
+bo jest cechą skończoną jak każda inna,
+więc grupa liczebnikowa mieści się na szczeblu 0 razem z resztą gramatyki.
+Liczebnik płaci więc nie formalizmem, a
+[drugą walutą](design-notes.md#the-second-currency-ambiguity), czyli czytaniami.
+Liczebnik rządzący jest synkretyczny między mianownikiem i biernikiem,
+więc zdanie z grupą liczebnikową obok drugiej grupy synkretycznej
+wychodzi dwoma czytaniami: `Rada gminy liczy piętnastu członków.` czyta się
+i tak, że rada liczy członków, i tak, że członkowie liczą radę.
+Polszczyzna ma oba te czytania, więc olski to zdanie odrzuca i odrzuca słusznie.
+
+### Liczebnik zmierzono i nie odbiera ani jednego zdania
+
+Pytanie nie brzmi, ile zdań te dwa ciała przyjmują,
+bo to policzy każdy przebieg `olski-corpus`.
+Brzmi ono, ile zdań odbierają,
+bo zdanie odrzucone przez wieloznaczność czeka na wycofanie produkcji,
+a nie na dopisanie następnej.
+Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
+a ciała zdejmują się osobno, bo cena każdego z nich jest osobną liczbą:
+
+```sh
+python3 -m sonda.liczebnik Składnica-frazowa-180723/
+```
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez liczebnika | 690 | 323 | 12 012 |
+| zgodny | 718 | 344 | 11 963 |
+| rządzący | 717 | 336 | 11 972 |
+| oba | 746 | 358 | 11 921 |
+
+Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
+a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
+
+Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
+Pięćdziesiąt sześć przechodzi z odrzuconych na przyjęte
+i trzydzieści pięć z odrzuconych na wieloznaczne,
+czyli cała cena jest zapłacona zdaniami,
+których gramatyka bez liczebnika nie wyprowadzała wcale.
+Zakup dzieli się między ciała prawie po połowie, na dwadzieścia osiem i dwadzieścia siedem,
+i żadne zdanie nie rusza się pod obydwoma,
+więc te dwa zbiory są rozłączne i sumują się do pięćdziesięciu pięciu.
+Zdanie pięćdziesiąte szóste wymaga obu ciał naraz,
+tak samo jak jedno z trzydziestu pięciu wieloznacznych,
+bo ma dwie grupy liczebnikowe i każda z nich przyłącza się inaczej:
+
+```text
+30 kilogramów falsyfikatów miało wartość 4 milionów dolarów.
+```
+
+Tak niska cena bierze się częściowo z tego, co jest jednym czytaniem.
+`Tysiąc plików rośnie.` wychodzi jednym, choć `tysiąc` jest i rzeczownikiem,
+i liczebnikiem rządzącym, a oba czytania stawiają pod nim dopełniacz:
+kształt jest ten sam, a [część mowy jest z tożsamości czytania wyłączona](#co-się-liczy-jako-jedno-czytanie),
+więc te dwa wyprowadzenia wpadają do jednej klasy.
+Ta sama forma wypuszczona osobnym kształtem dałaby zdanie wieloznaczne,
+i tak właśnie płaci cyfra niżej.
+
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym czterdzieści pięć razy,
+osiem zdań nie ma w nim roli do porównania,
+a niezgodne są dwa i żadne z nich nie jest wyborem, którego olski dokonał.
+`W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`
+czyta imiesłów jako orzecznik, gdzie bank drzew ma go w przydawce przy `osoby`,
+i jest to [przydawka imiesłowowa](#what-it-does-not-cover-yet), której olski nie ma;
+liczebnik tylko doprowadził analizę do miejsca, w którym ten brak widać.
+`Marzec przyniósł 6 zagranicznych delegacji.` olski czyta tak,
+jak przeczytałby je czytelnik, a niezgodność jest po stronie porównania:
+bank drzew daje grupie liczebnikowej w pozycji dopełnienia własne gniazdo, `np(part)`,
+którego `_role` w `olski/corpus.py` nie tłumaczy na żadną rolę olskiego,
+więc drzewo wzorcowe nie ma tam dopełnienia, z którym można by się zgodzić.
+[TODO.md](../TODO.md) trzyma to jako usterkę porównania.
+
+Nad rejestrem, o który olskiemu chodzi, liczebnik kupuje jedno zdanie:
+
+```sh
+python3 -m harness.markdown README.md --into proza/
+python3 -m sonda.liczebnik proza/README.txt
+```
+
+`Działają dwie rzeczy.` przechodzi z odrzucenia w jedno czytanie,
+i jest to zdanie, o którym [corpus.md](corpus.md#where-the-analyses-stop) mówiło,
+że czeka na liczebnik i na nic więcej.
+Ciało zgodne kupuje je samo, ciało rządzące nad tą prozą nie rusza nic,
+a wieloznacznych nie przybywa ani jedno.
+Nad rejestrem ustaw wychodzi odwrotnie:
+jedno zdanie przyjęte i cztery wieloznaczne z 4921
+([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)),
+czyli tam przeważa cena, a nie zakup,
+i powód jest ten sam, który zamyka tę sekcję: ustawa liczy cyframi.
+
+### Cyfry olski nie bierze, bo cyfra nie niesie morfologii
+
+Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą:
+`w terminie 14 dni`, `3 szkół`, `15 członków`.
+Morfeusz daje cyfrze tag `dig` i ani jednej cechy,
+a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc obie produkcje biorą cyfrę naraz i żadna nie jest w stanie jej odrzucić.
+`Termin wynosi 14 dni.` wychodzi wtedy trzema czytaniami zamiast dwóch,
+bo `dni` jest i dopełniaczem mnogim, i mianownikiem mnogim,
+czyli jedna grupa wyprowadza się i pod produkcją rządzącą, i pod zgodną.
+Dwa z tych trzech czytań mają streszczenie znak w znak to samo,
+bo różni je część mowy słowa pod głową, a nie żadna rola,
+i po werdykcie czyta się to jak usterka narzędzia,
+a nie jak zdanie, które da się poprawić.
+
+Odmowa jest więc rozstrzygnięciem, a nie przeoczeniem,
+i cena jest po jej stronie: cyfra zostaje formą,
+której żadna produkcja nie bierze, i werdykt tak o niej mówi.
+Wejście żąda dwóch rzeczy, których cyfra sama nie mówi, i tylko jedną da się odczytać.
+Które z dwóch przyłączeń zachodzi, mówi rzeczownik po cyfrze:
+`14 dni` ma dopełniacz mnogi, więc liczebnik jest tam rządzący,
+a `14 dniach` miejscownik, więc zgodny, i tak samo czyta to każdy, kto ten rejestr pisze.
+Przypadka samej grupy nie mówi ani cyfra, ani ten rzeczownik:
+`pięć` jest mianownikiem, biernikiem albo wołaczem, a cyfra nie jest niczym,
+więc grupa bez tej wartości spełnia każde żądanie przypadka w zdaniu.
+Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
+która wchodzi tym samym kryterium, co każda inna
+([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
+
 ## What it does not cover yet
 
 Every one of these is a sentence that gets rejected and should not be:
@@ -1063,8 +1225,20 @@ Every one of these is a sentence that gets rejected and should not be:
   — the first as an adjective before its noun, the other two as coordination —
   so what this entry records is a rejection replacing a wrong reading.
 - Negation and the genitive of negation.
-- Numerals, which are common
-  and are their own self-contained problem.
+- Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
+  `Termin wynosi 14 dni.` jest odrzucone,
+  gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
+  Cenę i warunek wejścia trzyma
+  [cyfry olski nie bierze](#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
+  a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
+  z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
+- Przydawka imiesłowowa, czyli imiesłów bierny przy rzeczowniku:
+  `Wymienione zadania są obowiązkowe.` jest odrzucone,
+  a imiesłów w orzeczniku olski bierze.
+  Wiersz `ppas` liczy w kolejce blokerów 209 zdań
+  ([corpus.md](corpus.md#where-the-analyses-stop)),
+  i jest to jedno z dwóch zdań, w których liczebnik doprowadził analizę
+  do brakującej pozycji, zamiast na niej stanąć.
 - `to` as a copula.
   `Kot to zwierzę.` is rejected where `Kot jest zwierzęciem.` derives,
   and the form heads two of the rows
@@ -1282,10 +1456,12 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi dwadzieścia jeden zdań,
-a z nimi jedno, i to jedno nie jest wyborem, którego olski dokonał.
-Liczby trzyma
-[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance).
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi kilkadziesiąt zdań,
+a z nimi trzy, i żadne z tych trzech nie jest przyłączeniem, które olski wybrał.
+Ile ich dokładnie jest po obu stronach i czym są te trzy, trzyma
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance);
+tutaj stoi rzędem wielkości, bo liczba zapisana w obu miejscach
+rozeszła się już raz i nikt tego nie zauważył.
 
 Klasa nie jest przez to zamknięta.
 Zdejmuje z niej tę część, w której czasownik frazy wymaga —

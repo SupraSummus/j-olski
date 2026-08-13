@@ -771,14 +771,22 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-One more set is a difference rather than a count,
-and that is what makes it easy to leave stale.
+Two sets are a difference rather than a count,
+and that is what makes them easy to leave stale.
 [What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the gap between olski and olski with three productions taken out,
-so everything that moves the tables above moves it,
-and so does a change to `sonda/przecinek.py`, which decides what comes out.
-What a test holds there is only that the probe measures this grammar
+and [what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
+is the same gap over the two bodies that build one,
+so everything that moves the tables above moves both,
+and so does a change to `sonda/przecinek.py` or `sonda/liczebnik.py`,
+which decide which productions a variant drops,
+or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
+Each of the two prints the command that produces its figures.
+What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
+Both take their figures over the README as well,
+so a commit that touches README prose owes those two runs
+alongside the two the section above already asks of it.
 
 One more difference prices a refusal, and it is the only figure in this list
 whose two halves are moved by different things.
