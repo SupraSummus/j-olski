@@ -281,6 +281,8 @@ PRZYJMOWANE = [
     "W pliku zapisuje ustawienia.",
     #  A reflexive verb, which is the form with się after it.
     "Program zapisuje się.",
+    #  Przeczenie, czyli druga cząstka, którą ten podzbiór bierze.
+    "Program nie zapisuje ustawień.",
     #  The copula, with a predicative agreeing with the subject and with a
     #  noun phrase in the instrumental.
     "Ludzie są wolni.",
@@ -961,6 +963,58 @@ def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():
     found = verdict("Reguła, która rozstrzyga o zdaniu, jest tania.")
     assert found.status == "valid", found.explain()
     assert found.readings[0]["Modifier"] == f"o zdaniu{PRZYŁĄCZONY_DO}rozstrzyga"
+
+
+# --------------------------------------------------------------------------- #
+# Negacja i dopełniacz, którego ona żąda
+# --------------------------------------------------------------------------- #
+
+
+def test_przeczenie_żąda_od_dopełnienia_dopełniacza():
+    #  Biernik pod przeczeniem to jest ta jedna rzecz, którą dopełniacz negacji
+    #  zabrania, więc bez tego zakazu cała cecha jest ozdobą: zdanie przeczące
+    #  wychodziłoby wtedy dwoma czytaniami zamiast jednego, po jednym na przypadek.
+    dopełniacz = verdict("Program nie zapisuje ustawień.")
+    assert dopełniacz.status == "valid", dopełniacz.explain()
+    assert verdict("Program nie zapisuje plik konfiguracyjny.").status == "rejected"
+
+
+def test_zdanie_bez_przeczenia_nie_bierze_dopełniacza_negacji():
+    #  Druga strona tego samego: gdyby ciało bez cząstki nie ogłaszało `aff`,
+    #  dopełniacz negacji stałby w każdym zdaniu, bo cechy, której konstytuent
+    #  nie niesie, unifikacja nie sprawdza.
+    assert verdict("Program zapisuje ustawień.").status == "rejected"
+
+
+def test_dopełniacz_negacji_sięga_pod_bezokolicznik_nad_którym_stoi_cząstka():
+    #  Rządzenie sięga tu dalej niż zgodność kiedykolwiek: cząstka stoi przy
+    #  formie osobowej, a przypadek zmienia się dopełnieniu, które wisi pod
+    #  bezokolicznikiem, i przez łańcuch dowolnej długości.
+    found = verdict("Program nie pozwala zapisać ustawień.")
+    assert found.status == "valid", found.explain()
+    assert verdict("Program nie pozwala zapisać ustawienia i dane.").status == "rejected"
+
+
+def test_przeczenie_przy_bezokoliczniku_zamyka_żądanie_z_góry():
+    #  Fraza z własną cząstką nie wypuszcza tej cechy wcale, więc zdanie
+    #  nadrzędne, które nie przeczy, nie żąda od niej biernika.
+    found = verdict("Program ma nie zapisywać ustawień.")
+    assert found.status == "valid", found.explain()
+
+
+def test_orzecznik_narzędnikowy_stoi_pod_przeczeniem_tak_jak_bez_niego():
+    #  Dopełniacz negacji sięga po biernik i po nic więcej, więc kopula pod
+    #  przeczeniem bierze swój narzędnik nietknięty.
+    found = verdict("Jan nie jest nauczycielem.")
+    assert found.status == "valid", found.explain()
+
+
+def test_zaimek_względny_w_dopełniaczu_przy_przeczącym_zdaniu_względnym():
+    #  Przypadek wysuniętego zaimka rozstrzyga przeczenie stojące za resztą
+    #  zdania składowego, czyli rządzenie przez cały konstytuent.
+    found = verdict("Polszczyzna, której nikt nie napisał, jest podzbiorem.")
+    assert found.status == "valid", found.explain()
+    assert verdict("Polszczyzna, którą nikt nie napisał, jest podzbiorem.").status == "rejected"
 
 
 # --------------------------------------------------------------------------- #

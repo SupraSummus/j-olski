@@ -56,6 +56,25 @@ CASES = {
     "wol": "voc",
 }
 
+#: Znaczniki Składnicy są znacznikami NKJP, a gramatyka stoi nad Morfeuszem 2,
+#: więc czytelnik przekłada nazwy części mowy tak samo, jak przekłada nazwy
+#: przypadków wyżej i z tego samego powodu: terminal ma pytać o jedną nazwę.
+#:
+#: Cztery nazwy, bo tyle rozdziela te dwa zbiory nad tym korpusem. NKJP wydziela
+#: zaimki jako osobne części mowy, a Morfeusz trzyma je pod rzeczownikiem,
+#: przymiotnikiem i przysłówkiem — ``który`` jest tam ``adj``, a ``tym``
+#: ``subst`` — i osobno nazywa kublik cząstką.
+#:
+#: Bez tego przekładu produkcja, która taką formę bierze, nie strzela nad złotą
+#: morfologią ani razu, a wiersz blokerów nazywa nazwę znacznika tam, gdzie
+#: gramatyka konstrukcję ma; docs/corpus.md mierzy, ile to było warte.
+CZĘŚCI_MOWY = {
+    "qub": "part",
+    "psubst": "subst",
+    "padj": "adj",
+    "padv": "adv",
+}
+
 #: A required phrase carries the valency slot it fills in an ``f`` of this type,
 #: which is how the gold tree says which phrase is the subject. ``accgen`` is the
 #: object of a transitive verb: accusative under affirmation, genitive under
@@ -285,10 +304,22 @@ def _span(node: ET.Element) -> tuple[int, int] | None:
         return None
 
 
+def _znacznik(raw: str) -> str:
+    """Znacznik NKJP nazwany tak, jak nazywa tę część mowy Morfeusz.
+
+    Przekładana jest sama nazwa części mowy, bo tylko ona się rozchodzi: wartości
+    cech oba zbiory piszą tak samo. Nazwa z pliku nie zostaje obok przełożonej,
+    bo znacznik pół przełożony mówiłby o formie dwie rzeczy naraz, a wydruk
+    czyta ``raw``.
+    """
+    pos, dwukropek, reszta = raw.partition(":")
+    return f"{CZĘŚCI_MOWY.get(pos, pos)}{dwukropek}{reszta}"
+
+
 def _segment(terminal: ET.Element, span: tuple[int, int]) -> Segment:
     form = terminal.findtext("orth") or ""
     lemma = terminal.findtext("base") or form
-    raw = (terminal.findtext('f[@type="tag"]') or "").strip()
+    raw = _znacznik((terminal.findtext('f[@type="tag"]') or "").strip())
     return Segment(
         start=span[0],
         end=span[1],

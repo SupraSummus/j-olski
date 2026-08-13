@@ -328,6 +328,11 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   What the list leaves out is the copula that takes `się`:
   `okazać się` and `stać się` govern the same case
   and the production has no place for the particle.
+- Negation, with the genitive it demands of an object,
+  through an infinitive chain and into a fronted relative pronoun:
+  `Program nie zapisuje ustawień.`, `Nie chcę czytać książki.`,
+  `polszczyzna, której nikt nie napisał`
+  ([below](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem))
 - What a verb takes, from a lexicon rather than from a production:
   `być` takes no accusative object,
   so `On jest wolny.` loses the reading in which `wolny` is one.
@@ -439,6 +444,119 @@ i pięć przenosi z odrzuconych na wieloznaczne
 Kolejka ze Składnicy i przebieg nad tą prozą dają więc różne odpowiedzi,
 i dopiero oba pomiary razem mówią, ile ta konstrukcja jest warta.
 
+## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
+
+Cząstka `nie` stoi przed formą czasownika, a przypadek dopełnienia zmienia
+w całym zdaniu: `Program zapisuje ustawienia` bierze biernik,
+`Program nie zapisuje ustawień` żąda dopełniacza, i żąda go obowiązkowo.
+Dopełniacz negacji jest przez to drugą produkcją tej samej pozycji ramy,
+a nie drugą pozycją: to samo miejsce u czasownika,
+inny przypadek grupy, która je zajmuje.
+
+Sięga on dalej, niż stoi cząstka.
+
+```text
+Program nie pozwala zapisać ustawień.
+```
+
+Przeczy tu forma osobowa, a przypadek zmienia się dopełnieniu,
+które wisi pod bezokolicznikiem, i tak samo przez łańcuch dowolnej długości.
+Rządzenie przechodzi więc przez konstytuent, czego zgodność nie robi nigdzie,
+a mimo to jedzie kanałem cech, tym samym, którym jedzie rama.
+Na jakich warunkach ten kanał je wpuścił, wywodzi
+[design-notes.md](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
+
+Fraza bezokolicznikowa z własną cząstką tej cechy nie wypuszcza wcale
+i tym zamyka przenoszenie:
+`Program ma nie zapisywać ustawień` przeczy bezokolicznikowi, a nie formie
+osobowej nad nim, więc żądanie z góry ma tu nie dojść.
+Nieobecność cechy jest tym samym mechanizmem, którym grupa współrzędna nie niesie
+rodzaju. Ta sama droga sięga wysuniętego zaimka względnego —
+`polszczyzna, której nikt nie napisał` obok `polszczyzna, którą ktoś napisał` —
+i tam kosztuje najwięcej, bo przypadek zaimka rozstrzyga przeczenie stojące za
+całą resztą zdania składowego, więc sześć ciał `RelativeCore` rośnie do dwunastu.
+
+Poza biernik dopełniacz negacji nie sięga.
+Orzecznik narzędnikowy stoi przy `nie jest` tak samo jak przy `jest`,
+grupa pod przyimkiem zostaje w przypadku, którego przyimek żąda,
+a czasownik, o którym leksykon mówi, że biernika nie bierze,
+nie zyskuje przy przeczeniu nowej pozycji.
+
+### Negacja zmierzona: kupuje 146 zdań i odbiera jedno
+
+```sh
+python3 -m sonda.negacja Składnica-frazowa-180723/
+python3 -m sonda.negacja proza/README.txt
+```
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez negacji | 993 | 483 | 11 549 |
+| cząstka | 1092 | 507 | 11 426 |
+| dopełniacz | 993 | 483 | 11 549 |
+| obie | 1139 | 528 | 11 358 |
+
+Wiersz dopełniacza jest kopią mianownika i to jest o nim odczyt, a nie
+przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
+przeczy, więc bez cząstki nie ma on jak wystrzelić.
+Cząstka bez niego kupuje 99 zdań, obie razem 146,
+czyli sam przypadek dokłada 47 zdań, których cząstka sama nie unosi,
+i te dwie rzeczy są jedną konstrukcją mierzoną z dwóch stron.
+
+Ani jedno z 993 zdań przyjętych wcześniej nie traci jednoznaczności,
+i nie znaczy to, że dopełniacz z niczym nie konkuruje.
+Konkuruje, i to z przydawką dopełniaczową, bo obie stawiają ten sam przypadek.
+Tam, gdzie obie mają gdzie stanąć, gramatyka ma jedno ciało, a nie dwa:
+za czasownikiem tylko dopełnienie, przed czasownikiem tylko przydawkę.
+Zero w tej kolumnie jest więc tą samą rzeczą co trzy zdania czytane odwrotnie
+[niżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań),
+oglądaną od strony liczby czytań.
+
+Nad rejestrem ustaw jedno zdanie jednoznaczność traci
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+i nie robi tego dopełniacz:
+
+```text
+Sposób załatwienia petycji nie może być przedmiotem skargi.
+```
+
+Morfeusz czyta `nie` także jako biernik zaimka `on` w formie popodstawowej,
+czyli tej, która stoi po przyimku — `na nie`, `za nie` — a olski warunku o tym
+nie ma, więc zdanie miało czytanie z zaimkiem w roli dopełnienia,
+zanim cząstka weszła, i ma je nadal obok czytania z przeczeniem.
+Jest to [czytanie, którego polszczyzna nie ma](#the-dictionary-offers-readings-polish-does-not),
+a kryterium słownikowe po nie nie sięga, bo wyrzuca rzeczownik, a nie zaimek.
+[TODO.md](../TODO.md) trzyma ten warunek.
+
+Nad [README](../README.md) negacja nie kupuje ani jednego zdania i żadnego nie traci,
+tak samo jak czas przeszły przed nią.
+
+### Cena stoi w trafności, a nie w liczbie czytań
+
+Trzy zdania Składnicy olski po tej zmianie czyta inaczej niż drzewo wzorcowe
+i wszystkie trzy są jednym kształtem:
+
+```text
+Apostołowie tego nie praktykowali.
+Nikt niczego nie wybiera, coś wybiera za nas.
+```
+
+Dopełnienie w dopełniaczu stoi przed swoim czasownikiem,
+a tam jest także przydawką dopełniaczową grupy imiennej przed nim,
+więc `Apostołowie tego` wychodzi jednym podmiotem
+w zdaniu, które ma podmiot i dopełnienie.
+Oba czytania polszczyzna ma, a olski ma jedno:
+dopełnienie przed czasownikiem żąda w tej gramatyce podmiotu za czasownikiem
+([wyżej](#what-the-grammar-covers)),
+więc czytanie, które ma czytelnik, nie ma się czym wyprowadzić,
+i zamiast dwóch czytań wychodzi jedno, pewne siebie i błędne.
+Jest to ta sama pomyłka co przy [wyliczonym ciele](design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu),
+tylko widziana od strony konstrukcji, która ją wywołała:
+negacja płaci nie liczbą czytań, tylko tym, które z nich wychodzi.
+Szyk podmiot–dopełnienie–czasownik zamieniłby te trzy pomyłki
+na trzy zdania wieloznaczne, a ile zabrałby poza nimi, nie wie nikt;
+[TODO.md](../TODO.md) trzyma ten pomiar.
+
 ## The bare verb-initial order keeps the predicative one honest
 
 ```text
@@ -506,11 +624,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 696 | 338 | 11 991 |
-| zdaniowy | 732 | 344 | 11 949 |
-| imienny | 710 | 351 | 11 964 |
-| przymiotnikowy | 696 | 338 | 11 991 |
-| wszystkie trzy | 746 | 358 | 11 921 |
+| bez przecinka | 1061 | 495 | 11 469 |
+| zdaniowy | 1122 | 511 | 11 392 |
+| imienny | 1078 | 511 | 11 436 |
+| przymiotnikowy | 1061 | 495 | 11 469 |
+| wszystkie trzy | 1139 | 528 | 11 358 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -518,7 +636,7 @@ a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segment�
 których nie wpuszcza `--max-tokens`.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Wieloznacznych przybywa dwadzieścia i wszystkie dwadzieścia przychodzi z odrzuconych,
+Wieloznacznych przybywa trzydzieści trzy i wszystkie przychodzą z odrzuconych,
 czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
 Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
 zdanie po zdaniu, i znajduje ją raz.
@@ -999,22 +1117,22 @@ Nad „Zasadami techniki prawodawczej” jest to jedyne zdanie,
 które przechodzi z wieloznaczności w odrzucenie,
 i przechodzi dlatego, że stało na czytaniu współrzędnym.
 
-### Bank drzew taguje `który` inaczej niż Morfeusz
+### Bank drzew nazywa `który` inaczej niż Morfeusz, a czytelnik to przekłada
 
 Składnica taguje `który` jako `padj`, czyli zaimek przymiotny,
 a Morfeusz jako `adj`,
-więc gramatyka pisana pod tagset Morfeusza nie sięga po ani jedno wystąpienie
+więc gramatyka pisana pod tagset Morfeusza nie sięgała po ani jedno wystąpienie
 w przebiegu pod złotą morfologią.
-Kolumna złota mierzy zatem samo zdanie z `że`,
-a zdanie względne mierzy kolumna z Morfeuszem i rejestr ustaw.
+Przekłada to dzisiaj czytelnik banku drzew, razem z trzema innymi nazwami
+([corpus.md](corpus.md#where-the-analyses-stop)),
+i obie kolumny mierzą przez to zdanie względne tak samo.
 
-Pod Morfeuszem zdanie z `że` wyciąga z odrzucenia 48 zdań Składnicy,
-dziewiętnaście jednoznacznych i dwadzieścia dziewięć wieloznacznych,
-a zdanie względne 37, cztery jednoznaczne i trzydzieści trzy wieloznaczne.
+Pod złotą morfologią zdanie z `że` wyciąga z odrzucenia 66 zdań Składnicy,
+trzydzieści trzy jednoznaczne i trzydzieści trzy wieloznaczne,
+a zdanie względne 36, siedem jednoznacznych i dwadzieścia dziewięć wieloznacznych.
 Każdą z tych liczb bierze osobny kontrfaktyk, czyli ta gramatyka bez jednej z nich,
 więc suma tych dwóch nie jest liczbą, jaką dałoby zdjęcie obu naraz.
-Traci werdykt tamto jedno zdanie pytające i tylko ono.
-Ani jedno zdanie przyjęte nie zyskuje drugiego czytania,
+Ani jedno zdanie przyjęte nie traci przy tym jednoznaczności,
 więc jednoznaczność obie konstrukcje kosztują tu zero,
 a wieloznaczności przybywa wyłącznie na zdaniach, które wcześniej odpadały.
 
@@ -1023,13 +1141,9 @@ Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształc
 ```
 
 Rozbieżność tagsetów jest przy tym faktem o korpusie, a nie o gramatyce,
-i jest tu dlatego, że bez niej kolumna złota mówiłaby o zdaniu względnym nieprawdę:
+i zapisana jest tutaj dlatego, że kolumna złota mówiła bez tego przekładu
+o zdaniu względnym nieprawdę:
 liczba, która się nie ruszyła, czyta się jak konstrukcja, która nic nie kupuje.
-Ta sama rozbieżność stoi za wierszem `psubst`
-[w kolejce blokerów](corpus.md#where-the-analyses-stop):
-`to`, `co` i `kto` mają tam własną klasę,
-a Morfeusz daje im `subst`, więc produkcja pisana pod jego tagset
-tamtego wiersza nie ruszy, choćby zdanie z `to` wyprowadzała.
 
 ## Grupa liczebnikowa zgadza się tym, czego nie ma w środku
 
@@ -1096,25 +1210,25 @@ python3 -m sonda.liczebnik Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez liczebnika | 690 | 323 | 12 012 |
-| zgodny | 718 | 344 | 11 963 |
-| rządzący | 717 | 336 | 11 972 |
-| oba | 746 | 358 | 11 921 |
+| bez liczebnika | 1066 | 478 | 11 481 |
+| zgodny | 1106 | 509 | 11 410 |
+| rządzący | 1097 | 496 | 11 432 |
+| oba | 1139 | 528 | 11 358 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Pięćdziesiąt sześć przechodzi z odrzuconych na przyjęte
-i trzydzieści pięć z odrzuconych na wieloznaczne,
+Siedemdziesiąt trzy przechodzą z odrzuconych na przyjęte
+i pięćdziesiąt z odrzuconych na wieloznaczne,
 czyli cała cena jest zapłacona zdaniami,
 których gramatyka bez liczebnika nie wyprowadzała wcale.
-Zakup dzieli się między ciała prawie po połowie, na dwadzieścia osiem i dwadzieścia siedem,
+Zakup dzieli się między ciała prawie po połowie, na czterdzieści i trzydzieści jeden,
 i żadne zdanie nie rusza się pod obydwoma,
-więc te dwa zbiory są rozłączne i sumują się do pięćdziesięciu pięciu.
-Zdanie pięćdziesiąte szóste wymaga obu ciał naraz,
-tak samo jak jedno z trzydziestu pięciu wieloznacznych,
+więc te dwa zbiory są rozłączne i sumują się do siedemdziesięciu jeden.
+Dwa zdania wymagają obu ciał naraz,
+tak samo jak jedno z pięćdziesięciu wieloznacznych,
 bo ma dwie grupy liczebnikowe i każda z nich przyłącza się inaczej:
 
 ```text
@@ -1224,7 +1338,6 @@ Every one of these is a sentence that gets rejected and should not be:
   and all three used to derive
   — the first as an adjective before its noun, the other two as coordination —
   so what this entry records is a rejection replacing a wrong reading.
-- Negation and the genitive of negation.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
@@ -1456,8 +1569,8 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi kilkadziesiąt zdań,
-a z nimi trzy, i żadne z tych trzech nie jest przyłączeniem, które olski wybrał.
+gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi ponad sto zdań,
+a z nimi kilkanaście, i żadne z nich nie jest przyłączeniem, które olski wybrał.
 Ile ich dokładnie jest po obu stronach i czym są te trzy, trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance);
 tutaj stoi rzędem wielkości, bo liczba zapisana w obu miejscach
