@@ -396,13 +396,11 @@ a tabele w [corpus.md](corpus.md) są przeliczone tym, co ją opróżniło.
 
 ## Czego ta numeracja nie obejmuje
 
-Czy olski może przestawiać — czyli czy wpuszcza konstytuenty nieciągłe,
-jak `Jakie Jan czyta książki?` —
-jest jedynym miejscem, w którym krzywa kosztu skacze o wykładnik,
-bo odpowiedź na tak wyprowadza cały podzbiór poza gramatyki bezkontekstowe.
-Pytanie trzyma
-[open-questions.md](open-questions.md#the-big-fork-may-olski-scramble),
-razem z tym, że rozstrzyga je pomiar, a nie gust.
+Przestawiania — czyli konstytuentu nieciągłego, jak w `Jakie Jan czyta książki?` —
+żaden etap nie dopisuje, bo olski go nie wpuszcza.
+Jest to jedyne miejsce, w którym krzywa kosztu skacze o wykładnik,
+i rozstrzygnął je pomiar, a co on pokazał, mówi
+[design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 
 Etapem to nie jest, bo [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę) mówi,
 co ma zajść nad zdaniem, a nie czym ma być wyprowadzone.
