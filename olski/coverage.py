@@ -14,9 +14,10 @@ design-notes.md asks for: a construction worth thousands of sentences is worth
 the formal power it costs, and one worth eleven is not.
 
 **Gold morphology against live.** Run with the treebank's disambiguated tags and
-the grammar is measured alone. Run with Morfeusz and the tagger's ambiguity comes
-back. The gap between the two is what ambiguity costs olski, separated from what
-the grammar cannot derive at all.
+the grammar is measured alone. Run with Morfeusz and the analyser's ambiguity
+comes back, none of it resolved, because Morfeusz analyses and does not choose.
+The gap between the two is what ambiguity costs olski, separated from what the
+grammar cannot derive at all.
 
 **Agreement, not just acceptance.** Accepting a sentence is worth nothing if the
 reading is wrong. Olski admits both SVO and OVS, so on every sentence it accepts

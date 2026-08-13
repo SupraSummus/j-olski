@@ -10,7 +10,7 @@ matter:
 inside it, rather than a single tree. Olski's question is not "is this the tree"
 but "does the correct reading survive, alone", and a forest with a marked answer
 is exactly what that question needs. The terminals also carry disambiguated
-morphology, so the grammar can be measured with the tagger's ambiguity removed
+morphology, so the grammar can be measured with the analyser's ambiguity removed
 and then again with it restored, and the difference is attributable.
 
 **Limited**, because a treebank made from one grammar's output cannot say how

@@ -20,6 +20,34 @@ The generator is the part the grammar track leans on,
 and it is why Morfologik below is not the dictionary here.
 <http://morfeusz.sgjp.pl/>
 
+**Concraft** —
+a morphosyntactic tagger for Polish, built over Morfeusz 2's output.
+It reads the analyser's graph of interpretations,
+marks one path through it as the disambiguated one,
+and by default prints a marginal probability
+beside every interpretation rather than beside the chosen ones alone.
+Conditional random fields underneath, Haskell above, BSD-2 licensed,
+and distributed as binaries for Linux, Windows and macOS
+with a model of about 100 MB
+trained on NKJP1M-SGJP and dated February 2022.
+It reads and writes a tab-separated graph format,
+and runs as a server with a Python client as well.
+
+Choosing is what olski declines to do before the parser sees a sentence,
+so this is not a component of the analysis:
+`olski/morph.py` hands every reading forward on purpose,
+and a path marked upstream would settle
+[the uniqueness property](subset.md#validity-is-uniqueness-not-just-derivability)
+in the analyser instead of in the grammar.
+What it is a candidate for is the measurement,
+where [neither column](corpus.md#what-morphological-ambiguity-costs)
+comes from a tagger.
+The marginals are the half a measurement can take
+without the analysis losing a reading,
+since they weight the interpretations rather than dropping any.
+<https://zil.ipipan.waw.pl/Concraft>
+<https://github.com/kawu/concraft-pl>
+
 **SGJP**, *Słownik gramatyczny języka polskiego* —
 the grammatical dictionary underneath Morfeusz.
 The 2020 edition characterizes nearly 456,000 Polish lexemes
