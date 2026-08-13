@@ -17,10 +17,10 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.subset import GRAMMAR, check
-from sonda import liczebnik, przecinek
+from sonda import liczebnik, negacja, przecinek
 from sonda.ruch import Sonda, gramatyka
 
-SONDY = [przecinek.SONDA, liczebnik.SONDA]
+SONDY = [przecinek.SONDA, liczebnik.SONDA, negacja.SONDA]
 
 #: Sonda, wariant i zdanie, które stoi dokładnie na tej jednej grupie produkcji.
 #: Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania nie jest
@@ -31,6 +31,7 @@ NA_JEDNEJ_GRUPIE = [
     (przecinek.SONDA, "przymiotnikowy", "Plik jest nowy, duży."),
     (liczebnik.SONDA, "zgodny", "Działają dwie rzeczy."),
     (liczebnik.SONDA, "rządzący", "Pięć kobiet przyszło."),
+    (negacja.SONDA, "cząstka", "Program nie działa."),
 ]
 
 
@@ -53,3 +54,19 @@ def test_wariant_grupy_zostawia_swoją_produkcję_i_zdejmuje_pozostałe(
     for nazwa in sonda.osobne:
         oczekiwane = "valid" if nazwa == wariant else "rejected"
         assert [w.status for w in check(zdanie, gramatyka(sonda, nazwa))] == [oczekiwane]
+
+
+def test_dopełniacz_negacji_sam_nie_licencjonuje_ani_jednego_zdania():
+    """Grupa, której nie pokaże żadne zdanie, i to jest o niej odczyt.
+
+    Reszta tego pliku sprawdza grupy zdaniem, które stoi na jednej z nich, a ta
+    grupa takiego zdania nie ma: dopełniacz negacji wpuszcza czasownik, który
+    przeczy, więc bez cząstki nie ma go co wystrzelić. Wariant jest przez to
+    kopią mianownika i tak go czyta `docs/subset.md` — zero w jego wierszu jest
+    odczytem, a nie przeoczeniem, i przestałoby nim być po cichu, gdyby ta
+    produkcja kiedyś dostała drugiego licencjodawcę.
+    """
+    for zdanie in ("Program nie zapisuje ustawień.", "Program zapisuje ustawienia."):
+        bez = [w.status for w in check(zdanie, gramatyka(negacja.SONDA, "bez negacji"))]
+        sam = [w.status for w in check(zdanie, gramatyka(negacja.SONDA, "dopełniacz"))]
+        assert sam == bez

@@ -379,7 +379,7 @@ Rozwidlenie o przestawianiu miało zapaść z pomiaru, a nie z gustu,
 i pomiar jest zrobiony.
 Nieciągłości potrzebuje 2,5 procent zdań cudzej polszczyzny,
 kupuje ona w olskim zero zdań,
-a odbiera jednoznaczność prawie co czwartemu zdaniu, które ją ma.
+a odbiera jednoznaczność prawie co trzeciemu zdaniu, które ją ma.
 Olski zostaje więc na szczeblu 2 [drabiny](#the-cost-ladder)
 i przestawiania nie wpuszcza.
 
@@ -395,10 +395,6 @@ Takich drzew jest 323, czyli 2,5 procent zmierzonych.
 Szczelina wypada po jednej w 320 z nich i po dwie w trzech.
 Granicy „najwyżej jedna w ciągu”, którą Świgra sobie postawiła,
 te trzy nie przekraczają: ciągów jest w zdaniu złożonym tyle, ile zdań składowych.
-Liczba 323 stoi także w [corpus.md](corpus.md#the-measurement)
-jako liczba zdań wieloznacznych, i jest to zbieg okoliczności:
-tam liczone są werdykty olskiego, a tutaj cudze drzewa.
-
 Potrzeba nie jest zakupem.
 Konstrukcja kupuje zdanie dopiero wtedy, gdy nic innego go nie blokuje,
 więc udział zdań z nieciągłością ogranicza zakup z góry i nie równa się jemu.
@@ -408,10 +404,11 @@ i mówi o różnicy zakupu i ceny,
 więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowaniem.
 
 **Zakup w olskim: zero.**
-Wszystkie 323 zdania olski odrzuca,
-a ich analizy kończą się na cząstce (60), na znaku przestankowym (32),
-na zaimku przymiotnikowym (25), na predykatywie, przysłówku i imiesłowie biernym
-(po 23) oraz na bezokoliczniku (22),
+Z 323 zdań olski odrzuca 320, a trzy przyjmuje bez żadnej szczeliny,
+więc nie są one zakupem dla nikogo.
+Analizy odrzuconych kończą się na cząstce (43), na znaku przestankowym (38),
+na przysłówku i na bezokoliczniku (po 35), na predykatywie (29)
+oraz na imiesłowie biernym (25),
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
@@ -424,7 +421,7 @@ którego analiza kończy się na cząstce.
 Najkrótsze zdania tego zbioru są przy tym w większości pytaniami,
 a cały zbiór nie: pytań jest w nim 25 z 323.
 
-**Cena: 60 z 261 zdań przestaje mieć jedno czytanie.**
+**Cena: 92 z 329 zdań przestaje mieć jedno czytanie.**
 Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
 łukami zależności zamiast produkcjami.
 Nie gramatyka olskiego, bo spójność da się zdjąć tylko tam:
@@ -432,10 +429,10 @@ produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 746 zdań, które olski przyjmuje jednym czytaniem,
-podłoże czyta jednoznacznie 261 — deklaracja jest w nim węższa,
-więc 453 odrzuca, a 32 czyta dwojako —
-i po zdjęciu spójności 60 z tych 261 przestaje mieć jedno czytanie.
+Z 1139 zdań, które olski przyjmuje jednym czytaniem,
+podłoże czyta jednoznacznie 329 — deklaracja jest w nim węższa,
+więc 761 odrzuca, a 49 czyta dwojako —
+i po zdjęciu spójności 92 z tych 329 przestają mieć jedno czytanie.
 Mianownik rośnie z gramatyką, a te dwie liczby stoją,
 bo podłoże nie ma [grupy liczebnikowej](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
 i każde zdanie, które ona olskiemu kupiła, odrzuca.
@@ -1179,6 +1176,24 @@ przy tej produkcji.
 Działa to dlatego, że `unify` pomija cechę, której konstytuent nie ma,
 czyli tą samą linią, którą nieodmienna część mowy jest niewinna zgodności.
 Nieobecność jest tu mechanizmem, a nie dziurą.
+
+Negacja weszła tym kanałem, nie mając ani drugiej własności, ani trzeciej.
+Rządzenie nie jest symetryczne — czasownik żąda przypadka od dopełnienia,
+a dopełnienie od czasownika nie żąda niczego — i nie rozstrzyga się nad parą,
+bo dopełniacz negacji sięga pod bezokolicznik przez łańcuch dowolnej długości
+([subset.md](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
+Przeszła dzięki pierwszej własności, czyli tej, na której stoi unifikacja:
+wartości są dwie, przecięcie tylko zawęża,
+a kierunek żądania zapisuje się jednostronnie —
+ciało z cząstką ogłasza `neg`, ciało bez niej `aff`,
+a dopełnienie mówi, przy którym z nich stoi.
+Płaci za to ścieżką, którą trzeba przeprowadzić przez każdy konstytuent osobno:
+`Complements` niesie tę cechę tylko po to, żeby ją przekazać,
+`InfinitivePhrase` ją wypuszcza, a fraza z własną cząstką ma jej nie wypuszczać.
+Zgodność takiej ścieżki nie potrzebuje, bo przypadek, liczbę i rodzaj
+konstytuent wypuszcza i tak, dla własnych córek.
+Pierwsza własność wpuszcza więc rzecz do kanału, a dwie pozostałe rozstrzygają,
+czy wjedzie za darmo.
 
 Walencja weszła tym kanałem i wypadła na lokalności.
 Rama jest stanem, a nie zasobem, więc pozycji już zajętej nie ma jak odnotować,

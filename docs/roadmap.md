@@ -359,14 +359,13 @@ wyprowadza się i wyprowadza raz.
 ## Etap 6: reszta konstrukcji
 
 Przysłówek, `to` w roli łącznika,
-negacja wraz z dopełniaczem negacji,
 liczebnik pisany cyfrą i rzeczowniki odczasownikowe.
 Kolejka ze Składnicy stawia je wysoko,
-bo przysłówek prowadzi w niej trzeci wiersz, a `to` dwa dalsze.
+bo przysłówek prowadzi w niej drugi wiersz, a `to` dwa dalsze.
 Wobec README podnoszą pokrycie dopiero razem,
-a żaden z czterech zmierzonych dodany sam go nie rusza.
+a żaden z pięciu zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
-a nad łącznikiem i negacją nie mierzy nic,
+a nad łącznikiem nie mierzy nic,
 więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
 
 Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
@@ -394,6 +393,24 @@ Cyfrę zdejmie z tej listy warstwa nad morfologią, a nie produkcja,
 bo `dig` nie niesie ani przypadka, ani liczby
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)),
 i tym różni się ta pozycja od pozostałych czterech.
+
+Negacja była na tej liście i zeszła z niej cała, razem z dopełniaczem negacji,
+bo cząstka bez tego przypadka kupuje dwie trzecie tego, co obie razem.
+Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
+i cztery zdania ustawy przy trzydziestu,
+a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
+i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie
+`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-146-zdań-i-odbiera-jedno)).
+Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
+wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
+czwartą, gdzie tamte oddawały po jednej piątej.
+Płaci za to gdzie indziej: trzy zdania olski czyta po tej zmianie odwrotnie,
+niż czyta je czytelnik, bo dopełniacz stojący przed czasownikiem
+wpada do grupy imiennej przed nim, a szyku, który by go stamtąd wyjął,
+gramatyka nie ma
+([subset.md](subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)).
+Cena konstrukcji nie musi więc dać się policzyć w żadnej z dwóch walut,
+które ta sekcja zna.
 
 Czas przeszły był na tej liście i z niej zszedł,
 a to, jak zszedł, mówi o samej liście dwie rzeczy.

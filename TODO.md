@@ -426,6 +426,55 @@ is the second copy of a fact that
 
 ## Gramatyka, parser i pomiar pokrycia
 
+Dopełnienie przed czasownikiem żąda dziś podmiotu za czasownikiem,
+a szyk podmiot–dopełnienie–czasownik nie ma w gramatyce ani jednego ciała.
+Widać ten brak dopiero wtedy, gdy coś tę środkową pozycję zajmie,
+i zajmuje ją dopełniacz negacji: stawia tam grupę imienną, która jest zarazem
+przydawką dopełniaczową rzeczownika przed nią, więc `Apostołowie tego nie
+praktykowali.` wychodzi z jednym podmiotem i bez dopełnienia.
+Trzy zdania Składnicy olski czyta przez to odwrotnie, niż czyta je czytelnik
+([`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)),
+i jest to pomyłka droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta.
+Do przeczytania jest, ile ten szyk zabiera poza tymi trzema zdaniami:
+dopisany, czyni wieloznacznym każde zdanie, w którym po podmiocie stoi
+grupa w bierniku albo w dopełniaczu, czyli potencjalnie każde SVO.
+Ruchem jest sonda różnicowa nad tym jednym ciałem, wzorowana na
+`sonda/negacja.py`, a dopiero po niej decyzja;
+przy wyniku „za drogo” ruchem jest zdanie w
+[`docs/subset.md`](docs/subset.md#what-the-grammar-covers) mówiące,
+że te trzy zdania olski czyta odwrotnie i że tak zostanie.
+
+Forma `nie` ma u Morfeusza czytanie zaimkowe, którego polszczyzna w tym miejscu
+nie ma: jest to biernik `on` w postaci popodstawowej, czyli tej, która stoi
+wyłącznie po przyimku (`na nie`, `za nie`).
+Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
+pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
+które ją nad trzema rejestrami straciło przy wpuszczeniu negacji
+([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-146-zdań-i-odbiera-jedno)).
+Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
+bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
+i cecha, po której to czytanie widać, jest inna: `praep` w tagu.
+Ruchem jest warunek `npraep` na terminalu zaimka w grupie imiennej wraz z drogą
+dla grupy pod przyimkiem, która `praep` brać musi, a przed nim pomiar,
+ile czytań ten warunek zdejmuje nad Składnicą:
+tagów `praep` jest w niej więcej niż samo `nie`.
+
+Zamknięta lista kopul nie ma `stawać się` ani `okazywać się`,
+a polszczyzna orzeka nimi narzędnik tak samo jak `zostawać`.
+`Mao stał się na wiele lat przywódcą największego narodu na kuli ziemskiej.`
+i `Człowiek staje się wyleniałym tygrysem.` są przez to odrzucone,
+i są to dwa z 75 zdań, które zawężenie narzędnika odrzuca nad Składnicą,
+a jedyne dwa, które odrzuca niesłusznie
+([`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)).
+Przeszkodą nie jest lista, tylko cząstka: `KOPULA` w `olski/subset.py` jest
+warunkiem na lemat, a te dwa czasowniki są kopulami wyłącznie z `się`,
+którego produkcja kopuli nie ma gdzie postawić —
+[`docs/subset.md`](docs/subset.md#what-the-grammar-covers) mówi to przy liście.
+Ruchem jest ramka narzędnikowa w leksykonie zwrotnym,
+czyli ta sama droga, którą walencja rozdziela formę z cząstką od formy bez niej,
+a do przeczytania jest, co zwrotna kopula robi z `Ludzie rodzą się wolni.`,
+gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
+
 Współrzędność wypisuje się trzema produkcjami, a mogłaby jedną, lewostronnie rekurencyjną.
 `X → X conj X` powiedziałoby o zasięgu to samo co trzy poziomy z `build`
 w `olski/subset.py`, bo zawężenie zasięgu stoi na rodzaju,
@@ -529,7 +578,7 @@ Do rozstrzygnięcia jest przy tym, czy pytanie zależne jest tą samą pozycją 
 co zdanie z `że`, czy osobną: leksykon walencyjny mówi o nich to samo,
 a czasownik, który bierze jedno i nie bierze drugiego, tę pozycję rozdziela.
 Do przeczytania jest, ile zdanie pytające w ogóle w tych rejestrach waży,
-bo nad README nie ma go ani razu, a nad Składnicą wiersz `padj` prowadzi `który`.
+bo nad README nie ma go ani razu, a nad Składnicą `który` niesie i tę konstrukcję, i zdanie względne.
 
 Zaimek względny wysunięty razem ze swoją grupą nie ma wyprowadzenia.
 `RelativeModifier` w `olski/subset.py` bierze przyimek i sam zaimek,
@@ -863,9 +912,15 @@ Kosztowało to symetrię w koordynacji i osobny wpis wyżej,
 a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
 Samo zdanie względne dołożyło za to trzecie miejsce, w którym szyk się wypisuje:
-`RelativeCore` ma dziewięć ciał, bo rola wysunięta ma trzy kształty,
+`RelativeCore` ma piętnaście ciał, bo rola wysunięta ma trzy kształty,
 a reszta zdania szyk i miejsca na okolicznik,
 więc preprocesor zastanie tu dwie rodziny symboli zdaniowych zamiast jednej.
+Sześć z tych piętnastu dołożyła negacja, i nie dołożyła ich za szyk:
+przypadek wysuniętego zaimka zależy od tego, czy czasownik za nim przeczy,
+więc każde ciało z dopełnieniem stoi w dwóch wersjach
+([`docs/subset.md`](docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
+Preprocesor precedencji tego nie zdejmie, bo mnoży tu cecha, a nie kolejność,
+i jest to najbliższy przykład tego, co ten ruch zostawia po sobie.
 Do przeczytania jest, co preprocesor robi z liczbą czytań,
 bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
 a próba nad prozą README stoi w `sonda/` gotowa do porównania,

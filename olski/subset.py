@@ -142,6 +142,19 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 #: podzbiór nie bierze.
 PRZECINEK = word("interp", lemma=",")
 
+#: Cząstka przecząca, czyli jedyne słowo, którym olski przeczy. Warunek na lemat,
+#: a nie sama część mowy, tak samo jak przy przecinku: ``part`` niesie całą klasę
+#: cząstek naraz, a ``by``, ``czy`` i ``no`` ten podzbiór zostawia na zewnątrz.
+PRZECZENIE = word("part", lemma="nie")
+
+#: Przeczenie jako para: co dochodzi na początek ciała i jaką wartość cechy
+#: ``negacja`` to ciało wypuszcza. Para, bo obie strony powstają razem: ciało bez
+#: cząstki, które nie ogłasza ``aff``, przepuszcza dopełniacz negacji tam, gdzie
+#: żadnego przeczenia nie ma, i cechy, której konstytuent nie niesie, unifikacja
+#: nie sprawdza. Zdanie przeczące ma dokładnie jedno przeczenie, więc lista jest
+#: pętlą po dwóch wartościach, a nie cząstką doklejaną gdziekolwiek.
+PRZECZENIA: tuple[tuple[tuple[Part, ...], str], ...] = (((), "aff"), ((PRZECZENIE,), "neg"))
+
 
 def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     """Klasy walencyjne: warunek na lemat i rama, którą ten warunek wpuszcza.
@@ -235,8 +248,16 @@ def build() -> Grammar:
     # siebie swoją ramę, dopełnienie mówi, którą pozycję ramy zajmuje, a
     # unifikacja przecina jedno z drugim. Czasownik, przy którym nic nie stoi,
     # ramy nie ogłasza nikomu i stoi tu bez niej.
-    czasownik_ramy = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency=V("w"))
-    dopełnienie = nt("Object", valency=V("w"))
+    #
+    # Negacja jedzie tą samą drogą i rządzi tym samym: przypadkiem grupy, którą
+    # czasownik bierze. Czasownik ogłasza, czy przeczy, dopełnienie mówi, przy
+    # jakim przeczeniu stoi. Zgodnością to nie jest — rządzenie nie jest ani
+    # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
+    # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
+    czasownik_ramy = nt(
+        "Verb", number=V("n"), gender=V("g"), person=V("p"), valency=V("w"), negacja=V("z")
+    )
+    dopełnienie = nt("Object", valency=V("w"), negacja=V("z"))
     orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
     orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
 
@@ -313,7 +334,12 @@ def build() -> Grammar:
     # Dopełnienie wychodzi z pozycją ramy, którą zajmuje, bo tym jest przypadek,
     # który czasownik rządzi: żądanie wobec czasownika stoi więc raz, tutaj, a nie
     # w każdym szyku, w którym dopełnienie stoi.
-    grammar.rule("Object", [nt("NP", case="acc")], valency="acc")
+    #
+    # Dopełniacz negacji zajmuje tę samą pozycję ramy, więc jest drugą produkcją
+    # dopełnienia, a nie drugą pozycją. Wartość cechy jest tu wypisana, a nie
+    # zmienna, bo o przypadku rozstrzyga właśnie ta produkcja.
+    grammar.rule("Object", [nt("NP", case="acc")], valency="acc", negacja="aff")
+    grammar.rule("Object", [nt("NP", case="gen")], valency="acc", negacja="neg")
 
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
@@ -321,7 +347,16 @@ def build() -> Grammar:
     grammar.rule("Predicate", [czasownik], number=V("n"), gender=V("g"), person=V("p"))
     grammar.rule(
         "Predicate",
-        [Głowa(czasownik_ramy), nt("Complements", number=V("n"), gender=V("g"), valency=V("w"))],
+        [
+            Głowa(czasownik_ramy),
+            nt(
+                "Complements",
+                number=V("n"),
+                gender=V("g"),
+                valency=V("w"),
+                negacja=V("z"),
+            ),
+        ],
         number=V("n"),
         person=V("p"),
         gender=V("g"),
@@ -330,18 +365,24 @@ def build() -> Grammar:
     # A modal and its infinitive. Powinien inflects for gender and not for
     # person, so the clause it heads agrees with its subject in gender and
     # leaves person to whatever else constrains it.
-    grammar.rule(
-        "Predicate",
-        [Głowa(word("winien", number=V("n"), gender=V("g"))), nt("InfinitivePhrase")],
-        number=V("n"),
-        gender=V("g"),
-    )
+    for przeczenie, negacja in PRZECZENIA:
+        grammar.rule(
+            "Predicate",
+            [
+                *przeczenie,
+                Głowa(word("winien", number=V("n"), gender=V("g"))),
+                nt("InfinitivePhrase", negacja=negacja),
+            ],
+            number=V("n"),
+            gender=V("g"),
+        )
     # Fraza bezokolicznikowa niesie pozycję ramy, którą zajmuje, tak samo jak
     # dopełnienie i orzecznik, więc żądanie wobec czasownika stoi raz, na niej, a
     # nie w każdym ciele, w którym stoi ona. Łańcuch nie potrzebuje przy tym
     # własnej produkcji, bo InfinitivePhrase → inf Complements wraca do ciał niżej
     # i ma pomagać pisać wychodzi z tych dwóch.
-    grammar.rule("InfinitivePhrase", [word("inf")], valency="inf")
+    for przeczenie, _ in PRZECZENIA:
+        grammar.rule("InfinitivePhrase", [*przeczenie, Głowa(word("inf"))], valency="inf")
 
     # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
     # ramy niesie ono tak samo jak dopełnienie i bezokolicznik, więc żądanie wobec
@@ -365,9 +406,15 @@ def build() -> Grammar:
     # którą szyki zdania podejmują wyżej: brakująca pozycja okolicznika nie odrzuca
     # zdania, tylko wypuszcza jednym czytaniem takie, które ma dwa przyłączenia,
     # jak Muszę jechać do domu.
+    #
+    # Negację niosą dwa z czterech wypełnień i to wystarcza, żeby niosły ją te
+    # produkcje: zmienna, której nie zwiąże ani orzecznik, ani zdanie podrzędne,
+    # zostaje wolna i konstytuent wychodzi bez tej cechy, a cechy, której
+    # konstytuent nie niesie, rodzic nie sprawdza. Orzecznik narzędnikowy stoi
+    # więc przy `nie jest` tak samo jak przy `jest`, i tak stoi go polszczyzna.
     for wypełnienie in (
         dopełnienie,
-        nt("InfinitivePhrase", valency=V("w")),
+        nt("InfinitivePhrase", valency=V("w"), negacja=V("z")),
         orzecznik_ramy,
         nt("SubordinateClause", valency=V("w")),
     ):
@@ -378,7 +425,12 @@ def build() -> Grammar:
             [okoliczniki, Głowa(wypełnienie), okoliczniki],
         ):
             grammar.rule(
-                "Complements", ciało, number=V("n"), gender=V("g"), valency=V("w")
+                "Complements",
+                ciało,
+                number=V("n"),
+                gender=V("g"),
+                valency=V("w"),
+                negacja=V("z"),
             )
     grammar.rule("Complements", [okoliczniki])
 
@@ -414,27 +466,53 @@ def build() -> Grammar:
     # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
     # czasowników przechodziłaby reszcie za darmo, a żądanie „bądź kopulą” nie
     # byłoby wtedy żądaniem. Po to leksykon ma ramę domyślną.
+    #
+    # Cząstka przecząca poprzedza formę i nic z tego, co czasownik bierze, przed
+    # nią nie stanie, więc przeczenie kosztuje jedną pozycję zamiast pozycji w
+    # każdym szyku zdania. Ciało bez cząstki ogłasza przy tym `aff`, bo milczenie
+    # przepuściłoby dopełniacz negacji do zdania, które nie przeczy.
     for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
         for warunek, rama in _klasy(zwrotne):
             for ciało, osoba in _formy_skończone(warunek):
-                grammar.rule(
-                    "Verb",
-                    [*ciało, *cząstka],
-                    number=V("n"),
-                    gender=V("g"),
-                    person=osoba,
-                    valency=rama,
-                )
+                for przeczenie, negacja in PRZECZENIA:
+                    grammar.rule(
+                        "Verb",
+                        [*przeczenie, *ciało, *cząstka],
+                        number=V("n"),
+                        gender=V("g"),
+                        person=osoba,
+                        valency=rama,
+                        negacja=negacja,
+                    )
 
     # Bezokolicznik pyta o leksykon niezwrotny i ma pętlę osobną zamiast warunku
     # wewnątrz tamtej. Cząstki nie bierze, więc `zaczyna otwierać się` nie ma
     # wyprowadzenia, i jest to ta sama dziura, którą docs/subset.md wypisuje pod
     # walencją: `się` dochodzi do czasownika, przy którym stoi, a nie do tego, do
     # którego należy.
+    #
+    # Fraza bez własnej cząstki wypuszcza negację, którą wzięła od dołu, więc
+    # `Nie chcę czytać książki` żąda dopełniacza od dopełnienia stojącego pod
+    # bezokolicznikiem, i tak samo przez łańcuch dowolnej długości.
+    #
+    # Fraza z własną cząstką nie wypuszcza tej cechy wcale i tym zamyka
+    # przenoszenie: `Program ma nie zapisywać ustawień` przeczy bezokolicznikowi,
+    # a forma osobowa nad nim nie przeczy. Nieobecnością cechy broni się tu tak
+    # samo jak grupa współrzędna, która rodzaju nie niesie.
     for warunek, rama in _klasy(zwrotne=False):
         grammar.rule(
             "InfinitivePhrase",
-            [Głowa(word("inf", **warunek)), nt("Complements", valency=rama)],
+            [Głowa(word("inf", **warunek)), nt("Complements", valency=rama, negacja=V("z"))],
+            valency="inf",
+            negacja=V("z"),
+        )
+        grammar.rule(
+            "InfinitivePhrase",
+            [
+                PRZECZENIE,
+                Głowa(word("inf", **warunek)),
+                nt("Complements", valency=rama, negacja="neg"),
+            ],
             valency="inf",
         )
 
@@ -668,12 +746,10 @@ def build() -> Grammar:
     # produkcją i sięga najdalej, bo za wyrażeniem przyimkowym stoi zdanie
     # składowe całe, w każdym szyku, jaki ono ma.
     zaimek_podmiot = nt("RelativePronoun", case="nom", number=V("n"), gender=V("g"))
-    zaimek_dopełnienie = nt("RelativePronoun", case="acc", number=V("n"), gender=V("g"))
     # Osoba i liczba orzeczenia biorą się tu z zaimka, bo on jest podmiotem;
     # w ciałach z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
     # zmienna liczby jest tam inna niż zmienna liczby zaimka.
     orzeczenie_względne = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
-    czasownik_względny = nt("Verb", number=V("nv"), gender=V("gv"), person=V("p"), valency="acc")
     podmiot_względny = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
     grammar.rule(
         "RelativeCore",
@@ -696,16 +772,36 @@ def build() -> Grammar:
     # wyżej i z tego samego powodu: pozycji brakującej nie widać po zdaniu
     # odrzuconym, tylko po przyjętym, które wychodzi jednym czytaniem, bo drugie
     # nie miało gdzie się wyprowadzić.
-    for reszta in (
-        [Głowa(czasownik_względny), podmiot_względny],
-        [podmiot_względny, Głowa(czasownik_względny)],
-    ):
-        for ciało in (
-            [zaimek_dopełnienie, *reszta],
-            [zaimek_dopełnienie, okoliczniki, *reszta],
-            [zaimek_dopełnienie, *reszta, okoliczniki],
+    #
+    # Przypadek zaimka rozstrzyga tu przeczenie stojące za nim: `polszczyzna,
+    # którą ktoś napisał` obok `polszczyzna, której nikt nie napisał`. Wspólnej
+    # zmiennej te dwa nie dostają, bo zaimek przypadka nie wybiera — żąda go
+    # czasownik — więc para przypadka i wartości cechy stoi wypisana tak samo jak
+    # przy dopełnieniu wyżej. Rządzenie sięga tu przez całą resztę zdania
+    # składowego, a więc dalej niż gdziekolwiek indziej w tej gramatyce, i tyle
+    # też kosztuje: sześć ciał rośnie do dwunastu.
+    for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
+        zaimek_dopełnienie = nt(
+            "RelativePronoun", case=przypadek, number=V("n"), gender=V("g")
+        )
+        czasownik_względny = nt(
+            "Verb",
+            number=V("nv"),
+            gender=V("gv"),
+            person=V("p"),
+            valency="acc",
+            negacja=negacja,
+        )
+        for reszta in (
+            [Głowa(czasownik_względny), podmiot_względny],
+            [podmiot_względny, Głowa(czasownik_względny)],
         ):
-            grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
+            for ciało in (
+                [zaimek_dopełnienie, *reszta],
+                [zaimek_dopełnienie, okoliczniki, *reszta],
+                [zaimek_dopełnienie, *reszta, okoliczniki],
+            ):
+                grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
 
     return grammar
 

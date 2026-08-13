@@ -145,6 +145,47 @@ def test_a_forest_with_no_gold_tree_carries_its_verdict_and_nothing_else():
 
 
 # --------------------------------------------------------------------------- #
+# Znaczniki NKJP, którymi bank drzew mówi to, co gramatyka czyta po morfeuszowsku
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    ("nkjp", "morfeusz"),
+    [("qub", "part"), ("psubst:sg:dat:m1", "subst"), ("padj", "adj"), ("padv", "adv")],
+)
+def test_znacznik_nkjp_dochodzi_do_gramatyki_pod_nazwą_morfeusza(nkjp, morfeusz):
+    sentence = parse_forest(forest(terminal(0, 0, 1, "to", nkjp)))
+    assert sentence.segments[0].readings[0].tag.pos == morfeusz
+
+
+def test_przełożony_znacznik_niesie_swoje_cechy_dalej():
+    sentence = parse_forest(forest(terminal(0, 0, 1, "tym", "psubst:sg:inst:m1")))
+    tag = sentence.segments[0].readings[0].tag
+    assert tag.get("case") == frozenset({"inst"})
+    assert str(tag) == "subst:sg:inst:m1"
+
+
+def test_cząstka_znaczona_po_nkjp_wyprowadza_zdanie_zwrotne():
+    """Produkcja, którą gramatyka ma, ma nad bankiem drzew wystrzelić.
+
+    Zdanie stoi tu całe, a nie sam znacznik, bo o przekład idzie właśnie po to:
+    bez niego terminal cząstki nie bierze nad złotą morfologią ani jednej formy,
+    a wiersz blokerów nazywa nazwę znacznika zamiast konstrukcji, której brak.
+    """
+    zwrotne = (
+        phrase(0, 0, 4, "wypowiedzenie", [1, 5, 9, 11])
+        + phrase(1, 0, 1, "fw", [2], slot="subj(np(nom))")
+        + terminal(2, 0, 1, "Program", "subst:sg:nom:m3")
+        + phrase(5, 1, 2, "ff", [6])
+        + terminal(6, 1, 2, "zapisuje", "fin:sg:ter:imperf", lemma="zapisywać")
+        + phrase(9, 2, 3, "fw", [10])
+        + terminal(10, 2, 3, "się", "qub")
+        + terminal(11, 3, 4, ".", "interp")
+    )
+    assert outcome(zwrotne, text="Program zapisuje się.").status == "valid"
+
+
+# --------------------------------------------------------------------------- #
 # Valency slots, which is how the gold tree names the subject
 # --------------------------------------------------------------------------- #
 
