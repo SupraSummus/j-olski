@@ -192,8 +192,15 @@ python3 -m olski.check proza/README.txt
 ```
 
 Five sentences of that README derive once, and three derive twice.
+The three are one class between them, which `--readings` is what shows:
+two readings olski has and a reader does not.
+Two hang a prepositional phrase where either the noun or the verb could host it,
+and the third reads a nominative as an accusative,
+which are the two classes
+[open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
+counts over a whole register.
 What stops the rest is the table above in another order:
-adverbs and the colon level at the front, subordinators just behind them,
+the colon and the adverb at the front, subordinators just behind them,
 then numerals,
 then the Polish form Morfeusz does not know,
 and gerunds last.
@@ -207,7 +214,7 @@ every sentence of this file that stood on a `że` clause stood on something else
 That order is read off the words the run names,
 which is a classification by hand rather than a second command.
 The comma and the past tense stand in neither ranking, the grammar having them,
-and the punctuation left here is the colon that opens a list.
+and the punctuation left here is the colon that opens a clause.
 The past tense left the count where it found it and changed which sentences make it:
 `Czarna lista kupowała jednak co innego, niż obiecywała.` derives now,
 and `Pierwsze i czwarte dzieli sam szyk,
@@ -302,13 +309,14 @@ eight tokens of it occur in these 13,025 sentences,
 web addresses and `10.000zł` and `II.16`,
 so nothing in the live column below turns on it.
 
-That run is also what the grammar track is aimed at.
-[roadmap.md](roadmap.md#celem-toru-jest-to-readme) makes it the track's exit criterion:
-every sentence of that README deriving, and deriving once.
+That run is the grammar track's other instrument beside this treebank.
+The track has no exit criterion
+([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)),
+so what the run prices is each addition rather than a distance to a finish.
 What it counts as a sentence is what the run reports as one:
 the entries of the document list arrive as paragraphs no full stop closes,
 so they come back `fragment` rather than `rejected`
-and stand outside the criterion's denominator.
+and stand outside the denominator.
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)
 owns that class and how much of this register it is.
 

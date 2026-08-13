@@ -143,8 +143,8 @@ checka nie ma, więc został sam powód, dla którego ta reguła stoi.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
-Sekcja `Settled` powtarza to, co jest budowane, wraz z kryterium wyjścia
-([`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme)),
+Sekcja `Settled` powtarza to, co jest budowane, wraz z kierunkiem toru
+([`docs/roadmap.md`](docs/roadmap.md#tor-gramatyczny-nie-ma-końca)),
 wycofanie toru linterowego ([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
 bliskość polszczyzny
 ([`docs/design-notes.md`](docs/design-notes.md#decisions-taken)),
@@ -542,8 +542,8 @@ Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
 nad Składnicą i nad ustawami nie policzył ich nikt.
 Dopóki tej liczby nie ma, wpis stoi po stronie ceny,
 bo jednoznaczność płacona za pokrycie niepoliczone
-idzie wbrew kolejności, którą trzyma
-[`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme).
+idzie wbrew cenie kroku, której żąda
+[`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 
 Wyrażenie przyimkowe przyłącza się do ostatniego członu ciągu współrzędnego
 albo do zdania, a do całego ciągu nie przyłącza się wcale.
@@ -640,7 +640,7 @@ przecinek jest już znakiem koordynacji na trzech poziomach
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
 Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
 a gotowej nie ma gdzie wziąć:
-[pomiar wieloznaczności](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+[pomiar wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
 czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
@@ -775,6 +775,10 @@ so it should not be tied to the morphology sources:
 a point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
 is a net of what a tier buys against what it costs in uniqueness,
 which is two grammars disagreeing rather than two morphologies.
+That net is what the grammar track now asks of every addition before it lands
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+so this part of the entry carries a rule rather than a convenience,
+and a session that prices an addition by hand is doing this work and throwing it away.
 The entry about cutting unlicensed readings before the parse
 moves what `blocker` reads off a form,
 so whichever of the two is taken first decides what the blocking form is,
@@ -997,8 +1001,10 @@ pokazuje na `jury` i `menu`.
 Ten sam sąd niesie wpis o zaimku wykluczonym ze słownika,
 bo oba pytają, co wykluczeniu w `admissible` wolno powiedzieć,
 więc rozstrzyga je jedna sesja, a nie dwie.
-Stoi na tym zdaniu
-[kryterium wyjścia toru](docs/roadmap.md#celem-toru-jest-to-readme).
+Zdanie to jest przy tym warunkiem pod
+[kierunkiem toru](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
+bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
+czego werdykt meldować nie powinien.
 
 Wykluczenie ze słownika nie sięga po zaimek, a `go` jest grą.
 `CLOSED_CLASS` w `olski/subset.py` wylicza siedem klas zamkniętych,
@@ -1017,7 +1023,7 @@ Kosztuje to już jedną figurę i to jest tańsza połowa dowodu.
 `olski/wieloznaczność.py` liczy nad korpusem audytowym to, co zostawia
 `admissible`, więc para `go` i `gov.pl` wychodzi tam dwiema grupami imiennymi,
 a udział, który stąd rośnie, cytuje
-[`docs/open-questions.md`](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+[`docs/open-questions.md`](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 jako miękką z dwóch swoich liczb.
 Do przeczytania zostaje to, czy takie zdanie kosztuje także werdykt,
 bo dopiero ono mówi, czy jest tu co naprawiać w gramatyce;
@@ -1045,7 +1051,7 @@ warunek żąda dziś liczby i rodzaju od jednego czytania,
 a nad dwoma trzeba wskazać, które z nich ma zgodzić się z orzeczeniem.
 Ruchem jest warunek pytany o segment zamiast o czytanie.
 Wpis jest zaparkowany, bo poprawka rusza liczbę,
-którą [`docs/open-questions.md`](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+którą [`docs/open-questions.md`](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 podaje nad korpusem audytowym,
 więc zamyka go dopiero sesja, która ten korpus ściągnie i przebieg powtórzy.
 Tę samą liczbę rusza wpis o zaimku wykluczonym ze słownika,

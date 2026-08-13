@@ -10,9 +10,9 @@ Questions are grouped by which track they block.
 
 - What is being built is a parser of a designed subset of Polish,
   which hands ambiguity back instead of resolving it,
-  and it exits when this repository's README derives, one reading per sentence.
+  and the track has no end target, only a direction and a price per addition.
   See [design-notes.md](design-notes.md)
-  and [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
+  and [roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca).
 - The style linter that stood beside it is retired,
   and so is every question that blocked only that track.
   See [linter.md](linter.md#what-closed-the-track).
@@ -85,7 +85,7 @@ and they are also a self-contained module,
 so they are a good candidate
 for being deferred rather than excluded.
 
-### Kryterium wyjścia toru żąda jednoznaczności od zdania, które jej nie ma
+### Własność jednoznaczności żąda jej od zdania, które jej nie ma
 
 `Cały wywód prowadzi docs/linter.md.` stoi w README i ma dwa czytania,
 SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
@@ -93,25 +93,27 @@ Zdanie naprawdę nie mówi, co tu prowadzi co,
 i [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 trzyma to jako cenę przyjętą świadomie.
 
-Trzy rzeczy, każda obroniona osobno, nie mogą stać razem.
-Kryterium wyjścia toru żąda jednego czytania dla każdego zdania README
-([roadmap.md](roadmap.md#celem-toru-jest-to-readme)).
-README stoi, a rusza się gramatyka, bo przepisanie go pod podzbiór
-kosztowałoby to, po co ten plik jest
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Dwie rzeczy, każda obroniona osobno, mówią o takim zdaniu co innego.
+Zdanie jest olskie wtedy, gdy ma dokładnie jedno czytanie,
+i to ta własność czyni olskiego podzbiorem
+([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)).
 A olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,
 bo deklaracja, że pierwsza grupa imienna jest podmiotem,
 czytałaby się jednoznacznie tylko temu, kto zna konwencję
-([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)).
+(tamże).
+Zdanie wieloznaczne w polszczyźnie wychodzi więc odrzucone
+za wieloznaczność, którą naprawdę ma,
+a autor nie ma z takim werdyktem co zrobić,
+bo drugie czytanie nie jest usterką jego zdania.
 
-Czwarte wyjście jest tym, którego szuka to pytanie:
-że kryterium wyjścia ma wyjątek dla zdania wieloznacznego w polszczyźnie,
-czyli mierzy nie „jedno czytanie”, a „jedno czytanie tam, gdzie czytelnik ma jedno”.
-Kosztem jest werdykt, którego nie wyda program:
-dla każdego zdania spornego ktoś musi powiedzieć, ile czytań ma sam,
-a wtedy kryterium wyjścia przestaje być czymś, co drukuje polecenie.
-Zdanie olskie ma jedno czytanie z definicji podzbioru,
-więc to nie olski się tu zmienia, tylko to, co README ma o sobie dowodzić.
+Żadnemu tekstowi to żądanie przy tym nie ciąży,
+bo kryterium wyjścia toru gramatycznego nie ma
+([roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca)),
+więc zostaje pytanie o sam werdykt: czy taki jest dla autora użyteczny.
+Wyjściem, którego to pytanie szuka, jest werdykt, który tę klasę nazywa,
+czyli mówi „dwa czytania i polszczyzna ma tu dwa”, a nie samo „dwa czytania”.
+Kosztem jest to, czego program nie wyda:
+dla każdego zdania spornego ktoś musi powiedzieć, ile czytań ma sam.
 
 Rozstrzyga to jedno zdanie, a klasy są dwie.
 Obie są szerokie liczone pozycjami i obie wąskie liczone czytelnikiem,
@@ -165,7 +167,7 @@ Jest to jedna osoba nad dwudziestoma czterema zdaniami, a nie pomiar,
 i tyle z tego wynika.
 
 Wniosek wychodzi odwrotny do tego, na co 62.0% wygląda.
-Wyjątek, którego to pytanie szuka, objąłby zdania rzadkie, a nie większość rejestru,
+Werdykt, którego to pytanie szuka, objąłby zdania rzadkie, a nie większość rejestru,
 bo zdań, w których czytelnik naprawdę ma dwa czytania, jest w tej próbce tyle co nic.
 Liczba wycenia natomiast co innego, o co nikt tu nie pytał:
 jak często olski melduje wieloznaczność, której czytelnik nie ma.
@@ -211,10 +213,15 @@ Te zdania rozstrzyga znaczenie —
 `kompendium wiedzy dla deweloperów` nie przyłącza się do czasownika,
 bo nic by tam nie znaczyło —
 a znaczenia unifikacja nie dosięga.
-Zostają więc trzy odpowiedzi i żadna nie jest tania.
-Pierwsza: własność jednoznaczności zostaje, jak stoi,
-a kryterium wyjścia toru przestaje być osiągalne nad tym README,
-co czyni je kryterium innego rodzaju, niż jest opisane.
+Odpowiedzi są trzy, a pierwsza jest wzięta.
+Wzięta: własność jednoznaczności zostaje, jak stoi,
+a kryterium wyjścia toru gramatycznego znika,
+bo nad tym README nie było osiągalne
+i było przez to kryterium innego rodzaju, niż je opisano
+([roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca)).
+Zostaje po nim to, co ta decyzja przyznaje:
+zdanie tego rejestru z pozycją przyłączeniową jest odrzucane
+i nie ma po czym poznać, że kiedyś przestanie.
 Druga: wraca [wyjście drugie z etapu 1](subset.md#dlatego-olski-przyjmuje-koszt),
 czyli domyślne przyłączenie, odrzucone tam za to, że myli się dwa razy częściej,
 niż trafia; wobec tego pomiaru trzeba by je ważyć inaczej niż wtedy,

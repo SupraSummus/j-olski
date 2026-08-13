@@ -237,8 +237,8 @@ więc fragment, który takiego znaku nie niesie,
 nie wyprowadzi się przy żadnej gramatyce,
 a policzony jako odrzucony mierzyłby ten krok zamiast podzbioru.
 Dlatego `olski-check` ma na niego werdykt `fragment` obok `rejected`,
-i dlatego [kryterium wyjścia toru gramatycznego](roadmap.md#celem-toru-jest-to-readme)
-liczy jedno, a nie drugie.
+i dlatego [przebieg nad prozą tego repozytorium](roadmap.md#readme-jest-przyrządem-pomiarowym)
+liczy jedno osobno od drugiego.
 
 Werdykt, a nie ciche pominięcie przy podziale.
 Przebieg, który zwęża sobie mianownik i nic o tym nie mówi,

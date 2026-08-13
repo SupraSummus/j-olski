@@ -38,7 +38,7 @@ a razem z nim lista plików, nad którymi ten check biegł.
 
 Gramatyka checkiem tego tekstu nie jest i nie ma być.
 Jej żądanie jest znacznie węższe:
-zdanie z przecinkiem, przysłówkiem albo rzeczownikiem odczasownikowym
+zdanie z dwukropkiem, przysłówkiem albo rzeczownikiem odczasownikowym
 nie ma w olskim wyprowadzenia,
 a proza tych dokumentów składa się z takich zdań prawie w całości —
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
@@ -49,9 +49,9 @@ podzbiór nie ma zdania podrzędnego,
 a [rama przed szczegółem](#the-reader-goes-sentence-by-sentence)
 stoi na uzasadnieniach, które podrzędnego wymagają.
 Kolejka rośnie od strony gramatyki, nie od strony tych plików,
-a celem, do którego rośnie, jest README:
-kryterium wyjścia trzyma
-[`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme).
+a celu, pod który by rosła, ten tor nie ma:
+kierunek i cenę kroku trzyma
+[`docs/roadmap.md`](docs/roadmap.md#tor-gramatyczny-nie-ma-końca).
 
 Reguła obejmuje prozę z listy na początku tego pliku,
 komentarze i docstringi, które do prozy liczy
@@ -725,7 +725,7 @@ and there the rerun is owed like any other.
 
 One figure counts the register rather than anything this repository decides,
 and three separate things move it.
-[How much of the register reads two ways in Polish](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+[How much of the register reads two ways in Polish](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 is taken over the audit corpus with `olski/wieloznaczność.py`,
 so a change to what that module counts moves it,
 and so does a change to what `admissible` in `olski/subset.py` keeps

@@ -108,15 +108,14 @@ whichever admits more Polish.
 See [similar-work.md](similar-work.md#pens-and-why-it-matters-here).
 
 And the largest one, which is not about grammars at all.
-[roadmap.md](roadmap.md#celem-toru-jest-to-readme)
-sets the size of grammar olski needs by a document
-rather than by a coverage figure:
-the track exits when this repository's README derives,
-one reading per sentence.
-Świgra admits more Polish than that and will go on doing so,
+[roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca)
+gives the track no size to reach and no coverage figure to hit:
+what it grows towards is a verdict that says something true about one sentence,
+and every addition is priced rather than counted off against a target.
+Świgra admits more Polish and will go on doing so,
 which decides nothing here,
 because the two are not measured on the same axis
-and covering more is not what would make olski done.
+and there is no amount of covering that would make olski done.
 
 ## Why wrapping it does not get there
 
