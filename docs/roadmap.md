@@ -286,7 +286,7 @@ tabelę i cenę trzyma
 Pokrycie nad README nie ruszyło się o ani jedno zdanie
 i mówi to o kryterium wyjścia więcej niż o podrzędności:
 zdania tego pliku, które na podrzędności stały, stoją także na przysłówku,
-na dwukropku, na czasie przeszłym i na liczebniku,
+na dwukropku i na liczebniku,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 Etap zostaje więc otwarty na tym, czego mu brakuje do własnego kryterium,
@@ -322,12 +322,11 @@ wyprowadza się i wyprowadza raz.
 
 ## Etap 6: reszta konstrukcji
 
-Czas przeszły, przysłówek, `to` w roli łącznika,
+Przysłówek, `to` w roli łącznika,
 negacja wraz z dopełniaczem negacji,
 liczebniki i rzeczowniki odczasownikowe.
-Kolejka ze Składnicy stawia je na czele:
-czas przeszły nie kosztuje tam nic w mocy formalizmu
-i jest najtańszym dużym zyskiem, jaki wobec tamtego korpusu został.
+Kolejka ze Składnicy stawia je wysoko,
+bo przysłówek prowadzi w niej trzeci wiersz, a `to` dwa dalsze.
 Wobec README podnoszą pokrycie dopiero razem,
 a żaden z czterech zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
@@ -338,6 +337,20 @@ Ta rozbieżność jest tym, co je tutaj ustawia.
 Etapy porządkuje kryterium wyjścia toru, a nie ranking z banku drzew,
 i to jest cena za wybranie takiego kryterium,
 a nie usterka w kolejce.
+
+Czas przeszły był na tej liście i z niej zszedł,
+a to, jak zszedł, mówi o samej liście dwie rzeczy.
+Kolejka ze Składnicy stawiała go na pierwszym miejscu
+i nazywała najtańszym dużym zyskiem;
+zysk wyszedł na piątą część tego, co ranking obiecywał,
+a cena wypadła poza ranking, bo rodzaj wszedł do każdego szyku zdania
+([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
+Nad README nie kupił ani jednego zdania,
+bo kupił jedno i jedno stracił,
+a nad rejestrem ustaw nie kupił nic i pięć zdań uczynił wieloznacznymi
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+Reszta tej listy pochodzi z tego samego rankingu,
+więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

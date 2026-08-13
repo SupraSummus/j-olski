@@ -355,6 +355,10 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   in the way `Nowa program` is one.
 - Coordination, of noun phrases, of adjective phrases and of clauses,
   joined by a conjunction
+- The past tense, agreeing with the subject in gender as well as in number,
+  and with the person clitic Morfeusz cuts off the form:
+  `Program zapisywał ustawienia.`, `Napisałem program.`
+  What it costs is [below](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)
 - A `że` clause as what a verb takes, which is a position in its frame
   rather than a construction beside the others:
   `Mieszkańcy grożą, że zablokują ulice.`
@@ -384,6 +388,56 @@ is what makes the rejection precise.
 There is no rule that says an adjective must agree with its noun.
 There is only a production that shares a variable between them,
 and a sentence that cannot satisfy it is not in the language.
+
+## Czas przeszły żąda rodzaju od każdego szyku
+
+W kolejce ze Składnicy czas przeszły stał na pierwszym miejscu
+jako kolejna forma czasownika w produkcji `Verb`
+([corpus.md](corpus.md#where-the-analyses-stop)).
+O mocy formalizmu opis ten był trafny — gramatyka dalej jest bezkontekstowa —
+a o jednej produkcji nie.
+Forma `praet` niesie rodzaj i liczbę, a osoby nie niesie wcale,
+czyli dokładnie odwrotnie niż `fin`,
+więc zgodność, którą czas teraźniejszy zostawiał grupie imiennej,
+przechodzi w czasie przeszłym przez orzeczenie.
+Rodzaj wchodzi przez to do każdego szyku zdania,
+bo `lista stała` i `wywód stał` różni sam rodzaj podmiotu,
+a szyk, który rodzaju nie przepuszcza, przyjmuje `lista stał`.
+Dwa symbole podmiotu zlały się przy tym w jeden:
+szyk bez rodzaju przestał się różnić od szyku z rodzajem,
+odkąd rodzaju żąda każdy.
+
+Osobę pierwszą i drugą wnosi w tym czasie osobny segment.
+Morfeusz odcina od formy końcówkę osobową — `napisałem` to `napisał` i `em` —
+i to ona niesie liczbę oraz osobę,
+więc czasownik dostaje trzy ciała zamiast jednego:
+`fin` albo `impt`, samo `praet` z osobą trzecią wpisaną w produkcję,
+oraz `praet` z aglutynantem.
+Bez wpisanej trzeciej osoby `Ja napisał program.` wyprowadza się,
+bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
+
+Pod złotą morfologią czas przeszły nie odbiera Składnicy ani jednego zdania —
+żadne przyjęte nie traci werdyktu i żadne nie zyskuje drugiego czytania —
+a przyjętych przybywa 365 i wieloznacznych 201,
+czyli 566 zdań z 2934, które na tej formie stawały.
+Różnica między 566 a 2934 jest tym,
+czego kolejka blokerów z zasady nie mówi:
+liczy zdania, na których konstrukcja stanęła,
+a nie te, które jej dopisanie przyjmuje,
+i większość tamtych zdań niesie obok czasu przeszłego jeszcze coś.
+Widać to po samej kolejce, która po tej zmianie stawia w tym wierszu 297:
+2071 zdań przesunęło swój bloker w prawo, zamiast zejść z listy.
+
+Nad rejestrem, o który olskiemu chodzi, zakup jest zerowy albo ujemny.
+Nad [README](../README.md) kupuje jedno zdanie i jedno traci,
+bo `dzieli` ma u Morfeusza czytanie `praet:pl:m1`,
+którego polszczyzna w tym zdaniu nie ma
+([wyżej](#the-dictionary-offers-readings-polish-does-not) trzyma tę klasę),
+a nad siedmioma ustawami nie kupuje ani jednego zdania
+i pięć przenosi z odrzuconych na wieloznaczne
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+Kolejka ze Składnicy i kryterium wyjścia toru dają więc różne odpowiedzi,
+i dopiero oba pomiary razem mówią, ile ta konstrukcja jest warta.
 
 ## The bare verb-initial order keeps the predicative one honest
 
@@ -452,11 +506,11 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 303 | 117 | 12 605 |
-| zdaniowy | 317 | 117 | 12 591 |
-| imienny | 311 | 122 | 12 592 |
-| przymiotnikowy | 303 | 117 | 12 605 |
-| wszystkie trzy | 325 | 122 | 12 578 |
+| bez przecinka | 643 | 307 | 12 075 |
+| zdaniowy | 677 | 313 | 12 035 |
+| imienny | 656 | 316 | 12 053 |
+| przymiotnikowy | 643 | 307 | 12 075 |
+| wszystkie trzy | 690 | 323 | 12 012 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
@@ -464,26 +518,37 @@ a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segment�
 których nie wpuszcza `--max-tokens`.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Wieloznacznych przybywa pięć i wszystkie pięć przychodzi z odrzuconych,
+Wieloznacznych przybywa szesnaście i wszystkie szesnaście przychodzi z odrzuconych,
 czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
 Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
-zdanie po zdaniu, i nie znajduje jej ani razu:
-żadnego zdania nie ruszają poziom zdaniowy i imienny naraz,
-i o żadnym oba naraz nie mówią czego innego niż każdy z osobna.
-Argument o konkurencji nie ma więc nad tym korpusem czego mierzyć.
+zdanie po zdaniu, i znajduje ją raz.
+Żadnego zdania nie ruszają poziom zdaniowy i imienny naraz,
+a o jednym oba naraz mówią co innego niż każdy z osobna:
 
-Po drugiej stronie stoi zakup: dwadzieścia dwa zdania przechodzą
-z odrzuconych na przyjęte, czternaście za poziom zdaniowy i osiem za imienny.
-Osiemnaście z nich ma role zgodne z drzewem wzorcowym,
-cztery nie mają w nim żadnej roli do porównania,
+```text
+Stworzyła polski oddział EquiLibre, organizowała konwoje z pomocą dla byłej
+Jugosławii, Kazachstanu, Czeczenii.
+```
+
+Każdy poziom z osobna to zdanie odrzuca, a oba naraz czynią je wieloznacznym,
+czyli dwie produkcje dały mu czytanie, którego żadna z nich nie dała.
+Argument o konkurencji ma więc nad tym korpusem dokładnie jedno zdanie,
+i pojawiło się ono wraz z czasem przeszłym:
+zdanie stoi w nim całe, a przed tą zmianą nie wyprowadzało się pod żadnym wariantem.
+
+Po drugiej stronie stoi zakup: czterdzieści siedem zdań przechodzi
+z odrzuconych na przyjęte, trzydzieści cztery za poziom zdaniowy
+i trzynaście za imienny.
+Czterdzieści jeden z nich ma role zgodne z drzewem wzorcowym,
+sześć nie ma w nim żadnej roli do porównania,
 a odwróconych i niezgodnych nie ma ani jednego,
 więc są to zdania przeczytane tak, jak przeczytali je anotatorzy.
 
-Pięć nowych wieloznaczności nie bierze się z przecinka, tylko z przyłączenia.
+Nowe wieloznaczności nie biorą się z przecinka, tylko z przyłączenia.
 `Warszawska kuria metropolitalna ma wśród swoich licznych włości nieruchomość
 w podwarszawskim Skolimowie, uzdrowiskowej dzielnicy Konstancina-Jeziorny.`
 wychodzi dwoma czytaniami, bo wyrażenie przyimkowe dochodzi do rzeczownika
-albo do czasownika, i tak samo różnią się czytania pozostałych czterech.
+albo do czasownika, i tak samo różnią się czytania pozostałych.
 Jest to ta sama wieloznaczność, którą olski
 [oddaje czytelnikowi](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera):
 koordynacja przecinkiem daje jej więcej miejsc, w których się mieści,
@@ -494,7 +559,7 @@ Czy jest to własność polszczyzny, czy tego korpusu, ta liczba nie mówi:
 `duży, ciężki plecak` jest polszczyzną,
 a nad Składnicą nie ma zdania, w którym ta produkcja byłaby ostatnią brakującą.
 
-Nad rejestrem, o który olskiemu chodzi, przecinek kupuje dwa zdania.
+Nad rejestrem, o który olskiemu chodzi, przecinek kupuje trzy zdania.
 To samo porównanie nad prozą wyciągniętą z README —
 
 ```sh
@@ -502,19 +567,24 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m sonda.przecinek proza/README.txt
 ```
 
-— rusza dwa werdykty i oba na poziomie zdaniowym.
+— rusza trzy werdykty, dwa na poziomie zdaniowym i jeden na imiennym.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
-gramatyka bez przecinka odrzuca, a z nim wyprowadza jednym czytaniem,
-a `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md`
-przechodzi z odrzucenia w wieloznaczność.
-Ani poziom imienny, ani przymiotnikowy nie rusza tu nic,
+i `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md`
+przechodzą z odrzucenia w wieloznaczność,
+a `Czarna lista kupowała jednak co innego, niż obiecywała`
+gramatyka bez przecinka odrzuca, a z nim wyprowadza jednym czytaniem.
+Trzeciego z nich nie było w tym pomiarze, dopóki gramatyka nie miała czasu
+przeszłego, i to on przeniósł poziom imienny z zera na jedno zdanie.
+Poziom przymiotnikowy nie rusza tu nic,
 bo pozostałe zdania tego pliku, które niosą przecinek,
 niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
 Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
 a kryterium wyjścia toru czeka na to, co w reszcie tych zdań stoi obok niego.
 Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie ruszyła
 ([niżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
-więc czeka ono na przysłówek, dwukropek i czas przeszły naraz
+a czas przeszły ruszył ją, nie ruszając liczby zdań przyjętych
+([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+więc czeka ono na przysłówek i dwukropek
 ([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
@@ -820,12 +890,17 @@ więc wpuszczone tą produkcją stanęłyby w pozycji, której nie zajmują,
 a czasownikowi, który zdania podrzędnego nie bierze,
 dałyby czytanie, w którym je bierze.
 
-Pod złotą morfologią przebieg nad Składnicą rusza dziesięć zdań i wszystkie w tę samą stronę:
-siedem przechodzi z odrzucenia w jednoznaczność, trzy w wieloznaczność,
+Pod złotą morfologią przebieg nad Składnicą rusza 26 zdań i wszystkie w tę samą stronę:
+siedemnaście przechodzi z odrzucenia w jednoznaczność, dziewięć w wieloznaczność,
 a żadne zdanie już przyjęte nie traci werdyktu ani nie zyskuje drugiego czytania.
-Wśród nowo przyjętych zgodność z drzewem wzorcowym rośnie o cztery,
-a o ani jedno odwrócenie roli nie rośnie
+Wśród nowo przyjętych zgodność z drzewem wzorcowym rośnie o dwanaście,
+jedno zdanie wychodzi zgodne częściowo, cztery nie mają w nim roli do porównania,
+a o ani jedno odwrócenie roli zgodność nie rośnie
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Liczba 26 rośnie przy tym z czasem przeszłym, a nie z podrzędnością:
+zdanie podrzędne stoi w tym korpusie najczęściej przy czasowniku w tym czasie,
+więc konstrukcja zmierzona przed nim była mierzona przy części swoich zdań
+([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
 
 ```text
 Mieszkańcy grożą, że zablokują ulice.
@@ -930,9 +1005,11 @@ w przebiegu pod złotą morfologią.
 Kolumna złota mierzy zatem samo zdanie z `że`,
 a zdanie względne mierzy kolumna z Morfeuszem i rejestr ustaw.
 
-Pod Morfeuszem 29 zdań Składnicy wychodzi z odrzucenia,
-osiem jednoznacznych i dwadzieścia jeden wieloznacznych,
-a zdanie względne niesie z nich dziewięć i pozostałe dwadzieścia niesie `że`.
+Pod Morfeuszem zdanie z `że` wyciąga z odrzucenia 48 zdań Składnicy,
+dziewiętnaście jednoznacznych i dwadzieścia dziewięć wieloznacznych,
+a zdanie względne 37, cztery jednoznaczne i trzydzieści trzy wieloznaczne.
+Każdą z tych liczb bierze osobny kontrfaktyk, czyli ta gramatyka bez jednej z nich,
+więc suma tych dwóch nie jest liczbą, jaką dałoby zdjęcie obu naraz.
 Traci werdykt tamto jedno zdanie pytające i tylko ono.
 Ani jedno zdanie przyjęte nie zyskuje drugiego czytania,
 więc jednoznaczność obie konstrukcje kosztują tu zero,
@@ -962,9 +1039,6 @@ Every one of these is a sentence that gets rejected and should not be:
   so `Plany są niczym, ale planowanie jest wszystkim.`
   gets past the comma and fails on `ale`,
   which is how Polish punctuates that coordination.
-- The past tense, which
-  [corpus.md](corpus.md#where-the-analyses-stop)
-  ranks as the cheapest large gain left.
 - The subordinators past `że`, which are the ones opening an adverbial clause:
   `gdy`, `jeśli`, `aby`, `zanim`, `choć`.
   The `comp` row [corpus.md](corpus.md#where-the-analyses-stop) ranks
