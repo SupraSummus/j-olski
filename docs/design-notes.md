@@ -2,8 +2,8 @@
 
 Decisions that have been taken are marked as such;
 everything still open lives in [open-questions.md](open-questions.md).
-The target this grammar is grown towards is in
-[roadmap.md](roadmap.md#celem-toru-jest-to-readme),
+The direction this grammar is grown in, which has no end target, is in
+[roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
 and the linter track that stood beside it, now retired,
 is in [linter.md](linter.md#what-closed-the-track).
 The other direction over the same subset —
@@ -49,7 +49,7 @@ and the exchange rate is the thing worth studying.
 See [the cost ladder](#the-cost-ladder) for what the currency actually is.
 
 **No formalism is committed to.**
-The track's target names a property of a sentence and no machinery,
+The track's direction names a property of a sentence and no machinery,
 so a mechanism stronger than a context-free grammar,
 or one standing beside the grammar rather than inside it,
 is a question of price rather than of permission.
@@ -363,9 +363,9 @@ decides itself.
 Drabina wycenia formalizmy i żadnego nie obiecuje.
 Gramatyka bezkontekstowa z cechami jest tym, na czym olski stoi,
 a nie tym, do czego zmierza:
-kryterium, po którym poznać koniec tego toru,
-mówi, co ma zajść nad zdaniem, a nie czym ma być wyprowadzone,
-i trzyma je [roadmap.md](roadmap.md#celem-toru-jest-to-readme).
+kierunek tego toru mówi, co ma zajść nad zdaniem,
+a nie czym ma być wyprowadzone,
+i trzyma go [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 Wybór szczebla jest więc rachunkiem, a nie deklaracją.
 
 Ruszyć wolno obie warstwy.

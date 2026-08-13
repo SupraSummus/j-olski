@@ -436,7 +436,7 @@ którego polszczyzna w tym zdaniu nie ma
 a nad siedmioma ustawami nie kupuje ani jednego zdania
 i pięć przenosi z odrzuconych na wieloznaczne
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
-Kolejka ze Składnicy i kryterium wyjścia toru dają więc różne odpowiedzi,
+Kolejka ze Składnicy i przebieg nad tą prozą dają więc różne odpowiedzi,
 i dopiero oba pomiary razem mówią, ile ta konstrukcja jest warta.
 
 ## The bare verb-initial order keeps the predicative one honest
@@ -579,7 +579,7 @@ Poziom przymiotnikowy nie rusza tu nic,
 bo pozostałe zdania tego pliku, które niosą przecinek,
 niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
 Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
-a kryterium wyjścia toru czeka na to, co w reszcie tych zdań stoi obok niego.
+a nad tą prozą czeka na to, co w reszcie tych zdań stoi obok niego.
 Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie ruszyła
 ([niżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
 a czas przeszły ruszył ją, nie ruszając liczby zdań przyjętych
@@ -1032,6 +1032,13 @@ tamtego wiersza nie ruszy, choćby zdanie z `to` wyprowadzała.
 
 Every one of these is a sentence that gets rejected and should not be:
 
+- A colon opening a clause, which is how this register introduces an explanation.
+  `Cena jest niska: gramatyka jest bezkontekstowa.` is rejected
+  where each half of it derives once on its own,
+  and of clause-level punctuation olski has the comma and nothing else,
+  so it stands at the front of the queue over this repository's prose
+  ([corpus.md](corpus.md#where-the-analyses-stop)).
+  A colon opens a list as well, which is a second construction behind one character.
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
   ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))

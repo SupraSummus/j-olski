@@ -1,6 +1,6 @@
 """Co liczy się jako zdanie wieloznaczne w samej polszczyźnie.
 
-Pomiar odpowiada pytaniu, którego kryterium wyjścia toru nie umie zadać samo, a
+Pomiar odpowiada pytaniu, którego werdykt nad zdaniem nie umie zadać sam, a
 odpowiada liczbą, więc bronić trzeba tego, co do tej liczby wchodzi, a nie tego,
 że wchodzi cokolwiek.
 """
@@ -17,9 +17,9 @@ def klasy(zdanie):
 
 
 def test_zdanie_o_które_pytanie_stoi_niesie_synkretyzm():
-    #  docs/open-questions.md cytuje to zdanie jako to, na którym kryterium
-    #  wyjścia się rozchodzi: notacja jest nieodmienna, a „wywód” ma biernik
-    #  równy mianownikowi, więc SVO i OVS stoją oba.
+    #  docs/open-questions.md cytuje to zdanie jako to, na którym własność
+    #  jednoznaczności się rozchodzi: notacja jest nieodmienna, a „wywód” ma
+    #  biernik równy mianownikowi, więc SVO i OVS stoją oba.
     assert SYNKRETYZM in klasy("Cały wywód prowadzi docs/linter.md.")
 
 

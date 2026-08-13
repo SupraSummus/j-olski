@@ -7,6 +7,11 @@ a datowany plan hobby jest sposobem na to, żeby zaczęło przypominać pracę.
 Każdy etap ma kryterium wyjścia,
 bo „kiedy to jest skończone” jest tą częścią planowania,
 która regularnie na siebie zarabia.
+Tor gramatyczny jako całość kryterium wyjścia nie ma,
+a co go prowadzi zamiast tego, mówi
+[sekcja niżej](#tor-gramatyczny-nie-ma-końca).
+Tor składu je ma i o tym mówi
+[tamta sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
 
 Tory są dwa i każdy ma własną numerację.
 Numeracja jest kolejnością zależności wewnątrz toru:
@@ -62,56 +67,84 @@ Dwa odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczeni
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
 potem odwrotnie, a teraz nie stoi wcale.
 
-## Celem toru jest to README
+## Tor gramatyczny nie ma końca
 
-Kryterium wyjścia toru gramatycznego jest [README](../README.md) tego repozytorium:
-tor kończy się wtedy, gdy każde jego zdanie wyprowadza się w olskim
-i gdy każde ma jedno czytanie.
-Kryterium mówi, co ma zajść nad zdaniem,
-a nie czym ma być wyprowadzone,
-więc wybór formalizmu zostaje przy cenie, a nie przy zobowiązaniu,
-i trzyma go [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem).
+Kryterium wyjścia tego toru było [README](../README.md) tego repozytorium:
+każde jego zdanie miało się wyprowadzić i wyprowadzić raz.
+Nie ma go z dwóch powodów.
+
+Jedno czytanie na zdanie jest nad tym plikiem nieosiągalne,
+i nie dlatego, że jest daleko.
+Zdania README, które wychodzą wieloznaczne, są wszystkie tej samej klasy —
+olski widzi w nich dwa czytania, a czytelnik jedno
+([corpus.md](corpus.md#where-the-analyses-stop)) —
+a w większości robi to przyłączenie wyrażenia przyimkowego,
+o którym [etap 1](#etap-1-przyłączanie-wyrażeń-przyimkowych) rozstrzygnął,
+że olski go nie wybiera.
+Rozstrzyga o tym znaczenie, więc żadna produkcja tego nie zdejmie.
+Kryterium nieosiągalne jest kryterium innego rodzaju, niż było opisane,
+a to, że z trzech wyjść wybrano właśnie to, zapisuje
+[open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma).
+
+Zbiór zdań, którym się mierzyło, był przy tym w rękach tego, kto mierzy.
+Każdy inny korpus tego repozytorium jest przypięty —
+wydaniem, commitem albo adresem ELI — a README rusza każdy commit,
+który dotyka jego prozy, i nie dogoni tego żadna reguła przeliczania
+([CLAUDE.md](../CLAUDE.md#checks)).
+Odległość do takiego celu skraca i dopisana produkcja, i przeredagowany akapit,
+a wydruk nie mówi, które z dwojga zaszło.
+Zdanie „README stoi, a rusza się gramatyka” było więc obietnicą,
+a nie własnością pomiaru.
+
+## Kierunek: werdykt ma mówić o zdaniu prawdę
+
+Zostaje kierunek: czytania, które olski melduje,
+mają być dokładnie tymi, które polszczyzna nad zdaniem ma.
+Pokrycie jest skutkiem takiego kierunku i mierzy się je osobno.
+
+Kierunek nie mówi, kiedy przestać, więc porządek robi cena kroku.
+Każde dopisanie wycenia się przed wpuszczeniem w dwóch walutach,
+czyli ile zdań przyjmuje i ile jednoznaczności zabiera,
+a pytać o to trzeba każdy z trzech rejestrów, bo odpowiadają różnie:
+bank drzew ([corpus.md](corpus.md#where-the-analyses-stop)),
+prozę tego repozytorium
+i ustawy ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+Wycenionym przykładem jest czas przeszły z
+[etapu 6](#etap-6-reszta-konstrukcji).
+
+Kolejność etapów robi koszt przepisywania.
+To, co każda późniejsza produkcja ma realizować, wchodzi przed nią,
+bo dopisane potem każe przepisać je wszystkie:
+tak stoją [etap 1](#etap-1-przyłączanie-wyrażeń-przyimkowych)
+i [etap 2](#etap-2-walencja),
+i tak samo czytanie, którego polszczyzna nie ma,
+zdejmuje się przed konstrukcjami, w których by wróciło.
+Formalizm miejsca w tej kolejności nie ma,
+bo kierunek mówi, co ma zajść nad zdaniem, a nie czym ma być wyprowadzone
+([design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem)).
+
+## README jest przyrządem pomiarowym
+
+Przebieg nad [README](../README.md) zostaje, bo mierzy dobrze i nic nie kosztuje.
+Plik stoi po polsku, w rejestrze, o który olskiemu chodzi,
+nikt go pod gramatykę nie pisał,
+a ściągać nie ma czego, więc ten przebieg wykona każda sesja,
+czego o banku drzew ani o ustawach powiedzieć się nie da.
+[corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie
+i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
 
 Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
 Nagłówek, pozycja listy i wiersz tabeli
 dochodzą do olskiego jako akapity, których nic nie punktuje,
-i w mianowniku kryterium nie stoją,
+i przebieg liczy je osobno,
 bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
 Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
 
-Za tym plikiem przemawia to, czym on jest, a nie to, że leży pod ręką.
-Stoi po polsku, w rejestrze, o który olskiemu chodzi,
-i nikt go pod gramatykę nie pisał,
-więc mierzy ją tak, jak zmierzyłby ją cudzy dokument.
-[corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie,
-które go przez olskiego przepuszcza,
-i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
-
-README stoi, a rusza się gramatyka.
-Przepisanie go pod ten podzbiór kosztowałoby to, po co on jest,
-a rachunek trzyma
-[CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie).
-
-Kryterium ma przy tym pod sobą dwa pytania bez odpowiedzi.
-Zdanie wieloznaczne w samej polszczyźnie ma dwa czytania także u olskiego,
-więc kryterium żąda od niego tego, czego ono nie ma,
-a zdanie odwrotne jest znacznie liczniejsze:
-takie, w którym dwa czytania ma olski, a czytelnik jedno.
-Oba pytania wraz z pomiarem, który je wycenia, trzyma
-[open-questions.md](open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma).
-
-Druga połowa kryterium jest droższa od pierwszej
-i to ona porządkuje etapy niżej.
-Wyprowadzenie każdego zdania to pokrycie,
-a jedno czytanie na zdanie to ta własność, dla której olski jest podzbiorem,
-i każda konstrukcja dopisana do gramatyki wnosi jej tyle samo kłopotu, co pokrycia.
-Więc to, co wieloznaczność zawęża, idzie przed tym, co pokrycie podnosi.
-
-**Wyjście:** każde zdanie [README](../README.md) wyprowadza się w olskim
-i każde ma dokładnie jedno czytanie,
-a pokazuje to polecenie, które
-[corpus.md](corpus.md#where-the-analyses-stop) drukuje.
+Przeredagowanie tego pliku rusza teraz same liczby,
+a zakaz przepisywania tych dokumentów pod gramatykę zostaje
+przy swoim własnym powodzie: proza jest tu materiałem
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
 
 ## Etap 0: gramatyka, która stoi
 
@@ -134,7 +167,8 @@ Konstrukcja nie jest przy tym rzadka:
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 trzyma trzy wyjścia z tego i mówi, że własność w tym brzmieniu
 wyklucza dużą i zwyczajną część technicznej polszczyzny.
-README jest taką polszczyzną, więc kryterium żąda wybrania jednego z trzech.
+Rejestr, o który olskiemu chodzi, jest taką polszczyzną,
+więc jedno z trzech trzeba wybrać.
 
 Etap stoi pierwszy, bo te trzy wyjścia
 nie żądają tego samego od produkcji pisanych później.
@@ -243,11 +277,12 @@ nie odbiera nad Składnicą ani jednego zdania już przyjętego
 i dokłada dwadzieścia dwa nowe,
 co wraz z tabelą i poleceniem trzyma
 [subset.md](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania).
-Kryterium wyjścia toru ruszyła o dwa zdania, oba na poziomie zdaniowym,
-a reszta zdań z przecinkiem niesie nad README także zdanie podrzędne.
+Nad README przyjęła dwa zdania, oba na poziomie zdaniowym,
+a reszta zdań z przecinkiem niesie w tym pliku także zdanie podrzędne.
 Podrzędność jest więc tym, na czym ten etap stoi,
-i wobec kryterium wyjścia pozycją najdroższą i nie do ominięcia,
-bo README stoi na uzasadnieniach, a uzasadnienie wymaga zdania podrzędnego.
+i wobec tego rejestru pozycją nie do ominięcia:
+uzasadnienie wymaga zdania podrzędnego,
+a proza tego repozytorium składa się z uzasadnień.
 
 Kupuje ona ponadto coś, czego pokrycie nie mierzy,
 i to jest ta połowa etapu, którą stoi zaliczyć osobno.
@@ -263,15 +298,6 @@ Nad rejestrem ustaw to jedno zdanie policzone jako przyjęte przestaje nim być
 ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)),
 więc etap zdjął werdykt błędny, zanim dołożył nowe.
 
-Interpunkcji zostaje w kolejce z banku drzew tyle, ile w niej po przecinku:
-wiersz prowadzi myślnik, który jest tam dialogiem z gazety,
-czego rejestr olskiego nie ma wcale
-([corpus.md](corpus.md#where-the-analyses-stop)).
-Bliżej stoi przecinek przed spójnikiem,
-czyli `Plany są niczym, ale planowanie jest wszystkim.`,
-którego ten etap nie ma
-([subset.md](subset.md#what-it-does-not-cover-yet)).
-
 **Wyjście:** zdanie łączące dwa zdania składowe spójnikiem podrzędnym
 wyprowadza się i wyprowadza raz,
 pokrycie nad README idzie w górę o te zdania, które na tym stały,
@@ -284,15 +310,25 @@ a zdanie z `które` wychodzi odrzucone zamiast współrzędnego;
 tabelę i cenę trzyma
 [subset.md](subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
 Pokrycie nad README nie ruszyło się o ani jedno zdanie
-i mówi to o kryterium wyjścia więcej niż o podrzędności:
+i mówi to o pomiarze nad tym plikiem więcej niż o podrzędności:
 zdania tego pliku, które na podrzędności stały, stoją także na przysłówku,
 na dwukropku i na liczebniku,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
-Etap zostaje więc otwarty na tym, czego mu brakuje do własnego kryterium,
-a brakuje mu pytania zależnego, pozostałych spójników podrzędnych
-i zaimka wysuniętego razem z grupą, w której stoi;
-listę trzyma [subset.md](subset.md#what-it-does-not-cover-yet).
+
+Etap zostaje więc otwarty, a brakuje mu dwóch rzeczy i dzieli je to,
+co każda żąda od gramatyki.
+Interpunkcja zdaniowa łączy zdania, które już się wyprowadzają:
+dwukropek otwierający zdanie
+oraz przecinek przed spójnikiem, czyli `Plany są niczym, ale planowanie jest wszystkim.`
+Stoi ona na czele kolejki nad prozą tego repozytorium
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Reszta podrzędności żąda nowych kształtów: pytanie zależne,
+spójniki podrzędne poza `że`
+i zaimek wysunięty razem z grupą, w której stoi,
+bo każdy kolejny kształt takiej grupy jest osobnym ciałem produkcji
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Co z tego dwojga jest tańsze, powie dopiero pierwsze policzone dopisanie.
 
 ## Etap 5: słowa, których słownik nie ma
 
@@ -333,10 +369,12 @@ a żaden z czterech zmierzonych dodany sam go nie rusza.
 a nad łącznikiem i negacją nie mierzy nic,
 więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
 
-Ta rozbieżność jest tym, co je tutaj ustawia.
-Etapy porządkuje kryterium wyjścia toru, a nie ranking z banku drzew,
-i to jest cena za wybranie takiego kryterium,
-a nie usterka w kolejce.
+Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
+od produkcji pisanych po niej,
+więc [koszt przepisywania](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
+ich nie porządkuje i między sobą rozstrzyga je sama cena kroku.
+Dwie kolejki, które ją wyceniają, nie zgadzają się co do kolejności,
+i jest to wynik pomiaru, a nie usterka w którejś z nich.
 
 Czas przeszły był na tej liście i z niej zszedł,
 a to, jak zszedł, mówi o samej liście dwie rzeczy.
@@ -366,7 +404,7 @@ Pytanie trzyma
 [open-questions.md](open-questions.md#the-big-fork-may-olski-scramble),
 razem z tym, że rozstrzyga je pomiar, a nie gust.
 
-Etapem to nie jest, bo kryterium wyjścia toru mówi,
+Etapem to nie jest, bo [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę) mówi,
 co ma zajść nad zdaniem, a nie czym ma być wyprowadzone.
 Formalizm zostaje więc ceną płaconą tam, gdzie któryś etap jej zażąda,
 a nie pozycją, którą się planuje osobno.
@@ -376,15 +414,20 @@ a nie pozycją, którą się planuje osobno.
 ### Kryterium wyjścia toru składu to znów README
 
 Kryterium wyjścia jest ten sam plik, którym mierzy się tor gramatyczny,
-i przemawia za nim to samo, co [wyżej](#celem-toru-jest-to-readme):
+i przemawia za nim to samo, co
+[wyżej](#readme-jest-przyrządem-pomiarowym):
 stoi po polsku, w rejestrze, o który olskiemu chodzi,
 i nikt go pod skład nie pisał.
-Żądanie jest jednak drugie.
-Tam każde zdanie ma się wyprowadzić i wyprowadzić raz;
+Kryterium tu zostaje, a na tamtym torze go nie ma,
+i różni te dwa tory samo żądanie.
+Tam każde zdanie miało się wyprowadzić i wyprowadzić raz,
+czyli o zdanie wieloznaczne w polszczyźnie potykało się kryterium;
 tutaj każde ma dać się wypuścić z drzewa napisanego ręcznie,
-znak w znak z tym, co w pliku stoi.
+znak w znak z tym, co w pliku stoi,
+a napisu wieloznacznego nie ma, bo napis albo się zgadza, albo nie.
+Przeredagowanie README kosztuje tu robotę, zamiast ją zaliczać.
 Co jest tu zdaniem, rozstrzyga tamta sekcja i rozstrzyga tak samo,
-więc oba kryteria czytają jeden tekst.
+więc oba tory czytają jeden tekst.
 
 Znak w znak, bo słabszego porównania nie ma czym zrobić.
 Sprawdzanie wyjścia parserem oddałoby kryterium gramatyce,

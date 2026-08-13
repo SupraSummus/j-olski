@@ -87,8 +87,10 @@ Instalacji poza klonem nie ma.
 ## Planista
 
 Pyta, co jest na horyzoncie i co jest następne.
-Wchodzi w [roadmap.md](roadmap.md), gdzie każdy milestone ma kryterium wyjścia,
-a numeracja jest kolejnością i jest nośna.
+Wchodzi w [roadmap.md](roadmap.md), gdzie każdy etap ma kryterium wyjścia,
+a numeracja jest kolejnością i jest nośna;
+całego toru gramatycznego nie zamyka żadne
+([tamże](roadmap.md#tor-gramatyczny-nie-ma-końca)).
 Dalej rozchodzą się trzy listy, a granicę między nimi
 trzyma nagłówek [TODO.md](../TODO.md):
 co zamyka commit w tym repozytorium, jest tam,

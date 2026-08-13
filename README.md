@@ -48,15 +48,15 @@ granicę widać w odpowiedzi, a nie tylko w tym, że odpowiedzi nie ma.
 
 Tory są dwa: gramatyka zaprojektowanego podzbioru polszczyzny
 i skład, nazwany kalamburem od *składni*.
-Cel mają jeden i jest nim ten plik:
-gramatyka rośnie tak długo, aż rozbierze go zdanie po zdaniu,
-a skład tak długo, aż każde jego zdanie wypuści z drzewa.
-Celem nie jest sam formalizm:
+Ten plik mierzy oba tory, a dla jednego z nich jest celem:
+skład rośnie tak długo, aż każde jego zdanie wypuści z drzewa,
+a gramatyka celu końcowego nie ma i rośnie za cenę liczoną przed dopisaniem.
+Kierunkiem nie jest sam formalizm:
 gramatyka bezkontekstowa jest tym, na czym olski stoi,
 a nie tym, do czego zmierza,
 więc o sięgnięciu po mocniejszy mechanizm rozstrzyga cena.
 Zobacz [docs/design-notes.md](docs/design-notes.md)
-oraz [docs/roadmap.md](docs/roadmap.md#celem-toru-jest-to-readme).
+oraz [docs/roadmap.md](docs/roadmap.md#tor-gramatyczny-nie-ma-końca).
 
 Nie ma aplikacji, która by to wszystko napędzała.
 Projekt jest dla przyjemności.
@@ -227,7 +227,7 @@ plan i otwarte pytania.
   czym okazały się jego trafienia, kiedy się je przeczytało,
   i za jaką cenę ten tor został wycofany
 - [docs/roadmap.md](docs/roadmap.md):
-  etapy dwóch torów, każdy ze swoim kryterium wyjścia,
+  etapy dwóch torów, kierunek jednego i kryterium wyjścia drugiego,
   i to, dlaczego numeracja jednego nie sięga drugiego
 - [docs/prose-linters.md](docs/prose-linters.md):
   silniki, które angielski i japoński już mają,
