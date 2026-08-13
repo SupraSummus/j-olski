@@ -879,6 +879,14 @@ a rule is a declaration,
 and buying precision back is `unless_preceded_by` in the data
 rather than a special case in the check.
 
+**Printed output does not take its order from a set.**
+String hashing is randomised at startup,
+so a set walked in order to print something prints a different thing in every run,
+and over a sentence truncated at `MAX_READINGS` it prints different readings.
+One place fixes the order and everything downstream inherits it:
+`ciała` in `olski/parse.py` does that for the forest,
+and where a sort key can tie, the tiebreak is written into the key.
+
 ## Tests
 
 Plain module-level `def test_*` functions with bare `assert`,
