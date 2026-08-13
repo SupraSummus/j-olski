@@ -444,13 +444,11 @@ and with the exclusion below in force:
 | valid | 690 | 883 |
 | ambiguous | 323 | 657 |
 
-Ambiguity is where the tagger's cost lands:
+Ambiguity is where the cost lands:
 334 more sentences carry more than one reading,
 which is 2.6% of the 13,025 measured.
-That is the answer to a question [subset.md](subset.md) leaves open —
-how much of olski's uniqueness property survives a real tagger —
-and the rate to watch as the grammar grows,
-since every construction admitted gives the tagger's spare readings
+That is the rate to watch as the grammar grows,
+since every construction admitted gives the analyser's spare readings
 one more place to derive something.
 
 The live column depends on an exclusion the gold column has no use for,
@@ -598,6 +596,16 @@ a rejected sentence stopped because *no* reading of that form could continue,
 and where the gold run has one reading to name
 the live run has several and names the first.
 The blocker tables are comparable in substance but not label by label.
+
+Neither column comes from a tagger.
+Morfeusz analyses and does not choose,
+so the live column holds its readings minus the exclusion above,
+and the gold column holds an annotator's answer rather than a program's.
+How much of the gold column a tagger recovers is a third figure neither run has,
+and it is the one that says what
+[the uniqueness property](subset.md#validity-is-uniqueness-not-just-derivability)
+costs outside a treebank.
+[Concraft](prior-art.md#polish-language-resources) is the candidate for taking it.
 
 ## What this number is not
 

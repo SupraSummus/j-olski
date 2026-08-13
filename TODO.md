@@ -991,6 +991,26 @@ wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nią.
 Sonda zdejmuje z tych figur najdroższą pozycję:
 zgadywanie, co poprzednia sesja zmierzyła.
 
+Żadna z dwóch kolumn w
+[`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)
+nie pochodzi od tagera, więc nikt nie policzył, ile z ich różnicy tager odbiera.
+Kandydatem jest [Concraft](docs/prior-art.md#polish-language-resources),
+a rozstrzyga o nim jedna własność wyjścia:
+czy wybrana interpretacja niesie jedną wartość przypadka, czy dysjunkcję.
+`subst:sg:nom.acc:m3` jest w `olski/morph.py` jedną interpretacją z cechą mnogą,
+więc tager, który ją wybierze i zostawi `nom.acc`, synkretyzmu nie zdejmuje,
+a od synkretyzmu własność jednoznaczności się zaczyna
+([`docs/subset.md`](docs/subset.md#validity-is-uniqueness-not-just-derivability)).
+Ruchem jest przebieg Concrafta nad kilkoma zdaniami i odczytanie tego pola.
+Trzecia kolumna dopiero po nim, bo Concraft to binarium Haskella
+i model stumegabajtowy, czyli zależność pomiaru z fetchem, jak Składnica i Walenty,
+a takiej nie warto zaciągać pod przebieg, który nie ruszy ani jednego zdania.
+Po stronie złotej morfologii pytanie wygląda na zamknięte:
+`terminal` w `tests/test_corpus.py` pisze `subst:sg:nom:m3` z jedną wartością,
+a docstring tego pliku ręczy, że format przepisano z wydania z 2018.
+Ręczy jedna osoba i żaden plik banku, więc gdyby Concraft wypadł ciekawie,
+sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
+
 ## Skład i opowieści
 
 Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
