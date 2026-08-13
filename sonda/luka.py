@@ -1,0 +1,488 @@
+"""Co kupuje i co kosztuje luka, czyli szczebel 2 drabiny kosztów.
+
+Zdanie względne stoi w gramatyce wypisane rolą po roli: piętnaście ciał
+``RelativeCore``, po jednym na wysuniętą rolę razy szyk reszty zdania razy
+miejsce na okolicznik razy przeczenie. Każdy dalszy kształt jest tam osobnym
+ciałem, a wyjęcia z głębi — ``ustawa, którą organ gminy może wydać`` — nie ma
+tam wcale, bo dopełnienie dochodzi tylko do formy osobowej.
+
+Odpowiedzią drabiny jest cecha przeciągana, czyli szczebel 2: konstytuent niesie
+w cechach to, czego mu w środku brakuje, luka jest produkcją o pustym ciele, a
+zdanie względne wiąże ją ze swoim zaimkiem. Zdanie względne dostaje wtedy każdy
+szyk i każde miejsce na okolicznik, jakie ma zdanie zwykłe, wraz z wyjęciem z
+głębi, a wypisać trzeba samo przeciąganie.
+
+Warianty są dwa, bo pomiarem jest różnica między nimi. Luka nie ma napisu, więc
+szyk nią nie przestawia niczego: ciało, które stawia ją gdzie indziej, wydaje ten
+sam napis drugim kształtem. ``luka wszędzie`` ma ją w każdej pozycji, jaką ma jej
+rola, i traci przez to jednoznaczność każdego zdania względnego; ``luka
+kanoniczna`` dokłada warunek precedencji na samą lukę i jednoznaczność odzyskuje.
+
+Werdykt tego pomiaru wraz z trzecią ceną, której żaden z dwóch wariantów nie
+zdejmuje, czyta ``docs/design-notes.md``.
+
+    python3 -m sonda.luka Składnica-frazowa-180723/
+    python3 -m sonda.luka proza/README.txt
+    python3 -m sonda.luka -c "Reguła, która rozstrzyga, jest tania."
+"""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import functools
+import os
+import sys
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from olski.corpus import Sentence, pliki, read
+from olski.coverage import Outcome, po_kawałkach
+from olski.grammar import Grammar, Production, Sym, Var, nt
+from olski.parse import parse
+from olski.subset import FRAGMENT, build, check
+
+#: Cecha niosąca przypadek luki, czyli to, czego temu konstytuentowi w środku
+#: brakuje. ``brak`` stoi wypisany, a nie pominięty: cechy, której konstytuent
+#: nie niesie, rodzic nie sprawdza, więc luka pominięta przechodziłaby wszędzie.
+LUKA = "luka"
+#: Liczba i rodzaj luki, czyli reszta kategorii, którą zaimek ma podjąć. Idą
+#: osobno od przypadka, bo przypadka żąda pozycja, a te dwie cechy poprzednik.
+LUKA_N = "luka_number"
+LUKA_G = "luka_gender"
+BRAK = frozenset({"brak"})
+
+#: Symbole, pod którymi luka staje, czyli te, które dostają produkcję pustą.
+#: Jest to cała decyzja tej sondy o tym, gdzie luki wolno szukać.
+PUSTE = ("Subject", "Object")
+#: Symbol, który lukę domyka, wiążąc ją ze swoim zaimkiem. Wyżej luka nie idzie,
+#: i dlatego wyjęcie z wnętrza zdania względnego nie wyprowadza się wcale.
+DOMYKA = ("RelativeCore",)
+#: Symbol, pod którym luki stanąć nie wolno, bo jest korzeniem: zdanie z luką
+#: niedomkniętą zdaniem nie jest.
+KORZEŃ = "Sentence"
+
+WARIANTY = ("olski", "luka wszędzie", "luka kanoniczna")
+
+#: Ile zdań pokazać przy przejściu. Przejście bez przykładu jest liczbą, o której
+#: nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
+PRZYKŁADY = 6
+
+#: Powyżej tego zdanie nie wchodzi, tak samo jak w ``olski-corpus``: granica
+#: postawiona tu inaczej dałaby mianownik nieporównywalny z tabelami
+#: ``docs/corpus.md``.
+MAX_TOKENS = 40
+
+STANY = ("valid", "ambiguous", "rejected")
+
+
+# --------------------------------------------------------------------------- #
+# Wariant
+# --------------------------------------------------------------------------- #
+
+
+def niosące(grammar: Grammar) -> frozenset[str]:
+    """Symbole, przez które luka przechodzi, wyliczone z gramatyki, a nie wypisane.
+
+    Luka idzie w górę od miejsca, w którym stanęła, do symbolu, który ją domyka,
+    więc unosi ją każdy symbol między jednym a drugim. Domknięcie liczy się z
+    produkcji, bo lista wypisana ręcznie starzeje się bez śladu: symbol dopisany
+    do zdania nie dostałby przeciągania, sonda mierzyłaby wariant węższy, niż
+    mówi, i nie powiedziałaby o tym ani słowem.
+
+    Zamknięcie zatrzymuje się na :data:`DOMYKA` i na korzeniu, i to jest jedyny
+    powód, dla którego nie obejmuje ono grupy imiennej: grupa unosi zdanie
+    względne, a zdanie względne lukę domyka.
+    """
+    unoszą = set(PUSTE)
+    rośnie = True
+    while rośnie:
+        rośnie = False
+        for produkcja in grammar.productions:
+            if produkcja.head in unoszą or produkcja.head in DOMYKA + (KORZEŃ,):
+                continue
+            if any(isinstance(część, Sym) and część.name in unoszą for część in produkcja.body):
+                unoszą.add(produkcja.head)
+                rośnie = True
+    return frozenset(unoszą)
+
+
+def _z_cechami(część: Sym, **cechy) -> Sym:
+    return Sym(name=część.name, constraints=część.constraints | frozenset(cechy.items()))
+
+
+def _zmienna(część: Sym, nazwa: str) -> Var | None:
+    """Zmienna, jaką ta córka wiąże na tej cesze; ``None``, gdy żadnej."""
+    for imię, spec in część.constraints:
+        if imię == nazwa and isinstance(spec, Var):
+            return spec
+    return None
+
+
+def _wiązka(część: Sym, i: int) -> dict[str, Var]:
+    """Cechy, którymi ta córka wypuszcza swoją lukę do rodzica.
+
+    Przypadek idzie zawsze. Liczba i rodzaj idą stamtąd, skąd pochodzą: przy
+    podmiocie z jego zgodności z orzeczeniem, bo z luką podmiotową orzeczenie się
+    zgadza; przy dopełnieniu z niczego, bo dopełnienie liczby ani rodzaju z resztą
+    zdania nie dzieli i rozstrzyga o nich sam zaimek; a przy symbolu, który lukę
+    tylko unosi, przelotem, bo on je już niesie.
+    """
+    wiązka: dict[str, Var] = {LUKA: Var(f"luka{i}")}
+    if część.name == "Subject":
+        for cecha, nazwa in ((LUKA_N, "number"), (LUKA_G, "gender")):
+            zmienna = _zmienna(część, nazwa)
+            if zmienna is not None:
+                wiązka[cecha] = zmienna
+    elif część.name != "Object":
+        wiązka[LUKA_N] = Var(f"lukan{i}")
+        wiązka[LUKA_G] = Var(f"lukag{i}")
+    return wiązka
+
+
+def _kanoniczna(produkcja: Production, i: int) -> bool:
+    """Czy luka stoi w tej córce na pozycji, jaką ta rola zajmuje kanonicznie.
+
+    Podmiot stoi na czele, bo tam go stawia zdanie względne. Dopełnienie stoi
+    tuż za czasownikiem, który je rządzi, czyli albo pod ``Complements``, albo w
+    ciele, w którym idzie zaraz po ``Verb``.
+    """
+    część = produkcja.body[i]
+    if część.name == "Subject":
+        return i == 0
+    if część.name == "Object":
+        if produkcja.head == "Complements":
+            return True
+        poprzednia = produkcja.body[i - 1] if i else None
+        return isinstance(poprzednia, Sym) and poprzednia.name == "Verb"
+    return True
+
+
+def _wysunięty_okolicznik(produkcja: Production) -> bool:
+    """Czy to ciało zdania względnego wysuwa wyrażenie przyimkowe, a nie sam zaimek.
+
+    Takie ciało zostaje w wariancie nieruszone, bo okolicznik jest wolny i luki
+    pod sobą nie żąda: za wysuniętym wyrażeniem następuje zdanie składowe całe.
+    """
+    return any(
+        isinstance(część, Sym) and część.name == "RelativeModifier"
+        for część in produkcja.body
+    )
+
+
+def _przepisz(produkcja: Production, luka: int | None, niosące: frozenset[str]) -> Production:
+    """Ta produkcja z luką w tej córce, albo bez luki wcale.
+
+    Córka nieoznaczona dostaje ``luka=brak``, więc luk w ciele jest najwyżej
+    jedna: cecha przeciągana nie jest zgodnością i przez rodzeństwo nie
+    przechodzi. Tym samym ``brak`` przypina lukę symbol, który jej nie unosi, i
+    stąd bierze się to, że luka nie ucieka poza zdanie, w którym jej szukano.
+    """
+    ciało = list(produkcja.body)
+    cechy = dict(produkcja.features)
+    wiązka = {LUKA: BRAK} if luka is None else _wiązka(ciało[luka], luka)
+    for i, część in enumerate(ciało):
+        if isinstance(część, Sym) and część.name in niosące:
+            ciało[i] = _z_cechami(część, **(wiązka if i == luka else {LUKA: BRAK}))
+    if produkcja.head in niosące:
+        cechy.update(wiązka)
+    return Production(
+        head=produkcja.head,
+        body=tuple(ciało),
+        features=frozenset(cechy.items()),
+        głowa=produkcja.głowa,
+    )
+
+
+@functools.cache
+def gramatyka(wariant: str) -> Grammar:
+    """Gramatyka tego wariantu; ``olski`` jest tą, która stoi.
+
+    Budowana raz na proces roboczy, bo budowa jest droższa niż rozbiór jednego
+    zdania, a gramatyka po zbudowaniu się nie zmienia.
+    """
+    if wariant not in WARIANTY:
+        raise ValueError(f"nieznany wariant: {wariant}")
+    pełna = build()
+    if wariant == "olski":
+        return pełna
+    kanonicznie = wariant == "luka kanoniczna"
+    unoszą = niosące(pełna)
+    wariantowa = Grammar(start=pełna.start)
+    for produkcja in pełna.productions:
+        # Zdanie względne wypisane rolą po roli jest tym, co luka zastępuje, więc
+        # z wariantu wychodzi. Zostaje ciało z wysuniętym wyrażeniem
+        # przyimkowym, bo okolicznik jest wolny i luki nie potrzebuje.
+        if produkcja.head in DOMYKA and not _wysunięty_okolicznik(produkcja):
+            continue
+        wariantowa.dopisz(_przepisz(produkcja, None, unoszą))
+        if produkcja.head not in unoszą:
+            continue
+        for i, część in enumerate(produkcja.body):
+            if not isinstance(część, Sym) or część.name not in unoszą:
+                continue
+            if kanonicznie and not _kanoniczna(produkcja, i):
+                continue
+            wariantowa.dopisz(_przepisz(produkcja, i, unoszą))
+
+    # Luka sama: produkcja o pustym ciele, niosąca przypadek, jakiego pozycja
+    # żąda. Dopełnienie ma dwie, bo dopełniacz negacji jest tą samą pozycją przy
+    # czasowniku przeczącym, a samo przeczenie niesie już cecha, która stoi.
+    wariantowa.dopisz(
+        Production(head="Subject", body=(), features=frozenset({(LUKA, frozenset({"nom"}))}))
+    )
+    for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
+        wariantowa.dopisz(
+            Production(
+                head="Object",
+                body=(),
+                features=frozenset(
+                    {
+                        (LUKA, frozenset({przypadek})),
+                        ("valency", frozenset({"acc"})),
+                        ("negacja", frozenset({negacja})),
+                    }
+                ),
+            )
+        )
+
+    # Zdanie względne: zaimek i zdanie, któremu brakuje dokładnie tego, czym on
+    # jest. Jedna produkcja w miejsce piętnastu ciał.
+    wariantowa.dopisz(
+        Production(
+            head="RelativeCore",
+            body=(
+                nt("RelativePronoun", case=Var("c"), number=Var("n"), gender=Var("g")),
+                nt("ClauseConjunct", **{LUKA: Var("c"), LUKA_N: Var("n"), LUKA_G: Var("g")}),
+            ),
+            features=frozenset({("number", Var("n")), ("gender", Var("g"))}),
+            głowa=1,
+        )
+    )
+    return wariantowa
+
+
+# --------------------------------------------------------------------------- #
+# Przebieg
+# --------------------------------------------------------------------------- #
+
+
+@dataclass
+class Raport:
+    """Liczniki jednego przebiegu, wraz ze zdaniami, które je czynią czytelnymi."""
+
+    ile_przykładów: int = PRZYKŁADY
+    stany: dict[str, collections.Counter] = field(default_factory=dict)
+    przejścia: dict[str, collections.Counter] = field(default_factory=dict)
+    przykłady: dict[tuple[str, str], list[str]] = field(default_factory=dict)
+    #: Wariant → jak role zdań nowo przyjętych mają się do drzewa wzorcowego.
+    #: Zdanie przyjęte odwrotnie niż w banku drzew nie jest zakupem, i po to ten
+    #: licznik tu stoi: na nim stanął ten pomiar.
+    zgodność: dict[str, collections.Counter] = field(default_factory=dict)
+    pominięte: collections.Counter = field(default_factory=collections.Counter)
+
+    @property
+    def zmierzone(self) -> int:
+        return sum(self.stany.get(WARIANTY[0], collections.Counter()).values())
+
+    def zapisz(self, tekst: str, stany: dict[str, str], role: dict[str, str | None]) -> None:
+        mianownik = stany[WARIANTY[0]]
+        for wariant, stan in stany.items():
+            self.stany.setdefault(wariant, collections.Counter())[stan] += 1
+            if wariant == WARIANTY[0] or stan == mianownik:
+                continue
+            przejście = f"{mianownik} → {stan}"
+            self.przejścia.setdefault(wariant, collections.Counter())[przejście] += 1
+            self.zanotuj((wariant, przejście), tekst)
+            if stan == "valid":
+                zgoda = role.get(wariant) or "brak roli"
+                self.zgodność.setdefault(wariant, collections.Counter())[zgoda] += 1
+
+    def zanotuj(self, klucz: tuple[str, str], tekst: str) -> None:
+        zachowane = self.przykłady.setdefault(klucz, [])
+        if len(zachowane) < self.ile_przykładów:
+            zachowane.append(tekst)
+
+
+def zmierz(
+    zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY, max_tokens: int | None = MAX_TOKENS
+) -> Raport:
+    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza."""
+    raport = Raport(przykłady)
+    for zdanie in zdania:
+        if not zdanie.annotated:
+            continue
+        if max_tokens is not None and len(zdanie.segments) > max_tokens:
+            raport.pominięte[f"dłuższe niż {max_tokens} segmentów"] += 1
+            continue
+        segmenty = list(zdanie.segments)
+        if not segmenty:
+            raport.pominięte["bez morfologii"] += 1
+            continue
+        wyniki = {
+            wariant: Outcome(
+                sentence=zdanie,
+                result=parse(gramatyka(wariant), segmenty),
+                segments=tuple(segmenty),
+            )
+            for wariant in WARIANTY
+        }
+        raport.zapisz(
+            zdanie.text,
+            {wariant: wynik.status for wariant, wynik in wyniki.items()},
+            {wariant: wynik.agreement for wariant, wynik in wyniki.items()},
+        )
+    return raport
+
+
+def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
+    """To samo porównanie nad prozą, którą olski ma czytać.
+
+    Ról nie ma czym porównać, bo drzewa wzorcowego proza nie niesie, a fragment
+    nie jest zdaniem i do mianownika nie wchodzi.
+    """
+    raport = Raport(przykłady)
+    wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
+    for kolejne in zip(*wyniki.values(), strict=True):
+        werdykty = dict(zip(WARIANTY, kolejne, strict=True))
+        if werdykty[WARIANTY[0]].status == FRAGMENT:
+            raport.pominięte["fragment, a nie zdanie"] += 1
+            continue
+        raport.zapisz(
+            werdykty[WARIANTY[0]].text,
+            {wariant: werdykt.status for wariant, werdykt in werdykty.items()},
+            {},
+        )
+    return raport
+
+
+def _kawałek(ścieżki: Sequence[Path], przykłady: int, max_tokens: int | None) -> Raport:
+    return zmierz((read(ścieżka) for ścieżka in ścieżki), przykłady, max_tokens)
+
+
+def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
+    scalony = Raport(przykłady)
+    for raport in raporty:
+        for pole in ("stany", "przejścia", "zgodność"):
+            for wariant, licznik in getattr(raport, pole).items():
+                getattr(scalony, pole).setdefault(wariant, collections.Counter()).update(licznik)
+        scalony.pominięte.update(raport.pominięte)
+        for klucz, zachowane in raport.przykłady.items():
+            for tekst in zachowane:
+                scalony.zanotuj(klucz, tekst)
+    return scalony
+
+
+def przebieg(
+    ścieżki: Sequence[Path],
+    jobs: int,
+    przykłady: int = PRZYKŁADY,
+    max_tokens: int | None = MAX_TOKENS,
+) -> Raport:
+    praca = functools.partial(_kawałek, przykłady=przykłady, max_tokens=max_tokens)
+    return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
+
+
+# --------------------------------------------------------------------------- #
+# Wydruk
+# --------------------------------------------------------------------------- #
+
+
+def wydruk(raport: Raport, nagłówek: str) -> str:
+    szerokość = max(len(wariant) for wariant in WARIANTY)
+    wiersze = [
+        f"{nagłówek}, {raport.zmierzone} zdań",
+        "",
+        f"{'wariant':>{szerokość}}  {'produkcji':>9} {'przyjęte':>9}"
+        f" {'wieloznaczne':>13} {'odrzucone':>10}",
+    ]
+    for wariant in WARIANTY:
+        licznik = raport.stany.get(wariant, collections.Counter())
+        przyjęte, wieloznaczne, odrzucone = (licznik.get(stan, 0) for stan in STANY)
+        wiersze.append(
+            f"{wariant:>{szerokość}}  {len(gramatyka(wariant)):>9} {przyjęte:>9}"
+            f" {wieloznaczne:>13} {odrzucone:>10}"
+        )
+    for powód, ile in raport.pominięte.most_common():
+        wiersze.append(f"{ile:>7}          niezmierzone: {powód}")
+
+    for wariant in WARIANTY[1:]:
+        wiersze += ["", f"ruch wobec wariantu „{WARIANTY[0]}” — {wariant}:"]
+        przejścia = raport.przejścia.get(wariant, collections.Counter())
+        if not przejścia:
+            wiersze.append("  żadne zdanie nie zmieniło werdyktu")
+        for przejście, ile in przejścia.most_common():
+            wiersze.append(f"  {ile:>7}  {przejście}")
+        zgodność = raport.zgodność.get(wariant)
+        if zgodność:
+            wiersze.append("  role zdań nowo przyjętych wobec drzewa wzorcowego:")
+            for nazwa, ile in zgodność.most_common():
+                wiersze.append(f"  {ile:>7}    {nazwa}")
+
+    for wariant in WARIANTY[1:]:
+        for przejście, _ in raport.przejścia.get(wariant, collections.Counter()).most_common():
+            zachowane = raport.przykłady.get((wariant, przejście), [])
+            if zachowane:
+                wiersze += ["", f"{wariant}, {przejście}:"]
+                wiersze += [f"  {tekst}" for tekst in zachowane]
+    return "\n".join(wiersze)
+
+
+def wydruk_zdań(tekst: str) -> str:
+    """Werdykt każdego wariantu nad podanymi zdaniami, po jednym wierszu na zdanie.
+
+    Po to, żeby cena i zakup dały się przeczytać na zdaniu, a nie tylko policzyć
+    nad korpusem: nad Składnicą luka rusza kilka zdań, a minimalna para pokazuje,
+    czym rusza.
+    """
+    wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
+    wiersze = []
+    for kolejne in zip(*wyniki.values(), strict=True):
+        werdykty = dict(zip(WARIANTY, kolejne, strict=True))
+        opis = "  ".join(
+            f"{wariant}: {werdykt.status} ({werdykt.result.ile})"
+            for wariant, werdykt in werdykty.items()
+        )
+        wiersze.append(f"{werdykty[WARIANTY[0]].text}\n  {opis}")
+    return "\n".join(wiersze)
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="sonda.luka", description="co kupuje i co kosztuje luka w zdaniu względnym"
+    )
+    parser.add_argument(
+        "ścieżka", nargs="?", help="katalog z rozpakowaną Składnicą albo plik z prozą"
+    )
+    parser.add_argument("-c", dest="zdania", help="zmierz te zdania zamiast korpusu")
+    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
+    parser.add_argument("--max-tokens", type=int, default=MAX_TOKENS)
+    parser.add_argument("--przykłady", type=int, default=PRZYKŁADY)
+    parser.add_argument("--jobs", type=int, default=os.cpu_count() or 1)
+    args = parser.parse_args(argv)
+    if args.jobs < 1:
+        parser.error("--jobs bierze co najmniej jeden proces")
+    if args.zdania:
+        print(wydruk_zdań(args.zdania))
+        return 0
+    if not args.ścieżka:
+        parser.error("podaj ścieżkę albo -c")
+
+    ścieżka = Path(args.ścieżka)
+    if ścieżka.is_dir():
+        raport = przebieg(
+            pliki(ścieżka)[: args.limit], args.jobs, args.przykłady, args.max_tokens
+        )
+        print(wydruk(raport, "Składnica, morfologia złota"))
+        return 0
+    if ścieżka.is_file():
+        print(wydruk(nad_prozą(ścieżka.read_text(), args.przykłady), f"{ścieżka.name}, proza"))
+        return 0
+    print(f"sonda.luka: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
+    print("sonda.luka: docs/corpus.md mówi, skąd wziąć korpus", file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

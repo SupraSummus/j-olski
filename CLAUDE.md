@@ -810,6 +810,22 @@ that has begun to buy those sentences.
 Refused stays refused when the price moves,
 so what the rerun protects is the number rather than the decision.
 
+A second refusal is priced the same way and every one of its figures
+moves with the grammar, because the variant it measures is derived from it.
+[What a gap buys and costs](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
+rewrites olski's own productions into a threaded feature in `sonda/luka.py`,
+so a production added to the clause family arrives in the variant unasked
+and moves the counts, the reading numbers quoted on single sentences,
+and the production totals beside them.
+The half the refusal rests on is the agreement against the gold tree,
+which moves with `_role` in `olski/corpus.py` as well:
+a role the treebank stops withholding from a gap
+is a gap that has begun to buy those sentences.
+A grammar change that gives a relative clause a body
+also moves what the enumeration reaches
+and with it the sentence that section names as the purchase,
+which is the one figure there a rerun alone does not settle.
+
 One set of figures is not moved by anything, for the same reason as the one above,
 and it sits in a section a grammar change is otherwise read from.
 [What packing decides](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)

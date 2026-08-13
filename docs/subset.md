@@ -1267,6 +1267,27 @@ Nad „Zasadami techniki prawodawczej” jest to jedyne zdanie,
 które przechodzi z wieloznaczności w odrzucenie,
 i przechodzi dlatego, że stało na czytaniu współrzędnym.
 
+Zdanie względne z wysuniętym dopełnieniem żąda przy tym podmiotu,
+bo każde takie ciało ma go wypisany,
+więc podmiot opuszczony to zdanie odrzuca:
+`Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się,
+a `Dyrektor wymienia imprezy, które on zorganizował.` wyprowadza się raz.
+Polszczyzna podmiot w tej pozycji opuszcza swobodnie,
+a nad Składnicą są to cztery zdania.
+
+Wysunięte dopełnienie sięga ponadto do formy osobowej i nie dalej,
+bo ciała wypisane wyżej mają w środku czasownik zdania składowego,
+więc dopełnienie należące do bezokolicznika pod nim nie ma się skąd wziąć:
+`Ustawa, którą organ gminy może wydać, jest tania.` jest odrzucone.
+Zdania tego kształtu nie ma jednak ani jedno zdanie rejestru ustaw,
+co pokazuje `grep -P 'któr\w+ [^.]*\b(może|mogą|ma|mają)\b [^.]*\w+ć'`
+nad `proza/ustawy/`, więc konstrukcja ta jest wyczytana z gramatyki,
+a nie z korpusu.
+
+Po jedno i drugie sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
+a ile ona kupuje w każdym z trzech rejestrów i dlaczego nie weszła, mierzy
+[design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
+
 ### Bank drzew nazywa `który` inaczej niż Morfeusz, a czytelnik to przekłada
 
 Składnica taguje `który` jako `padj`, czyli zaimek przymiotny,
