@@ -285,6 +285,8 @@ Ruchem jest albo zdanie, które README naprawdę ma i które ten czas pokazuje,
 albo powiedzenie tej ceny bez zdania z tego pliku.
 Liczby w tamtym akapicie zostały nieprzeliczone razem z resztą,
 bo przeliczenie jednej z nich w wywodzie bez dowodu czyta się jak uzgodnienie.
+Widać to teraz po samej sekcji: mówi ona wyżej o 48 zdaniach prozy README,
+a ten akapit o pozostałych 42, i różnicy nie tłumaczy w niej nic.
 Wpisu o figurach nad własną prozą to nie zamyka:
 tamten pyta, czy mianownik w ogóle zapisywać.
 
@@ -350,6 +352,26 @@ The move is to decide, per corpus, whether it joins the harness
 as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
+
+Figury, które [`docs/corpus.md`](docs/corpus.md#the-measurement) bierze ręcznie,
+są w większości sondami różnicowymi i nie ma ich czym puścić.
+Wiersz `prep` z jedną grupą produkcji zdjętą, ten sam z drugą, trzydzieści pozycji
+przyłączeniowych zdjętych naraz oraz kolumna najczęstszych form przy każdym blokerze
+powstają dziś skryptem pisanym na jeden przebieg i kasowanym po nim,
+a sekcja o nich wskazuje ten plik jako miejsce, gdzie stoi, co by je uwolniło.
+`sonda/ruch.py` jest tym kształtem od tej strony, której brakowało:
+sonda deklaruje, do której grupy należy produkcja, a przebieg, warianty i tabelę
+dostaje gotowe, więc dwie pierwsze figury są predykatem i sześcioma wierszami deklaracji.
+Brakuje temu przebiegowi jednej rzeczy, której te figury żądają, a przecinek i liczebnik nie:
+liczy on przejścia werdyktu, a nie blokery, więc wiersz `prep` nie ma skąd wyjść.
+Ruchem jest licznik blokerów na wariant w `Raport`, wzorowany na `Report.blockers`
+z `olski/coverage.py`, i dwie sondy na te dwie grupy produkcji.
+Nie obejmuje to jednej figury z tamtej listy: kolumna bez wykluczenia słownikowego
+jest wariantem morfologii, a nie grupy produkcji, i pod ten kształt nie podchodzi.
+Do rozstrzygnięcia jest przy tym, czy sonda na figurę, którą czyta jeden dokument,
+zarabia na siebie, czy taniej jest wpisać kryterium obok liczby,
+co [tamta sekcja](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
+robi dla trzydziestu pozycji i co pozwoliło wziąć tę liczbę drugi raz.
 
 The archives these documents send a reader to fetch are pinned by URL and by nothing else.
 [Składnica](docs/corpus.md#fetching-it)
@@ -460,13 +482,15 @@ bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów
 
 Czas przeszły zostawił za sobą 297 zdań Składnicy, których nikt nie przeczytał.
 `praet` prowadził kolejkę blokerów z 2934 zdaniami,
-a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz ten czyta 297
-([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)),
+a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz ten czytał 297,
 i są to zdania, które na czasie przeszłym stawały i dalej na nim stają.
+Wiersz czyta dziś 331 ([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)),
+a 34 dołożył liczebnik, przesuwając na czasownik blokery zdań, których nie przyjął,
+więc do przeczytania jest cała ta resztka, a nie tamte 297.
 Nie wiadomo, czy stoi za tym jedna konstrukcja, czy dwadzieścia:
 `Wózek zwolnił biegu i przystanął.` i `Pani Zofia była w rozpaczy.`
 są w tej resztce obok siebie, a łączy je tyle, że bloker wskazał czasownik.
-Ruchem jest odczytanie tych 297 zdań i rozbicie ich na klasy,
+Ruchem jest odczytanie tej resztki i rozbicie jej na klasy,
 z tego klasy nazwane w [`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet),
 jeśli któraś jest konstrukcją, a nie zbiegiem okoliczności.
 Do przeczytania jest sam `blocker` w `olski/coverage.py`:
@@ -727,6 +751,27 @@ bo wybór spójny z wyprowadzeniem nie jest dla klasy zdefiniowany.
 Do rozstrzygnięcia jest, czy `Leaf` ma w ogóle wystawiać czytanie na zewnątrz,
 a odpowiedź zależy od tego, kto sięga po `Leaf.reading` poza rozbiorem.
 
+Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
+którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.
+`Marzec przyniósł 6 zagranicznych delegacji.` olski czyta tak, jak czyta je czytelnik,
+a drzewo wzorcowe daje temu dopełnieniu `np(part)`,
+czyli przypadek strukturalny, którym polszczyzna oznacza właśnie tę frazę,
+i `_role` w `olski/corpus.py` nie tłumaczy tego gniazda na żadną rolę olskiego.
+Gold nie ma wtedy dopełnienia, z którym można by się zgodzić,
+a `agreement` w `olski/coverage.py` liczy rolę przypisaną poza gniazdem jako `disagrees`,
+więc wiersz niezgodnych z [`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
+jest o jedno zdanie za długi i będzie rósł razem z liczebnikiem.
+Ruchem jest `np(part)` odwzorowane na `Object` obok `np(acc)` i `np(accgen)`.
+Do rozstrzygnięcia jest, czy to gniazdo jest dopełnieniem zawsze:
+`Napiłem się wody` ma w nim dopełniacz partytywny, który dopełnieniem jest,
+a olski go nie bierze, więc odwzorowanie nie zmieni na nim niczego,
+i pytanie brzmi, czy bank drzew stawia tam kiedykolwiek coś, co dopełnieniem nie jest.
+Do przeczytania są zdania Składnicy z tym gniazdem
+wraz z werdyktem, jaki nad nimi wydaje `olski-corpus --morphology gold`,
+bo tylko one mogą tę zmianę cokolwiek kosztować.
+Ruch jest winien przebiegi, których [sekcja Checks](CLAUDE.md#checks)
+żąda od zmiany w tabeli zgodności, i rusza ją w obu kolumnach.
+
 Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
 `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
 i sam w docstringu mówi, że między czytaniami wybiera dowolnie,
@@ -837,6 +882,13 @@ Te dwie deklaracje rozeszły się na koordynacji przecinkiem
 — olski bierze przecinek na trzech poziomach, a sonda spójnik —
 i drugi raz na podrzędności, której sonda nie ma wcale,
 a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
+Trzecie rozejście widać i jest to grupa liczebnikowa:
+`Działają dwie rzeczy` olski wyprowadza jednym czytaniem, a sonda odrzuca,
+więc liczba zdań zgodnych spadła i mówi teraz o tym, czego sonda nie ma,
+a nie o tym, czym się te dwa opisy różnią
+([`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)).
+Jest to pierwsze rozejście, które ta liczba pokazuje,
+i przez to pierwszy dowód, że kopia starzeje się przy każdej produkcji.
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
 przestaje wtedy, gdy szyk zejdzie do warunków precedencji i zostanie zmierzony,
 więc wpis stoi za tamtym.

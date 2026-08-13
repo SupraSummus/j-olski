@@ -360,7 +360,7 @@ wyprowadza się i wyprowadza raz.
 
 Przysłówek, `to` w roli łącznika,
 negacja wraz z dopełniaczem negacji,
-liczebniki i rzeczowniki odczasownikowe.
+liczebnik pisany cyfrą i rzeczowniki odczasownikowe.
 Kolejka ze Składnicy stawia je wysoko,
 bo przysłówek prowadzi w niej trzeci wiersz, a `to` dwa dalsze.
 Wobec README podnoszą pokrycie dopiero razem,
@@ -375,6 +375,25 @@ więc [koszt przepisywania](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
 ich nie porządkuje i między sobą rozstrzyga je sama cena kroku.
 Dwie kolejki, które ją wyceniają, nie zgadzają się co do kolejności,
 i jest to wynik pomiaru, a nie usterka w którejś z nich.
+
+Liczebnik pisany słowem był na tej liście i zszedł z niej cały,
+a cyfra została i jest osobną pozycją, a nie resztą tej samej.
+Kupił on 56 zdań Składnicy przy 35 uczynionych wieloznacznymi,
+jedno zdanie README i jedno zdanie ustawy,
+a jednoznaczności nie odebrał ani jednemu zdaniu przyjętemu wcześniej,
+w żadnym z tych trzech korpusów
+([subset.md](subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)).
+Tym różni się od czasu przeszłego, który nad ustawami zabrał pięć.
+Sam ranking wypadł natomiast tak samo jak przy nim:
+wiersz `num` obiecywał 453 zdania i oddał 91,
+gdzie `praet` obiecywał 2934 i oddał 566, czyli oba po jednej piątej.
+Dwa pomiary nie są jeszcze przelicznikiem,
+ale są o jeden więcej niż to, na czym ta kolejka stała,
+i oba mówią, że zawyża ona pięciokrotnie.
+Cyfrę zdejmie z tej listy warstwa nad morfologią, a nie produkcja,
+bo `dig` nie niesie ani przypadka, ani liczby
+([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)),
+i tym różni się ta pozycja od pozostałych czterech.
 
 Czas przeszły był na tej liście i z niej zszedł,
 a to, jak zszedł, mówi o samej liście dwie rzeczy.
