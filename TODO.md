@@ -545,6 +545,107 @@ bo jednoznaczność płacona za pokrycie niepoliczone
 idzie wbrew kolejności, którą trzyma
 [`docs/roadmap.md`](docs/roadmap.md#celem-toru-jest-to-readme).
 
+Wyrażenie przyimkowe przyłącza się do ostatniego członu ciągu współrzędnego
+albo do zdania, a do całego ciągu nie przyłącza się wcale.
+`Pliki i katalogi w tym drzewie rosną.` wychodzi dwoma czytaniami —
+`Pliki i [katalogi w tym drzewie]` oraz `w tym drzewie` przy `rosną` —
+a czytania, w którym w tym drzewie są i pliki, i katalogi, nie ma,
+choć polszczyzna je ma.
+Powodem są produkcje przyjmujące `Modifier`:
+`NPConjunct` i `APConjunct` w `olski/subset.py` mają go pod głową członu,
+a produkcje koordynacji nie mają go wcale.
+[Zawężenie o przydawce](docs/subset.md#nothing-above-a-coordination-distributes-into-it)
+tej pozycji nie uzasadnia, bo wywodzi się z braku rodzaju u ciągu:
+przymiotnik nad ciągiem zgadzałby się z niczym,
+a wyrażenie przyimkowe nie zgadza się z niczym również pod członem.
+Ruch przepisuje tamtą sekcję, bo tytuł mówi tam o wszystkim,
+co nad ciągiem stoi, a wywód pod nim o samej przydawce.
+Żąda jej natomiast
+[reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+bo pozycja z produkcją na jedno przyłączenie i bez produkcji na drugie
+wybiera przez przeoczenie.
+Ruchem są dwa ciała `NP` i dwa `AP`, po jednym na spójnik i na przecinek,
+z `Modifier` za całym ciągiem.
+`NP → NP Modifier` tym ruchem nie jest:
+dałoby drugie wyprowadzenie każdej grupie bez koordynacji,
+czyli czytanie, którego polszczyzna tam nie ma.
+Do przeczytania jest
+`test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimkowego`
+w `tests/test_subset.py`, bo wylicza dwa czytania pierwszego artykułu Deklaracji,
+a ruch dopisuje im trzecie.
+Wpis jest winien przebiegi, których [sekcja Checks](CLAUDE.md#checks)
+żąda od zmiany w gramatyce,
+wraz z listą pozycji przyłączeniowych w
+[`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+która rośnie o tę jedną.
+Te same produkcje przepisuje wpis o współrzędności wypisanej trzema poziomami
+zamiast jedną produkcją lewostronnie rekurencyjną,
+więc ten z dwóch, który wejdzie pierwszy, wybiera kształt dla drugiego.
+
+`pod względem` żąda licencji od słowa, do którego się przyłącza,
+a olski żąda licencji tylko od dopełnienia.
+Czytelnik odrzuca `wolni pod względem swej godności` bez pomocy składni,
+bo `równy` ma pozycję na wzgląd, a `wolny` jej nie ma.
+Tę samą obserwację robi nad `przewyższać`
+[`docs/subset.md`](docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
+gdzie porównanie mówi, w czym jedno przewyższa drugie,
+i nie ma jej dziś gdzie zapisać.
+Leksykon walencyjny mówi trzy zdania i wszystkie trzy zawężają ramę dopełnienia
+([`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)),
+a okolicznik pozycji ramy nie zajmuje i przyłącza się do każdego czasownika za darmo,
+więc żaden wpis nie odbiera czytania,
+w którym wzgląd dochodzi do `rodzą się`.
+Ruchem jest zdanie leksykonu odwrócone wobec tamtych trzech:
+nie „ten czasownik czegoś nie bierze”, tylko „to wyrażenie przyimkowe
+przyłącza się tam, gdzie licencjonuje je leksykon”,
+czyli cecha przy przyimku zleksykalizowanym, a nie przy jego gospodarzu.
+Robi ono z pierwszego artykułu Deklaracji zdanie olskie:
+odejmuje czytanie z `rodzą się`, bo ten czasownik wzglądu nie licencjonuje,
+a zostaje czytanie z `równi`, czyli jedno.
+Odejmuje też czytanie nad całym ciągiem współrzędnym,
+kiedy dopisze je wpis o wyrażeniu przyimkowym przyłączanym do ciągu,
+bo `wolny` wzglądu nie licencjonuje tak samo.
+Do rozstrzygnięcia jest, czy to jeszcze walencja, czy już ta warstwa,
+którą [`docs/open-questions.md`](docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
+odkłada poza gramatykę jako odpowiedź trzecią;
+różnicę robi to, że leksykon w gramatyce już jest, a tamta warstwa nie.
+Do przeczytania jest, ile takich przyimków rejestr ma,
+bo `pod względem` jest jednym z nich i nikt nie policzył, ile jest reszty,
+oraz co Walenty mówi o wzglądzie:
+pozycje zleksykalizowane wypisuje on w schemacie,
+a przymiotnika, który licencjonuje tu wzgląd, nie ma w pliku czasownikowym,
+z którego leksykon powstaje,
+choć archiwum obok tego pliku niesie katalog przymiotnikowy.
+Kryterium wejścia ma ten ruch to samo, co każda warstwa więzowa:
+[wyprowadza się z gramatyki albo jest gramatyką pisaną drugi raz](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej),
+a leksykalnie znaczy to tyle, że pozycję wypisuje słownik.
+Jeśli Walenty jej nie wypisuje, ruchu nie ma i cały wpis zamyka skasowanie,
+bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
+olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej.
+
+Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
+`Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
+`[moi sąsiedzi], lekarz i nauczyciel`, czyli ciągiem o trzech członach,
+a polszczyzna czyta to zdanie także drugim sposobem,
+w którym lekarz i nauczyciel są tymi samymi sąsiadami.
+Jest to jednoznaczność z braku produkcji,
+czyli to, czemu zapobiega
+[reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
+więc po werdykcie nie widać jej wcale.
+Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
+w tym samym przypadku, i cena jest widoczna przed pomiarem:
+przecinek jest już znakiem koordynacji na trzech poziomach
+([`docs/subset.md`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
+więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
+Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
+a gotowej nie ma gdzie wziąć:
+[pomiar wieloznaczności](docs/open-questions.md#kryterium-wyjścia-toru-żąda-jednoznaczności-od-zdania-które-jej-nie-ma)
+wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
+czyli konstrukcję inną niż ta.
+Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
+etykietą, po której da się ją policzyć.
+
 Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno,
 a przy podrzędności nazywa cudzą rolę jako rolę zdania.
 `Reguła, która rozstrzyga o zdaniu, jest tania.` wychodzi wierszem
