@@ -315,6 +315,14 @@ PRZYJMOWANE = [
     #  na Kto i ś obok formy całej, a ś nie ma ani jednego czytania, które
     #  bierze jakakolwiek produkcja.
     "Ktoś zna docs/subset.md.",
+    #  Czas przeszły, czyli forma, która niesie rodzaj i nie niesie osoby.
+    "Program zapisywał ustawienia.",
+    #  Osoba pierwsza tego czasu, czyli aglutynant, którego Morfeusz odcina od
+    #  formy: Napisałem wchodzi tu jako Napisał i em.
+    "Napisałem program.",
+    #  Czas przeszły dochodzi też do formy z cząstką `się`, czyli do drugiego
+    #  leksykonu walencyjnego, a nie tylko do tego bez cząstki.
+    "Program otwierał się.",
 ]
 
 
@@ -428,6 +436,15 @@ def test_object_first_order_is_polish_and_is_read_that_way():
         #  A first person subject with a third person verb: person comes from
         #  the subject, so this disagrees the way Nowa program does.
         "Ja zapisuje plik.",
+        #  Czas przeszły zgadza się z podmiotem w rodzaju, a nie tylko w liczbie,
+        #  i to jest ta zgodność, której czas teraźniejszy nie ma czym złamać.
+        "Lista stał.",
+        #  Osobę trzecią wpisuje formie praet produkcja, bo tag jej nie niesie,
+        #  a bez tego podmiot pierwszej osoby nie ma się z czym nie zgodzić.
+        "Ja napisał program.",
+        #  Osoba, którą wnosi aglutynant, jest osobą całego orzeczenia, więc
+        #  podmiot drugiej osoby przy końcówce pierwszej się nie zgadza.
+        "Ty napisałem program.",
     ],
 )
 def test_these_have_no_reading(text):
@@ -598,6 +615,27 @@ def test_dwa_czytania_różne_granicą_członu_nie_wychodzą_jednym_napisem():
     streszczenia = [tuple(sorted(reading.items())) for reading in found.readings]
     assert len(set(streszczenia)) == len(streszczenia), found.explain()
     assert "[Koszt szynki] i sera" in {reading["Object"] for reading in found.readings}
+
+
+@pytest.mark.parametrize("symbol", ["Verb", "Subject"])
+def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(symbol):
+    #  Czas przeszły zgadza się z podmiotem w rodzaju, a teraźniejszy tej cechy nie
+    #  niesie, więc szyk, który rodzaju nie przepuszcza, wygląda przy `zapisuje` na
+    #  poprawny i przyjmuje `Lista stał`. Zdanie tego nie łapie, bo szyków jest
+    #  kilkanaście, a zdanie sprawdza jeden. Cechy, której konstytuent nie niesie,
+    #  unifikacja nie sprawdza, i to jest ta cisza, którą ten test przerywa.
+    odniesienia = [
+        part
+        for production in GRAMMAR.productions
+        for part in production.body
+        if isinstance(part, Sym) and part.name == symbol
+    ]
+    assert odniesienia, symbol
+    for part in odniesienia:
+        assert "gender" in dict(part.constraints), part
+    for production in GRAMMAR.productions:
+        if production.head == symbol:
+            assert "gender" in dict(production.features), production
 
 
 @pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)

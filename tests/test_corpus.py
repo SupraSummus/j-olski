@@ -57,6 +57,12 @@ def phrase(nid, start, end, category, children, slot=None, chosen="true", rule="
     )
 
 
+#: Tag czasownika, po który nie sięga żadna produkcja, więc zdanie z nim
+#: wychodzi odrzucone i te testy mają czym mierzyć odrzucenie. Forma nieosobowa,
+#: bo podzbiór jej nie ma i żaden etap jej nie planuje.
+POZA_PODZBIOREM = "imps:perf"
+
+
 def svo(subject="subj(np(nom))", obj="np(accgen)", verb=None, tag="fin:sg:ter:imperf"):
     """*Program zapisuje ustawienia.* — subject first, object last, both marked.
 
@@ -287,14 +293,14 @@ def test_a_role_the_gold_tree_marks_and_olski_does_not_is_partial_not_agreement(
 
 
 def test_a_rejected_sentence_is_not_asked_about_agreement():
-    #  A past-tense verb is outside the subset, so there is no reading to judge.
-    found = outcome(svo(tag="praet:sg:m3:imperf"))
+    #  A verb form outside the subset leaves no reading to judge.
+    found = outcome(svo(tag=POZA_PODZBIOREM))
     assert found.status == "rejected"
     assert found.agreement is None
 
 
 def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
-    assert outcome(svo(tag="praet:sg:m3:imperf")).blocker == "praet"
+    assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "imps"
 
 
 def test_agreement_is_not_claimed_when_spans_are_not_comparable():
@@ -350,7 +356,7 @@ def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path, max_token
     #  kolejności korpusu drukowałyby inne zdanie niż jeden przebieg.
     write(tmp_path, "a-s.xml", SVO, text="Program zapisuje ustawienia.")
     write(tmp_path, "b-s.xml", svo(subject=None, obj=None), sent_id="t/2-s", text="Zapisuje.")
-    write(tmp_path, "c-s.xml", svo(tag="praet:sg:m3:imperf"), sent_id="t/3-s", text="Zapisał to.")
+    write(tmp_path, "c-s.xml", svo(tag=POZA_PODZBIOREM), sent_id="t/3-s", text="Zapisał to.")
     write(tmp_path, "d-s.xml", "", verdict="NO_TREE", sent_id="t/4-s", text="Bez drzewa.")
 
     ścieżki = pliki(tmp_path)
@@ -363,7 +369,7 @@ def test_pula_procesów_drukuje_to_samo_co_jeden_proces(tmp_path, capsys):
     #  Przez granicę procesu idzie licznik, a nie las, który go zbudował, więc to
     #  jest o tym, że licznik daje się przez nią przenieść i złożyć z powrotem.
     write(tmp_path, "a-s.xml", SVO)
-    write(tmp_path, "b-s.xml", svo(tag="praet:sg:m3:imperf"), sent_id="t/2-s")
+    write(tmp_path, "b-s.xml", svo(tag=POZA_PODZBIOREM), sent_id="t/2-s")
     main([str(tmp_path), "--examples", "1", "--jobs", "1"])
     jeden = capsys.readouterr().out
     main([str(tmp_path), "--examples", "1", "--jobs", "2"])

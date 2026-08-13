@@ -193,11 +193,11 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 | samorząd gminny (1990/95) | 386 | 20 | 36 | 330 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 0 | 84 |
 | informacja publiczna (2001/1198) | 126 | 0 | 1 | 125 |
-| Kodeks wyborczy (2011/112) | 2908 | 27 | 87 | 2794 |
+| Kodeks wyborczy (2011/112) | 2908 | 27 | 92 | 2789 |
 | petycje (2014/1195) | 48 | 3 | 2 | 43 |
 | zgromadzenia (2015/1485) | 127 | 0 | 6 | 121 |
 | ochrona ludności (2024/1907) | 1242 | 19 | 96 | 1127 |
-| razem | 4921 | 69 | 228 | 4624 |
+| razem | 4921 | 69 | 233 | 4619 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
 699 zdań, z tego 5 jednoznacznych i 18 wieloznacznych.
@@ -338,15 +338,15 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4631 odrzuceń 3799 stanęło na formie, której żadna produkcja nie bierze,
-a 832 na samej strukturze.
+Z 4619 odrzuceń 3777 stanęło na formie, której żadna produkcja nie bierze,
+a 842 na samej strukturze.
 Formy z czoła tego rankingu grupują się w cztery klasy:
 
 | klasa | najczęstsze formy |
 | --- | --- |
 | aparat odsyłaczowy | `art` 717, dywiz 666, `§` 595, `r` 254, nawiasy 232 i 223, liczby |
 | przysłówki | `odpowiednio` 175, `niezwłocznie` 162, `także` 116, `również` 95 |
-| spójniki podrzędne | `Jeżeli` 171 i `jeżeli` 154, `że` 83, `gdy` 49 |
+| spójniki podrzędne | `Jeżeli` 171 i `jeżeli` 154, `gdy` 49 |
 | imiesłowy i odsłowniki | `obejmujący` 100, `wykonywania` 88, `wniesienia` 61 |
 
 Pierwsza klasa zajmuje dziewięć pierwszych miejsc rankingu,
@@ -357,15 +357,20 @@ dywiz z nazwy kodeksu i nawias wokół adresu publikacji.
 Kolejka wychodzi więc inna niż ta,
 którą [Składnica ustawiła](corpus.md#where-the-analyses-stop),
 i różnica jest informacją o rejestrze.
-Czas przeszły stoi tam na pierwszym miejscu z 2894 zdaniami,
-a tutaj cały daje 64 trafienia (`był`, `była`, `było`, `były`, `został`, `została`)
-i do dwudziestu pierwszych miejsc nie wchodzi:
+Czas przeszły prowadził tamtą kolejkę z 2934 zdaniami,
+a tutaj dawał 64 trafienia (`był`, `była`, `było`, `były`, `został`, `została`)
+i do dwudziestu pierwszych miejsc nie wchodził:
 ustawa mówi w czasie teraźniejszym o tym, co ma być,
 a przeszły zostaje jej na przepisy przechodnie.
-Najtańszy duży zakup z tamtej kolejki jest tu więc wart prawie zera.
+Gramatyka czas przeszły dostała i nad tymi siedmioma aktami
+nie przyjmuje przez niego ani jednego zdania,
+a pięć przenosi z odrzuconych na wieloznaczne, wszystkie w Kodeksie wyborczym
+([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
+Najtańszy duży zakup tamtej kolejki wyszedł tu poniżej zera.
 Zamiast niego stoi wysoko zdanie warunkowe,
 czyli kształt, w którym norma jest w ogóle zapisana:
-`Jeżeli` z 325 trafieniami na dwie pisownie jest tu tym, czym `był` jest tam.
+`Jeżeli` z 325 trafieniami na dwie pisownie
+jest tu tym, czym czas przeszły był tam.
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 

@@ -458,6 +458,35 @@ przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
+Czas przeszły zostawił za sobą 297 zdań Składnicy, których nikt nie przeczytał.
+`praet` prowadził kolejkę blokerów z 2934 zdaniami,
+a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz ten czyta 297
+([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)),
+i są to zdania, które na czasie przeszłym stawały i dalej na nim stają.
+Nie wiadomo, czy stoi za tym jedna konstrukcja, czy dwadzieścia:
+`Wózek zwolnił biegu i przystanął.` i `Pani Zofia była w rozpaczy.`
+są w tej resztce obok siebie, a łączy je tyle, że bloker wskazał czasownik.
+Ruchem jest odczytanie tych 297 zdań i rozbicie ich na klasy,
+z tego klasy nazwane w [`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet),
+jeśli któraś jest konstrukcją, a nie zbiegiem okoliczności.
+Do przeczytania jest sam `blocker` w `olski/coverage.py`:
+nazywa on formę, na której rozbiór stanął,
+a przy zdaniu z czasownikiem w środku bywa to forma stojąca za prawdziwą przyczyną,
+więc część tej resztki może być artefaktem tego odczytu, a nie brakiem w gramatyce.
+
+Aglutynant dochodzi tylko do czasownika, przy którym stoi.
+`_formy_skończone` w `olski/subset.py` bierze `praet` z `aglt` po nim,
+bo tak Morfeusz tnie `napisałem`,
+a polszczyzna stawia tę końcówkę także przy innym słowie zdania:
+`gdzieś ty był`, `myśmy przyszli`, `dlaczegoś to zrobił`.
+Ruchem jest aglutynant przyłączany do zdania, a nie do czasownika,
+czyli cecha osoby wypuszczana w górę z miejsca, w którym końcówka stanęła.
+Do rozstrzygnięcia jest, czy warto:
+konstrukcja jest w rejestrze technicznym rzadka albo nieobecna,
+a w prozie literackiej Składnicy nie jest, i nikt nie policzył, ile jej tam.
+Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
+bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
+
 Zaimek `który` stoi w polszczyźnie w trzech konstrukcjach, a olski ma jedną.
 `RelativePronoun` w `olski/subset.py` bierze go na czele zdania względnego,
 a `przymiotnik` w tym samym pliku odbiera mu pozycję przydawki,
@@ -947,9 +976,14 @@ i dobiera do niego wariant, którego dokument nie nazywa.
 Przy pozycjach przyłączeniowych granica grupy jest już wypisana
 ([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
 a przy [zdaniach, które rama zdejmuje](docs/corpus.md#what-morphological-ambiguity-costs)
-nie jest: trzy liczby z czterech odtwarza leksykon z biernikiem dopisanym kopuli,
-a czwarta — zdanie, które bez leksykonu nie wyprowadza się wcale —
-żąda wariantu jeszcze innego i nie mówi którego.
+nie jest: liczby odtwarza leksykon z biernikiem dopisanym kopuli,
+i dokument tego nie mówi.
+Wariantów jest przy tym więcej niż dwa i każdy stawia tę samą pułapkę.
+Cena podrzędności żąda gramatyki bez `SubordinateClause` i bez `comp` w ramie,
+a cena zdania względnego — bez produkcji względnych,
+przy czym wariant zbudowany przez podmianę `ZAIMEK_WZGLĘDNY`
+zdejmuje oba naraz, bo ta stała stoi i w wykluczeniu, i w terminalu zaimka,
+więc sesja mierzy wtedy co innego, niż myśli, i nic jej o tym nie mówi.
 Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
 bo ramę zawęża ona i tylko ona.
 Ruchem jest sonda obok `sonda/przecinek.py`, która te warianty buduje i drukuje,

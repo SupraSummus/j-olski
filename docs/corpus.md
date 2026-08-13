@@ -97,21 +97,21 @@ Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 12,578 | 96.6% |
-| valid | 325 | 2.5% |
-| ambiguous | 122 | 0.9% |
+| rejected | 12,012 | 92.2% |
+| valid | 690 | 5.3% |
+| ambiguous | 323 | 2.5% |
 
 By length, which is the shape the curve actually has:
 
 | tokens | valid |
 | --- | --- |
-| 1–5 | 8.9% |
-| 6–10 | 2.6% |
-| 11–20 | 0.3% |
+| 1–5 | 17.2% |
+| 6–10 | 6.3% |
+| 11–20 | 0.6% |
 | 21–40 | 0.1% |
 
 So olski is a subset of short declarative Polish and nothing else,
-and coverage falls off a cliff at about ten tokens.
+and coverage falls off a cliff between ten and twenty tokens.
 That is the honest starting point of the curve,
 and the point of recording it is that the next tier has something to beat.
 
@@ -124,44 +124,54 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `praet` | 2,934 | the past tense: `był` (95), `była`, `było` |
-| `interp` | 2,391 | `-` (1,248), `.` (407), `–` (273) |
-| `qub` | 1,809 | particles: `nie` (583), `się` (360), `czy` |
-| `adv` | 1,183 | `teraz` (63), `bardzo`, `potem` |
-| `conj` | 527 | coordination: `a` (153), `i` (152), `ale` |
-| `psubst` | 380 | nominal pronouns: `to` (105), `co`, `kto` |
-| `num` | 342 | numerals: `kilka` (20), `wielu`, `wiele` |
-| `ger` | 338 | gerunds: `przyjęcie`, `głosowania` |
-| `comp` | 330 | subordinators: `że` (49), `gdy` (44), `jeśli` |
-| `pred` | 327 | `to` (199), `można`, `trzeba` |
+| `qub` | 2,601 | particles: `się` (856), `nie` (311), `Nie` (308) |
+| `interp` | 2,592 | `-` (1,252), `.` (542), `–` (274) |
+| `adv` | 1,414 | `Teraz` (57), `bardzo` (42), `Potem` (41) |
+| `conj` | 585 | coordination: `I` (141), `Ale` (130), `A` (127) |
+| `num` | 453 | numerals: `dwa` (14), `Kilka` (14), `kilku` (12) |
+| `psubst` | 435 | nominal pronouns: `to` (99), `tym` (42), `Co` (42) |
+| `comp` | 408 | subordinators: `że` (58), `Gdy` (39), `Jeśli` (37) |
+| `ger` | 398 | gerunds: `przyjęcie` (8), `głosowania` (6) |
+| `padj` | 356 | adjectival pronouns: `który` (48), `które` (38) |
+| `pred` | 347 | `to` (120), `To` (97), `Trzeba` (24) |
 
-The first two are the whole answer to "why 2.5%".
-Olski has no past tense,
-and of clause-level punctuation it has the comma and nothing else,
-so between them those two rows account for nearly half of the rejections
+The first two rows account for two fifths of the rejections
 without touching the interesting questions
 about discontinuity and formal power at all.
-Adding the past tense costs nothing in formal power —
-it is another verb form in the `Verb` rule —
-which makes it the cheapest large gain available against this corpus.
-What it is worth against the register olski is aimed at
-is a separate question, and the run below answers it differently.
+The particle row is `się` before its verb rather than after it,
+and `nie`, which is the negation this grammar has no rule for;
+of clause-level punctuation olski has the comma and nothing else.
 
-One entry says where a construction the grammar *has* stops short of Polish.
-`się` is second in the particle row at 352:
+The past tense headed this table at 2,934 and heads it no longer,
+and the difference between those two numbers is what a row does not say.
+Admitting it moved 566 of those 2,934 sentences off the rejected list,
+left 297 of them still stopping here,
+and moved the remaining 2,071 sentences' blockers rightward without accepting them:
+a sentence carries more than one missing construction,
+and the row counts where an analysis stopped
+rather than what admitting the construction buys.
+It also cost more formal machinery than this table's ranking assumed,
+which [subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku) owns.
+What it is worth against the register olski is aimed at
+is a separate question, and the run below answers it with zero.
+
+One entry says where a construction the grammar *has* stops short of Polish,
+and it now heads the whole table.
+`się` leads the particle row at 856:
 the reflexive is admitted after its verb,
 and Polish puts it before one as readily.
 
 A preposition does not rank in this table at all,
 and two groups of productions are why.
 Drop the one that puts a modifier in front of the clause
-and a `prep` row ranks third at 1,881 sentences, led by `w` (696) and `na` (263).
+and a `prep` row ranks third at 1,955 sentences, led by `W` (665) and `Na` (252),
+capitalized because a fronted modifier opens its sentence.
 Drop instead the positions that hang a prepositional phrase on a noun or on an
 adjective — `Modifier` under `NPConjunct` and under `APConjunct`, which are the
 attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
-leaves to the reader — and the row reads 220, `z` (60) and `w` (56) in front.
-With both in place it reads 74, `z` (20) and `w` (17) in front,
+leaves to the reader — and the row reads 334, `w` (86) and `z` (83) in front.
+With both in place it reads 134, `w` (34) and `z` (32) in front,
 which is a preposition standing where no rule reaches
 rather than a construction the grammar lacks.
 
@@ -181,11 +191,11 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Five sentences of that README derive once, and two derive twice.
+Five sentences of that README derive once, and three derive twice.
 What stops the rest is the table above in another order:
 adverbs and the colon level at the front, subordinators just behind them,
 then numerals,
-then the Polish form Morfeusz does not know and the past tense,
+then the Polish form Morfeusz does not know,
 and gerunds last.
 The subordinator standing there is the one that opens an adverbial clause,
 `gdy` and `zanim` rather than `że`,
@@ -196,8 +206,16 @@ which is this paragraph's point taken from the other side:
 every sentence of this file that stood on a `że` clause stood on something else too.
 That order is read off the words the run names,
 which is a classification by hand rather than a second command.
-The comma stands in neither ranking, the grammar having it,
+The comma and the past tense stand in neither ranking, the grammar having them,
 and the punctuation left here is the colon that opens a list.
+The past tense left the count where it found it and changed which sentences make it:
+`Czarna lista kupowała jednak co innego, niż obiecywała.` derives now,
+and `Pierwsze i czwarte dzieli sam szyk,
+a podmiot jednego jest dopełnieniem drugiego.` has two readings where it had one,
+because Morfeusz reads `dzieli` as a past-tense plural
+and a plural subject then has a verb to agree with.
+The treebank ranked the construction first and this file rates it at nothing,
+which is the difference between the two measurements in one sentence.
 The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
@@ -223,7 +241,8 @@ the adverb in
 stands beside two gerunds,
 and the past tense in
 `Każdy werdykt przychodzi z czytaniem, które go wydało`
-stands beside a numeral.
+stood beside a numeral until the past tense was admitted
+and the numeral was left holding the sentence.
 A production for either, added by itself,
 leaves those two sentences exactly where they stand,
 and what the classes together come to
@@ -303,16 +322,16 @@ The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 221 accepted sentences where the gold tree marks a role to compare:
+On the 501 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 217 | 98.2% |
-| partial | 3 | 1.4% |
-| disagrees | 1 | 0.5% |
+| agrees | 496 | 99.0% |
+| partial | 4 | 0.8% |
+| disagrees | 1 | 0.2% |
 
-The denominator is 221 and not 325
-because the other 104 accepted sentences have no role to compare against:
+The denominator is 501 and not 690
+because the other 189 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
 The report prints that count under the table
@@ -323,13 +342,14 @@ olski never read a subject as an object or the other way round,
 which is the failure the uniqueness property exists to prevent
 and the one that would have been worst to find.
 
-Both *partials* are the gold tree naming a subject
+The *partials* are the gold tree naming a subject
 where olski reads the phrase as what the verb takes.
 In `Wystarczy przeanalizować wypowiedzi Adama.`
 the gold tree makes the infinitive phrase the subject of `wystarczy`,
+in `Wystarczy, że ujmiesz w swej pracy twarz i ręce.` it makes the `że` clause one,
 and in `Mieszka z nimi sama.` it makes `sama` the subject,
 which olski reads as the predicative of a subjectless clause.
-Neither assigns a subject to compare, and neither contradicts one.
+None of them assigns a subject to compare, and none contradicts one.
 That is the third verdict the check has,
 and it exists so that a reading covering less than the gold tree
 is not counted as agreeing with it.
@@ -358,11 +378,11 @@ Drop the positions
 takes prepositional attachment to demand —
 the 30 productions in which an adjunct stands beside something else
 or a modifier hangs on a phrase that already carries one —
-and this row holds 21 sentences instead of one,
+and this row holds 73 sentences instead of one,
 every one of them an attachment.
-Accepted goes the other way, 383 instead of 325,
-so those positions buy 20 fewer readings taken backwards
-for 58 sentences the grammar stops accepting,
+Accepted goes the other way, 840 instead of 690,
+so those positions buy 72 fewer readings taken backwards
+for 150 sentences the grammar stops accepting,
 and the sentence the corpus caught the problem on first shows how:
 
 ```text
@@ -420,13 +440,13 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 12,578 | 12,305 |
-| valid | 325 | 422 |
-| ambiguous | 122 | 298 |
+| rejected | 12,012 | 11,485 |
+| valid | 690 | 883 |
+| ambiguous | 323 | 657 |
 
 Ambiguity is where the tagger's cost lands:
-176 more sentences carry more than one reading,
-which is 1.4% of the 13,025 measured.
+334 more sentences carry more than one reading,
+which is 2.6% of the 13,025 measured.
 That is the answer to a question [subset.md](subset.md) leaves open —
 how much of olski's uniqueness property survives a real tagger —
 and the rate to watch as the grammar grows,
@@ -443,8 +463,8 @@ for the reasons
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
 every one of which Morfeusz also reads as the musical note.
-Leave those readings in and the live column reads 12,303, 408 and 314.
-Fifteen of those 314 ambiguities are readings nobody can have meant,
+Leave those readings in and the live column reads 11,481, 854 and 690.
+Thirty of those 690 ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
 Across the annotated sentences the exclusion reaches 19 forms
@@ -496,14 +516,16 @@ One reading Polish does not have is refused by the grammar and not by the lexico
 and the live column is the run with that refusal in force.
 The substantival pronoun takes no genitive after it
 ([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
-and without that condition five of these sentences carry
+and without that condition six of these sentences carry
 a second reading —
 `Weźmy dzieje sztuki tego okresu.`,
 `Od tego momentu jest naszym pośrednikiem.` —
 where `tego` is once the adjective in front of its noun
 and once a pronoun governing it.
-The condition turns two sentences from ambiguous into rejected,
-and one of them is why the count is not a cost:
+It costs two acceptances, `Wymaga to odpowiedniej polityki informacyjnej rządu.`
+being one of them,
+and turns two more sentences from ambiguous into rejected,
+of which one is why that count is not a cost either:
 
 ```text
 Dotyczy to wszystkich kategorii zawodowych.
@@ -518,13 +540,13 @@ so both stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here a 97-sentence difference stands on 221 disagreements.
-The two runs accept the same 256 sentences.
-Live accepts 159 that gold rejects,
-and gold accepts 62 that live does not settle on:
-52 it finds ambiguous, 10 it rejects.
+and here a 193-sentence difference stands on 473 disagreements.
+The two runs accept the same 550 sentences.
+Live accepts 333 that gold rejects,
+and gold accepts 140 that live does not settle on:
+105 it finds ambiguous, 35 it rejects.
 
-The 159 are the warning in the table,
+The 333 are the warning in the table,
 and the largest single class of it is the one
 [the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
@@ -541,24 +563,19 @@ finds one such reading, and calls it valid.
 `Być` takes no accusative object,
 and the frame is what says so.
 
-Twelve sentences of this corpus stand on that reading,
-and the frame takes it off all twelve.
-Eleven have nothing else, so the frame is what rejects them —
-`Ten syfon jest jego.`, `W tobie jest niebo i piekło.`,
-`Nie jest to łatwe zadanie.` — and the twelfth stands on it twice over.
-Every one of them names an object no reader of the sentence has:
-`To nie` in one, `Ale` in another, `Kiedy` in a third.
+Fifty-five sentences of this corpus lose a reading to that frame,
+and twenty of them lose the only one they had,
+so the frame is what rejects them —
+`To są oczywistości.`, `W środku nie było nic.`, `To są babskie histerie.`
+Every one of them names an object no reader of the sentence has.
 That is the trade `Tam siedzi nasz umrzyk.` above is quoted for,
-at eleven times the count.
+at twenty times the count.
 
-Five more sentences the frame settles rather than refuses,
+Fifteen more the frame settles rather than refuses,
 the reading it removes being the one they are otherwise ambiguous against:
-`Powód jest prosty.`, `Jaki jest skutek?`, `To jest jedno pytanie.`
-Eleven stay ambiguous with fewer readings,
-and one derives that otherwise derives not at all,
-`Zawarte na wideokasecie wypowiedzi mogą być interesującym materiałem`,
-which is the instrumental predicative reaching an infinitive
-for the reason [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) gives.
+`W tobie jest niebo i piekło.`, `To jest złe myślenie.`,
+`Podczas zjazdu zostały wybrane nowe władze.`
+The remaining twenty stay ambiguous with fewer readings.
 None of it happens under gold morphology and no verdict there moves,
 the annotators having chosen one reading per token.
 
@@ -574,7 +591,7 @@ One tagset caveat.
 Składnica's tags are NKJP's, Morfeusz 2's are its own,
 and they differ on names olski's report shows:
 `qub` in the gold run is `part` in the live one,
-and the live run has an `ign` row — 429 sentences stopped on a form
+and the live run has an `ign` row — 510 sentences stopped on a form
 Morfeusz does not know — that the gold run cannot have.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,

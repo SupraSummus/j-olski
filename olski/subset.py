@@ -29,7 +29,7 @@ import re
 from dataclasses import dataclass, replace
 
 from olski.document import SENTENCE_CLOSE, Document
-from olski.grammar import Grammar, Głowa, V, nt, word
+from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
 from olski.morph import Reading, Segment, analyse, tag
 from olski.parse import PRZYŁĄCZONY_DO, Deklaracja, Przyłączenie, Result, describe, parse
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
@@ -159,6 +159,29 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     return [*klasy, ({"bez_lematu": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
 
 
+def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa], Var | str]]:
+    """Ciała formy osobowej czasownika, każde wraz z osobą, którą niesie.
+
+    Trzy, bo czas przeszły niesie osobę inaczej niż teraźniejszy. ``fin`` niesie
+    osobę i liczbę, a rodzaju nie ma; ``praet`` odwrotnie, więc osoba trzecia
+    jest w nim wpisana tutaj, a bez tego ``Ja napisał program.`` się wyprowadza:
+    cechy, której konstytuent nie niesie, unifikacja nie sprawdza. Osobę pierwszą
+    i drugą wnosi aglutynant, czyli końcówkę, którą Morfeusz odcina od formy —
+    ``napisałem`` wchodzi tu jako ``napisał`` i ``em`` — i która liczbę ma tę samą
+    co czasownik przy niej.
+
+    Głowa stoi w każdym ciele, choć dwa z trzech mają jedną część: ciało wychodzi
+    stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o
+    dwóch częściach bez głowy nie powstaje.
+    """
+    czasownik = word("praet", number=V("n"), gender=V("g"), **warunek)
+    return [
+        ([Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))], V("p")),
+        ([Głowa(czasownik)], "ter"),
+        ([Głowa(czasownik), word("aglt", number=V("n"), person=V("p"))], V("p")),
+    ]
+
+
 def build() -> Grammar:
     grammar = Grammar(start="Sentence")
 
@@ -197,19 +220,22 @@ def build() -> Grammar:
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
     # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
-    # obiekt mówią dalej każda o swojej zgodności. Rodzaj podmiotu niosą tylko te
-    # szyki, w których coś się z podmiotem w rodzaju zgadza.
-    podmiot = nt("Subject", number=V("n"), person=V("p"))
-    podmiot_rodzaju = nt("Subject", number=V("n"), gender=V("g"), person=V("p"))
+    # obiekt mówią dalej każda o swojej zgodności.
+    #
+    # Rodzaj przechodzi przez każdy szyk, bo żąda go czas przeszły, i dlatego
+    # podmiot jest tu jeden zamiast dwóch; wywód trzyma
+    # docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
+    # a niezmiennik pilnuje test w tests/test_subset.py.
+    podmiot = nt("Subject", number=V("n"), gender=V("g"), person=V("p"))
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"))
-    czasownik = nt("Verb", number=V("n"), person=V("p"))
+    czasownik = nt("Verb", number=V("n"), gender=V("g"), person=V("p"))
     okoliczniki = nt("Adjuncts")
 
     # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
     # siebie swoją ramę, dopełnienie mówi, którą pozycję ramy zajmuje, a
     # unifikacja przecina jedno z drugim. Czasownik, przy którym nic nie stoi,
     # ramy nie ogłasza nikomu i stoi tu bez niej.
-    czasownik_ramy = nt("Verb", number=V("n"), person=V("p"), valency=V("w"))
+    czasownik_ramy = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency=V("w"))
     dopełnienie = nt("Object", valency=V("w"))
     orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
     orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
@@ -220,13 +246,13 @@ def build() -> Grammar:
     # ``Na to jest zbyt wielkim tchórzem.``, gdzie podmiotem wychodzi ``zbyt``.
     # docs/subset.md trzyma ten pomiar wraz z drugim takim.
     orzecznik = nt("Predicative", valency="nom", number=V("n"), gender=V("g"))
-    czasownik_orzecznika = nt("Verb", number=V("n"), person=V("p"), valency="nom")
+    czasownik_orzecznika = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="nom")
 
     # Kopula po zwinięciu jej w ramę: czasownik, który bierze orzecznik w
     # narzędniku. Osobnego symbolu nie ma, bo rama mówi to samo, a jeden lemat
     # wychodził spod dwóch nazw. Żądanie jest tu na czasowniku, a nie wspólną
     # zmienną z orzecznikiem, i to jest ta sama cena co wyżej.
-    kopula = nt("Verb", number=V("n"), person=V("p"), valency="inst")
+    kopula = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="inst")
 
     # Szyki zdania, każdy w tylu wersjach, ile ma miejsc na okolicznik.
     #
@@ -240,8 +266,8 @@ def build() -> Grammar:
     # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
     # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
     # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
-    grammar.rule("ClauseConjunct", [podmiot_rodzaju, Głowa(orzeczenie)])
-    grammar.rule("ClauseConjunct", [podmiot_rodzaju, okoliczniki, Głowa(orzeczenie)])
+    grammar.rule("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
+    grammar.rule("ClauseConjunct", [podmiot, okoliczniki, Głowa(orzeczenie)])
 
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
     # jak Zapisuje ustawienia.
@@ -257,13 +283,9 @@ def build() -> Grammar:
     # samego siebie od czasownika.
     grammar.rule("ClauseConjunct", [Głowa(czasownik), podmiot])
     grammar.rule("ClauseConjunct", [Głowa(czasownik), podmiot, okoliczniki])
-    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot_rodzaju, orzecznik])
-    grammar.rule(
-        "ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot_rodzaju, okoliczniki, orzecznik]
-    )
-    grammar.rule(
-        "ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot_rodzaju, orzecznik, okoliczniki]
-    )
+    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
+    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, okoliczniki, orzecznik])
+    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik, okoliczniki])
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
@@ -272,13 +294,9 @@ def build() -> Grammar:
     # szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku: żądanie
     # narzędnika postawione czasownikowi jest tym, co w tej gramatyce znaczy
     # „kopula”, i wysunięcie należy do niej także wtedy, gdy orzecznik jest zgodny.
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot_rodzaju])
-    grammar.rule(
-        "ClauseConjunct", [orzecznik_wysunięty, okoliczniki, Głowa(kopula), podmiot_rodzaju]
-    )
-    grammar.rule(
-        "ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot_rodzaju, okoliczniki]
-    )
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, Głowa(kopula), podmiot])
+    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot, okoliczniki])
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -300,7 +318,7 @@ def build() -> Grammar:
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
     # below share it instead of each carrying its own copy.
-    grammar.rule("Predicate", [czasownik], number=V("n"), person=V("p"))
+    grammar.rule("Predicate", [czasownik], number=V("n"), gender=V("g"), person=V("p"))
     grammar.rule(
         "Predicate",
         [Głowa(czasownik_ramy), nt("Complements", number=V("n"), gender=V("g"), valency=V("w"))],
@@ -385,39 +403,39 @@ def build() -> Grammar:
     grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst")
 
     # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
-    # to, co mówi ta produkcja. Zwrotny czasownik jest formą z się po niej:
-    # cząstka stoi w polszczyźnie i gdzie indziej, a olski bierze tylko tę pozycję.
+    # to, co mówi ta produkcja.
+    #
+    # Czasownik zwrotny różni się od formy bez cząstki dwiema rzeczami i tyle też
+    # mówi o nim ta pętla: stoi przy nim `się`, a rama bierze się z drugiego
+    # leksykonu, bo otwierać bierze dopełnienie w bierniku, a otwierać się nie.
+    # Cząstka stoi w polszczyźnie i gdzie indziej, a olski bierze tylko tę pozycję.
     #
     # Ramę niosą wszystkie te produkcje, a nie tylko niektóre. Cechy, której
     # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
     # czasowników przechodziłaby reszcie za darmo, a żądanie „bądź kopulą” nie
     # byłoby wtedy żądaniem. Po to leksykon ma ramę domyślną.
+    for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
+        for warunek, rama in _klasy(zwrotne):
+            for ciało, osoba in _formy_skończone(warunek):
+                grammar.rule(
+                    "Verb",
+                    [*ciało, *cząstka],
+                    number=V("n"),
+                    gender=V("g"),
+                    person=osoba,
+                    valency=rama,
+                )
+
+    # Bezokolicznik pyta o leksykon niezwrotny i ma pętlę osobną zamiast warunku
+    # wewnątrz tamtej. Cząstki nie bierze, więc `zaczyna otwierać się` nie ma
+    # wyprowadzenia, i jest to ta sama dziura, którą docs/subset.md wypisuje pod
+    # walencją: `się` dochodzi do czasownika, przy którym stoi, a nie do tego, do
+    # którego należy.
     for warunek, rama in _klasy(zwrotne=False):
-        grammar.rule(
-            "Verb",
-            [word("fin|impt", number=V("n"), person=V("p"), **warunek)],
-            number=V("n"),
-            person=V("p"),
-            valency=rama,
-        )
         grammar.rule(
             "InfinitivePhrase",
             [Głowa(word("inf", **warunek)), nt("Complements", valency=rama)],
             valency="inf",
-        )
-
-    # Czasownik zwrotny pyta o swój leksykon, bo bierze co innego niż forma bez
-    # cząstki: otwierać bierze dopełnienie w bierniku, a otwierać się go nie bierze.
-    for warunek, rama in _klasy(zwrotne=True):
-        grammar.rule(
-            "Verb",
-            [
-                Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek)),
-                word("part", lemma="się"),
-            ],
-            number=V("n"),
-            person=V("p"),
-            valency=rama,
         )
 
     grammar.rule(
@@ -615,8 +633,8 @@ def build() -> Grammar:
     # w ciałach z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
     # zmienna liczby jest tam inna niż zmienna liczby zaimka.
     orzeczenie_względne = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
-    czasownik_względny = nt("Verb", number=V("nv"), person=V("p"), valency="acc")
-    podmiot_względny = nt("Subject", number=V("nv"), person=V("p"))
+    czasownik_względny = nt("Verb", number=V("nv"), gender=V("gv"), person=V("p"), valency="acc")
+    podmiot_względny = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
     grammar.rule(
         "RelativeCore",
         [nt("RelativeModifier", number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
