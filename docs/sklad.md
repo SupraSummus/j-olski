@@ -829,6 +829,76 @@ Jest to ta sama własność drzewa, na której stoi
 [przegląd](#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
 kiedy przyłączenia nie zgłasza.
 
+## Tekst losowany żąda tego, czego autor nie musiał napisać
+
+Makieta żąda tekstu, zanim ktokolwiek ma co powiedzieć,
+i dostaje zwykle łacińską sieczkę, po której nie widać, jak wygląda polska kolumna:
+polskie słowo jest dłuższe, odmienia się i przez to inaczej łamie wiersz.
+Ten kierunek wypuszcza taki tekst za darmo i dlatego `skład/makieta.py` powstał:
+gramatyczności nie ma czym naruszyć, bo zgodność jest tu policzona, a nie sprawdzona,
+więc losuje się drzewo, a nie napis, i nie ma czego odsiewać po fakcie.
+Generator postawiony nad parserem musiałby wypuścić zdanie, przeczytać je i odrzucić,
+czyli oprzeć się na werdykcie, którego olski nad polszczyzną spoza podzbioru nie wydaje.
+
+Odsianie jest jedno i pyta o nie [przegląd](#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
+czyli to samo zgłoszenie, które autorowi zostawia decyzję.
+Losowanie decyzji nie ma czym podjąć, więc zdanie zgłoszone wraca do puli.
+Kosztuje to niewiele i mówi o polszczyźnie coś, czego legenda nie pokazała:
+osoba podmiotem stojąca kolizji nie zrobi,
+bo biernik rzeczownika osobowego równa się dopełniaczowi, a nie mianownikowi.
+Wraca ta klasa wraz z rzeczą postawioną w tej roli — `Zegar zasłonił kufer.` —
+a rzecz w obsadzie jest, bo `Świeca zgasła.` jest zdaniem, którego makieta potrzebuje.
+
+Ustaleniem tej sekcji jest jednak co innego,
+i wychodzi ono z różnicy między tekstem losowanym a napisanym.
+Autor pisze `w izbie` i `na rynku`, nie zauważając, że wybrał,
+bo wybór ten robi za niego polszczyzna, którą zna;
+losowanie musi ten wybór podjąć i dopiero wtedy widać,
+że w tym pakiecie nie ma go z czego wziąć.
+Wyszła z tego lista faktów o polszczyźnie, których nie niesie tu żaden leksykon,
+a każdy z nich wypuszcza z drzewa napis poprawny gramatycznie i nieistniejący.
+
+Przyimek miejsca zależy od rzeczownika, a nie od relacji:
+`w izbie` obok `na rynku`, więc `w ulicy` i `na izbie` wychodzą stąd tak samo dobrze.
+Aspekt bezokolicznika zależy od czasownika nad nim,
+więc `zaczął zapłakać` przechodzi przez ramę, której `zacząć` żąda, i zdaniem nie jest.
+Postać zgłoskotwórcza przyimka zależy od tego, co po nim stoi,
+więc `z strychu` wychodzi tam, gdzie polszczyzna mówi `ze strychu`.
+Przymiotnik dzieli się na te, którymi opisuje się rzecz, i te, którymi opisuje się człowieka,
+więc `pusta wdowa` zgadza się rodzajem, liczbą i przypadkiem, a mówi o człowieku to,
+co mówi się o suknie.
+Rama czasownika sięga dalej niż trzy pozycje, o które pyta `Robi`,
+więc `czekał na izbach` czyta się przez `czekać na kogoś`,
+a nie jako okoliczność miejsca, którą autor drzewa tam postawił.
+
+Rozstrzygają je wszystkie tabele `skład/makieta.py`, przez wpis albo przez pominięcie,
+czyli miejsce, które leksykonem nie jest i nim nie będzie:
+tabela wymienia lematy, których ten jeden program używa,
+a fakt o przyimku dotyczy każdego drzewa, jakie ktokolwiek napisze.
+Każdy z nich prócz jednego ma przez to wpis w [`TODO.md`](../TODO.md),
+a przymiotnik go nie ma i nie ma mieć:
+o tym, którym przymiotnikiem opisuje się człowieka, nie rozstrzyga ani forma,
+ani rama, ani czytanie, więc nie ma go gdzie zapisać jako faktu o polszczyźnie.
+Losowanie jest przez to tanią sondą nad tym, czego ten pakiet o polszczyźnie nie wie:
+wystarcza jej przeczytać własne wyjście.
+
+Rytm jest w tej makiecie wyborem, bo makieta pokazuje właśnie go.
+Tekst złożony ze zdań jednego kształtu ma usterkę,
+którą [fiction.md](fiction.md#sentence-and-paragraph) wylicza jako jednostajność,
+więc kształt zdania jest losowany razem z lematami
+i ten sam nie wypada dwa razy pod rząd.
+Kształty te wyczerpują przy tym kategorie, które ten zapis niesie,
+i to jest drugie żądanie, osobne od rytmu:
+makieta pokazuje, co kompilator umie, więc kategoria pominięta w niej jest długiem.
+Trzyma to `tests/test_makieta.py`, bo po samym tekście takiego długu nie widać —
+tak wypadł dopełniacz, którego nie wystawiał żaden kształt,
+choć `Czyj` w składni jest od początku.
+Obsadę akapitu niosą `Postać`, bo dopiero one pozwalają opuścić podmiot,
+i to jest ta sama rzecz, którą [tekst wie ponad zdaniem](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
+widziana od strony programu:
+zdania powstają tu osobno i nic o sobie nie wiedzą,
+a tekst wychodzi z nich akapitem, bo tożsamość jest zadeklarowana raz, przed nimi.
+
 ## Checks that are cheap, deterministic, and explainable
 
 All finite-domain, all effectively linear time,

@@ -1249,6 +1249,10 @@ więc przechodzi tu przez pytanie o biernik i wypuszcza `Kot chce mysz.`,
 czyli zdanie, którego polszczyzna woli nie mówić, a nikt tego nie zgłasza.
 Jedna pozycja znaczy tu więc nie tylko odmowę tam, gdzie brakuje przypadka,
 ale i wybór najgorszej z ram, które lemat ma.
+Piątą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
+w którym `na izbach` jest okolicznością miejsca,
+a czyta się przez `czekać na kogoś`, czyli przez ramę, której tu nie ma,
+więc `skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
 Do przeczytania jest `olski/walenty.py` wraz z tym,
 co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
 mówi o tym, co ten przekład z Walentego bierze, a czego nie,
@@ -1442,6 +1446,61 @@ więc szukanie tego, który zadziałał, robi się ręcznie.
 Do przeczytania jest `explain` w `olski/subset.py`, czyli werdykt lintera:
 o to samo pyta czytelnik tekstu, a tamta strona odpowiada zdaniem wraz z formami.
 Ruchem jest powód zbierany po czytaniach i wypisywany przez `Obieg.opisz`.
+
+Wybór między `w` i `na` jest faktem o rzeczowniku, a tego faktu nie ma tu nigdzie:
+`skład/przyimki.py` mówi, jakiego przypadka żąda przyimek w danej relacji,
+i o tym, przed którym rzeczownikiem on stanie, nie mówi nic,
+więc `w ulicy` oraz `na izbie` wychodzą z drzewa tak samo dobrze jak `na ulicy`.
+Widać to dopiero od strony tekstu, którego nikt nie pisał zdanie po zdaniu:
+autor pisze `na rynku`, nie zauważając, że wybrał,
+a `skład/makieta.py` wybrać musi i dlatego rozdziela `MIEJSCA_W` od `MIEJSCA_NA`,
+czyli trzyma fakt o polszczyźnie w tabeli jednego programu.
+Do przeczytania jest ta para tabel wraz z tym, co
+[`docs/sklad.md`](docs/sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać)
+wylicza jako fakty poza leksykonami tego pakietu,
+oraz `PRZYIMKI` w `skład/przyimki.py`, bo pytanie jest o kolumnę, której ten plik nie ma.
+Ruchem jest ta kolumna, czyli przyimek dopisany przy rzeczowniku, a nie przy relacji,
+wraz z rozstrzygnięciem, czy milczenie takiego leksykonu odmawia, jak przy przyimkach,
+czy przepuszcza, jak przy ramie domyślnej czasownika;
+świadka w słowniku ta wiedza nie ma, bo SGJP kolokacji nie znakuje.
+
+Aspekt bezokolicznika nie jest sprawdzany, a czasownik nad nim go wybiera:
+`zacząć` żąda niedokonanego, więc `Czeladnik zaczął zapłakać.`
+przechodzi przez pytanie o ramę, które stawia `Robi` w `skład/składnia.py`,
+i wychodzi zdaniem, którego polszczyzna nie ma.
+Rama jest tu sprawdzona co do pozycji i niesprawdzona co do formy,
+która tę pozycję wypełnia, i jest to ta sama luka, którą ma
+[dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+tylko o piętro niżej: tam leksykon mówi, czy bezokolicznik wolno postawić,
+a tutaj nie mówi, który.
+Kosztuje to dziś czasownik w tabeli `skład/makieta.py`,
+która `zacząć` i `przestać` pomija, żeby losowanie takiego zdania nie wypuściło.
+Do przeczytania jest to, co `olski/walenty.py` bierze z Walentego,
+bo słownik ten aspekt przy pozycji `infp` wypisuje,
+oraz `bierze_bezokolicznik` w `olski/walencja.py`, czyli zdanie, które to pytanie zadaje.
+Ruchem jest czwarta kolumna leksykonu wraz z żądaniem postawionym `odmień`,
+albo rozstrzygnięcie, że aspekt jest wyborem lematu i że wybiera go autor,
+a wtedy ruchem jest zdanie o tym w docstringu `Robi`.
+
+`_rozróżnia` w `skład/przegląd.py` czyta formę podmiotu także wtedy,
+gdy tego podmiotu w tekście nie ma.
+Kosztuje to całą klasę zgłoszeń nad tekstem, który podmiot opuszcza:
+`Córka wróciła. Zamknęła sień.` nie zgłasza się,
+bo mianownik `córka` różni się od biernika `córkę` i to wystarcza za rozróżnienie,
+a czytelnik widzi jedną grupę imienną w formie, którą polszczyzna czyta w obu rolach,
+i drugie zdanie mówi mu tyle samo o tym, że sień zamknęła coś, czego zdanie nie wymienia.
+Warunek ten jest w tamtym pliku wypisany jako pierwszy z trzech
+i mówi wprost, że czytelnik odzyskuje rolę z formy,
+więc forma niewypisana odpowiedzi nie daje.
+Do przeczytania jest `Kontekst.pomija` w `skład/składnia.py`,
+bo przegląd tę odpowiedź ma pod ręką i o nią nie pyta,
+oraz [postawa przeglądu](docs/sklad.md#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
+która o tym pomiarze mówi, że liczy się go z form, a nie z czytań.
+Ruchem jest ten warunek pominięty tam, gdzie podmiot jest pomijany,
+wraz z testem na parę zdań o jednej postaci,
+w której dopełnienie brzmi jak mianownik tego samego rodzaju.
+Do rozstrzygnięcia zostaje przy tym, czy zgłoszenie ma wtedy wypisywać podmiot,
+którego w tekście nie ma, bo `Kolizja` niesie formy, a jednej z nich nie widać.
 
 `Jest` w `skład/składnia.py` nie ma pozycji na okoliczność,
 choć `Robi` obok ma ich tyle, ile autor postawi,
