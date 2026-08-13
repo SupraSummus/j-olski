@@ -293,6 +293,16 @@ and one class carries two sentences of its own —
 `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.`
 and the sentence about what a past tense and a dropped subject come from
 are stopped by an adverb and by nothing else.
+That pair is measured against a grammar the adverb was written into,
+and neither sentence is bought — each failing the other way.
+The first derives twice, because the reading the adverb gives it
+hangs `za nią` on two heads at once.
+The second is left with no unlicensed word and with no derivation either,
+which is how those six fail rather than how a row predicts.
+A sentence standing on a single class is therefore not a sentence an addition takes,
+whichever way the class is counted,
+and what the whole of that measurement came to is in
+[subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań).
 
 One sentence of this file did carry a single class as the whole of it, and it is the
 sentence this run has bought.

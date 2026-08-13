@@ -672,6 +672,10 @@ and they sit in the document furthest from where a grammar change is written:
 is a run over acts an API serves rather than over a treebank.
 A change to what `harness/ustawy.py` composes into a sentence moves them as well,
 since the sentences the grammar is shown there are the ones that step produced.
+That document holds a second run of the same kind and the grammar moves it too:
+[where the analyses stop in that register](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
+ranks the blockers there and prices each construction's move against them,
+so it is owed alongside the tables above rather than instead of them.
 The fetch is a command that document prints,
 and what it names is an ELI address rather than a commit,
 which is the one pin in this list that cannot move:
@@ -771,7 +775,7 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Four sets are a difference rather than a count,
+Five sets are a difference rather than a count,
 and that is what makes them easy to leave stale.
 [What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the gap between olski and olski with three productions taken out,
@@ -785,13 +789,20 @@ so everything that moves the tables above moves all four,
 and so does a change to the probe that names each variant's productions —
 `sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/negacja.py`, `sonda/szyk.py` —
 or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
-Each of the four prints the command that produces its figures.
-The four share a denominator, so a construction admitted moves every one of these
+The fifth measures a construction the grammar does not have,
+so its variants add productions where those four take them away:
+[what the adverb would cost](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)
+is the gap between olski and olski with `sonda/przysłówek.py` written into it.
+That direction moves which end of the variant list is olski and nothing else:
+the denominator is olski either way,
+so a grammar change moves those figures as it moves the four above.
+Each of the five prints the command that produces its figures.
+They share a denominator, so a construction admitted moves every one of these
 tables and not only the one belonging to it.
 What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
-All four take their figures over the README as well,
-so a commit that touches README prose owes those four runs
+All five take their figures over the README as well,
+so a commit that touches README prose owes those five runs
 alongside the two the section above already asks of it.
 
 One more difference prices a refusal, and it is the only figure in this list
