@@ -404,6 +404,40 @@ Cyfry olski nie bierze i dlaczego, mówi
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
+Przysłówka gramatyka nie ma, a klasa druga tego rankingu jest jego,
+więc pomiar zapadł tu przed dopisaniem i wypadł tak samo skromnie:
+
+```sh
+cat proza/ustawy/*.txt > proza/ustawy.txt
+python3 -m sonda.przysłówek proza/ustawy.txt
+```
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez przysłówka | 72 | 272 | 4577 |
+| okolicznik | 79 | 295 | 4547 |
+| przy przymiotniku | 75 | 275 | 4571 |
+| oba | 78 | 301 | 4542 |
+
+Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 23 na wieloznaczne,
+pozycja przy przymiotniku przyjmuje 3 i przenosi 3,
+a obie razem przyjmują 6, czyli o jedno mniej niż pierwsza sama.
+Jednoznaczności nie traci tu ani jedno zdanie przyjęte wcześniej,
+i tym różni się ta konstrukcja od negacji oraz od czterech szyków.
+`Ta sama osoba może być ponownie powołana na stanowisko komisarza.`
+jest tym jednym zdaniem, o które obie pozycje się spierają:
+każda przyjmuje je osobno, a obie naraz dają mu dwa czytania.
+Cztery formy, którymi klasa prowadzi w rankingu — `odpowiednio`, `niezwłocznie`,
+`także`, `również` — obiecywały 548 trafień,
+więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
+gdzie wiersz `adv` obiecywał 1992 zdania i oddał 428
+([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+Powód widać w tym rankingu wyżej:
+trafienie liczy formę, a zdanie ustawy niesie ich kilka,
+i przysłówek stoi w nim obok odsyłacza,
+czyli klasy zajmującej dziewięć pierwszych miejsc,
+która zdania nie wypuszcza tak czy tak.
+
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 
 Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —

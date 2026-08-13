@@ -399,9 +399,6 @@ Tym różni się od czasu przeszłego, który nad ustawami zabrał pięć.
 Sam ranking wypadł natomiast tak samo jak przy nim:
 wiersz `num` obiecywał 453 zdania i oddał 91,
 gdzie `praet` obiecywał 2934 i oddał 566, czyli oba po jednej piątej.
-Dwa pomiary nie są jeszcze przelicznikiem,
-ale są o jeden więcej niż to, na czym ta kolejka stała,
-i oba mówią, że zawyża ona pięciokrotnie.
 Cyfrę zdejmie z tej listy warstwa nad morfologią, a nie produkcja,
 bo `dig` nie niesie ani przypadka, ani liczby
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)),
@@ -438,6 +435,31 @@ a nad rejestrem ustaw nie kupił nic i pięć zdań uczynił wieloznacznymi
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 Reszta tej listy pochodzi z tego samego rankingu,
 więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
+
+Przysłówek jest z tej listy zmierzony i nie jest dopisany,
+bo pomiar rozstrzygnął go na pół.
+Pozycja przy czasowniku kupuje 428 zdań Składnicy przy 158 uczynionych
+wieloznacznymi i jednoznaczności nie odbiera nikomu.
+Pozycja przy przymiotniku, dopisana obok niej, kupuje zero i odbiera 39,
+czyli odbiera je pierwszej połowie tej samej konstrukcji
+([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim.
+Ranking wypadł przy nim tak samo jak przy liczebniku i czasie przeszłym:
+wiersz `adv` obiecywał 1992 zdania i oddał 428, czyli znów jedną piątą.
+
+Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
+Trzy z nich oddały jedną piątą tego, co obiecywały, a `qub` ponad jedną czwartą,
+więc przelicznik wychodzi pięciokrotny i żaden pomiar z niego nie wypadł.
+Cztery pary to jednak cztery, a nie rozkład,
+więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
+
+Przysłówek wchodzi więc połową albo nie wchodzi, a te dwa ruchy są różne.
+Połowa przyjmuje `Plik jest bardzo duży.` z drzewem,
+w którym `bardzo` określa zdanie, a nie `duży`,
+czyli z werdyktem mówiącym o zdaniu nieprawdę,
+i tym różni się od czterech szyków, które wchodziły całe.
+Domknąłby ją warunek żądający od formalizmu obecności cechy,
+i na ten ruch etap teraz czeka.
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

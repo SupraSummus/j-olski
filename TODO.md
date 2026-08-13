@@ -204,6 +204,20 @@ albo te akapity przestają nosić mianownik i mówią o zgodzie bez niego.
 
 ## Komendy i sondy
 
+Sonda różnicowa nad prozą bierze jeden plik, a rejestr ustaw to siedem plików.
+`main` w `sonda/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
+i na plik, który czyta jako prozę, więc siedmiu aktów nie ma jak podać:
+figury nad tym rejestrem trzeba wziąć po zlepieniu ich w jeden plik,
+i to zlepienie jest krokiem, którego dokument nie ma jak wydrukować obok liczby,
+a [`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
+cytuje ruch każdej konstrukcji nad tym rejestrem osobno.
+Ruchem jest wiele ścieżek prozy w jednym przebiegu, złożonych jednym raportem,
+czyli to, co `przebieg` już robi nad lasami banku drzew:
+`nad_prozą` bierze napis, a nie ścieżkę, więc scalanie jest w tym pliku gotowe.
+Do rozstrzygnięcia zostaje, co robi ścieżka katalogu z prozą w środku:
+Składnica też jest katalogiem, a rozpoznawanie po rozszerzeniu plików w środku
+byłoby trzecim znaczeniem jednego argumentu.
+
 `olski` chodził po katalogu, a `olski-check` bierze tylko pliki.
 Widać to w poleceniu, którym
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
@@ -247,16 +261,21 @@ i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 `sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
 czyli około stu osiemdziesięciu wierszy stojących drugi raz.
-Nie dało się ich wziąć stamtąd, bo `Sonda` w `ruch.py` składa wariant,
-zdejmując grupę produkcji, i ustawia warianty od najbiedniejszego,
-a warianty luki są bogatsze od mianownika i powstają przez przepisanie,
+Połowa powodu, dla którego nie dało się ich wziąć stamtąd, zeszła:
+`Sonda.dopisuje` daje wariant bogatszy od mianownika,
+a odsiew grup działa nad dopiskiem tak samo jak nad produkcjami olskiego,
+czego dowodem jest `sonda/przysłówek.py`, która nic z `ruch.py` nie przepisuje.
+Zostaje to, że warianty luki są dwiema wersjami jednego dopisku,
+a nie jednym wariantem na grupę zdejmowaną osobno:
+wariant ostatni nie jest wtedy „obie naraz”,
 więc `pytania` i `Raport._konkurencja` — dwa wiersze o tym,
 czy grupy wchodzą sobie w drogę — nad nimi nie znaczą nic.
 Ruchem jest `Sonda` biorąca gramatykę wariantu wprost, funkcją zamiast grupy,
 wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
 Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
 oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
-wiążącym wariant z grupą produkcji.
+wiążącym wariant z grupą produkcji, i `dopisuje` obok niej,
+bo dopisek wchodzący przed odsiewem jest tym, co funkcja wariantu ma zastąpić.
 Tej samej maszynerii żąda z drugiej strony wpis o figurach
 `docs/corpus.md` bez polecenia:
 tam wariantem są dwie gramatyki, a nie dwie morfologie,
@@ -444,6 +463,52 @@ is the second copy of a fact that
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
 
 ## Gramatyka, parser i pomiar pokrycia
+
+Terminal nie umie zażądać, żeby forma jakąś cechę w ogóle niosła,
+a bez tego przysłówek wchodzi do gramatyki połową albo wcale.
+`word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`,
+bo `unify` w `olski/grammar.py` pomija cechę, której konstytuent nie niesie,
+i pomija ją rozmyślnie — część mowy nieodmienna nie narusza zgodności,
+w której nie bierze udziału — więc warunek odwrotny nie ma tam formy.
+Stopień jest tą cechą, po której Morfeusz oddziela przysłówek odprzymiotnikowy
+od pierwotnego, czyli klasę określającą przymiotnik od tej, która go nie określa,
+i tego warunku żąda pozycja przy przymiotniku:
+bez niego kupuje ona nad Składnicą zero i odbiera 39 zdań pozycji przy czasowniku,
+a 15 z 47 zdań, które kupuje sama, olski czyta wbrew drzewu wzorcowemu
+([`docs/subset.md`](docs/subset.md#naprawę-widać-w-tagsecie-i-nie-da-się-jej-postawić-w-gramatyce)).
+Ruchem jest pole na `Word` wyliczające nazwy cech obowiązkowych,
+sprawdzane w `bierze` obok testu na lemat, który już tam stoi.
+Sonda po nim nie potrzebuje nowego wariantu, tylko drugiego terminala:
+`PRZYSŁÓWEK` w `sonda/przysłówek.py` jest jeden i biorą go obie grupy,
+a warunek należy do jednej z nich, więc grupa przy przymiotniku dostaje własny.
+Razem z nim `gospodarz` ma poznać oba, bo pyta dziś o ten jeden,
+a produkcja z drugim wypadłaby bez grupy — co zgłasza `tests/test_ruch.py`.
+Porównanie biegnie potem między dwoma przebiegami sondy — przed warunkiem i po
+nim — a nie między wierszami jednej tabeli.
+Do przeczytania przed decyzją jest, czy podział na dwie klasy przysłówka trzyma
+w drugą stronę: `bardzo lubię` stawia przysłówek stopniowany przy czasowniku,
+więc warunek zawęża jednego gospodarza i nie zwalnia drugiego,
+a zdania, w których gospodarze dalej się spierają, zostają po nim wieloznaczne.
+
+Przysłówka gramatyka nie ma, a pozycja przy czasowniku jest wyceniona
+i kupuje 428 zdań Składnicy, nie odbierając jednoznaczności żadnemu zdaniu
+przyjętemu wcześniej
+([`docs/subset.md`](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+Zakup jest największy ze wszystkich zmierzonych i nie znaczy to, że jest do wzięcia:
+lista okoliczników bierze przysłówki płasko,
+więc `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
+w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`,
+a zgodność ról nad bankiem drzew tej pomyłki nie widzi,
+bo porównuje podmiot i dopełnienie.
+Nie widzi jej też streszczenie czytania:
+`DEKLARACJA` w `olski/subset.py` nie ma roli na przysłówek,
+więc werdykt nie nazywa ani tego, który określa zdanie, ani tego, który nie,
+i pozycja dopisana bez tej roli daje `valid` bez słowa o tym, co przyjęła.
+Ruchem jest decyzja, czy pozycja wchodzi przed warunkiem z wpisu wyżej,
+a przed nią pomiar tego, ile zdań Składnicy dostaje ten płaski kształt:
+mierzy się on nad wariantem sondy, a nie nad gramatyką, i nie jest zmierzony.
+Wpis wyżej i ten stoją na jednym rozstrzygnięciu — czy przysłówek ma dwie klasy —
+więc jedna sesja podnosi oba albo żaden.
 
 Dopełnienie stoi przed swoim czasownikiem w czterech szykach dopisanych,
 a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.

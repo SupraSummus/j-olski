@@ -8,10 +8,17 @@ odpowiadają: przejście ``przyjęte → wieloznaczne`` jest ceną, przejście
 ``odrzucone → przyjęte`` zakupem, a jedno i drugie widać dopiero zdanie po
 zdaniu.
 
-Mierzona jest gramatyka, która stoi, a wariantem jest ta sama gramatyka z wyjętą
-grupą produkcji. Zdejmować, a nie dopisywać: wariant dopisywany mierzyłby
-produkcję napisaną w sondzie, czyli drugą deklarację tego samego, i rozszedłby
-się z olskim po pierwszej zmianie, której nikt by tu nie powtórzył.
+Wariantem jest gramatyka olskiego z wyjętą grupą produkcji, a konstrukcję, którą
+olski ma, mierzy się właśnie tak, przez zdejmowanie. Dopisana mierzyłaby produkcję
+napisaną w sondzie, czyli drugą deklarację tego samego, i rozeszłaby się z olskim
+po pierwszej zmianie, której nikt by tu nie powtórzył.
+
+Konstrukcji, której olski nie ma, ten powód nie dotyczy, bo nie ma tam pierwszej
+deklaracji, od której miałaby się rozejść, a wycena przed dopisaniem jest tym,
+po co się ją pisze. Taka sonda wypełnia :attr:`Sonda.dopisuje` i mierzy tę samą
+różnicę w drugą stronę: mianownikiem zostaje wariant, który dopisku nie bierze.
+Kierunek nie sięga niżej niż do tego jednego pola, bo grupa nazywana przez
+:attr:`Sonda.grupa` odsiewa produkcję dopisaną tak samo, jak odsiewa własną.
 
 Podział pracy jest przez to jednozdaniowy. Sonda odpowiada, do której grupy
 produkcja należy, a wszystko pozostałe — warianty, przebieg, tabelę przejść,
@@ -65,10 +72,14 @@ class Sonda:
     """Co jedna sonda różnicowa mówi o sobie wspólnemu przebiegowi.
 
     Warianty stoją w kolejności wydruku. Pierwszy zdejmuje wszystko i jest
-    mianownikiem, wobec którego liczone są przejścia; ostatni nie zdejmuje nic i
-    jest gramatyką, która stoi, więc dopiero on pokazuje konkurencję między
-    grupami, o którą sondzie chodzi. Między nimi stoi po jednym wariancie na
-    grupę zdejmowaną osobno.
+    mianownikiem, wobec którego liczone są przejścia; ostatni zdejmuje zero i
+    dopiero on pokazuje konkurencję między grupami, o którą sondzie chodzi.
+    Między nimi stoi po jednym wariancie na grupę zdejmowaną osobno.
+
+    Który z tych dwóch końców jest samym olskim, mówi :attr:`dopisuje`, a nie ta
+    kolejność: sonda zdejmująca ma go na końcu, sonda dopisująca na początku.
+    Wspólne obu jest to, że mianownik stoi pierwszy, a gramatyka wyceniana
+    ostatnia.
     """
 
     #: Nazwa programu w wydruku pomocy i w komunikacie o błędzie ścieżki.
@@ -95,11 +106,30 @@ class Sonda:
     #: zdaniem, na którym ten spór coś kosztuje: dwie produkcje dały mu czytanie,
     #: którego żadna z nich nie dała.
     pytania: tuple[str, str]
+    #: Produkcje, których olski nie ma, dopisane do świeżej gramatyki przez tę
+    #: funkcję; ``None`` u sondy, która mierzy konstrukcję stojącą w gramatyce.
+    #: Dopisuje wszystkie naraz i o warianty nie pyta, bo o to, które z nich w
+    #: tym wariancie zostają, pyta :attr:`grupa` — ta sama, którą sonda zdejmująca
+    #: nazywa grupy własne. Stąd żądanie: każda produkcja dopisana ma mieć tam
+    #: nazwę grupy, bo dopisek bez niej zostałby także w mianowniku i sonda
+    #: mierzyłaby zero.
+    dopisuje: Callable[[Grammar], None] | None = None
 
     @property
     def osobne(self) -> tuple[str, ...]:
         """Warianty zdejmujące po jednej grupie, czyli te między mianownikiem a całością."""
         return self.warianty[1:-1]
+
+    @property
+    def czysty(self) -> str:
+        """Wariant, który jest dokładnie gramatyką olskiego.
+
+        Sonda zdejmująca ma go na końcu, bo tam nie zdejmuje nic; sonda
+        dopisująca na początku, bo tam odsiewa cały swój dopisek. Niezmiennik
+        pilnuje ``tests/test_ruch.py``, i pilnuje go po tej właśnie własności,
+        a nie po numerze wariantu.
+        """
+        return self.warianty[0] if self.dopisuje is not None else self.warianty[-1]
 
 
 @functools.cache
@@ -108,7 +138,12 @@ def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
 
     Przepisujemy produkcje ze świeżej gramatyki, takie jakie są, bo złożona drugi
     raz z części gubiłaby głowę (``Grammar.dopisz``). Wariant pełny dostaje przez
-    to wszystkie i jest dokładnie olskim, co pilnuje ``tests/test_ruch.py``.
+    to wszystkie, a wariant :attr:`Sonda.czysty` dokładnie te, które olski ma, co
+    pilnuje ``tests/test_ruch.py``.
+
+    Dopisek sondy wchodzi przed odsiewem, a nie po nim, i to jest cały koszt
+    drugiego kierunku: produkcja dopisana przechodzi przez to samo pytanie o
+    grupę, co produkcja olskiego, więc pętla niżej nie wie, którą ma pod ręką.
 
     Budowana raz na proces roboczy, bo budowa jest droższa niż rozbiór jednego
     zdania, a gramatyka po zbudowaniu się nie zmienia.
@@ -116,6 +151,8 @@ def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
     if wariant not in sonda.warianty:
         raise ValueError(f"{sonda.prog}: nieznany wariant: {wariant}")
     pełna = build()
+    if sonda.dopisuje is not None:
+        sonda.dopisuje(pełna)
     okrojona = Grammar(start=pełna.start)
     for produkcja in pełna.productions:
         grupa = sonda.grupa(produkcja)

@@ -1490,6 +1490,15 @@ Every one of these is a sentence that gets rejected and should not be:
   so it stands at the front of the queue over this repository's prose
   ([corpus.md](corpus.md#where-the-analyses-stop)).
   A colon opens a list as well, which is a second construction behind one character.
+- Przysłówek, którego olski nie ma w żadnej pozycji:
+  `Program szybko zapisuje ustawienia.` jest odrzucone,
+  a wiersz `adv` prowadzi kolejkę blokerów zaraz za interpunkcją
+  ([corpus.md](corpus.md#where-the-analyses-stop)).
+  Pozycja przy czasowniku kupuje nad Składnicą 428 zdań i jest do wzięcia,
+  a pozycja przy przymiotniku dopisana obok niej odbiera 39,
+  więc konstrukcja wchodzi tu połową albo czeka na warunek,
+  którego formalizm nie ma
+  ([niżej](#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
   ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))
@@ -1766,6 +1775,132 @@ Leksykon nie sięga do tych 13% nigdzie,
 bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
 więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
 a nie co zdejmuje ten.
+
+## Przysłówek zmierzono przed dopisaniem i drugi gospodarz odbiera 39 zdań
+
+Wyrażenie przyimkowe ma dwóch gospodarzy i oba czytania są prawdziwe,
+więc olski oddaje je czytelnikowi.
+Przysłówek ma dwóch gospodarzy i drugie czytanie jest fałszywe:
+`tu` w `Mam tu odmienną interpretację.`
+nie określa przymiotnika `odmienną` w żadnym rozumieniu tego zdania.
+Sonda wycenia więc przysłówek przed dopisaniem go do gramatyki,
+a nie po nim:
+
+```sh
+python3 -m sonda.przysłówek Składnica-frazowa-180723/
+python3 -m sonda.przysłówek proza/README.txt
+```
+
+Gospodarze są dwaj, więc wierszy jest cztery:
+mianownik, po jednym na gospodarza i obaj naraz.
+`okolicznik` wpuszcza przysłówek do listy okoliczników,
+czyli tam, gdzie stoi wyrażenie przyimkowe, i przed zdanie.
+`przy przymiotniku` stawia go przed przymiotnikiem,
+w przydawce i w orzeczniku, licząc pozycje z produkcji olskiego.
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez przysłówka | 1179 | 549 | 11 297 |
+| okolicznik | 1607 | 707 | 10 711 |
+| przy przymiotniku | 1226 | 580 | 11 219 |
+| oba | 1568 | 769 | 10 688 |
+
+Okolicznik sam kupuje 428 zdań, określenie przymiotnika samo 47,
+a oba razem 389, czyli mniej niż okolicznik sam.
+Drugi gospodarz dopisany do pierwszego nie kupuje nic i odbiera 39 zdań.
+[Krzywa pokrycia](design-notes.md#making-the-trade-measurable)
+przewidziała, że dopisanie bywa droższe od tego, co kupuje,
+i jest to najciaśniejszy przypadek, jaki się tu trafił:
+odbierają sobie zdania dwie połowy jednej konstrukcji,
+a nie dwie konstrukcje z osobna.
+
+Cena nie jest przy tym stratą na zdaniach, które olski przyjmuje dziś:
+jednoznaczności nie traci ani jedno z tych 1179, w żadnym z trzech wariantów.
+Płaci ją zakup drugiego gospodarza zakupem pierwszego,
+bo zdanie, które każdy z nich osobno przyjmuje jednym czytaniem,
+przy obu naraz wychodzi dwoma.
+
+```text
+Program zabawy był ściśle ustalony.
+```
+
+Pod `okolicznik` orzecznikiem jest `ustalony`, pod `przy przymiotniku`
+`ściśle ustalony`, a pod `oba` te dwa czytania stoją obok siebie.
+Zdań, które ruszają się pod jednym gospodarzem i pod drugim, jest 59,
+a takich, o których oba naraz mówią co innego niż każdy osobno, 51.
+
+Drugi gospodarz płaci ponadto trafnością.
+Z 47 zdań, które kupuje sam, 15 olski czyta wbrew drzewu wzorcowemu,
+czyli prawie co trzecie, gdzie okolicznik myli się na 13 z 428.
+Powód widać na zdaniu, które ten gospodarz kupuje sam:
+`Nagrali razem pierwszą płytę.` wychodzi z dopełnieniem `razem pierwszą płytę`,
+bo `razem` wpada do grupy imiennej, przez którą przechodzi.
+Ról odwróconych nie ma ani jednej, w żadnym wariancie.
+
+Pierwszy gospodarz nie jest przez to darmowy, bo lista okoliczników jest płaska.
+`Program zapisuje ustawienia bardzo szybko.` wychodzi pod nim jednym czytaniem,
+a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
+czyli dwa okoliczniki zdania obok siebie,
+gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
+Streszczenie nie nazywa przy tym żadnego z dwóch,
+bo przysłówek nie jest rolą, którą werdykt wylicza.
+Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
+bo `valid` ktoś przeczyta
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+a instrument, który to liczy nad bankiem drzew, tego nie widzi:
+zgodność ról porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
+
+Nad rejestrem ustaw wychodzi to samo w skali dziesięć razy mniejszej
+i druga połowa odejmuje tam jedno zdanie
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+więc odejmuje w dwóch rejestrach naraz,
+a nie w tym jednym, nad którym była mierzona.
+
+Nad [README](../README.md) przysłówek nie kupuje ani jednego zdania.
+Dwa zdania przenosi z odrzuconych na wieloznaczne
+i jednym z nich jest to, o którym kolejka blokerów mówi,
+że stoi na przysłówku i na niczym więcej
+([corpus.md](corpus.md#where-the-analyses-stop)):
+
+```text
+Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
+```
+
+Wyprowadzenie dostaje, jednoznaczności nie,
+bo w czytaniu, które przysłówek mu daje, `za nią` ma dwóch gospodarzy.
+Kolejka mówi więc, gdzie analiza stanęła, i nie mówi, co dopisanie kupi,
+także wtedy, gdy zdanie stoi na jednej klasie.
+
+### Naprawę widać w tagsecie i nie da się jej postawić w gramatyce
+
+Gospodarze spierają się o zdanie tylko wtedy,
+gdy przysłówek stojący przed przymiotnikiem mógłby określać zdanie,
+a Morfeusz tę różnicę niesie:
+`tu`, `razem`, `dziś`, `teraz` i `nigdy` wychodzą jako `adv` bez stopnia,
+a `bardzo`, `ściśle` i `szybko` jako `adv:pos`.
+Stopień ma przysłówek odprzymiotnikowy, a pierwotny go nie ma,
+i tylko pierwszy z tych dwóch określa przymiotnik.
+
+Żądania obecności cechy formalizm nie ma.
+`word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`,
+bo unifikacja pomija cechę, której konstytuent nie niesie,
+i pomija ją rozmyślnie: część mowy nieodmienna
+nie narusza zgodności, w której nie bierze udziału (`olski/grammar.py`).
+Potrzebny tu warunek jest odwrotny do tamtego —
+mówi „ta forma ma nieść stopień” — więc terminalowi brakuje go całego,
+a nie wartości w nim.
+
+Do ilu zdań ten warunek sięga, da się przeczytać bez niego,
+bo zdania czytane odwrotnie sonda wypisuje:
+w 10 z tych 15 przed przymiotnikiem stoi przysłówek bez stopnia —
+`tu`, `razem`, `dziś`, `teraz`, `wczoraj`, `wkrótce` —
+w 4 stoi tam przysłówek stopniowany, a w jednym nie ma tam żadnego
+i pomyłka bierze się z czegoś innego.
+Naprawa jest więc niepełna z góry:
+`Oficjalnie cały Sejm RP śpi.` zostaje przy swoim czytaniu,
+bo `oficjalnie` stopień niesie, a `Sejm` określać nie może.
+Ile z 39 zdań odebranych ona oddaje, nie jest zmierzone, bo nie ma czym;
+ruch trzyma [TODO.md](../TODO.md).
 
 ## Implementation
 
