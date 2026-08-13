@@ -246,12 +246,17 @@ which puts it at tier 2 rather than tier 3.
 Woliński's own list of what the grammar covers
 includes common discontinuous structures,
 and this is the machinery that covers them.
-[The big fork](open-questions.md#the-big-fork-may-olski-scramble)
-asks whether olski must leave the context-free tier to scramble,
+Whether olski had to leave the context-free tier to scramble was a real fork,
 and here is a working parser of Polish that did not have to,
 having bounded the gap to one and excluded subjects from it.
-Evidence, not proof: what it does not say
-is what fraction of real Polish that discipline gives up.
+The same machinery is what made that fork answerable,
+because `ξ` stands in the treebank on the phrases the gap was needed for,
+so they can be counted:
+[design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+holds the count, the refusal it produced, and the price beside it.
+What the count does not say is the other direction,
+namely what fraction of real Polish the discipline gives up,
+since a sentence this grammar could not analyse carries no gold tree to count.
 
 ### A full-scale grammar pays the ambiguity tax too
 

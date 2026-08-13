@@ -76,6 +76,13 @@ and would have reached for Morfologik instead.
 Two dictionaries for two jobs,
 and only one of the two jobs is left.
 
+**Olski does not scramble.**
+Discontinuous constituents stay out,
+which is what keeps the whole subset context-free.
+The fork was settled by measurement rather than by taste:
+see [nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+for what it buys, what it costs, and what would reopen it.
+
 ## Two angles of the grammar track
 
 Within this track there are two directions,
@@ -288,6 +295,14 @@ giving up a fraction of Polish nobody has measured:
 holds a parser of Polish that takes that route.
 Everything else in the subset is cheap next to this.
 
+The answer is no, and it came from a measurement rather than from the ladder:
+[nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+holds what the yes would have bought and what it would have cost.
+That section stands below
+[the second currency](#the-second-currency-ambiguity)
+because the cost is paid in ambiguity and not in parse time,
+which is the opposite of where this section's pricing looks for it.
+
 ### The second currency: ambiguity
 
 The ladder measures formal cost.
@@ -357,6 +372,116 @@ The curve also supplies a principled way to say no:
 a tier whose net comes to three percent of sentences
 for a jump from cubic to sixth-power parsing
 decides itself.
+
+### Nieciągłość zmierzono i olski jej nie bierze
+
+Rozwidlenie o przestawianiu miało zapaść z pomiaru, a nie z gustu,
+i pomiar jest zrobiony.
+Nieciągłości potrzebuje 2,5 procent zdań cudzej polszczyzny,
+kupuje ona w olskim zero zdań,
+a odbiera jednoznaczność prawie co czwartemu zdaniu, które ją ma.
+Olski zostaje więc na szczeblu 2 [drabiny](#the-cost-ladder)
+i przestawiania nie wpuszcza.
+
+**Potrzeba: 323 zdania z 13 025.**
+Świgra, gramatyka, z której powstała Składnica,
+zapisuje nieciągłość osobnym nieterminalem `ξ`:
+fraza stoi przy zdaniu, a wymaga jej coś w jego środku
+([swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class)).
+Drzewo wzorcowe z takim węzłem jest więc zdaniem,
+któremu polszczyzna kazała przestawiać,
+i zdaniem, którego analizę zatwierdził człowiek, wybierając to drzewo z lasu.
+Takich drzew jest 323, czyli 2,5 procent zmierzonych.
+Szczelina wypada po jednej w 320 z nich i po dwie w trzech.
+Granicy „najwyżej jedna w ciągu”, którą Świgra sobie postawiła,
+te trzy nie przekraczają: ciągów jest w zdaniu złożonym tyle, ile zdań składowych.
+Liczba 323 stoi także w [corpus.md](corpus.md#the-measurement)
+jako liczba zdań wieloznacznych, i jest to zbieg okoliczności:
+tam liczone są werdykty olskiego, a tutaj cudze drzewa.
+
+Potrzeba nie jest zakupem.
+Konstrukcja kupuje zdanie dopiero wtedy, gdy nic innego go nie blokuje,
+więc udział zdań z nieciągłością ogranicza zakup z góry i nie równa się jemu.
+Próg odmowy wynosi w tym dokumencie
+[trzy procent zdań za skok z sześcianu na szósty stopień](#making-the-trade-measurable)
+i mówi o różnicy zakupu i ceny,
+więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowaniem.
+
+**Zakup w olskim: zero.**
+Wszystkie 323 zdania olski odrzuca,
+a ich analizy kończą się na cząstce (57), na znaku przestankowym (32),
+na predykatywie (23), na przysłówku (23),
+a dalej po 22 na zaimku przymiotnikowym, bezokoliczniku i imiesłowie biernym,
+czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
+Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
+i widać to nawet na najkrótszych z nich.
+`Co mamy wziąć?` i `To chcę podkreślić.` stają na zaimku rzeczownym,
+a `Gdzie są przetrzymywani zakładnicy?` na zaimku przysłownym,
+czyli wszystkie trzy na pierwszym słowie,
+a więc przed wysunięciem, o które w tych zdaniach chodzi.
+Nieciągłość dopisana do gramatyki nie przyjmie zdania,
+którego analiza kończy się na cząstce.
+Najkrótsze zdania tego zbioru są przy tym w większości pytaniami,
+a cały zbiór nie: pytań jest w nim 25 z 323.
+
+**Cena: 60 z 261 zdań przestaje mieć jedno czytanie.**
+Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
+łukami zależności zamiast produkcjami.
+Nie gramatyka olskiego, bo spójność da się zdjąć tylko tam:
+produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
+a podłoże ma spójność jednym więzem globalnym.
+Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
+[sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
+Z 690 zdań, które olski przyjmuje jednym czytaniem,
+podłoże czyta jednoznacznie 261 — deklaracja jest w nim węższa,
+więc 397 odrzuca, a 32 czyta dwojako —
+i po zdjęciu spójności 60 z tych 261 przestaje mieć jedno czytanie.
+
+Płaci się przy tym nie czasem rozbioru, a określeniem,
+które sięga ponad czasownik do rzeczownika po drugiej stronie.
+Najkrócej widać to na zdaniu definicyjnym:
+
+```sh
+python3 -m sonda -c "Dom jest nieocieplony." --łuki --nieciągłe
+```
+
+Bez tej flagi zdanie ma jedno czytanie, z orzecznikiem przy kopuli.
+Z nią dochodzi drugie, w którym `nieocieplony` jest przydawką przy `Dom`,
+a podmiotem wychodzi fraza nieciągła,
+więc wzorzec `X jest Y`, którym pisze się definicje, przestaje mieć jedno czytanie.
+Tak samo idzie wyrażenie przyimkowe:
+w `Człowiek wraca do poprzedniej wagi` przyłącza się ono po zdjęciu spójności
+do `Człowiek` ponad czasownikiem.
+Przyłączenie takiego wyrażenia olski oddaje czytelnikowi rozmyślnie
+i pokazuje wszystkie miejsca, w które ono dochodzi
+([subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
+a spójność jest tym, co ogranicza tę listę do rzeczowników,
+przy których fraza naprawdę stoi.
+Nieciągłość uderza więc w dwie rzeczy naraz:
+w tę listę, którą rozszerza na każdy rzeczownik zdania,
+i w rozróżnienie przydawki od orzecznika, które gramatyka utrzymuje szykiem.
+
+Czego te liczby nie mówią, jest trojakie.
+Zakup jest ograniczeniem z dołu, a nie liczbą potrzeby:
+zdania, którego Świgra nie rozebrała, nikt nie przeliczył,
+a bez drzewa wzorcowego jest 41 procent korpusu
+([corpus.md](corpus.md#what-the-corpus-contains)),
+więc zdanie z dwiema szczelinami w jednym ciągu albo z wysuniętym podmiotem
+siedzi wśród nich i tutaj się nie liczy.
+Cena jest ceną zdjęcia spójności z deklaracji bliskiej olskiemu,
+a nie z jego własnej gramatyki,
+i o ile ta deklaracja jest węższa, mówi 261 wobec 690.
+Korpus jest wreszcie prozą i prasą,
+a nie dokumentacją techniczną, do której olski jest kierowany.
+
+Wraca to rozwidlenie wtedy, gdy zakup przestanie być zerem,
+czyli gdy gramatyka odbierze zdaniom ze szczeliną ich dzisiejsze blokery.
+Sonda liczy zakup razem z tymi blokerami po to,
+żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
+
+```sh
+python3 -m sonda.nieciągłość Składnica-frazowa-180723/
+```
 
 ## Formalizm jest środkiem, a nie celem
 
@@ -484,6 +609,11 @@ bo spójność jest tu warunkiem wystawianym, a nie własnością formalizmu.
 [Urwisko](#the-cliff-discontinuity) wycenia to samo na szósty stopień
 i wycenia poprawnie, tylko że wycenia szczebel, a nie zjawisko:
 przy tym podłożu fan-out nie jest pokrętłem, którym się cokolwiek kręci.
+To jedno pole jest przy tym tym, czym zmierzono cenę nieciągłości,
+i sonda tego pomiaru stoi obok
+([nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)):
+podłoże zarobiło więc na siebie rozstrzygnięciem rozwidlenia,
+a nie samym porównaniem deklaracji.
 
 **Odrzucenie zaczyna mówić, na czym stanęło.**
 Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
@@ -1154,6 +1284,13 @@ generation exposes what the grammar *over*generates,
 which the parsing side sees only against a treebank.
 
 ## Known limits
+
+**Scrambled Polish stays out, permanently.**
+A sentence whose noun phrase splits around the rest of the clause
+is well-formed Polish that olski will not accept,
+and that is a decision rather than a gap waiting for a stage:
+see [nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+for what the refusal was priced at.
 
 **Grammaticality is not quality.**
 A deeply nested stack of relative clauses

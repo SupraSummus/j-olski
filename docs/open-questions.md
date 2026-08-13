@@ -21,49 +21,20 @@ Questions are grouped by which track they block.
 - Morfeusz is the dictionary, because the grammar track needs generation
   and only Morfeusz does it.
   See [design-notes.md](design-notes.md#decisions-taken).
+- Olski does not scramble, so the subset stays context-free.
+  This was the largest fork on the grammar track,
+  and a measurement closed it rather than a preference.
+  See [design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 
 Further grammar-track decisions are recorded in
 [design-notes.md](design-notes.md#decisions-taken).
 
 ## Grammar-track questions
 
-### The big fork: may olski scramble
-
-Polish permits left-branch extraction that splits a noun phrase
-around the rest of the clause,
-as in `Jakie Jan czyta książki?`.
-Admitting that means discontinuous constituents,
-which means leaving the context-free tier
-for LCFRS, MCFG, or TAG,
-and moving from cubic parsing to sixth power at fan-out two.
-Those and not the hierarchy's own type 1,
-which keeps named productions
-and gives up the derivation tree and the polynomial parser:
-see [the ladder is not the Chomsky hierarchy](design-notes.md#the-ladder-is-not-the-chomsky-hierarchy).
-
-This is not a difficulty gradient.
-It is the one place where the cost curve jumps by an exponent.
-See [the cost ladder](design-notes.md#the-cost-ladder).
-
-Refusing it keeps everything at tier 2.
-Every other decision below is cheap next to this one.
-It should probably be answered by measurement rather than taste:
-find out what fraction of real Polish sentences need it,
-and what admitting it costs the sentences that already have one reading,
-before paying for it.
-[Making the trade measurable](design-notes.md#making-the-trade-measurable)
-owns why that second count exists.
-
-One parser of Polish reaches common discontinuity without paying.
-Świgra threads a single gap through its free-order sequence
-and forbids subjects from extracting,
-which is a tier-2 answer to a tier-3 problem;
-what it gives up is the measurement nobody has taken.
-See [swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class).
-
 ### The rest of the subset
 
-Each row is a real fork, not a difficulty level.
+Each row is a real fork, not a difficulty level,
+and each is cheaper than the settled question about scrambling above it.
 The `closeness` column notes which option
 serves the settled goal of resembling Polish.
 

@@ -779,6 +779,10 @@ That net is what the grammar track now asks of every addition before it lands
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 so this part of the entry carries a rule rather than a convenience,
 and a session that prices an addition by hand is doing this work and throwing it away.
+Two probes in `sonda/` have already computed such a net by hand,
+`przecinek.py` for the comma and `nieciągłość.py` for discontinuity,
+and their transition tables are one table with different variants under it,
+so the general version would replace both rather than start from nothing.
 The entry about cutting unlicensed readings before the parse
 moves what `blocker` reads off a form,
 so whichever of the two is taken first decides what the blocking form is,
@@ -849,14 +853,17 @@ Kasowanie zabiera przy tym jedyny mechanizm w repozytorium,
 który wypuszcza konstytuent nieciągły:
 `spójne` w `sonda/wiezy.py` jest warunkiem zdejmowanym,
 a produkcja z `olski/subset.py` spójności zdjąć nie umie.
-[Wielkie rozwidlenie](docs/open-questions.md#the-big-fork-may-olski-scramble)
-każe rozstrzygnąć przestawianie pomiarem, a nie gustem,
-więc do przeczytania jest, czy ten mechanizm jest częścią tego pomiaru.
-Przemawia przeciw to, że sonda czyta zwykły tekst, a nie Składnicę,
-i udziału zdań w polszczyźnie nie policzy bez wejścia korpusowego.
-Odpowiedź „nie" zamyka rzecz i kasowanie idzie bez zmian,
-a odpowiedź „tak" każe wybrać, czy ten kod czeka na tamten pomiar,
-czy pisze się go drugi raz.
+Tym warunkiem zmierzono cenę nieciągłości i zamknięto
+[rozwidlenie o przestawianiu](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+a liczy ją `sonda/nieciągłość.py`, czyli trzeci plik tego katalogu,
+który `sonda/wiezy.py` i `sonda/polszczyzna.py` czyta.
+Lista plików wyżej nie obejmuje więc tego, co kasowanie naprawdę zabiera,
+a [sekcja Checks](CLAUDE.md#checks) każe tę cenę przeliczać razem z gramatyką.
+Ruch dopisuje sobie przez to jedno rozstrzygnięcie:
+albo cena nieciągłości przestaje być figurą przeliczaną
+i tamta sekcja mówi o niej to, co `docs/firing-rates.md` mówi o sobie,
+czyli że jest ceną, przy której decyzja zapadła,
+albo podłoże zostaje po to jedno, a kasowanie obejmuje samo porównanie deklaracji.
 
 Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,

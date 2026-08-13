@@ -780,6 +780,22 @@ and so does a change to `sonda/przecinek.py`, which decides what comes out.
 What a test holds there is only that the probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
 
+One more difference prices a refusal, and it is the only figure in this list
+whose two halves are moved by different things.
+[What discontinuity buys and costs](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+counts on one side the treebank sentences another grammar needed a gap for,
+which moves only when the corpus release does
+or when `sonda/nieciągłość.py` changes what it counts as a gap,
+and on the other the uniqueness that dropping contiguity takes away,
+which moves with the grammar, since its denominator is what olski accepts,
+and with `sonda/polszczyzna.py` and `sonda/wiezy.py` under it.
+The verdicts beside the first half move with the grammar as well,
+and they are the half the refusal rests on:
+a construction that stops appearing there is a construction
+that has begun to buy those sentences.
+Refused stays refused when the price moves,
+so what the rerun protects is the number rather than the decision.
+
 One set of figures is not moved by anything, for the same reason as the one above,
 and it sits in a section a grammar change is otherwise read from.
 [What packing decides](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
