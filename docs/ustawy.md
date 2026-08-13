@@ -9,7 +9,7 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 73 zdania z 4921,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 72 zdania z 4921,
 czyli 1,5%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 8,7%,
 choć tamten bank drzew jest zbudowany z gazet i prozy.
 Wieloznacznych jest tu 5,4% wobec 4,1% tam,
@@ -193,14 +193,14 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 | samorząd gminny (1990/95) | 386 | 21 | 37 | 328 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 1 | 83 |
 | informacja publiczna (2001/1198) | 126 | 0 | 2 | 124 |
-| Kodeks wyborczy (2011/112) | 2908 | 28 | 121 | 2759 |
+| Kodeks wyborczy (2011/112) | 2908 | 27 | 124 | 2757 |
 | petycje (2014/1195) | 48 | 2 | 3 | 43 |
 | zgromadzenia (2015/1485) | 127 | 1 | 8 | 118 |
-| ochrona ludności (2024/1907) | 1242 | 21 | 96 | 1125 |
-| razem | 4921 | 73 | 268 | 4580 |
+| ochrona ludności (2024/1907) | 1242 | 21 | 97 | 1124 |
+| razem | 4921 | 72 | 272 | 4577 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 5 jednoznacznych i 18 wieloznacznych.
+699 zdań, z tego 6 jednoznacznych i 18 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -235,7 +235,7 @@ Ostatnie jest § 54 „Zasad techniki prawodawczej”, czyli przepisem,
 który nazywa artykuł podstawową jednostką redakcyjną ustawy
 i nazywa go dokładnie tym kształtem.
 
-Nie każde z tych 73 zdań napisał prawodawca, i widać to na dwóch klasach.
+Nie każde z tych 72 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -247,7 +247,7 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 73 to dotyczy, ten pomiar nie liczy,
+Ilu zdań z 72 to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
@@ -338,8 +338,8 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4580 odrzuceń 3758 stanęło na formie, której żadna produkcja nie bierze,
-a 822 na samej strukturze.
+Z 4577 odrzuceń 3758 stanęło na formie, której żadna produkcja nie bierze,
+a 819 na samej strukturze.
 Formy z czoła tego rankingu grupują się w cztery klasy:
 
 | klasa | najczęstsze formy |
@@ -370,7 +370,17 @@ Negacja poszła tu inaczej i tak samo skromnie:
 przyjmuje cztery zdania, trzydzieści przenosi na wieloznaczne
 i jednemu przyjętemu wcześniej odbiera jednoznaczność,
 co jest jedynym takim zdaniem w trzech zmierzonych rejestrach
-([subset.md](subset.md#negacja-zmierzona-kupuje-146-zdań-i-odbiera-jedno)).
+([subset.md](subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
+Cztery szyki podmiotu, dopełnienia i czasownika, dopisane po tamtych dwóch,
+wychodzą tu jeszcze skromniej i wychodzą pod zero:
+nie przyjmują ani jednego zdania,
+trzy przenoszą z odrzuconych na wieloznaczne
+i jednemu przyjętemu wcześniej odbierają jednoznaczność
+([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+Ustawa pisze zdanie w szyku, który olski miał,
+więc dopisany daje jej same nowe czytania,
+i tym różni się ten rejestr od prozy z banku drzew,
+gdzie te same ciała kupują czterdzieści cztery zdania.
 Najtańszy duży zakup tamtej kolejki wyszedł tu poniżej zera.
 Zamiast niego stoi wysoko zdanie warunkowe,
 czyli kształt, w którym norma jest w ogóle zapisana:

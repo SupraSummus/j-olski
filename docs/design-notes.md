@@ -406,8 +406,8 @@ więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowani
 **Zakup w olskim: zero.**
 Z 323 zdań olski odrzuca 320, a trzy przyjmuje bez żadnej szczeliny,
 więc nie są one zakupem dla nikogo.
-Analizy odrzuconych kończą się na cząstce (43), na znaku przestankowym (38),
-na przysłówku i na bezokoliczniku (po 35), na predykatywie (29)
+Analizy odrzuconych kończą się na cząstce (42), na znaku przestankowym
+i na bezokoliczniku (po 38), na przysłówku (35), na predykatywie (29)
 oraz na imiesłowie biernym (25),
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
@@ -429,13 +429,18 @@ produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 1139 zdań, które olski przyjmuje jednym czytaniem,
-podłoże czyta jednoznacznie 329 — deklaracja jest w nim węższa,
-więc 761 odrzuca, a 49 czyta dwojako —
-i po zdjęciu spójności 92 z tych 329 przestają mieć jedno czytanie.
-Mianownik rośnie z gramatyką, a te dwie liczby stoją,
-bo podłoże nie ma [grupy liczebnikowej](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
-i każde zdanie, które ona olskiemu kupiła, odrzuca.
+Z 1179 zdań, które olski przyjmuje jednym czytaniem,
+podłoże czyta jednoznacznie 347 — deklaracja jest w nim węższa,
+więc 783 odrzuca, a 49 czyta dwojako —
+i po zdjęciu spójności 99 z tych 347 przestają mieć jedno czytanie.
+Mianownik rośnie z gramatyką, a te dwie liczby rosną z nim wtedy,
+gdy gramatyka dopisuje kształt, który podłoże już miało.
+Grupy liczebnikowej podłoże nie ma
+([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+więc każde zdanie, które ona olskiemu kupiła, odrzuca i tych liczb nie rusza;
+[cztery szyki](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
+i podłoże czytało te zdania, zanim olski dostał na nie ciała.
 
 Płaci się przy tym nie czasem rozbioru, a określeniem,
 które sięga ponad czasownik do rzeczownika po drugiej stronie.
@@ -572,7 +577,7 @@ którego ekstrakcja nie wypuszcza.
 Trzy z pozostałych czterech rozchodzą się na przecinku.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
 wychodzi w olskim dwoma czytaniami,
-`Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` czterema,
+`Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` ośmioma,
 `Czarna lista kupowała jednak co innego, niż obiecywała` jednym,
 a sonda odrzuca wszystkie trzy, bo przecinka nie ma do czego przyłączyć.
 Granica biegnie więc tam, gdzie olski bierze
@@ -602,14 +607,20 @@ przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
-`olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
+`olski/subset.py` ma dwadzieścia dziewięć produkcji `ClauseConjunct`,
 bo każdy szyk wypisuje się osobno, a każdy z nich jeszcze raz w tylu wersjach,
 ile ma miejsc na okolicznik.
 Łuk podmiotu nie mówi o porządku nic,
-więc SVO i OVS są tam jedną deklaracją,
-a jedenaście pozycji na okolicznik jest trzema, po jednej na głowę,
+więc wszystkie sześć szyków są tam jedną deklaracją,
+a pozycje okolicznika, których
+[subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
+liczy czterdzieści cztery, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
+Czternaście z tych dwudziestu dziewięciu ciał dołożyły
+[cztery szyki](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
+i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
 
 **Nieciągłość przestaje być szczeblem.**
 `Dobrą Jan pisze polszczyznę` nie wyprowadza się w olskim wcale,

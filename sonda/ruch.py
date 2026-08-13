@@ -48,6 +48,17 @@ MAX_TOKENS = 40
 #: Werdykty w kolejności, w jakiej stoją w tabeli.
 STANY = ("valid", "ambiguous", "rejected")
 
+#: Czym zaczyna się klucz przykładów trzymanych pod rolą, a nie pod przejściem.
+#: Napisem, a nie drugim słownikiem, bo obie rodziny przykładów wchodzą do
+#: jednego budżetu :attr:`Raport.ile_przykładów`, scalają się jednym :func:`scal`
+#: i wychodzą jednym wydrukiem.
+ROLA = "rola:"
+
+#: Rola, pod którą przykładów nie trzymamy, bo zdanie przeczytane tak jak w banku
+#: drzew nie jest tym, co z tej tabeli trzeba przeczytać. Wartość wydaje
+#: ``Outcome.agreement`` i tyle o niej wie ten plik.
+ZGODNE = "agrees"
+
 
 @dataclass(frozen=True)
 class Sonda:
@@ -166,6 +177,10 @@ class Raport:
             if stan == "valid" and wariant in role:
                 zgoda = role[wariant] or "brak roli"
                 self.zgodność.setdefault(wariant, collections.Counter())[zgoda] += 1
+                #  Przejście, pod którym takie zdanie stoi, trzyma je razem z
+                #  kilkudziesięcioma zgodnymi, więc pod rolą stoi drugi raz.
+                if zgoda != ZGODNE:
+                    self.zanotuj((wariant, f"{ROLA} {zgoda}"), tekst)
         self._konkurencja(tekst, stany, mianownik)
 
     def _konkurencja(self, tekst: str, stany: dict[str, str], mianownik: str) -> None:
@@ -329,6 +344,8 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
             wiersze.append("  role zdań nowo przyjętych wobec drzewa wzorcowego:")
             for nazwa, ile in zgodność.most_common():
                 wiersze.append(f"  {ile:>7}    {nazwa}")
+                for tekst in raport.przykłady.get((wariant, f"{ROLA} {nazwa}"), []):
+                    wiersze.append(f"             {tekst}")
 
     # Zero wypisane, a nie pominięte: liczba, której nie ma, czyta się jak
     # pomiar, którego nie było, a to jest ta liczba, po którą sonda stoi.

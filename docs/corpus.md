@@ -97,17 +97,17 @@ Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 11,358 | 87.2% |
-| valid | 1,139 | 8.7% |
-| ambiguous | 528 | 4.1% |
+| rejected | 11,297 | 86.7% |
+| valid | 1,179 | 9.1% |
+| ambiguous | 549 | 4.2% |
 
 By length, which is the shape the curve actually has:
 
 | tokens | valid |
 | --- | --- |
-| 1–5 | 25.0% |
-| 6–10 | 11.5% |
-| 11–20 | 1.4% |
+| 1–5 | 25.9% |
+| 6–10 | 11.8% |
+| 11–20 | 1.5% |
 | 21–40 | 0.1% |
 
 So olski is a subset of short declarative Polish and nothing else,
@@ -124,16 +124,16 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 2,912 | `-` (1,263), `.` (766), `–` (274) |
-| `adv` | 1,983 | `Jak` (72), `Teraz` (57), `bardzo` (55) |
-| `part` | 1,569 | particles: `się` (142), `Czy` (115), `już` (107) |
-| `conj` | 658 | coordination: `I` (141), `Ale` (130), `A` (127) |
-| `ger` | 508 | gerunds: `przyjęcie` (8), `głosowania` (6), `zabranie` (5) |
-| `comp` | 507 | subordinators: `że` (90), `Gdy` (39), `Jeśli` (37) |
+| `interp` | 2,928 | `-` (1,263), `.` (775), `–` (275) |
+| `adv` | 1,992 | `Jak` (72), `Teraz` (57), `bardzo` (56) |
+| `part` | 1,576 | particles: `się` (142), `Czy` (115), `już` (107) |
+| `conj` | 663 | coordination: `I` (141), `Ale` (130), `A` (127) |
+| `ger` | 513 | gerunds: `przyjęcie` (8), `głosowania` (6), `zabranie` (5) |
+| `comp` | 510 | subordinators: `że` (90), `Gdy` (39), `Jeśli` (37) |
 | `pred` | 410 | `to` (134), `To` (97), `można` (37) |
-| `praet` | 370 | `był` (13), `udało` (9), `były` (6) |
-| `subst` | 358 | `to` (10), `zdaniem` (5), `skład` (4) |
-| `fin` | 242 | `jest` (38), `ma` (7), `mają` (4) |
+| `praet` | 365 | `był` (15), `udało` (9), `były` (7) |
+| `subst` | 246 | `to` (7), `skład` (3), `kto` (3) |
+| `ppas` | 242 | `wymienionych` (3), `zawarte` (3), `połamanymi` (2) |
 
 The first two rows account for two fifths of the rejections
 without touching the interesting questions
@@ -154,8 +154,8 @@ a terminal asking for `part` matches no `się` in this corpus
 and one asking for `adj` matches no `który`,
 so two constructions the grammar *has* fire here not once.
 That is what the four names are worth —
-746 sentences accepted rather than 993,
-and three rows of this table, `qub` at 2,641, `psubst` at 441 and `padj` at 376,
+1,179 sentences accepted rather than 771,
+and three rows of this table, `qub` at 2,671, `psubst` at 442 and `padj` at 377,
 naming a tag where a construction is what a row is for.
 Only the gold column moves with them:
 the live column's tags come from Morfeusz to begin with.
@@ -188,14 +188,14 @@ and Polish puts it before one as readily.
 A preposition does not rank in this table at all,
 and two groups of productions are why.
 Drop the one that puts a modifier in front of the clause
-and a `prep` row ranks second at 2,033 sentences, led by `W` (665) and `Na` (252),
+and a `prep` row ranks second at 2,045 sentences, led by `W` (665) and `Na` (252),
 capitalized because a fronted modifier opens its sentence.
 Drop instead the positions that hang a prepositional phrase on a noun or on an
 adjective — `Modifier` under `NPConjunct` and under `APConjunct`, which are the
 attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
-leaves to the reader — and the row reads 424, `z` (109) and `w` (105) in front.
-With both in place it reads 201, `w` (49) and `z` (49) in front,
+leaves to the reader — and the row reads 424, `z` (108) and `w` (106) in front.
+With both in place it reads 215, `w` (54) and `z` (53) in front,
 which is a preposition standing where no rule reaches
 rather than a construction the grammar lacks.
 
@@ -357,22 +357,23 @@ owns that class and how much of this register it is.
 ## Agreement, which matters more than acceptance
 
 Accepting a sentence proves nothing if the reading is wrong.
-Olski admits both SVO and OVS,
+Olski admits every order the subject, the object and the verb can stand in
+([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)),
 so on every sentence it accepts
 there is a live question of whether it found the subject the annotators did.
 The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 836 accepted sentences where the gold tree marks a role to compare:
+On the 876 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 805 | 96.3% |
-| partial | 18 | 2.2% |
-| disagrees | 13 | 1.6% |
+| agrees | 845 | 96.5% |
+| partial | 18 | 2.1% |
+| disagrees | 13 | 1.5% |
 
-The denominator is 836 and not 1,139
+The denominator is 876 and not 1,179
 because the other 303 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
@@ -403,24 +404,24 @@ That is the third verdict the check has,
 and it exists so that a reading covering less than the gold tree
 is not counted as agreeing with it.
 
-Three of the thirteen *disagrees* are readings a reader would not have,
-and the other ten are the check or the corpus rather than the grammar.
-The three came in with negation and are one shape between them:
+One of the thirteen *disagrees* is a reading a reader would not have,
+and the other twelve are the check or the corpus rather than the grammar.
+The one came in with negation:
 
 ```text
-Apostołowie tego nie praktykowali.
-Nikt niczego nie wybiera, coś wybiera za nas.
 Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
 ```
 
 The genitive object stands in front of its verb,
 and there it is also a genitive modifier of the noun phrase before it,
-so `Apostołowie tego` comes out as one subject
-where the sentence has a subject and an object.
+so `premier większości` comes out as one subject
+where the clause has a subject and an object.
 Both readings are shapes Polish has,
 and only the second is a shape *olski* has:
-an object in front of its verb needs the subject after the verb
-([subset.md](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)),
+the object belongs to the infinitive under a modal,
+and the bodies that put an object in front of its verb
+put it in front of a finite one
+([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)),
 so the reading a reader takes has no body to be derived by
 and the wrong one is returned alone rather than beside it.
 That is the cost negation is priced at here,
@@ -428,15 +429,25 @@ and it lands in this table rather than in the ambiguity column:
 [subset.md](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
 holds what it buys and what it takes.
 
-Four more are the check and not a reading.
+Two sentences of this shape were in this row and left it,
+which is what the four word orders bought here beyond the sentences they accepted:
+`Apostołowie tego nie praktykowali.`
+and `Nikt niczego nie wybiera, coś wybiera za nas.`
+now come out with two readings, the reader's among them,
+so they are refused rather than read backwards.
+
+Five more are the check and not a reading.
 `Kampania nie przyniosła skutku.` olski reads the way a reader would,
 and the gold tree gives the genitive of negation its own slot, `np(part)`,
 which `_slot_role` in `olski/corpus.py` maps to no role olski has,
 so olski names an object where the tree marks none.
 The numeral phrase in object position lands in the same slot,
-as in `Marzec przyniósł 6 zagranicznych delegacji.`
+as in `Marzec przyniósł 6 zagranicznych delegacji.`,
+and so does the object of `Co pan sądzi o pomyśle Pawła Piskorskiego?`,
+which the four orders brought in and which olski reads
+with `Co` for an object and `pan` for a subject.
 [TODO.md](../TODO.md) holds that as a defect in the check
-rather than in the reading, and the row carries those four until it is fixed.
+rather than in the reading, and the row carries those five until it is fixed.
 
 The rest are extents, and the first is the one the treebank's own formalism
 produces:
@@ -467,6 +478,14 @@ and the fourth is the same about a relative clause:
 in `Rolę teoretyków spełniają felietoniści, którzy co tydzień fundują szkoły
 i formułują programy.` the gold subject runs to the end of the sentence
 where olski's stops at the first conjunct.
+A fifth is the same about a second object rather than a phrase:
+in `Widzę, że ostatnia lekcja czegoś was nauczyła.`
+`nauczyć` governs a genitive beside its accusative,
+olski has one object position,
+so `czegoś` has nowhere to stand and falls into the subject in front of it.
+That sentence and the one about `Co` are what the four word orders
+[cost in this column](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery),
+against the two they took out of it above.
 One is neither the check nor an extent:
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`
 has the participle in the gold tree's subject and in olski's predicative,
@@ -477,13 +496,13 @@ so the analysis ran as far as the next missing position.
 Drop the positions
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 takes prepositional attachment to demand —
-the 30 productions in which an adjunct stands beside something else,
+the 44 productions in which an adjunct stands beside something else,
 or a modifier hangs on a phrase that already carries one or on a participle —
-and this row holds 116 sentences instead of thirteen,
+and this row holds 121 sentences instead of thirteen,
 almost every one of them an attachment.
-Accepted goes the other way, 1,378 instead of 1,139,
-so those positions buy 103 fewer readings taken backwards
-for 239 sentences the grammar stops accepting,
+Accepted goes the other way, 1,426 instead of 1,179,
+so those positions buy 108 fewer readings taken backwards
+for 247 sentences the grammar stops accepting,
 and the sentence the corpus caught the problem on first shows how:
 
 ```text
@@ -560,9 +579,9 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 11,358 | 11,185 |
-| valid | 1,139 | 1,056 |
-| ambiguous | 528 | 784 |
+| rejected | 11,297 | 11,118 |
+| valid | 1,179 | 1,063 |
+| ambiguous | 549 | 844 |
 
 Ambiguity is where the cost lands:
 256 more sentences carry more than one reading,
@@ -667,13 +686,13 @@ so both stood on a phrase nobody wrote,
 and rejecting is what the grammar should say about a sentence it cannot analyse.
 
 A difference between two totals is not a set of sentences,
-and here an 83-sentence difference stands on 639 disagreements.
-The two runs accept the same 909 sentences.
-Live accepts 147 that gold rejects,
-and gold accepts 230 that live does not settle on:
-150 it finds ambiguous, 80 it rejects.
+and here a 116-sentence difference stands on 416 disagreements.
+The two runs accept the same 913 sentences.
+Live accepts 150 that gold rejects,
+and gold accepts 266 that live does not settle on:
+182 it finds ambiguous, 84 it rejects.
 
-The 147 are the warning in the table,
+The 150 are the warning in the table,
 and the largest single class of it is the one
 [the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
@@ -720,7 +739,7 @@ and the reader translates the four names they differ on
 [above](#where-the-analyses-stop),
 so the two blocker tables carry the same labels.
 What stays asymmetric is the live run's `ign` row —
-510 sentences stopped on a form Morfeusz does not know —
+529 sentences stopped on a form Morfeusz does not know —
 which the gold run cannot have.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,

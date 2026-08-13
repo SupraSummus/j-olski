@@ -417,6 +417,18 @@ def test_object_first_order_is_polish_and_is_read_that_way():
     assert roles["Object"] == "Program"
 
 
+def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
+    #  Bez szyku SOV `tego` brała tu tylko przydawka dopełniaczowa, więc zdanie
+    #  wychodziło jednym czytaniem, pewnym siebie i odwrotnym niż drzewo wzorcowe.
+    #  Usterka, którą to łapie, jest powrotem tamtego stanu: zdanie znów wychodzi
+    #  jednoznaczne, a rola, którą czyta czytelnik, nie ma ciała.
+    found = verdict("Apostołowie tego nie praktykowali.")
+    assert found.status == "ambiguous", found.explain()
+    czytania = {(reading.get("Subject"), reading.get("Object")) for reading in found.readings}
+    assert ("Apostołowie", "tego") in czytania, found.explain()
+    assert ("Apostołowie tego", None) in czytania, found.explain()
+
+
 # --------------------------------------------------------------------------- #
 # Sentences with no reading
 # --------------------------------------------------------------------------- #

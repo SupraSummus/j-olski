@@ -112,6 +112,19 @@ i ustawy ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 Wycenionym przykładem jest czas przeszły z
 [etapu 6](#etap-6-reszta-konstrukcji).
 
+Cztery szyki podmiotu, dopełnienia i czasownika są przykładem samego kierunku,
+a nie któregoś etapu, i dlatego stoją tutaj.
+Nie ma ich w żadnej kolejce blokerów, bo szyk nie jest formą,
+na której analiza staje, i żaden z trzech rejestrów o nie nie prosił.
+Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem
+nie miał ciała, więc olski czytał trzy zdania Składnicy odwrotnie,
+niż czyta je czytelnik, i mówił to jednym czytaniem.
+Dopisane, kupują 44 zdania banku drzew, kosztują cztery
+i dwa z tych czterech są tamtą naprawą
+([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
+że wyjdzie.
+
 Kolejność etapów robi koszt przepisywania.
 To, co każda późniejsza produkcja ma realizować, wchodzi przed nią,
 bo dopisane potem każe przepisać je wszystkie:
@@ -400,7 +413,7 @@ Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
 i cztery zdania ustawy przy trzydziestu,
 a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
 i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie
-`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-146-zdań-i-odbiera-jedno)).
+`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
 Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
 wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
 czwartą, gdzie tamte oddawały po jednej piątej.

@@ -426,23 +426,27 @@ is the second copy of a fact that
 
 ## Gramatyka, parser i pomiar pokrycia
 
-Dopełnienie przed czasownikiem żąda dziś podmiotu za czasownikiem,
-a szyk podmiot–dopełnienie–czasownik nie ma w gramatyce ani jednego ciała.
-Widać ten brak dopiero wtedy, gdy coś tę środkową pozycję zajmie,
-i zajmuje ją dopełniacz negacji: stawia tam grupę imienną, która jest zarazem
-przydawką dopełniaczową rzeczownika przed nią, więc `Apostołowie tego nie
-praktykowali.` wychodzi z jednym podmiotem i bez dopełnienia.
-Trzy zdania Składnicy olski czyta przez to odwrotnie, niż czyta je czytelnik
+Dopełnienie stoi przed swoim czasownikiem w czterech szykach dopisanych,
+a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.
+Ciała biorą `Verb`, czyli formę osobową, więc `premier większości nie może
+ruszyć` dalej wychodzi z jednym podmiotem i bez dopełnienia,
+i jest to jedno zdanie Składnicy, które olski czyta odwrotnie, niż czyta je
+czytelnik
 ([`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)),
-i jest to pomyłka droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta.
-Do przeczytania jest, ile ten szyk zabiera poza tymi trzema zdaniami:
-dopisany, czyni wieloznacznym każde zdanie, w którym po podmiocie stoi
-grupa w bierniku albo w dopełniaczu, czyli potencjalnie każde SVO.
-Ruchem jest sonda różnicowa nad tym jednym ciałem, wzorowana na
-`sonda/negacja.py`, a dopiero po niej decyzja;
-przy wyniku „za drogo” ruchem jest zdanie w
-[`docs/subset.md`](docs/subset.md#what-the-grammar-covers) mówiące,
-że te trzy zdania olski czyta odwrotnie i że tak zostanie.
+a pomyłka jest droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta.
+Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
+dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
+tam, gdzie cztery szyki już konkurują z nią przed formą osobową,
+i cenę tamtych czterech zna
+[`sonda/szyk.py`](sonda/szyk.py) — cztery zdania —
+więc ta pozycja ma z czym się porównać, zanim zapadnie decyzja.
+Ruchem jest ciało `Complements`, a nie piąty szyk:
+pozycję ramy niesie fraza bezokolicznikowa
+([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+więc dopełnienie przed nią stoi wewnątrz orzeczenia,
+a nie w kolejności podmiotu wobec czasownika.
+Sonda różnicowa nad tym jednym ciałem, wzorowana na `sonda/szyk.py`,
+idzie przed decyzją.
 
 Forma `nie` ma u Morfeusza czytanie zaimkowe, którego polszczyzna w tym miejscu
 nie ma: jest to biernik `on` w postaci popodstawowej, czyli tej, która stoi
@@ -450,7 +454,7 @@ wyłącznie po przyimku (`na nie`, `za nie`).
 Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
 pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
 które ją nad trzema rejestrami straciło przy wpuszczeniu negacji
-([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-146-zdań-i-odbiera-jedno)).
+([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
 i cecha, po której to czytanie widać, jest inna: `praep` w tagu.
@@ -884,21 +888,55 @@ and they are one session.
 The section that owns the reproduction path says meanwhile which figures are hand-taken,
 and that sentence goes when the commands cover them.
 
+Six of those figures were left stale by the change that admitted
+[four word orders](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery),
+and they are named here so that the next session does not have to find them.
+Each counts sentences and each moved with the accepted set, and none has a command:
+what the past tense bought, in
+[`docs/subset.md`](docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku),
+whose `praet` row the blocker table has contradicted since negation and the numeral
+landed; and five in
+[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
+and the section after it — the instrumental dropped from every valency class,
+the rest of the valency lexicon, the condition that the substantival pronoun
+governs no genitive, the live totals with the dictionary exclusion switched off,
+and what the frame settles under live morphology.
+The values are in those documents and not repeated here,
+because a value copied into this list is stale twice over once somebody retakes it.
+Taking them by hand is the work this entry is about not doing twice,
+so the general version above is the move, and retaking them meanwhile is the fallback.
+
 Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
 od precedencji.
-`build` w `olski/subset.py` ma kilkanaście produkcji `ClauseConjunct`,
+`build` w `olski/subset.py` ma dwadzieścia dziewięć produkcji `ClauseConjunct`,
 bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
+Czternaście z tych dwudziestu dziewięciu dołożyły
+[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery),
+czyli jedna zmiana podwoiła tę rodzinę,
+i jest to najbliższy pomiar tego, co ten wpis wycenia.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
 precedencji, i preprocesor rozwijający jedno w drugie przed parsowaniem.
+Krok tańszy od niego stoi w `olski/subset.py` zrobiony do połowy i wart dokończenia:
+cztery szyki dopisane wyliczają swoje miejsca na okolicznik pętlą,
+czyli jedno po każdej grupie imiennej i jedno na końcu zdania,
+a szyki starsze wypisują to samo ciałami.
+Ta sama pętla oddaje osiem rodzin ciał z dziewięciu znak w znak,
+a dziewiąta jest powodem, dla którego to nie jest refaktor:
+ciało `Subject Predicate` okolicznika na końcu nie ma,
+bo bierze go `Complements` pod `Predicate`,
+więc pętla dopisałaby tam wyprowadzenie drugie tego samego kształtu,
+czyli wieloznaczność wziętą z niczego.
+Dopóki `Complements` niesie własne miejsca, wyjątek trzeba wypisać,
+a wypisany wyjątek jest tym, co ta pętla miała zdjąć.
 Miejsce tego ruchu w kolejności trzyma
 [kierunek](docs/design-notes.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje),
 jego wycenę [sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
 a pomiar, od którego się zaczyna, wylicza
 [subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
 Drugie miejsce, w którym gramatyka mnoży ciała, dochodzi inną drogą:
-`NPConjunct` ma dziesięć ciał, z czego osiem jest iloczynem
+`NPConjunct` ma dwanaście ciał, z czego osiem jest iloczynem
 czterech kształtów głowy przez obecność `Modifier` po niej,
 i mnoży to obecność oraz kolejność rodzajów przydawki,
 a nie permutacja argumentów.

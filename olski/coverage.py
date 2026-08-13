@@ -20,7 +20,8 @@ The gap between the two is what ambiguity costs olski, separated from what the
 grammar cannot derive at all.
 
 **Agreement, not just acceptance.** Accepting a sentence is worth nothing if the
-reading is wrong. Olski admits both SVO and OVS, so on every sentence it accepts
+reading is wrong. Olski admits every order the subject, the object and the verb
+can stand in, so on every sentence it accepts
 there is a real question of whether it found the same subject the annotators did,
 and a wrong subject is a worse outcome than a rejection: it is a sentence olski
 claims to understand backwards. Only the gold-morphology run can check this,

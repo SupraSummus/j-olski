@@ -771,21 +771,27 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Two sets are a difference rather than a count,
+Four sets are a difference rather than a count,
 and that is what makes them easy to leave stale.
 [What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the gap between olski and olski with three productions taken out,
-and [what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
+[what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the same gap over the two bodies that build one,
-so everything that moves the tables above moves both,
-and so does a change to `sonda/przecinek.py` or `sonda/liczebnik.py`,
-which decide which productions a variant drops,
+[what negation costs](docs/subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)
+is that gap over the particle and the genitive it governs,
+and [what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+is that gap over the fourteen bodies the four of them make,
+so everything that moves the tables above moves all four,
+and so does a change to the probe that names each variant's productions —
+`sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/negacja.py`, `sonda/szyk.py` —
 or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
-Each of the two prints the command that produces its figures.
+Each of the four prints the command that produces its figures.
+The four share a denominator, so a construction admitted moves every one of these
+tables and not only the one belonging to it.
 What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
-Both take their figures over the README as well,
-so a commit that touches README prose owes those two runs
+All four take their figures over the README as well,
+so a commit that touches README prose owes those four runs
 alongside the two the section above already asks of it.
 
 One more difference prices a refusal, and it is the only figure in this list
