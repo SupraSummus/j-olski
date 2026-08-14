@@ -502,10 +502,10 @@ python3 -m sonda.negacja proza/README.txt
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez negacji | 1031 | 498 | 11 496 |
-| cząstka | 1130 | 522 | 11 373 |
-| dopełniacz | 1031 | 498 | 11 496 |
-| obie | 1179 | 549 | 11 297 |
+| bez negacji | 1031 | 498 | 11 506 |
+| cząstka | 1130 | 522 | 11 383 |
+| dopełniacz | 1031 | 498 | 11 506 |
+| obie | 1179 | 549 | 11 307 |
 
 Wiersz dopełniacza jest kopią mianownika i to jest o nim odczyt, a nie
 przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
@@ -599,16 +599,16 @@ python3 -m sonda.szyk Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez czterech szyków | 1139 | 528 | 11 358 |
-| SOV | 1151 | 533 | 11 341 |
-| OSV | 1150 | 530 | 11 345 |
-| VSO | 1143 | 535 | 11 347 |
-| VOS | 1152 | 535 | 11 338 |
-| wszystkie cztery | 1179 | 549 | 11 297 |
+| bez czterech szyków | 1139 | 528 | 11 368 |
+| SOV | 1151 | 533 | 11 351 |
+| OSV | 1150 | 530 | 11 355 |
+| VSO | 1143 | 535 | 11 357 |
+| VOS | 1152 | 535 | 11 348 |
+| wszystkie cztery | 1179 | 549 | 11 307 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
-a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
+i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Czterdzieści cztery zdania przechodzą z odrzuconych na przyjęte,
 siedemnaście z odrzuconych na wieloznaczne,
@@ -783,16 +783,15 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 1099 | 514 | 11 412 |
-| zdaniowy | 1161 | 531 | 11 333 |
-| imienny | 1117 | 531 | 11 377 |
-| przymiotnikowy | 1099 | 514 | 11 412 |
-| wszystkie trzy | 1179 | 549 | 11 297 |
+| bez przecinka | 1099 | 514 | 11 422 |
+| zdaniowy | 1161 | 531 | 11 343 |
+| imienny | 1117 | 531 | 11 387 |
+| przymiotnikowy | 1099 | 514 | 11 422 |
+| wszystkie trzy | 1179 | 549 | 11 307 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
-a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów,
-których nie wpuszcza `--max-tokens`.
+i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
 Wieloznacznych przybywa trzydzieści pięć i wszystkie przychodzą z odrzuconych,
@@ -1390,14 +1389,14 @@ python3 -m sonda.liczebnik Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez liczebnika | 1105 | 499 | 11 421 |
-| zgodny | 1145 | 530 | 11 350 |
-| rządzący | 1137 | 517 | 11 371 |
-| oba | 1179 | 549 | 11 297 |
+| bez liczebnika | 1105 | 499 | 11 431 |
+| zgodny | 1145 | 530 | 11 360 |
+| rządzący | 1137 | 517 | 11 381 |
+| oba | 1179 | 549 | 11 307 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
-a poza pomiarem zostaje dziesięć zdań dłuższych niż czterdzieści segmentów.
+i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
 Siedemdziesiąt cztery przechodzą z odrzuconych na przyjęte
@@ -1809,10 +1808,10 @@ w przydawce i w orzeczniku, licząc pozycje z produkcji olskiego.
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przysłówka | 1179 | 549 | 11 297 |
-| okolicznik | 1607 | 707 | 10 711 |
-| przy przymiotniku | 1226 | 580 | 11 219 |
-| oba | 1568 | 769 | 10 688 |
+| bez przysłówka | 1179 | 549 | 11 307 |
+| okolicznik | 1607 | 707 | 10 721 |
+| przy przymiotniku | 1226 | 580 | 11 229 |
+| oba | 1568 | 769 | 10 698 |
 
 Okolicznik sam kupuje 428 zdań, określenie przymiotnika samo 47,
 a oba razem 389, czyli mniej niż okolicznik sam.

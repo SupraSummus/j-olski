@@ -365,11 +365,14 @@ def test_measuring_counts_every_forest_but_parses_only_the_annotated_ones(tmp_pa
     assert report.statuses["valid"] == 1
 
 
-def test_a_sentence_too_long_to_afford_is_reported_rather_than_dropped(tmp_path):
-    write(tmp_path, "a-s.xml", SVO)
-    report = przebieg(pliki(tmp_path), jobs=1, max_tokens=2)
+def test_an_annotated_sentence_with_no_morphology_is_reported_rather_than_dropped(tmp_path):
+    #  Reported and not dropped, so that the denominator under the coverage figure
+    #  is the whole annotated corpus or says what it is missing.
+    write(tmp_path, "a-s.xml", "")
+    report = przebieg(pliki(tmp_path), jobs=1)
+    assert report.verdicts == {FULL: 1}
     assert report.measured == 0
-    assert sum(report.skipped.values()) == 1
+    assert report.skipped == {"no morphology": 1}
 
 
 def test_an_unknown_morphology_source_is_refused():
@@ -385,12 +388,11 @@ def test_the_report_renders_what_it_measured(tmp_path):
     assert "Program zapisuje ustawienia." in text
 
 
-@pytest.mark.parametrize("max_tokens", [40, 3])
-def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path, max_tokens):
+def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path):
     #  Proces roboczy oddaje `Report` za swój kawałek listy plików, więc każdy
     #  wiersz wydruku stoi na tym, że kawałki scalają się w raport z jednego
-    #  przebiegu. Przy trzech tokenach nic się nie mierzy, więc drugi przebieg
-    #  przepuszcza przez scalanie wiersz niemierzonych, którego pierwszy nie ma.
+    #  przebiegu. Piąty las ma drzewo wzorcowe i nie ma morfologii, żeby przez
+    #  scalanie przeszedł także wiersz niemierzonych.
     #
     #  Teksty są różne, bo przykłady sprawdzają to najostrzej: `Report.record`
     #  zachowuje pierwsze zdanie, jakie dostał, więc kawałki scalone nie w
@@ -399,10 +401,11 @@ def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path, max_token
     write(tmp_path, "b-s.xml", svo(subject=None, obj=None), sent_id="t/2-s", text="Zapisuje.")
     write(tmp_path, "c-s.xml", svo(tag=POZA_PODZBIOREM), sent_id="t/3-s", text="Zapisał to.")
     write(tmp_path, "d-s.xml", "", verdict="NO_TREE", sent_id="t/4-s", text="Bez drzewa.")
+    write(tmp_path, "e-s.xml", "", sent_id="t/5-s", text="Bez morfologii.")
 
     ścieżki = pliki(tmp_path)
-    całość = measure((read(path) for path in ścieżki), keep_examples=1, max_tokens=max_tokens)
-    kawałki = [measure([read(path)], keep_examples=1, max_tokens=max_tokens) for path in ścieżki]
+    całość = measure((read(path) for path in ścieżki), keep_examples=1)
+    kawałki = [measure([read(path)], keep_examples=1) for path in ścieżki]
     assert render(scal(kawałki, source="gold", keep_examples=1)) == render(całość)
 
 

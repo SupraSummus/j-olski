@@ -216,13 +216,19 @@ def measure(
     sentences: Iterable[Sentence],
     source: str = "gold",
     keep_examples: int = 0,
-    max_tokens: int | None = None,
 ) -> Report:
     """Run the grammar over corpus sentences and count what came back.
 
     Every forest seen is counted in the composition table, including the ones
     with no gold tree, so the annotated fraction stays visible next to the
     coverage figure computed from it.
+
+    Every annotated sentence is measured, however long, so the denominator under
+    the coverage figure is the whole annotated corpus. Length needs no bound
+    here: the forest counts readings by summing over root positions instead of
+    walking them, so a long sentence costs one chart however many readings it
+    admits. What the treebank's longest sentences cost is in
+    docs/corpus.md#the-measurement, beside the row they fall in.
     """
     if source not in SOURCES:
         raise ValueError(f"unknown morphology source: {source}")
@@ -230,9 +236,6 @@ def measure(
     for sentence in sentences:
         report.verdicts[sentence.verdict or "?"] += 1
         if not sentence.annotated:
-            continue
-        if max_tokens is not None and len(sentence.segments) > max_tokens:
-            report.skipped[f"longer than {max_tokens} tokens"] += 1
             continue
         segments = segments_for(sentence, source)
         if not segments:
@@ -264,14 +267,9 @@ def measure(
 KAWAŁEK = 64
 
 
-def _kawałek(
-    ścieżki: Sequence[Path],
-    source: str,
-    keep_examples: int,
-    max_tokens: int | None,
-) -> Report:
+def _kawałek(ścieżki: Sequence[Path], source: str, keep_examples: int) -> Report:
     """Odcinek listy plików, przeczytany i zmierzony tam, gdzie stoi."""
-    return measure((read(path) for path in ścieżki), source, keep_examples, max_tokens)
+    return measure((read(path) for path in ścieżki), source, keep_examples)
 
 
 def po_kawałkach(ścieżki: Sequence[Path], jobs: int, praca):
@@ -299,12 +297,9 @@ def przebieg(
     jobs: int,
     source: str = "gold",
     keep_examples: int = 0,
-    max_tokens: int | None = None,
 ) -> Report:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
-    praca = functools.partial(
-        _kawałek, source=source, keep_examples=keep_examples, max_tokens=max_tokens
-    )
+    praca = functools.partial(_kawałek, source=source, keep_examples=keep_examples)
     return scal(po_kawałkach(ścieżki, jobs, praca), source, keep_examples)
 
 
@@ -414,12 +409,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="gold tags from the treebank, or Morfeusz on the raw text",
     )
     parser.add_argument("--limit", type=int, help="stop after this many forests")
-    parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=40,
-        help="skip sentences longer than this, which the enumerator cannot afford",
-    )
     parser.add_argument("--blockers", type=int, default=12, help="how many blockers to rank")
     parser.add_argument("--examples", type=int, default=0, help="sentences to show per outcome")
     parser.add_argument(
@@ -443,7 +432,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.jobs,
         source=args.morphology,
         keep_examples=args.examples,
-        max_tokens=args.max_tokens,
     )
     print(render(report, args.blockers))
     return 0

@@ -72,11 +72,6 @@ SZCZELINA_W_LESIE = re.compile(f"<category>{SZCZELINA}</category>".encode())
 #: a tutaj trzeba przeczytać i to, co sonda wzięła za szczelinę, i to, co za ruch.
 PRZYKŁADY = 8
 
-#: Powyżej tego zdanie nie wchodzi, tak samo jak w ``olski-corpus``: granica
-#: postawiona tu inaczej dałaby mianownik nieporównywalny z tabelami
-#: ``docs/corpus.md``.
-MAX_TOKENS = 40
-
 #: Ile czytań zbierać po każdej stronie. Dwa, bo pytanie jest o to, czy czytanie
 #: jest jedno, i werdykt zamyka się na drugim. Liczba czytań ponad dwa nie wchodzi
 #: do tabeli przejść, a kosztuje przeszukanie całej przestrzeni tam, gdzie
@@ -198,7 +193,6 @@ def podłoże(segmenty: list, spójne: bool, budżet: float) -> str:
 def zmierz(
     ścieżki: Iterable[Path],
     przykłady: int = PRZYKŁADY,
-    max_tokens: int | None = MAX_TOKENS,
     budżet: float = BUDŻET,
 ) -> Raport:
     """Policz obie połowy pomiaru nad tymi lasami.
@@ -207,15 +201,17 @@ def zmierz(
     morfologia złota wchodzi do obu. Zdanie ze szczeliną i zdanie przyjęte przez
     olskiego są przy tym dwiema populacjami, a nie jedną: pierwsza mówi, ile
     nieciągłość kupuje, druga, ile kosztuje.
+
+    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    drzewem wzorcowym, bez granicy na długość. Podłoże więzowe zostaje przy tym
+    pod :data:`BUDŻET`, bo ograniczenia parsera tablicowego nie ma, a zdanie,
+    które budżetu nie dowiozło, wchodzi do tabeli jako urwane.
     """
     raport = Raport(przykłady)
     for ścieżka in ścieżki:
         forest = read_forest(ścieżka)
         zdanie = parse_forest(forest)
         if not zdanie.annotated:
-            continue
-        if max_tokens is not None and len(zdanie.segments) > max_tokens:
-            raport.pominięte[f"dłuższe niż {max_tokens} segmentów"] += 1
             continue
         segmenty = segments_for(zdanie, "gold")
         if not segmenty:
@@ -254,15 +250,14 @@ def zmierz(
     return raport
 
 
-def _kawałek(ścieżki: Sequence[Path], przykłady: int, max_tokens: int | None, budżet: float):
-    return zmierz(ścieżki, przykłady, max_tokens, budżet)
+def _kawałek(ścieżki: Sequence[Path], przykłady: int, budżet: float):
+    return zmierz(ścieżki, przykłady, budżet)
 
 
 def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
-    max_tokens: int | None = MAX_TOKENS,
     budżet: float = BUDŻET,
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
@@ -271,7 +266,7 @@ def przebieg(
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem tej sondy.
     """
-    praca = functools.partial(_kawałek, przykłady=przykłady, max_tokens=max_tokens, budżet=budżet)
+    praca = functools.partial(_kawałek, przykłady=przykłady, budżet=budżet)
     return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
 
 
@@ -373,12 +368,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
     parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
     parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=MAX_TOKENS,
-        help="pomiń zdania dłuższe niż tyle segmentów",
-    )
-    parser.add_argument(
         "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
     )
     parser.add_argument(
@@ -407,7 +396,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         pliki(root)[: args.limit],
         args.jobs,
         przykłady=args.przykłady,
-        max_tokens=args.max_tokens,
         budżet=args.budżet,
     )
     print(wydruk(raport, "Składnica, morfologia złota"))

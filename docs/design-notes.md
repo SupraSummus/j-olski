@@ -385,7 +385,7 @@ którym olski obiecuje jedno, a Świgra znalazła obok niego to drugie.
 Olski zostaje więc na szczeblu 2 [drabiny](#the-cost-ladder)
 i przestawiania nie wpuszcza.
 
-**Potrzeba: 323 zdania z 13 025.**
+**Potrzeba: 323 zdania z 13 035.**
 Świgra, gramatyka, z której powstała Składnica,
 zapisuje nieciągłość osobnym nieterminalem `ξ`:
 fraza stoi przy zdaniu, a wymaga jej coś w jego środku
@@ -468,7 +468,7 @@ Nieciągłość uderza więc w dwie rzeczy naraz:
 w tę listę, którą rozszerza na każdy rzeczownik zdania,
 i w rozróżnienie przydawki od orzecznika, które gramatyka utrzymuje szykiem.
 
-**Maskowanie: 127 zdań ze szczeliną odrzuconą, dwa z nich przyjęte.**
+**Maskowanie: 128 zdań ze szczeliną odrzuconą, dwa z nich przyjęte.**
 Odmowa nieciągłości ma cenę własną, o którą tamte trzy liczby nie pytają.
 Zdanie, którego drugie czytanie potrzebuje frazy nieciągłej,
 wychodzi olskiemu jednoznaczne, bo tego czytania nie ma czym wyprowadzić,
@@ -494,7 +494,7 @@ a jej granica biegnie po leksyce, nie po produkcjach.
 
 W Składnicy są tym zdania, którym annotator wybrał drzewo ciągłe,
 a Świgra znalazła obok niego analizę ze szczeliną.
-Takich zdań jest 127, czyli niecały procent zmierzonych,
+Takich zdań jest 128, czyli niecały procent zmierzonych,
 a olski przyjmuje z nich dwa, z których krótsze to
 `W dwunastu wypadkach kandydatury wojewodów miały być uzgodnione.`
 Kolejne dwa czyta wieloznacznie, więc tym niczego nie obiecuje.
@@ -504,7 +504,7 @@ tam szczelina jest czytaniem właściwym, a tutaj drugim z dwóch.
 Jest to górne oszacowanie, a nie odpowiedź.
 Annotator tamte analizy odrzucił,
 a korpus nie notuje, czy odrzucił je jako niemożliwe, czy jako drugie możliwe,
-więc zdań, w których czytelnik naprawdę ma dwa czytania, jest wśród tych 127 mniej.
+więc zdań, w których czytelnik naprawdę ma dwa czytania, jest wśród tych 128 mniej.
 Rozstrzyga każde takie zdanie człowiek, a nie przebieg,
 i jest to ta sama różnica między pozycją a czytelnikiem,
 którą nad rejestrem czyta próbką
@@ -529,7 +529,7 @@ a nie dokumentacją techniczną, do której olski jest kierowany.
 Wraca to rozwidlenie wtedy, gdy zakup przestanie być zerem,
 czyli gdy gramatyka odbierze zdaniom ze szczeliną ich dzisiejsze blokery.
 Maskowanie rośnie wtedy razem z zakupem i nie ma własnego wyzwalacza:
-dwójka jest dzisiaj mała dlatego, że olski odrzuca 123 z tych 127 zdań,
+dwójka jest dzisiaj mała dlatego, że olski odrzuca 124 z tych 128 zdań,
 a odrzuca je na tych samych częściach mowy, tyle że w innej kolejności:
 znak przestankowy, przysłówek i cząstka zamiast cząstki, znaku i bezokolicznika.
 Sonda liczy jedno i drugie razem z tymi blokerami po to,
@@ -598,7 +598,7 @@ czyli ten kształt wydruku, o którym [TODO.md](../TODO.md) pisze,
 że kanału na dwa czytania o jednym streszczeniu nie ma.
 
 **Kupuje przy tym jedną konstrukcję, a nie tę, po którą sięgano.**
-Nad 13 025 zdaniami Składnicy pod złotą morfologią
+Nad 13 035 zdaniami Składnicy pod złotą morfologią
 luka przypięta wyciąga z odrzucenia cztery zdania,
 odbiera jednoznaczność dwóm
 i jedno przenosi z odrzucenia w wieloznaczność.

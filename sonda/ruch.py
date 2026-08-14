@@ -47,11 +47,6 @@ from olski.subset import FRAGMENT, build, check
 #: o której nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
 PRZYKŁADY = 8
 
-#: Powyżej tego zdanie nie wchodzi, tak samo jak w ``olski-corpus``: enumerator
-#: nie ma na nie budżetu, a granica postawiona tu inaczej dałaby mianownik
-#: nieporównywalny z tabelami ``docs/corpus.md``.
-MAX_TOKENS = 40
-
 #: Werdykty w kolejności, w jakiej stoją w tabeli.
 STANY = ("valid", "ambiguous", "rejected")
 
@@ -246,15 +241,15 @@ def zmierz(
     sonda: Sonda,
     zdania: Iterable[Sentence],
     przykłady: int = PRZYKŁADY,
-    max_tokens: int | None = MAX_TOKENS,
 ) -> Raport:
-    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza."""
+    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
+
+    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    drzewem wzorcowym, bez granicy na długość.
+    """
     raport = Raport(sonda, przykłady)
     for zdanie in zdania:
         if not zdanie.annotated:
-            continue
-        if max_tokens is not None and len(zdanie.segments) > max_tokens:
-            raport.pominięte[f"dłuższe niż {max_tokens} segmentów"] += 1
             continue
         segmenty = list(zdanie.segments)
         if not segmenty:
@@ -300,8 +295,8 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     return raport
 
 
-def _kawałek(ścieżki: Sequence[Path], sonda: Sonda, przykłady: int, max_tokens: int | None):
-    return zmierz(sonda, (read(ścieżka) for ścieżka in ścieżki), przykłady, max_tokens)
+def _kawałek(ścieżki: Sequence[Path], sonda: Sonda, przykłady: int):
+    return zmierz(sonda, (read(ścieżka) for ścieżka in ścieżki), przykłady)
 
 
 def przebieg(
@@ -309,7 +304,6 @@ def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
-    max_tokens: int | None = MAX_TOKENS,
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
 
@@ -317,9 +311,7 @@ def przebieg(
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem sondy.
     """
-    praca = functools.partial(
-        _kawałek, sonda=sonda, przykłady=przykłady, max_tokens=max_tokens
-    )
+    praca = functools.partial(_kawałek, sonda=sonda, przykłady=przykłady)
     return scal(sonda, po_kawałkach(ścieżki, jobs, praca), przykłady)
 
 
@@ -416,12 +408,6 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
     parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=MAX_TOKENS,
-        help="pomiń zdania dłuższe niż tyle segmentów",
-    )
-    parser.add_argument(
         "--przykłady", type=int, default=PRZYKŁADY, help="ile zdań pokazać pod przejściem"
     )
     parser.add_argument(
@@ -441,7 +427,6 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
             pliki(ścieżka)[: args.limit],
             args.jobs,
             przykłady=args.przykłady,
-            max_tokens=args.max_tokens,
         )
         print(wydruk(raport, "Składnica, morfologia złota"))
         return 0

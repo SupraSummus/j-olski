@@ -69,11 +69,6 @@ WARIANTY = ("olski", "luka wszędzie", "luka kanoniczna")
 #: nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
 PRZYKŁADY = 6
 
-#: Powyżej tego zdanie nie wchodzi, tak samo jak w ``olski-corpus``: granica
-#: postawiona tu inaczej dałaby mianownik nieporównywalny z tabelami
-#: ``docs/corpus.md``.
-MAX_TOKENS = 40
-
 STANY = ("valid", "ambiguous", "rejected")
 
 
@@ -305,16 +300,15 @@ class Raport:
             zachowane.append(tekst)
 
 
-def zmierz(
-    zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY, max_tokens: int | None = MAX_TOKENS
-) -> Raport:
-    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza."""
+def zmierz(zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY) -> Raport:
+    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
+
+    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    drzewem wzorcowym, bez granicy na długość.
+    """
     raport = Raport(przykłady)
     for zdanie in zdania:
         if not zdanie.annotated:
-            continue
-        if max_tokens is not None and len(zdanie.segments) > max_tokens:
-            raport.pominięte[f"dłuższe niż {max_tokens} segmentów"] += 1
             continue
         segmenty = list(zdanie.segments)
         if not segmenty:
@@ -357,8 +351,8 @@ def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
     return raport
 
 
-def _kawałek(ścieżki: Sequence[Path], przykłady: int, max_tokens: int | None) -> Raport:
-    return zmierz((read(ścieżka) for ścieżka in ścieżki), przykłady, max_tokens)
+def _kawałek(ścieżki: Sequence[Path], przykłady: int) -> Raport:
+    return zmierz((read(ścieżka) for ścieżka in ścieżki), przykłady)
 
 
 def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
@@ -374,13 +368,8 @@ def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
     return scalony
 
 
-def przebieg(
-    ścieżki: Sequence[Path],
-    jobs: int,
-    przykłady: int = PRZYKŁADY,
-    max_tokens: int | None = MAX_TOKENS,
-) -> Raport:
-    praca = functools.partial(_kawałek, przykłady=przykłady, max_tokens=max_tokens)
+def przebieg(ścieżki: Sequence[Path], jobs: int, przykłady: int = PRZYKŁADY) -> Raport:
+    praca = functools.partial(_kawałek, przykłady=przykłady)
     return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
 
 
@@ -457,7 +446,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("-c", dest="zdania", help="zmierz te zdania zamiast korpusu")
     parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument("--max-tokens", type=int, default=MAX_TOKENS)
     parser.add_argument("--przykłady", type=int, default=PRZYKŁADY)
     parser.add_argument("--jobs", type=int, default=os.cpu_count() or 1)
     args = parser.parse_args(argv)
@@ -471,9 +459,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     ścieżka = Path(args.ścieżka)
     if ścieżka.is_dir():
-        raport = przebieg(
-            pliki(ścieżka)[: args.limit], args.jobs, args.przykłady, args.max_tokens
-        )
+        raport = przebieg(pliki(ścieżka)[: args.limit], args.jobs, args.przykłady)
         print(wydruk(raport, "Składnica, morfologia złota"))
         return 0
     if ścieżka.is_file():
