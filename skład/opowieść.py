@@ -31,9 +31,7 @@ dostaje pełną nazwę, a akapit jest tym, w czym „obok” się kończy.
 
 from __future__ import annotations
 
-from dataclasses import replace
-
-from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, pomijalny
+from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, po_poprzednim
 
 
 class Postać(Rola):
@@ -108,12 +106,14 @@ class Akapit:
         kto chce zdanie tego akapitu obejrzeć, a nie tylko wypisać:
         ``skład/przegląd.py`` jest pierwszym takim pytającym,
         a kopia tej pętli u niego mierzyłaby akapit, którego ten plik już nie składa.
+
+        Wydaje same zdania akapitu, a nie te, które stoją pod nimi;
+        po tamte schodzi ``Zdanie.konteksty``, biorąc kontekst wydany tutaj.
         """
         kontekst = Kontekst(czas=czas)
         poprzednie = None
         for zdanie in self.zdania:
-            pomijany = pomijalny(zdanie, poprzednie, kontekst)
-            yield zdanie, replace(kontekst, pomijany=pomijany)
+            yield zdanie, po_poprzednim(zdanie, poprzednie, kontekst)
             poprzednie = zdanie
 
     def kompiluj(self, czas: str) -> str:

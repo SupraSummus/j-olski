@@ -667,6 +667,29 @@ i wtedy zdanie nie mówi, która rola jest którą.
 Odpowiedzi biorą się z linearyzacji, bo wszystkie trzy są formami,
 a form skład nie zgaduje: wypisuje rolę drugi raz i porównuje napisy.
 
+**Z form, które w tekście stanęły**, a nie z tych, które to zdanie miałoby samo.
+Jedno drzewo wychodzi dwoma napisami, zależnie od miejsca, w którym się je wypisuje,
+a rozstrzyga o tym `Kontekst`: zdanie o tej samej postaci co zdanie obok
+podmiotu nie wypisuje, a zdanie wskazujące rzecz mówi o niej zaimkiem.
+Zdanie dostaje więc do pomiaru ten kontekst, którym linearyzacja je składała,
+i liczy się go tą samą drogą, bo druga mierzyłaby tekst,
+którego ten kompilator nie wypuścił.
+Zmienia to obie odpowiedzi i w obie strony.
+`Czeladnik zasłania sień, którą klucz zamyka.` ról nie miesza,
+bo `którą` różni się od `która`, choć `sień` od siebie samej się nie różni,
+a policzone z samej grupy imiennej dałoby tu zgłoszenie o wadzie,
+której w napisie nie ma.
+`Zamykała sień.` postawione po zdaniu o córce krawca ról nie oddaje,
+choć to samo zdanie napisane osobno oddaje je swoim podmiotem.
+
+Pytań zostaje wtedy dwa, bo pierwsze z trzech wyżej dotyczy formy podmiotu,
+a podmiot opuszczony żadnej swojej formy czytelnikowi nie pokazuje.
+Oba, które zostają, mierzą to, co widać: formę, którą uczestnik stanął,
+oraz formę czasownika, bo z niej właśnie czytelnik opuszczony podmiot odzyskuje.
+Zgłoszenie niesie przez to jeden napis zamiast dwóch —
+podmiot dopisany do niego byłby formą wziętą z drzewa,
+czyli dokładnie tym, czego ten przegląd nie mierzy.
+
 To jest ten sam pomiar, który stoi w `pomijalny`, i warto to nazwać.
 Tamten pyta, czy podmiot wróci czytelnikowi z formy czasownika,
 i liczy to, wypisując tę formę dla każdego, kto mógłby ją z niego wyciągnąć.
@@ -726,6 +749,8 @@ a przyczyną jest czas, w którym ta opowieść stoi.
 Czas przeszły niesie w polszczyźnie rodzaj, a teraźniejszy nie niesie żadnego,
 więc `Kufer zasłaniał lustro.` ma role przypięte,
 a `Kufer zasłania lustro.` nie ma ich wcale.
+Rodzaj przypina je także tam, gdzie podmiot z tekstu wypadł,
+i to on jest powodem, dla którego opuszczenia tej legendy nic nie kosztują.
 Trzyma to `tests/test_przegląd.py` i trzyma mimo swojej zerowej liczby,
 bo liczba ta jest tu odpowiedzią, a nie brakiem przypadków.
 
@@ -848,6 +873,15 @@ osoba podmiotem stojąca kolizji nie zrobi,
 bo biernik rzeczownika osobowego równa się dopełniaczowi, a nie mianownikowi.
 Wraca ta klasa wraz z rzeczą postawioną w tej roli — `Zegar zasłonił kufer.` —
 a rzecz w obsadzie jest, bo `Świeca zgasła.` jest zdaniem, którego makieta potrzebuje.
+
+Pyta się przy tym o zdanie stojące za poprzednim, a nie o zdanie stojące samo,
+i tego żąda opuszczanie podmiotu, którego makieta używa dla rytmu.
+Po `Kowal zasnął.` zdanie o tym samym kowalu wychodzi samym `Wziął nóż.`,
+gdzie nie widać już, czy nóż jest podmiotem, czy dopełnieniem,
+a osoba, którą obrona wyżej się tłumaczy, żadnej swojej formy tam nie pokazuje.
+Odsiew pyta więc o to, co akapit z tego zdania złoży,
+i o opuszczenie pyta ten sam `pomijalny`, którego zapyta za chwilę akapit,
+bo dwa warunki na jedno opuszczenie odsiewałyby jeden tekst, a składały drugi.
 
 Ustaleniem tej sekcji jest jednak co innego,
 i wychodzi ono z różnicy między tekstem losowanym a napisanym.

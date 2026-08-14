@@ -61,6 +61,7 @@ from skład.składnia import (
     Zdanie,
     byt,
     nie,
+    po_poprzednim,
     zdarzenie,
 )
 from skład.spójniki import SPÓJNIKI
@@ -359,11 +360,11 @@ def _akapit(los: random.Random) -> Akapit:
     a tożsamość niesie sama ``Postać``, nie lemat.
     """
     obsada = _obsada(los)
-    zdania = []
+    zdania: list[Zdanie] = []
     poprzedni = None
     for _ in range(los.randint(*ZDAŃ)):
         kształt = _kształt(los, poprzedni)
-        zdania.append(_bez_kolizji(los, kształt, obsada))
+        zdania.append(_bez_kolizji(los, kształt, obsada, zdania[-1] if zdania else None))
         poprzedni = kształt
     return Akapit(*zdania)
 
@@ -383,7 +384,7 @@ def _różne(los: random.Random, tabela: Sequence, ile: int) -> list:
     return wybrane
 
 
-def _bez_kolizji(los: random.Random, kształt, obsada: Obsada) -> Zdanie:
+def _bez_kolizji(los: random.Random, kształt, obsada: Obsada, poprzednie: Zdanie | None) -> Zdanie:
     """Zdanie tego kształtu, które czyta się jednym sposobem.
 
     Odsiewa ``skład/przegląd.py``, czyli to samo zgłoszenie, które autorowi
@@ -391,15 +392,25 @@ def _bez_kolizji(los: random.Random, kształt, obsada: Obsada) -> Zdanie:
     Autor dostaje je jako raport i sam rozstrzyga, a losowanie nie ma czego
     rozstrzygać, więc pyta o ten sam werdykt i losuje jeszcze raz.
 
-    Pętla się domyka, bo każde kolejne losowanie bierze podmiot od nowa,
-    a osoba podmiotem stojąca kolizji nie zrobi:
+    Pytane jest o zdanie stojące za poprzednim, a nie o zdanie stojące samo,
+    bo akapit opuszcza podmiot i wtedy pytanie ma inną odpowiedź:
+    po `Kowal zasnął.` zdanie o tym samym kowalu wychodzi samym `Wziął nóż.`,
+    a tam nie widać już, czy nóż jest podmiotem, czy dopełnieniem.
+    Kontekst liczy więc ``po_poprzednim``, czyli to samo, co zapyta akapit,
+    składając z tych zdań tekst.
+
+    Pętla się domyka, bo każde kolejne losowanie bierze role od nowa.
+    Podmiot wypisany kolizji nie zrobi, gdy jest nim osoba:
     biernik rzeczownika osobowego równa się dopełniaczowi, a nie mianownikowi,
     więc czytelnik wie, która rola jest którą, choćby dopełnienie brzmiało tak samo.
+    Podmiot opuszczony tej obrony nie ma, bo żadnej swojej formy nie pokazuje,
+    a zwalnia go forma dopełnienia albo podmiot wylosowany inny niż w zdaniu obok,
+    po którym opuszczenia nie ma wcale.
     """
     kontekst = Kontekst(czas=Opowieść.CZAS)
     while True:
         zdanie = kształt(los, obsada)
-        if not przejrzyj(zdanie, kontekst):
+        if not przejrzyj(zdanie, po_poprzednim(zdanie, poprzednie, kontekst)):
             return zdanie
 
 
