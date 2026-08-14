@@ -437,6 +437,81 @@ def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
     assert przyłączenie.gospodarze == gospodarze
 
 
+def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():
+    """Dwa czytania o jednym napisie mają zostać nazwane, a nie zostać samą liczbą.
+
+    Różni je tu czytanie słownikowe: `zainteresowana` jest i rzeczownikiem, a
+    `rada` formą `rad`, więc podmiotem jest w obu czytaniach ten sam napis. Bez
+    tego wiersza werdykt mówi samo `2 readings`, a `--readings` drukuje jedno
+    streszczenie dwa razy, co po werdykcie czyta się jak usterka narzędzia.
+    Zdanie jest z rejestru ustaw
+    (docs/ustawy.md#co-gramatyka-z-tego-wyprowadza).
+    """
+    found = verdict("Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.")
+    assert found.result.ile == 2, found.explain()
+    pierwsze, drugie = found.readings
+    assert pierwsze == drugie
+    [rozbieżność] = found.result.rozbieżności
+    assert (rozbieżność.konstytuent, rozbieżność.ile) == ("zainteresowana rada gminy", 2)
+    assert found.explain() == "2 readings; „zainteresowana rada gminy” reads 2 ways"
+
+
+def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
+    """Wpisów ma być tyle, ile wyborów, więc wybór nazwany raz nie wraca drugim wierszem.
+
+    Dwanaście czytań tego zdania składa się z trzech gospodarzy jednego
+    wyrażenia przyimkowego, dwóch drugiego i dwóch kształtów `ulicy Pomorskiej`,
+    a wieloznaczność zamknięta w zdaniu podrzędnym jest poza zasięgiem
+    streszczenia: wiersz o przyłączeniu granicy tego zdania nie zna, więc gdyby
+    ten wiersz szedł po samej granicy, wypisałby te same dwa wybory jeszcze raz,
+    konstytuentem długim na całe zdanie podrzędne. Zdanie jest ze Składnicy.
+    """
+    found = verdict(
+        "Władze miasta zapewniają, że remont kapitalny torowiska na ulicy Pomorskiej "
+        "rozpocznie się w pierwszej połowie bieżącego roku."
+    )
+    assert found.result.ile == 12, found.explain()
+    assert [p.modyfikator for p in found.result.przyłączenia] == [
+        "na ulicy Pomorskiej",
+        "w pierwszej połowie bieżącego roku",
+    ]
+    [rozbieżność] = found.result.rozbieżności
+    assert (rozbieżność.konstytuent, rozbieżność.ile) == ("ulicy Pomorskiej", 2)
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "ile", "konstytuent"),
+    [
+        (
+            "Podręczniki powinny uwzględniać zasadę równych praw kobiet i mężczyzn.",
+            7,
+            "równych praw kobiet",
+        ),
+        (
+            "Po upływie kadencji rady gminy zarząd działa do dnia wyboru nowego zarządu.",
+            3,
+            "nowego zarządu",
+        ),
+    ],
+)
+def test_wiersz_o_konstytuencie_nazywa_najwęższy_z_nich(zdanie: str, ile: int, konstytuent: str):
+    """Jeden wybór to jeden wiersz, choć wieloznaczność jednego słowa wychodzi w górę.
+
+    W pierwszym zdaniu `równych` jest przymiotnikiem albo rzeczownikiem, i przez
+    to czyta się dwoma sposobami `równych praw kobiet`, a trzema `równych praw
+    kobiet i mężczyzn`, czyli człon ciągu z drugiego czytania; sam ciąg wiersza
+    nie dostaje, bo granicę członu pokazuje nawias w napisie roli. W drugim
+    dwoma sposobami czyta się `nowego zarządu`, a przez to i `wyboru nowego
+    zarządu`, czyli konstytuent o innym początku. Naprawić trzeba w obu wypadkach
+    jedno słowo, więc wiersz jest jeden i nazywa napis najkrótszy. Pierwsze
+    zdanie jest ze Składnicy, drugie z ustawy o samorządzie gminnym
+    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem).
+    """
+    found = verdict(zdanie)
+    assert found.result.ile == ile, found.explain()
+    assert [r.konstytuent for r in found.result.rozbieżności] == [konstytuent]
+
+
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("Nieznane")])
@@ -1229,10 +1304,12 @@ def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
     #  wcale, więc `Object` wzięty ze zdania podrzędnego nazywa rolę, której to
     #  zdanie nie ma. Wiersz werdyktu łapie przy tym drugie podsumowanie: bez tej
     #  samej granicy ogłasza niezgodę o rolę, której lista czytań nie nazywa.
+    #  Wieloznaczność zostaje po tej stronie granicy nazwana konstytuentem, w
+    #  którym leży, i tym wierszem, a nie rolą tamtego zdania.
     found = verdict("Ustawa mówi, że organ gminy wydaje przepis.")
     assert found.result.ile == 2, found.explain()
     assert all("Object" not in reading for reading in found.readings)
-    assert found.explain() == "2 readings"
+    assert found.explain() == "2 readings; „organ gminy wydaje przepis” reads 2 ways"
 
 
 # --------------------------------------------------------------------------- #

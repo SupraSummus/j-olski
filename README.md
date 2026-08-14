@@ -99,8 +99,10 @@ Czytania szynki różnią się szykiem i tym, do czego dochodzi `z dodatkami`.
 Pierwsze i czwarte dzieli sam szyk,
 a podmiot jednego jest dopełnieniem drugiego.
 Wiersz werdyktu nazywa przy tym sam wybór, a nie wylicza jego skutków:
-wierszy jest tyle, ile zdanie zostawia nierozstrzygniętych przyłączeń,
+wierszy jest tyle, ile zdanie zostawia nierozstrzygniętych wyborów,
 a czytań bywa tyle, ile ich iloczyn.
+Wyborem jest tu przyłączenie, a nad innym zdaniem bywa nim konstytuent,
+który czyta się kilkoma sposobami tam, gdzie streszczenie nie zagląda.
 
 Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim:
 `Nowa program` nie ma wyprowadzenia,

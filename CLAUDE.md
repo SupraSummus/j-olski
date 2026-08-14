@@ -649,6 +649,19 @@ and corrects the sentences under them,
 and that includes a commit whose subject is anything else —
 a paragraph added about a new capability moves the count exactly as a rewrite does.
 
+A printed run has a third mover, and it is neither the grammar nor the prose:
+what the verdict prints beside its counts.
+A row added to `explain` in `olski/subset.py`,
+or a field added to `Deklaracja` in `olski/parse.py`,
+moves the blocks quoted in the README,
+in [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+and in [`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+while every count in them stands still,
+so the reruns above answer nothing and the blocks have to be taken again by hand.
+Such a change is also owed the arithmetic under those blocks:
+a document saying how many of a sentence's readings the verdict explains
+is counting rows, and one row more multiplies that number.
+
 Two figures over that treebank live in `docs/subset.md` instead,
 where [what prepositional attachment costs](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
 counts the productions that give it a position

@@ -228,14 +228,17 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Six sentences of that README derive once, and three derive twice.
+Six sentences of that README derive once, and three derive more than once.
 The three are one class between them, which `--readings` is what shows:
-two readings olski has and a reader does not.
+readings olski has and a reader does not.
 Two hang a prepositional phrase where either the noun or the verb could host it,
 and the third reads a nominative as an accusative,
 which are the two classes
 [open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 counts over a whole register.
+One of the three carries both at once and eight readings with them,
+the attachment multiplied by the case read twice over,
+once in each of its two clauses.
 What stops the rest is the table above in another order:
 the colon and the adverb at the front, subordinators just behind them,
 then the Polish form Morfeusz does not know,
