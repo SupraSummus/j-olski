@@ -6,9 +6,9 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.subset import check
-from skład import Postać, Robi, kompiluj
+from skład import Kontekst, Postać, Robi, kompiluj
 from skład.rozbiór import obieg, rozbierz, sygnatura
-from skład.słownik import A, Dokąd, Gdzie, Kiedy, R, V, jest, potem, razem
+from skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, V, jest, potem, razem
 
 
 @pytest.mark.parametrize(
@@ -30,11 +30,24 @@ def test_drzewo_wraca_z_napisu_który_z_niego_wyszedł(drzewo):
     """Niezmiennik obiegu na tych drzewach, których obejmują oba tory naraz.
 
     Lista jest listą przypadków, a nie gwarancją, i przecięciem dwóch pokryć:
-    czas przeszły ma tylko skład, a przymiotnik po rzeczowniku tylko gramatyka,
-    więc stoi tu czas teraźniejszy i to, co mówią oba.
+    przymiotnik po rzeczowniku ma tylko gramatyka, a przysłówek tylko skład,
+    więc stoi tu to, co mówią oba.
     """
     przebieg = obieg(drzewo)
     assert przebieg.wróciło, przebieg.opisz()
+
+
+def test_czas_jest_własnością_opowiadania_i_obieg_zamyka_się_w_obu():
+    """Czas jest w kontekście, a nie w drzewie, i to samo drzewo wraca z obu napisów.
+
+    To drzewo stoi w liście wyżej, czyli w czasie teraźniejszym,
+    a tutaj wraca z napisu, który dałaby mu opowieść.
+    Jest to jedyne miejsce w tym pliku, w którym obieg biegnie poza ``TERAZ``.
+    """
+    drzewo = V.mieszkać(R.kot, Gdzie.w(R.piwnica))
+    kiedyś = obieg(drzewo, Kontekst(czas="kiedyś"))
+    assert kiedyś.napis == "Kot mieszkał w piwnicy."
+    assert kiedyś.wróciło, kiedyś.opisz()
 
 
 def test_wyróżnienie_wraca_z_szyku_bo_szyk_jest_tym_co_ono_niesie():
@@ -59,7 +72,7 @@ def test_lemat_i_liczba_biorą_się_z_formy_a_nie_z_wyprowadzenia_które_został
     więc rozbiór czytający lemat z liścia dostaje to, które przyszło pierwsze.
     Zdanie to wraca stąd oboma drzewami i żadne z nich nie jest wyborem tego pliku.
     """
-    drzewa = [sygnatura(drzewo) for drzewo in rozbierz("Kot mieszka w piwnicy.")]
+    drzewa = [sygnatura(drzewo) for drzewo in rozbierz("Kot mieszka w piwnicy.").drzewa]
     assert sygnatura(V.mieszkać(R.kot, Gdzie.w(R.piwnica))) in drzewa
     assert sygnatura(V.mieszkać(R.Kot, Gdzie.w(R.piwnica))) in drzewa
 
@@ -71,7 +84,7 @@ def test_relacja_okolicznika_wraca_każda_którą_ta_forma_dopuszcza():
     miejscownik po ``w`` stoi w relacji czasu i miejsca naraz,
     a relacja celu żąda biernika, którego w tym zdaniu nie ma.
     """
-    drzewa = [sygnatura(drzewo) for drzewo in rozbierz("Kot mieszka w piwnicy.")]
+    drzewa = [sygnatura(drzewo) for drzewo in rozbierz("Kot mieszka w piwnicy.").drzewa]
     assert sygnatura(V.mieszkać(R.kot, Kiedy.w(R.piwnica))) in drzewa
     assert sygnatura(V.mieszkać(R.kot, Dokąd.w(R.piwnica))) not in drzewa
 
@@ -85,6 +98,7 @@ def test_relacja_okolicznika_wraca_każda_którą_ta_forma_dopuszcza():
         "Ludzie są wolni.",
         "Program albo linter sprawdza tekst.",
         "Linter pomaga pisać dobry kod.",
+        "Program, który zapisuje ustawienia, sprawdza tekst.",
     ],
 )
 def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie):
@@ -95,7 +109,38 @@ def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie)
     a mierzy się tu tę drugą.
     """
     assert check(zdanie)[0].status in ("valid", "ambiguous")
-    assert rozbierz(zdanie) == ()
+    assert rozbierz(zdanie).drzewa == ()
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "powód"),
+    [
+        ("Program, który zapisuje ustawienia, sprawdza tekst.", "RelativeClause"),
+        ("Zapisz plik.", "w pozycji Verb"),
+    ],
+)
+def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
+    """Dwa miejsca, w których pusta odpowiedź powstaje bez zgłoszenia po drodze.
+
+    Zdanie względne jest ciałem produkcji, którego ten zapis nie czyta,
+    a rozkaźnik nie ma lematu, którym ten zapis wypisuje czasownik,
+    więc pierwsze wypada przy dopasowaniu ciała, a drugie na pustym iloczynie.
+    Powód nazywa jedno i drugie, bo bez niego obie drogi wyglądają tak samo.
+    """
+    odczyt = rozbierz(zdanie)
+    assert any(powód in mówi for mówi in odczyt.powody), odczyt.powody
+
+
+def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
+    """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
+
+    Przysłówek ma tylko skład, więc to zdanie nie ma ani jednego czytania,
+    i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
+    """
+    przebieg = obieg(V.mieszkać(R.kot, D.nagle))
+    assert przebieg.napis == "Kot mieszka nagle."
+    assert not przebieg.wróciło
+    assert "gramatyka olskiego nie wyprowadza" in przebieg.opisz()
 
 
 def test_z_dwóch_przyłączeń_wraca_to_jedno_które_ten_zapis_ma():
@@ -107,7 +152,7 @@ def test_z_dwóch_przyłączeń_wraca_to_jedno_które_ten_zapis_ma():
     """
     zdanie = "Program zapisuje ustawienia w repozytorium."
     assert check(zdanie)[0].status == "ambiguous"
-    drzewa = rozbierz(zdanie)
+    drzewa = rozbierz(zdanie).drzewa
     assert drzewa
     assert all(isinstance(drzewo, Robi) and len(drzewo.okoliczniki) == 1 for drzewo in drzewa)
 
