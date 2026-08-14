@@ -2,10 +2,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-import skład.składnia as składnia
-from olski.subset import WALENCJA, check
-from olski.walencja import bierze_biernik
-from skład import (
+import olski.skład.składnia as składnia
+from olski.skład import (
     BrakFormy,
     Byt,
     Czyj,
@@ -19,9 +17,9 @@ from skład import (
     nie,
     odmień,
 )
-from skład.przegląd import przejrzyj
-from skład.składnia import Jest, Robi
-from skład.słownik import (
+from olski.skład.przegląd import przejrzyj
+from olski.skład.składnia import Jest, Robi
+from olski.skład.słownik import (
     A,
     Czym,
     D,
@@ -37,6 +35,8 @@ from skład.słownik import (
     potem,
     razem,
 )
+from olski.subset import WALENCJA, check
+from olski.walencja import bierze_biernik
 
 
 def test_zgodność_jest_liczona_a_nie_żądana_od_autora():
@@ -195,7 +195,7 @@ def test_liczba_mnoga_jest_powodem_dla_którego_tamte_czytają_się_raz(drzewo, 
     a jest listą pięciu zdań, w których liczba i narzędnik rozstrzygnęły za nią.
 
     Czytanie samo w sobie nie jest tu usterką i dlatego nie ma tu odmowy:
-    czym jest, mówi ``skład/przegląd.py``, a ile tego wychodzi, liczy ten moduł.
+    czym jest, mówi ``olski/skład/przegląd.py``, a ile tego wychodzi, liczy ten moduł.
     """
     tekst = kompiluj(drzewo)
     assert tekst == zdanie

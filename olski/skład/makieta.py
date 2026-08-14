@@ -6,7 +6,7 @@ polskie słowo jest dłuższe, odmienia się i inaczej łamie wiersz.
 Losowane jest tu drzewo, a nie napis, bo gramatyczności nie ma czym naruszyć —
 zgodność w tym kierunku jest policzona, a nie sprawdzona.
 Odsiewa się jedno, czyli zdanie, z którego czytelnik nie odzyska ról,
-i pyta o to ``skład/przegląd.py``.
+i pyta o to ``olski/skład/przegląd.py``.
 Po co ten moduł jest i czego zażądał od tego pakietu, mówi ``docs/sklad.md``.
 
 Sensu ten moduł nie pilnuje i pilnować nie ma.
@@ -20,18 +20,18 @@ jest przy tym faktem o każdym drzewie, a nie o tym jednym programie,
 i mówi o tym ``docs/sklad.md`` wraz z tym, gdzie taki fakt należy.
 
 Rytm jest za to wyborem, bo makieta pokazuje właśnie go.
-Kształty zdania wyczerpują kategorie, które niesie ``skład.składnia``,
+Kształty zdania wyczerpują kategorie, które niesie ``olski.skład.składnia``,
 a ten sam nie wypada dwa razy pod rząd,
 bo jednostajność jest usterką i wylicza ją ``docs/fiction.md``.
 Obsadę akapitu niosą ``Postać``, bo dopiero one pozwalają opuścić podmiot,
 a tekst, w którym każde zdanie powtarza swój podmiot, czyta się jak lista.
 
-Warstwy nazw z ``skład/słownik.py`` ten moduł nie woła i nie ma po co:
+Warstwy nazw z ``olski/skład/słownik.py`` ten moduł nie woła i nie ma po co:
 tamten zapis zamienia lemat na nazwę atrybutu dla tego, kto drzewo pisze,
 a program trzymający lematy w tabeli woła konstruktory wprost.
 
-    python3 -m skład.makieta --akapity 3
-    python3 -m skład.makieta --ziarno 1871
+    python3 -m olski.skład.makieta --akapity 3
+    python3 -m olski.skład.makieta --ziarno 1871
 """
 
 from __future__ import annotations
@@ -43,10 +43,10 @@ import sys
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from skład.morfologia import rodzaj_rzeczownika
-from skład.opowieść import Akapit, Opowieść, Postać
-from skład.przegląd import przejrzyj
-from skład.składnia import (
+from olski.skład.morfologia import rodzaj_rzeczownika
+from olski.skład.opowieść import Akapit, Opowieść, Postać
+from olski.skład.przegląd import przejrzyj
+from olski.skład.składnia import (
     Byt,
     Ciąg,
     Czyj,
@@ -64,7 +64,7 @@ from skład.składnia import (
     po_poprzednim,
     zdarzenie,
 )
-from skład.spójniki import SPÓJNIKI
+from olski.skład.spójniki import SPÓJNIKI
 
 #: Ludzie, czyli te lematy, które w tekście robią coś komuś innemu.
 #: Rodzaj rozdziela się tu z rozmysłu, bo czas przeszły go niesie
@@ -145,7 +145,7 @@ BUDOWLE = ("brama", "kamienica", "karczma", "most", "młyn", "wieża")
 PORY = ("ranek", "świt", "wieczór", "zmierzch")
 
 #: Pory, przed którymi staje ``w``, a jest to jedna: `w nocy`.
-#: Wpis ``("w", "czas")`` w ``skład/przyimki.py`` powstał dla tego słowa
+#: Wpis ``("w", "czas")`` w ``olski/skład/przyimki.py`` powstał dla tego słowa
 #: i dla niego jednego działa, bo `w wieczorze` zdaniem polskim nie jest,
 #: więc tabela wymienia to słowo, zamiast liczyć na relację.
 PORY_W_MIEJSCOWNIKU = ("noc",)
@@ -177,7 +177,7 @@ CECHY_OSÓB = ("cichy", "duży", "mały", "młody", "stary")
 
 #: Przysłówki, czyli okoliczność wyrażona jednym słowem.
 #: Tabela wymienia te, którym SGJP daje znakowanie przysłówkowe,
-#: bo ``Przysłówek`` w ``skład/składnia.py`` żąda go wraz ze stopniem równym,
+#: bo ``Przysłówek`` w ``olski/skład/składnia.py`` żąda go wraz ze stopniem równym,
 #: a `znowu` niesie samą partykułę i zgłosiłoby ``BrakFormy``.
 #: `długo` tej tabeli nie ma, bo trwanie żąda czasownika niedokonanego,
 #: a `kupił klucz długo` jest tą samą usterką co `zaczął zapłakać`.
@@ -239,7 +239,7 @@ CZYNY_ZE_ZDANIEM = (
 #: Tabela idzie razem ze słowem, bo relacja o niej nie rozstrzyga:
 #: `od sąsiada` i `od studni` stoją w jednej relacji, a druga z tych par
 #: nie jest tym, czego szuka zdanie o tym, skąd ktoś coś wziął.
-#: Para słowa z relacją ma świadka w ``skład/przyimki.py``,
+#: Para słowa z relacją ma świadka w ``olski/skład/przyimki.py``,
 #: więc wiersz, który tam nie stoi, zgłasza się w ``tests/test_makieta.py``.
 #: Czas stoi osobno, bo przyjmuje go każde zdarzenie, a miejsca i celu nie:
 #: `wrócił wieczorem` mówi to samo przy ruchu i przy staniu.
@@ -276,7 +276,7 @@ OKOLICZNOŚCI_CZYNNE = (*OKOLICZNOŚCI, ("", "narzędzie", RZECZY))
 
 #: Spójniki, którymi okoliczność wyrażona zdarzeniem wchodzi do zdania.
 #: Wychodzą one z leksykonu, a nie z drugiej tabeli tutaj,
-#: bo o tym, które słowo w której relacji stoi, rozstrzyga ``skład/spójniki.py``,
+#: bo o tym, które słowo w której relacji stoi, rozstrzyga ``olski/skład/spójniki.py``,
 #: a spójnik dopisany tam ma wejść do makiety bez drugiego wpisu.
 SPÓJNIKI_OKOLICZNOŚCI = tuple(SPÓJNIKI)
 
@@ -305,7 +305,7 @@ def losuj(ziarno: int, akapitów: int = 4) -> Opowieść:
     """Opowieść o niczym, ta sama za każdym razem, gdy ziarno jest to samo.
 
     Opowieścią, a nie tekstem o tym, co się dzieje, bo drugiego konstruktora
-    ``skład/opowieść.py`` nie ma, a czas przeszły niesie rodzaj,
+    ``olski/skład/opowieść.py`` nie ma, a czas przeszły niesie rodzaj,
     więc daje makiecie i rytm, i role przypięte do czasownika.
     """
     los = random.Random(ziarno)
@@ -355,7 +355,7 @@ def _akapit(los: random.Random) -> Akapit:
     """Akapit wraz z obsadą, do której wracają jego zdania.
 
     Obsada jest tu po to, żeby akapit czytał się jak akapit:
-    ``pomijalny`` w ``skład/składnia.py`` opuszcza podmiot dopiero wtedy,
+    ``pomijalny`` w ``olski/skład/składnia.py`` opuszcza podmiot dopiero wtedy,
     gdy dwa zdania obok siebie mówią o tej samej rzeczy,
     a tożsamość niesie sama ``Postać``, nie lemat.
     """
@@ -387,7 +387,7 @@ def _różne(los: random.Random, tabela: Sequence, ile: int) -> list:
 def _bez_kolizji(los: random.Random, kształt, obsada: Obsada, poprzednie: Zdanie | None) -> Zdanie:
     """Zdanie tego kształtu, które czyta się jednym sposobem.
 
-    Odsiewa ``skład/przegląd.py``, czyli to samo zgłoszenie, które autorowi
+    Odsiewa ``olski/skład/przegląd.py``, czyli to samo zgłoszenie, które autorowi
     mówi, że jego napis nie oddaje ról z drzewa.
     Autor dostaje je jako raport i sam rozstrzyga, a losowanie nie ma czego
     rozstrzygać, więc pyta o ten sam werdykt i losuje jeszcze raz.

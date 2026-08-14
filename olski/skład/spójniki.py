@@ -2,7 +2,7 @@
 
 Przyimek stoi przed rzeczą, a spójnik przed zdarzeniem,
 i jedno, i drugie jest słowem, którym relacja wychodzi na wierzch,
-więc ten plik jest tym samym co ``skład/przyimki.py`` o piętro wyżej.
+więc ten plik jest tym samym co ``olski/skład/przyimki.py`` o piętro wyżej.
 Relacja przy tym się nie zmienia: ``w nocy`` i ``gdy zapadła noc``
 odpowiadają na jedno pytanie i różnią się tym, co pod tym pytaniem stoi.
 
@@ -48,7 +48,7 @@ def wprowadza(spójnik: str, relacja: str) -> bool:
     """Czy tym słowem polszczyzna wprowadza zdarzenie stojące w tej relacji.
 
     Odpowiedzią jest prawda albo fałsz, a nie wyjątek,
-    bo zgłasza go konstruktor okolicznika w ``skład/składnia.py``,
+    bo zgłasza go konstruktor okolicznika w ``olski/skład/składnia.py``,
     czyli to samo miejsce, które zgłasza milczenie leksykonu przyimków.
     """
     return (spójnik, relacja) in SPÓJNIKI

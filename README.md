@@ -135,8 +135,8 @@ Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie,
 a z kilku drzew postawionych obok siebie wychodzi tekst.
 
 ```python
-from skład import kompiluj
-from skład.słownik import A, R, V, jest
+from olski.skład import kompiluj
+from olski.skład.słownik import A, R, V, jest
 
 kompiluj(jest(R.parser / R.podzbiór, R.cel))     # Parser podzbioru jest celem.
 kompiluj(V.sprawdzać(R.parser, ~(A.polski * R.tekst)))  # Parser sprawdza polskie teksty.
@@ -154,8 +154,8 @@ Pierwsze daje czas przeszły,
 a drugie podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
 
 ```python
-from skład import Akapit, Opowieść, Postać
-from skład.słownik import A, Gdzie, R, V, razem
+from olski.skład import Akapit, Opowieść, Postać
+from olski.skład.słownik import A, Gdzie, R, V, razem
 
 bazyliszek = Postać(R.bazyliszek)
 Opowieść(Akapit(
@@ -176,7 +176,7 @@ Tym samym kompilatorem wychodzi tekst do makiety,
 czyli to, po co zwykle sięga się do łacińskiej sieczki:
 
 ```sh
-python3 -m skład.makieta --ziarno 1871 --akapity 1
+python3 -m olski.skład.makieta --ziarno 1871 --akapity 1
 ```
 
 ```text

@@ -28,7 +28,7 @@ leksemy jednego lematu, które w żądanej komórce nie zgadzają się co do for
 Leksem, którego SGJP nie zna, nie ma ani jednej formy,
 więc literówka w identyfikatorze zgłasza się w ``tests/test_leksemy.py``,
 a nie na zdaniu, które z tego wpisu wyjdzie.
-Czego świadek nie sprawdza, jest doborem, tak jak w ``skład/przyimki.py``:
+Czego świadek nie sprawdza, jest doborem, tak jak w ``olski/skład/przyimki.py``:
 że goła nazwa ``oko`` znaczy oko, a nie oczko w sieci,
 rozstrzyga ten plik i nic poza nim.
 """
@@ -49,7 +49,7 @@ def leksem(nazwa: str) -> str:
     """Identyfikator leksemu, którym ta nazwa jest, albo nazwa nietknięta.
 
     Milczenie leksykonu jest tu zgodą na to, co słownik ma pod tym napisem,
-    a nie brakiem wiedzy, i tym ten plik różni się od ``skład/przyimki.py``:
+    a nie brakiem wiedzy, i tym ten plik różni się od ``olski/skład/przyimki.py``:
     tamten milczy o przyimku, którego nie zna, i milczenie zgłasza wyjątkiem,
     a tutaj większość nazw jest lematami o jednym leksemie
     i wpis byłby dla nich powtórzeniem napisu.

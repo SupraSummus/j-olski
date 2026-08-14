@@ -532,7 +532,7 @@ a poprawka wewnątrz linearyzacji sięga wszystkich drzew, nie ruszając żadneg
 więc kolejność jest tu ceną przepisywania, a nie rankingiem ważności.
 
 **Wyjście:** każde zdanie [README](../README.md) wychodzi znak w znak
-z drzewa napisanego w kategoriach `skład.składnia`,
+z drzewa napisanego w kategoriach `olski.skład.składnia`,
 a pokazuje to polecenie, które jedno z drugim porównuje.
 
 ### Etap 0: skład, który stoi
@@ -542,7 +542,7 @@ i morfologia wzięta z Morfeusza czytanego w drugą stronę.
 
 **Wyjście:** drzewo złożone z konstruktorów wypuszcza polskie zdanie,
 a forma, której słownik nie ma, zgłasza się wyjątkiem, zamiast zostać zgadnięta.
-Zaliczone, zob. `skład/` oraz [sklad.md](sklad.md).
+Zaliczone, zob. `olski/skład/` oraz [sklad.md](sklad.md).
 
 ### Etap 1: temat i remat
 
@@ -557,7 +557,7 @@ i tyle wystarcza na oba szyki orzeczenia imiennego oraz na zdanie prezentujące,
 czyli takie, które nową rzecz odsyła na koniec.
 
 Wewnątrz grupy imiennej nie niesie tego nic:
-`Jaki` w `skład/składnia.py` stawia przymiotnik przed rzeczownikiem zawsze,
+`Jaki` w `olski/skład/składnia.py` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to na jednej frazie, bez żadnego pomiaru:
 README pisze `kontrolowanych języków naturalnych`,
@@ -578,7 +578,7 @@ tak jak biorą się z nich oba szyki orzeczenia imiennego.
 Rama czasownika jest faktem o słowie, a nie o kierunku, w którym się go używa,
 więc oba kierunki czytają `olski/leksykon.txt` przez `olski/walencja.py`:
 parser robi z niego klasy walencyjne, bo z klasy powstaje produkcja,
-a `Robi` w `skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewie.
+a `Robi` w `olski/skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewie.
 `V.pomagać(R.linter, A.dobry * R.kod)` zgłasza się więc zamiast wypuścić
 `Linter pomaga dobry kod.`
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi:
@@ -593,11 +593,11 @@ a leksykon dopisany przed nimi sprawdza się naraz wobec wszystkich.
 **Wyjście:** rama czasownika przychodzi z leksykonu,
 a drzewo żądające dopełnienia od czasownika, który go nie bierze,
 zgłasza się zamiast wypuścić zdanie, którego polszczyzna nie ma.
-Zaliczone, zob. `olski/walencja.py` oraz `PozaRamą` w `skład/składnia.py`.
+Zaliczone, zob. `olski/walencja.py` oraz `PozaRamą` w `olski/skład/składnia.py`.
 
 ### Etap 3: lemat nie wskazuje formy
 
-`odmień` w `skład/morfologia.py` bierze pierwszą z form, które żądaniu odpowiadają,
+`odmień` w `olski/skład/morfologia.py` bierze pierwszą z form, które żądaniu odpowiadają,
 a odpowiada ich kilka z trzech różnych powodów, i tylko trzeci jest wyborem.
 
 Pierwszym jest kwalifikator, którym słownik odsyła formę poza ten rejestr,
@@ -608,7 +608,7 @@ nazwa dziedziny formy poza rejestr nie odsyła, więc `oczy` zostają, a `które
 Drugim jest leksem, którego lemat nie wskazuje,
 bo jednym napisem odmieniają się dwie rzeczy o różnej odmianie.
 Kryterium na tę klasę nie stoi w danych, bo rozstrzyga o nim autor,
-więc stoi w `skład/leksemy.py`, czyli w nazwach wybranych nad identyfikatorami,
+więc stoi w `olski/skład/leksemy.py`, czyli w nazwach wybranych nad identyfikatorami,
 a `odmień` pyta o rozstrzygnięcie tam, gdzie leksemy dają różne formy.
 Trzecim jest wybór, który po tamtych dwóch zostaje,
 i dopiero on wymaga rozstrzygnięcia, czym ma być.
@@ -623,7 +623,7 @@ leksem jest tym, co drzewo nazywa,
 a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
 Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` oraz `WieleLeksemów`
-w `skład/morfologia.py`, wraz z
+w `olski/skład/morfologia.py`, wraz z
 [kwalifikatorem](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
 oraz [nazwą leksemu](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
 kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym
@@ -653,7 +653,7 @@ Zaimek wskazujący i liczebnik.
 Negacja wraz z dopełniaczem negacji, koordynacja bytów i zdarzeń,
 wyrażenie przyimkowe, przysłówek, przydawka zdaniowa,
 okolicznik wyrażony zdarzeniem, bezokolicznik po czasowniku
-oraz treść czyjegoś sądu stoją już w `skład/składnia.py`.
+oraz treść czyjegoś sądu stoją już w `olski/skład/składnia.py`.
 
 Kolejki nie ustawia tu żaden bank drzew,
 i to jest różnica między tym torem a tamtym, a nie brak pomiaru.
@@ -692,7 +692,7 @@ a jego miejsce w repozytorium jest do rozstrzygnięcia,
 bo reguły tej warstwy stały po stronie sprawdzania,
 w pakiecie, który wyszedł razem z torem lintera.
 
-Etapem nie jest także warstwa nad zdaniem, czyli `skład/opowieść.py`,
+Etapem nie jest także warstwa nad zdaniem, czyli `olski/skład/opowieść.py`,
 choć stoi i choć wypuszcza czas przeszły oraz opuszczony podmiot.
 Jest tak dlatego, że numeracja tego toru liczy to, czego brakuje jednemu zdaniu,
 a te dwie rzeczy są własnościami tekstu i żadne zdanie ich w sobie nie ma:
@@ -700,7 +700,7 @@ zdanie nie wie, kiedy to było, ani o kim mowa była przed chwilą.
 Wywód trzyma
 [sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
 
-Etapem nie jest wreszcie `skład/makieta.py`, czyli tekst do makiety losowany z drzew,
+Etapem nie jest wreszcie `olski/skład/makieta.py`, czyli tekst do makiety losowany z drzew,
 bo kryterium tego toru mierzy zdanie napisane, a losowanie mierzy co innego:
 pokazuje, których faktów o polszczyźnie nie ma tu żaden leksykon,
 i pokazuje je dlatego, że autor drzewa wybiera je, nie zauważając, że wybrał.

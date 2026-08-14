@@ -5,10 +5,10 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from olski.skład import Kontekst, Postać, Robi, kompiluj
+from olski.skład.rozbiór import obieg, rozbierz, sygnatura
+from olski.skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, V, jest, potem, razem
 from olski.subset import check
-from skład import Kontekst, Postać, Robi, kompiluj
-from skład.rozbiór import obieg, rozbierz, sygnatura
-from skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, V, jest, potem, razem
 
 
 @pytest.mark.parametrize(
@@ -176,12 +176,14 @@ def test_tożsamość_wraca_stamtąd_gdzie_napis_ją_niesie():
 def test_import_składu_nie_woła_parsera():
     """Parser jest tu świadkiem, a nie zależnością, i widać to na tym, co się importuje.
 
-    ``skład/rozbiór.py`` czyta gramatykę, więc dopisany do ``skład/__init__.py``
+    ``olski/skład/rozbiór.py`` czyta gramatykę, więc dopisany do ``olski/skład/__init__.py``
     kazałby ją zbudować każdemu, kto sięga po sam kompilator.
+    Import podpakietu przechodzi przez pakiet nadrzędny,
+    więc ten test pyta o ``olski/__init__.py`` tak samo.
     Liczone jest to w osobnym procesie, bo w tym gramatykę zaimportowały
     testy stojące obok.
     """
-    kod = "import skład, sys; print('olski.subset' in sys.modules)"
+    kod = "import olski.skład, sys; print('olski.subset' in sys.modules)"
     przebieg = subprocess.run([sys.executable, "-c", kod], capture_output=True, text=True)
     assert przebieg.stdout.strip() == "False", przebieg.stderr
 

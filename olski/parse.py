@@ -113,7 +113,7 @@ class Leaf:
     #: gramatyki, a wyborem kolejności czytań z analizatora
     #: (:meth:`Node.signature` mówi, dlaczego tak może być).
     #: Kto pyta o lemat, tym wyborem wiązać się nie powinien:
-    #: ``skład/rozbiór.py`` pyta o lemat krawędź grafu i mówi, po co.
+    #: ``olski/skład/rozbiór.py`` pyta o lemat krawędź grafu i mówi, po co.
     reading: Reading
 
     @property

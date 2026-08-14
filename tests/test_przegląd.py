@@ -2,14 +2,14 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from olski.skład import kompiluj
+from olski.skład.opowieść import Akapit, Postać
+from olski.skład.przegląd import przejrzyj
+from olski.skład.składnia import TERAZ, Kontekst, Rzecz, byt, nie
+from olski.skład.słownik import Dokąd, Kiedy, R, V, jest, opis, potem
 from olski.subset import check
 from olski.wieloznaczność import miejsca
 from opowieści.bazyliszek import OPOWIEŚĆ
-from skład import kompiluj
-from skład.opowieść import Akapit, Postać
-from skład.przegląd import przejrzyj
-from skład.składnia import TERAZ, Kontekst, Rzecz, byt, nie
-from skład.słownik import Dokąd, Kiedy, R, V, jest, opis, potem
 
 
 def kolizje(drzewo, kontekst=TERAZ):

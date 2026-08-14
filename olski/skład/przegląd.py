@@ -21,7 +21,7 @@ podmiot bywa opuszczony, a rzecz wskazana wychodzi zaimkiem.
 Zdanie mierzone jako stojące samo jest przez to innym zdaniem
 niż to, które autor dostał, i te dwa mają różne role widoczne.
 
-Jest to ten sam pomiar, który stoi w ``pomijalny`` w ``skład/składnia.py``,
+Jest to ten sam pomiar, który stoi w ``pomijalny`` w ``olski/skład/składnia.py``,
 i wart jest tego, żeby to nazwać.
 Tamten pyta, czy podmiot wróci czytelnikowi z formy czasownika,
 i liczy to tak, że wypisuje formę dla każdego, kto mógłby ją wyciągnąć.
@@ -57,7 +57,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from skład.składnia import TERAZ, Kontekst, Zdanie, forma_czasownika, wypisz
+from olski.skład.składnia import TERAZ, Kontekst, Zdanie, forma_czasownika, wypisz
 
 
 @dataclass(frozen=True)
