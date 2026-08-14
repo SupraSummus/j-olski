@@ -10,7 +10,7 @@ Poziomem tych kategorii jest dziedzina, a nie polszczyzna.
 ``Czyj`` mówi, że jedna rzecz jest określeniem drugiej,
 a że wyjdzie z tego dopełniacz, rozstrzyga linearyzacja niżej.
 Tak samo ``Okolicznik``: drzewo mówi, że coś jest celem,
-a przypadek po przyimku przychodzi z ``skład/przyimki.py``.
+a przypadek po przyimku przychodzi z ``olski/skład/przyimki.py``.
 Ten poziom jest tym, co odróżnia ten zapis od rozbioru zdania pisanego z góry;
 wywód trzyma
 ``docs/design-notes.md``.
@@ -45,10 +45,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 
+from olski.skład.morfologia import odmień, rodzaj_rzeczownika
+from olski.skład.przyimki import przypadek
+from olski.skład.spójniki import staje_na_czele, wprowadza
 from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
-from skład.morfologia import odmień, rodzaj_rzeczownika
-from skład.przyimki import przypadek
-from skład.spójniki import staje_na_czele, wprowadza
 
 #: Czas jako żądanie postawione morfologii, a nie jako gałąź w linearyzacji:
 #: forma przeszła zgadza się z podmiotem rodzajem, a teraźniejsza osobą,
@@ -83,7 +83,7 @@ class PozaRamą(Exception):
     """Drzewo żąda od słowa pozycji, której jego rama nie ma.
 
     Wyjątek, a nie zdanie wypuszczone mimo to,
-    z tego samego powodu co ``BrakFormy`` w ``skład/morfologia.py``:
+    z tego samego powodu co ``BrakFormy`` w ``olski/skład/morfologia.py``:
     to jest błąd kompilacji,
     bo `Linter pomaga dobry kod.` nie jest zdaniem polskim
     i nikt takiego nie chciał napisać.
@@ -104,7 +104,7 @@ class Kontekst:
     więc zdanie ich w sobie nie trzyma:
     ta sama rzecz opowiedziana raz jako to, co się stało, a raz jako to, co się dzieje,
     jest jednym drzewem i dwoma czasami.
-    Kto tymi dwoma steruje, mówi ``skład/opowieść.py``.
+    Kto tymi dwoma steruje, mówi ``olski/skład/opowieść.py``.
 
     Pozostałe są własnościami miejsca, w którym zdanie stoi.
     Zdanie wypisywane jako opis rzeczy mówi o tej rzeczy zaimkiem, a nie nazwą.
@@ -156,7 +156,7 @@ class Kontekst:
 
         Powody są dwa i schodzą się tutaj, bo pytają o nie dwa miejsca:
         linearyzacja, żeby podmiotu nie wypisać,
-        i ``skład/przegląd.py``, żeby nie liczyć formy, której nikt nie zobaczy.
+        i ``olski/skład/przegląd.py``, żeby nie liczyć formy, której nikt nie zobaczy.
         Zdanie obok orzekało o tym samym i wtedy mówi o tym ``pomija`` wyżej,
         albo wykonawcę wskazał czasownik nad tym zdaniem i wtedy wychodzi
         bezokolicznik, który podmiotu nie ma wcale.
@@ -338,7 +338,7 @@ class Nominalne(Wyróżnialne):
 
     Operatory stoją tutaj, a nie warstwę wyżej, bo są zapisem konstruktorów,
     a nie drugim sposobem mówienia: ``a / b`` buduje dokładnie ``Czyj(a, byt(b))``.
-    Zdejmowalną warstwą są same przestrzenie nazw w ``skład.słownik``.
+    Zdejmowalną warstwą są same przestrzenie nazw w ``olski.skład.słownik``.
 
     Kontekst wchodzi do każdej linearyzacji poniżej, choć rzeczownik go nie czyta.
     Bierze się to z ``Czyj``: określeniem bywa rzecz opisana zdaniem,
@@ -427,7 +427,7 @@ class Rola(Wyróżnialne):
     i odpowiada na jeden przypadek, bo tyle daje jej pozycja, w której stoi.
 
     Tożsamości rola z zasady nie ma.
-    Ma ją dopiero ``Postać`` w ``skład/opowieść.py``, czyli ten, do kogo tekst wraca,
+    Ma ją dopiero ``Postać`` w ``olski/skład/opowieść.py``, czyli ten, do kogo tekst wraca,
     i to jest jedyne miejsce, w którym dwa wystąpienia jednego lematu
     są tą samą rzeczą, a nie dwiema takimi samymi.
     """
@@ -523,8 +523,8 @@ class Okolicznik(Wyróżnialne):
     Okoliczność bywa rzeczą albo zdarzeniem i jest to jedna kategoria,
     bo pytanie stawia się jedno.
     Różnią się one tym, czym słowo przed nimi jest po polsku:
-    przed rzeczą stoi przyimek, który rządzi przypadkiem (``skład/przyimki.py``),
-    a przed zdarzeniem spójnik, który nie rządzi niczym (``skład/spójniki.py``),
+    przed rzeczą stoi przyimek, który rządzi przypadkiem (``olski/skład/przyimki.py``),
+    a przed zdarzeniem spójnik, który nie rządzi niczym (``olski/skład/spójniki.py``),
     bo zdanie podrzędne rozdaje przypadki własne.
     Przyimkiem żadnym jest pusty napis, bo część relacji polszczyzna wyraża
     samym przypadkiem, a rola bez przyimka jest tu tą samą kategorią co z nim.
@@ -582,7 +582,7 @@ class Przysłówek(Wyróżnialne):
     przysłówek w stopniu wyższym mówi co innego niż w równym,
     a mówienie tego dopiero czeka na kategorię.
     Przysłówka, który stopnia nie ma, żądanie to nie dotyczy,
-    i rozstrzyga to ``odmień`` w ``skład/morfologia.py``.
+    i rozstrzyga to ``odmień`` w ``olski/skład/morfologia.py``.
     """
 
     lemat: str
@@ -816,7 +816,7 @@ class Zdanie:
         rzecz spod przyimka staje w przypadku, którego żąda ten przyimek,
         a nie w tym, który by jej przypadł z roli w zdarzeniu.
         Przez to samo lista ta mówi coś, czego po samych formach nie widać,
-        i korzysta z tego ``skład/przegląd.py``.
+        i korzysta z tego ``olski/skład/przegląd.py``.
 
         Nie schodzi ona pod konstytuenty, inaczej niż ``podmioty`` wyżej,
         bo uczestnicy dwóch zdań zestawieni w jedną listę
@@ -836,7 +836,7 @@ class Zdanie:
         zaimkiem, a zdanie po zdaniu o tym samym podmiocie podmiotu nie wypisuje.
         Liczy się go tą samą drogą, którą idzie linearyzacja,
         bo druga kopia mierzyłaby tekst, którego ten plik nie składa;
-        tak samo robi ``Akapit.konteksty`` w ``skład/opowieść.py`` piętro wyżej.
+        tak samo robi ``Akapit.konteksty`` w ``olski/skład/opowieść.py`` piętro wyżej.
         """
         yield self, kontekst
         for konstytuent in self.konstytuenty:
@@ -1198,7 +1198,7 @@ class Opis(Rola):
     Które miejsce w zdarzeniu zostaje zaimkiem, mówi tożsamość obiektu,
     a nie osobny znacznik postawiony w tym miejscu.
     Autor pisze rzecz raz i stawia tę samą zmienną w zdaniu, które ją opisuje,
-    czyli robi to samo, co robi z ``Postać`` w ``skład/opowieść.py``:
+    czyli robi to samo, co robi z ``Postać`` w ``olski/skład/opowieść.py``:
     tam ta sama zmienna dwa razy jest jedną rzeczą w dwóch zdaniach,
     a tutaj jest jedną rzeczą w zdaniu nadrzędnym i podrzędnym naraz.
 
@@ -1296,7 +1296,7 @@ def po_poprzednim(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst)
 
     Pytają o to trzy miejsca i muszą dostać tę samą odpowiedź:
     akapit i ciąg zdarzeń, bo z tego składają tekst,
-    oraz odsiew ``skład/makieta.py``, bo pyta o zdanie, które akapit dopiero złoży.
+    oraz odsiew ``olski/skład/makieta.py``, bo pyta o zdanie, które akapit dopiero złoży.
     Trzy kopie tego jednego wiersza rozjechałyby się na pierwszym warunku
     dopisanym do ``pomijalny`` wyżej, a odsiew mierzyłby wtedy inny tekst,
     niż akapit potem wypisze.

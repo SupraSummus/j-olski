@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from skład import LEKSEMY, WieleLeksemów, odmień, rodzaj_rzeczownika
+from olski.skład import LEKSEMY, WieleLeksemów, odmień, rodzaj_rzeczownika
 
 #: Nazwa z leksykonu wraz z żądaniem, po którym widać jej leksem, oraz formą,
 #: którą ten leksem daje. Wiersz stoi tu dla każdego wpisu i tyle jest jego

@@ -17,9 +17,9 @@ a mówi, kiedy, a nie gdzie.
 Wpis, który przypadka nie zmienia, jest tu wpisem mimo to,
 bo relacja nazywa to, co autor powiedział, a nie to, w czym mu to wyjdzie.
 
-Wpis pisany jest ręcznie, tak samo jak w ``skład/spójniki.py``,
+Wpis pisany jest ręcznie, tak samo jak w ``olski/skład/spójniki.py``,
 czyli w tym pliku, który to samo mówi o okoliczności wyrażonej zdarzeniem,
-oraz jak w ``skład/leksemy.py``, który różni się od obu tym, o czym rozstrzyga:
+oraz jak w ``olski/skład/leksemy.py``, który różni się od obu tym, o czym rozstrzyga:
 tamten wybiera leksem, o który autorowi idzie, a te dwa opisują polszczyznę.
 Walenty opisuje czasowniki, a nie przyimki, więc nie ma stąd czego wygenerować.
 Połowa wpisu ma jednak świadka w słowniku:
@@ -67,7 +67,7 @@ def przypadek(przyimek: str, relacja: str) -> str | None:
     tamten wylicza wyjątki od ramy, którą ma większość czasowników,
     a przyimków jest tyle, że wyliczyć da się je wszystkie.
     Odpowiedzią na milczenie jest ``None``, a nie wyjątek,
-    bo zgłasza je konstruktor okolicznika w ``skład/składnia.py``,
+    bo zgłasza je konstruktor okolicznika w ``olski/skład/składnia.py``,
     czyli to samo miejsce, w którym zgłasza się rama czasownika,
     i po to, żeby drzewo błędne nie powstało zamiast zgłosić się przy wypisywaniu.
     """

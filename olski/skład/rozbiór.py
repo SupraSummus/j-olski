@@ -4,7 +4,7 @@ Oba tory stoją na dwóch różnych poziomach i tę różnicę ten moduł przech
 Parser wydaje wyprowadzenie, czyli drzewo nad symbolami gramatyki
 wraz z formami i ich cechami, a autor pisze kategorie dziedziny,
 w których przypadka nie ma, bo bierze się on z pozycji
-(``skład/składnia.py``).
+(``olski/skład/składnia.py``).
 Odwrotnością linearyzacji ten plik zatem nie jest:
 jest drugą funkcją, której przeciwdziedziną jest to, co autor napisał,
 a wspólnym mają obie typ, a nie kod.
@@ -27,7 +27,7 @@ z których go przeczytano, więc drzewo stąd zwrócone
 mówi napisem to, co przeczytano, i nie ma jak skłamać.
 Zdejmuje to z tego pliku drugą kopię tego,
 co kompilator wie o szyku i o formach,
-i jest to ten sam chwyt, którym mierzy się ``skład/przegląd.py``.
+i jest to ten sam chwyt, którym mierzy się ``olski/skład/przegląd.py``.
 
 **Kształt bierze z drzewa, a wartości z formy.**
 Czytanie parsera jest swoim kształtem, a lematy i wartości cech
@@ -37,10 +37,12 @@ a nie tego, o którym mówi zdanie.
 Pytana jest zatem krawędź grafu segmentacji, czyli wszystkie czytania formy,
 a wybór między nimi zostawia to porównanie.
 
-Z ``skład/__init__.py`` ten moduł nie wychodzi i jest to rozstrzygnięcie.
+Z ``olski/skład/__init__.py`` ten moduł nie wychodzi i jest to rozstrzygnięcie.
 Czyta on gramatykę, a ta buduje się przy imporcie,
 więc wpisany tam kazałby ją zbudować każdemu, kto sięga po sam kompilator,
 i parser przestałby być świadkiem, a stałby się zależnością.
+Rozstrzygnięcie obejmuje tak samo ``olski/__init__.py``,
+bo import podpakietu przechodzi przez pakiet nadrzędny.
 Trzyma to ``tests/test_rozbiór.py``.
 """
 
@@ -51,11 +53,10 @@ from collections.abc import Iterator
 from dataclasses import dataclass, fields, is_dataclass
 
 from olski.parse import Leaf, Node, parse
-from olski.subset import GRAMMAR, morphology
-from skład.morfologia import BrakFormy, WieleLeksemów
-from skład.opowieść import Postać
-from skład.przyimki import PRZYIMKI
-from skład.składnia import (
+from olski.skład.morfologia import BrakFormy, WieleLeksemów
+from olski.skład.opowieść import Postać
+from olski.skład.przyimki import PRZYIMKI
+from olski.skład.składnia import (
     TERAZ,
     Byt,
     Ciąg,
@@ -74,6 +75,7 @@ from skład.składnia import (
     Zdanie,
     kompiluj,
 )
+from olski.subset import GRAMMAR, morphology
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
 #: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
@@ -117,7 +119,7 @@ class PozaZapisem(Exception):
 def _relacje() -> dict[str, tuple[str, ...]]:
     """Leksykon przyimków czytany od strony napisu, bo tak go czyta rozbiór.
 
-    ``skład/przyimki.py`` odpowiada na pytanie kompilatora, czyli o przypadek
+    ``olski/skład/przyimki.py`` odpowiada na pytanie kompilatora, czyli o przypadek
     przy zadanej relacji, a tutaj pytanie jest odwrotne i ma po kilka odpowiedzi:
     ``w`` stoi w relacji celu, czasu i miejsca.
     Liczone jest to z tamtego słownika, a nie wypisane obok,

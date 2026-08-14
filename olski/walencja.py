@@ -102,7 +102,7 @@ ZE_ZDANIEM = _lematy(BIERZE_ZDANIE, zwrotny=False)
 def bierze_biernik(lemat: str) -> bool:
     """Czy czasownik bez cząstki ``się`` weźmie dopełnienie w bierniku.
 
-    Pyta o formę bez cząstki, bo o taką pyta ``Robi`` w ``skład/składnia.py``,
+    Pyta o formę bez cząstki, bo o taką pyta ``Robi`` w ``olski/skład/składnia.py``,
     czyli jedyny konstruktor, który dopełnienie stawia.
     Formy z cząstką składnia nie ma czym zapisać,
     więc drugi zbiór czyta po tej stronie nikt, a po tamtej czyta go gramatyka.

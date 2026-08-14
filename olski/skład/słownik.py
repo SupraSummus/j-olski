@@ -1,7 +1,7 @@
 """Przestrzenie nazw nad składnią: lemat jako nazwa, a nie jako łańcuch.
 
 To jest cała zdejmowalna warstwa tego pakietu.
-Operatory stoją w ``skład.składnia``, bo są zapisem konstruktorów,
+Operatory stoją w ``olski.skład.składnia``, bo są zapisem konstruktorów,
 a tutaj zostaje to, co naprawdę da się odjąć, nie tracąc języka.
 Import tego modułu nie zmienia zachowania tamtego,
 i to jest własność, którą trzyma test, a nie tylko ten akapit.
@@ -23,7 +23,7 @@ co dopisano ostatnio, więc staje się pozycyjny,
 a formater dokleja go do wywołania następnego,
 i wtedy źródło wyróżnia co innego, niż wygląda, że wyróżnia.
 Znacznik przyrostkowy tego nie ma, bo nie sięga poza konstytuent, przy którym stoi,
-i stoi razem z operatorami w ``skład.składnia``.
+i stoi razem z operatorami w ``olski.skład.składnia``.
 
 Wielka litera odróżnia tu kategorię od funkcji, która coś nad argumentem liczy.
 ``razem`` składa listę, ``potem`` zwija jeden człon do samego siebie,
@@ -45,7 +45,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from skład.składnia import (
+from olski.skład.składnia import (
     Byt,
     Ciąg,
     Jaki,
@@ -147,7 +147,7 @@ class Słownik:
 class Czyny:
     """Czasownik jako wywołanie wraz z rolami: zapisywać przez kogo i co.
 
-    Rozdzielaniem argumentów zajmuje się ``zdarzenie`` w ``skład.składnia``,
+    Rozdzielaniem argumentów zajmuje się ``zdarzenie`` w ``olski.skład.składnia``,
     bo to jest składanie drzewa, a nie nazywanie go,
     i tutaj zostaje samo wzięcie lematu z nazwy atrybutu.
     """

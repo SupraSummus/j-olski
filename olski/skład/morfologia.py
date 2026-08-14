@@ -19,7 +19,7 @@ Dwie klasy tego wyboru schodzą stąd, każda inaczej.
 Kwalifikator, którym słownik odsyła formę poza rejestr, zdejmuje ją
 i tę klasę zdejmuje ``POZA_REJESTREM`` niżej.
 Leksem, którego lemat nie wskazuje, zostaje wyborem i jest wyborem autora,
-więc ma miejsce, w którym się go pisze: ``skład/leksemy.py``,
+więc ma miejsce, w którym się go pisze: ``olski/skład/leksemy.py``,
 a nienapisany zgłasza się wyjątkiem, zamiast zapaść tutaj po cichu.
 """
 
@@ -30,7 +30,7 @@ import functools
 import morfeusz2
 
 from olski.morph import tag
-from skład.leksemy import leksem
+from olski.skład.leksemy import leksem
 
 
 class BrakFormy(Exception):
@@ -50,7 +50,7 @@ class WieleLeksemów(Exception):
 
     Treść zgłoszenia stoi tutaj, bo pytają o nią dwa miejsca naraz,
     a odpowiedź jest w obu ta sama: leksem wraz z tym, co z niego wychodzi.
-    Tyle wystarcza, żeby wpisać rozstrzygnięcie do ``skład/leksemy.py``,
+    Tyle wystarcza, żeby wpisać rozstrzygnięcie do ``olski/skład/leksemy.py``,
     i to jest jedyne, po co to zgłoszenie jest czytane.
     """
 
@@ -61,7 +61,7 @@ class WieleLeksemów(Exception):
                 f"{identyfikator} daje {', '.join(sorted(dane))}"
                 for identyfikator, dane in wedle_leksemu.items()
             )
-            + "; który z nich, mówi skład/leksemy.py"
+            + "; który z nich, mówi olski/skład/leksemy.py"
         )
 
 
@@ -164,7 +164,7 @@ def odmień(nazwa: str, pos: str, **żądane: str) -> str:
     bo wtedy każda odpowiedź mówi co innego:
     ``oczy`` obok ``oka`` albo ``stoi`` obok ``stanie``, czyli teraz obok potem.
     Który leksem, jest wtedy pytaniem do autora i odpowiada na nie
-    ``skład/leksemy.py``.
+    ``olski/skład/leksemy.py``.
     Kosztem tego jest cisza tam, gdzie leksemy różnią się poza żądaną komórką,
     czyli w miejscu, w którym autor o żaden wybór nie pytał.
 
@@ -218,7 +218,7 @@ def rodzaj_rzeczownika(nazwa: str) -> str:
     Zostaje po tym rodzaj, który sam słownik wypisuje dwiema wartościami,
     i tu ta funkcja bierze pierwszą alfabetycznie, nie mówiąc o tym nigdzie.
     Tamto jest wyborem autora, a to jest słownik mówiący „albo tak, albo tak”,
-    więc drugiego ``skład/leksemy.py`` nie rozstrzyga; trzyma to ``TODO.md``.
+    więc drugiego ``olski/skład/leksemy.py`` nie rozstrzyga; trzyma to ``TODO.md``.
     """
     rodzaje: dict[str, set[str]] = {}
     for _forma, cechy, identyfikator in paradygmat(nazwa, "subst"):

@@ -22,7 +22,7 @@ a dwa razy użyta jedna ``Postać`` jest jednym.
 Opuszczenie jest wąskie i jest wąskie z rozmysłu:
 opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością,
 i jest to ta sama ostrożność, którą po drugiej stronie ma kryterium jednego czytania.
-Warunki trzyma ``pomijalny`` w ``skład/składnia.py``, a nie ten moduł,
+Warunki trzyma ``pomijalny`` w ``olski/skład/składnia.py``, a nie ten moduł,
 bo stawia je także ciąg zdarzeń wewnątrz jednego zdania.
 Akapit dokłada do nich jeden własny i jest to jego cała rola w tej regule:
 zdanie o kimś, o kim mowa była wcześniej, ale nie w zdaniu obok,
@@ -31,7 +31,7 @@ dostaje pełną nazwę, a akapit jest tym, w czym „obok” się kończy.
 
 from __future__ import annotations
 
-from skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, po_poprzednim
+from olski.skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, po_poprzednim
 
 
 class Postać(Rola):
@@ -93,7 +93,7 @@ class Akapit:
     Pierwsze zdanie akapitu wypisuje podmiot zawsze,
     także wtedy, gdy akapit poprzedni skończył się na tej samej postaci,
     i tyle akapit o opuszczeniu rozstrzyga:
-    resztę warunków stawia ``pomijalny`` w ``skład/składnia.py``.
+    resztę warunków stawia ``pomijalny`` w ``olski/skład/składnia.py``.
     """
 
     def __init__(self, *zdania) -> None:
@@ -104,7 +104,7 @@ class Akapit:
 
         Wydawane osobno od napisu, bo o ten sam kontekst pyta każdy,
         kto chce zdanie tego akapitu obejrzeć, a nie tylko wypisać:
-        ``skład/przegląd.py`` jest pierwszym takim pytającym,
+        ``olski/skład/przegląd.py`` jest pierwszym takim pytającym,
         a kopia tej pętli u niego mierzyłaby akapit, którego ten plik już nie składa.
 
         Wydaje same zdania akapitu, a nie te, które stoją pod nimi;

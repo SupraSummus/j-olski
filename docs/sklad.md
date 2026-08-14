@@ -122,7 +122,7 @@ a która nad polszczyzną jest zwyczajna:
 `parser podzbioru` i `podzbiór parsera` są dwoma różnymi drzewami,
 choć stoją w nich te same lematy w tych samych rolach.
 
-Buduje to `skład/`, a `skład/składnia.py` trzyma kategorie i konstruktory.
+Buduje to `olski/skład/`, a `olski/skład/składnia.py` trzyma kategorie i konstruktory.
 Zgodność jest tam liczona, a nie sprawdzana,
 więc gramatyki podzbioru ten kierunek nie potrzebuje
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).
@@ -147,7 +147,7 @@ Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`TODO.md`](../
 Zdanie skompilowane osobno wypisuje każdą rzecz pełną nazwą
 i stawia ją w czasie, w którym stoi samo.
 Tekst wie dwie rzeczy więcej i obie zmieniają to, co wychodzi,
-więc `skład.opowieść` stoi nad `skład.składnia`, a nie obok.
+więc `olski.skład.opowieść` stoi nad `olski.skład.składnia`, a nie obok.
 
 Pierwszą jest czas.
 Opowieść mówi o tym, co się stało, i mówi tak o wszystkich swoich zdarzeniach,
@@ -171,7 +171,7 @@ i widać to w tej samej opowieści na drugim określeniu:
 Opuszczenie jest wąskie i jest wąskie z tego samego powodu,
 dla którego po drugiej stronie stoi kryterium jednego czytania:
 opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością.
-Warunki trzyma `pomijalny` w `skład/składnia.py`,
+Warunki trzyma `pomijalny` w `olski/skład/składnia.py`,
 a nie akapit, bo o to samo pyta ciąg zdarzeń wewnątrz jednego zdania,
 i jeden z nich jest tu wart powtórzenia,
 bo mówi, czym ta ostrożność się mierzy.
@@ -194,7 +194,7 @@ na trzecią architekturę [powyżej](#three-architectures),
 czyli na rozbiór zdania pisany z góry.
 
 Kategorią, która z tego wyszła, jest wskazywanie.
-`Jaki` wskazuje rzecz cechą, `Opis` w `skład/składnia.py` wskazuje ją zdarzeniem,
+`Jaki` wskazuje rzecz cechą, `Opis` w `olski/skład/składnia.py` wskazuje ją zdarzeniem,
 a pytanie jest w obu wypadkach jedno i jest pytaniem o rzecz:
 o którą z nich mowa.
 `kamienne postaci` i `kamienne postaci, których nikt nie liczył`
@@ -246,10 +246,10 @@ a stanąć może rzecz albo zdarzenie, bo pytanie stawia się jedno:
 Różnica między nimi jest różnicą w polszczyźnie, a nie w drzewie,
 i cała siedzi w słowie, którym relacja wychodzi na wierzch.
 Przed rzeczą stoi przyimek, który rządzi przypadkiem,
-i bierze go z `skład/przyimki.py`;
+i bierze go z `olski/skład/przyimki.py`;
 przed zdarzeniem stoi spójnik, który nie rządzi niczym,
 bo zdanie podrzędne rozdaje przypadki własne,
-więc `skład/spójniki.py` mówi o nim mniej: to, w jakiej stoi relacji.
+więc `olski/skład/spójniki.py` mówi o nim mniej: to, w jakiej stoi relacji.
 Tyle jednak wystarcza, żeby `Kiedy.bo` się zgłosiło,
 i jest to ta sama odmowa, którą tamten plik wydaje na `Skąd.do`.
 Świadka ten leksykon ma przy tym pełniejszego niż tamten:
@@ -263,7 +263,7 @@ Zapis idzie za tym i nie dokłada nic:
 `Czym(R.lustro)` oraz `Kiedy(R.wieczór)` wołają przestrzeń nazw relacji,
 a `Kiedy.w(R.noc)` sięga w niej po słowo,
 więc relacja bez przyimka nie ma osobnej funkcji ani osobnej kategorii.
-Wpis w `skład/przyimki.py` stoi tam mimo to, bo przypadek trzeba skądś wziąć,
+Wpis w `olski/skład/przyimki.py` stoi tam mimo to, bo przypadek trzeba skądś wziąć,
 a takie pary są jedynymi, których słownik nie ma czym potwierdzić:
 świadkiem jest znakowanie przyimka, a przyimka tam nie ma.
 
@@ -320,7 +320,7 @@ Wykonawca jest tu tym, czego bezokolicznik o sobie nie mówi,
 i dlatego stoi w drzewie, a nie w formie.
 Autor pisze tę samą zmienną dwa razy, raz przy czasowniku i raz pod nim,
 czyli robi to, co robi przy `Postać` i przy `Opis`,
-a konstruktor zdania o czynności — `Robi` w `skład/składnia.py` —
+a konstruktor zdania o czynności — `Robi` w `olski/skład/składnia.py` —
 sprawdza, że są to te same obiekty.
 Zapisu na to poza zmienną nie ma i nie ma być:
 znacznik postawiony przy bezokoliczniku mówiłby o zdaniu,
@@ -333,7 +333,7 @@ Pierwszym jest forma czasownika, z której czytelnik go odzyskuje
 i tamten warunek mierzy się tym, co po opuszczeniu zostaje.
 Tu nie zostaje nic, bo bezokolicznik nie niesie ani osoby, ani rodzaju,
 więc tamten warunek odpowiada odmownie zawsze, a podmiot i tak nie staje.
-Dwa powody spotykają się w jednym miejscu — `_podmiot` w `skład/składnia.py` —
+Dwa powody spotykają się w jednym miejscu — `_podmiot` w `olski/skład/składnia.py` —
 i to jest wszystko, co je łączy.
 
 Odmów jest przy tej pozycji dwie i każda broni przed czym innym.
@@ -374,7 +374,7 @@ i zdarzenie, o którym podmiot tylko coś orzeka,
 a trzecie z nich jest osobną kategorią, bo pytanie przy nim jest inne.
 `Czeladnik chciał zejść.` mówi, co czeladnik zrobi,
 a `Czeladnik wiedział, że postaci stały pod ścianą.` mówi, co on o świecie sądzi.
-Nosi tę kategorię `Treść` w `skład/składnia.py`,
+Nosi tę kategorię `Treść` w `olski/skład/składnia.py`,
 i tam też stoi powód, dla którego jest zawinięciem, a nie wnioskiem z drzewa:
 to samo zdarzenie stoi pod `chcieć` i pod `wiedzieć`, a mówi dwie różne rzeczy,
 więc różnicy nie ma z czego policzyć.
@@ -424,7 +424,7 @@ mówi [czego nie spełniono](#czego-nie-spełniono).
 
 ## Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
 
-`Ciąg` w `skład/składnia.py` bierze kilka zdarzeń i wypuszcza jedno zdanie,
+`Ciąg` w `olski/skład/składnia.py` bierze kilka zdarzeń i wypuszcza jedno zdanie,
 a kategorią dziedziny jest w nim następstwo:
 jedno stało się po drugim i jest to jedna rzecz do opowiedzenia.
 Węższe to jest niż polskie `i`, które łączy także zdarzenia równoczesne,
@@ -654,7 +654,7 @@ a samo nie mówi tego wcale.
 Nie jest to wybór szyku, bo szyk jest tu SVO i innego nie ma —
 obie role stoją w formie równej mianownikowi i biernikowi naraz,
 a polszczyzna czyta taki ciąg i jako SVO, i jako OVS.
-Zgłasza to `skład/przegląd.py`, a ta sekcja mówi, na czym on stoi.
+Zgłasza to `olski/skład/przegląd.py`, a ta sekcja mówi, na czym on stoi.
 
 **Liczone jest to z form, a nie z czytań.**
 Rola wraca czytelnikowi z dwóch rzeczy: z własnej formy i z czasownika,
@@ -768,7 +768,7 @@ Niezmiennik obiegu żąda, żeby drzewo puszczone w tekst wróciło z tekstu drz
 a [design-notes.md](design-notes.md#the-round-trip-invariant) trzyma jego postać:
 drzewo do napisu jest funkcją, napis do drzewa relacją,
 więc żąda się przynależności, a nie równości.
-Robi to `skład/rozbiór.py`, a ta sekcja mówi, na czym on stoi.
+Robi to `olski/skład/rozbiór.py`, a ta sekcja mówi, na czym on stoi.
 
 Odwrotnością linearyzacji ten kierunek nie jest, bo oba tory stoją na dwóch poziomach.
 Parser wydaje wyprowadzenie nad symbolami gramatyki wraz z formami i ich cechami,
@@ -776,7 +776,7 @@ a autor pisze kategorie dziedziny, w których przypadka nie ma,
 bo bierze się on z pozycji.
 Wspólny mają więc typ, a nie kod, i jest to druga funkcja,
 a nie ta sama przebiegnięta wstecz.
-Stoi ona w `skład/`, bo zależność biegnie tu w jedną stronę:
+Stoi ona w `olski/skład/`, bo zależność biegnie tu w jedną stronę:
 skład czyta olskiego, a linter o kompilatorze nie wie nic i nie ma wiedzieć.
 
 **Rozstrzyga o tym linearyzacja, a nie rozbiór.**
@@ -843,7 +843,7 @@ zdanie w rozkaźniku nie ma czasownika, którego ten zapis wypisuje,
 więc bez zgłoszenia wygaszałoby iloczyn kandydatów i wracało samą pustką.
 
 Która z tych przyczyn zadziałała, mówi sama odpowiedź, a nie ta lista.
-`Odczyt` w `skład/rozbiór.py` wraca z drzewami i z powodami tego,
+`Odczyt` w `olski/skład/rozbiór.py` wraca z drzewami i z powodami tego,
 co po drodze odpadło, a powód powstaje tam, gdzie kandydat odpada:
 zgłoszeniem, gdy brakuje kategorii, komunikatem morfologii, gdy brakuje formy,
 i napisem, który wyszedł, gdy wyszedł inny.
@@ -884,7 +884,7 @@ kiedy przyłączenia nie zgłasza.
 Makieta żąda tekstu, zanim ktokolwiek ma co powiedzieć,
 i dostaje zwykle łacińską sieczkę, po której nie widać, jak wygląda polska kolumna:
 polskie słowo jest dłuższe, odmienia się i przez to inaczej łamie wiersz.
-Ten kierunek wypuszcza taki tekst za darmo i dlatego `skład/makieta.py` powstał:
+Ten kierunek wypuszcza taki tekst za darmo i dlatego `olski/skład/makieta.py` powstał:
 gramatyczności nie ma czym naruszyć, bo zgodność jest tu policzona, a nie sprawdzona,
 więc losuje się drzewo, a nie napis, i nie ma czego odsiewać po fakcie.
 Generator postawiony nad parserem musiałby wypuścić zdanie, przeczytać je i odrzucić,
@@ -930,7 +930,7 @@ Rama czasownika sięga dalej niż trzy pozycje, o które pyta `Robi`,
 więc `czekał na izbach` czyta się przez `czekać na kogoś`,
 a nie jako okoliczność miejsca, którą autor drzewa tam postawił.
 
-Rozstrzygają je wszystkie tabele `skład/makieta.py`, przez wpis albo przez pominięcie,
+Rozstrzygają je wszystkie tabele `olski/skład/makieta.py`, przez wpis albo przez pominięcie,
 czyli miejsce, które leksykonem nie jest i nim nie będzie:
 tabela wymienia lematy, których ten jeden program używa,
 a fakt o przyimku dotyczy każdego drzewa, jakie ktokolwiek napisze.
@@ -1027,11 +1027,11 @@ i na które sam odpowiada wszędzie tam, gdzie leksemy rozdzielił.
 a `Włochy:Sn_pt~szech` i `Włochy:Sn_pt~chach` to kraj i dzielnica Warszawy,
 różniące się miejscownikiem.
 Ten identyfikator czyta jeden kierunek:
-synteza pyta o niego przez `skład/leksemy.py`
+synteza pyta o niego przez `olski/skład/leksemy.py`
 ([niżej](#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)),
 a `olski/morph.py` ucina go przy analizie.
 Kwalifikator słownik niesie tym samym polem, a czyta go jeden kierunek:
-`POZA_REJESTREM` w `skład/morfologia.py` odsiewa nim formy przed syntezą,
+`POZA_REJESTREM` w `olski/skład/morfologia.py` odsiewa nim formy przed syntezą,
 a analiza wyrzuca go razem z resztą pól,
 więc `projekta` oznaczone jako `daw.` ze składu nie wyjdzie, a do parsera wejdzie.
 Brak słowa, rozdzielony leksem i przeczytany kwalifikator
@@ -1142,7 +1142,7 @@ Poziomem kategorii tego pakietu jest
 [dziedzina](#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka),
 a kod paradygmatu jest napisem z wnętrza słownika innego projektu,
 więc drzewo pisze `R.oko_w_rosole`,
-a z identyfikatorem wiąże tę nazwę `skład/leksemy.py`.
+a z identyfikatorem wiąże tę nazwę `olski/skład/leksemy.py`.
 Wiązanie jest wiele do jednego z założenia:
 oczko w sieci i oko w rosole to jeden leksem i dwie rzeczy, o których się pisze,
 więc nazw jest tyle, ile rzeczy, a nie tyle, ile leksemów.

@@ -2,9 +2,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from opowieści.bazyliszek import OPOWIEŚĆ
-from skład import Akapit, Kontekst, Opowieść, Postać, PozaRamą, kompiluj
-from skład.słownik import (
+from olski.skład import Akapit, Kontekst, Opowieść, Postać, PozaRamą, kompiluj
+from olski.skład.słownik import (
     A,
     Dlaczego,
     Gdzie,
@@ -18,6 +17,7 @@ from skład.słownik import (
     opis,
     potem,
 )
+from opowieści.bazyliszek import OPOWIEŚĆ
 
 #: Tekst, który ma wyjść z drzew w ``opowieści/bazyliszek.py``, znak w znak.
 #: Pierwszy powstał tekst, a drzewa są tym, co go wypuszcza,

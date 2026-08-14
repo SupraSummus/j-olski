@@ -285,7 +285,7 @@ i jest on tym, co się tu czyta pierwsze.
 | Poziom wejścia | Co wchodzi | Kto tak stoi |
 | --- | --- | --- |
 | fakty | trójki RDF, aksjomaty ontologii | WebNLG, NaturalOWL |
-| dziedzina | konstruktory nazwane tym, o czym się mówi | gramatyka aplikacyjna GF, `skład` |
+| dziedzina | konstruktory nazwane tym, o czym się mówi | gramatyka aplikacyjna GF, `olski.skład` |
 | kategorie językowe | zdanie, grupa imienna, grupa czasownikowa | biblioteka gramatyk GF |
 | struktura głęboko-składniowa | zależności bez słów funkcyjnych | RealPro, FORGe |
 | struktura funkcjonalna | f-struktura gramatyki odwracalnej | XLE wraz z POLFIE |
@@ -338,16 +338,17 @@ a na końcu przez ortografię.
 Część składniowa wybiera odmianę, dostawia słowa funkcyjne i rozstrzyga szyk,
 morfologiczna wylicza z tego formę,
 a ortograficzna odpowiada za wielką literę, interpunkcję i formatowanie.
-Dwie pierwsze mają w pakiecie `skład` po module, `skład.składnia` i `skład.morfologia`,
+Dwie pierwsze mają w pakiecie `olski.skład` po module,
+`olski.skład.składnia` i `olski.skład.morfologia`,
 a trzeciej osobno nie ma i siedzi ona wewnątrz pierwszej.
 Interpunkcja stoi wewnątrz linearyzacji jako pole `Kawałek`,
 czyli jako żądanie konstytuenta wobec sąsiada, a nie jako znak w gotowym napisie,
-i wywód o tym trzyma docstring `Kawałek` w `skład/składnia.py`;
+i wywód o tym trzyma docstring `Kawałek` w `olski/skład/składnia.py`;
 etap puszczony po morfologii jest na to za późny.
 Wielka litera wraz z kropką staje za to na końcu, w `kompiluj`.
-Trójwarstwowy podział, który `skład/__init__.py` ogłasza swoją decyzją,
+Trójwarstwowy podział, który `olski/skład/__init__.py` ogłasza swoją decyzją,
 jest więc innym podziałem niż te trzy części, choć dwie nazwy się pokrywają:
-warstwa trzecia, `skład.opowieść`, stoi nad zdaniem, a nie w nim,
+warstwa trzecia, `olski.skład.opowieść`, stoi nad zdaniem, a nie w nim,
 i trzyma tożsamość, której żąda wyrażenie referencyjne z akapitu wyżej.
 
 Zadanie realizacyjne nad drzewami Universal Dependencies (SR'18, SR'19, SR'20) pyta,

@@ -21,7 +21,7 @@ olski-check = "olski.check:main"
 olski-corpus = "olski.coverage:main"
 
 [tool.setuptools.packages.find]
-include = ["olski*", "skład*"]
+include = ["olski*"]
 
 #  Leksykon walencyjny jest danymi, a nie kodem, więc wchodzi do paczki stąd.
 #  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.

@@ -2,8 +2,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from skład.morfologia import paradygmat
-from skład.przyimki import PRZYIMKI
+from olski.skład.morfologia import paradygmat
+from olski.skład.przyimki import PRZYIMKI
 
 #: Wpisy, które słownik ma czym potwierdzić. Narzędnik bez przyimka odpada stąd,
 #: bo świadkiem jest znakowanie przyimka, a takiego wpisu nie ma czym znakować.
@@ -18,7 +18,7 @@ def test_przypadek_wypisany_przy_przyimku_jest_przypadkiem_który_ten_przyimek_b
 
     Morfeusz znakuje przyimek przypadkami, którymi ten przyimek rządzi,
     więc literówka w tabeli zgłasza się tutaj, a nie na zdaniu, które z niej wyjdzie.
-    Czego ten świadek nie sprawdza, mówi ``skład/przyimki.py``:
+    Czego ten świadek nie sprawdza, mówi ``olski/skład/przyimki.py``:
     doboru, czyli tego, który przypadek należy się której relacji.
     """
     bierze = {

@@ -2,7 +2,7 @@
 
 Legenda o potworze z piwnicy, o córce krawca, która zeszła tam po kufer,
 i o czeladniku, który zszedł tam z lustrem,
-stoi tu jako drzewa w kategoriach ``skład.składnia``,
+stoi tu jako drzewa w kategoriach ``olski.skład.składnia``,
 a polski tekst jest tym, co z nich wychodzi.
 Tekst ten trzyma ``tests/test_opowieść.py``,
 znak w znak z tym, co ten moduł wypuszcza.
@@ -33,8 +33,8 @@ a co z niego widać na kompilatorze i czego on od niego zażądał, mówi
 ``docs/design-notes.md``.
 """
 
-from skład import Akapit, Opowieść, Postać
-from skład.słownik import (
+from olski.skład import Akapit, Opowieść, Postać
+from olski.skład.słownik import (
     A,
     Czym,
     D,

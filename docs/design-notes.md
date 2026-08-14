@@ -1520,7 +1520,7 @@ and a second copy of it drifts.
 [Walenty is that source](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 and `olski/walencja.py` is what each direction reads it through:
 the parser turns it into the valency classes its productions need,
-and `Robi` in `skład/składnia.py` asks it about the one lemma it was handed.
+and `Robi` in `olski/skład/składnia.py` asks it about the one lemma it was handed.
 The two ask different questions of it, which is why what they share is the
 lexicon rather than an answer.
 
@@ -1539,7 +1539,7 @@ Where a generated sentence happens to fall inside the subset,
 the round trip tests it and reports whichever way it reads;
 outside, it has nothing to say and the compiler is unaffected.
 `tests/test_skład.py` uses it in exactly that posture.
-The membership test itself is `skład/rozbiór.py`,
+The membership test itself is `olski/skład/rozbiór.py`,
 which reads a parser reading back as a tree of the abstract syntax,
 and what it recovers, what it cannot,
 and why one reading comes back as several trees

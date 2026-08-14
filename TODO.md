@@ -107,7 +107,7 @@ so whichever entry is picked up first is answering for the other.
 
 [Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
 "prose in comments and docstrings", and the code is divided about it.
-`skład/`, `opowieści/`, `olski/walencja.py` and `harness/ustawy.py`
+`olski/skład/`, `opowieści/`, `olski/walencja.py` and `harness/ustawy.py`
 break their comments at boundaries of meaning,
 and everything else in `olski/`, `harness/` and `sonda/` wraps to a column.
 `olski/parse.py` holds both kinds,
@@ -742,7 +742,7 @@ i strukturę dochodów oraz wydatków budżetowych.` wychodzi trzema czytaniami
 zamiast jednego, bo `te, które kształtują rozmiary` staje się członem ciągu —
 i jest to czytanie, które polszczyzna ma, więc nie jest to usterka, tylko cena.
 Pod złotą morfologią nie rusza się ani jedno zdanie.
-Trzecią pozycją jest `_role` w `skład/rozbiór.py`:
+Trzecią pozycją jest `_role` w `olski/skład/rozbiór.py`:
 czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź, a obieg zamknięty bez niej pada.
 Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
@@ -1163,7 +1163,7 @@ zamiast samego `RelativePronoun` w ciele,
 a przed nim rozstrzygnięcie, czy nie psuje to `_pierwsza_rola` w `olski/parse.py`:
 zdanie względne jest w `DEKLARACJA` podrzędne, więc streszczenie tam nie zagląda,
 ale `Node.find` bez pomijania zagląda i to ono czyta zgodność.
-Do przeczytania jest przy tym, co robi z tym `_role` w `skład/rozbiór.py`,
+Do przeczytania jest przy tym, co robi z tym `_role` w `olski/skład/rozbiór.py`,
 które czyta kształty gramatyki po etykiecie.
 Ruch rusza wiersze zgodności w obu kolumnach oraz tabelę ocalenia,
 więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
@@ -1379,7 +1379,7 @@ sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
 ## Skład i opowieści
 
 Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
-więc `Jaki` w `skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
+więc `Jaki` w `olski/skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
 choć polszczyzna ma oba szyki i różnią się one tym, co niosą:
 przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to bez żadnego pomiaru, na jednej frazie:
@@ -1392,8 +1392,8 @@ Do przeczytania jest ta para wraz z tym,
 co [`docs/sklad.md`](docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
 Ruchem jest ta sama kategoria, którą zdanie już ma, wpuszczona do grupy imiennej:
-`Wyróżnienie` stoi w `skład/składnia.py` i przestawia konstytuenty zdania,
-a wewnątrz grupy nie sięga niczego, bo `Cechy` w `skład/słownik.py`
+`Wyróżnienie` stoi w `olski/skład/składnia.py` i przestawia konstytuenty zdania,
+a wewnątrz grupy nie sięga niczego, bo `Cechy` w `olski/skład/słownik.py`
 zwija przymiotniki, zanim spotkają rzeczownik.
 Rozstrzygnięcia żąda przy tym co innego niż w zdaniu:
 tam wyróżnienie przestawia to, co i tak stało osobno,
@@ -1410,7 +1410,7 @@ pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
 Widać to dopiero od [treści](docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
 bo okoliczność wyrażona zdarzeniem stoi obok zdarzenia nadrzędnego w czasie,
 a treść stoi pod nim, i tam czas przestaje być własnością samego opowiadania.
-Do przeczytania jest `CZASY` oraz `Kontekst` w `skład/składnia.py`
+Do przeczytania jest `CZASY` oraz `Kontekst` w `olski/skład/składnia.py`
 wraz z tym, co [`docs/sklad.md`](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o czasie jako własności tekstu,
 bo ta kategoria tego zdania nie odwołuje, tylko dokłada do niego drugie:
@@ -1435,7 +1435,7 @@ Do przeczytania jest to, co o tej pozycji mówi
 bo ruch ten ma tam nazwę wraz z literaturą,
 a warunek, który dziedziczy, jest testem na zbiór dystraktorów,
 czyli tym, co tamten algorytm liczy nad opisem rzeczy.
-Do przeczytania jest też `pomijalny` w `skład/składnia.py`,
+Do przeczytania jest też `pomijalny` w `olski/skład/składnia.py`,
 który trzyma warunki [wąskiego opuszczania podmiotu](docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm,
 wraz z [ceną tego ruchu](docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy),
@@ -1471,7 +1471,7 @@ Ruchem jest antecedens liczony z uczestników zdania poprzedniego i nadrzędnego
 a nie z samych ich podmiotów, wraz z testem na parę zdań,
 w której rodzaj tych dwóch ról jest wspólny, bo tam opuszczenie ma się nie stać.
 
-`Zdanie.podmioty` w `skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
+`Zdanie.podmioty` w `olski/skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
 czyli tam, gdzie sięga `_wskazany`, a zdanie podrzędne stoi czasem głębiej:
 `Mysz goniła ogon myszy, która spała.` ma dwa podmioty, a widać stąd jeden.
 Kosztuje to opuszczenie postawione tam, gdzie czytelnik trafia na dwie rzeczy
@@ -1482,7 +1482,7 @@ tamta pyta, skąd zaimek wyjdzie na czoło, a ta, na kogo czytelnik trafi.
 Ruchem jest zejście po całym drzewie roli zamiast po dwóch jego poziomach,
 i jest ono tańsze niż tamto, bo nie ma z niego nic do wyprowadzenia.
 
-Rama czasownika, o którą pyta `Robi` w `skład/składnia.py`,
+Rama czasownika, o którą pyta `Robi` w `olski/skład/składnia.py`,
 odpowiada na trzy pytania z listy: o biernik, o bezokolicznik i o zdanie podrzędne,
 więc rola w przypadku innym nie ma po tej stronie o co zapytać
 i nie ma jak stanąć w drzewie.
@@ -1510,7 +1510,7 @@ ale i wybór najgorszej z ram, które lemat ma.
 Piątą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
 w którym `na izbach` jest okolicznością miejsca,
 a czyta się przez `czekać na kogoś`, czyli przez ramę, której tu nie ma,
-więc `skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
+więc `olski/skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
 Do przeczytania jest `olski/walenty.py` wraz z tym,
 co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
 mówi o tym, co ten przekład z Walentego bierze, a czego nie,
@@ -1535,13 +1535,13 @@ nazywa tamto zdanie polskim, którego bezokolicznik nie wyraża,
 a wyraża je dokładnie ta pozycja i ten drugi spójnik.
 Do przeczytania jest `cp(żeby)` obok `cp(że)` u Walentego,
 bo słownik te dwa kształty rozdziela i mówi, który lemat bierze który,
-oraz `Treść` w `skład/składnia.py`, gdzie spójnik stoi stałą.
+oraz `Treść` w `olski/skład/składnia.py`, gdzie spójnik stoi stałą.
 Ruchem jest kategoria dziedziny na to, czy treść jest orzekana, czy żądana,
 wraz z czwartym zdaniem leksykonu; wpis jest przez to winien
 przebieg `olski/walenty.py` oraz poprawkę liczb w
 [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego).
 
-`Przysłówek` w `skład/składnia.py` żąda od słownika formy przysłówkowej,
+`Przysłówek` w `olski/skład/składnia.py` żąda od słownika formy przysłówkowej,
 a część okoliczności polszczyzna wyraża partykułą:
 `znowu` ma w SGJP sam `part`, więc `D.znowu` zgłasza `BrakFormy`.
 To zdanie legenda o bazyliszku chciała postawić w zakończeniu,
@@ -1554,7 +1554,7 @@ jest jedną kategorią dziedziny niezależnie od tego, czym słownik to słowo z
 bo jeśli jest, to `Przysłówek` pyta o część mowy tam,
 gdzie od części mowy nie zależy ani szyk, ani zgodność, ani forma.
 
-`przejrzyj` w `skład/przegląd.py` zgłasza jedną klasę z dwóch,
+`przejrzyj` w `olski/skład/przegląd.py` zgłasza jedną klasę z dwóch,
 bo przyłączenia zawęzić nie ma dziś czym.
 Okolicznik dochodzi w drzewie do zdarzenia zawsze,
 więc każde wyrażenie przyimkowe stojące za grupą imienną byłoby trafieniem,
@@ -1577,12 +1577,12 @@ albo rozstrzygnięcie, że takiego kryterium nie ma
 i że ta klasa do przeglądu nie wchodzi.
 
 Stopnia nie ma w składzie żadnego, a jest on kategorią dziedziny.
-`Jaki` w `skład/składnia.py` żąda od przymiotnika stopnia równego na stałe,
+`Jaki` w `olski/skład/składnia.py` żąda od przymiotnika stopnia równego na stałe,
 `Przysłówek` obok żąda tego samego i mówi w docstringu,
 że stopień wyższy „mówi co innego” i czeka na kategorię.
 Bez niego nie da się powiedzieć `Koszt szynki jest wyższy niż koszt bułki.`,
 czyli tego zdania, które mówi to samo co `Koszt szynki przewyższa koszt bułki.`
-i mówi to bez kolizji, którą `skład/przegląd.py` w drugim zgłasza.
+i mówi to bez kolizji, którą `olski/skład/przegląd.py` w drugim zgłasza.
 Do przeczytania jest, czy porównanie jest kategorią osobną od cechy,
 bo `wyższy` jest formą przymiotnika, a `niż koszt bułki` jest drugim uczestnikiem,
 więc drzewo ma tu do postawienia relację, a nie stopień przy rzeczy.
@@ -1591,7 +1591,7 @@ a nie przełącznik wybierający między dwoma zdaniami za autora:
 przegląd zgłasza, żeby autor napisał drugie drzewo,
 a nie żeby kompilator podmienił mu pierwsze.
 
-`Jest` w `skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
+`Jest` w `olski/skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
 `Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
 w `tests/test_subset.py`, a ze składu nie wyjdzie,
 bo lemat kopuli stoi w tym konstruktorze jako stała, a nie jako pole drzewa.
@@ -1607,7 +1607,7 @@ oraz `Jest` biorące lemat tak, jak bierze go `Robi`,
 wraz z odmową dla czasownika, którego ta lista nie wymienia.
 Czyta ją stamtąd także `sonda/polszczyzna.py`, więc import idzie razem z nią.
 
-`odmień` w `skład/morfologia.py` bierze pierwszą z form jednego leksemu,
+`odmień` w `olski/skład/morfologia.py` bierze pierwszą z form jednego leksemu,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
 Jest to jedyne miejsce, w którym kompilator wybiera w milczeniu,
 i zostaje po dwóch kryteriach, na które ta klasa nie sięga:
@@ -1628,13 +1628,13 @@ wybór między leksemami zapada w nazwie, a ten zapada pod jednym leksemem.
 Ruchem jest rozstrzygnięcie, czym ten wybór ma być, i kandydatów jest dwóch.
 Zgłoszenie jak `WieleLeksemów` żąda od autora wpisu przy każdym wariancie,
 także tam, gdzie oba warianty znaczą to samo, czyli przy `oczami` obok `oczyma`.
-Wpis wskazujący formę, jak `skład/leksemy.py` wskazuje leksem,
+Wpis wskazujący formę, jak `olski/skład/leksemy.py` wskazuje leksem,
 kosztuje wpis tylko tam, gdzie ktoś na wariant trafi,
 a milczy dokładnie tak jak dziś, dopóki nikt go nie napisze.
 Rozstrzyga między nimi to, ile takich wariantów rejestr naprawdę spotyka,
 i tego nikt nie policzył.
 
-`rodzaj_rzeczownika` w `skład/morfologia.py` zgłasza `BrakFormy` nad rzeczownikiem,
+`rodzaj_rzeczownika` w `olski/skład/morfologia.py` zgłasza `BrakFormy` nad rzeczownikiem,
 który liczby pojedynczej nie ma, bo szuka rodzaju w mianowniku pojedynczym.
 Kosztuje to podmiot: `drzwi` i `Włochy` nie staną w zdaniu, z którego wyjdzie czasownik,
 i nie staną w koordynacji, która rodzaju od członów żąda,
@@ -1645,7 +1645,7 @@ więc rzecz jest w miejscu, w którym się go szuka, a nie w danych.
 Ruchem jest rodzaj brany z mianownika tej liczby, którą ten leksem ma,
 wraz z testem na obie liczby, bo inaczej poprawka pokryje jedną z nich.
 
-`skład/przyimki.py` zna przyimek w jednej postaci,
+`olski/skład/przyimki.py` zna przyimek w jednej postaci,
 więc `we Wrocławiu`, `ze wsi` i `pode mną` z drzewa nie wyjdą,
 a wyjdzie z niego `w Wrocławiu`, którego polszczyzna nie ma.
 Danych do tego nie brakuje: Morfeusz znakuje obie postaci cechą `vocalicity`,
@@ -1669,23 +1669,23 @@ czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
 Do przeczytania jest to, co
 [`docs/sklad.md`](docs/sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
 mówi o cenie słownika dołożonego Morfeuszowi i o tym, co wpis ma nazywać,
-wraz z `olski/leksykon.txt` i `skład/leksemy.py`, czyli dwoma leksykonami,
+wraz z `olski/leksykon.txt` i `olski/skład/leksemy.py`, czyli dwoma leksykonami,
 które już stoją, a żaden z nich na to pytanie nie odpowiada.
 Ruchem jest rozstrzygnięcie, czy wpis wypisuje formy,
 czy wskazuje leksem, wedle którego się odmienia,
 a po nim plik z wpisami na te słowa, których to repozytorium używa o sobie.
-Drugą z tych dróg widać już na `skład/leksemy.py`, ale tylko połowę:
+Drugą z tych dróg widać już na `olski/skład/leksemy.py`, ale tylko połowę:
 wpis wskazuje tam leksem, który słownik ma,
 a tutaj trzeba wskazać leksem, wedle którego odmienia się słowo,
 którego słownik nie ma wcale.
 
-`skład/rozbiór.py` nie wypuszcza dopełnienia wyrażonego zdarzeniem,
+`olski/skład/rozbiór.py` nie wypuszcza dopełnienia wyrażonego zdarzeniem,
 więc `Linter pomaga pisać dobry kod.` nie wraca żadnym drzewem,
 choć zdanie to mają oba tory naraz.
 Bierze się to z kolejności, w której rozbiór składa kandydatów:
 konstytuenty powstają, zanim wiadomo, co jest podmiotem,
 a bezokolicznik żąda tego samego obiektu, którym stoi podmiot nad nim,
-bo tyle sprawdza `Robi` w `skład/składnia.py`.
+bo tyle sprawdza `Robi` w `olski/skład/składnia.py`.
 Do przeczytania jest `_złóż` wraz z `_ciąg` w tym samym pliku,
 bo drugie z nich przekazuje już podmiot w dół, czego pierwsze potrzebuje,
 oraz [dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
@@ -1693,9 +1693,9 @@ które trzyma warunek o cudzym wykonawcy.
 Ruchem jest zbudowanie zdania pod bezokolicznikiem po podmiocie, a nie przed nim.
 
 Przeczenie ma kategorię po obu stronach, a rozbiór jej nie odczytuje.
-`Robi` oraz `Jest` w `skład/składnia.py` mają pole `przeczenie`,
+`Robi` oraz `Jest` w `olski/skład/składnia.py` mają pole `przeczenie`,
 gramatyka wypuszcza cząstkę w ciele `Verb` przed formą czasownika,
-a `_konstytuenty` w `skład/rozbiór.py` bierze z tej pozycji samo `children[0]`,
+a `_konstytuenty` w `olski/skład/rozbiór.py` bierze z tej pozycji samo `children[0]`,
 czyli trafia na `nie` i nie znajduje pod nim żadnego lematu czasownika.
 `Nie wyniósł z piwnicy lustra.` wraca stąd powodem
 `„Nie wyniósł” nie ma tu czym być w pozycji Verb`,
@@ -1703,7 +1703,7 @@ choć jest to zdanie, które oba tory mają naraz.
 Kategorii tu nie brakuje, brakuje odczytania kształtu, który ją niesie,
 i tym różni się ten wpis od sąsiednich.
 Do przeczytania jest `_konstytuenty` wraz z produkcją `Verb`
-w `olski/subset.py` oraz `nie` w `skład/składnia.py`, czyli druga strona tej kategorii.
+w `olski/subset.py` oraz `nie` w `olski/skład/składnia.py`, czyli druga strona tej kategorii.
 Ruchem jest pozycja czasownika czytana całym ciałem,
 tak jak `_role` czyta ciało grupy imiennej,
 wraz z przeczeniem podanym do `_złóż`.
@@ -1712,26 +1712,26 @@ Liczebnik ma produkcję w gramatyce, a w tym zapisie nie ma kategorii,
 więc `Działają dwie rzeczy.` wraca powodem
 `„dwie rzeczy” nie ma tu czym być w pozycji Subject`,
 i tą samą drogą przepada każde zdanie z liczbą.
-Do przeczytania jest `_nominalne` w `skład/rozbiór.py`,
+Do przeczytania jest `_nominalne` w `olski/skład/rozbiór.py`,
 czyli lista ciał grupy imiennej, które ten kierunek mówi,
 wraz z [ceną liczebnika](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania),
 bo tamta strona ma go zmierzonego od strony gramatyki.
-Ruchem jest kategoria w `skład/składnia.py`, a nie samo ciało w rozbiorze:
+Ruchem jest kategoria w `olski/skład/składnia.py`, a nie samo ciało w rozbiorze:
 liczebnik rządzi liczbą i przypadkiem rzeczownika, którego dotyczy,
 więc bez niej nie ma z czego wypisać tego, co ma wrócić.
 
 Wybór między `w` i `na` jest faktem o rzeczowniku, a tego faktu nie ma tu nigdzie:
-`skład/przyimki.py` mówi, jakiego przypadka żąda przyimek w danej relacji,
+`olski/skład/przyimki.py` mówi, jakiego przypadka żąda przyimek w danej relacji,
 i o tym, przed którym rzeczownikiem on stanie, nie mówi nic,
 więc `w ulicy` oraz `na izbie` wychodzą z drzewa tak samo dobrze jak `na ulicy`.
 Widać to dopiero od strony tekstu, którego nikt nie pisał zdanie po zdaniu:
 autor pisze `na rynku`, nie zauważając, że wybrał,
-a `skład/makieta.py` wybrać musi i dlatego rozdziela `MIEJSCA_W` od `MIEJSCA_NA`,
+a `olski/skład/makieta.py` wybrać musi i dlatego rozdziela `MIEJSCA_W` od `MIEJSCA_NA`,
 czyli trzyma fakt o polszczyźnie w tabeli jednego programu.
 Do przeczytania jest ta para tabel wraz z tym, co
 [`docs/sklad.md`](docs/sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać)
 wylicza jako fakty poza leksykonami tego pakietu,
-oraz `PRZYIMKI` w `skład/przyimki.py`, bo pytanie jest o kolumnę, której ten plik nie ma.
+oraz `PRZYIMKI` w `olski/skład/przyimki.py`, bo pytanie jest o kolumnę, której ten plik nie ma.
 Ruchem jest ta kolumna, czyli przyimek dopisany przy rzeczowniku, a nie przy relacji,
 wraz z rozstrzygnięciem, czy milczenie takiego leksykonu odmawia, jak przy przyimkach,
 czy przepuszcza, jak przy ramie domyślnej czasownika;
@@ -1739,14 +1739,14 @@ czy przepuszcza, jak przy ramie domyślnej czasownika;
 
 Aspekt bezokolicznika nie jest sprawdzany, a czasownik nad nim go wybiera:
 `zacząć` żąda niedokonanego, więc `Czeladnik zaczął zapłakać.`
-przechodzi przez pytanie o ramę, które stawia `Robi` w `skład/składnia.py`,
+przechodzi przez pytanie o ramę, które stawia `Robi` w `olski/skład/składnia.py`,
 i wychodzi zdaniem, którego polszczyzna nie ma.
 Rama jest tu sprawdzona co do pozycji i niesprawdzona co do formy,
 która tę pozycję wypełnia, i jest to ta sama luka, którą ma
 [dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
 tylko o piętro niżej: tam leksykon mówi, czy bezokolicznik wolno postawić,
 a tutaj nie mówi, który.
-Kosztuje to dziś czasownik w tabeli `skład/makieta.py`,
+Kosztuje to dziś czasownik w tabeli `olski/skład/makieta.py`,
 która `zacząć` i `przestać` pomija, żeby losowanie takiego zdania nie wypuściło.
 Do przeczytania jest to, co `olski/walenty.py` bierze z Walentego,
 bo słownik ten aspekt przy pozycji `infp` wypisuje,
@@ -1755,7 +1755,7 @@ Ruchem jest czwarta kolumna leksykonu wraz z żądaniem postawionym `odmień`,
 albo rozstrzygnięcie, że aspekt jest wyborem lematu i że wybiera go autor,
 a wtedy ruchem jest zdanie o tym w docstringu `Robi`.
 
-`przejrzyj` w `skład/przegląd.py` uczestnika bezokolicznika z niczym nie zestawia,
+`przejrzyj` w `olski/skład/przegląd.py` uczestnika bezokolicznika z niczym nie zestawia,
 więc `Zegar chciał wynieść klucz.` nie zgłasza się,
 choć jest to ta sama klasa co `Koszt szynki przewyższa koszt bułki.`,
 od którego ten moduł powstał:
@@ -1763,7 +1763,7 @@ oba rzeczowniki brzmią w mianowniku i w bierniku tak samo,
 forma przeszła `chciał` rodzaju tych dwóch nie rozdziela,
 i polszczyzna czyta ten ciąg zarówno jako SVO, jak i jako OVS.
 Zamykają go dwa miejsca naraz:
-`_zdania_pod` w `skład/składnia.py` wypuszcza treść i okoliczność wyrażoną zdarzeniem,
+`_zdania_pod` w `olski/skład/składnia.py` wypuszcza treść i okoliczność wyrażoną zdarzeniem,
 a zdania postawionego jako dopełnienie nie wypuszcza,
 i `Robi.uczestnicy` obok niego bezokolicznika za uczestnika nie liczy.
 Ruchem jest uczestnik bezokolicznika zestawiony z podmiotem czasownika nad nim,
@@ -1780,7 +1780,7 @@ a bezokolicznik nie wydaje żadnej i obu rolom oddałby tę samą;
 formą, która te dwie rozdziela, jest `chciał` ze zdania nadrzędnego.
 Dzisiaj obie strony tego porównania biorą się z jednego zdania i tylko stamtąd.
 
-`Jest` w `skład/składnia.py` nie ma pozycji na okoliczność,
+`Jest` w `olski/skład/składnia.py` nie ma pozycji na okoliczność,
 choć `Robi` obok ma ich tyle, ile autor postawi,
 więc `Kot jest zwierzęciem w piwnicy.` nie wyjdzie ze składu,
 a olski to zdanie czyta i czyta je dwojako.
@@ -1827,7 +1827,7 @@ czyli przez dwie decyzje toru gramatycznego naraz.
 Trzy z tych czterech są liśćmi,
 a czwarty odbiera `olski/attachment.py` bycie liściem, importując go,
 i wszystkie instalują się z pakietem
-(`include = ["olski*", "skład*"]` w `pyproject.toml`),
+(`include = ["olski*"]` w `pyproject.toml`),
 a jeden ma własną komendę,
 gdzie tak samo pomiarowe programy w `harness/`
 nie mają ani instalacji, ani komendy.

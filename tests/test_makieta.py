@@ -6,9 +6,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
-from skład import Kontekst, Opowieść, kompiluj
-from skład.makieta import (
+from olski.skład import Kontekst, Opowieść, kompiluj
+from olski.skład.makieta import (
     CECHY,
     CECHY_OSÓB,
     CZYNY_RUCHU,
@@ -27,11 +26,12 @@ from skład.makieta import (
     RZECZY,
     losuj,
 )
-from skład.morfologia import odmień, rodzaj_rzeczownika
-from skład.opowieść import Postać
-from skład.przegląd import przejrzyj
-from skład.przyimki import przypadek
-from skład.składnia import Okolicznik, Przysłówek, Rzecz, byt, zdarzenie
+from olski.skład.morfologia import odmień, rodzaj_rzeczownika
+from olski.skład.opowieść import Postać
+from olski.skład.przegląd import przejrzyj
+from olski.skład.przyimki import przypadek
+from olski.skład.składnia import Okolicznik, Przysłówek, Rzecz, byt, zdarzenie
+from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -74,7 +74,7 @@ Wyszedł. \
 Szal zamknął skrzynię, którą zegar rozbił. \
 Zegar przyniósł klucze i krzywy dzban."""
 
-#: Kategorie, które niesie zapis z ``skład/składnia.py`` wraz z ``Postać`` nad nim,
+#: Kategorie, które niesie zapis z ``olski/skład/składnia.py`` wraz z ``Postać`` nad nim,
 #: czyli wszystko, z czego wolno zbudować drzewo.
 KATEGORIE = {
     "Byt",
@@ -145,7 +145,7 @@ def test_każdy_przymiotnik_inwentarza_stoi_w_każdym_rodzaju(lemat):
 def test_każdy_przysłówek_inwentarza_ma_formę_przysłówkową(lemat):
     """Partykuła tu nie przejdzie, a wygląda w tabeli tak samo jak przysłówek.
 
-    ``Przysłówek`` w ``skład/składnia.py`` żąda znakowania ``adv``,
+    ``Przysłówek`` w ``olski/skład/składnia.py`` żąda znakowania ``adv``,
     więc `znowu`, które SGJP zna jako partykułę, zgłosiłoby ``BrakFormy``.
     """
     assert Przysłówek(lemat).linearyzuj().napis
@@ -161,7 +161,7 @@ def test_każdy_czasownik_inwentarza_ma_formę_przeszłą_w_każdym_rodzaju(lema
 def test_czasownik_z_tabeli_biernikowej_biernik_bierze(lemat):
     """Ramy pilnuje leksykon, a nie tabela, i to on jest tu świadkiem.
 
-    ``Robi`` w ``skład/składnia.py`` zgłasza ``PozaRamą``, gdy drzewo żąda pozycji,
+    ``Robi`` w ``olski/skład/składnia.py`` zgłasza ``PozaRamą``, gdy drzewo żąda pozycji,
     której lemat nie ma, więc wpis chybiony zabiera losowaniu zdanie,
     zamiast wypuścić tekst, którego polszczyzna nie ma.
     """
@@ -188,7 +188,7 @@ def test_każda_okoliczność_inwentarza_stoi_w_leksykonie_i_wypisuje_się(wiers
     """Wiersz tabeli mówi dwie rzeczy naraz i obie mają tu świadka.
 
     Para słowa z relacją jest zdaniem o polszczyźnie i o niej rozstrzyga
-    ``skład/przyimki.py``, więc para, której tam nie ma, zgłasza ``PozaRamą``.
+    ``olski/skład/przyimki.py``, więc para, której tam nie ma, zgłasza ``PozaRamą``.
     Dobór rzeczowników jest zdaniem o tej tabeli i nie ma świadka w słowniku,
     a sprawdzić da się o nim tyle, że każdy z nich staje w przypadku,
     którego ten przyimek żąda.
