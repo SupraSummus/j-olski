@@ -380,6 +380,8 @@ i pomiar jest zrobiony.
 Nieciągłości potrzebuje 2,5 procent zdań cudzej polszczyzny,
 kupuje ona w olskim zero zdań,
 a odbiera jednoznaczność prawie co trzeciemu zdaniu, które ją ma.
+Sama odmowa ucisza drugie czytanie w co najwyżej dwóch zdaniach korpusu,
+którym olski obiecuje jedno, a Świgra znalazła obok niego to drugie.
 Olski zostaje więc na szczeblu 2 [drabiny](#the-cost-ladder)
 i przestawiania nie wpuszcza.
 
@@ -421,7 +423,7 @@ którego analiza kończy się na cząstce.
 Najkrótsze zdania tego zbioru są przy tym w większości pytaniami,
 a cały zbiór nie: pytań jest w nim 25 z 323.
 
-**Cena: 92 z 329 zdań przestaje mieć jedno czytanie.**
+**Cena: 99 z 347 zdań przestaje mieć jedno czytanie.**
 Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
 łukami zależności zamiast produkcjami.
 Nie gramatyka olskiego, bo spójność da się zdjąć tylko tam:
@@ -466,6 +468,51 @@ Nieciągłość uderza więc w dwie rzeczy naraz:
 w tę listę, którą rozszerza na każdy rzeczownik zdania,
 i w rozróżnienie przydawki od orzecznika, które gramatyka utrzymuje szykiem.
 
+**Maskowanie: 127 zdań ze szczeliną odrzuconą, dwa z nich przyjęte.**
+Odmowa nieciągłości ma cenę własną, o którą tamte trzy liczby nie pytają.
+Zdanie, którego drugie czytanie potrzebuje frazy nieciągłej,
+wychodzi olskiemu jednoznaczne, bo tego czytania nie ma czym wyprowadzić,
+więc `valid` obiecuje jedno czytanie zdaniu, które ma dwa.
+Odrzucenie autor zobaczy i coś z nim zrobi,
+a takiej obietnicy po werdykcie nie widać.
+Najkrócej widać to na rzeczowniku,
+który wybiera ten sam przyimek co rama czasownika przed nim:
+
+```sh
+python3 -m sonda -c "Dziadek wraca do orzechów." --łuki --nieciągłe
+```
+
+Bez tej flagi zdanie ma jedno czytanie, z `do orzechów` przy czasowniku.
+Z nią dochodzi drugie, w którym podmiotem jest nieciągłe `dziadek do orzechów`.
+Samo to czytanie dochodzi w każdym takim zdaniu,
+bo podłoże bez spójności przyłącza wyrażenie przyimkowe do każdego rzeczownika,
+i jest to cena mierzona wyżej.
+Maskowaniem czyni je dopiero czytelnik:
+ma je wtedy, gdy rzeczownik z tym przyimkiem jest nazwą jednej rzeczy.
+`Maszyna wraca do szycia.` idzie tak samo, więc klasa jest otwarta,
+a jej granica biegnie po leksyce, nie po produkcjach.
+
+W Składnicy są tym zdania, którym annotator wybrał drzewo ciągłe,
+a Świgra znalazła obok niego analizę ze szczeliną.
+Takich zdań jest 127, czyli niecały procent zmierzonych,
+a olski przyjmuje z nich dwa, z których krótsze to
+`W dwunastu wypadkach kandydatury wojewodów miały być uzgodnione.`
+Kolejne dwa czyta wieloznacznie, więc tym niczego nie obiecuje.
+Liczy je ta sama sonda, z tego samego pliku co zakup, ale nie z drzewa wybranego:
+tam szczelina jest czytaniem właściwym, a tutaj drugim z dwóch.
+
+Jest to górne oszacowanie, a nie odpowiedź.
+Annotator tamte analizy odrzucił,
+a korpus nie notuje, czy odrzucił je jako niemożliwe, czy jako drugie możliwe,
+więc zdań, w których czytelnik naprawdę ma dwa czytania, jest wśród tych 127 mniej.
+Rozstrzyga każde takie zdanie człowiek, a nie przebieg,
+i jest to ta sama różnica między pozycją a czytelnikiem,
+którą nad rejestrem czyta próbką
+[open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma).
+Tamto pytanie idzie przy tym w stronę odwrotną niż to:
+tam olski melduje wieloznaczność, której czytelnik nie ma, i płaci odrzuceniem,
+a tutaj melduje jednoznaczność, której zdanie nie ma, i płaci obietnicą.
+
 Czego te liczby nie mówią, jest trojakie.
 Zakup jest ograniczeniem z dołu, a nie liczbą potrzeby:
 zdania, którego Świgra nie rozebrała, nikt nie przeliczył,
@@ -475,13 +522,17 @@ więc zdanie z dwiema szczelinami w jednym ciągu albo z wysuniętym podmiotem
 siedzi wśród nich i tutaj się nie liczy.
 Cena jest ceną zdjęcia spójności z deklaracji bliskiej olskiemu,
 a nie z jego własnej gramatyki,
-i o ile ta deklaracja jest węższa, mówi 261 wobec 746.
+i o ile ta deklaracja jest węższa, mówi 347 wobec 1179.
 Korpus jest wreszcie prozą i prasą,
 a nie dokumentacją techniczną, do której olski jest kierowany.
 
 Wraca to rozwidlenie wtedy, gdy zakup przestanie być zerem,
 czyli gdy gramatyka odbierze zdaniom ze szczeliną ich dzisiejsze blokery.
-Sonda liczy zakup razem z tymi blokerami po to,
+Maskowanie rośnie wtedy razem z zakupem i nie ma własnego wyzwalacza:
+dwójka jest dzisiaj mała dlatego, że olski odrzuca 123 z tych 127 zdań,
+a odrzuca je na tych samych częściach mowy, tyle że w innej kolejności:
+znak przestankowy, przysłówek i cząstka zamiast cząstki, znaku i bezokolicznika.
+Sonda liczy jedno i drugie razem z tymi blokerami po to,
 żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
 
 ```sh

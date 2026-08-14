@@ -51,6 +51,15 @@ Rather than pay for machinery that resolves ambiguity,
 olski excludes the constructions that create it,
 and every later rule inherits the exclusion.
 
+One of those exclusions bounds how far the property reaches.
+A phrase has to be a contiguous stretch of text,
+so a sentence whose second reading needs a discontinuous one
+is let through carrying a single reading,
+and the verdict says nothing about the reading it could not derive.
+How many sentences that is, and what admitting them would cost instead,
+is measured by
+[what discontinuity buys and costs](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
+
 ## Co się liczy jako jedno czytanie
 
 Dwa wyprowadzenia są jednym czytaniem, kiedy mają ten sam kształt.

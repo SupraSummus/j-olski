@@ -1341,6 +1341,25 @@ Tę samą liczbę rusza wpis o zaimku wykluczonym ze słownika,
 bo `admissible` stoi między tekstem a tym pomiarem,
 więc przebieg jest jeden i oba wpisy podnosi się razem.
 
+Maskowanie nieciągłości zmierzono nad Składnicą, a nad rejestrem docelowym nie,
+i korpus prasowy zaniża tę liczbę względem dokumentacji, zamiast ją zawyżać,
+czym różni się od pozostałych liczb tamtej sekcji.
+[Sekcja](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+wywodzi tę klasę z rzeczownika,
+który wybiera ten sam przyimek co rama czasownika przed nim —
+`dziadek do orzechów`, `maszyna do szycia` —
+a dokumentacja techniczna tak właśnie nazywa swoje narzędzia,
+więc `narzędzie do podpisu` czy `moduł do fakturowania` są tam budulcem.
+Ruchem jest trzecia pozycja dopisana do `olski/wieloznaczność.py`,
+który dwie takie liczy nad korpusem audytowym i ma na to całą maszynerię:
+rzeczownik, forma osobowa, a za nią przyimek, który ten rzeczownik bierze.
+Do przeczytania jest najpierw to, skąd wziąć ostatni warunek,
+bo `olski/leksykon.txt` ma ramy czasowników i nic o przyimku przy rzeczowniku,
+a `olski/walenty.py` bierze z Walentego tylko je.
+Bez tego pozycja liczy się z listy pisanej ręcznie
+i jest warta tyle, co ta lista,
+czyli mniej niż dwie pozycje, obok których by stanęła.
+
 Nie wiadomo, ile zdań przyjętych opiera się na czytaniu,
 którego polszczyzna nie ma.
 Nad rejestrem ustaw widać dwa takie z 69 na jednej klasie i jedno na drugiej
