@@ -818,6 +818,11 @@ The verdicts beside the first half move with the grammar as well,
 and they are the half the refusal rests on:
 a construction that stops appearing there is a construction
 that has begun to buy those sentences.
+A third figure there prices the refusal itself —
+the sentences olski calls unambiguous while the forest holds a second,
+discontinuous reading — and it is moved by both of those at once:
+its population by the corpus release and by what `w_lesie` matches,
+its verdicts by the grammar.
 Refused stays refused when the price moves,
 so what the rerun protects is the number rather than the decision.
 
