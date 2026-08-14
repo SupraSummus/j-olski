@@ -217,8 +217,9 @@ def test_żadna_makieta_nie_niesie_kolizji_ról(ziarno):
 
     Zdanie, którego role czytają się na dwa sposoby, wypada z losowania
     i wraca do puli, więc nad wyjściem nie ma ani jednego zgłoszenia.
-    Liczone jest to tak, jak liczy akapit, czyli po kontekstach,
-    bo o czas pyta i jedno, i drugie.
+    Liczone jest to po kontekstach akapitu, a nie po zdaniach stojących osobno,
+    i tam też odsiew pyta: podmiot opuszczony żadnej swojej formy nie pokazuje,
+    więc zdanie odsiane samo bywa dwojakie dopiero za sąsiadem.
     """
     opowieść = losuj(ziarno)
     assert [

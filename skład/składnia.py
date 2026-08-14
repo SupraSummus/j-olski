@@ -151,6 +151,18 @@ class Kontekst:
         """
         return self.pomijany is not None and rola.tożsamość is self.pomijany
 
+    def wypisuje(self, rola: Rola) -> bool:
+        """Czy podmiot wyjdzie w tekście, czy czytelnik odzyska go bez niego.
+
+        Powody są dwa i schodzą się tutaj, bo pytają o nie dwa miejsca:
+        linearyzacja, żeby podmiotu nie wypisać,
+        i ``skład/przegląd.py``, żeby nie liczyć formy, której nikt nie zobaczy.
+        Zdanie obok orzekało o tym samym i wtedy mówi o tym ``pomija`` wyżej,
+        albo wykonawcę wskazał czasownik nad tym zdaniem i wtedy wychodzi
+        bezokolicznik, który podmiotu nie ma wcale.
+        """
+        return self.sprawca is None and not self.pomija(rola)
+
     def wskazuje(self, rola: Rola) -> bool:
         """Czy to ta rola, którą wypisywane zdanie wskazuje.
 
@@ -683,15 +695,12 @@ def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, Kawałek]]:
     opuszczają podmiot tak samo, a dwie kopie tej reguły rozjechałyby się
     na pierwszym zdaniu, które ma kopulę zamiast czasownika.
 
-    Odzyskuje go z dwóch różnych rzeczy i dlatego są tu dwa warunki.
-    Z formy czasownika, gdy zdanie obok orzekało o tym samym, i o tym mówi
-    ``pomijalny`` niżej; albo z czasownika nad tym zdaniem, gdy to on wskazał
-    wykonawcę, i wtedy podmiot nie stoi nigdy, bo bezokolicznik go nie ma.
-    Drugi warunek niczego tu nie sprawdza, bo sprawdził to konstruktor ``Robi``:
-    bezokolicznik orzekający o kimś innym niż czasownik nad nim nie powstaje.
+    Z czego czytelnik go odzyskuje, mówi ``Kontekst.wypisuje``,
+    a odpowiedź jest tam, bo pyta o nią także przegląd:
+    forma niewypisana nie mówi czytelnikowi nic.
     """
     rola = _goły(pole)
-    if kontekst.sprawca is not None or kontekst.pomija(rola):
+    if not kontekst.wypisuje(rola):
         return []
     return [(_miejsce(pole, kontekst), wypisz(rola, "nom", kontekst))]
 
@@ -721,8 +730,8 @@ def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
     return _sklej([część for część in kolejność if część is not None])
 
 
-def _zdania_pod(konstytuent):
-    """Zdania stojące pod konstytuentem, czyli te, które niosą własny podmiot.
+def _zdania_pod(konstytuent, kontekst: Kontekst = TERAZ):
+    """Zdania stojące pod konstytuentem wraz z kontekstem, w którym każde się wypisuje.
 
     Schodzi tak głęboko jak ``_wskazany``, czyli do roli i do roli pod przyimkiem,
     i z tego samego powodu: głębiej zdanie podrzędne nie ma po co stać,
@@ -732,18 +741,22 @@ def _zdania_pod(konstytuent):
     bo jej podmiot jest kimś, na kogo czytelnik trafia:
     `Wiedział, że skrzynia stała w piwnicy.` odbiera zdaniu obok opuszczenie
     dokładnie tak, jak odbiera je to samo zdarzenie postawione pod ``bo``.
+
+    Kontekst wychodzi stąd wraz ze zdaniem, bo to samo miejsce, które mówi,
+    gdzie zdanie podrzędne wisi, mówi też, co ono z góry dziedziczy,
+    a każdy, kto tego zdania nie wypisuje, tylko je ogląda, potrzebuje obu naraz.
     """
     goły = _goły(konstytuent)
     if isinstance(goły, Treść):
-        yield goły.zdanie
+        yield goły.zdanie, kontekst.podrzędne()
         return
     if isinstance(goły, Okolicznik):
         if goły.zdarzeniem:
-            yield goły.co
+            yield goły.co, kontekst.podrzędne()
             return
         goły = goły.co
     if isinstance(goły, Opis):
-        yield goły.zdanie
+        yield goły.zdanie, goły.wewnątrz(kontekst)
 
 
 class Zdanie:
@@ -766,11 +779,14 @@ class Zdanie:
         Zdanie proste ma jeden podmiot, a złożone ma go tyle, ile ma zdarzeń,
         i wszystkie one są tym, na co czytelnik trafia,
         szukając podmiotu, którego zdanie obok nie wypisało.
+
+        Kontekstu ta lista nie dostaje i nie ma po co,
+        bo pyta o role wypisane w drzewie, a kontekst rozstrzyga o formach.
         """
         pod = (
             rola
             for konstytuent in self.konstytuenty
-            for niższe in _zdania_pod(konstytuent)
+            for niższe, _ in _zdania_pod(konstytuent)
             for rola in niższe.podmioty
         )
         return (self.podmiot, *pod)
@@ -805,24 +821,27 @@ class Zdanie:
         Nie schodzi ona pod konstytuenty, inaczej niż ``podmioty`` wyżej,
         bo uczestnicy dwóch zdań zestawieni w jedną listę
         dawaliby parę, która przy żadnym orzeczeniu razem nie stanęła;
-        po zdania schodzi ``zdania`` niżej.
+        po zdania schodzi ``konteksty`` niżej.
         """
         return ((self.podmiot, "nom"),)
 
-    @property
-    def zdania(self) -> tuple[Zdanie, ...]:
-        """To zdanie wraz z tymi, które stoją pod jego konstytuentami.
+    def konteksty(self, kontekst: Kontekst = TERAZ):
+        """To zdanie wraz z tymi, które stoją pod nim, każde w swoim kontekście.
 
         Jednostką jest tu orzeczenie, bo tyle wystarcza,
         żeby o dwóch rolach powiedzieć, że stanęły przy jednym.
+
+        Kontekst idzie razem ze zdaniem, bo bez niego nie wiadomo,
+        jakim napisem to zdanie wyszło: zdanie podrzędne mówi o wskazanej rzeczy
+        zaimkiem, a zdanie po zdaniu o tym samym podmiocie podmiotu nie wypisuje.
+        Liczy się go tą samą drogą, którą idzie linearyzacja,
+        bo druga kopia mierzyłaby tekst, którego ten plik nie składa;
+        tak samo robi ``Akapit.konteksty`` w ``skład/opowieść.py`` piętro wyżej.
         """
-        pod = (
-            niższe
-            for konstytuent in self.konstytuenty
-            for zdanie in _zdania_pod(konstytuent)
-            for niższe in zdanie.zdania
-        )
-        return (self, *pod)
+        yield self, kontekst
+        for konstytuent in self.konstytuenty:
+            for niższe, niżej in _zdania_pod(konstytuent, kontekst):
+                yield from niższe.konteksty(niżej)
 
     def _orzeczenie(self, kontekst: Kontekst) -> str:
         """Czasownik w formie, której żąda podmiot, wraz z przeczeniem.
@@ -1135,23 +1154,35 @@ class Ciąg(Zdanie):
         bo o to pyta ``pomijalny``, składając ciąg ze zdaniem obok.
         Tu odpowiedź jest inna, bo inne jest pytanie:
         uczestnicy stają przy orzeczeniu, a nie przy zdaniu,
-        więc szuka się ich w ``zdania`` niżej, po jednym zdarzeniu naraz.
+        więc szuka się ich w ``konteksty`` niżej, po jednym zdarzeniu naraz.
         """
         return ()
 
-    @property
-    def zdania(self) -> tuple[Zdanie, ...]:
-        """Zdania wszystkich zdarzeń, a nie samego ciągu."""
-        return tuple(zdanie for zdarzenie in self.zdarzenia for zdanie in zdarzenie.zdania)
+    def _kolejno(self, kontekst: Kontekst):
+        """Zdarzenia wraz z kontekstem każdego: drugie i dalsze podmiot opuszczają.
+
+        Pierwsze bierze kontekst nietknięty, a nie policzony wobec pustki,
+        bo o jego podmiocie rozstrzygnął akapit, składając cały ciąg ze zdaniem
+        przed nim, i ta odpowiedź stoi już w tym kontekście.
+
+        Odpowiedź pada tu raz, a czyta ją i linearyzacja, i ``konteksty``,
+        bo o opuszczonym podmiocie musi wiedzieć nie tylko ten, kto ciąg wypisuje,
+        ale i ten, kto pyta, co z niego wyszło.
+        """
+        poprzednie = None
+        for zdarzenie in self.zdarzenia:
+            yield zdarzenie, (
+                kontekst if poprzednie is None else po_poprzednim(zdarzenie, poprzednie, kontekst)
+            )
+            poprzednie = zdarzenie
+
+    def konteksty(self, kontekst: Kontekst = TERAZ):
+        """Zdania wszystkich zdarzeń, a nie samego ciągu, każde w kontekście z ``_kolejno``."""
+        for zdarzenie, jego in self._kolejno(kontekst):
+            yield from zdarzenie.konteksty(jego)
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
-        poprzednie = self.zdarzenia[0]
-        wypisane = [poprzednie.linearyzuj(kontekst)]
-        for zdarzenie in self.zdarzenia[1:]:
-            pomijany = pomijalny(zdarzenie, poprzednie, kontekst)
-            wypisane.append(zdarzenie.linearyzuj(replace(kontekst, pomijany=pomijany)))
-            poprzednie = zdarzenie
-        return _lista(wypisane)
+        return _lista([zdarzenie.linearyzuj(jego) for zdarzenie, jego in self._kolejno(kontekst)])
 
 
 @dataclass(frozen=True)
@@ -1196,6 +1227,15 @@ class Opis(Rola):
     def tożsamość(self):
         return self.rzecz.tożsamość
 
+    def wewnątrz(self, kontekst: Kontekst) -> Kontekst:
+        """Kontekst zdania opisującego: podrzędne wraz z rzeczą, którą ma wskazać.
+
+        Wydzielone z linearyzacji, bo pyta o to samo ``_zdania_pod``,
+        a bez tej rzeczy opis wychodziłby stamtąd zdaniem, w którym zaimka nie ma,
+        czyli napisem, którego autor nie dostał.
+        """
+        return replace(kontekst.podrzędne(), wskazywany=self.rzecz)
+
     def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> Kawałek:
         """Rzecz, przecinek, zdanie o niej, a przecinek zamykający jako żądanie.
 
@@ -1210,8 +1250,7 @@ class Opis(Rola):
         a zamykający zostaje żądaniem, bo stoi na jego krańcu
         i rozstrzyga o nim to, co obok stanie.
         """
-        wewnątrz = replace(kontekst.podrzędne(), wskazywany=self.rzecz)
-        zdanie = replace(self.zdanie.linearyzuj(wewnątrz), przed=True)
+        zdanie = replace(self.zdanie.linearyzuj(self.wewnątrz(kontekst)), przed=True)
         return replace(_sklej([wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
 
 
@@ -1250,6 +1289,19 @@ def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst):
     if any(forma_czasownika(zdanie.czasownik, rola, kontekst) == forma for rola in mylące):
         return None
     return tożsamość
+
+
+def po_poprzednim(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst) -> Kontekst:
+    """Kontekst zdania stojącego za poprzednim, czyli z podmiotem opuszczonym albo nie.
+
+    Pytają o to trzy miejsca i muszą dostać tę samą odpowiedź:
+    akapit i ciąg zdarzeń, bo z tego składają tekst,
+    oraz odsiew ``skład/makieta.py``, bo pyta o zdanie, które akapit dopiero złoży.
+    Trzy kopie tego jednego wiersza rozjechałyby się na pierwszym warunku
+    dopisanym do ``pomijalny`` wyżej, a odsiew mierzyłby wtedy inny tekst,
+    niż akapit potem wypisze.
+    """
+    return replace(kontekst, pomijany=pomijalny(zdanie, poprzednie, kontekst))
 
 
 def kompiluj(drzewo, kontekst: Kontekst = TERAZ) -> str:

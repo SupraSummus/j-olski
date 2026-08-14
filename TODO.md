@@ -1740,25 +1740,30 @@ Ruchem jest czwarta kolumna leksykonu wraz z żądaniem postawionym `odmień`,
 albo rozstrzygnięcie, że aspekt jest wyborem lematu i że wybiera go autor,
 a wtedy ruchem jest zdanie o tym w docstringu `Robi`.
 
-`_rozróżnia` w `skład/przegląd.py` czyta formę podmiotu także wtedy,
-gdy tego podmiotu w tekście nie ma.
-Kosztuje to całą klasę zgłoszeń nad tekstem, który podmiot opuszcza:
-`Córka wróciła. Zamknęła sień.` nie zgłasza się,
-bo mianownik `córka` różni się od biernika `córkę` i to wystarcza za rozróżnienie,
-a czytelnik widzi jedną grupę imienną w formie, którą polszczyzna czyta w obu rolach,
-i drugie zdanie mówi mu tyle samo o tym, że sień zamknęła coś, czego zdanie nie wymienia.
-Warunek ten jest w tamtym pliku wypisany jako pierwszy z trzech
-i mówi wprost, że czytelnik odzyskuje rolę z formy,
-więc forma niewypisana odpowiedzi nie daje.
-Do przeczytania jest `Kontekst.pomija` w `skład/składnia.py`,
-bo przegląd tę odpowiedź ma pod ręką i o nią nie pyta,
+`przejrzyj` w `skład/przegląd.py` uczestnika bezokolicznika z niczym nie zestawia,
+więc `Zegar chciał wynieść klucz.` nie zgłasza się,
+choć jest to ta sama klasa co `Koszt szynki przewyższa koszt bułki.`,
+od którego ten moduł powstał:
+oba rzeczowniki brzmią w mianowniku i w bierniku tak samo,
+forma przeszła `chciał` rodzaju tych dwóch nie rozdziela,
+i polszczyzna czyta ten ciąg zarówno jako SVO, jak i jako OVS.
+Zamykają go dwa miejsca naraz:
+`_zdania_pod` w `skład/składnia.py` wypuszcza treść i okoliczność wyrażoną zdarzeniem,
+a zdania postawionego jako dopełnienie nie wypuszcza,
+i `Robi.uczestnicy` obok niego bezokolicznika za uczestnika nie liczy.
+Ruchem jest uczestnik bezokolicznika zestawiony z podmiotem czasownika nad nim,
+a nie ze swoim, bo bezokolicznik podmiotu nie ma;
+para przechodzi więc przez piętro, czego żadna dzisiejsza para nie robi.
+Do przeczytania jest to, co
+[`docs/sklad.md`](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
+mówi o tym, że podmiot w takim zdaniu nie staje nigdy,
 oraz [postawa przeglądu](docs/sklad.md#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
-która o tym pomiarze mówi, że liczy się go z form, a nie z czytań.
-Ruchem jest ten warunek pominięty tam, gdzie podmiot jest pomijany,
-wraz z testem na parę zdań o jednej postaci,
-w której dopełnienie brzmi jak mianownik tego samego rodzaju.
-Do rozstrzygnięcia zostaje przy tym, czy zgłoszenie ma wtedy wypisywać podmiot,
-którego w tekście nie ma, bo `Kolizja` niesie formy, a jednej z nich nie widać.
+która o tym pomiarze mówi, że liczy się go z form, które w tekście stanęły.
+Zażąda to od `_rozróżnia` czasownika z innego zdania niż uczestnik,
+bo trzeci warunek pyta o formę, którą rola z czasownika wyciąga,
+a bezokolicznik nie wydaje żadnej i obu rolom oddałby tę samą;
+formą, która te dwie rozdziela, jest `chciał` ze zdania nadrzędnego.
+Dzisiaj obie strony tego porównania biorą się z jednego zdania i tylko stamtąd.
 
 `Jest` w `skład/składnia.py` nie ma pozycji na okoliczność,
 choć `Robi` obok ma ich tyle, ile autor postawi,

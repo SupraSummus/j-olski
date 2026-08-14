@@ -6,13 +6,27 @@ from olski.subset import check
 from olski.wieloznaczność import miejsca
 from opowieści.bazyliszek import OPOWIEŚĆ
 from skład import kompiluj
+from skład.opowieść import Akapit, Postać
 from skład.przegląd import przejrzyj
-from skład.składnia import TERAZ, Kontekst, nie
-from skład.słownik import Dokąd, Kiedy, R, V, jest, potem
+from skład.składnia import TERAZ, Kontekst, Rzecz, byt, nie
+from skład.słownik import Dokąd, Kiedy, R, V, jest, opis, potem
 
 
 def kolizje(drzewo, kontekst=TERAZ):
     return [x.formy for x in przejrzyj(drzewo, kontekst)]
+
+
+def nad_akapitem(akapit, czas="kiedyś"):
+    """Zgłoszenia przeglądu nad akapitem, czyli po kontekstach, którymi on się składa.
+
+    Osobno od napisu, bo o opuszczonym podmiocie rozstrzyga akapit,
+    więc test, który tego napisu nie pokaże obok, mierzy co innego, niż czyta.
+    """
+    return [
+        kolizja
+        for zdanie, kontekst in akapit.konteksty(czas)
+        for kolizja in przejrzyj(zdanie, kontekst)
+    ]
 
 
 def test_dwie_role_nieodróżnialne_zgłaszają_się_choć_drzewo_jest_dobre():
@@ -100,6 +114,80 @@ def test_kolizja_spod_okoliczności_wyrażonej_zdarzeniem_zgłasza_się_też():
     drzewo = V.zasłaniać(R.czeladnik, R.lustro, Kiedy.gdy(V.zapisywać(R.program, R.plik)))
     assert kompiluj(drzewo) == "Czeladnik zasłania lustro, gdy program zapisuje plik."
     assert kolizje(drzewo) == [("program", "plik")]
+
+
+def test_zdanie_z_opuszczonym_podmiotem_zgłasza_się_samym_dopełnieniem():
+    """Podmiot, którego w tekście nie ma, żadnej swojej formy czytelnikowi nie pokazuje.
+
+    Zdanie stoi tu drugie w akapicie i mówi o tej samej postaci co pierwsze,
+    więc podmiot z niego wypada, a zostaje `sień`, którą polszczyzna czyta
+    i w mianowniku, i w bierniku; forma przeszła tych dwóch ról nie rozdziela,
+    bo obie są żeńskie.
+    Zgłoszenie niesie przez to jeden napis, a nie dwa: forma, której nie widać,
+    nie jest tym, na co autor ma spojrzeć.
+    """
+    córka = Postać(R.córka)
+    akapit = Akapit(V.wracać(córka), V.zamykać(córka, R.sień))
+    assert akapit.kompiluj("kiedyś") == "Córka wracała. Zamykała sień."
+    (kolizja,) = nad_akapitem(akapit)
+    assert kolizja.formy == ("sień",)
+    #  Zgłoszenie ma powiedzieć, czego autor nie widzi, a nie wypisać drugą formę
+    #  za polszczyznę: podmiotu w tym zdaniu nie ma.
+    assert "„sień” stoi w formie" in kolizja.opisz()
+    assert "podmiotu to zdanie nie wypisuje" in kolizja.opisz()
+
+
+@pytest.mark.parametrize(
+    ("dopełnienie", "tekst"),
+    [
+        #  Czasownik: lustro jest nijakie, więc forma przeszła rozdziela je od córki.
+        (Rzecz("lustro"), "Córka wracała. Zamykała lustro."),
+        #  Forma uczestnika: biernik różni się od mianownika, choć rodzaj jest wspólny.
+        (Rzecz("skrzynia"), "Córka wracała. Zamykała skrzynię."),
+    ],
+)
+def test_opuszczony_podmiot_nie_zdejmuje_dwóch_pozostałych_rozróżnień(dopełnienie, tekst):
+    """Zostają dwa warunki i oba mierzą to, co w tekście widać.
+
+    Bez nich każde zdanie o opuszczonym podmiocie byłoby trafieniem,
+    a raport zgłaszający je wszystkie nie oddzielałby niczego od niczego.
+    """
+    córka = Postać(R.córka)
+    akapit = Akapit(V.wracać(córka), V.zamykać(córka, dopełnienie))
+    assert akapit.kompiluj("kiedyś") == tekst
+    assert nad_akapitem(akapit) == []
+
+
+def test_rzecz_wskazana_liczy_się_z_zaimka_którym_wyszła():
+    """Zdanie podrzędne mówi o wskazanej rzeczy zaimkiem, a zaimek przypadek pokazuje.
+
+    `sień` brzmi w mianowniku i w bierniku tak samo, a `którą` nie brzmi,
+    więc czytelnik wie, która rola jest którą, i zgłoszenia tu nie ma.
+    Liczone z samej grupy imiennej wyszłoby trafienie na zdaniu,
+    które ról wcale nie miesza, czyli zarzut wobec napisu, którego autor nie dostał.
+    """
+    sień = byt(R.sień)
+    drzewo = V.zasłaniać(R.czeladnik, opis(sień, V.zamykać(R.klucz, sień)))
+    assert kompiluj(drzewo) == "Czeladnik zasłania sień, którą klucz zamyka."
+    assert kolizje(drzewo) == []
+
+
+def test_każde_mierzone_zdanie_wychodzi_takim_napisem_jakim_je_zmierzono():
+    """Przegląd mierzy napis, więc mierzony napis ma stać w tekście, a nie obok niego.
+
+    Rozjeżdża się to cicho i rozjechało się raz:
+    pole dopisane do ``Kontekst`` przekazuje w dół linearyzacja,
+    a ``Zdanie.konteksty`` obok niej przekazać go może zapomnieć,
+    i wtedy przegląd czyta zdanie, którego autor nie dostał.
+    Legenda jest tu materiałem, bo niesie wszystkie kategorie zapisu naraz,
+    wraz z opuszczonym podmiotem i z rzeczą wskazaną zaimkiem.
+    """
+    for akapit in OPOWIEŚĆ.akapity:
+        tekst = akapit.kompiluj(OPOWIEŚĆ.CZAS)
+        for zdanie, kontekst in akapit.konteksty(OPOWIEŚĆ.CZAS):
+            for niższe, jego in zdanie.konteksty(kontekst):
+                #  Kompilacja podnosi pierwszą literę zdania, a pomiar jej nie podnosi.
+                assert niższe.linearyzuj(jego).napis.lower() in tekst.lower()
 
 
 def test_opowieść_o_bazyliszku_nie_niesie_ani_jednej_kolizji():

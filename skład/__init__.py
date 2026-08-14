@@ -58,6 +58,7 @@ from skład.składnia import (
     byt,
     kompiluj,
     nie,
+    po_poprzednim,
     pomijalny,
     zdarzenie,
 )
@@ -97,6 +98,7 @@ __all__ = [
     "leksem",
     "nie",
     "odmień",
+    "po_poprzednim",
     "pomijalny",
     "przejrzyj",
     "przypadek",
