@@ -624,9 +624,15 @@ Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 One of those tables has a fourth thing that moves it and no production in sight:
 [which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)
-is what `Las.ma_czytanie` in `olski/parse.py` answers
+is what `Las.numer_czytania` in `olski/parse.py` answers
 about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
 so a change to either moves that table and leaves the rest of the run standing.
+A second table sits under that same heading, saying which reading the gold one is,
+and it has a mover the first one has not:
+the order the forest yields readings in, which `ciała` in `olski/parse.py` fixes.
+Whether a reading is in the forest does not depend on that order and its number is nothing else,
+so a rewrite there can leave every verdict and every survival answer alone
+and still move the second table.
 The same change moves what that document says about the run over the README,
 which is the other half of the same demand and needs no fetch at all:
 rerun the two commands it prints and correct the sentences under them.

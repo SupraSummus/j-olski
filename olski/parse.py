@@ -28,7 +28,7 @@ how many readings there are,
 which of them a reader is shown,
 which roles the readings disagree about,
 which attachment the sentence leaves open,
-and whether a reading named from outside, by its roles, is among them.
+and which of them a reading named from outside, by its roles, turns out to be.
 docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
 and docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania
@@ -318,8 +318,8 @@ def las(grammar: Grammar, segments: list[Segment], start: str | None = None) -> 
     """Las tego zdania, do chodzenia po nim.
 
     Wywołuje ją pomiar, bo pyta las o więcej, niż werdykt z niego bierze:
-    obok :func:`podsumuj` pyta jeszcze, czy złote czytanie w tym lesie ocalało
-    (:meth:`Las.ma_czytanie`).
+    obok :func:`podsumuj` pyta jeszcze, którym z kolei czytaniem jest w tym lesie złote
+    (:meth:`Las.numer_czytania`).
     Sam werdykt woła :func:`parse`, która las porzuca,
     bo dokument trzyma tyle werdyktów, ile ma zdań,
     a jeden las waży tyle, ile jego tablica.
@@ -590,6 +590,16 @@ def _jedne(klasa: Klasa) -> Cechy:
 #: bo pytanie o cudze czytanie dotyczy przypisania naraz:
 #: czytanie z dobrym podmiotem i cudzym dopełnieniem tym czytaniem nie jest.
 Rozdanie = tuple[frozenset[tuple[int, int]], ...]
+
+
+def _rozdanie_drzewa(drzewo: Node, etykiety: tuple[str, ...]) -> Rozdanie:
+    """Rozdanie ról jednego wyliczonego czytania.
+
+    Tą samą miarą, jaką składa je z lasu :meth:`Las._rozdania`,
+    czyli każdym węzłem tej etykiety pod korzeniem (:meth:`Node.find`),
+    bo dopiero wtedy numer jest numerem czytania, o które pytano.
+    """
+    return tuple(frozenset(node.span for node in drzewo.find(etykieta)) for etykieta in etykiety)
 
 
 def _ponad(rozdanie: Rozdanie, żądane: Rozdanie) -> bool:
@@ -1133,21 +1143,34 @@ class Las:
 
     # -- czytanie nazwane rolami z zewnątrz --------------------------------- #
 
-    def ma_czytanie(self, role: Mapping[str, frozenset[tuple[int, int]]]) -> bool:
-        """Czy któreś czytanie przypisuje te role dokładnie tak.
+    def numer_czytania(self, role: Mapping[str, frozenset[tuple[int, int]]]) -> int | None:
+        """Którym z kolei czytaniem jest to, które przypisuje te role; ``None``, gdy żadnym.
 
         Pyta ten, kto ma cudze czytanie jednego z tych zdań
-        i chce wiedzieć, czy ono w tym lesie ocalało.
+        i chce wiedzieć, czy ono w tym lesie ocalało, a jeśli tak, to jak głęboko.
+        Numer jest tym, ile odpowiedź „ocalało” jest warta:
+        czytanie drugie z dwóch i czytanie tysięczne z dwudziestu ośmiu tysięcy
+        ocalały jednakowo, a przeczyta z nich ktoś jedno.
 
         Rolami, a nie kształtem, bo dwie gramatyki grupują materiał każda po swojemu,
         więc porównanie nawiasów mierzyłoby różnicę między formalizmami.
         Rolę obie orzekają o zdaniu, i tą samą miarą mierzy zgodność
         ``Outcome.agreement`` w ``olski/coverage.py``, więc obie odpowiedzi mówią o jednym.
 
-        Pyta las, a nie listę czytań, i po to ta metoda tu jest:
-        lista urywa się na :data:`MAX_READINGS`,
+        Odpowiedź składa się z dwóch pytań zadanych po kolei i oba są tu potrzebne.
+        Czy takie czytanie w lesie jest, mówi las bez wyliczania drzew,
+        i po to ta połowa tu jest: lista urywa się na :data:`MAX_READINGS`,
         a zdania wieloznaczne są dokładnie tymi, nad którymi ta granica pada,
         więc czytanie ocalałe za nią wyszłoby z listy przepadłe.
+        Którym z kolei jest, mówi dopiero wyliczanie,
+        bo numer jest miejscem w kolejności, którą ustala :meth:`_Tablica.ciała`,
+        a numer policzony obok byłby tą kolejnością wypisaną drugi raz.
+
+        Wyliczanie rusza więc dopiero po odpowiedzi twierdzącej i na tym czytaniu przystaje,
+        czyli kosztuje tyle, ile numer, a nie tyle, ile las ma czytań;
+        granica z :data:`MAX_READINGS` nie jest mu przez to potrzebna.
+        Ile to kosztuje nad bankiem drzew, mówi
+        docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych.
 
         Zbiór pusty jest żądaniem, a nie jego brakiem:
         etykieta, której pytający nigdzie nie obsadza,
@@ -1155,9 +1178,16 @@ class Las:
         """
         etykiety = tuple(sorted(role))
         żądane: Rozdanie = tuple(frozenset(role[etykieta]) for etykieta in etykiety)
-        return any(
+        if not any(
             żądane in self._rozdania((self.korzeń, klasa), etykiety, żądane)
             for klasa in self.klasy(self.korzeń)
+        ):
+            return None
+        for numer, drzewo in enumerate(self.czytania(), 1):
+            if _rozdanie_drzewa(drzewo, etykiety) == żądane:
+                return numer
+        raise AssertionError(
+            "las składa to rozdanie ról, a wyliczanie nie wydało drzewa o tym rozdaniu"
         )
 
     def _rozdania(

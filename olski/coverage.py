@@ -42,11 +42,17 @@ from pathlib import Path
 
 from olski.corpus import Sentence, pliki, read
 from olski.morph import Segment
-from olski.parse import Las, Result, las, podsumuj
+from olski.parse import MAX_READINGS, Las, Result, las, podsumuj
 from olski.subset import GRAMMAR, morphology
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
+
+#: Kubełki, na jakie dzieli się numer złotego czytania, jako górne granice.
+#: Obie granice coś znaczą, a równych odstępów nie ma tu po czym mierzyć:
+#: czytanie pierwsze jest tym, które czytelnik zobaczy na górze wydruku,
+#: a za :data:`MAX_READINGS` nie zobaczy go wcale.
+GŁĘBOKOŚCI = (1, MAX_READINGS)
 
 #: What the report says when a sentence was derivable up to its last token and
 #: still had no reading covering the whole of it.
@@ -83,6 +89,11 @@ class Outcome:
     #: bo odpowiada na nie las, a werdykt lasu nie niesie:
     #: waży on tyle, ile jego tablica, a raport przechodzi granicę procesu.
     ocalenie: str | None = None
+    #: Którym z kolei czytaniem złote jest, jeżeli ocalało; ``None``, gdy nie ocalało
+    #: albo gdy pytanie nie powstaje.
+    #: Osobno od :attr:`ocalenie`, bo mówi, ile tamta odpowiedź jest warta,
+    #: a nie powtarza jej innym typem.
+    głębokość: int | None = None
 
     def __post_init__(self) -> None:
         if not self.segments:
@@ -176,6 +187,10 @@ class Report:
     unjudged: int = 0
     #: Zdania wieloznaczne po tym, czy złote czytanie jest wśród ich czytań.
     ocalenia: collections.Counter = field(default_factory=collections.Counter)
+    #: Zdania, w których złote czytanie ocalało, po jego numerze w kolejności czytań.
+    #: Liczone numerem, a nie kubełkiem, bo kubełek jest sposobem opowiedzenia tej liczby
+    #: i wybiera go wydruk, a najgłębszy numer trzeba mieć dokładnie.
+    głębokości: collections.Counter = field(default_factory=collections.Counter)
     #: Zdania wieloznaczne, o które to pytanie nie pada, bo drzewo wzorcowe nie
     #: nazywa ani jednej roli. Osobno od licznika wyżej z tego samego powodu, dla
     #: którego :attr:`unjudged` liczy się osobno od :attr:`agreements`.
@@ -200,7 +215,9 @@ class Report:
             self.ocalenia[outcome.ocalenie] += 1
         elif outcome.comparable and outcome.result.ambiguous:
             self.bez_roli += 1
-        bucket = _bucket(len(outcome.sentence.segments))
+        if outcome.głębokość is not None:
+            self.głębokości[outcome.głębokość] += 1
+        bucket = _bucket(len(outcome.sentence.segments), BUCKETS)
         self.lengths.setdefault(bucket, collections.Counter())[status] += 1
         kept = self.examples.setdefault(_example_key(outcome), [])
         if len(kept) < keep_examples:
@@ -215,11 +232,15 @@ def _example_key(outcome: Outcome) -> str:
     return outcome.status
 
 
-def _bucket(tokens: int) -> str:
+def _bucket(count: int, bounds: Sequence[int]) -> str:
+    """Kubełek, w który ta liczba wpada, nazwany przedziałem, jaki obejmuje.
+
+    Jedna funkcja na obie krzywe, bo różnią się granicami i niczym poza nimi.
+    """
     previous = 1
-    for bound in BUCKETS:
-        if tokens <= bound:
-            return f"{previous}-{bound}"
+    for bound in bounds:
+        if count <= bound:
+            return f"{bound}" if previous == bound else f"{previous}-{bound}"
         previous = bound + 1
     return f"{previous}+"
 
@@ -237,10 +258,12 @@ def segments_for(sentence: Sentence, source: str) -> list[Segment]:
     return morphology(sentence.text)
 
 
-def _ocalenie(zbudowany: Las, sentence: Sentence, result: Result, comparable: bool) -> str | None:
-    """Czy złote czytanie jest wśród czytań tego zdania; ``None``, gdy pytanie nie powstaje.
+def _ocalenie(
+    zbudowany: Las, sentence: Sentence, result: Result, comparable: bool
+) -> tuple[str | None, int | None]:
+    """Czy złote czytanie jest wśród czytań tego zdania i którym z nich.
 
-    Nie powstaje ono w trzech wypadkach.
+    Oddaje dwie wartości ``None``, gdy pytanie nie powstaje, a nie powstaje w trzech wypadkach.
     Rozpiętości nieporównywalne: pod żywą morfologią pozycje są odstępami w napisie,
     więc złote rozpiętości nazywałyby co innego.
     Drzewo wzorcowe bez ani jednej roli: nie ma czego szukać.
@@ -250,11 +273,15 @@ def _ocalenie(zbudowany: Las, sentence: Sentence, result: Result, comparable: bo
 
     Zostaje więc zdanie wieloznaczne, czyli to, o którym samo odrzucenie mówi
     tyle, że jakieś czytanie się wyprowadziło.
+
+    Werdykt i numer wracają razem, a nie jeden zamiast drugiego:
+    o zdaniu, którego złote czytanie przepadło, numer nie mówi nic.
     """
     if not comparable or not result.ambiguous or not sentence.roles:
-        return None
+        return None, None
     złote = {rola: sentence.spans(rola) for rola in PORÓWNYWANE_ROLE}
-    return "survives" if zbudowany.ma_czytanie(złote) else "lost"
+    numer = zbudowany.numer_czytania(złote)
+    return ("lost", None) if numer is None else ("survives", numer)
 
 
 def zmierz_zdanie(sentence: Sentence, segments: Sequence[Segment], comparable: bool) -> Outcome:
@@ -265,12 +292,14 @@ def zmierz_zdanie(sentence: Sentence, segments: Sequence[Segment], comparable: b
     """
     zbudowany = las(GRAMMAR, list(segments))
     result = podsumuj(zbudowany)
+    ocalenie, głębokość = _ocalenie(zbudowany, sentence, result, comparable)
     return Outcome(
         sentence=sentence,
         result=result,
         segments=tuple(segments),
         comparable=comparable,
-        ocalenie=_ocalenie(zbudowany, sentence, result, comparable),
+        ocalenie=ocalenie,
+        głębokość=głębokość,
     )
 
 
@@ -376,6 +405,7 @@ def scal(raporty: Iterable[Report], source: str, keep_examples: int = 0) -> Repo
         scalony.blockers.update(raport.blockers)
         scalony.agreements.update(raport.agreements)
         scalony.ocalenia.update(raport.ocalenia)
+        scalony.głębokości.update(raport.głębokości)
         scalony.skipped.update(raport.skipped)
         scalony.unjudged += raport.unjudged
         scalony.bez_roli += raport.bez_roli
@@ -393,12 +423,26 @@ def scal(raporty: Iterable[Report], source: str, keep_examples: int = 0) -> Repo
 # --------------------------------------------------------------------------- #
 
 
-def _rows(counter: collections.Counter, total: int, limit: int | None = None) -> list[str]:
+def _rows(pary: Sequence[tuple[str, int]], total: int) -> list[str]:
+    """Wiersze tabeli w kolejności, w jakiej przyszły.
+
+    Kolejność wybiera wołający, bo znaczy w każdej tabeli co innego:
+    licznik czyta się od najliczniejszego, a kubełek od najmniejszej granicy.
+    """
     lines = []
-    for name, count in counter.most_common(limit):
+    for name, count in pary:
         share = f"{count / total:6.1%}" if total else "     -"
         lines.append(f"  {count:7} {share}  {name}")
     return lines
+
+
+def _dolna_granica(kubełek: str) -> int:
+    """Granica, od której ten kubełek się zaczyna, czyli to, co go porządkuje.
+
+    Nazwa kubełka zaczyna się od niej, bo tak ją składa :func:`_bucket`,
+    i obie krzywe sortują się nią, żeby ta zależność miała jedno miejsce.
+    """
+    return int(kubełek.split("-")[0].rstrip("+"))
 
 
 def _wobec_złotego(
@@ -412,10 +456,34 @@ def _wobec_złotego(
     if not counter:
         return []
     ile = sum(counter.values())
-    wiersze = ["", f"{nagłówek.format(ile=ile)}:", *_rows(counter, ile)]
+    wiersze = ["", f"{nagłówek.format(ile=ile)}:", *_rows(counter.most_common(), ile)]
     if bez_roli:
         wiersze.append(f"  {bez_roli:7}          {status}, no gold role to compare")
     return wiersze
+
+
+def _jak_głęboko(głębokości: collections.Counter) -> list[str]:
+    """Którym z kolei czytaniem bywa złote, w kubełkach, a pod nimi najgłębszy numer.
+
+    Kubełki dzieli granica wypisywania, a nie równe odstępy,
+    bo to ona rozstrzyga, czy czytelnik złote czytanie zobaczy
+    (docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych).
+    Najgłębszy numer idzie pod nie sam,
+    bo mówi, jak blisko tej granicy przebieg podszedł, czego kubełek nie mówi.
+    """
+    if not głębokości:
+        return []
+    ile = sum(głębokości.values())
+    w_kubełkach = collections.Counter()
+    for numer, count in głębokości.items():
+        w_kubełkach[_bucket(numer, GŁĘBOKOŚCI)] += count
+    kolejne = [(nazwa, w_kubełkach[nazwa]) for nazwa in sorted(w_kubełkach, key=_dolna_granica)]
+    return [
+        "",
+        f"which reading the gold one is, on {ile} sentences where it survives:",
+        *_rows(kolejne, ile),
+        f"  the deepest is reading {max(głębokości)}",
+    ]
 
 
 def render(report: Report, blockers: int = 12) -> str:
@@ -424,10 +492,10 @@ def render(report: Report, blockers: int = 12) -> str:
         f"Składnica, {report.source} morphology",
         "",
         f"corpus: {sum(report.verdicts.values())} forests",
-        *_rows(report.verdicts, sum(report.verdicts.values())),
+        *_rows(report.verdicts.most_common(), sum(report.verdicts.values())),
         "",
         f"olski over {total} annotated sentences:",
-        *_rows(report.statuses, total),
+        *_rows(report.statuses.most_common(), total),
     ]
     for reason, count in report.skipped.most_common():
         lines.append(f"  {count:7}          not measured: {reason}")
@@ -444,9 +512,10 @@ def render(report: Report, blockers: int = 12) -> str:
         report.bez_roli,
         "ambiguous",
     )
+    lines += _jak_głęboko(report.głębokości)
     if report.lengths:
         lines += ["", "coverage by sentence length:"]
-        for bucket in sorted(report.lengths, key=lambda name: int(name.split("-")[0].rstrip("+"))):
+        for bucket in sorted(report.lengths, key=_dolna_granica):
             counts = report.lengths[bucket]
             seen = sum(counts.values())
             valid = counts.get("valid", 0)
@@ -457,7 +526,7 @@ def render(report: Report, blockers: int = 12) -> str:
         lines += [
             "",
             f"where the {blocked} rejected sentences stopped:",
-            *_rows(report.blockers, blocked, blockers),
+            *_rows(report.blockers.most_common(blockers), blocked),
         ]
 
     for key in sorted(report.examples):

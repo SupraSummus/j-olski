@@ -1107,7 +1107,7 @@ Odmowę i oba zdania z tymi werdyktami sprawdza `tests/test_subset.py`.
 Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
 czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
 i czy złote czytanie jest wśród czytań oraz jak głęboko,
-o co [pomiar chce pytać bank drzew](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
+o co [pomiar pyta bank drzew](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
 Żadne z tych pytań nie żąda innego parsera, tylko innego podsumowania.
 
 ### Co się pakuje, rozstrzyga tożsamość czytania

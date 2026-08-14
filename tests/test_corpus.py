@@ -373,6 +373,9 @@ def test_złote_czytanie_zdania_wieloznacznego_zostaje_odnalezione_wśród_czyta
     found = outcome(przyłączenie(), text=PRZYŁĄCZENIE_TEKST)
     assert found.status == "ambiguous"
     assert found.ocalenie == "survives"
+    #  Że numer jest miejscem w kolejności czytań, pilnuje `tests/test_subset.py`;
+    #  tutaj chodzi o to, że dochodzi on tędy razem z werdyktem.
+    assert found.głębokość == 1
 
 
 def test_złote_czytanie_którego_żadne_z_czytań_nie_daje_wychodzi_przepadłe():
@@ -381,6 +384,7 @@ def test_złote_czytanie_którego_żadne_z_czytań_nie_daje_wychodzi_przepadłe(
     found = outcome(przyłączenie(obj=None, przyimkowe="np(accgen)"), text=PRZYŁĄCZENIE_TEKST)
     assert found.status == "ambiguous"
     assert found.ocalenie == "lost"
+    assert found.głębokość is None
 
 
 def test_o_ocalenie_pyta_się_zdania_wieloznacznego_a_nie_przyjętego_ani_odrzuconego():
@@ -450,11 +454,15 @@ def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path):
     #  Teksty są różne, bo przykłady sprawdzają to najostrzej: `Report.record`
     #  zachowuje pierwsze zdanie, jakie dostał, więc kawałki scalone nie w
     #  kolejności korpusu drukowałyby inne zdanie niż jeden przebieg.
+    #
+    #  Szósty las jest wieloznaczny ze złotym czytaniem wśród czytań, żeby przez
+    #  scalanie przeszły także dwa liczniki, które tylko takie zdanie zapełnia.
     write(tmp_path, "a-s.xml", SVO, text="Program zapisuje ustawienia.")
     write(tmp_path, "b-s.xml", svo(subject=None, obj=None), sent_id="t/2-s", text="Zapisuje.")
     write(tmp_path, "c-s.xml", svo(tag=POZA_PODZBIOREM), sent_id="t/3-s", text="Zapisał to.")
     write(tmp_path, "d-s.xml", "", verdict="NO_TREE", sent_id="t/4-s", text="Bez drzewa.")
     write(tmp_path, "e-s.xml", "", sent_id="t/5-s", text="Bez morfologii.")
+    write(tmp_path, "f-s.xml", przyłączenie(), sent_id="t/6-s", text=PRZYŁĄCZENIE_TEKST)
 
     ścieżki = pliki(tmp_path)
     całość = measure((read(path) for path in ścieżki), keep_examples=1)
