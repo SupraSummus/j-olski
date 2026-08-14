@@ -1692,18 +1692,33 @@ oraz [dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy
 które trzyma warunek o cudzym wykonawcy.
 Ruchem jest zbudowanie zdania pod bezokolicznikiem po podmiocie, a nie przed nim.
 
-Obieg mówi, że czytanie nie wróciło, a nie mówi dlaczego.
-`skład/rozbiór.py` zna powód w chwili, w której go wyrzuca:
-`PozaZapisem` niesie kształt, dla którego kategorii nie ma,
-a porównanie form wie, jaki napis wyszedł zamiast oczekiwanego,
-i jedno, i drugie ginie w `abstrahuj`, bo ono odpowiada samą pustą krotką.
-Zostaje z tego zdanie o tym, że tego czytania ten zapis nie mówi,
-a powodów jest kilka i rozdziela je
-[`docs/sklad.md`](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
-więc szukanie tego, który zadziałał, robi się ręcznie.
-Do przeczytania jest `explain` w `olski/subset.py`, czyli werdykt lintera:
-o to samo pyta czytelnik tekstu, a tamta strona odpowiada zdaniem wraz z formami.
-Ruchem jest powód zbierany po czytaniach i wypisywany przez `Obieg.opisz`.
+Przeczenie ma kategorię po obu stronach, a rozbiór jej nie odczytuje.
+`Robi` oraz `Jest` w `skład/składnia.py` mają pole `przeczenie`,
+gramatyka wypuszcza cząstkę w ciele `Verb` przed formą czasownika,
+a `_konstytuenty` w `skład/rozbiór.py` bierze z tej pozycji samo `children[0]`,
+czyli trafia na `nie` i nie znajduje pod nim żadnego lematu czasownika.
+`Nie wyniósł z piwnicy lustra.` wraca stąd powodem
+`„Nie wyniósł” nie ma tu czym być w pozycji Verb`,
+choć jest to zdanie, które oba tory mają naraz.
+Kategorii tu nie brakuje, brakuje odczytania kształtu, który ją niesie,
+i tym różni się ten wpis od sąsiednich.
+Do przeczytania jest `_konstytuenty` wraz z produkcją `Verb`
+w `olski/subset.py` oraz `nie` w `skład/składnia.py`, czyli druga strona tej kategorii.
+Ruchem jest pozycja czasownika czytana całym ciałem,
+tak jak `_role` czyta ciało grupy imiennej,
+wraz z przeczeniem podanym do `_złóż`.
+
+Liczebnik ma produkcję w gramatyce, a w tym zapisie nie ma kategorii,
+więc `Działają dwie rzeczy.` wraca powodem
+`„dwie rzeczy” nie ma tu czym być w pozycji Subject`,
+i tą samą drogą przepada każde zdanie z liczbą.
+Do przeczytania jest `_nominalne` w `skład/rozbiór.py`,
+czyli lista ciał grupy imiennej, które ten kierunek mówi,
+wraz z [ceną liczebnika](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+bo tamta strona ma go zmierzonego od strony gramatyki.
+Ruchem jest kategoria w `skład/składnia.py`, a nie samo ciało w rozbiorze:
+liczebnik rządzi liczbą i przypadkiem rzeczownika, którego dotyczy,
+więc bez niej nie ma z czego wypisać tego, co ma wrócić.
 
 Wybór między `w` i `na` jest faktem o rzeczowniku, a tego faktu nie ma tu nigdzie:
 `skład/przyimki.py` mówi, jakiego przypadka żąda przyimek w danej relacji,

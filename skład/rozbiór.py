@@ -18,6 +18,8 @@ Napis do drzewa jest relacją, bo ten zapis ma na jeden napis kilka drzew,
 a napis nie mówi ani o relacji okolicznika,
 ani o znaczniku tematu postawionym tam, gdzie konstytuent i tak stoi.
 Wybór między nimi żądałby rankingu, którego ten projekt nie ma.
+Wraz z krotką wychodzi stąd powód, dla którego reszta nie wróciła,
+bo krotka pusta nie mówi, która z przyczyn zadziałała (:class:`Odczyt`).
 
 **Rozstrzyga linearyzacja, a nie ten plik.**
 Kandydat wychodzi stąd tylko wtedy, gdy wypisany daje te formy,
@@ -217,21 +219,29 @@ def _role(drzewo: Leaf | Node) -> tuple[Rola, ...]:
 
     Koordynacja wychodzi płaska, choć gramatyka wiąże ją w prawo,
     bo ``Koordynacja`` trzyma człony listą i tak je wypisuje.
+
+    Ciało dopasowuje się całe, tak samo jak w :func:`_nominalne`,
+    bo gramatyka dopisuje ciała symbolom, które ten plik czyta,
+    a ciało nierozpoznane ma się zgłosić brakiem kategorii
+    (``docs/sklad.md``).
     """
     etykieta = _etykieta(drzewo)
     if etykieta == "NPConjunct":
         return tuple(Byt(rzecz, liczba) for rzecz, liczba in _nominalne(drzewo))
     if etykieta != "NP":
         raise PozaZapisem(f"{_nazwa(drzewo)} nie jest tu grupą imienną")
-    if len(drzewo.children) == 1:
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt == ("NPConjunct",):
         return _role(drzewo.children[0])
-    człon, znak, reszta = drzewo.children
-    _znak_listy(znak)
-    return tuple(
-        Koordynacja((pierwszy, *_człony(ogon)))
-        for pierwszy in _role(człon)
-        for ogon in _role(reszta)
-    )
+    if kształt == ("NPConjunct", SŁOWO, "NP"):
+        człon, znak, reszta = drzewo.children
+        _znak_listy(znak)
+        return tuple(
+            Koordynacja((pierwszy, *_człony(ogon)))
+            for pierwszy in _role(człon)
+            for ogon in _role(reszta)
+        )
+    raise PozaZapisem(f"grupa imienna z {', '.join(kształt)} nie ma tu kategorii")
 
 
 def _człony(rola: Rola) -> tuple[Rola, ...]:
@@ -297,12 +307,24 @@ def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
     a osoba wychodzi z podmiotu, więc czytanie w czasie albo osobie,
     których skład nie wypisze, wypada na porównaniu form.
     Tą samą drogą wypada cząstka ``się``, bo skład jej nie wypisuje wcale.
+
+    Pozycja bez ani jednego wariantu zgłasza się tutaj, a nie u tego, kto pyta,
+    bo tam wygasza iloczyn kandydatów i wraca pustką, o której nie ma co powiedzieć.
+    Pusto bywa z trzech rzeczy naraz i zgłoszenie ich nie rozdziela:
+    rozkaźnik nie ma lematu wśród ``CZASOWNIKOWE``,
+    przyimek spoza ``RELACJE`` nie ma relacji,
+    a cząstka przecząca poprzedza w tym ciele formę,
+    więc ``children[0]`` czasownika tu nie znajduje (``TODO.md``).
     """
     if pozycja == "Verb":
-        return _lematy(drzewo.children[0], *CZASOWNIKOWE)
-    if pozycja == "Modifier":
-        return _okoliczniki(drzewo)
-    return _role(drzewo.children[0])
+        warianty = _lematy(drzewo.children[0], *CZASOWNIKOWE)
+    elif pozycja == "Modifier":
+        warianty = _okoliczniki(drzewo)
+    else:
+        warianty = _role(drzewo.children[0])
+    if not warianty:
+        raise PozaZapisem(f"„{' '.join(drzewo.forms())}” nie ma tu czym być w pozycji {pozycja}")
+    return warianty
 
 
 def _znaczniki(pozycje: list[str]) -> Iterator[dict[int, str]]:
@@ -392,12 +414,20 @@ def _zdania(drzewo: Node, podmiot: Rola | None = None, postać: bool = False) ->
 
 
 def _członowie(drzewo: Node) -> list[Node]:
-    """Zdania składowe koordynacji, spłaszczone, bo ``Ciąg`` trzyma je listą."""
-    if len(drzewo.children) == 1:
+    """Zdania składowe koordynacji, spłaszczone, bo ``Ciąg`` trzyma je listą.
+
+    Ciało dopasowuje się całe z tego samego powodu co w :func:`_role`,
+    choć zdanie złożone innych ciał niż te dwa nie ma:
+    grupa imienna też ich nie miała, kiedy ten plik powstawał.
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt == ("ClauseConjunct",):
         return [drzewo.children[0]]
-    człon, znak, reszta = drzewo.children
-    _znak_listy(znak)
-    return [człon, *_członowie(reszta)]
+    if kształt == ("ClauseConjunct", SŁOWO, "Clause"):
+        człon, znak, reszta = drzewo.children
+        _znak_listy(znak)
+        return [człon, *_członowie(reszta)]
+    raise PozaZapisem(f"zdanie złożone z {', '.join(kształt)} nie ma tu kategorii")
 
 
 def _ciąg(drzewo: Node) -> Iterator[Zdanie]:
@@ -432,8 +462,8 @@ def _słowa(napis: str) -> tuple[str, ...]:
     return tuple(napis.replace(",", " ,").replace(".", " .").casefold().split())
 
 
-def _wypisuje(drzewo: Zdanie, czytanie: Node, kontekst: Kontekst) -> bool:
-    """Czy z tego drzewa wychodzą te formy, z których je przeczytano.
+def _rozjazd(drzewo: Zdanie, czytanie: Node, kontekst: Kontekst) -> str | None:
+    """Czym to drzewo rozmija się z czytaniem, albo nic, gdy wypisuje jego formy.
 
     To jest cała obrona tego modułu i dlatego stoi na kompilatorze,
     a nie na drugiej kopii tego, co kompilator wie o szyku i o formach.
@@ -441,31 +471,70 @@ def _wypisuje(drzewo: Zdanie, czytanie: Node, kontekst: Kontekst) -> bool:
     drzewo, którego nie da się wypisać, nie jest drzewem tego czytania,
     a ``WieleLeksemów`` mówi ponadto, czego czytanie nie niesie,
     bo leksem deklaruje autor.
+
+    Napis wypisany wchodzi do powodu, bo różnicę widzi tylko to porównanie,
+    a czytelnik zgłoszenia ma przed sobą zdanie swoje, a nie to z drzewa.
     """
     try:
         napis = kompiluj(drzewo, kontekst)
-    except (PozaRamą, BrakFormy, WieleLeksemów):
-        return False
-    return _słowa(napis) == tuple(forma.casefold() for forma in czytanie.forms())
+    except (PozaRamą, BrakFormy) as błąd:
+        return str(błąd)
+    except WieleLeksemów as błąd:
+        return f"kilka leksemów odpowiada na {błąd}"
+    if _słowa(napis) == tuple(forma.casefold() for forma in czytanie.forms()):
+        return None
+    return f"wychodzi z tego „{napis}”"
 
 
-def abstrahuj(czytanie: Node, kontekst: Kontekst = TERAZ) -> tuple[Zdanie, ...]:
+@dataclass(frozen=True)
+class Odczyt:
+    """Drzewa, którymi czytanie wraca, wraz z powodami tych, którymi nie wróciło.
+
+    Powodów jest kilka rodzajów i rozdziela je ``docs/sklad.md``,
+    a krotka drzew sama nie mówi, który zadziałał na tym zdaniu.
+    Powód opisuje kandydata, który odpadł, a nie odpowiedź,
+    więc zdanie z drzewami ma jedno i drugie naraz.
+    """
+
+    drzewa: tuple[Zdanie, ...]
+    powody: tuple[str, ...]
+
+
+def _bez_powtórzeń(powody: list[str]) -> tuple[str, ...]:
+    """Powody w kolejności, w której padły, każdy raz.
+
+    Zbiór wypisywałby je w każdym przebiegu inaczej
+    (``CLAUDE.md``, o porządku wypisywanego wyjścia).
+    """
+    return tuple(dict.fromkeys(powody))
+
+
+def abstrahuj(czytanie: Node, kontekst: Kontekst = TERAZ) -> Odczyt:
     """Drzewa tego zapisu, z których wychodzi to czytanie parsera.
 
     Krotka pusta jest odpowiedzią: polszczyzna ma czytania,
     których ten zapis nie mówi, a które z nich to są,
     widać po tym, co stąd nie wraca.
+    Czemu akurat to nie wróciło, mówi ``powody``.
     """
     if czytanie.label != "Sentence":
         raise ValueError(f"czytanie zdania, a nie {czytanie.label}")
     try:
         kandydaci = list(_ciąg(czytanie.children[0]))
-    except (PozaZapisem, PozaRamą):
-        return ()
-    return tuple(drzewo for drzewo in kandydaci if _wypisuje(drzewo, czytanie, kontekst))
+    except (PozaZapisem, PozaRamą) as błąd:
+        return Odczyt((), (str(błąd),))
+    drzewa: list[Zdanie] = []
+    powody: list[str] = []
+    for drzewo in kandydaci:
+        powód = _rozjazd(drzewo, czytanie, kontekst)
+        if powód is None:
+            drzewa.append(drzewo)
+        else:
+            powody.append(powód)
+    return Odczyt(tuple(drzewa), _bez_powtórzeń(powody))
 
 
-def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> tuple[Zdanie, ...]:
+def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
     """Drzewa tego zapisu, z których wychodzi to zdanie, po wszystkich czytaniach.
 
     Wieloznaczność napisu wychodzi tędy jako kilka drzew i nic jej nie odsiewa,
@@ -473,12 +542,25 @@ def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> tuple[Zdanie, ...]:
     werdykt wydaje ``olski/subset.py`` i wydaje go czytelnikowi tekstu.
     Drzewo powtórzone przez dwa czytania stoi raz,
     bo dwa razy to samo nie jest dwiema odpowiedziami.
+
+    Powody zbierają się po wszystkich czytaniach, a nie po tym jednym,
+    które zaszło najdalej, bo czytania są tu odpowiedziami równorzędnymi
+    i zdanie odrzucone przez każde z nich bywa odrzucone przez każde inaczej.
+
+    Zdanie bez czytań ma powód osobny, bo mówi on o czym innym:
+    pustka jest wtedy werdyktem gramatyki, a nie brakiem kategorii w tym zapisie.
     """
+    czytania = parse(GRAMMAR, morphology(zdanie)).readings
+    if not czytania:
+        return Odczyt((), ("gramatyka olskiego nie wyprowadza tego zdania",))
     wynik: dict[tuple, Zdanie] = {}
-    for czytanie in parse(GRAMMAR, morphology(zdanie)).readings:
-        for drzewo in abstrahuj(czytanie, kontekst):
+    powody: list[str] = []
+    for czytanie in czytania:
+        odczyt = abstrahuj(czytanie, kontekst)
+        powody.extend(odczyt.powody)
+        for drzewo in odczyt.drzewa:
             wynik.setdefault(sygnatura(drzewo), drzewo)
-    return tuple(wynik.values())
+    return Odczyt(tuple(wynik.values()), _bez_powtórzeń(powody))
 
 
 def sygnatura(drzewo) -> tuple:
@@ -522,22 +604,26 @@ class Obieg:
 
     napis: str
     drzewo: Zdanie
-    czytania: tuple[Zdanie, ...]
+    odczyt: Odczyt
 
     @property
     def wróciło(self) -> bool:
-        return sygnatura(self.drzewo) in [sygnatura(czytanie) for czytanie in self.czytania]
+        return sygnatura(self.drzewo) in [sygnatura(drzewo) for drzewo in self.odczyt.drzewa]
 
     def opisz(self) -> str:
         """Zdanie, które ma przeczytać ten, komu obieg się nie zamknął."""
         if self.wróciło:
             return f"„{self.napis}” wraca tym drzewem"
-        if not self.czytania:
-            return f"„{self.napis}” nie wraca żadnym drzewem tego zapisu"
-        #  Napisu drzew, które wróciły, nie ma tu po co wypisywać:
-        #  każde z nich wypisuje się tym samym napisem i to jest warunek,
-        #  po którym stąd wyszło, więc różnica siedzi w drzewie, a nie w tekście.
-        return f"„{self.napis}” wraca {len(self.czytania)} drzewami i żadnym z nich"
+        if not self.odczyt.drzewa:
+            zdanie = f"„{self.napis}” nie wraca żadnym drzewem tego zapisu"
+        else:
+            #  Napisu drzew, które wróciły, nie ma tu po co wypisywać:
+            #  każde z nich wypisuje się tym samym napisem i to jest warunek,
+            #  po którym stąd wyszło, więc różnica siedzi w drzewie, a nie w tekście.
+            zdanie = f"„{self.napis}” wraca {len(self.odczyt.drzewa)} drzewami i żadnym z nich"
+        if not self.odczyt.powody:
+            return zdanie
+        return f"{zdanie}: {'; '.join(self.odczyt.powody)}"
 
 
 def obieg(drzewo: Zdanie, kontekst: Kontekst = TERAZ) -> Obieg:
@@ -549,4 +635,4 @@ def obieg(drzewo: Zdanie, kontekst: Kontekst = TERAZ) -> Obieg:
     Wywód trzyma ``docs/design-notes.md``.
     """
     napis = kompiluj(drzewo, kontekst)
-    return Obieg(napis=napis, drzewo=drzewo, czytania=rozbierz(napis, kontekst))
+    return Obieg(napis=napis, drzewo=drzewo, odczyt=rozbierz(napis, kontekst))

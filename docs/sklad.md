@@ -697,9 +697,9 @@ a raport zostawia mu je wraz z powodem.
 
 **Gramatyki przegląd nie woła i nie potrzebuje.**
 Parser jest tu [świadkiem, a nie zależnością](design-notes.md#the-round-trip-invariant),
-a cała legenda o bazyliszku stoi w czasie przeszłym,
-którego gramatyka podzbioru nie ma,
-więc check postawiony na liczbie czytań milczałby nad całym wyjściem tego toru.
+a check postawiony na liczbie czytań milczałby tam, gdzie kończy się podzbiór:
+legenda o bazyliszku ma zdania, których gramatyka nie wyprowadza,
+więc to pokrycie olskiego rozstrzygałoby, o których zdaniach przegląd się wypowie.
 Nie woła też `olski/wieloznaczność.py`, który tę samą klasę liczy nad tekstem,
 i to jest różnica warta zapisania, bo pokazuje, co ten kierunek daje.
 Tamten moduł musi zgadywać z form to, co tutaj wiadomo z drzewa:
@@ -804,6 +804,31 @@ zmierzona z drugiej strony: `zwykły tekst polski` z README nie wraca niczym.
 Leksem jest trzecią, bo nazwa w drzewie jest nazwą, którą wybrał autor,
 a rozbiór stawia lemat, więc `Rosół ma oka.` nie wraca:
 goła nazwa `oko` znaczy w tym repozytorium oko.
+
+Pustą odpowiedzią jest tak samo kształt ciała, dla którego kategorii nie ma,
+i jest to żądanie postawione temu plikowi, a nie własność, którą ma za darmo.
+Gramatyka dopisuje ciała symbolom, które rozbiór czyta,
+a ciało rozpakowane do zmiennych, których nie opisuje,
+kończy się wyjątkiem Pythona, czyli brakiem kategorii udającym usterkę rozbioru.
+Dlatego grupa imienna i zdanie złożone dopasowują całe ciało,
+tak samo jak robi to `_nominalne`,
+a zdanie względne pod grupą imienną jest tym ciałem, na którym to widać.
+Pozycja bez ani jednego kandydata żąda tego samego z drugiej strony:
+zdanie w rozkaźniku nie ma czasownika, którego ten zapis wypisuje,
+więc bez zgłoszenia wygaszałoby iloczyn kandydatów i wracało samą pustką.
+
+Która z tych przyczyn zadziałała, mówi sama odpowiedź, a nie ta lista.
+`Odczyt` w `skład/rozbiór.py` wraca z drzewami i z powodami tego,
+co po drodze odpadło, a powód powstaje tam, gdzie kandydat odpada:
+zgłoszeniem, gdy brakuje kategorii, komunikatem morfologii, gdy brakuje formy,
+i napisem, który wyszedł, gdy wyszedł inny.
+Pyta o to samo, co `explain` w `olski/subset.py` po tamtej stronie,
+i jest potrzebne z tego samego powodu:
+lista wylicza przyczyny, a nie mówi, na którą trafiło to jedno zdanie.
+Rozdziela ona przy tym dwie pustki, których nazwać inaczej nie ma czym,
+i o to rozdzielenie prosi też `tests/test_rozbiór.py`,
+stawiając werdykt gramatyki obok każdego zdania, którego ten kierunek nie mówi:
+zdanie bez czytań wraca powodem o olskim, a nie o brakującej tu kategorii.
 
 Tożsamość wraca stamtąd, gdzie napis ją niesie, i tylko stamtąd.
 Niesie ją opuszczony podmiot, czyli to, czego w zdaniu nie ma,
