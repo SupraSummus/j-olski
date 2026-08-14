@@ -853,37 +853,6 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
-Streszczenie czytania opisuje jedno zdanie składowe i nie mówi, że jedno.
-Zdanie podrzędne jest z tego wyjęte, bo zejście zatrzymuje się na jego granicy
-([`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
-Zdanie współrzędne takiego zatrzymania nie dostanie,
-bo jego role są rolami tego samego zdania:
-streszczenie o nich milczy, a nie mówi o nich nieprawdy.
-`describe` w `olski/parse.py` nazywa pierwsze wystąpienie każdej roli,
-a `Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
-w którym `i szczęśliwi` jest drugim zdaniem współrzędnym:
-Morfeusz zna `szczęśliwi` jako `szczęśliwić fin:sg:ter:imperf`,
-tak samo jak `wolni` jako `wolnić`, więc taki człon jest orzeczeniem bez podmiotu.
-Wiersz mówi wtedy `Predicative: wolni, równi`, o resztę zdania milczy
-i czyta się jak streszczenie całości.
-Kto czyta `--readings` nad takim zdaniem, nie dowie się,
-że dwa czytania różni rozcięcie zdania na dwa, a nie żadna rola.
-Do przeczytania jest najpierw
-[werdykt jako zapytanie o las](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
-bo tam odrzucono już streszczenie nazywające wszystkie węzły roli zamiast pierwszego:
-wydruk rośnie po nim wykładniczo, a nazwać trzeba liczbę decyzji.
-Ta odmowa obejmuje każdy ruch, który dokłada wiersze,
-więc wiersz na zdanie składowe wychodzi spod niej odrzucony bez liczenia,
-a zostaje ruch, który wierszy nie dokłada:
-znak przy roli pokrywającej część zdania,
-czyli jedno miejsce w napisie zamiast drugiego wiersza.
-Drugie do przeczytania jest `_pierwsza_rola` w `olski/parse.py`,
-która pierwsze wystąpienie wybiera z tego samego powodu i uzasadnia go w docstringu:
-dwa podmioty stojące obok siebie w jednym czytaniu
-nie mówią nic o różnicy między czytaniami.
-Uzasadnienie to zostaje, a samej metody ruch nie dotyczy,
-bo znak w napisie nie rusza rozpiętości, po których ona porównuje czytania.
-
 Werdykt nie ma kanału na dwa czytania o jednym streszczeniu.
 `explain` w `olski/subset.py` nazywa role, o które czytania się różnią,
 i modyfikator, którego przyłączenia czytania nie rozstrzygają,

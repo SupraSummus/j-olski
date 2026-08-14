@@ -1084,6 +1084,20 @@ Jest to ten sam brak, który [TODO.md](../TODO.md) opisuje jako brak kanału
 na dwa czytania o jednym streszczeniu,
 i wpis obejmuje tę klasę razem z różnicą słownikową.
 
+Zdanie współrzędne zatrzymania nie ma, więc streszczenie opisuje z niego
+to zdanie składowe, w którym rola występuje pierwszy raz.
+`Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
+w którym `i szczęśliwi` jest drugim orzeczeniem,
+bo Morfeusz zna tę formę i jako przymiotnik, i jako `szczęśliwić fin:sg:ter:imperf`,
+a wiersz mówi wtedy `Predicative: wolni, równi` i o reszcie zdania milczy.
+Wielokropek jest po tej stronie roli, po której zdanie ma jeszcze składowe.
+`Program działa i zapisuje ustawienia.` wychodzi przez to wierszem
+`Subject: Program…, Object: …ustawienia, Verb: działa…`,
+z którego widać, że dopełnienie jest z innego składowego niż podmiot.
+Wiersza na zdanie składowe nie ma, bo wierszy ma przybywać z liczbą decyzji,
+a nie z liczbą części, na jakie zdanie się dzieli.
+Znak kosztuje jedno miejsce w napisie i wierszy nie rusza.
+
 Gospodarza nazywa jego głowa, czyli jedno słowo.
 `w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,
 a `z dodatkami` do `szynki`, do `koszt` albo do `przewyższa`,

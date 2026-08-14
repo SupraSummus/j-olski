@@ -16,7 +16,16 @@ pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, nt, unify, word
 from olski.morph import analyse
-from olski.parse import MAX_READINGS, PRZYŁĄCZONY_DO, Cykl, Leaf, Pozycja, las, parse
+from olski.parse import (
+    MAX_READINGS,
+    PRZYŁĄCZONY_DO,
+    SĄSIEDNIE_ZDANIE_SKŁADOWE,
+    Cykl,
+    Leaf,
+    Pozycja,
+    las,
+    parse,
+)
 from olski.subset import (
     DEKLARACJA,
     FRAGMENT,
@@ -846,6 +855,38 @@ def test_streszczenie_nie_wstawia_odstępu_przed_przecinkiem():
     assert roles["Object"] == "ustawienia, dane i pliki"
 
 
+def test_czytanie_rozcinające_zdanie_nie_wychodzi_streszczeniem_całości():
+    #  Usterka, którą to łapie: streszczenie czytające się jak streszczenie całości.
+    #  Morfeusz zna `szczęśliwi` jako `szczęśliwić fin:sg:ter:imperf`, więc `i szczęśliwi`
+    #  wychodzi drugim zdaniem składowym bez podmiotu, a nazwane jest pierwsze
+    #  wystąpienie każdej roli, czyli same role zdania pierwszego. Bez znaku wiersz
+    #  mówi `Predicative: wolni, równi`, o reszcie zdania milczy i nie widać,
+    #  że dwa czytania różni rozcięcie zdania na dwa, a nie żadna rola.
+    found = verdict("Ludzie są wolni, równi i szczęśliwi.")
+    assert {reading["Predicative"] for reading in found.readings} == {
+        "wolni, równi i szczęśliwi",
+        "wolni, równi…",
+    }
+
+
+def test_znak_składowej_pada_po_tej_stronie_roli_po_której_zdanie_idzie_dalej():
+    #  Zdanie jednoznaczne, więc znak nie bierze się z żadnej wieloznaczności:
+    #  dopełnienie jest w drugim zdaniu składowym, a podmiot i czasownik w pierwszym,
+    #  i widać to po stronie, z której pada znak.
+    [roles] = verdict("Program działa i zapisuje ustawienia.").readings
+    assert roles == {"Subject": "Program…", "Object": "…ustawienia", "Verb": "działa…"}
+
+
+def test_okolicznik_na_czele_zdania_znaku_składowej_nie_dostaje():
+    #  Usterka, którą to łapie: zdanie składowe policzone dwa razy. Okolicznik
+    #  zdania dokłada nad składowym drugi węzeł o tej samej etykiecie
+    #  (`ClauseConjunct → Modifier ClauseConjunct`), więc zbieranie wszystkich
+    #  takich węzłów zamiast najwyższego w gałęzi widzi tu ciąg dwóch zdań
+    #  i znakuje sam okolicznik, choć zdanie składowe jest jedno.
+    [roles] = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings
+    assert SĄSIEDNIE_ZDANIE_SKŁADOWE not in "".join(roles.values())
+
+
 def test_dwa_czytania_różne_granicą_członu_nie_wychodzą_jednym_napisem():
     #  Usterka, którą to łapie: streszczenie sklejone z samych form. Dwa z tych
     #  trzech czytań mają w każdej roli te same formy i różnią się granicą członu
@@ -967,10 +1008,12 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
         "i powinni postępować wobec innych w duchu braterstwa."
     )
     assert found.status == "ambiguous"
+    #  Wielokropek jest z drugiej koordynacji: okolicznik stoi w drugim zdaniu
+    #  składowym, a streszczenie opisuje jedno zdanie i tym znakiem to mówi.
     assert {reading["Modifier"] for reading in found.readings} == {
-        "wobec innych → powinni",
-        "wobec innych w duchu → powinni",
-        "wobec innych w duchu braterstwa → powinni",
+        "…wobec innych → powinni",
+        "…wobec innych w duchu → powinni",
+        "…wobec innych w duchu braterstwa → powinni",
     }
 
 
