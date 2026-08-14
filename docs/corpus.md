@@ -57,7 +57,9 @@ and not all of it.
 The commonest forms under each blocker,
 the comparison of the two runs' accepted sets,
 the counts with the dictionary exclusion switched off,
-the `prep` row and the disagreement row with a group of productions dropped,
+the `prep`, particle and numeral rows and the disagreement row
+with a group of productions dropped,
+the rows those sentences land in when the productions come back,
 the sentences a narrowed production stops accepting,
 and the count of notation tokens in the corpus
 are taken by hand against the same corpus,
@@ -93,12 +95,12 @@ it is not being compared against 100%.
 
 ## The measurement
 
-Gold morphology, whole corpus, every sentence of 40 tokens or fewer:
+Gold morphology, whole corpus, every sentence carrying a gold tree:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 11,297 | 86.7% |
-| valid | 1,179 | 9.1% |
+| rejected | 11,307 | 86.7% |
+| valid | 1,179 | 9.0% |
 | ambiguous | 549 | 4.2% |
 
 By length, which is the shape the curve actually has:
@@ -109,11 +111,18 @@ By length, which is the shape the curve actually has:
 | 6–10 | 11.8% |
 | 11–20 | 1.5% |
 | 21–40 | 0.1% |
+| 41+ | 0.0% |
 
 So olski is a subset of short declarative Polish and nothing else,
 and coverage falls off a cliff between ten and twenty tokens.
 That is the honest starting point of the curve,
 and the point of recording it is that the next tier has something to beat.
+
+The last row is ten sentences, which is every sentence the treebank has
+above forty segments, and olski rejects all ten.
+They cost under a mebibyte each and a third of a second together,
+against a run that takes half a minute,
+so leaving them out buys nothing and the denominator is the whole annotated corpus.
 
 ## Where the analyses stop
 
@@ -124,16 +133,16 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 2,928 | `-` (1,263), `.` (775), `–` (275) |
+| `interp` | 2,932 | `-` (1,265), `.` (775), `–` (275) |
 | `adv` | 1,992 | `Jak` (72), `Teraz` (57), `bardzo` (56) |
-| `part` | 1,576 | particles: `się` (142), `Czy` (115), `już` (107) |
+| `part` | 1,577 | particles: `się` (142), `Czy` (115), `już` (107) |
 | `conj` | 663 | coordination: `I` (141), `Ale` (130), `A` (127) |
 | `ger` | 513 | gerunds: `przyjęcie` (8), `głosowania` (6), `zabranie` (5) |
 | `comp` | 510 | subordinators: `że` (90), `Gdy` (39), `Jeśli` (37) |
 | `pred` | 410 | `to` (134), `To` (97), `można` (37) |
-| `praet` | 365 | `był` (15), `udało` (9), `były` (7) |
+| `praet` | 366 | `był` (15), `udało` (9), `były` (7) |
 | `subst` | 246 | `to` (7), `skład` (3), `kto` (3) |
-| `ppas` | 242 | `wymienionych` (3), `zawarte` (3), `połamanymi` (2) |
+| `ppas` | 243 | `wymienionych` (3), `zawarte` (3), `połamanymi` (2) |
 
 The first two rows account for two fifths of the rejections
 without touching the interesting questions
@@ -155,25 +164,26 @@ and one asking for `adj` matches no `który`,
 so two constructions the grammar *has* fire here not once.
 That is what the four names are worth —
 1,179 sentences accepted rather than 771,
-and three rows of this table, `qub` at 2,671, `psubst` at 442 and `padj` at 377,
+and three rows of this table, `qub` at 2,672, `psubst` at 442 and `padj` at 378,
 naming a tag where a construction is what a row is for.
 Only the gold column moves with them:
 the live column's tags come from Morfeusz to begin with.
 
 What a row does not say is how much admitting its construction buys,
 and negation is the measurement of that.
-The particle row held 2,121 sentences with `nie` (402) and `Nie` (308) in front;
-admitting [negation](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
-moved 191 of them off the rejected list — all 191 out of this row and none out
-of another — left the row at 1,569 with `się` in front,
-and moved the other 361 rightward onto another blocker without accepting them.
+Drop [negation](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
+and the particle row reads 2,150, led by `nie` (422) and `Nie` (308).
+Putting it back takes 199 of those off the rejected list —
+all of them out of this row and none out of any other —
+leaves the row at 1,577 with `się` in front,
+and moves the remaining 374 rightward onto another blocker without accepting them.
 A sentence carries more than one missing construction,
 and the row counts where an analysis stopped
 rather than what admitting the construction buys.
-The numeral said the same thing from the other end:
-its row held 453 sentences and ranked fifth,
-every sentence the numeral phrase then bought came out of that row and none out
-of another, and it bought a fifth of them.
+The numeral says the same thing from the other end:
+drop it and its own row reads 507 and ranks fifth,
+every sentence the numeral phrase takes back comes out of that row and none out
+of another, and it takes a quarter of them.
 So a row does say which sentences an addition can reach —
 it just does not say how many of them it will take.
 What the two rankings promise against what they deliver is priced in
@@ -188,13 +198,13 @@ and Polish puts it before one as readily.
 A preposition does not rank in this table at all,
 and two groups of productions are why.
 Drop the one that puts a modifier in front of the clause
-and a `prep` row ranks second at 2,045 sentences, led by `W` (665) and `Na` (252),
+and a `prep` row ranks second at 2,048 sentences, led by `W` (665) and `Na` (252),
 capitalized because a fronted modifier opens its sentence.
 Drop instead the positions that hang a prepositional phrase on a noun or on an
 adjective — `Modifier` under `NPConjunct` and under `APConjunct`, which are the
 attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
-leaves to the reader — and the row reads 424, `z` (108) and `w` (106) in front.
+leaves to the reader — and the row reads 425, `z` (108) and `w` (107) in front.
 With both in place it reads 215, `w` (54) and `z` (53) in front,
 which is a preposition standing where no rule reaches
 rather than a construction the grammar lacks.
@@ -349,7 +359,7 @@ What is left is the inflected Polish word Morfeusz lacks —
 which is the class the ordering above puts behind the subordinators.
 That the notation had to be found here rather than in the treebank
 is the register difference in one figure:
-eight tokens of it occur in these 13,025 sentences,
+eight tokens of it occur in these 13,035 sentences,
 web addresses and `10.000zł` and `II.16`,
 so nothing in the live column below turns on it.
 
@@ -589,13 +599,13 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 11,297 | 11,118 |
+| rejected | 11,307 | 11,128 |
 | valid | 1,179 | 1,063 |
 | ambiguous | 549 | 844 |
 
 Ambiguity is where the cost lands:
 256 more sentences carry more than one reading,
-which is 2.0% of the 13,025 measured.
+which is 2.0% of the 13,035 measured.
 That is the rate to watch as the grammar grows,
 since every construction admitted gives the analyser's spare readings
 one more place to derive something.

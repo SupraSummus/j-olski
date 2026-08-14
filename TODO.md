@@ -602,20 +602,6 @@ Widać na czym mierzyć: zdanie ustawy o siedmiu członach ma dziś 28 042 czyta
 ([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
 i nie jest policzone, ile z tej liczby bierze sama współrzędność.
 
-`--max-tokens` stoi na budżecie, którego już nie ma.
-`olski-corpus` omija nim zdania dłuższe niż czterdzieści segmentów,
-a próg wzięto pod enumerator, który każde czytanie wyliczał;
-las liczy je sumą po pozycjach korzenia i granicy z tego powodu nie potrzebuje.
-Do przeczytania jest, co ten próg kosztuje i co kosztuje jego podniesienie:
-dziesięć zdań Składnicy zostaje dziś poza mianownikiem tabel z
-[`docs/corpus.md`](docs/corpus.md#the-measurement),
-a cały przebieg nad bankiem drzew trwa pół minuty.
-Ruchem jest pomiar czasu i pamięci nad tymi dziesięcioma zdaniami,
-a potem próg podniesiony albo zdjęty wraz z mianownikiem poprawionym
-w tabelach obu tych dokumentów.
-Wpis jest winien przebiegi, których
-[sekcja Checks](CLAUDE.md#checks) żąda od zmiany w mianowniku.
-
 Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
 `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
 daje wiersz `„do udziału” → „może”, „przedstawiciela”`,
@@ -1189,7 +1175,7 @@ a lasy bez werdyktu przeczą mu masowo,
 bo tam `_root` schodzi do najszerszego wybranego węzła i znajduje fragment,
 więc kryterium obejmuje `annotated` i nic poza tym.
 Do rozstrzygnięcia zostaje, co ma się stać z lasem, który mu przeczy:
-przerwać przebieg czy wejść do niemierzonych obok zdań dłuższych niż `--max-tokens`,
+przerwać przebieg czy wejść do niemierzonych obok zdań bez morfologii,
 i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
 Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
