@@ -23,11 +23,12 @@ An Earley chart over the segmentation graph builds a forest with shared nodes:
 one :class:`Pozycja` per constituent shape,
 however many derivations stand under it,
 so six undecided attachments are six positions rather than sixty-four trees.
-Four summaries come off that forest and none of them needs another parser:
+Five summaries come off that forest and none of them needs another parser:
 how many readings there are,
 which of them a reader is shown,
 which roles the readings disagree about,
-and which attachment the sentence leaves open.
+which attachment the sentence leaves open,
+and whether a reading named from outside, by its roles, is among them.
 docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
 and docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania
@@ -38,7 +39,7 @@ and the measurement behind the second.
 from __future__ import annotations
 
 import math
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, field
 from itertools import product
 
@@ -316,8 +317,10 @@ class Result:
 def las(grammar: Grammar, segments: list[Segment], start: str | None = None) -> Las:
     """Las tego zdania, do chodzenia po nim.
 
-    Wywołuje ją pomiar.
-    Werdykt woła :func:`parse`, która wyciąga z lasu podsumowania i las porzuca,
+    Wywołuje ją pomiar, bo pyta las o więcej, niż werdykt z niego bierze:
+    obok :func:`podsumuj` pyta jeszcze, czy złote czytanie w tym lesie ocalało
+    (:meth:`Las.ma_czytanie`).
+    Sam werdykt woła :func:`parse`, która las porzuca,
     bo dokument trzyma tyle werdyktów, ile ma zdań,
     a jeden las waży tyle, ile jego tablica.
     """
@@ -330,12 +333,19 @@ def parse(
     start: str | None = None,
     deklaracja: Deklaracja | None = None,
 ) -> Result:
-    """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte.
+    """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte."""
+    return podsumuj(las(grammar, segments, start), deklaracja)
+
+
+def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
+    """Podsumowania, jakie werdykt bierze z gotowego lasu.
+
+    Osobno od :func:`parse`, bo pomiar buduje las sam i pyta go jeszcze o coś,
+    czego werdykt nie niesie; bez tego rozbierałby zdanie drugi raz.
 
     Bez deklaracji werdykt jest samą liczbą i listą czytań;
     co ona niesie i czemu jest jedna, mówi :class:`Deklaracja`.
     """
-    zbudowany = las(grammar, segments, start)
     ile = zbudowany.ile_czytań()
     readings: list[Node] = []
     for tree in zbudowany.czytania():
@@ -573,8 +583,36 @@ def _jedne(klasa: Klasa) -> Cechy:
     return min(klasa, key=_klucz_cech)
 
 
+#: Rozpiętości ról jednego czytania: jedna pozycja na etykietę,
+#: w kolejności etykiet, o które zapytano.
+#: Jedna etykieta bierze zbiór, bo czytanie o zdaniu współrzędnym ma dwa podmioty,
+#: a wszystkie etykiety idą w jednym rozdaniu,
+#: bo pytanie o cudze czytanie dotyczy przypisania naraz:
+#: czytanie z dobrym podmiotem i cudzym dopełnieniem tym czytaniem nie jest.
+Rozdanie = tuple[frozenset[tuple[int, int]], ...]
+
+
+def _ponad(rozdanie: Rozdanie, żądane: Rozdanie) -> bool:
+    """Czy to rozdanie obsadza rolę rozpiętością, której żądane nie ma."""
+    return any(obsadzone - wolno for obsadzone, wolno in zip(rozdanie, żądane, strict=True))
+
+
+def _zsumuj(
+    dotąd: Iterable[Rozdanie], dokładane: Iterable[Rozdanie], żądane: Rozdanie
+) -> set[Rozdanie]:
+    """Rozdania z każdej pary tych dwóch, bez tych, które wychodzą ponad żądane."""
+    dokładane = list(dokładane)
+    złożone = set()
+    for zebrane in dotąd:
+        for córka in dokładane:
+            razem = tuple(a | b for a, b in zip(zebrane, córka, strict=True))
+            if not _ponad(razem, żądane):
+                złożone.add(razem)
+    return złożone
+
+
 class Las:
-    """Las ze współdzielonymi węzłami i cztery podsumowania, jakie z niego wychodzą.
+    """Las ze współdzielonymi węzłami i podsumowania, jakie z niego wychodzą.
 
     Taki las odpowiada na pytanie olskiego pod dwoma warunkami.
     Jedną pozycję dostaje to, co jest jednym czytaniem,
@@ -620,6 +658,12 @@ class Las:
         self._pierwsze_role: dict[
             tuple[tuple[Pozycja, Klasa], str, tuple[str, ...]],
             frozenset[tuple[int, int] | None],
+        ] = {}
+        #: (para, etykiety, żądane rozdanie) → rozdania, jakie ta para umie złożyć.
+        #: Żądane jest w kluczu, bo to ono odsiewa:
+        #: rozdania spoza niego nie ma tu wcale (:meth:`_rozdania`).
+        self._rozdania_pary: dict[
+            tuple[tuple[Pozycja, Klasa], tuple[str, ...], Rozdanie], frozenset[Rozdanie]
         ] = {}
         #: (produkcja, kombinacja, żądane cechy) → czym jest w tym ciele każda córka.
         #: Kluczem jest całe ciało, a nie jedna córka,
@@ -1086,6 +1130,74 @@ class Las:
                 znalezione.add(None)
         self._pierwsze_role[klucz] = frozenset(znalezione)
         return self._pierwsze_role[klucz]
+
+    # -- czytanie nazwane rolami z zewnątrz --------------------------------- #
+
+    def ma_czytanie(self, role: Mapping[str, frozenset[tuple[int, int]]]) -> bool:
+        """Czy któreś czytanie przypisuje te role dokładnie tak.
+
+        Pyta ten, kto ma cudze czytanie jednego z tych zdań
+        i chce wiedzieć, czy ono w tym lesie ocalało.
+
+        Rolami, a nie kształtem, bo dwie gramatyki grupują materiał każda po swojemu,
+        więc porównanie nawiasów mierzyłoby różnicę między formalizmami.
+        Rolę obie orzekają o zdaniu, i tą samą miarą mierzy zgodność
+        ``Outcome.agreement`` w ``olski/coverage.py``, więc obie odpowiedzi mówią o jednym.
+
+        Pyta las, a nie listę czytań, i po to ta metoda tu jest:
+        lista urywa się na :data:`MAX_READINGS`,
+        a zdania wieloznaczne są dokładnie tymi, nad którymi ta granica pada,
+        więc czytanie ocalałe za nią wyszłoby z listy przepadłe.
+
+        Zbiór pusty jest żądaniem, a nie jego brakiem:
+        etykieta, której pytający nigdzie nie obsadza,
+        żąda czytania, które nie obsadza jej również.
+        """
+        etykiety = tuple(sorted(role))
+        żądane: Rozdanie = tuple(frozenset(role[etykieta]) for etykieta in etykiety)
+        return any(
+            żądane in self._rozdania((self.korzeń, klasa), etykiety, żądane)
+            for klasa in self.klasy(self.korzeń)
+        )
+
+    def _rozdania(
+        self, para: tuple[Pozycja, Klasa], etykiety: tuple[str, ...], żądane: Rozdanie
+    ) -> frozenset[Rozdanie]:
+        """Rozdania, jakie czytania tej pary składają, z pominięciem tych ponad żądane.
+
+        Rozdanie pary jest sumą rozdań córek i tego, co para wnosi sama,
+        a wnosi rozpiętość wtedy, gdy sama nosi jedną z tych etykiet —
+        czyli tyle, ile pod tą parą znajduje :meth:`Node.find`.
+
+        Odsiewamy w trakcie, bo rozdań bywa tyle, ile czytań,
+        a po odsianiu najwyżej tyle, ile żądane ma podzbiorów, czyli garść:
+        rozdanie z rozpiętością spoza żądanego żądanym już nie zostanie,
+        bo suma rozpiętości nie zabiera.
+        Odsiew zależy od żądanego, więc żądane wchodzi do klucza spamiętywania.
+        """
+        klucz = (para, etykiety, żądane)
+        gotowe = self._rozdania_pary.get(klucz)
+        if gotowe is not None:
+            return gotowe
+        pozycja, _klasa = para
+        własne: Rozdanie = tuple(
+            frozenset({pozycja.span}) if pozycja.label == etykieta else frozenset()
+            for etykieta in etykiety
+        )
+        zebrane: set[Rozdanie] = set()
+        if not _ponad(własne, żądane):
+            for kombinacja in self._krawędzie.get(para, {}):
+                złożone = {własne}
+                for dziecko, klasa in kombinacja:
+                    if dziecko.liść:
+                        continue
+                    pod = self._rozdania((dziecko, klasa), etykiety, żądane)
+                    złożone = _zsumuj(złożone, pod, żądane)
+                    if not złożone:
+                        break
+                zebrane |= złożone
+        self._rozdania_pary[klucz] = frozenset(zebrane)
+        return self._rozdania_pary[klucz]
 
     # -- przyłączenia ------------------------------------------------------- #
 

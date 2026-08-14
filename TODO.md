@@ -1180,22 +1180,45 @@ i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
 Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
-`olski-corpus` asks Składnica whether a sentence derives at all,
-where the same treebank supports a sharper question.
-Świgra's evaluation walks its packed forest per sentence
-and counts the trees consistent with the corpus disambiguation
-(see [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
-so coverage becomes whether the gold reading is among the readings
-and how deeply it is buried,
-rather than whether anything came out at all.
-There is a forest to walk now, and `Las` in `olski/parse.py` is where it is:
-the packed positions, the shapes under each of them,
-and the count taken without enumerating trees,
-so the depth a gold reading is buried at
-is no longer a number `MAX_READINGS` truncates.
-What has to be decided is where the gold tree meets a packed position,
-because `_gold` in `olski/corpus.py` builds one tree
-and a position stands for a shape rather than for a tree.
+Przebieg mówi, czy złote czytanie wśród czytań jest, a nie mówi, jak głęboko.
+Ewaluacja Świgry liczy tam obie te rzeczy
+([`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
+a różnicę robi to, ile odpowiedź „ocalało” jest warta:
+złote czytanie drugie z dwóch i złote czytanie tysięczne z dwudziestu ośmiu tysięcy
+wchodzą do wiersza `survives` tak samo
+([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)).
+Głębokość jest numerem czytania w kolejności, w jakiej las je wydaje,
+a kolejność tę ustala `ciała` w `olski/parse.py` i czyta z niej `_z_córek`,
+więc numer policzony po lesie żąda tej samej arytmetyki wypisanej drugi raz,
+czyli drugiego właściciela faktu, którym jest kolejność czytań.
+Ruchem jest wobec tego wyliczanie oddające numer obok drzewa,
+a nie osobne liczenie numeru:
+`czytania` w `olski/parse.py` idzie po klasach korzenia i po kombinacjach pod nimi,
+i to jest jedyne miejsce, w którym numer da się nadać bez powtórzenia tej kolejności.
+Do rozstrzygnięcia jest przy tym, ile takie wyliczanie kosztuje:
+numer złotego czytania wymaga dojścia do niego,
+a `MAX_READINGS` istnieje po to, żeby nikt nie chodził po czytaniach zdania,
+które ma ich dziesiątki tysięcy,
+więc wpis jest winien pomiar tego, ile najgłębsze z tych 437 zdań kosztuje.
+
+Rola wysuniętego zaimka względnego nie ma etykiety, a bank drzew ją nazywa.
+`RelativeCore` w `olski/subset.py` bierze `RelativePronoun` w pozycji podmiotu
+i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,
+więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
+choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
+Kosztuje to 22 z 41 zdań w wierszu `lost`
+oraz cztery z 31 zdań przyjętych, które się nie zgadzają
+([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)),
+i te dwie liczby są pierwszym pomiarem tej luki.
+Ruchem jest etykieta na zaimku, czyli `Subject` albo `Object` nad `RelativePronoun`
+zamiast samego `RelativePronoun` w ciele,
+a przed nim rozstrzygnięcie, czy nie psuje to `_pierwsza_rola` w `olski/parse.py`:
+zdanie względne jest w `DEKLARACJA` podrzędne, więc streszczenie tam nie zagląda,
+ale `Node.find` bez pomijania zagląda i to ono czyta zgodność.
+Do przeczytania jest przy tym, co robi z tym `_role` w `skład/rozbiór.py`,
+które czyta kształty gramatyki po etykiecie.
+Ruch rusza wiersze zgodności w obu kolumnach oraz tabelę ocalenia,
+więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
 
 Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,

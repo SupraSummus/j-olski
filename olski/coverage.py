@@ -42,7 +42,7 @@ from pathlib import Path
 
 from olski.corpus import Sentence, pliki, read
 from olski.morph import Segment
-from olski.parse import Result, parse
+from olski.parse import Las, Result, las, podsumuj
 from olski.subset import GRAMMAR, morphology
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
@@ -55,6 +55,13 @@ NO_STRUCTURE = "(no structure over whole sentence)"
 #: Morphology sources. ``gold`` is the treebank's disambiguated tags, ``live`` is
 #: Morfeusz on the raw text, ambiguity included.
 SOURCES = ("gold", "live")
+
+#: Role, którymi mierzy się zgodność z drzewem wzorcowym: te, które olski ma i które
+#: gniazdo walencyjne w tym drzewie nazywa (``_slot_role`` w ``olski/corpus.py``).
+#: Jedna lista na oba pytania, bo zgodność czytania przyjętego i ocalenie czytania
+#: wśród wielu są tą samą miarą zadaną innym zbiorom zdań,
+#: a rozejście się tych list zrobiłoby z nich dwie miary o jednej nazwie.
+PORÓWNYWANE_ROLE = ("Subject", "Object")
 
 
 @dataclass(frozen=True)
@@ -70,6 +77,12 @@ class Outcome:
     #: False when spans on the two sides are not comparable, which is the case
     #: whenever the morphology did not come from the gold tree.
     comparable: bool = True
+    #: Czy złote czytanie ocalało wśród czytań zdania, które olski czyta kilkoma;
+    #: ``None``, gdy pytanie nie powstaje.
+    #: Wpisane z zewnątrz, a nie liczone tutaj jak :attr:`agreement`,
+    #: bo odpowiada na nie las, a werdykt lasu nie niesie:
+    #: waży on tyle, ile jego tablica, a raport przechodzi granicę procesu.
+    ocalenie: str | None = None
 
     def __post_init__(self) -> None:
         if not self.segments:
@@ -127,7 +140,7 @@ class Outcome:
         # which is the milder of the two claims and the wrong one.
         contradicted = False
         incomplete = False
-        for role in ("Subject", "Object"):
+        for role in PORÓWNYWANE_ROLE:
             gold = self.sentence.spans(role)
             found = frozenset(node.span for node in reading.find(role))
             if found - gold:
@@ -161,6 +174,12 @@ class Report:
     #: realizes neither. Reported for the same reason: 108 of 112 reads very
     #: differently once you know 196 sentences were accepted.
     unjudged: int = 0
+    #: Zdania wieloznaczne po tym, czy złote czytanie jest wśród ich czytań.
+    ocalenia: collections.Counter = field(default_factory=collections.Counter)
+    #: Zdania wieloznaczne, o które to pytanie nie pada, bo drzewo wzorcowe nie
+    #: nazywa ani jednej roli. Osobno od licznika wyżej z tego samego powodu, dla
+    #: którego :attr:`unjudged` liczy się osobno od :attr:`agreements`.
+    bez_roli: int = 0
 
     @property
     def measured(self) -> int:
@@ -177,6 +196,10 @@ class Report:
             self.agreements[agreement] += 1
         elif outcome.comparable and outcome.result.valid:
             self.unjudged += 1
+        if outcome.ocalenie is not None:
+            self.ocalenia[outcome.ocalenie] += 1
+        elif outcome.comparable and outcome.result.ambiguous:
+            self.bez_roli += 1
         bucket = _bucket(len(outcome.sentence.segments))
         self.lengths.setdefault(bucket, collections.Counter())[status] += 1
         kept = self.examples.setdefault(_example_key(outcome), [])
@@ -187,6 +210,8 @@ class Report:
 def _example_key(outcome: Outcome) -> str:
     if outcome.agreement in ("reversed", "disagrees", "partial"):
         return f"{outcome.status}/{outcome.agreement}"
+    if outcome.ocalenie is not None:
+        return f"{outcome.status}/{outcome.ocalenie}"
     return outcome.status
 
 
@@ -210,6 +235,43 @@ def segments_for(sentence: Sentence, source: str) -> list[Segment]:
     if source == "gold":
         return list(sentence.segments)
     return morphology(sentence.text)
+
+
+def _ocalenie(zbudowany: Las, sentence: Sentence, result: Result, comparable: bool) -> str | None:
+    """Czy złote czytanie jest wśród czytań tego zdania; ``None``, gdy pytanie nie powstaje.
+
+    Nie powstaje ono w trzech wypadkach.
+    Rozpiętości nieporównywalne: pod żywą morfologią pozycje są odstępami w napisie,
+    więc złote rozpiętości nazywałyby co innego.
+    Drzewo wzorcowe bez ani jednej roli: nie ma czego szukać.
+    Zdanie czytane raz albo wcale: o jednym czytaniu mówi już :attr:`Outcome.agreement`
+    i mówi więcej niż to pytanie, bo rozdziela czytanie zawężone od odwróconego,
+    a o zdaniu odrzuconym mówić nie ma czemu.
+
+    Zostaje więc zdanie wieloznaczne, czyli to, o którym samo odrzucenie mówi
+    tyle, że jakieś czytanie się wyprowadziło.
+    """
+    if not comparable or not result.ambiguous or not sentence.roles:
+        return None
+    złote = {rola: sentence.spans(rola) for rola in PORÓWNYWANE_ROLE}
+    return "survives" if zbudowany.ma_czytanie(złote) else "lost"
+
+
+def zmierz_zdanie(sentence: Sentence, segments: Sequence[Segment], comparable: bool) -> Outcome:
+    """Jeden las tego zdania i wszystko, co przebieg z niego bierze.
+
+    Jedno miejsce, w którym `Outcome` powstaje z lasu, bo las waży tyle, ile jego
+    tablica: pytanie zadane osobno kosztowałoby drugi rozbiór tego zdania.
+    """
+    zbudowany = las(GRAMMAR, list(segments))
+    result = podsumuj(zbudowany)
+    return Outcome(
+        sentence=sentence,
+        result=result,
+        segments=tuple(segments),
+        comparable=comparable,
+        ocalenie=_ocalenie(zbudowany, sentence, result, comparable),
+    )
 
 
 def measure(
@@ -241,16 +303,7 @@ def measure(
         if not segments:
             report.skipped["no morphology"] += 1
             continue
-        result = parse(GRAMMAR, segments)
-        report.record(
-            Outcome(
-                sentence=sentence,
-                result=result,
-                segments=tuple(segments),
-                comparable=source == "gold",
-            ),
-            keep_examples,
-        )
+        report.record(zmierz_zdanie(sentence, segments, source == "gold"), keep_examples)
     return report
 
 
@@ -322,8 +375,10 @@ def scal(raporty: Iterable[Report], source: str, keep_examples: int = 0) -> Repo
         scalony.statuses.update(raport.statuses)
         scalony.blockers.update(raport.blockers)
         scalony.agreements.update(raport.agreements)
+        scalony.ocalenia.update(raport.ocalenia)
         scalony.skipped.update(raport.skipped)
         scalony.unjudged += raport.unjudged
+        scalony.bez_roli += raport.bez_roli
         for bucket, counts in raport.lengths.items():
             scalony.lengths.setdefault(bucket, collections.Counter()).update(counts)
         for key, kept in raport.examples.items():
@@ -346,6 +401,23 @@ def _rows(counter: collections.Counter, total: int, limit: int | None = None) ->
     return lines
 
 
+def _wobec_złotego(
+    counter: collections.Counter, nagłówek: str, bez_roli: int, status: str
+) -> list[str]:
+    """Tabela porównania z drzewem wzorcowym, a pod nią zdania, których nie było z czym.
+
+    Obie takie tabele idą tędy, bo wiersz niemierzonych ma powiedzieć w obu to samo:
+    mianownik zawężony przez samo porównanie czyta się jak mianownik całego wiersza.
+    """
+    if not counter:
+        return []
+    ile = sum(counter.values())
+    wiersze = ["", f"{nagłówek.format(ile=ile)}:", *_rows(counter, ile)]
+    if bez_roli:
+        wiersze.append(f"  {bez_roli:7}          {status}, no gold role to compare")
+    return wiersze
+
+
 def render(report: Report, blockers: int = 12) -> str:
     total = report.measured
     lines = [
@@ -360,16 +432,18 @@ def render(report: Report, blockers: int = 12) -> str:
     for reason, count in report.skipped.most_common():
         lines.append(f"  {count:7}          not measured: {reason}")
 
-    if report.agreements:
-        judged = sum(report.agreements.values())
-        lines += [
-            "",
-            f"roles against the gold tree, on {judged} accepted sentences:",
-            *_rows(report.agreements, judged),
-        ]
-        if report.unjudged:
-            lines.append(f"  {report.unjudged:7}          accepted, no gold role to compare")
-
+    lines += _wobec_złotego(
+        report.agreements,
+        "roles against the gold tree, on {ile} accepted sentences",
+        report.unjudged,
+        "accepted",
+    )
+    lines += _wobec_złotego(
+        report.ocalenia,
+        "the gold reading among the readings, on {ile} ambiguous sentences",
+        report.bez_roli,
+        "ambiguous",
+    )
     if report.lengths:
         lines += ["", "coverage by sentence length:"]
         for bucket in sorted(report.lengths, key=lambda name: int(name.split("-")[0].rstrip("+"))):

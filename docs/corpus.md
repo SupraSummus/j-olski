@@ -61,7 +61,9 @@ the `prep`, particle and numeral rows and the disagreement row
 with a group of productions dropped,
 the rows those sentences land in when the productions come back,
 the sentences a narrowed production stops accepting,
-and the count of notation tokens in the corpus
+the count of notation tokens in the corpus,
+and both figures about the gold role the relative pronoun carries —
+the survival counts with it dropped, and the accepted sentences that have one —
 are taken by hand against the same corpus,
 and a change to the grammar moves them along with the tables.
 What puts them outside the command is that each wants
@@ -590,7 +592,105 @@ so the sentence goes from read backwards to rejected.
 Seventeen of the 22 lose the only reading they had,
 which is the same trade again at seventeen times the count,
 and the other five keep a reading beside the one the lexicon took.
-The run the lexicon moves furthest is the one below.
+The run the lexicon moves furthest is the live one,
+under [what morphological ambiguity costs](#what-morphological-ambiguity-costs).
+
+## Złote czytanie ocalało w 437 z 478 zdań wieloznacznych
+
+Zdanie wieloznaczne olski odrzuca,
+a samo odrzucenie nie mówi, czy wśród czytań jest to, którego chce czytelnik.
+Ten sam bank drzew odpowiada na to ostrzejsze pytanie
+i takie zadaje ewaluacja Świgry
+([swigra.md](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)):
+czy wśród czytań jest to, które wybrali anotatorzy.
+Odpowiada na nie las, a nie lista czytań.
+Lista urywa się na `MAX_READINGS`,
+a wieloznaczne są dokładnie te zdania, na których ta granica pada,
+więc odpowiedź policzona po liście myliłaby brak czytania z jego numerem;
+`Las.ma_czytanie` w `olski/parse.py` pyta o to las.
+
+Miarą są role, czyli to, czym mierzy zgodność sekcja wyżej.
+Nawiasowanie miarą być nie może, bo dwie gramatyki grupują materiał każda po swojemu
+i sekcja wyżej pokazuje, na czym:
+fraza przyimkowa przed rzeczownikiem siedzi w tym banku wewnątrz dopełnienia,
+bo konstytuent buduje się tam z sąsiadów.
+Rola jest natomiast tym, co obie gramatyki orzekają o zdaniu, a nie o sobie.
+Pytanie brzmi więc: czy któreś czytanie obsadza podmiot i dopełnienie tak,
+jak obsadza je drzewo wzorcowe, i czy obsadza oba naraz —
+czytanie z dobrym podmiotem i cudzym dopełnieniem złotym czytaniem nie jest.
+
+Nad 478 zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę:
+
+| | zdania | |
+| --- | --- | --- |
+| `survives` | 437 | 91,4% |
+| `lost` | 41 | 8,6% |
+
+Pozostałe 71 zdań wieloznacznych drzewo wzorcowe zostawia bez ani jednej roli,
+i przebieg liczy je pod tabelą z tego samego powodu,
+dla którego liczy tam 303 zdania przyjęte.
+
+Odrzucenie za wieloznaczność jest więc odrzuceniem wobec liczby czytań,
+a nie wobec tego, co w nich stoi.
+Sekcja wyżej mówi to samo o dwóch zdaniach i mówi to z ręki:
+`Apostołowie tego nie praktykowali.`
+i `Nikt niczego nie wybiera, coś wybiera za nas.`
+wychodzą dwoma czytaniami, a czytanie czytelnika jest wśród nich.
+Tabela mówi to o wszystkich naraz i przelicza się razem z gramatyką.
+
+Dwadzieścia pięć z 41 przepadło na roli, której olski nie nadaje nikomu.
+Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
+a `RelativeCore` w `olski/subset.py` wysuniętemu zaimkowi etykiety roli nie daje:
+wyprowadza on te zdania tak, jak czyta je bank drzew,
+i rozdanie wychodzi z niego o tę jedną rolę uboższe, więc złotemu nie równa się nigdy.
+Zdejmij tę rolę ze strony złotej, a 22 z tych 25 ocaleje —
+wiersz `lost` liczy wtedy 19, a `survives` 459 z 478, czyli 96,0%.
+Pozostałe trzy mają obok niej drugą różnicę i zostają.
+Jest to brak etykiety, a nie błąd czytania,
+tak samo jak pięć zdań z gniazdem `np(part)` w wierszu `disagrees` wyżej,
+i [TODO.md](../TODO.md) trzyma jedno i drugie.
+Ta sama luka dochodzi do zdań przyjętych i waży tam mniej:
+złotą rolę na `który` ma cztery z 31 zdań przyjętych, które się nie zgadzają,
+trzy w wierszu `partial` i jedno w `disagrees`.
+
+Dziewiętnaście, które zostaje, rozkłada się na trzy klasy,
+i dwie z nich wiersze zgodności wyżej już opisują.
+Sześć to zdanie albo bezokolicznik w miejscu podmiotu,
+czyli to samo, co daje tam `partial`:
+w `Zdaje się, że w tym miejscu jaskinia uchodzi w nieskończoność.`
+podmiotem `zdaje się` jest w drzewie wzorcowym całe zdanie z `że`,
+a w `Wystarczy wpłacić pieniądze na specjalne konto.` — fraza bezokolicznikowa.
+Siedem to rozpiętość, czyli to samo, co daje tam `disagrees`:
+w `Spojrzałem na kobietę i stwierdziłem, że po raz pierwszy jej twarz zasługiwała na uwagę.`
+złoty podmiot obejmuje `jej twarz`, a olski zatrzymuje go na `twarz`,
+i w tę samą stronę idzie `Stali wśród namiotów, w których krzątali się nadwołżańscy
+Niemcy, zruszczeni po wiekach.`, gdzie złoty podmiot sięga apozycji.
+Sześć ostatnich to rola obsadzona po jednej stronie i pusta po drugiej.
+Cztery z nich olski obsadza tam, gdzie drzewo wzorcowe roli nie ma:
+`chwilę` w `Szli chwilę w milczeniu i Helena spostrzegła, że kierują się w stronę
+plebanii.` i `7 dni` w `Produkcja idzie 7 dni w tygodniu.`
+są biernikiem czasu, którego olski nie ma czym czytać poza dopełnieniem
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Piąte idzie w drugą stronę: w `W kratkach z cyframi skarbów nie ma.`
+dopełnieniem jest `skarbów`, czyli dopełniacz negacji, a olski dopełnienia nie obsadza.
+Szóste rozcina na dwie role frazę, której polszczyzna tam nie rozcina:
+`Opróżnia więzienie Qasr ze wszystkich kryminalistów.` wychodzi z `więzienie`
+w dopełnieniu i z `Qasr ze wszystkich kryminalistów` w podmiocie,
+bo apozycji olski nie ma i `więzienie Qasr` nie ma się czym wyprowadzić w całości.
+
+Miara mówi, czy złote czytanie jest, i nie mówi, jak głęboko.
+Ewaluacja Świgry liczy obie te rzeczy,
+a numer czytania w kolejności, w jakiej las je wydaje,
+żąda tej kolejności wypisanej drugi raz obok wyliczania;
+[TODO.md](../TODO.md) trzyma to, co z tego pytania zostaje.
+
+Miara porównuje przy tym dwie role i nic poza nimi.
+Czytanie, które je obsadza tak jak drzewo wzorcowe,
+może się od niego różnić okolicznikiem, przydawką albo granicą członu,
+a wiersz `survives` policzy je razem z tymi, które zgadzają się w całości.
+Zawyżenie jest więc możliwe i nie jest zmierzone —
+ile go jest, powiedziałaby dopiero miara nad kształtem,
+a tej dwie gramatyki nie mają na czym oprzeć.
 
 ## What morphological ambiguity costs
 
