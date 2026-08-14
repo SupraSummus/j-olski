@@ -10,9 +10,9 @@ pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
 Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 72 zdania z 4921,
-czyli 1,5%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 8,7%,
+czyli 1,5%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 9,0%,
 choć tamten bank drzew jest zbudowany z gazet i prozy.
-Wieloznacznych jest tu 5,4% wobec 4,1% tam,
+Wieloznacznych jest tu 5,5% wobec 4,2% tam,
 więc zdanie ustawy, które olski w ogóle czyta,
 czyta on najczęściej na kilka sposobów, a zdanie Składnicy najczęściej na jeden.
 Regularne w ustawie jest drzewo jednostek redakcyjnych,
@@ -260,8 +260,9 @@ jest różnicą długości zdania, a nie staranności piszącego.
 
 ## Wieloznaczność jest tu odczytem z § 6, ale nie jest zarzutem
 
-Wieloznacznych jest 228, czyli 77% zdań, którym olski daje jakiekolwiek czytanie,
-a nad Składnicą jest to 27% (122 wieloznaczne na 447 przeczytanych).
+Wieloznacznych jest 272, czyli 79% zdań, którym olski daje jakiekolwiek czytanie,
+a nad Składnicą, czytaną tym samym analizatorem, jest to
+[44%](corpus.md#what-morphological-ambiguity-costs).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -271,21 +272,24 @@ Najdłuższe mają czytań tyle, że liczba przestaje o czymkolwiek mówić:
 python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -rn | head -3
 ```
 
-Osiemnaście zdań ma ich więcej niż 64, a najwięcej ma 28 042.
+Dwadzieścia jedno zdanie ma ich więcej niż 64, a najwięcej ma 28 042.
 Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
 a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań
 i nie sięga ani liczenia ich, ani ról, o które się one różnią.
 
 Werdykt nad tym najdłuższym nazywa dwa przyłączenia,
 jedno o dwóch gospodarzach i jedno o czterech,
+oraz konstytuent `urzędów centralnych`, który czyta się dwoma sposobami,
 i to samo mówi, ile z 28 042 czytań on wyjaśnia:
-osiem, a resztę zostawia bez nazwy.
+szesnaście, a resztę zostawia bez nazwy.
 Zdanie jest wyliczeniem siedmiu grup imiennych
 spiętych przecinkiem i spójnikiem —
 `ministrów, sekretarzy stanu i podsekretarzy stanu, …` —
 a olski bierze [współrzędność na trzech poziomach](subset.md#nothing-above-a-coordination-distributes-into-it),
 więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
-Ile ich dokładnie i czy to one dobijają do tej liczby, nikt nie policzył,
+Wiersza ciąg nie dostaje, bo granicę członu pokazuje nawias w napisie roli
+([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
+Ile czytań ciąg tu wnosi, nikt nie policzył,
 i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
 
 Werdykt nazywa obok tych dwóch przyłączeń dopełnienie
@@ -308,15 +312,20 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 
 ```text
 <text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
-                  4 readings, differing in Subject; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”
+                  4 readings, differing in Subject; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” reads 2 ways
 <text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
                   2 readings, differing in Object; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
 ```
 
-Drugie z tych zdań pokazuje, dlaczego 221 nie jest liczbą przepisów niejednoznacznych:
+Pierwsze niesie obok przyłączenia drugi wybór, ten słownikowy:
+`Polskiej` jest i przymiotnikiem, i dopełniaczem `Polski`,
+więc `Rzeczypospolitej Polskiej` czyta się dwoma sposobami,
+a dwa wybory razem dają cztery czytania i tyle właśnie werdykt wyjaśnia.
+
+Drugie z tych zdań pokazuje, dlaczego 272 nie jest liczbą przepisów niejednoznacznych:
 oba jego czytania mówią, że Sejm kontroluje działalność Rady Ministrów,
 i różnią się drzewem, a nie normą.
-221 jest liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
+272 jest liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
 a nie ze składni,
 i to jest wszystko, co pomiar tej wielkości mówi:
 [wieloznaczność mierzy pewność](glr-in-practice.md#ambiguity-as-a-confidence-measure),
@@ -516,6 +525,9 @@ Wychodzi dwoma czytaniami o tym samym streszczeniu ról,
 bo Morfeusz zna `zainteresowana` jako rzeczownik, a `rada` jako formę `rad`,
 i [wykluczenie](subset.md#the-dictionary-offers-readings-polish-does-not) tam nie sięga,
 bo żadne z tych dwóch czytań nie jest nieodmienne.
+Werdykt nazywa nad nim konstytuent, właśnie dlatego, że streszczenia są tu jednym napisem
+([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+i tak samo nazywa `Szefa Krajowego Biura Wyborczego` w zdaniu o wynagrodzeniu.
 
 ## Pakiet typograficzny nad tym rejestrem milczał
 

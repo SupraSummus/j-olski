@@ -593,9 +593,10 @@ a pozycja w ciele przestaje być pozycją w napisie, kiedy zdanie się zagnieżd
 specjalistów.` wychodzi przez to dwoma czytaniami:
 okolicznik raz stoi w zdaniu za luką, a raz przed całym zdaniem z luką w środku.
 Streszczenia obu są znak w znak te same,
-więc werdykt melduje `2 readings` i nie nazywa ani jednej roli,
-czyli ten kształt wydruku, o którym [TODO.md](../TODO.md) pisze,
-że kanału na dwa czytania o jednym streszczeniu nie ma.
+więc werdykt nie nazywa nad tym wariantem ani jednej roli
+i o różnicy mówi [wierszem o konstytuencie](#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań):
+`„przed laty kształcili kolejarskich specjalistów” reads 2 ways`,
+czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 
 **Kupuje przy tym jedną konstrukcję, a nie tę, po którą sięgano.**
 Nad 13 035 zdaniami Składnicy pod złotą morfologią
@@ -751,13 +752,12 @@ python3 -m sonda proza/README.txt --budżet 0.1
 python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
-Proza README ma 48 zdań.
-Wszystkie sonda rozbiera w budżecie 10 sekund na zdanie,
+Każde zdanie tej prozy sonda rozbiera w budżecie 10 sekund,
 a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostają od obu programów 44 z nich,
+Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 45 z 49 tych zdań,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -1075,14 +1075,53 @@ której lista czytań pod nim nie nazywa.
 Zdania współrzędnego to nie obejmuje,
 bo jego role należą do tego samego zdania.
 
-Cena idzie na wydruk: o wnętrzu zdania podrzędnego werdykt nie mówi nic.
-Wieloznaczność zamknięta w nim zostaje samą liczbą czytań,
-bo `Ustawa mówi, że organ gminy wydaje przepis.` ma dwa czytania
-o streszczeniach znak w znak tych samych,
-a różni je podmiot i dopełnienie tamtego zdania.
-Jest to ten sam brak, który [TODO.md](../TODO.md) opisuje jako brak kanału
-na dwa czytania o jednym streszczeniu,
-i wpis obejmuje tę klasę razem z różnicą słownikową.
+Trzeci wiersz nazywa konstytuent i odpowiada tam, gdzie tamte dwa nie sięgają.
+Streszczenie pokazuje wypełnienie roli oraz gospodarza przyłączenia,
+więc dwa czytania różne czymkolwiek innym wychodzą z niego jednym napisem.
+Miejsca takie są dwa.
+`Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.`
+różni czytanie słownikowe wewnątrz wypełnienia jednej roli —
+`zainteresowana` jest tam i rzeczownikiem, a `rada` formą `rad` —
+a `Ustawa mówi, że organ gminy wydaje przepis.` różni podmiot i dopełnienie
+zdania podrzędnego, w które streszczenie nie zagląda.
+Bez tego wiersza werdykt mówi nad oboma samo `2 readings`,
+a `--readings` drukuje jedno streszczenie dwa razy,
+co po werdykcie czyta się jak usterka narzędzia.
+Z nim mówi `„zainteresowana rada gminy” reads 2 ways`.
+
+Nazwany jest konstytuent, a nie różnica pod nim,
+i tę granicę stawia tożsamość czytania:
+lemat i część mowy są z niej wyłączone rozmyślnie,
+więc wiersz nazywający lemat mówiłby o czymś,
+czego liczba czytań obok niego nie liczy.
+Różnicę autor odczytuje z konstytuenta, i dlatego wpis dostaje najwęższy z nich:
+napis obejmujący napis innego wpisu mówi o tym samym słowie i o kilku obok niego,
+bo wieloznaczność wychodzi w górę.
+`równych praw kobiet` czyta się dwoma sposobami przez samo `równych`,
+`równych praw kobiet i mężczyzn` trzema, a naprawić trzeba jedno słowo.
+
+Wykluczenia są trzy i każde odpowiada jednemu wierszowi,
+który werdykt drukuje bez tego podsumowania.
+Ciąg współrzędny wiersza nie dostaje, bo granicę członu pokazuje nawias w napisie roli.
+Konstytuent z rolą pod sobą — z tą, do której streszczenie zagląda —
+nie dostaje go, bo o tej roli mówi wiersz `differing in`.
+Konstytuent z nazwanym przyłączeniem pod sobą nie dostaje go,
+bo o tym wyborze mówi wiersz z gospodarzami,
+a ten granicy zdania podrzędnego nie zna i sięga też do jego wnętrza.
+Bez ostatniego z tych trzech zdanie o dwunastu czytaniach
+dostawałoby te same dwa przyłączenia po raz drugi,
+raz nazwane przyimkiem, a raz konstytuentem długim na całe zdanie podrzędne.
+
+Cena idzie na to, o czym wiersz milczy, i widać ją na jednej klasie.
+Wyrażenie przyimkowe przyłączone wewnątrz frazy bezokolicznikowej
+ma w obu czytaniach tego samego gospodarza,
+bo `Deklaracja.gospodarze` frazy bezokolicznikowej nie wylicza,
+więc wiersza o przyłączeniu nie ma, a wiersz o konstytuencie ustępuje mu miejsca:
+`Syn usiłował wejść na ołtarz.` zostaje samą liczbą czytań.
+Ile zdań tak zostaje i co je stąd wyprowadza, notuje [TODO.md](../TODO.md).
+Powtórzone streszczenie zostaje przy tym w wydruku wszędzie,
+gdzie o wyborze mówi jeden z tamtych dwóch wierszy:
+lista czytań jest iloczynem decyzji, a wiersze tego iloczynu nie ruszają.
 
 Zdanie współrzędne zatrzymania nie ma, więc streszczenie opisuje z niego
 to zdanie składowe, w którym rola występuje pierwszy raz.

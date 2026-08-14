@@ -853,35 +853,30 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
-Werdykt nie ma kanału na dwa czytania o jednym streszczeniu.
-`explain` w `olski/subset.py` nazywa role, o które czytania się różnią,
-i modyfikator, którego przyłączenia czytania nie rozstrzygają,
-a różnica bywa poza jednym i drugim:
-`Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.`
-z [`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
-daje dwa czytania o streszczeniach znak w znak tych samych,
-bo różni je czytanie słownikowe: `zainteresowana` jest tam i rzeczownikiem,
-a `rada` formą `rad`.
-Wiersz mówi wtedy samo `2 readings`, a `--readings` drukuje ten napis dwa razy,
-co po werdykcie czyta się jak usterka narzędzia.
-Czytania różne granicą członu zdejmuje z tej klasy nawias z `_nawiasuj`,
-a różnica słownikowa zostaje i obok niej druga:
-wieloznaczność zamknięta wewnątrz zdania podrzędnego,
-w które streszczenie nie zagląda.
-`Ustawa mówi, że organ gminy wydaje przepis.` daje przez to dwa czytania
-o jednym napisie, bo różni je podmiot i dopełnienie tamtego zdania, a nie tego.
-Kanał ma objąć obie.
-Na takim werdykcie psuje się przy tym droga roli, która to narzędzie uruchamia
-([`docs/roles.md`](docs/roles.md#ktoś-kto-to-uruchamia)),
-i to jest miara tego, ile ten wpis jest wart.
-Ruchem jest podsumowanie nad lasem, wzorowane na `Las.przyłączenia`:
-jeden wpis na wybór, a nie na parę czytań;
-kryterium samego ciągu jest już wypisane w `_koordynuje`.
-Do przeczytania jest przed tym `Node.signature` w `olski/parse.py`,
-bo tam jest wypisana cena tego ruchu:
-lemat i część mowy są z tożsamości czytania wyłączone rozmyślnie,
-więc kanał nazywający lemat mówiłby o czymś,
-czego liczba czytań obok niego nie liczy.
+Fraza bezokolicznikowa jest gospodarzem przyłączenia, a werdykt nazywa nad nią zdanie.
+`Syn usiłował wejść na ołtarz.` ma dwa czytania,
+bo `na ołtarz` dochodzi do `wejść` albo do zdania nad nim,
+a streszczenie mówi w obu `Modifier: na ołtarz → usiłował`,
+czyli o jednym z nich nieprawdę:
+`gospodarze` w `DEKLARACJA` w `olski/subset.py` wylicza
+`NP`, `AP`, `ClauseConjunct` i `RelativeCore`, a frazy bezokolicznikowej nie,
+więc `_gospodarze` w `olski/parse.py` wychodzi z niej do zdania.
+Kosztuje to wiersz o przyłączeniu, którego nad takim zdaniem nie ma wcale,
+a razem z nim wiersz o konstytuencie, bo wyklucza go rola stojąca pod konstytuentem
+([`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+więc nad 23 z 549 zdań wieloznacznych Składnicy
+werdykt nie mówi nic poza liczbą czytań.
+Ruchem jest `InfinitivePhrase` dopisane do tej listy,
+po którym 20 z tych 23 dostaje wiersz o przyłączeniu,
+a nad `Syn usiłował wejść na ołtarz.` jest to `„na ołtarz” → „usiłował”, „wejść”`.
+Rejestr ustaw z tego ruchu nie ma nic: milczących werdyktów jest tam 7 z 272
+i żadnego z nich fraza bezokolicznikowa nie tłumaczy,
+więc do przeczytania są właśnie te siedem,
+bo mieszczą klasę, której ten wpis nie nazywa.
+Do przeczytania jest przy tym `tests/test_attachment.py`,
+gdzie gospodarze są wypisani po symbolu,
+oraz `_host` w `olski/parse.py`, bo streszczenie nazywa gospodarza jego głową,
+a głową frazy bezokolicznikowej jest bezokolicznik i to on wejdzie do wiersza.
 
 Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
 którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.

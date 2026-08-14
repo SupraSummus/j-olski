@@ -32,7 +32,15 @@ from dataclasses import dataclass, replace
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
 from olski.morph import Reading, Segment, analyse, tag
-from olski.parse import PRZYŁĄCZONY_DO, Deklaracja, Przyłączenie, Result, describe, parse
+from olski.parse import (
+    PRZYŁĄCZONY_DO,
+    Deklaracja,
+    Przyłączenie,
+    Result,
+    Rozbieżność,
+    describe,
+    parse,
+)
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
 #: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
@@ -854,6 +862,17 @@ def _nierozstrzygnięte(przyłączenie: Przyłączenie) -> str:
     return f"„{przyłączenie.modyfikator}”{PRZYŁĄCZONY_DO}{głowy}"
 
 
+def _rozbieżny(rozbieżność: Rozbieżność) -> str:
+    """Konstytuent i liczba jego czytań, jako jeden wiersz werdyktu.
+
+    Wiersz ten mówi, gdzie w zdaniu leży wieloznaczność, której nie widać
+    w streszczeniach czytań pod nim, i tylko tyle: różnicę autor odczyta z
+    konstytuenta, a nazwana byłaby lematem, którego liczba czytań nie liczy
+    (:class:`Rozbieżność`).
+    """
+    return f"„{rozbieżność.konstytuent}” reads {rozbieżność.ile} ways"
+
+
 @dataclass(frozen=True)
 class Verdict:
     """What olski says about one sentence."""
@@ -904,7 +923,13 @@ class Verdict:
         count = f"{self.result.ile} readings"
         if differing:
             count += f", differing in {', '.join(differing)}"
-        return "; ".join([count, *map(_nierozstrzygnięte, przyłączenia)])
+        return "; ".join(
+            [
+                count,
+                *map(_nierozstrzygnięte, przyłączenia),
+                *map(_rozbieżny, self.result.rozbieżności),
+            ]
+        )
 
 
 #: The closed-class parts of speech. A noun reading of a form that also reads as
