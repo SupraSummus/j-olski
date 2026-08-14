@@ -1180,27 +1180,6 @@ i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
 Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
-Przebieg mówi, czy złote czytanie wśród czytań jest, a nie mówi, jak głęboko.
-Ewaluacja Świgry liczy tam obie te rzeczy
-([`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)),
-a różnicę robi to, ile odpowiedź „ocalało” jest warta:
-złote czytanie drugie z dwóch i złote czytanie tysięczne z dwudziestu ośmiu tysięcy
-wchodzą do wiersza `survives` tak samo
-([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)).
-Głębokość jest numerem czytania w kolejności, w jakiej las je wydaje,
-a kolejność tę ustala `ciała` w `olski/parse.py` i czyta z niej `_z_córek`,
-więc numer policzony po lesie żąda tej samej arytmetyki wypisanej drugi raz,
-czyli drugiego właściciela faktu, którym jest kolejność czytań.
-Ruchem jest wobec tego wyliczanie oddające numer obok drzewa,
-a nie osobne liczenie numeru:
-`czytania` w `olski/parse.py` idzie po klasach korzenia i po kombinacjach pod nimi,
-i to jest jedyne miejsce, w którym numer da się nadać bez powtórzenia tej kolejności.
-Do rozstrzygnięcia jest przy tym, ile takie wyliczanie kosztuje:
-numer złotego czytania wymaga dojścia do niego,
-a `MAX_READINGS` istnieje po to, żeby nikt nie chodził po czytaniach zdania,
-które ma ich dziesiątki tysięcy,
-więc wpis jest winien pomiar tego, ile najgłębsze z tych 437 zdań kosztuje.
-
 Rola wysuniętego zaimka względnego nie ma etykiety, a bank drzew ją nazywa.
 `RelativeCore` w `olski/subset.py` bierze `RelativePronoun` w pozycji podmiotu
 i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,

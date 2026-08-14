@@ -318,21 +318,26 @@ def _role_czytań(zbudowany):
         "Program zapisuje ustawienia i użytkownik czyta plik w katalogu.",
     ],
 )
-def test_las_zna_te_i_tylko_te_rozdania_ról_które_wychodzą_z_jego_drzew(zdanie: str):
+def test_las_numeruje_te_i_tylko_te_rozdania_ról_które_wychodzą_z_jego_drzew(zdanie: str):
     """Pytanie o czytanie nazwane rolami ma odpowiadać to, co daje wyliczenie.
 
     Sprawdzane w obie strony, bo osobno łatwo o obie pomyłki: rozdanie z drzewa
     nieznalezione i rozdanie znalezione bez drzewa, które by je dało. Drugie jest
     tym, co robi porównanie po jednej roli naraz — bierze podmiot z jednego
     czytania i dopełnienie z drugiego — więc iloczyn niżej sprawdza właśnie je.
+
+    Sam numer sprawdza się przeciw miejscu w wyliczeniu, bo tym numer jest:
+    numer liczony osobno byłby kolejnością czytań wypisaną drugi raz.
     """
     zbudowany = las(GRAMMAR, morphology(zdanie))
-    z_drzew = set(_role_czytań(zbudowany))
-    assert len(z_drzew) > 1, "zdanie bez dwóch rozdań niczego tu nie rozstrzyga"
+    z_drzew = _role_czytań(zbudowany)
+    assert len(set(z_drzew)) > 1, "zdanie bez dwóch rozdań niczego tu nie rozstrzyga"
     for podmioty in {rozdanie[0] for rozdanie in z_drzew}:
         for dopełnienia in {rozdanie[1] for rozdanie in z_drzew}:
             role = {"Subject": podmioty, "Object": dopełnienia}
-            assert zbudowany.ma_czytanie(role) == ((podmioty, dopełnienia) in z_drzew), role
+            szukane = (podmioty, dopełnienia)
+            oczekiwany = z_drzew.index(szukane) + 1 if szukane in z_drzew else None
+            assert zbudowany.numer_czytania(role) == oczekiwany, role
 
 
 def test_czytanie_nazwane_rolami_znajduje_się_zza_granicy_wyliczania():
@@ -342,13 +347,17 @@ def test_czytanie_nazwane_rolami_znajduje_się_zza_granicy_wyliczania():
     czytań niesie z nich dwa: rozdanie liczone po liście wychodziłoby przepadłe
     sześć razy na osiem. Wieloznaczne są zaś dokładnie te zdania, na których ta
     granica pada, czyli te, o które to pytanie w ogóle się zadaje.
+
+    Numer wychodzi zza tej granicy razem z odpowiedzią, bo granica jest wydruku,
+    a nie wyliczenia: gdyby wiązała także tu, sześć z tych ośmiu nie miałoby numeru.
     """
     zbudowany = las(GRAMMAR, morphology(SIEDEM_PRZYŁĄCZEŃ))
     czytania = _role_czytań(zbudowany)
     poza_listą = set(czytania) - set(czytania[:MAX_READINGS])
     assert len(poza_listą) == 6
     for podmioty, dopełnienia in poza_listą:
-        assert zbudowany.ma_czytanie({"Subject": podmioty, "Object": dopełnienia})
+        numer = zbudowany.numer_czytania({"Subject": podmioty, "Object": dopełnienia})
+        assert numer is not None and numer > MAX_READINGS
 
 
 def test_pusty_zbiór_żąda_czytania_które_tej_roli_nigdzie_nie_obsadza():
@@ -360,8 +369,8 @@ def test_pusty_zbiór_żąda_czytania_które_tej_roli_nigdzie_nie_obsadza():
     """
     zbudowany = las(GRAMMAR, morphology("Program zapisuje ustawienia."))
     podmiot = frozenset({(0, 1)})
-    assert zbudowany.ma_czytanie({"Subject": podmiot, "Object": frozenset({(2, 3)})})
-    assert not zbudowany.ma_czytanie({"Subject": podmiot, "Object": frozenset()})
+    assert zbudowany.numer_czytania({"Subject": podmiot, "Object": frozenset({(2, 3)})}) == 1
+    assert zbudowany.numer_czytania({"Subject": podmiot, "Object": frozenset()}) is None
 
 
 def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():

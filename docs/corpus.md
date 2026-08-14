@@ -62,8 +62,9 @@ with a group of productions dropped,
 the rows those sentences land in when the productions come back,
 the sentences a narrowed production stops accepting,
 the count of notation tokens in the corpus,
-and both figures about the gold role the relative pronoun carries —
+both figures about the gold role the relative pronoun carries —
 the survival counts with it dropped, and the accepted sentences that have one —
+and the readings the largest of the forests keeping a gold reading holds
 are taken by hand against the same corpus,
 and a change to the grammar moves them along with the tables.
 What puts them outside the command is that each wants
@@ -638,6 +639,33 @@ i `Nikt niczego nie wybiera, coś wybiera za nas.`
 wychodzą dwoma czytaniami, a czytanie czytelnika jest wśród nich.
 Tabela mówi to o wszystkich naraz i przelicza się razem z gramatyką.
 
+Ile odpowiedź `survives` jest warta, mówi dopiero numer czytania obok niej.
+Czytanie drugie z dwóch i czytanie tysięczne z dwudziestu ośmiu tysięcy
+wchodzą do tego wiersza jednakowo, a wypisanych czytań jest `MAX_READINGS`,
+więc numer rozstrzyga, czy czytelnik złote czytanie w ogóle zobaczy.
+Ocalenie i numer liczy razem ewaluacja Świgry
+([swigra.md](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)).
+Numerem jest miejsce w kolejności, w jakiej las wydaje drzewa,
+i nadaje go samo wyliczanie (`Las.numer_czytania` w `olski/parse.py`),
+bo numer policzony obok byłby tą kolejnością wypisaną drugi raz.
+
+Nad 437 zdaniami, w których złote czytanie ocalało:
+
+| | zdania | |
+| --- | --- | --- |
+| czytanie 1 | 312 | 71,4% |
+| czytania 2-64 | 125 | 28,6% |
+
+Żadne z nich nie wypada poza wypisywane czytania,
+a najgłębsze jest czterdziestym pierwszym.
+Tyle też wynosi cena, bo wyliczanie buduje tyle drzew, ile numer:
+rusza dopiero po odpowiedzi lasu, że takie czytanie tam jest,
+i przystaje na pierwszym takim drzewie.
+Zdanie z wiersza `lost` nie buduje więc ani jednego drzewa,
+a granica z `MAX_READINGS` nie jest wyliczaniu potrzebna.
+Numer nie rośnie przy tym z wielkością lasu:
+największy z tych 437 ma 124 czytania, a złote jest w nim pierwsze.
+
 Dwadzieścia pięć z 41 przepadło na roli, której olski nie nadaje nikomu.
 Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
 a `RelativeCore` w `olski/subset.py` wysuniętemu zaimkowi etykiety roli nie daje:
@@ -677,12 +705,6 @@ Szóste rozcina na dwie role frazę, której polszczyzna tam nie rozcina:
 `Opróżnia więzienie Qasr ze wszystkich kryminalistów.` wychodzi z `więzienie`
 w dopełnieniu i z `Qasr ze wszystkich kryminalistów` w podmiocie,
 bo apozycji olski nie ma i `więzienie Qasr` nie ma się czym wyprowadzić w całości.
-
-Miara mówi, czy złote czytanie jest, i nie mówi, jak głęboko.
-Ewaluacja Świgry liczy obie te rzeczy,
-a numer czytania w kolejności, w jakiej las je wydaje,
-żąda tej kolejności wypisanej drugi raz obok wyliczania;
-[TODO.md](../TODO.md) trzyma to, co z tego pytania zostaje.
 
 Miara porównuje przy tym dwie role i nic poza nimi.
 Czytanie, które je obsadza tak jak drzewo wzorcowe,

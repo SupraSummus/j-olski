@@ -310,17 +310,17 @@ Coverage there is not whether the parser produced something,
 but whether the gold reading is in the forest
 and how deeply it is buried among alternatives.
 
-Olski asks the first half of that question and not the second.
-`Las.ma_czytanie` in `olski/parse.py` walks the packed positions
+Olski asks both halves, in that order.
+`Las.numer_czytania` in `olski/parse.py` walks the packed positions
 for a reading assigning the roles the gold tree assigns,
-so a gold reading past the enumeration cap comes back found rather than missing,
-and [corpus.md](corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)
-holds what that says about the sentences olski refuses for ambiguity.
+so a gold reading past the enumeration cap comes back found rather than missing;
+only then does it walk the enumeration to the tree carrying that reading,
+and the depth is where that walk stopped.
+[corpus.md](corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)
+holds what both answers say about the sentences olski refuses for ambiguity.
 Where the gold tree meets a packed position is settled there by the roles:
 a position stands for a shape rather than for a tree,
 and two grammars share no bracketing to compare shape by shape.
-The depth is what is left — a reading's number in the order the forest yields them —
-and [TODO.md](../TODO.md) holds it.
 The verdict is what asked for the forest first
 ([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 and this is the reason for it that comes from the measurement instead.
