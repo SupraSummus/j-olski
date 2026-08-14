@@ -256,6 +256,10 @@ class Deklaracja:
     #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
     #: nawiasuje człon ciągu współrzędnego.
     współrzędne: tuple[str, ...]
+    #: Symbole zdań składowych, czyli członów ciągu zdań współrzędnych.
+    #: Streszczenie nazywa rolę z tego składowego, w którym pada ona pierwszy raz,
+    #: i znakiem obok niej mówi, że zdanie ma jeszcze inne (:func:`describe`).
+    składowe: tuple[str, ...]
     #: Symbole zdań podrzędnych, czyli tych, których wnętrze jest osobnym zdaniem.
     #: Streszczenie i :meth:`Las.różniące` zatrzymują się na nich,
     #: bo rola z wnętrza takiego zdania jest jego rolą, a nie rolą zdania nad nim.
@@ -1368,6 +1372,11 @@ class Las:
 #: a następuje tam forma wzięta ze zdania i nieodmieniana.
 PRZYŁĄCZONY_DO = " → "
 
+#: Znak, którym streszczenie mówi, że po tej stronie roli
+#: stoi jeszcze jedno zdanie składowe, o którym ono milczy.
+#: Wielokropek, bo mówi to samo, co mówi w prozie: zdanie idzie dalej.
+SĄSIEDNIE_ZDANIE_SKŁADOWE = "…"
+
 #: Formy, przed którymi w napisie nie ma odstępu.
 #: Wewnątrz konstytuentu gramatyka bierze jeden znak interpunkcyjny, przecinek
 #: koordynacji; kropkę niesie węzeł nad rolami i do streszczenia nie dochodzi.
@@ -1420,16 +1429,61 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
 
     Zdanie podrzędne jest z tego wyszukiwania wyjęte
     (:attr:`Deklaracja.podrzędne`), bo streszczane jest zdanie zewnętrzne.
+    Zdanie współrzędne wyjęte nie jest, bo jego role są rolami tego samego zdania,
+    a nazwane jest w nim pierwsze wystąpienie roli tak samo jak wszędzie,
+    więc każda rola jest z tego składowego, w którym pada pierwszy raz.
+    Znak :data:`SĄSIEDNIE_ZDANIE_SKŁADOWE` jest po tej stronie roli,
+    po której zdanie ma jeszcze składowe, i tylko tyle o nich mówi:
+    wierszy jest tyle, ile czytań, i tego znak nie rusza
+    (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
     """
-    summary = {}
-    for role in deklaracja.role:
-        found = node.find(role, deklaracja.podrzędne)
-        if not found:
+    streszczenie = {}
+    składowe = _składowe(node, deklaracja.składowe)
+    for rola in deklaracja.role:
+        znalezione = node.find(rola, deklaracja.podrzędne)
+        if not znalezione:
             continue
-        summary[role] = _nawiasuj(found[0], deklaracja.współrzędne)
-        if role == deklaracja.przyłączany:
-            summary[role] += PRZYŁĄCZONY_DO + _attachment(node, found[0], deklaracja.gospodarze)
-    return summary
+        napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
+        if rola == deklaracja.przyłączany:
+            napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
+        streszczenie[rola] = _wśród_składowych(napis, znalezione[0].span, składowe)
+    return streszczenie
+
+
+def _składowe(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
+    """Rozpiętości zdań składowych tego czytania.
+
+    Bierzemy zdanie najwyższe w gałęzi, a nie każdy węzeł o tej etykiecie:
+    okolicznik zdania dokłada nad zdaniem składowym drugie o tej samej etykiecie
+    (``ClauseConjunct → Modifier ClauseConjunct``),
+    a członem ciągu jest zewnętrzne z tych dwóch.
+    Zdanie podrzędne jest wewnątrz składowego, więc zejście do niego nie dochodzi
+    i nie trzeba go tu odejmować osobno.
+    """
+    if node.label in symbole:
+        return [node.span]
+    return [
+        rozpiętość
+        for dziecko in node.children
+        if isinstance(dziecko, Node)
+        for rozpiętość in _składowe(dziecko, symbole)
+    ]
+
+
+def _wśród_składowych(
+    napis: str, rola: tuple[int, int], składowe: Sequence[tuple[int, int]]
+) -> str:
+    """Napis roli ze znakiem po tej stronie, po której jest jeszcze jedno zdanie składowe.
+
+    Porównujemy rolę z całymi zdaniami składowymi, a nie z zasięgiem zdania:
+    rola zaczyna się za początkiem swojego składowego i kończy przed jego końcem,
+    więc porównanie z zasięgiem dałoby znak prawie każdej roli.
+    Zdanie o jednym składowym nie dostaje przez to żadnego znaku,
+    bo nie ma składowego ani przed rolą, ani za nią.
+    """
+    przed = SĄSIEDNIE_ZDANIE_SKŁADOWE if any(koniec <= rola[0] for _, koniec in składowe) else ""
+    po = SĄSIEDNIE_ZDANIE_SKŁADOWE if any(rola[1] <= start for start, _ in składowe) else ""
+    return f"{przed}{napis}{po}"
 
 
 def _nawiasuj(node: Node, współrzędne: Sequence[str]) -> str:
