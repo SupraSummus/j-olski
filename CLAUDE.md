@@ -622,6 +622,11 @@ The third of those is the one a session can make without noticing:
 and it moves every verdict the other two move.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
+One of those tables has a fourth thing that moves it and no production in sight:
+[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)
+is what `Las.ma_czytanie` in `olski/parse.py` answers
+about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
+so a change to either moves that table and leaves the rest of the run standing.
 The same change moves what that document says about the run over the README,
 which is the other half of the same demand and needs no fetch at all:
 rerun the two commands it prints and correct the sentences under them.

@@ -19,9 +19,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence, parse_forest, pliki, read
-from olski.coverage import Outcome, main, measure, przebieg, render, scal
-from olski.parse import parse
-from olski.subset import GRAMMAR
+from olski.coverage import main, measure, przebieg, render, scal, zmierz_zdanie
 
 
 def forest(nodes, text="Program zapisuje ustawienia.", verdict=FULL, sent_id="t/1-s"):
@@ -283,7 +281,7 @@ def test_walking_a_directory_finds_forests_at_any_depth(tmp_path):
 
 def outcome(nodes, **kwargs):
     sentence = parse_forest(forest(nodes, **kwargs))
-    return Outcome(sentence=sentence, result=parse(GRAMMAR, list(sentence.segments)))
+    return zmierz_zdanie(sentence, sentence.segments, comparable=True)
 
 
 def test_a_sentence_olski_derives_once_agrees_with_the_gold_roles():
@@ -311,17 +309,16 @@ def test_a_disagreement_outranks_a_partial_on_the_other_role():
     sentence = parse_forest(forest(both))
     assert sentence.spans("Subject") == frozenset({(0, 1), (1, 2)})
     #  The object slot the gold tree marks is on a span olski calls the verb.
-    found = Outcome(
-        sentence=Sentence(
-            sent_id=sentence.sent_id,
-            text=sentence.text,
-            verdict=sentence.verdict,
-            segments=sentence.segments,
-            roles=(("Object", 1, 2), ("Subject", 0, 1), ("Subject", 1, 2)),
-        ),
-        result=parse(GRAMMAR, list(sentence.segments)),
+    podmieniony = Sentence(
+        sent_id=sentence.sent_id,
+        text=sentence.text,
+        verdict=sentence.verdict,
+        segments=sentence.segments,
+        roles=(("Object", 1, 2), ("Subject", 0, 1), ("Subject", 1, 2)),
     )
-    assert found.agreement == "disagrees"
+    assert zmierz_zdanie(podmieniony, podmieniony.segments, comparable=True).agreement == (
+        "disagrees"
+    )
 
 
 def test_a_role_the_gold_tree_marks_and_olski_does_not_is_partial_not_agreement():
@@ -344,16 +341,72 @@ def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
     assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "imps"
 
 
+def przyłączenie(subject="subj(np(nom))", obj="np(accgen)", przyimkowe=None):
+    """*Program zapisuje ustawienia w pliku.* — dwa czytania, bo przyimek ma dwóch gospodarzy.
+
+    Drzewo wzorcowe daje wyrażenie przyimkowe dopełnieniu, czyli to z dwóch
+    czytań, które olski też ma. Oba gniazda są argumentami, żeby test mógł
+    przesunąć rolę na frazę, której olski w żadnym czytaniu tak nie nazywa.
+    """
+    return (
+        phrase(0, 0, 6, "wypowiedzenie", [1, 5, 9, 20])
+        + phrase(1, 0, 1, "fw", [2], slot=subject)
+        + terminal(2, 0, 1, "Program", "subst:sg:nom:m3")
+        + phrase(5, 1, 2, "ff", [6])
+        + terminal(6, 1, 2, "zapisuje", "fin:sg:ter:imperf", lemma="zapisywać")
+        + phrase(9, 2, 5, "fw", [10, 12], slot=obj)
+        + terminal(10, 2, 3, "ustawienia", "subst:pl:acc:n", lemma="ustawienie")
+        + phrase(12, 3, 5, "fpm", [13, 14], slot=przyimkowe)
+        + terminal(13, 3, 4, "w", "prep:loc")
+        + terminal(14, 4, 5, "pliku", "subst:sg:loc:m3", lemma="plik")
+        + terminal(20, 5, 6, ".", "interp")
+    )
+
+
+PRZYŁĄCZENIE_TEKST = "Program zapisuje ustawienia w pliku."
+
+
+def test_złote_czytanie_zdania_wieloznacznego_zostaje_odnalezione_wśród_czytań():
+    #  Zdanie, którego olski nie przyjmuje, bo czyta je dwoma sposobami. Dotąd
+    #  przebieg nie mówił o nim nic poza tym, że coś się wyprowadziło, a czytanie
+    #  drzewa wzorcowego jest jednym z tych dwóch.
+    found = outcome(przyłączenie(), text=PRZYŁĄCZENIE_TEKST)
+    assert found.status == "ambiguous"
+    assert found.ocalenie == "survives"
+
+
+def test_złote_czytanie_którego_żadne_z_czytań_nie_daje_wychodzi_przepadłe():
+    #  Rola przesunięta na samo `w pliku`: olski ma tam wyrażenie przyimkowe przy
+    #  dopełnieniu albo przy zdaniu, a dopełnieniem nie czyni go w żadnym czytaniu.
+    found = outcome(przyłączenie(obj=None, przyimkowe="np(accgen)"), text=PRZYŁĄCZENIE_TEKST)
+    assert found.status == "ambiguous"
+    assert found.ocalenie == "lost"
+
+
+def test_o_ocalenie_pyta_się_zdania_wieloznacznego_a_nie_przyjętego_ani_odrzuconego():
+    #  O zdaniu przyjętym mówi `agreement` i mówi więcej, bo rozdziela czytanie
+    #  zawężone od odwróconego, więc dwa liczniki jednej miary policzyłyby je dwa razy.
+    assert outcome(SVO).ocalenie is None
+    assert outcome(svo(tag=POZA_PODZBIOREM)).ocalenie is None
+
+
+def test_zdanie_wieloznaczne_bez_złotej_roli_nie_wchodzi_do_mianownika(tmp_path):
+    #  Bez tego mianownik zawężałby się sam: zdanie, o które nie ma jak zapytać,
+    #  liczyłoby się jako przepadłe.
+    write(tmp_path, "a-s.xml", przyłączenie(subject=None, obj=None), text=PRZYŁĄCZENIE_TEKST)
+    report = przebieg(pliki(tmp_path), jobs=1)
+    assert report.statuses["ambiguous"] == 1
+    assert report.ocalenia == {}
+    assert report.bez_roli == 1
+
+
 def test_agreement_is_not_claimed_when_spans_are_not_comparable():
     #  Live morphology numbers positions in characters, so a span from the parser
     #  and a span from the gold tree are not the same kind of thing.
     sentence = parse_forest(forest(SVO))
-    found = Outcome(
-        sentence=sentence,
-        result=parse(GRAMMAR, list(sentence.segments)),
-        comparable=False,
-    )
+    found = zmierz_zdanie(sentence, sentence.segments, comparable=False)
     assert found.agreement is None
+    assert found.ocalenie is None
 
 
 def test_measuring_counts_every_forest_but_parses_only_the_annotated_ones(tmp_path):
