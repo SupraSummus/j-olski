@@ -853,6 +853,24 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
+Dwa przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
+`zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
+więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
+a `sonda/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
+Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
+po którym tabela z
+[`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
+wychodzi z `olski-corpus`, a sonda się kasuje.
+Ceną jest to, czego dziś ten przebieg nie liczy:
+`różniące`, `przyłączenia` i `rozbieżności` chodzą po lesie osobno,
+a `olski-corpus` puszcza się nad 13 035 zdaniami i pod pulą procesów.
+Do przeczytania jest więc najpierw, ile ta trójka dokłada do przebiegu,
+bo poniżej progu, przy którym to widać, ruch jest samym zdjęciem duplikatu,
+a powyżej jest wyborem między dwoma przebiegami a jednym droższym.
+Do przeczytania jest przy tym `Report.record` w `olski/coverage.py`,
+gdzie licznik klas musiałby stanąć, i `KAWAŁEK` obok,
+bo przez granicę procesu idzie licznik, a nie las.
+
 Fraza bezokolicznikowa jest gospodarzem przyłączenia, a werdykt nazywa nad nią zdanie.
 `Syn usiłował wejść na ołtarz.` ma dwa czytania,
 bo `na ołtarz` dochodzi do `wejść` albo do zdania nad nim,
@@ -865,7 +883,10 @@ Kosztuje to wiersz o przyłączeniu, którego nad takim zdaniem nie ma wcale,
 a razem z nim wiersz o konstytuencie, bo wyklucza go rola stojąca pod konstytuentem
 ([`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 więc nad 23 z 549 zdań wieloznacznych Składnicy
-werdykt nie mówi nic poza liczbą czytań.
+werdykt nie mówi nic poza liczbą czytań;
+liczbę tę liczy `sonda/czytania.py`, a wiersz, w którym stoi, trzyma
+[`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca),
+więc ten ruch przelicza tamtą tabelę.
 Ruchem jest `InfinitivePhrase` dopisane do tej listy,
 po którym 20 z tych 23 dostaje wiersz o przyłączeniu,
 a nad `Syn usiłował wejść na ołtarz.` jest to `„na ołtarz” → „usiłował”, „wejść”`.
@@ -1196,6 +1217,26 @@ Do rozstrzygnięcia jest też, czy to jest flaga `olski-corpus`,
 czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
 Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
 `olski/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
+
+Leksykon walencyjny nie mówi o przyimku, więc świadek ramowy nie ma z czego powstać.
+`olski/rozstrzyganie.py` obiecuje w docstringu świadka, który wskazuje gospodarza wtedy,
+gdy schemat jednej ze stron tej frazy żąda, i jest to obietnica niedotrzymana:
+`olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a fraza sporna jest przyimkowa.
+Nad Składnicą jest to 576 wyrażeń wymaganych przez czasownik i 214 przez rzeczownik
+z 4 517 spornych, czyli 17,5%
+([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
+a świadek statystyczny obok odpowiada dziś o jednym wyrażeniu na osiem,
+więc rama jest większa od tego, co warstwa ma.
+Ruchem jest `olski/walenty.py` czytający pozycje `prepnp` i wypisujący je do leksykonu
+kolumną, której ten plik jeszcze nie ma, a potem świadek postawiony
+przed `Skłonność` w `domyślni`, bo dowód słownikowy bije statystyczny.
+Do przeczytania jest, czym Walenty odróżnia frazę wymaganą od luźnej po stronie rzeczownika,
+bo tam schematy są rzadsze niż przy czasowniku,
+oraz `_dokąd_doszło` w `olski/attachment.py`, gdzie `fw` i `fl` są już czytane z banku drzew,
+czyli jest czym ten świadek zmierzyć osobno od tabeli skłonności.
+Regeneracja leksykonu i przeliczenie
+[tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
+idą razem z tym wpisem.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)

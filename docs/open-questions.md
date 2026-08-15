@@ -202,7 +202,11 @@ niż trafia; wobec tego pomiaru trzeba by je ważyć inaczej niż wtedy,
 bo po jednej stronie stoi pomyłka w drzewie, której czytelnik nie zauważa,
 a po drugiej odrzucenie zdania, które przeczytał raz.
 Trzecia: warstwa rozstrzygająca przyłączenie poza gramatyką,
-czyli to, czego olski nie ma i czego żaden etap nie planuje.
+czyli to, czego żaden etap nie planuje.
+Ile taka warstwa miałaby do rozstrzygnięcia, z jaką skutecznością robią to cudze maszyny
+i dlaczego reszty nie rozstrzyga nic, co stoi w zdaniu,
+wycenia [disambiguation.md](disambiguation.md),
+i tam też stoi zalążek, który nie rusza werdyktu.
 
 Do przeczytania jest najpierw to, czy próbka wyżej się broni.
 Dwadzieścia cztery zdania przeczytane przez jedną osobę
@@ -325,6 +329,10 @@ That is stronger,
 and it means building a disambiguation preference,
 which is where deterministic explainable systems usually stop being either.
 Current inclination is not to.
+
+Co ranking nad takim lasem osiąga tam, gdzie ktoś go zbudował i zmierzył,
+i dlaczego skłonność jest tu dalej „nie”,
+wycenia [disambiguation.md](disambiguation.md#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje).
 
 A third option, cheaper than either ranking or resolving:
 abstain when the forest holds more than one reading,

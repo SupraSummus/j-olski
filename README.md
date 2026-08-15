@@ -264,6 +264,11 @@ plan i otwarte pytania.
   czyli co czyni polszczyznę trudną do parsowania,
   drabina kosztów, urwisko nieciągłości
   i to, że sam formalizm jest na tym torze środkiem
+- [docs/disambiguation.md](docs/disambiguation.md):
+  co musiałaby rozstrzygać warstwa za parserem,
+  ile z tego jest przyłączeniem,
+  z jaką skutecznością robią to cudze maszyny
+  i dlaczego reszty nie rozstrzyga nic, co stoi w zdaniu
 - [docs/open-questions.md](docs/open-questions.md):
   rozwidlenia, na których nie zapadła decyzja
 - [docs/prior-art.md](docs/prior-art.md):

@@ -478,6 +478,13 @@ co ma zajść nad zdaniem, a nie czym ma być wyprowadzone.
 Formalizm zostaje więc ceną płaconą tam, gdzie któryś etap jej zażąda,
 a nie pozycją, którą się planuje osobno.
 
+Warstwy rozstrzygającej wieloznaczność za parserem też żaden etap nie dopisuje,
+i z powodu przeciwnego niż przy przestawianiu:
+tamto olski wyklucza, a to jest tym, co olski oddaje czytelnikowi zamiast rozstrzygać.
+Ile taka warstwa miałaby do rozstrzygnięcia i za ile,
+wycenia [disambiguation.md](disambiguation.md),
+a `olski/rozstrzyganie.py` jest jej zalążkiem stojącym obok werdyktu i nie ruszającym go.
+
 ## Tor składu: drzewo wchodzi, polskie zdanie wychodzi
 
 ### Kryterium wyjścia toru składu to znów README
