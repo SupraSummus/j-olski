@@ -66,6 +66,17 @@ class Attachment:
     prep: str
     #: ``fw``, ``fl`` albo ``None``, gdy wyrażenie nie stoi pod żadną z nich.
     frame: str | None
+    #: Lemat rzeczownika, do którego wyrażenie mogło dojść: ostatnia forma grupy
+    #: imiennej kończącej się tuż przed nim. Pusty, gdy tej formy nie ma.
+    noun: str = ""
+    #: Lemat najbliższej formy czasownikowej przed wyrażeniem, czyli drugiego
+    #: gospodarza do wzięcia. Pusty, gdy przed wyrażeniem czasownika nie ma.
+    verb: str = ""
+    #: Lemat ostatniej formy samego wyrażenia, czyli tego, czym przyimek rządzi.
+    #: Trzy lematy razem są czwórką, na której pole mierzy przyłączanie, i biorą
+    #: się stąd, a nie z drzewa, bo maszyna rozstrzygająca też ich stąd nie ma:
+    #: zna zdanie i las, a nie rozbiór wzorcowy.
+    object: str = ""
 
 
 def attachments(element: ET.Element) -> list[Attachment]:
@@ -89,15 +100,31 @@ def attachments(element: ET.Element) -> list[Attachment]:
         if host is None:
             continue
         prep = forms.get(node.start)
+        poprzednie = [start for start in forms if start < node.start]
         found.append(
             Attachment(
                 host=host,
                 postverbal=any(verb < node.start for verb in verbs),
                 prep=prep.form.lower() if prep else "",
                 frame=frame,
+                noun=_lemat(forms, max(poprzednie, default=None)),
+                verb=_lemat(forms, max((v for v in verbs if v < node.start), default=None)),
+                object=_lemat(forms, max((s for s in forms if s < node.end), default=None)),
             )
         )
     return found
+
+
+def _lemat(forms: dict[int, object], start: int | None) -> str:
+    """Lemat formy zaczynającej się w tym miejscu, małymi literami.
+
+    Pod złotą morfologią Składnicy forma ma dokładnie jedno czytanie, więc lemat
+    jest jeden; pusty napis znaczy, że formy tam nie ma.
+    """
+    segment = forms.get(start) if start is not None else None
+    if segment is None or not segment.readings:
+        return ""
+    return segment.readings[0].lemma.lower()
 
 
 def _dokąd_doszło(node: Constituent) -> tuple[str | None, str | None]:

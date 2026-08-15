@@ -25,8 +25,10 @@ include = ["olski*"]
 
 #  Leksykon walencyjny jest danymi, a nie kodem, więc wchodzi do paczki stąd.
 #  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.
+#  Tabela skłonności przyłączeniowych idzie tą samą drogą i z tym się różni, że
+#  bez niej warstwa rozstrzygająca milczy, zamiast nie wstać.
 [tool.setuptools.package-data]
-olski = ["leksykon.txt"]
+olski = ["leksykon.txt", "skłonności.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
