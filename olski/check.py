@@ -7,7 +7,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
+from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
 from olski.subset import FRAGMENT, check
 
 STATUS_WIDTH = 9
@@ -18,7 +18,7 @@ STATUS_WIDTH = 9
 DOMYSŁ = "?"
 
 
-def _rozstrzygnięcia(verdict, świadkowie) -> list[str]:
+def _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo) -> list[str]:
     """Wiersze warstwy rozstrzygającej, po jednym na przyłączenie, albo żaden.
 
     Milczenie warstwy zostaje nienazwane, bo werdykt nad tym zdaniem nazwał już
@@ -26,7 +26,7 @@ def _rozstrzygnięcia(verdict, świadkowie) -> list[str]:
     """
     return [
         f"{DOMYSŁ} „{o.modyfikator}” → „{o.gospodarz}”: {o.powód}"
-        for o in rozstrzygnij(verdict.result.przyłączenia, świadkowie)
+        for o in rozstrzygnij(verdict.result.przyłączenia, świadkowie, sąsiedztwo)
         if isinstance(o, Rozstrzygnięcie)
     ]
 
@@ -73,7 +73,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     total = 0
     fragments = 0
     for name, text in sources:
-        for verdict in check(text):
+        #  Sąsiedztwa liczą się dla całego tekstu naraz, bo akapit jest jego
+        #  własnością, a nie zdania: zdanie samo nie wie, co stoi przed nim.
+        werdykty = check(text)
+        konteksty = sąsiedztwa(text) if świadkowie is not None else [PUSTE] * len(werdykty)
+        for verdict, sąsiedztwo in zip(werdykty, konteksty, strict=True):
             status = verdict.status
             fragments += status == FRAGMENT
             total += status != FRAGMENT
@@ -86,7 +90,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     parts = ", ".join(f"{role}: {fill}" for role, fill in reading.items())
                     print(f"{wcięcie} - {parts}")
             if świadkowie is not None:
-                for line in _rozstrzygnięcia(verdict, świadkowie):
+                for line in _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo):
                     print(f"{wcięcie} {line}")
 
     summary = f"{accepted} of {total} sentences are olski"

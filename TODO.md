@@ -328,6 +328,21 @@ a ten akapit o pozostałych 42, i różnicy nie tłumaczy w niej nic.
 Wpisu o figurach nad własną prozą to nie zamyka:
 tamten pyta, czy mianownik w ogóle zapisywać.
 
+`sonda/konwersy.py` liczy lematy, a pytanie pod nią jest o zdania.
+Wraca ona ze 144 lematami z 17 224,
+czyli mówi, ilu czasowników dotyczy rama, której zdanie przechodnie samo nie wybiera,
+i nie mówi, jak często taki czasownik pada bez pozycji rozstrzygającej;
+[`docs/disambiguation.md`](docs/disambiguation.md#czego-brakuje-żeby-odpowiedzieć-pomiarem)
+trzyma to jako czwartą rzecz nierozstrzygniętą.
+Ruchem jest przebieg nad korpusem audytowym
+([`docs/audit-corpus.md`](docs/audit-corpus.md#the-list)):
+dla każdego zdania, które olski przyjmuje, zapytać,
+czy jego czasownik jest jednym z tych lematów i czy stoi przy nim pozycja wybierająca schemat.
+Do przeczytania jest przedtem cała lista par, a nie dwanaście z niej,
+bo sonda sądu o parze nie wydaje, a te dwanaście mówi,
+że kryterium łapie głównie celownik posiadacza (tamże),
+więc przebieg nad rejestrem wart jest dokładnie tyle, ile lista, na której stanie.
+
 ## Korpusy, ekstrakcja i figury
 
 Nothing in the harness says which construct a finding came out of,
@@ -1237,6 +1252,19 @@ czyli jest czym ten świadek zmierzyć osobno od tabeli skłonności.
 Regeneracja leksykonu i przeliczenie
 [tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 idą razem z tym wpisem.
+
+Świadek kontekstowy nie ma zmierzonego ani zasięgu, ani trafności.
+`Powtórzenie` w `olski/rozstrzyganie.py` odpowiada wtedy,
+gdy fraza stała już przy gospodarzu w tym samym akapicie,
+a jak często zdarza się to w rejestrze i ile z tych odpowiedzi jest trafnych, nie liczy nikt
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Zasięg daje przebieg `olski-check --rozstrzygaj` nad korpusem audytowym
+([`docs/audit-corpus.md`](docs/audit-corpus.md#the-list)), zliczony po wierszach tego świadka.
+Trafności maszyna nie policzy, bo wzorca nie ma:
+odpowiedzi trzeba przeczytać i nad każdą powiedzieć, czy sąsiedztwo naprawdę tak mówi.
+Do przeczytania jest przedtem, ile zdań tego rejestru w ogóle dochodzi do werdyktu z przyłączeniem:
+nad prozą README nie odzywa się ani jeden świadek, bo gramatyka odrzuca tam prawie każde zdanie,
+więc przebieg może wrócić z zerem i to samo będzie wynikiem.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)

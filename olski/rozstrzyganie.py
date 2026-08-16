@@ -18,14 +18,23 @@ czym stanąć, nie zgaduje. Powód wraca razem ze wskazaniem, żeby wskazanie da
 się sprawdzić bez zaglądania do tabeli.
 
 **Świadkowie idą w kolejności, a kolejność jest kolejnością rodzaju dowodu.**
-Pierwszy odpowiadający wygrywa, więc dowód słownikowy bije statystyczny wszędzie
-tam, gdzie oba mówią coś naraz. Dzisiaj świadek jest jeden i jest statystyczny.
-Drugi, który tu należy i którego nie ma, to rama walencyjna: fraza, której
+Pierwszy odpowiadający wygrywa, więc dowód o tym tekście bije dowód o korpusie
+wszędzie tam, gdzie oba mówią coś naraz. Świadków jest dwóch:
+:class:`Powtórzenie` czyta akapit, w którym zdanie stoi, a :class:`Skłonność`
+bank drzew, którego nikt z autorem tego tekstu nie uzgadniał.
+
+Trzeci, który tu należy i którego nie ma, to rama walencyjna: fraza, której
 czasownik albo rzeczownik żąda swoim schematem, nie konkuruje z niczym, tylko
 łamie schemat po drugiej stronie, a nad Składnicą jest to 790 z 4 517 wyrażeń
 w pozycji spornej (``docs/subset.md``). Nie da się go dziś napisać, bo
 ``olski/leksykon.txt`` mówi o bierniku i o bezokoliczniku, a o przyimku nie mówi;
 co trzeba zmienić w ``olski/walenty.py``, żeby mówił, trzyma ``TODO.md``.
+
+**Świadek kontekstowy odpowiada powtórzeniem, a nie znajomością rzeczy.**
+:class:`Powtórzenie` szuka w akapicie miejsca, w którym ta sama fraza stała już
+przy którymś z gospodarzy, i wtedy wskazuje tego gospodarza. Regułę szerszą —
+rzecz raz wprowadzona jest znana, więc fraza dochodzi do czasownika — odrzucono
+na kontrprzykładzie, który wraz z całym wywodem trzyma ``docs/disambiguation.md``.
 
 **Świadek statystyczny nazywa własną częstość pomyłek.** :class:`Skłonność`
 liczy, jak często ta para przyimka i gospodarza przyłączała się w banku drzew
@@ -45,12 +54,16 @@ from __future__ import annotations
 
 import argparse
 import collections
+import functools
+import re
 import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
+from functools import cached_property
 from pathlib import Path
 from typing import Protocol
 
+from olski.document import Document
 from olski.morph import analyse
 from olski.parse import Przyłączenie
 
@@ -102,42 +115,200 @@ class Rozstrzygnięcie:
 
 
 class Świadek(Protocol):
-    """Jedno źródło dowodu nad jednym przyłączeniem."""
+    """Jedno źródło dowodu nad jednym przyłączeniem.
+
+    Sąsiedztwo dostaje każdy, także ten, który go nie czyta. Sygnatura jedna
+    znaczy, że kolejność świadków jest listą, a nie dwiema listami wołanymi
+    inaczej, i że świadek dopisany jutro nie rusza ani :func:`rozstrzygnij`,
+    ani miejsca, z którego warstwa jest wołana.
+    """
 
     nazwa: str
 
-    def __call__(self, przyłączenie: Przyłączenie) -> Rozstrzygnięcie | None:
+    def __call__(
+        self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo
+    ) -> Rozstrzygnięcie | None:
         """Wskazanie albo milczenie; milczenie jest odpowiedzią, a nie brakiem."""
 
 
 def rozstrzygnij(
-    przyłączenia: Iterable[Przyłączenie], świadkowie: Sequence[Świadek] | None = None
+    przyłączenia: Iterable[Przyłączenie],
+    świadkowie: Sequence[Świadek] | None = None,
+    sąsiedztwo: Sąsiedztwo | None = None,
 ) -> list[Rozstrzygnięcie | Przyłączenie]:
     """Po jednej odpowiedzi na przyłączenie, w kolejności, w jakiej je podano.
 
     Przyłączenie, o którym nie wypowiedział się nikt, wraca takie, jakie weszło,
     a nie znika: warstwa ma powiedzieć, czego nie rozstrzygnęła, tak samo jak to,
     co rozstrzygnęła.
+
+    Sąsiedztwem domyślnym jest puste, czyli zdanie postawione samo. Odpowiada to
+    ``olski-check -c`` z jednym zdaniem i jest stroną bezpieczną: świadek
+    kontekstowy milczy wtedy zamiast czytać kontekst, którego nie dostał.
     """
     if świadkowie is None:
         świadkowie = domyślni()
+    if sąsiedztwo is None:
+        sąsiedztwo = PUSTE
     odpowiedzi: list[Rozstrzygnięcie | Przyłączenie] = []
     for przyłączenie in przyłączenia:
-        odpowiedzi.append(_pierwszy(przyłączenie, świadkowie) or przyłączenie)
+        odpowiedzi.append(_pierwszy(przyłączenie, świadkowie, sąsiedztwo) or przyłączenie)
     return odpowiedzi
 
 
-def _pierwszy(przyłączenie: Przyłączenie, świadkowie: Sequence[Świadek]) -> Rozstrzygnięcie | None:
+def _pierwszy(
+    przyłączenie: Przyłączenie, świadkowie: Sequence[Świadek], sąsiedztwo: Sąsiedztwo
+) -> Rozstrzygnięcie | None:
     for świadek in świadkowie:
-        odpowiedź = świadek(przyłączenie)
+        odpowiedź = świadek(przyłączenie, sąsiedztwo)
         if odpowiedź is not None:
             return replace(odpowiedź, świadek=świadek.nazwa)
     return None
 
 
 def domyślni() -> list[Świadek]:
-    """Świadkowie w kolejności rodzaju dowodu, od słownikowego do statystycznego."""
-    return [Skłonność.z_pliku()]
+    """Świadkowie w kolejności rodzaju dowodu, od tekstu autora do cudzego korpusu."""
+    return [Powtórzenie(), Skłonność.z_pliku()]
+
+
+# --------------------------------------------------------------------------- #
+# Sąsiedztwo, czyli to, co świadek kontekstowy ma do przeczytania
+# --------------------------------------------------------------------------- #
+
+#: Czym w sąsiedztwie jest słowo. Wystarczy ciąg znaków słowotwórczych, bo szuka
+#: się tu lematów, a nie granic zdania: ``docs/subset.md`` rozcięte na trzy
+#: słowa niczego tej warstwie nie psuje, a kropka doklejona do formy psułaby
+#: dopasowanie.
+SŁOWO = re.compile(r"[\w-]+", re.UNICODE)
+
+#: Ile słów za przyimkiem szukać rzeczownika tej frazy. Trzy mieszczą przydawkę
+#: przed rzeczownikiem i za nim — ``z dużą lornetką polową`` — a dalej fraza się
+#: kończy i trafienie byłoby trafieniem w sąsiednią.
+ZASIĘG_FRAZY = 3
+
+
+@dataclass(frozen=True)
+class Sąsiedztwo:
+    """Zdania, które w tym akapicie stoją przed zdaniem rozstrzyganym.
+
+    Akapit jest granicą, a nie okno o stałej długości, i granicę tę bierzemy
+    stąd, skąd bierze ją druga strona: ``olski/skład/opowieść.py`` opuszcza
+    podmiot tylko wtedy, gdy o rzeczy była mowa w zdaniu obok, a akapit jest
+    tym, w czym „obok” się kończy. Nagłówek wypada z sąsiedztwa tą samą regułą,
+    bo stoi we własnym akapicie.
+
+    Wstecz, a nie w obie strony, bo czytelnik idzie od początku do końca i
+    zdania, którego jeszcze nie przeczytał, do rozstrzygnięcia nie ma.
+    """
+
+    #: Zdania w kolejności, w jakiej stoją w tekście.
+    zdania: tuple[str, ...] = ()
+
+    @cached_property
+    def _lematy_słów(self) -> tuple[tuple[frozenset[str], ...], ...]:
+        """Każde zdanie jako ciąg lematów słowo po słowie.
+
+        Formy tu nie ma, bo nikt o nią nie pyta: dopasowanie idzie lematem, a
+        cytatem jest całe zdanie. Liczone raz, bo zdanie sporne ma czasem kilka
+        przyłączeń, a każde pyta o ten sam akapit.
+        """
+        return tuple(
+            tuple(_lematy(forma) for forma in SŁOWO.findall(zdanie)) for zdanie in self.zdania
+        )
+
+    def przy_czym_stała(self, przyimek: str, rzeczownik: frozenset[str]) -> dict[str, str]:
+        """Lematy tego, co stało tuż przed tą frazą, każdy ze zdaniem, w którym stało.
+
+        Fraza jest tu przyimkiem i lematami swojego rzeczownika, a nie napisem,
+        bo ``z lornetką`` i ``z lornetkami`` są tą samą frazą o tej samej rzeczy.
+        Przyimek też idzie przez lemat, bo ``z`` i ``ze`` są jednym słowem.
+
+        Wraca słownik, a nie sam zbiór, żeby powód wskazania mógł zacytować
+        zdanie, które ten dowód wydało: wskazanie ma dać się sprawdzić bez
+        wracania do tekstu.
+        """
+        przyimki = _lematy(przyimek)
+        znalezione: dict[str, str] = {}
+        for zdanie, słowa in zip(self.zdania, self._lematy_słów, strict=True):
+            for i, słowo in enumerate(słowa):
+                if i == 0 or not słowo & przyimki:
+                    continue
+                if any(dalsze & rzeczownik for dalsze in słowa[i + 1 : i + 1 + ZASIĘG_FRAZY]):
+                    for lemat in słowa[i - 1]:
+                        znalezione.setdefault(lemat, zdanie)
+        return znalezione
+
+
+#: Zdanie postawione samo, czyli sąsiedztwo, w którym nie ma czego przeczytać.
+PUSTE = Sąsiedztwo()
+
+
+def sąsiedztwa(text: str) -> list[Sąsiedztwo]:
+    """Po jednym sąsiedztwie na zdanie tekstu, w kolejności zdań.
+
+    Dokument buduje się tu drugi raz, obok tego, który zdania oddał gramatyce, i
+    nie jest to rozjazd: podział jest własnością tekstu, a nie miejsca, które o
+    niego pyta (``Document`` w ``olski/document.py``).
+    """
+    document = Document(text)
+    akapity = iter(document.paragraphs)
+    akapit = next(akapity, None)
+    zebrane, wcześniejsze = [], []
+    #  Jedno przejście, bo zdania i akapity idą w tej samej kolejności: zdanie
+    #  nie przechodzi przez granicę akapitu (``Document.sentences``).
+    for span in document.sentences:
+        while akapit is not None and akapit.end < span.end:
+            akapit = next(akapity, None)
+            wcześniejsze = []
+        zebrane.append(Sąsiedztwo(tuple(wcześniejsze)))
+        wcześniejsze.append(document.slice(span))
+    return zebrane
+
+
+# --------------------------------------------------------------------------- #
+# Świadek kontekstowy
+# --------------------------------------------------------------------------- #
+
+
+@dataclass(frozen=True)
+class Powtórzenie:
+    """Gospodarz, przy którym ta sama fraza stała już w tym akapicie.
+
+    Dowodem jest powtórzenie, a nie znajomość rzeczy. ``W tłumie stał człowiek
+    z lornetką.`` mówi o ``Widzę człowieka z lornetką.`` to, czego nie mówi
+    żaden słownik ani żadna tabela: że ``z lornetką`` jest w tym tekście opisem
+    człowieka, bo już raz nim było.
+
+    Świadek milczy, kiedy fraza stała przy więcej niż jednym z gospodarzy, bo
+    dowód wskazujący dwie strony naraz nie wskazuje żadnej.
+    """
+
+    nazwa: str = "powtórzenie"
+
+    def __call__(
+        self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo
+    ) -> Rozstrzygnięcie | None:
+        formy = przyłączenie.modyfikator.split()
+        if len(formy) < 2 or len(przyłączenie.gospodarze) < 2:
+            return None
+        rzeczownik = frozenset().union(*(_lematy(forma) for forma in formy[1:]))
+        stała_przy = sąsiedztwo.przy_czym_stała(formy[0].lower(), rzeczownik)
+        wskazani = {
+            gospodarz: lemat
+            for gospodarz in przyłączenie.gospodarze
+            for lemat in _lematy(gospodarz) & stała_przy.keys()
+        }
+        if len(wskazani) != 1:
+            return None
+        ((gospodarz, lemat),) = wskazani.items()
+        return Rozstrzygnięcie(
+            modyfikator=przyłączenie.modyfikator,
+            gospodarz=gospodarz,
+            powód=(
+                f"„{przyłączenie.modyfikator}” stało już przy „{lemat}” "
+                f"w tym akapicie: „{stała_przy[lemat]}”"
+            ),
+        )
 
 
 # --------------------------------------------------------------------------- #
@@ -167,7 +338,11 @@ class Skłonność:
     def z_pliku(cls, path: Path = SKŁONNOŚCI, **kwargs) -> Skłonność:
         return cls(licznik=czytaj(path), **kwargs)
 
-    def __call__(self, przyłączenie: Przyłączenie) -> Rozstrzygnięcie | None:
+    def __call__(
+        self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo = PUSTE
+    ) -> Rozstrzygnięcie | None:
+        #  Sąsiedztwa ten świadek nie czyta: liczy bank drzew, a bank drzew o
+        #  tym tekście nie wie nic. Bierze je, bo sygnatura jest jedna.
         formy = przyłączenie.modyfikator.split()
         if not formy or len(przyłączenie.gospodarze) < 2:
             return None
@@ -234,8 +409,17 @@ def _czytania(forma: str) -> list:
     return [reading for segment in analyse(forma) for reading in segment.readings]
 
 
-def _lematy(forma: str) -> set[str]:
-    return {reading.lemma.lower() for reading in _czytania(forma)} or {forma.lower()}
+@functools.cache
+def _lematy(forma: str) -> frozenset[str]:
+    """Lematy formy, pamiętane, bo o te same słowa pyta się tu wiele razy.
+
+    Świadek kontekstowy przechodzi akapit raz na zdanie, więc słowo stojące na
+    jego początku analizowane jest tyle razy, ile zdań stoi za nim. Pamięć jest
+    tu wolna od rozjazdu, bo lemat formy nie zależy od niczego poza słownikiem.
+    """
+    return frozenset(reading.lemma.lower() for reading in _czytania(forma)) or frozenset(
+        {forma.lower()}
+    )
 
 
 def _czasownikowa(forma: str) -> bool:

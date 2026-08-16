@@ -25,6 +25,14 @@ a `olski/rozstrzyganie.py` jest zalążkiem stojącym obok werdyktu i nie ruszaj
 [co on robi i ile trafia](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
 opisuje sekcja pod wywodem, z którego jego kształt wynika.
 
+Trzy pytania niżej są o czytaniach, które las trzyma,
+a zdanie niesie jeszcze wieloznaczność, która do lasu nie dochodzi:
+`Wynajmę mieszkanie.` olski przyjmuje i mówi o nim „one reading”,
+a wynajmuje w nim raz właściciel, raz lokator.
+Klasa ta wraz z tym, co miałoby ją zdejmować, opisana jest
+[niżej](#wieloznaczność-której-werdykt-nie-melduje), za wywodem o czytaniach,
+bo dopiero on mówi, czego warstwie kontekstowej robić nie wolno.
+
 ## Pytanie rozpada się na trzy i tylko jedno jest o rankingu
 
 Trzy pytania stoją pod jednym słowem, każde ma inny wynik i inną cenę.
@@ -325,7 +333,8 @@ a nie filtrem za pierwszym, i to jest cena, której żaden z tych pomiarów nie 
 `olski/rozstrzyganie.py` jest tej warstwy zalążkiem
 i jest w repozytorium po to, żeby kierunek dał się zmierzyć,
 a nie żeby zdania rozstrzygać.
-Trzy rzeczy z wywodu wyżej są w nim wzięte wprost.
+Trzy rzeczy z wywodu wyżej są w nim wzięte wprost,
+a pod nimi stoi opis dwóch świadków, których ta warstwa ma.
 
 **Werdykt zostaje nietknięty.**
 `rozstrzygnij` bierze przyłączenia z gotowego wyniku rozbioru
@@ -347,16 +356,60 @@ python3 -m olski.check --rozstrzygaj -c "Daj przepis na faworki."
 Świadek patrzy na jedno przyłączenie i albo wskazuje gospodarza wraz z powodem, albo milczy,
 a milczenie jest odpowiedzią domyślną i pełnoprawną.
 Świadkowie idą w kolejności rodzaju dowodu i pierwszy odpowiadający wygrywa,
-więc dowód słownikowy bije statystyczny wszędzie tam, gdzie oba mówią coś naraz.
+więc dowód o tym tekście bije dowód o cudzym korpusie wszędzie tam,
+gdzie oba mówią coś naraz.
 Powód wraca razem ze wskazaniem, żeby wskazanie dało się sprawdzić bez zaglądania do tabeli.
 
-**Świadek dzisiaj jest jeden i jest tym, którego ten wywód wycenia najniżej.**
+**Świadkowie są dwaj i żaden nie jest tym, którego ten wywód wycenia najwyżej.**
 Tożsamość czytania i leksykon są tańsze i obie sekcje wyżej tak je wyceniają,
 a nie ma ich tutaj z powodów, które te sekcje podają:
 pierwsza czeka na sąd o parze czytań, którego żaden korpus nie zapisuje,
 a druga na kolumnę, której `olski/leksykon.txt` nie ma.
-Świadek statystyczny jest tym, który da się zbudować z tego, co w repozytorium już jest,
+Dwaj, którzy stoją, są tymi, których da się zbudować z tego, co w repozytorium już jest,
 i stąd kolejność odwrotna do ceny.
+
+**Świadek kontekstowy odpowiada powtórzeniem.**
+`Powtórzenie` szuka w akapicie miejsca, w którym ta sama fraza stała już
+przy którymś z gospodarzy, i wtedy wskazuje tego gospodarza:
+
+```sh
+python3 -m olski.check --rozstrzygaj -c "W tłumie stał człowiek z lornetką. Widzę człowieka z lornetką."
+```
+
+```text
+<text>: ambiguous W tłumie stał człowiek z lornetką.
+                  2 readings, differing in Subject; „z lornetką” → „stał”, „człowiek”
+                  ? „z lornetką” → „człowiek”: „z” przy „człowiek” doszło tam w 6 z 7 wypadków banku drzew, 86%
+<text>: ambiguous Widzę człowieka z lornetką.
+                  2 readings, differing in Object; „z lornetką” → „Widzę”, „człowieka”
+                  ? „z lornetką” → „człowieka”: „z lornetką” stało już przy „człowiek” w tym akapicie: „W tłumie stał człowiek z lornetką.”
+0 of 2 sentences are olski
+```
+
+Dowodem jest powtórzenie, a nie znajomość rzeczy.
+Fraza, którą autor postawił przy tym gospodarzu zdanie wcześniej,
+jest w tym tekście jego opisem, bo już raz nim była.
+Sąsiedztwo, które rzecz tylko wprowadza, mówi mniej:
+po `Mam lornetkę.` świadek milczy i zostawia to zdanie tabeli.
+Reguła, która by tam odpowiadała — rzecz raz wprowadzona jest znana,
+więc fraza nie identyfikuje rzeczownika i dochodzi do czasownika —
+odpada na kontrprzykładzie, a nie na ostrożności:
+po `Widziałem hasła.` fraza `z hasłami` dalej dochodzi do `plik`.
+
+Sąsiedztwem jest akapit, a granicę tę bierzemy stąd, skąd bierze ją druga strona:
+skład opuszcza podmiot wtedy, gdy o rzeczy była mowa w zdaniu obok,
+a akapit jest tym, w czym „obok” się kończy
+([sklad.md](sklad.md)).
+Czyta się je wstecz, bo czytelnik idzie od początku do końca,
+i lematami, bo `z lornetkami` i `z lornetką` są tą samą frazą o tej samej rzeczy.
+Pytanie idzie przy tym o to, co stało przed frazą, a nie o część mowy,
+więc gospodarza czasownikowego ten świadek wskazuje tą samą drogą,
+kiedy fraza stała wcześniej przy tym samym czasowniku.
+Ani zasięgu, ani trafności tego świadka nikt nie zmierzył:
+pierwsze powiedziałby przebieg nad korpusem audytowym,
+drugie żąda przeczytania odpowiedzi, i oba trzyma [`TODO.md`](../TODO.md).
+
+**Świadek statystyczny liczy bank drzew i nazywa własną częstość pomyłek.**
 `Skłonność` liczy, jak często ta para przyimka i gospodarza
 przyłączała się w banku drzew w tę stronę,
 i odpowiada dopiero powyżej progu wsparcia i progu przewagi.
@@ -407,11 +460,209 @@ Rejestr się przy tym nie zgadza: bank drzew jest prozą literacką i prasową,
 a olski celuje w dokumentację techniczną,
 więc skłonność wzięta stąd jest punktem wyjścia, a nie pomiarem rejestru, o który chodzi.
 
-Drugi świadek, który tu należy i którego nie ma, to rama walencyjna,
+Trzeci świadek, który tu należy i którego nie ma, to rama walencyjna,
 czyli ta część klasy, o której sekcja o leksykonie mówi, że nie konkuruje z niczym.
 Byłby pierwszy w kolejności, bo jego dowód jest słownikowy,
 i nie da się go dziś napisać, bo `olski/leksykon.txt` o przyimku nie mówi.
 Co trzeba zmienić w `olski/walenty.py`, żeby mówił, trzyma [`TODO.md`](../TODO.md).
+
+## Wieloznaczność, której werdykt nie melduje
+
+Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.
+Bywa jednak i tak, że zostaje jedno wyprowadzenie,
+a zdanie mimo to czyta się dwojako:
+
+```sh
+python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
+```
+
+```text
+<text>: valid     Wynajmę mieszkanie.
+                  one reading
+                  - Object: mieszkanie, Verb: Wynajmę
+<text>: valid     Znam go.
+                  one reading
+                  - Object: go, Verb: Znam
+2 of 2 sentences are olski
+```
+
+Pierwsze zdanie mówi raz, że wynajmuję komuś swoje mieszkanie,
+a raz, że wynajmuję czyjeś dla siebie,
+więc uczestnicy zamieniają się w nim rolami: jestem właścicielem albo lokatorem.
+Drugie mówi raz, że wiem, kto to jest, a raz, że się z nim znam.
+Streszczenie wypisuje w obu wypadkach jedno obsadzenie ról,
+bo różnica nie leży ani w drzewie, ani w tym, co drzewo o rolach mówi.
+
+Kierunek tej pomyłki jest odwrotny niż ten, o który pyta
+[open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma),
+i droższy o to, że nie widać go w odpowiedzi.
+Zdanie odrzucone za wieloznaczność, której czytelnik nie ma,
+autor czyta wraz z czytaniami i odrzucenie kwestionuje;
+zdanie przyjęte wraca z jednym czytaniem i z niczym, o co dałoby się spierać.
+Jest to ta sama ślepota, którą [tożsamość czytania](#tożsamość-czytania-jest-tańsza-i-częściowo-już-stoi)
+wycenia po stronie sygnatury zwijającej za dużo,
+z tą różnicą, że tu nie ma czego zwijać: drugiego czytania las nigdy nie miał.
+
+## Rozstrzygnąć da się tylko to, co las trzyma
+
+Kontekst nie wybierze czytania, którego w lesie nie ma,
+więc warstwa kontekstowa jest nad tą klasą ruchem drugim, a nie pierwszym.
+Pierwszym jest zadeklarowanie wyboru, czyli powiedzenie gramatyce, że czytania są dwa.
+Dopiero to, co po nim zostaje, jest ujednoznacznianiem.
+
+Pierwszy ruch jest pytaniem do leksykonu i źródło już na nie odpowiada.
+Walenty, ściągnięty tak, jak mówi
+[subset.md](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego),
+daje `wynająć` cztery schematy:
+
+```text
+wynająć: pewny: _: : perf: subj{np(str)} + obj{np(str)} + {np(dat)} + {prepnp(do,gen)}
+wynająć: pewny: _: : perf: subj{np(str)} + obj{np(str)} + {np(dat)} + {prepnp(na,acc)}
+wynająć: pewny: _: : perf: subj{np(str)} + obj{np(str)} + {prepnp(od,gen)}
+wynająć: pewny: _: : perf: subj{np(str)} + obj{np(str)} + {prepnp(u,gen)}
+```
+
+Wynajmuje się komuś i wynajmuje się od kogoś,
+a `Wynajmę mieszkanie.` nie obsadza ani celownika, ani frazy z `od`,
+więc podchodzi pod wszystkie cztery naraz.
+Rozróżnienie, którego werdykt nie ma, leży więc w słowniku, z którego olski leksykon bierze,
+a trzy zdania, na które ten przekład Walentego zawęża (tamże), nie są o nim.
+
+Cena pierwszego ruchu jest widoczna od razu:
+zdania, które dziś wychodzą `valid`, wychodziłyby `ambiguous`.
+Ilu lematów to dotyczy, liczy sonda nad tym samym plikiem.
+Szuka ona konwersów, czyli par czytań opowiadających jedno zdarzenie z dwóch stron:
+
+```sh
+python3 -m sonda.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt
+```
+
+Wraca 144 lematy z 17 224, każdy z parą schematów,
+z których jeden ma odbiorcę w celowniku, a drugi źródło pod `od` albo `u`.
+Kryterium jest zgadywaniem z kształtu pozycji, bo Walenty ról nie nazywa,
+a warstwy semantycznej wydanie tekstowe z 18 kwietnia 2016 nie niesie —
+własne README wylicza jego pliki i są to schematy dla czterech części mowy.
+Liczba jest przez to górnym oszacowaniem, a przeczytanie mówi, jak wysokim.
+Z dwunastu par, które sonda wypisuje,
+dwie zostawiają zdanie przechodnie z dwoma czytaniami:
+`przepisywać` — komuś na własność albo od kogoś ze ściągi — oraz `wyczarterować`.
+Dziesięć pozostałych łapie celownik posiadacza albo tego, komu się przysłuży,
+a `wykryć komuś raka` i `wykryć u kogoś raka` mówią wręcz to samo,
+czyli kryterium bierze tam dwa sposoby powiedzenia jednej rzeczy za dwa czytania.
+Dwanaście par przeczytanych jedną ręką wystarcza, żeby powiedzieć, że liczba jest za wysoka,
+i nie wystarcza, żeby powiedzieć, ile wynosi.
+
+Cenę pierwszego ruchu ta liczba wycenia przy tym po jednej stronie i tylko po jednej.
+Mówi, że klasa jest w słowniku wąska — 144 lematy z 17 224 —
+a nie mówi, ile zdań rejestru niesie taki czasownik,
+bo `brać` i `wziąć` stoją na tej liście obok `wyczarterować`.
+Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go [`TODO.md`](../TODO.md).
+
+`Znam go.` jest drugą połową tej klasy i tam leksykon walencyjny milczy.
+Schematy, które `znać` u Walentego ma, różnią się kształtem dopełnienia,
+a nie tym, jak się kogoś zna,
+więc oba czytania mieszczą się pod tym samym.
+Źródłem byłby wobec tego słownik znaczeń, a nie słownik walencyjny,
+i pierwszym kandydatem jest plWordNet, o który ten przegląd nie pytał.
+
+## Kontekst rozstrzyga wykluczeniem, a nie rankingiem
+
+[Ranking](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje) odpadł na tym,
+że zamienia `ambiguous` na `valid` wraz z domysłem.
+Kontekst pozwala na ruch innego rodzaju:
+nie wybiera czytania lepszego, tylko zdejmuje to, któremu sąsiedztwo przeczy.
+Kiedy zostaje jedno, zdanie ma w tym tekście jedno czytanie, a nie czytanie zgadnięte.
+Kiedy zostają dwa, werdykt wychodzi taki sam, jaki był bez tej warstwy.
+Milczenie jest więc odpowiedzią domyślną, tak jak u [świadka](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+a różnica wobec rankingu leży w tym, ile kosztuje brak odpowiedzi: nic.
+
+Cena jest gdzie indziej i jest większa.
+Werdykt przestaje być o zdaniu:
+`Wynajmę mieszkanie.` ma samo dwa czytania, a w tamtym tekście jedno,
+więc to samo zdanie dostaje dwie odpowiedzi zależnie od tego, co je otacza,
+i przestawienie akapitu rusza werdykt bez ruszania zdania.
+Czy jednoznaczność jest własnością zdania, czy zdania na swoim miejscu,
+nie jest rozstrzygnięte i pyta o to
+[open-questions.md](open-questions.md#warstwa-kontekstowa-zabiera-werdyktowi-jednostkę).
+
+Dowody, na których taka warstwa mogłaby stanąć, są trzy
+i idą w tej samej kolejności co u świadka, czyli od słownikowego w dół.
+
+**Uczestnik nazwany obok.**
+`Wynajmę mieszkanie. Wynajmę je od Anki.` rozstrzyga się samym leksykonem:
+druga fraza obsadza pozycję, którą ma jeden ze schematów, a drugi nie.
+Wersja trudniejsza — `Szukam ułożonego lokatora.` — żąda jednego kroku więcej,
+bo `lokator` jest tym, kto stoi w pozycji celownikowej,
+a tego, że nim jest, Walenty nie mówi;
+mówi to dopiero słownik wiążący rolę ze słowem, czyli to samo źródło, którego żąda `znać`.
+
+**Temat.**
+Skład wyprowadza szyk z tego, co w zdaniu jest tematem, a co nowe
+([README](../README.md)),
+więc związek kolejności z tematem jest po tamtej stronie napisany.
+Autor drzewa temat tam deklaruje, a parser musiałby go zgadnąć,
+i krokiem, którego skład nie robi, jest zrównanie tematu z tym, o czym mowa była przed chwilą.
+Po tym kroku przy synkretyzmie mianownika z biernikiem
+pierwszą grupą jest ta, którą wymieniło zdanie poprzednie.
+Pomiar niderlandzki cytowany wyżej mówi tyle, że zdanie poprzednie ten wybór czytelnikowi rozstrzyga,
+a czy rozstrzyga go tematem, nie mówi.
+
+**Wynikanie.**
+`Znam go. Rozmawiałem z nim na imprezie u Anki.` rozstrzyga się dopiero wtedy,
+gdy skądś wiadomo, że rozmowa jest kontaktem osobistym.
+Takiego zapisu nie ma w tym repozytorium nic,
+a rzeczą, która go ma, jest model językowy,
+czyli odpowiedź, po którą ten parser nie sięga ([README](../README.md)).
+Warstwa kończy się więc przed trzecim dowodem i to jest cała jej granica.
+
+Zbudowany jest z tych trzech jeden i zbudowany węziej, niż ta sekcja opisuje.
+`Powtórzenie` bierze dowód pierwszego rodzaju w postaci, która słownika ról nie żąda —
+fraza powtórzona przy gospodarzu — i stosuje go do przyłączenia,
+czyli do wyboru, który las już trzyma, a nie do ramy z sekcji wyżej.
+Wskazuje przy tym gospodarza obok werdyktu i czytania nie zdejmuje,
+bo zdejmowanie żąda rozstrzygnięcia o jednostce werdyktu, którego nie ma.
+Co ten świadek robi i jaką regułę odrzuca po drodze,
+mówi [sekcja o zalążku](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+
+Jedno widać dopiero po uruchomieniu i osłabia dwa pierwsze dowody naraz.
+Sąsiedztwo, które ma rozstrzygać, samo bywa nieolskie:
+`Szukam ułożonego lokatora.` gramatyka odrzuca,
+bo `szukać` stoi w `olski/leksykon.txt` jako czasownik, który biernika nie bierze,
+a dopełniacza dopełnieniowego olski nie ma.
+Warstwa czytałaby więc zdanie sąsiednie czymś słabszym niż gramatyka,
+formami i lematami z Morfeusza,
+tak jak nad rejestrem czyta je `olski/wieloznaczność.py`.
+
+## Wzorzec na tę warstwę jest po drugiej stronie
+
+Pomiar takiej warstwy wygląda na droższy niż wszystko wyżej,
+bo bank drzew jest zbiorem zdań stojących osobno,
+a wzorcem musiałby być tekst wraz z czytaniem, o które w nim chodziło.
+Olski taki materiał wytwarza i wytwarza go za darmo.
+Drzewo, z którego skład wypuszcza tekst, ma uczestników wymienionych,
+tożsamość rzeczy niesie w nim `Postać`, a czas i to, o kim mowa — `Kontekst`
+([sklad.md](sklad.md)),
+więc odpowiedź jest znana, zanim padnie pytanie.
+
+`olski/skład/przegląd.py` zadaje już dziś pytanie parsera z tamtej strony:
+czy czytelnik odzyska z napisu to drzewo, które ten napis wypuściło.
+Liczy przy tym role, a nie znaczenia, i liczy je na napisie stojącym w tekście,
+bo kontekst rozstrzyga, jakim napisem zdanie wyszło.
+Warstwa kontekstowa mierzy się więc obrotem:
+skompiluj tekst, rozbierz go i zapytaj, czy zdejmuje ona czytanie,
+którego drzewo nie deklarowało.
+Anotatora w tym obrocie nie ma nigdzie.
+Sam obrót jest już przedmiotem pytania
+[open-questions.md](open-questions.md#the-round-trip-guarantee),
+tyle że tamto pyta o gwarancję, a to o pomiar:
+gwarancja żąda, żeby drzewo wyjściowe znalazło się w lesie,
+a pomiar pyta, ile czytań obok niego warstwa zdejmuje.
+
+Czego ten obrót nie mierzy, wiadomo z góry i jest tego dużo.
+Rejestrem jest to, co skład umie powiedzieć, a nie dokumentacja techniczna,
+więc obrót odpowiada na pytanie, czy mechanizm działa,
+a nie na pytanie, jak często jest potrzebny.
+Drugie żąda korpusu i zostaje w liście niżej.
 
 ## Czego brakuje, żeby odpowiedzieć pomiarem
 
@@ -439,7 +690,7 @@ i dwadzieścia cztery zdania przeczytane raz jedną ręką
 są za wąską podstawą, żeby na nim stanąć;
 tamten dokument mówi to o swojej próbce sam.
 
-Trzy rzeczy zostają wobec tego nierozstrzygnięte.
+Cztery rzeczy zostają wobec tego nierozstrzygnięte.
 
 Ile z 412 zdań, w których przyłączenie jest całą decyzją,
 zdjąłby leksykon walencyjny sięgający do przyimka —
@@ -454,6 +705,13 @@ czyli mówić „dwa czytania i polszczyzna ma tu dwa”, a nie samo „dwa czyt
 Pytanie to jest starsze niż ten dokument i trzyma je
 [open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma);
 tabela wyżej daje mu populację, a nie odpowiedź.
+
+Ile zdań rejestru niesie ramę, której zdanie samo nie wybiera —
+liczba, której sonda nad Walentym nie daje,
+bo liczy lematy, a jedno pytanie jest o zdania, drugie o to,
+jak często taki lemat pada bez pozycji rozstrzygającej.
+Odpowiedź żąda korpusu, a ten sam korpus zmierzyłby zarazem drugą połowę klasy,
+czyli zdania, w których o znaczeniu nie mówi żaden schemat.
 
 ## Sources
 
