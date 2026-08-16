@@ -213,6 +213,38 @@ Dwadzieścia cztery zdania przeczytane przez jedną osobę
 są podstawą wystarczającą, żeby pytanie postawić,
 i za wąską, żeby na nim stanąć.
 
+Odwrotną stronę tej pary — wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje —
+opisuje [disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje),
+i to ona prowadzi do pytania niżej.
+
+### Warstwa kontekstowa zabiera werdyktowi jednostkę
+
+Werdykt olskiego jest o zdaniu: zdanie jest olskie, gdy ma dokładnie jedno czytanie.
+Warstwa zdejmująca czytanie, któremu przeczy zdanie sąsiednie
+([disambiguation.md](disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem)),
+odpowiada o zdaniu na swoim miejscu, a to jest inna jednostka i inna obietnica.
+Dwie rzeczy z niej wychodzą i obie widać, zanim ktokolwiek taką warstwę napisze.
+`olski-check -c`, które dostaje zdanie bez sąsiedztwa,
+przestaje mówić to samo, co przebieg nad plikiem, w którym to zdanie stoi.
+A przestawienie akapitu rusza werdykt nad zdaniem, którego nikt nie ruszył,
+czyli autor traci pewność, że odpowiedź zależy od zdania, które napisał.
+
+Wyjścia są dwa i wzięte jest to, które niczego nie rozstrzyga.
+Pierwsze zostawia jednostkę przy zdaniu, a warstwę stawia obok werdyktu,
+i tak stoi `Powtórzenie` w `olski/rozstrzyganie.py`:
+werdykt dalej mówi „dwa czytania”, a wiersz pod nim mówi, przy czym ta fraza już stała.
+Kosztem jest zdanie, które w swoim tekście czyta się raz, a mimo to zostaje odrzucone,
+i tego kosztu nie zdejmuje żaden świadek dopisany po tamtej stronie.
+Drugie zmienia jednostkę i wraz z nią obietnicę parsera,
+który mówi wtedy o tekście, a nie o zdaniu, i płaci obiema rzeczami wyżej.
+
+Do przeczytania jest, czy druga cena nie jest już zapłacona po drugiej stronie.
+`olski/skład/przegląd.py` mierzy napis w tym kontekście,
+którym linearyzacja go składała, bo to on rozstrzyga, jakim napisem zdanie wyszło,
+i zdanie mierzone osobno nazywa wprost innym zdaniem.
+Jeśli po tamtej stronie jednostką jest zdanie na swoim miejscu,
+to zmiana jednostki po tej wyrównuje oba kierunki, zamiast wyłamywać jeden.
+
 ### Czy jednoznaczność prefiksu mierzy czytelność
 
 Hipoteza: tekst czyta się tym łatwiej,

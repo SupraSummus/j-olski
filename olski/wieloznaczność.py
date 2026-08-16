@@ -49,6 +49,7 @@ from pathlib import Path
 from olski.attachment import CZASOWNIK
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Reading, Segment
+from olski.próbka import rozrzucona
 from olski.subset import morphology, sentences
 
 # Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
@@ -231,25 +232,9 @@ def render(report: Raport, przykłady: int = 0) -> str:
     for ile, liczba in sorted(report.przyłączeń.items()):
         lines.append(f"  {ile:6} {liczba:6}")
     for klasa in KLASY:
-        for zdanie, formy in _próbka(report.przykłady.get(klasa, ()), przykłady):
+        for zdanie, formy in rozrzucona(report.przykłady.get(klasa, ()), przykłady):
             lines.append(f"\n{klasa} [{', '.join(formy)}]: {zdanie}")
     return "\n".join(lines)
-
-
-def _próbka(trafione: Sequence[tuple], ile: int) -> list[tuple]:
-    """Rozrzut po całej liście, a nie jej głowa.
-
-    Kto te zdania czyta, czyta je po to, żeby powiedzieć, czy polszczyzna ma tam
-    dwa czytania, a głowa listy jest akapitami otwierającymi pierwszy dokument i
-    o korpusie nie mówi nic. Krok jest ilorazem, więc próbka jest ta sama przy
-    każdym przebiegu i daje się przeczytać drugi raz po tym samym.
-    """
-    if ile <= 0 or not trafione:
-        return []
-    if ile >= len(trafione):
-        return list(trafione)
-    krok = len(trafione) / ile
-    return [trafione[int(i * krok)] for i in range(ile)]
 
 
 def main(argv: Sequence[str] | None = None) -> int:
