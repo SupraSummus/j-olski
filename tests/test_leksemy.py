@@ -75,6 +75,21 @@ def test_rodzaj_bierze_się_ze_zgody_leksemów_a_nie_z_kolejności_alfabetycznej
     assert rodzaj_rzeczownika("potwór") == "m2"
 
 
+@pytest.mark.parametrize(
+    ("nazwa", "rodzaj"),
+    [("kot", "m2"), ("drzwi", "n"), ("Włochy", "n")],
+)
+def test_rodzaj_wychodzi_z_mianownika_tej_liczby_którą_rzeczownik_ma(nazwa, rodzaj):
+    """Rzeczownik bez liczby pojedynczej niesie rodzaj w mnogiej i tam się go szuka.
+
+    Obie liczby są tu obok siebie, bo pytanie o jedną z nich odbiera drugiej rodzaj
+    i nie zgłasza tego nigdzie, a bez rodzaju rzeczownik nie wypełni żadnej pozycji,
+    z której wychodzi czasownik albo człon koordynacji.
+    ``Włochy`` mają w tej liczbie dwa leksemy, więc pytają o zgodę razem z rodzajem.
+    """
+    assert rodzaj_rzeczownika(nazwa) == rodzaj
+
+
 def test_leksemy_niezgodne_co_do_rodzaju_zgłaszają_się_zamiast_wybrać_w_milczeniu():
     """``pilot`` jest wedle leksemu osobą, zwierzęciem albo rzeczą,
     a rodzaju, na który zgadzałyby się wszystkie trzy, nie ma.

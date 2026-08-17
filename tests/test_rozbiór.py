@@ -7,7 +7,7 @@ pytest.importorskip("morfeusz2")
 
 from olski.skład import Kontekst, Postać, Robi, kompiluj
 from olski.skład.rozbiór import obieg, rozbierz, sygnatura
-from olski.skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, V, jest, potem, razem
+from olski.skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, Treść, V, jest, nie, potem, razem
 from olski.subset import check
 
 
@@ -24,6 +24,9 @@ from olski.subset import check
         V.zapisywać(R.program.remat, (~R.ustawienie).temat),
         V.sprawdzać(R.linter, razem([~(A.polski * R.tekst), ~R.ustawienie])),
         potem(V.zapisywać(R.program, ~R.ustawienie), V.sprawdzać(R.linter, R.tekst)),
+        nie(V.zapisywać(R.program, ~R.ustawienie)),
+        nie(jest(A.zwykły * A.polski * R.tekst, R.wejście)),
+        V.wiedzieć(R.linter, Treść(V.zapisywać(R.program, ~R.ustawienie))),
     ],
 )
 def test_drzewo_wraca_z_napisu_który_z_niego_wyszedł(drzewo):
@@ -89,6 +92,70 @@ def test_relacja_okolicznika_wraca_każda_którą_ta_forma_dopuszcza():
     assert sygnatura(V.mieszkać(R.kot, Dokąd.w(R.piwnica))) not in drzewa
 
 
+def test_przeczenie_wraca_przy_tym_orzeczeniu_przy_którym_cząstka_stanęła():
+    """Cząstka przecząca stoi w pozycji czasownika i przeczy jednemu orzeczeniu.
+
+    Gramatyka stawia ją przed formą, więc czytana samą głową ta pozycja
+    czasownika nie znajduje wcale, a czytana całym ciałem znajduje i jego,
+    i przeczenie. Że przeczenie zostaje przy swoim orzeczeniu,
+    mówi następstwo z jednym zdarzeniem zaprzeczonym:
+    drugie drzewo wychodzi innym napisem i stąd nie wraca.
+    """
+    program = Postać(R.program)
+    jedno = potem(V.zapisywać(program, ~R.ustawienie), nie(V.sprawdzać(program, R.tekst)))
+    oba = potem(nie(V.zapisywać(program, ~R.ustawienie)), nie(V.sprawdzać(program, R.tekst)))
+    przebieg = obieg(jedno)
+    assert przebieg.napis == "Program zapisuje ustawienia i nie sprawdza tekstu."
+    assert przebieg.wróciło, przebieg.opisz()
+    assert sygnatura(oba) not in [sygnatura(drzewo) for drzewo in przebieg.odczyt.drzewa]
+
+
+@pytest.fixture
+def chcieć_sprawdzać():
+    """Bezokolicznik o wykonawcy zdania nad nim, bo tego samego obiektu żąda ``Robi``."""
+    linter = R.linter
+    return V.chcieć(linter, V.sprawdzać(linter, A.dobry * R.kod))
+
+
+def test_bezokolicznik_wraca_z_wykonawcą_wziętym_z_podmiotu_nad_nim(chcieć_sprawdzać):
+    """O wykonawcy napis nie mówi nic, bo bezokolicznik nie niesie ani osoby, ani rodzaju.
+
+    Drzewo pod tą pozycją powstaje więc po podmiocie, a nie przed nim,
+    i tym różni się ona od treści, która podmiot ma wypisany.
+    """
+    przebieg = obieg(chcieć_sprawdzać)
+    assert przebieg.napis == "Linter chce sprawdzać dobry kod."
+    assert przebieg.wróciło, przebieg.opisz()
+
+
+def test_dopełniacz_negacji_wraca_spod_bezokolicznika(chcieć_sprawdzać):
+    """Przeczenie stoi przy formie osobowej, a przypadek zmienia się o piętro niżej.
+
+    Dwie kategorie spotykają się tu w jednej pozycji i żadna z nich
+    nie jest w napisie tam, gdzie jej skutek: cząstka wychodzi nad bezokolicznikiem,
+    a dopełniacz pod nim, więc drzewo, które wraca, musi mieć obie.
+    """
+    przebieg = obieg(nie(chcieć_sprawdzać))
+    assert przebieg.napis == "Linter nie chce sprawdzać dobrego kodu."
+    assert przebieg.wróciło, przebieg.opisz()
+
+
+def test_pozycja_bezokolicznika_wraca_ramą_a_nie_brakiem_kategorii():
+    """Bezokolicznika gramatyka nie pyta o lemat, a skład pyta, i tu widać, ile to znaczy.
+
+    `Linter pomaga pisać dobry kod.` wyprowadza się i nie składa,
+    a mówi o tym powód, nie sama pustka: kategorię ten zapis ma,
+    a leksykon jej temu czasownikowi nie daje.
+    Tę różnicę między kierunkami opisuje `olski/walencja.py`,
+    a co z niej wynika dla tego zdania, pyta `TODO.md`.
+    """
+    zdanie = "Linter pomaga pisać dobry kod."
+    assert check(zdanie)[0].status in ("valid", "ambiguous")
+    odczyt = rozbierz(zdanie)
+    assert odczyt.drzewa == ()
+    assert odczyt.powody == ("pomagać nie bierze bezokolicznika",)
+
+
 @pytest.mark.parametrize(
     "zdanie",
     [
@@ -97,7 +164,6 @@ def test_relacja_okolicznika_wraca_każda_którą_ta_forma_dopuszcza():
         "Zapisz plik.",
         "Ludzie są wolni.",
         "Program albo linter sprawdza tekst.",
-        "Linter pomaga pisać dobry kod.",
         "Program, który zapisuje ustawienia, sprawdza tekst.",
     ],
 )
