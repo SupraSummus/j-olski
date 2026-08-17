@@ -1,0 +1,257 @@
+# Wybory przyłączeniowe korpusu audytowego, z gospodarzem przeczytanym ręką.
+#
+# Plik stoi poza `sonda/`, bo sonda jest kodem pisanym pod decyzję i kasowalnym,
+# a te wpisy są tu najdroższą rzeczą: kasując `sonda/wybory.py`, kasuje się
+# program, a nie przeczytane zdania.
+#
+# Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
+# wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
+# tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
+# nie z cudzego korpusu. Zdania są cudze i losowane, żeby rozkład był rejestru,
+# a nie autora; skąd je wziąć, mówi docs/audit-corpus.md.
+#
+# Nowych wpisów ta komenda tutaj nie dopisze i tego pliku nie umie uzupełnić:
+# wypisuje całość na wyjście, więc puszczona w to miejsce skasowałaby każdy
+# wzorzec, jaki tu stoi. Nowe idą do pliku obok i przenosi się je ręką.
+#
+# Wpisy pochodzą z korpusu audytowego przy ksef-docs 1c34fe2 i rit-dokumentacja
+# 32f85cc. Zdanie i kontekst stoją w nich w całości, więc nowsze wydanie tamtych
+# repozytoriów wpisu nie unieważnia; mówi tylko, że wylosowano go z tamtego.
+#
+# `wzorzec` jest jedną z form z `gospodarze`, słowem `oba`, kiedy tekst nie
+# rozstrzyga i czytelnik też nie, albo słowem `żadne`, kiedy wyboru nie ma
+# wcale, bo fraza nie jest frazą albo stoi przy niej jeden gospodarz. Nad
+# dwoma ostatnimi milczenie warstwy jest odpowiedzią trafną. `powód` mówi, na
+# czym stanął sąd, bo wzorzec bez powodu jest zdaniem, którego nikt nie
+# sprawdzi.
+#
+# `fraza` i `gospodarze` też są poprawiane ręką: budowniczy proponuje je z
+# morfologii, więc bierze ogon łańcucha dopełniaczowego za głowę grupy i sięga
+# frazą dalej, niż ona idzie. Wpis ma opisywać wybór, który widzi czytelnik.
+
+plik: ksef/README.txt
+zdanie: Niniejszy dokument stanowi kompendium wiedzy dla deweloperów, analityków i integratorów systemów, którzy realizują integrację z Krajowym Systemem e-Faktur (KSeF) w wersji 2.0.
+fraza: dla deweloperów, analityków i integratorów systemów
+gospodarze: kompendium, stanowi
+wzorzec: kompendium
+powód: kompendium jest czyimś kompendium, a stanowienie dokumentu adresata nie ma
+
+plik: ksef/api-changelog.txt
+zdanie: Retencja statusów operacji asynchronicznych Wprowadzono retencję dla technicznych odpowiedzi i statusów operacji asynchronicznych (służących do krótkotrwałego odpytywania postępu i odbioru wyniku).
+fraza: dla technicznych odpowiedzi
+gospodarze: retencję, Wprowadzono
+wzorzec: retencję
+powód: retencja jest retencją czegoś, a wprowadzenie nie jest dla odpowiedzi
+
+plik: ksef/api-changelog.txt
+kontekst: Poprawiono logikę zwracania listy "Moje uprawnienia" dla właściciela kontekstu - w wynikach zwracane są również uprawnienia podmiotowe do wystawiania i przeglądania faktur (InvoiceWrite, InvoiceRead) nadane bez prawa do dalszego przekazywania canDelegate = false.
+zdanie: Wcześniej lista zwracała tylko te z prawem do dalszego przekazywania.
+fraza: do dalszego przekazywania
+gospodarze: prawem, zwracała
+wzorzec: prawem
+powód: prawo jest do czegoś i tak samo stało w zdaniu poprzednim
+
+plik: ksef/api-changelog.txt
+zdanie: Inicjalizacja uwierzytelnienia (POST /auth/challenge) Dodano właściwość timestampMs (int64) w modelu odpowiedzi - czas wygenerowania challenge w milisekundach od 1.01.1970 (Unix).
+fraza: od 1.01.1970
+gospodarze: milisekundach, czas
+wzorzec: milisekundach
+powód: milisekundy liczy się od epoki, a czas wygenerowania jest tym, co ta liczba podaje
+
+plik: ksef/api-changelog.txt
+zdanie: Rozszerzono model odpowiedzi o pole dateCreated - data rejestracji dostawcy usług Peppol w systemie.
+fraza: o pole dateCreated
+gospodarze: model, Rozszerzono
+wzorzec: Rozszerzono
+powód: schemat „rozszerzyć” żąda frazy z „o”, więc fraza wypełnia pozycję czasownika
+
+plik: ksef/api-changelog.txt
+zdanie: Status uwierzytelniania (GET /auth/{referenceNumber}) Rozszerzono tabelę kodów błędów o 470 - "Uwierzytelnianie zakończone niepowodzeniem" z doprecyzowaniem: "Próba wykorzystania metod autoryzacyjnych osoby zmarłej".
+fraza: o 470
+gospodarze: tabelę, Rozszerzono
+wzorzec: Rozszerzono
+powód: ta sama pozycja schematu „rozszerzyć” co wyżej
+
+plik: ksef/api-changelog.txt
+zdanie: Dodano kod błędu dla odpowiedzi POST /tokens ("Wygenerowanie nowego tokena"): 26002 - "Nie można wygenerować tokena dla obecnego typu kontekstu".
+fraza: dla obecnego typu kontekstu
+gospodarze: tokena, wygenerować
+wzorzec: wygenerować
+powód: token nie jest tokenem dla typu kontekstu; to generowanie jest w tym kontekście niemożliwe
+
+plik: ksef/api-changelog.txt
+zdanie: Dodano atrybut required w odpowiedziach zapytań o uprawnienia.
+fraza: o uprawnienia
+gospodarze: zapytań, Dodano
+wzorzec: zapytań
+powód: zapytanie jest o coś, a dodanie atrybutu nie jest o uprawnienia
+
+plik: ksef/bezpieczenstwo/klucze-publiczne-do-szyfrowania.txt
+kontekst: W API KSeF publikowany jest certyfikat X.509 zawierający klucz publiczny.
+zdanie: Publikacja nowego certyfikatu może wynikać z jednej z dwóch sytuacji:
+fraza: z dwóch sytuacji
+gospodarze: jednej, wynikać
+wzorzec: jednej
+powód: „jedna z dwóch sytuacji” jest całością, którą dopiero „wynikać z” bierze
+
+plik: ksef/certyfikaty-KSeF.txt
+kontekst: (opcjonalnie) validFrom – datę rozpoczęcia ważności.
+zdanie: Jeśli nie zostanie wskazana, certyfikat będzie ważny od chwili jego wystawienia.
+fraza: od chwili jego wystawienia
+gospodarze: ważny, będzie
+wzorzec: ważny
+powód: ważność ma początek, a „będzie” samo w sobie go nie ma
+
+plik: ksef/faktury/sesje/sesja-sprawdzenie-stanu-i-pobranie-upo.txt
+zdanie: Endpoint umożliwia selektywne pobranie wyłącznie odrzuconych faktur, co ułatwia analizę błędów w sesjach zawierających dużą liczbę faktur.
+fraza: w sesjach
+gospodarze: błędów, ułatwia
+wzorzec: błędów
+powód: błędy padają w sesjach, a ułatwienie nie dzieje się w sesji
+
+plik: ksef/kody-qr.txt
+kontekst: KOD II jest generowany wyłącznie dla faktur wystawianych w trybie offline (offline24, offline-niedostępność systemu, tryb awaryjny) i pełni funkcję potwierdzenia autentyczności wystawcy oraz jego uprawnień do wystawienia faktury w imieniu sprzedawcy.
+zdanie: Generowanie wymaga posiadania aktywnego certyfikatu KSeF typu Offline – link zawiera kryptograficzny podpis URL przy użyciu klucza prywatnego certyfikatu KSeF typu Offline, co zapobiega sfałszowaniu linku przez podmioty nieposiadające dostępu do certyfikatu.
+fraza: przy użyciu klucza prywatnego
+gospodarze: podpis, zawiera
+wzorzec: podpis
+powód: podpis powstaje kluczem, a zawieranie linku kluczem się nie odbywa
+
+plik: ksef/limity/limity-api.txt
+kontekst: Z tego względu limity mają charakter dynamiczny i mogą być dostosowywane w zależności od warunków eksploatacyjnych oraz zachowania integratorów.
+zdanie: W szczególności dopuszcza się ich czasowe obniżenie w przypadku intensywnego lub nieefektywnego korzystania z API.
+fraza: w przypadku intensywnego lub nieefektywnego korzystania
+gospodarze: obniżenie, dopuszcza
+wzorzec: dopuszcza
+powód: „w przypadku” nazywa warunek dopuszczenia, a nie rodzaj obniżenia
+
+plik: ksef/limity/limity-api.txt
+zdanie: Uwaga: Jeżeli w scenariuszach biznesowych organizacji dostępne limity pobierania faktur są niewystarczające, prosimy o kontakt z działem wsparcia KSeF w celu indywidualnej analizy i dobrania odpowiedniego rozwiązania.
+fraza: z działem wsparcia KSeF
+gospodarze: kontakt, prosimy
+wzorzec: kontakt
+powód: kontakt jest z kimś, a prośba jest o kontakt
+
+plik: ksef/limity/limity-api.txt
+kontekst: Limity te dotyczą wyłącznie zasobów chronionych.
+zdanie: Nie obejmują one publicznych zasobów API, takich jak /auth/challenge, które nie wymagają uwierzytelnienia i posiadają własne mechanizmy ochrony - limit wynosi 60 żądań na sekundę dla jednego adresu IP.
+fraza: jak /auth/challenge
+gospodarze: takich, obejmują
+wzorzec: żadne
+powód: „takich jak” nie jest wyrażeniem przyimkowym, tylko porównaniem domykającym „takich”
+
+plik: ksef/pobieranie-faktur/hwm.txt
+zdanie: W każdej chwili system zna moment w czasie (HWM), do którego ma już pewność, że wszystkie faktury zostały zapisane i nie pojawią się nowe dokumenty z datą PermanentStorage wcześniejszą lub równą temu momentowi.
+fraza: w czasie
+gospodarze: moment, zna
+wzorzec: moment
+powód: moment jest momentem w czasie, a wiedza systemu w czasie nie stoi
+
+plik: ksef/pobieranie-faktur/przyrostowe-pobieranie-faktur.txt
+kontekst: Datą otrzymania faktury jest data nadania numeru KSeF.
+zdanie: Numer nadawany jest podczas przetwarzania faktury po stronie KSeF i nie zależy od momentu pobrania do systemu zewnętrznego.
+fraza: po stronie KSeF
+gospodarze: przetwarzania, jest
+wzorzec: oba
+powód: przetwarzanie i nadanie numeru dzieją się w jednym miejscu, więc oba czytania mówią to samo
+
+plik: ksef/przeglad-kluczowych-zmian-ksef-api-2-0.txt
+kontekst: W wersji 2.0 wprowadzono RSA-OAEP z SHA-256 i MGF1-SHA256.
+zdanie: Szyfrowanie tokenów KSeF realizowane jest oddzielnym kluczem niż szyfrowanie klucza symetrycznego używanego do faktur.
+fraza: niż szyfrowanie klucza symetrycznego
+gospodarze: kluczem, jest
+wzorzec: kluczem
+powód: „niż” domyka „oddzielnym”, więc porównanie jest o kluczu
+
+plik: ksef/przeglad-kluczowych-zmian-ksef-api-2-0.txt
+kontekst: Dzięki takiemu mechanizmowi, nadawanie i funkcjonowanie uprawnień do przeglądania i wystawiania faktur w ramach samego podmiotu nie są powiązane z uprawnieniami do obsługi faktur klientów.
+kontekst: Daje to podmiotom lepsze możliwości profilowania uprawnień pracowników, niż uprzednio funkcjonujący w KSeF mechanizm dziedziczenia uprawnień.
+zdanie: Polegał on bowiem na nadawaniu uprawnień pracownikom do przeglądania i wystawiania faktur w ramach podmiotu, a jeśli podmiot dysponował odpowiednimi uprawnieniami od klientów, to uprawnienia te automatycznie przechodziły na pracowników (były dziedziczone).
+fraza: do przeglądania
+gospodarze: uprawnień, pracownikom, Polegał
+wzorzec: uprawnień
+powód: uprawnienia są do czegoś, a pracownik jest tym, komu się je nadaje
+
+plik: ksef/sesja-wsadowa.txt
+zdanie: Korzystając z danych zwróconych przy otwarciu sesji w partUploadRequests, tj. unikalnego adresu url z kluczem dostępu, metody HTTP (method) oraz wymaganych nagłówków (headers), należy przesłać każdą zadeklarowaną część paczki (fileParts) pod wskazany adres, stosując dokładnie te wartości dla danej części.
+fraza: w partUploadRequests
+gospodarze: sesji, zwróconych
+wzorzec: zwróconych
+powód: dane zwrócono w tym polu, a sesji się w polu odpowiedzi nie otwiera
+
+plik: ksef/tryby-offline.txt
+zdanie: Datą wystawienia jest zawsze datą faktyczna wskazana na fakturze a data otrzymania data faktycznego otrzymania faktury zakupu.
+fraza: a
+gospodarze: fakturze, wskazana
+wzorzec: żadne
+powód: „a” nie jest tu przyimkiem, tylko spójnikiem, więc pozycja nie jest przyłączeniem
+
+plik: ksef/uprawnienia.txt
+kontekst: W ramach organizacji korzystających z KSeF możliwe jest nadanie uprawnień konkretnym osobom fizycznym – np. pracownikom działu księgowości lub IT.
+zdanie: Uprawnienia są przypisywane do osoby na podstawie jej identyfikatora (PESEL, NIP lub Fingerprint).
+fraza: na podstawie jej identyfikatora
+gospodarze: osoby, przypisywane
+wzorzec: przypisywane
+powód: podstawą jest przypisanie uprawnień, a nie osoba
+
+plik: ksef/uprawnienia.txt
+kontekst: KSeF udostępnia zestaw endpointów pozwalających na odpytywanie listy aktywnych uprawnień nadanych użytkownikom i podmiotom.
+kontekst: Mechanizmy te są niezbędne do audytu, przeglądu stanu dostępu, a także przy budowie interfejsów administracyjnych (np. do zarządzania strukturą dostępu w organizacji).
+zdanie: Sekcja zawiera przegląd metod wyszukiwania z podziałem na kategorie nadanych uprawnień.
+fraza: na kategorie
+gospodarze: podziałem, zawiera
+wzorzec: podziałem
+powód: podział jest na coś, a zawieranie przeglądu nie jest na kategorie
+
+plik: ksef/uwierzytelnianie.txt
+kontekst: Po przygotowaniu dokumentu AuthTokenRequest należy go podpisać cyfrowo w formacie XAdES (XML Advanced Electronic Signatures).
+zdanie: Jest to wymagany format podpisu dla procesu uwierzytelniania.
+fraza: dla procesu uwierzytelniania
+gospodarze: format, wymagany
+wzorzec: format
+powód: format jest dla procesu, a wymaganie jest własnością formatu
+
+plik: rit/webservices.txt
+zdanie: Kanał dystrybucji - umowna nazwa dla jednego lub wielu systemów zewnętrznych, które objęte są tymi samymi uprawnieniami, regułami i zbiorem danych; przykładowo kanał dystrybucji "województwo małopolskie" może obejmować serwisy internetowe, aplikacje mobilne i infokioski, które pobierają i/lub przekazują dane związane z województwem małopolskim; dostęp do systemu RIT wymaga uzyskania loginu, hasła i certyfikatu klienckiego do kanału dystrybucji.
+fraza: do systemu RIT
+gospodarze: dostęp, związane
+wzorzec: dostęp
+powód: dostęp jest do systemu, a dane wiążą się z województwem
+
+plik: rit/webservices.txt
+zdanie: kategoria obiektu turystycznego, w systemie źródłowym istnieje lecz ilość atrybutów opisujących obiekt w systemie źródłowym i docelowym jest nierówna – należy przekazać wszystkie atrybuty obiektu turystycznego zgromadzone w systemie źródłowym.
+fraza: w systemie źródłowym
+gospodarze: obiekt, opisujących
+wzorzec: oba
+powód: atrybuty opisują obiekt w tym samym systemie, w którym obiekt stoi, więc oba czytania mówią to samo
+
+plik: rit/wklad-do-sopz.txt
+zdanie: Przykładem aktu wykonawczego, który potencjalnie mógłby uniemożliwiać wykorzystanie części z zaleceń, jest Rozporządzenie Rady Ministrów z dnia 12 kwietnia 2012 r. w sprawie Krajowych Ram Interoperacyjności, minimalnych wymagań dla rejestrów publicznych i wymiany informacji w postaci elektronicznej oraz minimalnych wymagań dla systemów teleinformatycznych, które narzuca specjalne wymogi techniczne podmiotom realizującym zadania publiczne (a szczególnie utrzymującym rejestry publiczne) w postaci np. określonych formatów przechowywania danych o punktach adresowych mogących różnić się od tych zalecanych w tym dokumencie.
+fraza: z dnia 12 kwietnia
+gospodarze: Rozporządzenie, jest
+wzorzec: Rozporządzenie
+powód: rozporządzenie jest z dnia, a bycie przykładem daty nie ma
+
+plik: rit/wklad-do-sopz.txt
+zdanie: Kategoryzacja obiektów turystycznych hotelarskich, które zostały opisane w art. 37 ustawy z dnia 29 sierpnia 1997 r. o usługach turystycznych musi być zorganizowana w postaci słownika (zamkniętej listy) zgodnego z zapisami art. 38 tej samej ustawy z dodaniem jednej dodatkowej pozycji brzmiącej „W oczekiwaniu na kategoryzację” i stosowanej do obiektów, których proces kategoryzacji został rozpoczęty, nie został jeszcze zakończony, a które to obiekty uzyskały już prawo do stosowania wobec siebie nazw typów wymienionych w art. 37.
+fraza: z dnia 29 sierpnia
+gospodarze: ustawy, opisane
+wzorzec: ustawy
+powód: ustawa jest z dnia, a opisanie w artykule daty nie bierze
+
+plik: rit/wklad-do-sopz.txt
+zdanie: Zdjęcia przypisane do obiektów turystycznych muszą być zapisane albo w formacie JPEG, albo w formacie PNG.
+fraza: w formacie JPEG
+gospodarze: albo, zapisane
+wzorzec: żadne
+powód: przed frazą stoi spójnik „albo”, a nie grupa imienna, więc wyboru nie ma
+
+plik: rit/wklad-do-sopz.txt
+kontekst: Kategoria – węzeł drzewa, czyli rozgałęzienie struktury.
+kontekst: Kategoria może mieć sobie przypisane atrybuty, posiadać kategorie podrzędne oraz kategorię nadrzędną, której wszystkie atrybuty dziedziczy.
+kontekst: Niezmienne identyfikatory kategorii składają się z litery „C” oraz trzycyfrowego numeru, np. „C001”.
+zdanie: Warto dodać, że na poziomie kategorii określa się także, które z przypisanych jej atrybutów są wymagane a które opcjonalne.
+fraza: z przypisanych jej atrybutów
+gospodarze: które, określa
+wzorzec: które
+powód: „które z” wybiera ze zbioru, a nie określa orzeczenia

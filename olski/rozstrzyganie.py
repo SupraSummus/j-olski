@@ -356,7 +356,7 @@ class Skłonność:
             return None
         przyimek = formy[0].lower()
         kandydaci = [
-            (gospodarz, CZASOWNIK if _czasownikowa(gospodarz) else RZECZOWNIK, _lematy(gospodarz))
+            (gospodarz, strona(gospodarz), _lematy(gospodarz))
             for gospodarz in przyłączenie.gospodarze
         ]
         wybrany = self.wybierz(przyimek, kandydaci)
@@ -430,8 +430,18 @@ def _lematy(forma: str) -> frozenset[str]:
     )
 
 
-def _czasownikowa(forma: str) -> bool:
-    return any(reading.tag.pos in CZASOWNIKOWE for reading in _czytania(forma))
+def strona(forma: str) -> str:
+    """Po której stronie wyboru stoi gospodarz o tej formie.
+
+    Jedno miejsce, bo pytają o to dwie strony:
+    świadek statystyczny, który pod tą nazwą bierze liczniki pary,
+    i pomiar, który jego wskazanie zestawia z cudzym drzewem
+    (``sonda/wskazania.py``).
+    Druga kopia tej reguły kazałaby pomiarowi mierzyć innego świadka niż ten,
+    którego wypuszcza ``olski-check``.
+    """
+    czasownikowa = any(reading.tag.pos in CZASOWNIKOWE for reading in _czytania(forma))
+    return CZASOWNIK if czasownikowa else RZECZOWNIK
 
 
 # --------------------------------------------------------------------------- #
@@ -458,9 +468,11 @@ def wypadki(paths: Iterable[Path]) -> list[Wypadek]:
     """Wybory z banku drzew, po jednym na wyrażenie, przed którym wybór w ogóle stał.
 
     Populacją są wyrażenia przyimkowe stojące za grupą imienną i za czasownikiem,
-    czyli ta sama, którą liczy ``olski/attachment.py``, zawężona do tych z oboma
-    lematami. Import jest tutejszy, bo ``olski-check`` woła tę warstwę o werdykt
-    i nie ma powodu wciągać przy tym czytnika banku drzew.
+    czyli ta sama, którą liczy ``Report`` w ``olski/attachment.py``, zawężona do
+    tych z oboma lematami. Zwężenie stoi tutaj, bo czytnik oddaje każde wyrażenie
+    drzewa wraz z tym, gdzie ono stoi, i populację stawia dopiero pytający.
+    Import jest tutejszy, bo ``olski-check`` woła tę warstwę o werdykt i nie ma
+    powodu wciągać przy tym czytnika banku drzew.
     """
     from olski.attachment import attachments
     from olski.corpus import read_forest
@@ -468,7 +480,7 @@ def wypadki(paths: Iterable[Path]) -> list[Wypadek]:
     zebrane = []
     for path in paths:
         for a in attachments(read_forest(path)):
-            if not a.postverbal or a.host not in (RZECZOWNIK, CZASOWNIK):
+            if not (a.postnominal and a.postverbal) or a.host not in (RZECZOWNIK, CZASOWNIK):
                 continue
             if a.prep and a.noun and a.verb:
                 zebrane.append((a.prep, a.noun, a.verb, a.host))

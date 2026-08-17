@@ -706,6 +706,24 @@ is a fact about what `harness/markdown.py` calls a paragraph.
 The four answers read by hand under it are a reading and not a count,
 so a rerun that moves them is owed the reading again rather than a corrected number.
 
+Two more sets in that document measure the resolving layer against an answer key,
+which is what makes their movers wider than either set above:
+everything that moves a verdict moves them, and so does every part of the layer.
+[What the layer answers over the treebank's verdicts](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
+is `sonda/wskazania.py`, so the grammar moves it, `olski/parse.py` moves it,
+`olski/rozstrzyganie.py` and the committed `olski/skłonności.txt` move it,
+and so does what `olski/attachment.py` reads off the gold tree,
+since that is the answer each verdict is scored against.
+Its accuracy is measured on material the propensity table was built from,
+so a change that moves the table moves a figure this document already calls a ceiling.
+[What the layer answers over the trial set](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
+is `sonda/wybory.py` over `próba/wybory.txt`, which is written by hand and committed,
+so the entries hold still and only the layer moves the figures —
+the grammar does not reach them at all, because the positions come from
+`olski/wieloznaczność.py` rather than from a verdict.
+Rebuilding that file is a different act from rerunning the figures
+and is owed the reading of every entry it adds, per the file's own header.
+
 A rewrite of the grammar that moves no verdict still moves those tables,
 so "the language did not change" is not a reason to skip the rerun.
 Where a rejected sentence stopped is the furthest point some analysis reached,

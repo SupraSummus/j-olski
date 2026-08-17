@@ -868,10 +868,14 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
-Dwa przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
+Trzy przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
 a `sonda/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
+Trzeci jest `sonda/wskazania.py`, który tych samych przyłączeń potrzebuje,
+żeby zapytać o nie warstwę, i różni się od dwóch pozostałych tym, że czyta las
+razem z cudzym drzewem — więc scalenie obejmuje go dopiero wtedy, gdy przebieg
+zbiorczy umie oddać jedno i drugie.
 Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
 po którym tabela z
 [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
@@ -1296,6 +1300,66 @@ odsłownik jest rzeczownikiem i ma zostać, a imiesłów przymiotnikowy ma odpa�
 więc kryterium jest częścią mowy w tagu, a nie samym lematem.
 Wpis o gospodarzu branym ze słowa stojącego tuż przed frazą siedzi w tej samej
 funkcji i wyszedł z tego samego czytania, więc jedna sesja podnosi oba.
+
+Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widziała.
+`sonda/wskazania.py` puszcza świadków z `domyślni`, czyli z
+`olski/skłonności.txt`, a ten plik powstaje z całej Składnicy, po której ten
+przebieg idzie, więc 96,1% spod
+[tabeli nad werdyktami](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
+jest sufitem, a nie pomiarem.
+Ruchem jest podział taki, jaki ma już `oceń` w `olski/rozstrzyganie.py`:
+tabela z połowy plików o numerze parzystym, przebieg po nieparzystych,
+czyli flaga podająca sondzie świadków zbudowanych z tamtej połowy zamiast z pliku.
+Do rozstrzygnięcia jest, czy zasięg liczyć wtedy na tej samej połowie:
+tabela z połowy korpusu ma mniej par, więc zasięg spadnie razem z trafnością,
+a te dwie liczby dziś nie pochodzą z jednego przebiegu i po tym ruchu pochodziłyby.
+Do przeczytania jest przy tym `KAWAŁEK` w `olski/coverage.py`,
+bo podział na kawałki idzie po plikach i musi minąć się z podziałem na połowy.
+
+Wzorca nie ma dla 154 z 665 przyłączeń i połowa tego to imiesłów.
+`dokąd_doszły` w `sonda/wskazaniach` bierze z drzewa te wyrażenia, którym
+`_dokąd_doszło` w `olski/attachment.py` daje `noun` albo `clause`, a `Auta są
+kradzione dla okupu.` przyłącza frazę do węzła imiesłowowego, którego `CLAUSE`
+nie wylicza, więc zdanie wypada z mianownika trafności
+([tamże](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
+Ruchem jest przeczytanie, które kategorie Składnicy stoją nad imiesłowem
+biernym i czy któraś z nich jest dla olskiego zdaniem — dla werdyktu jest,
+bo gospodarzem jest tam forma czasownikowa.
+Ceną jest to, że `CLAUSE` czyta zarazem
+[tabela przyłączeń](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia),
+więc kategoria dopisana tam rusza figurę, której ten wpis nie dotyczy,
+i przeliczenie obu idzie razem z tą zmianą.
+
+Sonda świadka kontekstowego pyta go o populację, która nad tym rejestrem nie istnieje.
+`sonda/powtórzenie.py` bierze przyłączenia z werdyktów i dostaje ich 38 na 2 915
+zdań, bo gramatyka odrzuca w tym rejestrze prawie wszystko, więc jej zero jest
+w większości zerem o gramatyce
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+`sonda/wybory.py` pokazuje, że tych samych pozycji szukanych morfologią jest
+w tym korpusie 1 678, z czego 474 ma za sobą zdanie tego samego akapitu.
+Ruchem jest ta sama populacja w obu sondach, czyli `miejsca` z
+`olski/wieloznaczność.py` zamiast `Verdict.result.przyłączenia`, po którym zasięg
+świadka przestaje być zerem, a cena granicy akapitu liczy się na materiale, na
+którym cokolwiek widać.
+Do rozstrzygnięcia jest, czy po tej zmianie zostają dwie sondy, czy jedna:
+`sonda/wybory.py` ma wtedy tę samą populację i wzorzec obok, a `sonda/powtórzenie.py`
+zostaje z jedną rzeczą, której tamta nie ma — z wyceną granicy akapitu wariantem.
+Do przeczytania jest przy tym, czy trzy mianowniki, które tamta sonda wypisuje,
+dają się utrzymać bez werdyktu: pierwszy z nich jest właśnie o gramatyce.
+
+Próba wyborów ma trzydzieści wpisów, a warstwa odpowiada na pięć.
+Pięć odpowiedzi nie jest częstością i
+[sekcja o próbie](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
+mówi to o sobie sama, więc wpis nie jest o pomiarze, tylko o tym, ile go trzeba.
+Ruchem jest `python3 -m sonda.wybory --zbuduj` na większe `--ile` i przeczytanie
+tego, co dojdzie; kandydatów jest w korpusie audytowym 1 678.
+Do rozstrzygnięcia jest, czy losować dalej z całości, czy tylko spośród pozycji,
+które mają za sobą zdanie tego samego akapitu: takich jest 474 z 1 678,
+a tylko one mówią cokolwiek o świadku kontekstowym, który jest tu jedynym
+mierzonym z wzorcem.
+Losowanie z podzbioru psuje rozkład, więc próba rozdzieliłaby się wtedy na dwie
+i druga liczyłaby się osobno; do przeczytania przedtem jest, czy `Ocena`
+w `sonda/wybory.py` uniesie dwa mianowniki, czy dwa pliki są tańsze.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
