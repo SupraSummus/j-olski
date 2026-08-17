@@ -99,43 +99,61 @@ def test_warstwa_nie_rusza_werdyktu():
     assert werdykt.status == "ambiguous"
 
 
-#: Przyłączenie, jakie werdykt wydaje nad ``Widzę człowieka z lornetką.``
-LORNETKA = Przyłączenie(modyfikator="z lornetką", gospodarze=("Widzę", "człowieka"))
+#: Przyłączenie, jakie werdykt wydaje nad ``Operator zgłosił awarię w systemie.``
+#: Zdanie to czyta się po polsku dwojako, a dlaczego akurat takie, a nie
+#: przykładowe z ``z`` i narzędnikiem, mówi ``docs/disambiguation.md``.
+AWARIA = Przyłączenie(modyfikator="w systemie", gospodarze=("zgłosił", "awarię"))
 
 
 @pytest.mark.parametrize(
     ("zdanie", "gospodarz"),
     [
-        ("W tłumie stał człowiek z lornetką.", "człowieka"),
+        ("Wystąpiła awaria w systemie.", "awarię"),
         #  Ta sama droga wskazuje czasownik, bo świadek pyta, co stało przed
         #  frazą, a nie czy jest to rzeczownik.
-        ("Widziałem z lornetką ptaki.", "Widzę"),
+        ("Zgłosiliśmy w systemie usterki.", "zgłosił"),
     ],
     ids=["gospodarz rzeczownikowy", "gospodarz czasownikowy"],
 )
 def test_powtórzona_fraza_wskazuje_tego_gospodarza_przy_którym_już_stała(zdanie, gospodarz):
     """Cały dowód tego świadka: autor postawił tę frazę przy tym gospodarzu wyżej."""
-    (odpowiedź,) = rozstrzygnij([LORNETKA], [Powtórzenie()], Sąsiedztwo((zdanie,)))
+    (odpowiedź,) = rozstrzygnij([AWARIA], [Powtórzenie()], Sąsiedztwo((zdanie,)))
     assert isinstance(odpowiedź, Rozstrzygnięcie)
     assert odpowiedź.gospodarz == gospodarz
     assert zdanie in odpowiedź.powód
 
 
 def test_fraza_dopasowuje_się_lematem_a_nie_napisem():
-    """``z lornetkami`` i ``z lornetką`` są tą samą frazą o tej samej rzeczy."""
-    sąsiedztwo = Sąsiedztwo(("Stali tam ludzie z lornetkami.",))
-    przyłączenie = Przyłączenie(modyfikator="z lornetką", gospodarze=("Widzę", "ludzi"))
+    """``w systemach`` i ``w systemie`` są tą samą frazą o tej samej rzeczy."""
+    sąsiedztwo = Sąsiedztwo(("Wystąpiły awarie w systemach.",))
+    przyłączenie = Przyłączenie(modyfikator="w systemie", gospodarze=("zgłosił", "awarie"))
     (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo)
     assert isinstance(odpowiedź, Rozstrzygnięcie)
-    assert odpowiedź.gospodarz == "ludzi"
+    assert odpowiedź.gospodarz == "awarie"
+
+
+def test_powód_wybiera_lemat_kolejnością_a_nie_z_worka():
+    """Powód ma być ten sam w każdym przebiegu, a zbiór lematów kolejności nie ma.
+
+    ``danych`` pasuje tu czterema lematami naraz — ``dana``, ``dane``, ``dany``
+    i ``dać`` — więc bez ustalonej kolejności ten wydruk zmienia się z każdym
+    uruchomieniem, bo mieszanie napisów jest losowane przy starcie.
+    """
+    sąsiedztwo = Sąsiedztwo(("Opisano sposób wymiany danych z systemami zewnętrznymi.",))
+    przyłączenie = Przyłączenie(modyfikator="z systemem RIT", gospodarze=("Wpływa", "danych"))
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo)
+    assert "stało już przy „dana”" in odpowiedź.powód
 
 
 @pytest.mark.parametrize(
     ("sąsiedztwo", "dlaczego"),
     [
         (PUSTE, "zdanie postawione samo, czyli olski-check -c"),
-        (Sąsiedztwo(("Mam lornetkę.",)), "rzecz wprowadzona, ale nie przy gospodarzu"),
-        (Sąsiedztwo(("Widzę z lornetką człowieka z lornetką.",)), "stała przy obu gospodarzach"),
+        (Sąsiedztwo(("Mamy nowy system.",)), "rzecz wprowadzona, ale nie przy gospodarzu"),
+        (
+            Sąsiedztwo(("Zgłosił w systemie awarię w systemie.",)),
+            "stała przy obu gospodarzach",
+        ),
     ],
     ids=["bez sąsiedztwa", "bez powtórzenia frazy", "przy obu gospodarzach"],
 )
@@ -145,7 +163,7 @@ def test_świadek_kontekstowy_milczy_zamiast_zgadywać(sąsiedztwo: Sąsiedztwo,
     Środkowy jest tym, którego łatwo nie zauważyć: rzecz raz wymieniona nie
     przestaje opisywać rzeczownika, więc samo jej wprowadzenie dowodem nie jest.
     """
-    assert rozstrzygnij([LORNETKA], [Powtórzenie()], sąsiedztwo) == [LORNETKA], dlaczego
+    assert rozstrzygnij([AWARIA], [Powtórzenie()], sąsiedztwo) == [AWARIA], dlaczego
 
 
 def test_sąsiedztwem_są_zdania_wcześniejsze_i_tylko_z_tego_akapitu():
@@ -165,10 +183,10 @@ def test_powtórzenie_bije_skłonność_przeciwnego_zdania():
     świadek dopisany po ``Skłonność`` nie odezwałby się nigdy tam, gdzie tabela
     ma parę policzoną.
     """
-    tabela = Skłonność(licznik={("z", "clause", "widzieć"): (4, 4)})
-    sąsiedztwo = Sąsiedztwo(("W tłumie stał człowiek z lornetką.",))
-    (odpowiedź,) = rozstrzygnij([LORNETKA], [Powtórzenie(), tabela], sąsiedztwo)
-    assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("powtórzenie", "człowieka")
+    tabela = Skłonność(licznik={("w", "clause", "zgłosić"): (4, 4)})
+    sąsiedztwo = Sąsiedztwo(("Wystąpiła awaria w systemie.",))
+    (odpowiedź,) = rozstrzygnij([AWARIA], [Powtórzenie(), tabela], sąsiedztwo)
+    assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("powtórzenie", "awarię")
 
 
 def test_polecenie_daje_świadkowi_sąsiedztwo_tego_zdania(capsys):
@@ -179,8 +197,12 @@ def test_polecenie_daje_świadkowi_sąsiedztwo_tego_zdania(capsys):
     powstają dopiero tam, gdzie polecenie idzie po dokumencie.
     """
     olski.check.main(
-        ["--rozstrzygaj", "-c", "W tłumie stał człowiek z lornetką. Widzę człowieka z lornetką."]
+        [
+            "--rozstrzygaj",
+            "-c",
+            "Wystąpiła awaria w systemie. Operator zgłosił awarię w systemie.",
+        ]
     )
     wypisane = capsys.readouterr().out
-    assert '? „z lornetką” → „człowieka”: „z lornetką” stało już przy „człowiek”' in wypisane
+    assert '? „w systemie” → „awarię”: „w systemie” stało już przy „awaria”' in wypisane
     assert wypisane.count("stało już przy") == 1, "pierwsze zdanie nie ma przed sobą niczego"

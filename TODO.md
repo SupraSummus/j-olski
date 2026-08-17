@@ -1253,18 +1253,49 @@ Regeneracja leksykonu i przeliczenie
 [tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 idą razem z tym wpisem.
 
-Świadek kontekstowy nie ma zmierzonego ani zasięgu, ani trafności.
-`Powtórzenie` w `olski/rozstrzyganie.py` odpowiada wtedy,
-gdy fraza stała już przy gospodarzu w tym samym akapicie,
-a jak często zdarza się to w rejestrze i ile z tych odpowiedzi jest trafnych, nie liczy nikt
+Świadek kontekstowy nie ma zmierzonej trafności i nie ma na czym jej zmierzyć.
+Zasięg zmierzono i wyszło zero: `sonda/powtórzenie.py` nad korpusem audytowym
+pyta `Powtórzenie` o 38 przyłączeń i nie dostaje ani jednej odpowiedzi
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
+więc odpowiedzi do przeczytania ręką nie ma stamtąd żadnej.
+Materiał dałby [wzorzec po drugiej stronie](docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
+bo tekst złożony przez `olski/skład` niesie czytanie, o które w nim chodziło,
+i wtedy obrót przez parser mówi, czy warstwa zdejmuje czytanie, którego drzewo nie deklarowało.
+Blokuje to jednak ta sama własność drzewa, przez którą `przejrzyj`
+zgłasza jedną klasę z dwóch: okolicznik dochodzi w nim do zdarzenia zawsze,
+więc wzorzec wychodzi jednostronny i obrót niczego nie rozróżni.
+Wpis jest przez to zaparkowany po stronie składu, a odblokuje go dopiero
+wyrażenie przyimkowe, które skład umie postawić wewnątrz grupy imiennej.
+
+`Powtórzenie` bierze za gospodarza słowo stojące tuż przed frazą,
+a w łańcuchu dopełniaczowym stoi tam ogon grupy, a nie jej głowa.
+`Wpływa to na sposób wymiany danych z systemem RIT.` dostaje przez to `danych`,
+gdzie fraza dochodzi do `wymiany`, i jest to jedyna pomyłka wśród czterech odpowiedzi
+przeczytanych ręką
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Zasięg daje przebieg `olski-check --rozstrzygaj` nad korpusem audytowym
-([`docs/audit-corpus.md`](docs/audit-corpus.md#the-list)), zliczony po wierszach tego świadka.
-Trafności maszyna nie policzy, bo wzorca nie ma:
-odpowiedzi trzeba przeczytać i nad każdą powiedzieć, czy sąsiedztwo naprawdę tak mówi.
-Do przeczytania jest przedtem, ile zdań tego rejestru w ogóle dochodzi do werdyktu z przyłączeniem:
-nad prozą README nie odzywa się ani jeden świadek, bo gramatyka odrzuca tam prawie każde zdanie,
-więc przebieg może wrócić z zerem i to samo będzie wynikiem.
+Zdanie sporne i jego dowód mają ten łańcuch oba, więc pomyłka nie jest przypadkiem
+jednego zdania, tylko kształtem, na którym ta reguła się kończy.
+Ruchem jest dopasowanie wskazujące którykolwiek z gospodarzy stojących przed frazą,
+a nie tylko sąsiada bezpośredniego: gospodarzy zna `Przyłączenie`,
+więc `przy_czym_stała` może pytać o nich zamiast oddawać jeden lemat.
+Do rozstrzygnięcia jest, co robi dowód wskazujący wtedy dwóch gospodarzy naraz,
+bo dziś taki dowód kończy się milczeniem i ten warunek ma zostać bez zmiany sensu.
+
+Świadek kontekstowy dopasowuje frazy lematem, a Morfeusz sprowadza do czasownika
+i odsłownik, i imiesłów, więc `żądań` i `żądającym` są dla niego jednym słowem.
+Wyszło to nad korpusem audytowym: `informacje o sposobie przetwarzania żądań`
+dostaje za dowód `informacje o żądającym`, czyli frazę inną
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Wskazanie było tam trafne, więc ceny tej usterki nikt nie policzył,
+a widać ją wyłącznie dlatego, że powód cytuje zdanie.
+Ruchem jest zawężenie lematów frazy do czytań rzeczownikowych po obu stronach
+dopasowania, czyli w `przy_czym_stała` i w `Powtórzenie` w `olski/rozstrzyganie.py`,
+bo `_lematy` oddaje dziś lematy wszystkich czytań formy.
+Do przeczytania przedtem jest, czy zawężenie nie zabiera dopasowań słusznych:
+odsłownik jest rzeczownikiem i ma zostać, a imiesłów przymiotnikowy ma odpaść,
+więc kryterium jest częścią mowy w tagu, a nie samym lematem.
+Wpis o gospodarzu branym ze słowa stojącego tuż przed frazą siedzi w tej samej
+funkcji i wyszedł z tego samego czytania, więc jedna sesja podnosi oba.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)

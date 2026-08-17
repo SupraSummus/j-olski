@@ -373,16 +373,15 @@ i stąd kolejność odwrotna do ceny.
 przy którymś z gospodarzy, i wtedy wskazuje tego gospodarza:
 
 ```sh
-python3 -m olski.check --rozstrzygaj -c "W tłumie stał człowiek z lornetką. Widzę człowieka z lornetką."
+python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator zgłosił awarię w systemie."
 ```
 
 ```text
-<text>: ambiguous W tłumie stał człowiek z lornetką.
-                  2 readings, differing in Subject; „z lornetką” → „stał”, „człowiek”
-                  ? „z lornetką” → „człowiek”: „z” przy „człowiek” doszło tam w 6 z 7 wypadków banku drzew, 86%
-<text>: ambiguous Widzę człowieka z lornetką.
-                  2 readings, differing in Object; „z lornetką” → „Widzę”, „człowieka”
-                  ? „z lornetką” → „człowieka”: „z lornetką” stało już przy „człowiek” w tym akapicie: „W tłumie stał człowiek z lornetką.”
+<text>: ambiguous Wystąpiła awaria w systemie.
+                  2 readings, differing in Subject; „w systemie” → „Wystąpiła”, „awaria”
+<text>: ambiguous Operator zgłosił awarię w systemie.
+                  2 readings, differing in Object; „w systemie” → „zgłosił”, „awarię”
+                  ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
 0 of 2 sentences are olski
 ```
 
@@ -390,24 +389,118 @@ Dowodem jest powtórzenie, a nie znajomość rzeczy.
 Fraza, którą autor postawił przy tym gospodarzu zdanie wcześniej,
 jest w tym tekście jego opisem, bo już raz nim była.
 Sąsiedztwo, które rzecz tylko wprowadza, mówi mniej:
-po `Mam lornetkę.` świadek milczy i zostawia to zdanie tabeli.
+po `Mamy nowy system.` świadek milczy i zostawia to zdanie tabeli.
 Reguła, która by tam odpowiadała — rzecz raz wprowadzona jest znana,
 więc fraza nie identyfikuje rzeczownika i dochodzi do czasownika —
 odpada na kontrprzykładzie, a nie na ostrożności:
 po `Widziałem hasła.` fraza `z hasłami` dalej dochodzi do `plik`.
+
+Zdanie tego przykładu polszczyzna naprawdę czyta dwojako:
+awaria jest w systemie albo zgłoszenie w nim padło,
+i oba są w rejestrze dokumentacji zwykłe.
+Fraza z `z` i narzędnikiem tego nie daje i przykładu z niej tu nie ma.
+`Widzę człowieka z lornetką.` jest kalką ze zdania angielskiego,
+bo polskie `z` wyraża towarzyszenie, a nie narzędzie —
+narzędziem widzenia jest `przez lornetkę` — więc czytelnik ma tam jedno czytanie,
+a dwa, które olski nad tym zdaniem melduje, są nadprodukcją gramatyki
+([subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
+czyli klasą, którą trzyma
+[open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma).
+Świadek postawiony na takim zdaniu pokazuje mechanizm i nie pokazuje pożytku,
+bo wskazuje czytanie, które polszczyzna wybrała już bez niego.
 
 Sąsiedztwem jest akapit, a granicę tę bierzemy stąd, skąd bierze ją druga strona:
 skład opuszcza podmiot wtedy, gdy o rzeczy była mowa w zdaniu obok,
 a akapit jest tym, w czym „obok” się kończy
 ([sklad.md](sklad.md)).
 Czyta się je wstecz, bo czytelnik idzie od początku do końca,
-i lematami, bo `z lornetkami` i `z lornetką` są tą samą frazą o tej samej rzeczy.
+i lematami, bo `w systemach` i `w systemie` są tą samą frazą o tej samej rzeczy.
 Pytanie idzie przy tym o to, co stało przed frazą, a nie o część mowy,
 więc gospodarza czasownikowego ten świadek wskazuje tą samą drogą,
 kiedy fraza stała wcześniej przy tym samym czasowniku.
-Ani zasięgu, ani trafności tego świadka nikt nie zmierzył:
-pierwsze powiedziałby przebieg nad korpusem audytowym,
-drugie żąda przeczytania odpowiedzi, i oba trzyma [`TODO.md`](../TODO.md).
+
+**Nad rejestrem, o który chodzi, świadek ten nie odzywa się ani razu.**
+`sonda/powtórzenie.py` przechodzi prozę zdanie po zdaniu
+i pyta go o każde przyłączenie, przed którym werdykt postawił wybór.
+Korpusem jest [korpus audytowy](audit-corpus.md#the-list),
+czyli dokumentacja techniczna wyekstrahowana do prozy tak, jak ten dokument mówi:
+
+```sh
+python3 -m sonda.powtórzenie proza/
+```
+
+```text
+39 plików, 2915 zdań
+  pierwszych w akapicie: 2383 (81.7%), czyli bez czego przeczytać
+  przyłączeń: 38, z tego z sąsiedztwem: 13
+  odpowiedzi w granicy akapitu: 0, czyli 0.0% przyłączeń
+  odpowiedzi bez granicy akapitu: 4, czyli 10.5% przyłączeń
+```
+
+Zero ma trzy mianowniki i tylko ostatni z nich jest o świadku.
+
+Największy jest o gramatyce.
+Przyłączeń jest w całym korpusie 38, bo prawie każde zdanie tego rejestru olski odrzuca,
+więc warstwa dostaje 38 pytań na 2 915 zdań,
+a żaden świadek nie odpowie częściej, niż jest pytany.
+Świadek statystyczny odpowiada na te same 38 siedem razy —
+tyle wierszy wydaje `olski-check --rozstrzygaj` nad tymi plikami —
+i tyle jest całej tej warstwy nad tym rejestrem.
+
+Drugi jest o rejestrze: cztery piąte jego zdań stoi pierwsze w swoim akapicie,
+więc świadek nie ma tam czego przeczytać.
+Każdy akapit ma zdanie pierwsze, a żaden akapit tego korpusu nie stoi bez zdania,
+więc liczba ta jest zarazem liczbą akapitów:
+2 383 akapity na 2 915 zdań, czyli po 1,2 zdania na akapit.
+Akapit tej długości bierze się z tego, co ekstrakcja liczy za akapit,
+a liczy za niego osobno każdą pozycję listy,
+bo zdanie nie biegnie z jednej do następnej
+([extraction.md](extraction.md)).
+Ile z tych 2 383 wyszło właśnie z list, nie mówi ani ten przebieg, ani żaden inny,
+bo ekstrakcja nie wypuszcza typu węzła, z którego akapit powstał;
+tego samego braku dotyczy wpis w [`TODO.md`](../TODO.md)
+o mapowaniu trafień z powrotem na konstrukcje.
+
+Trzeci jest o świadku i jest najmniejszy:
+przyłączeń z sąsiedztwem jest 13 i przy żadnym z nich fraza wyżej nie stała.
+
+**Granicę akapitu wyceniono i kupuje ona cztery odpowiedzi.**
+Wariant sondy podaje świadkowi cały dokument czytany wstecz zamiast akapitu,
+i wtedy odpowiada on 4 razy zamiast zera.
+Nie jest to propozycja zdjęcia tej granicy, tylko jej cena,
+a 4 odpowiedzi to za mało, żeby na nich ruszać granicę,
+którą akapit dostał z drugiej strony.
+Przeczytane ręką mówią za to, gdzie ten świadek myli się i dlaczego.
+
+Dwie wskazują dobrze i dowód pod nimi mówi to samo.
+`liczbę żądań do API` dostaje `żądań` po zdaniu
+`Wszystkie żądania do API KSeF podlegają limitom.`,
+a `informacje o sposobie przetwarzania żądań w Systemie RIT`
+dostaje na `w Systemie RIT` gospodarza `przetwarzania`
+po zdaniu, w którym obiekt `jest przetwarzany w Systemie RIT`.
+
+Trzecia wskazuje dobrze, a jej dowód jest z innej frazy.
+`o sposobie przetwarzania żądań` dochodzi do `informacje`,
+a przytoczone na to `informacje o żądającym` mówi o czym innym.
+Zeszły się one lematem, bo Morfeusz sprowadza i odsłownik, i imiesłów do czasownika,
+więc `żądań` i `żądającym` są dla tego świadka jednym słowem.
+Widać to wyłącznie dlatego, że powód cytuje zdanie:
+samo wskazanie nie różni się tu niczym od trafnego.
+
+Czwarta myli się, i myli się na kształcie, który obie strony tego wypadku niosą.
+`Wpływa to na sposób wymiany danych z systemem RIT.`
+dostaje gospodarza `danych`, gdzie fraza dochodzi do `wymiany`:
+świadek bierze słowo stojące tuż przed frazą,
+a w łańcuchu dopełniaczowym stoi tam ogon grupy, a nie jej głowa.
+Dowodem jest `wymiany danych z systemami zewnętrznymi`, czyli ten sam łańcuch,
+więc powtórzenie jest tu prawdziwe, a odczytane z niego wskazanie nie.
+
+Obie usterki trzyma [`TODO.md`](../TODO.md) i żadna nie rusza liczb wyżej,
+bo w granicy akapitu ten świadek milczy tak czy owak.
+Trafności nie ma tu wobec tego wcale.
+Cztery odpowiedzi wzięte z wariantu nie są częstością,
+a materiał, na którym dałoby się ją policzyć, ma w tym przeglądzie jedno źródło:
+[wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie).
 
 **Świadek statystyczny liczy bank drzew i nazywa własną częstość pomyłek.**
 `Skłonność` liczy, jak często ta para przyimka i gospodarza
