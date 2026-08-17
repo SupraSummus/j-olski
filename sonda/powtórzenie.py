@@ -19,6 +19,12 @@ nie stała. Pierwsza jest własnością rejestru, druga świadka, a jedna liczba
 wyjściu nie mówi, która przeważyła, więc sonda wypisuje oba mianowniki obok
 siebie.
 
+**Cenę warunku na kopulę wypisuje osobny wiersz.** Wariantem jest świadek z pustą
+listą kopul, czyli ten, który za dowód bierze i powtórzenie przy ``być``,
+a różnica między nim a wypuszczanym jest ceną tego warunku. Mierzy się ją
+w granicy akapitu, bo tam ten warunek odbiera wskazanie świadkowi, którego
+dostaje autor.
+
 **Granicę sąsiedztwa wycenia wariant, tak jak sonda różnicowa wycenia grupę
 produkcji.** Wariantem jest cały dokument czytany wstecz, czyli sąsiedztwo bez
 granicy akapitu, a różnica między nim a akapitem jest ceną tej granicy. Wariant
@@ -102,6 +108,8 @@ class Pomiar:
     #: Z nich te, które mają za sobą choć jedno zdanie tego samego akapitu.
     przyłączeń_z_sąsiedztwem: int = 0
     odpowiedzi: list[Odpowiedź] = field(default_factory=list)
+    #: To samo bez warunku na kopulę, czyli cena tego warunku w granicy akapitu.
+    odpowiedzi_z_kopulą: list[Odpowiedź] = field(default_factory=list)
     #: To samo, gdy granicą sąsiedztwa jest dokument, a nie akapit.
     odpowiedzi_bez_granicy: list[Odpowiedź] = field(default_factory=list)
     #: To samo dla każdej reguły kandydata z :data:`REGUŁY`, po nazwie reguły.
@@ -130,6 +138,7 @@ def _plik(path: Path, pomiar: Pomiar) -> None:
     #  trzyma się w liście: akapit niesie tylko te ze swojego.
     zdania = [document.slice(span) for span in document.sentences]
     świadek = Powtórzenie()
+    z_kopulą = Powtórzenie(kopuly=frozenset())
     warianty = [
         (Powtórzenie(kandydaci=reguła), pomiar.warianty[nazwa]) for nazwa, reguła in REGUŁY
     ]
@@ -142,6 +151,7 @@ def _plik(path: Path, pomiar: Pomiar) -> None:
             pomiar.przyłączeń_z_sąsiedztwem += bool(akapit.zdania)
             wołania = [
                 (świadek, akapit, pomiar.odpowiedzi),
+                (z_kopulą, akapit, pomiar.odpowiedzi_z_kopulą),
                 (świadek, dokument, pomiar.odpowiedzi_bez_granicy),
                 *((wariant, dokument, gdzie) for wariant, gdzie in warianty),
             ]
@@ -186,6 +196,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         f"{pomiar.przyłączeń_z_sąsiedztwem}"
     )
     _wypisz("odpowiedzi w granicy akapitu", pomiar.odpowiedzi, pomiar.przyłączeń)
+    _wypisz("to samo bez warunku na kopulę", pomiar.odpowiedzi_z_kopulą, pomiar.przyłączeń)
     _wypisz("odpowiedzi bez granicy akapitu", pomiar.odpowiedzi_bez_granicy, pomiar.przyłączeń)
     for nazwa, _ in REGUŁY:
         _wypisz(f"to samo przy regule „{nazwa}”", pomiar.warianty[nazwa], pomiar.przyłączeń)

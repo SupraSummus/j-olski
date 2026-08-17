@@ -275,11 +275,12 @@ Kosztuje to jednak coś, czego ranking nie kosztuje.
 Powód wyczytany z tekstu bywa prawdziwy i nie mówi nic.
 Zdanie, w którym fraza okolicznikowa stanęła przy `być`,
 dowodzi o tym czasowniku tyle, ile dowodzi o dowolnym innym,
-bo przy `być` taka fraza stoi wszędzie —
-i jest to jedyna pomyłka wśród ośmiu odczytań, które ten dokument
-[czyta ręką niżej](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+bo przy `być` taka fraza stoi wszędzie,
+i dlatego świadek kontekstowy nad powtórzeniem przy kopuli milczy
+([niżej](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Częstość zmylić się tak nie może, bo jej powód jest dokładnie tym, co zmierzyła.
-Wyłapuje taki powód czytelnik, bo po to właśnie powód przy odpowiedzi jest,
+Klasa pustego powodu daje się odsiać tam, gdzie da się ją nazwać lematem,
+a poza tym wyłapuje ją czytelnik, bo po to właśnie powód przy odpowiedzi jest,
 czyli obroną jest dokładnie to, co kryterium kupuje.
 
 Druga połowa jest zmierzona raz i próba tej wielkości jej nie rozstrzyga.
@@ -519,6 +520,27 @@ bo gospodarzem bywa czasownik:
 `jest przetwarzany w Systemie RIT` dowodzi o gospodarzu `przetwarzania`
 przez to samo zlanie, które po stronie frazy myli.
 
+Jednego lematu to dopasowanie nie bierze: kopuli.
+Okolicznik przyłącza się do `być` w dowolnym zdaniu,
+więc dwa zdania o wspólnym lemacie `być` mają wspólne tylko orzeczenie,
+a nie miejsce, do którego fraza doszła.
+Bez tego warunku `Zabronione jest tworzenie opisów w 1 osobie.` dostaje gospodarza `jest`
+po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
+choć fraza dochodzi w nim do `tworzenie opisów`.
+Lematów jest pięć, bo bierzemy listę, którą gramatyka ma dla orzecznika
+(`KOPULA` w `olski/subset.py`), zamiast pisać drugą o tym samym.
+Cenę całej listy wypisuje sonda niżej, a `być` odpowiada nad tym korpusem za nią całą;
+czy pozostałe cztery lematy do tego kryterium należą,
+pyta wpis w [`TODO.md`](../TODO.md).
+
+Warunek dotyczy dowodu, a nie pozycji.
+Kopula zostaje gospodarzem, bo okolicznik całego zdania przyłącza się do orzeczenia,
+a orzeczeniem jest w takim zdaniu właśnie ona:
+`w 1 osobie` czyta się i jako warunek całego zakazu, nie tylko samych opisów.
+Warstwa ma więc nad taką pozycją milczeć, a nie przestać jej widzieć.
+Odpada przy tym sam dowód, więc kopula obok drugiego dowodu wskazania nie blokuje:
+dwóch gospodarzy, przy których świadek milknie, liczy się po odsianiu takich par.
+
 Przy gospodarzu fraza stanęła także wtedy, gdy dzieli je łańcuch imienny.
 Sąsiad bezpośredni sam nie wystarcza, bo w łańcuchu dopełniaczowym jest nim ogon grupy:
 w `wymiany danych z systemami zewnętrznymi` fraza dochodzi do `wymiany`, a nie do `danych`.
@@ -528,7 +550,7 @@ Dwóch gospodarzy w jednym łańcuchu kończy się milczeniem,
 tym samym warunkiem, którym kończy się fraza powtórzona przy obu:
 sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
 
-**Nad rejestrem, o który chodzi, świadek ten odpowiada o jednej pozycji na sto czterdzieści.**
+**Nad rejestrem, o który chodzi, świadek ten odpowiada o jednej pozycji na sto sześćdziesiąt.**
 `sonda/powtórzenie.py` przechodzi prozę zdanie po zdaniu
 i pyta go o każdą pozycję przyłączeniową, jaką morfologia w tym zdaniu widzi.
 Korpusem jest [korpus audytowy](audit-corpus.md#the-list),
@@ -542,10 +564,11 @@ python3 -m sonda.powtórzenie proza/
 39 plików, 2915 zdań
   pierwszych w akapicie: 2383 (81.7%), czyli bez czego przeczytać
   przyłączeń: 1113, z tego z sąsiedztwem: 313
-  odpowiedzi w granicy akapitu: 8, czyli 0.7% przyłączeń
-  odpowiedzi bez granicy akapitu: 132, czyli 11.9% przyłączeń
-  to samo przy regule „sąsiad bezpośredni”: 171, czyli 15.4% przyłączeń
-  to samo przy regule „cały prefiks zdania”: 124, czyli 11.1% przyłączeń
+  odpowiedzi w granicy akapitu: 7, czyli 0.6% przyłączeń
+  to samo bez warunku na kopulę: 8, czyli 0.7% przyłączeń
+  odpowiedzi bez granicy akapitu: 130, czyli 11.7% przyłączeń
+  to samo przy regule „sąsiad bezpośredni”: 169, czyli 15.2% przyłączeń
+  to samo przy regule „cały prefiks zdania”: 126, czyli 11.3% przyłączeń
 ```
 
 Pozycje wyznacza morfologia, a nie werdykt, i to jest cała różnica między tym pytaniem
@@ -565,7 +588,7 @@ Populacja jest przez to ta sama, którą ma
 [wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
 więc zasięg zmierzony tutaj i trafność zmierzona tam mówią o jednych pytaniach.
 
-0,7% ma dwa mianowniki i tylko drugi z nich jest o świadku.
+0,6% ma dwa mianowniki i tylko drugi z nich jest o świadku.
 
 Pierwszy jest o rejestrze: cztery piąte jego zdań stoi pierwsze w swoim akapicie,
 więc świadek nie ma tam czego przeczytać.
@@ -581,40 +604,40 @@ bo ekstrakcja nie wypuszcza typu węzła, z którego akapit powstał;
 tego samego braku dotyczy wpis w [`TODO.md`](../TODO.md)
 o mapowaniu trafień z powrotem na konstrukcje.
 
-Drugi jest o świadku: przyłączeń z sąsiedztwem jest 313, a odpowiedzi 8,
-czyli fraza powtarza się przy gospodarzu raz na czterdzieści pozycji,
+Drugi jest o świadku: przyłączeń z sąsiedztwem jest 313, a odpowiedzi 7,
+czyli fraza powtarza się przy gospodarzu raz na czterdzieści pięć pozycji,
 które mają w akapicie co przeczytać.
 
-**Osiem odpowiedzi w granicy akapitu przeczytano i siedem wskazuje dobrze.**
-Dowód pod siedmioma jest tego samego kształtu, czyli frazą powtórzoną przy gospodarzu,
+**Siedem odpowiedzi w granicy akapitu przeczytano i wszystkie wskazują dobrze.**
+Dowód pod każdą jest tego samego kształtu, czyli frazą powtórzoną przy gospodarzu,
 i cztery z nich wyglądają tak:
 `prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`,
 `nowa faktura z datą PermanentStorage` po zdaniu o fakturach `z datą PermanentStorage`,
 `uprawnień pracownikom do przeglądania` po zdaniu z `uprawnień do przeglądania`,
 `Ustawy z dnia 25 czerwca` po zdaniu z tą samą ustawą.
-Ósma myli się na kopuli:
-`Zabronione jest tworzenie opisów w 1 osobie.` dostaje gospodarza `jest`
-po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
-gdzie `były` i `jest` mają jeden lemat, a fraza dochodzi do `tworzenie opisów`.
-Powtórzenie jest tam prawdziwe i nie mówi nic:
-przy `być` fraza okolicznikowa stoi w każdym zdaniu, w którym stoi cokolwiek,
-więc gospodarz o tym lemacie ma tyle dowodu, ile ma go sam czasownik zdania.
 
-**Granicę akapitu wyceniono: kupuje 126 odpowiedzi i dwie odbiera.**
+**Warunek na kopulę wyceniono: zdejmuje jedno wskazanie i jest nim pomyłka.**
+Wariant sondy podaje świadkowi pustą listę kopul, czyli bierze za dowód i powtórzenie
+przy `być`, i wtedy odpowiada on osiem razy zamiast siedmiu.
+Ósmym wskazaniem jest opisane wyżej `w 1 osobie` → `jest`,
+więc warunek kupuje zdjęcie jednej pomyłki,
+a kosztuje nad tym korpusem zero wskazań dobrych.
+
+**Granicę akapitu wyceniono: kupuje 125 odpowiedzi i dwie odbiera.**
 Wariant sondy podaje świadkowi cały dokument czytany wstecz zamiast akapitu,
-i wtedy odpowiada on 132 razy zamiast ośmiu:
-sześć wskazań z tamtych ośmiu zostaje, 126 dochodzi, a dwa milkną.
+i wtedy odpowiada on 130 razy zamiast siedmiu:
+pięć wskazań z tamtych siedmiu zostaje, 125 dochodzi, a dwa milkną.
 Milkną dlatego, że dalej w dokumencie ta sama fraza stoi przy drugim gospodarzu,
 a dwóch gospodarzy kończy się milczeniem —
 i są to `nowa faktura z datą PermanentStorage`
 oraz `uprawnień pracownikom do przeglądania`, czyli dwa wskazania dobre.
 
 Zakup ten jest zasięgiem i o trafności nie mówi nic sam z siebie.
-Dziesięć odpowiedzi rozrzuconych po tych 126 (`rozrzucona` w `olski/próbka.py`)
-czyta się jako siedem wskazań dobrych i trzy słabsze,
+Dziesięć odpowiedzi rozrzuconych po tych 125 (`rozrzucona` w `olski/próbka.py`)
+czyta się jako sześć wskazań dobrych i cztery słabsze,
 a pomyłki co do strony wyboru nie ma wśród nich żadnej:
 `atrybutów posiadanych przez obiekt w systemie źródłowym` dostaje `obiekt`,
-a `pozycje słownika posiadają tłumaczenia na inne języki` dostaje `tłumaczenia`.
+a `przekazanie danych o obiektach turystycznych` dostaje `danych`.
 Pierwsza słabsza nazywa grupę jej przymiotnikiem, a nie głową:
 `wyrażenia regularne dla adresów IP` dostaje `regularne`,
 bo łańcuch imienny urywa się na przymiotniku i `wyrażenia` gospodarzem nie zostaje.
@@ -623,12 +646,15 @@ bo Morfeusz czyta jako przyimek samotną literę `A` z nazwy podmiotu.
 Trzecia trafia w gospodarza, a pozycji pod nią nie ma:
 `kontekst w ktorym jestesmy uwierzytelnieni` dostaje `kontekst`,
 tyle że `w którym` otwiera zdanie względne, a nie wyrażenie przyimkowe.
+Czwarta stoi tam, gdzie obaj gospodarze mówią to samo:
+w `nie przesłano żadnych faktur w sesji interaktywnej` fraza nazywa tę samą sesję,
+dojdzie do `faktur` czy do `przesłano`.
 Granica broni się więc nie tym, że wskazania spoza niej są złe,
 tylko tym, po co ją tam postawiono ([sklad.md](sklad.md)),
 a policzone jest i to, co jej zdjęcie kupuje, i to, co odbiera.
 
 **Regułę kandydata wyceniono tą samą drogą, a węższa dokłada pomyłkę na łańcuchu.**
-Wariant węższy pyta o samego sąsiada frazy i odpowiada 171 razy zamiast 132,
+Wariant węższy pyta o samego sąsiada frazy i odpowiada 169 razy zamiast 130,
 a różnica bierze się stąd, że łańcuch pokazuje czasem dwóch gospodarzy naraz,
 a dwóch kończy się milczeniem.
 Kupuje to pomyłkę, którą łańcuch omija:
@@ -638,19 +664,18 @@ Dowodem jest tam `wymiany danych z systemami zewnętrznymi`, czyli ten sam łań
 więc powtórzenie jest prawdziwe, a odczytane z niego wskazanie nie.
 Reguła wypuszczana widzi w tym łańcuchu obu gospodarzy naraz i o tym zdaniu milczy.
 
-Wariant szerszy pyta o cały prefiks zdania i odpowiada 124 razy, czyli rzadziej od obu.
+Wariant szerszy pyta o cały prefiks zdania i odpowiada 126 razy, czyli rzadziej od obu.
 Kandydatów ma najwięcej i dlatego najczęściej trafia na dwóch naraz,
 więc reguła szersza od wypuszczanej kupuje mniej zasięgu, a nie więcej.
-Dokłada przy tym wskazanie, którego nie ma żadna z dwóch pozostałych:
-`System jest niewrażliwy na wielkość liter w przypadku tych atrybutów.` dostaje `jest`
-po zdaniu, w którym pytana fraza nie stała wcale:
-zeszła się z frazą `w dokumencie` przez `Atrybuty` stojące trzy słowa za tym przyimkiem.
-Jest to usterka dopasowania frazy, a nie tej reguły —
-reguła wypuszczana ma ją tak samo i nad tym korpusem tylko na nią nie trafia —
-i trzyma ją [`TODO.md`](../TODO.md).
+Kupuje za to gospodarza stojącego daleko przed frazą, którego łańcuch nie sięga,
+i bywa nim czasownik żądający tej frazy swoim schematem:
+w `Rozszerzono model żądania o właściwość boolean onlyMetadata`
+wskazuje `Rozszerzono`, czyli ramę `rozszerzyć coś o coś`.
+Jest to ten sam dowód, którego warstwa nie umie wziąć wprost,
+bo `olski/leksykon.txt` o przyimku nie mówi.
 
 Częstości pomyłek ten przebieg wobec tego nie podaje.
-Osiemnaście odpowiedzi przeczytanych jest odczytem, a nie stopą,
+Siedemnaście odpowiedzi przeczytanych jest odczytem, a nie stopą,
 a materiał, na którym dałoby się ją policzyć, jest dwojaki:
 [wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 którego nie ma, oraz
@@ -880,11 +905,21 @@ więc mówi, jak często warstwa odpowiada, a nie mówi, jak często się myli:
 odpowiedzi pada w niej pięć i jedna pomyłka przesuwałaby stopę o dwadzieścia punktów.
 Częstość pomyłek żąda mianownika, którym jest odpowiedź, a nie pozycja,
 a taki mianownik daje losowanie zawężone do tych pozycji, nad którymi warstwa się odzywa:
-odzywa się nad 123 z 1 113 pozycji korpusu audytowego, czyli nad co dziewiątą,
-i spośród tych 123 losuje się trzydzieści (`z_odpowiedzią` w `sonda/wybory.py`).
+odzywa się nad 122 z 1 113 pozycji korpusu audytowego, czyli nad co dziewiątą,
+i spośród tych 122 losuje się trzydzieści (`z_odpowiedzią` w `sonda/wybory.py`).
 `próba/wybory-z-odpowiedzią.txt` jest tym losowaniem przeczytanym ręką
 i jest osobnym plikiem, a nie częścią próby wyżej,
 bo jeden wydruk z dwoma mianownikami czyta się jako jeden.
+
+Wpisy pochodzą z losowania ze 123 pozycji, czyli o jedną szerszego:
+tą jedną jest wskazanie świadka kontekstowego, odebrane wraz z dowodem z kopuli.
+Próby to nie przerysowuje.
+Wszystkie trzydzieści wpisów są odpowiedziami tabeli częstości,
+żadna z tych odpowiedzi się nie zmieniła,
+a pozycja, która z populacji wyszła, należała do świadka,
+którego to losowanie nie dosięgło ani razu.
+Przerysowania żąda dopiero zmiana ruszająca same odpowiedzi tabeli,
+bo wtedy wpisy mierzą świadka, którego nie ma.
 
 ```sh
 python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
@@ -902,8 +937,8 @@ python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
 ```
 
 Odpowiada tu sama skłonność i mówi to o losowaniu, a nie o świadku kontekstowym:
-ten odzywa się nad tym korpusem osiem razy, więc trzydzieści pozycji wylosowanych
-spośród 123 nie musi trafić w ani jedną z nich i nie trafiło w żadną.
+ten odzywa się nad tym korpusem siedem razy, więc trzydzieści wylosowanych pozycji
+nie musi trafić w ani jedną z nich i nie trafiło w żadną.
 Zmierzona jest przez to sama tabela częstości nad dokumentacją i nic poza nią.
 Wpisów jest trzydzieści, a odpowiedzi 29, i różnica ta jest ceną poprawiania ręką:
 zawężenie pyta o frazę i gospodarzy, jakich proponuje morfologia,

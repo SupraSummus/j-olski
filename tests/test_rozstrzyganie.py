@@ -209,6 +209,18 @@ def test_imiesłów_przymiotnikowy_nie_jest_tą_samą_frazą_co_odsłownik():
     assert rozstrzygnij([ŻĄDANIA], [Powtórzenie()], sąsiedztwo) == [ŻĄDANIA]
 
 
+def test_kopula_dowodem_nie_jest_bo_okolicznik_przyłącza_się_do_niej_wszędzie():
+    """Powtórzenie przy ``być`` jest prawdziwe i nie mówi, dokąd fraza doszła.
+
+    Oba zdania mają tu za orzeczenie kopulę, a fraza dochodzi w obu do rzeczy.
+    Bez tego warunku świadek wskazuje ``jest`` i nad korpusem audytowym tak
+    właśnie wskazał, raz na osiem odpowiedzi (``docs/disambiguation.md``).
+    """
+    sąsiedztwo = Sąsiedztwo(("Wymaga się, aby opisy tworzone były w 3 osobie.",))
+    przyłączenie = Przyłączenie(modyfikator="w 1 osobie", gospodarze=("jest", "tworzenie"))
+    assert rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo) == [przyłączenie]
+
+
 def test_powód_wybiera_lemat_kolejnością_a_nie_z_worka():
     """Powód ma być ten sam w każdym przebiegu, a zbiór lematów kolejności nie ma.
 

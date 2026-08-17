@@ -247,6 +247,10 @@ Z_ODPOWIEDZIĄ = """\
 # jest odpowiedź, a nie pozycja rejestru: częstość odpowiedzi tego pliku nie mierzy
 # i wychodzi w nim z założenia bliska całości. Mierzy się nad nim częstość pomyłek,
 # której próba z całej populacji nie unosi, bo odpowiedzi pada w niej kilka.
+#
+# Populacja jest przez to własnością warstwy i zmiana w warstwie ją rusza.
+# Kiedy wpisy trzeba przez to przerysować, a kiedy zostają, mówi
+# docs/disambiguation.md.
 """
 
 

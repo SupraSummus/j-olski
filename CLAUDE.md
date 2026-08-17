@@ -712,6 +712,7 @@ which the section names in prose rather than printing as a block.
 What moves the answers is `Powtórzenie` and `Sąsiedztwo` in `olski/rozstrzyganie.py`,
 which decide what counts as the same phrase and what counts as the neighbourhood,
 `_łańcuch` beside them, which decides what counts as standing by a host,
+`_pasujący` and `KOPULY` next to it, which decide which lemma may match a host at all,
 and `REGUŁY` in the probe, which is the two rules that decision was taken against.
 `_grupa` in `olski/wieloznaczność.py` moves both halves at once,
 since the hosts a position offers are taken by the same walk `_łańcuch` makes,
@@ -747,8 +748,13 @@ and is owed the reading of every entry it adds, per the file's own header.
 is the same probe over `próba/wybory-z-odpowiedzią.txt` and has one mover the other has not,
 because that file's entries are drawn from the positions the layer answers over:
 a change to `olski/rozstrzyganie.py` or to the committed `olski/skłonności.txt`
-moves which positions belong in it, so what is owed there is a rebuilt draw
-and the reading of every entry in it, not a corrected number.
+moves which positions belong in it,
+and what that costs depends on whether the entries themselves move.
+A change moving the answers those thirty entries carry
+is owed a rebuilt draw and the reading of every entry in it, not a corrected number.
+A change that only leaves the frame smaller, every entry answering as it did,
+is owed the population figure and the frame written into the document,
+since rebuilding would spend thirty readings to measure the same thing twice.
 The split that section reports is a reading of the `powód` fields rather than a count,
 so a rerun that moves it is owed that reading again.
 

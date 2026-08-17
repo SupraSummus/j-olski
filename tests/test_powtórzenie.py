@@ -117,6 +117,24 @@ def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_pa
     assert odpowiedź.rozstrzygnięcie.gospodarz == "danych"
 
 
+def test_wariant_z_kopulą_wycenia_warunek_w_granicy_akapitu(tmp_path: Path):
+    """Wiersz o kopuli ma mierzyć ten sam akapit co wiersz nad nim.
+
+    Wariant wpięty poza granicą akapitu wypisałby cenę warunku nad inną
+    populacją niż ta, w której ten warunek odbiera wskazanie, i różnica dwóch
+    wierszy przestałaby być ceną czegokolwiek.
+    """
+    kopula = (
+        "Wymaga się, aby opisy tworzone były w 3 osobie. "
+        "Zabronione jest tworzenie opisów w 1 osobie.\n"
+    )
+    (tmp_path / "rejestr.txt").write_text(kopula, encoding="utf-8")
+    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    assert pomiar.odpowiedzi == []
+    (odpowiedź,) = pomiar.odpowiedzi_z_kopulą
+    assert odpowiedź.rozstrzygnięcie.gospodarz == "jest"
+
+
 def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
     """Zdanie z dwoma wyrażeniami przyimkowymi stawia więcej niż jeden wybór.
 

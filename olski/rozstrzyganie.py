@@ -70,6 +70,7 @@ from typing import Protocol
 from olski.document import Document
 from olski.morph import analyse
 from olski.parse import Przyłączenie
+from olski.subset import KOPULA
 
 #: Plik z tabelą skłonności, generowany i czytany przy pierwszym pytaniu.
 SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"
@@ -116,6 +117,14 @@ IMIENNE = frozenset({"subst", "ger", "depr"})
 #: łańcuch imienny: rejestr, o który chodzi, pisze nazwy własne i skróty,
 #: a Morfeusz oddaje je z ``ign`` w tagu.
 IMIENNE_LUB_NIEZNANE = IMIENNE | {"ign"}
+
+#: Lematy, którymi gospodarz dowodu się nie dopasuje: kopula sama nic nie orzeka,
+#: więc powtórzenie przy niej mówi tylko tyle, że oba zdania mają to samo
+#: orzeczenie. Gospodarzem kopula zostaje, bo okolicznik zdania wisi na
+#: orzeczeniu; odpada dowód, a nie pozycja, i dlaczego tak, wywodzi
+#: ``docs/disambiguation.md``. Lista jest ta, którą gramatyka ma dla orzecznika,
+#: więc lemat dopisany tam przestaje być dowodem i tutaj.
+KOPULY = frozenset(KOPULA.split("|"))
 
 
 @dataclass(frozen=True)
@@ -232,17 +241,20 @@ def _gdzie_stała(
 
 
 def _pasujący(
-    formy: Iterable[str], lematy: dict[str, frozenset[str]]
+    formy: Iterable[str], lematy: dict[str, frozenset[str]], kopuly: frozenset[str] = KOPULY
 ) -> Iterator[tuple[str, str]]:
     """Gospodarze o lemacie wspólnym z którąś z tych form, każdy z tym lematem.
 
     Alfabet rozstrzyga, gdy pasuje kilka lematów naraz:
     ``danych`` jest u Morfeusza i od ``dane``, i od ``dać``,
     a powód ma wyjść ten sam w każdym przebiegu, bo zbiór lematów kolejności nie ma.
+
+    Kopula dopasowaniem nie jest (:data:`KOPULY`), a gospodarz o lemacie także
+    innym dopasowuje się tym innym: odpada lemat, a nie gospodarz.
     """
     for forma in formy:
         for gospodarz, jego in lematy.items():
-            if pasujące := sorted(_lematy(forma) & jego):
+            if pasujące := sorted((_lematy(forma) & jego) - kopuly):
                 yield gospodarz, pasujące[0]
 
 
@@ -319,6 +331,7 @@ class Sąsiedztwo:
         rzeczownik: frozenset[str],
         gospodarze: Iterable[str],
         kandydaci: Kandydaci = _łańcuch,
+        kopuly: frozenset[str] = KOPULY,
     ) -> dict[str, Dowód]:
         """Ci z gospodarzy, przy których ta fraza w tym sąsiedztwie już stała.
 
@@ -334,13 +347,16 @@ class Sąsiedztwo:
         Kandydatów na niego wyznacza :attr:`Powtórzenie.kandydaci`,
         domyślnie :func:`_łańcuch`, a nie jedna pozycja,
         i gospodarz, którego wśród kandydatów nie ma, dowodu stąd nie dostaje.
+        Lematy, którymi dopasować się nie wolno, podaje :attr:`Powtórzenie.kopuly`,
+        i podstawia się je z tego samego powodu co kandydatów: żeby sonda
+        wypisała cenę tego warunku zamiast pozostawiać ją różnicy między commitami.
         """
         przyimki = _lematy(przyimek)
         lematy = {gospodarz: _lematy(gospodarz) for gospodarz in gospodarze}
         znalezione: dict[str, Dowód] = {}
         for zdanie, słowa in zip(self.zdania, self._słowa, strict=True):
             for i in _gdzie_stała(słowa, przyimki, rzeczownik):
-                for gospodarz, lemat in _pasujący(kandydaci(słowa, i), lematy):
+                for gospodarz, lemat in _pasujący(kandydaci(słowa, i), lematy, kopuly):
                     znalezione.setdefault(gospodarz, Dowód(lemat, zdanie))
         return znalezione
 
@@ -393,6 +409,11 @@ class Powtórzenie:
     dowód wskazujący dwie strony naraz nie wskazuje żadnej. Dwaj gospodarze
     w jednym łańcuchu imiennym (:func:`_łańcuch`) są tym samym wypadkiem:
     sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
+
+    Milczy też tam, gdzie jedynym dowodem jest powtórzenie przy kopuli
+    (:data:`KOPULY`), bo powtórzenie prawdziwe bywa puste. Kopula przy drugim
+    dowodzie wskazania nie blokuje: dwóch gospodarzy liczy się po odsianiu par
+    z takim lematem.
     """
 
     nazwa: str = "powtórzenie"
@@ -401,6 +422,9 @@ class Powtórzenie:
     #: a nie po to, żeby ją zmieniać w werdykcie: cenę drukuje
     #: ``sonda/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
     kandydaci: Kandydaci = _łańcuch
+    #: Lematy, którymi gospodarz dowodu się nie dopasuje (:data:`KOPULY`).
+    #: Podstawiane tą samą drogą i z tego samego powodu co :attr:`kandydaci`.
+    kopuly: frozenset[str] = KOPULY
 
     def __call__(
         self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo
@@ -410,7 +434,11 @@ class Powtórzenie:
             return None
         rzeczownik = frozenset().union(*(_lematy_imienne(forma) for forma in formy[1:]))
         wskazani = sąsiedztwo.przy_czym_stała(
-            formy[0].lower(), rzeczownik, przyłączenie.gospodarze, self.kandydaci
+            formy[0].lower(),
+            rzeczownik,
+            przyłączenie.gospodarze,
+            self.kandydaci,
+            self.kopuly,
         )
         if len(wskazani) != 1:
             return None
