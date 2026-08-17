@@ -621,10 +621,21 @@ class Odczyt:
     a krotka drzew sama nie mówi, który zadziałał na tym zdaniu.
     Powód opisuje kandydata, który odpadł, a nie odpowiedź,
     więc zdanie z drzewami ma jedno i drugie naraz.
+
+    Rodzaje te dzielą się przy tym na dwa i tę granicę niesie ``kandydaci``,
+    bo powód jest zdaniem dla czytelnika, a nie kluczem tabeli:
+    zero mówi, że kategorii nie ma i drzewa nie było z czego zbudować,
+    a liczba dodatnia przy pustych drzewach, że kandydat powstał
+    i wypisuje się innym napisem, niż ten, który go wywołał.
+    Pyta o to pomiar nad rejestrem (``sonda/znaczenia.py``),
+    któremu pierwsze mówi, czego temu zapisowi brakuje,
+    a drugie, gdzie oba kierunki mówią co innego o jednym zdaniu.
     """
 
     drzewa: tuple[Zdanie, ...]
     powody: tuple[str, ...]
+    #: Ilu kandydatów zbudowano, zanim linearyzacja o nich rozstrzygnęła.
+    kandydaci: int = 0
 
 
 def _bez_powtórzeń(powody: list[str]) -> tuple[str, ...]:
@@ -658,7 +669,7 @@ def abstrahuj(czytanie: Node, kontekst: Kontekst = TERAZ) -> Odczyt:
             drzewa.append(drzewo)
         else:
             powody.append(powód)
-    return Odczyt(tuple(drzewa), _bez_powtórzeń(powody))
+    return Odczyt(tuple(drzewa), _bez_powtórzeń(powody), len(kandydaci))
 
 
 def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
@@ -675,19 +686,22 @@ def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
     i zdanie odrzucone przez każde z nich bywa odrzucone przez każde inaczej.
 
     Zdanie bez czytań ma powód osobny, bo mówi on o czym innym:
-    pustka jest wtedy werdyktem gramatyki, a nie brakiem kategorii w tym zapisie.
+    pustka jest wtedy werdyktem gramatyki, a nie brakiem kategorii w tym zapisie,
+    i zero kandydatów mówi tu o czytaniu, którego nie było, a nie o kategorii.
     """
     czytania = parse(GRAMMAR, morphology(zdanie)).readings
     if not czytania:
         return Odczyt((), ("gramatyka olskiego nie wyprowadza tego zdania",))
     wynik: dict[tuple, Zdanie] = {}
     powody: list[str] = []
+    kandydaci = 0
     for czytanie in czytania:
         odczyt = abstrahuj(czytanie, kontekst)
         powody.extend(odczyt.powody)
+        kandydaci += odczyt.kandydaci
         for drzewo in odczyt.drzewa:
             wynik.setdefault(sygnatura(drzewo), drzewo)
-    return Odczyt(tuple(wynik.values()), _bez_powtórzeń(powody))
+    return Odczyt(tuple(wynik.values()), _bez_powtórzeń(powody), kandydaci)
 
 
 def sygnatura(drzewo) -> tuple:

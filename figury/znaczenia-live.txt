@@ -1,0 +1,138 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury znaczenia-live
+polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/ --morfologia live
+korpus: Składnica-frazowa-180723
+czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
+ruszają:
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/skład/rozbiór.py: e261cd3714d2
+  olski/skład/składnia.py: 45231d6c9c81
+  sonda/znaczenia.py: cd9e03d4a1a0
+
+Składnica, morfologia live, 13035 zdań z werdyktem
+
+  werdykt olskiego:
+    11128    rejected
+     1063    valid
+      844    ambiguous
+
+  ile czytań zdania wraca drzewem tego zapisu:
+    ambiguous, 844 zdań:
+        7    0.8%  każde czytanie wraca drzewem
+       27    3.2%  część czytań wraca drzewem
+      810   96.0%  żadne czytanie nie wraca drzewem
+    valid, 1063 zdań:
+       63    5.9%  każde czytanie wraca drzewem
+        0    0.0%  część czytań wraca drzewem
+     1000   94.1%  żadne czytanie nie wraca drzewem
+
+  czym są wobec siebie drzewa czytań, z 7 zdań wieloznacznych:
+        0    0.0%  czytania dają te same drzewa
+        0    0.0%  drzewo wspólne stoi pod każdym czytaniem, a nie każde
+        7  100.0%  żadne drzewo nie stoi pod każdym czytaniem
+
+  ile drzew tego zapisu ma zdanie, którego każde czytanie wróciło:
+    ambiguous, 7 zdań, ile drzew:
+        1   14.3%  2
+        3   42.9%  5
+        2   28.6%  6
+        1   14.3%  10
+    valid, 63 zdań, ile drzew:
+        7   11.1%  1
+       14   22.2%  2
+        1    1.6%  3
+       29   46.0%  4
+        1    1.6%  6
+       10   15.9%  8
+        1    1.6%  32
+
+  czemu czytanie nie wraca drzewem, z 5731 takich czytań:
+     4998   87.2%  zapis nie ma kategorii
+      733   12.8%  kandydat wypisuje się innym napisem
+
+  najczęstsze powody, z 4889 różnych:
+     1321  grupa imienna z słowo, Modifier nie ma tu kategorii
+      728  zdanie bez podmiotu nie ma tu kategorii
+      427  AP nie jest tu grupą imienną
+      419  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
+      187  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+      159  grupa imienna z słowo, słowo, NP nie ma tu kategorii
+      120  grupa imienna z słowo, słowo, Modifier nie ma tu kategorii
+       62  być nie składa tu orzeczenia imiennego
+       48  „Przez całą sobotę” nie ma tu czym być w pozycji Modifier
+       40  albo nie jest znakiem listy tego zapisu
+       32  „nie” nie ma tu czym być w pozycji Object
+       29  grupa imienna z słowo, słowo, NP, Modifier nie ma tu kategorii
+
+  najkrótsze zdania: ambiguous, część czytań wraca drzewem
+      2 czytań  Ma broń.
+      3 czytań  Czort go wie.
+      3 czytań  Nikt nic nie wie.
+      2 czytań  Dołączają wszyscy.
+      2 czytań  Dobiszewski nie pamięta.
+      2 czytań  Czeka go powtórny proces.
+
+  najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
+      2 czytań  Co to jest?
+      2 czytań  Co ja mówię?
+      2 czytań  Nikt nie bił?
+      4 czytań  Co to znaczy?
+      2 czytań  Nie widzi pan?
+      3 czytań  KOKS MUSI BYĆ!
+
+  najkrótsze zdania: ambiguous, żadne drzewo nie stoi pod każdym czytaniem
+      2 czytań  Wyjątek stanowi finał.
+      2 czytań  Duchy lubią takie miasteczka.
+      2 czytań  Innych strat właściciel nie stwierdza.
+      2 czytań  Chrześcijaństwo nakazuje miłość bliźniego.
+      2 czytań  W Boskiej Rzeczywistości problemy nie istnieją.
+      2 czytań  Nieprzytomnego Pawła znajduje właściciel pizzerii.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 1
+      1 czytań  Nadchodzi zima.
+      1 czytań  Wystarczy plomba.
+      1 czytań  Kogoś cechuje głupota.
+      1 czytań  Sprawę bada goleniowska policja.
+      1 czytań  Pozostaje niepokojący problem piekła.
+      1 czytań  Tą granicą zdrowego rozsądku jest środa.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 2
+      1 czytań  Alicja milczy.
+      1 czytań  Polak potrafi.
+      1 czytań  Inflacja rośnie.
+      1 czytań  Niemcy słuchają.
+      1 czytań  Wszystko płynie.
+      1 czytań  Minibus odjeżdża.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 3
+      1 czytań  Właścicielami szpitali i przychodni są miasta, powiaty i województwa.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 32
+      1 czytań  Taksówka staje w pewnym oddaleniu.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 4
+      1 czytań  Aga słucha.
+      1 czytań  Lampa gaśnie.
+      1 czytań  Ewa ma klucze.
+      1 czytań  Majątki robią.
+      1 czytań  Frajer odjedzie.
+      1 czytań  Głupota rodzi głupotę.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 6
+      1 czytań  Strzały milkną.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 8
+      1 czytań  Cena nie gra roli.
+      1 czytań  Miłość nie jest potrzebą.
+      1 czytań  Miłość nie jest zazdrością.
+      1 czytań  Maluch jest zdrowym chłopcem.
+      1 czytań  Miłość nie jest przywiązaniem.
+      1 czytań  Miłość nie jest nadopiekuńczością.
+
+  najkrótsze zdania: valid, żadne czytanie nie wraca drzewem
+      1 czytań  Ciął.
+      1 czytań  Kpił.
+      1 czytań  Kurz.
+      1 czytań  Mamy.
+      1 czytań  Może.
+      1 czytań  STOP.

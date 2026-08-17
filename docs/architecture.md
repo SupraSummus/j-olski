@@ -92,6 +92,32 @@ w którym pozycję dwuznaczną niesie większość zdań rejestru,
 a czytelnik nie waha się nad żadnym z przeczytanych ręką
 ([open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)).
 
+Od strony kodu tę samą różnicę bierze `sonda/znaczenia.py`:
+puszcza czytania zdania przez warstwę trzecią
+i pyta, czy wracają z niej tymi samymi drzewami
+(`figury/znaczenia.txt`, `figury/znaczenia-live.txt`, `figury/znaczenia-proza.txt`).
+Odpowiedzi są dwie i pierwsza jest o mianowniku, a nie o wieloznaczności.
+Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
+z kilkuset, które olski melduje jako wieloznaczne,
+bo nad resztą nie wraca ani jedno czytanie,
+a nad prozą tego repozytorium nie daje się postawić żadnemu.
+Kategorią, której brakuje najczęściej,
+jest wyrażenie przyimkowe pod grupą imienną,
+czyli dokładnie to przyłączenie, o które w tym pytaniu chodzi.
+Warstwa trzecia zameldowanej wieloznaczności zatem nie zdejmuje,
+tylko jej nie dosięga.
+Nad tymi zdaniami, nad którymi ją dosięga, wieloznaczność zostaje:
+czytania wracają drzewami rozłącznymi w każdym z nich,
+i mówią to obie morfologie, choć żywa daje pytaniu populację kilka razy większą.
+
+Druga odpowiedź jest o tym, jak ten pomiar wolno postawić.
+Zdanie o jednym czytaniu wraca z tej warstwy kilkoma drzewami, najczęściej czterema,
+bo napis milczy o relacji przyimka i o znaczniku tematu
+([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
+więc liczba drzew mierzy tę ciszę tak samo jak wieloznaczność.
+Rozdziela je dopiero porównanie zbiorów drzew czytania z czytaniem,
+i na tym kryterium stoi ta sonda.
+
 Kolejność warstw jest zatem tym miejscem,
 w którym architektura przeczy powodowi, dla którego czwarta powstała.
 Warstwa rozstrzygająca powstała po to, żeby odpowiedzieć czymś ponad składnią,
@@ -126,10 +152,12 @@ więc jest przestawieniem granicy pakietu, a nie przeniesieniem funkcji.
 Warstwa ta jest przy tym cząstkowa i tym różni się od czterech pozostałych.
 Dziedzinę ma ograniczoną tym, co `olski/skład/składnia.py` umie powiedzieć,
 a gramatyka wyprowadza więcej,
-więc krotka pusta wraca stąd z dwóch różnych powodów:
-dwa czytania zeszły się w jedno albo żadne nie mieści się w tym zapisie.
+więc krotka krótsza od liczby czytań wraca stąd z dwóch różnych powodów:
+dwa czytania zeszły się w jedno albo któreś nie mieści się w tym zapisie.
 Powód pierwszy jest zdjętą wieloznacznością, a drugi dziurą w kompilatorze,
-i rozdziela je `Odczyt.powody`, a nie sama długość krotki.
+i rozdziela je `Odczyt`, a nie sama długość krotki:
+`powody` opisuje słowami kandydata, który odpadł,
+a `kandydaci` mówi, czy ten zapis w ogóle miał czym odpowiedzieć.
 Werdykt liczony nad wyjściem tej warstwy odrzucałby wobec tego zdanie,
 którego gramatyka nie odrzuca,
 i to jest cena, którą przestawienie kolejności warstw płaci.

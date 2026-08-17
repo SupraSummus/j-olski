@@ -197,6 +197,30 @@ def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
     assert any(powód in mówi for mówi in odczyt.powody), odczyt.powody
 
 
+@pytest.mark.parametrize(
+    ("zdanie", "zbudowano_kandydata"),
+    [
+        ("Program, który zapisuje ustawienia, sprawdza tekst.", False),
+        ("Zwykły tekst polski jest wejściem.", True),
+    ],
+)
+def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padła(
+    zdanie, zbudowano_kandydata
+):
+    """Dwie pustki, które powód rozdziela zdaniem, a pomiar musi rozdzielić liczbą.
+
+    Zdanie względne nie ma tu kategorii, więc kandydat nie powstaje wcale,
+    a przymiotnik po rzeczowniku kategorię ma i wraca z niej inny szyk,
+    więc kandydat powstaje i przegrywa dopiero na porównaniu form.
+    Pomiar nad rejestrem liczy te dwie rzeczy osobno, bo pierwsza mówi,
+    o ile ten zapis musiałby urosnąć, a druga, że kierunki mówią co innego
+    o jednym zdaniu (``sonda/znaczenia.py``).
+    """
+    odczyt = rozbierz(zdanie)
+    assert odczyt.drzewa == ()
+    assert (odczyt.kandydaci > 0) is zbudowano_kandydata
+
+
 def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
     """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
 

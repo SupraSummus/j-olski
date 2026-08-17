@@ -1,0 +1,66 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury znaczenia-proza
+polecenie: python3 -m sonda.znaczenia proza/README.txt
+czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
+ruszają:
+  README.md: 0d2a177e02b4
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/skład/rozbiór.py: e261cd3714d2
+  olski/skład/składnia.py: 45231d6c9c81
+  sonda/znaczenia.py: cd9e03d4a1a0
+
+proza/README.txt, morfologia live, 49 zdań z werdyktem
+
+  werdykt olskiego:
+       40    rejected
+        6    valid
+        3    ambiguous
+       25    niezmierzone: fragment, a nie zdanie
+
+  ile czytań zdania wraca drzewem tego zapisu:
+    ambiguous, 3 zdań:
+        0    0.0%  każde czytanie wraca drzewem
+        0    0.0%  część czytań wraca drzewem
+        3  100.0%  żadne czytanie nie wraca drzewem
+    valid, 6 zdań:
+        1   16.7%  każde czytanie wraca drzewem
+        0    0.0%  część czytań wraca drzewem
+        5   83.3%  żadne czytanie nie wraca drzewem
+
+  ile drzew tego zapisu ma zdanie, którego każde czytanie wróciło:
+    valid, 1 zdań, ile drzew:
+        1  100.0%  1
+
+  czemu czytanie nie wraca drzewem, z 17 takich czytań:
+       15   88.2%  zapis nie ma kategorii
+        2   11.8%  kandydat wypisuje się innym napisem
+
+  najczęstsze powody, z 13 różnych:
+        3  grupa imienna z słowo, Modifier nie ma tu kategorii
+        2  „Zobacz” nie ma tu czym być w pozycji Verb
+        2  „a podmiot jednego” nie ma tu czym być w pozycji Modifier
+        2  „Co ekstrakcja” nie ma tu czym być w pozycji Modifier
+        2  „Co ekstrakcja po drodze” nie ma tu czym być w pozycji Modifier
+        1  jednak nie jest znakiem listy tego zapisu
+        1  „dla przyjemności” nie ma tu czym być w pozycji Modifier
+        1  „dwie rzeczy” nie ma tu czym być w pozycji Subject
+        1  docs/extraction.md (subst) nie ma formy {'case': 'acc', 'number': 'pl'}
+        1  docs/extraction.md (subst) nie ma formy {'case': 'acc', 'number': 'sg'}
+        1  docs/extraction.md (subst) nie ma formy {'case': 'nom', 'number': 'pl'}
+        1  docs/extraction.md (subst) nie ma formy {'case': 'nom', 'number': 'sg'}
+
+  najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
+      8 czytań  Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
+      2 czytań  Całą legendę o bazyliszku warszawskim trzyma opowieści/bazyliszek.py.
+      2 czytań  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 1
+      1 czytań  Celem jest parser tego podzbioru.
+
+  najkrótsze zdania: valid, żadne czytanie nie wraca drzewem
+      1 czytań  Działają dwie rzeczy.
+      1 czytań  Zobacz docs/sklad.md.
+      1 czytań  Projekt jest dla przyjemności.
+      1 czytań  Zobacz docs/design-notes.md oraz docs/roadmap.md.
+      1 czytań  Czarna lista kupowała jednak co innego, niż obiecywała.
