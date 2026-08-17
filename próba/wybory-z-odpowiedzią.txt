@@ -1,0 +1,257 @@
+# Wybory przyłączeniowe korpusu audytowego, z gospodarzem przeczytanym ręką.
+#
+# Plik stoi poza `sonda/`, bo sonda jest kodem pisanym pod decyzję i kasowalnym,
+# a te wpisy są tu najdroższą rzeczą: kasując `sonda/wybory.py`, kasuje się
+# program, a nie przeczytane zdania.
+#
+# Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
+# wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
+# tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
+# nie z cudzego korpusu. Zdania są cudze, żeby rozkład był rejestru, a nie
+# autora; skąd je wziąć, mówi docs/audit-corpus.md.
+#
+# Nowych wpisów ta komenda tutaj nie dopisze i tego pliku nie umie uzupełnić:
+# wypisuje całość na wyjście, więc puszczona w to miejsce skasowałaby każdy
+# wzorzec, jaki tu stoi. Nowe idą do pliku obok i przenosi się je ręką.
+#
+# Wzorzec wpisuje się przed puszczeniem sondy nad plikiem, bo wydruk pokazuje
+# odpowiedź warstwy wraz z jej powodem, a sąd czytany po niej broni się już tylko
+# tym, co ma zapisane w `powód`.
+#
+# Losowane spośród tych pozycji, nad którymi warstwa się odzywa, więc mianownikiem
+# jest odpowiedź, a nie pozycja rejestru: częstość odpowiedzi tego pliku nie mierzy
+# i wychodzi w nim z założenia bliska całości. Mierzy się nad nim częstość pomyłek,
+# której próba z całej populacji nie unosi, bo odpowiedzi pada w niej kilka.
+#
+# Wpisy pochodzą z korpusu audytowego przy ksef-docs 1c34fe2 i rit-dokumentacja
+# 32f85cc. Zdanie i kontekst stoją w nich w całości, więc nowsze wydanie tamtych
+# repozytoriów wpisu nie unieważnia; mówi tylko, że wylosowano go z tamtego.
+#
+# `wzorzec` jest jedną z form z `gospodarze`, słowem `oba`, kiedy tekst nie
+# rozstrzyga i czytelnik też nie, albo słowem `żadne`, kiedy wyboru nie ma
+# wcale, bo fraza nie jest frazą albo stoi przy niej jeden gospodarz. Nad
+# dwoma ostatnimi milczenie warstwy jest odpowiedzią trafną. `powód` mówi, na
+# czym stanął sąd, bo wzorzec bez powodu jest zdaniem, którego nikt nie
+# sprawdzi.
+#
+# `fraza` i `gospodarze` też są poprawiane ręką: budowniczy proponuje je z
+# morfologii, więc sięga frazą dalej, niż ona idzie, a gospodarzem proponuje cały
+# łańcuch imienny, który homonimia przedłuża czasem przez orzeczenie. Wpis ma
+# opisywać wybór, który widzi czytelnik.
+
+plik: ksef/api-changelog.txt
+zdanie: OpenAPI Ujednolicono opisy wymaganych uprawnień: gdy wystarczy posiadanie jednego z kilku uprawnień, zastosowano sformułowanie „Wymagane jedno z uprawnień”, a w przypadku pojedynczego uprawnienia — „Wymagane uprawnienie”.
+fraza: z kilku uprawnień
+gospodarze: jednego, posiadanie, wystarczy
+wzorzec: jednego
+powód: liczebnik bierze dopełnienie cząstkowe, a posiadanie jest posiadaniem uprawnienia
+
+plik: ksef/api-changelog.txt
+zdanie: Rozszerzono ForbiddenProblemDetails i UnauthorizedProblemDetails o właściwość timestamp ("Data i czas wystąpienia błędu w UTC.").
+fraza: w UTC
+gospodarze: błędu, wystąpienia, czas
+wzorzec: czas
+powód: strefa jest tą, w której wypisano czas, a nie tą, w której zdarzył się błąd
+
+plik: ksef/api-changelog.txt
+zdanie: Dane testowe - załączniki (POST /testdata/attachment/revoke) Rozszerzono model żądania AttachmentPermissionRevokeRequest o pole expectedEndDate (opcjonalne) - data wycofania zgody na przesyłanie faktur z załącznikiem.
+fraza: na przesyłanie faktur z załącznikiem
+gospodarze: zgody, wycofania, data, Rozszerzono
+wzorzec: zgody
+powód: zgoda jest zgodą na coś, a wycofanie jest wycofaniem zgody
+
+plik: ksef/bezpieczenstwo/klucze-publiczne-do-szyfrowania.txt
+kontekst: W API KSeF publikowany jest certyfikat X.509 zawierający klucz publiczny.
+zdanie: Publikacja nowego certyfikatu może wynikać z jednej z dwóch sytuacji:
+fraza: z dwóch sytuacji
+gospodarze: jednej, wynikać
+wzorzec: jednej
+powód: liczebnik bierze dopełnienie cząstkowe: zdanie mówi o jednej z dwóch sytuacji
+
+plik: ksef/certyfikaty-KSeF.txt
+zdanie: Aby rozpocząć proces aplikowania o certyfikat KSeF, należy pobrać zestaw danych identyfikacyjnych, które system zwróci w odpowiedzi na wywołanie endpointu GET /certificates/enrollments/data.
+fraza: na wywołanie endpointu GET /certificates/enrollments/data
+gospodarze: odpowiedzi, zwróci
+wzorzec: odpowiedzi
+powód: odpowiedź jest odpowiedzią na coś, a zwrócenie danych zachodzi w odpowiedzi
+
+plik: ksef/certyfikaty-KSeF.txt
+zdanie: Jeżeli wniosek certyfikacyjny zostanie odrzucony, w odpowiedzi otrzymamy informacje o błędzie.
+fraza: o błędzie
+gospodarze: informacje, otrzymamy
+wzorzec: informacje
+powód: informacja jest informacją o czymś, a otrzymywanie o błędzie nie jest polszczyzną
+
+plik: ksef/faktury/sesje/sesja-sprawdzenie-stanu-i-pobranie-upo.txt
+zdanie: Po zamknięciu sesji, w odpowiedzi na sprawdzenie jej stanu (krok 2 – Sprawdzenie stanu sesji), zwracane są nie tylko informacje o liczbie poprawnie i błędnie przetworzonych faktur, lecz także lista referencji do zbiorczych UPO.
+fraza: o liczbie poprawnie i błędnie przetworzonych faktur
+gospodarze: informacje, są
+wzorzec: informacje
+powód: informacja jest informacją o czymś, a „zwracane są” pozycji „o czym” nie niesie
+
+plik: ksef/kody-qr.txt
+kontekst: KOD II jest generowany wyłącznie dla faktur wystawianych w trybie offline (offline24, offline-niedostępność systemu, tryb awaryjny) i pełni funkcję potwierdzenia autentyczności wystawcy oraz jego uprawnień do wystawienia faktury w imieniu sprzedawcy.
+zdanie: Generowanie wymaga posiadania aktywnego certyfikatu KSeF typu Offline – link zawiera kryptograficzny podpis URL przy użyciu klucza prywatnego certyfikatu KSeF typu Offline, co zapobiega sfałszowaniu linku przez podmioty nieposiadające dostępu do certyfikatu.
+fraza: do certyfikatu
+gospodarze: dostępu, nieposiadające
+wzorzec: dostępu
+powód: dostęp jest dostępem do czegoś, a nieposiadanie jest nieposiadaniem dostępu
+
+plik: ksef/limity/limity-api.txt
+kontekst: Ze względu na skalę działania KSeF oraz jego publiczny charakter, wprowadzono mechanizmy ograniczające intensywność żądań API.
+zdanie: Ich celem jest ochrona stabilności systemu, ochrona przed cyber zagrożeniami oraz zapewnienie równych warunków dostępu dla wszystkich użytkowników.
+fraza: dla wszystkich użytkowników
+gospodarze: dostępu, warunków, równych, zapewnienie, jest
+wzorzec: oba
+powód: zapewnienie, warunki i dostęp dla wszystkich użytkowników mówią to samo
+
+plik: ksef/limity/limity-api.txt
+zdanie: W zależności od wolumenu faktur można stosować różne podejścia do ich pobierania:
+fraza: do ich pobierania
+gospodarze: podejścia, stosować
+wzorzec: podejścia
+powód: podejście jest podejściem do czegoś, a stosowanie jest stosowaniem podejścia
+
+plik: ksef/limity/limity-api.txt
+zdanie: Tryb interaktywny, mimo większego narzutu sieciowego w przypadku większych wolumenów, jest niezbędnym uzupełnieniem trybu wsadowego w scenariuszach wymagających bieżącej reakcji lub natychmiastowej rejestracji dokumentu w KSeF.
+fraza: w KSeF
+gospodarze: dokumentu, rejestracji
+wzorzec: rejestracji
+powód: rejestracja zachodzi w KSeF, a dokument stoi w nim dopiero po niej
+
+plik: ksef/pobieranie-faktur/pobieranie-faktur.txt
+kontekst: Rozpoczyna asynchroniczny proces wyszukiwania faktur w systemie KSeF na podstawie przekazanych filtrów.
+zdanie: Wymagane jest przekazanie informacji o szyfrowaniu w polu encryption, które służą wykorzystywane do zaszyfrowania wygenerowanych paczek z fakturami.
+fraza: o szyfrowaniu
+gospodarze: informacji, przekazanie, jest
+wzorzec: informacji
+powód: informacja jest informacją o czymś, a przekazanie jest przekazaniem informacji
+
+plik: ksef/przeglad-kluczowych-zmian-ksef-api-2-0.txt
+zdanie: sprawdzić status złożonego wniosku o wydanie certyfikatu,
+fraza: o wydanie certyfikatu
+gospodarze: wniosku, złożonego
+wzorzec: wniosku
+powód: wniosek jest wnioskiem o coś, a złożenie wniosku pozycji „o co” nie ma
+
+plik: ksef/przeglad-kluczowych-zmian-ksef-api-2-0.txt
+zdanie: zróżnicowane w zależności od środowiska (środowisko testowe ma limity mniej restrykcyjne niż produkcyjne),
+fraza: od środowiska
+gospodarze: zależności, zróżnicowane
+wzorzec: zależności
+powód: „w zależności od czegoś” jest wyrażeniem stałym i przyimek należy do „zależności”
+
+plik: ksef/sesja-wsadowa.txt
+zdanie: Aby skorzystać z wysyłki wsadowej, należy najpierw przejść proces uwierzytelnienia i posiadać aktualny token dostępu (accessToken), który uprawnia do korzystania z chronionych zasobów API KSeF.
+fraza: z chronionych zasobów API KSeF
+gospodarze: korzystania, uprawnia
+wzorzec: korzystania
+powód: korzystanie jest korzystaniem z czegoś, a uprawnianie jest uprawnianiem do korzystania
+
+plik: ksef/tryby-offline.txt
+zdanie: W trybie awaryjnym, jeżeli podczas siedmiodniowego okresu na dosłanie faktury pojawi się kolejny komunikat o awarii, licznik terminu resetuje się i biegnie od dnia zakończenia tej kolejnej awarii.
+fraza: o awarii
+gospodarze: komunikat, pojawi
+wzorzec: komunikat
+powód: komunikat jest komunikatem o czymś, a pojawienie się jest pojawieniem komunikatu
+
+plik: ksef/uprawnienia.txt
+zdanie: Osobom fizycznym identyfikowanym przez PESEL, NIP lub odcisk palca certyfikatu – do pracy w KSeF:
+fraza: w KSeF
+gospodarze: pracy
+wzorzec: żadne
+powód: gospodarz jest jeden: „lub” jest spójnikiem, a nie formą, przy której fraza stanęła
+
+plik: ksef/uprawnienia.txt
+zdanie: System KSeF umożliwia nadawanie wybranych uprawnień w sposób ogólny (generalny) lub selektywny (indywidualny), co pozwala elastycznie zarządzać dostępem do danych wielu partnerów biznesowych.
+fraza: do danych wielu partnerów biznesowych
+gospodarze: dostępem, zarządzać
+wzorzec: dostępem
+powód: dostęp jest dostępem do czegoś, a zarządzanie jest zarządzaniem dostępem
+
+plik: ksef/uprawnienia.txt
+zdanie: Dla wybranych procesów fakturowania KSeF przewiduje tzw. uprawnienia podmiotowe, które mają zastosowanie w kontekście fakturowania w imieniu innego podmiotu (TaxRepresentative, SelfInvoicing, RRInvoicing).
+fraza: w kontekście fakturowania
+gospodarze: zastosowanie, mają
+wzorzec: oba
+powód: „mieć zastosowanie” jest jednym orzeczeniem, więc obie strony nazywają to samo
+
+plik: ksef/uprawnienia.txt
+zdanie: Proces odbierania uprawnień w KSeF jest równie istotny, jak ich nadawanie – zapewnia kontrolę dostępu i umożliwia szybkie reagowanie w sytuacjach, takich jak zmiana roli pracownika, zakończenie współpracy z partnerem zewnętrznym lub naruszenie zasad bezpieczeństwa.
+fraza: z partnerem zewnętrznym
+gospodarze: współpracy, zakończenie, umożliwia
+wzorzec: współpracy
+powód: współpraca jest współpracą z kimś, a zakończenie jest zakończeniem współpracy
+
+plik: ksef/uprawnienia.txt
+zdanie: Podmioty unijne również mogą mieć przypisane uprawnienia do korzystania z KSeF.
+fraza: z KSeF
+gospodarze: korzystania, przypisane
+wzorzec: korzystania
+powód: korzystanie jest korzystaniem z czegoś, a przypisanie jest przypisaniem uprawnień
+
+plik: rit/api/rest.txt
+zdanie: /v1/metadata/categories - zwraca informacje o kategoriach, podkategoriach, atrybutach kategorii i inne
+fraza: o kategoriach, podkategoriach, atrybutach kategorii
+gospodarze: informacje, zwraca
+wzorzec: informacje
+powód: informacja jest informacją o czymś, a zwracanie jest zwracaniem informacji
+
+plik: rit/webservices.txt
+zdanie: Element metric ma za zadanie przekazać do Systemu RIT informacje o żądającym.
+fraza: o żądającym
+gospodarze: informacje, RIT, Systemu, przekazać
+wzorzec: informacje
+powód: informacja jest informacją o czymś, a System RIT jest tym, komu się ją przekazuje
+
+plik: rit/webservices.txt
+zdanie: W czasie przekazywania danych do systemu RIT, każdy obiekt turystyczny musi mieć przydzieloną kategorię.
+fraza: do systemu RIT
+gospodarze: danych, przekazywania, czasie
+wzorzec: przekazywania
+powód: przekazywanie idzie do systemu, a czas jest tylko czasem, w którym ono zachodzi
+
+plik: rit/webservices.txt
+kontekst: Każdy obiekt w systemie RIT, posiada jedną lub więcej wersji językowych.
+zdanie: Wersja językowa to zestaw wartości atrybutów, które są zapisane w jednym z języków narodowych.
+fraza: z języków narodowych
+gospodarze: jednym, zapisane
+wzorzec: jednym
+powód: liczebnik bierze dopełnienie cząstkowe: zapisano je w jednym z języków
+
+plik: rit/wklad-do-sopz.txt
+kontekst: W razie pytań, uwag i sugestii prosimy o kontakt z pierwszą osobą z poniższej listy.
+zdanie: W przypadku braku odpowiedzi należy wypróbować kontakty z kolejnych jej pozycji:
+fraza: z kolejnych jej pozycji
+gospodarze: kontakty, wypróbować
+wzorzec: kontakty
+powód: kontakty są tymi, które stoją na kolejnych pozycjach listy
+
+plik: rit/wklad-do-sopz.txt
+zdanie: Kategoryzacja obiektów turystycznych hotelarskich, które zostały opisane w art. 37 ustawy z dnia 29 sierpnia 1997 r. o usługach turystycznych musi być zorganizowana w postaci słownika (zamkniętej listy) zgodnego z zapisami art. 38 tej samej ustawy z dodaniem jednej dodatkowej pozycji brzmiącej „W oczekiwaniu na kategoryzację” i stosowanej do obiektów, których proces kategoryzacji został rozpoczęty, nie został jeszcze zakończony, a które to obiekty uzyskały już prawo do stosowania wobec siebie nazw typów wymienionych w art. 37.
+fraza: do stosowania wobec siebie nazw typów
+gospodarze: prawo, uzyskały
+wzorzec: prawo
+powód: prawo jest prawem do czegoś, a uzyskanie jest uzyskaniem prawa
+
+plik: rit/wklad-do-sopz.txt
+zdanie: Interfejsy opisane są dokumentami WSDL, do których dostęp (i dalsze korzystanie z interfejsów) zachodzi protokołem HTTPS z wykorzystaniem szyfrowanego (wymagającego hasła) certyfikatu klienckiego, który tworzy i udostępnia Polska Organizacja Turystyczna.
+fraza: z interfejsów
+gospodarze: korzystanie, są
+wzorzec: korzystanie
+powód: korzystanie jest korzystaniem z czegoś, a opisanie interfejsów tej pozycji nie ma
+
+plik: rit/wytyczne-do-redakcji-tresci.txt
+zdanie: W razie pytań, uwag i sugestii prosimy o kontakt z pierwszą osobą z poniższej listy.
+fraza: z pierwszą osobą
+gospodarze: kontakt, prosimy
+wzorzec: kontakt
+powód: kontakt jest kontaktem z kimś, a prośba jest prośbą o kontakt
+
+plik: rit/wytyczne-do-redakcji-tresci.txt
+kontekst: Zdjęcia muszą pochodzić ze źródła, które udzieliło do nich stosownych praw licencyjnych.
+zdanie: W przypadku wprowadzania ich bezpośrednio w systemie RIT możliwe jest dodanie informacji o licencji o określenie rozmaitych ograniczeń udostępniania - warto z tego korzystac.
+fraza: o licencji
+gospodarze: informacji, dodanie, jest
+wzorzec: informacji
+powód: informacja jest informacją o czymś, a dodanie jest dodaniem informacji

@@ -354,6 +354,9 @@ rozejdą się na pierwszej zmianie w tym, co liczy się za pozycję.
 Do rozstrzygnięcia jest, co się wtedy dzieje z wydrukiem: sonda pierwsza liczy
 mianowniki rejestru (zdania, pierwsze w akapicie, pozycje z sąsiedztwem), a druga
 liczy trafienia wobec wzorca, i jeden wydruk z obojgiem czyta się jak dwa.
+Ten sam argument stoi już w drugiej sondzie po jej własnej stronie:
+losowania ma ona dwa, a mianownik każdego niesie plik z wpisami,
+więc scalenie dodaje trzeci tryb do dwóch, a nie drugi do jednego.
 Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi poza
 `sonda/` właśnie dlatego, a program czytający ten plik jest najtańszą rzeczą w tej parze.
 
@@ -1312,6 +1315,12 @@ czyli jest czym ten świadek zmierzyć osobno od tabeli skłonności.
 Regeneracja leksykonu i przeliczenie
 [tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 idą razem z tym wpisem.
+Zakup jest przy tym zmierzony i po stronie rejestru, nie tylko banku drzew:
+z 29 odpowiedzi tabeli skłonności nad korpusem audytowym 23 rozstrzyga rama
+albo dopełnienie cząstkowe liczebnika, a pozostałych sześć to pięć pomyłek i jedno trafienie
+([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
+czyli świadek ramowy nie dokłada się do tej warstwy, tylko przejmuje jej trafną część
+wraz z powodem, który da się sprawdzić bez tabeli.
 
 Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma osiemnaście.
 `sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 8 wskazań w granicy
@@ -1320,7 +1329,11 @@ rozrzuconych po pozostałych
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
 czyli odczyt, a nie stopa pomyłek: nad 1 113 pozycjami osiemnaście sądów nie jest częstością.
 Wzorzec, przy którym byłaby, jest dwojaki i oba są cudzą robotą.
-`próba/wybory.txt` daje trzydzieści sądów i wpis o jej powiększeniu mówi, ile ich trzeba.
+`próba/wybory.txt` daje trzydzieści sądów, a wskazania tego świadka są w nich dwa,
+i losowanie go nie dosięga z żadnej strony: nad 1 113 pozycjami odzywa się osiem razy,
+a próba zawężona do samych odpowiedzi warstwy wzięła trzydzieści z 123 i nie trafiła w ani jedno
+([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
+więc po tej stronie zostaje przeczytanie wszystkich ośmiu, a nie próba.
 Drugim jest [wzorzec po drugiej stronie](docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 bo tekst złożony przez `olski/skład` niesie czytanie, o które w nim chodziło,
 i wtedy obrót przez parser mówi, czy warstwa zdejmuje czytanie, którego drzewo nie deklarowało.
@@ -1411,23 +1424,54 @@ Ceną jest to, że `CLAUSE` czyta zarazem
 więc kategoria dopisana tam rusza figurę, której ten wpis nie dotyczy,
 i przeliczenie obu idzie razem z tą zmianą.
 
-Próba wyborów ma trzydzieści wpisów, a warstwa odpowiada na pięć.
-Pięć odpowiedzi nie jest częstością i
-[sekcja o próbie](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
-mówi to o sobie sama, więc wpis nie jest o pomiarze, tylko o tym, ile go trzeba.
-Ruchem jest `python3 -m sonda.wybory --zbuduj` na większe `--ile` i przeczytanie
-tego, co dojdzie; kandydatów jest w korpusie audytowym 1 113.
-Do rozstrzygnięcia jest, czy losować dalej z całości, czy tylko spośród pozycji,
-które mają za sobą zdanie tego samego akapitu: takich jest 313 z 1 113,
-a tylko one mówią cokolwiek o świadku kontekstowym, który jest tu jedynym
-mierzonym z wzorcem.
-Losowanie z podzbioru psuje rozkład, więc próba rozdzieliłaby się wtedy na dwie
-i druga liczyłaby się osobno; do przeczytania przedtem jest, czy `Ocena`
-w `sonda/wybory.py` uniesie dwa mianowniki, czy dwa pliki są tańsze.
-Wpis ten kupuje przy tym więcej niż własną częstość:
-próba jest jedynym materiałem, na którym oba rodzaje powodu odpowiadają naraz,
-więc dopiero powiększona rozstrzyga
-[hipotezę o odczytaniu](docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
+Stopa pomyłek warstwy jest zmierzona na 29 odpowiedziach i tyle nie odróżnia
+rejestru od banku drzew, więc
+[druga połowa hipotezy](docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
+zostaje nierozstrzygnięta; liczby trzyma
+[częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
+Ruchem jest `python3 -m sonda.wybory --zbuduj proza/ --z-odpowiedzią` na większe `--ile`
+i przeczytanie tego, co dojdzie; pozycji z odpowiedzią jest w tym korpusie 123,
+więc cała populacja mieści się w czterech takich próbach.
+Kupuje to przedział, a nie liczbę, i tyle jest tu do kupienia za cztery próby czytane ręką:
+przy dzisiejszej stopie wszystkie 123 odpowiedzi dają przedział od 11% do 25%,
+czyli mijają co dziesiątą odpowiedź o włos.
+Do rozstrzygnięcia jest przy tym, o czym mówi liczba wzięta do końca nad tym korpusem:
+pozycje z odpowiedzią pochodzą z dwóch repozytoriów
+([`docs/audit-corpus.md`](docs/audit-corpus.md#the-list)),
+więc rejestrem, o którym stopa pomyłek wtedy mówi, są te dwa,
+a nie dokumentacja techniczna w ogóle.
+
+Wsparcie dwóch wypadków banku drzew jest nad dokumentacją progiem, przy którym
+tabela skłonności myli się częściej, niż trafia:
+cztery pomyłki z siedmiu odpowiedzi opartych na tym wsparciu, wobec jednej z 22 powyżej
+([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
+Ruchem jest `WSPARCIE` w `olski/rozstrzyganie.py` podniesione do trzech,
+a przed nim cena po drugiej stronie, bo próg jest punktem na krzywej i tam jest jego właściciel:
+`python3 -m olski.rozstrzyganie <Składnica> --oceń` wypisuje zasięg i trafność
+dla `(3, 0.85)` obok dzisiejszego `(2, 0.85)`, więc liczba jest jednym przebiegiem.
+Do przeczytania jest, co robi z trzema trafnymi odpowiedziami spod wsparcia dwóch:
+wszystkie trzy są liczebnikiem cząstkowym (`jednego z kilku uprawnień`),
+czyli klasą, którą rozstrzyga reguła, a nie częstość,
+więc próg podniesiony zabiera odpowiedzi, których tabela i tak nie powinna wydawać.
+Zmiana rusza przy tym tabelę nad werdyktami banku drzew, obie próby czytane ręką
+i figury w `docs/disambiguation.md`, które je cytują,
+a `próbę zawężoną do odpowiedzi` przerysowuje w całości, bo losowanie idzie po odpowiedziach.
+
+Próba wyborów jest losowaniem nad populacją, której `pytania` już nie daje.
+Wpisy w `próba/wybory.txt` padły nad populacją mniejszą i przy innej propozycji gospodarza,
+niż daje dzisiejsze `pytania` w `olski/wieloznaczność.py`, więc ta sama komenda z `--ile 30`
+dzieli z tym plikiem dwa zdania z trzydziestu
+([tamże](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)).
+Sądów to nie unieważnia, bo zdanie i fraza stoją we wpisie w całości,
+a psuje powiększanie: `rozrzucona` w `olski/próbka.py` bierze co którąś pozycję,
+więc próba większa jest siatką przerysowaną od zera, a nie tą siatką z wpisami między nimi.
+Ruchem jest jedno z dwojga: albo przerysowanie siatki wraz z przeczytaniem tych wpisów,
+które na nią nie trafiły, albo `--zbuduj` z pominięciem pozycji już przeczytanych,
+co daje próbę o rozkładzie zszytym z dwóch populacji i mianownik trzeba wtedy nazwać.
+Do przeczytania jest, ile z trzydziestu sądów pierwsza droga każe wziąć drugi raz,
+bo od tego zależy, która jest tańsza.
+Tego samego rozstrzygnięcia żąda `próba/wybory-z-odpowiedzią.txt`, i ostrzej,
+bo tam populację rusza każda zmiana w warstwie, a nie tylko zmiana w szukaczu pozycji.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)

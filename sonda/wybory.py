@@ -9,10 +9,18 @@ wzorzec pochodzi z przeczytania, a nie z cudzego korpusu ani z przebiegu.
 
 **Zdania są cudze, a wzorzec nasz.** Zdanie wymyślone pod świadka mierzy autora,
 a nie rejestr, więc pozycje bierze się z korpusu audytowego takie, jakie tam
-stoją, i losuje spośród wszystkich (``rozrzucona`` w ``olski/próbka.py``).
+stoją, i losuje (``rozrzucona`` w ``olski/próbka.py``).
 Ręką dopisuje się jedno: który gospodarz jest tym, o którego w tym tekście
 chodziło. Rozkładu to nie rusza, bo o rozkładzie decyduje losowanie, a nie ten,
 kto potem czyta.
+
+**Losowania są dwa i mierzą dwie różne rzeczy**, więc mają dwa pliki, a nie jeden
+z kolumną obok wpisu: mianownik należy do losowania, a jeden wydruk z dwoma
+mianownikami czyta się jako jeden. ``próba/wybory.txt`` losuje spośród wszystkich
+pozycji i mówi, jak często warstwa odpowiada;
+``próba/wybory-z-odpowiedzią.txt`` losuje spośród tych, nad którymi się odzywa,
+i mówi, jak często się myli. Drugie z nich robi :func:`z_odpowiedzią`,
+która wyjaśnia, dlaczego pierwsze na częstość pomyłek nie starcza.
 
 **Pozycji nie wyznacza werdykt, tylko morfologia**, bo werdyktów jest nad tym
 rejestrem za mało, żeby cokolwiek zmierzyć; wywód i liczby pod nim trzyma
@@ -35,7 +43,9 @@ powodem. Wypisuje przy tym całość, więc puszczony na plik z wzorcami skasowa
 je wszystkie; nowe wpisy przenosi się do niego ręką.
 
     python3 -m sonda.wybory --zbuduj proza/ --ile 30 > nowe.txt
+    python3 -m sonda.wybory --zbuduj proza/ --ile 30 --z-odpowiedzią > nowe.txt
     python3 -m sonda.wybory próba/wybory.txt
+    python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
 """
 
 from __future__ import annotations
@@ -63,8 +73,10 @@ from olski.wieloznaczność import pytania
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"
 
-#: Plik z wyborami przeczytanymi ręką, czyli jedyny wzorzec, jaki ta warstwa ma.
+#: Pliki z wyborami przeczytanymi ręką, czyli jedyny wzorzec, jaki ta warstwa ma.
+#: Pierwszy jest losowaniem z całej populacji, drugi zawężonym do samych odpowiedzi.
 WYBORY = Path(__file__).parent.parent / "próba" / "wybory.txt"
+WYBORY_Z_ODPOWIEDZIĄ = Path(__file__).parent.parent / "próba" / "wybory-z-odpowiedzią.txt"
 
 #: Wzorzec zdania, którego ten tekst nie rozstrzyga: warstwa ma nad nim milczeć.
 OBA = "oba"
@@ -190,13 +202,18 @@ NAGŁÓWEK = """\
 # Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
 # wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
 # tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
-# nie z cudzego korpusu. Zdania są cudze i losowane, żeby rozkład był rejestru,
-# a nie autora; skąd je wziąć, mówi docs/audit-corpus.md.
+# nie z cudzego korpusu. Zdania są cudze, żeby rozkład był rejestru, a nie
+# autora; skąd je wziąć, mówi docs/audit-corpus.md.
 #
 # Nowych wpisów ta komenda tutaj nie dopisze i tego pliku nie umie uzupełnić:
 # wypisuje całość na wyjście, więc puszczona w to miejsce skasowałaby każdy
 # wzorzec, jaki tu stoi. Nowe idą do pliku obok i przenosi się je ręką.
 #
+# Wzorzec wpisuje się przed puszczeniem sondy nad plikiem, bo wydruk pokazuje
+# odpowiedź warstwy wraz z jej powodem, a sąd czytany po niej broni się już tylko
+# tym, co ma zapisane w `powód`.
+#
+{skąd}#
 # Wpisy pochodzą z korpusu audytowego przy ksef-docs 1c34fe2 i rit-dokumentacja
 # 32f85cc. Zdanie i kontekst stoją w nich w całości, więc nowsze wydanie tamtych
 # repozytoriów wpisu nie unieważnia; mówi tylko, że wylosowano go z tamtego.
@@ -209,8 +226,27 @@ NAGŁÓWEK = """\
 # sprawdzi.
 #
 # `fraza` i `gospodarze` też są poprawiane ręką: budowniczy proponuje je z
-# morfologii, więc bierze ogon łańcucha dopełniaczowego za głowę grupy i sięga
-# frazą dalej, niż ona idzie. Wpis ma opisywać wybór, który widzi czytelnik.
+# morfologii, więc sięga frazą dalej, niż ona idzie, a gospodarzem proponuje cały
+# łańcuch imienny, który homonimia przedłuża czasem przez orzeczenie. Wpis ma
+# opisywać wybór, który widzi czytelnik.
+"""
+
+#: Zdanie o losowaniu, po jednym na każde z dwóch, jakie ma `--zbuduj`. Stoi
+#: w pliku, bo mianownik, do którego wpisy należą, jest własnością losowania:
+#: nad próbą z całej populacji mianownikiem jest pozycja rejestru, a nad próbą
+#: spośród pozycji z odpowiedzią — odpowiedź warstwy, i te dwie liczby mówią o
+#: czym innym.
+Z_CAŁOŚCI = """\
+# Losowane spośród wszystkich pozycji przyłączeniowych korpusu, więc mianownikiem
+# jest pozycja rejestru: liczy się nad tym plikiem i to, jak często warstwa
+# odpowiada, i to, jak często trafia.
+"""
+
+Z_ODPOWIEDZIĄ = """\
+# Losowane spośród tych pozycji, nad którymi warstwa się odzywa, więc mianownikiem
+# jest odpowiedź, a nie pozycja rejestru: częstość odpowiedzi tego pliku nie mierzy
+# i wychodzi w nim z założenia bliska całości. Mierzy się nad nim częstość pomyłek,
+# której próba z całej populacji nie unosi, bo odpowiedzi pada w niej kilka.
 """
 
 
@@ -258,8 +294,8 @@ def _bloki(tekst: str) -> list[tuple[int, list[str]]]:
     return bloki
 
 
-def zapisz(wybory: Iterable[Wybór]) -> str:
-    """Wpisy jako tekst pliku, w kolejności podanej."""
+def zapisz(wybory: Iterable[Wybór], skąd: str = Z_CAŁOŚCI) -> str:
+    """Wpisy jako tekst pliku, w kolejności podanej, wraz ze zdaniem o losowaniu."""
     bloki = []
     for wybór in wybory:
         wiersze = [f"plik: {wybór.plik}"]
@@ -272,7 +308,7 @@ def zapisz(wybory: Iterable[Wybór]) -> str:
             f"powód: {wybór.powód}",
         ]
         bloki.append("\n".join(wiersze))
-    return NAGŁÓWEK + "\n" + "\n\n".join(bloki) + "\n"
+    return NAGŁÓWEK.format(skąd=skąd) + "\n" + "\n\n".join(bloki) + "\n"
 
 
 # --------------------------------------------------------------------------- #
@@ -309,6 +345,37 @@ def kandydaci(paths: Iterable[Path], korzeń: Path) -> list[Wybór]:
             ]
     return znalezione
 
+
+def z_odpowiedzią(
+    wybory: Iterable[Wybór], świadkowie: Sequence[Świadek] | None = None
+) -> list[Wybór]:
+    """Te z pozycji, nad którymi warstwa się odzywa, w kolejności podanej.
+
+    Losowanie z całej populacji daje częstość odpowiedzi i nie daje częstości
+    pomyłek: warstwa odzywa się nad tym rejestrem raz na dziewięć pozycji, więc
+    trzydzieści wylosowanych zdań niesie pięć odpowiedzi i jedna pomyłka przesuwa
+    stopę o dwadzieścia punktów. Populacja zawężona do odpowiedzi ma tego samego
+    rzędu wielkości liczbę wpisów do przeczytania i mianownik, którym mierzy się
+    pomyłkę.
+
+    Zawężenie idzie po tym, czy odzywa się którykolwiek świadek, a nie po tym,
+    który: warunek nazywający świadka trzeba by dopisać do świadka dopisanego
+    jutro, a częstość pomyłek jest pytaniem o warstwę.
+
+    Cena zawężenia jest w propozycji: pytanie idzie o frazę i gospodarzy, jakich
+    daje morfologia, a czytający poprawia oboje, więc wpis, na który warstwa
+    odpowiedziała przed poprawką, bywa po niej wpisem, nad którym milczy. Wychodzi
+    to w liczbach tego pliku i nie jest usterką losowania: fraza poprawiona jest
+    tą, o którą pyta czytelnik.
+    """
+    if świadkowie is None:
+        świadkowie = domyślni()
+    zebrane = []
+    for wybór in wybory:
+        (odpowiedź,) = rozstrzygnij([wybór.przyłączenie], świadkowie, wybór.sąsiedztwo)
+        if isinstance(odpowiedź, Rozstrzygnięcie):
+            zebrane.append(wybór)
+    return zebrane
 
 
 # --------------------------------------------------------------------------- #
@@ -354,6 +421,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("root", nargs="?", help="plik z wyborami; przy --zbuduj katalog z prozą")
     parser.add_argument("--zbuduj", action="store_true", help="wypisz kandydatów z pustym wzorcem")
     parser.add_argument("--ile", type=int, default=30, help="ilu kandydatów wylosować")
+    parser.add_argument(
+        "--z-odpowiedzią",
+        action="store_true",
+        help="losuj spośród pozycji, nad którymi warstwa się odzywa",
+    )
     args = parser.parse_args(argv)
 
     if not args.zbuduj:
@@ -370,7 +442,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"sonda.wybory: nie ma tu prozy: {root}/{PROZA}", file=sys.stderr)
         print("sonda.wybory: skąd wziąć korpus, mówi docs/audit-corpus.md", file=sys.stderr)
         return 2
-    print(zapisz(rozrzucona(kandydaci(ścieżki, root), args.ile)), end="")
+    populacja = kandydaci(ścieżki, root)
+    skąd = Z_CAŁOŚCI
+    if args.z_odpowiedzią:
+        populacja, skąd = z_odpowiedzią(populacja), Z_ODPOWIEDZIĄ
+    print(zapisz(rozrzucona(populacja, args.ile), skąd), end="")
     return 0
 
 

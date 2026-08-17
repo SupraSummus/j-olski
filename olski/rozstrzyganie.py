@@ -84,6 +84,10 @@ SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"
 #: odpowiada na jedno wyrażenie z ośmiu i myli się w co dziesiątej odpowiedzi,
 #: a wybrano je dlatego, że warstwa niczego nie rozstrzyga za autora:
 #: gdyby odpowiedź wchodziła do werdyktu, próg należałby wyżej.
+#:
+#: Ta sama para progów jest przeczytana ręką nad dokumentacją techniczną i pomyłki
+#: padają tam wyłącznie na pozycjach, których nie rozstrzyga żadne słowo zdania;
+#: liczby i wywód trzyma ``docs/disambiguation.md``.
 WSPARCIE = 2
 PRÓG = 0.85
 
