@@ -499,8 +499,11 @@ Obie usterki trzyma [`TODO.md`](../TODO.md) i żadna nie rusza liczb wyżej,
 bo w granicy akapitu ten świadek milczy tak czy owak.
 Trafności nie ma tu wobec tego wcale.
 Cztery odpowiedzi wzięte z wariantu nie są częstością,
-a materiał, na którym dałoby się ją policzyć, ma w tym przeglądzie jedno źródło:
-[wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie).
+a materiał, na którym dałoby się ją policzyć, jest dwojaki:
+[wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
+którego nie ma, oraz
+[wybory przeczytane ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
+których jest trzydzieści.
 
 **Świadek statystyczny liczy bank drzew i nazywa własną częstość pomyłek.**
 `Skłonność` liczy, jak często ta para przyimka i gospodarza
@@ -558,6 +561,132 @@ czyli ta część klasy, o której sekcja o leksykonie mówi, że nie konkuruje 
 Byłby pierwszy w kolejności, bo jego dowód jest słownikowy,
 i nie da się go dziś napisać, bo `olski/leksykon.txt` o przyimku nie mówi.
 Co trzeba zmienić w `olski/walenty.py`, żeby mówił, trzyma [`TODO.md`](../TODO.md).
+
+## Werdykt pyta warstwę o inny wybór niż bank drzew
+
+Ocena wyżej mierzy świadka na czwórkach lematów wziętych z banku drzew,
+a warstwę wypuszczaną pyta `olski-check` i pyta ją czym innym.
+Pytaniem jest `Przyłączenie` z werdyktu:
+gospodarze są formami, a nie lematami anotatora,
+form tych bywa więcej niż dwie,
+i lemat wybiera dopiero Morfeusz, wybierając ich kilka naraz.
+Drogę drugą mierzy `sonda/wskazania.py`, pytając o wzorzec drzewo wzorcowe:
+
+```sh
+python3 -m sonda.wskazania Składnica-frazowa-180723/
+```
+
+```text
+  503 zdań, nad którymi werdykt zostawia przyłączenie,
+  a w nich 665 przyłączeń, czyli tyle pytań warstwa dostaje
+
+  gospodarzy na przyłączenie:
+      515   77.4%  2
+      115   17.3%  3
+       30    4.5%  4
+        5    0.8%  5
+
+  ze wzorcem w drzewie: 511, czyli 76.8% przyłączeń
+
+  co warstwa mówi o 511 przyłączeniach ze wzorcem:
+      102   20.0% odpowiedzi,  96.1% trafień    skłonność
+      511  100,0% odpowiedzi,  58.7% trafień    podłoga: zawsze do rzeczownika
+```
+
+Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
+
+Zasięg 20% jest zasięgiem warstwy wypuszczanej i jest wyższy od 12,8% z oceny wyżej,
+bo tabela wypuszczana ma 998 par zamiast tych z połowy korpusu,
+a lematów formy pyta się naraz kilku, więc para znajduje się częściej.
+Populacja jest przy tym inna — te 665 przyłączeń to te, przed którymi wybór postawił olski,
+a nie te, przed którymi postawił go anotator — więc dwóch zasięgów nie odejmuje się od siebie.
+
+Trafność 96,1% jest mierzona na materiale, który ta tabela widziała.
+`olski/skłonności.txt` powstaje z całej Składnicy, a przebieg idzie po całej Składnicy,
+więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
+Trafnością poza próbą jest 89,5% z oceny wyżej,
+a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
+
+Gospodarzy jest więcej niż dwóch w 22,6% przyłączeń,
+czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten, przed którym warstwa staje.
+Wypadki te biorą się z produkcji, a nie z rzadkości:
+`Obudziłem się na podłodze w kuchni z pustą paczką po ciasteczkach w dłoniach.`
+ma cztery przyłączenia, a każde następne dostaje za gospodarza rzeczownik z poprzedniego.
+
+Wzorca nie ma dla 154 z 665 przyłączeń i nie jest to milczenie banku drzew.
+Drzewo albo nawiasuje tę frazę inaczej, niż nazywa ją werdykt,
+albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem —
+`Auta są kradzione dla okupu.` jest tym drugim, bo fraza dochodzi tam do imiesłowu.
+Złączenie idzie formami modyfikatora, bo tyle mają obie strony:
+werdykt rozpiętości nie niesie.
+
+## Wzorzec dla rejestru czyta się ręką i jest go trzydzieści wyborów
+
+Bank drzew jest zbiorem zdań stojących osobno,
+więc świadek kontekstowy nie ma nad nim czego przeczytać
+i w tabeli wyżej nie odzywa się ani razu.
+Nad korpusem audytowym jest odwrotnie: tekst jest ciągły, a wzorca nie ma tam żadnego.
+`próba/wybory.txt` dokłada ten wzorzec i jest jedynym miejscem w tym repozytorium,
+w którym sąd o zdaniu pochodzi z przeczytania, a nie z cudzego korpusu ani z przebiegu.
+
+Zdania są przy tym cudze, a nasz jest sam sąd.
+Zdanie wymyślone pod świadka mierzy autora, a nie rejestr,
+więc pozycje bierze się z [korpusu audytowego](audit-corpus.md#the-list) takie, jakie tam stoją,
+i losuje spośród wszystkich 1 678 (`rozrzucona` w `olski/próbka.py`).
+Wyznacza je morfologia, a nie werdykt (`olski/wieloznaczność.py`),
+bo werdyktów jest nad tym rejestrem 38 na 2 915 zdań i nie ma czego z nich losować.
+Ręką dopisuje się gospodarza wraz z powodem,
+a poprawia się przy tym frazę i gospodarzy,
+bo budowniczy proponuje je z morfologii i bierze ogon łańcucha dopełniaczowego za głowę grupy.
+
+```sh
+python3 -m sonda.wybory próba/wybory.txt
+```
+
+```text
+30 wyborów ze wzorcem, z tego 5 do przemilczenia
+     2  oba
+     3  żadne
+
+  co warstwa odpowiedziała:
+     2    6.7% odpowiedzi, 100.0% trafień    powtórzenie
+     3   10.0% odpowiedzi, 100.0% trafień    skłonność
+     5  100.0% wyborów do przemilczenia przemilczanych
+    10   33.3% wyborów rozstrzygniętych dobrze
+```
+
+Wzorzec ma dwie odpowiedzi poza samymi gospodarzami i obie są tu po to,
+żeby milczenie warstwy dało się ocenić.
+`oba` znaczy, że tekst nie rozstrzyga i czytelnik też nie:
+`Numer nadawany jest podczas przetwarzania faktury po stronie KSeF.`
+mówi to samo, dokądkolwiek ta fraza dojdzie, bo przetwarzanie i nadanie numeru
+dzieją się w jednym miejscu.
+Jest to ta sama klasa, którą
+[tożsamość czytania](#tożsamość-czytania-jest-tańsza-i-częściowo-już-stoi)
+wycenia na trzecią część błędów najlepszego modelu przyłączenia.
+`żadne` znaczy, że wyboru nie ma wcale,
+bo pozycja znaleziona morfologicznie nie jest przyłączeniem:
+`takich jak /auth/challenge` jest porównaniem, a nie wyrażeniem przyimkowym,
+i trzy z trzydziestu wyborów są tego rodzaju.
+
+**Świadek kontekstowy odzywa się tu dwa razy i dwa razy trafia.**
+Jest to pierwsza jego odpowiedź zestawiona z wzorcem,
+bo [pomiar zasięgu](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
+nad tym samym korpusem pytał go o przyłączenia z werdyktów i dostał zero.
+Oba dowody są tego samego kształtu, czyli frazą powtórzoną przy gospodarzu:
+`z prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`,
+oraz `uprawnień pracownikom do przeglądania` po zdaniu z `uprawnień do przeglądania`.
+Drugi z nich jest tym, czego tabela skłonności nie umie:
+fraza dochodzi tam do rzeczownika oddzielonego od niej celownikiem,
+a bank drzew o takim szyku nie mówi nic.
+
+Dwie trzecie wyborów zostaje nierozstrzygniętych i to jest właściwa liczba tej próby.
+Warstwa nie myli się nad nią ani razu, co pilnuje `tests/test_wybory.py`,
+i nie jest to zasługa progów, tylko ich ceny:
+milczenie jest tu odpowiedzią w dwudziestu wypadkach na trzydzieści.
+Trzydzieści wyborów wystarcza, żeby powiedzieć, że warstwa milczy częściej, niż odpowiada,
+i nie wystarcza, żeby powiedzieć, jak często się myli;
+o ile tę próbę powiększyć, pyta wpis w [`TODO.md`](../TODO.md).
 
 ## Wieloznaczność, której werdykt nie melduje
 
@@ -782,6 +911,14 @@ Czego brakuje między nimi, to sąd nad parą,
 i dwadzieścia cztery zdania przeczytane raz jedną ręką
 są za wąską podstawą, żeby na nim stanąć;
 tamten dokument mówi to o swojej próbce sam.
+
+[Wybory przeczytane ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
+odpowiadają na to pytanie w jednym wpisie na piętnaście
+i odpowiadają na nie po drodze, a nie wprost:
+`oba` znaczy tam, że czytelnik wyboru nie widzi, choć pozycja go stawia.
+Dwa takie wpisy z trzydziestu są tego samego rzędu co próbka wyżej,
+więc podstawy nie poszerzają;
+poszerzy ją dopiero ten plik, kiedy urośnie, a nie osobny pomiar obok niego.
 
 Cztery rzeczy zostają wobec tego nierozstrzygnięte.
 

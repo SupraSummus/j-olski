@@ -55,13 +55,17 @@ CZASOWNIK = frozenset(
 
 @dataclass(frozen=True)
 class Attachment:
-    """Jedno wyrażenie przyimkowe stojące za grupą imienną, i dokąd doszło."""
+    """Jedno wyrażenie przyimkowe wybranego drzewa, i dokąd doszło."""
 
     #: ``noun``, ``clause`` albo kategoria węzła, jeśli to ani jedno, ani drugie.
     host: str
     #: Czy przed wyrażeniem stoi forma czasownikowa. Bez niej przyłączenie do
     #: czasownika nie było do wzięcia.
     postverbal: bool
+    #: Czy tuż przed wyrażeniem kończy się grupa imienna. Bez niej wyboru nie
+    #: było z drugiej strony, więc te dwa pola razem mówią, czy pozycja jest
+    #: dwuznaczna.
+    postnominal: bool
     #: Przyimek, jak stoi w tekście, małymi literami.
     prep: str
     #: ``fw``, ``fl`` albo ``None``, gdy wyrażenie nie stoi pod żadną z nich.
@@ -77,10 +81,21 @@ class Attachment:
     #: się stąd, a nie z drzewa, bo maszyna rozstrzygająca też ich stąd nie ma:
     #: zna zdanie i las, a nie rozbiór wzorcowy.
     object: str = ""
+    #: Rozpiętość samego wyrażenia w numerach tokenów Składnicy, czyli to, po
+    #: czym wybiera się jego formy z ``Sentence.segments``.
+    start: int = 0
+    end: int = 0
 
 
 def attachments(element: ET.Element) -> list[Attachment]:
-    """Wyrażenia przyimkowe jednego lasu, te w pozycji dwuznacznej."""
+    """Wyrażenia przyimkowe wybranego drzewa, każde z tym, gdzie stoi i dokąd doszło.
+
+    Populacji ta funkcja nie stawia, bo pytają o nią dwa pomiary i każdy o inną.
+    :class:`Report` niżej liczy pozycję dwuznaczną. Wzorca dla warstwy
+    rozstrzygającej szuka się natomiast tam, gdzie wybór postawił werdykt
+    olskiego, czyli i przy wyrażeniu, przed którym grupa imienna się nie kończy
+    (``sonda/wskazania.py``). Zwężenie jest więc polem, a nie pominięciem.
+    """
     sentence = parse_forest(element)
     if not sentence.annotated:
         return []
@@ -94,7 +109,7 @@ def attachments(element: ET.Element) -> list[Attachment]:
     kończy_się = {node.end for node in nodes if node.category == NP}
     found = []
     for node in nodes:
-        if node.category != PP or node.start not in kończy_się:
+        if node.category != PP:
             continue
         host, frame = _dokąd_doszło(node)
         if host is None:
@@ -105,11 +120,14 @@ def attachments(element: ET.Element) -> list[Attachment]:
             Attachment(
                 host=host,
                 postverbal=any(verb < node.start for verb in verbs),
+                postnominal=node.start in kończy_się,
                 prep=prep.form.lower() if prep else "",
                 frame=frame,
                 noun=_lemat(forms, max(poprzednie, default=None)),
                 verb=_lemat(forms, max((v for v in verbs if v < node.start), default=None)),
                 object=_lemat(forms, max((s for s in forms if s < node.end), default=None)),
+                start=node.start,
+                end=node.end,
             )
         )
     return found
@@ -166,6 +184,8 @@ class Report:
     required: collections.Counter = field(default_factory=collections.Counter)
 
     def record(self, attachment: Attachment) -> None:
+        if not attachment.postnominal:
+            return
         self.seen += 1
         if not attachment.postverbal:
             return

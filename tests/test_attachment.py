@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.attachment import attachments, main, measure, render
+from olski.attachment import Report, attachments, main, measure, render
 from tests.test_corpus import forest, phrase, terminal
 
 
@@ -98,11 +98,13 @@ def test_opakowanie_nie_jest_miejscem_przyłączenia():
     assert znalezione.frame == "fl"
 
 
-def test_wyrażenie_bez_grupy_imiennej_przed_sobą_nie_wchodzi_do_pomiaru():
-    #  W pliku zapisuje ustawienia: przed wyrażeniem nie kończy się żadna grupa
-    #  imienna, więc przyłączenia do rzeczownika nie było i pozycja nie jest
-    #  dwuznaczna.
-    las = forest(
+def bez_grupy_przed_wyrażeniem():
+    """*W pliku zapisuje ustawienia.* — wyrażenie, przed którym nie ma grupy imiennej.
+
+    Przyłączenia do rzeczownika nie było, więc pozycja nie jest dwuznaczna i do
+    rozkładu nie wchodzi.
+    """
+    return forest(
         phrase(0, 0, 5, "zdanie", [1, 5, 7, 9])
         + phrase(1, 0, 2, "fl", [2])
         + phrase(2, 0, 2, "fpm", [3, 4])
@@ -116,7 +118,17 @@ def test_wyrażenie_bez_grupy_imiennej_przed_sobą_nie_wchodzi_do_pomiaru():
         + terminal(9, 4, 5, ".", "interp"),
         text="W pliku zapisuje ustawienia.",
     )
-    assert attachments(las) == []
+
+
+def test_wyrażenie_bez_grupy_imiennej_przed_sobą_nie_wchodzi_do_rozkładu():
+    #  Czytnik oddaje je razem z resztą, bo pyta o nie pomiar szukający wzorca
+    #  dla warstwy rozstrzygającej, a zwęża populację dopiero raport. Gdyby
+    #  zwężał ją czytnik, `seen` liczyłoby co innego, niż mówi docs/subset.md.
+    (znalezione,) = attachments(bez_grupy_przed_wyrażeniem())
+    assert znalezione.postnominal is False
+    report = Report()
+    report.record(znalezione)
+    assert report.seen == 0
 
 
 def test_las_bez_gold_tree_nie_wchodzi_do_pomiaru():

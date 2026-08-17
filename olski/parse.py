@@ -1304,7 +1304,7 @@ class Las:
         """
         wybory = self._nazwane_przyłączenia(deklaracja)
         return [
-            Przyłączenie(_sklej_formy(self._przedstawiciel(pozycja).forms()), nazwy)
+            Przyłączenie(sklej_formy(self._przedstawiciel(pozycja).forms()), nazwy)
             for _początek, (pozycja, nazwy) in sorted(wybory.items())
         ]
 
@@ -1411,7 +1411,7 @@ class Las:
                 wybrani.append(pozycja)
         return [
             Rozbieżność(
-                _sklej_formy(self._przedstawiciel(pozycja).forms()),
+                sklej_formy(self._przedstawiciel(pozycja).forms()),
                 self._ile_kształtów(pozycja),
             )
             for pozycja in sorted(wybrani, key=lambda p: (p.span, p.label))
@@ -1602,7 +1602,7 @@ SĄSIEDNIE_ZDANIE_SKŁADOWE = "…"
 PRZYLEGAJĄCE = frozenset({","})
 
 
-def _sklej_formy(formy: Iterable[str]) -> str:
+def sklej_formy(formy: Iterable[str]) -> str:
     """Formy jako jeden napis, tak jak stoją w zdaniu.
 
     Przecinek jest osobnym segmentem, więc sklejenie przez sam odstęp
@@ -1725,9 +1725,9 @@ def _nawiasuj(node: Node, współrzędne: Sequence[str]) -> str:
     """
     while not _koordynuje(node, współrzędne):
         if len(node.children) != 1 or isinstance(node.children[0], Leaf):
-            return _sklej_formy(node.forms())
+            return sklej_formy(node.forms())
         node = node.children[0]
-    return _sklej_formy(_kawałki(node, współrzędne))
+    return sklej_formy(_kawałki(node, współrzędne))
 
 
 def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
@@ -1744,9 +1744,9 @@ def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
         if isinstance(dziecko, Node) and _koordynuje(dziecko, współrzędne):
             kawałki.extend(_kawałki(dziecko, współrzędne))
         elif len(dziecko.forms()) > 1:
-            kawałki.append(f"[{_sklej_formy(dziecko.forms())}]")
+            kawałki.append(f"[{sklej_formy(dziecko.forms())}]")
         else:
-            kawałki.append(_sklej_formy(dziecko.forms()))
+            kawałki.append(sklej_formy(dziecko.forms()))
     return kawałki
 
 

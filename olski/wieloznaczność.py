@@ -90,6 +90,13 @@ class Miejsce:
     #: Formy, na których ta pozycja stoi: przyimek dla jednej klasy, a obie grupy
     #: imienne dla drugiej. Bez nich liczba nie ma czym się wytłumaczyć.
     formy: tuple[str, ...]
+    #: Gospodarze, między którymi wybiera pozycja przyłączeniowa: forma kończąca
+    #: grupę imienną przed wyrażeniem i najbliższa forma czasownikowa przed nim,
+    #: w tej kolejności. Liczby stąd nie liczy nikt; niesie je to, co z tych
+    #: pozycji buduje pytanie do warstwy rozstrzygającej (``sonda/wybory.py``),
+    #: bo warstwa pyta o gospodarzy, a nie o sam przyimek. Klasa synkretyzmu
+    #: zostawia je puste: tam wyborem nie jest przyłączenie.
+    gospodarze: tuple[str, ...] = ()
 
 
 def miejsca(zdanie: str) -> list[Miejsce]:
@@ -99,15 +106,16 @@ def miejsca(zdanie: str) -> list[Miejsce]:
 
 
 def _przyłączenia(segments: list[Segment]) -> list[Miejsce]:
-    kończy_się = {segment.end for segment in segments if _ma(segment, KONIEC_NP)}
-    czasowniki = [segment.start for segment in segments if _ma(segment, CZASOWNIK)]
-    return [
-        Miejsce(PRZYŁĄCZENIE, (segment.form,))
-        for segment in segments
-        if _ma(segment, {"prep"})
-        and segment.start in kończy_się
-        and any(start < segment.start for start in czasowniki)
-    ]
+    kończy_się = {segment.end: segment.form for segment in segments if _ma(segment, KONIEC_NP)}
+    czasowniki = {segment.start: segment.form for segment in segments if _ma(segment, CZASOWNIK)}
+    znalezione = []
+    for segment in segments:
+        wcześniejsze = [start for start in czasowniki if start < segment.start]
+        if not _ma(segment, {"prep"}) or segment.start not in kończy_się or not wcześniejsze:
+            continue
+        gospodarze = (kończy_się[segment.start], czasowniki[max(wcześniejsze)])
+        znalezione.append(Miejsce(PRZYŁĄCZENIE, (segment.form,), gospodarze))
+    return znalezione
 
 
 def _synkretyzm(segments: list[Segment]) -> list[Miejsce]:
