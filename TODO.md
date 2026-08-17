@@ -207,6 +207,20 @@ więc samo przeliczenie go nie naprawia.
 
 ## Komendy i sondy
 
+Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
+`sonda/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
+bo schemat tak oznaczony nie należy do rejestru, o który olskiemu chodzi,
+a `sonda/konwersy.py` bierze wszystkie schematy lematu i o kwalifikator nie pyta wcale.
+Jedna z dwóch odpowiedzi jest gorsza i nie wiadomo która:
+liczba konwersów jest górnym oszacowaniem, które i tak myli się w jedną stronę
+([`docs/disambiguation.md`](docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)),
+więc schemat archaiczny mógł ją podnieść, a mógł nie trafić w kryterium pary.
+Ruchem jest przebieg `sonda/konwersy.py` z tym odsiewem i bez niego,
+a potem albo `BRANE` wspólne dla obu sond, albo zapisany powód, czemu jedna go nie chce.
+Do przeczytania jest `_pewność` w `sonda/rama.py` oraz dwanaście par,
+które tamta sonda wypisuje: jeżeli odsiew rusza liczbę, to rusza i te pary,
+a wtedy należy się ich przeczytanie, a nie sama poprawiona liczba.
+
 Sonda różnicowa nad prozą bierze jeden plik, a rejestr ustaw to siedem plików.
 `main` w `sonda/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
 i na plik, który czyta jako prozę, więc siedmiu aktów nie ma jak podać:
@@ -1325,31 +1339,38 @@ czyli odwrotnie, niż czyta czytelnik.
 Wpis jest więc o pytaniu, a nie o odpowiedzi:
 warstwa, która pytania nie dostaje, nie umie nawet przemilczeć.
 
-Leksykon walencyjny nie mówi o przyimku, więc świadek ramowy nie ma z czego powstać.
+Świadek ramowy jest wyceniony i wchodzi połową: rzeczownikiem, a nie czasownikiem.
 `olski/rozstrzyganie.py` obiecuje w docstringu świadka, który wskazuje gospodarza wtedy,
-gdy schemat jednej ze stron tej frazy żąda, i jest to obietnica niedotrzymana:
-`olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a fraza sporna jest przyimkowa.
-Nad Składnicą jest to 576 wyrażeń wymaganych przez czasownik i 214 przez rzeczownik
-z 4 517 spornych, czyli 17,5%
-([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
-a świadek statystyczny obok odpowiada dziś o jednym wyrażeniu na osiem,
-więc rama jest większa od tego, co warstwa ma.
-Ruchem jest `olski/walenty.py` czytający pozycje `prepnp` i wypisujący je do leksykonu
-kolumną, której ten plik jeszcze nie ma, a potem świadek postawiony
-przed `Skłonność` w `domyślni`, bo dowód słownikowy bije statystyczny.
-Do przeczytania jest, czym Walenty odróżnia frazę wymaganą od luźnej po stronie rzeczownika,
-bo tam schematy są rzadsze niż przy czasowniku,
-oraz `_dokąd_doszło` w `olski/attachment.py`, gdzie `fw` i `fl` są już czytane z banku drzew,
-czyli jest czym ten świadek zmierzyć osobno od tabeli skłonności.
+gdy schemat jednej ze stron tej frazy żąda, i jest to obietnica niedotrzymana,
+bo `olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a fraza sporna jest przyimkowa.
+`sonda/rama.py` mierzy to kryterium nad Walentym i bankiem drzew, nie ruszając leksykonu,
+a rozstrzyga o ruchu strona: rama rzeczownika myli się rzadziej niż raz na dwadzieścia
+odpowiedzi, a rama czasownika tyle, ile rzut monetą, przy dwa razy większym zasięgu
+([`docs/disambiguation.md`](docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
+Ruchem jest wobec tego `olski/walenty.py` czytający pozycje `prepnp`
+z pliku rzeczownikowego Walentego i wypisujący je do leksykonu kolumną,
+której ten plik jeszcze nie ma, a potem świadek pytający o samego gospodarza imiennego
+i postawiony przed `Skłonność` w `domyślni`, bo dowód słownikowy bije statystyczny.
+Do rozstrzygnięcia jest, czym ma być kolumna dla lematu, którego rama żąda dwóch przyimków,
+bo dotychczasowe kolumny są zdaniami prawda-fałsz, a ta jest zbiorem.
+Do przeczytania jest `zdania` w `olski/walenty.py`, czyli miejsce, w którym wpis
+o samej ramie domyślnej nie wchodzi do pliku,
+oraz dwanaście odpowiedzi, które ta sonda wypisuje:
+trafność wzięta nad bankiem drzew nie mówi, czy powód da się pokazać autorowi.
+`przyimki` w `sonda/rama.py` jest przy tym tym samym pytaniem, które generator zada,
+i stoi w sondzie tylko dlatego, że sonda jest dziś jedynym pytającym,
+więc razem z kolumną przenosi się do `olski/walenty.py`, obok `pozycje` i `schematy`,
+skąd ta sonda bierze już resztę. Dwie kopie tego kryterium rozeszłyby się cicho,
+bo rozejście widać dopiero w liczbach, a nie w wydruku.
 Regeneracja leksykonu i przeliczenie
 [tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 idą razem z tym wpisem.
-Zakup jest przy tym zmierzony i po stronie rejestru, nie tylko banku drzew:
-z 29 odpowiedzi tabeli skłonności nad korpusem audytowym 23 rozstrzyga rama
-albo dopełnienie cząstkowe liczebnika, a pozostałych sześć to pięć pomyłek i jedno trafienie
-([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
-czyli świadek ramowy nie dokłada się do tej warstwy, tylko przejmuje jej trafną część
-wraz z powodem, który da się sprawdzić bez tabeli.
+Po stronie czasownika ruchu nie ma i odmowa jest wyceniona:
+kryterium myli się tam na braku ramy, a nie na ramie,
+bo schemat czasownika pasuje do okolicznika, o którym nie mówi nic.
+Zwężeniem, które warto przy tym zmierzyć, jest przypadek grupy pod przyimkiem —
+`prepnp(o,loc)` obok `prepnp(o,acc)` — czego `Attachment` w `olski/attachment.py` nie wydaje,
+więc sonda pyta dziś o sam przyimek i jej zasięg jest oszacowaniem górnym.
 
 Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma siedemnaście.
 `sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
