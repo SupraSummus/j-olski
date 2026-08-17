@@ -1086,9 +1086,9 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     #  Wielokropek jest z drugiej koordynacji: okolicznik stoi w drugim zdaniu
     #  składowym, a streszczenie opisuje jedno zdanie i tym znakiem to mówi.
     assert {reading["Modifier"] for reading in found.readings} == {
-        "…wobec innych → powinni",
-        "…wobec innych w duchu → powinni",
-        "…wobec innych w duchu braterstwa → powinni",
+        "…wobec innych → postępować",
+        "…wobec innych w duchu → postępować",
+        "…wobec innych w duchu braterstwa → postępować",
     }
 
 
@@ -1287,6 +1287,17 @@ def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():
     assert found.result.ile == 2, found.explain()
     (przyłączenie,) = found.result.przyłączenia
     assert przyłączenie.gospodarze == ("rozstrzyga", "zdaniu")
+
+
+def test_okolicznik_przy_bezokoliczniku_ma_dwóch_gospodarzy():
+    #  Fraza bezokolicznikowa bierze okolicznik przez to samo `Complements`,
+    #  którym bierze go forma osobowa nad nią, więc stoi wśród gospodarzy
+    #  przyłączenia. Bez niej okolicznik wychodzi do zdania w obu czytaniach,
+    #  oba streszczają się jednym napisem, a werdykt mówi samo `2 readings`.
+    found = verdict("Syn usiłował wejść na ołtarz.")
+    assert found.result.ile == 2, found.explain()
+    (przyłączenie,) = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("usiłował", "wejść")
 
 
 def test_streszczenie_nazywa_czasownik_zdania_a_nie_zdania_względnego():

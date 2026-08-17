@@ -681,6 +681,10 @@ and those come from `różniące`, `przyłączenia` and `rozbieżności` in `ols
 so a change to any of the three moves the table without moving a single verdict —
 and so does `gospodarze` in `DEKLARACJA` in `olski/subset.py`,
 which decides which constituents a modifier can be said to attach to at all.
+That one reaches past this table:
+a host added there is a choice added to every figure below
+that counts what a verdict names, while the verdicts themselves stand still,
+so "the language did not change" does not excuse those reruns either.
 The share where attachment is the whole decision has a mover the classes have not,
 since `całe_przyłączenie` compares a product of hosts against the reading count:
 a production giving a modifier a third host moves it while the class stands still.

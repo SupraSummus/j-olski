@@ -292,6 +292,17 @@ Wiersza ciąg nie dostaje, bo granicę członu pokazuje nawias w napisie roli
 Ile czytań ciąg tu wnosi, nikt nie policzył,
 i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
 
+Widać ją najczyściej tam, gdzie zostaje sama.
+Siedem z 272 wieloznacznych werdyktów nie mówi nic poza liczbą czytań,
+i we wszystkich siedmiu jest to ciąg współrzędny stojący wewnątrz wypełnienia roli,
+czyli tam, dokąd nawias nie schodzi.
+`Ustawa określa zadania ochrony ludności i obrony cywilnej.`
+wychodzi dwoma czytaniami:
+`zadania [ochrony ludności] i [obrony cywilnej]` mówi o zadaniach dwóch rzeczy,
+a `zadania ochrony [ludności i obrony cywilnej]` o zadaniach jednej.
+Klasa jest ta sama nad Składnicą i tam też zostaje po werdykcie sama liczba
+([disambiguation.md](disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)).
+
 Werdykt nazywa obok tych dwóch przyłączeń dopełnienie
 jako rolę, o którą czytania tego zdania się różnią,
 a sześćdziesiąt cztery czytania, które `--readings` nad nim wypisuje,
@@ -335,6 +346,11 @@ Pozostałe mają w tym rejestrze wagę, której nie mają w dokumentacji.
 Spór o to, do czego w przepisie dochodzi wyrażenie przyimkowe,
 jest sporem o to, kogo przepis dotyczy,
 i rozstrzyga go sąd, a nie autor.
+Tę samą wagę ma nawiasowanie ciągu współrzędnego,
+bo `zadania ochrony ludności i obrony cywilnej` wylicza raz dwie rzeczy, a raz jedną,
+czyli przepis ma pod każdym czytaniem inny zakres.
+Wiersza werdykt o tym nie drukuje i to jest cena milczenia opisanego wyżej:
+autor dostaje liczbę czytań w miejscu, w którym potrzebuje nazwy wyboru.
 Narzędzie, które autorowi pokazuje oba czytania przed uchwaleniem,
 odpowiada więc na pytanie, które inaczej zadaje się dopiero w sporze,
 i to jest jedyne miejsce w tym repozytorium,
