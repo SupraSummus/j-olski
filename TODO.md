@@ -107,16 +107,19 @@ so whichever entry is picked up first is answering for the other.
 
 [Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
 "prose in comments and docstrings", and the code is divided about it.
-`olski/skład/`, `opowieści/`, `olski/walencja.py` and `harness/ustawy.py`
+`olski/skład/`, `opowieści/`, `olski/walencja.py`, `harness/ustawy.py`,
+`sonda/powtórzenie.py` and `sonda/wskazania.py`
 break their comments at boundaries of meaning,
-and everything else in `olski/`, `harness/` and `sonda/` wraps to a column.
-`olski/parse.py` holds both kinds,
+and the rest of `olski/`, `harness/` and `sonda/` wraps to a column.
+`olski/parse.py` and `olski/subset.py` hold both kinds,
 which is what [lazy adoption](CLAUDE.md#adopt-these-rules-lazily) produces
 where a rule reaches a file already written the other way.
-The division follows neither track nor language:
+The division follows neither track nor language nor age:
 `olski/walenty.py` and `olski/wieloznaczność.py` wrap to a column
 though both stand in Polish
-and both sit beside `olski/walencja.py`, which does not.
+and both sit beside `olski/walencja.py`, which does not,
+and `sonda/wybory.py` arrived in one commit with `sonda/wskazania.py`
+wrapped the other way from it.
 Two ways out, and the choice is a judgement about the whole package
 rather than about whichever function is being edited at the time:
 narrow the rule in `CLAUDE.md` to Markdown, commit messages
@@ -237,25 +240,23 @@ Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
 `olski-check` ma mianownik, który tamten dokument cytuje,
 więc pominięcie w ciszy zmienia figurę, o której nikt się nie dowie.
 
-`olski-check` daje dokumentowi liczbę i nie ma pod sobą żadnego testu.
-Nic w `tests/` nie importuje `olski/check.py`:
-werdykt nad zdaniem czyta `tests/test_subset.py` przez `check()` w `olski/subset.py`,
-a opakowanie wokół niego nie jest czytane nigdzie.
-Zostają w nim trzy kody wyjścia
+`olski-check` daje dokumentowi liczbę, której nie sprawdza żaden test.
+Samą komendę woła `tests/test_rozstrzyganie.py` — `main` z listą argumentów
+i wydruk czytany przez `capsys`, czyli tym wzorem, o który ten wpis prosił —
+ale pyta ją wyłącznie o wiersz warstwy rozstrzygającej
+i o sąsiedztwo, które ta warstwa dostaje po zdaniu.
+Niesprawdzone zostają trzy kody wyjścia
 (2 bez argumentów i nad ścieżką, której nie da się przeczytać,
-1 wtedy, gdy nie każde zdanie przeszło),
-liczenie fragmentów obok zdań
-oraz układ wierszy, które komenda wypisuje.
-Ostatni z nich jest tym, po co dokument tę komendę woła:
+1 wtedy, gdy nie każde zdanie przeszło)
+oraz podsumowanie, w którym fragmenty liczą się obok zdań.
+Podsumowanie jest tym, po co dokument tę komendę woła:
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów nad korpusem audytowym z ostatniego wiersza wydruku,
-więc figura w dokumencie stoi na formacie, którego nic nie trzyma.
-Wzorem jest wołanie `main` z listą argumentów i czytanie `capsys`,
-czyli to, co robi `tests/test_attachment.py`.
+więc figura w dokumencie opiera się na formacie, którego nic nie pilnuje.
 Testem nie jest wydruk przepisany wiersz po wierszu:
 kosztuje przy każdej zmianie układu
 i nie broni niczego, czego by czytelnik nie zobaczył.
-Warte pisania są dwie rzeczy: podsumowanie, bo jest figurą, którą cytuje dokument,
+Warte pisania są właśnie te dwie rzeczy: podsumowanie, bo cytuje je dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
 `sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
@@ -278,7 +279,7 @@ wiążącym wariant z grupą produkcji, i `dopisuje` obok niej,
 bo dopisek wchodzący przed odsiewem jest tym, co funkcja wariantu ma zastąpić.
 Tej samej maszynerii żąda z drugiej strony wpis o figurach
 `docs/corpus.md` bez polecenia:
-tam wariantem są dwie gramatyki, a nie dwie morfologie,
+tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
 więc ten, kto podnosi którykolwiek z dwóch, wybiera kształt dla drugiego,
 i jest to jedna sesja.
 
@@ -379,48 +380,9 @@ te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
 ## Korpusy, ekstrakcja i figury
 
-Nothing in the harness says which construct a finding came out of,
-so every audit of extracted prose maps its hits back by hand.
-`docs/extraction.md` did it for a couple of hundred spacing findings,
-and [the audit corpus's tables](docs/firing-rates.md#what-the-hits-over-the-audit-corpus-turned-out-to-be)
-for several hundred more,
-both with a throwaway script and neither with anything reusable.
-The classes that cost the most to reach are the ones a program could settle:
-whether a hit stands in a code span or in a link's text,
-which is what the two largest non-defect classes over the audit corpus are.
-The parser hands that over already —
-every stretch of a paragraph comes out of a node with a type —
-so the move is for `prose` in `harness/markdown.py`
-to keep the type beside the characters it produced,
-and for something to print it beside a finding.
-That is a second output from the extraction
-and wants deciding whether it rides along with the prose files
-or is a separate mode over one document.
-What the parser does not hand over is where in the source the node was:
-a block token carries a line range and an inline token carries nothing,
-so a mode that prints the source line as well
-is a second pass over the document rather than a field to pick up.
-Against it: the classes that decide whether a hit is a *defect*
-are the ones needing a reader anyway,
-so this halves an audit rather than removing it,
-and a corpus of this size can be read by hand, as it twice already has been.
-
-`docs/extraction.md` compares one member of the audit corpus against its files
-and the corpus has two.
-Its table runs the notes, the memoir and `ksef-docs` twice each,
-where [`docs/firing-rates.md`](docs/firing-rates.md#the-audit-corpus)
-audits `rit-dokumentacja` beside `ksef-docs`
-and finds that member losing three fifths of its Markdown to the extraction,
-which is the case the table has no column for.
-The move is a fourth column,
-which means running `rit-dokumentacja` with its names changed to `.txt`
-and checking the spacing findings one by one against their source
-the way the section's own method demands,
-since a count that agrees is not yet a hit that points at the same place.
-
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
-reaches the rules through a program this repository holds.
+is counted by a program this repository holds.
 `harness/markdown.py` reads Markdown,
 which is what the KSeF figures there are taken with,
 while NKJP is XML, Śmigiel is JSONL,
@@ -1020,12 +982,16 @@ is a net of what a tier buys against what it costs in uniqueness,
 which is two grammars disagreeing rather than two morphologies.
 That net is what the grammar track now asks of every addition before it lands
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-so this part of the entry carries a rule rather than a convenience,
-and a session that prices an addition by hand is doing this work and throwing it away.
-Two probes in `sonda/` have already computed such a net by hand,
-`przecinek.py` for the comma and `nieciągłość.py` for discontinuity,
-and their transition tables are one table with different variants under it,
-so the general version would replace both rather than start from nothing.
+so this part of the entry carries a rule rather than a convenience.
+The third of those moves exists, and for that second caller rather than for this one.
+`sonda/ruch.py` runs olski against a variant and prints what moved between them,
+and five probes are written as declarations against it, `przecinek.py` among them,
+while `nieciągłość.py` computes its own net beside that machinery rather than on it.
+What the machinery takes is a group of productions removed from olski,
+and a morphology switched off is neither a group nor a production,
+so the two runs this entry wants compared have no command.
+The entry about hand-taken figures being differential probes says as much
+from its own side, handing the `admissible`-off column back here.
 The entry about cutting unlicensed readings before the parse
 moves what `blocker` reads off a form,
 so whichever of the two is taken first decides what the blocking form is,
