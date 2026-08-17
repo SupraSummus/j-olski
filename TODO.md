@@ -1424,6 +1424,10 @@ mierzonym z wzorcem.
 Losowanie z podzbioru psuje rozkład, więc próba rozdzieliłaby się wtedy na dwie
 i druga liczyłaby się osobno; do przeczytania przedtem jest, czy `Ocena`
 w `sonda/wybory.py` uniesie dwa mianowniki, czy dwa pliki są tańsze.
+Wpis ten kupuje przy tym więcej niż własną częstość:
+próba jest jedynym materiałem, na którym oba rodzaje powodu odpowiadają naraz,
+więc dopiero powiększona rozstrzyga
+[hipotezę o odczytaniu](docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)

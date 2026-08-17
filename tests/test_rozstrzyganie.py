@@ -35,6 +35,7 @@ from olski.rozstrzyganie import (
     Rozstrzygnięcie,
     Skłonność,
     Sąsiedztwo,
+    domyślni,
     rozstrzygnij,
     sąsiedztwa,
 )
@@ -263,6 +264,17 @@ def test_powtórzenie_bije_skłonność_przeciwnego_zdania():
     sąsiedztwo = Sąsiedztwo(("Wystąpiła awaria w systemie.",))
     (odpowiedź,) = rozstrzygnij([AWARIA], [Powtórzenie(), tabela], sąsiedztwo)
     assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("powtórzenie", "awarię")
+
+
+def test_kolejność_wypuszczana_jest_tą_samą_którą_sprawdza_test_wyżej():
+    """Tamten test podaje świadków ręką, więc przestawienie ``domyślni`` mija go.
+
+    Przestawić jest przy tym czym: świadek statystyczny odpowiada nad bankiem
+    drzew o rząd wielkości częściej od kontekstowego, więc pomiar zasięgu mówi,
+    żeby postawić go pierwszego. Kolejności tej nie broni żadna trafność, tylko
+    hipoteza z ``docs/disambiguation.md``, i dlatego broni jej test.
+    """
+    assert [type(świadek) for świadek in domyślni()] == [Powtórzenie, Skłonność]
 
 
 def test_polecenie_daje_świadkowi_sąsiedztwo_tego_zdania(capsys):

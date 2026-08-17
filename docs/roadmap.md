@@ -485,6 +485,16 @@ Ile taka warstwa miałaby do rozstrzygnięcia i za ile,
 wycenia [disambiguation.md](disambiguation.md),
 a `olski/rozstrzyganie.py` jest jej zalążkiem stojącym obok werdyktu i nie ruszającym go.
 
+Wykluczenie dotyczy przy tym rankingu, a nie każdej odpowiedzi takiej warstwy,
+a granicę między jednym a drugim wyznacza
+[hipoteza tamtego dokumentu](disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
+Frazy przyimkowej, której czasownik albo rzeczownik żąda swoim schematem,
+nie rozstrzyga maszyna za parserem, tylko kolumna,
+której `olski/leksykon.txt` nie ma, a którą wypisałby `olski/walenty.py`,
+czyli generator zbudowany na [etapie 2](#etap-2-walencja)
+([disambiguation.md](disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)).
+Odpowiedź wyczytana ze słownika nie potrzebuje więc etapu i etapem nie jest.
+
 ## Tor składu: drzewo wchodzi, polskie zdanie wychodzi
 
 ### Kryterium wyjścia toru składu to znów README
