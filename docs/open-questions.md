@@ -115,8 +115,8 @@ python3 -m harness.markdown rit-dokumentacja --into proza/rit
 python3 -m olski.wieloznaczność proza/ksef/*.txt proza/rit/*.txt
 ```
 
-Pozycję którejś z dwóch klas niesie tam 734 z 1 183 zdań, czyli 62.0%:
-przyłączenie 56.1%, synkretyzm 18.0%,
+Pozycję którejś z dwóch klas niesie tam 751 z 1 183 zdań, czyli 63.5%:
+przyłączenie 56.1%, synkretyzm 21.1%,
 a 271 zdań niesie samych przyłączeń dwa albo więcej,
 czyli czytań ma po cztery i wzwyż.
 To samo polecenie puszczone nad prozą tego repozytorium
@@ -129,18 +129,25 @@ Populacją to jest, a odpowiedzią nie, i czytanie jej zmienia wniosek.
 `--przykłady 12` bierze próbkę rozrzuconą po całej liście trafień,
 więc czyta się ją drugi raz po tym samym.
 Dwadzieścia cztery zdania z niej, po dwanaście na klasę, wychodzą tak:
-ani jedno nie zostawia czytelnika z dwoma rozumieniami,
-a dwa zostawiają go z wahaniem —
-`Dane te obejmują zarówno aktywne, jak i historyczne certyfikaty`,
-gdzie obie grupy są mnogie i każda mogłaby obejmować drugą.
-Reszta ma dwa drzewa i jedno rozumienie:
+ani jedno nie zostawia czytelnika z dwoma rozumieniami.
+Zdania przyłączeniowe mają dwa drzewa i jedno rozumienie:
 `kompendium wiedzy dla deweloperów` przyłącza się do rzeczownika,
 bo przy czasowniku nie znaczyłoby nic innego,
 i tak samo `skrót SHA-256 w Base64`.
+Po stronie synkretyzmu osiem z dwunastu zdań stoi na grupie,
+która podmiotem nie stanęłaby wcale:
+`w odpowiedzi` i `od ostatniej wysyłki` stoją pod przyimkiem,
+`Element report` jest apozycją,
+a `te`, `sam` i `niż` są czytaniami, których polszczyzna w tym miejscu nie ma —
+czyli tą samą klasą, którą wylicza akapit o górnym oszacowaniu niżej.
+Zostają cztery, w których obie grupy naprawdę stoją do wyboru,
+i w żadnej z nich czytelnik się nie waha:
+`Niniejszy dokument stanowi kompendium wiedzy` czyta się raz,
+bo kompendium dokumentu nie stanowi.
 Jest to jedna osoba nad dwudziestoma czterema zdaniami, a nie pomiar,
 i tyle z tego wynika.
 
-Wniosek wychodzi odwrotny do tego, na co 62.0% wygląda.
+Wniosek wychodzi odwrotny do tego, na co 63.5% wygląda.
 Werdykt, którego to pytanie szuka, objąłby zdania rzadkie, a nie większość rejestru,
 bo zdań, w których czytelnik naprawdę ma dwa czytania, jest w tej próbce tyle co nic.
 Liczba wycenia natomiast co innego, o co nikt tu nie pytał:
@@ -162,7 +169,34 @@ i należy to do [extraction.md](extraction.md), a nie tutaj.
 Wszystkie te klasy podnoszą populację,
 a wniosek wyżej idzie w tę samą stronę co one, więc żadna go nie odwraca.
 Zbiera się ich przy tym najwięcej pod synkretyzmem,
-więc to jego 18.0% jest z dwóch liczb tą miękką.
+więc to jego 21.1% jest z dwóch liczb tą miękką.
+
+Dwa węższe kryteria synkretyzmu zmierzono, każde zdejmuje jedno zdanie z 250,
+i zdejmują dwa różne zdania z dwóch różnych powodów.
+
+Pierwsze żąda mianownika i biernika od jednego lematu.
+Bez tego żądania mianownik wolno wziąć z jednego wpisu, a biernik z drugiego,
+więc forma liczy się jako dwa słowa naraz:
+`Paczka` ma mianownik od `paczka`, a biernik od nazwiska `Paczek`.
+Kryterium to zdejmuje trafienie tego rodzaju i nie zdejmuje ani jednego zdania,
+bo w tym zdaniu pozycja stoi jeszcze na `niż` i `MB`;
+kosztuje natomiast grupowanie czytań po lemacie, którego warunek szerszy nie ma.
+
+Drugie żąda zgody z orzeczeniem od obu czytań, a nie od mianownikowego samego.
+Zgoda od mianownika samego jest tym, co stoi, i stoi na powodzie, a nie na liczbie:
+podmiot wyciąga z orzeczenia formę, a dopełnienie jej nie wyciąga,
+więc liczba dopełnienia nie ma z czym się nie zgodzić,
+i forma o mianowniku pojedynczym i bierniku mnogim staje przy `posiada` w obu rolach.
+Liczba idzie tu przy tym w drugą stronę niż powód, i warto to zapisać:
+jedyne zdanie, które warunek szerszy tym zatrzymuje,
+zatrzymuje przez `jeden` czytane jako rzeczownik męskozwierzęcy w mianowniku
+obok liczebnika mnogiego w bierniku,
+czyli przez dwa czytania, których polszczyzna w tym miejscu nie ma.
+Powód zostaje, bo jest o polszczyźnie, a nie o tym korpusie,
+a to jedno trafienie należy do klasy wyliczonej wyżej i tak samo jak ona liczbę podnosi.
+
+Oba warianty mierzy się podstawieniem pod `_obojętny` w `olski/wieloznaczność.py`,
+bo sondy na nie nie ma i jedno zdanie jej nie kupuje.
 
 ### Olski melduje wieloznaczność, której czytelnik nie ma
 

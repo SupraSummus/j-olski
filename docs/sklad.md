@@ -731,17 +731,18 @@ i przy którym orzeczeniu para stanęła — i sam nazywa przez to swoją liczb�
 górnym oszacowaniem.
 Tutaj żadne z tych pytań nie pada.
 
-Idzie to dalej, niż tamten pomiar sięga, i jest to usterka po tamtej stronie.
-`Mysz goni ogon.` czyta się dwojako, a tamten tego nie melduje,
-bo synkretyzm liczy z jednego czytania słownika,
-podczas gdy `mysz` niesie mianownik i biernik dwoma osobnymi wpisami.
-Porównanie napisów o wpisy nie pyta, więc tę parę widzi.
+Poprawiło to raz tamten pomiar, i tak wygląda ta wymiana w praktyce.
+`Mysz goni ogon.` czyta się dwojako,
+a synkretyzm liczony z jednego czytania słownika tej pary nie widzi,
+bo `mysz` niesie mianownik i biernik dwoma osobnymi wpisami,
+podczas gdy `ogon` niesie oba jednym.
+Porównanie napisów o wpisy nie pyta i widzi ją bez żadnego warunku,
+więc `_obojętny` w tamtym module pyta dziś o segment, a nie o czytanie.
+Że obie strony widzą tę parę, sprawdza `tests/test_przegląd.py`.
 Skład jest tu zatem świadkiem dla parsera, a nie odwrotnie,
 co jest tą samą wymianą, którą zapowiada
 [niezmiennik obiegu](design-notes.md#the-round-trip-invariant):
 generowanie pokazuje, czego druga strona nie widzi.
-Naprawa siedzi w tamtym module i rusza liczbę, którą on podaje,
-więc trzyma to [`TODO.md`](../TODO.md).
 
 Ile przegląd zgłasza, widać na tekście, którego nikt pod niego nie pisał:
 nad legendą o bazyliszku nie zgłasza nic,

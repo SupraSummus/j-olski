@@ -42,6 +42,13 @@ def test_zgoda_liczby_zdejmuje_grupę_która_podmiotem_być_nie_może():
     assert SYNKRETYZM not in klasy("Program zapisuje ustawienia w pliku.")
 
 
+def test_synkretyzm_rozdzielony_na_wpisy_słownika_liczy_się_tak_samo():
+    #  „mysz” wychodzi z Morfeusza jako subst:sg:nom:f i subst:sg:acc:f dwoma
+    #  wpisami, a „ogon” jako jedno subst:sg:nom.acc:m3, więc warunek pytany o
+    #  czytanie mijał tę parę, a pytany o segment jej nie mija.
+    assert SYNKRETYZM in klasy("Mysz goni ogon.")
+
+
 def test_dwa_zdania_składowe_nie_dają_pary_do_wyboru():
     #  „Wdrożenie” i „kurs” są obojętne na przypadek, a stoją przy dwóch różnych
     #  orzeczeniach, więc o wyborze między SVO a OVS to zdanie nie mówi nic.

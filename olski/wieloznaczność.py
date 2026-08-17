@@ -181,11 +181,7 @@ def _synkretyzm(segments: list[Segment]) -> list[Miejsce]:
             odmawia = BEZ_BIERNIKA_ZWROTNE if zwrotne else BEZ_BIERNIKA
             if orzeczenie.lemma in odmawia:
                 continue
-            grupy = [
-                segment.form
-                for segment in człon
-                if any(_obojętny(reading, orzeczenie) for reading in segment.readings)
-            ]
+            grupy = [segment.form for segment in człon if _obojętny(segment, orzeczenie)]
             if len(grupy) >= 2:
                 return [Miejsce(SYNKRETYZM, tuple(grupy))]
     return []
@@ -210,18 +206,40 @@ def _człony(segments: list[Segment]) -> list[list[Segment]]:
     return list(człony.values())
 
 
-def _obojętny(reading: Reading, orzeczenie: Reading) -> bool:
-    """Czy ta głowa nie odróżnia mianownika od biernika i zgadza się z orzeczeniem.
+def _obojętny(segment: Segment, orzeczenie: Reading) -> bool:
+    """Czy ta forma staje przy tym orzeczeniu i podmiotem, i dopełnieniem.
 
-    Nieodmienne czytanie spełnia pierwsze z drugiej strony: notacja rejestru stoi
-    w każdym przypadku, więc stoi i w tych dwóch. Rodzaj wchodzi do zgody tylko
+    **Pytanie idzie o segment, a nie o czytanie**, bo słownik rozdziela te dwa
+    przypadki na wpisy tam, gdzie forma ich nie rozdziela: ``mysz`` wychodzi z
+    Morfeusza jako ``subst:sg:nom:f`` i ``subst:sg:acc:f`` osobno, a ``ogon``
+    jako jedno ``subst:sg:nom.acc:m3``. Warunek pytany o czytanie mijał więc
+    ``Mysz goni ogon.``, czyli mylił się w stronę mniejszą tam, gdzie ten pomiar
+    nazywa swoją liczbę górnym oszacowaniem. Zgłosił to skład, który tę samą
+    klasę liczy porównaniem napisów (``docs/sklad.md``).
+
+    Dwa węższe warianty tego warunku są zmierzone i po jednym zdaniu każdy;
+    ceny i wnioski trzyma ``docs/open-questions.md``.
+
+    Nieodmienne czytanie spełnia oba warunki naraz: notacja rejestru stoi w
+    każdym przypadku, więc stoi i w tych dwóch.
+    """
+    głowy = [reading for reading in segment.readings if reading.tag.pos in GŁOWA_NP]
+    podmiotem = any(
+        "nom" in reading.tag.get("case") and _zgodny(reading, orzeczenie) for reading in głowy
+    )
+    dopełnieniem = any("acc" in reading.tag.get("case") for reading in głowy)
+    return podmiotem and dopełnieniem
+
+
+def _zgodny(reading: Reading, orzeczenie: Reading) -> bool:
+    """Czy ta głowa zgadza się z orzeczeniem tak, jak zgadza się z nim podmiot.
+
+    Żąda się tego od czytania mianownikowego i od niego jednego: podmiot
+    wyciąga z orzeczenia formę, a dopełnienie nie, więc liczba i rodzaj
+    dopełnienia nie mają z czym się nie zgodzić. Rodzaj wchodzi do zgody tylko
     wtedy, gdy orzeczenie go niesie, bo forma osobowa czasu teraźniejszego nie
     niesie go wcale.
     """
-    if reading.tag.pos not in GŁOWA_NP:
-        return False
-    if not {"nom", "acc"} <= reading.tag.get("case"):
-        return False
     if not reading.tag.get("number") & orzeczenie.tag.get("number"):
         return False
     rodzaj = orzeczenie.tag.get("gender")
