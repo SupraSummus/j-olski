@@ -15,6 +15,14 @@ and nothing derives one from the other.
 A document the README does not list is the same rot with nothing renamed:
 it is on no reader's path, and adding one without listing it costs nothing.
 Which path a document sits on is what ``docs/roles.md`` names.
+
+A module named in prose rots the same way and used to rot unwatched.
+Prose points at code because code owns what is implemented,
+so a document naming a module is making a claim about where a fact lives,
+and a renamed file leaves that claim looking live.
+``docs/architecture.md`` is where the claims are densest,
+its whole content being the map from a layer to the module that is one,
+and the check that reads it found a deleted test file named in ``TODO.md``.
 """
 
 import re
@@ -34,6 +42,17 @@ SOURCES = sorted(
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
+#: A module or data file named inside an inline code span, which is how prose
+#: points at the code that owns a fact. Renaming the file leaves the span
+#: looking live, exactly as a renamed section leaves a link looking live.
+CITED_PATH = re.compile(
+    r"`((?:olski|harness|sonda|tests|opowieści|próba)/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt))`"
+)
+#: The one document whose subject is code that is gone: it prices the retired
+#: pack at the state it was retired in, and ``CLAUDE.md`` says nothing in it is
+#: to be recomputed. A module name there is about that program, not about this
+#: one, so it outlives the file the same way its figures do.
+O_USUNIĘTYM = "firing-rates.md"
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
 #: An entry in the README's list of documents, which is the only place that
 #: puts a document on somebody's path.
@@ -71,6 +90,20 @@ def cited_documents():
         for source in SOURCES
         for citation in CITED_DOCUMENT.finditer(source.read_text())
     ]
+
+
+def cited_paths():
+    return [
+        pytest.param(document, cited.group(1), id=f"{document.name} -> {cited.group(1)}")
+        for document in DOCUMENTS
+        if document.name != O_USUNIĘTYM
+        for cited in CITED_PATH.finditer(document.read_text())
+    ]
+
+
+@pytest.mark.parametrize(("document", "target"), cited_paths())
+def test_every_module_named_in_prose_is_there(document: Path, target: str):
+    assert (ROOT / target).exists(), f"{document.name} names {target}, which is not there"
 
 
 @pytest.mark.parametrize(("document", "target"), relative_links())

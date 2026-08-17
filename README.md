@@ -206,6 +206,10 @@ plan i otwarte pytania.
   role, w jakich ktoś to repozytorium czyta,
   gdzie każda z nich wchodzi i co jej drogę psuje,
   i dlaczego wszystkie obsadza jedna osoba
+- [docs/architecture.md](docs/architecture.md):
+  przez jakie warstwy przechodzi zdanie w obu kierunkach,
+  jakim typem jedna oddaje wynik następnej
+  i którą z nich oba tory mają wspólną
 - [docs/subset.md](docs/subset.md):
   co gramatyka wpuszcza, dlaczego poprawność znaczy jedno czytanie
   i ile kosztuje przyłączanie wyrażeń przyimkowych

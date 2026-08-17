@@ -1154,7 +1154,11 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
 - **Consistency of references.**
   `tests/test_docs.py` resolves every relative link and every anchor,
   so a renamed section fails the suite instead of rotting quietly.
-  What it cannot see is prose:
+  It reaches a renamed *file* as well, wherever prose names one
+  inside an inline code span,
+  which is how a document points at the code that owns a fact.
+  What it cannot see is a name written without those backticks,
+  and a section name, which no path spells:
   grep for the names of deleted and renamed files and sections,
   and check that an example still shows what the rule citing it claims,
   because an example rots in place —

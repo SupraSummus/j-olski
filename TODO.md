@@ -493,6 +493,43 @@ więc poprawka ma przejść cały dokument, a nie same liczby wypisane tutaj.
 
 ## Gramatyka, parser i pomiar pokrycia
 
+`Verdict` w `olski/subset.py` liczy wyprowadzenia, a nie znaczenia,
+bo powstaje z `Result.readings`, czyli pod dwiema warstwami,
+które wieloznaczność zdejmują
+([`docs/architecture.md`](docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia)).
+Ruchem nie jest przeniesienie werdyktu nad `abstrahuj`,
+bo dziedzina tej funkcji jest węższa od gramatyki
+i zdanie bez drzewa dziedziny wychodziłoby z niej odrzucone bez powodu w polszczyźnie.
+Ruchem jest pomiar: ile zdań, które olski melduje jako wieloznaczne,
+ma nad sobą jedno drzewo `Zdanie` po zwinięciu przez `sygnatura` w `olski/skład/rozbiór.py`.
+Liczba ta mówi, ile z meldowanej wieloznaczności jest wieloznacznością wyprowadzenia,
+i jest to ta sama różnica, którą nad korpusem audytowym czyta się ręką
+([`docs/open-questions.md`](docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)),
+tylko wzięta z kodu, a nie z osądu.
+Sondą jest `rozbierz` puszczone nad zdaniami wieloznacznymi Składnicy,
+przy czym `Odczyt.powody` trzeba rozdzielić przed policzeniem czegokolwiek:
+krotka pusta znaczy raz brak kategorii w zapisie, a raz brak czytania,
+a tylko pierwsze jest tu szumem.
+Do przeczytania przed pomiarem jest, po co obieg zamknięty powstał,
+bo `rozbierz` odpowiada na pytanie o autora, a nie o werdykt
+(docstring `olski/skład/rozbiór.py`).
+
+Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
+choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
+([`docs/architecture.md`](docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).
+Widać to na kopuli: powtórzenie frazy przy `być` nie dowodzi niczego o tym czasowniku,
+więc `KOPULY` odbiera dowód, zamiast dać świadkowi pytanie, na które kopuła odpowiada
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Ruchem jest świadek pytający o drzewo dziedziny zamiast o gospodarza,
+czyli taki, dla którego `Powtórzenie` szuka nie tej samej frazy przy tym samym lemacie,
+ale tej samej relacji w drzewie `Zdanie` wypuszczonym przez `abstrahuj`.
+Wpis wyżej jest tego warunkiem, bo bez tamtego pomiaru nie wiadomo,
+nad ilu zdaniami taki świadek miałby w ogóle o co pytać.
+Do przeczytania jest `Świadek` w tym samym pliku:
+sygnatura jest jedna dla wszystkich świadków rozmyślnie,
+więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
+a drugiej listy ten protokół unika z podanego tam powodu.
+
 Terminal nie umie zażądać, żeby forma jakąś cechę w ogóle niosła,
 a bez tego przysłówek wchodzi do gramatyki połową albo wcale.
 `word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`,
@@ -2051,10 +2088,11 @@ a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
 Pomijania testów bez Morfeusza nie pilnuje nic, a raz już się rozeszło.
 [Sekcja Checks](CLAUDE.md#checks) mówi, że plik testowy sięgający analizatora
 pomija się zamiast wywracać zbiórkę,
-a `tests/test_przecinek.py` sięgał go bez `importorskip` odkąd powstał,
-bo `olski/subset.py` ciągnie `olski/morph.py`,
+a sięgnąć go można nie wypisując go ani razu:
+`olski/subset.py` ciągnie `olski/morph.py`,
 gdzie `import morfeusz2` stoi na górze pliku.
-Brakującą linię ten plik ma, a własności, którą ona przywraca, nie pilnuje nic:
+Linię tę mają dziś wszystkie pliki, które tam dochodzą,
+a własności, którą ona przywraca, nie pilnuje nic:
 przebieg z Morfeuszem przechodzi tak samo z nią i bez niej,
 więc rozejście widać wyłącznie w tym stanie, w który wchodzi się bokiem,
 a opisuje go wpis o `morfeusz2` w `dependencies`.
@@ -2063,6 +2101,6 @@ ten, którego import dochodzi do `olski/morph.py`,
 ma nad tym importem `pytest.importorskip("morfeusz2")`.
 Do rozstrzygnięcia jest, czy liczyć import wypisany w pliku,
 czy to, dokąd on dochodzi:
-`tests/test_przecinek.py` sięgał analizatora przez dwa moduły,
+`tests/test_ruch.py` sięga analizatora przez dwa moduły i ani razu go nie nazywa,
 a `tests/test_endings.py` nie sięga go wcale,
-bo `harness/endings.py` woła `morfeusz2` dopiero w `main`.
+choć nazywa `harness/endings.py`, który woła `morfeusz2` dopiero w `main`.
