@@ -1,7 +1,7 @@
 """Te własności sondy nad świadkiem kontekstowym, bez których jej liczba kłamie.
 
 Liczb sonda nie ma czym bronić: wychodzą z korpusu, którego repozytorium nie
-trzyma, i zmieniają się z każdą zmianą gramatyki. Trzy rzeczy są inne, bo psują
+trzyma, i zmieniają się z każdą zmianą gramatyki. Cztery rzeczy są inne, bo psują
 liczbę po cichu i nie zgłasza ich nic.
 
 Rozkład zasięgu na dwie przyczyny jest tym, po co ta sonda jest: milczenie nad
@@ -10,6 +10,9 @@ czym innym, a zsumowane nie mówią o niczym.
 
 Wariant bez granicy akapitu ma czytać dokument wstecz i tylko wstecz, bo świadek
 liczący zdania za sobą mierzyłby coś, czego czytelnik nie ma.
+
+Wariant reguły kandydata ma mierzyć regułę inną niż wypuszczana, bo wycena, w
+której oba wiersze wychodzą z jednej reguły, wygląda dokładnie jak wycena.
 
 Mianownik ma stać na przyłączeniach, a nie na zdaniach: zdanie miewa ich kilka.
 """
@@ -68,6 +71,26 @@ def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony(tmp_path: Path):
     assert pomiar.przyłączeń == 1, "drugie zdanie nie wychodzi z gramatyki"
     assert pomiar.odpowiedzi == []
     assert pomiar.odpowiedzi_bez_granicy == []
+
+
+def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_path: Path):
+    """Trzy wiersze tej tabeli mają mierzyć trzy reguły, a nie trzy razy jedną.
+
+    Wariant wpięty bez podstawienia ``kandydaci`` odpowiada tyle samo razy co
+    reguła wypuszczana i wygląda przez to na wycenę, której nie ma. Łańcuch
+    dopełniaczowy jest tu miejscem, w którym reguły się rozchodzą: świadek
+    wypuszczany widzi w nim dwóch gospodarzy i milczy, a pytający o sąsiada
+    bezpośredniego wskazuje ogon grupy (``docs/disambiguation.md``).
+    """
+    łańcuch = (
+        "Opisano sposób wymiany danych z systemami zewnętrznymi. "
+        "Wpływa to na sposób wymiany danych z systemem RIT.\n"
+    )
+    (tmp_path / "rejestr.txt").write_text(łańcuch, encoding="utf-8")
+    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    assert pomiar.odpowiedzi_bez_granicy == []
+    (odpowiedź,) = pomiar.warianty["sąsiad bezpośredni"]
+    assert odpowiedź.rozstrzygnięcie.gospodarz == "danych"
 
 
 def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):

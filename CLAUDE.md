@@ -699,12 +699,15 @@ A third set sits under that same heading and has a different mover from either.
 is `sonda/powtórzenie.py` over the audit corpus rather than over the treebank,
 so the grammar moves it — the attachments it counts are the ones a verdict carries —
 and so do `Powtórzenie` and `Sąsiedztwo` in `olski/rozstrzyganie.py`,
-which decide what counts as the same phrase and what counts as the neighbourhood.
+which decide what counts as the same phrase and what counts as the neighbourhood,
+`_łańcuch` beside them, which decides what counts as standing by a host,
+and `REGUŁY` in the probe, which is the two rules that decision was taken against.
 The extraction moves it as well, and this is the figure where that shows most,
 since the share of sentences standing first in their paragraph
 is a fact about what `harness/markdown.py` calls a paragraph.
-The four answers read by hand under it are a reading and not a count,
-so a rerun that moves them is owed the reading again rather than a corrected number.
+The answers read by hand under it are a reading and not a count,
+so a rerun that moves them is owed the reading again rather than a corrected number,
+and one that moves which rule a variant prices is owed the comparison beside them.
 
 Two more sets in that document measure the resolving layer against an answer key,
 which is what makes their movers wider than either set above:
