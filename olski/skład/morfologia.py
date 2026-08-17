@@ -204,12 +204,30 @@ def _spełnia(cechy: dict[str, frozenset[str]], żądane: dict[str, str]) -> boo
     return all(wartość in cechy.get(nazwa, frozenset()) for nazwa, wartość in żądane.items())
 
 
+def _rodzaje(nazwa: str, liczba: str) -> dict[str, set[str]]:
+    """Rodzaje, które leksemy tej nazwy niosą w mianowniku tej liczby."""
+    rodzaje: dict[str, set[str]] = {}
+    for _forma, cechy, identyfikator in paradygmat(nazwa, "subst"):
+        słownik = dict(cechy)
+        if "nom" in słownik.get("case", ()) and liczba in słownik.get("number", ()):
+            # Jeden leksem wydaje mianownik kilka razy, gdy rodzajów ma kilka,
+            # więc rodzaj leksemu jest sumą jego wierszy, a nie pierwszym z nich.
+            rodzaje.setdefault(identyfikator, set()).update(słownik["gender"])
+    return rodzaje
+
+
 @functools.lru_cache(maxsize=4096)
 def rodzaj_rzeczownika(nazwa: str) -> str:
-    """Rodzaj wzięty z mianownika liczby pojedynczej.
+    """Rodzaj wzięty z mianownika tej liczby, którą ten rzeczownik ma.
 
     Rodzaj rzeczownika jest leksykalny: autor go nie wybiera, a zgodność go żąda,
     więc nie stoi w drzewie, tylko przychodzi stąd.
+
+    Liczba pojedyncza idzie pierwsza i jest odpowiedzią wszędzie tam,
+    gdzie rzeczownik ma obie, a mnoga jest tu dla tych, które pojedynczej nie mają:
+    `drzwi` i `Włochy` stoją tylko w mnogiej i rodzaj niosą tam, gdzie stoją,
+    więc pytanie o samą pojedynczą odbierałoby im każdą pozycję,
+    z której wychodzi czasownik albo człon koordynacji.
 
     Rodzaj wychodzi stąd tak, jak forma wychodzi z ``odmień``, i z tego samego
     powodu: zgoda leksemów jest odpowiedzią, a brak zgody jest pytaniem do autora.
@@ -220,15 +238,9 @@ def rodzaj_rzeczownika(nazwa: str) -> str:
     Tamto jest wyborem autora, a to jest słownik mówiący „albo tak, albo tak”,
     więc drugiego ``olski/skład/leksemy.py`` nie rozstrzyga; trzyma to ``TODO.md``.
     """
-    rodzaje: dict[str, set[str]] = {}
-    for _forma, cechy, identyfikator in paradygmat(nazwa, "subst"):
-        słownik = dict(cechy)
-        if "nom" in słownik.get("case", ()) and "sg" in słownik.get("number", ()):
-            # Jeden leksem wydaje mianownik kilka razy, gdy rodzajów ma kilka,
-            # więc rodzaj leksemu jest sumą jego wierszy, a nie pierwszym z nich.
-            rodzaje.setdefault(identyfikator, set()).update(słownik["gender"])
+    rodzaje = _rodzaje(nazwa, "sg") or _rodzaje(nazwa, "pl")
     if not rodzaje:
-        raise BrakFormy(f"{nazwa} nie ma mianownika liczby pojedynczej")
+        raise BrakFormy(f"{nazwa} nie ma mianownika w żadnej liczbie")
     zgodne = set.intersection(*rodzaje.values())
     if not zgodne:
         raise WieleLeksemów(f"rodzaj, który niesie {nazwa}", rodzaje)

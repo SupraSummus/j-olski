@@ -819,6 +819,30 @@ i płaci się za to wyliczaniem, a nie zmianą tamtego pojęcia:
 lemat wpuszczony do sygnatury czytania odrzuciłby prawie całą polszczyznę,
 i mówi to tamten docstring wprost.
 
+Przeczenie napis niesie osobnym słowem, a to słowo zajmuje pozycję czasownika,
+więc pozycję tę czyta się całym ciałem:
+gramatyka stawia `nie` przed formą, a lemat, o który tu chodzi, idzie za nim.
+Dopełniacza negacji nie ma przy tym czego czytać, bo rozstrzyga o nim linearyzacja:
+przypadka ten plik nie czyta wcale, więc `Kot nie widzi myszy.`
+wraca drzewem, które ten przypadek liczy dopiero przy wypisaniu.
+
+Zdanie wypełniające pozycję ramy wraca dwiema drogami, a dzieli je podmiot.
+Treść ma go wypisanego, więc wraca z samego napisu jak każdy inny konstytuent.
+Bezokolicznik nie ma go wcale i nie ma skąd wziąć,
+bo ani osoby, ani rodzaju ta forma nie niesie,
+więc zdanie pod tą pozycją powstaje po podmiocie zdania nad nim, a nie przed nim.
+Jest to ta sama droga, którą wraca podmiot opuszczony w następstwie zdarzeń.
+
+Rozjazd między kierunkami widać przy tym na obiegu i nigdzie więcej,
+bo osobno każdy z nich ma tylko własne zdanie i nie ma go z czym porównać.
+O bezokolicznik gramatyka nie pyta wcale, bo pozycję na niego niesie
+każda klasa walencyjna prócz kopuli, a skład pyta o niego leksykon;
+`olski/walencja.py` nazywa to zdaniem leksykonu czytanym przez jeden kierunek.
+`Linter pomaga pisać dobry kod.` stoi przez to w komentarzu `olski/subset.py`
+jako przykład ciał produkcji `Complements` i ze składu nie wychodzi wcale,
+bo `pomagać` bezokolicznika w tym leksykonie nie bierze.
+Który z dwóch mówi tu prawdę, pyta [`TODO.md`](../TODO.md).
+
 Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
 Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
 okoliczności przy orzeczeniu imiennym
@@ -847,6 +871,7 @@ Która z tych przyczyn zadziałała, mówi sama odpowiedź, a nie ta lista.
 `Odczyt` w `olski/skład/rozbiór.py` wraca z drzewami i z powodami tego,
 co po drodze odpadło, a powód powstaje tam, gdzie kandydat odpada:
 zgłoszeniem, gdy brakuje kategorii, komunikatem morfologii, gdy brakuje formy,
+odmową ramy, gdy leksykon nie daje czasownikowi pozycji, którą kandydat zajął,
 i napisem, który wyszedł, gdy wyszedł inny.
 Pyta o to samo, co `explain` w `olski/subset.py` po tamtej stronie,
 i jest potrzebne z tego samego powodu:

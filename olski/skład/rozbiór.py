@@ -71,6 +71,7 @@ from olski.skład.składnia import (
     Robi,
     Rola,
     Rzecz,
+    Treść,
     Wyróżnienie,
     Zdanie,
     kompiluj,
@@ -91,11 +92,29 @@ ZNAKI_LISTY = ("i", ",")
 #: nie wypisuje niczego, więc czytanie oparte na nich nie miałoby czym wrócić.
 CZASOWNIKOWE = ("fin", "praet", "inf")
 
+#: Lemat cząstki, którą polszczyzna przeczy. Forma ``nie`` bywa też spójnikiem
+#: i zaimkiem, więc pyta się o nią wraz z częścią mowy, tak jak o znak listy.
+PRZECZENIE = "nie"
+
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
 #: Ta sama piątka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
 POZYCJE = ("Subject", "Object", "Predicative", "Verb", "Modifier")
+
+#: Pozycje wypełnione zdaniem, każda pod swoim symbolem gramatyki.
+#: Osobno od ``POZYCJE``, bo tamtą piątkę werdykt drukuje jako role,
+#: a te dwie należą do ramy i żadnej roli nie nazywają.
+#: Dzieli je podmiot: bezokolicznik dostaje go z góry, a treść ma własny.
+BEZOKOLICZNIK = "InfinitivePhrase"
+PODRZĘDNE = "SubordinateClause"
+ZDANIOWE = (BEZOKOLICZNIK, PODRZĘDNE)
+
+#: Pozycje, których znacznik tematu nie obejmuje, bo szyk ich nie przestawia.
+#: Czasownik nie rusza się w tym zapisie nigdy, a zdania nie da się wyróżnić:
+#: ``Wyróżnialne`` w ``olski/skład/składnia.py`` obejmuje role, okoliczności
+#: i przysłówek, a ani ``Zdanie``, ani ``Treść`` z niego nie dziedziczy.
+NIERUCHOME = ("Verb", *ZDANIOWE)
 
 #: Symbole, które pozycji nie są, bo grupują te, które są.
 GRUPUJĄCE = ("Predicate", "Complements", "Adjuncts", "ClauseConjunct")
@@ -294,10 +313,68 @@ def _pozycje(drzewo: Node) -> Iterator[tuple[str, Leaf | Node]]:
         etykieta = _etykieta(dziecko)
         if etykieta in GRUPUJĄCE:
             yield from _pozycje(dziecko)
-        elif etykieta in POZYCJE:
+        elif etykieta in POZYCJE or etykieta in ZDANIOWE:
             yield etykieta, dziecko
         else:
             raise PozaZapisem(f"{_nazwa(dziecko)} nie ma tu swojej pozycji")
+
+
+def _pozycje_bezokolicznika(drzewo: Node) -> Iterator[tuple[str, Leaf | Node]]:
+    """Pozycje zdania, którym jest fraza bezokolicznikowa.
+
+    Podmiotu ta fraza nie ma i tym jednym różni się od zdania osobowego:
+    wykonawcę wskazuje czasownik nad nią, więc podmiot przychodzi z góry
+    tak samo jak po opuszczeniu, o którym rozstrzyga ``pomijalny``.
+
+    Pozycją czasownika jest tu cała fraza, a nie jej głowa,
+    bo w ciele frazy cząstka przecząca poprzedza formę tak samo jak w ciele ``Verb``,
+    i ten sam :func:`_czasowniki` czyta oba.
+    Resztę fraza trzyma pod symbolem grupującym,
+    więc te pozycje wychodzą tą samą drogą co w zdaniu osobowym,
+    a węzeł innego kształtu zgłasza się tam, zamiast wypadać po cichu.
+    """
+    yield "Verb", drzewo
+    for dziecko in drzewo.children:
+        if isinstance(dziecko, Node):
+            yield from _pozycje(dziecko)
+
+
+def _treści(drzewo: Node) -> tuple[Treść, ...]:
+    """Treści, którymi to zdanie podrzędne bywa, po jednej na zdanie pod spójnikiem.
+
+    Podmiot ma ono własny, więc wraca z samego napisu i na nic nie czeka,
+    i tym różni się ta pozycja od frazy bezokolicznikowej wyżej.
+
+    Czytany jest sam kształt ciała, a nie słowa, które je wypełniają:
+    ``Treść`` trzyma ``że`` stałą, bo autor nie wybiera tu słowa,
+    przecinek należy do tego konstytuenta po obu stronach,
+    a innego spójnika gramatyka w tej pozycji nie wypuszcza.
+    Ciało dopasowuje się przy tym całe, tak samo jak w :func:`_nominalne`,
+    bo ciało nierozpoznane ma się zgłosić brakiem kategorii (``docs/sklad.md``).
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt != (SŁOWO, SŁOWO, "Clause"):
+        raise PozaZapisem(f"zdanie podrzędne z {', '.join(kształt)} nie ma tu kategorii")
+    return tuple(Treść(zdanie) for zdanie in _ciąg(drzewo.children[-1]))
+
+
+def _czasowniki(drzewo: Node) -> tuple[tuple[str, bool], ...]:
+    """Lematy, którymi ta pozycja orzeka, każdy wraz z tym, czy zdanie przeczy.
+
+    Czytane jest całe ciało, a nie sama głowa, bo przeczenie wychodzi tu słowem,
+    a jest kategorią, którą ten zapis ma: ``nie`` w ``olski/skład/składnia.py``
+    zmienia zdaniu jedno pole. Cząstka należy przy tym do zdania,
+    a własnej pozycji nie ma i zajmuje pozycję czasownika,
+    więc lemat, o który tu chodzi, bywa drugą częścią ciała, a nie pierwszą.
+
+    Przeczenie wychodzi wyżej parą z lematem, bo po drugiej stronie jest z nim
+    jednym polem zdania i rozjechać się z nim nie może.
+    """
+    ciała = drzewo.children
+    przeczenie = PRZECZENIE in _lematy(ciała[0], "part")
+    if przeczenie:
+        ciała = ciała[1:]
+    return tuple((lemat, przeczenie) for lemat in _lematy(ciała[0], *CZASOWNIKOWE))
 
 
 def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
@@ -310,18 +387,27 @@ def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
     których skład nie wypisze, wypada na porównaniu form.
     Tą samą drogą wypada cząstka ``się``, bo skład jej nie wypisuje wcale.
 
+    Zdanie wypełniające pozycję ramy wychodzi stąd na dwa sposoby
+    i dzieli je podmiot. Treść ma własny, więc wychodzi gotowa.
+    Bezokolicznik orzeka o podmiocie czasownika nad nim,
+    a ta funkcja tego podmiotu nie zna, bo wypełnia on inną pozycję
+    tego samego zdania, więc wychodzi stąd sam węzeł, a :func:`_dopełnienia`
+    składa go, gdy podmiot jest już wybrany.
+
     Pozycja bez ani jednego wariantu zgłasza się tutaj, a nie u tego, kto pyta,
     bo tam wygasza iloczyn kandydatów i wraca pustką, o której nie ma co powiedzieć.
-    Pusto bywa z trzech rzeczy naraz i zgłoszenie ich nie rozdziela:
+    Pusto bywa z dwóch rzeczy naraz i zgłoszenie ich nie rozdziela:
     rozkaźnik nie ma lematu wśród ``CZASOWNIKOWE``,
-    przyimek spoza ``RELACJE`` nie ma relacji,
-    a cząstka przecząca poprzedza w tym ciele formę,
-    więc ``children[0]`` czasownika tu nie znajduje (``TODO.md``).
+    a przyimek spoza ``RELACJE`` nie ma relacji.
     """
     if pozycja == "Verb":
-        warianty = _lematy(drzewo.children[0], *CZASOWNIKOWE)
+        warianty = _czasowniki(drzewo)
     elif pozycja == "Modifier":
         warianty = _okoliczniki(drzewo)
+    elif pozycja == BEZOKOLICZNIK:
+        warianty = (drzewo,)
+    elif pozycja == PODRZĘDNE:
+        warianty = _treści(drzewo)
     else:
         warianty = _role(drzewo.children[0])
     if not warianty:
@@ -338,10 +424,10 @@ def _znaczniki(pozycje: list[str]) -> Iterator[dict[int, str]]:
     Wydawana jest każda z nich, a nie ta jedna, którą szyk zdradza,
     bo znacznik postawiony tam, gdzie konstytuent i tak stoi, niczego nie przestawia,
     a mimo to jest tym, co autor napisał.
-    Czasownik z tej listy wypada, bo nie rusza się w tym zapisie nigdy.
+    Pozycje ``NIERUCHOME`` z tej listy wypadają, bo znacznika nie biorą.
     """
-    czoło = {0: "czoło"} if pozycje[0] != "Verb" else {}
-    koniec = {len(pozycje) - 1: "koniec"} if pozycje[-1] != "Verb" else {}
+    czoło = {0: "czoło"} if pozycje[0] not in NIERUCHOME else {}
+    koniec = {len(pozycje) - 1: "koniec"} if pozycje[-1] not in NIERUCHOME else {}
     warianty: list[dict[int, str]] = [{}]
     for znaczniki in (czoło, koniec, {**czoło, **koniec}):
         if znaczniki and znaczniki not in warianty:
@@ -360,23 +446,35 @@ def _złóż(
     znaczniki: dict[int, str],
     podmiot: Rola | None,
     postać: bool,
-) -> Zdanie:
-    """Zdanie z pozycji, które gramatyka nazwała, i konstytuentów, które w nich stoją.
+) -> Iterator[Zdanie]:
+    """Zdania z pozycji, które gramatyka nazwała, i konstytuentów, które w nich stoją.
 
     Kopula rozdziela tu dwie kategorie, bo w tym zapisie są dwie:
     ``Jest`` orzeka o podmiocie orzecznikiem, a ``Robi`` czynnością.
     Orzecznik przy czasowniku innym niż kopula nie ma tu czym być,
     bo ``Jest`` trzyma kopulę wpisaną na stałe,
     a okoliczność przy orzeczeniu imiennym nie ma pozycji.
+
+    Przeczenie dostają obie, bo obie mają je polem,
+    a różnicę między nimi robi dopełniacz negacji, którego orzecznik nie bierze,
+    i liczy ją linearyzacja, a nie ten plik.
+
+    Zdań wychodzi stąd kilka tylko wtedy, gdy dopełnieniem jest bezokolicznik,
+    bo zdanie pod nim powstaje dopiero tutaj (:func:`_dopełnienia`).
+    Wykonawcą jest podmiot goły, bo tego samego obiektu żąda ``Robi``,
+    a wyróżnienie orzeka o zdaniu nadrzędnym i niżej nie sięga.
     """
     pola: dict[str, object] = {}
     okoliczniki: list = []
-    czasownik = konstytuenty[pozycje.index("Verb")]
+    sprawca = podmiot
+    czasownik, przeczenie = konstytuenty[pozycje.index("Verb")]
     for numer, (pozycja, konstytuent) in enumerate(zip(pozycje, konstytuenty, strict=True)):
         if pozycja == "Verb":
             continue
-        if pozycja == "Subject" and postać:
-            konstytuent = Postać(konstytuent)
+        if pozycja == "Subject":
+            if postać:
+                konstytuent = Postać(konstytuent)
+            sprawca = konstytuent
         oznaczony = _oznacz(konstytuent, znaczniki.get(numer))
         if pozycja == "Modifier":
             okoliczniki.append(oznaczony)
@@ -386,33 +484,60 @@ def _złóż(
     if kto is None:
         raise PozaZapisem("zdanie bez podmiotu nie ma tu kategorii")
     if czasownik == KOPULA and "Predicative" in pola and not okoliczniki:
-        return Jest(co=kto, czym=pola["Predicative"])
+        yield Jest(co=kto, czym=pola["Predicative"], przeczenie=przeczenie)
+        return
     if czasownik == KOPULA or "Predicative" in pola:
         raise PozaZapisem(f"{czasownik} nie składa tu orzeczenia imiennego")
-    return Robi(
-        kto=kto,
-        czyn=czasownik,
-        co=pola.get("Object"),
-        okoliczniki=tuple(okoliczniki),
-    )
+    for dopełnienie in _dopełnienia(pola, sprawca):
+        yield Robi(
+            kto=kto,
+            czyn=czasownik,
+            co=dopełnienie,
+            okoliczniki=tuple(okoliczniki),
+            przeczenie=przeczenie,
+        )
 
 
-def _zdania(drzewo: Node, podmiot: Rola | None = None, postać: bool = False) -> Iterator[Zdanie]:
-    """Zdania, którymi ten konstytuent bywa, bo bywa nimi po kilka naraz.
+def _dopełnienia(pola: dict[str, object], sprawca: Rola | None) -> Iterator:
+    """Czym bywa dopełnienie tego zdania: zdarzeniem, treścią, rzeczą albo niczym.
+
+    Trzy pierwsze wykluczają się, bo pod ``Complements`` staje jedno wypełnienie,
+    więc pytania idą tu jedno po drugim, a nie w iloczynie.
+    Kilka odpowiedzi daje samo zdarzenie, bo jedyne z trzech powstaje tutaj:
+    czeka na wykonawcę, którym jest podmiot zdania nad nim.
+    """
+    if BEZOKOLICZNIK in pola:
+        pozycje = list(_pozycje_bezokolicznika(pola[BEZOKOLICZNIK]))
+        yield from _zdania(pozycje, podmiot=sprawca)
+        return
+    yield pola.get(PODRZĘDNE, pola.get("Object"))
+
+
+def _zdania(
+    pozycje: list[tuple[str, Leaf | Node]],
+    podmiot: Rola | None = None,
+    postać: bool = False,
+) -> Iterator[Zdanie]:
+    """Zdania, którymi te pozycje bywają, bo bywają nimi po kilka naraz.
+
+    Pozycje przychodzą policzone, a nie węzłem do policzenia,
+    bo zdanie osobowe i fraza bezokolicznikowa różnią się dokładnie nimi:
+    czasownik stoi w jednej pod swoim symbolem, a w drugiej liściem.
+    Reszta tej funkcji o tej różnicy nie wie i wiedzieć nie ma.
 
     Podmiot przychodzi z zewnątrz wtedy, gdy zdanie go nie ma,
-    czyli po opuszczeniu, o którym rozstrzyga ``pomijalny``;
-    wtedy przychodzi też deklaracja tożsamości, bo bez niej
-    ten sam napis by z tego drzewa nie wyszedł.
+    czyli po opuszczeniu, o którym rozstrzyga ``pomijalny``,
+    albo pod bezokolicznikiem, który podmiotu nie ma nigdy;
+    tylko w pierwszym z tych dwóch przychodzi deklaracja tożsamości,
+    bo bez niej ten sam napis by z tego drzewa nie wyszedł.
     """
-    pozycje = list(_pozycje(drzewo))
     nazwy = [nazwa for nazwa, _ in pozycje]
     if nazwy.count("Verb") != 1:
         raise PozaZapisem("zdanie tego zapisu orzeka jednym czasownikiem")
     warianty = [_konstytuenty(nazwa, węzeł) for nazwa, węzeł in pozycje]
     for wybór in itertools.product(*warianty):
         for znaczniki in _znaczniki(nazwy):
-            yield _złóż(nazwy, wybór, znaczniki, podmiot, postać)
+            yield from _złóż(nazwy, wybór, znaczniki, podmiot, postać)
 
 
 def _członowie(drzewo: Node) -> list[Node]:
@@ -441,11 +566,11 @@ def _ciąg(drzewo: Node) -> Iterator[Zdanie]:
     wewnątrz jednego zdania widać ją po tym, czego w nim nie ma,
     a między zdaniami nie widać jej wcale.
     """
-    człony = _członowie(drzewo)
+    człony = [list(_pozycje(człon)) for człon in _członowie(drzewo)]
     if len(człony) == 1:
         yield from _zdania(człony[0])
         return
-    dzieli = any("Subject" not in [nazwa for nazwa, _ in _pozycje(człon)] for człon in człony[1:])
+    dzieli = any("Subject" not in [nazwa for nazwa, _ in człon] for człon in człony[1:])
     for pierwsze in _zdania(człony[0], postać=dzieli):
         dalsze = [list(_zdania(człon, podmiot=pierwsze.podmiot)) for człon in człony[1:]]
         for reszta in itertools.product(*dalsze):

@@ -1767,6 +1767,10 @@ bo pokazało, ile z tej zmiany jest zrobione, a ile nie:
 przekład umie wziąć trzecie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
 i mimo to każde nowe pytanie jest osobną gałęzią w konstruktorze,
 a `_dopełnienie` obok rozdziela dziś trzy kształty tam, gdzie rozdzielało dwa.
+Ta sama gałąź powtarza się po drugiej stronie obiegu,
+bo tam każda z tych trzech pozycji jest osobnym symbolem gramatyki:
+`_dopełnienia` w `olski/skład/rozbiór.py` rozdziela je tak samo
+i pójdzie tą samą zmianą.
 Ruchem jest rama jako zbiór pozycji, a nie lista pytań,
 oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
 a nie po kategorii okoliczności.
@@ -1881,17 +1885,6 @@ a milczy dokładnie tak jak dziś, dopóki nikt go nie napisze.
 Rozstrzyga między nimi to, ile takich wariantów rejestr naprawdę spotyka,
 i tego nikt nie policzył.
 
-`rodzaj_rzeczownika` w `olski/skład/morfologia.py` zgłasza `BrakFormy` nad rzeczownikiem,
-który liczby pojedynczej nie ma, bo szuka rodzaju w mianowniku pojedynczym.
-Kosztuje to podmiot: `drzwi` i `Włochy` nie staną w zdaniu, z którego wyjdzie czasownik,
-i nie staną w koordynacji, która rodzaju od członów żąda,
-choć jako dopełnienie wychodzą, i tak stoją w `opowieści/bazyliszek.py`.
-Do przeczytania jest to, co `paradygmat` w tym samym pliku dostaje z SGJP
-dla takiego leksemu: rodzaj stoi tam przy formach liczby mnogiej,
-więc rzecz jest w miejscu, w którym się go szuka, a nie w danych.
-Ruchem jest rodzaj brany z mianownika tej liczby, którą ten leksem ma,
-wraz z testem na obie liczby, bo inaczej poprawka pokryje jedną z nich.
-
 `olski/skład/przyimki.py` zna przyimek w jednej postaci,
 więc `we Wrocławiu`, `ze wsi` i `pode mną` z drzewa nie wyjdą,
 a wyjdzie z niego `w Wrocławiu`, którego polszczyzna nie ma.
@@ -1926,34 +1919,28 @@ wpis wskazuje tam leksem, który słownik ma,
 a tutaj trzeba wskazać leksem, wedle którego odmienia się słowo,
 którego słownik nie ma wcale.
 
-`olski/skład/rozbiór.py` nie wypuszcza dopełnienia wyrażonego zdarzeniem,
-więc `Linter pomaga pisać dobry kod.` nie wraca żadnym drzewem,
-choć zdanie to mają oba tory naraz.
-Bierze się to z kolejności, w której rozbiór składa kandydatów:
-konstytuenty powstają, zanim wiadomo, co jest podmiotem,
-a bezokolicznik żąda tego samego obiektu, którym stoi podmiot nad nim,
-bo tyle sprawdza `Robi` w `olski/skład/składnia.py`.
-Do przeczytania jest `_złóż` wraz z `_ciąg` w tym samym pliku,
-bo drugie z nich przekazuje już podmiot w dół, czego pierwsze potrzebuje,
-oraz [dopełnienie wyrażone zdarzeniem](docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
-które trzyma warunek o cudzym wykonawcy.
-Ruchem jest zbudowanie zdania pod bezokolicznikiem po podmiocie, a nie przed nim.
-
-Przeczenie ma kategorię po obu stronach, a rozbiór jej nie odczytuje.
-`Robi` oraz `Jest` w `olski/skład/składnia.py` mają pole `przeczenie`,
-gramatyka wypuszcza cząstkę w ciele `Verb` przed formą czasownika,
-a `_konstytuenty` w `olski/skład/rozbiór.py` bierze z tej pozycji samo `children[0]`,
-czyli trafia na `nie` i nie znajduje pod nim żadnego lematu czasownika.
-`Nie wyniósł z piwnicy lustra.` wraca stąd powodem
-`„Nie wyniósł” nie ma tu czym być w pozycji Verb`,
-choć jest to zdanie, które oba tory mają naraz.
-Kategorii tu nie brakuje, brakuje odczytania kształtu, który ją niesie,
-i tym różni się ten wpis od sąsiednich.
-Do przeczytania jest `_konstytuenty` wraz z produkcją `Verb`
-w `olski/subset.py` oraz `nie` w `olski/skład/składnia.py`, czyli druga strona tej kategorii.
-Ruchem jest pozycja czasownika czytana całym ciałem,
-tak jak `_role` czyta ciało grupy imiennej,
-wraz z przeczeniem podanym do `_złóż`.
+O bezokolicznik gramatyka nie pyta wcale, a skład pyta o niego leksykon,
+i te dwa zdania nie zgadzają się co do `pomagać`.
+`Linter pomaga pisać dobry kod.` stoi w komentarzu `olski/subset.py`
+jako przykład ciał produkcji `Complements`, olski je wyprowadza,
+a `Robi` w `olski/skład/składnia.py` odmawia mu ramy,
+bo `olski/leksykon.txt` mówi o tym lemacie samo `nie_bierze_biernika`.
+Widać to na obiegu i nigdzie więcej, bo osobno każdy z tych kierunków
+ma tylko własne zdanie i nie ma go z czym porównać;
+tym różni się ten wpis od tych, które nazywają brak po jednej stronie.
+Wywód trzyma
+[`docs/sklad.md`](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
+a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
+Do przeczytania jest, co `olski/walenty.py` bierze z Walentego przy pozycji `infp`,
+bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
+czy ma go w kształcie, którego ten przekład nie bierze,
+wraz z tym, co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
+mówi o granicach tego przekładu.
+Ruchem jest jedno z dwóch, zależnie od tego, co słownik powie:
+przekład biorący ten kształt, wraz z przebiegiem generatora
+i poprawką liczb w tamtej sekcji,
+albo zdanie przykładowe w tamtym komentarzu zamienione na takie,
+które oba tory mają naraz.
 
 Liczebnik ma produkcję w gramatyce, a w tym zapisie nie ma kategorii,
 więc `Działają dwie rzeczy.` wraca powodem
