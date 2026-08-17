@@ -1,0 +1,116 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury znaczenia
+polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
+ruszają:
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/skład/rozbiór.py: e261cd3714d2
+  olski/skład/składnia.py: 45231d6c9c81
+  sonda/znaczenia.py: cd9e03d4a1a0
+
+Składnica, morfologia gold, 13035 zdań z werdyktem
+
+  werdykt olskiego:
+    11307    rejected
+     1179    valid
+      549    ambiguous
+
+  ile czytań zdania wraca drzewem tego zapisu:
+    ambiguous, 549 zdań:
+        1    0.2%  każde czytanie wraca drzewem
+        6    1.1%  część czytań wraca drzewem
+      542   98.7%  żadne czytanie nie wraca drzewem
+    valid, 1179 zdań:
+       71    6.0%  każde czytanie wraca drzewem
+        0    0.0%  część czytań wraca drzewem
+     1108   94.0%  żadne czytanie nie wraca drzewem
+
+  czym są wobec siebie drzewa czytań, z 1 zdań wieloznacznych:
+        0    0.0%  czytania dają te same drzewa
+        0    0.0%  drzewo wspólne stoi pod każdym czytaniem, a nie każde
+        1  100.0%  żadne drzewo nie stoi pod każdym czytaniem
+
+  ile drzew tego zapisu ma zdanie, którego każde czytanie wróciło:
+    ambiguous, 1 zdań, ile drzew:
+        1  100.0%  8
+    valid, 71 zdań, ile drzew:
+       16   22.5%  1
+       16   22.5%  2
+       35   49.3%  4
+        4    5.6%  8
+
+  czemu czytanie nie wraca drzewem, z 3274 takich czytań:
+     2771   84.6%  zapis nie ma kategorii
+      503   15.4%  kandydat wypisuje się innym napisem
+
+  najczęstsze powody, z 1530 różnych:
+      746  grupa imienna z słowo, Modifier nie ma tu kategorii
+      575  zdanie bez podmiotu nie ma tu kategorii
+      210  AP nie jest tu grupą imienną
+      163  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
+      113  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+       78  grupa imienna z słowo, słowo, Modifier nie ma tu kategorii
+       41  grupa imienna z słowo, słowo, NP nie ma tu kategorii
+       32  być nie składa tu orzeczenia imiennego
+       22  „go” nie ma tu czym być w pozycji Object
+       19  „Ona” nie ma tu czym być w pozycji Subject
+       17  „one” nie ma tu czym być w pozycji Subject
+       16  „Przez całą sobotę” nie ma tu czym być w pozycji Modifier
+
+  najkrótsze zdania: ambiguous, część czytań wraca drzewem
+      2 czytań  Kryterium wzrostu nie obowiązuje.
+      2 czytań  Janka nic nie odpowiada i zamyka drzwi.
+      3 czytań  Saturn wyda miliony złotych na reklamę.
+      2 czytań  PiS idzie do wyborów pod własnym szyldem.
+      2 czytań  Dzieci spędzają noce w oddziale noworodków.
+      2 czytań  Odrobina zazdrości utrzyma miłość w dobrej formie.
+
+  najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
+      2 czytań  Był rok 1919.
+      2 czytań  Czeka koń z furą.
+      2 czytań  Weź to pod uwagę.
+      2 czytań  Muszę jechać do domu.
+      2 czytań  Nikt o nic nie pytał.
+      2 czytań  Przepiorę coś w ręku.
+
+  najkrótsze zdania: ambiguous, żadne drzewo nie stoi pod każdym czytaniem
+      2 czytań  Biernacki może liczyć na poparcie polityków koalicji.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 1
+      1 czytań  Nadchodzi zima.
+      1 czytań  Wystarczy plomba.
+      1 czytań  Dołączają wszyscy.
+      1 czytań  Kościół zalega cisza.
+      1 czytań  Kogoś cechuje głupota.
+      1 czytań  Wyjątek stanowi finał.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 2
+      1 czytań  Aga słucha.
+      1 czytań  Lampa gaśnie.
+      1 czytań  Alicja milczy.
+      1 czytań  Polak potrafi.
+      1 czytań  Strzały milkną.
+      1 czytań  Frajer odjedzie.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 4
+      1 czytań  Ewa ma klucze.
+      1 czytań  Cena nie gra roli.
+      1 czytań  Głupota rodzi głupotę.
+      1 czytań  Żona pracuje na etacie.
+      1 czytań  Koledzy pozwolą na górę.
+      1 czytań  Większość utrzyma pracę.
+
+  najkrótsze zdania: valid, drzew tego zapisu: 8
+      1 czytań  Taksówka staje w pewnym oddaleniu.
+      1 czytań  Niektóre rzeki nie zamarzają w ogóle.
+      1 czytań  Samochód odjeżdża w kierunku Nałęczowa.
+      1 czytań  Kierowca wrzuca wsteczny i na pełnym gazie taranuje pieszych.
+
+  najkrótsze zdania: valid, żadne czytanie nie wraca drzewem
+      1 czytań  Ciął.
+      1 czytań  Kpił.
+      1 czytań  Mamy.
+      1 czytań  Wiem.
+      1 czytań  Bierz!
+      1 czytań  Oddaj!

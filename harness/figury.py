@@ -126,6 +126,59 @@ FIGURY = (
         ruszają=("sonda/rama.py", "olski/attachment.py"),
         czyta=("docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie",),
     ),
+    Figura(
+        nazwa="znaczenia",
+        polecenie=("python3", "-m", "sonda.znaczenia", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Rusza to i gramatyka, i zapis dziedziny, bo pomiar jest różnicą między
+        #  nimi: produkcja dopisana rusza czytania, a kategoria dopisana w składni
+        #  albo w rozbiorze rusza to, ile z nich wraca.
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/skład/rozbiór.py",
+            "olski/skład/składnia.py",
+            "sonda/znaczenia.py",
+        ),
+        czyta=("docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia",),
+    ),
+    Figura(
+        nazwa="znaczenia-live",
+        #  Ta sama sonda nad tym samym korpusem, a osobno od figury wyżej, bo
+        #  morfologia żywa jest tą, którą czyta się dokument, i daje pytaniu
+        #  populację kilka razy większą niż czytania wybrane przez anotatorów.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.znaczenia",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/skład/rozbiór.py",
+            "olski/skład/składnia.py",
+            "sonda/znaczenia.py",
+        ),
+        czyta=("docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia",),
+    ),
+    Figura(
+        nazwa="znaczenia-proza",
+        polecenie=("python3", "-m", "sonda.znaczenia", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/skład/rozbiór.py",
+            "olski/skład/składnia.py",
+            "sonda/znaczenia.py",
+        ),
+        czyta=("docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia",),
+    ),
 )
 
 

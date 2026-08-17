@@ -536,38 +536,26 @@ więc poprawka ma przejść cały dokument, a nie same liczby wypisane tutaj.
 
 ## Gramatyka, parser i pomiar pokrycia
 
-`Verdict` w `olski/subset.py` liczy wyprowadzenia, a nie znaczenia,
-bo powstaje z `Result.readings`, czyli pod dwiema warstwami,
-które wieloznaczność zdejmują
-([`docs/architecture.md`](docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia)).
-Ruchem nie jest przeniesienie werdyktu nad `abstrahuj`,
-bo dziedzina tej funkcji jest węższa od gramatyki
-i zdanie bez drzewa dziedziny wychodziłoby z niej odrzucone bez powodu w polszczyźnie.
-Ruchem jest pomiar: ile zdań, które olski melduje jako wieloznaczne,
-ma nad sobą jedno drzewo `Zdanie` po zwinięciu przez `sygnatura` w `olski/skład/rozbiór.py`.
-Liczba ta mówi, ile z meldowanej wieloznaczności jest wieloznacznością wyprowadzenia,
-i jest to ta sama różnica, którą nad korpusem audytowym czyta się ręką
-([`docs/open-questions.md`](docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)),
-tylko wzięta z kodu, a nie z osądu.
-Sondą jest `rozbierz` puszczone nad zdaniami wieloznacznymi Składnicy,
-przy czym `Odczyt.powody` trzeba rozdzielić przed policzeniem czegokolwiek:
-krotka pusta znaczy raz brak kategorii w zapisie, a raz brak czytania,
-a tylko pierwsze jest tu szumem.
-Do przeczytania przed pomiarem jest, po co obieg zamknięty powstał,
-bo `rozbierz` odpowiada na pytanie o autora, a nie o werdykt
-(docstring `olski/skład/rozbiór.py`).
-
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
 choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
 ([`docs/architecture.md`](docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).
 Widać to na kopuli: powtórzenie frazy przy `być` nie dowodzi niczego o tym czasowniku,
 więc `KOPULY` odbiera dowód, zamiast dać świadkowi pytanie, na które kopuła odpowiada
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Ruchem jest świadek pytający o drzewo dziedziny zamiast o gospodarza,
-czyli taki, dla którego `Powtórzenie` szuka nie tej samej frazy przy tym samym lemacie,
-ale tej samej relacji w drzewie `Zdanie` wypuszczonym przez `abstrahuj`.
-Wpis wyżej jest tego warunkiem, bo bez tamtego pomiaru nie wiadomo,
-nad ilu zdaniami taki świadek miałby w ogóle o co pytać.
+Świadka pytającego o drzewo dziedziny zamiast o gospodarza zmierzono przed napisaniem
+i wyszło, że nie miałby o co pytać:
+warstwa znacząca tego rejestru nie dosięga,
+więc pytanie padłoby nad jednym zdaniem wieloznacznym banku drzew z kilkuset,
+a nad prozą tego repozytorium nad żadnym
+(`figury/znaczenia.txt`, `figury/znaczenia-proza.txt`).
+Zostaje z tego kolejność:
+pytanie ponad składnią stawia się dopiero za kategoriami, których ten zapis nie ma,
+a pierwszą z nich jest wyrażenie przyimkowe pod grupą imienną,
+czyli to samo przyłączenie, o które świadek miałby pytać
+([`docs/sklad.md`](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)).
+Dopisanie jej jest jednak odwróceniem rozstrzygnięcia, a nie załataniem dziury,
+bo okolicznik dochodzi w tym zapisie do zdarzenia, a nie do rzeczy,
+więc kto ten wpis podnosi, zaczyna od tamtej sekcji, a nie od `olski/rozstrzyganie.py`.
 Do przeczytania jest `Świadek` w tym samym pliku:
 sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
@@ -944,7 +932,7 @@ czyli konstrukcję inną niż ta.
 Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
 etykietą, po której da się ją policzyć.
 
-Trzy przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
+Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
 a `sonda/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
@@ -952,6 +940,14 @@ Trzeci jest `sonda/wskazania.py`, który tych samych przyłączeń potrzebuje,
 żeby zapytać o nie warstwę, i różni się od dwóch pozostałych tym, że czyta las
 razem z cudzym drzewem — więc scalenie obejmuje go dopiero wtedy, gdy przebieg
 zbiorczy umie oddać jedno i drugie.
+Czwarty jest `sonda/znaczenia.py` i on jeden potrzebuje samych czytań, a nie
+podsumowania z nich, bo każde puszcza przez `abstrahuj`; przebieg zbiorczy albo
+odda drzewa czytań przez granicę procesu, albo zrobi tę abstrakcję u siebie,
+i to jest pytanie do rozstrzygnięcia przed scaleniem, a nie po nim.
+Ten sam czwarty przepisuje z `sonda/czytania.py` całe rusztowanie przebiegu
+spisowego — `Raport`, `zanotuj`, `scal`, pulę procesów i tabelę procentową —
+czyli to, czym `sonda/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają;
+scalenie przebiegów zdejmuje połowę tego duplikatu i dlatego idzie przed nim.
 Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
 po którym tabela z
 [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)

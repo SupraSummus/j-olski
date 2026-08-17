@@ -855,6 +855,15 @@ Leksem jest trzecią, bo nazwa w drzewie jest nazwą, którą wybrał autor,
 a rozbiór stawia lemat, więc `Rosół ma oka.` nie wraca:
 goła nazwa `oko` znaczy w tym repozytorium oko.
 
+Jak często który z tych braków pada, mierzy `sonda/znaczenia.py` nad rejestrem,
+a wynik trzyma `figury/znaczenia.txt`.
+Nad bankiem drzew zdanie, które olski melduje jako wieloznaczne,
+nie wraca żadnym drzewem prawie zawsze,
+a przed pozostałymi brakami stoi wyrażenie przyimkowe pod grupą imienną,
+czyli ten jeden, który jest tu rozstrzygnięciem, a nie dziurą.
+Po co ten pomiar wzięto i co mówi o warstwach, mówi
+[architecture.md](architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia).
+
 Pustą odpowiedzią jest tak samo kształt ciała, dla którego kategorii nie ma,
 i jest to żądanie postawione temu plikowi, a nie własność, którą ma za darmo.
 Gramatyka dopisuje ciała symbolom, które rozbiór czyta,
