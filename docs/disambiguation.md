@@ -19,6 +19,11 @@ a sufit leży wyraźnie poniżej stu procent,
 bo część tych decyzji rozstrzyga zdanie poprzednie,
 a część nie jest decyzją wcale, bo oba czytania mówią to samo.
 
+Którą z tych cen warto zapłacić, rozstrzyga hipoteza, którą ten dokument stawia:
+dobre ujednoznacznianie jest odczytaniem tego, co czytelnik ma przed sobą.
+Co z niej wychodzi i co by ją obaliło, mówi
+[sekcja o niej](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
+
 Dokument opisuje wobec tego cenę, a nie plan.
 [roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca) żadnego etapu na to nie ma,
 a `olski/rozstrzyganie.py` jest zalążkiem stojącym obok werdyktu i nie ruszającym go:
@@ -216,6 +221,69 @@ Czy to warte modelu trenowanego na banku drzew, ten dokument nie rozstrzyga;
 [open-questions.md](open-questions.md#the-round-trip-guarantee)
 trzyma pytanie o ranking wraz z notowaną tam niechęcią do budowania go.
 
+## Dobre ujednoznacznianie jest odczytaniem i jest to hipoteza
+
+Sekcja wyżej odrzuca ranking, dwie niżej przyjmują po jednej rzeczy tańszej,
+a trzecia mówi, że reszty nie rozstrzyga nic, co stoi w zdaniu.
+Każda z tych czterech decyzji ma osobne uzasadnienie,
+a pod wszystkimi leży jedno zdanie, którego dotąd nikt tu nie wypisał:
+odpowiedź warta wzięcia jest odczytaniem tego, co czytelnik ma przed sobą,
+a nie częstością zmierzoną nad czymś, czego przed sobą nie ma.
+
+Kryterium, które z tego wychodzi, pyta o powód, a nie o trafność.
+Odpowiedź przychodzi z powodem albo nie przychodzi wcale,
+a powody są dwojakie.
+Pierwszy nazywa coś, co leży w tym tekście albo w słowniku słowa z tego tekstu;
+drugi liczbę policzoną nad korpusem, którego czytelnik nie czyta.
+Pierwszy sprawdza się bez wychodzenia z akapitu.
+Drugiego nie sprawdza nic, bo sprawdzianem byłaby ta sama tabela, którą przed chwilą zacytował.
+Żąda tego od odpowiedzi to samo zdanie, które README stawia werdyktowi:
+każdy werdykt przychodzi z czytaniem, które go wydało,
+czyli parser mówi, na czym stanął ([README](../README.md)).
+
+Hipoteza ma dwie połowy i tylko drugą da się obalić.
+
+Pierwsza połowa jest decyzją, a nie odkryciem.
+Mówi ona, że rankingowi nie pomoże dziesięć punktów trafności więcej:
+model trafiający w dziewięciu wypadkach na dziesięć
+dalej nie umie powiedzieć autorowi, dlaczego akurat tak,
+a wyjaśnienie jest tym, co ten parser obiecuje zamiast prawdopodobieństwa.
+Sekcja wyżej wycenia odrzucenie rankingu liczbą pomyłek,
+a ta połowa mówi o tamtej liczbie, że jest ceną i nie jest powodem.
+
+Druga połowa mówi coś o świecie i daje się zmierzyć.
+Brzmi tak: odczytanie przenosi się między rejestrami, a częstość nie.
+Tabela częstości zbudowana z banku drzew powstaje z prozy literackiej i prasowej,
+a rejestrem, o który olskiemu chodzi, jest dokumentacja techniczna,
+więc nad dokumentacją taka tabela ma się mylić częściej, niż mówi jej własna ocena.
+Fraza powtórzona w akapicie nie ma pod sobą żadnego korpusu,
+więc nie ma też skąd i dokąd się przenosić.
+Obala tę połowę przebieg, w którym częstość trafia nad dokumentacją tak samo dobrze
+jak nad bankiem drzew, albo taki, w którym odczytanie z akapitu myli się od niej częściej.
+
+Kosztuje to jednak coś, czego ranking nie kosztuje.
+Powód wyczytany z tekstu bywa prawdziwy i nie mówi nic.
+Zdanie, w którym fraza okolicznikowa stanęła przy `być`,
+dowodzi o tym czasowniku tyle, ile dowodzi o dowolnym innym,
+bo przy `być` taka fraza stoi wszędzie —
+i jest to jedyna pomyłka wśród ośmiu odczytań, które ten dokument
+[czyta ręką niżej](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+Częstość zmylić się tak nie może, bo jej powód jest dokładnie tym, co zmierzyła.
+Wyłapuje taki powód czytelnik, bo po to właśnie powód przy odpowiedzi jest,
+czyli obroną jest dokładnie to, co kryterium kupuje.
+
+Rozstrzygnąć drugą połowę mógłby jeden przebieg,
+a materiału pod niego to repozytorium ma za mało.
+Dwa korpusy dają po jednej połowie tego, czego taki przebieg żąda:
+bank drzew ma wzorzec i nie ma kontekstu,
+a [korpus audytowy](audit-corpus.md#the-list) odwrotnie.
+Obie połowy naraz ma dopiero
+[wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
+a odpowiedzi padają nad nim rzadziej niż milczenie;
+tamta sekcja sama mówi, że na częstość pomyłek jej próba nie starcza.
+O ile tę próbę powiększyć, pyta wpis w [`TODO.md`](../TODO.md),
+i dopiero powiększona wystarczy na ten przebieg.
+
 ## Tożsamość czytania jest tańsza i częściowo już stoi
 
 Drugie z trzech pytań nie potrzebuje modelu ani banku drzew.
@@ -358,6 +426,8 @@ a milczenie jest odpowiedzią domyślną i pełnoprawną.
 Świadkowie idą w kolejności rodzaju dowodu i pierwszy odpowiadający wygrywa,
 więc dowód o tym tekście bije dowód o cudzym korpusie wszędzie tam,
 gdzie oba mówią coś naraz.
+Kolejność ta jest [hipotezą tego dokumentu](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
+zapisaną w kodzie, a nie wynikiem porównania dwóch trafności.
 Powód wraca razem ze wskazaniem, żeby wskazanie dało się sprawdzić bez zaglądania do tabeli.
 
 **Świadkowie są dwaj i żaden nie jest tym, którego ten wywód wycenia najwyżej.**
@@ -618,6 +688,15 @@ a takiego drugiego banku drzew dla polszczyzny ten przegląd nie zna.
 Rejestr się przy tym nie zgadza: bank drzew jest prozą literacką i prasową,
 a olski celuje w dokumentację techniczną,
 więc skłonność wzięta stąd jest punktem wyjścia, a nie pomiarem rejestru, o który chodzi.
+
+Dowód tego świadka jest przy tym tego samego rodzaju co dowód
+[rankingu](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje):
+częstość wyuczona z banku drzew, pytana o jedno przyłączenie zamiast o całe drzewo.
+Zarzut z tamtej sekcji go nie dosięga, bo werdyktu nie rusza,
+a [kryterium powodu](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza) dosięga:
+odpowiada częstością nad korpusem, którego autor zdania nie czyta.
+Jest tu wobec tego jedną z dwóch stron pomiaru, który tamtą hipotezę obala albo zostawia,
+a nie świadkiem, którego ta warstwa miałaby rozbudowywać.
 
 Trzeci świadek, który tu należy i którego nie ma, to rama walencyjna,
 czyli ta część klasy, o której sekcja o leksykonie mówi, że nie konkuruje z niczym.

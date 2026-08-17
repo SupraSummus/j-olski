@@ -19,7 +19,11 @@ się sprawdzić bez zaglądania do tabeli.
 
 **Świadkowie idą w kolejności, a kolejność jest kolejnością rodzaju dowodu.**
 Pierwszy odpowiadający wygrywa, więc dowód o tym tekście bije dowód o korpusie
-wszędzie tam, gdzie oba mówią coś naraz. Świadków jest dwóch:
+wszędzie tam, gdzie oba mówią coś naraz. Pod kolejnością tą nie ma porównania
+dwóch trafności, tylko hipoteza: dobre ujednoznacznianie jest odczytaniem tego,
+co czytelnik ma przed sobą, a częstość nad cudzym korpusem odczytaniem nie jest,
+choćby trafiała częściej (``docs/disambiguation.md``).
+Świadków jest dwóch:
 :class:`Powtórzenie` czyta akapit, w którym zdanie stoi, a :class:`Skłonność`
 bank drzew, którego nikt z autorem tego tekstu nie uzgadniał.
 
