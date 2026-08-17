@@ -190,20 +190,20 @@ Wpis waży mniej, odkąd tamten dokument jest zapisem, którego nic nie rusza:
 zostaje z niego czytelnik trafiający na to samo wyprowadzenie dwa razy,
 a nie dwie kopie, które się rozjadą.
 
-Liczby wzięte nad własnym README stoją w dwóch dokumentach,
-a [`CLAUDE.md`](CLAUDE.md#checks) żąda, żeby liczby nad własną prozą nie zapisywać,
-bo rusza ją przeredagowanie, którego żadna reguła przeliczania nie dosięga.
-Jedno przeredagowanie rusza tam cztery liczby naraz:
-mianownik i dwie zgodności w
+Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji.
+Które z dwojga, rozstrzygnięte jest: figurę nad własną prozą wolno zapisać,
+kiedy ma właściciela wymieniającego `README.md` między tym, co ją rusza,
+bo wtedy przeredagowanie widzi raport
+([`CLAUDE.md`](CLAUDE.md#checks), `figury/negacja-proza.txt`).
+Zostaje zrobić to tym dwóm: mianownikowi i dwóm zgodnościom w
 [`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-oraz licznik klasy zdań w
+oraz licznikowi klasy zdań w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
+bo jedno przeredagowanie rusza te cztery liczby naraz,
 a temu, kto przeredagowuje, nie mówi o tym nic.
-Do przeczytania jest ta reguła wraz z listą przeliczeń pod nią i oba te akapity.
-Ruchem jest rozstrzygnięcie, które z dwojga:
-albo reguła dostaje wyjątek na figurę o kodzie liczoną nad własną prozą,
-wraz z przeliczeniem należnym przy przeredagowaniu README,
-albo te akapity przestają nosić mianownik i mówią o zgodzie bez niego.
+Do przeczytania są oba te akapity: pierwszy z nich opiera się na zdaniu,
+którego README nie ma — o czym mówi wpis o `Cenie trzeciej` w sekcji o komendach —
+więc samo przeliczenie go nie naprawia.
 
 ## Komendy i sondy
 
@@ -379,6 +379,35 @@ oraz `sonda/wskazania.py`.
 te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
 ## Korpusy, ekstrakcja i figury
+
+Właściciela ma jedna konstrukcja z listy przeliczeń w
+[`CLAUDE.md`](CLAUDE.md#checks), a lista wymienia ich kilkadziesiąt.
+Wzorcem jest negacja: deklaracja w `harness/figury.py`, wydruk w `figury/`,
+a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
+restytucja grubsza od niego i wskaźnik.
+Przenosi się je po jednej, przy zmianie, która i tak figurę rusza,
+i tyle właśnie kosztuje jedna: deklaracja na każdy przebieg osobno,
+sam przebieg z korpusem oraz proza, z której schodzi pełna precyzja,
+nagłówek z cyfrą włącznie.
+Najdroższe jest to trzecie, bo akapit wylicza dziś liczby jedną z drugiej
+(„cząstka kupuje 99, obie 148, czyli przypadek dokłada 49”),
+a restytucja mówi to stosunkiem, więc jest przepisaniem zdania, a nie podmianą liczby.
+Nie idzie za tym przebieg porządkowy: figura, której nikt nie rusza, zostaje
+na miejscu, bo tekst napisany przed regułą nie jest usterką.
+Do rozstrzygnięcia przy pierwszej figurze, którą czyta więcej niż jedna sekcja,
+jest to, czy `czyta` z wieloma wpisami wystarczy,
+czy restytucja w drugim dokumencie ma wskazywać pierwszą, a nie plik.
+
+Restytucji nikt nie pilnuje i wpisanie do niej pełnej precyzji z powrotem nic nie
+kosztuje, choć jest to dokładnie ta usterka, przed którą właściciel figury broni.
+Ruchem jest pytanie zadawane przez `harness/figury.py` sekcji z `czyta`:
+liczba, która pada w niej tak samo, jak pada w pliku figury,
+jest kopią właściciela, a nie restytucją grubszą od niego.
+Do rozstrzygnięcia jest, ile taki test myli się na liczbach, których nie wziął
+żaden przebieg — rozmiar korpusu, numer paragrafu, rok wydania —
+i czy odsiew po samych cyfrach wystarczy, żeby nie liczyć słowa „jedno” za figurę.
+Wart jest tyle, ile figur ma właściciela, więc pierwsza konwersja po negacji
+jest miejscem, w którym się to opłaci albo nie.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -604,7 +633,7 @@ wyłącznie po przyimku (`na nie`, `za nie`).
 Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
 pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
 które ją nad trzema rejestrami straciło przy wpuszczeniu negacji
-([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
+([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
 i cecha, po której to czytanie widać, jest inna: `praep` w tagu.

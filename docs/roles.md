@@ -126,9 +126,13 @@ bo wtedy istnieją dwie wersje i nie widać, która obowiązuje.
 ## Ktoś, kto mierzy
 
 Pyta, która liczba się ruszyła i co trzeba przeliczyć.
-Wchodzi w [sekcję Checks](../CLAUDE.md#checks),
+Figury, które mają właściciela, odpowiadają mu przebiegiem:
+`python3 -m harness.figury` wypisuje należne przeliczenia,
+nie pobiera przy tym niczego i wskazuje plik w `figury/`
+z wydrukiem i z poleceniem, którym ten wydruk powstaje.
+Reszcie figur odpowiada [sekcja Checks](../CLAUDE.md#checks),
 bo to ona wymienia dokumenty z liczbami, do których nie dosięga żaden test,
-a dalej idzie do tego z nich, który jest właścicielem danej liczby.
+a dalej ta droga idzie do tego z nich, który jest właścicielem danej liczby.
 Każdy z nich wypisuje polecenia, które jego tabele produkują,
 i po to te polecenia tam są.
 Jeden wyjątek zna ta droga i jest nazwany na miejscu:
