@@ -1,0 +1,84 @@
+"""Te własności sondy nad świadkiem kontekstowym, bez których jej liczba kłamie.
+
+Liczb sonda nie ma czym bronić: wychodzą z korpusu, którego repozytorium nie
+trzyma, i zmieniają się z każdą zmianą gramatyki. Trzy rzeczy są inne, bo psują
+liczbę po cichu i nie zgłasza ich nic.
+
+Rozkład zasięgu na dwie przyczyny jest tym, po co ta sonda jest: milczenie nad
+zdaniem pierwszym w akapicie i milczenie nad zdaniem, które sąsiada ma, mówią o
+czym innym, a zsumowane nie mówią o niczym.
+
+Wariant bez granicy akapitu ma czytać dokument wstecz i tylko wstecz, bo świadek
+liczący zdania za sobą mierzyłby coś, czego czytelnik nie ma.
+
+Mianownik ma stać na przyłączeniach, a nie na zdaniach: zdanie miewa ich kilka.
+"""
+
+import pytest
+
+pytest.importorskip("morfeusz2")
+
+from pathlib import Path
+
+from sonda.powtórzenie import przebieg
+
+#: Akapit, w którym fraza stoi dwa razy i za pierwszym razem przy rzeczowniku,
+#: obok akapitu drugiego, gdzie to samo zdanie stoi bez niczego przed sobą.
+#: Granica akapitu jest tu całą różnicą między dwoma wariantami sondy.
+TEKST = """\
+Wystąpiła awaria w systemie. Operator zgłosił awarię w systemie.
+
+Operator zgłosił awarię w systemie.
+"""
+
+
+@pytest.fixture
+def pomiar(tmp_path: Path):
+    (tmp_path / "rejestr.txt").write_text(TEKST, encoding="utf-8")
+    return przebieg([tmp_path / "rejestr.txt"])
+
+
+def test_zasięg_rozkłada_się_na_zdania_z_sąsiedztwem_i_bez_niego(pomiar):
+    """Dwie przyczyny milczenia, bo jedna liczba nie mówi, która przeważyła."""
+    assert pomiar.zdań == 3
+    assert pomiar.bez_sąsiedztwa == 2, "pierwsze zdanie każdego z dwóch akapitów"
+    assert pomiar.przyłączeń_z_sąsiedztwem == 1
+
+
+def test_granica_akapitu_odbiera_świadkowi_zdanie_z_akapitu_obok(pomiar):
+    """Cena tej granicy jest różnicą między wariantami, więc warianty mają się różnić.
+
+    Zdanie trzecie jest znak w znak drugim i stoi w akapicie własnym, więc
+    świadek odpowiada nad nim tylko wtedy, gdy granicy nie ma.
+    """
+    assert len(pomiar.odpowiedzi) == 1
+    assert len(pomiar.odpowiedzi_bez_granicy) == 2
+
+
+def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony(tmp_path: Path):
+    """Zdanie, którego czytelnik jeszcze nie przeczytał, dowodem nie jest.
+
+    Dowód stoi tu za zdaniem spornym, a stoi w postaci, której gramatyka nie
+    wyprowadza, więc sam wyboru przed sobą nie ma i odpowiedzi wydać nie może.
+    Sonda czytająca w obie strony rozstrzygnęłaby mimo to zdanie pierwsze.
+    """
+    odwrotnie = "Operator zgłosił awarię w systemie.\n\nAwaria w systemie.\n"
+    (tmp_path / "rejestr.txt").write_text(odwrotnie, encoding="utf-8")
+    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    assert pomiar.przyłączeń == 1, "drugie zdanie nie wychodzi z gramatyki"
+    assert pomiar.odpowiedzi == []
+    assert pomiar.odpowiedzi_bez_granicy == []
+
+
+def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
+    """Zdanie z dwoma wyrażeniami przyimkowymi stawia więcej niż jeden wybór.
+
+    Liczby dokładnej nie ma w asercji celowo: ile przyłączeń werdykt nad tym
+    zdaniem wyda, rozstrzyga gramatyka, a ta sonda ma tylko nie zliczać ich po
+    zdaniach — pomyłka o jeden mianownik przesuwa figurę, którą czyta dokument.
+    """
+    dwa = "Rozdział zawiera informacje o awariach w systemie.\n"
+    (tmp_path / "rejestr.txt").write_text(dwa, encoding="utf-8")
+    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    assert pomiar.zdań == 1
+    assert pomiar.przyłączeń > 1

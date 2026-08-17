@@ -182,8 +182,8 @@ def domyślni() -> list[Świadek]:
 SŁOWO = re.compile(r"[\w-]+", re.UNICODE)
 
 #: Ile słów za przyimkiem szukać rzeczownika tej frazy. Trzy mieszczą przydawkę
-#: przed rzeczownikiem i za nim — ``z dużą lornetką polową`` — a dalej fraza się
-#: kończy i trafienie byłoby trafieniem w sąsiednią.
+#: przed rzeczownikiem i za nim — ``w głównym systemie produkcyjnym`` — a dalej
+#: fraza się kończy i trafienie byłoby trafieniem w sąsiednią.
 ZASIĘG_FRAZY = 3
 
 
@@ -220,7 +220,7 @@ class Sąsiedztwo:
         """Lematy tego, co stało tuż przed tą frazą, każdy ze zdaniem, w którym stało.
 
         Fraza jest tu przyimkiem i lematami swojego rzeczownika, a nie napisem,
-        bo ``z lornetką`` i ``z lornetkami`` są tą samą frazą o tej samej rzeczy.
+        bo ``w systemie`` i ``w systemach`` są tą samą frazą o tej samej rzeczy.
         Przyimek też idzie przez lemat, bo ``z`` i ``ze`` są jednym słowem.
 
         Wraca słownik, a nie sam zbiór, żeby powód wskazania mógł zacytować
@@ -272,12 +272,16 @@ def sąsiedztwa(text: str) -> list[Sąsiedztwo]:
 
 @dataclass(frozen=True)
 class Powtórzenie:
-    """Gospodarz, przy którym ta sama fraza stała już w tym akapicie.
+    """Gospodarz, przy którym ta sama fraza stała już w podanym sąsiedztwie.
 
-    Dowodem jest powtórzenie, a nie znajomość rzeczy. ``W tłumie stał człowiek
-    z lornetką.`` mówi o ``Widzę człowieka z lornetką.`` to, czego nie mówi
-    żaden słownik ani żadna tabela: że ``z lornetką`` jest w tym tekście opisem
-    człowieka, bo już raz nim było.
+    Dowodem jest powtórzenie, a nie znajomość rzeczy. ``Wystąpiła awaria
+    w systemie.`` mówi o ``Operator zgłosił awarię w systemie.`` to, czego nie
+    mówi żaden słownik ani żadna tabela: że ``w systemie`` jest w tym tekście
+    opisem awarii, a nie miejscem zgłoszenia, bo już raz nim było.
+
+    Jednostki sąsiedztwa świadek nie zna i nie nazywa jej w powodzie. Wyznacza ją
+    :class:`Sąsiedztwo`, dziś akapitem, a sonda mierząca cenę tej granicy podaje
+    tu granicę inną, więc „w tym akapicie” byłoby tam nieprawdą.
 
     Świadek milczy, kiedy fraza stała przy więcej niż jednym z gospodarzy, bo
     dowód wskazujący dwie strony naraz nie wskazuje żadnej.
@@ -293,11 +297,15 @@ class Powtórzenie:
             return None
         rzeczownik = frozenset().union(*(_lematy(forma) for forma in formy[1:]))
         stała_przy = sąsiedztwo.przy_czym_stała(formy[0].lower(), rzeczownik)
-        wskazani = {
-            gospodarz: lemat
-            for gospodarz in przyłączenie.gospodarze
-            for lemat in _lematy(gospodarz) & stała_przy.keys()
-        }
+        wskazani: dict[str, str] = {}
+        for gospodarz in przyłączenie.gospodarze:
+            #  Forma ma lematów kilka i pasować może kilka naraz: ``danych`` jest
+            #  u Morfeusza i od ``dane``, i od ``dać``. Wybór idzie alfabetem, bo
+            #  powód ma być ten sam w każdym przebiegu, a zbiór lematów kolejności
+            #  nie ma. Który lemat jest tu właściwy, rozstrzygnie dopiero
+            #  zawężenie do czytań rzeczownikowych, o które prosi ``TODO.md``.
+            if pasujące := sorted(_lematy(gospodarz) & stała_przy.keys()):
+                wskazani[gospodarz] = pasujące[0]
         if len(wskazani) != 1:
             return None
         ((gospodarz, lemat),) = wskazani.items()
@@ -306,7 +314,7 @@ class Powtórzenie:
             gospodarz=gospodarz,
             powód=(
                 f"„{przyłączenie.modyfikator}” stało już przy „{lemat}” "
-                f"w tym akapicie: „{stała_przy[lemat]}”"
+                f"wyżej w tekście: „{stała_przy[lemat]}”"
             ),
         )
 

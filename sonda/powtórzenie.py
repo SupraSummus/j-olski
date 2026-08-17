@@ -1,0 +1,154 @@
+"""Ile świadek kontekstowy odpowiada nad rejestrem, o który olskiemu chodzi.
+
+`Powtórzenie` w ``olski/rozstrzyganie.py`` wskazuje gospodarza, przy którym ta
+sama fraza stała już w tym akapicie, a ile razy zdarza się to nad prozą, nie
+mówił dotąd nikt. Świadka statystycznego ocenia bank drzew i ocena stoi w tamtym
+module, bo tabela i materiał do oceny wychodzą z jednego korpusu. Tu jest
+inaczej: dowodem jest akapit, więc materiałem musi być tekst ciągły, a bank
+drzew jest zbiorem zdań stojących osobno.
+
+**Milczenie ma trzy przyczyny i osobno każda z nich myli.** Świadek nie ma czego
+przeczytać, bo zdanie stoi pierwsze w swoim akapicie; albo przeczytał i fraza tam
+nie stała; albo nikt go o nic nie zapytał, bo gramatyka to zdanie odrzuciła.
+Pierwsza jest własnością rejestru, druga świadka, trzecia gramatyki, a jedna
+liczba na wyjściu nie mówi, która przeważyła, więc sonda wypisuje wszystkie trzy
+mianowniki obok siebie.
+
+**Granicę sąsiedztwa wycenia wariant, tak jak sonda różnicowa wycenia grupę
+produkcji.** Wariantem jest cały dokument czytany wstecz, czyli sąsiedztwo bez
+granicy akapitu, a różnica między nim a akapitem jest ceną tej granicy. Wariant
+nie jest propozycją: akapit ma uzasadnienie, które trzyma
+``docs/disambiguation.md``, a cenę trzeba znać, zanim ktoś je podważy.
+
+Trafności ta sonda nie liczy i nie ma czym: wzorca, który mówi, przy którym
+gospodarzu fraza stoi naprawdę, nad tym korpusem nie ma. Wypisuje więc każdą
+odpowiedź wraz ze zdaniem, nad którym padła, bo trafność nad tym materiałem
+czyta się ręką, a przeczytane stoi w ``docs/disambiguation.md``.
+
+Korpusem jest proza wyekstrahowana z korpusu audytowego, a skąd ją wziąć, mówi
+``docs/audit-corpus.md``:
+
+    python3 -m sonda.powtórzenie proza/
+"""
+
+from __future__ import annotations
+
+import argparse
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from olski.rozstrzyganie import Powtórzenie, Rozstrzygnięcie, Sąsiedztwo, sąsiedztwa
+from olski.subset import check
+
+#: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
+PROZA = "*.txt"
+
+
+@dataclass(frozen=True)
+class Odpowiedź:
+    """Wskazanie świadka wraz z miejscem, w którym padło, do przeczytania ręką.
+
+    Plik idzie ścieżką, a nie nazwą: korpus audytowy ma dwa ``README.txt``, po
+    jednym na repozytorium, a odpowiedź, której nie da się znaleźć w tekście,
+    nie da się też przeczytać.
+    """
+
+    plik: Path
+    zdanie: str
+    rozstrzygnięcie: Rozstrzygnięcie
+
+
+@dataclass
+class Pomiar:
+    """Co świadek zastał w rejestrze i ile z tego wykorzystał."""
+
+    #: Zdania, którym werdykt cokolwiek wydał, czyli mianownik całego przebiegu.
+    zdań: int = 0
+    #: Zdania stojące pierwsze w swoim akapicie, czyli te bez czego przeczytać.
+    bez_sąsiedztwa: int = 0
+    #: Przyłączenia, przed którymi werdykt postawił wybór.
+    przyłączeń: int = 0
+    #: Z nich te, które mają za sobą choć jedno zdanie tego samego akapitu.
+    przyłączeń_z_sąsiedztwem: int = 0
+    odpowiedzi: list[Odpowiedź] = field(default_factory=list)
+    #: To samo, gdy granicą sąsiedztwa jest dokument, a nie akapit.
+    odpowiedzi_bez_granicy: list[Odpowiedź] = field(default_factory=list)
+
+
+def przebieg(paths: Iterable[Path]) -> Pomiar:
+    """Przejdź prozę zdanie po zdaniu i zapytaj świadka o każde przyłączenie.
+
+    Świadek jest tu tym samym, którego wypuszcza ``olski-check``, a nie kopią
+    przepisaną tutaj: sonda mierząca własny odpis mierzyłaby siebie.
+    """
+    pomiar = Pomiar()
+    for path in sorted(paths):
+        _plik(path, Powtórzenie(), pomiar)
+    return pomiar
+
+
+def _plik(path: Path, świadek: Powtórzenie, pomiar: Pomiar) -> None:
+    text = path.read_text(encoding="utf-8")
+    werdykty = check(text)
+    akapity = sąsiedztwa(text)
+    #  Wariant bez granicy akapitu jest prefiksem zdań tego pliku, a zdania te
+    #  niesie już werdykt: ``Verdict.text`` jest zdaniem tak, jak stoi w tekście.
+    zdania = [werdykt.text for werdykt in werdykty]
+    pomiar.zdań += len(werdykty)
+    pomiar.bez_sąsiedztwa += sum(not akapit.zdania for akapit in akapity)
+    for i, (werdykt, akapit) in enumerate(zip(werdykty, akapity, strict=True)):
+        dokument = Sąsiedztwo(tuple(zdania[:i]))
+        for przyłączenie in werdykt.result.przyłączenia:
+            pomiar.przyłączeń += 1
+            pomiar.przyłączeń_z_sąsiedztwem += bool(akapit.zdania)
+            for sąsiedztwo, gdzie in (
+                (akapit, pomiar.odpowiedzi),
+                (dokument, pomiar.odpowiedzi_bez_granicy),
+            ):
+                odpowiedź = świadek(przyłączenie, sąsiedztwo)
+                if odpowiedź is not None:
+                    gdzie.append(Odpowiedź(path, werdykt.text, odpowiedź))
+
+
+def _wypisz(nagłówek: str, odpowiedzi: Sequence[Odpowiedź], przyłączeń: int) -> None:
+    udział = len(odpowiedzi) / przyłączeń if przyłączeń else 0.0
+    print(f"  {nagłówek}: {len(odpowiedzi)}, czyli {udział:.1%} przyłączeń")
+    for o in odpowiedzi:
+        print(f"    {o.plik}: {o.zdanie}")
+        print(f"      „{o.rozstrzygnięcie.modyfikator}” → „{o.rozstrzygnięcie.gospodarz}”")
+        print(f"      {o.rozstrzygnięcie.powód}")
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="python3 -m sonda.powtórzenie",
+        description="Policz, ile świadek kontekstowy odpowiada nad prozą.",
+    )
+    parser.add_argument("root", help="katalog z prozą wyekstrahowaną do plików .txt")
+    args = parser.parse_args(argv)
+
+    root = Path(args.root)
+    ścieżki = sorted(root.rglob(PROZA))
+    if not ścieżki:
+        print(f"sonda.powtórzenie: nie ma tu prozy: {root}/{PROZA}")
+        print("sonda.powtórzenie: skąd wziąć korpus, mówi docs/audit-corpus.md")
+        return 2
+
+    pomiar = przebieg(ścieżki)
+    print(f"{len(ścieżki)} plików, {pomiar.zdań} zdań")
+    print(
+        f"  pierwszych w akapicie: {pomiar.bez_sąsiedztwa} "
+        f"({pomiar.bez_sąsiedztwa / pomiar.zdań:.1%}), czyli bez czego przeczytać"
+    )
+    print(
+        f"  przyłączeń: {pomiar.przyłączeń}, z tego z sąsiedztwem: "
+        f"{pomiar.przyłączeń_z_sąsiedztwem}"
+    )
+    _wypisz("odpowiedzi w granicy akapitu", pomiar.odpowiedzi, pomiar.przyłączeń)
+    _wypisz("odpowiedzi bez granicy akapitu", pomiar.odpowiedzi_bez_granicy, pomiar.przyłączeń)
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())
