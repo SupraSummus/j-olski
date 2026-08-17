@@ -435,28 +435,36 @@ więc pomiar zapadł tu przed dopisaniem i wypadł tak samo skromnie:
 ```sh
 cat proza/ustawy/*.txt > proza/ustawy.txt
 python3 -m sonda.przysłówek proza/ustawy.txt
+python3 -m sonda.płaski proza/ustawy.txt
 ```
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
 | bez przysłówka | 72 | 272 | 4577 |
 | okolicznik | 79 | 295 | 4547 |
-| przy przymiotniku | 75 | 275 | 4571 |
-| oba | 78 | 301 | 4542 |
+| przy przymiotniku | 73 | 275 | 4573 |
+| oba | 80 | 299 | 4542 |
 
 Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 23 na wieloznaczne,
-pozycja przy przymiotniku przyjmuje 3 i przenosi 3,
-a obie razem przyjmują 6, czyli o jedno mniej niż pierwsza sama.
+pozycja przy przymiotniku przyjmuje 1 i przenosi 3,
+a obie razem przyjmują 8, czyli o jedno więcej niż pierwsza sama.
+Nad Składnicą druga pozycja pierwszej odbiera, więc znak tej ceny
+zależy od rejestru
+([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
 Jednoznaczności nie traci tu ani jedno zdanie przyjęte wcześniej,
 i tym różni się ta konstrukcja od negacji oraz od czterech szyków.
 `Ta sama osoba może być ponownie powołana na stanowisko komisarza.`
-jest tym jednym zdaniem, o które obie pozycje się spierają:
-każda przyjmuje je osobno, a obie naraz dają mu dwa czytania.
+jest tym jednym zdaniem, które ruszają obie pozycje:
+każda daje mu dwa czytania osobno, bo `ponownie` dochodzi w nim
+i do zdania, i do `powołana`.
+Płaskiego czytania, które pierwsza pozycja daje nad Składnicą,
+nie dostaje tu ani jedno zdanie przyjęte,
+ani pod nią samą, ani pod obiema naraz (`--wariant oba`).
 Cztery formy, którymi klasa prowadzi w rankingu — `odpowiednio`, `niezwłocznie`,
 `także`, `również` — obiecywały 548 trafień,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
-gdzie wiersz `adv` obiecywał 1992 zdania i oddał 428
-([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+gdzie wiersz `adv` obiecywał 1992 zdania i oddał jedną piątą tego
+([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,

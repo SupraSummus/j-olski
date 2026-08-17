@@ -1457,7 +1457,10 @@ Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą:
 `w terminie 14 dni`, `3 szkół`, `15 członków`.
 Morfeusz daje cyfrze tag `dig` i ani jednej cechy,
 a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
-więc obie produkcje biorą cyfrę naraz i żadna nie jest w stanie jej odrzucić.
+więc obie produkcje biorą cyfrę naraz.
+Odrzucić ją umie żądanie obecności cechy
+([design-notes.md](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
+tyle że odrzuca wtedy każdą cyfrę i wpuszczenia nie kupuje.
 `Termin wynosi 14 dni.` wychodzi wtedy trzema czytaniami zamiast dwóch,
 bo `dni` jest i dopełniaczem mnogim, i mianownikiem mnogim,
 czyli jedna grupa wyprowadza się i pod produkcją rządzącą, i pod zgodną.
@@ -1495,11 +1498,11 @@ Every one of these is a sentence that gets rejected and should not be:
   `Program szybko zapisuje ustawienia.` jest odrzucone,
   a wiersz `adv` prowadzi kolejkę blokerów zaraz za interpunkcją
   ([corpus.md](corpus.md#where-the-analyses-stop)).
-  Pozycja przy czasowniku kupuje nad Składnicą 428 zdań i jest do wzięcia,
-  a pozycja przy przymiotniku dopisana obok niej odbiera 39,
-  więc konstrukcja wchodzi tu połową albo czeka na warunek,
-  którego formalizm nie ma
-  ([niżej](#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+  Pozycja przy czasowniku kupuje nad Składnicą kilkaset zdań i jest do wzięcia,
+  a pozycja przy przymiotniku dopisana obok niej odbiera jej część
+  i oddaje w zamian prawdę o drzewie,
+  więc wybór jest tu między dwiema cenami w różnych walutach
+  ([niżej](#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
   ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))
@@ -1777,38 +1780,36 @@ bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
 więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
 a nie co zdejmuje ten.
 
-## Przysłówek zmierzono przed dopisaniem i drugi gospodarz odbiera 39 zdań
+## Przysłówek zmierzono przed dopisaniem i drugi gospodarz odbiera zdania pierwszemu
 
 Wyrażenie przyimkowe ma dwóch gospodarzy i oba czytania są prawdziwe,
 więc olski oddaje je czytelnikowi.
-Przysłówek ma dwóch gospodarzy i drugie czytanie jest fałszywe:
-`tu` w `Mam tu odmienną interpretację.`
-nie określa przymiotnika `odmienną` w żadnym rozumieniu tego zdania.
-Sonda wycenia więc przysłówek przed dopisaniem go do gramatyki,
-a nie po nim:
+Przysłówek ma dwóch gospodarzy, a nad jednym zdaniem prawdziwy jest jeden z nich:
+`bardzo` w `Plik jest bardzo duży.` określa przymiotnik i zdania nie określa,
+a `tu` w `Mam tu odmienną interpretację.` określa zdanie i przymiotnika nie określa.
+Wybór między gospodarzami jest więc rozstrzygnięciem,
+a nie wieloznacznością do zgłoszenia,
+i dlatego sonda wycenia przysłówek przed dopisaniem go do gramatyki, a nie po nim.
 
-```sh
-python3 -m sonda.przysłówek Składnica-frazowa-180723/
-python3 -m sonda.przysłówek proza/README.txt
-```
+Pełne wiersze są w [figury/przysłówek.txt](../figury/przysłówek.txt),
+a wzięte nad prozą README w [figury/przysłówek-proza.txt](../figury/przysłówek-proza.txt);
+polecenie i pliki, których zmiana każe je przeliczyć,
+podaje każdy z tych dwóch ([`harness/figury.py`](../harness/figury.py)).
 
-Gospodarze są dwaj, więc wierszy jest cztery:
+Gospodarze są dwaj, więc wariantów jest cztery:
 mianownik, po jednym na gospodarza i obaj naraz.
 `okolicznik` wpuszcza przysłówek do listy okoliczników,
 czyli tam, gdzie stoi wyrażenie przyimkowe, i przed zdanie.
 `przy przymiotniku` stawia go przed przymiotnikiem,
-w przydawce i w orzeczniku, licząc pozycje z produkcji olskiego.
+w przydawce i w orzeczniku, licząc pozycje z produkcji olskiego,
+a bierze tam sam przysłówek stopniowany
+([niżej](#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
 
-| wariant | przyjęte | wieloznaczne | odrzucone |
-| --- | --- | --- | --- |
-| bez przysłówka | 1179 | 549 | 11 307 |
-| okolicznik | 1607 | 707 | 10 721 |
-| przy przymiotniku | 1226 | 580 | 11 229 |
-| oba | 1568 | 769 | 10 698 |
-
-Okolicznik sam kupuje 428 zdań, określenie przymiotnika samo 47,
-a oba razem 389, czyli mniej niż okolicznik sam.
-Drugi gospodarz dopisany do pierwszego nie kupuje nic i odbiera 39 zdań.
+Okolicznik kupuje nad Składnicą kilkaset zdań,
+czyli podnosi liczbę przyjętych o ponad jedną trzecią,
+a określenie przymiotnika kilkanaście razy mniej.
+Oba razem kupują mniej niż okolicznik sam,
+więc drugi gospodarz dopisany do pierwszego nie kupuje nic i odbiera mu zdania.
 [Krzywa pokrycia](design-notes.md#making-the-trade-measurable)
 przewidziała, że dopisanie bywa droższe od tego, co kupuje,
 i jest to najciaśniejszy przypadek, jaki się tu trafił:
@@ -1816,9 +1817,9 @@ odbierają sobie zdania dwie połowy jednej konstrukcji,
 a nie dwie konstrukcje z osobna.
 
 Cena nie jest przy tym stratą na zdaniach, które olski przyjmuje dziś:
-jednoznaczności nie traci ani jedno z tych 1179, w żadnym z trzech wariantów.
-Płaci ją zakup drugiego gospodarza zakupem pierwszego,
-bo zdanie, które każdy z nich osobno przyjmuje jednym czytaniem,
+jednoznaczności nie traci ani jedno z nich, w żadnym z trzech wariantów.
+Płaci się ją zakupem pierwszego gospodarza:
+zdanie, które każdy z nich osobno przyjmuje jednym czytaniem,
 przy obu naraz wychodzi dwoma.
 
 ```text
@@ -1827,39 +1828,25 @@ Program zabawy był ściśle ustalony.
 
 Pod `okolicznik` orzecznikiem jest `ustalony`, pod `przy przymiotniku`
 `ściśle ustalony`, a pod `oba` te dwa czytania stoją obok siebie.
-Zdań, które ruszają się pod jednym gospodarzem i pod drugim, jest 59,
-a takich, o których oba naraz mówią co innego niż każdy osobno, 51.
 
-Drugi gospodarz płaci ponadto trafnością.
-Z 47 zdań, które kupuje sam, 15 olski czyta wbrew drzewu wzorcowemu,
-czyli prawie co trzecie, gdzie okolicznik myli się na 13 z 428.
-Powód widać na zdaniu, które ten gospodarz kupuje sam:
-`Nagrali razem pierwszą płytę.` wychodzi z dopełnieniem `razem pierwszą płytę`,
-bo `razem` wpada do grupy imiennej, przez którą przechodzi.
+Drugi gospodarz płaci ponadto trafnością:
+czyta wbrew drzewu wzorcowemu jedno zdanie na dziewięć z tych, które kupuje sam,
+a okolicznik myli się na jednym z trzydziestu.
+Zostają mu pomyłki na przysłówku odprzymiotnikowym,
+bo taki określa i zdanie, więc stopień nie rozdziela niczego:
+`Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`,
+choć `oficjalnie` określa tam całe zdanie.
 Ról odwróconych nie ma ani jednej, w żadnym wariancie.
 
-Pierwszy gospodarz nie jest przez to darmowy, bo lista okoliczników jest płaska.
-`Program zapisuje ustawienia bardzo szybko.` wychodzi pod nim jednym czytaniem,
-a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
-czyli dwa okoliczniki zdania obok siebie,
-gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
-Streszczenie nie nazywa przy tym żadnego z dwóch,
-bo przysłówek nie jest rolą, którą werdykt wylicza.
-Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
-bo `valid` ktoś przeczyta
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-a instrument, który to liczy nad bankiem drzew, tego nie widzi:
-zgodność ról porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
-
-Nad rejestrem ustaw wychodzi to samo w skali dziesięć razy mniejszej
-i druga połowa odejmuje tam jedno zdanie
+Nad rejestrem ustaw okolicznik kupuje w skali dziesięć razy mniejszej,
+a drugi gospodarz dokłada tam jedno zdanie, zamiast odejmować
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
-więc odejmuje w dwóch rejestrach naraz,
-a nie w tym jednym, nad którym była mierzona.
+więc znak tej ceny zależy od rejestru,
+a nie od samej pary gospodarzy.
 
-Nad [README](../README.md) przysłówek nie kupuje ani jednego zdania.
-Dwa zdania przenosi z odrzuconych na wieloznaczne
-i jednym z nich jest to, o którym kolejka blokerów mówi,
+Nad [README](../README.md) przysłówek nie kupuje ani jednego zdania,
+a przenosi na wieloznaczne te, które na nim stały.
+Jednym z nich jest to, o którym kolejka blokerów mówi,
 że stoi na przysłówku i na niczym więcej
 ([corpus.md](corpus.md#where-the-analyses-stop)):
 
@@ -1872,7 +1859,7 @@ bo w czytaniu, które przysłówek mu daje, `za nią` ma dwóch gospodarzy.
 Kolejka mówi więc, gdzie analiza stanęła, i nie mówi, co dopisanie kupi,
 także wtedy, gdy zdanie stoi na jednej klasie.
 
-### Naprawę widać w tagsecie i nie da się jej postawić w gramatyce
+### Naprawę niesie tagset, a formalizm ją bierze
 
 Gospodarze spierają się o zdanie tylko wtedy,
 gdy przysłówek stojący przed przymiotnikiem mógłby określać zdanie,
@@ -1882,26 +1869,67 @@ a `bardzo`, `ściśle` i `szybko` jako `adv:pos`.
 Stopień ma przysłówek odprzymiotnikowy, a pierwotny go nie ma,
 i tylko pierwszy z tych dwóch określa przymiotnik.
 
-Żądania obecności cechy formalizm nie ma.
-`word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`,
-bo unifikacja pomija cechę, której konstytuent nie niesie,
-i pomija ją rozmyślnie: część mowy nieodmienna
-nie narusza zgodności, w której nie bierze udziału (`olski/grammar.py`).
-Potrzebny tu warunek jest odwrotny do tamtego —
-mówi „ta forma ma nieść stopień” — więc terminalowi brakuje go całego,
-a nie wartości w nim.
+Formalizm ma na to warunek i jest nim `niesie`:
+`word("adv", niesie="degree")` bierze `bardzo`, a `tu` nie.
+Wypisanie wszystkich wartości cechy tego nie mówi,
+bo `word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`.
+Dlaczego warunek nie mieszka w unifikacji i co jeszcze jest obok niej,
+wywodzi [kanał cech](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
 
-Do ilu zdań ten warunek sięga, da się przeczytać bez niego,
-bo zdania czytane odwrotnie sonda wypisuje:
-w 10 z tych 15 przed przymiotnikiem stoi przysłówek bez stopnia —
-`tu`, `razem`, `dziś`, `teraz`, `wczoraj`, `wkrótce` —
-w 4 stoi tam przysłówek stopniowany, a w jednym nie ma tam żadnego
-i pomyłka bierze się z czegoś innego.
-Naprawa jest więc niepełna z góry:
-`Oficjalnie cały Sejm RP śpi.` zostaje przy swoim czytaniu,
-bo `oficjalnie` stopień niesie, a `Sejm` określać nie może.
-Ile z 39 zdań odebranych ona oddaje, nie jest zmierzone, bo nie ma czym;
-ruch trzyma [TODO.md](../TODO.md).
+Naprawa jest z góry niepełna i taka wypadła.
+Warunek oddaje pierwszemu gospodarzowi niespełna piątą część zdań,
+które drugi mu bez niego odbiera,
+a resztę drugi gospodarz odbiera nadal:
+o te zdania spierają się przysłówki stopniowane i żadna cecha ich nie rozdziela.
+Zmienia natomiast to, ile drugi gospodarz kupuje i jak często się myli:
+kupuje o dwie piąte mniej zdań i myli się na nich trzy razy rzadziej,
+bo dwie trzecie jego pomyłek pada bez niego na przysłówku bez stopnia.
+
+### Płaska lista okoliczników mówi o zdaniu nieprawdę
+
+Pierwszy gospodarz nie jest darmowy, bo lista okoliczników jest płaska.
+`Program zapisuje ustawienia bardzo szybko.` wychodzi pod nim jednym czytaniem,
+a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
+czyli dwa okoliczniki zdania obok siebie,
+gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
+Streszczenie nie nazywa przy tym żadnego z dwóch,
+bo przysłówek nie jest rolą, którą werdykt wylicza.
+Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
+bo `valid` ktoś przeczyta
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+a instrument, który liczy zgodność nad bankiem drzew, tego nie widzi:
+porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
+
+Liczy to osobna sonda, bo pyta o co innego niż figura wyżej:
+tamta o werdykt, a ta o drzewo, którym werdykt wypadł.
+Pełne wiersze są w [figury/płaski.txt](../figury/płaski.txt),
+po dopisaniu drugiego gospodarza w [figury/płaski-oba.txt](../figury/płaski-oba.txt),
+a nad prozą README w [figury/płaski-proza.txt](../figury/płaski-proza.txt).
+Populacją są zdania przyjęte jednym czytaniem,
+bo tam odpowiedź jest dokładna, a listę czytań zdania wieloznacznego
+ucina granica wyliczania.
+
+Płaskie czytanie dostaje pod pierwszym gospodarzem jedno zdanie na pięćdziesiąt,
+a cztery piąte z nich pada w pozycji, którą drugi gospodarz ma.
+Te cztery piąte przechodzą po jego dopisaniu z przyjętych na wieloznaczne,
+a nie na odrzucone,
+więc drugi gospodarz zamienia werdykt fałszywy na werdykt o dwóch czytaniach,
+a to jest druga waluta, w której trzeba go wycenić:
+odbiera zdania i oddaje prawdę o tych, które zostają.
+Zostaje po nim jedno płaskie czytanie na dwieście
+i wszystkie są tą jedną klasą, której nie obejmuje żaden z dwóch gospodarzy:
+przysłówek stojący przed drugim przysłówkiem, jak `bardzo szybko`.
+
+Liczba jest przy tym górnym oszacowaniem,
+bo przysłówek stopniowany bywa okolicznikiem zdania
+i stoi wtedy przed przymiotnikiem, którego nie określa,
+jak w `Ostatecznie nowa ustawa wchodzi w życie.`
+Które formy to wywołują, wypisuje każda z tych figur, i prowadzi w nich `bardzo`.
+Nad prozą README ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
+a nad rejestrem ustaw też żadne
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+więc konstrukcja jest tu droga w rejestrze,
+który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
 
 ## Implementation
 

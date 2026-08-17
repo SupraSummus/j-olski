@@ -1,0 +1,42 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury przysłówek-proza
+polecenie: python3 -m sonda.przysłówek proza/README.txt
+czyta: docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu
+czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
+ruszają:
+  README.md: 0d2a177e02b4
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/grammar.py: 9077925971d9
+  sonda/przysłówek.py: 7ab30a030093
+  sonda/ruch.py: 4eb074921d9c
+
+README.txt, proza, 49 zdań
+
+          wariant    przyjęte  wieloznaczne  odrzucone
+   bez przysłówka           6             3         40
+       okolicznik           6             5         38
+przy przymiotniku           6             3         40
+              oba           6             5         38
+     25          niezmierzone: fragment, a nie zdanie
+
+ruch wobec wariantu „bez przysłówka” — okolicznik:
+        2  rejected → ambiguous
+
+ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez przysłówka” — oba:
+        2  rejected → ambiguous
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obaj gospodarze ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+okolicznik, rejected → ambiguous:
+  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
+  Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
+
+oba, rejected → ambiguous:
+  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
+  Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.

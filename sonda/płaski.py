@@ -1,0 +1,345 @@
+"""Ile werdyktów przysłówka w okoliczniku mówi o zdaniu nieprawdę.
+
+Lista okoliczników jest płaska, więc pozycja przysłówka przy czasowniku bierze
+także przysłówek postawiony przed przymiotnikiem: ``Plik jest bardzo duży.``
+wychodzi z niej jednym czytaniem, w którym ``bardzo`` określa zdanie, a nie
+``duży``. Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego, bo
+``valid`` czyta się jak twierdzenie, a tej ceny nie widzi ani pokrycie, ani
+zgodność ról nad bankiem drzew, która porównuje podmiot i dopełnienie.
+
+Sonda mierzy ją nad wariantem, który tę pozycję ma i nie ma drugiej
+(``okolicznik`` w ``sonda/przysłówek.py``), bo tamta sonda liczy werdykty, a
+pytanie jest tu o drzewo, którym werdykt wypadł. Populację tworzą zdania przyjęte
+jednym czytaniem: odpowiedź jest wtedy dokładna, a listę czytań zdania
+wieloznacznego ucina ``MAX_READINGS``.
+
+Klasy są dwie, bo brakująca pozycja jest inna. Przysłówek stopniowany przed
+przymiotnikiem doszedłby do drugiego gospodarza, a przed drugim przysłówkiem nie
+ma gospodarza żadnego. Stopnia kryterium żąda, bo przysłówek pierwotny
+przymiotnika nie określa i przed nim wychodzi zgodnie z prawdą.
+
+Liczba jest górnym oszacowaniem, tak samo jak ``całe_przyłączenie`` w
+``sonda/czytania.py``: przysłówek stopniowany bywa okolicznikiem zdania i wtedy
+przymiotnik po nim niczego nie zmienia, jak w ``Ostatecznie nowa ustawa wchodzi w
+życie.`` Dlatego pod liczbą wychodzą formy i zdania — osądu o zdaniu sonda nie
+wydaje.
+
+Wynik czyta ``docs/subset.md``.
+
+    python3 -m sonda.płaski Składnica-frazowa-180723/
+    python3 -m sonda.płaski proza/README.txt
+"""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import functools
+import os
+import sys
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from olski.corpus import pliki, read
+from olski.coverage import po_kawałkach, segments_for
+from olski.grammar import Grammar
+from olski.parse import Leaf, Node, Tree, parse
+from olski.subset import DEKLARACJA, FRAGMENT, check
+from sonda import przysłówek
+from sonda.ruch import gramatyka
+
+#: Ile zdań zachować pod każdą klasą, tak jak trzymają je sondy obok.
+PRZYKŁADY = 8
+
+#: Etykieta listy okoliczników, czyli tego konstytuenta, który jest płaski: bierze
+#: przysłówek i drugą taką listę za nim, a o to, co ten przysłówek określa, nie pyta.
+OKOLICZNIKI = "Adjuncts"
+
+#: Cecha, którą Morfeusz oddziela przysłówek odprzymiotnikowy od pierwotnego.
+STOPIEŃ = "degree"
+
+#: Klasy, w kolejności wydruku. Nazwa mówi, przed czym przysłówek stanął, bo tym
+#: się te dwie różnią: pierwszą pozycję drugi gospodarz ma, a drugiej nie ma nikt.
+PRZED_PRZYMIOTNIKIEM = "przed przymiotnikiem"
+PRZED_PRZYSŁÓWKIEM = "przed przysłówkiem"
+KLASY = (PRZED_PRZYMIOTNIKIEM, PRZED_PRZYSŁÓWKIEM)
+
+
+def _liście(drzewo: Tree, rodzic: str | None = None) -> list[tuple[str | None, Leaf]]:
+    """Liście czytania w kolejności zdania, każdy z etykietą swojego rodzica.
+
+    Kolejność wychodzi z ciał produkcji, bo dziecko siedzi w ciele tam, gdzie jego
+    forma padła w zdaniu, więc zejście w głąb od lewej daje napis. Rodzic idzie
+    obok liścia, a nie drugim przejściem, bo kryterium pyta o oba naraz: czy
+    przysłówek wisi wprost pod listą okoliczników i co padło zaraz po nim.
+    """
+    if isinstance(drzewo, Leaf):
+        return [(rodzic, drzewo)]
+    return [para for dziecko in drzewo.children for para in _liście(dziecko, drzewo.label)]
+
+
+def płaskie(drzewo: Node) -> list[tuple[str, str]]:
+    """Klasy i formy, którymi to czytanie wypadło płasko; pusta lista, gdy nie.
+
+    Para, a nie sama klasa, bo forma jest tym, co pod liczbą trzeba przeczytać:
+    ``bardzo`` przed przymiotnikiem jest pomyłką, a ``ostatecznie`` przed nim może
+    nie być, i rozstrzyga o tym słowo, a nie klasa.
+
+    Rodzicem musi być sama lista okoliczników, a nie cokolwiek nad nią: przysłówek
+    określający przymiotnik wisi w czytaniu drugiego gospodarza pod grupą imienną
+    albo przymiotnikową i wtedy drzewo mówi o nim prawdę.
+    """
+    liście = _liście(drzewo)
+    znalezione = []
+    for (rodzic, liść), (_, następny) in zip(liście, liście[1:], strict=False):
+        if rodzic != OKOLICZNIKI or liść.reading.tag.pos != "adv":
+            continue
+        if not liść.reading.tag.get(STOPIEŃ):
+            continue
+        pos = następny.reading.tag.pos
+        #  Klasę przymiotnikową bierzemy stamtąd, skąd bierze ją wariant sondy,
+        #  bo imiesłów bierny jest przymiotnikiem w jednym miejscu i w drugim.
+        if pos in przysłówek.PRZYMIOTNIKOWE:
+            znalezione.append((PRZED_PRZYMIOTNIKIEM, liść.segment.form))
+        elif pos == "adv":
+            znalezione.append((PRZED_PRZYSŁÓWKIEM, liść.segment.form))
+    return znalezione
+
+
+@dataclass
+class Raport:
+    """Co jeden przebieg naliczył."""
+
+    ile_przykładów: int = PRZYKŁADY
+    #: Zdania, o które sonda w ogóle zapytała, czyli mianownik werdyktów.
+    zmierzone: int = 0
+    #: Zdania, które wariant przyjmuje jednym czytaniem, czyli populacja.
+    przyjęte: int = 0
+    #: Zdania przyjęte, których jedyne czytanie stoi płasko, pod kluczem klasy.
+    #: Zdanie o dwóch takich przysłówkach liczy się w każdej klasie raz, bo
+    #: pytanie jest o zdanie, a nie o wystąpienie.
+    płaskie: collections.Counter[str] = field(default_factory=collections.Counter)
+    #: Zdania przyjęte, których czytanie stoi płasko którąkolwiek klasą.
+    #: Liczone osobno, bo suma po klasach liczyłaby takie zdanie dwa razy.
+    razem: int = 0
+    #: Formy przysłówka, którymi to wychodzi, pod kluczem klasy.
+    formy: collections.Counter[tuple[str, str]] = field(default_factory=collections.Counter)
+    #: Zdania zachowane pod klasą, najkrótsze, żeby dały się przeczytać.
+    przykłady: dict[str, list[tuple[int, str]]] = field(default_factory=dict)
+    #: Dlaczego zdanie nie weszło do mianownika.
+    pominięte: collections.Counter[str] = field(default_factory=collections.Counter)
+
+    def zapisz(self, tekst: str, drzewa: Sequence[Node]) -> None:
+        """Zapisz jedno zdanie wraz z czytaniem, którym wariant je przyjął.
+
+        Czytań jest tu zawsze jedno albo żadne, bo populację tworzą zdania
+        przyjęte. Lista, a nie jedno drzewo, bo tyle oddaje werdykt i nie ma po co
+        rozpakowywać jej u siebie.
+        """
+        self.zmierzone += 1
+        if len(drzewa) != 1:
+            return
+        self.przyjęte += 1
+        znalezione = płaskie(drzewa[0])
+        for klasa, forma in znalezione:
+            self.formy[(klasa, forma)] += 1
+        #  Klasy idą w kolejności deklaracji, a nie zbiorem: zbiór chodzi się w
+        #  każdym przebiegu inaczej, a przykłady mieszczą się w budżecie.
+        trafione = {klasa for klasa, _ in znalezione}
+        for klasa in KLASY:
+            if klasa not in trafione:
+                continue
+            self.płaskie[klasa] += 1
+            self.zanotuj(klasa, (len(tekst), tekst))
+        if znalezione:
+            self.razem += 1
+
+    def zanotuj(self, klucz: str, przykład: tuple[int, str]) -> None:
+        """Zachowaj zdanie pod klasą, zostawiając najkrótsze.
+
+        Najkrótsze, bo wybór po długości nie zależy od kolejności, w jakiej
+        kawałki wracają z procesów pod spodem.
+        """
+        zachowane = self.przykłady.setdefault(klucz, [])
+        zachowane.append(przykład)
+        zachowane.sort()
+        del zachowane[self.ile_przykładów :]
+
+
+def wariant(nazwa: str = przysłówek.OKOLICZNIK) -> Grammar:
+    """Gramatyka olskiego z przysłówkiem u tego gospodarza, którego nazwa mówi.
+
+    Bierze się z sondy różnicowej, a nie z produkcji wypisanych tutaj, bo wariant
+    zmierzony tabelą w ``docs/subset.md`` i wariant, którego werdykty ta sonda
+    czyta, mają być jedną gramatyką. Dopisane drugi raz rozeszłyby się z tamtą
+    tabelą przy pierwszej zmianie i żadna liczba by o tym nie powiedziała.
+
+    Domyślny jest okolicznik, bo o niego sondzie chodzi: to on stoi płasko. Wariant
+    obu gospodarzy odpowiada na pytanie następne, czyli ile płaskich czytań zostaje
+    po dopisaniu drugiego, i tam zostaje sama klasa, której drugi gospodarz nie
+    obejmuje.
+    """
+    return gramatyka(przysłówek.SONDA, nazwa)
+
+
+def zmierz(
+    ścieżki: Sequence[Path],
+    przykłady: int = PRZYKŁADY,
+    nazwa: str = przysłówek.OKOLICZNIK,
+) -> Raport:
+    """Jeden przebieg po lasach banku drzew, bez procesów pod spodem."""
+    raport = Raport(przykłady)
+    grammar = wariant(nazwa)
+    for ścieżka in ścieżki:
+        zdanie = read(ścieżka)
+        if not zdanie.annotated:
+            continue
+        segmenty = segments_for(zdanie, "gold")
+        if not segmenty:
+            raport.pominięte["bez morfologii"] += 1
+            continue
+        result = parse(grammar, list(segmenty), deklaracja=DEKLARACJA)
+        raport.zapisz(zdanie.text, result.readings)
+    return raport
+
+
+def nad_prozą(
+    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = przysłówek.OKOLICZNIK
+) -> Raport:
+    """To samo pytanie nad prozą, którą olski ma czytać.
+
+    Bank drzew mówi, ile płaskich czytań wychodzi w cudzej polszczyźnie, a rejestr
+    własny odpowiada osobno i odpowiada inaczej, bo to on jest tym, o który olskiemu
+    chodzi. Fragment do mianownika nie wchodzi: nikt go nie napisał jako zdania.
+    """
+    raport = Raport(przykłady)
+    grammar = wariant(nazwa)
+    for werdykt in check(tekst, grammar):
+        if werdykt.status == FRAGMENT:
+            raport.pominięte["fragment, a nie zdanie"] += 1
+            continue
+        raport.zapisz(werdykt.text, werdykt.result.readings)
+    return raport
+
+
+def _kawałek(ścieżki: Sequence[Path], przykłady: int, nazwa: str) -> Raport:
+    return zmierz(ścieżki, przykłady, nazwa)
+
+
+def przebieg(
+    ścieżki: Sequence[Path],
+    jobs: int,
+    przykłady: int = PRZYKŁADY,
+    nazwa: str = przysłówek.OKOLICZNIK,
+) -> Raport:
+    """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
+    praca = functools.partial(_kawałek, przykłady=przykłady, nazwa=nazwa)
+    return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
+
+
+def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
+    """Złóż raporty kawałków w jeden, przykłady włącznie."""
+    scalony = Raport(przykłady)
+    for raport in raporty:
+        scalony.zmierzone += raport.zmierzone
+        scalony.przyjęte += raport.przyjęte
+        scalony.razem += raport.razem
+        scalony.płaskie.update(raport.płaskie)
+        scalony.formy.update(raport.formy)
+        scalony.pominięte.update(raport.pominięte)
+        for klucz, zachowane in raport.przykłady.items():
+            for przykład in zachowane:
+                scalony.zanotuj(klucz, przykład)
+    return scalony
+
+
+# --------------------------------------------------------------------------- #
+# Wydruk
+# --------------------------------------------------------------------------- #
+
+
+def wydruk(raport: Raport, nagłówek: str) -> str:
+    wiersze = [
+        f"{nagłówek}, {raport.zmierzone} zdań",
+        "",
+        f"  {raport.przyjęte:>7}  przyjętych jednym czytaniem, czyli populacja",
+        *(f"  {ile:>7}  niezmierzone: {powód}" for powód, ile in raport.pominięte.most_common()),
+    ]
+    if not raport.przyjęte:
+        return "\n".join(wiersze)
+
+    udział = raport.razem / raport.przyjęte
+    wiersze += ["", f"płaskie czytanie w {raport.razem} z {raport.przyjęte} zdań, {udział:.1%}:"]
+    for klasa in KLASY:
+        ile = raport.płaskie.get(klasa, 0)
+        wiersze.append(f"  {ile:>7}  {ile / raport.przyjęte:>6.1%}  {klasa}")
+
+    for klasa in KLASY:
+        formy = [(forma, ile) for (nazwa, forma), ile in raport.formy.items() if nazwa == klasa]
+        if not formy:
+            continue
+        wypisane = ", ".join(
+            f"`{forma}` {ile}" for forma, ile in sorted(formy, key=lambda para: (-para[1], para[0]))
+        )
+        wiersze += ["", f"  formy, {klasa}: {wypisane}"]
+
+    for klasa in KLASY:
+        zachowane = raport.przykłady.get(klasa)
+        if not zachowane:
+            continue
+        wiersze += ["", f"  najkrótsze zdania, {klasa}:"]
+        wiersze += [f"    {tekst}" for _, tekst in zachowane]
+    return "\n".join(wiersze)
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="python3 -m sonda.płaski",
+        description="Policz zdania, którym płaska lista okoliczników daje fałszywe czytanie.",
+    )
+    parser.add_argument(
+        "ścieżka",
+        help="katalog z rozpakowaną Składnicą albo plik z prozą do przeczytania",
+    )
+    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
+    parser.add_argument(
+        "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
+    )
+    parser.add_argument(
+        "--wariant",
+        default=przysłówek.OKOLICZNIK,
+        choices=przysłówek.SONDA.warianty,
+        help="u którego gospodarza stoi przysłówek w mierzonej gramatyce",
+    )
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=os.cpu_count() or 1,
+        help="ile procesów czyta i mierzy; 1 liczy w tym",
+    )
+    args = parser.parse_args(argv)
+    if args.jobs < 1:
+        parser.error("--jobs bierze co najmniej jeden proces")
+
+    ścieżka = Path(args.ścieżka)
+    if ścieżka.is_dir():
+        raport = przebieg(
+            pliki(ścieżka)[: args.limit],
+            args.jobs,
+            przykłady=args.przykłady,
+            nazwa=args.wariant,
+        )
+        print(wydruk(raport, f"Składnica, morfologia złota, wariant „{args.wariant}”"))
+        return 0
+    if ścieżka.is_file():
+        raport = nad_prozą(ścieżka.read_text(), args.przykłady, args.wariant)
+        print(wydruk(raport, f"{ścieżka.name}, proza, wariant „{args.wariant}”"))
+        return 0
+    print(f"sonda.płaski: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
+    print("sonda.płaski: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())

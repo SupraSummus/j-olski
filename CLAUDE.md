@@ -946,7 +946,7 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Four sets are a difference rather than a count,
+Three sets are a difference rather than a count,
 and that is what makes them easy to leave stale.
 [What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the gap between olski and olski with three productions taken out,
@@ -958,29 +958,33 @@ so everything that moves the tables above moves all three,
 and so does a change to the probe that names each variant's productions —
 `sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/szyk.py` —
 or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
-The fourth measures a construction the grammar does not have,
-so its variants add productions where those three take them away:
-[what the adverb would cost](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)
-is the gap between olski and olski with `sonda/przysłówek.py` written into it.
-That direction moves which end of the variant list is olski and nothing else:
-the denominator is olski either way,
-so a grammar change moves those figures as it moves the three above.
-Each of the four prints the command that produces its figures.
+Each of the three prints the command that produces its figures.
 They share a denominator, so a construction admitted moves every one of these
 tables and not only the one belonging to it.
 What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
-All four take their figures over the README as well,
-so a commit that touches README prose owes those four runs
+All three take their figures over the README as well,
+so a commit that touches README prose owes those three runs
 alongside the two the section above already asks of it.
 
+Two sets of that shape have an owner,
+so their movers are files in `figury/` rather than a paragraph here,
+and the report is what says whether any of them is owed a rerun.
 [What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
-is the fifth of that shape and the one that has an owner,
-so its movers are `figury/negacja.txt` and `figury/negacja-proza.txt`
-rather than a paragraph here,
-and the report is what says whether either is owed a rerun.
-The README half is why the pair is worth reading before converting the next figure:
-`README.md` is one of its declared movers,
+is the first, and
+[what the adverb would cost](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)
+the second, this one measuring a construction the grammar does not have,
+so its variants add productions where the three above take them away.
+That direction moves which end of the variant list is olski and nothing else,
+the denominator being olski either way.
+The adverb brings a figure of a second kind with it, and the formalism moves it:
+[what a flat adjunct list reads](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)
+counts trees rather than verdicts,
+so `olski/grammar.py` stands among its movers,
+which is where a demand for a feature's presence lives.
+The README half of either pair is why they are worth reading
+before converting the next figure:
+`README.md` is one of the declared movers,
 so a reword moves it in the report rather than nowhere,
 which is what the rule against writing down a figure over our own prose
 had to be a rule about.

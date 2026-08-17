@@ -143,6 +143,25 @@ def test_przysłówek_nie_dochodzi_do_zaimka_względnego():
         ]
 
 
+def test_do_przymiotnika_dochodzi_przysłówek_stopniowany_a_do_zdania_każdy():
+    """Terminale są dwa, bo warunek należy do jednego gospodarza, a nie do obu.
+
+    Bez tego podziału pozycja przy przymiotniku bierze `tu` tak samo jak `bardzo`,
+    a przysłówek bez stopnia stoi wtedy w dwóch trzecich zdań, które ta pozycja
+    czyta wbrew drzewu wzorcowemu (`docs/subset.md`). Zdania są dwa i różni je sam
+    przysłówek, bo o różnicę między dwiema jego klasami tu chodzi.
+    """
+    stopniowany = "Koszt bardzo dużego pliku jest niski."
+    pierwotny = "Koszt tu dużego pliku jest niski."
+    przy_przymiotniku = gramatyka(przysłówek.SONDA, "przy przymiotniku")
+    assert [w.status for w in check(stopniowany, przy_przymiotniku)] == ["valid"]
+    assert [w.status for w in check(pierwotny, przy_przymiotniku)] == ["rejected"]
+    #  Okolicznik zdania bierze przysłówek każdy, więc `tu` traci pozycję przy
+    #  przymiotniku i nie traci żadnej innej.
+    okolicznik = gramatyka(przysłówek.SONDA, "okolicznik")
+    assert [w.status for w in check("Teraz program zapisuje ustawienia.", okolicznik)] == ["valid"]
+
+
 def test_gospodarzem_przyłączenia_zostaje_przymiotnik_a_nie_przysłówek_przed_nim():
     """Głowa jest numerem pozycji w ciele, więc przesuwa się razem z wstawką.
 

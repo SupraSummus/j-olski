@@ -108,6 +108,102 @@ FIGURY = (
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno",),
     ),
     Figura(
+        nazwa="przysłówek",
+        polecenie=("python3", "-m", "sonda.przysłówek", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Formalizm stoi tu obok gramatyki, czego nie robi żadna figura wyżej, i
+        #  jest to zapis tego, co tę figurę ruszyło: żądanie obecności cechy jest
+        #  warunkiem w `olski/grammar.py`, a bez niego pozycja przy przymiotniku
+        #  bierze przysłówek pierwotny i odbiera zdania, których nie odbiera z nim.
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/grammar.py",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+        ),
+        #  Sekcje są trzy, bo tę figurę restytuuje więcej niż jedna, a ``czyta``
+        #  jest listą właśnie na to. Pierwsza jest właścicielem restytucji, a dwie
+        #  dalsze niosą twierdzenie z niej wyprowadzone — porównanie rejestrów i
+        #  przelicznik kolejki blokerów — więc przeliczenie ruszające liczbę może
+        #  je odwrócić, choć wskazują na pierwszą, a nie na ten plik.
+        czyta=(
+            "docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu",
+            "docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="przysłówek-proza",
+        polecenie=("python3", "-m", "sonda.przysłówek", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/grammar.py",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="płaski",
+        polecenie=("python3", "-m", "sonda.płaski", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/grammar.py",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+            "sonda/płaski.py",
+        ),
+        czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
+    ),
+    Figura(
+        nazwa="płaski-oba",
+        #  Ta sama sonda nad tym samym korpusem, a osobno od figury wyżej, bo pyta
+        #  o co innego: tamta mówi, ile fałszywych czytań daje pierwsza połowa
+        #  konstrukcji, a ta, ile z nich zostaje po dopisaniu drugiej.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.płaski",
+            "Składnica-frazowa-180723/",
+            "--wariant",
+            "oba",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/grammar.py",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+            "sonda/płaski.py",
+        ),
+        czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
+    ),
+    Figura(
+        nazwa="płaski-proza",
+        polecenie=("python3", "-m", "sonda.płaski", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/grammar.py",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+            "sonda/płaski.py",
+        ),
+        czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
+    ),
+    Figura(
         nazwa="rama",
         polecenie=(
             "python3",

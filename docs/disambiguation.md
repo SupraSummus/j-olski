@@ -380,7 +380,7 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 ## Rama rozstrzyga po stronie rzeczownika, a po stronie czasownika nie
 
 Świadka ramowego wyceniono przed dopisaniem go, tak jak
-[przysłówek](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań),
+[przysłówek](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu),
 i pomiar rozstrzygnął go na pół.
 `sonda/rama.py` czyta Walentego wprost, zamiast czekać na kolumnę leksykonu,
 i pyta bank drzew, dokąd wyrażenie doszło u anotatora.

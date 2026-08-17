@@ -75,6 +75,13 @@ class Word:
     #: wobec cech, których przecięcie negacji nie zna; docs/subset.md wywodzi to
     #: pod jedynym warunkiem tego rodzaju, jaki gramatyka stawia.
     bez_lematów: frozenset[str] | None = None
+    #: Cechy, które forma ma nieść, żeby ten terminal ją wziął, czyli żądanie
+    #: samej obecności: `word("adv", niesie="degree")` bierze `bardzo`, a `tu` nie.
+    #: Stoi obok testu na lemat, a nie w :func:`unify`, bo cechy nieobecnej
+    #: unifikacja nie sprawdza, więc wypisanie wszystkich wartości znaczy tam tyle,
+    #: co milczenie; docs/design-notes.md wywodzi to razem z warunkiem ujemnym
+    #: wyżej, bo oba pytają o formę, a nie o zgodność.
+    niesione: frozenset[str] | None = None
 
     def __repr__(self) -> str:
         return f"<{'|'.join(sorted(self.pos))}>"
@@ -138,18 +145,24 @@ def nt(name: str, **features) -> Sym:
 
 
 def word(
-    pos: str, lemma: str | None = None, bez_lematu: str | None = None, **features
+    pos: str,
+    lemma: str | None = None,
+    bez_lematu: str | None = None,
+    niesie: str | None = None,
+    **features,
 ) -> Word:
     """Match a morphological reading: ``word("subst", case=V("c"))``.
 
     ``pos`` may name alternatives, as in ``"fin|praet"``.
     ``bez_lematu`` names alternatives the same way and excludes them instead.
+    ``niesie`` nazywa cechy, które forma ma nieść, tak samo rozdzielone kreską.
     """
     return Word(
         pos=frozenset(pos.split("|")),
         constraints=_constraints(features),
         lemmas=None if lemma is None else frozenset(lemma.split("|")),
         bez_lematów=None if bez_lematu is None else frozenset(bez_lematu.split("|")),
+        niesione=None if niesie is None else frozenset(niesie.split("|")),
     )
 
 
@@ -273,7 +286,8 @@ def unify(
 
     A feature the constituent does not carry cannot disagree, so it is skipped
     rather than failed: an uninflected part of speech is not in violation of an
-    agreement it takes no part in.
+    agreement it takes no part in. A terminal demanding that a form carry the
+    feature at all says so outside this function, in ``Word.niesione``.
     """
     for name, spec in sorted(constraints, key=lambda c: c[0]):
         available = features.get(name)
@@ -310,6 +324,10 @@ def bierze(
     if terminal.lemmas is not None and lemma not in terminal.lemmas:
         return None
     if terminal.bez_lematów is not None and lemma in terminal.bez_lematów:
+        return None
+    if terminal.niesione is not None and any(
+        not features.get(cecha) for cecha in terminal.niesione
+    ):
         return None
     return unify(terminal.constraints, features, env)
 

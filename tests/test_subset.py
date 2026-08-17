@@ -14,7 +14,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, nt, unify, word
+from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, bierze, nt, unify, word
 from olski.morph import analyse
 from olski.parse import (
     MAX_READINGS,
@@ -68,6 +68,43 @@ def test_a_feature_a_word_does_not_have_cannot_disagree():
     #  An uninflected part of speech is not in violation of an agreement it
     #  takes no part in.
     assert unify(frozenset({("case", V("c"))}), {}, EMPTY) is not None
+
+
+@pytest.mark.parametrize(("forma", "stopniowany"), [("bardzo", True), ("tu", False)])
+def test_terminal_żąda_obecności_cechy_a_nie_wartości(forma: str, stopniowany: bool):
+    """Żądanie obecności cechy stoi obok unifikacji, bo w niej stać nie może.
+
+    Wypisanie wszystkich wartości cechy wygląda na to samo żądanie i nie jest
+    nim: cechy, której forma nie niesie, unifikacja pomija rozmyślnie, więc taki
+    terminal bierze `tu` tak samo jak `bardzo`. Oba warunki stoją tu obok siebie,
+    bo pomyłka jest właśnie w tym, że jeden podstawia się za drugi.
+
+    Formy przychodzą z Morfeusza, a nie z ręcznie złożonego tagu: różnica, na
+    której ten warunek stoi — przysłówek odprzymiotnikowy niesie stopień, a
+    pierwotny nie — jest faktem o tagsecie, a nie o tej funkcji.
+    """
+    [segment] = analyse(forma)
+    [czytanie] = segment.readings
+    cechy = dict(czytanie.tag.features)
+    wartości = word("adv", degree="pos.com.sup")
+    obecność = word("adv", niesie="degree")
+    assert bierze(wartości, czytanie.tag.pos, czytanie.lemma, cechy, EMPTY) is not None
+    wzięty = bierze(obecność, czytanie.tag.pos, czytanie.lemma, cechy, EMPTY) is not None
+    assert wzięty is stopniowany
+
+
+def test_forma_bez_żądanej_cechy_nie_jest_licencjonowana_przez_gramatykę():
+    """Odrzucenie ma nazwać formę, na której stanęło, a licencja pyta o terminale.
+
+    Warunek postawiony w tablicy Earleya, a nie w :func:`bierze`, przeszedłby
+    testy wyżej i zostawił `Grammar.licencjonuje` przy odpowiedzi, której
+    gramatyka nie ma: zdanie wyszłoby odrzucone bez ani jednej formy nazwanej,
+    choć stanęło dokładnie na tej jednej.
+    """
+    grammar = Grammar(start="A")
+    grammar.rule("A", [word("adv", niesie="degree")])
+    assert grammar.licencjonuje("adv", "bardzo", {"degree": frozenset({"pos"})})
+    assert not grammar.licencjonuje("adv", "tu", {})
 
 
 def test_lewa_rekursja_wyprowadza_się_zamiast_zapętlać():
