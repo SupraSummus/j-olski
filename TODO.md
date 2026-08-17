@@ -1268,6 +1268,31 @@ czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
 Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
 `olski/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
 
+Warstwa rozstrzygająca nie dostaje pytania o synkretyzm, choć pomiar tę klasę liczy.
+`pytania` w `olski/wieloznaczność.py` wypuszcza same `Przyłączenie`,
+a klasa synkretyzmu zostawia `gospodarze` puste, bo wyborem nie jest tam przyłączenie,
+więc `Koszt szynki i sera przewyższa koszt bułki.` nie stawia warstwie ani jednego pytania,
+choć werdykt nad nim mówi `differing in Object, Subject`.
+Nad korpusem audytowym pozycję tej klasy niesie 21,1% zdań
+([`docs/open-questions.md`](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)),
+a ile z odrzuceń nad Składnicą zostawia ją jako całą decyzję, nie liczy nikt:
+tabela klas liczy tam nazwy z werdyktu, a nie decyzje,
+i osobnej kolumny na szyk nie ma
+([`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)).
+Ruchem jest drugi typ pytania obok `Przyłączenie` — wybór między dwiema grupami o role —
+oraz `Świadek`, który go przyjmuje, bo dzisiejszy protokół pyta o gospodarza modyfikatora.
+Do rozstrzygnięcia jest, czy `próba/wybory.txt` ten typ unosi:
+wpis ma pola `fraza` i `gospodarze`, a tu żadnej frazy nie ma,
+więc albo dochodzi drugi plik, albo pola nazywają się szerzej.
+Świadka dzisiejszego kształtu nie ma tu przy tym żadnego i nie jest to przeoczenie:
+temat rozstrzyga kolejność, a nie rolę
+([`docs/disambiguation.md`](docs/disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem)),
+skłonność liczy przyimki, a powtórzenie przeniesione z frazy na rolę
+wskazuje po `Bułka jest tania.` na `koszt bułki` jako podmiot,
+czyli odwrotnie, niż czyta czytelnik.
+Wpis jest więc o pytaniu, a nie o odpowiedzi:
+warstwa, która pytania nie dostaje, nie umie nawet przemilczeć.
+
 Leksykon walencyjny nie mówi o przyimku, więc świadek ramowy nie ma z czego powstać.
 `olski/rozstrzyganie.py` obiecuje w docstringu świadka, który wskazuje gospodarza wtedy,
 gdy schemat jednej ze stron tej frazy żąda, i jest to obietnica niedotrzymana:
@@ -1471,29 +1496,6 @@ czyli liczbą lasów tracących czytanie wybrane przez anotatorów.
 Ruchem, gdyby było, jest `ppron3` i `ppron12` dopisane do `CLOSED_CLASS`.
 Przeciw: zaimek nie jest wyrazem funkcyjnym w tym sensie, w którym są nim tamte,
 a kryterium rozszerzone na niego przestaje mówić to, co mówi dziś.
-
-`_obojętny` w `olski/wieloznaczność.py` liczy synkretyzm z jednego czytania,
-więc mija formę, której słownik daje mianownik i biernik dwoma osobnymi wpisami.
-`Mysz goni ogon.` olski czyta dwojako,
-a `miejsca` nie stawia tam żadnej pozycji,
-bo `mysz` wychodzi z Morfeusza jako `subst:sg:nom:f` i `subst:sg:acc:f` osobno,
-podczas gdy `ogon` wychodzi jako jedno `subst:sg:nom.acc:m3`.
-Pomiar sam nazywa swoją liczbę górnym oszacowaniem,
-a to jest błąd w drugą stronę i tam go nie ma.
-Zgłosił to skład, który tę samą klasę liczy porównaniem form i tej pary nie mija,
-i trzyma tę rozbieżność `tests/test_przegląd.py`.
-Do przeczytania jest, ile form rejestru dzieli te dwa przypadki na wpisy,
-oraz to, czym staje się wtedy zgoda:
-warunek żąda dziś liczby i rodzaju od jednego czytania,
-a nad dwoma trzeba wskazać, które z nich ma zgodzić się z orzeczeniem.
-Ruchem jest warunek pytany o segment zamiast o czytanie.
-Wpis jest zaparkowany, bo poprawka rusza liczbę,
-którą [`docs/open-questions.md`](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-podaje nad korpusem audytowym,
-więc zamyka go dopiero sesja, która ten korpus ściągnie i przebieg powtórzy.
-Tę samą liczbę rusza wpis o zaimku wykluczonym ze słownika,
-bo `admissible` stoi między tekstem a tym pomiarem,
-więc przebieg jest jeden i oba wpisy podnosi się razem.
 
 Maskowanie nieciągłości zmierzono nad Składnicą, a nad rejestrem docelowym nie,
 i korpus prasowy zaniża tę liczbę względem dokumentacji, zamiast ją zawyżać,

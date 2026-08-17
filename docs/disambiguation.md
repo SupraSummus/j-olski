@@ -896,8 +896,28 @@ Autor drzewa temat tam deklaruje, a parser musiałby go zgadnąć,
 i krokiem, którego skład nie robi, jest zrównanie tematu z tym, o czym mowa była przed chwilą.
 Po tym kroku przy synkretyzmie mianownika z biernikiem
 pierwszą grupą jest ta, którą wymieniło zdanie poprzednie.
+
+Czytania to jednak nie wybiera, a klasa, nad którą miałoby wybierać, jest tu jedna.
+Temat wiąże kolejność, a dwa czytania takiego zdania mają jedną kolejność:
+w `Koszt szynki przewyższa koszt bułki.`
+grupa `Koszt szynki` stoi pierwsza i pod SVO, i pod OVS,
+więc warunek nałożony na kolejność jest spełniony po obu stronach wyboru.
+Wersja, która wybiera — temat jest podmiotem — wybiera na tej parze źle:
+po `Bułka jest tania.` tematem jest bułka,
+więc podmiotem wypada `koszt bułki`, czyli czytanie OVS,
+a czytelnik czyta SVO, bo z tamtego zdania bierze taniość, a nie rolę.
+Przyłączenia ten dowód nie dotyczy wcale:
+fraza stoi tam, gdzie stoi, niezależnie od tego, do czego dochodzi.
+
+Zostaje z tego wyjście innego rodzaju i nie jest nim wybór czytania.
+Temat mówi, gdzie grupa znana ma stanąć,
+więc zdanie, które stawia ją gdzie indziej, da się zgłosić autorowi —
+a to jest ten sam ruch, który po drugiej stronie robi już
+`olski/skład/przegląd.py`, kiedy napis nie oddaje ról ([sklad.md](sklad.md)).
 Pomiar niderlandzki cytowany wyżej mówi tyle, że zdanie poprzednie ten wybór czytelnikowi rozstrzyga,
-a czy rozstrzyga go tematem, nie mówi.
+i tamta para rozstrzyga go rolą, a nie kolejnością: po „pacjent wyleczył lekarza”
+znany uczestnik wraca w roli, którą tamto zdanie mu dało.
+Dowodem, który tak działa, jest wynikanie niżej.
 
 **Wynikanie.**
 `Znam go. Rozmawiałem z nim na imprezie u Anki.` rozstrzyga się dopiero wtedy,
@@ -1039,6 +1059,10 @@ czyli zdania, w których o znaczeniu nie mówi żaden schemat.
 - <https://arxiv.org/abs/2305.14917> —
   Wijnholds i Moortgat, *Structural Ambiguity and its Disambiguation in Language
   Model Based Parsers: the Case of Dutch Clause Relativization*, 2023
+- <https://aclanthology.org/P88-1012.pdf> —
+  Hobbs i Stickel, *Interpretation as Abduction*, ACL 1988,
+  gdzie wieloznaczność składniową zdejmuje się tym samym wnioskowaniem co odniesienie:
+  zostaje czytanie, które da się wyjaśnić najmniejszym założeniem dołożonym do wiedzy tłowej
 - <https://www.cl.cam.ac.uk/~aac10/papers/mrs.pdf> —
   Copestake, Flickinger, Pollard i Sag, *Minimal Recursion Semantics: An
   Introduction*, gdzie niedookreślenie zastępuje wybór między czytaniami

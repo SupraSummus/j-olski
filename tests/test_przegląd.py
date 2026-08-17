@@ -78,18 +78,19 @@ def test_rzecz_spod_przyimka_nie_staje_w_parze_z_podmiotem():
     assert kolizje(drzewo) == []
 
 
-def test_przegląd_widzi_parę_której_pomiar_nad_tekstem_nie_melduje():
-    """Rozbieżność, na której stoi wpis w ``TODO.md``, więc trzymana testem.
+def test_przegląd_i_pomiar_nad_tekstem_widzą_tę_samą_parę():
+    """Para, na której te dwie strony się rozeszły, więc trzymana testem.
 
     `mysz` niesie mianownik i biernik dwoma osobnymi wpisami słownika,
-    a `_obojętny` w tamtym module żąda obu od jednego wpisu, więc tę parę mija.
-    Porównanie napisów o wpisy nie pyta i dlatego jej nie mija,
-    a olski czyta to zdanie dwojako, czyli rację ma tu skład.
+    a `ogon` niesie oba jednym.
+    Porównanie napisów o wpisy nie pyta i tej pary nigdy nie mijało;
+    pomiar nad tekstem mijał ją, dopóki pytał o czytanie zamiast o segment,
+    i to on tu ustąpił, bo olski czyta to zdanie dwojako.
     """
     drzewo = V.gonić(R.mysz, R.ogon)
     assert kompiluj(drzewo) == "Mysz goni ogon."
     assert check(kompiluj(drzewo))[0].status == "ambiguous"
-    assert miejsca(kompiluj(drzewo)) == []
+    assert [m.formy for m in miejsca(kompiluj(drzewo))] == [("Mysz", "ogon")]
     assert kolizje(drzewo) == [("mysz", "ogon")]
 
 

@@ -38,12 +38,12 @@ i przy którym orzeczeniu para stanęła.
 Sam nazywa przez to swoją liczbę górnym oszacowaniem.
 Tutaj żadne z tych pytań się nie stawia,
 bo uczestnicy są w drzewie wymienieni, a orzeczenie jest w nim węzłem.
-Idzie to nawet dalej, niż tamten pomiar sięga:
-``Mysz goni ogon.`` czyta się dwojako, a tamten tego nie melduje,
-bo synkretyzm liczy z jednego czytania słownika,
-podczas gdy ``mysz`` niesie mianownik i biernik dwoma osobnymi wpisami.
-Porównanie napisów o wpisy nie pyta, więc tę parę widzi;
-że tamten jej nie widzi, jest usterką tamtego modułu i trzyma to ``TODO.md``.
+Poprawiło to raz tamten pomiar:
+``Mysz goni ogon.`` czyta się dwojako,
+a synkretyzm liczony z jednego czytania słownika tej pary nie widzi,
+bo ``mysz`` niesie mianownik i biernik dwoma osobnymi wpisami.
+Porównanie napisów o wpisy nie pyta i widzi ją bez żadnego warunku,
+więc ``_obojętny`` pyta tam dziś o segment, a nie o czytanie.
 
 Klasa jest tu jedna z dwóch, które ta wieloznaczność ma nad polszczyzną.
 Przyłączenia ten przegląd nie zgłasza,
