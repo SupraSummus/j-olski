@@ -26,7 +26,10 @@ która z orzeczeniem nie zgadza się co do liczby i rodzaju, nie liczy sama zgod
 
 Liczba jest górnym oszacowaniem i myli się w jedną stronę. Grupą imienną jest tu
 ciąg form, a nie węzeł, więc przymiotnik orzecznikowy liczy się jak koniec grupy,
-a zdanie złożone daje naraz pozycje z dwóch zdań składowych. Populację zwęża
+a zdanie złożone daje naraz pozycje z dwóch zdań składowych. Pozycja liczy się i
+wtedy, gdy obaj jej gospodarze są jedną formą, czyli gdy wyboru w niej nie ma;
+odsiewa taką dopiero ``pytania``, bo pyta o nią warstwa, a nie ten pomiar.
+Populację zwęża
 ponadto to, czego ten moduł nie widzi: wyrażenie, którego czasownik żąda swoim
 schematem, stoi w tej pozycji i do wyboru nie stoi, a ile go jest, mierzy nad
 Składnicą docs/subset.md. Wchodzi tu wreszcie każde czytanie, które słownik
@@ -35,6 +38,12 @@ olski/subset.py, a zostawia ono nazwisko nieodmienne z formy ``Nowy`` i grę z
 formy ``go``. Obie klasy są otwarte i obie mają swoje miejsce — pierwsza jest
 etapem 3 z docs/roadmap.md, drugą trzyma TODO.md — więc ten pomiar ruszy się,
 kiedy się zamkną.
+
+Policzona pozycja jest zarazem pytaniem i ``pytania`` oddaje ją w tej postaci,
+w której warstwa rozstrzygająca pyta o gospodarza. Obie sondy nad tym rejestrem
+biorą populację stamtąd, a nie każda ze swojego odczytu: gospodarze pozycji są
+tym, co warstwa rozstrzyga, więc dwa odczyty rozeszłyby się przy pierwszej zmianie
+w tym, co liczy się za grupę imienną.
 """
 
 from __future__ import annotations
@@ -49,7 +58,15 @@ from pathlib import Path
 from olski.attachment import CZASOWNIK
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Reading, Segment
+from olski.parse import Przyłączenie
 from olski.próbka import rozrzucona
+
+# Kryterium łańcucha, zasięg frazy i strona wyboru należą do warstwy
+# rozstrzygającej i bierze się je stamtąd, żeby pozycja stąd była tym samym
+# pytaniem, które warstwa dostaje od werdyktu. Nazwa strony jest podstawiona, bo
+# ``CZASOWNIK`` znaczy tutaj część mowy, a tam stronę wyboru.
+from olski.rozstrzyganie import CZASOWNIK as STRONA_CZASOWNIKOWA
+from olski.rozstrzyganie import IMIENNE_LUB_NIEZNANE, ZASIĘG_FRAZY, strona
 from olski.subset import morphology, sentences
 
 # Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
@@ -90,11 +107,15 @@ class Miejsce:
     #: Formy, na których ta pozycja stoi: przyimek dla jednej klasy, a obie grupy
     #: imienne dla drugiej. Bez nich liczba nie ma czym się wytłumaczyć.
     formy: tuple[str, ...]
-    #: Gospodarze, między którymi wybiera pozycja przyłączeniowa: forma kończąca
-    #: grupę imienną przed wyrażeniem i najbliższa forma czasownikowa przed nim,
-    #: w tej kolejności. Liczby stąd nie liczy nikt; niesie je to, co z tych
-    #: pozycji buduje pytanie do warstwy rozstrzygającej (``sonda/wybory.py``),
-    #: bo warstwa pyta o gospodarzy, a nie o sam przyimek. Klasa synkretyzmu
+    #: Gospodarze, między którymi wybiera pozycja przyłączeniowa: formy grupy
+    #: imiennej przed wyrażeniem, od najbliższej, a za nimi najbliższa forma
+    #: czasownikowa przed przyimkiem. Kolejność jest ta, a nie kolejność zdania,
+    #: bo pierwsza z nich stoi tuż przed przyimkiem i po niej :func:`_fraza`
+    #: poznaje, o które wystąpienie przyimka chodzi. Ostatnia powtarza czasem
+    #: którąś z poprzednich, bo forma bywa naraz imienna i czasownikowa; wybór
+    #: zawężony do samej grupy jest wtedy węższy od prawdziwego, a nie zmyślony.
+    #: Liczby stąd nie liczy nikt; niesie je :func:`pytania`, bo warstwa
+    #: rozstrzygająca pyta o gospodarzy, a nie o sam przyimek. Klasa synkretyzmu
     #: zostawia je puste: tam wyborem nie jest przyłączenie.
     gospodarze: tuple[str, ...] = ()
 
@@ -106,16 +127,39 @@ def miejsca(zdanie: str) -> list[Miejsce]:
 
 
 def _przyłączenia(segments: list[Segment]) -> list[Miejsce]:
-    kończy_się = {segment.end: segment.form for segment in segments if _ma(segment, KONIEC_NP)}
+    kończy_się = {segment.end: segment for segment in segments if _ma(segment, KONIEC_NP)}
+    imienne = {segment.end: segment for segment in segments if _ma(segment, IMIENNE_LUB_NIEZNANE)}
     czasowniki = {segment.start: segment.form for segment in segments if _ma(segment, CZASOWNIK)}
     znalezione = []
     for segment in segments:
         wcześniejsze = [start for start in czasowniki if start < segment.start]
         if not _ma(segment, {"prep"}) or segment.start not in kończy_się or not wcześniejsze:
             continue
-        gospodarze = (kończy_się[segment.start], czasowniki[max(wcześniejsze)])
+        grupa = _grupa(kończy_się[segment.start], imienne)
+        gospodarze = (*grupa, czasowniki[max(wcześniejsze)])
         znalezione.append(Miejsce(PRZYŁĄCZENIE, (segment.form,), gospodarze))
     return znalezione
+
+
+def _grupa(sąsiad: Segment, imienne: dict[int, Segment]) -> tuple[str, ...]:
+    """Formy grupy imiennej kończącej się tym segmentem, od prawej do lewej.
+
+    Tą samą drogą schodzi ``_łańcuch`` w ``olski/rozstrzyganie.py`` i tam stoi
+    wywód: co przedłuża łańcuch imienny, po co sąsiad wchodzi bez warunku i czym
+    grozi łańcuch wzięty za daleko. Świadek kontekstowy szuka nim gospodarza w
+    zdaniu wcześniejszym, a tu szuka się go w zdaniu spornym, więc kryterium jest
+    jedno (:data:`~olski.rozstrzyganie.IMIENNE_LUB_NIEZNANE`).
+
+    Cena wychodzi jednak inna niż tam. ``stanowi`` jest u Morfeusza i formą
+    osobową, i celownikiem od ``stan``, więc w ``dokument stanowi kompendium
+    wiedzy dla deweloperów`` łańcuch przechodzi przez orzeczenie: świadek płaci za
+    to milczeniem, a pozycja stąd traci gospodarza czasownikowego, bo orzeczenie
+    stoi wtedy po obu stronach wyboru. Wpis o zawężeniu kryterium trzyma TODO.md.
+    """
+    grupa = [sąsiad]
+    while _ma(grupa[-1], IMIENNE_LUB_NIEZNANE) and grupa[-1].start in imienne:
+        grupa.append(imienne[grupa[-1].start])
+    return tuple(człon.form for człon in grupa)
 
 
 def _synkretyzm(segments: list[Segment]) -> list[Miejsce]:
@@ -186,6 +230,75 @@ def _obojętny(reading: Reading, orzeczenie: Reading) -> bool:
 
 def _ma(segment: Segment, części: Iterable[str]) -> bool:
     return any(reading.tag.pos in części for reading in segment.readings)
+
+
+def pytania(zdanie: str) -> list[Przyłączenie]:
+    """Pozycje przyłączeniowe tego zdania jako pytania do warstwy rozstrzygającej.
+
+    **Populacja warstwy nad żywym tekstem jest morfologiczna, a nie z werdyktów,
+    i to jest powód, po który sięgają tu obie sondy.** Gramatyka odrzuca w
+    rejestrze dokumentacji prawie każde zdanie, więc werdykty stawiają nad
+    korpusem audytowym 38 wyborów na 2 915 zdań (``docs/disambiguation.md``), a
+    liczba zmierzona na nich mówi o gramatyce, nie o warstwie. Pozycja znaleziona
+    morfologią stoi tam, gdzie polszczyzna daje dwa czytania, niezależnie od tego,
+    czy olski to zdanie rozbiera.
+
+    Typ jest ten sam, którym pyta werdykt (``Przyłączenie`` w ``olski/parse.py``),
+    więc pytanie stąd i pytanie z rozbioru są jednym kształtem. Tyle samo nie
+    znaczą: fraza jest tu propozycją, bo gdzie wyrażenie przyimkowe się kończy,
+    mówi dopiero rozbiór, którego nad tym rejestrem w większości nie ma.
+
+    Pozycja o jednym gospodarzu wyboru nie stawia i wypada: imiesłów kończy grupę
+    imienną i jest zarazem formą czasownikową, więc w ``obiekt jest przetwarzany w
+    Systemie RIT`` obie strony są jednym słowem. Grupy dłuższej warunek ten nie
+    tyka, choćby orzeczenie powtarzało którąś z jej form, bo łańcuch pokazuje
+    wtedy gospodarza, którego sąsiad sam nie pokazał.
+    """
+    zebrane = []
+    for miejsce in miejsca(zdanie):
+        if miejsce.klasa != PRZYŁĄCZENIE or len(set(miejsce.gospodarze)) < 2:
+            continue
+        fraza = _fraza(zdanie, miejsce.formy[0], miejsce.gospodarze[0])
+        zebrane.append(Przyłączenie(modyfikator=fraza, gospodarze=miejsce.gospodarze))
+    return zebrane
+
+
+def _fraza(zdanie: str, przyimek: str, sąsiad: str) -> str:
+    """Przyimek wraz z formami stojącymi za nim, do :data:`ZASIĘG_FRAZY`.
+
+    Zasięg jest ten, którym świadek kontekstowy szuka rzeczownika frazy, bo
+    propozycja ma trafiać w to, o co on i tak zapyta.
+
+    Wystąpienie wybiera gospodarz stojący przed przyimkiem, a nie kolejność:
+    zdanie z dwoma takimi samymi przyimkami ma dwie pozycje, a propozycja opisana
+    z pierwszej z nich mówiłaby o innej niż ta, do której dobrano gospodarzy.
+    Kończy się na formie czasownikowej i na słowie, za którym stoi znak: fraza
+    przez żadne z nich nie przechodzi, a propozycja sięgająca dalej kosztuje
+    czytającego skreślenie zamiast przeczytania. Dalej jej nie zwężamy, bo
+    granicę frazy zna dopiero rozbiór, a lista słów pisana tutaj byłaby
+    zgadywaniem, które czytający i tak poprawia.
+    """
+    słowa = zdanie.split()
+    for i, słowo in enumerate(słowa):
+        if _goły(słowo).lower() != przyimek.lower():
+            continue
+        #  Przyimek stojący pierwszy w zdaniu nie ma przed sobą grupy imiennej,
+        #  więc nie jest tą pozycją, choćby jego forma się zgadzała.
+        if i == 0 or _goły(słowa[i - 1]) != sąsiad:
+            continue
+        fraza = [_goły(słowo)]
+        for dalsze in słowa[i + 1 : i + 1 + ZASIĘG_FRAZY]:
+            if strona(_goły(dalsze)) == STRONA_CZASOWNIKOWA:
+                break
+            fraza.append(_goły(dalsze))
+            if _goły(dalsze) != dalsze:
+                break
+        return " ".join(fraza)
+    return przyimek
+
+
+def _goły(słowo: str) -> str:
+    return słowo.strip(",.;:()„”\"'")
 
 
 @dataclass

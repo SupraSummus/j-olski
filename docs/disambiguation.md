@@ -439,9 +439,9 @@ Dwóch gospodarzy w jednym łańcuchu kończy się milczeniem,
 tym samym warunkiem, którym kończy się fraza powtórzona przy obu:
 sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
 
-**Nad rejestrem, o który chodzi, świadek ten nie odzywa się ani razu.**
+**Nad rejestrem, o który chodzi, świadek ten odpowiada o jednej pozycji na sto czterdzieści.**
 `sonda/powtórzenie.py` przechodzi prozę zdanie po zdaniu
-i pyta go o każde przyłączenie, przed którym werdykt postawił wybór.
+i pyta go o każdą pozycję przyłączeniową, jaką morfologia w tym zdaniu widzi.
 Korpusem jest [korpus audytowy](audit-corpus.md#the-list),
 czyli dokumentacja techniczna wyekstrahowana do prozy tak, jak ten dokument mówi:
 
@@ -452,24 +452,33 @@ python3 -m sonda.powtórzenie proza/
 ```text
 39 plików, 2915 zdań
   pierwszych w akapicie: 2383 (81.7%), czyli bez czego przeczytać
-  przyłączeń: 38, z tego z sąsiedztwem: 13
-  odpowiedzi w granicy akapitu: 0, czyli 0.0% przyłączeń
-  odpowiedzi bez granicy akapitu: 2, czyli 5.3% przyłączeń
-  to samo przy regule „sąsiad bezpośredni”: 3, czyli 7.9% przyłączeń
-  to samo przy regule „cały prefiks zdania”: 3, czyli 7.9% przyłączeń
+  przyłączeń: 1113, z tego z sąsiedztwem: 313
+  odpowiedzi w granicy akapitu: 8, czyli 0.7% przyłączeń
+  odpowiedzi bez granicy akapitu: 132, czyli 11.9% przyłączeń
+  to samo przy regule „sąsiad bezpośredni”: 171, czyli 15.4% przyłączeń
+  to samo przy regule „cały prefiks zdania”: 124, czyli 11.1% przyłączeń
 ```
 
-Zero ma trzy mianowniki i tylko ostatni z nich jest o świadku.
+Pozycje wyznacza morfologia, a nie werdykt, i to jest cała różnica między tym pytaniem
+a tym, które warstwa dostaje w `olski-check`.
+Gramatyka odrzuca w tym rejestrze prawie każde zdanie,
+więc werdykty stawiają tu 38 wyborów na 2 915 zdań
+i wskazań pod nimi wypisuje `olski-check --rozstrzygaj` nad tymi plikami 7,
+wszystkie skłonności.
+Świadek kontekstowy nad tą populacją nie odzywa się ani razu,
+i jego zero jest tam w większości liczbą o gramatyce:
+żaden świadek nie odpowie częściej, niż jest pytany.
+Pozycja znaleziona morfologią stoi tam, gdzie polszczyzna daje dwa czytania,
+niezależnie od tego, czy olski to zdanie rozbiera,
+i jest tym pytaniem, które warstwa dostanie, kiedy gramatyka po nią sięgnie
+(`pytania` w `olski/wieloznaczność.py`).
+Populacja jest przez to ta sama, którą ma
+[wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
+więc zasięg zmierzony tutaj i trafność zmierzona tam mówią o jednych pytaniach.
 
-Największy jest o gramatyce.
-Przyłączeń jest w całym korpusie 38, bo prawie każde zdanie tego rejestru olski odrzuca,
-więc warstwa dostaje 38 pytań na 2 915 zdań,
-a żaden świadek nie odpowie częściej, niż jest pytany.
-Świadek statystyczny odpowiada na te same 38 siedem razy —
-tyle wierszy wydaje `olski-check --rozstrzygaj` nad tymi plikami —
-i tyle jest całej tej warstwy nad tym rejestrem.
+0,7% ma dwa mianowniki i tylko drugi z nich jest o świadku.
 
-Drugi jest o rejestrze: cztery piąte jego zdań stoi pierwsze w swoim akapicie,
+Pierwszy jest o rejestrze: cztery piąte jego zdań stoi pierwsze w swoim akapicie,
 więc świadek nie ma tam czego przeczytać.
 Każdy akapit ma zdanie pierwsze, a żaden akapit tego korpusu nie stoi bez zdania,
 więc liczba ta jest zarazem liczbą akapitów:
@@ -483,50 +492,76 @@ bo ekstrakcja nie wypuszcza typu węzła, z którego akapit powstał;
 tego samego braku dotyczy wpis w [`TODO.md`](../TODO.md)
 o mapowaniu trafień z powrotem na konstrukcje.
 
-Trzeci jest o świadku i jest najmniejszy:
-przyłączeń z sąsiedztwem jest 13 i przy żadnym z nich fraza wyżej nie stała.
+Drugi jest o świadku: przyłączeń z sąsiedztwem jest 313, a odpowiedzi 8,
+czyli fraza powtarza się przy gospodarzu raz na czterdzieści pozycji,
+które mają w akapicie co przeczytać.
 
-**Granicę akapitu wyceniono i kupuje ona dwie odpowiedzi.**
+**Osiem odpowiedzi w granicy akapitu przeczytano i siedem wskazuje dobrze.**
+Dowód pod siedmioma jest tego samego kształtu, czyli frazą powtórzoną przy gospodarzu,
+i cztery z nich wyglądają tak:
+`prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`,
+`nowa faktura z datą PermanentStorage` po zdaniu o fakturach `z datą PermanentStorage`,
+`uprawnień pracownikom do przeglądania` po zdaniu z `uprawnień do przeglądania`,
+`Ustawy z dnia 25 czerwca` po zdaniu z tą samą ustawą.
+Ósma myli się na kopuli:
+`Zabronione jest tworzenie opisów w 1 osobie.` dostaje gospodarza `jest`
+po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
+gdzie `były` i `jest` mają jeden lemat, a fraza dochodzi do `tworzenie opisów`.
+Powtórzenie jest tam prawdziwe i nie mówi nic:
+przy `być` fraza okolicznikowa stoi w każdym zdaniu, w którym stoi cokolwiek,
+więc gospodarz o tym lemacie ma tyle dowodu, ile ma go sam czasownik zdania.
+
+**Granicę akapitu wyceniono: kupuje 126 odpowiedzi i dwie odbiera.**
 Wariant sondy podaje świadkowi cały dokument czytany wstecz zamiast akapitu,
-i wtedy odpowiada on 2 razy zamiast zera.
-Nie jest to propozycja zdjęcia tej granicy, tylko jej cena,
-a 2 odpowiedzi to za mało, żeby na nich ruszać granicę,
-którą akapit dostał z drugiej strony.
-Przeczytane ręką pokazują za to, jaki dowód je wydał.
+i wtedy odpowiada on 132 razy zamiast ośmiu:
+sześć wskazań z tamtych ośmiu zostaje, 126 dochodzi, a dwa milkną.
+Milkną dlatego, że dalej w dokumencie ta sama fraza stoi przy drugim gospodarzu,
+a dwóch gospodarzy kończy się milczeniem —
+i są to `nowa faktura z datą PermanentStorage`
+oraz `uprawnień pracownikom do przeglądania`, czyli dwa wskazania dobre.
 
-Obie wskazują dobrze i dowód pod nimi mówi to samo.
-`liczbę żądań do API` dostaje `żądań` po zdaniu
-`Wszystkie żądania do API KSeF podlegają limitom.`,
-a `informacje o sposobie przetwarzania żądań w Systemie RIT`
-dostaje na `w Systemie RIT` gospodarza `przetwarzania`
-po zdaniu, w którym obiekt `jest przetwarzany w Systemie RIT`.
+Zakup ten jest zasięgiem i o trafności nie mówi nic sam z siebie.
+Dziesięć odpowiedzi rozrzuconych po tych 126 (`rozrzucona` w `olski/próbka.py`)
+czyta się jako siedem wskazań dobrych i trzy słabsze,
+a pomyłki co do strony wyboru nie ma wśród nich żadnej:
+`atrybutów posiadanych przez obiekt w systemie źródłowym` dostaje `obiekt`,
+a `pozycje słownika posiadają tłumaczenia na inne języki` dostaje `tłumaczenia`.
+Pierwsza słabsza nazywa grupę jej przymiotnikiem, a nie głową:
+`wyrażenia regularne dla adresów IP` dostaje `regularne`,
+bo łańcuch imienny urywa się na przymiotniku i `wyrażenia` gospodarzem nie zostaje.
+Druga stoi na pozycji, która przyłączeniem nie jest,
+bo Morfeusz czyta jako przyimek samotną literę `A` z nazwy podmiotu.
+Trzecia trafia w gospodarza, a pozycji pod nią nie ma:
+`kontekst w ktorym jestesmy uwierzytelnieni` dostaje `kontekst`,
+tyle że `w którym` otwiera zdanie względne, a nie wyrażenie przyimkowe.
+Granica broni się więc nie tym, że wskazania spoza niej są złe,
+tylko tym, po co ją tam postawiono ([sklad.md](sklad.md)),
+a policzone jest i to, co jej zdjęcie kupuje, i to, co odbiera.
 
-**Regułę kandydata wyceniono tą samą drogą, a obie odrzucone dokładają pomyłkę.**
-Wariant węższy pyta o samego sąsiada frazy i odpowiada 3 razy,
-a odpowiedź trzecia myli się na łańcuchu dopełniaczowym:
+**Regułę kandydata wyceniono tą samą drogą, a węższa dokłada pomyłkę na łańcuchu.**
+Wariant węższy pyta o samego sąsiada frazy i odpowiada 171 razy zamiast 132,
+a różnica bierze się stąd, że łańcuch pokazuje czasem dwóch gospodarzy naraz,
+a dwóch kończy się milczeniem.
+Kupuje to pomyłkę, którą łańcuch omija:
 `Wpływa to na sposób wymiany danych z systemem RIT.` dostaje gospodarza `danych`,
 gdzie fraza dochodzi do `wymiany`.
 Dowodem jest tam `wymiany danych z systemami zewnętrznymi`, czyli ten sam łańcuch,
 więc powtórzenie jest prawdziwe, a odczytane z niego wskazanie nie.
 Reguła wypuszczana widzi w tym łańcuchu obu gospodarzy naraz i o tym zdaniu milczy.
 
-Wariant szerszy pyta o cały prefiks zdania, odpowiada również 3 razy i trafia raz.
-`Sprzedawca wystawia fakturę w trybie offline.` dostaje `fakturę`,
-choć dowód `faktury wystawionej w trybie offline` stawia tę frazę przy wystawieniu.
-Gospodarza czasownikowego nie wskazuje tam żadna z trzech reguł,
-bo `wystawiać` i `wystawić` mają u Morfeusza osobne lematy:
-para aspektowa jest dla tego świadka dwoma słowami.
+Wariant szerszy pyta o cały prefiks zdania i odpowiada 124 razy, czyli rzadziej od obu.
+Kandydatów ma najwięcej i dlatego najczęściej trafia na dwóch naraz,
+więc reguła szersza od wypuszczanej kupuje mniej zasięgu, a nie więcej.
+Dokłada przy tym wskazanie, którego nie ma żadna z dwóch pozostałych:
 `System jest niewrażliwy na wielkość liter w przypadku tych atrybutów.` dostaje `jest`
 po zdaniu, w którym pytana fraza nie stała wcale:
 zeszła się z frazą `w dokumencie` przez `Atrybuty` stojące trzy słowa za tym przyimkiem.
-Odpowiedź o `przetwarzania` wariant ten przy tym traci,
-bo w prefiksie zdania dowodzącego gospodarzy jest dwóch.
-Wypadek z `Atrybutami` jest usterką dopasowania frazy, a nie tej reguły —
+Jest to usterka dopasowania frazy, a nie tej reguły —
 reguła wypuszczana ma ją tak samo i nad tym korpusem tylko na nią nie trafia —
 i trzyma ją [`TODO.md`](../TODO.md).
 
-Trafności nie ma tu wobec tego wcale.
-Dwie odpowiedzi wzięte z wariantu nie są częstością,
+Częstości pomyłek ten przebieg wobec tego nie podaje.
+Osiemnaście odpowiedzi przeczytanych jest odczytem, a nie stopą,
 a materiał, na którym dałoby się ją policzyć, jest dwojaki:
 [wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 którego nie ma, oraz
@@ -660,12 +695,19 @@ w którym sąd o zdaniu pochodzi z przeczytania, a nie z cudzego korpusu ani z p
 Zdania są przy tym cudze, a nasz jest sam sąd.
 Zdanie wymyślone pod świadka mierzy autora, a nie rejestr,
 więc pozycje bierze się z [korpusu audytowego](audit-corpus.md#the-list) takie, jakie tam stoją,
-i losuje spośród wszystkich 1 678 (`rozrzucona` w `olski/próbka.py`).
-Wyznacza je morfologia, a nie werdykt (`olski/wieloznaczność.py`),
+i losuje spośród wszystkich, a jest ich w tym korpusie ponad tysiąc
+(`rozrzucona` w `olski/próbka.py`).
+Wyznacza je morfologia, a nie werdykt (`pytania` w `olski/wieloznaczność.py`),
 bo werdyktów jest nad tym rejestrem 38 na 2 915 zdań i nie ma czego z nich losować.
+Jest to ta sama populacja, którą liczy
+[pomiar zasięgu](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+i to on jest jej właścicielem, bo drukuje ją obok swojego polecenia.
 Ręką dopisuje się gospodarza wraz z powodem,
-a poprawia się przy tym frazę i gospodarzy,
-bo budowniczy proponuje je z morfologii i bierze ogon łańcucha dopełniaczowego za głowę grupy.
+a poprawia się przy tym frazę i gospodarzy:
+budowniczy proponuje frazę przyimkiem wraz z trzema formami za nim,
+więc sięga nią dalej, niż ona idzie,
+a gospodarzy proponuje całym łańcuchem imiennym,
+który homonimia przedłuża czasem przez orzeczenie.
 
 ```sh
 python3 -m sonda.wybory próba/wybory.txt
@@ -698,9 +740,9 @@ bo pozycja znaleziona morfologicznie nie jest przyłączeniem:
 i trzy z trzydziestu wyborów są tego rodzaju.
 
 **Świadek kontekstowy odzywa się tu dwa razy i dwa razy trafia.**
-Jest to pierwsza jego odpowiedź zestawiona z wzorcem,
-bo [pomiar zasięgu](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
-nad tym samym korpusem pytał go o przyłączenia z werdyktów i dostał zero.
+Jest to jedyne miejsce, w którym jego wskazanie stoi obok wzorca:
+[pomiar zasięgu](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
+pyta go o te same pozycje i wzorca do nich nie ma, więc czyta swoje odpowiedzi ręką.
 Oba dowody są tego samego kształtu, czyli frazą powtórzoną przy gospodarzu:
 `z prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`,
 oraz `uprawnień pracownikom do przeglądania` po zdaniu z `uprawnień do przeglądania`.

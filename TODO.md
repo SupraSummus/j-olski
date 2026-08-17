@@ -343,6 +343,37 @@ bo sonda sądu o parze nie wydaje, a te dwanaście mówi,
 że kryterium łapie głównie celownik posiadacza (tamże),
 więc przebieg nad rejestrem wart jest dokładnie tyle, ile lista, na której stanie.
 
+Dwie sondy stoją nad jedną populacją i wołają tych samych świadków.
+`sonda/powtórzenie.py` i `sonda/wybory.py` pytają obie o `pytania` z
+`olski/wieloznaczność.py` i obie wypisują odpowiedź wraz ze zdaniem, nad którym
+padła; różni je to, że pierwsza wycenia wariantem granicę akapitu i regułę
+kandydata, a druga ma obok wzorzec czytany ręką
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Ruchem jest jedna sonda z flagą na wariant, bo dwa przebiegi po tym samym korpusie
+rozejdą się na pierwszej zmianie w tym, co liczy się za pozycję.
+Do rozstrzygnięcia jest, co się wtedy dzieje z wydrukiem: sonda pierwsza liczy
+mianowniki rejestru (zdania, pierwsze w akapicie, pozycje z sąsiedztwem), a druga
+liczy trafienia wobec wzorca, i jeden wydruk z obojgiem czyta się jak dwa.
+Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi poza
+`sonda/` właśnie dlatego, a program czytający ten plik jest najtańszą rzeczą w tej parze.
+
+`CZASOWNIK` znaczy w trzech miejscach trzy rzeczy i jeden plik importuje dwie.
+`olski/attachment.py` nazywa tak zbiór części mowy, `olski/rozstrzyganie.py` stronę
+wyboru (`"clause"`), a `sonda/polszczyzna.py` wzorzec `fin|impt|inf`.
+Nazwę drugą wzięto stamtąd, gdzie pierwsza już stała: komentarz przy niej mówi
+„tak jak nazywa je `olski/attachment.py`”, a tamten plik ma pod tą nazwą co innego.
+`olski/wieloznaczność.py` potrzebuje obu naraz, więc importuje jedną pod
+`STRONA_CZASOWNIKOWA` i tłumaczy to komentarzem, czyli płaci za kolizję,
+której nie zrobił.
+Ruchem jest nazwa dla strony wyboru mówiąca, że jest stroną — `STRONA_IMIENNA`
+i `STRONA_CZASOWNIKOWA` w miejsce `RZECZOWNIK` i `CZASOWNIK` — bo zbiór części mowy
+pod tą nazwą stoi w dwóch plikach, a strona w jednym.
+Czytelników strony jest sześciu i wszyscy są nazwani z imienia:
+`strona`, `wypadki`, `zbuduj`, `oceń` i `Skłonność.wybierz` w tamtym module
+oraz `sonda/wskazania.py`.
+`olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
+te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
+
 ## Korpusy, ekstrakcja i figury
 
 Nothing in the harness says which construct a finding came out of,
@@ -1257,18 +1288,21 @@ Regeneracja leksykonu i przeliczenie
 [tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 idą razem z tym wpisem.
 
-Świadek kontekstowy nie ma zmierzonej trafności i nie ma na czym jej zmierzyć.
-Zasięg zmierzono i wyszło zero: `sonda/powtórzenie.py` nad korpusem audytowym
-pyta `Powtórzenie` o 38 przyłączeń i nie dostaje ani jednej odpowiedzi
+Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma osiemnaście.
+`sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 8 wskazań w granicy
+akapitu i 132 bez niej, a przeczytane ręką jest osiem pierwszych i dziesięć
+rozrzuconych po pozostałych
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
-więc odpowiedzi do przeczytania ręką nie ma stamtąd żadnej.
-Materiał dałby [wzorzec po drugiej stronie](docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
+czyli odczyt, a nie stopa pomyłek: nad 1 113 pozycjami osiemnaście sądów nie jest częstością.
+Wzorzec, przy którym byłaby, jest dwojaki i oba są cudzą robotą.
+`próba/wybory.txt` daje trzydzieści sądów i wpis o jej powiększeniu mówi, ile ich trzeba.
+Drugim jest [wzorzec po drugiej stronie](docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 bo tekst złożony przez `olski/skład` niesie czytanie, o które w nim chodziło,
 i wtedy obrót przez parser mówi, czy warstwa zdejmuje czytanie, którego drzewo nie deklarowało.
-Blokuje to jednak ta sama własność drzewa, przez którą `przejrzyj`
+Blokuje go ta sama własność drzewa, przez którą `przejrzyj`
 zgłasza jedną klasę z dwóch: okolicznik dochodzi w nim do zdarzenia zawsze,
 więc wzorzec wychodzi jednostronny i obrót niczego nie rozróżni.
-Wpis jest przez to zaparkowany po stronie składu, a odblokuje go dopiero
+Ta połowa wpisu jest przez to zaparkowana po stronie składu, a odblokuje ją dopiero
 wyrażenie przyimkowe, które skład umie postawić wewnątrz grupy imiennej.
 
 `ZASIĘG_FRAZY` szuka rzeczownika frazy trzy słowa za przyimkiem i nie zatrzymuje
@@ -1290,24 +1324,38 @@ Do przeczytania jest, ile takich dopasowań w tym korpusie w ogóle pada,
 bo dziś widać jedno i widać je wyłącznie dzięki wariantowi;
 liczbę tę daje ten sam przebieg, kiedy wypisze dopasowania, a nie same wskazania.
 
-`_przyłączenia` w `olski/wieloznaczność.py` proponuje za gospodarza imiennego formę
-kończącą grupę tuż przed przyimkiem, więc w łańcuchu dopełniaczowym daje ogon,
-a nie głowę: `sposób wymiany danych z systemem RIT` proponuje `danych`.
-Poprawia to dziś ręka przy każdym wpisie próby wyborów i mówi to jej nagłówek
-(`próba/wybory.txt`), a wpis o powiększeniu tej próby mnoży ten koszt przez liczbę
-nowych wpisów.
-Świadek kontekstowy tę samą różnicę już zna: `_łańcuch` w `olski/rozstrzyganie.py`
-schodzi łańcuchem imiennym w lewo, zamiast pytać o sąsiada bezpośredniego
+`_grupa` w `olski/wieloznaczność.py` przedłuża łańcuch imienny przez orzeczenie,
+bo forma osobowa bywa zarazem imienna: `stanowi` jest u Morfeusza celownikiem od `stan`,
+więc `dokument stanowi kompendium wiedzy dla deweloperów` proponuje gospodarzy
+`wiedzy, kompendium, stanowi, dokument`, a wybór jest tam między `kompendium` i `stanowi`.
+Poprawia to ręka przy wpisie próby wyborów i mówi to jej nagłówek (`próba/wybory.txt`),
+a wpis o powiększeniu tej próby mnoży ten koszt przez liczbę nowych wpisów.
+Gospodarza czasownikowego szuka się przy tym przed przyimkiem, a nie przed grupą,
+więc orzeczenie wciągnięte do łańcucha wraca drugi raz jako on
+i pozycja stawia wtedy grupę przeciw jej własnemu członowi.
+Ruchem jest kryterium przedłużające łańcuch węższe od czytania imiennego,
+czyli takie, które formę o czytaniu osobowym zatrzymuje —
+`OSOBOWY` w tym samym pliku wylicza te czytania pod pomiar synkretyzmu.
+Do przeczytania jest przedtem, ile ten warunek zabiera, bo łańcuch urwany za wcześnie
+odbiera gospodarza głowie grupy, czyli to, po co ten łańcuch tam stoi;
+mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m sonda.powtórzenie`
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Ruchem jest gospodarz imienny brany tą samą drogą, czyli każda forma łańcucha
-zamiast jednej, po czym `Miejsce` niesie gospodarzy trzech albo czterech,
-tak jak niesie ich werdykt nad tym samym zdaniem
-([tabela gospodarzy](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
-Wpisów już przeczytanych to nie rusza, bo `gospodarze` stoją w każdym z nich wypisani,
-więc rusza tylko te, które dojdą.
-Do przeczytania jest przy tym wpis o jednej populacji dla dwóch sond:
-tam ta sama funkcja ma dać populację sondzie świadka kontekstowego,
-czyli gospodarze proponowane źle stają się gospodarzami, o których pyta się świadka.
+Ten sam warunek czyta `_łańcuch` w `olski/rozstrzyganie.py`, bo kryterium jest jedno,
+a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest inna po obu stronach.
+
+Świadek kontekstowy myli się na kopuli, a jego dowodem jest lemat czasownika.
+`Zabronione jest tworzenie opisów w 1 osobie.` dostaje od `Powtórzenie` gospodarza `jest`
+po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
+gdzie `były` i `jest` mają jeden lemat, a fraza dochodzi do `tworzenie opisów`;
+jest to jedyna pomyłka w ośmiu odpowiedziach przeczytanych ręką (tamże).
+Powtórzenie jest tam prawdziwe i nie mówi nic, bo przy `być` okolicznik stoi wszędzie,
+więc gospodarz o tym lemacie ma tyle dowodu, ile ma go dowolny czasownik zdania.
+Ruchem jest warunek na gospodarza czasownikowego po stronie dowodu:
+lemat, przy którym fraza okolicznikowa stoi bez związku z rzeczą, dowodem nie jest,
+a najkrótszą jego postacią jest lista kopul, którą `KOPULA` w `olski/subset.py` już ma.
+Do rozstrzygnięcia jest, czy warunek należy do świadka, czy do pozycji:
+`jest` gospodarzem czasownikowym bywa dlatego, że stoi przed grupą jako orzeczenie,
+a nie dlatego, że cokolwiek do niego dochodzi.
 
 Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widziała.
 `sonda/wskazania.py` puszcza świadków z `domyślni`, czyli z
@@ -1338,31 +1386,14 @@ Ceną jest to, że `CLAUSE` czyta zarazem
 więc kategoria dopisana tam rusza figurę, której ten wpis nie dotyczy,
 i przeliczenie obu idzie razem z tą zmianą.
 
-Sonda świadka kontekstowego pyta go o populację, która nad tym rejestrem nie istnieje.
-`sonda/powtórzenie.py` bierze przyłączenia z werdyktów i dostaje ich 38 na 2 915
-zdań, bo gramatyka odrzuca w tym rejestrze prawie wszystko, więc jej zero jest
-w większości zerem o gramatyce
-([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-`sonda/wybory.py` pokazuje, że tych samych pozycji szukanych morfologią jest
-w tym korpusie 1 678, z czego 474 ma za sobą zdanie tego samego akapitu.
-Ruchem jest ta sama populacja w obu sondach, czyli `miejsca` z
-`olski/wieloznaczność.py` zamiast `Verdict.result.przyłączenia`, po którym zasięg
-świadka przestaje być zerem, a cena granicy akapitu liczy się na materiale, na
-którym cokolwiek widać.
-Do rozstrzygnięcia jest, czy po tej zmianie zostają dwie sondy, czy jedna:
-`sonda/wybory.py` ma wtedy tę samą populację i wzorzec obok, a `sonda/powtórzenie.py`
-zostaje z jedną rzeczą, której tamta nie ma — z wyceną granicy akapitu wariantem.
-Do przeczytania jest przy tym, czy trzy mianowniki, które tamta sonda wypisuje,
-dają się utrzymać bez werdyktu: pierwszy z nich jest właśnie o gramatyce.
-
 Próba wyborów ma trzydzieści wpisów, a warstwa odpowiada na pięć.
 Pięć odpowiedzi nie jest częstością i
 [sekcja o próbie](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
 mówi to o sobie sama, więc wpis nie jest o pomiarze, tylko o tym, ile go trzeba.
 Ruchem jest `python3 -m sonda.wybory --zbuduj` na większe `--ile` i przeczytanie
-tego, co dojdzie; kandydatów jest w korpusie audytowym 1 678.
+tego, co dojdzie; kandydatów jest w korpusie audytowym 1 113.
 Do rozstrzygnięcia jest, czy losować dalej z całości, czy tylko spośród pozycji,
-które mają za sobą zdanie tego samego akapitu: takich jest 474 z 1 678,
+które mają za sobą zdanie tego samego akapitu: takich jest 313 z 1 113,
 a tylko one mówią cokolwiek o świadku kontekstowym, który jest tu jedynym
 mierzonym z wzorcem.
 Losowanie z podzbioru psuje rozkład, więc próba rozdzieliłaby się wtedy na dwie

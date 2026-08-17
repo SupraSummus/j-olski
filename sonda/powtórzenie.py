@@ -1,18 +1,23 @@
 """Ile świadek kontekstowy odpowiada nad rejestrem, o który olskiemu chodzi.
 
 `Powtórzenie` w ``olski/rozstrzyganie.py`` wskazuje gospodarza, przy którym ta
-sama fraza stała już w tym akapicie, a ile razy zdarza się to nad prozą, nie
-mówił dotąd nikt. Świadka statystycznego ocenia bank drzew i ocena stoi w tamtym
+sama fraza stała już w tym akapicie, a ile razy zdarza się to nad prozą, mówi ta
+sonda i nic poza nią. Świadka statystycznego ocenia bank drzew i ocena stoi w tamtym
 module, bo tabela i materiał do oceny wychodzą z jednego korpusu. Tu jest
 inaczej: dowodem jest akapit, więc materiałem musi być tekst ciągły, a bank
 drzew jest zbiorem zdań stojących osobno.
 
-**Milczenie ma trzy przyczyny i osobno każda z nich myli.** Świadek nie ma czego
+**Pozycji nie wyznacza werdykt, tylko morfologia**, bo świadek pytany o
+przyłączenia z werdyktów odpowiadałby o gramatyce; wywód i liczby pod nim trzyma
+``pytania`` w ``olski/wieloznaczność.py``. Wzorzec czytany ręką stoi nad tą samą
+populacją (``sonda/wybory.py``), więc zasięg zmierzony tutaj i trafność zmierzona
+tam mówią o jednych pytaniach.
+
+**Milczenie ma dwie przyczyny i osobno każda z nich myli.** Świadek nie ma czego
 przeczytać, bo zdanie stoi pierwsze w swoim akapicie; albo przeczytał i fraza tam
-nie stała; albo nikt go o nic nie zapytał, bo gramatyka to zdanie odrzuciła.
-Pierwsza jest własnością rejestru, druga świadka, trzecia gramatyki, a jedna
-liczba na wyjściu nie mówi, która przeważyła, więc sonda wypisuje wszystkie trzy
-mianowniki obok siebie.
+nie stała. Pierwsza jest własnością rejestru, druga świadka, a jedna liczba na
+wyjściu nie mówi, która przeważyła, więc sonda wypisuje oba mianowniki obok
+siebie.
 
 **Granicę sąsiedztwa wycenia wariant, tak jak sonda różnicowa wycenia grupę
 produkcji.** Wariantem jest cały dokument czytany wstecz, czyli sąsiedztwo bez
@@ -46,8 +51,9 @@ from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from olski.document import Document
 from olski.rozstrzyganie import Powtórzenie, Rozstrzygnięcie, Sąsiedztwo, sąsiedztwa
-from olski.subset import check
+from olski.wieloznaczność import pytania
 
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"
@@ -87,11 +93,11 @@ class Odpowiedź:
 class Pomiar:
     """Co świadek zastał w rejestrze i ile z tego wykorzystał."""
 
-    #: Zdania, którym werdykt cokolwiek wydał, czyli mianownik całego przebiegu.
+    #: Zdania korpusu, czyli mianownik całego przebiegu.
     zdań: int = 0
     #: Zdania stojące pierwsze w swoim akapicie, czyli te bez czego przeczytać.
     bez_sąsiedztwa: int = 0
-    #: Przyłączenia, przed którymi werdykt postawił wybór.
+    #: Pozycje przyłączeniowe, o które świadek jest pytany.
     przyłączeń: int = 0
     #: Z nich te, które mają za sobą choć jedno zdanie tego samego akapitu.
     przyłączeń_z_sąsiedztwem: int = 0
@@ -118,31 +124,31 @@ def przebieg(paths: Iterable[Path]) -> Pomiar:
 
 def _plik(path: Path, pomiar: Pomiar) -> None:
     text = path.read_text(encoding="utf-8")
-    werdykty = check(text)
+    document = Document(text)
     akapity = sąsiedztwa(text)
-    #  Wariant bez granicy akapitu jest prefiksem zdań tego pliku, a zdania te
-    #  niesie już werdykt: ``Verdict.text`` jest zdaniem tak, jak stoi w tekście.
-    zdania = [werdykt.text for werdykt in werdykty]
+    #  Wariant bez granicy akapitu jest prefiksem zdań tego pliku, więc zdania
+    #  trzyma się w liście: akapit niesie tylko te ze swojego.
+    zdania = [document.slice(span) for span in document.sentences]
     świadek = Powtórzenie()
     warianty = [
         (Powtórzenie(kandydaci=reguła), pomiar.warianty[nazwa]) for nazwa, reguła in REGUŁY
     ]
-    pomiar.zdań += len(werdykty)
+    pomiar.zdań += len(zdania)
     pomiar.bez_sąsiedztwa += sum(not akapit.zdania for akapit in akapity)
-    for i, (werdykt, akapit) in enumerate(zip(werdykty, akapity, strict=True)):
+    for i, (zdanie, akapit) in enumerate(zip(zdania, akapity, strict=True)):
         dokument = Sąsiedztwo(tuple(zdania[:i]))
-        for przyłączenie in werdykt.result.przyłączenia:
+        for przyłączenie in pytania(zdanie):
             pomiar.przyłączeń += 1
             pomiar.przyłączeń_z_sąsiedztwem += bool(akapit.zdania)
-            pytania = [
+            wołania = [
                 (świadek, akapit, pomiar.odpowiedzi),
                 (świadek, dokument, pomiar.odpowiedzi_bez_granicy),
                 *((wariant, dokument, gdzie) for wariant, gdzie in warianty),
             ]
-            for kto, sąsiedztwo, gdzie in pytania:
+            for kto, sąsiedztwo, gdzie in wołania:
                 odpowiedź = kto(przyłączenie, sąsiedztwo)
                 if odpowiedź is not None:
-                    gdzie.append(Odpowiedź(path, werdykt.text, odpowiedź))
+                    gdzie.append(Odpowiedź(path, zdanie, odpowiedź))
 
 
 def _wypisz(nagłówek: str, odpowiedzi: Sequence[Odpowiedź], przyłączeń: int) -> None:

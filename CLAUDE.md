@@ -697,11 +697,21 @@ so a row added to the verdict, or a reason reworded in a witness, takes them by 
 A third set sits under that same heading and has a different mover from either.
 [What the context witness reaches](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
 is `sonda/powtórzenie.py` over the audit corpus rather than over the treebank,
-so the grammar moves it — the attachments it counts are the ones a verdict carries —
-and so do `Powtórzenie` and `Sąsiedztwo` in `olski/rozstrzyganie.py`,
+and the grammar does not move what that probe prints:
+the positions it counts come from `pytania` in `olski/wieloznaczność.py`,
+so what moves them is what that module reads as a preposition standing after a group.
+Two figures under that heading do come from the grammar and no probe prints them —
+how many choices the verdicts stake over that corpus,
+and how many of them the layer answers —
+and both are rows of `olski-check --rozstrzygaj` over the extracted prose,
+which the section names in prose rather than printing as a block.
+What moves the answers is `Powtórzenie` and `Sąsiedztwo` in `olski/rozstrzyganie.py`,
 which decide what counts as the same phrase and what counts as the neighbourhood,
 `_łańcuch` beside them, which decides what counts as standing by a host,
 and `REGUŁY` in the probe, which is the two rules that decision was taken against.
+`_grupa` in `olski/wieloznaczność.py` moves both halves at once,
+since the hosts a position offers are taken by the same walk `_łańcuch` makes,
+which is why the two are one criterion and not two.
 The extraction moves it as well, and this is the figure where that shows most,
 since the share of sentences standing first in their paragraph
 is a fact about what `harness/markdown.py` calls a paragraph.
@@ -721,9 +731,12 @@ Its accuracy is measured on material the propensity table was built from,
 so a change that moves the table moves a figure this document already calls a ceiling.
 [What the layer answers over the trial set](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
 is `sonda/wybory.py` over `próba/wybory.txt`, which is written by hand and committed,
-so the entries hold still and only the layer moves the figures —
+so the entries hold still and only the layer moves what the layer answered —
 the grammar does not reach them at all, because the positions come from
 `olski/wieloznaczność.py` rather than from a verdict.
+One figure in that section is not about the entries but about the pool they were drawn from,
+and `pytania` in that module is what moves it,
+so a change there is owed that count alongside the witness's reach above.
 Rebuilding that file is a different act from rerunning the figures
 and is owed the reading of every entry it adds, per the file's own header.
 

@@ -14,14 +14,12 @@ Ręką dopisuje się jedno: który gospodarz jest tym, o którego w tym tekście
 chodziło. Rozkładu to nie rusza, bo o rozkładzie decyduje losowanie, a nie ten,
 kto potem czyta.
 
-**Pozycji nie wyznacza werdykt, tylko morfologia** (``olski/wieloznaczność.py``).
-Gramatyka odrzuca w tym rejestrze prawie każde zdanie, więc populacja wzięta z
-werdyktów to 38 przyłączeń na 2 915 zdań (``docs/disambiguation.md``), czyli za
-mało, żeby cokolwiek zmierzyć. Pozycja znaleziona morfologicznie stoi tam, gdzie
-polszczyzna daje dwa czytania, niezależnie od tego, czy olski to zdanie rozbiera,
-i to ona jest pytaniem, które warstwa dostanie, kiedy gramatyka po nią sięgnie.
-Ceną jest to, że wybór bywa pozorny: przyimek, którego żąda schemat czasownika,
-stoi w tej pozycji i do wyboru nie stoi wcale, a odsiewa go dopiero czytający.
+**Pozycji nie wyznacza werdykt, tylko morfologia**, bo werdyktów jest nad tym
+rejestrem za mało, żeby cokolwiek zmierzyć; wywód i liczby pod nim trzyma
+``pytania`` w ``olski/wieloznaczność.py``, a zasięg nad tą samą populacją mierzy
+``sonda/powtórzenie.py``. Ceną jest to, że wybór bywa pozorny: przyimek, którego
+żąda schemat czasownika, stoi w tej pozycji i do wyboru nie stoi wcale, a odsiewa
+go dopiero czytający.
 
 **Wzorzec ma dwie odpowiedzi poza samymi gospodarzami.** ``oba`` znaczy, że
 tekst nie rozstrzyga i czytelnik też nie, a ``żadne``, że wyboru nie ma wcale, bo
@@ -53,16 +51,14 @@ from olski.document import Document
 from olski.parse import Przyłączenie
 from olski.próbka import rozrzucona
 from olski.rozstrzyganie import (
-    CZASOWNIK,
     Rozstrzygnięcie,
     Sąsiedztwo,
     Świadek,
     domyślni,
     rozstrzygnij,
-    strona,
     sąsiedztwa,
 )
-from olski.wieloznaczność import PRZYŁĄCZENIE, miejsca
+from olski.wieloznaczność import pytania
 
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"
@@ -85,11 +81,6 @@ DO_PRZEMILCZENIA = (OBA, ŻADNE)
 #: Wzorzec jeszcze niewpisany. Wpis z nim nie wchodzi do żadnego mianownika,
 #: bo pytanie bez odpowiedzi nie jest ani trafieniem, ani pomyłką.
 PUSTY = "?"
-
-#: Ile form za przyimkiem zaproponować jako resztę frazy. Tyle, ile świadek
-#: kontekstowy przeszukuje wstecz (``ZASIĘG_FRAZY``), bo propozycja ma trafiać w
-#: to, o co on i tak zapyta; granicę frazy poprawia potem czytający.
-ZASIĘG = 3
 
 
 @dataclass(frozen=True)
@@ -292,10 +283,10 @@ def zapisz(wybory: Iterable[Wybór]) -> str:
 def kandydaci(paths: Iterable[Path], korzeń: Path) -> list[Wybór]:
     """Pozycje przyłączeniowe całego korpusu, każda ze swoim akapitem.
 
-    Fraza jest tu propozycją, a nie odczytem: morfologia mówi, gdzie stoi
-    przyimek, a gdzie kończy się jego fraza, mówi dopiero rozbiór, którego nad
-    tym rejestrem nie ma. Propozycją jest przyimek wraz z formami za nim, aż do
-    ``ZASIĘG``, i poprawia ją czytający.
+    Pozycje i frazy daje ``pytania`` w ``olski/wieloznaczność.py``, czyli to samo
+    miejsce, z którego bierze je sonda mierząca zasięg świadka kontekstowego
+    (``sonda/powtórzenie.py``): wzorzec czytany ręką ma opisywać tę populację,
+    którą ta sonda mierzy, a nie populację obok niej.
     """
     znalezione = []
     for path in sorted(paths):
@@ -306,57 +297,17 @@ def kandydaci(paths: Iterable[Path], korzeń: Path) -> list[Wybór]:
         #  warstwa dostanie nad tym zdaniem.
         for span, sąsiedztwo in zip(document.sentences, sąsiedztwa(tekst), strict=True):
             zdanie = document.slice(span)
-            for miejsce in miejsca(zdanie):
-                #  Gospodarze tej samej formy to imiesłów, który jest naraz
-                #  końcem grupy imiennej i formą czasownikową: wyboru tam nie
-                #  ma, bo obie strony są jednym słowem.
-                if miejsce.klasa != PRZYŁĄCZENIE or len(set(miejsce.gospodarze)) != 2:
-                    continue
-                znalezione.append(
-                    Wybór(
-                        plik=str(path.relative_to(korzeń)),
-                        kontekst=sąsiedztwo.zdania,
-                        zdanie=zdanie,
-                        fraza=_fraza(zdanie, miejsce.formy[0], miejsce.gospodarze[0]),
-                        gospodarze=miejsce.gospodarze,
-                    )
+            znalezione += [
+                Wybór(
+                    plik=str(path.relative_to(korzeń)),
+                    kontekst=sąsiedztwo.zdania,
+                    zdanie=zdanie,
+                    fraza=pytanie.modyfikator,
+                    gospodarze=pytanie.gospodarze,
                 )
+                for pytanie in pytania(zdanie)
+            ]
     return znalezione
-
-
-def _fraza(zdanie: str, przyimek: str, gospodarz: str) -> str:
-    """Przyimek wraz z formami stojącymi za nim, do ``ZASIĘG``.
-
-    Wystąpienie wybiera gospodarz stojący przed przyimkiem, a nie kolejność:
-    zdanie z dwoma takimi samymi przyimkami ma dwie pozycje, a propozycja opisana
-    z pierwszej z nich mówiłaby o innej niż ta, do której dobrano gospodarzy.
-    Kończy się na formie czasownikowej i na słowie, za którym stoi znak: fraza
-    przez żadne z nich nie przechodzi, a propozycja sięgająca dalej kosztuje
-    czytającego skreślenie zamiast przeczytania. Dalej jej nie zwężamy, bo
-    granicę frazy zna dopiero rozbiór, a lista słów pisana tutaj byłaby
-    zgadywaniem, które czytający i tak poprawia.
-    """
-    słowa = zdanie.split()
-    for i, słowo in enumerate(słowa):
-        if _goły(słowo).lower() != przyimek.lower():
-            continue
-        #  Przyimek stojący pierwszy w zdaniu nie ma przed sobą grupy imiennej,
-        #  więc nie jest tą pozycją, choćby jego forma się zgadzała.
-        if i == 0 or _goły(słowa[i - 1]) != gospodarz:
-            continue
-        fraza = [_goły(słowo)]
-        for dalsze in słowa[i + 1 : i + 1 + ZASIĘG]:
-            if strona(_goły(dalsze)) == CZASOWNIK:
-                break
-            fraza.append(_goły(dalsze))
-            if _goły(dalsze) != dalsze:
-                break
-        return " ".join(fraza)
-    return przyimek
-
-
-def _goły(słowo: str) -> str:
-    return słowo.strip(",.;:()„”\"'")
 
 
 

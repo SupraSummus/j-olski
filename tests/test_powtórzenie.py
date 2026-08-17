@@ -1,8 +1,13 @@
 """Te własności sondy nad świadkiem kontekstowym, bez których jej liczba kłamie.
 
 Liczb sonda nie ma czym bronić: wychodzą z korpusu, którego repozytorium nie
-trzyma, i zmieniają się z każdą zmianą gramatyki. Cztery rzeczy są inne, bo psują
+trzyma, i zmieniają się z każdą zmianą tego, co ``pytania`` w
+``olski/wieloznaczność.py`` liczy za pozycję. Pięć rzeczy jest innych, bo psują
 liczbę po cichu i nie zgłasza ich nic.
+
+Populacja ma nie wychodzić z werdyktu, bo gramatyka odrzuca w tym rejestrze
+prawie każde zdanie, a zasięg zmierzony na werdyktach jest wtedy liczbą o
+gramatyce.
 
 Rozkład zasięgu na dwie przyczyny jest tym, po co ta sonda jest: milczenie nad
 zdaniem pierwszym w akapicie i milczenie nad zdaniem, które sąsiada ma, mówią o
@@ -23,6 +28,7 @@ pytest.importorskip("morfeusz2")
 
 from pathlib import Path
 
+from olski.subset import check
 from sonda.powtórzenie import przebieg
 
 #: Akapit, w którym fraza stoi dwa razy i za pierwszym razem przy rzeczowniku,
@@ -58,17 +64,35 @@ def test_granica_akapitu_odbiera_świadkowi_zdanie_z_akapitu_obok(pomiar):
     assert len(pomiar.odpowiedzi_bez_granicy) == 2
 
 
+def test_populacja_nie_wychodzi_z_werdyktu(tmp_path: Path):
+    """Zdanie, którego gramatyka nie przyjmuje, ma świadka o co zapytać.
+
+    Populacja wzięta z werdyktów daje nad tym rejestrem 38 pytań na 2 915 zdań
+    (``docs/disambiguation.md``), więc zasięg mierzony na niej jest w większości
+    liczbą o gramatyce. Sonda wpięta z powrotem w ``check`` przechodzi każdy inny
+    test w tym pliku i wypisuje zasięg z powrotem bliski zeru.
+
+    Zdanie jest z korpusu audytowego i odrzucone stoi tu w asercji: gramatyka,
+    która je przyjmie, odbiera temu testowi dowód, a nie tylko materiał.
+    """
+    odrzucone = "Zabronione jest tworzenie opisów w 1 osobie.\n"
+    (tmp_path / "rejestr.txt").write_text(odrzucone, encoding="utf-8")
+    (werdykt,) = check(odrzucone)
+    assert werdykt.result.status == "rejected"
+    assert przebieg([tmp_path / "rejestr.txt"]).przyłączeń == 1
+
+
 def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony(tmp_path: Path):
     """Zdanie, którego czytelnik jeszcze nie przeczytał, dowodem nie jest.
 
-    Dowód stoi tu za zdaniem spornym, a stoi w postaci, której gramatyka nie
-    wyprowadza, więc sam wyboru przed sobą nie ma i odpowiedzi wydać nie może.
-    Sonda czytająca w obie strony rozstrzygnęłaby mimo to zdanie pierwsze.
+    Dowód stoi tu za zdaniem spornym, a stoi bez czasownika przed frazą, więc sam
+    pozycji przyłączeniowej nie niesie i o nic pytany nie jest. Sonda czytająca w
+    obie strony rozstrzygnęłaby mimo to zdanie pierwsze.
     """
     odwrotnie = "Operator zgłosił awarię w systemie.\n\nAwaria w systemie.\n"
     (tmp_path / "rejestr.txt").write_text(odwrotnie, encoding="utf-8")
     pomiar = przebieg([tmp_path / "rejestr.txt"])
-    assert pomiar.przyłączeń == 1, "drugie zdanie nie wychodzi z gramatyki"
+    assert pomiar.przyłączeń == 1, "drugie zdanie nie ma czasownika przed frazą"
     assert pomiar.odpowiedzi == []
     assert pomiar.odpowiedzi_bez_granicy == []
 
@@ -96,9 +120,10 @@ def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_pa
 def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
     """Zdanie z dwoma wyrażeniami przyimkowymi stawia więcej niż jeden wybór.
 
-    Liczby dokładnej nie ma w asercji celowo: ile przyłączeń werdykt nad tym
-    zdaniem wyda, rozstrzyga gramatyka, a ta sonda ma tylko nie zliczać ich po
-    zdaniach — pomyłka o jeden mianownik przesuwa figurę, którą czyta dokument.
+    Liczby dokładnej nie ma w asercji celowo: ile pozycji stoi w tym zdaniu,
+    rozstrzyga ``pytania`` w ``olski/wieloznaczność.py``, a ta sonda ma tylko nie
+    zliczać ich po zdaniach — pomyłka o jeden mianownik przesuwa figurę, którą
+    czyta dokument.
     """
     dwa = "Rozdział zawiera informacje o awariach w systemie.\n"
     (tmp_path / "rejestr.txt").write_text(dwa, encoding="utf-8")

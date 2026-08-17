@@ -26,8 +26,9 @@
 # sprawdzi.
 #
 # `fraza` i `gospodarze` też są poprawiane ręką: budowniczy proponuje je z
-# morfologii, więc bierze ogon łańcucha dopełniaczowego za głowę grupy i sięga
-# frazą dalej, niż ona idzie. Wpis ma opisywać wybór, który widzi czytelnik.
+# morfologii, więc sięga frazą dalej, niż ona idzie, a gospodarzem proponuje cały
+# łańcuch imienny, który homonimia przedłuża czasem przez orzeczenie. Wpis ma
+# opisywać wybór, który widzi czytelnik.
 
 plik: ksef/README.txt
 zdanie: Niniejszy dokument stanowi kompendium wiedzy dla deweloperów, analityków i integratorów systemów, którzy realizują integrację z Krajowym Systemem e-Faktur (KSeF) w wersji 2.0.
