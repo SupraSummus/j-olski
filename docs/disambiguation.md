@@ -272,17 +272,25 @@ Częstość zmylić się tak nie może, bo jej powód jest dokładnie tym, co zm
 Wyłapuje taki powód czytelnik, bo po to właśnie powód przy odpowiedzi jest,
 czyli obroną jest dokładnie to, co kryterium kupuje.
 
-Rozstrzygnąć drugą połowę mógłby jeden przebieg,
-a materiału pod niego to repozytorium ma za mało.
-Dwa korpusy dają po jednej połowie tego, czego taki przebieg żąda:
+Druga połowa jest zmierzona raz i próba tej wielkości jej nie rozstrzyga.
+Dwa korpusy dają po jednej połowie tego, czego pomiar żąda:
 bank drzew ma wzorzec i nie ma kontekstu,
-a [korpus audytowy](audit-corpus.md#the-list) odwrotnie.
-Obie połowy naraz ma dopiero
-[wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
-a odpowiedzi padają nad nim rzadziej niż milczenie;
-tamta sekcja sama mówi, że na częstość pomyłek jej próba nie starcza.
-O ile tę próbę powiększyć, pyta wpis w [`TODO.md`](../TODO.md),
-i dopiero powiększona wystarczy na ten przebieg.
+a [korpus audytowy](audit-corpus.md#the-list) odwrotnie,
+więc wzorzec dla rejestru czyta się ręką, a odpowiedzi
+padają nad losowaniem z całej populacji rzadziej niż milczenie.
+Stopę pomyłek daje dopiero losowanie zawężone do samych odpowiedzi
+([częstość nad dokumentacją](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
+a tabela z banku drzew myli się nad nim w 5 z 29 odpowiedzi,
+czyli tyle, ile jej własna ocena dopuszcza na próbie tej wielkości.
+Przenoszenie się częstości zostaje przez to pytaniem o liczbę przeczytanych odpowiedzi,
+a ile ich potrzeba, mówi wpis w [`TODO.md`](../TODO.md).
+
+Ten sam przebieg mówi o kryterium powodu coś, czego stopa pomyłek nie mówi.
+Odpowiedzi z powodem leżącym w słowach zdania jest tam 23 i żadna nie jest pomyłką,
+a wszystkie pięć pomyłek pada wśród sześciu, w których powodu w słowach nie ma.
+Kryterium postawione po to, żeby odpowiedź miała autorowi co powiedzieć,
+dzieli więc tę próbę tam, gdzie dzieli ją trafność,
+i nie było pod nim żadnego pomiaru, kiedy je stawiano.
 
 ## Tożsamość czytania jest tańsza i częściowo już stoi
 
@@ -835,7 +843,105 @@ i nie jest to zasługa progów, tylko ich ceny:
 milczenie jest tu odpowiedzią w dwudziestu wypadkach na trzydzieści.
 Trzydzieści wyborów wystarcza, żeby powiedzieć, że warstwa milczy częściej, niż odpowiada,
 i nie wystarcza, żeby powiedzieć, jak często się myli;
-o ile tę próbę powiększyć, pyta wpis w [`TODO.md`](../TODO.md).
+tę drugą liczbę bierze [próba zawężona do odpowiedzi](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
+
+Losowanie padło przy tym nad populacją mniejszą od dzisiejszej:
+`pytania` dawało wtedy 1 058 pozycji, a gospodarza proponowało ogonem łańcucha
+imiennego, gdzie dzisiejsze daje 1 113 pozycji i głowę grupy.
+Ta sama komenda puszczona teraz z `--ile 30` dzieli z tym plikiem dwa zdania z trzydziestu,
+więc powiększenie próby jest przerysowaniem siatki, a nie dopisaniem wpisów do niej;
+co z tym zrobić, pyta wpis w [`TODO.md`](../TODO.md).
+Sądów tych to nie unieważnia, bo każdy stoi przy zdaniu i przy frazie wypisanych w całości,
+a gospodarzy poprawiła ręka.
+
+## Częstość nad dokumentacją myli się tam, gdzie nie rozstrzyga żadne słowo zdania
+
+Próba wyżej losuje spośród wszystkich pozycji rejestru,
+więc mówi, jak często warstwa odpowiada, a nie mówi, jak często się myli:
+odpowiedzi pada w niej pięć i jedna pomyłka przesuwałaby stopę o dwadzieścia punktów.
+Częstość pomyłek żąda mianownika, którym jest odpowiedź, a nie pozycja,
+a taki mianownik daje losowanie zawężone do tych pozycji, nad którymi warstwa się odzywa:
+odzywa się nad 123 z 1 113 pozycji korpusu audytowego, czyli nad co dziewiątą,
+i spośród tych 123 losuje się trzydzieści (`z_odpowiedzią` w `sonda/wybory.py`).
+`próba/wybory-z-odpowiedzią.txt` jest tym losowaniem przeczytanym ręką
+i jest osobnym plikiem, a nie częścią próby wyżej,
+bo jeden wydruk z dwoma mianownikami czyta się jako jeden.
+
+```sh
+python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
+```
+
+```text
+30 wyborów ze wzorcem, z tego 3 do przemilczenia
+     2  oba
+     1  żadne
+
+  co warstwa odpowiedziała:
+    29   96.7% odpowiedzi,  82.8% trafień    skłonność
+     1   33.3% wyborów do przemilczenia przemilczanych
+    25   83.3% wyborów rozstrzygniętych dobrze
+```
+
+Odpowiada tu sama skłonność i mówi to o losowaniu, a nie o świadku kontekstowym:
+ten odzywa się nad tym korpusem osiem razy, więc trzydzieści pozycji wylosowanych
+spośród 123 nie musi trafić w ani jedną z nich i nie trafiło w żadną.
+Zmierzona jest przez to sama tabela częstości nad dokumentacją i nic poza nią.
+Wpisów jest trzydzieści, a odpowiedzi 29, i różnica ta jest ceną poprawiania ręką:
+zawężenie pyta o frazę i gospodarzy, jakich proponuje morfologia,
+a przy jednym wpisie gospodarz okazał się jeden, bo drugim był spójnik.
+
+**Pięć pomyłek na 29 odpowiedzi nie odróżnia tego rejestru od banku drzew.**
+Ta sama tabela mierzona na połowie banku drzew, której nie widziała,
+myli się w co dziesiątej odpowiedzi (`WSPARCIE` i `PRÓG` w `olski/rozstrzyganie.py`),
+a stopa taka daje pięć pomyłek albo więcej na 29 odpowiedziach raz na sześć przebiegów.
+Druga połowa [hipotezy](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
+żąda pomyłek częstszych niż tam, więc ta próba jej nie obala i nie potwierdza;
+ile odpowiedzi trzeba, żeby odróżniła, mówi wpis w [`TODO.md`](../TODO.md).
+
+**Rozstrzyga natomiast, gdzie ta tabela nad tym rejestrem odpowiada dobrze.**
+Wpisy dzielą się na dwoje po tym, czy wybór rozstrzyga któreś słowo tego zdania.
+Podział ten przeczytała ta sama ręka, która wpisała wzorce, i przy wydruku odpowiedzi
+przed sobą, więc sprawdza się go po polach `powód`, a nie po liczbie pod nim.
+Powód taki niosą 23 odpowiedzi: 19 rozstrzyga rama rzeczownika
+(`informacja o czymś`, `dostęp do czegoś`, `prawo do czegoś`, `wniosek o coś`),
+3 dopełnienie cząstkowe liczebnika (`posiadanie jednego z kilku uprawnień`),
+a jedną wyrażenie stałe `w zależności od`.
+Nad żadną z tych 23 tabela się nie myli.
+Zostaje 6 odpowiedzi, w których żadne słowo zdania wyboru nie rozstrzyga,
+i nad nimi tabela myli się pięć razy.
+Szósta jest trafna i pokazuje, jak wąska jest granica tego podziału:
+w `wypróbować kontakty z kolejnych jej pozycji` fraza wskazuje źródło,
+a tabela wskazuje `kontakty`, licząc parę `z` przy `kontakt`,
+czyli ramę „kontakt z kimś”, której to zdanie nie realizuje.
+Powód tabeli mija się więc z relacją i mimo to wypada na właściwego gospodarza.
+
+Trzy z tych pięciu są konstrukcjami rejestru.
+`Data i czas wystąpienia błędu w UTC.` podaje strefę, w której wypisano czas,
+a tabela dołącza `w UTC` do wystąpienia.
+`natychmiastowej rejestracji dokumentu w KSeF` mówi, gdzie zachodzi rejestracja,
+a tabela dołącza frazę do dokumentu.
+`W czasie przekazywania danych do systemu RIT` ma `w czasie` za ramę czasową,
+a tabela bierze `czas` za gospodarza `do systemu RIT`.
+Dwie pozostałe padają nad wpisami, nad którymi trafną odpowiedzią jest milczenie:
+`zapewnienie równych warunków dostępu dla wszystkich użytkowników`
+i `mają zastosowanie w kontekście fakturowania` mówią to samo, dokądkolwiek fraza dojdzie,
+więc tabela odpowiada tam, gdzie nie ma na co.
+
+Ten sam podział widać po wsparciu pary, którą tabela zacytowała.
+Odpowiedzi opartych na dwóch wypadkach banku drzew, czyli na najniższym wsparciu,
+jakie przechodzi próg, jest 7 i cztery z nich są pomyłkami;
+z 22 opartych na trzech wypadkach albo więcej pomyłką jest jedna.
+Trzy trafne spod wsparcia dwóch to trzy pozycje z liczebnikiem cząstkowym,
+czyli klasa, którą rozstrzyga reguła, a nie częstość.
+Wsparcie podniesione o jeden zdjęłoby więc nad tą próbą cztery pomyłki z pięciu
+i trzy odpowiedzi z 29, a cenę po stronie banku drzew wypisuje `--oceń`;
+ruch ten trzyma wpis w [`TODO.md`](../TODO.md).
+
+Wniosek tej próby mówi więc, co ta tabela nad tym rejestrem robi:
+w 23 odpowiedziach z 29 zastępuje leksykon, którego `olski/leksykon.txt` nie ma,
+a poza nimi myli się pięć razy na sześć.
+Cena świadka ramowego jest tym policzona i po stronie rejestru, nie tylko banku drzew,
+a brakującą kolumnę leksykonu trzyma wpis w [`TODO.md`](../TODO.md).
 
 ## Wieloznaczność, której werdykt nie melduje
 
@@ -1088,6 +1194,10 @@ i odpowiadają na nie po drodze, a nie wprost:
 Dwa takie wpisy z trzydziestu są tego samego rzędu co próbka wyżej,
 więc podstawy nie poszerzają;
 poszerzy ją dopiero ten plik, kiedy urośnie, a nie osobny pomiar obok niego.
+[Próba zawężona do odpowiedzi](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
+ma dwa takie wpisy i do tej podstawy nie dochodzi:
+jej mianownikiem jest odpowiedź warstwy, a nie pozycja rejestru,
+więc udział `oba` mówi w niej o tym, gdzie warstwa się odzywa, a nie o rejestrze.
 
 Cztery rzeczy zostają wobec tego nierozstrzygnięte.
 

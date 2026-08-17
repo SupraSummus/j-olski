@@ -739,6 +739,14 @@ and `pytania` in that module is what moves it,
 so a change there is owed that count alongside the witness's reach above.
 Rebuilding that file is a different act from rerunning the figures
 and is owed the reading of every entry it adds, per the file's own header.
+[What the frequency table gets wrong over documentation](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
+is the same probe over `próba/wybory-z-odpowiedzią.txt` and has one mover the other has not,
+because that file's entries are drawn from the positions the layer answers over:
+a change to `olski/rozstrzyganie.py` or to the committed `olski/skłonności.txt`
+moves which positions belong in it, so what is owed there is a rebuilt draw
+and the reading of every entry in it, not a corrected number.
+The split that section reports is a reading of the `powód` fields rather than a count,
+so a rerun that moves it is owed that reading again.
 
 A rewrite of the grammar that moves no verdict still moves those tables,
 so "the language did not change" is not a reason to skip the rerun.

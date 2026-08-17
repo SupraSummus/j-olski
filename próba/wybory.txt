@@ -7,12 +7,20 @@
 # Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
 # wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
 # tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
-# nie z cudzego korpusu. Zdania są cudze i losowane, żeby rozkład był rejestru,
-# a nie autora; skąd je wziąć, mówi docs/audit-corpus.md.
+# nie z cudzego korpusu. Zdania są cudze, żeby rozkład był rejestru, a nie
+# autora; skąd je wziąć, mówi docs/audit-corpus.md.
 #
 # Nowych wpisów ta komenda tutaj nie dopisze i tego pliku nie umie uzupełnić:
 # wypisuje całość na wyjście, więc puszczona w to miejsce skasowałaby każdy
 # wzorzec, jaki tu stoi. Nowe idą do pliku obok i przenosi się je ręką.
+#
+# Wzorzec wpisuje się przed puszczeniem sondy nad plikiem, bo wydruk pokazuje
+# odpowiedź warstwy wraz z jej powodem, a sąd czytany po niej broni się już tylko
+# tym, co ma zapisane w `powód`.
+#
+# Losowane spośród wszystkich pozycji przyłączeniowych korpusu, więc mianownikiem
+# jest pozycja rejestru: liczy się nad tym plikiem i to, jak często warstwa
+# odpowiada, i to, jak często trafia.
 #
 # Wpisy pochodzą z korpusu audytowego przy ksef-docs 1c34fe2 i rit-dokumentacja
 # 32f85cc. Zdanie i kontekst stoją w nich w całości, więc nowsze wydanie tamtych
