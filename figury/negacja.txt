@@ -1,0 +1,21 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury negacja
+polecenie: python3 -m sonda.negacja Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno
+ruszają:
+  olski/subset.py: nieznany
+  olski/parse.py: nieznany
+  sonda/negacja.py: nieznany
+  sonda/ruch.py: nieznany
+
+#  Tabelę niżej przeniesiono z docs/subset.md, a nie wzięto jej przebiegiem tutaj,
+#  i tyle właśnie mówią odciski „nieznany”: przebiegu, z którego pochodzi, nikt tu
+#  nie widział, więc nie ma jak orzec, czy coś ją od tamtej pory ruszyło.
+#  Pierwsze przeliczenie z korpusem zastąpi ten blok wydrukiem sondy.
+
+| wariant | przyjęte | wieloznaczne | odrzucone |
+| --- | --- | --- | --- |
+| bez negacji | 1031 | 498 | 11 506 |
+| cząstka | 1130 | 522 | 11 383 |
+| dopełniacz | 1031 | 498 | 11 506 |
+| obie | 1179 | 549 | 11 307 |

@@ -493,37 +493,30 @@ grupa pod przyimkiem zostaje w przypadku, którego przyimek żąda,
 a czasownik, o którym leksykon mówi, że biernika nie bierze,
 nie zyskuje przy przeczeniu nowej pozycji.
 
-### Negacja zmierzona: kupuje 148 zdań i odbiera jedno
+### Negacja zmierzona: kupuje przeszło sto zdań i odbiera jedno
 
-```sh
-python3 -m sonda.negacja Składnica-frazowa-180723/
-python3 -m sonda.negacja proza/README.txt
-```
+Pełne wiersze są w [figury/negacja.txt](../figury/negacja.txt),
+a wzięte nad prozą README w [figury/negacja-proza.txt](../figury/negacja-proza.txt);
+polecenie i pliki, których zmiana każe je przeliczyć,
+podaje każdy z tych dwóch ([`harness/figury.py`](../harness/figury.py)).
 
-| wariant | przyjęte | wieloznaczne | odrzucone |
-| --- | --- | --- | --- |
-| bez negacji | 1031 | 498 | 11 506 |
-| cząstka | 1130 | 522 | 11 383 |
-| dopełniacz | 1031 | 498 | 11 506 |
-| obie | 1179 | 549 | 11 307 |
-
-Wiersz dopełniacza jest kopią mianownika i to jest o nim odczyt, a nie
+Dopełniacz bez cząstki nie kupuje ani jednego zdania i to jest o nim odczyt, a nie
 przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
 przeczy, więc bez cząstki nie ma on jak wystrzelić.
-Cząstka bez niego kupuje 99 zdań, obie razem 148,
-czyli sam przypadek dokłada 49 zdań, których cząstka sama nie unosi,
-i te dwie rzeczy są jedną konstrukcją mierzoną z dwóch stron.
+Cząstka sama kupuje dwie trzecie tego, co obie razem,
+a resztę dokłada przypadek, i są to zdania, których cząstka sama nie unosi,
+więc te dwie rzeczy są jedną konstrukcją mierzoną z dwóch stron.
 
-Ani jedno z 1031 zdań przyjętych wcześniej nie traci jednoznaczności,
+Ani jedno ze zdań przyjętych wcześniej nie traci jednoznaczności,
 i nie znaczy to, że dopełniacz z niczym nie konkuruje.
 Konkuruje, i to z przydawką dopełniaczową, bo obie stawiają ten sam przypadek,
 a przed czasownikiem gramatyka ma dziś oba ciała naraz.
-Ta konkurencja nie wypada jednak w tej tabeli,
+Ta konkurencja nie wypada jednak w tym przebiegu,
 bo wariant bez negacji dopełniacza w pozycji dopełnienia nie ma wcale,
 więc nie ma tam czego z przydawką pomylić.
 Wypada ona w sondzie, która mierzy szyk, i wynosi tam cztery zdania
 ([niżej](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
-Zero w tej kolumnie mówi więc, że cena tego sporu należy do szyku,
+Zero w kolumnie zdań wieloznacznych mówi więc, że cena tego sporu należy do szyku,
 a nie do negacji, i którą z dwóch produkcji zdejmuje sonda, rozstrzyga, gdzie ona
 stanie.
 

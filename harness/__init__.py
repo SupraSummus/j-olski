@@ -12,6 +12,12 @@ Only the reading of one file differs between formats. The walk over a tree, the
 selection by language and the mirrored output are the same step every time, so
 they live here, and a format arrives as a declaration rather than as a second
 path through them.
+
+Beside the extraction stand the programs that produce what a document cites:
+``endings.py`` reads an ending's cost off a corpus, and ``figury.py`` reruns a
+figure and owns the file a document restates. They are here for the reason the
+extraction is, which is that they serve the documents rather than the grammar,
+and no module of ``olski`` imports any of them.
 """
 
 from __future__ import annotations

@@ -395,7 +395,7 @@ Negacja poszła tu inaczej i tak samo skromnie:
 przyjmuje cztery zdania, trzydzieści przenosi na wieloznaczne
 i jednemu przyjętemu wcześniej odbiera jednoznaczność,
 co jest jedynym takim zdaniem w trzech zmierzonych rejestrach
-([subset.md](subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
+([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
 Cztery szyki podmiotu, dopełnienia i czasownika, dopisane po tamtych dwóch,
 wychodzą tu jeszcze skromniej i wychodzą pod zero:
 nie przyjmują ani jednego zdania,

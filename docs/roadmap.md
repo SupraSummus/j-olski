@@ -410,7 +410,7 @@ Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
 i cztery zdania ustawy przy trzydziestu,
 a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
 i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie
-`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)).
+`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
 Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
 wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
 czwartą, gdzie tamte oddawały po jednej piątej.

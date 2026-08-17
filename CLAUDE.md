@@ -609,8 +609,47 @@ A standing verdict on the front page of a hobby repository
 is the same way of making it feel like work
 that [`docs/roadmap.md`](docs/roadmap.md) refuses dates for.
 
-Three more checks apply where a change moves a number
-that lives in a document because no test can reach it.
+**A figure has one owner, and the owner is a file a run writes.**
+A figure belongs in `figury/`, where the run's output stands and nothing else,
+and the document that reads it restates the figure coarsely and links the file:
+an order of magnitude, a ratio, a direction.
+That is [one owner per fact](#one-owner-per-fact-repeat-narrative-freely)
+applied to a measured number rather than a new rule,
+and what it buys is prose a rerun does not touch,
+because "przeszło sto zdań" stays true when 148 becomes 151.
+Full precision in a paragraph costs the opposite:
+one rerun becomes a heading, a table, the sentences under it
+and the numbers somebody derived from them by hand,
+and none of those fails when it is left undone.
+
+What moves a figure is declared beside it rather than described here.
+`FIGURY` in [`harness/figury.py`](harness/figury.py)
+names, per figure, the command, the corpus it needs,
+the files whose change moves the numbers, and the section that restates it,
+and the figure's own file records those files' digests as of its run.
+So `python3 -m harness.figury` answers what is owed a rerun
+by comparing two strings, fetches nothing, and runs anywhere,
+while `python3 -m harness.figury <nazwa>` is the rerun itself
+and belongs to whoever has the corpus.
+The reruns do not go in the check block above and do not run on a push:
+the corpora are archives of tens of megabytes fetched once per session,
+and a runner that fetched them all on every push would pay that per commit.
+What the suite holds is in `tests/test_figury.py`, which starts no probe:
+the answer the report gives from a file's digests and command,
+and the wiring under it —
+that a declared mover is a file that exists,
+and that a figure names a section which does.
+
+A figure whose numbers were moved out of a document rather than taken by a run
+records `nieznany` in place of a digest,
+and the report calls it neither current nor owed but unmeasured here,
+the way `calibration` reads `uncalibrated`
+rather than implying a measurement nobody has made.
+
+The list below is the same demand in prose, for the figures that have no owner yet,
+and it is [adopted lazily](#adopt-these-rules-lazily) like every other rule here:
+a change touching one of these figures moves it into the declaration
+and deletes its paragraph from the list.
 Each names the document, and each is part of the change rather than after it.
 
 A change in the grammar, in the readings it is given,
@@ -873,7 +912,9 @@ on which the finding that one of them buys nothing rests.
 A criterion refused stays refused when its price moves,
 so what the rerun protects is the number and not the decision.
 
-Two files in this repository are generated, and regenerating them is part of the change.
+Two files the code itself reads are generated,
+and regenerating them is part of the change,
+as it is for the figures in `figury/` above.
 `olski/leksykon.txt` is the valency lexicon,
 which `olski/walenty.py` derives from Walenty,
 so a change to what that translation takes moves the file itself
@@ -905,35 +946,44 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Five sets are a difference rather than a count,
+Four sets are a difference rather than a count,
 and that is what makes them easy to leave stale.
 [What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the gap between olski and olski with three productions taken out,
 [what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the same gap over the two bodies that build one,
-[what negation costs](docs/subset.md#negacja-zmierzona-kupuje-148-zdań-i-odbiera-jedno)
-is that gap over the particle and the genitive it governs,
 and [what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
 is that gap over the fourteen bodies the four of them make,
-so everything that moves the tables above moves all four,
+so everything that moves the tables above moves all three,
 and so does a change to the probe that names each variant's productions —
-`sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/negacja.py`, `sonda/szyk.py` —
+`sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/szyk.py` —
 or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
-The fifth measures a construction the grammar does not have,
-so its variants add productions where those four take them away:
+The fourth measures a construction the grammar does not have,
+so its variants add productions where those three take them away:
 [what the adverb would cost](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)
 is the gap between olski and olski with `sonda/przysłówek.py` written into it.
 That direction moves which end of the variant list is olski and nothing else:
 the denominator is olski either way,
-so a grammar change moves those figures as it moves the four above.
-Each of the five prints the command that produces its figures.
+so a grammar change moves those figures as it moves the three above.
+Each of the four prints the command that produces its figures.
 They share a denominator, so a construction admitted moves every one of these
 tables and not only the one belonging to it.
 What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
-All five take their figures over the README as well,
-so a commit that touches README prose owes those five runs
+All four take their figures over the README as well,
+so a commit that touches README prose owes those four runs
 alongside the two the section above already asks of it.
+
+[What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
+is the fifth of that shape and the one that has an owner,
+so its movers are `figury/negacja.txt` and `figury/negacja-proza.txt`
+rather than a paragraph here,
+and the report is what says whether either is owed a rerun.
+The README half is why the pair is worth reading before converting the next figure:
+`README.md` is one of its declared movers,
+so a reword moves it in the report rather than nowhere,
+which is what the rule against writing down a figure over our own prose
+had to be a rule about.
 
 One more difference prices a refusal, and it is the only figure in this list
 whose two halves are moved by different things.
@@ -995,10 +1045,18 @@ What moves the number is the line.
 A claim about the code stays, because a rerun is what it waits for:
 how many sentences of the README derive
 moves when the grammar does, like any other figure above.
-A count of the text itself stays out —
+A count of the text itself stays out of a document —
 how many sentences it holds, how long its comment lines run —
-because a reword moves it and no rerun rule reaches a reword.
+because a reword moves it and no prose rule reaches a reword.
 The command stands beside the claim, as it does for a fetched corpus.
+
+A figure with an owner is the one place such a count may be written,
+and the reason is the clause above rather than an exception to it:
+`figury/negacja-proza.txt` declares `README.md` among its movers,
+so a reword is exactly what the report reads as owing a rerun,
+and the rerun costs seconds and fetches nothing.
+What stays out either way is the full-precision copy in a paragraph,
+since that is what no report can reach.
 
 ## Code
 
