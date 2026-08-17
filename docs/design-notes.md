@@ -1113,12 +1113,13 @@ dostawałoby te same dwa przyłączenia po raz drugi,
 raz nazwane przyimkiem, a raz konstytuentem długim na całe zdanie podrzędne.
 
 Cena idzie na to, o czym wiersz milczy, i widać ją na jednej klasie.
-Wyrażenie przyimkowe przyłączone wewnątrz frazy bezokolicznikowej
-ma w obu czytaniach tego samego gospodarza,
-bo `Deklaracja.gospodarze` frazy bezokolicznikowej nie wylicza,
-więc wiersza o przyłączeniu nie ma, a wiersz o konstytuencie ustępuje mu miejsca:
-`Syn usiłował wejść na ołtarz.` zostaje samą liczbą czytań.
-Ile zdań tak zostaje i co je stąd wyprowadza, notuje [TODO.md](../TODO.md).
+Nawias obejmuje ciąg, którym jest sama rola, a nie ciąg stojący w wypełnieniu głębiej,
+więc dwa czytania różne nawiasowaniem takiego ciągu wychodzą jednym napisem,
+a wiersz o konstytuencie ustępuje im miejsca:
+`Ustawa określa zadania ochrony ludności i obrony cywilnej.`
+zostaje samą liczbą czytań, choć raz są to zadania dwóch rzeczy, a raz jednej.
+Ile zdań tak zostaje, mierzy
+[disambiguation.md](disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca).
 Powtórzone streszczenie zostaje przy tym w wydruku wszędzie,
 gdzie o wyborze mówi jeden z tamtych dwóch wierszy:
 lista czytań jest iloczynem decyzji, a wiersze tego iloczynu nie ruszają.

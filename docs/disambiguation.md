@@ -10,7 +10,7 @@ i jaką skuteczność takie maszyny osiągają tam, gdzie ktoś je zbudował i z
 
 Odpowiedź krótka jest taka, że pytanie rozpada się na trzy,
 a tylko jedno z nich jest o wyborze czytania.
-Trzy czwarte tego, co olski odrzuca nad bankiem drzew,
+Cztery piąte tego, co olski odrzuca nad bankiem drzew,
 zostawia dokładnie jedną decyzję: dokąd dochodzi wyrażenie przyimkowe.
 Zadanie to pole mierzy od trzydziestu lat, na własnych zbiorach i z rozbiorem błędów,
 a pomiar mówi dwie rzeczy naraz:
@@ -145,12 +145,12 @@ Nad 549 zdaniami, które olski odrzuca za wieloznaczność:
 
 | co werdykt nazywa | zdań | |
 | --- | --- | --- |
-| rola + przyłączenie | 463 | 84,3% |
-| przyłączenie | 33 | 6,0% |
-| sama liczba czytań | 23 | 4,2% |
+| rola + przyłączenie | 464 | 84,5% |
+| przyłączenie | 53 | 9,7% |
 | rola | 18 | 3,3% |
-| rola + przyłączenie + konstytuent | 7 | 1,3% |
+| rola + przyłączenie + konstytuent | 6 | 1,1% |
 | konstytuent | 5 | 0,9% |
+| sama liczba czytań | 3 | 0,5% |
 
 Tabela liczy nazwy, a nie decyzje, i te dwie rzeczy się rozchodzą.
 `Czeka koń z furą.` ma jedno przyłączenie i różni się rolą,
@@ -163,8 +163,8 @@ przyłączenie o dwóch gospodarzach mnoży las przez dwa,
 więc gdy iloczyn gospodarzy równa się liczbie czytań,
 innej decyzji ten las nie zostawia.
 
-**Tak liczone przyłączenie jest całą decyzją w 412 z 549 zdań, czyli w 75,0%.**
-W klasie `rola + przyłączenie` jest to 385 z 463, a w klasie `przyłączenie` 27 z 33.
+**Tak liczone przyłączenie jest całą decyzją w 453 z 549 zdań, czyli w 82,5%.**
+W klasie `rola + przyłączenie` jest to 406 z 464, a w klasie `przyłączenie` 47 z 53.
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
 bo dwa przyłączenia, z których jedno ma gospodarza tylko pod jednym czytaniem drugiego,
 dają czytań mniej niż iloczyn;
@@ -180,17 +180,27 @@ Nie jest to wieloznaczność do rozstrzygnięcia, tylko nadgeneracja do zdjęcia
 i tym zajmuje się [etap 3](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma),
 a nie żadna warstwa za parserem.
 
-Druga to 23 zdania, nad którymi werdykt nie mówi nic poza liczbą czytań.
-`Tata musiał pojechać do domu.` ma dwa czytania,
-bo `do domu` dochodzi do formy osobowej albo do bezokolicznika za nią,
-a oba czytania mówią o tym samym.
-Jest to ta sama pomyłka, którą
+Druga to trzy zdania, nad którymi werdykt nie mówi nic poza liczbą czytań,
+a w każdym z nich czytania różni ciąg współrzędny.
+Ciąg nie dostaje wiersza o konstytuencie rozmyślnie,
+bo granicę członu pokazuje nawias w napisie roli;
+nawias obejmuje jednak ciąg, którym jest sama rola,
+a nie ciąg stojący w wypełnieniu głębiej
+([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+i tam — w dopełnieniu albo w okoliczniku — stoją wszystkie trzy.
+Najkrócej widać tę klasę na zdaniu z ustaw, bo czyta się je bez banku drzew:
+`Ustawa określa zadania ochrony ludności i obrony cywilnej.`
+wychodzi dwoma czytaniami, `zadania [ochrony ludności] i [obrony cywilnej]`
+oraz `zadania ochrony [ludności i obrony cywilnej]`,
+i werdykt milczy nad nim tak samo
+([ustawy.md](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)).
+Czy jest to ta sama pomyłka, którą
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
-opisuje w cudzym systemie —
-liczenie prób zamiast wyników — tyle że w postaci węższej,
-bo tu wyprowadzenia naprawdę różnią się kształtem, a nie samym nawiasowaniem.
-Co dokładnie ten wiersz werdyktowi odbiera i jaki ruch go naprawia,
-trzyma [`TODO.md`](../TODO.md).
+opisuje w cudzym systemie — liczenie prób zamiast wyników —
+rozstrzyga się osobno nad każdym takim ciągiem:
+to zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
+a ciąg `równych praw kobiet i mężczyzn` z jednego ze zdań Składnicy — jedną.
+Ile jest których, notuje [`TODO.md`](../TODO.md).
 
 ## Ranking nie jest wyjściem, którego ten parser potrzebuje
 
@@ -301,7 +311,8 @@ i opisuje [subset.md](subset.md#co-się-liczy-jako-jedno-czytanie):
 lematy, wartości cech i część mowy są wyłączone rozmyślnie.
 Każde takie wyłączenie to wieloznaczność, która przestała być raportowana,
 zdjęta deterministycznie i bez ani jednego wyboru między czytaniami.
-Tą samą drogą idą 23 zdania z klasy „sama liczba czytań”.
+Tą samą drogą idą trzy zdania z klasy „sama liczba czytań”,
+bo nawiasowanie ciągu współrzędnego jest tym, o czym sygnatura grubsza nie mówi.
 
 Pole nazywa to samo z drugiej strony i wycenia wysoko.
 W najlepszym zmierzonym modelu przyłączenia dla niemieckiego
@@ -333,7 +344,7 @@ Każde zwinięcie trzeba więc uzasadnić parą czytań, nad którą nikt nie wa
 
 ## Leksykon rozstrzyga część i rozstrzyga ją deterministycznie
 
-Trzy czwarte odrzuceń to przyłączenie,
+Cztery piąte odrzuceń to przyłączenie,
 a części tych przyłączeń nie rozstrzyga się rankingiem, tylko słownikiem.
 Nad Składnicą 576 z 4 517 spornych wyrażeń to frazy, których czasownik żąda swoim schematem,
 a 214 to frazy, których żąda sam rzeczownik;
@@ -352,9 +363,9 @@ Rozstrzygnięcie, które z niego wychodzi, jest deterministyczne i da się wyja�
 jednym wierszem leksykonu, czyli jest tym rodzajem odpowiedzi,
 którą ten parser obiecuje w README.
 
-Ile z tych 75% by to zdjęło, ten dokument nie mówi,
+Ile z tych 82,5% by to zdjęło, ten dokument nie mówi,
 bo obie liczby wzięto nad innymi mianownikami:
-790 z 4 517 to wyrażenia, a 412 z 549 to zdania,
+790 z 4 517 to wyrażenia, a 453 z 549 to zdania,
 i jedno zdanie niesie ich czasem kilka.
 Pomiar, który by to złożył, jest jedną z rzeczy, których tu brakuje.
 
@@ -390,7 +401,7 @@ bo nikt nie pokazywał tam akapitu.
 Wniosek jest więc taki, że ujednoznacznianie na poziomie zdania ma sufit,
 że sufit jest poniżej 93% na jedno przyłączenie
 i że nad zdaniem z dwoma przyłączeniami spada wykładniczo —
-a takich jest 123 z 549.
+a takich jest 131 z 549.
 Powyżej sufitu nie ma modelu, jest budowanie kontekstu,
 czyli zadanie, którego ten parser nie stawia i którego wykonania nie umiałby wyjaśnić.
 
@@ -540,8 +551,8 @@ python3 -m sonda.powtórzenie proza/
 Pozycje wyznacza morfologia, a nie werdykt, i to jest cała różnica między tym pytaniem
 a tym, które warstwa dostaje w `olski-check`.
 Gramatyka odrzuca w tym rejestrze prawie każde zdanie,
-więc werdykty stawiają tu 38 wyborów na 2 915 zdań
-i wskazań pod nimi wypisuje `olski-check --rozstrzygaj` nad tymi plikami 7,
+więc werdykty stawiają tu 39 wyborów na 2 915 zdań
+i wskazań pod nimi wypisuje `olski-check --rozstrzygaj` nad tymi plikami 8,
 wszystkie skłonności.
 Świadek kontekstowy nad tą populacją nie odzywa się ani razu,
 i jego zero jest tam w większości liczbą o gramatyce:
@@ -727,19 +738,21 @@ python3 -m sonda.wskazania Składnica-frazowa-180723/
 ```
 
 ```text
-  503 zdań, nad którymi werdykt zostawia przyłączenie,
-  a w nich 665 przyłączeń, czyli tyle pytań warstwa dostaje
+  523 zdań, nad którymi werdykt zostawia przyłączenie,
+  a w nich 695 przyłączeń, czyli tyle pytań warstwa dostaje
 
   gospodarzy na przyłączenie:
-      515   77.4%  2
-      115   17.3%  3
-       30    4.5%  4
-        5    0.8%  5
+      520   74.8%  2
+      135   19.4%  3
+       33    4.7%  4
+        7    1.0%  5
 
-  ze wzorcem w drzewie: 511, czyli 76.8% przyłączeń
+  ze wzorcem w drzewie: 511, czyli 73.5% przyłączeń
+  bez wzorca: 184, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
 
   co warstwa mówi o 511 przyłączeniach ze wzorcem:
       102   20.0% odpowiedzi,  96.1% trafień    skłonność
+      102   20.0% odpowiedzi,  96.1% trafień    razem
       511  100,0% odpowiedzi,  58.7% trafień    podłoga: zawsze do rzeczownika
 ```
 
@@ -748,7 +761,7 @@ Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
 Zasięg 20% jest zasięgiem warstwy wypuszczanej i jest wyższy od 12,8% z oceny wyżej,
 bo tabela wypuszczana ma 998 par zamiast tych z połowy korpusu,
 a lematów formy pyta się naraz kilku, więc para znajduje się częściej.
-Populacja jest przy tym inna — te 665 przyłączeń to te, przed którymi wybór postawił olski,
+Populacja jest przy tym inna — te 695 przyłączeń to te, przed którymi wybór postawił olski,
 a nie te, przed którymi postawił go anotator — więc dwóch zasięgów nie odejmuje się od siebie.
 
 Trafność 96,1% jest mierzona na materiale, który ta tabela widziała.
@@ -757,16 +770,21 @@ więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
 Trafnością poza próbą jest 89,5% z oceny wyżej,
 a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
 
-Gospodarzy jest więcej niż dwóch w 22,6% przyłączeń,
+Gospodarzy jest więcej niż dwóch w 25,2% przyłączeń,
 czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten, przed którym warstwa staje.
 Wypadki te biorą się z produkcji, a nie z rzadkości:
 `Obudziłem się na podłodze w kuchni z pustą paczką po ciasteczkach w dłoniach.`
 ma cztery przyłączenia, a każde następne dostaje za gospodarza rzeczownik z poprzedniego.
 
-Wzorca nie ma dla 154 z 665 przyłączeń i nie jest to milczenie banku drzew.
+Wzorca nie ma dla 184 z 695 przyłączeń i nie jest to milczenie banku drzew.
 Drzewo albo nawiasuje tę frazę inaczej, niż nazywa ją werdykt,
-albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem —
-`Auta są kradzione dla okupu.` jest tym drugim, bo fraza dochodzi tam do imiesłowu.
+albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem.
+Drugie ma dwie kategorie i obie wypadają z tego samego powodu.
+`Auta są kradzione dla okupu.` przyłącza frazę do imiesłowu,
+a `Muszę jechać do domu.` do frazy werbalnej z bezokolicznikiem,
+czyli dokładnie tam, gdzie stawia ją werdykt:
+odpowiedź anotatora jest tu zgodna i mimo to nie liczy się jako wzorzec,
+bo `CLAUSE` w `olski/attachment.py` tej kategorii nie wylicza.
 Złączenie idzie formami modyfikatora, bo tyle mają obie strony:
 werdykt rozpiętości nie niesie.
 
@@ -785,7 +803,8 @@ więc pozycje bierze się z [korpusu audytowego](audit-corpus.md#the-list) takie
 i losuje spośród wszystkich, a jest ich w tym korpusie ponad tysiąc
 (`rozrzucona` w `olski/próbka.py`).
 Wyznacza je morfologia, a nie werdykt (`pytania` w `olski/wieloznaczność.py`),
-bo werdyktów jest nad tym rejestrem 38 na 2 915 zdań i nie ma czego z nich losować.
+bo werdykty stawiają nad tym rejestrem 39 wyborów na 2 915 zdań
+i nie ma czego z nich losować.
 Jest to ta sama populacja, którą liczy
 [pomiar zasięgu](#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
 i to on jest jej właścicielem, bo drukuje ją obok swojego polecenia.
@@ -1201,7 +1220,7 @@ więc udział `oba` mówi w niej o tym, gdzie warstwa się odzywa, a nie o rejes
 
 Cztery rzeczy zostają wobec tego nierozstrzygnięte.
 
-Ile z 412 zdań, w których przyłączenie jest całą decyzją,
+Ile z 453 zdań, w których przyłączenie jest całą decyzją,
 zdjąłby leksykon walencyjny sięgający do przyimka —
 pomiar łączący dwa mianowniki, o których mówi sekcja o leksykonie.
 

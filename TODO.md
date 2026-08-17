@@ -924,33 +924,30 @@ Do przeczytania jest przy tym `Report.record` w `olski/coverage.py`,
 gdzie licznik klas musiałby stanąć, i `KAWAŁEK` obok,
 bo przez granicę procesu idzie licznik, a nie las.
 
-Fraza bezokolicznikowa jest gospodarzem przyłączenia, a werdykt nazywa nad nią zdanie.
-`Syn usiłował wejść na ołtarz.` ma dwa czytania,
-bo `na ołtarz` dochodzi do `wejść` albo do zdania nad nim,
-a streszczenie mówi w obu `Modifier: na ołtarz → usiłował`,
-czyli o jednym z nich nieprawdę:
-`gospodarze` w `DEKLARACJA` w `olski/subset.py` wylicza
-`NP`, `AP`, `ClauseConjunct` i `RelativeCore`, a frazy bezokolicznikowej nie,
-więc `_gospodarze` w `olski/parse.py` wychodzi z niej do zdania.
-Kosztuje to wiersz o przyłączeniu, którego nad takim zdaniem nie ma wcale,
-a razem z nim wiersz o konstytuencie, bo wyklucza go rola stojąca pod konstytuentem
-([`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
-więc nad 23 z 549 zdań wieloznacznych Składnicy
-werdykt nie mówi nic poza liczbą czytań;
-liczbę tę liczy `sonda/czytania.py`, a wiersz, w którym stoi, trzyma
-[`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca),
-więc ten ruch przelicza tamtą tabelę.
-Ruchem jest `InfinitivePhrase` dopisane do tej listy,
-po którym 20 z tych 23 dostaje wiersz o przyłączeniu,
-a nad `Syn usiłował wejść na ołtarz.` jest to `„na ołtarz” → „usiłował”, „wejść”`.
-Rejestr ustaw z tego ruchu nie ma nic: milczących werdyktów jest tam 7 z 272
-i żadnego z nich fraza bezokolicznikowa nie tłumaczy,
-więc do przeczytania są właśnie te siedem,
-bo mieszczą klasę, której ten wpis nie nazywa.
-Do przeczytania jest przy tym `tests/test_attachment.py`,
-gdzie gospodarze są wypisani po symbolu,
-oraz `_host` w `olski/parse.py`, bo streszczenie nazywa gospodarza jego głową,
-a głową frazy bezokolicznikowej jest bezokolicznik i to on wejdzie do wiersza.
+Ciąg współrzędny wewnątrz wypełnienia roli nie ma po werdykcie żadnego wiersza.
+Nawias pokazuje granicę członu tylko nad ciągiem, którym jest sama rola
+(`_nawiasuj` w `olski/parse.py`),
+a wiersz o konstytuencie ustępuje mu miejsca nad każdym ciągiem
+(`_nazwany_gdzie_indziej` tamże),
+więc `Ustawa określa zadania ochrony ludności i obrony cywilnej.`
+zostaje samą liczbą czytań i tak zostaje siedem z 272 werdyktów rejestru ustaw
+oraz trzy z 549 zdań wieloznacznych Składnicy
+([`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)).
+Ruchem jest zawężenie wykluczenia do ciągu, nad którym nawias naprawdę pada,
+i przeszkodą jest to, że te dwa podsumowania pytają o różne rzeczy:
+`_nazwany_gdzie_indziej` o pozycję w lesie, a `_nawiasuj` o węzeł jednego czytania.
+Nawias potrafi przez to paść w jednym czytaniu zdania i nie paść w drugim —
+`Podręczniki powinny uwzględniać zasadę równych praw kobiet i mężczyzn.`
+ma pod Morfeuszem czytanie z `[zasadę równych praw kobiet] i mężczyzn`
+obok czytań bez nawiasu — a werdykt streszcza las, a nie czytanie,
+więc kryterium przeniesione wprost nie ma gdzie stanąć.
+Do przeczytania jest przedtem, ile z tych dziesięciu zdań czyta się naprawdę dwojako,
+bo ciąg trzech członów ma w tej gramatyce kilka nawiasowań o jednym znaczeniu
+([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
+a wtedy ruchem jest sygnatura czytania, a nie wiersz werdyktu.
+Dwa są przeczytane i wypadły po jednym na stronę:
+zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
+a `równych praw kobiet i mężczyzn` jedną.
 
 Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
 którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.
@@ -1410,15 +1407,17 @@ a te dwie liczby dziś nie pochodzą z jednego przebiegu i po tym ruchu pochodzi
 Do przeczytania jest przy tym `KAWAŁEK` w `olski/coverage.py`,
 bo podział na kawałki idzie po plikach i musi minąć się z podziałem na połowy.
 
-Wzorca nie ma dla 154 z 665 przyłączeń i połowa tego to imiesłów.
+Wzorca nie ma dla 184 z 695 przyłączeń, a dwie kategorie Składnicy to tłumaczą.
 `dokąd_doszły` w `sonda/wskazaniach` bierze z drzewa te wyrażenia, którym
 `_dokąd_doszło` w `olski/attachment.py` daje `noun` albo `clause`, a `Auta są
 kradzione dla okupu.` przyłącza frazę do węzła imiesłowowego, którego `CLAUSE`
 nie wylicza, więc zdanie wypada z mianownika trafności
 ([tamże](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
+Druga jest fraza werbalna z bezokolicznikiem: `Muszę jechać do domu.` przyłącza
+frazę dokładnie tam, gdzie stawia ją werdykt, i mimo to wzorca stąd nie ma.
 Ruchem jest przeczytanie, które kategorie Składnicy stoją nad imiesłowem
-biernym i czy któraś z nich jest dla olskiego zdaniem — dla werdyktu jest,
-bo gospodarzem jest tam forma czasownikowa.
+biernym i nad bezokolicznikiem i czy któraś z nich jest dla olskiego zdaniem —
+dla werdyktu jest, bo gospodarzem jest tam forma czasownikowa.
 Ceną jest to, że `CLAUSE` czyta zarazem
 [tabela przyłączeń](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia),
 więc kategoria dopisana tam rusza figurę, której ten wpis nie dotyczy,

@@ -52,14 +52,18 @@ DEKLARACJA = Deklaracja(
     role=("Subject", "Object", "Predicative", "Verb", PRZYŁĄCZANY),
     przyłączany=PRZYŁĄCZANY,
     # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
-    # czyli te, w których produkcji stoi ono wypisane:
+    # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
+    # (``_gospodarze`` w ``olski/parse.py``):
     # grupa imienna, grupa przymiotnikowa i zdanie składowe.
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
     # a okolicznik zdania nie ma nad sobą żadnego z dwóch pierwszych i zostaje przy zdaniu.
     # Zdanie względne jest tu czwarte i jest zdaniem tak samo jak ``ClauseConjunct``:
     # bez niego okolicznik z jego wnętrza wychodzi w górę do grupy imiennej,
     # którą to zdanie określa, i werdykt nazywa poprzednik zamiast orzeczenia.
-    gospodarze=("NP", "AP", "ClauseConjunct", "RelativeCore"),
+    # Fraza bezokolicznikowa jest tu piąta i bierze okolicznik przez to samo ``Complements``,
+    # którym bierze go forma osobowa nad nią: bez niej okolicznik wychodzi z niej do zdania,
+    # a oba czytania streszczają się wtedy jednym napisem.
+    gospodarze=("NP", "AP", "ClauseConjunct", "RelativeCore", "InfinitivePhrase"),
     # Symbole, które się koordynują: grupa imienna, grupa przymiotnikowa i zdanie.
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
