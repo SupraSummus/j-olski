@@ -1271,35 +1271,43 @@ więc wzorzec wychodzi jednostronny i obrót niczego nie rozróżni.
 Wpis jest przez to zaparkowany po stronie składu, a odblokuje go dopiero
 wyrażenie przyimkowe, które skład umie postawić wewnątrz grupy imiennej.
 
-`Powtórzenie` bierze za gospodarza słowo stojące tuż przed frazą,
-a w łańcuchu dopełniaczowym stoi tam ogon grupy, a nie jej głowa.
-`Wpływa to na sposób wymiany danych z systemem RIT.` dostaje przez to `danych`,
-gdzie fraza dochodzi do `wymiany`, i jest to jedyna pomyłka wśród czterech odpowiedzi
-przeczytanych ręką
-([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Zdanie sporne i jego dowód mają ten łańcuch oba, więc pomyłka nie jest przypadkiem
-jednego zdania, tylko kształtem, na którym ta reguła się kończy.
-Ruchem jest dopasowanie wskazujące którykolwiek z gospodarzy stojących przed frazą,
-a nie tylko sąsiada bezpośredniego: gospodarzy zna `Przyłączenie`,
-więc `przy_czym_stała` może pytać o nich zamiast oddawać jeden lemat.
-Do rozstrzygnięcia jest, co robi dowód wskazujący wtedy dwóch gospodarzy naraz,
-bo dziś taki dowód kończy się milczeniem i ten warunek ma zostać bez zmiany sensu.
+`ZASIĘG_FRAZY` szuka rzeczownika frazy trzy słowa za przyimkiem i nie zatrzymuje
+się na przecinku, więc dopasowuje się do frazy, której w tym miejscu nie ma.
+`Przypisanie atrybutów do kategorii, jest zawarte w dokumencie, zakładka:
+Atrybuty kategorii.` uchodzi przez to za zdanie, w którym stała fraza
+`w przypadku tych atrybutów`: rzeczownik schodzi się z `Atrybuty`,
+choć fraza tego zdania jest `w dokumencie`, a między nimi stoi przecinek i dwukropek.
+Wyszło to nad korpusem audytowym przy wycenie reguły kandydata, w wariancie szerszym,
+gdzie takie dopasowanie kończy się wskazaniem
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek));
+reguła wypuszczana ma tę usterkę tak samo i nad tym korpusem nie znajduje przy niej gospodarza,
+więc liczb tamtej sekcji ona nie rusza.
+Ruchem jest granica frazy wzięta z interpunkcji, a nie z liczby słów:
+`SŁOWO` w `olski/rozstrzyganie.py` wypuszcza dziś same znaki słowotwórcze,
+więc przecinka nie ma jak zobaczyć ani `_gdzie_stała`, która frazy szuka,
+ani `_łańcuch`, który tą samą drogą przechodzi przecinek w lewo.
+Do przeczytania jest, ile takich dopasowań w tym korpusie w ogóle pada,
+bo dziś widać jedno i widać je wyłącznie dzięki wariantowi;
+liczbę tę daje ten sam przebieg, kiedy wypisze dopasowania, a nie same wskazania.
 
-Świadek kontekstowy dopasowuje frazy lematem, a Morfeusz sprowadza do czasownika
-i odsłownik, i imiesłów, więc `żądań` i `żądającym` są dla niego jednym słowem.
-Wyszło to nad korpusem audytowym: `informacje o sposobie przetwarzania żądań`
-dostaje za dowód `informacje o żądającym`, czyli frazę inną
+`_przyłączenia` w `olski/wieloznaczność.py` proponuje za gospodarza imiennego formę
+kończącą grupę tuż przed przyimkiem, więc w łańcuchu dopełniaczowym daje ogon,
+a nie głowę: `sposób wymiany danych z systemem RIT` proponuje `danych`.
+Poprawia to dziś ręka przy każdym wpisie próby wyborów i mówi to jej nagłówek
+(`próba/wybory.txt`), a wpis o powiększeniu tej próby mnoży ten koszt przez liczbę
+nowych wpisów.
+Świadek kontekstowy tę samą różnicę już zna: `_łańcuch` w `olski/rozstrzyganie.py`
+schodzi łańcuchem imiennym w lewo, zamiast pytać o sąsiada bezpośredniego
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Wskazanie było tam trafne, więc ceny tej usterki nikt nie policzył,
-a widać ją wyłącznie dlatego, że powód cytuje zdanie.
-Ruchem jest zawężenie lematów frazy do czytań rzeczownikowych po obu stronach
-dopasowania, czyli w `przy_czym_stała` i w `Powtórzenie` w `olski/rozstrzyganie.py`,
-bo `_lematy` oddaje dziś lematy wszystkich czytań formy.
-Do przeczytania przedtem jest, czy zawężenie nie zabiera dopasowań słusznych:
-odsłownik jest rzeczownikiem i ma zostać, a imiesłów przymiotnikowy ma odpaść,
-więc kryterium jest częścią mowy w tagu, a nie samym lematem.
-Wpis o gospodarzu branym ze słowa stojącego tuż przed frazą siedzi w tej samej
-funkcji i wyszedł z tego samego czytania, więc jedna sesja podnosi oba.
+Ruchem jest gospodarz imienny brany tą samą drogą, czyli każda forma łańcucha
+zamiast jednej, po czym `Miejsce` niesie gospodarzy trzech albo czterech,
+tak jak niesie ich werdykt nad tym samym zdaniem
+([tabela gospodarzy](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
+Wpisów już przeczytanych to nie rusza, bo `gospodarze` stoją w każdym z nich wypisani,
+więc rusza tylko te, które dojdą.
+Do przeczytania jest przy tym wpis o jednej populacji dla dwóch sond:
+tam ta sama funkcja ma dać populację sondzie świadka kontekstowego,
+czyli gospodarze proponowane źle stają się gospodarzami, o których pyta się świadka.
 
 Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widziała.
 `sonda/wskazania.py` puszcza świadków z `domyślni`, czyli z

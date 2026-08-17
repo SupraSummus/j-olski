@@ -9,9 +9,12 @@ Czwarta jest o kolejności świadków, bo na niej stoi obietnica z docstringa
 ``olski/rozstrzyganie.py``: dowód o tym tekście bije dowód o cudzym korpusie,
 a nie odwrotnie.
 
-Świadek kontekstowy ma tu własne trzy, bo jego dowodem jest sąsiedztwo, a
-sąsiedztwo da się źle wyznaczyć na trzy sposoby naraz: wziąć zdanie zza granicy
-akapitu, wziąć zdanie stojące dalej, albo wziąć napis zamiast lematu.
+Świadek kontekstowy ma tu własne, bo jego dowodem jest sąsiedztwo, a sąsiedztwo
+da się źle przeczytać na kilka sposobów naraz: wziąć zdanie zza granicy akapitu,
+wziąć zdanie stojące dalej, wziąć napis zamiast lematu, wziąć za gospodarza ogon
+łańcucha dopełniaczowego zamiast jego głowy, albo zejść lematem imiesłowu z
+odsłownikiem. Dwa ostatnie kończyły się nad korpusem audytowym wskazaniem, więc
+milczenie po nich jest tu asercją równie ważną jak wskazanie.
 
 Świadka każdy test buduje sam, z licznika wypisanego na miejscu, zamiast czytać
 ``olski/skłonności.txt``. Plik ten jest generowany, więc test na nim oparty
@@ -130,6 +133,79 @@ def test_fraza_dopasowuje_się_lematem_a_nie_napisem():
     (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo)
     assert isinstance(odpowiedź, Rozstrzygnięcie)
     assert odpowiedź.gospodarz == "awarie"
+
+
+#: Sąsiedztwo z łańcuchem dopełniaczowym przed frazą, wzorowane na zdaniu korpusu
+#: audytowego, na którym ten świadek raz się pomylił (``docs/disambiguation.md``).
+#: Głową grupy jest ``wymiany``, a sąsiadem bezpośrednim frazy ``danych``.
+ŁAŃCUCH = Sąsiedztwo(("Opisano sposób wymiany danych z systemami zewnętrznymi.",))
+
+
+def test_fraza_wskazuje_głowę_łańcucha_dopełniaczowego_a_nie_jego_ogon():
+    """Gospodarz stoi przed frazą, a nie zawsze tuż przed nią.
+
+    Świadek pytający o sąsiada bezpośredniego wskazuje w tym zdaniu ``danych``,
+    czyli ogon grupy, do której fraza dochodzi całą jej głową.
+    """
+    przyłączenie = Przyłączenie(modyfikator="z systemem RIT", gospodarze=("Wpływa", "wymiany"))
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], ŁAŃCUCH)
+    assert isinstance(odpowiedź, Rozstrzygnięcie)
+    assert odpowiedź.gospodarz == "wymiany"
+
+
+def test_łańcuch_z_dwoma_gospodarzami_kończy_się_milczeniem():
+    """Dowód wskazujący dwie strony naraz nie wskazuje żadnej, i tu jest nim łańcuch.
+
+    Jest to ten sam warunek, którym świadek milczy nad frazą powtórzoną przy obu
+    gospodarzach, tyle że wypadek bierze się z grupy imiennej, a nie z dwóch
+    miejsc tekstu: sąsiedztwo powtarza tu sporne przyłączenie, a nie rozstrzyga je.
+    """
+    przyłączenie = Przyłączenie(modyfikator="z systemem RIT", gospodarze=("wymiany", "danych"))
+    assert rozstrzygnij([przyłączenie], [Powtórzenie()], ŁAŃCUCH) == [przyłączenie]
+
+
+def test_łańcuch_zamyka_się_na_słowie_bez_czytania_imiennego():
+    """Grupa imienna kończy się na spójniku, więc kandydaci kończą się tam samo.
+
+    ``nadawanie`` stoi w tym zdaniu przed frazą i gospodarzem też jest, a mimo to
+    dowodu nie wydaje: między nim a frazą stoi ``i``, czyli granica grupy. Bez
+    tego warunku dowód wskazywałby obu gospodarzy naraz i świadek by zamilkł,
+    tracąc wskazanie, które nad korpusem audytowym trafia.
+    """
+    sąsiedztwo = Sąsiedztwo(("Nadawanie i funkcjonowanie uprawnień do przeglądania trwa.",))
+    przyłączenie = Przyłączenie(
+        modyfikator="do przeglądania", gospodarze=("nadawaniu", "uprawnień")
+    )
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo)
+    assert isinstance(odpowiedź, Rozstrzygnięcie)
+    assert odpowiedź.gospodarz == "uprawnień"
+
+
+#: Przyłączenie, którego fraza niesie odsłownik ``żądań``. Morfeusz sprowadza do
+#: czasownika i jego, i imiesłów ``żądającym``, więc dopasowanie idące lematem
+#: wszystkich czytań bierze te dwa słowa za jedno.
+ŻĄDANIA = Przyłączenie(
+    modyfikator="o sposobie przetwarzania żądań", gospodarze=("zawiera", "informacje")
+)
+
+
+def test_odsłownik_jest_rzeczownikiem_więc_dopasowanie_frazy_go_bierze():
+    """Zawężenie do czytań imiennych ma zostawić odsłownik, bo jest rzeczownikiem."""
+    sąsiedztwo = Sąsiedztwo(("Przekazujemy informacje o żądaniach.",))
+    (odpowiedź,) = rozstrzygnij([ŻĄDANIA], [Powtórzenie()], sąsiedztwo)
+    assert isinstance(odpowiedź, Rozstrzygnięcie)
+    assert odpowiedź.gospodarz == "informacje"
+
+
+def test_imiesłów_przymiotnikowy_nie_jest_tą_samą_frazą_co_odsłownik():
+    """Zdanie o żądającym dowodzi czegoś o kimś, a nie o żądaniu.
+
+    Bez warunku na część mowy w tagu świadek wskazuje tu gospodarza po dowodzie
+    mówiącym o czym innym, a wskazanie samo nie różni się wtedy niczym od
+    trafnego: nad korpusem audytowym raz tak wskazał (``docs/disambiguation.md``).
+    """
+    sąsiedztwo = Sąsiedztwo(("Przekazujemy informacje o żądającym.",))
+    assert rozstrzygnij([ŻĄDANIA], [Powtórzenie()], sąsiedztwo) == [ŻĄDANIA]
 
 
 def test_powód_wybiera_lemat_kolejnością_a_nie_z_worka():

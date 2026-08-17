@@ -20,6 +20,14 @@ granicy akapitu, a różnica między nim a akapitem jest ceną tej granicy. Wari
 nie jest propozycją: akapit ma uzasadnienie, które trzyma
 ``docs/disambiguation.md``, a cenę trzeba znać, zanim ktoś je podważy.
 
+**Regułę kandydata wycenia drugi wariant, tą samą drogą.** Wariantem jest inne
+``kandydaci`` w :class:`Powtórzenie`, czyli inna odpowiedź na to, co w sąsiedztwie
+liczy się za miejsce przy gospodarzu: sam sąsiad bezpośredni frazy albo cały
+prefiks zdania przed nią, obok łańcucha imiennego, który warstwa wypuszcza.
+Warianty te mierzy się bez granicy akapitu, bo w jej granicy świadek milczy tak
+czy owak, a wybór między trzema regułami stoi na przeczytaniu odpowiedzi, nie na
+ich liczbie.
+
 Trafności ta sonda nie liczy i nie ma czym: wzorca, który mówi, przy którym
 gospodarzu fraza stoi naprawdę, nad tym korpusem nie ma. Wypisuje więc każdą
 odpowiedź wraz ze zdaniem, nad którym padła, bo trafność nad tym materiałem
@@ -34,7 +42,7 @@ Korpusem jest proza wyekstrahowana z korpusu audytowego, a skąd ją wziąć, m�
 from __future__ import annotations
 
 import argparse
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -43,6 +51,22 @@ from olski.subset import check
 
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"
+
+
+def _sąsiad(słowa: Sequence[str], i: int) -> Iterator[str]:
+    """Sam sąsiad bezpośredni frazy, czyli reguła węższa od łańcucha imiennego."""
+    yield słowa[i - 1]
+
+
+def _prefiks(słowa: Sequence[str], i: int) -> Iterator[str]:
+    """Każde słowo zdania stojące przed frazą, czyli łańcuch bez granicy grupy."""
+    yield from reversed(słowa[:i])
+
+
+#: Reguły kandydata mierzone obok tej, którą warstwa wypuszcza: jedna węższa,
+#: jedna szersza. Nazwa jest nagłówkiem wiersza, a funkcja odpowiedzią na pytanie,
+#: co w sąsiedztwie liczy się za miejsce przy gospodarzu.
+REGUŁY = (("sąsiad bezpośredni", _sąsiad), ("cały prefiks zdania", _prefiks))
 
 
 @dataclass(frozen=True)
@@ -74,27 +98,35 @@ class Pomiar:
     odpowiedzi: list[Odpowiedź] = field(default_factory=list)
     #: To samo, gdy granicą sąsiedztwa jest dokument, a nie akapit.
     odpowiedzi_bez_granicy: list[Odpowiedź] = field(default_factory=list)
+    #: To samo dla każdej reguły kandydata z :data:`REGUŁY`, po nazwie reguły.
+    #: Bez granicy akapitu, bo w jej granicy każda z nich milczy tak czy owak.
+    warianty: dict[str, list[Odpowiedź]] = field(default_factory=dict)
 
 
 def przebieg(paths: Iterable[Path]) -> Pomiar:
     """Przejdź prozę zdanie po zdaniu i zapytaj świadka o każde przyłączenie.
 
     Świadek jest tu tym samym, którego wypuszcza ``olski-check``, a nie kopią
-    przepisaną tutaj: sonda mierząca własny odpis mierzyłaby siebie.
+    przepisaną tutaj: sonda mierząca własny odpis mierzyłaby siebie. Warianty
+    różnią się od niego jednym polem, więc i one są nim, a nie jego odpisem.
     """
-    pomiar = Pomiar()
+    pomiar = Pomiar(warianty={nazwa: [] for nazwa, _ in REGUŁY})
     for path in sorted(paths):
-        _plik(path, Powtórzenie(), pomiar)
+        _plik(path, pomiar)
     return pomiar
 
 
-def _plik(path: Path, świadek: Powtórzenie, pomiar: Pomiar) -> None:
+def _plik(path: Path, pomiar: Pomiar) -> None:
     text = path.read_text(encoding="utf-8")
     werdykty = check(text)
     akapity = sąsiedztwa(text)
     #  Wariant bez granicy akapitu jest prefiksem zdań tego pliku, a zdania te
     #  niesie już werdykt: ``Verdict.text`` jest zdaniem tak, jak stoi w tekście.
     zdania = [werdykt.text for werdykt in werdykty]
+    świadek = Powtórzenie()
+    warianty = [
+        (Powtórzenie(kandydaci=reguła), pomiar.warianty[nazwa]) for nazwa, reguła in REGUŁY
+    ]
     pomiar.zdań += len(werdykty)
     pomiar.bez_sąsiedztwa += sum(not akapit.zdania for akapit in akapity)
     for i, (werdykt, akapit) in enumerate(zip(werdykty, akapity, strict=True)):
@@ -102,11 +134,13 @@ def _plik(path: Path, świadek: Powtórzenie, pomiar: Pomiar) -> None:
         for przyłączenie in werdykt.result.przyłączenia:
             pomiar.przyłączeń += 1
             pomiar.przyłączeń_z_sąsiedztwem += bool(akapit.zdania)
-            for sąsiedztwo, gdzie in (
-                (akapit, pomiar.odpowiedzi),
-                (dokument, pomiar.odpowiedzi_bez_granicy),
-            ):
-                odpowiedź = świadek(przyłączenie, sąsiedztwo)
+            pytania = [
+                (świadek, akapit, pomiar.odpowiedzi),
+                (świadek, dokument, pomiar.odpowiedzi_bez_granicy),
+                *((wariant, dokument, gdzie) for wariant, gdzie in warianty),
+            ]
+            for kto, sąsiedztwo, gdzie in pytania:
+                odpowiedź = kto(przyłączenie, sąsiedztwo)
                 if odpowiedź is not None:
                     gdzie.append(Odpowiedź(path, werdykt.text, odpowiedź))
 
@@ -147,6 +181,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     _wypisz("odpowiedzi w granicy akapitu", pomiar.odpowiedzi, pomiar.przyłączeń)
     _wypisz("odpowiedzi bez granicy akapitu", pomiar.odpowiedzi_bez_granicy, pomiar.przyłączeń)
+    for nazwa, _ in REGUŁY:
+        _wypisz(f"to samo przy regule „{nazwa}”", pomiar.warianty[nazwa], pomiar.przyłączeń)
     return 0
 
 

@@ -419,6 +419,26 @@ Pytanie idzie przy tym o to, co stało przed frazą, a nie o część mowy,
 więc gospodarza czasownikowego ten świadek wskazuje tą samą drogą,
 kiedy fraza stała wcześniej przy tym samym czasowniku.
 
+Tą samą frazą są przy tym formy o jednym lemacie imiennym, a nie o jednym lemacie.
+Morfeusz sprowadza do czasownika i odsłownik, i imiesłów przymiotnikowy,
+więc bez tego warunku `żądań` i `żądającym` znaczą dla świadka jedno słowo
+i zdanie o żądającym dowodzi czegoś o żądaniach.
+Odsłownik zostaje, bo jest rzeczownikiem,
+czyli kryterium jest częścią mowy w tagu, a nie samym lematem.
+Gospodarza to zawężenie nie obejmuje, i rozmyślnie,
+bo gospodarzem bywa czasownik:
+`jest przetwarzany w Systemie RIT` dowodzi o gospodarzu `przetwarzania`
+przez to samo zlanie, które po stronie frazy myli.
+
+Przy gospodarzu fraza stanęła także wtedy, gdy dzieli je łańcuch imienny.
+Sąsiad bezpośredni sam nie wystarcza, bo w łańcuchu dopełniaczowym jest nim ogon grupy:
+w `wymiany danych z systemami zewnętrznymi` fraza dochodzi do `wymiany`, a nie do `danych`.
+Łańcuch urywa pierwsza forma bez czytania imiennego,
+więc w `nadawanie i funkcjonowanie uprawnień do przeglądania` spójnik odcina `nadawanie`.
+Dwóch gospodarzy w jednym łańcuchu kończy się milczeniem,
+tym samym warunkiem, którym kończy się fraza powtórzona przy obu:
+sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
+
 **Nad rejestrem, o który chodzi, świadek ten nie odzywa się ani razu.**
 `sonda/powtórzenie.py` przechodzi prozę zdanie po zdaniu
 i pyta go o każde przyłączenie, przed którym werdykt postawił wybór.
@@ -434,7 +454,9 @@ python3 -m sonda.powtórzenie proza/
   pierwszych w akapicie: 2383 (81.7%), czyli bez czego przeczytać
   przyłączeń: 38, z tego z sąsiedztwem: 13
   odpowiedzi w granicy akapitu: 0, czyli 0.0% przyłączeń
-  odpowiedzi bez granicy akapitu: 4, czyli 10.5% przyłączeń
+  odpowiedzi bez granicy akapitu: 2, czyli 5.3% przyłączeń
+  to samo przy regule „sąsiad bezpośredni”: 3, czyli 7.9% przyłączeń
+  to samo przy regule „cały prefiks zdania”: 3, czyli 7.9% przyłączeń
 ```
 
 Zero ma trzy mianowniki i tylko ostatni z nich jest o świadku.
@@ -464,41 +486,47 @@ o mapowaniu trafień z powrotem na konstrukcje.
 Trzeci jest o świadku i jest najmniejszy:
 przyłączeń z sąsiedztwem jest 13 i przy żadnym z nich fraza wyżej nie stała.
 
-**Granicę akapitu wyceniono i kupuje ona cztery odpowiedzi.**
+**Granicę akapitu wyceniono i kupuje ona dwie odpowiedzi.**
 Wariant sondy podaje świadkowi cały dokument czytany wstecz zamiast akapitu,
-i wtedy odpowiada on 4 razy zamiast zera.
+i wtedy odpowiada on 2 razy zamiast zera.
 Nie jest to propozycja zdjęcia tej granicy, tylko jej cena,
-a 4 odpowiedzi to za mało, żeby na nich ruszać granicę,
+a 2 odpowiedzi to za mało, żeby na nich ruszać granicę,
 którą akapit dostał z drugiej strony.
-Przeczytane ręką mówią za to, gdzie ten świadek myli się i dlaczego.
+Przeczytane ręką pokazują za to, jaki dowód je wydał.
 
-Dwie wskazują dobrze i dowód pod nimi mówi to samo.
+Obie wskazują dobrze i dowód pod nimi mówi to samo.
 `liczbę żądań do API` dostaje `żądań` po zdaniu
 `Wszystkie żądania do API KSeF podlegają limitom.`,
 a `informacje o sposobie przetwarzania żądań w Systemie RIT`
 dostaje na `w Systemie RIT` gospodarza `przetwarzania`
 po zdaniu, w którym obiekt `jest przetwarzany w Systemie RIT`.
 
-Trzecia wskazuje dobrze, a jej dowód jest z innej frazy.
-`o sposobie przetwarzania żądań` dochodzi do `informacje`,
-a przytoczone na to `informacje o żądającym` mówi o czym innym.
-Zeszły się one lematem, bo Morfeusz sprowadza i odsłownik, i imiesłów do czasownika,
-więc `żądań` i `żądającym` są dla tego świadka jednym słowem.
-Widać to wyłącznie dlatego, że powód cytuje zdanie:
-samo wskazanie nie różni się tu niczym od trafnego.
+**Regułę kandydata wyceniono tą samą drogą, a obie odrzucone dokładają pomyłkę.**
+Wariant węższy pyta o samego sąsiada frazy i odpowiada 3 razy,
+a odpowiedź trzecia myli się na łańcuchu dopełniaczowym:
+`Wpływa to na sposób wymiany danych z systemem RIT.` dostaje gospodarza `danych`,
+gdzie fraza dochodzi do `wymiany`.
+Dowodem jest tam `wymiany danych z systemami zewnętrznymi`, czyli ten sam łańcuch,
+więc powtórzenie jest prawdziwe, a odczytane z niego wskazanie nie.
+Reguła wypuszczana widzi w tym łańcuchu obu gospodarzy naraz i o tym zdaniu milczy.
 
-Czwarta myli się, i myli się na kształcie, który obie strony tego wypadku niosą.
-`Wpływa to na sposób wymiany danych z systemem RIT.`
-dostaje gospodarza `danych`, gdzie fraza dochodzi do `wymiany`:
-świadek bierze słowo stojące tuż przed frazą,
-a w łańcuchu dopełniaczowym stoi tam ogon grupy, a nie jej głowa.
-Dowodem jest `wymiany danych z systemami zewnętrznymi`, czyli ten sam łańcuch,
-więc powtórzenie jest tu prawdziwe, a odczytane z niego wskazanie nie.
+Wariant szerszy pyta o cały prefiks zdania, odpowiada również 3 razy i trafia raz.
+`Sprzedawca wystawia fakturę w trybie offline.` dostaje `fakturę`,
+choć dowód `faktury wystawionej w trybie offline` stawia tę frazę przy wystawieniu.
+Gospodarza czasownikowego nie wskazuje tam żadna z trzech reguł,
+bo `wystawiać` i `wystawić` mają u Morfeusza osobne lematy:
+para aspektowa jest dla tego świadka dwoma słowami.
+`System jest niewrażliwy na wielkość liter w przypadku tych atrybutów.` dostaje `jest`
+po zdaniu, w którym pytana fraza nie stała wcale:
+zeszła się z frazą `w dokumencie` przez `Atrybuty` stojące trzy słowa za tym przyimkiem.
+Odpowiedź o `przetwarzania` wariant ten przy tym traci,
+bo w prefiksie zdania dowodzącego gospodarzy jest dwóch.
+Wypadek z `Atrybutami` jest usterką dopasowania frazy, a nie tej reguły —
+reguła wypuszczana ma ją tak samo i nad tym korpusem tylko na nią nie trafia —
+i trzyma ją [`TODO.md`](../TODO.md).
 
-Obie usterki trzyma [`TODO.md`](../TODO.md) i żadna nie rusza liczb wyżej,
-bo w granicy akapitu ten świadek milczy tak czy owak.
 Trafności nie ma tu wobec tego wcale.
-Cztery odpowiedzi wzięte z wariantu nie są częstością,
+Dwie odpowiedzi wzięte z wariantu nie są częstością,
 a materiał, na którym dałoby się ją policzyć, jest dwojaki:
 [wzorzec po drugiej stronie](#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 którego nie ma, oraz

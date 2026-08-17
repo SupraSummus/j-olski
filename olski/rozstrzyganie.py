@@ -57,7 +57,7 @@ import collections
 import functools
 import re
 import sys
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from dataclasses import dataclass, replace
 from functools import cached_property
 from pathlib import Path
@@ -97,6 +97,17 @@ RZECZOWNIK, CZASOWNIK = "noun", "clause"
 CZASOWNIKOWE = frozenset(
     {"fin", "praet", "impt", "bedzie", "inf", "ppas", "pact", "winien", "imps", "pred"}
 )
+
+#: Części mowy czytania imiennego, czyli tego, którym rzeczownik frazy się dopasowuje.
+#: Odsłownik jest rzeczownikiem i zostaje,
+#: a imiesłów przymiotnikowy odpada, choć Morfeusz sprowadza oba do czasownika:
+#: bez tego warunku ``żądań`` i ``żądającym`` są jednym słowem.
+IMIENNE = frozenset({"subst", "ger", "depr"})
+
+#: To samo wraz z formą, której słownik nie zna, czyli czym wolno przedłużyć
+#: łańcuch imienny: rejestr, o który chodzi, pisze nazwy własne i skróty,
+#: a Morfeusz oddaje je z ``ign`` w tagu.
+IMIENNE_LUB_NIEZNANE = IMIENNE | {"ign"}
 
 
 @dataclass(frozen=True)
@@ -187,6 +198,83 @@ SŁOWO = re.compile(r"[\w-]+", re.UNICODE)
 ZASIĘG_FRAZY = 3
 
 
+#: Skąd świadek bierze kandydatów na gospodarza: ciąg form zdania i pozycja
+#: przyimka, a z nich formy, przy których fraza mogła stanąć. Podstawiane, bo
+#: cenę tej reguły mierzy się wariantem (``sonda/powtórzenie.py``), tak jak cenę
+#: progów mierzy krzywa świadka statystycznego.
+Kandydaci = Callable[[Sequence[str], int], Iterator[str]]
+
+
+def _gdzie_stała(
+    słowa: Sequence[str], przyimki: frozenset[str], rzeczownik: frozenset[str]
+) -> Iterator[int]:
+    """Pozycje przyimka, na których ta fraza w tym zdaniu stała.
+
+    Frazą jest przyimek wraz z rzeczownikiem szukanym :data:`ZASIĘG_FRAZY` słów
+    za nim, a rzeczownik ten dopasowuje się lematem imiennym,
+    tak jak dopasowuje się rzeczownik frazy spornej.
+    Pozycja pierwsza wypada, bo przed nią nie ma kandydata na gospodarza.
+    """
+    for i, słowo in enumerate(słowa):
+        if i == 0 or not _lematy(słowo) & przyimki:
+            continue
+        dalsze = słowa[i + 1 : i + 1 + ZASIĘG_FRAZY]
+        if any(_lematy_imienne(forma) & rzeczownik for forma in dalsze):
+            yield i
+
+
+def _pasujący(
+    formy: Iterable[str], lematy: dict[str, frozenset[str]]
+) -> Iterator[tuple[str, str]]:
+    """Gospodarze o lemacie wspólnym z którąś z tych form, każdy z tym lematem.
+
+    Alfabet rozstrzyga, gdy pasuje kilka lematów naraz:
+    ``danych`` jest u Morfeusza i od ``dane``, i od ``dać``,
+    a powód ma wyjść ten sam w każdym przebiegu, bo zbiór lematów kolejności nie ma.
+    """
+    for forma in formy:
+        for gospodarz, jego in lematy.items():
+            if pasujące := sorted(_lematy(forma) & jego):
+                yield gospodarz, pasujące[0]
+
+
+def _łańcuch(słowa: Sequence[str], i: int) -> Iterator[str]:
+    """Formy, przy których fraza stojąca na pozycji ``i`` mogła stanąć.
+
+    Sąsiad bezpośredni wchodzi bez warunku,
+    bo fraza idzie za tym, co modyfikuje, choćby był to imiesłów
+    (``jest przetwarzany w Systemie RIT``).
+    Dalej w lewo sięga sam łańcuch imienny,
+    czyli ciąg form o czytaniu imiennym idących bez przerwy jedna za drugą:
+    w ``mechanizmów wymiany danych z systemami`` głową grupy jest ``wymiany``,
+    a sąsiadem frazy ``danych``.
+    Pierwsza forma bez czytania imiennego łańcuch zamyka,
+    bo spójnik i czasownik kończą grupę imienną,
+    a za nią zaczyna się opis czegoś innego.
+    """
+    sąsiad = słowa[i - 1]
+    yield sąsiad
+    if not _imienna(sąsiad):
+        return
+    for j in range(i - 2, -1, -1):
+        if not _imienna(słowa[j]):
+            return
+        yield słowa[j]
+
+
+@dataclass(frozen=True)
+class Dowód:
+    """Miejsce, w którym ta fraza stała już przy gospodarzu.
+
+    Lemat jest tym, którym gospodarz się dopasował,
+    a zdanie tym, w którym fraza stała:
+    powód wskazania cytuje oba, żeby dało się je sprawdzić bez wracania do tekstu.
+    """
+
+    lemat: str
+    zdanie: str
+
+
 @dataclass(frozen=True)
 class Sąsiedztwo:
     """Zdania, które w tym akapicie stoją przed zdaniem rozstrzyganym.
@@ -205,37 +293,47 @@ class Sąsiedztwo:
     zdania: tuple[str, ...] = ()
 
     @cached_property
-    def _lematy_słów(self) -> tuple[tuple[frozenset[str], ...], ...]:
-        """Każde zdanie jako ciąg lematów słowo po słowie.
+    def _słowa(self) -> tuple[tuple[str, ...], ...]:
+        """Każde zdanie jako ciąg form, słowo po słowie.
 
-        Formy tu nie ma, bo nikt o nią nie pyta: dopasowanie idzie lematem, a
-        cytatem jest całe zdanie. Liczone raz, bo zdanie sporne ma czasem kilka
-        przyłączeń, a każde pyta o ten sam akapit.
+        Lematów tu nie ma, bo pyta się o nie dwiema drogami —
+        imienną dla rzeczownika frazy, pełną dla gospodarza —
+        a pamiętają je :func:`_lematy` i :func:`_lematy_imienne`.
+        Cięcie na słowa liczy się raz,
+        bo zdanie sporne ma czasem kilka przyłączeń,
+        a każde pyta o ten sam akapit.
         """
-        return tuple(
-            tuple(_lematy(forma) for forma in SŁOWO.findall(zdanie)) for zdanie in self.zdania
-        )
+        return tuple(tuple(SŁOWO.findall(zdanie)) for zdanie in self.zdania)
 
-    def przy_czym_stała(self, przyimek: str, rzeczownik: frozenset[str]) -> dict[str, str]:
-        """Lematy tego, co stało tuż przed tą frazą, każdy ze zdaniem, w którym stało.
+    def przy_czym_stała(
+        self,
+        przyimek: str,
+        rzeczownik: frozenset[str],
+        gospodarze: Iterable[str],
+        kandydaci: Kandydaci = _łańcuch,
+    ) -> dict[str, Dowód]:
+        """Ci z gospodarzy, przy których ta fraza w tym sąsiedztwie już stała.
 
         Fraza jest tu przyimkiem i lematami swojego rzeczownika, a nie napisem,
         bo ``w systemie`` i ``w systemach`` są tą samą frazą o tej samej rzeczy.
         Przyimek też idzie przez lemat, bo ``z`` i ``ze`` są jednym słowem.
+        Rzeczownik idzie przez lemat imienny po obu stronach dopasowania,
+        bo lemat wszystkich czytań zlewa odsłownik z imiesłowem (:data:`IMIENNE`).
 
-        Wraca słownik, a nie sam zbiór, żeby powód wskazania mógł zacytować
-        zdanie, które ten dowód wydało: wskazanie ma dać się sprawdzić bez
-        wracania do tekstu.
+        Gospodarz idzie przez lematy wszystkich swoich czytań, bez zawężenia
+        do imiennych, bo gospodarzem bywa czasownik:
+        ``jest przetwarzany`` jest dowodem o gospodarzu ``przetwarzania``.
+        Kandydatów na niego wyznacza :attr:`Powtórzenie.kandydaci`,
+        domyślnie :func:`_łańcuch`, a nie jedna pozycja,
+        i gospodarz, którego wśród kandydatów nie ma, dowodu stąd nie dostaje.
         """
         przyimki = _lematy(przyimek)
-        znalezione: dict[str, str] = {}
-        for zdanie, słowa in zip(self.zdania, self._lematy_słów, strict=True):
-            for i, słowo in enumerate(słowa):
-                if i == 0 or not słowo & przyimki:
-                    continue
-                if any(dalsze & rzeczownik for dalsze in słowa[i + 1 : i + 1 + ZASIĘG_FRAZY]):
-                    for lemat in słowa[i - 1]:
-                        znalezione.setdefault(lemat, zdanie)
+        lematy = {gospodarz: _lematy(gospodarz) for gospodarz in gospodarze}
+        znalezione: dict[str, Dowód] = {}
+        for zdanie, słowa in zip(self.zdania, self._słowa, strict=True):
+            for i in _gdzie_stała(słowa, przyimki, rzeczownik):
+                for gospodarz, lemat in _pasujący(kandydaci(słowa, i), lematy):
+                    znalezione.setdefault(gospodarz, Dowód(lemat, zdanie))
         return znalezione
 
 
@@ -284,10 +382,17 @@ class Powtórzenie:
     tu granicę inną, więc „w tym akapicie” byłoby tam nieprawdą.
 
     Świadek milczy, kiedy fraza stała przy więcej niż jednym z gospodarzy, bo
-    dowód wskazujący dwie strony naraz nie wskazuje żadnej.
+    dowód wskazujący dwie strony naraz nie wskazuje żadnej. Dwaj gospodarze
+    w jednym łańcuchu imiennym (:func:`_łańcuch`) są tym samym wypadkiem:
+    sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
     """
 
     nazwa: str = "powtórzenie"
+    #: Reguła kandydata, czyli to, co w sąsiedztwie liczy się za miejsce
+    #: „przy gospodarzu”. Podstawiana po to, żeby dała się wycenić wariantem,
+    #: a nie po to, żeby ją zmieniać w werdykcie: cenę drukuje
+    #: ``sonda/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
+    kandydaci: Kandydaci = _łańcuch
 
     def __call__(
         self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo
@@ -295,26 +400,19 @@ class Powtórzenie:
         formy = przyłączenie.modyfikator.split()
         if len(formy) < 2 or len(przyłączenie.gospodarze) < 2:
             return None
-        rzeczownik = frozenset().union(*(_lematy(forma) for forma in formy[1:]))
-        stała_przy = sąsiedztwo.przy_czym_stała(formy[0].lower(), rzeczownik)
-        wskazani: dict[str, str] = {}
-        for gospodarz in przyłączenie.gospodarze:
-            #  Forma ma lematów kilka i pasować może kilka naraz: ``danych`` jest
-            #  u Morfeusza i od ``dane``, i od ``dać``. Wybór idzie alfabetem, bo
-            #  powód ma być ten sam w każdym przebiegu, a zbiór lematów kolejności
-            #  nie ma. Który lemat jest tu właściwy, rozstrzygnie dopiero
-            #  zawężenie do czytań rzeczownikowych, o które prosi ``TODO.md``.
-            if pasujące := sorted(_lematy(gospodarz) & stała_przy.keys()):
-                wskazani[gospodarz] = pasujące[0]
+        rzeczownik = frozenset().union(*(_lematy_imienne(forma) for forma in formy[1:]))
+        wskazani = sąsiedztwo.przy_czym_stała(
+            formy[0].lower(), rzeczownik, przyłączenie.gospodarze, self.kandydaci
+        )
         if len(wskazani) != 1:
             return None
-        ((gospodarz, lemat),) = wskazani.items()
+        ((gospodarz, dowód),) = wskazani.items()
         return Rozstrzygnięcie(
             modyfikator=przyłączenie.modyfikator,
             gospodarz=gospodarz,
             powód=(
-                f"„{przyłączenie.modyfikator}” stało już przy „{lemat}” "
-                f"wyżej w tekście: „{stała_przy[lemat]}”"
+                f"„{przyłączenie.modyfikator}” stało już przy „{dowód.lemat}” "
+                f"wyżej w tekście: „{dowód.zdanie}”"
             ),
         )
 
@@ -428,6 +526,40 @@ def _lematy(forma: str) -> frozenset[str]:
     return frozenset(reading.lemma.lower() for reading in _czytania(forma)) or frozenset(
         {forma.lower()}
     )
+
+
+@functools.cache
+def _lematy_imienne(forma: str) -> frozenset[str]:
+    """Lematy czytań imiennych formy, a przy braku takich — sama forma.
+
+    Tą drogą dopasowuje się rzeczownik frazy,
+    bo lemat wszystkich czytań zlewa odsłownik z imiesłowem:
+    ``żądań`` i ``żądającym`` wracają z :func:`_lematy` oba z lematem ``żądać``,
+    choć drugie z nich mówi o kimś, a nie o żądaniu.
+    Forma, której słownik imiennie nie czyta, dopasowuje się sama sobą,
+    więc powtórzenie tego samego napisu dowodem zostaje.
+    """
+    imienne = frozenset(
+        reading.lemma.lower() for reading in _czytania(forma) if reading.tag.pos in IMIENNE
+    )
+    return imienne or frozenset({forma.lower()})
+
+
+@functools.cache
+def _imienna(forma: str) -> bool:
+    """Czy ta forma może stać w grupie imiennej, czyli czy przedłuża łańcuch.
+
+    Kryterium jest „którekolwiek czytanie”, tak jak w :func:`strona`,
+    bo forma niesie ich kilka:
+    ``danych`` jest i przymiotnikiem, i rzeczownikiem, i imiesłowem,
+    a w łańcuchu ``wymiany danych`` jest rzeczownikiem.
+    Ceną tej strony jest homonimia:
+    ``bez`` ma czytanie rzeczownikowe, więc łańcuch sięga i za ten przyimek,
+    a kandydat wzięty za daleko kończy się milczeniem, nie wskazaniem.
+    Pamiętane z tego samego powodu co :func:`_lematy`:
+    świadek przechodzi akapit raz na zdanie.
+    """
+    return any(reading.tag.pos in IMIENNE_LUB_NIEZNANE for reading in _czytania(forma))
 
 
 def strona(forma: str) -> str:
