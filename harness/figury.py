@@ -66,10 +66,17 @@ class Figura:
     #: Sekcje restytuujące figurę grubiej. Raport je wypisuje nad figurą należną
     #: przeliczenia, bo przeliczenie ruszające rząd wielkości jest winne tej prozy.
     czyta: tuple[str, ...]
-    #: Ścieżka korpusu, bez której polecenie nie ma czego czytać; ``None``, kiedy
+    #: Ścieżki korpusów, bez których polecenie nie ma czego czytać; puste, kiedy
     #: przebieg nie pobiera niczego. Rozstrzyga, czy przeliczenie wykonuje się
-    #: tutaj, czy należy do kogoś z korpusem.
-    korpus: str | None = None
+    #: tutaj, czy należy do kogoś z korpusem. Krotka, a nie jedna ścieżka, bo
+    #: przebieg bywa porównaniem dwóch korpusów naraz i brak każdego z nich
+    #: zatrzymuje go osobno.
+    korpusy: tuple[str, ...] = ()
+
+    @property
+    def brakujące(self) -> list[str]:
+        """Korpusy zadeklarowane, których w drzewie nie ma."""
+        return [korpus for korpus in self.korpusy if not (KORZEŃ / korpus).exists()]
 
     @property
     def plik(self) -> Path:
@@ -83,7 +90,7 @@ FIGURY = (
     Figura(
         nazwa="negacja",
         polecenie=("python3", "-m", "sonda.negacja", "Składnica-frazowa-180723/"),
-        korpus="Składnica-frazowa-180723",
+        korpusy=("Składnica-frazowa-180723",),
         ruszają=("olski/subset.py", "olski/parse.py", "sonda/negacja.py", "sonda/ruch.py"),
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno",),
     ),
@@ -99,6 +106,25 @@ FIGURY = (
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno",),
+    ),
+    Figura(
+        nazwa="rama",
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.rama",
+            "Składnica-frazowa-180723/",
+            "--czasowniki",
+            "walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt",
+            "--rzeczowniki",
+            "walenty_20160418-text/nouns/walenty_20160418_nouns_all.txt",
+        ),
+        korpusy=("Składnica-frazowa-180723", "walenty_20160418-text"),
+        #  Gramatyki tu nie ma i to ją odróżnia od figur wyżej: kryterium czyta
+        #  Walentego wprost, a wzorzec bierze z cudzych drzew, więc rusza je sonda
+        #  i to, co `olski/attachment.py` uznaje za pozycję sporną — a nie produkcja.
+        ruszają=("sonda/rama.py", "olski/attachment.py"),
+        czyta=("docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie",),
     ),
 )
 
@@ -119,8 +145,7 @@ def zapis(figura: Figura, odciski: dict[str, str], wydruk: str) -> str:
         f"#  Ten plik powstaje przebiegiem: python3 -m harness.figury {figura.nazwa}",
         f"polecenie: {' '.join(figura.polecenie)}",
     ]
-    if figura.korpus:
-        wiersze.append(f"korpus: {figura.korpus}")
+    wiersze += [f"korpus: {korpus}" for korpus in figura.korpusy]
     wiersze += [f"czyta: {sekcja}" for sekcja in figura.czyta]
     wiersze.append("ruszają:")
     wiersze += [f"  {plik}: {odciski[plik]}" for plik in figura.ruszają]
@@ -199,8 +224,8 @@ def przelicz(figura: Figura) -> int:
     się jako zmierzony, choć nie był (``CLAUDE.md#checks`` mówi to o samym
     przeliczaniu).
     """
-    if figura.korpus and not (KORZEŃ / figura.korpus).exists():
-        print(f"figury: {figura.nazwa} wymaga korpusu, którego tu nie ma: {figura.korpus}")
+    if brakujące := figura.brakujące:
+        print(f"figury: {figura.nazwa} wymaga korpusu, którego tu nie ma: {', '.join(brakujące)}")
         return 2
     poprzedni = figura.plik.read_text(encoding="utf-8") if figura.plik.exists() else ""
     odciski = {plik: NIEZNANY for plik in figura.ruszają} | odciski_drzewa(figura)
@@ -237,8 +262,8 @@ def raport() -> int:
         if odpowiedź == AKTUALNA:
             continue
         należne += 1
-        if figura.korpus and not (KORZEŃ / figura.korpus).exists():
-            print(f"{'':<16} przeliczy ją ktoś z korpusem: {figura.korpus}")
+        if brakujące := figura.brakujące:
+            print(f"{'':<16} przeliczy ją ktoś z korpusem: {', '.join(brakujące)}")
         for sekcja in figura.czyta:
             print(f"{'':<16} restytucja w prozie: {sekcja}")
     return 1 if należne else 0

@@ -358,17 +358,94 @@ Olski taki leksykon ma i sięga nim płycej, niż ta klasa wymaga.
 `olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a nie o przyimku
 ([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 a Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika i przymiotnika.
-Ruch jest więc jednym rozszerzeniem generatora, a nie nową maszyną,
+Kolumna jest zatem rozszerzeniem generatora, a nie nową maszyną,
 i mieści się w tym, co [etap 2](roadmap.md#etap-2-walencja) już obejmuje.
-Rozstrzygnięcie, które z niego wychodzi, jest deterministyczne i da się wyjaśnić
+Rozstrzygnięcie, które z niej wychodzi, jest deterministyczne i da się wyjaśnić
 jednym wierszem leksykonu, czyli jest tym rodzajem odpowiedzi,
 którą ten parser obiecuje w README.
 
-Ile z tych 82,5% by to zdjęło, ten dokument nie mówi,
-bo obie liczby wzięto nad innymi mianownikami:
+Czy warto ją wypisać po obu stronach spornego wyrażenia, rozstrzyga pomiar,
+a nie to, że jedna kolumna obsłużyłaby oba:
+[sekcja niżej](#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)
+wycenia to kryterium osobno dla rzeczownika i dla czasownika,
+i wypada ono po tych dwóch stronach zupełnie inaczej.
+
+Ile z tych 82,5% by to zdjęło, ten dokument nie mówi.
+Zasięg i trafność kryterium wycenia tamta sekcja,
+a to jest pytanie o zdania, nie o wyrażenia:
 790 z 4 517 to wyrażenia, a 453 z 549 to zdania,
 i jedno zdanie niesie ich czasem kilka.
-Pomiar, który by to złożył, jest jedną z rzeczy, których tu brakuje.
+Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu brakuje.
+
+## Rama rozstrzyga po stronie rzeczownika, a po stronie czasownika nie
+
+Świadka ramowego wyceniono przed dopisaniem go, tak jak
+[przysłówek](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań),
+i pomiar rozstrzygnął go na pół.
+`sonda/rama.py` czyta Walentego wprost, zamiast czekać na kolumnę leksykonu,
+i pyta bank drzew, dokąd wyrażenie doszło u anotatora.
+Kryterium jest jedno: lemat żąda przyimka, gdy któryś jego schemat
+ma pozycję niepodmiotową z `prepnp` o tym przyimku,
+a odpowiedź pada, gdy żąda go dokładnie jedna strona.
+Liczby trzyma [`figury/rama.txt`](../figury/rama.txt).
+
+Mianownik jest tam węższy niż `4 517` wyżej i węższy o jeden warunek.
+Tamta liczba obejmuje każde przyłączenie w pozycji dwuznacznej,
+a ta bierze same te, które doszły do rzeczownika albo do zdania,
+bo tylko o takich świadek ma co powiedzieć:
+kilkaset przyłączeń dochodzi do trzeciej kategorii — `fwe`, `fpt`, `fpm`, `fps` —
+i wzorca dla wyboru dwóch stron nie dają.
+`Report` w `olski/attachment.py` liczy tak samo w swoim rozkładzie po przyimku,
+więc oba mianowniki są tam obok siebie.
+
+Rama odpowiada nad dwiema piątymi spornych przyłączeń
+i trafia w niespełna dwie trzecie odpowiedzi.
+Sama ta para mówi, że świadka takiego brać nie warto:
+[kolejność lasu](#nad-składnicą-olski-ma-ranking-którego-nikt-nie-trenował)
+trafia bez żadnego słownika tyle samo albo więcej.
+
+Rozstrzyga jednak strona, a nie średnia.
+Rama rzeczownika trafia powyżej wszystkiego, co ten dokument mierzy,
+tabeli skłonności włącznie, i myli się rzadziej niż raz na dwadzieścia odpowiedzi.
+Rama czasownika trafia tyle, ile rzut monetą nad wyborem dwóch stron,
+a odpowiedzi wydaje dwa razy więcej niż tamta.
+Średnia z obu jest przez to liczbą o niczym:
+opisuje mieszaninę świadka i szumu w proporcji, którą ustala korpus.
+
+Powód widać po tym, co bank drzew mówi o tych samych odpowiedziach.
+Tam, gdzie anotator postawił nad wyrażeniem frazę — wymaganą albo luźną —
+kryterium trafia w dziewięciu wypadkach na dziesięć, po obu stronach naraz.
+Tam, gdzie nie postawił żadnej, trafia w połowie,
+a takich odpowiedzi jest większość i prawie wszystkie padają po stronie czasownika.
+Znaczy to, że kryterium myli się nie na ramie, tylko na jej braku:
+czasownik żąda przyimków tak licznie, że jego schemat pasuje do okolicznika,
+o którym nie mówi nic.
+Widać to na lematach, które padają w pomyłkach — `być` z `na`, `być` z `z`,
+`mieć` z `w`, `powodować` z `w` —
+czyli na tej samej klasie, przed którą warstwa rozstrzygająca broni się już
+listą `KOPULY` w `olski/rozstrzyganie.py`.
+
+Zwężenie do schematów o kwalifikatorze `pewny` tego nie naprawia i nie stoi.
+Pod `--tylko-pewne` żadna z tych liczb nie rusza się o więcej niż pół punktu,
+czyli pewność nie odróżnia ramy od okolicznika.
+Zwężeniem, które by to zrobiło, jest przypadek grupy pod przyimkiem:
+Walenty pisze `prepnp(o,loc)` obok `prepnp(o,acc)`,
+a `Attachment` w `olski/attachment.py` niesie sam przyimek,
+więc żaden przebieg tej sondy dziś tego nie pyta.
+
+Ruch, który z tego wychodzi, jest połową tego, o którą pytano:
+świadek ramowy po stronie rzeczownika, a po stronie czasownika żaden,
+i tak samo jak przy przysłówku jest to konstrukcja wpuszczana połową.
+Wypada to zgodnie z próbą nad rejestrem, wziętą nad innym korpusem i inną ręką:
+tam też rozstrzyga rama rzeczownika, i to w większości tych odpowiedzi,
+które w ogóle rozstrzyga jakakolwiek rama
+([częstość nad dokumentacją](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
+Dwa korpusy mówią więc to samo o tej samej połowie.
+
+Czego ten pomiar nie mówi, to ile zdań by to zdjęło.
+Mianownikiem jest tu wyrażenie, a `453 z 549` niżej liczy zdania,
+i jedno zdanie niesie takich wyrażeń czasem kilka,
+więc złożenie dwóch mianowników zostaje tam, gdzie było.
 
 ## Reszty nie rozstrzyga nic, co stoi w zdaniu
 
@@ -1256,8 +1333,9 @@ więc udział `oba` mówi w niej o tym, gdzie warstwa się odzywa, a nie o rejes
 Cztery rzeczy zostają wobec tego nierozstrzygnięte.
 
 Ile z 453 zdań, w których przyłączenie jest całą decyzją,
-zdjąłby leksykon walencyjny sięgający do przyimka —
-pomiar łączący dwa mianowniki, o których mówi sekcja o leksykonie.
+zdjęłaby rama rzeczownika — ta połowa kryterium, którą pomiar przyjmuje.
+Zasięg i trafność są wzięte nad wyrażeniem, a to pytanie jest o zdanie,
+więc zostaje złożenie dwóch mianowników, a nie sam pomiar kryterium.
 
 Czy sygnatura czytania da się zagęścić bez przyjmowania zdań,
 które naprawdę mają dwa czytania —

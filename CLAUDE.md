@@ -624,7 +624,7 @@ and none of those fails when it is left undone.
 
 What moves a figure is declared beside it rather than described here.
 `FIGURY` in [`harness/figury.py`](harness/figury.py)
-names, per figure, the command, the corpus it needs,
+names, per figure, the command, the corpora it needs,
 the files whose change moves the numbers, and the section that restates it,
 and the figure's own file records those files' digests as of its run.
 So `python3 -m harness.figury` answers what is owed a rerun
