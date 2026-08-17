@@ -394,7 +394,7 @@ te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
 ## Korpusy, ekstrakcja i figury
 
-Właściciela ma jedna konstrukcja z listy przeliczeń w
+Właściciela mają dwie konstrukcje z listy przeliczeń w
 [`CLAUDE.md`](CLAUDE.md#checks), a lista wymienia ich kilkadziesiąt.
 Wzorcem jest negacja: deklaracja w `harness/figury.py`, wydruk w `figury/`,
 a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
@@ -408,9 +408,23 @@ Najdroższe jest to trzecie, bo akapit wylicza dziś liczby jedną z drugiej
 a restytucja mówi to stosunkiem, więc jest przepisaniem zdania, a nie podmianą liczby.
 Nie idzie za tym przebieg porządkowy: figura, której nikt nie rusza, zostaje
 na miejscu, bo tekst napisany przed regułą nie jest usterką.
-Do rozstrzygnięcia przy pierwszej figurze, którą czyta więcej niż jedna sekcja,
-jest to, czy `czyta` z wieloma wpisami wystarczy,
-czy restytucja w drugim dokumencie ma wskazywać pierwszą, a nie plik.
+Figurę czytaną przez kilka sekcji rozstrzygnął przysłówek i rozstrzygnął obojgiem:
+`czyta` wymienia każdą sekcję, która niesie twierdzenie z tej figury wyprowadzone,
+bo przeliczenie ma powiedzieć, co przeczytać,
+a restytucja w drugim dokumencie wskazuje sekcję pierwszą, a nie plik,
+bo prozę też ma kto posiadać.
+
+Sekcje restytuujące potrafią zardzewieć w pliku figury i raport tego nie widzi.
+`stan` w `harness/figury.py` porównuje polecenie oraz odciski, a `czyta` zapisuje
+z deklaracji tylko `zapis`, więc sekcja dopisana do deklaracji zostawia w pliku
+listę krótszą, a figura wychodzi z raportu jako aktualna.
+Trafiło się to przy przysłówku, gdzie sekcji jest trzy, i zeszło przeliczeniem,
+którego nie zamawiał żaden ruszony plik.
+Ruchem jest test na tę parę, a nie `czyta` wśród rzeczy porównywanych przez `stan`:
+tamto policzyłoby figurę za należną przeliczenia nad korpusem po to,
+żeby przepisać jej nagłówek, choć liczby stoją.
+Do przeczytania jest `nagłówek` obok `zapis`, bo czyta ono dziś polecenie
+i odciski, a sekcji nie zwraca, więc test bez tego nie ma czego porównać.
 
 Restytucji nikt nie pilnuje i wpisanie do niej pełnej precyzji z powrotem nic nie
 kosztuje, choć jest to dokładnie ta usterka, przed którą właściciel figury broni.
@@ -561,51 +575,27 @@ sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
 a drugiej listy ten protokół unika z podanego tam powodu.
 
-Terminal nie umie zażądać, żeby forma jakąś cechę w ogóle niosła,
-a bez tego przysłówek wchodzi do gramatyki połową albo wcale.
-`word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`,
-bo `unify` w `olski/grammar.py` pomija cechę, której konstytuent nie niesie,
-i pomija ją rozmyślnie — część mowy nieodmienna nie narusza zgodności,
-w której nie bierze udziału — więc warunek odwrotny nie ma tam formy.
-Stopień jest tą cechą, po której Morfeusz oddziela przysłówek odprzymiotnikowy
-od pierwotnego, czyli klasę określającą przymiotnik od tej, która go nie określa,
-i tego warunku żąda pozycja przy przymiotniku:
-bez niego kupuje ona nad Składnicą zero i odbiera 39 zdań pozycji przy czasowniku,
-a 15 z 47 zdań, które kupuje sama, olski czyta wbrew drzewu wzorcowemu
-([`docs/subset.md`](docs/subset.md#naprawę-widać-w-tagsecie-i-nie-da-się-jej-postawić-w-gramatyce)).
-Ruchem jest pole na `Word` wyliczające nazwy cech obowiązkowych,
-sprawdzane w `bierze` obok testu na lemat, który już tam stoi.
-Sonda po nim nie potrzebuje nowego wariantu, tylko drugiego terminala:
-`PRZYSŁÓWEK` w `sonda/przysłówek.py` jest jeden i biorą go obie grupy,
-a warunek należy do jednej z nich, więc grupa przy przymiotniku dostaje własny.
-Razem z nim `gospodarz` ma poznać oba, bo pyta dziś o ten jeden,
-a produkcja z drugim wypadłaby bez grupy — co zgłasza `tests/test_ruch.py`.
-Porównanie biegnie potem między dwoma przebiegami sondy — przed warunkiem i po
-nim — a nie między wierszami jednej tabeli.
-Do przeczytania przed decyzją jest, czy podział na dwie klasy przysłówka trzyma
-w drugą stronę: `bardzo lubię` stawia przysłówek stopniowany przy czasowniku,
-więc warunek zawęża jednego gospodarza i nie zwalnia drugiego,
-a zdania, w których gospodarze dalej się spierają, zostają po nim wieloznaczne.
-
-Przysłówka gramatyka nie ma, a pozycja przy czasowniku jest wyceniona
-i kupuje 428 zdań Składnicy, nie odbierając jednoznaczności żadnemu zdaniu
-przyjętemu wcześniej
-([`docs/subset.md`](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
-Zakup jest największy ze wszystkich zmierzonych i nie znaczy to, że jest do wzięcia:
-lista okoliczników bierze przysłówki płasko,
-więc `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
-w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`,
-a zgodność ról nad bankiem drzew tej pomyłki nie widzi,
-bo porównuje podmiot i dopełnienie.
-Nie widzi jej też streszczenie czytania:
-`DEKLARACJA` w `olski/subset.py` nie ma roli na przysłówek,
+Przysłówka gramatyka nie ma, a wybór między jego dwiema połowami jest wyceniony
+w obu walutach i nierozstrzygnięty
+([`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji)).
+Pozycja przy czasowniku kupuje kilkaset zdań Składnicy i nie odbiera
+jednoznaczności żadnemu zdaniu przyjętemu wcześniej, a płaci werdyktami
+mówiącymi nieprawdę: `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym
+czytaniem, w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`,
+i takich zdań jest jedno na pięćdziesiąt z przyjętych
+([`docs/subset.md`](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+Pozycja przy przymiotniku zdejmuje cztery piąte z nich i odbiera pierwszej zdania,
+więc ruchem jest decyzja, która z dwóch cen jest tańsza, a nie kolejny pomiar.
+Do przeczytania są przy niej dwie rzeczy.
+Pierwsza: `DEKLARACJA` w `olski/subset.py` nie ma roli na przysłówek,
 więc werdykt nie nazywa ani tego, który określa zdanie, ani tego, który nie,
-i pozycja dopisana bez tej roli daje `valid` bez słowa o tym, co przyjęła.
-Ruchem jest decyzja, czy pozycja wchodzi przed warunkiem z wpisu wyżej,
-a przed nią pomiar tego, ile zdań Składnicy dostaje ten płaski kształt:
-mierzy się on nad wariantem sondy, a nie nad gramatyką, i nie jest zmierzony.
-Wpis wyżej i ten stoją na jednym rozstrzygnięciu — czy przysłówek ma dwie klasy —
-więc jedna sesja podnosi oba albo żaden.
+i pozycja dopisana bez tej roli daje `valid` bez słowa o tym, co przyjęła;
+rola dopisana tam rusza za to każdy blok werdyktu cytowany w dokumentach.
+Druga: klasa, której nie obejmuje żadna z dwóch połówek, czyli przysłówek przed
+przysłówkiem, i to, czy trzeci gospodarz nie wraca z tą samą ceną co drugi.
+Kto to podnosi, płaci przeliczenie wszystkich figur nad gramatyką,
+bo kilkaset zdań przyjętych rusza każdą z nich ([`CLAUDE.md`](CLAUDE.md#checks)),
+a korpusy trzeba mieć wszystkie trzy naraz, bo znak ceny zależy od rejestru.
 
 Dopełnienie stoi przed swoim czasownikiem w czterech szykach dopisanych,
 a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.
@@ -948,6 +938,10 @@ Ten sam czwarty przepisuje z `sonda/czytania.py` całe rusztowanie przebiegu
 spisowego — `Raport`, `zanotuj`, `scal`, pulę procesów i tabelę procentową —
 czyli to, czym `sonda/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają;
 scalenie przebiegów zdejmuje połowę tego duplikatu i dlatego idzie przed nim.
+Rusztowanie to przepisuje także `sonda/płaski.py`, a lasów olskiego nie buduje
+wcale, bo mierzy wariant gramatyki, więc scalenie przebiegów go nie obejmie
+i zostanie po nim sam duplikat rusztowania — to on mówi, ile ono jest warte
+osobno.
 Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
 po którym tabela z
 [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)

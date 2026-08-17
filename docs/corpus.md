@@ -318,7 +318,7 @@ which is how those six fail rather than how a row predicts.
 A sentence standing on a single class is therefore not a sentence an addition takes,
 whichever way the class is counted,
 and what the whole of that measurement came to is in
-[subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań).
+[subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu).
 
 One sentence of this file did carry a single class as the whole of it, and it is the
 sentence this run has bought.

@@ -1446,6 +1446,20 @@ biorą za darmo.
 Jedyny warunek ujemny tej gramatyki płaci więc polem za to,
 z czego wszystko obok niego żyje.
 
+Żądanie obecności cechy ucieka temu przecięciu z drugiej strony
+i stoi poza `unify` z tego samego powodu.
+`niesie` w `olski/grammar.py` mówi, że forma ma cechę nieść,
+a przecięcie zbiorów nie ma jak tego powiedzieć:
+cecha nieobecna jest pomijana, więc wypisanie wszystkich jej wartości
+znaczy dokładnie tyle, co milczenie.
+Warunki poza unifikacją są przez to dwa i oba pytają o formę,
+a nie o zgodność między dwiema wiązkami cech:
+jeden odmawia lematowi, drugi formie, która cechy nie niesie.
+Kupuje to klasę, którą tagset rozdziela, a produkcja nie umiała zażądać —
+przysłówek odprzymiotnikowy niesie stopień, a pierwotny nie —
+i tyle wystarcza, żeby przymiotnik brał jednego z nich
+([subset.md](subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
+
 Rodzaj grupy współrzędnej nie jest symetryczny między członami,
 bo polszczyzna wylicza go regułami, których unifikacja nie umie powiedzieć,
 więc taka grupa nie niesie tej cechy wcale i `olski/subset.py` mówi to

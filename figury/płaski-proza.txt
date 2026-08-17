@@ -1,0 +1,21 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury płaski-proza
+polecenie: python3 -m sonda.płaski proza/README.txt
+czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
+ruszają:
+  README.md: 0d2a177e02b4
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/grammar.py: 9077925971d9
+  sonda/przysłówek.py: 7ab30a030093
+  sonda/ruch.py: 4eb074921d9c
+  sonda/płaski.py: 352915f236f1
+
+README.txt, proza, wariant „okolicznik”, 49 zdań
+
+        6  przyjętych jednym czytaniem, czyli populacja
+       25  niezmierzone: fragment, a nie zdanie
+
+płaskie czytanie w 0 z 6 zdań, 0.0%:
+        0    0.0%  przed przymiotnikiem
+        0    0.0%  przed przysłówkiem

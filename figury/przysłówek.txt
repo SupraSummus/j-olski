@@ -1,0 +1,180 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury przysłówek
+polecenie: python3 -m sonda.przysłówek Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu
+czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
+czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
+ruszają:
+  olski/subset.py: f2dffc02b01d
+  olski/parse.py: a264c789f2b1
+  olski/grammar.py: 9077925971d9
+  sonda/przysłówek.py: 7ab30a030093
+  sonda/ruch.py: 4eb074921d9c
+
+Składnica, morfologia złota, 13035 zdań
+
+          wariant    przyjęte  wieloznaczne  odrzucone
+   bez przysłówka        1179           549      11307
+       okolicznik        1607           707      10721
+przy przymiotniku        1206           570      11259
+              oba        1575           750      10710
+
+ruch wobec wariantu „bez przysłówka” — okolicznik:
+      428  rejected → valid
+      158  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+      295    agrees
+      114    brak roli
+             Przyklękli pobożnie i weszli na stopnie ołtarza.
+             W jaki sposób tak szybko stałaś się tak popularna?
+             Często tu goszczę i jestem serdecznie przyjmowany.
+             Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
+             Niedawno została opatentowana.
+             Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
+             Wróciłem do biura i natychmiast zadzwoniłem na policję.
+             Z autorem artykułu rozmawiałam dwukrotnie.
+       13    disagrees
+             Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+             Na resztę czas przyjdzie później.
+             Tam przygarnęła nas bardzo zacna rodzina.
+             Te dane wyraźnie wskazują na skalę zjawiska i jego ciężar społeczny.
+             Mimo to eksmisje donikąd są sporadyczne.
+             Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
+             Cały prawy błotnik wraz ze światłami został na haku.
+             Miał równie pokraczną głowę, krótki tułów.
+        6    partial
+             Przed wojną jej osobiście nie znałem.
+             Myśli się językowo.
+             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
+             Jak nalicza się mandaty?
+             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
+             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
+
+ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
+       27  rejected → valid
+       21  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       21    agrees
+        3    disagrees
+             Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+             Oficjalnie cały Sejm RP śpi.
+             Oficjalnie największe emocje budzi zapowiedź likwidacji Senatu.
+        3    brak roli
+             Jest bardzo prawdziwy, szczery.
+             Jest dobrze uzbrojona.
+             Jesteś straszliwe niedouczony.
+
+ruch wobec wariantu „bez przysłówka” — oba:
+      396  rejected → valid
+      201  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+      272    agrees
+      110    brak roli
+             Przyklękli pobożnie i weszli na stopnie ołtarza.
+             W jaki sposób tak szybko stałaś się tak popularna?
+             Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
+             Niedawno została opatentowana.
+             Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
+             Wróciłem do biura i natychmiast zadzwoniłem na policję.
+             Z autorem artykułu rozmawiałam dwukrotnie.
+             Tak jest łatwiej.
+        8    disagrees
+             Na resztę czas przyjdzie później.
+             Te dane wyraźnie wskazują na skalę zjawiska i jego ciężar społeczny.
+             Mimo to eksmisje donikąd są sporadyczne.
+             Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
+             Cały prawy błotnik wraz ze światłami został na haku.
+             Zgodnie z ustaleniami nie udzielił żadnych wywiadów ani nie wydał żadnego oświadczenia politycznego.
+             Za stanami zniechęcenia i depresji kryją się zwykle głębsze konflikty i problemy wewnętrzne, wyniesione głównie ze środowiska rodzinnego.
+             Powtarzaj je tak często, jak to jest potrzebne.
+        6    partial
+             Przed wojną jej osobiście nie znałem.
+             Myśli się językowo.
+             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
+             Jak nalicza się mandaty?
+             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
+             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
+
+konkurencja, nad zdaniem po zdaniu:
+       39  obaj gospodarze ruszają to samo zdanie
+       35  razem wychodzi co innego niż osobno
+
+konkurencja, obaj gospodarze ruszają to samo zdanie:
+  Program zabawy był ściśle ustalony.
+  Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+  Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
+  Jest bardzo przystojna i odwracała ode mnie odwagę.
+  Był ostro atakowany przez endecję.
+  Z drugiej strony dla mnie cała branża jest bardzo interesująca.
+  Zasadzka była starannie przygotowana.
+  Poznań jest właściwie jedynym większym miastem na terenie naszego kraju, na które spoglądały oczy wielkiego poety.
+
+konkurencja, razem wychodzi co innego niż osobno:
+  Program zabawy był ściśle ustalony.
+  Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+  Pobyt był tam niezwykle uciążliwy.
+  Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
+  Dlatego właśnie przed laty do Monako przenosili się masowo szwedzcy tenisiści.
+  Jest bardzo przystojna i odwracała ode mnie odwagę.
+  Wydaje się to niezwykle mało prawdopodobne.
+  Często tu goszczę i jestem serdecznie przyjmowany.
+
+okolicznik, rejected → valid:
+  Róża wtedy występowała ze wspaniałym przyjęciem.
+  Program zabawy był ściśle ustalony.
+  Przyklękli pobożnie i weszli na stopnie ołtarza.
+  Czas okrutnie ścieśnił tę rodzinę.
+  Obejrzał je bacznie.
+  Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+  Pobyt był tam niezwykle uciążliwy.
+  Trwało to długo.
+
+okolicznik, rejected → ambiguous:
+  Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
+  Katecheta zwięźle opowiedział o swych niedomaganiach i wtrącił słówko o kosztownej kuracji w Karlsbadzie.
+  Począł myśleć gorączkowo.
+  Nie wytropiła nigdzie wroga na oko.
+  Pracowicie wyodrębnił pojęcia takie jak ból, smutek, rozpacz, cierpienie, żal.
+  Najpierw przyśnił się młynek do kawy.
+  Poszedłem do powstania, które ostatecznie zniweczyło resztki mego dawnego świata.
+  Dziś na uczelniach w krajach Maghrebu fundamentalizm jest ewidentnie najsilniejszy właśnie wśród matematyków, fizyków, biologów, lekarzy.
+
+przy przymiotniku, rejected → valid:
+  Program zabawy był ściśle ustalony.
+  Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+  Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
+  Jest bardzo przystojna i odwracała ode mnie odwagę.
+  Język telenowel jest ujednolicony, mało barwny, ogólnopolski.
+  Zasadzka była starannie przygotowana.
+  Poznań jest właściwie jedynym większym miastem na terenie naszego kraju, na które spoglądały oczy wielkiego poety.
+  Najbardziej popularne są mercedesy, audi, golfy i BMW.
+
+przy przymiotniku, rejected → ambiguous:
+  Był ostro atakowany przez endecję.
+  Z drugiej strony dla mnie cała branża jest bardzo interesująca.
+  Przy podniesieniu w czasie mszy używa się według Antegnatiego solowego rejestru pryncypalnego o bardzo delikatnym brzmieniu.
+  Polacy w tej bardzo ważnej sprawie nie muszą być papugą innych narodów.
+  Ktoś inny w złości kopie ławkę i rzuca głośno soczyste przekleństwa.
+  Odbyło się to przy stosunkowo niewielkim przyroście wpływów z tytułu odsetek i podobnych dochodów.
+  Mężczyźni zakomunikowali, że przychodzą z bardzo korzystną ofertą.
+  Okindo został poważnie ranny w wyniku eksplozji.
+
+oba, rejected → valid:
+  Róża wtedy występowała ze wspaniałym przyjęciem.
+  Przyklękli pobożnie i weszli na stopnie ołtarza.
+  Czas okrutnie ścieśnił tę rodzinę.
+  Obejrzał je bacznie.
+  Trwało to długo.
+  Po całodziennej harówce straciłem dziś kolejne pół kilo.
+  Mam tu odmienną interpretację.
+  Tutaj firma została założona i najmocniej wrosła w pejzaż społeczny.
+
+oba, rejected → ambiguous:
+  Program zabawy był ściśle ustalony.
+  Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
+  Katecheta zwięźle opowiedział o swych niedomaganiach i wtrącił słówko o kosztownej kuracji w Karlsbadzie.
+  Począł myśleć gorączkowo.
+  Nie wytropiła nigdzie wroga na oko.
+  Pracowicie wyodrębnił pojęcia takie jak ból, smutek, rozpacz, cierpienie, żal.
+  Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+  Pobyt był tam niezwykle uciążliwy.

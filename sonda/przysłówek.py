@@ -17,6 +17,9 @@ tam, gdzie stoi okolicznik zdania, czyli w liście, którą czasownik bierze prz
 sobie, i przed zdaniem, bo szyk z okolicznikiem na czele wypisany jest tylko dla
 wyrażenia przyimkowego. ``przy przymiotniku`` stawia go przed przymiotnikiem — i
 przydawką, i orzecznikiem — a pozycje liczy z gramatyki, a nie z listy obok niej.
+Bierze tam przysłówek stopniowany i żadnego innego, bo przymiotnik określa
+przysłówek odprzymiotnikowy, a nie pierwotny, i tę różnicę Morfeusz niesie
+stopniem.
 
 Wynik czyta ``docs/subset.md``.
 
@@ -32,10 +35,18 @@ from dataclasses import replace
 from olski.grammar import Grammar, Głowa, Part, Production, Word, nt, word
 from sonda import ruch
 
-#: Terminal przysłówka: cała część mowy i nic więcej. Stopnia nie żąda, bo
-#: `Teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są przysłówkami tej
-#: samej gramatyki.
+#: Terminal przysłówka w okoliczniku: cała część mowy i nic więcej. Stopnia nie
+#: żąda, bo `Teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są
+#: okolicznikami tej samej gramatyki.
 PRZYSŁÓWEK = word("adv")
+
+#: Terminal przysłówka przy przymiotniku: ta sama część mowy i żądanie stopnia.
+#: Stopień ma przysłówek odprzymiotnikowy, a pierwotny go nie ma, i tylko pierwszy
+#: z tych dwóch przymiotnik określa, więc `tu` z tej pozycji wypada, a `bardzo`
+#: zostaje. Terminale są przez to dwa, choć część mowy jedna: warunek należy do
+#: jednego gospodarza, a drugi bierze przysłówek każdy;
+#: docs/subset.md wywodzi tę różnicę i wycenia ją.
+PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
 
 #: Części mowy, przed którymi przysłówek staje jako określenie przymiotnika. Te
 #: same, które olski bierze za orzecznikowe, bo imiesłów bierny jest tam
@@ -55,11 +66,7 @@ def _przymiotnikowy(część: Part) -> bool:
     Warunek stoi więc na tym, że klasa jest otwarta, a nie na wypisanej obok
     liście symboli, których ta sonda ma nie ruszać.
     """
-    return (
-        isinstance(część, Word)
-        and bool(część.pos & PRZYMIOTNIKOWE)
-        and część.lemmas is None
-    )
+    return isinstance(część, Word) and bool(część.pos & PRZYMIOTNIKOWE) and część.lemmas is None
 
 
 def _przed_przymiotnikiem(produkcja: Production) -> list[Production]:
@@ -77,7 +84,7 @@ def _przed_przymiotnikiem(produkcja: Production) -> list[Production]:
     for gdzie, część in enumerate(produkcja.body):
         if not _przymiotnikowy(część):
             continue
-        ciało = (*produkcja.body[:gdzie], PRZYSŁÓWEK, *produkcja.body[gdzie:])
+        ciało = (*produkcja.body[:gdzie], PRZYSŁÓWEK_STOPNIA, *produkcja.body[gdzie:])
         głowa = produkcja.głowa + (1 if produkcja.głowa >= gdzie else 0)
         kopie.append(replace(produkcja, body=ciało, głowa=głowa))
     return kopie
@@ -116,16 +123,16 @@ def gospodarz(produkcja: Production) -> str | None:
     i `APConjunct`, czyli te same symbole, które buduje każda grupa imienna i
     przymiotnikowa bez przysłówka.
 
-    Terminal jest przy tym tym jednym, który :data:`PRZYSŁÓWEK` nazywa, a nie
-    dowolnym o znaczniku `adv`: drugi terminal — na przykład zawężony do stopnia —
-    wypadłby stąd bez grupy i zostałby w mianowniku, a `tests/test_ruch.py` mówi o
-    tym wprost, bo dopisek bez grupy każe sondzie mierzyć zero.
+    Grupę nazywa przy tym sam terminal, bo terminale są dwa i każdy stoi u
+    jednego gospodarza. Terminal nienazwany tutaj wypadłby bez grupy i zostałby w
+    mianowniku, o czym `tests/test_ruch.py` mówi wprost: dopisek bez grupy każe
+    sondzie mierzyć zero.
     """
-    if PRZYSŁÓWEK not in produkcja.body:
-        return None
-    if any(_przymiotnikowy(część) for część in produkcja.body):
+    if PRZYSŁÓWEK_STOPNIA in produkcja.body:
         return PRZY_PRZYMIOTNIKU
-    return OKOLICZNIK
+    if PRZYSŁÓWEK in produkcja.body:
+        return OKOLICZNIK
+    return None
 
 
 SONDA = ruch.Sonda(

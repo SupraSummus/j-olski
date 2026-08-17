@@ -438,14 +438,14 @@ więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
 
 Przysłówek jest z tej listy zmierzony i nie jest dopisany,
 bo pomiar rozstrzygnął go na pół.
-Pozycja przy czasowniku kupuje 428 zdań Składnicy przy 158 uczynionych
-wieloznacznymi i jednoznaczności nie odbiera nikomu.
-Pozycja przy przymiotniku, dopisana obok niej, kupuje zero i odbiera 39,
+Pozycja przy czasowniku kupuje kilkaset zdań Składnicy
+i jednoznaczności nie odbiera nikomu.
+Pozycja przy przymiotniku, dopisana obok niej, nie kupuje nic i odbiera zdania,
 czyli odbiera je pierwszej połowie tej samej konstrukcji
-([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-39-zdań)).
+([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
 Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim.
 Ranking wypadł przy nim tak samo jak przy liczebniku i czasie przeszłym:
-wiersz `adv` obiecywał 1992 zdania i oddał 428, czyli znów jedną piątą.
+wiersz `adv` obiecywał 1992 zdania i oddał jedną piątą tego.
 
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
 Trzy z nich oddały jedną piątą tego, co obiecywały, a `qub` ponad jedną czwartą,
@@ -453,13 +453,23 @@ więc przelicznik wychodzi pięciokrotny i żaden pomiar z niego nie wypadł.
 Cztery pary to jednak cztery, a nie rozkład,
 więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
 
-Przysłówek wchodzi więc połową albo nie wchodzi, a te dwa ruchy są różne.
+Przysłówek wchodzi więc połową albo cały, a te dwa ruchy są różne.
 Połowa przyjmuje `Plik jest bardzo duży.` z drzewem,
 w którym `bardzo` określa zdanie, a nie `duży`,
 czyli z werdyktem mówiącym o zdaniu nieprawdę,
 i tym różni się od czterech szyków, które wchodziły całe.
-Domknąłby ją warunek żądający od formalizmu obecności cechy,
-i na ten ruch etap teraz czeka.
+Ile takich werdyktów wypada, mówi pomiar płaskiego czytania
+([subset.md](subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+
+Warunek żądający od formalizmu obecności cechy stoi,
+więc druga połowa bierze sam przysłówek stopniowany
+i etap nie czeka już na formalizm.
+Zostaje wybór między dwiema cenami w różnych walutach:
+zdaniami, którym druga połowa odbiera jednoznaczność,
+przeciw werdyktom, które pierwsza sama wydaje wbrew drzewu.
+Kto ten wybór rozstrzyga, płaci przeliczenie wszystkich figur nad gramatyką,
+bo kilkaset zdań przyjętych rusza każdą z nich
+([CLAUDE.md](../CLAUDE.md#checks)), a [TODO.md](../TODO.md) trzyma ten ruch.
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,
