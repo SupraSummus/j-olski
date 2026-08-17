@@ -16,6 +16,10 @@ def klasy(zdanie):
     return {miejsce.klasa for miejsce in miejsca(zdanie)}
 
 
+def przyłączenia(zdanie, przyimek):
+    return [m for m in miejsca(zdanie) if m.klasa == PRZYŁĄCZENIE and m.formy == (przyimek,)]
+
+
 def test_zdanie_o_które_pytanie_stoi_niesie_synkretyzm():
     #  docs/open-questions.md cytuje to zdanie jako to, na którym własność
     #  jednoznaczności się rozchodzi: notacja jest nieodmienna, a „wywód” ma
@@ -55,6 +59,25 @@ def test_pozycja_dwuznaczna_żąda_rzeczownika_przed_wyrażeniem_i_czasownika():
     assert PRZYŁĄCZENIE in klasy("Program zapisuje ustawienia w pliku.")
     assert PRZYŁĄCZENIE not in klasy("Pod względem smaku chałka przewyższa zwykłą bułkę.")
     assert PRZYŁĄCZENIE not in klasy("Ustawienia w pliku są ważne.")
+
+
+def test_gospodarzem_imiennym_jest_cała_grupa_a_nie_jej_ogon():
+    #  W łańcuchu dopełniaczowym formą tuż przed przyimkiem jest ogon grupy, a
+    #  fraza dochodzi do jej głowy: docs/disambiguation.md czyta „z systemem RIT”
+    #  jako przydawkę wymiany, nie danych. Świadek kontekstowy schodzi tą samą
+    #  drogą (_łańcuch w olski/rozstrzyganie.py), więc gospodarz wzięty z
+    #  jednej formy kazałby mu wskazywać ogon i mylić się na tym łańcuchu.
+    (miejsce,) = przyłączenia("Wpływa to na sposób wymiany danych z systemem RIT.", "z")
+    assert miejsce.gospodarze[:3] == ("danych", "wymiany", "sposób")
+
+
+def test_forma_bez_czytania_imiennego_zamyka_grupę():
+    #  Bez tego warunku grupą jest cały prefiks zdania, czyli reguła, którą
+    #  sonda/powtórzenie.py mierzy jako wariant i którą warstwa odrzuca: spójnik
+    #  kończy grupę imienną, a za nim zaczyna się opis czegoś innego.
+    (miejsce,) = przyłączenia("Opisano nadawanie i funkcjonowanie uprawnień do faktur.", "do")
+    assert miejsce.gospodarze[:2] == ("uprawnień", "funkcjonowanie")
+    assert "nadawanie" not in miejsce.gospodarze
 
 
 def test_fragment_nie_wchodzi_do_mianownika():
