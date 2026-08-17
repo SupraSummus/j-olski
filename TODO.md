@@ -1319,18 +1319,18 @@ albo dopełnienie cząstkowe liczebnika, a pozostałych sześć to pięć pomył
 czyli świadek ramowy nie dokłada się do tej warstwy, tylko przejmuje jej trafną część
 wraz z powodem, który da się sprawdzić bez tabeli.
 
-Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma osiemnaście.
-`sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 8 wskazań w granicy
-akapitu i 132 bez niej, a przeczytane ręką jest osiem pierwszych i dziesięć
+Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma siedemnaście.
+`sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
+akapitu i 130 bez niej, a przeczytane ręką jest siedem pierwszych i dziesięć
 rozrzuconych po pozostałych
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
-czyli odczyt, a nie stopa pomyłek: nad 1 113 pozycjami osiemnaście sądów nie jest częstością.
+czyli odczyt, a nie stopa pomyłek: nad 1 113 pozycjami siedemnaście sądów nie jest częstością.
 Wzorzec, przy którym byłaby, jest dwojaki i oba są cudzą robotą.
 `próba/wybory.txt` daje trzydzieści sądów, a wskazania tego świadka są w nich dwa,
-i losowanie go nie dosięga z żadnej strony: nad 1 113 pozycjami odzywa się osiem razy,
-a próba zawężona do samych odpowiedzi warstwy wzięła trzydzieści z 123 i nie trafiła w ani jedno
+i losowanie go nie dosięga z żadnej strony: nad 1 113 pozycjami odzywa się siedem razy,
+a próba zawężona do samych odpowiedzi warstwy wzięła trzydzieści ze 123 i nie trafiła w ani jedno
 ([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
-więc po tej stronie zostaje przeczytanie wszystkich ośmiu, a nie próba.
+więc po tej stronie zostaje przeczytanie wszystkich siedmiu, a nie próba.
 Drugim jest [wzorzec po drugiej stronie](docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 bo tekst złożony przez `olski/skład` niesie czytanie, o które w nim chodziło,
 i wtedy obrót przez parser mówi, czy warstwa zdejmuje czytanie, którego drzewo nie deklarowało.
@@ -1347,16 +1347,17 @@ Atrybuty kategorii.` uchodzi przez to za zdanie, w którym stała fraza
 `w przypadku tych atrybutów`: rzeczownik schodzi się z `Atrybuty`,
 choć fraza tego zdania jest `w dokumencie`, a między nimi stoi przecinek i dwukropek.
 Wyszło to nad korpusem audytowym przy wycenie reguły kandydata, w wariancie szerszym,
-gdzie takie dopasowanie kończy się wskazaniem
-([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek));
-reguła wypuszczana ma tę usterkę tak samo i nad tym korpusem nie znajduje przy niej gospodarza,
-więc liczb tamtej sekcji ona nie rusza.
+gdzie takie dopasowanie kończyło się wskazaniem na `jest`
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Wskazania tego nie ma żaden wariant, bo dowód z kopuli dowodem nie jest,
+a samo dopasowanie stoi: warunek na kopulę zdjął wskazanie, a nie usterkę pod nim,
+i nad tym korpusem nie widać jej w żadnym przebiegu.
 Ruchem jest granica frazy wzięta z interpunkcji, a nie z liczby słów:
 `SŁOWO` w `olski/rozstrzyganie.py` wypuszcza dziś same znaki słowotwórcze,
 więc przecinka nie ma jak zobaczyć ani `_gdzie_stała`, która frazy szuka,
 ani `_łańcuch`, który tą samą drogą przechodzi przecinek w lewo.
 Do przeczytania jest, ile takich dopasowań w tym korpusie w ogóle pada,
-bo dziś widać jedno i widać je wyłącznie dzięki wariantowi;
+bo znane jest jedno i wyszło przez wskazanie, które warunek na kopulę zdjął;
 liczbę tę daje ten sam przebieg, kiedy wypisze dopasowania, a nie same wskazania.
 
 `_grupa` w `olski/wieloznaczność.py` przedłuża łańcuch imienny przez orzeczenie,
@@ -1378,19 +1379,24 @@ mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m sonda.pow
 Ten sam warunek czyta `_łańcuch` w `olski/rozstrzyganie.py`, bo kryterium jest jedno,
 a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest inna po obu stronach.
 
-Świadek kontekstowy myli się na kopuli, a jego dowodem jest lemat czasownika.
-`Zabronione jest tworzenie opisów w 1 osobie.` dostaje od `Powtórzenie` gospodarza `jest`
-po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
-gdzie `były` i `jest` mają jeden lemat, a fraza dochodzi do `tworzenie opisów`;
-jest to jedyna pomyłka w ośmiu odpowiedziach przeczytanych ręką (tamże).
-Powtórzenie jest tam prawdziwe i nie mówi nic, bo przy `być` okolicznik stoi wszędzie,
-więc gospodarz o tym lemacie ma tyle dowodu, ile ma go dowolny czasownik zdania.
-Ruchem jest warunek na gospodarza czasownikowego po stronie dowodu:
-lemat, przy którym fraza okolicznikowa stoi bez związku z rzeczą, dowodem nie jest,
-a najkrótszą jego postacią jest lista kopul, którą `KOPULA` w `olski/subset.py` już ma.
-Do rozstrzygnięcia jest, czy warunek należy do świadka, czy do pozycji:
-`jest` gospodarzem czasownikowym bywa dlatego, że stoi przed grupą jako orzeczenie,
-a nie dlatego, że cokolwiek do niego dochodzi.
+`KOPULY` w `olski/rozstrzyganie.py` jest listą pożyczoną i cztery piąte jej nie zmierzono.
+Świadek kontekstowy nie bierze za dowód powtórzenia przy kopuli, a listę kopul bierze
+z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/subset.py` wylicza czasowniki
+biorące orzecznik w narzędniku, a tutaj chodzi o czasownik, przy którym okolicznik stoi
+bez związku z rzeczą. Nad korpusem audytowym rozstrzyga to samo `być`, a `zostać`, `zostawać`, `pozostać`
+i `pozostawać` ruszają wyłącznie wariant sondy pytający o cały prefiks zdania,
+gdzie zdjęcie takiego dowodu odsłania gospodarza zasłoniętego przez kopulę.
+Liczbę tę daje `Powtórzenie(kopuly=frozenset({"być"}))` puszczone przez
+`przebieg` w `sonda/powtórzenie.py` obok listy pełnej: wiersze wypuszczany,
+bez granicy akapitu i „sąsiad bezpośredni” wychodzą wtedy identyczne,
+a „cały prefiks zdania” schodzi ze 126 na 124.
+Do przeczytania jest, czy dowód przy `zostać` w stronie biernej mówi coś o rzeczy:
+`obiekt zostanie przyjęty do bazy RIT` niesie treść w imiesłowie, a nie w czasowniku,
+więc gospodarzem bywa tam imiesłów i wtedy zdjęcie lematu `zostać` niczego nie kosztuje.
+Ruchem po tym czytaniu jest albo lista własna w tym module wraz z jej uzasadnieniem,
+albo zdanie w `KOPULA`, że obie strony pytają o czasownik bez własnej treści.
+Rozstrzygnąć to znaczy wybrać między jedną listą o dwóch kryteriach a dwiema listami,
+które rozjadą się przy pierwszym lemacie dopisanym po jednej stronie.
 
 Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widziała.
 `sonda/wskazania.py` puszcza świadków z `domyślni`, czyli z
@@ -1429,10 +1435,10 @@ rejestru od banku drzew, więc
 zostaje nierozstrzygnięta; liczby trzyma
 [częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
 Ruchem jest `python3 -m sonda.wybory --zbuduj proza/ --z-odpowiedzią` na większe `--ile`
-i przeczytanie tego, co dojdzie; pozycji z odpowiedzią jest w tym korpusie 123,
+i przeczytanie tego, co dojdzie; pozycji z odpowiedzią jest w tym korpusie 122,
 więc cała populacja mieści się w czterech takich próbach.
 Kupuje to przedział, a nie liczbę, i tyle jest tu do kupienia za cztery próby czytane ręką:
-przy dzisiejszej stopie wszystkie 123 odpowiedzi dają przedział od 11% do 25%,
+przy dzisiejszej stopie wszystkie 122 odpowiedzi dają przedział od 11% do 25%,
 czyli mijają co dziesiątą odpowiedź o włos.
 Do rozstrzygnięcia jest przy tym, o czym mówi liczba wzięta do końca nad tym korpusem:
 pozycje z odpowiedzią pochodzą z dwóch repozytoriów

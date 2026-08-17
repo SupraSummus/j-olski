@@ -3,3 +3,10 @@
 #  program rather than prose anybody reads, so the prose linter has nothing to
 #  say about it.
 tests/fixtures/
+
+#  Korpus audytowy, klonowany do katalogu repozytorium poleceniem, które drukuje
+#  docs/audit-corpus.md. Jest cudzym Markdownem, więc check puszczony po jego
+#  pobraniu zgłasza cudze usterki. Pozostałe pobierane korpusy stoją w
+#  .gitignore i nie ma ich tutaj, bo Markdownu nie niosą.
+ksef-docs/
+rit-dokumentacja/
