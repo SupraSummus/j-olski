@@ -233,7 +233,5 @@ a kto chciałby tę rolę obsadzić na nowo,
 zaczyna od tego, [co ją zamknęło](linter.md#what-closed-the-track),
 a nie od formatu, w którym reguła kiedyś stała.
 Nie ma też roli osoby dokładającej się z zewnątrz,
-i dlatego nie ma osobnego przewodnika dla współpracowników:
-CLAUDE.md jest jedyną kopią konwencji,
-a rozdzielenie jej na wersję dla autora i wersję dla gości
+a rozdzielenie CLAUDE.md na wersję dla autora i wersję dla gości
 kosztowałoby dwie kopie tych samych reguł, żeby obsłużyć nikogo.
