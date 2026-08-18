@@ -70,6 +70,23 @@ def test_wariant_czysty_jest_dokładnie_gramatyką_olskiego(sonda: Sonda):
     assert gramatyka(sonda, sonda.czysty).productions == GRAMMAR.productions
 
 
+@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.prog)
+def test_wariant_jest_podzbiorem_olskiego_i_nie_dopisuje_ani_jednej_produkcji(sonda: Sonda):
+    """Pominięcie rozbiorów w `_warianty` opiera się na tej własności i nie bada jej.
+
+    Czytania wariantu są podzbiorem czytań olskiego dopóty,
+    dopóki podzbiorem są jego produkcje,
+    i tylko wtedy zdanie odrzucone przez olskiego wolno uznać za odrzucone
+    pod każdym wariantem.
+    Sonda dopisująca produkcję dałaby więc wiersz o wariancie,
+    którego nikt nie policzył, i nic w wydruku by tego nie pokazało.
+    Kierunek przez dopisywanie ta maszyneria miała i może go odzyskać.
+    """
+    olski = gramatyka(sonda, sonda.czysty).productions
+    for wariant in sonda.warianty:
+        assert set(gramatyka(sonda, wariant).productions) <= set(olski), wariant
+
+
 @pytest.mark.parametrize(
     ("sonda", "zdanie"), [(sonda, zdanie) for sonda, _, zdanie in NA_JEDNEJ_GRUPIE]
 )

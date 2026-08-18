@@ -5,7 +5,7 @@ ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
-  olski/parse.py: f1ce5d82c0d9
+  olski/parse.py: fdd793d98166
   olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0

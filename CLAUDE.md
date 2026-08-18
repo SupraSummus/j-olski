@@ -573,6 +573,8 @@ So `python3 -m harness.figury` answers what is owed a rerun
 by comparing two strings, fetches nothing, and runs anywhere,
 while `python3 -m harness.figury <nazwa>` is the rerun itself
 and belongs to whoever has the corpus.
+One change to the parser leaves a dozen figures owed at once,
+so `python3 -m harness.figury --należne` reruns every one the report names.
 The reruns do not go in the check block above and do not run on a push:
 the corpora are archives of tens of megabytes fetched once per session,
 and a runner that fetched them all on every push would pay that per commit.

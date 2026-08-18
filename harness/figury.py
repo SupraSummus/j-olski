@@ -11,6 +11,7 @@ niczego, a przeliczenie wymaga korpusu i wykonuje je ktoś, kto go ma.
 
     python3 -m harness.figury            # co jest należne przeliczenia
     python3 -m harness.figury negacja    # przelicz i zapisz
+    python3 -m harness.figury --należne  # przelicz wszystko, co jest należne
 """
 
 from __future__ import annotations
@@ -543,6 +544,27 @@ def przelicz(figura: Figura) -> int:
     return 0
 
 
+def przelicz_należne() -> int:
+    """Przelicz każdą figurę, którą raport nazywa należną.
+
+    Jedna zmiana w parserze czyni należnymi kilkanaście figur naraz,
+    a przepisywanie ich nazw z raportu do wiersza poleceń jest krokiem,
+    w którym gubi się jedna, i to bez śladu:
+    figura pominięta czyta się potem tak samo jak figura przeliczona,
+    bo różni je jeden odcisk w nagłówku.
+
+    Każda idzie tą samą drogą, co przeliczenie z nazwą,
+    więc o figurze bez korpusu mówi to samo i tym samym kodem wyjścia.
+    Figury niezmierzonej tutaj ta komenda nie rusza,
+    bo raport nie nazywa jej należną,
+    a pierwszy przebieg nad nią jest decyzją, a nie krokiem porządkowym.
+    """
+    należne = [figura for figura in FIGURY if należność(figura)[0] == NALEŻNA]
+    if not należne:
+        print("figury: nic nie jest należne przeliczenia")
+    return max((przelicz(figura) for figura in należne), default=0)
+
+
 def raport() -> int:
     """Wypisuje odpowiedź o każdej figurze; kod 1, gdy któraś nie jest aktualna.
 
@@ -574,7 +596,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         nargs="*",
         help="figury do przeliczenia; bez nazwy sam raport, który nic nie pobiera",
     )
+    parser.add_argument(
+        "--należne",
+        action="store_true",
+        help="przelicz wszystkie figury należne przeliczenia, które są tu do policzenia",
+    )
     args = parser.parse_args(argv)
+    if args.należne and args.nazwy:
+        parser.error("--należne wybiera figury samo, więc nazwy są przy nim zbędne")
+    if args.należne:
+        return przelicz_należne()
     if not args.nazwy:
         return raport()
     znane = {figura.nazwa: figura for figura in FIGURY}

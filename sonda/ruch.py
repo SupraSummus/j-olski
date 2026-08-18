@@ -40,6 +40,7 @@ from pathlib import Path
 from olski.corpus import Sentence, pliki, read
 from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production
+from olski.morph import Segment
 from olski.parse import parse
 from olski.subset import FRAGMENT, build, check
 
@@ -225,6 +226,42 @@ class Raport:
             zachowane.append(tekst)
 
 
+def _warianty(
+    sonda: Sonda,
+    zdanie: Sentence,
+    segmenty: list[Segment],
+    comparable: bool,
+) -> dict[str, Outcome]:
+    """Werdykt każdego wariantu, bez rozbiorów, których odpowiedź jest już znana.
+
+    Wariant produkcje zdejmuje i żaden nie dopisuje ani jednej (:func:`gramatyka`),
+    więc jego czytania są podzbiorem czytań olskiego:
+    zdanie, którego olski nie wyprowadza, nie wyprowadza się pod żadnym z nich.
+    Rozbiór olskiego idzie przez to pierwszy,
+    a odrzucenie zamyka pozostałe warianty jedną odpowiedzią,
+    bo o zdaniu odrzuconym mówią one to samo.
+    Olski odrzuca większość zdań banku drzew, co widać w każdej tabeli w ``figury/``,
+    więc z przebiegu wypada przeszło połowa rozbiorów.
+    Że wariant naprawdę niczego nie dopisuje, pilnuje ``tests/test_ruch.py``:
+    kierunek przez dopisywanie ta maszyneria kiedyś miała i może go odzyskać.
+    """
+
+    def wynik(wariant: str) -> Outcome:
+        return Outcome(
+            sentence=zdanie,
+            result=parse(gramatyka(sonda, wariant), segmenty),
+            segments=tuple(segmenty),
+            comparable=comparable,
+        )
+
+    czysty = wynik(sonda.czysty)
+    if czysty.result.rejected:
+        return dict.fromkeys(sonda.warianty, czysty)
+    wyniki = {wariant: wynik(wariant) for wariant in sonda.warianty[:-1]}
+    wyniki[sonda.czysty] = czysty
+    return wyniki
+
+
 def zmierz(
     sonda: Sonda,
     zdania: Iterable[Sentence],
@@ -253,15 +290,7 @@ def zmierz(
         if not segmenty:
             raport.pominięte["bez morfologii"] += 1
             continue
-        wyniki = {
-            wariant: Outcome(
-                sentence=zdanie,
-                result=parse(gramatyka(sonda, wariant), segmenty),
-                segments=tuple(segmenty),
-                comparable=źródło == "gold",
-            )
-            for wariant in sonda.warianty
-        }
+        wyniki = _warianty(sonda, zdanie, segmenty, comparable=źródło == "gold")
         raport.zapisz(
             zdanie.text,
             {wariant: wynik.status for wariant, wynik in wyniki.items()},

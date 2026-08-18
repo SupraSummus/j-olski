@@ -221,7 +221,7 @@ def zmierz(
 
         wynik = Outcome(
             sentence=zdanie,
-            result=parse(GRAMMAR, segmenty),
+            result=parse(GRAMMAR, segmenty, najdalszy=True),
             segments=tuple(segmenty),
             comparable=True,
         )

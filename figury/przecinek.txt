@@ -4,9 +4,9 @@ korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
   olski/subset.py: 4952559a6bce
-  olski/parse.py: f1ce5d82c0d9
+  olski/parse.py: fdd793d98166
   sonda/przecinek.py: 4d72d1bd397c
-  sonda/ruch.py: e4132c252685
+  sonda/ruch.py: c6b02147a9a9
 
 Składnica, morfologia złota, 13035 zdań
 
