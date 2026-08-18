@@ -10,7 +10,19 @@ podzbiór, który olski deklaruje, a nie drugi raz napisany słownik. Zależnoś
 biegnie więc w jedną stronę i da się każdą z nich usunąć skasowaniem jej plików.
 
 Po co sonda zostaje w repozytorium, a nie w koszu: figura wzięta programem,
-którego nie ma, nie odtwarza się, a `TODO.md` zapisuje to jako usterkę zebraną
-nad tabelami `docs/corpus.md`. Sonda, której wynik cokolwiek rozstrzyga, jest tym
-samym przypadkiem.
+którego nie ma, nie odtwarza się, a `TODO.md` zapisuje to jako usterkę zebraną nad
+tabelami `docs/corpus.md`. Zostaje więc ta, której wynik czyta deklaracja figury w
+`harness/figury.py` albo dokument, i tak długo, jak któreś z dwojga go czyta.
+
+Wychodzi wtedy, gdy nie czyta go już żadne. Trzyma ją potem git, a sekcja, która
+jej wynik cytowała, mówi to o sobie sama — `docs/design-notes.md` robi tak nad
+figurami, których sondy już nie ma. Zapadła decyzja sama do kosza nie wystarcza:
+sonda odmowy zostaje, bo odmowa wraca, kiedy zakup przestanie być zerem, i to ona
+jest tym, co ten moment pokaże.
+
+Kryterium stosuje się przy zmianie, która i tak tę sondę rusza, tak jak `CLAUDE.md`
+każe przyjmować resztę reguł. Listy sond bez figury nikt nie drukuje i jest to
+odmowa, a nie brak: taka lista czyta się jak kolejka do domknięcia, a domyka ją
+taniej figura dopisana niż sonda skasowana, więc ograniczałaby aparat sond przez
+jego rozbudowę.
 """
