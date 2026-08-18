@@ -564,6 +564,10 @@ Liczby te są przeliczone nad gramatyką dzisiejszą, a nie wzięte z chwili,
 w której ta pozycja wchodziła, i są od tamtych wyższe:
 zdanie przechodzi tu wtedy, gdy do wyprowadzenia brakuje mu samej tej pozycji,
 a takich zdań jest tym więcej, im więcej gramatyka ma poza nią.
+Rusza je przez to każda zmiana w gramatyce,
+a nie drukuje ich żaden przebieg i nie ma ich `FIGURY` w `harness/figury.py`:
+liczy się je, zdejmując obie pozycje wymienione wyżej
+i puszczając werdykt nad trzema korpusami tej sekcji.
 
 Jednym z tych jedenastu jest zdanie, które ta pozycja przyjmowała kiedyś na opak.
 `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`

@@ -1,13 +1,17 @@
 """Figura ma jednego właściciela: plik, który wypisuje przebieg.
 
 Reguła i jej powód są w ``CLAUDE.md#checks``, a tutaj jest to, czym ona działa.
-``FIGURY`` niżej deklaruje na każdy przebieg polecenie, korpus, pliki, których
-zmiana rusza liczby, oraz sekcję restytuującą figurę grubiej. Plik figury zapisuje
-odciski tych plików z chwili przebiegu, więc pytanie o należność przeliczenia
-porównuje dwa napisy i po korpus nie sięga.
+``FIGURY`` niżej deklaruje na każdy przebieg polecenie,
+pliki, bez których nie ma on czego czytać,
+pliki, których zmiana rusza liczby,
+sekcje restytuujące figurę grubiej
+oraz to, co po przeliczeniu zostaje ręką.
+Plik figury zapisuje odciski tych plików z chwili przebiegu,
+więc pytanie o należność przeliczenia porównuje dwa napisy i po korpus nie sięga.
 
-Stąd dwie komendy zamiast jednej: raport odpowiada wszędzie, bo nie pobiera
-niczego, a przeliczenie wymaga korpusu i wykonuje je ktoś, kto go ma.
+Stąd dwie komendy zamiast jednej: raport odpowiada wszędzie, bo nie pobiera niczego,
+a przeliczenie wymaga korpusu albo prozy z niego wyjętej
+i wykonuje je ktoś, kto to ma.
 
     python3 -m harness.figury            # co jest należne przeliczenia
     python3 -m harness.figury negacja    # przelicz i zapisz
@@ -67,12 +71,29 @@ class Figura:
     #: Sekcje restytuujące figurę grubiej. Raport je wypisuje nad figurą należną
     #: przeliczenia, bo przeliczenie ruszające rząd wielkości jest winne tej prozy.
     czyta: tuple[str, ...]
-    #: Ścieżki korpusów, bez których polecenie nie ma czego czytać; puste, kiedy
-    #: przebieg nie pobiera niczego. Rozstrzyga, czy przeliczenie wykonuje się
-    #: tutaj, czy należy do kogoś z korpusem. Krotka, a nie jedna ścieżka, bo
+    #: Ścieżki, bez których polecenie nie ma czego czytać; puste, kiedy przebieg
+    #: czyta samo repozytorium. Rozstrzyga, czy przeliczenie wykonuje się tutaj,
+    #: czy należy do kogoś, kto te pliki ma. Krotka, a nie jedna ścieżka, bo
     #: przebieg bywa porównaniem dwóch korpusów naraz i brak każdego z nich
-    #: zatrzymuje go osobno.
+    #: zatrzymuje go osobno. Proza wyjęta z Markdownu stoi tu na równi z korpusem
+    #: pobranym, bo jednego i drugiego w drzewie nie ma; polecenie, które ją robi,
+    #: drukuje dokument nazwany w ``czyta``.
     korpusy: tuple[str, ...] = ()
+
+    #: Kody wyjścia, które są pomiarem, a nie usterką przebiegu. ``olski-check``
+    #: odpowiada 1, kiedy nie każde zdanie jest olskim, co nad każdą prawdziwą prozą
+    #: jest właśnie tym, co się mierzy, a 2, kiedy nie miał czego przeczytać. Kod 1
+    #: zderza się przy tym z kodem, którym Python kończy na wyjątku, więc przebieg
+    #: kończący się kodem niezerowym musi mieć puste wyjście błędu, żeby uszło za
+    #: pomiar; inaczej figurą stałby się ślad stosu.
+    kody: tuple[int, ...] = (0,)
+
+    #: Co przeliczenie zostawia człowiekowi, bo poprawiona liczba tego nie zaspokaja:
+    #: odczyt próbki czytanej ręką, blok wydruku wklejony do dokumentu, arytmetyka
+    #: pod takim blokiem. Raport wypisuje to nad figurą nieaktualną, a przeliczenie
+    #: wtedy, gdy wydruk wyszedł inny, bo tam pada pytanie, czego jeszcze zmiana
+    #: jest winna. Puste, kiedy przeliczenie i poprawiona restytucja to wszystko.
+    ręką: tuple[str, ...] = ()
 
     @property
     def brakujące(self) -> list[str]:
@@ -367,11 +388,487 @@ FIGURY = (
         ruszają=("olski/subset.py", "sonda/pytajne.py"),
         czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
     ),
+    Figura(
+        nazwa="korpus",
+        polecenie=("olski-corpus", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Lista jest tu najszersza w tej deklaracji, bo jeden przebieg przechodzi
+        #  cały aparat: segmentacja, leksykon czytany przy imporcie i czytnik banku
+        #  drzew ruszają werdykty tak samo jak produkcja. `signature` w
+        #  `olski/parse.py` nie ma ani jednej produkcji i rusza każdy z nich, a
+        #  `PORÓWNYWANE_ROLE` w `olski/coverage.py` rusza samą zgodność z bankiem.
+        #  Kolejkę blokerów rusza przy tym przepisanie `olski/parse.py`, które nie
+        #  rusza ani jednego werdyktu: gdzie stanęło zdanie odrzucone, jest faktem
+        #  o tym, które produkcje próbowano, a nie o tym, które się udały, więc dwie
+        #  gramatyki przyjmujące te same zdania układają blokery inaczej.
+        #  Tam też stoi `ciała`, czyli kolejność, w jakiej las wydaje czytania:
+        #  numer złotego czytania jest nią i niczym więcej, więc przepisanie jej
+        #  rusza tę jedną tabelę, zostawiając każdy werdykt i każde ocalenie.
+        ruszają=(
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/corpus.py",
+            "olski/coverage.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=(
+            "docs/corpus.md#the-measurement",
+            "docs/corpus.md#where-the-analyses-stop",
+            "docs/corpus.md#agreement-which-matters-more-than-acceptance",
+            "docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych",
+        ),
+    ),
+    Figura(
+        nazwa="korpus-żywa",
+        #  Ta sama komenda po morfologii żywej, osobno od figury wyżej, bo cena
+        #  wieloznaczności morfologicznej jest pod złotą niewidoczna.
+        polecenie=("olski-corpus", "Składnica-frazowa-180723/", "--morphology", "live"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/corpus.py",
+            "olski/coverage.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/corpus.md#what-morphological-ambiguity-costs",),
+    ),
+    Figura(
+        nazwa="readme",
+        polecenie=("python3", "-m", "olski.check", "proza/README.txt"),
+        #  Korpusem jest własna proza wyjęta z README, więc rusza figurę i kod, i
+        #  samo README: akapit dopisany o nowej konstrukcji rusza tę liczbę tak
+        #  samo jak produkcja. Ekstrakcję drukuje sekcja z `czyta`.
+        korpusy=("proza/README.txt",),
+        kody=(0, 1),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/document.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/corpus.md#where-the-analyses-stop",),
+        ręką=(
+            "odczyt klas pod przebiegiem: czym różnią się czytania zdań wieloznacznych",
+        ),
+    ),
+    Figura(
+        nazwa="readme-czytania",
+        #  Przebieg bez korpusu, bo zdania stoją w samym poleceniu: jest to blok
+        #  wklejony do README, a nie pomiar nad tekstem.
+        polecenie=(
+            "python3",
+            "-m",
+            "olski.check",
+            "--readings",
+            "-c",
+            "Zapisz plik konfiguracyjny.\n"
+            "Koszt samej szynki przewyższa koszt szynki z dodatkami.\n"
+            "Nowa program zapisuje ustawienia.",
+        ),
+        kody=(0, 1),
+        ruszają=(
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("README.md#co-działa",),
+        ręką=("blok wydruku w README przepisać, wraz z arytmetyką pod nim",),
+    ),
+    Figura(
+        nazwa="czytania",
+        polecenie=("python3", "-m", "sonda.czytania", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Klasy bierze sonda, a nazywają je `różniące`, `przyłączenia` i
+        #  `rozbieżności` w `olski/parse.py` oraz `gospodarze` w `DEKLARACJA`:
+        #  gospodarz dopisany jest wyborem dopisanym, choć werdykt stoi.
+        ruszają=(
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/coverage.py",
+            "olski/corpus.py",
+            "olski/leksykon.txt",
+            "sonda/czytania.py",
+        ),
+        czyta=("docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca",),
+    ),
+    Figura(
+        nazwa="powtórzenie",
+        polecenie=("python3", "-m", "sonda.powtórzenie", "proza/"),
+        korpusy=("proza/ksef", "proza/rit"),
+        #  Gramatyki tu nie ma: pozycje wyznacza `pytania` w
+        #  `olski/wieloznaczność.py`, a nie werdykt, więc produkcja nie rusza ani
+        #  jednej liczby tego przebiegu. Ekstrakcja rusza za to obie: udział zdań
+        #  pierwszych w akapicie jest faktem o tym, co `harness/markdown.py`
+        #  liczy za akapit.
+        ruszają=(
+            "harness/markdown.py",
+            "olski/document.py",
+            "olski/morph.py",
+            "olski/wieloznaczność.py",
+            "olski/rozstrzyganie.py",
+            "sonda/powtórzenie.py",
+        ),
+        czyta=("docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek",),
+        ręką=(
+            "odczyt odpowiedzi świadka, bo pod figurą stoi odczyt, a nie stopa",
+            "porównanie reguł, gdy przebieg rusza to, którą z nich wariant wycenia",
+        ),
+    ),
+    Figura(
+        nazwa="rozstrzyganie-proza",
+        polecenie=(
+            "sh",
+            "-c",
+            "python3 -m olski.check --rozstrzygaj proza/ksef/*.txt proza/rit/*.txt",
+        ),
+        #  Powłoka jest tu dlatego, że `olski-check` bierze pliki, a nie katalog,
+        #  i tak samo drukuje to polecenie dokument z `czyta`.
+        korpusy=("proza/ksef", "proza/rit"),
+        kody=(0, 1),
+        ruszają=(
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/rozstrzyganie.py",
+            "olski/skłonności.txt",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek",),
+    ),
+    Figura(
+        nazwa="skłonności-ocena",
+        polecenie=("python3", "-m", "olski.rozstrzyganie", "Składnica-frazowa-180723/", "--oceń"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Ocena buduje tabelę z połowy banku drzew i sprawdza ją na drugiej, więc
+        #  `olski/skłonności.txt` jej nie rusza: ten plik powstaje z całości i jest
+        #  tym, czego ta tabela nie mierzy.
+        ruszają=(
+            "olski/rozstrzyganie.py",
+            "olski/attachment.py",
+            "olski/corpus.py",
+        ),
+        czyta=("docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek",),
+    ),
+    Figura(
+        nazwa="wskazania",
+        polecenie=("python3", "-m", "sonda.wskazania", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Rusza to wszystko, co rusza werdykt, i cała warstwa nad nim, bo pomiar
+        #  jest wskazaniem ocenianym wzorcem: wzorcem jest to, co
+        #  `olski/attachment.py` czyta ze złotego drzewa.
+        ruszają=(
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/corpus.py",
+            "olski/coverage.py",
+            "olski/attachment.py",
+            "olski/rozstrzyganie.py",
+            "olski/skłonności.txt",
+            "olski/leksykon.txt",
+            "sonda/wskazania.py",
+        ),
+        czyta=("docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew",),
+    ),
+    Figura(
+        nazwa="wybory",
+        polecenie=("python3", "-m", "sonda.wybory", "próba/wybory.txt"),
+        #  Korpusu nie ma, bo wzorzec jest w repozytorium: wpisy są pisane ręką i
+        #  stoją, więc rusza tę figurę sama warstwa. Gramatyka jej nie rusza,
+        #  bo pozycje bierze `pytania` w `olski/wieloznaczność.py`, a nie werdykt.
+        ruszają=(
+            "próba/wybory.txt",
+            "olski/wieloznaczność.py",
+            "olski/rozstrzyganie.py",
+            "olski/skłonności.txt",
+            "olski/próbka.py",
+            "sonda/wybory.py",
+        ),
+        czyta=("docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów",),
+        ręką=("przebudowa próby jest osobnym aktem i winna jest odczyt każdego wpisu",),
+    ),
+    Figura(
+        nazwa="wybory-z-odpowiedzią",
+        polecenie=("python3", "-m", "sonda.wybory", "próba/wybory-z-odpowiedzią.txt"),
+        #  Ta sama sonda i ten sam brak korpusu, a osobno od figury wyżej, bo próba
+        #  jest inna: wpisy są losowane z pozycji, o których warstwa się odzywa,
+        #  więc zmiana w niej rusza to, które pozycje do tej próby należą.
+        ruszają=(
+            "próba/wybory-z-odpowiedzią.txt",
+            "olski/wieloznaczność.py",
+            "olski/rozstrzyganie.py",
+            "olski/skłonności.txt",
+            "olski/próbka.py",
+            "sonda/wybory.py",
+        ),
+        czyta=(
+            "docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania",
+        ),
+        ręką=(
+            "podział pomyłek jest odczytem pól `powód`, a nie liczbą z wydruku",
+            "zmiana ruszająca odpowiedzi jest winna nowe losowanie i odczyt jego wpisów",
+        ),
+    ),
+    Figura(
+        nazwa="konwersy",
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.konwersy",
+            "walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt",
+        ),
+        korpusy=("walenty_20160418-text",),
+        #  Gramatyki tu nie ma: liczone są schematy Walentego, więc jedynym
+        #  ruszającym jest kryterium sondy, a `olski/próbka.py` wybiera pary,
+        #  które pod figurą czyta się ręką.
+        ruszają=("sonda/konwersy.py", "olski/walenty.py", "olski/próbka.py"),
+        czyta=("docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma",),
+        ręką=("dwanaście par przeczytać na nowo, bo kryterium ruszone to kryterium bez odczytu",),
+    ),
+    Figura(
+        nazwa="przyłączenie",
+        polecenie=("python3", "-m", "olski.attachment", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Liczone są cudze drzewa, więc produkcja nie rusza tu niczego, a rusza
+        #  to, co ten moduł liczy za zdanie i za grupę imienną.
+        ruszają=("olski/attachment.py", "olski/corpus.py"),
+        czyta=("docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia",),
+    ),
+    Figura(
+        nazwa="ustawy",
+        polecenie=("sh", "-c", "python3 -m olski.check proza/ustawy/*.txt"),
+        #  Korpusem są akty złożone w zdania przez `harness/ustawy.py`, więc rusza
+        #  tę figurę i to, co ten krok składa. Adres ELI, pod którym akt stoi, nie
+        #  rusza się nigdy: akt zmienia inny akt, pod własnym adresem.
+        korpusy=("proza/ustawy",),
+        kody=(0, 1),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/document.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=(
+            "docs/ustawy.md#co-gramatyka-z-tego-wyprowadza",
+            "docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",
+        ),
+        ręką=(
+            "tabele w prozie powstają grepami nad tym wydrukiem, nie są jego wierszami",
+            "bloki wydruku wklejone do dokumentu przepisać, wraz z arytmetyką pod nimi",
+        ),
+    ),
+    Figura(
+        nazwa="przysłówek-ustawy",
+        polecenie=("python3", "-m", "sonda.przysłówek", "proza/ustawy.txt"),
+        #  Ta sama sonda co nad bankiem drzew, a nad rejestrem, o który chodzi:
+        #  cena konstrukcji jest tu inna niż nad prozą literacką.
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/leksykon.txt",
+            "sonda/przysłówek.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",),
+    ),
+    Figura(
+        nazwa="płaski-ustawy",
+        polecenie=("python3", "-m", "sonda.płaski", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/leksykon.txt",
+            "sonda/przysłówek.py",
+            "sonda/płaski.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",),
+    ),
+    Figura(
+        nazwa="interpunkcja-ustawy",
+        polecenie=("python3", "-m", "sonda.interpunkcja", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/leksykon.txt",
+            "sonda/interpunkcja.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",),
+    ),
+    Figura(
+        nazwa="wieloznaczność",
+        polecenie=(
+            "sh",
+            "-c",
+            "python3 -m olski.wieloznaczność proza/ksef/*.txt proza/rit/*.txt",
+        ),
+        korpusy=("proza/ksef", "proza/rit"),
+        #  Figura mierzy rejestr, a nie gramatykę, ale między tekstem a liczbą stoi
+        #  to, co `admissible` w `olski/subset.py` zostawia z czytań morfologii,
+        #  i leksykon pod nim. Stoi ona pod pytaniem otwartym, a nie pod regułą,
+        #  więc przeliczenie, które ją rusza, rusza to, o co tamto pytanie pyta.
+        ruszają=(
+            "harness/markdown.py",
+            "olski/wieloznaczność.py",
+            "olski/subset.py",
+            "olski/morph.py",
+            "olski/walencja.py",
+            "olski/leksykon.txt",
+            "olski/próbka.py",
+        ),
+        czyta=("docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma",),
+        ręką=("zdania z próbki przeczytać na nowo, bo `rozrzucona` wybiera je od nowa",),
+    ),
+    Figura(
+        nazwa="sonda-readme",
+        polecenie=("python3", "-m", "sonda", "proza/README.txt"),
+        korpusy=("proza/README.txt",),
+        #  Pomiar jest różnicą dwóch formalizmów nad jedną prozą, więc rusza go
+        #  każda ze stron osobno, a README rusza obie naraz. `tests/test_sonda.py`
+        #  łapie grubą połowę tego dryfu, czyli werdykt, który przestał się zgadzać,
+        #  i nie łapie żadnej z liczb.
+        kody=(0, 1),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/leksykon.txt",
+            "sonda/__main__.py",
+            "sonda/polszczyzna.py",
+            "sonda/wiezy.py",
+        ),
+        czyta=("docs/design-notes.md#podłoże-więzowe-zmierzone-sondą",),
+        ręką=("rozejścia wypisane pod figurą przeczytać zdanie po zdaniu",),
+    ),
+    Figura(
+        nazwa="końcówki",
+        polecenie=(
+            "python3",
+            "-m",
+            "harness.endings",
+            "proza",
+            "--probe",
+            "nominalization",
+            "--probe",
+            "impersonal",
+        ),
+        korpusy=("proza/ksef", "proza/rit"),
+        #  Klasy deklaruje sonda, a nie korpus, więc rusza tę figurę i ekstrakcja,
+        #  i lista klas: pierwsza rusza liczby, druga potrafi ruszyć klasę.
+        ruszają=("harness/endings.py", "harness/markdown.py", "olski/morph.py"),
+        czyta=(
+            "docs/linter.md#what-the-nominalization-endings-match",
+            "docs/linter.md#the-impersonal-endings-come-out-the-other-way",
+        ),
+    ),
+    Figura(
+        nazwa="ekstrakcja-ksef",
+        polecenie=("sh", "-c", "python3 -m olski.check $(find proza/ksef -name '*.txt')"),
+        korpusy=("proza/ksef",),
+        #  Figurą jest ostatni wiersz wydruku, czyli liczba fragmentów, i rusza ją
+        #  to, co ekstrakcja zostawia, oraz to, co liczy się za zdanie.
+        kody=(0, 1),
+        ruszają=(
+            "harness/markdown.py",
+            "olski/document.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/extraction.md#what-the-numbers-here-were-run-over",),
+    ),
+    Figura(
+        nazwa="ekstrakcja-rit",
+        polecenie=("sh", "-c", "python3 -m olski.check $(find proza/rit -name '*.txt')"),
+        korpusy=("proza/rit",),
+        kody=(0, 1),
+        ruszają=(
+            "harness/markdown.py",
+            "olski/document.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/extraction.md#what-the-numbers-here-were-run-over",),
+    ),
+    Figura(
+        nazwa="ekstrakcja-notes",
+        polecenie=("sh", "-c", "python3 -m olski.check $(find proza/notes -name '*.txt')"),
+        #  Korpus jest cudzym repozytorium klonowanym płasko, więc przebieg, który
+        #  się nie zgadza, potrafi mówić o korpusie ruszonym, a nie o kodzie;
+        #  dokument z `czyta` podaje commit, na którym te liczby wzięto.
+        korpusy=("proza/notes",),
+        kody=(0, 1),
+        ruszają=(
+            "harness/markdown.py",
+            "olski/document.py",
+            "olski/subset.py",
+            "olski/grammar.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "olski/check.py",
+            "olski/leksykon.txt",
+        ),
+        czyta=("docs/extraction.md#what-the-numbers-here-were-run-over",),
+    ),
 )
 
 
 def odcisk(ścieżka: Path) -> str:
     return hashlib.sha256(ścieżka.read_bytes()).hexdigest()[:ZNAKÓW]
+
+
+def wiersz_polecenia(polecenie: Sequence[str]) -> str:
+    """Polecenie jednym wierszem, bo nagłówek pliku figury jest wierszowy.
+
+    Zdanie podane po ``-c`` bywa wielowierszowe, a nagłówek czyta się do pierwszego
+    wiersza pustego, więc nowa linia w argumencie urwałaby polecenie w połowie i
+    figura wychodziłaby z raportu jako należna po wieki. Pisze i czyta to jedna
+    funkcja, żeby zapis i porównanie nie rozjechały się na tym znaku.
+    """
+    return " ".join(polecenie).replace("\n", "\\n")
 
 
 def zapis(figura: Figura, odciski: dict[str, str], wydruk: str) -> str:
@@ -384,7 +881,7 @@ def zapis(figura: Figura, odciski: dict[str, str], wydruk: str) -> str:
     """
     wiersze = [
         f"#  Ten plik powstaje przebiegiem: python3 -m harness.figury {figura.nazwa}",
-        f"polecenie: {' '.join(figura.polecenie)}",
+        f"polecenie: {wiersz_polecenia(figura.polecenie)}",
     ]
     wiersze += [f"korpus: {korpus}" for korpus in figura.korpusy]
     wiersze += [f"czyta: {sekcja}" for sekcja in figura.czyta]
@@ -433,7 +930,7 @@ def stan(figura: Figura, zapisane: str, teraz: dict[str, str]) -> tuple[str, lis
     sprawdzić bez pliku i bez przebiegu; czytanie z dysku jest w ``należność``.
     """
     polecenie, odciski = nagłówek(zapisane)
-    powody = ["polecenie"] if polecenie != " ".join(figura.polecenie) else []
+    powody = ["polecenie"] if polecenie != wiersz_polecenia(figura.polecenie) else []
     powody += [plik for plik in figura.ruszają if odciski.get(plik) != teraz.get(plik)]
     niezmierzone = [plik for plik in figura.ruszają if odciski.get(plik) == NIEZNANY]
     if niezmierzone:
@@ -466,26 +963,28 @@ def przelicz(figura: Figura) -> int:
     przeliczaniu).
     """
     if brakujące := figura.brakujące:
-        print(f"figury: {figura.nazwa} wymaga korpusu, którego tu nie ma: {', '.join(brakujące)}")
+        print(f"figury: {figura.nazwa} wymaga tego, czego tu nie ma: {', '.join(brakujące)}")
         return 2
     poprzedni = figura.plik.read_text(encoding="utf-8") if figura.plik.exists() else ""
     odciski = {plik: NIEZNANY for plik in figura.ruszają} | odciski_drzewa(figura)
     przebieg = subprocess.run(
         figura.polecenie, cwd=KORZEŃ, capture_output=True, text=True, check=False
     )
-    if przebieg.returncode != 0:
+    if przebieg.returncode not in figura.kody or (przebieg.returncode and przebieg.stderr):
         sys.stderr.write(przebieg.stderr)
         print(f"figury: {' '.join(figura.polecenie)} wyszło z kodem {przebieg.returncode}")
         return 2
     KATALOG.mkdir(exist_ok=True)
     figura.plik.write_text(zapis(figura, odciski, przebieg.stdout), encoding="utf-8")
     print(f"figury: {figura.plik.relative_to(KORZEŃ)} przeliczona")
-    if ciało(poprzedni) == przebieg.stdout.rstrip("\n"):
+    if not poprzedni or ciało(poprzedni) == przebieg.stdout.rstrip("\n"):
         return 0
     #  Prozy nikt za autora nie poprawi, a przeliczenie jest jedyną chwilą, w której
     #  widać, że liczby się ruszyły, więc raport nad figurą aktualną już tego nie powie.
     for sekcja in figura.czyta:
         print(f"figury: wydruk inny niż poprzednio, więc przeczytaj restytucję: {sekcja}")
+    for robota in figura.ręką:
+        print(f"figury: wydruk inny niż poprzednio, więc zostaje ręką: {robota}")
     return 0
 
 
@@ -516,18 +1015,24 @@ def raport() -> int:
     Nie pobiera niczego i nie wykonuje żadnej sondy, więc odpowiada tam, gdzie
     korpusu nie ma, w sesji z pustym kontenerem włącznie.
     """
+    #  Szerokość bierze się z najdłuższej nazwy, a nie z liczby wpisanej tutaj:
+    #  wpisana rozjeżdża kolumny przy pierwszej figurze o nazwie dłuższej,
+    #  a raport czyta się właśnie kolumnami.
+    szerokość = max(len(figura.nazwa) for figura in FIGURY)
     należne = 0
     for figura in FIGURY:
         odpowiedź, powody = należność(figura)
         powód = f" — {', '.join(powody)}" if powody else ""
-        print(f"{figura.nazwa:<16} {odpowiedź}{powód}")
+        print(f"{figura.nazwa:<{szerokość}} {odpowiedź}{powód}")
         if odpowiedź == AKTUALNA:
             continue
         należne += 1
         if brakujące := figura.brakujące:
-            print(f"{'':<16} przeliczy ją ktoś z korpusem: {', '.join(brakujące)}")
+            print(f"{'':<{szerokość}} wymaga tego, czego tu nie ma: {', '.join(brakujące)}")
         for sekcja in figura.czyta:
-            print(f"{'':<16} restytucja w prozie: {sekcja}")
+            print(f"{'':<{szerokość}} restytucja w prozie: {sekcja}")
+        for robota in figura.ręką:
+            print(f"{'':<{szerokość}} ręką: {robota}")
     return 1 if należne else 0
 
 

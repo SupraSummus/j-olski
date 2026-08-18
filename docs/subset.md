@@ -2226,6 +2226,9 @@ jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.
 Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokumentach,
 a policzyć ją drugi raz można tylko wtedy, gdy wiadomo, co się liczy.
+Rusza tę liczbę każda produkcja dająca modyfikatorowi pozycję,
+a policzenie jej na nowo jest odliczeniem ręką według granicy wyżej,
+bo żaden przebieg jej nie drukuje i nie ma jej w `FIGURY` w `harness/figury.py`.
 
 Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
 i nie jest to zdanie odrzucone.

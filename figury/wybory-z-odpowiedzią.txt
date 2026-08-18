@@ -1,0 +1,109 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury wybory-z-odpowiedzią
+polecenie: python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
+czyta: docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania
+ruszają:
+  próba/wybory-z-odpowiedzią.txt: d26d1b05034d
+  olski/wieloznaczność.py: d1825bd9c105
+  olski/rozstrzyganie.py: 215da1a8dcc0
+  olski/skłonności.txt: 69b40213208c
+  olski/próbka.py: 6ab8f4984f54
+  sonda/wybory.py: 2b89a476afea
+
+30 wyborów ze wzorcem, z tego 3 do przemilczenia
+     2  oba
+     1  żadne
+
+  co warstwa odpowiedziała:
+    29   96.7% odpowiedzi,  82.8% trafień    skłonność
+     1   33.3% wyborów do przemilczenia przemilczanych
+    25   83.3% wyborów rozstrzygniętych dobrze
+
+  wpis po wpisie:
+  trafna  „z kilku uprawnień” → „jednego”, wzorzec: jednego
+    OpenAPI Ujednolicono opisy wymaganych uprawnień: gdy wystarczy posiadanie jednego z kilku uprawnień, zastosowano sformułowanie „Wymagane jedno z uprawnień”, a w przypadku pojedynczego uprawnienia — „Wymagane uprawnienie”.
+    „z” przy „jednego” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  pomyłka „w UTC” → „wystąpienia”, wzorzec: czas
+    Rozszerzono ForbiddenProblemDetails i UnauthorizedProblemDetails o właściwość timestamp ("Data i czas wystąpienia błędu w UTC.").
+    „w” przy „wystąpienia” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „na przesyłanie faktur z załącznikiem” → „zgody”, wzorzec: zgody
+    Dane testowe - załączniki (POST /testdata/attachment/revoke) Rozszerzono model żądania AttachmentPermissionRevokeRequest o pole expectedEndDate (opcjonalne) - data wycofania zgody na przesyłanie faktur z załącznikiem.
+    „na” przy „zgody” doszło tam w 3 z 3 wypadków banku drzew, 100%
+  trafna  „z dwóch sytuacji” → „jednej”, wzorzec: jednej
+    Publikacja nowego certyfikatu może wynikać z jednej z dwóch sytuacji:
+    „z” przy „jednej” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „na wywołanie endpointu GET /certificates/enrollments/data” → „odpowiedzi”, wzorzec: odpowiedzi
+    Aby rozpocząć proces aplikowania o certyfikat KSeF, należy pobrać zestaw danych identyfikacyjnych, które system zwróci w odpowiedzi na wywołanie endpointu GET /certificates/enrollments/data.
+    „na” przy „odpowiedzi” doszło tam w 5 z 5 wypadków banku drzew, 100%
+  trafna  „o błędzie” → „informacje”, wzorzec: informacje
+    Jeżeli wniosek certyfikacyjny zostanie odrzucony, w odpowiedzi otrzymamy informacje o błędzie.
+    „o” przy „informacje” doszło tam w 6 z 6 wypadków banku drzew, 100%
+  trafna  „o liczbie poprawnie i błędnie przetworzonych faktur” → „informacje”, wzorzec: informacje
+    Po zamknięciu sesji, w odpowiedzi na sprawdzenie jej stanu (krok 2 – Sprawdzenie stanu sesji), zwracane są nie tylko informacje o liczbie poprawnie i błędnie przetworzonych faktur, lecz także lista referencji do zbiorczych UPO.
+    „o” przy „informacje” doszło tam w 6 z 6 wypadków banku drzew, 100%
+  trafna  „do certyfikatu” → „dostępu”, wzorzec: dostępu
+    Generowanie wymaga posiadania aktywnego certyfikatu KSeF typu Offline – link zawiera kryptograficzny podpis URL przy użyciu klucza prywatnego certyfikatu KSeF typu Offline, co zapobiega sfałszowaniu linku przez podmioty nieposiadające dostępu do certyfikatu.
+    „do” przy „dostępu” doszło tam w 10 z 10 wypadków banku drzew, 100%
+  pomyłka „dla wszystkich użytkowników” → „warunków”, wzorzec: oba
+    Ich celem jest ochrona stabilności systemu, ochrona przed cyber zagrożeniami oraz zapewnienie równych warunków dostępu dla wszystkich użytkowników.
+    „dla” przy „warunków” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „do ich pobierania” → „podejścia”, wzorzec: podejścia
+    W zależności od wolumenu faktur można stosować różne podejścia do ich pobierania:
+    „do” przy „podejścia” doszło tam w 4 z 4 wypadków banku drzew, 100%
+  pomyłka „w KSeF” → „dokumentu”, wzorzec: rejestracji
+    Tryb interaktywny, mimo większego narzutu sieciowego w przypadku większych wolumenów, jest niezbędnym uzupełnieniem trybu wsadowego w scenariuszach wymagających bieżącej reakcji lub natychmiastowej rejestracji dokumentu w KSeF.
+    „w” przy „dokumentu” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „o szyfrowaniu” → „informacji”, wzorzec: informacji
+    Wymagane jest przekazanie informacji o szyfrowaniu w polu encryption, które służą wykorzystywane do zaszyfrowania wygenerowanych paczek z fakturami.
+    „o” przy „informacji” doszło tam w 6 z 6 wypadków banku drzew, 100%
+  trafna  „o wydanie certyfikatu” → „wniosku”, wzorzec: wniosku
+    sprawdzić status złożonego wniosku o wydanie certyfikatu,
+    „o” przy „wniosku” doszło tam w 22 z 22 wypadków banku drzew, 100%
+  trafna  „od środowiska” → „zależności”, wzorzec: zależności
+    zróżnicowane w zależności od środowiska (środowisko testowe ma limity mniej restrykcyjne niż produkcyjne),
+    „od” przy „zależności” doszło tam w 4 z 4 wypadków banku drzew, 100%
+  trafna  „z chronionych zasobów API KSeF” → „korzystania”, wzorzec: korzystania
+    Aby skorzystać z wysyłki wsadowej, należy najpierw przejść proces uwierzytelnienia i posiadać aktualny token dostępu (accessToken), który uprawnia do korzystania z chronionych zasobów API KSeF.
+    „z” przy „korzystania” doszło tam w 7 z 7 wypadków banku drzew, 100%
+  trafna  „o awarii” → „komunikat”, wzorzec: komunikat
+    W trybie awaryjnym, jeżeli podczas siedmiodniowego okresu na dosłanie faktury pojawi się kolejny komunikat o awarii, licznik terminu resetuje się i biegnie od dnia zakończenia tej kolejnej awarii.
+    „o” przy „komunikat” doszło tam w 4 z 4 wypadków banku drzew, 100%
+  cisza + „w KSeF” [żadne] w: Osobom fizycznym identyfikowanym przez PESEL, NIP lub odcisk palca certyfikatu – do pracy w KSeF:
+  trafna  „do danych wielu partnerów biznesowych” → „dostępem”, wzorzec: dostępem
+    System KSeF umożliwia nadawanie wybranych uprawnień w sposób ogólny (generalny) lub selektywny (indywidualny), co pozwala elastycznie zarządzać dostępem do danych wielu partnerów biznesowych.
+    „do” przy „dostępem” doszło tam w 10 z 10 wypadków banku drzew, 100%
+  pomyłka „w kontekście fakturowania” → „zastosowanie”, wzorzec: oba
+    Dla wybranych procesów fakturowania KSeF przewiduje tzw. uprawnienia podmiotowe, które mają zastosowanie w kontekście fakturowania w imieniu innego podmiotu (TaxRepresentative, SelfInvoicing, RRInvoicing).
+    „w” przy „zastosowanie” doszło tam w 4 z 4 wypadków banku drzew, 100%
+  trafna  „z partnerem zewnętrznym” → „współpracy”, wzorzec: współpracy
+    Proces odbierania uprawnień w KSeF jest równie istotny, jak ich nadawanie – zapewnia kontrolę dostępu i umożliwia szybkie reagowanie w sytuacjach, takich jak zmiana roli pracownika, zakończenie współpracy z partnerem zewnętrznym lub naruszenie zasad bezpieczeństwa.
+    „z” przy „współpracy” doszło tam w 5 z 5 wypadków banku drzew, 100%
+  trafna  „z KSeF” → „korzystania”, wzorzec: korzystania
+    Podmioty unijne również mogą mieć przypisane uprawnienia do korzystania z KSeF.
+    „z” przy „korzystania” doszło tam w 7 z 7 wypadków banku drzew, 100%
+  trafna  „o kategoriach, podkategoriach, atrybutach kategorii” → „informacje”, wzorzec: informacje
+    /v1/metadata/categories - zwraca informacje o kategoriach, podkategoriach, atrybutach kategorii i inne
+    „o” przy „informacje” doszło tam w 6 z 6 wypadków banku drzew, 100%
+  trafna  „o żądającym” → „informacje”, wzorzec: informacje
+    Element metric ma za zadanie przekazać do Systemu RIT informacje o żądającym.
+    „o” przy „informacje” doszło tam w 6 z 6 wypadków banku drzew, 100%
+  pomyłka „do systemu RIT” → „czasie”, wzorzec: przekazywania
+    W czasie przekazywania danych do systemu RIT, każdy obiekt turystyczny musi mieć przydzieloną kategorię.
+    „do” przy „czasie” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „z języków narodowych” → „jednym”, wzorzec: jednym
+    Wersja językowa to zestaw wartości atrybutów, które są zapisane w jednym z języków narodowych.
+    „z” przy „jednym” doszło tam w 2 z 2 wypadków banku drzew, 100%
+  trafna  „z kolejnych jej pozycji” → „kontakty”, wzorzec: kontakty
+    W przypadku braku odpowiedzi należy wypróbować kontakty z kolejnych jej pozycji:
+    „z” przy „kontakty” doszło tam w 10 z 11 wypadków banku drzew, 91%
+  trafna  „do stosowania wobec siebie nazw typów” → „prawo”, wzorzec: prawo
+    Kategoryzacja obiektów turystycznych hotelarskich, które zostały opisane w art. 37 ustawy z dnia 29 sierpnia 1997 r. o usługach turystycznych musi być zorganizowana w postaci słownika (zamkniętej listy) zgodnego z zapisami art. 38 tej samej ustawy z dodaniem jednej dodatkowej pozycji brzmiącej „W oczekiwaniu na kategoryzację” i stosowanej do obiektów, których proces kategoryzacji został rozpoczęty, nie został jeszcze zakończony, a które to obiekty uzyskały już prawo do stosowania wobec siebie nazw typów wymienionych w art. 37.
+    „do” przy „prawo” doszło tam w 12 z 12 wypadków banku drzew, 100%
+  trafna  „z interfejsów” → „korzystanie”, wzorzec: korzystanie
+    Interfejsy opisane są dokumentami WSDL, do których dostęp (i dalsze korzystanie z interfejsów) zachodzi protokołem HTTPS z wykorzystaniem szyfrowanego (wymagającego hasła) certyfikatu klienckiego, który tworzy i udostępnia Polska Organizacja Turystyczna.
+    „z” przy „korzystanie” doszło tam w 7 z 7 wypadków banku drzew, 100%
+  trafna  „z pierwszą osobą” → „kontakt”, wzorzec: kontakt
+    W razie pytań, uwag i sugestii prosimy o kontakt z pierwszą osobą z poniższej listy.
+    „z” przy „kontakt” doszło tam w 10 z 11 wypadków banku drzew, 91%
+  trafna  „o licencji” → „informacji”, wzorzec: informacji
+    W przypadku wprowadzania ich bezpośrednio w systemie RIT możliwe jest dodanie informacji o licencji o określenie rozmaitych ograniczeń udostępniania - warto z tego korzystac.
+    „o” przy „informacji” doszło tam w 6 z 6 wypadków banku drzew, 100%

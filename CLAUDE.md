@@ -531,402 +531,137 @@ ruff check .
 npx --yes markdownlint-cli@0.45.0 '**/*.md'
 ```
 
-Morfeusz 2 is a runtime dependency and installs from PyPI,
-so the editable install brings it along with pytest, ruff
-and the parser the harness reads Markdown with.
-Where its wheel does not build,
-every test file that reaches the analyser skips rather than failing to collect,
-so the run reports the tests that stand clear of it instead of zero tests.
-A green run in such an environment has not been near
-the grammar, the morphology, the treebank reader or the compiler,
-and the skip count is where that shows.
+Morfeusz 2 jest zależnością wykonawczą i instaluje się z PyPI,
+więc instalacja edytowalna przynosi go razem z pytestem, ruffem
+i parserem, którym harness czyta Markdown.
+Gdzie jego wheel się nie buduje,
+każdy plik testowy dochodzący do analizatora jest pomijany,
+zamiast wywracać zbiórkę,
+więc przebieg melduje testy stojące obok niego, a nie zero testów.
+Przebieg zielony w takim środowisku nie był ani przy gramatyce,
+ani przy morfologii, ani przy czytniku banku drzew, ani przy kompilatorze,
+i widać to po liczbie pominięć.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)
-runs the same checks on every push,
-which is what verifies the combination of two sessions that never saw each other.
-Its install step takes Morfeusz from PyPI and fails the job when that fails,
-so a branch's latest commit is never covered by a partial run alone.
-The command list above and the workflow's steps are two copies,
-and `tests/test_docs.py` holds them equal,
-so a check added to one fails the suite until it is in the other.
-The workflow carries no badge.
+uruchamia te same checki przy każdym pushu,
+i to on sprawdza złożenie dwóch sesji, które się nie widziały.
+Jego krok instalacyjny bierze Morfeusza z PyPI i wywraca zadanie, kiedy to zawiedzie,
+więc ostatni commit gałęzi nie opiera się nigdy na samym przebiegu częściowym.
+Lista poleceń wyżej i kroki workflowu są dwiema kopiami,
+a `tests/test_docs.py` utrzymuje je równe,
+więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
+Workflow nie nosi znaczka.
 
-**A figure has one owner, and the owner is a file a run writes.**
-A figure belongs in `figury/`, where the run's output stands and nothing else,
-and the document that reads it restates the figure coarsely and links the file:
-an order of magnitude, a ratio, a direction.
-That is [one owner per fact](#one-owner-per-fact-repeat-narrative-freely)
-applied to a measured number rather than a new rule,
-and what it buys is prose a rerun does not touch,
-because "przeszło sto zdań" stays true when 148 becomes 151.
-Full precision in a paragraph costs the opposite:
-one rerun becomes a heading, a table, the sentences under it
-and the numbers somebody derived from them by hand,
-and none of those fails when it is left undone.
+**Figura ma jednego właściciela, a właścicielem jest plik, który wypisuje przebieg.**
+Figura należy do `figury/`, gdzie stoi wydruk przebiegu i nic poza nim,
+a dokument, który ją czyta, powtarza ją grubiej i wskazuje ten plik:
+rząd wielkości, stosunek, kierunek.
+Jest to [jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
+zastosowany do liczby zmierzonej, a nie osobna reguła,
+i kupuje prozę, której przeliczenie nie dotyka,
+bo „przeszło sto zdań” zostaje prawdą, kiedy 148 robi się 151.
+Pełna precyzja w akapicie kosztuje odwrotnie:
+jedno przeliczenie robi się nagłówkiem, tabelą, zdaniami pod nią
+i liczbami, które ktoś z nich wyliczył ręką,
+a żadna z tych rzeczy nie wywraca się, kiedy zostaje niezrobiona.
 
-**A heading holds no count a rerun can move,** because a heading is an address.
-`Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` was one,
-and one grammar change renamed it, its anchor, and the seven files that linked it —
-`tests/test_docs.py` failing on each until it was carried through.
-The coarse forms above are allowed here as they are in a paragraph,
-and so is a zero: a construction that costs nothing says so in its heading,
-and a zero that stops being one is a decision reversed rather than a number moved,
-so renaming the section then is the point.
-A count above zero has neither excuse,
-and `Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka`
-is what the shape looks like when the magnitude stays outside the address.
+**Nagłówek nie trzyma liczby, którą przeliczenie rusza,** bo nagłówek jest adresem.
+`Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` był taki,
+a jedna zmiana w gramatyce przemianowała go, jego anchor
+i siedem plików, które go linkowały,
+z `tests/test_docs.py` wywracającym się na każdym po kolei.
+Rząd wielkości, stosunek i kierunek wolno tu tak samo jak w akapicie, i wolno zero:
+konstrukcja, która nie kosztuje nic, mówi to w nagłówku,
+a zero, które przestaje być zerem, jest decyzją odwróconą, a nie liczbą ruszoną,
+więc przemianowanie sekcji jest wtedy właśnie tym, o co chodzi.
+Liczba powyżej zera nie ma ani jednej z tych wymówek,
+a `Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka`
+jest tym kształtem, w którym rząd wielkości stoi poza adresem.
 
-What moves a figure is declared beside it rather than described here.
-`FIGURY` in [`harness/figury.py`](harness/figury.py)
-names, per figure, the command, the corpora it needs,
-the files whose change moves the numbers, and the section that restates it,
-and the figure's own file records those files' digests as of its run.
-So `python3 -m harness.figury` answers what is owed a rerun
-by comparing two strings, fetches nothing, and runs anywhere,
-while `python3 -m harness.figury <nazwa>` is the rerun itself
-and belongs to whoever has the corpus.
-One change to the parser leaves a dozen figures owed at once,
-so `python3 -m harness.figury --należne` reruns every one the report names.
-The reruns do not go in the check block above and do not run on a push:
-the corpora are archives of tens of megabytes fetched once per session,
-and a runner that fetched them all on every push would pay that per commit.
-What the suite holds is in `tests/test_figury.py`, which starts no probe:
-the answer the report gives from a file's digests and command,
-and the wiring under it —
-that a declared mover is a file that exists,
-and that a figure names a section which does.
+**Co rusza figurę, stoi w deklaracji obok niej, a nie w tym pliku.**
+`FIGURY` w [`harness/figury.py`](harness/figury.py) podaje na każdy przebieg
+polecenie, korpusy, bez których nie ma on czego czytać,
+pliki, których zmiana rusza liczby, sekcje powtarzające figurę grubiej
+oraz to, co po przeliczeniu zostaje ręką,
+a plik figury zapisuje odciski tych plików z chwili przebiegu.
+`python3 -m harness.figury` odpowiada więc o należnościach z dwóch napisów
+i nie pobiera niczego, więc odpowiada w każdym środowisku;
+`python3 -m harness.figury <nazwa>` jest samym przeliczeniem
+i należy do kogoś, kto ma czym je wykonać;
+`python3 -m harness.figury --należne` przelicza wszystko, co raport nazywa należnym,
+bo jedna zmiana w parserze czyni należnym kilkanaście figur naraz.
+Nowa figura dostaje wpis w tej deklaracji, a nie akapit tutaj:
+lista figur pisana prozą rośnie z każdym pomiarem,
+czyta się od początku do końca i nie wywraca niczego, kiedy zardzewieje.
+Figura, której nie bierze żadne polecenie — cena konstrukcji,
+której gramatyka nie ma, policzona ręką na produkcjach —
+nazywa w swojej sekcji produkcje, które zdejmuje,
+bo inaczej nikt nie weźmie jej drugi raz
+i zostaje mu wybór między liczbą nieaktualną a wymyśloną.
 
-A figure whose numbers were moved out of a document rather than taken by a run
-records `nieznany` in place of a digest,
-and the report calls it neither current nor owed but unmeasured here.
+Dwie odpowiedzi raportu nie są ani aktualnością, ani należnością przeliczenia.
+Figura zadeklarowana bez pliku stoi przed pierwszym przebiegiem,
+a raport nazywa przy niej to, czego ten przebieg wymaga,
+bo pierwszy przebieg nad figurą jest decyzją, a nie krokiem porządkowym.
+Figura, której liczby przeniesiono z dokumentu, zamiast wziąć je przebiegiem,
+ma w miejscu odcisku `nieznany`
+i nie jest ani aktualna, ani należna, tylko niezmierzona tutaj.
+Przeliczenia nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
+korpusy są archiwami dziesiątek megabajtów pobieranymi raz na sesję,
+a runner pobierający je przy każdym commicie płaciłby za to raz na commit.
+Suita trzyma to, co jest w `tests/test_figury.py`, i nie startuje żadnej sondy:
+odpowiedź, którą raport daje z odcisków i z polecenia,
+oraz wiązanie pod nią — że ruszający zadeklarowany jest plikiem, który istnieje,
+i że figura nazywa sekcję, która istnieje.
 
-The list below is the same demand in prose, for the figures that have no owner yet,
-and it is [adopted lazily](#reguły-przyjmujemy-leniwie) like every other rule here:
-a change touching one of these figures moves it into the declaration
-and deletes its paragraph from the list.
-Each names the document, and each is part of the change rather than after it.
+Przebieg czyta kod raz, przy imporcie,
+a trwa dość długo, żeby zaprosić do puszczenia go i edytowania dalej.
+Przebieg wystartowany przed edycją zmierzył kod z tamtej chwili,
+dwa przebiegi za jedną komendą nie muszą mierzyć tego samego kodu,
+a żaden z nich nie mówi tego w swoim wydruku.
+Przeliczaj po ostatniej edycji, a nie obok niej.
 
-A change in the grammar, in the readings it is given,
-or in what counts as one reading
-moves the tables in [`docs/corpus.md`](docs/corpus.md),
-which are the output of a run over a treebank the suite does not hold.
-The third of those is the one a session can make without noticing:
-`signature` in `olski/parse.py` is four lines and no production,
-and it moves every verdict the other two move.
-Fetch the corpus as that document says, rerun `olski-corpus`,
-and correct the tables in the same commit.
-One of those tables has a fourth thing that moves it and no production in sight:
-[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych)
-is what `Las.numer_czytania` in `olski/parse.py` answers
-about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
-so a change to either moves that table and leaves the rest of the run standing.
-A second table sits under that same heading, saying which reading the gold one is,
-and it has a mover the first one has not:
-the order the forest yields readings in, which `ciała` in `olski/parse.py` fixes.
-Whether a reading is in the forest does not depend on that order and its number is nothing else,
-so a rewrite there can leave every verdict and every survival answer alone
-and still move the second table.
-The same change moves what that document says about the run over the README,
-which is the other half of the same demand and needs no fetch at all:
-rerun the two commands it prints and correct the sentences under them.
-The README prints a run of its own, verdicts and reading counts included,
-and it goes with those: a figure there is the first one a reader checks.
+**Blok wydruku wklejony do dokumentu jest prozą, a nie figurą.**
+Rusza go to, co werdykt drukuje obok swoich liczb —
+wiersz dopisany w `explain` w `olski/subset.py`
+albo pole dopisane w `Deklaracja` w `olski/parse.py` —
+i wtedy bloki w README,
+w [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+i w [`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+bierze się ręką, razem z arytmetyką pod nimi,
+bo dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze.
+Żadne przeliczenie tego nie zrobi, więc figura, której blok stoi w dokumencie,
+mówi to w polu `ręką`.
 
-That count has a second thing that moves it, and it is not a change to the code.
-Rewording the README moves it too, because the sentences it counts are that file's,
-and the rule against writing down a figure measured over this repository's own prose
-does not reach it: the figure is about the grammar and lives in another document.
-So the demand lands here instead.
-A commit that touches README prose reruns those same two commands
-and corrects the sentences under them,
-and that includes a commit whose subject is anything else —
-a paragraph added about a new capability moves the count exactly as a rewrite does.
+**Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
+`olski/leksykon.txt` jest leksykonem walencyjnym,
+który `olski/walenty.py` wyprowadza z Walentego,
+a `olski/skłonności.txt` tabelą skłonności,
+którą `olski/rozstrzyganie.py` liczy nad Składnicą.
+Polecenie i wejście podaje przy pierwszym
+[sekcja o leksykonie](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+a przy drugim
+[sekcja o świadku](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+Wpis dopisany do takiego pliku wprost ginie przy następnym przebiegu generatora,
+a razem z nim ginie powód, dla którego go dopisano.
+Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któregoś:
+gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
+a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
 
-A printed run has a third mover, and it is neither the grammar nor the prose:
-what the verdict prints beside its counts.
-A row added to `explain` in `olski/subset.py`,
-or a field added to `Deklaracja` in `olski/parse.py`,
-moves the blocks quoted in the README,
-in [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
-and in [`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
-while every count in them stands still,
-so the reruns above answer nothing and the blocks have to be taken again by hand.
-Such a change is also owed the arithmetic under those blocks:
-a document saying how many of a sentence's readings the verdict explains
-is counting rows, and one row more multiplies that number.
-
-Two figures over that treebank live in `docs/subset.md` instead,
-where [what prepositional attachment costs](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-counts the productions that give it a position
-and the sentences the grammar reads backwards without them.
-They move with the same run and are the easiest in this list to miss,
-because the document they sit in is the one a grammar change is written from
-rather than the one it reports into.
-A counterfactual figure of that kind also has to name the productions it drops,
-or the next session cannot take it again
-and has only the choice between leaving a stale number and inventing a new one.
-
-Two tables in [`docs/disambiguation.md`](docs/disambiguation.md) move with the grammar
-and are moved by different things besides, so they are owed separately.
-[What the verdict names over an ambiguous sentence](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
-counts the classes `sonda/czytania.py` sorts into,
-and those come from `różniące`, `przyłączenia` and `rozbieżności` in `olski/parse.py`,
-so a change to any of the three moves the table without moving a single verdict —
-and so does `gospodarze` in `DEKLARACJA` in `olski/subset.py`,
-which decides which constituents a modifier can be said to attach to at all.
-That one reaches past this table:
-a host added there is a choice added to every figure below
-that counts what a verdict names, while the verdicts themselves stand still,
-so "the language did not change" does not excuse those reruns either.
-The share where attachment is the whole decision has a mover the classes have not,
-since `całe_przyłączenie` compares a product of hosts against the reading count:
-a production giving a modifier a third host moves it while the class stands still.
-[What the propensity witness reaches](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
-is measured over the treebank rather than over the grammar,
-so no production moves it and the reruns above never reach it;
-what moves it is a change to what `olski/attachment.py` counts as a host
-or to what `olski/rozstrzyganie.py` counts as evidence,
-and the same change means the committed `olski/skłonności.txt` has to be built again,
-because a table generated by an older rule is not the table that command prints.
-The blocks quoted under that heading are printed runs like the ones above,
-so a row added to the verdict, or a reason reworded in a witness, takes them by hand.
-
-A third set sits under that same heading and has a different mover from either.
-[What the context witness reaches](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
-is `sonda/powtórzenie.py` over the audit corpus rather than over the treebank,
-and the grammar does not move what that probe prints:
-the positions it counts come from `pytania` in `olski/wieloznaczność.py`,
-so what moves them is what that module reads as a preposition standing after a group.
-Two figures under that heading do come from the grammar and no probe prints them —
-how many choices the verdicts stake over that corpus,
-and how many of them the layer answers —
-and both are rows of `olski-check --rozstrzygaj` over the extracted prose,
-which the section names in prose rather than printing as a block.
-What moves the answers is `Powtórzenie` and `Sąsiedztwo` in `olski/rozstrzyganie.py`,
-which decide what counts as the same phrase and what counts as the neighbourhood,
-`_łańcuch` beside them, which decides what counts as standing by a host,
-`_pasujący` and `KOPULY` next to it, which decide which lemma may match a host at all,
-and `REGUŁY` in the probe, which is the two rules that decision was taken against.
-`_grupa` in `olski/wieloznaczność.py` moves both halves at once,
-since the hosts a position offers are taken by the same walk `_łańcuch` makes,
-which is why the two are one criterion and not two.
-The extraction moves it as well, and this is the figure where that shows most,
-since the share of sentences standing first in their paragraph
-is a fact about what `harness/markdown.py` calls a paragraph.
-The answers read by hand under it are a reading and not a count,
-so a rerun that moves them is owed the reading again rather than a corrected number,
-and one that moves which rule a variant prices is owed the comparison beside them.
-
-Two more sets in that document measure the resolving layer against an answer key,
-which is what makes their movers wider than either set above:
-everything that moves a verdict moves them, and so does every part of the layer.
-[What the layer answers over the treebank's verdicts](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
-is `sonda/wskazania.py`, so the grammar moves it, `olski/parse.py` moves it,
-`olski/rozstrzyganie.py` and the committed `olski/skłonności.txt` move it,
-and so does what `olski/attachment.py` reads off the gold tree,
-since that is the answer each verdict is scored against.
-Its accuracy is measured on material the propensity table was built from,
-so a change that moves the table moves a figure this document already calls a ceiling.
-[What the layer answers over the trial set](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)
-is `sonda/wybory.py` over `próba/wybory.txt`, which is written by hand and committed,
-so the entries hold still and only the layer moves what the layer answered —
-the grammar does not reach them at all, because the positions come from
-`olski/wieloznaczność.py` rather than from a verdict.
-One figure in that section is not about the entries but about the pool they were drawn from,
-and `pytania` in that module is what moves it,
-so a change there is owed that count alongside the witness's reach above.
-Rebuilding that file is a different act from rerunning the figures
-and is owed the reading of every entry it adds, per the file's own header.
-[What the frequency table gets wrong over documentation](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
-is the same probe over `próba/wybory-z-odpowiedzią.txt` and has one mover the other has not,
-because that file's entries are drawn from the positions the layer answers over:
-a change to `olski/rozstrzyganie.py` or to the committed `olski/skłonności.txt`
-moves which positions belong in it,
-and what that costs depends on whether the entries themselves move.
-A change moving the answers those thirty entries carry
-is owed a rebuilt draw and the reading of every entry in it, not a corrected number.
-A change that only leaves the frame smaller, every entry answering as it did,
-is owed the population figure and the frame written into the document,
-since rebuilding would spend thirty readings to measure the same thing twice.
-The split that section reports is a reading of the `powód` fields rather than a count,
-so a rerun that moves it is owed that reading again.
-
-A rewrite of the grammar that moves no verdict still moves those tables,
-so "the language did not change" is not a reason to skip the rerun.
-Where a rejected sentence stopped is the furthest point some analysis reached,
-and that depends on which productions were tried rather than on which succeeded,
-so two grammars accepting the same sentences with the same readings
-rank the blockers differently.
-Every figure taken behind a dropped group of productions moves for the same reason:
-the grammar it was measured on is the one with the group missing,
-and that one is not the same grammar twice.
-
-The parser moves that ranking as well, and it is the easier of the two to miss,
-because a change there is not a change to the language at all.
-Which productions were tried is a fact about the traversal,
-so a rewrite of `olski/parse.py` that leaves every verdict alone
-can still rank the blockers differently,
-and the rerun is what says whether it did.
-
-A grammar change moves one more set of tables,
-and they sit in the document furthest from where a grammar change is written:
-[what the grammar derives from statutes](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)
-is a run over acts an API serves rather than over a treebank.
-A change to what `harness/ustawy.py` composes into a sentence moves them as well,
-since the sentences the grammar is shown there are the ones that step produced.
-That document holds a second run of the same kind and the grammar moves it too:
-[where the analyses stop in that register](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
-ranks the blockers there and prices each construction's move against them,
-so it is owed alongside the tables above rather than instead of them.
-A third is a differential rather than a run over olski as it stands:
-[what the two modifiers at once buy](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
-compares olski against a variant with that position removed,
-over the statutes, over the treebank and over the rules of legislative drafting,
-so every grammar change moves it and none of the reruns above reaches it.
-The fetch is a command that document prints,
-and what it names is an ELI address rather than a commit,
-which is the one pin in this list that cannot move:
-an act is amended by another act carrying its own address,
-so the text under an address stays as it was promulgated.
-
-A run reads the code once at import,
-and it lasts long enough to invite starting it and editing on.
-So a run started before an edit measures the code as it was,
-two runs chained behind one command need not measure the same code at all,
-and neither says so anywhere in its output.
-Rerun after the last edit, not alongside it.
-
-[`docs/firing-rates.md`](docs/firing-rates.md) is the one document in this list
-that no change moves, because the pack it reports on is deleted.
-It is kept as the price the retirement was decided at,
-it says so in its own opening, and nothing in it is to be recomputed:
-a figure there that looks wrong is a figure about a program that is gone.
-
-The rerun is owed for the figures in
-[`docs/generated-polish.md`](docs/generated-polish.md#what-was-measured),
-the pairs per rule and the fragment counts in
-[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over),
-the ones over the Markdown corpus in
-[`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken),
-the sizes in
-[`docs/audit-corpus.md`](docs/audit-corpus.md#the-list),
-and the ending tables in
-[`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match),
-and what moves them is a change in what
-[the extraction](docs/extraction.md) keeps.
-That is why the extraction is in this list twice over:
-it decides both the sizes a document reports
-and which words a probe is shown,
-so a change to it moves a count and can move a class as well.
-The ending tables have a second thing of their own that moves them,
-since the classes a probe in `harness/endings.py` sorts into
-are declared there rather than read off the corpus.
-Each of them prints the commands that produce its figures,
-which is the whole reason those commands are there.
-
-One table in this list is not moved by the grammar at all,
-and it is the one easiest to leave stale for that reason.
-[The attachment table](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia)
-counts other people's trees,
-so no production moves it and the reruns above never reach it.
-What moves it is a change to what `olski/attachment.py` counts —
-which categories are a clause and which a noun phrase,
-what standing after a verb means —
-and there the rerun is owed like any other.
-
-A second one is moved by nothing but its own probe, and it owes a reading as well.
-[How many verbs read a transitive sentence both ways](docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)
-counts Walenty's schemata rather than anything this grammar derives,
-so the criterion in `sonda/konwersy.py` is its only mover.
-That criterion guesses a pair of meanings from the shape of a position,
-so the twelve pairs read by hand under the figure are half of what it says:
-a criterion that changed is a criterion whose sample nobody has read,
-and the reading is retaken with the number.
-Which twelve they are is decided elsewhere, and not only for them:
-`rozrzucona` in `olski/próbka.py` picks every hand-read sample in this repository,
-so a change there moves those pairs and the sentences read under
-[how much of the register reads two ways](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-in one go.
-
-One figure counts the register rather than anything this repository decides,
-and three separate things move it.
-[How much of the register reads two ways in Polish](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-is taken over the audit corpus with `olski/wieloznaczność.py`,
-so a change to what that module counts moves it,
-and so does a change to what `admissible` in `olski/subset.py` keeps
-or to the valency lexicon under it,
-both of which stand between the text and the count.
-The third is the extraction, as everywhere else in this list.
-The figure is the ground under an open question rather than under a rule,
-so a rerun that moves it moves what that question is asking about.
-
-One pair of figures prices something the code does not contain.
-[The two exclusion criteria that were measured and refused](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi)
-count the Składnica sentences each would take,
-so no production moves them and no rule above reaches them either.
-What moves them is a change to what `admissible` in `olski/subset.py` keeps,
-since both were measured behind it,
-or a change to what `signature` in `olski/parse.py` counts as one reading,
-on which the finding that one of them buys nothing rests.
-A criterion refused stays refused when its price moves,
-so what the rerun protects is the number and not the decision.
-
-Two files the code itself reads are generated,
-and regenerating them is part of the change,
-as it is for the figures in `figury/` above.
-`olski/leksykon.txt` is the valency lexicon,
-which `olski/walenty.py` derives from Walenty,
-so a change to what that translation takes moves the file itself
-and the figures under
-[the lexicon's section](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
-along with it.
-That document prints the command and says where the input comes from,
-as the corpora above do.
-The file is not edited by hand:
-an entry written into it directly is lost by the next run of the generator,
-and the reason for the entry is lost with it.
-`olski/skłonności.txt` is the second, and the same three sentences apply to it,
-with Składnica in place of Walenty and `olski/rozstrzyganie.py` in place of the translator;
-[what that witness reaches](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
-prints the command and owns the figures.
-It differs from the lexicon in one way worth knowing before deleting it:
-the grammar reads the lexicon at import and will not start without it,
-while a missing propensity table only makes the layer above silent.
-
-One set of figures is moved by two programs rather than one.
-[The comparison the sonda took](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-counts the sentences olski and a second substrate agree about,
-so a change to the grammar moves it
-exactly as a change to `sonda/polszczyzna.py` or `sonda/wiezy.py` does,
-and the session editing `olski/subset.py` has no reason to look in that document.
-`tests/test_sonda.py` catches the coarse half of that drift,
-a verdict that stopped agreeing, and catches nothing about the counts,
-so the rerun is owed there as it is everywhere else in this list.
-It is also the cheapest one to owe: the figures come from this repository's own
-README and the command beside them fetches nothing.
-
-Every differential figure — what admitting a construction buys
-and what it costs — has an owner now,
-so `FIGURY` in `harness/figury.py` declares its movers
-instead of a paragraph here declaring them,
-and `python3 -m harness.figury` says which of them is owed a rerun.
-
-**A figure measured over this repository's own prose is not written down.**
-Every corpus above is pinned — a dated release, a repository at a commit —
-so the text under a figure holds still
-and only a change to the code moves it,
-which is what the reruns catch.
-Our own text moves with any commit that touches it,
-and nothing tells the person rewording a README
-that a count in another document was taken over it.
-What moves the number is the line.
-A claim about the code stays, because a rerun is what it waits for:
-how many sentences of the README derive
-moves when the grammar does, like any other figure above.
-A count of the text itself stays out of a document —
-how many sentences it holds, how long its comment lines run —
-because a reword moves it and no prose rule reaches a reword.
-The command stands beside the claim, as it does for a fetched corpus.
+**Figury nad prozą tego repozytorium nie zapisujemy.**
+Każdy korpus z deklaracji jest przypięty — datowanym wydaniem, repozytorium na commicie —
+więc tekst pod figurą stoi i rusza ją tylko zmiana w kodzie,
+czyli to, co przeliczenia łapią.
+Nasz tekst rusza się z każdym commitem, który go dotyka,
+a jedyne, co o tym mówi, to figura wymieniająca ten plik wśród ruszających:
+`readme` i `sonda-readme` wymieniają `README.md`,
+więc przeredagowanie czyni je należnymi przeliczenia tak samo jak zmiana w gramatyce.
+Twierdzenie o kodzie zostaje przez to na miejscu:
+ile zdań README wyprowadza gramatyka, jest figurą jak każda wyżej.
+Liczba o samym tekście — ile ma zdań, jak długie są jego wiersze komentarza —
+zostaje poza dokumentem, bo mierzy prozę, a nie kod:
+figura nad nią byłaby należna po każdym commicie dotykającym tekstu,
+czyli mówiłaby tylko tyle, że ktoś pisał.
 
 ## Code
 
