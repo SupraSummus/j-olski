@@ -2,21 +2,21 @@
 polecenie: python3 -m sonda.przecinek proza/README.txt
 czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
   sonda/przecinek.py: 4d72d1bd397c
   sonda/ruch.py: e4132c252685
 
-README.txt, proza, 49 zdań
+README.txt, proza, 48 zdań
 
        wariant    przyjęte  wieloznaczne  odrzucone
- bez przecinka           5             3         41
-      zdaniowy           5             5         39
-       imienny           6             3         40
-przymiotnikowy           5             3         41
-wszystkie trzy           6             5         38
+ bez przecinka           4             3         41
+      zdaniowy           4             5         39
+       imienny           5             3         40
+przymiotnikowy           4             3         41
+wszystkie trzy           5             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez przecinka” — zdaniowy:

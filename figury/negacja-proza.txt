@@ -2,20 +2,20 @@
 polecenie: python3 -m sonda.negacja proza/README.txt
 czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
   sonda/negacja.py: 2171ef6d8d65
   sonda/ruch.py: e4132c252685
 
-README.txt, proza, 49 zdań
+README.txt, proza, 48 zdań
 
     wariant    przyjęte  wieloznaczne  odrzucone
-bez negacji           6             5         38
-    cząstka           6             5         38
- dopełniacz           6             5         38
-       obie           6             5         38
+bez negacji           5             5         38
+    cząstka           5             5         38
+ dopełniacz           5             5         38
+       obie           5             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez negacji” — cząstka:

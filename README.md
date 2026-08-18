@@ -4,10 +4,9 @@
 a razem z nim te części polszczyzny,
 przez które jest ona trudna dla sztywnych, zimnych maszyn.
 
-Celem jest **parser tego podzbioru**.
-Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie,
-więc taki parser mówi autorowi, że jego zdanie czyta się dwojako, i jak,
-zamiast wybierać za niego czytanie prawdopodobniejsze.
+Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie,
+więc **parser tego podzbioru** mówi autorowi, że jego zdanie czyta się dwojako,
+zamiast wybierać za niego.
 
 Tanio, deterministycznie i z wyjaśnieniem:
 jak w kompilatorze, a nie jak w modelu językowym.

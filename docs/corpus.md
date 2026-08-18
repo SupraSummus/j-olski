@@ -248,7 +248,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Six sentences of that README derive once, and five derive more than once.
+Five sentences of that README derive once, and five derive more than once.
 Four of the five hang a prepositional phrase
 where either the noun or the verb could host it,
 and one reads a nominative as an accusative,
@@ -263,7 +263,7 @@ Two of the five arrived with the adverb,
 which took them off the rejected list and gave them a second reading
 rather than one
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
-and one of those two carries a third class of its own:
+and a third class of its own sits in a sentence the adverb did not move:
 Morfeusz reads `sam` as an adverb beside the adjective,
 so `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem
 drugiego.` has a reading in which `sam` is an adjunct of the clause.

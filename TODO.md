@@ -205,6 +205,25 @@ Do przeczytania są oba te akapity: pierwszy z nich opiera się na zdaniu,
 którego README nie ma — o czym mówi wpis o `Cenie trzeciej` w sekcji o komendach —
 więc samo przeliczenie go nie naprawia.
 
+Nazwa `parser` obejmuje w tych dokumentach cały tor gramatyczny,
+a nazywa jedną z pięciu warstw, przez które przechodzi zdanie.
+Właścicielem nazwy jest [`docs/roadmap.md`](docs/roadmap.md#co-jest-budowane),
+który pisze „parser zaprojektowanego podzbioru polszczyzny”,
+a używają jej README, `docs/disambiguation.md`, `docs/design-notes.md`
+i `docs/subset.md`, razem w kilkudziesięciu miejscach.
+Do przeczytania jest tabela warstw w
+[`docs/architecture.md`](docs/architecture.md#pięć-warstw-toru-gramatycznego),
+gdzie składnia jest warstwą drugą, a werdykt wypowiedzią o czterech pod nim, oraz
+[`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+gdzie wyjściem jest zapytanie o las, a nie drzewo ani lista drzew.
+Ruchem jest albo przemianowanie toru na werdykt, czyli na to, co polecenie wydaje,
+albo zdanie u właściciela mówiące, że jedna warstwa nazywa tu cały tor.
+Jedno i drugie idzie w jednej zmianie, bo nazwa sięga wszystkich swoich wystąpień
+([`CLAUDE.md`](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Przeciw przemianowaniu: `olski/parse.py` i `olski-check` noszą to słowo,
+a [`docs/swigra.md`](docs/swigra.md) porównuje olskiego ze Świgrą jako parser z parserem,
+więc przekład nazwy rozjeżdża to porównanie z polem.
+
 ## Komendy i sondy
 
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
@@ -1766,6 +1785,52 @@ Ręczy jedna osoba i żaden plik banku, więc gdyby Concraft wypadł ciekawie,
 sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
 
 ## Skład i opowieści
+
+`README.py` powstał drzewami przed tekstem, czyli odwrotnie, niż deklaruje
+`opowieści/__init__.py`, więc mierzy, co skład powiedzieć umie, a nie co trzeba.
+Ruchem jest napisać najpierw polski tekst oddający wstęp `README.md`,
+potem drzewa pod niego, a różnicę między jednym a drugim przeczytać,
+bo dopiero ona mówi, czego tym kategoriom brakuje.
+Wtedy ten napis dostaje właściciela i wchodzi do testu tak,
+jak `BAZYLISZEK` stoi w `tests/test_opowieść.py`;
+dziś nie trzyma go nic i `README.py` mówi w nagłówku, dlaczego.
+Kryterium wyjścia toru składu to i tak nie jest
+([`docs/roadmap.md`](docs/roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)),
+bo tamto żąda znak w znak nad `README.md`, a nie treści oddanej innymi zdaniami.
+
+Trzy pozycje, których `README.py` zażądał i nie dostał, stoją każda w innym miejscu.
+Lematu `olski` Morfeusz nie zna wcale i czyta go jako `ign`,
+więc nazwa własna tego języka nie stanie w zdaniu w żadnej roli,
+a obejść tego nie ma czym: `olski/skład/leksemy.py` wybiera między leksemami,
+które SGJP ma, i sam mówi, że leksem nieznany nie ma ani jednej formy.
+Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno czytanie` z drzewa nie wyjdzie,
+i jest to ta sama konstrukcja, którą gramatyka po drugiej stronie już ma
+([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+czyli tor składu jest tu za nią, a nie przed.
+Relacja `przyczyna` nie ma w `olski/skład/przyimki.py` wpisu pod żadnym przyimkiem,
+a ma wpis w `olski/skład/spójniki.py`, więc wychodzi zdaniem i nie wychodzi frazą:
+`Dlaczego.bo(zdarzenie)` składa się, a `Dlaczego.dla(rzecz)` zgłasza `PozaRamą`.
+Jest to jedyna z tych trzech pozycji, przy której skład ma pół konstrukcji, a nie zero.
+Do przeczytania przy niej jest ten leksykon obok
+`tests/test_przyimki.py`, który świadkuje przypadkom, a nie doborowi relacji.
+
+Słownika własnego nie ma w tym repozytorium ani jeden kierunek,
+więc słowa, którego SGJP nie ma, nie powie ani skład, ani gramatyka.
+`olski/skład/leksemy.py` wybiera między leksemami, które słownik ma,
+a `olski/morph.py` prosi Morfeusza wprost, żeby nieznanej formy nie zgadywał.
+Mechanizm ma sam Morfeusz i jest nim `dict_name` albo `dict_path`,
+czyli słownik skompilowany jego własnym narzędziem obok tego, który przychodzi z paczki.
+Rozstrzygnąć trzeba jednak nie to, jak, a czy:
+słownik dopisany po tej stronie czyni repozytorium drugim źródłem prawdy o polszczyźnie,
+a po tamtej jest zmianą w języku, bo zdanie z nowym słowem zaczyna się wyprowadzać,
+i wtedy wchodzi cena kroku, którą liczy
+[kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Rozdzielić te dwie strony wolno: skład potrzebuje samej syntezy nazwy własnej,
+a gramatyka nie potrzebuje jej wcale, więc wpis po jednej stronie
+nie żąda wpisu po drugiej, i to jest pierwsza rzecz do przeczytania.
+Do przeczytania jest przy tym, czym `dict_path` płaci przy instalacji:
+paczka bierze Morfeusza z PyPI ([`CLAUDE.md`](CLAUDE.md#checks)),
+a kompilator słownika nie jest tym, co ta paczka niesie.
 
 Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
 więc `Jaki` w `olski/skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,

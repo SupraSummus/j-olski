@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.przysłówek proza/README.txt
 czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
@@ -11,13 +11,13 @@ ruszają:
   sonda/przysłówek.py: 1361683a43fb
   sonda/ruch.py: e4132c252685
 
-README.txt, proza, 49 zdań
+README.txt, proza, 48 zdań
 
           wariant    przyjęte  wieloznaczne  odrzucone
-   bez przysłówka           6             3         40
-       okolicznik           6             5         38
-przy przymiotniku           6             3         40
-            olski           6             5         38
+   bez przysłówka           5             3         40
+       okolicznik           5             5         38
+przy przymiotniku           5             3         40
+            olski           5             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:

@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.płaski proza/README.txt
 czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
@@ -11,11 +11,11 @@ ruszają:
   sonda/ruch.py: e4132c252685
   sonda/płaski.py: 0bf2f87f2436
 
-README.txt, proza, wariant „olski”, 49 zdań
+README.txt, proza, wariant „olski”, 48 zdań
 
-        6  przyjętych jednym czytaniem, czyli populacja
+        5  przyjętych jednym czytaniem, czyli populacja
        25  niezmierzone: fragment, a nie zdanie
 
-płaskie czytanie w 0 z 6 zdań, 0.0%:
+płaskie czytanie w 0 z 5 zdań, 0.0%:
         0    0.0%  przed przymiotnikiem
         0    0.0%  przed przysłówkiem

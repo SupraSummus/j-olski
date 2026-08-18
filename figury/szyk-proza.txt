@@ -2,22 +2,22 @@
 polecenie: python3 -m sonda.szyk proza/README.txt
 czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
   sonda/szyk.py: 7d08ac67af27
   sonda/ruch.py: e4132c252685
 
-README.txt, proza, 49 zdań
+README.txt, proza, 48 zdań
 
             wariant    przyjęte  wieloznaczne  odrzucone
-bez czterech szyków           6             5         38
-                SOV           6             5         38
-                OSV           6             5         38
-                VSO           6             5         38
-                VOS           6             5         38
-   wszystkie cztery           6             5         38
+bez czterech szyków           5             5         38
+                SOV           5             5         38
+                OSV           5             5         38
+                VSO           5             5         38
+                VOS           5             5         38
+   wszystkie cztery           5             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez czterech szyków” — SOV:
