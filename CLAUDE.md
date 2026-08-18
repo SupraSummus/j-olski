@@ -18,10 +18,9 @@ a zdanie, które i tak poprawiasz, tak samo.
 Stare sekcje zostawiamy, dopóki nie dotknie ich zmiana.
 Sekcja napisana przed regułą nie jest przez to usterką.
 
-Dwóch rzeczy ta pobłażliwość nie obejmuje,
-bo zrobić je może tylko ta zmiana, która akurat powstaje:
-kiedy wpis się zamyka, jego historia trafia do gita tym samym commitem,
-a kiedy poprawiasz sekcję, kasujesz przy okazji nieaktualną narrację w środku.
+Ta pobłażliwość dotyczy stylu, nie prawdy.
+Zdanie, akapit i wpis z listy, które twoja zmiana unieważnia,
+poprawiasz tym samym commitem, bo potem nikt nie widzi, że są nieaktualne.
 
 ## Piszemy po polsku, także w kodzie
 
