@@ -293,6 +293,24 @@ choć oba te spójniki stoją w jednej relacji.
 Jest to jedyne miejsce w tym pakiecie, w którym leksykon mówi o kolejności,
 i jedyna jego kolumna bez świadka w słowniku,
 bo SGJP nie odróżnia tych dwóch słów niczym.
+Świadka daje jej za to bank drzew:
+`gdyż` nie otwiera w nim ani jednego zdania, a `gdy` dwie piąte swoich wystąpień
+(`figury/czoło.txt`),
+i to samo rozstrzygnięcie stoi po stronie analizy, w dwóch listach lematów
+([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+bo jest to fakt o słowie, a nie o kierunku, w którym się go używa.
+
+Okoliczność wyrażoną zdarzeniem gramatyka od niedawna wyprowadza,
+więc obieg zamyka się i na niej:
+`Program zapisuje ustawienia, bo linter sprawdza tekst.`
+wraca z napisu tym drzewem, z którego wyszło,
+a relację czyta rozbiór z tego samego leksykonu, tyle że wspak
+(`RELACJE_SPÓJNIKÓW` w `olski/skład/rozbiór.py`).
+Skutek jest jedynym wpisem tej tabeli, który stąd nie wraca,
+bo `więc` spina dwa zdania przecinkiem i spójnikiem naraz,
+a gramatyka bierze zdania spięte jednym z tych znaków albo drugim
+([subset.md](subset.md#what-it-does-not-cover-yet)),
+i to jest ta różnica między kierunkami, którą widać dopiero na obiegu.
 
 Przecinek zaś jest przez to własnością konstytuenta, a nie znakiem w napisie.
 Zdanie podrzędne oddziela się nim z każdej strony, przy której coś stoi,

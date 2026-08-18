@@ -77,7 +77,8 @@ from olski.skład.składnia import (
     Zdanie,
     kompiluj,
 )
-from olski.subset import GRAMMAR, PRZYSŁÓWKOWY, morphology
+from olski.skład.spójniki import SPÓJNIKI
+from olski.subset import GRAMMAR, OKOLICZNIKOWY, PRZYSŁÓWKOWY, morphology
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
 #: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
@@ -103,15 +104,24 @@ PRZECZENIE = "nie"
 PRZYMIOTNIKOWA = "Adjective"
 
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
-#: Ta sama szóstka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
+#: Ta sama siódemka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
-#: Nazwę roli przysłówkowej bierzemy stamtąd, a nie spisujemy drugi raz:
-#: dwie pisownie jednego napisu są tym, po czym grep przestaje odpowiadać.
-#: Oba tory dostały tę pozycję osobno i w tej kolejności: ``Przysłówek`` w
-#: ``olski/skład/składnia.py`` stał, zanim gramatyka wpuściła przysłówek, więc obieg
-#: zamknął się na nim dopiero razem z tą produkcją.
-POZYCJE = ("Subject", "Object", "Predicative", "Verb", "Modifier", PRZYSŁÓWKOWY)
+#: Nazwy roli przysłówkowej i okolicznikowej bierzemy stamtąd, a nie spisujemy
+#: drugi raz: dwie pisownie jednego napisu są tym, po czym grep przestaje odpowiadać.
+#: Oba tory dostały te dwie pozycje osobno i w tej samej kolejności: ``Przysłówek``
+#: i okoliczność wyrażona zdarzeniem stały w ``olski/skład/składnia.py``, zanim
+#: gramatyka wpuściła przysłówek i zdanie okolicznikowe, więc obieg zamknął się na
+#: nich dopiero razem z tamtymi produkcjami.
+POZYCJE = (
+    "Subject",
+    "Object",
+    "Predicative",
+    "Verb",
+    "Modifier",
+    PRZYSŁÓWKOWY,
+    OKOLICZNIKOWY,
+)
 
 #: Pozycje wypełnione zdaniem, każda pod swoim symbolem gramatyki.
 #: Osobno od ``POZYCJE``, bo tamtą piątkę werdykt drukuje jako role,
@@ -167,6 +177,24 @@ def _relacje() -> dict[str, tuple[str, ...]]:
 
 
 RELACJE = _relacje()
+
+
+def _relacje_spójników() -> dict[str, tuple[str, ...]]:
+    """Leksykon spójników podrzędnych czytany od strony napisu, tak jak :func:`_relacje`.
+
+    Pytanie jest to samo co przy przyimku i ma tak samo po kilka odpowiedzi:
+    ``gdy`` mówi o czasie i o niczym więcej, a ``bo`` o przyczynie,
+    więc relacji na jedno słowo bywa tu mniej niż tam, a droga jest ta sama.
+    Liczone z ``olski/skład/spójniki.py``, a nie wypisane obok, z tego samego powodu:
+    wpis dopisany tam i tu pominięty odbierałby czytanie bez zgłoszenia.
+    """
+    odwrotny: dict[str, tuple[str, ...]] = {}
+    for spójnik, relacja in SPÓJNIKI:
+        odwrotny[spójnik] = (*odwrotny.get(spójnik, ()), relacja)
+    return odwrotny
+
+
+RELACJE_SPÓJNIKÓW = _relacje_spójników()
 
 
 def _nazwa(drzewo: Leaf | Node) -> str:
@@ -345,6 +373,37 @@ def _okoliczniki(drzewo: Node) -> tuple[Okolicznik, ...]:
     )
 
 
+def _okoliczniki_zdaniowe(drzewo: Node) -> tuple[Okolicznik, ...]:
+    """Okoliczności, którymi to zdanie okolicznikowe bywa, po jednej na relację.
+
+    Droga jest ta sama co przy wyrażeniu przyimkowym w :func:`_okoliczniki`
+    i różnią je dwie rzeczy, obie wzięte z tego, że pod spójnikiem stoi zdanie.
+    Przecinek należy do tego konstytuentu i stoi po tej stronie, po której stoi
+    zdanie nadrzędne, więc spójnika szuka się po kształcie ciała, a nie na pierwszym
+    miejscu. Pod spójnikiem stoi zaś zdanie, więc wraca ono tą samą drogą co treść
+    zdania dopełnieniowego, czyli z własnym podmiotem i na nic nie czekając.
+
+    Szyku ta funkcja nie sprawdza, choć leksykon o nim mówi
+    (``staje_na_czele`` w ``olski/skład/spójniki.py``):
+    okoliczność wysunięta wbrew leksykonowi nie wypisze się z powrotem tak,
+    jak ją przeczytano, więc odsiewa ją porównanie form, a nie warunek tutaj.
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt == (SŁOWO, SŁOWO, "Clause"):
+        spójnik = drzewo.children[1]
+    elif kształt == (SŁOWO, "Clause", SŁOWO):
+        spójnik = drzewo.children[0]
+    else:
+        raise PozaZapisem(f"zdanie okolicznikowe z {', '.join(kształt)} nie ma tu kategorii")
+    zdanie = next(dziecko for dziecko in drzewo.children if _etykieta(dziecko) == "Clause")
+    return tuple(
+        Okolicznik(słowo, relacja, co)
+        for słowo in _lematy(spójnik, "comp")
+        for relacja in RELACJE_SPÓJNIKÓW.get(słowo, ())
+        for co in _ciąg(zdanie)
+    )
+
+
 def _pozycje(drzewo: Node) -> Iterator[tuple[str, Leaf | Node]]:
     """Pozycje tego zdania w kolejności, w której stoją w tekście.
 
@@ -450,6 +509,8 @@ def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
         warianty = _okoliczniki(drzewo)
     elif pozycja == PRZYSŁÓWKOWY:
         warianty = _przysłówki(drzewo)
+    elif pozycja == OKOLICZNIKOWY:
+        warianty = _okoliczniki_zdaniowe(drzewo)
     elif pozycja == BEZOKOLICZNIK:
         warianty = (drzewo,)
     elif pozycja == PODRZĘDNE:
@@ -524,7 +585,9 @@ def _złóż(
         oznaczony = _oznacz(konstytuent, znaczniki.get(numer))
         #  Okoliczność i przysłówek stoją w ``Robi`` jedną listą, bo obie mówią,
         #  jak albo gdzie coś się dzieje, więc obie idą tutaj, a nie polem.
-        if pozycja in ("Modifier", PRZYSŁÓWKOWY):
+        #  Okoliczność wyrażona zdarzeniem jest tą samą kategorią co wyrażona rzeczą
+        #  (``Okolicznik`` w ``olski/skład/składnia.py``), więc idzie tą samą listą.
+        if pozycja in ("Modifier", PRZYSŁÓWKOWY, OKOLICZNIKOWY):
             okoliczniki.append(oznaczony)
         else:
             pola[pozycja] = oznaczony

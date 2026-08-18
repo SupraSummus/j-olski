@@ -467,7 +467,7 @@ def _jak_głęboko(głębokości: collections.Counter) -> list[str]:
 
     Kubełki dzieli granica wypisywania, a nie równe odstępy,
     bo to ona rozstrzyga, czy czytelnik złote czytanie zobaczy
-    (docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych).
+    (docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych).
     Najgłębszy numer idzie pod nie sam,
     bo mówi, jak blisko tej granicy przebieg podszedł, czego kubełek nie mówi.
     """

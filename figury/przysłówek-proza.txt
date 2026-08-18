@@ -3,13 +3,13 @@ polecenie: python3 -m sonda.przysłówek proza/README.txt
 czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  README.md: 0d2a177e02b4
+  README.md: 0e03f0213241
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 1b37d940bed0
-  olski/parse.py: e8b09f590f5a
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: 9ae7434b6506
+  sonda/ruch.py: e4132c252685
 
 README.txt, proza, 49 zdań
 

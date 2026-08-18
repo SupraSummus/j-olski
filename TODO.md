@@ -395,12 +395,13 @@ te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
 ## Korpusy, ekstrakcja i figury
 
-Właściciela mają dwie konstrukcje z listy przeliczeń w
+Właściciela ma sześć konstrukcji z listy przeliczeń w
 [`CLAUDE.md`](CLAUDE.md#checks), a lista wymienia ich kilkadziesiąt.
 Wzorcem jest negacja: deklaracja w `harness/figury.py`, wydruk w `figury/`,
 a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
 restytucja grubsza od niego i wskaźnik.
-Przenosi się je po jednej, przy zmianie, która i tak figurę rusza,
+Przenosi się je przy zmianie, która i tak figurę rusza —
+po jednej albo, gdy jedna zmiana rusza kilka, wszystkie razem —
 i tyle właśnie kosztuje jedna: deklaracja na każdy przebieg osobno,
 sam przebieg z korpusem oraz proza, z której schodzi pełna precyzja,
 nagłówek z cyfrą włącznie.
@@ -414,6 +415,39 @@ Figurę czytaną przez kilka sekcji rozstrzygnął przysłówek i rozstrzygnął
 bo przeliczenie ma powiedzieć, co przeczytać,
 a restytucja w drugim dokumencie wskazuje sekcję pierwszą, a nie plik,
 bo prozę też ma kto posiadać.
+
+Sekcja o cenie negacji mówi o jednym zdaniu, a figura wypisuje ich osiem.
+[`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)
+liczy cenę tej konstrukcji trafnością i nazywa jedno zdanie czytane inaczej niż bank drzew,
+a wiersz `disagrees` w `figury/negacja.txt` ma ich osiem
+i tylko jedno z nich jest tym, o którym ta sekcja mówi:
+dopełniaczem stojącym przed swoim czasownikiem.
+Reszta to rozbieżności zasięgu, które
+[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
+liczy osobno i nazywa czym innym niż czytaniem odwróconym.
+Ruchem jest zdanie mówiące, ile z tych ośmiu należy do klasy, o którą tej sekcji chodzi,
+a przed nim odczyt ręczny tych ośmiu, bo `agreement` w `olski/coverage.py`
+oddziela odwrócenie roli od sprzeczności zasięgu, a nie zasięg od zasięgu.
+Do przeczytania jest przy tym `figury/szyk.txt`,
+bo cztery zdania tej klasy zeszły z tamtej listy razem z czterema szykami
+i [tamta sekcja](docs/subset.md#cztery-z-tych-sześciu-zdań-są-naprawą-a-nie-ceną) je wypisuje.
+
+Deklaracje figur sond różnicowych powtarzają w `harness/figury.py` jeden kształt
+kilkanaście razy.
+Sonda nad Składnicą i ta sama sonda nad prozą README różnią się w `FIGURY`
+poleceniem, korpusem i dwoma wierszami `ruszają`, a reszta jest przepisana,
+więc konstrukcja wpuszczona do gramatyki dokłada dziś dwie albo trzy takie deklaracje,
+a jest to kilkadziesiąt wierszy, w których literówka nie zgłasza się niczym
+poza figurą, której nikt nie przelicza.
+Ruchem jest funkcja składająca tę parę z nazwy sondy i sekcji,
+a przed nią rozstrzygnięcie, czy warianty mieszczą się w jednym kształcie:
+przysłówek dokłada `olski/grammar.py` do `ruszają`,
+okolicznikowe dokłada trzeci przebieg po morfologii żywej,
+a `płaski` liczy drzewa, a nie werdykty, i pod ten kształt może nie podchodzić wcale.
+Do przeczytania jest `harness/figury.py` w całości, bo o cenie rozstrzyga to,
+ile deklaracji zostałoby po takim złożeniu wypisanych ręką mimo wszystko,
+i to, czy deklaracja, która przestaje drukować swoje polecenie,
+nie odbiera tej liście tego, po co ona jest.
 
 Sekcje restytuujące potrafią zardzewieć w pliku figury i raport tego nie widzi.
 `stan` w `harness/figury.py` porównuje polecenie oraz odciski, a `czyta` zapisuje
@@ -435,8 +469,7 @@ jest kopią właściciela, a nie restytucją grubszą od niego.
 Do rozstrzygnięcia jest, ile taki test myli się na liczbach, których nie wziął
 żaden przebieg — rozmiar korpusu, numer paragrafu, rok wydania —
 i czy odsiew po samych cyfrach wystarczy, żeby nie liczyć słowa „jedno” za figurę.
-Wart jest tyle, ile figur ma właściciela, więc pierwsza konwersja po negacji
-jest miejscem, w którym się to opłaci albo nie.
+Wart jest tyle, ile figur ma właściciela, więc rośnie z każdą konwersją.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -564,6 +597,57 @@ sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
 a drugiej listy ten protokół unika z podanego tam powodu.
 
+Okolicznik wyrażony zdaniem stoi w gramatyce przed swoim zdaniem i za nim,
+a polszczyzna stawia go też w środku:
+`Program, gdy linter sprawdza tekst, zapisuje ustawienia.` jest zdaniem odrzuconym.
+Ruchem jest trzecie ciało `AdverbialClause` z przecinkiem po obu stronach
+wraz z pozycją w ciele zdania składowego, czyli tam, gdzie dziś stoi podmiot,
+a przed nim pomiar: pozycja ta konkuruje ze zdaniem względnym,
+które przecinkami odgradza się tak samo
+([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+więc cena stoi w jednoznaczności zdań już przyjętych, a nie w liczbie ciał.
+Do przeczytania jest cena obu pozycji, które ta konstrukcja już ma
+([`docs/subset.md`](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)),
+bo trzecia wraca z pytaniem tej samej postaci.
+Tym samym brakiem jest okolicznik wewnątrz zdania względnego:
+`Reguła, która rozstrzyga, gdy tekst jest gotowy, jest tania.` jest odrzucone,
+bo obie pozycje stoją na `ClauseConjunct`,
+a `RelativeCore` jest osobnym symbolem i ciała z tym symbolem w środku ma jedno.
+Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym,
+więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
+
+Okolicznik wyrażony zdaniem dochodzi do zdania składowego, przy którym stoi,
+a nie do ciągu współrzędnego, w którym to zdanie stoi,
+więc `Program zapisuje ustawienia i linter sprawdza tekst, ponieważ tekst jest
+gotowy.` wychodzi jednym czytaniem tam, gdzie polszczyzna ma dwa.
+Jest to ta sama granica, którą trzyma zasięg koordynacji
+([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
+i ten sam kształt, jaki ma dziś okolicznik wysunięty przed zdanie,
+więc jedna decyzja obejmuje oba.
+Ruchem jest ciało `Clause → Clause AdverbialClause` obok tego na `ClauseConjunct`,
+a przed nim odpowiedź na to, co ono wnosi:
+nad zdaniem o jednym składowym oba ciała dają ten sam napis dwoma kształtami,
+czyli drugie czytanie, którego nie ma czym odsiać,
+więc pozycja żąda albo warunku na ciąg, albo innego miejsca.
+
+Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
+`SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o szesnastu lematach analizy,
+a `SPÓJNIKI` w `olski/skład/spójniki.py` o sześciu, których używa skład,
+i obie listy zgadzają się dziś tam, gdzie się przecinają.
+Rama czasownika poszła tą samą drogą i zeszła do jednego pliku,
+bo jest faktem o słowie, a nie o kierunku, w którym się go używa
+([`docs/roadmap.md`](docs/roadmap.md#etap-2-walencja-czytana-raz)),
+a spójnik jest takim samym faktem.
+Ruchem jest leksykon spójników czytany przez oba kierunki,
+wzorowany na `olski/walencja.py`, i przed nim jedno rozstrzygnięcie:
+skład trzyma relację obok szyku, a analiza relacji nie zna,
+więc albo leksykon niesie kolumnę, której analiza nie czyta,
+albo relacje dochodzą do niego dopiero z kategoriami składu,
+których dziś nie ma na warunek ani na przyzwolenie.
+Do przeczytania jest `olski/walencja.py` wraz z tym,
+co obu kierunkom z leksykonu walencyjnego wyszło różnego
+([`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)).
+
 Przysłówek ma w gramatyce dwóch gospodarzy, a polszczyzna daje mu trzeciego:
 przysłówek przed przysłówkiem, jak `bardzo szybko`, nie dochodzi do niczego,
 więc `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
@@ -586,7 +670,12 @@ formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`
 Wychodzą z tego czytania, których polszczyzna w tych miejscach nie ma —
 `postępować wobec innych w duchu braterstwa` dostaje trzy czytania z `wobec`
 w roli okolicznika, a `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
-wyprowadza się jako dwa zdania spięte przecinkiem, choć jest zdaniem podrzędnym.
+wychodzi obok czytania podrzędnego drugim, w którym `gdy` jest okolicznikiem
+zdania spiętego przecinkiem.
+Cena tej klasy jest przez to zmierzona i wynosi sześć zdań Składnicy:
+tyle straciło jednoznaczność pod morfologią żywą, kiedy weszła podrzędność
+okolicznikowa, i wszystkie sześć niesie `gdy` albo `kiedy`
+([`docs/subset.md`](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego.
 Ruchem jest warunek na tę klasę, a dwa kandydujące są zmierzone i żaden nie jest darmowy.
@@ -1073,7 +1162,7 @@ The section that owns the reproduction path says meanwhile which figures are han
 and that sentence goes when the commands cover them.
 
 Six of those figures were left stale by the change that admitted
-[four word orders](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć),
+[four word orders](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
 and they are named here so that the next session does not have to find them.
 Each counts sentences and each moved with the accepted set, and none has a command:
 what the past tense bought, in
@@ -1097,7 +1186,7 @@ bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
 Czternaście z tych dwudziestu dziewięciu dołożyły
-[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć),
+[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
 czyli jedna zmiana podwoiła tę rodzinę,
 i jest to najbliższy pomiar tego, co ten wpis wycenia.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
@@ -1259,10 +1348,11 @@ Rola wysuniętego zaimka względnego nie ma etykiety, a bank drzew ją nazywa.
 i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,
 więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
 choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
-Kosztuje to 22 z 41 zdań w wierszu `lost`
-oraz cztery z 31 zdań przyjętych, które się nie zgadzają
-([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych)),
-i te dwie liczby są pierwszym pomiarem tej luki.
+Kosztuje to ponad połowę zdań w wierszu `lost`
+oraz kilka zdań przyjętych, które się nie zgadzają,
+a liczby obu trzyma
+[`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych),
+bo przelicza je każdy przebieg nad bankiem drzew.
 Ruchem jest etykieta na zaimku, czyli `Subject` albo `Object` nad `RelativePronoun`
 zamiast samego `RelativePronoun` w ciele,
 a przed nim rozstrzygnięcie, czy nie psuje to `_pierwsza_rola` w `olski/parse.py`:

@@ -196,15 +196,20 @@ class Node:
     def find(self, label: str, skip: Sequence[str] = ()) -> list[Node]:
         """Every node with this label, this one included, outermost first.
 
-        A subtree labelled with one of ``skip`` is not entered, which is how the
-        summary asks for the roles of the clause it summarises rather than for
-        the roles of a clause subordinate to it (:attr:`Deklaracja.podrzędne`).
+        A subtree labelled with one of ``skip`` is named where it stands and not
+        entered, which is how the summary asks for the roles of the clause it
+        summarises rather than for the roles of a clause subordinate to it
+        (:attr:`Deklaracja.podrzędne`). Named, because a subordinate clause is
+        sometimes a role itself: an adverbial clause is one of the roles readings
+        differ in, and its inside is a separate sentence all the same.
         The coverage check passes nothing, because the gold tree marks a role
         wherever a clause has one.
         """
         found = [self] if self.label == label else []
+        if self.label in skip:
+            return found
         for child in self.children:
-            if isinstance(child, Node) and child.label not in skip:
+            if isinstance(child, Node):
                 found.extend(child.find(label, skip))
         return found
 
@@ -291,6 +296,9 @@ class Deklaracja:
     #: Symbole zdań podrzędnych, czyli tych, których wnętrze jest osobnym zdaniem.
     #: Streszczenie i :meth:`Las.różniące` zatrzymują się na nich,
     #: bo rola z wnętrza takiego zdania jest jego rolą, a nie rolą zdania nad nim.
+    #: Zatrzymują się na nich, a nie przed nimi: symbol stojący i tutaj, i w
+    #: :attr:`role` nazywa się w streszczeniu całym sobą i wnętrza nie otwiera,
+    #: czym jest okolicznik wyrażony zdaniem.
     #: Zatrzymać się muszą oba naraz, inaczej wiersz ``differing in``
     #: nazywa rolę, której lista czytań pod nim nie nazywa.
     #: Wywód, przykład i cenę trzyma
@@ -1171,7 +1179,10 @@ class Las:
         a wyników jest tyle, ile rozpiętości, a nie ile drzew.
 
         Córkę ze zdaniem podrzędnym mijamy tak jak liść,
-        bo rola z jej wnętrza jest rolą tamtego zdania (:attr:`Deklaracja.podrzędne`).
+        bo rola z jej wnętrza jest rolą tamtego zdania (:attr:`Deklaracja.podrzędne`),
+        chyba że ta córka sama jest szukaną rolą:
+        okolicznik wyrażony zdaniem jest rolą, w której nazywa się całe zdanie,
+        a jego wnętrze zostaje mimo to nieotwarte, tak samo jak w :meth:`Node.find`.
         """
         pozycja, _klasa = para
         if pozycja.label == etykieta:
@@ -1184,7 +1195,7 @@ class Las:
         for kombinacja in self._krawędzie.get(para, {}):
             bez_roli = True
             for dziecko, klasa in kombinacja:
-                if dziecko.liść or dziecko.label in podrzędne:
+                if dziecko.liść or (dziecko.label in podrzędne and dziecko.label != etykieta):
                     continue
                 pod_córką = self._pierwsza_rola((dziecko, klasa), etykieta, podrzędne)
                 znalezione |= pod_córką - {None}
@@ -1225,7 +1236,7 @@ class Las:
         czyli kosztuje tyle, ile numer, a nie tyle, ile las ma czytań;
         granica z :data:`MAX_READINGS` nie jest mu przez to potrzebna.
         Ile to kosztuje nad bankiem drzew, mówi
-        docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych.
+        docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych.
 
         Zbiór pusty jest żądaniem, a nie jego brakiem:
         etykieta, której pytający nigdzie nie obsadza,

@@ -193,14 +193,14 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 | samorząd gminny (1990/95) | 386 | 21 | 40 | 325 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 1 | 83 |
 | informacja publiczna (2001/1198) | 126 | 0 | 2 | 124 |
-| Kodeks wyborczy (2011/112) | 2908 | 32 | 146 | 2730 |
+| Kodeks wyborczy (2011/112) | 2908 | 32 | 150 | 2726 |
 | petycje (2014/1195) | 48 | 2 | 3 | 43 |
 | zgromadzenia (2015/1485) | 127 | 1 | 8 | 118 |
-| ochrona ludności (2024/1907) | 1242 | 24 | 99 | 1119 |
-| razem | 4921 | 80 | 299 | 4542 |
+| ochrona ludności (2024/1907) | 1242 | 24 | 100 | 1118 |
+| razem | 4921 | 80 | 304 | 4537 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 6 jednoznacznych i 19 wieloznacznych.
+699 zdań, z tego 6 jednoznacznych i 21 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -363,14 +363,13 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4542 odrzuceń 3576 stanęło na formie, której żadna produkcja nie bierze,
-a 966 na samej strukturze.
-Formy z czoła tego rankingu grupują się w cztery klasy:
+Z 4537 odrzuceń 3529 stanęło na formie, której żadna produkcja nie bierze,
+a 1008 na samej strukturze.
+Formy z czoła tego rankingu grupują się w trzy klasy:
 
 | klasa | najczęstsze formy |
 | --- | --- |
 | aparat odsyłaczowy | `art` 717, dywiz 666, `§` 595, `r` 254, nawiasy 232 i 223, cyfry |
-| spójniki podrzędne | `Jeżeli` 171 i `jeżeli` 154, `gdy` 49 |
 | cząstki | `także` 116, `również` 95 |
 | imiesłowy i odsłowniki | `obejmujący` 100, `wykonywania` 88, `wniesienia` 61 |
 
@@ -380,6 +379,15 @@ Klasa przysłówkowa stała w tej tabeli piąta i zeszła z niej razem z produkc
 Została po niej klasa cząstek, którą kolejka liczyła razem z nią,
 a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
 więc produkcja przysłówka po nie nie sięga i nie miała sięgać.
+
+Klasa spójników podrzędnych stała w niej druga i zeszła z niej tak samo:
+`Jeżeli` 171, `jeżeli` 154 i `gdy` 49 prowadziły ją i nie stoją tu już wcale,
+bo okolicznik wyrażony zdaniem bierze je wszystkie
+([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+Odrzuceń stojących na samej strukturze przybyło przy tym o tyle,
+o ile ubyło stojących na formie:
+zdanie, które stawało na spójniku, staje teraz dalej albo nie staje na żadnym słowie,
+a przyjęte przez to nie jest.
 
 Pierwsza klasa zajmuje dziewięć pierwszych miejsc rankingu,
 i jest to jedna konstrukcja, a nie dziewięć:
@@ -399,7 +407,7 @@ nie przyjmuje przez niego ani jednego zdania,
 a pięć przenosi z odrzuconych na wieloznaczne, wszystkie w Kodeksie wyborczym
 ([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
 Negacja poszła tu inaczej i tak samo skromnie:
-przyjmuje cztery zdania, trzydzieści przenosi na wieloznaczne
+przyjmuje cztery zdania, trzydzieści pięć przenosi na wieloznaczne
 i jednemu przyjętemu wcześniej odbiera jednoznaczność,
 co jest jedynym takim zdaniem w trzech zmierzonych rejestrach
 ([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
@@ -408,22 +416,30 @@ wychodzą tu jeszcze skromniej i wychodzą pod zero:
 nie przyjmują ani jednego zdania,
 trzy przenoszą z odrzuconych na wieloznaczne
 i jednemu przyjętemu wcześniej odbierają jednoznaczność
-([subset.md](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)).
+([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)).
 Ustawa pisze zdanie w szyku, który olski miał,
 więc dopisany daje jej same nowe czytania,
 i tym różni się ten rejestr od prozy z banku drzew,
 gdzie te same ciała kupują czterdzieści cztery zdania.
 Najtańszy duży zakup tamtej kolejki wyszedł tu poniżej zera.
-Zamiast niego stoi wysoko zdanie warunkowe,
-czyli kształt, w którym norma jest w ogóle zapisana:
-`Jeżeli` z 325 trafieniami na dwie pisownie
-jest tu tym, czym czas przeszły był tam.
+Zdanie warunkowe, czyli kształt, w którym norma jest w ogóle zapisana,
+stało za to na czele tej kolejki tam, gdzie tamta stawiała czas przeszły:
+`Jeżeli` dawało 325 trafień na dwie pisownie.
+Gramatyka je dostała, a wyszło z tego tyle, co z tamtych dwóch:
+ani jednego zdania przyjętego, pięć przeniesionych z odrzuconych na wieloznaczne,
+cztery w Kodeksie wyborczym i jedno w ochronie ludności,
+i ani jednego, któremu ubyłoby jednoznaczności
+([subset.md](subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+Kolejka ta wskazuje więc konstrukcje trafnie i wyceniać ich nie umie,
+tak samo jak kolejka z banku drzew,
+a zdanie tego rejestru jest po prostu dłuższe niż to,
+co gramatyka domyka jedną konstrukcją.
 
 Liczebnik rozstrzyga ta kolejka jeszcze wyraźniej i rozstrzyga go na pół.
 [Grupa liczebnikowa](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
-przenosi nad tymi siedmioma aktami jedno zdanie z odrzuconych na przyjęte
-i cztery na wieloznaczne, czyli tyle, ile czas przeszły, i w tę samą stronę.
-Trzy z tych czterech stoją na `więcej` i `najwięcej`,
+przenosi nad tymi siedmioma aktami dwa zdania z odrzuconych na przyjęte
+i siedem na wieloznaczne, czyli w tę samą stronę co czas przeszły, tylko dalej.
+Cztery z tych siedmiu stoją na `więcej` i `najwięcej`,
 które Morfeusz zna jako liczebniki obok przysłówka `dużo`,
 więc `otrzymał więcej głosów` wychodzi i grupą liczebnikową, i okolicznikiem,
 i są to dwa czytania, które polszczyzna ma.
@@ -446,12 +462,12 @@ python3 -m sonda.płaski proza/ustawy.txt
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przysłówka | 72 | 272 | 4577 |
-| okolicznik | 79 | 295 | 4547 |
-| przy przymiotniku | 73 | 275 | 4573 |
-| olski | 80 | 299 | 4542 |
+| bez przysłówka | 72 | 278 | 4571 |
+| okolicznik | 79 | 300 | 4542 |
+| przy przymiotniku | 73 | 281 | 4567 |
+| olski | 80 | 304 | 4537 |
 
-Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 23 na wieloznaczne,
+Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 22 na wieloznaczne,
 pozycja przy przymiotniku przyjmuje 1 i przenosi 3,
 a obie razem przyjmują 8, czyli o jedno więcej niż pierwsza sama.
 Nad Składnicą druga pozycja pierwszej odbiera, więc znak tej ceny
@@ -468,7 +484,7 @@ nie dostaje tu ani jedno zdanie przyjęte,
 ani pod nią samą (`--wariant okolicznik`), ani pod obiema naraz.
 Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
 `odpowiednio` i `niezwłocznie` — obiecywały 337 trafień,
-a przysłówek zdjął stąd 35 zdań z listy odrzuconych,
+a przysłówek zdjął stąd 34 zdania z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
 gdzie wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).

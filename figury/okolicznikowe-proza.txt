@@ -1,0 +1,32 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury okolicznikowe-proza
+polecenie: python3 -m sonda.okolicznikowe proza/README.txt
+czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
+ruszają:
+  README.md: 0e03f0213241
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/okolicznikowe.py: 1c2350b8ae2c
+  sonda/ruch.py: e4132c252685
+
+README.txt, proza, 49 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+bez okolicznika zdaniowego           6             5         38
+                za zdaniem           6             5         38
+             przed zdaniem           6             5         38
+                     olski           6             5         38
+     25          niezmierzone: fragment, a nie zdanie
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
+  żadne zdanie nie zmieniło werdyktu
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie pozycje ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno

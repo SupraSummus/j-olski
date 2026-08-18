@@ -1,0 +1,146 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury liczebnik
+polecenie: python3 -m sonda.liczebnik Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania
+ruszają:
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/liczebnik.py: fb9e8f0f0c29
+  sonda/ruch.py: e4132c252685
+
+Składnica, morfologia złota, 13035 zdań
+
+       wariant    przyjęte  wieloznaczne  odrzucone
+bez liczebnika        1506           713      10816
+        zgodny        1557           754      10724
+      rządzący        1543           734      10758
+           oba        1596           777      10662
+
+ruch wobec wariantu „bez liczebnika” — zgodny:
+       51  rejected → valid
+       41  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       42    agrees
+        3    partial
+             Wyszło z tych badań, że identyfikacja ma dwa poziomy.
+             Na początku udało się zatrzymać cztery osoby.
+             Wydaje się, że o decyzji przesądziły trzy czynniki.
+        3    disagrees
+             W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.
+             Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
+             Od dwu tygodni nie mam od ciebie listu!
+        3    brak roli
+             W Ciechanowie bywam regularnie od 26 lat.
+             Upadła z wysokości 25 metrów i zmarła w szpitalu.
+             Po piętnastu minutach nadchodzi.
+
+ruch wobec wariantu „bez liczebnika” — rządzący:
+       37  rejected → valid
+       21  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       27    agrees
+        9    brak roli
+             Przytyłam do filmu 10 kilogramów.
+             Przez sześć lat był taksówkarzem.
+             Przez 13 lat był maszynistą kolejowym.
+             Przez kilka miesięcy był aresztowany.
+             Nie wychodziła z niego przez kilkanaście lat.
+             W kilka godzin później wyjechałem z ciężkim sercem i obietnicą szybkiego spotkania.
+             Gotujemy na małym ogniu 15 minut.
+             W terminie 10 dni zrezygnowałem.
+        1    disagrees
+             Marzec przyniósł 6 zagranicznych delegacji.
+
+ruch wobec wariantu „bez liczebnika” — oba:
+       90  rejected → valid
+       64  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       71    agrees
+       12    brak roli
+             Przytyłam do filmu 10 kilogramów.
+             W Ciechanowie bywam regularnie od 26 lat.
+             Upadła z wysokości 25 metrów i zmarła w szpitalu.
+             Przez sześć lat był taksówkarzem.
+             Przez 13 lat był maszynistą kolejowym.
+             Przez kilka miesięcy był aresztowany.
+             Nie wychodziła z niego przez kilkanaście lat.
+             Po piętnastu minutach nadchodzi.
+        4    disagrees
+             W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.
+             Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
+             Od dwu tygodni nie mam od ciebie listu!
+             Marzec przyniósł 6 zagranicznych delegacji.
+        3    partial
+             Wyszło z tych badań, że identyfikacja ma dwa poziomy.
+             Na początku udało się zatrzymać cztery osoby.
+             Wydaje się, że o decyzji przesądziły trzy czynniki.
+
+konkurencja, nad zdaniem po zdaniu:
+        0  oba przyłączenia ruszają to samo zdanie
+        4  razem wychodzi co innego niż osobno
+
+konkurencja, razem wychodzi co innego niż osobno:
+  30 kilogramów falsyfikatów miało wartość 4 milionów dolarów.
+  Dziesięciu wykładowców Akademii Sztuk Pięknych w Krakowie, Warszawie i Katowicach przez dwa dni przebywało w Kielcach.
+  W Zborowie powstał obiekt o powierzchni użytkowej 3364 metrów kwadratowych, w którym zamieszka 50 osób.
+  Skoro przez kilka lat podążałeś w kierunku przeciwnym do swego domu, nie zdziw się, że dzisiaj znajdujesz się w odległości kilkuset mil od niego.
+
+zgodny, rejected → valid:
+  Wyszło z tych badań, że identyfikacja ma dwa poziomy.
+  Sprawa rozsypała się po paru miesiącach.
+  Likwidacja okazuje się dla wielu wyborców bolesna.
+  W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.
+  W dwunastu wypadkach kandydatury wojewodów miały być uzgodnione.
+  Wyroki dochodziły często do 10 lat więzienia.
+  U Desselbergerów dostał atropinę i po kilku dniach odleciał.
+  Możemy zaobserwować dwa zjawiska.
+
+zgodny, rejected → ambiguous:
+  Ostatnie wizyty w kilku krajach spowodowały, że rozmach tej machiny promocyjnej trochę mnie wystraszył.
+  Wyniki badań nad wszystkimi 13 właściwościami doskonale ilustruje przejrzysty wykres na 165 stronie książki.
+  Mamy prenumeratorów w pięćdziesięciu kilku krajach.
+  W części Pałacu od strony parku powstaną apartamenty gościnne z trzema sypialniami, pokojem stołowym i dużą łazienką.
+  Lekarze opatrzyli stłuczenia, zwichnięcia i złamania u 14 pacjentów.
+  W puszce głowowej wielu gatunków owadów widoczne są miejsca, przez które światło może łatwo przenikać w głąb mózgu.
+  Równolegle z kilkoma innymi inwestycjami w Tucholi rozpoczęły się prace związane z budową nawierzchni asfaltowej na podbudowie z gruzobetonu na ulicy Mickiewicza.
+  Dostojna jubilatka od kilku lat działa wspólnie z Gimnazjum Powiatowym pod szyldem Zespołu Szkół Ogólnokształcących.
+
+rządzący, rejected → valid:
+  Przytyłam do filmu 10 kilogramów.
+  Miliony ludzi straciło oszczędności całego życia.
+  Dziś liczy piętnastu członków.
+  Prasa francuska opublikowała sporo takich zestawień.
+  Wychowałam tam 10 specjalistów chirurgii dziecięcej.
+  Nakielska straż miejska odbiera sporo podobnych zgłoszeń.
+  Do tej pory urząd gminy odebrał 160 wniosków.
+  Zabili kilku napastników.
+
+rządzący, rejected → ambiguous:
+  Przez 26 lat pracował w Komendzie Rejonowej Policji w Jarosławiu.
+  Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
+  Lokomotywa pchała samochód z nastolatkami przez 200 metrów po torowisku.
+  Do szpitala na oddział chirurgii trafił kilka godzin wcześniej.
+  W biurze Konfederacji Polski Niepodległej w Warszawie natykam się na trzech posłów z KP KPN.
+  500 chuliganów zorganizowało protest przeciw złej sytuacji finansowej klubu.
+  W Wielkopolsce na nową maturę zdecydowało się 522 abiturientów.
+  Wielu rodaków było po raz pierwszy w sali, która gościła największych artystów świata.
+
+oba, rejected → valid:
+  Wyszło z tych badań, że identyfikacja ma dwa poziomy.
+  Sprawa rozsypała się po paru miesiącach.
+  Przytyłam do filmu 10 kilogramów.
+  Likwidacja okazuje się dla wielu wyborców bolesna.
+  W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.
+  W dwunastu wypadkach kandydatury wojewodów miały być uzgodnione.
+  Wyroki dochodziły często do 10 lat więzienia.
+  Miliony ludzi straciło oszczędności całego życia.
+
+oba, rejected → ambiguous:
+  Ostatnie wizyty w kilku krajach spowodowały, że rozmach tej machiny promocyjnej trochę mnie wystraszył.
+  Przez 26 lat pracował w Komendzie Rejonowej Policji w Jarosławiu.
+  Wyniki badań nad wszystkimi 13 właściwościami doskonale ilustruje przejrzysty wykres na 165 stronie książki.
+  Mamy prenumeratorów w pięćdziesięciu kilku krajach.
+  W części Pałacu od strony parku powstaną apartamenty gościnne z trzema sypialniami, pokojem stołowym i dużą łazienką.
+  Lekarze opatrzyli stłuczenia, zwichnięcia i złamania u 14 pacjentów.
+  Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
+  W puszce głowowej wielu gatunków owadów widoczne są miejsca, przez które światło może łatwo przenikać w głąb mózgu.

@@ -54,8 +54,17 @@ PRZYŁĄCZANY = "Modifier"
 #: że ma okolicznik, którego ono nie ma.
 PRZYSŁÓWKOWY = "Adverb"
 
+#: Rola okolicznika wyrażonego zdaniem, czyli tego, który mówi, kiedy, dlaczego
+#: albo pod jakim warunkiem zachodzi to, co mówi zdanie nad nim. Rolą jest z tego
+#: samego powodu, z którego jest nią przysłówek: werdykt nazywa role etykietami
+#: węzłów, a zdanie przyjęte z takim okolicznikiem wychodziłoby bez słowa o tym,
+#: co olski w nim przyjął. Stoi ona zarazem wśród zdań podrzędnych, bo wnętrze
+#: tego okolicznika jest osobnym zdaniem, i tyle właśnie znaczy nazwanie go
+#: rolą: streszczenie nazywa go całym napisem i w środek nie zagląda.
+OKOLICZNIKOWY = "AdverbialClause"
+
 DEKLARACJA = Deklaracja(
-    role=("Subject", "Object", "Predicative", "Verb", PRZYSŁÓWKOWY, PRZYŁĄCZANY),
+    role=("Subject", "Object", "Predicative", "Verb", PRZYSŁÓWKOWY, OKOLICZNIKOWY, PRZYŁĄCZANY),
     przyłączany=PRZYŁĄCZANY,
     # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
     # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
@@ -78,12 +87,14 @@ DEKLARACJA = Deklaracja(
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
     składowe=("ClauseConjunct",),
-    # Zdania podrzędne: względne i dopełnieniowe.
-    # Oba symbole opakowują takie zdanie, a nie są symbolem samego zdania,
+    # Zdania podrzędne: względne, dopełnieniowe i okolicznikowe.
+    # Każdy z tych symboli opakowuje takie zdanie, a nie jest symbolem samego zdania,
     # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —
     # więc zatrzymanie na nim objęłoby także zdanie współrzędne,
     # którego role są rolami tego samego zdania.
-    podrzędne=("RelativeClause", "SubordinateClause"),
+    # Trzeci stoi zarazem wśród ról, bo okolicznik jest rolą zdania nad nim,
+    # a zdaniem osobnym jest jego wnętrze; :data:`OKOLICZNIKOWY` trzyma wywód.
+    podrzędne=("RelativeClause", "SubordinateClause", OKOLICZNIKOWY),
 )
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
@@ -100,6 +111,43 @@ KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 #: Jeden, a nie cała klasa `comp`: `gdy`, `jeśli` i `aby` otwierają okolicznik
 #: zdania, więc wpuszczone tą produkcją stanęłyby w pozycji, której nie zajmują.
 SPÓJNIK_DOPEŁNIENIOWY = "że"
+
+#: Spójniki, których zdanie polszczyzna stawia przed zdaniem nadrzędnym i za nim.
+#: Zajmują one obie pozycje okolicznika, a pozostałe stałe niżej wyliczają to,
+#: co każda z tych dwóch list trzyma na zewnątrz.
+SPÓJNIKI_WYSUWANE = "gdy|kiedy|jeśli|jeżeli|zanim|nim|choć|chociaż|dopóki|póki|skoro|ponieważ"
+
+#: Spójniki, których zdanie stoi za zdaniem nadrzędnym i tylko tam, bo mówią one
+#: o przyczynie dopowiedzianej, a nie o ramie, w której coś zachodzi:
+#: `Zostaję w domu, bo pada.` jest polszczyzną, a `Bo pada, zostaję w domu.` nie.
+#: Fakt ten jest faktem o słowie, a nie o kierunku, w którym się go używa,
+#: i skład trzyma go już o `bo` oraz o `ponieważ`
+#: (``staje_na_czele`` w ``olski/skład/spójniki.py``);
+#: TODO.md trzyma ruch, którym oba kierunki przeczytałyby jeden leksykon,
+#: bo tą samą drogą poszła walencja.
+#: Świadka nad bankiem drzew liczy ``sonda/czoło.py``, a docs/subset.md go czyta.
+SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
+
+#: Spójniki otwierające okolicznik wyrażony zdaniem, czyli obie listy razem.
+#: Lista jest zamknięta i stawia formie dwa żądania naraz, bo klasa `comp` niesie
+#: także takie spójniki, których ta produkcja wziąć nie może.
+#:
+#: Spójnik ma stać na czele swojego zdania, czego `bowiem` nie robi: polszczyzna
+#: stawia je za pierwszym wyrazem zdania, więc wpuszczone tutaj brałoby pozycję,
+#: której nie zajmuje.
+#:
+#: Zdanie pod spójnikiem ma być oznajmujące, czyli takie, jakie ta gramatyka
+#: wyprowadza. `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają trybu
+#: przypuszczającego, a olski nie odróżnia go od czasu przeszłego, bo cząstki
+#: `by` nie ma żadna produkcja. Wpuszczone tą listą wyprowadzałyby `aby program
+#: zapisuje ustawienia`, czego polszczyzna nie ma, a obietnicą podzbioru jest, że
+#: każde zdanie olskiego jest zdaniem polskim.
+#:
+#: `więc` Morfeusz znakuje tak samo, a nie ma go tu, bo zdania nie podporządkowuje,
+#: tylko dokłada skutek: `Program zapisuje ustawienia, więc linter sprawdza tekst.`
+#: jest dwoma zdaniami spiętymi spójnikiem po przecinku, czyli tą konstrukcją,
+#: którą docs/subset.md trzyma wśród nieobjętych.
+SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
 
 #: Zaimek względny, któremu Morfeusz daje znacznik przymiotnika. Przymiotnikiem
 #: przy rzeczowniku nie jest nigdy, więc terminale przydawki i orzecznika go nie
@@ -379,7 +427,7 @@ def build() -> Grammar:
     # wszystkie sześć, a olski miał dwa, i brakujące cztery były wykluczone
     # brakiem produkcji, nie decyzją, czego docs/design-notes.md#angle-one-parsing
     # tej gramatyce zabrania. Cenę i zakup trzyma
-    # docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć.
+    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć.
     #
     # Miejsca na okolicznik wylicza tu pętla, a nie ręka: stoi jedno po każdej
     # grupie imiennej i jedno na końcu zdania, a te dwa są jednym tam, gdzie
@@ -476,6 +524,51 @@ def build() -> Grammar:
         "SubordinateClause",
         [PRZECINEK, word("comp", lemma=SPÓJNIK_DOPEŁNIENIOWY), Głowa(nt("Clause"))],
         valency="comp",
+    )
+
+    # Okolicznik wyrażony zdaniem: `Program zapisuje ustawienia, gdy linter
+    # sprawdza tekst.` i `Gdy linter sprawdza tekst, program zapisuje ustawienia.`
+    # Konstrukcja jest okolicznikiem, a nie pozycją ramy, i tym różni się od
+    # zdania z `że`: czasownik jej nie żąda i nie ma czasownika, który by jej
+    # zabraniał, więc dochodzi ona do zdania, a nie do jego orzeczenia
+    # (docs/subset.md#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej).
+    #
+    # Przecinek należy do tego konstytuentu, tak samo jak w zdaniu dopełnieniowym
+    # i względnym, i po tym poznaje ciąg współrzędny werdykt oraz sonda
+    # (docs/subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
+    # Stoi on po tej stronie zdania podrzędnego, po której stoi zdanie nadrzędne,
+    # więc cecha `pozycja` wiąże ciało z miejscem: bez niej ciało z przecinkiem
+    # z przodu staje na czele zdania i olski wyprowadza napis zaczynający się
+    # przecinkiem, którego nikt nie napisał.
+    #
+    # Spójnik jest w obu ciałach inny, bo wysunięcie jest faktem o słowie:
+    # ciało za zdaniem bierze każdy z listy, a ciało przed zdaniem tylko te,
+    # których zdanie polszczyzna wysuwa (:data:`SPÓJNIKI_WYSUWANE`).
+    for ciało, pozycja in (
+        (
+            [PRZECINEK, word("comp", lemma=SPÓJNIKI_OKOLICZNIKOWE), Głowa(nt("Clause"))],
+            "za",
+        ),
+        (
+            [word("comp", lemma=SPÓJNIKI_WYSUWANE), Głowa(nt("Clause")), PRZECINEK],
+            "przed",
+        ),
+    ):
+        grammar.rule(OKOLICZNIKOWY, ciało, pozycja=pozycja)
+
+    # Dwie pozycje, bo polszczyzna stawia ten okolicznik przed swoim zdaniem i za
+    # nim, a szyku wewnątrz zdania nadrzędnego nie zmienia ani jedna, ani druga.
+    # Zdanie nadrzędne jest tu składowym, a nie ciągiem współrzędnym: okolicznik
+    # dochodzi do jednego zdania, a nie do wszystkiego, co przecinek połączył,
+    # i jest to ta sama granica, którą trzyma zasięg koordynacji
+    # (docs/subset.md#nothing-above-a-coordination-distributes-into-it).
+    grammar.rule(
+        "ClauseConjunct",
+        [Głowa(nt("ClauseConjunct")), nt(OKOLICZNIKOWY, pozycja="za")],
+    )
+    grammar.rule(
+        "ClauseConjunct",
+        [nt(OKOLICZNIKOWY, pozycja="przed"), Głowa(nt("ClauseConjunct"))],
     )
 
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.

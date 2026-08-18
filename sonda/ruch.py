@@ -38,7 +38,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from olski.corpus import Sentence, pliki, read
-from olski.coverage import Outcome, po_kawałkach
+from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production
 from olski.parse import parse
 from olski.subset import FRAGMENT, build, check
@@ -60,6 +60,12 @@ ROLA = "rola:"
 #: drzew nie jest tym, co z tej tabeli trzeba przeczytać. Wartość wydaje
 #: ``Outcome.agreement`` i tyle o niej wie ten plik.
 ZGODNE = "agrees"
+
+#: Nazwy obu morfologii w nagłówku wydruku, bo nagłówek stoi po polsku.
+#: Kluczem jest nazwa źródła z ``olski/coverage.py``, żeby źródło dopisane tam
+#: zgłosiło się tutaj brakiem nazwy, a nie wydrukiem, który milczy o tym,
+#: co mierzył.
+MORFOLOGIA = {"gold": "złota", "live": "żywa"}
 
 
 @dataclass(frozen=True)
@@ -223,17 +229,27 @@ def zmierz(
     sonda: Sonda,
     zdania: Iterable[Sentence],
     przykłady: int = PRZYKŁADY,
+    źródło: str = "gold",
 ) -> Raport:
     """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
 
     Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
     drzewem wzorcowym, bez granicy na długość.
+
+    Morfologia jest dwojaka i konstrukcja bywa taka, że pod jedną z nich nie
+    kosztuje nic. Anotator wybrał w banku drzew jedno czytanie na token, więc
+    konstrukcja konkurująca z czytaniem, którego on nie wybrał, wychodzi pod złotą
+    morfologią darmowa, a płaci dopiero tam, gdzie czytania są wszystkie —
+    czyli w tekście, który olski dostaje do sprawdzenia.
+    Ról pod żywą morfologią nie porównujemy, bo rozpiętości nie są wtedy
+    rozpiętościami drzewa wzorcowego (``Outcome.comparable``),
+    i tym ten przebieg jest podobny do przebiegu nad prozą niżej.
     """
     raport = Raport(sonda, przykłady)
     for zdanie in zdania:
         if not zdanie.annotated:
             continue
-        segmenty = list(zdanie.segments)
+        segmenty = segments_for(zdanie, źródło)
         if not segmenty:
             raport.pominięte["bez morfologii"] += 1
             continue
@@ -242,13 +258,16 @@ def zmierz(
                 sentence=zdanie,
                 result=parse(gramatyka(sonda, wariant), segmenty),
                 segments=tuple(segmenty),
+                comparable=źródło == "gold",
             )
             for wariant in sonda.warianty
         }
         raport.zapisz(
             zdanie.text,
             {wariant: wynik.status for wariant, wynik in wyniki.items()},
-            {wariant: wynik.agreement for wariant, wynik in wyniki.items()},
+            {wariant: wynik.agreement for wariant, wynik in wyniki.items()}
+            if źródło == "gold"
+            else {},
         )
     return raport
 
@@ -277,8 +296,8 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     return raport
 
 
-def _kawałek(ścieżki: Sequence[Path], sonda: Sonda, przykłady: int):
-    return zmierz(sonda, (read(ścieżka) for ścieżka in ścieżki), przykłady)
+def _kawałek(ścieżki: Sequence[Path], sonda: Sonda, przykłady: int, źródło: str):
+    return zmierz(sonda, (read(ścieżka) for ścieżka in ścieżki), przykłady, źródło)
 
 
 def przebieg(
@@ -286,6 +305,7 @@ def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
+    źródło: str = "gold",
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
 
@@ -293,7 +313,7 @@ def przebieg(
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem sondy.
     """
-    praca = functools.partial(_kawałek, sonda=sonda, przykłady=przykłady)
+    praca = functools.partial(_kawałek, sonda=sonda, przykłady=przykłady, źródło=źródło)
     return scal(sonda, po_kawałkach(ścieżki, jobs, praca), przykłady)
 
 
@@ -398,6 +418,12 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
         default=os.cpu_count() or 1,
         help="ile procesów czyta i mierzy; 1 liczy w tym",
     )
+    parser.add_argument(
+        "--morfologia",
+        choices=SOURCES,
+        default="gold",
+        help="czytania banku drzew: wybrane przez anotatora czy wszystkie, jakie ma Morfeusz",
+    )
     args = parser.parse_args(argv)
     if args.jobs < 1:
         parser.error("--jobs bierze co najmniej jeden proces")
@@ -409,8 +435,9 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
             pliki(ścieżka)[: args.limit],
             args.jobs,
             przykłady=args.przykłady,
+            źródło=args.morfologia,
         )
-        print(wydruk(raport, "Składnica, morfologia złota"))
+        print(wydruk(raport, f"Składnica, morfologia {MORFOLOGIA[args.morfologia]}"))
         return 0
     if ścieżka.is_file():
         raport = nad_prozą(sonda, ścieżka.read_text(), args.przykłady)

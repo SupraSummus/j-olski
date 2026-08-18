@@ -2,11 +2,11 @@
 polecenie: python3 -m sonda.znaczenia proza/README.txt
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  README.md: 0d2a177e02b4
+  README.md: 0e03f0213241
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 1b37d940bed0
-  olski/parse.py: e8b09f590f5a
-  olski/skład/rozbiór.py: 9e94e539a45b
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
 
