@@ -410,13 +410,13 @@ Negacja poszła tu inaczej i tak samo skromnie:
 przyjmuje cztery zdania, trzydzieści pięć przenosi na wieloznaczne
 i jednemu przyjętemu wcześniej odbiera jednoznaczność,
 co jest jedynym takim zdaniem w trzech zmierzonych rejestrach
-([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
+([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
 Cztery szyki podmiotu, dopełnienia i czasownika, dopisane po tamtych dwóch,
 wychodzą tu jeszcze skromniej i wychodzą pod zero:
 nie przyjmują ani jednego zdania,
 trzy przenoszą z odrzuconych na wieloznaczne
 i jednemu przyjętemu wcześniej odbierają jednoznaczność
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)).
+([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)).
 Ustawa pisze zdanie w szyku, który olski miał,
 więc dopisany daje jej same nowe czytania,
 i tym różni się ten rejestr od prozy z banku drzew,
@@ -451,6 +451,32 @@ Cyfry olski nie bierze i dlaczego, mówi
 [subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii):
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
+
+Interpunkcja zdaniowa wypadła tu najskromniej z całej tej listy:
+
+```sh
+python3 -m sonda.interpunkcja proza/ustawy.txt
+```
+
+Dwukropek nie rusza nad tymi siedmioma aktami ani jednego werdyktu,
+a przecinek przed spójnikiem rusza jeden i przenosi go z odrzuconych na wieloznaczne:
+
+```text
+Gmina nie ponosi odpowiedzialności za zobowiązania innych komunalnych osób prawnych,
+a te nie ponoszą odpowiedzialności za zobowiązania gminy.
+```
+
+Jednoznaczności ta para nie odbiera tu ani jednemu zdaniu przyjętemu wcześniej,
+tak samo jak nad Składnicą
+([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+Zero dwukropka mówi przy tym o rejestrze, a nie o produkcji.
+Dwukropek pada w tej prozie siedemdziesiąt razy i za każdym z nich stoi wyliczenie,
+a nie zdanie wyjaśniające — `W skład zarządu wchodzą: wójt albo burmistrz` —
+czyli dokładnie ta połowa tej konstrukcji, której olski nie bierze
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Wszystkie siedemdziesiąt zdań jest odrzuconych i przed dopisaniem, i po nim,
+a stają one na nawiasie, na rzeczowniku odczasownikowym albo na strukturze,
+więc pozycja, która tu weszła, nie ma nad tym rejestrem czego wziąć.
 
 Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie:
 

@@ -5,26 +5,26 @@ czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-cz
 czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
           wariant    przyjęte  wieloznaczne  odrzucone
-   bez przysłówka        1193           564      11278
-       okolicznik        1629           733      10673
-przy przymiotniku        1221           586      11228
-            olski        1596           777      10662
+   bez przysłówka        1208           581      11246
+       okolicznik        1657           753      10625
+przy przymiotniku        1238           603      11194
+            olski        1622           799      10614
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:
-      436  rejected → valid
-      169  rejected → ambiguous
+      449  rejected → valid
+      172  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      302    agrees
-      115    brak roli
+      311    agrees
+      117    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
              W jaki sposób tak szybko stałaś się tak popularna?
              Często tu goszczę i jestem serdecznie przyjmowany.
@@ -42,19 +42,21 @@ ruch wobec wariantu „bez przysłówka” — okolicznik:
              Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
              Cały prawy błotnik wraz ze światłami został na haku.
              Miał równie pokraczną głowę, krótki tułów.
-        6    partial
+        8    partial
+             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
              Przed wojną jej osobiście nie znałem.
              Myśli się językowo.
              Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
              Jak nalicza się mandaty?
              Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
              Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
+             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
 
 ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
-       28  rejected → valid
+       30  rejected → valid
        22  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       22    agrees
+       24    agrees
         3    disagrees
              Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
              Oficjalnie cały Sejm RP śpi.
@@ -65,11 +67,11 @@ ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
              Jesteś straszliwe niedouczony.
 
 ruch wobec wariantu „bez przysłówka” — olski:
-      403  rejected → valid
-      213  rejected → ambiguous
+      414  rejected → valid
+      218  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      278    agrees
-      111    brak roli
+      285    agrees
+      113    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
              W jaki sposób tak szybko stałaś się tak popularna?
              Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
@@ -78,6 +80,15 @@ ruch wobec wariantu „bez przysłówka” — olski:
              Wróciłem do biura i natychmiast zadzwoniłem na policję.
              Z autorem artykułu rozmawiałam dwukrotnie.
              Tak jest łatwiej.
+        8    partial
+             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+             Przed wojną jej osobiście nie znałem.
+             Myśli się językowo.
+             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
+             Jak nalicza się mandaty?
+             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
+             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
+             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
         8    disagrees
              Na resztę czas przyjdzie później.
              Te dane wyraźnie wskazują na skalę zjawiska i jego ciężar społeczny.
@@ -87,17 +98,10 @@ ruch wobec wariantu „bez przysłówka” — olski:
              Zgodnie z ustaleniami nie udzielił żadnych wywiadów ani nie wydał żadnego oświadczenia politycznego.
              Za stanami zniechęcenia i depresji kryją się zwykle głębsze konflikty i problemy wewnętrzne, wyniesione głównie ze środowiska rodzinnego.
              Powtarzaj je tak często, jak to jest potrzebne.
-        6    partial
-             Przed wojną jej osobiście nie znałem.
-             Myśli się językowo.
-             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
-             Jak nalicza się mandaty?
-             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
-             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
 
 konkurencja, nad zdaniem po zdaniu:
-       41  obaj gospodarze ruszają to samo zdanie
-       36  razem wychodzi co innego niż osobno
+       43  obaj gospodarze ruszają to samo zdanie
+       38  razem wychodzi co innego niż osobno
 
 konkurencja, obaj gospodarze ruszają to samo zdanie:
   Program zabawy był ściśle ustalony.

@@ -1249,7 +1249,7 @@ class Las:
         czyli kosztuje tyle, ile numer, a nie tyle, ile las ma czytań;
         granica z :data:`MAX_READINGS` nie jest mu przez to potrzebna.
         Ile to kosztuje nad bankiem drzew, mówi
-        docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych.
+        docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych.
 
         Zbiór pusty jest żądaniem, a nie jego brakiem:
         etykieta, której pytający nigdzie nie obsadza,

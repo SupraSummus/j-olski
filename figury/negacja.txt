@@ -1,45 +1,47 @@
 #  Ten plik powstaje przebiegiem: python3 -m harness.figury negacja
 polecenie: python3 -m sonda.negacja Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
-czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno
+czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/negacja.py: 2171ef6d8d65
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
     wariant    przyjęte  wieloznaczne  odrzucone
-bez negacji        1405           698      10932
-    cząstka        1533           737      10765
- dopełniacz        1405           698      10932
-       obie        1596           777      10662
+bez negacji        1423           713      10899
+    cząstka        1555           756      10724
+ dopełniacz        1423           713      10899
+       obie        1622           799      10614
 
 ruch wobec wariantu „bez negacji” — cząstka:
-      128  rejected → valid
-       39  rejected → ambiguous
+      132  rejected → valid
+       43  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       62    agrees
-       54    brak roli
+       63    agrees
+       55    brak roli
              Nie zdążyłem.
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
              Nie znali się za życia.
              Nie odcinam się od przeszłości.
              Nie narzeka na brak pomysłów twórczych.
              Teraz nie wiem.
              Nie wypaliło!
              Nie udało się.
-             Nie powiedzieli.
-        6    partial
+        7    partial
              Przed wojną jej osobiście nie znałem.
              W heroinie ich nie ma.
+             Żyje, ale nie odzyskała na razie przytomności.
              Nie zobaczyłam do tej pory emocji.
              W najbliższych dniach Warszawy nie zasypią śmieci.
              Zwierzę polubiło piwko i bez kufla nie daje się wydoić.
              Wygląd i prezencja nie robią na Francuzach żadnego wrażenia.
-        6    disagrees
+        7    disagrees
              Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
              W swoim dawnym kształcie kapelusz nie ostał się.
+             Kuba tego nie pamięta, ale wie od mamy.
              Nikt niczego nie wybiera, coś wybiera za nas.
              Nikt go tu nie zapraszał!
              Wtedy nikt nas nie zauważy.
@@ -49,19 +51,19 @@ ruch wobec wariantu „bez negacji” — dopełniacz:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez negacji” — obie:
-      191  rejected → valid
-       79  rejected → ambiguous
+      199  rejected → valid
+       86  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      125    agrees
-       55    brak roli
+      132    agrees
+       56    brak roli
              Nie zdążyłem.
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
              Nie muszę używać trybu przypuszczającego.
              Nie znali się za życia.
              Nie odcinam się od przeszłości.
              Nie narzeka na brak pomysłów twórczych.
              Teraz nie wiem.
              Nie wypaliło!
-             Nie udało się.
         8    disagrees
              Kampania nie przyniosła skutku.
              Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
@@ -78,27 +80,27 @@ ruch wobec wariantu „bez negacji” — obie:
 
 konkurencja, nad zdaniem po zdaniu:
         0  obie rzeczy ruszają to samo zdanie
-      112  razem wychodzi co innego niż osobno
+      121  razem wychodzi co innego niż osobno
 
 konkurencja, razem wychodzi co innego niż osobno:
   Nie umiem w tych sprawach trzymać języka za zębami.
   Nie ma na nich żadnego napisu.
   Nie wytropiła nigdzie wroga na oko.
+  Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   Nie wiem, nigdy nie czytałem ich z zainteresowaniem.
   Kobieta z reguły nie ma przed tym oporów.
   Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
-  Nie muszę używać trybu przypuszczającego.
 
 cząstka, rejected → valid:
   Nie zdążyłem.
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
   Żaden system nie jest samowystarczalny.
   Takie położenie człowieka nie powinno być mitologizowane i mistyfikowane symbolami sztuki czy religii.
   Nie lubię, gdy ktoś jest natarczywy.
   Odpoczynek jest zawsze na ostatnim miejscu, pracownicy przechwalają się, kto dłużej nie był na urlopie.
   Ignacy nie opowiadał o swej rodzinie.
-  Przed wojną jej osobiście nie znałem.
-  Nie znali się za życia.
+  On nie uczestniczy w tych grach i rywalizacjach, ale ma instynkt państwowy.
 
 cząstka, rejected → ambiguous:
   Infrastruktura teleinformacyjna nie może działać bez prądu.
@@ -112,13 +114,13 @@ cząstka, rejected → ambiguous:
 
 obie, rejected → valid:
   Nie ma na nich żadnego napisu.
+  Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
   Nie zdążyłem.
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
   Żaden system nie jest samowystarczalny.
   Nie wiem, nigdy nie czytałem ich z zainteresowaniem.
   Takie położenie człowieka nie powinno być mitologizowane i mistyfikowane symbolami sztuki czy religii.
   Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
-  Nie lubię, gdy ktoś jest natarczywy.
-  Odpoczynek jest zawsze na ostatnim miejscu, pracownicy przechwalają się, kto dłużej nie był na urlopie.
 
 obie, rejected → ambiguous:
   Nie umiem w tych sprawach trzymać języka za zębami.

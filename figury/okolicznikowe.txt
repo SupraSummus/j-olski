@@ -3,24 +3,24 @@ polecenie: python3 -m sonda.okolicznikowe Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/okolicznikowe.py: 1c2350b8ae2c
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez okolicznika zdaniowego        1575           750      10710
-                za zdaniem        1587           770      10678
-             przed zdaniem        1584           757      10694
-                     olski        1596           777      10662
+bez okolicznika zdaniowego        1600           771      10664
+                za zdaniem        1613           792      10630
+             przed zdaniem        1609           778      10648
+                     olski        1622           799      10614
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
-       20  rejected → ambiguous
-       12  rejected → valid
+       21  rejected → ambiguous
+       13  rejected → valid
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       10    agrees
+       11    agrees
         2    brak roli
              Wiemy, bo spotkaliśmy się z nią osobiście!
              Czekałam, aż mrugnie do mnie.
@@ -34,10 +34,10 @@ ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
              Gdy wróciła, usiadła obok niego na tapczanie.
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
-       27  rejected → ambiguous
-       21  rejected → valid
+       28  rejected → ambiguous
+       22  rejected → valid
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       18    agrees
+       19    agrees
         3    brak roli
              Wiemy, bo spotkaliśmy się z nią osobiście!
              Czekałam, aż mrugnie do mnie.
@@ -50,12 +50,12 @@ konkurencja, nad zdaniem po zdaniu:
 za zdaniem, rejected → ambiguous:
   Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
   Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
   Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
   Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
   Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
   Zawsze wygrywał, bo był najszybszy.
   Dialog na temat dialogu utknął w martwym punkcie, gdy przywódcy Frontu nie zgodzili się zaapelować do grup zbrojnych o spokój.
-  Nie możemy płacić więcej, kiedy fabryka jest nierentowna.
 
 za zdaniem, rejected → valid:
   Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
@@ -89,12 +89,12 @@ przed zdaniem, rejected → ambiguous:
 olski, rejected → ambiguous:
   Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
   Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
   Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
   Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
   Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
   Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
   Gdy na miejscu zjawili się policjanci z komisariatu kolejowego policji, schronisko znajdowało się w opłakanym stanie.
-  Gdy powstawał Pakt dla Wsi, jeździł na spotkania z rolnikami.
 
 olski, rejected → valid:
   Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.

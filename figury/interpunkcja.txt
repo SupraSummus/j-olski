@@ -1,0 +1,104 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury interpunkcja
+polecenie: python3 -m sonda.interpunkcja Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego
+czyta: docs/roadmap.md#etap-4-zdanie-złożone
+ruszają:
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
+  olski/morph.py: 7490ae22fd17
+  sonda/interpunkcja.py: d9e4dc0781e4
+  sonda/ruch.py: 6da1ed0a768e
+
+Składnica, morfologia złota, 13035 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+bez interpunkcji zdaniowej        1596           777      10662
+                 dwukropek        1599           779      10657
+przecinek przed spójnikiem        1619           797      10619
+                     olski        1622           799      10614
+
+ruch wobec wariantu „bez interpunkcji zdaniowej” — dwukropek:
+        3  rejected → valid
+        2  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+        3    agrees
+
+ruch wobec wariantu „bez interpunkcji zdaniowej” — przecinek przed spójnikiem:
+       23  rejected → valid
+       20  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       18    agrees
+        3    brak roli
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
+             Naradzali się długo, a potem poszli do Spartakusa.
+             Patrzy, a tu we włosach łonowych roi się od weszek.
+        2    partial
+             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
+
+ruch wobec wariantu „bez interpunkcji zdaniowej” — olski:
+       26  rejected → valid
+       22  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       21    agrees
+        3    brak roli
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
+             Naradzali się długo, a potem poszli do Spartakusa.
+             Patrzy, a tu we włosach łonowych roi się od weszek.
+        2    partial
+             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
+
+konkurencja, nad zdaniem po zdaniu:
+        0  oba znaki ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+dwukropek, rejected → valid:
+  Sprawozdawcy PAP informują: W środę 1 kwietnia XII Zjazd BPK wznowił obrady plenarne.
+  Kto mówi: słyszę?
+  Udowadniamy: jest dyskryminacja!
+
+dwukropek, rejected → ambiguous:
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
+  Argumentuje: dyrektorzy ZOZ-ów płacili za dyżury na podstawie obowiązujących przepisów.
+
+przecinek przed spójnikiem, rejected → valid:
+  Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
+  On nie uczestniczy w tych grach i rywalizacjach, ale ma instynkt państwowy.
+  Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+  Aktor mamrocze coś niewyraźnie pod nosem, ale ma mikrofon i widz go zrozumie.
+  Nie ma tam figurki Napoleona, ale odczucia są podobne.
+  Naszym wspólnym celem jest kultura, a kultura nie ma granic.
+  Większość państw Dwunastki zgodziła się, ale Francja i Hiszpania postawiły weto.
+
+przecinek przed spójnikiem, rejected → ambiguous:
+  Polska niechęć do kapitału zagranicznego ocala nasze poczucie godności i suwerenności, ale tak naprawdę izoluje od światowego podziału pracy.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  W wyniku tego przeciwnik miał czas na organizację obrony, a tempo pościgu znacznie spadało.
+  Trzecioligowcy strzelili kontaktowego gola, ale w ostatnim kwadransie dwie bramki dla Lecha wypracował Remień.
+  Kuba tego nie pamięta, ale wie od mamy.
+  W długim okresie zwiększy się udział akcji w portfelach funduszy, więc różnice między funduszami powiększą się.
+  Wszystkie trasy są przygotowane przez ratraki, a wyciągi czekają na narciarzy.
+  Wiedziałem, że dalsza indagacja do niczego nie doprowadzi, ale na wszelki wypadek nie zbliżałem się do pola obstrzału dzielnego ormowca.
+
+olski, rejected → valid:
+  Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
+  On nie uczestniczy w tych grach i rywalizacjach, ale ma instynkt państwowy.
+  Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+  Aktor mamrocze coś niewyraźnie pod nosem, ale ma mikrofon i widz go zrozumie.
+  Nie ma tam figurki Napoleona, ale odczucia są podobne.
+  Sprawozdawcy PAP informują: W środę 1 kwietnia XII Zjazd BPK wznowił obrady plenarne.
+  Naszym wspólnym celem jest kultura, a kultura nie ma granic.
+
+olski, rejected → ambiguous:
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
+  Polska niechęć do kapitału zagranicznego ocala nasze poczucie godności i suwerenności, ale tak naprawdę izoluje od światowego podziału pracy.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  W wyniku tego przeciwnik miał czas na organizację obrony, a tempo pościgu znacznie spadało.
+  Trzecioligowcy strzelili kontaktowego gola, ale w ostatnim kwadransie dwie bramki dla Lecha wypracował Remień.
+  Kuba tego nie pamięta, ale wie od mamy.
+  W długim okresie zwiększy się udział akcji w portfelach funduszy, więc różnice między funduszami powiększą się.
+  Wszystkie trasy są przygotowane przez ratraki, a wyciągi czekają na narciarzy.

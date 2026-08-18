@@ -1,23 +1,23 @@
 #  Ten plik powstaje przebiegiem: python3 -m harness.figury szyk-proza
 polecenie: python3 -m sonda.szyk proza/README.txt
-czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
+czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka
 ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/szyk.py: 7d08ac67af27
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 README.txt, proza, 48 zdań
 
             wariant    przyjęte  wieloznaczne  odrzucone
-bez czterech szyków           5             5         38
-                SOV           5             5         38
-                OSV           5             5         38
-                VSO           5             5         38
-                VOS           5             5         38
-   wszystkie cztery           5             5         38
+bez czterech szyków           5             7         36
+                SOV           5             7         36
+                OSV           5             7         36
+                VSO           5             7         36
+                VOS           5             7         36
+   wszystkie cztery           5             7         36
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez czterech szyków” — SOV:

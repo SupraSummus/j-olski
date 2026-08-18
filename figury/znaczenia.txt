@@ -3,8 +3,8 @@ polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
@@ -12,19 +12,19 @@ ruszają:
 Składnica, morfologia gold, 13035 zdań z werdyktem
 
   werdykt olskiego:
-    10662    rejected
-     1596    valid
-      777    ambiguous
+    10614    rejected
+     1622    valid
+      799    ambiguous
 
   ile czytań zdania wraca drzewem tego zapisu:
-    ambiguous, 777 zdań:
+    ambiguous, 799 zdań:
         1    0.1%  każde czytanie wraca drzewem
         7    0.9%  część czytań wraca drzewem
-      769   99.0%  żadne czytanie nie wraca drzewem
-    valid, 1596 zdań:
-       81    5.1%  każde czytanie wraca drzewem
+      791   99.0%  żadne czytanie nie wraca drzewem
+    valid, 1622 zdań:
+       81    5.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-     1515   94.9%  żadne czytanie nie wraca drzewem
+     1541   95.0%  żadne czytanie nie wraca drzewem
 
   czym są wobec siebie drzewa czytań, z 1 zdań wieloznacznych:
         0    0.0%  czytania dają te same drzewa
@@ -40,23 +40,23 @@ Składnica, morfologia gold, 13035 zdań z werdyktem
        37   45.7%  4
         5    6.2%  8
 
-  czemu czytanie nie wraca drzewem, z 4573 takich czytań:
-     3887   85.0%  zapis nie ma kategorii
-      686   15.0%  kandydat wypisuje się innym napisem
+  czemu czytanie nie wraca drzewem, z 4711 takich czytań:
+     4023   85.4%  zapis nie ma kategorii
+      688   14.6%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 2018 różnych:
-      894  grupa imienna z słowo, Modifier nie ma tu kategorii
-      824  zdanie bez podmiotu nie ma tu kategorii
+  najczęstsze powody, z 2021 różnych:
+      901  grupa imienna z słowo, Modifier nie ma tu kategorii
+      829  zdanie bez podmiotu nie ma tu kategorii
       348  AP nie jest tu grupą imienną
       247  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
       154  grupa imienna z słowo, NPConjunct nie ma tu kategorii
       148  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+      118  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
        89  grupa imienna z słowo, Adjective, Modifier nie ma tu kategorii
        49  grupa imienna z słowo, Adjective, NP nie ma tu kategorii
        45  być nie składa tu orzeczenia imiennego
        34  przymiotnik z słowo, słowo nie ma tu kategorii
        30  „go” nie ma tu czym być w pozycji Object
-       24  „Ja” nie ma tu czym być w pozycji Subject
 
   najkrótsze zdania: ambiguous, część czytań wraca drzewem
       2 czytań  Oficjalnie cały Sejm RP śpi.

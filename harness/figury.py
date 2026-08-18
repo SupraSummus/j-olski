@@ -93,7 +93,7 @@ FIGURY = (
         polecenie=("python3", "-m", "sonda.negacja", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
         ruszają=("olski/subset.py", "olski/parse.py", "sonda/negacja.py", "sonda/ruch.py"),
-        czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno",),
+        czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
     ),
     Figura(
         nazwa="negacja-proza",
@@ -106,7 +106,7 @@ FIGURY = (
             "sonda/negacja.py",
             "sonda/ruch.py",
         ),
-        czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno",),
+        czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
     ),
     Figura(
         nazwa="przysłówek",
@@ -233,6 +233,43 @@ FIGURY = (
         ),
     ),
     Figura(
+        nazwa="interpunkcja",
+        polecenie=("python3", "-m", "sonda.interpunkcja", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Morfologia stoi tu wśród tego, co rusza liczby, czego nie robi żadna
+        #  figura wyżej, i jest to zapis tego, co tę sondę w ogóle wpuściło:
+        #  lemat dwukropka wychodził z ``olski/morph.py`` pusty, bo obcięcie
+        #  indeksu homonimu brało go za indeks, więc terminal dwukropka nie brał
+        #  ani jednego czytania i produkcja stała martwa.
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "sonda/interpunkcja.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
+            "docs/roadmap.md#etap-4-zdanie-złożone",
+        ),
+    ),
+    Figura(
+        nazwa="interpunkcja-proza",
+        polecenie=("python3", "-m", "sonda.interpunkcja", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "olski/morph.py",
+            "sonda/interpunkcja.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
+        ),
+    ),
+    Figura(
         nazwa="liczebnik",
         polecenie=("python3", "-m", "sonda.liczebnik", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
@@ -269,7 +306,7 @@ FIGURY = (
             "sonda/szyk.py",
             "sonda/ruch.py",
         ),
-        czyta=("docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć",),
+        czyta=("docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka",),
     ),
     Figura(
         nazwa="szyk-proza",
@@ -283,7 +320,7 @@ FIGURY = (
             "sonda/ruch.py",
         ),
         czyta=(
-            "docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć",
+            "docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka",
         ),
     ),
     Figura(

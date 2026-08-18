@@ -316,7 +316,7 @@ for a reading assigning the roles the gold tree assigns,
 so a gold reading past the enumeration cap comes back found rather than missing;
 only then does it walk the enumeration to the tree carrying that reading,
 and the depth is where that walk stopped.
-[corpus.md](corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych)
+[corpus.md](corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych)
 holds what both answers say about the sentences olski refuses for ambiguity.
 Where the gold tree meets a packed position is settled there by the roles:
 a position stands for a shape rather than for a tree,

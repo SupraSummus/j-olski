@@ -117,7 +117,7 @@ nie miał ciała, więc olski czytał pięć zdań Składnicy odwrotnie,
 niż czyta je czytelnik, i mówił to jednym czytaniem.
 Dopisane, kupują kilkadziesiąt zdań banku drzew, kosztują sześć
 i cztery z tych sześciu są tamtą naprawą
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)).
+([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)).
 Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 że wyjdzie.
 
@@ -324,15 +324,9 @@ na dwukropku i na liczebniku,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 
-Etap zostaje więc otwarty, a brakuje mu dwóch rzeczy i dzieli je to,
-co każda żąda od gramatyki.
-Interpunkcja zdaniowa łączy zdania, które już się wyprowadzają:
-dwukropek otwierający zdanie
-oraz przecinek przed spójnikiem, czyli `Plany są niczym, ale planowanie jest wszystkim.`
-Stoi ona na czele kolejki nad prozą tego repozytorium
-([corpus.md](corpus.md#where-the-analyses-stop)).
-Reszta podrzędności żąda nowych kształtów: pytanie zależne
-i zaimek wysunięty razem z grupą, w której stoi,
+Etap zostaje więc otwarty, a brakuje mu reszty podrzędności,
+która żąda nowych kształtów: pytania zależnego
+i zaimka wysuniętego razem z grupą, w której stoi,
 bo każdy kolejny kształt takiej grupy jest osobnym ciałem produkcji
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 
@@ -348,12 +342,42 @@ bo `gdy` stoi w nich jako okolicznik przysłówkowy po przecinku koordynacji.
 Nad prozą tego repozytorium nie kupuje ani jednego zdania,
 tak samo jak cztery dopisania przed nim,
 i jest to o tamtej kolejce odczyt, a nie o konstrukcji:
-zdanie tego pliku, które stało na spójniku, stoi także na dwukropku
-albo na rzeczowniku odczasownikowym.
+zdanie tego pliku, które stało na spójniku, stoi także na rzeczowniku
+odczasownikowym, na cząstce `by` albo na średniku.
 Zostaje z tej listy tryb przypuszczający, bo `aby` i `żeby` go żądają,
 a olski nie odróżnia go od czasu przeszłego
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
-Co z tego dwojga, które zostało, jest tańsze,
+
+Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
+i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
+dwukropek otwierający zdanie oraz przecinek przed spójnikiem
+zdejmują z listy odrzuconych czterdzieści osiem zdań Składnicy,
+a jednoznaczności nie odbierają ani jednemu zdaniu pod żadną z dwóch morfologii
+([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+Zero po stronie ceny nie jest przy dwukropku wynikiem przebiegu:
+tego znaku nie brała przedtem żadna produkcja,
+więc zdanie z nim nie miało czytania, z którego dałoby się je wytrącić.
+Kolejka nad prozą tego repozytorium stawiała tę parę na czele
+([corpus.md](corpus.md#where-the-analyses-stop))
+i nad tym plikiem nie kupuje ona żadnego zdania przyjętego,
+tak samo jak pięć dopisań przed nią,
+za to zdejmuje z listy form bez licencji oba znaki naraz,
+więc dziewięć zdań README staje odtąd na strukturze, a nie na znaku.
+Nad rejestrem ustaw rusza jeden werdykt i nic nie odbiera
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+więc trzeci rejestr odpowiedział tu tak samo jak drugi, tylko ciszej.
+
+Płaci za tę parę osobny warunek, i nie płaci ani w zdaniach, ani w czytaniach:
+przecinek przed spójnikiem nie kupowałby prawie nic,
+dopóki `a` czyta się jako przyimek rządzący mianownikiem,
+a warunek, który to czytanie odbiera, sam odbiera zdanie README —
+i to samo zdanie wraca z tą parą, z trzema czytaniami w miejsce trzech,
+tylko że prawdziwymi
+([subset.md](subset.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+Cena wypadła więc trzeci raz poza obie waluty, którymi ten kierunek mierzy,
+i wypadła po stronie zakupu.
+
+Co z dwojga, które na liście tego etapu zostało, jest tańsze,
 powie dopiero następne policzone dopisanie.
 
 ## Etap 5: słowa, których słownik nie ma
@@ -422,7 +446,7 @@ Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
 i cztery zdania ustawy przy trzydziestu,
 a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
 i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie
-`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
+`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
 Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
 wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
 czwartą, gdzie tamte oddawały po jednej piątej.
@@ -460,7 +484,8 @@ za każde zdanie oddane drugiemu gospodarzowi ubywa jedno czytanie nieprawdziwe,
 a `valid` mówiący o zdaniu nieprawdę czyta się jak twierdzenie
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim,
-a dwa zdania przenosi z odrzuconych na wieloznaczne.
+a cztery zdania przenosi z odrzuconych na wieloznaczne;
+dwa z tych czterech przyszły tam po nim, razem z interpunkcją zdaniową.
 Ranking wypadł przy nim lepiej niż przy każdym z tamtych czterech:
 wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego.
 

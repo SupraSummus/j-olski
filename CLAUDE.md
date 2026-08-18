@@ -562,6 +562,18 @@ one rerun becomes a heading, a table, the sentences under it
 and the numbers somebody derived from them by hand,
 and none of those fails when it is left undone.
 
+**A heading holds no count a rerun can move,** because a heading is an address.
+`Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` was one,
+and one grammar change renamed it, its anchor, and the seven files that linked it —
+`tests/test_docs.py` failing on each until it was carried through.
+The coarse forms above are allowed here as they are in a paragraph,
+and so is a zero: a construction that costs nothing says so in its heading,
+and a zero that stops being one is a decision reversed rather than a number moved,
+so renaming the section then is the point.
+A count above zero has neither excuse,
+and `Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka`
+is what the shape looks like when the magnitude stays outside the address.
+
 What moves a figure is declared beside it rather than described here.
 `FIGURY` in [`harness/figury.py`](harness/figury.py)
 names, per figure, the command, the corpora it needs,
@@ -602,7 +614,7 @@ and it moves every verdict the other two move.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 One of those tables has a fourth thing that moves it and no production in sight:
-[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych)
+[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych)
 is what `Las.numer_czytania` in `olski/parse.py` answers
 about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
 so a change to either moves that table and leaves the rest of the run standing.

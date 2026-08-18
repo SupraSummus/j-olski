@@ -3,22 +3,22 @@ polecenie: python3 -m sonda.okolicznikowe Składnica-frazowa-180723/ --morfologi
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/okolicznikowe.py: 1c2350b8ae2c
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia żywa, 13035 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez okolicznika zdaniowego        1371          1182      10482
-                za zdaniem        1378          1204      10453
-             przed zdaniem        1372          1189      10474
-                     olski        1379          1211      10445
+bez okolicznika zdaniowego        1374          1197      10464
+                za zdaniem        1382          1217      10436
+             przed zdaniem        1375          1204      10456
+                     olski        1383          1224      10428
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
-       19  rejected → ambiguous
-       10  rejected → valid
+       17  rejected → ambiguous
+       11  rejected → valid
         3  valid → ambiguous
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
@@ -27,8 +27,8 @@ ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
         3  valid → ambiguous
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
-       23  rejected → ambiguous
-       14  rejected → valid
+       21  rejected → ambiguous
+       15  rejected → valid
         6  valid → ambiguous
 
 konkurencja, nad zdaniem po zdaniu:
@@ -36,14 +36,14 @@ konkurencja, nad zdaniem po zdaniu:
         0  razem wychodzi co innego niż osobno
 
 za zdaniem, rejected → ambiguous:
-  A poza tym płakałam, bo uważałam, że jestem tam gruba i brzydka.
-  A to może uratować od śmierci, bo początek choroby zostanie w porę wykryty.
   Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
   Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
   Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
   Zawsze wygrywał, bo był najszybszy.
   Dyrektoriat ten funkcjonował zgodnie, dopóki istniała równowaga sił w rządzie.
   Turska przyznała, że jest przerażona, bo nie wyklucza, że nastolatka mogła zarazić inne osoby.
+  Etiopczycy kontynuują atak, choć pod koniec ubiegłego tygodnia władze Erytrei poinformowały o wycofaniu swych oddziałów ze wszystkich spornych terenów nadgranicznych.
+  Odczekał, aż za napastnikami zamkną się drzwi, po czym zaklął i chwycił kopertę.
 
 za zdaniem, rejected → valid:
   Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
@@ -53,7 +53,7 @@ za zdaniem, rejected → valid:
   Tropiłeś mnie bez ustanku, aż znalazłeś!
   Czekałam, aż mrugnie do mnie.
   Zamieniłem się z nim, bo chciał posłuchać przysięgi gladiatorów.
-  Stał chwilę nieruchomo, aż chłopak zniknął za rogiem Szujskiego.
+  Pan uśmiechnął się z zadowoleniem, ale Puzon i Torba nie zauważyli tego, bo złapały ich jakieś dziwne drgawki.
 
 za zdaniem, valid → ambiguous:
   Nie lubię, gdy ktoś jest natarczywy.
@@ -78,14 +78,14 @@ przed zdaniem, valid → ambiguous:
   Gdy nikt nie reagował na dzwonek, włączyli syrenę.
 
 olski, rejected → ambiguous:
-  A poza tym płakałam, bo uważałam, że jestem tam gruba i brzydka.
-  A to może uratować od śmierci, bo początek choroby zostanie w porę wykryty.
   Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
   Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
   Jeżeli człowiek silnie reaguje na różne zjawiska, może być tak odbierany.
   Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
   Jeśli w młodości nie przyzwyczaimy organizmu do tego życiodajnego płynu, organizm przestanie wytwarzać laktozę, enzym niezbędny do trawienia cukru mlecznego.
   Zawsze wygrywał, bo był najszybszy.
+  Dyrektoriat ten funkcjonował zgodnie, dopóki istniała równowaga sił w rządzie.
+  Turska przyznała, że jest przerażona, bo nie wyklucza, że nastolatka mogła zarazić inne osoby.
 
 olski, rejected → valid:
   Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.

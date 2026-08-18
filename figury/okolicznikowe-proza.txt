@@ -4,29 +4,35 @@ czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jes
 ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/okolicznikowe.py: 1c2350b8ae2c
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 README.txt, proza, 48 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez okolicznika zdaniowego           5             5         38
-                za zdaniem           5             5         38
-             przed zdaniem           5             5         38
-                     olski           5             5         38
+bez okolicznika zdaniowego           5             6         37
+                za zdaniem           5             7         36
+             przed zdaniem           5             6         37
+                     olski           5             7         36
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
-  żadne zdanie nie zmieniło werdyktu
+        1  rejected → ambiguous
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
-  żadne zdanie nie zmieniło werdyktu
+        1  rejected → ambiguous
 
 konkurencja, nad zdaniem po zdaniu:
         0  obie pozycje ruszają to samo zdanie
         0  razem wychodzi co innego niż osobno
+
+za zdaniem, rejected → ambiguous:
+  Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
+
+olski, rejected → ambiguous:
+  Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
