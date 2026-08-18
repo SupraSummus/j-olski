@@ -40,12 +40,6 @@ W nazwie w kodzie piszemy znaki diakrytyczne, tak samo jak w zdaniu:
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
 
-Wyjątkiem są nazwy symboli gramatyki —
-`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py` —
-które są jednym słownikiem i zostają po angielsku razem.
-Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
-więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
-
 Reguły nie pilnuje żaden check, tak samo jak żadnej innej reguły prozy:
 sprawdzamy je w przeglądzie zmian, a nie w testach.
 Pakiet reguł, który sprawdzał tu polską typografię, wycofaliśmy
@@ -72,6 +66,17 @@ dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
 Nie ma z tego ani przebiegu porządkowego, ani wpisu w `TODO.md`.
 [`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
 a ta sekcja jest po polsku w pliku, który po polsku nie jest.
+
+Najszerszą jednostką przekładu jest słownik symboli gramatyki —
+`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py`.
+`olski-check` drukuje te nazwy jako role czytania,
+a README i dokumenty w `docs/` cytują całe bloki werdyktu,
+więc jedna zmiana obejmuje słownik, raport i te bloki.
+Angielski nie jest w nich decyzją: cały wydruk jest po angielsku,
+komunikaty werdyktu tak samo jak role.
+Dopóki słownik jest po angielsku, nowy symbol idzie po angielsku razem z nim,
+bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika
+i przekładu nie przybliża.
 
 ## Six forces
 

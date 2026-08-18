@@ -218,6 +218,18 @@ Przeciw przemianowaniu: `olski/parse.py` i `olski-check` noszą to słowo,
 a [`docs/swigra.md`](docs/swigra.md) porównuje olskiego ze Świgrą jako parser z parserem,
 więc przekład nazwy rozjeżdża to porównanie z polem.
 
+Wydruk `olski-check` jest po angielsku,
+a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+obejmuje komunikaty, które drukuje narzędzie.
+Nieprzełożone są tam dwie rzeczy naraz:
+komunikaty z `explain` w `olski/subset.py`
+i nazwy symboli, które ten sam wiersz wypisuje jako role czytania.
+Ruchem jest przekład jednym commitem,
+bo nazwa sięga wszystkich swoich wystąpień, a wydruk stoi w dokumentach.
+Do przeczytania są bloki werdyktu cytowane w README, `docs/subset.md`
+i `docs/design-notes.md`: przekład bierze je na nowo ręką,
+i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.
+
 ## Komendy i sondy
 
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
