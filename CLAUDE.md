@@ -1076,6 +1076,25 @@ a rule is a declaration,
 and buying precision back is `unless_preceded_by` in the data
 rather than a special case in the check.
 
+**A probe asks olski's declaration and keeps no second copy of it.**
+A differential probe takes productions out and reruns the verdict,
+so `sonda/przecinek.py` is one predicate over a production
+plus a `Sonda` declaration, and `sonda/ruch.py` runs the measurement for all of them.
+The predicate asks the production rather than listing names beside the grammar,
+because a list stays silent about a production somebody adds later
+and the probe goes on measuring the ones it was given.
+A probe that writes the subset out a second time
+has that defect at the size of a grammar:
+`sonda/polszczyzna.py` declares the subset again,
+so it rejects a sentence olski derives,
+and the divergence then says nothing about the two formalisms
+the probe was built to compare.
+It is the only probe of that shape and it is priced —
+[`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
+owns what it bought, `TODO.md` whether it stays.
+The shape is what makes a probe cheap to judge:
+a predicate is read in a minute and a second grammar is not.
+
 **Printed output does not take its order from a set.**
 String hashing is randomised at startup,
 so a set walked in order to print something prints a different thing in every run,
