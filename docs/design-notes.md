@@ -794,8 +794,8 @@ Trzy ostatnie nie mówią o formalizmie nic i mówią coś o samej sondzie.
 `Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
 odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
 a sonda liczebnika nie ma, więc to zdanie odrzuca;
-`Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany
-razem z całą analizą, która schodziła do znaku`
+`Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej
+i został wycofany razem z całą analizą, która schodziła do znaku`
 oraz `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi`
 rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe).
 Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,

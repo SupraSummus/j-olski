@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.negacja proza/README.txt
 czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem
 ruszają:
-  README.md: e736a2132971
+  README.md: e87e4028637e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 03be07b669ae
   olski/parse.py: 7b2184342e31
