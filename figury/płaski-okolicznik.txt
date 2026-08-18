@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.płaski Składnica-frazowa-180723/ --wariant okolicz
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
@@ -12,9 +12,9 @@ ruszają:
 
 Składnica, morfologia złota, wariant „okolicznik”, 13035 zdań
 
-     1657  przyjętych jednym czytaniem, czyli populacja
+     1658  przyjętych jednym czytaniem, czyli populacja
 
-płaskie czytanie w 47 z 1657 zdań, 2.8%:
+płaskie czytanie w 47 z 1658 zdań, 2.8%:
        37    2.2%  przed przymiotnikiem
        12    0.7%  przed przysłówkiem
 

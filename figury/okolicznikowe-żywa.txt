@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.okolicznikowe Składnica-frazowa-180723/ --morfologi
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   sonda/okolicznikowe.py: 1c2350b8ae2c
   sonda/ruch.py: 6da1ed0a768e
@@ -11,10 +11,10 @@ ruszają:
 Składnica, morfologia żywa, 13035 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez okolicznika zdaniowego        1374          1197      10464
-                za zdaniem        1382          1217      10436
-             przed zdaniem        1375          1204      10456
-                     olski        1383          1224      10428
+bez okolicznika zdaniowego        1375          1198      10462
+                za zdaniem        1383          1218      10434
+             przed zdaniem        1376          1205      10454
+                     olski        1384          1225      10426
 
 ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
        17  rejected → ambiguous

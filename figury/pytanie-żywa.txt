@@ -1,0 +1,43 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury pytanie-żywa
+polecenie: python3 -m sonda.pytanie Składnica-frazowa-180723/ --morfologia live
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał
+ruszają:
+  olski/subset.py: ccaa0fcef11b
+  olski/parse.py: 7b2184342e31
+  sonda/pytanie.py: e9799413cf99
+  sonda/ruch.py: 6da1ed0a768e
+
+Składnica, morfologia żywa, 13035 zdań
+
+        wariant    przyjęte  wieloznaczne  odrzucone
+    bez pytania        1383          1224      10428
+zdanie pytające        1384          1224      10427
+pytanie zależne        1383          1225      10427
+          olski        1384          1225      10426
+
+ruch wobec wariantu „bez pytania” — zdanie pytające:
+        1  rejected → valid
+
+ruch wobec wariantu „bez pytania” — pytanie zależne:
+        1  rejected → ambiguous
+
+ruch wobec wariantu „bez pytania” — olski:
+        1  rejected → valid
+        1  rejected → ambiguous
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie pozycje ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+zdanie pytające, rejected → valid:
+  Który aktor robi na tobie największe wrażenie?
+
+pytanie zależne, rejected → ambiguous:
+  KERM nie zdecydował wczoraj, który wariant zostanie ostatecznie zapisany w projekcie ustawy.
+
+olski, rejected → valid:
+  Który aktor robi na tobie największe wrażenie?
+
+olski, rejected → ambiguous:
+  KERM nie zdecydował wczoraj, który wariant zostanie ostatecznie zapisany w projekcie ustawy.

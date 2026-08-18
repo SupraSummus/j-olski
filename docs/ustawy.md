@@ -190,14 +190,14 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 21 | 40 | 325 |
+| samorząd gminny (1990/95) | 386 | 22 | 40 | 324 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 1 | 83 |
 | informacja publiczna (2001/1198) | 126 | 0 | 2 | 124 |
 | Kodeks wyborczy (2011/112) | 2908 | 32 | 150 | 2726 |
 | petycje (2014/1195) | 48 | 2 | 3 | 43 |
 | zgromadzenia (2015/1485) | 127 | 1 | 8 | 118 |
 | ochrona ludności (2024/1907) | 1242 | 24 | 100 | 1118 |
-| razem | 4921 | 80 | 304 | 4537 |
+| razem | 4921 | 81 | 304 | 4536 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
 699 zdań, z tego 6 jednoznacznych i 21 wieloznacznych.
@@ -235,7 +235,7 @@ Ostatnie jest § 54 „Zasad techniki prawodawczej”, czyli przepisem,
 który nazywa artykuł podstawową jednostką redakcyjną ustawy
 i nazywa go dokładnie tym kształtem.
 
-Nie każde z tych 80 zdań napisał prawodawca, i widać to na dwóch klasach.
+Nie każde z tych 81 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -247,7 +247,7 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 80 to dotyczy, ten pomiar nie liczy,
+Ilu zdań z 81 to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
@@ -363,8 +363,8 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4537 odrzuceń 3529 stanęło na formie, której żadna produkcja nie bierze,
-a 1008 na samej strukturze.
+Z 4536 odrzuceń 3485 stanęło na formie, której żadna produkcja nie bierze,
+a 1051 na samej strukturze.
 Formy z czoła tego rankingu grupują się w trzy klasy:
 
 | klasa | najczęstsze formy |
@@ -430,6 +430,19 @@ ani jednego zdania przyjętego, pięć przeniesionych z odrzuconych na wieloznac
 cztery w Kodeksie wyborczym i jedno w ochronie ludności,
 i ani jednego, któremu ubyłoby jednoznaczności
 ([subset.md](subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+Pytanie zależne wychodzi tu inaczej niż tamte cztery i wychodzi po stronie zakupu:
+przyjmuje jedno zdanie jednoznacznie, nie przenosi na wieloznaczne żadnego
+i żadnemu jednoznaczności nie odbiera
+([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Zdaniem tym jest `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`,
+a drugą połowę jego wyprowadzenia daje mu
+[pozycja z obiema przydawkami](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa).
+Zdania pytającego ten rejestr nie ma ani razu, więc ta połowa konstrukcji nie rusza tu nic.
+Kolejka odrzuceń rusza się przy tym mocniej niż suma werdyktów:
+odrzuceń stojących na formie ubyły czterdzieści cztery,
+a na strukturze przybyły czterdzieści trzy,
+bo zdanie z `który` po przecinku dochodzi teraz dalej, choć przyjęte nie jest.
+
 Kolejka ta wskazuje więc konstrukcje trafnie i wyceniać ich nie umie,
 tak samo jak kolejka z banku drzew,
 a zdanie tego rejestru jest po prostu dłuższe niż to,
@@ -540,14 +553,19 @@ czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
 Zakup czyta się przejściami między werdyktami, a nie liczbą pokrycia,
 bo przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
 a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej.
-Nad siedmioma ustawami 24 zdania przestają być odrzucone:
-9 wychodzi jednoznacznych, 15 wieloznacznych.
-W drugą stronę idą 4 zdania jednoznaczne, które przechodzą na wieloznaczne.
-Nad „Zasadami techniki prawodawczej” przejść pierwszego rodzaju jest 3,
-nad [Składnicą](corpus.md#the-measurement) 7,
-a drugiego rodzaju nie ma tam ani jednego.
+Zdejmowane są obie pozycje naraz, bo weszły razem.
+Nad siedmioma ustawami 29 zdań przestaje być odrzuconych:
+11 wychodzi jednoznacznych, 18 wieloznacznych.
+W drugą stronę idzie 5 zdań jednoznacznych, które przechodzą na wieloznaczne.
+Nad „Zasadami techniki prawodawczej” przejścia pierwszego rodzaju są dwa,
+nad [Składnicą](corpus.md#the-measurement) 41,
+a drugiego rodzaju jest tam 6.
+Liczby te są przeliczone nad gramatyką dzisiejszą, a nie wzięte z chwili,
+w której ta pozycja wchodziła, i są od tamtych wyższe:
+zdanie przechodzi tu wtedy, gdy do wyprowadzenia brakuje mu samej tej pozycji,
+a takich zdań jest tym więcej, im więcej gramatyka ma poza nią.
 
-Dziesiątym jednoznacznym było zdanie przeczytane na opak.
+Jednym z tych jedenastu jest zdanie, które ta pozycja przyjmowała kiedyś na opak.
 `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
 wychodziło jednym czytaniem, w którym zdanie podrzędne z `które`
 jest zdaniem współrzędnym po przecinku,
@@ -555,23 +573,25 @@ a polszczyzna czyta je jako podrzędne:
 pozycja z dopełniaczem dokładała ostatni brakujący kawałek wyprowadzenia,
 a resztę dawała koordynacja przecinkiem, którą gramatyka miała bez podrzędności.
 Werdykt jednoznaczny nad zdaniem przeczytanym na opak jest najgorszym,
-jaki olski wydaje, i zdejmuje go
+jaki olski wydaje, i zdjął go
 [warunek na zaimek względny](subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
-a nie ta pozycja: zdanie jest dziś odrzucone i z tą pozycją, i bez niej.
-Poprawnie olski go nie wyprowadza, bo pytania zależnego nie ma,
-i tyle z tego zdania zostaje na
-[liście tego, czego gramatyka nie obejmuje](subset.md#what-it-does-not-cover-yet).
+po którym zdanie było odrzucone i z tą pozycją, i bez niej.
+Dziś wyprowadza się raz i wyprowadza się tak, jak je czyta czytelnik,
+bo gramatyka ma [pytanie zależne](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał),
+a ta pozycja dalej daje mu grupę `które zadania własne gminy`:
+bez niej nie ma ono wyprowadzenia żadnego.
 
-Po drugiej stronie stoją te cztery zdania, które przeszły na wieloznaczne,
+Po drugiej stronie stoi tych pięć zdań, które przeszły na wieloznaczne,
 i płacą one z dwóch różnych powodów.
 
 ```sh
 python3 -m olski.check -c "Za prawidłową gospodarkę finansową gminy odpowiada zarząd."
 python3 -m olski.check -c "Wynagrodzenie Szefa Krajowego Biura Wyborczego odpowiada wysokości wynagrodzenia sekretarza stanu."
+python3 -m olski.check -c "Komisarz wyborczy pełni swoją funkcję niezależnie od sprawowania urzędu sędziego właściwego sądu."
 python3 -m olski.check -c "Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy."
 ```
 
-Trzy z nich są wieloznaczne w polszczyźnie i olski melduje to słusznie.
+Cztery z nich są wieloznaczne w polszczyźnie i olski melduje to słusznie.
 Zdanie o gospodarce finansowej wychodzi trzema czytaniami,
 bo dopełniacz `gminy` ma gdzie stać poza pozycją dopełnienia,
 a kiedy tam stoi, `zarząd` jest i mianownikiem, i biernikiem, czyli tym synkretyzmem,
@@ -583,8 +603,9 @@ Zdanie o wynagrodzeniu pyta, czyj jest przymiotnik:
 `Szefa Krajowego Biura Wyborczego` czyta się jako szefa Krajowego Biura Wyborczego
 i jako Szefa Krajowego przy Biurze Wyborczym,
 a to są dwa różne stanowiska w tej samej ustawie.
-Tak samo dzieli się `opiekunów prawnych tych osób` z ustawy o ochronie ludności,
-i to zdanie jest trzecim z tych trzech.
+Tak samo dzieli się `opiekunów prawnych tych osób` z ustawy o ochronie ludności
+oraz `sędziego właściwego sądu` z Kodeksu wyborczego,
+i te dwa zdania są trzecim i czwartym z tych czterech.
 Podział przydawki jest tym samym sporem, co przy
 [przyłączaniu wyrażenia przyimkowego](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
 o jeden poziom niżej: przydawka stoi między dwoma rzeczownikami
@@ -593,7 +614,7 @@ a rozstrzyga to wiedza o urzędach, a nie składnia.
 Gramatyka bez tej pozycji przyjmuje takie zdanie z jednym z dwóch czytań
 i nie mówi, że drugie istnieje.
 
-Czwarte zdanie płaci za wieloznaczność słownika.
+Piąte zdanie płaci za wieloznaczność słownika.
 Wychodzi dwoma czytaniami o tym samym streszczeniu ról,
 bo Morfeusz zna `zainteresowana` jako rzeczownik, a `rada` jako formę `rad`,
 i [wykluczenie](subset.md#the-dictionary-offers-readings-polish-does-not) tam nie sięga,

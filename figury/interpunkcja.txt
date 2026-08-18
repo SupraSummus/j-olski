@@ -4,7 +4,7 @@ korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego
 czyta: docs/roadmap.md#etap-4-zdanie-złożone
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   olski/morph.py: 7490ae22fd17
   sonda/interpunkcja.py: d9e4dc0781e4
@@ -13,10 +13,10 @@ ruszają:
 Składnica, morfologia złota, 13035 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez interpunkcji zdaniowej        1596           777      10662
-                 dwukropek        1599           779      10657
-przecinek przed spójnikiem        1619           797      10619
-                     olski        1622           799      10614
+bez interpunkcji zdaniowej        1597           778      10660
+                 dwukropek        1600           780      10655
+przecinek przed spójnikiem        1620           798      10617
+                     olski        1623           800      10612
 
 ruch wobec wariantu „bez interpunkcji zdaniowej” — dwukropek:
         3  rejected → valid

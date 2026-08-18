@@ -63,8 +63,26 @@ PRZYSŁÓWKOWY = "Adverb"
 #: rolą: streszczenie nazywa go całym napisem i w środek nie zagląda.
 OKOLICZNIKOWY = "AdverbialClause"
 
+#: Rola grupy pytajnej, czyli tego, o co zdanie pyta: `które zadania` w `Ustawy
+#: określają, które zadania mają charakter obowiązkowy.` Rolą jest z tego samego
+#: powodu, z którego jest nią okolicznik wyrażony zdaniem: werdykt nazywa role
+#: etykietami węzłów, a zdanie pytające przyjęte bez tej etykiety wychodziłoby
+#: `valid` bez słowa o tym, o co pyta, czyli bez tego, co o nim trzeba wiedzieć
+#: najpierw. Konstytuentem jest zaś grupa imienna, więc wnętrze streszczenie
+#: nazywa całym napisem, tak samo jak wnętrze podmiotu.
+PYTAJNY = "Interrogative"
+
 DEKLARACJA = Deklaracja(
-    role=("Subject", "Object", "Predicative", "Verb", PRZYSŁÓWKOWY, OKOLICZNIKOWY, PRZYŁĄCZANY),
+    role=(
+        "Subject",
+        "Object",
+        "Predicative",
+        "Verb",
+        PRZYSŁÓWKOWY,
+        OKOLICZNIKOWY,
+        PYTAJNY,
+        PRZYŁĄCZANY,
+    ),
     przyłączany=PRZYŁĄCZANY,
     # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
     # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
@@ -78,7 +96,17 @@ DEKLARACJA = Deklaracja(
     # Fraza bezokolicznikowa jest tu piąta i bierze okolicznik przez to samo ``Complements``,
     # którym bierze go forma osobowa nad nią: bez niej okolicznik wychodzi z niej do zdania,
     # a oba czytania streszczają się wtedy jednym napisem.
-    gospodarze=("NP", "AP", "ClauseConjunct", "RelativeCore", "InfinitivePhrase"),
+    # Czoło pytania jest tu szóste i jest zdaniem tak samo jak ``RelativeCore``:
+    # bez niego okolicznik z pytania wychodzi w górę do zdania nadrzędnego,
+    # a werdykt nazywa jego orzeczenie zamiast tego, przy którym okolicznik stoi.
+    gospodarze=(
+        "NP",
+        "AP",
+        "ClauseConjunct",
+        "RelativeCore",
+        "InfinitivePhrase",
+        "InterrogativeCore",
+    ),
     # Symbole, które się koordynują: grupa imienna, grupa przymiotnikowa i zdanie.
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
@@ -87,14 +115,14 @@ DEKLARACJA = Deklaracja(
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
     składowe=("ClauseConjunct",),
-    # Zdania podrzędne: względne, dopełnieniowe i okolicznikowe.
+    # Zdania podrzędne: względne, dopełnieniowe, pytanie zależne i okolicznikowe.
     # Każdy z tych symboli opakowuje takie zdanie, a nie jest symbolem samego zdania,
     # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —
     # więc zatrzymanie na nim objęłoby także zdanie współrzędne,
     # którego role są rolami tego samego zdania.
-    # Trzeci stoi zarazem wśród ról, bo okolicznik jest rolą zdania nad nim,
+    # Czwarty stoi zarazem wśród ról, bo okolicznik jest rolą zdania nad nim,
     # a zdaniem osobnym jest jego wnętrze; :data:`OKOLICZNIKOWY` trzyma wywód.
-    podrzędne=("RelativeClause", "SubordinateClause", OKOLICZNIKOWY),
+    podrzędne=("RelativeClause", "SubordinateClause", "InterrogativeClause", OKOLICZNIKOWY),
 )
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
@@ -165,20 +193,32 @@ SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż"
 #: razem z nim, wywodzi docs/subset.md, i ono trzyma też cenę.
 PRZYIMEK_ROZDZIELAJĄCY = "a"
 
-#: Zaimek względny, któremu Morfeusz daje znacznik przymiotnika. Przymiotnikiem
-#: przy rzeczowniku nie jest nigdy, więc terminale przydawki i orzecznika go nie
-#: biorą, a bierze go czoło zdania względnego i nikt poza nim. Ten warunek
-#: odbiera zdaniu podrzędnemu czytanie współrzędne, i za ile,
+#: Zaimek pytajno-względny, któremu Morfeusz daje znacznik przymiotnika.
+#: Przymiotnikiem przy rzeczowniku nie jest nigdy, więc terminale przydawki i
+#: orzecznika go nie biorą. Bierze go czoło zdania względnego oraz grupa pytajna
+#: (:data:`PYTAJNY`), i te dwie pozycje są wszystkim, co ta gramatyka mu daje.
+#: Ten warunek odbiera zdaniu podrzędnemu czytanie współrzędne, i za ile,
 #: mierzy docs/subset.md.
-ZAIMEK_WZGLĘDNY = "który"
+#:
+#: Nazwa mówi o obu pozycjach, bo lemat jest jeden: `Która reguła rozstrzyga?`
+#: pyta, a `reguła, która rozstrzyga` zastępuje poprzednik, i rozdziela te dwa
+#: użycia produkcja, a nie słownik.
+ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 
 #: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny,
-#: bezokolicznik i zdanie podrzędne. Narzędnika w niej nie ma, i to jest to jedno
-#: miejsce, w którym rama domyślna czegoś zabrania: orzecznik narzędnikowy bierze
-#: kopula i nikt poza nią. Zdanie podrzędne stoi w niej mimo tego, że leksykon
-#: wylicza lematy, które je biorą: zawężenie zmierzono i nie odbiera ono ani
-#: jednego drugiego czytania, a kosztuje zdanie; docs/subset.md trzyma pomiar.
-RAMA_DOMYŚLNA = "nom.acc.inf.comp"
+#: bezokolicznik, zdanie podrzędne i pytanie zależne. Narzędnika w niej nie ma, i
+#: to jest to jedno miejsce, w którym rama domyślna czegoś zabrania: orzecznik
+#: narzędnikowy bierze kopula i nikt poza nią. Zdanie podrzędne stoi w niej mimo
+#: tego, że leksykon wylicza lematy, które je biorą: zawężenie zmierzono i nie
+#: odbiera ono ani jednego drugiego czytania, a kosztuje zdanie; docs/subset.md
+#: trzyma pomiar.
+#:
+#: Pytanie zależne jest pozycją osobną od zdania z `że`, a nie tym samym `comp`,
+#: bo Walenty rozdziela je kształtem i mówi to o kilkuset lematach; wywód i
+#: polecenie trzyma docs/subset.md. Stoi ono w ramie domyślnej tak samo jak `comp`,
+#: a zawężenia tej pozycji do leksykonu nikt nie zmierzył — TODO.md trzyma ten
+#: przebieg.
+RAMA_DOMYŚLNA = "nom.acc.inf.comp.int"
 
 #: Rama lematu, o którym leksykon mówi, że biernika nie bierze. Wyliczona z
 #: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
@@ -242,6 +282,22 @@ DWUKROPEK = word("interp", lemma=":")
 
 #: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
 KONIEC_ZDANIA = word("interp", lemma=".|!|?")
+
+#: Pytajnik, którym ktoś zamknął zdanie pytające. Osobno od :data:`KONIEC_ZDANIA`,
+#: bo tamten bierze każdy z trzech znaków, a zdanie pytające zamyka się jednym:
+#: `Który aktor robi wrażenie.` polszczyzną nie jest.
+#:
+#: Tamtemu terminalowi ten warunek pytajnika nie odbiera i odbierać nie ma:
+#: `Program zapisuje ustawienia?` jest pytaniem o rozstrzygnięcie, czyli zdaniem
+#: oznajmującym zamkniętym tym znakiem, i tak je ta gramatyka wyprowadza.
+PYTAJNIK = word("interp", lemma="?")
+
+#: Zaimek na czele grupy pytajnej: ta sama forma co na czele zdania względnego
+#: (:data:`ZAIMEK_PYTAJNO_WZGLĘDNY`) i ta sama zgodność, a różni je pozycja.
+#: Terminal jest osobny, a nie wzięty z `RelativePronoun`: tamten symbol jest grupą
+#: imienną o jednym słowie, a ten zaimek stoi przy rzeczowniku, który głową grupy
+#: pytajnej jest.
+ZAIMEK_PYTAJNY = word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)
 
 #: Dwie klasy, na jakie :data:`SPÓJNIKI_PRZECINKOWE` rozdziela spójnik zdaniowy.
 #: Druga jest warunkiem ujemnym na pierwszą, bo klasy mają się nie zachodzić:
@@ -324,6 +380,80 @@ def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa]
     ]
 
 
+def _ciała_z_wysuniętą_rolą(czoło: str) -> list[list[Part | Głowa]]:
+    """Ciała zdania, w którym jedna rola stoi wysunięta na jego czoło.
+
+    Zdanie takie jest zdaniem bez tej roli, którą wysunięty konstytuent zajmuje, i
+    dlatego ciał jest tu tyle, ile ról, a nie tyle, ile szyków ma zdanie. Czoło
+    stoi pierwsze zawsze, bo tak stawia je polszczyzna, więc pozycja brakująca
+    jest zawsze pierwsza, a reszta zdania jest ciałem, jakie gramatyka ma
+    wypisane wyżej.
+
+    Dwie rodziny zdań mają ten kształt i różni je samo czoło: zaimek względny w
+    zdaniu względnym (`reguła, która rozstrzyga`) i grupa pytajna w pytaniu
+    (`które zadania mają charakter obowiązkowy`). Ciała powstają więc raz i biorą
+    czoło nazwą symbolu. Wypisane dwa razy rozeszłyby się na pierwszym dopisanym
+    szyku, a rozejście widać dopiero na zdaniu, którego jedna z dwóch rodzin nie
+    wyprowadza.
+
+    Role są dwie: podmiot i dopełnienie. Trzeciej — wyrażenia przyimkowego —
+    tutaj nie ma, bo wysuwa się ono razem z przyimkiem, więc jest czołem innego
+    kształtu i stoi w produkcji obok.
+
+    Liczba i rodzaj wychodzą z czoła, bo zdanie względne zgadza się w nich ze
+    swoim poprzednikiem; pytanie nie zgadza się z niczym i zostawia je nieczytane.
+    """
+    okoliczniki = nt("Adjuncts")
+    # Osoba i liczba orzeczenia biorą się z czoła, bo ono jest podmiotem; w ciałach
+    # z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego zmienne
+    # liczby oraz rodzaju są tam inne niż zmienne czoła.
+    czoło_podmiot = nt(czoło, case="nom", number=V("n"), gender=V("g"))
+    orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
+    podmiot = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
+    ciała: list[list[Part | Głowa]] = [
+        [czoło_podmiot, Głowa(orzeczenie)],
+        [czoło_podmiot, okoliczniki, Głowa(orzeczenie)],
+    ]
+
+    # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
+    # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
+    # jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie, i różni je to,
+    # że czoło wysuwa polszczyzna zawsze, a dopełnienie z wyboru.
+    #
+    # Okolicznik dostaje obie strony reszty, tak samo jak w szykach zdania wyżej i
+    # z tego samego powodu: pozycji brakującej nie widać po zdaniu odrzuconym,
+    # tylko po przyjętym, które wychodzi jednym czytaniem, bo drugie nie miało
+    # gdzie się wyprowadzić.
+    #
+    # Przypadek czoła rozstrzyga tu przeczenie stojące za nim: `polszczyzna, którą
+    # ktoś napisał` obok `polszczyzna, której nikt nie napisał`. Wspólnej zmiennej
+    # te dwa nie dostają, bo czoło przypadka nie wybiera — żąda go czasownik —
+    # więc para przypadka i wartości cechy stoi wypisana tak samo jak przy
+    # dopełnieniu wyżej. Rządzenie sięga tu przez całą resztę zdania składowego, a
+    # więc dalej niż gdziekolwiek indziej w tej gramatyce, i tyle też kosztuje:
+    # sześć ciał rośnie do dwunastu.
+    for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
+        czoło_dopełnienie = nt(czoło, case=przypadek, number=V("n"), gender=V("g"))
+        czasownik = nt(
+            "Verb",
+            number=V("nv"),
+            gender=V("gv"),
+            person=V("p"),
+            valency="acc",
+            negacja=negacja,
+        )
+        for reszta in (
+            [Głowa(czasownik), podmiot],
+            [podmiot, Głowa(czasownik)],
+        ):
+            ciała += [
+                [czoło_dopełnienie, *reszta],
+                [czoło_dopełnienie, okoliczniki, *reszta],
+                [czoło_dopełnienie, *reszta, okoliczniki],
+            ]
+    return ciała
+
+
 def build() -> Grammar:
     grammar = Grammar(start="Sentence")
 
@@ -339,8 +469,8 @@ def build() -> Grammar:
     # Cenę tego gospodarza trzyma
     # docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe.
     for symbol, słowo in (
-        ("Adjective", word("adj", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)),
-        ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)),
+        ("Adjective", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
+        ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
     ):
         grammar.rule(symbol, [Głowa(słowo)], **AGREE)
         grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)], **AGREE)
@@ -652,6 +782,7 @@ def build() -> Grammar:
         nt("InfinitivePhrase", valency=V("w"), negacja=V("z")),
         orzecznik_ramy,
         nt("SubordinateClause", valency=V("w")),
+        nt("InterrogativeClause", valency=V("w")),
     ):
         for ciało in (
             [wypełnienie],
@@ -976,7 +1107,7 @@ def build() -> Grammar:
     # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
     # zdania względnego. Wpuszczony do grupy imiennej stanąłby w każdej jej
     # pozycji, a `Program zapisuje który.` polszczyzną nie jest.
-    grammar.rule("RelativePronoun", [word("adj", lemma=ZAIMEK_WZGLĘDNY, **AGREE)], **AGREE)
+    grammar.rule("RelativePronoun", [word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)], **AGREE)
     grammar.rule(
         "RelativeModifier",
         [
@@ -987,74 +1118,46 @@ def build() -> Grammar:
         gender=V("g"),
     )
 
-    # Zdanie względne bez zaimka jest zdaniem bez tej roli, którą zaimek zajmuje,
-    # i dlatego szyków jest tu tyle, ile ról, a nie tyle, ile szyków ma zdanie.
-    # Zaimek stoi na czele zawsze, bo tak stawia go polszczyzna, więc pozycja
-    # brakująca jest zawsze pierwsza i reszta zdania jest ciałem, jakie gramatyka
-    # ma wypisane wyżej.
-    #
-    # Trzy role, bo trzy stoją w tym rejestrze: podmiot (`reguła, która
-    # rozstrzyga`), dopełnienie (`polszczyzna, którą ktoś napisał`) i wyrażenie
-    # przyimkowe (`język, o którym to repozytorium jest`). Ostatnia jest jedną
-    # produkcją i sięga najdalej, bo za wyrażeniem przyimkowym stoi zdanie
-    # składowe całe, w każdym szyku, jaki ono ma.
-    zaimek_podmiot = nt("RelativePronoun", case="nom", number=V("n"), gender=V("g"))
-    # Osoba i liczba orzeczenia biorą się tu z zaimka, bo on jest podmiotem;
-    # w ciałach z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
-    # zmienna liczby jest tam inna niż zmienna liczby zaimka.
-    orzeczenie_względne = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
-    podmiot_względny = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
+    # Zdanie względne wysuwa trzy role i ta jest trzecią: wyrażenie przyimkowe,
+    # które wychodzi na czoło razem ze swoim przyimkiem. Sięga ona najdalej z tych
+    # trzech, bo za nią stoi zdanie składowe całe, w każdym szyku, jaki ono ma, i
+    # dlatego jest jednym ciałem, a nie rodziną (:func:`_ciała_z_wysuniętą_rolą`
+    # pisze pozostałe dwie). Pytanie tej roli nie wysuwa: `W którym roku ustawa
+    # weszła?` żąda czoła, którego ta gramatyka nie ma, a TODO.md trzyma ten brak.
     grammar.rule(
         "RelativeCore",
         [nt("RelativeModifier", number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
         number=V("n"),
         gender=V("g"),
     )
-    for ciało in (
-        [zaimek_podmiot, Głowa(orzeczenie_względne)],
-        [zaimek_podmiot, okoliczniki, Głowa(orzeczenie_względne)],
-    ):
-        grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
 
-    # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
-    # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
-    # jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie, i różni je to,
-    # że zaimek względny wysuwa polszczyzna zawsze, a dopełnienie z wyboru.
-    #
-    # Okolicznik dostaje obie strony reszty, tak samo jak w szykach zdania
-    # wyżej i z tego samego powodu: pozycji brakującej nie widać po zdaniu
-    # odrzuconym, tylko po przyjętym, które wychodzi jednym czytaniem, bo drugie
-    # nie miało gdzie się wyprowadzić.
-    #
-    # Przypadek zaimka rozstrzyga tu przeczenie stojące za nim: `polszczyzna,
-    # którą ktoś napisał` obok `polszczyzna, której nikt nie napisał`. Wspólnej
-    # zmiennej te dwa nie dostają, bo zaimek przypadka nie wybiera — żąda go
-    # czasownik — więc para przypadka i wartości cechy stoi wypisana tak samo jak
-    # przy dopełnieniu wyżej. Rządzenie sięga tu przez całą resztę zdania
-    # składowego, a więc dalej niż gdziekolwiek indziej w tej gramatyce, i tyle
-    # też kosztuje: sześć ciał rośnie do dwunastu.
-    for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
-        zaimek_dopełnienie = nt(
-            "RelativePronoun", case=przypadek, number=V("n"), gender=V("g")
-        )
-        czasownik_względny = nt(
-            "Verb",
-            number=V("nv"),
-            gender=V("gv"),
-            person=V("p"),
-            valency="acc",
-            negacja=negacja,
-        )
-        for reszta in (
-            [Głowa(czasownik_względny), podmiot_względny],
-            [podmiot_względny, Głowa(czasownik_względny)],
-        ):
-            for ciało in (
-                [zaimek_dopełnienie, *reszta],
-                [zaimek_dopełnienie, okoliczniki, *reszta],
-                [zaimek_dopełnienie, *reszta, okoliczniki],
-            ):
-                grammar.rule("RelativeCore", ciało, number=V("n"), gender=V("g"))
+    # Zdanie względne i pytanie dzielą kształt: jedna rola stoi w nich wysunięta na
+    # czoło, a reszta zdania jest tą samą resztą, więc ciała wypisuje jedna funkcja
+    # dla obu (:func:`_ciała_z_wysuniętą_rolą`). Różni je samo czoło i tyle bierze
+    # ta pętla nazwą symbolu.
+    for symbol, czoło in (("RelativeCore", "RelativePronoun"), ("InterrogativeCore", PYTAJNY)):
+        for ciało in _ciała_z_wysuniętą_rolą(czoło):
+            grammar.rule(symbol, ciało, number=V("n"), gender=V("g"))
+
+    # Grupa pytajna: zaimek pytajny i grupa imienna, przy której on stoi. Głową
+    # jest grupa imienna, bo pytanie jest o rzecz, którą ona nazywa, a zaimek mówi
+    # tylko, że pyta się o to, która z nich.
+    grammar.rule(PYTAJNY, [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))], **AGREE)
+
+    # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
+    # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka
+    # jeden znak z trzech, które tamten terminal bierze.
+    grammar.rule("Sentence", [Głowa(nt("InterrogativeCore")), PYTAJNIK])
+
+    # Pytanie zależne: przecinek i to samo czoło. Pozycję ramy niesie ono tak samo
+    # jak zdanie z `że`, a pozycja jest osobna i dlaczego, mówi
+    # :data:`RAMA_DOMYŚLNA`. Spójnika w ciele nie ma, bo podporządkowuje tu sam
+    # zaimek, i tym się to zdanie podrzędne od dwóch pozostałych różni.
+    grammar.rule(
+        "InterrogativeClause",
+        [PRZECINEK, Głowa(nt("InterrogativeCore"))],
+        valency="int",
+    )
 
     return grammar
 

@@ -426,7 +426,7 @@ którego analiza kończy się na cząstce.
 Najkrótsze zdania tego zbioru są przy tym w większości pytaniami,
 a cały zbiór nie: pytań jest w nim 25 z 323.
 
-**Cena: 99 z 347 zdań przestaje mieć jedno czytanie.**
+**Cena: 100 z 348 zdań przestaje mieć jedno czytanie.**
 Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
 łukami zależności zamiast produkcjami.
 Nie gramatyka olskiego, bo spójność da się zdjąć tylko tam:
@@ -434,10 +434,10 @@ produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 1622 zdań, które olski przyjmuje jednym czytaniem,
-podłoże czyta jednoznacznie 347 — deklaracja jest w nim węższa,
+Z 1623 zdań, które olski przyjmuje jednym czytaniem,
+podłoże czyta jednoznacznie 348 — deklaracja jest w nim węższa,
 więc 1226 odrzuca, a 49 czyta dwojako —
-i po zdjęciu spójności 99 z tych 347 przestają mieć jedno czytanie.
+i po zdjęciu spójności 100 z tych 348 przestaje mieć jedno czytanie.
 Mianownik rośnie z gramatyką, a te dwie liczby rosną z nim wtedy,
 gdy gramatyka dopisuje kształt, który podłoże już miało.
 Grupy liczebnikowej podłoże nie ma
@@ -525,7 +525,7 @@ więc zdanie z dwiema szczelinami w jednym ciągu albo z wysuniętym podmiotem
 siedzi wśród nich i tutaj się nie liczy.
 Cena jest ceną zdjęcia spójności z deklaracji bliskiej olskiemu,
 a nie z jego własnej gramatyki,
-i o ile ta deklaracja jest węższa, mówi 347 wobec 1622.
+i o ile ta deklaracja jest węższa, mówi 348 wobec 1623.
 Korpus jest wreszcie prozą i prasą,
 a nie dokumentacją techniczną, do której olski jest kierowany.
 
@@ -644,7 +644,7 @@ i zostaje cena z akapitu wyżej: rozpiętość pusta nie trafia w żadną złot�
 `RelativeCore` schodzi z piętnastu ciał do dwóch,
 `ClauseConjunct` rośnie z trzydziestu dwóch do pięćdziesięciu,
 bo przeciąganie żąda ciała na każdą córkę, która lukę unosi,
-i cała gramatyka rośnie ze 156 produkcji do 195.
+i cała gramatyka rośnie ze 177 produkcji do 223.
 Drabina wycenia szczebel 2 na mnożenie się symboli i wycenia trafnie,
 tylko że mnożenie wypada na rodzinie zdaniowej, a nie na względnej.
 

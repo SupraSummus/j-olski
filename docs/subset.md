@@ -408,6 +408,16 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`
   Both are argued and priced
   [below](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
+- Zdanie pytające o grupie imiennej na czole, w pozycji podmiotu i dopełnienia:
+  `Który aktor robi na tobie największe wrażenie?`, `Które zadania gmina wykonuje?`
+  Grupą pytajną jest zaimek przy rzeczowniku, a nie sam zaimek,
+  i jest ona rolą, którą werdykt nazywa, bo mówi, o co zdanie pyta.
+- Pytanie zależne jako to, co czasownik bierze,
+  czyli pozycja ramy osobna od pozycji zdania z `że`:
+  `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
+  Spójnika ono nie ma, bo podporządkowuje sam zaimek,
+  a jedno i drugie wraz z ceną trzyma
+  [poniżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)
 - Przysłówek u dwóch gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), i jako określenie przymiotnika, gdzie stoi sam przysłówek
@@ -1551,14 +1561,111 @@ Tańsza z dwóch dróg do czytania, którego polszczyzna nie ma,
 prowadzi tędy, a nie przez wykluczenie w `admissible`
 ([roadmap.md](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
 
-Kosztuje to jedno zdanie i jest nim pytanie.
-Nad Składnicą pod Morfeuszem warunek odbiera dokładnie
+Kosztowało to jedno zdanie Składnicy i było nim pytanie:
 `Który aktor robi na tobie największe wrażenie?`,
 gdzie `Który` jest zaimkiem pytajnym przy rzeczowniku.
-Pytanie zależne — `określają, które zadania` — kosztuje tyle samo:
-zdanie, które wychodziło błędnie, wychodzi teraz odrzucone,
-a konstrukcji, która by je wyprowadzała poprawnie, ta gramatyka nie ma.
-Obie należą do tego samego braku i [TODO.md](../TODO.md) trzyma je razem.
+Pytanie zależne — `określają, które zadania` — kosztowało tyle samo w rejestrze
+ustaw: zdanie, które wychodziło błędnie, wychodziło po nim odrzucone.
+Cena była ceną pozycji, której gramatyka wtedy nie miała, a którą ten warunek nazwał;
+stawia ją [pytanie](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał),
+więc oba te zdania wyprowadzają się dziś, każde raz.
+
+### Pytanie zmierzono: nie odbiera żadnego zdania i oddaje to, które warunek zabrał
+
+Pełne wiersze są w [figury/pytanie.txt](../figury/pytanie.txt),
+a te spod morfologii żywej w [figury/pytanie-żywa.txt](../figury/pytanie-żywa.txt);
+polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych dwóch
+([`harness/figury.py`](../harness/figury.py)).
+
+Konstrukcje są dwie i dzielą kształt ze zdaniem względnym.
+Zdanie pytające stoi samo i zamyka się pytajnikiem,
+pytanie zależne zaczepia się o czasownik przecinkiem,
+a w obu na czole zdania stoi grupa pytajna
+i za nią zdanie bez tej roli, którą ta grupa zajmuje.
+Ciała wypisuje jedna funkcja i dla nich, i dla zdania względnego
+(`_ciała_z_wysuniętą_rolą` w `olski/subset.py`),
+bo te dwie rodziny różni samo czoło:
+zaimek stojący sam albo zaimek przy rzeczowniku.
+Role są dwie — podmiot i dopełnienie — i są to te same,
+które zdanie względne wysuwa bez przyimka.
+
+```text
+Który aktor robi na tobie największe wrażenie?
+Które zadania gmina wykonuje?
+Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.
+```
+
+Cena wyszła zerowa w obu korpusach i pod obiema morfologiami banku drzew:
+ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności ani wyprowadzenia,
+i nie rusza się ani jeden werdykt poza tymi, które ta konstrukcja kupuje.
+Nad Składnicą zdanie pytające zdejmuje z listy odrzuconych jedno zdanie
+i jest nim dokładnie to, które zabrał
+[warunek na lemat](#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
+a pytanie zależne przenosi jedno zdanie z odrzuconych na wieloznaczne.
+Nad rejestrem ustaw pytanie zależne kupuje jedno zdanie jednoznacznie
+([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)),
+a zdanie pytające nie kupuje niczego.
+Obie pozycje nie spierają się przy tym o ani jedno zdanie,
+bo pytanie zamyka się pytajnikiem albo stoi za przecinkiem, i nigdy jedno i drugie.
+
+Zakup wynosi po jednym zdaniu na korpus, a liczba ta mówi o rejestrze,
+a nie o produkcjach.
+Pytań jest w Składnicy 881 na 13 035 zdań z drzewem wzorcowym,
+czyli jedno na piętnaście,
+a lemat, na którym grupa pytajna stoi, otwiera dwa z nich
+([figury/pytajne.txt](../figury/pytajne.txt)).
+Reszta pyta czym innym i każde z tych słów żąda innego kształtu:
+`czy` otwiera pytanie o rozstrzygnięcie i nie zajmuje ani podmiotu, ani dopełnienia,
+`kto` i `co` stoją same, bez rzeczownika przy sobie,
+a `jak`, `dlaczego` i `gdzie` są przysłówkami.
+Kolejka z tej tabeli jest więc kolejką kształtów, a nie lematów:
+lemat dopisany do `ZAIMEK_PYTAJNO_WZGLĘDNY` nie kupuje ani jednego z tych zdań.
+
+Drugie z tych dwóch pytań Składnicy nie wyprowadza się i nie staje na pytaniu:
+`Które łóżko było Panka?` ma orzecznik w dopełniaczu,
+którego ta gramatyka nie ma,
+więc grupa pytajna dosięga w tym korpusie jednego zdania z dwóch.
+
+Zdanie nowo przyjęte wychodzi zgodne z drzewem wzorcowym częściowo,
+a nie zgodne, i nie jest to werdykt wbrew drzewu.
+Bank drzew nazywa `Który aktor` podmiotem,
+olski nazywa tę samą rozpiętość grupą pytajną,
+więc porównanie ról nie ma tam podmiotu, z którym mogłoby się zgodzić
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Rolą jest grupa pytajna po to, żeby werdykt powiedział, o co zdanie pyta
+(`PYTAJNY` w `olski/subset.py`),
+a `Subject` nad nią stanąłby dopiero za produkcją `Subject → Interrogative`,
+która wpuściłaby tę grupę w każdą pozycję podmiotu, także w zdaniu oznajmującym,
+czyli wróciłaby z czytaniem zdjętym przez warunek na lemat.
+Porównanie tej roli nie zna i [TODO.md](../TODO.md) trzyma ten ruch
+wraz z tą przeszkodą.
+Nad pytaniem zależnym rola ta nie pada wcale i werdykt mówi tam tyle,
+co nad zdaniem z `że`, czyli nic:
+oba są zdaniami podrzędnymi, a streszczenie w nie nie zagląda.
+
+Pozycja ramy jest przy tym osobna od pozycji zdania z `że`, a nie tym samym `comp`.
+Walenty rozdziela je kształtem — `cp(int)` stoi w nim obok `cp(że)` —
+a lematów, które biorą pierwszy i nie biorą drugiego, jest 220:
+
+```sh
+python3 - <<'EOF'
+from olski.walenty import bierze, schematy
+wedle_lematu = schematy("walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt")
+print(sum(
+    1
+    for jego in wedle_lematu.values()
+    if bierze(jego, ("cp(int)",)) and not bierze(jego, ("cp(że)",))
+))
+EOF
+```
+
+`analizować`, `badać` i `doglądać` są w tej liczbie,
+więc czasownik biorący pytanie i nie biorący zdania z `że` istnieje,
+a pozycja wzięta jako jedna nie miałaby czym tego zapisać.
+Samego zawężenia tej pozycji do leksykonu nikt nie zmierzył,
+więc stoi ona w [ramie domyślnej](#walencja-jest-leksykonem-o-ramie-domyślnej)
+tak samo jak `comp`,
+a przebieg, który by je wycenił, zapisuje [TODO.md](../TODO.md).
 
 ### Zdanie względne niesie liczbę i rodzaj swojego zaimka
 
@@ -1872,15 +1979,23 @@ Every one of these is a sentence that gets rejected and should not be:
   They come back with the particle and not before it,
   and two of them stand second and third in the `comp` row
   [corpus.md](corpus.md#where-the-analyses-stop) ranks, behind `że` itself.
-- `który` anywhere it is not the relative pronoun of a relative clause:
-  in a question (`Który aktor robi na tobie największe wrażenie?`),
-  in an indirect one (`Ustawy określają, które zadania mają charakter obowiązkowy.`),
-  and under a preposition that fronted the whole phrase it stands in
-  (`ustawy, na podstawie której jest ono wydawane`).
-  The first two are one construction and the third another,
-  and all three used to derive
-  — the first as an adjective before its noun, the other two as coordination —
-  so what this entry records is a rejection replacing a wrong reading.
+- Zaimek pytajno-względny wysunięty razem z grupą, w której stoi,
+  czyli ta z jego trzech konstrukcji, której nie ma:
+  `ustawy, na podstawie której jest ono wydawane` jest odrzucone,
+  gdzie pytanie i pytanie zależne wyprowadzają się
+  ([wyżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+  Grupa wysuwa tu liczbę i rodzaj z zaimka, a nie ze swojej głowy,
+  bo to zaimek zgadza się z poprzednikiem,
+  i każdy jej kolejny kształt jest osobnym ciałem produkcji.
+  Pytanie o tę samą grupę — `W którym roku ustawa weszła?` — stoi na tym samym
+  braku, a nie na drugim.
+- Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
+  `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
+  `Czy program zapisuje ustawienia?` jest odrzucone,
+  gdzie `Który program zapisuje ustawienia?` wyprowadza się,
+  a każde z tych słów żąda innego kształtu niż grupa pytajna,
+  więc jest to kolejka konstrukcji, a nie jedna pozycja;
+  waży ją [pytanie zmierzono](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał).
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
@@ -2087,15 +2202,20 @@ i każda z nich jest zwyczajną polszczyzną:
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
 - wewnątrz zdania względnego, po obu stronach tego, co w nim zostało
   (`reguła, która w tym trybie rozstrzyga`)
+- wewnątrz pytania, po obu stronach tego, co zostało za grupą pytajną
+  (`Który program w tym trybie zapisuje ustawienia?`)
 
-Wierszy jest osiem, a produkcji czterdzieści pięć,
+Wierszy jest dziewięć, a produkcji pięćdziesiąt siedem,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Dziesięć z tych czterdziestu pięciu dołożyły cztery szyki dopisane,
+Dziesięć z tych pięćdziesięciu siedmiu dołożyły cztery szyki dopisane,
 i tyle właśnie znaczy w tej gramatyce jeden szyk więcej;
-czterdziesta piąta jest z przysłówka, bo lista okoliczników bierze go tak samo
+jedna jest z przysłówka, bo lista okoliczników bierze go tak samo
 jak wyrażenie przyimkowe
-([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+a dwanaście z pytania: dziewięć wewnątrz jego czoła
+i trzy w orzeczeniu, które bierze pytanie zależne
+([wyżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,

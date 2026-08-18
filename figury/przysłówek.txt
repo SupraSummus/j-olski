@@ -5,7 +5,7 @@ czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-cz
 czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
@@ -14,14 +14,14 @@ ruszają:
 Składnica, morfologia złota, 13035 zdań
 
           wariant    przyjęte  wieloznaczne  odrzucone
-   bez przysłówka        1208           581      11246
-       okolicznik        1657           753      10625
-przy przymiotniku        1238           603      11194
-            olski        1622           799      10614
+   bez przysłówka        1209           581      11245
+       okolicznik        1658           754      10623
+przy przymiotniku        1239           603      11193
+            olski        1623           800      10612
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:
       449  rejected → valid
-      172  rejected → ambiguous
+      173  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
       311    agrees
       117    brak roli
@@ -68,7 +68,7 @@ ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
 
 ruch wobec wariantu „bez przysłówka” — olski:
       414  rejected → valid
-      218  rejected → ambiguous
+      219  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
       285    agrees
       113    brak roli

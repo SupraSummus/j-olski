@@ -324,6 +324,49 @@ FIGURY = (
         ),
         czyta=("docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia",),
     ),
+    Figura(
+        nazwa="pytanie",
+        polecenie=("python3", "-m", "sonda.pytanie", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/pytanie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+    ),
+    Figura(
+        nazwa="pytanie-żywa",
+        #  Ta sama sonda po morfologii żywej. Cena wyszła pod złotą zerowa, a zero
+        #  wzięte pod morfologią, w której anotator wybrał jedno czytanie na token,
+        #  nie mówi o cenie nad tekstem, który olski dostaje do sprawdzenia.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.pytanie",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/pytanie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+    ),
+    Figura(
+        nazwa="pytajne",
+        polecenie=("python3", "-m", "sonda.pytajne", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Gramatyka rusza tu jedną kolumnę, a nie liczby: sonda pyta ją o lematy,
+        #  które grupa pytajna bierze, a pytania w banku drzew liczy bez niej.
+        ruszają=("olski/subset.py", "sonda/pytajne.py"),
+        czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+    ),
 )
 
 

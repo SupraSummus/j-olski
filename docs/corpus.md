@@ -102,9 +102,9 @@ Gold morphology, whole corpus, every sentence carrying a gold tree:
 
 | | sentences | |
 | --- | --- | --- |
-| rejected | 10,614 | 81.4% |
-| valid | 1,622 | 12.4% |
-| ambiguous | 799 | 6.1% |
+| rejected | 10,612 | 81.4% |
+| valid | 1,623 | 12.5% |
+| ambiguous | 800 | 6.1% |
 
 By length, which is the shape the curve actually has:
 
@@ -136,16 +136,17 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 
 | stopped on | sentences | commonest forms |
 | --- | --- | --- |
-| `interp` | 3,241 | `-` (1,290), `.` (997), `–` (277) |
-| `part` | 1,897 | particles: `się` (231), `już` (137), `też` (120) |
-| `conj` | 625 | coordination: `I` (141), `Ale` (130), `A` (127) |
+| `interp` | 3,242 | `-` (1,290), `.` (997), `–` (277) |
+| `part` | 1,896 | particles: `się` (231), `już` (137), `też` (120) |
+| `conj` | 631 | coordination: `I` (141), `Ale` (130), `A` (127) |
 | `ger` | 587 | gerunds: `przyjęcie` (8), `głosowania` (6), `przyjęciem` (5) |
 | `pred` | 461 | `to` (146), `To` (97), `można` (54) |
-| `praet` | 420 | `był` (15), `udało` (9), `było` (8) |
+| `praet` | 419 | `był` (15), `udało` (9), `było` (8) |
 | `comp` | 356 | subordinators: `że` (102), `by` (39), `aby` (35) |
 | `subst` | 340 | `to` (9), `skład` (4), `kto` (3) |
 | `ppas` | 302 | `wspomnianych` (3), `zebranych` (3), `wymienionych` (3) |
-| `fin` | 269 | `jest` (41), `mają` (11), `ma` (7) |
+| `inf` | 267 | `być` (20), `zrobić` (9), `mieć` (6) |
+| `fin` | 267 | `jest` (41), `mają` (11), `ma` (7) |
 
 The first row alone accounts for three tenths of the rejections
 without touching the interesting questions
@@ -454,15 +455,15 @@ The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 1,203 accepted sentences where the gold tree marks a role to compare:
+On the 1,204 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 1,156 | 96.1% |
-| partial | 26 | 2.2% |
+| agrees | 1,156 | 96.0% |
+| partial | 27 | 2.2% |
 | disagrees | 21 | 1.7% |
 
-The denominator is 1,203 and not 1,622
+The denominator is 1,204 and not 1,623
 because the other 419 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
@@ -496,6 +497,12 @@ the verdict names each role from the component clause it first falls in,
 so a gold subject in the second clause is a role the reading does not cover,
 and that is a fact about the summary rather than about the reading
 ([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
+One more arrived with the question, and it is a role olski does assign
+under a name the check does not compare:
+in `Który aktor robi na tobie największe wrażenie?`
+the gold tree makes `Który aktor` the subject
+where olski makes it the interrogative phrase
+([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
 That is the third verdict the check has,
 and it exists so that a reading covering less than the gold tree
 is not counted as agreeing with it.
@@ -705,12 +712,12 @@ Pytanie brzmi więc: czy któreś czytanie obsadza podmiot i dopełnienie tak,
 jak obsadza je drzewo wzorcowe, i czy obsadza oba naraz —
 czytanie z dobrym podmiotem i cudzym dopełnieniem złotym czytaniem nie jest.
 
-Nad 695 zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę:
+Nad 696 zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę:
 
 | | zdania | |
 | --- | --- | --- |
-| `survives` | 635 | 91,4% |
-| `lost` | 60 | 8,6% |
+| `survives` | 635 | 91,2% |
+| `lost` | 61 | 8,8% |
 
 Pozostałe 104 zdania wieloznaczne drzewo wzorcowe zostawia bez ani jednej roli,
 i przebieg liczy je pod tabelą z tego samego powodu,
@@ -751,13 +758,17 @@ a granica z `MAX_READINGS` nie jest wyliczaniu potrzebna.
 Numer nie rośnie przy tym z wielkością lasu:
 złote czytanie największego z tych lasów jest w nim pierwsze.
 
-Trzydzieści cztery z 60 przepadło na roli, której olski nie nadaje nikomu.
+Trzydzieści pięć z 61 przepadło na roli, której porównanie po stronie olskiego nie znajduje.
 Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
 a `RelativeCore` w `olski/subset.py` wysuniętemu zaimkowi etykiety roli nie daje:
 wyprowadza on te zdania tak, jak czyta je bank drzew,
 i rozdanie wychodzi z niego o tę jedną rolę uboższe, więc złotemu nie równa się nigdy.
-Zdejmij tę rolę ze strony złotej, a 31 z tych 34 ocaleje —
-wiersz `lost` liczy wtedy 29, a `survives` 666 z 695, czyli 95,8%.
+Jedno z tych trzydziestu pięciu jest pytaniem zależnym, a nie zdaniem względnym,
+i tam etykieta jest, tylko inna: olski nazywa `który wariant` grupą pytajną,
+której porównanie nie zna
+([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Zdejmij tę rolę ze strony złotej, a 32 z tych 35 ocaleje —
+wiersz `lost` liczy wtedy 29, a `survives` 667 z 696, czyli 95,8%.
 Pozostałe trzy mają obok niej drugą różnicę i zostają.
 Jest to brak etykiety, a nie błąd czytania,
 tak samo jak pięć zdań z gniazdem `np(part)` w wierszu `disagrees` wyżej,
@@ -812,9 +823,9 @@ and with the exclusion below in force:
 
 | | gold | live |
 | --- | --- | --- |
-| rejected | 10,614 | 10,428 |
-| valid | 1,622 | 1,383 |
-| ambiguous | 799 | 1,224 |
+| rejected | 10,612 | 10,426 |
+| valid | 1,623 | 1,384 |
+| ambiguous | 800 | 1,225 |
 
 Ambiguity is where the cost lands:
 425 more sentences carry more than one reading,
@@ -978,7 +989,7 @@ and the reader translates the four names they differ on
 [above](#where-the-analyses-stop),
 so the two blocker tables carry the same labels.
 What stays asymmetric is the live run's `ign` row —
-598 sentences stopped on a form Morfeusz does not know —
+609 sentences stopped on a form Morfeusz does not know —
 which the gold run cannot have.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,
