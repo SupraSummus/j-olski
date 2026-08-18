@@ -190,17 +190,17 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 21 | 37 | 328 |
+| samorząd gminny (1990/95) | 386 | 21 | 40 | 325 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 0 | 1 | 83 |
 | informacja publiczna (2001/1198) | 126 | 0 | 2 | 124 |
-| Kodeks wyborczy (2011/112) | 2908 | 27 | 124 | 2757 |
+| Kodeks wyborczy (2011/112) | 2908 | 32 | 146 | 2730 |
 | petycje (2014/1195) | 48 | 2 | 3 | 43 |
 | zgromadzenia (2015/1485) | 127 | 1 | 8 | 118 |
-| ochrona ludności (2024/1907) | 1242 | 21 | 97 | 1124 |
-| razem | 4921 | 72 | 272 | 4577 |
+| ochrona ludności (2024/1907) | 1242 | 24 | 99 | 1119 |
+| razem | 4921 | 80 | 299 | 4542 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 6 jednoznacznych i 18 wieloznacznych.
+699 zdań, z tego 6 jednoznacznych i 19 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -235,7 +235,7 @@ Ostatnie jest § 54 „Zasad techniki prawodawczej”, czyli przepisem,
 który nazywa artykuł podstawową jednostką redakcyjną ustawy
 i nazywa go dokładnie tym kształtem.
 
-Nie każde z tych 72 zdań napisał prawodawca, i widać to na dwóch klasach.
+Nie każde z tych 80 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -247,7 +247,7 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 72 to dotyczy, ten pomiar nie liczy,
+Ilu zdań z 80 to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
@@ -260,9 +260,9 @@ jest różnicą długości zdania, a nie staranności piszącego.
 
 ## Wieloznaczność jest tu odczytem z § 6, ale nie jest zarzutem
 
-Wieloznacznych jest 272, czyli 79% zdań, którym olski daje jakiekolwiek czytanie,
+Wieloznacznych jest 299, czyli 79% zdań, którym olski daje jakiekolwiek czytanie,
 a nad Składnicą, czytaną tym samym analizatorem, jest to
-[44%](corpus.md#what-morphological-ambiguity-costs).
+[46%](corpus.md#what-morphological-ambiguity-costs).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -272,7 +272,7 @@ Najdłuższe mają czytań tyle, że liczba przestaje o czymkolwiek mówić:
 python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -rn | head -3
 ```
 
-Dwadzieścia jedno zdanie ma ich więcej niż 64, a najwięcej ma 28 042.
+Dwadzieścia trzy zdania mają ich więcej niż 64, a najwięcej ma 28 042.
 Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
 a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań
 i nie sięga ani liczenia ich, ani ról, o które się one różnią.
@@ -363,16 +363,23 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4577 odrzuceń 3758 stanęło na formie, której żadna produkcja nie bierze,
-a 819 na samej strukturze.
+Z 4542 odrzuceń 3576 stanęło na formie, której żadna produkcja nie bierze,
+a 966 na samej strukturze.
 Formy z czoła tego rankingu grupują się w cztery klasy:
 
 | klasa | najczęstsze formy |
 | --- | --- |
 | aparat odsyłaczowy | `art` 717, dywiz 666, `§` 595, `r` 254, nawiasy 232 i 223, cyfry |
-| przysłówki | `odpowiednio` 175, `niezwłocznie` 162, `także` 116, `również` 95 |
 | spójniki podrzędne | `Jeżeli` 171 i `jeżeli` 154, `gdy` 49 |
+| cząstki | `także` 116, `również` 95 |
 | imiesłowy i odsłowniki | `obejmujący` 100, `wykonywania` 88, `wniesienia` 61 |
+
+Klasa przysłówkowa stała w tej tabeli piąta i zeszła z niej razem z produkcją:
+`odpowiednio` 175 i `niezwłocznie` 162 prowadziły ją i nie stoją tu już wcale
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+Została po niej klasa cząstek, którą kolejka liczyła razem z nią,
+a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
+więc produkcja przysłówka po nie nie sięga i nie miała sięgać.
 
 Pierwsza klasa zajmuje dziewięć pierwszych miejsc rankingu,
 i jest to jedna konstrukcja, a nie dziewięć:
@@ -401,7 +408,7 @@ wychodzą tu jeszcze skromniej i wychodzą pod zero:
 nie przyjmują ani jednego zdania,
 trzy przenoszą z odrzuconych na wieloznaczne
 i jednemu przyjętemu wcześniej odbierają jednoznaczność
-([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+([subset.md](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)).
 Ustawa pisze zdanie w szyku, który olski miał,
 więc dopisany daje jej same nowe czytania,
 i tym różni się ten rejestr od prozy z banku drzew,
@@ -429,8 +436,7 @@ Cyfry olski nie bierze i dlaczego, mówi
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
-Przysłówka gramatyka nie ma, a klasa druga tego rankingu jest jego,
-więc pomiar zapadł tu przed dopisaniem i wypadł tak samo skromnie:
+Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie:
 
 ```sh
 cat proza/ustawy/*.txt > proza/ustawy.txt
@@ -443,14 +449,14 @@ python3 -m sonda.płaski proza/ustawy.txt
 | bez przysłówka | 72 | 272 | 4577 |
 | okolicznik | 79 | 295 | 4547 |
 | przy przymiotniku | 73 | 275 | 4573 |
-| oba | 80 | 299 | 4542 |
+| olski | 80 | 299 | 4542 |
 
 Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 23 na wieloznaczne,
 pozycja przy przymiotniku przyjmuje 1 i przenosi 3,
 a obie razem przyjmują 8, czyli o jedno więcej niż pierwsza sama.
 Nad Składnicą druga pozycja pierwszej odbiera, więc znak tej ceny
 zależy od rejestru
-([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 Jednoznaczności nie traci tu ani jedno zdanie przyjęte wcześniej,
 i tym różni się ta konstrukcja od negacji oraz od czterech szyków.
 `Ta sama osoba może być ponownie powołana na stanowisko komisarza.`
@@ -459,12 +465,13 @@ każda daje mu dwa czytania osobno, bo `ponownie` dochodzi w nim
 i do zdania, i do `powołana`.
 Płaskiego czytania, które pierwsza pozycja daje nad Składnicą,
 nie dostaje tu ani jedno zdanie przyjęte,
-ani pod nią samą, ani pod obiema naraz (`--wariant oba`).
-Cztery formy, którymi klasa prowadzi w rankingu — `odpowiednio`, `niezwłocznie`,
-`także`, `również` — obiecywały 548 trafień,
+ani pod nią samą (`--wariant okolicznik`), ani pod obiema naraz.
+Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
+`odpowiednio` i `niezwłocznie` — obiecywały 337 trafień,
+a przysłówek zdjął stąd 35 zdań z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
-gdzie wiersz `adv` obiecywał 1992 zdania i oddał jedną piątą tego
-([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
+gdzie wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,

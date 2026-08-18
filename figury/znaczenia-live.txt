@@ -3,28 +3,28 @@ polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/ --morfologia li
 korpus: Składnica-frazowa-180723
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  olski/subset.py: f2dffc02b01d
-  olski/parse.py: a264c789f2b1
-  olski/skład/rozbiór.py: e261cd3714d2
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
+  olski/skład/rozbiór.py: 9e94e539a45b
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
 
 Składnica, morfologia live, 13035 zdań z werdyktem
 
   werdykt olskiego:
-    11128    rejected
-     1063    valid
-      844    ambiguous
+    10482    rejected
+     1371    valid
+     1182    ambiguous
 
   ile czytań zdania wraca drzewem tego zapisu:
-    ambiguous, 844 zdań:
-        7    0.8%  każde czytanie wraca drzewem
-       27    3.2%  część czytań wraca drzewem
-      810   96.0%  żadne czytanie nie wraca drzewem
-    valid, 1063 zdań:
-       63    5.9%  każde czytanie wraca drzewem
+    ambiguous, 1182 zdań:
+        7    0.6%  każde czytanie wraca drzewem
+       35    3.0%  część czytań wraca drzewem
+     1140   96.4%  żadne czytanie nie wraca drzewem
+    valid, 1371 zdań:
+       69    5.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-     1000   94.1%  żadne czytanie nie wraca drzewem
+     1302   95.0%  żadne czytanie nie wraca drzewem
 
   czym są wobec siebie drzewa czytań, z 7 zdań wieloznacznych:
         0    0.0%  czytania dają te same drzewa
@@ -37,48 +37,48 @@ Składnica, morfologia live, 13035 zdań z werdyktem
         3   42.9%  5
         2   28.6%  6
         1   14.3%  10
-    valid, 63 zdań, ile drzew:
-        7   11.1%  1
-       14   22.2%  2
-        1    1.6%  3
-       29   46.0%  4
-        1    1.6%  6
-       10   15.9%  8
-        1    1.6%  32
+    valid, 69 zdań, ile drzew:
+       10   14.5%  1
+       15   21.7%  2
+        1    1.4%  3
+       30   43.5%  4
+        1    1.4%  6
+       11   15.9%  8
+        1    1.4%  32
 
-  czemu czytanie nie wraca drzewem, z 5731 takich czytań:
-     4998   87.2%  zapis nie ma kategorii
-      733   12.8%  kandydat wypisuje się innym napisem
+  czemu czytanie nie wraca drzewem, z 7858 takich czytań:
+     6839   87.0%  zapis nie ma kategorii
+     1019   13.0%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 4889 różnych:
-     1321  grupa imienna z słowo, Modifier nie ma tu kategorii
-      728  zdanie bez podmiotu nie ma tu kategorii
-      427  AP nie jest tu grupą imienną
-      419  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
-      187  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
-      159  grupa imienna z słowo, słowo, NP nie ma tu kategorii
-      120  grupa imienna z słowo, słowo, Modifier nie ma tu kategorii
-       62  być nie składa tu orzeczenia imiennego
+  najczęstsze powody, z 6285 różnych:
+     1648  grupa imienna z słowo, Modifier nie ma tu kategorii
+     1065  zdanie bez podmiotu nie ma tu kategorii
+      617  AP nie jest tu grupą imienną
+      580  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
+      272  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+      195  grupa imienna z słowo, Adjective, NP nie ma tu kategorii
+      173  grupa imienna z słowo, NPConjunct nie ma tu kategorii
+      143  grupa imienna z słowo, Adjective, Modifier nie ma tu kategorii
+       94  przymiotnik z słowo, słowo nie ma tu kategorii
+       84  być nie składa tu orzeczenia imiennego
+       62  oraz nie jest znakiem listy tego zapisu
        48  „Przez całą sobotę” nie ma tu czym być w pozycji Modifier
-       40  albo nie jest znakiem listy tego zapisu
-       32  „nie” nie ma tu czym być w pozycji Object
-       29  grupa imienna z słowo, słowo, NP, Modifier nie ma tu kategorii
 
   najkrótsze zdania: ambiguous, część czytań wraca drzewem
       2 czytań  Ma broń.
+      2 czytań  Jak pan chce.
       3 czytań  Czort go wie.
+      2 czytań  Wszystko płynie.
       3 czytań  Nikt nic nie wie.
       2 czytań  Dołączają wszyscy.
-      2 czytań  Dobiszewski nie pamięta.
-      2 czytań  Czeka go powtórny proces.
 
   najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
+      2 czytań  Tam zmarł.
       2 czytań  Co to jest?
       2 czytań  Co ja mówię?
       2 czytań  Nikt nie bił?
       4 czytań  Co to znaczy?
       2 czytań  Nie widzi pan?
-      3 czytań  KOKS MUSI BYĆ!
 
   najkrótsze zdania: ambiguous, żadne drzewo nie stoi pod każdym czytaniem
       2 czytań  Wyjątek stanowi finał.
@@ -91,18 +91,18 @@ Składnica, morfologia live, 13035 zdań z werdyktem
   najkrótsze zdania: valid, drzew tego zapisu: 1
       1 czytań  Nadchodzi zima.
       1 czytań  Wystarczy plomba.
+      1 czytań  Różnie ludzie plotą.
       1 czytań  Kogoś cechuje głupota.
-      1 czytań  Sprawę bada goleniowska policja.
-      1 czytań  Pozostaje niepokojący problem piekła.
-      1 czytań  Tą granicą zdrowego rozsądku jest środa.
+      1 czytań  Tam siedzi nasz umrzyk.
+      1 czytań  Wyraźnie pokazują to sondaże.
 
   najkrótsze zdania: valid, drzew tego zapisu: 2
       1 czytań  Alicja milczy.
       1 czytań  Polak potrafi.
       1 czytań  Inflacja rośnie.
       1 czytań  Niemcy słuchają.
-      1 czytań  Wszystko płynie.
       1 czytań  Minibus odjeżdża.
+      1 czytań  Bandyci odjeżdżają.
 
   najkrótsze zdania: valid, drzew tego zapisu: 3
       1 czytań  Właścicielami szpitali i przychodni są miasta, powiaty i województwa.

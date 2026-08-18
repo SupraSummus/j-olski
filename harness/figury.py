@@ -128,7 +128,7 @@ FIGURY = (
         #  przelicznik kolejki blokerów — więc przeliczenie ruszające liczbę może
         #  je odwrócić, choć wskazują na pierwszą, a nie na ten plik.
         czyta=(
-            "docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu",
+            "docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe",
             "docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",
             "docs/roadmap.md#etap-6-reszta-konstrukcji",
         ),
@@ -146,7 +146,7 @@ FIGURY = (
             "sonda/ruch.py",
         ),
         czyta=(
-            "docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu",
+            "docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe",
             "docs/roadmap.md#etap-6-reszta-konstrukcji",
         ),
     ),
@@ -165,17 +165,18 @@ FIGURY = (
         czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
     ),
     Figura(
-        nazwa="płaski-oba",
+        nazwa="płaski-okolicznik",
         #  Ta sama sonda nad tym samym korpusem, a osobno od figury wyżej, bo pyta
-        #  o co innego: tamta mówi, ile fałszywych czytań daje pierwsza połowa
-        #  konstrukcji, a ta, ile z nich zostaje po dopisaniu drugiej.
+        #  o co innego: tamta mówi, ile fałszywych czytań zostaje w olskim, a ta,
+        #  ile dawałby pierwszy gospodarz bez drugiego, czyli po jakiej cenie
+        #  drugiego wpuszczono.
         polecenie=(
             "python3",
             "-m",
             "sonda.płaski",
             "Składnica-frazowa-180723/",
             "--wariant",
-            "oba",
+            "okolicznik",
         ),
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(

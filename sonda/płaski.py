@@ -7,9 +7,10 @@ wychodzi z niej jednym czytaniem, w którym ``bardzo`` określa zdanie, a nie
 ``valid`` czyta się jak twierdzenie, a tej ceny nie widzi ani pokrycie, ani
 zgodność ról nad bankiem drzew, która porównuje podmiot i dopełnienie.
 
-Sonda mierzy ją nad wariantem, który tę pozycję ma i nie ma drugiej
-(``okolicznik`` w ``sonda/przysłówek.py``), bo tamta sonda liczy werdykty, a
-pytanie jest tu o drzewo, którym werdykt wypadł. Populację tworzą zdania przyjęte
+Sonda mierzy to nad samym olskim, bo tamta sonda liczy werdykty, a pytanie jest tu
+o drzewo, którym werdykt wypadł; wariantem ``okolicznik`` w ``sonda/przysłówek.py``
+mierzy się to samo nad gramatyką bez drugiego gospodarza, czyli cenę, przy której
+go wpuszczono. Populację tworzą zdania przyjęte
 jednym czytaniem: odpowiedź jest wtedy dokładna, a listę czytań zdania
 wieloznacznego ucina ``MAX_READINGS``.
 
@@ -45,19 +46,20 @@ from olski.corpus import pliki, read
 from olski.coverage import po_kawałkach, segments_for
 from olski.grammar import Grammar
 from olski.parse import Leaf, Node, Tree, parse
-from olski.subset import DEKLARACJA, FRAGMENT, check
+from olski.subset import DEKLARACJA, FRAGMENT, PRZYSŁÓWKOWY, check
 from sonda import przysłówek
 from sonda.ruch import gramatyka
 
 #: Ile zdań zachować pod każdą klasą, tak jak trzymają je sondy obok.
 PRZYKŁADY = 8
 
-#: Etykieta listy okoliczników, czyli tego konstytuenta, który jest płaski: bierze
-#: przysłówek i drugą taką listę za nim, a o to, co ten przysłówek określa, nie pyta.
-OKOLICZNIKI = "Adjuncts"
-
 #: Cecha, którą Morfeusz oddziela przysłówek odprzymiotnikowy od pierwotnego.
 STOPIEŃ = "degree"
+
+#: Części mowy, które kryterium liczy za przymiotnik, czyli te same, które olski
+#: bierze za orzecznikowe: imiesłów bierny jest tam przymiotnikiem i tu jest nim
+#: tak samo (`nieporównanie tańsze`, `znacznie rozszerzony`).
+PRZYMIOTNIKOWE = frozenset({"adj", "ppas"})
 
 #: Klasy, w kolejności wydruku. Nazwa mówi, przed czym przysłówek stanął, bo tym
 #: się te dwie różnią: pierwszą pozycję drugi gospodarz ma, a drugiej nie ma nikt.
@@ -86,21 +88,22 @@ def płaskie(drzewo: Node) -> list[tuple[str, str]]:
     ``bardzo`` przed przymiotnikiem jest pomyłką, a ``ostatecznie`` przed nim może
     nie być, i rozstrzyga o tym słowo, a nie klasa.
 
-    Rodzicem musi być sama lista okoliczników, a nie cokolwiek nad nią: przysłówek
-    określający przymiotnik wisi w czytaniu drugiego gospodarza pod grupą imienną
-    albo przymiotnikową i wtedy drzewo mówi o nim prawdę.
+    Rodzicem musi być symbol przysłówka zdania (:data:`PRZYSŁÓWKOWY`), bo pod nim
+    stoi przysłówek okolicznikowy i tylko on: przysłówek określający przymiotnik
+    wisi w czytaniu drugiego gospodarza pod symbolem tego przymiotnika i wtedy
+    drzewo mówi o nim prawdę. Płaskim czyni takie czytanie lista okoliczników nad
+    nim, która bierze przysłówek i drugą taką listę za nim, a o to, co ten
+    przysłówek określa, nie pyta.
     """
     liście = _liście(drzewo)
     znalezione = []
     for (rodzic, liść), (_, następny) in zip(liście, liście[1:], strict=False):
-        if rodzic != OKOLICZNIKI or liść.reading.tag.pos != "adv":
+        if rodzic != PRZYSŁÓWKOWY or liść.reading.tag.pos != "adv":
             continue
         if not liść.reading.tag.get(STOPIEŃ):
             continue
         pos = następny.reading.tag.pos
-        #  Klasę przymiotnikową bierzemy stamtąd, skąd bierze ją wariant sondy,
-        #  bo imiesłów bierny jest przymiotnikiem w jednym miejscu i w drugim.
-        if pos in przysłówek.PRZYMIOTNIKOWE:
+        if pos in PRZYMIOTNIKOWE:
             znalezione.append((PRZED_PRZYMIOTNIKIEM, liść.segment.form))
         elif pos == "adv":
             znalezione.append((PRZED_PRZYSŁÓWKIEM, liść.segment.form))
@@ -167,7 +170,7 @@ class Raport:
         del zachowane[self.ile_przykładów :]
 
 
-def wariant(nazwa: str = przysłówek.OKOLICZNIK) -> Grammar:
+def wariant(nazwa: str = przysłówek.SONDA.czysty) -> Grammar:
     """Gramatyka olskiego z przysłówkiem u tego gospodarza, którego nazwa mówi.
 
     Bierze się z sondy różnicowej, a nie z produkcji wypisanych tutaj, bo wariant
@@ -175,10 +178,10 @@ def wariant(nazwa: str = przysłówek.OKOLICZNIK) -> Grammar:
     czyta, mają być jedną gramatyką. Dopisane drugi raz rozeszłyby się z tamtą
     tabelą przy pierwszej zmianie i żadna liczba by o tym nie powiedziała.
 
-    Domyślny jest okolicznik, bo o niego sondzie chodzi: to on stoi płasko. Wariant
-    obu gospodarzy odpowiada na pytanie następne, czyli ile płaskich czytań zostaje
-    po dopisaniu drugiego, i tam zostaje sama klasa, której drugi gospodarz nie
-    obejmuje.
+    Domyślny jest sam olski, bo o jego werdykty tu chodzi, a stoi w nim para
+    gospodarzy. Wariant ``okolicznik`` odpowiada na pytanie poprzednie, czyli ile
+    fałszywych czytań dawałby pierwszy gospodarz bez drugiego, i to jest cena, przy
+    której drugiego wpuszczono.
     """
     return gramatyka(przysłówek.SONDA, nazwa)
 
@@ -186,7 +189,7 @@ def wariant(nazwa: str = przysłówek.OKOLICZNIK) -> Grammar:
 def zmierz(
     ścieżki: Sequence[Path],
     przykłady: int = PRZYKŁADY,
-    nazwa: str = przysłówek.OKOLICZNIK,
+    nazwa: str = przysłówek.SONDA.czysty,
 ) -> Raport:
     """Jeden przebieg po lasach banku drzew, bez procesów pod spodem."""
     raport = Raport(przykłady)
@@ -205,7 +208,7 @@ def zmierz(
 
 
 def nad_prozą(
-    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = przysłówek.OKOLICZNIK
+    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = przysłówek.SONDA.czysty
 ) -> Raport:
     """To samo pytanie nad prozą, którą olski ma czytać.
 
@@ -231,7 +234,7 @@ def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
-    nazwa: str = przysłówek.OKOLICZNIK,
+    nazwa: str = przysłówek.SONDA.czysty,
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
     praca = functools.partial(_kawałek, przykłady=przykłady, nazwa=nazwa)
@@ -308,7 +311,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         "--wariant",
-        default=przysłówek.OKOLICZNIK,
+        default=przysłówek.SONDA.czysty,
         choices=przysłówek.SONDA.warianty,
         help="u którego gospodarza stoi przysłówek w mierzonej gramatyce",
     )

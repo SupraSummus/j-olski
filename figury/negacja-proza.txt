@@ -4,18 +4,18 @@ czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jed
 ruszają:
   README.md: 0d2a177e02b4
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: f2dffc02b01d
-  olski/parse.py: a264c789f2b1
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
   sonda/negacja.py: 2171ef6d8d65
-  sonda/ruch.py: 4eb074921d9c
+  sonda/ruch.py: 9ae7434b6506
 
 README.txt, proza, 49 zdań
 
     wariant    przyjęte  wieloznaczne  odrzucone
-bez negacji           6             3         40
-    cząstka           6             3         40
- dopełniacz           6             3         40
-       obie           6             3         40
+bez negacji           6             5         38
+    cząstka           6             5         38
+ dopełniacz           6             5         38
+       obie           6             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez negacji” — cząstka:

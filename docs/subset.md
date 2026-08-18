@@ -210,6 +210,10 @@ Wykluczenie sięga czytania nieodmiennego i dalej nie sięga.
 Dwa kryteria, które szły dalej, mają cenę policzoną
 na 13 035 lasach Składnicy z pełnym drzewem,
 a miarą jest to, ile z nich traci czytanie wybrane przez anotatorów.
+Obie liczby są ceną, przy której kryterium odrzucono,
+i wzięto je nad gramatyką z tamtej chwili, czyli bez przysłówka:
+kryterium odrzucone zostaje odrzucone, kiedy jego cena się rusza,
+więc przeliczenie broniłoby liczby, a nie decyzji.
 Tą samą miarą [corpus.md](corpus.md#what-morphological-ambiguity-costs)
 liczy wykluczenie, które stoi, i wychodzi mu pięć.
 
@@ -315,7 +319,7 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
 
 - Clauses in all six orders the subject, the object and the verb stand in,
   from `Program zapisuje ustawienia.` to `Zapisuje ustawienia program.`,
-  which is priced [below](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+  which is priced [below](#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
 - Subjectless clauses, both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`)
 - A verb before its subject, with an agreeing predicative after it or without one:
@@ -384,6 +388,14 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`
   Both are argued and priced
   [below](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
+- Przysłówek u dwóch gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
+  okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
+  ustawienia.`), i jako określenie przymiotnika, gdzie stoi sam przysłówek
+  stopniowany (`Koszt bardzo dużego pliku jest niski.`).
+  Okolicznik przysłówkowy jest przy tym rolą, którą werdykt nazywa,
+  a określenie przymiotnika stoi w wypełnieniu roli nad nim;
+  parę gospodarzy wraz z ceną trzyma
+  [poniżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case
@@ -436,6 +448,11 @@ Pod złotą morfologią czas przeszły nie odbiera Składnicy ani jednego zdania
 żadne przyjęte nie traci werdyktu i żadne nie zyskuje drugiego czytania —
 a przyjętych przybywa 365 i wieloznacznych 201,
 czyli 566 zdań z 2934, które na tej formie stawały.
+Para ta jest ceną, przy której konstrukcja wchodziła,
+i tak samo jak pary pozostałych konstrukcji jest wzięta nad gramatyką z tamtej chwili
+([roadmap.md](roadmap.md#etap-6-reszta-konstrukcji)):
+obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,
+więc dopisanie następnej rusza i wiersz, i to, ile z niego zostaje do wzięcia.
 Różnica między 566 a 2934 jest tym,
 czego kolejka blokerów z zasady nie mówi:
 liczy zdania, na których konstrukcja stanęła,
@@ -514,8 +531,8 @@ a przed czasownikiem gramatyka ma dziś oba ciała naraz.
 Ta konkurencja nie wypada jednak w tym przebiegu,
 bo wariant bez negacji dopełniacza w pozycji dopełnienia nie ma wcale,
 więc nie ma tam czego z przydawką pomylić.
-Wypada ona w sondzie, która mierzy szyk, i wynosi tam cztery zdania
-([niżej](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+Wypada ona w sondzie, która mierzy szyk, i wynosi tam sześć zdań
+([niżej](#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)).
 Zero w kolumnie zdań wieloznacznych mówi więc, że cena tego sporu należy do szyku,
 a nie do negacji, i którą z dwóch produkcji zdejmuje sonda, rozstrzyga, gdzie ona
 stanie.
@@ -555,7 +572,7 @@ w zdaniu składowym, które ma podmiot i dopełnienie.
 Oba czytania polszczyzna ma, a olski ma tu jedno,
 bo dopełnienie należy do bezokolicznika pod czasownikiem modalnym,
 a żadne ciało nie stawia go przed tą parą
-([niżej](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)),
+([niżej](#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)),
 więc czytanie, które ma czytelnik, nie ma się czym wyprowadzić,
 i zamiast dwóch czytań wychodzi jedno, pewne siebie i błędne.
 Jest to ta sama pomyłka co przy [wyliczonym ciele](design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu),
@@ -571,7 +588,7 @@ Werdykt jest tam odmową i to jest cena zapłacona po tej zmianie w tej walucie,
 w której ta sekcja liczy: czytanie czytelnika stoi na wydruku obok drugiego,
 zamiast nie mieć się czym wyprowadzić.
 
-## Szyk zmierzono: kupuje 44 zdania i odbiera cztery
+## Szyk zmierzono: kupuje 55 zdań i odbiera sześć
 
 Podmiot, dopełnienie i czasownik stoją w polszczyźnie w sześciu kolejnościach,
 a olski miał dwie, SVO i OVS, oraz czasownik na czele bez dopełnienia.
@@ -584,7 +601,7 @@ bo synkretyzm mianownika z biernikiem czyni dwuznacznym każde zdanie,
 które da się przeczytać od podmiotu i od dopełnienia naraz,
 a szyk dopisany daje tej dwuznaczności nowe miejsca.
 
-Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzą cztery zdania.
+Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzi sześć zdań.
 
 ```sh
 python3 -m sonda.szyk Składnica-frazowa-180723/
@@ -592,21 +609,21 @@ python3 -m sonda.szyk Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez czterech szyków | 1139 | 528 | 11 368 |
-| SOV | 1151 | 533 | 11 351 |
-| OSV | 1150 | 530 | 11 355 |
-| VSO | 1143 | 535 | 11 357 |
-| VOS | 1152 | 535 | 11 348 |
-| wszystkie cztery | 1179 | 549 | 11 307 |
+| bez czterech szyków | 1526 | 719 | 10 790 |
+| SOV | 1537 | 730 | 10 768 |
+| OSV | 1539 | 722 | 10 774 |
+| VSO | 1530 | 727 | 10 778 |
+| VOS | 1547 | 728 | 10 760 |
+| wszystkie cztery | 1575 | 750 | 10 710 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
-Czterdzieści cztery zdania przechodzą z odrzuconych na przyjęte,
-siedemnaście z odrzuconych na wieloznaczne,
-a cztery z przyjętych na wieloznaczne, i te cztery są całą ceną.
-Zakup dzieli się między szyki na szesnaście, jedenaście, cztery i trzynaście,
+Pięćdziesiąt pięć zdań przechodzi z odrzuconych na przyjęte,
+dwadzieścia pięć z odrzuconych na wieloznaczne,
+a sześć z przyjętych na wieloznaczne, i te sześć są całą ceną.
+Zakup dzieli się między szyki na siedemnaście, trzynaście, cztery i dwadzieścia jeden,
 czyli sumuje się dokładnie,
 a sonda nie znajduje ani jednego zdania,
 które rusza się pod dwoma szykami naraz.
@@ -616,7 +633,7 @@ ani jednemu zdaniu, które ją miało.
 
 Zakup jest przy tym zakupem, a nie samym wyprowadzeniem:
 zdanie przyjęte odwrotnie niż w banku drzew nie jest zakupem dla nikogo.
-Czterdzieści dwa z czterdziestu czterech zdań
+Pięćdziesiąt trzy z pięćdziesięciu pięciu zdań
 mają role zgodne z drzewem wzorcowym,
 a odwróconego nie ma ani jednego,
 czyli szyk nie kupuje zdań przeczytanych na opak.
@@ -776,42 +793,45 @@ python3 -m sonda.przecinek Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez przecinka | 1099 | 514 | 11 422 |
-| zdaniowy | 1161 | 531 | 11 343 |
-| imienny | 1117 | 531 | 11 387 |
-| przymiotnikowy | 1099 | 514 | 11 422 |
-| wszystkie trzy | 1179 | 549 | 11 307 |
+| bez przecinka | 1452 | 682 | 10 901 |
+| zdaniowy | 1552 | 720 | 10 763 |
+| imienny | 1472 | 707 | 10 856 |
+| przymiotnikowy | 1455 | 685 | 10 895 |
+| wszystkie trzy | 1575 | 750 | 10 710 |
 
 Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Wieloznacznych przybywa trzydzieści pięć i wszystkie przychodzą z odrzuconych,
+Wieloznacznych przybywa sześćdziesiąt osiem i wszystkie przychodzą z odrzuconych,
 czyli z tych, których gramatyka bez przecinka nie wyprowadzała wcale.
 Konkurencji między poziomami sonda nie liczy z tych sum, tylko wprost,
-zdanie po zdaniu, i znajduje ją raz.
+zdanie po zdaniu, i znajduje ją dwa razy.
 Żadnego zdania nie ruszają poziom zdaniowy i imienny naraz,
-a o jednym oba naraz mówią co innego niż każdy z osobna:
+a o dwóch wszystkie trzy naraz mówią co innego niż każdy z osobna:
 
 ```text
 Stworzyła polski oddział EquiLibre, organizowała konwoje z pomocą dla byłej
 Jugosławii, Kazachstanu, Czeczenii.
 ```
 
-Każdy poziom z osobna to zdanie odrzuca, a oba naraz czynią je wieloznacznym,
+Każdy poziom z osobna to zdanie odrzuca, a wszystkie naraz czynią je wieloznacznym,
 czyli dwie produkcje dały mu czytanie, którego żadna z nich nie dała.
-Argument o konkurencji ma więc nad tym korpusem dokładnie jedno zdanie,
-i pojawiło się ono wraz z czasem przeszłym:
-zdanie stoi w nim całe, a przed tą zmianą nie wyprowadzało się pod żadnym wariantem.
+Argument o konkurencji ma więc nad tym korpusem dwa zdania,
+i oba przyszły z konstrukcjami dopisanymi po tym pomiarze:
+pierwsze z czasem przeszłym, a drugie z przysłówkiem.
 
-Po drugiej stronie stoi zakup: pięćdziesiąt zdań przechodzi
-z odrzuconych na przyjęte, trzydzieści sześć za poziom zdaniowy
-i czternaście za imienny.
-Czterdzieści cztery z nich mają role zgodne z drzewem wzorcowym,
-sześć nie ma w nim żadnej roli do porównania,
-a odwróconych i niezgodnych nie ma ani jednego,
-więc są to zdania przeczytane tak, jak przeczytali je anotatorzy.
+Po drugiej stronie stoi zakup: sto dwadzieścia trzy zdania przechodzą
+z odrzuconych na przyjęte, sto za poziom zdaniowy, dwadzieścia za imienny
+i trzy za przymiotnikowy.
+Dziewięćdziesiąt siedem z nich ma role zgodne z drzewem wzorcowym,
+dwadzieścia nie ma w nim żadnej roli do porównania,
+a niezgodne są trzy i żadne z nich nie jest rolą odwróconą —
+dwa niosą dopełniacz negacji przed czasownikiem, a trzecie przysłówek
+w podmiocie, i obie te ceny mają właściciela gdzie indziej
+([wyżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań),
+[niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 
 Nowe wieloznaczności nie biorą się z przecinka, tylko z przyłączenia.
 `Warszawska kuria metropolitalna ma wśród swoich licznych włości nieruchomość
@@ -823,10 +843,10 @@ Jest to ta sama wieloznaczność, którą olski
 koordynacja przecinkiem daje jej więcej miejsc, w których się mieści,
 a nie nowy rodzaj sporu.
 
-Poziom przymiotnikowy nie rusza ani jednego zdania w żadną stronę.
-Czy jest to własność polszczyzny, czy tego korpusu, ta liczba nie mówi:
-`duży, ciężki plecak` jest polszczyzną,
-a nad Składnicą nie ma zdania, w którym ta produkcja byłaby ostatnią brakującą.
+Poziom przymiotnikowy ruszał kiedyś zero zdań i rusza dziś sześć,
+z czego trzy przyjmuje: `duży, ciężki plecak` jest polszczyzną,
+a zdania, w których ta produkcja jest ostatnią brakującą,
+przyszły razem z przysłówkiem, bo to on zdjął z nich blokera przed nią.
 
 Nad rejestrem, o który olskiemu chodzi, przecinek kupuje trzy zdania.
 To samo porównanie nad prozą wyciągniętą z README —
@@ -852,8 +872,10 @@ a nad tą prozą czeka na to, co w reszcie tych zdań stoi obok niego.
 Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie ruszyła
 ([niżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
 a czas przeszły ruszył ją, nie ruszając liczby zdań przyjętych
-([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
-więc czeka ono na przysłówek i dwukropek
+([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
+Przysłówek wszedł po nich i tej liczby też nie ruszył,
+choć nad Składnicą przeniósł zakup przecinka o połowę w górę,
+więc nad tą prozą czeka ona już tylko na dwukropek
 ([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
@@ -1082,7 +1104,9 @@ tak jak te, o których mówi [corpus.md](corpus.md#fetching-it),
 bo `olski/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
 co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
 
-Cena i zysk są zmierzone nad Składnicą i idą w obie strony.
+Cena i zysk są zmierzone nad Składnicą i idą w obie strony;
+liczby niżej wzięto nad gramatyką z chwili, w której leksykon wchodził,
+czyli bez przysłówka i bez czterech szyków.
 Pod żywą morfologią przebieg przyjmuje 379 zdań zamiast 374,
 a wieloznacznych ma 245 zamiast 267.
 Odrzuconych przybywa przy tym siedemnaście,
@@ -1382,25 +1406,25 @@ python3 -m sonda.liczebnik Składnica-frazowa-180723/
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
 | --- | --- | --- | --- |
-| bez liczebnika | 1105 | 499 | 11 431 |
-| zgodny | 1145 | 530 | 11 360 |
-| rządzący | 1137 | 517 | 11 381 |
-| oba | 1179 | 549 | 11 307 |
+| bez liczebnika | 1486 | 688 | 10 861 |
+| zgodny | 1536 | 729 | 10 770 |
+| rządzący | 1523 | 708 | 10 804 |
+| oba | 1575 | 750 | 10 710 |
 
 Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
-Siedemdziesiąt cztery przechodzą z odrzuconych na przyjęte
-i pięćdziesiąt z odrzuconych na wieloznaczne,
+Osiemdziesiąt dziewięć przechodzi z odrzuconych na przyjęte
+i sześćdziesiąt dwa z odrzuconych na wieloznaczne,
 czyli cała cena jest zapłacona zdaniami,
 których gramatyka bez liczebnika nie wyprowadzała wcale.
-Zakup dzieli się między ciała prawie po połowie, na czterdzieści i trzydzieści dwa,
+Zakup dzieli się między ciała prawie po połowie, na pięćdziesiąt i trzydzieści siedem,
 i żadne zdanie nie rusza się pod obydwoma,
-więc te dwa zbiory są rozłączne i sumują się do siedemdziesięciu dwóch.
+więc te dwa zbiory są rozłączne i sumują się do osiemdziesięciu siedmiu.
 Dwa zdania wymagają obu ciał naraz,
-tak samo jak jedno z pięćdziesięciu wieloznacznych,
+tak samo jak jedno z sześćdziesięciu dwóch wieloznacznych,
 bo ma dwie grupy liczebnikowe i każda z nich przyłącza się inaczej:
 
 ```text
@@ -1415,9 +1439,9 @@ więc te dwa wyprowadzenia wpadają do jednej klasy.
 Ta sama forma wypuszczona osobnym kształtem dałaby zdanie wieloznaczne,
 i tak właśnie płaci cyfra niżej.
 
-Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym pięćdziesiąt osiem razy,
-dziesięć zdań nie ma w nim roli do porównania, trzy mają ją tylko częściowo,
-a niezgodne są trzy i żadne z nich nie jest wyborem, którego olski dokonał.
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym siedemdziesiąt razy,
+dwanaście zdań nie ma w nim roli do porównania, trzy mają ją tylko częściowo,
+a niezgodne są cztery i żadne z nich nie jest wyborem, którego olski dokonał.
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`
 czyta imiesłów jako orzecznik, gdzie bank drzew ma go w przydawce przy `osoby`,
 i jest to [przydawka imiesłowowa](#what-it-does-not-cover-yet), której olski nie ma;
@@ -1426,6 +1450,11 @@ liczebnik tylko doprowadził analizę do miejsca, w którym ten brak widać.
 którą [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance) liczy
 razem z trzema takimi samymi: złote poddrzewo bierze w siebie wyrażenie
 przyimkowe, które olski wiesza na zdaniu.
+`Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.`
+przyszło tu razem z przysłówkiem i jest rozbieżnością tego samego rodzaju:
+złote dopełnienie obejmuje `tak wysokiego poziomu`, a olski zostawia `tak` zdaniu,
+bo przysłówek bez stopnia do przymiotnika nie dochodzi
+([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 `Marzec przyniósł 6 zagranicznych delegacji.` olski czyta tak,
 jak przeczytałby je czytelnik, a niezgodność jest po stronie porównania:
 bank drzew daje grupie liczebnikowej w pozycji dopełnienia własne gniazdo, `np(part)`,
@@ -1494,15 +1523,12 @@ Every one of these is a sentence that gets rejected and should not be:
   so it stands at the front of the queue over this repository's prose
   ([corpus.md](corpus.md#where-the-analyses-stop)).
   A colon opens a list as well, which is a second construction behind one character.
-- Przysłówek, którego olski nie ma w żadnej pozycji:
-  `Program szybko zapisuje ustawienia.` jest odrzucone,
-  a wiersz `adv` prowadzi kolejkę blokerów zaraz za interpunkcją
-  ([corpus.md](corpus.md#where-the-analyses-stop)).
-  Pozycja przy czasowniku kupuje nad Składnicą kilkaset zdań i jest do wzięcia,
-  a pozycja przy przymiotniku dopisana obok niej odbiera jej część
-  i oddaje w zamian prawdę o drzewie,
-  więc wybór jest tu między dwiema cenami w różnych walutach
-  ([niżej](#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
+- Przysłówek przed drugim przysłówkiem, czyli trzeci gospodarz tej konstrukcji:
+  `Program zapisuje ustawienia bardzo szybko.` nie jest odrzucone i to jest z nim
+  gorzej, bo wychodzi jednym czytaniem, w którym `bardzo` określa zdanie
+  ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+  Stoi tu, bo jest to jedyna pozycja przysłówka, której olski nie ma,
+  a nie jest to zdanie odrzucone, które być nim nie powinno.
 - A comma standing in front of a conjunction.
   Two clauses join with a conjunction or with a comma
   ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))
@@ -1718,7 +1744,7 @@ i każda z nich jest zwyczajną polszczyzną:
 - po dopełnieniu i po podmiocie w szyku OVS
   (`Ustawienia w pliku zapisuje program.`)
 - po każdej z dwóch grup imiennych w czterech
-  [pozostałych szykach](#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+  [pozostałych szykach](#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
   (`Program ustawienia w pliku zapisuje.`)
 - po podmiocie w szykach z czasownikiem na czele,
   przed orzecznikiem i za nim
@@ -1733,11 +1759,14 @@ i każda z nich jest zwyczajną polszczyzną:
 - wewnątrz zdania względnego, po obu stronach tego, co w nim zostało
   (`reguła, która w tym trybie rozstrzyga`)
 
-Wierszy jest osiem, a produkcji czterdzieści cztery,
+Wierszy jest osiem, a produkcji czterdzieści pięć,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Dziesięć z tych czterdziestu czterech dołożyły cztery szyki dopisane,
-i tyle właśnie znaczy w tej gramatyce jeden szyk więcej.
+Dziesięć z tych czterdziestu pięciu dołożyły cztery szyki dopisane,
+i tyle właśnie znaczy w tej gramatyce jeden szyk więcej;
+czterdziesta piąta jest z przysłówka, bo lista okoliczników bierze go tak samo
+jak wyrażenie przyimkowe
+([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
@@ -1762,8 +1791,9 @@ i to jest ta różnica, której po samym werdykcie nie widać.
 
 Nad Składnicą płaci się za to przyjętymi zdaniami,
 a kupuje czytania, których olski nie czyta odwrotnie:
-gramatyka bez tych pozycji czyta wbrew ręcznemu rozbiorowi ponad sto zdań,
-a z nimi kilkanaście, i żadne z nich nie jest przyłączeniem, które olski wybrał.
+gramatyka bez pozycji przy grupie imiennej i przymiotnikowej
+czyta wbrew ręcznemu rozbiorowi ponad dwieście zdań,
+a z nimi dwadzieścia kilka, i żadne z nich nie jest przyłączeniem, które olski wybrał.
 Ile ich dokładnie jest po obu stronach i czym są te trzy, trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance);
 tutaj stoi rzędem wielkości, bo liczba zapisana w obu miejscach
@@ -1780,7 +1810,7 @@ bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
 więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
 a nie co zdejmuje ten.
 
-## Przysłówek zmierzono przed dopisaniem i drugi gospodarz odbiera zdania pierwszemu
+## Przysłówek wchodzi obu gospodarzami, bo drugi zdejmuje czytania nieprawdziwe
 
 Wyrażenie przyimkowe ma dwóch gospodarzy i oba czytania są prawdziwe,
 więc olski oddaje je czytelnikowi.
@@ -1789,7 +1819,10 @@ Przysłówek ma dwóch gospodarzy, a nad jednym zdaniem prawdziwy jest jeden z n
 a `tu` w `Mam tu odmienną interpretację.` określa zdanie i przymiotnika nie określa.
 Wybór między gospodarzami jest więc rozstrzygnięciem,
 a nie wieloznacznością do zgłoszenia,
-i dlatego sonda wycenia przysłówek przed dopisaniem go do gramatyki, a nie po nim.
+i dlatego sonda wyceniła każdego z nich osobno, zanim któryś wszedł do gramatyki.
+
+Weszli obaj: drugi gospodarz kosztuje zdania, a kupuje prawdę o drzewie,
+i po tym kursie olski go przyjmuje.
 
 Pełne wiersze są w [figury/przysłówek.txt](../figury/przysłówek.txt),
 a wzięte nad prozą README w [figury/przysłówek-proza.txt](../figury/przysłówek-proza.txt);
@@ -1797,18 +1830,17 @@ polecenie i pliki, których zmiana każe je przeliczyć,
 podaje każdy z tych dwóch ([`harness/figury.py`](../harness/figury.py)).
 
 Gospodarze są dwaj, więc wariantów jest cztery:
-mianownik, po jednym na gospodarza i obaj naraz.
+gramatyka bez przysłówka, po jednym na gospodarza i sam olski, w którym stoją obaj.
 `okolicznik` wpuszcza przysłówek do listy okoliczników,
 czyli tam, gdzie stoi wyrażenie przyimkowe, i przed zdanie.
-`przy przymiotniku` stawia go przed przymiotnikiem,
-w przydawce i w orzeczniku, licząc pozycje z produkcji olskiego,
+`przy przymiotniku` stawia go pod symbolem przymiotnika,
 a bierze tam sam przysłówek stopniowany
 ([niżej](#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
 
 Okolicznik kupuje nad Składnicą kilkaset zdań,
 czyli podnosi liczbę przyjętych o ponad jedną trzecią,
 a określenie przymiotnika kilkanaście razy mniej.
-Oba razem kupują mniej niż okolicznik sam,
+Obaj razem kupują mniej niż okolicznik sam,
 więc drugi gospodarz dopisany do pierwszego nie kupuje nic i odbiera mu zdania.
 [Krzywa pokrycia](design-notes.md#making-the-trade-measurable)
 przewidziała, że dopisanie bywa droższe od tego, co kupuje,
@@ -1816,7 +1848,7 @@ i jest to najciaśniejszy przypadek, jaki się tu trafił:
 odbierają sobie zdania dwie połowy jednej konstrukcji,
 a nie dwie konstrukcje z osobna.
 
-Cena nie jest przy tym stratą na zdaniach, które olski przyjmuje dziś:
+Cena nie jest przy tym stratą na zdaniach, które olski przyjmował przed przysłówkiem:
 jednoznaczności nie traci ani jedno z nich, w żadnym z trzech wariantów.
 Płaci się ją zakupem pierwszego gospodarza:
 zdanie, które każdy z nich osobno przyjmuje jednym czytaniem,
@@ -1827,26 +1859,64 @@ Program zabawy był ściśle ustalony.
 ```
 
 Pod `okolicznik` orzecznikiem jest `ustalony`, pod `przy przymiotniku`
-`ściśle ustalony`, a pod `oba` te dwa czytania stoją obok siebie.
+`ściśle ustalony`, a pod olskim te dwa czytania stoją obok siebie.
 
-Drugi gospodarz płaci ponadto trafnością:
-czyta wbrew drzewu wzorcowemu jedno zdanie na dziewięć z tych, które kupuje sam,
-a okolicznik myli się na jednym z trzydziestu.
-Zostają mu pomyłki na przysłówku odprzymiotnikowym,
-bo taki określa i zdanie, więc stopień nie rozdziela niczego:
-`Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`,
-choć `oficjalnie` określa tam całe zdanie.
+Zakupem drugiego gospodarza jest prawda o zdaniach, które zostają.
+Pierwszy gospodarz sam wypuszcza jedno na czterdzieści zdań przyjętych
+z czytaniem, w którym przysłówek jest okolicznikiem zdania,
+choć stoi przed przymiotnikiem i ten przymiotnik określa;
+przy obu gospodarzach takich czytań jest jedno na sto pięćdziesiąt
+i ani jedno z nich nie pada przed przymiotnikiem
+([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
+bo `valid` ktoś przeczyta
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+więc para gospodarzy zamienia werdykt fałszywy na werdykt o dwóch czytaniach.
+Kurs wychodzi przez to bliski jednemu do jednego:
+zdań przyjętych ubywa mniej więcej tyle, ile ubywa czytań nieprawdziwych.
+
+W tę samą stronę idzie zgodność z drzewem wzorcowym.
+Okolicznik sam czyta wbrew niemu jedno zdanie na trzydzieści z tych, które kupuje,
+a obaj gospodarze jedno na pięćdziesiąt,
+więc pomyłek jest po dopisaniu drugiego mniej nie tylko w udziale, ale i w liczbie,
+choć zdań przyjętych jest mniej.
+Drugi gospodarz sam myli się przy tym najczęściej z trzech wariantów,
+bo czyta wbrew drzewu jedno zdanie na dziewięć z tych, które kupuje sam:
+zostają mu pomyłki na przysłówku odprzymiotnikowym,
+który określa i zdanie, więc stopień nie rozdziela niczego —
+`Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`.
 Ról odwróconych nie ma ani jednej, w żadnym wariancie.
 
+Werdykt nazywa tę parę wprost, bo okolicznik przysłówkowy jest w nim rolą:
+
+```sh
+python3 -m olski.check --readings -c "Plik jest bardzo duży."
+```
+
+```text
+<text>: ambiguous Plik jest bardzo duży.
+                  2 readings, differing in Adverb, Predicative
+                  - Subject: Plik, Predicative: bardzo duży, Verb: jest
+                  - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo
+0 of 1 sentences are olski
+```
+
+Rolę niesie jeden z dwóch gospodarzy, i jest to decyzja, a nie przeoczenie.
+Przysłówek określający przymiotnik stoi wewnątrz orzecznika albo przydawki,
+więc widać go w wypełnieniu tamtej roli,
+a wypisany drugi raz obok mówiłby o zdaniu, że ma okolicznik, którego ono nie ma.
+Dwa czytania rozdziela przez to sama lista ról,
+zamiast czekać na to, że czytelnik porówna dwa napisy orzecznika.
+
 Nad rejestrem ustaw okolicznik kupuje w skali dziesięć razy mniejszej,
-a drugi gospodarz dokłada tam jedno zdanie, zamiast odejmować
+a drugi gospodarz dokłada tam zdanie, zamiast odejmować
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc znak tej ceny zależy od rejestru,
 a nie od samej pary gospodarzy.
 
 Nad [README](../README.md) przysłówek nie kupuje ani jednego zdania,
 a przenosi na wieloznaczne te, które na nim stały.
-Jednym z nich jest to, o którym kolejka blokerów mówi,
+Jednym z nich jest to, o którym kolejka blokerów mówiła,
 że stoi na przysłówku i na niczym więcej
 ([corpus.md](corpus.md#where-the-analyses-stop)):
 
@@ -1858,6 +1928,22 @@ Wyprowadzenie dostaje, jednoznaczności nie,
 bo w czytaniu, które przysłówek mu daje, `za nią` ma dwóch gospodarzy.
 Kolejka mówi więc, gdzie analiza stanęła, i nie mówi, co dopisanie kupi,
 także wtedy, gdy zdanie stoi na jednej klasie.
+
+Jedna klasa czytań przyszła razem z tą konstrukcją i nie jest przyłączeniem.
+Morfeusz daje czytanie przysłówkowe formom, które ten rejestr pisze
+jako przyimek albo spójnik — `wobec`, `gdy`, `jak` —
+a okolicznik zdania bierze całą część mowy,
+więc `Są oni obdarzeni rozumem i sumieniem i powinni postępować wobec innych
+w duchu braterstwa.` ma trzy czytania z `wobec` w roli okolicznika,
+w których `innych` jest dopełnieniem,
+a `Program zapisuje ustawienia, gdy linter sprawdza tekst.` wyprowadza się
+jako dwa zdania spięte przecinkiem, choć zdanie po przecinku jest podrzędne.
+Jest to [czytanie, którego polszczyzna nie ma](#the-dictionary-offers-readings-polish-does-not),
+a `admissible` po nie nie sięga, bo pyta o czytanie rzeczownikowe.
+Kryterium na tę klasę nie jest przy tym oczywiste:
+`blisko` i `jak` niosą czytanie przysłówkowe, którego polszczyzna używa,
+więc warunek odsiewający przysłówek przy czytaniu przyimkowym zabrałby i je.
+[TODO.md](../TODO.md) trzyma ruch wraz z ceną obu kryteriów, które mu się nasuwają.
 
 ### Naprawę niesie tagset, a formalizm ją bierze
 
@@ -1884,16 +1970,23 @@ o te zdania spierają się przysłówki stopniowane i żadna cecha ich nie rozdz
 Zmienia natomiast to, ile drugi gospodarz kupuje i jak często się myli:
 kupuje o dwie piąte mniej zdań i myli się na nich trzy razy rzadziej,
 bo dwie trzecie jego pomyłek pada bez niego na przysłówku bez stopnia.
+Te trzy liczby wzięto nad gramatyką, w której przysłówka jeszcze nie było,
+i żaden przebieg ich dziś nie powtarza:
+wariant bez tego warunku nie jest grupą produkcji, tylko innym terminalem w tej samej,
+więc sonda różnicowa nie ma go czym zdjąć,
+a gramatyki wariantu branej funkcją żąda od tej maszynerii [TODO.md](../TODO.md).
+Są przez to ceną, przy której warunek zapadł, a nie figurą o dzisiejszej gramatyce.
 
 ### Płaska lista okoliczników mówi o zdaniu nieprawdę
 
 Pierwszy gospodarz nie jest darmowy, bo lista okoliczników jest płaska.
-`Program zapisuje ustawienia bardzo szybko.` wychodzi pod nim jednym czytaniem,
+`Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
 a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
 czyli dwa okoliczniki zdania obok siebie,
 gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
-Streszczenie nie nazywa przy tym żadnego z dwóch,
-bo przysłówek nie jest rolą, którą werdykt wylicza.
+Streszczenie nazywa przy tym pierwszy z nich,
+bo rola przysłówka nazywa okolicznik pierwszy tak samo jak rola przyłączana,
+więc drugi widać dopiero w napisie zdania.
 Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
 bo `valid` ktoś przeczyta
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
@@ -1903,28 +1996,34 @@ porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
 Liczy to osobna sonda, bo pyta o co innego niż figura wyżej:
 tamta o werdykt, a ta o drzewo, którym werdykt wypadł.
 Pełne wiersze są w [figury/płaski.txt](../figury/płaski.txt),
-po dopisaniu drugiego gospodarza w [figury/płaski-oba.txt](../figury/płaski-oba.txt),
+przed dopisaniem drugiego gospodarza w
+[figury/płaski-okolicznik.txt](../figury/płaski-okolicznik.txt),
 a nad prozą README w [figury/płaski-proza.txt](../figury/płaski-proza.txt).
 Populacją są zdania przyjęte jednym czytaniem,
 bo tam odpowiedź jest dokładna, a listę czytań zdania wieloznacznego
 ucina granica wyliczania.
 
-Płaskie czytanie dostaje pod pierwszym gospodarzem jedno zdanie na pięćdziesiąt,
-a cztery piąte z nich pada w pozycji, którą drugi gospodarz ma.
-Te cztery piąte przechodzą po jego dopisaniu z przyjętych na wieloznaczne,
-a nie na odrzucone,
-więc drugi gospodarz zamienia werdykt fałszywy na werdykt o dwóch czytaniach,
-a to jest druga waluta, w której trzeba go wycenić:
-odbiera zdania i oddaje prawdę o tych, które zostają.
-Zostaje po nim jedno płaskie czytanie na dwieście
-i wszystkie są tą jedną klasą, której nie obejmuje żaden z dwóch gospodarzy:
-przysłówek stojący przed drugim przysłówkiem, jak `bardzo szybko`.
+Klasy są dwie i różni je to, czy brakującą pozycję ma drugi gospodarz.
+Przysłówek stopniowany przed przymiotnikiem dochodzi do niego,
+a przed drugim przysłówkiem nie dochodzi do nikogo.
+Pierwsza klasa jest w olskim pusta, i to jest zakup drugiego gospodarza
+wypisany osobno: przy nim samym pierwszym gospodarzu przypada na nią
+trzy czwarte płaskich czytań.
+Zostaje klasa druga, czyli jedno płaskie czytanie na sto pięćdziesiąt zdań
+przyjętych, i wszystkie są przysłówkiem przed przysłówkiem, jak `bardzo szybko`.
+Trzeci gospodarz jest tym, co ją zdejmuje, i jest on ruchem, a nie dziurą:
+[TODO.md](../TODO.md) trzyma pytanie, czy wraca on z tą samą ceną co drugi.
 
 Liczba jest przy tym górnym oszacowaniem,
 bo przysłówek stopniowany bywa okolicznikiem zdania
 i stoi wtedy przed przymiotnikiem, którego nie określa,
 jak w `Ostatecznie nowa ustawa wchodzi w życie.`
 Które formy to wywołują, wypisuje każda z tych figur, i prowadzi w nich `bardzo`.
+Oszacowanie sięga teraz i przysłówka na czele zdania,
+bo pod symbolem przysłówka stoi każdy okolicznik przysłówkowy,
+a czoło zdania jest osobnym ciałem produkcji:
+`Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą,
+i to jest jedna z rzeczy, o które ta figura urosła.
 Nad prozą README ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
 a nad rejestrem ustaw też żadne
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),

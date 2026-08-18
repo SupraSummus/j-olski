@@ -7,7 +7,21 @@ pytest.importorskip("morfeusz2")
 
 from olski.skład import Kontekst, Postać, Robi, kompiluj
 from olski.skład.rozbiór import obieg, rozbierz, sygnatura
-from olski.skład.słownik import A, D, Dokąd, Gdzie, Kiedy, R, Treść, V, jest, nie, potem, razem
+from olski.skład.słownik import (
+    A,
+    D,
+    Dlaczego,
+    Dokąd,
+    Gdzie,
+    Kiedy,
+    R,
+    Treść,
+    V,
+    jest,
+    nie,
+    potem,
+    razem,
+)
 from olski.subset import check
 
 
@@ -27,14 +41,18 @@ from olski.subset import check
         nie(V.zapisywać(R.program, ~R.ustawienie)),
         nie(jest(A.zwykły * A.polski * R.tekst, R.wejście)),
         V.wiedzieć(R.linter, Treść(V.zapisywać(R.program, ~R.ustawienie))),
+        V.mieszkać(R.kot, D.nagle),
+        V.zapisywać(R.program, ~R.ustawienie, D.szybko),
     ],
 )
 def test_drzewo_wraca_z_napisu_który_z_niego_wyszedł(drzewo):
     """Niezmiennik obiegu na tych drzewach, których obejmują oba tory naraz.
 
     Lista jest listą przypadków, a nie gwarancją, i przecięciem dwóch pokryć:
-    przymiotnik po rzeczowniku ma tylko gramatyka, a przysłówek tylko skład,
-    więc stoi tu to, co mówią oba.
+    przymiotnik po rzeczowniku ma tylko gramatyka, a okoliczność wyrażoną
+    zdarzeniem tylko skład, więc stoi tu to, co mówią oba.
+    Przysłówek stoi w niej, odkąd mają go oba: gramatyka dostała go po składzie,
+    a obieg zamknął się na nim dopiero razem z tą produkcją.
     """
     przebieg = obieg(drzewo)
     assert przebieg.wróciło, przebieg.opisz()
@@ -224,11 +242,13 @@ def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padł
 def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
     """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
 
-    Przysłówek ma tylko skład, więc to zdanie nie ma ani jednego czytania,
+    Okoliczność wyrażona zdarzeniem ma tylko skład, bo gramatyka nie ma spójnika
+    podrzędnego poza `że`, więc to zdanie nie ma ani jednego czytania,
     i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
     """
-    przebieg = obieg(V.mieszkać(R.kot, D.nagle))
-    assert przebieg.napis == "Kot mieszka nagle."
+    powód = Dlaczego.bo(V.sprawdzać(R.linter, R.tekst))
+    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, powód))
+    assert przebieg.napis == "Program zapisuje ustawienia, bo linter sprawdza tekst."
     assert not przebieg.wróciło
     assert "gramatyka olskiego nie wyprowadza" in przebieg.opisz()
 
