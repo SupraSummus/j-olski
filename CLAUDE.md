@@ -13,9 +13,9 @@ komunikaty commitów i opisy pull requestów.
 
 ## Reguły przyjmujemy leniwie
 
-Nowy tekst powstaje według reguł niżej,
-a zdanie, które i tak poprawiasz, tak samo.
-Stare sekcje zostawiamy, dopóki nie dotknie ich zmiana.
+Nowy tekst piszemy według reguł niżej.
+Te same reguły stosujemy do zdania, które poprawiamy z innego powodu.
+Starego tekstu poza tym nie ruszamy.
 Sekcja napisana przed regułą nie jest przez to usterką.
 
 Ta pobłażliwość dotyczy stylu, nie prawdy.
@@ -36,11 +36,11 @@ słowa kluczowe Pythona, API bibliotek, klucze konfiguracji i nazwy formatów.
 W nazwie w kodzie piszemy znaki diakrytyczne, tak samo jak w zdaniu:
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
-Przekład nie ukuwa przy tym nazw:
+Nazw przy tym nie ukuwamy:
 kalka czyta się jak termin, którego nikt tu nie zdefiniował,
 więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 
-Reguły nie pilnuje żaden check, tak samo jak żadnej innej reguły prozy:
+Żaden check nie pilnuje tej reguły ani żadnej innej reguły prozy:
 sprawdzamy je w przeglądzie zmian, a nie w testach.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają —
@@ -49,7 +49,7 @@ podaje polecenie, które to pokazuje nad README —
 i nie przepisujemy tych dokumentów tak, żeby się pod nią zmieściły.
 
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
-z jedną różnicą co do jednostki.
+ale jednostka jest tu inna.
 Jednostką reguł prozy jest pojedyncze zdanie, bo zdanie poprawia się osobno,
 a jednostką języka jest sekcja, docstring, komentarz, komunikat
 albo nazwa wraz z jej wywołaniami.
@@ -57,9 +57,9 @@ Gdzie sekcja nie ma własnej prozy, jednostką jest akapit:
 sekcja `TODO.md` grupuje wpisy, więc jednostką jest tam wpis,
 czyli to, co jeden commit dopisuje i kasuje.
 Po polsku powstaje też tekst w dokumencie, który po polsku nie jest,
-a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
+a zdanie dopisane do angielskiej sekcji piszemy po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
-Taki dokument nie dostaje wpisu w `TODO.md`.
+Przekładu takiego dokumentu nie wpisujemy do `TODO.md`.
 [`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
 a ta sekcja jest po polsku w pliku, który po polsku nie jest.
 
@@ -371,6 +371,13 @@ Powtarza się w niej kilka chwytów.
   Zaimek odsyła do całego poprzedniego zdania, a nie do rzeczownika.
   Autor takiego zdania nie zauważy, bo wie, o czym pisał.
   Wstaw w miejsce zaimka rzeczownik.
+- **Domyślne orzeczenie.**
+  Zdanie pomija czasownik i każe czytelnikowi odtworzyć go z poprzedniego zdania;
+  sygnałem jest „tak samo”, „też” albo „odwrotnie” w miejscu orzeczenia.
+  Kto wchodzi w środek, poprzedniego zdania nie przeczytał.
+  Powtórz czasownik, choćby zdanie wyszło dłuższe:
+  „a zdanie, które i tak poprawiasz, tak samo” →
+  „Te same reguły stosujemy do zdania, które poprawiamy z innego powodu”.
 - **Jeden rytm na wszystko.**
   Trzy zdania pod rząd o tym samym kształcie —
   teza, przecinek, człon spięty przez „a”, „bo” albo „więc”,
@@ -472,13 +479,13 @@ Two mechanical consequences:
 Something noticed while working on another topic
 belongs on a list rather than in the current change,
 and which list follows from who closes the entry.
-A commit in this repository closes it: [`TODO.md`](TODO.md),
+If a commit in this repository closes the entry, it belongs in [`TODO.md`](TODO.md),
 whose header owns that boundary, the conventions for entries,
 and what an entry is worth to whoever picks it up.
-The outside world closes it:
-the list in the document that owns the topic,
-[`docs/open-questions.md`](docs/open-questions.md)
-or a document's own `Not yet decided`.
+If the outside world closes the entry, it belongs in the list
+in the document that owns the topic,
+in [`docs/open-questions.md`](docs/open-questions.md)
+or in a document's own `Not yet decided`.
 The other list may carry a one-line pointer, and nothing more.
 
 ## Splitting work across sessions

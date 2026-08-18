@@ -44,7 +44,7 @@ Nazwa sekcji mówi, czego wpis dotyka, a nie co jest budowane.
 Wpis sięgający dwóch sekcji dopisz do tej,
 która obejmuje dowód do przeczytania,
 bo od dowodu zaczyna ten, kto wpis podnosi.
-Sekcję bez wpisów skasuj razem z ostatnim wpisem, który z niej wyszedł,
+Sekcję bez wpisów skasuj razem z jej ostatnim wpisem,
 a nową sekcję załóż dopiero wtedy, gdy masz do niej wpis.
 
 An entry that names another one names it by what it is about.
