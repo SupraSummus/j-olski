@@ -138,11 +138,12 @@ keeping a habit `CLAUDE.md` no longer asks for.
 `docs/subset.md` jest dokumentem mieszanym.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-żąda przekładu całego pliku.
-Ruchem jest przekład reszty, jednym commitem, bo mieszanina jest tym,
-co ta reguła liczy jako koszt, a pół dokumentu przełożonego jej nie zdejmuje.
+przewiduje dla takiego pliku przekład całości, osobną zmianą.
+Ruchem jest przekład reszty, jednym commitem,
+bo dopóki go nie ma, każde nowe zdanie w angielskiej sekcji idzie po angielsku,
+co ta reguła mówi wprost.
 Wpis ważył więcej, dopóki lista plików była zasięgiem checka;
-checka nie ma, więc został sam powód, dla którego ta reguła stoi.
+checka nie ma, więc został sam przekład.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
@@ -434,6 +435,19 @@ Figurę czytaną przez kilka sekcji rozstrzygnął przysłówek i rozstrzygnął
 bo przeliczenie ma powiedzieć, co przeczytać,
 a restytucja w drugim dokumencie wskazuje sekcję pierwszą, a nie plik,
 bo prozę też ma kto posiadać.
+
+Lista przeliczeń w [`CLAUDE.md`](CLAUDE.md#checks) jest instrukcją napisaną jak wywód.
+Zajmuje większość tamtej sekcji łańcuchem akapitów,
+w których figura, jej właściciel i to, co ją rusza,
+stoją w zdaniach wielokrotnie złożonych,
+a [reguła o adresacie](CLAUDE.md#dla-kogo-jest-napisane-zdanie)
+żąda od instrukcji czegoś odwrotnego,
+bo sesja szuka w niej jednej figury zamiast czytać ją od początku do końca.
+Ruchem jest przepisanie tego, co po przeniesieniu figur do deklaracji zostanie,
+na listę o stałym kształcie: dokument i sekcja, co rusza, co przeliczyć.
+Do przeczytania jest `FIGURY` w [`harness/figury.py`](harness/figury.py),
+bo deklaracja ma dokładnie te pola,
+a proza ma powiedzieć to samo o figurach, których deklaracja jeszcze nie obejmuje.
 
 Sekcja o cenie negacji mówi o jednym zdaniu, a figura wypisuje ich osiem.
 [`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)
