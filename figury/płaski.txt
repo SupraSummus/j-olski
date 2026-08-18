@@ -4,10 +4,10 @@ korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
   olski/subset.py: 4952559a6bce
-  olski/parse.py: f1ce5d82c0d9
+  olski/parse.py: fdd793d98166
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: e4132c252685
+  sonda/ruch.py: c6b02147a9a9
   sonda/płaski.py: 0bf2f87f2436
 
 Składnica, morfologia złota, wariant „olski”, 13035 zdań

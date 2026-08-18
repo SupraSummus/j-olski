@@ -413,6 +413,37 @@ oraz `sonda/wskazania.py`.
 `olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
 te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
+`sonda/ruch.py` pomija zbędne rozbiory nad bankiem drzew, a nad prozą nie.
+`_warianty` rozbiera zdanie olskim i odrzuceniem zamyka pozostałe warianty,
+bo ich czytania są podzbiorem czytań olskiego,
+a `nad_prozą` obok woła `check` raz na wariant,
+więc segmentuje ten sam tekst i rozbiera to samo zdanie tyle razy, ile wariantów.
+Kosztuje to sekundy, czyli mało,
+ale dwie funkcje jednego pliku odpowiadają na to samo pytanie inaczej,
+i nic w nich nie mówi, że jedna z tych odpowiedzi jest przeoczeniem.
+Ruchem jest funkcja w `olski/subset.py` biorąca zdanie już zsegmentowane,
+przez którą idą i `check`, i `nad_prozą`,
+bo segmenty zależą od napisu, a nie od gramatyki.
+Do przeczytania jest `check`: liczy jeszcze `bez_licencji` i całą `DEKLARACJA`,
+których `nad_prozą` nie czyta ani razu,
+więc razem z tym ruchem rozstrzyga się, czy wspólna funkcja liczy je zawsze.
+
+Dziewięć sond różnicowych rozbiera nad Składnicą tę samą gramatykę olskiego.
+Wariant `czysty` jest w każdej z nich dokładnie olskim,
+a `_warianty` rozbiera nim każde zdanie jako pierwsze,
+więc rozbiór trzynastu tysięcy zdań powtarza się dziewięć razy,
+raz na proces, który `harness.figury` uruchamia po kolei.
+Ruchem jest przebieg czytający bank drzew raz i puszczający sondy razem,
+z rozbiorem olskiego liczonym raz na zdanie.
+Ceną jest to, na czym stoi `harness/figury.py`:
+figura deklaruje polecenie słowo po słowie, a jej plik to polecenie zapisuje,
+więc figura wzięta przebiegiem zbiorczym traci polecenie,
+którym da się ją powtórzyć osobno.
+Rozstrzygnąć trzeba więc najpierw, czy deklaracja umie nazwać jedno i drugie,
+a nie jak scalić przebiegi.
+Wpis o czterech przebiegach budujących nad Składnicą te same lasy
+pyta o to samo od strony pomiaru i podnosi się razem z tym.
+
 ## Korpusy, ekstrakcja i figury
 
 Właściciela ma sześć konstrukcji z listy przeliczeń w

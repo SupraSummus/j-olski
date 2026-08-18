@@ -873,13 +873,20 @@ def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
 
 
-def test_a_rejection_says_how_far_the_analysis_got():
+def test_a_rejection_says_how_far_the_analysis_got_when_asked_and_not_otherwise():
+    """``0`` would pass for an answer, so the unasked case is pinned here as well.
+
+    Asking costs a second walk over the table,
+    so a parse that was not asked holds ``None`` rather than a position.
+    """
     #  The copula, the coordination and the comma joining two clauses are all in
     #  the grammar. A comma standing in front of the conjunction is not, so the
     #  analysis gets past the comma and stops on ale, which is where it stands.
-    result = verdict("Plany są niczym, ale planowanie jest wszystkim.").result
+    zdanie = "Plany są niczym, ale planowanie jest wszystkim."
+    result = parse(GRAMMAR, morphology(zdanie), najdalszy=True)
     assert result.rejected
     assert result.furthest == 4
+    assert verdict(zdanie).result.furthest is None
 
 
 # --------------------------------------------------------------------------- #

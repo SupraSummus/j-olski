@@ -19,7 +19,9 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence, parse_forest, pliki, read
-from olski.coverage import main, measure, przebieg, render, scal, zmierz_zdanie
+from olski.coverage import Outcome, main, measure, przebieg, render, scal, zmierz_zdanie
+from olski.parse import parse
+from olski.subset import GRAMMAR
 
 
 def forest(nodes, text="Program zapisuje ustawienia.", verdict=FULL, sent_id="t/1-s"):
@@ -339,6 +341,19 @@ def test_a_rejected_sentence_is_not_asked_about_agreement():
 
 def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
     assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "imps"
+
+
+def test_a_blocker_refuses_a_parse_that_was_not_asked_how_far_it_got():
+    """The ranking would otherwise be built out of position zero without saying so.
+
+    Every run but this one drops the question,
+    so a blocker read off such a parse would name whatever each sentence opens with,
+    and the ranking would look like a finding about Polish.
+    """
+    zdanie = parse_forest(forest(svo(tag=POZA_PODZBIOREM)))
+    nikt_nie_pytał = Outcome(sentence=zdanie, result=parse(GRAMMAR, list(zdanie.segments)))
+    with pytest.raises(ValueError, match="dokąd doszedł"):
+        assert nikt_nie_pytał.blocker
 
 
 def przyłączenie(subject="subj(np(nom))", obj="np(accgen)", przyimkowe=None):

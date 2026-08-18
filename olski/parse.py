@@ -319,7 +319,9 @@ class Result:
     readings: list[Node] = field(default_factory=list)
     #: The furthest graph node any partial analysis reached, which is where a
     #: rejected sentence stopped making sense.
-    furthest: int = 0
+    #: ``None`` when nobody asked, which is not position zero:
+    #: :func:`podsumuj` says why the question is optional.
+    furthest: int | None = None
     #: Czy wyliczanie stanęło na :data:`MAX_READINGS`,
     #: czyli czy lista czytań jest krótsza niż :attr:`ile`.
     truncated: bool = False
@@ -375,12 +377,17 @@ def parse(
     segments: list[Segment],
     start: str | None = None,
     deklaracja: Deklaracja | None = None,
+    najdalszy: bool = False,
 ) -> Result:
     """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte."""
-    return podsumuj(las(grammar, segments, start), deklaracja)
+    return podsumuj(las(grammar, segments, start), deklaracja, najdalszy)
 
 
-def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
+def podsumuj(
+    zbudowany: Las,
+    deklaracja: Deklaracja | None = None,
+    najdalszy: bool = False,
+) -> Result:
     """Podsumowania, jakie werdykt bierze z gotowego lasu.
 
     Osobno od :func:`parse`, bo pomiar buduje las sam i pyta go jeszcze o coś,
@@ -388,6 +395,12 @@ def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
 
     Bez deklaracji werdykt jest samą liczbą i listą czytań;
     co ona niesie i czemu jest jedna, mówi :class:`Deklaracja`.
+
+    O to, dokąd analiza doszła, pyta się osobno i domyślnie wcale.
+    Odpowiedź wymaga drugiego przejścia po tablicy (:meth:`Las.najdalszy`)
+    i nad zdaniem odrzuconym trwa mniej więcej tyle, co sam rozbiór,
+    a czyta ją jedno miejsce: ranking blokerów w ``olski/coverage.py``.
+    Przebieg, który blokerów nie wypisuje, tej odpowiedzi więc nie liczy.
     """
     ile = zbudowany.ile_czytań()
     readings: list[Node] = []
@@ -407,7 +420,7 @@ def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
     return Result(
         ile,
         readings,
-        zbudowany.najdalszy(),
+        zbudowany.najdalszy() if najdalszy else None,
         truncated=ile > len(readings),
         różniące=różniące,
         przyłączenia=przyłączenia,

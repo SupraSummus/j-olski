@@ -130,6 +130,7 @@ Figury, które mają właściciela, odpowiadają mu przebiegiem:
 `python3 -m harness.figury` wypisuje należne przeliczenia,
 nie pobiera przy tym niczego i wskazuje plik w `figury/`
 z wydrukiem i z poleceniem, którym ten wydruk powstaje.
+Ta sama komenda z `--należne` przelicza je wszystkie naraz.
 Reszcie figur odpowiada [sekcja Checks](../CLAUDE.md#checks),
 bo to ona wymienia dokumenty z liczbami, do których nie dosięga żaden test,
 a dalej ta droga idzie do tego z nich, który jest właścicielem danej liczby.

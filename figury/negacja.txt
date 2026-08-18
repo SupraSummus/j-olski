@@ -4,9 +4,9 @@ korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno
 ruszają:
   olski/subset.py: 4952559a6bce
-  olski/parse.py: f1ce5d82c0d9
+  olski/parse.py: fdd793d98166
   sonda/negacja.py: 2171ef6d8d65
-  sonda/ruch.py: e4132c252685
+  sonda/ruch.py: c6b02147a9a9
 
 Składnica, morfologia złota, 13035 zdań
 

@@ -6,10 +6,10 @@ czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
   olski/subset.py: 4952559a6bce
-  olski/parse.py: f1ce5d82c0d9
+  olski/parse.py: fdd793d98166
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: e4132c252685
+  sonda/ruch.py: c6b02147a9a9
 
 Składnica, morfologia złota, 13035 zdań
 
