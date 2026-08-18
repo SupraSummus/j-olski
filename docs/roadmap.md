@@ -98,20 +98,10 @@ Zostaje kierunek: czytania, które olski melduje,
 mają być dokładnie tymi, które polszczyzna nad zdaniem ma.
 Pokrycie jest skutkiem takiego kierunku i mierzy się je osobno.
 
-Kierunek nie mówi, kiedy przestać, więc porządek robi cena kroku.
-Każde dopisanie wycenia się przed wpuszczeniem w dwóch walutach,
-czyli ile zdań przyjmuje i ile jednoznaczności zabiera,
-a pytać o to trzeba każdy z trzech rejestrów, bo odpowiadają różnie:
-bank drzew ([corpus.md](corpus.md#where-the-analyses-stop)),
-prozę tego repozytorium
-i ustawy ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
-Wycenionym przykładem jest czas przeszły z
-[etapu 6](#etap-6-reszta-konstrukcji).
-
 Cztery szyki podmiotu, dopełnienia i czasownika są przykładem samego kierunku,
 a nie któregoś etapu.
 Nie ma ich w żadnej kolejce blokerów, bo szyk nie jest formą,
-na której analiza staje, i żaden z trzech rejestrów o nie nie prosił.
+na której analiza staje, i żaden korpus o nie nie prosił.
 Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem
 nie miał ciała, więc olski czytał pięć zdań Składnicy odwrotnie,
 niż czyta je czytelnik, i mówił to jednym czytaniem.
@@ -420,7 +410,7 @@ więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
 Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
 od produkcji pisanych po niej,
 więc [koszt przepisywania](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
-ich nie porządkuje i między sobą rozstrzyga je sama cena kroku.
+ich nie porządkuje, a między sobą rozstrzyga je sama cena.
 Dwie kolejki, które ją wyceniają, nie zgadzają się co do kolejności,
 i jest to wynik pomiaru, a nie usterka w którejś z nich.
 

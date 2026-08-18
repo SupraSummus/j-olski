@@ -660,8 +660,8 @@ Nad prozą README nie rusza się ani jeden werdykt,
 tak samo jak nie ruszyła go podrzędność,
 i mówi to o tym pliku to samo, co powiedziała ona
 ([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
-Trzy rejestry, o które [kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
-każe pytać osobno, odpowiadają tu więc zgodnie, i to jest tu rzadkie.
+Bank drzew, proza README i ustawy odpowiadają tu więc zgodnie,
+i to jest tu rzadkie.
 
 Wraca to rozwidlenie wtedy, gdy luka przestanie być węzłem o pustej rozpiętości,
 a zacznie wskazywać zaimek, który ją wiąże:

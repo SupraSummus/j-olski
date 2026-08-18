@@ -50,9 +50,9 @@ ZNAKÓW = 12
 class Figura:
     """Jeden przebieg, jeden plik i lista tego, co ten plik rusza.
 
-    Jednostką jest przebieg, a nie tabela w dokumencie: sonda różnicowa nad
-    Składnicą i ta sama sonda nad prozą mają osobne korpusy i osobne wydruki, więc
-    jedna należy się przeliczenia wtedy, gdy druga nie.
+    Jednostką jest przebieg, a nie tabela w dokumencie: ta sama sonda pod złotą
+    i pod żywą morfologią ma osobne wydruki, więc jedna należy się przeliczenia
+    wtedy, gdy druga nie.
     """
 
     #: Nazwa pliku w ``figury/``, bez rozszerzenia, i nazwa dla komendy.
@@ -96,19 +96,6 @@ FIGURY = (
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
     ),
     Figura(
-        nazwa="negacja-proza",
-        polecenie=("python3", "-m", "sonda.negacja", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "sonda/negacja.py",
-            "sonda/ruch.py",
-        ),
-        czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
-    ),
-    Figura(
         nazwa="przysłówek",
         polecenie=("python3", "-m", "sonda.przysłówek", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
@@ -131,23 +118,6 @@ FIGURY = (
         czyta=(
             "docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe",
             "docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze",
-            "docs/roadmap.md#etap-6-reszta-konstrukcji",
-        ),
-    ),
-    Figura(
-        nazwa="przysłówek-proza",
-        polecenie=("python3", "-m", "sonda.przysłówek", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "olski/grammar.py",
-            "sonda/przysłówek.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe",
             "docs/roadmap.md#etap-6-reszta-konstrukcji",
         ),
     ),
@@ -191,21 +161,6 @@ FIGURY = (
         czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
     ),
     Figura(
-        nazwa="płaski-proza",
-        polecenie=("python3", "-m", "sonda.płaski", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "olski/grammar.py",
-            "sonda/przysłówek.py",
-            "sonda/ruch.py",
-            "sonda/płaski.py",
-        ),
-        czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
-    ),
-    Figura(
         nazwa="przecinek",
         polecenie=("python3", "-m", "sonda.przecinek", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
@@ -216,21 +171,6 @@ FIGURY = (
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
-    ),
-    Figura(
-        nazwa="przecinek-proza",
-        polecenie=("python3", "-m", "sonda.przecinek", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "sonda/przecinek.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania",
-        ),
     ),
     Figura(
         nazwa="interpunkcja",
@@ -254,22 +194,6 @@ FIGURY = (
         ),
     ),
     Figura(
-        nazwa="interpunkcja-proza",
-        polecenie=("python3", "-m", "sonda.interpunkcja", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "olski/morph.py",
-            "sonda/interpunkcja.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
-        ),
-    ),
-    Figura(
         nazwa="liczebnik",
         polecenie=("python3", "-m", "sonda.liczebnik", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
@@ -282,21 +206,6 @@ FIGURY = (
         czyta=("docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
     ),
     Figura(
-        nazwa="liczebnik-proza",
-        polecenie=("python3", "-m", "sonda.liczebnik", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "sonda/liczebnik.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania",
-        ),
-    ),
-    Figura(
         nazwa="szyk",
         polecenie=("python3", "-m", "sonda.szyk", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
@@ -307,21 +216,6 @@ FIGURY = (
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka",),
-    ),
-    Figura(
-        nazwa="szyk-proza",
-        polecenie=("python3", "-m", "sonda.szyk", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
-            "olski/subset.py",
-            "olski/parse.py",
-            "sonda/szyk.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka",
-        ),
     ),
     Figura(
         nazwa="okolicznikowe",
@@ -352,21 +246,6 @@ FIGURY = (
         ),
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
-            "olski/subset.py",
-            "olski/parse.py",
-            "sonda/okolicznikowe.py",
-            "sonda/ruch.py",
-        ),
-        czyta=(
-            "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
-        ),
-    ),
-    Figura(
-        nazwa="okolicznikowe-proza",
-        polecenie=("python3", "-m", "sonda.okolicznikowe", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
             "olski/subset.py",
             "olski/parse.py",
             "sonda/okolicznikowe.py",
@@ -437,20 +316,6 @@ FIGURY = (
         ),
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
-            "olski/subset.py",
-            "olski/parse.py",
-            "olski/skład/rozbiór.py",
-            "olski/skład/składnia.py",
-            "sonda/znaczenia.py",
-        ),
-        czyta=("docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia",),
-    ),
-    Figura(
-        nazwa="znaczenia-proza",
-        polecenie=("python3", "-m", "sonda.znaczenia", "proza/README.txt"),
-        ruszają=(
-            "README.md",
-            "harness/markdown.py",
             "olski/subset.py",
             "olski/parse.py",
             "olski/skład/rozbiór.py",

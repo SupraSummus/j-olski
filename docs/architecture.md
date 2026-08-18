@@ -95,7 +95,7 @@ a czytelnik nie waha się nad żadnym z przeczytanych ręką
 Od strony kodu tę samą różnicę bierze `sonda/znaczenia.py`:
 puszcza czytania zdania przez warstwę trzecią
 i pyta, czy wracają z niej tymi samymi drzewami
-(`figury/znaczenia.txt`, `figury/znaczenia-live.txt`, `figury/znaczenia-proza.txt`).
+(`figury/znaczenia.txt`, `figury/znaczenia-live.txt`).
 Odpowiedzi są dwie i pierwsza jest o mianowniku, a nie o wieloznaczności.
 Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
 z kilkuset, które olski melduje jako wieloznaczne,
