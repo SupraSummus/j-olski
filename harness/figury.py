@@ -86,7 +86,7 @@ class Figura:
 
 #: Figury, które właściciela już mają. Lista rośnie zmianą dotykającą figury przy
 #: innej robocie, a nie przebiegiem porządkowym nad wszystkimi — tak jak
-#: ``CLAUDE.md#adopt-these-rules-lazily`` każe przyjmować resztę reguł.
+#: ``CLAUDE.md#reguły-przyjmujemy-leniwie`` każe przyjmować resztę reguł.
 FIGURY = (
     Figura(
         nazwa="negacja",
