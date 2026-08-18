@@ -61,6 +61,17 @@ def test_a_gerund_is_distinguishable_from_the_noun_it_looks_like():
     assert {r.lemma for r in readings.with_pos("subst")} == {"ustawienie"}
 
 
+def test_lemat_dwukropka_jest_dwukropkiem_a_nie_pustym_napisem():
+    #  Lematem dwukropka jest dwukropek, więc obcięcie indeksu homonimu po
+    #  pierwszym dwukropku zostawiało tu pusty napis. Po tagu tego nie widać:
+    #  terminal żądający lematu „:” nie brał wtedy ani jednego czytania.
+    dwukropek = analyse("Cena jest niska: gramatyka jest bezkontekstowa.")[3]
+    assert dwukropek.form == ":"
+    assert [reading.lemma for reading in dwukropek.readings] == [":"]
+    #  Indeks jest dalej obcinany, bo bieg:s1 jest lematem bieg.
+    assert analyse("biegu")[0].with_pos("subst")[0].lemma == "bieg"
+
+
 def test_an_unknown_form_is_reported_rather_than_guessed_at():
     segments = analyse("Program zapisuje plikx.")
     assert [segment.form for segment in unknown(segments)] == ["plikx"]

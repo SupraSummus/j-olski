@@ -3,24 +3,24 @@ polecenie: python3 -m sonda.liczebnik Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/liczebnik.py: fb9e8f0f0c29
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
        wariant    przyjęte  wieloznaczne  odrzucone
-bez liczebnika        1506           713      10816
-        zgodny        1557           754      10724
-      rządzący        1543           734      10758
-           oba        1596           777      10662
+bez liczebnika        1530           733      10772
+        zgodny        1582           775      10678
+      rządzący        1568           755      10712
+           oba        1622           799      10614
 
 ruch wobec wariantu „bez liczebnika” — zgodny:
-       51  rejected → valid
-       41  rejected → ambiguous
+       52  rejected → valid
+       42  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       42    agrees
+       43    agrees
         3    partial
              Wyszło z tych badań, że identyfikacja ma dwa poziomy.
              Na początku udało się zatrzymać cztery osoby.
@@ -35,10 +35,10 @@ ruch wobec wariantu „bez liczebnika” — zgodny:
              Po piętnastu minutach nadchodzi.
 
 ruch wobec wariantu „bez liczebnika” — rządzący:
-       37  rejected → valid
-       21  rejected → ambiguous
+       38  rejected → valid
+       22  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       27    agrees
+       28    agrees
         9    brak roli
              Przytyłam do filmu 10 kilogramów.
              Przez sześć lat był taksówkarzem.
@@ -52,10 +52,10 @@ ruch wobec wariantu „bez liczebnika” — rządzący:
              Marzec przyniósł 6 zagranicznych delegacji.
 
 ruch wobec wariantu „bez liczebnika” — oba:
-       90  rejected → valid
-       64  rejected → ambiguous
+       92  rejected → valid
+       66  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       71    agrees
+       73    agrees
        12    brak roli
              Przytyłam do filmu 10 kilogramów.
              W Ciechanowie bywam regularnie od 26 lat.
@@ -116,6 +116,7 @@ rządzący, rejected → valid:
   Zabili kilku napastników.
 
 rządzący, rejected → ambiguous:
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
   Przez 26 lat pracował w Komendzie Rejonowej Policji w Jarosławiu.
   Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
   Lokomotywa pchała samochód z nastolatkami przez 200 metrów po torowisku.
@@ -123,7 +124,6 @@ rządzący, rejected → ambiguous:
   W biurze Konfederacji Polski Niepodległej w Warszawie natykam się na trzech posłów z KP KPN.
   500 chuliganów zorganizowało protest przeciw złej sytuacji finansowej klubu.
   W Wielkopolsce na nową maturę zdecydowało się 522 abiturientów.
-  Wielu rodaków było po raz pierwszy w sali, która gościła największych artystów świata.
 
 oba, rejected → valid:
   Wyszło z tych badań, że identyfikacja ma dwa poziomy.
@@ -137,10 +137,10 @@ oba, rejected → valid:
 
 oba, rejected → ambiguous:
   Ostatnie wizyty w kilku krajach spowodowały, że rozmach tej machiny promocyjnej trochę mnie wystraszył.
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
   Przez 26 lat pracował w Komendzie Rejonowej Policji w Jarosławiu.
   Wyniki badań nad wszystkimi 13 właściwościami doskonale ilustruje przejrzysty wykres na 165 stronie książki.
   Mamy prenumeratorów w pięćdziesięciu kilku krajach.
   W części Pałacu od strony parku powstaną apartamenty gościnne z trzema sypialniami, pokojem stołowym i dużą łazienką.
   Lekarze opatrzyli stłuczenia, zwichnięcia i złamania u 14 pacjentów.
   Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
-  W puszce głowowej wielu gatunków owadów widoczne są miejsca, przez które światło może łatwo przenikać w głąb mózgu.

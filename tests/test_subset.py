@@ -32,6 +32,9 @@ from olski.subset import (
     GRAMMAR,
     OKOLICZNIKOWY,
     PRZECINEK,
+    SPÓJNIK_BEZ_PRZECINKA,
+    SPÓJNIK_PRZECINKOWY,
+    SPÓJNIKI_PRZECINKOWE,
     WALENCJA,
     WALENCJA_ZWROTNA,
     admissible,
@@ -606,6 +609,13 @@ PRZYJMOWANE = [
     #  Coordination, of noun phrases and of clauses.
     "Ludzie mają rozum i sumienie.",
     "Program zapisuje ustawienia i program zapisuje dane.",
+    #  Przecinek przed spójnikiem, czyli ta interpunkcja, której polszczyzna żąda
+    #  przed `ale` i przed `więc`, a przed `i` nie stawia jej wcale.
+    "Plany są niczym, ale planowanie jest wszystkim.",
+    "Program zapisuje ustawienia, więc linter sprawdza polszczyznę.",
+    #  Dwukropek otwierający zdanie, czyli ten, którym ten rejestr wprowadza
+    #  wyjaśnienie. Obie połowy wyprowadzają się osobno i osobno raz.
+    "Cena jest niska: gramatyka jest bezkontekstowa.",
     #  A modal and its infinitive, agreeing with the subject in gender
     #  because powinien inflects for one and not for person.
     "Ludzie powinni postępować.",
@@ -772,6 +782,13 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  Osoba, którą wnosi aglutynant, jest osobą całego orzeczenia, więc
         #  podmiot drugiej osoby przy końcówce pierwszej się nie zgadza.
         "Ty napisałem program.",
+        #  Spójnik, przed którym polszczyzna stawia przecinek, bez tego przecinka.
+        #  Oba zdania wyprowadzały się, dopóki jeden terminal brał całą klasę
+        #  `conj`, i były to napisy, których polszczyzna nie ma. Drugie jest
+        #  koordynacją przymiotników, czyli poziomem, który pozycji z przecinkiem
+        #  nie ma wcale, więc wychodziło jednym czytaniem.
+        "Program zapisuje ustawienia ale linter sprawdza polszczyznę.",
+        "Plik jest nowy ale duży.",
     ],
 )
 def test_these_have_no_reading(text):
@@ -879,13 +896,15 @@ def test_a_rejection_says_how_far_the_analysis_got_when_asked_and_not_otherwise(
     Asking costs a second walk over the table,
     so a parse that was not asked holds ``None`` rather than a position.
     """
-    #  The copula, the coordination and the comma joining two clauses are all in
-    #  the grammar. A comma standing in front of the conjunction is not, so the
-    #  analysis gets past the comma and stops on ale, which is where it stands.
-    zdanie = "Plany są niczym, ale planowanie jest wszystkim."
+    #  Polish puts a comma in front of ale and this sentence has none, so no level
+    #  of coordination derives it and the analysis stops on the conjunction itself.
+    #  The form is licensed all the same, by the position that has the comma, so
+    #  the list of unlicensed forms is empty and the furthest point is what says
+    #  where the sentence ran out.
+    zdanie = "Plany są niczym ale planowanie jest wszystkim."
     result = parse(GRAMMAR, morphology(zdanie), najdalszy=True)
     assert result.rejected
-    assert result.furthest == 4
+    assert result.furthest == 3
     assert verdict(zdanie).result.furthest is None
 
 
@@ -1060,6 +1079,47 @@ def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koord
             for part in production.body
         )
         assert nad_sobą == ze_znakiem, production
+
+
+def test_dwukropka_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować():
+    #  Na tej jedynce stoi zdanie, że dwukropek nie odbiera jednoznaczności ani
+    #  jednemu zdaniu: znak wchodzący w jedno ciało albo wyprowadza zdanie tą
+    #  produkcją, albo nie wyprowadza go wcale. Drugie ciało z dwukropkiem czyni
+    #  z tego zera liczbę do zmierzenia i ten test jest tym, co o tym powie.
+    biorące = [
+        produkcja
+        for produkcja in GRAMMAR.productions
+        if any(
+            isinstance(część, Word) and bierze(część, "interp", ":", {}, EMPTY) is not None
+            for część in produkcja.body
+        )
+    ]
+    assert len(biorące) == 1, biorące
+
+
+@pytest.mark.parametrize("lemat", SPÓJNIKI_PRZECINKOWE.split("|"))
+def test_dwie_klasy_spójnika_zdaniowego_nie_zachodzą_na_siebie(lemat: str):
+    #  Lemat wzięty obiema pozycjami dałby polszczyźnie i `A, ale B`, i `A ale B`,
+    #  a pominięty na liście nie wszedłby do żadnej z nich. Literówka wygląda
+    #  dokładnie tak jak pominięcie: pozycja z przecinkiem milczy wtedy o słowie
+    #  i nie widać tego po żadnym zdaniu.
+    czytania = [(r.tag.pos, r.lemma) for r in analyse(lemat)[0].readings]
+    brane = [c for c in czytania if bierze(SPÓJNIK_PRZECINKOWY, *c, {}, EMPTY) is not None]
+    assert brane, (lemat, czytania)
+    assert not [c for c in czytania if bierze(SPÓJNIK_BEZ_PRZECINKA, *c, {}, EMPTY) is not None]
+    #  Spójnik spoza listy idzie odwrotnie, więc klasy pokrywają ją całą.
+    assert bierze(SPÓJNIK_BEZ_PRZECINKA, "conj", "i", {}, EMPTY) is not None
+    assert bierze(SPÓJNIK_PRZECINKOWY, "conj", "i", {}, EMPTY) is None
+
+
+def test_rozdzielające_a_nie_wchodzi_do_wyrażenia_przyimkowego():
+    #  Usterka, którą to łapie, jest usterką werdyktu, a nie pokrycia: `a` ma w
+    #  słowniku czytanie przyimkowe rządzące mianownikiem, więc bez tego warunku
+    #  każde czytanie tego zdania niesie okolicznik `a linter`, którego zdanie nie
+    #  ma, i przecinek przed spójnikiem nie ma czego kupić.
+    found = verdict("Program zapisuje ustawienia, a linter sprawdza polszczyznę.")
+    assert found.status == "valid", found.explain()
+    assert all("Modifier" not in reading for reading in found.readings)
 
 
 def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():

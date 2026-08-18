@@ -4,23 +4,23 @@ czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
-  sonda/przecinek.py: 4d72d1bd397c
-  sonda/ruch.py: c6b02147a9a9
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
+  sonda/przecinek.py: 82654bffe1c8
+  sonda/ruch.py: 6da1ed0a768e
 
 README.txt, proza, 48 zdań
 
        wariant    przyjęte  wieloznaczne  odrzucone
- bez przecinka           4             3         41
-      zdaniowy           4             5         39
-       imienny           5             3         40
-przymiotnikowy           4             3         41
-wszystkie trzy           5             5         38
+ bez przecinka           4             4         40
+      zdaniowy           4             7         37
+       imienny           5             4         39
+przymiotnikowy           4             4         40
+wszystkie trzy           5             7         36
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez przecinka” — zdaniowy:
-        2  rejected → ambiguous
+        3  rejected → ambiguous
 
 ruch wobec wariantu „bez przecinka” — imienny:
         1  rejected → valid
@@ -29,7 +29,7 @@ ruch wobec wariantu „bez przecinka” — przymiotnikowy:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez przecinka” — wszystkie trzy:
-        2  rejected → ambiguous
+        3  rejected → ambiguous
         1  rejected → valid
 
 konkurencja, nad zdaniem po zdaniu:
@@ -37,15 +37,17 @@ konkurencja, nad zdaniem po zdaniu:
         0  razem wychodzi co innego niż osobno
 
 zdaniowy, rejected → ambiguous:
-  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
   Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
+  Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
+  Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa nie musiał nigdy napisać, mówi docs/sklad.md.
 
 imienny, rejected → valid:
   Czarna lista kupowała jednak co innego, niż obiecywała.
 
 wszystkie trzy, rejected → ambiguous:
-  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
   Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
+  Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
+  Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa nie musiał nigdy napisać, mówi docs/sklad.md.
 
 wszystkie trzy, rejected → valid:
   Czarna lista kupowała jednak co innego, niż obiecywała.

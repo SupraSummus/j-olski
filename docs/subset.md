@@ -319,7 +319,7 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
 
 - Clauses in all six orders the subject, the object and the verb stand in,
   from `Program zapisuje ustawienia.` to `Zapisuje ustawienia program.`,
-  which is priced [below](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)
+  which is priced [below](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
 - Subjectless clauses, both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`)
 - A verb before its subject, with an agreeing predicative after it or without one:
@@ -374,7 +374,22 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   so `Ja zapisuje plik.` is a disagreement
   in the way `Nowa program` is one.
 - Coordination, of noun phrases, of adjective phrases and of clauses,
-  joined by a conjunction
+  joined by a conjunction or by a comma.
+  The conjunction is the one Polish writes without a comma in front of it,
+  on all three levels, so `Plik jest nowy ale duży.` has no derivation
+- Two clauses joined by a comma and a conjunction at once,
+  which is how Polish punctuates the conjunctions it puts a comma in front of:
+  `Plany są niczym, ale planowanie jest wszystkim.`
+  Those conjunctions are a closed list and the rest keep the position without the
+  comma, so the two classes do not overlap and neither `A ale B` nor `A, i B`
+  derives; the pair is priced
+  [below](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)
+- A colon opening a clause, which is how this register introduces an explanation:
+  `Cena jest niska: gramatyka jest bezkontekstowa.`
+  It stands above coordination rather than in it,
+  so `A, B: C.` reads as `(A, B): C`,
+  and what it does not take is the colon that opens an enumeration
+  ([below](#what-it-does-not-cover-yet))
 - The past tense, agreeing with the subject in gender as well as in number,
   and with the person clitic Morfeusz cuts off the form:
   `Program zapisywał ustawienia.`, `Napisałem program.`
@@ -404,7 +419,10 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   [poniżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
-- Prepositional phrases, with the preposition governing the case
+- Prepositional phrases, with the preposition governing the case.
+  One lemma stays out, by name: Morfeusz reads `a` as the preposition
+  of `dwa bilety a pięć złotych`, which this register does not have
+  ([below](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru))
 - A prepositional phrase in front of the clause,
   which modifies the clause rather than any noun in it
 - An adjunct in every other position a prepositional phrase can follow
@@ -516,7 +534,7 @@ grupa pod przyimkiem zostaje w przypadku, którego przyimek żąda,
 a czasownik, o którym leksykon mówi, że biernika nie bierze,
 nie zyskuje przy przeczeniu nowej pozycji.
 
-### Negacja zmierzona: kupuje przeszło sto zdań i odbiera jedno
+### Negacja zmierzona: kupuje przeszło sto zdań i nie płaci dopełniaczem
 
 Pełne wiersze są w [figury/negacja.txt](../figury/negacja.txt),
 a wzięte nad prozą README w [figury/negacja-proza.txt](../figury/negacja-proza.txt);
@@ -538,7 +556,7 @@ Ta konkurencja nie wypada jednak w tym przebiegu,
 bo wariant bez negacji dopełniacza w pozycji dopełnienia nie ma wcale,
 więc nie ma tam czego z przydawką pomylić.
 Wypada ona w sondzie, która mierzy szyk, i wynosi tam sześć zdań
-([niżej](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)).
+([niżej](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)).
 Zero w kolumnie zdań wieloznacznych mówi więc, że cena tego sporu należy do szyku,
 a nie do negacji, i którą z dwóch produkcji zdejmuje sonda, rozstrzyga, gdzie ona
 stanie.
@@ -578,7 +596,7 @@ w zdaniu składowym, które ma podmiot i dopełnienie.
 Oba czytania polszczyzna ma, a olski ma tu jedno,
 bo dopełnienie należy do bezokolicznika pod czasownikiem modalnym,
 a żadne ciało nie stawia go przed tą parą
-([niżej](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)),
+([niżej](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
 więc czytanie, które ma czytelnik, nie ma się czym wyprowadzić,
 i zamiast dwóch czytań wychodzi jedno, pewne siebie i błędne.
 Jest to ta sama pomyłka co przy [wyliczonym ciele](design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu),
@@ -588,12 +606,12 @@ Cztery zdania tego samego kształtu z tej listy zeszły,
 i zdjął je szyk, a nie nic w negacji:
 dopełnienie ma dziś ciało przed formą osobową swojego czasownika,
 więc każde z nich wychodzi wieloznaczne
-([niżej](#cztery-z-tych-sześciu-zdań-są-naprawą-a-nie-ceną)).
+([niżej](#większość-tych-zdań-jest-naprawą-a-nie-ceną)).
 Werdykt jest tam odmową i to jest cena zapłacona po tej zmianie w tej walucie,
 w której ta sekcja liczy: czytanie czytelnika stoi na wydruku obok drugiego,
 zamiast nie mieć się czym wyprowadzić.
 
-## Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera sześć
+## Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka
 
 Podmiot, dopełnienie i czasownik stoją w polszczyźnie w sześciu kolejnościach,
 a olski miał dwie, SVO i OVS, oraz czasownik na czele bez dopełnienia.
@@ -606,7 +624,7 @@ bo synkretyzm mianownika z biernikiem czyni dwuznacznym każde zdanie,
 które da się przeczytać od podmiotu i od dopełnienia naraz,
 a szyk dopisany daje tej dwuznaczności nowe miejsca.
 
-Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzi sześć zdań.
+Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzi siedem zdań.
 
 Pełne wiersze są w [figury/szyk.txt](../figury/szyk.txt),
 a wzięte nad prozą README w [figury/szyk-proza.txt](../figury/szyk-proza.txt);
@@ -618,7 +636,7 @@ i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
 Kilkadziesiąt zdań przechodzi z odrzuconych na przyjęte,
 połowa tylu z odrzuconych na wieloznaczne,
-a sześć z przyjętych na wieloznaczne, i tyle właśnie liczy kolumna ceny.
+a siedem z przyjętych na wieloznaczne, i tyle właśnie liczy kolumna ceny.
 Zakup dzieli się między szyki nierówno — najwięcej bierze VOS, najmniej VSO —
 a sumuje się dokładnie,
 bo sonda nie znajduje ani jednego zdania,
@@ -655,9 +673,9 @@ a bank drzew dopełnienia tam nie oznacza wcale,
 więc niezgodność jest po stronie porównania, tak samo jak przy
 `Kampania nie przyniosła skutku.` w tamtym dokumencie.
 
-### Cztery z tych sześciu zdań są naprawą, a nie ceną
+### Większość tych zdań jest naprawą, a nie ceną
 
-Sześć zdań traci jednoznaczność, a cztery z nich tracą ją razem z czytaniem,
+Siedem zdań traci jednoznaczność, a pięć z nich traci ją razem z czytaniem,
 którego polszczyzna nie ma, i to jest właściwy odczyt tej kolumny.
 
 ```text
@@ -665,12 +683,19 @@ Apostołowie tego nie praktykowali.
 Nikt niczego nie wybiera, coś wybiera za nas.
 Nikt go tu nie zapraszał!
 Wtedy nikt nas nie zauważy.
+Kuba tego nie pamięta, ale wie od mamy.
 ```
 
 Rozstrzyga o tym drzewo wzorcowe:
 pod gramatyką bez tych czterech szyków czytanie każdego z nich
 nie zgadzało się z bankiem drzew, a czytanie pozostałych dwóch zgadzało.
-Wszystkie cztery są wyżej ceną, którą negacja płaciła trafnością
+Piąte z nich przyszło do tej kolumny razem z
+[interpunkcją zdaniową](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego),
+bo bez przecinka przed spójnikiem olski tego zdania nie wyprowadzał wcale,
+i pokazuje o tej kolumnie to, czego cztery pierwsze nie pokazują:
+naprawa rośnie razem z pokryciem, bo zdanie przyjęte odwrotnie niż w banku drzew
+trafia tu dopiero wtedy, gdy w ogóle się wyprowadza.
+Wszystkie pięć są wyżej ceną, którą negacja płaciła trafnością
 ([wyżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)):
 dopełniacz negacji poprzedzał swój czasownik,
 brała go tam tylko przydawka dopełniaczowa,
@@ -845,14 +870,19 @@ przyszły razem z przysłówkiem, bo to on zdjął z nich blokera przed nią.
 
 Nad rejestrem, o który olskiemu chodzi, przecinek kupuje trzy zdania.
 To samo porównanie nad prozą wyciągniętą z README
-rusza trzy werdykty, dwa na poziomie zdaniowym i jeden na imiennym.
-`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
-i `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md`
+rusza cztery werdykty, trzy na poziomie zdaniowym i jeden na imiennym.
+`Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md`
+i dwa zdania, które przyszły tu razem z
+[interpunkcją zdaniową](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego),
 przechodzą z odrzucenia w wieloznaczność,
 a `Czarna lista kupowała jednak co innego, niż obiecywała`
 gramatyka bez przecinka odrzuca, a z nim wyprowadza jednym czytaniem.
-Trzeciego z nich nie było w tym pomiarze, dopóki gramatyka nie miała czasu
+Ostatniego z nich nie było w tym pomiarze, dopóki gramatyka nie miała czasu
 przeszłego, i to on przeniósł poziom imienny z zera na jedno zdanie.
+`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
+stało w tej trójce i zeszło z niej, nie zmieniając werdyktu:
+przecinek sam już go nie wyprowadza, bo stoi w nim przed spójnikiem,
+i rusza go odtąd tamta produkcja, a nie ta.
 Poziom przymiotnikowy nie rusza tu nic,
 bo pozostałe zdania tego pliku, które niosą przecinek,
 niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
@@ -863,9 +893,143 @@ Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie r
 a czas przeszły ruszył ją, nie ruszając liczby zdań przyjętych
 ([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
 Przysłówek wszedł po nich i tej liczby też nie ruszył,
-choć nad Składnicą przeniósł zakup przecinka o połowę w górę,
-więc nad tą prozą czeka ona już tylko na dwukropek
-([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
+choć nad Składnicą przeniósł zakup przecinka o połowę w górę.
+Dwukropek stał w tej kolejce następny i wszedł
+([niżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
+też nie ruszając tej liczby,
+więc nad tą prozą czeka ona na rzeczownik odczasownikowy
+i na polską formę, której słownik nie zna
+([roadmap.md](roadmap.md#etap-5-słowa-których-słownik-nie-ma)).
+
+## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
+
+Polszczyzna łączy dwa zdania spójnikiem, przecinkiem albo jednym i drugim naraz,
+a dwukropkiem wprowadza wyjaśnienie.
+Olski wyprowadzał z tego dwa pierwsze sposoby
+([wyżej](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
+a do reszty prowadził wiersz `interp`,
+pierwszy w kolejce blokerów z trzema tysiącami zdań
+([corpus.md](corpus.md#where-the-analyses-stop)).
+
+Nowego kształtu zdania ta konstrukcja nie wymaga,
+bo jej członami są zdania, które gramatyka wyprowadza i bez niej.
+Wymaga natomiast dwóch rozstrzygnięć, po jednym na znak.
+
+**Dwukropek rozdziela zdanie wyżej niż przecinek.**
+Produkcja należy przez to do zdania, a nie do zdania składowego:
+`Sentence → Clause : Clause .`
+Dwukropek wpuszczony tam, gdzie przecinek, czyli do `Clause`,
+byłby prawostronnie rekurencyjny razem z nim
+i `A, B: C.` wyprowadzałby jako `A, (B: C)`,
+gdzie polszczyzna czyta `(A, B): C`:
+przed dwukropkiem jest teza, a za nim całe jej wyjaśnienie.
+Werdykt pokazuje ten podział znakiem `…` przy roli,
+tak samo jak przy koordynacji przecinkiem,
+bo w jednym i w drugim po którejś ze stron roli zdanie ma jeszcze jedno składowe.
+
+Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
+a wynika to z gramatyki, nie z przebiegu.
+Dwukropek wchodzi w jedno ciało i nie bierze go żaden inny terminal,
+więc zdanie z dwukropkiem albo wyprowadza się tą produkcją, albo nie ma czytania wcale,
+a zdania bez dwukropka ta produkcja nie dotyczy.
+Zero w kolumnie ceny jest przez to wyprowadzone, a nie zmierzone,
+i pilnuje tego `tests/test_subset.py`:
+dwukropek bierze dokładnie jedna produkcja,
+a druga zamieniłaby to zero w liczbę, którą trzeba by policzyć.
+
+**Przecinek przed spójnikiem jest faktem o słowie.**
+`Plany są niczym, ale planowanie jest wszystkim.` przecinka wymaga,
+a `Program zapisuje ustawienia i linter sprawdza tekst.` nie bierze go wcale,
+i rozstrzyga o tym sam spójnik, a nie miejsce, w którym pada.
+Spójnik zdaniowy rozdziela się przez to na dwie klasy,
+a drugą wyznacza warunek ujemny na pierwszą, bo klasy nie mają się zachodzić:
+lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma ona jeden.
+Klasa z przecinkiem jest zamkniętą listą —
+`ale`, `a`, `lecz`, `natomiast`, `więc`, `zatem`, `toteż` —
+i obejmuje dwie części mowy naraz,
+bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`,
+a o interpunkcji przed nimi ten podział nie mówi nic.
+`zaś` i `jednak` na tej liście nie figurują, bo czoła swojego zdania nie zajmują:
+polszczyzna stawia je za pierwszym wyrazem — `linter zaś sprawdza tekst` —
+i jest to ten sam warunek, którym lista spójników okolicznikowych wyklucza `bowiem`
+([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+Lemat pominięty na liście zostaje przy pozycji bez przecinka,
+więc pominięcie nie odbiera ani jednego zdania.
+
+Podział ten odbiera zarazem napisy, których polszczyzna nie ma.
+`Program zapisuje ustawienia ale linter sprawdza tekst.` wyprowadzało się,
+dopóki jedno ciało brało całą klasę `conj`,
+a klasa bez przecinka dochodzi do wszystkich trzech poziomów koordynacji,
+więc `Plik jest nowy ale duży.` przestaje wychodzić jednym czytaniem.
+Pozycji z przecinkiem grupa imienna i przymiotnikowa nie dostają,
+bo `nie polszczyzny, a dziedziny` jest w nich elipsą, a nie ciągiem współrzędnym.
+Zawężenie tych dwóch poziomów nie rusza ani jednego zdania w żadnym z trzech
+rejestrów — ani nad Składnicą, ani nad README, ani nad ustawami —
+więc płaci za nie sam werdykt, który przedtem kłamał pewnie.
+
+Bez trzeciego warunku ta pozycja nie kupiłaby prawie nic,
+a warunek ten pada na lemat przyimka, a nie na produkcję
+([niżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)):
+Morfeusz czyta `a` także jako przyimek,
+więc każde `, a` w zdaniu wychodziło okolicznikiem wysuniętym drugiego składowego.
+
+Poza gramatyką zostają dwie rzeczy, obie zapisane
+[niżej](#what-it-does-not-cover-yet):
+dwukropek otwierający wyliczenie i średnik.
+
+### Interpunkcja zdaniowa zmierzona: kupuje kilkadziesiąt zdań i nie odbiera żadnego
+
+Mierzony jest ruch werdyktu, a nie stan gramatyki:
+zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
+a liczy się to, na czym te dwa werdykty się różnią.
+Znaki zdejmują się osobno, bo konkurują z czym innym i cena każdego jest osobną liczbą.
+
+Pełne wiersze są w [figury/interpunkcja.txt](../figury/interpunkcja.txt),
+a wzięte nad prozą README w [figury/interpunkcja-proza.txt](../figury/interpunkcja-proza.txt);
+polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych dwóch
+([`harness/figury.py`](../harness/figury.py)).
+Mianownik jest w pierwszym z nich ten sam, co w tabelach tamtego dokumentu:
+13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
+i wchodzą do niego wszystkie, bez granicy na długość zdania.
+
+Czterdzieści osiem zdań przechodzi z odrzuconych, dwadzieścia sześć na przyjęte
+i dwadzieścia dwa na wieloznaczne, a z przyjętego na wieloznaczne — ani jedno.
+Dwukropek daje z tego pięć zdań, a przecinek przed spójnikiem czterdzieści trzy,
+i suma wychodzi dokładnie z tych dwóch:
+konkurencji między znakami sonda nie znajduje nad tym korpusem ani razu,
+ani zdania, które rusza się pod jednym i pod drugim,
+ani takiego, o którym oba naraz mówią co innego niż każdy osobno.
+
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym w dwudziestu jednym
+przypadku na dwadzieścia sześć, a niezgodnych nie ma ani jednego:
+trzem bank drzew nie daje roli do porównania, a dwóm daje ją częściowo.
+Liczba zdań niezgodnych z drzewem wzorcowym nie rusza się przy tym w całym przebiegu
+i zostaje na dwudziestu jednym
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)),
+więc ta konstrukcja nie wydaje ani jednego werdyktu wbrew drzewu.
+
+Nad prozą, o którą olskiemu chodzi, interpunkcja zdaniowa nie kupuje
+ani jednego zdania przyjętego, tak samo jak pięć dopisań przed nią,
+a trzy zdania przenosi z odrzuconych na wieloznaczne.
+Jednym z tych trzech jest zdanie, które warunek na przyimek stąd odebrał
+([niżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)),
+więc wobec gramatyki przed tą zmianą wieloznacznych przybywa dwa, a nie trzy.
+Jest to o kolejce nad tym plikiem odczyt, a nie o konstrukcji:
+zdania README, które stały na dwukropku, stoją teraz na rzeczowniku
+odczasownikowym, na formie, której słownik nie zna, na `dopiero` albo na strukturze,
+czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
+niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
+Nad rejestrem ustaw wypada ta para najskromniej z trzech:
+dwukropek nie rusza tam ani jednego werdyktu, bo za każdym dwukropkiem tej prozy
+stoi wyliczenie, a przecinek przed spójnikiem rusza jeden werdykt i nic nie odbiera
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+
+Z listy form bez licencji nad prozą README zeszły natomiast oba znaki:
+dziewiętnaście zdań README niosło na niej dwukropek albo `więc`,
+dziewięć z nich staje teraz na strukturze, a nie na znaku,
+jedno wychodzi wieloznaczne,
+a dziewięć stoi dalej na innej formie, którą werdykt nazywa.
+Dopiero to mówi, czego w tych zdaniach brakuje.
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
 
@@ -914,6 +1078,55 @@ Cała ta cena idzie na dwie z tych czterech produkcji, te bez przymiotnika:
 na pozostałych dwóch warunek nie rusza ani jednego zdania żadnego z korpusów,
 bo `to` z przymiotnikiem i dopełniaczem pod nim nie pojawia się w nich ani razu.
 Jest tam więc z wywodu, a nie z pomiaru.
+
+## Rozdzielające `a` nie jest przyimkiem tego rejestru
+
+Morfeusz daje formie `a` cztery czytania i jednym z nich jest przyimek rządzący
+mianownikiem — ten z `dwa bilety a pięć złotych`, czyli z ceny za sztukę.
+Wyrażenie przyimkowe olskiego bierze przyimek wraz z przypadkiem, którym on rządzi,
+więc bez warunku niżej `a` otwiera je tak samo jak `w` albo `z`,
+a grupa imienna po nim stoi w mianowniku,
+czyli w tym samym przypadku, w którym stoi podmiot zdania po spójniku.
+Każde `, a` w zdaniu wychodzi przez to okolicznikiem wysuniętym drugiego składowego:
+`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.`
+miało przed tym warunkiem trzy czytania i każde z nich niosło
+`„a podmiot jednego” → „jest”`.
+
+Polszczyzna tego zdania tak nie czyta.
+Warunek obejmuje oba wyrażenia przyimkowe tej gramatyki — zwykłe i to,
+które wysunęło zaimek względny — i mówi tyle: przyimek tego wyrażenia nie jest `a`.
+Jest to trzeci warunek ujemny w tej gramatyce
+i drugi postawiony na lemacie po to,
+żeby odebrać czytanie, którego polszczyzna w tym miejscu nie ma
+([wyżej](#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+Tańsza z dwóch dróg pyta właśnie o to, co produkcja licencjonuje,
+a nie o to, co słownik oferuje
+([roadmap.md](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
+
+Kryterium ogólniejsze wygląda tu na tańsze: żądanie „rządź jednym z pozostałych
+sześciu przypadków” powiedziałoby to samo o każdym słowie naraz.
+Nie powiedziałoby, i mówi to sam słownik.
+Mianownikiem rządzą w nim także `jak`, `jako`, `niż`, `co` i `aniżeli`,
+czyli wykładniki porównania,
+i wszystkie pięć padają w prozie, którą to repozytorium czyta —
+nad README, siedmioma ustawami i korpusem audytowym razem `niż` 194 razy,
+`co` 186, `jako` 117, `jak` 71, `aniżeli` 5, przy 333 formach `a`.
+Kryterium na przypadek zabrałoby więc razem z rozdzielającym `a` i te pięć.
+
+Cena jest zerowa i jest to wynik pomiaru, a nie założenie.
+Pod złotą morfologią przebieg nad Składnicą nie rusza ani jednego zdania z 13 035,
+bo tam każda forma ma jedno czytanie wybrane przez człowieka
+i `a` nie jest w tym korpusie przyimkiem ani razu.
+Pod żywą morfologią, czyli nad prozą README, warunek odbiera jedno zdanie —
+to wypisane wyżej — i oddaje je z powrotem przecinek przed spójnikiem
+([wyżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
+z trzema czytaniami w miejsce trzech.
+Liczba czytań wychodzi więc ta sama przed i po,
+a różnią się one tym, że tamte trzy niosły okolicznik, którego zdanie nie ma,
+a te trzy niosą podmiot, który ono ma.
+Cena i zakup nie dają się tu policzyć w żadnej z dwóch walut,
+którymi mierzy się dopisanie, i jest to drugi taki przypadek
+([wyżej](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)).
 
 ## Walencja jest leksykonem o ramie domyślnej
 
@@ -1317,8 +1530,15 @@ Jednoznaczność wraca tu warunkiem słownikowym, a nie produkcją —
 czytanie przysłówkowe stojące przy czytaniu spójnikowym —
 a cenę tego warunku, zmierzoną osobno, zapisuje [TODO.md](../TODO.md).
 
-Nad [README](../README.md) konstrukcja nie rusza ani jednego zdania,
-tak samo jak cztery dopisania przed nią.
+Nad [README](../README.md) konstrukcja rusza jeden werdykt i nie kupuje
+ani jednego zdania przyjętego.
+Nie ruszała żadnego, dopóki gramatyka nie miała dwukropka
+([wyżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)):
+zdanie, które ta pozycja tu przenosi z odrzuconych na wieloznaczne,
+niesie okolicznik z `bo` po jednej stronie dwukropka,
+więc bez tamtej produkcji nie miało czytania, do którego ta mogłaby dojść.
+Tyle właśnie znaczy zdanie, że nad tym plikiem zdanie odrzucone niesie zwykle
+dwie brakujące klasy albo więcej: dopisanie ich rusza werdykt razem, a nie po jednej.
 Nad rejestrem ustaw nie kupuje ani jednego zdania jednoznacznie
 i przenosi pięć z odrzuconych na wieloznaczne
 ([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)),
@@ -1634,26 +1854,38 @@ która wchodzi tym samym kryterium, co każda inna
 
 Every one of these is a sentence that gets rejected and should not be:
 
-- A colon opening a clause, which is how this register introduces an explanation.
-  `Cena jest niska: gramatyka jest bezkontekstowa.` is rejected
-  where each half of it derives once on its own,
-  and of clause-level punctuation olski has the comma and nothing else,
-  so it stands at the front of the queue over this repository's prose
-  ([corpus.md](corpus.md#where-the-analyses-stop)).
-  A colon opens a list as well, which is a second construction behind one character.
+- A colon opening an enumeration, which is the second construction behind that
+  character: `Tory są dwa: gramatyka i skład.` is rejected
+  where `Cena jest niska: gramatyka jest bezkontekstowa.` derives
+  ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+  What separates the two is not the sign but what stands after it.
+  An explanatory clause needs no relation to anything inside the clause before it,
+  the way a coordinated clause needs none,
+  while an enumeration is an apposition to something in that clause —
+  to `dwa` here — and a production at the sentence level has no way of saying to what.
+- A semicolon joining two clauses.
+  `Program zapisuje ustawienia; linter sprawdza tekst.` is rejected
+  where the same two clauses joined by a colon derive,
+  so what olski has of clause-level punctuation
+  is now the comma, the colon and nothing else.
+  The semicolon is the cheapest entry on this list to admit
+  and the hardest to argue for:
+  Polish puts it where either a comma or a full stop would also stand,
+  so the production would say nothing the colon's does not.
 - Przysłówek przed drugim przysłówkiem, czyli trzeci gospodarz tej konstrukcji:
   `Program zapisuje ustawienia bardzo szybko.` nie jest odrzucone i to jest z nim
   gorzej, bo wychodzi jednym czytaniem, w którym `bardzo` określa zdanie
   ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
   Stoi tu, bo jest to jedyna pozycja przysłówka, której olski nie ma,
   a nie jest to zdanie odrzucone, które być nim nie powinno.
-- A comma standing in front of a conjunction.
-  Two clauses join with a conjunction or with a comma
-  ([above](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania))
-  and not with both at once,
-  so `Plany są niczym, ale planowanie jest wszystkim.`
-  gets past the comma and fails on `ale`,
-  which is how Polish punctuates that coordination.
+- A conjunction opening a sentence, which is what leads the `conj` row
+  [corpus.md](corpus.md#where-the-analyses-stop) ranks:
+  `I nikt tego nie zauważył.` is rejected
+  where the same conjunction between two clauses derives.
+  Every one of the three forms leading that row is capitalized,
+  and that is the whole of what is left of the row for this construction:
+  the comma in front of a conjunction took the lowercase ones
+  ([above](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
 - The subordinators the conditional stands under: `aby`, `żeby`, `by`, `gdyby`.
   A clause with one of them has its verb in the past tense and the particle `by`
   fused into the subordinator or standing beside it,
@@ -1864,7 +2096,7 @@ i każda z nich jest zwyczajną polszczyzną:
 - po dopełnieniu i po podmiocie w szyku OVS
   (`Ustawienia w pliku zapisuje program.`)
 - po każdej z dwóch grup imiennych w czterech
-  [pozostałych szykach](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)
+  [pozostałych szykach](#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
   (`Program ustawienia w pliku zapisuje.`)
 - po podmiocie w szykach z czasownikiem na czele,
   przed orzecznikiem i za nim
@@ -2001,7 +2233,7 @@ a obaj gospodarze jedno na pięćdziesiąt,
 więc pomyłek jest po dopisaniu drugiego mniej nie tylko w udziale, ale i w liczbie,
 choć zdań przyjętych jest mniej.
 Drugi gospodarz sam myli się przy tym najczęściej z trzech wariantów,
-bo czyta wbrew drzewu jedno zdanie na dziewięć z tych, które kupuje sam:
+bo czyta wbrew drzewu jedno zdanie na dziesięć z tych, które kupuje sam:
 zostają mu pomyłki na przysłówku odprzymiotnikowym,
 który określa i zdanie, więc stopień nie rozdziela niczego —
 `Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`.

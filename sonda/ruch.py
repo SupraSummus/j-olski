@@ -39,7 +39,7 @@ from pathlib import Path
 
 from olski.corpus import Sentence, pliki, read
 from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
-from olski.grammar import Grammar, Production
+from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import parse
 from olski.subset import FRAGMENT, build, check
@@ -120,6 +120,37 @@ class Sonda:
         ``tests/test_ruch.py``.
         """
         return self.warianty[-1]
+
+
+#: Części mowy, pod którymi Morfeusz trzyma spójnik. Dwie, bo rozdziela on
+#: podrzędny od współrzędnego, a interpunkcja przed spójnikiem tego podziału nie zna.
+SPÓJNIKOWE = frozenset({"conj", "comp"})
+
+
+def koordynuje(produkcja: Production) -> bool:
+    """Czy ta produkcja koordynuje, czyli czy jej symbol stoi wśród własnych córek.
+
+    Ciąg współrzędny jest resztą ciągu po odjęciu członu, więc symbol koordynacji
+    stoi nad sobą i tym się poznaje; tak samo poznaje go werdykt
+    (``_koordynuje`` w ``olski/parse.py``).
+
+    Pytają o to sondy, które zdejmują znak koordynacji, bo sam znak w ciele na to
+    nie odpowiada: polszczyzna stawia przecinek i tam, gdzie nic się nie koordynuje,
+    a zdjęta produkcja podrzędna zostawiłaby symbol bez ani jednego ciała,
+    a gramatyka z symbolem nieokreślonym nie rozbiera niczego.
+    """
+    return any(
+        isinstance(część, Sym) and część.name == produkcja.head for część in produkcja.body
+    )
+
+
+def ze_spójnikiem(produkcja: Production) -> bool:
+    """Czy w ciele tej produkcji stoi spójnik (:data:`SPÓJNIKOWE`).
+
+    Rozdziela to dwa znaki koordynacji, które polszczyzna stawia przed zdaniem
+    składowym, a sondy mierzą osobno: sam przecinek i przecinek przed spójnikiem.
+    """
+    return any(isinstance(część, Word) and część.pos & SPÓJNIKOWE for część in produkcja.body)
 
 
 @functools.cache

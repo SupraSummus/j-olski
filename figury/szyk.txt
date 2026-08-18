@@ -1,58 +1,58 @@
 #  Ten plik powstaje przebiegiem: python3 -m harness.figury szyk
 polecenie: python3 -m sonda.szyk Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
-czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
+czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   sonda/szyk.py: 7d08ac67af27
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
             wariant    przyjęte  wieloznaczne  odrzucone
-bez czterech szyków        1547           743      10745
-                SOV        1558           755      10722
-                OSV        1560           746      10729
-                VSO        1551           751      10733
-                VOS        1568           754      10713
-   wszystkie cztery        1596           777      10662
+bez czterech szyków        1571           762      10702
+                SOV        1582           775      10678
+                OSV        1585           766      10684
+                VSO        1575           771      10689
+                VOS        1593           773      10669
+   wszystkie cztery        1622           799      10614
 
 ruch wobec wariantu „bez czterech szyków” — SOV:
-       17  rejected → valid
+       18  rejected → valid
+        7  valid → ambiguous
         6  rejected → ambiguous
-        6  valid → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       16    agrees
+       17    agrees
         1    disagrees
              Widzę, że ostatnia lekcja czegoś was nauczyła.
 
 ruch wobec wariantu „bez czterech szyków” — OSV:
-       13  rejected → valid
-        3  rejected → ambiguous
+       14  rejected → valid
+        4  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       12    agrees
+       13    agrees
         1    disagrees
              Co pan sądzi o pomyśle Pawła Piskorskiego?
 
 ruch wobec wariantu „bez czterech szyków” — VSO:
-        8  rejected → ambiguous
+        9  rejected → ambiguous
         4  rejected → valid
   role zdań nowo przyjętych wobec drzewa wzorcowego:
         4    agrees
 
 ruch wobec wariantu „bez czterech szyków” — VOS:
-       21  rejected → valid
+       22  rejected → valid
        11  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       21    agrees
+       22    agrees
 
 ruch wobec wariantu „bez czterech szyków” — wszystkie cztery:
-       55  rejected → valid
-       28  rejected → ambiguous
-        6  valid → ambiguous
+       58  rejected → valid
+       30  rejected → ambiguous
+        7  valid → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       53    agrees
+       56    agrees
         2    disagrees
              Widzę, że ostatnia lekcja czegoś was nauczyła.
              Co pan sądzi o pomyśle Pawła Piskorskiego?
@@ -62,6 +62,7 @@ konkurencja, nad zdaniem po zdaniu:
         0  razem wychodzi co innego niż osobno
 
 SOV, rejected → valid:
+  Aktor mamrocze coś niewyraźnie pod nosem, ale ma mikrofon i widz go zrozumie.
   Co nas wprawia w dobry nastrój?
   Inwestorzy pomysł ten zwalczali.
   Bóg mnie opuścił?
@@ -69,7 +70,15 @@ SOV, rejected → valid:
   Kajzer go wyciągnie?
   Widzę, że ostatnia lekcja czegoś was nauczyła.
   Czort go wie.
-  Oni ją zabili!
+
+SOV, valid → ambiguous:
+  Kryterium wzrostu nie obowiązuje.
+  Kuba tego nie pamięta, ale wie od mamy.
+  Janka nic nie odpowiada i zamyka drzwi.
+  Nikt niczego nie wybiera, coś wybiera za nas.
+  Nikt go tu nie zapraszał!
+  Wtedy nikt nas nie zauważy.
+  Apostołowie tego nie praktykowali.
 
 SOV, rejected → ambiguous:
   Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
@@ -78,14 +87,6 @@ SOV, rejected → ambiguous:
   Ja nic o tym nie wiem.
   Ono bardzo dobrze wszystko rozumie i cierpi z powodu Waszego konfliktu.
   Gumiś znowu jakieś bomby podkłada, Policja jak zwykle niewinnych ludzi okłada.
-
-SOV, valid → ambiguous:
-  Kryterium wzrostu nie obowiązuje.
-  Janka nic nie odpowiada i zamyka drzwi.
-  Nikt niczego nie wybiera, coś wybiera za nas.
-  Nikt go tu nie zapraszał!
-  Wtedy nikt nas nie zauważy.
-  Apostołowie tego nie praktykowali.
 
 OSV, rejected → valid:
   Wysokich drabin warszawska straż rzeczywiście nie ma.
@@ -100,6 +101,7 @@ OSV, rejected → valid:
 OSV, rejected → ambiguous:
   Kontrolę prywatyzacji jednoosobowych spółek Agencji WRSP Izba przeprowadziła na zlecenie sejmowej Komisji Rolnictwa i Rozwoju Wsi.
   Nie wiem, co Mikołaj, Karol i Mateusz powiedzą, kiedy dowiedzą się, że moi rodzice są po rozwodzie.
+  Auto zostało całkowicie zniszczone, a kierowcę strażacy wydobyli za pomocą narzędzi hydraulicznych.
   Złotą Statuetkę pierwszy niekomunistyczny premier w powojennej Polsce odebrał w sobotę podczas Wielkiej Gali Polskiego Biznesu.
 
 VSO, rejected → ambiguous:
@@ -109,8 +111,8 @@ VSO, rejected → ambiguous:
   Stanowią one świadectwo wkładu Polski w zwycięstwo nad Niemcami hitlerowskimi.
   Otaczają one miasto od południa i zachodu.
   Utrzymuje Pan kontakt ze znajomymi ze studiów?
+  Nie zamyka to dalszych negocjacji z Gminą, a zarząd powiatu na najbliższą sesję ma przygotować inne warianty rozwiązania problemu basenu, hotelu i hali sportowej.
   Obecnie mają oni najwyższe pensje w całym województwie pomorskim.
-  W dniu poprzednim wykonał Przemysł Węglowy plan wartości całej swojej produkcji.
 
 VSO, rejected → valid:
   Podziela pan ten pogląd?
@@ -143,10 +145,10 @@ wszystkie cztery, rejected → valid:
   Podziela pan ten pogląd?
   Wysokich drabin warszawska straż rzeczywiście nie ma.
   Z przykrością stwierdzam, że zawiera on nieprawdziwe informacje.
+  Aktor mamrocze coś niewyraźnie pod nosem, ale ma mikrofon i widz go zrozumie.
   Nieco częściej czyniły to kobiety.
   Innych strat właściciel nie stwierdza.
   Oprócz wiśni i czereśni zawierają go truskawki i winogrona oraz orzechy włoskie.
-  Co nas wprawia w dobry nastrój?
 
 wszystkie cztery, rejected → ambiguous:
   Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
@@ -160,6 +162,7 @@ wszystkie cztery, rejected → ambiguous:
 
 wszystkie cztery, valid → ambiguous:
   Kryterium wzrostu nie obowiązuje.
+  Kuba tego nie pamięta, ale wie od mamy.
   Janka nic nie odpowiada i zamyka drzwi.
   Nikt niczego nie wybiera, coś wybiera za nas.
   Nikt go tu nie zapraszał!

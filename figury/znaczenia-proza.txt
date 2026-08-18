@@ -4,8 +4,8 @@ czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-w
 ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
@@ -13,30 +13,31 @@ ruszają:
 proza/README.txt, morfologia live, 48 zdań z werdyktem
 
   werdykt olskiego:
-       38    rejected
-        5    ambiguous
+       36    rejected
+        7    ambiguous
         5    valid
        25    niezmierzone: fragment, a nie zdanie
 
   ile czytań zdania wraca drzewem tego zapisu:
-    ambiguous, 5 zdań:
+    ambiguous, 7 zdań:
         0    0.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-        5  100.0%  żadne czytanie nie wraca drzewem
+        7  100.0%  żadne czytanie nie wraca drzewem
     valid, 5 zdań:
         0    0.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
         5  100.0%  żadne czytanie nie wraca drzewem
 
-  czemu czytanie nie wraca drzewem, z 38 takich czytań:
-       36   94.7%  zapis nie ma kategorii
-        2    5.3%  kandydat wypisuje się innym napisem
+  czemu czytanie nie wraca drzewem, z 104 takich czytań:
+      102   98.1%  zapis nie ma kategorii
+        2    1.9%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 16 różnych:
+  najczęstsze powody, z 17 różnych:
+       64  „Nad zdaniem” nie ma tu czym być w pozycji Modifier
        10  grupa imienna z słowo, Modifier nie ma tu kategorii
         6  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
         6  „dla polskiej dokumentacji technicznej” nie ma tu czym być w pozycji Modifier
-        3  „a podmiot jednego” nie ma tu czym być w pozycji Modifier
+        5  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
         2  „Zobacz” nie ma tu czym być w pozycji Verb
         2  „Co ekstrakcja” nie ma tu czym być w pozycji Modifier
         2  „Co ekstrakcja po drodze” nie ma tu czym być w pozycji Modifier
@@ -44,14 +45,14 @@ proza/README.txt, morfologia live, 48 zdań z werdyktem
         1  jednak nie jest znakiem listy tego zapisu
         1  „dla przyjemności” nie ma tu czym być w pozycji Modifier
         1  grupa imienna z słowo, NPConjunct nie ma tu kategorii
-        1  docs/extraction.md (subst) nie ma formy {'case': 'acc', 'number': 'pl'}
 
   najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
       8 czytań  Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
       2 czytań  Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
       2 czytań  Całą legendę o bazyliszku warszawskim trzyma opowieści/bazyliszek.py.
       3 czytań  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
-     18 czytań  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
+      2 czytań  Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa nie musiał nigdy napisać, mówi docs/sklad.md.
+    144 czytań  Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
 
   najkrótsze zdania: valid, żadne czytanie nie wraca drzewem
       1 czytań  Działają dwie rzeczy.

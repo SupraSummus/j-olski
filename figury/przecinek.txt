@@ -3,23 +3,23 @@ polecenie: python3 -m sonda.przecinek Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
-  sonda/przecinek.py: 4d72d1bd397c
-  sonda/ruch.py: c6b02147a9a9
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
+  sonda/przecinek.py: 82654bffe1c8
+  sonda/ruch.py: 6da1ed0a768e
 
 Składnica, morfologia złota, 13035 zdań
 
        wariant    przyjęte  wieloznaczne  odrzucone
- bez przecinka        1473           707      10855
-      zdaniowy        1573           746      10716
-       imienny        1493           733      10809
-przymiotnikowy        1476           710      10849
-wszystkie trzy        1596           777      10662
+ bez przecinka        1498           725      10812
+      zdaniowy        1598           767      10670
+       imienny        1519           752      10764
+przymiotnikowy        1501           728      10806
+wszystkie trzy        1622           799      10614
 
 ruch wobec wariantu „bez przecinka” — zdaniowy:
       100  rejected → valid
-       39  rejected → ambiguous
+       42  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
        76    agrees
        20    brak roli
@@ -39,10 +39,12 @@ ruch wobec wariantu „bez przecinka” — zdaniowy:
              Powtarzaj je tak często, jak to jest potrzebne.
 
 ruch wobec wariantu „bez przecinka” — imienny:
-       26  rejected → ambiguous
-       20  rejected → valid
+       27  rejected → ambiguous
+       21  rejected → valid
   role zdań nowo przyjętych wobec drzewa wzorcowego:
        19    agrees
+        1    brak roli
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
         1    partial
              Wyczuwało się napięcie, oczekiwanie.
 
@@ -55,11 +57,12 @@ ruch wobec wariantu „bez przecinka” — przymiotnikowy:
              Za stanami zniechęcenia i depresji kryją się zwykle głębsze konflikty i problemy wewnętrzne, wyniesione głównie ze środowiska rodzinnego.
 
 ruch wobec wariantu „bez przecinka” — wszystkie trzy:
-      123  rejected → valid
-       70  rejected → ambiguous
+      124  rejected → valid
+       74  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
        97    agrees
-       20    brak roli
+       21    brak roli
+             Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
              Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
              Wstaję, wyglądam przez okno.
              Zasłaniałem się, jak mogłem.
@@ -67,7 +70,6 @@ ruch wobec wariantu „bez przecinka” — wszystkie trzy:
              Wyplątał się z okryć, wsparł na moim ramieniu i wyszliśmy.
              Posmarujesz, pojedziesz!
              Niebacznie stanął pod nawisem, oberwało się i przywaliło.
-             Po czym stanął, zawrócił i wyszedł.
         3    partial
              Traci się osobowość, przestaje być człowiekiem.
              Wyczuwało się napięcie, oczekiwanie.
@@ -99,11 +101,11 @@ zdaniowy, rejected → ambiguous:
   Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   14-letni chłopak nie jadł, nie mówił, nie umiał korzystać z toalety.
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
   Ostatnio wytropił i ustrzelił odyńca, zaciągnął go za biegi do auta i odwiózł do punktu skupu.
   Powrócił do wiary, postanowił wrócić do Kościoła katolickiego.
   Choinka mieni się różnobarwnie, z bożonarodzeniowego bierwiona w kominku bije przytulne ciepło.
   Z domu wyniosłam zamiłowanie do pracy, moja rodzina była rodziną pracowitych ludzi.
-  Zostaliśmy postawieni pod murem, nie mamy innego wyjścia.
 
 imienny, rejected → ambiguous:
   Pracowicie wyodrębnił pojęcia takie jak ból, smutek, rozpacz, cierpienie, żal.
@@ -116,6 +118,7 @@ imienny, rejected → ambiguous:
   W części Pałacu od strony parku powstaną apartamenty gościnne z trzema sypialniami, pokojem stołowym i dużą łazienką.
 
 imienny, rejected → valid:
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
   Poczucie realizmu, pragmatyzmu, interesu narodowego nakazuje nazywać po imieniu błędy i zaniechania rządu Jerzego Buzka.
   Wyczuwało się napięcie, oczekiwanie.
   Ugryzienia osy, pszczoły, trzmiela i szerszenia mogą być niebezpieczne.
@@ -123,7 +126,6 @@ imienny, rejected → valid:
   Właścicielami szpitali i przychodni są miasta, powiaty i województwa.
   W lutym emisje przeprowadziły Efekt, Swarzędz i Exbud.
   Nieliczni cudzoziemcy otrzymali ulotki informacyjne, mapę Rzeszowa oraz gadżety.
-  Porastają ją wiekowe akacje, lipy i inne drzewa liściaste.
 
 przymiotnikowy, rejected → ambiguous:
   Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
@@ -139,11 +141,11 @@ wszystkie trzy, rejected → valid:
   Podpłynął księżyc, przywarł i zaczął ssać.
   Zachrobotało w bramie, zachrzęściło i błysnęła latarka Softa.
   Jazda przeszywała lasy, okrążała błota, wdzierała się na pagóry i przeszukiwała wąwozy.
+  Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
   Nie wiem, nigdy nie czytałem ich z zainteresowaniem.
   Odpoczynek jest zawsze na ostatnim miejscu, pracownicy przechwalają się, kto dłużej nie był na urlopie.
   Poczucie realizmu, pragmatyzmu, interesu narodowego nakazuje nazywać po imieniu błędy i zaniechania rządu Jerzego Buzka.
   Miał napady agresji, wpadał w histerię.
-  Sejm zaaprobował przekroczenie budżetowe, co przekreśliło sens dalszych działań Trybunału Stanu.
 
 wszystkie trzy, rejected → ambiguous:
   Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.

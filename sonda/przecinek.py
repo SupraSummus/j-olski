@@ -22,7 +22,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from olski.grammar import Production, Sym
+from olski.grammar import Production
 from olski.subset import PRZECINEK
 from sonda import ruch
 
@@ -40,17 +40,13 @@ def poziom(produkcja: Production) -> str | None:
     przemilczałaby go i sonda mierzyłaby dalej trzy.
 
     Sam przecinek w ciele na to nie odpowiada, bo polszczyzna stawia go i tam,
-    gdzie nic się nie koordynuje: zdanie względne otwiera nim swoją granicę.
-    Ciąg współrzędny poznaje się po tym, że symbol stoi nad sobą, i tak samo
-    poznaje go werdykt (``_koordynuje`` w ``olski/parse.py``). Zdjęta produkcja
-    podrzędna zostawiłaby ponadto symbol bez ani jednego ciała, a gramatyka z
-    symbolem nieokreślonym nie rozbiera niczego.
+    gdzie nic się nie koordynuje — zdanie względne otwiera nim swoją granicę
+    (``ruch.koordynuje``) — i tam, gdzie koordynuje spójnik, a przecinek tylko go
+    poprzedza; tę drugą pozycję mierzy ``sonda/interpunkcja.py``, i mierzy osobno.
     """
     if PRZECINEK not in produkcja.body:
         return None
-    if not any(
-        isinstance(część, Sym) and część.name == produkcja.head for część in produkcja.body
-    ):
+    if not ruch.koordynuje(produkcja) or ruch.ze_spójnikiem(produkcja):
         return None
     for nazwa, symbol in POZIOMY.items():
         if produkcja.head == symbol:

@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.czoło Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania
 ruszają:
-  olski/subset.py: 4952559a6bce
+  olski/subset.py: 03be07b669ae
   sonda/czoło.py: eaab353c565e
 
 Składnica, morfologia złota: ile razy spójnik otwiera zdanie

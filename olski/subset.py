@@ -145,9 +145,25 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #:
 #: `więc` Morfeusz znakuje tak samo, a nie ma go tu, bo zdania nie podporządkowuje,
 #: tylko dokłada skutek: `Program zapisuje ustawienia, więc linter sprawdza tekst.`
-#: jest dwoma zdaniami spiętymi spójnikiem po przecinku, czyli tą konstrukcją,
-#: którą docs/subset.md trzyma wśród nieobjętych.
+#: jest dwoma zdaniami spiętymi spójnikiem po przecinku, więc bierze je lista niżej.
 SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
+
+#: Spójniki zdaniowe, przed którymi polszczyzna stawia przecinek: `Plany są
+#: niczym, ale planowanie jest wszystkim.` przecinka żąda, a `Program zapisuje
+#: ustawienia i linter sprawdza tekst.` nie bierze go wcale. Fakt jest to o słowie,
+#: tak samo jak wysunięcie okolicznika (:data:`SPÓJNIKI_WYSUWANE`), więc lista
+#: rozdziela spójnik zdaniowy na dwie klasy i obejmuje dwie części mowy naraz,
+#: bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`. Kogo nie obejmuje,
+#: za ile i po co, wywodzi docs/subset.md, a liczy `sonda/interpunkcja.py`.
+SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż"
+
+#: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
+#: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego
+#: czytania nie bierze, bo bez tego warunku każde `, a` wychodzi okolicznikiem
+#: wysuniętym zdania po przecinku, którego podmiot w mianowniku właśnie stoi.
+#: Warunek pada na lemat, a nie na przypadek; czego kryterium na przypadek zabrałoby
+#: razem z nim, wywodzi docs/subset.md, i ono trzyma też cenę.
+PRZYIMEK_ROZDZIELAJĄCY = "a"
 
 #: Zaimek względny, któremu Morfeusz daje znacznik przymiotnika. Przymiotnikiem
 #: przy rzeczowniku nie jest nigdy, więc terminale przydawki i orzecznika go nie
@@ -218,6 +234,28 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 #: ``interp`` niesie całą interpunkcję naraz, a średnika, myślnika i nawiasu ten
 #: podzbiór nie bierze.
 PRZECINEK = word("interp", lemma=",")
+
+#: Dwukropek, którym ten rejestr otwiera wyjaśnienie. Warunek na lemat, tak samo
+#: jak przy przecinku, i z tego samego powodu: ``interp`` niesie całą interpunkcję
+#: naraz, a średnika i myślnika ten podzbiór nie bierze.
+DWUKROPEK = word("interp", lemma=":")
+
+#: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
+KONIEC_ZDANIA = word("interp", lemma=".|!|?")
+
+#: Dwie klasy, na jakie :data:`SPÓJNIKI_PRZECINKOWE` rozdziela spójnik zdaniowy.
+#: Druga jest warunkiem ujemnym na pierwszą, bo klasy mają się nie zachodzić:
+#: lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma jeden.
+#: Bierze ją także grupa imienna i przymiotnikowa, choć pozycji z przecinkiem te
+#: dwa poziomy nie mają: `Plik jest nowy ale duży.` nie jest polszczyzną,
+#: a `nie polszczyzny, a dziedziny` jest w nich elipsą, nie ciągiem współrzędnym.
+SPÓJNIK_PRZECINKOWY = word("conj|comp", lemma=SPÓJNIKI_PRZECINKOWE)
+SPÓJNIK_BEZ_PRZECINKA = word("conj", bez_lematu=SPÓJNIKI_PRZECINKOWE)
+
+#: Przyimek wyrażenia przyimkowego, tego zwykłego i tego, które wysunęło zaimek
+#: względny. Nazwany raz, bo oba wykluczają ten sam lemat i wykluczenie ma być w
+#: obu to samo (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
+PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 
 #: Przysłówek w okoliczniku: cała część mowy i nic więcej. Stopnia nie żąda, bo
 #: `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są okolicznikami
@@ -309,7 +347,19 @@ def build() -> Grammar:
     przymiotnik = nt("Adjective", **AGREE)
     orzecznikowy = nt("PredicativeAdjective", **AGREE)
 
-    grammar.rule("Sentence", [Głowa(nt("Clause")), word("interp", lemma=".|!|?")])
+    grammar.rule("Sentence", [Głowa(nt("Clause")), KONIEC_ZDANIA])
+
+    # Dwukropek otwierający zdanie: `Cena jest niska: gramatyka jest
+    # bezkontekstowa.` Produkcja należy do zdania, a nie do zdania składowego, bo
+    # `A, B: C.` czyta się jako `(A, B): C`, a na poziomie `Clause` byłaby
+    # prawostronnie rekurencyjna razem z przecinkiem i wypuszczała `A, (B: C)`.
+    #
+    # Jednoznaczności nie odbiera ani jednemu zdaniu i wynika to z gramatyki, nie
+    # z przebiegu: dwukropka nie bierze żaden inny terminal, więc zdanie z nim nie
+    # ma bez tej produkcji ani jednego czytania (``bez_licencji``). Niezmiennik
+    # pilnuje tests/test_subset.py, a wywód wraz z zakupem i z tym, czego ta
+    # produkcja nie bierze, trzyma docs/subset.md.
+    grammar.rule("Sentence", [Głowa(nt("Clause")), DWUKROPEK, nt("Clause"), KONIEC_ZDANIA])
 
     # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
     # na każdym z trzech poziomów, które ją mają.
@@ -332,8 +382,17 @@ def build() -> Grammar:
     # coordination distributes into it”, a cenę przecinka
     # docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania.
     grammar.rule("Clause", [nt("ClauseConjunct")])
-    grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), word("conj"), nt("Clause")])
+    grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")])
     grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), PRZECINEK, nt("Clause")])
+    # Przecinek i spójnik naraz, czyli ta interpunkcja, której polszczyzna żąda
+    # przed `ale`, `a` i `więc` (:data:`SPÓJNIKI_PRZECINKOWE`). Poziom zdaniowy
+    # ma tę pozycję, a imienny i przymiotnikowy nie, bo lista tych spójników jest
+    # listą spójników zdaniowych: `nie polszczyzny, a dziedziny` jest w niej
+    # elipsą, a nie ciągiem współrzędnym dwóch grup imiennych.
+    grammar.rule(
+        "Clause",
+        [Głowa(nt("ClauseConjunct")), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")],
+    )
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
     # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
@@ -427,7 +486,7 @@ def build() -> Grammar:
     # wszystkie sześć, a olski miał dwa, i brakujące cztery były wykluczone
     # brakiem produkcji, nie decyzją, czego docs/design-notes.md#angle-one-parsing
     # tej gramatyce zabrania. Cenę i zakup trzyma
-    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć.
+    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka.
     #
     # Miejsca na okolicznik wylicza tu pętla, a nie ręka: stoi jedno po każdej
     # grupie imiennej i jedno na końcu zdania, a te dwa są jednym tam, gdzie
@@ -731,7 +790,7 @@ def build() -> Grammar:
     # does not carry is one no agreement can fail against.
     grammar.rule(
         "NP",
-        [Głowa(nt("NPConjunct", case=V("c"))), word("conj"), nt("NP", case=V("c"))],
+        [Głowa(nt("NPConjunct", case=V("c"))), SPÓJNIK_BEZ_PRZECINKA, nt("NP", case=V("c"))],
         case=V("c"),
         number="pl",
         person="ter",
@@ -875,7 +934,9 @@ def build() -> Grammar:
     # that wolni i równi is one predicative and wolna i równi is none.
     grammar.rule("AP", [nt("APConjunct", **AGREE)], **AGREE)
     grammar.rule(
-        "AP", [Głowa(nt("APConjunct", **AGREE)), word("conj"), nt("AP", **AGREE)], **AGREE
+        "AP",
+        [Głowa(nt("APConjunct", **AGREE)), SPÓJNIK_BEZ_PRZECINKA, nt("AP", **AGREE)],
+        **AGREE,
     )
     grammar.rule(
         "AP", [Głowa(nt("APConjunct", **AGREE)), PRZECINEK, nt("AP", **AGREE)], **AGREE
@@ -891,7 +952,9 @@ def build() -> Grammar:
     grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("Modifier")], **AGREE)
 
     # A preposition governs a case, and the noun phrase has to be in it.
-    grammar.rule("Modifier", [Głowa(word("prep", case=V("c"))), nt("NP", case=V("c"))])
+    # One lemma is excluded and it is excluded by name
+    # (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
+    grammar.rule("Modifier", [Głowa(PRZYIMEK), nt("NP", case=V("c"))])
 
     # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
     # bo werdykt nazywa role etykietami węzłów: bez tego symbolu zdanie przyjęte z
@@ -917,7 +980,7 @@ def build() -> Grammar:
     grammar.rule(
         "RelativeModifier",
         [
-            Głowa(word("prep", case=V("c"))),
+            Głowa(PRZYIMEK),
             nt("RelativePronoun", case=V("c"), number=V("n"), gender=V("g")),
         ],
         number=V("n"),

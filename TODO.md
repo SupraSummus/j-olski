@@ -454,7 +454,7 @@ pyta o to samo od strony pomiaru i podnosi się razem z tym.
 Właściciela ma sześć konstrukcji z listy przeliczeń w
 [`CLAUDE.md`](CLAUDE.md#checks), a lista wymienia ich kilkadziesiąt.
 Wzorcem jest negacja: deklaracja w `harness/figury.py`, wydruk w `figury/`,
-a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
+a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)
 restytucja grubsza od niego i wskaźnik.
 Przenosi się je przy zmianie, która i tak figurę rusza —
 po jednej albo, gdy jedna zmiana rusza kilka, wszystkie razem —
@@ -499,7 +499,7 @@ a przed nim odczyt ręczny tych ośmiu, bo `agreement` w `olski/coverage.py`
 oddziela odwrócenie roli od sprzeczności zasięgu, a nie zasięg od zasięgu.
 Do przeczytania jest przy tym `figury/szyk.txt`,
 bo cztery zdania tej klasy zeszły z tamtej listy razem z czterema szykami
-i [tamta sekcja](docs/subset.md#cztery-z-tych-sześciu-zdań-są-naprawą-a-nie-ceną) je wypisuje.
+i [tamta sekcja](docs/subset.md#większość-tych-zdań-jest-naprawą-a-nie-ceną) je wypisuje.
 
 Deklaracje figur sond różnicowych powtarzają w `harness/figury.py` jeden kształt
 kilkanaście razy.
@@ -666,6 +666,40 @@ sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
 a drugiej listy ten protokół unika z podanego tam powodu.
 
+Terminal wypisuje zbiór wartości napisem rozdzielonym kreską —
+`word("fin|impt")`, `word("interp", lemma=".|!|?")`, `KOPULA`, `SPÓJNIKI_PRZECINKOWE` —
+i `word` rozcina go na krawędzi, wewnątrz zostaje `frozenset`.
+Notacja jest przez to jedna dla części mowy, lematu, warunku ujemnego i żądanej cechy,
+a `SPÓJNIKI_OKOLICZNIKOWE` składa dwie takie listy przez interpolację napisu,
+czyli wolno jej złożyć listę, której żaden test nie sprawdzi po jednym elemencie.
+Ruchem jest `word` przyjmujący krotkę albo `frozenset` obok napisu,
+a wtedy jedna rzecz ma dwie pisownie obok siebie,
+albo `word` przyjmujący samą krotkę, a wtedy zmiana sięga każdego terminala
+w `olski/subset.py` i w sondach, które terminale pisują same
+(`sonda/polszczyzna.py`, `sonda/luka.py`).
+Werdyktu nie rusza ani jedno, ani drugie, więc figury po tym nie chodzą,
+i dlatego ten wpis jest tu, a nie w zmianie, która o niego potrącała.
+Do przeczytania jest `bierze` w `olski/grammar.py`:
+lemat, warunek ujemny i żądana cecha są tam trzema osobnymi testami przed unifikacją,
+więc typ wejścia rozstrzyga się dla nich razem, a nie dla każdego osobno.
+
+Skład składa `Skutek.więc` w napis, który olski od tej pory wyprowadza,
+a obieg się na nim nie zamyka:
+`_członowie` w `olski/skład/rozbiór.py` czyta ciało `ClauseConjunct , Clause`
+i nie czyta tego z przecinkiem oraz spójnikiem,
+więc `Program zapisuje ustawienia, więc linter sprawdza tekst.` wraca powodem,
+że zdanie złożone tego kształtu nie ma tu kategorii.
+Ruch nie jest dopisaniem czwartego kształtu do `_członowie`:
+`więc` niesie relację, a nie następstwo,
+i `SPÓJNIKI` w `olski/skład/spójniki.py` mówi o nim tyle samo, co o `bo`,
+więc to zdanie ma wrócić okolicznikiem w relacji `skutek`, a nie `Ciągiem`.
+Gramatyka wyprowadza je natomiast koordynacją, bo `więc` zdania nie podporządkowuje,
+i to jest cała trudność tego wpisu: dwa tory nazywają jedną konstrukcję inaczej,
+a obieg żąda, żeby napis wrócił tym drzewem, z którego wyszedł.
+Do przeczytania jest `_okolicznikowe` w tym samym pliku,
+czyli droga, którą wraca `bo`, i `test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii`
+w `tests/test_rozbiór.py`, który stał na tym zdaniu i stoi teraz na narzędniku.
+
 Okolicznik wyrażony zdaniem stoi w gramatyce przed swoim zdaniem i za nim,
 a polszczyzna stawia go też w środku:
 `Program, gdy linter sprawdza tekst, zapisuje ustawienia.` jest zdaniem odrzuconym.
@@ -786,7 +820,7 @@ wyłącznie po przyimku (`na nie`, `za nie`).
 Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
 pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
 które ją nad trzema rejestrami straciło przy wpuszczeniu negacji
-([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)).
+([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
 i cecha, po której to czytanie widać, jest inna: `praep` w tagu.
@@ -1231,7 +1265,7 @@ The section that owns the reproduction path says meanwhile which figures are han
 and that sentence goes when the commands cover them.
 
 Six of those figures were left stale by the change that admitted
-[four word orders](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
+[four word orders](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka),
 and they are named here so that the next session does not have to find them.
 Each counts sentences and each moved with the accepted set, and none has a command:
 what the past tense bought, in
@@ -1255,7 +1289,7 @@ bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
 Czternaście z tych dwudziestu dziewięciu dołożyły
-[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
+[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka),
 czyli jedna zmiana podwoiła tę rodzinę,
 i jest to najbliższy pomiar tego, co ten wpis wycenia.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
@@ -1330,6 +1364,9 @@ a nie o tym, czym się te dwa opisy różnią
 ([`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)).
 Jest to pierwsze rozejście, które ta liczba pokazuje,
 i przez to pierwszy dowód, że kopia starzeje się przy każdej produkcji.
+Czwarte przyszło z interpunkcją zdaniową i pokazuje się tą samą liczbą:
+dwa zdania README olski wyprowadza od tej pory, a sonda odrzuca oba,
+bo dwukropka ani przecinka przed spójnikiem nie ma po tamtej stronie.
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
 przestaje wtedy, gdy szyk zejdzie do warunków precedencji i zostanie zmierzony,
 więc wpis stoi za tamtym.
@@ -1420,7 +1457,7 @@ choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
 Kosztuje to ponad połowę zdań w wierszu `lost`
 oraz kilka zdań przyjętych, które się nie zgadzają,
 a liczby obu trzyma
-[`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych),
+[`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych),
 bo przelicza je każdy przebieg nad bankiem drzew.
 Ruchem jest etykieta na zaimku, czyli `Subject` albo `Object` nad `RelativePronoun`
 zamiast samego `RelativePronoun` w ciele,

@@ -3,8 +3,8 @@ polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/ --morfologia li
 korpus: Składnica-frazowa-180723
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
@@ -12,19 +12,19 @@ ruszają:
 Składnica, morfologia live, 13035 zdań z werdyktem
 
   werdykt olskiego:
-    10445    rejected
-     1379    valid
-     1211    ambiguous
+    10428    rejected
+     1383    valid
+     1224    ambiguous
 
   ile czytań zdania wraca drzewem tego zapisu:
-    ambiguous, 1211 zdań:
+    ambiguous, 1224 zdań:
         7    0.6%  każde czytanie wraca drzewem
        35    2.9%  część czytań wraca drzewem
-     1169   96.5%  żadne czytanie nie wraca drzewem
-    valid, 1379 zdań:
+     1182   96.6%  żadne czytanie nie wraca drzewem
+    valid, 1383 zdań:
        69    5.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-     1310   95.0%  żadne czytanie nie wraca drzewem
+     1314   95.0%  żadne czytanie nie wraca drzewem
 
   czym są wobec siebie drzewa czytań, z 7 zdań wieloznacznych:
         0    0.0%  czytania dają te same drzewa
@@ -46,23 +46,23 @@ Składnica, morfologia live, 13035 zdań z werdyktem
        11   15.9%  8
         1    1.4%  32
 
-  czemu czytanie nie wraca drzewem, z 8183 takich czytań:
-     7150   87.4%  zapis nie ma kategorii
-     1033   12.6%  kandydat wypisuje się innym napisem
+  czemu czytanie nie wraca drzewem, z 8235 takich czytań:
+     7199   87.4%  zapis nie ma kategorii
+     1036   12.6%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 6367 różnych:
-     1660  grupa imienna z słowo, Modifier nie ma tu kategorii
-     1111  zdanie bez podmiotu nie ma tu kategorii
-      705  AP nie jest tu grupą imienną
-      580  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
+  najczęstsze powody, z 6342 różnych:
+     1621  grupa imienna z słowo, Modifier nie ma tu kategorii
+     1105  zdanie bez podmiotu nie ma tu kategorii
+      701  AP nie jest tu grupą imienną
+      578  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
       276  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+      231  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
       196  grupa imienna z słowo, Adjective, NP nie ma tu kategorii
       173  grupa imienna z słowo, NPConjunct nie ma tu kategorii
       145  grupa imienna z słowo, Adjective, Modifier nie ma tu kategorii
        94  przymiotnik z słowo, słowo nie ma tu kategorii
-       84  być nie składa tu orzeczenia imiennego
+       72  być nie składa tu orzeczenia imiennego
        62  oraz nie jest znakiem listy tego zapisu
-       48  „Przez całą sobotę” nie ma tu czym być w pozycji Modifier
 
   najkrótsze zdania: ambiguous, część czytań wraca drzewem
       2 czytań  Ma broń.

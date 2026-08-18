@@ -9,13 +9,13 @@ from olski.skład import Kontekst, Postać, Robi, kompiluj
 from olski.skład.rozbiór import obieg, rozbierz, sygnatura
 from olski.skład.słownik import (
     A,
+    Czym,
     D,
     Dlaczego,
     Dokąd,
     Gdzie,
     Kiedy,
     R,
-    Skutek,
     Treść,
     V,
     jest,
@@ -243,14 +243,13 @@ def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padł
 def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
     """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
 
-    Skutek pisze się spójnikiem współrzędnym po przecinku, a gramatyka bierze
-    zdania spięte jednym z tych dwóch znaków i nie bierze ich spiętych obojgiem,
+    Narzędzie stoi w napisie samym narzędnikiem, bez przyimka,
+    a narzędnik bierze w tej gramatyce orzecznik kopuli i nikt poza nim,
     więc to zdanie nie ma ani jednego czytania,
     i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
     """
-    skutek = Skutek.więc(V.sprawdzać(R.linter, R.tekst))
-    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, skutek))
-    assert przebieg.napis == "Program zapisuje ustawienia, więc linter sprawdza tekst."
+    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, Czym(R.klucz)))
+    assert przebieg.napis == "Program zapisuje ustawienia kluczem."
     assert not przebieg.wróciło
     assert "gramatyka olskiego nie wyprowadza" in przebieg.opisz()
 

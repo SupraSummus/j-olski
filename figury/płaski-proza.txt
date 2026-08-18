@@ -4,11 +4,11 @@ czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
   README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 4952559a6bce
-  olski/parse.py: fdd793d98166
+  olski/subset.py: 03be07b669ae
+  olski/parse.py: 7b2184342e31
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: c6b02147a9a9
+  sonda/ruch.py: 6da1ed0a768e
   sonda/płaski.py: 0bf2f87f2436
 
 README.txt, proza, wariant „olski”, 48 zdań
