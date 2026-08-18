@@ -2,7 +2,7 @@
 
 *Język olski* to *język polski*, któremu spiłowano *p*,
 a razem z nim te części polszczyzny,
-przez które jest ona trudna dla sztywnych zimnych maszyn.
+przez które jest ona trudna dla sztywnych, zimnych maszyn.
 
 Celem jest **parser tego podzbioru**.
 Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie,
