@@ -921,14 +921,6 @@ how many sentences it holds, how long its comment lines run —
 because a reword moves it and no prose rule reaches a reword.
 The command stands beside the claim, as it does for a fetched corpus.
 
-A figure with an owner is the one place such a count may be written,
-and the reason is the clause above rather than an exception to it:
-`figury/negacja-proza.txt` declares `README.md` among its movers,
-so a reword is exactly what the report reads as owing a rerun,
-and the rerun costs seconds and fetches nothing.
-What stays out either way is the full-precision copy in a paragraph,
-since that is what no report can reach.
-
 ## Code
 
 **Prefer removing a branch to adding one, and unify divergent paths.**

@@ -184,12 +184,11 @@ i po który ktoś do tego dokumentu wraca.
 Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
 więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
-Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji.
-Które z dwojga, rozstrzygnięte jest: figurę nad własną prozą wolno zapisać,
-kiedy ma właściciela wymieniającego `README.md` między tym, co ją rusza,
-bo wtedy przeredagowanie widzi raport
-([`CLAUDE.md`](CLAUDE.md#checks), `figury/negacja-proza.txt`).
-Zostaje zrobić to tym dwóm: mianownikowi i dwóm zgodnościom w
+Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
+a właściciela nie ma im czym dać: figur nad prozą tego repozytorium nie ma,
+bo cena stojąca na korpusie, który rusza każdy commit, nie jest ceną
+([`CLAUDE.md`](CLAUDE.md#checks)).
+Zostaje więc zejść z pełnej precyzji tym czterem: mianownikowi i dwóm zgodnościom w
 [`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 oraz licznikowi klasy zdań w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
@@ -501,23 +500,6 @@ Do przeczytania jest przy tym `figury/szyk.txt`,
 bo cztery zdania tej klasy zeszły z tamtej listy razem z czterema szykami
 i [tamta sekcja](docs/subset.md#większość-tych-zdań-jest-naprawą-a-nie-ceną) je wypisuje.
 
-Deklaracje figur sond różnicowych powtarzają w `harness/figury.py` jeden kształt
-kilkanaście razy.
-Sonda nad Składnicą i ta sama sonda nad prozą README różnią się w `FIGURY`
-poleceniem, korpusem i dwoma wierszami `ruszają`, a reszta jest przepisana,
-więc konstrukcja wpuszczona do gramatyki dokłada dziś dwie albo trzy takie deklaracje,
-a jest to kilkadziesiąt wierszy, w których literówka nie zgłasza się niczym
-poza figurą, której nikt nie przelicza.
-Ruchem jest funkcja składająca tę parę z nazwy sondy i sekcji,
-a przed nią rozstrzygnięcie, czy warianty mieszczą się w jednym kształcie:
-przysłówek dokłada `olski/grammar.py` do `ruszają`,
-okolicznikowe dokłada trzeci przebieg po morfologii żywej,
-a `płaski` liczy drzewa, a nie werdykty, i pod ten kształt może nie podchodzić wcale.
-Do przeczytania jest `harness/figury.py` w całości, bo o cenie rozstrzyga to,
-ile deklaracji zostałoby po takim złożeniu wypisanych ręką mimo wszystko,
-i to, czy deklaracja, która przestaje drukować swoje polecenie,
-nie odbiera tej liście tego, po co ona jest.
-
 Sekcje restytuujące potrafią zardzewieć w pliku figury i raport tego nie widzi.
 `stan` w `harness/figury.py` porównuje polecenie oraz odciski, a `czyta` zapisuje
 z deklaracji tylko `zapis`, więc sekcja dopisana do deklaracji zostawia w pliku
@@ -650,9 +632,8 @@ więc `KOPULY` odbiera dowód, zamiast dać świadkowi pytanie, na które kopuł
 Świadka pytającego o drzewo dziedziny zamiast o gospodarza zmierzono przed napisaniem
 i wyszło, że nie miałby o co pytać:
 warstwa znacząca tego rejestru nie dosięga,
-więc pytanie padłoby nad jednym zdaniem wieloznacznym banku drzew z kilkuset,
-a nad prozą tego repozytorium nad żadnym
-(`figury/znaczenia.txt`, `figury/znaczenia-proza.txt`).
+więc pytanie padłoby nad jednym zdaniem wieloznacznym banku drzew z kilkuset
+(`figury/znaczenia.txt`).
 Zostaje z tego kolejność:
 pytanie ponad składnią stawia się dopiero za kategoriami, których ten zapis nie ma,
 a pierwszą z nich jest wyrażenie przyimkowe pod grupą imienną,
@@ -1910,8 +1891,7 @@ czyli słownik skompilowany jego własnym narzędziem obok tego, który przychod
 Rozstrzygnąć trzeba jednak nie to, jak, a czy:
 słownik dopisany po tej stronie czyni repozytorium drugim źródłem prawdy o polszczyźnie,
 a po tamtej jest zmianą w języku, bo zdanie z nowym słowem zaczyna się wyprowadzać,
-i wtedy wchodzi cena kroku, którą liczy
-[kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+i wtedy wchodzi jej cena w werdyktach, tak samo jak przy dopisanej produkcji.
 Rozdzielić te dwie strony wolno: skład potrzebuje samej syntezy nazwy własnej,
 a gramatyka nie potrzebuje jej wcale, więc wpis po jednej stronie
 nie żąda wpisu po drugiej, i to jest pierwsza rzecz do przeczytania.

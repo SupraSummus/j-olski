@@ -117,7 +117,6 @@ które pod żywą morfologią przechodzą z wieloznacznych do przyjętych,
 i ani jednego pod złotą, gdzie anotatorzy wybrali po jednym czytaniu na token;
 totale obu przebiegów trzyma
 [corpus.md](corpus.md#what-morphological-ambiguity-costs).
-Nad prozą README nie rusza ani jednego werdyktu.
 
 Te sześć zdań stoi na trzech parach części mowy i na dwóch mechanizmach.
 Dwie pary bierze jeden terminal:
@@ -485,15 +484,11 @@ i większość tamtych zdań niesie obok czasu przeszłego jeszcze coś.
 Widać to po samej kolejce, która po tej zmianie stawia w tym wierszu 297:
 2071 zdań przesunęło swój bloker w prawo, zamiast zejść z listy.
 
-Nad rejestrem, o który olskiemu chodzi, zakup jest zerowy albo ujemny.
-Nad [README](../README.md) kupuje jedno zdanie i jedno traci,
-bo `dzieli` ma u Morfeusza czytanie `praet:pl:m1`,
-którego polszczyzna w tym zdaniu nie ma
-([wyżej](#the-dictionary-offers-readings-polish-does-not) trzyma tę klasę),
-a nad siedmioma ustawami nie kupuje ani jednego zdania
+Nad rejestrem, o który olskiemu chodzi, zakup jest zerowy albo ujemny:
+nad siedmioma ustawami nie kupuje ani jednego zdania
 i pięć przenosi z odrzuconych na wieloznaczne
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
-Kolejka ze Składnicy i przebieg nad tą prozą dają więc różne odpowiedzi,
+Kolejka ze Składnicy i przebieg nad ustawami dają więc różne odpowiedzi,
 i dopiero oba pomiary razem mówią, ile ta konstrukcja jest warta.
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
@@ -537,9 +532,8 @@ nie zyskuje przy przeczeniu nowej pozycji.
 ### Negacja zmierzona: kupuje przeszło sto zdań i nie płaci dopełniaczem
 
 Pełne wiersze są w [figury/negacja.txt](../figury/negacja.txt),
-a wzięte nad prozą README w [figury/negacja-proza.txt](../figury/negacja-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć,
-podaje każdy z tych dwóch ([`harness/figury.py`](../harness/figury.py)).
+a polecenie i pliki, których zmiana każe je przeliczyć,
+podaje ta figura ([`harness/figury.py`](../harness/figury.py)).
 
 Dopełniacz bez cząstki nie kupuje ani jednego zdania i to jest o nim odczyt, a nie
 przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
@@ -576,9 +570,6 @@ zanim cząstka weszła, i ma je nadal obok czytania z przeczeniem.
 Jest to [czytanie, którego polszczyzna nie ma](#the-dictionary-offers-readings-polish-does-not),
 a kryterium słownikowe po nie nie sięga, bo wyrzuca rzeczownik, a nie zaimek.
 [TODO.md](../TODO.md) trzyma ten warunek.
-
-Nad [README](../README.md) negacja nie kupuje ani jednego zdania i żadnego nie traci,
-tak samo jak czas przeszły przed nią.
 
 ### Cena stoi w trafności, a nie w liczbie czytań
 
@@ -627,10 +618,9 @@ a szyk dopisany daje tej dwuznaczności nowe miejsca.
 Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzi siedem zdań.
 
 Pełne wiersze są w [figury/szyk.txt](../figury/szyk.txt),
-a wzięte nad prozą README w [figury/szyk-proza.txt](../figury/szyk-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych dwóch
+a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w pierwszym z nich ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -808,10 +798,9 @@ a liczy się to, na czym te dwa werdykty się różnią.
 Poziomy zdejmują się osobno, bo cena każdego z nich jest osobną liczbą.
 
 Pełne wiersze są w [figury/przecinek.txt](../figury/przecinek.txt),
-a wzięte nad prozą README w [figury/przecinek-proza.txt](../figury/przecinek-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych dwóch
+a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w pierwszym z nich ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -985,10 +974,9 @@ a liczy się to, na czym te dwa werdykty się różnią.
 Znaki zdejmują się osobno, bo konkurują z czym innym i cena każdego jest osobną liczbą.
 
 Pełne wiersze są w [figury/interpunkcja.txt](../figury/interpunkcja.txt),
-a wzięte nad prozą README w [figury/interpunkcja-proza.txt](../figury/interpunkcja-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych dwóch
+a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w pierwszym z nich ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -1493,9 +1481,8 @@ okolicznik doszedł do zdania streszczanego albo do tego, które stoi pod `że`.
 ### Zdanie okolicznikowe zmierzono: pod złotą morfologią jest darmowe, a pod żywą nie
 
 Pełne wiersze są w [figury/okolicznikowe.txt](../figury/okolicznikowe.txt),
-te spod morfologii żywej w [figury/okolicznikowe-żywa.txt](../figury/okolicznikowe-żywa.txt),
-a wzięte nad prozą README w [figury/okolicznikowe-proza.txt](../figury/okolicznikowe-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych trzech
+a te spod morfologii żywej w [figury/okolicznikowe-żywa.txt](../figury/okolicznikowe-żywa.txt);
+polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych dwóch
 ([`harness/figury.py`](../harness/figury.py)).
 
 Nad Składnicą pod złotą morfologią konstrukcja zdejmuje z listy odrzuconych
@@ -1530,15 +1517,6 @@ Jednoznaczność wraca tu warunkiem słownikowym, a nie produkcją —
 czytanie przysłówkowe stojące przy czytaniu spójnikowym —
 a cenę tego warunku, zmierzoną osobno, zapisuje [TODO.md](../TODO.md).
 
-Nad [README](../README.md) konstrukcja rusza jeden werdykt i nie kupuje
-ani jednego zdania przyjętego.
-Nie ruszała żadnego, dopóki gramatyka nie miała dwukropka
-([wyżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)):
-zdanie, które ta pozycja tu przenosi z odrzuconych na wieloznaczne,
-niesie okolicznik z `bo` po jednej stronie dwukropka,
-więc bez tamtej produkcji nie miało czytania, do którego ta mogłaby dojść.
-Tyle właśnie znaczy zdanie, że nad tym plikiem zdanie odrzucone niesie zwykle
-dwie brakujące klasy albo więcej: dopisanie ich rusza werdykt razem, a nie po jednej.
 Nad rejestrem ustaw nie kupuje ani jednego zdania jednoznacznie
 i przenosi pięć z odrzuconych na wieloznaczne
 ([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)),
@@ -1661,7 +1639,7 @@ nad `proza/ustawy/`, więc konstrukcja ta jest wyczytana z gramatyki,
 a nie z korpusu.
 
 Po jedno i drugie sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
-a ile ona kupuje w każdym z trzech rejestrów i dlaczego nie weszła, mierzy
+a ile ona kupuje i dlaczego nie weszła, mierzy
 [design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
 
 ### Bank drzew nazywa `który` inaczej niż Morfeusz, a czytelnik to przekłada
@@ -1752,10 +1730,9 @@ Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a ciała zdejmują się osobno, bo cena każdego z nich jest osobną liczbą:
 
 Pełne wiersze są w [figury/liczebnik.txt](../figury/liczebnik.txt),
-a wzięte nad prozą README w [figury/liczebnik-proza.txt](../figury/liczebnik-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każdy z tych dwóch
+a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w pierwszym z nich ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -2177,9 +2154,8 @@ Weszli obaj: drugi gospodarz kosztuje zdania, a kupuje prawdę o drzewie,
 i po tym kursie olski go przyjmuje.
 
 Pełne wiersze są w [figury/przysłówek.txt](../figury/przysłówek.txt),
-a wzięte nad prozą README w [figury/przysłówek-proza.txt](../figury/przysłówek-proza.txt);
-polecenie i pliki, których zmiana każe je przeliczyć,
-podaje każdy z tych dwóch ([`harness/figury.py`](../harness/figury.py)).
+a polecenie i pliki, których zmiana każe je przeliczyć,
+podaje ta figura ([`harness/figury.py`](../harness/figury.py)).
 
 Gospodarze są dwaj, więc wariantów jest cztery:
 gramatyka bez przysłówka, po jednym na gospodarza i sam olski, w którym stoją obaj.
@@ -2348,9 +2324,8 @@ porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
 Liczy to osobna sonda, bo pyta o co innego niż figura wyżej:
 tamta o werdykt, a ta o drzewo, którym werdykt wypadł.
 Pełne wiersze są w [figury/płaski.txt](../figury/płaski.txt),
-przed dopisaniem drugiego gospodarza w
-[figury/płaski-okolicznik.txt](../figury/płaski-okolicznik.txt),
-a nad prozą README w [figury/płaski-proza.txt](../figury/płaski-proza.txt).
+a przed dopisaniem drugiego gospodarza w
+[figury/płaski-okolicznik.txt](../figury/płaski-okolicznik.txt).
 Populacją są zdania przyjęte jednym czytaniem,
 bo tam odpowiedź jest dokładna, a listę czytań zdania wieloznacznego
 ucina granica wyliczania.
@@ -2376,8 +2351,7 @@ bo pod symbolem przysłówka stoi każdy okolicznik przysłówkowy,
 a czoło zdania jest osobnym ciałem produkcji:
 `Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą,
 i to jest jedna z rzeczy, o które ta figura urosła.
-Nad prozą README ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
-a nad rejestrem ustaw też żadne
+Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc konstrukcja jest tu droga w rejestrze,
 który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
