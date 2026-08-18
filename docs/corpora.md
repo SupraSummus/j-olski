@@ -445,6 +445,18 @@ that reached its reader through no step that rewrote its characters,
 and a repository cloned from version control is the case
 where that can be checked rather than assumed.
 
+**Negative material costs nothing to gather.**
+Olski admits a declared subset and rejects everything outside it by construction,
+so a corpus of ungrammatical Polish would pass the run that first read it
+and go on passing,
+and whoever wrote it would be whoever is writing the grammar
+rather than somebody writing in the register.
+The rejections over the corpora above are the negative material,
+and over eight sentences in ten of Składnica are one
+([corpus.md](corpus.md#the-measurement)),
+in somebody else's words and under a pinned release.
+What a rejection wants is therefore a reading of it rather than more of it.
+
 ## The composition this argues for
 
 Two corpora, because the two shapes of rule in
