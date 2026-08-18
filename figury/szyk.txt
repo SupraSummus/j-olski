@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.szyk Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   sonda/szyk.py: 7d08ac67af27
   sonda/ruch.py: 6da1ed0a768e
@@ -11,12 +11,12 @@ ruszają:
 Składnica, morfologia złota, 13035 zdań
 
             wariant    przyjęte  wieloznaczne  odrzucone
-bez czterech szyków        1571           762      10702
-                SOV        1582           775      10678
-                OSV        1585           766      10684
-                VSO        1575           771      10689
-                VOS        1593           773      10669
-   wszystkie cztery        1622           799      10614
+bez czterech szyków        1572           763      10700
+                SOV        1583           776      10676
+                OSV        1586           767      10682
+                VSO        1576           772      10687
+                VOS        1594           774      10667
+   wszystkie cztery        1623           800      10612
 
 ruch wobec wariantu „bez czterech szyków” — SOV:
        18  rejected → valid

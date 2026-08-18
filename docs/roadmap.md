@@ -315,8 +315,7 @@ czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inac
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 
 Etap zostaje więc otwarty, a brakuje mu reszty podrzędności,
-która żąda nowych kształtów: pytania zależnego
-i zaimka wysuniętego razem z grupą, w której stoi,
+która żąda nowego kształtu: zaimka wysuniętego razem z grupą, w której stoi,
 bo każdy kolejny kształt takiej grupy jest osobnym ciałem produkcji
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 
@@ -367,8 +366,24 @@ tylko że prawdziwymi
 Cena wypadła więc trzeci raz poza obie waluty, którymi ten kierunek mierzy,
 i wypadła po stronie zakupu.
 
-Co z dwojga, które na liście tego etapu zostało, jest tańsze,
-powie dopiero następne policzone dopisanie.
+Pytanie jest trzecim policzonym dopisaniem tego etapu
+i jest z nich wszystkich najtańsze: cena wyszła zerowa w obu korpusach,
+pod obiema morfologiami banku drzew
+([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Zdanie pytające i pytanie zależne weszły razem, bo dzielą kształt ze zdaniem względnym,
+a zakup wyszedł na jedno zdanie w banku drzew i jedno w ustawach.
+Jedno z nich jest zarazem tym zdaniem, które ten etap wcześniej zabrał:
+warunek na lemat, którym etap zdjął czytanie współrzędne, nazwał zarazem pozycję,
+której gramatyce brakowało, i pytanie ją stawia.
+
+Zakup jednym zdaniem na korpus jest odczytem o rejestrze, a nie o produkcjach:
+pytań jest w Składnicy jedno na piętnaście zdań,
+a otwiera je `czy`, `kto`, `co`, `jak` albo `dlaczego`,
+czyli słowa żądające każde innego kształtu niż grupa imienna na czole zdania.
+Kolejka po tym dopisaniu jest więc kolejką kształtów pytania,
+a nie listą lematów do dopisania obok jednego, który olski ma.
+
+Zostaje na liście tego etapu jedno i jego cena będzie ostatnią, jaką etap zmierzy.
 
 ## Etap 5: słowa, których słownik nie ma
 

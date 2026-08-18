@@ -901,9 +901,13 @@ Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 
 Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.
-Każde z dwunastu ciał `RelativeCore` z dopełnieniem ma w `olski/subset.py`
-wypisany `podmiot_względny`, więc `Dyrektor wymienia imprezy, które zorganizował.`
-nie wyprowadza się wcale, a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
+Każde z dwunastu ciał z dopełnieniem, jakie pisze `_ciała_z_wysuniętą_rolą`
+w `olski/subset.py`, ma wypisany podmiot,
+więc `Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się wcale,
+a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
+Funkcja pisze te ciała dla obu rodzin czół, więc ruch dotyka i pytania:
+`Które zadania gmina wykonuje?` ma podmiot, a `Które zadania wykonuje?` go nie ma
+i przez to nie wyprowadza się wcale.
 Nad Składnicą są to cztery zdania i wyszły one z
 [pomiaru luki](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze),
 który je kupił mimochodem, mierząc co innego:
@@ -941,25 +945,24 @@ a nie w napisie, więc zdanie zagnieżdżone dalej wychodzi dwoma kształtami,
 i tę resztę zamyka to samo rozdzielenie dominacji od precedencji,
 o które prosi wpis o szyku wypisanym w produkcjach.
 
-Zaimek `który` stoi w polszczyźnie w trzech konstrukcjach, a olski ma jedną.
-`RelativePronoun` w `olski/subset.py` bierze go na czele zdania względnego,
-a `przymiotnik` w tym samym pliku odbiera mu pozycję przydawki,
-więc pytanie — `Który aktor robi na tobie największe wrażenie?` —
-i pytanie zależne — `Ustawy określają, które zadania mają charakter obowiązkowy.` —
-nie wyprowadzają się wcale.
-Pierwsze wychodziło wcześniej jako przymiotnik przed rzeczownikiem
-i jest jedynym zdaniem, jakie warunek odbiera Składnicy pod Morfeuszem;
-drugie wychodziło jako zdanie współrzędne po przecinku, czyli błędnie,
-i cenę obu trzyma
-[`docs/subset.md`](docs/subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku).
-Ruchem jest grupa imienna z zaimkiem pytajnym na czele,
-wpuszczona w pozycji podmiotu i dopełnienia zdania pytającego
-oraz w pozycji ramy tam, gdzie dziś stoi `SubordinateClause`.
-Do rozstrzygnięcia jest przy tym, czy pytanie zależne jest tą samą pozycją ramy
-co zdanie z `że`, czy osobną: leksykon walencyjny mówi o nich to samo,
-a czasownik, który bierze jedno i nie bierze drugiego, tę pozycję rozdziela.
-Do przeczytania jest, ile zdanie pytające w ogóle w tych rejestrach waży,
-bo nad README nie ma go ani razu, a nad Składnicą `który` niesie i tę konstrukcję, i zdanie względne.
+Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
+`RAMA_DOMYŚLNA` w `olski/subset.py` daje `int` każdemu czasownikowi,
+tak jak daje mu `comp`, a Walenty wypisuje osobno lematy z jednym i z drugim
+([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
+a przy `int` wynik nie musi wypaść tak samo:
+pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
+gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic innego.
+Ruchem jest czwarte zdanie leksykonu, wzięte z `cp(int)` przez `olski/walenty.py`,
+i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
+Do rozstrzygnięcia jest, czym ten wariant zmierzyć:
+`sonda/ruch.py` zdejmuje grupy produkcji, a zawężenie ramy jest zmianą danych,
+więc albo maszyneria bierze gramatykę wariantu funkcją — o co prosi też `sonda/luka.py` —
+albo przebieg staje obok niej i wtedy jest drugą deklaracją tego samego.
+Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
+`bierze_zdanie` w `olski/walencja.py` czyta ono, a pytania zależnego
+`olski/skład/składnia.py` nie ma czym postawić,
+więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 
 Zaimek względny wysunięty razem ze swoją grupą nie ma wyprowadzenia.
 `RelativeModifier` w `olski/subset.py` bierze przyimek i sam zaimek,
@@ -974,6 +977,13 @@ Do rozstrzygnięcia jest, jak daleko ta grupa sięga:
 polszczyzna wysuwa i `na podstawie której`, i `o którego zdaniu`,
 a każdy kolejny kształt jest osobnym ciałem,
 dopóki cechy nie przechodzą przez grupę imienną same.
+Ten sam brak niesie pytanie o tę grupę — `W którym roku ustawa weszła?` —
+bo grupa pytajna stoi na czole zdania w podmiocie i w dopełnieniu,
+a wysunięta razem z przyimkiem czoła nie ma
+([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Zdanie względne ma tę pozycję jednym ciałem z `RelativeModifier`,
+więc pytanie żąda tu drugiego czoła, a nie nowego kształtu grupy,
+i te dwie połowy wpisu podnoszą się osobno.
 
 Człon lewy ciągu współrzędnego nie unosi zdania względnego.
 Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
@@ -1432,25 +1442,49 @@ i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
 Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
-Rola wysuniętego zaimka względnego nie ma etykiety, a bank drzew ją nazywa.
-`RelativeCore` w `olski/subset.py` bierze `RelativePronoun` w pozycji podmiotu
+Rola wysunięta na czoło nie ma etykiety, którą porównuje bank drzew.
+`_ciała_z_wysuniętą_rolą` w `olski/subset.py` stawia czoło w pozycji podmiotu
 i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,
 więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
 choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
+Dotyczy to obu rodzin, które ta funkcja pisze, i grupa pytajna niesie to samo
+o jeden krok dalej: etykietę ma, tylko taką, której `PORÓWNYWANE_ROLE`
+w `olski/coverage.py` nie zna, więc zdanie pytające wychodzi zgodne częściowo
+([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
 Kosztuje to ponad połowę zdań w wierszu `lost`
 oraz kilka zdań przyjętych, które się nie zgadzają,
 a liczby obu trzyma
 [`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych),
 bo przelicza je każdy przebieg nad bankiem drzew.
-Ruchem jest etykieta na zaimku, czyli `Subject` albo `Object` nad `RelativePronoun`
-zamiast samego `RelativePronoun` w ciele,
+Ruchem jest etykieta na czole, czyli `Subject` albo `Object` nad nim
+zamiast samego czoła w ciele,
 a przed nim rozstrzygnięcie, czy nie psuje to `_pierwsza_rola` w `olski/parse.py`:
 zdanie względne jest w `DEKLARACJA` podrzędne, więc streszczenie tam nie zagląda,
 ale `Node.find` bez pomijania zagląda i to ono czyta zgodność.
+Przeszkodą jest ponadto to, że `Subject` ma własne produkcje
+i wpuszczony do ciała wpuszcza je wszystkie:
+`reguła, ta reguła rozstrzyga` staje się wtedy zdaniem względnym,
+a `Który aktor robi wrażenie.` zdaniem oznajmującym o tym podmiocie,
+czyli wraca czytanie, które zdjął warunek na lemat.
 Do przeczytania jest przy tym, co robi z tym `_role` w `olski/skład/rozbiór.py`,
 które czyta kształty gramatyki po etykiecie.
 Ruch rusza wiersze zgodności w obu kolumnach oraz tabelę ocalenia,
 więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
+
+Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
+`DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,
+a `_ciała_z_wysuniętą_rolą` w `olski/subset.py` pisze tym samym kształtem
+także czoło pytania, więc wariant z luką zdejmuje piętnaście ciał względnych,
+a czternastu pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
+Pomiar przez to zaniża i zakup, i cenę: zdanie `Które zadania wykonuje?`
+jest tam odrzucone tak samo jak bez luki
+([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+Ruchem jest `InterrogativeCore` obok `RelativeCore` w tej stałej,
+a przed nim rozstrzygnięcie, czym pytanie lukę wiąże:
+zdanie względne wiąże ją zaimkiem, którego liczbę i rodzaj podejmuje poprzednik,
+a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
+Wpis jest winien przebiegi, których żąda ta sekcja tamtego dokumentu,
+bo rusza w niej każdą liczbę.
 
 Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
@@ -1813,9 +1847,13 @@ gdy zdjąć czytania nieodmienne wszędzie, a nie tylko przy klasie zamkniętej.
 Dopóki jej nie ma, nie wiadomo, czy szersze kryterium jest zakupem, czy stratą,
 bo [dwa szersze zmierzono i oba brały za dużo](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
 
-Figury `docs/corpus.md` brane nad gramatyką z wyjętą grupą produkcji
+Figury brane nad gramatyką z wyjętą grupą produkcji
 bierze każda sesja własnym skryptem, bo żadnego nie ma w repozytorium,
 i dobiera do niego wariant, którego dokument nie nazywa.
+Dotyczy to `docs/corpus.md` oraz pomiaru pozycji z obiema przydawkami w
+[`docs/ustawy.md`](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa),
+gdzie grupą są dwa ciała `NPConjunct` z przymiotnikiem i dopełniaczem pod głową,
+czyli to z wyrażeniem przyimkowym na końcu i to bez niego.
 Przy pozycjach przyłączeniowych granica grupy jest już wypisana
 ([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
 a przy [zdaniach, które rama zdejmuje](docs/corpus.md#what-morphological-ambiguity-costs)
@@ -1824,8 +1862,9 @@ i dokument tego nie mówi.
 Wariantów jest przy tym więcej niż dwa i każdy stawia tę samą pułapkę.
 Cena podrzędności żąda gramatyki bez `SubordinateClause` i bez `comp` w ramie,
 a cena zdania względnego — bez produkcji względnych,
-przy czym wariant zbudowany przez podmianę `ZAIMEK_WZGLĘDNY`
-zdejmuje oba naraz, bo ta stała stoi i w wykluczeniu, i w terminalu zaimka,
+przy czym wariant zbudowany przez podmianę `ZAIMEK_PYTAJNO_WZGLĘDNY`
+zdejmuje trzy naraz, bo ta stała stoi w wykluczeniu, w terminalu zaimka
+i w terminalu grupy pytajnej,
 więc sesja mierzy wtedy co innego, niż myśli, i nic jej o tym nie mówi.
 Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
 bo ramę zawęża ona i tylko ona.

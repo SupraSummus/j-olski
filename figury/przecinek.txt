@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.przecinek Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
 ruszają:
-  olski/subset.py: 03be07b669ae
+  olski/subset.py: ccaa0fcef11b
   olski/parse.py: 7b2184342e31
   sonda/przecinek.py: 82654bffe1c8
   sonda/ruch.py: 6da1ed0a768e
@@ -11,11 +11,11 @@ ruszają:
 Składnica, morfologia złota, 13035 zdań
 
        wariant    przyjęte  wieloznaczne  odrzucone
- bez przecinka        1498           725      10812
-      zdaniowy        1598           767      10670
-       imienny        1519           752      10764
-przymiotnikowy        1501           728      10806
-wszystkie trzy        1622           799      10614
+ bez przecinka        1499           726      10810
+      zdaniowy        1599           768      10668
+       imienny        1520           753      10762
+przymiotnikowy        1502           729      10804
+wszystkie trzy        1623           800      10612
 
 ruch wobec wariantu „bez przecinka” — zdaniowy:
       100  rejected → valid

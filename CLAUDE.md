@@ -771,6 +771,11 @@ That document holds a second run of the same kind and the grammar moves it too:
 [where the analyses stop in that register](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
 ranks the blockers there and prices each construction's move against them,
 so it is owed alongside the tables above rather than instead of them.
+A third is a differential rather than a run over olski as it stands:
+[what the two modifiers at once buy](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
+compares olski against a variant with that position removed,
+over the statutes, over the treebank and over the rules of legislative drafting,
+so every grammar change moves it and none of the reruns above reaches it.
 The fetch is a command that document prints,
 and what it names is an ELI address rather than a commit,
 which is the one pin in this list that cannot move:

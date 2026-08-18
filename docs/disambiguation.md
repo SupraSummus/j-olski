@@ -141,17 +141,17 @@ a nie z osobnej klasyfikacji napisanej obok:
 `przyłączenie`, że gospodarz modyfikatora zostaje nierozstrzygnięty,
 `konstytuent`, że różnica leży tam, gdzie streszczenie nie zagląda.
 Klasę da się więc sprawdzić, czytając werdykt nad zdaniem.
-Nad 799 zdaniami, które olski odrzuca za wieloznaczność:
+Nad 800 zdaniami, które olski odrzuca za wieloznaczność:
 
 | co werdykt nazywa | zdań | |
 | --- | --- | --- |
-| rola + przyłączenie | 617 | 77,2% |
+| rola + przyłączenie | 617 | 77,1% |
 | przyłączenie | 72 | 9,0% |
 | rola | 70 | 8,8% |
 | sama liczba czytań | 19 | 2,4% |
-| rola + przyłączenie + konstytuent | 10 | 1,3% |
+| rola + przyłączenie + konstytuent | 11 | 1,4% |
 | konstytuent | 9 | 1,1% |
-| przyłączenie + konstytuent | 2 | 0,3% |
+| przyłączenie + konstytuent | 2 | 0,2% |
 
 Tabela liczy nazwy, a nie decyzje, i te dwie rzeczy się rozchodzą.
 `Czeka koń z furą.` ma jedno przyłączenie i różni się rolą,
@@ -164,7 +164,7 @@ przyłączenie o dwóch gospodarzach mnoży las przez dwa,
 więc gdy iloczyn gospodarzy równa się liczbie czytań,
 innej decyzji ten las nie zostawia.
 
-**Tak liczone przyłączenie jest całą decyzją w 587 z 799 zdań, czyli w 73,5%.**
+**Tak liczone przyłączenie jest całą decyzją w 587 z 800 zdań, czyli w 73,4%.**
 W klasie `rola + przyłączenie` jest to 523 z 617, a w klasie `przyłączenie` 64 z 72.
 Udział spadł razem z przysłówkiem: klasa `rola` urosła z osiemnastu zdań do
 siedemdziesięciu, bo dwaj gospodarze przysłówka różnią czytania rolą,
@@ -853,17 +853,17 @@ python3 -m sonda.wskazania Składnica-frazowa-180723/
 ```
 
 ```text
-  701 zdań, nad którymi werdykt zostawia przyłączenie,
-  a w nich 918 przyłączeń, czyli tyle pytań warstwa dostaje
+  702 zdań, nad którymi werdykt zostawia przyłączenie,
+  a w nich 919 przyłączeń, czyli tyle pytań warstwa dostaje
 
   gospodarzy na przyłączenie:
-      681   74.2%  2
-      186   20.3%  3
+      681   74.1%  2
+      187   20.3%  3
        42    4.6%  4
         9    1.0%  5
 
-  ze wzorcem w drzewie: 673, czyli 73.3% przyłączeń
-  bez wzorca: 245, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
+  ze wzorcem w drzewie: 673, czyli 73.2% przyłączeń
+  bez wzorca: 246, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
 
   co warstwa mówi o 673 przyłączeniach ze wzorcem:
       139   20.7% odpowiedzi,  95.0% trafień    skłonność
@@ -876,7 +876,7 @@ Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
 Zasięg 20% jest zasięgiem warstwy wypuszczanej i jest wyższy od 12,8% z oceny wyżej,
 bo tabela wypuszczana ma 998 par zamiast tych z połowy korpusu,
 a lematów formy pyta się naraz kilku, więc para znajduje się częściej.
-Populacja jest przy tym inna — te 918 przyłączeń to te, przed którymi wybór postawił olski,
+Populacja jest przy tym inna — te 919 przyłączeń to te, przed którymi wybór postawił olski,
 a nie te, przed którymi postawił go anotator — więc dwóch zasięgów nie odejmuje się od siebie.
 
 Trafność 95,0% jest mierzona na materiale, który ta tabela widziała.
@@ -885,13 +885,13 @@ więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
 Trafnością poza próbą jest 89,5% z oceny wyżej,
 a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
 
-Gospodarzy jest więcej niż dwóch w 25,8% przyłączeń,
+Gospodarzy jest więcej niż dwóch w 25,9% przyłączeń,
 czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten, przed którym warstwa staje.
 Wypadki te biorą się z produkcji, a nie z rzadkości:
 `Obudziłem się na podłodze w kuchni z pustą paczką po ciasteczkach w dłoniach.`
 ma cztery przyłączenia, a każde następne dostaje za gospodarza rzeczownik z poprzedniego.
 
-Wzorca nie ma dla 245 z 918 przyłączeń i nie jest to milczenie banku drzew.
+Wzorca nie ma dla 246 z 919 przyłączeń i nie jest to milczenie banku drzew.
 Drzewo albo nawiasuje tę frazę inaczej, niż nazywa ją werdykt,
 albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem.
 Drugie ma dwie kategorie i obie wypadają z tego samego powodu.

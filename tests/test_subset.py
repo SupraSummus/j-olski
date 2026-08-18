@@ -32,6 +32,7 @@ from olski.subset import (
     GRAMMAR,
     OKOLICZNIKOWY,
     PRZECINEK,
+    PYTAJNY,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_PRZECINKOWY,
     SPÓJNIKI_PRZECINKOWE,
@@ -1425,12 +1426,43 @@ def test_zdanie_podrzędne_z_że_wyprowadza_się_raz_mimo_przecinka_koordynacji(
     assert found.status == "valid", found.explain()
 
 
-def test_zaimek_względny_nie_jest_przymiotnikiem_przy_rzeczowniku():
+def test_pytanie_zależne_nie_wychodzi_zdaniem_współrzędnym():
     #  Morfeusz daje `które` ten sam znacznik co `nowe`, więc bez warunku
     #  ujemnego `które zadania własne gminy` jest grupą imienną i staje się
     #  podmiotem zdania po przecinku. Wychodzi z tego jedno czytanie, pewne
     #  siebie i błędne, czyli werdykt najgorszy z tych, jakie olski wydaje.
+    #  Zdanie ma jedno czytanie i jest nim pytanie zależne, a nie tamto: role
+    #  współrzędnego niosłyby znak sąsiedniego zdania składowego, a role pytania
+    #  zależnego są rolami zdania nadrzędnego i tylko nimi.
     found = verdict("Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.")
+    assert found.status == "valid", found.explain()
+    assert found.readings == [{"Subject": "Ustawy", "Verb": "określają"}]
+
+
+def test_pytanie_stawia_grupę_pytajną_w_podmiocie_i_w_dopełnieniu():
+    #  Dwie role, bo tyle wypisuje `_ciała_z_wysuniętą_rolą`, i obie idą tą samą
+    #  drogą co w zdaniu względnym. Werdykt nazywa grupę pytajną rolą, bo pytanie
+    #  przyjęte bez niej nie mówiłoby, o co pyta.
+    podmiot = verdict("Który aktor robi na tobie największe wrażenie?")
+    assert podmiot.status == "valid", podmiot.explain()
+    assert podmiot.readings[0][PYTAJNY] == "Który aktor"
+    dopełnienie = verdict("Które zadania gmina wykonuje?")
+    assert dopełnienie.status == "valid", dopełnienie.explain()
+    assert dopełnienie.readings[0][PYTAJNY] == "Które zadania"
+
+
+def test_zdanie_pytające_żąda_pytajnika():
+    #  Znak jest tu warunkiem, a nie interpunkcją do pominięcia: ta sama forma
+    #  zamknięta kropką nie jest polszczyzną, a `KONIEC_ZDANIA` wziąłby oba.
+    found = verdict("Który aktor robi na tobie największe wrażenie.")
+    assert found.status == "rejected", found.explain()
+
+
+def test_grupa_pytajna_zgadza_się_ze_swoją_głową():
+    #  Zaimek stoi przy rzeczowniku, a nie nad zdaniem, więc niezgodny w rodzaju
+    #  nie ma wyprowadzenia. Bez tej zgodności grupa pytajna brałaby każdą formę
+    #  zaimka do każdej grupy imiennej.
+    found = verdict("Który zadania gmina wykonuje?")
     assert found.status == "rejected", found.explain()
 
 
