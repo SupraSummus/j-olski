@@ -1,29 +1,29 @@
-# Notes for AI agents
+# Notatki dla agentów AI
 
-This is the whole convention for working in this repository:
-how prose is written, how code and tests are written,
-which checks to run, the git traps this repository has actually hit,
-and the review pass.
-There is no separate contributor guide;
-this file is the only copy.
+Tu jest cała konwencja pracy w tym repozytorium:
+jak piszemy prozę, jak piszemy kod i testy,
+które checki uruchamiamy, w które pułapki gita naprawdę wpadliśmy
+i jak wygląda przegląd zmian.
+Osobnego przewodnika dla współpracowników nie ma;
+ten plik jest jedyną kopią.
 
-The prose rules cover the README, everything under `docs/`,
-`TODO.md`, this file,
-commit messages, and pull request descriptions.
+Reguły prozy obejmują README, wszystko w `docs/`,
+`TODO.md`, ten plik,
+komunikaty commitów i opisy pull requestów.
 
-## Adopt these rules lazily
+## Reguły przyjmujemy leniwie
 
-New text follows the rules below,
-and so does a sentence you were editing anyway.
-Old sections are left alone until a change touches them.
-A section written before a rule existed is not itself a defect,
-so there is no cleanup pass to run
-and no reason to reflow a document nobody is otherwise changing.
+Nowy tekst powstaje według reguł niżej,
+a zdanie, które i tak poprawiasz, tak samo.
+Stare sekcje zostawiamy, dopóki nie dotknie ich zmiana.
+Sekcja napisana przed regułą nie jest przez to usterką,
+więc nie ma przebiegu porządkowego
+ani powodu, żeby przełamywać na nowo dokument, którego nikt poza tym nie rusza.
 
-Two things are not covered by that leniency,
-because only the change at hand can do them:
-when an item closes, its history goes in the same commit,
-and when you edit a section, the stale narration inside it goes with the edit.
+Dwóch rzeczy ta pobłażliwość nie obejmuje,
+bo zrobić je może tylko ta zmiana, która akurat powstaje:
+kiedy wpis się zamyka, jego historia trafia do gita tym samym commitem,
+a kiedy poprawiasz sekcję, poprawka zabiera nieaktualną narrację w środku.
 
 ## Piszemy po polsku, także w kodzie
 
@@ -48,7 +48,7 @@ wyprowadza znacznie mniej, niż te dokumenty zawierają —
 podaje polecenie, które to pokazuje nad README —
 i tych dokumentów pod nią nie przepisujemy.
 
-Regułę przyjmujemy [leniwie](#adopt-these-rules-lazily) jak resztę,
+Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 z jedną różnicą co do jednostki.
 Reguły prozy sięgają pojedynczego zdania, bo zdanie poprawia się osobno,
 a język sięga sekcji, docstringa, komentarza, komunikatu
@@ -399,7 +399,7 @@ Rejestr bierze się głównie z tego pliku,
 bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem;
 widać to w `git log --pretty=%s`,
 gdzie tematy powtarzają jeden szyk i jeden niewielki zbiór czasowników.
-Regułę przyjmujemy [leniwie](#adopt-these-rules-lazily) jak resztę,
+Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 więc przebiegu porządkowego nad tym plikiem nie ma,
 a sekcję przepisywaną z innego powodu
 sprowadzamy przy okazji do zwykłej polszczyzny.
@@ -587,7 +587,7 @@ records `nieznany` in place of a digest,
 and the report calls it neither current nor owed but unmeasured here.
 
 The list below is the same demand in prose, for the figures that have no owner yet,
-and it is [adopted lazily](#adopt-these-rules-lazily) like every other rule here:
+and it is [adopted lazily](#reguły-przyjmujemy-leniwie) like every other rule here:
 a change touching one of these figures moves it into the declaration
 and deletes its paragraph from the list.
 Each names the document, and each is part of the change rather than after it.

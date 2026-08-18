@@ -53,7 +53,7 @@ CITED_PATH = re.compile(
 #: to be recomputed. A module name there is about that program, not about this
 #: one, so it outlives the file the same way its figures do.
 O_USUNIĘTYM = "firing-rates.md"
-CITED_DOCUMENT = re.compile(r"docs/[\w-]+\.md(?:#[\w-]+)?")
+CITED_DOCUMENT = re.compile(r"(?:docs/[\w-]+|CLAUDE|TODO)\.md(?:#[\w-]+)?")
 #: An entry in the README's list of documents, which is the only place that
 #: puts a document on somebody's path.
 LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md)\]")
