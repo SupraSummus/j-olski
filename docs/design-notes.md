@@ -1533,9 +1533,9 @@ odbiera grupie imiennej drugie czytanie tego samego kształtu,
 a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.
 Każde z tych trzech jest pojedynczą decyzją z wywodem i z ceną:
 pierwsze wykłada [kryterium słownikowe](subset.md#the-dictionary-offers-readings-polish-does-not),
-a ostatnie jest czterema wierszami, które
-[sekcja Checks](../CLAUDE.md#checks) wymienia z nazwy właśnie dlatego,
-że ruszają każdy werdykt.
+a ostatnie jest czterema wierszami, które figura `korpus`
+w [`harness/figury.py`](../harness/figury.py) nazywa z osobna właśnie dlatego,
+że ruszają każdy werdykt, choć nie ma w nich ani jednej produkcji.
 Lista ciał zawęża przez to, czego w niej nie ma,
 i tym się od tamtych różni: rośnie z każdą konstrukcją,
 nie ma jednego miejsca, w którym da się o nią spierać, i nie mierzy jej nic.

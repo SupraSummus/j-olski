@@ -126,19 +126,22 @@ bo wtedy istnieją dwie wersje i nie widać, która obowiązuje.
 ## Ktoś, kto mierzy
 
 Pyta, która liczba się ruszyła i co trzeba przeliczyć.
-Figury, które mają właściciela, odpowiadają mu przebiegiem:
-`python3 -m harness.figury` wypisuje należne przeliczenia,
-nie pobiera przy tym niczego i wskazuje plik w `figury/`
-z wydrukiem i z poleceniem, którym ten wydruk powstaje.
-Ta sama komenda z `--należne` przelicza je wszystkie naraz.
-Reszcie figur odpowiada [sekcja Checks](../CLAUDE.md#checks),
-bo to ona wymienia dokumenty z liczbami, do których nie dosięga żaden test,
-a dalej ta droga idzie do tego z nich, który jest właścicielem danej liczby.
-Każdy z nich wypisuje polecenia, które jego tabele produkują,
-i po to te polecenia tam są.
-Jeden wyjątek zna ta droga i jest nazwany na miejscu:
-[firing-rates.md](firing-rates.md) mierzył pakietem, którego już nie ma,
-więc wypisane w nim polecenia są zapisem, a nie robotą do powtórzenia.
+Odpowiada mu jedna komenda: `python3 -m harness.figury` daje na każdą figurę
+odpowiedź wraz z powodem, nie pobiera przy tym niczego
+i wskazuje plik w `figury/` z wydrukiem oraz z poleceniem, którym ten wydruk powstaje.
+Ta sama komenda z `--należne` przelicza naraz wszystko, co nazwała należnym,
+a figurę, przy której mówi `bez pliku`,
+podnosi pierwszym przebiegiem ten, kto ma czym go wykonać.
+Dalej ta droga idzie do sekcji, którą raport nazywa obok figury,
+bo tam stoi zdanie, które przeliczenie ruszające rząd wielkości odwraca,
+i do tego, co figura zapisała jako zostające ręką.
+Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z torem lintera,
+i każdy dokument, który je nosi, mówi to o sobie sam:
+[firing-rates.md](firing-rates.md) nazywa wypisane w sobie polecenia zapisem,
+a nie robotą do powtórzenia,
+a [corpora.md](corpora.md#how-the-counts-here-were-taken)
+i [audit-corpus.md](audit-corpus.md#the-list)
+mówią, że ostatni krok ich liczenia pisze na nowo ten, kto je powtarza.
 
 **Psuje ją** liczba w dokumencie bez polecenia, które ją wyprodukowało,
 oraz przebieg wystartowany przed ostatnią edycją,

@@ -174,8 +174,7 @@ Do przeczytania jest, jak mówią o sobie dwa pozostałe dokumenty tego toru:
 [`docs/linter.md`](docs/linter.md#what-closed-the-track) pisze
 „What follows is the design as it stood",
 a [`docs/firing-rates.md`](docs/firing-rates.md) nazywa pakiet wycofanym
-w drugim akapicie i według [`CLAUDE.md`](CLAUDE.md#checks)
-nie ma w nim nic do przeliczenia.
+w drugim akapicie i mówi tam też, że żadnego przebiegu z niego nie da się powtórzyć.
 Ruchem jest albo takie zdanie w otwarciu tego dokumentu,
 albo czas przeszły przy każdym własnym odniesieniu osobno.
 Za drugim ruchem przemawia to, że zdanie w otwarciu zamroziłoby także
@@ -185,15 +184,16 @@ Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
 więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
-a właściciela nie ma im czym dać: figur nad prozą tego repozytorium nie ma,
-bo cena stojąca na korpusie, który rusza każdy commit, nie jest ceną
-([`CLAUDE.md`](CLAUDE.md#checks)).
-Zostaje więc zejść z pełnej precyzji tym czterem: mianownikowi i dwóm zgodnościom w
+a właściciela mają: figury `readme` i `sonda-readme` wymieniają `README.md`
+wśród ruszających, więc przeredagowanie czyni je należnymi przeliczenia
+i `python3 -m harness.figury` mówi to temu, kto przeredagowuje.
+Zostaje zejść z pełnej precyzji tym czterem:
+mianownikowi i dwóm zgodnościom w
 [`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 oraz licznikowi klasy zdań w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
 bo jedno przeredagowanie rusza te cztery liczby naraz,
-a temu, kto przeredagowuje, nie mówi o tym nic.
+a przeliczenie poprawia wtedy cztery zdania zamiast wskazać plik.
 Do przeczytania są oba te akapity: pierwszy z nich opiera się na zdaniu,
 którego README nie ma — o czym mówi wpis o `Cenie trzeciej` w sekcji o komendach —
 więc samo przeliczenie go nie naprawia.
@@ -273,7 +273,9 @@ Ruchem jest jedno miejsce, które schodzi po `rglob`,
 bierze pliki o rozszerzeniu, które ekstrakcja pisze,
 pomija katalog o nazwie zaczynającej się kropką — bo korpus stoi w repozytorium,
 a jego kontrola wersji korpusem nie jest — i woła się z obu komend,
-po czym `find` z tamtego polecenia znika.
+po czym `find` z tamtego polecenia znika,
+a razem z nim powłoka z czterech figur w [`harness/figury.py`](harness/figury.py),
+które biorą `sh -c` tylko po to, żeby ktoś rozwinął im glob.
 Przeciw pominięciu: katalog z kropką podany wprost staje się wtedy nieosiągalny,
 więc należy ono do chodzenia, a nie do testu na rozszerzenie.
 Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
@@ -452,39 +454,34 @@ pyta o to samo od strony pomiaru i podnosi się razem z tym.
 
 ## Korpusy, ekstrakcja i figury
 
-Właściciela ma sześć konstrukcji z listy przeliczeń w
-[`CLAUDE.md`](CLAUDE.md#checks), a lista wymienia ich kilkadziesiąt.
-Wzorcem jest negacja: deklaracja w `harness/figury.py`, wydruk w `figury/`,
-a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)
-restytucja grubsza od niego i wskaźnik.
-Przenosi się je przy zmianie, która i tak figurę rusza —
-po jednej albo, gdy jedna zmiana rusza kilka, wszystkie razem —
-i tyle właśnie kosztuje jedna: deklaracja na każdy przebieg osobno,
-sam przebieg z korpusem oraz proza, z której schodzi pełna precyzja,
-nagłówek z cyfrą włącznie.
-Najdroższe jest to trzecie, bo akapit wylicza dziś liczby jedną z drugiej
+Osiemnaście figur ma deklarację w `harness/figury.py` i nie ma pliku,
+bo pierwszego przebiegu nie zrobił nikt: `python3 -m harness.figury` wypisuje je
+pod odpowiedzią `bez pliku` wraz z tym, czego każda z nich wymaga.
+Podnosi je ten, kto ma korpus albo prozę z niego wyjętą, po jednej,
+a każda kosztuje dwie rzeczy: sam przebieg
+oraz prozę, z której po nim schodzi pełna precyzja, nagłówek z cyfrą włącznie.
+Drugie jest droższe, bo akapit wylicza dziś liczby jedną z drugiej
 („cząstka kupuje 99, obie 148, czyli przypadek dokłada 49”),
 a restytucja mówi to stosunkiem, więc jest przepisaniem zdania, a nie podmianą liczby.
-Figura, której nikt nie rusza, zostaje na miejscu,
+Wzorcem jest negacja: deklaracja, wydruk w `figury/`,
+a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)
+restytucja grubsza od niego i wskaźnik.
+Figura, której nikt nie rusza, czeka na miejscu,
 bo tekst napisany przed regułą nie jest usterką.
-Figurę czytaną przez kilka sekcji rozstrzygnął przysłówek i rozstrzygnął obojgiem:
-`czyta` wymienia każdą sekcję, która niesie twierdzenie z tej figury wyprowadzone,
-bo przeliczenie ma powiedzieć, co przeczytać,
-a restytucja w drugim dokumencie wskazuje sekcję pierwszą, a nie plik,
-bo prozę też ma kto posiadać.
 
-Lista przeliczeń w [`CLAUDE.md`](CLAUDE.md#checks) jest instrukcją napisaną jak wywód.
-Zajmuje większość tamtej sekcji łańcuchem akapitów,
-w których figura, jej właściciel i to, co ją rusza,
-stoją w zdaniach wielokrotnie złożonych,
-a [reguła o adresacie](CLAUDE.md#dla-kogo-jest-napisane-zdanie)
-żąda od instrukcji czegoś odwrotnego,
-bo sesja szuka w niej jednej figury zamiast czytać ją od początku do końca.
-Ruchem jest przepisanie tego, co po przeniesieniu figur do deklaracji zostanie,
-na listę o stałym kształcie: dokument i sekcja, co rusza, co przeliczyć.
-Do przeczytania jest `FIGURY` w [`harness/figury.py`](harness/figury.py),
-bo deklaracja ma dokładnie te pola,
-a proza ma powiedzieć to samo o figurach, których deklaracja jeszcze nie obejmuje.
+`python3 -m harness.endings proza` liczy, co w `proza/` stoi, a nie korpus audytowy.
+Figura `końcówki` deklaruje `proza/ksef` i `proza/rit`,
+bo tabele w [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
+są nad tymi dwoma,
+a polecenie, które ta sekcja drukuje, przechodzi całe drzewo `proza/`,
+więc sesja, która wyjęła wcześniej prozę z README
+tak, jak każe [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
+dostaje z tego samego polecenia liczby nad korpusem audytowym plus README
+i nic tego nie mówi w wydruku.
+Ruchem jest ścieżki liczone przez sondę wziąć z argumentów zamiast z jednego drzewa,
+czyli w tej sekcji i w tej figurze wymienić oba katalogi.
+Do przeczytania jest `main` w `harness/endings.py`,
+bo od tego zależy, czy druga ścieżka nie żąda zmiany w tym, co sonda przechodzi.
 
 Sekcja o cenie negacji mówi o jednym zdaniu, a figura wypisuje ich osiem.
 [`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)
@@ -1366,7 +1363,8 @@ więc wpis stoi za tamtym.
 Ruchem jest wtedy `git rm sonda/__main__.py sonda/polszczyzna.py sonda/wiezy.py`
 wraz z `tests/test_sonda.py`,
 z figurami [tamtej sekcji](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-i z wierszem o niej w [sekcji Checks](CLAUDE.md#checks).
+oraz z figurą `sonda-readme` w [`harness/figury.py`](harness/figury.py)
+i jej wydrukiem w `figury/`.
 Katalog zostaje, bo `sonda/przecinek.py` jest osobną sondą wokół osobnej decyzji,
 i zostaje z nim nazwa `sonda` w `SOURCES` z `tests/test_docs.py`.
 Zostaje z sekcji to, co figur nie potrzebuje:
@@ -2384,7 +2382,8 @@ Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
 albo obie idą do `harness/`, a `olski-corpus` staje się
 `python3 -m harness.coverage` jak dwie pozostałe komendy pomiarowe,
 co przepisuje polecenia w [`docs/corpus.md`](docs/corpus.md#fetching-it)
-i w [sekcji Checks](CLAUDE.md#checks),
+oraz w figurach `korpus` i `korpus-żywa` w [`harness/figury.py`](harness/figury.py),
+a wraz z nimi wydruki, które te figury zapisały,
 albo `harness/__init__.py` mówi, czym granica jest,
 co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:

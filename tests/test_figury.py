@@ -24,6 +24,8 @@ from harness.figury import (
     NIEZMIERZONA,
     NIEZNANY,
     Figura,
+    ciało,
+    przelicz,
     stan,
     zapis,
 )
@@ -82,6 +84,38 @@ def test_odpowiedź_bierze_się_z_odcisków_i_z_polecenia(
     assert stan(PRÓBNA, zapis(pisana, zapisane, "wydruk"), TERAZ) == (odpowiedź, powody)
 
 
+def test_polecenie_z_nową_linią_nie_wychodzi_z_raportu_jako_należne():
+    #  Zdanie podane komendzie po ``-c`` bywa wielowierszowe, a nagłówek pliku
+    #  figury czyta się do pierwszego wiersza pustego, więc bez ucieczki polecenie
+    #  urywa się w połowie i figura jest należna przeliczenia po każdym przebiegu.
+    wielowierszowa = replace(
+        PRÓBNA, polecenie=("python3", "-m", "olski.check", "-c", "Zdanie.\nDrugie.")
+    )
+    zapisane = zapis(wielowierszowa, TERAZ, "wydruk")
+    assert stan(wielowierszowa, zapisane, TERAZ) == (AKTUALNA, [])
+
+
+def test_kod_niezerowy_jest_pomiarem_tylko_przy_pustym_wyjściu_błędu(tmp_path, monkeypatch):
+    #  ``olski-check`` odpowiada 1, kiedy nie każde zdanie jest olskim, czyli nad
+    #  każdą prawdziwą prozą, a tym samym kodem kończy Python na wyjątku. Bez tego
+    #  rozróżnienia figurą stałby się ślad stosu i nic by tego nie powiedziało.
+    #  Korzeń idzie razem z katalogiem, bo przeliczenie liczy odciski względem
+    #  niego i drukuje ścieżkę pliku figury jako względną.
+    monkeypatch.setattr("harness.figury.KORZEŃ", tmp_path)
+    monkeypatch.setattr("harness.figury.KATALOG", tmp_path / "figury")
+    pomiar = replace(
+        PRÓBNA, nazwa="pomiar", polecenie=("sh", "-c", "echo liczba; exit 1"), kody=(0, 1)
+    )
+    assert przelicz(pomiar) == 0
+    assert ciało(pomiar.plik.read_text(encoding="utf-8")) == "liczba"
+
+    ślad = replace(
+        pomiar, nazwa="ślad", polecenie=("sh", "-c", "echo liczba; echo błąd >&2; exit 1")
+    )
+    assert przelicz(ślad) == 2
+    assert not ślad.plik.exists()
+
+
 @pytest.mark.parametrize("figura", figury())
 def test_każdy_zadeklarowany_ruszający_jest_plikiem_który_istnieje(figura: Figura):
     for plik in figura.ruszają:
@@ -97,4 +131,10 @@ def test_każda_figura_nazywa_sekcję_która_ją_restytuuje(figura: Figura):
 
 
 def test_każdy_plik_w_katalogu_jest_zadeklarowany():
-    assert set(KATALOG.glob("*.txt")) == {figura.plik for figura in FIGURY}
+    #  Tylko w tę stronę: figura zadeklarowana bez pliku jest stanem, o którym
+    #  raport mówi ``bez pliku``, czyli deklaracją stojącą przed pierwszym
+    #  przebiegiem, a plik bez deklaracji jest wydrukiem, którego nic nie umie
+    #  powtórzyć ani orzec o nim, czy jest jeszcze aktualny.
+    zadeklarowane = {figura.plik for figura in FIGURY}
+    for plik in KATALOG.glob("*.txt"):
+        assert plik in zadeklarowane, f"wydruk bez deklaracji w FIGURY: {plik.name}"
