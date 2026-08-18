@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.znaczenia proza/README.txt
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  README.md: e736a2132971
+  README.md: e87e4028637e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 03be07b669ae
   olski/parse.py: 7b2184342e31
@@ -32,12 +32,11 @@ proza/README.txt, morfologia live, 48 zdań z werdyktem
       102   98.1%  zapis nie ma kategorii
         2    1.9%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 17 różnych:
+  najczęstsze powody, z 16 różnych:
        64  „Nad zdaniem” nie ma tu czym być w pozycji Modifier
-       10  grupa imienna z słowo, Modifier nie ma tu kategorii
-        6  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
-        6  „dla polskiej dokumentacji technicznej” nie ma tu czym być w pozycji Modifier
+       18  „Obok parsera” nie ma tu czym być w pozycji Modifier
         5  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
+        4  grupa imienna z słowo, Modifier nie ma tu kategorii
         2  „Zobacz” nie ma tu czym być w pozycji Verb
         2  „Co ekstrakcja” nie ma tu czym być w pozycji Modifier
         2  „Co ekstrakcja po drodze” nie ma tu czym być w pozycji Modifier
@@ -45,6 +44,7 @@ proza/README.txt, morfologia live, 48 zdań z werdyktem
         1  jednak nie jest znakiem listy tego zapisu
         1  „dla przyjemności” nie ma tu czym być w pozycji Modifier
         1  grupa imienna z słowo, NPConjunct nie ma tu kategorii
+        1  docs/extraction.md (subst) nie ma formy {'case': 'acc', 'number': 'pl'}
 
   najkrótsze zdania: ambiguous, żadne czytanie nie wraca drzewem
       8 czytań  Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.

@@ -464,8 +464,8 @@ nagłówek z cyfrą włącznie.
 Najdroższe jest to trzecie, bo akapit wylicza dziś liczby jedną z drugiej
 („cząstka kupuje 99, obie 148, czyli przypadek dokłada 49”),
 a restytucja mówi to stosunkiem, więc jest przepisaniem zdania, a nie podmianą liczby.
-Nie idzie za tym przebieg porządkowy: figura, której nikt nie rusza, zostaje
-na miejscu, bo tekst napisany przed regułą nie jest usterką.
+Figura, której nikt nie rusza, zostaje na miejscu,
+bo tekst napisany przed regułą nie jest usterką.
 Figurę czytaną przez kilka sekcji rozstrzygnął przysłówek i rozstrzygnął obojgiem:
 `czyta` wymienia każdą sekcję, która niesie twierdzenie z tej figury wyprowadzone,
 bo przeliczenie ma powiedzieć, co przeczytać,

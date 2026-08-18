@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.płaski proza/README.txt
 czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
-  README.md: e736a2132971
+  README.md: e87e4028637e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 03be07b669ae
   olski/parse.py: 7b2184342e31

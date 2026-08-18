@@ -16,14 +16,12 @@ komunikaty commitów i opisy pull requestów.
 Nowy tekst powstaje według reguł niżej,
 a zdanie, które i tak poprawiasz, tak samo.
 Stare sekcje zostawiamy, dopóki nie dotknie ich zmiana.
-Sekcja napisana przed regułą nie jest przez to usterką,
-więc nie ma przebiegu porządkowego
-ani powodu, żeby przełamywać na nowo dokument, którego nikt poza tym nie rusza.
+Sekcja napisana przed regułą nie jest przez to usterką.
 
 Dwóch rzeczy ta pobłażliwość nie obejmuje,
 bo zrobić je może tylko ta zmiana, która akurat powstaje:
 kiedy wpis się zamyka, jego historia trafia do gita tym samym commitem,
-a kiedy poprawiasz sekcję, poprawka zabiera nieaktualną narrację w środku.
+a kiedy poprawiasz sekcję, kasujesz przy okazji nieaktualną narrację w środku.
 
 ## Piszemy po polsku, także w kodzie
 
@@ -39,6 +37,9 @@ słowa kluczowe Pythona, API bibliotek, klucze konfiguracji i nazwy formatów.
 W nazwie w kodzie piszemy znaki diakrytyczne, tak samo jak w zdaniu:
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
+Przekład nie ukuwa przy tym nazw:
+kalka czyta się jak termin, którego nikt tu nie zdefiniował,
+więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 
 Reguły nie pilnuje żaden check, tak samo jak żadnej innej reguły prozy:
 sprawdzamy je w przeglądzie zmian, a nie w testach.
@@ -46,20 +47,20 @@ Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają —
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
 podaje polecenie, które to pokazuje nad README —
-i tych dokumentów pod nią nie przepisujemy.
+i nie przepisujemy tych dokumentów tak, żeby się pod nią zmieściły.
 
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 z jedną różnicą co do jednostki.
-Reguły prozy sięgają pojedynczego zdania, bo zdanie poprawia się osobno,
-a język sięga sekcji, docstringa, komentarza, komunikatu
-albo nazwy wraz z jej wywołaniami.
+Jednostką reguł prozy jest pojedyncze zdanie, bo zdanie poprawia się osobno,
+a jednostką języka jest sekcja, docstring, komentarz, komunikat
+albo nazwa wraz z jej wywołaniami.
 Gdzie sekcja nie ma własnej prozy, jednostką jest akapit:
 sekcja `TODO.md` grupuje wpisy, więc jednostką jest tam wpis,
 czyli to, co jeden commit dopisuje i kasuje.
 Po polsku powstaje też tekst w dokumencie, który po polsku nie jest,
 a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
-Nie ma z tego ani przebiegu porządkowego, ani wpisu w `TODO.md`.
+Taki dokument nie dostaje wpisu w `TODO.md`.
 [`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
 a ta sekcja jest po polsku w pliku, który po polsku nie jest.
 
@@ -114,11 +115,11 @@ or that the rule is not worth having.
 Część tego, co tu obowiązuje, jest kwestią gustu:
 język, w którym piszemy, jeden plik zamiast osobnego przewodnika,
 pięćdziesiąt znaków w temacie commita.
-Taka decyzja mówi, co obowiązuje, i na tym kończy.
+Taka decyzja mówi, co obowiązuje, i na tym koniec.
 Wywód dorobiony do niej po fakcie jest oszustwem,
 nawet jeżeli każde zdanie z osobna się broni:
 podaje jako powód coś, co powodem nie było,
-a czytelnik nie ma go czym odrzucić, bo decyzja i tak od niego nie zależy.
+a czytelnik nie ma go czym odrzucić, bo decyzja i tak od wywodu nie zależy.
 Zostaje to, co z decyzji wynika — koszt, granica stosowania, wyjątek —
 a nie to, co ją rzekomo poprzedza.
 
@@ -388,9 +389,9 @@ Nie każde takie zdanie jest usterką.
 Projekt jest dla przyjemności ([README](README.md#kierunek)),
 więc tekst, który się dobrze czyta, jest tu jednym z celów.
 Granica biegnie tam, gdzie tekstu nie czyta się już od początku do końca.
-Wywód może: README i te dokumenty, które o coś argumentują,
+Wywód wolno tak pisać: README i te dokumenty, które o coś argumentują,
 czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
-Instrukcja nie może: ten plik, tematy commitów oraz `TODO.md`
+Instrukcji tak pisać nie wolno: ten plik, tematy commitów oraz `TODO.md`
 czyta się wyrywkowo, w pośpiechu i z listy,
 a zdanie, które trzeba najpierw rozszyfrować,
 przepada razem z tym, co miało powiedzieć.
@@ -400,7 +401,6 @@ bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem;
 widać to w `git log --pretty=%s`,
 gdzie tematy powtarzają jeden szyk i jeden niewielki zbiór czasowników.
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
-więc przebiegu porządkowego nad tym plikiem nie ma,
 a sekcję przepisywaną z innego powodu
 sprowadzamy przy okazji do zwykłej polszczyzny.
 

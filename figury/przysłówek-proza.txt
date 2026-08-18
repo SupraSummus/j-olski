@@ -3,7 +3,7 @@ polecenie: python3 -m sonda.przysłówek proza/README.txt
 czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  README.md: e736a2132971
+  README.md: e87e4028637e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 03be07b669ae
   olski/parse.py: 7b2184342e31
@@ -34,13 +34,13 @@ konkurencja, nad zdaniem po zdaniu:
         0  razem wychodzi co innego niż osobno
 
 okolicznik, rejected → ambiguous:
-  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
+  Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
   Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
   Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
   Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa nie musiał nigdy napisać, mówi docs/sklad.md.
 
 olski, rejected → ambiguous:
-  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
+  Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
   Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
   Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie: kiedy to było i o kim mowa była przed chwilą.
   Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa nie musiał nigdy napisać, mówi docs/sklad.md.

@@ -13,7 +13,7 @@ jak w kompilatorze, a nie jak w modelu językowym.
 Każdy werdykt przychodzi z czytaniem, które go wydało,
 a to samo wejście dwa razy daje tę samą odpowiedź.
 
-Stał tu obok linter stylu dla polskiej dokumentacji technicznej
+Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej
 i został wycofany razem z całą analizą, która schodziła do znaku.
 Dlaczego, mówi [docs/linter.md](docs/linter.md#what-closed-the-track);
 ile ten pakiet reguł kosztował, zanim wyszedł,
@@ -36,9 +36,9 @@ dalej stoi.
 Czarna lista kupowała jednak co innego, niż obiecywała.
 Reguła, która rozstrzyga o zdaniu znakiem w nim postawionym,
 nie mówi o polszczyźnie tego zdania nic,
-a niżej przestaje być tania:
+a na głębszym poziomie analizy przestaje być tania:
 [pomiar](docs/linter.md#what-closed-the-track) nad dwoma korpusami mówi,
-że głębszy poziom analizy odpowiada na inne pytanie niż to, które reguła zadaje.
+że taki poziom odpowiada na inne pytanie niż to, które reguła zadaje.
 Cenę białej listy płacimy więc tym, że autor nie czuje, którędy biegnie granica,
 a odrabiamy tym, że parser pokazuje oba czytania zamiast samej odmowy:
 granicę widać w odpowiedzi, a nie tylko w tym, że odpowiedzi nie ma.
@@ -47,7 +47,7 @@ granicę widać w odpowiedzi, a nie tylko w tym, że odpowiedzi nie ma.
 
 Tory są dwa: gramatyka zaprojektowanego podzbioru polszczyzny
 i skład, nazwany kalamburem od *składni*.
-Ten plik mierzy oba tory, a dla jednego z nich jest celem:
+Oba tory mierzymy na tym pliku, który dla jednego z nich jest zarazem celem:
 skład rośnie tak długo, aż każde jego zdanie wypuści z drzewa,
 a gramatyka celu końcowego nie ma i rośnie za cenę liczoną przed dopisaniem.
 Kierunkiem nie jest sam formalizm:
