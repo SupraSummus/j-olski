@@ -105,36 +105,6 @@ and takes the command along as `python3 -m harness.coverage`,
 which leaves nothing there to rename,
 so whichever entry is picked up first is answering for the other.
 
-[Semantic line breaks](CLAUDE.md#semantic-line-breaks) cover
-"prose in comments and docstrings", and the code is divided about it.
-`olski/skład/`, `opowieści/`, `olski/walencja.py`, `harness/ustawy.py`,
-`sonda/powtórzenie.py` and `sonda/wskazania.py`
-break their comments at boundaries of meaning,
-and the rest of `olski/`, `harness/` and `sonda/` wraps to a column.
-`olski/parse.py` and `olski/subset.py` hold both kinds,
-which is what [lazy adoption](CLAUDE.md#adopt-these-rules-lazily) produces
-where a rule reaches a file already written the other way.
-The division follows neither track nor language nor age:
-`olski/walenty.py` and `olski/wieloznaczność.py` wrap to a column
-though both stand in Polish
-and both sit beside `olski/walencja.py`, which does not,
-and `sonda/wybory.py` arrived in one commit with `sonda/wskazania.py`
-wrapped the other way from it.
-Two ways out, and the choice is a judgement about the whole package
-rather than about whichever function is being edited at the time:
-narrow the rule in `CLAUDE.md` to Markdown, commit messages
-and the prose fields of a declaration,
-which is where the tighter diff is actually collected,
-or keep the rule and reflow the rest under
-[lazy adoption](CLAUDE.md#adopt-these-rules-lazily), file by file as they are touched.
-Narrowing costs a second rule as well:
-[the language rule](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-reaches comments and docstrings
-by pointing at semantic line breaks for what counts as prose,
-so narrowing them out there takes them out of Polish too,
-and it leaves the modules that already break semantically
-keeping a habit `CLAUDE.md` no longer asks for.
-
 `docs/subset.md` jest dokumentem mieszanym.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
@@ -190,6 +160,29 @@ różnica formatu jest większością tego, czym trafienia niżej nie są.
 Wpis waży mniej, odkąd tamten dokument jest zapisem, którego nic nie rusza:
 zostaje z niego czytelnik trafiający na to samo wyprowadzenie dwa razy,
 a nie dwie kopie, które się rozjadą.
+
+`docs/prose-linters.md` mówi o wycofanym pakiecie w czasie teraźniejszym.
+Przeglądowi cudzych silników w tym dokumencie nic nie brakuje,
+ale własne odniesienia wskazują kod, którego nie ma:
+otwarcie pisze „what olski is trying to build",
+`Vale is the architecture to study` liczy pięć reguł w `CHECKS`,
+a `proselint measured what everyone else asserts` mówi, że pola `justification`
+i `sources` deklaracji reguły żądają tego samego, co standard proselinta.
+W kodzie nie ma żadnej deklaracji reguły, więc nie ma i tych pól,
+a `CHECKS` nie występuje w żadnym `.py`.
+Do przeczytania jest, jak mówią o sobie dwa pozostałe dokumenty tego toru:
+[`docs/linter.md`](docs/linter.md#what-closed-the-track) pisze
+„What follows is the design as it stood",
+a [`docs/firing-rates.md`](docs/firing-rates.md) nazywa pakiet wycofanym
+w drugim akapicie i według [`CLAUDE.md`](CLAUDE.md#checks)
+nie ma w nim nic do przeliczenia.
+Ruchem jest albo takie zdanie w otwarciu tego dokumentu,
+albo czas przeszły przy każdym własnym odniesieniu osobno.
+Za drugim ruchem przemawia to, że zdanie w otwarciu zamroziłoby także
+przegląd cudzych silników, którego wycofanie toru nie dotyczy
+i po który ktoś do tego dokumentu wraca.
+Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
+więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji.
 Które z dwojga, rozstrzygnięte jest: figurę nad własną prozą wolno zapisać,
