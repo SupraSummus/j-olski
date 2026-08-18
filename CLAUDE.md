@@ -457,11 +457,8 @@ or producing one unreadable single-line diff.
 
 This covers Markdown and plain text files,
 commit message bodies and pull request descriptions,
-prose in comments and docstrings,
-where the same tighter diff is the same win,
-and the prose fields of a rule declaration:
-`justification` is folded before use,
-so it is written with semantic line breaks like everything else.
+and prose in comments and docstrings,
+where the same tighter diff is the same win.
 A comment that already fits on one line stays on one line.
 Code itself is unaffected;
 format it however the language's usual tooling says.
