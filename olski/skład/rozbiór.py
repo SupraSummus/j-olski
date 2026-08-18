@@ -68,6 +68,7 @@ from olski.skład.składnia import (
     Nominalne,
     Okolicznik,
     PozaRamą,
+    Przysłówek,
     Robi,
     Rola,
     Rzecz,
@@ -76,7 +77,7 @@ from olski.skład.składnia import (
     Zdanie,
     kompiluj,
 )
-from olski.subset import GRAMMAR, morphology
+from olski.subset import GRAMMAR, PRZYSŁÓWKOWY, morphology
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
 #: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
@@ -96,11 +97,21 @@ CZASOWNIKOWE = ("fin", "praet", "inf")
 #: i zaimkiem, więc pyta się o nią wraz z częścią mowy, tak jak o znak listy.
 PRZECZENIE = "nie"
 
+#: Symbol przymiotnika, którego gramatyka trzyma konstytuentem, bo przysłówek
+#: stopniowany go określa, więc kształt ciała nazywa tu symbol tam, gdzie przedtem
+#: stało słowo.
+PRZYMIOTNIKOWA = "Adjective"
+
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
-#: Ta sama piątka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
+#: Ta sama szóstka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
-POZYCJE = ("Subject", "Object", "Predicative", "Verb", "Modifier")
+#: Nazwę roli przysłówkowej bierzemy stamtąd, a nie spisujemy drugi raz:
+#: dwie pisownie jednego napisu są tym, po czym grep przestaje odpowiadać.
+#: Oba tory dostały tę pozycję osobno i w tej kolejności: ``Przysłówek`` w
+#: ``olski/skład/składnia.py`` stał, zanim gramatyka wpuściła przysłówek, więc obieg
+#: zamknął się na nim dopiero razem z tą produkcją.
+POZYCJE = ("Subject", "Object", "Predicative", "Verb", "Modifier", PRZYSŁÓWKOWY)
 
 #: Pozycje wypełnione zdaniem, każda pod swoim symbolem gramatyki.
 #: Osobno od ``POZYCJE``, bo tamtą piątkę werdykt drukuje jako role,
@@ -199,6 +210,39 @@ def _rzeczowniki(liść: Leaf) -> tuple[tuple[str, str], ...]:
     return tuple(pary)
 
 
+def _cechy(drzewo: Node) -> tuple[str, ...]:
+    """Cechy, którymi ten przymiotnik bywa, po jednej na lemat.
+
+    Przysłówek stojący pod tym samym symbolem kategorii tu nie dostaje:
+    ``Jaki`` trzyma cechę napisem, a `bardzo duży` jest stopniem tej cechy,
+    czyli tym, o czym drzewo nie ma jak powiedzieć, i to jest ta cisza,
+    którą ten kierunek zgłasza zamiast wypuścić drzewo mówiące mniej
+    (``docs/sklad.md``).
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt != (SŁOWO,):
+        raise PozaZapisem(f"przymiotnik z {', '.join(kształt)} nie ma tu kategorii")
+    return _lematy(drzewo.children[0], "adj")
+
+
+def _przysłówki(drzewo: Node) -> tuple[Przysłówek, ...]:
+    """Okoliczności wyrażone jednym słowem, po jednej na lemat tej formy.
+
+    Stopnia ``Przysłówek`` nie niesie, więc czytanie w stopniu wyższym
+    wypada na porównaniu form, tak samo jak czytanie w czasie,
+    którego skład nie wypisze (``olski/skład/składnia.py``).
+
+    Ciało dopasowuje się całe, tak samo jak w :func:`_nominalne`:
+    przysłówek określający drugi przysłówek stanie tu kiedyś ciałem o dwóch
+    częściach, a ten zapis ma wtedy zgłosić brak kategorii, a nie przeczytać
+    pierwszą część za całość; ``TODO.md`` trzyma tamten ruch.
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if kształt != (SŁOWO,):
+        raise PozaZapisem(f"przysłówek z {', '.join(kształt)} nie ma tu kategorii")
+    return tuple(Przysłówek(lemat) for lemat in _lematy(drzewo.children[0], "adv"))
+
+
 def _nominalne(drzewo: Node) -> tuple[tuple[Nominalne, str], ...]:
     """Grupy imienne wraz z liczbą, którymi ten konstytuent bywa.
 
@@ -212,19 +256,19 @@ def _nominalne(drzewo: Node) -> tuple[tuple[Nominalne, str], ...]:
     kształt = tuple(_etykieta(dziecko) for dziecko in ciała)
     if kształt == (SŁOWO,):
         return tuple((Rzecz(lemat), liczba) for lemat, liczba in _rzeczowniki(ciała[0]))
-    if kształt == (SŁOWO, "NPConjunct"):
+    if kształt == (PRZYMIOTNIKOWA, "NPConjunct"):
         return tuple(
             (Jaki(cecha, rzecz), liczba)
-            for cecha in _lematy(ciała[0], "adj")
+            for cecha in _cechy(ciała[0])
             for rzecz, liczba in _nominalne(ciała[1])
         )
-    if kształt == (SŁOWO, SŁOWO):
+    if kształt == (SŁOWO, PRZYMIOTNIKOWA):
         # Przymiotnik po rzeczowniku jest tą samą kategorią, a wraca z niej
         # szyk przed rzeczownikiem, więc odsiewa to porównanie form.
         return tuple(
             (Jaki(cecha, Rzecz(lemat)), liczba)
             for lemat, liczba in _rzeczowniki(ciała[0])
-            for cecha in _lematy(ciała[1], "adj")
+            for cecha in _cechy(ciała[1])
         )
     if kształt == (SŁOWO, "NP"):
         return tuple(
@@ -404,6 +448,8 @@ def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
         warianty = _czasowniki(drzewo)
     elif pozycja == "Modifier":
         warianty = _okoliczniki(drzewo)
+    elif pozycja == PRZYSŁÓWKOWY:
+        warianty = _przysłówki(drzewo)
     elif pozycja == BEZOKOLICZNIK:
         warianty = (drzewo,)
     elif pozycja == PODRZĘDNE:
@@ -476,7 +522,9 @@ def _złóż(
                 konstytuent = Postać(konstytuent)
             sprawca = konstytuent
         oznaczony = _oznacz(konstytuent, znaczniki.get(numer))
-        if pozycja == "Modifier":
+        #  Okoliczność i przysłówek stoją w ``Robi`` jedną listą, bo obie mówią,
+        #  jak albo gdzie coś się dzieje, więc obie idą tutaj, a nie polem.
+        if pozycja in ("Modifier", PRZYSŁÓWKOWY):
             okoliczniki.append(oznaczony)
         else:
             pola[pozycja] = oznaczony

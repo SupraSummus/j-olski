@@ -13,12 +13,12 @@ olski ma, mierzy się właśnie tak, przez zdejmowanie. Dopisana mierzyłaby pro
 napisaną w sondzie, czyli drugą deklarację tego samego, i rozeszłaby się z olskim
 po pierwszej zmianie, której nikt by tu nie powtórzył.
 
-Konstrukcji, której olski nie ma, ten powód nie dotyczy, bo nie ma tam pierwszej
-deklaracji, od której miałaby się rozejść, a wycena przed dopisaniem jest tym,
-po co się ją pisze. Taka sonda wypełnia :attr:`Sonda.dopisuje` i mierzy tę samą
-różnicę w drugą stronę: mianownikiem zostaje wariant, który dopisku nie bierze.
-Kierunek nie sięga niżej niż do tego jednego pola, bo grupa nazywana przez
-:attr:`Sonda.grupa` odsiewa produkcję dopisaną tak samo, jak odsiewa własną.
+Konstrukcję, której olski nie ma, wyceniało się tu w drugą stronę: sonda
+dopisywała ją świeżej gramatyce, a mianownikiem był wariant bez dopisku. Ten
+kierunek wyszedł razem z przysłówkiem, czyli z jedyną sondą, która go używała, bo
+konstrukcja wyceniona i wpuszczona mierzy się już zdejmowaniem. Gdyby wrócił,
+wróci jako gramatyka wariantu brana funkcją, i tego żąda od tej maszynerii
+``sonda/luka.py``; trzyma to ``TODO.md``.
 
 Podział pracy jest przez to jednozdaniowy. Sonda odpowiada, do której grupy
 produkcja należy, a wszystko pozostałe — warianty, przebieg, tabelę przejść,
@@ -71,10 +71,7 @@ class Sonda:
     dopiero on pokazuje konkurencję między grupami, o którą sondzie chodzi.
     Między nimi stoi po jednym wariancie na grupę zdejmowaną osobno.
 
-    Który z tych dwóch końców jest samym olskim, mówi :attr:`dopisuje`, a nie ta
-    kolejność: sonda zdejmująca ma go na końcu, sonda dopisująca na początku.
-    Wspólne obu jest to, że mianownik stoi pierwszy, a gramatyka wyceniana
-    ostatnia.
+    Ostatni jest przez to samym olskim, bo grupy nie zdejmuje żadnej.
     """
 
     #: Nazwa programu w wydruku pomocy i w komunikacie o błędzie ścieżki.
@@ -101,14 +98,6 @@ class Sonda:
     #: zdaniem, na którym ten spór coś kosztuje: dwie produkcje dały mu czytanie,
     #: którego żadna z nich nie dała.
     pytania: tuple[str, str]
-    #: Produkcje, których olski nie ma, dopisane do świeżej gramatyki przez tę
-    #: funkcję; ``None`` u sondy, która mierzy konstrukcję stojącą w gramatyce.
-    #: Dopisuje wszystkie naraz i o warianty nie pyta, bo o to, które z nich w
-    #: tym wariancie zostają, pyta :attr:`grupa` — ta sama, którą sonda zdejmująca
-    #: nazywa grupy własne. Stąd żądanie: każda produkcja dopisana ma mieć tam
-    #: nazwę grupy, bo dopisek bez niej zostałby także w mianowniku i sonda
-    #: mierzyłaby zero.
-    dopisuje: Callable[[Grammar], None] | None = None
 
     @property
     def osobne(self) -> tuple[str, ...]:
@@ -117,14 +106,13 @@ class Sonda:
 
     @property
     def czysty(self) -> str:
-        """Wariant, który jest dokładnie gramatyką olskiego.
+        """Wariant, który jest dokładnie gramatyką olskiego, czyli ten, co nie zdejmuje nic.
 
-        Sonda zdejmująca ma go na końcu, bo tam nie zdejmuje nic; sonda
-        dopisująca na początku, bo tam odsiewa cały swój dopisek. Niezmiennik
-        pilnuje ``tests/test_ruch.py``, i pilnuje go po tej właśnie własności,
-        a nie po numerze wariantu.
+        Nazwany, a nie brany numerem, bo pyta o niego także ``sonda/płaski.py``,
+        która nad tą gramatyką liczy drzewa, a nie werdykty; niezmiennik pilnuje
+        ``tests/test_ruch.py``.
         """
-        return self.warianty[0] if self.dopisuje is not None else self.warianty[-1]
+        return self.warianty[-1]
 
 
 @functools.cache
@@ -136,18 +124,12 @@ def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
     to wszystkie, a wariant :attr:`Sonda.czysty` dokładnie te, które olski ma, co
     pilnuje ``tests/test_ruch.py``.
 
-    Dopisek sondy wchodzi przed odsiewem, a nie po nim, i to jest cały koszt
-    drugiego kierunku: produkcja dopisana przechodzi przez to samo pytanie o
-    grupę, co produkcja olskiego, więc pętla niżej nie wie, którą ma pod ręką.
-
     Budowana raz na proces roboczy, bo budowa jest droższa niż rozbiór jednego
     zdania, a gramatyka po zbudowaniu się nie zmienia.
     """
     if wariant not in sonda.warianty:
         raise ValueError(f"{sonda.prog}: nieznany wariant: {wariant}")
     pełna = build()
-    if sonda.dopisuje is not None:
-        sonda.dopisuje(pełna)
     okrojona = Grammar(start=pełna.start)
     for produkcja in pełna.productions:
         grupa = sonda.grupa(produkcja)

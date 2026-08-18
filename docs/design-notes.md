@@ -406,12 +406,15 @@ i mówi o różnicy zakupu i ceny,
 więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowaniem.
 
 **Zakup w olskim: zero.**
-Z 323 zdań olski odrzuca 320, a trzy przyjmuje bez żadnej szczeliny,
-więc nie są one zakupem dla nikogo.
-Analizy odrzuconych kończą się na cząstce (42), na znaku przestankowym
-i na bezokoliczniku (po 38), na przysłówku (35), na predykatywie (29)
-oraz na imiesłowie biernym (25),
+Z 323 zdań olski odrzuca 318, trzy przyjmuje bez żadnej szczeliny,
+a dwa wypuszcza wieloznacznie,
+więc żadne z nich nie jest zakupem dla nikogo.
+Analizy odrzuconych kończą się na cząstce (50), na znaku przestankowym
+i na bezokoliczniku (po 41), na predykatywie (33) oraz na imiesłowie biernym (27),
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
+Przysłówek stał w tej kolejce czwarty i zszedł z niej razem z produkcją,
+nie kupując ani jednego z tych zdań
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
 `Co mamy wziąć?` i `To chcę podkreślić.` stają na zaimku rzeczownym,
@@ -431,16 +434,16 @@ produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 1179 zdań, które olski przyjmuje jednym czytaniem,
+Z 1575 zdań, które olski przyjmuje jednym czytaniem,
 podłoże czyta jednoznacznie 347 — deklaracja jest w nim węższa,
-więc 783 odrzuca, a 49 czyta dwojako —
+więc 1179 odrzuca, a 49 czyta dwojako —
 i po zdjęciu spójności 99 z tych 347 przestają mieć jedno czytanie.
 Mianownik rośnie z gramatyką, a te dwie liczby rosną z nim wtedy,
 gdy gramatyka dopisuje kształt, który podłoże już miało.
 Grupy liczebnikowej podłoże nie ma
 ([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 więc każde zdanie, które ona olskiemu kupiła, odrzuca i tych liczb nie rusza;
-[cztery szyki](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+[cztery szyki](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
 ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
 i podłoże czytało te zdania, zanim olski dostał na nie ciała.
 
@@ -522,16 +525,17 @@ więc zdanie z dwiema szczelinami w jednym ciągu albo z wysuniętym podmiotem
 siedzi wśród nich i tutaj się nie liczy.
 Cena jest ceną zdjęcia spójności z deklaracji bliskiej olskiemu,
 a nie z jego własnej gramatyki,
-i o ile ta deklaracja jest węższa, mówi 347 wobec 1179.
+i o ile ta deklaracja jest węższa, mówi 347 wobec 1575.
 Korpus jest wreszcie prozą i prasą,
 a nie dokumentacją techniczną, do której olski jest kierowany.
 
 Wraca to rozwidlenie wtedy, gdy zakup przestanie być zerem,
 czyli gdy gramatyka odbierze zdaniom ze szczeliną ich dzisiejsze blokery.
 Maskowanie rośnie wtedy razem z zakupem i nie ma własnego wyzwalacza:
-dwójka jest dzisiaj mała dlatego, że olski odrzuca 124 z tych 128 zdań,
+dwójka jest dzisiaj mała dlatego, że olski odrzuca 122 z tych 128 zdań,
 a odrzuca je na tych samych częściach mowy, tyle że w innej kolejności:
-znak przestankowy, przysłówek i cząstka zamiast cząstki, znaku i bezokolicznika.
+znak przestankowy, cząstka i rzeczownik odczasownikowy
+zamiast cząstki, znaku i bezokolicznika.
 Sonda liczy jedno i drugie razem z tymi blokerami po to,
 żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
 
@@ -601,8 +605,8 @@ czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 **Kupuje przy tym jedną konstrukcję, a nie tę, po którą sięgano.**
 Nad 13 035 zdaniami Składnicy pod złotą morfologią
 luka przypięta wyciąga z odrzucenia cztery zdania,
-odbiera jednoznaczność dwóm
-i jedno przenosi z odrzucenia w wieloznaczność.
+odbiera jednoznaczność pięciu
+i dwa przenosi z odrzucenia w wieloznaczność.
 Wszystkie cztery są zdaniem względnym z wysuniętym dopełnieniem
 i opuszczonym podmiotem — `Dyrektor wymienia imprezy, które zorganizował.` —
 a wyjęcia z głębi nie ma wśród nich ani jedno.
@@ -638,9 +642,9 @@ i zostaje cena z akapitu wyżej: rozpiętość pusta nie trafia w żadną złot�
 
 **Symboli nie ubywa.**
 `RelativeCore` schodzi z piętnastu ciał do dwóch,
-`ClauseConjunct` rośnie z dwudziestu dziewięciu do czterdziestu dwóch,
+`ClauseConjunct` rośnie z trzydziestu do czterdziestu czterech,
 bo przeciąganie żąda ciała na każdą córkę, która lukę unosi,
-i cała gramatyka rośnie ze 142 produkcji do 172.
+i cała gramatyka rośnie ze 150 produkcji do 181.
 Drabina wycenia szczebel 2 na mnożenie się symboli i wycenia trafnie,
 tylko że mnożenie wypada na rodzinie zdaniowej, a nie na względnej.
 
@@ -757,7 +761,7 @@ a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 45 z 49 tych zdań,
+Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 43 z 49 tych zdań,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -765,9 +769,9 @@ wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
-Trzy z pozostałych czterech rozchodzą się na przecinku.
+Trzy z pozostałych sześciu rozchodzą się na przecinku.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
-wychodzi w olskim dwoma czytaniami,
+wychodzi w olskim trzema czytaniami,
 `Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` ośmioma,
 `Czarna lista kupowała jednak co innego, niż obiecywała` jednym,
 a sonda odrzuca wszystkie trzy, bo przecinka nie ma do czego przyłączyć.
@@ -775,13 +779,17 @@ Granica biegnie więc tam, gdzie olski bierze
 [przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
 a sonda po swojej stronie ma spójnik.
 
-Czwarta rozbieżność nie mówi o formalizmie nic i mówi coś o samej sondzie.
+Trzy ostatnie nie mówią o formalizmie nic i mówią coś o samej sondzie.
 `Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
 odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
-a sonda liczebnika nie ma, więc to zdanie odrzuca.
+a sonda liczebnika nie ma, więc to zdanie odrzuca;
+`Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany
+razem z całą analizą, która schodziła do znaku`
+oraz `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi`
+rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe).
 Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,
-więc zestarzeje się po cichu przy każdej produkcji dopisanej do olskiego,
-i ta rozbieżność jest pierwszą, która to pokazuje.
+więc starzeje się po cichu przy każdej produkcji dopisanej do olskiego,
+i te trzy rozbieżności są tym, co to pokazuje.
 Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
 trzyma [`TODO.md`](../TODO.md); dopóki to nie zapadnie,
 liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
@@ -798,18 +806,18 @@ przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
-`olski/subset.py` ma dwadzieścia dziewięć produkcji `ClauseConjunct`,
+`olski/subset.py` ma trzydzieści produkcji `ClauseConjunct`,
 bo każdy szyk wypisuje się osobno, a każdy z nich jeszcze raz w tylu wersjach,
 ile ma miejsc na okolicznik.
 Łuk podmiotu nie mówi o porządku nic,
 więc wszystkie sześć szyków są tam jedną deklaracją,
 a pozycje okolicznika, których
 [subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-liczy czterdzieści cztery, są trzema, po jednej na głowę,
+liczy czterdzieści pięć, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Czternaście z tych dwudziestu dziewięciu ciał dołożyły
-[cztery szyki](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+Czternaście z tych trzydziestu ciał dołożyły
+[cztery szyki](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
 dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
 i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
 

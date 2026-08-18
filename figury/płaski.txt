@@ -3,41 +3,29 @@ polecenie: python3 -m sonda.płaski Składnica-frazowa-180723/
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
-  olski/subset.py: f2dffc02b01d
-  olski/parse.py: a264c789f2b1
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
   olski/grammar.py: 9077925971d9
-  sonda/przysłówek.py: 7ab30a030093
-  sonda/ruch.py: 4eb074921d9c
-  sonda/płaski.py: 352915f236f1
+  sonda/przysłówek.py: 1361683a43fb
+  sonda/ruch.py: 9ae7434b6506
+  sonda/płaski.py: 0bf2f87f2436
 
-Składnica, morfologia złota, wariant „okolicznik”, 13035 zdań
+Składnica, morfologia złota, wariant „olski”, 13035 zdań
 
-     1607  przyjętych jednym czytaniem, czyli populacja
+     1575  przyjętych jednym czytaniem, czyli populacja
 
-płaskie czytanie w 34 z 1607 zdań, 2.1%:
-       27    1.7%  przed przymiotnikiem
-        8    0.5%  przed przysłówkiem
+płaskie czytanie w 10 z 1575 zdań, 0.6%:
+        0    0.0%  przed przymiotnikiem
+       10    0.6%  przed przysłówkiem
 
-  formy, przed przymiotnikiem: `bardzo` 8, `bardziej` 1, `dobrze` 1, `etnicznie` 1, `mało` 1, `mniej` 1, `naprawdę` 1, `niezwykle` 1, `nowo` 1, `rytualnie` 1, `równie` 1, `serdecznie` 1, `starannie` 1, `straszliwe` 1, `wyłącznie` 1, `właściwie` 1, `zaskakująco` 1, `zdecydowanie` 1, `zwykle` 1, `ściśle` 1
-
-  formy, przed przysłówkiem: `bardzo` 2, `niezwykle` 2, `kilkakrotnie` 1, `naprawdę` 1, `ostatecznie` 1, `wytrwale` 1
-
-  najkrótsze zdania, przed przymiotnikiem:
-    Jest dobrze uzbrojona.
-    Demony są bardzo uparte.
-    Stawka była bardzo wysoka.
-    Świat bywa zaskakująco mały.
-    Jesteś straszliwe niedouczony.
-    Jest bardzo prawdziwy, szczery.
-    Julek okazał się mniej drażliwy.
-    On jest bardzo ważnym partnerem.
+  formy, przed przysłówkiem: `bardzo` 3, `Najbardziej` 1, `Ostatnio` 1, `kilkakrotnie` 1, `naprawdę` 1, `niezwykle` 1, `ostatecznie` 1, `wytrwale` 1
 
   najkrótsze zdania, przed przysłówkiem:
     Matka kilkakrotnie dziennie karmi małe.
-    Wydaje się to niezwykle mało prawdopodobne.
+    Ostatnio częściej kupują szynkę i baleron.
     W dobrych warunkach mnożą się bardzo szybko.
     Władze hiszpańskie działały niezwykle szybko.
     Majowe weekendy zapowiadają się naprawdę ładnie!
     Życie przechodzi przez nie ostatecznie zwycięsko.
+    Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
     W tym roku uroczystość ta przebiegała bardzo uroczyście.
-    W tym czasie kupiecka karawana podążała wytrwale naprzód.

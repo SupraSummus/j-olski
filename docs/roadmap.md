@@ -119,9 +119,9 @@ na której analiza staje, i żaden z trzech rejestrów o nie nie prosił.
 Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem
 nie miał ciała, więc olski czytał trzy zdania Składnicy odwrotnie,
 niż czyta je czytelnik, i mówił to jednym czytaniem.
-Dopisane, kupują 44 zdania banku drzew, kosztują cztery
-i dwa z tych czterech są tamtą naprawą
-([subset.md](subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)).
+Dopisane, kupują 55 zdań banku drzew, kosztują sześć
+i dwa z tych sześciu są tamtą naprawą
+([subset.md](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)).
 Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 że wyjdzie.
 
@@ -371,10 +371,9 @@ wyprowadza się i wyprowadza raz.
 
 ## Etap 6: reszta konstrukcji
 
-Przysłówek, `to` w roli łącznika,
-liczebnik pisany cyfrą i rzeczowniki odczasownikowe.
+`to` w roli łącznika, liczebnik pisany cyfrą i rzeczowniki odczasownikowe.
 Kolejka ze Składnicy stawia je wysoko,
-bo przysłówek prowadzi w niej drugi wiersz, a `to` dwa dalsze.
+bo `to` prowadzi w niej dwa wiersze, a rzeczownik odczasownikowy jeden.
 Wobec README podnoszą pokrycie dopiero razem,
 a żaden z pięciu zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
@@ -436,40 +435,37 @@ a nad rejestrem ustaw nie kupił nic i pięć zdań uczynił wieloznacznymi
 Reszta tej listy pochodzi z tego samego rankingu,
 więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
 
-Przysłówek jest z tej listy zmierzony i nie jest dopisany,
-bo pomiar rozstrzygnął go na pół.
-Pozycja przy czasowniku kupuje kilkaset zdań Składnicy
-i jednoznaczności nie odbiera nikomu.
-Pozycja przy przymiotniku, dopisana obok niej, nie kupuje nic i odbiera zdania,
-czyli odbiera je pierwszej połowie tej samej konstrukcji
-([subset.md](subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)).
-Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim.
-Ranking wypadł przy nim tak samo jak przy liczebniku i czasie przeszłym:
-wiersz `adv` obiecywał 1992 zdania i oddał jedną piątą tego.
+Przysłówek zszedł z tej listy cały, czyli obu swoimi gospodarzami,
+i jest największym dopisaniem, jakie ta lista dotąd oddała:
+zdań przyjętych nad Składnicą jest po nim o ponad jedną trzecią więcej
+([corpus.md](corpus.md#the-measurement)).
+Wybór był między dwiema cenami w różnych walutach —
+zdaniami, którym drugi gospodarz odbiera jednoznaczność,
+przeciw werdyktom, które pierwszy sam wydaje wbrew drzewu —
+i rozstrzygnął go [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę):
+za każde zdanie oddane drugiemu gospodarzowi ubywa jedno czytanie nieprawdziwe,
+a `valid` mówiący o zdaniu nieprawdę czyta się jak twierdzenie
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim,
+a dwa zdania przenosi z odrzuconych na wieloznaczne.
+Ranking wypadł przy nim lepiej niż przy każdym z tamtych czterech:
+wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego.
 
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
-Trzy z nich oddały jedną piątą tego, co obiecywały, a `qub` ponad jedną czwartą,
-więc przelicznik wychodzi pięciokrotny i żaden pomiar z niego nie wypadł.
-Cztery pary to jednak cztery, a nie rozkład,
+Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
+a `adv` niemal jedną trzecią,
+więc przelicznik wychodzi trzy- do pięciokrotnego i żaden pomiar z niego nie wypadł.
+Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
+bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,
+i dlatego pary z siebie nie wynikają:
+dopisanie kolejnej konstrukcji zmienia i wiersz, i to, ile z niego zostaje do wzięcia.
+Cztery pary to zresztą cztery, a nie rozkład,
 więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
 
-Przysłówek wchodzi więc połową albo cały, a te dwa ruchy są różne.
-Połowa przyjmuje `Plik jest bardzo duży.` z drzewem,
-w którym `bardzo` określa zdanie, a nie `duży`,
-czyli z werdyktem mówiącym o zdaniu nieprawdę,
-i tym różni się od czterech szyków, które wchodziły całe.
-Ile takich werdyktów wypada, mówi pomiar płaskiego czytania
-([subset.md](subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
-
-Warunek żądający od formalizmu obecności cechy stoi,
-więc druga połowa bierze sam przysłówek stopniowany
-i etap nie czeka już na formalizm.
-Zostaje wybór między dwiema cenami w różnych walutach:
-zdaniami, którym druga połowa odbiera jednoznaczność,
-przeciw werdyktom, które pierwsza sama wydaje wbrew drzewu.
-Kto ten wybór rozstrzyga, płaci przeliczenie wszystkich figur nad gramatyką,
-bo kilkaset zdań przyjętych rusza każdą z nich
-([CLAUDE.md](../CLAUDE.md#checks)), a [TODO.md](../TODO.md) trzyma ten ruch.
+Została po nim jedna pozycja przysłówka, której olski nie ma, i nie jest to zdanie odrzucone:
+przysłówek przed drugim przysłówkiem wychodzi jednym czytaniem, w którym oba określają zdanie.
+Trzeci gospodarz jest tym, co ją zdejmuje, i [TODO.md](../TODO.md) trzyma pytanie,
+czy wraca on z tą samą ceną co drugi.
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

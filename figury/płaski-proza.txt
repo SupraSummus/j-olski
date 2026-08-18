@@ -4,14 +4,14 @@ czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
 ruszają:
   README.md: 0d2a177e02b4
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: f2dffc02b01d
-  olski/parse.py: a264c789f2b1
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
   olski/grammar.py: 9077925971d9
-  sonda/przysłówek.py: 7ab30a030093
-  sonda/ruch.py: 4eb074921d9c
-  sonda/płaski.py: 352915f236f1
+  sonda/przysłówek.py: 1361683a43fb
+  sonda/ruch.py: 9ae7434b6506
+  sonda/płaski.py: 0bf2f87f2436
 
-README.txt, proza, wariant „okolicznik”, 49 zdań
+README.txt, proza, wariant „olski”, 49 zdań
 
         6  przyjętych jednym czytaniem, czyli populacja
        25  niezmierzone: fragment, a nie zdanie

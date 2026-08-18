@@ -662,7 +662,7 @@ and it moves every verdict the other two move.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 One of those tables has a fourth thing that moves it and no production in sight:
-[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)
+[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych)
 is what `Las.numer_czytania` in `olski/parse.py` answers
 about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
 so a change to either moves that table and leaves the rest of the run standing.
@@ -952,7 +952,7 @@ and that is what makes them easy to leave stale.
 is the gap between olski and olski with three productions taken out,
 [what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
 is the same gap over the two bodies that build one,
-and [what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery)
+and [what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
 is that gap over the fourteen bodies the four of them make,
 so everything that moves the tables above moves all three,
 and so does a change to the probe that names each variant's productions —
@@ -972,11 +972,11 @@ so their movers are files in `figury/` rather than a paragraph here,
 and the report is what says whether any of them is owed a rerun.
 [What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
 is the first, and
-[what the adverb would cost](docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu)
-the second, this one measuring a construction the grammar does not have,
-so its variants add productions where the three above take them away.
-That direction moves which end of the variant list is olski and nothing else,
-the denominator being olski either way.
+[what the adverb costs](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
+the second, and both take productions away as the three above do,
+the adverb having entered the grammar at the price that figure records.
+Its probe measured the other way round while the construction was still outside,
+and that direction left the machinery with it (`sonda/ruch.py`).
 The adverb brings a figure of a second kind with it, and the formalism moves it:
 [what a flat adjunct list reads](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)
 counts trees rather than verdicts,

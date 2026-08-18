@@ -1,0 +1,43 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury płaski-okolicznik
+polecenie: python3 -m sonda.płaski Składnica-frazowa-180723/ --wariant okolicznik
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę
+ruszają:
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
+  olski/grammar.py: 9077925971d9
+  sonda/przysłówek.py: 1361683a43fb
+  sonda/ruch.py: 9ae7434b6506
+  sonda/płaski.py: 0bf2f87f2436
+
+Składnica, morfologia złota, wariant „okolicznik”, 13035 zdań
+
+     1607  przyjętych jednym czytaniem, czyli populacja
+
+płaskie czytanie w 44 z 1607 zdań, 2.7%:
+       34    2.1%  przed przymiotnikiem
+       12    0.7%  przed przysłówkiem
+
+  formy, przed przymiotnikiem: `bardzo` 8, `Najbardziej` 3, `Oficjalnie` 2, `Bardziej` 1, `Poprzednio` 1, `bardziej` 1, `dobrze` 1, `etnicznie` 1, `mało` 1, `mniej` 1, `naprawdę` 1, `niezwykle` 1, `nowo` 1, `rytualnie` 1, `równie` 1, `serdecznie` 1, `starannie` 1, `straszliwe` 1, `wyłącznie` 1, `właściwie` 1, `zaskakująco` 1, `zdecydowanie` 1, `zwykle` 1, `ściśle` 1
+
+  formy, przed przysłówkiem: `bardzo` 3, `niezwykle` 2, `Często` 1, `Najbardziej` 1, `Ostatnio` 1, `kilkakrotnie` 1, `naprawdę` 1, `ostatecznie` 1, `wytrwale` 1
+
+  najkrótsze zdania, przed przymiotnikiem:
+    Jest dobrze uzbrojona.
+    Demony są bardzo uparte.
+    Stawka była bardzo wysoka.
+    Oficjalnie cały Sejm RP śpi.
+    Świat bywa zaskakująco mały.
+    Jesteś straszliwe niedouczony.
+    Jest bardzo prawdziwy, szczery.
+    Julek okazał się mniej drażliwy.
+
+  najkrótsze zdania, przed przysłówkiem:
+    Matka kilkakrotnie dziennie karmi małe.
+    Ostatnio częściej kupują szynkę i baleron.
+    Wydaje się to niezwykle mało prawdopodobne.
+    W dobrych warunkach mnożą się bardzo szybko.
+    Władze hiszpańskie działały niezwykle szybko.
+    Majowe weekendy zapowiadają się naprawdę ładnie!
+    Życie przechodzi przez nie ostatecznie zwycięsko.
+    Często tu goszczę i jestem serdecznie przyjmowany.

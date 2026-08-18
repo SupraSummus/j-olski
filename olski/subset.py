@@ -48,8 +48,14 @@ from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 #: bez tego dwa czytania różne samym miejscem przyłączenia wychodzą jednym napisem.
 PRZYŁĄCZANY = "Modifier"
 
+#: Rola przysłówka, czyli tego, który określa zdanie. Przysłówek określający
+#: przymiotnik roli nie dostaje: stoi on wewnątrz orzecznika albo przydawki, więc
+#: widać go w wypełnieniu tamtej roli, a wypisany drugi raz obok mówiłby o zdaniu,
+#: że ma okolicznik, którego ono nie ma.
+PRZYSŁÓWKOWY = "Adverb"
+
 DEKLARACJA = Deklaracja(
-    role=("Subject", "Object", "Predicative", "Verb", PRZYŁĄCZANY),
+    role=("Subject", "Object", "Predicative", "Verb", PRZYSŁÓWKOWY, PRZYŁĄCZANY),
     przyłączany=PRZYŁĄCZANY,
     # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
     # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
@@ -165,6 +171,20 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 #: podzbiór nie bierze.
 PRZECINEK = word("interp", lemma=",")
 
+#: Przysłówek w okoliczniku: cała część mowy i nic więcej. Stopnia nie żąda, bo
+#: `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są okolicznikami
+#: zdania.
+PRZYSŁÓWEK = word("adv")
+
+#: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia. Stopień ma
+#: przysłówek odprzymiotnikowy, a pierwotny go nie ma, i tylko pierwszy z tych
+#: dwóch przymiotnik określa, więc `tu duży` z tej pozycji wypada, a `bardzo duży`
+#: zostaje. Terminale są przez to dwa, choć część mowy jedna: warunek należy do
+#: jednego gospodarza, a drugi bierze przysłówek każdy. Czym jest żądanie obecności
+#: cechy, mówi ``niesione`` w olski/grammar.py, a cenę tego warunku trzyma
+#: docs/subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze.
+PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
+
 #: Cząstka przecząca, czyli jedyne słowo, którym olski przeczy. Warunek na lemat,
 #: a nie sama część mowy, tak samo jak przy przecinku: ``part`` niesie całą klasę
 #: cząstek naraz, a ``by``, ``czy`` i ``no`` ten podzbiór zostawia na zewnątrz.
@@ -225,8 +245,21 @@ def build() -> Grammar:
     # oba wykluczają ten sam lemat i wykluczenie ma być w każdym ciele to samo.
     # Zaimka względnego nie bierze ani jeden z nich: pozycję ma on jedną i stoi
     # ona niżej, na czole zdania względnego.
-    przymiotnik = word("adj", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)
-    orzecznikowy = word("adj|ppas", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)
+    #
+    # Konstytuentem, a nie słowem, bo przysłówek stopniowany przymiotnik określa:
+    # `bardzo duży`, `nieporównanie tańsze`. Symbol stawia tę pozycję raz, zamiast
+    # dokładać ją do każdego ciała, w którym przymiotnik stoi, i stawia ją pod
+    # przymiotnikiem, a nie obok rzeczownika, którego ten przysłówek nie określa.
+    # Cenę tego gospodarza trzyma
+    # docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe.
+    for symbol, słowo in (
+        ("Adjective", word("adj", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)),
+        ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_WZGLĘDNY, **AGREE)),
+    ):
+        grammar.rule(symbol, [Głowa(słowo)], **AGREE)
+        grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)], **AGREE)
+    przymiotnik = nt("Adjective", **AGREE)
+    orzecznikowy = nt("PredicativeAdjective", **AGREE)
 
     grammar.rule("Sentence", [Głowa(nt("Clause")), word("interp", lemma=".|!|?")])
 
@@ -346,7 +379,7 @@ def build() -> Grammar:
     # wszystkie sześć, a olski miał dwa, i brakujące cztery były wykluczone
     # brakiem produkcji, nie decyzją, czego docs/design-notes.md#angle-one-parsing
     # tej gramatyce zabrania. Cenę i zakup trzyma
-    # docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery.
+    # docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć.
     #
     # Miejsca na okolicznik wylicza tu pętla, a nie ręka: stoi jedno po każdej
     # grupie imiennej i jedno na końcu zdania, a te dwa są jednym tam, gdzie
@@ -367,7 +400,12 @@ def build() -> Grammar:
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
     # the attachment ambiguity docs/subset.md is about cannot arise.
+    #
+    # Przysłówek dostaje tu ciało wypisane, a nie listę okoliczników, bo `Adjuncts`
+    # w tym miejscu dałoby wyrażeniu przyimkowemu drugie wyprowadzenie tego samego
+    # kształtu, czyli czytanie, którego nie ma czym odsiać.
     grammar.rule("ClauseConjunct", [nt("Modifier"), Głowa(nt("ClauseConjunct"))])
+    grammar.rule("ClauseConjunct", [nt(PRZYSŁÓWKOWY), Głowa(nt("ClauseConjunct"))])
 
     grammar.rule(
         "Subject",
@@ -481,8 +519,16 @@ def build() -> Grammar:
 
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
     # has two and a verb that takes one of them takes any number.
+    #
+    # Okolicznikiem jest wyrażenie przyimkowe albo przysłówek, więc lista bierze
+    # jedno i drugie, a przysłówek dostaje przez nią każdą pozycję, jaką okolicznik
+    # w zdaniu ma. Lista jest przy tym płaska, więc `bardzo szybko` wychodzi dwoma
+    # okolicznikami zdania obok siebie; ile takich czytań zostaje, mierzy
+    # docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę.
     grammar.rule("Adjuncts", [nt("Modifier")])
     grammar.rule("Adjuncts", [Głowa(nt("Modifier")), okoliczniki])
+    grammar.rule("Adjuncts", [nt(PRZYSŁÓWKOWY)])
+    grammar.rule("Adjuncts", [Głowa(nt(PRZYSŁÓWKOWY)), okoliczniki])
 
     # What is predicated of the subject: an adjective phrase agreeing with it,
     # or a noun phrase in the instrumental. Both are what być takes, and the
@@ -753,6 +799,12 @@ def build() -> Grammar:
 
     # A preposition governs a case, and the noun phrase has to be in it.
     grammar.rule("Modifier", [Głowa(word("prep", case=V("c"))), nt("NP", case=V("c"))])
+
+    # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
+    # bo werdykt nazywa role etykietami węzłów: bez tego symbolu zdanie przyjęte z
+    # okolicznikiem przysłówkowym wychodziłoby `valid` bez słowa o tym, co olski w
+    # nim przyjął (:data:`PRZYSŁÓWKOWY`).
+    grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK])
 
     # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
     # bez przecinków odgraniczających. Przecinek zamykający stawia polszczyzna

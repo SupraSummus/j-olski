@@ -1,15 +1,15 @@
 #  Ten plik powstaje przebiegiem: python3 -m harness.figury przysłówek-proza
 polecenie: python3 -m sonda.przysłówek proza/README.txt
-czyta: docs/subset.md#przysłówek-zmierzono-przed-dopisaniem-i-drugi-gospodarz-odbiera-zdania-pierwszemu
+czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
   README.md: 0d2a177e02b4
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: f2dffc02b01d
-  olski/parse.py: a264c789f2b1
+  olski/subset.py: 1b37d940bed0
+  olski/parse.py: e8b09f590f5a
   olski/grammar.py: 9077925971d9
-  sonda/przysłówek.py: 7ab30a030093
-  sonda/ruch.py: 4eb074921d9c
+  sonda/przysłówek.py: 1361683a43fb
+  sonda/ruch.py: 9ae7434b6506
 
 README.txt, proza, 49 zdań
 
@@ -17,7 +17,7 @@ README.txt, proza, 49 zdań
    bez przysłówka           6             3         40
        okolicznik           6             5         38
 przy przymiotniku           6             3         40
-              oba           6             5         38
+            olski           6             5         38
      25          niezmierzone: fragment, a nie zdanie
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:
@@ -26,7 +26,7 @@ ruch wobec wariantu „bez przysłówka” — okolicznik:
 ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
   żadne zdanie nie zmieniło werdyktu
 
-ruch wobec wariantu „bez przysłówka” — oba:
+ruch wobec wariantu „bez przysłówka” — olski:
         2  rejected → ambiguous
 
 konkurencja, nad zdaniem po zdaniu:
@@ -37,6 +37,6 @@ okolicznik, rejected → ambiguous:
   Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
   Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
 
-oba, rejected → ambiguous:
+olski, rejected → ambiguous:
   Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
   Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.

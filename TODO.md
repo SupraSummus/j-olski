@@ -276,10 +276,12 @@ i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 `sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
 czyli około stu osiemdziesięciu wierszy stojących drugi raz.
-Połowa powodu, dla którego nie dało się ich wziąć stamtąd, zeszła:
-`Sonda.dopisuje` daje wariant bogatszy od mianownika,
-a odsiew grup działa nad dopiskiem tak samo jak nad produkcjami olskiego,
-czego dowodem jest `sonda/przysłówek.py`, która nic z `ruch.py` nie przepisuje.
+Połowa powodu, dla którego nie dało się ich wziąć stamtąd, zeszła
+i wróciła w innej postaci.
+Wariant bogatszy od mianownika ta maszyneria umiała, dopóki miała `Sonda.dopisuje`,
+a odsiew grup działał nad dopiskiem tak samo jak nad produkcjami olskiego;
+pole to wyszło razem z przysłówkiem, czyli z jedyną sondą, która je wypełniała,
+bo konstrukcja wpuszczona do gramatyki mierzy się już zdejmowaniem.
 Zostaje to, że warianty luki są dwiema wersjami jednego dopisku,
 a nie jednym wariantem na grupę zdejmowaną osobno:
 wariant ostatni nie jest wtedy „obie naraz”,
@@ -289,8 +291,7 @@ Ruchem jest `Sonda` biorąca gramatykę wariantu wprost, funkcją zamiast grupy,
 wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
 Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
 oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
-wiążącym wariant z grupą produkcji, i `dopisuje` obok niej,
-bo dopisek wchodzący przed odsiewem jest tym, co funkcja wariantu ma zastąpić.
+wiążącym wariant z grupą produkcji.
 Tej samej maszynerii żąda z drugiej strony wpis o figurach
 `docs/corpus.md` bez polecenia:
 tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
@@ -478,6 +479,12 @@ Do rozstrzygnięcia jest przy tym, czy sonda na figurę, którą czyta jeden dok
 zarabia na siebie, czy taniej jest wpisać kryterium obok liczby,
 co [tamta sekcja](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
 robi dla trzydziestu pozycji i co pozwoliło wziąć tę liczbę drugi raz.
+Przysłówek wpuszczony do gramatyki był próbą tego drugiego i wypadła ona po jego stronie:
+kryterium wypisane obok liczby dało się wziąć skryptem po latach — czterdzieści cztery
+produkcje przyłączeniowe policzyły się drugi raz na tę samą liczbę — a wariant opisany
+luźniej („pozycje, których przyłączenie żąda”) nie dał się powtórzyć wcale
+i zdanie o nim trzeba było napisać od nowa nad wariantem nazwanym wprost.
+Skrypt i tak powstał na jeden przebieg i został skasowany, więc ruch wyżej stoi.
 
 The archives these documents send a reader to fetch are pinned by URL and by nothing else.
 [Składnica](docs/corpus.md#fetching-it)
@@ -530,24 +537,6 @@ since a mirror nobody can check against upstream
 is the second copy of a fact that
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
 
-Wieloznaczność rejestru ustaw jest w jednym dokumencie policzona dwa razy i różnie.
-[Odczyt z § 6](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
-mówi o 228 zdaniach wieloznacznych, czyli o 77% tych, którym olski daje czytanie,
-a [tabela wyżej](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza) w tym samym dokumencie
-ma 272 na 344, czyli 79%, i to tabela zgadza się z przebiegiem.
-Tamta sekcja ma jeszcze dwie liczby z tego samego przebiegu:
-zdań o czytaniach liczniejszych niż `MAX_READINGS` jest 21, a nie osiemnaście,
-a porównanie ze Składnicą mówi 27% (122 wieloznaczne na 447 przeczytanych),
-gdzie przebieg oddaje 32% (549 na 1728, [`docs/corpus.md`](docs/corpus.md#the-measurement)).
-Najdłuższe zdanie stoi niezmienione na 28 042 czytaniach,
-a zdanie o tym, że czytania różnią się najczęściej podmiotem i dopełnieniem,
-przebieg potwierdza: 160 razy podmiot i 112 dopełnienie na `differing in`.
-Ruchem jest więc poprawka samych liczb wraz ze zdaniami, które je czytają,
-a do przeczytania są oba polecenia, które ten dokument drukuje.
-Ekstrakcja rozejścia nie tłumaczy, bo zdań jest dalej 4921.
-Tabelę ktoś nad tym przebiegiem poprawił, a tamtej sekcji nie,
-więc poprawka ma przejść cały dokument, a nie same liczby wypisane tutaj.
-
 ## Gramatyka, parser i pomiar pokrycia
 
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
@@ -575,27 +564,41 @@ sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
 a drugiej listy ten protokół unika z podanego tam powodu.
 
-Przysłówka gramatyka nie ma, a wybór między jego dwiema połowami jest wyceniony
-w obu walutach i nierozstrzygnięty
-([`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji)).
-Pozycja przy czasowniku kupuje kilkaset zdań Składnicy i nie odbiera
-jednoznaczności żadnemu zdaniu przyjętemu wcześniej, a płaci werdyktami
-mówiącymi nieprawdę: `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym
-czytaniem, w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`,
-i takich zdań jest jedno na pięćdziesiąt z przyjętych
+Przysłówek ma w gramatyce dwóch gospodarzy, a polszczyzna daje mu trzeciego:
+przysłówek przed przysłówkiem, jak `bardzo szybko`, nie dochodzi do niczego,
+więc `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
+w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`.
+Takich czytań zostaje jedno na sto pięćdziesiąt zdań przyjętych, wszystkie tej klasy
 ([`docs/subset.md`](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
-Pozycja przy przymiotniku zdejmuje cztery piąte z nich i odbiera pierwszej zdania,
-więc ruchem jest decyzja, która z dwóch cen jest tańsza, a nie kolejny pomiar.
-Do przeczytania są przy niej dwie rzeczy.
-Pierwsza: `DEKLARACJA` w `olski/subset.py` nie ma roli na przysłówek,
-więc werdykt nie nazywa ani tego, który określa zdanie, ani tego, który nie,
-i pozycja dopisana bez tej roli daje `valid` bez słowa o tym, co przyjęła;
-rola dopisana tam rusza za to każdy blok werdyktu cytowany w dokumentach.
-Druga: klasa, której nie obejmuje żadna z dwóch połówek, czyli przysłówek przed
-przysłówkiem, i to, czy trzeci gospodarz nie wraca z tą samą ceną co drugi.
-Kto to podnosi, płaci przeliczenie wszystkich figur nad gramatyką,
-bo kilkaset zdań przyjętych rusza każdą z nich ([`CLAUDE.md`](CLAUDE.md#checks)),
+Ruchem jest symbol przysłówka rekurencyjny po stronie stopnia —
+`Adverb → adv:degree Adverb` obok `Adverb → adv` — czyli ta sama pozycja,
+którą przymiotnik dostał od `Adjective`, a przed nią pomiar.
+Do przeczytania jest cena drugiego gospodarza, bo trzeci wraca z pytaniem tej samej
+postaci: kupuje prawdę o drzewie i płaci jednoznacznością zdań, które dziś przechodzą,
+a nad Składnicą drugi zapłacił za nią trzydziestoma dwoma zdaniami
+([`docs/subset.md`](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+Kto to podnosi, płaci przeliczenie wszystkich figur nad gramatyką
+([`CLAUDE.md`](CLAUDE.md#checks)),
 a korpusy trzeba mieć wszystkie trzy naraz, bo znak ceny zależy od rejestru.
+
+Okolicznik przysłówkowy bierze całą część mowy, a Morfeusz daje czytanie `adv`
+formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`, `sam`.
+Wychodzą z tego czytania, których polszczyzna w tych miejscach nie ma —
+`postępować wobec innych w duchu braterstwa` dostaje trzy czytania z `wobec`
+w roli okolicznika, a `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
+wyprowadza się jako dwa zdania spięte przecinkiem, choć jest zdaniem podrzędnym.
+Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
+bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego.
+Ruchem jest warunek na tę klasę, a dwa kandydujące są zmierzone i żaden nie jest darmowy.
+Odsiew czytania przysłówkowego przy czytaniu przyimkowym kupuje nad Składnicą
+pod morfologią żywą jednoznaczność dwunastu zdaniom, a jedenastu odbiera wyprowadzenie
+(sześciu przyjętym i pięciu wieloznacznym); odsiew przy czytaniu spójnikowym kupuje
+tyle samo i odbiera trzydziestu pięciu, bo zabiera `jak` w pytaniu.
+Pod morfologią złotą oba nie ruszają niczego, bo anotator wybrał tam jedno czytanie
+na token, więc pomiar tej klasy idzie po morfologii żywej i po prozie.
+Do przeczytania jest lista form, które warunek dotknie: `blisko` i `naprzeciw`
+niosą czytanie przysłówkowe, którego polszczyzna używa,
+więc cena stoi w zdaniach, a nie w samych czytaniach.
 
 Dopełnienie stoi przed swoim czasownikiem w czterech szykach dopisanych,
 a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.
@@ -609,7 +612,7 @@ Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
 dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
 tam, gdzie cztery szyki już konkurują z nią przed formą osobową,
 i cenę tamtych czterech zna
-[`sonda/szyk.py`](sonda/szyk.py) — cztery zdania —
+[`sonda/szyk.py`](sonda/szyk.py) — sześć zdań —
 więc ta pozycja ma z czym się porównać, zanim zapadnie decyzja.
 Ruchem jest ciało `Complements`, a nie piąty szyk:
 pozycję ramy niesie fraza bezokolicznikowa
@@ -1070,7 +1073,7 @@ The section that owns the reproduction path says meanwhile which figures are han
 and that sentence goes when the commands cover them.
 
 Six of those figures were left stale by the change that admitted
-[four word orders](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery),
+[four word orders](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć),
 and they are named here so that the next session does not have to find them.
 Each counts sentences and each moved with the accepted set, and none has a command:
 what the past tense bought, in
@@ -1094,7 +1097,7 @@ bo każdy szyk wypisuje się osobno,
 a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
 i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
 Czternaście z tych dwudziestu dziewięciu dołożyły
-[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-44-zdania-i-odbiera-cztery),
+[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć),
 czyli jedna zmiana podwoiła tę rodzinę,
 i jest to najbliższy pomiar tego, co ten wpis wycenia.
 Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
@@ -1258,7 +1261,7 @@ więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
 choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
 Kosztuje to 22 z 41 zdań w wierszu `lost`
 oraz cztery z 31 zdań przyjętych, które się nie zgadzają
-([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-437-z-478-zdań-wieloznacznych)),
+([`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych)),
 i te dwie liczby są pierwszym pomiarem tej luki.
 Ruchem jest etykieta na zaimku, czyli `Subject` albo `Object` nad `RelativePronoun`
 zamiast samego `RelativePronoun` w ciele,
