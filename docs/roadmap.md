@@ -20,8 +20,6 @@ a nie odkryciem na temat pracy.
 Poprzez granicę torów taka zależność nie biegnie w żadną stronę,
 więc numer z jednego z drugim się nie zestawia
 i żaden nie mówi, na co drugi czeka.
-Trzeci tor tu stał i został wycofany,
-o czym mówi [sekcja niżej](#tor-lintera-jest-wycofany).
 
 ## Co jest budowane
 
@@ -45,8 +43,6 @@ jest raportem o dokumencie, a nie zarzutem wobec zdania
 ([generated-polish.md](generated-polish.md#the-closing-sentence-is-measurably-different)),
 a wystąpienie, w które trafia, wskazuje po to,
 żeby dało się sprawdzić liczbę, i nie twierdzi o nim nic.
-Ten argument stał tu, zanim tor lintera został wycofany,
-i to on go wycofał.
 
 Tor składu idzie w drugą stronę:
 wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie.
@@ -113,7 +109,7 @@ Wycenionym przykładem jest czas przeszły z
 [etapu 6](#etap-6-reszta-konstrukcji).
 
 Cztery szyki podmiotu, dopełnienia i czasownika są przykładem samego kierunku,
-a nie któregoś etapu, i dlatego stoją tutaj.
+a nie któregoś etapu.
 Nie ma ich w żadnej kolejce blokerów, bo szyk nie jest formą,
 na której analiza staje, i żaden z trzech rejestrów o nie nie prosił.
 Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem

@@ -42,17 +42,13 @@ a pliki repozytorium są w UTF-8 (`.editorconfig`).
 
 Reguły nie pilnuje żaden check, tak samo jak żadnej innej reguły prozy:
 sprawdzamy je w przeglądzie zmian, a nie w testach.
-Pakiet reguł, który sprawdzał tu polską typografię, wycofaliśmy
-([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
-a razem z nim listę plików, nad którymi ten check biegł.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają —
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
 podaje polecenie, które to pokazuje nad README —
 i tych dokumentów pod nią nie przepisujemy.
 
-Reguła nie wywodzi się z [sześciu sił](#six-forces) i dlatego je poprzedza.
-Przyjmujemy ją [leniwie](#adopt-these-rules-lazily) jak resztę,
+Regułę przyjmujemy [leniwie](#adopt-these-rules-lazily) jak resztę,
 z jedną różnicą co do jednostki.
 Reguły prozy sięgają pojedynczego zdania, bo zdanie poprawia się osobno,
 a język sięga sekcji, docstringa, komentarza, komunikatu
