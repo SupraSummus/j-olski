@@ -1,0 +1,106 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury okolicznikowe-żywa
+polecenie: python3 -m sonda.okolicznikowe Składnica-frazowa-180723/ --morfologia live
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
+ruszają:
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/okolicznikowe.py: 1c2350b8ae2c
+  sonda/ruch.py: e4132c252685
+
+Składnica, morfologia żywa, 13035 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+bez okolicznika zdaniowego        1371          1182      10482
+                za zdaniem        1378          1204      10453
+             przed zdaniem        1372          1189      10474
+                     olski        1379          1211      10445
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
+       19  rejected → ambiguous
+       10  rejected → valid
+        3  valid → ambiguous
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
+        4  rejected → valid
+        4  rejected → ambiguous
+        3  valid → ambiguous
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
+       23  rejected → ambiguous
+       14  rejected → valid
+        6  valid → ambiguous
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie pozycje ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+za zdaniem, rejected → ambiguous:
+  A poza tym płakałam, bo uważałam, że jestem tam gruba i brzydka.
+  A to może uratować od śmierci, bo początek choroby zostanie w porę wykryty.
+  Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
+  Zawsze wygrywał, bo był najszybszy.
+  Dyrektoriat ten funkcjonował zgodnie, dopóki istniała równowaga sił w rządzie.
+  Turska przyznała, że jest przerażona, bo nie wyklucza, że nastolatka mogła zarazić inne osoby.
+
+za zdaniem, rejected → valid:
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
+  Patrzę na drzwi, bo ktoś idzie po schodach.
+  Wiemy, bo spotkaliśmy się z nią osobiście!
+  Traper idzie na rufę, bo tam mniej kołysze.
+  Tropiłeś mnie bez ustanku, aż znalazłeś!
+  Czekałam, aż mrugnie do mnie.
+  Zamieniłem się z nim, bo chciał posłuchać przysięgi gladiatorów.
+  Stał chwilę nieruchomo, aż chłopak zniknął za rogiem Szujskiego.
+
+za zdaniem, valid → ambiguous:
+  Nie lubię, gdy ktoś jest natarczywy.
+  Wiedział, kiedy jestem sama.
+  Zawsze tak robię, gdy tu jestem.
+
+przed zdaniem, rejected → valid:
+  Nim przekroczy granice raju, musi wyrazić skruchę.
+  Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
+  Jeśli w sercu pojawi się niepewność, nie dramatyzuj.
+  Ponieważ na pukanie nikt nie reagował, policjanci wyważyli drzwi.
+
+przed zdaniem, rejected → ambiguous:
+  Jeżeli człowiek silnie reaguje na różne zjawiska, może być tak odbierany.
+  Jeśli w młodości nie przyzwyczaimy organizmu do tego życiodajnego płynu, organizm przestanie wytwarzać laktozę, enzym niezbędny do trawienia cukru mlecznego.
+  Zanim skończyłem mówić, zaatakował mnie z dwunastu stron naraz.
+  Jeżeli twoja Wenus jest dobrze aspektowana, masz wielki sentyment dla rodzeństwa, sąsiadów i współpracowników.
+
+przed zdaniem, valid → ambiguous:
+  Gdy wróciła, usiadła obok niego na tapczanie.
+  Kiedy weszłam do pokoju, tatuś siedział w fotelu.
+  Gdy nikt nie reagował na dzwonek, włączyli syrenę.
+
+olski, rejected → ambiguous:
+  A poza tym płakałam, bo uważałam, że jestem tam gruba i brzydka.
+  A to może uratować od śmierci, bo początek choroby zostanie w porę wykryty.
+  Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  Jeżeli człowiek silnie reaguje na różne zjawiska, może być tak odbierany.
+  Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
+  Jeśli w młodości nie przyzwyczaimy organizmu do tego życiodajnego płynu, organizm przestanie wytwarzać laktozę, enzym niezbędny do trawienia cukru mlecznego.
+  Zawsze wygrywał, bo był najszybszy.
+
+olski, rejected → valid:
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
+  Nim przekroczy granice raju, musi wyrazić skruchę.
+  Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
+  Patrzę na drzwi, bo ktoś idzie po schodach.
+  Jeśli w sercu pojawi się niepewność, nie dramatyzuj.
+  Wiemy, bo spotkaliśmy się z nią osobiście!
+  Traper idzie na rufę, bo tam mniej kołysze.
+  Ponieważ na pukanie nikt nie reagował, policjanci wyważyli drzwi.
+
+olski, valid → ambiguous:
+  Nie lubię, gdy ktoś jest natarczywy.
+  Gdy wróciła, usiadła obok niego na tapczanie.
+  Kiedy weszłam do pokoju, tatuś siedział w fotelu.
+  Wiedział, kiedy jestem sama.
+  Zawsze tak robię, gdy tu jestem.
+  Gdy nikt nie reagował na dzwonek, włączyli syrenę.

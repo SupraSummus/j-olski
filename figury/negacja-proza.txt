@@ -2,12 +2,12 @@
 polecenie: python3 -m sonda.negacja proza/README.txt
 czyta: docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno
 ruszają:
-  README.md: 0d2a177e02b4
+  README.md: 0e03f0213241
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 1b37d940bed0
-  olski/parse.py: e8b09f590f5a
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
   sonda/negacja.py: 2171ef6d8d65
-  sonda/ruch.py: 9ae7434b6506
+  sonda/ruch.py: e4132c252685
 
 README.txt, proza, 49 zdań
 

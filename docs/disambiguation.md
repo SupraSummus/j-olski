@@ -113,7 +113,7 @@ tyle że takim, który nie widział ani jednego drzewa wzorcowego.
 Nad zdaniami, które olski odrzuca za wieloznaczność,
 złote czytanie jest w tej kolejności pierwsze w 312 wypadkach,
 i liczbę tę wraz z jej mianownikiem trzyma
-[corpus.md](corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych).
+[corpus.md](corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych).
 Wobec wszystkich 478 zdań, o które to pytanie da się zadać,
 jest to 65,3% trafień czytaniem pierwszym.
 
@@ -141,17 +141,17 @@ a nie z osobnej klasyfikacji napisanej obok:
 `przyłączenie`, że gospodarz modyfikatora zostaje nierozstrzygnięty,
 `konstytuent`, że różnica leży tam, gdzie streszczenie nie zagląda.
 Klasę da się więc sprawdzić, czytając werdykt nad zdaniem.
-Nad 750 zdaniami, które olski odrzuca za wieloznaczność:
+Nad 777 zdaniami, które olski odrzuca za wieloznaczność:
 
 | co werdykt nazywa | zdań | |
 | --- | --- | --- |
-| rola + przyłączenie | 592 | 78,9% |
-| przyłączenie | 66 | 8,8% |
-| rola | 60 | 8,0% |
-| sama liczba czytań | 14 | 1,9% |
-| rola + przyłączenie + konstytuent | 9 | 1,2% |
-| konstytuent | 8 | 1,1% |
-| przyłączenie + konstytuent | 1 | 0,1% |
+| rola + przyłączenie | 601 | 77,3% |
+| przyłączenie | 71 | 9,1% |
+| rola | 65 | 8,4% |
+| sama liczba czytań | 19 | 2,4% |
+| rola + przyłączenie + konstytuent | 10 | 1,3% |
+| konstytuent | 9 | 1,2% |
+| przyłączenie + konstytuent | 2 | 0,3% |
 
 Tabela liczy nazwy, a nie decyzje, i te dwie rzeczy się rozchodzą.
 `Czeka koń z furą.` ma jedno przyłączenie i różni się rolą,
@@ -164,12 +164,14 @@ przyłączenie o dwóch gospodarzach mnoży las przez dwa,
 więc gdy iloczyn gospodarzy równa się liczbie czytań,
 innej decyzji ten las nie zostawia.
 
-**Tak liczone przyłączenie jest całą decyzją w 564 z 750 zdań, czyli w 75,2%.**
-W klasie `rola + przyłączenie` jest to 504 z 592, a w klasie `przyłączenie` 60 z 66.
+**Tak liczone przyłączenie jest całą decyzją w 573 z 777 zdań, czyli w 73,7%.**
+W klasie `rola + przyłączenie` jest to 510 z 601, a w klasie `przyłączenie` 63 z 71.
 Udział spadł razem z przysłówkiem: klasa `rola` urosła z osiemnastu zdań do
-sześćdziesięciu, bo dwaj gospodarze przysłówka różnią czytania rolą,
+sześćdziesięciu pięciu, bo dwaj gospodarze przysłówka różnią czytania rolą,
 a nie przyłączeniem
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+i spada dalej ze zdaniem okolicznikowym, które różni je tą samą drogą
+([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
 bo dwa przyłączenia, z których jedno ma gospodarza tylko pod jednym czytaniem drugiego,
 dają czytań mniej niż iloczyn;
@@ -375,10 +377,10 @@ a nie to, że jedna kolumna obsłużyłaby oba:
 wycenia to kryterium osobno dla rzeczownika i dla czasownika,
 i wypada ono po tych dwóch stronach zupełnie inaczej.
 
-Ile z tych 75,2% by to zdjęło, ten dokument nie mówi.
+Ile z tych 73,7% by to zdjęło, ten dokument nie mówi.
 Zasięg i trafność kryterium wycenia tamta sekcja,
 a to jest pytanie o zdania, nie o wyrażenia:
-790 z 4 517 to wyrażenia, a 564 z 750 to zdania,
+790 z 4 517 to wyrażenia, a 573 z 777 to zdania,
 i jedno zdanie niesie ich czasem kilka.
 Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu brakuje.
 
@@ -452,7 +454,7 @@ które w ogóle rozstrzyga jakakolwiek rama
 Dwa korpusy mówią więc to samo o tej samej połowie.
 
 Czego ten pomiar nie mówi, to ile zdań by to zdjęło.
-Mianownikiem jest tu wyrażenie, a `564 z 750` niżej liczy zdania,
+Mianownikiem jest tu wyrażenie, a `573 z 777` niżej liczy zdania,
 i jedno zdanie niesie takich wyrażeń czasem kilka,
 więc złożenie dwóch mianowników zostaje tam, gdzie było.
 
@@ -488,7 +490,7 @@ bo nikt nie pokazywał tam akapitu.
 Wniosek jest więc taki, że ujednoznacznianie na poziomie zdania ma sufit,
 że sufit jest poniżej 93% na jedno przyłączenie
 i że nad zdaniem z dwoma przyłączeniami spada wykładniczo —
-a takich jest 155 z 750.
+a takich jest 162 z 777.
 Powyżej sufitu nie ma modelu, jest budowanie kontekstu,
 czyli zadanie, którego ten parser nie stawia i którego wykonania nie umiałby wyjaśnić.
 
@@ -849,22 +851,22 @@ python3 -m sonda.wskazania Składnica-frazowa-180723/
 ```
 
 ```text
-  668 zdań, nad którymi werdykt zostawia przyłączenie,
-  a w nich 870 przyłączeń, czyli tyle pytań warstwa dostaje
+  684 zdań, nad którymi werdykt zostawia przyłączenie,
+  a w nich 896 przyłączeń, czyli tyle pytań warstwa dostaje
 
   gospodarzy na przyłączenie:
-      645   74.1%  2
-      175   20.1%  3
-       41    4.7%  4
+      663   74.0%  2
+      182   20.3%  3
+       42    4.7%  4
         9    1.0%  5
 
-  ze wzorcem w drzewie: 638, czyli 73.3% przyłączeń
-  bez wzorca: 232, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
+  ze wzorcem w drzewie: 654, czyli 73.0% przyłączeń
+  bez wzorca: 242, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
 
-  co warstwa mówi o 638 przyłączeniach ze wzorcem:
-      128   20.1% odpowiedzi,  95.3% trafień    skłonność
-      128   20.1% odpowiedzi,  95.3% trafień    razem
-      638  100,0% odpowiedzi,  59.4% trafień    podłoga: zawsze do rzeczownika
+  co warstwa mówi o 654 przyłączeniach ze wzorcem:
+      134   20.5% odpowiedzi,  95.5% trafień    skłonność
+      134   20.5% odpowiedzi,  95.5% trafień    razem
+      654  100,0% odpowiedzi,  59.8% trafień    podłoga: zawsze do rzeczownika
 ```
 
 Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
@@ -872,22 +874,22 @@ Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
 Zasięg 20% jest zasięgiem warstwy wypuszczanej i jest wyższy od 12,8% z oceny wyżej,
 bo tabela wypuszczana ma 998 par zamiast tych z połowy korpusu,
 a lematów formy pyta się naraz kilku, więc para znajduje się częściej.
-Populacja jest przy tym inna — te 870 przyłączeń to te, przed którymi wybór postawił olski,
+Populacja jest przy tym inna — te 896 przyłączeń to te, przed którymi wybór postawił olski,
 a nie te, przed którymi postawił go anotator — więc dwóch zasięgów nie odejmuje się od siebie.
 
-Trafność 95,3% jest mierzona na materiale, który ta tabela widziała.
+Trafność 95,5% jest mierzona na materiale, który ta tabela widziała.
 `olski/skłonności.txt` powstaje z całej Składnicy, a przebieg idzie po całej Składnicy,
 więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
 Trafnością poza próbą jest 89,5% z oceny wyżej,
 a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
 
-Gospodarzy jest więcej niż dwóch w 25,2% przyłączeń,
+Gospodarzy jest więcej niż dwóch w 26,0% przyłączeń,
 czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten, przed którym warstwa staje.
 Wypadki te biorą się z produkcji, a nie z rzadkości:
 `Obudziłem się na podłodze w kuchni z pustą paczką po ciasteczkach w dłoniach.`
 ma cztery przyłączenia, a każde następne dostaje za gospodarza rzeczownik z poprzedniego.
 
-Wzorca nie ma dla 232 z 870 przyłączeń i nie jest to milczenie banku drzew.
+Wzorca nie ma dla 242 z 896 przyłączeń i nie jest to milczenie banku drzew.
 Drzewo albo nawiasuje tę frazę inaczej, niż nazywa ją werdykt,
 albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem.
 Drugie ma dwie kategorie i obie wypadają z tego samego powodu.

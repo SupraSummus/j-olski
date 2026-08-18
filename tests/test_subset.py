@@ -30,6 +30,7 @@ from olski.subset import (
     DEKLARACJA,
     FRAGMENT,
     GRAMMAR,
+    OKOLICZNIKOWY,
     PRZECINEK,
     WALENCJA,
     WALENCJA_ZWROTNA,
@@ -1431,6 +1432,85 @@ def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
     assert found.result.ile == 2, found.explain()
     assert all("Object" not in reading for reading in found.readings)
     assert found.explain() == "2 readings; „organ gminy wydaje przepis” reads 2 ways"
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        "Program zapisuje ustawienia, ponieważ linter sprawdza dokumentację.",
+        "Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.",
+    ],
+)
+def test_zdanie_okolicznikowe_wyprowadza_się_raz_w_obu_pozycjach(zdanie):
+    #  Polszczyzna stawia ten okolicznik przed swoim zdaniem i za nim, a szyku
+    #  wewnątrz zdania nadrzędnego nie zmienia ani jedna pozycja, ani druga.
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        "Program zapisuje ustawienia ponieważ linter sprawdza dokumentację.",
+        "Ponieważ linter sprawdza dokumentację program zapisuje ustawienia.",
+    ],
+)
+def test_zdanie_okolicznikowe_niesie_przecinek_po_stronie_zdania_nadrzędnego(zdanie):
+    #  Usterka, którą to łapie: ciało bez cechy wiążącej przecinek z pozycją.
+    #  Ciało z przecinkiem z przodu, wpuszczone na czoło zdania, wyprowadza napis
+    #  zaczynający się przecinkiem, a ciało z przecinkiem z tyłu, wpuszczone na
+    #  koniec, wyprowadza zdanie bez przecinka przed spójnikiem. Polszczyzna
+    #  stawia ten znak zawsze, więc oba są zdaniami, których nie ma.
+    found = verdict(zdanie)
+    assert found.status == "rejected", found.explain()
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "status"),
+    [
+        ("Program zapisuje ustawienia, gdyż linter sprawdza dokumentację.", "valid"),
+        ("Gdyż linter sprawdza dokumentację, program zapisuje ustawienia.", "rejected"),
+    ],
+)
+def test_spójnik_przyczyny_dopowiedzianej_nie_wysuwa_swojego_zdania(zdanie, status):
+    #  Wysunięcie jest faktem o słowie, a nie o pozycji, więc ciała biorą dwie
+    #  różne listy lematów. Bez tego podziału olski wyprowadza `Gdyż pada,
+    #  zostaję w domu.`, czego polszczyzna nie ma, a `ponieważ` w tym samym
+    #  miejscu ma i bierze je ciało wysunięte.
+    found = verdict(zdanie)
+    assert found.status == status, found.explain()
+
+
+def test_spójnik_żądający_trybu_przypuszczającego_nie_otwiera_okolicznika():
+    #  `aby` żąda zdania w trybie przypuszczającym, a gramatyka nie odróżnia go
+    #  od czasu przeszłego, bo cząstki `by` nie bierze żadna produkcja. Wpuszczone
+    #  na listę spójników okolicznikowych wyprowadzałoby zdanie, którego
+    #  polszczyzna nie ma, przeciwko obietnicy podzbioru.
+    found = verdict("Program zapisuje ustawienia, aby linter sprawdza dokumentację.")
+    assert found.status == "rejected", found.explain()
+
+
+def test_streszczenie_nazywa_okolicznik_zdaniowy_a_wnętrza_jego_nie_otwiera():
+    #  Usterka, którą to łapie: zejście po role do wnętrza tego okolicznika.
+    #  Zdanie podrzędne stoi tu przed zdaniem nadrzędnym, więc zejście bez
+    #  granicy nazywa podmiotem `linter`, czyli podmiot tamtego zdania, a nie
+    #  tego. Rola jest przy tym nazwana całym napisem, bo symbol stoi i wśród
+    #  ról, i wśród zdań podrzędnych.
+    roles = verdict("Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.")
+    (streszczenie,) = roles.readings
+    assert streszczenie["Subject"] == "program"
+    assert streszczenie["AdverbialClause"] == "Ponieważ linter sprawdza dokumentację,"
+
+
+def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
+    #  Okolicznik za zdaniem dopełnieniowym dochodzi do niego i do zdania nad
+    #  nim, i są to dwa czytania, które polszczyzna nad tym zdaniem ma. Widać je
+    #  po roli, bo streszczenie nazywa ją wtedy, gdy okolicznik stoi w zdaniu
+    #  streszczanym, a milczy, gdy stoi w tamtym.
+    found = verdict("Pomiar mówi, że linter działa, ponieważ tekst jest gotowy.")
+    assert found.result.ile == 2, found.explain()
+    assert found.result.różniące == ("AdverbialClause",)
+    assert {OKOLICZNIKOWY in reading for reading in found.readings} == {False, True}
 
 
 # --------------------------------------------------------------------------- #

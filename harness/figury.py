@@ -205,6 +205,151 @@ FIGURY = (
         czyta=("docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę",),
     ),
     Figura(
+        nazwa="przecinek",
+        polecenie=("python3", "-m", "sonda.przecinek", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/przecinek.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
+    ),
+    Figura(
+        nazwa="przecinek-proza",
+        polecenie=("python3", "-m", "sonda.przecinek", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/przecinek.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania",
+        ),
+    ),
+    Figura(
+        nazwa="liczebnik",
+        polecenie=("python3", "-m", "sonda.liczebnik", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/liczebnik.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
+    ),
+    Figura(
+        nazwa="liczebnik-proza",
+        polecenie=("python3", "-m", "sonda.liczebnik", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/liczebnik.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania",
+        ),
+    ),
+    Figura(
+        nazwa="szyk",
+        polecenie=("python3", "-m", "sonda.szyk", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/szyk.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć",),
+    ),
+    Figura(
+        nazwa="szyk-proza",
+        polecenie=("python3", "-m", "sonda.szyk", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/szyk.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć",
+        ),
+    ),
+    Figura(
+        nazwa="okolicznikowe",
+        polecenie=("python3", "-m", "sonda.okolicznikowe", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/okolicznikowe.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
+        ),
+    ),
+    Figura(
+        nazwa="okolicznikowe-żywa",
+        #  Ta sama sonda po morfologii żywej, bo cena tej konstrukcji jest pod
+        #  złotą niewidoczna: konkuruje ona z czytaniem przysłówkowym spójnika,
+        #  a anotator wybrał w banku drzew jedno czytanie na token.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.okolicznikowe",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/okolicznikowe.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
+        ),
+    ),
+    Figura(
+        nazwa="okolicznikowe-proza",
+        polecenie=("python3", "-m", "sonda.okolicznikowe", "proza/README.txt"),
+        ruszają=(
+            "README.md",
+            "harness/markdown.py",
+            "olski/subset.py",
+            "olski/parse.py",
+            "sonda/okolicznikowe.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
+        ),
+    ),
+    Figura(
+        nazwa="czoło",
+        polecenie=("python3", "-m", "sonda.czoło", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        #  Gramatyki tu nie ma, tak samo jak przy figurze niżej: liczone są cudze
+        #  zdania, a rusza je lista, o którą sonda pyta, i nic poza nią.
+        ruszają=("olski/subset.py", "sonda/czoło.py"),
+        czyta=(
+            "docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania",
+        ),
+    ),
+    Figura(
         nazwa="rama",
         polecenie=(
             "python3",

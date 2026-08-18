@@ -662,7 +662,7 @@ and it moves every verdict the other two move.
 Fetch the corpus as that document says, rerun `olski-corpus`,
 and correct the tables in the same commit.
 One of those tables has a fourth thing that moves it and no production in sight:
-[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-592-z-650-zdań-wieloznacznych)
+[which sentences keep the gold reading](docs/corpus.md#złote-czytanie-ocalało-w-613-z-673-zdań-wieloznacznych)
 is what `Las.numer_czytania` in `olski/parse.py` answers
 about the roles `PORÓWNYWANE_ROLE` in `olski/coverage.py` names,
 so a change to either moves that table and leaves the rest of the run standing.
@@ -946,37 +946,29 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Three sets are a difference rather than a count,
-and that is what makes them easy to leave stale.
-[What comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
-is the gap between olski and olski with three productions taken out,
-[what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)
-is the same gap over the two bodies that build one,
-and [what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)
-is that gap over the fourteen bodies the four of them make,
-so everything that moves the tables above moves all three,
-and so does a change to the probe that names each variant's productions —
-`sonda/przecinek.py`, `sonda/liczebnik.py`, `sonda/szyk.py` —
-or to `sonda/ruch.py` under them, which builds the variants and counts the movement.
-Each of the three prints the command that produces its figures.
+Every difference of that shape has an owner now,
+so its movers are files in `figury/` rather than a paragraph here,
+and the report is what says whether any of them is owed a rerun.
+[What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno),
+[what comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+[what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+[what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
+[what the adverbial clause costs](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)
+and [what the adverb costs](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
+are the six, and every one of them takes productions away from olski
+and reads the gap, the adverb and the adverbial clause
+having entered the grammar at the price their figures record.
 They share a denominator, so a construction admitted moves every one of these
-tables and not only the one belonging to it.
+tables and not only the one belonging to it,
+and the report says so by calling all six owed at once.
 What a test holds there is only that a probe measures this grammar
 and not a copy of it, the numbers themselves having nothing to disagree with.
-All three take their figures over the README as well,
-so a commit that touches README prose owes those three runs
-alongside the two the section above already asks of it.
-
-Two sets of that shape have an owner,
-so their movers are files in `figury/` rather than a paragraph here,
-and the report is what says whether any of them is owed a rerun.
-[What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno)
-is the first, and
-[what the adverb costs](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
-the second, and both take productions away as the three above do,
-the adverb having entered the grammar at the price that figure records.
-Its probe measured the other way round while the construction was still outside,
-and that direction left the machinery with it (`sonda/ruch.py`).
+The adverbial clause is the one measured under both morphologies,
+because a construction competing with a reading the annotators did not choose
+comes out free over gold tags and pays over live ones,
+so its figure is two runs of one probe rather than one.
+The adverb's probe measured the other way round while that construction was still
+outside, and that direction left the machinery with it (`sonda/ruch.py`).
 The adverb brings a figure of a second kind with it, and the formalism moves it:
 [what a flat adjunct list reads](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)
 counts trees rather than verdicts,

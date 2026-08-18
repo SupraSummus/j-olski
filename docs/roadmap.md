@@ -117,11 +117,11 @@ a nie któregoś etapu, i dlatego stoją tutaj.
 Nie ma ich w żadnej kolejce blokerów, bo szyk nie jest formą,
 na której analiza staje, i żaden z trzech rejestrów o nie nie prosił.
 Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem
-nie miał ciała, więc olski czytał trzy zdania Składnicy odwrotnie,
+nie miał ciała, więc olski czytał pięć zdań Składnicy odwrotnie,
 niż czyta je czytelnik, i mówił to jednym czytaniem.
-Dopisane, kupują 55 zdań banku drzew, kosztują sześć
-i dwa z tych sześciu są tamtą naprawą
-([subset.md](subset.md#szyk-zmierzono-kupuje-55-zdań-i-odbiera-sześć)).
+Dopisane, kupują kilkadziesiąt zdań banku drzew, kosztują sześć
+i cztery z tych sześciu są tamtą naprawą
+([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć)).
 Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 że wyjdzie.
 
@@ -336,12 +336,30 @@ dwukropek otwierający zdanie
 oraz przecinek przed spójnikiem, czyli `Plany są niczym, ale planowanie jest wszystkim.`
 Stoi ona na czele kolejki nad prozą tego repozytorium
 ([corpus.md](corpus.md#where-the-analyses-stop)).
-Reszta podrzędności żąda nowych kształtów: pytanie zależne,
-spójniki podrzędne poza `że`
+Reszta podrzędności żąda nowych kształtów: pytanie zależne
 i zaimek wysunięty razem z grupą, w której stoi,
 bo każdy kolejny kształt takiej grupy jest osobnym ciałem produkcji
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
-Co z tego dwojga jest tańsze, powie dopiero pierwsze policzone dopisanie.
+
+Okolicznik wyrażony zdaniem wchodzi obiema pozycjami, przed swoim zdaniem i za nim,
+i jest pierwszym policzonym dopisaniem tego etapu.
+Zdejmuje on z listy odrzuconych blisko pięćdziesiąt zdań Składnicy,
+a jednoznaczności nie odbiera pod złotą morfologią ani jednemu zdaniu
+i sześciu pod żywą
+([subset.md](subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+Płaci się tu za to samo, co przy przysłówku:
+te sześć zdań wychodziło przedtem jednym czytaniem, którego polszczyzna nie ma,
+bo `gdy` stoi w nich jako okolicznik przysłówkowy po przecinku koordynacji.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania,
+tak samo jak cztery dopisania przed nim,
+i jest to o tamtej kolejce odczyt, a nie o konstrukcji:
+zdanie tego pliku, które stało na spójniku, stoi także na dwukropku
+albo na rzeczowniku odczasownikowym.
+Zostaje z tej listy tryb przypuszczający, bo `aby` i `żeby` go żądają,
+a olski nie odróżnia go od czasu przeszłego
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Co z tego dwojga, które zostało, jest tańsze,
+powie dopiero następne policzone dopisanie.
 
 ## Etap 5: słowa, których słownik nie ma
 
@@ -461,6 +479,16 @@ i dlatego pary z siebie nie wynikają:
 dopisanie kolejnej konstrukcji zmienia i wiersz, i to, ile z niego zostaje do wzięcia.
 Cztery pary to zresztą cztery, a nie rozkład,
 więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
+
+Piątą parę zmierzył [etap 4](#etap-4-zdanie-złożone) i wypadła ona poza ten przelicznik:
+wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem oddał z niego
+niecałą dziesiątą część.
+Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, które gramatyka ma,
+tryb przypuszczający, którego nie bierze, i okolicznik, który wszedł —
+i tym różni się od tamtych czterech, z których każdy stał za jedną.
+Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
+a tego kolejka o sobie nie mówi i mówić nie może:
+nazywa ona część mowy, na której analiza stanęła, a nie konstrukcję, której zabrakło.
 
 Została po nim jedna pozycja przysłówka, której olski nie ma, i nie jest to zdanie odrzucone:
 przysłówek przed drugim przysłówkiem wychodzi jednym czytaniem, w którym oba określają zdanie.

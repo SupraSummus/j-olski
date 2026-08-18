@@ -22,11 +22,19 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR, check
-from sonda import liczebnik, negacja, przecinek, przysłówek, szyk
-from sonda.ruch import Sonda, gramatyka
+from sonda import liczebnik, negacja, okolicznikowe, przecinek, przysłówek, szyk
+from sonda.ruch import Sonda, gramatyka, zmierz
 
-SONDY = [przecinek.SONDA, liczebnik.SONDA, negacja.SONDA, szyk.SONDA, przysłówek.SONDA]
+SONDY = [
+    przecinek.SONDA,
+    liczebnik.SONDA,
+    negacja.SONDA,
+    szyk.SONDA,
+    przysłówek.SONDA,
+    okolicznikowe.SONDA,
+]
 
 #: Sonda, wariant i zdanie, które stoi dokładnie na tej jednej grupie produkcji.
 #: Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania nie jest
@@ -44,6 +52,16 @@ NA_JEDNEJ_GRUPIE = [
     (szyk.SONDA, "VOS", "Porastają ją wiekowe akacje."),
     (przysłówek.SONDA, "okolicznik", "Teraz program zapisuje ustawienia."),
     (przysłówek.SONDA, "przy przymiotniku", "Koszt bardzo dużego pliku jest niski."),
+    (
+        okolicznikowe.SONDA,
+        "za zdaniem",
+        "Program zapisuje ustawienia, ponieważ linter sprawdza dokumentację.",
+    ),
+    (
+        okolicznikowe.SONDA,
+        "przed zdaniem",
+        "Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.",
+    ),
 ]
 
 
@@ -86,6 +104,26 @@ def test_wariant_grupy_zostawia_swoją_produkcję_i_zdejmuje_pozostałe(
     for nazwa in sonda.osobne:
         oczekiwane = "valid" if nazwa == wariant else "rejected"
         assert [w.status for w in check(zdanie, gramatyka(sonda, nazwa))] == [oczekiwane]
+
+
+def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym():
+    """Rozpiętości spod żywej morfologii nie są rozpiętościami drzewa wzorcowego.
+
+    Pozycje idą tam za znakami napisu, a nie za tokenami banku drzew, więc
+    porównanie ról odpowiadałoby o czym innym, niż o co pyta. Zdanie stoi tu bez
+    ani jednego segmentu i to jest część żądania: przebieg po żywej morfologii
+    czyta sam napis, więc bank drzew jest mu potrzebny do jednego — do tego, żeby
+    było co czytać.
+    """
+    zdanie = Sentence(
+        sent_id="żywa",
+        text="Program zapisuje ustawienia, ponieważ linter sprawdza dokumentację.",
+        verdict=FULL,
+        roles=(("Subject", 0, 1),),
+    )
+    raport = zmierz(okolicznikowe.SONDA, [zdanie], źródło="live")
+    assert raport.przejścia[okolicznikowe.SONDA.czysty] == {"rejected → valid": 1}
+    assert not raport.zgodność
 
 
 def test_dopełniacz_negacji_sam_nie_licencjonuje_ani_jednego_zdania():

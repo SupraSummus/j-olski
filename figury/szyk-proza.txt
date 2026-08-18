@@ -1,0 +1,40 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury szyk-proza
+polecenie: python3 -m sonda.szyk proza/README.txt
+czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
+ruszają:
+  README.md: 0e03f0213241
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/szyk.py: 7d08ac67af27
+  sonda/ruch.py: e4132c252685
+
+README.txt, proza, 49 zdań
+
+            wariant    przyjęte  wieloznaczne  odrzucone
+bez czterech szyków           6             5         38
+                SOV           6             5         38
+                OSV           6             5         38
+                VSO           6             5         38
+                VOS           6             5         38
+   wszystkie cztery           6             5         38
+     25          niezmierzone: fragment, a nie zdanie
+
+ruch wobec wariantu „bez czterech szyków” — SOV:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez czterech szyków” — OSV:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez czterech szyków” — VSO:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez czterech szyków” — VOS:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez czterech szyków” — wszystkie cztery:
+  żadne zdanie nie zmieniło werdyktu
+
+konkurencja, nad zdaniem po zdaniu:
+        0  dwa szyki ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno

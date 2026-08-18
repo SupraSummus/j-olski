@@ -1,0 +1,51 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury przecinek-proza
+polecenie: python3 -m sonda.przecinek proza/README.txt
+czyta: docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania
+ruszają:
+  README.md: 0e03f0213241
+  harness/markdown.py: 77dba5daa3d8
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/przecinek.py: 4d72d1bd397c
+  sonda/ruch.py: e4132c252685
+
+README.txt, proza, 49 zdań
+
+       wariant    przyjęte  wieloznaczne  odrzucone
+ bez przecinka           5             3         41
+      zdaniowy           5             5         39
+       imienny           6             3         40
+przymiotnikowy           5             3         41
+wszystkie trzy           6             5         38
+     25          niezmierzone: fragment, a nie zdanie
+
+ruch wobec wariantu „bez przecinka” — zdaniowy:
+        2  rejected → ambiguous
+
+ruch wobec wariantu „bez przecinka” — imienny:
+        1  rejected → valid
+
+ruch wobec wariantu „bez przecinka” — przymiotnikowy:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez przecinka” — wszystkie trzy:
+        2  rejected → ambiguous
+        1  rejected → valid
+
+konkurencja, nad zdaniem po zdaniu:
+        0  oba poziomy ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+zdaniowy, rejected → ambiguous:
+  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
+  Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
+
+imienny, rejected → valid:
+  Czarna lista kupowała jednak co innego, niż obiecywała.
+
+wszystkie trzy, rejected → ambiguous:
+  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
+  Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
+
+wszystkie trzy, rejected → valid:
+  Czarna lista kupowała jednak co innego, niż obiecywała.

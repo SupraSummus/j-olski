@@ -15,6 +15,7 @@ from olski.skład.słownik import (
     Gdzie,
     Kiedy,
     R,
+    Skutek,
     Treść,
     V,
     jest,
@@ -242,15 +243,36 @@ def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padł
 def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
     """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
 
-    Okoliczność wyrażona zdarzeniem ma tylko skład, bo gramatyka nie ma spójnika
-    podrzędnego poza `że`, więc to zdanie nie ma ani jednego czytania,
+    Skutek pisze się spójnikiem współrzędnym po przecinku, a gramatyka bierze
+    zdania spięte jednym z tych dwóch znaków i nie bierze ich spiętych obojgiem,
+    więc to zdanie nie ma ani jednego czytania,
     i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
     """
-    powód = Dlaczego.bo(V.sprawdzać(R.linter, R.tekst))
-    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, powód))
-    assert przebieg.napis == "Program zapisuje ustawienia, bo linter sprawdza tekst."
+    skutek = Skutek.więc(V.sprawdzać(R.linter, R.tekst))
+    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, skutek))
+    assert przebieg.napis == "Program zapisuje ustawienia, więc linter sprawdza tekst."
     assert not przebieg.wróciło
     assert "gramatyka olskiego nie wyprowadza" in przebieg.opisz()
+
+
+@pytest.mark.parametrize(
+    "drzewo",
+    [
+        V.zapisywać(R.program, ~R.ustawienie, Dlaczego.bo(V.sprawdzać(R.linter, R.tekst))),
+        V.zapisywać(R.program, ~R.ustawienie, Kiedy.gdy(V.sprawdzać(R.linter, R.tekst))),
+        V.zapisywać(R.program, ~R.ustawienie, Kiedy.gdy(V.sprawdzać(R.linter, R.tekst)).temat),
+    ],
+)
+def test_okoliczność_wyrażona_zdarzeniem_wraca_relacją_którą_niesie_spójnik(drzewo):
+    """Obieg zamyka się na zdaniu okolicznikowym, a relację niesie przez spójnik.
+
+    Relacja jest kategorią dziedziny i w napisie stoi tylko słowo,
+    więc wraca ona stąd tak samo jak przy przyimku: z leksykonu czytanego wspak.
+    Wysunięcie na czoło wraca osobno, bo o nim rozstrzyga autor,
+    a leksykon mówi tylko, którym spójnikom polszczyzna na nie pozwala.
+    """
+    przebieg = obieg(drzewo)
+    assert przebieg.wróciło, przebieg.opisz()
 
 
 def test_z_dwóch_przyłączeń_wraca_to_jedno_które_ten_zapis_ma():

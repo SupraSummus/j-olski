@@ -1,0 +1,107 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury okolicznikowe
+polecenie: python3 -m sonda.okolicznikowe Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
+ruszają:
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/okolicznikowe.py: 1c2350b8ae2c
+  sonda/ruch.py: e4132c252685
+
+Składnica, morfologia złota, 13035 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+bez okolicznika zdaniowego        1575           750      10710
+                za zdaniem        1587           770      10678
+             przed zdaniem        1584           757      10694
+                     olski        1596           777      10662
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — za zdaniem:
+       20  rejected → ambiguous
+       12  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       10    agrees
+        2    brak roli
+             Wiemy, bo spotkaliśmy się z nią osobiście!
+             Czekałam, aż mrugnie do mnie.
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — przed zdaniem:
+        9  rejected → valid
+        7  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+        8    agrees
+        1    brak roli
+             Gdy wróciła, usiadła obok niego na tapczanie.
+
+ruch wobec wariantu „bez okolicznika zdaniowego” — olski:
+       27  rejected → ambiguous
+       21  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       18    agrees
+        3    brak roli
+             Wiemy, bo spotkaliśmy się z nią osobiście!
+             Czekałam, aż mrugnie do mnie.
+             Gdy wróciła, usiadła obok niego na tapczanie.
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie pozycje ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+za zdaniem, rejected → ambiguous:
+  Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
+  Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
+  Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
+  Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
+  Zawsze wygrywał, bo był najszybszy.
+  Dialog na temat dialogu utknął w martwym punkcie, gdy przywódcy Frontu nie zgodzili się zaapelować do grup zbrojnych o spokój.
+  Nie możemy płacić więcej, kiedy fabryka jest nierentowna.
+
+za zdaniem, rejected → valid:
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
+  Nie lubię, gdy ktoś jest natarczywy.
+  Patrzę na drzwi, bo ktoś idzie po schodach.
+  Wybór padł na Stany Zjednoczone, ponieważ stamtąd przyszła pierwsza oferta pracy.
+  Wiemy, bo spotkaliśmy się z nią osobiście!
+  Traper idzie na rufę, bo tam mniej kołysze.
+  Tropiłeś mnie bez ustanku, aż znalazłeś!
+  Czekałam, aż mrugnie do mnie.
+
+przed zdaniem, rejected → valid:
+  Nim przekroczy granice raju, musi wyrazić skruchę.
+  Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
+  Jeżeli człowiek silnie reaguje na różne zjawiska, może być tak odbierany.
+  Jeśli w sercu pojawi się niepewność, nie dramatyzuj.
+  Gdy Wielki Brat oznajmił, że Grzegorz ma opuścić program, Karolina płakała.
+  Ponieważ na pukanie nikt nie reagował, policjanci wyważyli drzwi.
+  Gdy wróciła, usiadła obok niego na tapczanie.
+  Zanim skończyłem mówić, zaatakował mnie z dwunastu stron naraz.
+
+przed zdaniem, rejected → ambiguous:
+  Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
+  Gdy na miejscu zjawili się policjanci z komisariatu kolejowego policji, schronisko znajdowało się w opłakanym stanie.
+  Gdy powstawał Pakt dla Wsi, jeździł na spotkania z rolnikami.
+  Gdy kupowali lekarstwa, ojciec zabrał wózek z dzieckiem i zniknął.
+  Skoro przez kilka lat podążałeś w kierunku przeciwnym do swego domu, nie zdziw się, że dzisiaj znajdujesz się w odległości kilkuset mil od niego.
+  Jeżeli twoja Wenus jest dobrze aspektowana, masz wielki sentyment dla rodzeństwa, sąsiadów i współpracowników.
+  Gdy KOT usiadł na ławeczce Juliana Tuwima, poeta nie krył zdziwienia z tego niecodziennego spotkania.
+
+olski, rejected → ambiguous:
+  Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
+  Odeszli, choć mogli zapytać o to i owo w samym Betlejem.
+  Część młodych osób chce pracować w państwowej firmie, bo to daje zabezpieczenie socjalne.
+  Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
+  Jest to przydatne, gdy na jednej stronie umieszczamy kilka formularzy.
+  Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
+  Gdy na miejscu zjawili się policjanci z komisariatu kolejowego policji, schronisko znajdowało się w opłakanym stanie.
+  Gdy powstawał Pakt dla Wsi, jeździł na spotkania z rolnikami.
+
+olski, rejected → valid:
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
+  Nim przekroczy granice raju, musi wyrazić skruchę.
+  Jeśli nie jesteś Francuzem, nie płacisz podatku dochodowego.
+  Nie lubię, gdy ktoś jest natarczywy.
+  Patrzę na drzwi, bo ktoś idzie po schodach.
+  Jeżeli człowiek silnie reaguje na różne zjawiska, może być tak odbierany.
+  Wybór padł na Stany Zjednoczone, ponieważ stamtąd przyszła pierwsza oferta pracy.
+  Jeśli w sercu pojawi się niepewność, nie dramatyzuj.

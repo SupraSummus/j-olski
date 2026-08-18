@@ -5,26 +5,26 @@ czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-cz
 czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  olski/subset.py: 1b37d940bed0
-  olski/parse.py: e8b09f590f5a
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: 9ae7434b6506
+  sonda/ruch.py: e4132c252685
 
 Składnica, morfologia złota, 13035 zdań
 
           wariant    przyjęte  wieloznaczne  odrzucone
-   bez przysłówka        1179           549      11307
-       okolicznik        1607           707      10721
-przy przymiotniku        1206           570      11259
-            olski        1575           750      10710
+   bez przysłówka        1193           564      11278
+       okolicznik        1629           733      10673
+przy przymiotniku        1221           586      11228
+            olski        1596           777      10662
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:
-      428  rejected → valid
-      158  rejected → ambiguous
+      436  rejected → valid
+      169  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      295    agrees
-      114    brak roli
+      302    agrees
+      115    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
              W jaki sposób tak szybko stałaś się tak popularna?
              Często tu goszczę i jestem serdecznie przyjmowany.
@@ -51,10 +51,10 @@ ruch wobec wariantu „bez przysłówka” — okolicznik:
              Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
 
 ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
-       27  rejected → valid
-       21  rejected → ambiguous
+       28  rejected → valid
+       22  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       21    agrees
+       22    agrees
         3    disagrees
              Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
              Oficjalnie cały Sejm RP śpi.
@@ -65,11 +65,11 @@ ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
              Jesteś straszliwe niedouczony.
 
 ruch wobec wariantu „bez przysłówka” — olski:
-      396  rejected → valid
-      201  rejected → ambiguous
+      403  rejected → valid
+      213  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      272    agrees
-      110    brak roli
+      278    agrees
+      111    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
              W jaki sposób tak szybko stałaś się tak popularna?
              Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
@@ -96,8 +96,8 @@ ruch wobec wariantu „bez przysłówka” — olski:
              Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
 
 konkurencja, nad zdaniem po zdaniu:
-       39  obaj gospodarze ruszają to samo zdanie
-       35  razem wychodzi co innego niż osobno
+       41  obaj gospodarze ruszają to samo zdanie
+       36  razem wychodzi co innego niż osobno
 
 konkurencja, obaj gospodarze ruszają to samo zdanie:
   Program zabawy był ściśle ustalony.
@@ -106,8 +106,8 @@ konkurencja, obaj gospodarze ruszają to samo zdanie:
   Jest bardzo przystojna i odwracała ode mnie odwagę.
   Był ostro atakowany przez endecję.
   Z drugiej strony dla mnie cała branża jest bardzo interesująca.
+  Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
   Zasadzka była starannie przygotowana.
-  Poznań jest właściwie jedynym większym miastem na terenie naszego kraju, na które spoglądały oczy wielkiego poety.
 
 konkurencja, razem wychodzi co innego niż osobno:
   Program zabawy był ściśle ustalony.
@@ -125,9 +125,9 @@ okolicznik, rejected → valid:
   Przyklękli pobożnie i weszli na stopnie ołtarza.
   Czas okrutnie ścieśnił tę rodzinę.
   Obejrzał je bacznie.
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   Pobyt był tam niezwykle uciążliwy.
-  Trwało to długo.
 
 okolicznik, rejected → ambiguous:
   Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
@@ -145,9 +145,9 @@ przy przymiotniku, rejected → valid:
   Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
   Jest bardzo przystojna i odwracała ode mnie odwagę.
   Język telenowel jest ujednolicony, mało barwny, ogólnopolski.
+  Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
   Zasadzka była starannie przygotowana.
   Poznań jest właściwie jedynym większym miastem na terenie naszego kraju, na które spoglądały oczy wielkiego poety.
-  Najbardziej popularne są mercedesy, audi, golfy i BMW.
 
 przy przymiotniku, rejected → ambiguous:
   Był ostro atakowany przez endecję.
@@ -164,10 +164,10 @@ olski, rejected → valid:
   Przyklękli pobożnie i weszli na stopnie ołtarza.
   Czas okrutnie ścieśnił tę rodzinę.
   Obejrzał je bacznie.
+  Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
   Trwało to długo.
   Po całodziennej harówce straciłem dziś kolejne pół kilo.
   Mam tu odmienną interpretację.
-  Tutaj firma została założona i najmocniej wrosła w pejzaż społeczny.
 
 olski, rejected → ambiguous:
   Program zabawy był ściśle ustalony.

@@ -1,0 +1,167 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury szyk
+polecenie: python3 -m sonda.szyk Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
+ruszają:
+  olski/subset.py: 4952559a6bce
+  olski/parse.py: f1ce5d82c0d9
+  sonda/szyk.py: 7d08ac67af27
+  sonda/ruch.py: e4132c252685
+
+Składnica, morfologia złota, 13035 zdań
+
+            wariant    przyjęte  wieloznaczne  odrzucone
+bez czterech szyków        1547           743      10745
+                SOV        1558           755      10722
+                OSV        1560           746      10729
+                VSO        1551           751      10733
+                VOS        1568           754      10713
+   wszystkie cztery        1596           777      10662
+
+ruch wobec wariantu „bez czterech szyków” — SOV:
+       17  rejected → valid
+        6  rejected → ambiguous
+        6  valid → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       16    agrees
+        1    disagrees
+             Widzę, że ostatnia lekcja czegoś was nauczyła.
+
+ruch wobec wariantu „bez czterech szyków” — OSV:
+       13  rejected → valid
+        3  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       12    agrees
+        1    disagrees
+             Co pan sądzi o pomyśle Pawła Piskorskiego?
+
+ruch wobec wariantu „bez czterech szyków” — VSO:
+        8  rejected → ambiguous
+        4  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+        4    agrees
+
+ruch wobec wariantu „bez czterech szyków” — VOS:
+       21  rejected → valid
+       11  rejected → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       21    agrees
+
+ruch wobec wariantu „bez czterech szyków” — wszystkie cztery:
+       55  rejected → valid
+       28  rejected → ambiguous
+        6  valid → ambiguous
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       53    agrees
+        2    disagrees
+             Widzę, że ostatnia lekcja czegoś was nauczyła.
+             Co pan sądzi o pomyśle Pawła Piskorskiego?
+
+konkurencja, nad zdaniem po zdaniu:
+        0  dwa szyki ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+SOV, rejected → valid:
+  Co nas wprawia w dobry nastrój?
+  Inwestorzy pomysł ten zwalczali.
+  Bóg mnie opuścił?
+  Ja nic nie robię?
+  Kajzer go wyciągnie?
+  Widzę, że ostatnia lekcja czegoś was nauczyła.
+  Czort go wie.
+  Oni ją zabili!
+
+SOV, rejected → ambiguous:
+  Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
+  Ostatnie wizyty w kilku krajach spowodowały, że rozmach tej machiny promocyjnej trochę mnie wystraszył.
+  W dorocznym liście do kapłanów papież napisał, że wszystkie takie wypadki głęboko go ranią.
+  Ja nic o tym nie wiem.
+  Ono bardzo dobrze wszystko rozumie i cierpi z powodu Waszego konfliktu.
+  Gumiś znowu jakieś bomby podkłada, Policja jak zwykle niewinnych ludzi okłada.
+
+SOV, valid → ambiguous:
+  Kryterium wzrostu nie obowiązuje.
+  Janka nic nie odpowiada i zamyka drzwi.
+  Nikt niczego nie wybiera, coś wybiera za nas.
+  Nikt go tu nie zapraszał!
+  Wtedy nikt nas nie zauważy.
+  Apostołowie tego nie praktykowali.
+
+OSV, rejected → valid:
+  Wysokich drabin warszawska straż rzeczywiście nie ma.
+  Innych strat właściciel nie stwierdza.
+  Artykuły te pracownicy kupują za własne pieniądze.
+  Co oni w rządzie robią?
+  Zaciekłe boje rządy Piętnastki toczą z inflacją.
+  Co to znaczy?
+  Mnie duchy nie interesują.
+  Co ja mówię?
+
+OSV, rejected → ambiguous:
+  Kontrolę prywatyzacji jednoosobowych spółek Agencji WRSP Izba przeprowadziła na zlecenie sejmowej Komisji Rolnictwa i Rozwoju Wsi.
+  Nie wiem, co Mikołaj, Karol i Mateusz powiedzą, kiedy dowiedzą się, że moi rodzice są po rozwodzie.
+  Złotą Statuetkę pierwszy niekomunistyczny premier w powojennej Polsce odebrał w sobotę podczas Wielkiej Gali Polskiego Biznesu.
+
+VSO, rejected → ambiguous:
+  Zaproponował on zmianę koalicjanta z Wolnych Demokratów na Forum Demokratyczne, które uzyskało lepsze rezultaty wyborcze.
+  Zajęły one terytoria w sąsiedztwie swych matek.
+  Wśród tradycjonalistów muzułmańskich z państw Półwyspu Arabskiego wywołało ono szok.
+  Stanowią one świadectwo wkładu Polski w zwycięstwo nad Niemcami hitlerowskimi.
+  Otaczają one miasto od południa i zachodu.
+  Utrzymuje Pan kontakt ze znajomymi ze studiów?
+  Obecnie mają oni najwyższe pensje w całym województwie pomorskim.
+  W dniu poprzednim wykonał Przemysł Węglowy plan wartości całej swojej produkcji.
+
+VSO, rejected → valid:
+  Podziela pan ten pogląd?
+  Z przykrością stwierdzam, że zawiera on nieprawdziwe informacje.
+  Ma Pan te dowody?
+  Podzieli ona Twoje nadzieje i zaproponuje wspólne plany.
+
+VOS, rejected → valid:
+  Podrywał cię Domogarow?
+  Nieco częściej czyniły to kobiety.
+  Oprócz wiśni i czereśni zawierają go truskawki i winogrona oraz orzechy włoskie.
+  Witały ich entuzjastyczne oklaski.
+  Wsparł go Wierchowicz.
+  Porastają ją wiekowe akacje, lipy i inne drzewa liściaste.
+  Na leśnej drodze zaatakował ją rowerzysta.
+  W środę zdawało ją 236 osób.
+
+VOS, rejected → ambiguous:
+  Nie interesuje ich seks bez uczucia.
+  Oprócz laureatów wzięli udział w tym spotkaniu liczni działacze naszej organizacji, redaktorzy naczelni, przedstawiciele szeregu wydawnictw.
+  Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
+  Tam przygarnęła nas bardzo zacna rodzina.
+  Opodal trenowali skoki chłopcy na deskorolkach.
+  Bawi mnie to w jakiś ponury sposób.
+  Opróżnia więzienie Qasr ze wszystkich kryminalistów.
+  W trakcie remontu zauważył go nowy właściciel mieszkania, bo z piasku wystawała ręka.
+
+wszystkie cztery, rejected → valid:
+  Podrywał cię Domogarow?
+  Podziela pan ten pogląd?
+  Wysokich drabin warszawska straż rzeczywiście nie ma.
+  Z przykrością stwierdzam, że zawiera on nieprawdziwe informacje.
+  Nieco częściej czyniły to kobiety.
+  Innych strat właściciel nie stwierdza.
+  Oprócz wiśni i czereśni zawierają go truskawki i winogrona oraz orzechy włoskie.
+  Co nas wprawia w dobry nastrój?
+
+wszystkie cztery, rejected → ambiguous:
+  Ja to przeżyłem, gdy pojechałem na stypendium do Stanów z całą rodziną i posłałem synów do szkoły.
+  Ostatnie wizyty w kilku krajach spowodowały, że rozmach tej machiny promocyjnej trochę mnie wystraszył.
+  Nie interesuje ich seks bez uczucia.
+  Zaproponował on zmianę koalicjanta z Wolnych Demokratów na Forum Demokratyczne, które uzyskało lepsze rezultaty wyborcze.
+  Oprócz laureatów wzięli udział w tym spotkaniu liczni działacze naszej organizacji, redaktorzy naczelni, przedstawiciele szeregu wydawnictw.
+  Tym bardziej jest to smutne, gdy czynią to urzędnicy rządowi, którzy mają być apolityczni.
+  Zajęły one terytoria w sąsiedztwie swych matek.
+  Tam przygarnęła nas bardzo zacna rodzina.
+
+wszystkie cztery, valid → ambiguous:
+  Kryterium wzrostu nie obowiązuje.
+  Janka nic nie odpowiada i zamyka drzwi.
+  Nikt niczego nie wybiera, coś wybiera za nas.
+  Nikt go tu nie zapraszał!
+  Wtedy nikt nas nie zauważy.
+  Apostołowie tego nie praktykowali.
