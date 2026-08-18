@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.znaczenia proza/README.txt
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  README.md: 0e03f0213241
+  README.md: a74bf0e0394e
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9
@@ -10,12 +10,12 @@ ruszają:
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
 
-proza/README.txt, morfologia live, 49 zdań z werdyktem
+proza/README.txt, morfologia live, 48 zdań z werdyktem
 
   werdykt olskiego:
        38    rejected
-        6    valid
         5    ambiguous
+        5    valid
        25    niezmierzone: fragment, a nie zdanie
 
   ile czytań zdania wraca drzewem tego zapisu:
@@ -23,14 +23,10 @@ proza/README.txt, morfologia live, 49 zdań z werdyktem
         0    0.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
         5  100.0%  żadne czytanie nie wraca drzewem
-    valid, 6 zdań:
-        1   16.7%  każde czytanie wraca drzewem
+    valid, 5 zdań:
+        0    0.0%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-        5   83.3%  żadne czytanie nie wraca drzewem
-
-  ile drzew tego zapisu ma zdanie, którego każde czytanie wróciło:
-    valid, 1 zdań, ile drzew:
-        1  100.0%  1
+        5  100.0%  żadne czytanie nie wraca drzewem
 
   czemu czytanie nie wraca drzewem, z 38 takich czytań:
        36   94.7%  zapis nie ma kategorii
@@ -56,9 +52,6 @@ proza/README.txt, morfologia live, 49 zdań z werdyktem
       2 czytań  Całą legendę o bazyliszku warszawskim trzyma opowieści/bazyliszek.py.
       3 czytań  Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
      18 czytań  Stał tu obok linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
-
-  najkrótsze zdania: valid, drzew tego zapisu: 1
-      1 czytań  Celem jest parser tego podzbioru.
 
   najkrótsze zdania: valid, żadne czytanie nie wraca drzewem
       1 czytań  Działają dwie rzeczy.
