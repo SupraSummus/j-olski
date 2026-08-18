@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.szyk proza/README.txt
 czyta: docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć
 ruszają:
-  README.md: a74bf0e0394e
+  README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9

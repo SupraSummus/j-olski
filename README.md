@@ -288,9 +288,9 @@ plan i otwarte pytania.
 
 ## Konwencje
 
-Proza w tym repozytorium łamie wiersze według
+Prozę w tym repozytorium łamiemy według
 [Semantic Line Breaks](https://sembr.org),
-a nowa powstaje po polsku, w języku, o którym to repozytorium jest,
+a nową piszemy po polsku,
 więc czytelnik trafia na oba języki naraz.
 Konwencje prozy, kodu, testów i commitów trzyma [CLAUDE.md](CLAUDE.md),
 a otwartą robotę wewnątrz repozytorium [TODO.md](TODO.md).

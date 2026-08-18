@@ -2,7 +2,7 @@
 polecenie: python3 -m sonda.okolicznikowe proza/README.txt
 czyta: docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie
 ruszają:
-  README.md: a74bf0e0394e
+  README.md: e736a2132971
   harness/markdown.py: 77dba5daa3d8
   olski/subset.py: 4952559a6bce
   olski/parse.py: f1ce5d82c0d9

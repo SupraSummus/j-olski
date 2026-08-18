@@ -154,9 +154,8 @@ bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
 Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
 
-Przeredagowanie tego pliku rusza teraz same liczby,
-a zakaz przepisywania tych dokumentów pod gramatykę zostaje
-przy swoim własnym powodzie: proza jest tu materiałem
+Przeredagowanie tego pliku rusza same liczby,
+a nie zakaz przepisywania tych dokumentów pod gramatykę
 ([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
 
 ## Etap 0: gramatyka, która stoi

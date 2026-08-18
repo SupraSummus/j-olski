@@ -27,85 +27,51 @@ and when you edit a section, the stale narration inside it goes with the edit.
 
 ## Piszemy po polsku, także w kodzie
 
-Materiałem tego projektu jest polska proza,
-a taką prozę repozytorium pisze samo o sobie.
-Żądanie, żeby ten własny tekst był dobrze napisany,
-niesie cały ten plik i nie ma pod sobą narzędzia:
-sprawdza je przegląd zmian, a nie przebieg testów.
-Pakiet reguł, który sprawdzał tu polską typografię, jest wycofany
-([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
-a razem z nim lista plików, nad którymi ten check biegł.
-
-Gramatyka checkiem tego tekstu nie jest i nie ma być.
-Jej żądanie jest znacznie węższe:
-zdanie z dwukropkiem, przysłówkiem albo rzeczownikiem odczasownikowym
-nie ma w olskim wyprowadzenia,
-a proza tych dokumentów składa się z takich zdań prawie w całości —
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-trzyma polecenie, które to pokazuje nad README, i kolejkę tego, czego brakuje.
-Więc tych dokumentów pod gramatykę nie przepisujemy.
-Przepisanie kosztowałoby to, po co README jest:
-podzbiór nie ma zdania podrzędnego,
-a [rama przed szczegółem](#the-reader-goes-sentence-by-sentence)
-stoi na uzasadnieniach, które podrzędnego wymagają.
-Kolejka rośnie od strony gramatyki, nie od strony tych plików,
-a celu, pod który by rosła, ten tor nie ma:
-kierunek i cenę kroku trzyma
-[`docs/roadmap.md`](docs/roadmap.md#tor-gramatyczny-nie-ma-końca).
-
+Nowy tekst w tym repozytorium powstaje po polsku.
 Reguła obejmuje prozę z listy na początku tego pliku,
 komentarze i docstringi, które do prozy liczy
 [łamanie wierszy](#semantic-line-breaks),
-komunikaty, które narzędzie drukuje,
+komunikaty, które drukuje narzędzie,
 oraz nazwy, które w kodzie wybieramy:
 modułów, klas, funkcji, testów, poleceń i flag.
 Po angielsku zostaje to, czego nie wybieramy:
 słowa kluczowe Pythona, API bibliotek, klucze konfiguracji i nazwy formatów.
-
-Nazwy symboli gramatyki są jednym słownikiem i zostają razem.
-`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py`
-stały po angielsku, zanim ta reguła powstała,
-a jeden symbol dopisany po polsku dałby mieszaninę wewnątrz nazwy,
-przed którą ta reguła broni,
-więc nowy symbol idzie po angielsku razem z nimi.
-Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
-więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
-
-Nazwa w kodzie niesie znaki diakrytyczne, tak samo jak zdanie.
-Tekst, który ich nie ma, nie liczy się tu jako polszczyzna:
-[ekstrakcja](docs/extraction.md#which-documents-enter-the-corpus)
-wyrzuca dokument, w którym diakrytyk pada rzadziej niż zadany próg,
-i nie pyta, skąd ten brak się wziął.
+W nazwie w kodzie piszemy znaki diakrytyczne, tak samo jak w zdaniu:
 Python przyjmuje takie identyfikatory,
 a pliki repozytorium są w UTF-8 (`.editorconfig`).
 
-Reguła nie wywodzi się z [sześciu sił](#six-forces) i nie jest od nich wyjątkiem.
-One rozstrzygają, jak zdanie jest zbudowane, a ta, w jakim jest języku,
-więc stoi przed nimi, żeby zdanie „każda reguła niżej” dalej było prawdziwe.
+Wyjątkiem są nazwy symboli gramatyki —
+`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py` —
+które są jednym słownikiem i zostają po angielsku razem.
+Kosztem jest raport: te nazwy `olski-check` drukuje jako role czytania,
+więc przekład słownika i przekład raportu są jedną zmianą, a nie dwiema.
 
+Reguły nie pilnuje żaden check, tak samo jak żadnej innej reguły prozy:
+sprawdzamy je w przeglądzie zmian, a nie w testach.
+Pakiet reguł, który sprawdzał tu polską typografię, wycofaliśmy
+([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
+a razem z nim listę plików, nad którymi ten check biegł.
+Gramatyka olskiego takim checkiem nie jest i nie ma być:
+wyprowadza znacznie mniej, niż te dokumenty zawierają —
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+podaje polecenie, które to pokazuje nad README —
+i tych dokumentów pod nią nie przepisujemy.
+
+Reguła nie wywodzi się z [sześciu sił](#six-forces) i dlatego je poprzedza.
 Przyjmujemy ją [leniwie](#adopt-these-rules-lazily) jak resztę,
 z jedną różnicą co do jednostki.
-Reguły prozy schodzą do zdania, bo zdanie poprawia się osobno.
-Język tak nisko nie schodzi,
-bo mieszanina języków wewnątrz akapitu, docstringa albo nazwy
-czyta się gorzej niż każda z wersji z osobna,
-a przemianowana funkcja sięga wszystkich swoich wywołań.
-Jednostką jest więc sekcja, docstring, komentarz, komunikat
-albo nazwa wraz z wywołaniami.
-Gdzie sekcja prozy nie trzyma, jednostką jest akapit:
-sekcja `TODO.md` grupuje wpisy i własnej prozy nie ma,
-więc jednostką jest tam wpis, czyli to, co jeden commit dopisuje i kasuje,
-a wpisy tej listy i tak stoją po polsku po jednym.
-Powód wyżej na to przystaje,
-bo mieszanina, przed którą broni, jest mieszaniną wewnątrz akapitu.
-Nowa powstaje po polsku, także w dokumencie, który po polsku nie jest,
+Reguły prozy sięgają pojedynczego zdania, bo zdanie poprawia się osobno,
+a język sięga sekcji, docstringa, komentarza, komunikatu
+albo nazwy wraz z jej wywołaniami.
+Gdzie sekcja nie ma własnej prozy, jednostką jest akapit:
+sekcja `TODO.md` grupuje wpisy, więc jednostką jest tam wpis,
+czyli to, co jeden commit dopisuje i kasuje.
+Po polsku powstaje też tekst w dokumencie, który po polsku nie jest,
 a zdanie dopisane do angielskiej sekcji idzie po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
-Nie ma z tego przebiegu porządkowego ani wpisu w `TODO.md`,
-bo tekst napisany przed regułą nie jest usterką.
+Nie ma z tego ani przebiegu porządkowego, ani wpisu w `TODO.md`.
 [`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
-ta sekcja stoi po polsku w pliku, który po polsku nie jest,
-i jedno, i drugie jest zgodne z regułą.
+a ta sekcja jest po polsku w pliku, który po polsku nie jest.
 
 ## Six forces
 
@@ -138,22 +104,22 @@ or a reason not to be written down at all.
   whether it was needed or not.
   Test: what does this passage buy someone who has read what stands above it?
 
-None of the six follows from the others.
-Two identical copies of a fact read perfectly from top to bottom
-and rot at the first edit to one of them.
-A passage answering a question nobody would ask passes the other five,
-and is paid for by everyone who reads past it.
-A pose passes the other five as well:
-it is comprehensible in the place it stands, it copies no fact,
-it names what would settle its claims,
-and it can be shorter than the plain version.
-Word choice comes closest and its test acquits it,
-because a pose is laboured rather than automatic,
-which is how a repository can produce one at volume
-while breaking no rule below.
 A failure mode that derives from none of the six
 means either that a seventh force is missing
 or that the rule is not worth having.
+
+## Decyzja arbitralna nie dostaje wywodu
+
+Część tego, co tu obowiązuje, jest kwestią gustu:
+język, w którym piszemy, jeden plik zamiast osobnego przewodnika,
+pięćdziesiąt znaków w temacie commita.
+Taka decyzja mówi, co obowiązuje, i na tym kończy.
+Wywód dorobiony do niej po fakcie jest oszustwem,
+nawet jeżeli każde zdanie z osobna się broni:
+podaje jako powód coś, co powodem nie było,
+a czytelnik nie ma go czym odrzucić, bo decyzja i tak od niego nie zależy.
+Zostaje to, co z decyzji wynika — koszt, granica stosowania, wyjątek —
+a nie to, co ją rzekomo poprzedza.
 
 ## The reader goes sentence by sentence
 
@@ -366,10 +332,6 @@ repeated context buys a document that stands on its own,
 and frame before detail buys comprehension.
 The cutting applies to words that buy nothing.
 
-These were also, in Polish, much of what the retired rule inventory was about.
-The inventory is gone and the demand is not:
-prose written this way reads worse, whether or not anything measures it.
-
 ## Dla kogo jest napisane zdanie
 
 Reguła wyżej pyta, czy fraza została wybrana.
@@ -377,14 +339,12 @@ Ta reguła pyta o adresata: czy zdanie jest napisane dla kogoś,
 kto ma z nim coś zrobić,
 czy dla kogoś, kto ma docenić, że autor umie pisać.
 
-Tamten test popisu nie łapie,
-bo popis jest napisany starannie
-i na pytanie, czy złożył się sam, odpowiada „nie”.
+Popis jest napisany starannie, więc tamten test go nie łapie.
 Test jest tu inny: przepisz zdanie najprostszą polszczyzną, jaką umiesz,
 i sprawdź, co ubyło.
 Jeżeli ubyło samo wrażenie, zostaje wersja prosta.
 
-Rejestr, który się w tym repozytorium wyhodował,
+Rejestr, który przeważa w tych dokumentach,
 to stylizacja na esejistykę inteligencką.
 Powtarza się w niej kilka chwytów.
 
@@ -410,9 +370,6 @@ Powtarza się w niej kilka chwytów.
   Czyta się to jak termin i nie jest zdefiniowane nigdzie.
   Test podstawieniowy: wstaw czasownik dokładny i sprawdź, czy zdanie zyskało.
   „Sklejenie stoi przed analizą” → „Sklejenie poprzedza analizę”.
-  Jest to ta sama wyblakła metafora co wyżej,
-  tylko wyblakła w tym repozytorium, a nie w polszczyźnie,
-  więc tamten test jej nie widzi.
 - **„To” jako podmiot akapitu.**
   Zaimek odsyła do całego poprzedniego zdania, a nie do rzeczownika.
   Autor takiego zdania nie zauważy, bo wie, o czym pisał.
@@ -427,8 +384,7 @@ Powtarza się w niej kilka chwytów.
   Test: przeczytaj trzy kolejne zdania na głos.
 
 Nie każde takie zdanie jest usterką.
-Projekt jest dla przyjemności, a materiałem jest polska proza
-([README](README.md#kierunek)),
+Projekt jest dla przyjemności ([README](README.md#kierunek)),
 więc tekst, który się dobrze czyta, jest tu jednym z celów.
 Granica biegnie tam, gdzie tekstu nie czyta się już od początku do końca.
 Wywód może: README i te dokumenty, które o coś argumentują,
@@ -438,9 +394,9 @@ czyta się wyrywkowo, w pośpiechu i z listy,
 a zdanie, które trzeba najpierw rozszyfrować,
 przepada razem z tym, co miało powiedzieć.
 
-Ten rejestr bierze się głównie z tego pliku,
-bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem.
-Widać to w `git log --pretty=%s`,
+Rejestr bierze się głównie z tego pliku,
+bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem;
+widać to w `git log --pretty=%s`,
 gdzie tematy powtarzają jeden szyk i jeden niewielki zbiór czasowników.
 Regułę przyjmujemy [leniwie](#adopt-these-rules-lazily) jak resztę,
 więc przebiegu porządkowego nad tym plikiem nie ma,
@@ -454,11 +410,6 @@ either names what would settle it — a register, a document, a measurement,
 your own observation — or it goes.
 These documents are the ground for rule justifications,
 so one unsupported sentence costs the credibility of the rest.
-The rule engine encodes the same demand:
-a rule carries a `justification` and its `sources`,
-entries in the candidate inventory are marked *cited* or left as hypotheses,
-and `calibration` reads `uncalibrated` rather than implying a measurement
-nobody has made.
 
 Two patterns produce most unsupported sentences:
 
@@ -591,23 +542,14 @@ the grammar, the morphology, the treebank reader or the compiler,
 and the skip count is where that shows.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)
-runs the same checks on every push.
-The reason to have it is that a change here
-is usually verified by the session that made it and by nothing else,
-and sessions do not see each other's work,
-so the combination of two of them is what the workflow runs and a person does not.
-Its install step is also what makes the skip above safe:
-it takes Morfeusz from PyPI and fails the job when that fails,
+runs the same checks on every push,
+which is what verifies the combination of two sessions that never saw each other.
+Its install step takes Morfeusz from PyPI and fails the job when that fails,
 so a branch's latest commit is never covered by a partial run alone.
 The command list above and the workflow's steps are two copies,
-because a runner cannot read prose,
 and `tests/test_docs.py` holds them equal,
 so a check added to one fails the suite until it is in the other.
-
 The workflow carries no badge.
-A standing verdict on the front page of a hobby repository
-is the same way of making it feel like work
-that [`docs/roadmap.md`](docs/roadmap.md) refuses dates for.
 
 **A figure has one owner, and the owner is a file a run writes.**
 A figure belongs in `figury/`, where the run's output stands and nothing else,
@@ -642,9 +584,7 @@ and that a figure names a section which does.
 
 A figure whose numbers were moved out of a document rather than taken by a run
 records `nieznany` in place of a digest,
-and the report calls it neither current nor owed but unmeasured here,
-the way `calibration` reads `uncalibrated`
-rather than implying a measurement nobody has made.
+and the report calls it neither current nor owed but unmeasured here.
 
 The list below is the same demand in prose, for the figures that have no owner yet,
 and it is [adopted lazily](#adopt-these-rules-lazily) like every other rule here:
@@ -946,88 +886,11 @@ so the rerun is owed there as it is everywhere else in this list.
 It is also the cheapest one to owe: the figures come from this repository's own
 README and the command beside them fetches nothing.
 
-Every difference of that shape has an owner now,
-so its movers are files in `figury/` rather than a paragraph here,
-and the report is what says whether any of them is owed a rerun.
-[What negation costs](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-odbiera-jedno),
-[what comma coordination costs](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
-[what the numeral phrase costs](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania),
-[what the four word orders cost](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-sześć),
-[what the adverbial clause costs](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)
-and [what the adverb costs](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
-are the six, and every one of them takes productions away from olski
-and reads the gap, the adverb and the adverbial clause
-having entered the grammar at the price their figures record.
-They share a denominator, so a construction admitted moves every one of these
-tables and not only the one belonging to it,
-and the report says so by calling all six owed at once.
-What a test holds there is only that a probe measures this grammar
-and not a copy of it, the numbers themselves having nothing to disagree with.
-The adverbial clause is the one measured under both morphologies,
-because a construction competing with a reading the annotators did not choose
-comes out free over gold tags and pays over live ones,
-so its figure is two runs of one probe rather than one.
-The adverb's probe measured the other way round while that construction was still
-outside, and that direction left the machinery with it (`sonda/ruch.py`).
-The adverb brings a figure of a second kind with it, and the formalism moves it:
-[what a flat adjunct list reads](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)
-counts trees rather than verdicts,
-so `olski/grammar.py` stands among its movers,
-which is where a demand for a feature's presence lives.
-The README half of either pair is why they are worth reading
-before converting the next figure:
-`README.md` is one of the declared movers,
-so a reword moves it in the report rather than nowhere,
-which is what the rule against writing down a figure over our own prose
-had to be a rule about.
-
-One more difference prices a refusal, and it is the only figure in this list
-whose two halves are moved by different things.
-[What discontinuity buys and costs](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
-counts on one side the treebank sentences another grammar needed a gap for,
-which moves only when the corpus release does
-or when `sonda/nieciągłość.py` changes what it counts as a gap,
-and on the other the uniqueness that dropping contiguity takes away,
-which moves with the grammar, since its denominator is what olski accepts,
-and with `sonda/polszczyzna.py` and `sonda/wiezy.py` under it.
-The verdicts beside the first half move with the grammar as well,
-and they are the half the refusal rests on:
-a construction that stops appearing there is a construction
-that has begun to buy those sentences.
-A third figure there prices the refusal itself —
-the sentences olski calls unambiguous while the forest holds a second,
-discontinuous reading — and it is moved by both of those at once:
-its population by the corpus release and by what `w_lesie` matches,
-its verdicts by the grammar.
-Refused stays refused when the price moves,
-so what the rerun protects is the number rather than the decision.
-
-A second refusal is priced the same way and every one of its figures
-moves with the grammar, because the variant it measures is derived from it.
-[What a gap buys and costs](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
-rewrites olski's own productions into a threaded feature in `sonda/luka.py`,
-so a production added to the clause family arrives in the variant unasked
-and moves the counts, the reading numbers quoted on single sentences,
-and the production totals beside them.
-The half the refusal rests on is the agreement against the gold tree,
-which moves with `_role` in `olski/corpus.py` as well:
-a role the treebank stops withholding from a gap
-is a gap that has begun to buy those sentences.
-A grammar change that gives a relative clause a body
-also moves what the enumeration reaches
-and with it the sentence that section names as the purchase,
-which is the one figure there a rerun alone does not settle.
-
-One set of figures is not moved by anything, for the same reason as the one above,
-and it sits in a section a grammar change is otherwise read from.
-[What packing decides](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
-prices a table the parser was given instead of the one it has,
-and both the probe that took the figures
-and the enumerator they were measured against are gone.
-The section says so in the paragraph above them.
-What a test holds there is the two sentences the argument rests on,
-in `tests/test_subset.py`, where they now guard the counting itself,
-and nothing about those figures.
+Every differential figure — what admitting a construction buys
+and what it costs — has an owner now,
+so `FIGURY` in `harness/figury.py` declares its movers
+instead of a paragraph here declaring them,
+and `python3 -m harness.figury` says which of them is owed a rerun.
 
 **A figure measured over this repository's own prose is not written down.**
 Every corpus above is pinned — a dated release, a repository at a commit —
@@ -1062,11 +925,6 @@ push the difference to the edges
 and route every caller through one branch-free core.
 A branch is a second path to read, test and keep in sync;
 a unified flow is proven once.
-The engine is built on this:
-a check is one code path plus its parameters,
-a rule is a declaration,
-and buying precision back is `unless_preceded_by` in the data
-rather than a special case in the check.
 
 **A probe asks olski's declaration and keeps no second copy of it.**
 A differential probe takes productions out and reruns the verdict,
@@ -1108,7 +966,7 @@ fixtures instead of setup and teardown methods,
 and `pytest.mark.parametrize` instead of loops or copied cases.
 
 A test's name says what is guaranteed,
-which is why `test_every_shipped_rule_carries_what_the_roadmap_asks_for`
+which is why `test_an_annotated_sentence_with_no_morphology_is_reported_rather_than_dropped`
 is worth its length.
 A trivial test is worse than no test:
 it costs a read, it has to be kept working,
