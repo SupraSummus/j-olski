@@ -225,6 +225,8 @@ komunikaty z `explain` w `olski/subset.py`
 i nazwy symboli, które ten sam wiersz wypisuje jako role czytania.
 Ruchem jest przekład jednym commitem,
 bo nazwa sięga wszystkich swoich wystąpień, a wydruk stoi w dokumentach.
+Słownik symboli przekłada się przy tym w całości albo wcale,
+bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika.
 Do przeczytania są bloki werdyktu cytowane w README, `docs/subset.md`
 i `docs/design-notes.md`: przekład bierze je na nowo ręką,
 i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.

@@ -64,17 +64,6 @@ Taki dokument nie dostaje wpisu w `TODO.md`.
 [`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
 a ta sekcja jest po polsku w pliku, który po polsku nie jest.
 
-Najszerszą jednostką przekładu jest słownik symboli gramatyki —
-`Subject`, `Predicative`, `NPConjunct` i reszta w `olski/subset.py`.
-`olski-check` drukuje te nazwy jako role czytania,
-a README i dokumenty w `docs/` cytują całe bloki werdyktu,
-więc jedna zmiana obejmuje słownik, raport i te bloki.
-Angielski nie jest w nich decyzją: cały wydruk jest po angielsku,
-komunikaty werdyktu tak samo jak role.
-Dopóki słownik jest po angielsku, nowy symbol idzie po angielsku razem z nim,
-bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika
-i przekładu nie przybliża.
-
 ## Six forces
 
 Every rule below follows from one of six forces.
@@ -122,6 +111,13 @@ podaje jako powód coś, co powodem nie było,
 a czytelnik nie ma go czym odrzucić, bo decyzja i tak od wywodu nie zależy.
 Zostaje to, co z decyzji wynika — koszt, granica stosowania, wyjątek —
 a nie to, co ją rzekomo poprzedza.
+
+## Skreślenie bywa całą naprawą
+
+Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.
+Zanim napiszesz tę wersję, przeczytaj okolicę bez tego miejsca:
+jeżeli reszta mówi już to samo, skreślenie jest całą zmianą.
+Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.
 
 ## The reader goes sentence by sentence
 
