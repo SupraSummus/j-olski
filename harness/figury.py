@@ -506,6 +506,111 @@ FIGURY = (
         czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
     ),
     Figura(
+        nazwa="odczasownikowy",
+        polecenie=("python3", "-m", "sonda.odczasownikowy", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/odczasownikowy.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="odczasownikowy-żywa",
+        #  Ta sama sonda po morfologii żywej, bo cena tej głowy stoi właśnie tam:
+        #  anotator wybrał w banku drzew jedno czytanie na token, a `czytanie` jest
+        #  u Morfeusza rzeczownikiem i formą odczasownikową naraz.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.odczasownikowy",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/odczasownikowy.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="odczasownikowy-ustawy",
+        polecenie=("python3", "-m", "sonda.odczasownikowy", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/odczasownikowy.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="cząstka",
+        polecenie=("python3", "-m", "sonda.cząstka", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/cząstka.py",
+            "sonda/ruch.py",
+        ),
+        czyta=(
+            "docs/subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu",
+            "docs/roadmap.md#etap-6-reszta-konstrukcji",
+        ),
+    ),
+    Figura(
+        nazwa="obejmująca",
+        polecenie=("python3", "-m", "sonda.obejmująca", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/obejmująca.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#interpunkcję-obejmującą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
+        nazwa="obejmująca-ustawy",
+        #  Rejestr ustaw pisze nawiasem odsyłacz do innego aktu, a cudzysłowem
+        #  tytuł, więc oba znaki mają tu czego szukać; README pisze odsyłacz
+        #  odnośnikiem, więc nawias nie ma tam ani jednego zdania do wzięcia.
+        polecenie=("python3", "-m", "sonda.obejmująca", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/obejmująca.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#interpunkcję-obejmującą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
         nazwa="kopuła",
         polecenie=("python3", "-m", "sonda.kopuła", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),

@@ -458,22 +458,28 @@ a olski nie odróżnia go od czasu przeszłego
 
 Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
 i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
-dwukropek otwierający zdanie oraz przecinek przed spójnikiem
-zdejmują z listy odrzuconych czterdzieści osiem zdań Składnicy,
+dwukropek otwierający zdanie, średnik oraz przecinek przed spójnikiem
+zdejmują z listy odrzuconych sześćdziesiąt pięć zdań Składnicy,
 a jednoznaczności nie odbierają ani jednemu zdaniu pod żadną z dwóch morfologii
 ([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
-Zero po stronie ceny nie jest przy dwukropku wynikiem przebiegu:
-tego znaku nie brała przedtem żadna produkcja,
+Zero po stronie ceny nie jest przy dwukropku ani przy średniku wynikiem przebiegu:
+żadnego z tych znaków nie brała przedtem produkcja,
 więc zdanie z nim nie miało czytania, z którego dałoby się je wytrącić.
-Kolejka nad prozą tego repozytorium stawiała tę parę na czele
+Kolejka nad prozą tego repozytorium stawiała dwukropek na czele
 ([corpus.md](corpus.md#where-the-analyses-stop))
-i nad tym plikiem nie kupuje ona żadnego zdania przyjętego,
-tak samo jak pięć dopisań przed nią,
-za to zdejmuje z listy form bez licencji oba znaki naraz,
-więc dziewięć zdań README staje odtąd na strukturze, a nie na znaku.
-Nad rejestrem ustaw rusza jeden werdykt i nic nie odbiera
+i nad tym plikiem nie kupuje ta trójka żadnego zdania przyjętego,
+tak samo jak dopisania przed nią,
+za to zdejmuje z listy form bez licencji wszystkie trzy znaki naraz,
+więc osiemnaście zdań README staje odtąd na strukturze, a nie na znaku.
+Nad rejestrem ustaw kupuje jedno zdanie i nic nie odbiera
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc trzeci rejestr odpowiedział tu tak samo jak drugi, tylko ciszej.
+
+Średnik wszedł do tej trójki później niż dwukropek i wszedł za sam rejestr:
+argumentu o polszczyźnie nie ma, bo znak ten stoi tam, gdzie stanąłby przecinek
+albo kropka, a zdanie README, które go niesie, jest tym, co za nim przemawia.
+Zakup wypadł przy nim na dwa zdania Składnicy i jedno zdanie ustawy,
+czyli o rząd wielkości mniej niż przy przecinku przed spójnikiem.
 
 Płaci za tę parę osobny warunek, i nie płaci ani w zdaniach, ani w czytaniach:
 przecinek przed spójnikiem nie kupowałby prawie nic,
@@ -531,7 +537,7 @@ a raz `Ustawy, której przepisy obowiązują`
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 tak samo jak przy pozycji pod przyimkiem,
 a zakup jest pierwszym, jaki ta konstrukcja robi nad bankiem drzew
-pod złotą morfologią: jedno zdanie przyjęte i dwa wyciągnięte z odrzucenia.
+pod złotą morfologią: jedno zdanie przyjęte i trzy wyciągnięte z odrzucenia.
 Rejestry odpowiadają przy tym na obie pozycje różnie:
 rozporządzenie rusza tylko pierwsza, siedem ustaw tylko druga, a bank drzew obie,
 i to jest odczyt o rejestrach, bo kształt grupy jest w obu pozycjach ten sam.
@@ -597,9 +603,8 @@ i jest to odtąd brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 
 ## Etap 6: reszta konstrukcji
 
-`to` w roli łącznika, liczebnik pisany cyfrą i rzeczowniki odczasownikowe.
-Kolejka ze Składnicy stawia je wysoko,
-bo `to` prowadzi w niej dwa wiersze, a rzeczownik odczasownikowy jeden.
+`to` w roli łącznika i liczebnik pisany cyfrą.
+Kolejka ze Składnicy stawia oba wysoko, bo `to` prowadzi w niej dwa wiersze.
 Wobec README podnoszą pokrycie dopiero razem,
 a żaden z pięciu zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
@@ -687,6 +692,48 @@ a cztery zdania przenosi z odrzuconych na wieloznaczne;
 dwa z tych czterech przyszły tam po nim, razem z interpunkcją zdaniową.
 Ranking wypadł przy nim lepiej niż przy każdym z tamtych czterech:
 wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego.
+
+Cząstka na tej liście nie stała i weszła prosto z przebiegu nad prozą,
+czyli z tego samego źródła, z którego weszły na nią cztery pozycje wyżej.
+Kupiła dziewięćdziesiąt jeden zdań Składnicy przy siedemdziesięciu dziewięciu
+uczynionych wieloznacznymi, a jednoznaczności nie odebrała ani jednemu zdaniu
+([subset.md](subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)).
+Cena wypadła i tu poza obie waluty tego etapu, a wypadła w zasięgu:
+dziewięć zdań nowo przyjętych olski czyta ciaśniej, niż czyta je bank drzew,
+bo cząstka stoi tam wewnątrz grupy imiennej, a tu przy zdaniu.
+Drugi gospodarz, który by to zdjął, jest tym samym wyborem, co przy przysłówku,
+i [TODO.md](../TODO.md) trzyma go razem z jego ceną.
+Pary do przelicznika niżej to dopisanie nie dokłada z tego samego powodu,
+z którego nie dokłada jej rzeczownik odczasownikowy.
+
+Interpunkcja obejmująca — cudzysłów i nawias — weszła tą samą drogą,
+a różni ją to, czym za nią przemawia proza:
+w prozie ustaw i w prasie te znaki stoją, ale zdania z nimi stoją także na czym innym,
+więc zakup jest tam liczony w pojedynczych zdaniach
+([subset.md](subset.md#interpunkcję-obejmującą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Cena wyszła zerowa z gramatyki, bo żadnego z czterech znaków nie brał przedtem terminal.
+Nad prozą, dla której to weszło, zakupu nie mierzy żadna figura i mierzyć nie będzie:
+byłaby należna przeliczenia po każdym commicie dotykającym tekstu
+([CLAUDE.md](../CLAUDE.md#checks)),
+a nawias nie ma nad README ani jednego zdania do wzięcia,
+bo ten plik pisze odsyłacz odnośnikiem, a nie w nawiasie.
+
+Rzeczownik odczasownikowy zszedł z tej listy cały:
+cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a zakupem jest sześćdziesiąt jeden zdań Składnicy i dwadzieścia zdań ustawy
+([subset.md](subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+Zero po stronie ceny wychodzi tu z tego, co jest jednym czytaniem:
+`czytanie` jest u Morfeusza i rzeczownikiem, i formą odczasownikową,
+a dwa wyprowadzenia jednego kształtu są jednym czytaniem,
+więc zdanie już przyjęte nie ma jak stracić jednoznaczności na tej głowie.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nim,
+za to zdejmuje z listy form bez licencji nad nią całą swoją klasę,
+i kolejkę nad tym plikiem prowadzi odtąd cząstka.
+Pary do przelicznika niżej to dopisanie nie dokłada,
+bo obietnicą jest wiersz `ger` liczony wtedy, gdy konstrukcji jeszcze nie ma,
+a przeliczenie tabeli, która ten wiersz trzyma, jest należne i nikt go tu nie wykonał
+([`harness/figury.py`](../harness/figury.py)).
 
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,

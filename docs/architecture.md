@@ -98,7 +98,7 @@ i pyta, czy wracają z niej tymi samymi drzewami
 (`figury/znaczenia.txt`, `figury/znaczenia-live.txt`).
 Odpowiedzi są dwie i pierwsza jest o mianowniku, a nie o wieloznaczności.
 Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
-z kilkuset, które olski melduje jako wieloznaczne,
+z tysiąca z górą, które olski melduje jako wieloznaczne,
 bo nad resztą nie wraca ani jedno czytanie,
 a nad prozą tego repozytorium nie daje się postawić żadnemu.
 Kategorią, której brakuje najczęściej,

@@ -27,18 +27,23 @@ from olski.parse import (
     parse,
 )
 from olski.subset import (
+    CZĄSTKI,
+    CZĄSTKOWY,
     DEKLARACJA,
     FRAGMENT,
     GRAMMAR,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
     PRZECINEK,
+    PRZYSŁÓWKOWY,
+    PRZYŁĄCZANY,
     PYTAJNY,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_PRZECINKOWY,
     SPÓJNIKI_PRZECINKOWE,
     WALENCJA,
     WALENCJA_ZWROTNA,
+    WTRĄCONY,
     admissible,
     check,
     morphology,
@@ -874,6 +879,45 @@ def test_cyfra_nie_jest_liczebnikiem_bo_nie_niesie_ani_przypadka_ani_liczby():
     assert werdykt.nielicencjonowane == ("14",)
 
 
+def test_rzeczownik_odczasownikowy_stoi_w_każdej_pozycji_rzeczownika():
+    #  Usterka, którą to łapie: pozycja dopisana rzeczownikowi i nie dopisana tej
+    #  głowie. Ciała wypisuje jedna pętla, więc rozejście się dwóch kompletów nie
+    #  daje ani jednego zdania odrzuconego, dopóki nikt nie zapyta o pozycję
+    #  osobno, a zdania niżej są tymi pytaniami: głowa sama, z przymiotnikiem, z
+    #  dopełniaczem i z wyrażeniem przyimkowym po sobie.
+    #
+    #  Ostatnie z nich wychodzi wieloznaczne i wychodzi tak słusznie: wyrażenie
+    #  przyimkowe przyłącza się i do tej głowy, i do zdania, a olski między tymi
+    #  dwoma czytaniami nie wybiera. Przyłączenie do głowy jest tu tym, o co pyta
+    #  ten test, i widać je po tym, że czytania są dwa, a nie jedno.
+    assert verdict("Przyłączenie jest tanie.").status == "valid"
+    assert verdict("Nowe przyłączenie jest tanie.").status == "valid"
+    assert verdict("Przyłączenie wyrażenia jest tanie.").status == "valid"
+    przyimkowe = verdict("Przyłączenie do czasownika jest tanie.")
+    assert przyimkowe.status == "ambiguous", przyimkowe.explain()
+    [przyłączenie] = przyimkowe.result.przyłączenia
+    assert przyłączenie.gospodarze == ("Przyłączenie", "jest"), przyimkowe.explain()
+
+
+def test_rzeczownik_odczasownikowy_żąda_dopełniacza_a_nie_biernika():
+    #  Ta głowa jest głową grupy imiennej, a nie pozycją przy czasowniku, i tyle
+    #  właśnie znaczy: dopełnienia żąda w dopełniaczu, tak jak żąda go rzeczownik
+    #  z dopełniaczem pod sobą. Bez tego warunku `przyłączenie wyrażenie`
+    #  wyprowadza się jako grupa, której polszczyzna nie ma.
+    assert verdict("Wyznaczenie granicy jest tanie.").status == "valid"
+    assert verdict("Wyznaczenie granica jest tanie.").status == "rejected"
+
+
+def test_dwa_czytania_tej_samej_głowy_są_jednym_czytaniem():
+    #  Na tym stoi zerowa cena tej głowy: `czytanie` jest u Morfeusza i
+    #  rzeczownikiem, i formą odczasownikową `czytać`, a ciała są dwa, więc zdanie
+    #  ma dwa wyprowadzenia. Kształt mają jeden, a część mowy jest z tożsamości
+    #  czytania wyłączona (`Node.signature` w `olski/parse.py`), więc wpadają do
+    #  jednej klasy i zdanie zostaje jednoznaczne.
+    werdykt = verdict("Czytanie jest tanie.")
+    assert werdykt.status == "valid", werdykt.explain()
+
+
 def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji():
     #  Dwie odpowiedzi, które Świgra trzyma osobno, i dwie różne roboty do
     #  zrobienia. Formy, której Morfeusz odmienioną nie zna, nie bierze żaden
@@ -1105,20 +1149,54 @@ def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koord
         assert nad_sobą == ze_znakiem, production
 
 
-def test_dwukropka_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować():
-    #  Na tej jedynce stoi zdanie, że dwukropek nie odbiera jednoznaczności ani
-    #  jednemu zdaniu: znak wchodzący w jedno ciało albo wyprowadza zdanie tą
-    #  produkcją, albo nie wyprowadza go wcale. Drugie ciało z dwukropkiem czyni
-    #  z tego zera liczbę do zmierzenia i ten test jest tym, co o tym powie.
+@pytest.mark.parametrize("lemat", [":", ";"])
+def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować(lemat):
+    #  Na tej jedynce stoi zdanie, że ani dwukropek, ani średnik nie odbiera
+    #  jednoznaczności ani jednemu zdaniu: znak wchodzący w jedno ciało albo
+    #  wyprowadza zdanie tą produkcją, albo nie wyprowadza go wcale. Drugie ciało
+    #  z tym znakiem czyni z tego zera liczbę do zmierzenia i ten test jest tym,
+    #  co o tym powie.
     biorące = [
         produkcja
         for produkcja in GRAMMAR.productions
         if any(
-            isinstance(część, Word) and bierze(część, "interp", ":", {}, EMPTY) is not None
+            isinstance(część, Word) and bierze(część, "interp", lemat, {}, EMPTY) is not None
             for część in produkcja.body
         )
     ]
     assert len(biorące) == 1, biorące
+
+
+def test_cudzysłów_przepuszcza_przypadek_grupy_którą_obejmuje():
+    #  Usterka, którą to łapie: przypadek wypisany wartością zamiast zmiennej.
+    #  Polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli grupy, więc
+    #  wartość wpisana w produkcję przyjmuje jeden z tych dwóch napisów i odrzuca
+    #  drugi, a oba są zdaniami tej dokumentacji.
+    assert verdict("Same „Zasady techniki prawodawczej” stoją poza tą sumą.").status == "valid"
+    orzecznik = verdict("Ustawa jest przepisem „Zasad techniki prawodawczej”.")
+    assert orzecznik.status == "valid", orzecznik.explain()
+
+
+def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
+    #  Wtrącenie jest rolą całym napisem, więc zejście po role zatrzymuje się na
+    #  nim (`Deklaracja.podrzędne`). Bez tego wyrażenie przyimkowe z jego wnętrza
+    #  wychodzi rolą przyłączaną zdania, którego ono nie określa, i werdykt mówi o
+    #  zdaniu nieprawdę, zamiast odrzucić.
+    werdykt = verdict("Cena jest niska (koszt w pliku).")
+    assert werdykt.status == "valid", werdykt.explain()
+    [czytanie] = werdykt.readings
+    assert czytanie[WTRĄCONY] == "( koszt w pliku )", czytanie
+    assert PRZYŁĄCZANY not in czytanie, czytanie
+
+
+def test_zdanie_bierze_jeden_znak_rozdzielający_a_nie_ciąg_takich_znaków():
+    #  Produkcja stoi na poziomie zdania, a `Clause` żadnego z tych znaków nie ma,
+    #  więc rekurencji nie ma czym zbudować i drugi znak w zdaniu odrzuca je. Jest
+    #  to granica wypowiedziana, a nie przeoczona: docs/subset.md trzyma ją wśród
+    #  tego, czego olski nie bierze, i ten test jest jej świadkiem.
+    assert verdict("Cena jest niska; gramatyka jest bezkontekstowa.").status == "valid"
+    dwa = verdict("Cena jest niska; gramatyka jest bezkontekstowa; parser jest tani.")
+    assert dwa.status == "rejected", dwa.explain()
 
 
 @pytest.mark.parametrize("lemat", SPÓJNIKI_PRZECINKOWE.split("|"))
@@ -1358,6 +1436,31 @@ def test_przysłówek_okolicznikowy_dostaje_rolę_a_nie_samo_wyprowadzenie():
     found = verdict("Program zapisuje ustawienia szybko.")
     assert found.status == "valid", found.explain()
     assert found.readings[0]["Adverb"] == "szybko"
+
+
+def test_cząstka_dostaje_rolę_osobną_od_przysłówka_w_obu_pozycjach():
+    #  Rola jest osobna, bo cząstka przysłówkiem nie jest: `Adverb: już` mówiłoby o
+    #  zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma. Pozycje są dwie i
+    #  pisze je jedna pętla razem z przysłówkiem, więc zdania są dwa: rozejście się
+    #  tych dwóch kompletów widać dopiero na tym, którego jedna z nich nie bierze.
+    okolicznik = verdict("Program już zapisuje ustawienia.")
+    assert okolicznik.readings[0][CZĄSTKOWY] == "już", okolicznik.explain()
+    assert PRZYSŁÓWKOWY not in okolicznik.readings[0], okolicznik.explain()
+    czoło = verdict("Już program zapisuje ustawienia.")
+    assert czoło.readings[0][CZĄSTKOWY] == "Już", czoło.explain()
+
+
+@pytest.mark.parametrize("lemat", CZĄSTKI.split("|"))
+def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
+    #  Kryterium na wejście do tej listy, postawione lemat po lemacie: cząstka,
+    #  której inne czytanie gramatyka bierze, daje jednemu napisowi dwa
+    #  wyprowadzenia. `tylko` jest u Morfeusza także spójnikiem, więc dopisane tu
+    #  kosztowałoby czytanie każdego zdania, w którym stoi, i tego ten test pilnuje
+    #  po stronie listy, a nie po stronie zdania.
+    czytania = [(r.tag.pos, r.lemma, dict(r.tag.features)) for r in analyse(lemat)[0].readings]
+    brane = [c for c in czytania if GRAMMAR.licencjonuje(*c)]
+    assert brane, (lemat, czytania)
+    assert {pos for pos, _, _ in brane} == {"part"}, (lemat, brane)
 
 
 @pytest.mark.parametrize(

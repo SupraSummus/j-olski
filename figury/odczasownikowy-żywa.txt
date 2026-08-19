@@ -1,0 +1,107 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury odczasownikowy-żywa
+polecenie: python3 -m sonda.odczasownikowy Składnica-frazowa-180723/ --morfologia live
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego
+czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
+ruszają:
+  olski/subset.py: 290a30c351a9
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: b0553f072e6c
+  sonda/odczasownikowy.py: 76ae5c3bd1cc
+  sonda/ruch.py: b25a865a0768
+
+Składnica, morfologia żywa, 13035 zdań
+
+                         wariant    przyjęte  wieloznaczne  odrzucone
+bez rzeczownika odczasownikowego        1475          1345      10215
+                           głowa        1485          1369      10181
+                  z dopełniaczem        1491          1422      10122
+                           olski        1500          1444      10091
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — głowa:
+       24  rejected → ambiguous
+       10  rejected → valid
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — z dopełniaczem:
+       77  rejected → ambiguous
+       16  rejected → valid
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — olski:
+       99  rejected → ambiguous
+       25  rejected → valid
+
+konkurencja, nad zdaniem po zdaniu:
+        5  obie pozycje ruszają to samo zdanie
+        3  razem wychodzi co innego niż osobno
+
+konkurencja, obie pozycje ruszają to samo zdanie:
+  Komisja rewizyjna rady powiatowej zawnioskowała o udzielenie absolutorium i przesłała stosowny wniosek do Regionalnej Izby Obrachunkowej w Bydgoszczy.
+  Oznacza to odejście od negocjacyjnego kształtowania wysokości płacy minimalnej.
+  Przewodnictwo, ruch lodu i przesiąkanie wody przemieszczają ciepło w obrębie lodowca.
+  Proszę o odczytanie uzasadnienia wniosku.
+  Poseł w liście do ministra pyta o możliwość postawienia Polańskiego przed polskim sądem.
+
+konkurencja, razem wychodzi co innego niż osobno:
+  Dużą trudnością jest udowodnienie molestowania.
+  Proszę o odczytanie uzasadnienia wniosku.
+  Symbolizują zmienną fortunę i uzasadniają nawoływania do stoickiego znoszenia dopustów losu albo chrześcijańskiej ufności w Bogu.
+
+głowa, rejected → ambiguous:
+  Pod żadnym pozorem nie zgadzaj się na pozostanie w domu w przyszły weekend.
+  Są ponadto zależni od społeczności wyższych, które mają zwyczajowe prawo ingerowania w życie tych ludzi.
+  Komisja rewizyjna rady powiatowej zawnioskowała o udzielenie absolutorium i przesłała stosowny wniosek do Regionalnej Izby Obrachunkowej w Bydgoszczy.
+  W przyszłości konstytucja określi sposób powoływania i zakres działania naczelnego dowódcy na czas wojny.
+  Większość nie stosowała się do obowiązujących zakazów zatrzymywania i postoju.
+  Każde dziecko miało na rączkach identyfikatory z nazwiskiem, oznaczeniem płci i godziną przyjścia na świat.
+  Jeden z mężczyzn przystąpił do majstrowania przy kablach telefonicznych.
+  Wiedział, że umiera, poprosił w szpitalu o wypisanie do domu.
+
+głowa, rejected → valid:
+  W programie jest oczywiście praktyczna nauka żeglowania.
+  Zmusił się do obejrzenia.
+  Przygnębiający był ten stan bierności, marazmu, kiśnięcia.
+  Odbyło się taksowanie.
+  Największy szkodliwy wpływ może mieć niewłaściwe układanie i zagęszczanie.
+  Nawet moje ulubione wędkowanie nie dawało mi zadowolenia.
+  Miłość nie jest transem zakochania i fascynacją.
+  Proszę o odczytanie uzasadnienia wniosku.
+
+z dopełniaczem, rejected → ambiguous:
+  Pomysłowość bankowców w ustanawianiu dodatkowych opłat jest zadziwiająca.
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Czułem wonny zapach po uchyleniu wieka skrzynki.
+  Swoboda w tej dziedzinie umożliwia zakładanie spółek, prowadzenie przedsiębiorstw, uprawianie wolnych zawodów.
+  Nie ma mowy o marnowaniu powierzchni.
+  Oprócz dymisji prezydenta i premiera żądali przekształcenia Ukrainy w republikę parlamentarną i przyłączenia jej do Związku Białorusi i Rosji.
+  Sądzę, że jest bardzo dobrze przygotowany do pełnienia swojej obecnej funkcji.
+  Śmieszy mnie ta zabawa w barbarzyńcę, bezmyślne opróżnianie butelek pod krzyżówkę Mickiewicza z amerykańskim hamburgerem.
+
+z dopełniaczem, rejected → valid:
+  Jaka jest przyczyna tego zachwiania równowagi?
+  Lokalna społeczność najlepiej potrafi ocenić zasadność umorzenia podatku.
+  Nazajutrz było zwiedzanie kościołów stolicy.
+  Zapowiedzieliśmy w poprzednim wydaniu gazety, że postaramy się opisać technikę pozyskiwania mleka.
+  Rozpoczęli zwożenie kamiennych płyt.
+  Należy przy tym pamiętać, że każdy twórca może wybrać miejsce akcentowania indywidualizmu.
+  Minister finansów ma wskazać sposób finansowania programu.
+  Uroczystość wręczenia nagrody urozmaicił koncert orkiestry Filharmonii Koszalińskiej.
+
+olski, rejected → ambiguous:
+  Pomysłowość bankowców w ustanawianiu dodatkowych opłat jest zadziwiająca.
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Czułem wonny zapach po uchyleniu wieka skrzynki.
+  Swoboda w tej dziedzinie umożliwia zakładanie spółek, prowadzenie przedsiębiorstw, uprawianie wolnych zawodów.
+  Nie ma mowy o marnowaniu powierzchni.
+  Oprócz dymisji prezydenta i premiera żądali przekształcenia Ukrainy w republikę parlamentarną i przyłączenia jej do Związku Białorusi i Rosji.
+  Sądzę, że jest bardzo dobrze przygotowany do pełnienia swojej obecnej funkcji.
+  Pod żadnym pozorem nie zgadzaj się na pozostanie w domu w przyszły weekend.
+
+olski, rejected → valid:
+  Dużą trudnością jest udowodnienie molestowania.
+  Jaka jest przyczyna tego zachwiania równowagi?
+  Lokalna społeczność najlepiej potrafi ocenić zasadność umorzenia podatku.
+  Nazajutrz było zwiedzanie kościołów stolicy.
+  Zapowiedzieliśmy w poprzednim wydaniu gazety, że postaramy się opisać technikę pozyskiwania mleka.
+  Rozpoczęli zwożenie kamiennych płyt.
+  Należy przy tym pamiętać, że każdy twórca może wybrać miejsce akcentowania indywidualizmu.
+  Minister finansów ma wskazać sposób finansowania programu.

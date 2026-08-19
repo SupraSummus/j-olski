@@ -5,7 +5,7 @@ czyta: docs/design-notes.md#podłoże-więzowe-zmierzone-sondą
 ruszają:
   README.md: 77c9bdac3583
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 24ea4b747a3e
+  olski/subset.py: 290a30c351a9
   olski/grammar.py: 9077925971d9
   olski/parse.py: b0553f072e6c
   olski/morph.py: 68c6bc12d9f1
@@ -100,13 +100,13 @@ proza/README.txt: Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: tu, parsowaniem, ,, sprawdzeniem, :, wyprowadzenia, ,, więc, ,, strzeliła, ,, ,, którego
 proza/README.txt: Co gramatyka obejmuje, czego nie obejmuje i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku, mówi docs/subset.md.
-  olski: rejected  0 readings
+  olski: ambiguous 8 readings
   sonda: rejected  0 readings, nothing attaches: ,, dlaczego, przyłączenie, ,
 proza/README.txt: Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
   olski: ambiguous 8 readings
   sonda: rejected  0 readings, nothing attaches: ,
 proza/README.txt: Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie „Zasady techniki prawodawczej”, mówi docs/ustawy.md.
-  olski: rejected  0 readings
+  olski: ambiguous 4 readings
   sonda: rejected  0 readings, nothing attaches: Ile, „, ”, ,
 proza/README.txt: Skład, czyli ten sam Morfeusz czytany w drugą stronę.
   olski: rejected  0 readings
@@ -165,4 +165,4 @@ proza/README.txt: Prozę w tym repozytorium łamiemy według Semantic Line Break
 proza/README.txt: Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md, a otwartą robotę wewnątrz repozytorium TODO.md.
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: ,, ,, ,
-48 of 48 sentences finished inside 10s, the slowest in 0.07s, and 39 of those get the same verdict from both, 39 the same number of readings
+48 of 48 sentences finished inside 10s, the slowest in 0.07s, and 37 of those get the same verdict from both, 37 the same number of readings

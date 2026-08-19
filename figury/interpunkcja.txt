@@ -4,19 +4,21 @@ korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego
 czyta: docs/roadmap.md#etap-4-zdanie-złożone
 ruszają:
-  olski/subset.py: ccaa0fcef11b
-  olski/parse.py: 7b2184342e31
-  olski/morph.py: 7490ae22fd17
-  sonda/interpunkcja.py: d9e4dc0781e4
-  sonda/ruch.py: 6da1ed0a768e
+  olski/subset.py: 290a30c351a9
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: b0553f072e6c
+  olski/morph.py: 68c6bc12d9f1
+  sonda/interpunkcja.py: 8de2d2268a38
+  sonda/ruch.py: b25a865a0768
 
 Składnica, morfologia złota, 13035 zdań
 
                    wariant    przyjęte  wieloznaczne  odrzucone
-bez interpunkcji zdaniowej        1597           778      10660
-                 dwukropek        1600           780      10655
-przecinek przed spójnikiem        1620           798      10617
-                     olski        1623           800      10612
+bez interpunkcji zdaniowej        1746          1002      10287
+                 dwukropek        1749          1004      10282
+                   średnik        1748          1004      10283
+przecinek przed spójnikiem        1772          1032      10231
+                     olski        1777          1036      10222
 
 ruch wobec wariantu „bez interpunkcji zdaniowej” — dwukropek:
         3  rejected → valid
@@ -24,34 +26,37 @@ ruch wobec wariantu „bez interpunkcji zdaniowej” — dwukropek:
   role zdań nowo przyjętych wobec drzewa wzorcowego:
         3    agrees
 
-ruch wobec wariantu „bez interpunkcji zdaniowej” — przecinek przed spójnikiem:
-       23  rejected → valid
-       20  rejected → ambiguous
+ruch wobec wariantu „bez interpunkcji zdaniowej” — średnik:
+        2  rejected → valid
+        2  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       18    agrees
+        1    agrees
+        1    brak roli
+             Następnie zbiegł po jakichś schodach; zbiegał długo.
+
+ruch wobec wariantu „bez interpunkcji zdaniowej” — przecinek przed spójnikiem:
+       30  rejected → ambiguous
+       26  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       23    agrees
         3    brak roli
              Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
              Naradzali się długo, a potem poszli do Spartakusa.
              Patrzy, a tu we włosach łonowych roi się od weszek.
-        2    partial
-             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
-             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
 
 ruch wobec wariantu „bez interpunkcji zdaniowej” — olski:
-       26  rejected → valid
-       22  rejected → ambiguous
+       34  rejected → ambiguous
+       31  rejected → valid
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       21    agrees
-        3    brak roli
+       27    agrees
+        4    brak roli
              Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
              Naradzali się długo, a potem poszli do Spartakusa.
+             Następnie zbiegł po jakichś schodach; zbiegał długo.
              Patrzy, a tu we włosach łonowych roi się od weszek.
-        2    partial
-             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
-             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
 
 konkurencja, nad zdaniem po zdaniu:
-        0  oba znaki ruszają to samo zdanie
+        0  kilka znaków rusza to samo zdanie
         0  razem wychodzi co innego niż osobno
 
 dwukropek, rejected → valid:
@@ -63,6 +68,24 @@ dwukropek, rejected → ambiguous:
   Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
   Argumentuje: dyrektorzy ZOZ-ów płacili za dyżury na podstawie obowiązujących przepisów.
 
+średnik, rejected → valid:
+  Usłyszeli brzęk szyb, dym i kurz wdarły się do pokoju; mapy i papiery poleciały na podłogę.
+  Następnie zbiegł po jakichś schodach; zbiegał długo.
+
+średnik, rejected → ambiguous:
+  Walczyła o wolność, walczyła z przemocą; przez swoje zamiłowanie do wolności i swoją postawę nie umiała się pomieścić w świecie powojennym.
+  Denver został założony w 1858 roku i był wielkim centrum górnictwa złota i srebra; w II połowie XIX wieku powstało Muzeum Sztuki z kolekcją sztuki Indian.
+
+przecinek przed spójnikiem, rejected → ambiguous:
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Polska niechęć do kapitału zagranicznego ocala nasze poczucie godności i suwerenności, ale tak naprawdę izoluje od światowego podziału pracy.
+  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  Te olbrzymie pieniądze muszą zostać wymienione na złote, a to również przyczynia się do umocnienia polskiej waluty.
+  W wyniku tego przeciwnik miał czas na organizację obrony, a tempo pościgu znacznie spadało.
+  Trzecioligowcy strzelili kontaktowego gola, ale w ostatnim kwadransie dwie bramki dla Lecha wypracował Remień.
+  Kuba tego nie pamięta, ale wie od mamy.
+  W długim okresie zwiększy się udział akcji w portfelach funduszy, więc różnice między funduszami powiększą się.
+
 przecinek przed spójnikiem, rejected → valid:
   Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
   Jesteśmy wyzwoleni wiarą, modlitwą, ofiarą, krwią, mądrością i miłością Ducha, ale nie potrafimy być wolni.
@@ -73,15 +96,15 @@ przecinek przed spójnikiem, rejected → valid:
   Naszym wspólnym celem jest kultura, a kultura nie ma granic.
   Większość państw Dwunastki zgodziła się, ale Francja i Hiszpania postawiły weto.
 
-przecinek przed spójnikiem, rejected → ambiguous:
+olski, rejected → ambiguous:
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
   Polska niechęć do kapitału zagranicznego ocala nasze poczucie godności i suwerenności, ale tak naprawdę izoluje od światowego podziału pracy.
   Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
+  Te olbrzymie pieniądze muszą zostać wymienione na złote, a to również przyczynia się do umocnienia polskiej waluty.
   W wyniku tego przeciwnik miał czas na organizację obrony, a tempo pościgu znacznie spadało.
   Trzecioligowcy strzelili kontaktowego gola, ale w ostatnim kwadransie dwie bramki dla Lecha wypracował Remień.
   Kuba tego nie pamięta, ale wie od mamy.
-  W długim okresie zwiększy się udział akcji w portfelach funduszy, więc różnice między funduszami powiększą się.
-  Wszystkie trasy są przygotowane przez ratraki, a wyciągi czekają na narciarzy.
-  Wiedziałem, że dalsza indagacja do niczego nie doprowadzi, ale na wszelki wypadek nie zbliżałem się do pola obstrzału dzielnego ormowca.
 
 olski, rejected → valid:
   Wiek XIX ma swoje lokomotywy, ale nie ma swoich katedr.
@@ -92,13 +115,3 @@ olski, rejected → valid:
   Nie ma tam figurki Napoleona, ale odczucia są podobne.
   Sprawozdawcy PAP informują: W środę 1 kwietnia XII Zjazd BPK wznowił obrady plenarne.
   Naszym wspólnym celem jest kultura, a kultura nie ma granic.
-
-olski, rejected → ambiguous:
-  Wiele osób może powiedzieć: jadłem obiad z Kaczmarkiem, żeglowałem z Kaczmarkiem, nurkowałem z Kaczmarkiem.
-  Polska niechęć do kapitału zagranicznego ocala nasze poczucie godności i suwerenności, ale tak naprawdę izoluje od światowego podziału pracy.
-  Zawsze mówię, że mogę pracować, bo mam dobre zdrowie, a to jest darmo dane.
-  W wyniku tego przeciwnik miał czas na organizację obrony, a tempo pościgu znacznie spadało.
-  Trzecioligowcy strzelili kontaktowego gola, ale w ostatnim kwadransie dwie bramki dla Lecha wypracował Remień.
-  Kuba tego nie pamięta, ale wie od mamy.
-  W długim okresie zwiększy się udział akcji w portfelach funduszy, więc różnice między funduszami powiększą się.
-  Wszystkie trasy są przygotowane przez ratraki, a wyciągi czekają na narciarzy.

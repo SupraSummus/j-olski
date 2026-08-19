@@ -1,0 +1,147 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury odczasownikowy
+polecenie: python3 -m sonda.odczasownikowy Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego
+czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
+ruszają:
+  olski/subset.py: 290a30c351a9
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: b0553f072e6c
+  sonda/odczasownikowy.py: 76ae5c3bd1cc
+  sonda/ruch.py: b25a865a0768
+
+Składnica, morfologia złota, 13035 zdań
+
+                         wariant    przyjęte  wieloznaczne  odrzucone
+bez rzeczownika odczasownikowego        1716           873      10446
+                           głowa        1729           909      10397
+                  z dopełniaczem        1765           991      10279
+                           olski        1777          1036      10222
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — głowa:
+       36  rejected → ambiguous
+       13  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+        8    agrees
+        4    brak roli
+             Po godzinie wałęsania znaleźli się wśród wąskich uliczek starego miasta.
+             Zmusił się do obejrzenia.
+             Przystępujemy do głosowania.
+             Przechodzimy do głosowania.
+        1    disagrees
+             Rok funkcjonowania wyższych szczebli samorządów nie upoważnia jeszcze do ocen.
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — z dopełniaczem:
+      118  rejected → ambiguous
+       49  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       35    agrees
+       12    brak roli
+             Podziękował za przyjęcie kolędy i dobre słowa.
+             Mimo to przystąpiliśmy do powołania Prezydenckiego Funduszu Stypendialnego.
+             Chodziło o unieszkodliwienie całej bandy.
+             Proszę o odczytanie uzasadnienia wniosku.
+             Do trzeciego czytania projektu ustawy przystąpimy na następnym posiedzeniu Sejmu.
+             Proszę o naciśnięcie przycisku obecności.
+             Proszę o naciśnięcie przycisku obecności.
+             Proszę o poparcie propozycji Komisji Gospodarki Narodowej.
+        1    partial
+             Nie wyklucza się, że powodem wypadku było zaśnięcie kierowcy.
+        1    disagrees
+             Czwarty stopień oznacza niebezpieczeństwo samoistnego schodzenia lawin również na stokach.
+
+ruch wobec wariantu „bez rzeczownika odczasownikowego” — olski:
+      163  rejected → ambiguous
+       61  rejected → valid
+  role zdań nowo przyjętych wobec drzewa wzorcowego:
+       43    agrees
+       16    brak roli
+             Podziękował za przyjęcie kolędy i dobre słowa.
+             Mimo to przystąpiliśmy do powołania Prezydenckiego Funduszu Stypendialnego.
+             Po godzinie wałęsania znaleźli się wśród wąskich uliczek starego miasta.
+             Zmusił się do obejrzenia.
+             Chodziło o unieszkodliwienie całej bandy.
+             Przystępujemy do głosowania.
+             Proszę o odczytanie uzasadnienia wniosku.
+             Przechodzimy do głosowania.
+        1    partial
+             Nie wyklucza się, że powodem wypadku było zaśnięcie kierowcy.
+        1    disagrees
+             Czwarty stopień oznacza niebezpieczeństwo samoistnego schodzenia lawin również na stokach.
+
+konkurencja, nad zdaniem po zdaniu:
+        1  obie pozycje ruszają to samo zdanie
+        9  razem wychodzi co innego niż osobno
+
+konkurencja, obie pozycje ruszają to samo zdanie:
+  Rok funkcjonowania wyższych szczebli samorządów nie upoważnia jeszcze do ocen.
+
+konkurencja, razem wychodzi co innego niż osobno:
+  W przyszłości konstytucja określi sposób powoływania i zakres działania naczelnego dowódcy na czas wojny.
+  Oznacza to odejście od negocjacyjnego kształtowania wysokości płacy minimalnej.
+  Analiza krzywych wysychania ma duże znaczenie w aspekcie poznania reżimu cieków i rzek oraz rezerw wód podziemnych.
+  Przeszkodą w nadmiernym zwiększaniu prędkości skrawania jest okres trwałości.
+  Przy bezpośrednim wprowadzaniu danych dowody księgowe są indywidualnie przekazywane do przetwarzania.
+  Statut określa zasady wynagradzania za użytkowanie tych wkładów.
+  Wobec wyników głosowania stwierdzam, że Senat podjął uchwałę w sprawie ustawy o zmianie ustawy o organizowaniu i prowadzeniu działalności kulturalnej.
+  Na razie nawet na plan dalszy zeszły zabiegi o pozyskanie w parlamencie większości zdolnej do odrzucania prezydenckiego weta.
+
+głowa, rejected → ambiguous:
+  Zwyciężyliśmy walkę o istnienie, zwyciężymy walkę o prawo do spokojnej pracy dla dobra kraju.
+  Dlatego prośba o przebaczenie jest tak trudna.
+  W Finlandii zerwanie z antyradzieckim kursem politycznym nastąpiło jeszcze przed zwycięstwem socjalizmu.
+  Prowadzi to do nietolerancji laktozy i poważnych zaburzeń w trawieniu.
+  Pod żadnym pozorem nie zgadzaj się na pozostanie w domu w przyszły weekend.
+  Wykorzystał on salę sądową do demonstracyjnego wystąpienia w obronie ideologii komunistycznej.
+  Są ponadto zależni od społeczności wyższych, które mają zwyczajowe prawo ingerowania w życie tych ludzi.
+  Po wejściu do wnętrza szopy skradł z niej 5 kur o wartości 50 złotych na szkodę mieszkańca Paterka.
+
+głowa, rejected → valid:
+  Powołał do życia Centralne Biuro Śledcze.
+  Rozpierała go potrzeba działania.
+  Po godzinie wałęsania znaleźli się wśród wąskich uliczek starego miasta.
+  Zmusił się do obejrzenia.
+  Przygnębiający był ten stan bierności, marazmu, kiśnięcia.
+  Odbyło się taksowanie.
+  Miłość nie jest transem zakochania i fascynacją.
+  Przystępujemy do głosowania.
+
+z dopełniaczem, rejected → ambiguous:
+  Ostatnie zdania muszą być twoim wyznaniem wiary w waszą miłość, która przetrwa wszelkie burze.
+  Pomysłowość bankowców w ustanawianiu dodatkowych opłat jest zadziwiająca.
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Nowoczesność w tym kontekście oznacza zastosowanie najnowszych środków technologicznych, uprzemysłowienie i wyższy poziom życia.
+  Czułem wonny zapach po uchyleniu wieka skrzynki.
+  Lęk przed nicością łączy się z doświadczeniem pustki.
+  Swoboda w tej dziedzinie umożliwia zakładanie spółek, prowadzenie przedsiębiorstw, uprawianie wolnych zawodów.
+  Nie ma mowy o marnowaniu powierzchni.
+
+z dopełniaczem, rejected → valid:
+  Dużą trudnością jest udowodnienie molestowania.
+  Jaka jest przyczyna tego zachwiania równowagi?
+  Otwarcie granic nie poprawiło sytuacji plantatorów.
+  Lokalna społeczność najlepiej potrafi ocenić zasadność umorzenia podatku.
+  Nazajutrz było zwiedzanie kościołów stolicy.
+  Podziękował za przyjęcie kolędy i dobre słowa.
+  Zapowiedzieliśmy w poprzednim wydaniu gazety, że postaramy się opisać technikę pozyskiwania mleka.
+  Kilka innych firm ogłosiło zamiar podwyższenia kapitału.
+
+olski, rejected → ambiguous:
+  Ostatnie zdania muszą być twoim wyznaniem wiary w waszą miłość, która przetrwa wszelkie burze.
+  Pomysłowość bankowców w ustanawianiu dodatkowych opłat jest zadziwiająca.
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
+  Nowoczesność w tym kontekście oznacza zastosowanie najnowszych środków technologicznych, uprzemysłowienie i wyższy poziom życia.
+  Zwyciężyliśmy walkę o istnienie, zwyciężymy walkę o prawo do spokojnej pracy dla dobra kraju.
+  Czułem wonny zapach po uchyleniu wieka skrzynki.
+  Lęk przed nicością łączy się z doświadczeniem pustki.
+  Swoboda w tej dziedzinie umożliwia zakładanie spółek, prowadzenie przedsiębiorstw, uprawianie wolnych zawodów.
+
+olski, rejected → valid:
+  Dużą trudnością jest udowodnienie molestowania.
+  Jaka jest przyczyna tego zachwiania równowagi?
+  Otwarcie granic nie poprawiło sytuacji plantatorów.
+  Lokalna społeczność najlepiej potrafi ocenić zasadność umorzenia podatku.
+  Powołał do życia Centralne Biuro Śledcze.
+  Nazajutrz było zwiedzanie kościołów stolicy.
+  Podziękował za przyjęcie kolędy i dobre słowa.
+  Zapowiedzieliśmy w poprzednim wydaniu gazety, że postaramy się opisać technikę pozyskiwania mleka.
