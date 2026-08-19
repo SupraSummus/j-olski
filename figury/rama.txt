@@ -4,7 +4,8 @@ korpus: Składnica-frazowa-180723
 korpus: walenty_20160418-text
 czyta: docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie
 ruszają:
-  sonda/rama.py: 7a823b7c12db
+  sonda/rama.py: b4b4467ca2ef
+  olski/walenty.py: 2e60ecea1f17
   olski/attachment.py: a038f514f84e
 
 4076 spornych przyłączeń banku drzew

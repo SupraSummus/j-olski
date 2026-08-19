@@ -16,9 +16,16 @@ wziąć zdanie stojące dalej, wziąć napis zamiast lematu, wziąć za gospodar
 odsłownikiem. Dwa ostatnie kończyły się nad korpusem audytowym wskazaniem, więc
 milczenie po nich jest tu asercją równie ważną jak wskazanie.
 
-Świadka każdy test buduje sam, z licznika wypisanego na miejscu, zamiast czytać
-``olski/skłonności.txt``. Plik ten jest generowany, więc test na nim oparty
-pilnowałby banku drzew, a nie warstwy, i milkłby razem z nim. Ostatni test bierze
+Świadek ramowy ma tu własne, bo jego kryterium jest połową i połowa ta jest
+wyceniona: wskazuje po stronie rzeczownika, a żądanie czasownika odbiera
+wskazanie, zamiast wskazywać czasownik. Jedno i drugie da się zepsuć tak, że
+wydruk wygląda dalej rozsądnie — świadek zaczyna wskazywać czasownik albo
+przestaje milczeć na żądaniu obustronnym — a widać to dopiero w liczbach.
+
+Świadka każdy test buduje sam, z licznika albo z ramy wypisanej na miejscu,
+zamiast czytać ``olski/skłonności.txt`` czy ``olski/leksykon.txt``.
+Pliki te są generowane, więc test na nich oparty pilnowałby banku drzew
+albo Walentego, a nie warstwy, i milkłby razem z nimi. Ostatni test bierze
 świadków domyślnych, bo sprawdza samo polecenie, i sprawdza wtedy zdanie, którego
 tabela wypisać nie umie: powód świadka kontekstowego cytuje akapit.
 """
@@ -27,11 +34,14 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from dataclasses import replace
+
 import olski.check
 from olski.parse import Przyłączenie
 from olski.rozstrzyganie import (
     PUSTE,
     Powtórzenie,
+    Rama,
     Rozstrzygnięcie,
     Skłonność,
     Sąsiedztwo,
@@ -77,16 +87,21 @@ def test_odpowiedź_niesie_imię_świadka_który_ją_wydał():
 
 
 def test_pierwszy_świadek_z_odpowiedzią_wygrywa_z_dalszymi():
-    """Kolejność jest kolejnością rodzaju dowodu, więc musi być kolejnością, a nie zbiorem."""
+    """Kolejność jest kolejnością rodzaju dowodu, więc musi być kolejnością, a nie zbiorem.
 
-    class Rama:
-        nazwa = "rama"
+    Świadek stojący pierwszy jest tu wypisany na miejscu, a nie wzięty z
+    ``domyślni``, bo test pyta o samą kolejność: świadek prawdziwy odpowiadałby
+    tylko na te przyłączenia, na które ma czym odpowiedzieć.
+    """
+
+    class Zawsze:
+        nazwa = "zawsze"
 
         def __call__(self, przyłączenie, sąsiedztwo):
             return Rozstrzygnięcie(przyłączenie.modyfikator, "Daj", "bo tak")
 
-    (odpowiedź,) = rozstrzygnij([FAWORKI], [Rama(), Skłonność(licznik=JEDNOZNACZNY)])
-    assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("rama", "Daj")
+    (odpowiedź,) = rozstrzygnij([FAWORKI], [Zawsze(), Skłonność(licznik=JEDNOZNACZNY)])
+    assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("zawsze", "Daj")
 
 
 def test_warstwa_nie_rusza_werdyktu():
@@ -265,6 +280,79 @@ def test_sąsiedztwem_są_zdania_wcześniejsze_i_tylko_z_tego_akapitu():
     ]
 
 
+# --------------------------------------------------------------------------- #
+# Świadek ramowy
+# --------------------------------------------------------------------------- #
+
+#: Przyłączenie, jakie werdykt wydaje nad ``Program zapisuje informacje o błędach.``
+#: Rama ``informacja`` żąda tu ``o``, a rama ``zapisywać`` nie żąda go, czyli jest
+#: to ta klasa, na której świadek ramowy odpowiada.
+BŁĘDY = Przyłączenie(modyfikator="o błędach", gospodarze=("zapisuje", "informacje"))
+
+
+def rama(żądania: dict[tuple[str, str], set[str]]) -> Rama:
+    """Świadek ramowy z ramą wypisaną na miejscu, po lemacie i stronie wyboru.
+
+    ``olski/leksykon.txt`` jest generowany, więc test na nim oparty pilnowałby
+    Walentego, a nie świadka, i milkłby razem z nim — tak samo jak przy tabeli
+    skłonności wyżej.
+    """
+    return Rama(leksykon=lambda lemat, gdzie: frozenset(żądania.get((lemat, gdzie), ())))
+
+
+def test_rama_wskazuje_rzeczownika_którego_schemat_żąda_tego_przyimka():
+    """Wskazanie przychodzi z wierszem leksykonu, bo bez niego nie da się go sprawdzić."""
+    (odpowiedź,) = rozstrzygnij([BŁĘDY], [rama({("informacja", "noun"): {"o"}})])
+    assert isinstance(odpowiedź, Rozstrzygnięcie)
+    assert (odpowiedź.świadek, odpowiedź.gospodarz) == ("rama", "informacje")
+    assert "„o”" in odpowiedź.powód and "„informacja”" in odpowiedź.powód
+
+
+def test_żądanie_samego_czasownika_nie_wskazuje_go_choć_świadek_je_widzi():
+    """Połowa kryterium, której świadek nie bierze, i to jest połowa wyceniona.
+
+    Rama czasownika trafia nad bankiem drzew tyle, ile rzut monetą nad wyborem
+    dwóch stron, więc wskazania z niej nie ma; ``docs/disambiguation.md`` liczy,
+    ile ta odmowa oddaje.
+    """
+    świadek = rama({("zapisywać", "clause"): {"o"}})
+    assert rozstrzygnij([BŁĘDY], [świadek]) == [BŁĘDY]
+
+
+def test_żądanie_po_obu_stronach_kończy_się_milczeniem():
+    """Weto: schematu nie łamie wtedy żadne czytanie, więc nie ma czego rozstrzygać."""
+    świadek = rama({("informacja", "noun"): {"o"}, ("zapisywać", "clause"): {"o"}})
+    assert rozstrzygnij([BŁĘDY], [świadek]) == [BŁĘDY]
+
+
+def test_wariant_bez_weta_odpowiada_tam_gdzie_weto_milczy():
+    """Wariant, którym ``--oceń`` wycenia weto, ma naprawdę mierzyć co innego.
+
+    Pole zignorowane dałoby w tym wydruku dwa wiersze identyczne i nic by tego
+    nie zgłosiło.
+    """
+    żądania = {("informacja", "noun"): {"o"}, ("zapisywać", "clause"): {"o"}}
+    bez_weta = replace(rama(żądania), weto=False)
+    (odpowiedź,) = rozstrzygnij([BŁĘDY], [bez_weta])
+    assert odpowiedź.gospodarz == "informacje"
+
+
+def test_dwaj_gospodarze_imienni_żądający_kończą_się_milczeniem():
+    """Dowód wskazujący dwie strony naraz nie wskazuje żadnej, tak jak przy powtórzeniu."""
+    przyłączenie = Przyłączenie(
+        modyfikator="o błędach", gospodarze=("zapisuje", "informacje", "awarię")
+    )
+    świadek = rama({("informacja", "noun"): {"o"}, ("awaria", "noun"): {"o"}})
+    assert rozstrzygnij([przyłączenie], [świadek]) == [przyłączenie]
+
+
+def test_przyimek_dopasowuje_się_lematem_a_nie_napisem():
+    """``z`` i ``ze`` są jednym słowem, a Walenty wypisuje w schemacie lemat."""
+    przyłączenie = Przyłączenie(modyfikator="ze systemem", gospodarze=("zapisuje", "wymiany"))
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [rama({("wymiana", "noun"): {"z"}})])
+    assert odpowiedź.gospodarz == "wymiany"
+
+
 def test_powtórzenie_bije_skłonność_przeciwnego_zdania():
     """Dowód o tym tekście bije dowód o cudzym korpusie, więc kolejność jest ta.
 
@@ -285,8 +373,11 @@ def test_kolejność_wypuszczana_jest_tą_samą_którą_sprawdza_test_wyżej():
     drzew o rząd wielkości częściej od kontekstowego, więc pomiar zasięgu mówi,
     żeby postawić go pierwszego. Kolejności tej nie broni żadna trafność, tylko
     hipoteza z ``docs/disambiguation.md``, i dlatego broni jej test.
+    Świadek ramowy stoi z tego samego powodu w środku: jego dowód jest o
+    polszczyźnie, więc bije częstość nad cudzym korpusem i przegrywa z akapitem,
+    który autor napisał.
     """
-    assert [type(świadek) for świadek in domyślni()] == [Powtórzenie, Skłonność]
+    assert [type(świadek) for świadek in domyślni()] == [Powtórzenie, Rama, Skłonność]
 
 
 def test_polecenie_daje_świadkowi_sąsiedztwo_tego_zdania(capsys):

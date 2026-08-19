@@ -363,21 +363,23 @@ liczby te wraz z ich rozkładem trzyma
 Po żadnej z tych stron nie ma konkurencji między czytaniami:
 przeczytanie frazy wymaganej po drugiej stronie łamie schemat tego, kto jej żądał.
 
-Olski taki leksykon ma i sięga nim płycej, niż ta klasa wymaga.
-`olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a nie o przyimku
+Olski taki leksykon ma i sięga nim po tę klasę.
+`olski/leksykon.txt` niesie kolumnę przyimków, których żąda rama słowa,
+i niesie ją po obu stronach sporu: przy czasowniku i przy rzeczowniku
 ([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
-a Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika i przymiotnika.
-Kolumna jest zatem rozszerzeniem generatora, a nie nową maszyną,
-i mieści się w tym, co [etap 2](roadmap.md#etap-2-walencja) już obejmuje.
+bo Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika.
+Kolumna jest rozszerzeniem generatora, a nie nową maszyną,
+i mieści się w tym, co [etap 2](roadmap.md#etap-2-walencja) obejmuje.
 Rozstrzygnięcie, które z niej wychodzi, jest deterministyczne i da się wyjaśnić
 jednym wierszem leksykonu, czyli jest tym rodzajem odpowiedzi,
 którą ten parser obiecuje w README.
 
-Czy warto ją wypisać po obu stronach spornego wyrażenia, rozstrzyga pomiar,
-a nie to, że jedna kolumna obsłużyłaby oba:
+Co z tej kolumny wziąć po każdej ze stron spornego wyrażenia, rozstrzyga pomiar,
+a nie to, że jedna kolumna obsługuje oba:
 [sekcja niżej](#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)
 wycenia to kryterium osobno dla rzeczownika i dla czasownika,
-i wypada ono po tych dwóch stronach zupełnie inaczej.
+i wypada ono po tych dwóch stronach zupełnie inaczej,
+więc rzeczownik wskazuje gospodarza, a czasownik odbiera wskazanie.
 
 Ile z tych 73,7% by to zdjęło, ten dokument nie mówi.
 Zasięg i trafność kryterium wycenia tamta sekcja,
@@ -391,11 +393,13 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 Świadka ramowego wyceniono przed dopisaniem go, tak jak
 [przysłówek](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe),
 i pomiar rozstrzygnął go na pół.
-`sonda/rama.py` czyta Walentego wprost, zamiast czekać na kolumnę leksykonu,
-i pyta bank drzew, dokąd wyrażenie doszło u anotatora.
-Kryterium jest jedno: lemat żąda przyimka, gdy któryś jego schemat
-ma pozycję niepodmiotową z `prepnp` o tym przyimku,
-a odpowiedź pada, gdy żąda go dokładnie jedna strona.
+`sonda/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
+i zestawia to z samym kryterium, a nie z werdyktem.
+Kryterium jest jedno i ma jednego właściciela — `przyimki` w `olski/walenty.py`,
+skąd bierze je i ta sonda, i kolumna leksykonu:
+lemat żąda przyimka, gdy któryś jego schemat
+ma pozycję niepodmiotową z `prepnp` o tym przyimku.
+Odpowiedź pada w tej sondzie wtedy, gdy żąda go dokładnie jedna strona.
 Liczby trzyma [`figury/rama.txt`](../figury/rama.txt).
 
 Mianownik jest tam węższy niż `4 517` wyżej i węższy o jeden warunek.
@@ -414,8 +418,8 @@ Sama ta para mówi, że świadka takiego brać nie warto:
 trafia bez żadnego słownika tyle samo albo więcej.
 
 Rozstrzyga jednak strona, a nie średnia.
-Rama rzeczownika trafia powyżej wszystkiego, co ten dokument mierzy,
-tabeli skłonności włącznie, i myli się rzadziej niż raz na dwadzieścia odpowiedzi.
+Rama rzeczownika myli się rzadziej niż raz na dwadzieścia odpowiedzi,
+czyli rzadziej niż tabela skłonności przy zasięgu tej samej wielkości.
 Rama czasownika trafia tyle, ile rzut monetą nad wyborem dwóch stron,
 a odpowiedzi wydaje dwa razy więcej niż tamta.
 Średnia z obu jest przez to liczbą o niczym:
@@ -442,8 +446,9 @@ Walenty pisze `prepnp(o,loc)` obok `prepnp(o,acc)`,
 a `Attachment` w `olski/attachment.py` niesie sam przyimek,
 więc żaden przebieg tej sondy dziś tego nie pyta.
 
-Ruch, który z tego wychodzi, jest połową tego, o którą pytano:
-świadek ramowy po stronie rzeczownika, a po stronie czasownika żaden.
+Świadek, który z tego wyszedł, bierze z kryterium połowę:
+`Rama` w `olski/rozstrzyganie.py` wskazuje po stronie rzeczownika,
+a po stronie czasownika nie wskazuje nikogo.
 Wyceniono to tak samo jak przysłówek, czyli połowa na gospodarza,
 a rozstrzygnęło się inaczej: tam obie połowy weszły,
 bo druga kupowała prawdę o drzewie
@@ -455,10 +460,56 @@ które w ogóle rozstrzyga jakakolwiek rama
 ([częstość nad dokumentacją](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
 Dwa korpusy mówią więc to samo o tej samej połowie.
 
-Czego ten pomiar nie mówi, to ile zdań by to zdjęło.
+**Nad połową banku drzew, której świadek nie widział, rama rzeczownika
+dorównuje tabeli skłonności zasięgiem i bije ją trafnością.**
+Odpowiada na mniej więcej co ósme sporne wyrażenie, czyli tyle, co tabela,
+i myli się rzadziej niż raz na dwadzieścia odpowiedzi tam,
+gdzie tabela myli się w co dziesiątej.
+Jedna z tych dwóch liczb kupuje się zwykle drugą — o tym mówi krzywa progów
+w tym samym wydruku — a tutaj się nie kupuje, bo świadek progu nie ma:
+odpowiada wtedy i tylko wtedy, gdy słownik żąda po jednej stronie.
+Rama stoi przed tabelą — dowód słownikowy bije statystyczny — i tabela odzywa się
+po niej tylko tam, gdzie rama milczy, więc obaj razem odpowiadają na mniej więcej
+co piąte sporne wyrażenie przy niższej stopie pomyłek, niż ma sama tabela.
+Kolejność ta nie jest przy tym porównaniem dwóch trafności, tylko
+[hipotezą](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza),
+i z niej wynika też, czego rama nie bije: świadek kontekstowy stoi przed nią,
+bo akapit mówi o tym tekście, a leksykon o polszczyźnie.
+Wszystkie te liczby trzyma
+[`figury/skłonności-ocena.txt`](../figury/skłonności-ocena.txt),
+bo ten przebieg mierzy warstwę, a nie kryterium nad samym Walentym.
+
+**Rama czasownika zostaje za to wetem, a weto kosztuje zasięg.**
+Świadek milczy, gdy przyimka żąda także czasownik,
+i milczy z tego samego powodu, z którego nie wskazuje czasownika:
+tam, gdzie żąda go i rzeczownik, i czasownik, schematu nie łamie żadne czytanie.
+Cenę weta wypisuje wariant, a nie różnica między commitami,
+a wypada ona dwa razy inaczej, bo świadek i warstwa tracą co innego.
+Sama rama odpowiada bez weta blisko dwa razy częściej
+i myli się wtedy w co trzynastej odpowiedzi zamiast rzadziej niż w co dwudziestej.
+Warstwa traci mniej, bo część tego, co weto zdejmuje, podejmuje tabela za ramą:
+bez weta odpowiada ona na przeszło co czwarte sporne wyrażenie zamiast na co piąte,
+a myli się w co dziesiątej odpowiedzi zamiast w co trzynastej.
+
+Weto nie jest więc darmowe, a rozstrzyga o nim to, czym ma być wskazanie.
+Rama bez weta wskazuje rzeczownik także tam, gdzie tego samego przyimka
+żąda również rama czasownika, czyli tam, gdzie żadne z dwóch czytań schematu
+nie łamie, a wtedy powód mówi o jednej stronie i milczy o drugiej.
+Wskazanie bez powodu jest u tej warstwy rankingiem, a rankingu
+[ten dokument](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje) tu nie chce.
+Warstwa bez weta wraca zarazem do stopy pomyłek tabeli,
+czyli rama przestaje być tym dowodem lepszym, dla którego stoi przed nią.
+
+Czego ten pomiar nie mówi, to ile zdań to zdejmuje.
 Mianownikiem jest tu wyrażenie, a `573 z 777` niżej liczy zdania,
 i jedno zdanie niesie takich wyrażeń czasem kilka,
 więc złożenie dwóch mianowników zostaje tam, gdzie było.
+
+Nie mówi też, ile świadek odpowiada nad rejestrem docelowym.
+Zasięg ogranicza mu bowiem nie kryterium, tylko słownik:
+plik rzeczownikowy Walentego wylicza dwa tysiące lematów,
+więc rzeczownik spoza tej listy jest dla świadka rzeczownikiem bez ramy,
+a nie rzeczownikiem, którego rama tej pozycji nie ma.
 
 ## Reszty nie rozstrzyga nic, co stoi w zdaniu
 
@@ -512,7 +563,7 @@ a nie filtrem za pierwszym, i to jest cena, której żaden z tych pomiarów nie 
 i jest w repozytorium po to, żeby kierunek dał się zmierzyć,
 a nie żeby zdania rozstrzygać.
 Trzy rzeczy z wywodu wyżej są w nim wzięte wprost,
-a pod nimi stoi opis dwóch świadków, których ta warstwa ma.
+a pod nimi stoi opis trzech świadków, których ta warstwa ma.
 
 **Werdykt zostaje nietknięty.**
 `rozstrzygnij` bierze przyłączenia z gotowego wyniku rozbioru
@@ -540,13 +591,12 @@ Kolejność ta jest [hipotezą tego dokumentu](#dobre-ujednoznacznianie-jest-odc
 zapisaną w kodzie, a nie wynikiem porównania dwóch trafności.
 Powód wraca razem ze wskazaniem, żeby wskazanie dało się sprawdzić bez zaglądania do tabeli.
 
-**Świadkowie są dwaj i żaden nie jest tym, którego ten wywód wycenia najwyżej.**
-Tożsamość czytania i leksykon są tańsze i obie sekcje wyżej tak je wyceniają,
-a nie ma ich tutaj z powodów, które te sekcje podają:
-pierwsza czeka na sąd o parze czytań, którego żaden korpus nie zapisuje,
-a druga na kolumnę, której `olski/leksykon.txt` nie ma.
-Dwaj, którzy stoją, są tymi, których da się zbudować z tego, co w repozytorium już jest,
-i stąd kolejność odwrotna do ceny.
+**Świadkowie są trzej i jeden z nich jest tym, którego ten wywód wycenia najwyżej.**
+Leksykon jest tańszy od rankingu i sekcja o nim tak go wycenia,
+a `Rama` jest tym leksykonem pytanym o jedno przyłączenie.
+Tożsamość czytania jest tańsza tym samym rachunkiem i tutaj jej nie ma
+z powodu, który tamta sekcja podaje:
+czeka ona na sąd o parze czytań, którego żaden korpus nie zapisuje.
 
 **Świadek kontekstowy odpowiada powtórzeniem.**
 `Powtórzenie` szuka w akapicie miejsca, w którym ta sama fraza stała już
@@ -761,8 +811,9 @@ Kupuje za to gospodarza stojącego daleko przed frazą, którego łańcuch nie s
 i bywa nim czasownik żądający tej frazy swoim schematem:
 w `Rozszerzono model żądania o właściwość boolean onlyMetadata`
 wskazuje `Rozszerzono`, czyli ramę `rozszerzyć coś o coś`.
-Jest to ten sam dowód, którego warstwa nie umie wziąć wprost,
-bo `olski/leksykon.txt` o przyimku nie mówi.
+Jest to ten sam dowód, którego świadek ramowy nie wypuszcza jako wskazania:
+po stronie czasownika bierze go za weto, i dlaczego, mówi
+[sekcja o ramie](#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie).
 
 Częstości pomyłek ten przebieg wobec tego nie podaje.
 Siedemnaście odpowiedzi przeczytanych jest odczytem, a nie stopą,
@@ -832,11 +883,15 @@ odpowiada częstością nad korpusem, którego autor zdania nie czyta.
 Jest tu wobec tego jedną z dwóch stron pomiaru, który tamtą hipotezę obala albo zostawia,
 a nie świadkiem, którego ta warstwa miałaby rozbudowywać.
 
-Trzeci świadek, który tu należy i którego nie ma, to rama walencyjna,
-czyli ta część klasy, o której sekcja o leksykonie mówi, że nie konkuruje z niczym.
-Byłby pierwszy w kolejności, bo jego dowód jest słownikowy,
-i nie da się go dziś napisać, bo `olski/leksykon.txt` o przyimku nie mówi.
-Co trzeba zmienić w `olski/walenty.py`, żeby mówił, trzyma [`TODO.md`](../TODO.md).
+**Świadek ramowy odpowiada schematem i stoi między tymi dwoma.**
+`Rama` pyta `olski/leksykon.txt` o to, czy rama rzeczownika żąda tego przyimka,
+i wskazuje go wtedy, gdy rama czasownika go nie żąda,
+czyli odpowiada tą częścią klasy, o której sekcja o leksykonie mówi,
+że nie konkuruje z niczym.
+Za świadkiem kontekstowym, bo akapit mówi o tym tekście, a leksykon o polszczyźnie,
+i przed tabelą, bo dowód słownikowy bije statystyczny.
+Co ten świadek kupuje i ile kosztuje jego weto, trzyma
+[sekcja o ramie](#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie).
 
 ## Werdykt pyta warstwę o inny wybór niż bank drzew
 
@@ -1081,11 +1136,13 @@ Wsparcie podniesione o jeden zdjęłoby więc nad tą próbą cztery pomyłki z 
 i trzy odpowiedzi z 29, a cenę po stronie banku drzew wypisuje `--oceń`;
 ruch ten trzyma wpis w [`TODO.md`](../TODO.md).
 
-Wniosek tej próby mówi więc, co ta tabela nad tym rejestrem robi:
-w 23 odpowiedziach z 29 zastępuje leksykon, którego `olski/leksykon.txt` nie ma,
-a poza nimi myli się pięć razy na sześć.
-Cena świadka ramowego jest tym policzona i po stronie rejestru, nie tylko banku drzew,
-a brakującą kolumnę leksykonu trzyma wpis w [`TODO.md`](../TODO.md).
+Wniosek tej próby mówi więc, co ta tabela nad tym rejestrem robiła:
+w 23 odpowiedziach z 29 zastępowała leksykon, a poza nimi myliła się pięć razy na sześć.
+Cena świadka ramowego jest tym policzona po stronie rejestru, a nie tylko banku drzew,
+i to ona rozstrzygnęła, że świadek wchodzi po stronie rzeczownika.
+Sama próba jest przy tym starsza od niego: wpisy padły wtedy, gdy tabela
+odpowiadała pierwsza, więc część tych 23 odpowiedzi wydaje teraz rama,
+i tego ta próba nie mierzy; [`TODO.md`](../TODO.md) trzyma wpis o jej ponownym odczycie.
 
 ## Wieloznaczność, której werdykt nie melduje
 

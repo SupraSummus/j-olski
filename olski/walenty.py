@@ -1,4 +1,4 @@
-"""Walenty przeczytany o trzy zdania: co czasownik bierze, a czego nie.
+"""Walenty przeczytany o trzy zdania i o jedną pozycję ramy.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
 więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
@@ -19,8 +19,21 @@ rama domyślna takiej pozycji nie ma, a bez tego zdania nic nie odróżnia
 ``wiedzieć`` od ``zamykać``: oba biorą biernik, a zdanie podrzędne bierze
 jeden z nich.
 
+Czwarte czytanie nie jest zdaniem prawda-fałsz, tylko zbiorem, i wychodzi z niego
+kolumna przyimków: pozycja ``prepnp`` mówi, którego przyimka rama tego słowa żąda.
+Czyta ją warstwa rozstrzygająca, a nie gramatyka, i po obu stronach spornego
+wyrażenia przyimkowego: rzeczownik wskazuje gospodarza, a czasownik odbiera
+wskazanie. Dlaczego wskazuje jedna strona, a nie obie, wywodzi
+docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
+
+Rzeczownik wchodzi przez to obok czasownika i jest drugim plikiem wejściowym.
+Katalog przymiotnikowy i przysłówkowy zostają na zewnątrz, bo nikt o nie nie
+pyta: sporny wybór stawiają dwie strony, a te dwie są w tym zapisie czasownikiem
+i rzeczownikiem (``strona`` w ``olski/rozstrzyganie.py``).
+
 Ramy ten moduł nie zna: nazywa ją ``olski/subset.py`` razem z resztą gramatyki, a
-stąd wychodzą same lematy wraz z tym, które z tych zdań są o nich prawdziwe.
+stąd wychodzą same słowa wraz z tym, które z tych zdań są o nich prawdziwe
+i jakich przyimków żąda ich rama.
 
 Kontrolę czytamy z Walentego, a nie z lematu, bo to ona odróżnia dwa czasowniki z
 bezokolicznikiem, których polszczyzna nie składa tak samo. U ``chcieć`` etykietę
@@ -36,18 +49,26 @@ wzięty stąd wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie. Kop
 zostaje przez to listą pisaną ręcznie w ``olski/subset.py``, i to ta lista, a nie
 ten moduł, wyłącza swoje lematy stąd.
 
-Plik, który to czyta, nie stoi w repozytorium: pobiera się go tak, jak bank
+Pliki, które to czyta, nie stoją w repozytorium: pobiera się je tak, jak bank
 drzew, i docs/subset.md trzyma polecenie.
 """
 
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
-from olski.walencja import BIERZE_BEZOKOLICZNIK, BIERZE_ZDANIE, NIE_BIERZE_BIERNIKA
+from olski.walencja import (
+    BIERZE_BEZOKOLICZNIK,
+    BIERZE_ZDANIE,
+    CZASOWNIK,
+    CZASOWNIK_ZWROTNY,
+    NIE_BIERZE_BIERNIKA,
+    RZECZOWNIK,
+)
 
 #: Pozycja podmiotu. Podmiot ma u olskiego własną produkcję, a nie pozycję ramy,
 #: więc to czytanie go pomija i pyta tylko o to, co przy czasowniku stoi obok niego.
@@ -79,9 +100,33 @@ KONTROLUJĄCA = "controller"
 KONTROLOWANA = "controllee"
 
 #: Cząstka, którą Walenty pisze przy lemacie czasownika zwrotnego. Olski widzi ją
-#: jako osobny token, więc leksykon trzyma ją jako drugi wymiar klucza, a nie
-#: jako część lematu.
+#: jako osobny token, więc leksykon trzyma ją klasą słowa, a nie częścią lematu.
 SIĘ = " się"
+
+#: Kształt pozycji przyimkowej, wraz z przyimkiem w środku. Przypadek stoi za
+#: przecinkiem i to czytanie o niego nie pyta, bo ``Attachment`` w
+#: ``olski/attachment.py`` niesie sam przyimek: ``prepnp(o,loc)`` i
+#: ``prepnp(o,acc)`` wychodzą stąd jednym wpisem. Ile ten brak zawyża zasięg
+#: świadka, mówi docs/disambiguation.md.
+PRZYIMKOWA = re.compile(r"prepnp\(([^,)]+),")
+
+#: Pozycja zleksykalizowana, czyli taka, w której Walenty żąda konkretnego słowa
+#: obok przyimka: ``czekać na czas dobry``. Ramą lematu to nie jest, bo żądanie
+#: dotyczy słowa stojącego w tej pozycji, więc odpada cała, a nie sam jej przyimek.
+ZLEKSYKALIZOWANA = "lex("
+
+#: Kwalifikatory pewności, pod którymi schemat wchodzi. Walenty pisze ich pięć, a
+#: ``zły`` i ``archaiczny`` nazywają schemat, którego ten rejestr nie ma;
+#: ``potoczny`` zostaje, bo mówi o rejestrze, a nie o poprawności schematu.
+#:
+#: Zwężenie do samego ``pewny`` zmierzono sondą i nie rusza ono żadnej liczby
+#: o więcej niż pół punktu, więc kolumna go nie bierze;
+#: docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
+BRANE = frozenset({"pewny", "wątpliwy", "potoczny"})
+
+#: Kwalifikator schematu niewątpliwego. Sonda ma na nim wariant, więc stała stoi
+#: tu obok :data:`BRANE`, choć kolumna leksykonu bierze wszystkie trzy.
+PEWNY = "pewny"
 
 
 def pozycje(schemat: str) -> Iterator[tuple[str, str]]:
@@ -108,6 +153,40 @@ def pozycje(schemat: str) -> Iterator[tuple[str, str]]:
 def _pozycja(tekst: str) -> tuple[str, str]:
     etykieta, _, żądanie = tekst.partition("{")
     return etykieta.strip(), żądanie
+
+
+def _pewność(schemat: str) -> str:
+    """Kwalifikator pewności schematu, czyli pierwsze pole za lematem."""
+    return schemat.split(":")[0].strip()
+
+
+def przyimki(schematy_lematu: Sequence[str], tylko_pewne: bool = False) -> frozenset[str]:
+    """Przyimki, których ten lemat żąda pozycją niepodmiotową.
+
+    Kryterium jest jedno i czytają je dwie strony:
+    kolumna leksykonu, którą wypisuje :func:`leksykon`,
+    i sonda wyceniająca to kryterium nad samym Walentym (``sonda/rama.py``).
+    Druga kopia rozeszłaby się cicho,
+    bo rozejście widać dopiero w liczbach, a nie w wydruku.
+
+    Przyimka złożonego to czytanie nie widzi i nie ma po co:
+    Walenty pisze go osobnym kształtem — ``comprepnp(na temat)`` —
+    a bank drzew daje jeden token,
+    więc żadna strona sporu nie ma czym się nim dopasować.
+    """
+    znalezione: set[str] = set()
+    for schemat in schematy_lematu:
+        pewność = _pewność(schemat)
+        if pewność not in BRANE or (tylko_pewne and pewność != PEWNY):
+            continue
+        for etykieta, żądanie in pozycje(schemat):
+            if PODMIOT in etykieta:
+                continue
+            for wariant in żądanie.split(";"):
+                if ZLEKSYKALIZOWANA in wariant:
+                    continue
+                znalezione.update(PRZYIMKOWA.findall(wariant))
+    return frozenset(znalezione)
 
 
 def bierze(schematy_lematu: Sequence[str], czego: Sequence[str]) -> bool:
@@ -174,29 +253,61 @@ def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
     return tuple(orzeczone)
 
 
-def leksykon(path: Path | str) -> list[tuple[str, bool, tuple[str, ...]]]:
-    """Lematy, o których ten leksykon coś mówi, każdy ze zwrotnością i ze swoimi zdaniami.
+def leksykon(
+    czasowniki: Path | str, rzeczowniki: Path | str
+) -> list[tuple[str, str, tuple[str, ...], frozenset[str]]]:
+    """Słowa, o których ten leksykon coś mówi, każde z klasą, zdaniami i przyimkami.
 
-    Lemat, o którym prawdziwe nie jest żadne z tych zdań, nie wchodzi: zostaje mu
-    rama domyślna, a wpis, który tylko ją powtarza, niczego nie rozstrzyga.
+    Słowo, o którym prawdziwe nie jest żadne zdanie
+    i którego rama nie żąda żadnego przyimka, nie wchodzi:
+    zostaje mu rama domyślna,
+    a wpis, który tylko ją powtarza, niczego nie rozstrzyga.
+    Warunek jest przez to sumą dwóch, a nie samymi zdaniami:
+    rzeczownik żadnego zdania tego leksykonu nie orzeka,
+    więc pytany o same zdania nie wszedłby ani razu.
+
+    Kolejność jest kolejnością lematu i klasy, bo taką kolejność ma plik.
     """
+    zebrane = [
+        (
+            lemat.removesuffix(SIĘ),
+            CZASOWNIK_ZWROTNY if lemat.endswith(SIĘ) else CZASOWNIK,
+            zdania(ich_schematy),
+            przyimki(ich_schematy),
+        )
+        for lemat, ich_schematy in schematy(czasowniki).items()
+    ]
+    zebrane += [
+        (lemat, RZECZOWNIK, (), przyimki(ich_schematy))
+        for lemat, ich_schematy in schematy(rzeczowniki).items()
+    ]
     return sorted(
-        (lemat.removesuffix(SIĘ), lemat.endswith(SIĘ), orzeczone)
-        for lemat, ich_schematy in schematy(path).items()
-        if (orzeczone := zdania(ich_schematy))
+        (lemat, klasa, orzeczone, żądane)
+        for lemat, klasa, orzeczone, żądane in zebrane
+        if orzeczone or żądane
     )
 
 
 NAGŁÓWEK = f"""\
-# Leksykon walencyjny olskiego: lematy, o których ten leksykon coś mówi. Kolumny
-# to lemat, cząstka `się` albo kreska w jej miejscu, oraz zdania rozdzielone
-# przecinkiem.
+# Leksykon walencyjny olskiego: słowa, o których ten leksykon coś mówi. Kolumny
+# to lemat, klasa słowa, zdania rozdzielone przecinkiem oraz przyimki, których
+# żąda rama tego słowa, także rozdzielone przecinkiem.
+#
+# Klasą jest `{CZASOWNIK}`, `{CZASOWNIK_ZWROTNY}` albo `{RZECZOWNIK}`. Rozdziela
+# ona wpisy o jednym lemacie, bo jeden lemat bywa kilkoma słowami naraz:
+# `otwierać` bierze dopełnienie w bierniku, a `otwierać się` go nie bierze.
 #
 # `{NIE_BIERZE_BIERNIKA}` mówi, że czasownik nie bierze dopełnienia w bierniku.
 # `{BIERZE_BEZOKOLICZNIK}` mówi, że bierze bezokolicznik, którego wykonawcą jest
 # jego własny podmiot. `{BIERZE_ZDANIE}` mówi, że bierze zdanie podrzędne
 # wprowadzone przez `że`. Milczenie o lemacie zostawia mu ramę domyślną, czyli
-# biernik, brak bezokolicznika i brak zdania podrzędnego.
+# biernik, brak bezokolicznika i brak zdania podrzędnego. Zdania te są o
+# czasowniku, więc wiersz rzeczownika ma tę kolumnę pustą.
+#
+# Kolumna przyimków jest zbiorem, a nie zdaniem prawda-fałsz, i pusta znaczy
+# w niej dwie rzeczy naraz: że rama tego słowa nie ma pozycji przyimkowej albo
+# że Walenty ramy temu słowu nie daje. Czyta ją świadek ramowy w
+# `olski/rozstrzyganie.py`, a nie gramatyka.
 #
 # Plik jest generowany i nie pisze się go ręcznie. Powstaje z Walentego,
 # słownika walencyjnego polszczyzny IPI PAN, wydanie tekstowe z 18 kwietnia
@@ -206,24 +317,37 @@ NAGŁÓWEK = f"""\
 #
 # Wyprowadza go `olski/walenty.py`, który mówi, co stąd bierze, a czego nie;
 # ramę nazywa `olski/subset.py`, a docs/subset.md trzyma polecenie wraz z tym,
-# skąd wziąć plik wejściowy.
+# skąd wziąć pliki wejściowe.
 """
 
 
-def zapisz(wpisy: Sequence[tuple[str, bool, tuple[str, ...]]], out) -> None:
+def zapisz(wpisy: Sequence[tuple[str, str, tuple[str, ...], frozenset[str]]], out) -> None:
+    """Wypisz wpisy w tej kolejności, w której przyszły.
+
+    Zbiór przyimków wychodzi posortowany,
+    bo kolejność zbioru jest inna w każdym przebiegu,
+    a plik generowany ma się nie różnić od przebiegu do przebiegu
+    (CLAUDE.md, o porządku wypisywanego wyjścia).
+    """
     out.write(NAGŁÓWEK)
-    for lemat, zwrotny, orzeczone in wpisy:
-        out.write(f"{lemat}\t{'się' if zwrotny else '-'}\t{','.join(orzeczone)}\n")
+    for lemat, klasa, orzeczone, żądane in wpisy:
+        out.write(f"{lemat}\t{klasa}\t{','.join(orzeczone)}\t{','.join(sorted(żądane))}\n")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python3 -m olski.walenty",
-        description="Wypisz lematy wraz ze zdaniami, które Walenty o ich ramie mówi.",
+        description="Wypisz słowa wraz z tym, co Walenty o ich ramie mówi.",
     )
     parser.add_argument("schematy", help="walenty_*_verbs_all.txt z wydania tekstowego")
+    parser.add_argument(
+        "--rzeczowniki",
+        required=True,
+        help="walenty_*_nouns_all.txt z wydania tekstowego; bez niego kolumna"
+        " przyimków po stronie rzeczownika byłaby pusta, a świadek ramowy milczałby",
+    )
     args = parser.parse_args(argv)
-    zapisz(leksykon(args.schematy), sys.stdout)
+    zapisz(leksykon(args.schematy, args.rzeczowniki), sys.stdout)
     return 0
 
 

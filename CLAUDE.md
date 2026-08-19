@@ -642,7 +642,7 @@ mówi to w polu `ręką`.
 który `olski/walenty.py` wyprowadza z Walentego,
 a `olski/skłonności.txt` tabelą skłonności,
 którą `olski/rozstrzyganie.py` liczy nad Składnicą.
-Polecenie i wejście podaje przy pierwszym
+Polecenie i wejścia podaje przy pierwszym
 [sekcja o leksykonie](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a przy drugim
 [sekcja o świadku](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).

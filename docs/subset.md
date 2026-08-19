@@ -1290,8 +1290,9 @@ i zdania, które za nimi stoją.
 Wpis pisany ręcznie kosztuje tyle, co rozstrzygnięcie o jednym czasowniku,
 a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to.
 [Walenty](prior-art.md) charakteryzuje 17 224 lematy czasownikowe
-64 022 schematami i idzie na licencji CC BY-SA 4.0.
-Mówi przy tym o czasowniku znacznie więcej, niż te dwa kierunki umieją żądać,
+64 022 schematami, a obok nich 1 996 lematów rzeczownikowych 14 295 schematami,
+i idzie na licencji CC BY-SA 4.0.
+Mówi przy tym o czasowniku znacznie więcej, niż którykolwiek z pytających umie żądać,
 więc przekład jest zejściem w dół i bierze z Walentego trzy zdania na lemat.
 Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
 Drugie jest twierdzące i mówi, że bierze bezokolicznik,
@@ -1304,14 +1305,31 @@ bo przeciwne są domyślności, od których odejmują:
 rama domyślna ma dopełnienie w bierniku, a nie ma ani bezokolicznika,
 ani zdania podrzędnego.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
-czyli lematy wraz z tym, które z tych zdań są o nich prawdziwe;
-9 525 stoi ich tam dziś, licząc formy zwrotne osobno,
-z czego 7 941 niesie zdanie pierwsze, 285 drugie, a 2 498 trzecie.
+czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
+zdanie pierwsze niesie 7 941 wpisów, drugie 285, a trzecie 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
-Czyta go `olski/walencja.py`, i czyta dla obu kierunków naraz,
+Czyta go `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
 bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
+
+Czwarte zdanie tego pliku nie jest zdaniem prawda-fałsz, tylko zbiorem:
+przyimki, których żąda rama tego słowa, wzięte z pozycji `prepnp` Walentego.
+Kolumnę tę plik wypisuje przy czasowniku i przy rzeczowniku,
+bo pyta o nią świadek ramowy warstwy rozstrzygającej i pyta po obu stronach
+spornego wyrażenia:
+rzeczownik wskazuje mu gospodarza, a czasownik wskazanie odbiera
+([disambiguation.md](disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
+Gramatyka jej nie czyta i nie ma po co:
+wyrażenie przyimkowe przyłącza się u olskiego wszędzie, gdzie polszczyzna je stawia,
+a wybór miejsca należy do czytelnika
+([wyżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+
+Kolumna ta niesie coś przy 12 195 wpisach,
+a 6 179 z nich weszło do pliku nią samą, bez ani jednego z trzech zdań.
+Rzeczownik wchodzi tak zawsze, bo zdania tego leksykonu są o czasowniku
+i o rzeczowniku nie orzekają żadnego,
+a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
 
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
 Biernik czytają oba kierunki, a bezokolicznik i zdanie podrzędne czyta sam skład,
@@ -1333,10 +1351,12 @@ Rama zostaje więc szeroka, tak jak przy bezokoliczniku i z tego samego powodu:
 zawężenie prawdziwe, które nie odbiera ani jednego drugiego czytania,
 płaci pokryciem za nic.
 
-Zwrotność jest drugim wymiarem klucza, a nie częścią lematu.
+Klasa słowa jest drugim wymiarem klucza, a nie częścią lematu.
 Morfeusz daje `otwierać` i `otwierać się` ten sam lemat,
 a wziąć mogą co innego,
 więc rama trzymana pod samym lematem zlewałaby te dwa czasowniki w jeden.
+Rzeczownik jest z tego samego powodu klasą trzecią, a nie osobnym plikiem:
+lemat go od czasownika nie rozdziela, a klucz rozdziela.
 Widać to na parze zdań, w której jedno przechodzi, a drugie nie:
 `Otwierają się drzwi.` wyprowadza się jednym czytaniem z podmiotem `drzwi`,
 a `Otwierają drzwi.` zostaje wieloznaczne, bo tam biernik stoi w ramie.
@@ -1414,6 +1434,7 @@ curl -L -o walenty.zip \
   'http://zil.ipipan.waw.pl/Walenty?action=AttachFile&do=get&target=walenty_20160418-text.zip'
 unzip walenty.zip
 python3 -m olski.walenty walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt \
+  --rzeczowniki walenty_20160418-text/nouns/walenty_20160418_nouns_all.txt \
   > olski/leksykon.txt
 ```
 

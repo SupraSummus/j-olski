@@ -318,7 +318,9 @@ FIGURY = (
         #  Gramatyki tu nie ma i to ją odróżnia od figur wyżej: kryterium czyta
         #  Walentego wprost, a wzorzec bierze z cudzych drzew, więc rusza je sonda
         #  i to, co `olski/attachment.py` uznaje za pozycję sporną — a nie produkcja.
-        ruszają=("sonda/rama.py", "olski/attachment.py"),
+        #  `olski/walenty.py` stoi tu, bo kryterium ma tam jednego właściciela:
+        #  sonda i kolumna leksykonu pytają jednym `przyimki`.
+        ruszają=("sonda/rama.py", "olski/walenty.py", "olski/attachment.py"),
         czyta=("docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie",),
     ),
     Figura(
@@ -710,13 +712,18 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         #  Ocena buduje tabelę z połowy banku drzew i sprawdza ją na drugiej, więc
         #  `olski/skłonności.txt` jej nie rusza: ten plik powstaje z całości i jest
-        #  tym, czego ta tabela nie mierzy.
+        #  tym, czego ta tabela nie mierzy. Leksykon rusza ją za to cały, bo
+        #  świadek ramowy czyta z niego kolumnę przyimków.
         ruszają=(
             "olski/rozstrzyganie.py",
             "olski/attachment.py",
             "olski/corpus.py",
+            "olski/leksykon.txt",
         ),
-        czyta=("docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek",),
+        czyta=(
+            "docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek",
+            "docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie",
+        ),
     ),
     Figura(
         nazwa="wskazania",

@@ -1,17 +1,19 @@
-"""Co czasownik bierze: jeden leksykon czytany w obie strony.
+"""Co słowo bierze: jeden leksykon dla każdego, kto o ramę pyta.
 
 Rama jest faktem o słowie, a nie o kierunku, w którym się tego słowa używa,
-więc parser i skład czytają ten sam plik.
+więc wszyscy, którzy o nią pytają, czytają ten sam plik.
 Druga kopia tej wiedzy rozjeżdża się z pierwszą,
 a rozjazd widać dopiero na zdaniu,
 którego jeden kierunek nie przyjmuje, a drugi je wypuszcza;
 wywód trzyma docs/design-notes.md.
 
-Wspólny jest leksykon, a nie odpowiedź, bo kierunki pytają o co innego.
+Wspólny jest leksykon, a nie odpowiedź, bo pytający pytają o co innego.
 Parser pyta o klasę: które lematy dzielą ramę,
 bo z klasy powstaje produkcja, a nie z lematu.
 Skład pyta o jeden lemat:
 czy ten czasownik weźmie to, co autor postawił w drzewie.
+Warstwa rozstrzygająca pyta o jeden lemat i o jedną pozycję:
+czy rama tego słowa żąda tego przyimka.
 Kopula pokazuje, ile ta różnica waży,
 bo po stronie parsera zabiera leksykonowi swoje lematy i dostaje ramę z narzędnikiem:
 kierunek dostający leksykon już po tym odjęciu
@@ -29,11 +31,20 @@ liczby trzyma docs/subset.md.
 Pozycję zdania podrzędnego gramatyka podzbioru już ma,
 więc jest to teraz ta sama decyzja co przy bezokoliczniku, a nie brak pozycji.
 
-Zbiory są dwa, bo forma z cząstką ``się`` jest innym czasownikiem:
+Przyimki czyta trzeci odbiorca i żadnej produkcji nie rusza:
+świadek ramowy w ``olski/rozstrzyganie.py`` pyta o nie po obu stronach
+spornego wyrażenia przyimkowego.
+Gramatyka ich nie czyta, bo wyrażenie przyimkowe przyłącza się u olskiego
+wszędzie, gdzie polszczyzna je stawia, a wybór miejsca należy do czytelnika
+(docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+
+Wpisy rozdziela klasa słowa, bo jeden lemat bywa kilkoma słowami naraz.
+Forma z cząstką ``się`` jest innym czasownikiem —
 ``otwierać`` bierze dopełnienie w bierniku, a ``otwierać się`` go nie bierze,
-i Morfeusz daje obu ten sam lemat.
-Leksykon trzymany pod samym lematem zlewałby te dwa czasowniki w jeden
-i kłamał o obu.
+i Morfeusz daje obu ten sam lemat —
+a rzeczownik jest trzecim słowem i ma własną ramę.
+Leksykon trzymany pod samym lematem zlewałby te słowa w jedno
+i kłamał o każdym z nich.
 
 Plik jest generowany z Walentego przez ``olski/walenty.py``,
 który mówi, co stamtąd bierze, a czego nie,
@@ -43,6 +54,7 @@ a docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import NamedTuple
 
 LEKSYKON = Path(__file__).parent / "leksykon.txt"
 
@@ -50,53 +62,113 @@ LEKSYKON = Path(__file__).parent / "leksykon.txt"
 #: Zdania, które leksykon o lemacie mówi, każde pod napisem, którym plik je wypisuje.
 #: Nazwa jest tu tym samym zdaniem co wartość, żeby literówka nie miała gdzie się schować.
 #: Stoją po stronie czytającego, bo generator jest narzędziem nad tym plikiem,
-#: a plik czytają oba kierunki i one nie mają po co importować narzędzia.
+#: a plik czytają wszyscy pytający i oni nie mają po co importować narzędzia.
 NIE_BIERZE_BIERNIKA = "nie_bierze_biernika"
 BIERZE_BEZOKOLICZNIK = "bierze_bezokolicznik"
 BIERZE_ZDANIE = "bierze_zdanie"
 
+#: Klasy słowa, którymi plik rozdziela wpisy o jednym lemacie. Stoją tu z tego
+#: samego powodu co zdania wyżej, a rozdzielają dlatego, że jeden lemat bywa
+#: kilkoma słowami naraz i każde z nich ma własną ramę.
+CZASOWNIK = "czasownik"
+CZASOWNIK_ZWROTNY = "czasownik się"
+RZECZOWNIK = "rzeczownik"
 
-def _czytaj(path: Path) -> dict[str, dict[bool, frozenset[str]]]:
-    """Leksykon jako zdania po lemacie, osobno dla formy bez cząstki ``się`` i z nią.
 
-    Zwrotność jest kluczem, a nie częścią lematu, bo Morfeusz daje obu formom
-    lemat ten sam, a wziąć mogą co innego.
+class Wpis(NamedTuple):
+    """Co leksykon mówi o jednym słowie."""
+
+    #: Zdania orzeczone o tym słowie, każde napisem wypisanym wyżej.
+    zdania: frozenset[str]
+    #: Przyimki, których żąda rama tego słowa.
+    przyimki: frozenset[str]
+
+
+def _czytaj(path: Path) -> dict[tuple[str, str], Wpis]:
+    """Leksykon jako wpisy po lemacie i klasie słowa.
+
+    Klasa jest częścią klucza, a nie częścią lematu,
+    bo Morfeusz daje jeden lemat formie z cząstką ``się`` i bez niej,
+    a bez klasy pytanie o ramę rzeczownika
+    trafiałoby we wpis czasownika o tym samym lemacie.
+    W wydaniu Walentego, z którego ten plik powstaje, taka para nie stoi ani raz,
+    więc klucz broni przed rozejściem, a nie naprawia widoczne.
     """
-    wpisy: dict[str, dict[bool, frozenset[str]]] = {}
+    wpisy: dict[tuple[str, str], Wpis] = {}
     for wiersz in path.read_text(encoding="utf-8").splitlines():
         if wiersz.startswith("#") or not wiersz.strip():
             continue
-        lemat, cząstka, orzeczone = wiersz.split("\t")
-        wpisy.setdefault(lemat, {})[cząstka == "się"] = frozenset(orzeczone.split(","))
+        lemat, klasa, zdania, przyimki = wiersz.split("\t")
+        wpisy[(lemat, klasa)] = Wpis(_zbiór(zdania), _zbiór(przyimki))
     return wpisy
+
+
+def _zbiór(pole: str) -> frozenset[str]:
+    """Pole rozdzielone przecinkiem jako zbiór; pole puste jest zbiorem pustym."""
+    return frozenset(pole.split(",")) if pole else frozenset()
 
 
 _WPISY = _czytaj(LEKSYKON)
 
 
-def _lematy(zdanie: str, *, zwrotny: bool) -> frozenset[str]:
-    """Lematy, o których leksykon orzeka to zdanie.
+def _lematy(zdanie: str, klasa: str) -> frozenset[str]:
+    """Lematy tej klasy, o których leksykon orzeka to zdanie.
 
     Zbiorami, a nie pytaniem o lemat, bo parser buduje z nich klasy walencyjne,
     czyli pyta o to, które lematy ramę dzielą.
     Pytanie o jeden lemat, które stawia skład, czyta potem te same zbiory.
     """
     return frozenset(
-        lemat for lemat, wedle_cząstki in _WPISY.items() if zdanie in wedle_cząstki.get(zwrotny, ())
+        lemat
+        for (lemat, jego_klasa), wpis in _WPISY.items()
+        if jego_klasa == klasa and zdanie in wpis.zdania
     )
 
 
 #: Lematy bez dopełnienia w bierniku, osobno dla formy bez cząstki ``się`` i z nią.
-BEZ_BIERNIKA = _lematy(NIE_BIERZE_BIERNIKA, zwrotny=False)
-BEZ_BIERNIKA_ZWROTNE = _lematy(NIE_BIERZE_BIERNIKA, zwrotny=True)
+BEZ_BIERNIKA = _lematy(NIE_BIERZE_BIERNIKA, CZASOWNIK)
+BEZ_BIERNIKA_ZWROTNE = _lematy(NIE_BIERZE_BIERNIKA, CZASOWNIK_ZWROTNY)
 
 #: Lematy z bezokolicznikiem pod kontrolą podmiotu. Zbiór zwrotny stąd nie wychodzi,
 #: bo cząstki ``się`` nie ma czym zapisać po tej stronie, a parser tego zdania nie czyta.
-Z_BEZOKOLICZNIKIEM = _lematy(BIERZE_BEZOKOLICZNIK, zwrotny=False)
+Z_BEZOKOLICZNIKIEM = _lematy(BIERZE_BEZOKOLICZNIK, CZASOWNIK)
 
 #: Lematy ze zdaniem podrzędnym wprowadzonym przez ``że``. Formy zwrotnej ta strona
 #: nie ma czym zapisać, tak samo jak przy bezokoliczniku, więc zbiór jest jeden.
-ZE_ZDANIEM = _lematy(BIERZE_ZDANIE, zwrotny=False)
+ZE_ZDANIEM = _lematy(BIERZE_ZDANIE, CZASOWNIK)
+
+
+def przyimki_rzeczownika(lemat: str) -> frozenset[str]:
+    """Przyimki, których żąda rama rzeczownika o tym lemacie.
+
+    Zbiór pusty znaczy dwie rzeczy naraz,
+    a świadek ramowy obu daje tę samą odpowiedź, czyli milczenie:
+    albo Walenty daje temu rzeczownikowi ramę bez pozycji przyimkowej,
+    albo nie daje mu ramy wcale.
+    Plik rzeczownikowy Walentego wylicza dwa tysiące lematów,
+    więc drugie zdarza się częściej,
+    i to ono ogranicza zasięg tego świadka;
+    docs/disambiguation.md liczy, ile z tego wychodzi.
+    """
+    return _przyimki(lemat, RZECZOWNIK)
+
+
+def przyimki_czasownika(lemat: str) -> frozenset[str]:
+    """Przyimki, których żąda rama czasownika o tym lemacie, z cząstką ``się`` i bez niej.
+
+    Obie klasy naraz, bo pytający ma formę czasownikową,
+    a nie zdanie o tym, czy cząstka przy niej stoi:
+    ``Przyłączenie`` w ``olski/parse.py`` niesie same głowy gospodarzy.
+    Suma jest tu stroną bezpieczną, bo tego zbioru świadek ramowy używa jako weta:
+    przyimek żądany przez którekolwiek z tych dwóch słów
+    kończy się milczeniem, a nie wskazaniem.
+    """
+    return _przyimki(lemat, CZASOWNIK) | _przyimki(lemat, CZASOWNIK_ZWROTNY)
+
+
+def _przyimki(lemat: str, klasa: str) -> frozenset[str]:
+    wpis = _WPISY.get((lemat, klasa))
+    return wpis.przyimki if wpis is not None else frozenset()
 
 
 def bierze_biernik(lemat: str) -> bool:
