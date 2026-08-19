@@ -367,9 +367,14 @@ Z 4536 odrzuceń 3485 stanęło na formie, której żadna produkcja nie bierze,
 a 1051 na samej strukturze.
 Ranking obejmuje pierwszą z tych dwóch grup i drugiej nie widzi wcale,
 a największą konstrukcją, jaka w niej stoi, jest `o którym mowa`:
-niesie je co siódme zdanie tych dwóch korpusów, każda forma ma tam licencję,
-a zdanie względne z opuszczoną kopułą nie ma wyprowadzenia.
-Ruch i jego cenę trzyma [TODO.md](../TODO.md).
+niesie je co siódme zdanie tych dwóch korpusów, a każda forma ma tam licencję,
+więc odrzucenie stało na strukturze zdania względnego z opuszczoną kopułą.
+Gramatyka je dostała i wyszedł z tego jeden werdykt przeniesiony na wieloznaczne,
+czyli przeszło o dwa rzędy wielkości mniej, niż obiecywały te wystąpienia
+([subset.md](subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość)).
+Różnicę tę robi ta sama klasa, która zajmuje dziewięć pierwszych miejsc niżej:
+prawodawca pisze ten zwrot razem z adresem przepisu,
+więc dwanaście z 851 wystąpień obywa się bez cyfry i bez skrótu.
 Formy z czoła tego rankingu grupują się w trzy klasy:
 
 | klasa | najczęstsze formy |

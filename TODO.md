@@ -969,25 +969,24 @@ Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 `olski/skład/składnia.py` nie ma czym postawić,
 więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 
-`o którym mowa` nie ma wyprowadzenia, a jest najczęstszym zdaniem względnym ustaw.
-Zwrot ten niesie 851 zdań siedmiu ustaw i „Zasad techniki prawodawczej”
-z 5620, jakie te dwa korpusy mają —
-`grep -cP 'o (którym|której|których) mowa' proza/ustawy.txt proza/ztp.txt` je liczy —
-a `mowa` jest u Morfeusza `subst:sg:nom:f` i orzeczeniem zdania względnego,
-w którym kopuła jest opuszczona: `o których [jest] mowa w ust. 1`.
-Zdania składowego bez czasownika gramatyka nie ma, więc żadne z tych zdań nie przechodzi.
-Do rozstrzygnięcia jest, czy kopuła opuszczona wchodzi jako pozycja `ClauseConjunct`,
-czy jako wpis leksykalny na lemat `mowa`, wzorowany na `KOPULA` w `olski/subset.py`.
-Pozycja ogólna jest droga po stronie wieloznaczności, bo czyni zdaniem każdą grupę
-imienną w mianowniku, a wpis na lemat kupuje ten jeden zwrot i nic poza nim,
-czyli jest zamkniętą listą, jakich ta gramatyka ma dwie i obie wyceniła.
-Do przeczytania jest `Predicative` w tym samym pliku:
-orzecznik rzeczownikowy stoi tam w narzędniku i pod kopułą, a nie w mianowniku,
-więc kopuła opuszczona żąda drugiej pozycji orzecznika, a nie tej samej bez czasownika.
-Zakup jest niepoliczony i nie jest nim te 851 zdań:
-zdanie ustawy niesie zwykle kilka konstrukcji odrzucających naraz,
-a ile z nich stoi na samym tym zwrocie, wyda dopiero sonda różnicowa
-([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Kopuła opuszczona ma listę o jednym lemacie, a polszczyzna opuszcza ją szerzej.
+`RZECZOWNIK_ORZEKAJĄCY` w `olski/subset.py` wymienia `mowa`,
+bo tego lematu zażądał rejestr ustaw,
+a `brak dowodów`, `szkoda czasu` i `pora wracać` są tą samą konstrukcją:
+rzeczownik w mianowniku orzeka, a czasownika nad nim nie ma.
+Wypełnienia żąda przy tym każdy z tych trzech innego niż `mowa` —
+dopełniacza albo bezokolicznika, a nie okolicznika —
+więc lemat dopisany do listy nie wystarcza,
+a wpis jest przez to o produkcję, a nie o dane.
+Ruchem jest lista wyczytana z korpusu, a nie z pamięci,
+a materiał do jej wyczytania daje pozycja ogólna dopisana do gramatyki:
+[`docs/subset.md`](docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+nazywa dwie produkcje, które ona dopisuje,
+a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
+Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
+bo tym była większość zakupu tamtej pozycji nad siedmioma ustawami,
+a lemat dopisany za taki ciąg wraca ceną w każdym zdaniu, które ten ciąg niesie.
+Cenę każdego lematu bierze potem `sonda/kopuła.py`, tak jak wzięła cenę tego jednego.
 
 Zaimek rzeczowny nie rządzi dopełniaczem, a kryterium na to nazywa jeden lemat.
 `ZAIMEK_RZECZOWNY` w `olski/subset.py` wyklucza `to` z głowy, która bierze
@@ -1410,7 +1409,7 @@ a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.p
 jakim udało się tę liczbę odtworzyć:
 córkę `Adjuncts` albo `Modifier` ma sześćdziesiąt pięć produkcji,
 samo `Modifier` stoi w ośmiu z nich,
-a produkcji `ClauseConjunct` z okolicznikiem jest dziewiętnaście.
+a produkcji `ClauseConjunct` z okolicznikiem jest dwadzieścia.
 Regułę liczenia rozstrzygnęła po swojej stronie
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 która liczy produkcje i mówi, które z nich zdejmuje.

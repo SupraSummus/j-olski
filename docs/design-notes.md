@@ -820,7 +820,7 @@ przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
-`olski/subset.py` ma trzydzieści dwie produkcje `ClauseConjunct`,
+`olski/subset.py` ma przeszło trzydzieści produkcji `ClauseConjunct`,
 bo każdy szyk stoi wypisany osobno, a każdy z nich jeszcze raz w tylu wersjach,
 ile ma miejsc na okolicznik.
 Łuk podmiotu nie mówi o porządku nic,
