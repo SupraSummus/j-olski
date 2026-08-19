@@ -114,6 +114,14 @@ bo dopóki go nie ma, każde nowe zdanie w angielskiej sekcji idzie po angielsku
 co ta reguła mówi wprost.
 Wpis ważył więcej, dopóki lista plików była zasięgiem checka;
 checka nie ma, więc został sam przekład.
+Jedno miejsce tego dokumentu przekładu nie doczeka po cichu:
+lista w `What it does not cover yet` ma ramę angielską i pięć wpisów polskich,
+dopisywanych po jednym,
+więc albo jednostką jest tam wpis, jak w sekcjach tego pliku,
+albo pięć wpisów jest usterką,
+a reguła językowa rozstrzyga to zdaniem o sekcji bez własnej prozy,
+której tamta sekcja nie jest.
+Kto podnosi przekład, odpowiada więc najpierw na to.
 
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
@@ -319,6 +327,39 @@ formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pol
 w `Verdict`, a nie samego drugiego napisu.
 Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
 tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
+
+Odrzucenie na strukturze mówi `no reading: nothing in olski derives this`
+i nie mówi, dokąd analiza doszła,
+czego [`docs/roles.md`](docs/roles.md#ktoś-kto-to-uruchamia) żąda wprost:
+odrzucenie bez tego psuje rolę tego, kto komendę uruchamia.
+Odpowiedź jest już liczona — `Las.najdalszy` w `olski/parse.py` przechodzi
+tablicę drugi raz — a pyta o nią jedno miejsce, `blocker` w `olski/coverage.py`,
+bo `podsumuj` liczy ją tylko proszona.
+Zmierzone nad polską prozą tego repozytorium:
+z 1295 zdań odrzuconych na strukturze zatrzymanie pada wewnątrz zdania w 1114,
+a na znaku kończącym w 181,
+i staje najczęściej na `i`, `a`, `:`, `więc`, `,` i `czyli`,
+czyli na szwie, którym zdanie wychodzi poza podzbiór.
+Ruchem jest `podsumuj` pytające o nie, gdy czytań wyszło zero,
+i `explain` mówiące to w dwóch brzmieniach,
+bo zatrzymanie na formie i zdanie, którego nic nie domyka, są dwoma zdarzeniami:
+`Tory są dwa: gramatyka i skład.` staje na dwukropku po `Tory są dwa`,
+a `Gramatyka jest tania, a nie droga.` dochodzi do kropki i nie zamyka się,
+bo drugi człon nie ma czasownika.
+Ceną jest drugie przejście po tablicy, mniej więcej tyle co sam rozbiór
+(0,65 s na 1,40 s nad siedemdziesięcioma zdaniami README),
+a `check` wołają cztery sondy, więc pytanie ma padać nad zdaniem odrzuconym,
+a nie nad każdym.
+Do przeczytania jest `_wczytaj` w `olski/parse.py`, zanim ktoś sięgnie po więcej:
+stan tablicy nie niesie cech, więc konstytuent domknięty w tablicy bywa nieprawdą —
+nad `Kot to zwierzę.` i `Parser mierzy gramatykę sondą.` stoi tam domknięte `Sentence`
+na całym zdaniu, które werdykt odrzuca — i komunikat wzięty stamtąd powiedziałby autorowi,
+że jego zdanie się wyprowadza.
+Zbioru symboli oczekiwanych w miejscu zatrzymania ten wpis nie proponuje:
+jest ich w medianie szesnaście, a nad `Tanio, deterministycznie i z wyjaśnieniem: …`
+zbiór jest pusty, czyli milczy tam, gdzie autor jest najbardziej zgubiony.
+Wpis o rozdzieleniu `no production takes` pyta o tę samą wadę wydruku
+po stronie leksykalnej i podnosi się osobno, bo tamten rusza pole w `Verdict`.
 
 `sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,

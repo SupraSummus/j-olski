@@ -485,6 +485,22 @@ Both tracks need one, and it need not be the same one.
 - The project is for fun,
   so enjoying the language matters more than it usually would.
 
+**Tezaurus.**
+Podmiana synonimu ([roadmap.md](roadmap.md#cele)) żąda słów bliskoznacznych,
+a repozytorium nie ma ich w żadnej postaci:
+Morfeusz wydaje formy i lematy, Walenty schematy,
+i żadne z dwojga tezaurusem nie jest.
+Kandydatem jest plWordNet, nazwany już przy pytaniu o to,
+[czym rozstrzygnąć znaczenie czasownika](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma),
+i jedno źródło obsłużyłoby oba pytania albo żadnego.
+Pytanie ma trzy części: czy licencja pozwala na użycie w tym repozytorium,
+czy relacja synonimii wychodzi na lematy, którymi ten rejestr mówi,
+i czy da się ją odsiać tym, co już czytamy —
+rodzajem i aspektem z Morfeusza, schematem z Walentego, kwalifikatorem ze słownika.
+Bez odpowiedzi cel nie upada, tylko czeka:
+sprawdzian ma — drzewo, które po podmianie ma wrócić to samo —
+a nie ma czym podmieniać.
+
 ## Sources
 
 - <https://aclanthology.org/N01-1021/> —

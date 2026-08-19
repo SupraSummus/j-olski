@@ -3,23 +3,25 @@ polecenie: python3 -m sonda proza/README.txt
 korpus: proza/README.txt
 czyta: docs/design-notes.md#podłoże-więzowe-zmierzone-sondą
 ruszają:
-  README.md: e87e4028637e
+  README.md: 77c9bdac3583
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: ccaa0fcef11b
+  olski/subset.py: 24ea4b747a3e
   olski/grammar.py: 9077925971d9
-  olski/parse.py: 7b2184342e31
-  olski/morph.py: 7490ae22fd17
-  olski/leksykon.txt: 7bcf02ee5940
+  olski/parse.py: b0553f072e6c
+  olski/morph.py: 68c6bc12d9f1
+  olski/leksykon.txt: 00193493b3ea
+  olski/projekt.py: 029325944002
+  olski/projekt.txt: bce2eab3e8dc
   sonda/__main__.py: a120c185c8ce
   sonda/polszczyzna.py: 769ccefe812a
   sonda/wiezy.py: 602748c21b83
 
 proza/README.txt: Język olski to język polski, któremu spiłowano p, a razem z nim te części polszczyzny, przez które jest ona trudna dla sztywnych, zimnych maszyn.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: olski, ,, spiłowano, p, ,, ,, ,
+  sonda: rejected  0 readings, nothing attaches: ,, spiłowano, p, ,, ,, ,
 proza/README.txt: Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie, więc parser tego podzbioru mówi autorowi, że jego zdanie czyta się dwojako, zamiast wybierać za niego.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: olskim, dopiero, wtedy, ,, gdy, dokładnie, ,, więc, autorowi, ,, że, dwojako, ,
+  sonda: rejected  0 readings, nothing attaches: dopiero, wtedy, ,, gdy, dokładnie, ,, więc, autorowi, ,, że, dwojako, ,
 proza/README.txt: Tanio, deterministycznie i z wyjaśnieniem: jak w kompilatorze, a nie jak w modelu językowym.
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: Tanio, ,, deterministycznie, i, z, wyjaśnieniem, :, jak, w, kompilatorze, ,, a, nie, jak, w, modelu, językowym
@@ -78,10 +80,10 @@ proza/README.txt: Działają dwie rzeczy.
   sonda: rejected  0 readings, nothing attaches: dwie
 proza/README.txt: Gramatyka podzbioru polszczyzny, nad Morfeuszem 2, w której zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: ,, 2, ,, olski, wtedy, ,, gdy, dokładnie
+  sonda: rejected  0 readings, nothing attaches: ,, 2, ,, wtedy, ,, gdy, dokładnie
 proza/README.txt: Nie chodzi o samo jedno wyprowadzenie: Koszt samej szynki przewyższa koszt szynki z dodatkami rozkłada się na kilka czytań, a dwa z nich mówią rzecz przeciwną, więc olski to zdanie odrzuca.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: wyprowadzenie, :, ,, dwa, ,, więc, olski
+  sonda: rejected  0 readings, nothing attaches: wyprowadzenie, :, ,, dwa, ,, więc
 proza/README.txt: Czytania szynki różnią się szykiem i tym, do czego dochodzi z dodatkami.
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: szykiem, ,
@@ -93,7 +95,7 @@ proza/README.txt: Wiersz werdyktu nazywa przy tym sam wybór, a nie wylicza jego
   sonda: rejected  0 readings, nothing attaches: ,, :, ,, ,, ,
 proza/README.txt: Wyborem jest tu przyłączenie, a nad innym zdaniem bywa nim konstytuent, który czyta się kilkoma sposobami tam, gdzie streszczenie nie zagląda.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: tu, przyłączenie, ,, konstytuent, ,, kilkoma, ,, gdzie
+  sonda: rejected  0 readings, nothing attaches: tu, przyłączenie, ,, ,, kilkoma, ,, gdzie
 proza/README.txt: Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim: Nowa program nie ma wyprowadzenia, więc nie jest to reguła, która strzeliła, tylko zdanie, którego nie ma.
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: tu, parsowaniem, ,, sprawdzeniem, :, wyprowadzenia, ,, więc, ,, strzeliła, ,, ,, którego
@@ -128,8 +130,8 @@ proza/README.txt: Szyk jest tu wnioskiem, a nie zapisem: drzewo mówi, co w zdan
   olski: rejected  0 readings
   sonda: rejected  0 readings, nothing attaches: tu, ,, :, ,, ,, ,, dopiero
 proza/README.txt: Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone: zmienna nazywa postać, funkcja jest wzorcem zdania albo akapitu, a lista wchodzi do zdania jako koordynacja.
-  olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: Pythonem, :, ,, ,
+  olski: ambiguous 4 readings
+  sonda: rejected  0 readings, nothing attaches: :, ,, ,
 proza/README.txt: Całą legendę o bazyliszku warszawskim trzyma opowieści/bazyliszek.py.
   olski: ambiguous 2 readings
   sonda: ambiguous 2 readings
@@ -162,5 +164,5 @@ proza/README.txt: Prozę w tym repozytorium łamiemy według Semantic Line Break
   sonda: rejected  0 readings, nothing attaches: według, Semantic, Line, Breaks, ,, polsku, ,, więc, oba
 proza/README.txt: Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md, a otwartą robotę wewnątrz repozytorium TODO.md.
   olski: rejected  0 readings
-  sonda: rejected  0 readings, nothing attaches: ,, ,, commitów, ,
-48 of 48 sentences finished inside 10s, the slowest in 0.06s, and 40 of those get the same verdict from both, 40 the same number of readings
+  sonda: rejected  0 readings, nothing attaches: ,, ,, ,
+48 of 48 sentences finished inside 10s, the slowest in 0.07s, and 39 of those get the same verdict from both, 39 the same number of readings
