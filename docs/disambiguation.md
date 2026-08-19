@@ -111,11 +111,11 @@ Las wydaje czytania w kolejności ustalonej przez `ciała` w `olski/parse.py`,
 a kolejność ustalona jest rankingiem,
 tyle że takim, który nie widział ani jednego drzewa wzorcowego.
 Nad zdaniami, które olski odrzuca za wieloznaczność,
-złote czytanie jest w tej kolejności pierwsze w 467 wypadkach,
+złote czytanie jest w tej kolejności pierwsze w 497 wypadkach,
 i liczbę tę wraz z jej mianownikiem trzyma
-[corpus.md](corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych).
-Wobec wszystkich 695 zdań, o które to pytanie da się zadać,
-jest to 67,2% trafień czytaniem pierwszym.
+[corpus.md](corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym).
+Wobec wszystkich 698 zdań, o które to pytanie da się zadać,
+jest to 71,2% trafień czytaniem pierwszym.
 
 Tyle ma do pobicia model, który miałby tu stanąć.
 Liczba jest przy tym łagodniejsza dla modelu, niż wygląda,

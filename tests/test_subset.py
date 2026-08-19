@@ -1546,6 +1546,66 @@ def test_grupa_wysunięta_bez_przyimka_staje_także_w_dopełnieniu():
     assert przeczenie.status == "valid", przeczenie.explain()
 
 
+@pytest.mark.parametrize(
+    ("zdanie", "rola", "czoło"),
+    [
+        ("Reguła, która rozstrzyga, jest tania.", "Subject", "która"),
+        ("Polszczyzna, którą napisał autor, jest tania.", "Object", "którą"),
+        ("Ustawa, której przepisy obowiązują, jest tania.", "Subject", "której przepisy"),
+        ("Ustawa, której przepisy minister ogłasza, jest tania.", "Object", "której przepisy"),
+        ("Który aktor robi na tobie największe wrażenie?", "Subject", "Który aktor"),
+        ("Które zadania gmina wykonuje?", "Object", "Które zadania"),
+    ],
+)
+def test_czoło_niesie_etykietę_roli_którą_zajmuje(zdanie, rola, czoło):
+    """Wysunięty konstytuent jest podmiotem albo dopełnieniem i tak się nazywa.
+
+    Bez tej etykiety olski wyprowadza te zdania dokładnie tak, jak czyta je bank
+    drzew, a czytanie wychodzi o tę jedną rolę uboższe, więc porównanie ról nie
+    ma go z czym zestawić i złote czytanie nie równa się żadnemu
+    (docs/corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym).
+    Pilnuje jej samo drzewo, bo w zdanie względne streszczenie nie zagląda.
+
+    Sześć zdań, bo tyle jest par czoła i roli: sam zaimek, grupa, w której on
+    stoi, i grupa pytajna, każde w podmiocie i w dopełnieniu. Grupa pytajna
+    niesie tę etykietę obok własnej, a tamtej pilnuje
+    :func:`test_pytanie_stawia_grupę_pytajną_w_podmiocie_i_w_dopełnieniu`.
+    """
+    werdykt = verdict(zdanie)
+    assert werdykt.status == "valid", werdykt.explain()
+    obsadzone = {" ".join(węzeł.forms()) for węzeł in werdykt.result.readings[0].find(rola)}
+    assert czoło in obsadzone
+
+
+def test_etykieta_roli_nie_wpuszcza_na_czoło_swoich_pozostałych_produkcji():
+    """Podmiot na czole zdania względnego jest czołem, a nie każdą grupą imienną.
+
+    Usterka, którą to łapie, jest ceną samej etykiety: `Subject` wpisany do ciała
+    czoła bez cechy rozdzielającej wpuszcza tam `Subject → NP`, więc `reguła, ta
+    reguła rozstrzyga` staje się zdaniem względnym, a `Który aktor robi
+    wrażenie.` zdaniem oznajmującym o takim podmiocie, czyli wraca czytanie,
+    które zdjął warunek na lemat.
+    """
+    względne = verdict("Reguła, ta reguła rozstrzyga, jest tania.")
+    assert względne.status == "rejected", względne.explain()
+    oznajmujące = verdict("Który aktor robi wrażenie.")
+    assert oznajmujące.status == "rejected", oznajmujące.explain()
+
+
+def test_czoło_jednej_rodziny_nie_staje_na_czele_drugiej():
+    """Zdanie względne bierze swoje czoła, a pytanie swoje.
+
+    Obie rodziny noszą tę samą etykietę roli, więc wartość rozdzielająca jest
+    nazwą czoła, a nie jednym „wysunięte”: wspólna zlałaby je i `ustawa, który
+    przepis obowiązuje` wyszłoby zdaniem względnym z grupą pytajną na czole,
+    a `Który zapisuje ustawienia?` pytaniem o sam zaimek.
+    """
+    pytajna = verdict("Ustawa, który przepis obowiązuje, jest nowa.")
+    assert pytajna.status == "rejected", pytajna.explain()
+    zaimek = verdict("Który zapisuje ustawienia?")
+    assert zaimek.status == "rejected", zaimek.explain()
+
+
 def test_pytanie_wysuwa_grupę_pytajną_razem_z_przyimkiem():
     #  Czoło pytania jest tu drugie i jest wyrażeniem przyimkowym, a nie nowym
     #  kształtem grupy: pod przyimkiem stoi ta sama grupa pytajna, którą pytanie

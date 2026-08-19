@@ -281,6 +281,16 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 #: czyli ta z dwóch par czoła (:func:`zaimek_czoła`), którą poprzednik czyta.
 POPRZEDNIK = {"number": V("nz"), "gender": V("gz")}
 
+#: Wartość cechy `czoło` dla roli, którą wypełnia konstytuent stojący na swoim
+#: miejscu; rola wysunięta niesie tam nazwę czoła, którym ją wypełniono.
+#:
+#: Cecha rozdziela dwie rodziny produkcji jednego symbolu i po to jedno tu jest:
+#: `Subject` wpisany do ciała czoła wpuszcza tam także `Subject → NP`, a wartość
+#: osobna dla każdego czoła trzyma rodzinę względną osobno od pytającej.
+#: Co bez niej wraca i ile ta etykieta kupuje, wywodzi
+#: docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza.
+BEZ_CZOŁA = "żadne"
+
 
 def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     """Druga para cech czoła zdania względnego: liczba i rodzaj jego zaimka.
@@ -442,6 +452,10 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     stoi, więc jest czołem innego kształtu; wypisuje je jednym ciałem ta sama
     pętla, która wywołuje tę funkcję.
 
+    Obie te role czoło nosi etykietą, taką samą jak rola wypełniona na swoim
+    miejscu, więc funkcja pisze nad czołem `Subject` albo `Object`, a dopiero
+    pod nimi zdanie. Po co i jakim kosztem, mówi :data:`BEZ_CZOŁA`.
+
     Orzeczenie zgadza się z głową czoła, a poprzednik z jego zaimkiem, więc
     orzeczenie bierze ``number`` i ``gender``, a w górę idzie para druga; wywód
     jest przy :func:`zaimek_czoła`. Tyle wystarcza, żeby czołem była grupa,
@@ -449,16 +463,34 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     """
 
     def czoło_pierwsze(szyk: tuple[str, ...]) -> bool:
-        """Czy czoło stoi w tym szyku pierwsze; o reszcie córek warunek milczy."""
-        return szyk[0] == czoło
+        """Czy czoło stoi w tym szyku pierwsze; o reszcie córek warunek milczy.
+
+        Czoło poznaje się po etykiecie roli, bo pod nią stoi w ciele, a nie pod
+        nazwą swojego symbolu. Dopełnienia na swoim miejscu to ciało nie ma,
+        więc etykieta wskazuje w nim jedną córkę.
+        """
+        return szyk[0] == "Object"
 
     # Osoba i liczba orzeczenia biorą się z czoła, bo ono jest podmiotem; w
     # deklaracji z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
     # zmienne liczby oraz rodzaju są tam inne niż zmienne czoła.
     zaimek = zaimek_czoła(V("nz"), V("gz"))
-    czoło_podmiot = nt(czoło, case="nom", number=V("n"), gender=V("g"), **zaimek)
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
-    podmiot = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
+    podmiot = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"), czoło=BEZ_CZOŁA)
+
+    # Etykieta roli nad czołem: `Subject` i `Object`, czyli te same nazwy, które
+    # zdanie daje rolom wypełnionym na miejscu. Konstytuentem, a nie cechą na
+    # czole, bo rolę czyta się z etykiety węzła (``Node.find`` w
+    # ``olski/parse.py``), a wpuszcza ją cecha `czoło` (:data:`BEZ_CZOŁA`).
+    zdanie.grammar.rule(
+        "Subject",
+        [nt(czoło, case="nom", number=V("n"), gender=V("g"), **zaimek)],
+        number=V("n"),
+        gender=V("g"),
+        czoło=czoło,
+        **zaimek,
+    )
+    czoło_podmiot = nt("Subject", number=V("n"), gender=V("g"), czoło=czoło, **zaimek)
     zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], **POPRZEDNIK)
 
     # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
@@ -477,7 +509,17 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # jedna deklaracja rośnie do dwóch. Rozwinięcia szyku to nie dotyka, bo mnoży
     # tu cecha, a nie kolejność.
     for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
-        czoło_dopełnienie = nt(czoło, case=przypadek, **zaimek)
+        zdanie.grammar.rule(
+            "Object",
+            [nt(czoło, case=przypadek, **zaimek)],
+            valency="acc",
+            negacja=negacja,
+            czoło=czoło,
+            **zaimek,
+        )
+        czoło_dopełnienie = nt(
+            "Object", valency="acc", negacja=negacja, czoło=czoło, **zaimek
+        )
         czasownik = nt(
             "Verb",
             number=V("nv"),
@@ -572,7 +614,7 @@ def build() -> Grammar:
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
     # docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
     # a niezmiennik pilnuje test w tests/test_subset.py.
-    podmiot = nt("Subject", number=V("n"), gender=V("g"), person=V("p"))
+    podmiot = nt("Subject", number=V("n"), gender=V("g"), person=V("p"), czoło=BEZ_CZOŁA)
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"))
     czasownik = nt("Verb", number=V("n"), gender=V("g"), person=V("p"))
     okoliczniki = nt("Adjuncts")
@@ -590,7 +632,7 @@ def build() -> Grammar:
     czasownik_ramy = nt(
         "Verb", number=V("n"), gender=V("g"), person=V("p"), valency=V("w"), negacja=V("z")
     )
-    dopełnienie = nt("Object", valency=V("w"), negacja=V("z"))
+    dopełnienie = nt("Object", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
     orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
     orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
 
@@ -696,6 +738,7 @@ def build() -> Grammar:
         number=V("n"),
         gender=V("g"),
         person=V("p"),
+        czoło=BEZ_CZOŁA,
     )
     # Dopełnienie wychodzi z pozycją ramy, którą zajmuje, bo tym jest przypadek,
     # który czasownik rządzi: żądanie wobec czasownika stoi więc raz, tutaj, a nie
@@ -704,8 +747,12 @@ def build() -> Grammar:
     # Dopełniacz negacji zajmuje tę samą pozycję ramy, więc jest drugą produkcją
     # dopełnienia, a nie drugą pozycją. Wartość cechy jest tu wypisana, a nie
     # zmienna, bo o przypadku rozstrzyga właśnie ta produkcja.
-    grammar.rule("Object", [nt("NP", case="acc")], valency="acc", negacja="aff")
-    grammar.rule("Object", [nt("NP", case="gen")], valency="acc", negacja="neg")
+    grammar.rule(
+        "Object", [nt("NP", case="acc")], valency="acc", negacja="aff", czoło=BEZ_CZOŁA
+    )
+    grammar.rule(
+        "Object", [nt("NP", case="gen")], valency="acc", negacja="neg", czoło=BEZ_CZOŁA
+    )
 
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
