@@ -8,12 +8,13 @@ o zdaniach, którymi te dwie są sprawdzane: zdanie stojące na jednej grupie ma
 wychodzić jednoznaczne także pod wszystkimi grupami naraz.
 
 Te trzy idą po `SONDY`, a nie po jednej z nich, bo są własnościami deklaracji, a
-nie przecinka ani liczebnika: sonda dopisana do tej listy dostaje je za darmo, a
+nie przysłówka ani wysunięcia: sonda dopisana do tej listy dostaje je za darmo, a
 pominięta w niej nie ma ich wcale. Idą przy tym po `Sonda.czysty`, a nie po
 numerze wariantu, bo tak samo pyta o niego `sonda/płaski.py`.
 
-Niżej stoi jeden test o jednej sondzie, bo grupy, której żadne zdanie nie pokaże,
-nie ma jak sprawdzić z listy wyżej.
+Lista jest krótka, bo sonda różnicowa wychodzi z drzewa razem z konstrukcją,
+którą wyceniła (`sonda/__init__.py`), a te własności są o kształcie deklaracji,
+więc sprawdza je każda sonda, która akurat stoi.
 """
 
 from __future__ import annotations
@@ -24,16 +25,11 @@ pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR, check
-from sonda import liczebnik, negacja, okolicznikowe, przecinek, przysłówek, szyk, wysunięcie
+from sonda import przysłówek, wysunięcie
 from sonda.ruch import Sonda, gramatyka, zmierz
 
 SONDY = [
-    przecinek.SONDA,
-    liczebnik.SONDA,
-    negacja.SONDA,
-    szyk.SONDA,
     przysłówek.SONDA,
-    okolicznikowe.SONDA,
     wysunięcie.SONDA,
 ]
 
@@ -41,28 +37,8 @@ SONDY = [
 #: Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania nie jest
 #: sprawdzona przez nic.
 NA_JEDNEJ_GRUPIE = [
-    (przecinek.SONDA, "zdaniowy", "Wstaję, wyglądam przez okno."),
-    (przecinek.SONDA, "imienny", "Kobiety muszą zakrywać włosy, ramiona, nogi."),
-    (przecinek.SONDA, "przymiotnikowy", "Plik jest nowy, duży."),
-    (liczebnik.SONDA, "zgodny", "Działają dwie rzeczy."),
-    (liczebnik.SONDA, "rządzący", "Pięć kobiet przyszło."),
-    (negacja.SONDA, "cząstka", "Program nie działa."),
-    (szyk.SONDA, "SOV", "Inwestorzy pomysł ten zwalczali."),
-    (szyk.SONDA, "OSV", "Ustawienia program zapisuje."),
-    (szyk.SONDA, "VSO", "Podzieli ona Twoje nadzieje."),
-    (szyk.SONDA, "VOS", "Porastają ją wiekowe akacje."),
     (przysłówek.SONDA, "okolicznik", "Teraz program zapisuje ustawienia."),
     (przysłówek.SONDA, "przy przymiotniku", "Koszt bardzo dużego pliku jest niski."),
-    (
-        okolicznikowe.SONDA,
-        "za zdaniem",
-        "Program zapisuje ustawienia, ponieważ linter sprawdza dokumentację.",
-    ),
-    (
-        okolicznikowe.SONDA,
-        "przed zdaniem",
-        "Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.",
-    ),
     (
         wysunięcie.SONDA,
         "grupa względna z przyimkiem",
@@ -146,26 +122,10 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
     """
     zdanie = Sentence(
         sent_id="żywa",
-        text="Program zapisuje ustawienia, ponieważ linter sprawdza dokumentację.",
+        text="Teraz program zapisuje ustawienia.",
         verdict=FULL,
         roles=(("Subject", 0, 1),),
     )
-    raport = zmierz(okolicznikowe.SONDA, [zdanie], źródło="live")
-    assert raport.przejścia[okolicznikowe.SONDA.czysty] == {"rejected → valid": 1}
+    raport = zmierz(przysłówek.SONDA, [zdanie], źródło="live")
+    assert raport.przejścia[przysłówek.SONDA.czysty] == {"rejected → valid": 1}
     assert not raport.zgodność
-
-
-def test_dopełniacz_negacji_sam_nie_licencjonuje_ani_jednego_zdania():
-    """Grupa, której nie pokaże żadne zdanie, i to jest o niej odczyt.
-
-    Reszta tego pliku sprawdza grupy zdaniem, które stoi na jednej z nich, a ta
-    grupa takiego zdania nie ma: dopełniacz negacji wpuszcza czasownik, który
-    przeczy, więc bez cząstki nie ma go co wystrzelić. Wariant jest przez to
-    kopią mianownika i tak go czyta `docs/subset.md` — zero w jego wierszu jest
-    odczytem, a nie przeoczeniem, i przestałoby nim być po cichu, gdyby ta
-    produkcja kiedyś dostała drugiego licencjodawcę.
-    """
-    for zdanie in ("Program nie zapisuje ustawień.", "Program zapisuje ustawienia."):
-        bez = [w.status for w in check(zdanie, gramatyka(negacja.SONDA, "bez negacji"))]
-        sam = [w.status for w in check(zdanie, gramatyka(negacja.SONDA, "dopełniacz"))]
-        assert sam == bez
