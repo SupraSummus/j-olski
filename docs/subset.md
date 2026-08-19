@@ -746,6 +746,76 @@ i to jest cała różnica między tymi trzema liczbami.
 Zakup tego szyku jest przez to zakupem pokrycia cudzej polszczyzny
 i naprawą czterech czytań, a nie krokiem w rejestrze, do którego olski jest kierowany.
 
+## Zdanie deklaruje córki, a warunek deklaruje szyk
+
+Produkcja mówi naraz dwie rzeczy: z czego zdanie się składa
+i w jakiej kolejności te córki stoją.
+Rozdzielone, te dwie rzeczy mieszczą się w sześciu deklaracjach,
+z których rozwinięcie pisze dwadzieścia osiem ciał `ClauseConjunct`.
+Deklaracja wymienia same córki,
+warunek precedencji obok niej mówi, które ich przestawienia wchodzą,
+a rozwinięcie składa jedno z drugim przed rozbiorem
+(`olski/precedencja.py`).
+Kończy się ono przed tablicą Earleya, więc tablica dostaje ciała wypisane.
+Olski zajmuje przez to szczebel 1 [drabiny](design-notes.md#the-cost-ladder)
+i płaci dokładnie tym, czym ten szczebel każe płacić:
+preprocesorem gramatyki, a nie innym parserem.
+
+Warunek wyklucza jeden szyk i mówi który, zamiast go przemilczeć.
+Jedna deklaracja wymienia podmiot, dopełnienie i czasownik,
+a warunek pod nią odmawia temu przestawieniu,
+w którym podmiot stoi pierwszy, a czasownik zaraz za nim:
+zdanie tego szyku składa się z podmiotu i orzeczenia,
+więc wypisane płasko drugi raz dałoby jednemu napisowi dwa wyprowadzenia.
+Pozostałych pięciu szyków orzeczenie nie składa,
+bo albo podmiot nie stoi w nich pierwszy, albo między nim a czasownikiem coś stoi.
+Tego żąda od tej gramatyki decyzja o szyku wyżej —
+szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem ciała —
+i żąda tego samego od każdego szyku dopisanego później.
+
+Miejsce na okolicznik wylicza to samo rozwinięcie
+i przez to nie ma go jak zapomnieć w jednym ciele z trzech.
+Reguła jest jedna: okolicznik staje po każdej córce, która jest grupą,
+oraz na końcu zdania, którego nie zamyka orzeczenie —
+to bierze swój okolicznik samo, przez `Complements`.
+Pierwsza połowa tej reguły jest odpowiedzią na przyłączenie oddawane czytelnikowi
+([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)):
+gdzie grupa imienna bierze wyrażenie przyimkowe za sobą,
+tam musi umieć wziąć je też zdanie.
+
+Po córce czasownikowej okolicznik nie staje, i jest to zawężenie,
+a nie wniosek z tamtej reguły.
+Polszczyzna tę pozycję ma, a olski jej nie ma i nikt nie policzył, ile to kosztuje:
+`Trwa w tej sprawie dochodzenie.` jest przez nią zdaniem odrzuconym,
+a `Zapisuje w pliku program ustawienia.` wychodzi jednym czytaniem,
+w którym `program ustawienia` jest dopełnieniem,
+i nie wychodzi tym, w którym `program` zapisuje `ustawienia`.
+Drugie z tych dwóch jest tą samą pomyłką,
+przed którą broni [reguła o obu czytaniach](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+Rozwinięcie tego nie naprawia i nie po to jest.
+Zmienia jedno: zawężenie mieści się po nim w jednym argumencie deklaracji,
+a nie w trzydziestu dwóch ciałach, z których żadne go nie wypowiadało,
+więc jest co wycenić, a wycenę trzyma `TODO.md`.
+
+Cztery ciała gramatyka ma dlatego, że regułę liczy rozwinięcie, a nie ręka.
+Zdanie względne i pytanie mają za wysuniętą rolą trzy miejsca,
+a ciała z podmiotem przed czasownikiem miały dwa z nich,
+dopóki każde miejsce wypisywało osobne ciało.
+Bez trzeciego `Ustawa, którą organ w tym trybie wydaje, jest tania.`
+wychodzi jednym czytaniem, w którym `w tym trybie` dochodzi do `organ`,
+a czytania z okolicznikiem przy `wydaje` nie ma skąd wziąć —
+czyli werdykt `valid` nad zdaniem, które czytelnik czyta dwojako.
+Ciała są cztery, a nie dwa, bo przypadek wysuniętego dopełnienia rozstrzyga przeczenie
+([wyżej](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)),
+więc każda z dwóch rodzin ma tę deklarację w dwóch wersjach.
+
+Mnożenia się ciał rozwinięcie nie zdejmuje całego, bo część mnoży cecha.
+`RelativeCore` ma dwie deklaracje z dopełnieniem zamiast jednej,
+bo przypadek czoła zależy od tego, czy czasownik za nim przeczy,
+a `NPConjunct` mnoży kształt głowy przez obecność przydawki za nią;
+ani jedno, ani drugie nie jest kolejnością,
+więc warunek precedencji nie ma tam czego powiedzieć.
+
 ## The bare verb-initial order keeps the predicative one honest
 
 ```text
@@ -1582,8 +1652,8 @@ Zdanie pytające stoi samo i zamyka się pytajnikiem,
 pytanie zależne zaczepia się o czasownik przecinkiem,
 a w obu na czole zdania stoi grupa pytajna
 i za nią zdanie bez tej roli, którą ta grupa zajmuje.
-Ciała wypisuje jedna funkcja i dla nich, i dla zdania względnego
-(`_ciała_z_wysuniętą_rolą` w `olski/subset.py`),
+Deklaracje pisze jedna funkcja i dla nich, i dla zdania względnego
+(`_wysunięta_rola` w `olski/subset.py`),
 bo te dwie rodziny różni samo czoło:
 zaimek stojący sam albo zaimek przy rzeczowniku.
 Role są dwie — podmiot i dopełnienie — i są to te same,
@@ -2200,22 +2270,28 @@ i każda z nich jest zwyczajną polszczyzną:
 - po rzeczowniku, który już ma przy sobie przymiotnik, dopełniacz albo oba
   (`akcja zbrojna w Strefie Gazy`, `zadania ochrony ludności w gminie`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
-- wewnątrz zdania względnego, po obu stronach tego, co w nim zostało
-  (`reguła, która w tym trybie rozstrzyga`)
-- wewnątrz pytania, po obu stronach tego, co zostało za grupą pytajną
+- wewnątrz zdania względnego, wokół tego, co w nim zostało:
+  po zaimku, między podmiotem a czasownikiem i na końcu
+  (`reguła, która w tym trybie rozstrzyga`,
+  `polszczyzna, którą ktoś w tym trybie napisał`)
+- wewnątrz pytania, w tych samych trzech miejscach za grupą pytajną
   (`Który program w tym trybie zapisuje ustawienia?`)
 
-Wierszy jest dziewięć, a produkcji pięćdziesiąt siedem,
+Wierszy jest dziewięć, a produkcji sześćdziesiąt jeden,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Dziesięć z tych pięćdziesięciu siedmiu dołożyły cztery szyki dopisane,
+Dziesięć z tych sześćdziesięciu jeden dołożyły cztery szyki dopisane,
 i tyle właśnie znaczy w tej gramatyce jeden szyk więcej;
 jedna jest z przysłówka, bo lista okoliczników bierze go tak samo
 jak wyrażenie przyimkowe
 ([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
-a dwanaście z pytania: dziewięć wewnątrz jego czoła
+a czternaście z pytania: jedenaście wewnątrz jego czoła
 i trzy w orzeczeniu, które bierze pytanie zależne
 ([wyżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Cztery dołożyło [rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk),
+po dwa w zdaniu względnym i w pytaniu,
+i jest to jedna pozycja w dwóch konstrukcjach z listy wyżej,
+którą gramatyka pisana ręką miała w dwóch ciałach z trzech.
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,

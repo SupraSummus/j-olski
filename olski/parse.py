@@ -145,8 +145,10 @@ class Node:
     #: Wpisana przy budowaniu,
     #: bo węzeł produkcji o pustym ciele nie ma dzieci, z których dałoby się ją wyliczyć,
     #: a stoi w miejscu, które zna parser.
-    #: Takiej produkcji gramatyka olskiego nie ma,
-    #: a żąda jej rozwinięcie szyku do warunków precedencji.
+    #: Takiej produkcji gramatyka olskiego nie ma i nie żąda jej rozwinięcie szyku:
+    #: miejsce na okolicznik wychodzi z niego osobnym ciałem, a nie córką o pustej rozpiętości,
+    #: bo córka taka stałaby w każdym miejscu każdego zdania i mnożyła wyprowadzenia.
+    #: Pustego ciała żąda natomiast luka, i tego żądania nikt nie zaspokoił.
     span: tuple[int, int]
     #: Która z córek jest głową, wzięta z produkcji, która ten węzeł złożyła.
     #: Niesie ją węzeł, a nie odczytuje się jej z gramatyki,

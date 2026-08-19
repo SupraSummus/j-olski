@@ -143,7 +143,7 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     #  a pyta o nią i zgodność ról z bankiem drzew, i streszczenie czytania.
     #  Produkcji o pustym ciele gramatyka olskiego nie ma, więc test buduje własną:
     #  sprawdzić to można bez dopisywania do niej produkcji,
-    #  choć zażąda tego dopiero rozwinięcie szyku do warunków precedencji.
+    #  a żąda jej luka, której olski nie bierze.
     #  Jest to zarazem jedyne przejście przez pustą produkcję w tablicy Earleya,
     #  gdzie żąda ona osobnej obsługi, więc test pilnuje i tego.
     grammar = Grammar(start="A")
@@ -783,6 +783,12 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  Osoba, którą wnosi aglutynant, jest osobą całego orzeczenia, więc
         #  podmiot drugiej osoby przy końcówce pierwszej się nie zgadza.
         "Ty napisałem program.",
+        #  Okolicznik między czasownikiem a podmiotem, czyli pozycja, której olski
+        #  nie ma: `czasownikowe` w deklaracji zdania odmawia miejsca po czasowniku.
+        #  Polszczyzna to zdanie ma, więc jest to dług, a nie własność podzbioru,
+        #  i TODO.md trzyma jego wycenę; ten wiersz pilnuje, żeby nikt go nie spłacił
+        #  przez pomyłkę, bo zawężenie stoi dziś w jednym argumencie.
+        "Trwa w tej sprawie dochodzenie.",
         #  Spójnik, przed którym polszczyzna stawia przecinek, bez tego przecinka.
         #  Oba zdania wyprowadzały się, dopóki jeden terminal brał całą klasę
         #  `conj`, i były to napisy, których polszczyzna nie ma. Drugie jest
@@ -955,6 +961,18 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     found = verdict(text)
     assert found.status == "ambiguous"
     assert len({reading["Object"] for reading in found.readings}) == 2
+
+
+def test_zdanie_względne_bierze_okolicznik_między_podmiotem_a_czasownikiem():
+    #  Miejsce, które gramatyka pisana ręką miała w dwóch ciałach z trzech i w
+    #  trzecim je pominęła. Usterka jest niewidoczna po werdykcie: zdanie nie
+    #  zostaje odrzucone, tylko wychodzi jednym czytaniem, w którym `w tym trybie`
+    #  dochodzi do `organ`, bo czytanie z przyłączeniem do `wydaje` nie ma gdzie
+    #  się wyprowadzić. Powrotem tamtego stanu jest `valid` nad tym zdaniem.
+    found = verdict("Ustawa, którą organ w tym trybie wydaje, jest tania.")
+    assert found.status == "ambiguous", found.explain()
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("wydaje", "organ"), found.explain()
 
 
 def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniami():
@@ -1440,7 +1458,7 @@ def test_pytanie_zależne_nie_wychodzi_zdaniem_współrzędnym():
 
 
 def test_pytanie_stawia_grupę_pytajną_w_podmiocie_i_w_dopełnieniu():
-    #  Dwie role, bo tyle wypisuje `_ciała_z_wysuniętą_rolą`, i obie idą tą samą
+    #  Dwie role, bo tyle deklaruje `_wysunięta_rola`, i obie idą tą samą
     #  drogą co w zdaniu względnym. Werdykt nazywa grupę pytajną rolą, bo pytanie
     #  przyjęte bez niej nie mówiłoby, o co pyta.
     podmiot = verdict("Który aktor robi na tobie największe wrażenie?")

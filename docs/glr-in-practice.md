@@ -98,9 +98,10 @@ builds `parglare.NonTerminal` objects,
 and prepends a synthetic `__start -> <start>` production.
 
 This is directly relevant to olski.
-If dominance and precedence are separated
-and a preprocessor expands precedence constraints into orderings,
-the grammar handed to the parser is *generated*, not written.
+Dominance and precedence are separated there
+and a preprocessor expands precedence constraints into orderings
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+so the grammar handed to the parser is *generated*, not written.
 A grammar-as-data interface is then the thing you need,
 and a `.pg`-style concrete syntax
 becomes a serialization format you have to emit and re-parse for no reason.
