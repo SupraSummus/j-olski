@@ -27,9 +27,7 @@ from __future__ import annotations
 
 import functools
 
-import morfeusz2
-
-from olski.morph import tag
+from olski.morph import generuj, tag
 from olski.skład.leksemy import leksem
 
 
@@ -99,12 +97,6 @@ POZA_REJESTREM = frozenset(
 )
 
 
-@functools.lru_cache(maxsize=1)
-def _synteza() -> morfeusz2.Morfeusz:
-    """Morfeusz w trybie syntezy, trzymany jeden, bo słownik siedzi w pamięci."""
-    return morfeusz2.Morfeusz(generate=True, expand_tags=False)
-
-
 def _w_rejestrze(kwalifikatory: list[str]) -> bool:
     """Czy żaden kwalifikator formy nie odsyła jej poza rejestr.
 
@@ -136,7 +128,7 @@ def paradygmat(nazwa: str, pos: str) -> tuple[tuple[str, frozenset, str], ...]:
     ``odmień`` nie ma jej po co widzieć, a ``rodzaj_rzeczownika`` tym bardziej.
     """
     formy = []
-    for forma, identyfikator, surowy, _nazwy, kwalifikatory in _synteza().generate(leksem(nazwa)):
+    for forma, identyfikator, surowy, _nazwy, kwalifikatory in generuj(leksem(nazwa)):
         czytanie = tag(surowy)
         if czytanie.pos == pos and _w_rejestrze(kwalifikatory):
             formy.append((forma, czytanie.features, identyfikator))

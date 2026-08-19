@@ -862,7 +862,7 @@ a nie samym porównaniem deklaracji.
 
 **Odrzucenie zaczyna mówić, na czym stanęło.**
 Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
-i nad zdaniem o konwencjach z README wychodzą z tego trzy przecinki i `commitów`.
+i nad zdaniem o konwencjach z README wychodzą z tego dwa przecinki.
 Jest to ta sama informacja, którą `olski-corpus` liczy jako bloker
 i której `olski-check` nie podaje wcale,
 tylko wzięta nie z najdalszego osiągniętego punktu, a z pustej dziedziny.
@@ -1341,11 +1341,11 @@ Forma, której w ten sposób nie zostaje ani jedno czytanie,
 jest tym, na czym odrzucenie stanęło, i werdykt ją wypisuje:
 
 ```sh
-python3 -m olski.check -c "Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md."
+python3 -m olski.check -c "Prozę w tym repozytorium łamiemy według Semantic Line Breaks, a nową piszemy po polsku."
 python3 -m olski.check -c "Nowa program zapisuje ustawienia."
 ```
 
-Pierwsze zdanie stoi na przecinku i na polskiej formie, której słownik nie zna,
+Pierwsze zdanie stoi na nazwie obcej przytoczonej po polsku i na `polsku`,
 a drugie ma każdą formę wziętą i stoi na zgodności rodzaju.
 Są to dwie różne odpowiedzi i dwie różne roboty do zrobienia,
 i dlatego werdykt je rozdziela, tak jak

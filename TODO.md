@@ -301,6 +301,25 @@ i nie broni niczego, czego by czytelnik nie zobaczył.
 Warte pisania są właśnie te dwie rzeczy: podsumowanie, bo cytuje je dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
+Werdykt mówi jednym zdaniem dwie rzeczy, które są dwiema różnymi robotami.
+`no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
+i wtedy, gdy je ma, a nie sięga po nie żadna produkcja;
+pierwsze naprawia wiersz w `olski/projekt.txt`
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
+a drugie produkcja w `olski/subset.py`.
+Rozdzielenia żąda ta sama własność, którą werdykt już realizuje raz —
+forma bez licencji stoi osobno od struktury bez licencji — tylko o szczebel niżej,
+i ma ona właściciela w [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
+Kosztem jest wydruk, z którego jeden dokument wycina formy poleceniem:
+[`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
+robi to przez `grep -oP 'no production takes \K.*'`,
+więc drugi komunikat rozsypuje tamto polecenie, jeżeli nie da się go wyciąć tak samo.
+Do przeczytania jest `explain` w `olski/subset.py` obok `bez_licencji`:
+formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pola
+w `Verdict`, a nie samego drugiego napisu.
+Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
+tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
+
 `sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
 czyli około stu osiemdziesięciu wierszy stojących drugi raz.
@@ -619,6 +638,22 @@ None of this starts before the entry on digests,
 since a mirror nobody can check against upstream
 is the second copy of a fact that
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
+
+Leksykon projektu rusza w deklaracji dwie figury i nie wiadomo, czy tylko dwie.
+`olski/projekt.py` wraz z `olski/projekt.txt` stoi wśród ruszających przy `readme`
+i przy `sonda-readme`, bo tam zmierzono, że rusza
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)),
+a figury nad prozą korpusu audytowego i nad rejestrem ustaw jego nie mają,
+choć czytają tekst tą samą drogą.
+Rozstrzyga o tym jedna rzecz: czy ta proza pisze którąkolwiek formę tego leksykonu,
+bo wiersz nazywa formę, której słownik nie czyta,
+więc nad korpusem, który tej formy nie pisze, nie rusza on ani jednej liczby.
+Ruchem jest więc grep form tego leksykonu po `proza/`,
+a po nim albo dopisanie obu plików do tych figur, albo zdanie mówiące,
+czemu ich tam nie ma; wypisuje je `odmiana` w `olski/projekt.py`.
+Do przeczytania jest przy tym `ruszają` w
+[`harness/figury.py`](harness/figury.py), bo pole to jest pytaniem o możliwość,
+a nie o przebieg, i od tego zależy, czy odpowiedź „nie pisze” w ogóle wystarcza.
 
 ## Gramatyka, parser i pomiar pokrycia
 
@@ -1924,6 +1959,21 @@ a docstring tego pliku ręczy, że format przepisano z wydania z 2018.
 Ręczy jedna osoba i żaden plik banku, więc gdyby Concraft wypadł ciekawie,
 sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
 
+Warstwa rozstrzygająca pyta słownik wprost i leksykonu projektu nie widzi.
+`_czytania` w `olski/rozstrzyganie.py` woła `analyse`, a nie `morphology`,
+więc `_lematy` odpowiada dla `commitów` samą tą formą, zamiast lematem `commit`,
+i świadek powtórzeniowy przestaje widzieć powtórzenie tam,
+gdzie jedno słowo stoi w dwóch formach.
+Nad Składnicą nie rusza to niczego, bo słów tego rejestru ta proza nie pisze,
+i dlatego wpis jest tu, a nie w zmianie, która leksykon wpuszczała.
+Ruchem jest jedna funkcja pytana przez oba miejsca,
+bo dopisanie czytań osobno w każdym z nich jest tą samą regułą napisaną dwa razy:
+`czytania` w `olski/projekt.py` odpowiada już na pytanie o formę,
+a schodzenie czytania `ign` obok niej stoi w `_z_leksykonu` w `olski/subset.py`.
+Do przeczytania jest `_lematy_imienne` w tym samym pliku,
+bo pyta o część mowy, a czytania leksykonu ją niosą,
+więc razem z tym ruchem rozstrzyga się, czy świadek ramowy pyta o te słowa też.
+
 ## Skład i opowieści
 
 `README.py` powstał drzewami przed tekstem, czyli odwrotnie, niż deklaruje
@@ -1939,10 +1989,13 @@ Kryterium wyjścia toru składu to i tak nie jest
 bo tamto żąda znak w znak nad `README.md`, a nie treści oddanej innymi zdaniami.
 
 Trzy pozycje, których `README.py` zażądał i nie dostał, stoją każda w innym miejscu.
-Lematu `olski` Morfeusz nie zna wcale i czyta go jako `ign`,
-więc nazwa własna tego języka nie stanie w zdaniu w żadnej roli,
-a obejść tego nie ma czym: `olski/skład/leksemy.py` wybiera między leksemami,
-które SGJP ma, i sam mówi, że leksem nieznany nie ma ani jednej formy.
+Lematu `olski` Morfeusz nie zna wcale, więc nazwa własna tego języka
+nie stanie w składanym zdaniu w żadnej roli:
+`olski/skład/leksemy.py` wybiera między leksemami, które SGJP ma,
+i sam mówi, że leksem nieznany nie ma ani jednej formy.
+Odmianę tego słowa deklaruje `olski/projekt.txt`, a skład go nie czyta,
+i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
+a nie ta pozycja.
 Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno czytanie` z drzewa nie wyjdzie,
 i jest to ta sama konstrukcja, którą gramatyka po drugiej stronie już ma
 ([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
@@ -1954,22 +2007,20 @@ Jest to jedyna z tych trzech pozycji, przy której skład ma pół konstrukcji, 
 Do przeczytania przy niej jest ten leksykon obok
 `tests/test_przyimki.py`, który świadkuje przypadkom, a nie doborowi relacji.
 
-Słownika własnego nie ma w tym repozytorium ani jeden kierunek,
-więc słowa, którego SGJP nie ma, nie powie ani skład, ani gramatyka.
-`olski/skład/leksemy.py` wybiera między leksemami, które słownik ma,
-a `olski/morph.py` prosi Morfeusza wprost, żeby nieznanej formy nie zgadywał.
-Mechanizm ma sam Morfeusz i jest nim `dict_name` albo `dict_path`,
-czyli słownik skompilowany jego własnym narzędziem obok tego, który przychodzi z paczki.
-Rozstrzygnąć trzeba jednak nie to, jak, a czy:
-słownik dopisany po tej stronie czyni repozytorium drugim źródłem prawdy o polszczyźnie,
-a po tamtej jest zmianą w języku, bo zdanie z nowym słowem zaczyna się wyprowadzać,
-i wtedy wchodzi jej cena w werdyktach, tak samo jak przy dopisanej produkcji.
-Rozdzielić te dwie strony wolno: skład potrzebuje samej syntezy nazwy własnej,
-a gramatyka nie potrzebuje jej wcale, więc wpis po jednej stronie
-nie żąda wpisu po drugiej, i to jest pierwsza rzecz do przeczytania.
-Do przeczytania jest przy tym, czym `dict_path` płaci przy instalacji:
-paczka bierze Morfeusza z PyPI ([`CLAUDE.md`](CLAUDE.md#checks)),
-a kompilator słownika nie jest tym, co ta paczka niesie.
+Słowo, którego SGJP nie ma, mówi gramatyka i nie mówi go skład.
+`olski/projekt.txt` deklaruje leksem, wedle którego takie słowo się odmienia
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
+a `olski/skład/morfologia.py` pyta o formy sam Morfeusz i tego pliku nie czyta,
+więc `README.py` dalej nie wypuści zdania o olskim.
+Ruchem jest `odmień` pytające o ten leksykon tam, gdzie słownik milczy,
+bo `odmiana` w `olski/projekt.py` wydaje dokładnie to, co `paradygmat`
+w tamtym pliku: formę wraz z cechami i leksemem.
+Do przeczytania są przy tym dwa odsiewy, których leksykon projektu nie ma:
+`POZA_REJESTREM` odsiewa kwalifikatorem, a wpis kwalifikatorów nie niesie,
+choć wzorzec bywa nimi oznaczony,
+i `WieleLeksemów`, bo wiersz wskazuje leksem wprost, czyli odpowiada już na to pytanie.
+Rozstrzygnąć trzeba przy tym, czy skład bierze stąd same formy,
+czy pyta jeszcze wzorzec o kwalifikatory, których wpis nie niesie.
 
 Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
 więc `Jaki` w `olski/skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
@@ -2245,25 +2296,23 @@ Ruchem jest ten warunek zapisany raz, w linearyzacji okolicznika,
 wraz z rozstrzygnięciem, czy wpis leksykonu wymienia obie postaci,
 czy jedną, a drugą liczy się z niej.
 
-Leksykonu projektu nie ma, a rejestr, w którym się pisze, żąda go od obu kierunków:
-`komit`, `olski` i `lintować` dostają z SGJP `ign`,
-więc synteza nie ma czego wypuścić, a analiza czyta formę, której nie zna.
-Osobno stoi leksem, którego słownik nie ma, choć napis zna:
-projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
+Leksem dokładany do napisu, który słownik zna, stoi poza `olski/projekt.txt`
+i jest drugą połową klasy, którą ten plik obsługuje.
+Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
 a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego,
 czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
-Do przeczytania jest to, co
-[`docs/sklad.md`](docs/sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)
-mówi o cenie słownika dołożonego Morfeuszowi i o tym, co wpis ma nazywać,
-wraz z `olski/leksykon.txt` i `olski/skład/leksemy.py`, czyli dwoma leksykonami,
-które już stoją, a żaden z nich na to pytanie nie odpowiada.
-Ruchem jest rozstrzygnięcie, czy wpis wypisuje formy,
-czy wskazuje leksem, wedle którego się odmienia,
-a po nim plik z wpisami na te słowa, których to repozytorium używa o sobie.
-Drugą z tych dróg widać już na `olski/skład/leksemy.py`, ale tylko połowę:
-wpis wskazuje tam leksem, który słownik ma,
-a tutaj trzeba wskazać leksem, wedle którego odmienia się słowo,
-którego słownik nie ma wcale.
+Wiersz na taki leksem łamie własność, na której stoi zerowa cena tej warstwy —
+że ani jednej formy leksykonu słownik nie czyta
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)) —
+bo dokłada czytanie formie, którą już coś czyta,
+więc cena takiego wiersza jest ceną zwykłą, mierzoną w czytaniach zdań przyjętych.
+Ruchem jest ten pomiar nad wpisem na `agent`, a nie wiersz dopisany bez niego,
+i tym różni się ta połowa od tamtej: tam cena wychodziła z własności,
+a tu wychodzi z przebiegu.
+Do przeczytania jest `test_żadnej_formy_leksykonu_słownik_nie_zna`
+w `tests/test_projekt.py`, bo wiersz na `agent` wywraca właśnie ten test,
+i rozstrzygnąć trzeba, czy test ten zostaje z wyjątkiem wypisanym obok,
+czy schodzi razem z własnością.
 
 O bezokolicznik gramatyka nie pyta wcale, a skład pyta o niego leksykon,
 i te dwa zdania nie zgadzają się co do `pomagać`.
