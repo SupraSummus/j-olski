@@ -2,22 +2,28 @@
 
 ``docs/disambiguation.md`` mówi, że część spornych wyrażeń przyimkowych
 rozstrzyga się słownikiem, a nie rankingiem: fraza, której schemat jednej ze
-stron żąda, przeczytana po drugiej stronie łamie ten schemat. Mówi też, że
-``olski/leksykon.txt`` sięga płycej, niż ta klasa wymaga, bo o przyimku nie mówi
-nic. Ta sonda wycenia świadka ramowego przed dopisaniem go, tak jak
-``sonda/przysłówek.py`` wycenia przysłówek przed wpuszczeniem go do gramatyki.
+stron żąda, przeczytana po drugiej stronie łamie ten schemat. Ta sonda wyceniła
+świadka ramowego przed dopisaniem go, tak jak ``sonda/przysłówek.py`` wycenia
+przysłówek przed wpuszczeniem go do gramatyki, i wycenia go dalej: świadek
+wskazuje po stronie rzeczownika, a co byłby wart po drugiej, mówi ten przebieg.
 
-**Wyceniane jest pytanie, a nie odpowiedź warstwy.** Świadka nie ma, leksykon
-kolumny nie ma, i żadne z dwojga ta sonda nie zmienia: Walentego czyta wprost, a
-bank drzew pyta o to, dokąd wyrażenie doszło u anotatora. Werdykt olskiego nie
-bierze w tym udziału, więc żadna produkcja tych liczb nie rusza.
+**Wyceniane jest pytanie, a nie odpowiedź warstwy.** Sonda pyta bank drzew o to,
+dokąd wyrażenie doszło u anotatora, i zestawia to z samym kryterium, a nie
+z werdyktem: rozstrzygnięcie warstwy nad werdyktem mierzy ``sonda/wskazania.py``.
+Populacją jest tu wyrażenie, a nie zdanie, więc żadna produkcja tych liczb nie
+rusza.
 
-**Kryterium jest jedno i jest po stronie schematu.** Lemat żąda przyimka wtedy,
-gdy któryś jego schemat ma pozycję niepodmiotową z ``prepnp`` o tym przyimku.
-Odpowiedź pada, gdy żąda go dokładnie jedna strona: czasownik przed wyrażeniem
-albo rzeczownik kończący grupę przed nim. Żądanie obustronne jest milczeniem, bo
-schematu nie łamie wtedy żadne czytanie, i milczeniem jest też brak żądania po
-obu stronach.
+**Kryterium jest jedno i pyta o nie ta sonda oraz leksykon.** ``przyimki``
+w ``olski/walenty.py`` mówi, że lemat żąda przyimka wtedy, gdy któryś jego
+schemat ma pozycję niepodmiotową z ``prepnp`` o tym przyimku, i to samo pytanie
+wypisuje kolumnę ``olski/leksykon.txt``, którą czyta świadek. Druga kopia
+rozeszłaby się cicho, bo rozejście widać dopiero w liczbach, a nie w wydruku.
+
+Odpowiedź pada tu, gdy żąda przyimka dokładnie jedna strona: czasownik przed
+wyrażeniem albo rzeczownik kończący grupę przed nim. Żądanie obustronne jest
+milczeniem, bo schematu nie łamie wtedy żadne czytanie, i milczeniem jest też
+brak żądania po obu stronach. Świadek czyta to samo kryterium połową:
+wskazuje sam rzeczownik, a żądanie czasownika jest u niego wetem.
 
 Kryterium pyta o przyimek i nie pyta o przypadek, więc zasięg wychodzi z niego
 zawyżony: Walenty pisze ``prepnp(o,loc)`` obok ``prepnp(o,acc)``, a
@@ -25,14 +31,10 @@ zawyżony: Walenty pisze ``prepnp(o,loc)`` obok ``prepnp(o,acc)``, a
 obu wpisów naraz. Zwężenie żąda przypadka grupy pod przyimkiem, czyli pola,
 którego ``olski/attachment.py`` nie wydaje.
 
-Zwężenie, które tu stoi, jest jedno i dotyczy pozycji zleksykalizowanej:
-``czekać na czas dobry`` żąda ``na`` wraz z rzeczownikiem, który przy nim stoi, a
-nie przy dowolnym, więc bez tego warunku idiom mówiłby o ramie to, czego rama nie
-mówi.
-
-Przyimka złożonego ten pomiar nie widzi z żadnej strony i dlatego nie liczy się
-on w żadną: Walenty pisze go osobnym kształtem — ``comprepnp(na temat)`` — a bank
-drzew daje jeden token.
+Sonda czyta Walentego wprost, a nie leksykon, i to jest tu różnica: leksykon
+niesie kolumnę o rzeczowniku wypisanym w pliku rzeczownikowym, a ta sonda pyta
+o obie strony naraz, także o tę, po której świadka nie ma. Wariant
+``--tylko-pewne`` stoi tu z tego samego powodu.
 
 Pliki wejściowe nie stoją w repozytorium: pobiera się je tak, jak bank drzew, a
 polecenia trzymają docs/subset.md oraz docs/corpus.md.
@@ -45,7 +47,6 @@ polecenia trzymają docs/subset.md oraz docs/corpus.md.
 from __future__ import annotations
 
 import argparse
-import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -53,26 +54,7 @@ from pathlib import Path
 from olski.attachment import LUŹNA, WYMAGANA, attachments
 from olski.corpus import pliki, read_forest
 from olski.próbka import rozrzucona
-from olski.walenty import PODMIOT, pozycje, schematy
-
-#: Kształt pozycji przyimkowej u Walentego, wraz z przyimkiem w środku.
-#: Przypadek stoi za przecinkiem i ta sonda o niego nie pyta, o czym mówi
-#: docstring wyżej.
-PRZYIMKOWA = re.compile(r"prepnp\(([^,)]+),")
-
-#: Pozycja zleksykalizowana, czyli taka, w której Walenty żąda konkretnego słowa
-#: obok przyimka. Ramą lematu to nie jest, więc odpada przed pytaniem o przyimek.
-ZLEKSYKALIZOWANA = "lex("
-
-#: Kwalifikatory pewności, które ten pomiar bierze. Walenty pisze ich pięć, a
-#: ``zły`` i ``archaiczny`` nazywają schemat, którego ten rejestr nie ma;
-#: ``potoczny`` zostaje, bo mówi o rejestrze, a nie o poprawności schematu.
-BRANE = frozenset({"pewny", "wątpliwy", "potoczny"})
-
-#: Kwalifikator, którym Walenty pisze schemat niewątpliwy. Wariant zawężony do
-#: niego stoi obok wariantu szerokiego, bo pewność jest jedynym zwężeniem, jakie
-#: ten słownik daje bez czytania schematów ręką.
-PEWNY = "pewny"
+from olski.walenty import PEWNY, przyimki, schematy
 
 #: Gospodarz po stronie czasownika i po stronie rzeczownika, tak jak nazywa je
 #: ``olski/attachment.py`` w polu ``host``.
@@ -82,32 +64,6 @@ CZASOWNIK, RZECZOWNIK = "clause", "noun"
 #: wskazuje gospodarza z powodu, który da się autorowi pokazać, a rozstrzyga to
 #: dopiero czytanie odpowiedzi.
 PRZYKŁADY = 12
-
-
-def _pewność(schemat: str) -> str:
-    """Kwalifikator pewności schematu, czyli pierwsze pole za lematem."""
-    return schemat.split(":")[0].strip()
-
-
-def przyimki(schematy_lematu: Sequence[str], tylko_pewne: bool = False) -> frozenset[str]:
-    """Przyimki, których ten lemat żąda pozycją niepodmiotową.
-
-    Pozycja zleksykalizowana odpada cała, a nie sam jej przyimek: żądanie w niej
-    dotyczy słowa, które w niej stoi, więc o ramie lematu nie mówi nic.
-    """
-    znalezione: set[str] = set()
-    for schemat in schematy_lematu:
-        pewność = _pewność(schemat)
-        if pewność not in BRANE or (tylko_pewne and pewność != PEWNY):
-            continue
-        for etykieta, żądanie in pozycje(schemat):
-            if PODMIOT in etykieta:
-                continue
-            for wariant in żądanie.split(";"):
-                if ZLEKSYKALIZOWANA in wariant:
-                    continue
-                znalezione.update(PRZYIMKOWA.findall(wariant))
-    return frozenset(znalezione)
 
 
 @dataclass(frozen=True)

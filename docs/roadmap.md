@@ -220,8 +220,8 @@ Zaliczone: rama czasownika jest cechą braną z leksykonu,
 który ma ramę domyślną i wpis na każdy lemat węższy od niej,
 zob. [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
 
-Leksykon urósł po tym etapie i urósł jednym zdaniem na lemat:
-że czasownik nie bierze dopełnienia w bierniku, wzięte z Walentego.
+Leksykon urósł po tym etapie i urósł zdaniami na lemat oraz kolumną przyimków,
+którą czyta warstwa rozstrzygająca, a nie gramatyka.
 Etap kupował mechanizm, a nie leksykon, i to widać po tym, czym urośnięcie było:
 zmianą danych i jednego wymiaru klucza, a nie zmianą ani jednej produkcji.
 
@@ -600,9 +600,9 @@ a `olski/rozstrzyganie.py` jest jej zalążkiem stojącym obok werdyktu i nie ru
 Wykluczenie dotyczy przy tym rankingu, a nie każdej odpowiedzi takiej warstwy,
 a granicę między jednym a drugim wyznacza
 [hipoteza tamtego dokumentu](disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
-Frazy przyimkowej, której czasownik albo rzeczownik żąda swoim schematem,
-nie rozstrzyga maszyna za parserem, tylko kolumna,
-której `olski/leksykon.txt` nie ma, a którą wypisałby `olski/walenty.py`,
+Frazy przyimkowej, której rzeczownik żąda swoim schematem,
+nie rozstrzyga maszyna za parserem, tylko kolumna `olski/leksykon.txt`,
+którą wypisuje `olski/walenty.py`,
 czyli generator zbudowany na [etapie 2](#etap-2-walencja)
 ([disambiguation.md](disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)).
 Odpowiedź wyczytana ze słownika nie potrzebuje więc etapu i etapem nie jest.

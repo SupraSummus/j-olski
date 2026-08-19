@@ -23,16 +23,18 @@ wszędzie tam, gdzie oba mówią coś naraz. Pod kolejnością tą nie ma porów
 dwóch trafności, tylko hipoteza: dobre ujednoznacznianie jest odczytaniem tego,
 co czytelnik ma przed sobą, a częstość nad cudzym korpusem odczytaniem nie jest,
 choćby trafiała częściej (``docs/disambiguation.md``).
-Świadków jest dwóch:
-:class:`Powtórzenie` czyta akapit, w którym zdanie stoi, a :class:`Skłonność`
-bank drzew, którego nikt z autorem tego tekstu nie uzgadniał.
+Świadków jest trzech:
+:class:`Powtórzenie` czyta akapit, w którym zdanie stoi, :class:`Rama` leksykon
+walencyjny, a :class:`Skłonność` bank drzew, którego nikt z autorem tego tekstu
+nie uzgadniał. Rama stoi w środku, bo słownik mówi o polszczyźnie, a nie o tym
+tekście ani o cudzym korpusie: powtórzenie ją bije, a ona bije częstość.
 
-Trzeci, który tu należy i którego nie ma, to rama walencyjna: fraza, której
-czasownik albo rzeczownik żąda swoim schematem, nie konkuruje z niczym, tylko
-łamie schemat po drugiej stronie, a nad Składnicą jest to 790 z 4 517 wyrażeń
-w pozycji spornej (``docs/subset.md``). Nie da się go dziś napisać, bo
-``olski/leksykon.txt`` mówi o bierniku i o bezokoliczniku, a o przyimku nie mówi;
-co trzeba zmienić w ``olski/walenty.py``, żeby mówił, trzyma ``TODO.md``.
+**Świadek ramowy odpowiada schematem, a nie konkurencją między czytaniami.**
+Fraza, której rzeczownik żąda swoim schematem, przeczytana po stronie czasownika
+łamie ten schemat, a nad Składnicą pozycję taką ma 790 z 4 517 wyrażeń
+spornych (``docs/subset.md``). Wskazuje sam rzeczownik i jest to połowa
+kryterium, o którą pytano: po stronie czasownika ta sama rama trafia tyle, ile
+rzut monetą, więc zostaje tam wetem, a nie wskazaniem (``docs/disambiguation.md``).
 
 **Świadek kontekstowy odpowiada powtórzeniem, a nie znajomością rzeczy.**
 :class:`Powtórzenie` szuka w akapicie miejsca, w którym ta sama fraza stała już
@@ -71,6 +73,7 @@ from olski.document import Document
 from olski.morph import analyse
 from olski.parse import Przyłączenie
 from olski.subset import KOPULA
+from olski.walencja import przyimki_czasownika, przyimki_rzeczownika
 
 #: Plik z tabelą skłonności, generowany i czytany przy pierwszym pytaniu.
 SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"
@@ -196,7 +199,58 @@ def _pierwszy(
 
 def domyślni() -> list[Świadek]:
     """Świadkowie w kolejności rodzaju dowodu, od tekstu autora do cudzego korpusu."""
-    return [Powtórzenie(), Skłonność.z_pliku()]
+    return [Powtórzenie(), Rama(), Skłonność.z_pliku()]
+
+
+#: Kandydat na gospodarza: etykieta, którą wypisze wskazanie,
+#: strona wyboru, po której ten gospodarz stoi (:func:`strona`),
+#: i lematy jego formy.
+#: Lematów jest kilka, bo warstwa stoi za parserem, który lematu nie wybrał
+#: (``signature`` w ``olski/parse.py``).
+Kandydat = tuple[str, str, Iterable[str]]
+
+
+class Pytany(Protocol):
+    """Świadek, którego dowodem jest przyimek i kandydaci na gospodarza.
+
+    Takich świadków jest dwóch — :class:`Rama` i :class:`Skłonność` —
+    a różni ich dowód, nie droga do niego,
+    więc drogą jest dla obu :func:`_wskaż`,
+    a :meth:`wybierz` jest tym, czym się różnią.
+    Tym samym protokołem pyta ich :func:`oceń`,
+    bo wypadek banku drzew przyłączeniem nie jest
+    i sygnatury :class:`Świadek` nie ma czym wypełnić.
+    """
+
+    def wybierz(self, przyimek: str, kandydaci: Sequence[Kandydat]) -> tuple[str, str] | None:
+        """Etykieta wskazanego gospodarza wraz z powodem; ``None`` znaczy milczenie."""
+
+
+def _wskaż(świadek: Pytany, przyłączenie: Przyłączenie) -> Rozstrzygnięcie | None:
+    """Odpowiedź świadka, którego pyta się o przyimek i o kandydatów.
+
+    Przyimkiem jest pierwsza forma modyfikatora, a kandydatami jego gospodarze.
+    Poniżej dwóch gospodarzy nie ma wyboru, więc nie ma czego rozstrzygać.
+
+    Sąsiedztwa nie czyta ani jeden z tych świadków:
+    jeden pyta słownik, drugi bank drzew,
+    a żadne z dwojga o tym tekście nie wie nic.
+    Biorą je, bo sygnatura :class:`Świadek` jest jedna.
+    """
+    formy = przyłączenie.modyfikator.split()
+    if not formy or len(przyłączenie.gospodarze) < 2:
+        return None
+    kandydaci = [
+        (gospodarz, strona(gospodarz), _lematy(gospodarz))
+        for gospodarz in przyłączenie.gospodarze
+    ]
+    wybrany = świadek.wybierz(formy[0].lower(), kandydaci)
+    if wybrany is None:
+        return None
+    gospodarz, powód = wybrany
+    return Rozstrzygnięcie(
+        modyfikator=przyłączenie.modyfikator, gospodarz=gospodarz, powód=powód
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -454,6 +508,133 @@ class Powtórzenie:
 
 
 # --------------------------------------------------------------------------- #
+# Świadek ramowy
+# --------------------------------------------------------------------------- #
+
+#: Skąd świadek ramowy bierze ramę:
+#: lemat i strona wyboru, po której ten lemat stoi,
+#: a z nich przyimki, których rama tego słowa żąda.
+#: Podstawiane tak samo jak :attr:`Skłonność.licznik` i z tego samego powodu:
+#: ``olski/leksykon.txt`` jest generowany,
+#: więc test na nim oparty pilnowałby Walentego, a nie świadka.
+Leksykon = Callable[[str, str], frozenset[str]]
+
+
+def _leksykon(lemat: str, gdzie: str) -> frozenset[str]:
+    """Przyimki, których żąda rama tego słowa po tej stronie wyboru.
+
+    Strona rozstrzyga o klasie słowa,
+    bo rzeczownik i czasownik mają w leksykonie osobne wpisy,
+    a nazywa ją :func:`strona` — jedno miejsce,
+    w którym ta warstwa orzeka, po której stronie gospodarz stoi.
+    """
+    return przyimki_rzeczownika(lemat) if gdzie == RZECZOWNIK else przyimki_czasownika(lemat)
+
+
+@dataclass(frozen=True)
+class Rama:
+    """Gospodarz imienny, którego rama żąda tego przyimka, gdy rama czasownika go nie żąda.
+
+    Dowodem jest słownik, a nie częstość, i tym ten świadek różni się
+    od :class:`Skłonność`:
+    fraza, której schemat jednej ze stron żąda, przeczytana po drugiej stronie
+    łamie ten schemat,
+    więc wskazanie da się sprawdzić jednym wierszem ``olski/leksykon.txt``,
+    a nie wolno go przenieść na inną parę słów.
+
+    **Wskazuje sam rzeczownik i jest to połowa kryterium, a nie jego całość.**
+    Obie strony wyceniono przed dopisaniem świadka (``sonda/rama.py``)
+    i wypadły inaczej:
+    rama rzeczownika myli się rzadziej niż raz na dwadzieścia odpowiedzi,
+    a rama czasownika tyle, ile rzut monetą nad wyborem dwóch stron.
+    Powodem jest brak ramy, a nie rama:
+    czasownik żąda przyimków tak licznie,
+    że jego schemat pasuje do okolicznika, o którym nie mówi nic.
+
+    **Rama czasownika zostaje przez to wetem.**
+    Żądanie obustronne kończy się milczeniem,
+    bo schematu nie łamie wtedy żadne czytanie,
+    i to samo weto odbiera wskazanie tam, gdzie żąda sam czasownik.
+    Weto kosztuje zasięg — bez niego świadek odpowiada blisko dwa razy częściej —
+    a kupuje powód pod wskazaniem:
+    bez weta powód mówi o jednej stronie i milczy o drugiej.
+    Obie ceny wypisuje ``--oceń``,
+    a wywód nad nimi trzyma ``docs/disambiguation.md``.
+
+    Milczy, gdy przyimka żąda rama więcej niż jednego gospodarza imiennego,
+    bo dowód wskazujący dwie strony naraz nie wskazuje żadnej —
+    tak samo jak :class:`Powtórzenie`.
+    """
+
+    nazwa: str = "rama"
+    #: Czy żądanie po stronie czasownika odbiera wskazanie.
+    #: Podstawiane po to, żeby cena weta wychodziła z wariantu,
+    #: a nie z różnicy między commitami:
+    #: wypisuje ją ``--oceń``, tak samo jak krzywą progów świadka statystycznego.
+    weto: bool = True
+    #: Rama słowa, domyślnie z ``olski/leksykon.txt`` (:data:`Leksykon`).
+    leksykon: Leksykon = _leksykon
+
+    def __call__(
+        self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo = PUSTE
+    ) -> Rozstrzygnięcie | None:
+        return _wskaż(self, przyłączenie)
+
+    def wybierz(self, przyimek: str, kandydaci: Sequence[Kandydat]) -> tuple[str, str] | None:
+        """Gospodarz imienny, którego rama żąda tego przyimka, wraz z powodem.
+
+        Jedno miejsce, w którym kryterium rozstrzyga, bo pytają o nie dwie strony,
+        tak samo jak przy :meth:`Skłonność.wybierz`:
+        werdykt, który ma formy gospodarzy,
+        i ocena, która ma lematy z banku drzew.
+
+        Przyimek idzie przez lemat, bo ``z`` i ``ze`` są jednym słowem,
+        a Walenty wypisuje w schemacie lemat.
+        Tą samą drogą idzie fraza u :meth:`Sąsiedztwo.przy_czym_stała`.
+
+        Drugi człon powodu należy do weta, więc wariant bez weta go nie wypisuje:
+        powód ma mówić, co świadek sprawdził, a nie co sprawdza zwykle.
+        """
+        przyimki = _lematy(przyimek)
+        if self.weto and any(
+            przyimki & self.leksykon(lemat, CZASOWNIK)
+            for _etykieta, gdzie, lematy in kandydaci
+            if gdzie == CZASOWNIK
+            for lemat in lematy
+        ):
+            return None
+        wskazani = []
+        for etykieta, gdzie, lematy in kandydaci:
+            if gdzie != RZECZOWNIK:
+                continue
+            if (żądanie := self._żądający(przyimki, lematy)) is not None:
+                wskazani.append((etykieta, *żądanie))
+        if len(wskazani) != 1:
+            return None
+        etykieta, lemat, przyimek_ramy = wskazani[0]
+        powód = f"„{przyimek_ramy}” jest pozycją ramy „{lemat}”"
+        if self.weto:
+            powód += ", a rama czasownika tej pozycji nie ma"
+        return etykieta, powód
+
+    def _żądający(
+        self, przyimki: frozenset[str], lematy: Iterable[str]
+    ) -> tuple[str, str] | None:
+        """Pierwszy lemat tej formy, którego rama żąda któregoś z tych przyimków.
+
+        Wraca wraz z tym przyimkiem, bo powód go cytuje.
+        Pierwszy, a nie każdy, bo liczą się gospodarze, a nie lematy:
+        gospodarz o dwóch lematach żądających jest jednym wskazaniem, a nie dwoma.
+        Alfabet rozstrzyga, gdy żąda kilka naraz — tak jak w :func:`_pasujący`,
+        i z tego samego powodu: powód ma wyjść ten sam w każdym przebiegu.
+        """
+        for lemat in sorted(lematy):
+            if pasujące := przyimki & self.leksykon(lemat, RZECZOWNIK):
+                return lemat, sorted(pasujące)[0]
+        return None
+
+
+# --------------------------------------------------------------------------- #
 # Świadek statystyczny
 # --------------------------------------------------------------------------- #
 
@@ -483,43 +664,18 @@ class Skłonność:
     def __call__(
         self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo = PUSTE
     ) -> Rozstrzygnięcie | None:
-        #  Sąsiedztwa ten świadek nie czyta: liczy bank drzew, a bank drzew o
-        #  tym tekście nie wie nic. Bierze je, bo sygnatura jest jedna.
-        formy = przyłączenie.modyfikator.split()
-        if not formy or len(przyłączenie.gospodarze) < 2:
-            return None
-        przyimek = formy[0].lower()
-        kandydaci = [
-            (gospodarz, strona(gospodarz), _lematy(gospodarz))
-            for gospodarz in przyłączenie.gospodarze
-        ]
-        wybrany = self.wybierz(przyimek, kandydaci)
-        if wybrany is None:
-            return None
-        gospodarz, _, trafień, wszystkich = wybrany
-        return Rozstrzygnięcie(
-            modyfikator=przyłączenie.modyfikator,
-            gospodarz=gospodarz,
-            powód=(
-                f"„{przyimek}” przy „{gospodarz}” doszło tam w {trafień} z {wszystkich} "
-                f"wypadków banku drzew, {trafień / wszystkich:.0%}"
-            ),
-        )
+        return _wskaż(self, przyłączenie)
 
-    def wybierz(
-        self, przyimek: str, kandydaci: Sequence[tuple[str, str, Iterable[str]]]
-    ) -> tuple[str, str, int, int] | None:
-        """Kandydat o najwyższej skłonności, albo ``None``, gdy żaden nie przechodzi progów.
+    def wybierz(self, przyimek: str, kandydaci: Sequence[Kandydat]) -> tuple[str, str] | None:
+        """Kandydat o najwyższej skłonności wraz z powodem, albo ``None`` poniżej progów.
 
         Jedno miejsce, w którym progi rozstrzygają, bo pytają o to dwie strony:
         werdykt, który ma formy gospodarzy, i ocena, która ma lematy z banku drzew.
         Druga kopia tej reguły kazałaby ocenie mierzyć innego świadka niż ten,
         którego wypuszcza ``olski-check``.
 
-        Kandydat jest trójką ``(etykieta, strona, lematy)``, bo forma gospodarza
-        ma lematów kilka, a warstwa ta stoi za parserem, który lematu nie wybrał
-        (``signature`` w ``olski/parse.py``), więc liczniki sumują się po nich.
-        Podnosi to wsparcie i rozmywa skłonność, a rozmycie kończy się milczeniem.
+        Liczniki sumują się po lematach formy (:data:`Kandydat`), co podnosi
+        wsparcie i rozmywa skłonność, a rozmycie kończy się milczeniem.
         """
         najlepszy = None
         for etykieta, strona, lematy in kandydaci:
@@ -528,8 +684,14 @@ class Skłonność:
                 continue
             udział = trafień / wszystkich
             if najlepszy is None or udział > najlepszy[0]:
-                najlepszy = (udział, etykieta, strona, trafień, wszystkich)
-        return najlepszy[1:] if najlepszy else None
+                najlepszy = (udział, etykieta, trafień, wszystkich)
+        if najlepszy is None:
+            return None
+        _udział, etykieta, trafień, wszystkich = najlepszy
+        return etykieta, (
+            f"„{przyimek}” przy „{etykieta}” doszło tam w {trafień} z {wszystkich} "
+            f"wypadków banku drzew, {trafień / wszystkich:.0%}"
+        )
 
     def _para(self, przyimek: str, strona: str, lematy: Iterable[str]) -> tuple[int, int]:
         """Liczniki pary, zsumowane po podanych lematach."""
@@ -722,19 +884,64 @@ class Ocena:
 KRZYWA = ((2, 0.70), (2, 0.85), (3, 0.85), (5, 0.85), (5, 0.95))
 
 
+def _kandydaci(rzeczownik: str, czasownik: str) -> list[tuple[str, str, list[str]]]:
+    """Dwie strony wyboru jako kandydaci, tacy jak buduje je świadek nad werdyktem.
+
+    Lematy idą tu wprost z banku drzew, a nie przez Morfeusza, bo anotator wybrał
+    po jednym na formę. Ile wieloznaczność lematu dokłada świadkom nad żywym
+    tekstem, jest osobnym pytaniem, i po stronie ramy pytaniem drugim: etykietę
+    strony daje tu bank drzew, a nad werdyktem daje ją ``strona``, która czyta
+    czytania formy.
+    """
+    return [
+        (RZECZOWNIK, RZECZOWNIK, [rzeczownik]),
+        (CZASOWNIK, CZASOWNIK, [czasownik]),
+    ]
+
+
+def _zmierz(świadkowie: Sequence[Pytany], testowe: Sequence[Wypadek]) -> Ocena:
+    """Zasięg i trafność tej kolejności świadków nad tymi wypadkami.
+
+    Kolejność, a nie jeden świadek, bo mierzy się tu warstwę, a nie tylko jej
+    części: świadek postawiony przed drugim zabiera mu odpowiedzi, więc para
+    trafności każdego z osobna nie mówi, co warstwa robi razem.
+    Pierwszy odpowiadający wygrywa, tak samo jak w :func:`_pierwszy`.
+    """
+    ocena = Ocena(wypadków=len(testowe))
+    for przyimek, rzeczownik, czasownik, gospodarz in testowe:
+        kandydaci = _kandydaci(rzeczownik, czasownik)
+        for świadek in świadkowie:
+            wybrany = świadek.wybierz(przyimek, kandydaci)
+            if wybrany is not None:
+                ocena.odpowiedzi += 1
+                ocena.trafień += wybrany[0] == gospodarz
+                break
+    return ocena
+
+
 def oceń(
     paths: Sequence[Path], krzywa: Sequence[tuple[int, float]] = KRZYWA
-) -> tuple[list[tuple[int, float, Ocena]], Ocena]:
-    """Zbuduj tabelę na połowie banku drzew i sprawdź ją na drugiej.
+) -> tuple[list[tuple[int, float, Ocena]], list[tuple[str, Ocena]], Ocena]:
+    """Zbuduj tabelę na połowie banku drzew i sprawdź na drugiej całą warstwę.
 
     Podział idzie po parzystości numeru pliku, a nie losowaniem, żeby ta sama
     komenda dwa razy dała tę samą liczbę. Obie połowy czyta się raz, a ustawienia
     przechodzi się po gotowych czwórkach, bo czytanie lasów jest tu całym kosztem.
 
-    Wraca krzywa świadka i ocena podłogi, czyli tego samego pomiaru dla reguły
-    „zawsze do rzeczownika”: świadek, który podłogi nie pobija, nie kupuje
-    niczego, bo nad tym korpusem rzeczownik bierze dwie trzecie wyborów
-    (``docs/subset.md``).
+    Wracają trzy rzeczy. Pierwszą jest krzywa świadka statystycznego, bo próg
+    kupuje się zasięgiem i odwrotnie. Drugą są warianty świadka ramowego wraz ze
+    złożeniem obu, bo świadek stojący przed drugim zabiera mu odpowiedzi i dopiero
+    złożenie mówi, co warstwa robi razem. Trzecią jest ocena podłogi, czyli tego
+    samego pomiaru dla reguły „zawsze do rzeczownika”: świadek, który podłogi nie
+    pobija, nie kupuje niczego, bo nad tym korpusem rzeczownik bierze dwie trzecie
+    wyborów (``docs/subset.md``).
+
+    Świadka kontekstowego tu nie ma i nie jest to przeoczenie: jego dowodem jest
+    akapit, a bank drzew wypadków w akapity nie układa.
+
+    Podziału na połowy świadek ramowy nie potrzebuje, bo tabeli z banku drzew nie
+    buduje, i mimo to mierzy się go na tej samej połowie: dwie liczby porównywalne
+    mają pochodzić z jednego materiału.
     """
     najniższe = min(wsparcie for wsparcie, _ in krzywa)
     licznik = zbuduj(wypadki(paths[::2]), najniższe)
@@ -743,25 +950,25 @@ def oceń(
     podłoga = Ocena(wypadków=len(testowe), odpowiedzi=len(testowe))
     podłoga.trafień = sum(gospodarz == RZECZOWNIK for *_, gospodarz in testowe)
 
-    krzywe = []
-    for wsparcie, próg in krzywa:
-        świadek = Skłonność(licznik=licznik, wsparcie=wsparcie, próg=próg)
-        ocena = Ocena(wypadków=len(testowe))
-        for przyimek, rzeczownik, czasownik, gospodarz in testowe:
-            #  Lematy idą tu wprost z banku drzew, a nie przez Morfeusza, bo
-            #  anotator wybrał po jednym na formę. Ile wieloznaczność lematu
-            #  dokłada świadkowi nad żywym tekstem, jest osobnym pytaniem.
-            kandydaci = [
-                (RZECZOWNIK, RZECZOWNIK, [rzeczownik]),
-                (CZASOWNIK, CZASOWNIK, [czasownik]),
-            ]
-            wybrany = świadek.wybierz(przyimek, kandydaci)
-            if wybrany is None:
-                continue
-            ocena.odpowiedzi += 1
-            ocena.trafień += wybrany[0] == gospodarz
-        krzywe.append((wsparcie, próg, ocena))
-    return krzywe, podłoga
+    krzywe = [
+        (
+            wsparcie,
+            próg,
+            _zmierz([Skłonność(licznik=licznik, wsparcie=wsparcie, próg=próg)], testowe),
+        )
+        for wsparcie, próg in krzywa
+    ]
+    tabela = Skłonność(licznik=licznik)
+    #  Weto ma tu dwa wiersze, bo jego cena jest inna dla świadka i dla warstwy:
+    #  sama rama traci przez nie odpowiedzi, a warstwa traci tylko te,
+    #  na których tabela za ramą też milczy.
+    warianty = [
+        ("rama", _zmierz([Rama()], testowe)),
+        ("rama bez weta", _zmierz([Rama(weto=False)], testowe)),
+        ("rama, a za nią skłonność", _zmierz([Rama(), tabela], testowe)),
+        ("rama bez weta, a za nią skłonność", _zmierz([Rama(weto=False), tabela], testowe)),
+    ]
+    return krzywe, warianty, podłoga
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -794,12 +1001,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         zapisz(licznik, args.zbuduj)
         print(f"{len(licznik)} par o wsparciu co najmniej {args.wsparcie} → {args.zbuduj}")
     if args.oceń or not args.zbuduj:
-        krzywe, podłoga = oceń(ścieżki)
+        krzywe, warianty, podłoga = oceń(ścieżki)
         print(f"ocena na połowie, której świadek nie widział: {podłoga.wypadków} wyborów")
         print(f"  podłoga: zawsze do rzeczownika, trafia w {podłoga.trafność:.1%}")
         for wsparcie, próg, ocena in krzywe:
             print(
                 f"  wsparcie {wsparcie}, próg {próg:.0%}: "
+                f"odpowiada w {ocena.zasięg:>5.1%}, trafia w {ocena.trafność:>5.1%}"
+            )
+        for etykieta, ocena in warianty:
+            print(
+                f"  {etykieta}: "
                 f"odpowiada w {ocena.zasięg:>5.1%}, trafia w {ocena.trafność:>5.1%}"
             )
     return 0

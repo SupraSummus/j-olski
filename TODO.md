@@ -1555,38 +1555,51 @@ czyli odwrotnie, niż czyta czytelnik.
 Wpis jest więc o pytaniu, a nie o odpowiedzi:
 warstwa, która pytania nie dostaje, nie umie nawet przemilczeć.
 
-Świadek ramowy jest wyceniony i wchodzi połową: rzeczownikiem, a nie czasownikiem.
-`olski/rozstrzyganie.py` obiecuje w docstringu świadka, który wskazuje gospodarza wtedy,
-gdy schemat jednej ze stron tej frazy żąda, i jest to obietnica niedotrzymana,
-bo `olski/leksykon.txt` mówi o bierniku i o bezokoliczniku, a fraza sporna jest przyimkowa.
-`sonda/rama.py` mierzy to kryterium nad Walentym i bankiem drzew, nie ruszając leksykonu,
-a rozstrzyga o ruchu strona: rama rzeczownika myli się rzadziej niż raz na dwadzieścia
-odpowiedzi, a rama czasownika tyle, ile rzut monetą, przy dwa razy większym zasięgu
+Świadek ramowy pyta o przyimek i nie pyta o przypadek grupy pod nim,
+więc jego zasięg jest oszacowaniem górnym po obu stronach sporu.
+Walenty pisze `prepnp(o,loc)` obok `prepnp(o,acc)`, a `Attachment`
+w `olski/attachment.py` niesie sam przyimek, więc `informacja o błędzie` pasuje
+do obu wpisów naraz i tak samo pasuje do nich rama czasownika,
+czyli weto pada częściej, niż powinno, i częściej pada też wskazanie.
+Ruchem jest przypadek wydawany przez `Attachment` wraz z kolumną leksykonu, która go
+niesie, i pytanie o obie wartości naraz — w `przyimki` w `olski/walenty.py`
+oraz w `Rama` w `olski/rozstrzyganie.py`, bo kryterium jest jedno.
+Do przeczytania jest, ile ten zwrot zdejmuje: pod `--tylko-pewne` żadna liczba
+sondy nie ruszyła się o więcej niż pół punktu, więc pewność schematu tej klasy nie
+odróżnia, a przypadek jest drugim zwężeniem, jakie ten słownik daje bez czytania
+schematów ręką
 ([`docs/disambiguation.md`](docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
-Ruchem jest wobec tego `olski/walenty.py` czytający pozycje `prepnp`
-z pliku rzeczownikowego Walentego i wypisujący je do leksykonu kolumną,
-której ten plik jeszcze nie ma, a potem świadek pytający o samego gospodarza imiennego
-i postawiony przed `Skłonność` w `domyślni`, bo dowód słownikowy bije statystyczny.
-Do rozstrzygnięcia jest, czym ma być kolumna dla lematu, którego rama żąda dwóch przyimków,
-bo dotychczasowe kolumny są zdaniami prawda-fałsz, a ta jest zbiorem.
-Do przeczytania jest `zdania` w `olski/walenty.py`, czyli miejsce, w którym wpis
-o samej ramie domyślnej nie wchodzi do pliku,
-oraz dwanaście odpowiedzi, które ta sonda wypisuje:
-trafność wzięta nad bankiem drzew nie mówi, czy powód da się pokazać autorowi.
-`przyimki` w `sonda/rama.py` jest przy tym tym samym pytaniem, które generator zada,
-i stoi w sondzie tylko dlatego, że sonda jest dziś jedynym pytającym,
-więc razem z kolumną przenosi się do `olski/walenty.py`, obok `pozycje` i `schematy`,
-skąd ta sonda bierze już resztę. Dwie kopie tego kryterium rozeszłyby się cicho,
-bo rozejście widać dopiero w liczbach, a nie w wydruku.
-Regeneracja leksykonu i przeliczenie
-[tabeli świadka](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)
-idą razem z tym wpisem.
-Po stronie czasownika ruchu nie ma i odmowa jest wyceniona:
-kryterium myli się tam na braku ramy, a nie na ramie,
-bo schemat czasownika pasuje do okolicznika, o którym nie mówi nic.
-Zwężeniem, które warto przy tym zmierzyć, jest przypadek grupy pod przyimkiem —
-`prepnp(o,loc)` obok `prepnp(o,acc)` — czego `Attachment` w `olski/attachment.py` nie wydaje,
-więc sonda pyta dziś o sam przyimek i jej zasięg jest oszacowaniem górnym.
+Wpis jest winien przebiegi `sonda/rama.py` oraz `--oceń`, bo rusza obie ich pary liczb.
+
+Świadek ramowy nie widzi gospodarza imiennego, którego forma ma czytanie czasownikowe.
+Stronę gospodarza nazywa `strona` w `olski/rozstrzyganie.py`, a nazywa ją po
+„którymkolwiek czytaniu”, więc `opieka` trafia na stronę czasownikową przez lemat
+`opiekać`, a rama `opieka`, która żąda `nad`, nie ma wtedy czego wskazać.
+Odpowiedź `uzyskać` z `nad` przy `opieka` stoi wypisana wśród dwunastu, które
+drukuje `sonda/rama.py`, i tam trafia, bo tam stronę daje bank drzew, a nie Morfeusz.
+Wskazania świadek przez to nie myli, tylko milczy, więc cena stoi w zasięgu.
+Ruchem nie jest drugie kryterium obok `strona`:
+o `strona` pyta także `sonda/wskazania.py`, więc druga reguła rozeszłaby się z nią
+cicho, a rozejście widać dopiero w liczbach.
+Ruchem jest albo rodzaj konstytuentu wniesiony do `Przyłączenie` w `olski/parse.py` —
+gramatyka go zna, bo `gospodarze` w `DEKLARACJA` wylicza symbole, na których
+zejście się zatrzymuje, a wpis przyłączenia niesie same głowy —
+albo zgoda na to, że warstwa stronę zgaduje z czytań formy, wypisana w `strona`.
+Do przeczytania jest, ile ta klasa waży: liczbę daje przebieg, który pyta ramy
+o gospodarza po obu stronach naraz, zamiast po tej, którą wybrała `strona`.
+
+Nie wiadomo, ile świadek ramowy odpowiada nad rejestrem docelowym.
+Zasięg ogranicza mu słownik, a nie kryterium: plik rzeczownikowy Walentego wylicza
+1 996 lematów, więc rzeczownik spoza tej listy jest dla świadka rzeczownikiem bez
+ramy, a nie rzeczownikiem, którego rama tej pozycji nie ma.
+Liczby są dwie i bank drzew nie mówi ani o jednej:
+ile pozycji spornych `olski/wieloznaczność.py` wypuszcza nad korpusem audytowym
+z rzeczownikiem wypisanym w Walentym, i na ilu z nich świadek odpowiada.
+Ruchem jest wiersz w `sonda/wskazania.py` albo osobny przebieg nad `proza/`,
+wzorowany na `sonda/powtórzenie.py`, który tę populację już liczy
+([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+Do rozstrzygnięcia jest, czy ta liczba jest wierszem tabeli świadków,
+czy figurą osobną: tabela liczy odpowiedzi, a to jest pytanie o mianownik pod nimi.
 
 Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma siedemnaście.
 `sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
@@ -1673,6 +1686,9 @@ Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widzia
 przebieg idzie, więc 96,1% spod
 [tabeli nad werdyktami](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
 jest sufitem, a nie pomiarem.
+Dotyczy to samej tabeli, a nie każdego świadka:
+`Rama` czyta leksykon wyprowadzony z Walentego, więc materiału tego przebiegu nie
+widziała, a wiersz o niej jest pomiarem, a nie sufitem.
 Ruchem jest podział taki, jaki ma już `oceń` w `olski/rozstrzyganie.py`:
 tabela z połowy plików o numerze parzystym, przebieg po nieparzystych,
 czyli flaga podająca sondzie świadków zbudowanych z tamtej połowy zamiast z pliku.
@@ -1746,6 +1762,10 @@ Do przeczytania jest, ile z trzydziestu sądów pierwsza droga każe wziąć dru
 bo od tego zależy, która jest tańsza.
 Tego samego rozstrzygnięcia żąda `próba/wybory-z-odpowiedzią.txt`, i ostrzej,
 bo tam populację rusza każda zmiana w warstwie, a nie tylko zmiana w szukaczu pozycji.
+Ruszyła ją już jedna: świadek ramowy stanął przed tabelą, więc część odpowiedzi
+przeczytanych w tym pliku jako odpowiedzi tabeli wydaje teraz rama, i wniosek
+[tamtej sekcji](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
+mówi o tym, co tabela robiła, a nie o tym, co warstwa robi.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
@@ -1831,12 +1851,13 @@ więc `narzędzie do podpisu` czy `moduł do fakturowania` są tam budulcem.
 Ruchem jest trzecia pozycja dopisana do `olski/wieloznaczność.py`,
 który dwie takie liczy nad korpusem audytowym i ma na to całą maszynerię:
 rzeczownik, forma osobowa, a za nią przyimek, który ten rzeczownik bierze.
-Do przeczytania jest najpierw to, skąd wziąć ostatni warunek,
-bo `olski/leksykon.txt` ma ramy czasowników i nic o przyimku przy rzeczowniku,
-a `olski/walenty.py` bierze z Walentego tylko je.
-Bez tego pozycja liczy się z listy pisanej ręcznie
-i jest warta tyle, co ta lista,
-czyli mniej niż dwie pozycje, obok których by stanęła.
+Ostatni warunek ma skąd się wziąć:
+`olski/leksykon.txt` niesie przyimki ramy rzeczownika, a pyta o nie
+`przyimki_rzeczownika` w `olski/walencja.py`, czyli ta sama droga, którą pyta
+świadek ramowy.
+Do przeczytania jest zasięg tej kolumny nad tym korpusem, bo plik rzeczownikowy
+Walentego wylicza 1 996 lematów, a `narzędzie` i `moduł` są tu tymi, na których
+wszystko stoi: pozycja licząca się z ramy nieobecnej liczy zero i nie mówi tego.
 
 Nie wiadomo, ile zdań przyjętych opiera się na czytaniu,
 którego polszczyzna nie ma.
@@ -2295,6 +2316,9 @@ Ruchem jest ta kolumna, czyli przyimek dopisany przy rzeczowniku, a nie przy rel
 wraz z rozstrzygnięciem, czy milczenie takiego leksykonu odmawia, jak przy przyimkach,
 czy przepuszcza, jak przy ramie domyślnej czasownika;
 świadka w słowniku ta wiedza nie ma, bo SGJP kolokacji nie znakuje.
+Świadkiem nie jest przy tym kolumna przyimków w `olski/leksykon.txt`, choć wygląda
+na niego: mówi ona, jakiego przyimka żąda rama rzeczownika — `informacja o czymś` —
+a nie, którym przyimkiem mówi się o rzeczy, że coś jest przy niej.
 
 Aspekt bezokolicznika nie jest sprawdzany, a czasownik nad nim go wybiera:
 `zacząć` żąda niedokonanego, więc `Czeladnik zaczął zapłakać.`

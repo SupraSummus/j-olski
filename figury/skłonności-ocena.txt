@@ -1,0 +1,22 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury skłonności-ocena
+polecenie: python3 -m olski.rozstrzyganie Składnica-frazowa-180723/ --oceń
+korpus: Składnica-frazowa-180723
+czyta: docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek
+czyta: docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie
+ruszają:
+  olski/rozstrzyganie.py: 954505cb908a
+  olski/attachment.py: a038f514f84e
+  olski/corpus.py: 3b9e9f5cfa5c
+  olski/leksykon.txt: 00193493b3ea
+
+ocena na połowie, której świadek nie widział: 2000 wyborów
+  podłoga: zawsze do rzeczownika, trafia w 66.8%
+  wsparcie 2, próg 70%: odpowiada w 13.4%, trafia w 89.9%
+  wsparcie 2, próg 85%: odpowiada w 12.8%, trafia w 89.5%
+  wsparcie 3, próg 85%: odpowiada w  7.3%, trafia w 89.8%
+  wsparcie 5, próg 85%: odpowiada w  3.0%, trafia w 96.7%
+  wsparcie 5, próg 95%: odpowiada w  2.3%, trafia w 97.8%
+  rama: odpowiada w 12.7%, trafia w 96.8%
+  rama bez weta: odpowiada w 21.8%, trafia w 92.2%
+  rama, a za nią skłonność: odpowiada w 21.3%, trafia w 92.3%
+  rama bez weta, a za nią skłonność: odpowiada w 27.3%, trafia w 90.3%
