@@ -73,12 +73,25 @@ OKOLICZNIKOWY = "AdverbialClause"
 #: nazywa całym napisem, tak samo jak wnętrze podmiotu.
 PYTAJNY = "Interrogative"
 
+#: Rola rzeczownika, który orzeka bez czasownika: `mowa` w `zadania, o których
+#: mowa w ustawie`. Rolą jest z tego samego powodu, z którego jest nią grupa
+#: pytajna: werdykt nazywa role etykietami węzłów, a zdanie z tym rzeczownikiem
+#: nie ma ani podmiotu, ani czasownika, więc przyjęte bez tej etykiety wychodziłoby
+#: `valid` bez ani jednej roli, czyli bez słowa o tym, co olski w nim przyjął.
+#:
+#: Rola stoi obok `Predicative`, a nie jest nią, bo orzecznik jest pozycją ramy,
+#: a ten rzeczownik nie ma nad sobą czasownika, który by ramę ogłaszał; co
+#: przyjmuje gramatyka zlewająca te dwie, mierzy
+#: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+ORZEKAJĄCY = "NominalPredicate"
+
 DEKLARACJA = Deklaracja(
     role=(
         "Subject",
         "Object",
         "Predicative",
         "Verb",
+        ORZEKAJĄCY,
         PRZYSŁÓWKOWY,
         OKOLICZNIKOWY,
         PYTAJNY,
@@ -141,6 +154,16 @@ FRAGMENT = "fragment"
 #: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
+
+#: Rzeczownik, który orzeka bez czasownika, czyli ten, przy którym polszczyzna
+#: opuszcza kopułę: `zadania, o których mowa w ustawie` znaczy `o których jest
+#: mowa`, a `jest` nikt tam nie pisze. Zwrot ten niesie co siódme zdanie rejestru
+#: ustaw i jest w nim najczęstszym zdaniem względnym; docs/ustawy.md go liczy.
+#:
+#: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
+#: imiennej w mianowniku — zmierzono i odrzucono; cenę trzyma
+#: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+RZECZOWNIK_ORZEKAJĄCY = "mowa"
 
 #: Spójnik, którym zdanie podrzędne dopełnieniowe zaczepia się o czasownik.
 #: Jeden, a nie cała klasa `comp`: `gdy`, `jeśli` i `aby` otwierają okolicznik
@@ -685,6 +708,28 @@ def build() -> Grammar:
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
     # jak Zapisuje ustawienia.
     zdanie.dominacja("ClauseConjunct", [nt("Predicate")])
+
+    # Mianownika pojedynczego żąda ten terminal, bo tyle mówi o tej konstrukcji
+    # polszczyzna: zwrot ma jedną formę, a każda inna forma tego lematu stoi pod
+    # czasownikiem — `nie ma mowy` — i zdaniem tej produkcji nie jest. Dwie cechy,
+    # a nie sam przypadek: `mowy` jest u Morfeusza i dopełniaczem pojedynczym, i
+    # mianownikiem mnogim, więc warunek na sam przypadek wpuszcza `o których mowy`.
+    # Rodzaju nie żąda, bo zgodzić się ten rzeczownik nie ma z czym.
+    grammar.rule(
+        ORZEKAJĄCY,
+        [Głowa(word("subst", lemma=RZECZOWNIK_ORZEKAJĄCY, case="nom", number="sg"))],
+    )
+
+    # Zdanie składowe, w którym ten rzeczownik orzeka, a okolicznik stoi w nim
+    # córką żądaną, a nie miejscem wyliczonym: kopuła opuszczona żąda tego, o czym
+    # mowa, więc `Mowa o zadaniach.` jest polszczyzną, a `Mowa.` nie jest.
+    # Rozwinięcie szyku tej deklaracji nie pisze, bo pisałoby ciało bez okolicznika
+    # razem z nim.
+    #
+    # Ciało drugie stoi pod czołem zdania względnego niżej, bo tam to wyrażenie
+    # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
+    # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+    grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki])
 
     # Podmiot, dopełnienie i czasownik w każdym szyku, jaki polszczyzna ma, poza
     # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
@@ -1272,11 +1317,16 @@ def build() -> Grammar:
                 [Głowa(PRZYIMEK), nt(czoło, case=V("c"), **zaimek_czoła(V("nz"), V("gz")))],
                 **POPRZEDNIK,
             )
-        grammar.rule(
-            symbol,
-            [nt(modyfikator, **POPRZEDNIK), Głowa(nt("ClauseConjunct"))],
-            **POPRZEDNIK,
-        )
+        # Za wysuniętym wyrażeniem przyimkowym stoi zdanie składowe albo sam
+        # rzeczownik orzekający, bo kopuła opuszczona zostawia po zdaniu jeden
+        # wyraz (:data:`ORZEKAJĄCY`). Dwa ciała, a nie jedno z symbolem wspólnym:
+        # cena każdego z nich jest osobną liczbą, którą bierze `sonda/kopuła.py`.
+        for wnętrze in (nt("ClauseConjunct"), nt(ORZEKAJĄCY)):
+            grammar.rule(
+                symbol,
+                [nt(modyfikator, **POPRZEDNIK), Głowa(wnętrze)],
+                **POPRZEDNIK,
+            )
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
     # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka

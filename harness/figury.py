@@ -466,6 +466,72 @@ FIGURY = (
         czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
     ),
     Figura(
+        nazwa="kopuła",
+        polecenie=("python3", "-m", "sonda.kopuła", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/kopuła.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+    ),
+    Figura(
+        nazwa="kopuła-żywa",
+        #  Ta sama sonda po morfologii żywej. Kolumna złota mówi tu zero i zero,
+        #  a bank drzew nie ma tego zwrotu ani razu, więc żywa jest tym, co
+        #  pokazuje, że zero po stronie ceny nie jest zerem anotatora.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.kopuła",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/kopuła.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+    ),
+    Figura(
+        nazwa="kopuła-ustawy",
+        #  Siedem ustaw jest jedynym korpusem, w którym ta konstrukcja cokolwiek
+        #  kupuje, bo jedynym, który tym zwrotem odsyła.
+        polecenie=("python3", "-m", "sonda.kopuła", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/kopuła.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+    ),
+    Figura(
+        nazwa="kopuła-ztp",
+        polecenie=("python3", "-m", "sonda.kopuła", "proza/ztp.txt"),
+        korpusy=("proza/ztp.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/kopuła.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+    ),
+    Figura(
         nazwa="pytajne",
         polecenie=("python3", "-m", "sonda.pytajne", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),

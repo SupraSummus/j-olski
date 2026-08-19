@@ -425,6 +425,13 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   Spójnika ono nie ma, bo podporządkowuje sam zaimek,
   a jedno i drugie wraz z ceną trzyma
   [poniżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)
+- Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
+  `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
+  Rzeczownik ten orzeka sam i niesie rolę, którą werdykt nazywa,
+  bo zdanie z nim nie ma ani podmiotu, ani czasownika,
+  a lematem jest `mowa` i nic poza nim;
+  wywód i cenę trzyma
+  [poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
 - Przysłówek u dwóch gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), i jako określenie przymiotnika, gdzie stoi sam przysłówek
@@ -1884,9 +1891,10 @@ gdzie `mowa` jest orzeczeniem zdania względnego, a nie głową grupy pod przyim
 a w pozostałych zaimek zgadza się z przyimkiem i głowy przy sobie nie ma.
 Szyk z zaimkiem przed głową jest więc wyczytany z polszczyzny, a nie z korpusu,
 tak samo jak pytanie o tę grupę niżej.
-Sam ten zwrot jest przy tym najczęstszym zdaniem względnym rejestru ustaw
-i nie wyprowadza się wcale, bo kopuła jest w nim opuszczona;
-[TODO.md](../TODO.md) trzyma tę pozycję.
+Sam ten zwrot jest przy tym najczęstszym zdaniem względnym rejestru ustaw,
+a wyprowadzenie daje mu
+[kopuła opuszczona](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną):
+pod przyimkiem stoi w nim goły zaimek, bo `mowa` orzeka za całe zdanie składowe.
 
 ```text
 Rozporządzenie powinno wchodzić w życie w dniu wejścia w życie ustawy, na podstawie
@@ -2075,6 +2083,169 @@ Rozbieżność tagsetów jest przy tym faktem o korpusie, a nie o gramatyce,
 i zapisana jest tutaj dlatego, że kolumna złota mówiła bez tego przekładu
 o zdaniu względnym nieprawdę:
 liczba, która się nie ruszyła, czyta się jak konstrukcja, która nic nie kupuje.
+
+### Kopuła opuszczona jest wpisem na lemat, a nie pozycją ogólną
+
+Rejestr ustaw odsyła zwrotem `o którym mowa`:
+`Rada wykonuje zadania, o których mowa w ustawie.` znaczy `o których jest mowa`,
+a `jest` nie pisze tam nikt.
+Morfeusz zna formę `mowa` wyłącznie jako `subst:sg:nom:f`,
+więc zdanie względne tego zwrotu obywa się bez czasownika,
+a zdanie składowe bez czasownika wyprowadza w tej gramatyce sama ta konstrukcja.
+Zwrot ten jest najczęstszym zdaniem względnym rejestru ustaw —
+niesie go co siódme zdanie dwóch jego korpusów
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)) —
+więc konstrukcja ta odpowiada na kolejkę tamtego rejestru,
+a nie na kolejkę ze Składnicy.
+
+Wpuszczają ją dwa ciała, a rozdziela je to, skąd bierze się wyrażenie,
+o którym ten rzeczownik orzeka.
+Kopuła opuszczona takiego wyrażenia żąda, więc `Mowa o zadaniach.` jest polszczyzną,
+a `Mowa.` nie jest, i stąd okolicznik stoi w zdaniu składowym córką żądaną,
+a nie miejscem, które dokłada
+[rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk).
+Zdanie względne bierze to wyrażenie skądinąd:
+`o których` leży poza zdaniem składowym, bo wysuwa je `RelativeModifier`,
+więc ciało czoła bierze ten rzeczownik wprost i zdania składowego nie ma pod sobą wcale.
+Czoło pytania bierze go tym samym ciałem, więc `O którym akcie mowa?`
+wyprowadza się razem z `o których mowa`.
+
+Terminal tego rzeczownika żąda lematu, i to żądanie jest decyzją,
+bo polszczyzna opuszcza kopułę szerzej niż w tym jednym zwrocie.
+Wyjścia były dwa.
+Pozycja ogólna czyni zdaniem składowym każdą grupę imienną w mianowniku,
+czyli dopisuje `ClauseConjunct → Subject` obok `ClauseConjunct → Subject Adjuncts`.
+Wpis leksykalny kupuje ten jeden zwrot i nic poza nim,
+tak samo jak spójnik, którym zaczepia się
+[zdanie z `że`](#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej).
+
+Pozycję ogólną zmierzono, dopisując te dwie produkcje do gramatyki
+i porównując werdykty z werdyktami olskiego.
+Nad siedmioma ustawami wyciąga ona z odrzucenia 231 zdań,
+116 z nich przyjmuje jednoznacznie,
+a jednoznaczność odbiera siedmiu zdaniom przyjętym wcześniej;
+nad „Zasadami techniki prawodawczej” i nad prozą tego repozytorium
+odbiera ją po jednym zdaniu.
+Zakup nie jest jednak zakupem, i widać to po tym, co ona przyjmuje:
+
+```text
+Wrocław.
+Siedziba Okręgowej Komisji Wyborczej: LEGNICA.
+```
+
+Nazwa miasta stoi w akcie w tabeli, a nie w zdaniu,
+i olski melduje o niej `valid`.
+Reszta zakupu jest tą samą usterką w środku zdania,
+bo przecinek i spójnik koordynują u olskiego zdania:
+`Kierownikiem urzędu jest wójt lub burmistrz.` wychodzi wtedy dwoma zdaniami
+składowymi, z których drugim jest `burmistrz`,
+a `Statut związku powinien określać uczestników i czas trwania związku.`
+dostaje drugie czytanie, w którym zdaniem składowym jest `czas trwania związku`.
+Drugie z tych zdań jest jednym z siedmiu, którym ta pozycja odbiera jednoznaczność,
+a dwa dalsze — `Przemyśl.` i `Kalisz.` — olski przyjmuje jako rozkaźnik
+i pozycja ogólna daje im drugie czytanie, w którym są nazwą miasta.
+Cena tej pozycji nie kończy się więc na tych siedmiu zdaniach:
+psuje ona każdy ciąg współrzędny grup imiennych,
+a takich ciągów ten rejestr niesie zdanie po zdaniu.
+
+Rzeczownik orzekający niesie etykietę roli, bo zdanie to nie ma żadnej innej:
+ani podmiotu, ani czasownika.
+Przyjęte bez etykiety wychodziłoby `valid` bez ani jednej roli,
+czyli bez słowa o tym, co olski w nim przyjął,
+a etykietę stawia produkcja, tak samo jak przy
+[czole zdania względnego](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza).
+
+```text
+$ olski-check -c 'Mowa o zadaniach.' --readings
+<text>: valid     Mowa o zadaniach.
+                  one reading
+                  - NominalPredicate: Mowa, Modifier: o zadaniach → Mowa
+```
+
+Rola ta stoi obok `Predicative`, a nie jest nim, i rozdziela je rama czasownika.
+Orzecznik jest pozycją ramy: rzeczownikowy stoi w narzędniku pod kopulą,
+a przymiotnikowy w mianowniku pod czasownikiem, którego rama go ma.
+Rzeczownik orzekający nie ma nad sobą czasownika, więc pozycji ramy nie zajmuje,
+a wpuszczony do `Predicative` stanąłby tam, gdzie orzecznik ramy nie ogłasza:
+w szyku z orzecznikiem przed kopulą (`olski/subset.py`).
+Przyjąłby wtedy `Mowa jest ustawa.`, czyli zdanie,
+w którym olski czyta rzeczownikowy orzecznik w mianowniku.
+
+Oba ciała są przy tym potrzebne, i rozstrzyga o tym przyłączenie:
+`w ustawie` dochodzi w `Rada wykonuje zadania, o których mowa w ustawie.`
+i do `mowa`, i do `wykonuje`, a pierwsze z tych czytań daje ciało zdania składowego,
+drugie ciało czoła.
+Zdjęte jedno z nich nie odrzuca tego zdania — drugie wyprowadza je samo —
+tylko oddaje je jednym czytaniem,
+czyli tak, jak wygląda zdanie, o którym gramatyka wybrała przyłączenie
+([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+Wieloznaczność tego zdania jest więc tym przyłączeniem,
+a nie czymkolwiek, co wnosi kopuła opuszczona.
+
+### Kopułę opuszczoną zmierzono: nie kosztuje nic i kupuje mniej, niż obiecywała jej częstość
+
+Pełne wiersze są w [figury/kopuła.txt](../figury/kopuła.txt),
+te spod morfologii żywej w [figury/kopuła-żywa.txt](../figury/kopuła-żywa.txt),
+a te nad rejestrem ustaw w [figury/kopuła-ustawy.txt](../figury/kopuła-ustawy.txt)
+oraz w [figury/kopuła-ztp.txt](../figury/kopuła-ztp.txt);
+polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych czterech
+([`harness/figury.py`](../harness/figury.py)).
+
+Grupy są dwie i zdejmuje się je osobno, bo cena każdej z nich jest osobną liczbą.
+`rzeczownik pod czołem` jest ciałem czoła, w którym wysunięte wyrażenie przyimkowe
+bierze ten rzeczownik wprost,
+a `rzeczownik z okolicznikiem` zdaniem składowym, w którym rzeczownik
+bierze okolicznik sam.
+
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew:
+ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności ani wyprowadzenia.
+Zera tego nikt tu nie przewidział, bo rzeczownik w mianowniku jest w każdym innym
+miejscu tej gramatyki podmiotem albo orzecznikiem.
+Broni go warunek na jedną formę: drugie czytanie dostaje wyłącznie zdanie,
+w którym `mowa` stoi, a poza tym zwrotem te korpusy piszą ją razem z jej kopułą:
+
+```sh
+grep -hoP '.{40}\bmowa\b' proza/ustawy.txt proza/ztp.txt proza/README.txt \
+  | grep -vP 'o (którym|której|których) mowa'
+```
+
+`ilekroć w niniejszej ustawie jest mowa o` oraz `o kim mowa była przed chwilą`
+niosą czasownik wypisany, więc zdanie składowe bez niego nie ma tam czym stanąć.
+
+Zakupem jest jedno zdanie i całe leży w rejestrze ustaw:
+
+```text
+Termin rozpatrzenia petycji wielokrotnej liczy się od dnia upływu okresu, o którym
+mowa w zdaniu poprzednim.
+```
+
+Przechodzi ono z odrzuconych na wieloznaczne, a oba ciała ruszają je osobno,
+bo `w zdaniu poprzednim` przyłącza się i do `mowa`, i wyżej.
+Nad Składnicą nie rusza się ani jeden werdykt pod żadną z dwóch morfologii,
+a nad „Zasadami techniki prawodawczej” i nad prozą tego repozytorium
+nie rusza się także ani jeden.
+
+Jedno zdanie wobec 851 wystąpień zwrotu jest odczytem o rejestrze,
+a nie o tej konstrukcji.
+Zwrot ten odsyła, więc prawodawca pisze go razem z adresem przepisu:
+
+```sh
+grep -hoP 'o (którym|której|których) mowa[^,.;]{0,30}' proza/ustawy.txt proza/ztp.txt \
+  | sed 's/[0-9][0-9]*/N/g' | sort | uniq -c | sort -rn | head
+grep -hcP 'o (którym|której|których) mowa(?![^,.;]*(art|ust|pkt|lit|§|[0-9]))' \
+  proza/ustawy.txt proza/ztp.txt
+```
+
+Bez cyfry, bez znaku `§` i bez skrótu `art.`, `ust.`, `pkt` albo `lit.`
+obywa się dwanaście z tych wystąpień, wszystkie w siedmiu ustawach,
+a [cyfry olski nie bierze](#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii).
+Aparat odsyłaczowy zajmuje w kolejce blokerów tego rejestru dziewięć pierwszych miejsc
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+więc zdanie z tym zwrotem staje na nim, a nie na kopuli.
+Częstość zwrotu obiecała tu przeszło dwa rzędy wielkości więcej, niż on kupił,
+i myli się przez to tak samo jak tamta kolejka, choć powstała inaczej:
+konstrukcję znalazł grep, a nie ranking form bez licencji,
+bo każda forma tego zwrotu licencję ma.
 
 ## Grupa liczebnikowa zgadza się tym, czego nie ma w środku
 
@@ -2278,13 +2449,6 @@ Every one of these is a sentence that gets rejected and should not be:
   They come back with the particle and not before it,
   and two of them stand second and third in the `comp` row
   [corpus.md](corpus.md#where-the-analyses-stop) ranks, behind `że` itself.
-- Zdanie względne z opuszczoną kopułą, czyli `o którym mowa`:
-  `Rada wykonuje zadania, o których mowa w ustawie.` jest odrzucone,
-  bo `mowa` jest tam orzeczeniem, a zdania składowego bez czasownika ta gramatyka nie ma.
-  Jest to najczęstsze zdanie względne rejestru ustaw —
-  niesie je co siódme zdanie tych korpusów
-  ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)) —
-  a odrzucenie stoi tam na strukturze, bo każda forma tego zwrotu ma licencję.
 - Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
   `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
   `Czy program zapisuje ustawienia?` jest odrzucone,
@@ -2526,6 +2690,10 @@ albo do imiesłowu, czyli `APConjunct → adj|ppas Modifier`.
 Nie wchodzi `NPConjunct → subst Modifier`, czyli naga głowa z okolicznikiem:
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.
+Nie wchodzi z tego samego powodu `ClauseConjunct → NominalPredicate Adjuncts`,
+czyli [kopuła opuszczona](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+z okolicznikiem: rzeczownik orzekający grupą imienną nie jest,
+więc temu wyrażeniu nie ma tam do czego dojść poza zdaniem składowym.
 Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokumentach,
 a policzyć ją drugi raz można tylko wtedy, gdy wiadomo, co się liczy.
 Rusza tę liczbę każda produkcja dająca modyfikatorowi pozycję,

@@ -314,8 +314,9 @@ na dwukropku i na liczebniku,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 
-Etap zostaje więc otwarty, a brakują mu dwie pozycje podrzędności
-i obie nazywa niżej to dopisanie, które je odsłoniło.
+Dwie pozycje podrzędności, których gramatyce brakowało,
+odsłoniło właśnie to dopisanie,
+a każda z nich wchodzi niżej razem ze swoim pomiarem.
 
 Okolicznik wyrażony zdaniem wchodzi obiema pozycjami, przed swoim zdaniem i za nim,
 i jest pierwszym policzonym dopisaniem tego etapu.
@@ -417,15 +418,25 @@ i to jest odczyt o rejestrach, bo kształt grupy jest w obu pozycjach ten sam.
 Nad prozą tego repozytorium nie kupuje ani jednego zdania,
 tak samo jak dopisania przed nią.
 
-Zostaje na liście tego etapu jedna pozycja:
-zdanie względne z opuszczoną kopułą, czyli `o którym mowa`,
-i jest ono najczęstszym zdaniem względnym rejestru ustaw:
-niesie je co siódme zdanie tych korpusów i nie wyprowadza się ani jedno
-([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
-Znalazł je grep, którym mierzono szyki grupy wysuniętej,
-i tym się ta pozycja różni od trzech powyżej:
-nie ustawiła jej ani kolejka ze Składnicy, ani ranking form bez licencji,
-bo każda forma tego zwrotu licencję ma, a odrzucenie stoi na strukturze.
+Kopuła opuszczona jest szóstym policzonym dopisaniem tego etapu,
+czyli zdaniem względnym, które obywa się bez czasownika: `o którym mowa`.
+Pozycji tej nie ustawiła ani kolejka ze Składnicy, ani ranking form bez licencji,
+bo każda forma tego zwrotu licencję ma, a odrzucenie stało na strukturze;
+znalazł ją grep, którym mierzono szyki grupy wysuniętej.
+Gramatyka wpuszcza ją wpisem na jeden lemat, a nie pozycją ogólną,
+bo pozycja ogólna czyni zdaniem składowym każdą grupę imienną w mianowniku,
+czyli psuje każdy ciąg współrzędny takich grup
+([subset.md](subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)).
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a zakupem jest jedno zdanie rejestru ustaw,
+czyli przeszło o dwa rzędy wielkości mniej, niż obiecywało 851 wystąpień tego zwrotu:
+prawodawca pisze go razem z adresem przepisu, a cyfry olski nie bierze
+([subset.md](subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość)).
+
+Lista pozycji tego etapu jest przez to pusta,
+a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
+Brak tego pokrycia jest odczytem o pomiarze nad tym plikiem, a nie o podrzędności,
+i akapit wyżej nazywa formy, na których stoją zdania stojące przedtem na spójniku.
 
 ## Etap 5: słowa, których słownik nie ma
 

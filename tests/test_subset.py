@@ -31,6 +31,7 @@ from olski.subset import (
     FRAGMENT,
     GRAMMAR,
     OKOLICZNIKOWY,
+    ORZEKAJĄCY,
     PRZECINEK,
     PYTAJNY,
     SPÓJNIK_BEZ_PRZECINKA,
@@ -1544,6 +1545,83 @@ def test_grupa_wysunięta_bez_przyimka_staje_także_w_dopełnieniu():
     assert dopełnienie.status == "valid", dopełnienie.explain()
     przeczenie = verdict("Ustawa, której przepisów minister nie ogłasza, jest tania.")
     assert przeczenie.status == "valid", przeczenie.explain()
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    ["Przepisy, o których mowa, obowiązują.", "O którym akcie mowa?"],
+)
+def test_wysunięte_wyrażenie_bierze_rzeczownik_orzekający_pod_oboma_czołami(zdanie):
+    """Kopuła opuszczona wchodzi pod czoło zdania względnego i pod czoło pytania.
+
+    Pierwsze zdanie jest tym, na którym stoi rejestr ustaw: `o których mowa` niesie
+    co siódme jego zdanie i bez tego ciała nie przechodzi ani jedno
+    (docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze). Drugie tego rejestru nie
+    ma ani razu, więc pilnuje go sama ta linia: ciało wypisane poza pętlą, która
+    obie rodziny czoła obsługuje, dałoby tę konstrukcję jednej z nich, a żaden
+    przebieg nad korpusem tego nie zauważy.
+    """
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
+
+
+def test_rzeczownik_orzekający_żąda_tego_o_czym_orzeka():
+    #  Kopuła opuszczona żąda tego, o czym ten rzeczownik orzeka, więc stoi on
+    #  sam wyłącznie pod wysuniętym wyrażeniem przyimkowym, a w zdaniu składowym
+    #  ma przy sobie okolicznik. Bez tego żądania olski przyjmuje `Mowa.` jako
+    #  zdanie, czego polszczyzna w tej formie nie ma, a obietnicą podzbioru jest,
+    #  że każde zdanie olskiego jest zdaniem polskim.
+    samo = verdict("Mowa.")
+    assert samo.status == "rejected", samo.explain()
+    okolicznik = verdict("Mowa o zadaniach.")
+    assert okolicznik.status == "valid", okolicznik.explain()
+
+
+def test_rzeczownik_orzekający_niesie_etykietę_roli():
+    #  Zdanie to nie ma ani podmiotu, ani czasownika, więc bez tej etykiety
+    #  wychodzi `valid` bez ani jednej roli, czyli bez słowa o tym, co olski w nim
+    #  przyjął. Pilnuje jej samo streszczenie, bo w zdanie względne ono nie
+    #  zagląda i tam ta usterka jest niewidoczna (:data:`olski.subset.ORZEKAJĄCY`).
+    found = verdict("Mowa o zadaniach.")
+    assert found.status == "valid", found.explain()
+    [reading] = found.readings
+    assert reading[ORZEKAJĄCY] == "Mowa", found.explain()
+
+
+def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
+    #  Dwa warunki naraz i każdy jest osobną usterką do zrobienia. Bez lematu
+    #  zdaniem wychodzi każda grupa imienna w mianowniku, więc `o których cisza`
+    #  przechodzi razem ze zwrotem tego rejestru, a przecinek koordynacji czyta
+    #  wtedy wyliczenie jako ciąg zdań
+    #  (docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną).
+    #  Bez liczby przechodzi `o których mowy`, i mianownik sam tego nie łapie:
+    #  Morfeusz zna `mowy` i jako dopełniacz pojedynczy, i jako mianownik mnogi,
+    #  więc warunek na sam przypadek bierze tę formę drugim czytaniem.
+    forma = verdict("Przepisy, o których mowy, obowiązują.")
+    assert forma.status == "rejected", forma.explain()
+    lemat = verdict("Przepisy, o których cisza, obowiązują.")
+    assert lemat.status == "rejected", lemat.explain()
+
+
+def test_rzeczownik_orzekający_nie_jest_orzecznikiem_pod_kopulą():
+    #  Rola stoi obok `Predicative`, a nie jest nią, a to zdanie jest tym, co
+    #  tamto wyjście przyjmuje: orzecznik przed kopulą ramy nie żąda, więc rzeczownik
+    #  wpuszczony do `Predicative` stanąłby tam i przyjął zdanie, w którym olski
+    #  czyta orzecznik w mianowniku (:data:`olski.subset.ORZEKAJĄCY`).
+    found = verdict("Mowa jest ustawa.")
+    assert found.status == "rejected", found.explain()
+
+
+def test_oba_ciała_kopuli_opuszczonej_dają_temu_zdaniu_po_jednym_przyłączeniu():
+    #  Usterka, którą to łapie: jedno z dwóch ciał zdjęte. Zdania nie odrzuca ani
+    #  jedno, bo każde wyprowadza je osobno, tylko każde z innym przyłączeniem
+    #  `w ustawie` — pod czołem wychodzi ono do `określa`, a w zdaniu składowym
+    #  zostaje przy `mowa` — więc olski wybiera przyłączenie, którego wybierać nie
+    #  ma (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+    found = verdict("Ustawa określa zadania, o których mowa w ustawie.")
+    assert found.status == "ambiguous", found.explain()
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("określa", "mowa"), found.explain()
 
 
 @pytest.mark.parametrize(
