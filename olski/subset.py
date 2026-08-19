@@ -41,6 +41,7 @@ from olski.parse import (
     describe,
     parse,
 )
+from olski.precedencja import Rozwinięcie
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
 
 #: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
@@ -380,21 +381,32 @@ def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa]
     ]
 
 
-def _ciała_z_wysuniętą_rolą(czoło: str) -> list[list[Part | Głowa]]:
-    """Ciała zdania, w którym jedna rola stoi wysunięta na jego czoło.
+def _poza_orzeczeniem(szyk: tuple[str, ...]) -> bool:
+    """Czy tego szyku zdania nie składa już podmiot z orzeczeniem.
+
+    ``Predicate`` jest czasownikiem wraz z tym, co on bierze, a stoi za podmiotem,
+    więc zdanie o szyku podmiot-czasownik-dopełnienie ma wyprowadzenie tamtędy.
+    Wypisane płasko drugi raz dałoby jednemu napisowi dwa wyprowadzenia.
+    Pozostałych pięciu szyków ``Predicate`` nie składa, bo albo podmiot nie stoi w
+    nich pierwszy, albo między nim a czasownikiem coś stoi.
+    """
+    return szyk[:2] != ("Subject", "Verb")
+
+
+def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
+    """Wpisz zdanie, w którym jedna rola stoi wysunięta na jego czoło.
 
     Zdanie takie jest zdaniem bez tej roli, którą wysunięty konstytuent zajmuje, i
-    dlatego ciał jest tu tyle, ile ról, a nie tyle, ile szyków ma zdanie. Czoło
-    stoi pierwsze zawsze, bo tak stawia je polszczyzna, więc pozycja brakująca
-    jest zawsze pierwsza, a reszta zdania jest ciałem, jakie gramatyka ma
-    wypisane wyżej.
+    dlatego deklarację dostaje tu każda rola, a nie każdy szyk zdania. Czoło stoi
+    pierwsze zawsze, bo tak stawia je polszczyzna, i tyle mówi tu warunek
+    precedencji; reszta zdania szyk ma swój.
 
     Dwie rodziny zdań mają ten kształt i różni je samo czoło: zaimek względny w
     zdaniu względnym (`reguła, która rozstrzyga`) i grupa pytajna w pytaniu
-    (`które zadania mają charakter obowiązkowy`). Ciała powstają więc raz i biorą
-    czoło nazwą symbolu. Wypisane dwa razy rozeszłyby się na pierwszym dopisanym
-    szyku, a rozejście widać dopiero na zdaniu, którego jedna z dwóch rodzin nie
-    wyprowadza.
+    (`które zadania mają charakter obowiązkowy`). Deklaracje powstają więc raz i
+    biorą czoło nazwą symbolu. Wypisane dwa razy rozeszłyby się na pierwszym
+    dopisanym szyku, a rozejście widać dopiero na zdaniu, którego jedna z dwóch
+    rodzin nie wyprowadza.
 
     Role są dwie: podmiot i dopełnienie. Trzeciej — wyrażenia przyimkowego —
     tutaj nie ma, bo wysuwa się ono razem z przyimkiem, więc jest czołem innego
@@ -403,27 +415,25 @@ def _ciała_z_wysuniętą_rolą(czoło: str) -> list[list[Part | Głowa]]:
     Liczba i rodzaj wychodzą z czoła, bo zdanie względne zgadza się w nich ze
     swoim poprzednikiem; pytanie nie zgadza się z niczym i zostawia je nieczytane.
     """
-    okoliczniki = nt("Adjuncts")
-    # Osoba i liczba orzeczenia biorą się z czoła, bo ono jest podmiotem; w ciałach
-    # z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego zmienne
-    # liczby oraz rodzaju są tam inne niż zmienne czoła.
+
+    def czoło_pierwsze(szyk: tuple[str, ...]) -> bool:
+        """Czy czoło stoi w tym szyku pierwsze; o reszcie córek warunek milczy."""
+        return szyk[0] == czoło
+
+    # Osoba i liczba orzeczenia biorą się z czoła, bo ono jest podmiotem; w
+    # deklaracji z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
+    # zmienne liczby oraz rodzaju są tam inne niż zmienne czoła.
     czoło_podmiot = nt(czoło, case="nom", number=V("n"), gender=V("g"))
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
     podmiot = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
-    ciała: list[list[Part | Głowa]] = [
-        [czoło_podmiot, Głowa(orzeczenie)],
-        [czoło_podmiot, okoliczniki, Głowa(orzeczenie)],
-    ]
+    zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], number=V("n"), gender=V("g"))
 
     # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
     # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
     # jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie, i różni je to,
-    # że czoło wysuwa polszczyzna zawsze, a dopełnienie z wyboru.
-    #
-    # Okolicznik dostaje obie strony reszty, tak samo jak w szykach zdania wyżej i
-    # z tego samego powodu: pozycji brakującej nie widać po zdaniu odrzuconym,
-    # tylko po przyjętym, które wychodzi jednym czytaniem, bo drugie nie miało
-    # gdzie się wyprowadzić.
+    # że czoło wysuwa polszczyzna zawsze, a dopełnienie z wyboru. Wypowiada to
+    # sam warunek precedencji: żąda on czoła na pierwszym miejscu i nie żąda
+    # niczego od dwóch pozostałych córek.
     #
     # Przypadek czoła rozstrzyga tu przeczenie stojące za nim: `polszczyzna, którą
     # ktoś napisał` obok `polszczyzna, której nikt nie napisał`. Wspólnej zmiennej
@@ -431,7 +441,8 @@ def _ciała_z_wysuniętą_rolą(czoło: str) -> list[list[Part | Głowa]]:
     # więc para przypadka i wartości cechy stoi wypisana tak samo jak przy
     # dopełnieniu wyżej. Rządzenie sięga tu przez całą resztę zdania składowego, a
     # więc dalej niż gdziekolwiek indziej w tej gramatyce, i tyle też kosztuje:
-    # sześć ciał rośnie do dwunastu.
+    # jedna deklaracja rośnie do dwóch. Rozwinięcia szyku to nie dotyka, bo mnoży
+    # tu cecha, a nie kolejność.
     for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
         czoło_dopełnienie = nt(czoło, case=przypadek, number=V("n"), gender=V("g"))
         czasownik = nt(
@@ -442,16 +453,13 @@ def _ciała_z_wysuniętą_rolą(czoło: str) -> list[list[Part | Głowa]]:
             valency="acc",
             negacja=negacja,
         )
-        for reszta in (
-            [Głowa(czasownik), podmiot],
-            [podmiot, Głowa(czasownik)],
-        ):
-            ciała += [
-                [czoło_dopełnienie, *reszta],
-                [czoło_dopełnienie, okoliczniki, *reszta],
-                [czoło_dopełnienie, *reszta, okoliczniki],
-            ]
-    return ciała
+        zdanie.dominacja(
+            symbol,
+            [czoło_dopełnienie, Głowa(czasownik), podmiot],
+            precedencja=czoło_pierwsze,
+            number=V("n"),
+            gender=V("g"),
+        )
 
 
 def build() -> Grammar:
@@ -568,38 +576,63 @@ def build() -> Grammar:
     # zmienną z orzecznikiem, i to jest ta sama cena co wyżej.
     kopula = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="inst")
 
-    # Szyki zdania, każdy w tylu wersjach, ile ma miejsc na okolicznik.
+    # Zdanie deklaruje córki, a kolejność, w jakiej one stoją, deklaruje osobno
+    # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
+    # rozbiorem (:mod:`olski.precedencja`). Tablica Earleya dostaje przez to
+    # ciała wypisane, bo rozwinięcie kończy się przed nią, a rodzina mnożąca się
+    # przez szyk i przez miejsca na okolicznik ma sześć deklaracji na trzydzieści
+    # dwa ciała.
     #
-    # Wersje z okolicznikiem są jedną decyzją, a nie ośmioma: przyłączenie
-    # wyrażenia przyimkowego olski oddaje czytelnikowi, więc każde miejsce, w
-    # którym grupa imienna takie wyrażenie bierze, musi umieć oddać je też
-    # zdaniu. Pozycji brakującej nie widać po zdaniu odrzuconym, tylko po
-    # przyjętym: wychodzi ono jednym czytaniem, bo drugie nie miało gdzie się
-    # wyprowadzić. docs/subset.md trzyma wywód i cenę.
+    # Miejsce na okolicznik wylicza to samo rozwinięcie i przez to nie ma go jak
+    # zapomnieć w jednym z ciał: przyłączenie wyrażenia przyimkowego olski oddaje
+    # czytelnikowi, więc każde miejsce, w którym grupa imienna takie wyrażenie
+    # bierze, musi umieć oddać je też zdaniu. Pozycji brakującej nie widać po
+    # zdaniu odrzuconym, tylko po przyjętym: wychodzi ono jednym czytaniem, bo
+    # drugie nie miało gdzie się wyprowadzić. docs/subset.md trzyma wywód i cenę.
+    #
+    # `czasownikowe` jest zawężeniem, a nie wnioskiem z tamtej reguły: polszczyzna
+    # okolicznik między czasownikiem a podmiotem stawia, a olski go nie ma, przez
+    # co odrzuca `Trwa w tej sprawie dochodzenie.` i czyta `Zapisuje w pliku
+    # program ustawienia.` jednym czytaniem. Ile to kosztuje, nie policzył nikt, a
+    # ta krotka jest całym miejscem, w którym zawężenie stoi zapisane; TODO.md
+    # trzyma wpis o jego wycenie.
     #
     # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
     # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
     # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
-    grammar.rule("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
-    grammar.rule("ClauseConjunct", [podmiot, okoliczniki, Głowa(orzeczenie)])
+    zdanie = Rozwinięcie(
+        grammar,
+        okolicznik=okoliczniki,
+        czasownikowe=("Verb", "Predicate"),
+        własny_okolicznik=("Predicate",),
+    )
+    zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
 
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
     # jak Zapisuje ustawienia.
-    grammar.rule("ClauseConjunct", [nt("Predicate")])
+    zdanie.dominacja("ClauseConjunct", [nt("Predicate")])
 
-    grammar.rule("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy), podmiot])
-    grammar.rule("ClauseConjunct", [dopełnienie, okoliczniki, Głowa(czasownik_ramy), podmiot])
-    grammar.rule("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy), podmiot, okoliczniki])
+    # Podmiot, dopełnienie i czasownik w każdym szyku, jaki polszczyzna ma, poza
+    # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
+    # Szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem produkcji,
+    # bo wykluczenia przez przemilczenie zabrania tej gramatyce
+    # docs/design-notes.md#angle-one-parsing, i wykluczony jest tu jeden szyk,
+    # który ten warunek wypowiada. Cenę i zakup czterech szyków dopisanych trzyma
+    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka.
+    zdanie.dominacja(
+        "ClauseConjunct",
+        [podmiot, dopełnienie, Głowa(czasownik_ramy)],
+        precedencja=_poza_orzeczeniem,
+    )
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
     # ustawienia się nie wyprowadza i żadne zdanie SVO nie konkuruje z czytaniem
-    # samego siebie od czasownika.
-    grammar.rule("ClauseConjunct", [Głowa(czasownik), podmiot])
-    grammar.rule("ClauseConjunct", [Głowa(czasownik), podmiot, okoliczniki])
-    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
-    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, okoliczniki, orzecznik])
-    grammar.rule("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik, okoliczniki])
+    # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają z
+    # tego samego powodu, dla którego nie ma go deklaracja wyżej: składa go
+    # podmiot z orzeczeniem.
+    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot])
+    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
@@ -608,31 +641,12 @@ def build() -> Grammar:
     # szyki bank drzew ma, a kopula trzyma ten szyk przy orzeczniku: żądanie
     # narzędnika postawione czasownikowi jest tym, co w tej gramatyce znaczy
     # „kopula”, i wysunięcie należy do niej także wtedy, gdy orzecznik jest zgodny.
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, okoliczniki, Głowa(kopula), podmiot])
-    grammar.rule("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot, okoliczniki])
-
-    # Cztery pozostałe szyki podmiotu, dopełnienia i czasownika. Polszczyzna ma
-    # wszystkie sześć, a olski miał dwa, i brakujące cztery były wykluczone
-    # brakiem produkcji, nie decyzją, czego docs/design-notes.md#angle-one-parsing
-    # tej gramatyce zabrania. Cenę i zakup trzyma
-    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka.
     #
-    # Miejsca na okolicznik wylicza tu pętla, a nie ręka: stoi jedno po każdej
-    # grupie imiennej i jedno na końcu zdania, a te dwa są jednym tam, gdzie
-    # grupa imienna zdanie zamyka. Szyki wyżej wypisują to samo ciałami, i tego
-    # ta pętla nie zdejmuje: ciało kończące się na ``Predicate`` okolicznika na
-    # końcu nie bierze, bo bierze go ``Complements`` niżej. TODO.md trzyma ruch.
-    for szyk in (
-        [podmiot, dopełnienie, Głowa(czasownik_ramy)],
-        [dopełnienie, podmiot, Głowa(czasownik_ramy)],
-        [Głowa(czasownik_ramy), podmiot, dopełnienie],
-        [Głowa(czasownik_ramy), dopełnienie, podmiot],
-    ):
-        grammar.rule("ClauseConjunct", szyk)
-        miejsca = {i + 1 for i, część in enumerate(szyk) if część in (podmiot, dopełnienie)}
-        for gdzie in sorted(miejsca | {len(szyk)}):
-            grammar.rule("ClauseConjunct", [*szyk[:gdzie], okoliczniki, *szyk[gdzie:]])
+    # Warunku precedencji nie dostaje ani ta deklaracja, ani ta nad nią, bo różni
+    # je rama, a nie kolejność: kopula żąda narzędnika, a czasownik orzecznika
+    # zgodnego żąda mianownika, więc przestawiona jedna z nich wypisałaby szyk,
+    # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
+    zdanie.dominacja("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -770,7 +784,9 @@ def build() -> Grammar:
     # Cztery ciała są jedną decyzją, a nie dwunastoma, i jest to ta sama decyzja,
     # którą szyki zdania podejmują wyżej: brakująca pozycja okolicznika nie odrzuca
     # zdania, tylko wypuszcza jednym czytaniem takie, które ma dwa przyłączenia,
-    # jak Muszę jechać do domu.
+    # jak Muszę jechać do domu. Rozwinięcie tych czterech ciał nie pisze i pisać
+    # nie może, choć odpowiada na to samo pytanie: tam okolicznik staje w jednym
+    # miejscu naraz, a tu po obu stronach wypełnienia i po obu naraz.
     #
     # Negację niosą dwa z czterech wypełnień i to wystarcza, żeby niosły ją te
     # produkcje: zmienna, której nie zwiąże ani orzecznik, ani zdanie podrzędne,
@@ -1121,7 +1137,7 @@ def build() -> Grammar:
     # Zdanie względne wysuwa trzy role i ta jest trzecią: wyrażenie przyimkowe,
     # które wychodzi na czoło razem ze swoim przyimkiem. Sięga ona najdalej z tych
     # trzech, bo za nią stoi zdanie składowe całe, w każdym szyku, jaki ono ma, i
-    # dlatego jest jednym ciałem, a nie rodziną (:func:`_ciała_z_wysuniętą_rolą`
+    # dlatego jest jednym ciałem, a nie rodziną (:func:`_wysunięta_rola`
     # pisze pozostałe dwie). Pytanie tej roli nie wysuwa: `W którym roku ustawa
     # weszła?` żąda czoła, którego ta gramatyka nie ma, a TODO.md trzyma ten brak.
     grammar.rule(
@@ -1132,12 +1148,11 @@ def build() -> Grammar:
     )
 
     # Zdanie względne i pytanie dzielą kształt: jedna rola stoi w nich wysunięta na
-    # czoło, a reszta zdania jest tą samą resztą, więc ciała wypisuje jedna funkcja
-    # dla obu (:func:`_ciała_z_wysuniętą_rolą`). Różni je samo czoło i tyle bierze
+    # czoło, a reszta zdania jest tą samą resztą, więc deklaracje wypisuje jedna
+    # funkcja dla obu (:func:`_wysunięta_rola`). Różni je samo czoło i tyle bierze
     # ta pętla nazwą symbolu.
     for symbol, czoło in (("RelativeCore", "RelativePronoun"), ("InterrogativeCore", PYTAJNY)):
-        for ciało in _ciała_z_wysuniętą_rolą(czoło):
-            grammar.rule(symbol, ciało, number=V("n"), gender=V("g"))
+        _wysunięta_rola(zdanie, symbol, czoło)
 
     # Grupa pytajna: zaimek pytajny i grupa imienna, przy której on stoi. Głową
     # jest grupa imienna, bo pytanie jest o rzecz, którą ona nazywa, a zaimek mówi

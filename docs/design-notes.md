@@ -744,8 +744,9 @@ Szyk i przyłączenie kupuje rozdzielenie dominacji od precedencji,
 czyli szczebel 1 [drabiny](#the-cost-ladder), sześcian i gramatyka bezkontekstowa,
 i tylko nieciągłość zostaje przy podłożu, którego olski nie ma.
 Decyzji o przeniesieniu olskiego na to podłoże nie ma,
-a ruch, który z sondy wynika, jest tańszy niż ona sama
-i trzyma go [TODO.md](../TODO.md).
+a ruch, który z sondy wynikał, był tańszy niż ona sama i jest zrobiony:
+zdanie deklaruje córki, a kolejność deklaruje warunek nad nimi
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 
 Powtarzają to te polecenia, a ostatnie warto puścić także bez flagi:
 
@@ -820,19 +821,29 @@ a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
 `olski/subset.py` ma trzydzieści dwie produkcje `ClauseConjunct`,
-bo każdy szyk wypisuje się osobno, a każdy z nich jeszcze raz w tylu wersjach,
+bo każdy szyk stoi wypisany osobno, a każdy z nich jeszcze raz w tylu wersjach,
 ile ma miejsc na okolicznik.
 Łuk podmiotu nie mówi o porządku nic,
 więc wszystkie sześć szyków są tam jedną deklaracją,
 a pozycje okolicznika, których
 [subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-liczy czterdzieści pięć, są trzema, po jednej na głowę,
+liczy sześćdziesiąt jeden, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Czternaście z tych trzydziestu ciał dołożyły
+Czternaście z tych trzydziestu dwóch ciał dołożyły
 [cztery szyki](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
 dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
 i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
+
+Zysk pierwszy jest wzięty i wzięło go rozwinięcie szyku,
+a nie przeniesienie olskiego na to podłoże.
+Te trzydzieści dwie produkcje pisze dziś sześć deklaracji,
+a miejsce na okolicznik jedna reguła nad nimi
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+więc liczba, którą ta sonda porównywała, spadła z trzydziestu dwóch do sześciu.
+Zostaje z niej to, że po tamtej stronie jeden łuk nie mnoży się wcale,
+a po tej sześć deklaracji rozwija się w trzydzieści dwa ciała, które czyta parser.
+Zysk drugi i trzeci są nietknięte, bo żaden nie był o szyk.
 
 **Nieciągłość przestaje być szczeblem.**
 `Dobrą Jan pisze polszczyznę` nie wyprowadza się w olskim wcale,
@@ -991,8 +1002,11 @@ as GPSG did.
 Dominance rules say what the daughters are,
 separate precedence constraints say which orders are legal,
 and a preprocessor deals with the factorial.
+Olski's clause is written that way,
+and what it bought beyond the shorter grammar
+is in [subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk).
 This also keeps the subset honest:
-a permutation excluded from olski
+the one permutation excluded from olski
 is excluded by an explicit constraint rather than by omission.
 
 ### Werdykt jest zapytaniem o las, a nie listą czytań
@@ -1372,8 +1386,10 @@ zgodność, porządek i to, że konstytuent jest jednym odcinkiem tekstu.
 Każda z nich ma wyjście, które zostaje przy szczeblu 2
 [drabiny](#the-cost-ladder).
 Zgodność wyszła do cech, zanim to pytanie stanęło.
-Porządek wychodzi do warunków precedencji i ten ruch trzyma
-[`TODO.md`](../TODO.md).
+Porządek wyszedł do warunków precedencji:
+deklaracja wymienia córki, warunek obok niej mówi, które przestawienia wchodzą,
+a rozwinięcie składa jedno z drugim przed rozbiorem
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 Spójność wychodzi do luki przeciąganej przez ciąg o swobodnym szyku,
 więc [urwisko](#the-cliff-discontinuity) wycenia szczebel, a nie zjawisko.
 Zostaje w produkcji to jedno, czego z niczym nie zlewa:
@@ -1402,16 +1418,19 @@ Ile polszczyzny oddaje dyscyplina jednej luki, nie mówi żadne z dwóch wyjść
 i [Świgra tego też nie mówi](swigra.md#one-gap-instead-of-a-different-complexity-class);
 a to jest ten pomiar, który cały ten kierunek by przewrócił.
 
-Kolejność bierze się z tego, czego która rzecz potrzebuje.
-Las idzie pierwszy, bo nie rusza ani jednej produkcji,
-więc da się go porównać werdykt po werdykcie z tym, co stoi.
-Walencja idzie przed precedencją, bo kasuje czytania,
+Kolejność bierze się z tego, czego która rzecz potrzebuje,
+i reguła, którą trzy pierwsze wyłożyły, obowiązuje czwartą.
+Las szedł pierwszy, bo produkcji nie rusza,
+więc dał się porównać werdykt po werdykcie z tym, co stało.
+Walencja szła przed precedencją, bo kasuje czytania,
 a rozwinięcie permutacji je dopisuje,
-i [`TODO.md`](../TODO.md) pyta wprost,
-co preprocesor precedencji robi z ich liczbą,
-czego bez lasu nie ma czym przeczytać.
+i bez lasu nie było czym przeczytać, ile ich dopisze:
+dopisało cztery ciała i ani jedno nie jest permutacją
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Ruch, który czytania dopisuje, idzie więc za każdym, który je kasuje,
+i to jest wszystko, co ta kolejność mówi luce.
 
-Las, już zbudowany, przesunął przy tym granicę, za którą podłoże zostaje.
+Las przesunął przy tym granicę, za którą podłoże zostaje.
 Enumerator zstępujący wołał `bierze` i `unify` w środku obchodzenia wyprowadzeń,
 z środowiskiem cech niesionym w dół,
 więc zgodność była wpleciona w sam rozbiór.
@@ -1419,11 +1438,17 @@ Tablica Earleya o cechy nie pyta wcale,
 a unifikacja przechodzi po lesie osobno i w jednym miejscu:
 `_sposoby` w `olski/parse.py` rozstrzyga, czy córka pasuje do rodzica,
 i nikt poza nim tego nie rozstrzyga.
-Warunek precedencji ma się więc gdzie wpisać —
+Warunek precedencji miał się więc gdzie wpisać —
 `_przejdź` dostaje ciało wraz z rozpiętościami córek,
 czyli dokładnie to, o co taki warunek pyta —
-i nie żąda rozwinięcia permutacji po to, żeby zostać wypowiedzianym.
-Rozwinięcie zostaje wyborem o liczbę czytań, a nie ceną wejścia.
+i nie żądał rozwinięcia permutacji po to, żeby zostać wypowiedzianym.
+Wpisał się mimo to przed rozbiorem, a nie w lesie,
+bo warunek pytany o rozpiętości odpowiada raz na wyprowadzenie,
+a ten sam warunek rozwinięty odpowiada raz na gramatykę.
+Rozwinięcie zostaje przez to wyborem o liczbę czytań, a nie ceną wejścia,
+i drugi z dwóch odbiorców tego warunku — luka — czeka po tamtej stronie granicy:
+pozycji w napisie nie pilnuje pozycja w ciele
+([niżej](#lukę-zmierzono-i-olski-jej-nie-bierze)).
 
 Urwiska to nie dotyka i nie ma udawać, że dotyka.
 Pozycja lasu jest jednym odcinkiem tekstu,
@@ -1547,11 +1572,13 @@ jedno i drugie dokłada czytania, więc zdanie wychodzi wieloznaczne,
 a wieloznaczność jest werdyktem, który ktoś przeczyta.
 `valid` czyta się inaczej, bo po niego ten tor jest.
 
-Warunki precedencji zabierają z tej listy pozycję ostatnią,
-bo miejsce zadeklarowane raz nie ma jak zostać zapomniane w jednym z ciał.
-Wyceny ruchu to nie jest — tę robi liczba deklaracji zmierzona
+Warunki precedencji zabrały z tej listy pozycję ostatnią,
+bo miejsce zadeklarowane raz nie ma jak zostać zapomniane w jednym z ciał,
+i zabrały ją z ceną, którą widać: cztery ciała, jakich gramatyka pisana ręką nie miała
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Wyceną ruchu to nie było — tę zrobiła liczba deklaracji zmierzona
 [sondą](#podłoże-więzowe-zmierzone-sondą) —
-tylko to, co się przy nim kupuje poza nią.
+tylko tym, co się przy nim kupiło poza nią.
 
 ## The round-trip invariant
 

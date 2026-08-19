@@ -92,7 +92,13 @@ FIGURY = (
         nazwa="negacja",
         polecenie=("python3", "-m", "sonda.negacja", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),
-        ruszają=("olski/subset.py", "olski/parse.py", "sonda/negacja.py", "sonda/ruch.py"),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/negacja.py",
+            "sonda/ruch.py",
+        ),
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
     ),
     Figura(
@@ -105,6 +111,7 @@ FIGURY = (
         #  bierze przysłówek pierwotny i odbiera zdania, których nie odbiera z nim.
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/grammar.py",
             "sonda/przysłówek.py",
@@ -127,6 +134,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/grammar.py",
             "sonda/przysłówek.py",
@@ -152,6 +160,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/grammar.py",
             "sonda/przysłówek.py",
@@ -166,6 +175,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/przecinek.py",
             "sonda/ruch.py",
@@ -183,6 +193,7 @@ FIGURY = (
         #  ani jednego czytania i produkcja stała martwa.
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/morph.py",
             "sonda/interpunkcja.py",
@@ -199,6 +210,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/liczebnik.py",
             "sonda/ruch.py",
@@ -211,6 +223,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/szyk.py",
             "sonda/ruch.py",
@@ -223,6 +236,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/okolicznikowe.py",
             "sonda/ruch.py",
@@ -247,6 +261,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/okolicznikowe.py",
             "sonda/ruch.py",
@@ -294,6 +309,7 @@ FIGURY = (
         #  albo w rozbiorze rusza to, ile z nich wraca.
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/skład/rozbiór.py",
             "olski/skład/składnia.py",
@@ -317,6 +333,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "olski/skład/rozbiór.py",
             "olski/skład/składnia.py",
@@ -330,6 +347,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/pytanie.py",
             "sonda/ruch.py",
@@ -352,6 +370,7 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         ruszają=(
             "olski/subset.py",
+            "olski/precedencja.py",
             "olski/parse.py",
             "sonda/pytanie.py",
             "sonda/ruch.py",

@@ -40,7 +40,6 @@ serves the settled goal of resembling Polish.
 
 | Area | Cheap option | Expensive option | Closeness favours |
 | --- | --- | --- | --- |
-| Word order | Fix subject-verb-object | Dominance plus precedence constraints | Expensive |
 | Subject | Require an overt noun phrase | Allow pro-drop | Expensive |
 | Negation | Clause-wide `nie`, no case shift | Genitive of negation with propagation | Expensive |
 | Clauses | Main clauses only | `że` and `który` subordination | Expensive |
@@ -48,6 +47,19 @@ serves the settled goal of resembling Polish.
 
 Closeness to Polish argues for the expensive column nearly everywhere,
 which is not a reason to build it all at once.
+
+Word order had a row here and has one no longer,
+and the fork closed in two moves rather than one.
+The expensive column was taken first as coverage:
+all six orders of subject, object and verb derive,
+and what that bought and cost is in
+[subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka).
+The mechanism the column names arrived after it,
+so the clause now declares its daughters
+and a precedence condition beside them says which orders are written
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+What is left of the area is not a fork but the constructions that carry order with them,
+and those sit in `TODO.md` as work rather than as a decision.
 
 Numerals had a row here and have one no longer.
 The fork was between excluding them and paying for the agreement fictions,

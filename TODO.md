@@ -901,7 +901,7 @@ Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 
 Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.
-Każde z dwunastu ciał z dopełnieniem, jakie pisze `_ciała_z_wysuniętą_rolą`
+Każde z czternastu ciał z dopełnieniem, jakie pisze `_wysunięta_rola`
 w `olski/subset.py`, ma wypisany podmiot,
 więc `Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się wcale,
 a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
@@ -912,12 +912,13 @@ Nad Składnicą są to cztery zdania i wyszły one z
 [pomiaru luki](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze),
 który je kupił mimochodem, mierząc co innego:
 cechy przeciąganej te cztery zdania do kupienia nie potrzebują.
-Ruchem są ciała bez podmiotu obok tych z podmiotem,
-czyli to samo, co zdanie główne ma w `ClauseConjunct → Predicate`.
+Ruchem jest deklaracja bez podmiotu obok tej z podmiotem,
+czyli to samo, co zdanie główne ma w `ClauseConjunct → Predicate`,
+a ile ciał ona napisze, rozstrzyga rozwinięcie szyku, a nie ręka
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 Do przeczytania jest, ile ta pozycja dokłada wieloznaczności:
 zdanie względne bez podmiotu konkuruje z czytaniem, w którym podmiotem jest zaimek,
-a rodzina ta liczy piętnaście ciał i mnoży się przez szyk oraz przeczenie,
-więc pierwszym pytaniem jest, czy ciał ma być dwanaście nowych, czy mniej.
+a rodzina ta liczy siedemnaście ciał.
 Cenę i zakup bierze się sondą różnicową, tak jak przy każdym dopisaniu
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 a wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
@@ -941,9 +942,13 @@ a wybór po stronie porównania zostawia las, w którym go nie ma.
 Do przeczytania jest przy tym `Node.span` w `olski/parse.py`,
 bo pole to wpisano pod produkcję o pustym ciele, a ta sonda jest jego pierwszym czytelnikiem.
 Nie zamyka tego wpisu cała cena: warunek precedencji na lukę pilnuje pozycji w ciele,
-a nie w napisie, więc zdanie zagnieżdżone dalej wychodzi dwoma kształtami,
-i tę resztę zamyka to samo rozdzielenie dominacji od precedencji,
-o które prosi wpis o szyku wypisanym w produkcjach.
+a nie w napisie, więc zdanie zagnieżdżone dalej wychodzi dwoma kształtami.
+Rozdzielenie dominacji od precedencji tej reszty nie zamknęło i zamknąć nie mogło:
+rozwinięcie mówi o kolejności córek w ciele, czyli o tym samym, o czym mówi luka dziś
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+a warunek pytany o rozpiętości musiałby stanąć w lesie, gdzie `_przejdź`
+w `olski/parse.py` dostaje ciało wraz z rozpiętościami córek.
+Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed nim.
 
 Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
 `RAMA_DOMYŚLNA` w `olski/subset.py` daje `int` każdemu czasownikowi,
@@ -1275,40 +1280,40 @@ because a value copied into this list is stale twice over once somebody retakes 
 Taking them by hand is the work this entry is about not doing twice,
 so the general version above is the move, and retaking them meanwhile is the fallback.
 
-Szyk zdania stoi w produkcjach wypisany, a kupuje go rozdzielenie dominacji
-od precedencji.
-`build` w `olski/subset.py` ma dwadzieścia dziewięć produkcji `ClauseConjunct`,
-bo każdy szyk wypisuje się osobno,
-a każdy jeszcze raz w tylu wersjach, ile ma miejsc na okolicznik,
-i to jest ta część gramatyki, która przy każdej nowej konstrukcji rośnie mnożąc się.
-Czternaście z tych dwudziestu dziewięciu dołożyły
-[cztery szyki](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka),
-czyli jedna zmiana podwoiła tę rodzinę,
-i jest to najbliższy pomiar tego, co ten wpis wycenia.
-Ruchem jest produkcja mówiąca, jakie są córki, wraz z osobnymi warunkami
-precedencji, i preprocesor rozwijający jedno w drugie przed parsowaniem.
-Krok tańszy od niego stoi w `olski/subset.py` zrobiony do połowy i wart dokończenia:
-cztery szyki dopisane wyliczają swoje miejsca na okolicznik pętlą,
-czyli jedno po każdej grupie imiennej i jedno na końcu zdania,
-a szyki starsze wypisują to samo ciałami.
-Ta sama pętla oddaje osiem rodzin ciał z dziewięciu znak w znak,
-a dziewiąta jest powodem, dla którego to nie jest refaktor:
-ciało `Subject Predicate` okolicznika na końcu nie ma,
-bo bierze go `Complements` pod `Predicate`,
-więc pętla dopisałaby tam wyprowadzenie drugie tego samego kształtu,
-czyli wieloznaczność wziętą z niczego.
-Dopóki `Complements` niesie własne miejsca, wyjątek trzeba wypisać,
-a wypisany wyjątek jest tym, co ta pętla miała zdjąć.
-Miejsce tego ruchu w kolejności trzyma
-[kierunek](docs/design-notes.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje),
-jego wycenę [sonda](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
-a pomiar, od którego się zaczyna, wylicza
-[subset.md](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
-Drugie miejsce, w którym gramatyka mnoży ciała, dochodzi inną drogą:
-`NPConjunct` ma dwanaście ciał, z czego osiem jest iloczynem
-czterech kształtów głowy przez obecność `Modifier` po niej,
+Okolicznik nie staje między czasownikiem a tym, co przy nim stoi, i nikt tego nie wycenił.
+`czasownikowe` w deklaracji zdania w `olski/subset.py` wymienia `Verb` i `Predicate`,
+więc miejsce na okolicznik staje po córce, która jest grupą, i po czasowniku nie staje
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Polszczyzna tę pozycję ma i olski płaci za jej brak w obu walutach naraz:
+`Trwa w tej sprawie dochodzenie.` jest odrzucone,
+a `Zapisuje w pliku program ustawienia.` wychodzi jednym czytaniem,
+w którym `program ustawienia` jest dopełnieniem,
+i nie wychodzi tym, w którym `program` zapisuje `ustawienia`.
+Drugie jest cięższe, bo `valid` mówiący o zdaniu nieprawdę ktoś przeczyta
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Zawężenie to jest starsze od rozwinięcia szyku i weszło brakiem ciała,
+a rozwinięcie zrobiło z niego jeden argument, więc dopiero teraz je widać.
+Ruchem jest zdjęcie `Verb` z tej krotki, a przed nim pomiar:
+dziesięć produkcji więcej, a cena stoi w rolach, nie w przyłączeniu,
+bo pozycja ta daje zdaniu czasownikowemu drugie czytanie z podmiotem,
+gdzie pozostałe pozycje okolicznika dają drugie przyłączenie.
+Jest to więc inne pytanie niż to, na które odpowiada
+[reguła o obu czytaniach](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+i sondą je bierze `sonda/ruch.py` tak samo jak każdą inną grupę produkcji.
+Do przeczytania jest cena czterech szyków dopisanych
+([`docs/subset.md`](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
+bo one też kupowały czytania z podmiotem i wróciły z ceną siedmiu zdań.
+Zamknięcie wpisu kasuje wiersz `Trwa w tej sprawie dochodzenie.`
+z `test_these_have_no_reading` w `tests/test_subset.py`.
+
+Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
+`NPConjunct` w `olski/subset.py` ma dwanaście ciał,
+z czego osiem jest iloczynem czterech kształtów głowy
+przez obecność `Modifier` po niej,
 i mnoży to obecność oraz kolejność rodzajów przydawki,
-a nie permutacja argumentów.
+a nie permutacja argumentów,
+więc warunek precedencji nie ma tu czego powiedzieć
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 Czwarty kształt głowy, czyli przymiotnik z dopełniaczem naraz,
 wszedł jako dwa ciała, bo `Modifier` musiał wejść razem z nim,
 i tyle samo zażąda każdy następny.
@@ -1318,28 +1323,15 @@ a nie trzecim rodzajem przydawki razy cztery kształty głowy.
 Kosztowało to symetrię w koordynacji i osobny wpis wyżej,
 a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
-Samo zdanie względne dołożyło za to trzecie miejsce, w którym szyk się wypisuje:
-`RelativeCore` ma piętnaście ciał, bo rola wysunięta ma trzy kształty,
-a reszta zdania szyk i miejsca na okolicznik,
-więc preprocesor zastanie tu dwie rodziny symboli zdaniowych zamiast jednej.
-Sześć z tych piętnastu dołożyła negacja, i nie dołożyła ich za szyk:
-przypadek wysuniętego zaimka zależy od tego, czy czasownik za nim przeczy,
-więc każde ciało z dopełnieniem stoi w dwóch wersjach
-([`docs/subset.md`](docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
-Preprocesor precedencji tego nie zdejmie, bo mnoży tu cecha, a nie kolejność,
-i jest to najbliższy przykład tego, co ten ruch zostawia po sobie.
-Drugim odbiorcą warunków precedencji jest luka, i on już czeka:
-[pomiar cechy przeciąganej](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
-pokazał, że luka bez takiego warunku odbiera jednoznaczność każdemu zdaniu względnemu,
-a warunek postawiony w ciele produkcji zdejmuje z tego tyle,
-ile pozycja w ciele mówi o pozycji w napisie, czyli nie wszystko.
-Preprocesor mówiący o napisie zdejmuje jedno i drugie naraz.
-Do przeczytania jest, co preprocesor robi z liczbą czytań,
-bo permutacja dopisana przez rozwinięcie jest czytaniem tak samo jak każde inne,
-a próba nad prozą README stoi w `sonda/` gotowa do porównania,
-i liczbę czytań podaje teraz las, bez granicy, jaką miała lista.
-Kupuje to jeszcze jedną rzecz, którą sonda pokazała mimochodem:
-szyk wykluczony z olskiego przestaje być wykluczony brakiem produkcji.
+Kierunek pokazuje więc samo zdanie względne: przydawka dochodząca do `NP`
+zamiast do członu znosi ten iloczyn,
+a przy okazji zmienia zasięg, bo daje przydawkę całemu ciągowi współrzędnemu,
+czego przydawka pod członem nie daje.
+Jest to ta sama pozycja, o którą prosi wpis o wyrażeniu przyimkowym nad ciągiem,
+więc kto podnosi jeden z tych dwóch wpisów, rozstrzyga i drugi.
+Do przeczytania jest `_role` w `olski/skład/rozbiór.py`,
+bo czyta ono kształty gramatyki po etykiecie,
+więc każdy nowy poziom kosztuje tam gałąź.
 
 `sonda/polszczyzna.py` jest drugą deklaracją podzbioru,
 który deklaruje `olski/subset.py`,
@@ -1360,9 +1352,13 @@ i przez to pierwszy dowód, że kopia starzeje się przy każdej produkcji.
 Czwarte przyszło z interpunkcją zdaniową i pokazuje się tą samą liczbą:
 dwa zdania README olski wyprowadza od tej pory, a sonda odrzuca oba,
 bo dwukropka ani przecinka przed spójnikiem nie ma po tamtej stronie.
-Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie;
-przestaje wtedy, gdy szyk zejdzie do warunków precedencji i zostanie zmierzony,
-więc wpis stoi za tamtym.
+Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie.
+Wpis czekał na to, aż szyk zejdzie do warunków precedencji,
+i tamten ruch jest zrobiony
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+więc kopia trzyma odtąd samą liczbę zdań zgodnych,
+czyli to, co po każdej produkcji mówi coraz mniej o różnicy dwóch formalizmów,
+a coraz więcej o tym, czego sonda nie ma.
 Ruchem jest wtedy `git rm sonda/__main__.py sonda/polszczyzna.py sonda/wiezy.py`
 wraz z `tests/test_sonda.py`,
 z figurami [tamtej sekcji](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
@@ -1392,9 +1388,9 @@ Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
 a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
 jakim udało się tę liczbę odtworzyć:
-córkę `Adjuncts` albo `Modifier` ma szesnaście produkcji,
-samo `Modifier` stoi w siedmiu z nich,
-a produkcji `ClauseConjunct` z okolicznikiem jest osiem.
+córkę `Adjuncts` albo `Modifier` ma sześćdziesiąt pięć produkcji,
+samo `Modifier` stoi w ośmiu z nich,
+a produkcji `ClauseConjunct` z okolicznikiem jest dziewiętnaście.
 Regułę liczenia rozstrzygnęła po swojej stronie
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 która liczy produkcje i mówi, które z nich zdejmuje.
@@ -1443,7 +1439,7 @@ Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
 Rola wysunięta na czoło nie ma etykiety, którą porównuje bank drzew.
-`_ciała_z_wysuniętą_rolą` w `olski/subset.py` stawia czoło w pozycji podmiotu
+`_wysunięta_rola` w `olski/subset.py` stawia czoło w pozycji podmiotu
 i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,
 więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
 choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
@@ -1473,9 +1469,9 @@ więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
 
 Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
 `DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,
-a `_ciała_z_wysuniętą_rolą` w `olski/subset.py` pisze tym samym kształtem
-także czoło pytania, więc wariant z luką zdejmuje piętnaście ciał względnych,
-a czternastu pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
+a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
+także czoło pytania, więc wariant z luką zdejmuje siedemnaście ciał względnych,
+a szesnastu pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
 Pomiar przez to zaniża i zakup, i cenę: zdanie `Które zadania wykonuje?`
 jest tam odrzucone tak samo jak bez luki
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
