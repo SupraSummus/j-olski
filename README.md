@@ -252,6 +252,7 @@ plan i otwarte pytania.
   czym okazały się jego trafienia, kiedy się je przeczytało,
   i za jaką cenę ten tor został wycofany
 - [docs/roadmap.md](docs/roadmap.md):
+  cele, których część jest nieosiągalna,
   etapy dwóch torów, kierunek jednego i kryterium wyjścia drugiego,
   i to, dlaczego numeracja jednego nie sięga drugiego
 - [docs/prose-linters.md](docs/prose-linters.md):

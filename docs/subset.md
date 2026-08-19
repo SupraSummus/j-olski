@@ -2602,12 +2602,39 @@ Every one of these is a sentence that gets rejected and should not be:
   ([corpus.md](corpus.md#where-the-analyses-stop)),
   i jest to jedno z dwóch zdań, w których liczebnik doprowadził analizę
   do brakującej pozycji, zamiast na niej stanąć.
+  Imiesłów czynny jest poza podzbiorem w tym samym miejscu:
+  `Reguła sięgająca znaku jest tania.` jest odrzucone,
+  a różni się tym, że formy `pact` nie bierze żaden terminal,
+  więc analiza staje na słowie, a nie na kształcie grupy imiennej.
 - `to` as a copula.
   `Kot to zwierzę.` is rejected where `Kot jest zwierzęciem.` derives,
   and the form heads two of the rows
   [corpus.md](corpus.md#where-the-analyses-stop) ranks,
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
+- Rzeczownik odczasownikowy: `Przyłączenie jest tanie.` jest odrzucone,
+  gdzie `Zmiana jest tania.` wyprowadza się.
+  Formy `ger` nie bierze żaden terminal,
+  więc analiza staje na słowie, a nie na kształcie zdania.
+  Pozycję tę wymienia [etap 6](roadmap.md#etap-6-reszta-konstrukcji)
+  obok cyfry i łącznika.
+- Narzędnik bez przyimka jako pozycja przy czasowniku:
+  `Parser mierzy gramatykę sondą.` jest odrzucone,
+  gdzie `Parser mierzy gramatykę.` wyprowadza się,
+  a `Werdykt przychodzi z czytaniem.` wyprowadza się z przyimkiem przed sobą.
+  Olski bierze więc ten przypadek pod przyimkiem i nie bierze go bez niego.
+  Jest to ta sama potrzeba, którą nazywa jedyny wpis tej sekcji
+  niebędący konstrukcją: pozycja poza biernikiem.
+- Koordynacja `a nie` członu, który nie jest zdaniem:
+  `Gramatyka jest tania, a nie droga.` jest odrzucone,
+  gdzie `Gramatyka jest tania, a parser jest szybki.` wyprowadza się.
+  Spójnik łączy tu dwa orzeczniki zamiast dwóch zdań,
+  a drugiemu z nich brakuje czasownika,
+  którego żąda kształt zdania współrzędnego.
+- Dopowiedzenie z `czyli`: `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
+  gdzie `Skład jest tani.` wyprowadza się.
+  Żąda ono tego samego, czego żąda dwukropek wprowadzający wyliczenie
+  na czele tej listy: powiedzenia, do którego składnika zdania się odnosi.
 
 One entry is not a construction but a demand every construction makes:
 

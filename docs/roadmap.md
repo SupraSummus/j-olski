@@ -13,6 +13,10 @@ a co go prowadzi zamiast tego, mówi
 Tor składu je ma i o tym mówi
 [tamta sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
 
+Cel jest trzecią rzeczą obok kryterium i kierunku, i ma [własną sekcję](#cele).
+Mówi, czego chcemy od narzędzia, a nie kiedy praca się kończy,
+więc wolno mu zostać nieosiągniętym.
+
 Tory są dwa i każdy ma własną numerację.
 Numeracja jest kolejnością zależności wewnątrz toru:
 etap, który potrzebuje późniejszego, jest usterką planu,
@@ -143,6 +147,122 @@ Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 Przeredagowanie tego pliku rusza same liczby,
 a nie zakaz przepisywania tych dokumentów pod gramatykę
 ([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+
+## Cele
+
+Etap ma kryterium wyjścia, tor gramatyczny ma kierunek,
+a cel mówi, po co to wszystko jest.
+Cel kryterium nie zastępuje:
+niespełnione kryterium jest robotą do zrobienia,
+a cel wolno mieć nieosiągnięty, dopóki mówi, co by go osiągnęło.
+Lista jest zbiorem, a nie kolejnością, i żaden z celów nie czeka na inny.
+Żaden z nich nie kończy przy tym toru gramatycznego:
+cel nieosiągalny nie jest kryterium, a osiągnięty nie zamyka toru.
+
+Dwa powody, dla których README przestało być kryterium
+([wyżej](#tor-gramatyczny-nie-ma-końca)), dają dwie zasady,
+które cel z tej listy ma wytrzymać.
+Pierwsza: cel nazywa, czym się go sprawdza.
+Nieosiągalny cel jest dopuszczalny, niesprawdzalny nie.
+Druga: cel nad tekstem, który sami piszemy, mierzy zdolność, a nie udział,
+bo udział skraca przeredagowany akapit tak samo jak dopisana produkcja,
+a wydruk nie mówi, które z dwojga zaszło.
+Trzecia zasada przychodzi z toru lintera ([niżej](#tor-lintera-jest-wycofany)),
+gdzie etap, na który nikt nie czeka, okazał się zaległością, a nie planem:
+cel, którego nikt nie podnosi, kasuje się razem z pracą, którą niósł.
+
+**Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
+CLAUDE.md wylicza wzorce, których w prozie nie chcemy —
+zdanie echo i wzmacniacz bez treści wśród
+[fraz gotowych](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen),
+peryfrazę i czasownik domowy wśród tego,
+[dla kogo zdanie jest napisane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) —
+a sprawdza je przegląd zmian, czyli człowiek czytający zdanie po zdaniu.
+Cel żąda, żeby wzorzec raz nazwany dostał wykrywacz,
+a wykrywacz przeszedł po całej prozie repozytorium i stanął na zerze.
+Sprawdza go przebieg, a nie udział, więc przeredagowanie akapitu jest tu robotą.
+Wycofanego toru cel ten nie wskrzesza, choć wygląda podobnie,
+a różni je populacja:
+tamten zestaw reguł strzelał nad cudzą polszczyzną i żądał kalibracji,
+której się nie doczekał,
+a ten chodzi po tekście, który sami napisaliśmy,
+więc trafienia czyta się wszystkie, zamiast progować ich stopę.
+Milczenie kosztuje przy tym zero:
+zdanie, którego olski nie wyprowadza, zostaje przy przeglądzie,
+czyli przy tym, co je dziś sprawdza,
+więc cel nie żąda od tych dokumentów, żeby zmieściły się pod gramatykę
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Osiągnięty, unieważni zdanie z CLAUDE.md,
+że reguł prozy nie pilnuje żaden check, a pilnuje ich przegląd;
+póki nie jest osiągnięty, zdanie to obowiązuje.
+Czeka na czytnik prozy z modułów, bo docstring i blok komentarza
+są prozą tych samych reguł:
+taki czytnik wyszedł razem z torem lintera i trzyma go git,
+więc wraca poleceniem `git show f5f5561^:harness/python.py`,
+zamiast powstawać od nowa.
+
+**Zdanie polskiej dokumentacji technicznej wyprowadza się i wyprowadza raz.**
+Jest to żądanie, które upadło nad README,
+postawione tym razem nad korpusem przypiętym,
+czyli takim, którego nasz commit nie rusza.
+Rejestr ten ma dziś zmierzoną ustawę —
+gramatyka wyprowadza tam jednoznacznie kilkadziesiąt zdań z kilku tysięcy
+([ustawy.md](ustawy.md)) —
+a dokumentacja formatu, czyli tekst najbliższy temu, po co olski jest,
+przeszła przez olskiego po to, żeby zmierzyć ekstrakcję
+([extraction.md](extraction.md#what-the-numbers-here-were-run-over)),
+i werdyktów nad nią nikt nie policzył.
+Osiągnięty w całości nie będzie, bo rejestr niesie zdania,
+których żaden podzbiór nie weźmie,
+więc sprawdza go liczba nad korpusem przypiętym i to, w którą stronę idzie.
+
+**Zdanie wraca z drzewa tym samym zdaniem.**
+Obieg jest dziś zamknięty w jedną stronę — drzewo w tekst, tekst w drzewo —
+niezmiennik trzyma [design-notes.md](design-notes.md#the-round-trip-invariant),
+a robi to `olski/skład/rozbiór.py`.
+Cel żąda drugiej strony: zdanie rozebrane, zrozumiane i wypisane z powrotem,
+znak w znak.
+Filtr w środku jest parametrem tego przebiegu, a nie osobnym celem:
+„użyj formy przestarzałej, jeżeli słownik ją ma” odwraca odsiew,
+który robi `_w_rejestrze` w `olski/skład/morfologia.py`,
+a „nie używaj tej konstrukcji” jest tym, co pomiar różnicowy robi już dziś,
+zdejmując produkcje i porównując werdykty (`sonda/ruch.py`).
+Blokuje ten cel pytanie otwarte, a nie brak kodu:
+jedno czytanie wraca kilkoma drzewami
+([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
+a wypisać trzeba jedno,
+więc cel jest tym, co każe odpowiedzieć na
+[pytanie o ranking nad lasem](open-questions.md#the-round-trip-guarantee).
+Dokument skłania się tam dziś ku „nie”, i jeżeli przy tym zostanie,
+celu w tym brzmieniu nie ma jak osiągnąć — co jest odpowiedzią, a nie porażką.
+
+**Podmiana synonimu zostawia to samo drzewo.**
+Wariant powyższego, osobny dlatego, że sprawdza się czym innym:
+zamień słowo na bliskoznaczne, wypisz zdanie na nowo i rozbierz je,
+a drzewo ma wrócić to samo.
+Zdania, w których nie wraca, nazywają miejsce,
+w którym wycieka rodzaj albo walencja,
+więc jest to sprawdzian obiegu tańszy niż każdy, jaki dziś mamy.
+Że przeżyje znaczenie, cel nie obiecuje, bo na to testu nie ma,
+i nie odwraca to decyzji, że tożsamość rzeczy jest deklaracją autora,
+a nie wnioskiem ze słownika synonimów
+([sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
+Kupuje przy tym mechaniczną połowę reguły, która już obowiązuje:
+przy czasowniku domowym [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)
+każe podstawić czasownik dokładny i sprawdzić, czy zdanie zyskało.
+Czeka na tezaurus, którego to repozytorium nie ma w żadnej postaci,
+a że jest to pytanie do świata, zapisuje je
+[open-questions.md](open-questions.md#shared-questions).
+
+Czego na tej liście nie ma.
+Kierunku, bo prowadzi on tor, zamiast stać na jego końcu,
+i ma [własną sekcję](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Kryterium toru składu, bo jest kryterium, a zapisuje je
+[jego własna sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
+Nie ma też sparsowanej prozy tego repozytorium,
+która była pierwszym brzmieniem celu o wykrywaczu i upadła na drugiej zasadzie:
+udział zdań wyprowadzonych z naszego tekstu skraca przeredagowany akapit,
+a wykrywacz, który ma stać na zerze, skraca tylko poprawione zdanie.
 
 ## Etap 0: gramatyka, która stoi
 
@@ -485,6 +605,16 @@ a żaden z pięciu zmierzonych dodany sam go nie rusza.
 [corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
 a nad łącznikiem nie mierzy nic,
 więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
+
+Lista, którą ten etap ma opróżnić, ma jednak dwa źródła
+i drugim z nich nie jest kolejka.
+Narzędnik bez przyimka, koordynacja `a nie`, dopowiedzenie z `czyli`
+i imiesłów czynny przy rzeczowniku weszły na nią z przebiegu nad prozą,
+która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
+Trzy z tych czterech są przy tym kształtem, a nie formą,
+więc kolejka blokerów nie widzi ich w ogóle
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
 
 Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
 od produkcji pisanych po niej,
@@ -871,6 +1001,9 @@ Tor gramatyczny czyta z tego tyle, ile mówi kształt werdyktu:
 „to zdanie ma dwa czytania, oto one” jest wypowiedzią o zdaniu,
 stopa wzorca na tysiąc słów nie jest,
 a pierwsze nie potrzebuje kalibracji, bo niczego nie proguje.
+
+Wykrywacza wzorców prozy, którego żąda [cel](#cele), wycofanie to nie odwraca,
+a czym się różni od tamtego zestawu reguł, mówi tamta sekcja.
 
 Życzenie, które ten tor niósł obok siebie, wycofania nie dotyczy,
 bo nie było etapem i nie było linterem:

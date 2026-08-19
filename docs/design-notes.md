@@ -762,7 +762,7 @@ a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 40 z 48 tych zdań,
+Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 39 z 48 tych zdań,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -770,7 +770,7 @@ wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
-Pięć z pozostałych ośmiu rozchodzi się na interpunkcji, którą olski bierze,
+Pięć z pozostałych dziewięciu rozchodzi się na interpunkcji, którą olski bierze,
 a sonda nie, i trzy z tych pięciu na samym przecinku.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
 wychodzi w olskim trzema czytaniami,
@@ -791,17 +791,22 @@ olski wyprowadza od tej pory, pierwsze stu czterdziestoma czterema czytaniami,
 a sonda odrzuca oba, bo dwukropka i przecinka przed spójnikiem nie ma po tamtej stronie
 ani jednego łuku.
 
-Trzy ostatnie nie mówią o formalizmie nic i mówią coś o samej sondzie.
+Cztery ostatnie nie mówią o formalizmie nic i mówią coś o samej sondzie.
 `Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
 odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
 a sonda liczebnika nie ma, więc to zdanie odrzuca;
 `Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej
 i został wycofany razem z całą analizą, która schodziła do znaku`
 oraz `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi`
-rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe).
+rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe);
+`Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone`
+olski wyprowadza czterema czytaniami, odkąd formę `Pythonem` czyta
+[leksykon projektu](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
+a sonda bierze ją dalej za nieznaną.
 Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,
-więc starzeje się po cichu przy każdej produkcji dopisanej do olskiego,
-i te trzy rozbieżności są tym, co to pokazuje —
+więc starzeje się po cichu przy każdym dopisaniu do olskiego,
+produkcji czy wiersza leksykonu,
+i te cztery rozbieżności są tym, co to pokazuje —
 razem z dwiema wyżej, które przyszły z interpunkcją zdaniową
 i o formalizmach mówią tyle samo, czyli nic.
 Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
