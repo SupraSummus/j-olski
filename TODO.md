@@ -933,9 +933,12 @@ więc o roli wypełnionej luką milczy tak samo jak o roli wypełnionej zaimkiem
 Ruchem jest luka wskazująca zaimek, który ją wiąże, a nie miejsce, w którym stoi:
 etykieta roli nad zaimkiem, a nie nad pustym węzłem,
 czyli to, co bank drzew robi na tych zdaniach.
-Do rozstrzygnięcia jest, czy niesie ją produkcja, czy porównanie ról,
-i różnicę robi to, że wybór po stronie gramatyki zostawia las, w którym rola ma słowo,
-a wybór po stronie porównania zostawia las, w którym go nie ma.
+Olski poza wariantem stawia tę etykietę produkcją
+([`docs/subset.md`](docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
+więc pytanie, czy niesie ją produkcja, czy porównanie ról, ma tu odpowiedź z precedensu,
+a wariant z luką tamtych ciał nie ma i musi ją postawić po swojemu:
+`RelativeCore` składa tam zaimek ze zdaniem, któremu brakuje dokładnie tego, czym on jest,
+więc etykieta ma stanąć nad zaimkiem w tej jednej produkcji.
 Do przeczytania jest przy tym `Node.span` w `olski/parse.py`,
 bo pole to wpisano pod produkcję o pustym ciele, a ta sonda jest jego pierwszym czytelnikiem.
 Nie zamyka tego wpisu cała cena: warunek precedencji na lukę pilnuje pozycji w ciele,
@@ -1455,34 +1458,23 @@ i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
 Sprawdzianem do napisania obok jest las, który kryterium łamie,
 bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
-Rola wysunięta na czoło nie ma etykiety, którą porównuje bank drzew.
-`_wysunięta_rola` w `olski/subset.py` stawia czoło w pozycji podmiotu
-i w pozycji dopełnienia, a etykiety `Subject` ani `Object` mu nie daje,
-więc czytanie olskiego jest o tę jedną rolę uboższe niż drzewo wzorcowe,
-choć wyprowadza zdanie dokładnie tak, jak czyta je bank.
-Dotyczy to obu rodzin, które ta funkcja pisze, i grupa pytajna niesie to samo
-o jeden krok dalej: etykietę ma, tylko taką, której `PORÓWNYWANE_ROLE`
-w `olski/coverage.py` nie zna, więc zdanie pytające wychodzi zgodne częściowo
-([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
-Kosztuje to ponad połowę zdań w wierszu `lost`
-oraz kilka zdań przyjętych, które się nie zgadzają,
-a liczby obu trzyma
-[`docs/corpus.md`](docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych),
-bo przelicza je każdy przebieg nad bankiem drzew.
-Ruchem jest etykieta na czole, czyli `Subject` albo `Object` nad nim
-zamiast samego czoła w ciele,
-a przed nim rozstrzygnięcie, czy nie psuje to `_pierwsza_rola` w `olski/parse.py`:
-zdanie względne jest w `DEKLARACJA` podrzędne, więc streszczenie tam nie zagląda,
-ale `Node.find` bez pomijania zagląda i to ono czyta zgodność.
-Przeszkodą jest ponadto to, że `Subject` ma własne produkcje
-i wpuszczony do ciała wpuszcza je wszystkie:
-`reguła, ta reguła rozstrzyga` staje się wtedy zdaniem względnym,
-a `Który aktor robi wrażenie.` zdaniem oznajmującym o tym podmiocie,
-czyli wraca czytanie, które zdjął warunek na lemat.
-Do przeczytania jest przy tym, co robi z tym `_role` w `olski/skład/rozbiór.py`,
-które czyta kształty gramatyki po etykiecie.
-Ruch rusza wiersze zgodności w obu kolumnach oraz tabelę ocalenia,
-więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
+Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
+Etykieta roli nad wysuniętym czołem nie rusza ani jednego
+([`docs/subset.md`](docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
+a `Raport.zapisz` w `sonda/ruch.py` notuje zgodność ról pod zdaniem nowo przyjętym,
+czyli dokładnie tam, gdzie werdykt się ruszył,
+i `Outcome.ocalenie` nie bierze wcale.
+Zakup wzięto więc dwoma przebiegami `olski-corpus` i odjęciem wierszy ręką,
+a tamta sekcja nazywa liczby oraz produkcje, które wariant zdejmuje,
+żeby dało się je wziąć drugi raz.
+Ruchem są dwie rzeczy naraz i żadna sama nie wystarcza.
+Pierwszą jest mianownik brany ze zgodności, a nie z werdyktu:
+`zapisz` ma notować zgodność i ocalenie każdego zdania, które oba warianty przyjmują,
+a nie tylko tego, którego werdykt się ruszył.
+Drugą jest gramatyka wariantu brana funkcją, a nie zdejmowaniem grupy produkcji:
+etykieta jest konstytuentem nad czołem, a ciała zdania biorą ją nazwą symbolu,
+więc zdjęta zostawia rodzinę względną bez córki, a nie bez etykiety.
+Tego samego żąda od tej maszynerii `sonda/luka.py`.
 
 Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
 `DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,

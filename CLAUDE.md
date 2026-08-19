@@ -570,8 +570,12 @@ a żadna z tych rzeczy nie wywraca się, kiedy zostaje niezrobiona.
 a jedna zmiana w gramatyce przemianowała go, jego anchor
 i siedem plików, które go linkowały,
 z `tests/test_docs.py` wywracającym się na każdym po kolei.
-Rząd wielkości, stosunek i kierunek wolno tu tak samo jak w akapicie, i wolno zero:
-konstrukcja, która nie kosztuje nic, mówi to w nagłówku,
+Rząd wielkości, stosunek i kierunek wolno tu tak samo jak w akapicie.
+Stosunek ma być przy tym zgrubny, bo dokładny rusza się jak liczba:
+`Złote czytanie ocalało w dziewięciu na dziesięć zdań wieloznacznych`
+przestało być prawdą przy jednej zmianie w gramatyce,
+więc sekcja ta nosi w nagłówku sam kierunek.
+Wolno też zero: konstrukcja, która nie kosztuje nic, mówi to w nagłówku,
 a zero, które przestaje być zerem, jest decyzją odwróconą, a nie liczbą ruszoną,
 więc przemianowanie sekcji jest wtedy właśnie tym, o co chodzi.
 Liczba powyżej zera nie ma ani jednej z tych wymówek,

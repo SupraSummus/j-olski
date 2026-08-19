@@ -41,7 +41,7 @@ from olski.corpus import Sentence, pliki, read
 from olski.coverage import Outcome, po_kawałkach
 from olski.grammar import Grammar, Production, Sym, Var, nt
 from olski.parse import parse
-from olski.subset import FRAGMENT, build, check
+from olski.subset import BEZ_CZOŁA, FRAGMENT, build, check
 
 #: Cecha niosąca przypadek luki, czyli to, czego temu konstytuentowi w środku
 #: brakuje. ``brak`` stoi wypisany, a nie pominięty: cechy, której konstytuent
@@ -224,8 +224,19 @@ def gramatyka(wariant: str) -> Grammar:
     # Luka sama: produkcja o pustym ciele, niosąca przypadek, jakiego pozycja
     # żąda. Dopełnienie ma dwie, bo dopełniacz negacji jest tą samą pozycją przy
     # czasowniku przeczącym, a samo przeczenie niesie już cecha, która stoi.
+    #
+    # Wypisane jest przy tym `czoło`, choć luka staje tylko na swoim miejscu:
+    # ten wariant zdejmuje ciała, które czoła żądają (:data:`DOMYKA`), a cecha
+    # pominięta wpuściłaby lukę pod każde takie ciało, które kiedyś zostanie —
+    # cechy, której konstytuent nie niesie, rodzic nie sprawdza, tak samo jak
+    # przy :data:`LUKA` wyżej.
+    bez_czoła = ("czoło", frozenset({BEZ_CZOŁA}))
     wariantowa.dopisz(
-        Production(head="Subject", body=(), features=frozenset({(LUKA, frozenset({"nom"}))}))
+        Production(
+            head="Subject",
+            body=(),
+            features=frozenset({(LUKA, frozenset({"nom"})), bez_czoła}),
+        )
     )
     for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
         wariantowa.dopisz(
@@ -237,6 +248,7 @@ def gramatyka(wariant: str) -> Grammar:
                         (LUKA, frozenset({przypadek})),
                         ("valency", frozenset({"acc"})),
                         ("negacja", frozenset({negacja})),
+                        bez_czoła,
                     }
                 ),
             )

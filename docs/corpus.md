@@ -455,15 +455,15 @@ The gold trees mark this directly:
 a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
-On the 1,204 accepted sentences where the gold tree marks a role to compare:
+On the 1,205 accepted sentences where the gold tree marks a role to compare:
 
 | | sentences | |
 | --- | --- | --- |
-| agrees | 1,156 | 96.0% |
-| partial | 27 | 2.2% |
+| agrees | 1,166 | 96.8% |
+| partial | 18 | 1.5% |
 | disagrees | 21 | 1.7% |
 
-The denominator is 1,204 and not 1,623
+The denominator is 1,205 and not 1,624
 because the other 419 accepted sentences have no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
 so the gold tree marks none and there is nothing to check.
@@ -490,22 +490,20 @@ rather than because anything was added:
 `Dochodzi 5-ta i zaległa cisza.` has two clauses in the gold tree and two subjects,
 where olski reads one clause and finds the second subject alone.
 None of the five assigns a subject olski contradicts.
-Two more arrived with clause-level punctuation
-and both are two clauses joined by a comma and `a`
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)):
-the verdict names each role from the component clause it first falls in,
-so a gold subject in the second clause is a role the reading does not cover,
-and that is a fact about the summary rather than about the reading
-([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
-One more arrived with the question, and it is a role olski does assign
-under a name the check does not compare:
-in `Który aktor robi na tobie największe wrażenie?`
-the gold tree makes `Który aktor` the subject
-where olski makes it the interrogative phrase
-([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+Most of the rest are `się`, which the gold tree gives a subject slot
+and olski gives no role at all,
+and they are the same class the survival table below counts.
 That is the third verdict the check has,
 and it exists so that a reading covering less than the gold tree
 is not counted as agreeing with it.
+
+Where the gold tree puts a role on a fronted `który`,
+olski puts one there too:
+the fronted constituent carries the label of the role it fills
+([subset.md](subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
+A relative clause or a question reaches this row
+on whatever else its reading says, and not on that one label.
+The label weighs more in the survival table below than it does here.
 
 The twenty-one *disagrees* are twenty-one before clause-level punctuation
 and twenty-one after it, which is what that addition is worth here
@@ -688,7 +686,7 @@ and the other nine keep a reading beside the one the lexicon took.
 The run the lexicon moves furthest is the live one,
 under [what morphological ambiguity costs](#what-morphological-ambiguity-costs).
 
-## Złote czytanie ocalało w dziewięciu na dziesięć zdań wieloznacznych
+## Złote czytanie ocalało w niemal każdym zdaniu wieloznacznym
 
 Zdanie wieloznaczne olski odrzuca,
 a samo odrzucenie nie mówi, czy wśród czytań jest to, którego chce czytelnik.
@@ -712,12 +710,12 @@ Pytanie brzmi więc: czy któreś czytanie obsadza podmiot i dopełnienie tak,
 jak obsadza je drzewo wzorcowe, i czy obsadza oba naraz —
 czytanie z dobrym podmiotem i cudzym dopełnieniem złotym czytaniem nie jest.
 
-Nad 696 zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę:
+Nad 698 zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę:
 
 | | zdania | |
 | --- | --- | --- |
-| `survives` | 635 | 91,2% |
-| `lost` | 61 | 8,8% |
+| `survives` | 669 | 95,8% |
+| `lost` | 29 | 4,2% |
 
 Pozostałe 104 zdania wieloznaczne drzewo wzorcowe zostawia bez ani jednej roli,
 i przebieg liczy je pod tabelą z tego samego powodu,
@@ -741,12 +739,12 @@ Numerem jest miejsce w kolejności, w jakiej las wydaje drzewa,
 i nadaje go samo wyliczanie (`Las.numer_czytania` w `olski/parse.py`),
 bo numer policzony obok byłby tą kolejnością wypisaną drugi raz.
 
-Nad 635 zdaniami, w których złote czytanie ocalało:
+Nad 669 zdaniami, w których złote czytanie ocalało:
 
 | | zdania | |
 | --- | --- | --- |
-| czytanie 1 | 467 | 73,5% |
-| czytania 2-64 | 168 | 26,5% |
+| czytanie 1 | 497 | 74,3% |
+| czytania 2-64 | 172 | 25,7% |
 
 Żadne z nich nie wypada poza wypisywane czytania,
 a najgłębsze jest czterdziestym pierwszym.
@@ -758,22 +756,16 @@ a granica z `MAX_READINGS` nie jest wyliczaniu potrzebna.
 Numer nie rośnie przy tym z wielkością lasu:
 złote czytanie największego z tych lasów jest w nim pierwsze.
 
-Trzydzieści pięć z 61 przepadło na roli, której porównanie po stronie olskiego nie znajduje.
 Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
-a `RelativeCore` w `olski/subset.py` wysuniętemu zaimkowi etykiety roli nie daje:
-wyprowadza on te zdania tak, jak czyta je bank drzew,
-i rozdanie wychodzi z niego o tę jedną rolę uboższe, więc złotemu nie równa się nigdy.
-Jedno z tych trzydziestu pięciu jest pytaniem zależnym, a nie zdaniem względnym,
-i tam etykieta jest, tylko inna: olski nazywa `który wariant` grupą pytajną,
-której porównanie nie zna
-([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
-Zdejmij tę rolę ze strony złotej, a 32 z tych 35 ocaleje —
-wiersz `lost` liczy wtedy 29, a `survives` 667 z 696, czyli 95,8%.
-Pozostałe trzy mają obok niej drugą różnicę i zostają.
-Jest to brak etykiety, a nie błąd czytania,
-tak samo jak pięć zdań z gniazdem `np(part)` w wierszu `disagrees` wyżej,
-i [TODO.md](../TODO.md) trzyma jedno i drugie.
-Ta sama luka dochodzi do zdań przyjętych i waży tam mniej.
+a olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,
+i tak samo je nazywa, bo czoło niesie etykietę roli, którą zajmuje
+([subset.md](subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
+Bez tej etykiety rozdanie ról wychodziłoby o tę jedną rolę uboższe
+i złotemu nie równałoby się nigdy, a wiersz `lost` liczyłby kilkadziesiąt zdań więcej —
+i byłby to odczyt o mierze, a nie o gramatyce,
+bo etykieta nie zmienia ani jednego czytania ani jednego z tych zdań.
+Tą samą miarą płacą jeszcze pięć zdań z gniazdem `np(part)` w wierszu `disagrees` wyżej,
+i [TODO.md](../TODO.md) trzyma tamto.
 
 Dwadzieścia dziewięć, które zostaje, rozkłada się na cztery klasy,
 a dwie z nich wiersze zgodności wyżej już opisują.

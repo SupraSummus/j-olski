@@ -503,7 +503,7 @@ FIGURY = (
             "docs/corpus.md#the-measurement",
             "docs/corpus.md#where-the-analyses-stop",
             "docs/corpus.md#agreement-which-matters-more-than-acceptance",
-            "docs/corpus.md#złote-czytanie-ocalało-w-dziewięciu-na-dziesięć-zdań-wieloznacznych",
+            "docs/corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym",
         ),
     ),
     Figura(

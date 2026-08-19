@@ -1703,21 +1703,13 @@ Drugie z tych dwóch pytań Składnicy nie wyprowadza się i nie staje na pytani
 którego ta gramatyka nie ma,
 więc grupa pytajna dosięga w tym korpusie jednego zdania z dwóch.
 
-Zdanie nowo przyjęte wychodzi zgodne z drzewem wzorcowym częściowo,
-a nie zgodne, i nie jest to werdykt wbrew drzewu.
-Bank drzew nazywa `Który aktor` podmiotem,
-olski nazywa tę samą rozpiętość grupą pytajną,
-więc porównanie ról nie ma tam podmiotu, z którym mogłoby się zgodzić
-([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
-Rolą jest grupa pytajna po to, żeby werdykt powiedział, o co zdanie pyta
-(`PYTAJNY` w `olski/subset.py`),
-a `Subject` nad nią stanąłby dopiero za produkcją `Subject → Interrogative`,
-która wpuściłaby tę grupę w każdą pozycję podmiotu, także w zdaniu oznajmującym,
-czyli wróciłaby z czytaniem zdjętym przez warunek na lemat.
-Porównanie tej roli nie zna i [TODO.md](../TODO.md) trzyma ten ruch
-wraz z tą przeszkodą.
-Nad pytaniem zależnym rola ta nie pada wcale i werdykt mówi tam tyle,
-co nad zdaniem z `że`, czyli nic:
+Zdanie nowo przyjęte wychodzi zgodne z drzewem wzorcowym,
+bo grupa pytajna niesie obok swojej etykiety etykietę roli, którą zajmuje
+([niżej](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)):
+bank drzew nazywa `Który aktor` podmiotem i olski nazywa tę rozpiętość tak samo,
+a grupa pytajna stoi obok tego i mówi, o co zdanie pyta.
+Nad pytaniem zależnym żadna z tych dwóch etykiet nie pada w streszczeniu
+i werdykt mówi tam tyle, co nad zdaniem z `że`, czyli nic:
 oba są zdaniami podrzędnymi, a streszczenie w nie nie zagląda.
 
 Pozycja ramy jest przy tym osobna od pozycji zdania z `że`, a nie tym samym `comp`.
@@ -1978,6 +1970,83 @@ więc pytanie o wyrażenie przyimkowe nie ma tam ani jednego wystąpienia do kup
 Konstrukcja ta jest przez to wyczytana z gramatyki, a nie z korpusu:
 `W którym roku ustawa weszła?` napisała ta sekcja, a nie prawodawca,
 i tyle wolno o tej połowie powiedzieć.
+
+### Czoło niesie etykietę roli, którą zajmuje, a werdyktu nie rusza
+
+Wysunięty konstytuent zajmuje w zdaniu składowym rolę:
+`która` w `reguła, która rozstrzyga` jest podmiotem,
+a `którą` w `polszczyzna, którą napisał autor` dopełnieniem.
+`_wysunięta_rola` w `olski/subset.py` stawia nad nim `Subject` albo `Object`,
+czyli tę samą etykietę, którą nosi rola wypełniona na swoim miejscu.
+
+Bez tej etykiety olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,
+a rozdanie ról wychodzi z nich o jedną rolę uboższe,
+więc porównanie ról nie ma go z czym zestawić;
+ile zdań na tym stało, liczy
+[corpus.md](corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym).
+
+Etykieta jest osobnym konstytuentem nad czołem, a nie cechą na nim,
+bo rolę czyta się z etykiety węzła (`Node.find` w `olski/parse.py`),
+i stąd bierze się trudność tej pozycji.
+Symbol wpisany do ciała wpuszcza tam wszystkie swoje produkcje,
+a `Subject → NP` wpuszcza w to miejsce każdą grupę imienną w mianowniku:
+`reguła, ta reguła rozstrzyga` byłoby wtedy zdaniem względnym,
+a `Który aktor robi wrażenie.` zdaniem oznajmującym o takim podmiocie,
+czyli wróciłoby czytanie, które zdjął
+[warunek na lemat](#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku).
+
+Rozdziela obie rodziny produkcji cecha `czoło` (`BEZ_CZOŁA` w `olski/subset.py`),
+a niosą ją wszystkie produkcje obu symboli,
+bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc rodzina milcząca przechodziłaby przez to żądanie za darmo.
+Rola na swoim miejscu ogłasza, że czoła nie ma;
+rola wysunięta ogłasza nazwę czoła, którym ją wypełniono.
+Wartością jest nazwa symbolu, a nie jedno „wysunięte”,
+bo czoła są trzy i każde należy do jednej rodziny:
+sam zaimek i grupa, w której on stoi, są czołami zdania względnego,
+a grupa pytajna czołem pytania.
+Wspólna wartość zlałaby te rodziny, więc `ustawa, który przepis obowiązuje`
+wychodziłoby zdaniem względnym z grupą pytajną na czole,
+a `Który zapisuje ustawienia?` pytaniem o sam zaimek.
+Tę samą robotę wykonuje przy `Predicative` cecha `valency`:
+rozdziela orzecznik zgodny od narzędnikowego, a kopula żąda drugiego z nich.
+
+Cena wyszła zerowa i wynika z kształtu tej zmiany, a nie z przebiegu.
+Etykieta nie zmienia tego, co się wyprowadza, tylko to, jak się nazywa,
+więc żaden werdykt ruszyć się nie może;
+przebiegi nad bankiem drzew pod obiema morfologiami
+oraz nad trzema korpusami prozy wydają to samo, zdanie po zdaniu.
+Rusza się w nich sama kolejka blokerów, i o kilka zdań:
+bloker mówi, dokąd rozbiór doszedł, a nie co się udało,
+więc produkcja dopisana przesuwa go tam, gdzie tablica sięga dalej
+(`Outcome.blocker` w `olski/coverage.py`).
+
+Zakup liczy się przez to w innej walucie i widać go w dwóch tabelach porównania ról
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Pod złotą morfologią 34 zdania wieloznaczne przechodzą z `lost` na `survives`,
+a 10 zdań przyjętych z `partial` na `agrees`;
+`disagrees` nie rośnie o ani jedno.
+
+Tych dwóch liczb nie bierze żadne polecenie i bierze je ręka,
+bo sonda różnicowa liczy przejścia werdyktu (`sonda/ruch.py`),
+a ta pozycja nie rusza ani jednego.
+Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czołem:
+`Subject → czoło` po jednej na czoło, `Object → czoło` po dwóch,
+bo tam rozdziela je przeczenie,
+a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
+`olski-corpus Składnica-frazowa-180723/` puszczony nad taką gramatyką
+wydaje obie tabele bez etykiety, a różnica wierszy jest tymi liczbami.
+Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
+
+Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
+`Interrogative` mówi, o co zdanie pyta,
+i bez niej pytanie przyjęte nie mówiłoby tego wcale
+(`PYTAJNY` w `olski/subset.py`),
+a `Subject` albo `Object` mówi, czym ta grupa w zdaniu jest,
+i tego żąda bank drzew, bo grupy pytajnej nie zna
+i obsadza `Który aktor` podmiotem.
+Streszczenie wypisuje przez to jedną rozpiętość dwa razy,
+i tyle ta pozycja kosztuje w wydruku.
 
 ### Bank drzew nazywa `który` inaczej niż Morfeusz, a czytelnik to przekłada
 
