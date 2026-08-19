@@ -1,0 +1,37 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury wysunięcie-żywa
+polecenie: python3 -m sonda.wysunięcie Składnica-frazowa-180723/ --morfologia live
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
+ruszają:
+  olski/subset.py: 8239283c8ebd
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: 565d2d9ff784
+  sonda/wysunięcie.py: e217547972d0
+  sonda/ruch.py: 6da1ed0a768e
+
+Składnica, morfologia żywa, 13035 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+                 bez grupy        1384          1225      10426
+            grupa względna        1384          1226      10425
+grupa pytajna z przyimkiem        1384          1225      10426
+                     olski        1384          1226      10425
+
+ruch wobec wariantu „bez grupy” — grupa względna:
+        1  rejected → ambiguous
+
+ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — olski:
+        1  rejected → ambiguous
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie grupy ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
+
+grupa względna, rejected → ambiguous:
+  W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.
+
+olski, rejected → ambiguous:
+  W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.

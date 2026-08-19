@@ -403,15 +403,22 @@ powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover
   spójnik jest zamkniętą listą lematów, a konstrukcję wraz z ceną trzyma
   [poniżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
 - A relative clause on a noun phrase, agreeing with it in number and gender,
-  with the pronoun standing for the subject, for the object
-  or under a fronted preposition:
-  `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`
-  Both are argued and priced
+  with the pronoun standing for the subject, for the object,
+  or under a fronted preposition together with the group it stands in:
+  `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`,
+  `ustawy, na podstawie której jest ono wydawane`
+  The group carries the number and gender of the pronoun rather than of its own head,
+  because it is the pronoun that agrees with the antecedent;
+  the construction is argued and priced
   [below](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
-- Zdanie pytające o grupie imiennej na czole, w pozycji podmiotu i dopełnienia:
-  `Który aktor robi na tobie największe wrażenie?`, `Które zadania gmina wykonuje?`
+- Zdanie pytające o grupie imiennej na czole,
+  w pozycji podmiotu, dopełnienia i wyrażenia przyimkowego:
+  `Który aktor robi na tobie największe wrażenie?`, `Które zadania gmina wykonuje?`,
+  `W którym roku ustawa weszła?`
   Grupą pytajną jest zaimek przy rzeczowniku, a nie sam zaimek,
   i jest ona rolą, którą werdykt nazywa, bo mówi, o co zdanie pyta.
+  Pod przyimkiem stoi ta sama grupa, więc pozycja trzecia jest drugim czołem,
+  a nie trzecim kształtem grupy.
 - Pytanie zależne jako to, co czasownik bierze,
   czyli pozycja ramy osobna od pozycji zdania z `że`:
   `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
@@ -1789,14 +1796,36 @@ choć zdanie główne ma ten szyk tylko w pierwszej wersji:
 i różni je to, że zaimek względny wysuwa polszczyzna zawsze,
 a dopełnienie z wyboru.
 
-Wysunięte wyrażenie przyimkowe niesie przy tym sam zaimek i nic poza nim.
-Polszczyzna wysuwa razem z nim całą grupę, w której on stoi —
-`ustawy, na podstawie której jest ono wydawane` —
-i takiego zdania ta gramatyka nie wyprowadza,
-bo `której` jest tam dopełniaczem przy `podstawie`, a nie grupą pod przyimkiem.
-Nad „Zasadami techniki prawodawczej” jest to jedyne zdanie,
-które przechodzi z wieloznaczności w odrzucenie,
-i przechodzi dlatego, że stało na czytaniu współrzędnym.
+Wysunięte wyrażenie przyimkowe niesie przy tym nie sam zaimek,
+ale całą grupę, w której on stoi:
+`ustawy, na podstawie której jest ono wydawane` jest zdaniem
+„Zasad techniki prawodawczej”, a `której` jest tam dopełniaczem przy `podstawie`.
+Cechy rozchodzą się w takiej grupie na dwie strony,
+i to jest cała jej trudność.
+Przypadek wypuszcza rzeczownik, bo o przypadek pyta przyimek nad grupą,
+a liczbę i rodzaj wypuszcza zaimek,
+bo zaimek zgadza się z poprzednikiem, a rzeczownik przy nim nie zgadza się z niczym.
+Zmienna wspólna dla obu par wygląda tu poprawnie i odwraca zgodność,
+bo `w wyniku której` ma głowę męską przy żeńskim poprzedniku,
+a przyimek nie rządzi naraz dopełniaczem zaimka i miejscownikiem głowy.
+
+Kształty tej grupy są trzy: sam zaimek (`o którym`),
+rzeczownik z zaimkiem za sobą (`na podstawie której`)
+i ten sam rzeczownik z zaimkiem przed sobą (`o którego zdaniu`).
+Każdy kolejny jest osobnym ciałem produkcji,
+bo cechy nie przechodzą przez grupę imienną same,
+więc głowa z przydawką pod sobą wysunięcia nie ma.
+Ile te trzy kupują i ile kosztują, mierzy
+[grupę wysuniętą zmierzono](#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania).
+
+Zostaje z tej konstrukcji jedna pozycja i jest nią grupa wysunięta bez przyimka:
+`ustawa, której przepisy obowiązują` wysuwa tę samą grupę w pozycję podmiotu.
+Żąda ona od grupy dwóch par liczby i rodzaju naraz —
+orzeczenie zgadza się z głową, a poprzednik z zaimkiem —
+więc czoło wzięte z tej grupy przyjmuje `której przepisy obowiązuje`
+i odrzuca `której przepisy obowiązują`,
+czyli wydaje werdykt pewny siebie i błędny.
+[TODO.md](../TODO.md) trzyma tę pozycję wraz z tą przeszkodą.
 
 Zdanie względne z wysuniętym dopełnieniem żąda przy tym podmiotu,
 bo każde takie ciało ma go wypisany,
@@ -1818,6 +1847,94 @@ a nie z korpusu.
 Po jedno i drugie sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
 a ile ona kupuje i dlaczego nie weszła, mierzy
 [design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
+
+### Grupę wysuniętą zmierzono: nie kosztuje nic i kupuje pojedyncze zdania
+
+Pełne wiersze są w [figury/wysunięcie.txt](../figury/wysunięcie.txt),
+te spod morfologii żywej w [figury/wysunięcie-żywa.txt](../figury/wysunięcie-żywa.txt),
+a te nad rejestrem ustaw w [figury/wysunięcie-ustawy.txt](../figury/wysunięcie-ustawy.txt)
+oraz w [figury/wysunięcie-ztp.txt](../figury/wysunięcie-ztp.txt);
+polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych czterech
+([`harness/figury.py`](../harness/figury.py)).
+
+Grupy są dwie i zdejmuje się je osobno, bo cena każdej z nich jest osobną liczbą.
+Grupa względna jest rzeczownikiem z zaimkiem w dopełniaczu, w obu szykach,
+wysuniętym przed zdanie względne razem z przyimkiem.
+Grupa pytajna z przyimkiem jest tą samą grupą pytajną,
+którą pytanie stawia w podmiocie i w dopełnieniu
+([wyżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)),
+tylko wysuniętą razem z przyimkiem, który nią rządzi.
+Pytanie żąda przez to drugiego czoła, a nie trzeciego kształtu grupy,
+i tym te dwie połowy różnią się od siebie.
+
+Z dwóch szyków grupy względnej rejestr niesie jeden — zaimek za głową:
+`na podstawie której`, `w interesie którego`, `w następstwie którego`,
+`na terytorium których`.
+Szyku odwrotnego, czyli `o którego zdaniu`, nie ma w nim ani razu:
+
+```sh
+grep -ohP '\b(?:na|w|o|z|do|przez|od|dla|pod|nad|przy|po|za|wobec|bez)\s+któr\w+\s+\w+' \
+  proza/ztp/*.txt proza/ustawy/*.txt | sort | uniq -c | sort -rn
+```
+
+Cztery piąte z 1208 trafień jest zwrotem `o którym mowa`,
+gdzie `mowa` jest orzeczeniem zdania względnego, a nie głową grupy pod przyimkiem,
+a w pozostałych zaimek zgadza się z przyimkiem i głowy przy sobie nie ma.
+Szyk z zaimkiem przed głową jest więc wyczytany z polszczyzny, a nie z korpusu,
+tak samo jak pytanie o tę grupę niżej.
+Sam ten zwrot jest przy tym najczęstszym zdaniem względnym rejestru ustaw
+i nie wyprowadza się wcale, bo kopuła jest w nim opuszczona;
+[TODO.md](../TODO.md) trzyma tę pozycję.
+
+```text
+Rozporządzenie powinno wchodzić w życie w dniu wejścia w życie ustawy, na podstawie
+której jest ono wydawane.
+W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład
+wchodził uwięziony wilk.
+W którym roku ustawa weszła?
+```
+
+Cena wyszła zerowa w każdym z trzech korpusów i pod obiema morfologiami banku drzew:
+ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności ani wyprowadzenia,
+i nie zmienia się ani jeden werdykt poza tymi, które ta konstrukcja kupuje.
+Grupy nie spierają się przy tym o ani jedno zdanie,
+choć `z którego pliku` spełnia żądanie obu naraz:
+zaimek jest tam i dopełniaczem, i zgodny z rzeczownikiem po sobie.
+Rozdziela je nie kształt grupy, ale to, co ją bierze —
+zdanie względne wisi na grupie imiennej, a pytanie zamyka pytajnik
+albo stoi w ramie czasownika — więc zdanie sporne musiałoby dopuszczać
+jedno i drugie w tym samym miejscu.
+
+Zera po stronie ceny nikt tu nie przewidział.
+Grupa wysunięta następuje po przyimku,
+a przyłączenia wyrażenia przyimkowego olski
+[nie wybiera](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
+więc zdanie przyjęte z `o której` mogło od tej grupy dostać drugie czytanie,
+w którym rzeczownik za zaimkiem przechodzi na głowę grupy.
+Nie dostało go ani jedno, bo grupa żąda dwóch przypadków naraz:
+dopełniacza od zaimka i przypadka przyimka od swojej głowy.
+`Reguła, o której ustawa mówi, jest tania.` wyprowadza się przez to raz,
+bo `ustawa` jest mianownikiem, a `o` mianownika nie rządzi.
+
+Zakup jest drobny i cały należy do grupy względnej.
+Nad „Zasadami techniki prawodawczej” przechodzą z odrzuconych na wieloznaczne
+dwa zdania, jednym z nich jest to zdanie o rozporządzeniu wyżej,
+a nad Składnicą jedno, i tylko pod morfologią żywą.
+Pod złotą morfologią to jedno zdanie zostaje poza gramatyką jeszcze jedną formą:
+`uwięziony` dostało od anotatora sam imiesłów bierny,
+a przydawka przed rzeczownikiem przyjmuje przymiotnik i nic poza nim,
+bo imiesłów wpuszcza w tej gramatyce `PredicativeAdjective`, i tylko on.
+Nad rejestrem ustaw nie rusza się ani jedno zdanie w żadną stronę.
+
+Grupa pytajna z przyimkiem nie kupuje ani jednego zdania w żadnym z tych korpusów,
+i jest to odczyt o rejestrze, a nie o produkcjach.
+Pytań stawia Składnica jedno na piętnaście zdań,
+a lemat, na którym ta grupa stoi, otwiera dwa z nich
+([figury/pytajne.txt](../figury/pytajne.txt)),
+więc pytanie o wyrażenie przyimkowe nie ma tam ani jednego wystąpienia do kupienia.
+Konstrukcja ta jest przez to wyczytana z gramatyki, a nie z korpusu:
+`W którym roku ustawa weszła?` napisała ta sekcja, a nie prawodawca,
+i tyle wolno o tej połowie powiedzieć.
 
 ### Bank drzew nazywa `który` inaczej niż Morfeusz, a czytelnik to przekłada
 
@@ -2049,16 +2166,22 @@ Every one of these is a sentence that gets rejected and should not be:
   They come back with the particle and not before it,
   and two of them stand second and third in the `comp` row
   [corpus.md](corpus.md#where-the-analyses-stop) ranks, behind `że` itself.
-- Zaimek pytajno-względny wysunięty razem z grupą, w której stoi,
-  czyli ta z jego trzech konstrukcji, której nie ma:
-  `ustawy, na podstawie której jest ono wydawane` jest odrzucone,
-  gdzie pytanie i pytanie zależne wyprowadzają się
-  ([wyżej](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
-  Grupa wysuwa tu liczbę i rodzaj z zaimka, a nie ze swojej głowy,
-  bo to zaimek zgadza się z poprzednikiem,
-  i każdy jej kolejny kształt jest osobnym ciałem produkcji.
-  Pytanie o tę samą grupę — `W którym roku ustawa weszła?` — stoi na tym samym
-  braku, a nie na drugim.
+- Zdanie względne z opuszczoną kopułą, czyli `o którym mowa`:
+  `Rada wykonuje zadania, o których mowa w ustawie.` jest odrzucone,
+  bo `mowa` jest tam orzeczeniem, a zdania składowego bez czasownika ta gramatyka nie ma.
+  Jest to najczęstsze zdanie względne rejestru ustaw —
+  niesie je co siódme zdanie tych korpusów
+  ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)) —
+  a odrzucenie stoi tam na strukturze, bo każda forma tego zwrotu ma licencję.
+- Grupa z zaimkiem względnym wysunięta bez przyimka,
+  czyli ta jej pozycja, której nie ma:
+  `ustawa, której przepisy obowiązują, jest tania` jest odrzucone,
+  gdzie `ustawa, na podstawie której organ wydaje akt, jest tania` wyprowadza się
+  ([wyżej](#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+  Rozdziela je zgodność: pod przyimkiem grupa nie zgadza się z niczym,
+  a w pozycji podmiotu orzeczenie zgadza się z jej głową,
+  poprzednik z jej zaimkiem,
+  i dwóch par liczby oraz rodzaju naraz ta grupa nie wypuszcza.
 - Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
   `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
   `Czy program zapisuje ustawienia?` jest odrzucone,

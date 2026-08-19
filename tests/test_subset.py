@@ -1484,6 +1484,69 @@ def test_grupa_pytajna_zgadza_się_ze_swoją_głową():
     assert found.status == "rejected", found.explain()
 
 
+def test_grupa_wysunięta_zgadza_się_z_poprzednikiem_swoim_zaimkiem_a_nie_głową():
+    #  Usterka, którą to łapie: liczba i rodzaj wypuszczone z głowy grupy, a nie
+    #  z zaimka. Wygląda ona poprawnie, bo grupa imienna wszędzie indziej w tej
+    #  gramatyce wypuszcza cechy swojej głowy, i przechodzi każdym zdaniem, w
+    #  którym głowa jest tego samego rodzaju co poprzednik — `na podstawie
+    #  której` przy `ustawa` jest właśnie takim zdaniem. Rozdziela je głowa
+    #  rodzaju innego niż poprzednik: `wyniku` jest męskie, `Reguła` żeńska, a
+    #  zaimek zgadza się z poprzednikiem, więc stoi w rodzaju żeńskim.
+    found = verdict("Reguła, w wyniku której program zapisuje ustawienia, jest tania.")
+    assert found.status == "valid", found.explain()
+    głowa = verdict("Reguła, w wyniku którego program zapisuje ustawienia, jest tania.")
+    assert głowa.status == "rejected", głowa.explain()
+
+
+def test_grupa_wysunięta_wchodzi_oboma_szykami_zaimka_i_głowy():
+    #  Polszczyzna stawia zaimek w dopełniaczu za głową i przed nią, więc oba
+    #  szyki są tu ciałami produkcji. Drugiego z nich nie pilnuje nic poza tą
+    #  linią: rejestr ustaw niesie sam pierwszy, więc żaden przebieg nad korpusem
+    #  nie zauważy, że ciało z zaimkiem przed głową wyszło z gramatyki
+    #  (docs/subset.md pod „Grupę wysuniętą zmierzono”).
+    za = verdict("Reguła, na podstawie której program zapisuje ustawienia, jest tania.")
+    assert za.status == "valid", za.explain()
+    przed = verdict("Program, o którego pliku ustawa mówi, jest tani.")
+    assert przed.status == "valid", przed.explain()
+
+
+def test_przyimek_grupy_wysuniętej_rządzi_przypadkiem_głowy_a_nie_zaimka():
+    #  Przypadek rozchodzi się w tej grupie w drugą stronę niż liczba i rodzaj:
+    #  zaimek jest dopełniaczem przy głowie, a przyimek pyta o przypadek głowy.
+    #  Rozdziela to przyimek rządzący dopełniaczem, czyli tym przypadkiem, który
+    #  zaimek ma: `bez podstawy której` wyprowadza się, bo dopełniaczem jest tam
+    #  głowa, a `bez podstawie której` nie, choć `której` dopełniaczem jest w obu.
+    głowa = verdict("Reguła, bez podstawy której program zapisuje ustawienia, jest tania.")
+    assert głowa.status == "valid", głowa.explain()
+    zaimek = verdict("Reguła, bez podstawie której program zapisuje ustawienia, jest tania.")
+    assert zaimek.status == "rejected", zaimek.explain()
+
+
+def test_pytanie_wysuwa_grupę_pytajną_razem_z_przyimkiem():
+    #  Czoło pytania jest tu drugie i jest wyrażeniem przyimkowym, a nie nowym
+    #  kształtem grupy: pod przyimkiem stoi ta sama grupa pytajna, którą pytanie
+    #  stawia w podmiocie i w dopełnieniu, więc rolę werdykt nazywa tak samo.
+    #
+    #  Napis roli jest tu drugim żądaniem, a nie sprawdzeniem tego samego dwa
+    #  razy. Ta pozycja wynosi grupę pytajną ponad zdanie składowe i jest jedyną,
+    #  która robi to bez zdania składowego nad sobą: okolicznik na czele zdania
+    #  wynosi rolę tak samo, ale stoi pod `ClauseConjunct`, a streszczenie bierze
+    #  z gałęzi to najwyższe. Bez czoła pytania w `Deklaracja.składowe` pytanie o
+    #  jednym zdaniu składowym dostaje więc wielokropek mówiący, że streszczenie
+    #  milczy o drugim.
+    found = verdict("W którym roku ustawa weszła?")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0][PYTAJNY] == "którym roku"
+
+
+def test_pytanie_nie_wysuwa_z_przyimkiem_samego_zaimka():
+    #  Rzeczownika ta pozycja żąda, bo pytanie bez niego każe go domyślić z
+    #  tego, co stoi obok, a konstrukcji do domyślenia olski nie ma. Wpuszczony
+    #  zaimek sam dałby ponadto drugie czytanie każdemu pytaniu tego kształtu.
+    found = verdict("W którym ustawa weszła?")
+    assert found.status == "rejected", found.explain()
+
+
 def test_zdanie_względne_zgadza_się_z_poprzednikiem_i_tym_odbiera_przyłączenie():
     #  Liczba i rodzaj zaimka mówią o poprzedniku, a przypadek o roli w zdaniu
     #  podrzędnym, więc `które` w liczbie mnogiej ma się do czego przyłączyć

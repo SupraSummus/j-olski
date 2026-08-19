@@ -314,10 +314,8 @@ na dwukropku i na liczebniku,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 
-Etap zostaje więc otwarty, a brakuje mu reszty podrzędności,
-która żąda nowego kształtu: zaimka wysuniętego razem z grupą, w której stoi,
-bo każdy kolejny kształt takiej grupy jest osobnym ciałem produkcji
-([subset.md](subset.md#what-it-does-not-cover-yet)).
+Etap zostaje więc otwarty, a brakują mu dwie pozycje podrzędności
+i obie nazywa niżej to dopisanie, które je odsłoniło.
 
 Okolicznik wyrażony zdaniem wchodzi obiema pozycjami, przed swoim zdaniem i za nim,
 i jest pierwszym policzonym dopisaniem tego etapu.
@@ -383,7 +381,39 @@ czyli słowa żądające każde innego kształtu niż grupa imienna na czole zda
 Kolejka po tym dopisaniu jest więc kolejką kształtów pytania,
 a nie listą lematów do dopisania obok jednego, który olski ma.
 
-Zostaje na liście tego etapu jedno i jego cena będzie ostatnią, jaką etap zmierzy.
+Grupa wysunięta razem z zaimkiem jest czwartym policzonym dopisaniem tego etapu.
+Polszczyzna wysuwa na czoło nie tylko zaimek `który`, ale i grupę, w której on stoi,
+a grupa ta rozchodzi cechy na dwie strony:
+przypadek do przyimka nad sobą, a liczbę i rodzaj do poprzednika
+([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a zakup drobny: dwa zdania „Zasad techniki prawodawczej” i jedno Składnicy.
+Zera po stronie ceny nikt tu nie przewidział,
+bo grupa następuje po przyimku, którego przyłączenia olski nie wybiera.
+Nie kosztuje ona dlatego, że żąda dwóch przypadków naraz:
+dopełniacza od zaimka i przypadka przyimka od swojej głowy.
+
+Pytanie o tę grupę weszło razem z nią i nie kupiło ani jednego zdania nigdzie,
+co jest o rejestrze odczytem, a nie o produkcji:
+`W którym roku ustawa weszła?` napisała ta dokumentacja, a nie żaden korpus.
+Zdanie względne żądało tu kształtu grupy, a pytanie drugiego czoła,
+i te dwie połowy zostały przez to policzone osobno.
+
+Zostają na liście tego etapu dwie pozycje i obie odsłonił ten sam przebieg.
+Pierwszą jest ta sama grupa wysunięta bez przyimka.
+Żąda ona dwóch par liczby i rodzaju naraz — orzeczenie zgadza się z głową grupy,
+a poprzednik z jej zaimkiem — więc czoło wzięte z niej wprost
+wydaje werdykt pewny siebie i błędny
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+
+Drugą jest zdanie względne z opuszczoną kopułą, czyli `o którym mowa`,
+i jest ono najczęstszym zdaniem względnym rejestru ustaw:
+niesie je co siódme zdanie tych korpusów i nie wyprowadza się ani jedno
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+Znalazł je grep, którym mierzono szyki grupy wysuniętej,
+i tym się ta pozycja różni od trzech powyżej:
+nie ustawiła jej ani kolejka ze Składnicy, ani ranking form bez licencji,
+bo każda forma tego zwrotu licencję ma, a odrzucenie stoi na strukturze.
 
 ## Etap 5: słowa, których słownik nie ma
 

@@ -200,7 +200,7 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 | razem | 4921 | 81 | 304 | 4536 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 6 jednoznacznych i 21 wieloznacznych.
+699 zdań, z tego 6 jednoznacznych i 23 wieloznaczne.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -365,6 +365,11 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
 
 Z 4536 odrzuceń 3485 stanęło na formie, której żadna produkcja nie bierze,
 a 1051 na samej strukturze.
+Ranking obejmuje pierwszą z tych dwóch grup i drugiej nie widzi wcale,
+a największą konstrukcją, jaka w niej stoi, jest `o którym mowa`:
+niesie je co siódme zdanie tych dwóch korpusów, każda forma ma tam licencję,
+a zdanie względne z opuszczoną kopułą nie ma wyprowadzenia.
+Ruch i jego cenę trzyma [TODO.md](../TODO.md).
 Formy z czoła tego rankingu grupują się w trzy klasy:
 
 | klasa | najczęstsze formy |
@@ -532,6 +537,25 @@ trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,
 czyli klasy zajmującej dziewięć pierwszych miejsc,
 która zdania nie wypuszcza tak czy tak.
+
+Grupa wysunięta razem z zaimkiem względnym jest jedyną konstrukcją,
+którą ten rejestr kupił „Zasadami techniki prawodawczej”, a nie ustawami:
+
+```sh
+cat proza/ustawy/*.txt > proza/ustawy.txt
+cat proza/ztp/*.txt > proza/ztp.txt
+python3 -m sonda.wysunięcie proza/ustawy.txt
+python3 -m sonda.wysunięcie proza/ztp.txt
+```
+
+Nad siedmioma ustawami nie rusza się ani jedno zdanie w żadną stronę,
+a nad rozporządzeniem dwa przechodzą z odrzuconych na wieloznaczne,
+i jednym z nich jest przepis o dniu wejścia w życie rozporządzenia
+([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Różnica jest informacją o dwóch tekstach, a nie o produkcji:
+rozporządzenie pisze o ustawie i o akcie wykonawczym pod nią,
+więc `na podstawie której` jest tam zwrotem powtarzanym przepis po przepisie,
+gdzie ustawa nie ma o czym tak mówić.
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 

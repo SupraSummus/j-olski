@@ -399,6 +399,73 @@ FIGURY = (
         czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
     ),
     Figura(
+        nazwa="wysunięcie",
+        polecenie=("python3", "-m", "sonda.wysunięcie", "Składnica-frazowa-180723/"),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/wysunięcie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
+        nazwa="wysunięcie-żywa",
+        #  Ta sama sonda po morfologii żywej, i tu jedyny zakup banku drzew stoi.
+        #  Pod złotą nie rusza się nad tym korpusem nic, więc kolumna złota mówiłaby
+        #  sama o konstrukcji, która nad bankiem drzew nie kupuje niczego.
+        polecenie=(
+            "python3",
+            "-m",
+            "sonda.wysunięcie",
+            "Składnica-frazowa-180723/",
+            "--morfologia",
+            "live",
+        ),
+        korpusy=("Składnica-frazowa-180723",),
+        ruszają=(
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/wysunięcie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
+        nazwa="wysunięcie-ustawy",
+        polecenie=("python3", "-m", "sonda.wysunięcie", "proza/ustawy.txt"),
+        korpusy=("proza/ustawy.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/wysunięcie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
+        nazwa="wysunięcie-ztp",
+        #  „Zasady techniki prawodawczej” stoją osobno od siedmiu ustaw, bo są
+        #  rozporządzeniem, i to one dają tej konstrukcji zdanie, na którym stanęła:
+        #  `ustawy, na podstawie której jest ono wydawane` jest ich przepisem.
+        polecenie=("python3", "-m", "sonda.wysunięcie", "proza/ztp.txt"),
+        korpusy=("proza/ztp.txt",),
+        ruszają=(
+            "harness/ustawy.py",
+            "olski/subset.py",
+            "olski/precedencja.py",
+            "olski/parse.py",
+            "sonda/wysunięcie.py",
+            "sonda/ruch.py",
+        ),
+        czyta=("docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania",),
+    ),
+    Figura(
         nazwa="pytajne",
         polecenie=("python3", "-m", "sonda.pytajne", "Składnica-frazowa-180723/"),
         korpusy=("Składnica-frazowa-180723",),

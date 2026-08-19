@@ -1,0 +1,31 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury wysunięcie
+polecenie: python3 -m sonda.wysunięcie Składnica-frazowa-180723/
+korpus: Składnica-frazowa-180723
+czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
+ruszają:
+  olski/subset.py: 8239283c8ebd
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: 565d2d9ff784
+  sonda/wysunięcie.py: e217547972d0
+  sonda/ruch.py: 6da1ed0a768e
+
+Składnica, morfologia złota, 13035 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+                 bez grupy        1623           800      10612
+            grupa względna        1623           800      10612
+grupa pytajna z przyimkiem        1623           800      10612
+                     olski        1623           800      10612
+
+ruch wobec wariantu „bez grupy” — grupa względna:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — olski:
+  żadne zdanie nie zmieniło werdyktu
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie grupy ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno
