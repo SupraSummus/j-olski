@@ -27,8 +27,10 @@ include = ["olski*"]
 #  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.
 #  Tabela skłonności przyłączeniowych idzie tą samą drogą i z tym się różni, że
 #  bez niej warstwa rozstrzygająca milczy, zamiast nie wstać.
+#  Leksykon projektu idzie nią jako trzeci i czyta się przy imporcie jak pierwszy,
+#  a bez niego wraca `ign` na każde słowo, którego SGJP nie ma.
 [tool.setuptools.package-data]
-olski = ["leksykon.txt", "skłonności.txt"]
+olski = ["leksykon.txt", "skłonności.txt", "projekt.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

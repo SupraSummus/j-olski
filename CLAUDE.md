@@ -652,6 +652,14 @@ Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któ
 gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
 a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
 
+Reguła ta nie obejmuje każdych danych w `olski/`.
+`olski/projekt.txt` jest leksykonem projektu i pisze się go ręką,
+bo wiersz odpowiada na pytanie, na które nie odpowiada żaden korpus:
+wedle którego leksemu odmienia się słowo, którego słownik nie ma
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
+Generatora ten plik nie ma i szukanie go jest szukaniem czegoś, czego nie ma;
+przebiegiem wychodzą z niego formy, a nie wiersze.
+
 **Figury nad prozą tego repozytorium nie zapisujemy.**
 Każdy korpus z deklaracji jest przypięty — datowanym wydaniem, repozytorium na commicie —
 więc tekst pod figurą stoi i rusza ją tylko zmiana w kodzie,

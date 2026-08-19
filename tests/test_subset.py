@@ -879,8 +879,12 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     #  zrobienia. Formy, której Morfeusz odmienioną nie zna, nie bierze żaden
     #  terminal; Nowa program ma każdą formę wziętą i stoi na zgodności rodzaju,
     #  więc test pilnuje, żeby zdania zostały dwa.
-    forma = verdict("Konwencje prozy, kodu, testów i commitów trzyma CLAUDE.md.")
-    assert forma.nielicencjonowane == ("commitów",)
+    #
+    #  Formą jest tu nazwa obca, a nie `commitów`, bo słowo, które leksykon
+    #  projektu nazywa, ma czytania i licencję (`olski/projekt.txt`), więc
+    #  odpowiedź pierwszą pokazuje dopiero forma spoza tego leksykonu.
+    forma = verdict("Modele stawiają prozę wyżej od New Yorkera.")
+    assert forma.nielicencjonowane == ("Yorkera",)
     assert "no production takes" in forma.explain()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()

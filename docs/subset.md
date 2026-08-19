@@ -311,8 +311,118 @@ zdanie naprawdę nie mówi, co tu prowadzi co.
 
 To jest połowa klasy, a nie cała.
 Drugą połową jest polskie słowo odmienione, którego słownik nie ma,
-i tej olski nie wpuszcza;
-powód trzyma [lista tego, czego gramatyka nie obejmuje](#what-it-does-not-cover-yet).
+i tej czytania nieodmiennego dać nie wolno;
+wpuszcza ją [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+
+## Leksykon projektu wpuszcza polskie słowo, którego słownik nie ma
+
+`olski`, `commitów`, `Pythonem` — SGJP nie ma ani jednego z tych słów,
+więc Morfeusz oddaje je jako `ign`, którego nie bierze ani jedna produkcja.
+Czytania nieodmiennego, którym wchodzi notacja, dać im nie wolno,
+i tą jedną rzeczą ta połowa klasy różni się od tamtej:
+`commitów` jest dopełniaczem liczby mnogiej,
+więc czytanie nieodmienne nie byłoby tu tylko nieznane, ale fałszywe,
+a olski obiecuje, że każde jego zdanie jest polszczyzną.
+Zgadywanie odmiany po zakończeniu wyrazu odpada z tego samego powodu:
+Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał (`olski/morph.py`),
+bo czytanie zgadnięte jest czytaniem, którego nikt nie zadeklarował.
+
+Zostaje deklaracja, a zapisuje ją `olski/projekt.txt`.
+Wpis wskazuje leksem, wedle którego słowo się odmienia, a form nie wypisuje:
+`commit` odmienia się wedle `bat`, a `Python` wedle `dzban`.
+Wzorzec jest przy tym faktem o odmianie, a nie o znaczeniu,
+i dlatego wolno nim wskazać słowo, które z naszym nie ma nic wspólnego.
+Wskazuje się leksem, a nie lemat,
+bo pod jednym napisem stoi ich kilka i różnią się właśnie odmianą:
+`bat:Sm3~a` ma dopełniacz `bata`, a `bat:Sm3~u` ma `batu`.
+Jeden lemat ma tyle wierszy, ile leksemów mu się należy,
+więc `olski` dostaje tam dwa wiersze, przymiotnik i rzeczownik,
+tak samo jak `polski` ma w słowniku dwa leksemy.
+
+Przeciw wskazaniu leksemu stała alternacja tematu,
+czyli to, że `plik` ma w miejscowniku `pliku`, a temat na `t` bierze tam `cie`,
+więc wzorzec dobrany byle jak wydaje formę, której polszczyzna nie ma.
+Alternację niesie jednak sam wzorzec, bo granicę tematu wycina to,
+na czym jego własne formy przestają się zgadzać:
+`bat` ma `bacie`, więc temat schodzi do `ba`, a końcówką zostaje `t`,
+i `commit`, który kończy się na `t`,
+bierze stamtąd i `commitach`, i `commicie`.
+Końcówka jest zarazem tym, czego wzorzec od naszego słowa żąda,
+a żądania niespełnionego nie zostawia się w ciszy:
+wpis dający `commitowi` wzorzec `figura` zgłasza się, zamiast wziąć temat wzorca.
+
+Jednej pomyłki wzorzec sam nie łapie i ona jest ceną tego rozstrzygnięcia.
+Wzorzec alternujący inaczej niż nasze słowo spełnia warunek na końcówkę
+i wydaje formę fałszywą: `pies` daje temat `p` wraz z końcówką `ies`,
+więc `bies` dostałby z niego dopełniacz `bsa`.
+Trzecią kolumną wpisu jest więc świadek, czyli jedna forma, którą wzorzec ma wydać,
+i on tę pomyłkę zgłasza.
+Świadek ma być formą inną niż lemat, bo lemat wychodzi z każdego wzorca,
+który przeszedł warunek na końcówkę,
+a tam, gdzie ta proza słowo odmienia, świadkiem jest forma stojąca w niej naprawdę.
+
+Podmiana tematu idzie tam, gdzie temat stoi, a nie na początku formy,
+bo formę wolno poprzedzić przedrostkiem:
+słownik trzyma `niemalowanie` w paradygmacie `malować`,
+więc `lintować` bierze stamtąd `nielintowanie`.
+
+Wiersza nie dostaje angielska nazwa przytoczona w polskim zdaniu.
+`Grammatical Framework` i `Semantic Line Breaks` nie mają polskiego paradygmatu,
+więc nie ma czego wskazać i żaden wiersz by ich nie wpuścił;
+`New Yorkera` i `Morfologik` paradygmat mieć mogłyby i wiersza nie mają,
+bo README pisze je w pozycji listy, a nie w zdaniu, na które czeka jakiś werdykt.
+Plik jest przez to rejestrem tego, co ktoś rozstrzygnął, a nie listą zamkniętą,
+i słowo bez wiersza wraca jako `ign`, czyli tak samo jak przed tym plikiem.
+
+Wiersza nie dostaje też leksem dokładany do napisu, który słownik zna,
+i tym plik ten różni się od `olski/skład/leksemy.py`, który wybiera między leksemami
+słownika ([sklad.md](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)).
+Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
+a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego, czyli czym innym.
+Wiersz na taki leksem dokłada czytanie formie, którą słownik już czyta,
+więc łamie własność, na której opiera się cena tej warstwy,
+i cena takiego wiersza jest ceną zwykłą, mierzoną w czytaniach zdań przyjętych.
+Ta połowa klasy zostaje przez to poza tym plikiem, a ruch trzyma [TODO.md](../TODO.md).
+
+Czyta ten leksykon jedno miejsce i jest nim `morphology` w `olski/subset.py`,
+czyli to samo, w którym notacja dostaje swoją krawędź.
+Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
+([sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
+a ruch trzyma [TODO.md](../TODO.md).
+
+### Leksykon projektu zmierzono: nie odbiera ani jednego zdania, bo tych form słownik nie czyta
+
+Cena tej warstwy jest zerowa i nie jest to wynik przebiegu, tylko własność:
+ani jednej formy tego leksykonu słownik nie czyta,
+więc zdanie bez takiej formy dostaje czytania nietknięte,
+a zdanie z taką formą było przedtem odrzucone,
+bo `ign` nie bierze żadna produkcja.
+Zdanie, które się wyprowadza, nie ma więc jak stracić jednoznaczności
+w żadnym korpusie, a nie tylko w tym, nad którym ktoś puścił przebieg.
+`test_żadnej_formy_leksykonu_słownik_nie_zna` w `tests/test_projekt.py`
+pyta o tę własność każdą formę leksykonu,
+bo wiersz, który ją łamie, dokłada czytanie zdaniom już przyjętym.
+
+Zakup mierzy README, a bierze się go poleceniem, które trzyma
+[przebieg nad tym plikiem](corpus.md#where-the-analyses-stop),
+puszczonym dwa razy — raz nad leksykonem opróżnionym z wierszy.
+Pięć form schodzi z listy tych, którym gramatyka nie bierze ani jednego czytania —
+`olski`, `olskim`, `commitów`, `Pythonem`, `konstytuent` —
+i dwa zdania tego pliku stają odtąd na strukturze, a nie na formie.
+Zdania przyjętego nie kupuje ani jednego, tak samo jak dopisania przed nim,
+a jedno zdanie przenosi z odrzuconych na wieloznaczne.
+Odczyt jest o pomiarze nad tym plikiem, a nie o klasie:
+zdanie README, które stało na słowie nieznanym,
+stoi teraz na rzeczowniku odczasownikowym — `wyprowadzenie`, `przyłączenie`,
+`sięgnięciu` — na cyfrze, na `dopiero` albo na strukturze,
+i tak samo odpowiadały dopisania przed nim.
+Kolejka nad tym plikiem stawiała tę klasę na czele,
+a po tym dopisaniu prowadzą ją rzeczowniki odczasownikowe.
+
+Nad bankiem drzew nie mierzy się tego wcale i mierzyć nie ma czego:
+złota morfologia nie zostawia tam ani jednej formy nieznanej,
+a żywa zostawia takie, których ten leksykon nie nazywa,
+bo Składnica jest prozą prasową i słów tego rejestru nie pisze.
 
 ## What the grammar covers
 
@@ -980,9 +1090,10 @@ choć nad Składnicą przeniósł zakup przecinka o połowę w górę.
 Dwukropek stał w tej kolejce następny i wszedł
 ([niżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
 też nie ruszając tej liczby,
-więc nad tą prozą czeka ona na rzeczownik odczasownikowy
-i na polską formę, której słownik nie zna
-([roadmap.md](roadmap.md#etap-5-słowa-których-słownik-nie-ma)).
+a polska forma, której słownik nie zna, weszła po nim
+i tej liczby też nie ruszyła
+([wyżej](#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)),
+więc nad tą prozą czeka ona na rzeczownik odczasownikowy.
 
 ## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
 
@@ -1098,7 +1209,7 @@ Jednym z tych trzech jest zdanie, które warunek na przyimek stąd odebrał
 więc wobec gramatyki przed tą zmianą wieloznacznych przybywa dwa, a nie trzy.
 Jest to o kolejce nad tym plikiem odczyt, a nie o konstrukcji:
 zdania README, które stały na dwukropku, stoją teraz na rzeczowniku
-odczasownikowym, na formie, której słownik nie zna, na `dopiero` albo na strukturze,
+odczasownikowym, na `dopiero` albo na strukturze,
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 Nad rejestrem ustaw wypada ta para najskromniej z trzech:
@@ -2498,7 +2609,7 @@ Every one of these is a sentence that gets rejected and should not be:
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
 
-Two entries are not constructions but demands every construction makes:
+One entry is not a construction but a demand every construction makes:
 
 - **Valency, past the accusative.**
   The lexicon [above](#walencja-jest-leksykonem-o-ramie-domyślnej)
@@ -2508,24 +2619,13 @@ Two entries are not constructions but demands every construction makes:
   The infinitive is the position that was measured and left alone,
   and what it waits on is `się` reaching the verb it belongs to
   rather than the one it stands beside.
-- **A Polish form the dictionary does not have.**
-  Morfeusz is asked not to guess at one (`olski/morph.py`),
-  so it comes back tagged `ign`,
-  which no production takes and no agreement can rescue.
-  `olski` is such a form:
-  `Język polski jest podzbiorem polszczyzny.` derives
-  and `Język olski jest podzbiorem polszczyzny.` does not,
-  so the language cannot say in itself what it is.
-  Notation is the half of this class olski does admit,
-  and the reason the rest stays out is that the form is inflected:
-  `Pythonem` is a noun in the instrumental and `commitów` a genitive plural,
-  and reading any of them as the indeclinable noun notation gets
-  would invent a reading that is not merely unknown but wrong,
-  against the promise that every olski sentence is well-formed Polish.
-  Gold morphology leaves a treebank no such form,
-  which is why the queue in
-  [corpus.md](corpus.md#where-the-analyses-stop) does not rank it
-  and a run over documentation does.
+
+Słowo, którego słownik nie ma, było tu drugim takim żądaniem i zeszło:
+odmianę takiego słowa deklaruje
+[leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
+a `Język olski jest podzbiorem polszczyzny.` wyprowadza się i wyprowadza raz.
+Słowo bez wpisu wraca dalej jako `ign`,
+i jest to wtedy brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 
 ## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 

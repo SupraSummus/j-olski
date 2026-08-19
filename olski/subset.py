@@ -29,6 +29,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, replace
 
+from olski import projekt
 from olski.document import SENTENCE_CLOSE, Document
 from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
 from olski.morph import Reading, Segment, analyse, tag
@@ -1498,16 +1499,38 @@ NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
 def morphology(text: str) -> list[Segment]:
     """Analizuje tekst tak, jak czyta go olski.
 
-    Dwie rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
+    Trzy rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
     krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
-    krawędzi, a czytelnik ma tam jedno słowo. Reszta idzie do Morfeusza i traci te
-    czytania, które odrzuca :func:`admissible`.
+    krawędzi, a czytelnik ma tam jedno słowo. Słowo, którego słownik nie ma,
+    dostaje czytania z leksykonu projektu (:mod:`olski.projekt`), bo ``commitów``
+    jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieodmiennego.
+    Reszta idzie do Morfeusza i traci te czytania, które odrzuca
+    :func:`admissible`.
 
     Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
-    return [admissible(segment) for segment in _segmenty(text)]
+    return [admissible(_z_leksykonu(segment)) for segment in _segmenty(text)]
+
+
+def _z_leksykonu(segment: Segment) -> Segment:
+    """Krawędź wraz z czytaniami, jakie leksykon projektu daje jej formie.
+
+    Czytania leksykonu dochodzą do tych, które ma słownik, a nie zastępują ich,
+    bo leksykon orzeka o formie, a nie łata milczenie Morfeusza: forma, którą
+    słownik zna, a leksykon o niej mówi, ma czytania jednego i drugiego, i tyle
+    właśnie czytań ma wtedy w polszczyźnie.
+
+    Czytanie ``ign`` stąd schodzi, bo mówi ono, że słowa nie zna nikt, a
+    leksykon właśnie je nazwał. Krawędź bez czytań z tego nie wyjdzie: znika ono
+    tylko tam, gdzie leksykon coś dołożył.
+    """
+    czytania = projekt.czytania(segment.form)
+    if not czytania:
+        return segment
+    znane = tuple(reading for reading in segment.readings if reading.tag.known)
+    return replace(segment, readings=znane + czytania)
 
 
 def _segmenty(text: str) -> list[Segment]:

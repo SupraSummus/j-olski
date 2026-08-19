@@ -445,13 +445,11 @@ a formy `ign` nie bierze żadna produkcja.
 Notację tego rejestru — `docs/subset.md`, `harness/markdown.py` —
 olski wpuszcza jako rzeczownik nieodmienny,
 bo rzeczownikiem nieodmiennym taka forma w polszczyźnie jest.
-Zostaje polskie słowo odmienione, którego słownik nie zna:
+Drugą połową klasy jest polskie słowo odmienione, którego słownik nie zna:
 `olski`, `commitów`, `Pythonem`.
 Dla niego to samo czytanie byłoby nie tylko nieznane, ale fałszywe,
-i dlatego [subset.md](subset.md#what-it-does-not-cover-yet)
-trzyma tę klasę osobno od tamtej.
-`Język olski jest podzbiorem polszczyzny.` się nie wyprowadza,
-więc język nie umie powiedzieć sam w sobie, czym jest.
+i dlatego [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
+trzyma tę połowę osobno od tamtej.
 
 Etap nie zależy od czterech powyżej ani one od niego,
 a numeracja żąda tylko tego, żeby żaden nie potrzebował późniejszego.
@@ -463,6 +461,19 @@ i widać ją dopiero w przebiegu nad dokumentacją.
 
 **Wyjście:** `Język olski jest podzbiorem polszczyzny.`
 wyprowadza się i wyprowadza raz.
+Zaliczone: odmianę takiego słowa deklaruje `olski/projekt.txt`,
+wskazując leksem, wedle którego się ono odmienia, wraz z formą, którą ten leksem
+ma wydać, zob.
+[subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+Etap kupił mechanizm, a nie listę słów, i widać to po cenie:
+ani jednej formy tego leksykonu słownik nie czyta,
+więc zdanie, które się wyprowadza, nie ma jak stracić przez niego jednoznaczności
+([subset.md](subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)).
+Zdania przyjętego nie kupuje przy tym nad README ani jednego,
+tak samo jak dopisania przed nim,
+a klasa, która stała w tamtej kolejce na czele, z niej schodzi.
+Słowo bez wpisu wraca dalej jako `ign`,
+i jest to odtąd brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 
 ## Etap 6: reszta konstrukcji
 

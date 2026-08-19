@@ -1,0 +1,36 @@
+# Leksykon projektu olskiego: słowa, których SGJP nie ma, a rejestr ich używa.
+# Kolumny to lemat, leksem, wedle którego to słowo się odmienia, oraz świadek,
+# czyli jedna forma, którą ten leksem ma wydać.
+#
+# Leksem zapisuje się identyfikatorem SGJP, bo lemat leksemu nie wskazuje, a
+# odmianą różnią się właśnie leksemy: `bat:Sm3~a` ma dopełniacz `bata`, a
+# `bat:Sm3~u` ma `batu`. Wedle którego, jest faktem o odmianie, a nie o
+# znaczeniu, więc `commit` odmienia się wedle `bat`, a `Python` wedle `dzban`.
+#
+# Świadek jest formą inną niż lemat, bo lemat wychodzi z każdego leksemu, który
+# przeszedł warunek na końcówkę, i tam, gdzie proza tego repozytorium słowo
+# odmienia, świadkiem jest forma stojąca w niej naprawdę. `lintuje` jest jedynym,
+# którego proza nie pokazuje: `lintować` stoi w niej tylko w bezokoliczniku.
+#
+# Komu wiersz się należy, a komu nie — angielskiej nazwie przytoczonej, leksemowi
+# dokładanemu do napisu, który słownik zna — mówi sekcja o tym leksykonie w
+# `docs/subset.md`.
+#
+# Jeden lemat ma tyle wierszy, ile leksemów mu się należy. `olski` jest i
+# przymiotnikiem, i rzeczownikiem, tak samo jak `polski`, a `konstytuent` ma w
+# tej prozie dwa dopełniacze, `konstytuentu` i `konstytuenta`, więc stoi tu
+# dwoma wierszami, tak jak słownik trzyma `bat` dwoma leksemami.
+#
+# Plik pisze się ręką i tym różni się od `olski/leksykon.txt`, który powstaje
+# przebiegiem. Form nie wypisuje żaden wiersz, więc nie stoi tu ani jedna
+# komórka przepisana ze słownika: wydaje je Morfeusz, a `olski/projekt.py` mówi,
+# jak z leksemu robi się paradygmat i co go pilnuje.
+commit	bat:Sm3~a	commita
+konstytuent	argument	konstytuentu
+konstytuent	bat:Sm3~a	konstytuenta
+lintować	malować	lintuje
+Markdown	wagon	Markdownie
+olski	polski:A	olskim
+olski	polski:S	olskiemu
+Python	dzban	Pythona
+Świgra	figura	Świgrze

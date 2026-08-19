@@ -1113,12 +1113,15 @@ Plik czytany przez oba kierunki kupuje przy tym to samo,
 co kupuje [leksykon walencyjny](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej):
 że `komit` jest słowem raz, a nie dwa razy.
 
-Czym wpis ma być, nie zapadło.
-Wypisanie form kosztuje pisanie i nie ma jak się pomylić;
-wskazanie leksemu, wedle którego wpis się odmienia,
-kosztuje jedno pole i łamie się tam, gdzie temat alternuje,
-bo `plik` ma w miejscowniku `pliku`, a temat zakończony na `t` bierze tam `cie`.
-Trzyma to [`TODO.md`](../TODO.md).
+Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:
+`olski/projekt.txt` nazywa leksem, wedle którego słowo się odmienia,
+wraz z jedną formą, którą ten leksem ma wydać.
+Alternacja tematu, która przeciw wskazaniu leksemu stała,
+schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,
+trzyma [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+Czyta ten plik strona analizy, a skład go nie czyta,
+więc obietnica z akapitu wyżej — że `komit` jest słowem raz, a nie dwa razy —
+czeka na drugiego czytelnika, i ruch do niej trzyma [`TODO.md`](../TODO.md).
 
 ## Kwalifikator mówi o formie dwie rzeczy i tylko jedna jest rejestrem
 

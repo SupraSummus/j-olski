@@ -269,19 +269,19 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Five sentences of that README derive once, and seven derive more than once.
-Five of the seven hang a prepositional phrase
+Five sentences of that README derive once, and eight derive more than once.
+Six of the eight hang a prepositional phrase
 where either the noun or the verb could host it,
 and two read a nominative as an accusative,
 which are the two classes
 [open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 counts over a whole register;
 `--readings` is what shows them, as readings olski has and a reader does not.
-Three sentences carry both at once,
+Four sentences carry both at once,
 the attachment multiplied by the case read twice over,
 once in each of their clauses,
-and the longest of those three comes out with a hundred and forty-four readings.
-Two of the seven arrived with the adverb,
+and the longest of those four comes out with a hundred and forty-four readings.
+Two of the eight arrived with the adverb,
 which took them off the rejected list and gave them a second reading
 rather than one
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
@@ -294,9 +294,15 @@ the class this register shows the same way the treebank shows it on `wobec`.
 Two more arrived with clause-level punctuation and neither is bought by it:
 each leaves the rejected list with more than one reading
 ([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+One arrived the same way with the project lexicon,
+which took `Pythonem` off the list of forms no production takes
+and gave that sentence four readings rather than one
+([subset.md](subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)).
 What stops the rest is the table above in another order:
-the Polish form Morfeusz does not know at the front,
-and gerunds behind it.
+gerunds at the front.
+The Polish form the dictionary does not have led that order and is gone from it,
+the lexicon above declaring the paradigm of every such word this file writes,
+and what stays out of the class is a name this file only cites.
 The numeral stood in that order and stands there no longer,
 the grammar having it
 ([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
@@ -412,21 +418,24 @@ and what it establishes is about the dictionary rather than about the sentence.
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,
 and gold morphology leaves a treebank no such form to rank,
-which is why [subset.md](subset.md#what-it-does-not-cover-yet) owns it.
+which is why [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+and [the lexicon beside it](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
+own it.
 It is a demand on the grammar that this register makes and the treebank cannot,
 and it is the reason to take this run at all
 rather than to read the table alone.
 
-Half of that demand is met, and this run is what says which half is worth meeting.
+Both halves of that demand are met, and this run is what said which half is worth
+meeting first.
 The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
-reaches the grammar as one indeclinable noun rather than as five segments
-([subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
+reaches the grammar as one indeclinable noun rather than as five segments,
 and two of the five sentences accepted here rest on it,
 as do two of the three that derive twice.
-What is left is the inflected Polish word Morfeusz lacks —
-`commitów`, `Pythonem` —
-which is the class the ordering above puts behind the subordinators.
+The inflected Polish word Morfeusz lacks —
+`commitów`, `Pythonem` — came second and came differently:
+that reading is declared word by word rather than matched by a pattern,
+because an indeclinable reading would be wrong for it rather than merely unknown.
 That the notation had to be found here rather than in the treebank
 is the register difference in one figure:
 eight tokens of it occur in these 13,035 sentences,

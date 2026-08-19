@@ -156,6 +156,29 @@ def _analyser() -> morfeusz2.Morfeusz:
     )
 
 
+@functools.lru_cache(maxsize=1)
+def _syntetyzator() -> morfeusz2.Morfeusz:
+    """Morfeusz w trybie syntezy, trzymany jeden, bo słownik siedzi w pamięci.
+
+    Instancja jest osobna od analizującej, bo tryb rozstrzyga się przy budowie,
+    a stoi tutaj, obok tamtej, bo pytają o nią dwa kierunki naraz i żaden nie
+    pyta o nic więcej: słownik jest jeden i czyta się go w dwie strony.
+    """
+    return morfeusz2.Morfeusz(generate=True, expand_tags=False)
+
+
+def generuj(lemat: str) -> list[tuple]:
+    """Wszystko, co słownik odmienia pod tym lematem, tak jak on to wydaje.
+
+    Krotka niesie formę, identyfikator leksemu, tag surowy, nazwy i kwalifikatory,
+    a pytający czytają z niej różne pola — kwalifikator czyta sama synteza —
+    więc nie wychodzi stąd ani jedno pole odjęte.
+    Leksemów wychodzi tyle, ile słownik trzyma pod tym napisem,
+    bo wybór między nimi jest wyborem autora, a nie tego modułu.
+    """
+    return _syntetyzator().generate(lemat)
+
+
 def analyse(text: str) -> list[Segment]:
     """Segment and analyse text, returning the edges of its segmentation graph."""
     edges: dict[tuple[int, int, str], list[Reading]] = {}

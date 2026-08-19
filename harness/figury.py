@@ -609,6 +609,10 @@ FIGURY = (
             "olski/check.py",
             "olski/document.py",
             "olski/leksykon.txt",
+            #  Leksykon projektu rusza tę figurę, bo README pisze słowa, które on
+            #  nazywa; nad korpusem, który żadnego z nich nie pisze, nie ruszy nic.
+            "olski/projekt.py",
+            "olski/projekt.txt",
         ),
         czyta=("docs/corpus.md#where-the-analyses-stop",),
         ręką=(
@@ -928,6 +932,8 @@ FIGURY = (
             "olski/parse.py",
             "olski/morph.py",
             "olski/leksykon.txt",
+            "olski/projekt.py",
+            "olski/projekt.txt",
             "sonda/__main__.py",
             "sonda/polszczyzna.py",
             "sonda/wiezy.py",
