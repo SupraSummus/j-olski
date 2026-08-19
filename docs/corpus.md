@@ -116,6 +116,15 @@ By length, which is the shape the curve actually has:
 | 21–40 | 0.2% |
 | 41+ | 0.0% |
 
+Both tables predate several additions to the grammar,
+and the figure that owns them has not been run in this repository at all
+([`harness/figury.py`](../harness/figury.py)),
+so the counts below are older than the grammar they describe.
+Where the current totals are needed they stand in
+[figury/znaczenia.txt](../figury/znaczenia.txt),
+which prints them for a question of its own,
+and every differential figure in that directory carries them in its bottom row.
+
 So olski is a subset of short declarative Polish and nothing else,
 and coverage falls off a cliff between ten and twenty tokens.
 That is the honest starting point of the curve,
@@ -179,6 +188,28 @@ the grammar having the construction at both of its hosts
 It is the largest single move this table has recorded:
 597 sentences left the rejected list,
 which is what the rows below have moved up by.
+
+The particle led the second row with 1,896 sentences
+and the grammar has a closed list of it, in the adverb's two positions
+([subset.md](subset.md#cząstka-stoi-tam-gdzie-przysłówek-a-listę-lematów-zamyka-warunek-na-czytanie)).
+Ninety-one sentences left the rejected list and almost as many became ambiguous,
+and nine of the ninety-one come out read against the gold tree:
+the particle stands inside the noun phrase there and beside the clause here,
+which is a disagreement of extent rather than of role.
+What the row reads after that is not measured here, for the reason below,
+and what stays in it is the reflexive and the four lemmas admitted or excluded
+one by one.
+
+The gerund led the fourth row with 587 sentences
+and the grammar has it, as a head of the noun phrase
+([subset.md](subset.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)).
+Sixty-one sentences left the rejected list and two and a half times as many
+moved from rejected to ambiguous.
+What the row reads after that is not measured here:
+the figure that owns this table has not been run in this repository at all
+([`harness/figury.py`](../harness/figury.py)),
+so the count beside `ger` is the one that ranked the construction
+rather than the one that records admitting it.
 
 The subordinator led the fifth row with 567 sentences and the row reads 356,
 the grammar having the adverbial clause
@@ -269,19 +300,23 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Five sentences of that README derive once, and eight derive more than once.
-Six of the eight hang a prepositional phrase
+Five sentences of that README derive once, and ten derive more than once.
+Eight of the ten hang a prepositional phrase
 where either the noun or the verb could host it,
 and two read a nominative as an accusative,
 which are the two classes
 [open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 counts over a whole register;
 `--readings` is what shows them, as readings olski has and a reader does not.
-Four sentences carry both at once,
+Six sentences carry both at once,
 the attachment multiplied by the case read twice over,
 once in each of their clauses,
-and the longest of those four comes out with a hundred and forty-four readings.
-Two of the eight arrived with the adverb,
+and the longest of those six comes out with a hundred and forty-four readings.
+The fifth of them arrived with the gerund
+([subset.md](subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
+which took `przyłączenie` off the list of forms no production takes
+and left the sentence with eight readings rather than one.
+Two of the ten arrived with the adverb,
 which took them off the rejected list and gave them a second reading
 rather than one
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
@@ -299,8 +334,14 @@ which took `Pythonem` off the list of forms no production takes
 and gave that sentence four readings rather than one
 ([subset.md](subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)).
 What stops the rest is the table above in another order:
-gerunds at the front.
-The Polish form the dictionary does not have led that order and is gone from it,
+the conditional at the front.
+The gerund led that order and is gone from it,
+the grammar having it as a head of the noun phrase
+([subset.md](subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
+and the particle that took its place is gone the same way
+([subset.md](subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)),
+so what leads it now is `by`, on two sentences.
+The Polish form the dictionary does not have led that order before it and is gone too,
 the lexicon above declaring the paradigm of every such word this file writes,
 and what stays out of the class is a name this file only cites.
 The numeral stood in that order and stands there no longer,
@@ -316,7 +357,7 @@ and four sentences of this file carried one.
 Admitting it moved neither of the two counts above,
 which is this paragraph's point taken from the other side:
 every sentence of this file that stood on a subordinator stood on something else too.
-Three of those four stop now on a semicolon, on a gerund and on `by`,
+Three of those four stop now on the shape of one, on the shape of another and on `by`,
 and the fourth left the rejected list when the colon came in,
 with a hundred and forty-four readings —
 the sentence named above as the longest of the three
@@ -326,10 +367,17 @@ the grammar having the comma Polish writes in front of it
 ([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
 That order is read off the words the run names,
 which is a classification by hand rather than a second command.
-The comma, the past tense, the numeral, the adverb and clause-level punctuation
-stand in neither ranking, the grammar having them,
-and the punctuation left here is the semicolon and the quotation mark,
-one sentence each.
+The comma, the past tense, the numeral, the adverb, clause-level punctuation
+and the gerund stand in neither ranking, the grammar having them,
+and of punctuation nothing is left here at all:
+the semicolon left this order with the third sign of the separating kind
+([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
+and the quotation mark with the wrapping kind
+([subset.md](subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+Neither sentence is bought by that: the first is rejected still,
+on the shape its words are in — `Dlaczego` opens it,
+and a question opened by that word olski has not —
+and the second comes out with readings rather than one.
 The past tense left the count where it found it and changed which sentences make it:
 `Czarna lista kupowała jednak co innego, niż obiecywała.` derives now,
 and `Pierwsze i czwarte dzieli sam szyk,
@@ -342,7 +390,7 @@ The ranking names the token each parse stopped on
 and this names every word no production takes,
 which is coarser and puts the same constructions in front,
 so the queue holds in a register the corpus does not contain.
-Sixteen rejected sentences have no such word at all —
+Twenty-six rejected sentences have no such word at all —
 `Reszta repozytorium to notatki projektowe, przegląd pola,
 plan i otwarte pytania.` —
 which is that coarseness in the open:
@@ -351,7 +399,7 @@ and what stops the sentence is the shape they are in.
 The run says which is which rather than leaving it to be worked out:
 a rejected sentence names the words no production takes,
 or says that nothing derives it when every word is one some production does,
-which is those eight.
+which is that set.
 
 That order is not the order of what an addition buys.
 Both rankings count the sentences a construction stopped,
@@ -403,17 +451,20 @@ and the reason it could be made at all was
 so without the entry saying `działać` takes none
 the numeral would have made this sentence ambiguous rather than accepted.
 
-What the gerund would cost is the dictionary's to decide rather than the grammar's,
-and on this file it comes to nothing.
+What the gerund cost was the dictionary's to decide rather than the grammar's,
+and the measurement that followed says it cost nothing in either register.
 A word like `wejście` carries a `ger` reading beside its `subst` one,
 so a production admitting a gerund as the head of a noun phrase
 gives a sentence built on one a second derivation of the same shape,
 differing in nothing a reader could act on.
 Two derivations of one shape are
 [one reading](subset.md#co-się-liczy-jako-jedno-czytanie),
-so such a sentence is accepted either way.
-That was measured on a sentence this README no longer carries,
-and what it establishes is about the dictionary rather than about the sentence.
+so such a sentence is accepted either way,
+which is why no sentence anywhere lost its single reading to that head
+([subset.md](subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+On this file the head buys nothing and moves one sentence off the rejected list,
+so what the class was worth here is what it took off the queue
+rather than what it added to the count.
 
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,

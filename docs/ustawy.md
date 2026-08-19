@@ -9,12 +9,13 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 72 zdania z 4921,
-czyli 1,5%, a nad [Składnicą](corpus.md#the-measurement) wyprowadza 9,0%,
-choć tamten bank drzew jest zbudowany z gazet i prozy.
-Wieloznacznych jest tu 5,5% wobec 4,2% tam,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 104 zdania z 4921,
+czyli 2,1%, a wieloznacznych jest tu 9,9%,
 więc zdanie ustawy, które olski w ogóle czyta,
-czyta on najczęściej na kilka sposobów, a zdanie Składnicy najczęściej na jeden.
+czyta on najczęściej na kilka sposobów.
+Nad [Składnicą](corpus.md#the-measurement) wychodzi odwrotnie —
+tam zdanie czytane w ogóle czyta się najczęściej na jeden sposób —
+choć tamten bank drzew jest zbudowany z gazet i prozy.
 Regularne w ustawie jest drzewo jednostek redakcyjnych,
 a zdanie jest w niej długie i podrzędnie złożone,
 czyli takie, jakiego olski nie ma.
@@ -190,22 +191,21 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 22 | 40 | 324 |
-| inicjatywa ustawodawcza (1999/688) | 84 | 0 | 1 | 83 |
-| informacja publiczna (2001/1198) | 126 | 0 | 2 | 124 |
-| Kodeks wyborczy (2011/112) | 2908 | 32 | 150 | 2726 |
-| petycje (2014/1195) | 48 | 2 | 3 | 43 |
-| zgromadzenia (2015/1485) | 127 | 1 | 8 | 118 |
-| ochrona ludności (2024/1907) | 1242 | 24 | 100 | 1118 |
-| razem | 4921 | 81 | 304 | 4536 |
+| samorząd gminny (1990/95) | 386 | 30 | 79 | 277 |
+| inicjatywa ustawodawcza (1999/688) | 84 | 1 | 3 | 80 |
+| informacja publiczna (2001/1198) | 126 | 1 | 3 | 122 |
+| Kodeks wyborczy (2011/112) | 2908 | 41 | 226 | 2641 |
+| petycje (2014/1195) | 48 | 2 | 5 | 41 |
+| zgromadzenia (2015/1485) | 127 | 1 | 13 | 113 |
+| ochrona ludności (2024/1907) | 1242 | 28 | 156 | 1058 |
+| razem | 4921 | 104 | 485 | 4332 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 6 jednoznacznych i 23 wieloznaczne.
+699 zdań, z tego 7 jednoznacznych i 30 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
-Jeden z nich jest tym, dla którego olski powstał —
-cztery zdania z ustaw i dwa z „Zasad techniki prawodawczej”:
+Jeden z nich jest tym, dla którego olski powstał:
 
 ```text
 Gmina posiada osobowość prawną.
@@ -221,8 +221,7 @@ zdanie, które żąda od artykułu jednozdaniowości, jest jednym zdaniem olskie
 a definicja części ustawy z § 14 ust. 1 przechodzi przez ekstrakcję i przez gramatykę naraz.
 
 Inny jest terminem tego rejestru z dopełniaczem pod nim, czyli tym kształtem,
-[dla którego gramatyka ma pozycję](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa) —
-trzy zdania z ustaw i jedno z „Zasad techniki prawodawczej”:
+[dla którego gramatyka ma pozycję](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa):
 
 ```text
 Organem wykonawczym gminy jest zarząd.
@@ -235,7 +234,11 @@ Ostatnie jest § 54 „Zasad techniki prawodawczej”, czyli przepisem,
 który nazywa artykuł podstawową jednostką redakcyjną ustawy
 i nazywa go dokładnie tym kształtem.
 
-Nie każde z tych 81 zdań napisał prawodawca, i widać to na dwóch klasach.
+Ile zdań przypada na który kształt, nikt po tym przeliczeniu nie policzył,
+bo klasyfikacja idzie tu ręką, zdanie po zdaniu, i deklaracja figury `ustawy`
+mówi o niej to samo ([`harness/figury.py`](../harness/figury.py)).
+
+Nie każde z tych 104 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -247,7 +250,7 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 81 to dotyczy, ten pomiar nie liczy,
+Ilu zdań z 104 to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
@@ -482,14 +485,21 @@ python3 -m sonda.interpunkcja proza/ustawy.txt
 ```
 
 Dwukropek nie rusza nad tymi siedmioma aktami ani jednego werdyktu,
-a przecinek przed spójnikiem rusza jeden i przenosi go z odrzuconych na wieloznaczne:
+a przecinek przed spójnikiem rusza dwa i przenosi je z odrzuconych na wieloznaczne:
 
 ```text
 Gmina nie ponosi odpowiedzialności za zobowiązania innych komunalnych osób prawnych,
 a te nie ponoszą odpowiedzialności za zobowiązania gminy.
 ```
 
-Jednoznaczności ta para nie odbiera tu ani jednemu zdaniu przyjętemu wcześniej,
+Średnik rusza dwa i jest jedynym z tej trójki, który kupuje tu zdanie przyjęte:
+
+```text
+O terminie losowania zawiadamia się pełnomocników wyborczych;
+nieobecność pełnomocnika wyborczego nie wstrzymuje losowania.
+```
+
+Jednoznaczności ta trójka nie odbiera tu ani jednemu zdaniu przyjętemu wcześniej,
 tak samo jak nad Składnicą
 ([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
 Zero dwukropka mówi przy tym o rejestrze, a nie o produkcji.
@@ -498,7 +508,7 @@ a nie zdanie wyjaśniające — `W skład zarządu wchodzą: wójt albo burmistr
 czyli dokładnie ta połowa tej konstrukcji, której olski nie bierze
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Wszystkie siedemdziesiąt zdań jest odrzuconych i przed dopisaniem, i po nim,
-a stają one na nawiasie, na rzeczowniku odczasownikowym albo na strukturze,
+a stają one na strukturze, na nawiasie albo na cyfrze,
 więc pozycja, która tu weszła, nie ma nad tym rejestrem czego wziąć.
 
 Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie:

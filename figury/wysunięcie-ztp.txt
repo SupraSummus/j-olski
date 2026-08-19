@@ -4,20 +4,20 @@ korpus: proza/ztp.txt
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
   harness/ustawy.py: c48b3358e85d
-  olski/subset.py: 042ef14ea1d7
+  olski/subset.py: 290a30c351a9
   olski/precedencja.py: 71e2a5a23aed
-  olski/parse.py: 565d2d9ff784
+  olski/parse.py: b0553f072e6c
   sonda/wysunięcie.py: 2654d55f866e
   sonda/ruch.py: b25a865a0768
 
 ztp.txt, proza, 699 zdań
 
                     wariant    przyjęte  wieloznaczne  odrzucone
-                  bez grupy           6            21        672
-grupa względna z przyimkiem           6            23        670
-grupa względna bez przyimka           6            21        672
- grupa pytajna z przyimkiem           6            21        672
-                      olski           6            23        670
+                  bez grupy           7            28        664
+grupa względna z przyimkiem           7            30        662
+grupa względna bez przyimka           7            28        664
+ grupa pytajna z przyimkiem           7            28        664
+                      olski           7            30        662
 
 ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
         2  rejected → ambiguous

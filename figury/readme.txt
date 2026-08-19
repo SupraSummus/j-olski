@@ -5,7 +5,7 @@ czyta: docs/corpus.md#where-the-analyses-stop
 ruszają:
   README.md: 77c9bdac3583
   harness/markdown.py: 77dba5daa3d8
-  olski/subset.py: 24ea4b747a3e
+  olski/subset.py: 290a30c351a9
   olski/grammar.py: 9077925971d9
   olski/parse.py: b0553f072e6c
   olski/morph.py: 68c6bc12d9f1
@@ -18,7 +18,7 @@ ruszają:
 proza/README.txt: rejected  Język olski to język polski, któremu spiłowano p, a razem z nim te części polszczyzny, przez które jest ona trudna dla sztywnych, zimnych maszyn.
                             no reading: no production takes „spiłowano”, „p”
 proza/README.txt: rejected  Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie, więc parser tego podzbioru mówi autorowi, że jego zdanie czyta się dwojako, zamiast wybierać za niego.
-                            no reading: no production takes „dopiero”
+                            no reading: nothing in olski derives this
 proza/README.txt: rejected  Tanio, deterministycznie i z wyjaśnieniem: jak w kompilatorze, a nie jak w modelu językowym.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Każdy werdykt przychodzi z czytaniem, które go wydało, a to samo wejście dwa razy daje tę samą odpowiedź.
@@ -26,13 +26,13 @@ proza/README.txt: rejected  Każdy werdykt przychodzi z czytaniem, które go wyd
 proza/README.txt: ambiguous Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej i został wycofany razem z całą analizą, która schodziła do znaku.
                             18 readings, differing in Object, Predicative; „dla polskiej dokumentacji technicznej” → „stał”, „linter”, „stylu”; „z całą analizą, która schodziła” → „został”, „razem”; „do znaku” → „został”, „schodziła”
 proza/README.txt: rejected  Dlaczego, mówi docs/linter.md; ile ten pakiet reguł kosztował, zanim wyszedł, mówi docs/firing-rates.md.
-                            no reading: no production takes „;”
+                            no reading: nothing in olski derives this
 proza/README.txt: rejected  Język kontrolowany to biała lista: istnieją tylko te konstrukcje, które na niej stoją.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Linter to czarna lista: pisz, co chcesz, ale te wzorce zostaną zgłoszone.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem polszczyzny w jednym i w drugim przypadku, a wyznaczenie go przez wykluczanie jest nieporównanie tańsze.
-                            no reading: no production takes „wyznaczenie”, „wykluczanie”
+                            no reading: nothing in olski derives this
 proza/README.txt: ambiguous Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
                             2 readings; „za nią” → „wywód”, „stoi”
 proza/README.txt: valid     Czarna lista kupowała jednak co innego, niż obiecywała.
@@ -44,9 +44,9 @@ proza/README.txt: rejected  Cenę białej listy płacimy więc tym, że autor ni
 proza/README.txt: rejected  Tory są dwa: gramatyka zaprojektowanego podzbioru polszczyzny i skład, nazwany kalamburem od składni.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Oba tory mierzymy na tym pliku, który dla jednego z nich jest zarazem celem: skład rośnie tak długo, aż każde jego zdanie wypuści z drzewa, a gramatyka celu końcowego nie ma i rośnie za cenę liczoną przed dopisaniem.
-                            no reading: no production takes „zarazem”, „dopisaniem”
+                            no reading: nothing in olski derives this
 proza/README.txt: rejected  Kierunkiem nie jest sam formalizm: gramatyka bezkontekstowa jest tym, na czym olski stoi, a nie tym, do czego zmierza, więc o sięgnięciu po mocniejszy mechanizm rozstrzyga cena.
-                            no reading: no production takes „sięgnięciu”
+                            no reading: nothing in olski derives this
 proza/README.txt: valid     Zobacz docs/design-notes.md oraz docs/roadmap.md.
                             one reading
 proza/README.txt: rejected  Nie ma aplikacji, która by to wszystko napędzała.
@@ -58,7 +58,7 @@ proza/README.txt: valid     Działają dwie rzeczy.
 proza/README.txt: rejected  Gramatyka podzbioru polszczyzny, nad Morfeuszem 2, w której zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie.
                             no reading: no production takes „2”
 proza/README.txt: rejected  Nie chodzi o samo jedno wyprowadzenie: Koszt samej szynki przewyższa koszt szynki z dodatkami rozkłada się na kilka czytań, a dwa z nich mówią rzecz przeciwną, więc olski to zdanie odrzuca.
-                            no reading: no production takes „wyprowadzenie”
+                            no reading: nothing in olski derives this
 proza/README.txt: rejected  Czytania szynki różnią się szykiem i tym, do czego dochodzi z dodatkami.
                             no reading: nothing in olski derives this
 proza/README.txt: ambiguous Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.
@@ -66,19 +66,19 @@ proza/README.txt: ambiguous Pierwsze i czwarte dzieli sam szyk, a podmiot jedneg
 proza/README.txt: rejected  Wiersz werdyktu nazywa przy tym sam wybór, a nie wylicza jego skutków: wierszy jest tyle, ile zdanie zostawia nierozstrzygniętych wyborów, a czytań bywa tyle, ile ich iloczyn.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Wyborem jest tu przyłączenie, a nad innym zdaniem bywa nim konstytuent, który czyta się kilkoma sposobami tam, gdzie streszczenie nie zagląda.
-                            no reading: no production takes „przyłączenie”
+                            no reading: nothing in olski derives this
 proza/README.txt: rejected  Zgodność form jest tu parsowaniem, a nie sprawdzeniem po nim: Nowa program nie ma wyprowadzenia, więc nie jest to reguła, która strzeliła, tylko zdanie, którego nie ma.
-                            no reading: no production takes „parsowaniem”, „sprawdzeniem”, „wyprowadzenia”
-proza/README.txt: rejected  Co gramatyka obejmuje, czego nie obejmuje i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku, mówi docs/subset.md.
-                            no reading: no production takes „przyłączenie”
+                            no reading: nothing in olski derives this
+proza/README.txt: ambiguous Co gramatyka obejmuje, czego nie obejmuje i dlaczego przyłączenie wyrażenia przyimkowego zostaje przy czytelniku, mówi docs/subset.md.
+                            8 readings, differing in Modifier, Object, Subject
 proza/README.txt: fragment  Ekstrakcja zamienia korpus w Markdownie w prozę i jest krokiem przed gramatyką, a nie jej częścią:
                             not a sentence: nothing punctuates it as one
 proza/README.txt: ambiguous Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
                             8 readings, differing in Object, Subject; „po drodze” → „zmyśla”, „ekstrakcja”
 proza/README.txt: fragment  Tą samą drogą dochodzi ustawa, tylko że nie akapitami, bo ustawa jest drzewem jednostek redakcyjnych, a nie ciągiem zdań:
                             not a sentence: nothing punctuates it as one
-proza/README.txt: rejected  Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie „Zasady techniki prawodawczej”, mówi docs/ustawy.md.
-                            no reading: no production takes „„”, „””
+proza/README.txt: ambiguous Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie „Zasady techniki prawodawczej”, mówi docs/ustawy.md.
+                            4 readings, differing in Object, Subject; „w ustawie „ Zasady techniki prawodawczej ”” → „żądają”, „zdania”
 proza/README.txt: rejected  Skład, czyli ten sam Morfeusz czytany w drugą stronę.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Wchodzi drzewo tego, co ma zostać powiedziane, a wychodzi polskie zdanie, a z kilku drzew postawionych obok siebie wychodzi tekst.
@@ -92,7 +92,7 @@ proza/README.txt: ambiguous Nad zdaniem stoi opowieść, bo tekst wie to, czego 
 proza/README.txt: rejected  Pierwsze daje czas przeszły, a drugie podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
                             no reading: nothing in olski derives this
 proza/README.txt: rejected  Szyk jest tu wnioskiem, a nie zapisem: drzewo mówi, co w zdaniu jest tematem, a co nowe, i dopiero z tego wychodzi kolejność.
-                            no reading: no production takes „dopiero”
+                            no reading: nothing in olski derives this
 proza/README.txt: ambiguous Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone: zmienna nazywa postać, funkcja jest wzorcem zdania albo akapitu, a lista wchodzi do zdania jako koordynacja.
                             4 readings, differing in Object; „jako koordynacja” → „wchodzi”, „zdania”
 proza/README.txt: ambiguous Całą legendę o bazyliszku warszawskim trzyma opowieści/bazyliszek.py.

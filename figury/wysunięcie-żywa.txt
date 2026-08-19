@@ -3,33 +3,33 @@ polecenie: python3 -m sonda.wysunięcie Składnica-frazowa-180723/ --morfologia 
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
-  olski/subset.py: 042ef14ea1d7
+  olski/subset.py: 290a30c351a9
   olski/precedencja.py: 71e2a5a23aed
-  olski/parse.py: 565d2d9ff784
+  olski/parse.py: b0553f072e6c
   sonda/wysunięcie.py: 2654d55f866e
   sonda/ruch.py: b25a865a0768
 
 Składnica, morfologia żywa, 13035 zdań
 
                     wariant    przyjęte  wieloznaczne  odrzucone
-                  bez grupy        1384          1225      10426
-grupa względna z przyimkiem        1384          1226      10425
-grupa względna bez przyimka        1385          1227      10423
- grupa pytajna z przyimkiem        1384          1225      10426
-                      olski        1385          1228      10422
+                  bez grupy        1499          1439      10097
+grupa względna z przyimkiem        1499          1441      10095
+grupa względna bez przyimka        1500          1442      10093
+ grupa pytajna z przyimkiem        1499          1439      10097
+                      olski        1500          1444      10091
 
 ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
-        1  rejected → ambiguous
+        2  rejected → ambiguous
 
 ruch wobec wariantu „bez grupy” — grupa względna bez przyimka:
-        2  rejected → ambiguous
+        3  rejected → ambiguous
         1  rejected → valid
 
 ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez grupy” — olski:
-        3  rejected → ambiguous
+        5  rejected → ambiguous
         1  rejected → valid
 
 konkurencja, nad zdaniem po zdaniu:
@@ -38,9 +38,11 @@ konkurencja, nad zdaniem po zdaniu:
 
 grupa względna z przyimkiem, rejected → ambiguous:
   W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.
+  Egzekucja należy do komornika sądu, w którego okręgu statek znajduje się w chwili wszczęcia egzekucji.
 
 grupa względna bez przyimka, rejected → ambiguous:
   Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
+  W przyszłości zostanie przeniesiony do sąsiedniego pawilonu, którego budowa jeszcze trwa.
   Dostają je dzieci w trudnej sytuacji materialnej, których ojcowie nie wywiązują się ze swoich obowiązków.
 
 grupa względna bez przyimka, rejected → valid:
@@ -48,8 +50,10 @@ grupa względna bez przyimka, rejected → valid:
 
 olski, rejected → ambiguous:
   Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
+  W przyszłości zostanie przeniesiony do sąsiedniego pawilonu, którego budowa jeszcze trwa.
   Dostają je dzieci w trudnej sytuacji materialnej, których ojcowie nie wywiązują się ze swoich obowiązków.
   W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.
+  Egzekucja należy do komornika sądu, w którego okręgu statek znajduje się w chwili wszczęcia egzekucji.
 
 olski, rejected → valid:
   Czterech gości, których stan był najcięższy, trafiło do szpitala.

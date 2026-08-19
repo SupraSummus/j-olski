@@ -3,8 +3,9 @@ polecenie: python3 -m sonda.znaczenia Składnica-frazowa-180723/ --morfologia li
 korpus: Składnica-frazowa-180723
 czyta: docs/architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia
 ruszają:
-  olski/subset.py: ccaa0fcef11b
-  olski/parse.py: 7b2184342e31
+  olski/subset.py: 290a30c351a9
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: b0553f072e6c
   olski/skład/rozbiór.py: 3a304a2e57b0
   olski/skład/składnia.py: 45231d6c9c81
   sonda/znaczenia.py: cd9e03d4a1a0
@@ -12,19 +13,19 @@ ruszają:
 Składnica, morfologia live, 13035 zdań z werdyktem
 
   werdykt olskiego:
-    10426    rejected
-     1384    valid
-     1225    ambiguous
+    10091    rejected
+     1500    valid
+     1444    ambiguous
 
   ile czytań zdania wraca drzewem tego zapisu:
-    ambiguous, 1225 zdań:
-        7    0.6%  każde czytanie wraca drzewem
-       35    2.9%  część czytań wraca drzewem
-     1183   96.6%  żadne czytanie nie wraca drzewem
-    valid, 1384 zdań:
-       69    5.0%  każde czytanie wraca drzewem
+    ambiguous, 1444 zdań:
+        7    0.5%  każde czytanie wraca drzewem
+       35    2.4%  część czytań wraca drzewem
+     1402   97.1%  żadne czytanie nie wraca drzewem
+    valid, 1500 zdań:
+       69    4.6%  każde czytanie wraca drzewem
         0    0.0%  część czytań wraca drzewem
-     1315   95.0%  żadne czytanie nie wraca drzewem
+     1431   95.4%  żadne czytanie nie wraca drzewem
 
   czym są wobec siebie drzewa czytań, z 7 zdań wieloznacznych:
         0    0.0%  czytania dają te same drzewa
@@ -46,23 +47,23 @@ Składnica, morfologia live, 13035 zdań z werdyktem
        11   15.9%  8
         1    1.4%  32
 
-  czemu czytanie nie wraca drzewem, z 8242 takich czytań:
-     7206   87.4%  zapis nie ma kategorii
-     1036   12.6%  kandydat wypisuje się innym napisem
+  czemu czytanie nie wraca drzewem, z 10149 takich czytań:
+     9113   89.8%  zapis nie ma kategorii
+     1036   10.2%  kandydat wypisuje się innym napisem
 
-  najczęstsze powody, z 6344 różnych:
-     1621  grupa imienna z słowo, Modifier nie ma tu kategorii
-     1105  zdanie bez podmiotu nie ma tu kategorii
-      701  AP nie jest tu grupą imienną
-      578  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
-      276  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
-      231  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
-      196  grupa imienna z słowo, Adjective, NP nie ma tu kategorii
+  najczęstsze powody, z 6492 różnych:
+     1844  grupa imienna z słowo, Modifier nie ma tu kategorii
+     1172  zdanie bez podmiotu nie ma tu kategorii
+      798  Particle nie ma tu swojej pozycji
+      761  AP nie jest tu grupą imienną
+      613  grupa imienna z słowo, NP, Modifier nie ma tu kategorii
+      307  grupa imienna z NPConjunct, RelativeClause nie ma tu kategorii
+      293  zdanie złożone z ClauseConjunct, słowo, słowo, Clause nie ma tu kategorii
+      215  grupa imienna z słowo, Adjective, NP nie ma tu kategorii
       173  grupa imienna z słowo, NPConjunct nie ma tu kategorii
-      145  grupa imienna z słowo, Adjective, Modifier nie ma tu kategorii
-       94  przymiotnik z słowo, słowo nie ma tu kategorii
+      154  grupa imienna z słowo, Adjective, Modifier nie ma tu kategorii
+       97  przymiotnik z słowo, słowo nie ma tu kategorii
        72  być nie składa tu orzeczenia imiennego
-       62  oraz nie jest znakiem listy tego zapisu
 
   najkrótsze zdania: ambiguous, część czytań wraca drzewem
       2 czytań  Ma broń.

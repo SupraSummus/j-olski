@@ -86,6 +86,25 @@ PYTAJNY = "Interrogative"
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
+#: Rola cząstki, czyli tej, która stoi przy zdaniu: `już`, `dopiero`, `także`.
+#: Rolą jest z tego samego powodu, z którego jest nią przysłówek, a osobną od niego
+#: dlatego, że cząstka przysłówkiem nie jest: werdykt nazywa rolę etykietą węzła,
+#: więc `Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono
+#: nie ma. Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla; co
+#: kosztuje wpuszczenie tej klasy, mierzy
+#: docs/subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu.
+CZĄSTKOWY = "Particle"
+
+#: Rola wtrącenia w nawiasie, czyli tego, co ten rejestr dopowiada obok zdania:
+#: `(docs/subset.md)`, `(niżej)`. Rolą jest z tego samego powodu, z którego jest
+#: nią przysłówek: werdykt nazywa role etykietami węzłów, a zdanie przyjęte z
+#: wtrąceniem wychodziłoby bez słowa o tym, że olski wziął w nim nawias.
+#:
+#: Rolą zdania jest przy tym samo wtrącenie, a nie to, co ono niesie: nawias
+#: dopowiada, a nie wypełnia pozycji, więc grupa imienna w jego środku nie jest
+#: ani podmiotem, ani dopełnieniem, i streszczenie nazywa ją całym napisem.
+WTRĄCONY = "Parenthetical"
+
 DEKLARACJA = Deklaracja(
     role=(
         "Subject",
@@ -94,8 +113,10 @@ DEKLARACJA = Deklaracja(
         "Verb",
         ORZEKAJĄCY,
         PRZYSŁÓWKOWY,
+        CZĄSTKOWY,
         OKOLICZNIKOWY,
         PYTAJNY,
+        WTRĄCONY,
         PRZYŁĄCZANY,
     ),
     przyłączany=PRZYŁĄCZANY,
@@ -143,7 +164,18 @@ DEKLARACJA = Deklaracja(
     # którego role są rolami tego samego zdania.
     # Czwarty stoi zarazem wśród ról, bo okolicznik jest rolą zdania nad nim,
     # a zdaniem osobnym jest jego wnętrze; :data:`OKOLICZNIKOWY` trzyma wywód.
-    podrzędne=("RelativeClause", "SubordinateClause", "InterrogativeClause", OKOLICZNIKOWY),
+    # Piąty zdaniem nie jest i mówi o tej liście to, czego cztery pierwsze nie mówią:
+    # zatrzymuje ona zejście po role wszędzie, gdzie konstytuent nazywa się całym
+    # napisem, a nie tylko przy zdaniu podrzędnym. Wtrącenie w nawiasie jest takim
+    # konstytuentem, bo przysłówek w jego środku nie jest okolicznikiem zdania nad
+    # nim, a grupa imienna nie jest w nim żadną rolą; :data:`WTRĄCONY` trzyma wywód.
+    podrzędne=(
+        "RelativeClause",
+        "SubordinateClause",
+        "InterrogativeClause",
+        OKOLICZNIKOWY,
+        WTRĄCONY,
+    ),
 )
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
@@ -335,14 +367,30 @@ def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
 
 
 #: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
-#: ``interp`` niesie całą interpunkcję naraz, a średnika, myślnika i nawiasu ten
+#: ``interp`` niesie całą interpunkcję naraz, a myślnika, nawiasu i cudzysłowu ten
 #: podzbiór nie bierze.
 PRZECINEK = word("interp", lemma=",")
 
 #: Dwukropek, którym ten rejestr otwiera wyjaśnienie. Warunek na lemat, tak samo
-#: jak przy przecinku, i z tego samego powodu: ``interp`` niesie całą interpunkcję
-#: naraz, a średnika i myślnika ten podzbiór nie bierze.
+#: jak przy przecinku, i z tego samego powodu.
 DWUKROPEK = word("interp", lemma=":")
+
+#: Średnik, którym ten rejestr rozdziela dwa zdania spięte treścią. Stoi obok
+#: dwukropka, bo rozdziela na tej samej wysokości i tak samo nie konkuruje z
+#: niczym: przed tą produkcją nie brał go żaden terminal.
+ŚREDNIK = word("interp", lemma=";")
+
+#: Cudzysłów, którym ten rejestr obejmuje tytuł i termin cytowany: `„Zasady
+#: techniki prawodawczej”`. Znaki są dwa i są różne, bo polszczyzna otwiera
+#: cudzysłów innym znakiem, niż go zamyka, i po to ta para jest jednym napisem
+#: obu: produkcja bez znaku zamykającego wpuszczałaby napis niedomknięty.
+CUDZYSŁÓW_OTWIERAJĄCY = word("interp", lemma="„")
+CUDZYSŁÓW_ZAMYKAJĄCY = word("interp", lemma="”")
+
+#: Nawias, którym ten rejestr dopowiada obok zdania. Znaki są dwa tak samo jak
+#: przy cudzysłowie i z tego samego powodu.
+NAWIAS_OTWIERAJĄCY = word("interp", lemma="(")
+NAWIAS_ZAMYKAJĄCY = word("interp", lemma=")")
 
 #: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
 KONIEC_ZDANIA = word("interp", lemma=".|!|?")
@@ -381,6 +429,28 @@ PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 #: `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są okolicznikami
 #: zdania.
 PRZYSŁÓWEK = word("adv")
+
+#: Cząstki, które ten rejestr stawia przy zdaniu: `już`, `dopiero`, `także`.
+#: Lista jest zamknięta, bo ``part`` niesie całą klasę cząstek naraz, a kryterium
+#: na wejście jest jedno: cząstka ma nie mieć czytania, które gramatyka bierze już
+#: gdzie indziej. `tylko` go ma — Morfeusz czyta je także jako spójnik, a spójnik
+#: bierze koordynacja — więc wpuszczone tutaj dałoby jednemu napisowi dwa
+#: wyprowadzenia, i tym samym warunkiem stoi lista spójników przecinkowych obok
+#: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
+#:
+#: Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`, a poza nią z powodu
+#: własnego cztery cząstki, które olski bierze albo wyklucza osobno: `nie` przeczy
+#: (:data:`PRZECZENIE`), `się` stoi przy czasowniku zwrotnym, `czy` otwiera pytanie
+#: o rozstrzygnięcie, którego ta gramatyka nie ma, a `by` żąda trybu
+#: przypuszczającego, którego nie ma tak samo (docs/subset.md).
+CZĄSTKI = (
+    "już|jeszcze|dopiero|także|również|nawet|zarazem|naprawdę"
+    "|znowu|wreszcie|ponadto|jedynie|niemal|niespełna|zresztą|przynajmniej"
+)
+
+#: Cząstka w okoliczniku: sama lista i nic więcej, tak samo jak przysłówek niżej
+#: bierze samą część mowy.
+CZĄSTKA = word("part", lemma=CZĄSTKI)
 
 #: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia. Stopień ma
 #: przysłówek odprzymiotnikowy, a pierwotny go nie ma, i tylko pierwszy z tych
@@ -595,7 +665,12 @@ def build() -> Grammar:
     # ma bez tej produkcji ani jednego czytania (``bez_licencji``). Niezmiennik
     # pilnuje tests/test_subset.py, a wywód wraz z zakupem i z tym, czego ta
     # produkcja nie bierze, trzyma docs/subset.md.
-    grammar.rule("Sentence", [Głowa(nt("Clause")), DWUKROPEK, nt("Clause"), KONIEC_ZDANIA])
+    # Średnik rozdziela zdanie tak samo i tym samym kształtem: `Dlaczego, mówi
+    # docs/linter.md; ile ten pakiet kosztował, mówi docs/firing-rates.md.` Ciała
+    # są mimo to dwa, a nie jedno biorące oba znaki, bo zakup każdego z nich jest
+    # osobną liczbą i sonda bierze ją zdejmowaniem ciał (:mod:`sonda.interpunkcja`).
+    for znak in (DWUKROPEK, ŚREDNIK):
+        grammar.rule("Sentence", [Głowa(nt("Clause")), znak, nt("Clause"), KONIEC_ZDANIA])
 
     # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
     # na każdym z trzech poziomów, które ją mają.
@@ -768,6 +843,21 @@ def build() -> Grammar:
     # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
     zdanie.dominacja("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
 
+    # Wtrącenie w nawiasie: `Zdanie stoi (docs/subset.md).`, `Cena jest zerowa
+    # (niżej).` Wnętrzem jest grupa imienna albo przysłówek, bo tym są te
+    # dopowiedzenia: nazwą dokumentu i wskazaniem, gdzie szukać. Przysłówek wchodzi
+    # tu terminalem, a nie symbolem swojej roli, bo okolicznikiem zdania w nawiasie
+    # nie jest.
+    #
+    # Pozycja jest jedna — nawias zamykający zdanie składowe — więc zdanie z
+    # nawiasem ma jedno czytanie, a nie tyle, ile gospodarzy ma wyrażenie
+    # przyimkowe. Dlaczego wolno tu wybrać jedno miejsce, a przy wyrażeniu
+    # przyimkowym nie wolno, i co ta pozycja zostawia na zewnątrz, wywodzi
+    # docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
+    for wnętrze in (nt("NP"), PRZYSŁÓWEK):
+        grammar.rule(WTRĄCONY, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
+    grammar.rule("ClauseConjunct", [Głowa(nt("ClauseConjunct")), nt(WTRĄCONY)])
+
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
     # the attachment ambiguity docs/subset.md is about cannot arise.
@@ -776,7 +866,8 @@ def build() -> Grammar:
     # w tym miejscu dałoby wyrażeniu przyimkowemu drugie wyprowadzenie tego samego
     # kształtu, czyli czytanie, którego nie ma czym odsiać.
     grammar.rule("ClauseConjunct", [nt("Modifier"), Głowa(nt("ClauseConjunct"))])
-    grammar.rule("ClauseConjunct", [nt(PRZYSŁÓWKOWY), Głowa(nt("ClauseConjunct"))])
+    for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
+        grammar.rule("ClauseConjunct", [nt(przy_zdaniu), Głowa(nt("ClauseConjunct"))])
 
     grammar.rule(
         "Subject",
@@ -949,10 +1040,15 @@ def build() -> Grammar:
     # w zdaniu ma. Lista jest przy tym płaska, więc `bardzo szybko` wychodzi dwoma
     # okolicznikami zdania obok siebie; ile takich czytań zostaje, mierzy
     # docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę.
+    #
+    # Cząstka stoi w tej liście obok przysłówka, bo pozycję w zdaniu ma tę samą, i
+    # dlatego oba wypisuje jedna pętla; rolą jest przy tym każde z nich osobno,
+    # bo cząstka przysłówkiem nie jest (:data:`CZĄSTKOWY`).
     grammar.rule("Adjuncts", [nt("Modifier")])
     grammar.rule("Adjuncts", [Głowa(nt("Modifier")), okoliczniki])
-    grammar.rule("Adjuncts", [nt(PRZYSŁÓWKOWY)])
-    grammar.rule("Adjuncts", [Głowa(nt(PRZYSŁÓWKOWY)), okoliczniki])
+    for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
+        grammar.rule("Adjuncts", [nt(przy_zdaniu)])
+        grammar.rule("Adjuncts", [Głowa(nt(przy_zdaniu)), okoliczniki])
 
     # What is predicated of the subject: an adjective phrase agreeing with it,
     # or a noun phrase in the instrumental. Both are what być takes, and the
@@ -1056,6 +1152,24 @@ def build() -> Grammar:
         person=V("p"),
         **AGREE,
     )
+    # Tytuł i termin w cudzysłowie: `„Zasady techniki prawodawczej”`. Grupa
+    # przechodzi przez cudzysłów cała, bo polszczyzna odmienia to, co on obejmuje,
+    # wedle roli, w której grupa stanęła: `przepisem „Zasad techniki
+    # prawodawczej”` ma dopełniacz w środku, a `Same „Zasady” stoją` mianownik.
+    # Cechy idą przez to zmienną wspólną, a nie wypisane wartością.
+    #
+    # Wnętrzem jest sama grupa imienna, więc `„to nie zdanie”` zostaje na zewnątrz;
+    # docs/subset.md trzyma, co jeszcze zostaje i za ile ta pozycja weszła.
+    grammar.rule(
+        "NPConjunct",
+        [
+            CUDZYSŁÓW_OTWIERAJĄCY,
+            Głowa(nt("NP", person=V("p"), **AGREE)),
+            CUDZYSŁÓW_ZAMYKAJĄCY,
+        ],
+        person=V("p"),
+        **AGREE,
+    )
     # A coordination of noun phrases is plural and third person whatever its
     # conjuncts are, and it carries no gender: Polish resolves the gender of
     # rozum i sumienie by rules unification cannot state, and a feature a phrase
@@ -1081,77 +1195,88 @@ def build() -> Grammar:
     # once. A conjunct headed by a noun is third person by saying so; leaving
     # that off one of them would quietly let a first person verb take it.
     grammar.rule(
-        "NPConjunct", [word("subst", **AGREE)], person="ter", **AGREE
-    )
-    grammar.rule(
         "NPConjunct",
         [przymiotnik, Głowa(nt("NPConjunct", **AGREE))],
         person="ter",
         **AGREE,
     )
+    # Głową grupy imiennej jest rzeczownik albo rzeczownik odczasownikowy, więc
+    # każda pozycja niżej wychodzi dwoma ciałami, po jednym na głowę. Terminala o
+    # dwóch częściach mowy tu nie ma i nie jest to wybór wygody: cena tej głowy ma
+    # być osobną liczbą, a sonda różnicowa wycenia ją zdejmowaniem ciał
+    # (:mod:`sonda.odczasownikowy`), więc pozycja zlana w jeden terminal nie byłaby
+    # żadnym ciałem osobno. Pętla trzyma zarazem oba komplety zgodnymi: pozycja
+    # dopisana rzeczownikowi dochodzi tą samą deklaracją i drugiej głowie.
+    # docs/subset.md wywodzi, czemu ta głowa jest głową grupy, a nie pozycją ramy.
+    #
     # Głowa, która rządzi dopełniaczem, nie jest zaimkiem rzeczownym: bez tego
     # warunku każda forma paradygmatu ten, którą Morfeusz zna też jako rzeczownik,
-    # daje grupie imiennej drugie czytanie tego samego kształtu. Nazwana raz, bo
-    # ciał z dopełniaczem pod głową jest kilka, a warunek ma być w każdym ten sam;
+    # daje grupie imiennej drugie czytanie tego samego kształtu. Warunek stoi w
+    # deklaracji pary, a nie w każdym ciele, bo ciał z dopełniaczem pod głową jest
+    # kilka, a paradygmat odczasownikowy `to` nie ma i wykluczać tam nie ma czego;
     # wywód i cenę trzyma docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
-    głowa_dopełniacza = word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(głowa_dopełniacza), nt("NP", case="gen")],
-        person="ter",
-        **AGREE,
-    )
-    # Polish puts an attributive adjective after the noun in terminology:
-    # plik konfiguracyjny, język polski. Both orders are the language, so both
-    # are here, and where a sentence admits both readings it is ambiguous.
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(word("subst", **AGREE)), przymiotnik],
-        person="ter",
-        **AGREE,
-    )
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(word("subst", **AGREE)), nt("Modifier")],
-        person="ter",
-        **AGREE,
-    )
-    # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
-    # ochrony ludności. Bez tej pozycji dopełniacz dochodzi tylko do przymiotnika
-    # stojącego przed rzeczownikiem, więc termin nazwany drugim szykiem nie ma
-    # wyprowadzenia, a rejestr ustaw nazywa tak swoje terminy zdanie po zdaniu:
-    # docs/ustawy.md trzyma, ile ta pozycja tam daje i ile odbiera.
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen")],
-        person="ter",
-        **AGREE,
-    )
-    # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
-    # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce,
-    # zadania ochrony ludności w gminie. Bez tych trzech pozycji przyłączenie do
-    # rzeczownika w takiej grupie nie istnieje, a zdanie wychodzi jednym
-    # czytaniem przez czasownik. Trzecia idzie razem z przydawką wyżej: bez niej
-    # wyrażenie po takim terminie dochodzi do dopełniacza i do nikogo więcej,
-    # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(word("subst", **AGREE)), przymiotnik, nt("Modifier")],
-        person="ter",
-        **AGREE,
-    )
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(głowa_dopełniacza), nt("NP", case="gen"), nt("Modifier")],
-        person="ter",
-        **AGREE,
-    )
-    grammar.rule(
-        "NPConjunct",
-        [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen"), nt("Modifier")],
-        person="ter",
-        **AGREE,
-    )
+    for głowa, głowa_dopełniacza in (
+        (word("subst", **AGREE), word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)),
+        (word("ger", **AGREE), word("ger", **AGREE)),
+    ):
+        grammar.rule("NPConjunct", [głowa], person="ter", **AGREE)
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa_dopełniacza), nt("NP", case="gen")],
+            person="ter",
+            **AGREE,
+        )
+        # Polish puts an attributive adjective after the noun in terminology:
+        # plik konfiguracyjny, język polski. Both orders are the language, so both
+        # are here, and where a sentence admits both readings it is ambiguous.
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa), przymiotnik],
+            person="ter",
+            **AGREE,
+        )
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa), nt("Modifier")],
+            person="ter",
+            **AGREE,
+        )
+        # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
+        # ochrony ludności. Bez tej pozycji dopełniacz dochodzi tylko do przymiotnika
+        # stojącego przed rzeczownikiem, więc termin nazwany drugim szykiem nie ma
+        # wyprowadzenia, a rejestr ustaw nazywa tak swoje terminy zdanie po zdaniu:
+        # docs/ustawy.md trzyma, ile ta pozycja tam daje i ile odbiera.
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen")],
+            person="ter",
+            **AGREE,
+        )
+        # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
+        # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce,
+        # zadania ochrony ludności w gminie. Bez tych trzech pozycji przyłączenie do
+        # rzeczownika w takiej grupie nie istnieje, a zdanie wychodzi jednym
+        # czytaniem przez czasownik. Trzecia idzie razem z przydawką wyżej: bez niej
+        # wyrażenie po takim terminie dochodzi do dopełniacza i do nikogo więcej,
+        # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa), przymiotnik, nt("Modifier")],
+            person="ter",
+            **AGREE,
+        )
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa_dopełniacza), nt("NP", case="gen"), nt("Modifier")],
+            person="ter",
+            **AGREE,
+        )
+        grammar.rule(
+            "NPConjunct",
+            [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen"), nt("Modifier")],
+            person="ter",
+            **AGREE,
+        )
     # Grupa liczebnikowa, w dwóch ciałach, bo polszczyzna ma dwa przyłączenia
     # liczebnika i Morfeusz rozdziela je cechą `accommodability`.
     #
@@ -1233,6 +1358,12 @@ def build() -> Grammar:
     # okolicznikiem przysłówkowym wychodziłoby `valid` bez słowa o tym, co olski w
     # nim przyjął (:data:`PRZYSŁÓWKOWY`).
     grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK])
+
+    # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią: zdanie przyjęte
+    # z `już` albo `dopiero` wychodziłoby bez tej etykiety `valid` bez słowa o tym,
+    # co olski w nim przyjął. Lista lematów jest zamknięta i kryterium na nią stoi
+    # przy :data:`CZĄSTKI`.
+    grammar.rule(CZĄSTKOWY, [CZĄSTKA])
 
     # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
     # bez przecinków odgraniczających. Przecinek zamykający stawia polszczyzna

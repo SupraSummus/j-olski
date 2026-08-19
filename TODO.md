@@ -717,6 +717,42 @@ a nie o przebieg, i od tego zależy, czy odpowiedź „nie pisze” w ogóle wys
 
 ## Gramatyka, parser i pomiar pokrycia
 
+Cząstka ma w olskim jednego gospodarza, czyli zdanie, a polszczyzna stawia ją także
+wewnątrz grupy imiennej: `Nawet ptaki przestały śpiewać.` ma w banku drzew podmiot
+`nawet ptaki`, a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`
+([`docs/subset.md`](docs/subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)).
+Tak wychodzi dziewięć z dziewięćdziesięciu jeden zdań, które ta klasa kupiła,
+i jest to niezgodność zasięgu, a nie roli, czyli ta sama klasa, którą
+[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
+liczy nad wyrażeniem przyimkowym.
+Ruchem jest drugi gospodarz, czyli ciało `NPConjunct → part NPConjunct`,
+a wybór, który przy nim zapada, jest tym samym, który rozstrzygnął przysłówek:
+drugi gospodarz zdejmuje czytania nieprawdziwe i odbiera jednoznaczność zdaniom,
+które ją mają, a rozstrzyga o tym
+[kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Do przeczytania jest tamten pomiar w `docs/subset.md`
+razem z figurą `cząstka`, bo pytanie jest o to, czy cena wypada tu tak samo,
+a nie o to, ile zdań drugi gospodarz kupi.
+
+Wtrącenie w nawiasie dochodzi do zdania składowego i do niego jednego
+([`docs/subset.md`](docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
+więc nawias wewnątrz zdania względnego — `reguła, która rozstrzyga (niżej), jest tania` —
+nie ma wyprowadzenia, a proza tego repozytorium stawia go i tam,
+przed przecinkiem zamykającym zdanie względne.
+Pozycja dopisana wprost do `RelativeCore` kosztuje czytanie:
+zdanie względne stojące na końcu zdania kończy się tam, gdzie zdanie nadrzędne,
+więc nawias dałby się wtedy przyłączyć do jednego i do drugiego,
+a różnicy między tymi dwoma czytaniami nie ma czym wypowiedzieć.
+Ruchem jest pozycja w ciele `RelativeClause` zamykanym przecinkiem —
+`, RelativeCore Parenthetical ,` — bo tam nawias stoi przed przecinkiem,
+a przyłączenie do zdania nadrzędnego stawia go za nim, czyli daje inny napis.
+Kosztem jest ciało osobne dla jednego z dwóch ciał zdania względnego,
+czyli pozycja, której zdanie względne na końcu zdania nie dostaje.
+Do przeczytania jest `RelativeClause` w `olski/subset.py`
+razem z ciałem wtrącenia obok niego,
+bo pytanie jest o to, czy druga pozycja daje się wpuścić bez drugiego czytania,
+a nie o to, ile zdań by kupiła.
+
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
 choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
 ([`docs/architecture.md`](docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).

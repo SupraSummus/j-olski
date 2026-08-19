@@ -2,7 +2,7 @@
 polecenie: python3 -m olski.check --readings -c Zapisz plik konfiguracyjny.\nKoszt samej szynki przewyższa koszt szynki z dodatkami.\nNowa program zapisuje ustawienia.
 czyta: README.md#co-działa
 ruszają:
-  olski/subset.py: 24ea4b747a3e
+  olski/subset.py: 290a30c351a9
   olski/grammar.py: 9077925971d9
   olski/parse.py: b0553f072e6c
   olski/morph.py: 68c6bc12d9f1

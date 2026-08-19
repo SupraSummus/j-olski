@@ -4,20 +4,20 @@ korpus: proza/ustawy.txt
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
   harness/ustawy.py: c48b3358e85d
-  olski/subset.py: 042ef14ea1d7
+  olski/subset.py: 290a30c351a9
   olski/precedencja.py: 71e2a5a23aed
-  olski/parse.py: 565d2d9ff784
+  olski/parse.py: b0553f072e6c
   sonda/wysunięcie.py: 2654d55f866e
   sonda/ruch.py: b25a865a0768
 
 ustawy.txt, proza, 4921 zdań
 
                     wariant    przyjęte  wieloznaczne  odrzucone
-                  bez grupy          81           304       4536
-grupa względna z przyimkiem          81           304       4536
-grupa względna bez przyimka          81           305       4535
- grupa pytajna z przyimkiem          81           304       4536
-                      olski          81           305       4535
+                  bez grupy         104           484       4333
+grupa względna z przyimkiem         104           484       4333
+grupa względna bez przyimka         104           485       4332
+ grupa pytajna z przyimkiem         104           484       4333
+                      olski         104           485       4332
 
 ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu

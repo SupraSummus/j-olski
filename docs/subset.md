@@ -413,11 +413,11 @@ Zdania przyjętego nie kupuje ani jednego, tak samo jak dopisania przed nim,
 a jedno zdanie przenosi z odrzuconych na wieloznaczne.
 Odczyt jest o pomiarze nad tym plikiem, a nie o klasie:
 zdanie README, które stało na słowie nieznanym,
-stoi teraz na rzeczowniku odczasownikowym — `wyprowadzenie`, `przyłączenie`,
-`sięgnięciu` — na cyfrze, na `dopiero` albo na strukturze,
+stoi teraz na cyfrze, na `dopiero` albo na strukturze,
 i tak samo odpowiadały dopisania przed nim.
-Kolejka nad tym plikiem stawiała tę klasę na czele,
-a po tym dopisaniu prowadzą ją rzeczowniki odczasownikowe.
+Kolejka nad tym plikiem stawiała tę klasę na czele, a prowadzi ją teraz cząstka.
+Rzeczownik odczasownikowy stał w tej kolejce za nią i gramatyka go
+[ma](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku).
 
 Nad bankiem drzew nie mierzy się tego wcale i mierzyć nie ma czego:
 złota morfologia nie zostawia tam ani jednej formy nieznanej,
@@ -478,6 +478,11 @@ bo Składnica jest prozą prasową i słów tego rejestru nie pisze.
   `dobrem wspólnym wszystkich obywateli`, which is how the register of statutes
   names a term and then says whose it is
   ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa))
+- Rzeczownik odczasownikowy jako głowa grupy imiennej, w każdej pozycji, którą
+  ma rzeczownik: `Przyłączenie jest tanie.`, `Wyznaczenie granicy jest tańsze.`
+  Pozycją przy czasowniku ta głowa nie jest, bo dopełnienia żąda w dopełniaczu,
+  a nie w bierniku; wywód i cenę trzyma
+  [poniżej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)
 - Pronouns, and with them first and second person subjects.
   Person comes from the subject rather than being fixed at the third,
   so `Ja zapisuje plik.` is a disagreement
@@ -499,6 +504,22 @@ bo Składnica jest prozą prasową i słów tego rejestru nie pisze.
   so `A, B: C.` reads as `(A, B): C`,
   and what it does not take is the colon that opens an enumeration
   ([below](#what-it-does-not-cover-yet))
+- Cząstka przy zdaniu, w liście okoliczników i na czele zdania składowego:
+  `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`
+  Lematy są zamkniętą listą, a warunek na wejście jest jeden:
+  cząstka bez czytania, które gramatyka bierze gdzie indziej.
+  Rolę ma osobną od przysłówka, którym nie jest,
+  a wywód i cenę trzyma
+  [poniżej](#cząstka-stoi-tam-gdzie-przysłówek-a-listę-lematów-zamyka-warunek-na-czytanie)
+- Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
+  `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
+  Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła
+- Nawias obok zdania składowego, czyli wtrącenie, którym ten rejestr dopowiada:
+  `Zdanie stoi (docs/subset.md).`, `Cena jest niska (niżej).`
+  Wtrącenie jest rolą, którą werdykt nazywa,
+  a dochodzi do jednego miejsca, bo w zdaniu niczego nie wypełnia;
+  jedno i drugie wraz z zakupem trzyma
+  [poniżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)
 - The past tense, agreeing with the subject in gender as well as in number,
   and with the person clitic Morfeusz cuts off the form:
   `Program zapisywał ustawienia.`, `Napisałem program.`
@@ -1090,24 +1111,23 @@ bo pozostałe zdania tego pliku, które niosą przecinek,
 niosą też zdanie podrzędne, przysłówek albo rzeczownik odczasownikowy.
 Przecinek wszedł więc za pokrycie w cudzej polszczyźnie,
 a nad tą prozą czeka na to, co w reszcie tych zdań stoi obok niego.
-Podrzędność, która stała w tej kolejce pierwsza, weszła i tej liczby nie ruszyła
+Tej liczby nie ruszyło dotąd ani jedno dopisanie —
+podrzędność, która stała w tej kolejce pierwsza
 ([niżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
-a czas przeszły ruszył ją, nie ruszając liczby zdań przyjętych
-([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
-Przysłówek wszedł po nich i tej liczby też nie ruszył,
-choć nad Składnicą przeniósł zakup przecinka o połowę w górę.
-Dwukropek stał w tej kolejce następny i wszedł
+czas przeszły ([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+przysłówek, dwukropek
 ([niżej](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
-też nie ruszając tej liczby,
-a polska forma, której słownik nie zna, weszła po nim
-i tej liczby też nie ruszyła
+polska forma, której słownik nie zna
 ([wyżej](#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)),
-więc nad tą prozą czeka ona na rzeczownik odczasownikowy.
+rzeczownik odczasownikowy
+([wyżej](#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)) —
+a czas przeszły ruszył przy tym same zdania, nie ruszając ich liczby.
+Przysłówek przeniósł natomiast zakup przecinka nad Składnicą o połowę w górę.
 
 ## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
 
 Polszczyzna łączy dwa zdania spójnikiem, przecinkiem albo jednym i drugim naraz,
-a dwukropkiem wprowadza wyjaśnienie.
+dwukropkiem wprowadza wyjaśnienie, a średnikiem rozdziela to, co spina treść.
 Olski wyprowadzał z tego dwa pierwsze sposoby
 ([wyżej](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
 a do reszty prowadził wiersz `interp`,
@@ -1116,7 +1136,7 @@ pierwszy w kolejce blokerów z trzema tysiącami zdań
 
 Nowego kształtu zdania ta konstrukcja nie wymaga,
 bo jej członami są zdania, które gramatyka wyprowadza i bez niej.
-Wymaga natomiast dwóch rozstrzygnięć, po jednym na znak.
+Wymaga natomiast trzech rozstrzygnięć, po jednym na znak.
 
 **Dwukropek rozdziela zdanie wyżej niż przecinek.**
 Produkcja należy przez to do zdania, a nie do zdania składowego:
@@ -1139,6 +1159,25 @@ Zero w kolumnie ceny jest przez to wyprowadzone, a nie zmierzone,
 i pilnuje tego `tests/test_subset.py`:
 dwukropek bierze dokładnie jedna produkcja,
 a druga zamieniłaby to zero w liczbę, którą trzeba by policzyć.
+
+**Średnik rozdziela tak samo jak dwukropek i tak samo nie kosztuje nic.**
+`Program zapisuje ustawienia; cena jest niska.` wyprowadza się ciałem
+`Sentence → Clause ; Clause .`, czyli tym samym, tylko z drugim znakiem,
+a cena jest i tu zerowa z gramatyki: średnika nie bierze żaden inny terminal.
+Ciała są mimo to dwa, a nie jedno biorące oba znaki naraz,
+bo zakup każdego z nich jest osobną liczbą i sonda bierze ją zdejmowaniem ciał.
+
+Za tym znakiem stoi rejestr, a nie polszczyzna.
+Średnik stoi tam, gdzie stanąłby przecinek albo kropka,
+więc produkcja nie mówi nic, czego nie mówi dwukropkowa,
+a przemawia za nią zdanie README, które przedtem stało na znaku:
+`Dlaczego, mówi docs/linter.md; ile ten pakiet reguł kosztował, zanim wyszedł,
+mówi docs/firing-rates.md.`
+
+Drugiego takiego znaku zdanie nie bierze — ani dwóch średników, ani średnika
+razem z dwukropkiem — bo `Clause` żadnego z nich nie ma, więc rekurencji nie ma
+czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
+[niżej](#what-it-does-not-cover-yet) razem z dwukropkiem wyliczenia.
 
 **Przecinek przed spójnikiem jest faktem o słowie.**
 `Plany są niczym, ale planowanie jest wszystkim.` przecinka wymaga,
@@ -1178,7 +1217,7 @@ więc każde `, a` w zdaniu wychodziło okolicznikiem wysuniętym drugiego skła
 
 Poza gramatyką zostają dwie rzeczy, obie zapisane
 [niżej](#what-it-does-not-cover-yet):
-dwukropek otwierający wyliczenie i średnik.
+dwukropek otwierający wyliczenie i ciąg dwóch znaków rozdzielających.
 
 ### Interpunkcja zdaniowa zmierzona: kupuje kilkadziesiąt zdań i nie odbiera żadnego
 
@@ -1194,44 +1233,212 @@ Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
-Czterdzieści osiem zdań przechodzi z odrzuconych, dwadzieścia sześć na przyjęte
-i dwadzieścia dwa na wieloznaczne, a z przyjętego na wieloznaczne — ani jedno.
-Dwukropek daje z tego pięć zdań, a przecinek przed spójnikiem czterdzieści trzy,
-i suma wychodzi dokładnie z tych dwóch:
+Sześćdziesiąt pięć zdań przechodzi z odrzuconych, trzydzieści jedno na przyjęte
+i trzydzieści cztery na wieloznaczne, a z przyjętego na wieloznaczne — ani jedno.
+Przecinek przed spójnikiem daje z tego pięćdziesiąt sześć zdań, dwukropek pięć,
+a średnik cztery, i suma wychodzi dokładnie z tych trzech:
 konkurencji między znakami sonda nie znajduje nad tym korpusem ani razu,
 ani zdania, które rusza się pod jednym i pod drugim,
-ani takiego, o którym oba naraz mówią co innego niż każdy osobno.
+ani takiego, o którym kilka naraz mówi co innego niż każdy osobno.
 
-Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym w dwudziestu jednym
-przypadku na dwadzieścia sześć, a niezgodnych nie ma ani jednego:
-trzem bank drzew nie daje roli do porównania, a dwóm daje ją częściowo.
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym w dwudziestu siedmiu
+przypadkach na trzydzieści jeden, a niezgodnych nie ma ani jednego:
+czterem bank drzew nie daje roli do porównania.
 Liczba zdań niezgodnych z drzewem wzorcowym nie rusza się przy tym w całym przebiegu
 i zostaje na dwudziestu jednym
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)),
 więc ta konstrukcja nie wydaje ani jednego werdyktu wbrew drzewu.
 
 Nad prozą, o którą olskiemu chodzi, interpunkcja zdaniowa nie kupuje
-ani jednego zdania przyjętego, tak samo jak pięć dopisań przed nią,
-a trzy zdania przenosi z odrzuconych na wieloznaczne.
-Jednym z tych trzech jest zdanie, które warunek na przyimek stąd odebrał
+ani jednego zdania przyjętego, tak samo jak dopisania przed nią,
+a cztery zdania przenosi z odrzuconych na wieloznaczne.
+Jednym z tych czterech jest zdanie, które warunek na przyimek stąd odebrał
 ([niżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)),
-więc wobec gramatyki przed tą zmianą wieloznacznych przybywa dwa, a nie trzy.
+więc wobec gramatyki przed tą zmianą wieloznacznych przybywa trzy, a nie cztery.
+Sam średnik nie rusza nad tym plikiem żadnego werdyktu,
+bo jedyne zdanie README, które go niesie, otwiera się słowem `Dlaczego`,
+a pytania tym słowem olski nie ma ([niżej](#what-it-does-not-cover-yet)).
 Jest to o kolejce nad tym plikiem odczyt, a nie o konstrukcji:
-zdania README, które stały na dwukropku, stoją teraz na rzeczowniku
-odczasownikowym, na `dopiero` albo na strukturze,
+zdania README, które stały na dwukropku, stoją teraz na strukturze,
+a trzy z nich na cząstce — `dopiero`, `zarazem`, `widać` —
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
-Nad rejestrem ustaw wypada ta para najskromniej z trzech:
+Nad rejestrem ustaw wypada ta trójka najskromniej:
 dwukropek nie rusza tam ani jednego werdyktu, bo za każdym dwukropkiem tej prozy
-stoi wyliczenie, a przecinek przed spójnikiem rusza jeden werdykt i nic nie odbiera
+stoi wyliczenie, przecinek przed spójnikiem rusza dwa werdykty i nic nie odbiera,
+a średnik kupuje jedno zdanie przyjęte i jedno czyni wieloznacznym
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 
-Z listy form bez licencji nad prozą README zeszły natomiast oba znaki:
-dziewiętnaście zdań README niosło na niej dwukropek albo `więc`,
-dziewięć z nich staje teraz na strukturze, a nie na znaku,
-jedno wychodzi wieloznaczne,
-a dziewięć stoi dalej na innej formie, którą werdykt nazywa.
+Z listy form bez licencji nad prozą README zeszły natomiast wszystkie trzy znaki.
+Zdań, które któryś z nich niosą, jest w tym pliku trzydzieści:
+cztery wychodzą wieloznaczne, osiemnaście staje na strukturze, a nie na znaku,
+a osiem stoi dalej na innej formie, którą werdykt nazywa.
 Dopiero to mówi, czego w tych zdaniach brakuje.
+
+## Cząstka stoi tam, gdzie przysłówek, a listę lematów zamyka warunek na czytanie
+
+`Program już zapisuje ustawienia.`, `Reguła obowiązuje także wtedy.`,
+`Już program zapisuje ustawienia.` —
+cząstka stoi w zdaniu tam, gdzie okolicznik przysłówkowy,
+i tę pozycję gramatyka ma, odkąd ma
+[przysłówek](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe).
+Produkcje są przez to dwie i pisze je ta sama pętla, co tamte:
+cząstka w liście okoliczników i cząstka na czele zdania składowego.
+
+Cząstka dostaje rolę osobną od przysłówka, choć pozycję ma tę samą,
+bo werdykt nazywa rolę etykietą węzła:
+`Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma.
+
+Trudność nie leży w tych dwóch produkcjach, tylko w liście lematów.
+Morfeusz trzyma pod `part` całą klasę cząstek naraz,
+a w niej cztery słowa, które olski bierze albo wyklucza osobno:
+`nie` przeczy, `się` stoi przy czasowniku zwrotnym,
+`czy` otwiera pytanie o rozstrzygnięcie,
+a `by` żąda trybu przypuszczającego, którego ta gramatyka nie ma
+([niżej](#what-it-does-not-cover-yet)).
+Lista jest więc zamknięta, a kryterium na wejście jedno:
+cząstka ma nie mieć czytania, które gramatyka bierze już gdzie indziej.
+`tylko` je ma, bo Morfeusz czyta je także jako spójnik, a spójnik bierze koordynacja,
+więc wpuszczone tutaj dałoby jednemu napisowi dwa wyprowadzenia;
+tym samym warunkiem stoją obok siebie dwie klasy
+[spójnika zdaniowego](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają).
+Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`,
+a `to` ma ponadto własną pozycję, której olski nie ma
+([niżej](#what-it-does-not-cover-yet)).
+
+Drugiego gospodarza ta klasa nie dostaje, i to jest cena tej pozycji.
+Polszczyzna stawia cząstkę także wewnątrz grupy imiennej —
+`Nawet ptaki przestały śpiewać.` — i tam obejmuje ona grupę, a nie zdanie,
+co widać po zasięgu podmiotu, a nie po żadnej roli.
+Drugi gospodarz zdjąłby ten zasięg i kosztowałby czytanie,
+czyli byłby tym samym wyborem, który przy przysłówku rozstrzygnął
+[kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
+[TODO.md](../TODO.md) trzyma go razem z ceną, którą przy przysłówku zapłacono.
+
+### Cząstkę zmierzono: kupuje kilkadziesiąt zdań, a płaci zasięgiem podmiotu
+
+Cena w czytaniach jest zerowa: ani jedno zdanie nie przechodzi z przyjętego
+na wieloznaczne, i to samo mówi przebieg nad prozą README.
+Nie było to pewne z gramatyki, tak jak przy dwukropku,
+bo cząstka wpuszczona do listy okoliczników konkuruje z każdym innym czytaniem
+swojej formy — po to lista lematów wyklucza `tylko` — i dlatego ta klasa
+weszła zmierzona, a nie wyprowadzona.
+
+Pełne wiersze są w [figury/cząstka.txt](../figury/cząstka.txt),
+a polecenie podaje ta figura ([`harness/figury.py`](../harness/figury.py));
+przebieg nad prozą README bierze się tym samym poleceniem nad `proza/README.txt`.
+
+Zakup nad bankiem drzew wynosi dziewięćdziesiąt jeden zdań przyjętych
+i siedemdziesiąt dziewięć wieloznacznych,
+a dzieli się między pozycje w stosunku dwa do jednego:
+lista okoliczników bierze dwie trzecie, czoło zdania jedną.
+Ani jedno zdanie nie rusza się pod obiema pozycjami naraz,
+a jedno wychodzi pod nimi razem inaczej niż pod każdą osobno.
+
+Cena stoi natomiast w zasięgu i tu ta klasa różni się od czterech przed nią.
+Dziewięć z dziewięćdziesięciu jeden zdań nowo przyjętych
+olski czyta niezgodnie z drzewem wzorcowym,
+a niezgodność jest w każdym z nich ta sama i jest to niezgodność zasięgu, nie roli:
+`Nawet ptaki przestały śpiewać.` ma w banku drzew podmiot `nawet ptaki`,
+a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`.
+Zdanie nie wychodzi przez to przeczytane odwrotnie —
+podmiotem jest w obu ten sam rzeczownik — tylko ciaśniej,
+i tym różni się ta cena od tej, którą płaci
+[dopełniacz negacji](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań).
+Reszta zgadza się z drzewem albo nie ma w nim roli do porównania,
+a zdania bez roli są tu zwykle zdaniami bez podmiotu:
+`Ocknął się dopiero w szpitalu.`
+
+Nad prozą README ta klasa nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nią,
+choć to ona prowadziła nad tym plikiem kolejkę form bez licencji.
+Trzy zdania README, które na niej stały, stoją teraz na strukturze,
+i jest to o tej kolejce odczyt, a nie o cząstce:
+`dopiero` i `zarazem` niosły zdania, w których brakowało jeszcze czegoś innego,
+a kolejkę nad tym plikiem prowadzi odtąd `by`.
+Nad prozą `docs/` — tam, gdzie tych cząstek jest najwięcej —
+zakup wynosi cztery zdania przyjęte i dziesięć wieloznacznych,
+a figury nad tą prozą nie ma z powodu, który stoi
+[przy nawiasie](#interpunkcję-obejmującą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania).
+
+## Interpunkcja obejmująca: cudzysłów wchodzi w grupę, a nawias staje obok zdania
+
+Znak rozdzielający spina dwa zdania, a obejmujący bierze to, co stoi w środku,
+i te dwie pary są w tym rejestrze dwiema różnymi konstrukcjami.
+Cudzysłów obejmuje tytuł albo termin cytowany — `„Zasady techniki prawodawczej”` —
+a nawias dopowiedzenie obok zdania, którym w tej prozie jest nazwa dokumentu:
+`(docs/subset.md)`, `(niżej)`.
+
+**Cudzysłów przepuszcza grupę imienną całą.**
+Produkcja obejmuje grupę i wypuszcza jej przypadek, liczbę oraz rodzaj bez zmiany,
+bo polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli, w której grupa stanęła:
+`Same „Zasady techniki prawodawczej” stoją poza tą sumą.` ma w środku mianownik,
+a `Ustawa jest przepisem „Zasad techniki prawodawczej”.` dopełniacz.
+Znaki są dwa i są różne, bo polszczyzna otwiera cudzysłów innym znakiem,
+niż go zamyka, więc napis niedomknięty nie ma wyprowadzenia.
+Wnętrzem jest sama grupa imienna, więc `„to nie zdanie”` zostaje na zewnątrz:
+w cudzysłowie stoi tam zdanie, a nie grupa.
+
+**Nawias dochodzi do zdania składowego i do niego jednego.**
+`Zdanie stoi (docs/subset.md).` wychodzi jednym czytaniem,
+a nie tyloma, ile gospodarzy ma w zdaniu wyrażenie przyimkowe,
+i nie jest to wybór przyłączenia, którego olski nie robi
+([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
+Nawias niczego w zdaniu nie wypełnia,
+więc gdziekolwiek by dochodził, role zdania są te same,
+a różnicy między dwoma miejscami nie ma czym wypowiedzieć —
+gdzie wyrażenie przyimkowe zmienia to, o czym zdanie mówi, a nawias nie zmienia nic.
+Wtrącenie jest przy tym rolą, którą werdykt nazywa,
+i jest rolą całym napisem: przysłówek w środku nawiasu nie jest okolicznikiem zdania,
+więc zejście po role zatrzymuje się na wtrąceniu tak samo jak na zdaniu podrzędnym.
+
+Wnętrzem nawiasu jest grupa imienna albo przysłówek, bo tym są te dopowiedzenia:
+nazwą dokumentu i wskazaniem, gdzie szukać.
+Pozycja jest jedna i jest nią nawias zamykający zdanie składowe,
+a dwie rzeczy zostają przez to na zewnątrz.
+Nawias w środku grupy imiennej — `grupa imienna (ta z dopełniaczem) stoi` —
+nie ma wyprowadzenia, i jest to w tej prozie mniejszość:
+nawias stoi w niej zwykle przed kropką albo przecinkiem,
+czyli tam, gdzie kończy się zdanie albo jego składowe,
+co liczy `grep -oP '\)[.,]' proza/docs.txt | wc -l` wobec wszystkich nawiasów tego pliku.
+Nawias wewnątrz zdania względnego — `reguła, która rozstrzyga (niżej), jest tania` —
+nie ma go tak samo, a ta druga pozycja kosztowałaby czytanie:
+zdanie względne na końcu zdania kończy się tam, gdzie kończy się zdanie nadrzędne,
+więc nawias dałby się wtedy przyłączyć do jednego i do drugiego.
+[TODO.md](../TODO.md) trzyma kształt, którym ta pozycja weszłaby bez tej ceny.
+
+### Interpunkcję obejmującą zmierzono: nie kosztuje nic i kupuje pojedyncze zdania
+
+Cena obu znaków jest zerowa i wynika z gramatyki, a nie z przebiegu:
+żadnego z czterech znaków nie brał przedtem ani jeden terminal,
+więc zdanie z którymkolwiek z nich nie miało czytania,
+z którego dałoby się je wytrącić — tak samo jak przy dwukropku
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+Mierzony jest więc sam zakup, osobno na znak, bo osobno się o niego pyta.
+
+Pełne wiersze są w [figury/obejmująca.txt](../figury/obejmująca.txt)
+i w [figurze nad ustawami](../figury/obejmująca-ustawy.txt) obok niego,
+a polecenia podaje ich deklaracja ([`harness/figury.py`](../harness/figury.py)).
+
+Zakup jest wszędzie liczony w pojedynczych zdaniach.
+Nad bankiem drzew oba znaki razem ruszają trzy zdania i ani jednego nie przyjmują,
+nad siedmioma ustawami sześć i jedno z nich przyjmują,
+a nad prozą README jedno, i jest nim to zdanie, które cytuje tytuł rozporządzenia;
+tę ostatnią liczbę bierze się tym samym poleceniem nad `proza/README.txt`.
+Konkurencji między znakami nie ma w żadnym z trzech korpusów ani razu,
+bo cudzysłów stoi w grupie imiennej, a nawias obok zdania.
+
+Nawias nie ma przy tym nad README czego wziąć i mówi to o tym pliku, a nie o znaku:
+proza wyjęta z README nie ma ani jednego nawiasu,
+bo ten plik pisze odsyłacz odnośnikiem, którego tekstem jest nazwa dokumentu,
+a reszta prozy repozytorium pisze go w nawiasie —
+`grep -o '(' proza/README.txt | wc -l` odpowiada zerem,
+a to samo nad prozą `docs/` liczy ich kilkaset.
+Zakup nad tamtą prozą zostaje przez to poza figurami,
+bo figura nad nią byłaby należna przeliczenia po każdym commicie dotykającym tekstu
+([CLAUDE.md](../CLAUDE.md#checks)),
+a polecenie, którym się go bierze, jest tym samym poleceniem z nagłówka figury,
+puszczonym nad `proza/docs.txt`.
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
 
@@ -2557,6 +2764,138 @@ Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
 która wchodzi tym samym kryterium, co każda inna
 ([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
 
+## Rzeczownik odczasownikowy jest głową grupy imiennej, a nie pozycją przy czasowniku
+
+`Przyłączenie`, `wykluczanie`, `sięgnięciu` — Morfeusz daje takiej formie tag
+`ger` wraz z liczbą, przypadkiem i rodzajem,
+czyli z tym wszystkim, czego gramatyka od głowy grupy imiennej żąda.
+Rodzaj jest przy tym zawsze nijaki, a niesie go tag, więc nie żąda go tu nic.
+
+Rejestr, o który olskiemu chodzi, mówi tą formą o czynnościach,
+bo dokumentacja opisuje to, co program robi:
+`przyłączenie wyrażenia przyimkowego`, `wyznaczenie granicy`,
+`sięgnięcie po mocniejszy mechanizm`.
+Kolejka nad prozą tego repozytorium postawiła tę klasę na czele
+zaraz po [leksykonie projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
+a kolejka ze Składnicy trzyma ją w czwartym wierszu
+([corpus.md](corpus.md#where-the-analyses-stop)).
+
+Wchodzi ona jako głowa grupy imiennej, a nie jako pozycja przy czasowniku,
+i tyle mówi o niej polszczyzna:
+dopełnienia żąda w dopełniaczu — `przyłączenie wyrażenia`, a nie `przyłączenie
+wyrażenie` — czyli tak, jak żąda go rzeczownik z dopełniaczem pod głową.
+Rama czasownika zostaje przez to nietknięta,
+a grupa z taką głową stoi w każdej roli, w której stoi każda inna grupa imienna.
+
+Ta głowa dostaje tyle pozycji, ile ma rzeczownik, i dostaje je jednym zapisem:
+pętla w `olski/subset.py` wypisuje każde ciało grupy imiennej dwa razy,
+raz z rzeczownikiem i raz z formą odczasownikową.
+Terminala o dwóch częściach mowy naraz w tym miejscu nie ma
+i nie jest to wybór wygody:
+cena tej głowy ma być osobną liczbą, a sonda różnicowa wycenia ją zdejmowaniem ciał
+([CLAUDE.md](../CLAUDE.md#code)),
+więc pozycja zlana w jeden terminal nie byłaby żadnym ciałem osobno.
+Pętla kupuje zarazem to, czego dwa komplety ciał wypisane obok siebie nie dają:
+pozycja dopisana kiedyś rzeczownikowi dochodzi tą samą deklaracją i drugiej głowie.
+
+Jedno wykluczenie stoi po stronie rzeczownika i nie dotyczy tej głowy.
+Głowa rządząca dopełniaczem nie jest [zaimkiem rzeczownym](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
+a paradygmatu odczasownikowego `to` nie ma,
+więc po tej stronie nie ma czego wykluczać i warunek stoi w deklaracji pary,
+a nie w każdym ciele osobno.
+
+Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie względne:
+`którego przyłączenia` nie ma wyprowadzenia, gdzie `którego wyrażenia` ma.
+Czoło zdania względnego bierze rzeczownik, bo tym jest
+[grupa wysunięta](#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania),
+a cena tej pozycji byłaby osobną liczbą i nikt jej nie zmierzył;
+[TODO.md](../TODO.md) trzyma ten przebieg.
+
+### Rzeczownik odczasownikowy zmierzono: kupuje kilkadziesiąt zdań i nie odbiera żadnego
+
+Pytanie jest to samo, co przy liczebniku i przy każdej konstrukcji przed nim:
+ile zdań ta głowa odbiera,
+bo zdanie odrzucone przez wieloznaczność czeka na wycofanie produkcji,
+a nie na dopisanie następnej.
+Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
+a pozycje zdejmują się osobno, bo cena każdej z nich jest osobną liczbą:
+głowa sama i ta sama głowa rządząca dopełniaczem.
+
+Pełne wiersze są w [figury/odczasownikowy.txt](../figury/odczasownikowy.txt)
+i w dwóch figurach obok niego —
+[żywa](../figury/odczasownikowy-żywa.txt),
+[ustawy](../figury/odczasownikowy-ustawy.txt) —
+a polecenia podaje ich deklaracja
+([`harness/figury.py`](../harness/figury.py)).
+Mianownik pierwszej z nich jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+13 035 lasów Składnicy z pełnym drzewem, bez granicy na długość zdania.
+
+Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne,
+i nie przechodzi w żadnym z trzech korpusów ani pod żadną z dwóch morfologii.
+Cena wypadła więc zerowa tak samo jak przy
+[pytaniu](#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał),
+[grupie wysuniętej](#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)
+i [kopule opuszczonej](#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość),
+a zakup jest z tych czterech największy:
+sześćdziesiąt jeden zdań banku drzew schodzi z listy odrzuconych do jednego czytania,
+przy dwa i pół razy tylu, które schodzą z niej do wieloznacznych.
+
+Zero po tej stronie nie jest tu przeoczeniem przebiegu i wynika z tego,
+[co się liczy jako jedno czytanie](#co-się-liczy-jako-jedno-czytanie).
+`Czytanie jest tanie.` wychodzi jednym czytaniem,
+choć `czytanie` jest u Morfeusza i rzeczownikiem, i formą odczasownikową `czytać`:
+kształt jest ten sam, a część mowy jest z tożsamości czytania wyłączona,
+więc oba wyprowadzenia wpadają do jednej klasy.
+Zdanie już przyjęte nie ma przez to jak stracić jednoznaczności na tej głowie,
+bo forma, która je zbudowała, miała czytanie rzeczownikowe.
+Płaci dopiero forma, której słownik rzeczownikiem nie zna — `przyłączenie`,
+`sięgnięciu` — a taka forma stała przedtem w zdaniu odrzuconym,
+bo `ger` nie brał żaden terminal.
+
+Zakup dzieli się między dwie pozycje w stosunku jeden do czterech
+i przeważa w nim głowa rządząca dopełniaczem,
+czyli ta, o którą chodzi w obu rejestrach dokumentacyjnych:
+`Proszę o odczytanie uzasadnienia wniosku.` jest zdaniem banku drzew,
+a `uchwalanie miejscowych planów zagospodarowania przestrzennego` przepisem ustawy.
+Jedno zdanie rusza się pod obiema pozycjami, a dziewięć wychodzi pod nimi razem
+inaczej niż pod każdą osobno, bo ma dwie takie głowy jedna pod drugą;
+poza tym te dwa zbiory są rozłączne.
+
+Role zdań nowo przyjętych zgadzają się z drzewem wzorcowym w trzech czwartych,
+kilkunastu bank drzew nie daje roli do porównania,
+a jednemu daje ją częściowo.
+Niezgodne jest jedno i jest niezgodne zasięgiem, a nie rolą:
+`Rok funkcjonowania wyższych szczebli samorządów nie upoważnia jeszcze do ocen.`
+ma w banku drzew podmiot `Rok funkcjonowania wyższych szczebli samorządów`,
+a olski czyta go tak samo i dokłada mu `jeszcze`,
+czyli cząstkę, którą bank drzew zostawia orzeczeniu
+([wyżej](#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)).
+Zdanie bez roli do porównania jest tu zwykle zdaniem bez podmiotu —
+`Powołał do życia Centralne Biuro Śledcze.` —
+czyli takim, w którym olski przyjmuje to, co bank drzew zostawia orzeczeniu.
+
+Pod żywą morfologią zakup schodzi do dwóch piątych tego, co daje złota,
+i jest to o tym korpusie odczyt, a nie o tej głowie:
+czytań jest tam wszystkie, więc zdanie, któremu ta głowa daje pierwsze czytanie,
+częściej dostaje ich naraz kilka.
+Nad rejestrem ustaw zakup wynosi dwadzieścia zdań z 4921,
+a wieloznacznymi staje się osiem razy tyle
+([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza)),
+czyli tam przeważa cena, tak samo jak przy liczebniku,
+i z tego samego powodu: przepis pisze rzeczownik odczasownikowy razem z ciągiem
+dopełniaczy, a każdy taki ciąg jest miejscem, w którym coś się przyłącza.
+
+Nad prozą tego repozytorium ta głowa nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nią,
+a jedno zdanie przenosi z odrzuconych na wieloznaczne;
+bierze się to tym samym poleceniem nad `proza/README.txt`,
+bo figury nad tą prozą nie zapisujemy ([CLAUDE.md](../CLAUDE.md#checks)).
+Odczyt jest o pomiarze nad tym plikiem, a nie o klasie:
+`ger` schodzi z listy form bez licencji nad tą prozą w całości,
+a zdania README, które na niej stały, stoją teraz na cząstce — `dopiero`,
+`zarazem`, `by` — na cudzysłowie, na średniku, na cyfrze albo na strukturze.
+Kolejka nad tym plikiem prowadzi odtąd cząstką.
+
 ## What it does not cover yet
 
 Every one of these is a sentence that gets rejected and should not be:
@@ -2570,15 +2909,23 @@ Every one of these is a sentence that gets rejected and should not be:
   the way a coordinated clause needs none,
   while an enumeration is an apposition to something in that clause —
   to `dwa` here — and a production at the sentence level has no way of saying to what.
-- A semicolon joining two clauses.
-  `Program zapisuje ustawienia; linter sprawdza tekst.` is rejected
-  where the same two clauses joined by a colon derive,
-  so what olski has of clause-level punctuation
-  is now the comma, the colon and nothing else.
-  The semicolon is the cheapest entry on this list to admit
-  and the hardest to argue for:
-  Polish puts it where either a comma or a full stop would also stand,
-  so the production would say nothing the colon's does not.
+- Nawias stojący w środku zdania, a nie na końcu jego składowego:
+  `Grupa imienna (ta z dopełniaczem) stoi tu.` jest odrzucone,
+  gdzie `Grupa imienna stoi tu (niżej).` wyprowadza się.
+  Tak samo nie ma wyprowadzenia nawias wewnątrz zdania względnego,
+  a cenę drugiej pozycji trzyma
+  [wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania).
+- Two separating signs in one sentence, whether the same one twice or one of each.
+  `Cena jest niska; gramatyka jest bezkontekstowa; parser jest tani.` is rejected
+  where either half of it derives,
+  and so is a sentence carrying a colon and a semicolon at once.
+  Both signs stand at the level of the sentence
+  ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+  and `Clause` carries neither, so there is nothing to recurse through.
+  What such a production would have to settle is what the second sign separates:
+  `(A; B); C` and `A; (B; C)` are the same string
+  and a right-recursive body would give it two derivations,
+  where the enumeration this register writes with semicolons is one flat list.
 - Przysłówek przed drugim przysłówkiem, czyli trzeci gospodarz tej konstrukcji:
   `Program zapisuje ustawienia bardzo szybko.` nie jest odrzucone i to jest z nim
   gorzej, bo wychodzi jednym czytaniem, w którym `bardzo` określa zdanie
@@ -2593,6 +2940,22 @@ Every one of these is a sentence that gets rejected and should not be:
   and that is the whole of what is left of the row for this construction:
   the comma in front of a conjunction took the lowercase ones
   ([above](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+- Tryb przypuszczający z cząstką przy czasowniku:
+  `Czytelnik nie odzyskałby ról.` jest odrzucone,
+  gdzie `Czytelnik nie odzyskał ról.` wyprowadza się.
+  Morfeusz dzieli `odzyskałby` na czas przeszły i cząstkę `by`,
+  więc pozycja jest tu jedna i stoi przy czasowniku,
+  czym różni się od trzech pozycji niżej:
+  tam cząstka wchodzi w spójnik, a tryb zdania podrzędnego trzeba wtedy nieść
+  ponad każdą produkcją zdania.
+  Polszczyzna stawia tę cząstkę także dalej od czasownika —
+  `Nie ma aplikacji, która by to wszystko napędzała.` —
+  a to jest już [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+  której olski nie bierze.
+  Nad prozą tego repozytorium `by` prowadzi kolejkę form bez licencji
+  ([corpus.md](corpus.md#where-the-analyses-stop)),
+  a większość jego wystąpień w niej jest angielskim przyimkiem,
+  co widać po tym, że stoi za formą, której słownik nie zna.
 - The subordinators the conditional stands under: `aby`, `żeby`, `by`, `gdyby`.
   A clause with one of them has its verb in the past tense and the particle `by`
   fused into the subordinator or standing beside it,
@@ -2633,12 +2996,6 @@ Every one of these is a sentence that gets rejected and should not be:
   [corpus.md](corpus.md#where-the-analyses-stop) ranks,
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
-- Rzeczownik odczasownikowy: `Przyłączenie jest tanie.` jest odrzucone,
-  gdzie `Zmiana jest tania.` wyprowadza się.
-  Formy `ger` nie bierze żaden terminal,
-  więc analiza staje na słowie, a nie na kształcie zdania.
-  Pozycję tę wymienia [etap 6](roadmap.md#etap-6-reszta-konstrukcji)
-  obok cyfry i łącznika.
 - Narzędnik bez przyimka jako pozycja przy czasowniku:
   `Parser mierzy gramatykę sondą.` jest odrzucone,
   gdzie `Parser mierzy gramatykę.` wyprowadza się,
@@ -2955,7 +3312,7 @@ Zakupem drugiego gospodarza jest prawda o zdaniach, które zostają.
 Pierwszy gospodarz sam wypuszcza jedno na czterdzieści zdań przyjętych
 z czytaniem, w którym przysłówek jest okolicznikiem zdania,
 choć stoi przed przymiotnikiem i ten przymiotnik określa;
-przy obu gospodarzach takich czytań jest jedno na sto pięćdziesiąt
+przy obu gospodarzach takich czytań jest jedno na blisko dwieście
 i ani jedno z nich nie pada przed przymiotnikiem
 ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
 Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
@@ -2971,7 +3328,7 @@ a obaj gospodarze jedno na pięćdziesiąt,
 więc pomyłek jest po dopisaniu drugiego mniej nie tylko w udziale, ale i w liczbie,
 choć zdań przyjętych jest mniej.
 Drugi gospodarz sam myli się przy tym najczęściej z trzech wariantów,
-bo czyta wbrew drzewu jedno zdanie na dziesięć z tych, które kupuje sam:
+bo czyta wbrew drzewu jedno zdanie na osiem z tych, które kupuje sam:
 zostają mu pomyłki na przysłówku odprzymiotnikowym,
 który określa i zdanie, więc stopień nie rozdziela niczego —
 `Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`.
@@ -3098,7 +3455,7 @@ a przed drugim przysłówkiem nie dochodzi do nikogo.
 Pierwsza klasa jest w olskim pusta, i to jest zakup drugiego gospodarza
 wypisany osobno: przy nim samym pierwszym gospodarzu przypada na nią
 trzy czwarte płaskich czytań.
-Zostaje klasa druga, czyli jedno płaskie czytanie na sto pięćdziesiąt zdań
+Zostaje klasa druga, czyli jedno płaskie czytanie na blisko dwieście zdań
 przyjętych, i wszystkie są przysłówkiem przed przysłówkiem, jak `bardzo szybko`.
 Trzeci gospodarz jest tym, co ją zdejmuje, i jest on ruchem, a nie dziurą:
 [TODO.md](../TODO.md) trzyma pytanie, czy wraca on z tą samą ceną co drugi.

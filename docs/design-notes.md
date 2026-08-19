@@ -532,9 +532,9 @@ a nie dokumentacją techniczną, do której olski jest kierowany.
 Wraca to rozwidlenie wtedy, gdy zakup przestanie być zerem,
 czyli gdy gramatyka odbierze zdaniom ze szczeliną ich dzisiejsze blokery.
 Maskowanie rośnie wtedy razem z zakupem i nie ma własnego wyzwalacza:
-dwójka jest dzisiaj mała dlatego, że olski odrzuca 122 z tych 128 zdań,
+dwójka jest mała dlatego, że olski odrzuca 121 z tych 128 zdań,
 a odrzuca je na tych samych częściach mowy, tyle że w innej kolejności:
-znak przestankowy, cząstka i rzeczownik odczasownikowy
+znak przestankowy, cząstka i czas przeszły
 zamiast cząstki oraz znaku i bezokolicznika po równo.
 Sonda liczy jedno i drugie razem z tymi blokerami po to,
 żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
@@ -762,7 +762,7 @@ a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 39 z 48 tych zdań,
+Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 37 z 48 tych zdań,
 a to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
@@ -770,7 +770,7 @@ wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
-Pięć z pozostałych dziewięciu rozchodzi się na interpunkcji, którą olski bierze,
+Pięć z pozostałych jedenastu rozchodzi się na interpunkcji, którą olski bierze,
 a sonda nie, i trzy z tych pięciu na samym przecinku.
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
 wychodzi w olskim trzema czytaniami,
@@ -791,7 +791,7 @@ olski wyprowadza od tej pory, pierwsze stu czterdziestoma czterema czytaniami,
 a sonda odrzuca oba, bo dwukropka i przecinka przed spójnikiem nie ma po tamtej stronie
 ani jednego łuku.
 
-Cztery ostatnie nie mówią o formalizmie nic i mówią coś o samej sondzie.
+Sześć ostatnich nie mówi o formalizmie nic i mówi coś o samej sondzie.
 `Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
 odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
 a sonda liczebnika nie ma, więc to zdanie odrzuca;
@@ -802,11 +802,21 @@ rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-go
 `Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone`
 olski wyprowadza czterema czytaniami, odkąd formę `Pythonem` czyta
 [leksykon projektu](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
-a sonda bierze ją dalej za nieznaną.
+a sonda bierze ją dalej za nieznaną;
+`Co gramatyka obejmuje, czego nie obejmuje i dlaczego przyłączenie wyrażenia
+przyimkowego zostaje przy czytelniku, mówi docs/subset.md`
+olski wyprowadza ośmioma czytaniami, odkąd ma
+[rzeczownik odczasownikowy](subset.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku),
+a sonda nie ma dla `przyłączenie` ani jednego łuku;
+`Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie „Zasady techniki
+prawodawczej”, mówi docs/ustawy.md`
+olski wyprowadza czterema czytaniami, odkąd bierze
+[cudzysłów](subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
+a sonda nie ma po swojej stronie żadnego z dwóch jego znaków.
 Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,
 więc starzeje się po cichu przy każdym dopisaniu do olskiego,
 produkcji czy wiersza leksykonu,
-i te cztery rozbieżności są tym, co to pokazuje —
+a te sześć rozbieżności jest tym, co to pokazuje —
 razem z dwiema wyżej, które przyszły z interpunkcją zdaniową
 i o formalizmach mówią tyle samo, czyli nic.
 Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
@@ -818,8 +828,8 @@ Zdanie, którego rozbiór zajmował ponad pięć sekund,
 oraz dwa, o które oba programy się spierały,
 stały w tej połowie README, którą zdjęło wycofanie toru linterowego,
 a te dwa, które spór przywróciły, dopisała zmiana w tej samej prozie.
-Trzecie dołożył czas przeszły, czyli tym razem zmiana w gramatyce,
-i o tyle jest to spór mocniejszy od tamtych dwóch.
+Trzy dołożyła gramatyka — czas przeszły, rzeczownik odczasownikowy i cudzysłów —
+i o tyle są to spory mocniejsze od tamtych dwóch.
 Tak właśnie kosztuje figura brana nad własną prozą,
 przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.

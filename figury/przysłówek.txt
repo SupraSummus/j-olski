@@ -5,61 +5,58 @@ czyta: docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-cz
 czyta: docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze
 czyta: docs/roadmap.md#etap-6-reszta-konstrukcji
 ruszają:
-  olski/subset.py: ccaa0fcef11b
-  olski/parse.py: 7b2184342e31
+  olski/subset.py: 290a30c351a9
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: b0553f072e6c
   olski/grammar.py: 9077925971d9
   sonda/przysłówek.py: 1361683a43fb
-  sonda/ruch.py: 6da1ed0a768e
+  sonda/ruch.py: b25a865a0768
 
 Składnica, morfologia złota, 13035 zdań
 
           wariant    przyjęte  wieloznaczne  odrzucone
-   bez przysłówka        1209           581      11245
-       okolicznik        1658           754      10623
-przy przymiotniku        1239           603      11193
-            olski        1623           800      10612
+   bez przysłówka        1333           767      10935
+       okolicznik        1816           986      10233
+przy przymiotniku        1365           796      10874
+            olski        1777          1036      10222
 
 ruch wobec wariantu „bez przysłówka” — okolicznik:
-      449  rejected → valid
-      173  rejected → ambiguous
+      483  rejected → valid
+      219  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      311    agrees
-      117    brak roli
+      339    agrees
+      125    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
+             Nigdy jeszcze nie był tak starannie ubrany.
              W jaki sposób tak szybko stałaś się tak popularna?
              Często tu goszczę i jestem serdecznie przyjmowany.
              Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
              Niedawno została opatentowana.
              Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
-             Wróciłem do biura i natychmiast zadzwoniłem na policję.
-             Z autorem artykułu rozmawiałam dwukrotnie.
-       13    disagrees
+             Teraz dopiero dostrzegłem, że jest zmęczona.
+       16    disagrees
              Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
+             Braków wtenczas nawet poeci nie wypuszczali.
+             Obserwuję dużo młodszych kolegów, którzy ze zdziwieniem patrzą, co ja tu jeszcze robię.
              Na resztę czas przyjdzie później.
              Tam przygarnęła nas bardzo zacna rodzina.
+             Poprzednio pracodawca mógł z tym zwlekać nawet 15 lat.
              Te dane wyraźnie wskazują na skalę zjawiska i jego ciężar społeczny.
              Mimo to eksmisje donikąd są sporadyczne.
-             Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
-             Cały prawy błotnik wraz ze światłami został na haku.
-             Miał równie pokraczną głowę, krótki tułów.
-        8    partial
-             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
+        3    partial
              Przed wojną jej osobiście nie znałem.
              Myśli się językowo.
-             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
              Jak nalicza się mandaty?
-             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
-             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
-             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
 
 ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
-       30  rejected → valid
-       22  rejected → ambiguous
+       32  rejected → valid
+       29  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-       24    agrees
-        3    disagrees
+       25    agrees
+        4    disagrees
              Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
              Oficjalnie cały Sejm RP śpi.
+             Wcześniej główny inspektor nadzoru budowlanego nakazał cofnięcie decyzji burmistrza.
              Oficjalnie największe emocje budzi zapowiedź likwidacji Senatu.
         3    brak roli
              Jest bardzo prawdziwy, szczery.
@@ -67,71 +64,66 @@ ruch wobec wariantu „bez przysłówka” — przy przymiotniku:
              Jesteś straszliwe niedouczony.
 
 ruch wobec wariantu „bez przysłówka” — olski:
-      414  rejected → valid
-      219  rejected → ambiguous
+      444  rejected → valid
+      269  rejected → ambiguous
   role zdań nowo przyjętych wobec drzewa wzorcowego:
-      285    agrees
-      113    brak roli
+      311    agrees
+      120    brak roli
              Przyklękli pobożnie i weszli na stopnie ołtarza.
              W jaki sposób tak szybko stałaś się tak popularna?
              Kiedyś w Poznaniu spotkałem się z moimi polskimi krewnymi.
              Niedawno została opatentowana.
              Jesteś impulsywna, bardzo żywo na wszystko reagujesz.
+             Teraz dopiero dostrzegłem, że jest zmęczona.
              Wróciłem do biura i natychmiast zadzwoniłem na policję.
              Z autorem artykułu rozmawiałam dwukrotnie.
-             Tak jest łatwiej.
-        8    partial
-             Tak właśnie zrobiliśmy, a tych handlarzy, którzy pracowali półlegalnie, przegonili pogranicznicy.
-             Przed wojną jej osobiście nie znałem.
-             Myśli się językowo.
-             Co roku zaprasza do miasta Niemców, którzy tu mieszkali.
-             Jak nalicza się mandaty?
-             Dach przypomina fale morskie, które często zdobią japońskie drzeworyty.
-             Tyrmand pisał z pozycji Europejczyka, który dobrze wie, czym jest komunizm.
-             Do tego potrzebna jest przestrzeń, a ja ciągle zmagam się z kartką papieru, która jest płaska.
-        8    disagrees
+       10    disagrees
+             Braków wtenczas nawet poeci nie wypuszczali.
              Na resztę czas przyjdzie później.
+             Poprzednio pracodawca mógł z tym zwlekać nawet 15 lat.
              Te dane wyraźnie wskazują na skalę zjawiska i jego ciężar społeczny.
              Mimo to eksmisje donikąd są sporadyczne.
              Mieszkańcy miasta mówią, że od 20 lat rzeka nie miała tak wysokiego poziomu.
              Cały prawy błotnik wraz ze światłami został na haku.
              Zgodnie z ustaleniami nie udzielił żadnych wywiadów ani nie wydał żadnego oświadczenia politycznego.
-             Za stanami zniechęcenia i depresji kryją się zwykle głębsze konflikty i problemy wewnętrzne, wyniesione głównie ze środowiska rodzinnego.
-             Powtarzaj je tak często, jak to jest potrzebne.
+        3    partial
+             Przed wojną jej osobiście nie znałem.
+             Myśli się językowo.
+             Jak nalicza się mandaty?
 
 konkurencja, nad zdaniem po zdaniu:
-       43  obaj gospodarze ruszają to samo zdanie
-       38  razem wychodzi co innego niż osobno
+       52  obaj gospodarze ruszają to samo zdanie
+       42  razem wychodzi co innego niż osobno
 
 konkurencja, obaj gospodarze ruszają to samo zdanie:
   Program zabawy był ściśle ustalony.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
   Jest bardzo przystojna i odwracała ode mnie odwagę.
+  Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
   Był ostro atakowany przez endecję.
   Z drugiej strony dla mnie cała branża jest bardzo interesująca.
-  Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
-  Zasadzka była starannie przygotowana.
 
 konkurencja, razem wychodzi co innego niż osobno:
   Program zabawy był ściśle ustalony.
+  Nigdy jeszcze nie był tak starannie ubrany.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   Pobyt był tam niezwykle uciążliwy.
   Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
   Dlatego właśnie przed laty do Monako przenosili się masowo szwedzcy tenisiści.
   Jest bardzo przystojna i odwracała ode mnie odwagę.
   Wydaje się to niezwykle mało prawdopodobne.
-  Często tu goszczę i jestem serdecznie przyjmowany.
 
 okolicznik, rejected → valid:
   Róża wtedy występowała ze wspaniałym przyjęciem.
   Program zabawy był ściśle ustalony.
   Przyklękli pobożnie i weszli na stopnie ołtarza.
   Czas okrutnie ścieśnił tę rodzinę.
+  Nigdy jeszcze nie był tak starannie ubrany.
   Obejrzał je bacznie.
   Burza toczyła się leniwie, zanim zapadła w zachodnią czeluść nieba.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
-  Pobyt był tam niezwykle uciążliwy.
 
 okolicznik, rejected → ambiguous:
   Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
@@ -148,20 +140,20 @@ przy przymiotniku, rejected → valid:
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
   Polska jest etnicznie jednorodna, heteroseksualna, katolicka i wolnorynkowa.
   Jest bardzo przystojna i odwracała ode mnie odwagę.
+  Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
   Język telenowel jest ujednolicony, mało barwny, ogólnopolski.
   Jeśli weźmiemy pod uwagę sprawność i wydajność akumulatorów wanadowych, projekt wydaje się zupełnie realny.
   Zasadzka była starannie przygotowana.
-  Poznań jest właściwie jedynym większym miastem na terenie naszego kraju, na które spoglądały oczy wielkiego poety.
 
 przy przymiotniku, rejected → ambiguous:
+  Dodajmy do tego stały nacisk Sowietów na dyskretne przeprowadzenie kolektywizacji, a obraz przyszłości stanie się jeszcze bardziej ponury.
   Był ostro atakowany przez endecję.
   Z drugiej strony dla mnie cała branża jest bardzo interesująca.
   Przy podniesieniu w czasie mszy używa się według Antegnatiego solowego rejestru pryncypalnego o bardzo delikatnym brzmieniu.
+  Gdy po wypiciu trunku siedlczanin chciał opuścić towarzystwo, został prawdopodobnie uderzony w głowę i stracił przytomność.
+  Jeszcze mniej pewny jest los podstawówki w Klonowie.
   Polacy w tej bardzo ważnej sprawie nie muszą być papugą innych narodów.
-  Ktoś inny w złości kopie ławkę i rzuca głośno soczyste przekleństwa.
-  Odbyło się to przy stosunkowo niewielkim przyroście wpływów z tytułu odsetek i podobnych dochodów.
-  Mężczyźni zakomunikowali, że przychodzą z bardzo korzystną ofertą.
-  Okindo został poważnie ranny w wyniku eksplozji.
+  Pomysł powstał podczas uzupełniania ksiąg parafialnych, które były skrupulatnie sprawdzane podczas duszpasterskich wizytacji.
 
 olski, rejected → valid:
   Róża wtedy występowała ze wspaniałym przyjęciem.
@@ -175,10 +167,10 @@ olski, rejected → valid:
 
 olski, rejected → ambiguous:
   Program zabawy był ściśle ustalony.
+  Nigdy jeszcze nie był tak starannie ubrany.
   Dyrektor zapoznał Grodzickiego z katechetą, potem pożegnał się i wyszedł.
   Katecheta zwięźle opowiedział o swych niedomaganiach i wtrącił słówko o kosztownej kuracji w Karlsbadzie.
   Począł myśleć gorączkowo.
   Nie wytropiła nigdzie wroga na oko.
   Pracowicie wyodrębnił pojęcia takie jak ból, smutek, rozpacz, cierpienie, żal.
   Nazirejczycy nie pili wina, nie strzygli włosów, nie spożywali rytualnie nieczystych potraw i nie mogli dotykać zmarłych.
-  Pobyt był tam niezwykle uciążliwy.
