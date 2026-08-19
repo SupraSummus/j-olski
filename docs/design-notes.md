@@ -557,8 +557,8 @@ Jest nim to, że luka nie ma napisu.
 
 **Co luka miała kupić.**
 Zdanie względne wypisuje się rolą po roli:
-piętnaście ciał `RelativeCore` w `olski/subset.py`,
-po jednym na wysuniętą rolę razy szyk reszty zdania
+kilkadziesiąt ciał `RelativeCore` w `olski/subset.py`,
+po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie,
 a role, które te ciała wypełniają, wywodzi
 [subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).

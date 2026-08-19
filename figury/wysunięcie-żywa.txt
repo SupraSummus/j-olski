@@ -3,35 +3,53 @@ polecenie: python3 -m sonda.wysunięcie Składnica-frazowa-180723/ --morfologia 
 korpus: Składnica-frazowa-180723
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
-  olski/subset.py: 8239283c8ebd
+  olski/subset.py: 042ef14ea1d7
   olski/precedencja.py: 71e2a5a23aed
   olski/parse.py: 565d2d9ff784
-  sonda/wysunięcie.py: e217547972d0
-  sonda/ruch.py: 6da1ed0a768e
+  sonda/wysunięcie.py: 2654d55f866e
+  sonda/ruch.py: b25a865a0768
 
 Składnica, morfologia żywa, 13035 zdań
 
-                   wariant    przyjęte  wieloznaczne  odrzucone
-                 bez grupy        1384          1225      10426
-            grupa względna        1384          1226      10425
-grupa pytajna z przyimkiem        1384          1225      10426
-                     olski        1384          1226      10425
+                    wariant    przyjęte  wieloznaczne  odrzucone
+                  bez grupy        1384          1225      10426
+grupa względna z przyimkiem        1384          1226      10425
+grupa względna bez przyimka        1385          1227      10423
+ grupa pytajna z przyimkiem        1384          1225      10426
+                      olski        1385          1228      10422
 
-ruch wobec wariantu „bez grupy” — grupa względna:
+ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
         1  rejected → ambiguous
+
+ruch wobec wariantu „bez grupy” — grupa względna bez przyimka:
+        2  rejected → ambiguous
+        1  rejected → valid
 
 ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez grupy” — olski:
-        1  rejected → ambiguous
+        3  rejected → ambiguous
+        1  rejected → valid
 
 konkurencja, nad zdaniem po zdaniu:
-        0  obie grupy ruszają to samo zdanie
+        0  kilka grup rusza to samo zdanie
         0  razem wychodzi co innego niż osobno
 
-grupa względna, rejected → ambiguous:
+grupa względna z przyimkiem, rejected → ambiguous:
   W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.
 
+grupa względna bez przyimka, rejected → ambiguous:
+  Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
+  Dostają je dzieci w trudnej sytuacji materialnej, których ojcowie nie wywiązują się ze swoich obowiązków.
+
+grupa względna bez przyimka, rejected → valid:
+  Czterech gości, których stan był najcięższy, trafiło do szpitala.
+
 olski, rejected → ambiguous:
+  Opracował program dydaktyczny wychowania seksualnego, którego realizacja została ostatnio wstrzymana.
+  Dostają je dzieci w trudnej sytuacji materialnej, których ojcowie nie wywiązują się ze swoich obowiązków.
   W nocy biolodzy z Zakładu Badań Ssaków PAN obserwowali watahę, w której skład wchodził uwięziony wilk.
+
+olski, rejected → valid:
+  Czterech gości, których stan był najcięższy, trafiło do szpitala.

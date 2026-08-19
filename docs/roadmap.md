@@ -381,7 +381,8 @@ czyli słowa żądające każde innego kształtu niż grupa imienna na czole zda
 Kolejka po tym dopisaniu jest więc kolejką kształtów pytania,
 a nie listą lematów do dopisania obok jednego, który olski ma.
 
-Grupa wysunięta razem z zaimkiem jest czwartym policzonym dopisaniem tego etapu.
+Grupa wysunięta razem z zaimkiem pod przyimkiem
+jest czwartym policzonym dopisaniem tego etapu.
 Polszczyzna wysuwa na czoło nie tylko zaimek `który`, ale i grupę, w której on stoi,
 a grupa ta rozchodzi cechy na dwie strony:
 przypadek do przyimka nad sobą, a liczbę i rodzaj do poprzednika
@@ -399,14 +400,25 @@ co jest o rejestrze odczytem, a nie o produkcji:
 Zdanie względne żądało tu kształtu grupy, a pytanie drugiego czoła,
 i te dwie połowy zostały przez to policzone osobno.
 
-Zostają na liście tego etapu dwie pozycje i obie odsłonił ten sam przebieg.
-Pierwszą jest ta sama grupa wysunięta bez przyimka.
-Żąda ona dwóch par liczby i rodzaju naraz — orzeczenie zgadza się z głową grupy,
-a poprzednik z jej zaimkiem — więc czoło wzięte z niej wprost
-wydaje werdykt pewny siebie i błędny
-([subset.md](subset.md#what-it-does-not-cover-yet)).
+Ta sama grupa wysunięta bez przyimka jest piątym policzonym dopisaniem
+i pierwszym, którego przeszkodą jest zgodność.
+Grupa niesie liczbę i rodzaj dwa razy, bo orzeczenie zgadza się z jej głową,
+a poprzednik z jej zaimkiem, więc para jedna wydaje werdykt pewny siebie i błędny —
+raz przyjmując `Ustawa, której przepisy obowiązuje`,
+a raz `Ustawy, której przepisy obowiązują`
+([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+tak samo jak przy pozycji pod przyimkiem,
+a zakup jest pierwszym, jaki ta konstrukcja robi nad bankiem drzew
+pod złotą morfologią: jedno zdanie przyjęte i dwa wyciągnięte z odrzucenia.
+Rejestry odpowiadają przy tym na obie pozycje różnie:
+rozporządzenie rusza tylko pierwsza, siedem ustaw tylko druga, a bank drzew obie,
+i to jest odczyt o rejestrach, bo kształt grupy jest w obu pozycjach ten sam.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nią.
 
-Drugą jest zdanie względne z opuszczoną kopułą, czyli `o którym mowa`,
+Zostaje na liście tego etapu jedna pozycja:
+zdanie względne z opuszczoną kopułą, czyli `o którym mowa`,
 i jest ono najczęstszym zdaniem względnym rejestru ustaw:
 niesie je co siódme zdanie tych korpusów i nie wyprowadza się ani jedno
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).

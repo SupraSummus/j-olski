@@ -144,6 +144,16 @@ def koordynuje(produkcja: Production) -> bool:
     )
 
 
+def ma_symbol(produkcja: Production, nazwa: str) -> bool:
+    """Czy w ciele tej produkcji stoi ten symbol.
+
+    Pytają o to sondy grupujące produkcje po tym, co produkcja bierze, a nie po
+    tym, co definiuje. Pozycję konstrukcji stawia bowiem ciało, więc to ciało
+    należy do grupy zdejmowanej, a symbol, który w nim stoi, zostaje.
+    """
+    return any(isinstance(część, Sym) and część.name == nazwa for część in produkcja.body)
+
+
 def ze_spójnikiem(produkcja: Production) -> bool:
     """Czy w ciele tej produkcji stoi spójnik (:data:`SPÓJNIKOWE`).
 
