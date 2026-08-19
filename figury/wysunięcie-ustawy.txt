@@ -1,0 +1,32 @@
+#  Ten plik powstaje przebiegiem: python3 -m harness.figury wysunięcie-ustawy
+polecenie: python3 -m sonda.wysunięcie proza/ustawy.txt
+korpus: proza/ustawy.txt
+czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
+ruszają:
+  harness/ustawy.py: c48b3358e85d
+  olski/subset.py: 8239283c8ebd
+  olski/precedencja.py: 71e2a5a23aed
+  olski/parse.py: 565d2d9ff784
+  sonda/wysunięcie.py: e217547972d0
+  sonda/ruch.py: 6da1ed0a768e
+
+ustawy.txt, proza, 4921 zdań
+
+                   wariant    przyjęte  wieloznaczne  odrzucone
+                 bez grupy          81           304       4536
+            grupa względna          81           304       4536
+grupa pytajna z przyimkiem          81           304       4536
+                     olski          81           304       4536
+
+ruch wobec wariantu „bez grupy” — grupa względna:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
+  żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — olski:
+  żadne zdanie nie zmieniło werdyktu
+
+konkurencja, nad zdaniem po zdaniu:
+        0  obie grupy ruszają to samo zdanie
+        0  razem wychodzi co innego niż osobno

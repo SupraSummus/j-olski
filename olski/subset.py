@@ -115,7 +115,13 @@ DEKLARACJA = Deklaracja(
     # Zdanie składowe, czyli człon ciągu, który koordynuje `Clause`.
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
-    składowe=("ClauseConjunct",),
+    # Czoło pytania stoi tu drugie i jest rozpiętością jednego zdania tak samo,
+    # bo pytanie o wyrażenie przyimkowe wynosi grupę pytajną ponad zdanie
+    # składowe, w którym ona rolę zajmuje. Bez tego symbolu grupa ta leży cała
+    # przed składowym i dostaje znak :data:`SĄSIEDNIE_ZDANIE_SKŁADOWE`, czyli
+    # zdanie o jednym zdaniu składowym mówi, że streszczenie milczy o drugim,
+    # a streszczenie właśnie to składowe wypisuje.
+    składowe=("ClauseConjunct", "InterrogativeCore"),
     # Zdania podrzędne: względne, dopełnieniowe, pytanie zależne i okolicznikowe.
     # Każdy z tych symboli opakowuje takie zdanie, a nie jest symbolem samego zdania,
     # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —
@@ -409,8 +415,9 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     rodzin nie wyprowadza.
 
     Role są dwie: podmiot i dopełnienie. Trzeciej — wyrażenia przyimkowego —
-    tutaj nie ma, bo wysuwa się ono razem z przyimkiem, więc jest czołem innego
-    kształtu i stoi w produkcji obok.
+    tutaj nie ma, bo wysuwa się ono razem z przyimkiem i z grupą, w której zaimek
+    stoi, więc jest czołem innego kształtu; wypisuje je jednym ciałem ta sama
+    pętla, która wywołuje tę funkcję.
 
     Liczba i rodzaj wychodzą z czoła, bo zdanie względne zgadza się w nich ze
     swoim poprzednikiem; pytanie nie zgadza się z niczym i zostawia je nieczytane.
@@ -1124,40 +1131,72 @@ def build() -> Grammar:
     # zdania względnego. Wpuszczony do grupy imiennej stanąłby w każdej jej
     # pozycji, a `Program zapisuje który.` polszczyzną nie jest.
     grammar.rule("RelativePronoun", [word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)], **AGREE)
-    grammar.rule(
-        "RelativeModifier",
-        [
-            Głowa(PRZYIMEK),
-            nt("RelativePronoun", case=V("c"), number=V("n"), gender=V("g")),
-        ],
-        number=V("n"),
-        gender=V("g"),
-    )
 
-    # Zdanie względne wysuwa trzy role i ta jest trzecią: wyrażenie przyimkowe,
-    # które wychodzi na czoło razem ze swoim przyimkiem. Sięga ona najdalej z tych
-    # trzech, bo za nią stoi zdanie składowe całe, w każdym szyku, jaki ono ma, i
-    # dlatego jest jednym ciałem, a nie rodziną (:func:`_wysunięta_rola`
-    # pisze pozostałe dwie). Pytanie tej roli nie wysuwa: `W którym roku ustawa
-    # weszła?` żąda czoła, którego ta gramatyka nie ma, a TODO.md trzyma ten brak.
-    grammar.rule(
-        "RelativeCore",
-        [nt("RelativeModifier", number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
-        number=V("n"),
-        gender=V("g"),
-    )
-
-    # Zdanie względne i pytanie dzielą kształt: jedna rola stoi w nich wysunięta na
-    # czoło, a reszta zdania jest tą samą resztą, więc deklaracje wypisuje jedna
-    # funkcja dla obu (:func:`_wysunięta_rola`). Różni je samo czoło i tyle bierze
-    # ta pętla nazwą symbolu.
-    for symbol, czoło in (("RelativeCore", "RelativePronoun"), ("InterrogativeCore", PYTAJNY)):
-        _wysunięta_rola(zdanie, symbol, czoło)
+    # Grupa, którą polszczyzna wysuwa przed zdanie względne razem z zaimkiem:
+    # sam zaimek (`o którym`), rzeczownik z zaimkiem w dopełniaczu za sobą
+    # (`na podstawie której`) i ten sam rzeczownik z zaimkiem przed sobą
+    # (`o którego zdaniu`).
+    #
+    # Cechy rozchodzą się tu na dwie strony i to jest cała trudność tej grupy.
+    # Przypadek wypuszcza rzeczownik, bo o przypadek pyta przyimek nad grupą,
+    # a liczbę i rodzaj wypuszcza zaimek, bo w nich zgadza się on z poprzednikiem
+    # zdania względnego (:func:`_wysunięta_rola` mówi to samo o czole bez
+    # przyimka). Rzeczownik między nimi nie zgadza się z niczym, więc liczby ani
+    # rodzaju nie oddaje nikomu i zmiennych na nie nie dostaje.
+    #
+    # Każdy kolejny kształt jest osobnym ciałem, bo cechy nie przechodzą przez
+    # grupę imienną same, więc głowa z przydawką pod sobą wysunięcia nie ma.
+    # Który z tych trzech niesie rejestr, a który sama polszczyzna, mówi
+    # docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania.
+    głowa_grupy = word("subst", case=V("c"))
+    zaimek_dopełniacza = nt("RelativePronoun", case="gen", number=V("n"), gender=V("g"))
+    for ciało in (
+        [nt("RelativePronoun", **AGREE)],
+        [Głowa(głowa_grupy), zaimek_dopełniacza],
+        [zaimek_dopełniacza, Głowa(głowa_grupy)],
+    ):
+        grammar.rule("RelativeNP", ciało, **AGREE)
 
     # Grupa pytajna: zaimek pytajny i grupa imienna, przy której on stoi. Głową
     # jest grupa imienna, bo pytanie jest o rzecz, którą ona nazywa, a zaimek mówi
     # tylko, że pyta się o to, która z nich.
     grammar.rule(PYTAJNY, [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))], **AGREE)
+
+    # Zdanie względne i pytanie dzielą kształt: jedna rola stoi w nich wysunięta na
+    # czoło, a reszta zdania jest tą samą resztą, więc deklaracje wypisuje jedna
+    # funkcja dla obu (:func:`_wysunięta_rola`). Różni je samo czoło i tyle bierze
+    # ta pętla nazwami symboli: czoło bez przyimka, symbol wysuniętego wyrażenia
+    # przyimkowego i grupa, którą to wyrażenie wysuwa.
+    #
+    # Trzecią rolę pętla wypisuje sama, bo w obu rodzinach jest ona jednym ciałem:
+    # za wysuniętym wyrażeniem przyimkowym stoi zdanie składowe całe, w każdym
+    # szyku, jaki ono ma, więc rozwinięcia szyku ta rola od nikogo nie żąda.
+    # Symbol wyrażenia jest osobny dla każdej z rodzin, bo wspólny wpuściłby grupę
+    # pytajną na czoło zdania względnego, gdzie nie ma się z czym zgodzić.
+    #
+    # Czoło bez przyimka jest w tych rodzinach różne i jest to asymetria, a nie
+    # przeoczenie: pytanie wysuwa tam grupę całą, a zdanie względne sam zaimek.
+    # Grupa wysunięta bez przyimka żąda bowiem dwóch par liczby i rodzaju naraz —
+    # orzeczenie zgadza się z jej głową, a poprzednik z jej zaimkiem — więc czoło
+    # wzięte z niej wprost wydaje werdykt pewny siebie i błędny; TODO.md trzyma tę
+    # pozycję wraz z tą przeszkodą.
+    for symbol, czoło, modyfikator, grupa in (
+        ("RelativeCore", "RelativePronoun", "RelativeModifier", "RelativeNP"),
+        ("InterrogativeCore", PYTAJNY, "InterrogativeModifier", PYTAJNY),
+    ):
+        _wysunięta_rola(zdanie, symbol, czoło)
+        grammar.rule(
+            modyfikator,
+            [Głowa(PRZYIMEK), nt(grupa, **AGREE)],
+            number=V("n"),
+            gender=V("g"),
+        )
+        grammar.rule(
+            symbol,
+            [nt(modyfikator, number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
+            number=V("n"),
+            gender=V("g"),
+        )
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
     # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka

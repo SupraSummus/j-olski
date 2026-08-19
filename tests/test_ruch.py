@@ -24,7 +24,7 @@ pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR, check
-from sonda import liczebnik, negacja, okolicznikowe, przecinek, przysłówek, szyk
+from sonda import liczebnik, negacja, okolicznikowe, przecinek, przysłówek, szyk, wysunięcie
 from sonda.ruch import Sonda, gramatyka, zmierz
 
 SONDY = [
@@ -34,6 +34,7 @@ SONDY = [
     szyk.SONDA,
     przysłówek.SONDA,
     okolicznikowe.SONDA,
+    wysunięcie.SONDA,
 ]
 
 #: Sonda, wariant i zdanie, które stoi dokładnie na tej jednej grupie produkcji.
@@ -62,6 +63,12 @@ NA_JEDNEJ_GRUPIE = [
         "przed zdaniem",
         "Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.",
     ),
+    (
+        wysunięcie.SONDA,
+        "grupa względna",
+        "Reguła, na podstawie której program zapisuje ustawienia, jest tania.",
+    ),
+    (wysunięcie.SONDA, "grupa pytajna z przyimkiem", "W którym roku ustawa weszła?"),
 ]
 
 

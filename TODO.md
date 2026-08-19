@@ -966,26 +966,53 @@ Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 `olski/skład/składnia.py` nie ma czym postawić,
 więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 
-Zaimek względny wysunięty razem ze swoją grupą nie ma wyprowadzenia.
-`RelativeModifier` w `olski/subset.py` bierze przyimek i sam zaimek,
-a polszczyzna wysuwa razem z nim całą grupę, w której on stoi:
-`ustawy, na podstawie której jest ono wydawane` jest zdaniem
-„Zasad techniki prawodawczej”, które przez to przechodzi z wieloznaczności w odrzucenie
-([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
-Ruchem jest grupa imienna, w której zaimek stoi jako dopełniacz przy głowie,
-z liczbą i rodzajem wypuszczonymi z zaimka, a nie z głowy,
-bo to zaimek zgadza się z poprzednikiem, a nie rzeczownik, przy którym stoi.
-Do rozstrzygnięcia jest, jak daleko ta grupa sięga:
-polszczyzna wysuwa i `na podstawie której`, i `o którego zdaniu`,
-a każdy kolejny kształt jest osobnym ciałem,
-dopóki cechy nie przechodzą przez grupę imienną same.
-Ten sam brak niesie pytanie o tę grupę — `W którym roku ustawa weszła?` —
-bo grupa pytajna stoi na czole zdania w podmiocie i w dopełnieniu,
-a wysunięta razem z przyimkiem czoła nie ma
+`o którym mowa` nie ma wyprowadzenia, a jest najczęstszym zdaniem względnym ustaw.
+Zwrot ten niesie 851 zdań siedmiu ustaw i „Zasad techniki prawodawczej”
+z 5620, jakie te dwa korpusy mają —
+`grep -cP 'o (którym|której|których) mowa' proza/ustawy.txt proza/ztp.txt` je liczy —
+a `mowa` jest u Morfeusza `subst:sg:nom:f` i orzeczeniem zdania względnego,
+w którym kopuła jest opuszczona: `o których [jest] mowa w ust. 1`.
+Zdania składowego bez czasownika gramatyka nie ma, więc żadne z tych zdań nie przechodzi.
+Do rozstrzygnięcia jest, czy kopuła opuszczona wchodzi jako pozycja `ClauseConjunct`,
+czy jako wpis leksykalny na lemat `mowa`, wzorowany na `KOPULA` w `olski/subset.py`.
+Pozycja ogólna jest droga po stronie wieloznaczności, bo czyni zdaniem każdą grupę
+imienną w mianowniku, a wpis na lemat kupuje ten jeden zwrot i nic poza nim,
+czyli jest zamkniętą listą, jakich ta gramatyka ma dwie i obie wyceniła.
+Do przeczytania jest `Predicative` w tym samym pliku:
+orzecznik rzeczownikowy stoi tam w narzędniku i pod kopułą, a nie w mianowniku,
+więc kopuła opuszczona żąda drugiej pozycji orzecznika, a nie tej samej bez czasownika.
+Zakup jest niepoliczony i nie jest nim te 851 zdań:
+zdanie ustawy niesie zwykle kilka konstrukcji odrzucających naraz,
+a ile z nich stoi na samym tym zwrocie, wyda dopiero sonda różnicowa
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
+Grupa z zaimkiem względnym nie wysuwa się bez przyimka.
+`RelativeNP` w `olski/subset.py` stoi pod przyimkiem i tylko tam,
+a polszczyzna wysuwa tę samą grupę w pozycję podmiotu i dopełnienia:
+`ustawa, której przepisy obowiązują, jest tania` nie wyprowadza się wcale
+([`docs/subset.md`](docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Przeszkodą jest zgodność i jest ona zmierzona, a nie przewidziana.
+Grupa ta wypuszcza liczbę i rodzaj zaimka, bo w nich zgadza się on z poprzednikiem,
+a orzeczenie w tej pozycji zgadza się z głową grupy, nie z zaimkiem,
+więc `_wysunięta_rola` w tym samym pliku wywołana z tą grupą jako czołem
+przyjmuje `której przepisy obowiązuje` i odrzuca `której przepisy obowiązują`,
+czyli wydaje werdykt pewny siebie i błędny.
+Ruchem jest para cech osobna od tej, którą czyta poprzednik —
+grupa niesie wtedy liczbę i rodzaj dwa razy — albo czoło pytające o głowę,
+a nie o grupę, i przed jednym i drugim rozstrzygnięcie, które z dwojga.
+Do przeczytania jest `_wysunięta_rola`, bo pisze ona obie rodziny czół naraz,
+a pytanie poprzednika nie ma, więc para druga jest w nim martwa
 ([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
-Zdanie względne ma tę pozycję jednym ciałem z `RelativeModifier`,
-więc pytanie żąda tu drugiego czoła, a nie nowego kształtu grupy,
-i te dwie połowy wpisu podnoszą się osobno.
+Zakup jest niepoliczony i policzenie go poprzedza ruch, a nie następuje po nim.
+`której tekst jednolity` powtarza się w „Zasadach techniki prawodawczej”
+przepis po przepisie, więc ten rejestr ten kształt niesie,
+a ilu zdaniom brakuje do wyprowadzenia samej tej pozycji, nie powiedział nikt.
+Grep tego nie policzy, bo za zaimkiem następuje w tym korpusie tak samo często
+czasownik — `których został`, `których nastąpi` — jak rzeczownik,
+więc liczbę wydaje dopiero sonda różnicowa, tak jak przy każdym dopisaniu
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks),
+bo rusza każdą liczbę figury `wysunięcie`.
 
 Człon lewy ciągu współrzędnego nie unosi zdania względnego.
 Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
@@ -1468,13 +1495,18 @@ więc jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
 Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
 `DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,
 a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
-także czoło pytania, więc wariant z luką zdejmuje siedemnaście ciał względnych,
-a szesnastu pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
+także czoło pytania, więc wariant z luką zdejmuje ciała względne,
+a pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie;
+obie rodziny liczą tyle samo ciał, bo pisze je jedno wywołanie tamtej funkcji.
 Pomiar przez to zaniża i zakup, i cenę: zdanie `Które zadania wykonuje?`
 jest tam odrzucone tak samo jak bez luki
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
 Ruchem jest `InterrogativeCore` obok `RelativeCore` w tej stałej,
-a przed nim rozstrzygnięcie, czym pytanie lukę wiąże:
+a razem z nim `InterrogativeModifier` obok `RelativeModifier`
+w `_wysunięty_okolicznik` w tym samym pliku,
+bo pytanie ma dziś czoło przyimkowe tak samo jak zdanie względne
+i luki pod nim nie żąda z tego samego powodu.
+Przed jednym i drugim stoi rozstrzygnięcie, czym pytanie lukę wiąże:
 zdanie względne wiąże ją zaimkiem, którego liczbę i rodzaj podejmuje poprzednik,
 a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
 Wpis jest winien przebiegi, których żąda ta sekcja tamtego dokumentu,
