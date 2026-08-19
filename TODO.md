@@ -241,6 +241,25 @@ i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.
 
 ## Komendy i sondy
 
+Większość figur nie ma orzeczenia, kto jeszcze puści ich przebieg;
+ile dokładnie, mówi ostatni wiersz `python3 -m harness.figury`.
+Figura bez orzeczenia zachowuje się tak jak przed dopisaniem `powtórzy`,
+więc jedna zmiana w gramatyce czyni ją należną tak samo jak przedtem.
+Ruchem jest orzeczenie przy figurze, którą zmiana i tak rusza,
+a nie przebieg nad wszystkimi naraz, bo tego zabrania
+[leniwe przyjmowanie reguł](CLAUDE.md#reguły-przyjmujemy-leniwie).
+Do przeczytania jest przy każdej figurze sekcja wymieniona w jej `czyta`,
+bo zamknięcie żąda od niej zdania, że liczba jest sprzed tamtego commita.
+Sond odmowy zamknąć nie wolno — `sonda/luka.py` i `sonda/nieciągłość.py` —
+bo odmowa wraca, kiedy zakup przestanie być zerem.
+Sondy warstwy rozstrzygającej i te z rejestru ustaw mają czytelnika w dokumencie,
+który drukuje ich polecenia
+([`docs/disambiguation.md`](docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma),
+[`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+więc zamknięcie którejkolwiek zaczyna się od skreślenia tamtego polecenia.
+Najbliżej zapadnięcia jest orzeczenie przy `sonda-readme`,
+bo wpis o sondzie piszącej podzbiór drugi raz stawia już warunek jej wycofania.
+
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
 `sonda/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
 bo schemat tak oznaczony nie należy do rejestru, o który olskiemu chodzi,
@@ -859,15 +878,14 @@ a pomyłka jest droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta
 Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
 dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
 tam, gdzie cztery szyki już konkurują z nią przed formą osobową,
-i cenę tamtych czterech zna
-[`sonda/szyk.py`](sonda/szyk.py) — sześć zdań —
+i cenę tamtych czterech zna figura `szyk` — sześć zdań —
 więc ta pozycja ma z czym się porównać, zanim zapadnie decyzja.
 Ruchem jest ciało `Complements`, a nie piąty szyk:
 pozycję ramy niesie fraza bezokolicznikowa
 ([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc dopełnienie przed nią stoi wewnątrz orzeczenia,
 a nie w kolejności podmiotu wobec czasownika.
-Sonda różnicowa nad tym jednym ciałem, wzorowana na `sonda/szyk.py`,
+Sonda różnicowa nad tym jednym ciałem, wzorowana na `sonda/wysunięcie.py`,
 idzie przed decyzją.
 
 Forma `nie` ma u Morfeusza czytanie zaimkowe, którego polszczyzna w tym miejscu
@@ -912,9 +930,10 @@ tablica Earleya bierze lewą rekursję, co pilnuje `tests/test_subset.py`.
 Różni te dwa zapisy liczba czytań ciągu współrzędnego,
 bo wyprowadzeń tego samego ciągu jest pod nimi inaczej wiele,
 i to jest jedyne, co tu jest do zmierzenia.
-Do przeczytania są figury, które nad tymi poziomami bierze
-[`sonda/przecinek.py`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
-bo zmiana rusza je razem z werdyktami.
+Do przeczytania jest figura `przecinek`
+([`docs/subset.md`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
+której sondy nie ma już w drzewie,
+więc pomiar nad zmienionymi poziomami zaczyna się od jej odtworzenia z commita.
 Ruchem jest jedna produkcja w miejsce trzech, o ile pomiar pokaże,
 że czytań nie przybywa; przy przeciwnym wyniku ruchem jest samo zdanie w tej sekcji
 mówiące, że wybór padł na trzy poziomy dla liczby czytań, a nie dla parsera.
@@ -1062,7 +1081,8 @@ a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
 Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
 bo tym była większość zakupu tamtej pozycji nad siedmioma ustawami,
 a lemat dopisany za taki ciąg wraca ceną w każdym zdaniu, które ten ciąg niesie.
-Cenę każdego lematu bierze potem `sonda/kopuła.py`, tak jak wzięła cenę tego jednego.
+Cenę każdego lematu bierze potem sonda kopuły odtworzona z commita, który ją trzyma,
+tak jak wzięła cenę tego jednego.
 
 Zaimek rzeczowny nie rządzi dopełniaczem, a kryterium na to nazywa jeden lemat.
 `ZAIMEK_RZECZOWNY` w `olski/subset.py` wyklucza `to` z głowy, która bierze
@@ -1458,7 +1478,7 @@ wraz z `tests/test_sonda.py`,
 z figurami [tamtej sekcji](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
 oraz z figurą `sonda-readme` w [`harness/figury.py`](harness/figury.py)
 i jej wydrukiem w `figury/`.
-Katalog zostaje, bo `sonda/przecinek.py` jest osobną sondą wokół osobnej decyzji,
+Katalog zostaje, bo `sonda/wysunięcie.py` jest osobną sondą wokół osobnej decyzji,
 i zostaje z nim nazwa `sonda` w `SOURCES` z `tests/test_docs.py`.
 Zostaje z sekcji to, co figur nie potrzebuje:
 że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
@@ -1975,7 +1995,7 @@ i w terminalu grupy pytajnej,
 więc sesja mierzy wtedy co innego, niż myśli, i nic jej o tym nie mówi.
 Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
 bo ramę zawęża ona i tylko ona.
-Ruchem jest sonda obok `sonda/przecinek.py`, która te warianty buduje i drukuje,
+Ruchem jest sonda w kształcie `sonda/wysunięcie.py`, która te warianty buduje i drukuje,
 wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nią.
 Sonda zdejmuje z tych figur najdroższą pozycję:
 zgadywanie, co poprzednia sesja zmierzyła.

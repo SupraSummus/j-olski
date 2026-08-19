@@ -23,8 +23,11 @@ from harness.figury import (
     NALEŻNA,
     NIEZMIERZONA,
     NIEZNANY,
+    NIKT,
+    ZAMKNIĘTA,
     Figura,
     ciało,
+    należność,
     przelicz,
     stan,
     zapis,
@@ -32,12 +35,12 @@ from harness.figury import (
 
 PRÓBNA = Figura(
     nazwa="próbna",
-    polecenie=("python3", "-m", "sonda.negacja", "proza/README.txt"),
-    ruszają=("olski/subset.py", "sonda/negacja.py"),
+    polecenie=("python3", "-m", "sonda.wysunięcie", "proza/README.txt"),
+    ruszają=("olski/subset.py", "sonda/wysunięcie.py"),
     czyta=("docs/subset.md#what-the-grammar-covers",),
 )
 #: Odciski drzewa, w którym nic się nie ruszyło od przebiegu figury.
-TERAZ = {"olski/subset.py": "aaaaaaaaaaaa", "sonda/negacja.py": "bbbbbbbbbbbb"}
+TERAZ = {"olski/subset.py": "aaaaaaaaaaaa", "sonda/wysunięcie.py": "bbbbbbbbbbbb"}
 
 
 def figury():
@@ -57,20 +60,20 @@ def figury():
         ),
         pytest.param(
             PRÓBNA,
-            {**TERAZ, "sonda/negacja.py": NIEZNANY},
+            {**TERAZ, "sonda/wysunięcie.py": NIEZNANY},
             NIEZMIERZONA,
-            ["sonda/negacja.py"],
+            ["sonda/wysunięcie.py"],
             id="odcisk nieznany bije zgodność reszty",
         ),
         pytest.param(
             replace(PRÓBNA, ruszają=("olski/subset.py",)),
             {"olski/subset.py": "aaaaaaaaaaaa"},
             NALEŻNA,
-            ["sonda/negacja.py"],
+            ["sonda/wysunięcie.py"],
             id="ruszający dopisany po przebiegu",
         ),
         pytest.param(
-            replace(PRÓBNA, polecenie=("python3", "-m", "sonda.negacja", "proza/")),
+            replace(PRÓBNA, polecenie=("python3", "-m", "sonda.wysunięcie", "proza/")),
             TERAZ,
             NALEŻNA,
             ["polecenie"],
@@ -128,6 +131,40 @@ def test_każda_figura_nazywa_sekcję_która_ją_restytuuje(figura: Figura):
     for sekcja in figura.czyta:
         path, _, anchor = sekcja.partition("#")
         assert_resolves(ROOT / path, anchor, figura.nazwa)
+
+
+def test_figura_której_nikt_nie_powtórzy_nie_jest_należna_choć_gramatyka_się_ruszyła():
+    #  To jest cały zysk z tego pola: jedna zmiana w `olski/subset.py` czyni dziś
+    #  należnymi czterdzieści figur, a przebieg, którego nikt nie powtórzy, nie
+    #  jest wśród nich winien przeliczenia nikomu.
+    assert należność(replace(PRÓBNA, powtórzy=NIKT)) == (ZAMKNIĘTA, [])
+
+
+@pytest.mark.parametrize("figura", figury())
+def test_figura_zamknięta_ma_wydruk_który_ją_zamyka(figura: Figura):
+    #  Zamknięcie mówi, że przebiegu nikt nie powtórzy, więc figura bez pliku
+    #  zamknięta być nie może: nie ma liczby, którą ten przebieg miałby zostawić.
+    if figura.zamknięta:
+        assert figura.plik.exists(), f"{figura.nazwa} jest zamknięta bez wydruku"
+
+
+@pytest.mark.parametrize("figura", figury())
+def test_figura_programu_spoza_drzewa_nazywa_commit_który_go_trzyma(figura: Figura):
+    #  Kasowanie sondy jest tu domyślne, więc figura zostaje z poleceniem, którego
+    #  nikt nie wykona. Bez commita liczba przestaje być odtwarzalna dokładnie w tej
+    #  chwili, a plik figury czyta się później niż commit, który sondę skasował.
+    moduły = [słowo for słowo in figura.polecenie if słowo.startswith("sonda.")]
+    for moduł in moduły:
+        ścieżka = ROOT / f"sonda/{moduł.removeprefix('sonda.')}.py"
+        if not ścieżka.exists():
+            assert figura.w_gicie, f"{figura.nazwa} bierze {moduł}, którego nie ma w drzewie"
+
+
+def test_commit_trzymający_sondę_wchodzi_do_nagłówka_pliku_figury():
+    #  Deklaracja i plik figury czytają się osobno: po commicie sięga ten, kto
+    #  znalazł liczbę, a nie ten, kto czyta `FIGURY`, więc nagłówek niesie go też.
+    skasowana = replace(PRÓBNA, w_gicie="c2377c3")
+    assert "w gicie: c2377c3" in zapis(skasowana, TERAZ, "wydruk")
 
 
 def test_każdy_plik_w_katalogu_jest_zadeklarowany():

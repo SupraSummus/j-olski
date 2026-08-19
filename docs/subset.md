@@ -666,8 +666,11 @@ nie zyskuje przy przeczeniu nowej pozycji.
 ### Negacja zmierzona: kupuje przeszło sto zdań i nie płaci dopełniaczem
 
 Pełne wiersze są w [figury/negacja.txt](../figury/negacja.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć,
+a polecenie oraz commit, w którym leży sonda,
 podaje ta figura ([`harness/figury.py`](../harness/figury.py)).
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Dopełniacz bez cząstki nie kupuje ani jednego zdania i to jest o nim odczyt, a nie
 przeoczenie: dopełniacza negacji nie licencjonuje nic poza czasownikiem, który
@@ -749,14 +752,17 @@ bo synkretyzm mianownika z biernikiem czyni dwuznacznym każde zdanie,
 które da się przeczytać od podmiotu i od dopełnienia naraz,
 a szyk dopisany daje tej dwuznaczności nowe miejsca.
 
-Cenę tej konkurencji liczy `sonda/szyk.py` i wychodzi siedem zdań.
+Cenę tej konkurencji zmierzono i wychodzi siedem zdań.
 
 Pełne wiersze są w [figury/szyk.txt](../figury/szyk.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
+a polecenie oraz commit, w którym leży sonda, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
 Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Kilkadziesiąt zdań przechodzi z odrzuconych na przyjęte,
 połowa tylu z odrzuconych na wieloznaczne,
@@ -993,7 +999,7 @@ Argumentem przeciw niemu jest jednoznaczność:
 przecinek między zdaniami składowymi konkuruje z przecinkiem w grupie imiennej
 wszędzie tam, gdzie po przecinku stoi rzeczownik,
 a zdanie, które przez to wychodzi dwoma czytaniami, olski odrzuca.
-Cenę tej konkurencji liczy `sonda/przecinek.py` i wychodzi zero,
+Cenę tej konkurencji zmierzono i wychodzi zero,
 i to jest ta liczba, na której przecinek w tej gramatyce stoi.
 
 Mierzony jest ruch werdyktu, a nie stan gramatyki:
@@ -1002,11 +1008,14 @@ a liczy się to, na czym te dwa werdykty się różnią.
 Poziomy zdejmują się osobno, bo cena każdego z nich jest osobną liczbą.
 
 Pełne wiersze są w [figury/przecinek.txt](../figury/przecinek.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
+a polecenie oraz commit, w którym leży sonda, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
 Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
 Wieloznacznych przybywa kilkadziesiąt i wszystkie przychodzą z odrzuconych,
@@ -1708,8 +1717,11 @@ okolicznik doszedł do zdania streszczanego albo do tego, które stoi pod `że`.
 
 Pełne wiersze są w [figury/okolicznikowe.txt](../figury/okolicznikowe.txt),
 a te spod morfologii żywej w [figury/okolicznikowe-żywa.txt](../figury/okolicznikowe-żywa.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych dwóch
+polecenie oraz commit, w którym leży sonda, podaje każda z tych dwóch
 ([`harness/figury.py`](../harness/figury.py)).
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Nad Składnicą pod złotą morfologią konstrukcja zdejmuje z listy odrzuconych
 blisko pięćdziesiąt zdań, z tego niespełna połowę jednoznacznie,
@@ -1790,8 +1802,11 @@ więc oba te zdania wyprowadzają się dziś, każde raz.
 
 Pełne wiersze są w [figury/pytanie.txt](../figury/pytanie.txt),
 a te spod morfologii żywej w [figury/pytanie-żywa.txt](../figury/pytanie-żywa.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych dwóch
+polecenie oraz commit, w którym leży sonda, podaje każda z tych dwóch
 ([`harness/figury.py`](../harness/figury.py)).
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Konstrukcje są dwie i dzielą kształt ze zdaniem względnym.
 Zdanie pytające stoi samo i zamyka się pytajnikiem,
@@ -2320,8 +2335,11 @@ Pełne wiersze są w [figury/kopuła.txt](../figury/kopuła.txt),
 te spod morfologii żywej w [figury/kopuła-żywa.txt](../figury/kopuła-żywa.txt),
 a te nad rejestrem ustaw w [figury/kopuła-ustawy.txt](../figury/kopuła-ustawy.txt)
 oraz w [figury/kopuła-ztp.txt](../figury/kopuła-ztp.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych czterech
+polecenie oraz commit, w którym leży sonda, podaje każda z tych czterech
 ([`harness/figury.py`](../harness/figury.py)).
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Grupy są dwie i zdejmuje się je osobno, bo cena każdej z nich jest osobną liczbą.
 `rzeczownik pod czołem` jest ciałem czoła, w którym wysunięte wyrażenie przyimkowe
@@ -2439,11 +2457,14 @@ Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a ciała zdejmują się osobno, bo cena każdego z nich jest osobną liczbą:
 
 Pełne wiersze są w [figury/liczebnik.txt](../figury/liczebnik.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
+a polecenie oraz commit, w którym leży sonda, podaje ta figura
 ([`harness/figury.py`](../harness/figury.py)).
 Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
+Przebiegu nie powtórzy już nikt,
+więc liczby niżej są pomiarem sprzed tego commita,
+a nie stanem gramatyki dzisiejszej.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
 Blisko sto przechodzi z odrzuconych na przyjęte

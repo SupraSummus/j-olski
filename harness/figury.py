@@ -4,8 +4,12 @@ Reguła i jej powód są w ``CLAUDE.md#checks``, a tutaj jest to, czym ona dzia�
 ``FIGURY`` niżej deklaruje na każdy przebieg polecenie,
 pliki, bez których nie ma on czego czytać,
 pliki, których zmiana rusza liczby,
-sekcje restytuujące figurę grubiej
-oraz to, co po przeliczeniu zostaje ręką.
+sekcje restytuujące figurę grubiej,
+to, co po przeliczeniu zostaje ręką,
+oraz to, kto ten przebieg jeszcze powtórzy.
+Figura, której nie powtórzy nikt, przeliczenia nie żąda,
+bo liczba pod nią jest pomiarem datowanym, a nie stanem bieżącym,
+a jej sonda jest odtwarzalna commitem podanym obok.
 Plik figury zapisuje odciski tych plików z chwili przebiegu,
 więc pytanie o należność przeliczenia porównuje dwa napisy i po korpus nie sięga.
 
@@ -37,12 +41,18 @@ KATALOG = KORZEŃ / "figury"
 #: ruszyło, więc raport mówi o niej tyle właśnie, zamiast liczyć ją za zgodną.
 NIEZNANY = "nieznany"
 
-#: Cztery odpowiedzi raportu. Są nazwane, bo drukuje je jedna funkcja, a odróżnia
+#: Pięć odpowiedzi raportu. Są nazwane, bo drukuje je jedna funkcja, a odróżnia
 #: druga, i literał powtórzony w obu rozjechałby się przy pierwszej zmianie słowa.
 AKTUALNA = "aktualna"
 NALEŻNA = "należna"
 NIEZMIERZONA = "niezmierzona tutaj"
 BEZ_PLIKU = "bez pliku"
+ZAMKNIĘTA = "zamknięta"
+
+#: Wartość ``Figura.powtórzy``, która mówi, że przebiegu nie powtórzy nikt. Pusty
+#: napis, a nie ``None``, bo ``None`` znaczy tutaj coś innego: nikt jeszcze nie
+#: orzekł, a orzeczenie i jego brak są dwoma różnymi stanami deklaracji.
+NIKT = ""
 
 #: Ile znaków odcisku zapisywać. Odcisk odpowiada na jedno pytanie — czy plik jest
 #: ten sam — a nie na pytanie o podstawienie, więc reszta sześćdziesięciu czterech
@@ -95,6 +105,24 @@ class Figura:
     #: jest winna. Puste, kiedy przeliczenie i poprawiona restytucja to wszystko.
     ręką: tuple[str, ...] = ()
 
+    #: Kto ten przebieg jeszcze powtórzy, jednym zdaniem. Trzy stany: ``None``
+    #: znaczy, że nikt nie orzekał, i wtedy figura zachowuje się tak jak przed
+    #: dopisaniem tego pola; napis nazywa czytelnika; ``NIKT`` znaczy, że nie
+    #: powtórzy jej nikt, więc przeliczenie nie jest winne, a sonda idzie do gita.
+    #: Odpowiedź stoi tu, a nie w docstringu sondy, bo kryterium zapisane samą
+    #: prozą nie ma gdzie jej zapisać i pada drugi raz przy każdej sesji.
+    powtórzy: str | None = None
+
+    #: Commit, w którym leży program, kiedy nie ma go już w drzewie: bez niego
+    #: polecenie wskazuje moduł, którego nikt nie wykona, i liczba przestaje być
+    #: odtwarzalna w chwili, gdy sonda wychodzi. Wymaga go ``tests/test_figury.py``.
+    w_gicie: str = ""
+
+    @property
+    def zamknięta(self) -> bool:
+        """Czy przebiegu nie powtórzy nikt, czyli czy przeliczenie nie jest już winne."""
+        return self.powtórzy == NIKT
+
     @property
     def brakujące(self) -> list[str]:
         """Korpusy zadeklarowane, których w drzewie nie ma."""
@@ -117,10 +145,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/negacja.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="przysłówek",
@@ -198,10 +227,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/przecinek.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="interpunkcja",
@@ -233,10 +263,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/liczebnik.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="szyk",
@@ -246,10 +277,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/szyk.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="okolicznikowe",
@@ -259,12 +291,13 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/okolicznikowe.py",
             "sonda/ruch.py",
         ),
         czyta=(
             "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
         ),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="okolicznikowe-żywa",
@@ -284,12 +317,13 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/okolicznikowe.py",
             "sonda/ruch.py",
         ),
         czyta=(
             "docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie",
         ),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="czoło",
@@ -297,10 +331,12 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         #  Gramatyki tu nie ma, tak samo jak przy figurze niżej: liczone są cudze
         #  zdania, a rusza je lista, o którą sonda pyta, i nic poza nią.
-        ruszają=("olski/subset.py", "sonda/czoło.py"),
+        ruszają=("olski/subset.py",),
         czyta=(
             "docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania",
         ),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="rama",
@@ -372,10 +408,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/pytanie.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="pytanie-żywa",
@@ -395,10 +432,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/pytanie.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="wysunięcie",
@@ -475,10 +513,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/kopuła.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="kopuła-żywa",
@@ -498,10 +537,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/kopuła.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="kopuła-ustawy",
@@ -514,10 +554,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/kopuła.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="kopuła-ztp",
@@ -528,10 +569,11 @@ FIGURY = (
             "olski/subset.py",
             "olski/precedencja.py",
             "olski/parse.py",
-            "sonda/kopuła.py",
             "sonda/ruch.py",
         ),
         czyta=("docs/subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="pytajne",
@@ -539,8 +581,10 @@ FIGURY = (
         korpusy=("Składnica-frazowa-180723",),
         #  Gramatyka rusza tu jedną kolumnę, a nie liczby: sonda pyta ją o lematy,
         #  które grupa pytajna bierze, a pytania w banku drzew liczy bez niej.
-        ruszają=("olski/subset.py", "sonda/pytajne.py"),
+        ruszają=("olski/subset.py",),
         czyta=("docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał",),
+        powtórzy=NIKT,
+        w_gicie="474437f",
     ),
     Figura(
         nazwa="korpus",
@@ -1049,6 +1093,9 @@ def zapis(figura: Figura, odciski: dict[str, str], wydruk: str) -> str:
         f"polecenie: {wiersz_polecenia(figura.polecenie)}",
     ]
     wiersze += [f"korpus: {korpus}" for korpus in figura.korpusy]
+    #  Commit wchodzi do nagłówka, a nie tylko do deklaracji, bo plik figury czyta
+    #  ten, kto szuka liczby, a polecenie nad skasowaną sondą jest bez niego ślepe.
+    wiersze += [f"w gicie: {figura.w_gicie}"] if figura.w_gicie else []
     wiersze += [f"czyta: {sekcja}" for sekcja in figura.czyta]
     wiersze.append("ruszają:")
     wiersze += [f"  {plik}: {odciski[plik]}" for plik in figura.ruszają]
@@ -1114,6 +1161,12 @@ def odciski_drzewa(figura: Figura) -> dict[str, str]:
 
 
 def należność(figura: Figura) -> tuple[str, list[str]]:
+    #  Figura zamknięta odpowiada przed odciskami, bo pytanie o nie jest już
+    #  bezprzedmiotowe: przebiegu, którego nikt nie powtórzy, nie ma po co liczyć
+    #  za nieaktualny, a liczba pod nim jest pomiarem datowanym commitem, więc
+    #  gramatyka ruszona potem czyni ją starszą od siebie, a nie fałszywą.
+    if figura.zamknięta:
+        return ZAMKNIĘTA, []
     if not figura.plik.exists():
         return BEZ_PLIKU, []
     return stan(figura, figura.plik.read_text(encoding="utf-8"), odciski_drzewa(figura))
@@ -1189,7 +1242,7 @@ def raport() -> int:
         odpowiedź, powody = należność(figura)
         powód = f" — {', '.join(powody)}" if powody else ""
         print(f"{figura.nazwa:<{szerokość}} {odpowiedź}{powód}")
-        if odpowiedź == AKTUALNA:
+        if odpowiedź in (AKTUALNA, ZAMKNIĘTA):
             continue
         należne += 1
         if brakujące := figura.brakujące:
@@ -1198,6 +1251,12 @@ def raport() -> int:
             print(f"{'':<{szerokość}} restytucja w prozie: {sekcja}")
         for robota in figura.ręką:
             print(f"{'':<{szerokość}} ręką: {robota}")
+    #  Jeden wiersz, a nie wiersz przy każdej figurze: nieorzeczonych jest dziś
+    #  tyle, ile figur, więc adnotacja przy każdej z osobna byłaby raportem o sobie
+    #  samym. Orzeczenie zapada przy zmianie, która i tak figurę rusza, tak jak
+    #  ``CLAUDE.md#reguły-przyjmujemy-leniwie`` każe przyjmować resztę reguł.
+    if nieorzeczone := sum(1 for figura in FIGURY if figura.powtórzy is None):
+        print(f"bez orzeczenia, kto ten przebieg jeszcze powtórzy: {nieorzeczone}")
     return 1 if należne else 0
 
 

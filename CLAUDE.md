@@ -585,8 +585,9 @@ jest tym kształtem, w którym rząd wielkości stoi poza adresem.
 **Co rusza figurę, stoi w deklaracji obok niej, a nie w tym pliku.**
 `FIGURY` w [`harness/figury.py`](harness/figury.py) podaje na każdy przebieg
 polecenie, korpusy, bez których nie ma on czego czytać,
-pliki, których zmiana rusza liczby, sekcje powtarzające figurę grubiej
-oraz to, co po przeliczeniu zostaje ręką,
+pliki, których zmiana rusza liczby, sekcje powtarzające figurę grubiej,
+to, co po przeliczeniu zostaje ręką,
+oraz to, kto ten przebieg jeszcze powtórzy,
 a plik figury zapisuje odciski tych plików z chwili przebiegu.
 `python3 -m harness.figury` odpowiada więc o należnościach z dwóch napisów
 i nie pobiera niczego, więc odpowiada w każdym środowisku;
@@ -603,13 +604,23 @@ nazywa w swojej sekcji produkcje, które zdejmuje,
 bo inaczej nikt nie weźmie jej drugi raz
 i zostaje mu wybór między liczbą nieaktualną a wymyśloną.
 
-Dwie odpowiedzi raportu nie są ani aktualnością, ani należnością przeliczenia.
+Trzy odpowiedzi raportu nie są ani aktualnością, ani należnością przeliczenia.
 Figura zadeklarowana bez pliku stoi przed pierwszym przebiegiem,
 a raport nazywa przy niej to, czego ten przebieg wymaga,
 bo pierwszy przebieg nad figurą jest decyzją, a nie krokiem porządkowym.
 Figura, której liczby przeniesiono z dokumentu, zamiast wziąć je przebiegiem,
 ma w miejscu odcisku `nieznany`
 i nie jest ani aktualna, ani należna, tylko niezmierzona tutaj.
+Figura zamknięta ma w `powtórzy` napis pusty, czyli nie powtórzy jej nikt,
+i przeliczenia nie jest winna nikomu:
+gramatyka ruszona po tamtym przebiegu czyni jej liczbę starszą, a nie fałszywą,
+więc sekcja restytuująca mówi, że pomiar jest sprzed tamtego commita.
+Tu maleje aparat sond, bo sonda zamkniętej figury idzie do gita,
+a commit, w którym leży, wchodzi do `w_gicie`.
+Ile figur czeka na to orzeczenie, mówi ostatni wiersz raportu,
+a zapada ono przy zmianie, która i tak figurę rusza,
+bo przebiegu porządkowego nad wszystkimi naraz zabrania
+[leniwe przyjmowanie reguł](#reguły-przyjmujemy-leniwie).
 Przeliczenia nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
 korpusy są archiwami dziesiątek megabajtów pobieranymi raz na sesję,
 a runner pobierający je przy każdym commicie płaciłby za to raz na commit.
@@ -684,9 +695,23 @@ and route every caller through one branch-free core.
 A branch is a second path to read, test and keep in sync;
 a unified flow is proven once.
 
+**Sondę pisze się jak skrypt na jeden przebieg, dopóki nie okaże się, że zostaje.**
+Domyślnie wychodzi z drzewa tym samym commitem,
+którym wchodzi do olskiego konstrukcja, którą wyceniła,
+więc nie dostaje ani własnych testów, ani dopracowanego docstringa,
+ani reguł rejestru.
+Poprzeczkę tego pliku płaci dopiero ta, którą ktoś nazwał w `powtórzy`
+przy jej figurze, i płaci ją w commicie, w którym ta nazwa się pojawia.
+Kolejność odwrotna marnuje pracę:
+dopracowanie idzie wtedy w plik, o którym nie wiadomo jeszcze, czy ma czytelnika,
+a większość sond go nie ma.
+Dwie reguły niżej obowiązują sondę mimo to od pierwszego wiersza,
+bo nie są dopracowaniem, tylko warunkiem prawdziwości pomiaru.
+Kryterium wraz z odtwarzalnością przez git opisuje `sonda/__init__.py`.
+
 **A probe asks olski's declaration and keeps no second copy of it.**
 A differential probe takes productions out and reruns the verdict,
-so `sonda/przecinek.py` is one predicate over a production
+so `sonda/wysunięcie.py` is one predicate over a production
 plus a `Sonda` declaration, and `sonda/ruch.py` runs the measurement for all of them.
 The predicate asks the production rather than listing names beside the grammar,
 because a list stays silent about a production somebody adds later
