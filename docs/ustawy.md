@@ -538,8 +538,8 @@ i przysłówek stoi w nim obok odsyłacza,
 czyli klasy zajmującej dziewięć pierwszych miejsc,
 która zdania nie wypuszcza tak czy tak.
 
-Grupa wysunięta razem z zaimkiem względnym jest jedyną konstrukcją,
-którą ten rejestr kupił „Zasadami techniki prawodawczej”, a nie ustawami:
+Grupa wysunięta razem z zaimkiem względnym rusza w każdym z dwóch tekstów
+tego rejestru inną ze swoich dwóch pozycji:
 
 ```sh
 cat proza/ustawy/*.txt > proza/ustawy.txt
@@ -548,14 +548,17 @@ python3 -m sonda.wysunięcie proza/ustawy.txt
 python3 -m sonda.wysunięcie proza/ztp.txt
 ```
 
-Nad siedmioma ustawami nie rusza się ani jedno zdanie w żadną stronę,
-a nad rozporządzeniem dwa przechodzą z odrzuconych na wieloznaczne,
-i jednym z nich jest przepis o dniu wejścia w życie rozporządzenia
+Nad rozporządzeniem rusza wyłącznie grupa pod przyimkiem
+i przenosi dwa zdania z odrzuconych na wieloznaczne,
+a jednym z nich jest przepis o dniu wejścia w życie rozporządzenia.
+Nad siedmioma ustawami rusza wyłącznie grupa bez przyimka i przenosi tak jedno zdanie
 ([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
 Różnica jest informacją o dwóch tekstach, a nie o produkcji:
 rozporządzenie pisze o ustawie i o akcie wykonawczym pod nią,
 więc `na podstawie której` jest tam zwrotem powtarzanym przepis po przepisie,
 gdzie ustawa nie ma o czym tak mówić.
+Ustawa stawia za to samą grupę bez przyimka — `w okręgu wyborczym, którego wzór ustala` —
+i to jest ta pozycja, którą rusza ona, a rozporządzenie nie.
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 

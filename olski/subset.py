@@ -277,6 +277,29 @@ ZAIMEK_RZECZOWNY = "to"
 #: keeps two parts of one phrase demonstrably talking about the same agreement.
 AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 
+#: Liczba i rodzaj, w których zdanie względne zgadza się ze swoim poprzednikiem,
+#: czyli ta z dwóch par czoła (:func:`zaimek_czoła`), którą poprzednik czyta.
+POPRZEDNIK = {"number": V("nz"), "gender": V("gz")}
+
+
+def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
+    """Druga para cech czoła zdania względnego: liczba i rodzaj jego zaimka.
+
+    Czoło niesie dwie pary, a rozdziela je to, kto którą czyta. Pierwszą
+    (:data:`AGREE`) czyta orzeczenie, bo zgadza się ono z głową czoła, a tę
+    poprzednik, bo zgadza się on z zaimkiem. `której przepisy` niesie obie
+    różne, a czoło o jednym słowie tę samą dwa razy, i dlatego zmienne wchodzą
+    tu argumentem: przy takim czole są to zmienne :data:`AGREE`.
+
+    Czoło, które tej pary nie niesie, zostawia zmienne poprzednika niezwiązane,
+    a wtedy zdanie względne wychodzi bez liczby i rodzaju i przyjmuje każdy
+    poprzednik. Nazwy cech są polskie, bo cechę tę wybiera ta gramatyka, a nie
+    Morfeusz (``olski/morph.py`` nazywa jego kategorie); kto ją czyta i za ile,
+    mówi docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania.
+    """
+    return {"liczba_zaimka": liczba, "rodzaj_zaimka": rodzaj}
+
+
 #: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
 #: ``interp`` niesie całą interpunkcję naraz, a średnika, myślnika i nawiasu ten
 #: podzbiór nie bierze.
@@ -407,20 +430,22 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     pierwsze zawsze, bo tak stawia je polszczyzna, i tyle mówi tu warunek
     precedencji; reszta zdania szyk ma swój.
 
-    Dwie rodziny zdań mają ten kształt i różni je samo czoło: zaimek względny w
-    zdaniu względnym (`reguła, która rozstrzyga`) i grupa pytajna w pytaniu
-    (`które zadania mają charakter obowiązkowy`). Deklaracje powstają więc raz i
-    biorą czoło nazwą symbolu. Wypisane dwa razy rozeszłyby się na pierwszym
-    dopisanym szyku, a rozejście widać dopiero na zdaniu, którego jedna z dwóch
-    rodzin nie wyprowadza.
+    Ten sam kształt ma zdanie względne (`reguła, która rozstrzyga`, `ustawa,
+    której przepisy obowiązują`) i pytanie (`które zadania mają charakter
+    obowiązkowy`), a różni je samo czoło, więc deklaracje powstają raz i biorą
+    czoło nazwą symbolu. Wypisane osobno dla każdego czoła rozeszłyby się na
+    pierwszym dopisanym szyku, a rozejście widać dopiero na zdaniu, którego
+    jedno z czół nie wyprowadza.
 
     Role są dwie: podmiot i dopełnienie. Trzeciej — wyrażenia przyimkowego —
     tutaj nie ma, bo wysuwa się ono razem z przyimkiem i z grupą, w której zaimek
     stoi, więc jest czołem innego kształtu; wypisuje je jednym ciałem ta sama
     pętla, która wywołuje tę funkcję.
 
-    Liczba i rodzaj wychodzą z czoła, bo zdanie względne zgadza się w nich ze
-    swoim poprzednikiem; pytanie nie zgadza się z niczym i zostawia je nieczytane.
+    Orzeczenie zgadza się z głową czoła, a poprzednik z jego zaimkiem, więc
+    orzeczenie bierze ``number`` i ``gender``, a w górę idzie para druga; wywód
+    jest przy :func:`zaimek_czoła`. Tyle wystarcza, żeby czołem była grupa,
+    a nie sam zaimek.
     """
 
     def czoło_pierwsze(szyk: tuple[str, ...]) -> bool:
@@ -430,10 +455,11 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # Osoba i liczba orzeczenia biorą się z czoła, bo ono jest podmiotem; w
     # deklaracji z dopełnieniem biorą się z podmiotu, który stoi obok, i dlatego
     # zmienne liczby oraz rodzaju są tam inne niż zmienne czoła.
-    czoło_podmiot = nt(czoło, case="nom", number=V("n"), gender=V("g"))
+    zaimek = zaimek_czoła(V("nz"), V("gz"))
+    czoło_podmiot = nt(czoło, case="nom", number=V("n"), gender=V("g"), **zaimek)
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person="ter")
     podmiot = nt("Subject", number=V("nv"), gender=V("gv"), person=V("p"))
-    zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], number=V("n"), gender=V("g"))
+    zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], **POPRZEDNIK)
 
     # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
     # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
@@ -443,7 +469,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # niczego od dwóch pozostałych córek.
     #
     # Przypadek czoła rozstrzyga tu przeczenie stojące za nim: `polszczyzna, którą
-    # ktoś napisał` obok `polszczyzna, której nikt nie napisał`. Wspólnej zmiennej
+    # napisał autor` obok `polszczyzna, której nie napisał autor`. Wspólnej zmiennej
     # te dwa nie dostają, bo czoło przypadka nie wybiera — żąda go czasownik —
     # więc para przypadka i wartości cechy stoi wypisana tak samo jak przy
     # dopełnieniu wyżej. Rządzenie sięga tu przez całą resztę zdania składowego, a
@@ -451,7 +477,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # jedna deklaracja rośnie do dwóch. Rozwinięcia szyku to nie dotyka, bo mnoży
     # tu cecha, a nie kolejność.
     for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
-        czoło_dopełnienie = nt(czoło, case=przypadek, number=V("n"), gender=V("g"))
+        czoło_dopełnienie = nt(czoło, case=przypadek, **zaimek)
         czasownik = nt(
             "Verb",
             number=V("nv"),
@@ -464,8 +490,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
             symbol,
             [czoło_dopełnienie, Głowa(czasownik), podmiot],
             precedencja=czoło_pierwsze,
-            number=V("n"),
-            gender=V("g"),
+            **POPRZEDNIK,
         )
 
 
@@ -1130,72 +1155,80 @@ def build() -> Grammar:
     # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
     # zdania względnego. Wpuszczony do grupy imiennej stanąłby w każdej jej
     # pozycji, a `Program zapisuje który.` polszczyzną nie jest.
-    grammar.rule("RelativePronoun", [word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)], **AGREE)
+    # Obie pary cech czoła są tu jedną parą, bo głową jest sam zaimek
+    # (:func:`zaimek_czoła`).
+    grammar.rule(
+        "RelativePronoun",
+        [word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)],
+        **AGREE,
+        **zaimek_czoła(V("n"), V("g")),
+    )
 
     # Grupa, którą polszczyzna wysuwa przed zdanie względne razem z zaimkiem:
-    # sam zaimek (`o którym`), rzeczownik z zaimkiem w dopełniaczu za sobą
-    # (`na podstawie której`) i ten sam rzeczownik z zaimkiem przed sobą
-    # (`o którego zdaniu`).
+    # rzeczownik z zaimkiem w dopełniaczu za sobą (`na podstawie której`) i ten
+    # sam rzeczownik z zaimkiem przed sobą (`o którego zdaniu`).
     #
-    # Cechy rozchodzą się tu na dwie strony i to jest cała trudność tej grupy.
-    # Przypadek wypuszcza rzeczownik, bo o przypadek pyta przyimek nad grupą,
-    # a liczbę i rodzaj wypuszcza zaimek, bo w nich zgadza się on z poprzednikiem
-    # zdania względnego (:func:`_wysunięta_rola` mówi to samo o czole bez
-    # przyimka). Rzeczownik między nimi nie zgadza się z niczym, więc liczby ani
-    # rodzaju nie oddaje nikomu i zmiennych na nie nie dostaje.
+    # Tu obie pary czoła są różne i to jest cała trudność tej grupy: `której
+    # przepisy` jest mnogie, a jego zaimek pojedynczy (:func:`zaimek_czoła`).
+    # Przypadek wypuszcza rzeczownik, bo o przypadek pyta przyimek nad grupą albo
+    # rola, w której grupa stanęła.
     #
-    # Każdy kolejny kształt jest osobnym ciałem, bo cechy nie przechodzą przez
-    # grupę imienną same, więc głowa z przydawką pod sobą wysunięcia nie ma.
-    # Który z tych trzech niesie rejestr, a który sama polszczyzna, mówi
+    # Każdy z tych dwóch kształtów jest osobnym ciałem, bo cechy nie przechodzą
+    # przez grupę imienną same, więc głowa z przydawką pod sobą wysunięcia nie ma.
+    # Który z nich niesie rejestr, a który sama polszczyzna, mówi
     # docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania.
-    głowa_grupy = word("subst", case=V("c"))
-    zaimek_dopełniacza = nt("RelativePronoun", case="gen", number=V("n"), gender=V("g"))
+    głowa_grupy = word("subst", **AGREE)
+    zaimek_dopełniacza = nt("RelativePronoun", case="gen", **POPRZEDNIK)
     for ciało in (
-        [nt("RelativePronoun", **AGREE)],
         [Głowa(głowa_grupy), zaimek_dopełniacza],
         [zaimek_dopełniacza, Głowa(głowa_grupy)],
     ):
-        grammar.rule("RelativeNP", ciało, **AGREE)
+        grammar.rule("RelativeNP", ciało, **AGREE, **zaimek_czoła(V("nz"), V("gz")))
 
     # Grupa pytajna: zaimek pytajny i grupa imienna, przy której on stoi. Głową
     # jest grupa imienna, bo pytanie jest o rzecz, którą ona nazywa, a zaimek mówi
-    # tylko, że pyta się o to, która z nich.
-    grammar.rule(PYTAJNY, [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))], **AGREE)
+    # tylko, że pyta się o to, która z nich. Zaimek zgadza się z tą głową, więc
+    # obie pary czoła są i tu jedną parą; niesie ją grupa po to, żeby czoło obu
+    # rodzin pisała jedna funkcja, a nie po to, żeby ktoś ją w pytaniu czytał.
+    grammar.rule(
+        PYTAJNY,
+        [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))],
+        **AGREE,
+        **zaimek_czoła(V("n"), V("g")),
+    )
 
     # Zdanie względne i pytanie dzielą kształt: jedna rola stoi w nich wysunięta na
     # czoło, a reszta zdania jest tą samą resztą, więc deklaracje wypisuje jedna
-    # funkcja dla obu (:func:`_wysunięta_rola`). Różni je samo czoło i tyle bierze
-    # ta pętla nazwami symboli: czoło bez przyimka, symbol wysuniętego wyrażenia
-    # przyimkowego i grupa, którą to wyrażenie wysuwa.
+    # funkcja dla obu (:func:`_wysunięta_rola`). Czół jest w zdaniu względnym dwa —
+    # sam zaimek i grupa, w której on stoi — i każde z nich wchodzi w obie pozycje:
+    # w rolę zdania składowego i pod przyimek. Pytanie ma czoło jedno, bo grupa
+    # pytajna obejmuje tam także sam zaimek.
     #
-    # Trzecią rolę pętla wypisuje sama, bo w obu rodzinach jest ona jednym ciałem:
+    # Trzecią rolę pętla wypisuje raz na rodzinę, bo jest w niej jednym ciałem:
     # za wysuniętym wyrażeniem przyimkowym stoi zdanie składowe całe, w każdym
     # szyku, jaki ono ma, więc rozwinięcia szyku ta rola od nikogo nie żąda.
     # Symbol wyrażenia jest osobny dla każdej z rodzin, bo wspólny wpuściłby grupę
     # pytajną na czoło zdania względnego, gdzie nie ma się z czym zgodzić.
     #
-    # Czoło bez przyimka jest w tych rodzinach różne i jest to asymetria, a nie
-    # przeoczenie: pytanie wysuwa tam grupę całą, a zdanie względne sam zaimek.
-    # Grupa wysunięta bez przyimka żąda bowiem dwóch par liczby i rodzaju naraz —
-    # orzeczenie zgadza się z jej głową, a poprzednik z jej zaimkiem — więc czoło
-    # wzięte z niej wprost wydaje werdykt pewny siebie i błędny; TODO.md trzyma tę
-    # pozycję wraz z tą przeszkodą.
-    for symbol, czoło, modyfikator, grupa in (
-        ("RelativeCore", "RelativePronoun", "RelativeModifier", "RelativeNP"),
-        ("InterrogativeCore", PYTAJNY, "InterrogativeModifier", PYTAJNY),
+    # Czoło grupowe stoi obok zaimkowego zamiast je obejmować, i rozstrzyga o tym
+    # pomiar: cenę każdej z dwóch pozycji bierze osobno ``sonda/wysunięcie.py``,
+    # zdejmując produkcje. Czołem jednym pozycja bez przyimka nie byłaby żadnym
+    # ciałem osobno, bo te same ciała brałby sam zaimek, więc nie byłoby czego zdjąć.
+    for symbol, modyfikator, czoła in (
+        ("RelativeCore", "RelativeModifier", ("RelativePronoun", "RelativeNP")),
+        ("InterrogativeCore", "InterrogativeModifier", (PYTAJNY,)),
     ):
-        _wysunięta_rola(zdanie, symbol, czoło)
-        grammar.rule(
-            modyfikator,
-            [Głowa(PRZYIMEK), nt(grupa, **AGREE)],
-            number=V("n"),
-            gender=V("g"),
-        )
+        for czoło in czoła:
+            _wysunięta_rola(zdanie, symbol, czoło)
+            grammar.rule(
+                modyfikator,
+                [Głowa(PRZYIMEK), nt(czoło, case=V("c"), **zaimek_czoła(V("nz"), V("gz")))],
+                **POPRZEDNIK,
+            )
         grammar.rule(
             symbol,
-            [nt(modyfikator, number=V("n"), gender=V("g")), Głowa(nt("ClauseConjunct"))],
-            number=V("n"),
-            gender=V("g"),
+            [nt(modyfikator, **POPRZEDNIK), Głowa(nt("ClauseConjunct"))],
+            **POPRZEDNIK,
         )
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania

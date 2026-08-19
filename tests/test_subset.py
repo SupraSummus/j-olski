@@ -1522,6 +1522,30 @@ def test_przyimek_grupy_wysuniętej_rządzi_przypadkiem_głowy_a_nie_zaimka():
     assert zaimek.status == "rejected", zaimek.explain()
 
 
+def test_grupa_wysunięta_bez_przyimka_zgadza_orzeczenie_z_głową_a_poprzednik_z_zaimkiem():
+    #  Obie pary cech czoła widać dopiero tutaj, bo tutaj są różne, i usterką jest
+    #  każda z nich wzięta za obie. Para zaimka przyjmuje `której przepisy
+    #  obowiązuje`, bo `Ustawa` jest pojedyncza; para głowy przyjmuje `Ustawy,
+    #  której przepisy obowiązują`, bo z `przepisy` zgadza się tam wszystko.
+    found = verdict("Ustawa, której przepisy obowiązują, jest tania.")
+    assert found.status == "valid", found.explain()
+    głowa = verdict("Ustawa, której przepisy obowiązuje, jest tania.")
+    assert głowa.status == "rejected", głowa.explain()
+    zaimek = verdict("Ustawy, której przepisy obowiązują, są tanie.")
+    assert zaimek.status == "rejected", zaimek.explain()
+
+
+def test_grupa_wysunięta_bez_przyimka_staje_także_w_dopełnieniu():
+    #  Drugą rolę deklaruje `_wysunięta_rola` osobno, więc podmiot wyżej o niej
+    #  nie świadczy. Przypadka żąda tam czasownik, a nie sama pozycja, więc
+    #  przeczenie za nim przestawia grupę na dopełniacz tak samo jak przestawia
+    #  czoło o jednym słowie.
+    dopełnienie = verdict("Ustawa, której przepisy minister ogłasza, jest tania.")
+    assert dopełnienie.status == "valid", dopełnienie.explain()
+    przeczenie = verdict("Ustawa, której przepisów minister nie ogłasza, jest tania.")
+    assert przeczenie.status == "valid", przeczenie.explain()
+
+
 def test_pytanie_wysuwa_grupę_pytajną_razem_z_przyimkiem():
     #  Czoło pytania jest tu drugie i jest wyrażeniem przyimkowym, a nie nowym
     #  kształtem grupy: pod przyimkiem stoi ta sama grupa pytajna, którą pytanie
@@ -1740,9 +1764,11 @@ def test_orzecznik_narzędnikowy_stoi_pod_przeczeniem_tak_jak_bez_niego():
 def test_zaimek_względny_w_dopełniaczu_przy_przeczącym_zdaniu_względnym():
     #  Przypadek wysuniętego zaimka rozstrzyga przeczenie stojące za resztą
     #  zdania składowego, czyli rządzenie przez cały konstytuent.
-    found = verdict("Polszczyzna, której nikt nie napisał, jest podzbiorem.")
+    #  Podmiot stoi za czasownikiem, bo rzeczownik zaraz za zaimkiem czyta się
+    #  także jako głowa grupy wysuniętej i oba czytania polszczyzna ma.
+    found = verdict("Polszczyzna, której nie napisał autor, jest podzbiorem.")
     assert found.status == "valid", found.explain()
-    assert verdict("Polszczyzna, którą nikt nie napisał, jest podzbiorem.").status == "rejected"
+    assert verdict("Polszczyzna, którą nie napisał autor, jest podzbiorem.").status == "rejected"
 
 
 # --------------------------------------------------------------------------- #

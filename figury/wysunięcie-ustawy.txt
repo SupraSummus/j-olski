@@ -4,29 +4,39 @@ korpus: proza/ustawy.txt
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
   harness/ustawy.py: c48b3358e85d
-  olski/subset.py: 8239283c8ebd
+  olski/subset.py: 042ef14ea1d7
   olski/precedencja.py: 71e2a5a23aed
   olski/parse.py: 565d2d9ff784
-  sonda/wysunięcie.py: e217547972d0
-  sonda/ruch.py: 6da1ed0a768e
+  sonda/wysunięcie.py: 2654d55f866e
+  sonda/ruch.py: b25a865a0768
 
 ustawy.txt, proza, 4921 zdań
 
-                   wariant    przyjęte  wieloznaczne  odrzucone
-                 bez grupy          81           304       4536
-            grupa względna          81           304       4536
-grupa pytajna z przyimkiem          81           304       4536
-                     olski          81           304       4536
+                    wariant    przyjęte  wieloznaczne  odrzucone
+                  bez grupy          81           304       4536
+grupa względna z przyimkiem          81           304       4536
+grupa względna bez przyimka          81           305       4535
+ grupa pytajna z przyimkiem          81           304       4536
+                      olski          81           305       4535
 
-ruch wobec wariantu „bez grupy” — grupa względna:
+ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu
+
+ruch wobec wariantu „bez grupy” — grupa względna bez przyimka:
+        1  rejected → ambiguous
 
 ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez grupy” — olski:
-  żadne zdanie nie zmieniło werdyktu
+        1  rejected → ambiguous
 
 konkurencja, nad zdaniem po zdaniu:
-        0  obie grupy ruszają to samo zdanie
+        0  kilka grup rusza to samo zdanie
         0  razem wychodzi co innego niż osobno
+
+grupa względna bez przyimka, rejected → ambiguous:
+  Komisja wyborcza sporządza odpowiedni protokół z obsadzenia mandatu radnego bez głosowania w okręgu wyborczym, którego wzór ustala Państwowa Komisja Wyborcza.
+
+olski, rejected → ambiguous:
+  Komisja wyborcza sporządza odpowiedni protokół z obsadzenia mandatu radnego bez głosowania w okręgu wyborczym, którego wzór ustala Państwowa Komisja Wyborcza.

@@ -1,8 +1,8 @@
 """Co kupuje i co kosztuje luka, czyli szczebel 2 drabiny kosztów.
 
-Zdanie względne stoi w gramatyce wypisane rolą po roli: piętnaście ciał
-``RelativeCore``, po jednym na wysuniętą rolę razy szyk reszty zdania razy
-miejsce na okolicznik razy przeczenie. Każdy dalszy kształt jest tam osobnym
+Zdanie względne stoi w gramatyce wypisane rolą po roli: kilkadziesiąt ciał
+``RelativeCore``, po jednym na czoło razy wysunięta rola razy szyk reszty zdania
+razy miejsce na okolicznik razy przeczenie. Każdy dalszy kształt jest tam osobnym
 ciałem, a wyjęcia z głębi — ``ustawa, którą organ gminy może wydać`` — nie ma
 tam wcale, bo dopełnienie dochodzi tylko do formy osobowej.
 

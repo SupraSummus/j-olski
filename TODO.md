@@ -898,7 +898,7 @@ Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 
 Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.
-Każde z czternastu ciał z dopełnieniem, jakie pisze `_wysunięta_rola`
+Każde ciało z dopełnieniem, jakie pisze `_wysunięta_rola`
 w `olski/subset.py`, ma wypisany podmiot,
 więc `Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się wcale,
 a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
@@ -986,33 +986,25 @@ zdanie ustawy niesie zwykle kilka konstrukcji odrzucających naraz,
 a ile z nich stoi na samym tym zwrocie, wyda dopiero sonda różnicowa
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
-Grupa z zaimkiem względnym nie wysuwa się bez przyimka.
-`RelativeNP` w `olski/subset.py` stoi pod przyimkiem i tylko tam,
-a polszczyzna wysuwa tę samą grupę w pozycję podmiotu i dopełnienia:
-`ustawa, której przepisy obowiązują, jest tania` nie wyprowadza się wcale
+Zaimek rzeczowny nie rządzi dopełniaczem, a kryterium na to nazywa jeden lemat.
+`ZAIMEK_RZECZOWNY` w `olski/subset.py` wyklucza `to` z głowy, która bierze
+dopełniacz pod sobą, a Morfeusz znakuje jako `subst` całą klasę takich zaimków:
+`nikt`, `kto`, `nic`, `coś`, `ktoś`.
+Żaden z nich dopełniacza przy sobie nie bierze, więc każdy daje drugie czytanie
+tam, gdzie stoi po dopełniaczu albo przed nim,
+a `Polszczyzna, której nikt nie napisał, jest podzbiorem.` traci przez to jednoznaczność,
+bo `której nikt` wychodzi grupą wysuniętą
 ([`docs/subset.md`](docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
-Przeszkodą jest zgodność i jest ona zmierzona, a nie przewidziana.
-Grupa ta wypuszcza liczbę i rodzaj zaimka, bo w nich zgadza się on z poprzednikiem,
-a orzeczenie w tej pozycji zgadza się z głową grupy, nie z zaimkiem,
-więc `_wysunięta_rola` w tym samym pliku wywołana z tą grupą jako czołem
-przyjmuje `której przepisy obowiązuje` i odrzuca `której przepisy obowiązują`,
-czyli wydaje werdykt pewny siebie i błędny.
-Ruchem jest para cech osobna od tej, którą czyta poprzednik —
-grupa niesie wtedy liczbę i rodzaj dwa razy — albo czoło pytające o głowę,
-a nie o grupę, i przed jednym i drugim rozstrzygnięcie, które z dwojga.
-Do przeczytania jest `_wysunięta_rola`, bo pisze ona obie rodziny czół naraz,
-a pytanie poprzednika nie ma, więc para druga jest w nim martwa
-([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
-Zakup jest niepoliczony i policzenie go poprzedza ruch, a nie następuje po nim.
-`której tekst jednolity` powtarza się w „Zasadach techniki prawodawczej”
-przepis po przepisie, więc ten rejestr ten kształt niesie,
-a ilu zdaniom brakuje do wyprowadzenia samej tej pozycji, nie powiedział nikt.
-Grep tego nie policzy, bo za zaimkiem następuje w tym korpusie tak samo często
-czasownik — `których został`, `których nastąpi` — jak rzeczownik,
-więc liczbę wydaje dopiero sonda różnicowa, tak jak przy każdym dopisaniu
-([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
-Wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks),
-bo rusza każdą liczbę figury `wysunięcie`.
+Ruchem jest lista lematów w miejsce jednego, a przed nim rozstrzygnięcie,
+czy klasę tę nazywa lemat, czy coś, o co da się zapytać czytanie:
+lista zamknięta postarza się o każdy zaimek, którego nikt do niej nie dopisał.
+Do przeczytania jest cena tamtego kryterium
+([`docs/subset.md`](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+bo rozszerzenie płaci tą samą walutą, tylko na kilku lematach naraz.
+Cena jest niepoliczona i sonda różnicowa jej nie policzy,
+bo `sonda/ruch.py` zdejmuje produkcje, a to jest zmiana warunku w terminalu;
+liczbę wydaje przebieg nad korpusem z warunkiem i bez niego, czytany ręką,
+tak samo jak przy tamtym kryterium.
 
 Człon lewy ciągu współrzędnego nie unosi zdania względnego.
 Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
@@ -1496,8 +1488,9 @@ Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
 `DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,
 a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
 także czoło pytania, więc wariant z luką zdejmuje ciała względne,
-a pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie;
-obie rodziny liczą tyle samo ciał, bo pisze je jedno wywołanie tamtej funkcji.
+a pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
+Rodzina względna ma przy tym dwa czoła — sam zaimek i grupę, w której on stoi —
+a wariant z luką wiąże ją tylko zaimkiem, więc grupa wysunięta z niego wypada.
 Pomiar przez to zaniża i zakup, i cenę: zdanie `Które zadania wykonuje?`
 jest tam odrzucone tak samo jak bez luki
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).

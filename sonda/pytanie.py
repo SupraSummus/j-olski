@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from olski.grammar import Production, Sym
+from olski.grammar import Production
 from sonda import ruch
 
 PYTAJĄCE = "zdanie pytające"
@@ -40,10 +40,6 @@ ZALEŻNE = "pytanie zależne"
 #: symbolów nie wypisuje stałą, a sonda pyta o produkcję, nie o listę obok niej.
 PYTANIE_ZALEŻNE = "InterrogativeClause"
 CZOŁO_PYTANIA = "InterrogativeCore"
-
-
-def _ma_symbol(produkcja: Production, nazwa: str) -> bool:
-    return any(isinstance(część, Sym) and część.name == nazwa for część in produkcja.body)
 
 
 def pozycja(produkcja: Production) -> str | None:
@@ -58,9 +54,9 @@ def pozycja(produkcja: Production) -> str | None:
     symbol nieosiągalny nie wyprowadza niczego, więc mianownik mówi o zdaniu to
     samo, co gramatyka przed wpuszczeniem pytania.
     """
-    if produkcja.head == PYTANIE_ZALEŻNE or _ma_symbol(produkcja, PYTANIE_ZALEŻNE):
+    if produkcja.head == PYTANIE_ZALEŻNE or ruch.ma_symbol(produkcja, PYTANIE_ZALEŻNE):
         return ZALEŻNE
-    if _ma_symbol(produkcja, CZOŁO_PYTANIA):
+    if ruch.ma_symbol(produkcja, CZOŁO_PYTANIA):
         return PYTAJĄCE
     return None
 

@@ -4,22 +4,26 @@ korpus: proza/ztp.txt
 czyta: docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania
 ruszają:
   harness/ustawy.py: c48b3358e85d
-  olski/subset.py: 8239283c8ebd
+  olski/subset.py: 042ef14ea1d7
   olski/precedencja.py: 71e2a5a23aed
   olski/parse.py: 565d2d9ff784
-  sonda/wysunięcie.py: e217547972d0
-  sonda/ruch.py: 6da1ed0a768e
+  sonda/wysunięcie.py: 2654d55f866e
+  sonda/ruch.py: b25a865a0768
 
 ztp.txt, proza, 699 zdań
 
-                   wariant    przyjęte  wieloznaczne  odrzucone
-                 bez grupy           6            21        672
-            grupa względna           6            23        670
-grupa pytajna z przyimkiem           6            21        672
-                     olski           6            23        670
+                    wariant    przyjęte  wieloznaczne  odrzucone
+                  bez grupy           6            21        672
+grupa względna z przyimkiem           6            23        670
+grupa względna bez przyimka           6            21        672
+ grupa pytajna z przyimkiem           6            21        672
+                      olski           6            23        670
 
-ruch wobec wariantu „bez grupy” — grupa względna:
+ruch wobec wariantu „bez grupy” — grupa względna z przyimkiem:
         2  rejected → ambiguous
+
+ruch wobec wariantu „bez grupy” — grupa względna bez przyimka:
+  żadne zdanie nie zmieniło werdyktu
 
 ruch wobec wariantu „bez grupy” — grupa pytajna z przyimkiem:
   żadne zdanie nie zmieniło werdyktu
@@ -28,10 +32,10 @@ ruch wobec wariantu „bez grupy” — olski:
         2  rejected → ambiguous
 
 konkurencja, nad zdaniem po zdaniu:
-        0  obie grupy ruszają to samo zdanie
+        0  kilka grup rusza to samo zdanie
         0  razem wychodzi co innego niż osobno
 
-grupa względna, rejected → ambiguous:
+grupa względna z przyimkiem, rejected → ambiguous:
   Rozporządzenie powinno wchodzić w życie w dniu wejścia w życie ustawy, na podstawie której jest ono wydawane.
   Tekst uchwały i zarządzenia rozpoczyna się od wskazania przepisu prawnego, na podstawie którego uchwała albo zarządzenie są wydawane.
 

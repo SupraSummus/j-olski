@@ -691,6 +691,17 @@ owns what it bought, `TODO.md` whether it stays.
 The shape is what makes a probe cheap to judge:
 a predicate is read in a minute and a second grammar is not.
 
+**Pozycja, której cena ma być osobną liczbą, musi być osobnym ciałem.**
+Sonda różnicowa wycenia konstrukcję, zdejmując jej produkcje (`sonda/ruch.py`),
+więc kształt gramatyki rozstrzyga, co da się wycenić,
+a nie tylko co się wyprowadza.
+Symbol obejmujący dwie pozycje naraz oszczędza kilkanaście produkcji
+i odbiera pomiar, bo zdjęcie jego ciał zabiera obie pozycje, a nie jedną.
+`RelativeNP` stojące obok `RelativePronoun` w `olski/subset.py` jest tym wyborem,
+a [`subset.md`](docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)
+podaje cenę każdej z dwóch pozycji osobno.
+Gdzie o cenę osobną nikt nie pyta, wybieramy symbol wspólny, bo jest tańszy.
+
 **Printed output does not take its order from a set.**
 String hashing is randomised at startup,
 so a set walked in order to print something prints a different thing in every run,

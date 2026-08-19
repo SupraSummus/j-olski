@@ -65,8 +65,13 @@ NA_JEDNEJ_GRUPIE = [
     ),
     (
         wysunięcie.SONDA,
-        "grupa względna",
+        "grupa względna z przyimkiem",
         "Reguła, na podstawie której program zapisuje ustawienia, jest tania.",
+    ),
+    (
+        wysunięcie.SONDA,
+        "grupa względna bez przyimka",
+        "Ustawa, której przepisy obowiązują, jest tania.",
     ),
     (wysunięcie.SONDA, "grupa pytajna z przyimkiem", "W którym roku ustawa weszła?"),
 ]
