@@ -235,8 +235,7 @@ który nazywa artykuł podstawową jednostką redakcyjną ustawy
 i nazywa go dokładnie tym kształtem.
 
 Ile zdań przypada na który kształt, nikt po tym przeliczeniu nie policzył,
-bo klasyfikacja idzie tu ręką, zdanie po zdaniu, i deklaracja figury `ustawy`
-mówi o niej to samo ([`harness/figury.py`](../harness/figury.py)).
+bo klasyfikacja idzie tu ręką, zdanie po zdaniu.
 
 Nie każde z tych 104 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
@@ -478,11 +477,8 @@ Cyfry olski nie bierze i dlaczego, mówi
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
-Interpunkcja zdaniowa wypadła tu najskromniej z całej tej listy:
-
-```sh
-python3 -m sonda.interpunkcja proza/ustawy.txt
-```
+Interpunkcja zdaniowa wypadła tu najskromniej z całej tej listy
+(przebieg jest w gicie, w commicie `411475e`).
 
 Dwukropek nie rusza nad tymi siedmioma aktami ani jednego werdyktu,
 a przecinek przed spójnikiem rusza dwa i przenosi je z odrzuconych na wieloznaczne:
@@ -513,10 +509,11 @@ więc pozycja, która tu weszła, nie ma nad tym rejestrem czego wziąć.
 
 Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie:
 
+Pierwszy przebieg jest w gicie, w commicie `411475e`, a drugi tutaj:
+
 ```sh
 cat proza/ustawy/*.txt > proza/ustawy.txt
-python3 -m sonda.przysłówek proza/ustawy.txt
-python3 -m sonda.płaski proza/ustawy.txt
+python3 -m harness.płaski proza/ustawy.txt
 ```
 
 | wariant | przyjęte | wieloznaczne | odrzucone |
@@ -554,14 +551,8 @@ czyli klasy zajmującej dziewięć pierwszych miejsc,
 która zdania nie wypuszcza tak czy tak.
 
 Grupa wysunięta razem z zaimkiem względnym rusza w każdym z dwóch tekstów
-tego rejestru inną ze swoich dwóch pozycji:
-
-```sh
-cat proza/ustawy/*.txt > proza/ustawy.txt
-cat proza/ztp/*.txt > proza/ztp.txt
-python3 -m sonda.wysunięcie proza/ustawy.txt
-python3 -m sonda.wysunięcie proza/ztp.txt
-```
+tego rejestru inną ze swoich dwóch pozycji
+(przebieg jest w gicie, w commicie `411475e`).
 
 Nad rozporządzeniem rusza wyłącznie grupa pod przyimkiem
 i przenosi dwa zdania z odrzuconych na wieloznaczne,
@@ -607,7 +598,7 @@ w której ta pozycja wchodziła, i są od tamtych wyższe:
 zdanie przechodzi tu wtedy, gdy do wyprowadzenia brakuje mu samej tej pozycji,
 a takich zdań jest tym więcej, im więcej gramatyka ma poza nią.
 Rusza je przez to każda zmiana w gramatyce,
-a nie drukuje ich żaden przebieg i nie ma ich `FIGURY` w `harness/figury.py`:
+a nie drukuje ich żaden przebieg:
 liczy się je, zdejmując obie pozycje wymienione wyżej
 i puszczając werdykt nad trzema korpusami tej sekcji.
 

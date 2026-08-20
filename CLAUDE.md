@@ -552,18 +552,19 @@ a `tests/test_docs.py` utrzymuje je równe,
 więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
 Workflow nie nosi znaczka.
 
-**Figura ma jednego właściciela, a właścicielem jest plik, który wypisuje przebieg.**
-Figura należy do `figury/`, gdzie stoi wydruk przebiegu i nic poza nim,
-a dokument, który ją czyta, powtarza ją grubiej i wskazuje ten plik:
-rząd wielkości, stosunek, kierunek.
+**Liczby kruchej nie wpisujemy do dokumentu.**
+Krucha jest ta, którą zwykły rozwój projektu unieważnia:
+ile zdań korpusu gramatyka przyjmuje, ile czytań daje konstrukcja,
+ile zdań kupiła produkcja dopisana w zeszłym miesiącu.
+Właścicielem takiej liczby jest narzędzie z `harness/`, które ją drukuje,
+a nie akapit, bo akapit unieważnia się po cichu i nikt tego nie widzi.
+Dokument mówi rząd wielkości, stosunek albo kierunek —
+„przeszło sto zdań”, „nie odbiera ani jednego”, „kupuje kilkadziesiąt” —
+bo takie zdanie zostaje prawdą, kiedy 148 robi się 151.
+Kto chce liczby dzisiejszej, puszcza narzędzie.
+Skąd wzięła się liczba w zdaniu napisanym kiedyś, mówi git.
 Jest to [jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
-zastosowany do liczby zmierzonej, a nie osobna reguła,
-i kupuje prozę, której przeliczenie nie dotyka,
-bo „przeszło sto zdań” zostaje prawdą, kiedy 148 robi się 151.
-Pełna precyzja w akapicie kosztuje odwrotnie:
-jedno przeliczenie robi się nagłówkiem, tabelą, zdaniami pod nią
-i liczbami, które ktoś z nich wyliczył ręką,
-a żadna z tych rzeczy nie wywraca się, kiedy zostaje niezrobiona.
+zastosowany do liczby zmierzonej, a nie osobna reguła.
 
 **Nagłówek nie trzyma liczby, którą przeliczenie rusza,** bo nagłówek jest adresem.
 `Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` był taki,
@@ -582,52 +583,10 @@ Liczba powyżej zera nie ma ani jednej z tych wymówek,
 a `Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka`
 jest tym kształtem, w którym rząd wielkości stoi poza adresem.
 
-**Co rusza figurę, stoi w deklaracji obok niej, a nie w tym pliku.**
-`FIGURY` w [`harness/figury.py`](harness/figury.py) podaje na każdy przebieg
-polecenie, korpusy, bez których nie ma on czego czytać,
-pliki, których zmiana rusza liczby, sekcje powtarzające figurę grubiej,
-to, co po przeliczeniu zostaje ręką,
-oraz to, kto ten przebieg jeszcze powtórzy,
-a plik figury zapisuje odciski tych plików z chwili przebiegu.
-`python3 -m harness.figury` odpowiada więc o należnościach z dwóch napisów
-i nie pobiera niczego, więc odpowiada w każdym środowisku;
-`python3 -m harness.figury <nazwa>` jest samym przeliczeniem
-i należy do kogoś, kto ma czym je wykonać;
-`python3 -m harness.figury --należne` przelicza wszystko, co raport nazywa należnym,
-bo jedna zmiana w parserze czyni należnym kilkanaście figur naraz.
-Nowa figura dostaje wpis w tej deklaracji, a nie akapit tutaj:
-lista figur pisana prozą rośnie z każdym pomiarem,
-czyta się od początku do końca i nie wywraca niczego, kiedy zardzewieje.
-Figura, której nie bierze żadne polecenie — cena konstrukcji,
-której gramatyka nie ma, policzona ręką na produkcjach —
-nazywa w swojej sekcji produkcje, które zdejmuje,
-bo inaczej nikt nie weźmie jej drugi raz
-i zostaje mu wybór między liczbą nieaktualną a wymyśloną.
-
-Trzy odpowiedzi raportu nie są ani aktualnością, ani należnością przeliczenia.
-Figura zadeklarowana bez pliku stoi przed pierwszym przebiegiem,
-a raport nazywa przy niej to, czego ten przebieg wymaga,
-bo pierwszy przebieg nad figurą jest decyzją, a nie krokiem porządkowym.
-Figura, której liczby przeniesiono z dokumentu, zamiast wziąć je przebiegiem,
-ma w miejscu odcisku `nieznany`
-i nie jest ani aktualna, ani należna, tylko niezmierzona tutaj.
-Figura zamknięta ma w `powtórzy` napis pusty, czyli nie powtórzy jej nikt,
-i przeliczenia nie jest winna nikomu:
-gramatyka ruszona po tamtym przebiegu czyni jej liczbę starszą, a nie fałszywą,
-więc sekcja restytuująca mówi, że pomiar jest sprzed tamtego commita.
-Tu maleje aparat sond, bo sonda zamkniętej figury idzie do gita,
-a commit, w którym leży, wchodzi do `w_gicie`.
-Ile figur czeka na to orzeczenie, mówi ostatni wiersz raportu,
-a zapada ono przy zmianie, która i tak figurę rusza,
-bo przebiegu porządkowego nad wszystkimi naraz zabrania
-[leniwe przyjmowanie reguł](#reguły-przyjmujemy-leniwie).
-Przeliczenia nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
+Pomiary nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
 korpusy są archiwami dziesiątek megabajtów pobieranymi raz na sesję,
 a runner pobierający je przy każdym commicie płaciłby za to raz na commit.
-Suita trzyma to, co jest w `tests/test_figury.py`, i nie startuje żadnej sondy:
-odpowiedź, którą raport daje z odcisków i z polecenia,
-oraz wiązanie pod nią — że ruszający zadeklarowany jest plikiem, który istnieje,
-i że figura nazywa sekcję, która istnieje.
+Wykonuje je więc ten, kto ma korpus, a suita nie startuje żadnego.
 
 Przebieg czyta kod raz, przy imporcie,
 a trwa dość długo, żeby zaprosić do puszczenia go i edytowania dalej.
@@ -636,7 +595,7 @@ dwa przebiegi za jedną komendą nie muszą mierzyć tego samego kodu,
 a żaden z nich nie mówi tego w swoim wydruku.
 Przeliczaj po ostatniej edycji, a nie obok niej.
 
-**Blok wydruku wklejony do dokumentu jest prozą, a nie figurą.**
+**Blok wydruku wklejony do dokumentu jest prozą i unieważnia się jak ona.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/subset.py`
 albo pole dopisane w `Deklaracja` w `olski/parse.py` —
@@ -645,8 +604,8 @@ w [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-ni
 i w [`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
 bierze się ręką, razem z arytmetyką pod nimi,
 bo dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze.
-Żadne przeliczenie tego nie zrobi, więc figura, której blok stoi w dokumencie,
-mówi to w polu `ręką`.
+Nowego takiego bloku nie wklejamy: pokazuje kształt wydruku,
+a płaci się za niego przy każdej zmianie werdyktu.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,
@@ -671,21 +630,6 @@ wedle którego leksemu odmienia się słowo, którego słownik nie ma
 Generatora ten plik nie ma i szukanie go jest szukaniem czegoś, czego nie ma;
 przebiegiem wychodzą z niego formy, a nie wiersze.
 
-**Figury nad prozą tego repozytorium nie zapisujemy.**
-Każdy korpus z deklaracji jest przypięty — datowanym wydaniem, repozytorium na commicie —
-więc tekst pod figurą stoi i rusza ją tylko zmiana w kodzie,
-czyli to, co przeliczenia łapią.
-Nasz tekst rusza się z każdym commitem, który go dotyka,
-a jedyne, co o tym mówi, to figura wymieniająca ten plik wśród ruszających:
-`readme` i `sonda-readme` wymieniają `README.md`,
-więc przeredagowanie czyni je należnymi przeliczenia tak samo jak zmiana w gramatyce.
-Twierdzenie o kodzie zostaje przez to na miejscu:
-ile zdań README wyprowadza gramatyka, jest figurą jak każda wyżej.
-Liczba o samym tekście — ile ma zdań, jak długie są jego wiersze komentarza —
-zostaje poza dokumentem, bo mierzy prozę, a nie kod:
-figura nad nią byłaby należna po każdym commicie dotykającym tekstu,
-czyli mówiłaby tylko tyle, że ktoś pisał.
-
 ## Code
 
 **Prefer removing a branch to adding one, and unify divergent paths.**
@@ -695,41 +639,35 @@ and route every caller through one branch-free core.
 A branch is a second path to read, test and keep in sync;
 a unified flow is proven once.
 
-**Sondę pisze się jak skrypt na jeden przebieg, dopóki nie okaże się, że zostaje.**
-Domyślnie wychodzi z drzewa tym samym commitem,
-którym wchodzi do olskiego konstrukcja, którą wyceniła,
-więc nie dostaje ani własnych testów, ani dopracowanego docstringa,
-ani reguł rejestru.
-Poprzeczkę tego pliku płaci dopiero ta, którą ktoś nazwał w `powtórzy`
-przy jej figurze, i płaci ją w commicie, w którym ta nazwa się pojawia.
-Kolejność odwrotna marnuje pracę:
-dopracowanie idzie wtedy w plik, o którym nie wiadomo jeszcze, czy ma czytelnika,
-a większość sond go nie ma.
-Dwie reguły niżej obowiązują sondę mimo to od pierwszego wiersza,
-bo nie są dopracowaniem, tylko warunkiem prawdziwości pomiaru.
-Kryterium wraz z odtwarzalnością przez git opisuje `sonda/__init__.py`.
+**Przebieg wyceniający wpuszczenie konstrukcji nie wchodzi do drzewa.**
+Cena wpuszczenia odpowiada na pytanie zadane raz — wpuszczać czy nie —
+więc przelicza się ją raz, a rok później mierzyłaby już co innego.
+Predykat pisze się w sesji, na jeden przebieg,
+a do repozytorium wchodzi zdanie w dokumencie i commit, który je wpuścił.
+Narzędzie, które taki predykat prowadzi, stoi w drzewie (`harness/ruch.py`),
+więc kto chce liczby dzisiejszej, pisze predykat na nowo i puszcza go;
+kto chce tej sprzed roku, czyta gita.
+Reguła zdejmuje decyzję, której dwa podejścia nie umiały podjąć na czas:
+poprzednia kazała orzec przy każdej sondzie, czy zostaje,
+a orzeczenie było droższe od milczenia, więc nie wyszła ani jedna z dwudziestu.
+Dwie reguły niżej obowiązują taki predykat od pierwszego wiersza,
+bo nie są dopracowaniem, tylko warunkiem prawdziwości pomiaru,
+a pilnuje ich przegląd, bo pliku nie ma nad czym testować.
 
-**A probe asks olski's declaration and keeps no second copy of it.**
-A differential probe takes productions out and reruns the verdict,
-so `sonda/wysunięcie.py` is one predicate over a production
-plus a `Sonda` declaration, and `sonda/ruch.py` runs the measurement for all of them.
-The predicate asks the production rather than listing names beside the grammar,
-because a list stays silent about a production somebody adds later
-and the probe goes on measuring the ones it was given.
-A probe that writes the subset out a second time
-has that defect at the size of a grammar:
-`sonda/polszczyzna.py` declares the subset again,
-so it rejects a sentence olski derives,
-and the divergence then says nothing about the two formalisms
-the probe was built to compare.
-It is the only probe of that shape and it is priced —
+**Pomiar pyta o deklarację olskiego i nie trzyma jej drugiej kopii.**
+Predykat pyta produkcję, a nie listę nazw wypisaną obok gramatyki,
+bo lista milczy o produkcji dopisanej później
+i pomiar mierzy dalej te, które mu dano.
+Program, który podzbiór wypisuje drugi raz, ma tę usterkę w rozmiarze gramatyki:
+`harness/polszczyzna.py` deklaruje podzbiór na nowo,
+więc odrzuca zdanie, które olski wyprowadza,
+a rozjazd nie mówi wtedy nic o dwóch formalizmach, dla których go zestawiono.
+Jest jedyny takiego kształtu i ma cenę —
 [`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-owns what it bought, `TODO.md` whether it stays.
-The shape is what makes a probe cheap to judge:
-a predicate is read in a minute and a second grammar is not.
+mówi, co kupił, a `TODO.md`, czy zostaje.
 
 **Pozycja, której cena ma być osobną liczbą, musi być osobnym ciałem.**
-Sonda różnicowa wycenia konstrukcję, zdejmując jej produkcje (`sonda/ruch.py`),
+Pomiar różnicowy wycenia konstrukcję, zdejmując jej produkcje (`harness/ruch.py`),
 więc kształt gramatyki rozstrzyga, co da się wycenić,
 a nie tylko co się wyprowadza.
 Symbol obejmujący dwie pozycje naraz oszczędza kilkanaście produkcji

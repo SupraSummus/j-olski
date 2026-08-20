@@ -1132,7 +1132,7 @@ def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(
 def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koordynacji(symbol):
     #  Kryterium, na którym stoją dwie rzeczy naraz: `_nawiasuj` w `olski/parse.py`
     #  poznaje ciąg współrzędny po tym, że symbol stoi nad sobą, i po tym samym
-    #  poznaje go `sonda/przecinek.py`, żeby wiedzieć, którą produkcję zdjąć.
+    #  poznaje go pomiar różnicowy, żeby wiedzieć, którą produkcję zdjąć.
     #  Produkcja, która to rozdziela, psuje jedno z dwóch po cichu: nawias staje
     #  tam, gdzie ciągu nie ma, albo sonda zdejmuje zdanie podrzędne zamiast
     #  koordynacji. Pusta lista łapie przemianowany symbol.

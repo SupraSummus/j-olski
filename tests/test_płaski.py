@@ -11,12 +11,19 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+
+from harness.płaski import (
+    OKOLICZNIK,
+    PRZED_PRZYMIOTNIKIEM,
+    PRZED_PRZYSŁÓWKIEM,
+    PRZY_PRZYMIOTNIKU,
+    płaskie,
+    wariant,
+)
 from olski.subset import check
-from sonda import przysłówek
-from sonda.płaski import PRZED_PRZYMIOTNIKIEM, PRZED_PRZYSŁÓWKIEM, płaskie, wariant
 
 
-def _czytanie(zdanie: str, nazwa: str = przysłówek.OKOLICZNIK):
+def _czytanie(zdanie: str, nazwa: str = OKOLICZNIK):
     werdykty = check(zdanie, wariant(nazwa))
     assert len(werdykty) == 1
     [drzewo] = werdykty[0].result.readings
@@ -51,5 +58,5 @@ def test_czytanie_drugiego_gospodarza_nie_jest_płaskie_choć_ma_te_same_formy()
     """
     zdanie = "Program zabawy był ściśle ustalony."
     assert [klasa for klasa, _ in płaskie(_czytanie(zdanie))] == [PRZED_PRZYMIOTNIKIEM]
-    pod_drugim = _czytanie(zdanie, przysłówek.PRZY_PRZYMIOTNIKU)
+    pod_drugim = _czytanie(zdanie, PRZY_PRZYMIOTNIKU)
     assert płaskie(pod_drugim) == []

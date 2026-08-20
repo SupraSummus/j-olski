@@ -132,7 +132,7 @@ Odpowiada na to sonda nad Składnicą, ściągniętą tak, jak mówi
 [corpus.md](corpus.md#fetching-it):
 
 ```sh
-python3 -m sonda.czytania Składnica-frazowa-180723/
+python3 -m harness.czytania Składnica-frazowa-180723/
 ```
 
 Klasy bierze z tego, co werdykt o zdaniu wypisuje,
@@ -177,7 +177,7 @@ które różnią je tą samą drogą
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
 bo dwa przyłączenia, z których jedno ma gospodarza tylko pod jednym czytaniem drugiego,
 dają czytań mniej niż iloczyn;
-`całe_przyłączenie` w `sonda/czytania.py` mówi to o sobie samo.
+`całe_przyłączenie` w `harness/czytania.py` mówi to o sobie samo.
 
 Cała reszta rozkłada się na dwie rzeczy, z których żadna nie jest zadaniem dla rankingu.
 
@@ -393,14 +393,14 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 Świadka ramowego wyceniono przed dopisaniem go, tak jak
 [przysłówek](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe),
 i pomiar rozstrzygnął go na pół.
-`sonda/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
+`harness/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
 i zestawia to z samym kryterium, a nie z werdyktem.
 Kryterium jest jedno i ma jednego właściciela — `przyimki` w `olski/walenty.py`,
 skąd bierze je i ta sonda, i kolumna leksykonu:
 lemat żąda przyimka, gdy któryś jego schemat
 ma pozycję niepodmiotową z `prepnp` o tym przyimku.
 Odpowiedź pada w tej sondzie wtedy, gdy żąda go dokładnie jedna strona.
-Liczby trzyma [`figury/rama.txt`](../figury/rama.txt).
+Liczby drukuje `python3 -m harness.rama`.
 
 Mianownik jest tam węższy niż `4 517` wyżej i węższy o jeden warunek.
 Tamta liczba obejmuje każde przyłączenie w pozycji dwuznacznej,
@@ -475,8 +475,7 @@ Kolejność ta nie jest przy tym porównaniem dwóch trafności, tylko
 [hipotezą](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza),
 i z niej wynika też, czego rama nie bije: świadek kontekstowy stoi przed nią,
 bo akapit mówi o tym tekście, a leksykon o polszczyźnie.
-Wszystkie te liczby trzyma
-[`figury/skłonności-ocena.txt`](../figury/skłonności-ocena.txt),
+Wszystkie te liczby drukuje `python3 -m olski.rozstrzyganie <korpus> --oceń`,
 bo ten przebieg mierzy warstwę, a nie kryterium nad samym Walentym.
 
 **Rama czasownika zostaje za to wetem, a weto kosztuje zasięg.**
@@ -691,13 +690,13 @@ tym samym warunkiem, którym kończy się fraza powtórzona przy obu:
 sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
 
 **Nad rejestrem, o który chodzi, świadek ten odpowiada o jednej pozycji na sto sześćdziesiąt.**
-`sonda/powtórzenie.py` przechodzi prozę zdanie po zdaniu
+`harness/powtórzenie.py` przechodzi prozę zdanie po zdaniu
 i pyta go o każdą pozycję przyłączeniową, jaką morfologia w tym zdaniu widzi.
 Korpusem jest [korpus audytowy](audit-corpus.md#the-list),
 czyli dokumentacja techniczna wyekstrahowana do prozy tak, jak ten dokument mówi:
 
 ```sh
-python3 -m sonda.powtórzenie proza/
+python3 -m harness.powtórzenie proza/
 ```
 
 ```text
@@ -901,10 +900,10 @@ Pytaniem jest `Przyłączenie` z werdyktu:
 gospodarze są formami, a nie lematami anotatora,
 form tych bywa więcej niż dwie,
 i lemat wybiera dopiero Morfeusz, wybierając ich kilka naraz.
-Drogę drugą mierzy `sonda/wskazania.py`, pytając o wzorzec drzewo wzorcowe:
+Drogę drugą mierzy `harness/wskazania.py`, pytając o wzorzec drzewo wzorcowe:
 
 ```sh
-python3 -m sonda.wskazania Składnica-frazowa-180723/
+python3 -m harness.wskazania Składnica-frazowa-180723/
 ```
 
 ```text
@@ -986,7 +985,7 @@ a gospodarzy proponuje całym łańcuchem imiennym,
 który homonimia przedłuża czasem przez orzeczenie.
 
 ```sh
-python3 -m sonda.wybory próba/wybory.txt
+python3 -m harness.wybory próba/wybory.txt
 ```
 
 ```text
@@ -1051,7 +1050,7 @@ odpowiedzi pada w niej pięć i jedna pomyłka przesuwałaby stopę o dwadzieśc
 Częstość pomyłek żąda mianownika, którym jest odpowiedź, a nie pozycja,
 a taki mianownik daje losowanie zawężone do tych pozycji, nad którymi warstwa się odzywa:
 odzywa się nad 122 z 1 113 pozycji korpusu audytowego, czyli nad co dziewiątą,
-i spośród tych 122 losuje się trzydzieści (`z_odpowiedzią` w `sonda/wybory.py`).
+i spośród tych 122 losuje się trzydzieści (`z_odpowiedzią` w `harness/wybory.py`).
 `próba/wybory-z-odpowiedzią.txt` jest tym losowaniem przeczytanym ręką
 i jest osobnym plikiem, a nie częścią próby wyżej,
 bo jeden wydruk z dwoma mianownikami czyta się jako jeden.
@@ -1067,7 +1066,7 @@ Przerysowania żąda dopiero zmiana ruszająca same odpowiedzi tabeli,
 bo wtedy wpisy mierzą świadka, którego nie ma.
 
 ```sh
-python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
+python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt
 ```
 
 ```text
@@ -1212,7 +1211,7 @@ Ilu lematów to dotyczy, liczy sonda nad tym samym plikiem.
 Szuka ona konwersów, czyli par czytań opowiadających jedno zdarzenie z dwóch stron:
 
 ```sh
-python3 -m sonda.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt
+python3 -m harness.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt
 ```
 
 Wraca 144 lematy z 17 224, każdy z parą schematów,

@@ -295,7 +295,6 @@ i jedyna jego kolumna bez świadka w słowniku,
 bo SGJP nie odróżnia tych dwóch słów niczym.
 Świadka daje jej za to bank drzew:
 `gdyż` nie otwiera w nim ani jednego zdania, a `gdy` dwie piąte swoich wystąpień
-(`figury/czoło.txt`),
 i to samo rozstrzygnięcie stoi po stronie analizy, w dwóch listach lematów
 ([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
 bo jest to fakt o słowie, a nie o kierunku, w którym się go używa.
@@ -873,8 +872,7 @@ Leksem jest trzecią, bo nazwa w drzewie jest nazwą, którą wybrał autor,
 a rozbiór stawia lemat, więc `Rosół ma oka.` nie wraca:
 goła nazwa `oko` znaczy w tym repozytorium oko.
 
-Jak często który z tych braków pada, mierzy `sonda/znaczenia.py` nad rejestrem,
-a wynik trzyma `figury/znaczenia.txt`.
+Jak często który z tych braków pada, mierzy `harness/znaczenia.py` nad rejestrem.
 Nad bankiem drzew zdanie, które olski melduje jako wieloznaczne,
 nie wraca żadnym drzewem prawie zawsze,
 a przed pozostałymi brakami stoi wyrażenie przyimkowe pod grupą imienną,

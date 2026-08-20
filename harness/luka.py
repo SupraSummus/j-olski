@@ -21,9 +21,9 @@ kanoniczna`` dokłada warunek precedencji na samą lukę i jednoznaczność odzy
 Werdykt tego pomiaru wraz z trzecią ceną, której żaden z dwóch wariantów nie
 zdejmuje, czyta ``docs/design-notes.md``.
 
-    python3 -m sonda.luka Składnica-frazowa-180723/
-    python3 -m sonda.luka proza/README.txt
-    python3 -m sonda.luka -c "Reguła, która rozstrzyga, jest tania."
+    python3 -m harness.luka Składnica-frazowa-180723/
+    python3 -m harness.luka proza/README.txt
+    python3 -m harness.luka -c "Reguła, która rozstrzyga, jest tania."
 """
 
 from __future__ import annotations
@@ -451,7 +451,7 @@ def wydruk_zdań(tekst: str) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="sonda.luka", description="co kupuje i co kosztuje luka w zdaniu względnym"
+        prog="harness.luka", description="co kupuje i co kosztuje luka w zdaniu względnym"
     )
     parser.add_argument(
         "ścieżka", nargs="?", help="katalog z rozpakowaną Składnicą albo plik z prozą"
@@ -477,8 +477,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if ścieżka.is_file():
         print(wydruk(nad_prozą(ścieżka.read_text(), args.przykłady), f"{ścieżka.name}, proza"))
         return 0
-    print(f"sonda.luka: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
-    print("sonda.luka: docs/corpus.md mówi, skąd wziąć korpus", file=sys.stderr)
+    print(f"harness.luka: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
+    print("harness.luka: docs/corpus.md mówi, skąd wziąć korpus", file=sys.stderr)
     return 2
 
 

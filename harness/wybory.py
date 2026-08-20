@@ -25,7 +25,7 @@ która wyjaśnia, dlaczego pierwsze na częstość pomyłek nie starcza.
 **Pozycji nie wyznacza werdykt, tylko morfologia**, bo werdyktów jest nad tym
 rejestrem za mało, żeby cokolwiek zmierzyć; wywód i liczby pod nim trzyma
 ``pytania`` w ``olski/wieloznaczność.py``, a zasięg nad tą samą populacją mierzy
-``sonda/powtórzenie.py``. Ceną jest to, że wybór bywa pozorny: przyimek, którego
+``harness/powtórzenie.py``. Ceną jest to, że wybór bywa pozorny: przyimek, którego
 żąda schemat czasownika, stoi w tej pozycji i do wyboru nie stoi wcale, a odsiewa
 go dopiero czytający.
 
@@ -42,10 +42,10 @@ kandydatów z pustym wzorcem na wyjście, a wzorzec wpisuje się ręką wraz z
 powodem. Wypisuje przy tym całość, więc puszczony na plik z wzorcami skasowałby
 je wszystkie; nowe wpisy przenosi się do niego ręką.
 
-    python3 -m sonda.wybory --zbuduj proza/ --ile 30 > nowe.txt
-    python3 -m sonda.wybory --zbuduj proza/ --ile 30 --z-odpowiedzią > nowe.txt
-    python3 -m sonda.wybory próba/wybory.txt
-    python3 -m sonda.wybory próba/wybory-z-odpowiedzią.txt
+    python3 -m harness.wybory --zbuduj proza/ --ile 30 > nowe.txt
+    python3 -m harness.wybory --zbuduj proza/ --ile 30 --z-odpowiedzią > nowe.txt
+    python3 -m harness.wybory próba/wybory.txt
+    python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt
 """
 
 from __future__ import annotations
@@ -195,11 +195,11 @@ KLUCZE = ("plik", "kontekst", "zdanie", "fraza", "gospodarze", "wzorzec", "powó
 NAGŁÓWEK = """\
 # Wybory przyłączeniowe korpusu audytowego, z gospodarzem przeczytanym ręką.
 #
-# Plik stoi poza `sonda/`, bo sonda jest kodem pisanym pod decyzję i kasowalnym,
-# a te wpisy są tu najdroższą rzeczą: kasując `sonda/wybory.py`, kasuje się
-# program, a nie przeczytane zdania.
+# Plik stoi poza `harness/`, bo program jest kasowalny, a te wpisy są tu
+# najdroższą rzeczą: kasując `harness/wybory.py`, kasuje się program, a nie
+# przeczytane zdania.
 #
-# Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
+# Wpisy wypisuje `python3 -m harness.wybory --zbuduj`, a `wzorzec` i `powód`
 # wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
 # tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
 # nie z cudzego korpusu. Zdania są cudze, żeby rozkład był rejestru, a nie
@@ -325,7 +325,7 @@ def kandydaci(paths: Iterable[Path], korzeń: Path) -> list[Wybór]:
 
     Pozycje i frazy daje ``pytania`` w ``olski/wieloznaczność.py``, czyli to samo
     miejsce, z którego bierze je sonda mierząca zasięg świadka kontekstowego
-    (``sonda/powtórzenie.py``): wzorzec czytany ręką ma opisywać tę populację,
+    (``harness/powtórzenie.py``): wzorzec czytany ręką ma opisywać tę populację,
     którą ta sonda mierzy, a nie populację obok niej.
     """
     znalezione = []
@@ -419,7 +419,7 @@ def wydruk(ocena: Ocena) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.wybory",
+        prog="python3 -m harness.wybory",
         description="Oceń warstwę rozstrzygającą na wyborach przeczytanych ręką.",
     )
     parser.add_argument("root", nargs="?", help="plik z wyborami; przy --zbuduj katalog z prozą")
@@ -435,7 +435,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not args.zbuduj:
         path = Path(args.root) if args.root else WYBORY
         if not path.is_file():
-            print(f"sonda.wybory: nie ma takiego pliku: {path}", file=sys.stderr)
+            print(f"harness.wybory: nie ma takiego pliku: {path}", file=sys.stderr)
             return 2
         print(wydruk(oceń(czytaj(path))))
         return 0
@@ -443,8 +443,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     root = Path(args.root or ".")
     ścieżki = sorted(root.rglob(PROZA))
     if not ścieżki:
-        print(f"sonda.wybory: nie ma tu prozy: {root}/{PROZA}", file=sys.stderr)
-        print("sonda.wybory: skąd wziąć korpus, mówi docs/audit-corpus.md", file=sys.stderr)
+        print(f"harness.wybory: nie ma tu prozy: {root}/{PROZA}", file=sys.stderr)
+        print("harness.wybory: skąd wziąć korpus, mówi docs/audit-corpus.md", file=sys.stderr)
         return 2
     populacja = kandydaci(ścieżki, root)
     skąd = Z_CAŁOŚCI

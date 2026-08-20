@@ -22,7 +22,7 @@ mówi, na którym miejscu stoi w niej czytanie wybrane przez anotatorów.
 
 Wynik czyta ``docs/disambiguation.md``.
 
-    python3 -m sonda.czytania Składnica-frazowa-180723/
+    python3 -m harness.czytania Składnica-frazowa-180723/
 """
 
 from __future__ import annotations
@@ -292,7 +292,7 @@ def _przykłady(raport: Raport, nazwa: str) -> list[str]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.czytania",
+        prog="python3 -m harness.czytania",
         description="Policz, czym różnią się czytania zdań odrzuconych za wieloznaczność.",
     )
     parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
@@ -312,8 +312,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     root = Path(args.root)
     if not root.is_dir():
-        print(f"sonda.czytania: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("sonda.czytania: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+        print(f"harness.czytania: nie ma takiego katalogu: {root}", file=sys.stderr)
+        print("harness.czytania: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
         return 2
     raport = przebieg(pliki(root)[: args.limit], args.jobs, przykłady=args.przykłady)
     print(wydruk(raport, "Składnica, morfologia złota"))

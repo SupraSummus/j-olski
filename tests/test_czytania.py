@@ -13,8 +13,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.czytania import SAMA_LICZBA, całe_przyłączenie, klasa
 from olski.subset import check
-from sonda.czytania import SAMA_LICZBA, całe_przyłączenie, klasa
 
 #: Po jednym zdaniu na klasę, którą ta sonda kiedykolwiek naliczyła nad
 #: Składnicą, w brzmieniu, które przechodzi przez żywą morfologię.

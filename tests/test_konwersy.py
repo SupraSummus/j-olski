@@ -7,7 +7,7 @@ plik wejściowy nie stoi w repozytorium.
 
 import pytest
 
-from sonda.konwersy import alternatywy, konwersy, opisz
+from harness.konwersy import alternatywy, konwersy, opisz
 
 #: Para, o którą tej sondzie chodzi: ``wynająć komuś`` i ``wynająć od kogoś``,
 #: obie w postaci, w jakiej stoją w Walentym.

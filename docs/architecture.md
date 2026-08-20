@@ -92,10 +92,10 @@ w którym pozycję dwuznaczną niesie większość zdań rejestru,
 a czytelnik nie waha się nad żadnym z przeczytanych ręką
 ([open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)).
 
-Od strony kodu tę samą różnicę bierze `sonda/znaczenia.py`:
+Od strony kodu tę samą różnicę bierze `harness/znaczenia.py`:
 puszcza czytania zdania przez warstwę trzecią
 i pyta, czy wracają z niej tymi samymi drzewami
-(`figury/znaczenia.txt`, `figury/znaczenia-live.txt`).
+(`python3 -m harness.znaczenia`, z flagą `--morfologia live` i bez niej).
 Odpowiedzi są dwie i pierwsza jest o mianowniku, a nie o wieloznaczności.
 Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
 z tysiąca z górą, które olski melduje jako wieloznaczne,

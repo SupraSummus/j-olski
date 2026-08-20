@@ -26,7 +26,7 @@ sądu o parze nie wydaje i wydać go nie ma czym.
 Plik wejściowy nie stoi w repozytorium: pobiera się go tak, jak bank drzew, a
 polecenie trzyma docs/subset.md.
 
-    python3 -m sonda.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt
+    python3 -m harness.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt
 """
 
 from __future__ import annotations
@@ -157,7 +157,7 @@ def konwersy(słownik: Mapping[str, Sequence[str]]) -> list[Konwers]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.konwersy",
+        prog="python3 -m harness.konwersy",
         description="Policz czasowniki, których zdanie przechodnie nie wybiera strony wymiany.",
     )
     parser.add_argument("schematy", help="walenty_*_verbs_all.txt z wydania tekstowego")

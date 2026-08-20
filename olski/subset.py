@@ -216,7 +216,7 @@ SPÓJNIKI_WYSUWANE = "gdy|kiedy|jeśli|jeżeli|zanim|nim|choć|chociaż|dopóki|
 #: (``staje_na_czele`` w ``olski/skład/spójniki.py``);
 #: TODO.md trzyma ruch, którym oba kierunki przeczytałyby jeden leksykon,
 #: bo tą samą drogą poszła walencja.
-#: Świadka nad bankiem drzew liczy ``sonda/czoło.py``, a docs/subset.md go czyta.
+#: Świadka nad bankiem drzew czyta docs/subset.md.
 SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 
 #: Spójniki otwierające okolicznik wyrażony zdaniem, czyli obie listy razem.
@@ -245,7 +245,7 @@ SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
 #: tak samo jak wysunięcie okolicznika (:data:`SPÓJNIKI_WYSUWANE`), więc lista
 #: rozdziela spójnik zdaniowy na dwie klasy i obejmuje dwie części mowy naraz,
 #: bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`. Kogo nie obejmuje,
-#: za ile i po co, wywodzi docs/subset.md, a liczy `sonda/interpunkcja.py`.
+#: za ile i po co, wywodzi docs/subset.md.
 SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż"
 
 #: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
@@ -687,7 +687,7 @@ def build() -> Grammar:
     # Wspólny symbol powiedziałby to samo raz,
     # ale przecinek przestałby stać przy swoim poziomie,
     # a cena i zakup każdego z trzech są osobnymi liczbami,
-    # które `sonda/przecinek.py` bierze, zdejmując te produkcje po jednej.
+    # których cenę wzięto zdejmowaniem po jednej.
     #
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
     # coordination distributes into it”, a cenę przecinka
@@ -1435,7 +1435,7 @@ def build() -> Grammar:
     # pytajną na czoło zdania względnego, gdzie nie ma się z czym zgodzić.
     #
     # Czoło grupowe stoi obok zaimkowego zamiast je obejmować, i rozstrzyga o tym
-    # pomiar: cenę każdej z dwóch pozycji bierze osobno ``sonda/wysunięcie.py``,
+    # pomiar: cena każdej z dwóch pozycji jest osobną liczbą,
     # zdejmując produkcje. Czołem jednym pozycja bez przyimka nie byłaby żadnym
     # ciałem osobno, bo te same ciała brałby sam zaimek, więc nie byłoby czego zdjąć.
     for symbol, modyfikator, czoła in (
@@ -1452,7 +1452,7 @@ def build() -> Grammar:
         # Za wysuniętym wyrażeniem przyimkowym stoi zdanie składowe albo sam
         # rzeczownik orzekający, bo kopuła opuszczona zostawia po zdaniu jeden
         # wyraz (:data:`ORZEKAJĄCY`). Dwa ciała, a nie jedno z symbolem wspólnym:
-        # cena każdego z nich jest osobną liczbą, którą bierze `sonda/kopuła.py`.
+        # cena każdego z nich jest osobną liczbą.
         for wnętrze in (nt("ClauseConjunct"), nt(ORZEKAJĄCY)):
             grammar.rule(
                 symbol,

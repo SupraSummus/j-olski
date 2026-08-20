@@ -11,7 +11,7 @@ liczy.
 
 from __future__ import annotations
 
-from sonda.rama import Odpowiedź, render
+from harness.rama import Odpowiedź, render
 
 
 def test_trafność_liczy_się_z_odpowiedzi_a_zasięg_z_populacji():

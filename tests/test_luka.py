@@ -20,8 +20,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.luka import WARIANTY, gramatyka, niosące
 from olski.subset import GRAMMAR, check
-from sonda.luka import WARIANTY, gramatyka, niosące
 
 #: Zdanie względne z wysuniętym podmiotem i drugie z wysuniętym dopełnieniem,
 #: czyli dwie z trzech ról, które to zdanie wypełnia. Trzeciej — wyrażenia

@@ -117,13 +117,10 @@ By length, which is the shape the curve actually has:
 | 41+ | 0.0% |
 
 Both tables predate several additions to the grammar,
-and the figure that owns them has not been run in this repository at all
-([`harness/figury.py`](../harness/figury.py)),
+and nobody has rerun them here,
 so the counts below are older than the grammar they describe.
-Where the current totals are needed they stand in
-[figury/znaczenia.txt](../figury/znaczenia.txt),
-which prints them for a question of its own,
-and every differential figure in that directory carries them in its bottom row.
+Where the current totals are needed, `python3 -m harness.znaczenia` prints them
+for a question of its own.
 
 So olski is a subset of short declarative Polish and nothing else,
 and coverage falls off a cliff between ten and twenty tokens.
@@ -206,8 +203,7 @@ and the grammar has it, as a head of the noun phrase
 Sixty-one sentences left the rejected list and two and a half times as many
 moved from rejected to ambiguous.
 What the row reads after that is not measured here:
-the figure that owns this table has not been run in this repository at all
-([`harness/figury.py`](../harness/figury.py)),
+nobody has rerun this table,
 so the count beside `ger` is the one that ranked the construction
 rather than the one that records admitting it.
 

@@ -1,14 +1,14 @@
 """Porównanie dwóch podłoży nad tymi samymi zdaniami.
 
 Werdykt olskiego bierze się z ``olski/subset.py``, werdykt sondy z tych samych
-segmentów przepuszczonych przez ``sonda/wiezy.py``, a wydruk pokazuje, gdzie się
+segmentów przepuszczonych przez ``harness/wiezy.py``, a wydruk pokazuje, gdzie się
 rozchodzą. Zdanie, na którym oba mówią to samo, jest tu dowodem taniości
 deklaracji, a zdanie, na którym się różnią, dowodem, czego podłoże więzowe nie
 ma za darmo. Jedno i drugie jest wynikiem tej sondy.
 
-    python3 -m sonda -c "Projekt jest dla przyjemności."
-    python3 -m sonda proza/README.txt
-    python3 -m sonda -c "Dużą Jan kupuje książkę." --nieciągłe
+    python3 -m harness.podłoża -c "Projekt jest dla przyjemności."
+    python3 -m harness.podłoża proza/README.txt
+    python3 -m harness.podłoża -c "Dużą Jan kupuje książkę." --nieciągłe
 """
 
 from __future__ import annotations
@@ -20,10 +20,10 @@ import time
 from collections.abc import Sequence
 from pathlib import Path
 
+from harness.polszczyzna import GRAMATYKA
+from harness.wiezy import Rozbiór, rozbierz
 from olski.subset import FRAGMENT, morphology, sentences
 from olski.subset import check as olski_check
-from sonda.polszczyzna import GRAMATYKA
-from sonda.wiezy import Rozbiór, rozbierz
 
 #: Ile czytań zbierać. Werdykt zamyka się na drugim, a wyższy limit stoi tu po
 #: to, żeby dało się porównać liczby z olskim, który zbiera do MAX_READINGS.
@@ -58,7 +58,7 @@ def _alarm(*_):
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="sonda",
+        prog="python3 -m harness.podłoża",
         description="Porównaj werdykt olskiego z werdyktem podłoża więzowego.",
     )
     parser.add_argument("paths", nargs="*", help="pliki zwykłego tekstu polskiego")
@@ -95,7 +95,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         try:
             źródła.append((surowa, Path(surowa).read_text(encoding="utf-8")))
         except (OSError, UnicodeDecodeError) as błąd:
-            print(f"sonda: nie da się przeczytać {surowa}: {błąd}", file=sys.stderr)
+            print(f"podłoża: nie da się przeczytać {surowa}: {błąd}", file=sys.stderr)
             return 2
 
     signal.signal(signal.SIGALRM, _alarm)
@@ -119,7 +119,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     segmenty, GRAMATYKA, limit=LIMIT, spójne=not args.nieciagle
                 )
             except Urwane:
-                print(f"  sonda: {'urwane':9} nie zmieściło się w {args.budzet:.0f}s")
+                print(f"  podłoża: {'urwane':9} nie zmieściło się w {args.budzet:.0f}s")
                 continue
             finally:
                 signal.setitimer(signal.ITIMER_REAL, 0)
@@ -128,7 +128,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             zgodne += _zgodne(werdykt, rozbiór)
             tyle_samo += len(rozbiór.czytania) == len(werdykt.result.readings)
             liczba = _ile(len(rozbiór.czytania), rozbiór.urwane)
-            print(f"  sonda: {rozbiór.status:9} {liczba}{_uwaga(rozbiór)}")
+            print(f"  podłoża: {rozbiór.status:9} {liczba}{_uwaga(rozbiór)}")
             for czytanie in rozbiór.czytania:
                 print(f"    - {_role(czytanie)}")
                 if args.luki:

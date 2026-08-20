@@ -686,11 +686,7 @@ nie zyskuje przy przeczeniu nowej pozycji.
 
 ### Negacja zmierzona: kupuje przeszło sto zdań i nie płaci dopełniaczem
 
-Pełne wiersze są w [figury/negacja.txt](../figury/negacja.txt),
-a polecenie oraz commit, w którym leży sonda,
-podaje ta figura ([`harness/figury.py`](../harness/figury.py)).
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Dopełniacz bez cząstki nie kupuje ani jednego zdania i to jest o nim odczyt, a nie
@@ -775,14 +771,10 @@ a szyk dopisany daje tej dwuznaczności nowe miejsca.
 
 Cenę tej konkurencji zmierzono i wychodzi siedem zdań.
 
-Pełne wiersze są w [figury/szyk.txt](../figury/szyk.txt),
-a polecenie oraz commit, w którym leży sonda, podaje ta figura
-([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Kilkadziesiąt zdań przechodzi z odrzuconych na przyjęte,
@@ -1028,14 +1020,10 @@ zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
 a liczy się to, na czym te dwa werdykty się różnią.
 Poziomy zdejmują się osobno, bo cena każdego z nich jest osobną liczbą.
 
-Pełne wiersze są w [figury/przecinek.txt](../figury/przecinek.txt),
-a polecenie oraz commit, w którym leży sonda, podaje ta figura
-([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
@@ -1226,10 +1214,7 @@ zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
 a liczy się to, na czym te dwa werdykty się różnią.
 Znaki zdejmują się osobno, bo konkurują z czym innym i cena każdego jest osobną liczbą.
 
-Pełne wiersze są w [figury/interpunkcja.txt](../figury/interpunkcja.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć, podaje ta figura
-([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w niej ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest ten sam, co w tabelach tamtego dokumentu:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -1324,8 +1309,6 @@ bo cząstka wpuszczona do listy okoliczników konkuruje z każdym innym czytanie
 swojej formy — po to lista lematów wyklucza `tylko` — i dlatego ta klasa
 weszła zmierzona, a nie wyprowadzona.
 
-Pełne wiersze są w [figury/cząstka.txt](../figury/cząstka.txt),
-a polecenie podaje ta figura ([`harness/figury.py`](../harness/figury.py));
 przebieg nad prozą README bierze się tym samym poleceniem nad `proza/README.txt`.
 
 Zakup nad bankiem drzew wynosi dziewięćdziesiąt jeden zdań przyjętych
@@ -1415,10 +1398,6 @@ więc zdanie z którymkolwiek z nich nie miało czytania,
 z którego dałoby się je wytrącić — tak samo jak przy dwukropku
 ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Mierzony jest więc sam zakup, osobno na znak, bo osobno się o niego pyta.
-
-Pełne wiersze są w [figury/obejmująca.txt](../figury/obejmująca.txt)
-i w [figurze nad ustawami](../figury/obejmująca-ustawy.txt) obok niego,
-a polecenia podaje ich deklaracja ([`harness/figury.py`](../harness/figury.py)).
 
 Zakup jest wszędzie liczony w pojedynczych zdaniach.
 Nad bankiem drzew oba znaki razem ruszają trzy zdania i ani jednego nie przyjmują,
@@ -1887,7 +1866,7 @@ Fakt ten skład trzyma o dwóch z tych lematów
 bo jest to fakt o słowie, a nie o kierunku, w którym się go używa,
 i [TODO.md](../TODO.md) trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
 tak jak czytają jeden leksykon walencyjny.
-Sam podział ma przy tym świadka w [figury/czoło.txt](../figury/czoło.txt):
+Sam podział ma przy tym świadka zmierzonego:
 nad Składnicą `gdyż` nie otwiera ani jednego zdania,
 tak samo jak `bowiem`, którego gramatyka nie bierze wcale,
 a `gdy` i `jeśli` otwierają dwie piąte swoich wystąpień i ponad połowę.
@@ -1922,12 +1901,7 @@ okolicznik doszedł do zdania streszczanego albo do tego, które stoi pod `że`.
 
 ### Zdanie okolicznikowe zmierzono: pod złotą morfologią jest darmowe, a pod żywą nie
 
-Pełne wiersze są w [figury/okolicznikowe.txt](../figury/okolicznikowe.txt),
-a te spod morfologii żywej w [figury/okolicznikowe-żywa.txt](../figury/okolicznikowe-żywa.txt);
-polecenie oraz commit, w którym leży sonda, podaje każda z tych dwóch
-([`harness/figury.py`](../harness/figury.py)).
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Nad Składnicą pod złotą morfologią konstrukcja zdejmuje z listy odrzuconych
@@ -2007,12 +1981,7 @@ więc oba te zdania wyprowadzają się dziś, każde raz.
 
 ### Pytanie zmierzono: nie odbiera żadnego zdania i oddaje to, które warunek zabrał
 
-Pełne wiersze są w [figury/pytanie.txt](../figury/pytanie.txt),
-a te spod morfologii żywej w [figury/pytanie-żywa.txt](../figury/pytanie-żywa.txt);
-polecenie oraz commit, w którym leży sonda, podaje każda z tych dwóch
-([`harness/figury.py`](../harness/figury.py)).
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Konstrukcje są dwie i dzielą kształt ze zdaniem względnym.
@@ -2050,8 +2019,7 @@ Zakup wynosi po jednym zdaniu na korpus, a liczba ta mówi o rejestrze,
 a nie o produkcjach.
 Pytań jest w Składnicy 881 na 13 035 zdań z drzewem wzorcowym,
 czyli jedno na piętnaście,
-a lemat, na którym grupa pytajna stoi, otwiera dwa z nich
-([figury/pytajne.txt](../figury/pytajne.txt)).
+a lemat, na którym grupa pytajna stoi, otwiera dwa z nich.
 Reszta pyta czym innym i każde z tych słów żąda innego kształtu:
 `czy` otwiera pytanie o rozstrzygnięcie i nie zajmuje ani podmiotu, ani dopełnienia,
 `kto` i `co` stoją same, bez rzeczownika przy sobie,
@@ -2210,13 +2178,6 @@ a ile ona kupuje i dlaczego nie weszła, mierzy
 
 ### Grupę wysuniętą zmierzono: nie kosztuje nic i kupuje pojedyncze zdania
 
-Pełne wiersze są w [figury/wysunięcie.txt](../figury/wysunięcie.txt),
-te spod morfologii żywej w [figury/wysunięcie-żywa.txt](../figury/wysunięcie-żywa.txt),
-a te nad rejestrem ustaw w [figury/wysunięcie-ustawy.txt](../figury/wysunięcie-ustawy.txt)
-oraz w [figury/wysunięcie-ztp.txt](../figury/wysunięcie-ztp.txt);
-polecenie i pliki, których zmiana każe je przeliczyć, podaje każda z tych czterech
-([`harness/figury.py`](../harness/figury.py)).
-
 Grupy są trzy i zdejmuje się je osobno, bo cena każdej z nich jest osobną liczbą.
 Grupa względna z przyimkiem jest rzeczownikiem z zaimkiem w dopełniaczu, w obu szykach,
 wysuniętym przed zdanie względne razem z przyimkiem.
@@ -2326,8 +2287,7 @@ Odczyt jest to o rejestrach, a nie o produkcjach: kształt grupy jest w obu pozy
 Grupa pytajna z przyimkiem nie kupuje ani jednego zdania w żadnym z tych korpusów,
 i jest to odczyt o rejestrze, a nie o produkcjach.
 Pytań stawia Składnica jedno na piętnaście zdań,
-a lemat, na którym ta grupa stoi, otwiera dwa z nich
-([figury/pytajne.txt](../figury/pytajne.txt)),
+a lemat, na którym ta grupa stoi, otwiera dwa z nich,
 więc pytanie o wyrażenie przyimkowe nie ma tam ani jednego wystąpienia do kupienia.
 Konstrukcja ta jest przez to wyczytana z gramatyki, a nie z korpusu:
 `W którym roku ustawa weszła?` napisała ta sekcja, a nie prawodawca,
@@ -2390,7 +2350,7 @@ a 10 zdań przyjętych z `partial` na `agrees`;
 `disagrees` nie rośnie o ani jedno.
 
 Tych dwóch liczb nie bierze żadne polecenie i bierze je ręka,
-bo sonda różnicowa liczy przejścia werdyktu (`sonda/ruch.py`),
+bo sonda różnicowa liczy przejścia werdyktu (`harness/ruch.py`),
 a ta pozycja nie rusza ani jednego.
 Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czołem:
 `Subject → czoło` po jednej na czoło, `Object → czoło` po dwóch,
@@ -2538,14 +2498,7 @@ a nie czymkolwiek, co wnosi kopuła opuszczona.
 
 ### Kopułę opuszczoną zmierzono: nie kosztuje nic i kupuje mniej, niż obiecywała jej częstość
 
-Pełne wiersze są w [figury/kopuła.txt](../figury/kopuła.txt),
-te spod morfologii żywej w [figury/kopuła-żywa.txt](../figury/kopuła-żywa.txt),
-a te nad rejestrem ustaw w [figury/kopuła-ustawy.txt](../figury/kopuła-ustawy.txt)
-oraz w [figury/kopuła-ztp.txt](../figury/kopuła-ztp.txt);
-polecenie oraz commit, w którym leży sonda, podaje każda z tych czterech
-([`harness/figury.py`](../harness/figury.py)).
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Grupy są dwie i zdejmuje się je osobno, bo cena każdej z nich jest osobną liczbą.
@@ -2663,14 +2616,10 @@ a nie na dopisanie następnej.
 Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a ciała zdejmują się osobno, bo cena każdego z nich jest osobną liczbą:
 
-Pełne wiersze są w [figury/liczebnik.txt](../figury/liczebnik.txt),
-a polecenie oraz commit, w którym leży sonda, podaje ta figura
-([`harness/figury.py`](../harness/figury.py)).
-Mianownik jest w niej ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
-Przebiegu nie powtórzy już nikt,
-więc liczby niżej są pomiarem sprzed tego commita,
+Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
 a nie stanem gramatyki dzisiejszej.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne.
@@ -2821,13 +2770,7 @@ Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a pozycje zdejmują się osobno, bo cena każdej z nich jest osobną liczbą:
 głowa sama i ta sama głowa rządząca dopełniaczem.
 
-Pełne wiersze są w [figury/odczasownikowy.txt](../figury/odczasownikowy.txt)
-i w dwóch figurach obok niego —
-[żywa](../figury/odczasownikowy-żywa.txt),
-[ustawy](../figury/odczasownikowy-ustawy.txt) —
-a polecenia podaje ich deklaracja
-([`harness/figury.py`](../harness/figury.py)).
-Mianownik pierwszej z nich jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne,
@@ -3224,7 +3167,7 @@ Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokume
 a policzyć ją drugi raz można tylko wtedy, gdy wiadomo, co się liczy.
 Rusza tę liczbę każda produkcja dająca modyfikatorowi pozycję,
 a policzenie jej na nowo jest odliczeniem ręką według granicy wyżej,
-bo żaden przebieg jej nie drukuje i nie ma jej w `FIGURY` w `harness/figury.py`.
+bo żaden przebieg jej nie drukuje.
 
 Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
 i nie jest to zdanie odrzucone.
@@ -3271,10 +3214,6 @@ i dlatego sonda wyceniła każdego z nich osobno, zanim któryś wszedł do gram
 
 Weszli obaj: drugi gospodarz kosztuje zdania, a kupuje prawdę o drzewie,
 i po tym kursie olski go przyjmuje.
-
-Pełne wiersze są w [figury/przysłówek.txt](../figury/przysłówek.txt),
-a polecenie i pliki, których zmiana każe je przeliczyć,
-podaje ta figura ([`harness/figury.py`](../harness/figury.py)).
 
 Gospodarze są dwaj, więc wariantów jest cztery:
 gramatyka bez przysłówka, po jednym na gospodarza i sam olski, w którym stoją obaj.
@@ -3440,11 +3379,10 @@ bo `valid` ktoś przeczyta
 a instrument, który liczy zgodność nad bankiem drzew, tego nie widzi:
 porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
 
-Liczy to osobna sonda, bo pyta o co innego niż figura wyżej:
-tamta o werdykt, a ta o drzewo, którym werdykt wypadł.
-Pełne wiersze są w [figury/płaski.txt](../figury/płaski.txt),
-a przed dopisaniem drugiego gospodarza w
-[figury/płaski-okolicznik.txt](../figury/płaski-okolicznik.txt).
+Liczy to osobne narzędzie, bo pyta o co innego niż pomiar wyżej:
+tamten o werdykt, a ten o drzewo, którym werdykt wypadł.
+Pełne wiersze drukuje `python3 -m harness.płaski`,
+a te przed dopisaniem drugiego gospodarza — ono z `--wariant okolicznik`.
 Populacją są zdania przyjęte jednym czytaniem,
 bo tam odpowiedź jest dokładna, a listę czytań zdania wieloznacznego
 ucina granica wyliczania.
@@ -3469,7 +3407,7 @@ Oszacowanie sięga teraz i przysłówka na czele zdania,
 bo pod symbolem przysłówka stoi każdy okolicznik przysłówkowy,
 a czoło zdania jest osobnym ciałem produkcji:
 `Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą,
-i to jest jedna z rzeczy, o które ta figura urosła.
+i to jest jedna z rzeczy, o które ta liczba urosła.
 Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc konstrukcja jest tu droga w rejestrze,

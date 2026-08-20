@@ -80,7 +80,7 @@ def test_gospodarzem_imiennym_jest_cała_grupa_a_nie_jej_ogon():
 
 def test_forma_bez_czytania_imiennego_zamyka_grupę():
     #  Bez tego warunku grupą jest cały prefiks zdania, czyli reguła, którą
-    #  sonda/powtórzenie.py mierzy jako wariant i którą warstwa odrzuca: spójnik
+    #  harness/powtórzenie.py mierzy jako wariant i którą warstwa odrzuca: spójnik
     #  kończy grupę imienną, a za nim zaczyna się opis czegoś innego.
     (miejsce,) = przyłączenia("Opisano nadawanie i funkcjonowanie uprawnień do faktur.", "do")
     assert miejsce.gospodarze[:2] == ("uprawnień", "funkcjonowanie")

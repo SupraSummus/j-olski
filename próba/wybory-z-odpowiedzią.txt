@@ -1,10 +1,10 @@
 # Wybory przyłączeniowe korpusu audytowego, z gospodarzem przeczytanym ręką.
 #
-# Plik stoi poza `sonda/`, bo sonda jest kodem pisanym pod decyzję i kasowalnym,
-# a te wpisy są tu najdroższą rzeczą: kasując `sonda/wybory.py`, kasuje się
-# program, a nie przeczytane zdania.
+# Plik stoi poza `harness/`, bo program jest kasowalny, a te wpisy są tu
+# najdroższą rzeczą: kasując `harness/wybory.py`, kasuje się program, a nie
+# przeczytane zdania.
 #
-# Wpisy wypisuje `python3 -m sonda.wybory --zbuduj`, a `wzorzec` i `powód`
+# Wpisy wypisuje `python3 -m harness.wybory --zbuduj`, a `wzorzec` i `powód`
 # wpisuje w nie człowiek: jest to jedyny wzorzec, jaki warstwa rozstrzygająca w
 # tym repozytorium ma, i jedyne miejsce, w którym sąd o zdaniu pochodzi stąd, a
 # nie z cudzego korpusu. Zdania są cudze, żeby rozkład był rejestru, a nie
