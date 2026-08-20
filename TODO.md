@@ -2019,6 +2019,27 @@ Do przeczytania jest `_lematy_imienne` w tym samym pliku,
 bo pyta o część mowy, a czytania leksykonu ją niosą,
 więc razem z tym ruchem rozstrzyga się, czy świadek ramowy pyta o te słowa też.
 
+Ponad połowa stanów tablicy Earleya ma kropkę na zerze,
+czyli nie niesie nic poza zapisem, że symbol został w tej pozycji przewidziany.
+Policzyć to na nowo można sondą po `_Tablica.stany`,
+zliczając stany o kropce zerowej obok wszystkich.
+Zapis ten stoi już drugi raz gdzie indziej:
+symbol przewidziany w pozycji jest kluczem `_oczekujące`,
+a produkcje symbolu wylicza `Grammar.for_head`.
+Ruchem jest nie wpisywać takiego stanu do tablicy wcale —
+przewidywanie wczytywałoby od razu produkcję zaczynającą się terminalem,
+a produkcję zaczynającą się symbolem dopisywałoby wprost do oczekujących —
+i tablica trzymałaby wtedy same stany, które już coś przeszły.
+Cena stoi w `Las._przed_formą`:
+chodzi ona po `stany[k]` i po stanach o kropce zerowej rozwija swoje `żywe`,
+więc musiałaby je odtwarzać z listy oczekujących,
+a odpowiedź, na czym stanęło odrzucenie, jest tym, co najłatwiej przy tym zepsuć.
+Do przeczytania są `_rozbierz`, `_przewiduj` i `_przed_formą` w `olski/parse.py` naraz,
+bo trzecia czyta to, co dwie pierwsze wpisują.
+Ile to kupuje, mówi dopiero pomiar:
+stany te zajmują połowę tablicy, ale nie połowę jej czasu,
+bo wpis na listę oczekujących zostaje po tym ruchu tam, gdzie był.
+
 ## Skład i opowieści
 
 `README.py` powstał drzewami przed tekstem, czyli odwrotnie, niż deklaruje
