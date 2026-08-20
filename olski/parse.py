@@ -498,6 +498,8 @@ class _Tablica:
         self._puste: dict[int, set[str]] = {}
         #: (produkcja, kropka, źródło, k) → ciała, jakie się w tym złożyły.
         self._ciała_memo: dict[tuple, tuple[tuple[Pozycja, ...], ...]] = {}
+        #: (pozycja grafu, terminal) → krawędzie, które ten terminal tam bierze.
+        self._brane_memo: dict[tuple[int, Word], tuple[Segment, ...]] = {}
         #: Węzły grafu w kolejności rosnącej, bo krawędź nigdy nie idzie w tył.
         self.pozycje_grafu = sorted(
             {self.początek, self.koniec}
@@ -527,7 +529,20 @@ class _Tablica:
                     self._przewiduj(k, (production, kropka, źródło), część, kolejka)
 
     def _dodaj(self, k: int, stan: _Stan, wstecz: tuple[int, Pozycja] | None) -> bool:
-        """Wpisz stan i powiedz, czy jest nowy; wpis powtórzony dokłada samo wstecz."""
+        """Wpisz stan i powiedz, czy jest nowy; wpis powtórzony dokłada samo wstecz.
+
+        Stan czekający na terminal, którego w tej pozycji nie bierze ani jedna krawędź,
+        nie wchodzi i liczy się jak powtórzony:
+        ciała nie dokończy, więc nie wejdzie do żadnego czytania.
+        Nie zmienia to również odpowiedzi na to, dokąd doszła analiza częściowa
+        (:meth:`Las.najdalszy`): tam liczy się przejście po formie wziętej,
+        a tej formy ten terminal nie bierze przy żadnym środowisku.
+        """
+        production, kropka, źródło = stan
+        if kropka < len(production.body):
+            część = production.body[kropka]
+            if isinstance(część, Word) and not self._brane(k, część):
+                return False
         w_pozycji = self.stany.setdefault(k, {})
         istniejące = w_pozycji.get(stan)
         if istniejące is None:
@@ -538,35 +553,61 @@ class _Tablica:
         return False
 
     def _przewiduj(self, k: int, stan: _Stan, część: Sym, kolejka: list[_Stan]) -> None:
-        self._oczekujące.setdefault(k, {}).setdefault(część.name, []).append(stan)
-        for production in self.grammar.for_head(część.name):
-            if self._dodaj(k, (production, 0, k), None):
-                kolejka.append((production, 0, k))
+        """Wpisz stan jako oczekujący, a symbol, na który czeka, rozwiń raz.
+
+        Rozwinięcie przy stanie drugim i każdym następnym wpisałoby to samo,
+        bo produkcje symbolu są już w tablicy o tej samej rozpiętości zerowej.
+        Czy symbol był już rozwinięty, mówi lista oczekujących:
+        wpisuje się do niej każdy czekający stan, a pierwszy ją zakłada.
+        """
+        oczekujące = self._oczekujące.setdefault(k, {})
+        czekający = oczekujące.get(część.name)
+        if czekający is None:
+            oczekujące[część.name] = [stan]
+            for production in self.grammar.for_head(część.name):
+                if self._dodaj(k, (production, 0, k), None):
+                    kolejka.append((production, 0, k))
+        else:
+            czekający.append(stan)
         if część.name in self._puste.get(k, ()):
             self._posuń(k, stan, k, Pozycja(część.name, (k, k)), kolejka)
 
     def _wczytaj(self, k: int, stan: _Stan, terminal: Word) -> None:
-        """Przejdź krawędzią grafu, jeżeli terminal bierze którekolwiek jej czytanie.
+        """Przejdź każdą krawędzią grafu, którą ten terminal bierze."""
+        production, kropka, źródło = stan
+        for segment in self._brane(k, terminal):
+            self._dodaj(
+                segment.end,
+                (production, kropka + 1, źródło),
+                (k, Pozycja(None, (k, segment.end))),
+            )
+
+    def _brane(self, k: int, terminal: Word) -> tuple[Segment, ...]:
+        """Krawędzie wychodzące z tej pozycji, których czytanie ten terminal bierze.
 
         Pytanie pada z ``EMPTY``, a nie ze środowiskiem rodzeństwa,
         bo stan tablicy cech nie niesie.
         Zawężenie potrafi tylko odsiewać,
         więc na tym etapie tablica przyjmuje co najwyżej za dużo,
         a nadmiar odsiewa potem unifikacja po lesie.
+        Odpowiedź nie zależy przez to od stanu,
+        a stanów czeka na jeden terminal po kilka, więc jest zapamiętana.
         """
-        production, kropka, źródło = stan
-        for segment in self.krawędzie.get(k, ()):
-            if not any(
-                bierze(terminal, reading.tag.pos, reading.lemma, dict(reading.tag.features), EMPTY)
-                is not None
-                for reading in segment.readings
-            ):
-                continue
-            self._dodaj(
-                segment.end,
-                (production, kropka + 1, źródło),
-                (k, Pozycja(None, (k, segment.end))),
+        klucz = (k, terminal)
+        gotowe = self._brane_memo.get(klucz)
+        if gotowe is None:
+            gotowe = self._brane_memo[klucz] = tuple(
+                segment
+                for segment in self.krawędzie.get(k, ())
+                if any(
+                    bierze(
+                        terminal, reading.tag.pos, reading.lemma, reading.tag.cechy, EMPTY
+                    )
+                    is not None
+                    for reading in segment.readings
+                )
             )
+        return gotowe
 
     def _zamknij(self, k: int, symbol: str, źródło: int, kolejka: list[_Stan]) -> None:
         if źródło == k:
@@ -705,17 +746,12 @@ class Las:
         self._tablica = tablica
         self.grammar = tablica.grammar
         self.korzeń = Pozycja(tablica.start, (tablica.początek, tablica.koniec))
-        #: Rozpiętość → czytania form, jakie przez nią przechodzą,
-        #: wraz z cechami gotowymi do unifikacji.
+        #: Rozpiętość → czytania form, jakie przez nią przechodzą.
         #: Kluczem jest rozpiętość, a nie segment, bo czytaniem liścia jest sama rozpiętość.
-        self._czytania_liścia: dict[
-            tuple[int, int], list[tuple[Segment, Reading, dict[str, frozenset[str]]]]
-        ] = {}
+        self._czytania_liścia: dict[tuple[int, int], list[tuple[Segment, Reading]]] = {}
         for segment in tablica.segments:
             miejsce = self._czytania_liścia.setdefault((segment.start, segment.end), [])
-            miejsce.extend(
-                (segment, reading, dict(reading.tag.features)) for reading in segment.readings
-            )
+            miejsce.extend((segment, reading) for reading in segment.readings)
         self._wyprowadzenia: dict[Pozycja, dict[tuple[Pozycja, ...], tuple[Production, ...]]] = {}
         self._klasy: dict[Pozycja, dict[Klasa, int]] = {}
         #: (pozycja, klasa) → kombinacja klas córek → produkcje, którymi przeszła.
@@ -863,10 +899,10 @@ class Las:
         i wyliczanie drzew.
         """
         if isinstance(część, Word):
-            for numer, (segment, reading, cechy_formy) in enumerate(
+            for numer, (segment, reading) in enumerate(
                 self._czytania_liścia.get(dziecko.span, ())
             ):
-                złożone = bierze(część, reading.tag.pos, reading.lemma, cechy_formy, env)
+                złożone = bierze(część, reading.tag.pos, reading.lemma, reading.tag.cechy, env)
                 if złożone is not None:
                     yield numer, Leaf(segment, reading), złożone
             return

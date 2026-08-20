@@ -1810,7 +1810,7 @@ def bez_licencji(segments: list[Segment], grammar: Grammar) -> tuple[str, ...]:
     formy: list[str] = []
     for segment in segments:
         if any(
-            grammar.licencjonuje(reading.tag.pos, reading.lemma, dict(reading.tag.features))
+            grammar.licencjonuje(reading.tag.pos, reading.lemma, reading.tag.cechy)
             for reading in segment.readings
         ):
             continue

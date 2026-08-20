@@ -63,16 +63,24 @@ class Tag:
     features: frozenset[tuple[str, frozenset[str]]] = frozenset()
     raw: str = ""
 
+    @functools.cached_property
+    def cechy(self) -> dict[str, frozenset[str]]:
+        """Te same cechy w postaci, o którą pyta unifikacja.
+
+        Zbiorem są dlatego, że tag ma się haszować,
+        a ``bierze`` w ``olski/grammar.py`` czyta je słownikiem.
+        Przeliczenie jednego na drugie jest zapamiętane,
+        bo nad jedną formą pyta o nie każdy sprawdzany terminal.
+        """
+        return dict(self.features)
+
     @property
     def known(self) -> bool:
         return self.pos != UNKNOWN
 
     def get(self, feature: str) -> frozenset[str]:
         """Return the values of a feature, or the empty set if it has none."""
-        for name, values in self.features:
-            if name == feature:
-                return values
-        return frozenset()
+        return self.cechy.get(feature, frozenset())
 
     def has(self, feature: str, value: str) -> bool:
         return value in self.get(feature)
@@ -121,8 +129,14 @@ class Segment:
         return tuple(r for r in self.readings if r.tag.pos == pos)
 
 
+@functools.cache
 def tag(raw: str) -> Tag:
-    """Parse a Morfeusz tag string into a part of speech and its features."""
+    """Parse a Morfeusz tag string into a part of speech and its features.
+
+    Memoized on the raw string: the question is asked once per reading of every
+    form, and the tagset has a few hundred distinct tags. A ``Tag`` is immutable,
+    so one answer serves every caller.
+    """
     chunks = raw.split(":")
     pos, rest = chunks[0], chunks[1:]
     features: dict[str, frozenset[str]] = {}

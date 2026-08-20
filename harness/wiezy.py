@@ -375,8 +375,8 @@ def _zgody_stoją(tablica: _Tablica, łuki, wybór) -> bool:
             for inne, ta_sama, etykieta_drugiego, _drugi in łuki:
                 if ta_sama != głowa or etykieta_drugiego != zgoda.drugi:
                     continue
-                jedno = dict(tablica.czytania[dziecko][wybór[dziecko]].tag.features)
-                drugie = dict(tablica.czytania[inne][wybór[inne]].tag.features)
+                jedno = tablica.czytania[dziecko][wybór[dziecko]].tag.cechy
+                drugie = tablica.czytania[inne][wybór[inne]].tag.cechy
                 for cecha in zgoda.cechy:
                     tu, tam = jedno.get(cecha), drugie.get(cecha)
                     if tu and tam and not (tu & tam):
@@ -425,7 +425,7 @@ def _pasuje(żądanie: Word, czytanie: Reading, środowisko):
     olskiego obowiązuje tu bez przepisywania go drugi raz.
     """
     return bierze(
-        żądanie, czytanie.tag.pos, czytanie.lemma, dict(czytanie.tag.features), środowisko
+        żądanie, czytanie.tag.pos, czytanie.lemma, czytanie.tag.cechy, środowisko
     )
 
 
