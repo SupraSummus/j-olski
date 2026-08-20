@@ -201,6 +201,15 @@ it uses the conclusion and credits
 [`glr-in-practice.md`](docs/glr-in-practice.md#ambiguity-as-a-confidence-measure),
 which owns the argument and the numbers.
 
+**A construction admitted to the grammar is the fact these documents duplicate most.**
+Its argument and its price belong to its section in
+[`docs/subset.md`](docs/subset.md),
+and the blocker queue, the stage plan and the register documents
+state the conclusion in a clause and link that section.
+A construction re-derived in a second document
+makes the next addition a rewrite in two places,
+and a second copy of its measured numbers goes stale unnoticed.
+
 **Code owns what is implemented; documents own what code cannot show.**
 Which productions the grammar has, what a lexicon entry says,
 what a probe counts: the module is the truthful copy,

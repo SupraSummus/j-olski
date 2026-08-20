@@ -365,8 +365,10 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' 
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 
-Z 4536 odrzuceń 3485 stanęło na formie, której żadna produkcja nie bierze,
-a 1051 na samej strukturze.
+Odrzucenie stoi tu w większości na formie, której żadna produkcja nie bierze,
+a w reszcie na samej strukturze;
+dzisiejsze liczby jednych i drugich drukuje polecenie wyżej,
+bo każde dopisanie do gramatyki je rusza.
 Ranking obejmuje pierwszą z tych dwóch grup i drugiej nie widzi wcale,
 a największą konstrukcją, jaka w niej stoi, jest `o którym mowa`:
 niesie je co siódme zdanie tych dwóch korpusów, a każda forma ma tam licencję,
@@ -565,6 +567,16 @@ więc `na podstawie której` jest tam zwrotem powtarzanym przepis po przepisie,
 gdzie ustawa nie ma o czym tak mówić.
 Ustawa stawia za to samą grupę bez przyimka — `w okręgu wyborczym, którego wzór ustala` —
 i to jest ta pozycja, którą rusza ona, a rozporządzenie nie.
+
+Trzy konstrukcje dopisane po niej wypadają tu najskromniej z całej tej listy
+i ani jedna nie przyjmuje zdania ani nie odbiera jednoznaczności.
+Predykatyw przenosi kilka zdań z odrzuconych na wieloznaczne —
+`Od chwili opieczętowania do końca głosowania urny wyborczej nie wolno otwierać.` —
+a tryb przypuszczający pojedyncze
+([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
+Myślnik nie rusza tu nic i nie mówi to o produkcji nic:
+tego znaku nie ma w tym tekście ani razu
+([wyżej](#ustawa-dochodzi-do-gramatyki-jako-drzewo-nie-jako-tekst)).
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 

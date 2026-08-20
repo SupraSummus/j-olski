@@ -86,6 +86,19 @@ PYTAJNY = "Interrogative"
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
+#: Rola predykatywu, czyli słowa, które orzeka bez podmiotu i bez czasownika:
+#: `trzeba` w `Trzeba czytać dokumenty.`, `widać` w `Widać granicę w odpowiedzi.`
+#: Rolą jest z tego samego powodu, z którego jest nią rzeczownik orzekający, a
+#: osobną od niego dlatego, że orzeka innym kształtem: tamten stoi w mianowniku i
+#: żąda okolicznika, a ten rządzi tym, co rządziłby czasownik, i podmiotu nie ma.
+#:
+#: Rola stoi obok `Verb`, a nie jest nią, bo predykatyw czasownikiem nie jest:
+#: osoby, liczby ani rodzaju nie niesie, więc `Verb: trzeba` mówiłoby o zdaniu, że
+#: ma orzeczenie zgodne z podmiotem, którego ono nie ma. Co wpuszczenie tej klasy
+#: kosztuje, mierzy
+#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+BEZOSOBOWY = "ImpersonalPredicate"
+
 #: Rola cząstki, czyli tej, która stoi przy zdaniu: `już`, `dopiero`, `także`.
 #: Rolą jest z tego samego powodu, z którego jest nią przysłówek, a osobną od niego
 #: dlatego, że cząstka przysłówkiem nie jest: werdykt nazywa rolę etykietą węzła,
@@ -112,6 +125,7 @@ DEKLARACJA = Deklaracja(
         "Predicative",
         "Verb",
         ORZEKAJĄCY,
+        BEZOSOBOWY,
         PRZYSŁÓWKOWY,
         CZĄSTKOWY,
         OKOLICZNIKOWY,
@@ -229,10 +243,11 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #:
 #: Zdanie pod spójnikiem ma być oznajmujące, czyli takie, jakie ta gramatyka
 #: wyprowadza. `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają trybu
-#: przypuszczającego, a olski nie odróżnia go od czasu przeszłego, bo cząstki
-#: `by` nie ma żadna produkcja. Wpuszczone tą listą wyprowadzałyby `aby program
-#: zapisuje ustawienia`, czego polszczyzna nie ma, a obietnicą podzbioru jest, że
-#: każde zdanie olskiego jest zdaniem polskim.
+#: przypuszczającego, a cząstkę tego trybu bierze forma czasownika
+#: (:data:`CZĄSTKA_TRYBU`), więc zdanie go niesie, a nie ogłasza: cechy trybu nad
+#: `Clause` nie ma, i dopóki jej nie ma, spójnik nie ma czego żądać. Wpuszczone tą
+#: listą wyprowadzałyby `aby program zapisuje ustawienia`, czego polszczyzna nie
+#: ma, a obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim.
 #:
 #: `więc` Morfeusz znakuje tak samo, a nie ma go tu, bo zdania nie podporządkowuje,
 #: tylko dokłada skutek: `Program zapisuje ustawienia, więc linter sprawdza tekst.`
@@ -367,8 +382,8 @@ def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
 
 
 #: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
-#: ``interp`` niesie całą interpunkcję naraz, a myślnika, nawiasu i cudzysłowu ten
-#: podzbiór nie bierze.
+#: ``interp`` niesie całą interpunkcję naraz, a każdy znak, który ten podzbiór
+#: bierze, stoi tu osobnym terminalem i osobno się o jego cenę pyta.
 PRZECINEK = word("interp", lemma=",")
 
 #: Dwukropek, którym ten rejestr otwiera wyjaśnienie. Warunek na lemat, tak samo
@@ -391,6 +406,15 @@ CUDZYSŁÓW_ZAMYKAJĄCY = word("interp", lemma="”")
 #: przy cudzysłowie i z tego samego powodu.
 NAWIAS_OTWIERAJĄCY = word("interp", lemma="(")
 NAWIAS_ZAMYKAJĄCY = word("interp", lemma=")")
+
+#: Myślnik, którym ten rejestr rozdziela zdanie: `Cena jest niska — gramatyka jest
+#: bezkontekstowa.` Stoi obok dwukropka i średnika, bo rozdziela na tej samej
+#: wysokości i tak samo nie konkuruje z niczym.
+#:
+#: Znaki są dwa, bo polszczyzna pisze myślnik pauzą i półpauzą, a łącznik spaja
+#: wewnątrz wyrazu — `16-latków`, `UTF-8` — więc tego warunek nie bierze. Co to
+#: wykluczenie kosztuje, mierzy docs/subset.md.
+MYŚLNIK = word("interp", lemma="—|–")
 
 #: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
 KONIEC_ZDANIA = word("interp", lemma=".|!|?")
@@ -440,9 +464,9 @@ PRZYSŁÓWEK = word("adv")
 #:
 #: Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`, a poza nią z powodu
 #: własnego cztery cząstki, które olski bierze albo wyklucza osobno: `nie` przeczy
-#: (:data:`PRZECZENIE`), `się` stoi przy czasowniku zwrotnym, `czy` otwiera pytanie
-#: o rozstrzygnięcie, którego ta gramatyka nie ma, a `by` żąda trybu
-#: przypuszczającego, którego nie ma tak samo (docs/subset.md).
+#: (:data:`PRZECZENIE`), `się` stoi przy czasowniku zwrotnym, `by` niesie tryb
+#: przypuszczający (:data:`CZĄSTKA_TRYBU`), a `czy` otwiera pytanie o
+#: rozstrzygnięcie, którego ta gramatyka nie ma (docs/subset.md).
 CZĄSTKI = (
     "już|jeszcze|dopiero|także|również|nawet|zarazem|naprawdę"
     "|znowu|wreszcie|ponadto|jedynie|niemal|niespełna|zresztą|przynajmniej"
@@ -451,6 +475,27 @@ CZĄSTKI = (
 #: Cząstka w okoliczniku: sama lista i nic więcej, tak samo jak przysłówek niżej
 #: bierze samą część mowy.
 CZĄSTKA = word("part", lemma=CZĄSTKI)
+
+#: Rama predykatywu (:data:`PREDYKATYWY`): domyślna bez orzecznika zgodnego.
+#: Wyliczona z domyślnej z tego samego powodu, z którego wylicza się z niej
+#: :data:`RAMA_BEZ_BIERNIKA`, a mianownika nie ma w niej dlatego, że orzecznik
+#: zgadza się z podmiotem, którego zdanie z predykatywem nie ma:
+#: `Trzeba wolni.` nie jest niczym.
+RAMA_BEZOSOBOWA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "nom")
+
+#: Predykatyw: słowo, które orzeka bez podmiotu i bez czasownika, a rządzi tym, co
+#: rządziłby czasownik. `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`,
+#: `Wiadomo, że reguła jest tania.`
+#:
+#: Lista jest zamknięta, bo ``pred`` niesie całą klasę naraz, a kryterium na wejście
+#: jest jedno: czytanie konkurujące nie może stanąć na czele zdania tego samego
+#: kształtu. Kogo ono zostawia na zewnątrz i za ile, wywodzi
+#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+PREDYKATYWY = "można|trzeba|warto|wiadomo|widać|wolno|słychać|znać"
+
+#: Predykatyw na czele swojego zdania: sama lista i nic więcej, tak samo jak
+#: cząstka nad nim.
+PREDYKATYW = word("pred", lemma=PREDYKATYWY)
 
 #: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia. Stopień ma
 #: przysłówek odprzymiotnikowy, a pierwotny go nie ma, i tylko pierwszy z tych
@@ -465,6 +510,16 @@ PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
 #: a nie sama część mowy, tak samo jak przy przecinku: ``part`` niesie całą klasę
 #: cząstek naraz, a ``by``, ``czy`` i ``no`` ten podzbiór zostawia na zewnątrz.
 PRZECZENIE = word("part", lemma="nie")
+
+#: Cząstka trybu przypuszczającego, czyli ta, którą Morfeusz odcina od formy:
+#: `odzyskałby` wchodzi jako `odzyskał` i `by`, a `napisałbym` jako `napisał`, `by`
+#: i `m`. Warunek na lemat, a nie sama część mowy, tak samo jak przy przeczeniu i z
+#: tego samego powodu: ``part`` niesie całą klasę cząstek naraz.
+#:
+#: Pozycję ma tę jedną, przy czasowniku; co zostaje poza nią — cząstka stojąca dalej
+#: i cząstka wchodząca w spójnik — wywodzi
+#: docs/subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania.
+CZĄSTKA_TRYBU = word("part", lemma="by")
 
 #: Przeczenie jako para: co dochodzi na początek ciała i jaką wartość cechy
 #: ``negacja`` to ciało wypuszcza. Para, bo obie strony powstają razem: ciało bez
@@ -494,23 +549,32 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
 def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa], Var | str]]:
     """Ciała formy osobowej czasownika, każde wraz z osobą, którą niesie.
 
-    Trzy, bo czas przeszły niesie osobę inaczej niż teraźniejszy. ``fin`` niesie
-    osobę i liczbę, a rodzaju nie ma; ``praet`` odwrotnie, więc osoba trzecia
+    Trzy pierwsze, bo czas przeszły niesie osobę inaczej niż teraźniejszy. ``fin``
+    niesie osobę i liczbę, a rodzaju nie ma; ``praet`` odwrotnie, więc osoba trzecia
     jest w nim wpisana tutaj, a bez tego ``Ja napisał program.`` się wyprowadza:
     cechy, której konstytuent nie niesie, unifikacja nie sprawdza. Osobę pierwszą
     i drugą wnosi aglutynant, czyli końcówkę, którą Morfeusz odcina od formy —
     ``napisałem`` wchodzi tu jako ``napisał`` i ``em`` — i która liczbę ma tę samą
     co czasownik przy niej.
 
-    Głowa stoi w każdym ciele, choć dwa z trzech mają jedną część: ciało wychodzi
+    Dwa ostatnie są trybem przypuszczającym i różnią się od dwóch nad sobą jedną
+    cząstką (:data:`CZĄSTKA_TRYBU`): ``odzyskałby`` i ``odzyskałbym``. Dostaje ją
+    czas przeszły i on jeden, bo tak stawia tę cząstkę polszczyzna: ``zapisujeby``
+    nie jest niczym. Ciała są dwa, a nie jedno z cząstką pominiętą, bo cena trybu
+    ma być osobną liczbą, a sonda różnicowa bierze ją zdejmowaniem ciał.
+
+    Głowa stoi w każdym ciele, choć dwa z pięciu mają jedną część: ciało wychodzi
     stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o
     dwóch częściach bez głowy nie powstaje.
     """
     czasownik = word("praet", number=V("n"), gender=V("g"), **warunek)
+    aglutynant = word("aglt", number=V("n"), person=V("p"))
     return [
         ([Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))], V("p")),
         ([Głowa(czasownik)], "ter"),
-        ([Głowa(czasownik), word("aglt", number=V("n"), person=V("p"))], V("p")),
+        ([Głowa(czasownik), aglutynant], V("p")),
+        ([Głowa(czasownik), CZĄSTKA_TRYBU], "ter"),
+        ([Głowa(czasownik), CZĄSTKA_TRYBU, aglutynant], V("p")),
     ]
 
 
@@ -668,8 +732,9 @@ def build() -> Grammar:
     # Średnik rozdziela zdanie tak samo i tym samym kształtem: `Dlaczego, mówi
     # docs/linter.md; ile ten pakiet kosztował, mówi docs/firing-rates.md.` Ciała
     # są mimo to dwa, a nie jedno biorące oba znaki, bo zakup każdego z nich jest
-    # osobną liczbą i sonda bierze ją zdejmowaniem ciał (:mod:`sonda.interpunkcja`).
-    for znak in (DWUKROPEK, ŚREDNIK):
+    # osobną liczbą i sonda bierze ją zdejmowaniem ciał.
+    # Myślnik jest trzeci i rozdziela tym samym kształtem (:data:`MYŚLNIK`).
+    for znak in (DWUKROPEK, ŚREDNIK, MYŚLNIK):
         grammar.rule("Sentence", [Głowa(nt("Clause")), znak, nt("Clause"), KONIEC_ZDANIA])
 
     # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
@@ -806,6 +871,31 @@ def build() -> Grammar:
     # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
     # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
     grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki])
+
+    # Predykatyw wraz z tym, czym rządzi: `Trzeba czytać dokumenty.`, `Nie widać
+    # granicy.` Rama i `Complements` są te same, co u czasownika, a zdaniem składowym
+    # jest predykatyw wprost, bo `Predicate` ma ciało z podmiotem, którego to zdanie
+    # nie ma; wywód trzyma
+    # docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+    #
+    # Ciało bez wypełnienia — `Nie wiadomo.` — jest osobne, bo jego zakup jest osobną
+    # liczbą; `Complements` pustego ciała nie ma, a dodane tam dawałoby je każdemu
+    # czasownikowi naraz.
+    for przeczenie, negacja in PRZECZENIA:
+        grammar.rule(
+            BEZOSOBOWY,
+            [*przeczenie, Głowa(PREDYKATYW)],
+            valency=RAMA_BEZOSOBOWA,
+            negacja=negacja,
+        )
+    grammar.rule(
+        "ClauseConjunct",
+        [
+            Głowa(nt(BEZOSOBOWY, valency=V("w"), negacja=V("z"))),
+            nt("Complements", valency=V("w"), negacja=V("z")),
+        ],
+    )
+    grammar.rule("ClauseConjunct", [nt(BEZOSOBOWY)])
 
     # Podmiot, dopełnienie i czasownik w każdym szyku, jaki polszczyzna ma, poza
     # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
@@ -1203,10 +1293,10 @@ def build() -> Grammar:
     # Głową grupy imiennej jest rzeczownik albo rzeczownik odczasownikowy, więc
     # każda pozycja niżej wychodzi dwoma ciałami, po jednym na głowę. Terminala o
     # dwóch częściach mowy tu nie ma i nie jest to wybór wygody: cena tej głowy ma
-    # być osobną liczbą, a sonda różnicowa wycenia ją zdejmowaniem ciał
-    # (:mod:`sonda.odczasownikowy`), więc pozycja zlana w jeden terminal nie byłaby
-    # żadnym ciałem osobno. Pętla trzyma zarazem oba komplety zgodnymi: pozycja
-    # dopisana rzeczownikowi dochodzi tą samą deklaracją i drugiej głowie.
+    # być osobną liczbą, a sonda różnicowa wycenia ją zdejmowaniem ciał, więc
+    # pozycja zlana w jeden terminal nie byłaby żadnym ciałem osobno. Pętla trzyma
+    # zarazem oba komplety zgodnymi: pozycja dopisana rzeczownikowi dochodzi tą
+    # samą deklaracją i drugiej głowie.
     # docs/subset.md wywodzi, czemu ta głowa jest głową grupy, a nie pozycją ramy.
     #
     # Głowa, która rządzi dopełniaczem, nie jest zaimkiem rzeczownym: bez tego

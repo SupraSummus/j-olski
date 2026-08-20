@@ -157,8 +157,12 @@ Ranked, that is a work queue ordered by how much Polish each addition buys:
 The first row alone accounts for three tenths of the rejections
 without touching the interesting questions
 about discontinuity and formal power at all:
-of clause-level punctuation olski has the comma, the colon and nothing else,
-and the two forms in front of that row are the dash and the full stop.
+of clause-level punctuation olski has the comma, the colon, the semicolon
+and the dash, and the two forms in front of that row are the hyphen
+and the full stop.
+The hyphen is what the dash production does not take, by a criterion of its own
+([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+and this corpus writes its dash with it.
 
 Clause-level punctuation is the addition that shows
 how little a row says about what admitting its construction buys.
@@ -194,8 +198,9 @@ and nine of the ninety-one come out read against the gold tree:
 the particle stands inside the noun phrase there and beside the clause here,
 which is a disagreement of extent rather than of role.
 What the row reads after that is not measured here, for the reason below,
-and what stays in it is the reflexive and the four lemmas admitted or excluded
-one by one.
+and what stays in it is the reflexive and the lemmas admitted or excluded
+one by one — `by` among the admitted ones
+([subset.md](subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
 
 The gerund led the fourth row with 587 sentences
 and the grammar has it, as a head of the noun phrase
@@ -999,8 +1004,9 @@ and the largest single class of it is the one
 To są oczywistości.
 ```
 
-Gold tags call `To` a `pred`, olski has no rule for one,
-and the sentence is rejected on either morphology.
+Gold tags call `To` a `pred`, and olski's closed list of those leaves it out
+([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)),
+so the sentence is rejected on either morphology.
 What Morfeusz adds is `subst:sg:acc:n`,
 which stands exactly where an accusative object stands,
 so a grammar recording no valency reads the sentence as OVS,
