@@ -367,7 +367,7 @@ bo zatrzymanie na formie i zdanie, którego nic nie domyka, są dwoma zdarzeniam
 a `Gramatyka jest tania, a nie droga.` dochodzi do kropki i nie zamyka się,
 bo drugi człon nie ma czasownika.
 Ceną jest drugie przejście po tablicy, mniej więcej tyle co sam rozbiór
-(0,65 s na 1,40 s nad siedemdziesięcioma zdaniami README),
+(0,65 s na 1,40 s nad prozą README),
 a `check` wołają cztery sondy, więc pytanie ma padać nad zdaniem odrzuconym,
 a nie nad każdym.
 Do przeczytania jest `_wczytaj` w `olski/parse.py`, zanim ktoś sięgnie po więcej:

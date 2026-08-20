@@ -44,9 +44,18 @@ więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 sprawdzamy je w przeglądzie zmian, a nie w testach.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają —
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-podaje polecenie, które to pokazuje nad README —
+przebieg nad `docs/` przyjmuje z pięciu tysięcy zdań przeszło setkę —
 i nie przepisujemy tych dokumentów tak, żeby się pod nią zmieściły.
+
+Wyjątkiem jest README i jest to wyjątek nazwany:
+zdania tego jednego pliku piszemy tak, żeby olski je wyprowadzał,
+a wieloznaczność mu zostawiamy, bo wyboru za czytelnika nie robi.
+Cenę tego — pokrycie, które mierzy pisanie tak samo jak gramatykę —
+trzyma [`docs/roadmap.md`](docs/roadmap.md#readme-jest-przyrządem-pomiarowym),
+a polecenie, którym się to sprawdza,
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop).
+Na pozostałe dokumenty tego wyjątku nie rozciągamy:
+zdanie, którego olski nie bierze, zostaje w nich przy przeglądzie.
 
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 ale jednostka jest tu inna.
@@ -191,7 +200,7 @@ If a restatement is as precise as its owner,
 a reader cannot tell which copy is current,
 which is how two documents come to contradict each other.
 The document list in the README is the reference example —
-one clause per document, no numbers, and every entry links its owner.
+a sentence or two per document, no numbers, and every entry links its owner.
 
 **Reasoning has an owner in the same way a fact does.**
 A mechanism is explained once,

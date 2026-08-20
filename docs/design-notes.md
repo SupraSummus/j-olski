@@ -656,12 +656,15 @@ Cena szczebla 2 nie wypada więc w tym, co liczy rozbiór,
 a to jest ta sama obserwacja, którą robi
 [druga waluta](#the-second-currency-ambiguity) nad całą drabiną.
 
-Nad prozą README nie rusza się ani jeden werdykt,
-tak samo jak nie ruszyła go podrzędność,
-i mówi to o tym pliku to samo, co powiedziała ona
-([roadmap.md](roadmap.md#etap-4-zdanie-złożone)).
-Bank drzew, proza README i ustawy odpowiadają tu więc zgodnie,
-i to jest tu rzadkie.
+Nad prozą README luka odbiera kilka jednoznaczności
+i nie wyciąga z odrzucenia ani jednego zdania.
+Mówi to o tym pliku, a nie o luce:
+odkąd omija on konstrukcje, których olski nie wyprowadza
+([README](../README.md#konwencje)),
+zdanie względne stoi w nim gęściej niż w którymkolwiek korpusie,
+a jednoznaczność luka odbiera właśnie takiemu zdaniu.
+Bank drzew, proza README i ustawy odpowiadają więc zgodnie w kierunku ceny,
+a różni je gęstość konstrukcji, po którą sięgano.
 
 Wraca to rozwidlenie wtedy, gdy luka przestanie być węzłem o pustej rozpiętości,
 a zacznie wskazywać zaimek, który ją wiąże:
@@ -734,8 +737,7 @@ Otwartość środków była deklaracją, dopóki nikt żadnego innego nie wyceni
 gdzie zgodność jest warunkiem na parę słów,
 szyk osobnym polem deklaracji,
 a spójność frazy jednym warunkiem globalnym, który wolno zdjąć.
-Wyszło z tego, że oba opisy mówią nad prozą README prawie to samo,
-że szyk i przyłączenie nie kosztują po tej stronie ani jednej deklaracji,
+Wyszło z tego, że szyk i przyłączenie nie kosztują po tej stronie ani jednej deklaracji,
 a nieciągłość jest jedną wartością logiczną,
 i że cena stoi w trzech miejscach wymienionych niżej.
 Wyszło z tego także to, czego nikt nie szukał:
@@ -762,74 +764,39 @@ a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt i tę samą liczbę czytań dostaje od obu programów 37 z 48 tych zdań,
-a to drugie jest mocniejszym z dwóch odczytów:
+Ten sam werdykt dostaje od obu programów mniej niż co czwarte zdanie tej prozy,
+a tę samą liczbę czytań jeszcze mniej,
+i to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
 a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
 wychodzi po obu stronach dokładnie sześcioma —
 co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
 którego ekstrakcja nie wypuszcza.
 
-Pięć z pozostałych jedenastu rozchodzi się na interpunkcji, którą olski bierze,
-a sonda nie, i trzy z tych pięciu na samym przecinku.
-`Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego`
-wychodzi w olskim trzema czytaniami,
-`Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md` ośmioma,
-`Czarna lista kupowała jednak co innego, niż obiecywała` jednym,
-a sonda odrzuca wszystkie trzy, bo przecinka nie ma do czego przyłączyć.
-Granica biegnie więc tam, gdzie olski bierze
-[przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania),
-a sonda po swojej stronie ma spójnik.
-Dwa dołączyły do nich razem z
-[interpunkcją zdaniową](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)
-i rozchodzą się na tej samej granicy o krok dalej:
-`Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie:
-kiedy to było i o kim mowa była przed chwilą`
-oraz `Czego takie losowanie zażądało od tego pakietu, a czego autor drzewa
-nie musiał nigdy napisać, mówi docs/sklad.md`
-olski wyprowadza od tej pory, pierwsze stu czterdziestoma czterema czytaniami,
-a sonda odrzuca oba, bo dwukropka i przecinka przed spójnikiem nie ma po tamtej stronie
-ani jednego łuku.
-
-Sześć ostatnich nie mówi o formalizmie nic i mówi coś o samej sondzie.
-`Działają dwie rzeczy` olski wyprowadza jednym czytaniem,
-odkąd ma [grupę liczebnikową](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku),
-a sonda liczebnika nie ma, więc to zdanie odrzuca;
-`Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej
-i został wycofany razem z całą analizą, która schodziła do znaku`
-oraz `Po to ta czarna lista tu stała i cały wywód za nią dalej stoi`
-rozchodzą się tak samo na [przysłówku](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe);
-`Reszta zapisu jest zwykłym Pythonem i to jest w nim zamierzone`
-olski wyprowadza czterema czytaniami, odkąd formę `Pythonem` czyta
-[leksykon projektu](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
-a sonda bierze ją dalej za nieznaną;
-`Co gramatyka obejmuje, czego nie obejmuje i dlaczego przyłączenie wyrażenia
-przyimkowego zostaje przy czytelniku, mówi docs/subset.md`
-olski wyprowadza ośmioma czytaniami, odkąd ma
-[rzeczownik odczasownikowy](subset.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku),
-a sonda nie ma dla `przyłączenie` ani jednego łuku;
-`Ile z tego rejestru wychodzi i czego żądają od zdania w ustawie „Zasady techniki
-prawodawczej”, mówi docs/ustawy.md`
-olski wyprowadza czterema czytaniami, odkąd bierze
-[cudzysłów](subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
-a sonda nie ma po swojej stronie żadnego z dwóch jego znaków.
-Deklaracja w `harness/polszczyzna.py` jest drugim zapisem tego podzbioru,
+Większość rozejść staje na przecinku, którego sonda nie ma do czego przyłączyć.
+Granica biegnie tam, gdzie olski bierze
+[przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
+oraz [interpunkcję zdaniową](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego),
+a sonda po swojej stronie ma spójnik i nic poza nim.
+Reszta rozejść nie mówi o formalizmie nic i mówi coś o samej sondzie:
+liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego
+ani cudzysłowu `harness/polszczyzna.py` nie ma,
+a olski ma każde z nich i wyprowadza nimi zdania tego pliku.
+Deklaracja stojąca obok gramatyki jest drugim zapisem tego podzbioru,
 więc starzeje się po cichu przy każdym dopisaniu do olskiego,
-produkcji czy wiersza leksykonu,
-a te sześć rozbieżności jest tym, co to pokazuje —
-razem z dwiema wyżej, które przyszły z interpunkcją zdaniową
-i o formalizmach mówią tyle samo, czyli nic.
+produkcji czy wiersza leksykonu.
 Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
 trzyma [`TODO.md`](../TODO.md); dopóki to nie zapadnie,
 liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
 
 Ten pomiar mówi mniej, niż mówił, i nie dlatego, że któryś program się zmienił.
-Zdanie, którego rozbiór zajmował ponad pięć sekund,
-oraz dwa, o które oba programy się spierały,
-stały w tej połowie README, którą zdjęło wycofanie toru linterowego,
-a te dwa, które spór przywróciły, dopisała zmiana w tej samej prozie.
-Trzy dołożyła gramatyka — czas przeszły, rzeczownik odczasownikowy i cudzysłów —
-i o tyle są to spory mocniejsze od tamtych dwóch.
+Liczba zgodnych zdań spadła o połowę wtedy,
+gdy README przeszło na zdania, które olski wyprowadza
+([README](../README.md#konwencje)):
+zdanie względne i zdanie współrzędne stoją w tym pliku odtąd gęsto,
+a przecinek jest tym, czego sonda nie bierze.
+Zgodność mierzona nad prozą pisaną pod jedną ze stron
+mówi więc o tej prozie, a nie o żadnym z dwóch podłoży.
 Tak właśnie kosztuje figura brana nad własną prozą,
 przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
