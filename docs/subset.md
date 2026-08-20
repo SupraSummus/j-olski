@@ -832,7 +832,7 @@ a szyk dopisany daje tej dwuznaczności nowe miejsca.
 
 Cenę tej konkurencji zmierzono i wychodzi siedem zdań.
 
-Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co przy pomiarze w [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
@@ -1081,7 +1081,7 @@ zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
 a liczy się to, na czym te dwa werdykty się różnią.
 Poziomy zdejmują się osobno, bo cena każdego z nich jest osobną liczbą.
 
-Mianownik jest ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest ten sam, co przy pomiarze w tamtym dokumencie:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
@@ -1285,7 +1285,7 @@ zdanie idzie przez tę gramatykę i przez tę samą z wyjętą produkcją,
 a liczy się to, na czym te dwa werdykty się różnią.
 Znaki zdejmują się osobno, bo konkurują z czym innym i cena każdego jest osobną liczbą.
 
-Mianownik jest ten sam, co w tabelach tamtego dokumentu:
+Mianownik jest ten sam, co przy pomiarze w tamtym dokumencie:
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 
@@ -2423,7 +2423,7 @@ bloker mówi, dokąd rozbiór doszedł, a nie co się udało,
 więc produkcja dopisana przesuwa go tam, gdzie tablica sięga dalej
 (`Outcome.blocker` w `olski/coverage.py`).
 
-Zakup liczy się przez to w innej walucie i widać go w dwóch tabelach porównania ról
+Zakup liczy się przez to w innej walucie i widać go w dwóch porównaniach ról
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
 Pod złotą morfologią 34 zdania wieloznaczne przechodzą z `lost` na `survives`,
 a 10 zdań przyjętych z `partial` na `agrees`;
@@ -2696,7 +2696,7 @@ a nie na dopisanie następnej.
 Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a ciała zdejmują się osobno, bo cena każdego z nich jest osobną liczbą:
 
-Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co przy pomiarze w [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, morfologia złota,
 i wchodzą do niego wszystkie, bez granicy na długość zdania.
 Liczby niżej są pomiarem z chwili wpuszczenia tej konstrukcji,
@@ -2850,7 +2850,7 @@ Mierzony jest więc ruch werdyktu, zdanie po zdaniu,
 a pozycje zdejmują się osobno, bo cena każdej z nich jest osobną liczbą:
 głowa sama i ta sama głowa rządząca dopełniaczem.
 
-Mianownik jest ten sam, co w tabelach [corpus.md](corpus.md#the-measurement):
+Mianownik jest ten sam, co przy pomiarze w [corpus.md](corpus.md#the-measurement):
 13 035 lasów Składnicy z pełnym drzewem, bez granicy na długość zdania.
 
 Ani jedno zdanie nie przechodzi z przyjętego na wieloznaczne,
@@ -3059,7 +3059,7 @@ Every one of these is a sentence that gets rejected and should not be:
 - Przydawka imiesłowowa, czyli imiesłów bierny przy rzeczowniku:
   `Wymienione zadania są obowiązkowe.` jest odrzucone,
   a imiesłów w orzeczniku olski bierze.
-  Wiersz `ppas` liczy w kolejce blokerów 300 zdań
+  Wiersz `ppas` stoi w kolejce blokerów wysoko, a `pact` niedaleko za nim
   ([corpus.md](corpus.md#where-the-analyses-stop)),
   i jest to jedno z dwóch zdań, w których liczebnik doprowadził analizę
   do brakującej pozycji, zamiast na niej stanąć.
@@ -3090,6 +3090,36 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Skład jest tani.` wyprowadza się.
   Żąda ono tego samego, czego żąda dwukropek wprowadzający wyliczenie
   na czele tej listy: powiedzenia, do którego składnika zdania się odnosi.
+
+- Czasownik nieosobowy: `Zgłoszono usterkę.` jest odrzucone,
+  gdzie `Zgłosił usterkę.` wyprowadza się.
+  Formy `imps` nie bierze żaden terminal,
+  a orzeka ona bez podmiotu i rządzi biernikiem,
+  czyli żąda tego samego kształtu, co
+  [predykatyw](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
+- Czas przyszły złożony: `Program będzie zapisywał ustawienia.`
+  i `Program będzie zapisywać ustawienia.` są odrzucone,
+  gdzie `Program zapisuje ustawienia.` wyprowadza się.
+  Formy `bedzie` nie bierze żaden terminal,
+  a stoi ona nad bezokolicznikiem albo nad formą na `-ł`,
+  czyli nad dwiema pozycjami, które gramatyka ma osobno.
+- Imiesłów przysłówkowy: `Program zapisuje ustawienia, sprawdzając zgodność.`
+  jest odrzucone.
+  Jest to trzeci imiesłów obok dwóch wyżej i różni się od nich gospodarzem:
+  dochodzi do zdania, a nie do rzeczownika.
+- Zaimek `siebie`, który słownik trzyma pod częścią mowy tej jednej formy:
+  `Reguły odsyłają do siebie.` jest odrzucone,
+  gdzie `Reguły odsyłają do dokumentu.` wyprowadza się.
+  Stoi on w tej prozie i w banku drzew, a odrzucenie pada w obu na samej formie.
+
+Te cztery wpisy stawia kolejka blokerów
+([corpus.md](corpus.md#where-the-analyses-stop)),
+a nie przebieg nad prozą ani ranking form bez licencji,
+i dwa pierwsze stoją w niej wysoko.
+Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
+`imps` i `bedzie` niosą po jednej konstrukcji na cały wiersz,
+więc wiersz nazywa konstrukcję wprost,
+gdzie `interp` albo `part` grupuje po kilka.
 
 One entry is not a construction but a demand every construction makes:
 

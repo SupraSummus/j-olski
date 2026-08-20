@@ -627,6 +627,19 @@ więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
 
+Cztery pozycje stoją na tej liście z kolejki czytanej po części mowy,
+a nie po formie, i nie stawia ich ani jedno z tych dwóch źródeł:
+czasownik nieosobowy, czas przyszły złożony, imiesłów przysłówkowy
+i zaimek `siebie`
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Dwa pierwsze stoją w kolejce wysoko i niosą po jednej konstrukcji na cały wiersz,
+więc wiersz nazywa je wprost,
+gdzie wiersze przed nimi grupują po kilka konstrukcji naraz
+i dopiero czytanie form mówi, o które idzie.
+Zmierzona nie jest z nich żadna,
+a kolejność między nimi rozstrzyga cena,
+tak samo jak przy pozostałych pozycjach tej listy.
+
 Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
 od produkcji pisanych po niej,
 więc [koszt przepisywania](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)

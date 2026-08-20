@@ -921,10 +921,10 @@ Earley jest sześcianem w najgorszym przypadku, a przeszukiwanie więzów nie je
 niczym, i najdroższe jest tam, gdzie żadne słowo nie wypada lokalnie,
 bo wtedy przycinanie dziedzin nie ma czego uciąć,
 a policzenie czytań każe przejść całą przestrzeń.
-Takim zdaniem jest w README dokładnie jedno,
-to samo, które [corpus.md](corpus.md#where-the-analyses-stop) wskazuje
-jako jedyne odrzucone bez ani jednej formy, której jakaś produkcja nie bierze,
-czyli stojące na kształcie, a nie na słowniku:
+Takim zdaniem jest w README to,
+które [corpus.md](corpus.md#where-the-analyses-stop) liczy wśród odrzuconych
+bez ani jednej formy, której jakaś produkcja nie bierze,
+czyli stojących na kształcie, a nie na słowniku:
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku`.
 Sonda liczy je ponad sześć sekund,
