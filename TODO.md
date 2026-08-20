@@ -334,10 +334,12 @@ Odpowiedź jest już liczona — `Las.najdalszy` w `olski/parse.py` przechodzi
 tablicę drugi raz — a pyta o nią jedno miejsce, `blocker` w `olski/coverage.py`,
 bo `podsumuj` liczy ją tylko proszona.
 Zmierzone nad polską prozą tego repozytorium:
-z 1295 zdań odrzuconych na strukturze zatrzymanie pada wewnątrz zdania w 1114,
-a na znaku kończącym w 181,
+zatrzymanie pada wewnątrz zdania w przeszło ośmiu przypadkach na dziesięć,
+a w pozostałych na znaku kończącym,
 i staje najczęściej na `i`, `a`, `:`, `więc`, `,` i `czyli`,
 czyli na szwie, którym zdanie wychodzi poza podzbiór.
+Zdań odrzuconych na strukturze przybywa przy tym z każdą wpuszczoną konstrukcją,
+więc waga tego wpisu rośnie, a liczby pod nią trzeba wziąć na nowo.
 Ruchem jest `podsumuj` pytające o nie, gdy czytań wyszło zero,
 i `explain` mówiące to w dwóch brzmieniach,
 bo zatrzymanie na formie i zdanie, którego nic nie domyka, są dwoma zdarzeniami:
@@ -660,6 +662,48 @@ Do przeczytania jest `RelativeClause` w `olski/subset.py`
 razem z ciałem wtrącenia obok niego,
 bo pytanie jest o to, czy druga pozycja daje się wpuścić bez drugiego czytania,
 a nie o to, ile zdań by kupiła.
+
+Spójniki trybu przypuszczającego — `aby`, `żeby`, `by`, `gdyby` — stoją poza
+podzbiorem, dopóki zdanie tego trybu nie ogłasza
+([`docs/subset.md`](docs/subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
+Ruchem jest cecha trybu wypuszczana przez `Verb` i przepuszczana przez każdą
+produkcję zdania, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc ciało, które jej nie przepuści, przepuści za to każdy tryb.
+Ceną jest ta cecha w każdej produkcji zdania, czyli tyle, ile zapłacił rodzaj
+w czasie przeszłym, a zakupem zdania, które w wierszu `comp` stoją zaraz za `że`
+([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)).
+Do przeczytania jest `Rozwinięcie` w `olski/precedencja.py`:
+szyki zdania wylicza ono, a nie wypisuje ich `olski/subset.py`,
+więc cecha dopisana ręką do ciał widocznych w tym pliku minie te wyliczone.
+
+`olski/subset.py` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
+rozkłada się w nim na cztery miejsca: rolę przy `DEKLARACJA`, ramę i listę lematów
+wśród stałych, terminal wśród terminali i ciała w `build`.
+Kto ją czyta albo zdejmuje, chodzi po tych czterech miejscach,
+choć zmieniają się one razem i tylko razem mają sens —
+sonda różnicowa grupuje właśnie po konstrukcji (`grupa` w `harness/ruch.py`).
+Ruchem jest blok na konstrukcję: rama, lista, terminal i ciała pod jednym
+nagłówkiem komentarza, w kolejności, w jakiej konstrukcje wchodziły.
+Ceną są dwie rzeczy, które w bloku nie zmieszczą się nigdy: rola musi stać w
+`DEKLARACJA`, bo werdykt czyta jedną listę ról, a ciało musi stać w `build`,
+bo produkcje powstają w jednym wywołaniu.
+Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
+`Complements`, `Adjuncts`, zmienne zgodności — są w nim zmiennymi lokalnymi,
+więc funkcja na konstrukcję bierze je argumentami,
+a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
+
+Para myślników nie ma wyprowadzenia, a jest w tej prozie użyciem częstszym niż
+myślnik pojedynczy
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
+Wtrącenie stoi w niej w środku zdania — `Zepsute miejsce — w prozie czy w kodzie —
+nie zawsze potrzebuje lepszej wersji.` — a nawias, który olski bierze, stoi na końcu
+zdania składowego, więc jest to pozycja nowa, a nie drugi znak w gotowym ciele.
+Ruchem jest para jako jedna córka w tym miejscu, które wylicza rozwinięcie szyku,
+czyli tam, gdzie staje okolicznik zdania.
+Do przeczytania jest ciało wtrącenia w `olski/subset.py` obok `Rozwinięcie`
+w `olski/precedencja.py`, bo pytanie jest o to, ile czytań ta pozycja dokłada
+zdaniu, które parę stawia na końcu: tam da się ją przyłączyć do zdania składowego
+i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
 
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
 choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią

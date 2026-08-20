@@ -27,6 +27,7 @@ from olski.parse import (
     parse,
 )
 from olski.subset import (
+    BEZOSOBOWY,
     CZĄSTKI,
     CZĄSTKOWY,
     DEKLARACJA,
@@ -34,6 +35,7 @@ from olski.subset import (
     GRAMMAR,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
+    PREDYKATYWY,
     PRZECINEK,
     PRZYSŁÓWKOWY,
     PRZYŁĄCZANY,
@@ -655,6 +657,10 @@ PRZYJMOWANE = [
     #  Czas przeszły dochodzi też do formy z cząstką `się`, czyli do drugiego
     #  leksykonu walencyjnego, a nie tylko do tego bez cząstki.
     "Program otwierał się.",
+    #  Tryb przypuszczający, czyli ten sam czas z cząstką `by` za sobą, w osobie
+    #  trzeciej i w pierwszej.
+    "Czytelnik nie odzyskałby ról.",
+    "Napisałbym program.",
 ]
 
 
@@ -1128,6 +1134,16 @@ def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(
             assert "gender" in dict(production.features), production
 
 
+def test_tryb_przypuszczający_bierze_osobę_stamtąd_skąd_czas_przeszły():
+    #  Usterka, którą to łapie: osoba wypisana zmienną w ciele bez aglutynanta.
+    #  `praet` osoby nie niesie, więc bez wpisanej trzeciej `Ja napisałby program.`
+    #  się wyprowadza, a zdanie z aglutynantem wychodzi wtedy poprawnie i tej
+    #  pomyłki nie pokazuje. Dopełnienie stoi tu w bierniku rozmyślnie: pod
+    #  dopełniaczem zdanie odrzuca sam przypadek i test przechodzi z usterką.
+    found = verdict("Ja napisałby program.")
+    assert found.status == "rejected", found.explain()
+
+
 @pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)
 def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koordynacji(symbol):
     #  Kryterium, na którym stoją dwie rzeczy naraz: `_nawiasuj` w `olski/parse.py`
@@ -1149,7 +1165,7 @@ def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koord
         assert nad_sobą == ze_znakiem, production
 
 
-@pytest.mark.parametrize("lemat", [":", ";"])
+@pytest.mark.parametrize("lemat", [":", ";", "—", "–"])
 def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować(lemat):
     #  Na tej jedynce stoi zdanie, że ani dwukropek, ani średnik nie odbiera
     #  jednoznaczności ani jednemu zdaniu: znak wchodzący w jedno ciało albo
@@ -1197,6 +1213,16 @@ def test_zdanie_bierze_jeden_znak_rozdzielający_a_nie_ciąg_takich_znaków():
     assert verdict("Cena jest niska; gramatyka jest bezkontekstowa.").status == "valid"
     dwa = verdict("Cena jest niska; gramatyka jest bezkontekstowa; parser jest tani.")
     assert dwa.status == "rejected", dwa.explain()
+
+
+@pytest.mark.parametrize(("znak", "status"), [("—", "valid"), ("–", "valid"), ("-", "rejected")])
+def test_myślnik_rozdziela_zdanie_a_łącznik_nie(znak, status):
+    #  Usterka, którą to łapie: łącznik dopisany do lematów myślnika. Polszczyzna
+    #  spaja nim wewnątrz wyrazu — `UTF-8` — a rozdzielanie zdania należy do pauzy
+    #  i półpauzy, więc znaki są trzy i tylko dwa z nich rozdzielają
+    #  (:data:`olski.subset.MYŚLNIK`).
+    found = verdict(f"Cena jest niska {znak} gramatyka jest bezkontekstowa.")
+    assert found.status == status, found.explain()
 
 
 @pytest.mark.parametrize("lemat", SPÓJNIKI_PRZECINKOWE.split("|"))
@@ -1710,6 +1736,26 @@ def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
     assert lemat.status == "rejected", lemat.explain()
 
 
+def test_predykatyw_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
+    #  Usterka, którą to łapie: predykatyw wpuszczony jako `Predicate`, po którym
+    #  `Programy trzeba czytać.` wychodzi zdaniem o podmiocie `Programy`
+    #  (docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
+    found = verdict("Trzeba czytać dokumenty.")
+    assert found.readings[0][BEZOSOBOWY] == "Trzeba", found.explain()
+    wysunięte = verdict("Programy trzeba czytać.")
+    assert wysunięte.status == "rejected", wysunięte.explain()
+
+
+@pytest.mark.parametrize("lemat", PREDYKATYWY.split("|"))
+def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
+    #  Usterka, którą to łapie: lemat wpisany na listę, którego Morfeusz pod `pred`
+    #  nie ma. `trudno` i `łatwo` są u niego przysłówkami, więc wpisane tutaj byłyby
+    #  wierszem martwym, a martwego wiersza nie widać po żadnym zdaniu.
+    czytania = [(r.tag.pos, r.lemma, dict(r.tag.features)) for r in analyse(lemat)[0].readings]
+    brane = [c for c in czytania if c[0] == "pred" and GRAMMAR.licencjonuje(*c)]
+    assert brane, (lemat, czytania)
+
+
 def test_rzeczownik_orzekający_nie_jest_orzecznikiem_pod_kopulą():
     #  Rola stoi obok `Predicative`, a nie jest nią, a to zdanie jest tym, co
     #  tamto wyjście przyjmuje: orzecznik przed kopulą ramy nie żąda, więc rzeczownik
@@ -1931,10 +1977,11 @@ def test_spójnik_przyczyny_dopowiedzianej_nie_wysuwa_swojego_zdania(zdanie, sta
 
 
 def test_spójnik_żądający_trybu_przypuszczającego_nie_otwiera_okolicznika():
-    #  `aby` żąda zdania w trybie przypuszczającym, a gramatyka nie odróżnia go
-    #  od czasu przeszłego, bo cząstki `by` nie bierze żadna produkcja. Wpuszczone
-    #  na listę spójników okolicznikowych wyprowadzałoby zdanie, którego
-    #  polszczyzna nie ma, przeciwko obietnicy podzbioru.
+    #  `aby` żąda zdania w trybie przypuszczającym, a cechy trybu żadna produkcja
+    #  zdania nie niesie, więc spójnik nie ma czego żądać, choć samą cząstkę `by`
+    #  forma czasownika bierze. Wpuszczone na listę spójników okolicznikowych
+    #  wyprowadzałoby zdanie, którego polszczyzna nie ma, przeciwko obietnicy
+    #  podzbioru.
     found = verdict("Program zapisuje ustawienia, aby linter sprawdza dokumentację.")
     assert found.status == "rejected", found.explain()
 

@@ -148,6 +148,13 @@ Przeredagowanie tego pliku rusza same liczby,
 a nie zakaz przepisywania tych dokumentów pod gramatykę
 ([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
 
+Kolejki form bez licencji ten plik już nie ustawia,
+bo prawie każde jego odrzucenie stoi na strukturze,
+a formy, które zostały, są pojedynczymi wystąpieniami.
+Czego gramatyce brakuje wobec tego pliku, mówi więc odtąd samo zatrzymanie analizy,
+a nie część mowy, na której ono padło,
+i tego zatrzymania werdykt jeszcze nie nazywa ([TODO.md](../TODO.md)).
+
 ## Cele
 
 Etap ma kryterium wyjścia, tor gramatyczny ma kierunek,
@@ -451,10 +458,9 @@ Nad prozą tego repozytorium nie kupuje ani jednego zdania,
 tak samo jak cztery dopisania przed nim,
 i jest to o tamtej kolejce odczyt, a nie o konstrukcji:
 zdanie tego pliku, które stało na spójniku, stoi także na rzeczowniku
-odczasownikowym, na cząstce `by` albo na średniku.
-Zostaje z tej listy tryb przypuszczający, bo `aby` i `żeby` go żądają,
-a olski nie odróżnia go od czasu przeszłego
-([subset.md](subset.md#what-it-does-not-cover-yet)).
+odczasownikowym albo na średniku.
+Zostają z tej listy spójniki trybu przypuszczającego, czyli `aby` i `żeby`
+([subset.md](subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
 
 Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
 i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
@@ -734,6 +740,35 @@ Pary do przelicznika niżej to dopisanie nie dokłada,
 bo obietnicą jest wiersz `ger` liczony wtedy, gdy konstrukcji jeszcze nie ma,
 a tabeli, która ten wiersz trzyma, nikt tu od tamtej pory nie przeliczył.
 
+Tryb przypuszczający zszedł z tej listy w połowie:
+weszła cząstka przy czasowniku, a spójniki, które tego trybu żądają, zostały
+([subset.md](subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
+Kupuje kilkanaście zdań Składnicy i pojedyncze zdania tej prozy,
+a jednoznaczności nie odbiera ani jednemu zdaniu w żadnym z tych dwóch korpusów.
+Cechę trybu, po której wracają tamte spójniki, trzyma [TODO.md](../TODO.md).
+
+Predykatyw na tej liście nie stał i wszedł prosto z kolejki blokerów,
+z wiersza `pred`, którego olski nie ruszał dotąd wcale
+([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
+Kupuje kilkadziesiąt zdań Składnicy i kilka zdań tej prozy przy zerowej cenie
+w czytaniach, a wiersz, z którego wchodzi, prowadzi `to`,
+czyli łącznik, którego lista lematów nie bierze:
+połowa tamtego wiersza zostaje przez to po jego stronie.
+
+Myślnik dołożył interpunkcji zdaniowej trzeci znak rozdzielający
+i jest z tych trzech najskromniejszy: nad bankiem drzew nie rusza ani jednego
+werdyktu, a nad tą prozą kupuje pojedyncze zdania
+([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+Zakupem jest przy tym coś, czego żadna z tych dwóch liczb nie liczy:
+znak ten schodzi z listy form bez licencji nad tą prozą,
+więc dopiero teraz widać, czego brakuje zdaniom, które go niosą.
+Parę myślników trzyma [TODO.md](../TODO.md).
+
+Nad samym README żadne z tych trzech dopisań nie rusza ani jednego werdyktu,
+tak samo jak dopisania przed nimi.
+Myślnika ten plik nie pisze ani razu,
+a zdania, które niosą dwie pozostałe konstrukcje, stoją w nim także na czym innym.
+
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
 a `adv` niemal jedną trzecią,
@@ -749,7 +784,7 @@ Piątą parę zmierzył [etap 4](#etap-4-zdanie-złożone) i wypadła ona poza t
 wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem oddał z niego
 niecałą dziesiątą część.
 Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, które gramatyka ma,
-tryb przypuszczający, którego nie bierze, i okolicznik, który wszedł —
+spójniki trybu przypuszczającego, których nie bierze, i okolicznik, który wszedł —
 i tym różni się od tamtych czterech, z których każdy stał za jedną.
 Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:

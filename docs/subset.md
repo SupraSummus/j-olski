@@ -503,7 +503,24 @@ bo Składnica jest prozą prasową i słów tego rejestru nie pisze.
   It stands above coordination rather than in it,
   so `A, B: C.` reads as `(A, B): C`,
   and what it does not take is the colon that opens an enumeration
-  ([below](#what-it-does-not-cover-yet))
+  ([below](#what-it-does-not-cover-yet)).
+  The semicolon and the dash separate at that same level and by that same body,
+  and the dash takes two of the three characters Polish writes it with,
+  the hyphen having a job of its own inside a word
+  ([below](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
+- Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
+  `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`
+  Cząstka stoi przy czasowniku i tylko tam,
+  bo cechy trybu nie niesie żadna produkcja zdania,
+  a spójniki, które takiego zdania żądają, zostają przez to na zewnątrz;
+  wywód i cenę trzyma
+  [poniżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)
+- Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
+  `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
+  Rządzi tym, czym rządziłby czasownik, bo idzie tą samą ramą,
+  a rolę ma osobną, bo czasownikiem nie jest;
+  lematy są zamkniętą listą, a wywód i cenę trzyma
+  [poniżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)
 - Cząstka przy zdaniu, w liście okoliczników i na czele zdania składowego:
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`
   Lematy są zamkniętą listą, a warunek na wejście jest jeden:
@@ -619,6 +636,8 @@ i to ona niesie liczbę oraz osobę,
 więc czasownik dostaje trzy ciała zamiast jednego:
 `fin` albo `impt`, samo `praet` z osobą trzecią wpisaną w produkcję,
 oraz `praet` z aglutynantem.
+Tryb przypuszczający dokłada do tych trzech dwa dalsze
+([niżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
 Bez wpisanej trzeciej osoby `Ja napisał program.` wyprowadza się,
 bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 
@@ -645,6 +664,48 @@ i pięć przenosi z odrzuconych na wieloznaczne
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 Kolejka ze Składnicy i przebieg nad ustawami dają więc różne odpowiedzi,
 i dopiero oba pomiary razem mówią, ile ta konstrukcja jest warta.
+
+## Tryb przypuszczający jest cząstką przy czasowniku, a nie cechą zdania
+
+Morfeusz dzieli `odzyskałby` na czas przeszły i cząstkę `by`,
+a `napisałbym` na czas przeszły, cząstkę i aglutynant,
+więc tryb ten jest w tej gramatyce jedną cząstką dopisaną do formy czasownika.
+Ciała są dwa, po jednym na każde ciało czasu przeszłego,
+i cząstkę dostaje ten czas i tylko on, bo tak stawia ją polszczyzna:
+`zapisujeby` nie jest niczym.
+
+Zdanie tego trybu nie ogłasza, i to jest granica tej konstrukcji.
+Cechy trybu nie niesie ani `Verb`, ani `Clause`,
+więc spójnik żądający zdania w tym trybie — `aby`, `żeby`, `by`, `gdyby` —
+nie ma czego żądać i zostaje na zewnątrz
+([niżej](#what-it-does-not-cover-yet)),
+bo wpuszczony wyprowadzałby `aby program zapisuje ustawienia`.
+Cechy tej nikt jeszcze nie napisał, a płaci się za nią w każdej produkcji zdania;
+[TODO.md](../TODO.md) trzyma ten ruch razem z ceną.
+Poza podzbiorem zostaje też cząstka stojąca dalej od czasownika —
+`Nie ma aplikacji, która by to wszystko napędzała.` —
+i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+a nie brak pozycji.
+
+Zakup wynosi nad Składnicą kilkanaście zdań przyjętych i tyleż wieloznacznych,
+a wypada w większości po stronie ciała bez aglutynanta,
+czyli osoby trzeciej.
+Ceny w czytaniach nie ma żadnej i wynika to z gramatyki, nie z przebiegu:
+formy `by` nie bierze żaden inny terminal,
+więc zdanie z tą cząstką albo wyprowadza się tymi dwoma ciałami,
+albo nie ma czytania wcale — tak samo jak zdanie z dwukropkiem
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+Niezmiennika pilnuje `tests/test_subset.py`, gdzie zdanie z tą cząstką stoi wśród
+przyjmowanych: `by` dopisane do listy cząstek daje mu drugie czytanie i wywraca test.
+Zdania czytane niezgodnie z drzewem wzorcowym są przy tym pojedyncze.
+Nad prozą tego repozytorium — czyli nad README, `CLAUDE.md`, `TODO.md` i `docs/`
+wyjętymi przez `harness.markdown` — przyjętych przybywa pojedyncze zdania,
+a wieloznacznych kilka, i ciało z aglutynantem nie rusza tam ani jednego werdyktu:
+ten rejestr pisze `odzyskałby`, a nie `odzyskałbym`.
+Kolejkę form bez licencji `by` prowadziło właśnie nad tą prozą
+([corpus.md](corpus.md#where-the-analyses-stop)),
+a większość jego wystąpień w niej jest angielskim przyimkiem,
+co widać po tym, że stoi za formą, której słownik nie zna.
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
 
@@ -1162,10 +1223,20 @@ a przemawia za nią zdanie README, które przedtem stało na znaku:
 `Dlaczego, mówi docs/linter.md; ile ten pakiet reguł kosztował, zanim wyszedł,
 mówi docs/firing-rates.md.`
 
-Drugiego takiego znaku zdanie nie bierze — ani dwóch średników, ani średnika
-razem z dwukropkiem — bo `Clause` żadnego z nich nie ma, więc rekurencji nie ma
-czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
+**Myślnik rozdziela tym samym ciałem, a bierze dwa znaki z trzech.**
+`Cena jest niska — gramatyka jest bezkontekstowa.` wychodzi tak samo jak zdanie
+z dwukropkiem, a warunek na lemat bierze pauzę i półpauzę, czyli te dwa znaki,
+którymi polszczyzna myślnik pisze.
+Łącznika ten warunek nie bierze, bo łącznik spaja wewnątrz wyrazu — `UTF-8`,
+`16-latków` — i to jest tu cena, a nie oszczędność, co widać w pomiarze niżej.
+
+Drugiego znaku rozdzielającego zdanie nie bierze — ani dwóch średników, ani
+średnika razem z dwukropkiem — bo `Clause` żadnego z nich nie ma, więc rekurencji
+nie ma czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
 [niżej](#what-it-does-not-cover-yet) razem z dwukropkiem wyliczenia.
+Najwięcej kosztuje ona przy myślniku, bo ten rejestr stawia go parą częściej
+niż pojedynczo, a para obejmuje wtrącenie w środku zdania,
+zamiast rozdzielać dwa zdania.
 
 **Przecinek przed spójnikiem jest faktem o słowie.**
 `Plany są niczym, ale planowanie jest wszystkim.` przecinka wymaga,
@@ -1245,7 +1316,8 @@ bo jedyne zdanie README, które go niesie, otwiera się słowem `Dlaczego`,
 a pytania tym słowem olski nie ma ([niżej](#what-it-does-not-cover-yet)).
 Jest to o kolejce nad tym plikiem odczyt, a nie o konstrukcji:
 zdania README, które stały na dwukropku, stoją teraz na strukturze,
-a trzy z nich na cząstce — `dopiero`, `zarazem`, `widać` —
+a trzy z nich na formie, którą olski wziął dopiero później —
+`dopiero`, `zarazem`, `widać` —
 czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inaczej,
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 Nad rejestrem ustaw wypada ta trójka najskromniej:
@@ -1259,6 +1331,13 @@ Zdań, które któryś z nich niosą, jest w tym pliku trzydzieści:
 cztery wychodzą wieloznaczne, osiemnaście staje na strukturze, a nie na znaku,
 a osiem stoi dalej na innej formie, którą werdykt nazywa.
 Dopiero to mówi, czego w tych zdaniach brakuje.
+
+Myślnik wszedł do tej trójki później i zmierzono go osobno.
+Nad bankiem drzew nie rusza ani jednego werdyktu — ten korpus pisze myślnik
+łącznikiem — a nad prozą tego repozytorium kupuje pojedyncze zdania.
+Z listy form bez licencji schodzi natomiast w kilkuset zdaniach tej prozy —
+tyle ich myślnik niesie — więc stoją one odtąd na strukturze
+albo na parze myślników, czyli na dwóch znakach rozdzielających naraz.
 
 ## Cząstka stoi tam, gdzie przysłówek, a listę lematów zamyka warunek na czytanie
 
@@ -1338,7 +1417,8 @@ choć to ona prowadziła nad tym plikiem kolejkę form bez licencji.
 Trzy zdania README, które na niej stały, stoją teraz na strukturze,
 i jest to o tej kolejce odczyt, a nie o cząstce:
 `dopiero` i `zarazem` niosły zdania, w których brakowało jeszcze czegoś innego,
-a kolejkę nad tym plikiem prowadzi odtąd `by`.
+a kolejki nad tym plikiem nie prowadzi już żadna forma
+([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)).
 Nad prozą `docs/` — tam, gdzie tych cząstek jest najwięcej —
 zakup wynosi cztery zdania przyjęte i dziesięć wieloznacznych,
 a figury nad tą prozą nie ma z powodu, który stoi
@@ -2835,9 +2915,64 @@ bierze się to tym samym poleceniem nad `proza/README.txt`,
 bo figury nad tą prozą nie zapisujemy ([CLAUDE.md](../CLAUDE.md#checks)).
 Odczyt jest o pomiarze nad tym plikiem, a nie o klasie:
 `ger` schodzi z listy form bez licencji nad tą prozą w całości,
-a zdania README, które na niej stały, stoją teraz na cząstce — `dopiero`,
-`zarazem`, `by` — na cudzysłowie, na średniku, na cyfrze albo na strukturze.
-Kolejka nad tym plikiem prowadzi odtąd cząstką.
+a zdania README, które na niej stały, stoją teraz na strukturze,
+poza dwoma: jedno stoi na cyfrze, drugie na zaimku `siebie`
+([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)).
+
+## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
+
+`Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.` —
+Morfeusz trzyma te słowa pod `pred`, czyli w jednym wierszu kolejki blokerów
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Orzekają one bez podmiotu i bez czasownika,
+a rządzą tym, czym rządziłby czasownik,
+więc rama i `Complements` są tu te same, co u niego, tylko bez orzecznika zgodnego:
+dopełnienie, bezokolicznik, zdanie z `że`, pytanie zależne i okolicznik
+dochodzą bez ani jednego ciała osobnego, a dopełniacz negacji tą samą cechą,
+którą przechodzi przez zdanie z czasownikiem
+([wyżej](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
+
+Zdaniem składowym jest predykatyw wprost, a nie orzeczeniem pod nim.
+Pod `Predicate` stanęłoby przy nim ciało z podmiotem,
+więc `Programy trzeba czytać.` wychodziłoby zdaniem o podmiocie `Programy`,
+choć `programy` jest tam biernikiem;
+osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbiera.
+Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+zapadł ten sam wybór: rzeczownik orzekający stoi obok `Predicative`, a nie jest nim.
+Rolę ma predykatyw osobną od `Verb`, bo czasownikiem nie jest.
+
+Lista lematów jest zamknięta, bo `pred` niesie całą klasę naraz,
+a kryterium na wejście jest jedno:
+czytanie konkurujące nie może stanąć na czele zdania tego samego kształtu.
+`to` takie czytanie ma, i to dwa razy:
+grupa imienna bierze jego czytanie rzeczownikowe,
+a jako `pred` jest ono łącznikiem, czyli konstrukcją osobną i niewpuszczoną
+([niżej](#what-it-does-not-cover-yet)).
+Prowadzi ono zarazem ten wiersz kolejki, więc wyłączenie `to` jest ceną tej listy.
+Poza listą stoją tak samo `brak`, `czas`, `pora`, `żal`, `sposób` i `szkoda`:
+każde z nich Morfeusz zna także jako rzeczownik,
+a rzeczownik w mianowniku z dopełniaczem za sobą jest grupą imienną,
+którą ta gramatyka wyprowadza.
+`trudno` i `łatwo` nie stoją poza listą, tylko poza częścią mowy:
+Morfeusz czyta je jako przysłówki,
+choć bank drzew liczy `Trudno` właśnie w tym wierszu.
+
+Ciała są dwa, bo zakup każdego jest osobną liczbą:
+predykatyw z wypełnieniem i predykatyw sam, czyli `Nie wiadomo.` albo `Można.`
+Zakup wynosi nad Składnicą kilkadziesiąt zdań, w większości po stronie ciała
+z wypełnieniem, a ceny w czytaniach nie ma żadnej:
+ani jedno zdanie przyjęte nie staje się wieloznaczne.
+Jeden kształt zdania wychodzi pod obydwoma ciałami naraz inaczej niż pod każdym
+osobno — `Rozumiem, że można, a nawet trzeba piętnować wszelkie formy nawracania
+pod przymusem.` — bo jeden predykatyw stoi w nim sam, drugi z wypełnieniem,
+a koordynuje je spójnik.
+Olski nie czyta przy tym niezgodnie z drzewem wzorcowym ani jednego zdania nowo
+przyjętego, a pojedyncze czyta uboższą listą ról niż drzewo.
+Nad prozą tego repozytorium zakup jest liczony w kilku zdaniach przyjętych,
+a wieloznacznych przenosi więcej niż przyjmuje.
+
+Ta konstrukcja ma jeden szyk — predykatyw stoi przed tym, czym rządzi —
+i tyle też po niej zostaje [niżej](#what-it-does-not-cover-yet).
 
 ## What it does not cover yet
 
@@ -2883,31 +3018,30 @@ Every one of these is a sentence that gets rejected and should not be:
   and that is the whole of what is left of the row for this construction:
   the comma in front of a conjunction took the lowercase ones
   ([above](#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
-- Tryb przypuszczający z cząstką przy czasowniku:
-  `Czytelnik nie odzyskałby ról.` jest odrzucone,
-  gdzie `Czytelnik nie odzyskał ról.` wyprowadza się.
-  Morfeusz dzieli `odzyskałby` na czas przeszły i cząstkę `by`,
-  więc pozycja jest tu jedna i stoi przy czasowniku,
-  czym różni się od trzech pozycji niżej:
-  tam cząstka wchodzi w spójnik, a tryb zdania podrzędnego trzeba wtedy nieść
-  ponad każdą produkcją zdania.
-  Polszczyzna stawia tę cząstkę także dalej od czasownika —
-  `Nie ma aplikacji, która by to wszystko napędzała.` —
-  a to jest już [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
-  której olski nie bierze.
-  Nad prozą tego repozytorium `by` prowadzi kolejkę form bez licencji
-  ([corpus.md](corpus.md#where-the-analyses-stop)),
-  a większość jego wystąpień w niej jest angielskim przyimkiem,
-  co widać po tym, że stoi za formą, której słownik nie zna.
-- The subordinators the conditional stands under: `aby`, `żeby`, `by`, `gdyby`.
-  A clause with one of them has its verb in the past tense and the particle `by`
-  fused into the subordinator or standing beside it,
-  which no production takes,
-  so the [adverbial clause](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
-  leaves them out rather than deriving `aby program zapisuje ustawienia`.
-  They come back with the particle and not before it,
-  and two of them stand second and third in the `comp` row
-  [corpus.md](corpus.md#where-the-analyses-stop) ranks, behind `że` itself.
+- Spójniki, pod którymi stoi tryb przypuszczający: `aby`, `żeby`, `by`, `gdyby`.
+  Cząstkę tego trybu gramatyka bierze przy czasowniku
+  ([wyżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)),
+  a te spójniki żądają jej od całego zdania pod sobą,
+  czego żadna produkcja zdania nie ogłasza,
+  więc [okolicznik wyrażony zdaniem](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
+  zostawia je na zewnątrz, zamiast wyprowadzać `aby program zapisuje ustawienia`.
+  Wracają z cechą trybu nad zdaniem, a nie przed nią,
+  i dwa z nich stoją w wierszu `comp`
+  ([corpus.md](corpus.md#where-the-analyses-stop)) zaraz za samym `że`.
+- Para myślników, czyli wtrącenie w środku zdania:
+  `Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
+  jest odrzucone, gdzie ten sam znak pojedynczy rozdziela dwa zdania
+  ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+  Ten rejestr pisze parę częściej niż znak pojedynczy,
+  a pozycja, której ona żąda, jest wtrąceniem w środku zdania składowego,
+  gdzie nawias stoi na jego końcu
+  ([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+- Wypełnienie wysunięte przed predykatyw:
+  `Programy trzeba czytać.` jest odrzucone,
+  gdzie `Trzeba czytać programy.` wyprowadza się.
+  Szyk ma tam sześć wariantów, bo czasownik i podmiot mają je wszystkie,
+  a predykatyw stoi w jednym
+  ([wyżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
 - Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
   `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
   `Czy program zapisuje ustawienia?` jest odrzucone,
