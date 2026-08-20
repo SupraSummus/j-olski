@@ -128,32 +128,42 @@ bo kierunek mówi, co ma zajść nad zdaniem, a nie czym ma być wyprowadzone
 
 ## README jest przyrządem pomiarowym
 
-Przebieg nad [README](../README.md) zostaje, bo mierzy dobrze i nic nie kosztuje.
-Plik stoi po polsku, w rejestrze, o który olskiemu chodzi,
-nikt go pod gramatykę nie pisał,
+Przebieg nad [README](../README.md) zostaje, bo nic nie kosztuje:
+plik stoi po polsku, w rejestrze, o który olskiemu chodzi,
 a ściągać nie ma czego, więc ten przebieg wykona każda sesja,
 czego o banku drzew ani o ustawach powiedzieć się nie da.
 [corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie
-i kolejność, w jakiej README ustawia to, czego gramatyce brakuje.
+i to, co przebieg mówi dzisiaj.
+
+**Plik jest odtąd pisany pod gramatykę i to zmienia, co przebieg mierzy.**
+Zdania omijają w nim konstrukcje, których olski nie wyprowadza
+([README](../README.md#konwencje), [CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)),
+więc pokrycie nad tym plikiem mierzy pisanie tak samo jak gramatykę,
+a wydruk nie mówi, które z dwojga je ruszyło.
+Jest to ta sama cena, którą płacił cel nad tekstem pisanym u siebie
+([wyżej](#tor-gramatyczny-nie-ma-końca)), wzięta świadomie.
+Zostaje z przebiegu to, czego przeredagowanie nie podrabia:
+werdykt mówi, jakie czytania olski zdaniu daje,
+czyli mierzy [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę), a nie udział.
+O polszczyźnie, której nikt pod olskiego nie pisał,
+mówią odtąd bank drzew i ustawy, i tylko one.
+Liczby wzięte nad tym plikiem przed przepisaniem trzyma git,
+a dzisiejsze drukuje przebieg.
 
 Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
 Nagłówek, pozycja listy i wiersz tabeli
 dochodzą do olskiego jako akapity, których nic nie punktuje,
 i przebieg liczy je osobno,
 bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
+Ten plik nie ma już ani jednej takiej pozycji,
+bo lista dokumentów stoi w nim zdaniami.
 Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
 
-Przeredagowanie tego pliku rusza same liczby,
-a nie zakaz przepisywania tych dokumentów pod gramatykę
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
-
 Kolejki form bez licencji ten plik już nie ustawia,
-bo prawie każde jego odrzucenie stoi na strukturze,
-a formy, które zostały, są pojedynczymi wystąpieniami.
-Czego gramatyce brakuje wobec tego pliku, mówi więc odtąd samo zatrzymanie analizy,
-a nie część mowy, na której ono padło,
-i tego zatrzymania werdykt jeszcze nie nazywa ([TODO.md](../TODO.md)).
+bo odrzuceń została w nim garść i każde stoi na czymś pojedynczym:
+na dwóch formach żartu z nazwy, na cyfrze,
+na przytoczonej niezgodności i na angielskim tytule.
 
 ## Cele
 

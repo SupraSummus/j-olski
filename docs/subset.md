@@ -1219,9 +1219,8 @@ bo zakup każdego z nich jest osobną liczbą i sonda bierze ją zdejmowaniem ci
 Za tym znakiem stoi rejestr, a nie polszczyzna.
 Średnik stoi tam, gdzie stanąłby przecinek albo kropka,
 więc produkcja nie mówi nic, czego nie mówi dwukropkowa,
-a przemawia za nią zdanie README, które przedtem stało na znaku:
-`Dlaczego, mówi docs/linter.md; ile ten pakiet reguł kosztował, zanim wyszedł,
-mówi docs/firing-rates.md.`
+a przemawia za nią to, że ten rejestr średnika używa:
+zdania z nim stoją w tych dokumentach i w ustawach.
 
 **Myślnik rozdziela tym samym ciałem, a bierze dwa znaki z trzech.**
 `Cena jest niska — gramatyka jest bezkontekstowa.` wychodzi tak samo jak zdanie
@@ -3464,9 +3463,9 @@ a drugi gospodarz dokłada tam zdanie, zamiast odejmować
 więc znak tej ceny zależy od rejestru,
 a nie od samej pary gospodarzy.
 
-Nad [README](../README.md) przysłówek nie kupuje ani jednego zdania,
-a przenosi na wieloznaczne te, które na nim stały.
-Jednym z nich jest to, o którym kolejka blokerów mówiła,
+Nad prozą tego repozytorium przysłówek daje wyprowadzenie,
+a jednoznaczności nie daje.
+Takim zdaniem jest to, o którym kolejka blokerów mówiła,
 że stoi na przysłówku i na niczym więcej
 ([corpus.md](corpus.md#where-the-analyses-stop)):
 

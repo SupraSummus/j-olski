@@ -73,7 +73,7 @@ which no production can take because `dig` carries no features at all
 
 ### Własność jednoznaczności żąda jej od zdania, które jej nie ma
 
-`Cały wywód prowadzi docs/linter.md.` stoi w README i ma dwa czytania,
+`Cały wywód prowadzi docs/linter.md.` ma dwa czytania,
 SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
 Zdanie naprawdę nie mówi, co tu prowadzi co,
 i [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)

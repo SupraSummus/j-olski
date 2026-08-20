@@ -266,9 +266,15 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-A handful of that README's sentences derive once,
-twice as many derive more than once,
-and the rest are rejected.
+Half of that README's sentences derive once,
+half derive more than once,
+and a handful are rejected.
+The file is written that way rather than found that way:
+it omits the constructions olski does not derive
+([README](../README.md#konwencje)),
+so the count says as much about the prose as about the grammar,
+and [roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)
+owns what is left of the run as an instrument.
 The ambiguous ones are almost all one of two classes:
 a prepositional phrase either the noun or the verb could host,
 and a nominative read as an accusative,
@@ -287,7 +293,7 @@ drugiego.` has a reading in which `sam` is an adjunct of the clause.
 That is a dictionary reading Polish does not have here,
 the class this register shows the same way the treebank shows it on `wobec`.
 
-What stops the rejected ones is no longer a word.
+What stops each of those is named.
 This file used to rank the forms no production takes,
 and construction after construction took that ranking apart —
 the gerund, the adverb, the numeral written as a word,
@@ -295,13 +301,14 @@ clause-level punctuation, the wrapping kind beside it, the project lexicon,
 each priced in the section of [subset.md](subset.md#what-the-grammar-covers)
 that admitted it.
 What is left of the ranking is single occurrences:
-a digit, the reflexive pronoun `siebie`, and English this file cites.
-So almost every rejection here stands on the shape its words are in
-rather than on any word.
-`Reszta repozytorium to notatki projektowe, przegląd pola,
-plan i otwarte pytania.` is that class in the open:
+the impersonal past and the bare letter *p* that the title's joke turns on,
+the digit in `Morfeusz 2`,
+and the English title this file cites beside the form `polsku`.
+One rejection stands on the shape its words are in rather than on a word,
+and it is the quoted `Nowa program`,
+whose disagreement is the whole of what the example shows:
 every word is one some production takes,
-and nothing derives the whole of it.
+and nothing derives the two together.
 The run says which is which rather than leaving it to be worked out:
 a rejected sentence names the words no production takes,
 or says that nothing derives it when every word is one some production does.
@@ -345,10 +352,9 @@ That run is the grammar track's other instrument beside this treebank.
 The track has no exit criterion
 ([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)),
 so what the run prices is each addition rather than a distance to a finish.
-What it counts as a sentence is what the run reports as one:
-the entries of the document list arrive as paragraphs no full stop closes,
-so they come back `fragment` rather than `rejected`
-and stand outside the denominator.
+What it counts as a sentence is what the run reports as one,
+and every entry of the document list is one,
+so nothing in this file comes back `fragment` and stands outside the denominator.
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)
 owns that class and how much of this register it is.
 
