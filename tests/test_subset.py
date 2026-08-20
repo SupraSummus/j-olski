@@ -98,7 +98,7 @@ def test_terminal_żąda_obecności_cechy_a_nie_wartości(forma: str, stopniowan
     """
     [segment] = analyse(forma)
     [czytanie] = segment.readings
-    cechy = dict(czytanie.tag.features)
+    cechy = czytanie.tag.cechy
     wartości = word("adv", degree="pos.com.sup")
     obecność = word("adv", niesie="degree")
     assert bierze(wartości, czytanie.tag.pos, czytanie.lemma, cechy, EMPTY) is not None
@@ -947,7 +947,7 @@ def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     uboga = Grammar(start="NP")
     uboga.rule("NP", [word("subst")])
     czytanie = next(r for r in analyse("zapisuje")[0].readings if r.tag.pos == "fin")
-    cechy = dict(czytanie.tag.features)
+    cechy = czytanie.tag.cechy
     assert not uboga.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
     assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
 
@@ -1483,7 +1483,7 @@ def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     #  wyprowadzenia. `tylko` jest u Morfeusza także spójnikiem, więc dopisane tu
     #  kosztowałoby czytanie każdego zdania, w którym stoi, i tego ten test pilnuje
     #  po stronie listy, a nie po stronie zdania.
-    czytania = [(r.tag.pos, r.lemma, dict(r.tag.features)) for r in analyse(lemat)[0].readings]
+    czytania = [(r.tag.pos, r.lemma, r.tag.cechy) for r in analyse(lemat)[0].readings]
     brane = [c for c in czytania if GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
     assert {pos for pos, _, _ in brane} == {"part"}, (lemat, brane)
@@ -1751,7 +1751,7 @@ def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
     #  Usterka, którą to łapie: lemat wpisany na listę, którego Morfeusz pod `pred`
     #  nie ma. `trudno` i `łatwo` są u niego przysłówkami, więc wpisane tutaj byłyby
     #  wierszem martwym, a martwego wiersza nie widać po żadnym zdaniu.
-    czytania = [(r.tag.pos, r.lemma, dict(r.tag.features)) for r in analyse(lemat)[0].readings]
+    czytania = [(r.tag.pos, r.lemma, r.tag.cechy) for r in analyse(lemat)[0].readings]
     brane = [c for c in czytania if c[0] == "pred" and GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
 

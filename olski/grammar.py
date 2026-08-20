@@ -135,6 +135,20 @@ class Production:
     #: nazywa w nim niczego, bo nie ma tam żadnej córki.
     głowa: int = 0
 
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "_hasz", hash((self.head, self.body, self.features, self.głowa)))
+
+    def __hash__(self) -> int:
+        """Hasz policzony raz, bo produkcja powstaje raz i już się nie zmienia.
+
+        Produkcja jest częścią każdego stanu tablicy Earleya,
+        a stany trzyma słownik,
+        więc hasz wywiedziony z pól przechodziłby całe ciało,
+        a w nim cechy każdej części, raz na wpis i raz na odczyt.
+        Równość zostaje ta, którą daje ``dataclass``: hasz nie jest polem.
+        """
+        return self._hasz
+
     def __repr__(self) -> str:
         return f"{self.head} → {' '.join(repr(part) for part in self.body)}"
 
