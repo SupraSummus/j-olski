@@ -487,25 +487,32 @@ class _Tablica:
             self.krawędzie.setdefault(segment.start, []).append(segment)
         self.początek = _first(segments)
         self.koniec = max((segment.end for segment in segments), default=0)
-        #: Pozycja grafu → stan → skąd stan tu doszedł,
-        #: czyli para pozycji poprzedniej i córki, która je rozdzieliła.
-        self.stany: dict[int, dict[_Stan, set[tuple[int, Pozycja]]]] = {}
-        #: Pozycja grafu → symbol → stany, które na ten symbol tu czekają.
-        self._oczekujące: dict[int, dict[str, list[_Stan]]] = {}
-        #: Pozycja grafu → symbole, które się w niej zamknęły o zerowej rozpiętości.
-        #: Bez tego produkcja o pustym ciele przepada dla stanu dopisanego po niej,
-        #: bo ten nie ma już czego dokończyć.
-        self._puste: dict[int, set[str]] = {}
         #: (produkcja, kropka, źródło, k) → ciała, jakie się w tym złożyły.
         self._ciała_memo: dict[tuple, tuple[tuple[Pozycja, ...], ...]] = {}
-        #: (pozycja grafu, terminal) → krawędzie, które ten terminal tam bierze.
-        self._brane_memo: dict[tuple[int, Word], tuple[Segment, ...]] = {}
         #: Węzły grafu w kolejności rosnącej, bo krawędź nigdy nie idzie w tył.
         self.pozycje_grafu = sorted(
             {self.początek, self.koniec}
             | {segment.start for segment in segments}
             | {segment.end for segment in segments}
         )
+        #: Pozycja grafu → stan → skąd stan tu doszedł,
+        #: czyli para pozycji poprzedniej i córki, która je rozdzieliła.
+        #: Miejsce każdej pozycji stoi od początku,
+        #: bo ``setdefault`` składałby przy każdym wpisie pusty słownik na darmo.
+        self.stany: dict[int, dict[_Stan, set[tuple[int, Pozycja]]]] = {
+            k: {} for k in self.pozycje_grafu
+        }
+        #: Pozycja grafu → symbol → stany, które na ten symbol tu czekają.
+        self._oczekujące: dict[int, dict[str, list[_Stan]]] = {k: {} for k in self.pozycje_grafu}
+        #: Pozycja grafu → symbole, które się w niej zamknęły o zerowej rozpiętości.
+        #: Bez tego produkcja o pustym ciele przepada dla stanu dopisanego po niej,
+        #: bo ten nie ma już czego dokończyć.
+        self._puste: dict[int, set[str]] = {}
+        self._zaczynane = grammar.zaczynane()
+        #: Pozycja grafu → terminal → krawędzie, które on w niej bierze.
+        self._brane_memo: dict[int, dict[Word, tuple[Segment, ...]]] = {}
+        #: Pozycja grafu → części ciała, którymi da się w niej zacząć córkę.
+        self._możliwe_memo: dict[int, frozenset[Part]] = {}
         self._rozbierz()
 
     # -- budowanie ---------------------------------------------------------- #
@@ -514,36 +521,37 @@ class _Tablica:
         for production in self.grammar.for_head(self.start):
             self._dodaj(self.początek, (production, 0, self.początek), None)
         for k in self.pozycje_grafu:
-            kolejka = list(self.stany.get(k, ()))
+            kolejka = list(self.stany[k])
             i = 0
             while i < len(kolejka):
-                production, kropka, źródło = kolejka[i]
+                stan = kolejka[i]
+                production, kropka, _źródło = stan
                 i += 1
                 if kropka == len(production.body):
-                    self._zamknij(k, production.head, źródło, kolejka)
+                    self._zamknij(k, stan, kolejka)
                     continue
                 część = production.body[kropka]
                 if isinstance(część, Word):
-                    self._wczytaj(k, (production, kropka, źródło), część)
+                    self._wczytaj(k, stan, część)
                 else:
-                    self._przewiduj(k, (production, kropka, źródło), część, kolejka)
+                    self._przewiduj(k, stan, część, kolejka)
 
     def _dodaj(self, k: int, stan: _Stan, wstecz: tuple[int, Pozycja] | None) -> bool:
         """Wpisz stan i powiedz, czy jest nowy; wpis powtórzony dokłada samo wstecz.
 
-        Stan czekający na terminal, którego w tej pozycji nie bierze ani jedna krawędź,
-        nie wchodzi i liczy się jak powtórzony:
+        Stan, którego następna córka nie ma w tej pozycji od czego się zacząć
+        (:meth:`_możliwe`), nie wchodzi i liczy się jak powtórzony:
         ciała nie dokończy, więc nie wejdzie do żadnego czytania.
+        Odsiew sięga stąd w głąb, bo stan nieprzyjęty nie rozwinie już symbolu,
+        na który czekał, a tamten nie rozwinie swoich.
         Nie zmienia to również odpowiedzi na to, dokąd doszła analiza częściowa
         (:meth:`Las.najdalszy`): tam liczy się przejście po formie wziętej,
-        a tej formy ten terminal nie bierze przy żadnym środowisku.
+        a żadna córka odsianego stanu takiej formy tu nie zaczyna.
         """
         production, kropka, źródło = stan
-        if kropka < len(production.body):
-            część = production.body[kropka]
-            if isinstance(część, Word) and not self._brane(k, część):
-                return False
-        w_pozycji = self.stany.setdefault(k, {})
+        if kropka < len(production.body) and production.body[kropka] not in self._możliwe(k):
+            return False
+        w_pozycji = self.stany[k]
         istniejące = w_pozycji.get(stan)
         if istniejące is None:
             w_pozycji[stan] = set() if wstecz is None else {wstecz}
@@ -560,7 +568,7 @@ class _Tablica:
         Czy symbol był już rozwinięty, mówi lista oczekujących:
         wpisuje się do niej każdy czekający stan, a pierwszy ją zakłada.
         """
-        oczekujące = self._oczekujące.setdefault(k, {})
+        oczekujące = self._oczekujące[k]
         czekający = oczekujące.get(część.name)
         if czekający is None:
             oczekujące[część.name] = [stan]
@@ -570,20 +578,20 @@ class _Tablica:
         else:
             czekający.append(stan)
         if część.name in self._puste.get(k, ()):
-            self._posuń(k, stan, k, Pozycja(część.name, (k, k)), kolejka)
+            self._posuń(k, [stan], k, Pozycja(część.name, (k, k)), kolejka)
 
     def _wczytaj(self, k: int, stan: _Stan, terminal: Word) -> None:
         """Przejdź każdą krawędzią grafu, którą ten terminal bierze."""
         production, kropka, źródło = stan
-        for segment in self._brane(k, terminal):
+        for segment in self._brane(k).get(terminal, ()):
             self._dodaj(
                 segment.end,
                 (production, kropka + 1, źródło),
                 (k, Pozycja(None, (k, segment.end))),
             )
 
-    def _brane(self, k: int, terminal: Word) -> tuple[Segment, ...]:
-        """Krawędzie wychodzące z tej pozycji, których czytanie ten terminal bierze.
+    def _brane(self, k: int) -> dict[Word, tuple[Segment, ...]]:
+        """Terminal → krawędzie wychodzące z tej pozycji, których czytanie on bierze.
 
         Pytanie pada z ``EMPTY``, a nie ze środowiskiem rodzeństwa,
         bo stan tablicy cech nie niesie.
@@ -591,44 +599,61 @@ class _Tablica:
         więc na tym etapie tablica przyjmuje co najwyżej za dużo,
         a nadmiar odsiewa potem unifikacja po lesie.
         Odpowiedź nie zależy przez to od stanu,
-        a stanów czeka na jeden terminal po kilka, więc jest zapamiętana.
+        a pyta o nią odsiew wszystkich stanów tej pozycji naraz (:meth:`_możliwe`),
+        więc liczy się ją raz i od razu dla każdego terminala.
+        Liczy się przy pierwszym pytaniu, bo do części pozycji rozbiór nie dochodzi.
+        Krawędź wchodzi tu raz, choćby terminal brał kilka jej czytań.
         """
-        klucz = (k, terminal)
-        gotowe = self._brane_memo.get(klucz)
+        gotowe = self._brane_memo.get(k)
         if gotowe is None:
-            gotowe = self._brane_memo[klucz] = tuple(
-                segment
-                for segment in self.krawędzie.get(k, ())
-                if any(
-                    bierze(
-                        terminal, reading.tag.pos, reading.lemma, reading.tag.cechy, EMPTY
-                    )
-                    is not None
-                    for reading in segment.readings
-                )
+            zebrane: dict[Word, dict[Segment, None]] = {}
+            for segment in self.krawędzie.get(k, ()):
+                for reading in segment.readings:
+                    pos, cechy = reading.tag.pos, reading.tag.cechy
+                    for terminal in self.grammar.terminale_dla(pos):
+                        if bierze(terminal, pos, reading.lemma, cechy, EMPTY) is not None:
+                            zebrane.setdefault(terminal, {})[segment] = None
+            gotowe = self._brane_memo[k] = {
+                terminal: tuple(krawędzie) for terminal, krawędzie in zebrane.items()
+            }
+        return gotowe
+
+    def _możliwe(self, k: int) -> frozenset[Part]:
+        """Części ciała, którymi w tej pozycji grafu da się zacząć córkę.
+
+        Symbol wchodzi tu przez terminale, od których się zaczyna
+        (:meth:`Grammar.zaczynane`), więc jedno pytanie odsiewa i terminal,
+        i konstytuent nad nim.
+        """
+        gotowe = self._możliwe_memo.get(k)
+        if gotowe is None:
+            gotowe = self._możliwe_memo[k] = self._zaczynane[None].union(
+                *(self._zaczynane.get(terminal, ()) for terminal in self._brane(k))
             )
         return gotowe
 
-    def _zamknij(self, k: int, symbol: str, źródło: int, kolejka: list[_Stan]) -> None:
+    def _zamknij(self, k: int, stan: _Stan, kolejka: list[_Stan]) -> None:
+        production, _kropka, źródło = stan
+        symbol = production.head
         if źródło == k:
             self._puste.setdefault(k, set()).add(symbol)
         pozycja = Pozycja(symbol, (źródło, k))
-        for stan in list(self._oczekujące.get(źródło, {}).get(symbol, ())):
-            self._posuń(k, stan, źródło, pozycja, kolejka)
+        self._posuń(k, list(self._oczekujące[źródło].get(symbol, ())), źródło, pozycja, kolejka)
 
     def _posuń(
-        self, k: int, stan: _Stan, j: int, dziecko: Pozycja, kolejka: list[_Stan]
+        self, k: int, stany: list[_Stan], j: int, dziecko: Pozycja, kolejka: list[_Stan]
     ) -> None:
-        production, kropka, źródło = stan
-        dalej = (production, kropka + 1, źródło)
-        if self._dodaj(k, dalej, (j, dziecko)):
-            kolejka.append(dalej)
+        """Posuń każdy z tych stanów o tę córkę."""
+        for production, kropka, źródło in stany:
+            dalej = (production, kropka + 1, źródło)
+            if self._dodaj(k, dalej, (j, dziecko)):
+                kolejka.append(dalej)
 
     # -- czytanie ----------------------------------------------------------- #
 
     def zamknięte(self, production: Production, źródło: int, k: int) -> bool:
         """Czy ta produkcja doszła w tablicy do końca ciała na tej rozpiętości."""
-        return (production, len(production.body), źródło) in self.stany.get(k, {})
+        return (production, len(production.body), źródło) in self.stany[k]
 
     def ciała(
         self, production: Production, kropka: int, źródło: int, k: int
@@ -656,7 +681,7 @@ class _Tablica:
         stan = (production, kropka, źródło)
         złożone = {
             (*prefiks, dziecko)
-            for j, dziecko in self.stany.get(k, {}).get(stan, ())
+            for j, dziecko in self.stany[k].get(stan, ())
             for prefiks in self.ciała(production, kropka - 1, źródło, j)
         }
         self._ciała_memo[klucz] = tuple(sorted(złożone, key=_klucz_ciała))
@@ -1010,7 +1035,7 @@ class Las:
             rosło = True
             while rosło:
                 rosło = False
-                for stan in self._tablica.stany.get(k, ()):
+                for stan in self._tablica.stany[k]:
                     production, kropka, źródło = stan
                     if kropka == len(production.body) or (production, źródło) not in żywe:
                         continue
@@ -1046,7 +1071,7 @@ class Las:
             return gotowe
         część = production.body[kropka - 1]
         środowiska: set[Env] = set()
-        for j, dziecko in self._tablica.stany.get(k, {}).get((production, kropka, źródło), ()):
+        for j, dziecko in self._tablica.stany[k].get((production, kropka, źródło), ()):
             cechy = [] if dziecko.liść else [c for klasa in self.klasy(dziecko) for c in klasa]
             środowiska |= self._dołóż(
                 część, dziecko, cechy, self._prefiks(production, kropka - 1, źródło, j)

@@ -45,8 +45,15 @@ def _spec(value) -> Spec:
     return frozenset(value)
 
 
-def _constraints(features: dict) -> frozenset[tuple[str, Spec]]:
-    return frozenset((name, _spec(value)) for name, value in features.items())
+def _constraints(features: dict) -> tuple[tuple[str, Spec], ...]:
+    """Więzy w kolejności ustalonej tutaj, bo unifikacja przechodzi je po kolei.
+
+    Przecięcie zbiorów jest przemienne, więc kolejność wyniku nie zmienia,
+    a ustalona po nazwie zrównuje dwa symbole napisane w innym porządku cech.
+    Nazwy są różne, bo przychodzą ze słownika, więc porównanie nie schodzi do
+    specyfikacji obok nazwy, której porównać się nie da.
+    """
+    return tuple(sorted((name, _spec(value)) for name, value in features.items()))
 
 
 @dataclass(frozen=True)
@@ -54,12 +61,19 @@ class Sym:
     """A reference to a non-terminal, with constraints on its features."""
 
     name: str
-    constraints: frozenset[tuple[str, Spec]] = frozenset()
+    constraints: tuple[tuple[str, Spec], ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "_hasz", hash((self.name, self.constraints)))
+
+    def __hash__(self) -> int:
+        """Hasz policzony raz, z powodu, który podaje :meth:`Production.__hash__`."""
+        return self._hasz
 
     def __repr__(self) -> str:
         if not self.constraints:
             return self.name
-        inner = ", ".join(f"{n}={v!r}" for n, v in sorted(self.constraints, key=lambda c: c[0]))
+        inner = ", ".join(f"{n}={v!r}" for n, v in self.constraints)
         return f"{self.name}[{inner}]"
 
 
@@ -68,7 +82,7 @@ class Word:
     """A terminal: one morphological reading, constrained by tag and lemma."""
 
     pos: frozenset[str]
-    constraints: frozenset[tuple[str, Spec]] = frozenset()
+    constraints: tuple[tuple[str, Spec], ...] = ()
     lemmas: frozenset[str] | None = None
     #: Lematy, których ten terminal nie bierze, czyli warunek ujemny. Stoi na
     #: lemacie, bo lemat jest osobnym testem w :func:`bierze`, a nie żądaniem
@@ -82,6 +96,17 @@ class Word:
     #: co milczenie; docs/design-notes.md wywodzi to razem z warunkiem ujemnym
     #: wyżej, bo oba pytają o formę, a nie o zgodność.
     niesione: frozenset[str] | None = None
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "_hasz",
+            hash((self.pos, self.constraints, self.lemmas, self.bez_lematów, self.niesione)),
+        )
+
+    def __hash__(self) -> int:
+        """Hasz policzony raz, z powodu, który podaje :meth:`Production.__hash__`."""
+        return self._hasz
 
     def __repr__(self) -> str:
         return f"<{'|'.join(sorted(self.pos))}>"
@@ -127,7 +152,7 @@ class Production:
     body: tuple[Part, ...]
     #: Features of the resulting constituent, usually variables shared with the
     #: body so that a phrase inherits the number and case of its head word.
-    features: frozenset[tuple[str, Spec]] = frozenset()
+    features: tuple[tuple[str, Spec], ...] = ()
     #: Która z córek jest głową, czyli tą, którą ten konstytuent jest i po
     #: której nazywa go werdykt jednym słowem. ``head`` nazywa symbol, który ta
     #: produkcja definiuje, a ``głowa`` pozycję w jej ciele: jedno słowo w dwóch
@@ -139,12 +164,13 @@ class Production:
         object.__setattr__(self, "_hasz", hash((self.head, self.body, self.features, self.głowa)))
 
     def __hash__(self) -> int:
-        """Hasz policzony raz, bo produkcja powstaje raz i już się nie zmienia.
+        """Hasz policzony raz, bo gramatyka powstaje raz i już się nie zmienia.
 
-        Produkcja jest częścią każdego stanu tablicy Earleya,
-        a stany trzyma słownik,
-        więc hasz wywiedziony z pól przechodziłby całe ciało,
-        a w nim cechy każdej części, raz na wpis i raz na odczyt.
+        Produkcja jest częścią każdego stanu tablicy Earleya, a jej części
+        stoją w zbiorze, którym rozbiór odsiewa stany (``olski/parse.py``),
+        więc każde z tych trojga haszuje się po kilka milionów razy na dokument.
+        Hasz wywiedziony z pól przechodziłby za każdym razem całe ciało,
+        a w nim więzy każdej części.
         Równość zostaje ta, którą daje ``dataclass``: hasz nie jest polem.
         """
         return self._hasz
@@ -188,6 +214,8 @@ class Grammar:
         self.productions: list[Production] = []
         self._by_head: dict[str, list[Production]] = {}
         self._po_części_mowy: dict[str, tuple[Word, ...]] | None = None
+        self._zaczynane: dict[Word | None, frozenset[Part]] | None = None
+        self._nieokreślone: frozenset[str] | None = None
 
     def rule(self, head: str, body: list[Part | Głowa], **features) -> Production:
         części, głowa = _głowa(head, body)
@@ -204,7 +232,8 @@ class Grammar:
         """
         self.productions.append(production)
         self._by_head.setdefault(production.head, []).append(production)
-        self._po_części_mowy = None
+        #  Wszystko, co gramatyka policzyła o sobie, przestaje być prawdą.
+        self._po_części_mowy = self._zaczynane = self._nieokreślone = None
         return production
 
     def for_head(self, head: str) -> list[Production]:
@@ -222,38 +251,87 @@ class Grammar:
         """
         return any(
             bierze(terminal, pos, lemma, features, EMPTY) is not None
-            for terminal in self._terminale_dla(pos)
+            for terminal in self.terminale_dla(pos)
         )
 
-    def _terminale_dla(self, pos: str) -> tuple[Word, ...]:
-        """Terminale, które w ogóle biorą tę część mowy.
+    def terminale_dla(self, pos: str) -> tuple[Word, ...]:
+        """Terminale, które w ogóle biorą tę część mowy, każdy raz.
 
         Pytanie o licencję pada raz na czytanie formy, a odpowiada za nie część
         mowy w większości przypadków, więc indeks stoi na niej: bez niego każde
-        czytanie przechodzi przez wszystkie terminale gramatyki.
+        czytanie przechodzi przez wszystkie terminale gramatyki. Ten sam terminal
+        stoi w kilku produkcjach, a odpowiada wszędzie tak samo, więc wchodzi tu raz.
         """
         if self._po_części_mowy is None:
-            indeks: dict[str, list[Word]] = {}
+            indeks: dict[str, dict[Word, None]] = {}
             for production in self.productions:
                 for part in production.body:
                     if isinstance(part, Word):
                         for nazwa in part.pos:
-                            indeks.setdefault(nazwa, []).append(part)
+                            indeks.setdefault(nazwa, {})[part] = None
             self._po_części_mowy = {nazwa: tuple(słowa) for nazwa, słowa in indeks.items()}
         return self._po_części_mowy.get(pos, ())
+
+    def zaczynane(self) -> dict[Word | None, frozenset[Part]]:
+        """Terminal → części ciała, którymi konstytuent może się od niego zacząć.
+
+        Terminal zaczyna sam siebie, a symbol każdym terminalem, do którego
+        schodzi po pierwszych córkach; pod kluczem ``None`` stoją części
+        zaczynające się bez żadnego terminala, czyli te o wyprowadzeniu pustym,
+        i klucz ten stoi tu nawet pusty, bo odsiew sięga po niego bez pytania.
+        Odsiewa on stan, którego następna córka nie ma w swojej pozycji grafu
+        od czego się zacząć (``olski/parse.py``): taki stan ciała nie dokończy,
+        więc nie wejdzie do żadnego czytania. Pyta o to pozycja grafu, a nie
+        stan, więc odpowiedź jest ułożona po terminalach.
+        """
+        if self._zaczynane is None:
+            rogi: dict[str, frozenset[Word | None]] = dict.fromkeys(self.heads(), frozenset())
+
+            def od_czego(część: Part) -> frozenset[Word | None]:
+                return frozenset({część}) if isinstance(część, Word) else rogi[część.name]
+
+            rosło = True
+            while rosło:
+                rosło = False
+                for production in self.productions:
+                    nowe: frozenset[Word | None] = frozenset()
+                    for część in production.body:
+                        pod = od_czego(część)
+                        nowe |= pod - {None}
+                        if None not in pod:
+                            break
+                    else:
+                        #  Każda córka schodzi do niczego, więc ciało też.
+                        nowe |= {None}
+                    if not nowe <= rogi[production.head]:
+                        rogi[production.head] |= nowe
+                        rosło = True
+            zebrane: dict[Word | None, set[Part]] = {None: set()}
+            części = {część for production in self.productions for część in production.body}
+            for część in części:
+                for róg in od_czego(część):
+                    zebrane.setdefault(róg, set()).add(część)
+            self._zaczynane = {róg: frozenset(gdzie) for róg, gdzie in zebrane.items()}
+        return self._zaczynane
 
     def heads(self) -> frozenset[str]:
         return frozenset(self._by_head)
 
     def undefined(self) -> frozenset[str]:
-        """Non-terminals referred to by some production and defined by none."""
-        referenced = {
-            part.name
-            for production in self.productions
-            for part in production.body
-            if isinstance(part, Sym)
-        }
-        return frozenset(referenced | {self.start}) - self.heads()
+        """Non-terminals referred to by some production and defined by none.
+
+        Odpowiedź stoi w gramatyce, a pyta o nią każde rozbierane zdanie,
+        więc liczy się ją raz.
+        """
+        if self._nieokreślone is None:
+            referenced = {
+                part.name
+                for production in self.productions
+                for part in production.body
+                if isinstance(part, Sym)
+            }
+            self._nieokreślone = frozenset(referenced | {self.start}) - self.heads()
+        return self._nieokreślone
 
     def __len__(self) -> int:
         return len(self.productions)
@@ -289,7 +367,7 @@ EMPTY = Env()
 
 
 def unify(
-    constraints: frozenset[tuple[str, Spec]],
+    constraints: tuple[tuple[str, Spec], ...],
     features: dict[str, frozenset[str]],
     env: Env,
 ) -> Env | None:
@@ -303,7 +381,7 @@ def unify(
     agreement it takes no part in. A terminal demanding that a form carry the
     feature at all says so outside this function, in ``Word.niesione``.
     """
-    for name, spec in sorted(constraints, key=lambda c: c[0]):
+    for name, spec in constraints:
         available = features.get(name)
         if not available:
             continue

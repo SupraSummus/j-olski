@@ -104,7 +104,8 @@ def niosące(grammar: Grammar) -> frozenset[str]:
 
 
 def _z_cechami(część: Sym, **cechy) -> Sym:
-    return Sym(name=część.name, constraints=część.constraints | frozenset(cechy.items()))
+    razem = {**dict(część.constraints), **cechy}
+    return Sym(name=część.name, constraints=tuple(sorted(razem.items())))
 
 
 def _zmienna(część: Sym, nazwa: str) -> Var | None:

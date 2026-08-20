@@ -604,6 +604,18 @@ dwa przebiegi za jedną komendą nie muszą mierzyć tego samego kodu,
 a żaden z nich nie mówi tego w swoim wydruku.
 Przeliczaj po ostatniej edycji, a nie obok niej.
 
+**Zmianę, która ma tylko przyspieszyć, mierzy się na przemian i dowodzi odciskiem.**
+Zegar maszyny rusza się między przebiegami o kilkanaście procent,
+więc czas sprzed zmiany i czas po niej mówią tyle o zmianie, co o maszynie:
+baza i zmiana idą naprzemiennie w jednej komendzie, a porównuje się sąsiednie pary.
+Bazą jest drzewo robocze gita ze stanem sprzed zmiany (`git worktree add`),
+bo oba katalogi stoją wtedy naraz,
+a przełączanie gałęzi każe mierzyć jedno po drugim.
+Że nie ruszyło się nic poza czasem, mówi odcisk całej prozy repozytorium:
+werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdaniu.
+Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,
+a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
+
 **Blok wydruku wklejony do dokumentu jest prozą i unieważnia się jak ona.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/subset.py`
