@@ -14,10 +14,16 @@ they live here, and a format arrives as a declaration rather than as a second
 path through them.
 
 Beside the extraction stand the programs that produce what a document cites:
-``endings.py`` reads an ending's cost off a corpus, and ``figury.py`` reruns a
-figure and owns the file a document restates. They are here for the reason the
-extraction is, which is that they serve the documents rather than the grammar,
-and no module of ``olski`` imports any of them.
+``endings.py`` reads an ending's cost off a corpus, ``figury.py`` reruns a
+figure and owns the file a document restates, ``ruch.py`` runs a differential
+measurement over the grammar, and the modules beside them measure the
+disambiguation layer and the constraint substrate. They are here for the reason
+the extraction is, which is that they serve the documents rather than the
+grammar, and no module of ``olski`` imports any of them.
+
+A script written to price one construction is not among them: it lives in the
+session that measured, and only its printout reaches ``figury/``
+(``CLAUDE.md#code``).
 """
 
 from __future__ import annotations

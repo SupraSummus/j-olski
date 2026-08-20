@@ -18,7 +18,7 @@ dopisywała ją świeżej gramatyce, a mianownikiem był wariant bez dopisku. Te
 kierunek wyszedł razem z przysłówkiem, czyli z jedyną sondą, która go używała, bo
 konstrukcja wyceniona i wpuszczona mierzy się już zdejmowaniem. Gdyby wrócił,
 wróci jako gramatyka wariantu brana funkcją, i tego żąda od tej maszynerii
-``sonda/luka.py``; trzyma to ``TODO.md``.
+``harness/luka.py``; trzyma to ``TODO.md``.
 
 Podział pracy jest przez to jednozdaniowy. Sonda odpowiada, do której grupy
 produkcja należy, a wszystko pozostałe — warianty, przebieg, tabelę przejść,
@@ -104,7 +104,9 @@ class Sonda:
     #: warianty naraz mówią co innego, niż mówi którykolwiek z nich osobno, jest
     #: zdaniem, na którym ten spór coś kosztuje: dwie produkcje dały mu czytanie,
     #: którego żadna z nich nie dała.
-    pytania: tuple[str, str]
+    #: Puste, kiedy grupa jest jedna: nie ma wtedy z czym konkurować, a pomiar na
+    #: jednej grupie jest tym, co pisze się w sesji najczęściej.
+    pytania: tuple[str, ...] = ()
 
     @property
     def osobne(self) -> tuple[str, ...]:
@@ -115,7 +117,7 @@ class Sonda:
     def czysty(self) -> str:
         """Wariant, który jest dokładnie gramatyką olskiego, czyli ten, co nie zdejmuje nic.
 
-        Nazwany, a nie brany numerem, bo pyta o niego także ``sonda/płaski.py``,
+        Nazwany, a nie brany numerem, bo pyta o niego także ``harness/płaski.py``,
         która nad tą gramatyką liczy drzewa, a nie werdykty; niezmiennik pilnuje
         ``tests/test_ruch.py``.
         """
@@ -251,6 +253,8 @@ class Raport:
             for wariant in self.sonda.osobne
             if stany[wariant] != mianownik
         }
+        if len(self.sonda.pytania) < 2:
+            return
         if len(ruszone) >= 2:
             self._policz(self.sonda.pytania[0], tekst)
         if stany[self.sonda.warianty[-1]] not in {mianownik, *ruszone.values()}:

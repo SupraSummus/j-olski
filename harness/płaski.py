@@ -7,9 +7,9 @@ wychodzi z niej jednym czytaniem, w którym ``bardzo`` określa zdanie, a nie
 ``valid`` czyta się jak twierdzenie, a tej ceny nie widzi ani pokrycie, ani
 zgodność ról nad bankiem drzew, która porównuje podmiot i dopełnienie.
 
-Sonda mierzy to nad samym olskim, bo tamta sonda liczy werdykty, a pytanie jest tu
-o drzewo, którym werdykt wypadł; wariantem ``okolicznik`` w ``sonda/przysłówek.py``
-mierzy się to samo nad gramatyką bez drugiego gospodarza, czyli cenę, przy której
+Mierzy się to nad samym olskim, bo pomiar różnicowy liczy werdykty, a pytanie jest
+tu o drzewo, którym werdykt wypadł; wariantem ``okolicznik`` niżej mierzy się to
+samo nad gramatyką bez drugiego gospodarza, czyli cenę, przy której
 go wpuszczono. Populację tworzą zdania przyjęte
 jednym czytaniem: odpowiedź jest wtedy dokładna, a listę czytań zdania
 wieloznacznego ucina ``MAX_READINGS``.
@@ -20,15 +20,15 @@ ma gospodarza żadnego. Stopnia kryterium żąda, bo przysłówek pierwotny
 przymiotnika nie określa i przed nim wychodzi zgodnie z prawdą.
 
 Liczba jest górnym oszacowaniem, tak samo jak ``całe_przyłączenie`` w
-``sonda/czytania.py``: przysłówek stopniowany bywa okolicznikiem zdania i wtedy
+``harness/czytania.py``: przysłówek stopniowany bywa okolicznikiem zdania i wtedy
 przymiotnik po nim niczego nie zmienia, jak w ``Ostatecznie nowa ustawa wchodzi w
 życie.`` Dlatego pod liczbą wychodzą formy i zdania — osądu o zdaniu sonda nie
 wydaje.
 
 Wynik czyta ``docs/subset.md``.
 
-    python3 -m sonda.płaski Składnica-frazowa-180723/
-    python3 -m sonda.płaski proza/README.txt
+    python3 -m harness.płaski Składnica-frazowa-180723/
+    python3 -m harness.płaski proza/README.txt
 """
 
 from __future__ import annotations
@@ -42,16 +42,62 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness import ruch
+from harness.ruch import gramatyka
 from olski.corpus import pliki, read
 from olski.coverage import po_kawałkach, segments_for
-from olski.grammar import Grammar
+from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
-from olski.subset import DEKLARACJA, FRAGMENT, PRZYSŁÓWKOWY, check
-from sonda import przysłówek
-from sonda.ruch import gramatyka
+from olski.subset import (
+    DEKLARACJA,
+    FRAGMENT,
+    PRZYSŁÓWEK,
+    PRZYSŁÓWEK_STOPNIA,
+    PRZYSŁÓWKOWY,
+    check,
+)
 
-#: Ile zdań zachować pod każdą klasą, tak jak trzymają je sondy obok.
+#: Ile zdań zachować pod każdą klasą, tak jak trzymają je pomiary obok.
 PRZYKŁADY = 8
+
+OKOLICZNIK = "okolicznik"
+PRZY_PRZYMIOTNIKU = "przy przymiotniku"
+
+
+def gospodarz(produkcja: Production) -> str | None:
+    """Przy którym gospodarzu stawia przysłówek ta produkcja; ``None``, gdy żadnym.
+
+    Odpowiada terminal albo symbol przysłówka, a nie lista nazw wypisana obok
+    gramatyki: ciało dopisane kiedyś w którymkolwiek z dwóch miejsc trafi tu samo,
+    gdzie lista postarzałaby się bez śladu — pomiar brałby wariant węższy, niż o
+    sobie mówi, i nie powiedziałby o tym ani słowem.
+
+    Okolicznik zdejmuje się przy tym czterema produkcjami, a wystarczyłaby jedna:
+    ``Adverb → adv`` jest jedyną, która przysłówek do zdania wpuszcza, więc bez
+    niej dwa ciała listy okoliczników i czoło zdania nie mają czym się wypełnić.
+    Zdejmowane są mimo to wszystkie, bo wariant ma być gramatyką bez tej
+    konstrukcji, a nie gramatyką z symbolem, do którego nic nie prowadzi.
+    """
+    if PRZYSŁÓWEK_STOPNIA in produkcja.body:
+        return PRZY_PRZYMIOTNIKU
+    if PRZYSŁÓWEK in produkcja.body or nt(PRZYSŁÓWKOWY) in produkcja.body:
+        return OKOLICZNIK
+    return None
+
+
+#: Deklaracja różnicowa przysłówka, czyli warianty, którymi ten pomiar buduje
+#: gramatykę bez drugiego gospodarza. Stoi tutaj, bo tutaj ma jedynego
+#: czytelnika: przebieg wyceniający samo wpuszczenie przysłówka jest w gicie.
+PRZYSŁÓWEK_SONDA = ruch.Sonda(
+    prog="python3 -m harness.płaski",
+    opis="Przy którym gospodarzu stoi przysłówek w mierzonej gramatyce.",
+    warianty=("bez przysłówka", OKOLICZNIK, PRZY_PRZYMIOTNIKU, "olski"),
+    grupa=gospodarz,
+    pytania=(
+        "obaj gospodarze ruszają to samo zdanie",
+        "razem wychodzi co innego niż osobno",
+    ),
+)
 
 #: Cecha, którą Morfeusz oddziela przysłówek odprzymiotnikowy od pierwotnego.
 STOPIEŃ = "degree"
@@ -170,7 +216,7 @@ class Raport:
         del zachowane[self.ile_przykładów :]
 
 
-def wariant(nazwa: str = przysłówek.SONDA.czysty) -> Grammar:
+def wariant(nazwa: str = PRZYSŁÓWEK_SONDA.czysty) -> Grammar:
     """Gramatyka olskiego z przysłówkiem u tego gospodarza, którego nazwa mówi.
 
     Bierze się z sondy różnicowej, a nie z produkcji wypisanych tutaj, bo wariant
@@ -183,13 +229,13 @@ def wariant(nazwa: str = przysłówek.SONDA.czysty) -> Grammar:
     fałszywych czytań dawałby pierwszy gospodarz bez drugiego, i to jest cena, przy
     której drugiego wpuszczono.
     """
-    return gramatyka(przysłówek.SONDA, nazwa)
+    return gramatyka(PRZYSŁÓWEK_SONDA, nazwa)
 
 
 def zmierz(
     ścieżki: Sequence[Path],
     przykłady: int = PRZYKŁADY,
-    nazwa: str = przysłówek.SONDA.czysty,
+    nazwa: str = PRZYSŁÓWEK_SONDA.czysty,
 ) -> Raport:
     """Jeden przebieg po lasach banku drzew, bez procesów pod spodem."""
     raport = Raport(przykłady)
@@ -208,7 +254,7 @@ def zmierz(
 
 
 def nad_prozą(
-    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = przysłówek.SONDA.czysty
+    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = PRZYSŁÓWEK_SONDA.czysty
 ) -> Raport:
     """To samo pytanie nad prozą, którą olski ma czytać.
 
@@ -234,7 +280,7 @@ def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
-    nazwa: str = przysłówek.SONDA.czysty,
+    nazwa: str = PRZYSŁÓWEK_SONDA.czysty,
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
     praca = functools.partial(_kawałek, przykłady=przykłady, nazwa=nazwa)
@@ -298,7 +344,7 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.płaski",
+        prog="python3 -m harness.płaski",
         description="Policz zdania, którym płaska lista okoliczników daje fałszywe czytanie.",
     )
     parser.add_argument(
@@ -311,8 +357,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         "--wariant",
-        default=przysłówek.SONDA.czysty,
-        choices=przysłówek.SONDA.warianty,
+        default=PRZYSŁÓWEK_SONDA.czysty,
+        choices=PRZYSŁÓWEK_SONDA.warianty,
         help="u którego gospodarza stoi przysłówek w mierzonej gramatyce",
     )
     parser.add_argument(
@@ -339,8 +385,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         raport = nad_prozą(ścieżka.read_text(), args.przykłady, args.wariant)
         print(wydruk(raport, f"{ścieżka.name}, proza, wariant „{args.wariant}”"))
         return 0
-    print(f"sonda.płaski: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
-    print("sonda.płaski: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+    print(f"harness.płaski: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
+    print("harness.płaski: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
     return 2
 
 

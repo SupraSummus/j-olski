@@ -452,7 +452,7 @@ które sięga ponad czasownik do rzeczownika po drugiej stronie.
 Najkrócej widać to na zdaniu definicyjnym:
 
 ```sh
-python3 -m sonda -c "Dom jest nieocieplony." --łuki --nieciągłe
+python3 -m harness.podłoża -c "Dom jest nieocieplony." --łuki --nieciągłe
 ```
 
 Bez tej flagi zdanie ma jedno czytanie, z orzecznikiem przy kopuli.
@@ -482,7 +482,7 @@ Najkrócej widać to na rzeczowniku,
 który wybiera ten sam przyimek co rama czasownika przed nim:
 
 ```sh
-python3 -m sonda -c "Dziadek wraca do orzechów." --łuki --nieciągłe
+python3 -m harness.podłoża -c "Dziadek wraca do orzechów." --łuki --nieciągłe
 ```
 
 Bez tej flagi zdanie ma jedno czytanie, z `do orzechów` przy czasowniku.
@@ -540,7 +540,7 @@ Sonda liczy jedno i drugie razem z tymi blokerami po to,
 żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
 
 ```sh
-python3 -m sonda.nieciągłość Składnica-frazowa-180723/
+python3 -m harness.nieciągłość Składnica-frazowa-180723/
 ```
 
 ### Lukę zmierzono i olski jej nie bierze
@@ -677,11 +677,11 @@ a rejestr ustaw ściąga się tak, jak mówi
 [ustawy.md](ustawy.md#skąd-bierze-się-korpus):
 
 ```sh
-python3 -m sonda.luka Składnica-frazowa-180723/
-python3 -m sonda.luka proza/README.txt
+python3 -m harness.luka Składnica-frazowa-180723/
+python3 -m harness.luka proza/README.txt
 cat proza/ustawy/*.txt > proza/ustawy-razem.txt
-python3 -m sonda.luka proza/ustawy-razem.txt
-python3 -m sonda.luka -c "Reguła, która rozstrzyga, jest tania."
+python3 -m harness.luka proza/ustawy-razem.txt
+python3 -m harness.luka -c "Reguła, która rozstrzyga, jest tania."
 ```
 
 ## Formalizm jest środkiem, a nie celem
@@ -730,7 +730,7 @@ a nie przez to, że stoi wyżej niż gramatyka bezkontekstowa.
 ### Podłoże więzowe zmierzone sondą
 
 Otwartość środków była deklaracją, dopóki nikt żadnego innego nie wycenił.
-`sonda/` wycenia jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
+`harness/wiezy.py` wycenia jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
 gdzie zgodność jest warunkiem na parę słów,
 szyk osobnym polem deklaracji,
 a spójność frazy jednym warunkiem globalnym, który wolno zdjąć.
@@ -752,9 +752,9 @@ Powtarzają to te polecenia, a ostatnie warto puścić także bez flagi:
 
 ```sh
 python3 -m harness.markdown README.md --into proza/
-python3 -m sonda proza/README.txt
-python3 -m sonda proza/README.txt --budżet 0.1
-python3 -m sonda -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
+python3 -m harness.podłoża proza/README.txt
+python3 -m harness.podłoża proza/README.txt --budżet 0.1
+python3 -m harness.podłoża -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
 ```
 
 Każde zdanie tej prozy sonda rozbiera w budżecie 10 sekund,
@@ -813,7 +813,7 @@ prawodawczej”, mówi docs/ustawy.md`
 olski wyprowadza czterema czytaniami, odkąd bierze
 [cudzysłów](subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
 a sonda nie ma po swojej stronie żadnego z dwóch jego znaków.
-Deklaracja w `sonda/polszczyzna.py` jest drugim zapisem tego podzbioru,
+Deklaracja w `harness/polszczyzna.py` jest drugim zapisem tego podzbioru,
 więc starzeje się po cichu przy każdym dopisaniu do olskiego,
 produkcji czy wiersza leksykonu,
 a te sześć rozbieżności jest tym, co to pokazuje —
@@ -904,7 +904,7 @@ dopełnienie przed czasownikiem bez podmiotu,
 dwa dopełniacze przy jednym rzeczowniku,
 i dopełnienie doczepione do dalszego bezokolicznika w łańcuchu
 `ma pomagać pisać`.
-Dwa pierwsze zamyka deklaracja i są w `sonda/polszczyzna.py` zamknięte.
+Dwa pierwsze zamyka deklaracja i są w `harness/polszczyzna.py` zamknięte.
 Trzeciego nie zamyka nic poza leksykonem walencyjnym,
 i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
@@ -1337,7 +1337,7 @@ Napisana obok niej jest gramatyką napisaną dwa razy,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i jest to ten sam zarzut, który przewraca obudowanie Świgry
-oraz ten, który [`TODO.md`](../TODO.md) stawia `sonda/polszczyzna.py`.
+oraz ten, który [`TODO.md`](../TODO.md) stawia `harness/polszczyzna.py`.
 Wyprowadzona nie kosztuje ani jednej deklaracji.
 
 Najtańszym kawałkiem takiej warstwy jest licencja terminala,
@@ -1551,7 +1551,7 @@ Walencja weszła tym kanałem i wypadła na lokalności.
 Rama jest stanem, a nie zasobem, więc pozycji już zajętej nie ma jak odnotować,
 a zajęcie zależy od pozostałych córek, a nie od samej pary głowy i zależnego.
 Sonda zapłaciła za to samo dwoma polami:
-`wymaga` i `zakazuje` w `sonda/wiezy.py` mówią o łukach jednej głowy naraz,
+`wymaga` i `zakazuje` w `harness/wiezy.py` mówią o łukach jednej głowy naraz,
 więc sprawdza je `_dopuszczalne`, gdy drzewo stoi już całe,
 a nie tablica licencji, która stoi policzona przed szukaniem.
 Co z tego zostaje po stronie produkcji,
@@ -1573,9 +1573,8 @@ odbiera grupie imiennej drugie czytanie tego samego kształtu,
 a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.
 Każde z tych trzech jest pojedynczą decyzją z wywodem i z ceną:
 pierwsze wykłada [kryterium słownikowe](subset.md#the-dictionary-offers-readings-polish-does-not),
-a ostatnie jest czterema wierszami, które figura `korpus`
-w [`harness/figury.py`](../harness/figury.py) nazywa z osobna właśnie dlatego,
-że ruszają każdy werdykt, choć nie ma w nich ani jednej produkcji.
+a ostatnie jest czterema wierszami, które ruszają każdy werdykt,
+choć nie ma w nich ani jednej produkcji.
 Lista ciał zawęża przez to, czego w niej nie ma,
 i tym się od tamtych różni: rośnie z każdą konstrukcją,
 nie ma jednego miejsca, w którym da się o nią spierać, i nie mierzy jej nic.

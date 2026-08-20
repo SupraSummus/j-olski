@@ -165,7 +165,7 @@ def przyimki(schematy_lematu: Sequence[str], tylko_pewne: bool = False) -> froze
 
     Kryterium jest jedno i czytają je dwie strony:
     kolumna leksykonu, którą wypisuje :func:`leksykon`,
-    i sonda wyceniająca to kryterium nad samym Walentym (``sonda/rama.py``).
+    i sonda wyceniająca to kryterium nad samym Walentym (``harness/rama.py``).
     Druga kopia rozeszłaby się cicho,
     bo rozejście widać dopiero w liczbach, a nie w wydruku.
 

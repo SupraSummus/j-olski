@@ -45,9 +45,9 @@ tak samo.
 
 Wynik czyta ``docs/architecture.md``.
 
-    python3 -m sonda.znaczenia Składnica-frazowa-180723/
-    python3 -m sonda.znaczenia Składnica-frazowa-180723/ --morfologia live
-    python3 -m sonda.znaczenia proza/README.txt
+    python3 -m harness.znaczenia Składnica-frazowa-180723/
+    python3 -m harness.znaczenia Składnica-frazowa-180723/ --morfologia live
+    python3 -m harness.znaczenia proza/README.txt
 """
 
 from __future__ import annotations
@@ -271,7 +271,7 @@ def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
     """To samo pytanie nad prozą, czyli nad rejestrem, w którym oba kierunki stoją.
 
     Fragment nie jest zdaniem i do mianownika nie wchodzi, tak samo jak nie
-    wchodzi do sond różnicowych tego pakietu (``sonda/ruch.py``).
+    wchodzi do sond różnicowych tego pakietu (``harness/ruch.py``).
     """
     raport = Raport(przykłady)
     for werdykt in check(tekst):
@@ -435,7 +435,7 @@ def _przykłady(raport: Raport, klucz: str) -> list[str]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.znaczenia",
+        prog="python3 -m harness.znaczenia",
         description="Policz, ile z meldowanej wieloznaczności zostaje w kategoriach dziedziny.",
     )
     parser.add_argument("ścieżka", help="katalog z rozpakowaną Składnicą albo plik z prozą")
@@ -467,8 +467,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(wydruk(raport, f"Składnica, morfologia {args.morfologia}"))
         return 0
     if not ścieżka.is_file():
-        print(f"sonda.znaczenia: nie ma takiej ścieżki: {ścieżka}", file=sys.stderr)
-        print("sonda.znaczenia: skąd wziąć bank drzew, mówi docs/corpus.md", file=sys.stderr)
+        print(f"harness.znaczenia: nie ma takiej ścieżki: {ścieżka}", file=sys.stderr)
+        print("harness.znaczenia: skąd wziąć bank drzew, mówi docs/corpus.md", file=sys.stderr)
         return 2
     raport = nad_prozą(ścieżka.read_text(encoding="utf-8"), przykłady=args.przykłady)
     print(wydruk(raport, f"{ścieżka}, morfologia live"))

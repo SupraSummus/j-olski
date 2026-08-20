@@ -233,7 +233,7 @@ def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padł
     więc kandydat powstaje i przegrywa dopiero na porównaniu form.
     Pomiar nad rejestrem liczy te dwie rzeczy osobno, bo pierwsza mówi,
     o ile ten zapis musiałby urosnąć, a druga, że kierunki mówią co innego
-    o jednym zdaniu (``sonda/znaczenia.py``).
+    o jednym zdaniu (``harness/znaczenia.py``).
     """
     odczyt = rozbierz(zdanie)
     assert odczyt.drzewa == ()

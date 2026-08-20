@@ -271,7 +271,7 @@ ZASIĘG_FRAZY = 3
 
 #: Skąd świadek bierze kandydatów na gospodarza: ciąg form zdania i pozycja
 #: przyimka, a z nich formy, przy których fraza mogła stanąć. Podstawiane, bo
-#: cenę tej reguły mierzy się wariantem (``sonda/powtórzenie.py``), tak jak cenę
+#: cenę tej reguły mierzy się wariantem (``harness/powtórzenie.py``), tak jak cenę
 #: progów mierzy krzywa świadka statystycznego.
 Kandydaci = Callable[[Sequence[str], int], Iterator[str]]
 
@@ -474,7 +474,7 @@ class Powtórzenie:
     #: Reguła kandydata, czyli to, co w sąsiedztwie liczy się za miejsce
     #: „przy gospodarzu”. Podstawiana po to, żeby dała się wycenić wariantem,
     #: a nie po to, żeby ją zmieniać w werdykcie: cenę drukuje
-    #: ``sonda/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
+    #: ``harness/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
     kandydaci: Kandydaci = _łańcuch
     #: Lematy, którymi gospodarz dowodu się nie dopasuje (:data:`KOPULY`).
     #: Podstawiane tą samą drogą i z tego samego powodu co :attr:`kandydaci`.
@@ -543,7 +543,7 @@ class Rama:
     a nie wolno go przenieść na inną parę słów.
 
     **Wskazuje sam rzeczownik i jest to połowa kryterium, a nie jego całość.**
-    Obie strony wyceniono przed dopisaniem świadka (``sonda/rama.py``)
+    Obie strony wyceniono przed dopisaniem świadka (``harness/rama.py``)
     i wypadły inaczej:
     rama rzeczownika myli się rzadziej niż raz na dwadzieścia odpowiedzi,
     a rama czasownika tyle, ile rzut monetą nad wyborem dwóch stron.
@@ -766,7 +766,7 @@ def strona(forma: str) -> str:
     Jedno miejsce, bo pytają o to dwie strony:
     świadek statystyczny, który pod tą nazwą bierze liczniki pary,
     i pomiar, który jego wskazanie zestawia z cudzym drzewem
-    (``sonda/wskazania.py``).
+    (``harness/wskazania.py``).
     Druga kopia tej reguły kazałaby pomiarowi mierzyć innego świadka niż ten,
     którego wypuszcza ``olski-check``.
     """

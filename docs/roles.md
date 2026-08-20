@@ -125,16 +125,14 @@ bo wtedy istnieją dwie wersje i nie widać, która obowiązuje.
 
 ## Ktoś, kto mierzy
 
-Pyta, która liczba się ruszyła i co trzeba przeliczyć.
-Odpowiada mu jedna komenda: `python3 -m harness.figury` daje na każdą figurę
-odpowiedź wraz z powodem, nie pobiera przy tym niczego
-i wskazuje plik w `figury/` z wydrukiem oraz z poleceniem, którym ten wydruk powstaje.
-Ta sama komenda z `--należne` przelicza naraz wszystko, co nazwała należnym,
-a figurę, przy której mówi `bez pliku`,
-podnosi pierwszym przebiegiem ten, kto ma czym go wykonać.
-Dalej ta droga idzie do sekcji, którą raport nazywa obok figury,
-bo tam stoi zdanie, które przeliczenie ruszające rząd wielkości odwraca,
-i do tego, co figura zapisała jako zostające ręką.
+Pyta, ile ta gramatyka dziś kosztuje i co kupuje.
+Odpowiadają mu narzędzia w `harness/`: każde drukuje swoje liczby,
+żadne nie zapisuje ich do repozytorium,
+a korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
+([corpus.md](corpus.md#fetching-it)).
+Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia
+([CLAUDE.md](../CLAUDE.md#checks)),
+więc zdanie w dokumencie mówi rząd wielkości, a przebieg mówi liczbę.
 Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z torem lintera,
 i każdy dokument, który je nosi, mówi to o sobie sam:
 [firing-rates.md](firing-rates.md) nazywa wypisane w sobie polecenia zapisem,

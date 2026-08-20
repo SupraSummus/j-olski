@@ -19,7 +19,7 @@ a wolno wszędzie, bo bez spójności między frazą a jej gospodarzem nie musi 
 stać. Sonda przepuszcza więc zdania przyjęte przez olskiego przez podłoże więzowe
 dwa razy, ze spójnością i bez niej, i liczy tabelę przejść między werdyktami.
 
-Cena idzie po podłożu z ``sonda/wiezy.py``, a nie po gramatyce olskiego, bo
+Cena idzie po podłożu z ``harness/wiezy.py``, a nie po gramatyce olskiego, bo
 spójność da się zdjąć tylko tam: produkcja wyprowadza jeden odcinek tekstu i
 zdjąć tego nie umie, a podłoże ma spójność jednym więzem globalnym. Kosztuje to
 tyle, że podłoże jest deklaracją węższą od gramatyki i odrzuca część zdań, które
@@ -34,7 +34,7 @@ drugim z dwóch.
 
 Wynik czyta ``docs/design-notes.md``, gdzie stoi też to, na co nie odpowiada.
 
-    python3 -m sonda.nieciągłość Składnica-frazowa-180723/
+    python3 -m harness.nieciągłość Składnica-frazowa-180723/
 """
 
 from __future__ import annotations
@@ -50,12 +50,12 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.polszczyzna import GRAMATYKA
+from harness.wiezy import rozbierz
 from olski.corpus import constituents, parse_forest, pliki, read_forest
 from olski.coverage import Outcome, po_kawałkach, segments_for
 from olski.parse import parse
 from olski.subset import GRAMMAR
-from sonda.polszczyzna import GRAMATYKA
-from sonda.wiezy import rozbierz
 
 #: Nieterminal, którym Świgra zapisuje frazę stojącą przy zdaniu, a wymaganą przez
 #: coś w jego środku. Kategoria, a nie cecha, więc widać ją w drzewie wzorcowym.
@@ -362,7 +362,7 @@ def _przykłady(raport: Raport, klucz: tuple, nazwa: str) -> list[str]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.nieciągłość",
+        prog="python3 -m harness.nieciągłość",
         description="Policz, ile nieciągłość kupuje zdań i ile ich kosztuje.",
     )
     parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
@@ -389,8 +389,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     root = Path(args.root)
     if not root.is_dir():
-        print(f"sonda.nieciągłość: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("sonda.nieciągłość: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+        print(f"harness.nieciągłość: nie ma takiego katalogu: {root}", file=sys.stderr)
+        print("harness.nieciągłość: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
         return 2
     raport = przebieg(
         pliki(root)[: args.limit],

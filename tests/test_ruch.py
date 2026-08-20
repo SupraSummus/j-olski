@@ -1,20 +1,16 @@
-"""Własności sondy różnicowej, bez których jej tabela mówi o innej gramatyce.
+"""Własności pomiaru różnicowego, bez których jego tabela mówi o innej gramatyce.
 
-Sonda może skłamać po cichu na dwa sposoby: wariant, który miał być olskim, a nie
-jest, bo przepisanie produkcji coś po drodze zgubiło, oraz wariant jednej grupy,
-który zdejmuje cudzą albo zostawia obie. Oba zostawiają wydruk takim, jak
+Przebieg może skłamać po cichu na dwa sposoby: wariant, który miał być olskim, a
+nie jest, bo przepisanie produkcji coś po drodze zgubiło, oraz wariant jednej
+grupy, który zdejmuje cudzą albo zostawia obie. Oba zostawiają wydruk takim, jak
 wyglądał, więc widać je dopiero w liczbach `docs/subset.md`. Trzecia własność jest
 o zdaniach, którymi te dwie są sprawdzane: zdanie stojące na jednej grupie ma
 wychodzić jednoznaczne także pod wszystkimi grupami naraz.
 
-Te trzy idą po `SONDY`, a nie po jednej z nich, bo są własnościami deklaracji, a
-nie przysłówka ani wysunięcia: sonda dopisana do tej listy dostaje je za darmo, a
-pominięta w niej nie ma ich wcale. Idą przy tym po `Sonda.czysty`, a nie po
-numerze wariantu, bo tak samo pyta o niego `sonda/płaski.py`.
-
-Lista jest krótka, bo sonda różnicowa wychodzi z drzewa razem z konstrukcją,
-którą wyceniła (`sonda/__init__.py`), a te własności są o kształcie deklaracji,
-więc sprawdza je każda sonda, która akurat stoi.
+Idą po `SONDY`, bo są własnościami deklaracji, a nie przysłówka: deklaracja
+dopisana do tej listy dostaje je za darmo. Stoi w niej jedna, bo przebieg
+wyceniający wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi
+(`CLAUDE.md#code`), a ta jedna została, bo `harness/płaski.py` buduje nią wariant.
 """
 
 from __future__ import annotations
@@ -23,33 +19,19 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness import płaski
+from harness.ruch import Sonda, gramatyka, zmierz
 from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR, check
-from sonda import przysłówek, wysunięcie
-from sonda.ruch import Sonda, gramatyka, zmierz
 
-SONDY = [
-    przysłówek.SONDA,
-    wysunięcie.SONDA,
-]
+SONDY = [płaski.PRZYSŁÓWEK_SONDA]
 
-#: Sonda, wariant i zdanie, które stoi dokładnie na tej jednej grupie produkcji.
-#: Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania nie jest
-#: sprawdzona przez nic.
+#: Deklaracja, wariant i zdanie, które stoi dokładnie na tej jednej grupie
+#: produkcji. Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania
+#: nie jest sprawdzona przez nic.
 NA_JEDNEJ_GRUPIE = [
-    (przysłówek.SONDA, "okolicznik", "Teraz program zapisuje ustawienia."),
-    (przysłówek.SONDA, "przy przymiotniku", "Koszt bardzo dużego pliku jest niski."),
-    (
-        wysunięcie.SONDA,
-        "grupa względna z przyimkiem",
-        "Reguła, na podstawie której program zapisuje ustawienia, jest tania.",
-    ),
-    (
-        wysunięcie.SONDA,
-        "grupa względna bez przyimka",
-        "Ustawa, której przepisy obowiązują, jest tania.",
-    ),
-    (wysunięcie.SONDA, "grupa pytajna z przyimkiem", "W którym roku ustawa weszła?"),
+    (płaski.PRZYSŁÓWEK_SONDA, "okolicznik", "Teraz program zapisuje ustawienia."),
+    (płaski.PRZYSŁÓWEK_SONDA, "przy przymiotniku", "Koszt bardzo dużego pliku jest niski."),
 ]
 
 
@@ -126,6 +108,6 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
         verdict=FULL,
         roles=(("Subject", 0, 1),),
     )
-    raport = zmierz(przysłówek.SONDA, [zdanie], źródło="live")
-    assert raport.przejścia[przysłówek.SONDA.czysty] == {"rejected → valid": 1}
+    raport = zmierz(płaski.PRZYSŁÓWEK_SONDA, [zdanie], źródło="live")
+    assert raport.przejścia[płaski.PRZYSŁÓWEK_SONDA.czysty] == {"rejected → valid": 1}
     assert not raport.zgodność

@@ -226,7 +226,7 @@ Filtr w środku jest parametrem tego przebiegu, a nie osobnym celem:
 „użyj formy przestarzałej, jeżeli słownik ją ma” odwraca odsiew,
 który robi `_w_rejestrze` w `olski/skład/morfologia.py`,
 a „nie używaj tej konstrukcji” jest tym, co pomiar różnicowy robi już dziś,
-zdejmując produkcje i porównując werdykty (`sonda/ruch.py`).
+zdejmując produkcje i porównując werdykty (`harness/ruch.py`).
 Blokuje ten cel pytanie otwarte, a nie brak kodu:
 jedno czytanie wraca kilkoma drzewami
 ([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
@@ -732,8 +732,7 @@ za to zdejmuje z listy form bez licencji nad nią całą swoją klasę,
 i kolejkę nad tym plikiem prowadzi odtąd cząstka.
 Pary do przelicznika niżej to dopisanie nie dokłada,
 bo obietnicą jest wiersz `ger` liczony wtedy, gdy konstrukcji jeszcze nie ma,
-a przeliczenie tabeli, która ten wiersz trzyma, jest należne i nikt go tu nie wykonał
-([`harness/figury.py`](../harness/figury.py)).
+a tabeli, która ten wiersz trzyma, nikt tu od tamtej pory nie przeliczył.
 
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,

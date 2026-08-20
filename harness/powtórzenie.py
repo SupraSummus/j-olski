@@ -10,7 +10,7 @@ drzew jest zbiorem zdań stojących osobno.
 **Pozycji nie wyznacza werdykt, tylko morfologia**, bo świadek pytany o
 przyłączenia z werdyktów odpowiadałby o gramatyce; wywód i liczby pod nim trzyma
 ``pytania`` w ``olski/wieloznaczność.py``. Wzorzec czytany ręką stoi nad tą samą
-populacją (``sonda/wybory.py``), więc zasięg zmierzony tutaj i trafność zmierzona
+populacją (``harness/wybory.py``), więc zasięg zmierzony tutaj i trafność zmierzona
 tam mówią o jednych pytaniach.
 
 **Milczenie ma dwie przyczyny i osobno każda z nich myli.** Świadek nie ma czego
@@ -47,7 +47,7 @@ czyta się ręką, a przeczytane stoi w ``docs/disambiguation.md``.
 Korpusem jest proza wyekstrahowana z korpusu audytowego, a skąd ją wziąć, mówi
 ``docs/audit-corpus.md``:
 
-    python3 -m sonda.powtórzenie proza/
+    python3 -m harness.powtórzenie proza/
 """
 
 from __future__ import annotations
@@ -172,7 +172,7 @@ def _wypisz(nagłówek: str, odpowiedzi: Sequence[Odpowiedź], przyłączeń: in
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.powtórzenie",
+        prog="python3 -m harness.powtórzenie",
         description="Policz, ile świadek kontekstowy odpowiada nad prozą.",
     )
     parser.add_argument("root", help="katalog z prozą wyekstrahowaną do plików .txt")
@@ -181,8 +181,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     root = Path(args.root)
     ścieżki = sorted(root.rglob(PROZA))
     if not ścieżki:
-        print(f"sonda.powtórzenie: nie ma tu prozy: {root}/{PROZA}")
-        print("sonda.powtórzenie: skąd wziąć korpus, mówi docs/audit-corpus.md")
+        print(f"harness.powtórzenie: nie ma tu prozy: {root}/{PROZA}")
+        print("harness.powtórzenie: skąd wziąć korpus, mówi docs/audit-corpus.md")
         return 2
 
     pomiar = przebieg(ścieżki)

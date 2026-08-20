@@ -37,7 +37,7 @@ DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
 #: is a document, or in a test's docstring.
 SOURCES = sorted(
     path
-    for package in ("olski", "harness", "opowieści", "sonda", "tests")
+    for package in ("olski", "harness", "opowieści", "tests")
     for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
@@ -46,7 +46,7 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: points at the code that owns a fact. Renaming the file leaves the span
 #: looking live, exactly as a renamed section leaves a link looking live.
 CITED_PATH = re.compile(
-    r"`((?:olski|harness|sonda|tests|opowieści|próba)/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt))`"
+    r"`((?:olski|harness|tests|opowieści|próba)/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt))`"
 )
 #: The one document whose subject is code that is gone: it prices the retired
 #: pack at the state it was retired in, and ``CLAUDE.md`` says nothing in it is

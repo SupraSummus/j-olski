@@ -6,7 +6,7 @@ którego nikt nie pilnuje. Dwie rzeczy są inne, bo na nich stoi sekcja
 ten sam werdykt, i że nieciągłość jest tam zdejmowanym warunkiem, a nie
 konstrukcją.
 
-Pierwsza z nich pilnuje przy tym czegoś więcej niż siebie. ``sonda/polszczyzna.py``
+Pierwsza z nich pilnuje przy tym czegoś więcej niż siebie. ``harness/polszczyzna.py``
 jest drugą deklaracją podzbioru, więc zmiana w ``olski/subset.py`` zestarzeje ją
 po cichu, a ten test jest jedynym miejscem, w którym to wychodzi. Wtedy albo
 deklaracje idą za produkcjami, albo sonda się kasuje, i `TODO.md` mówi, co
@@ -17,9 +17,9 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.polszczyzna import GRAMATYKA
+from harness.wiezy import rozbierz
 from olski.subset import check, morphology
-from sonda.polszczyzna import GRAMATYKA
-from sonda.wiezy import rozbierz
 
 #: Zdania, nad którymi oba podłoża zgadzają się co do werdyktu, po jednym na
 #: konstrukcję, która to porównanie kiedykolwiek rozstrzygnęła: orzecznik w

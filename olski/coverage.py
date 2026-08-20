@@ -376,7 +376,7 @@ def po_kawałkach(ścieżki: Sequence[Path], jobs: int, praca):
 
     Wołający dostaje listę w kolejności kawałków i sam ją składa, bo licznik,
     który z kawałka wraca, jest jego, a nie tego podziału. Drugim wołającym jest
-    `sonda/przecinek.py`, i po to ten podział stoi osobno od `scal` niżej.
+    zmierzono osobno, i po to ten podział stoi osobno od `scal` niżej.
     """
     kawałki = [ścieżki[start : start + KAWAŁEK] for start in range(0, len(ścieżki), KAWAŁEK)]
     if jobs == 1:

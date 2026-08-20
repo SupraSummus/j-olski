@@ -192,9 +192,7 @@ Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
 więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
-a właściciela mają: figury `readme` i `sonda-readme` wymieniają `README.md`
-wśród ruszających, więc przeredagowanie czyni je należnymi przeliczenia
-i `python3 -m harness.figury` mówi to temu, kto przeredagowuje.
+a właściciela mają w figurach `readme` i `podłoża-readme`.
 Zostaje zejść z pełnej precyzji tym czterem:
 mianownikowi i dwóm zgodnościom w
 [`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
@@ -241,41 +239,22 @@ i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.
 
 ## Komendy i sondy
 
-Większość figur nie ma orzeczenia, kto jeszcze puści ich przebieg;
-ile dokładnie, mówi ostatni wiersz `python3 -m harness.figury`.
-Figura bez orzeczenia zachowuje się tak jak przed dopisaniem `powtórzy`,
-więc jedna zmiana w gramatyce czyni ją należną tak samo jak przedtem.
-Ruchem jest orzeczenie przy figurze, którą zmiana i tak rusza,
-a nie przebieg nad wszystkimi naraz, bo tego zabrania
-[leniwe przyjmowanie reguł](CLAUDE.md#reguły-przyjmujemy-leniwie).
-Do przeczytania jest przy każdej figurze sekcja wymieniona w jej `czyta`,
-bo zamknięcie żąda od niej zdania, że liczba jest sprzed tamtego commita.
-Sond odmowy zamknąć nie wolno — `sonda/luka.py` i `sonda/nieciągłość.py` —
-bo odmowa wraca, kiedy zakup przestanie być zerem.
-Sondy warstwy rozstrzygającej i te z rejestru ustaw mają czytelnika w dokumencie,
-który drukuje ich polecenia
-([`docs/disambiguation.md`](docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma),
-[`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
-więc zamknięcie którejkolwiek zaczyna się od skreślenia tamtego polecenia.
-Najbliżej zapadnięcia jest orzeczenie przy `sonda-readme`,
-bo wpis o sondzie piszącej podzbiór drugi raz stawia już warunek jej wycofania.
-
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
-`sonda/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
+`harness/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
 bo schemat tak oznaczony nie należy do rejestru, o który olskiemu chodzi,
-a `sonda/konwersy.py` bierze wszystkie schematy lematu i o kwalifikator nie pyta wcale.
+a `harness/konwersy.py` bierze wszystkie schematy lematu i o kwalifikator nie pyta wcale.
 Jedna z dwóch odpowiedzi jest gorsza i nie wiadomo która:
 liczba konwersów jest górnym oszacowaniem, które i tak myli się w jedną stronę
 ([`docs/disambiguation.md`](docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)),
 więc schemat archaiczny mógł ją podnieść, a mógł nie trafić w kryterium pary.
-Ruchem jest przebieg `sonda/konwersy.py` z tym odsiewem i bez niego,
+Ruchem jest przebieg `harness/konwersy.py` z tym odsiewem i bez niego,
 a potem albo `BRANE` wspólne dla obu sond, albo zapisany powód, czemu jedna go nie chce.
-Do przeczytania jest `_pewność` w `sonda/rama.py` oraz dwanaście par,
+Do przeczytania jest `_pewność` w `harness/rama.py` oraz dwanaście par,
 które tamta sonda wypisuje: jeżeli odsiew rusza liczbę, to rusza i te pary,
 a wtedy należy się ich przeczytanie, a nie sama poprawiona liczba.
 
 Sonda różnicowa nad prozą bierze jeden plik, a rejestr ustaw to siedem plików.
-`main` w `sonda/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
+`main` w `harness/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
 i na plik, który czyta jako prozę, więc siedmiu aktów nie ma jak podać:
 figury nad tym rejestrem trzeba wziąć po zlepieniu ich w jeden plik,
 i to zlepienie jest krokiem, którego dokument nie ma jak wydrukować obok liczby,
@@ -301,8 +280,8 @@ bierze pliki o rozszerzeniu, które ekstrakcja pisze,
 pomija katalog o nazwie zaczynającej się kropką — bo korpus stoi w repozytorium,
 a jego kontrola wersji korpusem nie jest — i woła się z obu komend,
 po czym `find` z tamtego polecenia znika,
-a razem z nim powłoka z czterech figur w [`harness/figury.py`](harness/figury.py),
-które biorą `sh -c` tylko po to, żeby ktoś rozwinął im glob.
+a razem z nim powłoka, którą polecenia biorą tylko po to,
+żeby ktoś rozwinął im glob.
 Przeciw pominięciu: katalog z kropką podany wprost staje się wtedy nieosiągalny,
 więc należy ono do chodzenia, a nie do testu na rozszerzenie.
 Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
@@ -380,7 +359,7 @@ zbiór jest pusty, czyli milczy tam, gdzie autor jest najbardziej zgubiony.
 Wpis o rozdzieleniu `no production takes` pyta o tę samą wadę wydruku
 po stronie leksykalnej i podnosi się osobno, bo tamten rusza pole w `Verdict`.
 
-`sonda/luka.py` przepisuje z `sonda/ruch.py` cały przebieg różnicowy:
+`harness/luka.py` przepisuje z `harness/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
 czyli około stu osiemdziesięciu wierszy stojących drugi raz.
 Połowa powodu, dla którego nie dało się ich wziąć stamtąd, zeszła
@@ -440,7 +419,7 @@ więc zjawisko zostaje, a przykład z tego pliku wyszedł.
 Rozjeżdża się razem z nim drugie zdanie tamtego akapitu:
 mówi ono o `dokładnie jednym` zdaniu odrzuconym bez ani jednej formy spoza produkcji,
 gdzie [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) liczy takich pięć.
-Do przeczytania jest ten akapit obok `python3 -m sonda proza/README.txt`
+Do przeczytania jest ten akapit obok `python3 -m harness.podłoża proza/README.txt`
 i tego samego zdania podanego przez `-c`.
 Ruchem jest albo zdanie, które README naprawdę ma i które ten czas pokazuje,
 albo powiedzenie tej ceny bez zdania z tego pliku.
@@ -451,7 +430,7 @@ a ten akapit o pozostałych 42, i różnicy nie tłumaczy w niej nic.
 Wpisu o figurach nad własną prozą to nie zamyka:
 tamten pyta, czy mianownik w ogóle zapisywać.
 
-`sonda/konwersy.py` liczy lematy, a pytanie pod nią jest o zdania.
+`harness/konwersy.py` liczy lematy, a pytanie pod nią jest o zdania.
 Wraca ona ze 144 lematami z 17 224,
 czyli mówi, ilu czasowników dotyczy rama, której zdanie przechodnie samo nie wybiera,
 i nie mówi, jak często taki czasownik pada bez pozycji rozstrzygającej;
@@ -467,7 +446,7 @@ bo sonda sądu o parze nie wydaje, a te dwanaście mówi,
 więc przebieg nad rejestrem wart jest dokładnie tyle, ile lista, na której stanie.
 
 Dwie sondy stoją nad jedną populacją i wołają tych samych świadków.
-`sonda/powtórzenie.py` i `sonda/wybory.py` pytają obie o `pytania` z
+`harness/powtórzenie.py` i `harness/wybory.py` pytają obie o `pytania` z
 `olski/wieloznaczność.py` i obie wypisują odpowiedź wraz ze zdaniem, nad którym
 padła; różni je to, że pierwsza wycenia wariantem granicę akapitu i regułę
 kandydata, a druga ma obok wzorzec czytany ręką
@@ -485,7 +464,7 @@ Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi
 
 `CZASOWNIK` znaczy w trzech miejscach trzy rzeczy i jeden plik importuje dwie.
 `olski/attachment.py` nazywa tak zbiór części mowy, `olski/rozstrzyganie.py` stronę
-wyboru (`"clause"`), a `sonda/polszczyzna.py` wzorzec `fin|impt|inf`.
+wyboru (`"clause"`), a `harness/polszczyzna.py` wzorzec `fin|impt|inf`.
 Nazwę drugą wzięto stamtąd, gdzie pierwsza już stała: komentarz przy niej mówi
 „tak jak nazywa je `olski/attachment.py`”, a tamten plik ma pod tą nazwą co innego.
 `olski/wieloznaczność.py` potrzebuje obu naraz, więc importuje jedną pod
@@ -496,11 +475,11 @@ i `STRONA_CZASOWNIKOWA` w miejsce `RZECZOWNIK` i `CZASOWNIK` — bo zbiór czę�
 pod tą nazwą stoi w dwóch plikach, a strona w jednym.
 Czytelników strony jest sześciu i wszyscy są nazwani z imienia:
 `strona`, `wypadki`, `zbuduj`, `oceń` i `Skłonność.wybierz` w tamtym module
-oraz `sonda/wskazania.py`.
+oraz `harness/wskazania.py`.
 `olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
 te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
-`sonda/ruch.py` pomija zbędne rozbiory nad bankiem drzew, a nad prozą nie.
+`harness/ruch.py` pomija zbędne rozbiory nad bankiem drzew, a nad prozą nie.
 `_warianty` rozbiera zdanie olskim i odrzuceniem zamyka pozostałe warianty,
 bo ich czytania są podzbiorem czytań olskiego,
 a `nad_prozą` obok woła `check` raz na wariant,
@@ -515,38 +494,7 @@ Do przeczytania jest `check`: liczy jeszcze `bez_licencji` i całą `DEKLARACJA`
 których `nad_prozą` nie czyta ani razu,
 więc razem z tym ruchem rozstrzyga się, czy wspólna funkcja liczy je zawsze.
 
-Dziewięć sond różnicowych rozbiera nad Składnicą tę samą gramatykę olskiego.
-Wariant `czysty` jest w każdej z nich dokładnie olskim,
-a `_warianty` rozbiera nim każde zdanie jako pierwsze,
-więc rozbiór trzynastu tysięcy zdań powtarza się dziewięć razy,
-raz na proces, który `harness.figury` uruchamia po kolei.
-Ruchem jest przebieg czytający bank drzew raz i puszczający sondy razem,
-z rozbiorem olskiego liczonym raz na zdanie.
-Ceną jest to, na czym stoi `harness/figury.py`:
-figura deklaruje polecenie słowo po słowie, a jej plik to polecenie zapisuje,
-więc figura wzięta przebiegiem zbiorczym traci polecenie,
-którym da się ją powtórzyć osobno.
-Rozstrzygnąć trzeba więc najpierw, czy deklaracja umie nazwać jedno i drugie,
-a nie jak scalić przebiegi.
-Wpis o czterech przebiegach budujących nad Składnicą te same lasy
-pyta o to samo od strony pomiaru i podnosi się razem z tym.
-
 ## Korpusy, ekstrakcja i figury
-
-Osiemnaście figur ma deklarację w `harness/figury.py` i nie ma pliku,
-bo pierwszego przebiegu nie zrobił nikt: `python3 -m harness.figury` wypisuje je
-pod odpowiedzią `bez pliku` wraz z tym, czego każda z nich wymaga.
-Podnosi je ten, kto ma korpus albo prozę z niego wyjętą, po jednej,
-a każda kosztuje dwie rzeczy: sam przebieg
-oraz prozę, z której po nim schodzi pełna precyzja, nagłówek z cyfrą włącznie.
-Drugie jest droższe, bo akapit wylicza dziś liczby jedną z drugiej
-(„cząstka kupuje 99, obie 148, czyli przypadek dokłada 49”),
-a restytucja mówi to stosunkiem, więc jest przepisaniem zdania, a nie podmianą liczby.
-Wzorcem jest negacja: deklaracja, wydruk w `figury/`,
-a w [`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)
-restytucja grubsza od niego i wskaźnik.
-Figura, której nikt nie rusza, czeka na miejscu,
-bo tekst napisany przed regułą nie jest usterką.
 
 `python3 -m harness.endings proza` liczy, co w `proza/` stoi, a nie korpus audytowy.
 Figura `końcówki` deklaruje `proza/ksef` i `proza/rit`,
@@ -561,44 +509,6 @@ Ruchem jest ścieżki liczone przez sondę wziąć z argumentów zamiast z jedne
 czyli w tej sekcji i w tej figurze wymienić oba katalogi.
 Do przeczytania jest `main` w `harness/endings.py`,
 bo od tego zależy, czy druga ścieżka nie żąda zmiany w tym, co sonda przechodzi.
-
-Sekcja o cenie negacji mówi o jednym zdaniu, a figura wypisuje ich osiem.
-[`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)
-liczy cenę tej konstrukcji trafnością i nazywa jedno zdanie czytane inaczej niż bank drzew,
-a wiersz `disagrees` w `figury/negacja.txt` ma ich osiem
-i tylko jedno z nich jest tym, o którym ta sekcja mówi:
-dopełniaczem stojącym przed swoim czasownikiem.
-Reszta to rozbieżności zasięgu, które
-[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-liczy osobno i nazywa czym innym niż czytaniem odwróconym.
-Ruchem jest zdanie mówiące, ile z tych ośmiu należy do klasy, o którą tej sekcji chodzi,
-a przed nim odczyt ręczny tych ośmiu, bo `agreement` w `olski/coverage.py`
-oddziela odwrócenie roli od sprzeczności zasięgu, a nie zasięg od zasięgu.
-Do przeczytania jest przy tym `figury/szyk.txt`,
-bo cztery zdania tej klasy zeszły z tamtej listy razem z czterema szykami
-i [tamta sekcja](docs/subset.md#większość-tych-zdań-jest-naprawą-a-nie-ceną) je wypisuje.
-
-Sekcje restytuujące potrafią zardzewieć w pliku figury i raport tego nie widzi.
-`stan` w `harness/figury.py` porównuje polecenie oraz odciski, a `czyta` zapisuje
-z deklaracji tylko `zapis`, więc sekcja dopisana do deklaracji zostawia w pliku
-listę krótszą, a figura wychodzi z raportu jako aktualna.
-Trafiło się to przy przysłówku, gdzie sekcji jest trzy, i zeszło przeliczeniem,
-którego nie zamawiał żaden ruszony plik.
-Ruchem jest test na tę parę, a nie `czyta` wśród rzeczy porównywanych przez `stan`:
-tamto policzyłoby figurę za należną przeliczenia nad korpusem po to,
-żeby przepisać jej nagłówek, choć liczby stoją.
-Do przeczytania jest `nagłówek` obok `zapis`, bo czyta ono dziś polecenie
-i odciski, a sekcji nie zwraca, więc test bez tego nie ma czego porównać.
-
-Restytucji nikt nie pilnuje i wpisanie do niej pełnej precyzji z powrotem nic nie
-kosztuje, choć jest to dokładnie ta usterka, przed którą właściciel figury broni.
-Ruchem jest pytanie zadawane przez `harness/figury.py` sekcji z `czyta`:
-liczba, która pada w niej tak samo, jak pada w pliku figury,
-jest kopią właściciela, a nie restytucją grubszą od niego.
-Do rozstrzygnięcia jest, ile taki test myli się na liczbach, których nie wziął
-żaden przebieg — rozmiar korpusu, numer paragrafu, rok wydania —
-i czy odsiew po samych cyfrach wystarczy, żeby nie liczyć słowa „jedno” za figurę.
-Wart jest tyle, ile figur ma właściciela, więc rośnie z każdą konwersją.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -628,7 +538,7 @@ Wiersz `prep` z jedną grupą produkcji zdjętą, ten sam z drugą, trzydzieści
 przyłączeniowych zdjętych naraz oraz kolumna najczęstszych form przy każdym blokerze
 powstają dziś skryptem pisanym na jeden przebieg i kasowanym po nim,
 a sekcja o nich wskazuje ten plik jako miejsce, gdzie stoi, co by je uwolniło.
-`sonda/ruch.py` jest tym kształtem od tej strony, której brakowało:
+`harness/ruch.py` jest tym kształtem od tej strony, której brakowało:
 sonda deklaruje, do której grupy należy produkcja, a przebieg, warianty i tabelę
 dostaje gotowe, więc dwie pierwsze figury są predykatem i sześcioma wierszami deklaracji.
 Brakuje temu przebiegowi jednej rzeczy, której te figury żądają, a przecinek i liczebnik nie:
@@ -701,7 +611,7 @@ is the second copy of a fact that
 
 Leksykon projektu rusza w deklaracji dwie figury i nie wiadomo, czy tylko dwie.
 `olski/projekt.py` wraz z `olski/projekt.txt` stoi wśród ruszających przy `readme`
-i przy `sonda-readme`, bo tam zmierzono, że rusza
+i przy `podłoża-readme`, bo tam zmierzono, że rusza
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)),
 a figury nad prozą korpusu audytowego i nad rejestrem ustaw jego nie mają,
 choć czytają tekst tą samą drogą.
@@ -709,11 +619,9 @@ Rozstrzyga o tym jedna rzecz: czy ta proza pisze którąkolwiek formę tego leks
 bo wiersz nazywa formę, której słownik nie czyta,
 więc nad korpusem, który tej formy nie pisze, nie rusza on ani jednej liczby.
 Ruchem jest więc grep form tego leksykonu po `proza/`,
-a po nim albo dopisanie obu plików do tych figur, albo zdanie mówiące,
-czemu ich tam nie ma; wypisuje je `odmiana` w `olski/projekt.py`.
-Do przeczytania jest przy tym `ruszają` w
-[`harness/figury.py`](harness/figury.py), bo pole to jest pytaniem o możliwość,
-a nie o przebieg, i od tego zależy, czy odpowiedź „nie pisze” w ogóle wystarcza.
+a po nim albo przeliczenie obu figur, albo zdanie mówiące,
+czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
+`olski/projekt.py`.
 
 ## Gramatyka, parser i pomiar pokrycia
 
@@ -762,8 +670,8 @@ więc `KOPULY` odbiera dowód, zamiast dać świadkowi pytanie, na które kopuł
 Świadka pytającego o drzewo dziedziny zamiast o gospodarza zmierzono przed napisaniem
 i wyszło, że nie miałby o co pytać:
 warstwa znacząca tego rejestru nie dosięga,
-więc pytanie padłoby nad jednym zdaniem wieloznacznym banku drzew z kilkuset
-(`figury/znaczenia.txt`).
+więc pytanie padłoby nad jednym zdaniem wieloznacznym banku drzew z kilkuset,
+coś, co liczy `python3 -m harness.znaczenia`.
 Zostaje z tego kolejność:
 pytanie ponad składnią stawia się dopiero za kategoriami, których ten zapis nie ma,
 a pierwszą z nich jest wyrażenie przyimkowe pod grupą imienną,
@@ -787,7 +695,7 @@ Ruchem jest `word` przyjmujący krotkę albo `frozenset` obok napisu,
 a wtedy jedna rzecz ma dwie pisownie obok siebie,
 albo `word` przyjmujący samą krotkę, a wtedy zmiana sięga każdego terminala
 w `olski/subset.py` i w sondach, które terminale pisują same
-(`sonda/polszczyzna.py`, `sonda/luka.py`).
+(`harness/polszczyzna.py`, `harness/luka.py`).
 Werdyktu nie rusza ani jedno, ani drugie, więc figury po tym nie chodzą,
 i dlatego ten wpis jest tu, a nie w zmianie, która o niego potrącała.
 Do przeczytania jest `bierze` w `olski/grammar.py`:
@@ -921,8 +829,8 @@ pozycję ramy niesie fraza bezokolicznikowa
 ([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc dopełnienie przed nią stoi wewnątrz orzeczenia,
 a nie w kolejności podmiotu wobec czasownika.
-Sonda różnicowa nad tym jednym ciałem, wzorowana na `sonda/wysunięcie.py`,
-idzie przed decyzją.
+Pomiar różnicowy nad tym jednym ciałem idzie przed decyzją;
+prowadzi go `harness/ruch.py`.
 
 Forma `nie` ma u Morfeusza czytanie zaimkowe, którego polszczyzna w tym miejscu
 nie ma: jest to biernik `on` w postaci popodstawowej, czyli tej, która stoi
@@ -1092,8 +1000,8 @@ gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic i
 Ruchem jest czwarte zdanie leksykonu, wzięte z `cp(int)` przez `olski/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
 Do rozstrzygnięcia jest, czym ten wariant zmierzyć:
-`sonda/ruch.py` zdejmuje grupy produkcji, a zawężenie ramy jest zmianą danych,
-więc albo maszyneria bierze gramatykę wariantu funkcją — o co prosi też `sonda/luka.py` —
+`harness/ruch.py` zdejmuje grupy produkcji, a zawężenie ramy jest zmianą danych,
+więc albo maszyneria bierze gramatykę wariantu funkcją — o co prosi też `harness/luka.py` —
 albo przebieg staje obok niej i wtedy jest drugą deklaracją tego samego.
 Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 `bierze_zdanie` w `olski/walencja.py` czyta ono, a pytania zależnego
@@ -1136,7 +1044,7 @@ Do przeczytania jest cena tamtego kryterium
 ([`docs/subset.md`](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
 bo rozszerzenie płaci tą samą walutą, tylko na kilku lematach naraz.
 Cena jest niepoliczona i sonda różnicowa jej nie policzy,
-bo `sonda/ruch.py` zdejmuje produkcje, a to jest zmiana warunku w terminalu;
+bo `harness/ruch.py` zdejmuje produkcje, a to jest zmiana warunku w terminalu;
 liczbę wydaje przebieg nad korpusem z warunkiem i bez niego, czytany ręką,
 tak samo jak przy tamtym kryterium.
 
@@ -1268,20 +1176,20 @@ etykietą, po której da się ją policzyć.
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
-a `sonda/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
-Trzeci jest `sonda/wskazania.py`, który tych samych przyłączeń potrzebuje,
+a `harness/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
+Trzeci jest `harness/wskazania.py`, który tych samych przyłączeń potrzebuje,
 żeby zapytać o nie warstwę, i różni się od dwóch pozostałych tym, że czyta las
 razem z cudzym drzewem — więc scalenie obejmuje go dopiero wtedy, gdy przebieg
 zbiorczy umie oddać jedno i drugie.
-Czwarty jest `sonda/znaczenia.py` i on jeden potrzebuje samych czytań, a nie
+Czwarty jest `harness/znaczenia.py` i on jeden potrzebuje samych czytań, a nie
 podsumowania z nich, bo każde puszcza przez `abstrahuj`; przebieg zbiorczy albo
 odda drzewa czytań przez granicę procesu, albo zrobi tę abstrakcję u siebie,
 i to jest pytanie do rozstrzygnięcia przed scaleniem, a nie po nim.
-Ten sam czwarty przepisuje z `sonda/czytania.py` całe rusztowanie przebiegu
+Ten sam czwarty przepisuje z `harness/czytania.py` całe rusztowanie przebiegu
 spisowego — `Raport`, `zanotuj`, `scal`, pulę procesów i tabelę procentową —
-czyli to, czym `sonda/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają;
+czyli to, czym `harness/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają;
 scalenie przebiegów zdejmuje połowę tego duplikatu i dlatego idzie przed nim.
-Rusztowanie to przepisuje także `sonda/płaski.py`, a lasów olskiego nie buduje
+Rusztowanie to przepisuje także `harness/płaski.py`, a lasów olskiego nie buduje
 wcale, bo mierzy wariant gramatyki, więc scalenie przebiegów go nie obejmie
 i zostanie po nim sam duplikat rusztowania — to on mówi, ile ono jest warte
 osobno.
@@ -1397,7 +1305,7 @@ That net is what the grammar track now asks of every addition before it lands
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 so this part of the entry carries a rule rather than a convenience.
 The third of those moves exists, and for that second caller rather than for this one.
-`sonda/ruch.py` runs olski against a variant and prints what moved between them,
+`harness/ruch.py` runs olski against a variant and prints what moved between them,
 and five probes are written as declarations against it, `przecinek.py` among them,
 while `nieciągłość.py` computes its own net beside that machinery rather than on it.
 What the machinery takes is a group of productions removed from olski,
@@ -1449,7 +1357,7 @@ bo pozycja ta daje zdaniu czasownikowemu drugie czytanie z podmiotem,
 gdzie pozostałe pozycje okolicznika dają drugie przyłączenie.
 Jest to więc inne pytanie niż to, na które odpowiada
 [reguła o obu czytaniach](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-i sondą je bierze `sonda/ruch.py` tak samo jak każdą inną grupę produkcji.
+i sondą je bierze `harness/ruch.py` tak samo jak każdą inną grupę produkcji.
 Do przeczytania jest cena czterech szyków dopisanych
 ([`docs/subset.md`](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
 bo one też kupowały czytania z podmiotem i wróciły z ceną siedmiu zdań.
@@ -1483,7 +1391,7 @@ Do przeczytania jest `_role` w `olski/skład/rozbiór.py`,
 bo czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź.
 
-`sonda/polszczyzna.py` jest drugą deklaracją podzbioru,
+`harness/polszczyzna.py` jest drugą deklaracją podzbioru,
 który deklaruje `olski/subset.py`,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
@@ -1509,24 +1417,20 @@ i tamten ruch jest zrobiony
 więc kopia trzyma odtąd samą liczbę zdań zgodnych,
 czyli to, co po każdej produkcji mówi coraz mniej o różnicy dwóch formalizmów,
 a coraz więcej o tym, czego sonda nie ma.
-Ruchem jest wtedy `git rm sonda/__main__.py sonda/polszczyzna.py sonda/wiezy.py`
+Ruchem jest wtedy `git rm harness/podłoża.py harness/polszczyzna.py harness/wiezy.py`
 wraz z `tests/test_sonda.py`,
-z figurami [tamtej sekcji](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-oraz z figurą `sonda-readme` w [`harness/figury.py`](harness/figury.py)
-i jej wydrukiem w `figury/`.
-Katalog zostaje, bo `sonda/wysunięcie.py` jest osobną sondą wokół osobnej decyzji,
-i zostaje z nim nazwa `sonda` w `SOURCES` z `tests/test_docs.py`.
-Zostaje z sekcji to, co figur nie potrzebuje:
+wraz z liczbami [tamtej sekcji](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą).
+Zostaje z niej to, co pomiaru nie potrzebuje:
 że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
 i że jednoznaczność bywa osiągana bez trafności.
 Kasowanie zabiera przy tym jedyny mechanizm w repozytorium,
 który wypuszcza konstytuent nieciągły:
-`spójne` w `sonda/wiezy.py` jest warunkiem zdejmowanym,
+`spójne` w `harness/wiezy.py` jest warunkiem zdejmowanym,
 a produkcja z `olski/subset.py` spójności zdjąć nie umie.
 Tym warunkiem zmierzono cenę nieciągłości i zamknięto
 [rozwidlenie o przestawianiu](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
-a liczy ją `sonda/nieciągłość.py`, czyli trzeci plik tego katalogu,
-który `sonda/wiezy.py` i `sonda/polszczyzna.py` czyta.
+a liczy ją `harness/nieciągłość.py`, czyli trzeci plik tego katalogu,
+który `harness/wiezy.py` i `harness/polszczyzna.py` czyta.
 Lista plików wyżej nie obejmuje więc tego, co kasowanie naprawdę zabiera,
 a [sekcja Checks](CLAUDE.md#checks) każe tę cenę przeliczać razem z gramatyką.
 Ruch dopisuje sobie przez to jedno rozstrzygnięcie:
@@ -1535,7 +1439,7 @@ i tamta sekcja mówi o niej to, co `docs/firing-rates.md` mówi o sobie,
 czyli że jest ceną, przy której decyzja zapadła,
 albo podłoże zostaje po to jedno, a kasowanie obejmuje samo porównanie deklaracji.
 
-Liczba pozycji na `Modifier` w `sonda/polszczyzna.py` nie ma wyprowadzenia.
+Liczba pozycji na `Modifier` w `harness/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
 a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
 jakim udało się tę liczbę odtworzyć:
@@ -1592,7 +1496,7 @@ bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
 Etykieta roli nad wysuniętym czołem nie rusza ani jednego
 ([`docs/subset.md`](docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
-a `Raport.zapisz` w `sonda/ruch.py` notuje zgodność ról pod zdaniem nowo przyjętym,
+a `Raport.zapisz` w `harness/ruch.py` notuje zgodność ról pod zdaniem nowo przyjętym,
 czyli dokładnie tam, gdzie werdykt się ruszył,
 i `Outcome.ocalenie` nie bierze wcale.
 Zakup wzięto więc dwoma przebiegami `olski-corpus` i odjęciem wierszy ręką,
@@ -1605,10 +1509,10 @@ a nie tylko tego, którego werdykt się ruszył.
 Drugą jest gramatyka wariantu brana funkcją, a nie zdejmowaniem grupy produkcji:
 etykieta jest konstytuentem nad czołem, a ciała zdania biorą ją nazwą symbolu,
 więc zdjęta zostawia rodzinę względną bez córki, a nie bez etykiety.
-Tego samego żąda od tej maszynerii `sonda/luka.py`.
+Tego samego żąda od tej maszynerii `harness/luka.py`.
 
 Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
-`DOMYKA` w `sonda/luka.py` wymienia `RelativeCore` i nic poza nim,
+`DOMYKA` w `harness/luka.py` wymienia `RelativeCore` i nic poza nim,
 a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
 także czoło pytania, więc wariant z luką zdejmuje ciała względne,
 a pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
@@ -1701,17 +1605,17 @@ sondy nie ruszyła się o więcej niż pół punktu, więc pewność schematu te
 odróżnia, a przypadek jest drugim zwężeniem, jakie ten słownik daje bez czytania
 schematów ręką
 ([`docs/disambiguation.md`](docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
-Wpis jest winien przebiegi `sonda/rama.py` oraz `--oceń`, bo rusza obie ich pary liczb.
+Wpis jest winien przebiegi `harness/rama.py` oraz `--oceń`, bo rusza obie ich pary liczb.
 
 Świadek ramowy nie widzi gospodarza imiennego, którego forma ma czytanie czasownikowe.
 Stronę gospodarza nazywa `strona` w `olski/rozstrzyganie.py`, a nazywa ją po
 „którymkolwiek czytaniu”, więc `opieka` trafia na stronę czasownikową przez lemat
 `opiekać`, a rama `opieka`, która żąda `nad`, nie ma wtedy czego wskazać.
 Odpowiedź `uzyskać` z `nad` przy `opieka` stoi wypisana wśród dwunastu, które
-drukuje `sonda/rama.py`, i tam trafia, bo tam stronę daje bank drzew, a nie Morfeusz.
+drukuje `harness/rama.py`, i tam trafia, bo tam stronę daje bank drzew, a nie Morfeusz.
 Wskazania świadek przez to nie myli, tylko milczy, więc cena stoi w zasięgu.
 Ruchem nie jest drugie kryterium obok `strona`:
-o `strona` pyta także `sonda/wskazania.py`, więc druga reguła rozeszłaby się z nią
+o `strona` pyta także `harness/wskazania.py`, więc druga reguła rozeszłaby się z nią
 cicho, a rozejście widać dopiero w liczbach.
 Ruchem jest albo rodzaj konstytuentu wniesiony do `Przyłączenie` w `olski/parse.py` —
 gramatyka go zna, bo `gospodarze` w `DEKLARACJA` wylicza symbole, na których
@@ -1727,14 +1631,14 @@ ramy, a nie rzeczownikiem, którego rama tej pozycji nie ma.
 Liczby są dwie i bank drzew nie mówi ani o jednej:
 ile pozycji spornych `olski/wieloznaczność.py` wypuszcza nad korpusem audytowym
 z rzeczownikiem wypisanym w Walentym, i na ilu z nich świadek odpowiada.
-Ruchem jest wiersz w `sonda/wskazania.py` albo osobny przebieg nad `proza/`,
-wzorowany na `sonda/powtórzenie.py`, który tę populację już liczy
+Ruchem jest wiersz w `harness/wskazania.py` albo osobny przebieg nad `proza/`,
+wzorowany na `harness/powtórzenie.py`, który tę populację już liczy
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Do rozstrzygnięcia jest, czy ta liczba jest wierszem tabeli świadków,
 czy figurą osobną: tabela liczy odpowiedzi, a to jest pytanie o mianownik pod nimi.
 
 Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma siedemnaście.
-`sonda/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
+`harness/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
 akapitu i 130 bez niej, a przeczytane ręką jest siedem pierwszych i dziesięć
 rozrzuconych po pozostałych
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
@@ -1788,7 +1692,7 @@ czyli takie, które formę o czytaniu osobowym zatrzymuje —
 `OSOBOWY` w tym samym pliku wylicza te czytania pod pomiar synkretyzmu.
 Do przeczytania jest przedtem, ile ten warunek zabiera, bo łańcuch urwany za wcześnie
 odbiera gospodarza głowie grupy, czyli to, po co ten łańcuch tam stoi;
-mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m sonda.powtórzenie`
+mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m harness.powtórzenie`
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Ten sam warunek czyta `_łańcuch` w `olski/rozstrzyganie.py`, bo kryterium jest jedno,
 a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest inna po obu stronach.
@@ -1801,7 +1705,7 @@ bez związku z rzeczą. Nad korpusem audytowym rozstrzyga to samo `być`, a `zos
 i `pozostawać` ruszają wyłącznie wariant sondy pytający o cały prefiks zdania,
 gdzie zdjęcie takiego dowodu odsłania gospodarza zasłoniętego przez kopulę.
 Liczbę tę daje `Powtórzenie(kopuly=frozenset({"być"}))` puszczone przez
-`przebieg` w `sonda/powtórzenie.py` obok listy pełnej: wiersze wypuszczany,
+`przebieg` w `harness/powtórzenie.py` obok listy pełnej: wiersze wypuszczany,
 bez granicy akapitu i „sąsiad bezpośredni” wychodzą wtedy identyczne,
 a „cały prefiks zdania” schodzi ze 126 na 124.
 Do przeczytania jest, czy dowód przy `zostać` w stronie biernej mówi coś o rzeczy:
@@ -1813,7 +1717,7 @@ Rozstrzygnąć to znaczy wybrać między jedną listą o dwóch kryteriach a dwi
 które rozjadą się przy pierwszym lemacie dopisanym po jednej stronie.
 
 Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widziała.
-`sonda/wskazania.py` puszcza świadków z `domyślni`, czyli z
+`harness/wskazania.py` puszcza świadków z `domyślni`, czyli z
 `olski/skłonności.txt`, a ten plik powstaje z całej Składnicy, po której ten
 przebieg idzie, więc 96,1% spod
 [tabeli nad werdyktami](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
@@ -1831,7 +1735,7 @@ Do przeczytania jest przy tym `KAWAŁEK` w `olski/coverage.py`,
 bo podział na kawałki idzie po plikach i musi minąć się z podziałem na połowy.
 
 Wzorca nie ma dla 184 z 695 przyłączeń, a dwie kategorie Składnicy to tłumaczą.
-`dokąd_doszły` w `sonda/wskazaniach` bierze z drzewa te wyrażenia, którym
+`dokąd_doszły` w `harness/wskazaniach` bierze z drzewa te wyrażenia, którym
 `_dokąd_doszło` w `olski/attachment.py` daje `noun` albo `clause`, a `Auta są
 kradzione dla okupu.` przyłącza frazę do węzła imiesłowowego, którego `CLAUSE`
 nie wylicza, więc zdanie wypada z mianownika trafności
@@ -1851,7 +1755,7 @@ rejestru od banku drzew, więc
 [druga połowa hipotezy](docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
 zostaje nierozstrzygnięta; liczby trzyma
 [częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
-Ruchem jest `python3 -m sonda.wybory --zbuduj proza/ --z-odpowiedzią` na większe `--ile`
+Ruchem jest `python3 -m harness.wybory --zbuduj proza/ --z-odpowiedzią` na większe `--ile`
 i przeczytanie tego, co dojdzie; pozycji z odpowiedzią jest w tym korpusie 122,
 więc cała populacja mieści się w czterech takich próbach.
 Kupuje to przedział, a nie liczbę, i tyle jest tu do kupienia za cztery próby czytane ręką:
@@ -2031,9 +1935,9 @@ i w terminalu grupy pytajnej,
 więc sesja mierzy wtedy co innego, niż myśli, i nic jej o tym nie mówi.
 Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
 bo ramę zawęża ona i tylko ona.
-Ruchem jest sonda w kształcie `sonda/wysunięcie.py`, która te warianty buduje i drukuje,
-wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nią.
-Sonda zdejmuje z tych figur najdroższą pozycję:
+Ruchem jest predykat nad `harness/ruch.py`, który te warianty buduje i drukuje,
+wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nim.
+Pomiar zdejmuje z tych figur najdroższą pozycję:
 zgadywanie, co poprzednia sesja zmierzyła.
 
 Żadna z dwóch kolumn w
@@ -2350,7 +2254,7 @@ bo ten sam przekład rozstrzyga, czy kopula w ogóle zostaje listą.
 Ruchem jest `KOPULA` przeniesiona do `olski/walencja.py`
 oraz `Jest` biorące lemat tak, jak bierze go `Robi`,
 wraz z odmową dla czasownika, którego ta lista nie wymienia.
-Czyta ją stamtąd także `sonda/polszczyzna.py`, więc import idzie razem z nią.
+Czyta ją stamtąd także `harness/polszczyzna.py`, więc import idzie razem z nią.
 
 `odmień` w `olski/skład/morfologia.py` bierze pierwszą z form jednego leksemu,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
@@ -2564,8 +2468,6 @@ Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
 albo obie idą do `harness/`, a `olski-corpus` staje się
 `python3 -m harness.coverage` jak dwie pozostałe komendy pomiarowe,
 co przepisuje polecenia w [`docs/corpus.md`](docs/corpus.md#fetching-it)
-oraz w figurach `korpus` i `korpus-żywa` w [`harness/figury.py`](harness/figury.py),
-a wraz z nimi wydruki, które te figury zapisały,
 albo `harness/__init__.py` mówi, czym granica jest,
 co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:

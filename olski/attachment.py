@@ -94,7 +94,7 @@ def attachments(element: ET.Element) -> list[Attachment]:
     :class:`Report` niżej liczy pozycję dwuznaczną. Wzorca dla warstwy
     rozstrzygającej szuka się natomiast tam, gdzie wybór postawił werdykt
     olskiego, czyli i przy wyrażeniu, przed którym grupa imienna się nie kończy
-    (``sonda/wskazania.py``). Zwężenie jest więc polem, a nie pominięciem.
+    (``harness/wskazania.py``). Zwężenie jest więc polem, a nie pominięciem.
     """
     sentence = parse_forest(element)
     if not sentence.annotated:

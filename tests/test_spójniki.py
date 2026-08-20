@@ -35,6 +35,6 @@ def test_spójnik_okolicznikowy_jest_spójnikiem_podrzędnym(spójnik: str):
     weźmie, bo Morfeusz takiego lematu nie wydaje, a gramatyka zbuduje się i
     wyprowadzi tyle samo zdań co przedtem. Warunku na dobór — który spójnik
     wysuwa swoje zdanie — ten świadek nie sprawdza tak samo jak wyżej,
-    a liczy go ``sonda/czoło.py`` nad bankiem drzew.
+    a zmierzono go nad bankiem drzew.
     """
     assert paradygmat(spójnik, "comp")

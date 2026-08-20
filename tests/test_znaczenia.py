@@ -11,8 +11,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.znaczenia import CZĘŚĆ, CZĘŚĆ_WSPÓLNA, ROZŁĄCZNE, TE_SAME, WSZYSTKIE, odpowiedz, zestaw
 from olski.subset import check
-from sonda.znaczenia import CZĘŚĆ, CZĘŚĆ_WSPÓLNA, ROZŁĄCZNE, TE_SAME, WSZYSTKIE, odpowiedz, zestaw
 
 
 @pytest.mark.parametrize(

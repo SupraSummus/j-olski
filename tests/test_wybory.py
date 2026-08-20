@@ -22,7 +22,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from sonda.wybory import (
+from harness.wybory import (
     DO_PRZEMILCZENIA,
     NAGŁÓWEK,
     PUSTY,

@@ -35,13 +35,13 @@ bo pomiar liczący ją po swojemu mierzyłby innego świadka niż wypuszczany.
 **Świadek kontekstowy milczy tu z definicji.**
 Zdania banku drzew stoją osobno, więc sąsiedztwem jest puste,
 a akapitu, którego ten świadek żąda, nie ma stąd skąd wziąć.
-Jego zasięg mierzy ``sonda/powtórzenie.py`` nad korpusem audytowym,
-a trafność ``sonda/wybory.py`` na wyborach przeczytanych ręką,
+Jego zasięg mierzy ``harness/powtórzenie.py`` nad korpusem audytowym,
+a trafność ``harness/wybory.py`` na wyborach przeczytanych ręką,
 i to jest powód, dla którego te pomiary są trzema, a nie jednym.
 
 Wynik czyta ``docs/disambiguation.md``.
 
-    python3 -m sonda.wskazania Składnica-frazowa-180723/
+    python3 -m harness.wskazania Składnica-frazowa-180723/
 """
 
 from __future__ import annotations
@@ -296,7 +296,7 @@ def _przykłady(raport: Raport, nazwa: str) -> list[str]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.wskazania",
+        prog="python3 -m harness.wskazania",
         description="Policz, ile warstwa rozstrzygająca odpowiada nad werdyktami olskiego.",
     )
     parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
@@ -316,8 +316,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     root = Path(args.root)
     if not root.is_dir():
-        print(f"sonda.wskazania: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("sonda.wskazania: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+        print(f"harness.wskazania: nie ma takiego katalogu: {root}", file=sys.stderr)
+        print("harness.wskazania: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
         return 2
     raport = przebieg(pliki(root)[: args.limit], args.jobs, przykłady=args.przykłady)
     print(wydruk(raport, "Składnica, morfologia złota"))

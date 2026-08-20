@@ -2,14 +2,14 @@
 
 ``docs/disambiguation.md`` mówi, że część spornych wyrażeń przyimkowych
 rozstrzyga się słownikiem, a nie rankingiem: fraza, której schemat jednej ze
-stron żąda, przeczytana po drugiej stronie łamie ten schemat. Ta sonda wyceniła
-świadka ramowego przed dopisaniem go, tak jak ``sonda/przysłówek.py`` wycenia
-przysłówek przed wpuszczeniem go do gramatyki, i wycenia go dalej: świadek
+stron żąda, przeczytana po drugiej stronie łamie ten schemat. Ten przebieg wycenił
+świadka ramowego przed dopisaniem go, tak jak wyceniono przysłówek przed
+wpuszczeniem go do gramatyki, i wycenia go dalej: świadek
 wskazuje po stronie rzeczownika, a co byłby wart po drugiej, mówi ten przebieg.
 
 **Wyceniane jest pytanie, a nie odpowiedź warstwy.** Sonda pyta bank drzew o to,
 dokąd wyrażenie doszło u anotatora, i zestawia to z samym kryterium, a nie
-z werdyktem: rozstrzygnięcie warstwy nad werdyktem mierzy ``sonda/wskazania.py``.
+z werdyktem: rozstrzygnięcie warstwy nad werdyktem mierzy ``harness/wskazania.py``.
 Populacją jest tu wyrażenie, a nie zdanie, więc żadna produkcja tych liczb nie
 rusza.
 
@@ -39,7 +39,7 @@ o obie strony naraz, także o tę, po której świadka nie ma. Wariant
 Pliki wejściowe nie stoją w repozytorium: pobiera się je tak, jak bank drzew, a
 polecenia trzymają docs/subset.md oraz docs/corpus.md.
 
-    python3 -m sonda.rama Składnica-frazowa-180723/ \\
+    python3 -m harness.rama Składnica-frazowa-180723/ \\
       --czasowniki walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt \\
       --rzeczowniki walenty_20160418-text/nouns/walenty_20160418_nouns_all.txt
 """
@@ -178,7 +178,7 @@ def render(wszystkie: Sequence[Odpowiedź], przykłady: int = PRZYKŁADY) -> str
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m sonda.rama",
+        prog="python3 -m harness.rama",
         description="Wyceń świadka ramowego: ile spornych przyłączeń rozstrzyga rama.",
     )
     parser.add_argument("korpus", help="katalog Składnicy")
