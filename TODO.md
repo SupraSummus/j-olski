@@ -193,13 +193,13 @@ więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
 Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
 a właściciela mają w figurach `readme` i `podłoża-readme`.
-Zostaje zejść z pełnej precyzji tym czterem:
+Zostaje zejść z pełnej precyzji tym trzem:
 mianownikowi i dwóm zgodnościom w
-[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-oraz licznikowi klasy zdań w
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
-bo jedno przeredagowanie rusza te cztery liczby naraz,
-a przeliczenie poprawia wtedy cztery zdania zamiast wskazać plik.
+[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
+bo jedno przeredagowanie rusza te trzy liczby naraz,
+a przeliczenie poprawia wtedy trzy zdania zamiast wskazać plik.
+Licznik klasy zdań w [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
+stał tu czwarty i zszedł z precyzji razem z liczbami tamtego dokumentu.
 Do przeczytania są oba te akapity: pierwszy z nich opiera się na zdaniu,
 którego README nie ma — o czym mówi wpis o `Cenie trzeciej` w sekcji o komendach —
 więc samo przeliczenie go nie naprawia.
@@ -236,6 +236,26 @@ bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika.
 Do przeczytania są bloki werdyktu cytowane w README, `docs/subset.md`
 i `docs/design-notes.md`: przekład bierze je na nowo ręką,
 i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.
+
+[`docs/ustawy.md`](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
+trzyma liczby, o których sam pisze, że rusza je każda zmiana w gramatyce
+i że nie drukuje ich żaden przebieg.
+Jest to usterka tej samej klasy, którą
+[`docs/corpus.md`](docs/corpus.md#the-measurement) z siebie zdjęło:
+liczbę kruchą trzyma akapit, a nie narzędzie
+([`CLAUDE.md`](CLAUDE.md#checks)).
+Liczby w [`docs/subset.md`](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
+tej usterki nie mają, bo przedstawiają się jako pomiar z chwili wpuszczenia
+konstrukcji i tamtą chwilę trzyma git,
+więc przeliczenia po nich nikt nie żąda.
+Ruchem jest jedno z dwojga na figurę:
+przepisać ją na rząd wielkości i kierunek
+albo powiedzieć przy niej, że jest pomiarem z chwili wpuszczenia pozycji.
+Reguły na cały dokument to nie jest, bo obie odpowiedzi są tam poprawne.
+Do przeczytania jest sekcja `Gdzie stają analizy w tym rejestrze` w tym pliku
+razem z akapitem o zakupie przymiotnika za rzeczownikiem,
+bo liczby stoją tam najgęściej,
+oraz to, czym poprzedza swoje tabele `docs/subset.md`.
 
 ## Komendy i sondy
 
@@ -380,8 +400,8 @@ wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
 Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
 oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
 wiążącym wariant z grupą produkcji.
-Tej samej maszynerii żąda z drugiej strony wpis o figurach
-`docs/corpus.md` bez polecenia:
+Tej samej maszynerii żąda z drugiej strony wpis o porównaniu dwóch przebiegów
+bez polecenia:
 tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
 więc ten, kto podnosi którykolwiek z dwóch, wybiera kształt dla drugiego,
 i jest to jedna sesja.
@@ -418,9 +438,6 @@ dziedziny przycinają się wcześnie
 i cały plik kończy się najwolniejszym czasem poniżej dziesiątej części sekundy.
 Sam cytat podany przez `-c` liczy się ponad osiem sekund,
 więc zjawisko zostaje, a przykład z tego pliku wyszedł.
-Rozjeżdża się razem z nim drugie zdanie tamtego akapitu:
-mówi ono o `dokładnie jednym` zdaniu odrzuconym bez ani jednej formy spoza produkcji,
-gdzie [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) liczy takich pięć.
 Do przeczytania jest ten akapit obok `python3 -m harness.podłoża proza/README.txt`
 i tego samego zdania podanego przez `-c`.
 Ruchem jest albo zdanie, które README naprawdę ma i które ten czas pokazuje,
@@ -533,32 +550,6 @@ The move is to decide, per corpus, whether it joins the harness
 as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
-
-Figury, które [`docs/corpus.md`](docs/corpus.md#the-measurement) bierze ręcznie,
-są w większości sondami różnicowymi i nie ma ich czym puścić.
-Wiersz `prep` z jedną grupą produkcji zdjętą, ten sam z drugą, trzydzieści pozycji
-przyłączeniowych zdjętych naraz oraz kolumna najczęstszych form przy każdym blokerze
-powstają dziś skryptem pisanym na jeden przebieg i kasowanym po nim,
-a sekcja o nich wskazuje ten plik jako miejsce, gdzie stoi, co by je uwolniło.
-`harness/ruch.py` jest tym kształtem od tej strony, której brakowało:
-sonda deklaruje, do której grupy należy produkcja, a przebieg, warianty i tabelę
-dostaje gotowe, więc dwie pierwsze figury są predykatem i sześcioma wierszami deklaracji.
-Brakuje temu przebiegowi jednej rzeczy, której te figury żądają, a przecinek i liczebnik nie:
-liczy on przejścia werdyktu, a nie blokery, więc wiersz `prep` nie ma skąd wyjść.
-Ruchem jest licznik blokerów na wariant w `Raport`, wzorowany na `Report.blockers`
-z `olski/coverage.py`, i dwie sondy na te dwie grupy produkcji.
-Nie obejmuje to jednej figury z tamtej listy: kolumna bez wykluczenia słownikowego
-jest wariantem morfologii, a nie grupy produkcji, i pod ten kształt nie podchodzi.
-Do rozstrzygnięcia jest przy tym, czy sonda na figurę, którą czyta jeden dokument,
-zarabia na siebie, czy taniej jest wpisać kryterium obok liczby,
-co [tamta sekcja](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-robi dla trzydziestu pozycji i co pozwoliło wziąć tę liczbę drugi raz.
-Przysłówek wpuszczony do gramatyki był próbą tego drugiego i wypadła ona po jego stronie:
-kryterium wypisane obok liczby dało się wziąć skryptem po latach — czterdzieści cztery
-produkcje przyłączeniowe policzyły się drugi raz na tę samą liczbę — a wariant opisany
-luźniej („pozycje, których przyłączenie żąda”) nie dał się powtórzyć wcale
-i zdanie o nim trzeba było napisać od nowa nad wariantem nazwanym wprost.
-Skrypt i tak powstał na jeden przebieg i został skasowany, więc ruch wyżej stoi.
 
 The archives these documents send a reader to fetch are pinned by URL and by nothing else.
 [Składnica](docs/corpus.md#fetching-it)
@@ -949,13 +940,13 @@ przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
-Czas przeszły zostawił za sobą 297 zdań Składnicy, których nikt nie przeczytał.
-`praet` prowadził kolejkę blokerów z 2934 zdaniami,
-a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz ten czytał 297,
-i są to zdania, które na czasie przeszłym stawały i dalej na nim stają.
-Wiersz czyta dziś 331 ([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)),
-a 34 dołożył liczebnik, przesuwając na czasownik blokery zdań, których nie przyjął,
-więc do przeczytania jest cała ta resztka, a nie tamte 297.
+Czas przeszły zostawił za sobą resztkę wiersza `praet`, której nikt nie przeczytał.
+`praet` prowadził kolejkę blokerów,
+a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz zmalał o rząd wielkości
+i to, co w nim zostało, staje na czasie przeszłym dalej.
+Od tamtej pory wiersz rośnie, bo każde dopisanie przesuwa na czasownik blokery zdań,
+których nie przyjęło ([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)),
+więc do przeczytania jest resztka dzisiejsza, a nie ta z chwili dopisania.
 Nie wiadomo, czy stoi za tym jedna konstrukcja, czy dwadzieścia:
 `Wózek zwolnił biegu i przystanął.` i `Pani Zofia była w rozpaczy.`
 są w tej resztce obok siebie, a łączy je tyle, że bloker wskazał czasownik.
@@ -1325,62 +1316,42 @@ Czytelników takiego rankingu jest już dwóch:
 jest wzięta potokiem z grepem, który ten dokument drukuje,
 bo nie ma komendy, która by ją wypisała.
 
-Part of what [`docs/corpus.md`](docs/corpus.md) quotes has no command behind it.
-`olski-corpus` prints the verdict tables, the length curve
-and the blocker ranking by part of speech,
-while the commonest forms under each blocker,
-the count of sentences the two runs both accept,
-and the column with `admissible` switched off
-come from scripts written for one session and thrown away.
-So a change to the grammar updates the tables that have a command
-and silently leaves the rest stale,
-which is the failure the rerun rule in
-[`CLAUDE.md`](CLAUDE.md#checks) exists to prevent.
-The move is in `olski/coverage.py`:
-carry the blocking form beside its part of speech in `Report.blockers`,
-add the exclusion-free morphology as a third `SOURCES` entry,
-and let the CLI take two runs and print what they disagree about.
-That last part has a second caller,
-so it should not be tied to the morphology sources:
-a point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
-is a net of what a tier buys against what it costs in uniqueness,
-which is two grammars disagreeing rather than two morphologies.
-That net is what the grammar track now asks of every addition before it lands
+Comparing two runs of the whole corpus has no command,
+and it is what the grammar track asks of every addition before it lands.
+A point on [the coverage curve](docs/design-notes.md#making-the-trade-measurable)
+is a net of what an addition buys against what it costs in uniqueness
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-so this part of the entry carries a rule rather than a convenience.
-The third of those moves exists, and for that second caller rather than for this one.
-`harness/ruch.py` runs olski against a variant and prints what moved between them,
+so the shape wanted is two runs and what moved between them,
+not one run printed twice and diffed by eye.
+`harness/ruch.py` is that shape for a group of productions removed from olski,
 and five probes are written as declarations against it, `przecinek.py` among them,
 while `nieciągłość.py` computes its own net beside that machinery rather than on it.
-What the machinery takes is a group of productions removed from olski,
-and a morphology switched off is neither a group nor a production,
-so the two runs this entry wants compared have no command.
-The entry about hand-taken figures being differential probes says as much
-from its own side, handing the `admissible`-off column back here.
+What it does not take is a morphology switched off,
+which is neither a group nor a production,
+so the exclusion-free column and the two morphologies compared stay hand-written.
+The move is a third `SOURCES` entry in `olski/coverage.py` for the exclusion-free
+morphology, and a variant in `harness/ruch.py` that is a morphology rather than
+a group of productions.
+What to read is `Sonda` in `harness/ruch.py` beside `SOURCES`
+in `olski/coverage.py`, because the question is whether one field takes both kinds
+of variant.
 The entry about cutting unlicensed readings before the parse
 moves what `blocker` reads off a form,
 so whichever of the two is taken first decides what the blocking form is,
 and they are one session.
-The section that owns the reproduction path says meanwhile which figures are hand-taken,
-and that sentence goes when the commands cover them.
 
-Six of those figures were left stale by the change that admitted
-[four word orders](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka),
-and they are named here so that the next session does not have to find them.
-Each counts sentences and each moved with the accepted set, and none has a command:
-what the past tense bought, in
-[`docs/subset.md`](docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku),
-whose `praet` row the blocker table has contradicted since negation and the numeral
-landed; and five in
-[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-and the section after it — the instrumental dropped from every valency class,
-the rest of the valency lexicon, the condition that the substantival pronoun
-governs no genitive, the live totals with the dictionary exclusion switched off,
-and what the frame settles under live morphology.
-The values are in those documents and not repeated here,
-because a value copied into this list is stale twice over once somebody retakes it.
-Taking them by hand is the work this entry is about not doing twice,
-so the general version above is the move, and retaking them meanwhile is the fallback.
+One figure is left going stale without a command,
+the rest of the list having gone with the counts
+`docs/corpus.md` no longer quotes.
+What stays is what the past tense bought, in
+[`docs/subset.md`](docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku):
+that document counts sentences and has nothing to recount them with,
+and the blocker queue's `praet` row has contradicted the figure
+since negation and the numeral landed.
+The value is not repeated here, because a value copied into this list
+goes stale twice over, and the move is either the probe above
+or rewriting that figure as an order of magnitude
+([`CLAUDE.md`](CLAUDE.md#checks)).
 
 Okolicznik nie staje między czasownikiem a tym, co przy nim stoi, i nikt tego nie wycenił.
 `czasownikowe` w deklaracji zdania w `olski/subset.py` wymienia `Verb` i `Predicate`,
