@@ -8,8 +8,10 @@ instead of stretching the current change or being forgotten.
 [The review pass](CLAUDE.md#the-review-pass) is the other way in:
 a refactor too large to do on the spot is written down rather than started,
 and the review also checks whether a change deleted the entries it closes.
-Read the list before starting new work,
-because it names the problems somebody has already found.
+Read the section your work touches before starting,
+because it names the problems somebody has already found there.
+The list as a whole is longer than anybody reads,
+which is what the sections below are for.
 
 Lista nie przypisuje wpisów do torów i nikt nie podnosi ich po kolei,
 bo wpis notuje tylko to, na co ktoś trafił przy innej robocie.
@@ -72,6 +74,21 @@ bo problemu nie ma albo naprawa kosztuje więcej, niż jest warta;
 wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
+
+Piętnaście sekcji pomiarowych `docs/subset.md` jest precedensem,
+którego sama licencja nie pobije
+([`CLAUDE.md`](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)).
+Wolno ich nie pisać długo, ale następna sesja czyta te, które stoją,
+i pisze tak samo jak one, bo tak jest bezpieczniej.
+Ruchem jest jedna z nich skrócona do kształtu, który ta reguła opisuje —
+werdykt, waluta ceny i zdania korpusu, które trzeba przeczytać —
+żeby wzorem był krótki kształt, a nie długi.
+Do przeczytania są przy tym wszystkie: pytanie jest o to,
+która z nich niesie najmniej ponad wydruk,
+a nie o to, która jest najdłuższa.
+Wpis zamyka jedna sekcja, nie piętnaście:
+reguła obowiązuje [leniwie](CLAUDE.md#reguły-przyjmujemy-leniwie) jak każda inna,
+więc pozostałe skracają się przy okazji zmian, które i tak je ruszą.
 
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
