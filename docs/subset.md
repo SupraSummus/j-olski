@@ -548,6 +548,12 @@ bo Składnica jest prozą prasową i słów tego rejestru nie pisze.
   Person comes from the subject rather than being fixed at the third,
   so `Ja zapisuje plik.` is a disagreement
   in the way `Nowa program` is one.
+- Zaimek dzierżawczy przed rzeczownikiem, czyli `jego`, `jej` i `ich`:
+  `Jego skutki są znane.`, `Ich cena jest niska.`
+  Zgodności ta pozycja nie ma, bo zaimek zgadza się ze swoim poprzednikiem,
+  a nie z rzeczownikiem, przy którym stoi;
+  warunek na formę wraz z ceną trzyma
+  [poniżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)
 - Coordination, of noun phrases, of adjective phrases and of clauses,
   joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
@@ -3033,6 +3039,100 @@ a wieloznacznych przenosi więcej niż przyjmuje.
 
 Ta konstrukcja ma jeden szyk — predykatyw stoi przed tym, czym rządzi —
 i tyle też po niej zostaje [niżej](#what-it-does-not-cover-yet).
+
+## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
+
+`Jego skutki są znane.`, `Jej cena jest niska.`, `Ich liczba rośnie.`
+Posiadanie trzeciej osoby polszczyzna wyraża dopełniaczem zaimka osobowego,
+a nie osobnym przymiotnikiem, i tym różni się `jego` od `mój`, `nasz` i `swój`:
+te trzy Morfeusz zna jako przymiotniki,
+więc bierze je pozycja przymiotnika przy rzeczowniku,
+a `jego`, `jej` oraz `ich` czyta jako formy lematu `on`,
+więc brakowało trzeciej osoby i tylko jej.
+
+Pozycja jest jedna i stoi przed grupą imienną, bo tam ją polszczyzna stawia.
+Dopełniacz po rzeczowniku bierze inna produkcja,
+więc `skutki jego` wychodzi tak samo jak `skutki wyboru`
+([wyżej](#what-the-grammar-covers)), i ciało jest dlatego jedno, a nie dwa.
+
+Zgodności ta pozycja nie ma i mieć nie może.
+Zaimek zgadza się liczbą i rodzajem ze swoim poprzednikiem,
+a poprzednik stoi w zdaniu obok, a nie w tej grupie,
+więc cechy grupy są cechami głowy, a zaimek nie wnosi do nich nic:
+`Jego skutki` ma zaimek pojedynczy przy rzeczowniku mnogim, a `Ich cena` odwrotnie.
+Zmienna wspólna — ta, którą wypuszcza przymiotnik i liczebnik zgodny obok —
+wygląda tu poprawnie i odbiera polszczyźnie prawie każdą taką parę;
+niezmiennik pilnuje test w `tests/test_subset.py`.
+
+Formę zawężają dwa warunki na cechę, a nie lista lematów:
+lematem każdej z tych form jest `on`, więc lista wpuszczałaby je wszystkie naraz.
+Pierwszy żąda formy akcentowanej, czyli zostawia poza pozycją `go`:
+`Znam go cenę.` nie jest polszczyzną, bo forma nieakcentowana stoi
+przy czasowniku, a nie przy rzeczowniku.
+Drugi żąda formy nieprzyimkowej, czyli zostawia poza pozycją `niego`, `niej` i `nich`:
+`Znam niego cenę.` nie jest polszczyzną tak samo,
+a `Bez niego cena rośnie.` jest, bo tam ta forma stoi po przyimku.
+Warunek drugi dotyczy przy tym samej tej pozycji, a nie całej gramatyki:
+grupa imienna o jednym zaimku bierze formę przyimkową bez przyimka nad sobą,
+więc `Cena niego rośnie.` wyprowadza się, choć polszczyzna tego nie ma,
+i [TODO.md](../TODO.md) trzyma ten rozjazd.
+
+Pozycji tej nie ustawiła ani kolejka blokerów
+([corpus.md](corpus.md#where-the-analyses-stop)),
+ani ranking form bez licencji.
+Każda z tych form licencję ma, bo grupa imienna o jednym zaimku bierze je wszystkie,
+więc odrzucenie stało na strukturze,
+a analiza zatrzymywała się dopiero za zaimkiem:
+`Jego skutki są znane.` stawało na `znane`.
+Wskazała ją sesja pisząca pod tę gramatykę zdanie po zdaniu.
+Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej
+([pisanie-po-olsku.md](pisanie-po-olsku.md)).
+
+### Zaimek dzierżawczy zmierzono: kupuje kilkadziesiąt zdań i odbiera pojedyncze
+
+Liczby są pomiarem z chwili wpuszczenia tej pozycji,
+a metodę wraz z mianownikiem trzyma
+[przecinek](#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania).
+
+Zakup nad bankiem drzew wynosi pod złotą morfologią
+pięćdziesiąt pięć zdań przyjętych i pięćdziesiąt cztery wieloznaczne,
+a cena dwa zdania, czyli tyle traci jednoznaczność, którą przedtem miało.
+Pod żywą morfologią zakup wynosi trzydzieści osiem zdań przyjętych
+i siedemdziesiąt wieloznacznych, a cena dziewięć zdań,
+czyli ta sama asymetria między morfologiami, którą pokazał
+[okolicznik wyrażony zdaniem](#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie).
+
+Cena wypada w klasie, o której ten projekt już rozstrzygnął.
+Dopełniacz stojący między dwoma rzeczownikami należy do jednego albo do drugiego,
+a wybrać między nimi znaczy wybrać przyłączenie:
+`W tym roku jego autorem jest piątka młodych absolwentów i studentów ASP.`
+czyta się z `jego autorem` w orzeczniku albo z `roku jego` w wyrażeniu przyimkowym,
+a to drugie czytanie gramatyka miała już przedtem.
+Oba zdania tej ceny są tego kształtu,
+więc konstrukcja nie dokłada tu czytania nieprawdziwego, tylko drugie prawdziwe,
+czyli to samo, czego olski nie wybiera przy
+[wyrażeniu przyimkowym](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
+
+Trafność zdań nowo przyjętych: czterdzieści siedem z pięćdziesięciu pięciu
+zgadza się z drzewem wzorcowym, jedno ma listę ról od niego uboższą,
+pięć nie ma w drzewie roli do porównania, a dwa czyta olski niezgodnie.
+Ani jedno nie wychodzi odwrócone,
+czyli nie zdarza się tu to, czym płacił
+[dopełniacz negacji](#cena-stoi-w-trafności-a-nie-w-liczbie-czytań).
+Obie niezgodności są niezgodnościami zasięgu, a nie roli,
+i tylko jedna stoi na zaimku:
+`Nie imała się ich rdza.` ma u olskiego podmiot `ich rdza`, a w drzewie `rdza`,
+bo `imać się` rządzi dopełniaczem, którego rama olskiego poza przeczeniem nie ma.
+Druga stoi na `tak` przed przymiotnikiem, więc zaimka nie dotyczy.
+
+Nad rejestrem ustaw zakup wynosi siedem zdań przyjętych i trzydzieści wieloznacznych,
+a cena jest zerowa: ani jedno zdanie przyjęte nie traci tam jednoznaczności.
+Nad prozą tego repozytorium zakup jest liczony w pojedynczych zdaniach —
+dwa przyjęte i trzy wieloznaczne nad prozą `docs/` — i ceny nie ma tam żadnej.
+Nad samym README nie rusza się ani jeden werdykt,
+a zero mówi tu o pliku, a nie o konstrukcji:
+zaimka dzierżawczego README nie pisze ani razu,
+a jedyne `ich` w jego prozie jest dopełniaczem przy czasowniku przeczącym.
 
 ## What it does not cover yet
 

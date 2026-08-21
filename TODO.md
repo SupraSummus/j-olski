@@ -252,10 +252,25 @@ Ruchem jest jedno z dwojga na figurę:
 przepisać ją na rząd wielkości i kierunek
 albo powiedzieć przy niej, że jest pomiarem z chwili wpuszczenia pozycji.
 Reguły na cały dokument to nie jest, bo obie odpowiedzi są tam poprawne.
+Wpisu tego nie zamyka jeden plik, bo tę samą usterkę mają dokumenty obok
+i wpis niżej nazywa drugi z nich.
 Do przeczytania jest sekcja `Gdzie stają analizy w tym rejestrze` w tym pliku
 razem z akapitem o zakupie przymiotnika za rzeczownikiem,
 bo liczby stoją tam najgęściej,
 oraz to, czym poprzedza swoje tabele `docs/subset.md`.
+
+`docs/disambiguation.md` liczy sporne wyrażenia w pełnej precyzji,
+a rusza je każda dopisana produkcja.
+Tabela klas werdyktu zeszła z liczb bezwzględnych na udziały,
+bo udziały ruszyły się o pojedyncze punkty tam,
+gdzie mianownik wyrósł od tamtego przebiegu o dwie piąte.
+Zostają dwa miejsca: `576 z 4 517` wraz z figurami, które ten mianownik dzielą
+([`docs/disambiguation.md`](docs/disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)),
+oraz wydruk sondy nad prozą wklejony pod koniec dokumentu,
+którego liczby rusza zarazem każdy commit dotykający tekstu tego repozytorium.
+Ruchem jest to samo jedno z dwojga na figurę, co przy liczbach `docs/ustawy.md`.
+Do przeczytania jest `python3 -m harness.czytania` obok tabeli klas:
+mówi on, które z tych liczb drukuje przebieg, a które policzono ręką.
 
 ## Komendy i sondy
 
@@ -1994,6 +2009,25 @@ Ceną są tabele blokerów w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop):
 wiersz `interp` spadnie, a zdania bez struktury nad całością wyjdą osobno,
 więc wpis podnosi sesja, która ma Składnicę i powtórzy nad nią przebieg.
+
+Forma przyimkowa zaimka wchodzi u olskiego do grupy imiennej bez przyimka nad sobą,
+więc `Cena niego rośnie.` wyprowadza się, choć polszczyzna tego nie ma.
+Zaimek dzierżawczy tę formę odsiewa cechą `post_prepositionality`
+([`docs/subset.md`](docs/subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)),
+a grupa imienna o jednym zaimku nie odsiewa jej nigdzie,
+więc jeden fakt o polszczyźnie jest w gramatyce raz zapisany i raz przeoczony.
+Ruchem jest ta cecha na terminalu zaimka, `npraep` domyślnie,
+wraz z `praep` pod przyimkiem, czyli w ciele `Modifier`,
+bo tam i tylko tam polszczyzna tej formy żąda.
+Do przeczytania jest `PRZYIMEK` obok ciała `Modifier` w `olski/subset.py`
+razem z terminalem `ppron3|ppron12` pod `NPConjunct`:
+pytanie jest o to, czy cechę da się postawić na terminalu
+bez przepuszczania jej przez grupę imienną,
+bo `w niego` ma zaimek pod przyimkiem wprost,
+a `bez jego zapisu` ma tam grupę, której głowa zaimkiem nie jest,
+więc cecha wypuszczona z grupy nie mówi nic o formie w środku.
+Do zmierzenia jest cena nad bankiem drzew,
+bo forma przyimkowa jest w nim częsta, a jej pozycja pod przyimkiem zostaje.
 
 ## Skład i opowieści
 

@@ -140,17 +140,16 @@ a nie z osobnej klasyfikacji napisanej obok:
 `przyłączenie`, że gospodarz modyfikatora zostaje nierozstrzygnięty,
 `konstytuent`, że różnica leży tam, gdzie streszczenie nie zagląda.
 Klasę da się więc sprawdzić, czytając werdykt nad zdaniem.
-Nad 800 zdaniami, które olski odrzuca za wieloznaczność:
+Nad zdaniami, które olski odrzuca za wieloznaczność,
+klasy rozkładają się tak, a ile ich jest, drukuje przebieg wyżej:
 
-| co werdykt nazywa | zdań | |
-| --- | --- | --- |
-| rola + przyłączenie | 617 | 77,1% |
-| przyłączenie | 72 | 9,0% |
-| rola | 70 | 8,8% |
-| sama liczba czytań | 19 | 2,4% |
-| rola + przyłączenie + konstytuent | 11 | 1,4% |
-| konstytuent | 9 | 1,1% |
-| przyłączenie + konstytuent | 2 | 0,2% |
+| co werdykt nazywa | ile zdań wieloznacznych |
+| --- | --- |
+| rola + przyłączenie | przeszło trzy czwarte |
+| przyłączenie | około jednej dziesiątej |
+| rola | około jednej dziesiątej |
+| sama liczba czytań | kilka na sto |
+| konstytuent, sam albo w parze z tamtymi | kilka na sto |
 
 Tabela liczy nazwy, a nie decyzje, i te dwie rzeczy się rozchodzą.
 `Czeka koń z furą.` ma jedno przyłączenie i różni się rolą,
@@ -163,14 +162,13 @@ przyłączenie o dwóch gospodarzach mnoży las przez dwa,
 więc gdy iloczyn gospodarzy równa się liczbie czytań,
 innej decyzji ten las nie zostawia.
 
-**Tak liczone przyłączenie jest całą decyzją w 587 z 800 zdań, czyli w 73,4%.**
-W klasie `rola + przyłączenie` jest to 523 z 617, a w klasie `przyłączenie` 64 z 72.
-Udział spadł razem z przysłówkiem: klasa `rola` urosła z osiemnastu zdań do
-siedemdziesięciu, bo dwaj gospodarze przysłówka różnią czytania rolą,
-a nie przyłączeniem
+**Tak liczone przyłączenie jest całą decyzją w siedmiu zdaniach na dziesięć,
+a w dwóch klasach, które je nazywają, w przeszło czterech piątych.**
+Udział ten obniża każda konstrukcja, której dwaj gospodarze różnią czytania rolą,
+a nie przyłączeniem, bo klasa `rola` rośnie wtedy, a tamta nie:
+pierwszym takim dopisaniem jest przysłówek
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
-i spada dalej ze zdaniem okolicznikowym oraz z interpunkcją zdaniową,
-które różnią je tą samą drogą
+a zdanie okolicznikowe oraz interpunkcja zdaniowa idą tą samą drogą
 ([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
 [subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
