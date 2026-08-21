@@ -414,7 +414,7 @@ i na bezokoliczniku (po 42), na predykatywie (33) oraz na imiesłowie biernym (2
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
 Przysłówek stał w tej kolejce czwarty i zszedł z niej razem z produkcją,
 nie kupując ani jednego z tych zdań
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
 `Co mamy wziąć?` i `To chcę podkreślić.` stają na zaimku rzeczownym,
@@ -808,21 +808,21 @@ ile ma miejsc na okolicznik.
 więc wszystkie sześć szyków są tam jedną deklaracją,
 a pozycje okolicznika, których
 [subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
-liczy sześćdziesiąt jeden, są trzema, po jednej na głowę,
+liczy kilkadziesiąt, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Czternaście z tych trzydziestu dwóch ciał dołożyły cztery szyki
+Czternaście z tych ciał dołożyły cztery szyki
 dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
 i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
 
 Zysk pierwszy jest wzięty i wzięło go rozwinięcie szyku,
 a nie przeniesienie olskiego na to podłoże.
-Te trzydzieści dwie produkcje pisze dziś sześć deklaracji,
+Te produkcje pisze dziś sześć deklaracji,
 a miejsce na okolicznik jedna reguła nad nimi
 ([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-więc liczba, którą ta sonda porównywała, spadła z trzydziestu dwóch do sześciu.
+więc liczba, którą ta sonda porównywała, spadła do sześciu.
 Zostaje z niej to, że po tamtej stronie jeden łuk nie mnoży się wcale,
-a po tej sześć deklaracji rozwija się w trzydzieści dwa ciała, które czyta parser.
+a po tej sześć deklaracji rozwija się w kilkadziesiąt ciał, które czyta parser.
 Zysk drugi i trzeci są nietknięte, bo żaden nie był o szyk.
 
 **Nieciągłość przestaje być szczeblem.**

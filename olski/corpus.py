@@ -97,7 +97,7 @@ def _slot_role(slot: str) -> str | None:
         return "Subject"
     if slot.startswith("np(") and slot.endswith(")"):
         inner = slot[3:-1]
-        if _case(inner) == "acc" or inner == "accgen":
+        if _case(inner) == "acc" or inner in {"accgen", "part"}:
             return "Object"
     return None
 

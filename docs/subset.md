@@ -698,14 +698,15 @@ a ruch trzyma [TODO.md](../TODO.md).
   a lematem jest `mowa` i nic poza nim;
   wywód trzyma
   [poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
-- Przysłówek u dwóch gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
+- Przysłówek u trzech gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
-  ustawienia.`), i jako określenie przymiotnika, gdzie stoi sam przysłówek
-  stopniowany (`Koszt bardzo dużego pliku jest niski.`).
+  ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
+  stoi sam przysłówek stopniowany (`Koszt bardzo dużego pliku jest niski.`,
+  `Program zapisuje ustawienia bardzo szybko.`).
   Okolicznik przysłówkowy jest przy tym rolą, którą werdykt nazywa,
   a określenie przymiotnika stoi w wypełnieniu roli nad nim;
-  parę gospodarzy trzyma
-  [poniżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)
+  gospodarzy trzyma
+  [poniżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case.
@@ -870,19 +871,24 @@ Pierwsza połowa tej reguły jest odpowiedzią na przyłączenie oddawane czytel
 gdzie grupa imienna bierze wyrażenie przyimkowe za sobą,
 tam musi umieć wziąć je też zdanie.
 
-Po córce czasownikowej okolicznik nie staje, i jest to zawężenie,
-a nie wniosek z tamtej reguły.
-Polszczyzna tę pozycję ma, a olski jej nie ma i nikt nie policzył, ile to kosztuje:
-`Trwa w tej sprawie dochodzenie.` jest przez nią zdaniem odrzuconym,
+Reguła obejmuje przy tym córkę czasownikową,
+bo polszczyzna okolicznik między czasownikiem a podmiotem stawia.
+Bez tej pozycji płaci się w obu walutach naraz:
+`Trwa w tej sprawie dochodzenie.` nie wyprowadza się wcale,
 a `Zapisuje w pliku program ustawienia.` wychodzi jednym czytaniem,
 w którym `program ustawienia` jest dopełnieniem,
 i nie wychodzi tym, w którym `program` zapisuje `ustawienia`.
 Drugie z tych dwóch jest tą samą pomyłką,
-przed którą broni [reguła o obu czytaniach](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
-Rozwinięcie tego nie naprawia i nie po to jest.
-Zmienia jedno: zawężenie mieści się po nim w jednym argumencie deklaracji,
-a nie w trzydziestu dwóch ciałach, z których żadne go nie wypowiadało,
-więc jest co wycenić, a wycenę trzyma `TODO.md`.
+przed którą broni [reguła o obu czytaniach](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+a po werdykcie jej nie widać, bo werdykt brzmi wtedy `valid`.
+Zawężenie takiego kształtu mieści się po rozwinięciu w jednym argumencie
+deklaracji, a nie w kilkudziesięciu ciałach, z których żadne go nie wypowiada,
+i dopiero wtedy da się je wycenić jednym przebiegiem.
+
+Wyjęte zostaje orzeczenie, bo okolicznik bierze ono samo, przez `Complements`,
+więc miejsce obok niego byłoby drugim wyprowadzeniem jednego napisu.
+Dotyczy to obu miejsc, które ta córka ma, czyli tego za nią i tego na końcu zdania,
+więc pyta o nie jeden zbiór, a nie dwa.
 
 Cztery ciała gramatyka ma dlatego, że regułę liczy rozwinięcie, a nie ręka.
 Zdanie względne i pytanie mają za wysuniętą rolą trzy miejsca,
@@ -1076,7 +1082,7 @@ dwukropek otwierający wyliczenie i ciąg dwóch znaków rozdzielających.
 `Już program zapisuje ustawienia.` —
 cząstka stoi w zdaniu tam, gdzie okolicznik przysłówkowy,
 i tę pozycję gramatyka ma, odkąd ma
-[przysłówek](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe).
+[przysłówek](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
 Produkcje są przez to dwie i pisze je ta sama pętla, co tamte:
 cząstka w liście okoliczników i cząstka na czele zdania składowego.
 
@@ -1256,8 +1262,9 @@ Nie powiedziałoby, i mówi to sam słownik.
 Mianownikiem rządzą w nim także `jak`, `jako`, `niż`, `co` i `aniżeli`,
 czyli wykładniki porównania,
 i wszystkie pięć padają w prozie, którą to repozytorium czyta —
-nad README, siedmioma ustawami i korpusem audytowym razem `niż` 194 razy,
-`co` 186, `jako` 117, `jak` 71, `aniżeli` 5, przy 333 formach `a`.
+nad README, siedmioma ustawami i korpusem audytowym razem
+`niż`, `co` i `jako` po przeszło setce razy, `jak` kilkadziesiąt,
+`aniżeli` kilka, przy kilkuset formach `a`.
 Kryterium na przypadek zabrałoby więc razem z rozdzielającym `a` i te pięć.
 
 Cena jest zerowa i jest to wynik pomiaru, a nie założenie.
@@ -1635,7 +1642,7 @@ Dwa wpisy listy wysuwanej nie mają w tym korpusie świadka wcale:
 więc na tej liście stoją z samego znaczenia, a nie z pomiaru.
 
 Okolicznik ten jest rolą, którą werdykt nazywa, tak samo jak przysłówek
-([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+([niżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 i jest zarazem zdaniem podrzędnym, czym żadna inna rola nie jest.
 Symbol stojący i wśród ról, i wśród zdań podrzędnych
 rozstrzyga o dwóch rzeczach naraz, i rozstrzyga je przeciwnie:
@@ -2259,12 +2266,6 @@ Every one of these is a sentence that gets rejected and should not be:
   `(A; B); C` and `A; (B; C)` are the same string
   and a right-recursive body would give it two derivations,
   where the enumeration this register writes with semicolons is one flat list.
-- Przysłówek przed drugim przysłówkiem, czyli trzeci gospodarz tej konstrukcji:
-  `Program zapisuje ustawienia bardzo szybko.` nie jest odrzucone i to jest z nim
-  gorzej, bo wychodzi jednym czytaniem, w którym `bardzo` określa zdanie
-  ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
-  Stoi tu, bo jest to jedyna pozycja przysłówka, której olski nie ma,
-  a nie jest to zdanie odrzucone, które być nim nie powinno.
 - A conjunction opening a sentence, which is what leads the `conj` row
   [corpus.md](corpus.md#where-the-analyses-stop) ranks:
   `I nikt tego nie zauważył.` is rejected
@@ -2543,6 +2544,8 @@ i każda z nich jest zwyczajną polszczyzną:
   (`Wejściem w tym trybie jest zwykły tekst.`)
 - przed dopełnieniem, wewnątrz orzeczenia
   (`Program zapisuje w pliku ustawienia.`)
+- po czasowniku w szykach z czasownikiem na czele
+  (`Trwa w tej sprawie dochodzenie.`, `Zapisuje w pliku program ustawienia.`)
 - po rzeczowniku, który już ma przy sobie przymiotnik, dopełniacz albo oba
   (`akcja zbrojna w Strefie Gazy`, `zadania ochrony ludności w gminie`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
@@ -2553,20 +2556,22 @@ i każda z nich jest zwyczajną polszczyzną:
 - wewnątrz pytania, w tych samych trzech miejscach za grupą pytajną
   (`Który program w tym trybie zapisuje ustawienia?`)
 
-Wierszy jest dziewięć, a produkcji sześćdziesiąt jeden,
+Wierszy jest dziesięć, a produkcji kilkadziesiąt,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Dziesięć z tych sześćdziesięciu jeden dołożyły cztery szyki dopisane,
+Dziesięć z nich dołożyły cztery szyki dopisane,
 i tyle właśnie znaczy w tej gramatyce jeden szyk więcej;
 jedna jest z przysłówka, bo lista okoliczników bierze go tak samo
 jak wyrażenie przyimkowe
-([niżej](#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+([niżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 a czternaście z pytania: jedenaście wewnątrz jego czoła
 i trzy w orzeczeniu, które bierze pytanie zależne.
 Cztery dołożyło [rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk),
 po dwa w zdaniu względnym i w pytaniu,
 i jest to jedna pozycja w dwóch konstrukcjach z listy wyżej,
 którą gramatyka pisana ręką miała w dwóch ciałach z trzech.
+Trzynaście dołożył wiersz ostatni, czyli okolicznik po czasowniku:
+pozycję tę ma każdy szyk, w którym czasownik stoi przed grupą imienną.
 Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
@@ -2617,27 +2622,30 @@ bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
 więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
 a nie co zdejmuje ten.
 
-## Przysłówek wchodzi obu gospodarzami, bo drugi zdejmuje czytania nieprawdziwe
+## Przysłówek wchodzi każdym gospodarzem, bo dalszy zdejmuje czytania nieprawdziwe
 
 Wyrażenie przyimkowe ma dwóch gospodarzy i oba czytania są prawdziwe,
 więc olski oddaje je czytelnikowi.
-Przysłówek ma dwóch gospodarzy, a nad jednym zdaniem prawdziwy jest jeden z nich:
+Przysłówek ma trzech gospodarzy, a nad jednym zdaniem prawdziwy jest jeden z nich:
 `bardzo` w `Plik jest bardzo duży.` określa przymiotnik i zdania nie określa,
 a `tu` w `Mam tu odmienną interpretację.` określa zdanie i przymiotnika nie określa.
 Wybór między gospodarzami jest więc rozstrzygnięciem,
 a nie wieloznacznością do zgłoszenia,
 i dlatego sonda wyceniła każdego z nich osobno, zanim któryś wszedł do gramatyki.
 
-Weszli obaj: drugi gospodarz kosztuje zdania, a kupuje prawdę o drzewie,
-i po tym kursie olski go przyjmuje.
+Weszli wszyscy trzej: gospodarz dalszy kosztuje zdania, a kupuje prawdę o drzewie,
+i po tym kursie olski przyjmuje każdego.
 
-Gospodarze są dwaj, więc wariantów jest cztery:
-gramatyka bez przysłówka, po jednym na gospodarza i sam olski, w którym stoją obaj.
+Gospodarze są trzej, a wariantów cztery:
+gramatyka bez przysłówka, po jednym na gospodarza wycenianego osobno i sam olski.
 `okolicznik` wpuszcza przysłówek do listy okoliczników,
 czyli tam, gdzie stoi wyrażenie przyimkowe, i przed zdanie.
 `przy przymiotniku` stawia go pod symbolem przymiotnika,
 a bierze tam sam przysłówek stopniowany
 ([niżej](#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
+Gospodarz trzeci osobnego wariantu nie ma,
+bo bez listy okoliczników nie wyprowadza niczego,
+więc jego cena nie jest osobną liczbą.
 
 Okolicznik kupuje nad Składnicą kilkaset zdań,
 czyli podnosi liczbę przyjętych o ponad jedną trzecią,
@@ -2651,7 +2659,7 @@ odbierają sobie zdania dwie połowy jednej konstrukcji,
 a nie dwie konstrukcje z osobna.
 
 Cena nie jest przy tym stratą na zdaniach, które olski przyjmował przed przysłówkiem:
-jednoznaczności nie traci ani jedno z nich, w żadnym z trzech wariantów.
+jednoznaczności nie traci ani jedno z nich, w żadnym wariancie.
 Płaci się ją zakupem pierwszego gospodarza:
 zdanie, które każdy z nich osobno przyjmuje jednym czytaniem,
 przy obu naraz wychodzi dwoma.
@@ -2663,33 +2671,38 @@ Program zabawy był ściśle ustalony.
 Pod `okolicznik` orzecznikiem jest `ustalony`, pod `przy przymiotniku`
 `ściśle ustalony`, a pod olskim te dwa czytania stoją obok siebie.
 
-Zakupem drugiego gospodarza jest prawda o zdaniach, które zostają.
+Zakupem gospodarza dalszego jest prawda o zdaniach, które zostają.
 Pierwszy gospodarz sam wypuszcza jedno na czterdzieści zdań przyjętych
 z czytaniem, w którym przysłówek jest okolicznikiem zdania,
-choć stoi przed przymiotnikiem i ten przymiotnik określa;
-przy obu gospodarzach takich czytań jest jedno na blisko dwieście
-i ani jedno z nich nie pada przed przymiotnikiem
+choć określa słowo stojące zaraz za nim.
+Drugi gospodarz zdejmuje z tych czytań te przed przymiotnikiem,
+a trzeci resztę, czyli te przed przysłówkiem,
+i po nim nie zostaje ani jedno
 ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
 Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
 bo `valid` ktoś przeczyta
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-więc para gospodarzy zamienia werdykt fałszywy na werdykt o dwóch czytaniach.
+więc każdy gospodarz dalszy zamienia werdykt fałszywy
+na werdykt o dwóch czytaniach.
 Kurs wychodzi przez to bliski jednemu do jednego:
-zdań przyjętych ubywa mniej więcej tyle, ile ubywa czytań nieprawdziwych.
+zdań przyjętych ubywa mniej więcej tyle, ile ubywa czytań nieprawdziwych,
+a przy gospodarzu trzecim ubyło jednych i drugich dokładnie tyle samo.
 
 W tę samą stronę idzie zgodność z drzewem wzorcowym.
-Okolicznik sam czyta wbrew niemu jedno zdanie na trzydzieści z tych, które kupuje,
-a obaj gospodarze jedno na pięćdziesiąt,
-więc pomyłek jest po dopisaniu drugiego mniej nie tylko w udziale, ale i w liczbie,
-choć zdań przyjętych jest mniej.
-Drugi gospodarz sam myli się przy tym najczęściej z trzech wariantów,
+Okolicznik sam czyta wbrew niemu jedno zdanie na kilkadziesiąt z tych, które kupuje,
+a przy gospodarzach dalszych takich zdań jest mniej,
+nie tylko w udziale, ale i w liczbie.
+Gospodarz trzeci nie rusza przy tym ani jednego z nich:
+odbiera jednoznaczność zdaniom czytanym zgodnie z drzewem wzorcowym,
+a zdania czytanego wbrew niemu ani nie zabiera, ani nie dokłada.
+Drugi gospodarz sam myli się przy tym najczęściej ze wszystkich,
 bo czyta wbrew drzewu jedno zdanie na osiem z tych, które kupuje sam:
 zostają mu pomyłki na przysłówku odprzymiotnikowym,
 który określa i zdanie, więc stopień nie rozdziela niczego —
 `Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`.
 Ról odwróconych nie ma ani jednej, w żadnym wariancie.
 
-Werdykt nazywa tę parę wprost, bo okolicznik przysłówkowy jest w nim rolą:
+Werdykt nazywa gospodarzy wprost, bo okolicznik przysłówkowy jest w nim rolą:
 
 ```sh
 python3 -m olski.check --readings -c "Plik jest bardzo duży."
@@ -2703,7 +2716,7 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 0 of 1 sentences are olski
 ```
 
-Rolę niesie jeden z dwóch gospodarzy, i jest to decyzja, a nie przeoczenie.
+Rolę niesie jeden z gospodarzy, i jest to decyzja, a nie przeoczenie.
 Przysłówek określający przymiotnik stoi wewnątrz orzecznika albo przydawki,
 więc widać go w wypełnieniu tamtej roli,
 a wypisany drugi raz obok mówiłby o zdaniu, że ma okolicznik, którego ono nie ma.
@@ -2714,7 +2727,10 @@ Nad rejestrem ustaw okolicznik kupuje w skali dziesięć razy mniejszej,
 a drugi gospodarz dokłada tam zdanie, zamiast odejmować
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc znak tej ceny zależy od rejestru,
-a nie od samej pary gospodarzy.
+a nie od samych gospodarzy.
+Trzeci nie rusza tam ani jednego werdyktu, tak samo jak nad korpusem audytowym:
+przysłówek przed przysłówkiem jest konstrukcją prozy prasowej,
+a rejestr, o który olskiemu chodzi, nie pisze jej wcale.
 
 Nad prozą tego repozytorium przysłówek daje wyprowadzenie,
 a jednoznaczności nie daje.
@@ -2782,7 +2798,7 @@ Są przez to ceną, przy której warunek zapadł, a nie figurą o dzisiejszej gr
 ### Płaska lista okoliczników mówi o zdaniu nieprawdę
 
 Pierwszy gospodarz nie jest darmowy, bo lista okoliczników jest płaska.
-`Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
+Sam wypuszcza `Program zapisuje ustawienia bardzo szybko.` jednym czytaniem,
 a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
 czyli dwa okoliczniki zdania obok siebie,
 gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
@@ -2798,23 +2814,19 @@ porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
 Liczy to osobne narzędzie, bo pyta o co innego niż pomiar wyżej:
 tamten o werdykt, a ten o drzewo, którym werdykt wypadł.
 Pełne wiersze drukuje `python3 -m harness.płaski`,
-a te przed dopisaniem drugiego gospodarza — ono z `--wariant okolicznik`.
+a te sprzed dopisania gospodarzy dalszych — ono z `--wariant okolicznik`.
 Populacją są zdania przyjęte jednym czytaniem,
 bo tam odpowiedź jest dokładna, a listę czytań zdania wieloznacznego
 ucina granica wyliczania.
 
-Klasy są dwie i różni je to, czy brakującą pozycję ma drugi gospodarz.
-Przysłówek stopniowany przed przymiotnikiem dochodzi do niego,
-a przed drugim przysłówkiem nie dochodzi do nikogo.
-Pierwsza klasa jest w olskim pusta, i to jest zakup drugiego gospodarza
-wypisany osobno: przy nim samym pierwszym gospodarzu przypada na nią
-trzy czwarte płaskich czytań.
-Zostaje klasa druga, czyli jedno płaskie czytanie na blisko dwieście zdań
-przyjętych, i wszystkie są przysłówkiem przed przysłówkiem, jak `bardzo szybko`.
-Trzeci gospodarz jest tym, co ją zdejmuje, i jest on ruchem, a nie dziurą:
-[TODO.md](../TODO.md) trzyma pytanie, czy wraca on z tą samą ceną co drugi.
+Klasy są dwie i różni je to, który gospodarz ma brakującą pozycję.
+Przysłówek stopniowany przed przymiotnikiem dochodzi do drugiego,
+a przed drugim przysłówkiem do trzeciego.
+W olskim obie są przez to puste, i to jest zakup tych dwóch gospodarzy
+wypisany osobno: przy samym pierwszym przypada na klasę pierwszą
+trzy czwarte płaskich czytań, a na drugą reszta.
 
-Liczba jest przy tym górnym oszacowaniem,
+Liczba wariantu jest przy tym górnym oszacowaniem,
 bo przysłówek stopniowany bywa okolicznikiem zdania
 i stoi wtedy przed przymiotnikiem, którego nie określa,
 jak w `Ostatecznie nowa ustawa wchodzi w życie.`

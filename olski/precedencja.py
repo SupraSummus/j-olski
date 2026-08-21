@@ -59,28 +59,24 @@ class Rozwinięcie:
     przyłączenie przez przeoczenie
     (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
 
-    Po córce czasownikowej okolicznik nie staje, i nie jest to wniosek z tamtej reguły,
-    tylko zawężenie postawione obok niej. Polszczyzna ma tę pozycję —
-    ``Trwa w tej sprawie dochodzenie.`` jest przez to zdaniem odrzuconym —
-    a ile ona kosztuje, nie policzył nikt; ``TODO.md`` trzyma wpis o jej wycenie.
-    Zawężenie stoi tu jednym argumentem, a nie w tym, czego ciała nie wypisały,
-    i tyle właśnie rozwinięcie z niego robi.
+    Córki czasownikowej reguła nie wyjmuje, bo polszczyzna stawia okolicznik i
+    tam; co kosztowało wyjmowanie jej, trzyma
+    docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk.
 
-    Miejsca końcowego nie dostaje konstytuent zamknięty córką,
-    która okolicznik bierze sama: ``Predicate`` bierze go przez ``Complements``,
-    więc miejsce dopisane za nim byłoby drugim wyprowadzeniem jednego napisu.
+    Miejsca nie dostaje ``Predicate``, bo okolicznik bierze ono samo, przez
+    ``Complements``, więc miejsce obok niego byłoby drugim wyprowadzeniem jednego
+    napisu. Dotyczy to obu miejsc, jakie taka córka ma — tego za nią i tego na
+    końcu konstytuenta — i dlatego pyta o nie jeden zbiór, a nie dwa.
     """
 
     def __init__(
         self,
         grammar: Grammar,
         okolicznik: Part,
-        czasownikowe: Iterable[str],
         własny_okolicznik: Iterable[str],
     ) -> None:
         self.grammar = grammar
         self.okolicznik = okolicznik
-        self.czasownikowe = frozenset(czasownikowe)
         self.własny_okolicznik = frozenset(własny_okolicznik)
 
     def dominacja(
@@ -115,14 +111,15 @@ class Rozwinięcie:
     def _miejsca(self, szyk: Sequence[Part | Głowa]) -> Iterator[list[Part | Głowa]]:
         """Ten szyk bez okolicznika, a za nim ten sam szyk z okolicznikiem w każdym miejscu.
 
+        Miejsce jest za każdą córką, która okolicznika nie bierze sama, i miejsce
+        na końcu konstytuenta jest tym za córką ostatnią, a nie regułą obok.
         Ciało bez okolicznika idzie pierwsze, bo jest tym, o którym deklaracja mówi,
         a miejsca idą od lewej, żeby produkcje stały w gramatyce w kolejności,
         którą wypisuje sam szyk.
         """
         nazwy = [_nazwa(część) for część in szyk]
-        miejsca = {i + 1 for i, córka in enumerate(nazwy) if córka not in self.czasownikowe}
-        if nazwy[-1] not in self.własny_okolicznik:
-            miejsca.add(len(szyk))
         yield list(szyk)
-        for gdzie in sorted(miejsca):
+        for gdzie, córka in enumerate(nazwy, start=1):
+            if córka in self.własny_okolicznik:
+                continue
             yield [*szyk[:gdzie], self.okolicznik, *szyk[gdzie:]]

@@ -167,7 +167,7 @@ a w dwóch klasach, które je nazywają, w przeszło czterech piątych.**
 Udział ten obniża każda konstrukcja, której dwaj gospodarze różnią czytania rolą,
 a nie przyłączeniem, bo klasa `rola` rośnie wtedy, a tamta nie:
 pierwszym takim dopisaniem jest przysłówek
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 a zdanie okolicznikowe oraz interpunkcja zdaniowa idą tą samą drogą
 ([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
 [subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
@@ -388,7 +388,7 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 ## Rama rozstrzyga po stronie rzeczownika, a po stronie czasownika nie
 
 Świadka ramowego wyceniono przed dopisaniem go, tak jak
-[przysłówek](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe),
+[przysłówek](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe),
 i pomiar rozstrzygnął go na pół.
 `harness/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
 i zestawia to z samym kryterium, a nie z werdyktem.
@@ -449,7 +449,7 @@ a po stronie czasownika nie wskazuje nikogo.
 Wyceniono to tak samo jak przysłówek, czyli połowa na gospodarza,
 a rozstrzygnęło się inaczej: tam obie połowy weszły,
 bo druga kupowała prawdę o drzewie
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 a tutaj druga nie ma czym odpowiedzieć.
 Wypada to zgodnie z próbą nad rejestrem, wziętą nad innym korpusem i inną ręką:
 tam też rozstrzyga rama rzeczownika, i to w większości tych odpowiedzi,
