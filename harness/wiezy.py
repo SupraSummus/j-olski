@@ -164,7 +164,9 @@ class Rozbiór:
     czytania: list[Czytanie]
     urwane: bool = False
     #: Słowa, którym przycinanie zabrało wszystkie czytania. Odrzucenie mówi
-    #: wtedy, na czym stanęło, czego werdykt olskiego nie mówi wcale.
+    #: wtedy, na czym stanęło, a bierze to z pustej dziedziny, gdzie werdykt
+    #: olskiego bierze najdalszy punkt analizy (``gdzie_stanęło`` w
+    #: ``olski/subset.py``).
     bez_głowy: tuple[str, ...] = ()
 
     @property

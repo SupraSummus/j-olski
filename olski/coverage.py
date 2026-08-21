@@ -107,11 +107,6 @@ class Outcome:
     def blocker(self) -> str | None:
         """The part of speech the analysis stopped on, for a rejected sentence.
 
-        Asked of a parse that was not asked how far it got, this raises:
-        ``furthest`` is then ``None``,
-        position zero would name whatever the sentence opens with,
-        and the ranking would rank that.
-
         Exact under gold morphology, where a terminal has one reading because the
         annotators disambiguated it. Approximate under live morphology, where the
         form usually has several and this names the first one Morfeusz listed:
@@ -121,8 +116,6 @@ class Outcome:
         """
         if not self.result.rejected:
             return None
-        if self.result.furthest is None:
-            raise ValueError("bloker: rozbiór nie był pytany, dokąd doszedł")
         for segment in self.segments:
             if segment.start == self.result.furthest:
                 readings = segment.readings
@@ -296,13 +289,9 @@ def zmierz_zdanie(sentence: Sentence, segments: Sequence[Segment], comparable: b
 
     Jedno miejsce, w którym `Outcome` powstaje z lasu, bo las waży tyle, ile jego
     tablica: pytanie zadane osobno kosztowałoby drugi rozbiór tego zdania.
-
-    O to, dokąd analiza doszła, pyta wprost,
-    bo ranking blokerów jest tym, co ten przebieg czyta z odrzucenia
-    (:attr:`Outcome.blocker`).
     """
     zbudowany = las(GRAMMAR, list(segments))
-    result = podsumuj(zbudowany, najdalszy=True)
+    result = podsumuj(zbudowany)
     ocalenie, głębokość = _ocalenie(zbudowany, sentence, result, comparable)
     return Outcome(
         sentence=sentence,

@@ -321,9 +321,9 @@ class Result:
     readings: list[Node] = field(default_factory=list)
     #: The furthest graph node any partial analysis reached, which is where a
     #: rejected sentence stopped making sense.
-    #: ``None`` when nobody asked, which is not position zero:
-    #: :func:`podsumuj` says why the question is optional.
-    furthest: int | None = None
+    #: Over a sentence that has a reading it is the sentence's last node,
+    #: and saying so costs nothing: :func:`podsumuj` holds the price.
+    furthest: int = 0
     #: Czy wyliczanie stanęło na :data:`MAX_READINGS`,
     #: czyli czy lista czytań jest krótsza niż :attr:`ile`.
     truncated: bool = False
@@ -379,17 +379,12 @@ def parse(
     segments: list[Segment],
     start: str | None = None,
     deklaracja: Deklaracja | None = None,
-    najdalszy: bool = False,
 ) -> Result:
     """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte."""
-    return podsumuj(las(grammar, segments, start), deklaracja, najdalszy)
+    return podsumuj(las(grammar, segments, start), deklaracja)
 
 
-def podsumuj(
-    zbudowany: Las,
-    deklaracja: Deklaracja | None = None,
-    najdalszy: bool = False,
-) -> Result:
+def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
     """Podsumowania, jakie werdykt bierze z gotowego lasu.
 
     Osobno od :func:`parse`, bo pomiar buduje las sam i pyta go jeszcze o coś,
@@ -398,11 +393,17 @@ def podsumuj(
     Bez deklaracji werdykt jest samą liczbą i listą czytań;
     co ona niesie i czemu jest jedna, mówi :class:`Deklaracja`.
 
-    O to, dokąd analiza doszła, pyta się osobno i domyślnie wcale.
-    Odpowiedź wymaga drugiego przejścia po tablicy (:meth:`Las.najdalszy`)
-    i nad zdaniem odrzuconym trwa mniej więcej tyle, co sam rozbiór,
-    a czyta ją jedno miejsce: ranking blokerów w ``olski/coverage.py``.
-    Przebieg, który blokerów nie wypisuje, tej odpowiedzi więc nie liczy.
+    O to, dokąd analiza doszła, pyta się tu bez warunku, bo warunek stoi niżej:
+    :meth:`Las.najdalszy` przechodzi tablicę drugi raz nad zdaniem bez ani jednego
+    czytania, a nad każdym innym oddaje koniec zdania bez przejścia.
+    Tyle kosztuje odrzucenie mówiące, gdzie stanęło
+    (``explain`` w ``olski/subset.py``, ranking blokerów w ``olski/coverage.py``):
+    mniej więcej drugi rozbiór zdania, którego olski nie przyjął.
+    Płaci to i zdanie stojące na formie bez licencji, choć werdykt nazywa tam
+    tę formę i zatrzymania nie używa wcale.
+    Warunek, który by ten przypadek zdjął, przychodzi z werdyktu, a nie z lasu,
+    więc ``podsumuj`` wzięłoby z powrotem parametr,
+    a ``Result.furthest`` stan „nikt nie pytał”.
     """
     ile = zbudowany.ile_czytań()
     readings: list[Node] = []
@@ -422,7 +423,7 @@ def podsumuj(
     return Result(
         ile,
         readings,
-        zbudowany.najdalszy() if najdalszy else None,
+        zbudowany.najdalszy(),
         truncated=ile > len(readings),
         różniące=różniące,
         przyłączenia=przyłączenia,

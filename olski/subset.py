@@ -1608,6 +1608,11 @@ class Verdict:
     #: wartości domyślnej, bo pusta krotka jest tu twierdzeniem o zdaniu, a
     #: ``Nowa program zapisuje ustawienia.`` ma je puste i jest odrzucone.
     nielicencjonowane: tuple[str, ...]
+    #: Forma, której nie wzięła ani jedna analiza częściowa, czyli miejsce, na
+    #: którym odrzucenie stanęło; ``None``, gdy analiza doszła do ostatniego
+    #: znaku zdania. Pola bez wartości domyślnej z tego samego powodu co wyżej:
+    #: ``None`` jest tu twierdzeniem, a nie brakiem odpowiedzi.
+    zatrzymanie: str | None
 
     @property
     def status(self) -> str:
@@ -1630,7 +1635,9 @@ class Verdict:
                 # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
                 return f"no reading: no production takes {formy}"
-            return "no reading: nothing in olski derives this"
+            if self.zatrzymanie is None:
+                return "no reading: the analysis reaches the end and nothing closes the sentence"
+            return f"no reading: the analysis stops at „{self.zatrzymanie}”"
         przyłączenia = self.result.przyłączenia
         differing = sorted(
             role
@@ -1834,6 +1841,30 @@ def _omijalna(segments: list[Segment], krawędź: Segment) -> bool:
     return ujście in osiągalne
 
 
+def gdzie_stanęło(segments: list[Segment], furthest: int) -> str | None:
+    """Forma, na której odrzucenie stanęło; ``None``, gdy stanęło na końcu zdania.
+
+    Ostatniego znaku zdania nie nazywa, bo zdanie, które bierze każdą swoją
+    formę i nie domyka się, jest drugim zdarzeniem i dostaje drugie zdanie
+    werdyktu (``Verdict.explain``).
+
+    Z jednego węzła grafu wychodzi czasem kilka form, bo ``ktoś`` wychodzi
+    także jako ``kto`` i ``ś``. Nazwana jest najdłuższa, czyli ta, którą autor
+    napisał, a krótsza jest jej częścią.
+
+    Nazwane miejsce jest końcem przedrostka, który się analizuje, i nie jest
+    wskazaniem usterki; wywód i cenę trzyma
+    docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka.
+    """
+    ujście = max((segment.end for segment in segments), default=furthest)
+    stojące = [
+        segment for segment in segments if segment.start == furthest and segment.end < ujście
+    ]
+    if not stojące:
+        return None
+    return max(stojące, key=lambda segment: segment.end).form
+
+
 def sentences(text: str) -> list[str]:
     """Tnie tekst na zdania i oddaje je tak, jak stoją.
 
@@ -1858,11 +1889,13 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     verdicts = []
     for sentence in sentences(text):
         segments = morphology(sentence)
+        result = parse(grammar, segments, deklaracja=DEKLARACJA)
         verdicts.append(
             Verdict(
                 text=sentence,
-                result=parse(grammar, segments, deklaracja=DEKLARACJA),
+                result=result,
                 nielicencjonowane=bez_licencji(segments, grammar),
+                zatrzymanie=gdzie_stanęło(segments, result.furthest),
             )
         )
     return verdicts

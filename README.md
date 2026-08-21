@@ -91,7 +91,7 @@ Nowa program zapisuje ustawienia."
                   - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt
                   - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
-                  no reading: nothing in olski derives this
+                  no reading: the analysis stops at „ustawienia”
 1 of 3 sentences are olski
 ```
 
@@ -109,6 +109,9 @@ którego streszczenie nie pokazuje.
 Zgodność form jest tu parsowaniem.
 `Nowa program` nie ma wyprowadzenia.
 Nie ma tu reguły, która strzeliła.
+Werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka.
+Całą tę różnicę trzyma
+[docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).
 

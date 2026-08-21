@@ -146,6 +146,67 @@ się przewrócił i to zapisał:
 liczenie prób zamiast wyników
 kazało tamtemu narzędziu milczeć nad wierszami, które zrozumiało bez reszty.
 
+## Odrzucenie mówi, dokąd analiza doszła, a nie gdzie stoi usterka
+
+Odrzucenie ma trzy przyczyny i werdykt rozdziela je trzema zdaniami,
+bo za każdą stoi inna robota do zrobienia.
+Pierwszą jest forma, po którą nie sięga ani jedna produkcja,
+i tę werdykt nazywa wprost, bo widać ją przed rozbiorem;
+[Świgra](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)
+trzyma ją osobno tak samo.
+Dwie pozostałe są strukturą,
+a rozdziela je to, dokąd doszła analiza częściowa
+(`Las.najdalszy` w `olski/parse.py`).
+
+Analiza staje wewnątrz zdania, przed formą, której nie wzięła żadna analiza częściowa.
+
+```sh
+python3 -m olski.check -c "Tory są dwa: gramatyka i skład."
+```
+
+Werdykt nazywa tam dwukropek,
+czyli szew, którym to zdanie wychodzi poza podzbiór.
+Albo analiza bierze każdą formę zdania i nie domyka całości:
+`Gramatyka jest tania, a nie droga.` dochodzi do kropki,
+bo drugi człon nie ma czasownika,
+i werdykt mówi wtedy, że zdania nic nie zamyka.
+Znak kończący nazwany jako zatrzymanie kazałby autorowi poprawić kropkę,
+więc te dwa zdarzenia dostają dwa zdania.
+Zatrzymanie wewnątrz zdania jest z tych dwóch częstsze:
+nad prozą tych dokumentów pada tak przeszło osiem odrzuceń na dziesięć,
+a kolejkę form, na których staje, drukuje sam werdykt.
+
+```sh
+python3 -m harness.markdown docs/ --into proza/
+python3 -m olski.check proza/*.txt | grep -oP 'stops at „\K[^”]+' | sort | uniq -c | sort -rn
+```
+
+Kolejka ta stawia na czele `i`, `a`, `więc`, przecinek, dwukropek i `czyli`,
+czyli spójnik i znak, którym zdanie tego rejestru dokłada człon.
+Jest to inna kolejka niż ta ze Składnicy,
+która rankinguje część mowy, a nie formę
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Ściągać do niej nie ma czego, więc puszcza ją każda sesja.
+
+Nazwane miejsce jest końcem najdłuższego przedrostka, który się analizuje,
+i nie jest wskazaniem usterki.
+Widać tę różnicę na zdaniu, którym [README](../README.md#co-działa) pokazuje odrzucenie:
+`Nowa program zapisuje ustawienia.` staje na `ustawienia`,
+choć niezgodna para stoi na czele zdania.
+Przedrostek ten analizuje się swobodnym szykiem:
+`Nowa` jest mianownikiem, a `program` biernikiem,
+więc `Nowa program zapisuje` przechodzi jako podmiot, dopełnienie i orzeczenie
+w tej właśnie kolejności, a `ustawienia` nie ma już czym być.
+Werdykt mówi o analizie prawdę, a wskazania usterki nie obiecuje.
+
+Czego gramatyka w tym miejscu oczekiwała, werdykt nie podaje,
+i nie podaje dlatego, że na formę nie czeka tam nic.
+Analiza częściowa, która na formę czeka i tę formę bierze,
+przesuwa zatrzymanie za nią,
+więc przejście po `_przed_formą` w `olski/parse.py` oddaje w miejscu zatrzymania
+zbiór pusty nad każdym zdaniem tej prozy odrzuconym na strukturze.
+Wydruk oczekiwań milczałby zatem dokładnie tam, gdzie autor jest zgubiony.
+
 ## The dictionary offers readings Polish does not
 
 A word read as a noun rather than as a function word

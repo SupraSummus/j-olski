@@ -845,8 +845,9 @@ a nie samym porównaniem deklaracji.
 **Odrzucenie zaczyna mówić, na czym stanęło.**
 Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
 i nad zdaniem o konwencjach z README wychodzą z tego dwa przecinki.
-Jest to ta sama informacja, którą `olski-corpus` liczy jako bloker
-i której `olski-check` nie podaje wcale,
+Jest to ta sama informacja, którą `olski-corpus` liczy jako bloker,
+a `olski-check` mówi osobnym zdaniem werdyktu
+([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)),
 tylko wzięta nie z najdalszego osiągniętego punktu, a z pustej dziedziny.
 Podłoże daje ją przy tym za darmo, bo licencja łuku i tak stoi policzona.
 
