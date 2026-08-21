@@ -123,7 +123,7 @@ cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
 ([CLAUDE.md](../CLAUDE.md#code)),
 korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)
 i [ustawy.md](ustawy.md#skąd-bierze-się-korpus),
-a wniosek wraca do sekcji, która tę konstrukcję trzyma,
+a wywód wraca do sekcji, która tę konstrukcję trzyma,
 oraz jednym zdaniem ze wskaźnikiem do [roadmap.md](roadmap.md) i dokumentów rejestrów.
 
 **Psuje ją** produkcja dopisana bez przebiegu nad bankiem drzew,

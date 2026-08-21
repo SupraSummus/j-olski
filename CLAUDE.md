@@ -134,17 +134,14 @@ zdejmuje obowiązek pisania i daje licencję na skreślenie.
 Przeglądowi zmian nie dopisuje ani jednej pozycji.
 
 Pisze się to, czego bez sesji nie da się odtworzyć:
-decyzję, odrzuconą alternatywę, cenę rzeczy wpuszczonej
+decyzję, odrzuconą alternatywę
 oraz te zdania korpusu, które trzeba przeczytać, żeby werdyktowi uwierzyć.
 Nie trzeba pisać tego, co odtwarza się poleceniem:
 tabeli, wyliczenia ani sprawozdania z przebiegu.
 O samej liczbie mówi to [akapit o liczbie kruchej](#checks),
 a tu chodzi o cały pasaż.
-Pomiar wpuszczający konstrukcję wychodzi więc krótko —
-werdykt, waluta, w której wypadła cena, i te dwa czy trzy zdania —
-a nie całym wydrukiem.
-Żadna reguła tego wydruku nie żądała; wziął się z tego,
-że przebieg kosztował sesję, a nie z tego, że ktoś go czyta.
+Żadna reguła takiego sprawozdania nie żądała; wzięło się z tego,
+że przebieg kosztował sesję, a nie z tego, że ktoś je czyta.
 
 Skreślić taki pasaż wolno każdemu, kto go zauważy,
 bez pytania i bez lepszej wersji na jego miejsce
@@ -260,13 +257,12 @@ it uses the conclusion and credits
 which owns the argument and the numbers.
 
 **A construction admitted to the grammar is the fact these documents duplicate most.**
-Its argument and its price belong to its section in
+Its argument belongs to its section in
 [`docs/subset.md`](docs/subset.md),
 and the blocker queue, the stage plan and the register documents
 state the conclusion in a clause and link that section.
 A construction re-derived in a second document
-makes the next addition a rewrite in two places,
-and a second copy of its measured numbers goes stale unnoticed.
+makes the next addition a rewrite in two places.
 
 **Code owns what is implemented; documents own what code cannot show.**
 Which productions the grammar has, what a lexicon entry says,
@@ -574,7 +570,7 @@ that it name the evidence it reads and not only the files it changes —
 applied to a batch of them.
 
 A construction admitted alone pays the whole fixed cost of its own section —
-the heading, the frame, the price, the entry on the coverage list,
+the heading, the frame, the entry on the coverage list,
 the clause in the stage plan — where several admitted together divide it,
 so several may go into one session unless one of them blocks the others.
 
@@ -648,12 +644,6 @@ Stosunek ma być przy tym zgrubny, bo dokładny rusza się jak liczba:
 `Złote czytanie ocalało w dziewięciu na dziesięć zdań wieloznacznych`
 przestało być prawdą przy jednej zmianie w gramatyce,
 więc sekcja ta nosi w nagłówku sam kierunek.
-Wolno też zero: konstrukcja, która nie kosztuje nic, mówi to w nagłówku,
-a zero, które przestaje być zerem, jest decyzją odwróconą, a nie liczbą ruszoną,
-więc przemianowanie sekcji jest wtedy właśnie tym, o co chodzi.
-Liczba powyżej zera nie ma ani jednej z tych wymówek,
-a `Szyk zmierzono: kupuje kilkadziesiąt zdań i odbiera kilka`
-jest tym kształtem, w którym rząd wielkości stoi poza adresem.
 
 Pomiary nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
 korpusy są archiwami dziesiątek megabajtów pobieranymi raz na sesję,
@@ -727,7 +717,7 @@ a unified flow is proven once.
 Cena wpuszczenia odpowiada na pytanie zadane raz — wpuszczać czy nie —
 więc przelicza się ją raz, a rok później mierzyłaby już co innego.
 Predykat pisze się w sesji, na jeden przebieg,
-a do repozytorium wchodzi zdanie w dokumencie i commit, który je wpuścił.
+a do repozytorium wchodzi sam commit, który konstrukcję wpuścił.
 Narzędzie, które taki predykat prowadzi, stoi w drzewie (`harness/ruch.py`),
 więc kto chce liczby dzisiejszej, pisze predykat na nowo i puszcza go;
 kto chce tej sprzed roku, czyta gita.
@@ -757,8 +747,7 @@ a nie tylko co się wyprowadza.
 Symbol obejmujący dwie pozycje naraz oszczędza kilkanaście produkcji
 i odbiera pomiar, bo zdjęcie jego ciał zabiera obie pozycje, a nie jedną.
 `RelativeNP` stojące obok `RelativePronoun` w `olski/subset.py` jest tym wyborem,
-a [`subset.md`](docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)
-podaje cenę każdej z dwóch pozycji osobno.
+bo sonda wycenia każdą z tych dwóch pozycji osobno.
 Gdzie o cenę osobną nikt nie pyta, wybieramy symbol wspólny, bo jest tańszy.
 
 **Printed output does not take its order from a set.**

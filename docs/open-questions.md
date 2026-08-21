@@ -51,9 +51,8 @@ which is not a reason to build it all at once.
 Word order had a row here and has one no longer,
 and the fork closed in two moves rather than one.
 The expensive column was taken first as coverage:
-all six orders of subject, object and verb derive,
-and what that bought and cost is in
-[subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka).
+all six orders of subject, object and verb derive
+([subset.md](subset.md#what-the-grammar-covers)).
 The mechanism the column names arrived after it,
 so the clause now declares its daughters
 and a precedence condition beside them says which orders are written
@@ -63,9 +62,8 @@ and those sit in `TODO.md` as work rather than as a decision.
 
 Numerals had a row here and have one no longer.
 The fork was between excluding them and paying for the agreement fictions,
-the fictions cost one production feature written as a value rather than a variable,
-and the measurement behind that is in
-[subset.md](subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania).
+the fictions cost one production feature written as a value rather than a variable
+([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
 What is left of the area is not a fork but work,
 and it is the numeral written as a digit,
 which no production can take because `dig` carries no features at all

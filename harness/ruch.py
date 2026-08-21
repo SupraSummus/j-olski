@@ -285,7 +285,7 @@ def _warianty(
     Rozbiór olskiego idzie przez to pierwszy,
     a odrzucenie zamyka pozostałe warianty jedną odpowiedzią,
     bo o zdaniu odrzuconym mówią one to samo.
-    Olski odrzuca większość zdań banku drzew, co widać w każdej tabeli w ``figury/``,
+    Olski odrzuca większość zdań banku drzew, co drukuje ``olski-corpus``,
     więc z przebiegu wypada przeszło połowa rozbiorów.
     Że wariant naprawdę niczego nie dopisuje, pilnuje ``tests/test_ruch.py``:
     kierunek przez dopisywanie ta maszyneria kiedyś miała i może go odzyskać.

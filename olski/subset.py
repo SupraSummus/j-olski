@@ -103,9 +103,7 @@ BEZOSOBOWY = "ImpersonalPredicate"
 #: Rolą jest z tego samego powodu, z którego jest nią przysłówek, a osobną od niego
 #: dlatego, że cząstka przysłówkiem nie jest: werdykt nazywa rolę etykietą węzła,
 #: więc `Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono
-#: nie ma. Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla; co
-#: kosztuje wpuszczenie tej klasy, mierzy
-#: docs/subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu.
+#: nie ma. Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla.
 CZĄSTKOWY = "Particle"
 
 #: Rola wtrącenia w nawiasie, czyli tego, co ten rejestr dopowiada obok zdania:
@@ -208,7 +206,7 @@ KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 #: ustaw i jest w nim najczęstszym zdaniem względnym; docs/ustawy.md go liczy.
 #:
 #: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
-#: imiennej w mianowniku — zmierzono i odrzucono; cenę trzyma
+#: imiennej w mianowniku — zmierzono i odrzucono; wywód trzyma
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 RZECZOWNIK_ORZEKAJĄCY = "mowa"
 
@@ -375,8 +373,8 @@ def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     Czoło, które tej pary nie niesie, zostawia zmienne poprzednika niezwiązane,
     a wtedy zdanie względne wychodzi bez liczby i rodzaju i przyjmuje każdy
     poprzednik. Nazwy cech są polskie, bo cechę tę wybiera ta gramatyka, a nie
-    Morfeusz (``olski/morph.py`` nazywa jego kategorie); kto ją czyta i za ile,
-    mówi docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania.
+    Morfeusz (``olski/morph.py`` nazywa jego kategorie); kto ją czyta, mówi
+    docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
     """
     return {"liczba_zaimka": liczba, "rodzaj_zaimka": rodzaj}
 
@@ -769,8 +767,7 @@ def build() -> Grammar:
     # których cenę wzięto zdejmowaniem po jednej.
     #
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
-    # coordination distributes into it”, a cenę przecinka
-    # docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania.
+    # coordination distributes into it”.
     grammar.rule("Clause", [nt("ClauseConjunct")])
     grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")])
     grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), PRZECINEK, nt("Clause")])
@@ -916,8 +913,7 @@ def build() -> Grammar:
     # Szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem produkcji,
     # bo wykluczenia przez przemilczenie zabrania tej gramatyce
     # docs/design-notes.md#angle-one-parsing, i wykluczony jest tu jeden szyk,
-    # który ten warunek wypowiada. Cenę i zakup czterech szyków dopisanych trzyma
-    # docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka.
+    # który ten warunek wypowiada.
     zdanie.dominacja(
         "ClauseConjunct",
         [podmiot, dopełnienie, Głowa(czasownik_ramy)],
@@ -1520,8 +1516,6 @@ def build() -> Grammar:
     #
     # Każdy z tych dwóch kształtów jest osobnym ciałem, bo cechy nie przechodzą
     # przez grupę imienną same, więc głowa z przydawką pod sobą wysunięcia nie ma.
-    # Który z nich niesie rejestr, a który sama polszczyzna, mówi
-    # docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania.
     głowa_grupy = word("subst", **AGREE)
     zaimek_dopełniacza = nt("RelativePronoun", case="gen", **POPRZEDNIK)
     for ciało in (

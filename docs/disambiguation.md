@@ -170,7 +170,7 @@ pierwszym takim dopisaniem jest przysłówek
 ([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)),
 a zdanie okolicznikowe oraz interpunkcja zdaniowa idą tą samą drogą
 ([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
-[subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+[subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
 bo dwa przyłączenia, z których jedno ma gospodarza tylko pod jednym czytaniem drugiego,
 dają czytań mniej niż iloczyn;
