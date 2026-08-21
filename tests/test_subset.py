@@ -48,6 +48,7 @@ from olski.subset import (
     WTRĄCONY,
     admissible,
     check,
+    gdzie_stanęło,
     morphology,
     sentences,
 )
@@ -938,7 +939,10 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     assert "no production takes" in forma.explain()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()
-    assert struktura.explain() == "no reading: nothing in olski derives this"
+    #  Zdanie to stoi w README jako przykład odrzucenia, więc jego werdykt stoi
+    #  tam wypisany co do znaku. Czemu analiza staje na `ustawienia`, a nie na
+    #  niezgodnej parze, mówi `gdzie_stanęło` w `olski/subset.py`.
+    assert struktura.explain() == "no reading: the analysis stops at „ustawienia”"
 
 
 def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
@@ -952,22 +956,37 @@ def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
 
 
-def test_a_rejection_says_how_far_the_analysis_got_when_asked_and_not_otherwise():
-    """``0`` would pass for an answer, so the unasked case is pinned here as well.
-
-    Asking costs a second walk over the table,
-    so a parse that was not asked holds ``None`` rather than a position.
-    """
+def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
     #  Polish puts a comma in front of ale and this sentence has none, so no level
     #  of coordination derives it and the analysis stops on the conjunction itself.
     #  The form is licensed all the same, by the position that has the comma, so
     #  the list of unlicensed forms is empty and the furthest point is what says
     #  where the sentence ran out.
     zdanie = "Plany są niczym ale planowanie jest wszystkim."
-    result = parse(GRAMMAR, morphology(zdanie), najdalszy=True)
-    assert result.rejected
-    assert result.furthest == 3
-    assert verdict(zdanie).result.furthest is None
+    assert parse(GRAMMAR, morphology(zdanie)).furthest == 3
+    assert verdict(zdanie).explain() == "no reading: the analysis stops at „ale”"
+
+
+def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrzymania():
+    #  Drugi człon nie ma czasownika, więc żadna analiza nie zamyka zdania, choć
+    #  każdą jego formę bierze jakaś produkcja. Zatrzymanie pada wtedy na kropce,
+    #  a werdykt nazywający kropkę kazałby autorowi poprawić interpunkcję.
+    werdykt = verdict("Gramatyka jest tania, a nie droga.")
+    assert werdykt.status == "rejected"
+    assert werdykt.zatrzymanie is None
+    assert werdykt.explain() == (
+        "no reading: the analysis reaches the end and nothing closes the sentence"
+    )
+
+
+def test_zatrzymanie_nazywa_formę_którą_autor_napisał_a_nie_jej_część():
+    #  Morfeusz widzi w `kiedyś` także `kiedy` i `ś`, więc z jednego węzła grafu
+    #  wychodzą dwie krawędzie, a krótsza jest częścią dłuższej. Nazwana bez
+    #  wyboru — pierwsza z brzegu — mówiłaby autorowi o słowie, którego w zdaniu
+    #  nie ma, i mówiłaby to zależnie od kolejności krawędzi.
+    segmenty = morphology("Liczbę napisano kiedyś.")
+    [węzeł] = {segment.start for segment in segmenty if segment.form == "kiedy"}
+    assert gdzie_stanęło(segmenty, węzeł) == "kiedyś"
 
 
 # --------------------------------------------------------------------------- #

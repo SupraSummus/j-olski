@@ -16,25 +16,31 @@ a ceny wpuszczenia konstrukcji
 [`subset.md`](subset.md#what-the-grammar-covers);
 tu stoi tylko materiał, którego te trzy dokumenty nie miały skąd wziąć.
 
-## Główny problem: odrzucenie nie mówi, gdzie stanęło
+## Główny problem tej sesji: odrzucenie nie mówiło, gdzie stanęło
 
-Na każde dziesięć odrzuceń dziewięć powiedziało tyle:
-`no reading: nothing in olski derives this`.
+Na każde dziesięć odrzuceń dziewięć mówiło wtedy tyle,
+że nic w olskim tego zdania nie wyprowadza.
 Reszta nazwała formę — `no production takes „GLR”` — i ta reszta była łatwa,
 bo naprawa jest widoczna od razu.
-Cała trudność siedzi w tej asymetrii, a nie w liczbie konstrukcji:
-przy wieloznaczności werdykt mówi, co go rozdwoiło,
-a przy odrzuceniu nie mówi nic.
+Cała trudność siedziała w tej asymetrii, a nie w liczbie konstrukcji:
+przy wieloznaczności werdykt mówił, co go rozdwoiło,
+a przy odrzuceniu nie mówił nic.
 
-Metoda, która została, to bisekcja ręką.
+Metodą, która wtedy została, była bisekcja ręką.
 Zdanie o pięciu członach dzieli się na pół, każdą połowę puszcza osobno,
 potem wymienia się w podejrzanym członie jedno słowo i puszcza znowu.
 Na jedno odrzucone zdanie wychodziło tak kilka do kilkunastu przebiegów,
 a wiedza, która z tego zostaje, jest wiedzą o tym jednym zdaniu.
-Wpis, który to zamyka, stoi w [`TODO.md`](../TODO.md)
-i pyta o `Las.najdalszy` w `olski/parse.py`;
-ta sesja jest świadkiem na jego wagę, a nie osobnym pomysłem.
-[`roles.md`](roles.md#ktoś-kto-to-uruchamia) nazywa to samo
+
+Werdykt nazywa miejsce, na którym analiza stanęła,
+i nazywa je dwoma zdaniami, bo zatrzymanie na formie
+i zdanie, którego nic nie domyka, są dwoma zdarzeniami
+([`subset.md`](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+Odpowiada tym na pierwsze pytanie tamtej bisekcji, czyli który człon tknąć.
+Reszty bisekcji nie zdejmuje: miejsce zatrzymania jest końcem przedrostka,
+który się analizuje, a nie wskazaniem usterki,
+więc para niezgodna rodzajem wychodzi dalej, niż stoi.
+[`roles.md`](roles.md#ktoś-kto-to-uruchamia) nazywa odrzucenie bez tej odpowiedzi
 jako to, co psuje drogę komuś, kto narzędzie uruchamia.
 
 ## Czego brakowało najbardziej
@@ -149,8 +155,9 @@ Ten dokument nazywa się tak, jak się nazywa, właśnie dlatego.
 
 ## Co działało
 
-`--readings` ze streszczeniem jest jedynym miejscem, w którym werdykt mówi „dlaczego”,
-i to działa dokładnie tak, jak README obiecuje:
+`--readings` ze streszczeniem było wtedy jedynym miejscem,
+w którym werdykt mówił „dlaczego”,
+i działało dokładnie tak, jak README obiecuje:
 strzałka `„z dodatkami” → „przewyższa”, „koszt”` mówi, co wybrać ma czytelnik,
 a nazwy roli mówią, co zdanie znaczy w każdym z czytań.
 Diagnoza wieloznaczności zajmuje jedno spojrzenie.

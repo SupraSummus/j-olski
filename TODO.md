@@ -346,41 +346,6 @@ w `Verdict`, a nie samego drugiego napisu.
 Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
 tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
 
-Odrzucenie na strukturze mówi `no reading: nothing in olski derives this`
-i nie mówi, dokąd analiza doszła,
-czego [`docs/roles.md`](docs/roles.md#ktoś-kto-to-uruchamia) żąda wprost:
-odrzucenie bez tego psuje rolę tego, kto komendę uruchamia.
-Odpowiedź jest już liczona — `Las.najdalszy` w `olski/parse.py` przechodzi
-tablicę drugi raz — a pyta o nią jedno miejsce, `blocker` w `olski/coverage.py`,
-bo `podsumuj` liczy ją tylko proszona.
-Zmierzone nad polską prozą tego repozytorium:
-zatrzymanie pada wewnątrz zdania w przeszło ośmiu przypadkach na dziesięć,
-a w pozostałych na znaku kończącym,
-i staje najczęściej na `i`, `a`, `:`, `więc`, `,` i `czyli`,
-czyli na szwie, którym zdanie wychodzi poza podzbiór.
-Zdań odrzuconych na strukturze przybywa przy tym z każdą wpuszczoną konstrukcją,
-więc waga tego wpisu rośnie, a liczby pod nią trzeba wziąć na nowo.
-Ruchem jest `podsumuj` pytające o nie, gdy czytań wyszło zero,
-i `explain` mówiące to w dwóch brzmieniach,
-bo zatrzymanie na formie i zdanie, którego nic nie domyka, są dwoma zdarzeniami:
-`Tory są dwa: gramatyka i skład.` staje na dwukropku po `Tory są dwa`,
-a `Gramatyka jest tania, a nie droga.` dochodzi do kropki i nie zamyka się,
-bo drugi człon nie ma czasownika.
-Ceną jest drugie przejście po tablicy, mniej więcej tyle co sam rozbiór
-(0,65 s na 1,40 s nad prozą README),
-a `check` wołają cztery sondy, więc pytanie ma padać nad zdaniem odrzuconym,
-a nie nad każdym.
-Do przeczytania jest `_wczytaj` w `olski/parse.py`, zanim ktoś sięgnie po więcej:
-stan tablicy nie niesie cech, więc konstytuent domknięty w tablicy bywa nieprawdą —
-nad `Kot to zwierzę.` i `Parser mierzy gramatykę sondą.` stoi tam domknięte `Sentence`
-na całym zdaniu, które werdykt odrzuca — i komunikat wzięty stamtąd powiedziałby autorowi,
-że jego zdanie się wyprowadza.
-Zbioru symboli oczekiwanych w miejscu zatrzymania ten wpis nie proponuje:
-jest ich w medianie szesnaście, a nad `Tanio, deterministycznie i z wyjaśnieniem: …`
-zbiór jest pusty, czyli milczy tam, gdzie autor jest najbardziej zgubiony.
-Wpis o rozdzieleniu `no production takes` pyta o tę samą wadę wydruku
-po stronie leksykalnej i podnosi się osobno, bo tamten rusza pole w `Verdict`.
-
 `harness/luka.py` przepisuje z `harness/ruch.py` cały przebieg różnicowy:
 liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
 czyli około stu osiemdziesięciu wierszy stojących drugi raz.
@@ -2010,6 +1975,25 @@ bo trzecia czyta to, co dwie pierwsze wpisują.
 Ile to kupuje, mówi dopiero pomiar:
 stany te zajmują połowę tablicy, ale nie połowę jej czasu,
 bo wpis na listę oczekujących zostaje po tym ruchu tam, gdzie był.
+
+`blocker` w `olski/coverage.py` liczy w jednym wierszu dwa zdarzenia,
+które werdykt rozdziela dwoma zdaniami.
+Nazywa on część mowy formy stojącej w miejscu zatrzymania,
+więc zdanie, które doszło do znaku kończącego i nie domknęło się,
+wpada do wiersza `interp` razem ze zdaniem, które stanęło na przecinku.
+Wadę tę [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) nazywa już wprost:
+kropka prowadzi tam ten wiersz, zdania pod nią są w większości bez czasownika,
+a forma ta liczy dwie rzeczy naraz i nie rozstrzyga żadnej.
+Kryterium, które je rozdziela, stoi w `gdzie_stanęło` w `olski/subset.py`,
+a napis na drugie z dwojga stoi w `coverage.py` jako `NO_STRUCTURE`,
+więc ruchem jest `blocker` czytający to kryterium zamiast trzymać drugie.
+Do przeczytania jest właśnie ten akapit o kropce:
+mówi on, że po rozdzieleniu zostanie wiersz o konstrukcji, której brakuje,
+a nie o znaku, którym zdanie się kończy.
+Ceną są tabele blokerów w
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop):
+wiersz `interp` spadnie, a zdania bez struktury nad całością wyjdą osobno,
+więc wpis podnosi sesja, która ma Składnicę i powtórzy nad nią przebieg.
 
 ## Skład i opowieści
 

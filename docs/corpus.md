@@ -311,7 +311,9 @@ every word is one some production takes,
 and nothing derives the two together.
 The run says which is which rather than leaving it to be worked out:
 a rejected sentence names the words no production takes,
-or says that nothing derives it when every word is one some production does.
+or, where every word is one some production does take,
+names the place its analysis stopped at
+([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 
 The two rankings agree on which constructions lead
 and disagree on what admitting one is worth.
