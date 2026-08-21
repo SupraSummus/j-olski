@@ -96,9 +96,11 @@ it is not being compared against 100%.
 ## The measurement
 
 Gold morphology, whole corpus, every sentence carrying a gold tree:
-roughly one sentence in eight comes out with a single reading,
+better than one sentence in eight comes out with a single reading,
 roughly one in twelve with several,
 and for the remaining three quarters olski derives nothing.
+The first of those only ever moves upward, so it is written as a floor;
+the run owns all three.
 Every production admitted moves all three,
 so the run above owns those counts and this document owns their order,
 and a figure quoted here would be stale by the commit after it

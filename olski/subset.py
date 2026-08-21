@@ -435,6 +435,20 @@ PYTAJNIK = word("interp", lemma="?")
 #: pytajnej jest.
 ZAIMEK_PYTAJNY = word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)
 
+#: Zaimek dzierżawczy: `jego`, `jej`, `ich`, czyli dopełniacz zaimka trzeciej
+#: osoby. Tym polszczyzna wyraża posiadanie i osobnego przymiotnika na to nie ma,
+#: a `mój`, `nasz` oraz `swój` są u Morfeusza przymiotnikami i bierze je pozycja
+#: przymiotnika.
+#:
+#: Warunek jest na cechę, a nie na lemat, bo lematem każdej z tych form jest `on`:
+#: ``akc`` zostawia poza pozycją nieakcentowane `go`, a ``npraep`` przyimkowe
+#: `niego`, `niej` i `nich`, których polszczyzna przy rzeczowniku nie stawia.
+#: Terminal zaimka pod ``NPConjunct`` warunku drugiego nie ma i wpuszcza przez to
+#: `Cena niego rośnie.`; ``TODO.md`` trzyma ten rozjazd.
+ZAIMEK_DZIERŻAWCZY = word(
+    "ppron3", case="gen", accentability="akc", post_prepositionality="npraep"
+)
+
 #: Dwie klasy, na jakie :data:`SPÓJNIKI_PRZECINKOWE` rozdziela spójnik zdaniowy.
 #: Druga jest warunkiem ujemnym na pierwszą, bo klasy mają się nie zachodzić:
 #: lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma jeden.
@@ -1414,6 +1428,23 @@ def build() -> Grammar:
         "NPConjunct",
         [word("ppron3|ppron12", person=V("p"), **AGREE)],
         person=V("p"),
+        **AGREE,
+    )
+
+    # Zaimek dzierżawczy przed grupą imienną: `jego skutki`, `ich cena`
+    # (:data:`ZAIMEK_DZIERŻAWCZY`). Zgodności ta pozycja nie ma i mieć nie może:
+    # zaimek zgadza się liczbą i rodzajem ze swoim poprzednikiem, a poprzednik stoi
+    # w zdaniu obok, więc cechy grupy są cechami samej głowy. Tym różni się to
+    # ciało od przymiotnika i od liczebnika zgodnego, które dzielą z głową
+    # wszystkie trzy cechy.
+    #
+    # Ciało jest jedno, bo dopełniacz po rzeczowniku bierze produkcja wyżej.
+    # Co ta pozycja kosztuje, mierzy
+    # docs/subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem.
+    grammar.rule(
+        "NPConjunct",
+        [ZAIMEK_DZIERŻAWCZY, Głowa(nt("NPConjunct", **AGREE))],
+        person="ter",
         **AGREE,
     )
 

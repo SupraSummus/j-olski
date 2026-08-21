@@ -9,8 +9,8 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 104 zdania z 4921,
-czyli 2,1%, a wieloznacznych jest tu 9,9%,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 111 zdań z 4921,
+czyli 2,3%, a wieloznacznych jest tu 10,6%,
 więc zdanie ustawy, które olski w ogóle czyta,
 czyta on najczęściej na kilka sposobów.
 Nad [Składnicą](corpus.md#the-measurement) wychodzi odwrotnie —
@@ -191,17 +191,17 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
 
 | akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
 | --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 30 | 79 | 277 |
+| samorząd gminny (1990/95) | 386 | 31 | 86 | 269 |
 | inicjatywa ustawodawcza (1999/688) | 84 | 1 | 3 | 80 |
-| informacja publiczna (2001/1198) | 126 | 1 | 3 | 122 |
-| Kodeks wyborczy (2011/112) | 2908 | 41 | 226 | 2641 |
+| informacja publiczna (2001/1198) | 126 | 1 | 4 | 121 |
+| Kodeks wyborczy (2011/112) | 2908 | 46 | 245 | 2617 |
 | petycje (2014/1195) | 48 | 2 | 5 | 41 |
-| zgromadzenia (2015/1485) | 127 | 1 | 13 | 113 |
-| ochrona ludności (2024/1907) | 1242 | 28 | 156 | 1058 |
-| razem | 4921 | 104 | 485 | 4332 |
+| zgromadzenia (2015/1485) | 127 | 1 | 15 | 111 |
+| ochrona ludności (2024/1907) | 1242 | 29 | 162 | 1051 |
+| razem | 4921 | 111 | 520 | 4290 |
 
 Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 7 jednoznacznych i 30 wieloznacznych.
+699 zdań, z tego 8 jednoznacznych i 35 wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -237,7 +237,7 @@ i nazywa go dokładnie tym kształtem.
 Ile zdań przypada na który kształt, nikt po tym przeliczeniu nie policzył,
 bo klasyfikacja idzie tu ręką, zdanie po zdaniu.
 
-Nie każde z tych 104 zdań napisał prawodawca, i widać to na dwóch klasach.
+Nie każde z tych 111 zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -249,7 +249,7 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 104 to dotyczy, ten pomiar nie liczy,
+Ilu zdań z 111 to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),

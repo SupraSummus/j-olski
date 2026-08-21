@@ -1583,6 +1583,28 @@ def test_zaimek_rzeczowny_zostaje_wszędzie_indziej():
     assert verdict("To ma pomagać pisać dobrą polszczyznę.").status == "valid"
 
 
+def test_zaimek_dzierżawczy_nie_zgadza_się_z_rzeczownikiem_przy_którym_stoi():
+    #  Usterka, przed którą to stoi: zgodność wypuszczona zmienną wspólną, tak jak
+    #  wypuszcza ją przymiotnik i liczebnik zgodny obok. Wygląda to poprawnie i
+    #  odbiera polszczyźnie prawie każdą taką parę, bo zaimek zgadza się ze swoim
+    #  poprzednikiem, który stoi w zdaniu obok. Para zdań łapie obie liczby.
+    mnogi = verdict("Jego skutki są znane.")
+    assert mnogi.status == "valid", mnogi.explain()
+    assert mnogi.readings[0]["Subject"] == "Jego skutki"
+    assert verdict("Ich cena jest niska.").status == "valid"
+
+
+def test_zaimek_dzierżawczy_bierze_formę_akcentowaną_i_nieprzyimkową():
+    #  Enklityka stoi przy czasowniku, a forma przyimkowa po przyimku, więc bez tych
+    #  dwóch warunków pozycja bierze `go` oraz `niego`, a zdanie z nimi wychodzi
+    #  jednym czytaniem, czyli twierdzeniem. Warunek zbyt szeroki kosztuje z drugiej
+    #  strony, dlatego każdy z dwóch ma obok zdanie, które ma przejść.
+    assert verdict("Znam jego cenę.").status == "valid"
+    assert verdict("Znam go cenę.").status == "rejected"
+    assert verdict("Bez niego cena rośnie.").status == "valid"
+    assert verdict("Znam niego cenę.").status == "rejected"
+
+
 # --------------------------------------------------------------------------- #
 # Podrzędność
 # --------------------------------------------------------------------------- #

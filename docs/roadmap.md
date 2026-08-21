@@ -792,6 +792,19 @@ tak samo jak dopisania przed nimi.
 Myślnika ten plik nie pisze ani razu,
 a zdania, które niosą dwie pozostałe konstrukcje, stoją w nim także na czym innym.
 
+Zaimek dzierżawczy na tej liście nie stał
+i nie wyszedł z żadnego z jej dwóch źródeł, tylko z trzeciego:
+z sesji, która pisała pod tę gramatykę zdanie po zdaniu
+([pisanie-po-olsku.md](pisanie-po-olsku.md)).
+Kolejka blokerów tej pozycji nie widzi, bo `jego`, `jej` i `ich` licencję mają,
+więc odrzucenie stoi na strukturze
+([subset.md](subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)).
+Kupuje kilkadziesiąt zdań Składnicy, kilka zdań ustawy
+i pojedyncze zdania tej prozy,
+a jednoznaczność odbiera pojedynczym zdaniom banku drzew
+i odbiera ją przyłączeniem, którego olski nie wybiera.
+Pary do przelicznika niżej to dopisanie nie dokłada, bo z kolejki nie wyszło.
+
 Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
 a `adv` niemal jedną trzecią,

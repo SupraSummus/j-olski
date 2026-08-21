@@ -53,14 +53,6 @@ Większość tych pozycji nie ma wiersza w
 [liście braków](subset.md#what-it-does-not-cover-yet),
 a przy tych, które mają, stoi to powiedziane.
 
-**Zaimek dzierżawczy przy rzeczowniku.**
-`Jego skutki są znane.` pada, `Skutki tego wyboru są znane.` przechodzi.
-Przyczyna najczęstsza z wszystkich i najbardziej myląca,
-bo `jego`, `jej` i `ich` nie wyglądają na konstrukcję:
-wygląda to tak, jakby padło całe zdanie, a nie jedno słowo w nim.
-Objazdem jest powtórzenie rzeczownika, czyli dokładnie to,
-czego proza unika zaimkiem.
-
 **Przecinek przed `i` zamykający zdanie podrzędne.**
 `Dokument mówi, co gramatyka wpuszcza, i liczy cenę.` pada,
 `Dokument mówi, co gramatyka wpuszcza i liczy cenę.` przechodzi,
