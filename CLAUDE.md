@@ -905,6 +905,13 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
   a check that cannot come out badly proves nothing.
 - **Checks.** `python3 -m pytest` and `ruff check .`.
   New tests earn their place or do not get written.
+  A narrowing change also leaves older conditions to re-check,
+  because one of them may now be guarded by nothing:
+  its test still passes, the new narrowing having taken over
+  the sentence that test rejects.
+  Take the older condition out and watch the suite go red;
+  where it stays green, that test wants a sentence
+  the new narrowing leaves alone.
 - **What opened up.** Is something now simplifiable
   that could not be touched before —
   two documents that stopped differing, a pointer with nothing left to guard?

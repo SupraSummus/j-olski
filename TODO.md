@@ -336,12 +336,19 @@ i nie broni niczego, czego by czytelnik nie zobaczył.
 Warte pisania są właśnie te dwie rzeczy: podsumowanie, bo cytuje je dokument,
 i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
-Werdykt mówi jednym zdaniem dwie rzeczy, które są dwiema różnymi robotami.
+Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
 i wtedy, gdy je ma, a nie sięga po nie żadna produkcja;
 pierwsze naprawia wiersz w `olski/projekt.txt`
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
 a drugie produkcja w `olski/subset.py`.
+Trzecie jest formą, której czytania zdjęła morfologia:
+`Cena niego rośnie.` wychodzi z tym komunikatem, a naprawą jest przyimek w zdaniu
+([`docs/subset.md`](docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
+czyli ani leksykon, ani produkcja.
+Ta trzecia waży najwięcej na torze pisania pod tę gramatykę
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)),
+bo komunikat odsyła autora do gramatyki, a poprawka stoi w jego zdaniu.
 Rozdzielenia żąda ta sama własność, którą werdykt już realizuje raz —
 forma bez licencji stoi osobno od struktury bez licencji — tylko o szczebel niżej,
 i ma ona właściciela w [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
@@ -607,25 +614,6 @@ Do przeczytania jest tamten pomiar w `docs/subset.md`
 razem z figurą `cząstka`, bo pytanie jest o to, czy cena wypada tu tak samo,
 a nie o to, ile zdań drugi gospodarz kupi.
 
-Wtrącenie w nawiasie dochodzi do zdania składowego i do niego jednego
-([`docs/subset.md`](docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
-więc nawias wewnątrz zdania względnego — `reguła, która rozstrzyga (niżej), jest tania` —
-nie ma wyprowadzenia, a proza tego repozytorium stawia go i tam,
-przed przecinkiem zamykającym zdanie względne.
-Pozycja dopisana wprost do `RelativeCore` kosztuje czytanie:
-zdanie względne stojące na końcu zdania kończy się tam, gdzie zdanie nadrzędne,
-więc nawias dałby się wtedy przyłączyć do jednego i do drugiego,
-a różnicy między tymi dwoma czytaniami nie ma czym wypowiedzieć.
-Ruchem jest pozycja w ciele `RelativeClause` zamykanym przecinkiem —
-`, RelativeCore Parenthetical ,` — bo tam nawias stoi przed przecinkiem,
-a przyłączenie do zdania nadrzędnego stawia go za nim, czyli daje inny napis.
-Kosztem jest ciało osobne dla jednego z dwóch ciał zdania względnego,
-czyli pozycja, której zdanie względne na końcu zdania nie dostaje.
-Do przeczytania jest `RelativeClause` w `olski/subset.py`
-razem z ciałem wtrącenia obok niego,
-bo pytanie jest o to, czy druga pozycja daje się wpuścić bez drugiego czytania,
-a nie o to, ile zdań by kupiła.
-
 Spójniki trybu przypuszczającego — `aby`, `żeby`, `by`, `gdyby` — stoją poza
 podzbiorem, dopóki zdanie tego trybu nie ogłasza
 ([`docs/subset.md`](docs/subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
@@ -691,23 +679,6 @@ Do przeczytania jest `Świadek` w tym samym pliku:
 sygnatura jest jedna dla wszystkich świadków rozmyślnie,
 więc świadek o innym wejściu albo tę sygnaturę rozszerza, albo staje się drugą listą,
 a drugiej listy ten protokół unika z podanego tam powodu.
-
-Terminal wypisuje zbiór wartości napisem rozdzielonym kreską —
-`word("fin|impt")`, `word("interp", lemma=".|!|?")`, `KOPULA`, `SPÓJNIKI_PRZECINKOWE` —
-i `word` rozcina go na krawędzi, wewnątrz zostaje `frozenset`.
-Notacja jest przez to jedna dla części mowy, lematu, warunku ujemnego i żądanej cechy,
-a `SPÓJNIKI_OKOLICZNIKOWE` składa dwie takie listy przez interpolację napisu,
-czyli wolno jej złożyć listę, której żaden test nie sprawdzi po jednym elemencie.
-Ruchem jest `word` przyjmujący krotkę albo `frozenset` obok napisu,
-a wtedy jedna rzecz ma dwie pisownie obok siebie,
-albo `word` przyjmujący samą krotkę, a wtedy zmiana sięga każdego terminala
-w `olski/subset.py` i w sondach, które terminale pisują same
-(`harness/polszczyzna.py`, `harness/luka.py`).
-Werdyktu nie rusza ani jedno, ani drugie, więc figury po tym nie chodzą,
-i dlatego ten wpis jest tu, a nie w zmianie, która o niego potrącała.
-Do przeczytania jest `bierze` w `olski/grammar.py`:
-lemat, warunek ujemny i żądana cecha są tam trzema osobnymi testami przed unifikacją,
-więc typ wejścia rozstrzyga się dla nich razem, a nie dla każdego osobno.
 
 Skład składa `Skutek.więc` w napis, który olski od tej pory wyprowadza,
 a obieg się na nim nie zamyka:
@@ -837,20 +808,6 @@ a nie w kolejności podmiotu wobec czasownika.
 Pomiar różnicowy nad tym jednym ciałem idzie przed decyzją;
 prowadzi go `harness/ruch.py`.
 
-Forma `nie` ma u Morfeusza czytanie zaimkowe, którego polszczyzna w tym miejscu
-nie ma: jest to biernik `on` w postaci popodstawowej, czyli tej, która stoi
-wyłącznie po przyimku (`na nie`, `za nie`).
-Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
-pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
-które ją nad trzema rejestrami straciło przy wpuszczeniu negacji.
-Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
-bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
-i cecha, po której to czytanie widać, jest inna: `praep` w tagu.
-Ruchem jest warunek `npraep` na terminalu zaimka w grupie imiennej wraz z drogą
-dla grupy pod przyimkiem, która `praep` brać musi, a przed nim pomiar,
-ile czytań ten warunek zdejmuje nad Składnicą:
-tagów `praep` jest w niej więcej niż samo `nie`.
-
 Zamknięta lista kopul nie ma `stawać się` ani `okazywać się`,
 a polszczyzna orzeka nimi narzędnik tak samo jak `zostawać`.
 `Mao stał się na wiele lat przywódcą największego narodu na kuli ziemskiej.`
@@ -866,27 +823,6 @@ Ruchem jest ramka narzędnikowa w leksykonie zwrotnym,
 czyli ta sama droga, którą walencja rozdziela formę z cząstką od formy bez niej,
 a do przeczytania jest, co zwrotna kopula robi z `Ludzie rodzą się wolni.`,
 gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
-
-Współrzędność wypisuje się trzema produkcjami, a mogłaby jedną, lewostronnie rekurencyjną.
-`X → X conj X` powiedziałoby o zasięgu to samo co trzy poziomy z `build`
-w `olski/subset.py`, bo zawężenie zasięgu stoi na rodzaju,
-którego koordynacja nie ma
-([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
-a nie na kształcie produkcji.
-Przeciw takiej produkcji był parser i już go nie ma:
-tablica Earleya bierze lewą rekursję, co pilnuje `tests/test_subset.py`.
-Różni te dwa zapisy liczba czytań ciągu współrzędnego,
-bo wyprowadzeń tego samego ciągu jest pod nimi inaczej wiele,
-i to jest jedyne, co tu jest do zmierzenia.
-Do przeczytania jest cena przecinka, którą trzyma commit, który go wpuścił;
-sondy nie ma już w drzewie, więc pomiar nad zmienionymi poziomami
-zaczyna się od jej odtworzenia z tamtego commita.
-Ruchem jest jedna produkcja w miejsce trzech, o ile pomiar pokaże,
-że czytań nie przybywa; przy przeciwnym wyniku ruchem jest samo zdanie w tej sekcji
-mówiące, że wybór padł na trzy poziomy dla liczby czytań, a nie dla parsera.
-Widać na czym mierzyć: zdanie ustawy o siedmiu członach ma dziś 28 042 czytania
-([`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
-i nie jest policzone, ile z tej liczby bierze sama współrzędność.
 
 Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
 `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
@@ -1106,9 +1042,6 @@ Wpis jest winien przebiegi, których [sekcja Checks](CLAUDE.md#checks)
 wraz z listą pozycji przyłączeniowych w
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 która rośnie o tę jedną.
-Te same produkcje przepisuje wpis o współrzędności wypisanej trzema poziomami
-zamiast jedną produkcją lewostronnie rekurencyjną,
-więc ten z dwóch, który wejdzie pierwszy, wybiera kształt dla drugiego.
 
 `pod względem` żąda licencji od słowa, do którego się przyłącza,
 a olski żąda licencji tylko od dopełnienia.
@@ -1265,6 +1198,11 @@ po którym forma bez ani jednego czytania jest dla `blockera` brakiem licencji,
 a nie brakiem struktury, którym ją dziś nazwie,
 i wywód wraz z ceną tego wycięcia trzyma
 [`docs/design-notes.md`](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
+Jedna klasa takich krawędzi stoi już w drzewie i na niej ten rozjazd widać:
+`po_przyimku` w `olski/subset.py` zdejmuje formie przyimkowej zaimka
+wszystkie czytania, więc `Cena niego rośnie.` wychodzi z werdyktu z `niego`
+wypisanym, a z przebiegu jako zdanie bez struktury nad całością
+([`docs/subset.md`](docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 Rusza ono kolejkę, więc wpis jest winien przebiegi,
 których [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w czytaniach,
 jakie gramatyka dostaje.
@@ -1995,25 +1933,6 @@ Ceną są tabele blokerów w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop):
 wiersz `interp` spadnie, a zdania bez struktury nad całością wyjdą osobno,
 więc wpis podnosi sesja, która ma Składnicę i powtórzy nad nią przebieg.
-
-Forma przyimkowa zaimka wchodzi u olskiego do grupy imiennej bez przyimka nad sobą,
-więc `Cena niego rośnie.` wyprowadza się, choć polszczyzna tego nie ma.
-Zaimek dzierżawczy tę formę odsiewa cechą `post_prepositionality`
-([`docs/subset.md`](docs/subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)),
-a grupa imienna o jednym zaimku nie odsiewa jej nigdzie,
-więc jeden fakt o polszczyźnie jest w gramatyce raz zapisany i raz przeoczony.
-Ruchem jest ta cecha na terminalu zaimka, `npraep` domyślnie,
-wraz z `praep` pod przyimkiem, czyli w ciele `Modifier`,
-bo tam i tylko tam polszczyzna tej formy żąda.
-Do przeczytania jest `PRZYIMEK` obok ciała `Modifier` w `olski/subset.py`
-razem z terminalem `ppron3|ppron12` pod `NPConjunct`:
-pytanie jest o to, czy cechę da się postawić na terminalu
-bez przepuszczania jej przez grupę imienną,
-bo `w niego` ma zaimek pod przyimkiem wprost,
-a `bez jego zapisu` ma tam grupę, której głowa zaimkiem nie jest,
-więc cecha wypuszczona z grupy nie mówi nic o formie w środku.
-Do zmierzenia jest cena nad bankiem drzew,
-bo forma przyimkowa jest w nim częsta, a jej pozycja pod przyimkiem zostaje.
 
 ## Skład i opowieści
 

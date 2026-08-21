@@ -441,8 +441,8 @@ ZAIMEK_PYTAJNY = word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)
 #: Warunek jest na cechę, a nie na lemat, bo lematem każdej z tych form jest `on`:
 #: ``akc`` zostawia poza pozycją nieakcentowane `go`, a ``npraep`` przyimkowe
 #: `niego`, `niej` i `nich`, których polszczyzna przy rzeczowniku nie stawia.
-#: Terminal zaimka pod ``NPConjunct`` warunku drugiego nie ma i wpuszcza przez to
-#: `Cena niego rośnie.`; ``TODO.md`` trzyma ten rozjazd.
+#: Warunek drugi odrzuca `bez niego zapisu`, czyli tę formę stojącą po przyimku;
+#: poza przyimkiem nie ma jej już czym odrzucać, bo zdejmuje ją :func:`po_przyimku`.
 ZAIMEK_DZIERŻAWCZY = word(
     "ppron3", case="gen", accentability="akc", post_prepositionality="npraep"
 )
@@ -949,10 +949,12 @@ def build() -> Grammar:
     # tu terminalem, a nie symbolem swojej roli, bo okolicznikiem zdania w nawiasie
     # nie jest.
     #
-    # Pozycja jest jedna — nawias zamykający zdanie składowe — więc zdanie z
-    # nawiasem ma jedno czytanie, a nie tyle, ile gospodarzy ma wyrażenie
-    # przyimkowe. Dlaczego wolno tu wybrać jedno miejsce, a przy wyrażeniu
-    # przyimkowym nie wolno, i co ta pozycja zostawia na zewnątrz, wywodzi
+    # Pozycje są dwie i żaden napis nie ma ich obu naraz: nawias zamykający zdanie
+    # składowe stoi tutaj, a nawias zamykający zdanie względne przed jego
+    # przecinkiem stoi w ciele `RelativeClause` niżej. Zdanie z nawiasem ma przez
+    # to jedno czytanie, a nie tyle, ile gospodarzy ma wyrażenie przyimkowe.
+    # Dlaczego wolno tu wybrać jedno miejsce, a przy wyrażeniu przyimkowym nie
+    # wolno, i co obie pozycje zostawiają na zewnątrz, wywodzi
     # docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
     for wnętrze in (nt("NP"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCONY, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
@@ -1486,9 +1488,18 @@ def build() -> Grammar:
     # bez przecinków odgraniczających. Przecinek zamykający stawia polszczyzna
     # wtedy, gdy zdanie nadrzędne biegnie dalej, więc oba ciała są tu razem, a
     # zdanie dostaje to z nich, które pasuje do jego interpunkcji.
+    #
+    # Wtrącenie w nawiasie dostaje pozycję w ciele zamykanym przecinkiem i tylko
+    # w nim, bo tam stoi ono przed tym przecinkiem, a przyłączone do zdania
+    # nadrzędnego stanęłoby za nim, czyli dałoby inny napis. Ciało bez przecinka
+    # kończy się tam, gdzie zdanie nadrzędne, więc ta sama pozycja dałaby tam
+    # dwa czytania jednego napisu, i dlatego jest to ciało osobne, a nie druga
+    # córka w obu; docs/subset.md wywodzi to razem z ceną.
+    rdzeń = Głowa(nt("RelativeCore", number=V("n"), gender=V("g")))
     for ciało in (
-        [PRZECINEK, Głowa(nt("RelativeCore", number=V("n"), gender=V("g")))],
-        [PRZECINEK, Głowa(nt("RelativeCore", number=V("n"), gender=V("g"))), PRZECINEK],
+        [PRZECINEK, rdzeń],
+        [PRZECINEK, rdzeń, PRZECINEK],
+        [PRZECINEK, rdzeń, nt(WTRĄCONY), PRZECINEK],
     ):
         grammar.rule("RelativeClause", ciało, number=V("n"), gender=V("g"))
 
@@ -1732,6 +1743,53 @@ def admissible(segment: Segment) -> Segment:
     return replace(segment, readings=kept)
 
 
+#: Cecha, którą tagset daje formie zaimka po tym, czy stoi ona po przyimku.
+#: Wartość ``praep`` bez ``npraep`` obok niej nazywa formę, którą polszczyzna
+#: stawia wyłącznie tam: `niego`, `nich`, `nie`. Forma o obu wartościach naraz —
+#: `nim`, a w miejscowniku także `niej` i `nich` — stoi i pod przyimkiem, i bez niego.
+PRZYIMKOWOŚĆ = "post_prepositionality"
+BEZ_PRZYIMKA = "npraep"
+
+
+def _tylko_po_przyimku(reading: Reading) -> bool:
+    """Czy tagset mówi o tym czytaniu, że stoi wyłącznie po przyimku."""
+    wartości = reading.tag.get(PRZYIMKOWOŚĆ)
+    return bool(wartości) and BEZ_PRZYIMKA not in wartości
+
+
+def po_przyimku(segments: list[Segment]) -> list[Segment]:
+    """Zdejmij formie przyimkowej zaimka czytanie tam, gdzie przyimka nie ma.
+
+    Grupa imienna bierze zaimek w każdej swojej pozycji, więc bez tego warunku
+    `Cena niego rośnie.` się wyprowadza, a `nie` stoi dopełnieniem w zdaniu,
+    które przeczy. Są to czytania, których polszczyzna nie ma, czyli to samo, co
+    odbiera :func:`admissible`; dlaczego warunek stoi tutaj, a nie na terminalu
+    zaimka ani za rozbiorem, wywodzi
+    docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą.
+
+    Pytany jest graf, a nie lista: licencji udziela każda krawędź z czytaniem
+    przyimkowym, która kończy się w węźle, gdzie ta się zaczyna. Krawędź bez ani
+    jednego czytania z tego wychodzi — `niego` innych nie ma — i jest wtedy formą
+    bez licencji, którą werdykt wypisuje (:func:`bez_licencji`).
+    """
+    licencjonujące = {
+        segment.end
+        for segment in segments
+        if any(reading.tag.pos == "prep" for reading in segment.readings)
+    }
+    return [
+        segment
+        if segment.start in licencjonujące
+        else replace(
+            segment,
+            readings=tuple(
+                reading for reading in segment.readings if not _tylko_po_przyimku(reading)
+            ),
+        )
+        for segment in segments
+    ]
+
+
 #: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu. Człony spaja
 #: ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe albo
 #: więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko wewnątrz
@@ -1752,19 +1810,23 @@ NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
 def morphology(text: str) -> list[Segment]:
     """Analizuje tekst tak, jak czyta go olski.
 
-    Trzy rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
+    Cztery rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
     krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
     krawędzi, a czytelnik ma tam jedno słowo. Słowo, którego słownik nie ma,
     dostaje czytania z leksykonu projektu (:mod:`olski.projekt`), bo ``commitów``
     jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieodmiennego.
     Reszta idzie do Morfeusza i traci te czytania, które odrzuca
-    :func:`admissible`.
+    :func:`admissible`, a po nich te, które :func:`po_przyimku` odrzuca formie
+    stojącej bez przyimka.
+
+    Ostatni z czterech warunków pyta o sąsiada, a nie o samą formę, więc idzie
+    po liście gotowej, a nie po jednym segmencie jak trzy przed nim.
 
     Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
-    return [admissible(_z_leksykonu(segment)) for segment in _segmenty(text)]
+    return po_przyimku([admissible(_z_leksykonu(segment)) for segment in _segmenty(text)])
 
 
 def _z_leksykonu(segment: Segment) -> Segment:
