@@ -172,7 +172,7 @@ rather than read off the row.
 Clause-level punctuation is the addition that showed
 how little a row says about what admitting its construction buys.
 The colon and the comma standing in front of a conjunction came in together
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)),
+([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
 the `interp` row they belong to barely moved,
 the `conj` row lost several times more sentences than that,
 and the particle row *rose*.
@@ -192,9 +192,7 @@ Others took part of a row with them:
 the particle, the subordinator and clause-level punctuation
 are admitted in a shape narrower than Polish,
 so their rows stay and what stands in them is what the shape leaves out.
-Each is priced where it was admitted,
-in the section of [subset.md](subset.md#what-the-grammar-covers) that owns it,
-and what their arrival did to the rows below them is the point of the paragraph
+What their arrival did to the rows below them is the point of the paragraph
 above: a row falls by more than the sentences an addition accepts.
 
 The subordinator row is where that shows on today's queue.
@@ -229,11 +227,9 @@ What a row does not say is how much admitting its construction buys.
 Negation is the measurement of that, and the numeral is the same measurement
 from the other end: dropping negation puts hundreds of sentences back
 into the particle row, and putting it back takes a fraction of them
-off the rejected list, the rest moving rightward onto another blocker
-([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)),
+off the rejected list, the rest moving rightward onto another blocker,
 where every sentence the numeral phrase reaches comes out of the numeral's own row
-and it takes a fifth of them
-([subset.md](subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)).
+and it takes a fifth of them.
 A sentence carries more than one missing construction,
 and the row counts where an analysis stopped
 rather than what admitting the construction buys.
@@ -300,7 +296,7 @@ This file used to rank the forms no production takes,
 and construction after construction took that ranking apart —
 the gerund, the adverb, the numeral written as a word,
 clause-level punctuation, the wrapping kind beside it, the project lexicon,
-each priced in the section of [subset.md](subset.md#what-the-grammar-covers)
+each argued in the section of [subset.md](subset.md#what-the-grammar-covers)
 that admitted it.
 What is left of the ranking is single occurrences:
 the impersonal past and the bare letter *p* that the title's joke turns on,
@@ -366,7 +362,7 @@ owns that class and how much of this register it is.
 
 Accepting a sentence proves nothing if the reading is wrong.
 Olski admits every order the subject, the object and the verb can stand in
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
+([subset.md](subset.md#what-the-grammar-covers)),
 so on every sentence it accepts
 there is a live question of whether it found the subject the annotators did.
 The gold trees mark this directly:
@@ -439,8 +435,7 @@ Both readings are shapes Polish has,
 and only the second is a shape *olski* has:
 the object belongs to the infinitive under a modal,
 and the bodies that put an object in front of its verb
-put it in front of a finite one
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
+put it in front of a finite one,
 so the reading a reader takes has no body to be derived by
 and the wrong one is returned alone rather than beside it.
 That is the cost negation is priced at here,
@@ -503,16 +498,13 @@ in `Widzę, że ostatnia lekcja czegoś was nauczyła.`
 olski has one object position,
 so `czegoś` has nowhere to stand and falls into the subject in front of it.
 That sentence and the one about `Co` are what the four word orders
-[cost in this column](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka),
-against the two they took out of it above.
+cost in this column, against the two they took out of it above.
 The particle is the extent that comes from a construction
 rather than from the corpus's constituency.
 `Nawet ptaki przestały śpiewać.` has `nawet ptaki` for a subject in the gold tree,
 where olski leaves the particle to the clause and makes `ptaki` the subject,
 and `Także Żydzi stanowią zamkniętą kastę.` goes the same way.
-The second host that would settle it is priced in
-[subset.md](subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu),
-and [TODO.md](../TODO.md) holds it.
+The second host that would settle it is held by [TODO.md](../TODO.md).
 
 One is neither the check nor an extent:
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`

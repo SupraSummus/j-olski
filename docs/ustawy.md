@@ -374,8 +374,7 @@ a największą konstrukcją, jaka w niej stoi, jest `o którym mowa`:
 niesie je co siódme zdanie tych dwóch korpusów, a każda forma ma tam licencję,
 więc odrzucenie stało na strukturze zdania względnego z opuszczoną kopułą.
 Gramatyka je dostała i wyszedł z tego jeden werdykt przeniesiony na wieloznaczne,
-czyli przeszło o dwa rzędy wielkości mniej, niż obiecywały te wystąpienia
-([subset.md](subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość)).
+czyli przeszło o dwa rzędy wielkości mniej, niż obiecywały te wystąpienia.
 Różnicę tę robi ta sama klasa, która zajmuje dziewięć pierwszych miejsc niżej:
 prawodawca pisze ten zwrot razem z adresem przepisu,
 więc dwanaście z 851 wystąpień obywa się bez cyfry i bez skrótu.
@@ -423,14 +422,12 @@ a pięć przenosi z odrzuconych na wieloznaczne, wszystkie w Kodeksie wyborczym
 Negacja poszła tu inaczej i tak samo skromnie:
 przyjmuje cztery zdania, trzydzieści pięć przenosi na wieloznaczne
 i jednemu przyjętemu wcześniej odbiera jednoznaczność,
-co jest jedynym takim zdaniem w trzech zmierzonych rejestrach
-([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
+co jest jedynym takim zdaniem w trzech zmierzonych rejestrach.
 Cztery szyki podmiotu, dopełnienia i czasownika, dopisane po tamtych dwóch,
 wychodzą tu jeszcze skromniej i wychodzą pod zero:
 nie przyjmują ani jednego zdania,
 trzy przenoszą z odrzuconych na wieloznaczne
-i jednemu przyjętemu wcześniej odbierają jednoznaczność
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)).
+i jednemu przyjętemu wcześniej odbierają jednoznaczność.
 Ustawa pisze zdanie w szyku, który olski miał,
 więc dopisany daje jej same nowe czytania,
 i tym różni się ten rejestr od prozy z banku drzew,
@@ -442,12 +439,10 @@ stało za to na czele tej kolejki tam, gdzie tamta stawiała czas przeszły:
 Gramatyka je dostała, a wyszło z tego tyle, co z tamtych dwóch:
 ani jednego zdania przyjętego, pięć przeniesionych z odrzuconych na wieloznaczne,
 cztery w Kodeksie wyborczym i jedno w ochronie ludności,
-i ani jednego, któremu ubyłoby jednoznaczności
-([subset.md](subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+i ani jednego, któremu ubyłoby jednoznaczności.
 Pytanie zależne wychodzi tu inaczej niż tamte cztery i wychodzi po stronie zakupu:
 przyjmuje jedno zdanie jednoznacznie, nie przenosi na wieloznaczne żadnego
-i żadnemu jednoznaczności nie odbiera
-([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+i żadnemu jednoznaczności nie odbiera.
 Zdaniem tym jest `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`,
 a drugą połowę jego wyprowadzenia daje mu
 [pozycja z obiema przydawkami](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa).
@@ -498,8 +493,7 @@ nieobecność pełnomocnika wyborczego nie wstrzymuje losowania.
 ```
 
 Jednoznaczności ta trójka nie odbiera tu ani jednemu zdaniu przyjętemu wcześniej,
-tak samo jak nad Składnicą
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+tak samo jak nad Składnicą.
 Zero dwukropka mówi przy tym o rejestrze, a nie o produkcji.
 Dwukropek pada w tej prozie siedemdziesiąt razy i za każdym z nich stoi wyliczenie,
 a nie zdanie wyjaśniające — `W skład zarządu wchodzą: wójt albo burmistrz` —
@@ -559,8 +553,7 @@ tego rejestru inną ze swoich dwóch pozycji
 Nad rozporządzeniem rusza wyłącznie grupa pod przyimkiem
 i przenosi dwa zdania z odrzuconych na wieloznaczne,
 a jednym z nich jest przepis o dniu wejścia w życie rozporządzenia.
-Nad siedmioma ustawami rusza wyłącznie grupa bez przyimka i przenosi tak jedno zdanie
-([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+Nad siedmioma ustawami rusza wyłącznie grupa bez przyimka i przenosi tak jedno zdanie.
 Różnica jest informacją o dwóch tekstach, a nie o produkcji:
 rozporządzenie pisze o ustawie i o akcie wykonawczym pod nią,
 więc `na podstawie której` jest tam zwrotem powtarzanym przepis po przepisie,
@@ -626,7 +619,7 @@ jaki olski wydaje, i zdjął go
 [warunek na zaimek względny](subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
 po którym zdanie było odrzucone i z tą pozycją, i bez niej.
 Dziś wyprowadza się raz i wyprowadza się tak, jak je czyta czytelnik,
-bo gramatyka ma [pytanie zależne](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał),
+bo gramatyka ma [pytanie zależne](subset.md#what-the-grammar-covers),
 a ta pozycja dalej daje mu grupę `które zadania własne gminy`:
 bez niej nie ma ono wyprowadzenia żadnego.
 

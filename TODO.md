@@ -75,21 +75,6 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
-Piętnaście sekcji pomiarowych `docs/subset.md` jest precedensem,
-którego sama licencja nie pobije
-([`CLAUDE.md`](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)).
-Wolno ich nie pisać długo, ale następna sesja czyta te, które stoją,
-i pisze tak samo jak one, bo tak jest bezpieczniej.
-Ruchem jest jedna z nich skrócona do kształtu, który ta reguła opisuje —
-werdykt, waluta ceny i zdania korpusu, które trzeba przeczytać —
-żeby wzorem był krótki kształt, a nie długi.
-Do przeczytania są przy tym wszystkie: pytanie jest o to,
-która z nich niesie najmniej ponad wydruk,
-a nie o to, która jest najdłuższa.
-Wpis zamyka jedna sekcja, nie piętnaście:
-reguła obowiązuje [leniwie](CLAUDE.md#reguły-przyjmujemy-leniwie) jak każda inna,
-więc pozostałe skracają się przy okazji zmian, które i tak je ruszą.
-
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -261,20 +246,12 @@ Jest to usterka tej samej klasy, którą
 [`docs/corpus.md`](docs/corpus.md#the-measurement) z siebie zdjęło:
 liczbę kruchą trzyma akapit, a nie narzędzie
 ([`CLAUDE.md`](CLAUDE.md#checks)).
-Liczby w [`docs/subset.md`](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
-tej usterki nie mają, bo przedstawiają się jako pomiar z chwili wpuszczenia
-konstrukcji i tamtą chwilę trzyma git,
-więc przeliczenia po nich nikt nie żąda.
-Ruchem jest jedno z dwojga na figurę:
-przepisać ją na rząd wielkości i kierunek
-albo powiedzieć przy niej, że jest pomiarem z chwili wpuszczenia pozycji.
-Reguły na cały dokument to nie jest, bo obie odpowiedzi są tam poprawne.
+Ruchem jest przepisanie każdej takiej liczby na rząd wielkości i kierunek.
 Wpisu tego nie zamyka jeden plik, bo tę samą usterkę mają dokumenty obok
 i wpis niżej nazywa drugi z nich.
 Do przeczytania jest sekcja `Gdzie stają analizy w tym rejestrze` w tym pliku
 razem z akapitem o zakupie przymiotnika za rzeczownikiem,
-bo liczby stoją tam najgęściej,
-oraz to, czym poprzedza swoje tabele `docs/subset.md`.
+bo liczby stoją tam najgęściej.
 
 `docs/disambiguation.md` liczy sporne wyrażenia w pełnej precyzji,
 a rusza je każda dopisana produkcja.
@@ -601,8 +578,7 @@ is the second copy of a fact that
 
 Leksykon projektu rusza w deklaracji dwie figury i nie wiadomo, czy tylko dwie.
 `olski/projekt.py` wraz z `olski/projekt.txt` stoi wśród ruszających przy `readme`
-i przy `podłoża-readme`, bo tam zmierzono, że rusza
-([`docs/subset.md`](docs/subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)),
+i przy `podłoża-readme`, bo tam zmierzono, że rusza,
 a figury nad prozą korpusu audytowego i nad rejestrem ustaw jego nie mają,
 choć czytają tekst tą samą drogą.
 Rozstrzyga o tym jedna rzecz: czy ta proza pisze którąkolwiek formę tego leksykonu,
@@ -617,8 +593,7 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 
 Cząstka ma w olskim jednego gospodarza, czyli zdanie, a polszczyzna stawia ją także
 wewnątrz grupy imiennej: `Nawet ptaki przestały śpiewać.` ma w banku drzew podmiot
-`nawet ptaki`, a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`
-([`docs/subset.md`](docs/subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)).
+`nawet ptaki`, a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`.
 Tak wychodzi dziewięć z dziewięćdziesięciu jeden zdań, które ta klasa kupiła,
 i jest to niezgodność zasięgu, a nie roli, czyli ta sama klasa, którą
 [`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
@@ -760,8 +735,8 @@ a przed nim pomiar: pozycja ta konkuruje ze zdaniem względnym,
 które przecinkami odgradza się tak samo
 ([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
 więc cena stoi w jednoznaczności zdań już przyjętych, a nie w liczbie ciał.
-Do przeczytania jest cena obu pozycji, które ta konstrukcja już ma
-([`docs/subset.md`](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)),
+Do przeczytania jest cena obu pozycji, które ta konstrukcja już ma,
+którą trzyma commit, który je wpuścił,
 bo trzecia wraca z pytaniem tej samej postaci.
 Tym samym brakiem jest okolicznik wewnątrz zdania względnego:
 `Reguła, która rozstrzyga, gdy tekst jest gotowy, jest tania.` jest odrzucone,
@@ -828,8 +803,7 @@ wychodzi obok czytania podrzędnego drugim, w którym `gdy` jest okolicznikiem
 zdania spiętego przecinkiem.
 Cena tej klasy jest przez to zmierzona i wynosi sześć zdań Składnicy:
 tyle straciło jednoznaczność pod morfologią żywą, kiedy weszła podrzędność
-okolicznikowa, i wszystkie sześć niesie `gdy` albo `kiedy`
-([`docs/subset.md`](docs/subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+okolicznikowa, i wszystkie sześć niesie `gdy` albo `kiedy`.
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego.
 Ruchem jest warunek na tę klasę, a dwa kandydujące są zmierzone i żaden nie jest darmowy.
@@ -848,8 +822,7 @@ a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.
 Ciała biorą `Verb`, czyli formę osobową, więc `premier większości nie może
 ruszyć` dalej wychodzi z jednym podmiotem i bez dopełnienia,
 i jest to jedno zdanie Składnicy, które olski czyta odwrotnie, niż czyta je
-czytelnik
-([`docs/subset.md`](docs/subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)),
+czytelnik,
 a pomyłka jest droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta.
 Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
 dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
@@ -869,8 +842,7 @@ nie ma: jest to biernik `on` w postaci popodstawowej, czyli tej, która stoi
 wyłącznie po przyimku (`na nie`, `za nie`).
 Grupa imienna bierze `ppron3` bez warunku, więc to czytanie stoi w każdej
 pozycji dopełnienia, i to ono odbiera jednoznaczność jedynemu zdaniu,
-które ją nad trzema rejestrami straciło przy wpuszczeniu negacji
-([`docs/subset.md`](docs/subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
+które ją nad trzema rejestrami straciło przy wpuszczeniu negacji.
 Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
 bo wyrzuca rzeczownik nieodmienny, a tu chodzi o zaimek,
 i cecha, po której to czytanie widać, jest inna: `praep` w tagu.
@@ -906,10 +878,9 @@ tablica Earleya bierze lewą rekursję, co pilnuje `tests/test_subset.py`.
 Różni te dwa zapisy liczba czytań ciągu współrzędnego,
 bo wyprowadzeń tego samego ciągu jest pod nimi inaczej wiele,
 i to jest jedyne, co tu jest do zmierzenia.
-Do przeczytania jest figura `przecinek`
-([`docs/subset.md`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
-której sondy nie ma już w drzewie,
-więc pomiar nad zmienionymi poziomami zaczyna się od jej odtworzenia z commita.
+Do przeczytania jest cena przecinka, którą trzyma commit, który go wpuścił;
+sondy nie ma już w drzewie, więc pomiar nad zmienionymi poziomami
+zaczyna się od jej odtworzenia z tamtego commita.
 Ruchem jest jedna produkcja w miejsce trzech, o ile pomiar pokaże,
 że czytań nie przybywa; przy przeciwnym wyniku ruchem jest samo zdanie w tej sekcji
 mówiące, że wybór padł na trzy poziomy dla liczby czytań, a nie dla parsera.
@@ -1023,8 +994,7 @@ Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed 
 
 Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
 `RAMA_DOMYŚLNA` w `olski/subset.py` daje `int` każdemu czasownikowi,
-tak jak daje mu `comp`, a Walenty wypisuje osobno lematy z jednym i z drugim
-([`docs/subset.md`](docs/subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+tak jak daje mu `comp`, a Walenty wypisuje osobno lematy z jednym i z drugim.
 Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
 a przy `int` wynik nie musi wypaść tak samo:
 pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
@@ -1067,8 +1037,7 @@ dopełniacz pod sobą, a Morfeusz znakuje jako `subst` całą klasę takich zaim
 Żaden z nich dopełniacza przy sobie nie bierze, więc każdy daje drugie czytanie
 tam, gdzie stoi po dopełniaczu albo przed nim,
 a `Polszczyzna, której nikt nie napisał, jest podzbiorem.` traci przez to jednoznaczność,
-bo `której nikt` wychodzi grupą wysuniętą
-([`docs/subset.md`](docs/subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+bo `której nikt` wychodzi grupą wysuniętą.
 Ruchem jest lista lematów w miejsce jednego, a przed nim rozstrzygnięcie,
 czy klasę tę nazywa lemat, czy coś, o co da się zapytać czytanie:
 lista zamknięta postarza się o każdy zaimek, którego nikt do niej nie dopisał.
@@ -1195,7 +1164,7 @@ więc po werdykcie nie widać jej wcale.
 Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
 w tym samym przypadku, i cena jest widoczna przed pomiarem:
 przecinek jest już znakiem koordynacji na trzech poziomach
-([`docs/subset.md`](docs/subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)),
+([`docs/subset.md`](docs/subset.md#what-the-grammar-covers)),
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
 Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
 a gotowej nie ma gdzie wziąć:
@@ -1370,8 +1339,8 @@ gdzie pozostałe pozycje okolicznika dają drugie przyłączenie.
 Jest to więc inne pytanie niż to, na które odpowiada
 [reguła o obu czytaniach](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 i sondą je bierze `harness/ruch.py` tak samo jak każdą inną grupę produkcji.
-Do przeczytania jest cena czterech szyków dopisanych
-([`docs/subset.md`](docs/subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)),
+Do przeczytania jest cena czterech szyków dopisanych,
+którą trzyma commit, który je wpuścił,
 bo one też kupowały czytania z podmiotem i wróciły z ceną siedmiu zdań.
 Zamknięcie wpisu kasuje wiersz `Trwa w tej sprawie dochodzenie.`
 z `test_these_have_no_reading` w `tests/test_subset.py`.
@@ -2374,8 +2343,7 @@ Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
 a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego,
 czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
 Wiersz na taki leksem łamie własność, na której stoi zerowa cena tej warstwy —
-że ani jednej formy leksykonu słownik nie czyta
-([`docs/subset.md`](docs/subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)) —
+że ani jednej formy leksykonu słownik nie czyta —
 bo dokłada czytanie formie, którą już coś czyta,
 więc cena takiego wiersza jest ceną zwykłą, mierzoną w czytaniach zdań przyjętych.
 Ruchem jest ten pomiar nad wpisem na `agent`, a nie wiersz dopisany bez niego,
@@ -2415,7 +2383,7 @@ więc `Działają dwie rzeczy.` wraca powodem
 i tą samą drogą przepada każde zdanie z liczbą.
 Do przeczytania jest `_nominalne` w `olski/skład/rozbiór.py`,
 czyli lista ciał grupy imiennej, które ten kierunek mówi,
-wraz z [ceną liczebnika](docs/subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania),
+wraz z ceną liczebnika, którą trzyma commit, który go wpuścił,
 bo tamta strona ma go zmierzonego od strony gramatyki.
 Ruchem jest kategoria w `olski/skład/składnia.py`, a nie samo ciało w rozbiorze:
 liczebnik rządzi liczbą i przypadkiem rzeczownika, którego dotyczy,

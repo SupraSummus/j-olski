@@ -1677,8 +1677,7 @@ def test_grupa_wysunięta_wchodzi_oboma_szykami_zaimka_i_głowy():
     #  Polszczyzna stawia zaimek w dopełniaczu za głową i przed nią, więc oba
     #  szyki są tu ciałami produkcji. Drugiego z nich nie pilnuje nic poza tą
     #  linią: rejestr ustaw niesie sam pierwszy, więc żaden przebieg nad korpusem
-    #  nie zauważy, że ciało z zaimkiem przed głową wyszło z gramatyki
-    #  (docs/subset.md pod „Grupę wysuniętą zmierzono”).
+    #  nie zauważy, że ciało z zaimkiem przed głową wyszło z gramatyki.
     za = verdict("Reguła, na podstawie której program zapisuje ustawienia, jest tania.")
     assert za.status == "valid", za.explain()
     przed = verdict("Program, o którego pliku ustawa mówi, jest tani.")

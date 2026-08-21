@@ -443,8 +443,7 @@ gdy gramatyka dopisuje kształt, który podłoże już miało.
 Grupy liczebnikowej podłoże nie ma
 ([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 więc każde zdanie, które ona olskiemu kupiła, odrzuca i tych liczb nie rusza;
-[cztery szyki](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
-ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
+cztery szyki ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
 i podłoże czytało te zdania, zanim olski dostał na nie ciała.
 
 Płaci się przy tym nie czasem rozbioru, a określeniem,
@@ -775,8 +774,8 @@ którego ekstrakcja nie wypuszcza.
 
 Większość rozejść staje na przecinku, którego sonda nie ma do czego przyłączyć.
 Granica biegnie tam, gdzie olski bierze
-[przecinek jako znak koordynacji](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania)
-oraz [interpunkcję zdaniową](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego),
+[przecinek jako znak koordynacji](subset.md#what-the-grammar-covers)
+oraz [interpunkcję zdaniową](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają),
 a sonda po swojej stronie ma spójnik i nic poza nim.
 Reszta rozejść nie mówi o formalizmie nic i mówi coś o samej sondzie:
 liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego
@@ -812,8 +811,7 @@ a pozycje okolicznika, których
 liczy sześćdziesiąt jeden, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Czternaście z tych trzydziestu dwóch ciał dołożyły
-[cztery szyki](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)
+Czternaście z tych trzydziestu dwóch ciał dołożyły cztery szyki
 dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
 i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
 

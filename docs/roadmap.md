@@ -110,8 +110,7 @@ Prosił o nie werdykt: dopełniacz negacji stojący przed swoim czasownikiem
 nie miał ciała, więc olski czytał pięć zdań Składnicy odwrotnie,
 niż czyta je czytelnik, i mówił to jednym czytaniem.
 Dopisane, kupują kilkadziesiąt zdań banku drzew, kosztują sześć
-i cztery z tych sześciu są tamtą naprawą
-([subset.md](subset.md#szyk-zmierzono-kupuje-kilkadziesiąt-zdań-i-odbiera-kilka)).
+i cztery z tych sześciu są tamtą naprawą.
 Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 że wyjdzie.
 
@@ -409,9 +408,7 @@ a kryterium przyjęte zmierzone na Składnicy tym, ile zdań zabiera.
 Podrzędność z `że` i `który`, obok koordynacji przecinkiem, która już stoi.
 Koordynacja weszła osobno, bo osobno się ją zmierzyło:
 nie odbiera nad Składnicą ani jednego zdania już przyjętego
-i dokłada dwadzieścia dwa nowe,
-co wraz z tabelą i poleceniem trzyma
-[subset.md](subset.md#przecinek-zmierzono-i-nie-odbiera-ani-jednego-zdania).
+i dokłada dwadzieścia dwa nowe.
 Nad README przyjęła dwa zdania, oba na poziomie zdaniowym,
 a reszta zdań z przecinkiem niesie w tym pliku także zdanie podrzędne.
 Podrzędność jest więc tym, na czym ten etap stoi,
@@ -442,7 +439,7 @@ Zaliczone jest pierwsze i trzecie, a drugie nie, i drugie jest tu wynikiem.
 Zdanie dopełnieniowe z `że` i zdanie względne z `który` wyprowadzają się
 i pod złotą morfologią nie odbierają Składnicy ani jednego zdania przyjętego,
 a zdanie z `które` wychodzi odrzucone zamiast współrzędnego;
-tabelę i cenę trzyma
+wywód trzyma
 [subset.md](subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
 Pokrycie nad README nie ruszyło się o ani jedno zdanie
 i mówi to o pomiarze nad tym plikiem więcej niż o podrzędności:
@@ -459,8 +456,7 @@ Okolicznik wyrażony zdaniem wchodzi obiema pozycjami, przed swoim zdaniem i za 
 i jest pierwszym policzonym dopisaniem tego etapu.
 Zdejmuje on z listy odrzuconych blisko pięćdziesiąt zdań Składnicy,
 a jednoznaczności nie odbiera pod złotą morfologią ani jednemu zdaniu
-i sześciu pod żywą
-([subset.md](subset.md#zdanie-okolicznikowe-zmierzono-pod-złotą-morfologią-jest-darmowe-a-pod-żywą-nie)).
+i sześciu pod żywą.
 Płaci się tu za to samo, co przy przysłówku:
 te sześć zdań wychodziło przedtem jednym czytaniem, którego polszczyzna nie ma,
 bo `gdy` stoi w nich jako okolicznik przysłówkowy po przecinku koordynacji.
@@ -476,8 +472,7 @@ Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
 i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
 dwukropek otwierający zdanie, średnik oraz przecinek przed spójnikiem
 zdejmują z listy odrzuconych sześćdziesiąt pięć zdań Składnicy,
-a jednoznaczności nie odbierają ani jednemu zdaniu pod żadną z dwóch morfologii
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+a jednoznaczności nie odbierają ani jednemu zdaniu pod żadną z dwóch morfologii.
 Zero po stronie ceny nie jest przy dwukropku ani przy średniku wynikiem przebiegu:
 żadnego z tych znaków nie brała przedtem produkcja,
 więc zdanie z nim nie miało czytania, z którego dałoby się je wytrącić.
@@ -509,8 +504,7 @@ i wypadła po stronie zakupu.
 
 Pytanie jest trzecim policzonym dopisaniem tego etapu
 i jest z nich wszystkich najtańsze: cena wyszła zerowa w obu korpusach,
-pod obiema morfologiami banku drzew
-([subset.md](subset.md#pytanie-zmierzono-nie-odbiera-żadnego-zdania-i-oddaje-to-które-warunek-zabrał)).
+pod obiema morfologiami banku drzew.
 Zdanie pytające i pytanie zależne weszły razem, bo dzielą kształt ze zdaniem względnym,
 a zakup wyszedł na jedno zdanie w banku drzew i jedno w ustawach.
 Jedno z nich jest zarazem tym zdaniem, które ten etap wcześniej zabrał:
@@ -529,7 +523,7 @@ jest czwartym policzonym dopisaniem tego etapu.
 Polszczyzna wysuwa na czoło nie tylko zaimek `który`, ale i grupę, w której on stoi,
 a grupa ta rozchodzi cechy na dwie strony:
 przypadek do przyimka nad sobą, a liczbę i rodzaj do poprzednika
-([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 a zakup drobny: dwa zdania „Zasad techniki prawodawczej” i jedno Składnicy.
 Zera po stronie ceny nikt tu nie przewidział,
@@ -548,8 +542,7 @@ i pierwszym, którego przeszkodą jest zgodność.
 Grupa niesie liczbę i rodzaj dwa razy, bo orzeczenie zgadza się z jej głową,
 a poprzednik z jej zaimkiem, więc para jedna wydaje werdykt pewny siebie i błędny —
 raz przyjmując `Ustawa, której przepisy obowiązuje`,
-a raz `Ustawy, której przepisy obowiązują`
-([subset.md](subset.md#grupę-wysuniętą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+a raz `Ustawy, której przepisy obowiązują`.
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 tak samo jak przy pozycji pod przyimkiem,
 a zakup jest pierwszym, jaki ta konstrukcja robi nad bankiem drzew
@@ -573,7 +566,7 @@ Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 a zakupem jest jedno zdanie rejestru ustaw,
 czyli przeszło o dwa rzędy wielkości mniej, niż obiecywało 851 wystąpień tego zwrotu:
 prawodawca pisze go razem z adresem przepisu, a cyfry olski nie bierze
-([subset.md](subset.md#kopułę-opuszczoną-zmierzono-nie-kosztuje-nic-i-kupuje-mniej-niż-obiecywała-jej-częstość)).
+([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
 Lista pozycji tego etapu jest przez to pusta,
 a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
@@ -609,8 +602,7 @@ ma wydać, zob.
 [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Etap kupił mechanizm, a nie listę słów, i widać to po cenie:
 ani jednej formy tego leksykonu słownik nie czyta,
-więc zdanie, które się wyprowadza, nie ma jak stracić przez niego jednoznaczności
-([subset.md](subset.md#leksykon-projektu-zmierzono-nie-odbiera-ani-jednego-zdania-bo-tych-form-słownik-nie-czyta)).
+więc zdanie, które się wyprowadza, nie ma jak stracić przez niego jednoznaczności.
 Zdania przyjętego nie kupuje przy tym nad README ani jednego,
 tak samo jak dopisania przed nim,
 a klasa, która stała w tamtej kolejce na czele, z niej schodzi.
@@ -662,8 +654,7 @@ a cyfra została i jest osobną pozycją, a nie resztą tej samej.
 Kupił on 56 zdań Składnicy przy 35 uczynionych wieloznacznymi,
 jedno zdanie README i jedno zdanie ustawy,
 a jednoznaczności nie odebrał ani jednemu zdaniu przyjętemu wcześniej,
-w żadnym z tych trzech korpusów
-([subset.md](subset.md#liczebnik-zmierzono-i-nie-odbiera-ani-jednego-zdania)).
+w żadnym z tych trzech korpusów.
 Tym różni się od czasu przeszłego, który nad ustawami zabrał pięć.
 Sam ranking wypadł natomiast tak samo jak przy nim:
 wiersz `num` obiecywał 453 zdania i oddał 91,
@@ -678,16 +669,14 @@ bo cząstka bez tego przypadka kupuje dwie trzecie tego, co obie razem.
 Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
 i cztery zdania ustawy przy trzydziestu,
 a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
-i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie
-`nie` ([subset.md](subset.md#negacja-zmierzona-kupuje-przeszło-sto-zdań-i-nie-płaci-dopełniaczem)).
+i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie `nie`.
 Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
 wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
 czwartą, gdzie tamte oddawały po jednej piątej.
 Płaci za to gdzie indziej: trzy zdania olski czyta po tej zmianie odwrotnie,
 niż czyta je czytelnik, bo dopełniacz stojący przed czasownikiem
 wpada do grupy imiennej przed nim, a szyku, który by go stamtąd wyjął,
-gramatyka nie ma
-([subset.md](subset.md#cena-stoi-w-trafności-a-nie-w-liczbie-czytań)).
+gramatyka nie ma.
 Cena konstrukcji nie musi więc dać się policzyć w żadnej z dwóch walut,
 które ta sekcja zna.
 
@@ -725,8 +714,7 @@ wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego.
 Cząstka na tej liście nie stała i weszła prosto z przebiegu nad prozą,
 czyli z tego samego źródła, z którego weszły na nią cztery pozycje wyżej.
 Kupiła dziewięćdziesiąt jeden zdań Składnicy przy siedemdziesięciu dziewięciu
-uczynionych wieloznacznymi, a jednoznaczności nie odebrała ani jednemu zdaniu
-([subset.md](subset.md#cząstkę-zmierzono-kupuje-kilkadziesiąt-zdań-a-płaci-zasięgiem-podmiotu)).
+uczynionych wieloznacznymi, a jednoznaczności nie odebrała ani jednemu zdaniu.
 Cena wypadła i tu poza obie waluty tego etapu, a wypadła w zasięgu:
 dziewięć zdań nowo przyjętych olski czyta ciaśniej, niż czyta je bank drzew,
 bo cząstka stoi tam wewnątrz grupy imiennej, a tu przy zdaniu.
@@ -738,8 +726,7 @@ z którego nie dokłada jej rzeczownik odczasownikowy.
 Interpunkcja obejmująca — cudzysłów i nawias — weszła tą samą drogą,
 a różni ją to, czym za nią przemawia proza:
 w prozie ustaw i w prasie te znaki stoją, ale zdania z nimi stoją także na czym innym,
-więc zakup jest tam liczony w pojedynczych zdaniach
-([subset.md](subset.md#interpunkcję-obejmującą-zmierzono-nie-kosztuje-nic-i-kupuje-pojedyncze-zdania)).
+więc zakup jest tam liczony w pojedynczych zdaniach.
 Cena wyszła zerowa z gramatyki, bo żadnego z czterech znaków nie brał przedtem terminal.
 Nad prozą, dla której to weszło, zakupu nie mierzy żadna figura i mierzyć nie będzie:
 byłaby należna przeliczenia po każdym commicie dotykającym tekstu
@@ -749,8 +736,7 @@ bo ten plik pisze odsyłacz odnośnikiem, a nie w nawiasie.
 
 Rzeczownik odczasownikowy zszedł z tej listy cały:
 cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-a zakupem jest sześćdziesiąt jeden zdań Składnicy i dwadzieścia zdań ustawy
-([subset.md](subset.md#rzeczownik-odczasownikowy-zmierzono-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+a zakupem jest sześćdziesiąt jeden zdań Składnicy i dwadzieścia zdań ustawy.
 Zero po stronie ceny wychodzi tu z tego, co jest jednym czytaniem:
 `czytanie` jest u Morfeusza i rzeczownikiem, i formą odczasownikową,
 a dwa wyprowadzenia jednego kształtu są jednym czytaniem,
@@ -780,8 +766,7 @@ połowa tamtego wiersza zostaje przez to po jego stronie.
 
 Myślnik dołożył interpunkcji zdaniowej trzeci znak rozdzielający
 i jest z tych trzech najskromniejszy: nad bankiem drzew nie rusza ani jednego
-werdyktu, a nad tą prozą kupuje pojedyncze zdania
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+werdyktu, a nad tą prozą kupuje pojedyncze zdania.
 Zakupem jest przy tym coś, czego żadna z tych dwóch liczb nie liczy:
 znak ten schodzi z listy form bez licencji nad tą prozą,
 więc dopiero teraz widać, czego brakuje zdaniom, które go niosą.

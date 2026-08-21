@@ -61,7 +61,7 @@ Zderzają się tu dwie rzeczy, z których żadna nie jest o koordynacji:
 przecinek domyka zdanie podrzędne pierwszego członu,
 a gramatyka czyta go jako przecinek koordynacyjny,
 którego `i` przed sobą nie bierze
-([subset.md](subset.md#interpunkcja-zdaniowa-zmierzona-kupuje-kilkadziesiąt-zdań-i-nie-odbiera-żadnego)).
+([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Wyszło to na liście dokumentów w README, gdzie pozycja mówi o dokumencie dwie rzeczy,
 i przez to każda pozycja tej listy jest napisana inaczej, niż była.
 
