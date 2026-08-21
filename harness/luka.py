@@ -31,13 +31,12 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import Sentence, pliki, read
+from harness.komenda import Komenda, uruchom
+from olski.corpus import Sentence, read
 from olski.coverage import Outcome, po_kawałkach
 from olski.grammar import Grammar, Production, Sym, Var, nt
 from olski.parse import parse
@@ -450,38 +449,23 @@ def wydruk_zdań(tekst: str) -> str:
     return "\n".join(wiersze)
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="harness.luka", description="co kupuje i co kosztuje luka w zdaniu względnym"
-    )
-    parser.add_argument(
-        "ścieżka", nargs="?", help="katalog z rozpakowaną Składnicą albo plik z prozą"
-    )
-    parser.add_argument("-c", dest="zdania", help="zmierz te zdania zamiast korpusu")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument("--przykłady", type=int, default=PRZYKŁADY)
-    parser.add_argument("--jobs", type=int, default=os.cpu_count() or 1)
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
-    if args.zdania:
-        print(wydruk_zdań(args.zdania))
-        return 0
-    if not args.ścieżka:
-        parser.error("podaj ścieżkę albo -c")
-
-    ścieżka = Path(args.ścieżka)
-    if ścieżka.is_dir():
-        raport = przebieg(pliki(ścieżka)[: args.limit], args.jobs, args.przykłady)
-        print(wydruk(raport, "Składnica, morfologia złota"))
-        return 0
-    if ścieżka.is_file():
-        print(wydruk(nad_prozą(ścieżka.read_text(), args.przykłady), f"{ścieżka.name}, proza"))
-        return 0
-    print(f"harness.luka: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
-    print("harness.luka: docs/corpus.md mówi, skąd wziąć korpus", file=sys.stderr)
-    return 2
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    return wydruk(przebieg(ścieżki, args.jobs, args.przykłady), "Składnica, morfologia złota")
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+def _proza(tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
+    return wydruk(nad_prozą(tekst, args.przykłady), f"{ścieżka.name}, proza")
+
+
+KOMENDA = Komenda(
+    nazwa="harness.luka",
+    opis="co kupuje i co kosztuje luka w zdaniu względnym",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+    proza=_proza,
+    zdania=wydruk_zdań,
+)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(uruchom(KOMENDA))

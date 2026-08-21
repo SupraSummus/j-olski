@@ -42,17 +42,16 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
 import re
 import signal
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.komenda import Komenda, uruchom
 from harness.polszczyzna import GRAMATYKA
 from harness.wiezy import rozbierz
-from olski.corpus import constituents, parse_forest, pliki, read_forest
+from olski.corpus import constituents, parse_forest, read_forest
 from olski.coverage import Outcome, po_kawałkach, segments_for
 from olski.parse import parse
 from olski.subset import GRAMMAR
@@ -360,16 +359,7 @@ def _przykłady(raport: Raport, klucz: tuple, nazwa: str) -> list[str]:
     return [f"  {nazwa}:", *(f"    {ile:>3}  {tekst}" for ile, tekst in zachowane)]
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.nieciągłość",
-        description="Policz, ile nieciągłość kupuje zdań i ile ich kosztuje.",
-    )
-    parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument(
-        "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
-    )
+def _budżet(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--budżet",
         type=float,
@@ -377,30 +367,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         dest="budżet",
         help=f"ile sekund dostaje jedno zdanie po jednej stronie (domyślnie {BUDŻET:.0f})",
     )
-    parser.add_argument(
-        "--jobs",
-        type=int,
-        default=os.cpu_count() or 1,
-        help="ile procesów czyta i mierzy; 1 liczy w tym",
-    )
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f"harness.nieciągłość: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("harness.nieciągłość: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
-        return 2
-    raport = przebieg(
-        pliki(root)[: args.limit],
-        args.jobs,
-        przykłady=args.przykłady,
-        budżet=args.budżet,
-    )
-    print(wydruk(raport, "Składnica, morfologia złota"))
-    return 0
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    raport = przebieg(ścieżki, args.jobs, przykłady=args.przykłady, budżet=args.budżet)
+    return wydruk(raport, "Składnica, morfologia złota")
+
+
+KOMENDA = Komenda(
+    nazwa="harness.nieciągłość",
+    opis="Policz, ile nieciągłość kupuje zdań i ile ich kosztuje.",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+    argumenty=_budżet,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

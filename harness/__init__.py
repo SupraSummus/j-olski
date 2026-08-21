@@ -107,12 +107,16 @@ def polish_share(text: str) -> float:
     return sum(1 for word in words if DIACRITIC.search(word)) / len(words) if words else 0.0
 
 
-def uruchom(argv: Sequence[str] | None, czytnik: Czytnik) -> int:
+def uruchom(czytnik: Czytnik, argv: Sequence[str] | None = None) -> int:
     """Wypisuje prozę tego, co nazwano w wierszu poleceń, plik za plikiem.
 
     Plik, z którego nie została ani jedna jednostka, nie powstaje: inaczej wybór
     po języku zostawiałby po odrzuconym dokumencie pusty plik, który korpus liczy
     jak każdy inny.
+
+    Deklaracja idzie pierwsza, a ``argv`` jest wolne, bo tak samo wołany jest
+    wiersz poleceń sond w ``harness/komenda.py``: dwie funkcje tej nazwy o
+    odwróconych argumentach byłyby pułapką na kogoś, kto zna jedną z nich.
     """
     args = _parser(czytnik).parse_args(argv)
     into = Path(args.into)

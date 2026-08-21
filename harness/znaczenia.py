@@ -55,14 +55,13 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import pliki, read
-from olski.coverage import po_kawałkach, segments_for
+from harness.komenda import Komenda, uruchom
+from olski.corpus import read
+from olski.coverage import SOURCES, po_kawałkach, segments_for
 from olski.parse import MAX_READINGS, Node, Result, las, podsumuj
 from olski.skład.rozbiór import abstrahuj, sygnatura
 from olski.subset import DEKLARACJA, FRAGMENT, GRAMMAR, check
@@ -433,47 +432,33 @@ def _przykłady(raport: Raport, klucz: str) -> list[str]:
     ]
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.znaczenia",
-        description="Policz, ile z meldowanej wieloznaczności zostaje w kategoriach dziedziny.",
-    )
-    parser.add_argument("ścieżka", help="katalog z rozpakowaną Składnicą albo plik z prozą")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument(
-        "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
-    )
+def _morfologia(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--morfologia",
-        choices=("gold", "live"),
+        choices=SOURCES,
         default="gold",
         help="skąd brać czytania form banku drzew; prozy ten wybór nie dotyczy",
     )
-    parser.add_argument(
-        "--jobs",
-        type=int,
-        default=os.cpu_count() or 1,
-        help="ile procesów czyta i mierzy; 1 liczy w tym",
-    )
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
 
-    ścieżka = Path(args.ścieżka)
-    if ścieżka.is_dir():
-        raport = przebieg(
-            pliki(ścieżka)[: args.limit], args.jobs, args.morfologia, przykłady=args.przykłady
-        )
-        print(wydruk(raport, f"Składnica, morfologia {args.morfologia}"))
-        return 0
-    if not ścieżka.is_file():
-        print(f"harness.znaczenia: nie ma takiej ścieżki: {ścieżka}", file=sys.stderr)
-        print("harness.znaczenia: skąd wziąć bank drzew, mówi docs/corpus.md", file=sys.stderr)
-        return 2
-    raport = nad_prozą(ścieżka.read_text(encoding="utf-8"), przykłady=args.przykłady)
-    print(wydruk(raport, f"{ścieżka}, morfologia live"))
-    return 0
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    raport = przebieg(ścieżki, args.jobs, args.morfologia, przykłady=args.przykłady)
+    return wydruk(raport, f"Składnica, morfologia {args.morfologia}")
+
+
+def _proza(tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
+    return wydruk(nad_prozą(tekst, przykłady=args.przykłady), f"{ścieżka}, morfologia live")
+
+
+KOMENDA = Komenda(
+    nazwa="harness.znaczenia",
+    opis="Policz, ile z meldowanej wieloznaczności zostaje w kategoriach dziedziny.",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+    proza=_proza,
+    argumenty=_morfologia,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))
