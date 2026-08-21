@@ -356,9 +356,11 @@ Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
 tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
 
 `harness/luka.py` przepisuje z `harness/ruch.py` cały przebieg różnicowy:
-liczniki, przejścia, scalanie kawałków, tryb nad prozą, tabelę i wiersz poleceń,
-czyli około stu osiemdziesięciu wierszy stojących drugi raz.
-Połowa powodu, dla którego nie dało się ich wziąć stamtąd, zeszła
+liczniki, przejścia, scalanie kawałków, tryb nad prozą i tabelę,
+czyli przeszło sto wierszy stojących drugi raz.
+Wiersz poleceń zszedł z tej listy razem z `harness/komenda.py`,
+który jest wspólny wszystkim sondom mierzącym nad korpusem.
+Połowa powodu, dla którego nie dało się wziąć stamtąd reszty, zeszła
 i wróciła w innej postaci.
 Wariant bogatszy od mianownika ta maszyneria umiała, dopóki miała `Sonda.dopisuje`,
 a odsiew grup działał nad dopiskiem tak samo jak nad produkcjami olskiego;
@@ -1188,8 +1190,9 @@ odda drzewa czytań przez granicę procesu, albo zrobi tę abstrakcję u siebie,
 i to jest pytanie do rozstrzygnięcia przed scaleniem, a nie po nim.
 Ten sam czwarty przepisuje z `harness/czytania.py` całe rusztowanie przebiegu
 spisowego — `Raport`, `zanotuj`, `scal`, pulę procesów i tabelę procentową —
-czyli to, czym `harness/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają;
-scalenie przebiegów zdejmuje połowę tego duplikatu i dlatego idzie przed nim.
+czyli to, czym `harness/ruch.py` jest dla sond różnicowych, a czego spisowe nie mają:
+wspólny jest im wiersz poleceń z `harness/komenda.py`, a nie przebieg.
+Scalenie przebiegów zdejmuje połowę tego duplikatu i dlatego idzie przed nim.
 Rusztowanie to przepisuje także `harness/płaski.py`, a lasów olskiego nie buduje
 wcale, bo mierzy wariant gramatyki, więc scalenie przebiegów go nie obejmie
 i zostanie po nim sam duplikat rusztowania — to on mówi, ile ono jest warte

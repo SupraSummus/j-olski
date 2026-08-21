@@ -49,15 +49,14 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
-import sys
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.komenda import Komenda, uruchom
 from olski.attachment import attachments
-from olski.corpus import Sentence, parse_forest, pliki, read_forest
+from olski.corpus import Sentence, parse_forest, read_forest
 from olski.coverage import po_kawałkach, segments_for
 from olski.parse import Przyłączenie, Result, parse, sklej_formy
 from olski.rozstrzyganie import (
@@ -294,35 +293,18 @@ def _przykłady(raport: Raport, nazwa: str) -> list[str]:
     ]
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.wskazania",
-        description="Policz, ile warstwa rozstrzygająca odpowiada nad werdyktami olskiego.",
-    )
-    parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument(
-        "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
-    )
-    parser.add_argument(
-        "--jobs",
-        type=int,
-        default=os.cpu_count() or 1,
-        help="ile procesów czyta i mierzy; 1 liczy w tym",
-    )
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    raport = przebieg(ścieżki, args.jobs, przykłady=args.przykłady)
+    return wydruk(raport, "Składnica, morfologia złota")
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f"harness.wskazania: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("harness.wskazania: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
-        return 2
-    raport = przebieg(pliki(root)[: args.limit], args.jobs, przykłady=args.przykłady)
-    print(wydruk(raport, "Składnica, morfologia złota"))
-    return 0
+
+KOMENDA = Komenda(
+    nazwa="harness.wskazania",
+    opis="Policz, ile warstwa rozstrzygająca odpowiada nad werdyktami olskiego.",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

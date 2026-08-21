@@ -36,15 +36,14 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness import ruch
+from harness.komenda import Komenda, uruchom
 from harness.ruch import gramatyka
-from olski.corpus import pliki, read
+from olski.corpus import read
 from olski.coverage import po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
@@ -89,7 +88,7 @@ def gospodarz(produkcja: Production) -> str | None:
 #: gramatykę bez drugiego gospodarza. Stoi tutaj, bo tutaj ma jedynego
 #: czytelnika: przebieg wyceniający samo wpuszczenie przysłówka jest w gicie.
 PRZYSŁÓWEK_SONDA = ruch.Sonda(
-    prog="python3 -m harness.płaski",
+    nazwa="harness.płaski",
     opis="Przy którym gospodarzu stoi przysłówek w mierzonej gramatyce.",
     warianty=("bez przysłówka", OKOLICZNIK, PRZY_PRZYMIOTNIKU, "olski"),
     grupa=gospodarz,
@@ -342,53 +341,34 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
     return "\n".join(wiersze)
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.płaski",
-        description="Policz zdania, którym płaska lista okoliczników daje fałszywe czytanie.",
-    )
-    parser.add_argument(
-        "ścieżka",
-        help="katalog z rozpakowaną Składnicą albo plik z prozą do przeczytania",
-    )
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument(
-        "--przykłady", type=int, default=PRZYKŁADY, dest="przykłady", help="ile zdań pokazać"
-    )
+def _wariant(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--wariant",
         default=PRZYSŁÓWEK_SONDA.czysty,
         choices=PRZYSŁÓWEK_SONDA.warianty,
         help="u którego gospodarza stoi przysłówek w mierzonej gramatyce",
     )
-    parser.add_argument(
-        "--jobs",
-        type=int,
-        default=os.cpu_count() or 1,
-        help="ile procesów czyta i mierzy; 1 liczy w tym",
-    )
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
 
-    ścieżka = Path(args.ścieżka)
-    if ścieżka.is_dir():
-        raport = przebieg(
-            pliki(ścieżka)[: args.limit],
-            args.jobs,
-            przykłady=args.przykłady,
-            nazwa=args.wariant,
-        )
-        print(wydruk(raport, f"Składnica, morfologia złota, wariant „{args.wariant}”"))
-        return 0
-    if ścieżka.is_file():
-        raport = nad_prozą(ścieżka.read_text(), args.przykłady, args.wariant)
-        print(wydruk(raport, f"{ścieżka.name}, proza, wariant „{args.wariant}”"))
-        return 0
-    print(f"harness.płaski: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
-    print("harness.płaski: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
-    return 2
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    raport = przebieg(ścieżki, args.jobs, przykłady=args.przykłady, nazwa=args.wariant)
+    return wydruk(raport, f"Składnica, morfologia złota, wariant „{args.wariant}”")
+
+
+def _proza(tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
+    raport = nad_prozą(tekst, args.przykłady, args.wariant)
+    return wydruk(raport, f"{ścieżka.name}, proza, wariant „{args.wariant}”")
+
+
+KOMENDA = Komenda(
+    nazwa="harness.płaski",
+    opis="Policz zdania, którym płaska lista okoliczników daje fałszywe czytanie.",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+    proza=_proza,
+    argumenty=_wariant,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

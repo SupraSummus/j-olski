@@ -21,9 +21,10 @@ wróci jako gramatyka wariantu brana funkcją, i tego żąda od tej maszynerii
 ``harness/luka.py``; trzyma to ``TODO.md``.
 
 Podział pracy jest przez to jednozdaniowy. Sonda odpowiada, do której grupy
-produkcja należy, a wszystko pozostałe — warianty, przebieg, tabelę przejść,
-konkurencję grup i wiersz poleceń — dostaje z tego pliku. Wariantów jest tyle,
-ile grup da się zdjąć osobno, bo cena każdej z nich jest osobną liczbą.
+produkcja należy, a warianty, przebieg, tabelę przejść i konkurencję grup dostaje
+z tego pliku; wiersz poleceń przychodzi z ``harness/komenda.py``, wspólny także
+sondom, które różnicowe nie są. Wariantów jest tyle, ile grup da się zdjąć
+osobno, bo cena każdej z nich jest osobną liczbą.
 """
 
 from __future__ import annotations
@@ -31,13 +32,12 @@ from __future__ import annotations
 import argparse
 import collections
 import functools
-import os
-import sys
 from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import Sentence, pliki, read
+from harness.komenda import Komenda, uruchom
+from olski.corpus import Sentence, read
 from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
@@ -81,8 +81,9 @@ class Sonda:
     Ostatni jest przez to samym olskim, bo grupy nie zdejmuje żadnej.
     """
 
-    #: Nazwa programu w wydruku pomocy i w komunikacie o błędzie ścieżki.
-    prog: str
+    #: Nazwa modułu, czyli ``harness.płaski``. Wiersz poleceń robi z niej i pomoc,
+    #: i prefiks komunikatu o brakującej ścieżce (``harness/komenda.py``).
+    nazwa: str
     #: O co ta sonda pyta, jednym zdaniem, do wydruku pomocy.
     opis: str
     #: Nazwy wariantów, one zaś są etykietami wiersza w tabeli, więc stoją tu
@@ -178,7 +179,7 @@ def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
     zdania, a gramatyka po zbudowaniu się nie zmienia.
     """
     if wariant not in sonda.warianty:
-        raise ValueError(f"{sonda.prog}: nieznany wariant: {wariant}")
+        raise ValueError(f"{sonda.nazwa}: nieznany wariant: {wariant}")
     pełna = build()
     okrojona = Grammar(start=pełna.start)
     for produkcja in pełna.productions:
@@ -475,48 +476,39 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
     return "\n".join(wiersze)
 
 
-def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
-    """Wiersz poleceń wspólny sondom różnicowym: katalog banku drzew albo plik prozy."""
-    parser = argparse.ArgumentParser(prog=sonda.prog, description=sonda.opis)
-    parser.add_argument(
-        "ścieżka",
-        help="katalog z rozpakowaną Składnicą albo plik z prozą do przeczytania",
-    )
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument(
-        "--przykłady", type=int, default=PRZYKŁADY, help="ile zdań pokazać pod przejściem"
-    )
-    parser.add_argument(
-        "--jobs",
-        type=int,
-        default=os.cpu_count() or 1,
-        help="ile procesów czyta i mierzy; 1 liczy w tym",
-    )
+def _morfologia(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--morfologia",
         choices=SOURCES,
         default="gold",
         help="czytania banku drzew: wybrane przez anotatora czy wszystkie, jakie ma Morfeusz",
     )
-    args = parser.parse_args(argv)
-    if args.jobs < 1:
-        parser.error("--jobs bierze co najmniej jeden proces")
 
-    ścieżka = Path(args.ścieżka)
-    if ścieżka.is_dir():
-        raport = przebieg(
-            sonda,
-            pliki(ścieżka)[: args.limit],
-            args.jobs,
-            przykłady=args.przykłady,
-            źródło=args.morfologia,
-        )
-        print(wydruk(raport, f"Składnica, morfologia {MORFOLOGIA[args.morfologia]}"))
-        return 0
-    if ścieżka.is_file():
-        raport = nad_prozą(sonda, ścieżka.read_text(), args.przykłady)
-        print(wydruk(raport, f"{ścieżka.name}, proza"))
-        return 0
-    print(f"{sonda.prog}: nie ma takiego katalogu ani pliku: {ścieżka}", file=sys.stderr)
-    print(f"{sonda.prog}: docs/corpus.md mówi, skąd wziąć korpus", file=sys.stderr)
-    return 2
+
+def _korpus(sonda: Sonda, ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    raport = przebieg(sonda, ścieżki, args.jobs, przykłady=args.przykłady, źródło=args.morfologia)
+    return wydruk(raport, f"Składnica, morfologia {MORFOLOGIA[args.morfologia]}")
+
+
+def _proza(sonda: Sonda, tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
+    return wydruk(nad_prozą(sonda, tekst, args.przykłady), f"{ścieżka.name}, proza")
+
+
+def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
+    """Puszcza sondę różnicową nad bankiem drzew albo nad plikiem prozy.
+
+    Sonda pisana pod jedną decyzję woła to jednym wierszem,
+    bo od sond wpisanych do drzewa różni się tym, co zdejmuje,
+    a nie tym, o co pyta w wierszu poleceń (``CLAUDE.md#code``).
+    """
+    return uruchom(
+        Komenda(
+            nazwa=sonda.nazwa,
+            opis=sonda.opis,
+            przykłady=PRZYKŁADY,
+            korpus=functools.partial(_korpus, sonda),
+            proza=functools.partial(_proza, sonda),
+            argumenty=_morfologia,
+        ),
+        argv,
+    )

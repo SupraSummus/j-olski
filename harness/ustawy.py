@@ -254,7 +254,7 @@ CZYTNIK = Czytnik(
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    return uruchom(argv, CZYTNIK)
+    return uruchom(CZYTNIK, argv)
 
 
 if __name__ == "__main__":

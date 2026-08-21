@@ -35,12 +35,12 @@ NA_JEDNEJ_GRUPIE = [
 ]
 
 
-@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.prog)
+@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)
 def test_wariant_czysty_jest_dokładnie_gramatyką_olskiego(sonda: Sonda):
     assert gramatyka(sonda, sonda.czysty).productions == GRAMMAR.productions
 
 
-@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.prog)
+@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)
 def test_wariant_jest_podzbiorem_olskiego_i_nie_dopisuje_ani_jednej_produkcji(sonda: Sonda):
     """Pominięcie rozbiorów w `_warianty` opiera się na tej własności i nie bada jej.
 
