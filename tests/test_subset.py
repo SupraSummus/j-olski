@@ -1224,6 +1224,23 @@ def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
     assert PRZYŁĄCZANY not in czytanie, czytanie
 
 
+def test_wtrącenie_w_zdaniu_względnym_wychodzi_jednym_czytaniem():
+    #  Nawias przed przecinkiem zamykającym zdanie względne ma jednego gospodarza,
+    #  bo przyłączony do zdania nadrzędnego stanąłby za tym przecinkiem, czyli
+    #  dałby inny napis.
+    werdykt = verdict("Reguła, która rozstrzyga (niżej), jest tania.")
+    assert werdykt.status == "valid", werdykt.explain()
+
+
+def test_zdanie_względne_na_końcu_zdania_bierze_nawias_od_zdania_nadrzędnego():
+    #  Usterka, którą to łapie: ta sama pozycja dopisana przez symetrię do ciała
+    #  zdania względnego bez przecinka. Ten napis obsługuje w całości pozycja przy
+    #  zdaniu składowym, więc druga dołożyłaby mu drugiego gospodarza i drugie
+    #  czytanie, nie kupując ani jednego zdania.
+    werdykt = verdict("Program zapisuje regułę, która rozstrzyga (niżej).")
+    assert werdykt.status == "valid", werdykt.explain()
+
+
 def test_zdanie_bierze_jeden_znak_rozdzielający_a_nie_ciąg_takich_znaków():
     #  Produkcja stoi na poziomie zdania, a `Clause` żadnego z tych znaków nie ma,
     #  więc rekurencji nie ma czym zbudować i drugi znak w zdaniu odrzuca je. Jest
@@ -1598,11 +1615,15 @@ def test_zaimek_dzierżawczy_bierze_formę_akcentowaną_i_nieprzyimkową():
     #  Enklityka stoi przy czasowniku, a forma przyimkowa po przyimku, więc bez tych
     #  dwóch warunków pozycja bierze `go` oraz `niego`, a zdanie z nimi wychodzi
     #  jednym czytaniem, czyli twierdzeniem. Warunek zbyt szeroki kosztuje z drugiej
-    #  strony, dlatego każdy z dwóch ma obok zdanie, które ma przejść.
+    #  strony, dlatego pierwszy ma obok zdanie, które ma przejść.
+    #
+    #  Warunku drugiego nie sprawdza zdanie bez przyimka: formę przyimkową zdejmuje
+    #  tam już morfologia (`po_przyimku`), więc `Znam niego cenę.` byłoby odrzucone
+    #  i bez tego warunku. Sprawdza go grupa pod przyimkiem, gdzie ta forma czytanie
+    #  zachowuje i gdzie ten warunek jest jedyną rzeczą, która ją odrzuca.
     assert verdict("Znam jego cenę.").status == "valid"
     assert verdict("Znam go cenę.").status == "rejected"
-    assert verdict("Bez niego cena rośnie.").status == "valid"
-    assert verdict("Znam niego cenę.").status == "rejected"
+    assert verdict("Cena bez niego zapisu rośnie.").status == "rejected"
 
 
 # --------------------------------------------------------------------------- #
@@ -2138,6 +2159,45 @@ def test_excluding_a_reading_never_leaves_a_form_with_none():
     unfiltered = analyse("do")[0]
     assert {reading.tag.pos for reading in unfiltered.readings} == {"prep", "subst"}
     assert [reading.tag.pos for reading in admissible(unfiltered).readings] == ["prep"]
+
+
+# --------------------------------------------------------------------------- #
+# Forma przyimkowa zaimka, czyli wykluczenie pytające o sąsiada
+# --------------------------------------------------------------------------- #
+
+
+def test_forma_przyimkowa_bez_przyimka_zostaje_bez_ani_jednego_czytania():
+    #  `niego` czytania nieprzyimkowego nie ma, więc bez przyimka to wykluczenie
+    #  zabiera mu wszystkie i tym różni się od `admissible`, które krawędzi nie
+    #  opróżnia nigdy. Werdykt nazywa wtedy formę, a nie strukturę, i tego nie
+    #  wolno naprawić odmową opróżniania: grupa imienna bierze zaimek w każdej
+    #  swojej pozycji, więc zdanie wychodziłoby znów przyjęte.
+    werdykt = verdict("Cena niego rośnie.")
+    assert werdykt.status == "rejected"
+    assert werdykt.nielicencjonowane == ("niego",), werdykt.explain()
+
+
+def test_wykluczenie_przyimkowe_kupuje_jednoznaczność_zdaniu_z_przeczeniem():
+    #  `nie` jest u Morfeusza biernikiem `on`, więc bez tego wykluczenia staje
+    #  dopełnieniem w zdaniu, które przeczy, i zdanie wychodzi dwoma czytaniami,
+    #  gdzie polszczyzna ma jedno. Ta klasa jest tym, za co wykluczenie weszło.
+    assert verdict("Zagłębie nie płaci.").status == "valid"
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Pod przyimkiem ta forma jest polszczyzną, więc warunek pytający o samą
+        #  formę, bez sąsiada, zabierałby ją i tutaj.
+        "Bez niego cena rośnie.",
+        #  `nim` niesie `praep` i `npraep` naraz, bo polszczyzna stawia je i po
+        #  przyimku, i bez niego, więc warunek na samą obecność `praep`
+        #  zabierałby tę formę wszędzie.
+        "Program jest nim.",
+    ],
+)
+def test_wykluczenie_przyimkowe_zostawia_formę_której_polszczyzna_tam_używa(zdanie):
+    assert verdict(zdanie).status == "valid"
 
 
 # --------------------------------------------------------------------------- #

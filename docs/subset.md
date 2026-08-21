@@ -319,6 +319,94 @@ więc kryterium na nią żąda liczby z korpusu, której olski nie ma.
 wraz z pomiarem mówiącym, że nad prozą tego repozytorium
 niesie ją paradygmat zaimkowy, a nie przymiotnik.
 
+## Forma przyimkowa zaimka żąda przyimka przed sobą
+
+Wykluczenie wyżej pyta o samą formę,
+a jedna klasa czytań, których polszczyzna nie ma, żąda pytania o sąsiada.
+
+Morfeusz czyta `nie` jako biernik zaimka `on`,
+a `niego` wyłącznie jako dopełniacz i biernik tegoż,
+i polszczyzna stawia te formy jedynie po przyimku: `na nie`, `bez niego`.
+Tagset mówi to sam.
+Cecha `post_prepositionality` ma wartość `praep` przy formie stojącej po przyimku
+i `npraep` przy tej, która stoi bez niego,
+a `nim` niesie obie naraz, tak samo jak `niej` i `nich` w miejscowniku,
+bo te formy stoją i pod przyimkiem, i bez niego.
+
+Grupa imienna bierze zaimek w każdej swojej pozycji,
+więc bez warunku na tę cechę `Cena niego rośnie.` się wyprowadza,
+a `nie` staje dopełnieniem w zdaniu, które przeczy:
+`Zagłębie nie płaci.` wychodzi wtedy dwoma czytaniami, gdzie polszczyzna ma jedno.
+Bywa i tak, że takie czytanie zostaje jedynym.
+Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
+jaki ten pomiar wydaje
+([corpus.md](corpus.md#what-morphological-ambiguity-costs)),
+bo `valid` czytelnik przyjmuje bez sprawdzania.
+
+Warunek stoi przez to w warstwie morfologicznej i przed rozbiorem,
+a nie na terminalu zaimka.
+`po_przyimku` w `olski/subset.py` pyta graf segmentacji:
+czytanie o samym `praep` zostaje tam,
+gdzie w węźle otwierającym tę krawędź kończy się krawędź z czytaniem przyimkowym,
+a poza tym schodzi.
+
+Dwie drogi obok tej odpadły, każda na czym innym.
+Terminal wypowiada warunek o parze wiązek cech,
+a przyimek stoi nad zaimkiem przez całą grupę imienną,
+więc żądanie postawione na terminalu musiałoby zejść przez każde jej ciało osobno —
+tą samą drogą, którą przeszła
+[negacja](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne),
+i za tę samą cenę.
+Ciało, które by cechy nie przepuściło, przepuściłoby za to każdą formę,
+a takiego przeoczenia nie łapie żaden test.
+Warunek sprawdzany po rozbiorze musiałby z kolei znać kształt grupy imiennej
+i wyrażenia przyimkowego, czyli być gramatyką napisaną drugi raz,
+a to jest właśnie kryterium, po którym warstwa więzowa
+[wchodzi albo nie wchodzi](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
+Cecha na terminalu zostaje tam, gdzie warunek jest o parę:
+zaimek dzierżawczy żąda `npraep` od formy przed rzeczownikiem
+([niżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)),
+i pod przyimkiem to żądanie zostaje jedynym, które `bez niego zapisu` odrzuca.
+
+Cena nad Składnicą wychodzi zerowa i mówi to przebieg pod morfologią żywą.
+Jednoznaczność zyskuje kilkanaście zdań,
+a wyprowadzenie tracą te i tylko te:
+
+```text
+Ale nie tylko same ulice irytują.
+Po drugiej stronie też nie ma nic.
+Posłowie opozycji winią nie tylko Żochowskiego.
+W tym roku Zagłębie też nie płaci.
+```
+
+Każde z nich było przyjęte na czytaniu, w którym `nie` jest dopełnieniem,
+więc odrzucenie jest przy każdym werdyktem uczciwym.
+Pod złotą morfologią warunek nie rusza niczego,
+bo anotatorzy wybrali tam jedno czytanie na token,
+tak samo jak przy wykluczeniu wyżej.
+
+Na zewnątrz zostaje ciąg współrzędny pod jednym przyimkiem.
+`dla niego i niej` ma przyimek nad obydwoma członami,
+a przed drugim z nich nie ma go wcale,
+więc `Program zapisuje ustawienia dla niego i niej.` traci wyprowadzenie,
+gdzie `bez nich i plików` je zachowuje,
+bo tam forma przyimkowa jest członem pierwszym.
+Nad Składnicą nie kosztuje to ani jednego zdania,
+a zdanie odrzucone stoi wśród tego,
+[czego olski nie bierze](#what-it-does-not-cover-yet).
+
+Forma, której to wykluczenie zabiera wszystkie czytania — `niego` innych nie ma —
+jest dla werdyktu formą bez licencji,
+więc `Cena niego rośnie.` wychodzi odrzucone z `niego` wypisanym.
+Przebieg nad korpusem czyta ją inaczej i liczy takie zdanie
+jako zdanie bez struktury nad całością,
+bo `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania,
+a tu nie ma ani jednego.
+Rozejście to jest zapowiedziane
+([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
+a naprawę trzyma [TODO.md](../TODO.md) razem z wycięciem czytań bez licencji,
+które daje tę samą krawędź bez czytań na całej klasie form.
+
 ## Notacja tego rejestru jest słowem, którego słownik nie ma
 
 Wykluczenie wyżej odbiera formie czytanie, którego Polak nie ma.
@@ -860,6 +948,24 @@ would be an adjective agreeing with nothing
 and `nowa programy i pliki` would derive.
 Refusing the wider attachment is what keeps that a rejection.
 
+Dwa symbole zamiast jednego wybrano dla liczby czytań, a nie dla parsera.
+Tablica Earleya bierze rekursję lewostronną,
+co pilnuje test w `tests/test_subset.py`,
+więc `NP → NP conj NP` dałoby się tu wpisać jedną produkcją w miejsce dwóch.
+Powiedziałoby ono o zasięgu dokładnie to samo, bo zawężenie wyżej stoi na rodzaju,
+którego ciąg nie ma, a nie na kształcie produkcji —
+i wypuszczałoby ciąg tyloma wyprowadzeniami, ilu on nawiasowań dopuszcza:
+ciąg trzech członów dwoma, czterech pięcioma, a siedmiu stu trzydziestoma dwoma,
+gdzie te dwa symbole wypuszczają każdy z nich raz.
+Są to wyprowadzenia jednej struktury, więc gramatyka płaciłaby tu tym,
+czym płaci [gramatyka kategorialna](design-notes.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje):
+wieloznacznością pozorną, którą trzeba potem kwotować postacią normalną.
+Ciąg siedmiu członów nie jest przy tym przypadkiem z brzegu:
+tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
+([ustawy.md](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
+i tamta liczba mówi, ile taki mnożnik znaczy przy zdaniu,
+które wieloznaczność ma już z innego powodu.
+
 ## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
 
 Polszczyzna łączy dwa zdania spójnikiem, przecinkiem albo jednym i drugim naraz,
@@ -1022,7 +1128,7 @@ niż go zamyka, więc napis niedomknięty nie ma wyprowadzenia.
 Wnętrzem jest sama grupa imienna, więc `„to nie zdanie”` zostaje na zewnątrz:
 w cudzysłowie stoi tam zdanie, a nie grupa.
 
-**Nawias dochodzi do zdania składowego i do niego jednego.**
+**Nawias dochodzi w każdym napisie do jednego gospodarza.**
 `Zdanie stoi (docs/subset.md).` wychodzi jednym czytaniem,
 a nie tyloma, ile gospodarzy ma w zdaniu wyrażenie przyimkowe,
 i nie jest to wybór przyłączenia, którego olski nie robi
@@ -1037,18 +1143,40 @@ więc zejście po role zatrzymuje się na wtrąceniu tak samo jak na zdaniu podr
 
 Wnętrzem nawiasu jest grupa imienna albo przysłówek, bo tym są te dopowiedzenia:
 nazwą dokumentu i wskazaniem, gdzie szukać.
-Pozycja jest jedna i jest nią nawias zamykający zdanie składowe,
-a dwie rzeczy zostają przez to na zewnątrz.
-Nawias w środku grupy imiennej — `grupa imienna (ta z dopełniaczem) stoi` —
-nie ma wyprowadzenia, i jest to w tej prozie mniejszość:
+Pozycje są dwie i obie stoją tam, gdzie nawias zamyka zdanie składowe
+albo zdanie względne odgrodzone przecinkami:
+`Reguła, która rozstrzyga (niżej), jest tania.` wychodzi jednym czytaniem.
+
+**Druga pozycja stoi w ciele zamykanym przecinkiem i tylko w nim.**
+Ciała zdania względnego są dwa, bo przecinek zamykający polszczyzna stawia wtedy,
+gdy zdanie nadrzędne biegnie dalej
+([niżej](#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+a w tym z przecinkiem nawias stoi przed nim,
+gdzie przyłączony do zdania nadrzędnego stanąłby za nim, czyli dałby inny napis.
+Ciało bez przecinka kończy się tam, gdzie kończy się zdanie nadrzędne,
+i tam pozycji nie potrzeba, bo pierwsza z dwóch obsługuje ten napis w całości:
+`Program zapisuje regułę, która rozstrzyga (niżej).` wychodzi jednym czytaniem,
+w którym nawias dochodzi do zdania nadrzędnego.
+Druga pozycja dopisana i tam nie kupiłaby ani jednego zdania,
+a dołożyłaby temu napisowi czytanie,
+i nierówność ciał jest przez to oszczędnością, a nie ceną.
+
+Nad Składnicą ta pozycja nie rusza ani jednego zdania,
+pod złotą morfologią ani pod żywą,
+bo proza prasowa nawiasu wewnątrz zdania względnego nie pisze.
+Pisze go dokumentacja tego repozytorium, i pisze kilka razy,
+a przyjętego zdania ta pozycja jej dotąd nie kupiła:
+zdania te niosą obok tego nawiasu inne konstrukcje, których olski nie ma,
+więc pozycja zdejmuje jeden powód odrzucenia, a nie całe odrzucenie.
+Zakup jest przez to odłożony, a nie zmierzony na zero,
+i tym różni się ta pozycja od tych, które wchodzą z przejściami między werdyktami.
+
+Na zewnątrz zostaje nawias w środku grupy imiennej —
+`grupa imienna (ta z dopełniaczem) stoi` —
+i jest to w tej prozie mniejszość:
 nawias stoi w niej zwykle przed kropką albo przecinkiem,
-czyli tam, gdzie kończy się zdanie albo jego składowe,
+czyli tam, gdzie kończy się zdanie, jego składowe albo zdanie względne w nim,
 co liczy `grep -oP '\)[.,]' proza/docs.txt | wc -l` wobec wszystkich nawiasów tego pliku.
-Nawias wewnątrz zdania względnego — `reguła, która rozstrzyga (niżej), jest tania` —
-nie ma go tak samo, a ta druga pozycja kosztowałaby czytanie:
-zdanie względne na końcu zdania kończy się tam, gdzie kończy się zdanie nadrzędne,
-więc nawias dałby się wtedy przyłączyć do jednego i do drugiego.
-[TODO.md](../TODO.md) trzyma kształt, którym ta pozycja weszłaby bez tej ceny.
 
 ## Zaimek rzeczowny nie rządzi dopełniaczem
 
@@ -2079,17 +2207,18 @@ przy czasowniku, a nie przy rzeczowniku.
 Drugi żąda formy nieprzyimkowej, czyli zostawia poza pozycją `niego`, `niej` i `nich`:
 `Znam niego cenę.` nie jest polszczyzną tak samo,
 a `Bez niego cena rośnie.` jest, bo tam ta forma stoi po przyimku.
-Warunek drugi dotyczy przy tym samej tej pozycji, a nie całej gramatyki:
-grupa imienna o jednym zaimku bierze formę przyimkową bez przyimka nad sobą,
-więc `Cena niego rośnie.` wyprowadza się, choć polszczyzna tego nie ma,
-i [TODO.md](../TODO.md) trzyma ten rozjazd.
+Warunek drugi zarabia na siebie właśnie pod przyimkiem, i tylko tam.
+Poza nim formę przyimkową odsiewa już morfologia
+([wyżej](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
+a `bez niego zapisu` ma tę formę po przyimku,
+więc odrzuca ją to jedno żądanie i nic poza nim.
 
 Pozycji tej nie ustawiła ani kolejka blokerów
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 ani ranking form bez licencji.
-Każda z tych form licencję ma, bo grupa imienna o jednym zaimku bierze je wszystkie,
-więc odrzucenie stało na strukturze,
-a analiza zatrzymywała się dopiero za zaimkiem:
+Odrzucenie stało na strukturze, a nie na żadnej z tych form,
+bo grupa imienna o jednym zaimku bierze każdą z nich,
+więc analiza zatrzymywała się dopiero za zaimkiem:
 `Jego skutki są znane.` stawało na `znane`.
 Wskazała ją sesja pisząca pod tę gramatykę zdanie po zdaniu.
 Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej
@@ -2108,12 +2237,17 @@ Every one of these is a sentence that gets rejected and should not be:
   the way a coordinated clause needs none,
   while an enumeration is an apposition to something in that clause —
   to `dwa` here — and a production at the sentence level has no way of saying to what.
-- Nawias stojący w środku zdania, a nie na końcu jego składowego:
+- Nawias stojący w środku grupy imiennej:
   `Grupa imienna (ta z dopełniaczem) stoi tu.` jest odrzucone,
-  gdzie `Grupa imienna stoi tu (niżej).` wyprowadza się.
-  Tak samo nie ma wyprowadzenia nawias wewnątrz zdania względnego,
-  a cenę drugiej pozycji trzyma
-  [wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania).
+  gdzie `Grupa imienna stoi tu (niżej).` wyprowadza się
+  i gdzie `Grupa imienna, która stoi (niżej), jest tania.` też,
+  bo pozycje nawiasu są dwie i obie zamykają zdanie
+  ([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+- Forma przyimkowa zaimka w drugim członie ciągu pod jednym przyimkiem:
+  `Program zapisuje ustawienia dla niego i niej.` jest odrzucone,
+  gdzie `Program zapisuje ustawienia dla niego.` wyprowadza się,
+  bo licencji udziela tej formie przyimek stojący przed nią
+  ([wyżej](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 - Two separating signs in one sentence, whether the same one twice or one of each.
   `Cena jest niska; gramatyka jest bezkontekstowa; parser jest tani.` is rejected
   where either half of it derives,

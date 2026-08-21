@@ -726,8 +726,13 @@ That share is the rate to watch as the grammar grows,
 since every construction admitted gives the analyser's spare readings
 one more place to derive something.
 
-The live column depends on an exclusion the gold column has no use for,
+The live column depends on two exclusions the gold column has no use for,
 the annotators having already chosen one reading per token.
+The second of them drops the post-prepositional form of a pronoun
+wherever no preposition stands in front of it,
+and what it is worth is measured where it is argued
+([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
+The first is the one this section is about.
 Olski drops an uninflected noun reading
 wherever the form also reads as a function word,
 for the reasons
