@@ -415,13 +415,18 @@ A relative clause or a question reaches this row
 on whatever else its reading says, and not on that one label.
 The label weighs more in that section than it does here.
 
-The *disagreements* did not move when clause-level punctuation came in,
-which is what that addition is worth here beyond the sentences it accepted:
-it contradicted the tree on none of them.
-One of them is a reading a reader would not have,
-several arrived with the adverb and several more with the particle,
-and the rest are the check or the corpus rather than the grammar.
-The one came in with negation:
+The *disagreements* are mostly one class, with a short tail behind it.
+A particle standing inside a noun phrase leads them, at about half the row,
+and behind it stand the corpus's own notion of a constituent,
+one reading a reader would not have,
+and a few the check produces rather than the grammar.
+Which classes those are is what this document owns;
+how many sentences stand in each is what the run prints.
+The adjunct position after the verb brought a dozen of them at once,
+nearly all of the particle class,
+because a verb-initial clause puts its subject behind the verb
+and this register puts a particle in front of that subject.
+The one reading a reader would not have came in with negation:
 
 ```text
 Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
@@ -450,18 +455,17 @@ and `Nikt niczego nie wybiera, coś wybiera za nas.`
 now come out with two readings, the reader's among them,
 so they are refused rather than read backwards.
 
-Several are the check and not a reading.
-`Kampania nie przyniosła skutku.` olski reads the way a reader would,
-and the gold tree gives the genitive of negation its own slot, `np(part)`,
-which `_slot_role` in `olski/corpus.py` maps to no role olski has,
-so olski names an object where the tree marks none.
-The numeral phrase in object position lands in the same slot,
-as in `Marzec przyniósł 6 zagranicznych delegacji.`,
-and so does the object of `Co pan sądzi o pomyśle Pawła Piskorskiego?`,
-which the four orders brought in and which olski reads
-with `Co` for an object and `pan` for a subject.
-[TODO.md](../TODO.md) holds that as a defect in the check
-rather than in the reading, and the row carries them until it is fixed.
+A few are the check and not a reading, and what makes them one
+is the gold tree marking no slot at all where olski names a role.
+`Powtarzaj je tak często, jak to jest potrzebne.` is one:
+the chosen tree leaves the imperative's object unmarked,
+so olski names an object the tree neither confirms nor contradicts.
+`Co pan sądzi o pomyśle Pawła Piskorskiego?` is the same shape with a reason:
+the tree marks `Co` as `nonch`, which is a phrase outside the frame,
+and olski reads it for an object.
+What the row cannot do is tell either of those
+from `Poprzednio pracodawca mógł z tym zwlekać nawet 15 lat.`,
+where olski reads a duration as an object and is simply wrong.
 
 The rest are extents, and the first is the one the treebank's own formalism
 produces:
@@ -503,7 +507,9 @@ The particle is the extent that comes from a construction
 rather than from the corpus's constituency.
 `Nawet ptaki przestały śpiewać.` has `nawet ptaki` for a subject in the gold tree,
 where olski leaves the particle to the clause and makes `ptaki` the subject,
-and `Także Żydzi stanowią zamkniętą kastę.` goes the same way.
+and `Także Żydzi stanowią zamkniętą kastę.`,
+`Był przy niej także syn.` and `Nie ogłosił nawet programu wyborczego.`
+go the same way, on the subject and on the object alike.
 The second host that would settle it is held by [TODO.md](../TODO.md).
 
 One is neither the check nor an extent:
@@ -703,7 +709,7 @@ Przysłówek dołożył do tej listy klasę własną i jest ona jedną z rozpię
 `Dlatego właśnie przed laty do Monako przenosili się masowo szwedzcy tenisiści.`
 wychodzi z podmiotem `masowo szwedzcy tenisiści`,
 bo przysłówek stopniowany dochodzi do przymiotnika, a bank drzew zostawia go zdaniu
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 
 Miara porównuje przy tym dwie role i nic poza nimi.
 Czytanie, które je obsadza tak jak drzewo wzorcowe,

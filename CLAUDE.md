@@ -44,7 +44,7 @@ więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 sprawdzamy je w przeglądzie zmian, a nie w testach.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają —
-przebieg nad `docs/` przyjmuje z pięciu tysięcy zdań przeszło setkę —
+przebieg nad `docs/` przyjmuje jedno zdanie na kilkadziesiąt —
 i nie przepisujemy tych dokumentów tak, żeby się pod nią zmieściły.
 
 Wyjątkiem jest README i jest to wyjątek nazwany:
@@ -631,6 +631,11 @@ Dokument mówi rząd wielkości, stosunek albo kierunek —
 bo takie zdanie zostaje prawdą, kiedy 148 robi się 151.
 Kto chce liczby dzisiejszej, puszcza narzędzie.
 Skąd wzięła się liczba w zdaniu napisanym kiedyś, mówi git.
+Krucha nie jest przy tym liczba, którą rusza samo pobranie korpusu:
+częstość formy w rejestrze, skład banku drzew i rozmiar słownika
+mówią o korpusie przypiętym do wydania i zostają w pełnej precyzji.
+Zejście z niej byłoby stratą, bo nikt jej nie przeliczy inaczej niż tym samym
+pobraniem, a rozjazd z korpusem widać dopiero wtedy, gdy liczba jest dokładna.
 Jest to [jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
 zastosowany do liczby zmierzonej, a nie osobna reguła.
 

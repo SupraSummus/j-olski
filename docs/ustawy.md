@@ -9,8 +9,8 @@ warto zmierzyć nawet wtedy, gdy olski pod niego nie powstał:
 pomiar mówi wtedy coś o gramatyce, a nie tylko o rejestrze.
 
 Mówi to, że regularność ustawy nie stoi w zdaniu.
-Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie 111 zdań z 4921,
-czyli 2,3%, a wieloznacznych jest tu 10,6%,
+Nad siedmioma ustawami gramatyka wyprowadza jednoznacznie przeszło setkę zdań
+z blisko pięciu tysięcy, a wieloznacznych jest kilka razy więcej,
 więc zdanie ustawy, które olski w ogóle czyta,
 czyta on najczęściej na kilka sposobów.
 Nad [Składnicą](corpus.md#the-measurement) wychodzi odwrotnie —
@@ -189,19 +189,14 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejecte
   | sort | uniq -c
 ```
 
-| akt | zdań | jednoznacznych | wieloznacznych | odrzuconych |
-| --- | --- | --- | --- | --- |
-| samorząd gminny (1990/95) | 386 | 31 | 86 | 269 |
-| inicjatywa ustawodawcza (1999/688) | 84 | 1 | 3 | 80 |
-| informacja publiczna (2001/1198) | 126 | 1 | 4 | 121 |
-| Kodeks wyborczy (2011/112) | 2908 | 46 | 245 | 2617 |
-| petycje (2014/1195) | 48 | 2 | 5 | 41 |
-| zgromadzenia (2015/1485) | 127 | 1 | 15 | 111 |
-| ochrona ludności (2024/1907) | 1242 | 29 | 162 | 1051 |
-| razem | 4921 | 111 | 520 | 4290 |
-
-Same „Zasady techniki prawodawczej” stoją poza tą sumą, bo są rozporządzeniem:
-699 zdań, z tego 8 jednoznacznych i 35 wieloznacznych.
+Wiersz na akt drukuje to polecenie, więc tabeli z niego tu nie ma:
+rusza ją każda dopisana produkcja,
+a to, co z niej zostaje prawdą, mieści się w jednym zdaniu.
+Prowadzi ustawa o samorządzie gminnym, gdzie jednoznaczne jest
+blisko jedno zdanie na dziesięć, a w pozostałych sześciu aktach kilka razy mniej,
+choć akty różnią się długością trzydziestokrotnie.
+Same „Zasady techniki prawodawczej” stoją poza tym pomiarem, bo są rozporządzeniem:
+niespełna siedemset zdań, z tego kilka jednoznacznych i kilkadziesiąt wieloznacznych.
 Werdyktu „to nie zdanie” nie ma nigdzie ani razu, bo kropkę stawia ekstrakcja.
 
 Zdania wyprowadzone jednoznacznie mają kilka kształtów.
@@ -237,7 +232,7 @@ i nazywa go dokładnie tym kształtem.
 Ile zdań przypada na który kształt, nikt po tym przeliczeniu nie policzył,
 bo klasyfikacja idzie tu ręką, zdanie po zdaniu.
 
-Nie każde z tych 111 zdań napisał prawodawca, i widać to na dwóch klasach.
+Nie każde z tych zdań napisał prawodawca, i widać to na dwóch klasach.
 Dwa są jednym słowem: `Kalisz.` i `Przemyśl.` są pozycjami wyliczenia okręgów
 wyborczych, którym ekstrakcja dopisała kropkę,
 a Morfeusz czyta `kalisz` i `przemyśl` jako formy czasownika,
@@ -249,12 +244,12 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań z 111 to dotyczy, ten pomiar nie liczy,
+Ilu zdań to dotyczy, ten pomiar nie liczy,
 a policzenie tego jest wpisem w [TODO.md](../TODO.md).
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
 a pokrycie gramatyki [urywa się nad dziesięcioma](corpus.md#the-measurement),
-więc 1,5% jest z tej długości, a nie z rejestru.
+więc udział zdań wyprowadzonych jest z tej długości, a nie z rejestru.
 Nad README ta sama gramatyka wyprowadza garść zdań
 i [tamten przebieg](corpus.md#where-the-analyses-stop) trzyma ich liczbę,
 więc różnica między jednym pomiarem a drugim
@@ -262,9 +257,10 @@ jest różnicą długości zdania, a nie staranności piszącego.
 
 ## Wieloznaczność jest tu odczytem z § 6, ale nie jest zarzutem
 
-Wieloznacznych jest 299, czyli 79% zdań, którym olski daje jakiekolwiek czytanie,
-a nad Składnicą, czytaną tym samym analizatorem, jest to
-[46%](corpus.md#what-morphological-ambiguity-costs).
+Wieloznaczne są tu przeszło cztery zdania na pięć z tych,
+którym olski daje jakiekolwiek czytanie,
+a nad Składnicą, czytaną tym samym analizatorem, około połowy
+([corpus.md](corpus.md#what-morphological-ambiguity-costs)).
 Różnią się najczęściej podmiotem i dopełnieniem,
 bo za nimi stoi jedna rzecz: przyłączenie wyrażenia przyimkowego,
 którego [olski nie wybiera](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -274,17 +270,17 @@ Najdłuższe mają czytań tyle, że liczba przestaje o czymkolwiek mówić:
 python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -rn | head -3
 ```
 
-Dwadzieścia trzy zdania mają ich więcej niż 64, a najwięcej ma 28 042.
+Kilkadziesiąt zdań ma ich więcej niż `MAX_READINGS`,
+a najdłuższe idą w setki tysięcy; trzy pierwsze drukuje polecenie wyżej.
 Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
 a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań
 i nie sięga ani liczenia ich, ani ról, o które się one różnią.
 
-Werdykt nad tym najdłuższym nazywa dwa przyłączenia,
-jedno o dwóch gospodarzach i jedno o czterech,
-oraz konstytuent `urzędów centralnych`, który czyta się dwoma sposobami,
-i to samo mówi, ile z 28 042 czytań on wyjaśnia:
-szesnaście, a resztę zostawia bez nazwy.
-Zdanie jest wyliczeniem siedmiu grup imiennych
+Werdykt nad takim zdaniem nazywa dwa albo trzy przyłączenia
+i konstytuent czytany na kilka sposobów,
+czyli wyjaśnia kilkanaście czytań z tych dziesiątek tysięcy,
+a resztę zostawia bez nazwy.
+Zdanie, które to pokazuje, jest wyliczeniem siedmiu grup imiennych
 spiętych przecinkiem i spójnikiem —
 `ministrów, sekretarzy stanu i podsekretarzy stanu, …` —
 a olski bierze [współrzędność na trzech poziomach](subset.md#nothing-above-a-coordination-distributes-into-it),
@@ -295,8 +291,8 @@ Ile czytań ciąg tu wnosi, nikt nie policzył,
 i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
 
 Widać ją najczyściej tam, gdzie zostaje sama.
-Siedem z 272 wieloznacznych werdyktów nie mówi nic poza liczbą czytań,
-i we wszystkich siedmiu jest to ciąg współrzędny stojący wewnątrz wypełnienia roli,
+Garść wieloznacznych werdyktów nie mówi nic poza liczbą czytań,
+i w każdym z nich jest to ciąg współrzędny stojący wewnątrz wypełnienia roli,
 czyli tam, dokąd nawias nie schodzi.
 `Ustawa określa zadania ochrony ludności i obrony cywilnej.`
 wychodzi dwoma czytaniami:
@@ -335,10 +331,11 @@ Pierwsze niesie obok przyłączenia drugi wybór, ten słownikowy:
 więc `Rzeczypospolitej Polskiej` czyta się dwoma sposobami,
 a dwa wybory razem dają cztery czytania i tyle właśnie werdykt wyjaśnia.
 
-Drugie z tych zdań pokazuje, dlaczego 272 nie jest liczbą przepisów niejednoznacznych:
+Drugie z tych zdań pokazuje, dlaczego liczba wieloznacznych werdyktów
+nie jest liczbą przepisów niejednoznacznych:
 oba jego czytania mówią, że Sejm kontroluje działalność Rady Ministrów,
 i różnią się drzewem, a nie normą.
-272 jest liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
+Jest ona liczbą przepisów, w których jednoznaczność bierze się z wiedzy o świecie,
 a nie ze składni,
 i to jest wszystko, co pomiar tej wielkości mówi:
 [wieloznaczność mierzy pewność](glr-in-practice.md#ambiguity-as-a-confidence-measure),
@@ -388,7 +385,7 @@ Formy z czoła tego rankingu grupują się w trzy klasy:
 
 Klasa przysłówkowa stała w tej tabeli piąta i zeszła z niej razem z produkcją:
 `odpowiednio` 175 i `niezwłocznie` 162 prowadziły ją i nie stoją tu już wcale
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Została po niej klasa cząstek, którą kolejka liczyła razem z nią,
 a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
 więc produkcja przysłówka po nie nie sięga i nie miała sięgać.
@@ -503,43 +500,41 @@ Wszystkie siedemdziesiąt zdań jest odrzuconych i przed dopisaniem, i po nim,
 a stają one na strukturze, na nawiasie albo na cyfrze,
 więc pozycja, która tu weszła, nie ma nad tym rejestrem czego wziąć.
 
-Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie:
-
-Pierwszy przebieg jest w gicie, w commicie `411475e`, a drugi tutaj:
+Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie.
+Pierwszy przebieg jest w gicie, w commicie `411475e`,
+a wariantami nad tą prozą chodzi predykat pisany w sesji,
+bo sonda różnicowa polecenia nad prozą wielu plików nie ma
+([TODO.md](../TODO.md)):
 
 ```sh
 cat proza/ustawy/*.txt > proza/ustawy.txt
-python3 -m harness.płaski proza/ustawy.txt
 ```
 
-| wariant | przyjęte | wieloznaczne | odrzucone |
-| --- | --- | --- | --- |
-| bez przysłówka | 72 | 278 | 4571 |
-| okolicznik | 79 | 300 | 4542 |
-| przy przymiotniku | 73 | 281 | 4567 |
-| olski | 80 | 304 | 4537 |
-
-Pozycja przy czasowniku przyjmuje 7 zdań i przenosi 22 na wieloznaczne,
-pozycja przy przymiotniku przyjmuje 1 i przenosi 3,
-a obie razem przyjmują 8, czyli o jedno więcej niż pierwsza sama.
-Nad Składnicą druga pozycja pierwszej odbiera, więc znak tej ceny
+Pozycja przy czasowniku kupuje tu pojedyncze zdania przyjęte
+i kilkadziesiąt wieloznacznych, pozycja przy przymiotniku kilka razy mniej,
+a pozycja przy przysłówku nie rusza ani jednego werdyktu.
+Nad Składnicą pozycja druga pierwszej odbiera, więc znak tej ceny
 zależy od rejestru
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
-Jednoznaczności nie traci tu ani jedno zdanie przyjęte wcześniej,
-i tym różni się ta konstrukcja od negacji oraz od czterech szyków.
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+Jednoznaczność traci tu jedno zdanie przyjęte przed przysłówkiem,
+czyli `Rejestr wyborców potwierdza prawo wybierania oraz prawo wybieralności.`,
+a odbiera mu ją czytanie, którego polszczyzna w tym miejscu nie ma:
+`prawo` jest u Morfeusza także przysłówkiem,
+a okolicznik bierze całą część mowy
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 `Ta sama osoba może być ponownie powołana na stanowisko komisarza.`
-jest tym jednym zdaniem, które ruszają obie pozycje:
+jest jednym z dwóch zdań, o które dwie pozycje spierają się naraz:
 każda daje mu dwa czytania osobno, bo `ponownie` dochodzi w nim
 i do zdania, i do `powołana`.
 Płaskiego czytania, które pierwsza pozycja daje nad Składnicą,
 nie dostaje tu ani jedno zdanie przyjęte,
-ani pod nią samą (`--wariant okolicznik`), ani pod obiema naraz.
+ani pod nią samą (`--wariant okolicznik`), ani pod wszystkimi trzema naraz.
 Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
 `odpowiednio` i `niezwłocznie` — obiecywały 337 trafień,
 a przysłówek zdjął stąd 34 zdania z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
 gdzie wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,

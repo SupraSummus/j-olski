@@ -9,15 +9,17 @@ zgodność ról nad bankiem drzew, która porównuje podmiot i dopełnienie.
 
 Mierzy się to nad samym olskim, bo pomiar różnicowy liczy werdykty, a pytanie jest
 tu o drzewo, którym werdykt wypadł; wariantem ``okolicznik`` niżej mierzy się to
-samo nad gramatyką bez drugiego gospodarza, czyli cenę, przy której
-go wpuszczono. Populację tworzą zdania przyjęte
+samo nad gramatyką z pierwszym gospodarzem i bez pozostałych, czyli cenę, przy
+której weszli. Populację tworzą zdania przyjęte
 jednym czytaniem: odpowiedź jest wtedy dokładna, a listę czytań zdania
 wieloznacznego ucina ``MAX_READINGS``.
 
-Klasy są dwie, bo brakująca pozycja jest inna. Przysłówek stopniowany przed
-przymiotnikiem doszedłby do drugiego gospodarza, a przed drugim przysłówkiem nie
-ma gospodarza żadnego. Stopnia kryterium żąda, bo przysłówek pierwotny
-przymiotnika nie określa i przed nim wychodzi zgodnie z prawdą.
+Klasy są dwie, bo gospodarz, do którego przysłówek doszedłby, jest inny:
+przed przymiotnikiem drugi, a przed drugim przysłówkiem trzeci. Nad olskim obie
+wychodzą zerem, i to jest zakup tych dwóch gospodarzy; pod wariantem
+``okolicznik`` widać, ile takich czytań było przed nimi. Stopnia kryterium żąda,
+bo przysłówek pierwotny przymiotnika nie określa i przed nim wychodzi zgodnie z
+prawdą.
 
 Liczba jest górnym oszacowaniem, tak samo jak ``całe_przyłączenie`` w
 ``harness/czytania.py``: przysłówek stopniowany bywa okolicznikiem zdania i wtedy
@@ -67,9 +69,13 @@ def gospodarz(produkcja: Production) -> str | None:
     """Przy którym gospodarzu stawia przysłówek ta produkcja; ``None``, gdy żadnym.
 
     Odpowiada terminal albo symbol przysłówka, a nie lista nazw wypisana obok
-    gramatyki: ciało dopisane kiedyś w którymkolwiek z dwóch miejsc trafi tu samo,
+    gramatyki: ciało dopisane kiedyś w którymkolwiek z tych miejsc trafi tu samo,
     gdzie lista postarzałaby się bez śladu — pomiar brałby wariant węższy, niż o
     sobie mówi, i nie powiedziałby o tym ani słowem.
+
+    Stopień mają dwaj gospodarze, a nazwa jest tu jedna, bo trzeci bez listy
+    okoliczników nie wyprowadza niczego: wariant, który tę listę zdejmuje, zdejmuje
+    i jego, więc osobnej ceny ten gospodarz nie ma.
 
     Okolicznik zdejmuje się przy tym czterema produkcjami, a wystarczyłaby jedna:
     ``Adverb → adv`` jest jedyną, która przysłówek do zdania wpuszcza, więc bez
@@ -85,7 +91,7 @@ def gospodarz(produkcja: Production) -> str | None:
 
 
 #: Deklaracja różnicowa przysłówka, czyli warianty, którymi ten pomiar buduje
-#: gramatykę bez drugiego gospodarza. Stoi tutaj, bo tutaj ma jedynego
+#: gramatykę bez któregoś gospodarza. Stoi tutaj, bo tutaj ma jedynego
 #: czytelnika: przebieg wyceniający samo wpuszczenie przysłówka jest w gicie.
 PRZYSŁÓWEK_SONDA = ruch.Sonda(
     nazwa="harness.płaski",
@@ -107,7 +113,7 @@ STOPIEŃ = "degree"
 PRZYMIOTNIKOWE = frozenset({"adj", "ppas"})
 
 #: Klasy, w kolejności wydruku. Nazwa mówi, przed czym przysłówek stanął, bo tym
-#: się te dwie różnią: pierwszą pozycję drugi gospodarz ma, a drugiej nie ma nikt.
+#: się te dwie różnią: pierwszą pozycję ma gospodarz drugi, a drugą trzeci.
 PRZED_PRZYMIOTNIKIEM = "przed przymiotnikiem"
 PRZED_PRZYSŁÓWKIEM = "przed przysłówkiem"
 KLASY = (PRZED_PRZYMIOTNIKIEM, PRZED_PRZYSŁÓWKIEM)

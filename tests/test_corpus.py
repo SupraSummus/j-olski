@@ -208,6 +208,16 @@ def test_the_object_slot_is_recognized_under_either_naming(slot):
     assert parse_forest(forest(svo(obj=slot))).spans("Object") == frozenset({(2, 3)})
 
 
+def test_the_partitive_object_slot_is_read_as_an_object():
+    #  `np(part)` jest nazwą banku drzew na dopełnienie, którego przypadek
+    #  rozstrzygają czasownik i przeczenie razem — `Kampania nie przyniosła
+    #  skutku.`, `Marzec przyniósł 6 zagranicznych delegacji.` — więc rola jest
+    #  tam ta sama co pod `np(accgen)`. Bez tego odwzorowania gold nie ma
+    #  dopełnienia, z którym można by się zgodzić, i dobre czytanie liczy się w
+    #  tabeli zgodności jako niezgodne (docs/corpus.md).
+    assert parse_forest(forest(svo(obj="np(part)"))).spans("Object") == frozenset({(2, 3)})
+
+
 @pytest.mark.parametrize("slot", ["np(gen)", "np(inst)", "xp(temp)", "advp", "prepnp(do,gen)"])
 def test_a_slot_olski_has_no_role_for_is_not_forced_into_one(slot):
     sentence = parse_forest(forest(svo(obj=slot)))

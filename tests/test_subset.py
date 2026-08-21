@@ -796,12 +796,6 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  Osoba, którą wnosi aglutynant, jest osobą całego orzeczenia, więc
         #  podmiot drugiej osoby przy końcówce pierwszej się nie zgadza.
         "Ty napisałem program.",
-        #  Okolicznik między czasownikiem a podmiotem, czyli pozycja, której olski
-        #  nie ma: `czasownikowe` w deklaracji zdania odmawia miejsca po czasowniku.
-        #  Polszczyzna to zdanie ma, więc jest to dług, a nie własność podzbioru,
-        #  i TODO.md trzyma jego wycenę; ten wiersz pilnuje, żeby nikt go nie spłacił
-        #  przez pomyłkę, bo zawężenie stoi dziś w jednym argumencie.
-        "Trwa w tej sprawie dochodzenie.",
         #  Spójnik, przed którym polszczyzna stawia przecinek, bez tego przecinka.
         #  Oba zdania wyprowadzały się, dopóki jeden terminal brał całą klasę
         #  `conj`, i były to napisy, których polszczyzna nie ma. Drugie jest
@@ -1490,6 +1484,40 @@ def test_dwóch_gospodarzy_przysłówka_rozdziela_w_streszczeniu_rola():
         "duży",
     }
     assert {czytanie.get("Adverb") for czytanie in found.readings} == {None, "bardzo"}
+
+
+def test_okolicznik_staje_po_czasowniku_i_daje_zdaniu_czytanie_z_podmiotem():
+    """Pozycja okolicznika po córce czasownikowej, wzięta z obu stron naraz.
+
+    Zdania są dwa, bo brak tej pozycji płacił w dwóch walutach: pierwsze było
+    odrzucone, a drugie wychodziło jednym czytaniem, w którym `program
+    ustawienia` jest dopełnieniem, czyli werdyktem `valid` mówiącym o zdaniu
+    nieprawdę.
+    """
+    trwa = verdict("Trwa w tej sprawie dochodzenie.")
+    assert trwa.status == "valid", trwa.explain()
+    assert trwa.readings[0]["Subject"] == "dochodzenie"
+    zapisuje = verdict("Zapisuje w pliku program ustawienia.")
+    assert ("program", "ustawienia") in {
+        (czytanie.get("Subject"), czytanie.get("Object")) for czytanie in zapisuje.readings
+    }, zapisuje.explain()
+
+
+def test_przysłówek_przed_przysłówkiem_dochodzi_do_niego_a_nie_do_zdania():
+    """Gospodarz trzeci, czyli ten, który zdejmuje ostatnią klasę płaskich czytań.
+
+    Bez niego zdanie wychodziło jednym czytaniem, w którym `bardzo` jest
+    okolicznikiem zdania na równi z `szybko`, czyli werdyktem `valid` mówiącym o
+    zdaniu nieprawdę; kurs, po którym ta pozycja weszła, trzyma docs/subset.md.
+    Czytania są odtąd dwa i rozdziela je rola, tak samo jak przy przymiotniku:
+    pod trzecim gospodarzem cały `bardzo szybko` jest jednym okolicznikiem.
+    """
+    found = verdict("Program zapisuje ustawienia bardzo szybko.")
+    assert found.status == "ambiguous", found.explain()
+    assert {czytanie.get("Adverb") for czytanie in found.readings} == {
+        "bardzo szybko",
+        "bardzo",
+    }
 
 
 def test_przysłówek_okolicznikowy_dostaje_rolę_a_nie_samo_wyprowadzenie():

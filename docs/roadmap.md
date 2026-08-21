@@ -704,7 +704,7 @@ przeciw werdyktom, które pierwszy sam wydaje wbrew drzewu —
 i rozstrzygnął go [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę):
 za każde zdanie oddane drugiemu gospodarzowi ubywa jedno czytanie nieprawdziwe,
 a `valid` mówiący o zdaniu nieprawdę czyta się jak twierdzenie
-([subset.md](subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim,
 a cztery zdania przenosi z odrzuconych na wieloznaczne;
 dwa z tych czterech przyszły tam po nim, razem z interpunkcją zdaniową.
@@ -811,10 +811,30 @@ Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:
 nazywa ona część mowy, na której analiza stanęła, a nie konstrukcję, której zabrakło.
 
-Została po nim jedna pozycja przysłówka, której olski nie ma, i nie jest to zdanie odrzucone:
-przysłówek przed drugim przysłówkiem wychodzi jednym czytaniem, w którym oba określają zdanie.
-Trzeci gospodarz jest tym, co ją zdejmuje, i [TODO.md](../TODO.md) trzyma pytanie,
-czy wraca on z tą samą ceną co drugi.
+Trzeci gospodarz przysłówka jest jedynym dopisaniem tego etapu,
+po którego stronie nie stoi ani jedno zdanie odrzucone:
+przysłówek przed drugim przysłówkiem wyprowadzał się i przedtem,
+tylko jednym czytaniem, w którym oba przysłówki określają zdanie
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+Zakupem jest przez to sama prawda o drzewie, a nie pokrycie:
+zdań przyjętych nie dokłada ani jednego,
+a jednoznaczność odbiera dokładnie tym zdaniom Składnicy, które ją miały fałszywie.
+Nad rejestrem ustaw i nad korpusem audytowym nie rusza ani jednego werdyktu,
+bo tej konstrukcji te dwa rejestry nie piszą.
+
+Miejsce na okolicznik po czasowniku nie wyszło ani z tej kolejki, ani z listy
+braków, tylko z zawężenia postawionego obok reguły, która te miejsca wylicza
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Kupuje nad Składnicą przeszło setkę zdań pod złotą morfologią
+i blisko setkę pod żywą, pojedyncze zdania w obu rejestrach,
+a jednoznaczność odbiera dwóm zdaniom banku drzew,
+czyli jest największym zakupem tego etapu.
+Płaci za to zgodnością ról, i to za brak innej konstrukcji:
+zdania, które kupuje, mają podmiot za czasownikiem,
+a bank drzew wciąga do tego podmiotu cząstkę stojącą przed nim,
+więc wiersz niezgodnych rośnie o klasę,
+którą zdejmie dopiero cząstka wpuszczona do grupy imiennej
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

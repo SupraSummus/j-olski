@@ -247,11 +247,16 @@ Jest to usterka tej samej klasy, którą
 liczbę kruchą trzyma akapit, a nie narzędzie
 ([`CLAUDE.md`](CLAUDE.md#checks)).
 Ruchem jest przepisanie każdej takiej liczby na rząd wielkości i kierunek.
+Zostają liczby ceny, czyli te, którymi ten dokument wycenia dopisane konstrukcje,
+i przy nich pytanie jest inne: cena wpuszczenia mieszka w gicie
+([`CLAUDE.md`](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)),
+więc rozstrzygnąć trzeba, czy dokument rejestru trzyma ją drugi raz po to,
+żeby dała się przeczytać bez gita, czy nie trzyma jej wcale.
 Wpisu tego nie zamyka jeden plik, bo tę samą usterkę mają dokumenty obok
 i wpis niżej nazywa drugi z nich.
-Do przeczytania jest sekcja `Gdzie stają analizy w tym rejestrze` w tym pliku
-razem z akapitem o zakupie przymiotnika za rzeczownikiem,
-bo liczby stoją tam najgęściej.
+Do przeczytania są częstości form w sekcji `Gdzie stają analizy w tym rejestrze`:
+liczby stoją tam najgęściej, a rusza je pobranie korpusu, nie gramatyka,
+więc są to liczby korpusu i zostają.
 
 `docs/disambiguation.md` liczy sporne wyrażenia w pełnej precyzji,
 a rusza je każda dopisana produkcja.
@@ -603,10 +608,11 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 Cząstka ma w olskim jednego gospodarza, czyli zdanie, a polszczyzna stawia ją także
 wewnątrz grupy imiennej: `Nawet ptaki przestały śpiewać.` ma w banku drzew podmiot
 `nawet ptaki`, a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`.
-Tak wychodzi dziewięć z dziewięćdziesięciu jeden zdań, które ta klasa kupiła,
-i jest to niezgodność zasięgu, a nie roli, czyli ta sama klasa, którą
+Jest to niezgodność zasięgu, a nie roli, czyli ta sama klasa, którą
 [`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-liczy nad wyrażeniem przyimkowym.
+liczy nad wyrażeniem przyimkowym, i klasa ta prowadzi tam wiersz niezgodnych:
+odkąd okolicznik staje po czasowniku, olski przyjmuje zdania,
+w których podmiot stoi za czasownikiem, a ten rejestr stawia cząstkę przed nim.
 Ruchem jest drugi gospodarz, czyli ciało `NPConjunct → part NPConjunct`,
 a wybór, który przy nim zapada, jest tym samym, który rozstrzygnął przysłówek:
 drugi gospodarz zdejmuje czytania nieprawdziwe i odbiera jednoznaczność zdaniom,
@@ -749,23 +755,6 @@ których dziś nie ma na warunek ani na przyzwolenie.
 Do przeczytania jest `olski/walencja.py` wraz z tym,
 co obu kierunkom z leksykonu walencyjnego wyszło różnego
 ([`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)).
-
-Przysłówek ma w gramatyce dwóch gospodarzy, a polszczyzna daje mu trzeciego:
-przysłówek przed przysłówkiem, jak `bardzo szybko`, nie dochodzi do niczego,
-więc `Program zapisuje ustawienia bardzo szybko.` wychodzi jednym czytaniem,
-w którym `bardzo` jest okolicznikiem zdania na równi z `szybko`.
-Takich czytań zostaje jedno na sto pięćdziesiąt zdań przyjętych, wszystkie tej klasy
-([`docs/subset.md`](docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
-Ruchem jest symbol przysłówka rekurencyjny po stronie stopnia —
-`Adverb → adv:degree Adverb` obok `Adverb → adv` — czyli ta sama pozycja,
-którą przymiotnik dostał od `Adjective`, a przed nią pomiar.
-Do przeczytania jest cena drugiego gospodarza, bo trzeci wraca z pytaniem tej samej
-postaci: kupuje prawdę o drzewie i płaci jednoznacznością zdań, które dziś przechodzą,
-a nad Składnicą drugi zapłacił za nią trzydziestoma dwoma zdaniami
-([`docs/subset.md`](docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe)).
-Kto to podnosi, płaci przeliczenie wszystkich figur nad gramatyką
-([`CLAUDE.md`](CLAUDE.md#checks)),
-a korpusy trzeba mieć wszystkie trzy naraz, bo znak ceny zależy od rejestru.
 
 Okolicznik przysłówkowy bierze całą część mowy, a Morfeusz daje czytanie `adv`
 formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`, `sam`.
@@ -1150,8 +1139,8 @@ Nawias pokazuje granicę członu tylko nad ciągiem, którym jest sama rola
 a wiersz o konstytuencie ustępuje mu miejsca nad każdym ciągiem
 (`_nazwany_gdzie_indziej` tamże),
 więc `Ustawa określa zadania ochrony ludności i obrony cywilnej.`
-zostaje samą liczbą czytań i tak zostaje siedem z 272 werdyktów rejestru ustaw
-oraz trzy z 549 zdań wieloznacznych Składnicy
+zostaje samą liczbą czytań i tak zostaje garść werdyktów rejestru ustaw
+oraz pojedyncze zdania wieloznaczne Składnicy
 ([`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)).
 Ruchem jest zawężenie wykluczenia do ciągu, nad którym nawias naprawdę pada,
 i przeszkodą jest to, że te dwa podsumowania pytają o różne rzeczy:
@@ -1169,26 +1158,26 @@ Dwa są przeczytane i wypadły po jednym na stronę:
 zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
 a `równych praw kobiet i mężczyzn` jedną.
 
-Grupa liczebnikowa w pozycji dopełnienia ma w banku drzew gniazdo,
-którego porównanie ról nie czyta, więc dobre czytanie liczy się jako niezgodne.
-`Marzec przyniósł 6 zagranicznych delegacji.` olski czyta tak, jak czyta je czytelnik,
-a drzewo wzorcowe daje temu dopełnieniu `np(part)`,
-czyli przypadek strukturalny, którym polszczyzna oznacza właśnie tę frazę,
-i `_role` w `olski/corpus.py` nie tłumaczy tego gniazda na żadną rolę olskiego.
-Gold nie ma wtedy dopełnienia, z którym można by się zgodzić,
-a `agreement` w `olski/coverage.py` liczy rolę przypisaną poza gniazdem jako `disagrees`,
-więc wiersz niezgodnych z [`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-jest o jedno zdanie za długi i będzie rósł razem z liczebnikiem.
-Ruchem jest `np(part)` odwzorowane na `Object` obok `np(acc)` i `np(accgen)`.
-Do rozstrzygnięcia jest, czy to gniazdo jest dopełnieniem zawsze:
-`Napiłem się wody` ma w nim dopełniacz partytywny, który dopełnieniem jest,
-a olski go nie bierze, więc odwzorowanie nie zmieni na nim niczego,
-i pytanie brzmi, czy bank drzew stawia tam kiedykolwiek coś, co dopełnieniem nie jest.
-Do przeczytania są zdania Składnicy z tym gniazdem
-wraz z werdyktem, jaki nad nimi wydaje `olski-corpus --morphology gold`,
-bo tylko one mogą tę zmianę cokolwiek kosztować.
-Ruch jest winien przebiegi, których [sekcja Checks](CLAUDE.md#checks)
-żąda od zmiany w tabeli zgodności, i rusza ją w obu kolumnach.
+Porównanie ról liczy za niezgodność i czytanie dobre, i czytanie złe,
+kiedy drzewo wzorcowe nie znaczy w tym miejscu żadnego gniazda.
+`agreement` w `olski/coverage.py` pyta o rozpiętości roli po obu stronach,
+a rolę przypisaną tam, gdzie gold ma zbiór pusty, liczy jako `disagrees`,
+więc `Powtarzaj je tak często, jak to jest potrzebne.` — gdzie wybrane drzewo
+dopełnienia rozkaźnika nie znaczy wcale — stoi w tym wierszu obok
+`Poprzednio pracodawca mógł z tym zwlekać nawet 15 lat.`,
+gdzie olski czyta okolicznik czasu jako dopełnienie i myli się naprawdę
+([`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)).
+Ruchem jest rola bez gniazda w gold policzona osobno,
+czyli czwarty werdykt obok `agrees`, `partial` i `disagrees`,
+a nie zbiór pusty czytany jak zaprzeczenie.
+Do rozstrzygnięcia jest, czego ten czwarty werdykt nie ma przemilczeć:
+zdanie z okolicznikiem czasu w roli dopełnienia jest pomyłką,
+której wiersz niezgodnych nie powinien tracić,
+więc kryterium na samą pustkę gold zabiera razem z artefaktem sprawdzianu
+także jedno czytanie nieprawdziwe.
+Do przeczytania są te trzy zdania wraz z gniazdami wybranego drzewa:
+`nonch` przy `Co` w `Co pan sądzi o pomyśle Pawła Piskorskiego?` mówi,
+że fraza stoi poza ramą, i to jest trzeci powód pustki, różny od dwóch tamtych.
 
 Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
 `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
@@ -1259,32 +1248,6 @@ The value is not repeated here, because a value copied into this list
 goes stale twice over, and the move is either the probe above
 or rewriting that figure as an order of magnitude
 ([`CLAUDE.md`](CLAUDE.md#checks)).
-
-Okolicznik nie staje między czasownikiem a tym, co przy nim stoi, i nikt tego nie wycenił.
-`czasownikowe` w deklaracji zdania w `olski/subset.py` wymienia `Verb` i `Predicate`,
-więc miejsce na okolicznik staje po córce, która jest grupą, i po czasowniku nie staje
-([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
-Polszczyzna tę pozycję ma i olski płaci za jej brak w obu walutach naraz:
-`Trwa w tej sprawie dochodzenie.` jest odrzucone,
-a `Zapisuje w pliku program ustawienia.` wychodzi jednym czytaniem,
-w którym `program ustawienia` jest dopełnieniem,
-i nie wychodzi tym, w którym `program` zapisuje `ustawienia`.
-Drugie jest cięższe, bo `valid` mówiący o zdaniu nieprawdę ktoś przeczyta
-([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
-Zawężenie to jest starsze od rozwinięcia szyku i weszło brakiem ciała,
-a rozwinięcie zrobiło z niego jeden argument, więc dopiero teraz je widać.
-Ruchem jest zdjęcie `Verb` z tej krotki, a przed nim pomiar:
-dziesięć produkcji więcej, a cena stoi w rolach, nie w przyłączeniu,
-bo pozycja ta daje zdaniu czasownikowemu drugie czytanie z podmiotem,
-gdzie pozostałe pozycje okolicznika dają drugie przyłączenie.
-Jest to więc inne pytanie niż to, na które odpowiada
-[reguła o obu czytaniach](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-i sondą je bierze `harness/ruch.py` tak samo jak każdą inną grupę produkcji.
-Do przeczytania jest cena czterech szyków dopisanych,
-którą trzyma commit, który je wpuścił,
-bo one też kupowały czytania z podmiotem i wróciły z ceną siedmiu zdań.
-Zamknięcie wpisu kasuje wiersz `Trwa w tej sprawie dochodzenie.`
-z `test_these_have_no_reading` w `tests/test_subset.py`.
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
 `NPConjunct` w `olski/subset.py` ma dwanaście ciał,
@@ -1364,10 +1327,7 @@ albo podłoże zostaje po to jedno, a kasowanie obejmuje samo porównanie deklar
 Liczba pozycji na `Modifier` w `harness/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
 a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
-jakim udało się tę liczbę odtworzyć:
-córkę `Adjuncts` albo `Modifier` ma sześćdziesiąt pięć produkcji,
-samo `Modifier` stoi w ośmiu z nich,
-a produkcji `ClauseConjunct` z okolicznikiem jest dwadzieścia.
+jakim udało się tę liczbę odtworzyć.
 Regułę liczenia rozstrzygnęła po swojej stronie
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 która liczy produkcje i mówi, które z nich zdejmuje.

@@ -719,7 +719,7 @@ def build() -> Grammar:
     # dokładać ją do każdego ciała, w którym przymiotnik stoi, i stawia ją pod
     # przymiotnikiem, a nie obok rzeczownika, którego ten przysłówek nie określa.
     # Cenę tego gospodarza trzyma
-    # docs/subset.md#przysłówek-wchodzi-obu-gospodarzami-bo-drugi-zdejmuje-czytania-nieprawdziwe.
+    # docs/subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe.
     for symbol, słowo in (
         ("Adjective", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
         ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
@@ -829,8 +829,8 @@ def build() -> Grammar:
     # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
     # rozbiorem (:mod:`olski.precedencja`). Tablica Earleya dostaje przez to
     # ciała wypisane, bo rozwinięcie kończy się przed nią, a rodzina mnożąca się
-    # przez szyk i przez miejsca na okolicznik ma sześć deklaracji na trzydzieści
-    # dwa ciała.
+    # przez szyk i przez miejsca na okolicznik ma sześć deklaracji na kilkadziesiąt
+    # ciał.
     #
     # Miejsce na okolicznik wylicza to samo rozwinięcie i przez to nie ma go jak
     # zapomnieć w jednym z ciał: przyłączenie wyrażenia przyimkowego olski oddaje
@@ -839,22 +839,10 @@ def build() -> Grammar:
     # zdaniu odrzuconym, tylko po przyjętym: wychodzi ono jednym czytaniem, bo
     # drugie nie miało gdzie się wyprowadzić. docs/subset.md trzyma wywód i cenę.
     #
-    # `czasownikowe` jest zawężeniem, a nie wnioskiem z tamtej reguły: polszczyzna
-    # okolicznik między czasownikiem a podmiotem stawia, a olski go nie ma, przez
-    # co odrzuca `Trwa w tej sprawie dochodzenie.` i czyta `Zapisuje w pliku
-    # program ustawienia.` jednym czytaniem. Ile to kosztuje, nie policzył nikt, a
-    # ta krotka jest całym miejscem, w którym zawężenie stoi zapisane; TODO.md
-    # trzyma wpis o jego wycenie.
-    #
     # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
     # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
     # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
-    zdanie = Rozwinięcie(
-        grammar,
-        okolicznik=okoliczniki,
-        czasownikowe=("Verb", "Predicate"),
-        własny_okolicznik=("Predicate",),
-    )
+    zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("Predicate",))
     zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
 
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
@@ -1477,6 +1465,17 @@ def build() -> Grammar:
     # okolicznikiem przysłówkowym wychodziłoby `valid` bez słowa o tym, co olski w
     # nim przyjął (:data:`PRZYSŁÓWKOWY`).
     grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK])
+    # Przysłówek przed przysłówkiem, czyli gospodarz trzeci: `bardzo szybko`.
+    # Stopnia żąda od córki lewej z tego samego powodu, z którego żąda go pozycja
+    # przy przymiotniku: `tu szybko` nie jest niczym. Bez tej pozycji `bardzo`
+    # dochodziło do zdania na równi z `szybko`, czyli zdanie przyjęte mówiło o
+    # sobie nieprawdę, a kurs, po którym ta pozycja weszła, trzyma
+    # docs/subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe.
+    #
+    # Córka prawa jest tym samym symbolem, a nie słowem, bo `wyjątkowo bardzo
+    # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała
+    # wypadły tą samą ceną: ciało rekurencyjne bierze łańcuch za darmo.
+    grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK_STOPNIA, Głowa(nt(PRZYSŁÓWKOWY))])
 
     # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią: zdanie przyjęte
     # z `już` albo `dopiero` wychodziłoby bez tej etykiety `valid` bez słowa o tym,
