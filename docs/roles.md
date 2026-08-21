@@ -116,6 +116,16 @@ a zdanie z dwoma czytaniami olski odrzuca,
 więc pokrycie kupione bez pomiaru bywa pokryciem ujemnym.
 Co pomiar mówi, trzyma [corpus.md](corpus.md).
 
+Droga jest za każdym razem ta sama i tyle o niej trzeba wiedzieć.
+Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi,
+ciało dochodzi do `build` w `olski/subset.py`,
+cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
+([CLAUDE.md](../CLAUDE.md#code)),
+korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)
+i [ustawy.md](ustawy.md#skąd-bierze-się-korpus),
+a wniosek wraca do sekcji, która tę konstrukcję trzyma,
+oraz jednym zdaniem ze wskaźnikiem do [roadmap.md](roadmap.md) i dokumentów rejestrów.
+
 **Psuje ją** produkcja dopisana bez przebiegu nad bankiem drzew,
 bo wtedy nie widać, ile zdań straciła,
 i dokument powtarzający to, co produkcja robi,

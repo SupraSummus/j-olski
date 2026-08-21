@@ -127,6 +127,55 @@ Zanim napiszesz tę wersję, przeczytaj okolicę bez tego miejsca:
 jeżeli reszta mówi już to samo, skreślenie jest całą zmianą.
 Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.
 
+## Wolno nie pisać tego, co odtwarza się poleceniem
+
+Reguł jest tu dużo i każda kosztuje robotę, więc ta jedna nie dokłada nic:
+zdejmuje obowiązek pisania i daje licencję na skreślenie.
+Przeglądowi zmian nie dopisuje ani jednej pozycji.
+
+Pisze się to, czego bez sesji nie da się odtworzyć:
+decyzję, odrzuconą alternatywę, cenę rzeczy wpuszczonej
+oraz te zdania korpusu, które trzeba przeczytać, żeby werdyktowi uwierzyć.
+Nie trzeba pisać tego, co odtwarza się poleceniem:
+tabeli, wyliczenia ani sprawozdania z przebiegu.
+O samej liczbie mówi to [akapit o liczbie kruchej](#checks),
+a tu chodzi o cały pasaż.
+Pomiar wpuszczający konstrukcję wychodzi więc krótko —
+werdykt, waluta, w której wypadła cena, i te dwa czy trzy zdania —
+a nie całym wydrukiem.
+Żadna reguła tego wydruku nie żądała; wziął się z tego,
+że przebieg kosztował sesję, a nie z tego, że ktoś go czyta.
+
+Skreślić taki pasaż wolno każdemu, kto go zauważy,
+bez pytania i bez lepszej wersji na jego miejsce
+([skreślenie bywa całą naprawą](#skreślenie-bywa-całą-naprawą)).
+Licencja jest tu potrzebna właśnie dlatego, że rzecz kosztowała:
+sprawozdania zdobytego całą sesją nikt sam nie skreśli, dopóki nie wolno.
+
+Wywodu ta licencja nie tyka i na nim się kończy.
+Powtórzenie polecenia kosztuje minuty,
+a dwie wersje jednego wywodu kosztują więcej niż liczba nieaktualna:
+liczby nikt nie broni, a rozjazdu dwóch wywodów nie łapie żaden test
+([jeden właściciel](#one-owner-per-fact-repeat-narrative-freely)).
+Kto skreśla, pyta więc o jedno:
+czy po tym trzeba będzie puścić polecenie, czy podjąć decyzję.
+
+Szukać tego nikt nie musi, bo dwie rzeczy widać same.
+Sekcja pisana w czasie przeszłym przebiegu — „wyszło”, „policzono” —
+jest sprawozdaniem, a nie dokumentem.
+Pozycja bez konsekwencji, czyli taka, która nie ruszyła
+ani decyzji, ani kodu, ani następnego ruchu, jest wyliczeniem tego, co próbowano.
+
+Osobno stoi dokument, który rośnie razem z pracą —
+sekcja na konstrukcję, wpis na sondę, wiersz na figurę.
+Taki dokument jest rejestrem i przeczytania nie żąda:
+przebiega się go do swojego wpisu, więc wolno mu mieć stałe pola albo tabelę
+zamiast prozy, którą czyta się od początku.
+Wpis zamknięty nie żąda przy tym sekcji, tylko zdania w tej,
+która jest jego wnioskiem
+([tak samo](#documents-describe-the-present-git-owns-the-past)
+schodzi znacznik zrobionego).
+
 ## The reader goes sentence by sentence
 
 The test is not whether a sentence is true or on topic,
@@ -523,6 +572,11 @@ Where two come out the same, it is one session.
 This is the demand [`TODO.md`](TODO.md) makes of a single entry —
 that it name the evidence it reads and not only the files it changes —
 applied to a batch of them.
+
+A construction admitted alone pays the whole fixed cost of its own section —
+the heading, the frame, the price, the entry on the coverage list,
+the clause in the stage plan — where several admitted together divide it,
+so several may go into one session unless one of them blocks the others.
 
 A session is worth starting when one decision settles several entries.
 An entry that cannot be settled until another session answers
