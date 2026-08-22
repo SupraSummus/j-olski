@@ -1530,14 +1530,40 @@ def test_przysłówek_okolicznikowy_dostaje_rolę_a_nie_samo_wyprowadzenie():
 
 def test_cząstka_dostaje_rolę_osobną_od_przysłówka_w_obu_pozycjach():
     #  Rola jest osobna, bo cząstka przysłówkiem nie jest: `Adverb: już` mówiłoby o
-    #  zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma. Pozycje są dwie i
-    #  pisze je jedna pętla razem z przysłówkiem, więc zdania są dwa: rozejście się
-    #  tych dwóch kompletów widać dopiero na tym, którego jedna z nich nie bierze.
+    #  zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma. Pozycje przy zdaniu
+    #  są dwie i pisze je jedna pętla razem z przysłówkiem, więc zdania są dwa:
+    #  rozejście się tych dwóch kompletów widać dopiero na tym, którego jedna z nich
+    #  nie bierze. Zdanie drugie cząstkę wpuszcza także do podmiotu, więc pytamy o
+    #  rolę wśród czytań, a nie o pierwsze z nich.
     okolicznik = verdict("Program już zapisuje ustawienia.")
     assert okolicznik.readings[0][CZĄSTKOWY] == "już", okolicznik.explain()
     assert PRZYSŁÓWKOWY not in okolicznik.readings[0], okolicznik.explain()
     czoło = verdict("Już program zapisuje ustawienia.")
-    assert czoło.readings[0][CZĄSTKOWY] == "Już", czoło.explain()
+    assert "Już" in {czytanie.get(CZĄSTKOWY) for czytanie in czoło.readings}, czoło.explain()
+
+
+def test_cząstka_w_grupie_imiennej_wchodzi_w_zasięg_roli_a_nie_obok_niej():
+    """Gospodarz drugi, czyli ten, po którym podmiotem jest cała `Nawet ptaki`.
+
+    Bez niego zdanie wychodziło jednym czytaniem, w którym podmiotem jest samo
+    `ptaki`, choć bank drzew czyta tam grupę razem z cząstką; cenę tej pozycji
+    trzyma docs/subset.md. Czytania są dwa, bo o gospodarzu nie rozstrzyga ani
+    cecha, ani lemat, a rozdziela je zasięg podmiotu wraz z listą ról: cząstka
+    obejmująca grupę etykiety nie nosi.
+    """
+    found = verdict("Nawet ptaki przestały śpiewać.")
+    assert found.status == "ambiguous", found.explain()
+    assert {
+        (czytanie.get("Subject"), czytanie.get(CZĄSTKOWY)) for czytanie in found.readings
+    } == {("Nawet ptaki", None), ("ptaki", "Nawet")}, found.explain()
+
+
+def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
+    #  Przymiotnik i zaimek dzierżawczy ogłaszają trzecią osobę, a cząstka ją
+    #  przepuszcza, bo staje i przed zaimkiem. Z `ter` w tym ciele grupa nie zgodziłaby
+    #  się z czasownikiem osobą i to czytanie by nie wyszło.
+    found = verdict("Nawet ja zapisuję ustawienia.")
+    assert "Nawet ja" in {czytanie.get("Subject") for czytanie in found.readings}, found.explain()
 
 
 @pytest.mark.parametrize("lemat", CZĄSTKI.split("|"))

@@ -193,6 +193,26 @@ i po który ktoś do tego dokumentu wraca.
 Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
 więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
 
+Prozy tych dokumentów nikt nie przeczytał pod jednym pytaniem:
+czy to zdanie przeżyje następną produkcję.
+Jedna sesja znalazła trzy zdania, które go nie przeżyły,
+i żadnego z nich nie łapał zakaz liczby kruchej
+([`CLAUDE.md`](CLAUDE.md#checks)): stosunek zgrubny w miejscu liczby,
+zdanie o kierunku, w którym rusza się pokrycie,
+oraz akapit liczący produkcje `olski/subset.py` za sam kod.
+Ruchem jest przebieg po `docs/` z tym jednym pytaniem na zdanie,
+a po nim albo granica w miejsce środka, albo wniosek ze wskaźnikiem
+na właściciela w miejsce drugiej kopii.
+Do przeczytania są te trzy zdania już poprawione —
+dwa w [`docs/corpus.md`](docs/corpus.md#the-measurement)
+i akapit pod listą pozycji przyłączeniowych w
+[`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie) —
+bo one, a nie liczba dokumentów, mówią, ile ten przebieg kosztuje.
+Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
+w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
+są one przypięte do gramatyki z chwili pomiaru,
+a pyta o nie wpis o liczbach `docs/ustawy.md`.
+
 Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
 a właściciela mają w figurach `readme` i `podłoża-readme`.
 Zostaje zejść z pełnej precyzji tym trzem:
@@ -604,23 +624,6 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 `olski/projekt.py`.
 
 ## Gramatyka, parser i pomiar pokrycia
-
-Cząstka ma w olskim jednego gospodarza, czyli zdanie, a polszczyzna stawia ją także
-wewnątrz grupy imiennej: `Nawet ptaki przestały śpiewać.` ma w banku drzew podmiot
-`nawet ptaki`, a olski zostawia cząstkę zdaniu i podmiotem czyni `ptaki`.
-Jest to niezgodność zasięgu, a nie roli, czyli ta sama klasa, którą
-[`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)
-liczy nad wyrażeniem przyimkowym, i klasa ta prowadzi tam wiersz niezgodnych:
-odkąd okolicznik staje po czasowniku, olski przyjmuje zdania,
-w których podmiot stoi za czasownikiem, a ten rejestr stawia cząstkę przed nim.
-Ruchem jest drugi gospodarz, czyli ciało `NPConjunct → part NPConjunct`,
-a wybór, który przy nim zapada, jest tym samym, który rozstrzygnął przysłówek:
-drugi gospodarz zdejmuje czytania nieprawdziwe i odbiera jednoznaczność zdaniom,
-które ją mają, a rozstrzyga o tym
-[kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
-Do przeczytania jest tamten pomiar w `docs/subset.md`
-razem z figurą `cząstka`, bo pytanie jest o to, czy cena wypada tu tak samo,
-a nie o to, ile zdań drugi gospodarz kupi.
 
 Spójniki trybu przypuszczającego — `aby`, `żeby`, `by`, `gdyby` — stoją poza
 podzbiorem, dopóki zdanie tego trybu nie ogłasza

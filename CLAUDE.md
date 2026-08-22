@@ -639,6 +639,18 @@ pobraniem, a rozjazd z korpusem widać dopiero wtedy, gdy liczba jest dokładna.
 Jest to [jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
 zastosowany do liczby zmierzonej, a nie osobna reguła.
 
+**Stosunek zgrubny rusza się tak samo, więc pisze się go granicą, a nie środkiem.**
+`roughly one in twelve` w `docs/corpus.md` był taki
+i przestał być prawdą przy jednym gospodarzu dopisanym do gramatyki,
+bo stosunek jest tam liczbą powiedzianą inaczej i rusza go to samo.
+Granica tylko się umacnia:
+`better than one in eight` zostaje prawdą, kiedy jedna ósma robi się jedna siódma.
+Po której stronie ją postawić, rozstrzyga pomiar, a nie życzenie.
+Pokrycie nie rośnie tu monotonicznie: gospodarz wpuszczony po to,
+żeby czytanie przestało być fałszywe, odbiera zdania jednoznaczne
+i oddaje je wieloznacznym
+([kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
 **Nagłówek nie trzyma liczby, którą przeliczenie rusza,** bo nagłówek jest adresem.
 `Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` był taki,
 a jedna zmiana w gramatyce przemianowała go, jego anchor

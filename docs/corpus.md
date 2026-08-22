@@ -97,20 +97,24 @@ it is not being compared against 100%.
 
 Gold morphology, whole corpus, every sentence carrying a gold tree:
 better than one sentence in eight comes out with a single reading,
-roughly one in twelve with several,
-and for the remaining three quarters olski derives nothing.
-The first of those only ever moves upward, so it is written as a floor;
-the run owns all three.
-Every production admitted moves all three,
-so the run above owns those counts and this document owns their order,
-and a figure quoted here would be stale by the commit after it
+better than one in twelve with several,
+and for the rest — under four sentences in five — olski derives nothing.
+All three are written as bounds rather than as figures,
+because every production admitted moves them
+and does not move them all one way:
+a host admitted so that a reading stops being false
+takes sentences out of the first count and puts them in the second
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+so uniqueness is not a number that only rises.
+The run owns the counts and this document owns their order,
+because a figure quoted here would be stale by the commit after it
 ([CLAUDE.md](../CLAUDE.md#checks)).
 
 The curve by length matters more than the total,
 because it is the shape the coverage actually has.
-A third of the sentences up to five tokens come out with one reading,
-a fifth of those up to ten,
-one in twenty-five between eleven and twenty,
+Better than a third of the sentences up to five tokens come out with one reading,
+better than a fifth of those up to ten,
+better than one in twenty-five between eleven and twenty,
 single sentences above that, and none at all above forty.
 So olski is a subset of short declarative Polish and nothing else,
 and coverage falls off a cliff between ten and twenty tokens.
@@ -416,16 +420,16 @@ on whatever else its reading says, and not on that one label.
 The label weighs more in that section than it does here.
 
 The *disagreements* are mostly one class, with a short tail behind it.
-A particle standing inside a noun phrase leads them, at about half the row,
-and behind it stand the corpus's own notion of a constituent,
-one reading a reader would not have,
+The corpus's own notion of a constituent leads them,
+and behind it stand one reading a reader would not have
 and a few the check produces rather than the grammar.
 Which classes those are is what this document owns;
 how many sentences stand in each is what the run prints.
-The adjunct position after the verb brought a dozen of them at once,
-nearly all of the particle class,
-because a verb-initial clause puts its subject behind the verb
-and this register puts a particle in front of that subject.
+A particle standing inside a noun phrase does not reach this row,
+because the grammar has that position and returns both readings
+([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+where this row is for a reading olski returns alone
+and the treebank contradicts.
 The one reading a reader would not have came in with negation:
 
 ```text
@@ -503,14 +507,6 @@ olski has one object position,
 so `czegoś` has nowhere to stand and falls into the subject in front of it.
 That sentence and the one about `Co` are what the four word orders
 cost in this column, against the two they took out of it above.
-The particle is the extent that comes from a construction
-rather than from the corpus's constituency.
-`Nawet ptaki przestały śpiewać.` has `nawet ptaki` for a subject in the gold tree,
-where olski leaves the particle to the clause and makes `ptaki` the subject,
-and `Także Żydzi stanowią zamkniętą kastę.`,
-`Był przy niej także syn.` and `Nie ogłosił nawet programu wyborczego.`
-go the same way, on the subject and on the object alike.
-The second host that would settle it is held by [TODO.md](../TODO.md).
 
 One is neither the check nor an extent:
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`

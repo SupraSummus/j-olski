@@ -124,12 +124,14 @@ w prozie o narzędziach imiesłów przy rzeczowniku jest zwykłym przymiotnikiem
 więc zawracał zdanie kilka razy nawet w tej próbce,
 pisanej już z wiedzą, że go nie ma.
 
-**Cząstka wewnątrz grupy imiennej.**
+**Cząstka `tylko` wewnątrz grupy imiennej.**
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,
 `Istnieją te konstrukcje, które stoją na liście.` przechodzi.
-Cząstka ma pozycję przy zdaniu i przy czasowniku
-([subset.md](subset.md#cząstka-stoi-tam-gdzie-przysłówek-a-listę-lematów-zamyka-warunek-na-czytanie)),
-a `tylko` w tym rejestrze określa najczęściej grupę imienną.
+Pozycję wewnątrz grupy cząstka dostała
+([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+a `tylko` zostaje poza nią razem z całą swoją listą lematów,
+bo Morfeusz czyta je także jako spójnik;
+w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 
 **Czasownik rządzący dopełniaczem.**
 `Ten kierunek nie potrzebuje gramatyki.` pada, `Gramatyki skład nie czyta.` przechodzi.
