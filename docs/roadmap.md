@@ -716,10 +716,11 @@ czyli z tego samego źródła, z którego weszły na nią cztery pozycje wyżej.
 Kupiła dziewięćdziesiąt jeden zdań Składnicy przy siedemdziesięciu dziewięciu
 uczynionych wieloznacznymi, a jednoznaczności nie odebrała ani jednemu zdaniu.
 Cena wypadła i tu poza obie waluty tego etapu, a wypadła w zasięgu:
-dziewięć zdań nowo przyjętych olski czyta ciaśniej, niż czyta je bank drzew,
-bo cząstka stoi tam wewnątrz grupy imiennej, a tu przy zdaniu.
-Drugi gospodarz, który by to zdjął, jest tym samym wyborem, co przy przysłówku,
-i [TODO.md](../TODO.md) trzyma go razem z jego ceną.
+sama pozycja przy zdaniu czyta zdanie ciaśniej, niż czyta je bank drzew,
+bo cząstka stoi tam wewnątrz grupy imiennej.
+Zasięg zdejmuje gospodarz drugi, a płaci za to jednoznacznością zdań,
+w których cząstka określa zdanie
+([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
 Pary do przelicznika niżej to dopisanie nie dokłada z tego samego powodu,
 z którego nie dokłada jej rzeczownik odczasownikowy.
 
@@ -829,12 +830,11 @@ Kupuje nad Składnicą przeszło setkę zdań pod złotą morfologią
 i blisko setkę pod żywą, pojedyncze zdania w obu rejestrach,
 a jednoznaczność odbiera dwóm zdaniom banku drzew,
 czyli jest największym zakupem tego etapu.
-Płaci za to zgodnością ról, i to za brak innej konstrukcji:
+Zgodność ról zależy przy nim od innej konstrukcji:
 zdania, które kupuje, mają podmiot za czasownikiem,
 a bank drzew wciąga do tego podmiotu cząstkę stojącą przed nim,
-więc wiersz niezgodnych rośnie o klasę,
-którą zdejmie dopiero cząstka wpuszczona do grupy imiennej
-([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+i tę klasę zdejmuje cząstka wpuszczona do grupy imiennej
+([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

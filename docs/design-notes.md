@@ -811,9 +811,9 @@ a pozycje okolicznika, których
 liczy kilkadziesiąt, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Czternaście z tych ciał dołożyły cztery szyki
-dopisane po tej sondzie, więc krotność, o której ona mówi, urosła
-i mówi teraz o niej dwa razy więcej niż wtedy, gdy ją mierzono.
+Krotność, o której ta sonda mówi, urosła od czasu, kiedy ją mierzono,
+bo szyki dopisane po niej dołożyły ciał,
+więc jest ona podłogą, a nie liczbą tej gramatyki.
 
 Zysk pierwszy jest wzięty i wzięło go rozwinięcie szyku,
 a nie przeniesienie olskiego na to podłoże.

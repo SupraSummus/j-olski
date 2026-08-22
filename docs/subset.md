@@ -641,13 +641,14 @@ a ruch trzyma [TODO.md](../TODO.md).
   a rolę ma osobną, bo czasownikiem nie jest;
   lematy są zamkniętą listą, a wywód trzyma
   [poniżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)
-- Cząstka przy zdaniu, w liście okoliczników i na czele zdania składowego:
-  `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`
+- Cząstka przy zdaniu i wewnątrz grupy imiennej:
+  `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
+  `Nawet ptaki przestały śpiewać.`
   Lematy są zamkniętą listą, a warunek na wejście jest jeden:
   cząstka bez czytania, które gramatyka bierze gdzie indziej.
-  Rolę ma osobną od przysłówka, którym nie jest,
-  a wywód trzyma
-  [poniżej](#cząstka-stoi-tam-gdzie-przysłówek-a-listę-lematów-zamyka-warunek-na-czytanie)
+  Przy zdaniu ma rolę osobną od przysłówka, którym nie jest,
+  a w grupie nie ma jej wcale, i jedno i drugie trzyma
+  [poniżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła
@@ -1076,7 +1077,7 @@ Poza gramatyką zostają dwie rzeczy, obie zapisane
 [niżej](#what-it-does-not-cover-yet):
 dwukropek otwierający wyliczenie i ciąg dwóch znaków rozdzielających.
 
-## Cząstka stoi tam, gdzie przysłówek, a listę lematów zamyka warunek na czytanie
+## Cząstka wchodzi obu gospodarzami, a w grupie nie nosi etykiety
 
 `Program już zapisuje ustawienia.`, `Reguła obowiązuje także wtedy.`,
 `Już program zapisuje ustawienia.` —
@@ -1086,11 +1087,50 @@ i tę pozycję gramatyka ma, odkąd ma
 Produkcje są przez to dwie i pisze je ta sama pętla, co tamte:
 cząstka w liście okoliczników i cząstka na czele zdania składowego.
 
-Cząstka dostaje rolę osobną od przysłówka, choć pozycję ma tę samą,
+Przy zdaniu cząstka dostaje rolę osobną od przysłówka, choć pozycję ma tę samą,
 bo werdykt nazywa rolę etykietą węzła:
 `Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma.
 
-Trudność nie leży w tych dwóch produkcjach, tylko w liście lematów.
+Drugim gospodarzem jest grupa imienna,
+bo tam polszczyzna cząstkę stawia tak samo:
+`Nawet ptaki przestały śpiewać.` mówi o ptakach, a nie o przestawaniu,
+i widać to po zasięgu podmiotu, a nie po żadnej roli.
+Ciałem jest `NPConjunct → part NPConjunct`, a osobę przepuszcza ono,
+bo cząstka staje i przed zaimkiem: `Nawet ja zapisuję ustawienia.`
+
+W grupie cząstka etykiety nie nosi, bo widać ją w napisie roli,
+którą ta grupa zajmuje: podmiotem jest `Nawet ptaki`.
+Rolę niesie przez to gospodarz jeden, tym samym prawem,
+którym niesie ją [jeden gospodarz przysłówka](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
+
+Wybór gospodarza nie jest tu jednak rozstrzygnięciem, i tym cząstka różni się
+od przysłówka. Przysłówkowych gospodarzy rozdziela stopień, czyli cecha,
+którą niesie tagset, a cząstki nie rozdziela ani cecha, ani lemat:
+bank drzew stawia wewnątrz grupy każdy lemat tej listy, który w nim pada,
+i ten sam lemat stawia przy zdaniu.
+Udział wystąpień w grupie idzie od jednego na jedenaście przy `dopiero`
+do co drugiego przy `niemal`,
+a lematu, który stałby wyłącznie w grupie albo wyłącznie przy zdaniu, nie ma;
+trzy lematy stoją tam wyłącznie przy zdaniu i każdy pada mniej niż dziesięć razy.
+Podział listy po lemacie jest więc wariantem odrzuconym:
+bank drzew go nie potwierdza, a kryterium na tę pozycję nie jest leksykalne.
+Zostaje wieloznaczność oddana czytelnikowi,
+tak samo jak przy [wyrażeniu przyimkowym](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
+
+Cena wypada przez to inaczej niż przy przysłówku.
+Nad Składnicą kilkadziesiąt zdań schodzi z przyjętych na wieloznaczne
+pod jedną morfologią i pod drugą, a wyprowadzenie zyskuje kilka.
+Zakupem jest prawda o zdaniu, a nie pokrycie:
+wiersz zdań czytanych wbrew drzewu wzorcowemu maleje o blisko połowę
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)),
+złote czytanie wraca kilku zdaniom wieloznacznym,
+a zdania czytanego przy tym gospodarzu wbrew drzewu, a bez niego zgodnie z nim,
+nie ma ani jednego.
+Nad rejestrem ustaw jedno zdanie traci jednoznaczność,
+nad korpusem audytowym jedno zyskuje wyprowadzenie,
+a nad prozą tego repozytorium nie rusza się ani jedno.
+
+Trudność nie leży przy tym w żadnej z tych pozycji, tylko w liście lematów.
 Morfeusz trzyma pod `part` całą klasę cząstek naraz,
 a w niej cztery słowa, które olski bierze albo wyklucza osobno:
 `nie` przeczy, `się` stoi przy czasowniku zwrotnym,
@@ -1106,15 +1146,6 @@ tym samym warunkiem stoją obok siebie dwie klasy
 Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`,
 a `to` ma ponadto własną pozycję, której olski nie ma
 ([niżej](#what-it-does-not-cover-yet)).
-
-Drugiego gospodarza ta klasa nie dostaje, i to jest cena tej pozycji.
-Polszczyzna stawia cząstkę także wewnątrz grupy imiennej —
-`Nawet ptaki przestały śpiewać.` — i tam obejmuje ona grupę, a nie zdanie,
-co widać po zasięgu podmiotu, a nie po żadnej roli.
-Drugi gospodarz zdjąłby ten zasięg i kosztowałby czytanie,
-czyli byłby tym samym wyborem, który przy przysłówku rozstrzygnął
-[kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
-[TODO.md](../TODO.md) trzyma go razem z ceną, którą przy przysłówku zapłacono.
 
 ## Interpunkcja obejmująca: cudzysłów wchodzi w grupę, a nawias staje obok zdania
 
@@ -2559,20 +2590,21 @@ i każda z nich jest zwyczajną polszczyzną:
 Wierszy jest dziesięć, a produkcji kilkadziesiąt,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Dziesięć z nich dołożyły cztery szyki dopisane,
-i tyle właśnie znaczy w tej gramatyce jeden szyk więcej;
-jedna jest z przysłówka, bo lista okoliczników bierze go tak samo
-jak wyrażenie przyimkowe
+Ile ich jest dzisiaj, mówi `olski/subset.py`, a nie ten akapit:
+rusza je każde dopisanie do gramatyki,
+a liczy się je tak, jak się je zdejmuje.
+Wiersz kosztuje przez to tym więcej ciał, im więcej szyków go ma,
+i to jest w tej gramatyce cena jednego szyku więcej.
+Przysłówek dostaje każdą pozycję listy okoliczników za darmo,
+bo lista bierze go tak samo jak wyrażenie przyimkowe
 ([niżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
-a czternaście z pytania: jedenaście wewnątrz jego czoła
-i trzy w orzeczeniu, które bierze pytanie zależne.
-Cztery dołożyło [rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk),
-po dwa w zdaniu względnym i w pytaniu,
+a pytanie kosztuje najwięcej, bo ma własne czoło i własne orzeczenie.
+Wiersz ostatni, czyli okolicznik po czasowniku,
+ma pozycję w każdym szyku, w którym czasownik stoi przed grupą imienną.
+Pozycję wewnątrz zdania względnego i wewnątrz pytania pisze
+[rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk), a nie ręka,
 i jest to jedna pozycja w dwóch konstrukcjach z listy wyżej,
 którą gramatyka pisana ręką miała w dwóch ciałach z trzech.
-Trzynaście dołożył wiersz ostatni, czyli okolicznik po czasowniku:
-pozycję tę ma każdy szyk, w którym czasownik stoi przed grupą imienną.
-Liczy się je tak, jak się je zdejmuje, a granica biegnie tak.
 Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
 oraz ta, w której `Modifier` dochodzi do głowy mającej już przydawkę

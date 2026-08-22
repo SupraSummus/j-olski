@@ -1434,6 +1434,23 @@ def build() -> Grammar:
         **AGREE,
     )
 
+    # Cząstka przed grupą imienną, czyli jej gospodarz drugi: `Nawet ptaki przestały
+    # śpiewać.` Kurs, po którym weszła, trzyma
+    # docs/subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
+    #
+    # Córką lewą jest terminal, a nie symbol :data:`CZĄSTKOWY`: etykieta roli
+    # mówiłaby o zdaniu, że ma cząstkę zdania, a ta stoi w grupie.
+    #
+    # Osobę ta pozycja przepuszcza, a nie ogłasza `ter` jak przymiotnik i zaimek
+    # dzierżawczy nad nią, bo cząstka staje i przed zaimkiem
+    # (`Nawet ja zapisuję ustawienia.`).
+    grammar.rule(
+        "NPConjunct",
+        [CZĄSTKA, Głowa(nt("NPConjunct", person=V("p"), **AGREE))],
+        person=V("p"),
+        **AGREE,
+    )
+
     # Adjective phrases, coordinated the same way and agreeing throughout, so
     # that wolni i równi is one predicative and wolna i równi is none.
     grammar.rule("AP", [nt("APConjunct", **AGREE)], **AGREE)
