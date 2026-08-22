@@ -559,20 +559,22 @@ as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
 
-The archives these documents send a reader to fetch are pinned by URL and by nothing else.
+The corpus archives these documents send a reader to fetch
+are pinned by URL and by nothing else.
 [Składnica](docs/corpus.md#fetching-it)
 and [NKJP](docs/corpora.md#the-national-corpus-of-polish)
 name a release in the query string of a wiki attachment,
-and Świgra is `swigra_current.zip`, which names none,
-so [`docs/swigra.md`](docs/swigra.md#what-was-read-and-what-was-not)
-dates it by the timestamps of the files inside instead.
+which says which release without saying which bytes.
+`harness/świgra.py` is the one fetch that carries a digest,
+and it needed one worst: `swigra_current.zip` names no release at all.
 [The audit corpus](docs/audit-corpus.md#the-list) pins its members to a commit
 and says what a pin is for:
 so that a second person fetches the same bytes.
-The archives make that promise
+The corpus archives make that promise
 and give a reader no way to hold anyone to it.
-The move is `sha256sum` over each one,
+The move is `sha256sum` over Składnica and over NKJP,
 with the digest beside the command that fetches it,
+the way `harness/świgra.py` carries one,
 which turns a substitution upstream into a failed check
 rather than a figure that quietly stops reproducing.
 
@@ -1899,6 +1901,21 @@ Ceną są tabele blokerów w
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop):
 wiersz `interp` spadnie, a zdania bez struktury nad całością wyjdą osobno,
 więc wpis podnosi sesja, która ma Składnicę i powtórzy nad nią przebieg.
+
+Nie wiadomo, w ilu miejscach decyzja o konstytuencie jest w olskim ta sama,
+co w GFJP, a pomiar nad Składnicą tego nie powie
+([`docs/swigra.md`](docs/swigra.md#którędy-gfjp-wchodzi-do-olskiego) mówi dlaczego).
+Ruchem jest przejść listę konstrukcji z [`docs/subset.md`](docs/subset.md)
+obok `gfjp2.dcg` ze `swigra_current.zip`
+i wypisać, gdzie obie gramatyki przyłączają tak samo, a gdzie inaczej.
+Nie po to, żeby różnić się celowo:
+po to, żeby o każdej takiej decyzji dało się powiedzieć, czy jest wyborem.
+Do przeczytania jest `gfjp2.dcg` i czyta się go inaczej, niż wygląda:
+nazwy nieterminali są tam formalne — `fno`, `fw`, `fl` —
+a olski nazywa symbole funkcjami, czyli `Subject` i `Object`,
+więc porównanie prowadzi to, co produkcja przyjmuje, a nie nazwa symbolu.
+Sesja jest osobna i nie dzieli się na pliki,
+bo rozstrzyga jedno pytanie na całej liście naraz.
 
 ## Skład i opowieści
 
