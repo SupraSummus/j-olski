@@ -815,12 +815,12 @@ więc jest ona podłogą, a nie liczbą tej gramatyki.
 
 Zysk pierwszy jest wzięty i wzięło go rozwinięcie szyku,
 a nie przeniesienie olskiego na to podłoże.
-Te produkcje pisze dziś sześć deklaracji,
+Te produkcje pisze dziś kilka deklaracji,
 a miejsce na okolicznik jedna reguła nad nimi
 ([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-więc liczba, którą ta sonda porównywała, spadła do sześciu.
+więc liczba, którą ta sonda porównywała, spadła o rząd wielkości.
 Zostaje z niej to, że po tamtej stronie jeden łuk nie mnoży się wcale,
-a po tej sześć deklaracji rozwija się w kilkadziesiąt ciał, które czyta parser.
+a po tej rozwijają się one w kilkadziesiąt ciał, które czyta parser.
 Zysk drugi i trzeci są nietknięte, bo żaden nie był o szyk.
 
 **Nieciągłość przestaje być szczeblem.**
@@ -1145,8 +1145,8 @@ w którym `i szczęśliwi` jest drugim orzeczeniem,
 bo Morfeusz zna tę formę i jako przymiotnik, i jako `szczęśliwić fin:sg:ter:imperf`,
 a wiersz mówi wtedy `Predicative: wolni, równi` i o reszcie zdania milczy.
 Wielokropek jest po tej stronie roli, po której zdanie ma jeszcze składowe.
-`Program działa i zapisuje ustawienia.` wychodzi przez to wierszem
-`Subject: Program…, Object: …ustawienia, Verb: działa…`,
+`Autor działa i zapisuje ustawienia.` wychodzi przez to wierszem
+`Subject: Autor…, Object: …ustawienia, Verb: działa…`,
 z którego widać, że dopełnienie jest z innego składowego niż podmiot.
 Wiersza na zdanie składowe nie ma, bo wierszy ma przybywać z liczbą decyzji,
 a nie z liczbą części, na jakie zdanie się dzieli.

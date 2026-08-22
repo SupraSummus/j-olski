@@ -421,18 +421,28 @@ def scal(sonda: Sonda, raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) 
 
 
 def wydruk(raport: Raport, nagłówek: str) -> str:
+    """Tabela werdyktów, a przed nią to, ile produkcji ma każdy wariant.
+
+    Kolumna produkcji stoi tu z tego samego powodu, dla którego stoi w
+    ``harness/luka.py``: wariant, który nie zdjął ani jednej produkcji, drukuje
+    tabelę bez ani jednego przejścia, czyli wydruk nie do rozróżnienia od
+    konstrukcji, która nic nie kosztuje. Sonda pisana pod jedną decyzję dostaje
+    nazwy wariantów ręką, więc pomylić je z nazwą grupy jest łatwo.
+    """
     sonda = raport.sonda
     szerokość = max(len("wariant"), *(len(wariant) for wariant in sonda.warianty))
     wiersze = [
         f"{nagłówek}, {raport.zmierzone} zdań",
         "",
-        f"{'wariant':>{szerokość}}  {'przyjęte':>10} {'wieloznaczne':>13} {'odrzucone':>10}",
+        f"{'wariant':>{szerokość}}  {'produkcji':>9} {'przyjęte':>10}"
+        f" {'wieloznaczne':>13} {'odrzucone':>10}",
     ]
     for wariant in sonda.warianty:
         licznik = raport.stany.get(wariant, collections.Counter())
         przyjęte, wieloznaczne, odrzucone = (licznik.get(stan, 0) for stan in STANY)
         wiersze.append(
-            f"{wariant:>{szerokość}}  {przyjęte:>10} {wieloznaczne:>13} {odrzucone:>10}"
+            f"{wariant:>{szerokość}}  {len(gramatyka(sonda, wariant).productions):>9}"
+            f" {przyjęte:>10} {wieloznaczne:>13} {odrzucone:>10}"
         )
     for powód, ile in raport.pominięte.most_common():
         wiersze.append(f"{ile:>7}          niezmierzone: {powód}")

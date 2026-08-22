@@ -990,6 +990,16 @@ def build() -> Grammar:
         tryb=V("t"),
     )
 
+    # Dopełnienie przed czasownikiem, którego podmiot jest opuszczony: `Cenę
+    # liczymy.`, `Ustawienia zapisujemy.` Polszczyzna opuszcza podmiot w każdym
+    # szyku, a nie w tym jednym, w którym za czasownikiem nic nie stoi; ten
+    # rejestr mówi tym szykiem o swoich konwencjach (CLAUDE.md).
+    #
+    # Szyku odwrotnego ta deklaracja nie ma z tego samego powodu, dla którego nie
+    # ma go deklaracja z podmiotem (:func:`_poza_orzeczeniem`): czasownik wraz z
+    # dopełnieniem za nim składa `Predicate`, a zdanie bez podmiotu jest nim samym.
+    zdanie.dominacja("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy)], tryb=V("t"))
+
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
     # ustawienia się nie wyprowadza i żadne zdanie SVO nie konkuruje z czytaniem

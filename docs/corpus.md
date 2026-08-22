@@ -693,9 +693,7 @@ Reszta to rola obsadzona po jednej stronie i pusta po drugiej.
 `chwilę` w `Szli chwilę w milczeniu i Helena spostrzegła, że kierują się w stronę
 plebanii.` i `7 dni` w `Produkcja idzie 7 dni w tygodniu.`
 są biernikiem czasu, którego olski nie ma czym czytać poza dopełnieniem
-([subset.md](subset.md#what-it-does-not-cover-yet)),
-a w `W kratkach z cyframi skarbów nie ma.` idzie to w drugą stronę:
-dopełnieniem jest tam `skarbów`, czyli dopełniacz negacji, a olski dopełnienia nie obsadza.
+([subset.md](subset.md#what-it-does-not-cover-yet)).
 `Opróżnia więzienie Qasr ze wszystkich kryminalistów.` rozcina na dwie role frazę,
 której polszczyzna tam nie rozcina: `więzienie` wychodzi w dopełnieniu,
 a `Qasr ze wszystkich kryminalistów` w podmiocie,
@@ -760,13 +758,12 @@ the annotators themselves chose: `La` four times and `Amen` once.
 That is both the shape of the mistake it can make
 and the rate at which it makes it.
 
-It also turns two confidently wrong acceptances into rejections,
-and two is the whole count, which is why the sentences are quoted rather than tallied.
+It also turns a confidently wrong acceptance into a rejection,
+and one is the whole count, which is why the sentence is quoted rather than tallied.
 That outcome is the worst this measurement has, so buying off even one is worth it:
 
 ```text
 Tylko wyszła z koła dwa razy.
-To państwo Kaczyńscy wiedzą i rządu do dymisji nie podadzą.
 ```
 
 `Tylko` is the adverb, but Morfeusz also offers the surname,
@@ -776,8 +773,6 @@ Without the exclusion olski finds that reading, finds no other,
 and reports one reading of a sentence whose adverb it has read as an object.
 Rejecting is what the grammar should say about a sentence it cannot analyse,
 and a single reading is the one verdict a writer takes at face value.
-The second stands on `do` itself, the form this exclusion is for,
-read as the object of `podadzą`.
 
 `Tylko` arrived with the grammar rather than with the dictionary:
 `dwa razy` is a noun phrase only since
@@ -786,10 +781,16 @@ was admitted, and it is what gives the surname an object position to fill.
 So what this exclusion is worth grows as the grammar does,
 which is the argument for it stated as a rate rather than as a count:
 every construction admitted gives an uninflected noun one more place to stand.
-`Tam siedzi nasz umrzyk.` stood in this pair and left it the other way:
-the surname reading no longer stands there alone,
-so without the exclusion that sentence comes out ambiguous rather than
-confidently wrong, and the exclusion buys it the reading a reader has
+Two sentences left this count the other way, each when the grammar
+gave it a second reading:
+`Tam siedzi nasz umrzyk.`, where the surname reading no longer stands alone,
+and `To państwo Kaczyńscy wiedzą i rządu do dymisji nie podadzą.`,
+which stood on `do` itself read as the object of `podadzą`
+until `rządu do dymisji nie podadzą` came out
+as an object in front of a subjectless clause
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Without the exclusion each of them comes out ambiguous rather than
+confidently wrong, so the exclusion buys it the reading a reader has
 instead of buying a rejection.
 
 Where the exclusion does not reach is a competing noun that inflects:
