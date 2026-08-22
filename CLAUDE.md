@@ -273,6 +273,39 @@ rationale that spans several modules, planned work, and open questions.
 An example that illustrates a *format* earns its place,
 while a copy of behaviour does not.
 
+## Na czym wolno oprzeć zdanie
+
+Zdanie w dokumencie opiera się zwykle na czymś poza sobą:
+na nazwie pliku, na nagłówku sekcji, na liczbie,
+na przykładzie, na kolejności reguł, na nazwie funkcji.
+Pytanie przy pisaniu jest jedno:
+czy to, na czym zdanie się opiera, wolno jutro zmienić przy innej robocie?
+
+Nazwa pliku i nagłówek sekcji są adresami,
+a kto je zmieni, dostaje czerwone `tests/test_docs.py`.
+Reszta zmienia się przy zwykłej robocie i nie ostrzega:
+liczba, przykład, długość listy, kolejność pozycji,
+nazwa funkcji wewnątrz modułu, format wydruku.
+Zdanie oparte na takiej rzeczy przestaje być prawdą
+przy commicie, który nie ma powodu o nim wiedzieć.
+
+Zależność od rzeczy zmiennej wolno mieć pod warunkiem,
+że zmiana wywraca suitę:
+ciasna zależność jest tania, dopóki ktoś dostaje o niej wiadomość.
+Zła jest trzecia możliwość — zdanie oparte na rzeczy zmiennej,
+której nie pilnuje ani test, ani przegląd.
+Naprawą jest zwykle adres:
+nazwa reguły z linkiem zamiast miejsca w kolejności,
+nazwa modułu zamiast nazwy funkcji w jego wnętrzu.
+
+[Jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
+odpowiada na inne pytanie: gdzie fakt zapisać, żeby nie było dwóch kopii.
+Ta reguła łapie przypadek, w którym kopii nie ma wcale —
+zdanie poprawnie wskazuje właściciela i mimo to przestaje być prawdą,
+bo oparło się na szczególe, którego właściciel nie obiecywał trzymać.
+Liczba krucha z [sekcji o checkach](#checks) i blok wydruku
+są tą samą usterką w mniejszym rozmiarze.
+
 ## Documents describe the present; git owns the past
 
 A document that narrates its own evolution becomes a changelog,
