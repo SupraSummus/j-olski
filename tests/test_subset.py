@@ -14,7 +14,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Word, bierze, nt, unify, word
+from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Var, Word, bierze, nt, unify, word
 from olski.morph import analyse
 from olski.parse import (
     MAX_READINGS,
@@ -662,6 +662,14 @@ PRZYJMOWANE = [
     #  trzeciej i w pierwszej.
     "Czytelnik nie odzyskałby ról.",
     "Napisałbym program.",
+    #  Ten sam tryb pod spójnikiem, który cząstkę niesie sam, w obu miejscach
+    #  okolicznika. Zdanie pod takim spójnikiem stoi w formie na -ł bez cząstki.
+    "Program zapisuje ustawienia, żeby linter sprawdził polszczyznę.",
+    "Gdyby linter sprawdził polszczyznę, program zapisuje ustawienia.",
+    #  Fraza bezokolicznikowa pod tym samym spójnikiem, czyli to, czym ten rejestr
+    #  wyraża cel najczęściej.
+    "Program zapisuje ustawienia, aby sprawdzić polszczyznę.",
+    "Aby sprawdzić polszczyznę, program zapisuje ustawienia.",
 ]
 
 
@@ -803,6 +811,16 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  nie ma wcale, więc wychodziło jednym czytaniem.
         "Program zapisuje ustawienia ale linter sprawdza polszczyznę.",
         "Plik jest nowy ale duży.",
+        #  Spójnik niosący cząstkę trybu żąda formy na -ł, a forma osobowa jej nie
+        #  jest. Bez cechy trybu nad zdaniem oba te napisy się wyprowadzają, bo
+        #  cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
+        "Program zapisuje ustawienia, żeby linter sprawdza tekst.",
+        "Gdyby linter sprawdza tekst, program zapisuje ustawienia.",
+        #  Cząstka stoi raz: w spójniku albo przy czasowniku, a nie w obu miejscach.
+        "Program zapisuje ustawienia, żeby linter sprawdziłby tekst.",
+        #  Aglutynant zajmuje miejsce, które pod takim spójnikiem zajmuje jego
+        #  własna końcówka: polszczyzna ma `żebym napisał`, a nie `żeby napisałem`.
+        "Program zapisuje ustawienia, żeby napisałem plik.",
     ],
 )
 def test_these_have_no_reading(text):
@@ -1145,6 +1163,29 @@ def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(
     for production in GRAMMAR.productions:
         if production.head == symbol:
             assert "gender" in dict(production.features), production
+
+
+@pytest.mark.parametrize("symbol", ["Clause", "ClauseConjunct", "Predicate", "Verb"])
+def test_każda_produkcja_od_czasownika_do_zdania_wypuszcza_tryb(symbol):
+    #  Usterka, przed którą to stoi: ciało zdania dopisane bez cechy trybu.
+    #  Spójnik niosący cząstkę tego trybu żąda jej od zdania pod sobą, a cechy,
+    #  której konstytuent nie niesie, unifikacja nie sprawdza, więc takie ciało
+    #  wpuszcza pod ten spójnik każdy tryb i wyprowadza `żeby program zapisuje
+    #  ustawienia`. Pojedyncze zdanie tego nie łapie, bo ciał jest kilkadziesiąt,
+    #  a jedno zdanie przechodzi przez jedno z nich.
+    #
+    #  Zmienna wypisana i niezwiązana milczy tak samo jak cecha pominięta, więc
+    #  test pyta o jedno i o drugie: cechę w produkcji i tę samą zmienną w którejś
+    #  z jej córek.
+    produkcje = [production for production in GRAMMAR.productions if production.head == symbol]
+    assert produkcje, symbol
+    for production in produkcje:
+        tryb = dict(production.features).get("tryb")
+        assert tryb is not None, production
+        if isinstance(tryb, Var):
+            assert any(dict(part.constraints).get("tryb") == tryb for part in production.body), (
+                production
+            )
 
 
 def test_tryb_przypuszczający_bierze_osobę_stamtąd_skąd_czas_przeszły():
