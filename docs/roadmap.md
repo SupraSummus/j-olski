@@ -90,7 +90,7 @@ Zbiór zdań, którym się mierzyło, był przy tym w rękach tego, kto mierzy.
 Każdy inny korpus tego repozytorium jest przypięty —
 wydaniem, commitem albo adresem ELI — a README rusza każdy commit,
 który dotyka jego prozy, i nie dogoni tego żadna reguła przeliczania
-([CLAUDE.md](../CLAUDE.md#checks)).
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
 Odległość do takiego celu skraca i dopisana produkcja, i przeredagowany akapit,
 a wydruk nie mówi, które z dwojga zaszło.
 Zdanie „README stoi, a rusza się gramatyka” było więc obietnicą,
@@ -731,7 +731,7 @@ więc zakup jest tam liczony w pojedynczych zdaniach.
 Cena wyszła zerowa z gramatyki, bo żadnego z czterech znaków nie brał przedtem terminal.
 Nad prozą, dla której to weszło, zakupu nie mierzy żadna figura i mierzyć nie będzie:
 byłaby należna przeliczenia po każdym commicie dotykającym tekstu
-([CLAUDE.md](../CLAUDE.md#checks)),
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
 a nawias nie ma nad README ani jednego zdania do wzięcia,
 bo ten plik pisze odsyłacz odnośnikiem, a nie w nawiasie.
 
@@ -910,7 +910,7 @@ Za samym przełącznikiem szyku dopisanym do linearyzacji nie przemawia nic:
 taki parametr opisuje zdanie, a to drzewo opisuje to, o czym zdanie jest.
 Drugie: przepisane zdanie README unieważnia drzewo, które je wypuszczało,
 więc co tor gramatyczny płaci przy zmianie kodu, ten płaci przy zmianie prozy.
-Reguły przeliczania tego rodzaju trzyma [CLAUDE.md](../CLAUDE.md#checks),
+Reguły przeliczania tego rodzaju trzyma [CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje),
 a ta dojdzie tam razem z pierwszym plikiem drzew pisanym pod README.
 Drzewa, które już stoją, są opowieścią, a nie kopią README
 ([`opowieści/bazyliszek.py`](../opowieści/bazyliszek.py)),

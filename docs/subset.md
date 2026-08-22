@@ -2005,8 +2005,11 @@ czyli bez słowa o tym, co olski w nim przyjął,
 a etykietę stawia produkcja, tak samo jak przy
 [czole zdania względnego](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza).
 
+```sh
+python3 -m olski.check -c "Mowa o zadaniach." --readings
+```
+
 ```text
-$ olski-check -c 'Mowa o zadaniach.' --readings
 <text>: valid     Mowa o zadaniach.
                   one reading
                   - NominalPredicate: Mowa, Modifier: o zadaniach → Mowa

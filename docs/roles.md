@@ -141,7 +141,7 @@ Odpowiadają mu narzędzia w `harness/`: każde drukuje swoje liczby,
 a korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
 ([corpus.md](corpus.md#fetching-it)).
 Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia
-([CLAUDE.md](../CLAUDE.md#checks)),
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
 więc zdanie w dokumencie mówi rząd wielkości, a przebieg mówi liczbę.
 Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z torem lintera,
 i każdy dokument, który je nosi, mówi to o sobie sam:

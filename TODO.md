@@ -197,7 +197,7 @@ Prozy tych dokumentów nikt nie przeczytał pod jednym pytaniem:
 czy to zdanie przeżyje następną produkcję.
 Jedna sesja znalazła trzy zdania, które go nie przeżyły,
 i żadnego z nich nie łapał zakaz liczby kruchej
-([`CLAUDE.md`](CLAUDE.md#checks)): stosunek zgrubny w miejscu liczby,
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)): stosunek zgrubny w miejscu liczby,
 zdanie o kierunku, w którym rusza się pokrycie,
 oraz akapit liczący produkcje `olski/subset.py` za sam kod.
 Ruchem jest przebieg po `docs/` z tym jednym pytaniem na zdanie,
@@ -255,9 +255,11 @@ Ruchem jest przekład jednym commitem,
 bo nazwa sięga wszystkich swoich wystąpień, a wydruk stoi w dokumentach.
 Słownik symboli przekłada się przy tym w całości albo wcale,
 bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika.
-Do przeczytania są bloki werdyktu cytowane w README, `docs/subset.md`
-i `docs/design-notes.md`: przekład bierze je na nowo ręką,
-i to one, a nie liczba nazw, mówią, ile ta zmiana kosztuje.
+Do przeczytania są bloki werdyktu cytowane w dokumentach:
+przekład bierze je na nowo ręką, i to one, a nie liczba nazw,
+mówią, ile ta zmiana kosztuje.
+Które to bloki, wylicza `tests/test_wydruki.py`, a lista wypisana tutaj
+rozjeżdżała się z drzewem.
 
 [`docs/ustawy.md`](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
 trzyma liczby, o których sam pisze, że rusza je każda zmiana w gramatyce
@@ -265,7 +267,7 @@ i że nie drukuje ich żaden przebieg.
 Jest to usterka tej samej klasy, którą
 [`docs/corpus.md`](docs/corpus.md#the-measurement) z siebie zdjęło:
 liczbę kruchą trzyma akapit, a nie narzędzie
-([`CLAUDE.md`](CLAUDE.md#checks)).
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
 Ruchem jest przepisanie każdej takiej liczby na rząd wielkości i kierunek.
 Zostają liczby ceny, czyli te, którymi ten dokument wycenia dopisane konstrukcje,
 i przy nich pytanie jest inne: cena wpuszczenia mieszka w gicie
@@ -355,11 +357,15 @@ Podsumowanie jest tym, po co dokument tę komendę woła:
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów nad korpusem audytowym z ostatniego wiersza wydruku,
 więc figura w dokumencie opiera się na formacie, którego nic nie pilnuje.
-Testem nie jest wydruk przepisany wiersz po wierszu:
+Testem nie jest wydruk przepisany wiersz po wierszu do pliku testowego:
 kosztuje przy każdej zmianie układu
 i nie broni niczego, czego by czytelnik nie zobaczył.
-Warte pisania są właśnie te dwie rzeczy: podsumowanie, bo cytuje je dokument,
-i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
+Wiersze przepisane do dokumentów to inna rzecz i pilnuje ich
+`tests/test_wydruki.py`: kosztu nie dokłada, bo bloki już tam stoją,
+a czytelnik rozjazdu nie widzi — dwa bloki sondy stały w `docs/disambiguation.md`
+nieprawdą, dopóki ktoś nie puścił polecenia stojącego nad nimi.
+Warte pisania zostają więc te dwie rzeczy: podsumowanie, bo cytuje je dokument
+poza blokiem, i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
 Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
@@ -585,7 +591,7 @@ because a Claude Code session on the web starts from an empty container.
 [The Wolne Lektury run](docs/firing-rates.md#wolne-lektury)
 takes 326 files at one request each from a volunteer library,
 [Składnica](docs/corpus.md#fetching-it) is 92 MB
-that [the checks](CLAUDE.md#checks) make a condition of touching the grammar,
+that [recomputation](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) makes a condition of touching the grammar,
 and [NKJP](docs/corpora.md#the-national-corpus-of-polish)
 is a tarball from the institute that serves Składnica.
 The licences do not run in that order.
@@ -892,7 +898,7 @@ zdanie względne bez podmiotu konkuruje z czytaniem, w którym podmiotem jest za
 a rodzina ta liczy siedemnaście ciał.
 Cenę i zakup bierze się sondą różnicową, tak jak przy każdym dopisaniu
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-a wpis jest winien przebiegi, których żąda [sekcja Checks](CLAUDE.md#checks).
+a wpis jest winien przebiegi, których żąda [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
 
 Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
 i na tym stanął pomiar cechy przeciąganej
@@ -1033,7 +1039,7 @@ Do przeczytania jest
 `test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimkowego`
 w `tests/test_subset.py`, bo wylicza dwa czytania pierwszego artykułu Deklaracji,
 a ruch dopisuje im trzecie.
-Wpis jest winien przebiegi, których [sekcja Checks](CLAUDE.md#checks)
+Wpis jest winien przebiegi, których [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
 żąda od zmiany w gramatyce,
 wraz z listą pozycji przyłączeniowych w
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
@@ -1206,7 +1212,7 @@ wszystkie czytania, więc `Cena niego rośnie.` wychodzi z werdyktu z `niego`
 wypisanym, a z przebiegu jako zdanie bez struktury nad całością
 ([`docs/subset.md`](docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 Rusza ono kolejkę, więc wpis jest winien przebiegi,
-których [sekcja Checks](CLAUDE.md#checks) żąda od zmiany w czytaniach,
+których [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) żąda od zmiany w czytaniach,
 jakie gramatyka dostaje.
 Do przeczytania jest, ile ta kolejka na tym się zmienia,
 i tę różnicę trzeba przeczytać przed wybraniem korpusu:
@@ -1257,7 +1263,7 @@ since negation and the numeral landed.
 The value is not repeated here, because a value copied into this list
 goes stale twice over, and the move is either the probe above
 or rewriting that figure as an order of magnitude
-([`CLAUDE.md`](CLAUDE.md#checks)).
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
 `NPConjunct` w `olski/subset.py` ma dwanaście ciał,
@@ -1327,7 +1333,7 @@ Tym warunkiem zmierzono cenę nieciągłości i zamknięto
 a liczy ją `harness/nieciągłość.py`, czyli trzeci plik tego katalogu,
 który `harness/wiezy.py` i `harness/polszczyzna.py` czyta.
 Lista plików wyżej nie obejmuje więc tego, co kasowanie naprawdę zabiera,
-a [sekcja Checks](CLAUDE.md#checks) każe tę cenę przeliczać razem z gramatyką.
+a [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) każe tę cenę przeliczać razem z gramatyką.
 Ruch dopisuje sobie przez to jedno rozstrzygnięcie:
 albo cena nieciągłości przestaje być figurą przeliczaną
 i tamta sekcja mówi o niej to, co `docs/firing-rates.md` mówi o sobie,
@@ -1345,7 +1351,7 @@ Ruchem jest przepisanie komentarza na regułę i liczbę,
 przy czym sonda liczy miejsca w zdaniu, a tamten dokument produkcje,
 więc albo przejmuje tę regułę, albo mówi, czemu liczy co innego.
 Bez reguły żadna zmiana w gramatyce nie umie tej liczby ponieść,
-a [sekcja Checks](CLAUDE.md#checks) każe ponieść figury sondy razem z gramatyką.
+a [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) każe ponieść figury sondy razem z gramatyką.
 Zamyka ten wpis także wycofanie sondy,
 bo komentarz stoi w pliku, który wtedy znika.
 
@@ -1549,6 +1555,22 @@ zgłasza jedną klasę z dwóch: okolicznik dochodzi w nim do zdarzenia zawsze,
 więc wzorzec wychodzi jednostronny i obrót niczego nie rozróżni.
 Ta połowa wpisu jest przez to zaparkowana po stronie składu, a odblokuje ją dopiero
 wyrażenie przyimkowe, które skład umie postawić wewnątrz grupy imiennej.
+
+`próba/wybory-z-odpowiedzią.txt` mierzy dwóch świadków,
+a wylosowano ją nad jednym.
+Wpisy były odpowiedziami tabeli skłonności, a po wpuszczeniu świadka ramowego
+ponad połowę z nich oddaje rama, bo stoi przed tabelą w kolejności świadków
+([`docs/disambiguation.md`](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
+Pięć pomyłek na 29 odpowiedziach jest przez to stopą warstwy, a nie tabeli,
+więc zestawienie jej z trafnością tabeli na połowie banku drzew
+mierzy po dwóch stronach co innego, a dokument notuje samo to, że mówi mniej.
+Do przeczytania jest wydruk `python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt`
+wpis po wpisie, bo powód nazywa świadka, który odpowiedział:
+podział na wpisy z powodem w zdaniu i bez niego czytała ręka,
+gdy odpowiadała sama tabela, a powodów ramowych jest w nim więcej
+niż odpowiedzi, które rama bierze.
+Ruchem jest stopa rozbita po świadkach — pole w wydruku `harness/wybory.py`
+albo losowanie osobne na świadka — a nie sama poprawka zdania w dokumencie.
 
 `ZASIĘG_FRAZY` szuka rzeczownika frazy trzy słowa za przyimkiem i nie zatrzymuje
 się na przecinku, więc dopasowuje się do frazy, której w tym miejscu nie ma.

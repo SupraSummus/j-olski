@@ -54,7 +54,7 @@ olski-corpus Składnica-frazowa-180723/ --morphology live
 
 Those two runs own every count this document is about,
 which is why the document states orders of magnitude and directions instead
-([CLAUDE.md](../CLAUDE.md#checks)):
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)):
 a figure copied into a paragraph here goes stale at the next production admitted,
 and nothing tells the reader that it has.
 So the shape of a result is written down and the size of it is run for.
@@ -108,7 +108,7 @@ takes sentences out of the first count and puts them in the second
 so uniqueness is not a number that only rises.
 The run owns the counts and this document owns their order,
 because a figure quoted here would be stale by the commit after it
-([CLAUDE.md](../CLAUDE.md#checks)).
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
 
 The curve by length matters more than the total,
 because it is the shape the coverage actually has.

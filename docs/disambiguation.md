@@ -686,9 +686,10 @@ Dwóch gospodarzy w jednym łańcuchu kończy się milczeniem,
 tym samym warunkiem, którym kończy się fraza powtórzona przy obu:
 sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
 
-**Nad rejestrem, o który chodzi, świadek ten odpowiada o jednej pozycji na sto sześćdziesiąt.**
+**Nad rejestrem, o który chodzi, świadek ten odpowiada rzadziej niż o jednej pozycji na sto.**
 `harness/powtórzenie.py` przechodzi prozę zdanie po zdaniu
-i pyta go o każdą pozycję przyłączeniową, jaką morfologia w tym zdaniu widzi.
+i pyta go o każdą pozycję przyłączeniową, jaką morfologia w tym zdaniu widzi,
+a obok zasięgu reguły wypuszczanej liczy zasięg każdego wariantu wycenianego niżej.
 Korpusem jest [korpus audytowy](audit-corpus.md#the-list),
 czyli dokumentacja techniczna wyekstrahowana do prozy tak, jak ten dokument mówi:
 
@@ -696,23 +697,11 @@ czyli dokumentacja techniczna wyekstrahowana do prozy tak, jak ten dokument mów
 python3 -m harness.powtórzenie proza/
 ```
 
-```text
-39 plików, 2915 zdań
-  pierwszych w akapicie: 2383 (81.7%), czyli bez czego przeczytać
-  przyłączeń: 1113, z tego z sąsiedztwem: 313
-  odpowiedzi w granicy akapitu: 7, czyli 0.6% przyłączeń
-  to samo bez warunku na kopulę: 8, czyli 0.7% przyłączeń
-  odpowiedzi bez granicy akapitu: 130, czyli 11.7% przyłączeń
-  to samo przy regule „sąsiad bezpośredni”: 169, czyli 15.2% przyłączeń
-  to samo przy regule „cały prefiks zdania”: 126, czyli 11.3% przyłączeń
-```
-
 Pozycje wyznacza morfologia, a nie werdykt, i to jest cała różnica między tym pytaniem
 a tym, które warstwa dostaje w `olski-check`.
 Gramatyka odrzuca w tym rejestrze prawie każde zdanie,
-więc werdykty stawiają tu 49 wyborów na 2 915 zdań
-i wskazań pod nimi wypisuje `olski-check --rozstrzygaj` nad tymi plikami 9,
-wszystkie skłonności.
+więc werdykty stawiają tu kilkadziesiąt wyborów na blisko trzy tysiące zdań,
+a `olski-check --rozstrzygaj` wypisuje pod nimi garść wskazań, wszystkie skłonności.
 Świadek kontekstowy nad tą populacją nie odzywa się ani razu,
 i jego zero jest tam w większości liczbą o gramatyce:
 żaden świadek nie odpowie częściej, niż jest pytany.
@@ -724,65 +713,60 @@ Populacja jest przez to ta sama, którą ma
 [wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
 więc zasięg zmierzony tutaj i trafność zmierzona tam mówią o jednych pytaniach.
 
-0,6% ma dwa mianowniki i tylko drugi z nich jest o świadku.
+Zasięg ten ma dwa mianowniki i tylko drugi z nich jest o świadku.
 
 Pierwszy jest o rejestrze: cztery piąte jego zdań stoi pierwsze w swoim akapicie,
 więc świadek nie ma tam czego przeczytać.
-Każdy akapit ma zdanie pierwsze, a żaden akapit tego korpusu nie stoi bez zdania,
-więc liczba ta jest zarazem liczbą akapitów:
-2 383 akapity na 2 915 zdań, czyli po 1,2 zdania na akapit.
-Akapit tej długości bierze się z tego, co ekstrakcja liczy za akapit,
+Zdań pierwszych jest przy tym tyle, ile akapitów,
+bo każdy akapit ma zdanie pierwsze i żaden nie stoi bez zdania,
+czyli akapit tego korpusu jest niewiele dłuższy od zdania.
+Długość ta bierze się z tego, co ekstrakcja liczy za akapit,
 a liczy za niego osobno każdą pozycję listy,
 bo zdanie nie biegnie z jednej do następnej
 ([extraction.md](extraction.md)).
-Ile z tych 2 383 wyszło właśnie z list, nie mówi ani ten przebieg, ani żaden inny,
+Ile z tych akapitów wyszło właśnie z list, nie mówi ani ten przebieg, ani żaden inny,
 bo ekstrakcja nie wypuszcza typu węzła, z którego akapit powstał;
 tego samego braku dotyczy wpis w [`TODO.md`](../TODO.md)
 o mapowaniu trafień z powrotem na konstrukcje.
 
-Drugi jest o świadku: przyłączeń z sąsiedztwem jest 313, a odpowiedzi 7,
-czyli fraza powtarza się przy gospodarzu raz na czterdzieści pięć pozycji,
+Drugi jest o świadku: fraza powtarza się przy gospodarzu
+rzadziej niż raz na czterdzieści pozycji,
 które mają w akapicie co przeczytać.
 
 **Siedem odpowiedzi w granicy akapitu przeczytano i wszystkie wskazują dobrze.**
-Dowód pod każdą jest tego samego kształtu, czyli frazą powtórzoną przy gospodarzu,
-i cztery z nich wyglądają tak:
-`prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`,
-`nowa faktura z datą PermanentStorage` po zdaniu o fakturach `z datą PermanentStorage`,
-`uprawnień pracownikom do przeglądania` po zdaniu z `uprawnień do przeglądania`,
-`Ustawy z dnia 25 czerwca` po zdaniu z tą samą ustawą.
+Dowód pod każdą jest tego samego kształtu, czyli frazą powtórzoną przy gospodarzu:
+`prawem do dalszego przekazywania` po zdaniu z `bez prawa do dalszego przekazywania`.
 
 **Warunek na kopulę wyceniono: zdejmuje jedno wskazanie i jest nim pomyłka.**
 Wariant sondy podaje świadkowi pustą listę kopul, czyli bierze za dowód i powtórzenie
-przy `być`, i wtedy odpowiada on osiem razy zamiast siedmiu.
-Ósmym wskazaniem jest opisane wyżej `w 1 osobie` → `jest`,
+przy `być`, i wtedy odpowiada raz więcej.
+Tym jednym wskazaniem jest opisane wyżej `w 1 osobie` → `jest`,
 więc warunek kupuje zdjęcie jednej pomyłki,
 a kosztuje nad tym korpusem zero wskazań dobrych.
 
-**Granicę akapitu wyceniono: kupuje 125 odpowiedzi i dwie odbiera.**
+**Granicę akapitu wyceniono: kupuje wielokrotnie więcej odpowiedzi i dwie odbiera.**
 Wariant sondy podaje świadkowi cały dokument czytany wstecz zamiast akapitu,
-i wtedy odpowiada on 130 razy zamiast siedmiu:
-pięć wskazań z tamtych siedmiu zostaje, 125 dochodzi, a dwa milkną.
+a dwie z tamtych siedmiu wtedy milkną.
 Milkną dlatego, że dalej w dokumencie ta sama fraza stoi przy drugim gospodarzu,
 a dwóch gospodarzy kończy się milczeniem —
 i są to `nowa faktura z datą PermanentStorage`
 oraz `uprawnień pracownikom do przeglądania`, czyli dwa wskazania dobre.
 
 Zakup ten jest zasięgiem i o trafności nie mówi nic sam z siebie.
-Dziesięć odpowiedzi rozrzuconych po tych 125 (`rozrzucona` w `olski/próbka.py`)
+Dziesięć odpowiedzi rozrzuconych po tych spoza akapitu (`rozrzucona` w `olski/próbka.py`)
 czyta się jako sześć wskazań dobrych i cztery słabsze,
 a pomyłki co do strony wyboru nie ma wśród nich żadnej:
 `atrybutów posiadanych przez obiekt w systemie źródłowym` dostaje `obiekt`,
 a `przekazanie danych o obiektach turystycznych` dostaje `danych`.
-Pierwsza słabsza nazywa grupę jej przymiotnikiem, a nie głową:
+Jedno ze słabszych nazywa grupę jej przymiotnikiem, a nie głową:
 `wyrażenia regularne dla adresów IP` dostaje `regularne`,
 bo łańcuch imienny urywa się na przymiotniku i `wyrażenia` gospodarzem nie zostaje.
-Druga stoi na pozycji, która przyłączeniem nie jest,
+Drugie stoi na pozycji, która przyłączeniem nie jest,
 bo Morfeusz czyta jako przyimek samotną literę `A` z nazwy podmiotu.
-Trzecia trafia w gospodarza, a pozycji pod nią nie ma:
+Trzecie trafia w gospodarza, a pozycji pod nim nie ma:
 `kontekst w ktorym jestesmy uwierzytelnieni` dostaje `kontekst`,
 tyle że `w którym` otwiera zdanie względne, a nie wyrażenie przyimkowe.
-Czwarta stoi tam, gdzie obaj gospodarze mówią to samo:
+Czwarte stoi tam, gdzie obaj gospodarze mówią to samo:
 w `nie przesłano żadnych faktur w sesji interaktywnej` fraza nazywa tę samą sesję,
 dojdzie do `faktur` czy do `przesłano`.
 Granica broni się więc nie tym, że wskazania spoza niej są złe,
@@ -790,7 +774,7 @@ tylko tym, po co ją tam postawiono ([sklad.md](sklad.md)),
 a policzone jest i to, co jej zdjęcie kupuje, i to, co odbiera.
 
 **Regułę kandydata wyceniono tą samą drogą, a węższa dokłada pomyłkę na łańcuchu.**
-Wariant węższy pyta o samego sąsiada frazy i odpowiada 169 razy zamiast 130,
+Wariant węższy pyta o samego sąsiada frazy i odpowiada częściej od wypuszczanego,
 a różnica bierze się stąd, że łańcuch pokazuje czasem dwóch gospodarzy naraz,
 a dwóch kończy się milczeniem.
 Kupuje to pomyłkę, którą łańcuch omija:
@@ -800,7 +784,7 @@ Dowodem jest tam `wymiany danych z systemami zewnętrznymi`, czyli ten sam łań
 więc powtórzenie jest prawdziwe, a odczytane z niego wskazanie nie.
 Reguła wypuszczana widzi w tym łańcuchu obu gospodarzy naraz i o tym zdaniu milczy.
 
-Wariant szerszy pyta o cały prefiks zdania i odpowiada 126 razy, czyli rzadziej od obu.
+Wariant szerszy pyta o cały prefiks zdania i odpowiada rzadziej od obu.
 Kandydatów ma najwięcej i dlatego najczęściej trafia na dwóch naraz,
 więc reguła szersza od wypuszczanej kupuje mniej zasięgu, a nie więcej.
 Kupuje za to gospodarza stojącego daleko przed frazą, którego łańcuch nie sięga,
@@ -903,46 +887,30 @@ Drogę drugą mierzy `harness/wskazania.py`, pytając o wzorzec drzewo wzorcowe:
 python3 -m harness.wskazania Składnica-frazowa-180723/
 ```
 
-```text
-  702 zdań, nad którymi werdykt zostawia przyłączenie,
-  a w nich 919 przyłączeń, czyli tyle pytań warstwa dostaje
+Trzy rzeczy tego przebiegu trzymają się razem i osobno każda z nich myli.
 
-  gospodarzy na przyłączenie:
-      681   74.1%  2
-      187   20.3%  3
-       42    4.6%  4
-        9    1.0%  5
-
-  ze wzorcem w drzewie: 673, czyli 73.2% przyłączeń
-  bez wzorca: 246, bo drzewo nawiasuje tę frazę inaczej albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem
-
-  co warstwa mówi o 673 przyłączeniach ze wzorcem:
-      139   20.7% odpowiedzi,  95.0% trafień    skłonność
-      139   20.7% odpowiedzi,  95.0% trafień    razem
-      673  100,0% odpowiedzi,  59.4% trafień    podłoga: zawsze do rzeczownika
-```
-
-Trzy rzeczy tej tabeli trzymają się razem i osobno każda z nich myli.
-
-Zasięg 20% jest zasięgiem warstwy wypuszczanej i jest wyższy od 12,8% z oceny wyżej,
-bo tabela wypuszczana ma 998 par zamiast tych z połowy korpusu,
+Zasięg warstwy wypuszczanej wychodzi wyższy niż w ocenie wyżej,
+bo tabela wypuszczana ma pary z całej Składnicy zamiast tych z jej połowy,
 a lematów formy pyta się naraz kilku, więc para znajduje się częściej.
-Populacja jest przy tym inna — te 919 przyłączeń to te, przed którymi wybór postawił olski,
-a nie te, przed którymi postawił go anotator — więc dwóch zasięgów nie odejmuje się od siebie.
+Populacja jest przy tym inna — przyłączenia liczone tutaj to te,
+przed którymi wybór postawił olski,
+a nie te, przed którymi postawił go anotator —
+więc dwóch zasięgów nie odejmuje się od siebie.
 
-Trafność 95,0% jest mierzona na materiale, który ta tabela widziała.
+Trafność tego przebiegu jest mierzona na materiale, który ta tabela widziała.
 `olski/skłonności.txt` powstaje z całej Składnicy, a przebieg idzie po całej Składnicy,
 więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
-Trafnością poza próbą jest 89,5% z oceny wyżej,
+Trafnością poza próbą jest ta z oceny wyżej, o kilka punktów niższa,
 a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
 
-Gospodarzy jest więcej niż dwóch w 25,9% przyłączeń,
-czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten, przed którym warstwa staje.
+Gospodarzy jest więcej niż dwóch w co czwartym przyłączeniu,
+czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten,
+przed którym warstwa staje.
 Wypadki te biorą się z produkcji, a nie z rzadkości:
 `Obudziłem się na podłodze w kuchni z pustą paczką po ciasteczkach w dłoniach.`
 ma cztery przyłączenia, a każde następne dostaje za gospodarza rzeczownik z poprzedniego.
 
-Wzorca nie ma dla 246 z 919 przyłączeń i nie jest to milczenie banku drzew.
+Wzorca nie ma dla ponad ćwierci przyłączeń i nie jest to milczenie banku drzew.
 Drzewo albo nawiasuje tę frazę inaczej, niż nazywa ją werdykt,
 albo przyłącza ją do czegoś, co nie jest ani grupą imienną, ani zdaniem.
 Drugie ma dwie kategorie i obie wypadają z tego samego powodu.
@@ -985,18 +953,6 @@ który homonimia przedłuża czasem przez orzeczenie.
 python3 -m harness.wybory próba/wybory.txt
 ```
 
-```text
-30 wyborów ze wzorcem, z tego 5 do przemilczenia
-     2  oba
-     3  żadne
-
-  co warstwa odpowiedziała:
-     2    6.7% odpowiedzi, 100.0% trafień    powtórzenie
-     3   10.0% odpowiedzi, 100.0% trafień    skłonność
-     5  100.0% wyborów do przemilczenia przemilczanych
-    10   33.3% wyborów rozstrzygniętych dobrze
-```
-
 Wzorzec ma dwie odpowiedzi poza samymi gospodarzami i obie są tu po to,
 żeby milczenie warstwy dało się ocenić.
 `oba` znaczy, że tekst nie rozstrzyga i czytelnik też nie:
@@ -1022,10 +978,11 @@ Drugi z nich jest tym, czego tabela skłonności nie umie:
 fraza dochodzi tam do rzeczownika oddzielonego od niej celownikiem,
 a bank drzew o takim szyku nie mówi nic.
 
-Dwie trzecie wyborów zostaje nierozstrzygniętych i to jest właściwa liczba tej próby.
+Blisko dwie trzecie wyborów zostaje nierozstrzygniętych
+i to jest właściwa liczba tej próby.
 Warstwa nie myli się nad nią ani razu, co pilnuje `tests/test_wybory.py`,
 i nie jest to zasługa progów, tylko ich ceny:
-milczenie jest tu odpowiedzią w dwudziestu wypadkach na trzydzieści.
+milczenie jest tu odpowiedzią w kilkunastu wypadkach na trzydzieści.
 Trzydzieści wyborów wystarcza, żeby powiedzieć, że warstwa milczy częściej, niż odpowiada,
 i nie wystarcza, żeby powiedzieć, jak często się myli;
 tę drugą liczbę bierze [próba zawężona do odpowiedzi](#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
@@ -1055,45 +1012,37 @@ bo jeden wydruk z dwoma mianownikami czyta się jako jeden.
 Wpisy pochodzą z losowania ze 123 pozycji, czyli o jedną szerszego:
 tą jedną jest wskazanie świadka kontekstowego, odebrane wraz z dowodem z kopuli.
 Próby to nie przerysowuje.
-Wszystkie trzydzieści wpisów są odpowiedziami tabeli częstości,
-żadna z tych odpowiedzi się nie zmieniła,
-a pozycja, która z populacji wyszła, należała do świadka,
-którego to losowanie nie dosięgło ani razu.
-Przerysowania żąda dopiero zmiana ruszająca same odpowiedzi tabeli,
-bo wtedy wpisy mierzą świadka, którego nie ma.
+Wpisy te były odpowiedziami tabeli częstości w chwili losowania,
+a dziś ponad połowę z nich oddaje świadek ramowy,
+bo stoi przed tabelą i bierze wybór tam, gdzie rama rzeczownika go rozstrzyga.
+Przerysowania żąda ta próba przez to już teraz:
+mierzy dwóch świadków w proporcji, której nikt nie wylosował,
+a co z tym zrobić, pyta wpis w [`TODO.md`](../TODO.md).
 
 ```sh
 python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt
 ```
 
-```text
-30 wyborów ze wzorcem, z tego 3 do przemilczenia
-     2  oba
-     1  żadne
-
-  co warstwa odpowiedziała:
-    29   96.7% odpowiedzi,  82.8% trafień    skłonność
-     1   33.3% wyborów do przemilczenia przemilczanych
-    25   83.3% wyborów rozstrzygniętych dobrze
-```
-
-Odpowiada tu sama skłonność i mówi to o losowaniu, a nie o świadku kontekstowym:
-ten odzywa się nad tym korpusem siedem razy, więc trzydzieści wylosowanych pozycji
+Świadek kontekstowy nie odpowiada tu ani razu i mówi to o losowaniu, a nie o świadku:
+odzywa się nad tym korpusem siedem razy, więc trzydzieści wylosowanych pozycji
 nie musi trafić w ani jedną z nich i nie trafiło w żadną.
-Zmierzona jest przez to sama tabela częstości nad dokumentacją i nic poza nią.
+Ta próba mierzy przez to nad dokumentacją świadka ramowego i tabelę częstości razem,
+a więcej wskazań ma rama.
 Wpisów jest trzydzieści, a odpowiedzi 29, i różnica ta jest ceną poprawiania ręką:
 zawężenie pyta o frazę i gospodarzy, jakich proponuje morfologia,
 a przy jednym wpisie gospodarz okazał się jeden, bo drugim był spójnik.
 
 **Pięć pomyłek na 29 odpowiedzi nie odróżnia tego rejestru od banku drzew.**
-Ta sama tabela mierzona na połowie banku drzew, której nie widziała,
+Tabela częstości mierzona na połowie banku drzew, której nie widziała,
 myli się w co dziesiątej odpowiedzi (`WSPARCIE` i `PRÓG` w `olski/rozstrzyganie.py`),
 a stopa taka daje pięć pomyłek albo więcej na 29 odpowiedziach raz na sześć przebiegów.
+Stopa tych 29 jest przy tym stopą dwóch świadków razem, a tamta jednego,
+więc zestawienie mówi mniej, niż mówiło, gdy odpowiadała sama tabela.
 Druga połowa [hipotezy](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
 żąda pomyłek częstszych niż tam, więc ta próba jej nie obala i nie potwierdza;
 ile odpowiedzi trzeba, żeby odróżniła, mówi wpis w [`TODO.md`](../TODO.md).
 
-**Rozstrzyga natomiast, gdzie ta tabela nad tym rejestrem odpowiada dobrze.**
+**Rozstrzyga natomiast, gdzie warstwa nad tym rejestrem odpowiada dobrze.**
 Wpisy dzielą się na dwoje po tym, czy wybór rozstrzyga któreś słowo tego zdania.
 Podział ten przeczytała ta sama ręka, która wpisała wzorce, i przy wydruku odpowiedzi
 przed sobą, więc sprawdza się go po polach `powód`, a nie po liczbie pod nim.
@@ -1101,18 +1050,18 @@ Powód taki niosą 23 odpowiedzi: 19 rozstrzyga rama rzeczownika
 (`informacja o czymś`, `dostęp do czegoś`, `prawo do czegoś`, `wniosek o coś`),
 3 dopełnienie cząstkowe liczebnika (`posiadanie jednego z kilku uprawnień`),
 a jedną wyrażenie stałe `w zależności od`.
-Nad żadną z tych 23 tabela się nie myli.
+Nad żadną z tych 23 warstwa się nie myli.
 Zostaje 6 odpowiedzi, w których żadne słowo zdania wyboru nie rozstrzyga,
-i nad nimi tabela myli się pięć razy.
+i nad nimi warstwa myli się pięć razy.
 Szósta jest trafna i pokazuje, jak wąska jest granica tego podziału:
 w `wypróbować kontakty z kolejnych jej pozycji` fraza wskazuje źródło,
-a tabela wskazuje `kontakty`, licząc parę `z` przy `kontakt`,
-czyli ramę „kontakt z kimś”, której to zdanie nie realizuje.
-Powód tabeli mija się więc z relacją i mimo to wypada na właściwego gospodarza.
+a świadek ramowy wskazuje `kontakty`, bo `z` jest pozycją ramy „kontakt”,
+której to zdanie nie realizuje.
+Powód mija się więc z relacją i mimo to wypada na właściwego gospodarza.
 
 Trzy z tych pięciu są konstrukcjami rejestru.
 `Data i czas wystąpienia błędu w UTC.` podaje strefę, w której wypisano czas,
-a tabela dołącza `w UTC` do wystąpienia.
+a warstwa dołącza `w UTC` do `błędu`, bo `w` jest pozycją ramy „błąd”.
 `natychmiastowej rejestracji dokumentu w KSeF` mówi, gdzie zachodzi rejestracja,
 a tabela dołącza frazę do dokumentu.
 `W czasie przekazywania danych do systemu RIT` ma `w czasie` za ramę czasową,
