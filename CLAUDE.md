@@ -1,9 +1,6 @@
 # Notatki dla agentów AI
 
-Tu jest cała konwencja pracy w tym repozytorium:
-jak piszemy prozę, jak piszemy kod i testy,
-które checki uruchamiamy, w które pułapki gita naprawdę wpadliśmy
-i jak wygląda przegląd zmian.
+Tu jest cała konwencja pracy w tym repozytorium.
 Osobnego przewodnika dla współpracowników nie ma;
 ten plik jest jedyną kopią.
 
@@ -69,8 +66,6 @@ Po polsku powstaje też tekst w dokumencie, który po polsku nie jest,
 a zdanie dopisane do angielskiej sekcji piszemy po angielsku razem z nią,
 dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
 Przekładu takiego dokumentu nie wpisujemy do `TODO.md`.
-[`docs/roles.md`](docs/roles.md) powstał po polsku w całości,
-a ta sekcja jest po polsku w pliku, który po polsku nie jest.
 
 ## Six forces
 
@@ -129,25 +124,19 @@ Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.
 
 ## Wolno nie pisać tego, co odtwarza się poleceniem
 
-Reguł jest tu dużo i każda kosztuje robotę, więc ta jedna nie dokłada nic:
-zdejmuje obowiązek pisania i daje licencję na skreślenie.
-Przeglądowi zmian nie dopisuje ani jednej pozycji.
-
 Pisze się to, czego bez sesji nie da się odtworzyć:
 decyzję, odrzuconą alternatywę
 oraz te zdania korpusu, które trzeba przeczytać, żeby werdyktowi uwierzyć.
 Nie trzeba pisać tego, co odtwarza się poleceniem:
 tabeli, wyliczenia ani sprawozdania z przebiegu.
-O samej liczbie mówi to [akapit o liczbie kruchej](#checks),
+O samej liczbie mówi to [akapit o liczbie kruchej](#pomiar-i-liczba-która-po-nim-zostaje),
 a tu chodzi o cały pasaż.
-Żadna reguła takiego sprawozdania nie żądała; wzięło się z tego,
-że przebieg kosztował sesję, a nie z tego, że ktoś je czyta.
 
 Skreślić taki pasaż wolno każdemu, kto go zauważy,
 bez pytania i bez lepszej wersji na jego miejsce
 ([skreślenie bywa całą naprawą](#skreślenie-bywa-całą-naprawą)).
-Licencja jest tu potrzebna właśnie dlatego, że rzecz kosztowała:
-sprawozdania zdobytego całą sesją nikt sam nie skreśli, dopóki nie wolno.
+Licencja jest tu potrzebna dlatego, że sprawozdanie kosztowało sesję,
+a rzeczy zdobytej całą sesją nikt sam nie skreśli, dopóki nie wolno.
 
 Wywodu ta licencja nie tyka i na nim się kończy.
 Powtórzenie polecenia kosztuje minuty,
@@ -157,7 +146,7 @@ liczby nikt nie broni, a rozjazdu dwóch wywodów nie łapie żaden test
 Kto skreśla, pyta więc o jedno:
 czy po tym trzeba będzie puścić polecenie, czy podjąć decyzję.
 
-Szukać tego nikt nie musi, bo dwie rzeczy widać same.
+Sprawozdanie widać po dwóch rzeczach.
 Sekcja pisana w czasie przeszłym przebiegu — „wyszło”, „policzono” —
 jest sprawozdaniem, a nie dokumentem.
 Pozycja bez konsekwencji, czyli taka, która nie ruszyła
@@ -303,8 +292,10 @@ odpowiada na inne pytanie: gdzie fakt zapisać, żeby nie było dwóch kopii.
 Ta reguła łapie przypadek, w którym kopii nie ma wcale —
 zdanie poprawnie wskazuje właściciela i mimo to przestaje być prawdą,
 bo oparło się na szczególe, którego właściciel nie obiecywał trzymać.
-Liczba krucha z [sekcji o checkach](#checks) i blok wydruku
-są tą samą usterką w mniejszym rozmiarze.
+Liczba krucha z [sekcji o pomiarze](#pomiar-i-liczba-która-po-nim-zostaje)
+jest tą samą usterką w mniejszym rozmiarze.
+Blok wydruku nią był i przestał, bo `tests/test_wydruki.py` go pilnuje:
+tak właśnie zła możliwość przechodzi w ciasną i tanią.
 
 ## Documents describe the present; git owns the past
 
@@ -653,6 +644,8 @@ a `tests/test_docs.py` utrzymuje je równe,
 więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
 Workflow nie nosi znaczka.
 
+## Pomiar i liczba, która po nim zostaje
+
 **Liczby kruchej nie wpisujemy do dokumentu.**
 Krucha jest ta, którą zwykły rozwój projektu unieważnia:
 ile zdań korpusu gramatyka przyjmuje, ile czytań daje konstrukcja,
@@ -669,8 +662,8 @@ częstość formy w rejestrze, skład banku drzew i rozmiar słownika
 mówią o korpusie przypiętym do wydania i zostają w pełnej precyzji.
 Zejście z niej byłoby stratą, bo nikt jej nie przeliczy inaczej niż tym samym
 pobraniem, a rozjazd z korpusem widać dopiero wtedy, gdy liczba jest dokładna.
-Jest to [jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
-zastosowany do liczby zmierzonej, a nie osobna reguła.
+Krucha nie jest też liczba sądów przeczytanych ręką:
+mówi, ile ktoś przeczytał, a tego żaden przebieg nie przelicza ani nie unieważnia.
 
 **Stosunek zgrubny rusza się tak samo, więc pisze się go granicą, a nie środkiem.**
 `roughly one in twelve` w `docs/corpus.md` był taki
@@ -679,23 +672,18 @@ bo stosunek jest tam liczbą powiedzianą inaczej i rusza go to samo.
 Granica tylko się umacnia:
 `better than one in eight` zostaje prawdą, kiedy jedna ósma robi się jedna siódma.
 Po której stronie ją postawić, rozstrzyga pomiar, a nie życzenie.
-Pokrycie nie rośnie tu monotonicznie: gospodarz wpuszczony po to,
-żeby czytanie przestało być fałszywe, odbiera zdania jednoznaczne
-i oddaje je wieloznacznym
-([kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
 **Nagłówek nie trzyma liczby, którą przeliczenie rusza,** bo nagłówek jest adresem.
 `Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` był taki,
 a jedna zmiana w gramatyce przemianowała go, jego anchor
 i siedem plików, które go linkowały,
 z `tests/test_docs.py` wywracającym się na każdym po kolei.
-Rząd wielkości, stosunek i kierunek wolno tu tak samo jak w akapicie.
-Stosunek ma być przy tym zgrubny, bo dokładny rusza się jak liczba:
-`Złote czytanie ocalało w dziewięciu na dziesięć zdań wieloznacznych`
-przestało być prawdą przy jednej zmianie w gramatyce,
-więc sekcja ta nosi w nagłówku sam kierunek.
+W nagłówku wolno napisać rząd wielkości albo kierunek,
+a stosunek wolno napisać zgrubny, bo dokładny rusza się jak liczba:
+sekcja o złotym czytaniu w `docs/corpus.md` nosi
+[sam kierunek](docs/corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym).
 
-Pomiary nie wchodzą do bloku checków wyżej i nie uruchamiają się przy pushu:
+Pomiary nie wchodzą do [bloku checków](#checks) i nie uruchamiają się przy pushu:
 korpusy są archiwami dziesiątek megabajtów pobieranymi raz na sesję,
 a runner pobierający je przy każdym commicie płaciłby za to raz na commit.
 Wykonuje je więc ten, kto ma korpus, a suita nie startuje żadnego.
@@ -719,17 +707,17 @@ werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdan
 Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,
 a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
 
-**Blok wydruku wklejony do dokumentu jest prozą i unieważnia się jak ona.**
+**Blok wydruku stoi w dokumencie pod komendą, która go odtwarza.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/subset.py`
 albo pole dopisane w `Deklaracja` w `olski/parse.py` —
-i wtedy bloki w README,
-w [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
-i w [`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
-bierze się ręką, razem z arytmetyką pod nimi,
-bo dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze.
-Nowego takiego bloku nie wklejamy: pokazuje kształt wydruku,
-a płaci się za niego przy każdej zmianie werdyktu.
+i wtedy każdy taki blok bierze się ręką.
+Który to blok, mówi `tests/test_wydruki.py`:
+puszcza komendę stojącą nad wydrukiem
+i żąda, żeby każdy wypisany wiersz komenda naprawdę drukowała.
+Blok bez takiej komendy rozjeżdża się po cichu, więc go nie wklejamy.
+Arytmetyki pod nim test nie widzi:
+dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,
@@ -751,8 +739,7 @@ Reguła ta nie obejmuje każdych danych w `olski/`.
 bo wiersz odpowiada na pytanie, na które nie odpowiada żaden korpus:
 wedle którego leksemu odmienia się słowo, którego słownik nie ma
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
-Generatora ten plik nie ma i szukanie go jest szukaniem czegoś, czego nie ma;
-przebiegiem wychodzą z niego formy, a nie wiersze.
+Ten plik nie ma generatora; przebiegiem wychodzą z niego formy, a nie wiersze.
 
 ## Code
 
@@ -771,11 +758,8 @@ a do repozytorium wchodzi sam commit, który konstrukcję wpuścił.
 Narzędzie, które taki predykat prowadzi, stoi w drzewie (`harness/ruch.py`),
 więc kto chce liczby dzisiejszej, pisze predykat na nowo i puszcza go;
 kto chce tej sprzed roku, czyta gita.
-Reguła zdejmuje decyzję, której dwa podejścia nie umiały podjąć na czas:
-poprzednia kazała orzec przy każdej sondzie, czy zostaje,
-a orzeczenie było droższe od milczenia, więc nie wyszła ani jedna z dwudziestu.
 Dwie reguły niżej obowiązują taki predykat od pierwszego wiersza,
-bo nie są dopracowaniem, tylko warunkiem prawdziwości pomiaru,
+bo są warunkiem prawdziwości pomiaru, a nie dopracowaniem,
 a pilnuje ich przegląd, bo pliku nie ma nad czym testować.
 
 **Pomiar pyta o deklarację olskiego i nie trzyma jej drugiej kopii.**

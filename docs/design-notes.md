@@ -797,7 +797,7 @@ a przecinek jest tym, czego sonda nie bierze.
 Zgodność mierzona nad prozą pisaną pod jedną ze stron
 mówi więc o tej prozie, a nie o żadnym z dwóch podłoży.
 Tak właśnie kosztuje figura brana nad własną prozą,
-przed czym [`CLAUDE.md`](../CLAUDE.md#checks) ostrzega,
+przed czym [`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) ostrzega,
 a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
