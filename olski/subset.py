@@ -752,6 +752,15 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
             **POPRZEDNIK,
         )
 
+        # Podmiot opuszczony: `imprezy, które zorganizował`, `Które zadania
+        # wykonuje?` Polszczyzna opuszcza go tu tak samo jak w zdaniu głównym,
+        # gdzie deklaracja bez podmiotu stoi obok tej z podmiotem
+        # (``ClauseConjunct → Predicate``), więc i tu jest to druga deklaracja.
+        # Warunku precedencji nie ma, bo czoło stoi pierwsze, a za nim została
+        # jedna córka. Cenę i zakup trzyma
+        # docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
+        zdanie.dominacja(symbol, [czoło_dopełnienie, Głowa(czasownik)], **POPRZEDNIK)
+
 
 def build() -> Grammar:
     grammar = Grammar(start="Sentence")

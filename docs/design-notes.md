@@ -561,17 +561,15 @@ po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie,
 a role, które te ciała wypełniają, wywodzi
 [subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
-Każde ciało z wysuniętym dopełnieniem ma tam wypisany podmiot,
-a dopełnienie sięga tylko do formy osobowej,
-więc `Dyrektor wymienia imprezy, które zorganizował.`
-i `Ustawa, którą organ gminy może wydać, jest tania.` nie wyprowadzają się wcale.
+Wysunięte dopełnienie sięga tam tylko do formy osobowej,
+więc `Ustawa, którą organ gminy może wydać, jest tania.` nie wyprowadza się wcale.
 Cecha przeciągana zastępuje te ciała jedną produkcją:
 konstytuent ogłasza w cechach, czego mu w środku brakuje,
 luka jest produkcją o pustym ciele,
 a zdanie względne wiąże ją ze swoim zaimkiem.
 Zdanie względne dostaje wtedy każdy szyk i każde miejsce na okolicznik,
-jakie ma zdanie zwykłe, wraz z podmiotem opuszczonym i z wyjęciem z głębi,
-i oba te zdania przechodzą, każde jednym czytaniem.
+jakie ma zdanie zwykłe, wraz z wyjęciem z głębi,
+i to zdanie przechodzi jednym czytaniem.
 
 **Luka bez napisu nie ma czego przestawiać.**
 Ciało, które stawia ją między innym rodzeństwem, wydaje ten sam napis,
@@ -601,26 +599,25 @@ i o różnicy mówi [wierszem o konstytuencie](#werdykt-jest-zapytaniem-o-las-a-
 `„przed laty kształcili kolejarskich specjalistów” reads 2 ways`,
 czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 
-**Kupuje przy tym jedną konstrukcję, a nie tę, po którą sięgano.**
-Nad 13 035 zdaniami Składnicy pod złotą morfologią
-luka przypięta wyciąga z odrzucenia cztery zdania,
-odbiera jednoznaczność pięciu
-i dwa przenosi z odrzucenia w wieloznaczność.
-Wszystkie cztery są zdaniem względnym z wysuniętym dopełnieniem
-i opuszczonym podmiotem — `Dyrektor wymienia imprezy, które zorganizował.` —
-a wyjęcia z głębi nie ma wśród nich ani jedno.
+**Nie kupuje przy tym tej konstrukcji, po którą sięgano.**
+Zdanie składowe bez podmiotu, czyli to, co przeciąganie dawało mimochodem,
+gramatyka od tamtego pomiaru wypisuje sama
+([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+więc nad 13 035 zdaniami Składnicy pod złotą morfologią
+luka przypięta wyciąga z odrzucenia jedno zdanie
+i jednoznaczność odbiera kilku;
+tabelę przejść drukuje polecenie niżej.
+Wyjęcia z głębi nie ma przy tym wśród wyciągniętych ani jedno.
 Rejestr ustaw odpowiada mocniej: nad jego 4921 zdaniami
 ([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza))
 luka nie wyciąga z odrzucenia ani jednego zdania i dwa kosztuje,
 a zdania o kształcie tamtej ustawy nie ma w tym rejestrze wcale
 ([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
 Konstrukcja, dla której sięga się po szczebel 2, nie występuje więc
-w żadnym korpusie, jaki to repozytorium czyta,
-a kupione jest to, co przeciąganie daje mimochodem:
-zdanie składowe bez podmiotu.
+w żadnym korpusie, jaki to repozytorium czyta.
 
 **Zakup jest przy tym zerem, bo bank drzew stawia tę rolę na zaimku.**
-Wszystkie cztery wyciągnięte olski czyta inaczej, niż czyta je drzewo wzorcowe,
+To jedno wyciągnięte zdanie olski czyta inaczej, niż czyta je drzewo wzorcowe,
 i czyta tak z samego mechanizmu:
 w `Myślę o tym człowieku, który mnie podglądał.`
 podmiotem wychodzi u niego rozpiętość pusta, a bank drzew wskazuje `który`.
@@ -640,10 +637,11 @@ tak samo jak nie nazywa roli wypełnionej zaimkiem,
 i zostaje cena z akapitu wyżej: rozpiętość pusta nie trafia w żadną złotą.
 
 **Symboli nie ubywa.**
-`RelativeCore` schodzi z piętnastu ciał do dwóch,
-`ClauseConjunct` rośnie z trzydziestu dwóch do pięćdziesięciu,
+`RelativeCore` schodzi do tych ciał, które wysuwają wyrażenie przyimkowe,
+a `ClauseConjunct` rośnie za to kilkakrotnie,
 bo przeciąganie żąda ciała na każdą córkę, która lukę unosi,
-i cała gramatyka rośnie ze 177 produkcji do 223.
+i cała gramatyka rośnie o kilkadziesiąt produkcji;
+liczby na dziś drukuje kolumna `produkcji` w wydruku sondy.
 Drabina wycenia szczebel 2 na mnożenie się symboli i wycenia trafnie,
 tylko że mnożenie wypada na rodzinie zdaniowej, a nie na względnej.
 
@@ -671,8 +669,8 @@ zakup przestaje wtedy przeczyć bankowi drzew, a wydruk dostaje nazwę roli.
 Zostaje po tym ta reszta pierwszej ceny,
 której warunek precedencji nie zdjął.
 Ruch trzyma [TODO.md](../TODO.md),
-a zdanie składowe bez podmiotu stoi w nim osobno,
-bo tych czterech zdań luka do kupienia nie potrzebuje.
+a zdania składowego bez podmiotu ten ruch nie dotyczy,
+bo wypisuje je sama gramatyka.
 
 Powtarzają ten pomiar te polecenia,
 a rejestr ustaw ściąga się tak, jak mówi

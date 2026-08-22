@@ -28,14 +28,10 @@ from olski.subset import GRAMMAR, check
 #: przyimkowego — luka nie dotyczy, bo okolicznik jest wolny.
 PODMIOT = "Reguła, która rozstrzyga, jest tania."
 DOPEŁNIENIE = "Polszczyzna, którą ktoś napisał, jest trudna."
-#: Zdanie względne z wysuniętym dopełnieniem i opuszczonym podmiotem, czyli to,
-#: co luka nad Składnicą naprawdę kupuje: cztery zdania tego kształtu i nic poza
-#: nimi. Każde ciało ``RelativeCore`` ma podmiot wypisany.
-BEZ_PODMIOTU = "Dyrektor wymienia imprezy, które zorganizował."
 #: Wyjęcie z głębi: dopełnienie należy do bezokolicznika pod czasownikiem
 #: modalnym, więc żadne ciało ``RelativeCore`` po nie nie sięga. Kupione, a nie
 #: napotkane: nie ma go ani jeden korpus, jaki to repozytorium czyta, i dlatego
-#: stoi tu obok tamtego, a nie zamiast niego.
+#: jest tym jednym zdaniem, które luka wyprowadza, a wypisane ciała nie.
 Z_GŁĘBI = "Ustawa, którą organ gminy może wydać, jest tania."
 
 
@@ -72,11 +68,10 @@ def test_luka_przypięta_do_pozycji_roli_jednoznaczność_oddaje(zdanie: str):
     assert werdykt("luka kanoniczna", zdanie).result.ile == 1
 
 
-@pytest.mark.parametrize("zdanie", [BEZ_PODMIOTU, Z_GŁĘBI])
-def test_luka_kupuje_to_czego_wypisane_ciała_nie_mają(zdanie: str):
-    assert werdykt("olski", zdanie).status == "rejected"
+def test_luka_kupuje_to_czego_wypisane_ciała_nie_mają():
+    assert werdykt("olski", Z_GŁĘBI).status == "rejected"
     for wariant in WARIANTY[1:]:
-        assert werdykt(wariant, zdanie).result.ile == 1
+        assert werdykt(wariant, Z_GŁĘBI).result.ile == 1
 
 
 @pytest.mark.parametrize("wariant", WARIANTY[1:])
@@ -99,7 +94,7 @@ def test_luka_wypełnia_rolę_pustą_rozpiętością(wariant: str):
     pokazuje: streszczenie czytania zatrzymuje się na zdaniu podrzędnym, więc o
     roli z jego wnętrza milczy tak samo, jak milczy o roli wypełnionej zaimkiem.
     """
-    jeden = werdykt(wariant, "Myślę o tym człowieku, który mnie podglądał.")
+    jeden = werdykt(wariant, "Myślę o regule, która rozstrzyga.")
     (podmiot,) = jeden.result.readings[0].find("Subject")
     assert podmiot.forms() == []
     assert "Subject" not in jeden.readings[0]

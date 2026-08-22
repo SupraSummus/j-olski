@@ -1814,14 +1814,18 @@ def test_przyimek_grupy_wysuniętej_rządzi_przypadkiem_głowy_a_nie_zaimka():
 
 def test_grupa_wysunięta_bez_przyimka_zgadza_orzeczenie_z_głową_a_poprzednik_z_zaimkiem():
     #  Obie pary cech czoła widać dopiero tutaj, bo tutaj są różne, i usterką jest
-    #  każda z nich wzięta za obie. Para zaimka przyjmuje `której przepisy
-    #  obowiązuje`, bo `Ustawa` jest pojedyncza; para głowy przyjmuje `Ustawy,
-    #  której przepisy obowiązują`, bo z `przepisy` zgadza się tam wszystko.
-    found = verdict("Ustawa, której przepisy obowiązują, jest tania.")
+    #  każda z nich wzięta za obie. Para zaimka przyjmuje `której autorzy pisze`,
+    #  bo `Ustawa` jest pojedyncza; para głowy przyjmuje `Ustawy, której autorzy
+    #  piszą`, bo z `autorzy` zgadza się tam wszystko.
+    #
+    #  Głowa jest męskoosobowa, bo przy głowie o mianowniku równym biernikowi oba
+    #  te napisy wyprowadza czoło w dopełnieniu z opuszczonym podmiotem, więc
+    #  odrzucenie nie mówiłoby o parach cech nic.
+    found = verdict("Ustawa, której autorzy piszą, jest tania.")
     assert found.status == "valid", found.explain()
-    głowa = verdict("Ustawa, której przepisy obowiązuje, jest tania.")
+    głowa = verdict("Ustawa, której autorzy pisze, jest tania.")
     assert głowa.status == "rejected", głowa.explain()
-    zaimek = verdict("Ustawy, której przepisy obowiązują, są tanie.")
+    zaimek = verdict("Ustawy, której autorzy piszą, są tanie.")
     assert zaimek.status == "rejected", zaimek.explain()
 
 
@@ -1834,6 +1838,20 @@ def test_grupa_wysunięta_bez_przyimka_staje_także_w_dopełnieniu():
     assert dopełnienie.status == "valid", dopełnienie.explain()
     przeczenie = verdict("Ustawa, której przepisów minister nie ogłasza, jest tania.")
     assert przeczenie.status == "valid", przeczenie.explain()
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    ["Dyrektor wymienia imprezy, które zorganizował.", "Które zadania wykonuje?"],
+)
+def test_czoło_w_dopełnieniu_wyprowadza_zdanie_z_opuszczonym_podmiotem(zdanie):
+    """Podmiot polszczyzna tutaj opuszcza, więc deklaracje są dwie, jak w zdaniu głównym.
+
+    Zdania są dwa, bo ciała pisze obu rodzinom czół jedna funkcja, a rozejście
+    się tych rodzin widać dopiero na zdaniu, którego jedna z nich nie wyprowadza.
+    """
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
 
 
 @pytest.mark.parametrize(
@@ -1938,7 +1956,7 @@ def test_oba_ciała_kopuli_opuszczonej_dają_temu_zdaniu_po_jednym_przyłączeni
     [
         ("Reguła, która rozstrzyga, jest tania.", "Subject", "która"),
         ("Polszczyzna, którą napisał autor, jest tania.", "Object", "którą"),
-        ("Ustawa, której przepisy obowiązują, jest tania.", "Subject", "której przepisy"),
+        ("Ustawa, której autorzy piszą, jest tania.", "Subject", "której autorzy"),
         ("Ustawa, której przepisy minister ogłasza, jest tania.", "Object", "której przepisy"),
         ("Który aktor robi na tobie największe wrażenie?", "Subject", "Który aktor"),
         ("Które zadania gmina wykonuje?", "Object", "Które zadania"),
@@ -2033,9 +2051,13 @@ def test_zdanie_względne_zgadza_się_z_poprzednikiem_i_tym_odbiera_przyłączen
 def test_zdanie_względne_nie_daje_dwóch_wyprowadzeń_jednej_struktury():
     #  Usterka, którą to łapie: produkcja rekurencyjna na poziomie członu.
     #  Zdanie względne dochodzi wtedy pod przymiotnikiem i nad nim, czyli
-    #  `te [konstrukcje, które stoją]` obok `[te konstrukcje], które stoją`,
+    #  `ci [ludzie, którzy stoją]` obok `[ci ludzie], którzy stoją`,
     #  a te dwa kształty są różne, więc liczą się jako dwa czytania.
-    found = verdict("Istnieją te konstrukcje, które na niej stoją.")
+    #
+    #  Zaimek jest męskoosobowy, bo `które` jest zarazem mianownikiem i
+    #  biernikiem, więc zdanie z nim wychodzi drugim czytaniem — z opuszczonym
+    #  podmiotem — i to czytanie zasłoniłoby usterkę, o którą tu idzie.
+    found = verdict("Istnieją ci ludzie, którzy na niej stoją.")
     assert found.status == "valid", found.explain()
 
 

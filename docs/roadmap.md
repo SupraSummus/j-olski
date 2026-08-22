@@ -541,8 +541,8 @@ Ta sama grupa wysunięta bez przyimka jest piątym policzonym dopisaniem
 i pierwszym, którego przeszkodą jest zgodność.
 Grupa niesie liczbę i rodzaj dwa razy, bo orzeczenie zgadza się z jej głową,
 a poprzednik z jej zaimkiem, więc para jedna wydaje werdykt pewny siebie i błędny —
-raz przyjmując `Ustawa, której przepisy obowiązuje`,
-a raz `Ustawy, której przepisy obowiązują`.
+raz przyjmując `Ustawa, której autorzy pisze`,
+a raz `Ustawy, której autorzy piszą`.
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 tak samo jak przy pozycji pod przyimkiem,
 a zakup jest pierwszym, jaki ta konstrukcja robi nad bankiem drzew
@@ -590,6 +590,14 @@ Lista pozycji tego etapu jest przez to pusta,
 a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
 Brak tego pokrycia jest odczytem o pomiarze nad tym plikiem, a nie o podrzędności,
 i akapit wyżej nazywa formy, na których stoją zdania stojące przedtem na spójniku.
+
+Podmiot opuszczony w zdaniu z wysuniętym dopełnieniem wszedł już po tej liście,
+bo wskazał go nie ranking, tylko pomiar luki, który kupował go mimochodem
+([design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+Zakupem są zdania Składnicy wyjęte z odrzucenia, a ceną jednoznaczność zdania,
+w którym zaimek jest zarazem mianownikiem i biernikiem;
+nad rejestrem ustaw nie rusza się ani jedno, ani drugie
+([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
 
 ## Etap 5: słowa, których słownik nie ma
 
