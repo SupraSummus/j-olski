@@ -545,7 +545,10 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Clauses in all six orders the subject, the object and the verb stand in,
   from `Program zapisuje ustawienia.` to `Zapisuje ustawienia program.`
 - Subjectless clauses, both imperative (`Zapisz plik.`)
-  and pro-drop indicative (`Zapisuje ustawienia.`)
+  and pro-drop indicative (`Zapisuje ustawienia.`),
+  with the object in front of the verb as well: `Cenę liczymy.`,
+  the order [CLAUDE.md](../CLAUDE.md#reguły-przyjmujemy-leniwie)
+  writes its own rules in
 - A verb before its subject, with an agreeing predicative after it or without one:
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
 - A predicative before the copula, which is the mirror of OVS:
@@ -897,8 +900,8 @@ nie zyskuje przy przeczeniu nowej pozycji.
 
 Produkcja mówi naraz dwie rzeczy: z czego zdanie się składa
 i w jakiej kolejności te córki stoją.
-Rozdzielone, te dwie rzeczy mieszczą się w sześciu deklaracjach,
-z których rozwinięcie pisze dwadzieścia osiem ciał `ClauseConjunct`.
+Rozdzielone, te dwie rzeczy mieszczą się w siedmiu deklaracjach,
+z których rozwinięcie pisze kilkadziesiąt ciał `ClauseConjunct`.
 Deklaracja wymienia same córki,
 warunek precedencji obok niej mówi, które ich przestawienia wchodzą,
 a rozwinięcie składa jedno z drugim przed rozbiorem
@@ -1742,7 +1745,7 @@ a kosztuje to jeden warunek w obu zejściach po role.
 Widać po tym, do którego zdania okolicznik doszedł:
 
 ```text
-Pomiar mówi, że linter działa, ponieważ tekst jest gotowy.
+Pomiar mówi, że autor pisze, ponieważ tekst jest gotowy.
 ```
 
 Czytania są dwa i oba polszczyzna nad tym zdaniem ma,
@@ -1883,8 +1886,8 @@ a to zdanie stawia okolicznik po obu stronach czasownika.
 
 Płacą za to zdania, w których zaimek jest zarazem mianownikiem i biernikiem,
 a czasownik biernik bierze, bo daje mu go rama domyślna:
-`Wywód, który za nią stał, stoi dalej.` z prozy README wychodzi dwoma czytaniami,
-a nad Składnicą pod żywą morfologią traci jednoznaczność jedno zdanie.
+`Wywód, który za nią stał, stoi dalej.` z prozy README jest takim zdaniem,
+a nad Składnicą pod żywą morfologią traci jednoznaczność jedno.
 Pod złotą morfologią nie traci jej ani jedno,
 bo anotator wybrał tam jedno czytanie na token,
 a nad rejestrem ustaw nie rusza się ani cena, ani zakup.

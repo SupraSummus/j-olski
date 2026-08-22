@@ -540,7 +540,7 @@ def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
         ),
         (
             "Po upływie kadencji rady gminy zarząd działa do dnia wyboru nowego zarządu.",
-            3,
+            6,
             "nowego zarządu",
         ),
     ],
@@ -605,8 +605,13 @@ PRZYJMOWANE = [
     #  of a subjectless one too.
     "Pod względem smaku zwykłą bułkę przewyższa chałka.",
     "W pliku zapisuje ustawienia.",
-    #  A reflexive verb, which is the form with się after it.
-    "Program zapisuje się.",
+    #  Dopełnienie przed czasownikiem zdania, którego podmiot jest opuszczony,
+    #  czyli szyk, którym ten rejestr mówi o swoich konwencjach.
+    "Cenę liczymy.",
+    #  A reflexive verb, which is the form with się after it. The subject is
+    #  masculine personal: a nominative that is also an accusative reads as a
+    #  fronted object over a subjectless clause as well.
+    "Autor zapisuje się.",
     #  Przeczenie, czyli druga cząstka, którą ten podzbiór bierze.
     "Program nie zapisuje ustawień.",
     #  The copula, with a predicative agreeing with the subject and with a
@@ -1117,8 +1122,8 @@ def test_znak_składowej_pada_po_tej_stronie_roli_po_której_zdanie_idzie_dalej(
     #  Zdanie jednoznaczne, więc znak nie bierze się z żadnej wieloznaczności:
     #  dopełnienie jest w drugim zdaniu składowym, a podmiot i czasownik w pierwszym,
     #  i widać to po stronie, z której pada znak.
-    [roles] = verdict("Program działa i zapisuje ustawienia.").readings
-    assert roles == {"Subject": "Program…", "Object": "…ustawienia", "Verb": "działa…"}
+    [roles] = verdict("Autor działa i zapisuje ustawienia.").readings
+    assert roles == {"Subject": "Autor…", "Object": "…ustawienia", "Verb": "działa…"}
 
 
 def test_okolicznik_na_czele_zdania_znaku_składowej_nie_dostaje():
@@ -1242,7 +1247,8 @@ def test_cudzysłów_przepuszcza_przypadek_grupy_którą_obejmuje():
     #  Polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli grupy, więc
     #  wartość wpisana w produkcję przyjmuje jeden z tych dwóch napisów i odrzuca
     #  drugi, a oba są zdaniami tej dokumentacji.
-    assert verdict("Same „Zasady techniki prawodawczej” stoją poza tą sumą.").status == "valid"
+    mianownik = verdict("Same „Zasady techniki prawodawczej” są rozporządzeniem.")
+    assert mianownik.status == "valid", mianownik.explain()
     orzecznik = verdict("Ustawa jest przepisem „Zasad techniki prawodawczej”.")
     assert orzecznik.status == "valid", orzecznik.explain()
 
@@ -1454,7 +1460,7 @@ def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
     #  po rolach, bo obie pary przyłączeń zostają te same; widać po liczbie czytań.
     #  Werdykt nazywa tu jedno przyłączenie z dwóch, i to jest ta ostrość, którą
     #  las kupuje: `w pliku` dochodzi do zdania w obu czytaniach.
-    found = verdict("Program zapisuje w pliku w katalogu.")
+    found = verdict("Autor zapisuje w pliku w katalogu.")
     assert found.explain() == '2 readings; „w katalogu” → „zapisuje”, „pliku”'
 
 
@@ -1856,7 +1862,7 @@ def test_czoło_w_dopełnieniu_wyprowadza_zdanie_z_opuszczonym_podmiotem(zdanie)
 
 @pytest.mark.parametrize(
     "zdanie",
-    ["Przepisy, o których mowa, obowiązują.", "O którym akcie mowa?"],
+    ["Przepisy, o których mowa, są nowe.", "O którym akcie mowa?"],
 )
 def test_wysunięte_wyrażenie_bierze_rzeczownik_orzekający_pod_oboma_czołami(zdanie):
     """Kopuła opuszczona wchodzi pod czoło zdania względnego i pod czoło pytania.
@@ -2181,7 +2187,7 @@ def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
     #  nim, i są to dwa czytania, które polszczyzna nad tym zdaniem ma. Widać je
     #  po roli, bo streszczenie nazywa ją wtedy, gdy okolicznik stoi w zdaniu
     #  streszczanym, a milczy, gdy stoi w tamtym.
-    found = verdict("Pomiar mówi, że linter działa, ponieważ tekst jest gotowy.")
+    found = verdict("Pomiar mówi, że autor pisze, ponieważ tekst jest gotowy.")
     assert found.result.ile == 2, found.explain()
     assert found.result.różniące == ("AdverbialClause",)
     assert {OKOLICZNIKOWY in reading for reading in found.readings} == {False, True}

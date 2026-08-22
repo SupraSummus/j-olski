@@ -309,6 +309,25 @@ Do przeczytania jest `_pewność` w `harness/rama.py` oraz dwanaście par,
 które tamta sonda wypisuje: jeżeli odsiew rusza liczbę, to rusza i te pary,
 a wtedy należy się ich przeczytanie, a nie sama poprawiona liczba.
 
+Zdania wklejone w prozę zmienia gramatyka, a żaden przebieg tego nie wypisuje.
+Przykład przestaje wtedy pokazywać to, o czym mówi zdanie nad nim,
+i widać to dopiero wtedy, gdy ktoś je puści ręką:
+`tests/test_docs.py` czyta linki i anchory, a nie liczbę czytań,
+a `tests/test_wydruki.py` pilnuje bloków stojących pod komendą i tych zdań nie tyka.
+Wpuszczenie dopełnienia przed czasownik zdania bez podmiotu ruszyło werdykt
+czternastu takich zdań, a poprawki żądały cztery, i wszystkie cztery znalazł
+przebieg pisany na jedną sesję, bo w drzewie takiego nie ma.
+Ruchem jest komenda wypisująca werdykt i liczbę czytań każdego zdania cytowanego
+w prozie, po jednym wierszu na zdanie, żeby dwa drzewa robocze dały się porównać
+diffem — tak samo jak przy zmianie, która ma tylko przyspieszyć
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+Do rozstrzygnięcia jest, co jest zdaniem cytowanym:
+sesja brała span kodu zaczynający się wielką literą i kończący kropką
+oraz wiersze bloków `text`, i to kryterium wpuszcza nazwy plików razem ze zdaniami.
+Do przeczytania jest `_ogrodzone` w `tests/test_wydruki.py`,
+bo bloki czyta już ono, a różnica jest w tym, że tamto pyta komendę,
+a to ma pytać gramatykę.
+
 Sonda różnicowa nad prozą bierze jeden plik, a rejestr ustaw to siedem plików.
 `main` w `harness/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
 i na plik, który czyta jako prozę, więc siedmiu aktów nie ma jak podać:
@@ -886,20 +905,6 @@ Po stronie spójnika policzono trzydzieści zdań banku drzew —
 a po stronie zdania z `ty` nie policzył ich nikt.
 Do przeczytania są te zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
-
-Dopełnienie na czele zdania głównego żąda podmiotu, a polszczyzna go tam opuszcza.
-`Cenę liczy autor.` wyprowadza się, a `Cenę liczymy.` jest odrzucone,
-i jest to szyk, którym ten rejestr mówi o swoich konwencjach
-([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)).
-Ruchem jest deklaracja bez podmiotu obok tej z podmiotem w `build`
-w `olski/subset.py`, czyli to samo, co dostało zdanie względne
-z wysuniętym dopełnieniem
-([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
-Do przeczytania jest cena tamtej deklaracji, bo ta wraca z pytaniem tej samej postaci
-i stawia je wyżej: tam czytanie z opuszczonym podmiotem konkuruje wewnątrz zdania
-względnego, a tutaj z każdym zdaniem, którego grupa na czele jest zarazem
-mianownikiem i biernikiem.
-Cenę i zakup bierze sonda różnicowa (`harness/ruch.py`).
 
 Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
 i na tym stanął pomiar cechy przeciąganej

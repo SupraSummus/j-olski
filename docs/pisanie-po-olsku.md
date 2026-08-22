@@ -73,13 +73,6 @@ więc stoi tam dziś bez adresata.
 [Walencja poza biernikiem](subset.md#what-it-does-not-cover-yet) obejmuje to jako żądanie,
 a nie jako pozycję, i z tego fotela jest to najdroższy pojedynczy brak.
 
-**Wysunięte dopełnienie przy podmiocie opuszczonym.**
-`Cenę liczymy.` pada, `Cenę liczy autor.` przechodzi,
-a `Liczymy cenę.` przechodzi też.
-Pierwsza osoba mnoga jest więc cała,
-a brakuje szyku, w którym dopełnienie stoi na czele zdania bez podmiotu —
-tego samego, którym ten rejestr mówi o konwencjach: *cenę liczymy przed dopisaniem*.
-
 **Grupa imienna z elipsą głowy.**
 `Wszystkie obsadza jedna osoba.` pada, `Wszystkie role obsadza jedna osoba.` przechodzi.
 Tak samo padają `ani jedna`, `dwa z tych czytań` i każde inne miejsce,
