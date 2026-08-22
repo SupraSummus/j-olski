@@ -295,7 +295,7 @@ def _warianty(
     def wynik(wariant: str) -> Outcome:
         return Outcome(
             sentence=zdanie,
-            result=parse(gramatyka(sonda, wariant), segmenty),
+            result=parse(gramatyka(sonda, wariant), segmenty, zatrzymanie=False),
             segments=tuple(segmenty),
             comparable=comparable,
         )

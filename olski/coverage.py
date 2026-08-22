@@ -113,9 +113,18 @@ class Outcome:
         the analysis stopped because *no* reading of that form could continue, so
         there is no single part of speech to name, and picking one keeps the
         ranking readable at the cost of being arbitrary between them.
+
+        It demands the stopping point, which a verdict asks the forest for on
+        request (:func:`olski.parse.podsumuj`), so a run that did not ask raises
+        here rather than naming some other form.
         """
         if not self.result.rejected:
             return None
+        if self.result.furthest is None:
+            raise ValueError(
+                "bloker nazywa formę z miejsca zatrzymania, "
+                "a ten przebieg o zatrzymanie nie pytał (podsumuj w olski/parse.py)"
+            )
         for segment in self.segments:
             if segment.start == self.result.furthest:
                 readings = segment.readings
