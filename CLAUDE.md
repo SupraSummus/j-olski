@@ -237,6 +237,13 @@ which is how two documents come to contradict each other.
 The document list in the README is the reference example —
 a sentence or two per document, no numbers, and every entry links its owner.
 
+**A list owns its length.**
+"Five reasons follow" copies what stands in plain sight below it,
+and a sixth reason makes the copy wrong,
+the way a constant holding an array's length does.
+A count stays where it claims the set is closed:
+[the six forces](#six-forces) are six until somebody finds a seventh.
+
 **Reasoning has an owner in the same way a fact does.**
 A mechanism is explained once,
 and other places state the conclusion in a sentence and point at it.
@@ -264,38 +271,21 @@ while a copy of behaviour does not.
 
 ## Na czym wolno oprzeć zdanie
 
-Zdanie w dokumencie opiera się zwykle na czymś poza sobą:
-na nazwie pliku, na nagłówku sekcji, na liczbie,
-na przykładzie, na kolejności reguł, na nazwie funkcji.
-Pytanie przy pisaniu jest jedno:
-czy to, na czym zdanie się opiera, wolno jutro zmienić przy innej robocie?
+Zdanie w dokumencie opiera się zwykle na czymś poza sobą.
+Nazwa pliku i nagłówek sekcji są publiczne i wolno się na nich oprzeć:
+kto je zmieni, dostanie czerwone `tests/test_docs.py`.
+Reszta jest prywatna —
+nazwa funkcji w module, kolejność pozycji na liście,
+liczba, przykład, format wydruku —
+i rusza ją zwykła robota, która o tym zdaniu nie wie.
 
-Nazwa pliku i nagłówek sekcji są adresami,
-a kto je zmieni, dostaje czerwone `tests/test_docs.py`.
-Reszta zmienia się przy zwykłej robocie i nie ostrzega:
-liczba, przykład, długość listy, kolejność pozycji,
-nazwa funkcji wewnątrz modułu, format wydruku.
-Zdanie oparte na takiej rzeczy przestaje być prawdą
-przy commicie, który nie ma powodu o nim wiedzieć.
+Naprawą jest wskazanie właściciela zamiast jego wnętrza:
+nazwa modułu zamiast nazwy funkcji w środku,
+nazwa reguły z linkiem zamiast miejsca w kolejności.
 
-Zależność od rzeczy zmiennej wolno mieć pod warunkiem,
-że zmiana wywraca suitę:
-ciasna zależność jest tania, dopóki ktoś dostaje o niej wiadomość.
-Zła jest trzecia możliwość — zdanie oparte na rzeczy zmiennej,
-której nie pilnuje ani test, ani przegląd.
-Naprawą jest zwykle adres:
-nazwa reguły z linkiem zamiast miejsca w kolejności,
-nazwa modułu zamiast nazwy funkcji w jego wnętrzu.
-
-[Jeden właściciel na fakt](#one-owner-per-fact-repeat-narrative-freely)
-odpowiada na inne pytanie: gdzie fakt zapisać, żeby nie było dwóch kopii.
-Ta reguła łapie przypadek, w którym kopii nie ma wcale —
-zdanie poprawnie wskazuje właściciela i mimo to przestaje być prawdą,
-bo oparło się na szczególe, którego właściciel nie obiecywał trzymać.
-Liczba krucha z [sekcji o pomiarze](#pomiar-i-liczba-która-po-nim-zostaje)
-jest tą samą usterką w mniejszym rozmiarze.
-Blok wydruku nią był i przestał, bo `tests/test_wydruki.py` go pilnuje:
-tak właśnie zła możliwość przechodzi w ciasną i tanią.
+Na rzecz prywatną wolno się oprzeć tam, gdzie pilnuje jej test:
+blok wydruku wszedł do dokumentu dlatego, że `tests/test_wydruki.py`
+puszcza komendę i porównuje wiersze.
 
 ## Documents describe the present; git owns the past
 
