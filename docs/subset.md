@@ -1846,9 +1846,9 @@ Zaimek wypuszcza tę samą parę drugi raz i osobno,
 bo w niej zgadza się z nim poprzednik zdania względnego.
 Jedna para na obie zgodności wygląda poprawnie i odwraca każdą z nich:
 `w wyniku której` ma głowę męską przy żeńskim poprzedniku,
-a `której przepisy obowiązują` mnogą przy pojedynczym.
-Para wzięta z zaimka przyjmuje przez to `Ustawa, której przepisy obowiązuje`,
-a para wzięta z głowy `Ustawy, której przepisy obowiązują` —
+a `której autorzy piszą` mnogą przy pojedynczym.
+Para wzięta z zaimka przyjmuje przez to `Ustawa, której autorzy pisze`,
+a para wzięta z głowy `Ustawy, której autorzy piszą` —
 w obie strony werdykt pewny siebie i błędny.
 
 Kształty grupy są dwa: rzeczownik z zaimkiem za sobą (`na podstawie której`)
@@ -1864,13 +1864,42 @@ Cenę każdej z dwóch pozycji bierze się osobno, zdejmując produkcje,
 a pod jednym czołem pozycja bez przyimka nie jest żadną produkcją osobno:
 te same ciała bierze wtedy sam zaimek, więc nie ma czego zdjąć.
 
-Zdanie względne z wysuniętym dopełnieniem żąda przy tym podmiotu,
-bo każde takie ciało ma go wypisany,
-więc podmiot opuszczony to zdanie odrzuca:
-`Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się,
-a `Dyrektor wymienia imprezy, które on zorganizował.` wyprowadza się raz.
-Polszczyzna podmiot w tej pozycji opuszcza swobodnie,
-a nad Składnicą są to cztery zdania.
+Podmiotu zdanie z wysuniętym dopełnieniem nie żąda,
+bo deklaracje są dwie — z podmiotem i bez niego —
+tak samo jak ma je zdanie główne.
+Jedno czytanie ma przez to `Dyrektor wymienia imprezy, które zorganizował.`
+i jedno `Dyrektor wymienia imprezy, które on zorganizował.`.
+Ciała pisze obu rodzinom czół jedna funkcja, więc to samo dostało pytanie:
+`Które zadania wykonuje?` wyprowadza się obok `Które zadania gmina wykonuje?`.
+
+Zakupem są pod złotą morfologią cztery zdania Składnicy wyjęte z odrzucenia
+i piąte, które z odrzucenia przechodzi w wieloznaczność;
+pod żywą jest ich odpowiednio trzy i dwa.
+Role trzech z tych czterech zgadzają się z drzewem wzorcowym,
+a czwarte — `Złodzieje kradną drogi sprzęt, który potem sprzedają w cenie złomu.` —
+olski czyta z okolicznikiem przy zdaniu nadrzędnym zamiast przy względnym,
+bo miejsce na okolicznik jest w ciele jedno,
+a to zdanie stawia okolicznik po obu stronach czasownika.
+
+Płacą za to zdania, w których zaimek jest zarazem mianownikiem i biernikiem,
+a czasownik biernik bierze, bo daje mu go rama domyślna:
+`Wywód, który za nią stał, stoi dalej.` z prozy README wychodzi dwoma czytaniami,
+a nad Składnicą pod żywą morfologią traci jednoznaczność jedno zdanie.
+Pod złotą morfologią nie traci jej ani jedno,
+bo anotator wybrał tam jedno czytanie na token,
+a nad rejestrem ustaw nie rusza się ani cena, ani zakup.
+Tą samą drogą wyprowadza się `Ustawa, której przepisy obowiązuje`,
+i dlatego parę cech czoła pokazuje wyżej głowa męskoosobowa,
+której mianownik różni się od biernika.
+
+Pod żywą morfologią jedno z tych zdań wchodzi przy tym
+nie tym czytaniem, o które szło.
+`Myślę o tym człowieku, który mnie podglądał.` wychodzi
+pytaniem zależnym w pozycji, którą każdemu czasownikowi daje
+[rama domyślna](#walencja-jest-leksykonem-o-ramie-domyślnej),
+a nie zdaniem względnym:
+zdanie względne z wysuniętym podmiotem stawia dopełnienie za czasownikiem,
+więc `mnie podglądał` nie ma w nim gdzie stanąć.
 
 Wysunięte dopełnienie sięga ponadto do formy osobowej i nie dalej,
 bo ciała wypisane wyżej mają w środku czasownik zdania składowego,
@@ -1881,7 +1910,7 @@ co pokazuje `grep -P 'któr\w+ [^.]*\b(może|mogą|ma|mają)\b [^.]*\w+ć'`
 nad `proza/ustawy/`, więc konstrukcja ta jest wyczytana z gramatyki,
 a nie z korpusu.
 
-Po jedno i drugie sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
+Po ten brak sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
 a ile ona kupuje i dlaczego nie weszła, mierzy
 [design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
 

@@ -887,36 +887,27 @@ a po stronie zdania z `ty` nie policzył ich nikt.
 Do przeczytania są te zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 
-Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.
-Każde ciało z dopełnieniem, jakie pisze `_wysunięta_rola`
-w `olski/subset.py`, ma wypisany podmiot,
-więc `Dyrektor wymienia imprezy, które zorganizował.` nie wyprowadza się wcale,
-a `Dyrektor wymienia imprezy, które on zorganizował.` raz.
-Funkcja pisze te ciała dla obu rodzin czół, więc ruch dotyka i pytania:
-`Które zadania gmina wykonuje?` ma podmiot, a `Które zadania wykonuje?` go nie ma
-i przez to nie wyprowadza się wcale.
-Nad Składnicą są to cztery zdania i wyszły one z
-[pomiaru luki](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze),
-który je kupił mimochodem, mierząc co innego:
-cechy przeciąganej te cztery zdania do kupienia nie potrzebują.
-Ruchem jest deklaracja bez podmiotu obok tej z podmiotem,
-czyli to samo, co zdanie główne ma w `ClauseConjunct → Predicate`,
-a ile ciał ona napisze, rozstrzyga rozwinięcie szyku, a nie ręka
-([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
-Do przeczytania jest, ile ta pozycja dokłada wieloznaczności:
-zdanie względne bez podmiotu konkuruje z czytaniem, w którym podmiotem jest zaimek,
-a rodzina ta liczy siedemnaście ciał.
-Cenę i zakup bierze się sondą różnicową, tak jak przy każdym dopisaniu
-([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-a wpis jest winien przebiegi, których żąda [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
+Dopełnienie na czele zdania głównego żąda podmiotu, a polszczyzna go tam opuszcza.
+`Cenę liczy autor.` wyprowadza się, a `Cenę liczymy.` jest odrzucone,
+i jest to szyk, którym ten rejestr mówi o swoich konwencjach
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)).
+Ruchem jest deklaracja bez podmiotu obok tej z podmiotem w `build`
+w `olski/subset.py`, czyli to samo, co dostało zdanie względne
+z wysuniętym dopełnieniem
+([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
+Do przeczytania jest cena tamtej deklaracji, bo ta wraca z pytaniem tej samej postaci
+i stawia je wyżej: tam czytanie z opuszczonym podmiotem konkuruje wewnątrz zdania
+względnego, a tutaj z każdym zdaniem, którego grupa na czele jest zarazem
+mianownikiem i biernikiem.
+Cenę i zakup bierze sonda różnicowa (`harness/ruch.py`).
 
 Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
 i na tym stanął pomiar cechy przeciąganej
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
 `agreement` w `olski/coverage.py` porównuje rozpiętości,
 więc rozpiętość pusta nie trafia w żadną złotą i liczy się jako niezgodna —
-wszystkie cztery zdania, jakie luka wyciągnęła ze Składnicy, wyszły tak,
-choć role widoczne mają dobre.
+tak wyszło zdanie, które luka wyciąga ze Składnicy,
+choć role widoczne ma dobre.
 Werdykt tej ceny nie płaci: luka stoi wewnątrz zdania względnego,
 gdzie streszczenie nie zagląda,
 więc o roli wypełnionej luką milczy tak samo jak o roli wypełnionej zaimkiem.
