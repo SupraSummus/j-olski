@@ -465,8 +465,8 @@ tak samo jak cztery dopisania przed nim,
 i jest to o tamtej kolejce odczyt, a nie o konstrukcji:
 zdanie tego pliku, które stało na spójniku, stoi także na rzeczowniku
 odczasownikowym albo na średniku.
-Zostają z tej listy spójniki trybu przypuszczającego, czyli `aby` i `żeby`
-([subset.md](subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
+Spójniki trybu przypuszczającego mają niżej własny akapit,
+bo żądają od zdania cechy, której ta lista nie żąda, i osobno się je liczy.
 
 Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
 i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
@@ -567,6 +567,24 @@ a zakupem jest jedno zdanie rejestru ustaw,
 czyli przeszło o dwa rzędy wielkości mniej, niż obiecywało 851 wystąpień tego zwrotu:
 prawodawca pisze go razem z adresem przepisu, a cyfry olski nie bierze
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+
+Spójnik niosący cząstkę trybu jest siódmym policzonym dopisaniem tego etapu.
+`żeby` jest z `że` i `by`, `gdyby` z `gdy` i `by`,
+więc cząstka stoi w spójniku, a zdanie pod nim niesie formę na -ł bez własnej
+i ogłasza to cechą, którą wypuszcza każda produkcja zdania
+([subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+i wynika to z gramatyki, nie z przebiegu:
+`comp` z tymi lematami nie brał przedtem żaden terminal,
+więc zdanie z takim spójnikiem nie miało czytania, z którego dałoby się je wytrącić.
+Zakupem jest przeszło pięćdziesiąt zdań Składnicy zdjętych z listy odrzuconych,
+z czego połowa na przyjęte.
+Wypełnienia są dwa i weszły razem, każde z własną ceną i własnym zakupem:
+zdanie oraz fraza bezokolicznikowa, bo pod tymi spójnikami bank drzew stawia
+bezokolicznik niemal tak samo często jak formę na -ł,
+więc sama cecha trybu zamknęłaby połowę tej pozycji.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nim.
 
 Lista pozycji tego etapu jest przez to pusta,
 a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
@@ -750,12 +768,11 @@ Pary do przelicznika niżej to dopisanie nie dokłada,
 bo obietnicą jest wiersz `ger` liczony wtedy, gdy konstrukcji jeszcze nie ma,
 a tabeli, która ten wiersz trzyma, nikt tu od tamtej pory nie przeliczył.
 
-Tryb przypuszczający zszedł z tej listy w połowie:
-weszła cząstka przy czasowniku, a spójniki, które tego trybu żądają, zostały
-([subset.md](subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
+Tryb przypuszczający zszedł z tej listy cząstką przy czasowniku,
+a spójniki, które ten tryb niosą same, weszły osobno i wyżej,
+bo są podrzędnością ([etap 4](#etap-4-zdanie-złożone)).
 Kupuje kilkanaście zdań Składnicy i pojedyncze zdania tej prozy,
 a jednoznaczności nie odbiera ani jednemu zdaniu w żadnym z tych dwóch korpusów.
-Cechę trybu, po której wracają tamte spójniki, trzyma [TODO.md](../TODO.md).
 
 Predykatyw na tej liście nie stał i wszedł prosto z kolejki blokerów,
 z wiersza `pred`, którego olski nie ruszał dotąd wcale
@@ -805,8 +822,8 @@ więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przeliczni
 Piątą parę zmierzył [etap 4](#etap-4-zdanie-złożone) i wypadła ona poza ten przelicznik:
 wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem oddał z niego
 niecałą dziesiątą część.
-Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, które gramatyka ma,
-spójniki trybu przypuszczającego, których nie bierze, i okolicznik, który wszedł —
+Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, okolicznik, który wszedł,
+i spójniki trybu przypuszczającego, które weszły po nim —
 i tym różni się od tamtych czterech, z których każdy stał za jedną.
 Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:

@@ -633,18 +633,21 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 
 ## Gramatyka, parser i pomiar pokrycia
 
-Spójniki trybu przypuszczającego — `aby`, `żeby`, `by`, `gdyby` — stoją poza
-podzbiorem, dopóki zdanie tego trybu nie ogłasza
-([`docs/subset.md`](docs/subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
-Ruchem jest cecha trybu wypuszczana przez `Verb` i przepuszczana przez każdą
-produkcję zdania, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
-więc ciało, które jej nie przepuści, przepuści za to każdy tryb.
-Ceną jest ta cecha w każdej produkcji zdania, czyli tyle, ile zapłacił rodzaj
-w czasie przeszłym, a zakupem zdania, które w wierszu `comp` stoją zaraz za `że`
-([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)).
-Do przeczytania jest `Rozwinięcie` w `olski/precedencja.py`:
-szyki zdania wylicza ono, a nie wypisuje ich `olski/subset.py`,
-więc cecha dopisana ręką do ciał widocznych w tym pliku minie te wyliczone.
+Ciąg współrzędny wypuszcza tryb członu pierwszego i od pozostałych nie żąda niczego,
+więc `żeby program zapisał ustawienia i linter sprawdza tekst` wyprowadza się,
+choć polszczyzna żąda formy na -ł od obu członów
+([`docs/subset.md`](docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+Zmienna wspólna tego nie naprawi, bo zabiera zdania już przyjęte:
+`Program zapisuje ustawienia, a linter sprawdziłby tekst.` koordynuje dwa tryby,
+a wartości tych dwóch trybów się nie przecinają.
+Ruchem jest osobny poziom koordynacji pod tym spójnikiem
+albo warunek sprawdzany po rozbiorze, czyli ta sama maszyneria,
+o którą prosi wpis o luce wskazującej zaimek.
+Oba są droższe niż cecha, więc przed nimi stoi pytanie, czy warto:
+zdanie odrzucone jest werdyktem uczciwym,
+a tutaj wyprowadza się napis, którego polszczyzna nie ma.
+Do przeczytania jest, ile takich zdań ma bank drzew:
+`żeby` z dwoma członami po przecinku albo po `i`.
 
 `olski/subset.py` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
 rozkłada się w nim na cztery miejsca: rolę przy `DEKLARACJA`, ramę i listę lematów
@@ -869,12 +872,19 @@ Aglutynant dochodzi tylko do czasownika, przy którym stoi.
 bo tak Morfeusz tnie `napisałem`,
 a polszczyzna stawia tę końcówkę także przy innym słowie zdania:
 `gdzieś ty był`, `myśmy przyszli`, `dlaczegoś to zrobił`.
+Tym samym brakiem jest końcówka na spójniku niosącym cząstkę trybu —
+`żebym napisał`, które Morfeusz tnie na `żeby` i `m`
+([`docs/subset.md`](docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 Ruchem jest aglutynant przyłączany do zdania, a nie do czasownika,
 czyli cecha osoby wypuszczana w górę z miejsca, w którym końcówka stanęła.
 Do rozstrzygnięcia jest, czy warto:
 konstrukcja jest w rejestrze technicznym rzadka albo nieobecna,
-a w prozie literackiej Składnicy nie jest, i nikt nie policzył, ile jej tam.
-Do przeczytania są zdania Składnicy, w których `aglt` stoi poza `praet`,
+a w prozie literackiej Składnicy nie jest.
+Po stronie spójnika policzono trzydzieści zdań banku drzew —
+`Żebym go chociaż mocno zranił!`,
+`Nikt nas nie zmusi, abyśmy w nim partycypowali.` —
+a po stronie zdania z `ty` nie policzył ich nikt.
+Do przeczytania są te zdania Składnicy, w których `aglt` stoi poza `praet`,
 bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 
 Zdanie względne z wysuniętym dopełnieniem żąda podmiotu, a polszczyzna go tam opuszcza.

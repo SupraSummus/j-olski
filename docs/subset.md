@@ -630,11 +630,10 @@ a ruch trzyma [TODO.md](../TODO.md).
   ([below](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
   `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`
-  Cząstka stoi przy czasowniku i tylko tam,
-  bo cechy trybu nie niesie żadna produkcja zdania,
-  a spójniki, które takiego zdania żądają, zostają przez to na zewnątrz;
+  Cząstka stoi przy czasowniku albo w spójniku nad zdaniem —
+  `Zażądałem, by wyszedł.` — a zdanie ogłasza cechą, gdzie stoi;
   wywód trzyma
-  [poniżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)
+  [poniżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)
 - Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
   `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
   Rządzi tym, czym rządziłby czasownik, bo idzie tą samą ramą,
@@ -757,35 +756,23 @@ więc czasownik dostaje trzy ciała zamiast jednego:
 `fin` albo `impt`, samo `praet` z osobą trzecią wpisaną w produkcję,
 oraz `praet` z aglutynantem.
 Tryb przypuszczający dokłada do tych trzech dwa dalsze
-([niżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)).
+([niżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 Bez wpisanej trzeciej osoby `Ja napisał program.` wyprowadza się,
 bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 
-## Tryb przypuszczający jest cząstką przy czasowniku, a nie cechą zdania
+## Cząstka trybu stoi przy czasowniku albo w spójniku
 
 Morfeusz dzieli `odzyskałby` na czas przeszły i cząstkę `by`,
 a `napisałbym` na czas przeszły, cząstkę i aglutynant,
-więc tryb ten jest w tej gramatyce jedną cząstką dopisaną do formy czasownika.
+więc tryb przypuszczający jest w tej gramatyce jedną cząstką
+dopisaną do formy czasownika.
 Ciała są dwa, po jednym na każde ciało czasu przeszłego,
 i cząstkę dostaje ten czas i tylko on, bo tak stawia ją polszczyzna:
 `zapisujeby` nie jest niczym.
 
-Zdanie tego trybu nie ogłasza, i to jest granica tej konstrukcji.
-Cechy trybu nie niesie ani `Verb`, ani `Clause`,
-więc spójnik żądający zdania w tym trybie — `aby`, `żeby`, `by`, `gdyby` —
-nie ma czego żądać i zostaje na zewnątrz
-([niżej](#what-it-does-not-cover-yet)),
-bo wpuszczony wyprowadzałby `aby program zapisuje ustawienia`.
-Cechy tej nikt jeszcze nie napisał, a płaci się za nią w każdej produkcji zdania;
-[TODO.md](../TODO.md) trzyma ten ruch razem z ceną.
-Poza podzbiorem zostaje też cząstka stojąca dalej od czasownika —
-`Nie ma aplikacji, która by to wszystko napędzała.` —
-i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
-a nie brak pozycji.
-
-Ceny w czytaniach nie ma żadnej i wynika to z gramatyki, nie z przebiegu:
-formy `by` nie bierze żaden inny terminal,
-więc zdanie z tą cząstką albo wyprowadza się tymi dwoma ciałami,
+Ceny w czytaniach ta cząstka nie ma żadnej i wynika to z gramatyki, nie z przebiegu:
+formy `by` nie bierze przy czasowniku żaden inny terminal,
+więc zdanie z nią albo wyprowadza się tymi dwoma ciałami,
 albo nie ma czytania wcale — tak samo jak zdanie z dwukropkiem
 ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Niezmiennika pilnuje `tests/test_subset.py`, gdzie zdanie z tą cząstką stoi wśród
@@ -796,6 +783,77 @@ Kolejkę form bez licencji `by` prowadziło właśnie nad tą prozą
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 a większość jego wystąpień w niej jest angielskim przyimkiem,
 co widać po tym, że stoi za formą, której słownik nie zna.
+
+Ta sama cząstka bywa wpisana w spójnik:
+`żeby` jest z `że` i `by`, `gdyby` z `gdy` i `by`,
+`aby` z `a` i `by`, a `jakby` z `jak` i `by`.
+Cząstka jest w zdaniu jedna, więc pod takim spójnikiem stoi forma na -ł
+bez własnej cząstki: `Zażądałem, by wyszedł.`
+Żeby spójnik miał czego żądać, zdanie ogłasza cechą `tryb`,
+gdzie ta cząstka w nim stoi: przy czasowniku, w spójniku albo nigdzie.
+
+Forma na -ł bez cząstki wychodzi z dwiema wartościami tej cechy naraz.
+`Program zapisał ustawienia.` orzeka w trybie oznajmującym, kiedy stoi samo,
+a pod spójnikiem w przypuszczającym,
+i jest to ten sam synkretyzm, który ta gramatyka zna z przypadka:
+jedna forma, dwie wartości, a wybiera między nimi przecięcie.
+Samo zdanie żadnej z nich nie żąda,
+więc zdanie w czasie przeszłym wyprowadza się tak jak przedtem.
+
+Trzy napisy zostają przez to poza podzbiorem i każdy z innego powodu.
+`żeby program zapisuje ustawienia` niesie formę osobową, która cząstki nie bierze.
+`żeby linter sprawdziłby tekst` niesie cząstkę dwa razy.
+`żeby napisałem plik` niesie aglutynant w miejscu,
+w którym pod tym spójnikiem stoi jego własna końcówka:
+polszczyzna ma `żebym napisał`.
+
+Ceną jest ta cecha w każdej produkcji zdania.
+Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc ciało, które trybu nie przepuści, wpuszcza pod ten spójnik każdy tryb.
+Niezmiennika pilnuje `tests/test_subset.py`:
+ciało zdania bez tej cechy wywraca suitę,
+bo pojedyncze zdanie tego nie łapie, a ciał zdania jest kilkadziesiąt.
+
+Ciąg współrzędny wypuszcza tryb członu pierwszego i od pozostałych nie żąda niczego,
+więc `żeby program zapisał ustawienia i linter sprawdza tekst` wyprowadza się,
+choć polszczyzna żąda formy na -ł od obu członów.
+Jest to ta sama granica, którą trzyma
+[zasięg koordynacji](#nothing-above-a-coordination-distributes-into-it),
+a zmienna wspólna zabrałaby zdania już przyjęte:
+`Program zapisuje ustawienia, a linter sprawdziłby tekst.`
+koordynuje tryb oznajmujący z przypuszczającym.
+
+Wypełnieniem bywa fraza bezokolicznikowa zamiast zdania —
+`Odnotowuję to, żeby złagodzić wrażenie.` —
+i w banku drzew pada ona pod tymi spójnikami
+niemal tak samo często jak forma na -ł.
+Bezokolicznik podmiotu nie ma i trybu nie niesie, więc ciało z nim o tryb nie pyta,
+a osobne jest dlatego, że jego cena jest osobną liczbą.
+Oba wypełnienia biorą oba miejsca okolicznika,
+bo zdanie z każdym z tych spójników polszczyzna wysuwa:
+`Żeby zostać rezydentem księstwa, musisz mieć oszczędności.`
+
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a wynika to z gramatyki, nie z przebiegu:
+`comp` z tymi lematami nie brał przedtem żaden terminal,
+więc zdanie z takim spójnikiem nie miało czytania,
+z którego dałoby się je wytrącić.
+Zakupem jest przeszło pięćdziesiąt zdań Składnicy zdjętych z listy odrzuconych,
+z czego połowa na przyjęte.
+Role tych przyjętych zgadzają się z drzewem wzorcowym poza jednym zdaniem:
+w `Zrodził się pomysł, by produkować klepkę.`
+bank drzew przyłącza cel do rzeczownika, a olski do zdania.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania,
+tak samo jak dopisania przed nim.
+
+Poza podzbiorem zostaje cząstka stojąca dalej od czasownika —
+`Nie ma aplikacji, która by to wszystko napędzała.` —
+i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+a nie brak pozycji.
+Zostaje też aglutynant przy spójniku, czyli `żebym napisał`:
+Morfeusz tnie ten napis na `żeby` i `m`,
+a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi
+([TODO.md](../TODO.md)).
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
 
@@ -1636,12 +1694,10 @@ Spójnik jest warunkiem na lemat i lista jest zamknięta,
 bo klasa `comp` niesie także takie spójniki, których ta produkcja wziąć nie może.
 Spójnik ma stać na czele swojego zdania, czego `bowiem` nie robi:
 polszczyzna stawia je za pierwszym wyrazem zdania.
-Zdanie pod spójnikiem ma być oznajmujące, czyli takie, jakie ta gramatyka wyprowadza,
-a `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają trybu przypuszczającego.
-Olski nie odróżnia go od czasu przeszłego, bo cząstki `by` nie bierze żadna produkcja,
-więc wpuszczone wyprowadzałyby `aby program zapisuje ustawienia`,
-czego polszczyzna nie ma,
-a obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim.
+Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym,
+a `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają przypuszczającego
+i biorą przez to ciała osobne
+([niżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 `więc` Morfeusz znakuje tak samo i nie ma go na liście z trzeciego powodu:
 zdania nie podporządkowuje, tylko dokłada skutek,
 więc `Program zapisuje ustawienia, więc linter sprawdza tekst.`
@@ -2308,16 +2364,6 @@ Every one of these is a sentence that gets rejected and should not be:
   and that is the whole of what is left of the row for this construction:
   the comma in front of a conjunction took the lowercase ones
   ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
-- Spójniki, pod którymi stoi tryb przypuszczający: `aby`, `żeby`, `by`, `gdyby`.
-  Cząstkę tego trybu gramatyka bierze przy czasowniku
-  ([wyżej](#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania)),
-  a te spójniki żądają jej od całego zdania pod sobą,
-  czego żadna produkcja zdania nie ogłasza,
-  więc [okolicznik wyrażony zdaniem](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
-  zostawia je na zewnątrz, zamiast wyprowadzać `aby program zapisuje ustawienia`.
-  Wracają z cechą trybu nad zdaniem, a nie przed nią,
-  i dwa z nich stoją w wierszu `comp`
-  ([corpus.md](corpus.md#where-the-analyses-stop)) zaraz za samym `że`.
 - Para myślników, czyli wtrącenie w środku zdania:
   `Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
   jest odrzucone, gdzie ten sam znak pojedynczy rozdziela dwa zdania
