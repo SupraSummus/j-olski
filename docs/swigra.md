@@ -11,11 +11,14 @@ The second output is a set of mechanisms worth taking,
 since a grammar of Polish that has run for twenty years
 has already met the problems olski is walking into.
 
-## What was read, and what was not
+## What was read, and what was run
 
 `swigra_current.zip`, fetched from the project page at
 <https://zil.ipipan.waw.pl/Świgra>,
 whose files carry dates up to June 2019.
+The name says nothing about which release it is,
+so the digest of the copy read here sits in `harness/świgra.py`
+beside the command that fetches it.
 The CLARIN-PL handle listed in
 [similar-work.md](similar-work.md#sources) answers 404;
 the wiki attachment is the live copy.
@@ -34,12 +37,19 @@ carrying a header that says so,
 built from the Walenty valency dictionary.
 The maximum-entropy tree disambiguator ships as a separate archive.
 
-Everything below comes from reading that source.
-It was not run.
-Świgra needs SWI-Prolog and a Morfeusz binding compiled against it,
-and neither was installed where this reading happened,
-so nothing here is a measurement —
-the claims are about what the code says.
+Most of what follows comes from reading that source.
+The parser also runs, and one claim below is a measurement:
+`harness/świgra.py` feeds the compiled binary one sentence at a time,
+owns the number that comes back,
+and names both what the comparison flatters
+and what the package needs patched to build under SWI-Prolog 9 at all.
+The package decided how it is fed.
+Its Morfeusz glue library is built against SWI-Prolog 7.4 and 7.6,
+so input goes in as the NKJP facts the parser also accepts
+rather than through Morfeusz;
+and NKJP tags are not Morfeusz 2's,
+so the probe translates between them and is coarse where it does.
+Everything here that is not that number is about what the code says.
 
 ## What Świgra occupies
 
@@ -50,7 +60,7 @@ that picks one of those trees.
 Analysis of the whole language and resolution of the ambiguity it finds:
 that is the territory, and it is held.
 
-Three properties of it decide what is left over.
+What is left over follows from the properties below.
 
 **It describes Polish rather than choosing a Polish.**
 An analyser that refused a genuinely ambiguous Polish sentence
@@ -68,6 +78,22 @@ as something to report about the sentence.
 **It runs in one direction.**
 Birnam is a bottom-up chart parser pulling input from an inflection graph.
 Nothing in the package generates.
+
+**It answers in seconds, where a subset answers in milliseconds.**
+Free word order is bought with search rather than with rules
+([`sequence_of`](#free-word-order-without-factorial-rules) below),
+and describing all of Polish means paying that on every sentence.
+Over the prose of this repository's README,
+`harness/świgra.py` has Świgra spend seconds on sentences of ten words
+and run past a forty-five second budget on some of them,
+where olski takes milliseconds a sentence
+and finishes the whole file before Świgra finishes one of those.
+This is a consequence of describing Polish rather than a defect,
+and it decides what each parser can be used for, not which is better:
+a treebank is built once, so seconds a sentence is a night of compute,
+and a checker that answers while a sentence is being typed is not on that ground.
+Where those numbers come from is the probe's own subject,
+including the part of it that flatters Świgra.
 
 ## What it leaves open
 
@@ -121,7 +147,7 @@ and there is no amount of covering that would make olski done.
 
 Worth recording so that nobody re-proposes it:
 the uniqueness test could in principle run on Świgra's forest,
-and four things stop it.
+and every obstacle below stops it on its own.
 
 It counts derivations where olski counts readings.
 `counttrees` in `birnam_cleanforest.pl`
@@ -138,6 +164,8 @@ The integration is a subprocess and an XML parse:
 SWI-Prolog, a binary saved by `qsave_program`,
 forests serialized against `forest.xsd`,
 and a Morfeusz glue library compiled against SWI-Prolog 7.4 and 7.6.
+A wrapper inherits the seconds a sentence as well,
+which is the whole of what a checker in an editor has to spend.
 And Świgra is GPL v3,
 so embedding it is a licensing decision
 rather than a detail to discover afterwards.
@@ -324,6 +352,47 @@ and two grammars share no bracketing to compare shape by shape.
 The verdict is what asked for the forest first
 ([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 and this is the reason for it that comes from the measurement instead.
+
+## Którędy GFJP wchodzi do olskiego
+
+Mechanizmy [warte wzięcia](#what-the-code-does-that-olski-should-take)
+są kanałem świadomym i cały ten dokument nim jest.
+Poza nim GFJP dochodzi tutaj kanałami, których nikt nie wybierał,
+bo zasoby, na których olski się opiera, napisał Woliński:
+Morfeusz 2 ustala znaczniki,
+Walenty ustala leksykon walencyjny,
+a Składnica ustala, na czym mierzy się pokrycie.
+
+Składnica kosztuje z nich najwięcej i mówi o tym
+[corpus.md](corpus.md#what-this-number-is-not):
+drzewa Składnicy pochodzą z wyjścia Świgry,
+więc pomiar nad nią nie odrzuci decyzji zgodnej z GFJP.
+Architektury to nie dotyczy,
+bo dwa formalizmy da się położyć obok siebie i różnica jest widoczna —
+inaczej nie powstałby ten dokument.
+Dotyczy pojedynczej decyzji o konstytuencie:
+który gospodarz przyjmuje frazę, gdzie kończy się grupa.
+Tam jedyny przyrząd, jaki olski ma,
+przyzna GFJP rację niezależnie od tego, skąd ta decyzja przyszła.
+
+Składnica sięga przy tym dalej niż liczba pokrycia.
+Warstwa statystyczna za parserem zajmuje w olskim to samo miejsce potoku,
+co komponent Świgry, i liczy się nad tym samym bankiem drzew:
+`olski/skłonności.txt` wychodzi ze Składnicy tak samo, jak wyszedł z niej tamten.
+Nowe jest nie to miejsce, a typ odpowiedzi —
+świadek zawęża z powodem albo milczy, a ranker odpowiada zawsze —
+i o tym mówi
+[disambiguation.md](disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem).
+Zbieżności tej nie wymusza sam problem,
+tylko to, że bank drzew polszczyzny jest jeden.
+
+Kanał, którego nie ma jak sprawdzić, został tu nazwany właśnie dlatego.
+Prozę i kod tego repozytorium pisze sesja modelu językowego,
+a Świgra jest publiczna od dwóch dekad razem z monografiami, które ją opisują,
+więc decyzja może dotrzeć do olskiego już w kształcie, który nadała jej GFJP,
+a introspekcja modelu tego nie rozstrzygnie.
+Rozstrzyga porównanie kodu z kodem,
+i o tyle właśnie czytanie źródła jest tu warte więcej niż zapewnienie.
 
 ## Sources
 

@@ -922,6 +922,13 @@ it flatters any grammar that shares them more closely,
 and it understates one that does not.
 The 41% of forests with no gold tree is the visible edge of the same problem.
 
+It is not a check on where a constituent decision came from either.
+An analysis agreeing with GFJP scores the same here
+whether it was derived or inherited,
+so this number cannot tell those apart,
+and [swigra.md](swigra.md#którędy-gfjp-wchodzi-do-olskiego)
+owns what follows for a grammar written beside GFJP's own resources.
+
 It is also not a measurement of style.
 The retired linter track
 [wanted paired human and generated Polish](linter.md#the-thing-that-makes-or-breaks-it-calibration)

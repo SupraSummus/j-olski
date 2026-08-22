@@ -264,6 +264,7 @@ plan i otwarte pytania.
 - [docs/swigra.md](docs/swigra.md) nazywa teren,
   który zajmuje najbliższy parser polszczyzny.
   Warto wziąć z tych źródeł kilka mechanizmów.
+  Sonda mierzy przy tym czas rozbioru.
 
 ## Konwencje
 
