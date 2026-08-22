@@ -321,9 +321,11 @@ class Result:
     readings: list[Node] = field(default_factory=list)
     #: The furthest graph node any partial analysis reached, which is where a
     #: rejected sentence stopped making sense.
-    #: Over a sentence that has a reading it is the sentence's last node,
-    #: and saying so costs nothing: :func:`podsumuj` holds the price.
-    furthest: int = 0
+    #: Over a sentence that has a reading it is the sentence's last node.
+    #: ``None`` says that nobody asked (:func:`podsumuj`), not that no analysis
+    #: reached anywhere: the first graph node is an answer, since a sentence
+    #: that stops on its own first form stops there.
+    furthest: int | None = None
     #: Czy wyliczanie stanęło na :data:`MAX_READINGS`,
     #: czyli czy lista czytań jest krótsza niż :attr:`ile`.
     truncated: bool = False
@@ -379,12 +381,15 @@ def parse(
     segments: list[Segment],
     start: str | None = None,
     deklaracja: Deklaracja | None = None,
+    zatrzymanie: bool = True,
 ) -> Result:
     """Rozbierz zdanie i zapytaj las, ile czytań ma, które pokazać i co zostawia otwarte."""
-    return podsumuj(las(grammar, segments, start), deklaracja)
+    return podsumuj(las(grammar, segments, start), deklaracja, zatrzymanie=zatrzymanie)
 
 
-def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
+def podsumuj(
+    zbudowany: Las, deklaracja: Deklaracja | None = None, zatrzymanie: bool = True
+) -> Result:
     """Podsumowania, jakie werdykt bierze z gotowego lasu.
 
     Osobno od :func:`parse`, bo pomiar buduje las sam i pyta go jeszcze o coś,
@@ -393,17 +398,22 @@ def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
     Bez deklaracji werdykt jest samą liczbą i listą czytań;
     co ona niesie i czemu jest jedna, mówi :class:`Deklaracja`.
 
-    O to, dokąd analiza doszła, pyta się tu bez warunku, bo warunek stoi niżej:
-    :meth:`Las.najdalszy` przechodzi tablicę drugi raz nad zdaniem bez ani jednego
-    czytania, a nad każdym innym oddaje koniec zdania bez przejścia.
-    Tyle kosztuje odrzucenie mówiące, gdzie stanęło
-    (``explain`` w ``olski/subset.py``, ranking blokerów w ``olski/coverage.py``):
-    mniej więcej drugi rozbiór zdania, którego olski nie przyjął.
-    Płaci to i zdanie stojące na formie bez licencji, choć werdykt nazywa tam
-    tę formę i zatrzymania nie używa wcale.
-    Warunek, który by ten przypadek zdjął, przychodzi z werdyktu, a nie z lasu,
-    więc ``podsumuj`` wzięłoby z powrotem parametr,
-    a ``Result.furthest`` stan „nikt nie pytał”.
+    O to, dokąd analiza doszła, pyta się na żądanie,
+    bo nad zdaniem odrzuconym jest to najdroższe z podsumowań, jakie ta funkcja bierze:
+    :meth:`Las.najdalszy` przechodzi wtedy tablicę drugi raz — mniej więcej tyle,
+    ile kosztował sam rozbiór — a nad zdaniem, które ma czytanie,
+    oddaje koniec zdania bez przejścia.
+    Czyta tę odpowiedź odrzucenie mówiące, gdzie stanęło
+    (``explain`` w ``olski/subset.py``) oraz ranking blokerów (``olski/coverage.py``);
+    przebieg, który liczy same werdykty, nie czyta jej wcale.
+    Kto nie pyta, dostaje w ``Result.furthest`` stan „nikt nie pytał”.
+
+    Warunku na samo zdanie tutaj nie ma, bo zmierzony nic nie kupił.
+    Werdykt nad zdaniem, którego forma nie ma licencji, nazywa tę formę
+    i zatrzymania nie czyta, a takich zdań jest większość odrzuconych,
+    tyle że każde umiera wcześnie i jego tablica jest mała.
+    Cena rośnie w zdaniach, które dochodzą daleko i nie domykają się,
+    a tych warunek na licencję nie dotyka.
     """
     ile = zbudowany.ile_czytań()
     readings: list[Node] = []
@@ -423,7 +433,7 @@ def podsumuj(zbudowany: Las, deklaracja: Deklaracja | None = None) -> Result:
     return Result(
         ile,
         readings,
-        zbudowany.najdalszy(),
+        zbudowany.najdalszy() if zatrzymanie else None,
         truncated=ile > len(readings),
         różniące=różniące,
         przyłączenia=przyłączenia,
@@ -444,6 +454,9 @@ def _first(segments: Sequence[Segment]) -> int:
 #: stan niosący środowisko cech rozdzieliłby pozycje
 #: i policzyłby wyprowadzenia zamiast czytań.
 #: Unifikacja przechodzi po tablicy osobno, w :meth:`Las.klasy`.
+#: Stanu o kropce na zerze tablica nie trzyma (:meth:`_Tablica._rozwiń`),
+#: poza jednym przypadkiem: przy pustym ciele kropka zerowa jest domknięciem,
+#: a domknięcia tablica trzyma wszystkie.
 _Stan = tuple[Production, int, int]
 
 
@@ -519,38 +532,51 @@ class _Tablica:
     # -- budowanie ---------------------------------------------------------- #
 
     def _rozbierz(self) -> None:
-        for production in self.grammar.for_head(self.start):
-            self._dodaj(self.początek, (production, 0, self.początek), None)
         for k in self.pozycje_grafu:
             kolejka = list(self.stany[k])
+            if k == self.początek:
+                # Symbol startowy przewiduje początek zdania, a nie żaden stan.
+                self._rozwiń(k, self.start, kolejka)
             i = 0
             while i < len(kolejka):
-                stan = kolejka[i]
-                production, kropka, _źródło = stan
+                self._krok(k, kolejka[i], kolejka)
                 i += 1
-                if kropka == len(production.body):
-                    self._zamknij(k, stan, kolejka)
-                    continue
-                część = production.body[kropka]
-                if isinstance(część, Word):
-                    self._wczytaj(k, stan, część)
-                else:
-                    self._przewiduj(k, stan, część, kolejka)
+
+    def _krok(self, k: int, stan: _Stan, kolejka: list[_Stan]) -> None:
+        """Zrób ze stanem to, czego żąda następna część jego ciała.
+
+        Ciało przebyte do końca domyka się, terminal wczytuje formę,
+        a symbol się przewiduje.
+        Stan przychodzi tu z kolejki pozycji albo wprost z rozwinięcia symbolu
+        (:meth:`_rozwiń`), bo pierwszy krok stanu o kropce na zerze
+        jest tym samym krokiem, co każdy następny.
+        """
+        production, kropka, _źródło = stan
+        if kropka == len(production.body):
+            self._zamknij(k, stan, kolejka)
+            return
+        część = production.body[kropka]
+        if isinstance(część, Word):
+            self._wczytaj(k, stan, część)
+        else:
+            self._przewiduj(k, stan, część, kolejka)
 
     def _dodaj(self, k: int, stan: _Stan, wstecz: tuple[int, Pozycja] | None) -> bool:
         """Wpisz stan i powiedz, czy jest nowy; wpis powtórzony dokłada samo wstecz.
 
         Stan, którego następna córka nie ma w tej pozycji od czego się zacząć
-        (:meth:`_możliwe`), nie wchodzi i liczy się jak powtórzony:
+        (:meth:`możliwe`), nie wchodzi i liczy się jak powtórzony:
         ciała nie dokończy, więc nie wejdzie do żadnego czytania.
-        Odsiew sięga stąd w głąb, bo stan nieprzyjęty nie rozwinie już symbolu,
+        Odsiew sięga w głąb, bo stan nieprzyjęty nie rozwinie już symbolu,
         na który czekał, a tamten nie rozwinie swoich.
+        Stanu o kropce na zerze nie ma tu czego odsiewać, bo do tablicy nie wchodzi;
+        odsiewa go tym samym warunkiem :meth:`_rozwiń`.
         Nie zmienia to również odpowiedzi na to, dokąd doszła analiza częściowa
         (:meth:`Las.najdalszy`): tam liczy się przejście po formie wziętej,
         a żadna córka odsianego stanu takiej formy tu nie zaczyna.
         """
         production, kropka, źródło = stan
-        if kropka < len(production.body) and production.body[kropka] not in self._możliwe(k):
+        if kropka < len(production.body) and production.body[kropka] not in self.możliwe(k):
             return False
         w_pozycji = self.stany[k]
         istniejące = w_pozycji.get(stan)
@@ -565,21 +591,48 @@ class _Tablica:
         """Wpisz stan jako oczekujący, a symbol, na który czeka, rozwiń raz.
 
         Rozwinięcie przy stanie drugim i każdym następnym wpisałoby to samo,
-        bo produkcje symbolu są już w tablicy o tej samej rozpiętości zerowej.
+        bo produkcje symbolu są w tej pozycji już rozwinięte.
         Czy symbol był już rozwinięty, mówi lista oczekujących:
         wpisuje się do niej każdy czekający stan, a pierwszy ją zakłada.
+        Lista powstaje przed rozwinięciem, bo rozwinięcie schodzi po pierwszych
+        córkach i przy gramatyce lewostronnie rekurencyjnej wraca po ten sam symbol.
         """
         oczekujące = self._oczekujące[k]
         czekający = oczekujące.get(część.name)
         if czekający is None:
             oczekujące[część.name] = [stan]
-            for production in self.grammar.for_head(część.name):
-                if self._dodaj(k, (production, 0, k), None):
-                    kolejka.append((production, 0, k))
+            self._rozwiń(k, część.name, kolejka)
         else:
             czekający.append(stan)
         if część.name in self._puste.get(k, ()):
             self._posuń(k, [stan], k, Pozycja(część.name, (k, k)), kolejka)
+
+    def _rozwiń(self, k: int, symbol: str, kolejka: list[_Stan]) -> None:
+        """Rozwiń symbol przewidziany w tej pozycji: każdą jego produkcję od pierwszej córki.
+
+        Stan o kropce na zerze do tablicy nie wchodzi, bo nie niesie nic
+        poza zapisem, że produkcję w tej pozycji przewidziano,
+        a zapis ten niosą już :attr:`_oczekujące` wraz z :meth:`Grammar.for_head`.
+        Produkcja zaczynana terminalem przechodzi więc od razu formą,
+        a zaczynana symbolem wchodzi wprost na listę oczekujących,
+        i tablica trzyma same stany, które już coś przeszły.
+        Produkcję, której pierwsza córka nie ma w tej pozycji od czego się zacząć,
+        odsiewa tu ten sam warunek, jakim odsiewa stany :meth:`_dodaj`.
+
+        Zejście po pierwszych córkach jest rekurencyjne,
+        a głębokie najwyżej na liczbę symboli gramatyki,
+        bo każde piętro rozwija inny symbol: rozwiniętego drugi raz się nie rozwija.
+
+        Ciało puste jest wyjątkiem i do tablicy wchodzi,
+        bo tam kropka zerowa jest domknięciem, a domknięcia czyta :meth:`zamknięte`.
+        """
+        for production in self.grammar.for_head(symbol):
+            stan = (production, 0, k)
+            if not production.body:
+                if self._dodaj(k, stan, None):
+                    self._krok(k, stan, kolejka)
+            elif production.body[0] in self.możliwe(k):
+                self._krok(k, stan, kolejka)
 
     def _wczytaj(self, k: int, stan: _Stan, terminal: Word) -> None:
         """Przejdź każdą krawędzią grafu, którą ten terminal bierze."""
@@ -600,7 +653,7 @@ class _Tablica:
         więc na tym etapie tablica przyjmuje co najwyżej za dużo,
         a nadmiar odsiewa potem unifikacja po lesie.
         Odpowiedź nie zależy przez to od stanu,
-        a pyta o nią odsiew wszystkich stanów tej pozycji naraz (:meth:`_możliwe`),
+        a pyta o nią odsiew wszystkich stanów tej pozycji naraz (:meth:`możliwe`),
         więc liczy się ją raz i od razu dla każdego terminala.
         Liczy się przy pierwszym pytaniu, bo do części pozycji rozbiór nie dochodzi.
         Krawędź wchodzi tu raz, choćby terminal brał kilka jej czytań.
@@ -619,12 +672,16 @@ class _Tablica:
             }
         return gotowe
 
-    def _możliwe(self, k: int) -> frozenset[Part]:
+    def możliwe(self, k: int) -> frozenset[Part]:
         """Części ciała, którymi w tej pozycji grafu da się zacząć córkę.
 
         Symbol wchodzi tu przez terminale, od których się zaczyna
         (:meth:`Grammar.zaczynane`), więc jedno pytanie odsiewa i terminal,
         i konstytuent nad nim.
+
+        Nazwa jest bez podkreślenia, bo o ten warunek pyta nie tylko budowanie:
+        pyta o niego i las, szukając punktu, na którym stanęło odrzucenie
+        (:meth:`Las._zaczyna_się_tu`).
         """
         gotowe = self._możliwe_memo.get(k)
         if gotowe is None:
@@ -1024,33 +1081,67 @@ class Las:
         choćby sam nie był analizą,
         i odrzucenie stawałoby wtedy na formie, do której nie doszedł nikt.
 
-        Pętla wewnętrzna dobija do punktu stałego,
-        bo przewidywanie dopisuje stany do tej samej pozycji, w której je czyta.
+        Przewidywanie ożywia stany tej samej pozycji, w której je czyta,
+        więc pozycja przechodzona stan po stanie musiałaby się powtarzać
+        do punktu stałego, a każdy stan przechodziłby oba warunki raz na przebieg.
+        Kolejka to zdejmuje.
+        O żywości rozstrzyga para produkcji i źródła, a nie kropka w ciele,
+        więc stany pozycji zebrane są pod taką parą,
+        a para wchodzi do kolejki wtedy, kiedy ożywa.
+
+        Stanu o kropce na zerze tablica nie trzyma (:meth:`_Tablica._rozwiń`),
+        a analizą częściową on bywa, bo czeka na pierwszą formę swojego ciała.
+        Wychodzi tu więc z pary, a nie z tablicy (:meth:`_zaczyna_się_tu`),
+        i pierwszy warunek spełnia zawsze, bo przebyte ciało ma puste.
         """
         żywe = {
             (production, self._tablica.początek)
             for production in self.grammar.for_head(self._tablica.start)
         }
         for k in self._tablica.pozycje_grafu:
-            czekające: set[_Stan] = set()
-            rosło = True
-            while rosło:
-                rosło = False
-                for stan in self._tablica.stany[k]:
-                    production, kropka, źródło = stan
-                    if kropka == len(production.body) or (production, źródło) not in żywe:
-                        continue
+            kropki: dict[tuple[Production, int], list[int]] = {}
+            for production, kropka, źródło in self._tablica.stany[k]:
+                if kropka < len(production.body):
+                    kropki.setdefault((production, źródło), []).append(kropka)
+            kolejka = [para for para in kropki if para in żywe]
+            if k == self._tablica.początek:
+                # Produkcje symbolu startowego przewiduje początek zdania,
+                # a nie stan, więc do kolejki nie wchodzą przez ożywienie.
+                kolejka.extend(para for para in żywe if para not in kropki)
+            i = 0
+            while i < len(kolejka):
+                production, źródło = kolejka[i]
+                i += 1
+                miejsca = kropki.get((production, źródło), ())
+                if self._zaczyna_się_tu(production, źródło, k):
+                    miejsca = (0, *miejsca)
+                for kropka in miejsca:
                     if not self._prefiks(production, kropka, źródło, k):
                         continue
                     część = production.body[kropka]
                     if not isinstance(część, Sym):
-                        czekające.add(stan)
+                        yield k, (production, kropka, źródło)
                         continue
                     for przewidziana in self.grammar.for_head(część.name):
-                        rosło = rosło or (przewidziana, k) not in żywe
-                        żywe.add((przewidziana, k))
-            for stan in czekające:
-                yield k, stan
+                        zaczęta = (przewidziana, k)
+                        if zaczęta not in żywe:
+                            żywe.add(zaczęta)
+                            kolejka.append(zaczęta)
+
+    def _zaczyna_się_tu(self, production: Production, źródło: int, k: int) -> bool:
+        """Czy ta produkcja czeka w tej pozycji na pierwszą córkę swojego ciała.
+
+        Stanu o kropce na zerze tablica nie trzyma (:meth:`_przed_formą`),
+        więc odpowiedź składa się z dwóch pytań o samą produkcję:
+        czy zaczyna się w tej pozycji i czy pierwsza część jej ciała
+        ma tu od czego się zacząć, czyli czy przechodzi warunek,
+        którym tablica odsiewa swoje stany (:meth:`_Tablica.możliwe`).
+        """
+        return (
+            źródło == k
+            and bool(production.body)
+            and production.body[0] in self._tablica.możliwe(k)
+        )
 
     def _prefiks(
         self, production: Production, kropka: int, źródło: int, k: int

@@ -262,7 +262,8 @@ def nad_bankiem(ścieżki: Sequence[Path], morfologia: str, przykłady: int = PR
         if not segmenty:
             raport.pominięte["bez morfologii"] += 1
             continue
-        policz(raport, zdanie.text, podsumuj(las(GRAMMAR, list(segmenty)), DEKLARACJA))
+        zbudowany = las(GRAMMAR, list(segmenty))
+        policz(raport, zdanie.text, podsumuj(zbudowany, DEKLARACJA, zatrzymanie=False))
     return raport
 
 

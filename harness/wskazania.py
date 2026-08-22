@@ -153,7 +153,7 @@ def zmierz(ścieżki: Sequence[Path], przykłady: int = PRZYKŁADY) -> Raport:
         if not segmenty:
             continue
         raport.zmierzone += 1
-        result = parse(GRAMMAR, list(segmenty), deklaracja=DEKLARACJA)
+        result = parse(GRAMMAR, list(segmenty), deklaracja=DEKLARACJA, zatrzymanie=False)
         if result.przyłączenia:
             _sporne(raport, zdanie, result, świadkowie, dokąd_doszły(element, zdanie))
     return raport

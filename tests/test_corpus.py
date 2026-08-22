@@ -19,7 +19,9 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence, parse_forest, pliki, read
-from olski.coverage import main, measure, przebieg, render, scal, zmierz_zdanie
+from olski.coverage import Outcome, main, measure, przebieg, render, scal, zmierz_zdanie
+from olski.parse import parse
+from olski.subset import GRAMMAR
 
 
 def forest(nodes, text="Program zapisuje ustawienia.", verdict=FULL, sent_id="t/1-s"):
@@ -349,6 +351,19 @@ def test_a_rejected_sentence_is_not_asked_about_agreement():
 
 def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
     assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "imps"
+
+
+def test_przebieg_który_nie_pytał_o_zatrzymanie_nie_zlicza_blokerów_z_niczego():
+    #  Bloker nazywa formę z miejsca zatrzymania, więc bez tej odpowiedzi
+    #  tabela blokerów wyszłaby pusta, jakby żadne zdanie nigdzie nie stanęło.
+    zdanie = parse_forest(forest(svo(tag=POZA_PODZBIOREM)))
+    bez_pytania = Outcome(
+        sentence=zdanie,
+        result=parse(GRAMMAR, list(zdanie.segments), zatrzymanie=False),
+    )
+    assert bez_pytania.status == "rejected"
+    with pytest.raises(ValueError, match="zatrzymanie"):
+        _ = bez_pytania.blocker
 
 
 def przyłączenie(subject="subj(np(nom))", obj="np(accgen)", przyimkowe=None):

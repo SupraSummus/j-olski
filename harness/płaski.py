@@ -253,7 +253,7 @@ def zmierz(
         if not segmenty:
             raport.pominięte["bez morfologii"] += 1
             continue
-        result = parse(grammar, list(segmenty), deklaracja=DEKLARACJA)
+        result = parse(grammar, list(segmenty), deklaracja=DEKLARACJA, zatrzymanie=False)
         raport.zapisz(zdanie.text, result.readings)
     return raport
 

@@ -800,7 +800,7 @@ def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
     pustka jest wtedy werdyktem gramatyki, a nie brakiem kategorii w tym zapisie,
     i zero kandydatów mówi tu o czytaniu, którego nie było, a nie o kategorii.
     """
-    czytania = parse(GRAMMAR, morphology(zdanie)).readings
+    czytania = parse(GRAMMAR, morphology(zdanie), zatrzymanie=False).readings
     if not czytania:
         return Odczyt((), ("gramatyka olskiego nie wyprowadza tego zdania",))
     wynik: dict[tuple, Zdanie] = {}

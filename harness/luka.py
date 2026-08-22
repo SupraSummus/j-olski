@@ -329,7 +329,7 @@ def zmierz(zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY) -> Raport:
         wyniki = {
             wariant: Outcome(
                 sentence=zdanie,
-                result=parse(gramatyka(wariant), segmenty),
+                result=parse(gramatyka(wariant), segmenty, zatrzymanie=False),
                 segments=tuple(segmenty),
             )
             for wariant in WARIANTY

@@ -143,7 +143,7 @@ def zmierz(ścieżki: Sequence[Path], przykłady: int = PRZYKŁADY) -> Raport:
             continue
         raport.zmierzone += 1
         zbudowany = las(GRAMMAR, list(segmenty))
-        result = podsumuj(zbudowany, DEKLARACJA)
+        result = podsumuj(zbudowany, DEKLARACJA, zatrzymanie=False)
         raport.werdykty[result.status] += 1
         if result.ambiguous:
             _wieloznaczne(raport, zdanie, zbudowany, result)
