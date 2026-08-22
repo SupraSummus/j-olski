@@ -239,18 +239,31 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #: stawia je za pierwszym wyrazem zdania, więc wpuszczone tutaj brałoby pozycję,
 #: której nie zajmuje.
 #:
-#: Zdanie pod spójnikiem ma być oznajmujące, czyli takie, jakie ta gramatyka
-#: wyprowadza. `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają trybu
-#: przypuszczającego, a cząstkę tego trybu bierze forma czasownika
-#: (:data:`CZĄSTKA_TRYBU`), więc zdanie go niesie, a nie ogłasza: cechy trybu nad
-#: `Clause` nie ma, i dopóki jej nie ma, spójnik nie ma czego żądać. Wpuszczone tą
-#: listą wyprowadzałyby `aby program zapisuje ustawienia`, czego polszczyzna nie
-#: ma, a obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim.
+#: Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym, a spójniki, pod
+#: którymi stoi tryb przypuszczający, wylicza :data:`SPÓJNIKI_TRYBU` i bierze
+#: osobne ciało, bo żądają one od zdania cechy, której ta lista nie żąda.
 #:
 #: `więc` Morfeusz znakuje tak samo, a nie ma go tu, bo zdania nie podporządkowuje,
 #: tylko dokłada skutek: `Program zapisuje ustawienia, więc linter sprawdza tekst.`
 #: jest dwoma zdaniami spiętymi spójnikiem po przecinku, więc bierze je lista niżej.
 SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
+
+#: Spójniki, które niosą cząstkę trybu przypuszczającego: `żeby` to `że` i `by`,
+#: `gdyby` to `gdy` i `by`, `aby` to `a` i `by`, a `jakby` to `jak` i `by`.
+#: Cząstka stoi w nich raz, więc pod nimi stoi forma na -ł bez własnej cząstki i
+#: żąda ich ciało cechą ``tryb`` (:data:`TRYB_POD_SPÓJNIKIEM`): bez tego żądania
+#: wyprowadzałoby się `aby program zapisuje ustawienia`, a obietnicą podzbioru
+#: jest, że każde zdanie olskiego jest zdaniem polskim.
+#:
+#: Oba miejsca okolicznika bierze każdy z nich, bo zdanie z każdym polszczyzna
+#: wysuwa: `Żeby zostać rezydentem, musisz mieć oszczędności.` obok `Odnotowuję to,
+#: żeby złagodzić wrażenie.` Tym różnią się one od :data:`SPÓJNIKI_PO_ZDANIU`.
+#:
+#: `iżby` i `by` w roli cząstki na tej liście nie stoją, choć Morfeusz zna oba:
+#: pierwszego bank drzew nie ma ani raz, a drugie bierze terminal cząstki
+#: (:data:`CZĄSTKA_TRYBU`), bo `by` jest jedną formą w dwóch rolach i rozdziela je
+#: część mowy, którą słownik daje: `comp` spójnikowi, `part` cząstce.
+SPÓJNIKI_TRYBU = "aby|ażeby|żeby|by|gdyby|jakby"
 
 #: Spójniki zdaniowe, przed którymi polszczyzna stawia przecinek: `Plany są
 #: niczym, ale planowanie jest wszystkim.` przecinka żąda, a `Program zapisuje
@@ -530,8 +543,30 @@ PRZECZENIE = word("part", lemma="nie")
 #:
 #: Pozycję ma tę jedną, przy czasowniku; co zostaje poza nią — cząstka stojąca dalej
 #: i cząstka wchodząca w spójnik — wywodzi
-#: docs/subset.md#tryb-przypuszczający-jest-cząstką-przy-czasowniku-a-nie-cechą-zdania.
+#: docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku.
 CZĄSTKA_TRYBU = word("part", lemma="by")
+
+#: Wartości cechy ``tryb``, czyli tej, którą zdanie ogłasza, gdzie stoi cząstka
+#: trybu przypuszczającego. Pyta o nią spójnik, który tę cząstkę niesie sam
+#: (:data:`SPÓJNIKI_TRYBU`), a wypuszcza ją w górę każda produkcja zdania.
+#:
+#: Tryb oznajmujący, czyli zdanie bez cząstki: forma osobowa, a także forma na -ł
+#: z aglutynantem.
+TRYB_OZNAJMUJĄCY = "ozn"
+
+#: Tryb przypuszczający, którego cząstka stoi przy czasowniku: `zapisałby`.
+TRYB_PRZYPUSZCZAJĄCY = "przyp"
+
+#: Tryb przypuszczający, którego cząstkę niesie spójnik nad zdaniem: `żeby` to
+#: `że` i `by`, `gdyby` to `gdy` i `by`, więc pod takim spójnikiem stoi forma na -ł
+#: bez własnej cząstki (:data:`SPÓJNIKI_TRYBU`).
+TRYB_POD_SPÓJNIKIEM = "pod_spójnikiem"
+
+#: Tryb formy na -ł stojącej bez cząstki, czyli obie wartości naraz: `zapisał`
+#: orzeka w trybie oznajmującym, kiedy stoi samo, i w przypuszczającym, kiedy
+#: cząstkę niesie spójnik nad nim. Jedna forma w dwóch trybach jest tu tym samym,
+#: czym jest jedna forma w dwóch przypadkach: zbiorem, który unifikacja przecina.
+TRYB_FORMY_NA_Ł = f"{TRYB_OZNAJMUJĄCY}.{TRYB_POD_SPÓJNIKIEM}"
 
 #: Przeczenie jako para: co dochodzi na początek ciała i jaką wartość cechy
 #: ``negacja`` to ciało wypuszcza. Para, bo obie strony powstają razem: ciało bez
@@ -558,8 +593,10 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     return [*klasy, ({"bez_lematu": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
 
 
-def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa], Var | str]]:
-    """Ciała formy osobowej czasownika, każde wraz z osobą, którą niesie.
+def _formy_skończone(
+    warunek: dict[str, str],
+) -> list[tuple[list[Part | Głowa], Var | str, str]]:
+    """Ciała formy osobowej czasownika, każde wraz z osobą i trybem, które niesie.
 
     Trzy pierwsze, bo czas przeszły niesie osobę inaczej niż teraźniejszy. ``fin``
     niesie osobę i liczbę, a rodzaju nie ma; ``praet`` odwrotnie, więc osoba trzecia
@@ -575,6 +612,12 @@ def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa]
     nie jest niczym. Ciała są dwa, a nie jedno z cząstką pominiętą, bo cena trybu
     ma być osobną liczbą, a sonda różnicowa bierze ją zdejmowaniem ciał.
 
+    Tryb wychodzi stąd wartością cechy, bo pyta o niego spójnik, który cząstkę
+    niesie sam (:data:`SPÓJNIKI_TRYBU`). Forma na -ł bez cząstki wychodzi z obiema
+    wartościami naraz (:data:`TRYB_FORMY_NA_Ł`), a ta sama forma z aglutynantem już
+    nie: aglutynant zajmuje miejsce, które pod takim spójnikiem zajmuje jego własna
+    końcówka, więc polszczyzna ma ``żebym wiedział``, a nie ``żeby wiedziałem``.
+
     Głowa stoi w każdym ciele, choć dwa z pięciu mają jedną część: ciało wychodzi
     stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o
     dwóch częściach bez głowy nie powstaje.
@@ -582,11 +625,15 @@ def _formy_skończone(warunek: dict[str, str]) -> list[tuple[list[Part | Głowa]
     czasownik = word("praet", number=V("n"), gender=V("g"), **warunek)
     aglutynant = word("aglt", number=V("n"), person=V("p"))
     return [
-        ([Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))], V("p")),
-        ([Głowa(czasownik)], "ter"),
-        ([Głowa(czasownik), aglutynant], V("p")),
-        ([Głowa(czasownik), CZĄSTKA_TRYBU], "ter"),
-        ([Głowa(czasownik), CZĄSTKA_TRYBU, aglutynant], V("p")),
+        (
+            [Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))],
+            V("p"),
+            TRYB_OZNAJMUJĄCY,
+        ),
+        ([Głowa(czasownik)], "ter", TRYB_FORMY_NA_Ł),
+        ([Głowa(czasownik), aglutynant], V("p"), TRYB_OZNAJMUJĄCY),
+        ([Głowa(czasownik), CZĄSTKA_TRYBU], "ter", TRYB_PRZYPUSZCZAJĄCY),
+        ([Głowa(czasownik), CZĄSTKA_TRYBU, aglutynant], V("p"), TRYB_PRZYPUSZCZAJĄCY),
     ]
 
 
@@ -768,9 +815,17 @@ def build() -> Grammar:
     #
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
     # coordination distributes into it”.
-    grammar.rule("Clause", [nt("ClauseConjunct")])
-    grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")])
-    grammar.rule("Clause", [Głowa(nt("ClauseConjunct")), PRZECINEK, nt("Clause")])
+    #
+    # Tryb ciąg wypuszcza z członu pierwszego, a od pozostałych nie żąda niczego,
+    # i jest to ta sama granica: spójnik trybu nad ciągiem żąda formy na -ł od
+    # członu, którym ten ciąg jest, a nie od każdego z osobna. Zmienna wspólna
+    # żądałaby jej od wszystkich i zabierałaby przy tym zdania już przyjęte, bo
+    # `Program zapisuje ustawienia, a linter sprawdziłby tekst.` koordynuje tryb
+    # oznajmujący z przypuszczającym.
+    człon = nt("ClauseConjunct", tryb=V("t"))
+    grammar.rule("Clause", [człon], tryb=V("t"))
+    grammar.rule("Clause", [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")], tryb=V("t"))
+    grammar.rule("Clause", [Głowa(człon), PRZECINEK, nt("Clause")], tryb=V("t"))
     # Przecinek i spójnik naraz, czyli ta interpunkcja, której polszczyzna żąda
     # przed `ale`, `a` i `więc` (:data:`SPÓJNIKI_PRZECINKOWE`). Poziom zdaniowy
     # ma tę pozycję, a imienny i przymiotnikowy nie, bo lista tych spójników jest
@@ -778,7 +833,8 @@ def build() -> Grammar:
     # elipsą, a nie ciągiem współrzędnym dwóch grup imiennych.
     grammar.rule(
         "Clause",
-        [Głowa(nt("ClauseConjunct")), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")],
+        [Głowa(człon), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")],
+        tryb=V("t"),
     )
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
@@ -789,9 +845,14 @@ def build() -> Grammar:
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
     # docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
     # a niezmiennik pilnuje test w tests/test_subset.py.
+    #
+    # Tryb przechodzi przez każdy szyk tą samą drogą i z tego samego powodu: żąda
+    # go spójnik, który cząstkę tego trybu niesie sam (:data:`SPÓJNIKI_TRYBU`), a
+    # cechy, której konstytuent nie niesie, unifikacja nie sprawdza, więc szyk,
+    # który by trybu nie przepuścił, przepuściłby pod taki spójnik każdy tryb.
     podmiot = nt("Subject", number=V("n"), gender=V("g"), person=V("p"), czoło=BEZ_CZOŁA)
-    orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"))
-    czasownik = nt("Verb", number=V("n"), gender=V("g"), person=V("p"))
+    orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"), tryb=V("t"))
+    czasownik = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), tryb=V("t"))
     okoliczniki = nt("Adjuncts")
 
     # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
@@ -805,7 +866,13 @@ def build() -> Grammar:
     # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
     # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
     czasownik_ramy = nt(
-        "Verb", number=V("n"), gender=V("g"), person=V("p"), valency=V("w"), negacja=V("z")
+        "Verb",
+        number=V("n"),
+        gender=V("g"),
+        person=V("p"),
+        valency=V("w"),
+        negacja=V("z"),
+        tryb=V("t"),
     )
     dopełnienie = nt("Object", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
     orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
@@ -817,13 +884,15 @@ def build() -> Grammar:
     # ``Na to jest zbyt wielkim tchórzem.``, gdzie podmiotem wychodzi ``zbyt``.
     # docs/subset.md trzyma ten pomiar wraz z drugim takim.
     orzecznik = nt("Predicative", valency="nom", number=V("n"), gender=V("g"))
-    czasownik_orzecznika = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="nom")
+    czasownik_orzecznika = nt(
+        "Verb", number=V("n"), gender=V("g"), person=V("p"), valency="nom", tryb=V("t")
+    )
 
     # Kopula po zwinięciu jej w ramę: czasownik, który bierze orzecznik w
     # narzędniku. Osobnego symbolu nie ma, bo rama mówi to samo, a jeden lemat
     # wychodził spod dwóch nazw. Żądanie jest tu na czasowniku, a nie wspólną
     # zmienną z orzecznikiem, i to jest ta sama cena co wyżej.
-    kopula = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="inst")
+    kopula = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="inst", tryb=V("t"))
 
     # Zdanie deklaruje córki, a kolejność, w jakiej one stoją, deklaruje osobno
     # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
@@ -843,11 +912,11 @@ def build() -> Grammar:
     # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
     # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
     zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("Predicate",))
-    zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
+    zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)], tryb=V("t"))
 
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
     # jak Zapisuje ustawienia.
-    zdanie.dominacja("ClauseConjunct", [nt("Predicate")])
+    zdanie.dominacja("ClauseConjunct", [nt("Predicate", tryb=V("t"))], tryb=V("t"))
 
     # Mianownika pojedynczego żąda ten terminal, bo tyle mówi o tej konstrukcji
     # polszczyzna: zwrot ma jedną formę, a każda inna forma tego lematu stoi pod
@@ -869,7 +938,9 @@ def build() -> Grammar:
     # Ciało drugie stoi pod czołem zdania względnego niżej, bo tam to wyrażenie
     # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
     # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
-    grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki])
+    grammar.rule(
+        "ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
+    )
 
     # Predykatyw wraz z tym, czym rządzi: `Trzeba czytać dokumenty.`, `Nie widać
     # granicy.` Rama i `Complements` są te same, co u czasownika, a zdaniem składowym
@@ -893,8 +964,9 @@ def build() -> Grammar:
             Głowa(nt(BEZOSOBOWY, valency=V("w"), negacja=V("z"))),
             nt("Complements", valency=V("w"), negacja=V("z")),
         ],
+        tryb=TRYB_OZNAJMUJĄCY,
     )
-    grammar.rule("ClauseConjunct", [nt(BEZOSOBOWY)])
+    grammar.rule("ClauseConjunct", [nt(BEZOSOBOWY)], tryb=TRYB_OZNAJMUJĄCY)
 
     # Podmiot, dopełnienie i czasownik w każdym szyku, jaki polszczyzna ma, poza
     # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
@@ -906,6 +978,7 @@ def build() -> Grammar:
         "ClauseConjunct",
         [podmiot, dopełnienie, Głowa(czasownik_ramy)],
         precedencja=_poza_orzeczeniem,
+        tryb=V("t"),
     )
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
@@ -914,8 +987,10 @@ def build() -> Grammar:
     # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają z
     # tego samego powodu, dla którego nie ma go deklaracja wyżej: składa go
     # podmiot z orzeczeniem.
-    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot])
-    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
+    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot], tryb=V("t"))
+    zdanie.dominacja(
+        "ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik], tryb=V("t")
+    )
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
@@ -929,7 +1004,9 @@ def build() -> Grammar:
     # je rama, a nie kolejność: kopula żąda narzędnika, a czasownik orzecznika
     # zgodnego żąda mianownika, więc przestawiona jedna z nich wypisałaby szyk,
     # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
-    zdanie.dominacja("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
+    zdanie.dominacja(
+        "ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot], tryb=V("t")
+    )
 
     # Wtrącenie w nawiasie: `Zdanie stoi (docs/subset.md).`, `Cena jest zerowa
     # (niżej).` Wnętrzem jest grupa imienna albo przysłówek, bo tym są te
@@ -946,7 +1023,11 @@ def build() -> Grammar:
     # docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
     for wnętrze in (nt("NP"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCONY, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
-    grammar.rule("ClauseConjunct", [Głowa(nt("ClauseConjunct")), nt(WTRĄCONY)])
+    grammar.rule(
+        "ClauseConjunct",
+        [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(WTRĄCONY)],
+        tryb=V("t"),
+    )
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -955,9 +1036,17 @@ def build() -> Grammar:
     # Przysłówek dostaje tu ciało wypisane, a nie listę okoliczników, bo `Adjuncts`
     # w tym miejscu dałoby wyrażeniu przyimkowemu drugie wyprowadzenie tego samego
     # kształtu, czyli czytanie, którego nie ma czym odsiać.
-    grammar.rule("ClauseConjunct", [nt("Modifier"), Głowa(nt("ClauseConjunct"))])
+    grammar.rule(
+        "ClauseConjunct",
+        [nt("Modifier"), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+        tryb=V("t"),
+    )
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
-        grammar.rule("ClauseConjunct", [nt(przy_zdaniu), Głowa(nt("ClauseConjunct"))])
+        grammar.rule(
+            "ClauseConjunct",
+            [nt(przy_zdaniu), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+            tryb=V("t"),
+        )
 
     grammar.rule(
         "Subject",
@@ -984,7 +1073,9 @@ def build() -> Grammar:
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
     # below share it instead of each carrying its own copy.
-    grammar.rule("Predicate", [czasownik], number=V("n"), gender=V("g"), person=V("p"))
+    grammar.rule(
+        "Predicate", [czasownik], number=V("n"), gender=V("g"), person=V("p"), tryb=V("t")
+    )
     grammar.rule(
         "Predicate",
         [
@@ -1000,11 +1091,16 @@ def build() -> Grammar:
         number=V("n"),
         person=V("p"),
         gender=V("g"),
+        tryb=V("t"),
     )
 
     # A modal and its infinitive. Powinien inflects for gender and not for
     # person, so the clause it heads agrees with its subject in gender and
     # leaves person to whatever else constrains it.
+    #
+    # Tryb stoi tu wypisany, bo `winien` cząstki trybu nie bierze: `żeby powinien`
+    # nie jest polszczyzną, a cechy, której konstytuent nie niesie, unifikacja nie
+    # sprawdza, więc orzeczenie milczące o trybie przeszłoby pod każdy spójnik.
     for przeczenie, negacja in PRZECZENIA:
         grammar.rule(
             "Predicate",
@@ -1015,6 +1111,7 @@ def build() -> Grammar:
             ],
             number=V("n"),
             gender=V("g"),
+            tryb=TRYB_OZNAJMUJĄCY,
         )
     # Fraza bezokolicznikowa niesie pozycję ramy, którą zajmuje, tak samo jak
     # dopełnienie i orzecznik, więc żądanie wobec czasownika stoi raz, na niej, a
@@ -1065,6 +1162,21 @@ def build() -> Grammar:
     ):
         grammar.rule(OKOLICZNIKOWY, ciało, pozycja=pozycja)
 
+    # Ten sam okolicznik pod spójnikiem, który niesie cząstkę trybu
+    # (:data:`SPÓJNIKI_TRYBU`): `Gdyby Polacy byli świadomi, zdawaliby sobie
+    # sprawę.`, `Trzeba wdrożyć ją szybko, aby jej efekty były widoczne.` Ciała są
+    # osobne od tych wyżej, bo tylko one żądają od zdania formy na -ł, a spójnik
+    # bierze oba miejsca, bo zdanie z każdym z tych spójników polszczyzna wysuwa.
+    #
+    # Wypełnieniem bywa fraza bezokolicznikowa zamiast zdania i jest to w tym
+    # rejestrze użycie równie częste: `Odnotowuję to, żeby złagodzić wrażenie.`
+    # Bezokolicznik podmiotu nie ma i trybu nie niesie, więc ciało z nim o tryb nie
+    # pyta, a cenę i zakup ma osobne, bo jest osobnym ciałem.
+    spójnik = word("comp", lemma=SPÓJNIKI_TRYBU)
+    for wnętrze in (nt("Clause", tryb=TRYB_POD_SPÓJNIKIEM), nt("InfinitivePhrase")):
+        grammar.rule(OKOLICZNIKOWY, [PRZECINEK, spójnik, Głowa(wnętrze)], pozycja="za")
+        grammar.rule(OKOLICZNIKOWY, [spójnik, Głowa(wnętrze), PRZECINEK], pozycja="przed")
+
     # Dwie pozycje, bo polszczyzna stawia ten okolicznik przed swoim zdaniem i za
     # nim, a szyku wewnątrz zdania nadrzędnego nie zmienia ani jedna, ani druga.
     # Zdanie nadrzędne jest tu składowym, a nie ciągiem współrzędnym: okolicznik
@@ -1073,11 +1185,13 @@ def build() -> Grammar:
     # (docs/subset.md#nothing-above-a-coordination-distributes-into-it).
     grammar.rule(
         "ClauseConjunct",
-        [Głowa(nt("ClauseConjunct")), nt(OKOLICZNIKOWY, pozycja="za")],
+        [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(OKOLICZNIKOWY, pozycja="za")],
+        tryb=V("t"),
     )
     grammar.rule(
         "ClauseConjunct",
-        [nt(OKOLICZNIKOWY, pozycja="przed"), Głowa(nt("ClauseConjunct"))],
+        [nt(OKOLICZNIKOWY, pozycja="przed"), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+        tryb=V("t"),
     )
 
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
@@ -1174,7 +1288,7 @@ def build() -> Grammar:
     # przepuściłoby dopełniacz negacji do zdania, które nie przeczy.
     for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
         for warunek, rama in _klasy(zwrotne):
-            for ciało, osoba in _formy_skończone(warunek):
+            for ciało, osoba, tryb in _formy_skończone(warunek):
                 for przeczenie, negacja in PRZECZENIA:
                     grammar.rule(
                         "Verb",
@@ -1184,6 +1298,7 @@ def build() -> Grammar:
                         person=osoba,
                         valency=rama,
                         negacja=negacja,
+                        tryb=tryb,
                     )
 
     # Bezokolicznik pyta o leksykon niezwrotny i ma pętlę osobną zamiast warunku

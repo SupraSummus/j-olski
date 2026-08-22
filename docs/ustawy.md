@@ -566,6 +566,22 @@ Myślnik nie rusza tu nic i nie mówi to o produkcji nic:
 tego znaku nie ma w tym tekście ani razu
 ([wyżej](#ustawa-dochodzi-do-gramatyki-jako-drzewo-nie-jako-tekst)).
 
+Spójnik niosący cząstkę trybu rusza tu jedno zdanie
+i przenosi je z odrzuconych na wieloznaczne:
+
+```text
+Gdyby wskutek nadzwyczajnych wydarzeń głosowanie było przejściowo uniemożliwione,
+obwodowa komisja wyborcza może zarządzić jego przerwanie, przedłużenie
+albo odroczenie do dnia następnego.
+```
+
+Prawodawca zapisuje warunek przez `jeżeli`, którego pada tu przeszło trzysta,
+a `gdyby` pisze osiem razy i `żeby` ani razu.
+`aby` pisze za to kilkadziesiąt razy, prawie zawsze z bezokolicznikiem
+po `tak` albo `w taki sposób`, a zdania z nim niosą także co innego
+i wychodzą odrzucone przed dopisaniem i po nim
+([subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 
 Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —
