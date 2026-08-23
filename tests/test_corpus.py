@@ -20,6 +20,7 @@ pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence, parse_forest, pliki, read
 from olski.coverage import (
+    NO_LICENCE,
     NO_STRUCTURE,
     Outcome,
     main,
@@ -580,10 +581,25 @@ def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
         "Zapisz plik konfiguracyjny. Nowa program zapisuje ustawienia w pliku konfiguracyjnym."
     )
     assert raport.statuses == {"valid": 1, "rejected": 1}
-    #  Zatrzymanie stoi na „ustawienia”, a wiersz nazywa czytanie pierwsze, które
-    #  Morfeusz na tej formie wypisuje, czyli odsłownik.
+    #  Zatrzymanie stoi na „ustawienia”, której czytania gramatyka bierze wszystkie,
+    #  więc wiersz nazywa pierwsze z nich, czyli odsłownik.
     assert raport.blockers == {"ger": 1}
     assert raport.lengths == {"1-5": {"valid": 1}, "6-10": {"rejected": 1}}
+
+
+def test_wiersz_kolejki_nazywa_czytanie_po_które_gramatyka_sięga():
+    #  Morfeusz czyta `I` najpierw jako wykrzyknik, a olski bierze pod tą formą
+    #  spójnik, więc wiersz nazwany czytaniem pierwszym obiecywałby konstrukcję,
+    #  której nikt nie zbuduje, a spójnik otwierający zdanie chowałby się pod nim.
+    assert nad_prozą("I nikt tego nie zauważył.").blockers == {"conj": 1}
+
+
+def test_forma_bez_czytań_po_wykluczeniu_nie_wpada_do_wiersza_zdania_bez_struktury():
+    #  `po_przyimku` zdejmuje `niego` wszystkie czytania, bo przyimka przed nim nie
+    #  ma, więc analiza staje na tej formie, a nie na końcu zdania. Liczone razem,
+    #  oba zdarzenia obiecują konstrukcję domykającą całość, choć werdykt nad tym
+    #  zdaniem wypisuje samą formę (`bez_licencji` w `olski/subset.py`).
+    assert nad_prozą("Cena niego rośnie.").blockers == {NO_LICENCE: 1}
 
 
 def test_proza_nie_dostaje_wierszy_o_zgodności_z_drzewem_wzorcowym():
