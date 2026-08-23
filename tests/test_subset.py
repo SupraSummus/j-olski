@@ -919,6 +919,38 @@ def test_liczebnik_rządzący_żąda_rodzaju_od_swojego_dopełniacza():
     assert verdict("Pięć mężczyzn przyszło.").status == "rejected"
 
 
+def test_liczebnik_złożony_przyłącza_się_wedle_swojego_ostatniego_członu():
+    #  Usterka, przed którą to stoi: łańcuch wypuszczający `accommodability` członu
+    #  pierwszego albo zmienną wspólną wszystkim członom. Jedno i drugie wygląda
+    #  poprawnie, bo `dwadzieścia` rządzi dopełniaczem, a przyłączenie rozstrzyga tu
+    #  człon skrajnie prawy: `dwa` żąda mianownika mnogiego i czasownika mnogiego,
+    #  `siedem` dopełniacza mnogiego i czasownika pojedynczego. Cechy, której
+    #  konstytuent nie niesie, unifikacja nie sprawdza, więc każda strona żąda pary.
+    #  Zdanie ostatnie stawia z przodu dwa człony naraz, bo łańcuch spłaszczony do
+    #  dwóch członów przechodzi wszystkie pozostałe zdania.
+    assert verdict("Dwadzieścia dwa chleby leżą.").status == "valid"
+    assert verdict("Dwadzieścia dwa chleby leży.").status == "rejected"
+    assert verdict("Dwadzieścia siedem chlebów leży.").status == "valid"
+    assert verdict("Dwadzieścia siedem chlebów leżą.").status == "rejected"
+    assert verdict("Sto dwadzieścia dwa chleby leżą.").status == "valid"
+
+
+def test_łańcuch_liczebnikowy_żąda_jednego_przypadka_od_każdego_członu():
+    #  Polszczyzna odmienia każdy człon, więc przypadek jest w łańcuchu zmienną
+    #  wspólną. Bez niej `dwadzieścia dwóch` wyprowadza się tak samo jak
+    #  `dwudziestu dwóch`, czyli mianownik miesza się z dopełniaczem.
+    assert verdict("Dwadzieścia dwóch mężczyzn przyszło.").status == "rejected"
+
+
+def test_pięć_nie_jest_dopełniaczem_rzeczownika_odczasownikowego():
+    #  Bez tego warunku `pięć` staje głową grupy imiennej w dopełniaczu mnogim,
+    #  czyli dokładnie tam, gdzie ciało rządzące żąda dopełniacza, i każda liczba
+    #  zakończona na pięć wychodzi dwoma czytaniami. Drugie zdanie jest ceną, którą
+    #  ten warunek płaci, i stoi tu dlatego, że płaci ją rozmyślnie.
+    assert verdict("Dwadzieścia pięć chlebów leży.").status == "valid"
+    assert verdict("Pięcie jest trudne.").status == "rejected"
+
+
 def test_cyfra_nie_jest_liczebnikiem_bo_nie_niesie_ani_przypadka_ani_liczby():
     #  Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą, a Morfeusz daje jej
     #  tag `dig` bez ani jednej cechy, więc oba ciała biorą ją naraz i `14 dni`

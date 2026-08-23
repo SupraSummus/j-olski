@@ -64,10 +64,13 @@ Numerals had a row here and have one no longer.
 The fork was between excluding them and paying for the agreement fictions,
 the fictions cost one production feature written as a value rather than a variable
 ([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
-What is left of the area is not a fork but work,
-and it is the numeral written as a digit,
+What is left of the area is not a fork but work, and it is two pieces of it.
+One is the numeral written as a digit,
 which no production can take because `dig` carries no features at all
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+The other is the reading a governing numeral takes over a congruent one,
+which no feature separates from the compound numeral standing beside it
+([subset.md](subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
 
 ### Własność jednoznaczności żąda jej od zdania, które jej nie ma
 

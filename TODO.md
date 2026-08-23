@@ -720,6 +720,22 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 
 ## Gramatyka, parser i pomiar pokrycia
 
+Liczebnik rządzący bierze nad sobą grupę zbudowaną przez liczebnik zgodny,
+więc `Dwudziestu dwóch mężczyzn przyszło.` wychodzi obok łańcucha zagnieżdżeniem,
+czyli czytaniem o dwudziestu z dwóch, którego polszczyzna bez przyimka nie ma
+([`docs/subset.md`](docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
+Cechy tych dwóch czytań nie rozdzielają i rozdzielić nie mogą,
+bo liczebnik zgodny wypuszcza grupę o cechach samego rzeczownika.
+Ruchem jest albo warunek na kształt sprawdzany po rozbiorze,
+czyli ta sama maszyneria, o którą prosi wpis o trybie w ciągu współrzędnym,
+albo rozdzielenie grupy imiennej na dwie, z których jedna liczebnika nie bierze,
+a to żąda drugiej kopii każdej pozycji tej grupy.
+Przed obydwoma stoi pytanie, czy warto,
+bo zagnieżdżenie zachodzi w formach męskoosobowych i przypadkach zależnych,
+a mianownik wychodzi jednym czytaniem.
+Do przeczytania jest, ile zdań banku drzew stawia obok siebie dwa liczebniki
+w formie synkretycznej między rządzącym i zgodnym.
+
 Ciąg współrzędny wypuszcza tryb członu pierwszego i od pozostałych nie żąda niczego,
 więc `żeby program zapisał ustawienia i linter sprawdza tekst` wyprowadza się,
 choć polszczyzna żąda formy na -ł od obu członów
