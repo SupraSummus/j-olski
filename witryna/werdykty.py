@@ -74,10 +74,19 @@ def _zdanie(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> dict[str, Any]:
         "zdanie": verdict.text,
         "status": verdict.status,
         "wyjaśnienie": verdict.explain(),
-        #  Lista czytań urywa się na ``MAX_READINGS`` (``olski/parse.py``), a
-        #  liczba wychodzi z lasu i granicy tej nie podlega, więc idą osobno.
+        #  Lista niesie streszczenia różne, a liczba czytań wychodzi z lasu, więc
+        #  jedna z drugiej się nie wylicza. Że wyliczanie stanęło na
+        #  ``MAX_READINGS`` (``olski/parse.py``), mówi osobne pole: po długości
+        #  listy tego nie widać, bo skraca ją także samo powtórzenie napisu.
         "czytania": verdict.readings,
         "liczba_czytań": verdict.result.ile,
+        "urwane": verdict.result.truncated,
+        #  Konstytuenty, których wieloznaczność lista czytań zostawia
+        #  nienazwaną, wraz ze streszczeniami ich kształtów.
+        "rozbieżne": [
+            {"konstytuent": rozbieżność.konstytuent, "czytania": list(rozbieżność.czytania)}
+            for rozbieżność in verdict.rozbieżne
+        ],
         "dalsze_zatrzymania": list(dalsze_zatrzymania(verdict)),
         "domysły": _domysły(verdict, sąsiedztwo),
     }

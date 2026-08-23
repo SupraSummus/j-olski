@@ -304,16 +304,34 @@ def test_liczba_czytań_nie_urywa_się_tam_gdzie_lista_czytań():
     assert wynik.truncated
 
 
+def test_lista_czytań_niesie_każde_streszczenie_raz():
+    """Streszczenie wypisane drugi raz nie mówi nic ponad to, które stoi nad nim.
+
+    Streszczenie nazywa pierwszy modyfikator zdania i jego gospodarza, więc nad
+    zdaniem o siedmiu przyłączeniach po kilka czytań ma jeden napis. Liczbę
+    czytań podaje las, a nie ta lista, więc skrócenie listy jej nie rusza.
+    """
+    napisy = [
+        tuple(sorted(streszczenie.items()))
+        for streszczenie in verdict(SIEDEM_PRZYŁĄCZEŃ).readings
+    ]
+    assert len(set(napisy)) == len(napisy)
+    assert len(napisy) < MAX_READINGS
+
+
 def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
-    """Urwana lista ma być za każdym razem tymi samymi czytaniami.
+    """Urwana lista ma być za każdym razem tymi samymi streszczeniami.
 
     Kolejność ustala `ciała` w `olski/parse.py` i tam stoi wywód;
     ten test pilnuje, żeby zbiór postawiony gdziekolwiek po drodze z lasu
     nie oddał jej z powrotem haszowaniu napisów.
     Po liczbie czytań tego nie widać, bo ta jest sumą po klasach,
     a ziarno haszowania jest jedno na proces, więc przebiegi są dwa i osobne.
+    Drugie zdanie wchodzi po drugą taką listę, tę pod konstytuentem:
+    kształty wybiera tam odsiew po zbiorze pozycji żywych.
     """
-    kod = f"import olski.check; olski.check.main(['--readings', '-c', {SIEDEM_PRZYŁĄCZEŃ!r}])"
+    tekst = f"{SIEDEM_PRZYŁĄCZEŃ} Ustawa mówi, że organ gminy wydaje przepis."
+    kod = f"import olski.check; olski.check.main(['--readings', '-c', {tekst!r}])"
     przebiegi = [
         subprocess.run(
             [sys.executable, "-c", kod],
@@ -326,7 +344,10 @@ def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
     for przebieg in przebiegi:
         assert przebieg.returncode == 0, przebieg.stderr
     wypisane = [w for w in przebiegi[0].stdout.splitlines() if w.lstrip().startswith("- ")]
-    assert len(wypisane) == MAX_READINGS
+    #  Wierszy jest kilka, a nie jeden, i są wśród nich oba rodzaje listy:
+    #  inaczej nie ma tu kolejności, którą haszowanie mogłoby pomylić.
+    assert len(wypisane) > 1
+    assert "czyta się tak:" in przebiegi[0].stdout
     assert przebiegi[0].stdout == przebiegi[1].stdout
 
 
@@ -495,19 +516,36 @@ def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():
     """Dwa czytania o jednym napisie mają zostać nazwane, a nie zostać samą liczbą.
 
     Różni je tu czytanie słownikowe: `zainteresowana` jest i rzeczownikiem, a
-    `rada` formą `rad`, więc podmiotem jest w obu czytaniach ten sam napis. Bez
-    tego wiersza werdykt mówi samo `2 readings`, a `--readings` drukuje jedno
-    streszczenie dwa razy, co po werdykcie czyta się jak usterka narzędzia.
-    Zdanie jest z rejestru ustaw
+    `rada` formą `rad`, więc podmiotem jest w obu czytaniach ten sam napis i
+    lista czytań niesie jeden wpis. Roli zdania grupa imienna nie nosi, więc oba
+    jej kształty streszczają się pustym słownikiem i listy pod wierszem nie
+    dostaje: wiersz jest tu całą odpowiedzią, a różnicę niesie głowa, której
+    streszczenie nie nazywa (TODO.md). Zdanie jest z rejestru ustaw
     (docs/ustawy.md#co-gramatyka-z-tego-wyprowadza).
     """
     found = verdict("Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.")
     assert found.result.ile == 2, found.explain()
-    pierwsze, drugie = found.readings
-    assert pierwsze == drugie
+    assert len(found.readings) == 1
     [rozbieżność] = found.result.rozbieżności
     assert (rozbieżność.konstytuent, rozbieżność.ile) == ("zainteresowana rada gminy", 2)
+    assert rozbieżność.czytania == ({},)
+    assert found.rozbieżne == []
     assert found.explain() == "2 readings; „zainteresowana rada gminy” reads 2 ways"
+
+
+def test_konstytuent_będący_zdaniem_streszcza_się_swoimi_rolami():
+    """Wiersz nazywa konstytuent, a lista pod nim ma powiedzieć, czym te czytania się różnią.
+
+    Zdanie podrzędne role ma, tyle że własne, więc streszczone osobno mówi to,
+    czego streszczenie zdania nad nim nie mówi: podmiot i dopełnienie są w tych
+    dwóch czytaniach zamienione.
+    """
+    found = verdict("Ustawa mówi, że organ gminy wydaje przepis.")
+    assert len(found.readings) == 1
+    [rozbieżność] = found.rozbieżne
+    assert [
+        (streszczenie["Subject"], streszczenie["Object"]) for streszczenie in rozbieżność.czytania
+    ] == [("organ gminy", "przepis"), ("przepis", "organ gminy")]
 
 
 def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():

@@ -54,8 +54,13 @@ async function zapytaj(adres, opcje) {
 //  Napis, którego strona jest właścicielem, ma dwa widoki: węzeł na stronie i
 //  wiersz w tekście dla schowka. Dwie kopie rozjechałyby się po cichu, więc
 //  każdy taki napis powstaje w jednej funkcji.
-function podpisCzytań(pokazanych, ile) {
-  return ile > pokazanych ? `czytania: ${pokazanych} z ${ile}` : `czytania: ${pokazanych}`;
+//  Podpis liczy streszczenia, a nie czytania: streszczenie stoi pod zwojem raz,
+//  choć bywa napisem kilku czytań (`Verdict.readings` w `olski/subset.py`). Ile
+//  czytań zdanie ma, mówi wyjaśnienie nad zwojem, więc drugiej kopii tej liczby
+//  tutaj nie ma.
+function podpisCzytań(streszczeń, urwane) {
+  const podpis = `streszczenia czytań: ${streszczeń}`;
+  return urwane ? `${podpis}, lista urwana` : podpis;
 }
 
 function podpisZatrzymania(forma) {
@@ -66,6 +71,10 @@ function podpisDomysłu(domysł) {
   return `„${domysł.modyfikator}” → „${domysł.gospodarz}”`;
 }
 
+function podpisRozbieżności(konstytuent) {
+  return `„${konstytuent}” czyta się tak:`;
+}
+
 function czytanie(role) {
   const wiersz = element("li");
   for (const [rola, wypełnienie] of Object.entries(role)) {
@@ -74,15 +83,27 @@ function czytanie(role) {
   return wiersz;
 }
 
-//  Czytania stoją zwinięte, dopóki są dwa: zdanie olskie ma jedno, a zdanie
-//  wieloznaczne ma ich tyle, że rozwinięte zasłaniają następne zdanie.
-function czytania(lista, ile) {
-  const zwój = element("details", "czytania");
-  zwój.open = lista.length <= 2;
-  zwój.append(element("summary", null, podpisCzytań(lista.length, ile)));
+function spisCzytań(lista) {
   const spis = element("ol", "czytanie-lista");
   lista.forEach((role) => spis.append(czytanie(role)));
-  zwój.append(spis);
+  return spis;
+}
+
+//  Czytania stoją zwinięte, dopóki są dwa: zdanie olskie ma jedno, a zdanie
+//  wieloznaczne ma ich tyle, że rozwinięte zasłaniają następne zdanie.
+//  Konstytuent rozbieżny dostaje własny spis pod tym samym zwojem, bo mówi o
+//  czytaniach tego samego zdania.
+function czytania(dane) {
+  const zwój = element("details", "czytania");
+  zwój.open = dane.czytania.length <= 2;
+  zwój.append(element("summary", null, podpisCzytań(dane.czytania.length, dane.urwane)));
+  zwój.append(spisCzytań(dane.czytania));
+  for (const wpis of dane.rozbieżne) {
+    const blok = element("div", "rozbieżny");
+    blok.append(element("span", "podpis", podpisRozbieżności(wpis.konstytuent)));
+    blok.append(spisCzytań(wpis.czytania));
+    zwój.append(blok);
+  }
   return zwój;
 }
 
@@ -100,6 +121,12 @@ function domysły(lista) {
   return blok;
 }
 
+function wierszCzytania(role) {
+  return `- ${Object.entries(role)
+    .map(([rola, wypełnienie]) => `${rola}: ${wypełnienie}`)
+    .join(", ")}`;
+}
+
 //  Tekst dla schowka jest drugim widokiem tych samych danych: wierszami, a nie
 //  węzłami. Czytania wchodzą wszystkie, także zwinięte pod zwojem, bo tekstu nie
 //  ma czym rozwinąć.
@@ -107,11 +134,12 @@ function tekstWerdyktu(dane) {
   const wiersze = [`${dane.status}  ${dane.zdanie}`, dane.wyjaśnienie];
   for (const forma of dane.dalsze_zatrzymania) wiersze.push(podpisZatrzymania(forma));
   if (dane.czytania.length) {
-    wiersze.push(podpisCzytań(dane.czytania.length, dane.liczba_czytań));
-    for (const role of dane.czytania) {
-      const pary = Object.entries(role).map(([rola, wypełnienie]) => `${rola}: ${wypełnienie}`);
-      wiersze.push(`- ${pary.join(", ")}`);
-    }
+    wiersze.push(podpisCzytań(dane.czytania.length, dane.urwane));
+    for (const role of dane.czytania) wiersze.push(wierszCzytania(role));
+  }
+  for (const wpis of dane.rozbieżne) {
+    wiersze.push(podpisRozbieżności(wpis.konstytuent));
+    for (const role of wpis.czytania) wiersze.push(`  ${wierszCzytania(role)}`);
   }
   for (const domysł of dane.domysły) {
     wiersze.push(`? ${podpisDomysłu(domysł)}: ${domysł.powód} (${domysł.świadek})`);
@@ -149,7 +177,7 @@ function zdanie(dane) {
     wyjaśnienie.append(element("br"), document.createTextNode(podpisZatrzymania(forma)));
   }
   blok.append(wyjaśnienie);
-  if (dane.czytania.length) blok.append(czytania(dane.czytania, dane.liczba_czytań));
+  if (dane.czytania.length) blok.append(czytania(dane));
   if (dane.domysły.length) blok.append(domysły(dane.domysły));
   return blok;
 }

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
@@ -31,6 +31,25 @@ def _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo) -> list[str]:
     ]
 
 
+def _role(streszczenie: dict[str, str]) -> str:
+    return ", ".join(f"{rola}: {wypełnienie}" for rola, wypełnienie in streszczenie.items())
+
+
+def _czytania(verdict: Verdict) -> Iterator[str]:
+    """Wiersze, którymi ``--readings`` mówi, co stoi w której roli.
+
+    Za streszczeniami zdania idą streszczenia konstytuentu, którego
+    wieloznaczność streszczenie zdania zostawia nienazwaną
+    (``Verdict.rozbieżne`` w ``olski/subset.py``).
+    """
+    for streszczenie in verdict.readings:
+        yield f"- {_role(streszczenie)}"
+    for rozbieżność in verdict.rozbieżne:
+        yield f"„{rozbieżność.konstytuent}” czyta się tak:"
+        for streszczenie in rozbieżność.czytania:
+            yield f"  - {_role(streszczenie)}"
+
+
 def _dalsze(verdict: Verdict) -> str:
     """Wiersz o zatrzymaniach poza pierwszym, które nazwał już werdykt.
 
@@ -54,7 +73,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--readings",
         action="store_true",
-        help="print what fills each role in every reading",
+        help="print what fills each role, once per distinct reading summary",
     )
     parser.add_argument(
         "--rozstrzygaj",
@@ -102,9 +121,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.zatrzymania and status != FRAGMENT and verdict.result.rejected:
                 print(f"{wcięcie} {_dalsze(verdict)}")
             if args.readings:
-                for reading in verdict.readings:
-                    parts = ", ".join(f"{role}: {fill}" for role, fill in reading.items())
-                    print(f"{wcięcie} - {parts}")
+                for line in _czytania(verdict):
+                    print(f"{wcięcie} {line}")
             if świadkowie is not None:
                 for line in _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo):
                     print(f"{wcięcie} {line}")

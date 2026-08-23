@@ -303,7 +303,7 @@ Klasa jest ta sama nad Składnicą i tam też zostaje po werdykcie sama liczba
 
 Werdykt nazywa obok tych dwóch przyłączeń dopełnienie
 jako rolę, o którą czytania tego zdania się różnią,
-a sześćdziesiąt cztery czytania, które `--readings` nad nim wypisuje,
+a streszczenia, które `--readings` nad nim wypisuje,
 są co do dopełnienia zgodne.
 Rolę tę bierze
 [z lasu](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),

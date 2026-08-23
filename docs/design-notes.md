@@ -1134,9 +1134,9 @@ różni czytanie słownikowe wewnątrz wypełnienia jednej roli —
 `zainteresowana` jest tam i rzeczownikiem, a `rada` formą `rad` —
 a `Ustawa mówi, że organ gminy wydaje przepis.` różni podmiot i dopełnienie
 zdania podrzędnego, w które streszczenie nie zagląda.
-Bez tego wiersza werdykt mówi nad oboma samo `2 readings`,
-a `--readings` drukuje jedno streszczenie dwa razy,
-co po werdykcie czyta się jak usterka narzędzia.
+Lista czytań zdania o tej różnicy milczy, bo oba czytania mają w niej jeden wpis,
+więc bez tego wiersza werdykt mówi nad każdym z tych zdań samo `2 readings`,
+czyli nie mówi, czym te dwa czytania się różnią.
 Z nim mówi `„zainteresowana rada gminy” reads 2 ways`.
 
 Nazwany jest konstytuent, a nie różnica pod nim,
@@ -1144,11 +1144,41 @@ i tę granicę stawia tożsamość czytania:
 lemat i część mowy są z niej wyłączone rozmyślnie,
 więc wiersz nazywający lemat mówiłby o czymś,
 czego liczba czytań obok niego nie liczy.
-Różnicę autor odczytuje z konstytuenta, i dlatego wpis dostaje najwęższy z nich:
+Wpis dostaje przy tym konstytuent najwęższy:
 napis obejmujący napis innego wpisu mówi o tym samym słowie i o kilku obok niego,
 bo wieloznaczność wychodzi w górę.
 `równych praw kobiet` czyta się dwoma sposobami przez samo `równych`,
 `równych praw kobiet i mężczyzn` trzema, a naprawić trzeba jedno słowo.
+
+Samą różnicę pokazuje pod tym wierszem lista, o ile konstytuent jest zdaniem.
+Streszczenie zdania podrzędnego jest streszczeniem tego zdania,
+a nie tego nad nim, więc streszczone osobno mówi to, o czym wiersz milczy:
+
+```sh
+python3 -m olski.check --readings -c "Ustawa mówi, że organ gminy wydaje przepis."
+```
+
+```text
+<text>: ambiguous Ustawa mówi, że organ gminy wydaje przepis.
+                  2 readings; „organ gminy wydaje przepis” reads 2 ways
+                  - Subject: Ustawa, Verb: mówi
+                  „organ gminy wydaje przepis” czyta się tak:
+                    - Subject: organ gminy, Object: przepis, Verb: wydaje
+                    - Subject: przepis, Object: organ gminy, Verb: wydaje
+0 of 1 sentences are olski, and 1 have a reading
+```
+
+Granicy między konstytuentem a różnicą pod nim lista nie rusza:
+rola lematem nie jest, więc lista mówi o tym, co tożsamość czytania liczy.
+Wierszy przy tym nie mnoży, bo stoi pod listą czytań zdania, a nie w niej:
+zdanie o takim konstytuencie i sześciu przyłączeniach dostaje kilkanaście
+wierszy zdania i dwa wiersze konstytuentu, a nie ich iloczyn.
+Głębiej zagnieżdżenie nie sięga, bo wpis dostaje konstytuent najwęższy,
+więc dwa wpisy jednego zdania stoją obok siebie, a nie jeden w drugim.
+Bez listy zostaje grupa imienna, bo roli zdania nie nosi.
+Jej streszczenia wychodzą puste i sobie równe, więc zostaje z nich jedno,
+a różnicę niesie tam głowa, której streszczenie nie nazywa
+([`TODO.md`](../TODO.md)).
 
 Wykluczenia są trzy i każde odpowiada jednemu wierszowi,
 który werdykt drukuje bez tego podsumowania.
@@ -1170,9 +1200,17 @@ a wiersz o konstytuencie ustępuje im miejsca:
 zostaje samą liczbą czytań, choć raz są to zadania dwóch rzeczy, a raz jednej.
 Ile zdań tak zostaje, mierzy
 [disambiguation.md](disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca).
-Powtórzone streszczenie zostaje przy tym w wydruku wszędzie,
-gdzie o wyborze mówi jeden z tamtych dwóch wierszy:
-lista czytań jest iloczynem decyzji, a wiersze tego iloczynu nie ruszają.
+
+Lista czytań niesie przy tym każde streszczenie raz.
+Powtórzone nie mówi nic ponad to, które stoi nad nim,
+a powtórzeń bywa tyle, ile czytań schodzi się pod jednym napisem:
+streszczenie nazywa pierwszy modyfikator zdania i jego gospodarza,
+więc zdanie o sześciu wyrażeniach przyimkowych
+wychodzi kilkunastoma wierszami na swoje sześćdziesiąt cztery czytania.
+Liczby czytań lista przez to nie podaje, bo tę podaje las.
+Reguła obowiązuje każdą z tych list, więc i tę pod konstytuentem:
+i tam dwa kształty o jednym napisie stoją jednym wpisem,
+a grupa imienna zostaje przez to bez listy.
 
 Zdanie współrzędne zatrzymania nie ma, więc streszczenie opisuje z niego
 to zdanie składowe, w którym rola występuje pierwszy raz.

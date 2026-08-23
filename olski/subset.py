@@ -28,8 +28,8 @@ from olski.parse import (
     Przyłączenie,
     Result,
     Rozbieżność,
-    describe,
     parse,
+    streszczenia,
 )
 from olski.precedencja import Rozwinięcie
 from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
@@ -2075,7 +2075,26 @@ class Verdict:
 
     @property
     def readings(self) -> list[dict[str, str]]:
-        return [describe(reading, DEKLARACJA) for reading in self.result.readings]
+        """Streszczenia czytań, każde raz (:func:`streszczenia`).
+
+        Lista jest po to, żeby pokazać różnicę między czytaniami,
+        a różnicę spoza zasięgu streszczenia nazywa wiersz o konstytuencie
+        (:func:`_rozbieżny`), więc powtórzony napis nie zostawia jej nienazwanej.
+        Liczbę czytań podaje las (:attr:`Result.ile`),
+        więc skrócenie tej listy jej nie rusza.
+        """
+        return streszczenia(self.result.readings, DEKLARACJA)
+
+    @property
+    def rozbieżne(self) -> list[Rozbieżność]:
+        """Konstytuenty rozbieżne, którym streszczenia naprawdę się różnią.
+
+        Jedno streszczenie znaczy, że streszczenie tej różnicy nie widzi
+        (:class:`Rozbieżność`), a wypisane byłoby wierszem bez treści.
+        Warunek stoi tu raz na oba wydruki, na wiersz poleceń i na witrynę,
+        bo napisany dwa razy rozjechałby się po cichu.
+        """
+        return [r for r in self.result.rozbieżności if len(r.czytania) > 1]
 
     def explain(self) -> str:
         if self.status == FRAGMENT:
