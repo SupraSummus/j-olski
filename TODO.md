@@ -2252,15 +2252,14 @@ wraz z rozstrzygnięciem, czy wpis leksykonu wymienia obie postaci,
 czy jedną, a drugą liczy się z niej.
 
 Leksem dokładany do napisu, który słownik zna, stoi poza `olski/projekt.txt`
-i jest drugą połową klasy, którą ten plik obsługuje.
-Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
-a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego,
-czyli czym innym niż liczba mnoga rzeczy nieżywotnej.
-Wiersz na taki leksem łamie własność, na której stoi zerowa cena tej warstwy —
-że ani jednej formy leksykonu słownik nie czyta —
-bo dokłada czytanie formie, którą już coś czyta,
-więc cena takiego wiersza jest ceną zwykłą, mierzoną w czytaniach zdań przyjętych.
-Ruchem jest ten pomiar nad wpisem na `agent`, a nie wiersz dopisany bez niego,
+i jest drugą połową klasy, którą ten plik obsługuje; czym się te dwie różnią,
+trzyma [`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+Wiersz na taki leksem — na `agent`, żeby projekt pisał o agentach `agenty` —
+dokłada czytanie formie, którą słownik już czyta,
+więc łamie własność, na której stoi zerowa cena tej warstwy,
+a cena takiego wiersza jest przez to ceną zwykłą,
+mierzoną w czytaniach zdań przyjętych.
+Ruchem jest ten pomiar, a nie wiersz dopisany bez niego,
 i tym różni się ta połowa od tamtej: tam cena wychodziła z własności,
 a tu wychodzi z przebiegu.
 Do przeczytania jest `test_żadnej_formy_leksykonu_słownik_nie_zna`
