@@ -2072,7 +2072,7 @@ a te dwa zaimka stoją same, więc jest to drugie czoło tej rodziny, a nie drug
 Ciągu współrzędnego przymiotników przy rzeczowniku olski nie ma w żadnym z dwóch
 szyków przydawki: `Nowy i tani parser zapisuje ustawienia.` pada tak samo jak
 `Warstwy trzecia i czwarta pracują.`
-([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakowało-najbardziej)).
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)).
 Koordynacja stoi na trzech poziomach — grupa imienna, grupa przymiotnikowa i zdanie
 ([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)) —
 a przydawka nie jest żadnym z nich: ciała grupy imiennej biorą pojedynczy `Adjective`.
@@ -2112,7 +2112,7 @@ zamknęłaby jedna produkcja, jeśli lista lematów jest w nich ta sama.
 Spójnika skorelowanego — `ani … ani`, `i … i`, `czy … czy` — olski nie ma:
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada, gdzie `Werdykt nie wnosi
 i nie zdejmuje.` wyprowadza się
-([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakowało-najbardziej)).
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)).
 Koordynacja olskiego stawia spójnik między członami i stawia go raz,
 a polszczyzna powtarza go przed każdym członem i przed drugim żąda przecinka,
 więc jest to trzecie ciało koordynacji, a nie druga lista lematów.
