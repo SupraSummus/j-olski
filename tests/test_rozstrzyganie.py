@@ -151,6 +151,20 @@ def test_fraza_dopasowuje_się_lematem_a_nie_napisem():
     assert odpowiedź.gospodarz == "awarie"
 
 
+def test_słowo_z_leksykonu_projektu_dopasowuje_się_lematem_jak_każde_inne():
+    """Warstwa bierze czytania tą samą drogą co gramatyka, więc ``commit`` ma lemat.
+
+    Bez czytań leksykonu projektu ``commitach`` i ``commicie`` wracają od Morfeusza
+    jako ``ign``, czyli dwie formy bez wspólnego lematu,
+    i świadek milczy nad zdaniem, w którym autor tę samą frazę postawił wyżej.
+    """
+    sąsiedztwo = Sąsiedztwo(("Zapisano zmiany w commicie.",))
+    przyłączenie = Przyłączenie(modyfikator="w commitach", gospodarze=("stoi", "zmiany"))
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [Powtórzenie()], sąsiedztwo)
+    assert isinstance(odpowiedź, Rozstrzygnięcie)
+    assert odpowiedź.gospodarz == "zmiany"
+
+
 #: Sąsiedztwo z łańcuchem dopełniaczowym przed frazą, wzorowane na zdaniu korpusu
 #: audytowego, na którym ten świadek raz się pomylił (``docs/disambiguation.md``).
 #: Głową grupy jest ``wymiany``, a sąsiadem bezpośrednim frazy ``danych``.

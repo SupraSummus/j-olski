@@ -2013,26 +2013,7 @@ def morphology(text: str) -> list[Segment]:
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
-    return po_przyimku([admissible(_z_leksykonu(segment)) for segment in _segmenty(text)])
-
-
-def _z_leksykonu(segment: Segment) -> Segment:
-    """Krawędź wraz z czytaniami, jakie leksykon projektu daje jej formie.
-
-    Czytania leksykonu dochodzą do tych, które ma słownik, a nie zastępują ich,
-    bo leksykon orzeka o formie, a nie łata milczenie Morfeusza: forma, którą
-    słownik zna, a leksykon o niej mówi, ma czytania jednego i drugiego, i tyle
-    właśnie czytań ma wtedy w polszczyźnie.
-
-    Czytanie ``ign`` stąd schodzi, bo mówi ono, że słowa nie zna nikt, a
-    leksykon właśnie je nazwał. Krawędź bez czytań z tego nie wyjdzie: znika ono
-    tylko tam, gdzie leksykon coś dołożył.
-    """
-    czytania = projekt.czytania(segment.form)
-    if not czytania:
-        return segment
-    znane = tuple(reading for reading in segment.readings if reading.tag.known)
-    return replace(segment, readings=znane + czytania)
+    return po_przyimku([admissible(projekt.z_leksykonu(segment)) for segment in _segmenty(text)])
 
 
 def _segmenty(text: str) -> list[Segment]:

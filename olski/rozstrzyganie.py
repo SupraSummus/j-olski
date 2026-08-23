@@ -69,6 +69,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import Protocol
 
+from olski import projekt
 from olski.document import Document
 from olski.morph import analyse
 from olski.parse import Przyłączenie
@@ -709,8 +710,19 @@ def _czytania(forma: str) -> list:
 
     Gospodarz jest w werdykcie jedną formą, a Morfeusz dzieli niektóre formy na
     kilka segmentów, więc pytanie idzie o całość grafu, a nie o pierwszą krawędź.
+
+    Czytania leksykonu projektu dochodzą tu tą samą funkcją,
+    którą dochodzą w analizie (``z_leksykonu`` w ``olski/projekt.py``):
+    gospodarz przychodzi z werdyktu,
+    więc bez nich ``commitów`` byłby tu formą bez lematu, a w gramatyce nie jest.
+    Część mowy te czytania niosą, więc świadek ramowy pyta o takie słowo
+    jak o każde inne i milczy, bo ``commit`` w leksykonie walencyjnym nie stoi.
     """
-    return [reading for segment in analyse(forma) for reading in segment.readings]
+    return [
+        reading
+        for segment in analyse(forma)
+        for reading in projekt.z_leksykonu(segment).readings
+    ]
 
 
 @functools.cache

@@ -121,7 +121,7 @@ WIĘZY = (
     Więz("Gen", word("subst", bez_lematu=ZAIMEK_RZECZOWNY), word("subst", case="gen"), strona=PO),
     # Okolicznik: przyimek dochodzi do czasownika, do rzeczownika i do
     # przymiotnika, czyli do tych trzech głów, pod którymi olski ma pozycje na
-    # Modifier. Trzy deklaracje zamiast jedenastu pozycji.
+    # Modifier.
     Więz("Modifier", word(CZASOWNIK), word("prep"), jedyny=False),
     Więz("Modifier", word("subst"), word("prep"), strona=PO, jedyny=False),
     Więz("Modifier", word(PRZYMIOTNIK), word("prep"), strona=PO, jedyny=False),
