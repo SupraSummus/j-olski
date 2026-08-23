@@ -122,6 +122,11 @@ class Segment:
     readings: tuple[Reading, ...]
 
     @property
+    def lematy(self) -> frozenset[str]:
+        """Słowa, którymi ta forma bywa; pyta o nie ``bez_lematu_formy``."""
+        return frozenset(reading.lemma for reading in self.readings)
+
+    @property
     def known(self) -> bool:
         return any(reading.tag.known for reading in self.readings)
 

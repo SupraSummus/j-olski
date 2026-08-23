@@ -714,13 +714,18 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     leksykonu naraz, bo klasy mają się nie zachodzić: forma wzięta dwiema klasami
     byłaby dwoma czytaniami tego samego kształtu.
 
+    Pyta on o formę, a nie o jedno jej czytanie, bo rama jest własnością formy:
+    zapytany o czytanie rozdziela lematy zamiast form i wpuszcza ramę domyślną
+    formie, której lemat leksykon wymienia. Reprodukcję, cenę i zysk trzyma
+    docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+
     Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
     jak każdy inny nieznany.
     """
     leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
     klasy = [({"lemma": lematy}, rama) for rama, lematy in leksykon.items()]
-    return [*klasy, ({"bez_lematu": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
+    return [*klasy, ({"bez_lematu_formy": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
 
 
 def _formy_skończone(
@@ -2352,7 +2357,9 @@ def bez_licencji(segments: list[Segment], grammar: Grammar) -> tuple[str, ...]:
     formy: list[str] = []
     for segment in segments:
         if any(
-            grammar.licencjonuje(reading.tag.pos, reading.lemma, reading.tag.cechy)
+            grammar.licencjonuje(
+                reading.tag.pos, reading.lemma, segment.lematy, reading.tag.cechy
+            )
             for reading in segment.readings
         ):
             continue

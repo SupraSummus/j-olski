@@ -197,9 +197,8 @@ def rozbierz(
             return Rozbiór(czytania=[])
         słowa = słowa[:-1]
     formy = tuple(segment.form for segment in słowa)
-    czytania_form = [segment.readings for segment in słowa]
 
-    tablica = _tablica(czytania_form, gramatyka)
+    tablica = _tablica(słowa, gramatyka)
     dziedziny = _dziedziny(tablica)
     puste = tuple(forma for forma, dziedzina in zip(formy, dziedziny, strict=True) if not dziedzina)
     if puste:
@@ -211,7 +210,7 @@ def rozbierz(
             continue
         czytanie = Czytanie(
             formy=formy,
-            części=tuple(czytania_form[i][wybór[i]].tag.pos for i in range(len(słowa))),
+            części=tuple(tablica.czytania[i][wybór[i]].tag.pos for i in range(len(słowa))),
             łuki=tuple(sorted(łuk[:3] for łuk in łuki)),
         )
         sygnatura = czytanie.sygnatura()
@@ -251,6 +250,10 @@ class _Tablica:
     """Co wolno nad tym zdaniem postawić, policzone przed szukaniem drzewa."""
 
     czytania: list[tuple[Reading, ...]]
+    #: Lematy każdej z form, czyli to, o co pyta warunek ujemny o formie
+    #: (``bez_lematów_formy`` w ``olski/grammar.py``). Indeks ten sam co w
+    #: :attr:`czytania`.
+    lematy: list[frozenset[str]]
     #: Łuki wychodzące z każdego słowa i wchodzące do niego, w obu indeksach ten
     #: sam wpis: drugi koniec łuku, czytanie zależnego, i zbiór czytań głowy,
     #: które ten łuk dopuszcza.
@@ -263,7 +266,7 @@ class _Tablica:
         return len(self.czytania)
 
 
-def _tablica(czytania_form: list[tuple[Reading, ...]], gramatyka: Gramatyka) -> _Tablica:
+def _tablica(słowa: list[Segment], gramatyka: Gramatyka) -> _Tablica:
     """Licencje łuków, policzone raz.
 
     Licencja łuku zależy tylko od dwóch słów i od wybranych dla nich czytań, więc
@@ -275,15 +278,17 @@ def _tablica(czytania_form: list[tuple[Reading, ...]], gramatyka: Gramatyka) -> 
     czytań głowy, które ten łuk dopuszcza. Tym zbiorem przycina się dziedziny, a
     potem sprawdza głowę, której szukanie jeszcze nie wybrało.
     """
-    z_niego: list[list[tuple[int, Więz, int, frozenset[int]]]] = [[] for _ in czytania_form]
-    do_niego: list[list[tuple[int, Więz, int, frozenset[int]]]] = [[] for _ in czytania_form]
+    czytania_form = [segment.readings for segment in słowa]
+    lematy_form = [segment.lematy for segment in słowa]
+    z_niego: list[list[tuple[int, Więz, int, frozenset[int]]]] = [[] for _ in słowa]
+    do_niego: list[list[tuple[int, Więz, int, frozenset[int]]]] = [[] for _ in słowa]
     korzenie = [
         [
             r
             for r, czytanie in enumerate(czytania)
-            if _pasuje(gramatyka.korzeń, czytanie, EMPTY) is not None
+            if _pasuje(gramatyka.korzeń, czytanie, lematy_form[i], EMPTY) is not None
         ]
-        for czytania in czytania_form
+        for i, czytania in enumerate(czytania_form)
     ]
     for i, czytania in enumerate(czytania_form):
         for j, czytania_głowy in enumerate(czytania_form):
@@ -294,11 +299,14 @@ def _tablica(czytania_form: list[tuple[Reading, ...]], gramatyka: Gramatyka) -> 
                     continue
                 zebrane: dict[int, set[int]] = {}
                 for rg, czytanie_głowy in enumerate(czytania_głowy):
-                    środowisko = _pasuje(więz.głowa, czytanie_głowy, EMPTY)
+                    środowisko = _pasuje(więz.głowa, czytanie_głowy, lematy_form[j], EMPTY)
                     if środowisko is None:
                         continue
                     for rz, czytanie_zależnego in enumerate(czytania):
-                        if _pasuje(więz.zależny, czytanie_zależnego, środowisko) is None:
+                        if (
+                            _pasuje(więz.zależny, czytanie_zależnego, lematy_form[i], środowisko)
+                            is None
+                        ):
                             continue
                         zebrane.setdefault(rz, set()).add(rg)
                 for rz, głowy in zebrane.items():
@@ -306,6 +314,7 @@ def _tablica(czytania_form: list[tuple[Reading, ...]], gramatyka: Gramatyka) -> 
                     do_niego[j].append((i, więz, rz, frozenset(głowy)))
     return _Tablica(
         czytania=czytania_form,
+        lematy=lematy_form,
         z_niego=z_niego,
         do_niego=do_niego,
         korzenie=korzenie,
@@ -341,7 +350,7 @@ def _wsparte(tablica: _Tablica, dziedziny: list[set[int]], i: int, r: int) -> bo
     if not ma_głowę:
         return False
     for żądanie in tablica.gramatyka.żądania:
-        if _pasuje(żądanie.słowo, tablica.czytania[i][r], EMPTY) is None:
+        if _pasuje(żądanie.słowo, tablica.czytania[i][r], tablica.lematy[i], EMPTY) is None:
             continue
         for etykieta in żądanie.etykiety:
             if not any(
@@ -353,7 +362,10 @@ def _wsparte(tablica: _Tablica, dziedziny: list[set[int]], i: int, r: int) -> bo
 
 
 def _którekolwiek(żądanie: Word, segment: Segment) -> bool:
-    return any(_pasuje(żądanie, czytanie, EMPTY) is not None for czytanie in segment.readings)
+    return any(
+        _pasuje(żądanie, czytanie, segment.lematy, EMPTY) is not None
+        for czytanie in segment.readings
+    )
 
 
 def _dopuszczalne(tablica: _Tablica, łuki, wybór) -> bool:
@@ -389,7 +401,7 @@ def _zgody_stoją(tablica: _Tablica, łuki, wybór) -> bool:
 def _żądania_stoją(tablica: _Tablica, łuki, wybór) -> bool:
     for żądanie in tablica.gramatyka.żądania:
         for i, czytania in enumerate(tablica.czytania):
-            if _pasuje(żądanie.słowo, czytania[wybór[i]], EMPTY) is None:
+            if _pasuje(żądanie.słowo, czytania[wybór[i]], tablica.lematy[i], EMPTY) is None:
                 continue
             wyprowadzone = {etykieta for _, głowa, etykieta, _więz in łuki if głowa == i}
             if not set(żądanie.etykiety) <= wyprowadzone:
@@ -419,15 +431,16 @@ def _strona_zgadza(więz: Więz, zależny: int, głowa: int) -> bool:
     return True
 
 
-def _pasuje(żądanie: Word, czytanie: Reading, środowisko):
+def _pasuje(żądanie: Word, czytanie: Reading, lematy: frozenset[str], środowisko):
     """Czy słowo bierze to czytanie, pytane tym samym testem, co w produkcjach.
 
     Warunek na czytanie ma jedną kopię, a nie dwie: sonda porównuje podłoża, a nie
     dwa sposoby dopasowania terminala, więc każdy warunek dopisany po stronie
-    olskiego obowiązuje tu bez przepisywania go drugi raz.
+    olskiego obowiązuje tu bez przepisywania go drugi raz. ``lematy`` są lematami
+    całej formy i przychodzą stąd z tego samego powodu.
     """
     return bierze(
-        żądanie, czytanie.tag.pos, czytanie.lemma, czytanie.tag.cechy, środowisko
+        żądanie, czytanie.tag.pos, czytanie.lemma, lematy, czytanie.tag.cechy, środowisko
     )
 
 
