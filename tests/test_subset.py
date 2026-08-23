@@ -1687,8 +1687,26 @@ def test_zaimek_rzeczowny_nie_bierze_dopełniacza():
     assert found.readings[0]["Subject"] == "parser tego podzbioru"
 
 
+def test_zaimek_bez_czytania_przymiotnikowego_też_nie_bierze_dopełniacza():
+    #  Lista zawężona do paradygmatu ten zostawia to zdanie wieloznacznym: nikt ma
+    #  u Morfeusza czytanie jedno i rzeczownikowe, więc czytania, w którym nikt nas
+    #  jest grupą imienną, nie zdejmuje ani anotator, ani wykluczenie ze słownika.
+    found = verdict("Wtedy nikt nas nie zauważy.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Subject"] == "nikt"
+
+
+def test_zaimek_rzeczowny_nie_unosi_wysuniętego_zaimka_względnego():
+    #  Drugie miejsce, w którym przydawką dopełniaczową jest zaimek: grupa
+    #  wysuwana przed zdanie względne. Warunek postawiony w samej grupie imiennej
+    #  zostawia to zdanie wieloznacznym, bo której nikt wychodzi taką grupą.
+    found = verdict("Polszczyzna, której nikt nie napisał, jest podzbiorem.")
+    assert found.status == "valid", found.explain()
+    assert found.readings[0]["Subject"] == "Polszczyzna, której nikt nie napisał,"
+
+
 def test_rzeczownik_dalej_bierze_dopełniacz_po_sobie():
-    #  Druga połowa warunku: wyłączony jest jeden lemat, a nie produkcja, więc
+    #  Druga połowa warunku: wyłączona jest lista lematów, a nie produkcja, więc
     #  grupa imienna z dopełniaczem po głowie stoi tam, gdzie stała.
     found = verdict("Wejściem jest opis podzbioru.")
     assert found.status == "valid", found.explain()

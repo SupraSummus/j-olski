@@ -974,24 +974,19 @@ a lemat dopisany za taki ciąg wraca ceną w każdym zdaniu, które ten ciąg ni
 Cenę każdego lematu bierze potem sonda kopuły odtworzona z commita, który ją trzyma,
 tak jak wzięła cenę tego jednego.
 
-Zaimek rzeczowny nie rządzi dopełniaczem, a kryterium na to nazywa jeden lemat.
-`ZAIMEK_RZECZOWNY` w `olski/subset.py` wyklucza `to` z głowy, która bierze
-dopełniacz pod sobą, a Morfeusz znakuje jako `subst` całą klasę takich zaimków:
-`nikt`, `kto`, `nic`, `coś`, `ktoś`.
-Żaden z nich dopełniacza przy sobie nie bierze, więc każdy daje drugie czytanie
-tam, gdzie stoi po dopełniaczu albo przed nim,
-a `Polszczyzna, której nikt nie napisał, jest podzbiorem.` traci przez to jednoznaczność,
-bo `której nikt` wychodzi grupą wysuniętą.
-Ruchem jest lista lematów w miejsce jednego, a przed nim rozstrzygnięcie,
-czy klasę tę nazywa lemat, czy coś, o co da się zapytać czytanie:
-lista zamknięta postarza się o każdy zaimek, którego nikt do niej nie dopisał.
-Do przeczytania jest cena tamtego kryterium
-([`docs/subset.md`](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
-bo rozszerzenie płaci tą samą walutą, tylko na kilku lematach naraz.
-Cena jest niepoliczona i sonda różnicowa jej nie policzy,
-bo `harness/ruch.py` zdejmuje produkcje, a to jest zmiana warunku w terminalu;
-liczbę wydaje przebieg nad korpusem z warunkiem i bez niego, czytany ręką,
-tak samo jak przy tamtym kryterium.
+Lista zaimków rzeczownych nie ma źródła poza pamięcią tego, kto ją pisał.
+O każdym lemacie `ZAIMEK_RZECZOWNY` w `olski/subset.py` sprawdzono w Morfeuszu,
+że niesie czytanie `subst`, a czy lista jest pełna, nie sprawdził nikt
+i słownikiem się tego nie sprawdzi:
+czytanie zaimka niczym się nie różni od czytania rzeczownika
+([`docs/subset.md`](docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+Ruchem jest wykaz lematów, które nad korpusem stają w tej pozycji —
+forma o czytaniu `subst` tuż przed formą w dopełniaczu —
+uszeregowany częstością i przeczytany ręką:
+zaimka nie odróżni od rzeczownika żaden test, ale odróżni go czytelnik.
+Do przeczytania jest przedtem cena wpisu:
+lemat dopisany odbiera czytanie i żadnego nie dodaje,
+więc kandydat mylny zabiera zdanie, które gramatyka dziś wyprowadza.
 
 Człon lewy ciągu współrzędnego nie unosi zdania względnego.
 Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`

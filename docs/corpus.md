@@ -453,11 +453,14 @@ and it lands among the disagreements rather than in the ambiguity column:
 holds what it buys and what it takes.
 
 Two sentences of this shape were in this row and left it,
-which is what the four word orders bought here beyond the sentences they accepted:
-`Apostołowie tego nie praktykowali.`
-and `Nikt niczego nie wybiera, coś wybiera za nas.`
-now come out with two readings, the reader's among them,
-so they are refused rather than read backwards.
+which is what the four word orders bought here beyond the sentences they accepted.
+`Apostołowie tego nie praktykowali.` now comes out with two readings,
+the reader's among them, so it is refused rather than read backwards.
+`Nikt niczego nie wybiera, coś wybiera za nas.` went further:
+the substantival pronoun takes no genitive after it
+([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+which leaves the second reading nowhere to stand,
+and the one left agrees with the gold tree.
 
 A few are the check and not a reading, and what makes them one
 is the gold tree marking no slot at all where olski names a role.
@@ -635,10 +638,9 @@ dla którego liczy tam zdania przyjęte bez roli do porównania.
 
 Odrzucenie za wieloznaczność jest więc odrzuceniem wobec liczby czytań,
 a nie wobec tego, co w nich stoi.
-Sekcja wyżej mówi to samo o dwóch zdaniach i mówi to z ręki:
+Sekcja wyżej mówi to samo o jednym zdaniu i mówi to z ręki:
 `Apostołowie tego nie praktykowali.`
-i `Nikt niczego nie wybiera, coś wybiera za nas.`
-wychodzą dwoma czytaniami, a czytanie czytelnika jest wśród nich.
+wychodzi dwoma czytaniami, a czytanie czytelnika jest wśród nich.
 Przebieg mówi to o wszystkich naraz i przelicza się razem z gramatyką.
 
 Ile odpowiedź `survives` jest warta, mówi dopiero numer czytania obok niej.
@@ -819,10 +821,10 @@ a second reading, a few of them their only one —
 `Od tego momentu jest naszym pośrednikiem.` —
 where `tego` is once the adjective in front of its noun
 and once a pronoun governing it.
-It costs two acceptances, `Wymaga to odpowiedniej polityki informacyjnej rządu.`
-being one of them,
-and turns two more sentences from ambiguous into rejected,
-of which one is why that count is not a cost either:
+It costs a few sentences their acceptance,
+`Wymaga to odpowiedniej polityki informacyjnej rządu.` being one of them,
+and turns a couple more from ambiguous into rejected,
+of which one is why that price is not a cost either:
 
 ```text
 Dotyczy to wszystkich kategorii zawodowych.
