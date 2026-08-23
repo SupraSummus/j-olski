@@ -479,6 +479,20 @@ BEZ_CZOŁA = "żadne"
 DOSTAWKA = "jest"
 BEZ_DOSTAWKI = "brak"
 
+#: Wartości cechy `ciąg`, czyli tego, czy zdanie ma kilka członów współrzędnych.
+#: Żąda jej okolicznik zdaniowy dochodzący do całego ciągu, bo bez tego żądania
+#: zdanie o jednym członie wyprowadza się dwoma kształtami: raz z okolicznikiem
+#: przy członie, raz z tym samym okolicznikiem nad ciągiem, którym ten człon jest.
+#:
+#: Żądanie jest dodatnie, a cechy nieobecnej unifikacja nie sprawdza, więc cechę
+#: wypuszcza każda produkcja `Clause`: ta, która o ciągu przemilczy, wpuści
+#: okolicznik nad zdanie pojedyncze. Tym różni się ta cecha od :data:`DOSTAWKA`,
+#: której żądanie jest ujemne i której przemilczenie nic nie psuje. Cenę pozycji
+#: trzyma
+#: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
+CIĄG = "jest"
+BEZ_CIĄGU = "brak"
+
 
 def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     """Druga para cech czoła zdania względnego: liczba i rodzaj jego zaimka.
@@ -1008,10 +1022,17 @@ def build() -> Grammar:
     # żądałaby jej od wszystkich i zabierałaby przy tym zdania już przyjęte, bo
     # `Program zapisuje ustawienia, a linter sprawdziłby tekst.` koordynuje tryb
     # oznajmujący z przypuszczającym.
+    #
+    # Ciągiem albo jednym członem ogłasza się każde z tych ciał (:data:`CIĄG`).
     człon = nt("ClauseConjunct", tryb=V("t"))
-    grammar.rule("Clause", [człon], tryb=V("t"))
-    grammar.rule("Clause", [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")], tryb=V("t"))
-    grammar.rule("Clause", [Głowa(człon), PRZECINEK, nt("Clause")], tryb=V("t"))
+    grammar.rule("Clause", [człon], tryb=V("t"), ciąg=BEZ_CIĄGU)
+    grammar.rule(
+        "Clause",
+        [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")],
+        tryb=V("t"),
+        ciąg=CIĄG,
+    )
+    grammar.rule("Clause", [Głowa(człon), PRZECINEK, nt("Clause")], tryb=V("t"), ciąg=CIĄG)
     # Przecinek i spójnik naraz, czyli ta interpunkcja, której polszczyzna żąda
     # przed `ale`, `a` i `więc` (:data:`SPÓJNIKI_PRZECINKOWE`). Poziom zdaniowy
     # ma tę pozycję, a imienny i przymiotnikowy nie, bo lista tych spójników jest
@@ -1021,6 +1042,7 @@ def build() -> Grammar:
         "Clause",
         [Głowa(człon), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")],
         tryb=V("t"),
+        ciąg=CIĄG,
     )
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
@@ -1428,10 +1450,6 @@ def build() -> Grammar:
 
     # Dwie pozycje, bo polszczyzna stawia ten okolicznik przed swoim zdaniem i za
     # nim, a szyku wewnątrz zdania nadrzędnego nie zmienia ani jedna, ani druga.
-    # Zdanie nadrzędne jest tu składowym, a nie ciągiem współrzędnym: okolicznik
-    # dochodzi do jednego zdania, a nie do wszystkiego, co przecinek połączył,
-    # i jest to ta sama granica, którą trzyma zasięg koordynacji
-    # (docs/subset.md#nothing-above-a-coordination-distributes-into-it).
     grammar.rule(
         "ClauseConjunct",
         [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(OKOLICZNIKOWY, pozycja="za")],
@@ -1445,6 +1463,32 @@ def build() -> Grammar:
             Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI)),
         ],
         tryb=V("t"),
+    )
+
+    # Te same dwie pozycje nad całym ciągiem współrzędnym, bo `Dwoisz się i troisz,
+    # aby rozwiązać problemy.` mówi o obu członach naraz, a `Mieszkał z ojcem i nie
+    # chciał, żeby ktoś wiedział.` o samym drugim. Ciała powyżej dają czytanie
+    # drugie, te dwa dają pierwsze, i bez nich olski wybiera przez przeoczenie
+    # (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+    #
+    # Ciągu żąda tu cecha (:data:`CIĄG`), a dostawki żąda ciało z okolicznikiem
+    # wysuniętym, tak samo jak ciało zdania składowego wyżej; bez jednego i bez
+    # drugiego żądania jeden napis wyprowadza się dwoma kształtami.
+    grammar.rule(
+        "Clause",
+        [Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG)), nt(OKOLICZNIKOWY, pozycja="za")],
+        tryb=V("t"),
+        ciąg=CIĄG,
+        dostawka=DOSTAWKA,
+    )
+    grammar.rule(
+        "Clause",
+        [
+            nt(OKOLICZNIKOWY, pozycja="przed"),
+            Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG, dostawka=BEZ_DOSTAWKI)),
+        ],
+        tryb=V("t"),
+        ciąg=CIĄG,
     )
 
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.

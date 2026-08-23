@@ -907,11 +907,24 @@ bo pojedyncze zdanie tego nie łapie, a ciał zdania jest kilkadziesiąt.
 Ciąg współrzędny wypuszcza tryb członu pierwszego i od pozostałych nie żąda niczego,
 więc `żeby program zapisał ustawienia i linter sprawdza tekst` wyprowadza się,
 choć polszczyzna żąda formy na -ł od obu członów.
-Jest to ta sama granica, którą trzyma
-[zasięg koordynacji](#nothing-above-a-coordination-distributes-into-it),
-a zmienna wspólna zabrałaby zdania już przyjęte:
+Zmienna wspólna zabrałaby zdania już przyjęte:
 `Program zapisuje ustawienia, a linter sprawdziłby tekst.`
 koordynuje tryb oznajmujący z przypuszczającym.
+
+Ile ich zabrałaby, jest zmierzone.
+Zmienna wspólna na ogonie ciągu odbiera wyprowadzenie kilku zdaniom Składnicy,
+pod morfologią żywą dwa razy tylu zdaniom,
+a przeszło dziesięciu zdaniom prozy tego repozytorium,
+bo koordynacja dwóch trybów jest w niej zwyczajna
+(`Lista urywa się na MAX_READINGS, […] więc odpowiedź policzona po liście myliłaby
+brak czytania z jego numerem`).
+Kupuje za to czytania nieprawdziwe w kilku zdaniach banku drzew,
+a jednoznaczności nie kupuje ani jednemu zdaniu:
+z wieloznacznych do przyjętych nie przechodzi żadne.
+Naprawa mieszcząca się w cechach jest więc droższa od usterki,
+a naprawa poza cechami żąda warunku sprawdzanego po rozbiorze,
+którego olski nie ma i który dla tej jednej pozycji nie zarabia na siebie.
+Liczby daje wariant gramatyki z tą zmienną, puszczony przez `harness/ruch.py`.
 
 Wypełnieniem bywa fraza bezokolicznikowa zamiast zdania —
 `Odnotowuję to, żeby złagodzić wrażenie.` —
@@ -1102,6 +1115,16 @@ so an adjective scoping over the coordination
 would be an adjective agreeing with nothing
 and `nowa programy i pliki` would derive.
 Refusing the wider attachment is what keeps that a rejection.
+
+Wywód ten obowiązuje tam, gdzie obowiązuje zgodność.
+Okolicznik wyrażony zdaniem dochodzi do całego ciągu zdań składowych,
+bo nie zgadza się z niczym ani pod członem, ani nad ciągiem,
+więc brak rodzaju u ciągu nic mu nie odbiera,
+a czytania są dwa i oba polszczyzna ma
+([wyżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+Zawężenie zostaje przez to przy przydawce, czyli przy tym, co je uzasadnia,
+a [TODO.md](../TODO.md) trzyma pozycję trzecią, czyli wyrażenie przyimkowe nad ciągiem,
+którego zawężenie nie uzasadnia z tego samego powodu.
 
 Dwa symbole zamiast jednego wybrano dla liczby czytań, a nie dla parsera.
 Tablica Earleya bierze rekursję lewostronną,
@@ -1958,6 +1981,12 @@ więc `SubordinateClause → , że Clause` jest jednym konstytuentem wraz z prze
 a `Clause` się w nim nie powtarza.
 Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse.py`)
 i po tym samym rozpoznaje go sonda, która przecinek zdejmuje.
+Samo powtórzenie symbolu im nie wystarcza, bo nad ciągiem stoi jeszcze
+[okolicznik zdaniowy](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
+który do całego ciągu dochodzi i własny symbol powtarza tak samo.
+Rozdziela je znak: koordynacja spina członów spójnikiem albo przecinkiem
+stojącym w ciele słowem, a określenie jest grupą,
+która swój przecinek niesie w sobie.
 
 ### Przecinek zamykający należy do zdania podrzędnego, a nie do spójnika za nim
 
@@ -2036,6 +2065,28 @@ Zdanie z `gdy` mówi, kiedy zachodzi to, o czym mówi zdanie obok niego,
 i mówi to o całym tym zdaniu, a nie o jego orzeczeniu,
 więc dochodzi tam, gdzie dochodzi wyrażenie przyimkowe wysunięte przed zdanie:
 do zdania składowego, a nie do `Complements`.
+Dochodzi zarazem do całego ciągu współrzędnego, a nie do samego składowego w nim,
+i te dwa czytania są dwoma zdaniami:
+`Dwoisz się i troisz, aby rozwiązać problemy.` mówi o obu członach naraz,
+a `Mieszkał z ojcem i nie chciał, żeby ktoś wiedział.` o samym drugim.
+Bez pozycji nad ciągiem gramatyka ma samo czytanie drugie,
+czyli wybiera przez przeoczenie
+([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)),
+a nad zdaniami takimi jak pierwsze wybiera odwrotnie, niż czyta czytelnik.
+
+Ciąg jest tu żądany cechą, bo nad zdaniem o jednym członie
+oba ciała dają ten sam napis dwoma kształtami.
+Cena stoi przez to w jednoznaczności, a nie w pokryciu:
+nad Składnicą traci ją garść zdań przyjętych,
+nad prozą tego repozytorium pojedyncze zdanie,
+a z odrzuconych do przyjętych nie przechodzi ani jedno.
+Bez żądania ciągu cena jest kilkakrotnie wyższa,
+bo dochodzi do niej każde zdanie o jednym członie.
+Bank drzew tego wyboru nie rozstrzyga:
+oba czytania mają rolę okolicznika o tej samej rozpiętości,
+a porównanie ról pyta o rozpiętości
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)),
+więc różnicę widać w werdykcie po nazwie gospodarza i nie widać jej w pomiarze.
 Tym jednym różni się ta konstrukcja od [zdania z `że`](#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej),
 a reszta jest w obu ta sama: przecinek należy do konstytuentu, który spójnik tworzy,
 a nie do produkcji nad nim.
@@ -2481,6 +2532,8 @@ Zdanie składowe bierze określenie z obu stron i bierze je jednym symbolem.
 Przed nim stoi wyrażenie przyimkowe, przysłówek albo cząstka,
 a za nim wtrącenie w nawiasie, człon bez czasownika
 albo [okolicznik wyrażony zdaniem](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania).
+Cały ciąg współrzędny bierze z obu stron ten jeden okolicznik
+i żąda tego samego, i z tego samego powodu.
 Żadna z tych produkcji nie mówi, która dochodzi pierwsza,
 więc same z siebie dają jednemu napisowi dwa kształty:
 
@@ -2626,17 +2679,34 @@ rzeczownik — `brakuje dwóch mężczyzn` — więc ciało rządzące bierze j�
 i `Dwudziestu dwóch mężczyzn przyszło.` czyta się dwojako:
 o dwudziestu dwóch oraz o dwudziestu z dwóch.
 Drugie czytanie polszczyzna pisze przyimkiem, którego w tym zdaniu nie ma,
-a odróżnić tych dwóch nie ma tu czym:
+a cechy dzisiejsze tych dwóch nie odróżniają:
 liczebnik zgodny wypuszcza grupę o cechach samego rzeczownika,
 więc różni je sam kształt.
-Warunek na kształt żądałby drugiej kopii każdej pozycji grupy imiennej,
-więc czytanie zostaje, a wpis o nim trzyma [`TODO.md`](../TODO.md).
+
 Zagnieżdżenie zachodzi tam, gdzie pierwszy człon jest synkretyczny
 między rządzącym i zgodnym, czyli w formach męskoosobowych i przypadkach zależnych.
 `Dwadzieścia dwa chleby leżą.` wychodzi jednym czytaniem.
 Przed tą pozycją zdanie o dwudziestu dwóch przechodziło pod samym zagnieżdżeniem,
 więc łańcuch zamienia tu werdykt nieprawdziwy na odmowę
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
+Odróżnia te dwa czytania cecha dopisana, czyli znacznik taki jak
+[`ciąg`](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania):
+grupa zbudowana przez liczebnik zgodny ogłasza się nim,
+ciało rządzące żąda od tego, co pod nim stoi, wartości przeciwnej,
+a `Dwudziestu dwóch mężczyzn przyszło.` wychodzi wtedy jednym czytaniem, tym właściwym.
+Drugiej kopii pozycji grupy imiennej znacznik nie żąda;
+żąda tej cechy w każdej produkcji `NP` i `NPConjunct`,
+bo żądanie jest dodatnie, a cechy nieobecnej unifikacja nie sprawdza.
+Czytanie zostaje mimo to, bo naprawa nie kupuje niczego, co dałoby się zmierzyć.
+Zdań stawiających obok siebie dwie formy o czytaniu liczebnikowym
+ma Składnica 180723 dziesięć,
+znacznik nie rusza liczby czytań ani nad jednym z nich pod żadną z dwóch morfologii
+ani nad prozą tego repozytorium,
+a rejestr docelowy pisze liczebnik złożony
+[cyfrą](#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii), której olski nie bierze.
+Liczbę pierwszą daje przejście po złotej morfologii banku drzew,
+a pozostałe wariant gramatyki z tą cechą, puszczony przez `harness/ruch.py`.
 
 ### Cyfry olski nie bierze, bo cyfra nie niesie morfologii
 

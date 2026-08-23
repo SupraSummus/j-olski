@@ -477,23 +477,13 @@ tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
 liczniki, przejścia, scalanie kawałków, tryb nad prozą i tabelę,
 czyli przeszło sto wierszy stojących drugi raz.
 Wiersz poleceń zszedł z tej listy razem z `harness/komenda.py`,
-który jest wspólny wszystkim sondom mierzącym nad korpusem.
-Połowa powodu, dla którego nie dało się wziąć stamtąd reszty, zeszła
-i wróciła w innej postaci.
-Wariant bogatszy od mianownika ta maszyneria umiała, dopóki miała `Sonda.dopisuje`,
-a odsiew grup działał nad dopiskiem tak samo jak nad produkcjami olskiego;
-pole to wyszło razem z przysłówkiem, czyli z jedyną sondą, która je wypełniała,
-bo konstrukcja wpuszczona do gramatyki mierzy się już zdejmowaniem.
-Zostaje to, że warianty luki są dwiema wersjami jednego dopisku,
-a nie jednym wariantem na grupę zdejmowaną osobno:
-wariant ostatni nie jest wtedy „obie naraz”,
-więc `pytania` i `Raport._konkurencja` — dwa wiersze o tym,
-czy grupy wchodzą sobie w drogę — nad nimi nie znaczą nic.
-Ruchem jest `Sonda` biorąca gramatykę wariantu wprost, funkcją zamiast grupy,
-wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
-Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
-oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
-wiążącym wariant z grupą produkcji.
+który jest wspólny wszystkim sondom mierzącym nad korpusem,
+a gramatyka wariantu zeszła z niej razem z `Sonda.gramatyki`:
+wariant z luką jest dopiskiem, nie grupą zdejmowaną, i tamta sonda dopisek bierze.
+Ruchem jest więc przepisanie tego pliku na tamten przebieg.
+Do przeczytania są `pytania` i `Raport._konkurencja`, bo to one się nie generalizują:
+warianty luki są dwiema wersjami jednego dopisku, a nie grupą na wariant,
+więc pytanie o wchodzenie sobie w drogę nad nimi nie pada i pola zostają puste.
 Ta sama `Sonda` zamyka drugie rozejście, które kopia zdążyła już zebrać:
 oba tryby nad prozą w tym pliku wołają `check` raz na wariant,
 więc segmentują ten sam tekst tyle razy, ile wariantów,
@@ -750,38 +740,6 @@ czego polszczyzna nie ma.
 Do przeczytania jest, czy bank drzew ma zdanie z `sposób` bez przeczenia,
 bo od tego zależy, czy sama lista tu wystarczy.
 
-Liczebnik rządzący bierze nad sobą grupę zbudowaną przez liczebnik zgodny,
-więc `Dwudziestu dwóch mężczyzn przyszło.` wychodzi obok łańcucha zagnieżdżeniem,
-czyli czytaniem o dwudziestu z dwóch, którego polszczyzna bez przyimka nie ma
-([`docs/subset.md`](docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
-Cechy tych dwóch czytań nie rozdzielają i rozdzielić nie mogą,
-bo liczebnik zgodny wypuszcza grupę o cechach samego rzeczownika.
-Ruchem jest albo warunek na kształt sprawdzany po rozbiorze,
-czyli ta sama maszyneria, o którą prosi wpis o trybie w ciągu współrzędnym,
-albo rozdzielenie grupy imiennej na dwie, z których jedna liczebnika nie bierze,
-a to żąda drugiej kopii każdej pozycji tej grupy.
-Przed obydwoma stoi pytanie, czy warto,
-bo zagnieżdżenie zachodzi w formach męskoosobowych i przypadkach zależnych,
-a mianownik wychodzi jednym czytaniem.
-Do przeczytania jest, ile zdań banku drzew stawia obok siebie dwa liczebniki
-w formie synkretycznej między rządzącym i zgodnym.
-
-Ciąg współrzędny wypuszcza tryb członu pierwszego i od pozostałych nie żąda niczego,
-więc `żeby program zapisał ustawienia i linter sprawdza tekst` wyprowadza się,
-choć polszczyzna żąda formy na -ł od obu członów
-([`docs/subset.md`](docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
-Zmienna wspólna tego nie naprawi, bo zabiera zdania już przyjęte:
-`Program zapisuje ustawienia, a linter sprawdziłby tekst.` koordynuje dwa tryby,
-a wartości tych dwóch trybów się nie przecinają.
-Ruchem jest osobny poziom koordynacji pod tym spójnikiem
-albo warunek sprawdzany po rozbiorze, czyli ta sama maszyneria,
-o którą prosi wpis o luce wskazującej zaimek.
-Oba są droższe niż cecha, więc przed nimi stoi pytanie, czy warto:
-zdanie odrzucone jest werdyktem uczciwym,
-a tutaj wyprowadza się napis, którego polszczyzna nie ma.
-Do przeczytania jest, ile takich zdań ma bank drzew:
-`żeby` z dwoma członami po przecinku albo po `i`.
-
 `olski/subset.py` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
 rozkłada się w nim na cztery miejsca: rolę przy `DEKLARACJA`, ramę i listę lematów
 wśród stałych, terminal wśród terminali i ciała w `build`.
@@ -901,20 +859,6 @@ bo obie pozycje stoją na `ClauseConjunct`,
 a `RelativeCore` jest osobnym symbolem i ciała z tym symbolem w środku ma jedno.
 Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym,
 więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
-
-Okolicznik wyrażony zdaniem dochodzi do zdania składowego, przy którym stoi,
-a nie do ciągu współrzędnego, w którym to zdanie stoi,
-więc `Program zapisuje ustawienia i linter sprawdza tekst, ponieważ tekst jest
-gotowy.` wychodzi jednym czytaniem tam, gdzie polszczyzna ma dwa.
-Jest to ta sama granica, którą trzyma zasięg koordynacji
-([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
-i ten sam kształt, jaki ma dziś okolicznik wysunięty przed zdanie,
-więc jedna decyzja obejmuje oba.
-Ruchem jest ciało `Clause → Clause AdverbialClause` obok tego na `ClauseConjunct`,
-a przed nim odpowiedź na to, co ono wnosi:
-nad zdaniem o jednym składowym oba ciała dają ten sam napis dwoma kształtami,
-czyli drugie czytanie, którego nie ma czym odsiać,
-więc pozycja żąda albo warunku na ciąg, albo innego miejsca.
 
 Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
 `SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o szesnastu lematach analizy,
@@ -1134,6 +1078,14 @@ rozwinięcie mówi o kolejności córek w ciele, czyli o tym samym, o czym mówi
 a warunek pytany o rozpiętości musiałby stanąć w lesie, gdzie `_przejdź`
 w `olski/parse.py` dostaje ciało wraz z rozpiętościami córek.
 Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed nim.
+Odbiorca takiego warunku jest przy tym jeden i mówi to pomiar, a nie przeoczenie:
+tryb w ciągu współrzędnym i zagnieżdżenie liczebnika prosiły o tę samą maszynerię,
+a oba okazały się cechą albo pozycją nie wartą ceny
+([`docs/subset.md`](docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)
+oraz [tamże](docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
+Luka jest tu ostatnia, bo cechą jej zrobić nie da się wcale,
+i dlaczego, mówi
+[pakowanie czytań](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
 
 Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
 `RAMA_DOMYŚLNA` w `olski/subset.py` daje `int` każdemu czasownikowi,
@@ -1144,10 +1096,9 @@ pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
 gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic innego.
 Ruchem jest czwarte zdanie leksykonu, wzięte z `cp(int)` przez `olski/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
-Do rozstrzygnięcia jest, czym ten wariant zmierzyć:
-`harness/ruch.py` zdejmuje grupy produkcji, a zawężenie ramy jest zmianą danych,
-więc albo maszyneria bierze gramatykę wariantu funkcją — o co prosi też `harness/luka.py` —
-albo przebieg staje obok niej i wtedy jest drugą deklaracją tego samego.
+Czym ten wariant zmierzyć, jest rozstrzygnięte:
+zawężenie ramy jest zmianą danych, a nie grupą produkcji,
+i takiemu wariantowi `Sonda` podaje gramatykę funkcją (`Sonda.gramatyki`).
 Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 `bierze_zdanie` w `olski/walencja.py` czyta ono, a pytania zależnego
 `olski/skład/składnia.py` nie ma czym postawić,
@@ -1224,8 +1175,11 @@ a produkcje koordynacji nie mają go wcale.
 tej pozycji nie uzasadnia, bo wywodzi się z braku rodzaju u ciągu:
 przymiotnik nad ciągiem zgadzałby się z niczym,
 a wyrażenie przyimkowe nie zgadza się z niczym również pod członem.
-Ruch przepisuje tamtą sekcję, bo tytuł mówi tam o wszystkim,
-co nad ciągiem stoi, a wywód pod nim o samej przydawce.
+Tamta sekcja mówi to już o sobie sama, bo okolicznik zdaniowy dochodzący do
+całego ciągu wszedł do gramatyki i sprowadził jej wywód do zgodności,
+więc ruch dopisuje tam pozycję, a nie przepisuje wywodu.
+Precedens ten daje zarazem cenę, której się spodziewać:
+tam jednoznaczność straciła garść zdań przyjętych, a pokrycia nie kupiła żadnego.
 Żąda jej natomiast
 [reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 bo pozycja z produkcją na jedno przyłączenie i bez produkcji na drugie
@@ -1405,6 +1359,10 @@ więc trzeba je przeliczyć tą samą zmianą.
 Do przeczytania jest, ile zdań Składnicy przechodzi przez to
 z klasy „sama liczba czytań” do klasy „przyłączenie”,
 bo od tej liczby zależy, czy przeliczenie tabel jest warte ruchu.
+Wpuszczenie okolicznika zdaniowego nad cały ciąg współrzędny dopisało do tej klasy
+garść zdań i każde z nich jest tego samego kształtu:
+werdykt wypisuje im dwa różne gospodarze okolicznika,
+a do tej klasy wpadają po tym, że żaden wiersz podsumowania tej różnicy nie nazywa.
 
 Porównanie ról liczy za niezgodność i czytanie dobre, i czytanie złe,
 kiedy drzewo wzorcowe nie znaczy w tym miejscu żadnego gniazda.
@@ -1476,9 +1434,12 @@ so the exclusion-free column and the two morphologies compared stay hand-written
 The move is a third `SOURCES` entry in `olski/coverage.py` for the exclusion-free
 morphology, and a variant in `harness/ruch.py` that is a morphology rather than
 a group of productions.
-What to read is `Sonda` in `harness/ruch.py` beside `SOURCES`
-in `olski/coverage.py`, because the question is whether one field takes both kinds
-of variant.
+What a variant is has been settled since, and a morphology is not one:
+`Sonda` takes the grammar each variant measures, given as a function,
+and a morphology changes the segments a variant is run over
+rather than the grammar it is run with.
+What to read is that field beside `SOURCES` in `olski/coverage.py`,
+because a variant of this second kind has to say where it enters.
 The entry about cutting unlicensed readings before the parse
 moves what `blocker` reads off a form,
 so whichever of the two is taken first decides what the blocking form is,
@@ -1608,10 +1569,10 @@ Ruchem są dwie rzeczy naraz i żadna sama nie wystarcza.
 Pierwszą jest mianownik brany ze zgodności, a nie z werdyktu:
 `zapisz` ma notować zgodność i ocalenie każdego zdania, które oba warianty przyjmują,
 a nie tylko tego, którego werdykt się ruszył.
-Drugą jest gramatyka wariantu brana funkcją, a nie zdejmowaniem grupy produkcji:
+Drugą jest sama gramatyka wariantu, której zdejmowaniem grupy nie da się złożyć:
 etykieta jest konstytuentem nad czołem, a ciała zdania biorą ją nazwą symbolu,
 więc zdjęta zostawia rodzinę względną bez córki, a nie bez etykiety.
-Tego samego żąda od tej maszynerii `harness/luka.py`.
+Podać ją jest już czym (`Sonda.gramatyki`), więc zostaje napisanie tej gramatyki.
 
 Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
 `DOMYKA` w `harness/luka.py` wymienia `RelativeCore` i nic poza nim,

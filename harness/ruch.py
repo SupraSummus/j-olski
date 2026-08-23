@@ -8,21 +8,26 @@ odpowiadają: przejście ``przyjęte → wieloznaczne`` jest ceną, przejście
 ``odrzucone → przyjęte`` zakupem, a jedno i drugie widać dopiero zdanie po
 zdaniu.
 
-Wariantem jest gramatyka olskiego z wyjętą grupą produkcji, a konstrukcję, którą
-olski ma, mierzy się właśnie tak, przez zdejmowanie. Dopisana mierzyłaby produkcję
-napisaną w sondzie, czyli drugą deklarację tego samego, i rozeszłaby się z olskim
-po pierwszej zmianie, której nikt by tu nie powtórzył.
+Wariantem jest zwykle gramatyka olskiego z wyjętą grupą produkcji
+(:func:`po_grupach`),
+bo tak mierzy się konstrukcję, którą olski już ma,
+a wariantów jest tyle, ile grup da się zdjąć osobno,
+bo cena każdej z nich jest osobną liczbą.
+Konstrukcja dopisana mierzyłaby produkcję napisaną w sondzie,
+czyli drugą deklarację tego samego,
+i rozeszłaby się z olskim po pierwszej zmianie, której nikt by tu nie powtórzył.
 
-Konstrukcji, której olski nie ma, ta maszyneria nie wycenia: dopisywanie jej do
-świeżej gramatyki wyszło stąd razem z przysłówkiem, czyli z jedyną sondą, która
-tak mierzyła. Wróci jako gramatyka wariantu brana funkcją, czego żąda od niej
-``harness/luka.py``; trzyma to ``TODO.md``.
+Pozycji, której olski nie ma, tak zmierzyć nie sposób,
+a wyceny przed wpuszczeniem żąda ona tak samo,
+więc gramatykę wariantu składa sonda i wolno jej złożyć każdą.
+Ostrzeżenia wyżej pilnuje wtedy sesja:
+gramatyka wariantu ma wychodzić z produkcji olskiego przepisanych,
+a nie z pozycji napisanej drugi raz.
 
-:class:`Sonda` odpowiada, do której grupy produkcja należy,
-a warianty, przebieg, tabelę przejść i konkurencję grup dostaje
-z tego pliku; wiersz poleceń przychodzi z ``harness/komenda.py``, wspólny także
-sondom, które różnicowe nie są. Wariantów jest tyle, ile grup da się zdjąć
-osobno, bo cena każdej z nich jest osobną liczbą.
+:class:`Sonda` mówi, jaką gramatykę mierzy każdy jej wariant,
+a przebieg, tabelę przejść i konkurencję grup dostaje z tego pliku;
+wiersz poleceń przychodzi z ``harness/komenda.py``,
+wspólny także sondom, które różnicowe nie są.
 """
 
 from __future__ import annotations
@@ -40,7 +45,7 @@ from olski.corpus import Sentence, read
 from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
-from olski.parse import parse
+from olski.parse import ciało_koordynuje, parse
 from olski.subset import FRAGMENT, Verdict, build, morphology, sentences, werdykt
 
 #: Ile zdań zachować pod każdym przejściem. Przejście bez przykładu jest liczbą,
@@ -72,12 +77,13 @@ MORFOLOGIA = {"gold": "złota", "live": "żywa"}
 class Sonda:
     """Co jedna sonda różnicowa mówi o sobie wspólnemu przebiegowi.
 
-    Warianty stoją w kolejności wydruku. Pierwszy zdejmuje wszystko i jest
-    mianownikiem, wobec którego liczone są przejścia; ostatni zdejmuje zero i
-    dopiero on pokazuje konkurencję między grupami, o którą sondzie chodzi.
-    Między nimi stoi po jednym wariancie na grupę zdejmowaną osobno.
-
-    Ostatni jest przez to samym olskim, bo grupy nie zdejmuje żadnej.
+    Warianty stoją w kolejności wydruku. Pierwszy jest mianownikiem, wobec
+    którego liczone są przejścia, a ostatni ma wyprowadzać najwięcej, bo na nim
+    stoi pomijanie zbędnych rozbiorów (:func:`_bez_zbędnych`). Sonda zdejmująca
+    grupy ma tam samego olskiego, bo grupy nie zdejmuje żadnej, po jednym
+    wariancie na grupę między nim a mianownikiem, i na nim jednym widać
+    konkurencję grup (:attr:`pytania`); sonda wyceniająca pozycję, której olski
+    nie ma, stawia ją za olskim, a zawężenie przed nim.
     """
 
     #: Nazwa modułu, czyli ``harness.płaski``. Wiersz poleceń robi z niej i pomoc,
@@ -86,15 +92,14 @@ class Sonda:
     #: O co ta sonda pyta, jednym zdaniem, do wydruku pomocy.
     opis: str
     #: Nazwy wariantów, one zaś są etykietami wiersza w tabeli, więc stoją tu
-    #: pełnym napisem: `bez przecinka`, a nie `bez`. Nazwy pośrednie są przy tym
-    #: nazwami grup, czyli tym, co oddaje :attr:`grupa`, i po tym wspólnym napisie
-    #: wariant poznaje swoje produkcje.
+    #: pełnym napisem: `bez przecinka`, a nie `bez`.
     warianty: tuple[str, ...]
-    #: Do której grupy należy ta produkcja; ``None``, gdy do żadnej i gdy zostaje
-    #: w każdym wariancie. To jedno pytanie jest wszystkim, czym sondy różnicowe
-    #: się różnią, i dlatego gramatykę wariantu składa :func:`gramatyka` niżej,
-    #: jedna dla wszystkich, a nie każda sonda po swojemu.
-    grupa: Callable[[Production], str | None]
+    #: Gramatyka, którą ten wariant mierzy. Sonda zdejmująca grupy składa ją
+    #: :func:`po_grupach`, a sonda wyceniająca pozycję, której olski nie ma —
+    #: cechę dopisaną do produkcji albo samą produkcję — po swojemu, bo grupą
+    #: nie jest ani jedna, ani druga. Bez tego pola sesja przepisywałaby sobie
+    #: cały przebieg obok tego pliku, żeby zmierzyć jedno wpuszczenie.
+    gramatyki: Callable[[str], Grammar]
     #: Dwa pytania o konkurencję grup, w kolejności wydruku, każde całym zdaniem.
     #: Całym, a nie rzeczownikiem do wstawienia w gotowy wzór: wzór żądałby od
     #: każdej sondy formy fleksyjnej, a nagłówek nad tymi dwoma wierszami nazwy
@@ -130,19 +135,16 @@ SPÓJNIKOWE = frozenset({"conj", "comp"})
 
 
 def koordynuje(produkcja: Production) -> bool:
-    """Czy ta produkcja koordynuje, czyli czy jej symbol stoi wśród własnych córek.
-
-    Ciąg współrzędny jest resztą ciągu po odjęciu członu, więc symbol koordynacji
-    stoi nad sobą i tym się poznaje; tak samo poznaje go werdykt
-    (``_koordynuje`` w ``olski/parse.py``).
+    """Czy ta produkcja koordynuje; kryterium trzyma ``ciało_koordynuje`` w ``olski/parse.py``.
 
     Pytają o to sondy, które zdejmują znak koordynacji, bo sam znak w ciele na to
     nie odpowiada: polszczyzna stawia przecinek i tam, gdzie nic się nie koordynuje,
     a zdjęta produkcja podrzędna zostawiłaby symbol bez ani jednego ciała,
     a gramatyka z symbolem nieokreślonym nie rozbiera niczego.
     """
-    return any(
-        isinstance(część, Sym) and część.name == produkcja.head for część in produkcja.body
+    return ciało_koordynuje(
+        produkcja.head,
+        (część.name if isinstance(część, Sym) else None for część in produkcja.body),
     )
 
 
@@ -167,26 +169,41 @@ def ze_spójnikiem(produkcja: Production) -> bool:
 
 @functools.cache
 def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
-    """Gramatyka olskiego bez tych grup produkcji, których ten wariant nie ma.
+    """Gramatyka, którą ten wariant mierzy; składa ją sama sonda.
 
-    Przepisujemy produkcje ze świeżej gramatyki, takie jakie są, bo złożona drugi
-    raz z części gubiłaby głowę (``Grammar.dopisz``). Wariant pełny dostaje przez
-    to wszystkie, a wariant :attr:`Sonda.czysty` dokładnie te, które olski ma, co
-    pilnuje ``tests/test_ruch.py``.
-
-    Budowana raz na proces roboczy, bo budowa jest droższa niż rozbiór jednego
-    zdania, a gramatyka po zbudowaniu się nie zmienia.
+    Nazwę wariantu sprawdzamy tutaj, bo literówka w niej daje inaczej gramatykę
+    cudzego wariantu, i budujemy raz na proces roboczy, bo budowa jest droższa
+    niż rozbiór jednego zdania, a gramatyka po zbudowaniu się nie zmienia.
     """
     if wariant not in sonda.warianty:
         raise ValueError(f"{sonda.nazwa}: nieznany wariant: {wariant}")
-    pełna = build()
-    okrojona = Grammar(start=pełna.start)
-    for produkcja in pełna.productions:
-        grupa = sonda.grupa(produkcja)
-        if grupa is not None and wariant != sonda.warianty[-1] and grupa != wariant:
-            continue
-        okrojona.dopisz(produkcja)
-    return okrojona
+    return sonda.gramatyki(wariant)
+
+
+def po_grupach(
+    grupa: Callable[[Production], str | None], warianty: Sequence[str]
+) -> Callable[[str], Grammar]:
+    """Gramatyka wariantu składana zdejmowaniem grup produkcji, po nazwie wariantu.
+
+    ``grupa`` odpowiada, do której grupy należy produkcja, a ``None`` znaczy, że
+    do żadnej i że zostaje w każdym wariancie. Wariant ostatni dostaje wszystkie,
+    czyli jest dokładnie olskim, i tego pilnuje ``tests/test_ruch.py``.
+
+    Przepisujemy produkcje ze świeżej gramatyki, takie jakie są, bo złożona drugi
+    raz z części gubiłaby głowę (``Grammar.dopisz``).
+    """
+
+    def gramatyka_grupy(wariant: str) -> Grammar:
+        pełna = build()
+        okrojona = Grammar(start=pełna.start)
+        for produkcja in pełna.productions:
+            należy = grupa(produkcja)
+            if należy is not None and wariant != warianty[-1] and należy != wariant:
+                continue
+            okrojona.dopisz(produkcja)
+        return okrojona
+
+    return gramatyka_grupy
 
 
 @dataclass
@@ -281,16 +298,18 @@ Wynik = TypeVar("Wynik", Outcome, Verdict)
 def _bez_zbędnych(sonda: Sonda, wynik: Callable[[str], Wynik]) -> dict[str, Wynik]:
     """Wynik każdego wariantu, bez rozbiorów, których odpowiedź jest już znana.
 
-    Wariant produkcje zdejmuje i żaden nie dopisuje ani jednej (:func:`gramatyka`),
-    więc jego czytania są podzbiorem czytań olskiego:
-    zdanie, którego olski nie wyprowadza, nie wyprowadza się pod żadnym z nich.
-    Rozbiór olskiego idzie przez to pierwszy,
-    a odrzucenie zamyka pozostałe warianty jedną odpowiedzią,
-    bo o zdaniu odrzuconym mówią one to samo.
+    Wariant ostatni wyprowadza najwięcej, a każdy inny wyprowadza podzbiór tego,
+    co on, więc zdanie odrzucone przez niego jest odrzucone pod wszystkimi.
+    Jego rozbiór idzie przez to pierwszy, a odrzucenie zamyka pozostałe warianty
+    jedną odpowiedzią, bo o zdaniu odrzuconym mówią one to samo.
     Olski odrzuca większość zdań banku drzew, co drukuje ``olski-corpus``,
     więc z przebiegu wypada przeszło połowa rozbiorów.
-    Że wariant naprawdę niczego nie dopisuje, pilnuje ``tests/test_ruch.py``:
-    kierunek przez dopisywanie ta maszyneria kiedyś miała i może go odzyskać.
+
+    Kolejność tę deklaruje sonda i odpowiada za nią sama (:class:`Sonda`):
+    wariant rozszerzający postawiony przed ostatnim dostałby wiersz o zdaniach,
+    których nikt nie rozebrał, a wydruk milczałby o tym.
+    U sondy zdejmującej grupy wariantem ostatnim jest sam olski
+    i tego pilnuje ``tests/test_ruch.py``.
 
     Pytanie to jest jedno dla obu korpusów, więc i odpowiedź stoi tu jedna: bank
     drzew i proza różnią się tym, co wariant nad zdaniem wydaje, a nie tym, które

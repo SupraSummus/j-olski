@@ -1276,6 +1276,19 @@ Zarabia to na siebie na tym samym kwotowaniu:
 więc `Program zapisuje ustawienia.` wyprowadza się dwa razy na jedną pozycję,
 i mnożyłoby się to przez każde następne słowo, któremu słownik daje dwa lematy.
 
+Kosztuje to więzy, których nad taką pozycją nie ma jak postawić.
+Rodzic widzi z córki etykietę, rozpiętość i cechy, które ona wypuszcza,
+a dwa czytania różniące się wewnątrz jednej pozycji wychodzą do niego
+jednym kształtem i jedną liczbą.
+Warunek postawiony nad córką nie ma więc czym ich rozdzielić,
+i nie jest to brak maszynerii, tylko granica tej decyzji:
+pozycja, której cena ma stać na takim rozdzieleniu,
+albo wypuszcza cechę, po której ją widać, albo dostaje osobny symbol.
+Wpuszczenie okolicznika zdaniowego nad ciąg współrzędny poszło drogą pierwszą
+([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+a tym, co żadnej z nich nie ma, jest luka: różni ją dokładnie to,
+czego pozycja o sobie nie mówi.
+
 Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
 
 ```sh

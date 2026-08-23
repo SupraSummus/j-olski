@@ -48,9 +48,10 @@ def test_wariant_jest_podzbiorem_olskiego_i_nie_dopisuje_ani_jednej_produkcji(so
     dopóki podzbiorem są jego produkcje,
     i tylko wtedy zdanie odrzucone przez olskiego wolno uznać za odrzucone
     pod każdym wariantem.
-    Sonda dopisująca produkcję dałaby więc wiersz o wariancie,
-    którego nikt nie policzył, i nic w wydruku by tego nie pokazało.
-    Kierunek przez dopisywanie ta maszyneria miała i może go odzyskać.
+    Produkcja dopisana wariantowi z tej listy dałaby więc wiersz o zdaniach,
+    których nikt nie rozebrał, i nic w wydruku by tego nie pokazało.
+    Sondzie wyceniającej pozycję, której olski nie ma, dopisywać wolno,
+    a kolejność wariantów odpowiada tam za to samo (`Sonda` w `harness/ruch.py`).
     """
     olski = gramatyka(sonda, sonda.czysty).productions
     for wariant in sonda.warianty:
