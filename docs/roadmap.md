@@ -163,7 +163,7 @@ Kolejki form bez licencji ten plik już nie ustawia,
 bo odrzuceń została w nim garść i każde stoi na czymś pojedynczym:
 na formie żartu z nazwy, na cyfrze, na przytoczonej niezgodności,
 na angielskim tytule i na słowie, którym ten plik pyta poza `który`
-([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakowało-najbardziej)).
+([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)).
 
 ## Cele
 
