@@ -116,6 +116,11 @@ a zdanie z dwoma czytaniami olski odrzuca,
 więc pokrycie kupione bez pomiaru bywa pokryciem ujemnym.
 Co pomiar mówi, trzyma [corpus.md](corpus.md).
 
+Cena odpowiada przy tym na pytanie „ile”, a nie na pytanie „czy”.
+Czy za odrzucone zdanie płaci gramatyka, czy jego autor,
+rozstrzyga się z fotela użytkownika, i kryterium trzyma
+[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
+
 Droga jest za każdym razem ta sama i tyle o niej trzeba wiedzieć.
 Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi,
 ciało dochodzi do `build` w `olski/subset.py`,

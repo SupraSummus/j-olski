@@ -620,7 +620,7 @@ Several are also worth more together than apart,
 because the probe prices each one against whatever else the grammar has,
 so a position admitted alone can measure near zero
 and hide that it is worth having
-([docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
+([docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
 
 A session is worth starting when one decision settles several entries.
 An entry that cannot be settled until another session answers

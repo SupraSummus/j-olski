@@ -102,6 +102,37 @@ CZĄSTKOWY = "Particle"
 #: i streszczenie nazywa ją całym napisem.
 WTRĄCONY = "Parenthetical"
 
+#: Rola członu, którego czasownik ten rejestr opuszcza: `a nie zdanie` w
+#: `Milczenie obejmuje wybór, a nie zdanie.`, `czyli o obiekt składniowy` w
+#: `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
+#:
+#: Nazwa mówi o kształcie, a nie o tym, co ten człon robi, bo jednego od drugiego
+#: gramatyka nie odróżnia: `a nie` przeczy, `czyli` powtarza to samo innymi
+#: słowami, a spójnik jest jedyną różnicą i o znaczeniu nie rozstrzyga. Czemu ten
+#: człon przeczy, milczy tym samym prawem: `Wybór obejmuje milczenie, a nie
+#: zdanie.` przeciwstawia albo dopełnieniu, albo podmiotowi.
+#:
+#: Rolą jest cały człon, a nie to, co on niesie, i z tego samego powodu, z
+#: którego rolą jest całe wtrącenie (:data:`WTRĄCONY`).
+ELIPSA = "Ellipsis"
+
+#: Rola spójnika, który stoi wewnątrz swojego zdania: `zatem` w `Milczenie jest
+#: zatem wartością.` Od cząstki różni ją to, co to słowo robi: cząstka określa
+#: zdanie, a ten spójnik wiąże je z tym, co stoi przed nim, więc `Particle:
+#: zatem` mówiłoby o zdaniu, że ma określenie, którego ono nie ma.
+SPÓJNIKOWY = "Connective"
+
+#: Rola grupy imiennej, którą ten rejestr wylicza za dwukropkiem: `Zdanie oraz
+#: Kontekst` w `Warstwa pyta o dwa typy: Zdanie oraz Kontekst.` Rolą jest cała
+#: grupa, z tego samego powodu co przy :data:`WTRĄCONY`.
+#:
+#: Rola stoi osobno od :data:`ELIPSA`, choć `, czyli Morfeusz` i `: Morfeusz`
+#: dopowiadają to samo, bo rozdziela je kształt: tamten człon stoi za spójnikiem
+#: i w zdaniu składowym, a ten za dwukropkiem i w zdaniu całym, gdzie dwukropek
+#: musi stać (:data:`DWUKROPEK`). Jedna rola na oba żądałaby cechy, która by te
+#: dwa poziomy rozdzieliła, czyli maszynerii droższej niż druga nazwa.
+DOPOWIEDZIANY = "Apposition"
+
 DEKLARACJA = Deklaracja(
     # Konstrukcja, na którą nie ma tu etykiety,
     # wychodzi `valid` bez słowa o tym, co olski w niej przyjął.
@@ -114,9 +145,12 @@ DEKLARACJA = Deklaracja(
         BEZOSOBOWY,
         PRZYSŁÓWKOWY,
         CZĄSTKOWY,
+        SPÓJNIKOWY,
         OKOLICZNIKOWY,
         PYTAJNY,
         WTRĄCONY,
+        ELIPSA,
+        DOPOWIEDZIANY,
         PRZYŁĄCZANY,
     ),
     przyłączany=PRZYŁĄCZANY,
@@ -169,12 +203,18 @@ DEKLARACJA = Deklaracja(
     # napisem, a nie tylko przy zdaniu podrzędnym. Wtrącenie w nawiasie jest takim
     # konstytuentem, bo przysłówek w jego środku nie jest okolicznikiem zdania nad
     # nim, a grupa imienna nie jest w nim żadną rolą; :data:`WTRĄCONY` trzyma wywód.
+    # Szósty i siódmy stoją tu z tego samego powodu co piąty: człon bez czasownika
+    # i dopowiedzenie za dwukropkiem nazywają się całym napisem, bo grupa imienna
+    # w środku żadnej z tych dwóch konstrukcji nie zajmuje pozycji zdania nad nią;
+    # wywody trzymają :data:`ELIPSA` oraz :data:`DOPOWIEDZIANY`.
     podrzędne=(
         "RelativeClause",
         "SubordinateClause",
         "InterrogativeClause",
         OKOLICZNIKOWY,
         WTRĄCONY,
+        ELIPSA,
+        DOPOWIEDZIANY,
     ),
 )
 
@@ -261,6 +301,36 @@ SPÓJNIKI_TRYBU = "aby|ażeby|żeby|by|gdyby|jakby"
 #: bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`. Kogo nie obejmuje,
 #: za ile i po co, wywodzi docs/subset.md.
 SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż|czyli"
+
+#: Cząstka przecząca jako lemat, bo pytają o nią dwa miejsca: terminal, którym
+#: olski przeczy (:data:`PRZECZENIE`), i wykluczenie w klasie spójników bez
+#: przecinka (:data:`SPÓJNIK_BEZ_PRZECINKA`). Napisana dwa razy rozeszłaby się
+#: po pierwszej zmianie któregoś z nich.
+LEMAT_PRZECZENIA = "nie"
+
+#: Spójniki, za którymi ten rejestr opuszcza czasownik (:data:`ELIPSA`):
+#: `a nie z projektu`, `czyli o obiekt składniowy`, `tylko w drugą stronę`.
+#:
+#: Lista jest węższa od :data:`SPÓJNIKI_PRZECINKOWE` i węższa być musi, bo
+#: obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim:
+#: `Cena jest niska, więc gramatyka.` polszczyzną nie jest. Poza listą zostają
+#: więc te trzy, które dokładają skutek: `więc`, `zatem` i `toteż`.
+#:
+#: `tylko` tu stoi, choć poza cząstkami zostało z powodu, który mówi o dwóch
+#: czytaniach jednego napisu (:data:`CZĄSTKI`): warunek na spójnik czytania
+#: cząstkowego tu nie wpuszcza.
+SPÓJNIKI_ELIPSY = "a|ale|lecz|natomiast|tylko|czyli"
+
+#: Spójniki, które ten rejestr stawia wewnątrz swojego zdania (:data:`SPÓJNIKOWY`):
+#: `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
+#:
+#: Trzy z nich — `bowiem`, `zaś` i `jednak` — polszczyzna stawia za pierwszym
+#: wyrazem zdania i nigdzie poza tym, więc olski nie brał ich wcale; pozostałe
+#: stoją zarazem na czele zdania i tam biorą je :data:`SPÓJNIKI_PRZECINKOWE`.
+#: Czoła ta lista nie dostaje wcale, i to trzyma jeden napis przy jednym
+#: czytaniu: `Cena jest niska, więc gramatyka jest tania.` ma spójnik za
+#: przecinkiem, więc bierze go tamta lista.
+SPÓJNIKI_WEWNĘTRZNE = "zatem|więc|bowiem|natomiast|zaś|jednak"
 
 #: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
 #: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego
@@ -458,8 +528,21 @@ ZAIMEK_DZIERŻAWCZY = word(
 #: Bierze ją także grupa imienna i przymiotnikowa, choć pozycji z przecinkiem te
 #: dwa poziomy nie mają: `Plik jest nowy ale duży.` nie jest polszczyzną,
 #: a `nie polszczyzny, a dziedziny` jest w nich elipsą, nie ciągiem współrzędnym.
+#:
+#: Klasa druga wyklucza ponadto cząstkę przeczącą, bo gramatyka ma dla tej formy
+#: pozycję przy czasowniku (:data:`PRZECZENIE`), a Morfeusz czyta ją także jako
+#: spójnik; kryterium jest to samo, którym stoi lista cząstek (:data:`CZĄSTKI`).
+#: Cenę tego warunku trzyma docs/subset.md pod interpunkcją zdaniową.
 SPÓJNIK_PRZECINKOWY = word("conj|comp", lemma=SPÓJNIKI_PRZECINKOWE)
-SPÓJNIK_BEZ_PRZECINKA = word("conj", bez_lematu=SPÓJNIKI_PRZECINKOWE)
+SPÓJNIK_BEZ_PRZECINKA = word(
+    "conj", bez_lematu=f"{SPÓJNIKI_PRZECINKOWE}|{LEMAT_PRZECZENIA}"
+)
+
+#: Spójnik przed członem bez czasownika, i spójnik wewnątrz swojego zdania. Oba
+#: pytają o dwie części mowy naraz, tak samo jak :data:`SPÓJNIK_PRZECINKOWY` i z
+#: tego samego powodu: Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`.
+SPÓJNIK_ELIPSY = word("conj|comp", lemma=SPÓJNIKI_ELIPSY)
+SPÓJNIK_WEWNĘTRZNY = word("conj|comp", lemma=SPÓJNIKI_WEWNĘTRZNE)
 
 #: Przyimek wyrażenia przyimkowego, tego zwykłego i tego, które wysunęło zaimek
 #: względny. Nazwany raz, bo oba wykluczają ten sam lemat i wykluczenie ma być w
@@ -537,7 +620,7 @@ PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
 #: Cząstka przecząca, czyli jedyne słowo, którym olski przeczy. Warunek na lemat,
 #: a nie sama część mowy, tak samo jak przy przecinku: ``part`` niesie całą klasę
 #: cząstek naraz, a ``by``, ``czy`` i ``no`` ten podzbiór zostawia na zewnątrz.
-PRZECZENIE = word("part", lemma="nie")
+PRZECZENIE = word("part", lemma=LEMAT_PRZECZENIA)
 
 #: Cząstka trybu przypuszczającego, czyli ta, którą Morfeusz odcina od formy:
 #: `odzyskałby` wchodzi jako `odzyskał` i `by`, a `napisałbym` jako `napisał`, `by`
@@ -834,6 +917,22 @@ def build() -> Grammar:
     for znak in (DWUKROPEK, ŚREDNIK, MYŚLNIK):
         grammar.rule("Sentence", [Głowa(nt("Clause")), znak, nt("Clause"), KONIEC_ZDANIA])
 
+    # Grupa imienna za dwukropkiem, tam gdzie trzy ciała wyżej żądają zdania:
+    # `Warstwa pyta o dwa typy: Zdanie oraz Kontekst.`, `Gramatyka ma dwie role:
+    # podmiot i dopełnienie.` Rejestr wylicza tak to, co zdanie przed dwukropkiem
+    # nazwało liczbą albo terminem, a wylicza jednym ciągiem współrzędnym, więc
+    # grupa bierze tę pozycję cała.
+    #
+    # Ciało jest osobne, a nie symbolem obejmującym zdanie i grupę, bo cena
+    # każdego z nich jest osobną liczbą. Drugiego czytania nie daje żadnemu
+    # napisowi: grupa imienna zdaniem nie jest, więc napis wzięty tym ciałem nie
+    # ma wyprowadzenia tamtym, i to jest to, co pilnuje tests/test_subset.py.
+    #
+    # Myślnik i średnik tej pozycji nie dostają, bo ten rejestr nie pisze za nimi
+    # samej grupy: myślnikiem wtrąca całe zdanie, a średnikiem rozdziela dwa.
+    grammar.rule(DOPOWIEDZIANY, [DWUKROPEK, Głowa(nt("NP"))])
+    grammar.rule("Sentence", [Głowa(nt("Clause")), nt(DOPOWIEDZIANY), KONIEC_ZDANIA])
+
     # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
     # na każdym z trzech poziomów, które ją mają.
     # To, co człon może zawierać, rozstrzyga,
@@ -1090,11 +1189,38 @@ def build() -> Grammar:
     # docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
     for wnętrze in (nt("NP"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCONY, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
-    grammar.rule(
-        "ClauseConjunct",
-        [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(WTRĄCONY)],
-        tryb=V("t"),
-    )
+
+    # Człon, którego czasownik ten rejestr opuszcza: `Milczenie obejmuje wybór, a
+    # nie zdanie.`, `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
+    #
+    # Wypełnieniem jest konstytuent, który zajmuje w zdaniu pozycję, a ciała są
+    # osobne, po jednym na wypełnienie, bo cena każdego z nich jest osobną
+    # liczbą. Przysłówka wśród nich nie ma, bo zmierzono go i nie wyszedł
+    # (docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze).
+    #
+    # Cząstka przecząca stoi w ciele parą, bo ten rejestr pisze oba: `a nie
+    # zdanie` i `czyli o obiekt`. Dopełniaczem nie rządzi i nie ma czym, bo
+    # czasownika pod nią nie ma, więc cechy ``negacja`` to ciało nie niesie.
+    #
+    # Zdanie nadrzędne biegnie za tym członem — `a nie przypadkiem, i pilnuje go
+    # test` — więc przecinek zamykający dokłada :func:`_zamykane`, tak samo jak
+    # zdaniom podrzędnym.
+    for wnętrze in (nt("NP"), nt("AP"), nt("Modifier")):
+        for przeczenie in ((), (PRZECZENIE,)):
+            _zamykane(
+                grammar, ELIPSA, [PRZECINEK, SPÓJNIK_ELIPSY, *przeczenie, Głowa(wnętrze)]
+            )
+
+    # Oba te konstytuenty dostawiają się do zdania składowego jednym ciałem, bo
+    # oba są tym samym: grupą postawioną obok zdania i nazwaną całym napisem.
+    # Pętla trzyma je zgodnymi — pozycja dopisana jednemu dochodzi i drugiemu —
+    # a osobne ciała dałyby się rozejść po pierwszej takiej pozycji.
+    for dostawiony in (WTRĄCONY, ELIPSA):
+        grammar.rule(
+            "ClauseConjunct",
+            [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(dostawiony)],
+            tryb=V("t"),
+        )
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
     # from behind it, so in front of a clause there is no noun to attach to and
@@ -1326,6 +1452,15 @@ def build() -> Grammar:
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
         grammar.rule("Adjuncts", [nt(przy_zdaniu)])
         grammar.rule("Adjuncts", [Głowa(nt(przy_zdaniu)), okoliczniki])
+
+    # Spójnik wewnętrzny wchodzi tą samą listą i tyle wystarcza, żeby stanął tam,
+    # gdzie go polszczyzna stawia: miejsce na okolicznik wylicza się za każdą
+    # córką, a nie przed pierwszą (``olski/precedencja.py``), więc czoła zdania
+    # ta lista nie daje. Do pętli wyżej ten symbol przez to nie wchodzi: ona daje
+    # także czoło, a czoło dałoby `Cena jest niska, więc gramatyka jest tania.`
+    # drugie czytanie tego samego kształtu.
+    grammar.rule("Adjuncts", [nt(SPÓJNIKOWY)])
+    grammar.rule("Adjuncts", [Głowa(nt(SPÓJNIKOWY)), okoliczniki])
 
     # What is predicated of the subject: an adjective phrase agreeing with it,
     # or a noun phrase in the instrumental. Both are what być takes, and the
@@ -1687,6 +1822,11 @@ def build() -> Grammar:
     # przy :data:`CZĄSTKI`.
     grammar.rule(CZĄSTKOWY, [CZĄSTKA])
 
+    # Spójnik wewnątrz swojego zdania: `Milczenie jest zatem wartością.`,
+    # `Reguła jest bowiem tania.` Rola jest osobna od cząstki, bo ten spójnik wiąże
+    # zdanie z tym, co stoi przed nim, zamiast je określać (:data:`SPÓJNIKOWY`).
+    grammar.rule(SPÓJNIKOWY, [SPÓJNIK_WEWNĘTRZNY])
+
     # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
     # bez przecinków odgraniczających. Przecinek zamykający dokłada
     # :func:`_zamykane`, tak samo jak trzem pozostałym zdaniom podrzędnym.
@@ -1980,11 +2120,21 @@ def po_przyimku(segments: list[Segment]) -> list[Segment]:
     przyimkowym, która kończy się w węźle, gdzie ta się zaczyna. Krawędź bez ani
     jednego czytania z tego wychodzi — `niego` innych nie ma — i jest wtedy formą
     bez licencji, którą werdykt wypisuje (:func:`bez_licencji`).
+
+    Licencji udziela przyimek, który ta gramatyka bierze, a nie każda forma z
+    czytaniem przyimkowym, i dlatego wykluczenie stoi tu to samo, co na terminalu
+    (:data:`PRZYIMEK_ROZDZIELAJĄCY`). Bez niego `Cena jest niska, a nie.`
+    wyprowadza się: rozdzielające `a` niesie u Morfeusza czytanie przyimka, więc
+    licencjonuje `nie` stojące za nim, a wyrażenia przyimkowego z tego `a` nie ma
+    jak zbudować, czyli licencji udziela pozycja, której nikt nie zajmuje.
     """
     licencjonujące = {
         segment.end
         for segment in segments
-        if any(reading.tag.pos == "prep" for reading in segment.readings)
+        if any(
+            reading.tag.pos == "prep" and reading.lemma != PRZYIMEK_ROZDZIELAJĄCY
+            for reading in segment.readings
+        )
     }
     return [
         segment
