@@ -8,7 +8,8 @@ Werdykt mówi o zdaniu więcej niż sam status, bo autor ma je poprawić.
 Zdanie o dwóch czytaniach nie jest olskie
 (docs/subset.md#validity-is-uniqueness-not-just-derivability),
 a :meth:`Verdict.explain` pokazuje, gdzie te czytania się rozchodzą;
-zdanie odrzucone dostaje miejsce, na którym rozbiór stanął.
+zdanie odrzucone dostaje miejsce, na którym rozbiór stanął,
+a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
 """
 
 from __future__ import annotations
@@ -259,7 +260,7 @@ SPÓJNIKI_TRYBU = "aby|ażeby|żeby|by|gdyby|jakby"
 #: rozdziela spójnik zdaniowy na dwie klasy i obejmuje dwie części mowy naraz,
 #: bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`. Kogo nie obejmuje,
 #: za ile i po co, wywodzi docs/subset.md.
-SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż"
+SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż|czyli"
 
 #: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
 #: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego
@@ -764,6 +765,23 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
         zdanie.dominacja(symbol, [czoło_dopełnienie, Głowa(czasownik)], **POPRZEDNIK)
 
 
+def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cechy) -> None:
+    """Wpisz ciało zdania podrzędnego i to samo ciało zamknięte przecinkiem.
+
+    Przecinek zamykający stawia polszczyzna wtedy, gdy zdanie nadrzędne biegnie
+    dalej, i biegnie ono dalej także spójnikiem: `Dokument mówi, że cena jest
+    niska, i liczy cenę.` Bez ciała zamkniętego przecinek ten dochodzi do
+    koordynacji, która spójnika przed sobą nie bierze, więc zdanie nie ma ani
+    jednego czytania.
+
+    Ciała są dwa, a nie jedno z przecinkiem opcjonalnym, bo opcjonalności ten
+    formalizm nie ma. Fakt jest jeden na każde zdanie podrzędne, więc stoi tu raz;
+    docs/subset.md wywodzi go pod podrzędnością.
+    """
+    for domknięcie in ((), (PRZECINEK,)):
+        grammar.rule(symbol, [*ciało, *domknięcie], **cechy)
+
+
 def build() -> Grammar:
     grammar = Grammar(start="Sentence")
 
@@ -778,8 +796,17 @@ def build() -> Grammar:
     # przymiotnikiem, a nie obok rzeczownika, którego ten przysłówek nie określa.
     # Cenę tego gospodarza trzyma
     # docs/subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe.
+    #
+    # Przydawką jest tu także imiesłów, bo stoi on tam, gdzie przymiotnik, i zgadza
+    # się tak samo; wywód i cenę trzyma
+    # docs/subset.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik.
+    # Imiesłowy dochodzą dwoma wierszami, a nie jednym terminalem o dwóch częściach
+    # mowy, bo cena każdego z nich ma być osobną liczbą. Orzecznik bierze `ppas` i
+    # nie bierze `pact`: `Reguła jest sięgająca.` nie jest zdaniem tego rejestru.
     for symbol, słowo in (
         ("Adjective", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
+        ("Adjective", word("ppas", **AGREE)),
+        ("Adjective", word("pact", **AGREE)),
         ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
     ):
         grammar.rule(symbol, [Głowa(słowo)], **AGREE)
@@ -1166,7 +1193,9 @@ def build() -> Grammar:
     # czasownika stoi raz, tutaj, a nie w każdym szyku, w którym to zdanie stoi.
     # Przecinek należy do tego konstytuentu, a nie do produkcji nad nim, i tym
     # różni się podrzędność od koordynacji; wywód trzyma docs/subset.md.
-    grammar.rule(
+    # Przecinek zamykający dokłada :func:`_zamykane`.
+    _zamykane(
+        grammar,
         "SubordinateClause",
         [PRZECINEK, word("comp", lemma=SPÓJNIK_DOPEŁNIENIOWY), Głowa(nt("Clause"))],
         valency="comp",
@@ -1190,17 +1219,21 @@ def build() -> Grammar:
     # Spójnik jest w obu ciałach inny, bo wysunięcie jest faktem o słowie:
     # ciało za zdaniem bierze każdy z listy, a ciało przed zdaniem tylko te,
     # których zdanie polszczyzna wysuwa (:data:`SPÓJNIKI_WYSUWANE`).
-    for ciało, pozycja in (
-        (
-            [PRZECINEK, word("comp", lemma=SPÓJNIKI_OKOLICZNIKOWE), Głowa(nt("Clause"))],
-            "za",
-        ),
-        (
-            [word("comp", lemma=SPÓJNIKI_WYSUWANE), Głowa(nt("Clause")), PRZECINEK],
-            "przed",
-        ),
-    ):
-        grammar.rule(OKOLICZNIKOWY, ciało, pozycja=pozycja)
+    #
+    # Przecinek zamykający dostaje ciało za zdaniem (:func:`_zamykane`), a ciało
+    # przed zdaniem go nie dostaje, bo już go niesie: zdanie nadrzędne biegnie za
+    # nim zawsze.
+    _zamykane(
+        grammar,
+        OKOLICZNIKOWY,
+        [PRZECINEK, word("comp", lemma=SPÓJNIKI_OKOLICZNIKOWE), Głowa(nt("Clause"))],
+        pozycja="za",
+    )
+    grammar.rule(
+        OKOLICZNIKOWY,
+        [word("comp", lemma=SPÓJNIKI_WYSUWANE), Głowa(nt("Clause")), PRZECINEK],
+        pozycja="przed",
+    )
 
     # Ten sam okolicznik pod spójnikiem, który niesie cząstkę trybu
     # (:data:`SPÓJNIKI_TRYBU`): `Gdyby Polacy byli świadomi, zdawaliby sobie
@@ -1214,7 +1247,7 @@ def build() -> Grammar:
     # pyta, a cenę i zakup ma osobne, bo jest osobnym ciałem.
     spójnik = word("comp", lemma=SPÓJNIKI_TRYBU)
     for wnętrze in (nt("Clause", tryb=TRYB_POD_SPÓJNIKIEM), nt("InfinitivePhrase")):
-        grammar.rule(OKOLICZNIKOWY, [PRZECINEK, spójnik, Głowa(wnętrze)], pozycja="za")
+        _zamykane(grammar, OKOLICZNIKOWY, [PRZECINEK, spójnik, Głowa(wnętrze)], pozycja="za")
         grammar.rule(OKOLICZNIKOWY, [spójnik, Głowa(wnętrze), PRZECINEK], pozycja="przed")
 
     # Dwie pozycje, bo polszczyzna stawia ten okolicznik przed swoim zdaniem i za
@@ -1655,9 +1688,8 @@ def build() -> Grammar:
     grammar.rule(CZĄSTKOWY, [CZĄSTKA])
 
     # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
-    # bez przecinków odgraniczających. Przecinek zamykający stawia polszczyzna
-    # wtedy, gdy zdanie nadrzędne biegnie dalej, więc oba ciała są tu razem, a
-    # zdanie dostaje to z nich, które pasuje do jego interpunkcji.
+    # bez przecinków odgraniczających. Przecinek zamykający dokłada
+    # :func:`_zamykane`, tak samo jak trzem pozostałym zdaniom podrzędnym.
     #
     # Wtrącenie w nawiasie dostaje pozycję w ciele zamykanym przecinkiem i tylko
     # w nim, bo tam stoi ono przed tym przecinkiem, a przyłączone do zdania
@@ -1666,12 +1698,13 @@ def build() -> Grammar:
     # dwa czytania jednego napisu, i dlatego jest to ciało osobne, a nie druga
     # córka w obu; docs/subset.md wywodzi to razem z ceną.
     rdzeń = Głowa(nt("RelativeCore", number=V("n"), gender=V("g")))
-    for ciało in (
-        [PRZECINEK, rdzeń],
-        [PRZECINEK, rdzeń, PRZECINEK],
+    _zamykane(grammar, "RelativeClause", [PRZECINEK, rdzeń], number=V("n"), gender=V("g"))
+    grammar.rule(
+        "RelativeClause",
         [PRZECINEK, rdzeń, nt(WTRĄCONY), PRZECINEK],
-    ):
-        grammar.rule("RelativeClause", ciało, number=V("n"), gender=V("g"))
+        number=V("n"),
+        gender=V("g"),
+    )
 
     # Zaimek względny jest grupą imienną o jednym słowie i osobnym symbolem, bo
     # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
@@ -1769,7 +1802,9 @@ def build() -> Grammar:
     # jak zdanie z `że`, a pozycja jest osobna i dlaczego, mówi
     # :data:`RAMA_DOMYŚLNA`. Spójnika w ciele nie ma, bo podporządkowuje tu sam
     # zaimek, i tym się to zdanie podrzędne od dwóch pozostałych różni.
-    grammar.rule(
+    # Przecinek zamykający dokłada :func:`_zamykane`.
+    _zamykane(
+        grammar,
         "InterrogativeClause",
         [PRZECINEK, Głowa(nt("InterrogativeCore"))],
         valency="int",
@@ -1981,26 +2016,47 @@ NOTACJA = re.compile(
 NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
 
 
+def wersalik(segment: Segment) -> Segment:
+    """Daj formie pisanej wersalikami czytanie nieodmienne, gdy słownik jej nie ma.
+
+    ``README``, ``GLR`` i ``SGJP`` są w tym rejestrze codzienne i wracają jako
+    ``ign``, którego nie bierze ani jedna produkcja. Notacja wyżej dostaje to samo
+    czytanie i różni się znakiem, który ją spaja (:data:`NOTACJA`).
+
+    Warunek pyta o milczenie słownika, a nie o samo pismo formy, i tym broni
+    polszczyzny: ``NIE`` i ``PAN`` słownik czyta, więc zdanie z nimi nie traci
+    czytania, które ma. Wywód i cenę trzyma docs/subset.md pod wersalikiem.
+    """
+    if not _acronym(segment.form):
+        return segment
+    if any(reading.tag.known for reading in segment.readings):
+        return segment
+    return replace(segment, readings=(Reading(segment.form, segment.form, NIEODMIENNY),))
+
+
 def morphology(text: str) -> list[Segment]:
     """Analizuje tekst tak, jak czyta go olski.
 
-    Cztery rzeczy dzieją się tu przed gramatyką. Notacja rejestru dostaje jedną
+    Pięć rzeczy dzieje się tu przed gramatyką. Notacja rejestru dostaje jedną
     krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
     krawędzi, a czytelnik ma tam jedno słowo. Słowo, którego słownik nie ma,
     dostaje czytania z leksykonu projektu (:mod:`olski.projekt`), bo ``commitów``
     jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieodmiennego.
-    Reszta idzie do Morfeusza i traci te czytania, które odrzuca
-    :func:`admissible`, a po nich te, które :func:`po_przyimku` odrzuca formie
-    stojącej bez przyimka.
+    Forma pisana wersalikami, której słownik nie czyta wcale, dostaje czytanie
+    nieodmienne (:func:`wersalik`). Reszta idzie do Morfeusza i traci te czytania,
+    które odrzuca :func:`admissible`, a po nich te, które :func:`po_przyimku`
+    odrzuca formie stojącej bez przyimka.
 
-    Ostatni z czterech warunków pyta o sąsiada, a nie o samą formę, więc idzie
-    po liście gotowej, a nie po jednym segmencie jak trzy przed nim.
+    Ostatni z pięciu warunków pyta o sąsiada, a nie o samą formę, więc idzie
+    po liście gotowej, a nie po jednym segmencie jak cztery przed nim.
 
     Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
-    return po_przyimku([admissible(projekt.z_leksykonu(segment)) for segment in _segmenty(text)])
+    return po_przyimku(
+        [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
+    )
 
 
 def _segmenty(text: str) -> list[Segment]:
@@ -2109,6 +2165,38 @@ def na_czym_stanęło(segments: list[Segment], furthest: int) -> Segment | None:
     if not stojące:
         return None
     return max(stojące, key=lambda segment: segment.end)
+
+
+def zatrzymania(segmenty: list[Segment], grammar: Grammar | None = None) -> tuple[str, ...]:
+    """Każde zatrzymanie odrzuconego zdania, a nie samo pierwsze.
+
+    Werdykt nazywa jedno miejsce (:func:`na_czym_stanęło`), a zdanie długie ma ich
+    kilka i pierwsze zasłania resztę, więc kto pisze pod tę gramatykę, nie widzi z
+    werdyktu, ile jeszcze poprawek to zdanie zabierze; po co ta odpowiedź jest,
+    mówi docs/pisanie-po-olsku.md.
+
+    Analiza rusza od nowa **za** formą zatrzymania, a nie na niej: formy, której
+    nie wzięła żadna analiza częściowa, nie weźmie też analiza zaczęta od niej, a
+    przebieg stałby na miejscu. Krawędź przekraczającą cięcie trzeba przy tym
+    zdjąć, bo graf segmentacji rozchodzi się na kilka dróg — ``ktoś`` wychodzi
+    także jako ``kto`` i ``ś`` — a takiej krawędzi nie ma z czym w kawałku złożyć.
+
+    Cięcie nie wskazuje usterki ani granicy konstrukcji, tak samo jak jedno
+    zatrzymanie jej nie wskazuje.
+    """
+    grammar = grammar or GRAMMAR
+    formy: list[str] = []
+    while segmenty:
+        stanęło = na_czym_stanęło(segmenty, parse(grammar, segmenty).furthest)
+        if stanęło is None:
+            break
+        formy.append(stanęło.form)
+        segmenty = [
+            replace(segment, start=segment.start - stanęło.end, end=segment.end - stanęło.end)
+            for segment in segmenty
+            if segment.start >= stanęło.end
+        ]
+    return tuple(formy)
 
 
 def sentences(text: str) -> list[str]:

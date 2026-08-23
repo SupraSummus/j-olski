@@ -582,6 +582,19 @@ oraz `harness/wskazania.py`.
 `olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
 te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
 
+Rozdanie wejścia stoi w dwóch kopiach, odkąd `olski.coverage` bierze prozę.
+`harness/komenda.py` trzyma wywód — bank drzew jest jednym katalogiem, więc kilka
+ścieżek naraz może znaczyć tylko prozę — i sam kod, wraz z komunikatem o katalogu
+podanym obok pliku, a `main` w `olski/coverage.py` ma teraz to samo drugi raz.
+Sondy z `harness/` importują z `olski/coverage.py`, a nie odwrotnie,
+więc ten moduł tamtego wziąć nie może i rozjazd jest tu tylko kwestią czasu.
+Ruchem jest funkcja rozdająca wejście w `olski/corpus.py`, obok `pliki`,
+którą wołają oba wiersze poleceń: pyta o listę ścieżek, oddaje katalog albo pliki,
+a komunikat o pomyłce zostaje przy wołającym, bo nazwa programu jest jego.
+Do przeczytania jest `uruchom` w `harness/komenda.py` obok `main` w
+`olski/coverage.py`: pierwszy woła sondę przez `Komenda`, drugi drukuje sam,
+więc wspólna jest sama odpowiedź na pytanie „katalog czy pliki”, a nie przebieg.
+
 ## Korpusy, ekstrakcja i figury
 
 `python3 -m harness.endings proza` liczy, co w `proza/` stoi, a nie korpus audytowy.
@@ -1957,6 +1970,21 @@ a olski nazywa symbole funkcjami, czyli `Subject` i `Object`,
 więc porównanie prowadzi to, co produkcja przyjmuje, a nie nazwa symbolu.
 Sesja jest osobna i nie dzieli się na pliki,
 bo rozstrzyga jedno pytanie na całej liście naraz.
+
+Przydawka imiesłowowa podniosła liczbę zdań, w których przyjęte czytanie
+przeczy drzewu wzorcowemu, a przebieg, który to pokazał, nie mówi, czym te zdania są
+([`docs/subset.md`](docs/subset.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)).
+Kierunek żąda od werdyktu prawdy o zdaniu
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+więc pozycja, która kupuje pokrycie i sprzedaje zgodność, żąda odczytania,
+a nie samej liczby.
+Do przeczytania jest `python3 -m olski.coverage <korpus> --examples`
+w wierszach `disagrees` oraz w tych, którym złote czytanie z lasu wypada,
+i pytanie do nich jest jedno: czy pomyłki stoją na jednym kształcie.
+Ciała są dwa, po jednym na imiesłów, więc kształt zdejmuje się po jednym
+i przelicza obie liczby; sonda różnicowa robi to nad `harness/ruch.py`.
+Gdzie pomyłki się rozchodzą, całą zmianą jest zdanie o tym w tamtej sekcji,
+bo wtedy cena jest ceną przydawki, a nie jednego z dwóch imiesłowów.
 
 ## Skład i opowieści
 

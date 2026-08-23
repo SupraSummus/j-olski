@@ -92,7 +92,7 @@ Nowa program zapisuje ustawienia."
                   - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
                   no reading: the analysis stops at „ustawienia”
-1 of 3 sentences are olski
+1 of 3 sentences are olski, and 2 have a reading
 ```
 
 Czytania szynki dzieli szyk oraz gospodarz frazy `z dodatkami`.
@@ -112,6 +112,26 @@ Nie ma tu reguły, która strzeliła.
 Werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka.
 Całą tę różnicę trzyma
 [docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
+
+Analiza staje w długim zdaniu kilka razy.
+Werdykt nazywa pierwsze zatrzymanie.
+Osobna flaga nazywa każde zatrzymanie.
+
+```sh
+python3 -m olski.check --zatrzymania -c "Nowa program zapisuje ustawienia, i linter sprawdza teksty."
+```
+
+```text
+<text>: rejected  Nowa program zapisuje ustawienia, i linter sprawdza teksty.
+                  no reading: the analysis stops at „ustawienia”
+                  the analysis stops again at „i”
+0 of 1 sentences are olski, and 0 have a reading
+```
+
+Cięcie nie jest granicą konstrukcji.
+Po co ta flaga jest, mówi
+[docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim).
+
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).
 
@@ -220,7 +240,8 @@ plan i otwarte pytania.
 - [docs/sklad.md](docs/sklad.md) mówi, co tekst wie ponad zdaniem
   i czego brakuje w leksykonie.
 - [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md)
-  zbiera feedback z sesji, która pisała pod tę gramatykę.
+  zbiera feedback z fotela użytkownika.
+  Pierwsza sesja pisała pod tę gramatykę, a druga dopisywała brakujące pozycje.
 - [docs/corpus.md](docs/corpus.md) mierzy gramatykę na Składnicy.
   Mówi, co daje pierwszy pomiar i czego nie dowodzi liczba pokrycia.
   Składnica jest tam bankiem drzew.

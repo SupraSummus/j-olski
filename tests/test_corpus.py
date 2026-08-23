@@ -24,6 +24,7 @@ from olski.coverage import (
     Outcome,
     main,
     measure,
+    nad_prozą,
     przebieg,
     render,
     scal,
@@ -570,6 +571,59 @@ def test_pula_procesów_drukuje_to_samo_co_jeden_proces(tmp_path, capsys):
     #  Pula, która zgubiłaby kawałek, dalej drukowałaby to samo co jeden proces,
     #  gdyby jeden proces gubił go tak samo, więc liczba lasów jest tu osobno.
     assert "corpus: 2 forests" in jeden
+
+
+def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
+    #  Kolejka i krzywa są tym, po co ktoś sięga nad własnym dokumentem, i liczy
+    #  je ten sam raport, co nad bankiem drzew.
+    raport = nad_prozą(
+        "Zapisz plik konfiguracyjny. Nowa program zapisuje ustawienia w pliku konfiguracyjnym."
+    )
+    assert raport.statuses == {"valid": 1, "rejected": 1}
+    #  Zatrzymanie stoi na „ustawienia”, a wiersz nazywa czytanie pierwsze, które
+    #  Morfeusz na tej formie wypisuje, czyli odsłownik.
+    assert raport.blockers == {"ger": 1}
+    assert raport.lengths == {"1-5": {"valid": 1}, "6-10": {"rejected": 1}}
+
+
+def test_proza_nie_dostaje_wierszy_o_zgodności_z_drzewem_wzorcowym():
+    #  Usterka, którą to łapie: proza mierzona jako porównywalna. Rozpiętości nie
+    #  ma tam z czym porównać, więc wiersz o zgodności ról stanąłby nad zdaniem,
+    #  o którym nikt nie wie, gdzie ma podmiot, i mówiłby, że olski się z tym
+    #  zgadza.
+    raport = nad_prozą("Zapisz plik konfiguracyjny.")
+    assert not raport.agreements
+    assert raport.unjudged == 0
+    assert "gold tree" not in render(raport)
+
+
+def test_fragment_prozy_wchodzi_do_niemierzonych_a_nie_do_odrzuconych():
+    #  Nagłówek i pozycja listy dochodzą tu akapitem tak samo jak zdanie, a
+    #  policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
+    raport = nad_prozą("Nagłówek bez kropki\n\nZapisz plik konfiguracyjny.")
+    assert raport.statuses == {"valid": 1}
+    assert sum(raport.skipped.values()) == 1
+
+
+def test_przebieg_nad_prozą_nazywa_pliki_a_nie_bank_drzew(tmp_path, capsys):
+    #  Nagłówek wydruku mówi, po czym wyszła liczba, i nad prozą nie ma prawa
+    #  powiedzieć „Składnica”; tabela składu korpusu schodzi tam razem z nim, bo
+    #  werdykt anotatora jest jeden i nie mówi nic.
+    ścieżka = tmp_path / "proza.txt"
+    ścieżka.write_text("Zapisz plik konfiguracyjny.", encoding="utf-8")
+    assert main([str(ścieżka)]) == 0
+    wydruk = capsys.readouterr().out
+    assert wydruk.startswith("proza.txt, live morphology")
+    assert "forests" not in wydruk
+
+
+def test_katalog_podany_obok_pliku_jest_pomyłką_a_nie_prozą(tmp_path, capsys):
+    #  Bank drzew jest jednym katalogiem, więc kilka ścieżek naraz może znaczyć
+    #  tylko prozę, a katalog między nimi jest pomyłką, której nie wolno
+    #  przeczytać jako pliku.
+    (tmp_path / "proza.txt").write_text("Zapisz plik.", encoding="utf-8")
+    assert main([str(tmp_path / "proza.txt"), str(tmp_path)]) == 2
+    assert "a directory comes alone" in capsys.readouterr().err
 
 
 def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path):

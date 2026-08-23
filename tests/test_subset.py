@@ -51,6 +51,8 @@ from olski.subset import (
     morphology,
     na_czym_stanęło,
     sentences,
+    wersalik,
+    zatrzymania,
 )
 
 
@@ -2196,6 +2198,30 @@ def test_zdanie_okolicznikowe_wyprowadza_się_raz_w_obu_pozycjach(zdanie):
 @pytest.mark.parametrize(
     "zdanie",
     [
+        #  Cztery zdania podrzędne, po jednym na wywołanie `_zamykane`, bo pozycja
+        #  dopisana jednemu z nich nie mówi nic o pozostałych trzech.
+        "Dokument mówi, że cena jest niska, i liczy cenę.",
+        "Parser jest tani, bo cena jest niska, i gramatyka jest tania.",
+        "Dokument mówi, który parser jest tani, i liczy cenę.",
+        "Parser czyta regułę, która rozstrzyga, i liczy cenę.",
+    ],
+)
+def test_zdanie_podrzędne_zamyka_się_przecinkiem_przed_spójnikiem(zdanie):
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
+
+
+def test_przecinek_przed_spójnikiem_bez_zdania_podrzędnego_nie_wyprowadza_się():
+    #  Usterka, którą to łapie: przecinek zamykający wpuszczony do koordynacji
+    #  zamiast do zdania podrzędnego. Polszczyzna nie stawia go przed `i` między
+    #  dwoma zdaniami, więc olski wyprowadzałby wtedy napis, którego ona nie ma.
+    found = verdict("Parser jest tani, i gramatyka jest tania.")
+    assert found.status == "rejected", found.explain()
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
         "Program zapisuje ustawienia ponieważ linter sprawdza dokumentację.",
         "Ponieważ linter sprawdza dokumentację program zapisuje ustawienia.",
     ],
@@ -2257,6 +2283,35 @@ def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
     assert found.result.ile == 2, found.explain()
     assert found.result.różniące == ("AdverbialClause",)
     assert {OKOLICZNIKOWY in reading for reading in found.readings} == {False, True}
+
+
+# --------------------------------------------------------------------------- #
+# Przydawka imiesłowowa
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Imiesłów bierny w obu szykach przydawki, tych samych, które ma przymiotnik.
+        "Wymienione zadania są obowiązkowe.",
+        "Zadania wymienione są obowiązkowe.",
+        #  Imiesłów czynny wraz z dopełniaczem, którego żąda jego czasownik: ciało z
+        #  przydawką i dopełniaczem stało w gramatyce przed nim i bierze go za darmo.
+        "Reguła sięgająca znaku jest tania.",
+    ],
+)
+def test_przydawka_imiesłowowa_stoi_tam_gdzie_przymiotnik(zdanie):
+    found = verdict(zdanie)
+    assert found.readings, found.explain()
+
+
+def test_imiesłów_czynny_nie_dochodzi_do_orzecznika():
+    #  Orzecznik bierze `ppas` i nie bierze `pact`, bo `Reguła jest sięgająca.` nie
+    #  jest zdaniem tego rejestru. Usterka, którą to łapie: imiesłów wpuszczony
+    #  jednym terminalem do obu symboli przymiotnikowych naraz.
+    found = verdict("Reguła jest sięgająca.")
+    assert found.status == "rejected", found.explain()
 
 
 # --------------------------------------------------------------------------- #
@@ -2441,6 +2496,22 @@ def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
     ]
 
 
+def test_forma_wersalikowa_której_słownik_nie_ma_jest_rzeczownikiem_nieodmiennym():
+    #  Druga połowa tej samej myśli co notacja: `README` nie niesie ani kropki,
+    #  ani ukośnika, więc wzorzec notacji go nie widzi, a Morfeusz oddaje `ign`,
+    #  którego nie bierze ani jedna produkcja.
+    found = verdict("README mówi o podzbiorze.")
+    assert found.readings, found.explain()
+
+
+def test_wersalik_nie_dokłada_czytania_formie_którą_słownik_czyta():
+    #  Usterka, którą to łapie: warunek postawiony na samym piśmie formy. `NIE`
+    #  słownik czyta jako cząstkę przeczącą, a czytanie nieodmienne postawione na
+    #  jej miejscu odbiera zdaniu przeczenie.
+    segment = analyse("NIE")[0]
+    assert wersalik(segment) is segment
+
+
 # --------------------------------------------------------------------------- #
 # Splitting
 # --------------------------------------------------------------------------- #
@@ -2477,3 +2548,29 @@ def test_every_sentence_of_a_text_is_checked():
 def test_the_grammar_is_a_grammar_of_something():
     assert len(GRAMMAR) > 5
     assert GRAMMAR.undefined() == frozenset()
+
+
+# --------------------------------------------------------------------------- #
+# Zatrzymania, czyli miejsca, na których staje analiza
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "oczekiwane"),
+    [
+        #  Werdykt nazywa jedno miejsce, bo jedno jest końcem przedrostka, który
+        #  się analizuje, a zdanie o kilkunastu wyrazach ma ich kilka i pierwsze
+        #  zasłania resztę.
+        ("Dokument nazywa role, w jakich ktoś czyta, a dla każdej: pytanie.", ("czyta", "a", ":")),
+        ("Zapisz plik konfiguracyjny.", ()),
+    ],
+)
+def test_zatrzymania_nazywają_każde_miejsce_a_nie_samo_pierwsze(zdanie, oczekiwane):
+    assert zatrzymania(morphology(zdanie)) == oczekiwane
+
+
+def test_analiza_wznawia_się_za_formą_zatrzymania_a_nie_na_niej():
+    #  Usterka, którą to łapie: przebieg wznowiony na formie zatrzymania. Formy,
+    #  której nie wzięła żadna analiza częściowa, nie weźmie też analiza zaczęta
+    #  od niej, więc taki przebieg nazywałby ją bez końca.
+    assert zatrzymania(morphology("Parser jest tani, i gramatyka jest tania.")) == ("i",)

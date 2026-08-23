@@ -8,7 +8,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
-from olski.subset import FRAGMENT, check
+from olski.subset import FRAGMENT, check, morphology, zatrzymania
 
 STATUS_WIDTH = 9
 
@@ -31,6 +31,20 @@ def _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo) -> list[str]:
     ]
 
 
+def _dalsze(zdanie: str) -> str:
+    """Wiersz o zatrzymaniach poza pierwszym, które nazwał już werdykt.
+
+    Zdanie o jednym zatrzymaniu dostaje wiersz mówiący to wprost, bo milczenie
+    czytałoby się tu jako flaga, która nic nie zrobiła. Segmentacja idzie drugi
+    raz, bo werdykt segmentów nie niesie, a ten wiersz stoi za flagą.
+    """
+    dalsze = zatrzymania(morphology(zdanie))[1:]
+    if not dalsze:
+        return "the analysis stops nowhere else"
+    formy = ", ".join(f"„{forma}”" for forma in dalsze)
+    return f"the analysis stops again at {formy}"
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-check",
@@ -47,6 +61,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--rozstrzygaj",
         action="store_true",
         help="obok werdyktu pokaż, co osobna warstwa mówi o przyłączeniach",
+    )
+    parser.add_argument(
+        "--zatrzymania",
+        action="store_true",
+        help="pokaż każde miejsce, na którym staje analiza, a nie samo pierwsze",
     )
     args = parser.parse_args(argv)
 
@@ -70,6 +89,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     świadkowie = domyślni() if args.rozstrzygaj else None
 
     accepted = 0
+    derived = 0
     total = 0
     fragments = 0
     for name, text in sources:
@@ -82,9 +102,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             fragments += status == FRAGMENT
             total += status != FRAGMENT
             accepted += status == "valid"
+            derived += status != FRAGMENT and not verdict.result.rejected
             wcięcie = f"{' ' * len(name)}  {' ' * STATUS_WIDTH}"
             print(f"{name}: {status:{STATUS_WIDTH}} {verdict.text}")
             print(f"{wcięcie} {verdict.explain()}")
+            if args.zatrzymania and status != FRAGMENT and verdict.result.rejected:
+                print(f"{wcięcie} {_dalsze(verdict.text)}")
             if args.readings:
                 for reading in verdict.readings:
                     parts = ", ".join(f"{role}: {fill}" for role, fill in reading.items())
@@ -93,7 +116,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 for line in _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo):
                     print(f"{wcięcie} {line}")
 
-    summary = f"{accepted} of {total} sentences are olski"
+    summary = f"{accepted} of {total} sentences are olski, and {derived} have a reading"
     if fragments:
         summary += f", beside {fragments} fragments that are not sentences"
     print(summary)
