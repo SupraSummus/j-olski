@@ -43,7 +43,7 @@ from pathlib import Path
 from olski.corpus import Sentence, pliki, read
 from olski.morph import Segment
 from olski.parse import MAX_READINGS, Las, Result, las, podsumuj
-from olski.subset import GRAMMAR, morphology
+from olski.subset import GRAMMAR, morphology, na_czym_stanęło
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
@@ -114,6 +114,12 @@ class Outcome:
         there is no single part of speech to name, and picking one keeps the
         ranking readable at the cost of being arbitrary between them.
 
+        Which form the analysis stopped on is one criterion with one owner,
+        ``na_czym_stanęło`` in ``olski/subset.py``, and this row asks it rather
+        than holding a second: the sentence that runs to its closing mark with
+        nothing deriving the whole of it is the other event and gets
+        :data:`NO_STRUCTURE`.
+
         It demands the stopping point, which a verdict asks the forest for on
         request (:func:`olski.parse.podsumuj`), so a run that did not ask raises
         here rather than naming some other form.
@@ -125,11 +131,10 @@ class Outcome:
                 "bloker nazywa formę z miejsca zatrzymania, "
                 "a ten przebieg o zatrzymanie nie pytał (podsumuj w olski/parse.py)"
             )
-        for segment in self.segments:
-            if segment.start == self.result.furthest:
-                readings = segment.readings
-                return readings[0].tag.pos if readings else NO_STRUCTURE
-        return NO_STRUCTURE
+        segment = na_czym_stanęło(list(self.segments), self.result.furthest)
+        if segment is None:
+            return NO_STRUCTURE
+        return segment.readings[0].tag.pos if segment.readings else NO_STRUCTURE
 
     @property
     def agreement(self) -> str | None:
@@ -340,6 +345,12 @@ def measure(
         segments = segments_for(sentence, source)
         if not segments:
             report.skipped["no morphology"] += 1
+            continue
+        # Po morfologii, bo las bez ani jednego czytelnego węzła nie ma terminali
+        # i przeczy temu kryterium tak samo jak las z dziurą w środku, a te dwie
+        # odpowiedzi są dwiema różnymi robotami do zrobienia.
+        if not sentence.całe:
+            report.skipped["gold terminals do not tile the sentence"] += 1
             continue
         report.record(zmierz_zdanie(sentence, segments, source == "gold"), keep_examples)
     return report

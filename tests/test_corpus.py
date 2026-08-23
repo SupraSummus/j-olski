@@ -19,7 +19,16 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.corpus import FULL, Sentence, parse_forest, pliki, read
-from olski.coverage import Outcome, main, measure, przebieg, render, scal, zmierz_zdanie
+from olski.coverage import (
+    NO_STRUCTURE,
+    Outcome,
+    main,
+    measure,
+    przebieg,
+    render,
+    scal,
+    zmierz_zdanie,
+)
 from olski.parse import parse
 from olski.subset import GRAMMAR
 
@@ -354,6 +363,31 @@ def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
     assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "bedzie"
 
 
+def bez_czasownika():
+    """*Cisza.* — zdanie bez czasownika, czyli konstrukcja, której olski nie ma.
+
+    Analiza bierze tu każdą formę zdania i żadna nie domyka całości, więc
+    zatrzymanie pada na kropce. Bank drzew jest takich zdań pełny, bo korpus
+    prasowy niesie nagłówki i podpisy pod zdjęciami.
+    """
+    return (
+        phrase(0, 0, 2, "wypowiedzenie", [1, 3])
+        + phrase(1, 0, 1, "fw", [2], slot="subj(np(nom))")
+        + terminal(2, 0, 1, "Cisza", "subst:sg:nom:f", lemma="cisza")
+        + terminal(3, 1, 2, ".", "interp")
+    )
+
+
+def test_zdanie_bez_struktury_nad_całością_nie_wpada_do_wiersza_znaku_kończącego():
+    #  Dwa zdarzenia, które werdykt rozdziela dwoma zdaniami: zdanie stojące na
+    #  przecinku ma formę bez wyprowadzenia, a to doszło do końca i nie domknęło
+    #  się. Wiersz `interp` liczył je razem, więc kolejka blokerów obiecywała
+    #  interpunkcję tam, gdzie brakuje zdania bez czasownika.
+    found = outcome(bez_czasownika(), text="Cisza.")
+    assert found.status == "rejected"
+    assert found.blocker == NO_STRUCTURE
+
+
 def test_przebieg_który_nie_pytał_o_zatrzymanie_nie_zlicza_blokerów_z_niczego():
     #  Bloker nazywa formę z miejsca zatrzymania, więc bez tej odpowiedzi
     #  tabela blokerów wyszłaby pusta, jakby żadne zdanie nigdzie nie stanęło.
@@ -456,6 +490,34 @@ def test_an_annotated_sentence_with_no_morphology_is_reported_rather_than_droppe
     assert report.verdicts == {FULL: 1}
     assert report.measured == 0
     assert report.skipped == {"no morphology": 1}
+
+
+#: Wybrane drzewo, którego terminale nie pokrywają zdania. Dziura powstaje przez
+#: dowiązanie, którego korzeń nie ma — tak gubi węzeł `_gold` — a zakładka przez
+#: drugi terminal na rozpiętości, którą pierwszy już zajął.
+NIEPOKRYTE = {
+    "dziura": SVO.replace('<child nid="9"/>', ""),
+    "zakładka": SVO.replace('<child nid="9"/>', '<child nid="9"/><child nid="40"/>')
+    + terminal(40, 2, 4, "ustawienia.", "subst:pl:acc:n", lemma="ustawienie"),
+}
+
+
+@pytest.mark.parametrize("nodes", NIEPOKRYTE.values(), ids=NIEPOKRYTE)
+def test_terminale_wybranego_drzewa_mają_pokrywać_zdanie_bez_dziur_i_zakładek(nodes):
+    #  Dwa miejsca gubią tu węzeł bez słowa i oba stoją na tym, że format tak
+    #  znaczy. Zgubiony terminal zabiera zdaniu słowo, a wraz z nim rozpiętość,
+    #  na której stoi zgodność ról, i sam z siebie nie mówi o tym nic.
+    assert not parse_forest(forest(nodes)).całe
+
+
+def test_las_z_niepokrytym_zdaniem_jest_meldowany_a_nie_mierzony(tmp_path):
+    #  Meldowany, a nie pomijany, bo pokrycie policzone bez niego mówiłoby o
+    #  korpusie mniejszym, niż mówi jego mianownik, i nikt by tego nie zobaczył.
+    write(tmp_path, "a-s.xml", NIEPOKRYTE["dziura"])
+    report = przebieg(pliki(tmp_path), jobs=1)
+    assert report.verdicts == {FULL: 1}
+    assert report.measured == 0
+    assert report.skipped == {"gold terminals do not tile the sentence": 1}
 
 
 def test_an_unknown_morphology_source_is_refused():

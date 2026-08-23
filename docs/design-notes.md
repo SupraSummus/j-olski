@@ -409,9 +409,10 @@ więc 2,5 procent potrzeby wystarcza, żeby odpowiedź zapadła przed odejmowani
 Z 323 zdań olski odrzuca 318, trzy przyjmuje bez żadnej szczeliny,
 a dwa wypuszcza wieloznacznie,
 więc żadne z nich nie jest zakupem dla nikogo.
-Analizy odrzuconych kończą się na cząstce (54), na znaku przestankowym
-i na bezokoliczniku (po 42), na predykatywie (33) oraz na imiesłowie biernym (28),
-czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku.
+Analizy odrzuconych kończą się na bezokoliczniku, na cząstce, na znaku
+przestankowym, na imiesłowie biernym i na predykatywie,
+czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku,
+a garść z nich dochodzi do końca zdania i nie domyka go wcale.
 Przysłówek stał w tej kolejce czwarty i zszedł z niej razem z produkcją,
 nie kupując ani jednego z tych zdań
 ([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).

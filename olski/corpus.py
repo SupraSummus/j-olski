@@ -117,11 +117,43 @@ class Sentence:
     #: Spans of the gold tree's required phrases, by the role they fill. A
     #: sentence with a subordinate clause has more than one subject.
     roles: tuple[tuple[str, int, int], ...] = ()
+    #: Rozpiętość korzenia wybranego drzewa, czyli dokąd zdanie sięga według
+    #: banku drzew; ``None``, gdy wybranego drzewa nie ma.
+    #: Bez niej nie widać terminala zgubionego na brzegu, bo reszta jest wtedy
+    #: dalej ciągła, i po to ona tu stoi (:attr:`całe`).
+    rozpiętość: tuple[int, int] | None = None
 
     @property
     def annotated(self) -> bool:
         """Whether this forest has a complete gold tree."""
         return self.verdict == FULL
+
+    @property
+    def całe(self) -> bool:
+        """Czy terminale wybranego drzewa pokrywają jego rozpiętość bez dziur i zakładek.
+
+        Węzeł bez słowa gubią tutaj dwa miejsca i oba stoją na tym, że format
+        tak znaczy: :func:`_gold` mija dziecko, którego ``nid`` do niczego nie
+        prowadzi, a :data:`NIEWYBRANY` wycina węzły, którym ``chosen`` przeczy.
+        Zgubiony terminal zabiera zdaniu słowo, a razem z nim rozpiętość, na
+        której stoi zgodność ról, i nie mówi o tym nic, więc pyta o to przebieg
+        (``measure`` w ``olski/coverage.py``).
+
+        Odpowiada o wybranym drzewie, a nie o zdaniu: las bez werdyktu
+        :data:`FULL` niesie fragment i przeczy temu masowo, bo :func:`_root`
+        schodzi tam do najszerszego wybranego węzła.
+        Las bez ani jednego czytelnego węzła przeczy temu tak samo jak las z
+        dziurą, a rozdziela te dwie odpowiedzi przebieg, pytając wpierw o
+        morfologię.
+        """
+        if self.rozpiętość is None:
+            return False
+        start, koniec = self.rozpiętość
+        for segment in self.segments:
+            if segment.start != start:
+                return False
+            start = segment.end
+        return start == koniec
 
     @property
     def tokens(self) -> tuple[str, ...]:
@@ -141,10 +173,11 @@ class Sentence:
 #:
 #: Wolno je wyciąć, bo `_gold` schodzi z korzenia po wybranych dowiązaniach
 #: ``children``, a węzeł, którego ``chosen`` przeczy, nie wchodzi w żadne wybrane
-#: wyprowadzenie. Tak to znaczy format, i na tym to stoi, bo nic tutaj tego nie
-#: sprawdza: wydanie, które by temu przeczyło, zabrałoby zdaniu token, nie
-#: mówiąc nic. Węzeł bez tej flagi zostaje — zejście idzie po dowiązaniach, a nie
-#: po flagach — i Składnica takie węzły pisze.
+#: wyprowadzenie. Tak to znaczy format, a że wydanie tego nie łamie, mówi
+#: kryterium na pokrycie zdania terminalami (:attr:`Sentence.całe`): bez niego
+#: cięcie zabierałoby zdaniu token i nie mówiło nic. Węzeł bez tej flagi zostaje
+#: — zejście idzie po dowiązaniach, a nie po flagach — i Składnica takie węzły
+#: pisze.
 NIEWYBRANY = re.compile(rb'<node[^>]*chosen="false"[^>]*>.*?</node>\s*', re.DOTALL)
 
 
@@ -196,7 +229,14 @@ def parse_forest(forest: ET.Element) -> Sentence:
             roles.append((role, *span))
 
     segments.sort(key=lambda segment: (segment.start, segment.end))
-    return replace(sentence, segments=tuple(segments), roles=tuple(sorted(roles)))
+    # Korzeń stoi w zejściu pierwszy (:func:`_gold`), więc rozpiętość zdania
+    # bierze się stąd, a nie z terminali, których właśnie ma dotyczyć.
+    return replace(
+        sentence,
+        segments=tuple(segments),
+        roles=tuple(sorted(roles)),
+        rozpiętość=_span(gold[0][0]),
+    )
 
 
 @dataclass(frozen=True)
