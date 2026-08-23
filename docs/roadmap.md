@@ -570,19 +570,11 @@ prawodawca pisze go razem z adresem przepisu, a cyfry olski nie bierze
 
 Spójnik niosący cząstkę trybu jest siódmym policzonym dopisaniem tego etapu.
 `żeby` jest z `że` i `by`, `gdyby` z `gdy` i `by`,
-więc cząstka stoi w spójniku, a zdanie pod nim niesie formę na -ł bez własnej
-i ogłasza to cechą, którą wypuszcza każda produkcja zdania
-([subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
-Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-i wynika to z gramatyki, nie z przebiegu:
-`comp` z tymi lematami nie brał przedtem żaden terminal,
-więc zdanie z takim spójnikiem nie miało czytania, z którego dałoby się je wytrącić.
-Zakupem jest przeszło pięćdziesiąt zdań Składnicy zdjętych z listy odrzuconych,
-z czego połowa na przyjęte.
-Wypełnienia są dwa i weszły razem, każde z własną ceną i własnym zakupem:
-zdanie oraz fraza bezokolicznikowa, bo pod tymi spójnikami bank drzew stawia
-bezokolicznik niemal tak samo często jak formę na -ł,
-więc sama cecha trybu zamknęłaby połowę tej pozycji.
+więc cząstka stoi w spójniku, a zdanie pod nim niesie formę na -ł bez własnej.
+Cena wyszła zerowa, a zakupem są zdania Składnicy zdjęte z listy odrzuconych;
+wypełnienia weszły oba naraz, zdanie i fraza bezokolicznikowa.
+Wywód i liczby trzyma
+[subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku).
 Nad prozą tego repozytorium nie kupuje ani jednego zdania,
 tak samo jak dopisania przed nim.
 

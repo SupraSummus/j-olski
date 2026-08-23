@@ -620,9 +620,8 @@ Gdzie jego wheel się nie buduje,
 każdy plik testowy dochodzący do analizatora jest pomijany,
 zamiast wywracać zbiórkę,
 więc przebieg melduje testy stojące obok niego, a nie zero testów.
-Przebieg zielony w takim środowisku nie był ani przy gramatyce,
-ani przy morfologii, ani przy czytniku banku drzew, ani przy kompilatorze,
-i widać to po liczbie pominięć.
+Przebieg zielony w takim środowisku nie sprawdza niczego,
+co do analizatora dochodzi, i widać to po liczbie pominięć.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)
 uruchamia te same checki przy każdym pushu,
@@ -850,22 +849,10 @@ produces the same illusions against complete history,
 so a `main` that looks one commit long
 is not explained by `--is-shallow-repository` answering `false`.
 `git fetch --all` settles both at once,
-and [rewriting history](#rewriting-history) owns the trap
-in the form where it costs the most.
+so fetch before you use a ref as a base, a diff target or a squash point,
+and a fresh clone is no exception.
 
 ## Rewriting history
-
-Squashing has gone wrong here once,
-in the way that is easy to miss,
-so these are not general advice but the specific traps that were hit.
-
-**`origin/main` can be stale, including in a fresh clone.**
-The remote's `main` moved mid-session
-while the remote-tracking ref still held the value
-fetched when the container started.
-Run `git fetch origin main`
-before using main as a base, a diff target, or a squash point.
-A fresh clone is not a guarantee that anything stayed still afterwards.
 
 **Squash onto the parent of your own first commit,
 not onto a branch name.**
@@ -912,11 +899,9 @@ larger ones written into [`TODO.md`](TODO.md) instead of started.
   a section lifted upward now precedes what used to introduce it,
   and that is invisible from the altitude a file is read at before editing.
 - **Consistency of references.**
-  `tests/test_docs.py` resolves every relative link and every anchor,
-  so a renamed section fails the suite instead of rotting quietly.
-  It reaches a renamed *file* as well, wherever prose names one
-  inside an inline code span,
-  which is how a document points at the code that owns a fact.
+  `tests/test_docs.py` resolves links, anchors,
+  and the file names prose writes inside backticks,
+  so a renamed section or module fails the suite instead of rotting quietly.
   What it cannot see is a name written without those backticks,
   and a section name, which no path spells:
   grep for the names of deleted and renamed files and sections,

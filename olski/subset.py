@@ -56,67 +56,65 @@ PRZYŁĄCZANY = "Modifier"
 #: że ma okolicznik, którego ono nie ma.
 PRZYSŁÓWKOWY = "Adverb"
 
-#: Rola okolicznika wyrażonego zdaniem, czyli tego, który mówi, kiedy, dlaczego
-#: albo pod jakim warunkiem zachodzi to, co mówi zdanie nad nim. Rolą jest z tego
-#: samego powodu, z którego jest nią przysłówek: werdykt nazywa role etykietami
-#: węzłów, a zdanie przyjęte z takim okolicznikiem wychodziłoby bez słowa o tym,
-#: co olski w nim przyjął. Stoi ona zarazem wśród zdań podrzędnych, bo wnętrze
-#: tego okolicznika jest osobnym zdaniem, i tyle właśnie znaczy nazwanie go
-#: rolą: streszczenie nazywa go całym napisem i w środek nie zagląda.
+#: Rola okolicznika wyrażonego zdaniem,
+#: czyli tego, który mówi, kiedy, dlaczego albo pod jakim warunkiem
+#: zachodzi to, co mówi zdanie nad nim.
+#: Stoi ona zarazem wśród zdań podrzędnych,
+#: bo wnętrze tego okolicznika jest osobnym zdaniem,
+#: i tyle właśnie znaczy nazwanie go rolą:
+#: streszczenie nazywa go całym napisem i w środek nie zagląda.
 OKOLICZNIKOWY = "AdverbialClause"
 
-#: Rola grupy pytajnej, czyli tego, o co zdanie pyta: `które zadania` w `Ustawy
-#: określają, które zadania mają charakter obowiązkowy.` Rolą jest z tego samego
-#: powodu, z którego jest nią okolicznik wyrażony zdaniem: werdykt nazywa role
-#: etykietami węzłów, a zdanie pytające przyjęte bez tej etykiety wychodziłoby
-#: `valid` bez słowa o tym, o co pyta, czyli bez tego, co o nim trzeba wiedzieć
-#: najpierw. Konstytuentem jest zaś grupa imienna, więc wnętrze streszczenie
-#: nazywa całym napisem, tak samo jak wnętrze podmiotu.
+#: Rola grupy pytajnej, czyli tego, o co zdanie pyta:
+#: `które zadania` w `Ustawy określają, które zadania mają charakter obowiązkowy.`
+#: Konstytuentem jest zaś grupa imienna,
+#: więc wnętrze streszczenie nazywa całym napisem, tak samo jak wnętrze podmiotu.
 PYTAJNY = "Interrogative"
 
-#: Rola rzeczownika, który orzeka bez czasownika: `mowa` w `zadania, o których
-#: mowa w ustawie`. Rolą jest z tego samego powodu, z którego jest nią grupa
-#: pytajna: werdykt nazywa role etykietami węzłów, a zdanie z tym rzeczownikiem
-#: nie ma ani podmiotu, ani czasownika, więc przyjęte bez tej etykiety wychodziłoby
-#: `valid` bez ani jednej roli, czyli bez słowa o tym, co olski w nim przyjął.
+#: Rola rzeczownika, który orzeka bez czasownika:
+#: `mowa` w `zadania, o których mowa w ustawie`.
+#: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
+#: więc bez tej etykiety wychodziłoby `valid` bez ani jednej roli.
 #:
-#: Rola stoi obok `Predicative`, a nie jest nią, bo orzecznik jest pozycją ramy,
-#: a ten rzeczownik nie ma nad sobą czasownika, który by ramę ogłaszał; co
-#: przyjmuje gramatyka zlewająca te dwie, mierzy
+#: Rola stoi obok `Predicative`, a nie jest nią,
+#: bo orzecznik jest pozycją ramy,
+#: a ten rzeczownik nie ma nad sobą czasownika, który by ramę ogłaszał;
+#: co przyjmuje gramatyka zlewająca te dwie, mierzy
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
 #: Rola predykatywu, czyli słowa, które orzeka bez podmiotu i bez czasownika:
 #: `trzeba` w `Trzeba czytać dokumenty.`, `widać` w `Widać granicę w odpowiedzi.`
-#: Rolą jest z tego samego powodu, z którego jest nią rzeczownik orzekający, a
-#: osobną od niego dlatego, że orzeka innym kształtem: tamten stoi w mianowniku i
-#: żąda okolicznika, a ten rządzi tym, co rządziłby czasownik, i podmiotu nie ma.
+#: Od rzeczownika orzekającego różni ją kształt orzekania:
+#: tamten stoi w mianowniku i żąda okolicznika,
+#: a predykatyw rządzi tym, co rządziłby czasownik, i podmiotu nie ma.
 #:
 #: Rola stoi obok `Verb`, a nie jest nią, bo predykatyw czasownikiem nie jest:
-#: osoby, liczby ani rodzaju nie niesie, więc `Verb: trzeba` mówiłoby o zdaniu, że
-#: ma orzeczenie zgodne z podmiotem, którego ono nie ma. Co wpuszczenie tej klasy
-#: kosztuje, mierzy
+#: osoby, liczby ani rodzaju nie niesie,
+#: więc `Verb: trzeba` mówiłoby o zdaniu,
+#: że ma orzeczenie zgodne z podmiotem, którego ono nie ma.
+#: Co wpuszczenie tej klasy kosztuje, mierzy
 #: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
 BEZOSOBOWY = "ImpersonalPredicate"
 
 #: Rola cząstki, czyli tej, która stoi przy zdaniu: `już`, `dopiero`, `także`.
-#: Rolą jest z tego samego powodu, z którego jest nią przysłówek, a osobną od niego
-#: dlatego, że cząstka przysłówkiem nie jest: werdykt nazywa rolę etykietą węzła,
-#: więc `Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono
-#: nie ma. Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla.
+#: Od przysłówka różni ją część mowy: cząstka przysłówkiem nie jest,
+#: więc `Adverb: już` mówiłoby o zdaniu,
+#: że ma okolicznik przysłówkowy, którego ono nie ma.
+#: Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla.
 CZĄSTKOWY = "Particle"
 
-#: Rola wtrącenia w nawiasie, czyli tego, co ten rejestr dopowiada obok zdania:
-#: `(docs/subset.md)`, `(niżej)`. Rolą jest z tego samego powodu, z którego jest
-#: nią przysłówek: werdykt nazywa role etykietami węzłów, a zdanie przyjęte z
-#: wtrąceniem wychodziłoby bez słowa o tym, że olski wziął w nim nawias.
-#:
-#: Rolą zdania jest przy tym samo wtrącenie, a nie to, co ono niesie: nawias
-#: dopowiada, a nie wypełnia pozycji, więc grupa imienna w jego środku nie jest
-#: ani podmiotem, ani dopełnieniem, i streszczenie nazywa ją całym napisem.
+#: Rola wtrącenia w nawiasie,
+#: czyli tego, co ten rejestr dopowiada obok zdania: `(docs/subset.md)`, `(niżej)`.
+#: Rolą zdania jest samo wtrącenie, a nie to, co ono niesie:
+#: nawias dopowiada, a nie wypełnia pozycji,
+#: więc grupa imienna w jego środku nie jest ani podmiotem, ani dopełnieniem,
+#: i streszczenie nazywa ją całym napisem.
 WTRĄCONY = "Parenthetical"
 
 DEKLARACJA = Deklaracja(
+    # Konstrukcja, na którą nie ma tu etykiety,
+    # wychodzi `valid` bez słowa o tym, co olski w niej przyjął.
     role=(
         "Subject",
         "Object",
@@ -497,7 +495,7 @@ CZĄSTKI = (
     "|znowu|wreszcie|ponadto|jedynie|niemal|niespełna|zresztą|przynajmniej"
 )
 
-#: Cząstka w okoliczniku: sama lista i nic więcej, tak samo jak przysłówek niżej
+#: Cząstka w okoliczniku: sama lista i nic więcej, tak samo jak :data:`PRZYSŁÓWEK`
 #: bierze samą część mowy.
 CZĄSTKA = word("part", lemma=CZĄSTKI)
 
@@ -519,7 +517,7 @@ RAMA_BEZOSOBOWA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "nom")
 PREDYKATYWY = "można|trzeba|warto|wiadomo|widać|wolno|słychać|znać"
 
 #: Predykatyw na czele swojego zdania: sama lista i nic więcej, tak samo jak
-#: cząstka nad nim.
+#: :data:`CZĄSTKA`.
 PREDYKATYW = word("pred", lemma=PREDYKATYWY)
 
 #: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia. Stopień ma
@@ -1612,9 +1610,8 @@ def build() -> Grammar:
     grammar.rule("Modifier", [Głowa(PRZYIMEK), nt("NP", case=V("c"))])
 
     # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
-    # bo werdykt nazywa role etykietami węzłów: bez tego symbolu zdanie przyjęte z
-    # okolicznikiem przysłówkowym wychodziłoby `valid` bez słowa o tym, co olski w
-    # nim przyjął (:data:`PRZYSŁÓWKOWY`).
+    # bo bez tego symbolu okolicznik przysłówkowy nie ma węzła, który werdykt nazwie
+    # (:data:`PRZYSŁÓWKOWY`).
     grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK])
     # Przysłówek przed przysłówkiem, czyli gospodarz trzeci: `bardzo szybko`.
     # Stopnia żąda od córki lewej z tego samego powodu, z którego żąda go pozycja

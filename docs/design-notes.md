@@ -1660,10 +1660,10 @@ and it should be a first-class, reviewable, testable data file
 rather than a hash map buried inside the parser.
 
 **Rule-based language technology has a known labour profile.**
-Rule-based machine translation declined
-for coverage brittleness, per-language labour cost, and context-blindness.
-Olski is not machine translation,
-but it shares the labour profile,
+Rule-based machine translation declined under it,
+and the reasons are in
+[similar-work.md](similar-work.md#the-other-tradition-engineered-wide-coverage-grammars).
+Olski is not machine translation but shares the profile,
 and the only real mitigation is the one already chosen:
 narrow the problem until hand-written rules suffice.
 
