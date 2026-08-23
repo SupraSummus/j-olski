@@ -1954,6 +1954,54 @@ def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
     assert brane, (lemat, czytania)
 
 
+def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
+    #  Usterka, którą to łapie: forma `imps` wpuszczona pod symbolem `Verb`.
+    #  Zgodności ta forma nie niesie żadnej, a cechy, której konstytuent nie
+    #  niesie, unifikacja nie sprawdza, więc pod tamtym symbolem `program`
+    #  wychodzi podmiotem, choć jest tam biernikiem
+    #  (docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
+    found = verdict("Zgłoszono program.")
+    assert found.readings[0][BEZOSOBOWY] == "Zgłoszono", found.explain()
+    assert "Subject" not in found.readings[0], found.explain()
+
+
+def test_czasownik_nieosobowy_nie_bierze_orzecznika_zgodnego():
+    #  Usterka, którą to łapie: rama leksykonu wzięta tej formie taka, jaka jest.
+    #  Orzecznik zgodny zgadza się z podmiotem, więc zdanie bez podmiotu nie ma go
+    #  z czym zgodzić, a zdanie niżej wychodzi wtedy przyjęte.
+    found = verdict("Zgłoszono tania.")
+    assert found.status == "rejected", found.explain()
+
+
+def test_czasownik_nieosobowy_bierze_ramę_swojego_lematu_a_nie_jednej_konstrukcji():
+    #  Usterka, którą to łapie: jedna rama wpisana tej konstrukcji obok listy
+    #  lematów, tak jak ma ją predykatyw. Leksykon mówi, że `pomagać` biernika nie
+    #  bierze, i forma nieosobowa tego lematu nie bierze go tak samo.
+    biernik = verdict("Pomagano usterkę.")
+    assert biernik.status == "rejected", biernik.explain()
+    sama = verdict("Pomagano.")
+    assert sama.status == "valid", sama.explain()
+
+
+def test_forma_nieosobowa_z_cząstką_pyta_o_leksykon_zwrotny():
+    #  Usterka, którą to łapie: pętla zwrotna pytająca o leksykon niezwrotny.
+    #  `bawić` bierze biernik, a `bawić się` nie bierze, więc z tamtego leksykonu
+    #  zdanie pierwsze wychodzi przyjęte.
+    biernik = verdict("Bawiono się usterkę.")
+    assert biernik.status == "rejected", biernik.explain()
+    okolicznik = verdict("Bawiono się w parku.")
+    assert okolicznik.status == "valid", okolicznik.explain()
+
+
+def test_czasownik_nieosobowy_przeczy_dopełniaczem_tak_jak_forma_osobowa():
+    #  Usterka, którą to łapie: ciało napisane bez cząstki przeczącej. Zdanie z nią
+    #  wychodzi wtedy odrzucone, a `nie` czyta się jak brak licencji na formę.
+    found = verdict("Nie zgłoszono usterki.")
+    assert found.readings[0]["Object"] == "usterki", found.explain()
+    biernik = verdict("Nie zgłoszono usterkę.")
+    assert biernik.status == "rejected", biernik.explain()
+
+
 def test_rzeczownik_orzekający_nie_jest_orzecznikiem_pod_kopulą():
     #  Rola stoi obok `Predicative`, a nie jest nią, a to zdanie jest tym, co
     #  tamto wyjście przyjmuje: orzecznik przed kopulą ramy nie żąda, więc rzeczownik

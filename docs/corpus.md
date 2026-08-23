@@ -167,8 +167,8 @@ stopping short of Polish: `się` is admitted after its verb
 and Polish puts it before one as readily.
 Behind those two stand the conjunction opening a sentence,
 the past tense, the subordinator and the participle at both of its voices,
-and further down the impersonal and the compound future,
-two positions this queue names where no register run does
+and further down the compound future,
+a position this queue names where no register run does
 ([roadmap.md](roadmap.md#etap-6-reszta-konstrukcji)).
 What each of them is worth is measured one at a time
 rather than read off the row.
@@ -190,8 +190,15 @@ So the row a construction is admitted out of is not the row that records it,
 and most of what left the `conj` row
 moved onto another blocker instead of being accepted.
 
-Two constructions have left this queue outright, the adverb and the gerund,
+Three constructions have left this queue outright —
+the adverb, the gerund and the impersonal verb
+([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)) —
 and their rows are gone from the front of it.
+The impersonal shows the paragraph above from the other side:
+its row fell to about a third of itself,
+the addition accepted well under half of what fell out of it,
+and the rows above it rose,
+because a sentence it did not buy stopped further along instead.
 Others took part of a row with them:
 the particle, the subordinator and clause-level punctuation
 are admitted in a shape narrower than Polish,
@@ -303,7 +310,7 @@ clause-level punctuation, the wrapping kind beside it, the project lexicon,
 each argued in the section of [subset.md](subset.md#what-the-grammar-covers)
 that admitted it.
 What is left of the ranking is single occurrences:
-the impersonal past and the bare letter *p* that the title's joke turns on,
+the bare letter *p* that the title's joke turns on,
 the digit in `Morfeusz 2`,
 and the English title this file cites beside the form `polsku`.
 One rejection stands on the shape its words are in rather than on a word,

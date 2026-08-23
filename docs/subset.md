@@ -2312,7 +2312,9 @@ choć `programy` jest tam biernikiem;
 osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbiera.
 Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
 zapadł ten sam wybór: rzeczownik orzekający stoi obok `Predicative`, a nie jest nim.
-Rolę ma predykatyw osobną od `Verb`, bo czasownikiem nie jest.
+Rolę ma predykatyw osobną od `Verb`, bo zgodności nie niesie:
+`Verb: trzeba` mówiłoby o zdaniu, że ma orzeczenie zgodne z podmiotem,
+którego ono nie ma.
 
 Lista lematów jest zamknięta, bo `pred` niesie całą klasę naraz,
 a kryterium na wejście jest jedno:
@@ -2343,9 +2345,80 @@ Olski nie czyta przy tym niezgodnie z drzewem wzorcowym ani jednego zdania nowo
 przyjętego, a pojedyncze czyta uboższą listą ról niż drzewo.
 Nad prozą tego repozytorium zakup jest liczony w kilku zdaniach przyjętych,
 a wieloznacznych przenosi więcej niż przyjmuje.
+Tę parę ciał dzieli z predykatywem forma nieosobowa czasownika
+([niżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+więc zdjęcie któregoś z nich zabiera obie głowy naraz.
 
 Ta konstrukcja ma jeden szyk — predykatyw stoi przed tym, czym rządzi —
 i tyle też po niej zostaje [niżej](#what-it-does-not-cover-yet).
+
+## Czasownik nieosobowy orzeka bez podmiotu i rządzi ramą swojego lematu
+
+`Zgłoszono usterkę.`, `Nie zrobiono nic.`, `Podano do stołu.` —
+Morfeusz trzyma te formy pod `imps`, czyli w jednym wierszu kolejki blokerów
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Orzekają one bez podmiotu tak samo jak predykatyw wyżej,
+więc rolę i oba ciała zdania biorą te same co on,
+a różnica jest jedna: ta forma jest czasownikiem,
+więc ramę bierze z leksykonu swojego lematu
+([wyżej](#walencja-jest-leksykonem-o-ramie-domyślnej)),
+a nie z jednej ramy wpisanej obok zamkniętej listy słów.
+Widać ją na lemacie, o którym leksykon mówi, że biernika nie bierze:
+`Pomagano usterkę.` jest odrzucone tam, gdzie `Zgłoszono usterkę.` się wyprowadza.
+
+Zamkniętej listy ta konstrukcja nie ma i nie potrzebuje jej.
+Predykatyw musi ją mieć, bo `pred` niesie słowa o konkurującym czytaniu —
+`to` prowadzi ten wiersz i jest zarazem łącznikiem —
+a formy `imps` takiego czytania nie mają:
+z 321 form tego znacznika w banku drzew jedna, `pito`, ma czytanie spoza tej
+części mowy, a każde inne drugie czytanie jest znów formą `imps`,
+czyli jednym czytaniem, a nie dwoma
+([wyżej](#co-się-liczy-jako-jedno-czytanie)).
+Cząstka `się` stoi przy tej formie tak samo jak przy osobowej
+i pyta o ten sam leksykon zwrotny, bo `zajmowano się sprawą`
+jest tym samym czasownikiem co `zajmuje się sprawą`.
+
+Orzecznika zgodnego nie ma ani jedna z tych dwóch ram,
+bo zgadza się on z podmiotem, którego takie zdanie nie ma:
+`Zgłoszono tania.` nie jest niczym, tak samo jak `Trzeba wolni.`
+Osobna od `Verb` jest ta rola także dla tej formy i decyduje o tym gramatyka:
+zgodności ta forma nie niesie żadnej,
+a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc pod symbolem czasownika `Zgłoszono program.` wychodziłoby zdaniem
+o podmiocie `program`, choć `program` jest tam biernikiem.
+Symbol wspólny kosztuje przy tym pomiar różnicowy:
+zdjęcie ciała zdania zabiera obie głowy naraz,
+więc cenę każdej z nich mierzy się zdjęciem jej terminali
+([CLAUDE.md](../CLAUDE.md#code)).
+
+Zakup rozkłada się na te dwa ciała tak samo jak przy predykatywie:
+ciało z wypełnieniem zdejmuje nad Składnicą z listy odrzuconych kilkadziesiąt zdań,
+a ciało samej formy — `Na północy i wschodzie strzelano.` — pojedyncze.
+Obie morfologie oddają tyle samo i rozkładają to inaczej,
+bo pod żywą więcej z tych zdań wychodzi wieloznacznych niż przyjętych.
+Jedno zdanie wychodzi pod obydwoma ciałami naraz inaczej niż pod każdym osobno —
+`Załadowano się na pięć barek i o zmierzchu wyruszono.` —
+bo jedna forma stoi w nim sama, druga z wypełnieniem, a koordynuje je spójnik.
+
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a zero jest tu własnością konstrukcji, a nie wynikiem przebiegu:
+formy `imps` nie brała przedtem żadna produkcja,
+więc żadne zdanie przyjęte jej nie niosło.
+Niezgodnie z drzewem wzorcowym olski nie czyta ani jednego zdania nowo przyjętego,
+a pojedyncze czyta uboższą listą ról niż drzewo.
+Nad rejestrem ustaw zakup jest liczony w pojedynczych zdaniach i wszystkie
+wychodzą wieloznaczne, a nad rozporządzeniem nie rusza się ani jeden werdykt,
+choć i ono te formy pisze: zdania z nimi stoją tam także na czym innym.
+Nad prozą tego repozytorium nie kupuje ani jednego zdania:
+README pisze taką formę raz, a zdanie z nią stoi na formie żartu z nazwy
+([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)).
+
+Szyk ma ta konstrukcja jeden, ten sam co predykatyw — forma stoi przed tym,
+czym rządzi — więc wypełnienie wysunięte przed nią zostaje
+[niżej](#what-it-does-not-cover-yet) razem z wypełnieniem predykatywu.
+Cząstki trybu przypuszczającego ta forma nie bierze:
+`Zgłoszono by usterkę.` jest odrzucone, bo cząstkę bierze forma na -ł
+i tylko ona ([wyżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 
 ## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
 
@@ -2447,12 +2520,15 @@ Every one of these is a sentence that gets rejected and should not be:
   a pozycja, której ona żąda, jest wtrąceniem w środku zdania składowego,
   gdzie nawias stoi na jego końcu
   ([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
-- Wypełnienie wysunięte przed predykatyw:
+- Wypełnienie wysunięte przed to, co orzeka bez podmiotu:
   `Programy trzeba czytać.` jest odrzucone,
-  gdzie `Trzeba czytać programy.` wyprowadza się.
+  gdzie `Trzeba czytać programy.` wyprowadza się,
+  i tak samo `Usterkę zgłoszono.` obok `Zgłoszono usterkę.`
   Szyk ma tam sześć wariantów, bo czasownik i podmiot mają je wszystkie,
   a predykatyw stoi w jednym
-  ([wyżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
+  ([wyżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
+  i czasownik nieosobowy w tym samym
+  ([wyżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
 - Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
   `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
   `Czy program zapisuje ustawienia?` jest odrzucone,
@@ -2501,12 +2577,6 @@ Every one of these is a sentence that gets rejected and should not be:
   Żąda ono tego samego, czego żąda dwukropek wprowadzający wyliczenie
   na czele tej listy: powiedzenia, do którego składnika zdania się odnosi.
 
-- Czasownik nieosobowy: `Zgłoszono usterkę.` jest odrzucone,
-  gdzie `Zgłosił usterkę.` wyprowadza się.
-  Formy `imps` nie bierze żaden terminal,
-  a orzeka ona bez podmiotu i rządzi biernikiem,
-  czyli żąda tego samego kształtu, co
-  [predykatyw](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
 - Czas przyszły złożony: `Program będzie zapisywał ustawienia.`
   i `Program będzie zapisywać ustawienia.` są odrzucone,
   gdzie `Program zapisuje ustawienia.` wyprowadza się.
@@ -2522,13 +2592,12 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Reguły odsyłają do dokumentu.` wyprowadza się.
   Stoi on w tej prozie i w banku drzew, a odrzucenie pada w obu na samej formie.
 
-Te cztery wpisy stawia kolejka blokerów
+Te trzy wpisy stawia kolejka blokerów
 ([corpus.md](corpus.md#where-the-analyses-stop)),
-a nie przebieg nad prozą ani ranking form bez licencji,
-i dwa pierwsze stoją w niej wysoko.
+a nie przebieg nad prozą ani ranking form bez licencji.
 Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
-`imps` i `bedzie` niosą po jednej konstrukcji na cały wiersz,
-więc wiersz nazywa konstrukcję wprost,
+`bedzie` niesie jedną konstrukcję na cały wiersz,
+więc wiersz nazywa ją wprost,
 gdzie `interp` albo `part` grupuje po kilka.
 
 One entry is not a construction but a demand every construction makes:

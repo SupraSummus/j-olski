@@ -83,18 +83,20 @@ PYTAJNY = "Interrogative"
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
-#: Rola predykatywu, czyli słowa, które orzeka bez podmiotu i bez czasownika:
-#: `trzeba` w `Trzeba czytać dokumenty.`, `widać` w `Widać granicę w odpowiedzi.`
-#: Od rzeczownika orzekającego różni ją kształt orzekania:
+#: Rola tego, co orzeka bez podmiotu. Głowy są dwie i obie rządzą ramą czasownika:
+#: predykatyw — `trzeba` w `Trzeba czytać dokumenty.` — oraz forma `imps` —
+#: `zgłoszono` w `Zgłoszono usterkę.`
+#: Od rzeczownika orzekającego różni tę rolę kształt orzekania:
 #: tamten stoi w mianowniku i żąda okolicznika,
-#: a predykatyw rządzi tym, co rządziłby czasownik, i podmiotu nie ma.
+#: a te dwie rządzą tym, czym rządziłby czasownik, i podmiotu nie mają.
 #:
-#: Rola stoi obok `Verb`, a nie jest nią, bo predykatyw czasownikiem nie jest:
-#: osoby, liczby ani rodzaju nie niesie,
-#: więc `Verb: trzeba` mówiłoby o zdaniu,
-#: że ma orzeczenie zgodne z podmiotem, którego ono nie ma.
-#: Co wpuszczenie tej klasy kosztuje, mierzy
-#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+#: Rola stoi obok `Verb`, a nie jest nią, bo żadna z tych dwóch głów zgodności nie
+#: niesie: `Verb: trzeba` mówiłoby o zdaniu, że ma orzeczenie zgodne z podmiotem,
+#: którego ono nie ma, a `Verb: zgłoszono` dałoby `Zgłoszono program.` podmiot
+#: `program`, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
+#: Co wpuszczenie każdej z tych dwóch głów kosztuje, mierzą
+#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
+#: docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
 BEZOSOBOWY = "ImpersonalPredicate"
 
 #: Rola cząstki, czyli tej, która stoi przy zdaniu: `już`, `dopiero`, `także`.
@@ -503,12 +505,23 @@ CZĄSTKI = (
 #: bierze samą część mowy.
 CZĄSTKA = word("part", lemma=CZĄSTKI)
 
+
+def _bez_orzecznika(rama: str) -> str:
+    """Ta rama bez orzecznika zgodnego, czyli rama zdania, które podmiotu nie ma.
+
+    Orzecznik zgodny zgadza się z podmiotem, więc zdanie bez podmiotu nie ma go z
+    czym zgodzić: `Trzeba wolni.` nie jest niczym i `Zgłoszono tania.` też nie.
+    Pytają o to obie głowy roli :data:`BEZOSOBOWY`, a każda o inną ramę —
+    predykatyw o domyślną (:data:`RAMA_BEZOSOBOWA`), forma nieosobowa o ramę
+    swojego lematu — więc odejmowanie jest funkcją, a nie drugą stałą obok nich.
+    """
+    return ".".join(pozycja for pozycja in rama.split(".") if pozycja != "nom")
+
+
 #: Rama predykatywu (:data:`PREDYKATYWY`): domyślna bez orzecznika zgodnego.
 #: Wyliczona z domyślnej z tego samego powodu, z którego wylicza się z niej
-#: :data:`RAMA_BEZ_BIERNIKA`, a mianownika nie ma w niej dlatego, że orzecznik
-#: zgadza się z podmiotem, którego zdanie z predykatywem nie ma:
-#: `Trzeba wolni.` nie jest niczym.
-RAMA_BEZOSOBOWA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "nom")
+#: :data:`RAMA_BEZ_BIERNIKA`.
+RAMA_BEZOSOBOWA = _bez_orzecznika(RAMA_DOMYŚLNA)
 
 #: Predykatyw: słowo, które orzeka bez podmiotu i bez czasownika, a rządzi tym, co
 #: rządziłby czasownik. `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`,
@@ -953,15 +966,20 @@ def build() -> Grammar:
         "ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
     )
 
-    # Predykatyw wraz z tym, czym rządzi: `Trzeba czytać dokumenty.`, `Nie widać
-    # granicy.` Rama i `Complements` są te same, co u czasownika, a zdaniem składowym
-    # jest predykatyw wprost, bo `Predicate` ma ciało z podmiotem, którego to zdanie
-    # nie ma; wywód trzyma
-    # docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+    # Głowa, która orzeka bez podmiotu: predykatyw — `Trzeba czytać dokumenty.`,
+    # `Nie widać granicy.` — oraz forma nieosobowa czasownika — `Zgłoszono
+    # usterkę.`, `Nie mówiono o tym.` Rama i `Complements` są u obu te same, co u
+    # czasownika, a różni je to, skąd rama przychodzi: predykatyw ma jedną wpisaną
+    # obok listy lematów, a forma nieosobowa bierze ramę swojego lematu tak samo
+    # jak forma osobowa (:func:`_klasy`). Orzecznika zgodnego nie ma żadna z tych
+    # dwóch ram, bo zgadzać się on nie ma z czym (:func:`_bez_orzecznika`).
+    # Cząstka `się` stoi przy formie nieosobowej tak samo jak przy osobowej i pyta
+    # o ten sam leksykon zwrotny: `zajmowano się sprawą` jest tym samym
+    # czasownikiem co `zajmuje się sprawą`.
     #
-    # Ciało bez wypełnienia — `Nie wiadomo.` — jest osobne, bo jego zakup jest osobną
-    # liczbą; `Complements` pustego ciała nie ma, a dodane tam dawałoby je każdemu
-    # czasownikowi naraz.
+    # Wywody trzymają
+    # docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
+    # docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
     for przeczenie, negacja in PRZECZENIA:
         grammar.rule(
             BEZOSOBOWY,
@@ -969,6 +987,20 @@ def build() -> Grammar:
             valency=RAMA_BEZOSOBOWA,
             negacja=negacja,
         )
+        for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
+            for warunek, rama in _klasy(zwrotne):
+                grammar.rule(
+                    BEZOSOBOWY,
+                    [*przeczenie, Głowa(word("imps", **warunek)), *cząstka],
+                    valency=_bez_orzecznika(rama),
+                    negacja=negacja,
+                )
+
+    # Zdaniem składowym jest ta głowa wprost, bo `Predicate` ma ciało z podmiotem,
+    # którego to zdanie nie ma. Ciała są dwa, a nie jedno, bo zakup ciała bez
+    # wypełnienia — `Nie wiadomo.`, `Zgłoszono.` — jest osobną liczbą;
+    # `Complements` pustego ciała nie ma, a dodane tam dawałoby je każdemu
+    # czasownikowi naraz.
     grammar.rule(
         "ClauseConjunct",
         [
