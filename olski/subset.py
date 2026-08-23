@@ -444,6 +444,19 @@ POPRZEDNIK = {"number": V("nz"), "gender": V("gz")}
 #: docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza.
 BEZ_CZOŁA = "żadne"
 
+#: Wartości cechy `dostawka`, czyli tego, czy za zdaniem składowym coś już stoi.
+#: Konstytuent dostawiony za zdanie wypuszcza :data:`DOSTAWKA`, a konstytuent
+#: wysunięty przed zdanie żąda :data:`BEZ_DOSTAWKI` od swojego gospodarza, więc
+#: wysunięty wchodzi pod dostawiony i nigdy nad niego. Zdanie składowe, które nie
+#: ma ani jednego, ani drugiego, cechy tej nie niesie, a cechy nieobecnej
+#: unifikacja nie sprawdza, więc żądanie przez takie zdanie przechodzi.
+#:
+#: Bez tego żądania jeden napis wyprowadza się dwoma kształtami; co je różni, czego
+#: nie różni i dlaczego warunek stoi tutaj, wywodzi
+#: docs/subset.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim.
+DOSTAWKA = "jest"
+BEZ_DOSTAWKI = "brak"
+
 
 def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     """Druga para cech czoła zdania względnego: liczba i rodzaj jego zaimka.
@@ -1229,6 +1242,7 @@ def build() -> Grammar:
             "ClauseConjunct",
             [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(dostawiony)],
             tryb=V("t"),
+            dostawka=DOSTAWKA,
         )
 
     # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
@@ -1240,13 +1254,13 @@ def build() -> Grammar:
     # kształtu, czyli czytanie, którego nie ma czym odsiać.
     grammar.rule(
         "ClauseConjunct",
-        [nt("Modifier"), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+        [nt("Modifier"), Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
         tryb=V("t"),
     )
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
         grammar.rule(
             "ClauseConjunct",
-            [nt(przy_zdaniu), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+            [nt(przy_zdaniu), Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
             tryb=V("t"),
         )
 
@@ -1395,10 +1409,14 @@ def build() -> Grammar:
         "ClauseConjunct",
         [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(OKOLICZNIKOWY, pozycja="za")],
         tryb=V("t"),
+        dostawka=DOSTAWKA,
     )
     grammar.rule(
         "ClauseConjunct",
-        [nt(OKOLICZNIKOWY, pozycja="przed"), Głowa(nt("ClauseConjunct", tryb=V("t")))],
+        [
+            nt(OKOLICZNIKOWY, pozycja="przed"),
+            Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI)),
+        ],
         tryb=V("t"),
     )
 
