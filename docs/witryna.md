@@ -60,8 +60,8 @@ przychodzą z `DEKLARACJA` w `olski/subset.py` i zostają takie, jakie przyszły
 Strona jest klientem API, a nie jego wnętrzem.
 Serwer oddaje JSON, więc odpowiada tak samo curlowi i przeglądarce,
 a strona wybiera, co z tych danych pokazać:
-zdanie olskie dostaje jedno czytanie rozwinięte,
-a zdanie o sześciuset czytaniach dostaje je zwinięte pod liczbą.
+zdanie olskie dostaje swoje jedno czytanie rozwinięte,
+a zdanie, którego streszczeń jest kilka, dostaje je zwinięte pod podpisem.
 
 Odrzucone zostało oddawanie fragmentów HTML,
 czyli to, co robi się dziś htmxem.
@@ -159,6 +159,8 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
     }
    ],
    "liczba_czytań": 1,
+   "urwane": false,
+   "rozbieżne": [],
    "dalsze_zatrzymania": [],
    "domysły": []
   }
@@ -174,9 +176,15 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
 }
 ```
 
-Czytań lista niesie najwyżej `MAX_READINGS` z `olski/parse.py`,
-a `liczba_czytań` wychodzi z lasu i granicy tej nie podlega,
-więc przy zwoju stoją obie liczby: ile czytań strona pokazuje i ile ich jest.
+Lista pod kluczem `czytania` niesie streszczenia różne, każde raz
+(`Verdict.readings` w `olski/subset.py`),
+a `liczba_czytań` wychodzi z lasu i mówi, ile czytań zdanie ma.
+Jedna z drugiej się przez to nie wylicza,
+więc o granicy wyliczania z `MAX_READINGS` w `olski/parse.py`
+mówi osobne pole `urwane`, a strona wpisuje je do podpisu zwoju.
+Pod `rozbieżne` idą konstytuenty, których wieloznaczność ta lista zostawia
+nienazwaną, wraz ze streszczeniami ich kształtów,
+a strona daje każdemu z nich własny spis pod tym samym zwojem.
 Granicę znaków oddaje sama odpowiedź, bo licznik pod polem liczy przy niej,
 a wpisana w skrypcie byłaby drugą kopią liczby z serwera.
 

@@ -245,6 +245,17 @@ ol.czytanie-lista li { margin: 0.2rem 0; }
 
 .czytanie-lista .rola:not(:first-child) { margin-left: 0.5rem; }
 
+/*  Czytania konstytuentu stoją pod spisem czytań zdania i mówią o mniejszym
+    kawałku, więc podpis nad nimi odcina je od tego spisu. */
+.rozbieżny { margin: 0.5rem 0 0; }
+
+.rozbieżny .podpis {
+  display: block;
+  font-family: var(--pismo);
+  font-size: 0.75rem;
+  color: var(--przygasły);
+}
+
 /*  Domysł nie jest werdyktem, więc stoi za znakiem zapytania i osobnym
     podpisem: warstwa rozstrzygająca zgaduje, a nie orzeka. */
 .domysły {

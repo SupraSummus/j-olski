@@ -35,7 +35,7 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, field
-from itertools import product
+from itertools import islice, product
 
 from olski.grammar import (
     EMPTY,
@@ -254,12 +254,25 @@ class Rozbieżność:
     Nazwałby to, czego liczba czytań obok niego nie liczy:
     część mowy i lemat są z tożsamości czytania wyłączone rozmyślnie
     (:meth:`Node.signature`), więc dwa czytania różne samym lematem są jednym.
+
+    Streszczenia niesie wpis dlatego, że streszczenie zdania ich nie niesie:
+    rola z wnętrza zdania podrzędnego jest rolą tego zdania, a nie tego nad nim,
+    więc dopiero streszczone osobno mówi, czym te czytania się różnią —
+    w ``Ustawa mówi, że organ gminy wydaje przepis.``
+    podmiotem jest raz ``organ gminy``, a raz ``przepis``.
+    Grupa imienna roli zdania nie nosi, więc oba jej kształty streszczają się
+    pustym słownikiem i po odsianiu powtórzeń zostaje z nich jedno streszczenie:
+    różnicę niesie tam głowa, której streszczenie nie nazywa (``TODO.md``).
     """
 
     #: Formy konstytuenta, czyli to, co autor ma przepisać.
     konstytuent: str
     #: Ile czytań ten konstytuent ma, liczone tak jak :attr:`Result.ile` liczy zdanie.
     ile: int
+    #: Streszczenia tych czytań, każde raz (:func:`streszczenia`).
+    #: Pola bez wartości domyślnej, bo jedno streszczenie jest tu twierdzeniem
+    #: o konstytuencie: znaczy, że streszczenie tej różnicy nie widzi.
+    czytania: tuple[dict[str, str], ...]
 
 
 @dataclass(frozen=True)
@@ -1181,8 +1194,22 @@ class Las:
         Dlatego urwanie po :data:`MAX_READINGS` kosztuje tyle, ile wypisane drzewa,
         i nic ponad to.
         """
-        for klasa in self.klasy(self.korzeń):
-            yield from self._drzewa(self.korzeń, klasa, _jedne(klasa))
+        return self._kształty(self.korzeń)
+
+    def _kształty(self, pozycja: Pozycja) -> Iterator[Node]:
+        """Drzewa tego konstytuentu, po jednym na kształt.
+
+        Klasa, której żaden rodzic nie przyjmuje, nie wchodzi (:meth:`_żywe`),
+        więc drzew wychodzi tyle, ile mówi :meth:`_ile_kształtów`:
+        kształty pod taką klasą stoją w tablicy,
+        a w żadnym czytaniu zdania nie stoją.
+        Korzeń przechodzi przez ten odsiew bez straty, bo jego klasy są żywe wszystkie,
+        i dlatego czytania zdania idą tą samą drogą.
+        """
+        żywe = self._żywe()
+        for klasa in self.klasy(pozycja):
+            if (pozycja, klasa) in żywe:
+                yield from self._drzewa(pozycja, klasa, _jedne(klasa))
 
     def _drzewa(self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy) -> Iterator[Node]:
         """Drzewa tej pozycji, wypuszczające te cechy: po jednym na kształt pod tą klasą.
@@ -1592,6 +1619,10 @@ class Las:
             Rozbieżność(
                 sklej_formy(self._przedstawiciel(pozycja).forms()),
                 self._ile_kształtów(pozycja),
+                #  Kształtów wyliczamy tyle, ile czytań wylicza się nad zdaniem,
+                #  bo granica jest tu z tego samego powodu: wieloznaczność
+                #  konstytuentu mnoży się jak wieloznaczność zdania.
+                tuple(streszczenia(islice(self._kształty(pozycja), MAX_READINGS), deklaracja)),
             )
             for pozycja in sorted(wybrani, key=lambda p: (p.span, p.label))
         ]
@@ -1823,7 +1854,9 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     Nazwane jest pierwsze wystąpienie roli i tylko ono,
     więc dwa czytania różne miejscem drugiego okolicznika tej samej roli
     wychodzą stąd jednym napisem.
-    Streszczenie jest po to jedno na czytanie, a wierszy jest tyle, ile czytań;
+    Streszczenie jest po to jedno na czytanie,
+    a wierszy wychodzi nie więcej niż czytań, bo powtórzone na listę nie wchodzi
+    (``Verdict.readings`` w ``olski/subset.py``);
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
 
@@ -1834,7 +1867,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     więc każda rola jest z tego składowego, w którym pada pierwszy raz.
     Znak :data:`SĄSIEDNIE_ZDANIE_SKŁADOWE` jest po tej stronie roli,
     po której zdanie ma jeszcze składowe, i tylko tyle o nich mówi:
-    wierszy jest tyle, ile czytań, i tego znak nie rusza
+    osobnego wiersza zdanie składowe nie dostaje
     (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
     Znak przylega przy tym do wypełnienia i poprzedza gospodarza,
     bo dopisany za jego nazwą czyta się jak jej część.
@@ -1851,6 +1884,23 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
             napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
         streszczenie[rola] = napis
     return streszczenie
+
+
+def streszczenia(drzewa: Iterable[Node], deklaracja: Deklaracja) -> list[dict[str, str]]:
+    """Streszczenia tych drzew, każde raz i w kolejności pierwszego wystąpienia.
+
+    Dwa drzewa różne poza zasięgiem :func:`describe` wychodzą z niego jednym
+    napisem, a napis wypisany drugi raz nie mówi nic ponad ten nad sobą.
+    Wołają to dwa miejsca — czytania zdania i kształty konstytuentu — i pierwsze
+    z nich pokazuje, ile powtórzeń bywa: zdanie o siedmiu wyrażeniach
+    przyimkowych ma czytań ponad sto, a napisów różnych kilka.
+    """
+    wynik: list[dict[str, str]] = []
+    for drzewo in drzewa:
+        streszczenie = describe(drzewo, deklaracja)
+        if streszczenie not in wynik:
+            wynik.append(streszczenie)
+    return wynik
 
 
 def _składowe(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:

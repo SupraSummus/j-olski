@@ -983,6 +983,29 @@ przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
+Przedstawiciel pozycji może stać w klasie, której żadne czytanie nie bierze.
+`_przedstawiciel` w `olski/parse.py` bierze pierwsze drzewo pozycji bez odsiewu po
+klasach żywych, a `_kształty` obok niego ten odsiew ma, więc nazwa konstytuenta
+bierze się czasem z kształtu, którego werdykt nie liczy.
+Rozpiętość jest w obu ta sama, więc formy różni w nich tylko podział na segmenty.
+Ruchem jest `next(self._kształty(pozycja))` w miejsce tamtej pętli, a przeszkodą
+pozycja bez ani jednej klasy żywej: dziś oddaje nazwę, a wtedy podniosłaby wyjątek.
+Do przeczytania jest, czy nad Składnicą taka pozycja pada i czy pada z innymi formami,
+bo od tego zależy, czy to usterka, czy sam porządek w kodzie.
+
+Grupa imienna rozbieżna zostaje bez listy czytań, bo streszczenie nie ma w niej czego nazwać.
+`Verdict.rozbieżne` w `olski/subset.py` wypuszcza konstytuent,
+którego streszczenia naprawdę się różnią, czyli zdanie podrzędne, a grupy imiennej nie:
+`describe` w `olski/parse.py` szuka ról zdania, a grupa imienna żadnej nie nosi,
+więc oba jej kształty streszczają się pustym słownikiem.
+Różnica siedzi tam w głowie — raz `rada` z przydawką `zainteresowana`,
+raz `zainteresowana` z przymiotnikiem `rada` i dopełniaczem `gminy` —
+więc ruchem jest drugie streszczenie, to o grupie imiennej:
+głowa oraz to, czym są słowa stojące obok niej.
+Tej samej nazwy żąda wpis o gospodarzu o dwóch głowach, a wydać ją raz jest taniej.
+Do przeczytania jest, ile wierszy `„…” reads N ways` rejestr ustaw wydaje nad grupą
+imienną, a ile nad zdaniem podrzędnym, bo pierwsza z tych liczb jest ceną milczenia.
+
 Czas przeszły zostawił za sobą resztkę wiersza `praet`, której nikt nie przeczytał.
 `praet` prowadził kolejkę blokerów,
 a po dopisaniu tej formy do `Verb` w `olski/subset.py` wiersz zmalał o rząd wielkości
