@@ -321,6 +321,19 @@ Do przeczytania jest ten trzeci:
 czytania Walentego nie powtarza żaden dokument,
 więc stoi on najbliżej granicy i on mówi, ile ten ruch jest wart.
 
+Przecinek przed `i` stoi w tej prozie setki razy i nie wiadomo, ile z tych miejsc
+jest poprawnych. Polska interpunkcja stawia go tam tylko wtedy, gdy domyka zdanie
+podrzędne albo wtrącenie, a w `docs/architecture.md` pięć zdań miało go bez żadnego
+z tych dwóch powodów; znalazł je werdykt `rejected`, bo o interpunkcji nie mówi tu
+ani jedna reguła prozy
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#odrzucenie-bywa-poprawką)).
+Ruchem jest przejść wystąpienia `, i` w prozie polskiej tego repozytorium i skasować
+te, które niczego nie domykają.
+Do przeczytania jest samo zdanie przy każdym z nich, bo tego nie policzy żaden
+przebieg: olski odrzuca zarazem zdania, w których ten przecinek jest na miejscu,
+a zawodzi coś innego, więc werdykt sam wystąpień nie rozdziela.
+Sesja dzieli się po plikach, bo każde wystąpienie rozstrzyga się osobno.
+
 ## Komendy i sondy
 
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
@@ -586,6 +599,20 @@ a komunikat o pomyłce zostaje przy wołającym, bo nazwa programu jest jego.
 Do przeczytania jest `uruchom` w `harness/komenda.py` obok `main` w
 `olski/coverage.py`: pierwszy woła sondę przez `Komenda`, drugi drukuje sam,
 więc wspólna jest sama odpowiedź na pytanie „katalog czy pliki”, a nie przebieg.
+
+Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamkniętymi
+nie da się jej przeczytać: `i` i `a` wychodzą w niej jako `interj`, bo wiersz nazywa
+pierwsze czytanie, które dał Morfeusz
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
+Dwie najczęstsze formy tego rejestru chowają się przez to pod nazwą, która nie mówi
+o żadnej konstrukcji, a wiersz `interj` stoi wysoko w kolejce nad tą prozą.
+Ruchem jest `Outcome.blocker` w `olski/coverage.py` nazywający formę tam, gdzie każde
+jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/subset.py`),
+a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
+Do przeczytania jest, co taki wiersz zrobi z tabelami, które ten wydruk cytują —
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) czyta wiersze `interp`
+i `part` po nazwie — bo przemianowany wiersz żąda przeliczenia obu przebiegów
+nad bankiem drzew, a nie samego dopisania zdania.
 
 ## Korpusy, ekstrakcja i figury
 
@@ -2008,6 +2035,74 @@ Ciała są dwa, po jednym na imiesłów, więc kształt zdejmuje się po jednym
 i przelicza obie liczby; sonda różnicowa robi to nad `harness/ruch.py`.
 Gdzie pomyłki się rozchodzą, całą zmianą jest zdanie o tym w tamtej sekcji,
 bo wtedy cena jest ceną przydawki, a nie jednego z dwóch imiesłowów.
+
+Pytanie zależne z `kto` albo `co` wychodzi ciągiem dwóch zdań współrzędnych,
+czyli czytaniem, którego polszczyzna nie ma: `Pyta, kto płaci.` jest dziś `valid`
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
+Morfeusz czyta oba słowa jako zaimki rzeczowne, a przecinek koordynuje zdania,
+więc zaimek staje podmiotem drugiego składowego i nic tego czytania nie odsiewa.
+Werdykt jest przez to gorszy od odrzucenia, którym kończą pozostałe słowa pytające,
+bo `valid` czytelnik przyjmuje bez sprawdzania
+([`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)).
+Ruchem jest czoło pytania na te dwa zaimki, czyli grupa pytajna bez rzeczownika
+przy zaimku, wraz z wykluczeniem obu z pozycji rzeczownej — bez wykluczenia jeden
+napis ma dwa wyprowadzenia, a wykluczenie samo zabiera tylko drugie czytanie
+nieprawdziwe, bo `Kto to napisał, wie autor.` wychodzi dziś tym samym ciągiem
+współrzędnym.
+Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok `PYTAJNY`:
+pytanie ma dziś czoło o kształcie zaimka przy rzeczowniku,
+a te dwa zaimka stoją same, więc jest to drugie czoło tej rodziny, a nie druga lista.
+
+Ciągu współrzędnego przymiotników przy rzeczowniku olski nie ma w żadnym z dwóch
+szyków przydawki: `Nowy i tani parser zapisuje ustawienia.` pada tak samo jak
+`Warstwy trzecia i czwarta pracują.`
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakowało-najbardziej)).
+Koordynacja stoi na trzech poziomach — grupa imienna, grupa przymiotnikowa i zdanie
+([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)) —
+a przydawka nie jest żadnym z nich: ciała grupy imiennej biorą pojedynczy `Adjective`.
+Ruchem jest poziom członu pod przydawką, czyli para symboli taka, jaką grupa imienna
+ma dziś w `NP` i `NPConjunct`, bo `Adjective` jest już członem i produkcja nad samym
+sobą dałaby `a i b i c` dwa wyprowadzenia.
+Szyk drugi żąda ponadto liczby wypuszczanej wartością, a nie zmienną wspólną:
+`warstwy` jest mnogie, a `trzecia` pojedyncza, więc ciąg mówi o sobie `pl`,
+tak samo jak ciąg imienny i jak grupa liczebnikowa
+([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
+Do przeczytania jest, czy ciało rozdzielne wolno wpuścić w szyku pierwszym:
+`trzecia i czwarta warstwy` polszczyzną nie jest, więc pozycja przed rzeczownikiem
+żąda cechy, która je tam zatrzyma, albo pomiar powie, że nie warto.
+
+Człon bez czasownika stoi tylko na końcu zdania składowego, więc `Skład, czyli
+Morfeusz, jest tani.` pada, gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+Pozycja w środku zdania jest tą samą pozycją, której żąda para myślników,
+więc oba wpisy zamyka jedna sesja, a nie dwie:
+wtrącenie w środku wylicza rozwinięcie szyku, a nie osobne ciało na każdy znak.
+Do przeczytania jest, ile czytań ta pozycja dokłada zdaniu, które ten człon stawia
+na końcu, bo tam da się go przyłączyć do zdania składowego i do zdania nad nim.
+
+`zatem` i `więc` na czele swojego zdania nie mają pozycji bez przecinka przed sobą:
+`Zatem milczenie jest wartością.` pada, a `Cena jest niska, więc gramatyka jest tania.`
+wyprowadza się
+([`docs/subset.md`](docs/subset.md#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)).
+Pozycji tej celowo nie dała pozycja wewnątrz zdania, bo czoło dałoby zdaniu
+z przecinkiem drugie czytanie tego samego kształtu.
+Ruchem jest ciało `Sentence` z tym spójnikiem przed zdaniem, a nie ciało `Clause`:
+na poziomie zdania składowego nie ma go jak odgraniczyć od koordynacji.
+Do przeczytania jest wpis o spójniku otwierającym zdanie
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)),
+bo `I nikt tego nie zauważył.` żąda tego samego ciała i obie konstrukcje
+zamknęłaby jedna produkcja, jeśli lista lematów jest w nich ta sama.
+
+Spójnika skorelowanego — `ani … ani`, `i … i`, `czy … czy` — olski nie ma:
+`Werdykt ani nie wnosi, ani nie zdejmuje.` pada, gdzie `Werdykt nie wnosi
+i nie zdejmuje.` wyprowadza się
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakowało-najbardziej)).
+Koordynacja olskiego stawia spójnik między członami i stawia go raz,
+a polszczyzna powtarza go przed każdym członem i przed drugim żąda przecinka,
+więc jest to trzecie ciało koordynacji, a nie druga lista lematów.
+Do przeczytania jest, czy powtórzony spójnik ma stanąć na wszystkich trzech
+poziomach naraz, bo `ani jedno zdanie, ani drugie` jest grupą imienną,
+a cena każdego poziomu jest osobną liczbą.
 
 ## Skład i opowieści
 

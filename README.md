@@ -130,7 +130,7 @@ python3 -m olski.check --zatrzymania -c "Nowa program zapisuje ustawienia, i lin
 
 Cięcie nie jest granicą konstrukcji.
 Po co ta flaga jest, mówi
-[docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim).
+[docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz).
 
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).
@@ -241,7 +241,7 @@ plan i otwarte pytania.
   i czego brakuje w leksykonie.
 - [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md)
   zbiera feedback z fotela użytkownika.
-  Pierwsza sesja pisała pod tę gramatykę, a druga dopisywała brakujące pozycje.
+  Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
 - [docs/corpus.md](docs/corpus.md) mierzy gramatykę na Składnicy.
   Mówi, co daje pierwszy pomiar i czego nie dowodzi liczba pokrycia.
   Składnica jest tam bankiem drzew.

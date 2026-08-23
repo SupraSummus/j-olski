@@ -43,11 +43,11 @@ a wspólne mają dwie z nich.
 
 Nazwy trzeciej i czwartej warstwy nie są nazwami mechanizmu, a poziomu,
 na którym pytanie o wieloznaczność przestaje mieć tę samą odpowiedź.
-Dwa czytania różne kształtem znaczą czasem to samo,
+Dwa czytania różne kształtem znaczą czasem to samo
 i o tym mówi warstwa trzecia,
 której kryterium tożsamości opisuje
 [subset.md](subset.md#co-się-liczy-jako-jedno-czytanie).
-Dwa czytania różne znaczeniem bywają rozstrzygnięte przez zdanie obok,
+Dwa czytania różne znaczeniem bywają rozstrzygnięte przez zdanie obok
 i o tym mówi warstwa czwarta,
 a co takie zdanie rozstrzyga, wycenia
 [disambiguation.md](disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem).
@@ -107,7 +107,7 @@ czyli dokładnie to przyłączenie, o które w tym pytaniu chodzi.
 Warstwa trzecia zameldowanej wieloznaczności zatem nie zdejmuje,
 tylko jej nie dosięga.
 Nad tymi zdaniami, nad którymi ją dosięga, wieloznaczność zostaje:
-czytania wracają drzewami rozłącznymi w każdym z nich,
+czytania wracają drzewami rozłącznymi w każdym z nich
 i mówią to obie morfologie, choć żywa daje pytaniu populację kilka razy większą.
 
 Druga odpowiedź jest o tym, jak ten pomiar wolno postawić.
@@ -115,7 +115,7 @@ Zdanie o jednym czytaniu wraca z tej warstwy kilkoma drzewami, najczęściej czt
 bo napis milczy o relacji przyimka i o znaczniku tematu
 ([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
 więc liczba drzew mierzy tę ciszę tak samo jak wieloznaczność.
-Rozdziela je dopiero porównanie zbiorów drzew czytania z czytaniem,
+Rozdziela je dopiero porównanie zbiorów drzew czytania z czytaniem
 i na tym kryterium stoi ta sonda.
 
 Kolejność warstw jest zatem tym miejscem,
@@ -203,5 +203,5 @@ dołożyłaby każdej stronie warstwę, której ta strona nie potrzebuje.
 
 Wspólny typ kupuje przy tym wzorzec, którego bank drzew nie daje.
 Drzewo, z którego skład wypuszcza napis, zna czytanie, o które chodziło,
-więc obieg zamknięty mierzy warstwę czwartą bez anotatora,
+więc obieg zamknięty mierzy warstwę czwartą bez anotatora
 i wycenia to [disambiguation.md](disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie).

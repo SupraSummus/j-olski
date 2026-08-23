@@ -350,6 +350,21 @@ czytanie o samym `praep` zostaje tam,
 gdzie w węźle otwierającym tę krawędź kończy się krawędź z czytaniem przyimkowym,
 a poza tym schodzi.
 
+Licencji udziela przy tym przyimek, który ta gramatyka bierze,
+a nie każda forma z czytaniem przyimkowym,
+więc wykluczenie rozdzielającego `a` stoi i tutaj, nie tylko na terminalu
+([niżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+Bez tego warunku `Cena jest niska, a nie.` się wyprowadza:
+Morfeusz czyta `a` jako przyimek, więc licencjonuje `nie` stojące za nim,
+a wyrażenia przyimkowego z tego `a` nie ma jak zbudować,
+czyli licencji udzielała pozycja, której nikt nie zajmuje.
+Zdanie po zdaniu widać to dopiero razem z członem bez czasownika
+([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)),
+bo dopiero on daje `, a` cokolwiek za sobą.
+Kosztuje ten warunek pojedyncze zdania tej prozy i oba czytania, które zdjął,
+były nieprawdziwe: `a nie` wychodziło w nich spójnikiem i zaimkiem
+w zdaniu, którego dalsza część potyka się o co innego.
+
 Dwie drogi obok tej odpadły, każda na czym innym.
 Terminal wypowiada warunek o parze wiązek cech,
 a przyimek stoi nad zaimkiem przez całą grupę imienną,
@@ -678,16 +693,27 @@ a ruch trzyma [TODO.md](../TODO.md).
   derives
 - Przecinek zamykający zdanie podrzędne przed spójnikiem bez przecinka:
   `Dokument mówi, że cena jest niska, i liczy cenę.`
-  Znak ten należy do zdania podrzędnego, a nie do koordynacji nad nim,
-  i to jest jedyny przecinek stojący w tym rejestrze przed `i`;
+  Znak ten należy do zdania podrzędnego, a nie do koordynacji nad nim;
   wywód trzyma
   [poniżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)
+- Człon, którego czasownik ten rejestr opuszcza:
+  `Milczenie obejmuje wybór, a nie zdanie.`,
+  `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
+  Rolą jest cały ten człon, a czemu on przeczy albo co powtarza,
+  gramatyka nie mówi; wywód i cenę trzyma
+  [poniżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)
+- Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
+  `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
+  Trzy lematy tej listy — `bowiem`, `zaś` i `jednak` — czoła nie zajmują wcale,
+  więc dopiero ta pozycja wpuszcza je do gramatyki; wywód trzyma
+  [poniżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)
 - A colon opening a clause, which is how this register introduces an explanation:
   `Cena jest niska: gramatyka jest bezkontekstowa.`
   It stands above coordination rather than in it,
-  so `A, B: C.` reads as `(A, B): C`,
-  and what it does not take is the colon that opens an enumeration
-  ([below](#what-it-does-not-cover-yet)).
+  so `A, B: C.` reads as `(A, B): C`.
+  A noun phrase stands there as readily as a clause —
+  `Gramatyka ma dwie role: podmiot i dopełnienie.` —
+  and it is a second body rather than a wider symbol.
   The semicolon and the dash separate at that same level and by that same body,
   and the dash takes two of the three characters Polish writes it with,
   the hyphen having a job of its own inside a word
@@ -1122,13 +1148,27 @@ bo w jednym i w drugim po którejś ze stron roli zdanie ma jeszcze jedno skład
 
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
 a wynika to z gramatyki, nie z przebiegu.
-Dwukropek wchodzi w jedno ciało i nie bierze go żaden inny terminal,
-więc zdanie z dwukropkiem albo wyprowadza się tą produkcją, albo nie ma czytania wcale,
-a zdania bez dwukropka ta produkcja nie dotyczy.
+Dwukropek wchodzi w dwa ciała i nie bierze go żaden inny terminal,
+a te dwa żądają za nim symboli rozłącznych: jedno zdania, drugie grupy imiennej.
+Grupa imienna zdaniem nie jest, więc napis wzięty jednym z tych ciał
+nie ma wyprowadzenia drugim, a zdania bez dwukropka żadne z nich nie dotyczy.
 Zero po stronie ceny jest przez to wyprowadzone, a nie zmierzone,
 i pilnuje tego `tests/test_subset.py`:
-dwukropek bierze dokładnie jedna produkcja,
-a druga zamieniłaby to zero w liczbę, którą trzeba by policzyć.
+za dwukropkiem stoją dokładnie te dwa symbole,
+a trzeci zamieniłby to zero w liczbę, którą trzeba by policzyć.
+
+**Za dwukropkiem stoi zdanie albo grupa imienna.**
+`Gramatyka ma dwie role: podmiot i dopełnienie.` wylicza to,
+co zdanie przed dwukropkiem nazwało liczbą albo terminem,
+a wylicza jednym ciągiem współrzędnym, więc grupa bierze tę pozycję cała.
+Ciało jest osobne od zdaniowego, bo cena każdego z nich jest osobną liczbą,
+a kupuje ono pojedyncze zdania tej prozy: konstrukcja jest częsta,
+lecz zdania, które ją niosą, potykają się jeszcze o co innego.
+Rolą jest cała ta grupa, tak samo jak przy wtrąceniu w nawiasie,
+i tyle właśnie werdykt o niej mówi:
+do którego składnika zdania ona się odnosi, gramatyka nie rozstrzyga,
+i jest to ta sama odmowa, którą wydaje o członie bez czasownika
+([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
 
 **Średnik rozdziela tak samo jak dwukropek i tak samo nie kosztuje nic.**
 `Program zapisuje ustawienia; cena jest niska.` wyprowadza się ciałem
@@ -1154,7 +1194,7 @@ zdanie, które myślnik pisze łącznikiem, zostaje odrzucone.
 Drugiego znaku rozdzielającego zdanie nie bierze — ani dwóch średników, ani
 średnika razem z dwukropkiem — bo `Clause` żadnego z nich nie ma, więc rekurencji
 nie ma czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
-[niżej](#what-it-does-not-cover-yet) razem z dwukropkiem wyliczenia.
+[niżej](#what-it-does-not-cover-yet).
 Najwięcej kosztuje ona przy myślniku, bo ten rejestr stawia go parą częściej
 niż pojedynczo, a para obejmuje wtrącenie w środku zdania,
 zamiast rozdzielać dwa zdania.
@@ -1166,6 +1206,13 @@ i rozstrzyga o tym sam spójnik, a nie miejsce, w którym pada.
 Spójnik zdaniowy rozdziela się przez to na dwie klasy,
 a drugą wyznacza warunek ujemny na pierwszą, bo klasy nie mają się zachodzić:
 lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma ona jeden.
+Klasa bez przecinka wyklucza ponadto cząstkę przeczącą, i to jest to samo
+wykluczenie o jeden lemat szersze: Morfeusz czyta `nie` także jako spójnik,
+a gramatyka ma dla tej formy pozycję przy czasowniku,
+więc bez tego warunku `Zgodności ta pozycja nie ma i mieć nie może.`
+wychodzi dwoma zdaniami spiętymi przez `nie`.
+Warunek zabiera pojedyncze zdania tej prozy i każde z nich wyprowadzało się
+właśnie tak, czyli czytaniem, którego polszczyzna nie ma.
 Klasa z przecinkiem jest zamkniętą listą —
 `ale`, `a`, `lecz`, `natomiast`, `więc`, `zatem`, `toteż`, `czyli` —
 i obejmuje dwie części mowy naraz,
@@ -1175,6 +1222,8 @@ a o interpunkcji przed nimi ten podział nie mówi nic.
 polszczyzna stawia je za pierwszym wyrazem — `linter zaś sprawdza tekst` —
 i jest to ten sam warunek, którym lista spójników okolicznikowych wyklucza `bowiem`
 ([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+Te trzy lematy bierze pozycja wewnątrz zdania i ona jedna
+([wyżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)).
 Lemat pominięty na liście zostaje przy pozycji bez przecinka,
 więc pominięcie nie odbiera ani jednego zdania.
 
@@ -1188,9 +1237,11 @@ bo `nie polszczyzny, a dziedziny` jest w nich elipsą, a nie ciągiem współrz�
 Lemat dopisany do listy odbiera przez to napis bez przecinka:
 `Skład czyli Morfeusz jest tani.` wyprowadzało się, dopóki `czyli` stało w klasie
 bez przecinka, a polszczyzna ten znak przed nim stawia.
-Dopowiedzenia z `czyli` żadna z tych dwóch pozycji nie daje
-([niżej](#what-it-does-not-cover-yet)): dopowiedzenie odnosi się do składnika
-zdania, a koordynacja zdaniowa łączy dwa zdania.
+Dopowiedzenia z `czyli` żadna z tych dwóch pozycji nie daje,
+bo dopowiedzenie odnosi się do składnika zdania,
+a koordynacja zdaniowa łączy dwa zdania;
+daje je człon bez czasownika
+([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
 Zawężenie tych dwóch poziomów nie rusza ani jednego zdania w żadnym z trzech
 rejestrów — ani nad Składnicą, ani nad README, ani nad ustawami —
 więc płaci za nie sam werdykt, który przedtem kłamał pewnie.
@@ -1201,9 +1252,119 @@ a warunek ten pada na lemat przyimka, a nie na produkcję
 Morfeusz czyta `a` także jako przyimek,
 więc każde `, a` w zdaniu wychodziło okolicznikiem wysuniętym drugiego składowego.
 
-Poza gramatyką zostają dwie rzeczy, obie zapisane
-[niżej](#what-it-does-not-cover-yet):
-dwukropek otwierający wyliczenie i ciąg dwóch znaków rozdzielających.
+Poza gramatyką zostaje ciąg dwóch znaków rozdzielających, zapisany
+[niżej](#what-it-does-not-cover-yet).
+
+## Człon bez czasownika stoi za spójnikiem, który go bierze
+
+Ten rejestr dokumentuje podzbiór przez to, czego w nim nie ma,
+więc `a nie` oraz `czyli` niosą setki zdań tej prozy,
+a za tym spójnikiem stoi sam człon, bez powtórzonego czasownika:
+`Milczenie obejmuje wybór, a nie zdanie.`
+Olski żądał tam zdania współrzędnego i dlatego takie zdanie odrzucał,
+choć `Milczenie obejmuje wybór.` przyjmował.
+
+Konstrukcja jest elipsą, a nie koordynacją,
+i rozstrzyga o tym pozycja, którą ten człon zajmuje:
+żadnej. `wybór` jest dopełnieniem, a `zdanie` mówi, czym dopełnienie nie jest,
+więc wpuszczone jako drugi człon ciągu imiennego wychodziłoby drugim dopełnieniem
+i zdanie przyjęte mówiłoby o sobie nieprawdę.
+Stoi więc obok zdania składowego, tam gdzie wtrącenie w nawiasie,
+i tak samo nazywa się całym napisem
+([niżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+
+**Czemu ten człon przeczy, gramatyka nie mówi.**
+`Milczenie obejmuje wybór, a nie zdanie.` przeciwstawia dopełnieniu,
+a `Wybór obejmuje milczenie, a nie zdanie.` przeciwstawia albo dopełnieniu,
+albo podmiotowi, i rozstrzyga o tym znaczenie, a nie kształt.
+Jest to ta sama odmowa, którą olski wydaje o przyłączeniu
+([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
+z jedną różnicą: przyłączenie olski melduje jako wieloznaczność,
+bo gramatyka ma tam kilka wyprowadzeń,
+a tutaj wyprowadzenie jest jedno i milczy o tym, do czego człon się odnosi.
+Werdykt nazywa więc rolę `Ellipsis` i wypisuje pod nią cały napis.
+
+**Spójnik rozstrzyga, czy ten człon wchodzi, i lista jest węższa od zdaniowej.**
+`a`, `ale`, `lecz`, `natomiast`, `tylko` i `czyli` biorą człon bez czasownika,
+a `więc`, `zatem` i `toteż` go nie biorą,
+bo `Cena jest niska, więc gramatyka.` polszczyzną nie jest.
+Podział ten nie jest oszczędnością, tylko obietnicą podzbioru:
+lista wzięta cała wyprowadzałaby napis, którego polszczyzna nie ma.
+`czyli` stoi na liście po jednej stronie z `a nie`,
+choć jedno przeczy, a drugie powtarza to samo innymi słowami:
+różnicy tej gramatyka nie widzi, a rola nazywa kształt, nie funkcję.
+Dopowiedzenie z `czyli` schodzi tym samym z kolejki w postaci,
+w której ten rejestr pisze je najczęściej — na końcu zdania —
+a postać wtrącona, `Skład, czyli Morfeusz, jest tani.`, zostaje
+([niżej](#what-it-does-not-cover-yet)).
+
+**Wypełnienia są trzy i każde ma cenę osobną.**
+Grupa imienna, grupa przymiotnikowa i wyrażenie przyimkowe wchodzą osobnymi
+ciałami, bo cena każdego z nich ma być osobną liczbą, i te liczby się rozchodzą:
+nad polską prozą tego repozytorium grupa imienna kupuje kilkadziesiąt zdań,
+wyrażenie przyimkowe kilkadziesiąt, a grupa przymiotnikowa poniżej dziesięciu
+i zabiera przy tym pojedyncze zdania przyjęte,
+bo `droga` i `tania` są u Morfeusza naraz rzeczownikiem i przymiotnikiem.
+Przysłówek stał w tej pętli i wypadł: kupował pojedyncze zdania,
+czyli tyle, ile nie warto czterech ciał.
+
+Osobno stoi cząstka przecząca, bo ciało z nią i ciało bez niej są dwoma ciałami,
+a nie jednym z cząstką pominiętą, i to ona kupuje najwięcej — przeszło sto zdań.
+Dopełniaczem nie rządzi i nie ma czym: czasownika pod nią nie ma,
+a przypadek członu jest przypadkiem tego, czemu on przeczy,
+więc cechy `negacja` to ciało nie niesie.
+
+**Przecinek zamykający ten człon jest drugim takim przecinkiem w gramatyce.**
+`Granica pakietu jest tu rozstrzygnięciem, a nie przypadkiem, i pilnuje go test.`
+biegnie za tym członem dalej, tak samo jak zdanie nadrzędne biegnie dalej
+za zdaniem podrzędnym, więc ciało zamknięte przecinkiem dokłada ta sama funkcja
+([niżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
+Kupuje ono kilkanaście zdań i jest zarazem tym,
+co czyni przecinek przed `i` w tym rejestrze poprawnym w dwóch miejscach,
+a nie w jednym.
+
+**Zakup zależy od rejestru o rząd wielkości.**
+Nad polską prozą tego repozytorium ta konstrukcja kupuje przeszło sto
+czterdzieści zdań, czyli kilka procent tego, co ta proza ma,
+a nad bankiem drzew kilkadziesiąt, czyli promile.
+Rozjazd nie mówi nic o gramatyce i wszystko o tym, kto pisze:
+podzbiór dokumentuje się przez wykluczanie, a gazeta nie.
+Mierzy to za jednym razem obie kolejki, o których mówi
+[corpus.md](corpus.md#the-same-queue-over-prose).
+
+## Spójnik wewnątrz zdania nie dostaje czoła i tym stoi przy jednym czytaniu
+
+`Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`,
+`Linter zaś sprawdza tekst.`
+Polszczyzna stawia te spójniki wewnątrz zdania, za jego pierwszym wyrazem,
+a olski miał dla nich jedno miejsce — czoło drugiego zdania po przecinku —
+więc zdanie z takim spójnikiem w środku nie miało czytania.
+Trzy lematy tej listy czoła nie zajmują wcale,
+i to o nich lista spójników okolicznikowych mówiła, że pozycji dla nich nie ma
+([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+
+Pozycją jest lista okoliczników i nic poza nią.
+Wystarcza to, bo miejsce na okolicznik wylicza się za każdą córką zdania,
+a nie przed pierwszą (`olski/precedencja.py`),
+czyli ta lista mówi dokładnie tyle, ile polszczyzna o tym spójniku mówi.
+Czoła zdania ten symbol nie dostaje, i to trzyma jeden napis przy jednym czytaniu:
+`Cena jest niska, więc gramatyka jest tania.` ma spójnik za przecinkiem,
+więc bierze go koordynacja
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+a czoło dałoby temu napisowi drugie wyprowadzenie tego samego kształtu.
+Cena wychodzi zatem z gramatyki, a nie z przebiegu, tak samo jak przy dwukropku,
+a zakup jest zmierzony: kilkadziesiąt zdań tej prozy.
+
+Rola jest osobna od cząstki, bo osobna jest część mowy:
+cząstka określa zdanie, a ten spójnik wiąże je z tym, co stoi przed nim,
+więc `Particle: zatem` mówiłoby o zdaniu, że ma określenie, którego nie ma.
+Jest to ten sam podział, którym cząstka stoi osobno od przysłówka
+([niżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
+
+Poza gramatyką zostaje `zatem` na czele swojego zdania —
+`Zatem milczenie jest wartością.` — czyli ta pozycja, którą trzy z tych lematów
+mają, a której koordynacja nie daje, bo żąda przecinka przed sobą.
+Ruch trzyma [`TODO.md`](../TODO.md).
 
 ## Cząstka wchodzi obu gospodarzami, a w grupie nie nosi etykiety
 
@@ -1769,7 +1930,7 @@ kupowała pojedyncze zdania, bo zdanie, które jej potrzebuje, potykało się wt
 o imiesłów.
 Cena pozycji pojedynczej jest więc różnicą wobec gramatyki dzisiejszej,
 a nie stałą, którą raz się zapisuje
-([pisanie-po-olsku.md](pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
+([pisanie-po-olsku.md](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
 
 ### Zdanie z `że` jest pozycją ramy, a nie konstrukcją obok niej
 
@@ -2604,15 +2765,6 @@ Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej
 
 Every one of these is a sentence that gets rejected and should not be:
 
-- A colon opening an enumeration, which is the second construction behind that
-  character: `Tory są dwa: gramatyka i skład.` is rejected
-  where `Cena jest niska: gramatyka jest bezkontekstowa.` derives
-  ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
-  What separates the two is not the sign but what stands after it.
-  An explanatory clause needs no relation to anything inside the clause before it,
-  the way a coordinated clause needs none,
-  while an enumeration is an apposition to something in that clause —
-  to `dwa` here — and a production at the sentence level has no way of saying to what.
 - Nawias stojący w środku grupy imiennej:
   `Grupa imienna (ta z dopełniaczem) stoi tu.` jest odrzucone,
   gdzie `Grupa imienna stoi tu (niżej).` wyprowadza się
@@ -2666,6 +2818,17 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Który program zapisuje ustawienia?` wyprowadza się,
   a każde z tych słów żąda innego kształtu niż grupa pytajna,
   więc jest to kolejka konstrukcji, a nie jedna pozycja.
+  Dwa z tych słów wypadają z tej sekcji, bo nie są odrzucane:
+  `Pyta, kto płaci.` wychodzi `valid`, a `Mówi, co robi parser.` wieloznacznie,
+  i w obu wypadkach czytanie jest nieprawdziwe.
+  Morfeusz czyta `kto` i `co` jako zaimki rzeczowne, a przecinek koordynuje zdania,
+  więc pytanie zależne wychodzi ciągiem dwóch zdań współrzędnych,
+  w którym zaimek jest podmiotem drugiego.
+  Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
+  jaki ten pomiar wydaje
+  ([corpus.md](corpus.md#what-morphological-ambiguity-costs)),
+  więc te dwa słowa są robotą pilniejszą niż cztery pozostałe;
+  `TODO.md` trzyma ruch.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
@@ -2686,22 +2849,20 @@ Every one of these is a sentence that gets rejected and should not be:
   Olski bierze więc ten przypadek pod przyimkiem i nie bierze go bez niego.
   Jest to ta sama potrzeba, którą nazywa jedyny wpis tej sekcji
   niebędący konstrukcją: pozycja poza biernikiem.
-- Koordynacja `a nie` członu, który nie jest zdaniem:
-  `Gramatyka jest tania, a nie droga.` jest odrzucone,
-  gdzie `Gramatyka jest tania, a parser jest szybki.` wyprowadza się.
-  Spójnik łączy tu dwa orzeczniki zamiast dwóch zdań,
-  a drugiemu z nich brakuje czasownika,
-  którego żąda kształt zdania współrzędnego.
-- Dopowiedzenie z `czyli`: `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
-  gdzie `Skład jest tani.` wyprowadza się,
-  a `Parser jest tani, czyli gramatyka jest tania.` wyprowadza się z tym samym
-  spójnikiem między dwoma zdaniami
-  ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
-  Żąda ono tego samego, czego żąda dwukropek wprowadzający wyliczenie
-  na czele tej listy: powiedzenia, do którego składnika zdania się odnosi.
-  Dopowiedzeniem jest tak samo nazwa postawiona przy rzeczowniku bez spójnika —
-  `Bank drzew Składnica mierzy gramatykę.` — i tej postaci ten rejestr pisze
-  najwięcej, bo tak nazywa każdy artefakt zewnętrzny.
+- Człon bez czasownika wtrącony w środek zdania, a nie postawiony na jego końcu:
+  `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
+  gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
+  ([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+  Pozycja jest jedna i stoi na końcu zdania składowego, tak samo jak pozycja
+  nawiasu, a wtrącenie w środku jest osobnym ciałem i osobną liczbą,
+  której nikt nie policzył; `TODO.md` trzyma ten przebieg.
+- Nazwa postawiona przy rzeczowniku bez spójnika:
+  `Bank drzew Składnica mierzy gramatykę.` jest odrzucone,
+  gdzie `Składnica jest bankiem drzew.` wyprowadza się.
+  Ten rejestr nazywa tak każdy artefakt zewnętrzny — korpus Składnica,
+  słownik Morfeusz — a od członu bez czasownika różni tę konstrukcję to,
+  że spójnika nie ma, więc nie ma czym jej wpuścić bez wpuszczenia zarazem
+  dwóch rzeczowników postawionych obok siebie przez pomyłkę.
 
 - Czas przyszły złożony: `Program będzie zapisywał ustawienia.`
   i `Program będzie zapisywać ustawienia.` są odrzucone,

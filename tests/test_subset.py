@@ -693,6 +693,14 @@ PRZYJMOWANE = [
     #  wyraża cel najczęściej.
     "Program zapisuje ustawienia, aby sprawdzić polszczyznę.",
     "Aby sprawdzić polszczyznę, program zapisuje ustawienia.",
+    #  Człon, którego czasownik ten rejestr opuszcza, czyli grupa imienna za
+    #  spójnikiem i bez orzeczenia nad sobą.
+    "Parser jest tani, czyli Morfeusz.",
+    #  Spójnik stojący wewnątrz swojego zdania, a nie na jego czele.
+    "Milczenie jest zatem wartością.",
+    #  Grupa imienna za dwukropkiem, czyli wyliczenie tego, co zdanie przed nim
+    #  nazwało liczbą.
+    "Gramatyka ma dwie role: podmiot i dopełnienie.",
 ]
 
 
@@ -1003,10 +1011,10 @@ def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
 
 
 def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrzymania():
-    #  Drugi człon nie ma czasownika, więc żadna analiza nie zamyka zdania, choć
-    #  każdą jego formę bierze jakaś produkcja. Zatrzymanie pada wtedy na kropce,
-    #  a werdykt nazywający kropkę kazałby autorowi poprawić interpunkcję.
-    werdykt = verdict("Gramatyka jest tania, a nie droga.")
+    #  Liczebnika w orzeczniku ta gramatyka nie ma, więc żadna analiza nie zamyka
+    #  zdania, choć każdą jego formę bierze jakaś produkcja. Zatrzymanie pada wtedy
+    #  na kropce, a werdykt nazywający kropkę kazałby autorowi poprawić interpunkcję.
+    werdykt = verdict("Warstwy są dwie.")
     assert werdykt.status == "rejected"
     assert werdykt.zatrzymanie is None
     assert werdykt.explain() == (
@@ -1242,14 +1250,9 @@ def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koord
         assert nad_sobą == ze_znakiem, production
 
 
-@pytest.mark.parametrize("lemat", [":", ";", "—", "–"])
-def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować(lemat):
-    #  Na tej jedynce stoi zdanie, że ani dwukropek, ani średnik nie odbiera
-    #  jednoznaczności ani jednemu zdaniu: znak wchodzący w jedno ciało albo
-    #  wyprowadza zdanie tą produkcją, albo nie wyprowadza go wcale. Drugie ciało
-    #  z tym znakiem czyni z tego zera liczbę do zmierzenia i ten test jest tym,
-    #  co o tym powie.
-    biorące = [
+def _biorące(lemat):
+    """Produkcje, w których ciele stoi ten znak."""
+    return [
         produkcja
         for produkcja in GRAMMAR.productions
         if any(
@@ -1257,7 +1260,86 @@ def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurow
             for część in produkcja.body
         )
     ]
-    assert len(biorące) == 1, biorące
+
+
+@pytest.mark.parametrize("lemat", [";", "—", "–"])
+def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować(lemat):
+    #  Na tej jedynce stoi zdanie, że średnik ani myślnik nie odbiera
+    #  jednoznaczności ani jednemu zdaniu: znak wchodzący w jedno ciało albo
+    #  wyprowadza zdanie tą produkcją, albo nie wyprowadza go wcale. Drugie ciało
+    #  z tym znakiem czyni z tego zera liczbę do zmierzenia i ten test jest tym,
+    #  co o tym powie.
+    assert len(_biorące(lemat)) == 1, _biorące(lemat)
+
+
+def test_dwa_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
+    #  Dwukropek stoi w dwóch ciałach, więc jedynki wyżej mieć nie może, a zdanie
+    #  o jednoznaczności zostaje to samo i stoi na czym innym: za dwukropkiem
+    #  jedno ciało żąda zdania, a drugie grupy imiennej, a grupa imienna zdaniem
+    #  nie jest, więc napis wzięty jednym nie ma wyprowadzenia drugim.
+    #  Usterka, którą to łapie: symbol dopisany za dwukropkiem do jednego z tych
+    #  dwóch ciał tak, że oba biorą ten sam napis.
+    za_dwukropkiem = set()
+    for produkcja in _biorące(":"):
+        [gdzie] = [
+            numer
+            for numer, część in enumerate(produkcja.body)
+            if isinstance(część, Word) and bierze(część, "interp", ":", {}, EMPTY) is not None
+        ]
+        za_dwukropkiem.add(produkcja.body[gdzie + 1].name)
+    assert za_dwukropkiem == {"Clause", "NP"}
+
+
+def test_człon_bez_czasownika_nie_wchodzi_za_spójnikiem_dokładającym_skutek():
+    #  Usterka, którą to łapie: SPÓJNIK_PRZECINKOWY postawiony przed tym członem
+    #  zamiast węższej listy. Obie listy niosą `a` i `czyli`, więc zdanie przyjęte
+    #  nie powie, którą wzięto; rozdziela je `więc`, za którym polszczyzna samej
+    #  grupy imiennej nie stawia.
+    assert verdict("Parser jest tani, a nie Morfeusz.").readings
+    assert not verdict("Parser jest tani, więc Morfeusz.").readings
+
+
+def test_człon_bez_czasownika_przepuszcza_zdanie_nadrzędne_za_przecinkiem():
+    #  Usterka, którą to łapie: ciało bez przecinka zamykającego, czyli to samo
+    #  przeoczenie, które zdaniom podrzędnym naprawia `_zamykane`. Zdanie
+    #  nadrzędne biegnie za tym członem i biegnie spójnikiem bez przecinka, więc
+    #  bez tego ciała `i pilnuje go test` nie ma się o co zaczepić.
+    zamknięty = verdict(
+        "Granica pakietu jest rozstrzygnięciem, a nie przypadkiem, i pilnuje go test."
+    )
+    assert zamknięty.readings, zamknięty.explain()
+
+
+def test_spójnik_wewnątrz_zdania_nie_dostaje_czoła_więc_koordynacja_zostaje_jednoznaczna():
+    #  Usterka, którą to łapie: SPÓJNIKOWY dopisany do pętli, która daje cząstce i
+    #  przysłówkowi czoło zdania składowego. `więc` stoi wtedy w dwóch pozycjach
+    #  naraz — na czele drugiego składowego i w jego liście okoliczników — więc
+    #  zdanie spięte przecinkiem dostaje drugie czytanie tego samego kształtu.
+    spięte = verdict("Cena jest niska, więc gramatyka jest tania.")
+    assert spięte.status == "valid", spięte.explain()
+    #  Czoła zdania ta pozycja nie daje, i to jest granica, a nie przeoczenie.
+    assert not verdict("Zatem milczenie jest wartością.").readings
+
+
+def test_cząstka_przecząca_nie_spina_dwóch_zdań_w_ciąg_współrzędny():
+    #  Morfeusz czyta `nie` także jako spójnik, a gramatyka ma dla tej formy
+    #  pozycję przy czasowniku, więc bez wykluczenia w klasie spójników bez
+    #  przecinka jeden napis ma dwa wyprowadzenia, a drugie jest czytaniem,
+    #  którego polszczyzna nie ma. Usterka, którą to łapie: wykluczenie zdjęte
+    #  przy okazji dopisywania lematu do listy spójników przecinkowych.
+    assert not verdict("Program zapisuje ustawienia nie linter sprawdza tekst.").readings
+    assert verdict("Program nie zapisuje ustawień.").status == "valid"
+
+
+def test_rozdzielające_a_nie_licencjonuje_formy_przyimkowej_zaimka():
+    #  `a` niesie u Morfeusza czytanie przyimka, którego wyrażenie przyimkowe nie
+    #  bierze, więc licencji nie udziela też forma stojąca za nim. Usterka, którą
+    #  to łapie: warunek w `po_przyimku` pytający o samą część mowy, przy którym
+    #  `Cena jest niska, a nie.` wychodzi członem bez czasownika, a `nie` w nim
+    #  biernikiem zaimka `on`.
+    assert not verdict("Cena jest niska, a nie.").readings
+    #  Przyimek, który gramatyka bierze, licencjonuje dalej.
+    assert verdict("Program zapisuje ustawienia dla niego.").readings
 
 
 def test_cudzysłów_przepuszcza_przypadek_grupy_którą_obejmuje():

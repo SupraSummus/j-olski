@@ -409,7 +409,7 @@ The number to read there is the curve rather than the total,
 because a construction admitted moves the stopping point of a long sentence
 without moving its verdict,
 so the total can stand still while the run bought exactly what it was meant to
-([pisanie-po-olsku.md](pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
+([pisanie-po-olsku.md](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
 
 Morphology is live and has to be:
 prose carries no disambiguated tags, so the gold column has no meaning over it,
