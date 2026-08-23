@@ -111,19 +111,11 @@ so whichever entry is picked up first is answering for the other.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
 przewiduje dla takiego pliku przekład całości, osobną zmianą.
-Ruchem jest przekład reszty, jednym commitem,
-bo dopóki go nie ma, każde nowe zdanie w angielskiej sekcji idzie po angielsku,
-co ta reguła mówi wprost.
+Ruchem jest przekład reszty, jednym commitem.
 Wpis ważył więcej, dopóki lista plików była zasięgiem checka;
 checka nie ma, więc został sam przekład.
-Jedno miejsce tego dokumentu przekładu nie doczeka po cichu:
-lista w `What it does not cover yet` ma ramę angielską i pięć wpisów polskich,
-dopisywanych po jednym,
-więc albo jednostką jest tam wpis, jak w sekcjach tego pliku,
-albo pięć wpisów jest usterką,
-a reguła językowa rozstrzyga to zdaniem o sekcji bez własnej prozy,
-której tamta sekcja nie jest.
-Kto podnosi przekład, odpowiada więc najpierw na to.
+Przekład kurczy się przy tym sam, bo akapit nowy powstaje po polsku,
+a przepisywany przekłada się razem z przepisaniem.
 
 `docs/swigra.md` wylicza mechanizmy warte wzięcia i wyliczył je z kodu,
 a monografia Świgry opisuje trzy, których kod pokazuje jako zapis, a nie jako wybór.
@@ -732,6 +724,37 @@ Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
 `Complements`, `Adjuncts`, zmienne zgodności — są w nim zmiennymi lokalnymi,
 więc funkcja na konstrukcję bierze je argumentami,
 a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
+
+Cechy wypuszczane przez produkcję są w dużej części przepisaniem więzu z córki
+oznaczonej `Głowa`: `Predicate` żąda liczby i rodzaju od czasownika,
+a potem wypuszcza tę samą liczbę i ten sam rodzaj tymi samymi zmiennymi.
+Przebieg po `GRAMMAR` liczy takich przepisań ponad trzecią część wszystkich,
+a pominięty wiersz nie zgłasza się niczym,
+bo cechy nieobecnej unifikacja nie sprawdza,
+więc konstytuent milczący o cesze przechodzi pod każdy więz na nią.
+Usterka jest tego samego rodzaju co wyliczone ciało w `olski/precedencja.py`
+i idzie w drugą stronę: tam czytanie ginie, a tutaj przychodzi.
+Ruchem jest perkolacja: cechy córki-głowy wychodzą z konstytuenta same,
+a produkcja, która wypuszcza co innego, mówi to wprost.
+Do przeczytania są te symbole, których produkcje wypuszczają różne zestawy cech —
+`Predicate` z osobą i bez niej, `Complements`, `NP`, `Subject` —
+bo każdy z nich musi się z perkolacji wypisać i dopiero one mówią, ile ona kosztuje.
+Ten ruch nie potrzebuje nieterminala-obiektu,
+a odrzucenie go stoi w
+[`docs/design-notes.md`](docs/design-notes.md#decisions-taken).
+Wpis o grupowaniu `olski/subset.py` po konstrukcji
+tyka tego samego pliku i tej samej funkcji.
+
+Więz na terminalu nie ma checku, który mają więzy na referencjach symboli
+(`olski/grammar.py`): cechy formy przychodzą z morfologii,
+więc literówka w `word("subst", nubmer=V("n"))` przepuszcza każdą formę,
+a wykryłby ją inwentarz nazw cech, który morfologia zamyka
+(`VALUES` w `olski/morph.py`).
+Więzów na terminalach jest w gramatyce kilkaset,
+czyli kilka razy mniej niż na referencjach, a martwy nie jest wśród nich ani jeden.
+Rozstrzygnąć trzeba jedno: czy formalizm sięga po ten inwentarz sam,
+czy dostaje go argumentem od wołającego,
+bo `olski/grammar.py` nie zna warstwy morfologicznej wcale.
 
 Para myślników nie ma wyprowadzenia, a jest w tej prozie użyciem częstszym niż
 myślnik pojedynczy

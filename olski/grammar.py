@@ -333,6 +333,58 @@ class Grammar:
             self._nieokreślone = frozenset(referenced | {self.start}) - self.heads()
         return self._nieokreślone
 
+    def nieosiągalne(self) -> frozenset[str]:
+        """Symbole, które gramatyka definiuje, a start do nich nie schodzi.
+
+        Literówka w nazwie symbolu zgłasza się tylko z jednej strony:
+        w referencji odmawia rozbioru (:meth:`undefined`),
+        a w głowie produkcji daje symbol, do którego nie sięga żadne czytanie,
+        i wtedy gramatyka wyprowadza dalej to, co wyprowadzała przedtem.
+        Odpowiedź liczy się przy każdym pytaniu, bo pyta o nią przegląd,
+        a nie zdanie.
+        """
+        osiągalne: set[str] = set()
+        kolejka = [self.start]
+        while kolejka:
+            symbol = kolejka.pop()
+            if symbol in osiągalne:
+                continue
+            osiągalne.add(symbol)
+            kolejka.extend(
+                part.name
+                for production in self.for_head(symbol)
+                for part in production.body
+                if isinstance(part, Sym)
+            )
+        return self.heads() - osiągalne
+
+    def więzy_niesprawdzane(self) -> frozenset[tuple[str, str]]:
+        """Pary symbolu i cechy, o którą pyta referencja, a symbol jej nie wypuszcza.
+
+        Cechy nieobecnej :func:`unify` nie sprawdza, więc taki więz przepuszcza
+        każdy konstytuent, a literówka w nazwie cechy luzuje gramatykę,
+        nie zmieniając ani jednego wiersza wydruku.
+        Wypuszczaniem jest suma po produkcjach symbolu, a nie przecięcie:
+        jedna produkcja niesie cechę, której druga nie niesie,
+        i tym właśnie różni się forma odmienna od nieodmiennej.
+
+        Więzu na terminalu to nie obejmuje: cechy formy przychodzą z morfologii,
+        a nie z produkcji, więc ich inwentarz stoi poza tym formalizmem.
+        """
+        wypuszczane: dict[str, set[str]] = {}
+        for production in self.productions:
+            wypuszczane.setdefault(production.head, set()).update(
+                name for name, _ in production.features
+            )
+        return frozenset(
+            (part.name, name)
+            for production in self.productions
+            for part in production.body
+            if isinstance(part, Sym)
+            for name, _ in part.constraints
+            if name not in wypuszczane.get(part.name, ())
+        )
+
     def __len__(self) -> int:
         return len(self.productions)
 

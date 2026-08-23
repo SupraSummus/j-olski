@@ -572,6 +572,22 @@ def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
         parse(grammar, morphology("plik."))
 
 
+def test_symbol_zdefiniowany_i_nieosiągalny_jest_zgłaszany():
+    #  Tyle zostaje po literówce w głowie produkcji.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [word("subst")])
+    grammar.rule("Bd", [word("adj")])
+    assert grammar.nieosiągalne() == frozenset({"Bd"})
+
+
+def test_więz_na_cechę_której_symbol_nie_wypuszcza_jest_zgłaszany():
+    #  Tyle zostaje po literówce w nazwie cechy: zgodność, która nie zawęża niczego.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [nt("B", nubmer=V("n"))])
+    grammar.rule("B", [word("subst", number=V("n"))], number=V("n"))
+    assert grammar.więzy_niesprawdzane() == frozenset({("B", "nubmer")})
+
+
 def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
     #  Produkcja dopisana bez znacznika nazwałaby gospodarza przyłączenia pierwszą
     #  córką, cokolwiek nią jest, a werdykt wskazywałby wtedy nie to słowo i nie
@@ -2548,6 +2564,14 @@ def test_every_sentence_of_a_text_is_checked():
 def test_the_grammar_is_a_grammar_of_something():
     assert len(GRAMMAR) > 5
     assert GRAMMAR.undefined() == frozenset()
+
+
+def test_każdy_symbol_gramatyki_jest_osiągalny_od_startu():
+    assert GRAMMAR.nieosiągalne() == frozenset()
+
+
+def test_każdy_więz_gramatyki_pyta_o_cechę_wypuszczaną():
+    assert GRAMMAR.więzy_niesprawdzane() == frozenset()
 
 
 # --------------------------------------------------------------------------- #
