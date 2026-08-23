@@ -328,19 +328,21 @@ Do przeczytania jest `_ogrodzone` w `tests/test_wydruki.py`,
 bo bloki czyta już ono, a różnica jest w tym, że tamto pyta komendę,
 a to ma pytać gramatykę.
 
-Sonda różnicowa nad prozą bierze jeden plik, a rejestr ustaw to siedem plików.
-`main` w `harness/ruch.py` rozgałęzia się na katalog, który czyta jako Składnicę,
-i na plik, który czyta jako prozę, więc siedmiu aktów nie ma jak podać:
-figury nad tym rejestrem trzeba wziąć po zlepieniu ich w jeden plik,
-i to zlepienie jest krokiem, którego dokument nie ma jak wydrukować obok liczby,
-a [`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
-cytuje ruch każdej konstrukcji nad tym rejestrem osobno.
-Ruchem jest wiele ścieżek prozy w jednym przebiegu, złożonych jednym raportem,
-czyli to, co `przebieg` już robi nad lasami banku drzew:
-`nad_prozą` bierze napis, a nie ścieżkę, więc scalanie jest w tym pliku gotowe.
-Do rozstrzygnięcia zostaje, co robi ścieżka katalogu z prozą w środku:
-Składnica też jest katalogiem, a rozpoznawanie po rozszerzeniu plików w środku
-byłoby trzecim znaczeniem jednego argumentu.
+Polecenie powtarzające pomiar luki zlepia siedem aktów `cat`-em,
+a sonda bierze je teraz osobno.
+Blok w [`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
+pisze `cat proza/ustawy/*.txt > proza/ustawy-razem.txt` i mierzy nad zlepkiem,
+gdzie `python3 -m harness.luka proza/ustawy/*.txt` mierzy nad tymi samymi aktami
+i składa z nich jeden raport.
+Ruchem jest podmiana obu wierszy na jeden, a przed nią przebieg nad tym rejestrem,
+bo raport scalony równa się przebiegowi nad zlepkiem tylko wtedy,
+gdy każdy plik kończy się znakiem kończącym zdanie:
+inaczej zlepek skleja ostatnie zdanie jednego aktu z pierwszym zdaniem drugiego,
+a raport scalony tego nie robi.
+Nad prozą tego repozytorium sprawdzono, że obie drogi dają wydruk co do znaku ten sam;
+nad rejestrem ustaw nie sprawdził tego nikt, a bez tego podmiana rusza figury
+i nic o tym nie mówi.
+Wpis podnosi więc sesja, która ten rejestr ma.
 
 `olski` chodził po katalogu, a `olski-check` bierze tylko pliki.
 Widać to w poleceniu, którym
@@ -362,6 +364,12 @@ więc należy ono do chodzenia, a nie do testu na rozszerzenie.
 Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
 `olski-check` ma mianownik, który tamten dokument cytuje,
 więc pominięcie w ciszy zmienia figurę, o której nikt się nie dowie.
+Sondy z `harness/` odpowiedziały na to pytanie odwrotnie i nie jest to niezgoda:
+biorą one wiele plików prozy i rozwija im je powłoka,
+bo katalog znaczy tam bank drzew i chodzenia po drzewie nie ma dla nich wolnego
+(`harness/komenda.py`).
+Kto ten wpis podnosi, ma więc precedens po obu stronach
+i rozstrzyga, czy `olski-check` jest bliższy sondzie, czy dawnej komendzie.
 
 `olski-check` daje dokumentowi liczbę, której nie sprawdza żaden test.
 Samą komendę woła `tests/test_rozstrzyganie.py` — `main` z listą argumentów
@@ -433,6 +441,13 @@ wraz z konkurencją zepchniętą do sond, które grupy zdejmują.
 Do przeczytania są właśnie te dwa pola, bo to one się nie generalizują,
 oraz `gramatyka` w `ruch.py`, która jest jedynym miejscem
 wiążącym wariant z grupą produkcji.
+Ta sama `Sonda` zamyka drugie rozejście, które kopia zdążyła już zebrać:
+oba tryby nad prozą w tym pliku wołają `check` raz na wariant,
+więc segmentują ten sam tekst tyle razy, ile wariantów,
+i tyle samo razy rozbierają zdanie, które olski odrzucił.
+`harness/ruch.py` przestał tak robić i pomijanie zbędnych rozbiorów
+ma tam jednego właściciela (`_bez_zbędnych`),
+a bierze on `Sonda`, której ten plik nie ma.
 Tej samej maszynerii żąda z drugiej strony wpis o porównaniu dwóch przebiegów
 bez polecenia:
 tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
@@ -530,21 +545,6 @@ Czytelników strony jest sześciu i wszyscy są nazwani z imienia:
 oraz `harness/wskazania.py`.
 `olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
 te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
-
-`harness/ruch.py` pomija zbędne rozbiory nad bankiem drzew, a nad prozą nie.
-`_warianty` rozbiera zdanie olskim i odrzuceniem zamyka pozostałe warianty,
-bo ich czytania są podzbiorem czytań olskiego,
-a `nad_prozą` obok woła `check` raz na wariant,
-więc segmentuje ten sam tekst i rozbiera to samo zdanie tyle razy, ile wariantów.
-Kosztuje to sekundy, czyli mało,
-ale dwie funkcje jednego pliku odpowiadają na to samo pytanie inaczej,
-i nic w nich nie mówi, że jedna z tych odpowiedzi jest przeoczeniem.
-Ruchem jest funkcja w `olski/subset.py` biorąca zdanie już zsegmentowane,
-przez którą idą i `check`, i `nad_prozą`,
-bo segmenty zależą od napisu, a nie od gramatyki.
-Do przeczytania jest `check`: liczy jeszcze `bez_licencji` i całą `DEKLARACJA`,
-których `nad_prozą` nie czyta ani razu,
-więc razem z tym ruchem rozstrzyga się, czy wspólna funkcja liczy je zawsze.
 
 ## Korpusy, ekstrakcja i figury
 

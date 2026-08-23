@@ -59,7 +59,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from harness.komenda import Komenda, uruchom
+from harness.komenda import Komenda, nagłówek, uruchom
 from olski.corpus import read
 from olski.coverage import SOURCES, po_kawałkach, segments_for
 from olski.parse import MAX_READINGS, Node, Result, las, podsumuj
@@ -447,8 +447,9 @@ def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
     return wydruk(raport, f"Składnica, morfologia {args.morfologia}")
 
 
-def _proza(tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
-    return wydruk(nad_prozą(tekst, przykłady=args.przykłady), f"{ścieżka}, morfologia live")
+def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    raporty = (nad_prozą(tekst, przykłady=args.przykłady) for _, tekst in wejścia)
+    return wydruk(scal(raporty, args.przykłady), f"{nagłówek(wejścia)}, morfologia live")
 
 
 KOMENDA = Komenda(

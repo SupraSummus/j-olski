@@ -35,14 +35,15 @@ import functools
 from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import TypeVar
 
-from harness.komenda import Komenda, uruchom
+from harness.komenda import Komenda, nagłówek, uruchom
 from olski.corpus import Sentence, read
 from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import parse
-from olski.subset import FRAGMENT, build, check
+from olski.subset import FRAGMENT, Verdict, build, morphology, sentences, werdykt
 
 #: Ile zdań zachować pod każdym przejściem. Przejście bez przykładu jest liczbą,
 #: o której nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
@@ -272,13 +273,15 @@ class Raport:
             zachowane.append(tekst)
 
 
-def _warianty(
-    sonda: Sonda,
-    zdanie: Sentence,
-    segmenty: list[Segment],
-    comparable: bool,
-) -> dict[str, Outcome]:
-    """Werdykt każdego wariantu, bez rozbiorów, których odpowiedź jest już znana.
+#: Wynik jednego wariantu: :class:`Outcome` nad bankiem drzew, :class:`Verdict`
+#: nad prozą. Pomijaniu zbędnych rozbiorów te dwa nie różnią się niczym, bo czyta
+#: ono jedno pole, które oba niosą; wypisane są z nazwy, żeby trzeci zgłosił się
+#: tutaj, a nie w wydruku, który milczy o tym, co pominął.
+Wynik = TypeVar("Wynik", Outcome, Verdict)
+
+
+def _bez_zbędnych(sonda: Sonda, wynik: Callable[[str], Wynik]) -> dict[str, Wynik]:
+    """Wynik każdego wariantu, bez rozbiorów, których odpowiedź jest już znana.
 
     Wariant produkcje zdejmuje i żaden nie dopisuje ani jednej (:func:`gramatyka`),
     więc jego czytania są podzbiorem czytań olskiego:
@@ -290,7 +293,26 @@ def _warianty(
     więc z przebiegu wypada przeszło połowa rozbiorów.
     Że wariant naprawdę niczego nie dopisuje, pilnuje ``tests/test_ruch.py``:
     kierunek przez dopisywanie ta maszyneria kiedyś miała i może go odzyskać.
+
+    Pytanie to jest jedno dla obu korpusów, więc i odpowiedź stoi tu jedna: bank
+    drzew i proza różnią się tym, co wariant nad zdaniem wydaje, a nie tym, które
+    rozbiory są zbędne.
     """
+    czysty = wynik(sonda.czysty)
+    if czysty.result.rejected:
+        return dict.fromkeys(sonda.warianty, czysty)
+    wyniki = {wariant: wynik(wariant) for wariant in sonda.warianty[:-1]}
+    wyniki[sonda.czysty] = czysty
+    return wyniki
+
+
+def _warianty(
+    sonda: Sonda,
+    zdanie: Sentence,
+    segmenty: list[Segment],
+    comparable: bool,
+) -> dict[str, Outcome]:
+    """Wynik każdego wariantu nad jednym zdaniem banku drzew."""
 
     def wynik(wariant: str) -> Outcome:
         return Outcome(
@@ -300,12 +322,16 @@ def _warianty(
             comparable=comparable,
         )
 
-    czysty = wynik(sonda.czysty)
-    if czysty.result.rejected:
-        return dict.fromkeys(sonda.warianty, czysty)
-    wyniki = {wariant: wynik(wariant) for wariant in sonda.warianty[:-1]}
-    wyniki[sonda.czysty] = czysty
-    return wyniki
+    return _bez_zbędnych(sonda, wynik)
+
+
+def _werdykty(sonda: Sonda, zdanie: str, segmenty: list[Segment]) -> dict[str, Verdict]:
+    """Werdykt każdego wariantu nad jednym zdaniem prozy."""
+
+    def wynik(wariant: str) -> Verdict:
+        return werdykt(zdanie, segmenty, gramatyka(sonda, wariant))
+
+    return _bez_zbędnych(sonda, wynik)
 
 
 def zmierz(
@@ -354,18 +380,22 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     przez to, ile konstrukcja kupuje w cudzej polszczyźnie. Drugie pytanie jest o
     rejestr własny i pada tu. Ról nie ma czym porównać, bo drzewa wzorcowego
     proza nie niesie, a fragment nie jest zdaniem i do mianownika nie wchodzi.
+
+    Zdanie idzie tu przez warianty, a nie wariant przez cały tekst, bo segmenty
+    zależą od napisu, a nie od gramatyki (``werdykt`` w ``olski/subset.py``):
+    inaczej ten sam tekst segmentuje się tyle razy, ile jest wariantów, i tyle
+    samo razy rozbiera się zdanie, które olski odrzucił.
     """
     raport = Raport(sonda, przykłady)
-    wyniki = {wariant: check(tekst, gramatyka(sonda, wariant)) for wariant in sonda.warianty}
-    for kolejne in zip(*wyniki.values(), strict=True):
-        werdykty = dict(zip(sonda.warianty, kolejne, strict=True))
+    for zdanie in sentences(tekst):
+        werdykty = _werdykty(sonda, zdanie, morphology(zdanie))
         pierwszy = werdykty[sonda.warianty[0]]
         if pierwszy.status == FRAGMENT:
             raport.pominięte["fragment, a nie zdanie"] += 1
             continue
         raport.zapisz(
             pierwszy.text,
-            {wariant: werdykt.status for wariant, werdykt in werdykty.items()},
+            {wariant: wynik.status for wariant, wynik in werdykty.items()},
             {},
         )
     return raport
@@ -500,8 +530,9 @@ def _korpus(sonda: Sonda, ścieżki: Sequence[Path], args: argparse.Namespace) -
     return wydruk(raport, f"Składnica, morfologia {MORFOLOGIA[args.morfologia]}")
 
 
-def _proza(sonda: Sonda, tekst: str, ścieżka: Path, args: argparse.Namespace) -> str:
-    return wydruk(nad_prozą(sonda, tekst, args.przykłady), f"{ścieżka.name}, proza")
+def _proza(sonda: Sonda, wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    raporty = (nad_prozą(sonda, tekst, args.przykłady) for _, tekst in wejścia)
+    return wydruk(scal(sonda, raporty, args.przykłady), f"{nagłówek(wejścia)}, proza")
 
 
 def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:

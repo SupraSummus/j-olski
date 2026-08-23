@@ -2157,19 +2157,30 @@ def sentences(text: str) -> list[str]:
     return [document.slice(span) for span in document.sentences]
 
 
+def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None) -> Verdict:
+    """Werdykt o zdaniu już zsegmentowanym, wraz z całym podsumowaniem.
+
+    Segmenty przychodzą argumentem, a nie powstają tutaj, bo zależą od napisu, a
+    nie od gramatyki: kto pyta o jedno zdanie kilka gramatyk — sonda różnicowa
+    nad prozą — segmentuje je raz i pyta tyle razy, ile ma wariantów.
+
+    Podsumowania werdykt bierze wszystkie, także te, których wołający nie czyta.
+    Drugie wejście, pytające o mniej, byłoby drugą ścieżką do utrzymania, a
+    oszczędza najwyżej jeden rozbiór na zdanie — tyle bierze zatrzymanie nad
+    zdaniem odrzuconym (:func:`olski.parse.podsumuj`) — podczas gdy pominięcie
+    rozbiorów, których odpowiedź jest znana, oszczędza ich tyle, ile wariantów
+    minus jeden (``_bez_zbędnych`` w ``harness/ruch.py``).
+    """
+    grammar = grammar or GRAMMAR
+    result = parse(grammar, segmenty, deklaracja=DEKLARACJA)
+    return Verdict(
+        text=zdanie,
+        result=result,
+        nielicencjonowane=bez_licencji(segmenty, grammar),
+        zatrzymanie=gdzie_stanęło(segmenty, result.furthest),
+    )
+
+
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     """Check every sentence of a text against the grammar."""
-    grammar = grammar or GRAMMAR
-    verdicts = []
-    for sentence in sentences(text):
-        segments = morphology(sentence)
-        result = parse(grammar, segments, deklaracja=DEKLARACJA)
-        verdicts.append(
-            Verdict(
-                text=sentence,
-                result=result,
-                nielicencjonowane=bez_licencji(segments, grammar),
-                zatrzymanie=gdzie_stanęło(segments, result.furthest),
-            )
-        )
-    return verdicts
+    return [werdykt(zdanie, morphology(zdanie), grammar) for zdanie in sentences(text)]
