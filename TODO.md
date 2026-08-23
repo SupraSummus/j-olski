@@ -756,25 +756,26 @@ Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
 więc funkcja na konstrukcję bierze je argumentami,
 a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
 
-Cechy wypuszczane przez produkcję są w dużej części przepisaniem więzu z córki
-oznaczonej `Głowa`: `Predicate` żąda liczby i rodzaju od czasownika,
-a potem wypuszcza tę samą liczbę i ten sam rodzaj tymi samymi zmiennymi.
-Przebieg po `GRAMMAR` liczy takich przepisań ponad trzecią część wszystkich,
-a pominięty wiersz nie zgłasza się niczym,
-bo cechy nieobecnej unifikacja nie sprawdza,
-więc konstytuent milczący o cesze przechodzi pod każdy więz na nią.
-Usterka jest tego samego rodzaju co wyliczone ciało w `olski/precedencja.py`
-i idzie w drugą stronę: tam czytanie ginie, a tutaj przychodzi.
-Ruchem jest perkolacja: cechy córki-głowy wychodzą z konstytuenta same,
-a produkcja, która wypuszcza co innego, mówi to wprost.
-Do przeczytania są te symbole, których produkcje wypuszczają różne zestawy cech —
-`Predicate` z osobą i bez niej, `Complements`, `NP`, `Subject` —
-bo każdy z nich musi się z perkolacji wypisać i dopiero one mówią, ile ona kosztuje.
-Ten ruch nie potrzebuje nieterminala-obiektu,
-a odrzucenie go stoi w
-[`docs/design-notes.md`](docs/design-notes.md#decisions-taken).
-Wpis o grupowaniu `olski/subset.py` po konstrukcji
-tyka tego samego pliku i tej samej funkcji.
+`NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
+w górę, i żadnego z tych wpisów nie widać po werdykcie:
+gramatyka bez całej listy wydaje nad prozą tego repozytorium
+te same werdykty i te same liczby czytań, zdanie po zdaniu,
+a poza `dostawka` o żadną z tych cech nie pyta nad swoim symbolem
+ani jedna produkcja.
+Lista trzyma więc deklarację przy tym, co produkcje wypisywały przed perkolacją.
+Do rozstrzygnięcia jest jedno z trojga: lista zostaje jako fakt o symbolu,
+znika i wszystko wychodzi z głowy,
+albo odwraca się w inwentarz — symbol wylicza, co niesie —
+i wtedy check porównuje inwentarz z pytaniami w obie strony,
+czyli łapie także cechę wypuszczaną bez pytającego; takich są dwie
+(liczba i rodzaj `InterrogativeCore`, wypisane razem z rodziną względną,
+której poprzednik ich żąda).
+Zdjęcie listy jest zmianą w gramatyce i pomiaru żąda osobno:
+proza tego repozytorium nie rusza się wcale, a banku drzew nie zmierzył nikt.
+Osobno stoi czas rozbioru, bo cechę wypuszczaną las rozdziela na klasy pozycji
+(`klasy` w `olski/parse.py`), a wpisów jest kilkadziesiąt.
+Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok tej listy,
+bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
 
 Więz na terminalu nie ma checku, który mają więzy na referencjach symboli
 (`olski/grammar.py`): cechy formy przychodzą z morfologii,

@@ -16,6 +16,7 @@ without anything having to choose a reading up front.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 
 
@@ -164,8 +165,10 @@ class Production:
 
     head: str
     body: tuple[Part, ...]
-    #: Features of the resulting constituent, usually variables shared with the
-    #: body so that a phrase inherits the number and case of its head word.
+    #: Cechy, z jakimi konstytuent wychodzi z tej produkcji, zwykle zmiennymi
+    #: wspólnymi z ciałem, żeby grupa wzięła liczbę i przypadek od swojego słowa.
+    #: Wypisuje się tu to, czego z głowy nie widać:
+    #: cechy córki-głowy wpisuje tu :meth:`Grammar.rule`.
     features: tuple[tuple[str, Spec], ...] = ()
     #: Która z córek jest głową, czyli tą, którą ten konstytuent jest i po
     #: której nazywa go werdykt jednym słowem. ``head`` nazywa symbol, który ta
@@ -227,10 +230,34 @@ def word(
 
 
 class Grammar:
-    """A set of productions, indexed by the constituent they build."""
+    """A set of productions, indexed by the constituent they build.
 
-    def __init__(self, start: str) -> None:
+    Cechy, których produkcja żąda od córki oznaczonej :class:`Głowa`,
+    wychodzą z konstytuenta same, bo konstytuent jest tą córką:
+    ``Predicate`` żądające liczby i rodzaju od czasownika
+    wypuszcza tę liczbę i ten rodzaj bez wypisywania ich drugi raz.
+    Wypisane wygrywa, więc produkcja wypuszczająca co innego mówi to wprost,
+    a symbol, który cechy swojej głowy w górę nie niesie,
+    stoi w :attr:`nie_wypuszczane`.
+
+    Domyślność idzie w tę stronę, bo pomyłki są tu nierówne.
+    Cechy nieobecnej unifikacja nie sprawdza,
+    więc konstytuent milczący o cesze przechodzi pod każdy więz na nią
+    i wypisanie pominięte luzowałoby gramatykę bez śladu w wydruku,
+    a wpis zbędny w :attr:`nie_wypuszczane` zawęża
+    i widać go po zdaniu, które przestało się wyprowadzać.
+    """
+
+    def __init__(
+        self, start: str, nie_wypuszczane: Mapping[str, Iterable[str]] | None = None
+    ) -> None:
         self.start = start
+        #: Cechy, których symbol nie niesie w górę,
+        #: choć jego produkcje żądają ich od swoich głów;
+        #: powód każdego wpisu stoi przy liście u wołającego.
+        self.nie_wypuszczane = {
+            symbol: frozenset(cechy) for symbol, cechy in (nie_wypuszczane or {}).items()
+        }
         self.productions: list[Production] = []
         self._by_head: dict[str, list[Production]] = {}
         self._po_części_mowy: dict[str, tuple[Word, ...]] | None = None
@@ -240,8 +267,29 @@ class Grammar:
     def rule(self, head: str, body: list[Part | Głowa], **features) -> Production:
         części, głowa = _głowa(head, body)
         return self.dopisz(
-            Production(head=head, body=części, features=_constraints(features), głowa=głowa)
+            Production(
+                head=head,
+                body=części,
+                features=self._wypuszczane(head, features, części[głowa] if części else None),
+                głowa=głowa,
+            )
         )
+
+    def _wypuszczane(
+        self, head: str, features: dict, głowa: Part | None
+    ) -> tuple[tuple[str, Spec], ...]:
+        """Cechy wypisane, a za nimi te, które wychodzą z głowy same.
+
+        Wypisana wygrywa: ``RelativeCore`` wypuszcza liczbę i rodzaj swojego zaimka,
+        a nie te, których żąda od czasownika.
+        Ciało puste głowy nie ma, więc nie ma wtedy skąd wypuszczać.
+        """
+        wypisane = _constraints(features)
+        if głowa is None:
+            return wypisane
+        nazwy = {name for name, _ in wypisane} | self.nie_wypuszczane.get(head, frozenset())
+        z_głowy = [(name, spec) for name, spec in głowa.constraints if name not in nazwy]
+        return tuple(sorted([*wypisane, *z_głowy]))
 
     def dopisz(self, production: Production) -> Production:
         """Wpisz produkcję gotową, czyli wziętą z innej gramatyki.
@@ -409,6 +457,52 @@ class Grammar:
             if isinstance(part, Sym)
             for name, _ in part.constraints
             if name not in wypuszczane.get(part.name, ())
+        )
+
+    def wypuszczane_bez_wiązania(self) -> frozenset[tuple[str, str]]:
+        """Pary symbolu i cechy wypuszczanej zmienną, której nie wiąże ani jedna córka.
+
+        Taka cecha nie wychodzi z konstytuenta nigdy:
+        zmienną wiąże tylko więz na córce (:func:`unify`),
+        a nierozwiązanej :func:`features_of` nie wypuszcza, więc deklaracja milczy.
+        Literówka w nazwie zmiennej zgłasza się przez to tutaj,
+        tak jak literówka w nazwie cechy zgłasza się w :meth:`więzy_niesprawdzane`.
+        """
+        martwe = set()
+        for production in self.productions:
+            wiązane = {
+                spec.name
+                for part in production.body
+                for _name, spec in part.constraints
+                if isinstance(spec, Var)
+            }
+            martwe.update(
+                (production.head, name)
+                for name, spec in production.features
+                if isinstance(spec, Var) and spec.name not in wiązane
+            )
+        return frozenset(martwe)
+
+    def nie_wypuszczane_bez_żądania(self) -> frozenset[tuple[str, str]]:
+        """Wpisy :attr:`nie_wypuszczane`, których nie żąda od głowy żadna produkcja.
+
+        Taki wpis zatrzymuje cechę, która i bez niego z konstytuenta nie wychodzi,
+        więc mówi o gramatyce coś, czego w niej nie ma;
+        zostaje po produkcji zdjętej albo przemianowanej i cichnie tak samo,
+        jak cichnie więz na cechę, której nikt nie wypuszcza
+        (:meth:`więzy_niesprawdzane`).
+        """
+        żądane = {
+            (production.head, name)
+            for production in self.productions
+            if production.body
+            for name, _spec in production.body[production.głowa].constraints
+        }
+        return frozenset(
+            (symbol, cecha)
+            for symbol, cechy in self.nie_wypuszczane.items()
+            for cecha in cechy
+            if (symbol, cecha) not in żądane
         )
 
     def __len__(self) -> int:

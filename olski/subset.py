@@ -851,10 +851,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     zdanie.grammar.rule(
         "Subject",
         [nt(czoło, case="nom", number=V("n"), gender=V("g"), **zaimek)],
-        number=V("n"),
-        gender=V("g"),
         czoło=czoło,
-        **zaimek,
     )
     czoło_podmiot = nt("Subject", number=V("n"), gender=V("g"), czoło=czoło, **zaimek)
     zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], **POPRZEDNIK)
@@ -881,7 +878,6 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
             valency="acc",
             negacja=negacja,
             czoło=czoło,
-            **zaimek,
         )
         czoło_dopełnienie = nt(
             "Object", valency="acc", negacja=negacja, czoło=czoło, **zaimek
@@ -928,8 +924,45 @@ def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cech
         grammar.rule(symbol, [*ciało, *domknięcie], **cechy)
 
 
+#: Cechy, których symbol nie niesie w górę, choć żąda ich od swojej głowy.
+#: Reszta wychodzi z głowy sama (``olski/grammar.py``),
+#: więc zgodności nie wypisuje drugi raz żadna produkcja,
+#: a wpis tutaj mówi o symbolu to, czego z jego ciał nie widać.
+#:
+#: Powody są trzy. Zdanie nie niesie liczby, rodzaju, osoby, ramy ani przeczenia
+#: swojego czasownika, bo nad zdaniem nie ma z czym ich zgadzać.
+#: Rola nie niesie przypadka, bo sama go ustala.
+#: Cecha o kształcie wewnątrz konstytuenta — `czoło` wypełnienia,
+#: `accommodability` liczebnika, `dostawka` zdania — kończy się na nim.
+#:
+#: Żadnego z tych wpisów nie widać po werdykcie i nie jest to przypadek:
+#: o cechę, którą wpis zatrzymuje, nie pyta nad tym symbolem ani jedna produkcja
+#: poza `dostawka`, a nad prozą tego repozytorium gramatyka bez tych wpisów
+#: wydaje werdykt i liczbę czytań co do zdania te same.
+#: Wpisy zostają, bo cechę wypuszczaną rozdziela las na klasy pozycji
+#: (`klasy` w ``olski/parse.py``), więc niesiona bez czytelnika kosztuje rozbiór;
+#: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (TODO.md).
+NIE_WYPUSZCZANE = {
+    "ClauseConjunct": ("number", "gender", "person", "valency", "negacja", "dostawka"),
+    "Clause": ("dostawka",),
+    "Predicate": ("valency", "negacja"),
+    "RelativeCore": ("person", "valency", "negacja"),
+    "InterrogativeCore": ("person", "valency", "negacja"),
+    OKOLICZNIKOWY: ("tryb",),
+    ORZEKAJĄCY: ("case", "number"),
+    "Subject": ("case",),
+    "Object": ("case",),
+    "Predicative": ("case",),
+    "Modifier": ("case",),
+    "RelativeModifier": ("case",),
+    "InterrogativeModifier": ("case",),
+    "Complements": ("czoło",),
+    "NPConjunct": ("accommodability",),
+}
+
+
 def build() -> Grammar:
-    grammar = Grammar(start="Sentence")
+    grammar = Grammar(start="Sentence", nie_wypuszczane=NIE_WYPUSZCZANE)
 
     # Przymiotnik przy rzeczowniku i przymiotnik w orzeczniku, nazwane raz, bo
     # oba wykluczają ten sam lemat i wykluczenie ma być w każdym ciele to samo.
@@ -955,8 +988,8 @@ def build() -> Grammar:
         ("Adjective", word("pact", **AGREE)),
         ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
     ):
-        grammar.rule(symbol, [Głowa(słowo)], **AGREE)
-        grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)], **AGREE)
+        grammar.rule(symbol, [Głowa(słowo)])
+        grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)])
     przymiotnik = nt("Adjective", **AGREE)
     orzecznikowy = nt("PredicativeAdjective", **AGREE)
 
@@ -1025,29 +1058,22 @@ def build() -> Grammar:
     #
     # Ciągiem albo jednym członem ogłasza się każde z tych ciał (:data:`CIĄG`).
     człon = nt("ClauseConjunct", tryb=V("t"))
-    grammar.rule("Clause", [człon], tryb=V("t"), ciąg=BEZ_CIĄGU)
-    grammar.rule(
-        "Clause",
-        [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")],
-        tryb=V("t"),
-        ciąg=CIĄG,
-    )
-    grammar.rule("Clause", [Głowa(człon), PRZECINEK, nt("Clause")], tryb=V("t"), ciąg=CIĄG)
+    grammar.rule("Clause", [człon], ciąg=BEZ_CIĄGU)
+    grammar.rule("Clause", [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")], ciąg=CIĄG)
+    grammar.rule("Clause", [Głowa(człon), PRZECINEK, nt("Clause")], ciąg=CIĄG)
     # Przecinek i spójnik naraz, czyli ta interpunkcja, której polszczyzna żąda
     # przed `ale`, `a` i `więc` (:data:`SPÓJNIKI_PRZECINKOWE`). Poziom zdaniowy
     # ma tę pozycję, a imienny i przymiotnikowy nie, bo lista tych spójników jest
     # listą spójników zdaniowych: `nie polszczyzny, a dziedziny` jest w niej
     # elipsą, a nie ciągiem współrzędnym dwóch grup imiennych.
-    grammar.rule(
-        "Clause",
-        [Głowa(człon), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")],
-        tryb=V("t"),
-        ciąg=CIĄG,
-    )
+    grammar.rule("Clause", [Głowa(człon), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")], ciąg=CIĄG)
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
     # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
     # obiekt mówią dalej każda o swojej zgodności.
+    #
+    # Cechę, której żąda się tu od głowy, konstytuent niesie w górę sam
+    # (``olski/grammar.py``).
     #
     # Rodzaj przechodzi przez każdy szyk, bo żąda go czas przeszły, i dlatego
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
@@ -1120,11 +1146,11 @@ def build() -> Grammar:
     # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
     # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
     zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("Predicate",))
-    zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)], tryb=V("t"))
+    zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
 
     # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
     # jak Zapisuje ustawienia.
-    zdanie.dominacja("ClauseConjunct", [nt("Predicate", tryb=V("t"))], tryb=V("t"))
+    zdanie.dominacja("ClauseConjunct", [nt("Predicate", tryb=V("t"))])
 
     # Mianownika pojedynczego żąda ten terminal, bo tyle mówi o tej konstrukcji
     # polszczyzna: zwrot ma jedną formę, a każda inna forma tego lematu stoi pod
@@ -1146,9 +1172,7 @@ def build() -> Grammar:
     # Ciało drugie stoi pod czołem zdania względnego niżej, bo tam to wyrażenie
     # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
     # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
-    grammar.rule(
-        "ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
-    )
+    grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY)
 
     # Głowa, która orzeka bez podmiotu: predykatyw — `Trzeba czytać dokumenty.`,
     # `Nie widać granicy.` — oraz forma nieosobowa czasownika — `Zgłoszono
@@ -1205,7 +1229,6 @@ def build() -> Grammar:
         "ClauseConjunct",
         [podmiot, dopełnienie, Głowa(czasownik_ramy)],
         precedencja=_poza_orzeczeniem,
-        tryb=V("t"),
     )
 
     # Dopełnienie przed czasownikiem, którego podmiot jest opuszczony: `Cenę
@@ -1216,7 +1239,7 @@ def build() -> Grammar:
     # Szyku odwrotnego ta deklaracja nie ma z tego samego powodu, dla którego nie
     # ma go deklaracja z podmiotem (:func:`_poza_orzeczeniem`): czasownik wraz z
     # dopełnieniem za nim składa `Predicate`, a zdanie bez podmiotu jest nim samym.
-    zdanie.dominacja("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy)], tryb=V("t"))
+    zdanie.dominacja("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy)])
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
@@ -1224,10 +1247,8 @@ def build() -> Grammar:
     # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają z
     # tego samego powodu, dla którego nie ma go deklaracja wyżej: składa go
     # podmiot z orzeczeniem.
-    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot], tryb=V("t"))
-    zdanie.dominacja(
-        "ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik], tryb=V("t")
-    )
+    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot])
+    zdanie.dominacja("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
@@ -1241,9 +1262,7 @@ def build() -> Grammar:
     # je rama, a nie kolejność: kopula żąda narzędnika, a czasownik orzecznika
     # zgodnego żąda mianownika, więc przestawiona jedna z nich wypisałaby szyk,
     # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
-    zdanie.dominacja(
-        "ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot], tryb=V("t")
-    )
+    zdanie.dominacja("ClauseConjunct", [orzecznik_wysunięty, Głowa(kopula), podmiot])
 
     # Wtrącenie w nawiasie: `Zdanie stoi (docs/subset.md).`, `Cena jest zerowa
     # (niżej).` Wnętrzem jest grupa imienna albo przysłówek, bo tym są te
@@ -1278,9 +1297,7 @@ def build() -> Grammar:
     # zdaniom podrzędnym.
     for wnętrze in (nt("NP"), nt("AP"), nt("Modifier")):
         for przeczenie in ((), (PRZECZENIE,)):
-            _zamykane(
-                grammar, ELIPSA, [PRZECINEK, SPÓJNIK_ELIPSY, *przeczenie, Głowa(wnętrze)]
-            )
+            _zamykane(grammar, ELIPSA, [PRZECINEK, SPÓJNIK_ELIPSY, *przeczenie, Głowa(wnętrze)])
 
     # Oba te konstytuenty dostawiają się do zdania składowego jednym ciałem, bo
     # oba są tym samym: grupą postawioną obok zdania i nazwaną całym napisem.
@@ -1290,7 +1307,6 @@ def build() -> Grammar:
         grammar.rule(
             "ClauseConjunct",
             [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(dostawiony)],
-            tryb=V("t"),
             dostawka=DOSTAWKA,
         )
 
@@ -1304,21 +1320,16 @@ def build() -> Grammar:
     grammar.rule(
         "ClauseConjunct",
         [nt("Modifier"), Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
-        tryb=V("t"),
     )
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
         grammar.rule(
             "ClauseConjunct",
             [nt(przy_zdaniu), Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
-            tryb=V("t"),
         )
 
     grammar.rule(
         "Subject",
         [nt("NP", case="nom", number=V("n"), gender=V("g"), person=V("p"))],
-        number=V("n"),
-        gender=V("g"),
-        person=V("p"),
         czoło=BEZ_CZOŁA,
     )
     # Dopełnienie wychodzi z pozycją ramy, którą zajmuje, bo tym jest przypadek,
@@ -1328,19 +1339,13 @@ def build() -> Grammar:
     # Dopełniacz negacji zajmuje tę samą pozycję ramy, więc jest drugą produkcją
     # dopełnienia, a nie drugą pozycją. Wartość cechy jest tu wypisana, a nie
     # zmienna, bo o przypadku rozstrzyga właśnie ta produkcja.
-    grammar.rule(
-        "Object", [nt("NP", case="acc")], valency="acc", negacja="aff", czoło=BEZ_CZOŁA
-    )
-    grammar.rule(
-        "Object", [nt("NP", case="gen")], valency="acc", negacja="neg", czoło=BEZ_CZOŁA
-    )
+    grammar.rule("Object", [nt("NP", case="acc")], valency="acc", negacja="aff", czoło=BEZ_CZOŁA)
+    grammar.rule("Object", [nt("NP", case="gen")], valency="acc", negacja="neg", czoło=BEZ_CZOŁA)
 
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive
     # below share it instead of each carrying its own copy.
-    grammar.rule(
-        "Predicate", [czasownik], number=V("n"), gender=V("g"), person=V("p"), tryb=V("t")
-    )
+    grammar.rule("Predicate", [czasownik])
     grammar.rule(
         "Predicate",
         [
@@ -1353,10 +1358,6 @@ def build() -> Grammar:
                 negacja=V("z"),
             ),
         ],
-        number=V("n"),
-        person=V("p"),
-        gender=V("g"),
-        tryb=V("t"),
     )
 
     # A modal and its infinitive. Powinien inflects for gender and not for
@@ -1374,8 +1375,6 @@ def build() -> Grammar:
                 Głowa(word("winien", number=V("n"), gender=V("g"))),
                 nt("InfinitivePhrase", negacja=negacja),
             ],
-            number=V("n"),
-            gender=V("g"),
             tryb=TRYB_OZNAJMUJĄCY,
         )
     # Fraza bezokolicznikowa niesie pozycję ramy, którą zajmuje, tak samo jak
@@ -1453,7 +1452,6 @@ def build() -> Grammar:
     grammar.rule(
         "ClauseConjunct",
         [Głowa(nt("ClauseConjunct", tryb=V("t"))), nt(OKOLICZNIKOWY, pozycja="za")],
-        tryb=V("t"),
         dostawka=DOSTAWKA,
     )
     grammar.rule(
@@ -1462,7 +1460,6 @@ def build() -> Grammar:
             nt(OKOLICZNIKOWY, pozycja="przed"),
             Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI)),
         ],
-        tryb=V("t"),
     )
 
     # Te same dwie pozycje nad całym ciągiem współrzędnym, bo `Dwoisz się i troisz,
@@ -1477,8 +1474,6 @@ def build() -> Grammar:
     grammar.rule(
         "Clause",
         [Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG)), nt(OKOLICZNIKOWY, pozycja="za")],
-        tryb=V("t"),
-        ciąg=CIĄG,
         dostawka=DOSTAWKA,
     )
     grammar.rule(
@@ -1487,8 +1482,6 @@ def build() -> Grammar:
             nt(OKOLICZNIKOWY, pozycja="przed"),
             Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG, dostawka=BEZ_DOSTAWKI)),
         ],
-        tryb=V("t"),
-        ciąg=CIĄG,
     )
 
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
@@ -1523,14 +1516,7 @@ def build() -> Grammar:
             [Głowa(wypełnienie), okoliczniki],
             [okoliczniki, Głowa(wypełnienie), okoliczniki],
         ):
-            grammar.rule(
-                "Complements",
-                ciało,
-                number=V("n"),
-                gender=V("g"),
-                valency=V("w"),
-                negacja=V("z"),
-            )
+            grammar.rule("Complements", ciało)
     grammar.rule("Complements", [okoliczniki])
 
     # More than one adjunct, because postępować wobec innych w duchu braterstwa
@@ -1566,13 +1552,7 @@ def build() -> Grammar:
     #
     # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
-    grammar.rule(
-        "Predicative",
-        [nt("AP", case="nom", number=V("n"), gender=V("g"))],
-        valency="nom",
-        number=V("n"),
-        gender=V("g"),
-    )
+    grammar.rule("Predicative", [nt("AP", case="nom", number=V("n"), gender=V("g"))], valency="nom")
     grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst")
 
     # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
@@ -1599,8 +1579,6 @@ def build() -> Grammar:
                     grammar.rule(
                         "Verb",
                         [*przeczenie, *ciało, *cząstka],
-                        number=V("n"),
-                        gender=V("g"),
                         person=osoba,
                         valency=rama,
                         negacja=negacja,
@@ -1638,12 +1616,7 @@ def build() -> Grammar:
             valency="inf",
         )
 
-    grammar.rule(
-        "NP",
-        [nt("NPConjunct", person=V("p"), **AGREE)],
-        person=V("p"),
-        **AGREE,
-    )
+    grammar.rule("NP", [nt("NPConjunct", person=V("p"), **AGREE)])
     # Zdanie względne po grupie imiennej, w liczbie i rodzaju swojego zaimka:
     # `reguła, która rozstrzyga`. Przypadka nie niesie, bo zaimek bierze go z
     # roli, którą zajmuje w zdaniu podrzędnym, a nie od poprzednika.
@@ -1660,8 +1633,6 @@ def build() -> Grammar:
             Głowa(nt("NPConjunct", person=V("p"), **AGREE)),
             nt("RelativeClause", number=V("n"), gender=V("g")),
         ],
-        person=V("p"),
-        **AGREE,
     )
     # Tytuł i termin w cudzysłowie: `„Zasady techniki prawodawczej”`. Grupa
     # przechodzi przez cudzysłów cała, bo polszczyzna odmienia to, co on obejmuje,
@@ -1678,8 +1649,6 @@ def build() -> Grammar:
             Głowa(nt("NP", person=V("p"), **AGREE)),
             CUDZYSŁÓW_ZAMYKAJĄCY,
         ],
-        person=V("p"),
-        **AGREE,
     )
     # A coordination of noun phrases is plural and third person whatever its
     # conjuncts are, and it carries no gender: Polish resolves the gender of
@@ -1688,14 +1657,12 @@ def build() -> Grammar:
     grammar.rule(
         "NP",
         [Głowa(nt("NPConjunct", case=V("c"))), SPÓJNIK_BEZ_PRZECINKA, nt("NP", case=V("c"))],
-        case=V("c"),
         number="pl",
         person="ter",
     )
     grammar.rule(
         "NP",
         [Głowa(nt("NPConjunct", case=V("c"))), PRZECINEK, nt("NP", case=V("c"))],
-        case=V("c"),
         number="pl",
         person="ter",
     )
@@ -1705,12 +1672,7 @@ def build() -> Grammar:
     # and every one of these shares the same three variables, so they are named
     # once. A conjunct headed by a noun is third person by saying so; leaving
     # that off one of them would quietly let a first person verb take it.
-    grammar.rule(
-        "NPConjunct",
-        [przymiotnik, Głowa(nt("NPConjunct", **AGREE))],
-        person="ter",
-        **AGREE,
-    )
+    grammar.rule("NPConjunct", [przymiotnik, Głowa(nt("NPConjunct", **AGREE))], person="ter")
     # Głową grupy imiennej jest rzeczownik albo rzeczownik odczasownikowy, więc
     # każda pozycja niżej wychodzi dwoma ciałami, po jednym na głowę. Terminala o
     # dwóch częściach mowy tu nie ma i nie jest to wybór wygody: cena tej głowy ma
@@ -1730,28 +1692,13 @@ def build() -> Grammar:
         (word("subst", **AGREE), word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)),
         (word("ger", bez_lematu=PIĘCIE, **AGREE), word("ger", bez_lematu=PIĘCIE, **AGREE)),
     ):
-        grammar.rule("NPConjunct", [głowa], person="ter", **AGREE)
-        grammar.rule(
-            "NPConjunct",
-            [Głowa(głowa_dopełniacza), nt("NP", case="gen")],
-            person="ter",
-            **AGREE,
-        )
+        grammar.rule("NPConjunct", [głowa], person="ter")
+        grammar.rule("NPConjunct", [Głowa(głowa_dopełniacza), nt("NP", case="gen")], person="ter")
         # Polish puts an attributive adjective after the noun in terminology:
         # plik konfiguracyjny, język polski. Both orders are the language, so both
         # are here, and where a sentence admits both readings it is ambiguous.
-        grammar.rule(
-            "NPConjunct",
-            [Głowa(głowa), przymiotnik],
-            person="ter",
-            **AGREE,
-        )
-        grammar.rule(
-            "NPConjunct",
-            [Głowa(głowa), nt("Modifier")],
-            person="ter",
-            **AGREE,
-        )
+        grammar.rule("NPConjunct", [Głowa(głowa), przymiotnik], person="ter")
+        grammar.rule("NPConjunct", [Głowa(głowa), nt("Modifier")], person="ter")
         # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
         # ochrony ludności. Bez tej pozycji dopełniacz dochodzi tylko do przymiotnika
         # stojącego przed rzeczownikiem, więc termin nazwany drugim szykiem nie ma
@@ -1761,7 +1708,6 @@ def build() -> Grammar:
             "NPConjunct",
             [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen")],
             person="ter",
-            **AGREE,
         )
         # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
         # zbrojna w Strefie Gazy, rozmieszczenie ogrodów działkowych w Polsce,
@@ -1770,23 +1716,16 @@ def build() -> Grammar:
         # czytaniem przez czasownik. Trzecia idzie razem z przydawką wyżej: bez niej
         # wyrażenie po takim terminie dochodzi do dopełniacza i do nikogo więcej,
         # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
-        grammar.rule(
-            "NPConjunct",
-            [Głowa(głowa), przymiotnik, nt("Modifier")],
-            person="ter",
-            **AGREE,
-        )
+        grammar.rule("NPConjunct", [Głowa(głowa), przymiotnik, nt("Modifier")], person="ter")
         grammar.rule(
             "NPConjunct",
             [Głowa(głowa_dopełniacza), nt("NP", case="gen"), nt("Modifier")],
             person="ter",
-            **AGREE,
         )
         grammar.rule(
             "NPConjunct",
             [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen"), nt("Modifier")],
             person="ter",
-            **AGREE,
         )
     # Grupa liczebnikowa, w dwóch ciałach, bo polszczyzna ma dwa przyłączenia
     # liczebnika i Morfeusz rozdziela je cechą `accommodability`.
@@ -1817,23 +1756,15 @@ def build() -> Grammar:
     # głowie po prawej i od niej bierze `accommodability`; czego nie bierze i co
     # płaci, mówi
     # docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
-    grammar.rule(
-        "Liczebnik",
-        [word("num", accommodability=V("a"), **AGREE)],
-        accommodability=V("a"),
-        **AGREE,
-    )
+    grammar.rule("Liczebnik", [word("num", accommodability=V("a"), **AGREE)])
     grammar.rule(
         "Liczebnik",
         [word("num", **AGREE), Głowa(nt("Liczebnik", accommodability=V("a"), **AGREE))],
-        accommodability=V("a"),
-        **AGREE,
     )
     grammar.rule(
         "NPConjunct",
         [nt("Liczebnik", accommodability="congr", **AGREE), Głowa(nt("NPConjunct", **AGREE))],
         person="ter",
-        **AGREE,
     )
     grammar.rule(
         "NPConjunct",
@@ -1841,7 +1772,6 @@ def build() -> Grammar:
             Głowa(nt("Liczebnik", accommodability="rec", case=V("c"), gender=V("g"))),
             nt("NP", case="gen", number="pl", gender=V("g")),
         ],
-        case=V("c"),
         number="sg",
         gender="n",
         person="ter",
@@ -1850,12 +1780,7 @@ def build() -> Grammar:
     # A pronoun is the one conjunct that carries its own person, which is the
     # whole reason it is here: without one, first and second person subjects
     # have no noun phrase to be.
-    grammar.rule(
-        "NPConjunct",
-        [word("ppron3|ppron12", person=V("p"), **AGREE)],
-        person=V("p"),
-        **AGREE,
-    )
+    grammar.rule("NPConjunct", [word("ppron3|ppron12", person=V("p"), **AGREE)])
 
     # Zaimek dzierżawczy przed grupą imienną: `jego skutki`, `ich cena`
     # (:data:`ZAIMEK_DZIERŻAWCZY`). Zgodności ta pozycja nie ma i mieć nie może:
@@ -1867,12 +1792,7 @@ def build() -> Grammar:
     # Ciało jest jedno, bo dopełniacz po rzeczowniku bierze produkcja wyżej.
     # Co ta pozycja kosztuje, mierzy
     # docs/subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem.
-    grammar.rule(
-        "NPConjunct",
-        [ZAIMEK_DZIERŻAWCZY, Głowa(nt("NPConjunct", **AGREE))],
-        person="ter",
-        **AGREE,
-    )
+    grammar.rule("NPConjunct", [ZAIMEK_DZIERŻAWCZY, Głowa(nt("NPConjunct", **AGREE))], person="ter")
 
     # Cząstka przed grupą imienną, czyli jej gospodarz drugi: `Nawet ptaki przestały
     # śpiewać.` Kurs, po którym weszła, trzyma
@@ -1884,33 +1804,20 @@ def build() -> Grammar:
     # Osobę ta pozycja przepuszcza, a nie ogłasza `ter` jak przymiotnik i zaimek
     # dzierżawczy nad nią, bo cząstka staje i przed zaimkiem
     # (`Nawet ja zapisuję ustawienia.`).
-    grammar.rule(
-        "NPConjunct",
-        [CZĄSTKA, Głowa(nt("NPConjunct", person=V("p"), **AGREE))],
-        person=V("p"),
-        **AGREE,
-    )
+    grammar.rule("NPConjunct", [CZĄSTKA, Głowa(nt("NPConjunct", person=V("p"), **AGREE))])
 
     # Adjective phrases, coordinated the same way and agreeing throughout, so
     # that wolni i równi is one predicative and wolna i równi is none.
-    grammar.rule("AP", [nt("APConjunct", **AGREE)], **AGREE)
-    grammar.rule(
-        "AP",
-        [Głowa(nt("APConjunct", **AGREE)), SPÓJNIK_BEZ_PRZECINKA, nt("AP", **AGREE)],
-        **AGREE,
-    )
-    grammar.rule(
-        "AP", [Głowa(nt("APConjunct", **AGREE)), PRZECINEK, nt("AP", **AGREE)], **AGREE
-    )
+    grammar.rule("AP", [nt("APConjunct", **AGREE)])
+    grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), SPÓJNIK_BEZ_PRZECINKA, nt("AP", **AGREE)])
+    grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), PRZECINEK, nt("AP", **AGREE)])
     # A passive participle is an adjective for these purposes, and it keeps the
     # complement its verb governed: obdarzeni rozumem i sumieniem.
-    grammar.rule("APConjunct", [orzecznikowy], **AGREE)
-    grammar.rule(
-        "APConjunct", [Głowa(orzecznikowy), nt("NP", case="inst")], **AGREE
-    )
+    grammar.rule("APConjunct", [orzecznikowy])
+    grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("NP", case="inst")])
     # Trzecie miejsce, do którego wyrażenie przyimkowe dochodzi: powiązani z
     # interesami postkomunistów, przeznaczany na budowę.
-    grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("Modifier")], **AGREE)
+    grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("Modifier")])
 
     # A preposition governs a case, and the noun phrase has to be in it.
     # One lemma is excluded and it is excluded by name
@@ -1955,13 +1862,8 @@ def build() -> Grammar:
     # dwa czytania jednego napisu, i dlatego jest to ciało osobne, a nie druga
     # córka w obu; docs/subset.md wywodzi to razem z ceną.
     rdzeń = Głowa(nt("RelativeCore", number=V("n"), gender=V("g")))
-    _zamykane(grammar, "RelativeClause", [PRZECINEK, rdzeń], number=V("n"), gender=V("g"))
-    grammar.rule(
-        "RelativeClause",
-        [PRZECINEK, rdzeń, nt(WTRĄCONY), PRZECINEK],
-        number=V("n"),
-        gender=V("g"),
-    )
+    _zamykane(grammar, "RelativeClause", [PRZECINEK, rdzeń])
+    grammar.rule("RelativeClause", [PRZECINEK, rdzeń, nt(WTRĄCONY), PRZECINEK])
 
     # Zaimek względny jest grupą imienną o jednym słowie i osobnym symbolem, bo
     # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
@@ -1972,7 +1874,6 @@ def build() -> Grammar:
     grammar.rule(
         "RelativePronoun",
         [word("adj", lemma=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)],
-        **AGREE,
         **zaimek_czoła(V("n"), V("g")),
     )
 
@@ -1997,7 +1898,7 @@ def build() -> Grammar:
         [Głowa(głowa_grupy), zaimek_dopełniacza],
         [zaimek_dopełniacza, Głowa(głowa_grupy)],
     ):
-        grammar.rule("RelativeNP", ciało, **AGREE, **zaimek_czoła(V("nz"), V("gz")))
+        grammar.rule("RelativeNP", ciało, **zaimek_czoła(V("nz"), V("gz")))
 
     # Grupa pytajna: zaimek pytajny i grupa imienna, przy której on stoi. Głową
     # jest grupa imienna, bo pytanie jest o rzecz, którą ona nazywa, a zaimek mówi
@@ -2007,7 +1908,6 @@ def build() -> Grammar:
     grammar.rule(
         PYTAJNY,
         [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))],
-        **AGREE,
         **zaimek_czoła(V("n"), V("g")),
     )
 
@@ -2044,11 +1944,7 @@ def build() -> Grammar:
         # wyraz (:data:`ORZEKAJĄCY`). Dwa ciała, a nie jedno z symbolem wspólnym:
         # cena każdego z nich jest osobną liczbą.
         for wnętrze in (nt("ClauseConjunct"), nt(ORZEKAJĄCY)):
-            grammar.rule(
-                symbol,
-                [nt(modyfikator, **POPRZEDNIK), Głowa(wnętrze)],
-                **POPRZEDNIK,
-            )
+            grammar.rule(symbol, [nt(modyfikator, **POPRZEDNIK), Głowa(wnętrze)], **POPRZEDNIK)
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
     # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka

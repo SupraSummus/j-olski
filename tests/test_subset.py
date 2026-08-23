@@ -637,6 +637,43 @@ def test_więz_na_cechę_której_symbol_nie_wypuszcza_jest_zgłaszany():
     assert grammar.więzy_niesprawdzane() == frozenset({("B", "nubmer")})
 
 
+def test_cecha_żądana_od_głowy_wychodzi_z_konstytuenta_bez_wypisywania():
+    #  Tyle zostaje po wierszu pominiętym w wypisywaniu: cechy nieobecnej
+    #  unifikacja nie sprawdza, więc konstytuent milczący o liczbie przechodził
+    #  pod każdy więz na nią. Wypisane wygrywa, bo produkcja wypuszczająca co
+    #  innego niż jej głowa mówi to wprost.
+    grammar = Grammar(start="A")
+    z_głowy = grammar.rule("A", [Głowa(nt("B", number=V("n"))), word("interp")])
+    wypisane = grammar.rule("A", [Głowa(nt("B", number=V("n")))], number="pl")
+    assert dict(z_głowy.features) == {"number": V("n")}
+    assert dict(wypisane.features) == {"number": frozenset({"pl"})}
+
+
+def test_cecha_wypisana_wśród_niewypuszczanych_z_głowy_nie_wychodzi():
+    #  Zdanie składowe nie niesie liczby swojego czasownika, bo nad zdaniem nie
+    #  ma z czym jej zgadzać. Wyjątek jest wypisany raz na symbol i na cechę
+    #  (:data:`olski.subset.NIE_WYPUSZCZANE`).
+    grammar = Grammar(start="A", nie_wypuszczane={"A": ("number",)})
+    produkcja = grammar.rule("A", [Głowa(nt("B", number=V("n"), gender=V("g")))])
+    assert dict(produkcja.features) == {"gender": V("g")}
+
+
+def test_wpis_niewypuszczanej_cechy_bez_żądania_jest_zgłaszany():
+    #  Tyle zostaje po produkcji zdjętej albo przemianowanej: wyjątek, który
+    #  zatrzymuje cechę, o którą już nikt nie pyta.
+    grammar = Grammar(start="A", nie_wypuszczane={"A": ("number", "gender")})
+    grammar.rule("A", [word("subst", number=V("n"))])
+    assert grammar.nie_wypuszczane_bez_żądania() == frozenset({("A", "gender")})
+
+
+def test_cecha_wypuszczana_zmienną_której_nic_nie_wiąże_jest_zgłaszana():
+    #  Tyle zostaje po literówce w nazwie zmiennej: deklaracja, która milczy,
+    #  bo zmiennej nie wiąże żaden więz na córce.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [word("subst", number=V("n"))], number=V("nn"))
+    assert grammar.wypuszczane_bez_wiązania() == frozenset({("A", "number")})
+
+
 def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
     #  Produkcja dopisana bez znacznika nazwałaby gospodarza przyłączenia pierwszą
     #  córką, cokolwiek nią jest, a werdykt wskazywałby wtedy nie to słowo i nie
@@ -1297,8 +1334,14 @@ def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(
     assert odniesienia, symbol
     for part in odniesienia:
         assert "gender" in dict(part.constraints), part
+    #  Rodzaj wychodzi z głowy sam, więc pyta ten test o córkę, która głową nie
+    #  jest: ciało biorące rodzaj od niej wypuszcza go tylko wtedy, gdy sam to
+    #  mówi. Produkcja, której o rodzaj nie pyta ani jedna córka, przepuszczać go
+    #  nie ma: czas teraźniejszy tej cechy nie niesie.
     for production in GRAMMAR.productions:
-        if production.head == symbol:
+        if production.head != symbol:
+            continue
+        if any("gender" in dict(part.constraints) for part in production.body):
             assert "gender" in dict(production.features), production
 
 
@@ -2915,6 +2958,14 @@ def test_każdy_symbol_gramatyki_jest_osiągalny_od_startu():
 
 def test_każdy_więz_gramatyki_pyta_o_cechę_wypuszczaną():
     assert GRAMMAR.więzy_niesprawdzane() == frozenset()
+
+
+def test_każda_cecha_wypuszczana_przez_gramatykę_ma_co_wiązać_jej_zmienną():
+    assert GRAMMAR.wypuszczane_bez_wiązania() == frozenset()
+
+
+def test_każdy_wpis_wśród_niewypuszczanych_zatrzymuje_jakąś_cechę():
+    assert GRAMMAR.nie_wypuszczane_bez_żądania() == frozenset()
 
 
 # --------------------------------------------------------------------------- #
