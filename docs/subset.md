@@ -2421,6 +2421,60 @@ czyli tak, jak wygląda zdanie, o którym gramatyka wybrała przyłączenie
 Wieloznaczność tego zdania jest więc tym przyłączeniem,
 a nie czymkolwiek, co wnosi kopuła opuszczona.
 
+## Określenie przed zdaniem wchodzi pod to, które stoi za nim
+
+Zdanie składowe bierze określenie z obu stron i bierze je jednym symbolem.
+Przed nim stoi wyrażenie przyimkowe, przysłówek albo cząstka,
+a za nim wtrącenie w nawiasie, człon bez czasownika
+albo [okolicznik wyrażony zdaniem](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania).
+Żadna z tych produkcji nie mówi, która dochodzi pierwsza,
+więc same z siebie dają jednemu napisowi dwa kształty:
+
+```text
+Na stole leży sto dwadzieścia chlebów, bo piekarz je tam położył.
+```
+
+`Na stole` wchodzi w jednym kształcie pod okolicznik, a w drugim nad niego,
+i to jest cała różnica między nimi.
+Streszczenie nie różni ich ani jednym znakiem,
+bo gospodarzem tego modyfikatora jest w obu ten sam czasownik,
+więc werdykt liczy dwa czytania
+i nie ma czym pokazać, czym się różnią.
+Czytelnik nie ma tu przy tym czego rozstrzygać:
+określenie przed zdaniem nie mówi nic o tym, co stoi za zdaniem,
+a określenie za zdaniem nie mówi nic o tym, co stoi przed nim.
+[Czytaniem jest kształt](#co-się-liczy-jako-jedno-czytanie),
+więc dwa kształty na jedno czytanie są usterką tej gramatyki,
+a nie faktem o polszczyźnie.
+
+Kształt zdejmuje gramatyka, choć oba znaczą to samo,
+bo ani tożsamość czytania, ani warstwa znacząca tu nie sięgają.
+Zwinięcie po stronie tożsamości żąda postaci normalnej nad zagnieżdżeniem określeń,
+zostawia oba wyprowadzenia w lesie,
+a sygnatura grubsza obowiązuje każde zdanie naraz, nie tylko tę parę
+([disambiguation.md](disambiguation.md#tożsamość-czytania-jest-tańsza-i-częściowo-już-stoi)).
+Warstwa znacząca dziedzinę ma węższą niż gramatyka i tych zdań nie dosięga
+([architecture.md](architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia)).
+Warunek w gramatyce kosztuje za to jedną cechę, a las po nim maleje.
+
+Porządek jest zapisany cechą (`dostawka` w `olski/subset.py`):
+określenie stojące za zdaniem ją wypuszcza,
+a określenie wysunięte przed zdanie żąda gospodarza, który jej nie niesie.
+Wysunięte wchodzi więc pod to, co stoi za zdaniem, i nigdy nad nie.
+Który z dwóch kształtów zostaje, nie rozstrzyga niczego poza sobą:
+werdykt nad takim zdaniem wychodzi z obu ten sam.
+
+Zdanie określone z jednej strony ma kształt jeden i warunek tego kształtu nie rusza,
+więc nie odbiera on wyprowadzenia ani jednemu zdaniu:
+nad Składnicą 180723 odrzuconych zdań jest z nim tyle samo, ile bez niego,
+pod złotą morfologią i pod żywą.
+Zdanie określone z obu stron ma za to czytań co najmniej o połowę mniej,
+bo bez warunku mnoży je każde wysunięcie z każdym określeniem za zdaniem,
+a kilkanaście zdań tego banku drzew przechodzi z wieloznacznych do przyjętych,
+żadne nie tracąc złotego czytania.
+Nad prozą tego repozytorium przechodzi ich kilka
+([corpus.md](corpus.md#where-the-analyses-stop) trzyma polecenie).
+
 ## Grupa liczebnikowa zgadza się tym, czego nie ma w środku
 
 Liczebnik przyłącza się w polszczyźnie dwoma sposobami

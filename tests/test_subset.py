@@ -2326,6 +2326,57 @@ def test_zdanie_okolicznikowe_wyprowadza_się_raz_w_obu_pozycjach(zdanie):
     assert found.status == "valid", found.explain()
 
 
+def test_każda_para_ciał_okalających_symbol_ma_zapisany_porządek():
+    """Ciało dopisane z jednej strony bez warunku na drugą daje napisowi dwa kształty.
+
+    Dwie rodziny produkcji dochodzące do jednego symbolu nie mówią same z siebie,
+    która dochodzi pierwsza, a pojedyncze zdanie tego nie łapie, bo ciał jest po
+    kilka z każdej strony i zdanie przechodzi przez jedną ich parę
+    (docs/subset.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim).
+    Warunek jest tu cechą, której wartości się nie przecinają, i pyta o niego
+    unifikacja, więc porządek zapisany inną cechą przechodzi tak samo.
+    """
+    lewe, prawe = [], []
+    for production in GRAMMAR.productions:
+        głowa = production.body[production.głowa]
+        if len(production.body) < 2 or not isinstance(głowa, Sym):
+            continue
+        if głowa.name != production.head:
+            continue
+        if production.głowa == len(production.body) - 1:
+            lewe.append(production)
+        elif production.głowa == 0:
+            prawe.append(production)
+    assert lewe and prawe, (lewe, prawe)
+    for wysunięte in lewe:
+        gospodarz = wysunięte.body[wysunięte.głowa].constraints
+        for dostawione in prawe:
+            if dostawione.head != wysunięte.head:
+                continue
+            wypuszczane = {
+                nazwa: wartość
+                for nazwa, wartość in dostawione.features
+                if isinstance(wartość, frozenset)
+            }
+            assert unify(gospodarz, wypuszczane, EMPTY) is None, (wysunięte, dostawione)
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Wysunięty modyfikator z okolicznikiem wyrażonym zdaniem, czyli to zdanie,
+        #  na którym tę parę kształtów zauważono, oraz z wtrąceniem.
+        "Na stole leży sto dwadzieścia chlebów, bo piekarz je tam położył.",
+        "Na stole leży chleb (docs/subset.md).",
+    ],
+)
+def test_określenie_z_obu_stron_zdania_nie_daje_dwóch_kształtów(zdanie):
+    #  Niezmiennik wyżej mówi o produkcjach, a to zdanie o werdykcie, bo cecha
+    #  zapisana w ciałach i zdanie wychodzące jednym czytaniem to dwie rzeczy.
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
+
+
 @pytest.mark.parametrize(
     "zdanie",
     [

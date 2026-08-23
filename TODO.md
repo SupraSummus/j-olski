@@ -1328,6 +1328,15 @@ a wtedy ruchem jest sygnatura czytania, a nie wiersz werdyktu.
 Dwa są przeczytane i wypadły po jednym na stronę:
 zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
 a `równych praw kobiet i mężczyzn` jedną.
+Na tej samej różnicy ten wiersz ustępuje drugi raz, a ustępuje wtedy `różniące`:
+`Gdy linter sprawdza tekst, program zapisuje ustawienia.` wydaje cztery czytania,
+z których dwa różni szyk wewnątrz okolicznika,
+a wiersza o tym konstytuencie nie ma, bo w dwóch pozostałych `Gdy` jest przysłówkiem
+i ta sama pozycja stoi w zdaniu głównym, gdzie jej role nazywa tamto podsumowanie.
+Wykluczenie zdjęte na próbę oddaje temu zdaniu wiersz o wnętrzu okolicznika,
+więc zawężenie ma tu tego samego adresata co przy ciągu.
+Nad prozą `docs/` samą liczbą czytań zostaje kilkanaście zdań,
+a ile z nich stoi na którym z tych dwóch wykluczeń, jest do przeczytania.
 
 Porównanie ról liczy za niezgodność i czytanie dobre, i czytanie złe,
 kiedy drzewo wzorcowe nie znaczy w tym miejscu żadnego gniazda.
@@ -2119,6 +2128,19 @@ więc jest to trzecie ciało koordynacji, a nie druga lista lematów.
 Do przeczytania jest, czy powtórzony spójnik ma stanąć na wszystkich trzech
 poziomach naraz, bo `ani jedno zdanie, ani drugie` jest grupą imienną,
 a cena każdego poziomu jest osobną liczbą.
+
+Dwie liczby w [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
+są wyższe od tego, co mówi przebieg.
+Dokument mówi, że przyłączenie jest całą decyzją w siedmiu zdaniach na dziesięć,
+a w dwóch klasach, które je nazywają, w przeszło czterech piątych,
+gdy `python3 -m harness.czytania` nad Składnicą 180723 mówi dziś mniej:
+przeszło trzy piąte i przeszło trzy czwarte.
+Ruchem jest granica postawiona po tej stronie, po której stoi pomiar
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
+albo zdanie oddające obie liczby przebiegowi.
+Do przeczytania jest akapit pod nimi, bo argumentuje on ich rzędem wielkości,
+oraz sam wydruk, bo drugą z tych liczb przebieg drukuje osobno dla każdej z dwóch klas,
+a granica trzyma się tylko pod jedną z nich.
 
 ## Skład i opowieści
 
