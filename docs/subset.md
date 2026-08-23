@@ -3339,7 +3339,7 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 <text>: ambiguous Plik jest bardzo duży.
                   2 readings, differing in Adverb, Predicative
                   - Subject: Plik, Predicative: bardzo duży, Verb: jest
-                  - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo
+                  - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo → jest
 0 of 1 sentences are olski, and 1 have a reading
 ```
 

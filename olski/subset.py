@@ -154,7 +154,29 @@ DEKLARACJA = Deklaracja(
         DOPOWIEDZIANY,
         PRZYŁĄCZANY,
     ),
-    przyłączany=PRZYŁĄCZANY,
+    # Tu stoi każda rola, którą gramatyka wpuszcza w kilka miejsc:
+    # bez nazwy gospodarza dwa czytania różne samym miejscem
+    # wychodzą z werdyktu jednym wierszem powtórzonym dwa razy.
+    # W `Począł myśleć gorączkowo.` czytania różni tylko to,
+    # czy `gorączkowo` doszło do bezokolicznika, czy do formy osobowej nad nim.
+    # Kryterium bierzemy z kształtu gramatyki i płacimy strzałką,
+    # która powtarza czasownik zdania tam, gdzie gospodarz jest jeden.
+    # Strzałka stawiana dopiero tam, gdzie gospodarz się rusza, byłaby tańsza,
+    # a zabrałaby ją zdaniu o jednym czytaniu, gdzie nie rusza się nigdy,
+    # choć mówi jedyną rzecz, jakiej o tym czytaniu nie widać po rolach.
+    # Dopowiedzenie zostaje przez to poza listą,
+    # bo gramatyka daje mu jedno miejsce (`Sentence` niżej),
+    # więc jego strzałka powtarzałaby czasownik zawsze.
+    przyłączane=(
+        PRZYŁĄCZANY,
+        PRZYSŁÓWKOWY,
+        CZĄSTKOWY,
+        SPÓJNIKOWY,
+        OKOLICZNIKOWY,
+        WTRĄCONY,
+        ELIPSA,
+    ),
+    rozstrzygany=PRZYŁĄCZANY,
     # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
     # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
     # (``_gospodarze`` w ``olski/parse.py``):

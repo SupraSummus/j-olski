@@ -1141,6 +1141,29 @@ def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniam
     }
 
 
+@pytest.mark.parametrize(
+    ("text", "rola", "modyfikator"),
+    [
+        ("Począł myśleć gorączkowo.", "Adverb", "gorączkowo"),
+        ("Począł myśleć już.", "Particle", "już"),
+    ],
+)
+def test_okolicznik_bez_przyimka_nazywa_gospodarza_tak_jak_wyrażenie_przyimkowe(
+    text, rola, modyfikator
+):
+    #  Gospodarz jest tu całą różnicą między dwoma czytaniami:
+    #  `począł (myśleć gorączkowo)` i `(począł myśleć) gorączkowo`.
+    #  Usterka, którą to łapie: rola przyłączana bez nazwy gospodarza,
+    #  po której werdykt drukuje jeden wiersz dwa razy
+    #  i nie mówi o zdaniu nic poza liczbą czytań.
+    found = verdict(text)
+    assert found.status == "ambiguous", found.explain()
+    assert {reading[rola] for reading in found.readings} == {
+        f"{modyfikator} → myśleć",
+        f"{modyfikator} → Począł",
+    }
+
+
 def test_streszczenie_wiąże_okolicznik_ze_zdaniem_a_nie_z_dopełnieniem():
     #  `Adjuncts` stoi w drzewie pod `Complements`, czyli tuż obok dopełnienia,
     #  więc przyłączenie wzięte z najbliższego węzła z materiałem obok
@@ -1394,7 +1417,7 @@ def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
     werdykt = verdict("Cena jest niska (koszt w pliku).")
     assert werdykt.status == "valid", werdykt.explain()
     [czytanie] = werdykt.readings
-    assert czytanie[WTRĄCONY] == "( koszt w pliku )", czytanie
+    assert czytanie[WTRĄCONY] == "( koszt w pliku ) → jest", czytanie
     assert PRZYŁĄCZANY not in czytanie, czytanie
 
 
@@ -1663,7 +1686,7 @@ def test_dwóch_gospodarzy_przysłówka_rozdziela_w_streszczeniu_rola():
         "bardzo duży",
         "duży",
     }
-    assert {czytanie.get("Adverb") for czytanie in found.readings} == {None, "bardzo"}
+    assert {czytanie.get("Adverb") for czytanie in found.readings} == {None, "bardzo → jest"}
 
 
 def test_okolicznik_staje_po_czasowniku_i_daje_zdaniu_czytanie_z_podmiotem():
@@ -1695,8 +1718,8 @@ def test_przysłówek_przed_przysłówkiem_dochodzi_do_niego_a_nie_do_zdania():
     found = verdict("Program zapisuje ustawienia bardzo szybko.")
     assert found.status == "ambiguous", found.explain()
     assert {czytanie.get("Adverb") for czytanie in found.readings} == {
-        "bardzo szybko",
-        "bardzo",
+        "bardzo szybko → zapisuje",
+        "bardzo → zapisuje",
     }
 
 
@@ -1705,7 +1728,7 @@ def test_przysłówek_okolicznikowy_dostaje_rolę_a_nie_samo_wyprowadzenie():
     #  przyjął, a rola jest tym, po co werdykt stoi (docs/roadmap.md).
     found = verdict("Program zapisuje ustawienia szybko.")
     assert found.status == "valid", found.explain()
-    assert found.readings[0]["Adverb"] == "szybko"
+    assert found.readings[0]["Adverb"] == "szybko → zapisuje"
 
 
 def test_cząstka_dostaje_rolę_osobną_od_przysłówka_w_obu_pozycjach():
@@ -1716,10 +1739,12 @@ def test_cząstka_dostaje_rolę_osobną_od_przysłówka_w_obu_pozycjach():
     #  nie bierze. Zdanie drugie cząstkę wpuszcza także do podmiotu, więc pytamy o
     #  rolę wśród czytań, a nie o pierwsze z nich.
     okolicznik = verdict("Program już zapisuje ustawienia.")
-    assert okolicznik.readings[0][CZĄSTKOWY] == "już", okolicznik.explain()
+    assert okolicznik.readings[0][CZĄSTKOWY] == "już → zapisuje", okolicznik.explain()
     assert PRZYSŁÓWKOWY not in okolicznik.readings[0], okolicznik.explain()
     czoło = verdict("Już program zapisuje ustawienia.")
-    assert "Już" in {czytanie.get(CZĄSTKOWY) for czytanie in czoło.readings}, czoło.explain()
+    assert "Już → zapisuje" in {
+        czytanie.get(CZĄSTKOWY) for czytanie in czoło.readings
+    }, czoło.explain()
 
 
 def test_cząstka_w_grupie_imiennej_wchodzi_w_zasięg_roli_a_nie_obok_niej():
@@ -1735,7 +1760,7 @@ def test_cząstka_w_grupie_imiennej_wchodzi_w_zasięg_roli_a_nie_obok_niej():
     assert found.status == "ambiguous", found.explain()
     assert {
         (czytanie.get("Subject"), czytanie.get(CZĄSTKOWY)) for czytanie in found.readings
-    } == {("Nawet ptaki", None), ("ptaki", "Nawet")}, found.explain()
+    } == {("Nawet ptaki", None), ("ptaki", "Nawet → przestały")}, found.explain()
 
 
 def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
@@ -2453,7 +2478,7 @@ def test_streszczenie_nazywa_okolicznik_zdaniowy_a_wnętrza_jego_nie_otwiera():
     roles = verdict("Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.")
     (streszczenie,) = roles.readings
     assert streszczenie["Subject"] == "program"
-    assert streszczenie["AdverbialClause"] == "Ponieważ linter sprawdza dokumentację,"
+    assert streszczenie["AdverbialClause"] == "Ponieważ linter sprawdza dokumentację, → zapisuje"
 
 
 def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
