@@ -427,6 +427,28 @@ którego analiza kończy się na cząstce.
 Najkrótsze zdania tego zbioru są przy tym w większości pytaniami,
 a cały zbiór nie: pytań jest w nim 25 z 323.
 
+Za mową niezależną wypadła nieciągłość także u Świgry i jest to pomiar cudzy.
+Składnica powstawała etapami, a w pierwszym z nich gramatyka nieciągłości nie miała,
+więc dendrolog odkładał takie zdanie, wpisując powód ręką.
+Woliński rozbił potem te powody na losowej próbce stu odłożonych zdań:
+mowa niezależna wypadła w trzydziestu dziewięciu, cudzysłów w dwudziestu siedmiu,
+myślnik w dziewiętnastu, nawias w czternastu, a nieciągłość w pięciu.
+Licząc wobec całego korpusu, nieciągłość zatrzymała jeden procent zdań,
+a sama mowa niezależna siedem,
+i to ta próbka pokierowała rozbudową tamtej gramatyki
+(Woliński 2019, p. 6.6, w [źródłach](#sources) na końcu).
+Ten jeden procent jest niski częściowo dlatego,
+że Świgra zdjęła sobie część nieciągłości samym wyborem struktury,
+zamiast opisywać ją jako nieciągłość:
+podmiot rozbijający grupę orzeczenia, spójnik inkorporacyjny
+i oderwany człon formy analitycznej dostają tam drzewa ciągłe (tamże, p. 2.13 i 2.14).
+Dwa pomiary pytają więc o różne rzeczy — tamten o to, co blokuje analizę
+w gramatyce całej polszczyzny, a ten o to, ile zdań potrzebuje szczeliny
+w drzewie już zatwierdzonym — a oba stawiają przed nieciągłością przytoczenie.
+Robi to również [kolejka odrzuceń](corpus.md#where-the-analyses-stop) olskiego,
+którą prowadzi interpunkcja, a zapisuje ona w tym korpusie
+głównie dialog i mowę niezależną.
+
 **Cena: 100 z 348 zdań przestaje mieć jedno czytanie.**
 Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
 łukami zależności zamiast produkcjami.
@@ -1712,3 +1734,7 @@ so it shipped with the pack and went with it
 - <https://www.ling.upenn.edu/~beatrice/syntax-textbook/lbe.html> —
   left branch extraction in Slavic, textbook summary
 - <https://mdpi.com/1999-4893/9/3/58/htm> — LR parsing for LCFRS
+- <https://www.wuw.pl/data/include/cms/Automatyczna_analiza_skladnikowa_Wolinski_Marcin_2019.pdf> —
+  Woliński, *Automatyczna analiza składnikowa języka polskiego*, 2019,
+  skąd powody odłożenia zdania na pierwszym etapie Składnicy
+  i nieciągłości, które Świgra zdejmuje wyborem struktury

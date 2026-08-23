@@ -51,6 +51,18 @@ and NKJP tags are not Morfeusz 2's,
 so the probe translates between them and is coarse where it does.
 Everything here that is not that number is about what the code says.
 
+The monograph under [Sources](#sources) was read as well,
+and what it holds is decisions and measurements rather than mechanisms,
+so it lands in the documents that own those and not in this one:
+what stopped the treebank's own grammar before discontinuity did
+([design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)),
+what the verified trees still get wrong
+([corpus.md](corpus.md#what-this-number-is-not)),
+how much a disambiguating layer has to see
+([disambiguation.md](disambiguation.md#cechy-lekkie-biją-ciężkie-bo-uzgodnienia-sprawdziła-już-gramatyka)),
+and which word orders Polish prose actually uses
+([sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)).
+
 ## What Świgra occupies
 
 Świgra takes a Polish sentence and returns every constituency tree it has,

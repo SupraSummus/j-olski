@@ -142,6 +142,23 @@ Języki o szyku ustalonym tego wyboru nie mają,
 więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
 Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).
 
+Szyk, który z tego drzewa wychodzi, ma z czym się porównać,
+bo rozkład szyków polszczyzny ktoś policzył.
+Woliński przeliczył szyk 16 019 zdań elementarnych Składnicy
+i powtórzył tym samym wcześniejsze liczenie Derwojedowej,
+zrobione ręką na korpusie mniejszym i inaczej dobranym;
+osiem najczęstszych wariantów wyszło w obu badaniach to samo.
+Pierwszy jest wariant VO z 24,5% zdań, drugi SVO z 22,5%, a trzeci OVS z 7,3%
+(Woliński, *Automatyczna analiza składnikowa języka polskiego*, 2019, p. 6.9,
+a wylicza tę pracę [swigra.md](swigra.md#sources)).
+Wiersz pierwszy liczy zdania, w których podmiot nie został wypisany,
+choć zdania z podmiotem są razem liczniejsze niż te bez niego,
+a opuszczanie podmiotu jest dokładnie tym, co ten kompilator już umie.
+Drugi i trzeci wiersz różni sam szyk przy tym samym komplecie ról,
+czyli ten wybór, który tutaj wychodzi z tematu i rematu.
+Korpus jest jednak prozą i prasą, a nie rejestrem, do którego skład celuje,
+więc rozkład ten jest miarą porównawczą, a nie celem do trafienia.
+
 ## Tekst wie to, czego zdanie o sobie nie wie
 
 Zdanie skompilowane osobno wypisuje każdą rzecz pełną nazwą
