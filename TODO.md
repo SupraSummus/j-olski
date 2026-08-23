@@ -901,6 +901,22 @@ głowami naraz, bo ciała zdania są dla nich wspólne
 Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
 z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
 
+Wiersz zdań bez struktury nad całością ma nad Składnicą przeszło tysiąc zdań
+i przeczytana jest z nich garść.
+Nazywa on zdarzenie, a nie konstrukcję — analiza wzięła każdą formę zdania
+i nie domknęła całości
+([`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)) —
+więc mówi, gdzie szukać, a nie czego brakuje.
+Nagłówek bez czasownika, `Na próżno.` czy `Najpospolitszy.`, jest w nim mniejszością,
+a większość tych zdań niesie formę czasownikową,
+czyli brakuje w nich czegoś nad czasownikiem, a nie samego czasownika.
+Ruchem jest odczytanie tej resztki i rozbicie jej na klasy,
+z tego klasy nazwane w [`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet),
+jeśli któraś jest konstrukcją, a nie zbiegiem okoliczności.
+Do przeczytania jest ta resztka pod obiema morfologiami:
+pod żywą wpada do niej także forma, której wykluczenie zabrało wszystkie czytania,
+a tę drugą klasę trzyma wpis o wycięciu czytań bez licencji przed rozbiorem.
+
 Aglutynant dochodzi tylko do czasownika, przy którym stoi.
 `_formy_skończone` w `olski/subset.py` bierze `praet` z `aglt` po nim,
 bo tak Morfeusz tnie `napisałem`,
@@ -1355,6 +1371,10 @@ albo cena nieciągłości przestaje być figurą przeliczaną
 i tamta sekcja mówi o niej to, co `docs/firing-rates.md` mówi o sobie,
 czyli że jest ceną, przy której decyzja zapadła,
 albo podłoże zostaje po to jedno, a kasowanie obejmuje samo porównanie deklaracji.
+Rozstrzygnięcie to ma termin, bo liczby tamtej sekcji rozeszły się już z sondą:
+werdykty nad zdaniami ze szczeliną, mianownik ceny i liczba zdań tracących
+jednoznaczność są w niej inne niż w dzisiejszym przebiegu,
+więc kto wpis podnosi, albo je przelicza, albo zdejmuje.
 
 Liczba pozycji na `Modifier` w `harness/polszczyzna.py` nie ma wyprowadzenia.
 Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
@@ -1389,23 +1409,6 @@ Wpis czeka więc na pozycję, która z inną naprawdę stoi,
 czyli na dopełnienie w celowniku obok biernika — `dać uczniowi książkę` —
 którego produkcji olski dziś nie ma;
 bez niej mechanizm rozwija się na jedną pozycję i nie liczy niczego.
-
-Czytelnik Składnicy gubi węzeł bez słowa w dwóch miejscach,
-a gubi go z drzewa, na którym stoi zgodność ról, a nie samo przyjęcie zdania.
-`_gold` w `olski/corpus.py` pomija dziecko, którego `nid` do niczego nie prowadzi,
-a `NIEWYBRANY` wycina węzły, którym `chosen` przeczy,
-i stoi na tym, że format tak to znaczy, a nie na sprawdzeniu.
-Łapie oba jedno kryterium: terminale wybranego drzewa
-mają pokrywać rozpiętość korzenia bez dziur i bez zakładek.
-Nad wydaniem 2018 żaden las z werdyktem `FULL` mu nie przeczy,
-a lasy bez werdyktu przeczą mu masowo,
-bo tam `_root` schodzi do najszerszego wybranego węzła i znajduje fragment,
-więc kryterium obejmuje `annotated` i nic poza tym.
-Do rozstrzygnięcia zostaje, co ma się stać z lasem, który mu przeczy:
-przerwać przebieg czy wejść do niemierzonych obok zdań bez morfologii,
-i to drugie żąda wiersza w wydruku, którego pierwsze nie żąda.
-Sprawdzianem do napisania obok jest las, który kryterium łamie,
-bo `tests/test_corpus.py` pisze lasy ręcznie i taki też napisze.
 
 Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
 Etykieta roli nad wysuniętym czołem nie rusza ani jednego
@@ -1904,25 +1907,6 @@ a schodzenie czytania `ign` obok niej stoi w `_z_leksykonu` w `olski/subset.py`.
 Do przeczytania jest `_lematy_imienne` w tym samym pliku,
 bo pyta o część mowy, a czytania leksykonu ją niosą,
 więc razem z tym ruchem rozstrzyga się, czy świadek ramowy pyta o te słowa też.
-
-`blocker` w `olski/coverage.py` liczy w jednym wierszu dwa zdarzenia,
-które werdykt rozdziela dwoma zdaniami.
-Nazywa on część mowy formy stojącej w miejscu zatrzymania,
-więc zdanie, które doszło do znaku kończącego i nie domknęło się,
-wpada do wiersza `interp` razem ze zdaniem, które stanęło na przecinku.
-Wadę tę [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) nazywa już wprost:
-kropka prowadzi tam ten wiersz, zdania pod nią są w większości bez czasownika,
-a forma ta liczy dwie rzeczy naraz i nie rozstrzyga żadnej.
-Kryterium, które je rozdziela, stoi w `gdzie_stanęło` w `olski/subset.py`,
-a napis na drugie z dwojga stoi w `coverage.py` jako `NO_STRUCTURE`,
-więc ruchem jest `blocker` czytający to kryterium zamiast trzymać drugie.
-Do przeczytania jest właśnie ten akapit o kropce:
-mówi on, że po rozdzieleniu zostanie wiersz o konstrukcji, której brakuje,
-a nie o znaku, którym zdanie się kończy.
-Ceną są tabele blokerów w
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop):
-wiersz `interp` spadnie, a zdania bez struktury nad całością wyjdą osobno,
-więc wpis podnosi sesja, która ma Składnicę i powtórzy nad nią przebieg.
 
 Nie wiadomo, w ilu miejscach decyzja o konstytuencie jest w olskim ta sama,
 co w GFJP, a pomiar nad Składnicą tego nie powie

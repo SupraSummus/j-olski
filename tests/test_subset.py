@@ -48,8 +48,8 @@ from olski.subset import (
     WTRĄCONY,
     admissible,
     check,
-    gdzie_stanęło,
     morphology,
+    na_czym_stanęło,
     sentences,
 )
 
@@ -958,7 +958,7 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     assert struktura.nielicencjonowane == ()
     #  Zdanie to stoi w README jako przykład odrzucenia, więc jego werdykt stoi
     #  tam wypisany co do znaku. Czemu analiza staje na `ustawienia`, a nie na
-    #  niezgodnej parze, mówi `gdzie_stanęło` w `olski/subset.py`.
+    #  niezgodnej parze, mówi `na_czym_stanęło` w `olski/subset.py`.
     assert struktura.explain() == "no reading: the analysis stops at „ustawienia”"
 
 
@@ -1003,7 +1003,7 @@ def test_zatrzymanie_nazywa_formę_którą_autor_napisał_a_nie_jej_część():
     #  nie ma, i mówiłaby to zależnie od kolejności krawędzi.
     segmenty = morphology("Liczbę napisano kiedyś.")
     [węzeł] = {segment.start for segment in segmenty if segment.form == "kiedy"}
-    assert gdzie_stanęło(segmenty, węzeł) == "kiedyś"
+    assert na_czym_stanęło(segmenty, węzeł).form == "kiedyś"
 
 
 # --------------------------------------------------------------------------- #

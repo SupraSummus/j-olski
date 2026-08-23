@@ -2115,12 +2115,16 @@ def _omijalna(segments: list[Segment], krawędź: Segment) -> bool:
     return ujście in osiągalne
 
 
-def gdzie_stanęło(segments: list[Segment], furthest: int) -> str | None:
-    """Forma, na której odrzucenie stanęło; ``None``, gdy stanęło na końcu zdania.
+def na_czym_stanęło(segments: list[Segment], furthest: int) -> Segment | None:
+    """Krawędź, na której odrzucenie stanęło; ``None``, gdy stanęło na końcu zdania.
 
     Ostatniego znaku zdania nie nazywa, bo zdanie, które bierze każdą swoją
     formę i nie domyka się, jest drugim zdarzeniem i dostaje drugie zdanie
-    werdyktu (``Verdict.explain``).
+    werdyktu (``Verdict.explain``) oraz drugi wiersz przebiegu nad korpusem
+    (``NO_STRUCTURE`` w ``olski/coverage.py``).
+
+    Krawędź, a nie forma, bo pytają o nią dwie odpowiedzi: werdykt bierze stąd
+    formę, a ranking blokerów część mowy jej czytania, i kryterium jest jedno.
 
     Z jednego węzła grafu wychodzi czasem kilka form, bo ``ktoś`` wychodzi
     także jako ``kto`` i ``ś``. Nazwana jest najdłuższa, czyli ta, którą autor
@@ -2136,7 +2140,7 @@ def gdzie_stanęło(segments: list[Segment], furthest: int) -> str | None:
     ]
     if not stojące:
         return None
-    return max(stojące, key=lambda segment: segment.end).form
+    return max(stojące, key=lambda segment: segment.end)
 
 
 def sentences(text: str) -> list[str]:
@@ -2173,11 +2177,12 @@ def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None
     """
     grammar = grammar or GRAMMAR
     result = parse(grammar, segmenty, deklaracja=DEKLARACJA)
+    stanęło = na_czym_stanęło(segmenty, result.furthest)
     return Verdict(
         text=zdanie,
         result=result,
         nielicencjonowane=bez_licencji(segmenty, grammar),
-        zatrzymanie=gdzie_stanęło(segmenty, result.furthest),
+        zatrzymanie=stanęło.form if stanęło is not None else None,
     )
 
 

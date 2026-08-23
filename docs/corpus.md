@@ -127,39 +127,58 @@ They cost under a mebibyte each and a third of a second together,
 against a run that takes half a minute,
 so leaving them out buys nothing and the denominator is the whole annotated corpus.
 
+What that denominator counts is a sentence the treebank hands over whole.
+A gold tree's terminals have to tile it without a gap and without an overlap,
+and the run asks rather than assumes it
+(`Sentence.całe` in `olski/corpus.py`),
+because a terminal the reader loses takes a word out of the sentence
+and takes the span the role comparison stands on with it.
+No `FULL` forest of the 2018 release breaks the criterion,
+so it prints no row here and stands for the next release,
+where a lost node comes out as a sentence not measured
+rather than as a sentence measured short.
+
 ## Where the analyses stop
 
-Every rejected sentence stopped on some token,
+A rejected sentence stopped on some token,
 and its part of speech names the construction
 that would have to be admitted next.
 Ranked, those parts of speech are a work queue,
 and the run above prints it: a row per part of speech,
-ordered by how many analyses died on one.
+ordered by how many analyses died on one,
+and one row for the sentence that stopped on no token at all.
 The counts move with every production admitted, so the run owns them,
 and what this document owns is which rows lead and what stands in them.
 
 Punctuation leads it by a wide margin,
-accounting for about a third of the rejections
+accounting for something under a quarter of the rejections
 without touching the interesting questions
 about discontinuity and formal power at all:
 of clause-level punctuation olski has the comma, the colon, the semicolon
-and the dash, and the two forms in front of that row are the hyphen
-and the full stop.
+and the dash, and the form in front of that row is the hyphen,
+ahead of everything else in it several times over.
 The hyphen is what the dash production does not take, by a criterion of its own
 ([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
 and this corpus writes its dash with it —
 as dialogue and reported speech, which newspapers and prose are full of
 and technical documentation has none of.
-The full stop is a different thing from the hyphen and reads as a defect
-until the sentences under it are looked at.
-It is the sentence that ran to its own end
-with nothing deriving the whole of it,
-so the analysis stopped where the stop should have closed it,
-and most of those sentences have no verb at all:
-`Cisza.`, `Białystok.`, `Amen.`
-A corpus drawn from newspapers carries headlines and captions,
-and a verbless sentence is a construction olski lacks,
-so that form counts both at once and settles neither.
+
+The sentence that ran to its own end with nothing deriving the whole of it
+has a row of its own, and that row is no token's part of speech.
+The analysis took every form the sentence has and closed nothing over them,
+so there is no stopping form to name
+(`na_czym_stanęło` in `olski/subset.py` is the criterion,
+and a verdict over a single sentence says the same thing in a second sentence).
+The row stands among the first few under either morphology,
+and reading it needs the sentences rather than the row.
+Most of them carry a verb form,
+so the verbless headline a newspaper corpus is full of —
+`Na próżno.`, `Najpospolitszy.` —
+is the smaller half of it, and the rest is a sentence
+whose verb the grammar has and whose structure it does not close.
+Counted under the closing mark instead,
+those sentences read as a defect in punctuation
+and promise a construction the grammar already has.
 
 The particle comes second, with the reflexive `się` in front of it,
 and there the row names a construction the grammar *has*

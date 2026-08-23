@@ -1039,8 +1039,8 @@ które wieloznaczność ma już z innego powodu.
 Polszczyzna łączy dwa zdania spójnikiem, przecinkiem albo jednym i drugim naraz,
 dwukropkiem wprowadza wyjaśnienie, a średnikiem rozdziela to, co spina treść.
 Olski wyprowadzał z tego dwa pierwsze sposoby,
-a do reszty prowadził wiersz `interp`,
-pierwszy w kolejce blokerów z trzema tysiącami zdań
+a resztę zostawiał wierszowi `interp`,
+który kolejkę blokerów prowadzi i liczy w niej tysiące zdań
 ([corpus.md](corpus.md#where-the-analyses-stop)).
 
 Nowego kształtu zdania ta konstrukcja nie wymaga,
