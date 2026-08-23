@@ -55,6 +55,19 @@ or one standing beside the grammar rather than inside it,
 is a question of price rather than of permission.
 See [Formalizm jest środkiem, a nie celem](#formalizm-jest-środkiem-a-nie-celem).
 
+**Gramatyka jest danymi, a symbol w niej napisem, nie obiektem.**
+Produkcja nazywa swoją głowę napisem, a `nt` odsyła do symbolu tym samym napisem,
+więc symbol ma jedną nazwę i jest nią ta, którą drukuje werdykt.
+Symbol powoływany obiektem czyta się lepiej tam, gdzie pisze się produkcję,
+a płaci dwiema nazwami na jeden symbol,
+bo identyfikator jest w tym repozytorium polski, a symbol gramatyki angielski.
+To, co miał kupić, przychodzi bez niego:
+dwa checki w `olski/grammar.py` łapią literówkę w głowie produkcji
+oraz więz na cechę, której nikt nie wypuszcza,
+a powtórzenie skraca perkolacja cech, którą trzyma `TODO.md`.
+Pytanie wraca, jeżeli symbole zaczną przybywać regularnie
+albo któryś z tych checków wyjdzie na gramatyce czerwony.
+
 **Olski is a proper subset of Polish.**
 Every olski sentence must be a well-formed Polish sentence.
 No helper notation in the surface form,

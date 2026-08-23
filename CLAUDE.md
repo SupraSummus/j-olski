@@ -57,15 +57,15 @@ zdanie, którego olski nie bierze, zostaje w nich przy przeglądzie.
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 ale jednostka jest tu inna.
 Jednostką reguł prozy jest pojedyncze zdanie, bo zdanie poprawia się osobno,
-a jednostką języka jest sekcja, docstring, komentarz, komunikat
+a jednostką języka jest akapit, docstring, komentarz, komunikat
 albo nazwa wraz z jej wywołaniami.
-Gdzie sekcja nie ma własnej prozy, jednostką jest akapit:
-sekcja `TODO.md` grupuje wpisy, więc jednostką jest tam wpis,
-czyli to, co jeden commit dopisuje i kasuje.
-Po polsku powstaje też tekst w dokumencie, który po polsku nie jest,
-a zdanie dopisane do angielskiej sekcji piszemy po angielsku razem z nią,
-dopóki ktoś nie przełoży całego dokumentu, co jest osobną zmianą.
-Przekładu takiego dokumentu nie wpisujemy do `TODO.md`.
+Akapit nowy powstaje po polsku także w sekcji angielskiej
+i w dokumencie, który po polsku nie jest,
+a akapit mocno przepisywany przekładamy przy okazji, tą samą zmianą.
+Zdanie dopisane do akapitu angielskiego, którego nie przepisujesz,
+piszemy po angielsku razem z nim, bo akapit czyta się w jednym języku.
+Przekład całego dokumentu jest osobną zmianą,
+której nie wpisujemy do `TODO.md`.
 
 ## Six forces
 
@@ -589,6 +589,11 @@ in the document that owns the topic,
 in [`docs/open-questions.md`](docs/open-questions.md)
 or in a document's own `Not yet decided`.
 The other list may carry a one-line pointer, and nothing more.
+
+Alternatywy odrzuconej nie zamyka nikt, więc nie jest wpisem na żadnej z tych list.
+Jest [wywodem o stanie dzisiejszym](#documents-describe-the-present-git-owns-the-past)
+i należy do dokumentu, który jest właścicielem tematu,
+razem z warunkiem, który ją odwraca.
 
 ## Splitting work across sessions
 
