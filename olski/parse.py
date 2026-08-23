@@ -4,13 +4,11 @@ The parser answers these questions:
 
 1. Does this sentence have a derivation at all? If not, it is not olski, and the
    furthest point reached says where the analysis died.
-2. If it has exactly one, that is the reading, and the sentence means one thing.
-3. If it has more than one, the sentence is ambiguous *in Polish*, and olski
-   rejects it. ``Koszt samej szynki przewyższa koszt szynki z dodatkami`` parses
-   two ways, because ``koszt`` is nominative or accusative and Polish permits
-   both SVO and OVS, so the sentence does not say which cost is greater. A
-   language whose sentences can be read two ways cannot be checked mechanically,
-   and worse, cannot be read reliably by a person either.
+2. If it has exactly one, that is the reading.
+3. If it has more than one, the readings and the summaries beside them
+   say what the sentence leaves open.
+   Why such a sentence is then not olski
+   is docs/subset.md#validity-is-uniqueness-not-just-derivability.
 
 Distinct readings, not derivations. Two derivations that describe the same
 structure are one reading. The distinction is not pedantic: it is the
