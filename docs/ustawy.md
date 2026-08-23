@@ -582,6 +582,21 @@ po `tak` albo `w taki sposób`, a zdania z nim niosą także co innego
 i wychodzą odrzucone przed dopisaniem i po nim
 ([subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 
+Czasownik nieosobowy rusza tu pojedyncze zdania siedmiu ustaw
+i przenosi każde z odrzuconych na wieloznaczne,
+a nad rozporządzeniem nie rusza ani jednego werdyktu
+([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)):
+
+```text
+Jeżeli w proteście zarzucono popełnienie przestępstwa przeciwko wyborom,
+Sąd Najwyższy niezwłocznie zawiadamia o tym Prokuratora Generalnego.
+```
+
+Prawodawca pisze tę formę w obu tekstach, w ustawach 90 razy i w rozporządzeniu 35,
+a zdania z nią niosą także odsyłacz, cyfrę albo wyliczenie,
+więc konstrukcja, która wchodzi, ma tu skąd wziąć mniej, niż forma obiecuje —
+tak samo jak przy przysłówku wyżej.
+
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 
 Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —

@@ -161,7 +161,7 @@ Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 
 Kolejki form bez licencji ten plik już nie ustawia,
 bo odrzuceń została w nim garść i każde stoi na czymś pojedynczym:
-na dwóch formach żartu z nazwy, na cyfrze,
+na formie żartu z nazwy, na cyfrze,
 na przytoczonej niezgodności i na angielskim tytule.
 
 ## Cele
@@ -647,14 +647,13 @@ więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
 
-Cztery pozycje stoją na tej liście z kolejki czytanej po części mowy,
+Trzy pozycje stoją na tej liście z kolejki czytanej po części mowy,
 a nie po formie, i nie stawia ich ani jedno z tych dwóch źródeł:
-czasownik nieosobowy, czas przyszły złożony, imiesłów przysłówkowy
-i zaimek `siebie`
+czas przyszły złożony, imiesłów przysłówkowy i zaimek `siebie`
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
-Dwa pierwsze stoją w kolejce wysoko i niosą po jednej konstrukcji na cały wiersz,
-więc wiersz nazywa je wprost,
-gdzie wiersze przed nimi grupują po kilka konstrukcji naraz
+Pierwsza niesie jedną konstrukcję na cały wiersz,
+więc wiersz nazywa ją wprost,
+gdzie wiersze przed nią grupują po kilka konstrukcji naraz
 i dopiero czytanie form mówi, o które idzie.
 Zmierzona nie jest z nich żadna,
 a kolejność między nimi rozstrzyga cena,
@@ -808,23 +807,41 @@ a jednoznaczność odbiera pojedynczym zdaniom banku drzew
 i odbiera ją przyłączeniem, którego olski nie wybiera.
 Pary do przelicznika niżej to dopisanie nie dokłada, bo z kolejki nie wyszło.
 
-Zmierzone są tym samym cztery wiersze tej kolejki: `num`, `praet`, `qub` i `adv`.
+Czasownik nieosobowy zszedł z tej listy
+i jest jej pierwszą pozycją postawioną przez kolejkę czytaną po części mowy.
+Kupuje nad Składnicą kilkadziesiąt zdań zdjętych z listy odrzuconych,
+tyle samo pod jedną morfologią co pod drugą, a rozkłada je inaczej:
+pod złotą przeszło połowa wychodzi przyjęta, a pod żywą wieloznaczna.
+Nad rejestrem ustaw kupuje pojedyncze zdania,
+a nad rozporządzeniem i nad tą prozą nie rusza ani jednego werdyktu.
+Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
+a zero po jej stronie nie jest wynikiem przebiegu:
+formy `imps` nie brała przedtem żadna produkcja,
+więc zdania przyjętego ta konstrukcja nie miała z czego wytrącić,
+tak samo jak dwukropek i średnik ([etap 4](#etap-4-zdanie-złożone)).
+Wywód trzyma
+[subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
+Parę do przelicznika niżej to dopisanie dokłada:
+wiersz `imps` obiecywał 262 zdania i oddał 77.
+
+Zmierzone są tym samym wiersze tej kolejki: `num`, `praet`, `qub`, `adv` i `imps`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
-a `adv` niemal jedną trzecią,
+a `adv` oraz `imps` niemal jedną trzecią,
 więc przelicznik wychodzi trzy- do pięciokrotnego i żaden pomiar z niego nie wypadł.
 Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
 bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,
 i dlatego pary z siebie nie wynikają:
 dopisanie kolejnej konstrukcji zmienia i wiersz, i to, ile z niego zostaje do wzięcia.
-Cztery pary to zresztą cztery, a nie rozkład,
+Par tych jest garść, a nie rozkład,
 więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
 
-Piątą parę zmierzył [etap 4](#etap-4-zdanie-złożone) i wypadła ona poza ten przelicznik:
+Jeszcze jedną parę zmierzył [etap 4](#etap-4-zdanie-złożone)
+i wypadła ona poza ten przelicznik:
 wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem oddał z niego
 niecałą dziesiątą część.
 Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, okolicznik, który wszedł,
 i spójniki trybu przypuszczającego, które weszły po nim —
-i tym różni się od tamtych czterech, z których każdy stał za jedną.
+i tym różni się od tamtych, z których każdy stał za jedną.
 Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:
 nazywa ona część mowy, na której analiza stanęła, a nie konstrukcję, której zabrakło.

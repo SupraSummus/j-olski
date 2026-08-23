@@ -58,9 +58,10 @@ def phrase(nid, start, end, category, children, slot=None, chosen="true", rule="
 
 
 #: Tag czasownika, po który nie sięga żadna produkcja, więc zdanie z nim
-#: wychodzi odrzucone i te testy mają czym mierzyć odrzucenie. Forma nieosobowa,
-#: bo podzbiór jej nie ma i żaden etap jej nie planuje.
-POZA_PODZBIOREM = "imps:perf"
+#: wychodzi odrzucone i te testy mają czym mierzyć odrzucenie. Czas przyszły
+#: złożony, czyli konstrukcja, której podzbiór nie ma
+#: (docs/subset.md#what-it-does-not-cover-yet).
+POZA_PODZBIOREM = "bedzie:sg:ter:imperf"
 
 
 def svo(subject="subj(np(nom))", obj="np(accgen)", verb=None, tag="fin:sg:ter:imperf"):
@@ -350,7 +351,7 @@ def test_a_rejected_sentence_is_not_asked_about_agreement():
 
 
 def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
-    assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "imps"
+    assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "bedzie"
 
 
 def test_przebieg_który_nie_pytał_o_zatrzymanie_nie_zlicza_blokerów_z_niczego():

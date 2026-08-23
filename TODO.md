@@ -886,6 +886,21 @@ nazywa on formę, na której rozbiór stanął,
 a przy zdaniu z czasownikiem w środku bywa to forma stojąca za prawdziwą przyczyną,
 więc część tej resztki może być artefaktem tego odczytu, a nie brakiem w gramatyce.
 
+Wypełnienie wysunięte przed głowę, która orzeka bez podmiotu, ma dwie głowy
+i nie ma ceny.
+`Programy trzeba czytać.` i `Usterkę zgłoszono.` są odrzucone,
+bo predykatyw i forma nieosobowa stoją w jednym szyku
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)),
+a populacja, której ta pozycja dotyczy, urosła razem z formą nieosobową.
+Wiersz `imps` został po jej wpuszczeniu z blisko setką zdań Składnicy
+i nikt ich nie przeczytał,
+więc nie wiadomo, czy stoi w nich ta pozycja, czy co innego.
+Ruchem jest przeczytanie tej resztki, a po nim wycena wysunięcia nad obiema
+głowami naraz, bo ciała zdania są dla nich wspólne
+([`docs/subset.md`](docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
+z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
+
 Aglutynant dochodzi tylko do czasownika, przy którym stoi.
 `_formy_skończone` w `olski/subset.py` bierze `praet` z `aglt` po nim,
 bo tak Morfeusz tnie `napisałem`,
