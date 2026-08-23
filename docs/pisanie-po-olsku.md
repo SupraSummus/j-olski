@@ -161,12 +161,10 @@ Wydruk stoi w [README](../README.md#co-działa) razem z zastrzeżeniem o cięciu
 Kolejka blokerów grupuje zatrzymania po części mowy formy
 ([`olski/coverage.py`](../olski/coverage.py)).
 Nad wierszami otwartymi — `fin`, `subst`, `prep` — mówi to dość,
-a nad zamkniętymi rozsypuje się:
-`i` wychodzi w tej kolejce jako `interj`, `a` tak samo,
-bo wiersz nazywa pierwsze czytanie, które dał Morfeusz
-([corpus.md](corpus.md#where-the-analyses-stop)),
-więc dwie najczęstsze formy tego rejestru chowają się pod nazwą,
-która o żadnej konstrukcji nie mówi nic.
+a nad zamkniętymi zbiera pod jedną nazwą formy żądające każda innej konstrukcji:
+wiersz `conj` prowadzą w tym rejestrze `i` oraz `a`,
+a pod nimi stoją `czy`, `czyli` i `ani`
+([corpus.md](corpus.md#where-the-analyses-stop) trzyma, które wiersze prowadzą).
 Ruch nad tym wierszem trzyma [`TODO.md`](../TODO.md).
 
 Kolejka policzona po samej formie odpowiada zarazem na pytanie o rachunek.

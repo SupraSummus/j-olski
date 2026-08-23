@@ -286,6 +286,20 @@ mówią, ile ta zmiana kosztuje.
 Które to bloki, wylicza `tests/test_wydruki.py`, a lista wypisana tutaj
 rozjeżdżała się z drzewem.
 
+Wydruk `olski-corpus` jest po angielsku tak samo jak tamten,
+a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) obejmuje oba.
+Przekłada się go w całości albo wcale, bo etykieta dopisana po polsku daje
+mieszaninę wewnątrz jednej tabeli: `NO_STRUCTURE` i `NO_LICENCE`
+w `olski/coverage.py` stoją w kolejce blokerów parą i czyta się je obok siebie.
+Nazwy części mowy w tej samej kolejce zostają, bo są nazwami tagsetu,
+czyli tym, czego się tu nie wybiera.
+Do przeczytania jest `render` w tym pliku, bo wierszy jest tam więcej niż ta para —
+nagłówki tabel, powody pominięcia, wiersze krzywej pokrycia —
+i to one mówią, ile ten przekład kosztuje.
+Wpisu tego nie zamyka commit tamtego: są to dwa wydruki i dwie komendy,
+a bloków w dokumentach `olski-corpus` nie ma,
+bo `tests/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
+
 [`docs/ustawy.md`](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
 trzyma liczby, o których sam pisze, że rusza je każda zmiana w gramatyce
 i że nie drukuje ich żaden przebieg.
@@ -460,6 +474,10 @@ czyli ani leksykon, ani produkcja.
 Ta trzecia waży najwięcej na torze pisania pod tę gramatykę
 ([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)),
 bo komunikat odsyła autora do gramatyki, a poprawka stoi w jego zdaniu.
+Rozdziela ją już przebieg nad korpusem: `Outcome.blocker` w `olski/coverage.py`
+daje formie opróżnionej wykluczeniem wiersz osobny od zdania bez struktury,
+więc po tamtej stronie kształt jest wybrany, a werdykt mówi o tej formie
+to samo, co o dwóch pozostałych.
 Rozdzielenia żąda ta sama własność, którą werdykt już realizuje raz —
 forma bez licencji stoi osobno od struktury bez licencji — tylko o szczebel niżej,
 i ma ona właściciela w [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
@@ -603,18 +621,18 @@ Do przeczytania jest `uruchom` w `harness/komenda.py` obok `main` w
 więc wspólna jest sama odpowiedź na pytanie „katalog czy pliki”, a nie przebieg.
 
 Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamkniętymi
-nie da się jej przeczytać: `i` i `a` wychodzą w niej jako `interj`, bo wiersz nazywa
-pierwsze czytanie, które dał Morfeusz
+zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` prowadzą
+nad tą prozą `i` oraz `a`, a pod nimi stoją `czy`, `czyli` i `ani`
 ([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
-Dwie najczęstsze formy tego rejestru chowają się przez to pod nazwą, która nie mówi
-o żadnej konstrukcji, a wiersz `interj` stoi wysoko w kolejce nad tą prozą.
 Ruchem jest `Outcome.blocker` w `olski/coverage.py` nazywający formę tam, gdzie każde
 jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/subset.py`),
 a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
 Do przeczytania jest, co taki wiersz zrobi z tabelami, które ten wydruk cytują —
-[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) czyta wiersze `interp`
-i `part` po nazwie — bo przemianowany wiersz żąda przeliczenia obu przebiegów
+[`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) czyta wiersze `interp`,
+`conj` i `part` po nazwie — bo przemianowany wiersz żąda przeliczenia obu przebiegów
 nad bankiem drzew, a nie samego dopisania zdania.
+Wpis waży mniej, odkąd wiersz nazywa czytanie licencjonowane,
+bo `interj` jest wierszem prawdziwych wykrzykników, a nie kryjówką dla `i`.
 
 ## Korpusy, ekstrakcja i figury
 
@@ -1386,38 +1404,23 @@ Do przeczytania są te trzy zdania wraz z gniazdami wybranego drzewa:
 `nonch` przy `Co` w `Co pan sądzi o pomyśle Pawła Piskorskiego?` mówi,
 że fraza stoi poza ramą, i to jest trzeci powód pustki, różny od dwóch tamtych.
 
-Werdykt nad zdaniem mówi, na czym odrzucenie stanęło, a przebieg nad korpusem zgaduje.
-`blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania formy
-i sam w docstringu mówi, że między czytaniami wybiera dowolnie,
-więc kolejka z [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-jest rankingiem stojącym na tym wyborze,
-choć ten dokument opisuje ją jako listę słów, których żadna produkcja nie bierze.
-Ruchem jest wycięcie czytań bez licencji przed rozbiorem,
-po którym forma bez ani jednego czytania jest dla `blockera` brakiem licencji,
-a nie brakiem struktury, którym ją dziś nazwie,
-i wywód wraz z ceną tego wycięcia trzyma
-[`docs/design-notes.md`](docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
-Jedna klasa takich krawędzi stoi już w drzewie i na niej ten rozjazd widać:
-`po_przyimku` w `olski/subset.py` zdejmuje formie przyimkowej zaimka
-wszystkie czytania, więc `Cena niego rośnie.` wychodzi z werdyktu z `niego`
-wypisanym, a z przebiegu jako zdanie bez struktury nad całością
-([`docs/subset.md`](docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
-Rusza ono kolejkę, więc wpis jest winien przebiegi,
-których [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) żąda od zmiany w czytaniach,
-jakie gramatyka dostaje.
-Do przeczytania jest, ile ta kolejka na tym się zmienia,
-i tę różnicę trzeba przeczytać przed wybraniem korpusu:
-złota morfologia zostawia bank drzew bez ani jednej formy nieznanej,
-więc tam wycięcie nie rozdzieli niczego,
-a nad prozą README brak w słowniku stoi w tej kolejce zaraz za przecinkiem.
-Zostaje przy tym pytanie, którego werdykt nad zdaniem nie zadaje:
-`olski-check` mówi o zdaniu, a nie o pliku,
-więc rankingu form bez licencji nad dokumentem nie wypisuje nikt,
-i do rozstrzygnięcia jest, czy jest to wiersz tej komendy, czy tryb obok niej.
+Rankingu form bez licencji nad dokumentem nie wypisuje nikt.
+`olski-check` mówi o zdaniu, a nie o pliku, więc formy, po które nie sięga
+ani jedna produkcja, widać po jednej naraz i tylko w werdykcie, który je wypisał
+(`bez_licencji` w `olski/subset.py`).
+Kolejka blokerów odpowiada na inne pytanie, bo grupuje po części mowy zatrzymania,
+a forma bez licencji zatrzymania nie musi wywołać.
 Czytelników takiego rankingu jest już dwóch:
 [kolejka nad rejestrem ustaw](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
 jest wzięta potokiem z grepem, który ten dokument drukuje,
 bo nie ma komendy, która by ją wypisała.
+Do rozstrzygnięcia jest, czy jest to wiersz `olski-check`, czy tryb obok niej,
+bo komenda ta orzeka dziś o zdaniu i ranking nad plikiem jest w niej wypowiedzią
+o innym przedmiocie.
+Do przeczytania jest polecenie z grepem w tamtym dokumencie:
+mówi ono, czego ranking ma dostarczyć, a wycina formy z jednego komunikatu werdyktu,
+więc rozdzielenie tego komunikatu na dwa rozsypuje je tak samo,
+o czym mówi wpis o werdykcie nazywającym trzy różne roboty jednym zdaniem.
 
 Comparing two runs of the whole corpus has no command,
 and it is what the grammar track asks of every addition before it lands.
@@ -1441,10 +1444,6 @@ and a morphology changes the segments a variant is run over
 rather than the grammar it is run with.
 What to read is that field beside `SOURCES` in `olski/coverage.py`,
 because a variant of this second kind has to say where it enters.
-The entry about cutting unlicensed readings before the parse
-moves what `blocker` reads off a form,
-so whichever of the two is taken first decides what the blocking form is,
-and they are one session.
 
 One figure is left going stale without a command,
 the rest of the list having gone with the counts

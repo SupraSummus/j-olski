@@ -2275,15 +2275,30 @@ def _krawędzie(forma: str) -> list[Segment]:
     return [Segment(start=0, end=1, form=forma, readings=(Reading(forma, forma, NIEODMIENNY),))]
 
 
+def licencjonowane(segment: Segment, grammar: Grammar) -> tuple[Reading, ...]:
+    """Czytania formy, po które sięga choć jeden terminal tej gramatyki.
+
+    Pytają o to dwie odpowiedzi o jednym kryterium: werdykt wypisuje formę, której
+    nie zostaje ani jedno (:func:`bez_licencji`), a przebieg nad korpusem nazywa
+    część mowy tego, które zostało (``Outcome.blocker`` w ``olski/coverage.py``).
+    Kryterium wyprowadza z gramatyki :meth:`olski.grammar.Grammar.licencjonuje`,
+    a ta funkcja jest samym jego zastosowaniem do czytań formy.
+    """
+    return tuple(
+        reading
+        for reading in segment.readings
+        if grammar.licencjonuje(reading.tag.pos, reading.lemma, segment.lematy, reading.tag.cechy)
+    )
+
+
 def bez_licencji(segments: list[Segment], grammar: Grammar) -> tuple[str, ...]:
     """Formy nie do ominięcia, którym gramatyka nie bierze ani jednego czytania.
 
     Odrzucenie ma dwie przyczyny i są to dwie różne roboty do zrobienia: forma,
     po którą nie sięga żadna produkcja, i struktura, której gramatyka nie
     licencjonuje. Świgra trzyma je osobno (docs/swigra.md), a tę pierwszą widać
-    przed rozbiorem i widać ją wyprowadzoną z gramatyki: skoro unifikacja tylko
-    zawęża, czytanie odrzucone przez każdy terminal wobec ``EMPTY`` nie
-    przejdzie w żadnym zdaniu.
+    przed rozbiorem i widać ją wyprowadzoną z gramatyki
+    (:meth:`olski.grammar.Grammar.licencjonuje` wywodzi, czemu wolno).
 
     Liczy się przy tym krawędź, bez której nie ma drogi przez zdanie, a nie
     każda pusta dziedzina: podział, który Morfeusz dokłada obok formy całej, nie
@@ -2296,12 +2311,7 @@ def bez_licencji(segments: list[Segment], grammar: Grammar) -> tuple[str, ...]:
     """
     formy: list[str] = []
     for segment in segments:
-        if any(
-            grammar.licencjonuje(
-                reading.tag.pos, reading.lemma, segment.lematy, reading.tag.cechy
-            )
-            for reading in segment.readings
-        ):
+        if licencjonowane(segment, grammar):
             continue
         if _omijalna(segments, segment) or segment.form in formy:
             continue

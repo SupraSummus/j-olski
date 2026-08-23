@@ -49,7 +49,7 @@ from olski.corpus import PROZA, Sentence, pliki, read
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Segment
 from olski.parse import MAX_READINGS, Las, Result, las, podsumuj
-from olski.subset import GRAMMAR, morphology, na_czym_stanęło, sentences
+from olski.subset import GRAMMAR, licencjonowane, morphology, na_czym_stanęło, sentences
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
@@ -63,6 +63,12 @@ GŁĘBOKOŚCI = (1, MAX_READINGS)
 #: What the report says when a sentence was derivable up to its last token and
 #: still had no reading covering the whole of it.
 NO_STRUCTURE = "(no structure over whole sentence)"
+
+#: What the report says when an exclusion left the stopping form without a single
+#: reading. The other rows name a part of speech to admit and this form has none,
+#: the work being a lexical condition rather than a production (``po_przyimku``
+#: and ``bez_licencji`` in ``olski/subset.py``).
+NO_LICENCE = "(no reading left by an exclusion)"
 
 #: Morphology sources. ``gold`` is the treebank's disambiguated tags, ``live`` is
 #: Morfeusz on the raw text, ambiguity included.
@@ -114,17 +120,25 @@ class Outcome:
         """The part of speech the analysis stopped on, for a rejected sentence.
 
         Exact under gold morphology, where a terminal has one reading because the
-        annotators disambiguated it. Approximate under live morphology, where the
-        form usually has several and this names the first one Morfeusz listed:
-        the analysis stopped because *no* reading of that form could continue, so
-        there is no single part of speech to name, and picking one keeps the
-        ranking readable at the cost of being arbitrary between them.
+        annotators disambiguated it. Under live morphology the form usually has
+        several and the row prefers one the grammar licenses: this row names what
+        to admit next, so a reading olski never takes names the wrong work
+        wherever the grammar already takes the word. The criterion has one owner,
+        ``licencjonowane`` in ``olski/subset.py``.
+
+        Licensing orders those readings and does not filter them, because a form
+        nothing licenses is what this queue is *for*: the compound future stops
+        analyses under ``bedzie``, and that row is how the construction gets named
+        (roadmap.md#etap-6-reszta-konstrukcji). Between the readings left standing
+        the row stays arbitrary, and picking one keeps the ranking readable.
 
         Which form the analysis stopped on is one criterion with one owner,
         ``na_czym_stanęło`` in ``olski/subset.py``, and this row asks it rather
         than holding a second: the sentence that runs to its closing mark with
         nothing deriving the whole of it is the other event and gets
-        :data:`NO_STRUCTURE`.
+        :data:`NO_STRUCTURE`. A form an exclusion emptied is a third and gets
+        :data:`NO_LICENCE`, because the analysis did stop on a form and the other
+        row says it stopped on none.
 
         It demands the stopping point, which a verdict asks the forest for on
         request (:func:`olski.parse.podsumuj`), so a run that did not ask raises
@@ -140,7 +154,8 @@ class Outcome:
         segment = na_czym_stanęło(list(self.segments), self.result.furthest)
         if segment is None:
             return NO_STRUCTURE
-        return segment.readings[0].tag.pos if segment.readings else NO_STRUCTURE
+        czytania = licencjonowane(segment, GRAMMAR) or segment.readings
+        return czytania[0].tag.pos if czytania else NO_LICENCE
 
     @property
     def agreement(self) -> str | None:

@@ -143,6 +143,12 @@ rather than as a sentence measured short.
 A rejected sentence stopped on some token,
 and its part of speech names the construction
 that would have to be admitted next.
+Where the form reads several ways,
+the row takes a reading the grammar licenses over one it does not,
+because a reading no terminal reaches for names no construction to admit.
+Sentence-opening `i` is what that criterion is worth:
+Morfeusz reads it as an interjection before it reads it as a conjunction,
+and under the interjection it lands in a row naming nothing to build.
 Ranked, those parts of speech are a work queue,
 and the run above prints it: a row per part of speech,
 ordered by how many analyses died on one,
@@ -180,11 +186,23 @@ Counted under the closing mark instead,
 those sentences read as a defect in punctuation
 and promise a construction the grammar already has.
 
-The particle comes second, with the reflexive `się` in front of it,
+A form an exclusion emptied of every reading has a third row of its own,
+because the analysis stopped on it and not on the sentence's own end,
+which is the distinction a verdict over one sentence draws
+by naming the form (`bez_licencji` in `olski/subset.py`).
+The treebank raises none: an exclusion empties a form
+only where a pronoun's post-prepositional form stands without a preposition
+([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
+which is not Polish and so not what a press corpus is made of.
+
+The particle comes second under the gold tags,
+with the reflexive `się` in front of it,
 and there the row names a construction the grammar *has*
 stopping short of Polish: `się` is admitted after its verb
 and Polish puts it before one as readily.
-Behind those two stand the conjunction opening a sentence,
+Under Morfeusz the conjunction opening a sentence takes that place
+and the particle stands just behind it.
+Behind those two stand
 the past tense, the subordinator and the participle at both of its voices,
 and further down the compound future,
 a position this queue names where no register run does
