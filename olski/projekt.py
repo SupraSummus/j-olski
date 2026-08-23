@@ -22,8 +22,12 @@ i różni je cena: wpisy stoją w pliku,
 a formy żądają Morfeusza w trybie syntezy,
 którego sama analiza tekstu nie potrzebuje do niczego.
 
-Czyta ten leksykon jedno miejsce i jest nim ``morphology`` w ``olski/subset.py``,
-czyli to samo, w którym notacja dostaje swoją krawędź.
+Czytania leksykonu dochodzą do czytań słownika w :func:`z_leksykonu`,
+a woła ją cała analiza: ``morphology`` w ``olski/subset.py``,
+czyli to miejsce, w którym notacja dostaje swoją krawędź,
+oraz ``_czytania`` w ``olski/rozstrzyganie.py``.
+Funkcja jest jedna, bo dołożona osobno w każdym z tych miejsc
+byłaby tą samą regułą napisaną dwa razy.
 Skład go nie czyta i o tym, co mu z tego zostaje, mówi ``TODO.md``.
 """
 
@@ -34,7 +38,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import NamedTuple
 
-from olski.morph import Reading, generuj, tag
+from olski.morph import Reading, Segment, generuj, tag
 
 PROJEKT = Path(__file__).parent / "projekt.txt"
 
@@ -189,3 +193,22 @@ def czytania(forma: str) -> tuple[Reading, ...]:
     """
     znalezione = _wedle_formy().get(forma.casefold(), ())
     return tuple(replace(czytanie, form=forma) for czytanie in znalezione)
+
+
+def z_leksykonu(segment: Segment) -> Segment:
+    """Krawędź wraz z czytaniami, jakie leksykon projektu daje jej formie.
+
+    Czytania leksykonu dochodzą do tych, które ma słownik, a nie zastępują ich,
+    bo leksykon orzeka o formie, a nie łata milczenie Morfeusza: forma, którą
+    słownik zna, a leksykon o niej mówi, ma czytania jednego i drugiego, i tyle
+    właśnie czytań ma wtedy w polszczyźnie.
+
+    Czytanie ``ign`` stąd schodzi, bo mówi ono, że słowa nie zna nikt, a
+    leksykon właśnie je nazwał. Krawędź bez czytań z tego nie wyjdzie: znika ono
+    tylko tam, gdzie leksykon coś dołożył.
+    """
+    czytania_leksykonu = czytania(segment.form)
+    if not czytania_leksykonu:
+        return segment
+    znane = tuple(reading for reading in segment.readings if reading.tag.known)
+    return replace(segment, readings=znane + czytania_leksykonu)

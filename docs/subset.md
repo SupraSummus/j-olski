@@ -534,8 +534,9 @@ ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
 Ta połowa klasy zostaje przez to poza tym plikiem, a ruch trzyma [TODO.md](../TODO.md).
 
-Czyta ten leksykon jedno miejsce i jest nim `morphology` w `olski/subset.py`,
-czyli to samo, w którym notacja dostaje swoją krawędź.
+Czyta ten leksykon cała analiza: `morphology` w `olski/subset.py`,
+czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
+oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
 ([sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
 a ruch trzyma [TODO.md](../TODO.md).

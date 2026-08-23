@@ -1376,21 +1376,6 @@ werdykty nad zdaniami ze szczeliną, mianownik ceny i liczba zdań tracących
 jednoznaczność są w niej inne niż w dzisiejszym przebiegu,
 więc kto wpis podnosi, albo je przelicza, albo zdejmuje.
 
-Liczba pozycji na `Modifier` w `harness/polszczyzna.py` nie ma wyprowadzenia.
-Komentarz przy więzach okolicznika mówi „trzy deklaracje zamiast jedenastu pozycji”,
-a jedenastu nie daje żaden sposób liczenia produkcji `build` w `olski/subset.py`,
-jakim udało się tę liczbę odtworzyć.
-Regułę liczenia rozstrzygnęła po swojej stronie
-[`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-która liczy produkcje i mówi, które z nich zdejmuje.
-Ruchem jest przepisanie komentarza na regułę i liczbę,
-przy czym sonda liczy miejsca w zdaniu, a tamten dokument produkcje,
-więc albo przejmuje tę regułę, albo mówi, czemu liczy co innego.
-Bez reguły żadna zmiana w gramatyce nie umie tej liczby ponieść,
-a [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) każe ponieść figury sondy razem z gramatyką.
-Zamyka ten wpis także wycofanie sondy,
-bo komentarz stoi w pliku, który wtedy znika.
-
 Rama mówi, co czasownik bierze, i nie mówi, ile tego bierze.
 Dopełnień stoi przy czasowniku najwyżej jedno,
 bo tyle stoi w ciele każdej produkcji `Complements` w `olski/subset.py`,
@@ -1893,20 +1878,26 @@ a docstring tego pliku ręczy, że format przepisano z wydania z 2018.
 Ręczy jedna osoba i żaden plik banku, więc gdyby Concraft wypadł ciekawie,
 sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
 
-Warstwa rozstrzygająca pyta słownik wprost i leksykonu projektu nie widzi.
-`_czytania` w `olski/rozstrzyganie.py` woła `analyse`, a nie `morphology`,
-więc `_lematy` odpowiada dla `commitów` samą tą formą, zamiast lematem `commit`,
-i świadek powtórzeniowy przestaje widzieć powtórzenie tam,
-gdzie jedno słowo stoi w dwóch formach.
-Nad Składnicą nie rusza to niczego, bo słów tego rejestru ta proza nie pisze,
-i dlatego wpis jest tu, a nie w zmianie, która leksykon wpuszczała.
-Ruchem jest jedna funkcja pytana przez oba miejsca,
-bo dopisanie czytań osobno w każdym z nich jest tą samą regułą napisaną dwa razy:
-`czytania` w `olski/projekt.py` odpowiada już na pytanie o formę,
-a schodzenie czytania `ign` obok niej stoi w `_z_leksykonu` w `olski/subset.py`.
-Do przeczytania jest `_lematy_imienne` w tym samym pliku,
-bo pyta o część mowy, a czytania leksykonu ją niosą,
-więc razem z tym ruchem rozstrzyga się, czy świadek ramowy pyta o te słowa też.
+Warstwa rozstrzygająca tnie gospodarza inaczej niż gramatyka, kiedy jest nim notacja.
+`_czytania` w `olski/rozstrzyganie.py` woła `analyse`,
+więc `docs/linter.md` wraca pięcioma lematami —
+`docs`, `linter`, `md` oraz kropka i ukośnik —
+a `morphology` w `olski/subset.py` ma tam jedną krawędź o czytaniu nieodmiennym.
+Nie kończy się to milczeniem:
+gospodarz `docs/linter.md` dopasowuje się do słowa `linter`
+stojącego w akapicie gdziekolwiek,
+a powód wypisuje wtedy to drugie słowo,
+więc wskazanie samo mówi, że stoi na dowodzie o czym innym.
+Ruchem jest sklejenie notacji pytane przez oba miejsca,
+czyli `_segmenty` w `olski/subset.py` wołane tą samą drogą,
+którą oba pytają dziś o leksykon projektu.
+Wpis jest winien przebieg nad korpusem audytowym,
+bo dokumentacja techniczna pisze notację gęsto,
+a wskazania warstwy nad tym korpusem liczy `harness/powtórzenie.py`
+i cytuje je [`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+Do rozstrzygnięcia jest przy tym, czy warstwa ma widzieć dwa pozostałe kroki analizy:
+`admissible` odbiera czytania, których polszczyzna nie ma,
+a `po_przyimku` pyta o sąsiada, którego przy gospodarzu wziętym z werdyktu nie ma.
 
 Nie wiadomo, w ilu miejscach decyzja o konstytuencie jest w olskim ta sama,
 co w GFJP, a pomiar nad Składnicą tego nie powie
