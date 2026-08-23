@@ -2,9 +2,8 @@
 
 To jest cała zdejmowalna warstwa tego pakietu.
 Operatory stoją w ``olski.skład.składnia``, bo są zapisem konstruktorów,
-a tutaj zostaje to, co naprawdę da się odjąć, nie tracąc języka.
-Import tego modułu nie zmienia zachowania tamtego,
-i to jest własność, którą trzyma test, a nie tylko ten akapit.
+a tutaj zostaje to, co da się odjąć, nie tracąc języka.
+Import tego modułu nie zmienia zachowania tamtego i tę własność trzyma test.
 
 Zdanie zostaje wywołaniem, choć grupa imienna dostaje operatory.
 Powód jest jeden: zdanie ma role, a role czyta się z nazw.
@@ -26,19 +25,17 @@ Znacznik przyrostkowy tego nie ma, bo nie sięga poza konstytuent, przy którym 
 i stoi razem z operatorami w ``olski.skład.składnia``.
 
 Wielka litera odróżnia tu kategorię od funkcji, która coś nad argumentem liczy.
-``razem`` składa listę, ``potem`` zwija jeden człon do samego siebie,
-a ``opis`` i ``jest`` dokładają domyślną liczbę, i dlatego są funkcjami;
-``Treść`` wraz z przestrzeniami nazw relacji mówi tylko, czym konstytuent jest,
-więc zostaje klasą wołaną wprost,
-bo druga nazwa dla jednego konstruktora nie kupiłaby nic poza małą literą.
+Funkcja składa listę, zwija człon do samego siebie albo dokłada domyślną liczbę,
+a kategoria mówi tylko, czym konstytuent jest, więc zostaje klasą wołaną wprost:
+druga nazwa dla jednego konstruktora nie kupiłaby nic poza małą literą.
 
 Zwykłe konstrukcje Pythona są tu częścią zapisu, a nie obejściem.
 Zmienna nazywa poddrzewo i pozwala postawić je w dwóch zdaniach.
 Funkcja jest wzorcem zdania, a funkcja zwracająca listę jest wzorcem akapitu.
 Lista wchodzi do zdania przez ``razem``, więc człony koordynacji
 mogą powstać z tego, co program dopiero policzył.
-Nic z tego nie jest osobnym mechanizmem tej biblioteki
-i to jest cała jej odpowiedź na pytanie, skąd wziąć powtórzenie i abstrakcję.
+To jest cała odpowiedź tej biblioteki na pytanie,
+skąd wziąć powtórzenie i abstrakcję.
 """
 
 from __future__ import annotations

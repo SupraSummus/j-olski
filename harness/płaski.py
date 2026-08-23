@@ -15,11 +15,9 @@ jednym czytaniem: odpowiedź jest wtedy dokładna, a listę czytań zdania
 wieloznacznego ucina ``MAX_READINGS``.
 
 Klasy są dwie, bo gospodarz, do którego przysłówek doszedłby, jest inny:
-przed przymiotnikiem drugi, a przed drugim przysłówkiem trzeci. Nad olskim obie
-wychodzą zerem, i to jest zakup tych dwóch gospodarzy; pod wariantem
-``okolicznik`` widać, ile takich czytań było przed nimi. Stopnia kryterium żąda,
-bo przysłówek pierwotny przymiotnika nie określa i przed nim wychodzi zgodnie z
-prawdą.
+przed przymiotnikiem drugi, a przed drugim przysłówkiem trzeci. Stopnia kryterium
+żąda, bo przysłówek pierwotny przymiotnika nie określa i przed nim wychodzi
+zgodnie z prawdą.
 
 Liczba jest górnym oszacowaniem, tak samo jak ``całe_przyłączenie`` w
 ``harness/czytania.py``: przysłówek stopniowany bywa okolicznikiem zdania i wtedy

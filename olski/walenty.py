@@ -1,26 +1,25 @@
-"""Walenty przeczytany o trzy zdania i o jedną pozycję ramy.
+"""Walenty odczytany do zdań o lemacie i do kolumny przyimków.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
 więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
-semantyczną. Olski ma ramę o kilku pozycjach, więc czytanie jest zejściem w dół i
-bierze stąd trzy zdania na lemat.
+semantyczną. Olski ma ramę o kilku pozycjach, więc czytanie jest zejściem w dół,
+a które zdania stąd wychodzą, mówi :func:`zdania`.
 
-Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
-Drugie jest twierdzące i mówi, że bierze bezokolicznik, którego wykonawcą jest
-jego własny podmiot. Kierunki są przeciwne, bo przeciwne są domyślności, od
-których oba odejmują: rama domyślna ma dopełnienie w bierniku i nie ma
-bezokolicznika, więc milczenie o lemacie znaczy przy pierwszym zdaniu, że biernik
-bierze, a przy drugim, że bezokolicznika nie bierze.
+Zdanie o bierniku jest ujemne i mówi, że czasownik nie bierze dopełnienia w
+bierniku, a zdanie o bezokoliczniku twierdzące i mówi, że czasownik bierze
+bezokolicznik, którego wykonawcą jest jego własny podmiot. Kierunki są przeciwne,
+bo przeciwne są domyślności, od których oba odejmują: rama domyślna ma dopełnienie
+w bierniku i nie ma bezokolicznika, więc milczenie o lemacie znaczy przy pierwszym
+z nich, że biernik bierze, a przy drugim, że bezokolicznika nie bierze.
 
-Trzecie jest twierdzące jak drugie i mówi, że czasownik bierze zdanie
-podrzędne wprowadzone przez ``że``, czyli że stoi przy nim to, co ktoś mówi,
-wie albo w co nie wierzy. Domyślność jest ta sama co przy bezokoliczniku, bo
-rama domyślna takiej pozycji nie ma, a bez tego zdania nic nie odróżnia
-``wiedzieć`` od ``zamykać``: oba biorą biernik, a zdanie podrzędne bierze
-jeden z nich.
+Zdanie o zdaniu podrzędnym wprowadzonym przez ``że`` jest twierdzące tak samo i
+mówi, że stoi przy czasowniku to, co ktoś mówi, wie albo w co nie wierzy.
+Domyślność jest ta sama co przy bezokoliczniku, bo rama domyślna takiej pozycji
+nie ma, a bez tego zdania nic nie odróżnia ``wiedzieć`` od ``zamykać``: oba biorą
+biernik, a zdanie podrzędne bierze jeden z nich.
 
-Czwarte czytanie nie jest zdaniem prawda-fałsz, tylko zbiorem, i wychodzi z niego
-kolumna przyimków: pozycja ``prepnp`` mówi, którego przyimka rama tego słowa żąda.
+Kolumna przyimków nie jest zdaniem prawda-fałsz, tylko zbiorem: pozycja
+``prepnp`` mówi, którego przyimka rama tego słowa żąda.
 Czyta ją warstwa rozstrzygająca, a nie gramatyka, i po obu stronach spornego
 wyrażenia przyimkowego: rzeczownik wskazuje gospodarza, a czasownik odbiera
 wskazanie. Dlaczego wskazuje jedna strona, a nie obie, wywodzi

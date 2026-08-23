@@ -20,8 +20,6 @@ class set over both would have to name the union and would answer neither, which
 is why a :class:`Probe` carries its own.
 
 It lives here rather than in ``olski`` because it asserts nothing about Polish.
-It reports what an ending matched, and what to make of that is docs/linter.md's
-to say.
 
     python3 -m harness.endings proza/ --probe nominalization
 """

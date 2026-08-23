@@ -5,9 +5,7 @@ więc stoi w leksykonie, tak jak rama czasownika stoi w ``olski/walencja.py``.
 
 Klucz jest parą, bo sam przyimek przypadka nie wyznacza:
 ``w piwnicy`` mówi, gdzie coś jest, a ``w kamień`` mówi, w co się coś zamienia.
-Rozstrzyga między nimi relacja, którą autor postawił w drzewie,
-a relacja jest kategorią dziedziny, a nie polszczyzny:
-drzewo mówi, że coś jest celem, a nie że stoi tam biernik.
+Rozstrzyga między nimi relacja, którą autor postawił w drzewie.
 Para taka jest całym powodem, dla którego okolicznik niesie relację,
 bo przyimek biorący jeden przypadek dałby się opisać samym napisem.
 
@@ -18,9 +16,7 @@ Wpis, który przypadka nie zmienia, jest tu wpisem mimo to,
 bo relacja nazywa to, co autor powiedział, a nie to, w czym mu to wyjdzie.
 
 Wpis pisany jest ręcznie, tak samo jak w ``olski/skład/spójniki.py``,
-czyli w tym pliku, który to samo mówi o okoliczności wyrażonej zdarzeniem,
-oraz jak w ``olski/skład/leksemy.py``, który różni się od obu tym, o czym rozstrzyga:
-tamten wybiera leksem, o który autorowi idzie, a te dwa opisują polszczyznę.
+czyli w tym pliku, który to samo mówi o okoliczności wyrażonej zdarzeniem.
 Walenty opisuje czasowniki, a nie przyimki, więc nie ma stąd czego wygenerować.
 Połowa wpisu ma jednak świadka w słowniku:
 Morfeusz znakuje przyimek przypadkami, którymi ten przyimek rządzi,

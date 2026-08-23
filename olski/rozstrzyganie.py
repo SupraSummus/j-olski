@@ -5,11 +5,11 @@ a nie żeby werdykt zmienić: :func:`rozstrzygnij` bierze gotowy wynik rozbioru
 i oddaje osobną odpowiedź obok niego, więc ``valid``, ``ambiguous`` i
 ``rejected`` znaczą po jej dopisaniu dokładnie to, co znaczyły.
 Dlaczego akurat tak, wywodzi ``docs/disambiguation.md``:
-ranking wstawiony w werdykt myliłby się co trzecie zdanie w miejscu,
-w którym ten parser obiecuje prawdę o zdaniu.
+ranking wstawiony w werdykt myliłby się co trzecie albo co czwarte zdanie
+w miejscu, w którym ten parser obiecuje prawdę o zdaniu.
 
 Rozstrzygać jest przy tym co: nad Składnicą przyłączenie jest całą decyzją
-w 75% zdań, które olski odrzuca za wieloznaczność (tamże).
+w większości zdań, które olski odrzuca za wieloznaczność (tamże).
 
 **Świadek jest jednostką tej warstwy.** Każdy patrzy na jedno przyłączenie
 i albo wskazuje gospodarza wraz z powodem, albo milczy. Milczenie jest
@@ -23,16 +23,15 @@ wszędzie tam, gdzie oba mówią coś naraz. Pod kolejnością tą nie ma porów
 dwóch trafności, tylko hipoteza: dobre ujednoznacznianie jest odczytaniem tego,
 co czytelnik ma przed sobą, a częstość nad cudzym korpusem odczytaniem nie jest,
 choćby trafiała częściej (``docs/disambiguation.md``).
-Świadków jest trzech:
-:class:`Powtórzenie` czyta akapit, w którym zdanie stoi, :class:`Rama` leksykon
-walencyjny, a :class:`Skłonność` bank drzew, którego nikt z autorem tego tekstu
-nie uzgadniał. Rama stoi w środku, bo słownik mówi o polszczyźnie, a nie o tym
+Dowód czyta :class:`Powtórzenie` w akapicie, w którym zdanie stoi, :class:`Rama`
+w leksykonie walencyjnym, a :class:`Skłonność` w banku drzew, którego nikt
+z autorem tego tekstu nie uzgadniał. Rama stoi w środku, bo słownik mówi o polszczyźnie, a nie o tym
 tekście ani o cudzym korpusie: powtórzenie ją bije, a ona bije częstość.
 
 **Świadek ramowy odpowiada schematem, a nie konkurencją między czytaniami.**
 Fraza, której rzeczownik żąda swoim schematem, przeczytana po stronie czasownika
-łamie ten schemat, a nad Składnicą pozycję taką ma 790 z 4 517 wyrażeń
-spornych (``docs/subset.md``). Wskazuje sam rzeczownik i jest to połowa
+łamie ten schemat, a nad Składnicą pozycję taką ma kilkaset z kilku tysięcy
+wyrażeń spornych (``docs/subset.md``). Wskazuje sam rzeczownik i jest to połowa
 kryterium, o którą pytano: po stronie czasownika ta sama rama trafia tyle, ile
 rzut monetą, więc zostaje tam wetem, a nie wskazaniem (``docs/disambiguation.md``).
 
@@ -48,7 +47,7 @@ w tę stronę, i odpowiada dopiero powyżej progu wsparcia i progu przewagi.
 Sam przyimek progu nie przechodzi i to jest zamierzone: leksykon przyimków
 myli się nad tym korpusem co szóste wyrażenie, a nad najczęstszymi co trzecie
 (``docs/subset.md``), czyli mniej więcej tak jak reguła „zawsze do rzeczownika”,
-którą ``docs/subset.md`` odrzuciła jako konwencję.
+którą tamten dokument odrzucił jako konwencję.
 
 Tabelę buduje się z banku drzew i ocenia na jego drugiej połowie:
 

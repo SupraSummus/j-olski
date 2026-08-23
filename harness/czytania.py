@@ -1,7 +1,7 @@
 """Czym różnią się czytania zdania, które olski odrzuca za wieloznaczność, nad Składnicą.
 
 Odrzucenie za wieloznaczność mówi, że czytań jest więcej niż jedno, i nie mówi,
-czym one się różnią. Pytanie o ujednoznacznianie zaczyna się dokładnie tutaj:
+czym one się różnią. Pytanie o ujednoznacznianie zaczyna się tutaj:
 maszyna, która ma taki las zwinąć, musi rozstrzygnąć konkretny wybór, a wyborów
 tego rejestru jest kilka rodzajów i każdy żąda czegoś innego. Sonda liczy, ile
 zdań przypada na który.
@@ -10,8 +10,7 @@ Rodzaje bierze z tego, co werdykt o zdaniu mówi, a nie z osobnej klasyfikacji
 napisanej obok: ``różniące`` nazywa role, które czytania obsadzają różnie,
 ``przyłączenia`` modyfikatory, których gospodarz zostaje nierozstrzygnięty, a
 ``rozbieżności`` konstytuenty czytane kilkoma sposobami poza zasięgiem
-streszczenia (``olski/parse.py``). Zdanie wchodzi więc do klasy nazwanej tym,
-co werdykt nad nim wypisuje, i klasa jest sprawdzalna przez przeczytanie werdyktu.
+streszczenia (``olski/parse.py``).
 
 Wynik odpowiada na dwa pytania naraz i to jest powód, żeby liczyć je jednym
 przebiegiem. Pierwsze: co musiałaby umieć maszyna, żeby zdanie z tej klasy

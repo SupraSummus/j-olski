@@ -14,7 +14,7 @@ Sensu ten moduł nie pilnuje i pilnować nie ma.
 i taki tekst do makiety pasuje, bo czytelnik ma zobaczyć kształt kolumny,
 a nie zacząć czytać.
 Tabele niżej dobierają więc lematy pod formę i pod rytm,
-a nie pod to, kto co komu robi; wyjątki są dwa i mówi o nich ``Obsada``.
+a nie pod to, kto co komu robi; o wyjątkach mówi ``Obsada``.
 Fakt o polszczyźnie, który do takiej tabeli wszedł albo z niej wypadł,
 jest przy tym faktem o każdym drzewie, a nie o tym jednym programie,
 i mówi o tym ``docs/sklad.md`` wraz z tym, gdzie taki fakt należy.

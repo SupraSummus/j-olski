@@ -19,25 +19,12 @@ nie stała. Pierwsza jest własnością rejestru, druga świadka, a jedna liczba
 wyjściu nie mówi, która przeważyła, więc sonda wypisuje oba mianowniki obok
 siebie.
 
-**Cenę warunku na kopulę wypisuje osobny wiersz.** Wariantem jest świadek z pustą
-listą kopul, czyli ten, który za dowód bierze i powtórzenie przy ``być``,
-a różnica między nim a wypuszczanym jest ceną tego warunku. Mierzy się ją
-w granicy akapitu, bo tam ten warunek odbiera wskazanie świadkowi, którego
-dostaje autor.
-
-**Granicę sąsiedztwa wycenia wariant, tak jak sonda różnicowa wycenia grupę
-produkcji.** Wariantem jest cały dokument czytany wstecz, czyli sąsiedztwo bez
-granicy akapitu, a różnica między nim a akapitem jest ceną tej granicy. Wariant
-nie jest propozycją: akapit ma uzasadnienie, które trzyma
-``docs/disambiguation.md``, a cenę trzeba znać, zanim ktoś je podważy.
-
-**Regułę kandydata wycenia drugi wariant, tą samą drogą.** Wariantem jest inne
-``kandydaci`` w :class:`Powtórzenie`, czyli inna odpowiedź na to, co w sąsiedztwie
-liczy się za miejsce przy gospodarzu: sam sąsiad bezpośredni frazy albo cały
-prefiks zdania przed nią, obok łańcucha imiennego, który warstwa wypuszcza.
-Warianty te mierzy się bez granicy akapitu, bo w jej granicy świadek milczy tak
-czy owak, a wybór między trzema regułami stoi na przeczytaniu odpowiedzi, nie na
-ich liczbie.
+**Wariant wycenia jeden warunek świadka**, tak jak sonda różnicowa wycenia grupę
+produkcji: różnica między świadkiem wypuszczanym a tym samym świadkiem z jednym
+warunkiem zdjętym jest ceną tego warunku. Które warunki i przy jakiej granicy
+sąsiedztwa, mówi :class:`Pomiar`. Wariant nie jest propozycją: akapit ma
+uzasadnienie, które trzyma ``docs/disambiguation.md``, a cenę trzeba znać, zanim
+ktoś je podważy.
 
 Trafności ta sonda nie liczy i nie ma czym: wzorca, który mówi, przy którym
 gospodarzu fraza stoi naprawdę, nad tym korpusem nie ma. Wypisuje więc każdą

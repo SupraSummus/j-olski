@@ -1,6 +1,6 @@
 """Parsing: every reading, not the first one.
 
-The parser answers three questions, and the third is the one that matters most:
+The parser answers these questions:
 
 1. Does this sentence have a derivation at all? If not, it is not olski, and the
    furthest point reached says where the analysis died.
@@ -13,7 +13,7 @@ The parser answers three questions, and the third is the one that matters most:
    and worse, cannot be read reliably by a person either.
 
 Distinct readings, not derivations. Two derivations that describe the same
-structure are one reading. The distinction is not pedantic: it is exactly the
+structure are one reading. The distinction is not pedantic: it is the
 mistake recorded in docs/glr-in-practice.md#ambiguity-as-a-confidence-measure,
 where a system fell silent on lines it had understood perfectly because it
 counted attempts instead of outcomes.
@@ -23,13 +23,8 @@ An Earley chart over the segmentation graph builds a forest with shared nodes:
 one :class:`Pozycja` per constituent shape,
 however many derivations stand under it,
 so six undecided attachments are six positions rather than sixty-four trees.
-Six summaries come off that forest and none of them needs another parser:
-how many readings there are,
-which of them a reader is shown,
-which roles the readings disagree about,
-which attachment the sentence leaves open,
-which constituent reads several ways where none of the above looks,
-and which of them a reading named from outside, by its roles, turns out to be.
+The summaries come off that forest, one method of :class:`Las` each,
+and none of them needs another parser.
 docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
 and docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania

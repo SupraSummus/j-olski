@@ -12,8 +12,7 @@ README repozytorium jest dalej tamten plik i nic tutaj tego nie zmienia.
 Napisu tego nie trzyma żaden test, i jest to brak nazwany, a nie przeoczony.
 Literał skopiowany z wyjścia zgadza się z nim zawsze i nie orzeka nic,
 czego nie orzekł git, a maszyneria pod tymi drzewami ma w ``tests/test_skład.py``
-własności nazwane po imieniu — ``opis`` nad postacią w liczbie mnogiej
-pod przeczeniem stoi tam wraz z resztą.
+własności nazwane po imieniu.
 Władzę nad napisem ma tekst napisany pierwszy, i tak stoi ``BAZYLISZEK``
 w ``tests/test_opowieść.py``, gdzie literał jest celem, a drzewa próbą w niego trafienia.
 
@@ -23,15 +22,14 @@ i trzyma je ``docs/roadmap.md``,
 a ten plik oddaje tę samą treść innymi zdaniami, więc go nie zalicza
 i nie wolno go za nie brać: porównania słabszego tamta sekcja odmawia z powodem.
 Plik jest tym, czym jest ``opowieści/bazyliszek.py``, tylko o czym innym,
-i po to samo, co mówi ``opowieści/__init__.py``:
-tekst napisany ręcznie w tych kategoriach jest tym jedynym,
-co mówi, czego kategoriom brakuje.
+i po to samo: tekst pisany ręką w tych kategoriach mówi, czego im brakuje
+(``opowieści/__init__.py``).
 Kolejności, którą tamten plik deklaruje, ten nie dochował:
 drzewa powstały przed tekstem, a nie po nim,
 więc mierzy on, co skład powiedzieć umie, a nie co powiedzieć trzeba.
 Odwrócenie tej kolejności, po którym napis dostanie właściciela, trzyma ``TODO.md``.
 
-Brakuje trzech rzeczy i każdą widać w tym, co niżej wyszło inaczej,
+Brakuje kilku rzeczy i każdą widać w tym, co niżej wyszło inaczej,
 niż wyszłoby w prozie.
 Lematu ``olski`` Morfeusz nie zna wcale i czyta go jako ``ign``,
 więc nazwa własna tego języka nie wyjdzie z drzewa w żadnej roli,
@@ -40,7 +38,7 @@ Liczebnika skład nie ma, więc jedno czytanie mówi się tu przez brak drugiego
 Relacji przyczyny nie ma w ``olski/skład/przyimki.py`` ani pod jednym przyimkiem,
 a ma ją ``olski/skład/spójniki.py``, więc wychodzi ona zdaniem i nie wychodzi frazą:
 przyjemność jest tu orzecznikiem tam, gdzie ``README.md`` pisze ``dla przyjemności``.
-Ruch przy każdej z tych trzech trzyma ``TODO.md``.
+Ruch przy każdej z nich trzyma ``TODO.md``.
 
 Część zdań, które stąd wychodzą, parser czyta dwojako,
 i nie jest to usterka ani tego pliku, ani tamtego kierunku:

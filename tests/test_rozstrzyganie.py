@@ -1,11 +1,11 @@
 """Te własności warstwy rozstrzygającej, na których stoi jej prawo do istnienia.
 
 Warstwa jest zalążkiem i większość tego, co mówi, mówi tabelą przeliczaną z banku
-drzew, której nikt tu nie pilnuje. Trzy rzeczy są inne, bo bez nich zalążek jest
-nie tyle niedokończony, co szkodliwy: że milczy, kiedy nie ma na czym stanąć, że
-wskazanie przychodzi z liczbami, i że werdykt zostaje nietknięty.
+drzew, której nikt tu nie pilnuje. Inne są te, bez których zalążek jest nie tyle
+niedokończony, co szkodliwy: że milczy, kiedy nie ma na czym stanąć, że wskazanie
+przychodzi z liczbami, i że werdykt zostaje nietknięty.
 
-Czwarta jest o kolejności świadków, bo na niej stoi obietnica z docstringa
+Osobno pilnowana jest kolejność świadków, bo na niej stoi obietnica z docstringa
 ``olski/rozstrzyganie.py``: dowód o tym tekście bije dowód o cudzym korpusie,
 a nie odwrotnie.
 
@@ -25,7 +25,7 @@ przestaje milczeć na żądaniu obustronnym — a widać to dopiero w liczbach.
 Świadka każdy test buduje sam, z licznika albo z ramy wypisanej na miejscu,
 zamiast czytać ``olski/skłonności.txt`` czy ``olski/leksykon.txt``.
 Pliki te są generowane, więc test na nich oparty pilnowałby banku drzew
-albo Walentego, a nie warstwy, i milkłby razem z nimi. Ostatni test bierze
+albo Walentego, a nie warstwy, i milkłby razem z nimi. Jeden test bierze
 świadków domyślnych, bo sprawdza samo polecenie, i sprawdza wtedy zdanie, którego
 tabela wypisać nie umie: powód świadka kontekstowego cytuje akapit.
 """

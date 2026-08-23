@@ -4,25 +4,18 @@ The grammar takes plain Polish sentences, and a corpus arrives as Markdown or as
 an act of parliament served in HTML, so a body of text reaches the grammar
 through here rather than through olski: reading a document format is a different
 job from deriving a sentence, and keeping it out is what lets the grammar hold no
-view of any format. What an extraction invents on the way is docs/extraction.md,
-since a transformation the grammar is measured over owes an account of itself
-exactly as a coverage figure owes its corpus.
+view of any format. What an extraction invents on the way is docs/extraction.md.
 
 Only the reading of one file differs between formats. The walk over a tree, the
 selection by language and the mirrored output are the same step every time, so
 they live here, and a format arrives as a declaration rather than as a second
 path through them.
 
-Beside the extraction stand the programs that produce what a document cites:
-``endings.py`` reads an ending's cost off a corpus, ``ruch.py`` runs a
-differential measurement over the grammar, and the modules beside them measure
-the disambiguation layer and the constraint substrate. They are here for the
-reason the extraction is, which is that they serve the documents rather than the
-grammar, and no module of ``olski`` imports any of them.
-
-A script written to price one construction is not among them: it lives in the
-session that measured, and what reaches the repository is the sentence in a
-document and the commit that admitted the construction (``CLAUDE.md#code``).
+Beside the extraction stand the programs that produce what a document cites.
+They are here for the reason the extraction is, which is that they serve the
+documents rather than the grammar, and no module of ``olski`` imports any of
+them. A script written to price one construction is not among them: it lives in
+the session that measured (``CLAUDE.md#code``).
 """
 
 from __future__ import annotations

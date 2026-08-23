@@ -7,8 +7,7 @@ Warstwa wypuszczana pracuje na czymś innym.
 Pyta ją ``olski-check``, więc pytaniem jest :class:`Przyłączenie` z werdyktu:
 gospodarze są formami, form tych bywa więcej niż dwie,
 a lemat wybiera dopiero Morfeusz i wybiera ich kilka naraz.
-Różnicy między jednym a drugim nie mierzył dotąd nikt,
-a jest to dokładnie ta różnica, o którą pyta ``Skłonność.wybierz``,
+Różnica między jednym a drugim jest tą, o którą pyta ``Skłonność.wybierz``,
 kiedy mówi, że rozmycie po lematach kończy się milczeniem.
 
 Ta sonda mierzy drogę drugą, czyli warstwę taką, jaką dostaje autor.
@@ -36,8 +35,7 @@ bo pomiar liczący ją po swojemu mierzyłby innego świadka niż wypuszczany.
 Zdania banku drzew stoją osobno, więc sąsiedztwem jest puste,
 a akapitu, którego ten świadek żąda, nie ma stąd skąd wziąć.
 Jego zasięg mierzy ``harness/powtórzenie.py`` nad korpusem audytowym,
-a trafność ``harness/wybory.py`` na wyborach przeczytanych ręką,
-i to jest powód, dla którego te pomiary są trzema, a nie jednym.
+a trafność ``harness/wybory.py`` na wyborach przeczytanych ręką.
 
 Wynik czyta ``docs/disambiguation.md``.
 

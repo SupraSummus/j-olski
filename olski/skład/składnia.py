@@ -20,7 +20,7 @@ Drzewo mówi, co w zdaniu jest tematem, a co nowe, przez ``Wyróżnienie``,
 i dopiero z tego wychodzi kolejność, w której konstytuenty się wypisują.
 Czasownik przy tym nie rusza się nigdy,
 więc wyróżnienie przestawia to, co wokół niego stoi, a nie całe zdanie.
-Trzy kolejności dokładają do tego konstrukcje, w których autor nie wybiera.
+Kolejności dokładają do tego konstrukcje, w których autor nie wybiera.
 Zaimek względny otwiera zdanie podrzędne zawsze,
 więc rzecz wskazana przez ``Opis`` staje w nim na czele, czymkolwiek w nim jest.
 Okoliczność wyrażona zdarzeniem staje na czele zdania,

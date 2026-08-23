@@ -21,16 +21,14 @@ podmiot bywa opuszczony, a rzecz wskazana wychodzi zaimkiem.
 Zdanie mierzone jako stojące samo jest przez to innym zdaniem
 niż to, które autor dostał, i te dwa mają różne role widoczne.
 
-Jest to ten sam pomiar, który stoi w ``pomijalny`` w ``olski/skład/składnia.py``,
-i wart jest tego, żeby to nazwać.
+Jest to ten sam pomiar, który stoi w ``pomijalny`` w ``olski/skład/składnia.py``.
 Tamten pyta, czy podmiot wróci czytelnikowi z formy czasownika,
 i liczy to tak, że wypisuje formę dla każdego, kto mógłby ją wyciągnąć.
 Tutaj pytanie jest o rolę zamiast o podmiot, a sposób ten sam,
 i dlatego kolizja nie jest tu wyjątkiem: obie rzeczy są własnością napisu,
 a nie błędem drzewa, które ten napis wypuściło.
 
-Wieloznaczność jest przy tym przekleństwem parsera, a nie generatora,
-i widać to na tym module najlepiej.
+Wieloznaczność jest przy tym przekleństwem parsera, a nie generatora.
 ``olski/wieloznaczność.py`` liczy tę samą klasę nad cudzym tekstem
 i musi zgadywać z form to, co tutaj wiadomo z drzewa:
 gdzie kończy się grupa imienna, co jest uczestnikiem, a co stoi pod przyimkiem,
@@ -38,12 +36,7 @@ i przy którym orzeczeniu para stanęła.
 Sam nazywa przez to swoją liczbę górnym oszacowaniem.
 Tutaj żadne z tych pytań się nie stawia,
 bo uczestnicy są w drzewie wymienieni, a orzeczenie jest w nim węzłem.
-Poprawiło to raz tamten pomiar:
-``Mysz goni ogon.`` czyta się dwojako,
-a synkretyzm liczony z jednego czytania słownika tej pary nie widzi,
-bo ``mysz`` niesie mianownik i biernik dwoma osobnymi wpisami.
-Porównanie napisów o wpisy nie pyta i widzi ją bez żadnego warunku,
-więc ``_obojętny`` pyta tam dziś o segment, a nie o czytanie.
+Poprawiło to raz tamten pomiar, o czym mówi w nim ``_obojętny``.
 
 Klasa jest tu jedna z dwóch, które ta wieloznaczność ma nad polszczyzną.
 Przyłączenia ten przegląd nie zgłasza,

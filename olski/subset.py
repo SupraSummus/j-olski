@@ -12,7 +12,7 @@ because a sentence with two readings has no checkable meaning and, more
 importantly, no reliable one.
 
 The grammar below admits every order the subject, the object and the verb can
-stand in, since Polish uses all six of them, which is precisely why case
+stand in, since Polish uses all six of them, which is why case
 syncretism makes some sentences ambiguous. The alternative — declaring that olski
 is SVO and reading the first noun phrase as the subject — would make those
 sentences unambiguous to a reader who knows the convention and still ambiguous to

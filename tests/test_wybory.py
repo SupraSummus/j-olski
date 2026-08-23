@@ -8,7 +8,7 @@ oba są niewidoczne w wydruku, i pilnowane są w obu plikach, bo ręka pisze oba
 Nagłówek pilnowany jest z drugiej strony: poprawiony w pliku, a nie w stałej,
 wraca przy następnej budowie w wersji starszej i nadpisuje tę prawdziwą.
 
-Ostatnia własność jest o warstwie, a nie o pliku: nad próbą losowaną z całej
+Osobna własność jest o warstwie, a nie o pliku: nad próbą losowaną z całej
 populacji warstwa nie myli się ani razu. Jest to jedyne, co
 ``docs/disambiguation.md`` z tej próby bierze jako własność, a nie jako pomiar, i
 jest to własność, którą świadek poluzowany poza swój dowód traci pierwszą. Test

@@ -5,7 +5,7 @@ zdania, więc łamacz sprawdzający składnię mieści się w jednym słowie.
 Wywód, po co ten kierunek stoi obok parsera, trzyma
 ``docs/design-notes.md``.
 
-Podział jest trójwarstwowy i to on jest tu decyzją.
+Podział na warstwy jest tu decyzją.
 ``olski.skład.składnia`` trzyma kategorie i konstruktory, czyli to, co da się
 powiedzieć, i nie ma w sobie ani przypadka, ani rodzaju, ani szyku.
 ``olski.skład.morfologia`` trzyma formy, które z tego wychodzą.
@@ -18,11 +18,6 @@ zgłasza się przez ``PozaRamą``, zamiast powstać.
 Rekcja przyimka przychodzi tak samo, z ``olski.skład.przyimki``,
 a który leksem stoi pod nazwą, mówi ``olski.skład.leksemy``,
 bo lemat go nie wskazuje, a od wyboru zależy znaczenie zdania.
-
-Poziomem tych kategorii jest dziedzina, a nie język.
-``Czyj`` mówi, co czego dotyczy, a nie że stoi tam dopełniacz,
-``Dokąd`` mówi, że coś jest celem, a nie że stoi tam biernik,
-i dlatego drzewo nie jest rozbiorem zdania zapisanym z góry.
 """
 
 from olski.skład.leksemy import LEKSEMY, leksem
