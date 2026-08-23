@@ -78,11 +78,20 @@ bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-pe
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać:
 [dlaczego poprawność znaczy tu jedno czytanie](subset.md#validity-is-uniqueness-not-just-derivability).
 
+Drugie wejście tej roli jest w przeglądarce
+i prowadzi do tego samego werdyktu:
+witryna woła tę samą gramatykę i pokazuje frazę, którą drukuje wiersz poleceń
+([witryna.md](witryna.md#werdykt-idzie-w-tych-słowach-w-których-drukuje-go-olski-check)).
+Osobnego podręcznika strona też nie ma,
+bo pole tekstowe pyta o to samo, o co pyta `-c`.
+
 **Psuje ją** werdykt, który nie mówi, czym dwa czytania się różnią,
 oraz odrzucenie podane bez tego, dokąd analiza doszła.
 
 **Obsadza ją** autor, z klona repozytorium.
-Instalacji poza klonem nie ma.
+Instalacji poza klonem nie ma, i witryna tego nie zmienia,
+dopóki nikt nie postawi jej pod adresem
+([witryna.md](witryna.md#nie-zapadło)).
 
 ## Planista
 

@@ -226,6 +226,18 @@ Braki w leksykonie i braki w formach
 wylicza [docs/roadmap.md](docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Zobacz [docs/sklad.md](docs/sklad.md).
 
+Witryna pokazuje ten sam werdykt w przeglądarce.
+Jest ona bocznym torem i olski nie zależy od niej.
+Serwer bierze się ze standardowej biblioteki, więc strona wstaje bez zależności.
+
+```sh
+python3 -m witryna
+```
+
+Strona woła własne API i jest jego klientem.
+Werdykt przychodzi w tych słowach, które drukuje wiersz poleceń.
+Zobacz [docs/witryna.md](docs/witryna.md).
+
 Resztą repozytorium są notatki projektowe, przegląd pola,
 plan i otwarte pytania.
 
@@ -239,6 +251,9 @@ plan i otwarte pytania.
   i ile kosztuje przyłączanie wyrażeń przyimkowych.
 - [docs/sklad.md](docs/sklad.md) mówi, co tekst wie ponad zdaniem
   i czego brakuje w leksykonie.
+- [docs/witryna.md](docs/witryna.md) mówi, co witryna pokazuje w przeglądarce.
+  Boczny tor nie rusza rdzenia.
+  Dokument nazywa cenę tego układu.
 - [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md)
   zbiera feedback z fotela użytkownika.
   Pierwsza sesja pisała pod tę gramatykę, a druga dopisywała brakujące pozycje.

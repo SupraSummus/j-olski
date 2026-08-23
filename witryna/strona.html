@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>j-olski — parser podzbioru polszczyzny</title>
+    <meta name="description" content="Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie.">
+    <!-- Znaczek karty jest tu wpisany, a nie pobierany: przeglądarka pyta o
+         /favicon.ico sama, a trasy takiej nie ma i nie ma po co jej dodawać. -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' x='4' font-size='26' font-family='Georgia,serif' fill='%232f6f4f'>o</text></svg>">
+    <link rel="stylesheet" href="/styl.css">
+  </head>
+  <body>
+    <header>
+      <h1><span aria-hidden="true">j-</span>olski</h1>
+      <p class="wiodące">
+        <em>Język olski</em> to <em>język polski</em>, któremu spiłowano <em>p</em>.
+        Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie.
+        Parser mówi, że zdanie czyta się dwojako, a za autora nie wybiera.
+      </p>
+    </header>
+
+    <main>
+      <section aria-labelledby="tytuł-werdyktu">
+        <h2 id="tytuł-werdyktu">Sprawdź tekst</h2>
+        <form id="pytanie">
+          <label class="ukryte" for="tekst">Tekst po polsku</label>
+          <textarea id="tekst" name="tekst" rows="5" spellcheck="false"
+            aria-describedby="miara">Zapisz plik konfiguracyjny.
+Koszt samej szynki przewyższa koszt szynki z dodatkami.
+Nowa program zapisuje ustawienia.</textarea>
+          <div class="pasek">
+            <button type="submit" id="wyślij">Sprawdź</button>
+            <span class="wskazówka"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
+            <span class="miara" id="miara" aria-live="off"></span>
+          </div>
+        </form>
+
+        <p class="legenda">
+          <span><span class="znaczek valid">valid</span> jedno czytanie</span>
+          <span><span class="znaczek ambiguous">ambiguous</span> kilka czytań</span>
+          <span><span class="znaczek rejected">rejected</span> brak czytania</span>
+          <span><span class="znaczek fragment">fragment</span> nie zdanie</span>
+        </p>
+
+        <p id="stan" class="stan" role="status" aria-live="polite"></p>
+        <div id="werdykty"></div>
+      </section>
+
+      <section aria-labelledby="tytuł-makiety">
+        <h2 id="tytuł-makiety">Tekst do makiety</h2>
+        <p>
+          Drugi tor idzie w przeciwną stronę: wchodzi drzewo tego, co ma zostać
+          powiedziane, a wychodzi polskie zdanie. Losowane jest drzewo, więc
+          zgodność form jest policzona, a nie sprawdzona. Ziarno odtwarza tekst.
+        </p>
+        <form id="pytanie-makiety">
+          <label for="ziarno">Ziarno</label>
+          <input id="ziarno" name="ziarno" type="number" min="0" inputmode="numeric"
+            placeholder="losowe">
+          <label for="akapity">Akapitów</label>
+          <input id="akapity" name="akapity" type="number" min="1" max="20" value="1">
+          <button type="submit" id="wyślij-makietę">Losuj</button>
+        </form>
+        <div id="makieta"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Parser jest tani i deterministyczny, a to samo wejście daje tę samą
+        odpowiedź. Werdykt przychodzi tu w tych samych słowach, w których
+        drukuje go <code>olski-check</code> na klonie.
+      </p>
+      <p>
+        <a href="https://github.com/SupraSummus/j-olski">Repozytorium</a> ·
+        <a href="/makieta?akapity=4">API makiety</a>
+      </p>
+    </footer>
+
+    <script src="/skrypt.js"></script>
+  </body>
+</html>

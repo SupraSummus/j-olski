@@ -37,7 +37,7 @@ DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
 #: is a document, or in a test's docstring.
 SOURCES = sorted(
     path
-    for package in ("olski", "harness", "opowieści", "tests")
+    for package in ("olski", "harness", "opowieści", "tests", "witryna")
     for path in (ROOT / package).rglob("*.py")
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
@@ -45,8 +45,11 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: A module or data file named inside an inline code span, which is how prose
 #: points at the code that owns a fact. Renaming the file leaves the span
 #: looking live, exactly as a renamed section leaves a link looking live.
+#: Strona witryny stoi tu obok modułów, bo dokument nazywa jej pliki tak samo,
+#: a przeglądarka bierze je z tablicy tras i przemianowany daje 404.
 CITED_PATH = re.compile(
-    r"`((?:olski|harness|tests|opowieści|próba)/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt))`"
+    r"`((?:olski|harness|tests|opowieści|próba|witryna)"
+    r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt|html|css|js))`"
 )
 #: The one document whose subject is code that is gone: it prices the retired
 #: pack at the state it was retired in, and ``CLAUDE.md`` says nothing in it is
