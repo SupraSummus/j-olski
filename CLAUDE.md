@@ -218,6 +218,9 @@ The test at the end of a change:
 reread from the point where you started editing,
 pretending you have not seen what follows.
 An author remembers what is further down and cannot see the defect unaided.
+A section you moved has two such points, and the one to reread from is where it landed:
+there it precedes what used to introduce it,
+which is invisible from the altitude a file is read at before editing.
 
 ## One owner per fact; repeat narrative freely
 
@@ -467,13 +470,14 @@ Powtarza się w niej kilka chwytów.
 Nie każde takie zdanie jest usterką.
 Projekt jest dla przyjemności ([README](README.md#kierunek)),
 więc tekst, który się dobrze czyta, jest tu jednym z celów.
-Granica biegnie tam, gdzie tekstu nie czyta się już od początku do końca.
+Granica biegnie między wywodem a instrukcją.
 Wywód wolno tak pisać: README i te dokumenty, które o coś argumentują,
 czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
 Instrukcji tak pisać nie wolno: ten plik, tematy commitów oraz `TODO.md`
-czyta się wyrywkowo, w pośpiechu i z listy,
-a zdanie, które trzeba najpierw rozszyfrować,
-przepada razem z tym, co miało powiedzieć.
+mówią komuś, co ma zrobić.
+Zdanie, które trzeba najpierw rozszyfrować,
+dokłada mu pracy do tej, którą już ma,
+a napisać je jasno trzeba raz.
 
 Rejestr bierze się głównie z tego pliku,
 bo każda sesja zaczyna od jego przeczytania i pisze potem jego głosem;
@@ -806,6 +810,14 @@ a production that admits a phrase nothing should derive,
 a segmentation graph stitched together one node out,
 a lexical exclusion taking a reading the grammar needed.
 
+A narrowing change leaves older conditions to re-check,
+because one of them may now be guarded by nothing:
+its test still passes, the new narrowing having taken over
+the sentence that test rejects.
+Take the older condition out and watch the suite go red;
+where it stays green, that test wants a sentence
+the new narrowing leaves alone.
+
 ## Commit messages
 
 The subject says why, in the imperative;
@@ -878,73 +890,51 @@ rather than after.
 **Verify the squash preserved the content.**
 `git diff <squashed> <original-head>` must be empty.
 
-## The review pass
+## Przegląd sprawdza zmianę wobec całego tego pliku
 
-Asked for a review, go through the session's changes with fresh eyes,
-answer the questions below,
-and make the corrections that follow from the answers:
-small refactors on the spot,
-larger ones written into [`TODO.md`](TODO.md) instead of started.
+Poproszony o przegląd, spójrz świeżym okiem na to, co weszło w tej sesji.
+Czytaj ten plik od góry i sprawdzaj zmiany regułą po regule.
+Sprawdzaj to, co mogło się zepsuć:
+sprawdzenie, które nie może wypaść źle, niczego nie dowodzi.
+Drobne poprawki rób od razu,
+a większe wpisuj do [`TODO.md`](TODO.md), zamiast je zaczynać.
+Przed werdyktem puść [blok checków](#checks).
 
-- **Direction.** Which concrete problem disappears with this change?
-  A change that only moves text has no direction.
-- **Whose path.** Which role does the change fall on,
-  and does somebody in that posture still meet a text written for them?
-  [`docs/roles.md`](docs/roles.md) names the roles,
-  where each one enters, and what ruins its path.
-- **Elegance.** Simple and closed:
-  no orphaned sections, no half-finished moves.
-- **The six forces.** Put every changed place through each of the six tests.
-  Check reading order separately on anything you moved:
-  a section lifted upward now precedes what used to introduce it,
-  and that is invisible from the altitude a file is read at before editing.
-- **Consistency of references.**
-  `tests/test_docs.py` resolves links, anchors,
-  and the file names prose writes inside backticks,
-  so a renamed section or module fails the suite instead of rotting quietly.
-  What it cannot see is a name written without those backticks,
-  and a section name, which no path spells:
-  grep for the names of deleted and renamed files and sections,
-  and check that an example still shows what the rule citing it claims,
-  because an example rots in place —
-  the section is still there and no longer illustrates anything.
-  Entries in `TODO.md` name files and sections,
-  so a rename has to be carried there too.
-  Check what the change could have broken;
-  a check that cannot come out badly proves nothing.
-- **Checks.** `python3 -m pytest` and `ruff check .`.
-  New tests earn their place or do not get written.
-  A narrowing change also leaves older conditions to re-check,
-  because one of them may now be guarded by nothing:
-  its test still passes, the new narrowing having taken over
-  the sentence that test rejects.
-  Take the older condition out and watch the suite go red;
-  where it stays green, that test wants a sentence
-  the new narrowing leaves alone.
-- **What opened up.** Is something now simplifiable
-  that could not be touched before —
-  two documents that stopped differing, a pointer with nothing left to guard?
-  Small ones now, larger into `TODO.md`.
-- **Closed entries.** What does this change close
-  in `TODO.md` or in an open list it touches?
-  Closing an entry includes deleting it,
-  per [documents describe the present](#documents-describe-the-present-git-owns-the-past).
-  A half-closed entry stays, rewritten to what is actually left of it.
-- **Rules, applied and kept current.**
-  Does the change follow the conventions above,
-  semantic line breaks included?
-  And in the other direction:
-  does the repository now contradict one of them on purpose?
-  That is a defect in the rule,
-  and the correction goes into this file, the README
-  or the `TODO.md` header in the same commit.
-- **Honesty.** Did the change hand some information over to git history?
-  Then the commit message names it,
-  per [commit messages](#commit-messages).
-- **Noise.** Meta-comments, parentheses and pointers
-  only where they carry content.
-  In code, the same question about comment characters:
-  a comment restating the line above it is noise.
-- **Verdict.** Further changes needed, stands as it is, or revert the lot —
-  with the reasoning.
-  Changes without a problem driving them are stirring the text.
+Lista niżej nie dokłada reguł i żadnej z nich nie streszcza
+([jeden właściciel](#one-owner-per-fact-repeat-narrative-freely)).
+Zbiera pytania, które zadaje się przy przeglądzie,
+a których nie zadaje żadna sekcja wyżej.
+
+- **Kierunek.** Czy zmiana idzie w dobrą stronę?
+  Problem nie musi zniknąć od razu.
+  Wystarczy, że umiesz powiedzieć, czemu po tej zmianie jest do niego bliżej.
+  Zmiana, która tylko przestawia tekst, nie idzie nigdzie.
+- **Czyja ścieżka.** Kto przeczyta zmienione miejsce
+  i czy nadal znajdzie tam tekst dla siebie?
+  Role opisuje [`docs/roles.md`](docs/roles.md).
+- **Elegancja.** Czy rozwiązanie jest proste?
+  Kod testów ma być tak samo prosty.
+  Które testy są warte pisania, mówi [sekcja o testach](#tests).
+- **Uczciwość.** Czy to miejsce mówi prawdę o tym, co robi?
+  Czy ktoś, kto tu wejdzie za pół roku, zrozumie je bez pytania?
+- **Komentarze.** Czy w kodzie nie ma ich za dużo?
+  Komentarz, który powtarza wiersz nad sobą, jest zbędny.
+- **Co się otworzyło.** Czy da się teraz uprościć coś,
+  czego wcześniej nie dało się ruszyć?
+  Drobiazg zrób od razu, większe wpisz do `TODO.md`.
+- **Listy i dokumenty.** Co dopisać, a co skasować —
+  w `TODO.md`, w tym pliku, w README, w `docs/`?
+  Wpis, który ta zmiana zamyka, kasujesz
+  ([dokument opisuje teraźniejszość](#documents-describe-the-present-git-owns-the-past)),
+  a wpis zamknięty w połowie przepisujesz na to, co z niego zostało.
+- **Poza zasięgiem suity.** Czego `tests/test_docs.py` nie sprawdzi:
+  nazwy napisanej bez backticków, nazwy sekcji
+  ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie))
+  i przykładu, który przestał pasować do reguły cytującej go.
+  Poszukaj ich grepem, kiedy coś kasujesz albo przemianowujesz;
+  `TODO.md` też nazywa pliki i sekcje.
+- **Złamana reguła.** Czy zmiana łamie którąś regułę celowo?
+  Wtedy zła jest reguła.
+  Popraw ją tym samym commitem — tutaj, w README albo w nagłówku `TODO.md`.
+- **Werdykt.** Ciągniemy dalej, zamykamy jak jest, czy wycofujemy całość?
+  Z uzasadnieniem.
