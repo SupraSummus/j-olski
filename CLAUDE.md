@@ -612,6 +612,11 @@ A construction admitted alone pays the whole fixed cost of its own section —
 the heading, the frame, the entry on the coverage list,
 the clause in the stage plan — where several admitted together divide it,
 so several may go into one session unless one of them blocks the others.
+Several are also worth more together than apart,
+because the probe prices each one against whatever else the grammar has,
+so a position admitted alone can measure near zero
+and hide that it is worth having
+([docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
 
 A session is worth starting when one decision settles several entries.
 An entry that cannot be settled until another session answers
@@ -664,7 +669,7 @@ Workflow nie nosi znaczka.
 Krucha jest ta, którą zwykły rozwój projektu unieważnia:
 ile zdań korpusu gramatyka przyjmuje, ile czytań daje konstrukcja,
 ile zdań kupiła produkcja dopisana w zeszłym miesiącu.
-Właścicielem takiej liczby jest narzędzie z `harness/`, które ją drukuje,
+Właścicielem takiej liczby jest narzędzie, które ją drukuje,
 a nie akapit, bo akapit unieważnia się po cichu i nikt tego nie widzi.
 Dokument mówi rząd wielkości, stosunek albo kierunek —
 „przeszło sto zdań”, „nie odbiera ani jednego”, „kupuje kilkadziesiąt” —

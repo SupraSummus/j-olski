@@ -43,6 +43,11 @@ from olski.morph import Reading, Segment, tag
 #: ungrammatical, or its morphological annotation was wrong.
 FULL = "FULL"
 
+#: Wartość, którą w polu werdyktu stawia zdanie prozy: anotator nie wydał o nim
+#: żadnego (``nad_prozą`` w ``olski/coverage.py``). Nikt jej nie czyta, bo tabeli
+#: składu korpusu proza nie ma; stoi tu, żeby to pole nad prozą nie kłamało.
+PROZA = "proza"
+
 #: Składnica names cases in Polish and in Latin interchangeably, sometimes within
 #: one valency frame, so both are normalized to the Latin name Morfeusz uses.
 CASES = {
@@ -103,7 +108,13 @@ def _slot_role(slot: str) -> str | None:
 
 @dataclass(frozen=True)
 class Sentence:
-    """One Składnica forest, as much of it as olski has any use for."""
+    """One sentence to measure, with as much of its forest as olski has any use for.
+
+    Nad prozą pól banku drzew nie ma: werdyktem jest :data:`PROZA`, rola żadna nie
+    stoi, a segmenty wychodzą z morfologii, którą czyta sprawdzany dokument. Przez
+    to jeden przebieg mierzy oba wejścia (``nad_prozą`` w ``olski/coverage.py``), a
+    nie dwa raporty o jednej nazwie.
+    """
 
     sent_id: str
     text: str

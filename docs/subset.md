@@ -463,6 +463,48 @@ Drugą połową jest polskie słowo odmienione, którego słownik nie ma,
 i tej czytania nieodmiennego dać nie wolno;
 wpuszcza ją [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 
+## Wersalik bez czytania jest tym samym rzeczownikiem nieodmiennym
+
+Notacja wyżej poznaje się po znaku, który ją spaja.
+`README` nie niesie ani kropki, ani ukośnika,
+więc wzorzec notacji go nie widzi,
+a Morfeusz oddaje go jako `ign`, którego nie bierze ani jedna produkcja.
+Rejestr, o który olskiemu chodzi, stawia takich form kilka na dokument —
+`README`, `GLR`, `SGJP`, `LCFRS` — i stoją one na miejscach rzeczownika.
+
+Warunek jest więc drugi i pyta o dwie rzeczy:
+forma ma być pisana wersalikami i słownik ma jej nie czytać wcale.
+Pierwsze pytanie zadaje już wykluczenie słownikowe,
+które wersalik ze swojego zasięgu wyłącza,
+bo w wersalikach forma rzeczownikiem właśnie jest
+([wyżej](#the-dictionary-offers-readings-polish-does-not)),
+a tutaj stoi drugie zdanie tej samej myśli.
+Drugie pytanie broni polszczyzny: `NIE` i `PAN` słownik czyta,
+więc czytania nieodmiennego nie dostają
+i zdanie z nimi nie traci tego, które ma.
+Nieodmienna taka forma jest przy tym w polszczyźnie naprawdę:
+akronim odmieniony pisze się z łącznikiem i małą końcówką — `PKB-u` —
+czyli już nie samymi wersalikami.
+
+Cena jest ta sama, którą płaci notacja, i płaci się ją z tego samego powodu:
+forma nieodmienna spełnia każde żądanie przypadku,
+jakie unifikacja umie postawić.
+`Parser GLR jest tani.` wychodzi z tego jednym czytaniem,
+w którym `GLR` jest dopełniaczem przy `parser`,
+a czytelnik ma tam dopowiedzenie
+([niżej](#what-it-does-not-cover-yet) trzyma tę pozycję).
+Werdykt mówi więc o tym zdaniu tyle, że się wyprowadza,
+a o tym, czym w nim jest `GLR`, mówi nieprawdę.
+
+Bank drzew tej ceny nie mierzy i nie zmierzy.
+Przebieg nad Składnicą 180723 wychodzi z tym warunkiem i bez niego
+tymi samymi liczbami, co do jednego zdania:
+rejestr prasowy pisze wersalikiem akronim, który słownik zna,
+a formy nieznanej pisanej wersalikami nie ma tam ani jednej.
+Zakup jest przez to widoczny wyłącznie nad prozą tego repozytorium,
+gdzie liczbę drukuje `olski.check`,
+i tyle właśnie o tym warunku wiadomo.
+
 ## Leksykon projektu wpuszcza polskie słowo, którego słownik nie ma
 
 `olski`, `commitów`, `Pythonem` — SGJP nie ma ani jednego z tych słów,
@@ -581,6 +623,11 @@ a ruch trzyma [TODO.md](../TODO.md).
   so `On jest wolny.` loses the reading in which `wolny` is one.
 - The register's own notation as an indeclinable noun:
   `Zobacz docs/subset.md.`, argued above
+- Forma pisana wersalikami, której słownik nie czyta wcale,
+  jako ten sam rzeczownik nieodmienny: `README mówi o podzbiorze.`, `Parser GLR
+  jest tani.`
+  Warunek pyta o milczenie słownika, a nie o samo pismo formy, i wywód wraz z ceną
+  trzyma [poniżej](#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)
 - A modal with its infinitive.
   `powinien` inflects for gender and not for person,
   so the clause it heads agrees with its subject in gender
@@ -597,6 +644,13 @@ a ruch trzyma [TODO.md](../TODO.md).
   `dobrem wspólnym wszystkich obywateli`, which is how the register of statutes
   names a term and then says whose it is
   ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa))
+- Przydawka imiesłowowa, czyli imiesłów przy rzeczowniku, w obu szykach przydawki
+  i wraz z dopełniaczem, którego jego czasownik żąda:
+  `Wymienione zadania są obowiązkowe.`, `Reguła sięgająca znaku jest tania.`
+  Bierny i czynny dochodzą osobnymi ciałami tego samego symbolu,
+  a orzecznik bierze biernego i nie bierze czynnego;
+  wywód wraz z ceną trzyma
+  [poniżej](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)
 - Rzeczownik odczasownikowy jako głowa grupy imiennej, w każdej pozycji, którą
   ma rzeczownik: `Przyłączenie jest tanie.`, `Wyznaczenie granicy jest tańsze.`
   Pozycją przy czasowniku ta głowa nie jest, bo dopełnienia żąda w dopełniaczu,
@@ -622,6 +676,12 @@ a ruch trzyma [TODO.md](../TODO.md).
   Those conjunctions are a closed list and the rest keep the position without the
   comma, so the two classes do not overlap and neither `A ale B` nor `A, i B`
   derives
+- Przecinek zamykający zdanie podrzędne przed spójnikiem bez przecinka:
+  `Dokument mówi, że cena jest niska, i liczy cenę.`
+  Znak ten należy do zdania podrzędnego, a nie do koordynacji nad nim,
+  i to jest jedyny przecinek stojący w tym rejestrze przed `i`;
+  wywód trzyma
+  [poniżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)
 - A colon opening a clause, which is how this register introduces an explanation:
   `Cena jest niska: gramatyka jest bezkontekstowa.`
   It stands above coordination rather than in it,
@@ -1107,7 +1167,7 @@ Spójnik zdaniowy rozdziela się przez to na dwie klasy,
 a drugą wyznacza warunek ujemny na pierwszą, bo klasy nie mają się zachodzić:
 lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma ona jeden.
 Klasa z przecinkiem jest zamkniętą listą —
-`ale`, `a`, `lecz`, `natomiast`, `więc`, `zatem`, `toteż` —
+`ale`, `a`, `lecz`, `natomiast`, `więc`, `zatem`, `toteż`, `czyli` —
 i obejmuje dwie części mowy naraz,
 bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`,
 a o interpunkcji przed nimi ten podział nie mówi nic.
@@ -1125,6 +1185,12 @@ a klasa bez przecinka dochodzi do wszystkich trzech poziomów koordynacji,
 więc `Plik jest nowy ale duży.` przestaje wychodzić jednym czytaniem.
 Pozycji z przecinkiem grupa imienna i przymiotnikowa nie dostają,
 bo `nie polszczyzny, a dziedziny` jest w nich elipsą, a nie ciągiem współrzędnym.
+Lemat dopisany do listy odbiera przez to napis bez przecinka:
+`Skład czyli Morfeusz jest tani.` wyprowadzało się, dopóki `czyli` stało w klasie
+bez przecinka, a polszczyzna ten znak przed nim stawia.
+Dopowiedzenia z `czyli` żadna z tych dwóch pozycji nie daje
+([niżej](#what-it-does-not-cover-yet)): dopowiedzenie odnosi się do składnika
+zdania, a koordynacja zdaniowa łączy dwa zdania.
 Zawężenie tych dwóch poziomów nie rusza ani jednego zdania w żadnym z trzech
 rejestrów — ani nad Składnicą, ani nad README, ani nad ustawami —
 więc płaci za nie sam werdykt, który przedtem kłamał pewnie.
@@ -1677,6 +1743,33 @@ więc `SubordinateClause → , że Clause` jest jednym konstytuentem wraz z prze
 a `Clause` się w nim nie powtarza.
 Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse.py`)
 i po tym samym rozpoznaje go sonda, która przecinek zdejmuje.
+
+### Przecinek zamykający należy do zdania podrzędnego, a nie do spójnika za nim
+
+Przecinek zamykający stawia polszczyzna wtedy, gdy zdanie nadrzędne biegnie dalej,
+a biegnie ono dalej także spójnikiem:
+`Dokument mówi, że cena jest niska, i liczy cenę.`
+Zdanie względne miało na to parę ciał — jedno zamknięte przecinkiem, drugie nie —
+a pozostałe trzy zdania podrzędne miały samo ciało otwarte,
+więc przecinek przed `i` dochodził do koordynacji,
+która spójnika przed sobą nie bierze, i zdanie nie miało ani jednego czytania.
+Parę ciał ma przez to każde z czterech.
+
+`A, i B` dalej się nie wyprowadza i to jest tu cała ostrożność.
+Przecinek przed `i` nie jest w polszczyźnie znakiem koordynacji zdaniowej
+i lista spójników przecinkowych go nie obejmuje
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+więc pozycja dochodzi zdaniu podrzędnemu, a nie spójnikowi:
+znak wchodzi tam, gdzie polszczyzna go stawia, i nigdzie poza tym.
+
+Kupuje to nad bankiem drzew kilkadziesiąt zdań, a nad prozą tego repozytorium kilka.
+Liczba ta zależy jednak od tego, co jeszcze w gramatyce stoi, i to jest tu ciekawsze
+od niej samej: zdjęta z gramatyki bez przydawki imiesłowowej ta sama pozycja
+kupowała pojedyncze zdania, bo zdanie, które jej potrzebuje, potykało się wtedy
+o imiesłów.
+Cena pozycji pojedynczej jest więc różnicą wobec gramatyki dzisiejszej,
+a nie stałą, którą raz się zapisuje
+([pisanie-po-olsku.md](pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
 
 ### Zdanie z `że` jest pozycją ramy, a nie konstrukcją obok niej
 
@@ -2248,6 +2341,43 @@ Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
 która wchodzi tym samym kryterium, co każda inna
 ([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
 
+## Przydawka imiesłowowa stoi tam, gdzie przymiotnik
+
+`Wymienione zadania są obowiązkowe.` i `Reguła sięgająca znaku jest tania.`
+różniły się w gramatyce tym, na czym stawała analiza:
+pierwsze na kształcie grupy imiennej, drugie na samym słowie,
+bo formy `pact` nie brał żaden terminal.
+Konstrukcja jest jednak jedna i jest nią przydawka,
+a nie dwie pozycje przy dwóch częściach mowy.
+
+Imiesłów przy rzeczowniku zgadza się z nim przypadkiem, liczbą i rodzajem,
+czyli tym samym, czym zgadza się przymiotnik,
+i stoi w tych samych dwóch szykach.
+Dochodzi więc ciałem symbolu przymiotnikowego, a nie własnym symbolem:
+osobny żądałby drugiej kopii każdej pozycji, w której przydawka stoi —
+a stoi ich w gramatyce kilkanaście —
+i nie kupowałby za to niczego, czego polszczyzna w tych pozycjach rozdziela.
+Dopełniacz, którego imiesłów czynny żąda od swojego dopełnienia,
+przychodzi przez to za darmo:
+ciało z przydawką i dopełniaczem pod głową stało w gramatyce przed nim.
+
+Ciała są dwa, po jednym na imiesłów, bo cena każdego jest osobną liczbą.
+Orzecznik bierze przy tym biernego i nie bierze czynnego:
+`Dziewczyna milknie zakłopotana.` jest polszczyzną,
+a `Reguła jest sięgająca.` nie jest zdaniem, które ten rejestr pisze.
+
+Cena stoi po stronie zgodności z drzewem wzorcowym, a nie po stronie pokrycia.
+Przebieg nad Składnicą 180723 wypuszcza z odrzuconych przeszło dwieście zdań
+i dokłada kilkadziesiąt przyjętych,
+a podnosi przy tym dwie liczby, które mówią o werdykcie, że kłamie:
+zdania, w których przyjęte czytanie przeczy drzewu wzorcowemu,
+oraz zdania wieloznaczne, którym złote czytanie z lasu wypada.
+Werdykt mówi więc o zdaniu nieprawdę częściej niż przed tą pozycją,
+a kierunek ten trzyma
+[roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
+czym te zdania są, ten przebieg nie mówi, a wpis trzyma [TODO.md](../TODO.md).
+Obie liczby drukuje `olski.coverage`, a te sprzed tej pozycji trzyma git.
+
 ## Rzeczownik odczasownikowy jest głową grupy imiennej, a nie pozycją przy czasowniku
 
 `Przyłączenie`, `wykluczanie`, `sięgnięciu` — Morfeusz daje takiej formie tag
@@ -2543,17 +2673,6 @@ Every one of these is a sentence that gets rejected and should not be:
   [cyfry olski nie bierze](#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
   z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
-- Przydawka imiesłowowa, czyli imiesłów bierny przy rzeczowniku:
-  `Wymienione zadania są obowiązkowe.` jest odrzucone,
-  a imiesłów w orzeczniku olski bierze.
-  Wiersz `ppas` stoi w kolejce blokerów wysoko, a `pact` niedaleko za nim
-  ([corpus.md](corpus.md#where-the-analyses-stop)),
-  i jest to jedno z dwóch zdań, w których liczebnik doprowadził analizę
-  do brakującej pozycji, zamiast na niej stanąć.
-  Imiesłów czynny jest poza podzbiorem w tym samym miejscu:
-  `Reguła sięgająca znaku jest tania.` jest odrzucone,
-  a różni się tym, że formy `pact` nie bierze żaden terminal,
-  więc analiza staje na słowie, a nie na kształcie grupy imiennej.
 - `to` as a copula.
   `Kot to zwierzę.` is rejected where `Kot jest zwierzęciem.` derives,
   and the form heads two of the rows
@@ -2574,9 +2693,15 @@ Every one of these is a sentence that gets rejected and should not be:
   a drugiemu z nich brakuje czasownika,
   którego żąda kształt zdania współrzędnego.
 - Dopowiedzenie z `czyli`: `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
-  gdzie `Skład jest tani.` wyprowadza się.
+  gdzie `Skład jest tani.` wyprowadza się,
+  a `Parser jest tani, czyli gramatyka jest tania.` wyprowadza się z tym samym
+  spójnikiem między dwoma zdaniami
+  ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
   Żąda ono tego samego, czego żąda dwukropek wprowadzający wyliczenie
   na czele tej listy: powiedzenia, do którego składnika zdania się odnosi.
+  Dopowiedzeniem jest tak samo nazwa postawiona przy rzeczowniku bez spójnika —
+  `Bank drzew Składnica mierzy gramatykę.` — i tej postaci ten rejestr pisze
+  najwięcej, bo tak nazywa każdy artefakt zewnętrzny.
 
 - Czas przyszły złożony: `Program będzie zapisywał ustawienia.`
   i `Program będzie zapisywać ustawienia.` są odrzucone,
@@ -2586,8 +2711,9 @@ Every one of these is a sentence that gets rejected and should not be:
   czyli nad dwiema pozycjami, które gramatyka ma osobno.
 - Imiesłów przysłówkowy: `Program zapisuje ustawienia, sprawdzając zgodność.`
   jest odrzucone.
-  Jest to trzeci imiesłów obok dwóch wyżej i różni się od nich gospodarzem:
-  dochodzi do zdania, a nie do rzeczownika.
+  Jest to trzeci imiesłów obok dwóch, które stoją w
+  [przydawce](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik),
+  i różni się od nich gospodarzem: dochodzi do zdania, a nie do rzeczownika.
 - Zaimek `siebie`, który słownik trzyma pod częścią mowy tej jednej formy:
   `Reguły odsyłają do siebie.` jest odrzucone,
   gdzie `Reguły odsyłają do dokumentu.` wyprowadza się.
@@ -2939,7 +3065,7 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
                   2 readings, differing in Adverb, Predicative
                   - Subject: Plik, Predicative: bardzo duży, Verb: jest
                   - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo
-0 of 1 sentences are olski
+0 of 1 sentences are olski, and 1 have a reading
 ```
 
 Rolę niesie jeden z gospodarzy, i jest to decyzja, a nie przeoczenie.

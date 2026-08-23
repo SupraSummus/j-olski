@@ -388,6 +388,35 @@ so nothing in this file comes back `fragment` and stands outside the denominator
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)
 owns that class and how much of this register it is.
 
+### The same queue over prose
+
+The run takes files of prose as readily as this directory,
+and over them it prints the queue, the length curve and the status table
+while the three gold-tree tables go silent.
+
+```sh
+python3 -m harness.markdown docs/roles.md --into proza/
+python3 -m olski.coverage proza/roles.txt
+```
+
+Whoever raises coverage over a document of their own needs this ranking
+over that document rather than over a newspaper treebank,
+because the two registers put different constructions in front:
+the hyphen leads the punctuation row here and technical documentation has none of it,
+while notation and the all-caps name lead a document in this repository
+and occur in these 13,035 sentences a handful of times.
+The number to read there is the curve rather than the total,
+because a construction admitted moves the stopping point of a long sentence
+without moving its verdict,
+so the total can stand still while the run bought exactly what it was meant to
+([pisanie-po-olsku.md](pisanie-po-olsku.md#jedna-konstrukcja-nie-rusza-liczby-nad-zdaniem-długim)).
+
+Morphology is live and has to be:
+prose carries no disambiguated tags, so the gold column has no meaning over it,
+and the queue is approximate for the reason the gold column exists —
+the row names the first reading Morfeusz listed for the form
+where the analysis stopped because no reading of it could continue.
+
 ## Agreement, which matters more than acceptance
 
 Accepting a sentence proves nothing if the reading is wrong.

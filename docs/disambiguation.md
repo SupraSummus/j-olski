@@ -645,7 +645,7 @@ python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator
 <text>: ambiguous Operator zgłosił awarię w systemie.
                   2 readings, differing in Object; „w systemie” → „zgłosił”, „awarię”
                   ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
-0 of 2 sentences are olski
+0 of 2 sentences are olski, and 2 have a reading
 ```
 
 Dowodem jest powtórzenie, a nie znajomość rzeczy.
@@ -1143,7 +1143,7 @@ python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
 <text>: valid     Znam go.
                   one reading
                   - Object: go, Verb: Znam
-2 of 2 sentences are olski
+2 of 2 sentences are olski, and 2 have a reading
 ```
 
 Pierwsze zdanie mówi raz, że wynajmuję komuś swoje mieszkanie,

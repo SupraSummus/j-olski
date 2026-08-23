@@ -1,4 +1,4 @@
-"""Measuring the grammar against Składnica.
+"""Measuring the grammar against Składnica, and against prose.
 
 The number this produces is the experiment docs/design-notes.md has been
 promising: what fraction of real Polish olski admits, per unit of formal power.
@@ -25,6 +25,12 @@ there is a question of whether it found the same subject the annotators did,
 and a wrong subject is a worse outcome than a rejection: it is a sentence olski
 claims to understand backwards. Only the gold-morphology run can check this,
 because only there do spans mean the same thing on both sides.
+
+**Prose, by the same report.** The work queue and the coverage curve are what
+somebody raising coverage over their own document comes for, and the run takes
+files of prose as readily as the treebank directory. What needs a gold tree goes
+silent there; the queue and the curve are computed by this report rather than by
+a second one under the same name.
 """
 
 from __future__ import annotations
@@ -39,10 +45,11 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import Sentence, pliki, read
+from olski.corpus import PROZA, Sentence, pliki, read
+from olski.document import SENTENCE_CLOSE
 from olski.morph import Segment
 from olski.parse import MAX_READINGS, Las, Result, las, podsumuj
-from olski.subset import GRAMMAR, morphology, na_czym_stanęło
+from olski.subset import GRAMMAR, morphology, na_czym_stanęło, sentences
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
@@ -355,6 +362,45 @@ def measure(
     return report
 
 
+def nad_prozą(text: str, keep_examples: int = 0) -> Report:
+    """Ten sam przebieg nad prozą, czyli nad tekstem bez drzew wzorcowych.
+
+    Ranking form, na których staje analiza, i krzywa pokrycia po długości zdania
+    są tym, po co ktoś sięga, gdy podnosi pokrycie nad swoim własnym dokumentem:
+    liczba przyjętych zdań stoi nad takim dokumentem w miejscu, bo pozycja
+    dopisana do gramatyki przesuwa zatrzymanie, zamiast wypuścić zdanie z
+    odrzuconych (docs/pisanie-po-olsku.md). Obie tabele liczy ten sam raport, co
+    nad bankiem drzew, więc czyta się je tą samą miarą, a nie drugą o tej nazwie.
+
+    Wierszy o zgodności z drzewem wzorcowym proza nie dostaje i nie dostaje ich
+    warunkiem tutaj: rozpiętości nie ma z czym porównać, więc ``comparable``
+    odpowiada za to jednym słowem w każdym z tych wierszy naraz.
+
+    Tabeli składu korpusu proza nie ma wcale, bo werdykt anotatora jest jeden
+    (:data:`olski.corpus.PROZA`) i nie mówi nic; wydruk pomija ją wtedy zamiast
+    drukować jeden wiersz na sto procent.
+
+    Fragment, którego nic nie punktuje jako zdania, wchodzi do wiersza
+    niemierzonych, a nie do odrzuconych: nagłówek i pozycja listy dochodzą tu
+    akapitem tak samo jak zdanie (``harness/markdown.py``), a policzone jako
+    odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
+    """
+    report = Report(source="live")
+    for numer, zdanie in enumerate(sentences(text), start=1):
+        if not SENTENCE_CLOSE.search(zdanie):
+            report.skipped["nic nie punktuje tego jako zdania"] += 1
+            continue
+        segmenty = morphology(zdanie)
+        if not segmenty:
+            report.skipped["no morphology"] += 1
+            continue
+        zdanie_korpusu = Sentence(
+            sent_id=str(numer), text=zdanie, verdict=PROZA, segments=tuple(segmenty)
+        )
+        report.record(zmierz_zdanie(zdanie_korpusu, segmenty, comparable=False), keep_examples)
+    return report
+
+
 # --------------------------------------------------------------------------- #
 # Przebiegi
 # --------------------------------------------------------------------------- #
@@ -505,15 +551,23 @@ def _jak_głęboko(głębokości: collections.Counter) -> list[str]:
     ]
 
 
-def render(report: Report, blockers: int = 12) -> str:
+def render(report: Report, blockers: int = 12, nad: str = "Składnica") -> str:
+    """Wydruk raportu, wraz z nazwą tego, co przebieg czytał.
+
+    Nazwa jest parametrem, a nie polem raportu: liczniki są nad bankiem drzew i
+    nad prozą te same, a różni je to, co stoi w nagłówku, czyli własność wydruku.
+    """
     total = report.measured
-    lines = [
-        f"Składnica, {report.source} morphology",
-        "",
-        f"corpus: {sum(report.verdicts.values())} forests",
-        *_rows(report.verdicts.most_common(), sum(report.verdicts.values())),
-        "",
-        f"olski over {total} annotated sentences:",
+    lasy = sum(report.verdicts.values())
+    lines = [f"{nad}, {report.source} morphology", ""]
+    if lasy:
+        lines += [
+            f"corpus: {lasy} forests",
+            *_rows(report.verdicts.most_common(), lasy),
+            "",
+        ]
+    lines += [
+        f"olski over {total} measured sentences:",
         *_rows(report.statuses.most_common(), total),
     ]
     for reason, count in report.skipped.most_common():
@@ -538,7 +592,14 @@ def render(report: Report, blockers: int = 12) -> str:
             counts = report.lengths[bucket]
             seen = sum(counts.values())
             valid = counts.get("valid", 0)
-            lines.append(f"  {bucket:>7} tokens: {valid:5}/{seen:<6} {valid / seen:6.1%} valid")
+            #  Dwie liczby, bo pytają o nie dwa fotele: pokrycie jest tym, co
+            #  olski obiecuje, a wyprowadzalność tym, co rusza się przy pozycji
+            #  dopisanej do gramatyki.
+            wyprowadzone = seen - counts.get("rejected", 0)
+            lines.append(
+                f"  {bucket:>7} tokens: {valid:5}/{seen:<6} {valid / seen:6.1%} valid,"
+                f" {wyprowadzone / seen:6.1%} with a reading"
+            )
 
     if report.blockers:
         blocked = sum(report.blockers.values())
@@ -561,9 +622,14 @@ def render(report: Report, blockers: int = 12) -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-corpus",
-        description="Measure the olski grammar against the Składnica treebank.",
+        description="Measure the olski grammar against the Składnica treebank or against prose.",
     )
-    parser.add_argument("root", help="directory of extracted Składnica forest files")
+    parser.add_argument(
+        "ścieżki",
+        nargs="+",
+        metavar="ścieżka",
+        help="directory of extracted Składnica forest files, or files of Polish prose",
+    )
     parser.add_argument(
         "--morphology",
         choices=SOURCES,
@@ -583,19 +649,36 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.jobs < 1:
         parser.error("--jobs takes at least one process")
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f"olski-corpus: not a directory: {root}", file=sys.stderr)
+    ścieżki = [Path(nazwa) for nazwa in args.ścieżki]
+    #  Rozdanie wejścia jest to samo, co w harness/komenda.py, i tam stoi jego
+    #  wywód; ten moduł wziąć go stamtąd nie może, bo harness stoi nad nim.
+    if len(ścieżki) == 1 and ścieżki[0].is_dir():
+        report = przebieg(
+            pliki(ścieżki[0])[: args.limit],
+            args.jobs,
+            source=args.morphology,
+            keep_examples=args.examples,
+        )
+        nad = "Składnica"
+    elif all(ścieżka.is_file() for ścieżka in ścieżki):
+        raporty = [
+            nad_prozą(ścieżka.read_text(encoding="utf-8"), args.examples) for ścieżka in ścieżki
+        ]
+        report = scal(raporty, "live", args.examples)
+        nad = ", ".join(ścieżka.name for ścieżka in ścieżki)
+    else:
+        for ścieżka in ścieżki:
+            if not ścieżka.exists():
+                print(f"olski-corpus: no such path: {ścieżka}", file=sys.stderr)
+            elif ścieżka.is_dir():
+                print(
+                    f"olski-corpus: a directory comes alone, without other paths: {ścieżka}",
+                    file=sys.stderr,
+                )
         print("olski-corpus: see docs/corpus.md for how to fetch the corpus", file=sys.stderr)
         return 2
 
-    report = przebieg(
-        pliki(root)[: args.limit],
-        args.jobs,
-        source=args.morphology,
-        keep_examples=args.examples,
-    )
-    print(render(report, args.blockers))
+    print(render(report, args.blockers, nad))
     return 0
 
 
