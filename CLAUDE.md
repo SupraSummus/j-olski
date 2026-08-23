@@ -122,6 +122,27 @@ Zanim napiszesz tę wersję, przeczytaj okolicę bez tego miejsca:
 jeżeli reszta mówi już to samo, skreślenie jest całą zmianą.
 Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.
 
+Skreślać wolno przy okazji:
+miejsce, które ruszasz z innego powodu, wolno odchudzić.
+Jednostką jest to miejsce, a nie plik — przebiegów po całym dokumencie nie robimy.
+Tak samo przyjmujemy [reguły prozy](#reguły-przyjmujemy-leniwie).
+
+Wolno tylko wtedy, gdy skreślenie niczego nie zabiera.
+Sprawdzasz to jednym pytaniem:
+czy skreślona rzecz jest nadal powiedziana gdzie indziej?
+Jest — bo fakt ma [właściciela](#one-owner-per-fact-repeat-narrative-freely),
+bo to drugie zdanie o tym samym,
+bo to komentarz powtarzający wiersz nad sobą,
+bo to [sprawozdanie, które odtwarza polecenie](#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem).
+Skreślasz wtedy od razu i bez pytania.
+Nie jest — bo to jedyna kopia tej myśli.
+Wtedy nie odchudzasz, tylko wycofujesz regułę albo wywód:
+wpisz to do [`TODO.md`](TODO.md) i zostaw decyzję osobnej zmianie.
+
+Skreślenie zrobione przy okazji idzie osobnym commitem,
+bo wmieszanego w zmianę merytoryczną nikt w przeglądzie nie zobaczy.
+Skreślenie, którego twoja zmiana wymaga, robisz w tym samym commicie co ją.
+
 ## Wolno nie pisać tego, co odtwarza się poleceniem
 
 Pisze się to, czego bez sesji nie da się odtworzyć:
