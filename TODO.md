@@ -75,6 +75,18 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
+`docs/design-notes.md` nazywa dwa razy „zdanie ustawy o 28 042 czytaniach”
+i mówi o nim „najdłuższe z tego rejestru”, a jedno i drugie jest już nieprawdą:
+polecenie z [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+drukuje dziś trzy liczby idące w setki tysięcy.
+Jest to [liczba krucha](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
+w dokumencie i rusza ją każda produkcja dopisana do gramatyki.
+Oba zdania wyceniają przy tym zmianę wydajności z commita `9456a22`,
+więc liczba skreślona bez zastąpienia zabiera tamtej wycenie skalę.
+Ruchem jest albo przypięcie liczby do tamtego commita jako liczby stamtąd,
+albo zastąpienie jej krotnością, która wycenę niesie bez liczby czytań.
+Do przeczytania są oba miejsca w `docs/design-notes.md` i wydruk tego polecenia.
+
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -719,6 +731,24 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 `olski/projekt.py`.
 
 ## Gramatyka, parser i pomiar pokrycia
+
+Lista predykatywów nie ma `pora` ani `nie sposób`,
+a Składnica ma zdania, które orzekają jednym z tych dwóch:
+`Już pora.`, `Pora do łóżka!`, `Pora na nastolatki.`, `Wprost nie sposób!`
+oraz `Nie sposób nie żywić uczucia podziwu dla odwagi pierwszych żeglarzy.`
+Wszystkie przechodziły, dopóki `pora` czytała się czasownikiem `porać`,
+a `sposób` rozkaźnikiem od `sposobić`;
+zawężenie ramy do lematów całej formy te czytania zdjęło
+([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+więc dziś są odrzucone i werdykt mówi o nich prawdę.
+Ruchem jest dopisanie obu do `PREDYKATYWY` w `olski/subset.py`,
+a czytanie `pred` obie formy u Morfeusza mają, więc terminal ma o co zapytać.
+Trudność jest przy `nie sposób`:
+przeczenie stoi w ciele osobno od predykatywu,
+więc lemat `sposób` dopisany do listy wpuszcza też `sposób` bez przeczenia,
+czego polszczyzna nie ma.
+Do przeczytania jest, czy bank drzew ma zdanie z `sposób` bez przeczenia,
+bo od tego zależy, czy sama lista tu wystarczy.
 
 Liczebnik rządzący bierze nad sobą grupę zbudowaną przez liczebnik zgodny,
 więc `Dwudziestu dwóch mężczyzn przyszło.` wychodzi obok łańcucha zagnieżdżeniem,

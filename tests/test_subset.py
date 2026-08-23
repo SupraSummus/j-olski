@@ -15,7 +15,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Var, Word, bierze, nt, unify, word
-from olski.morph import analyse
+from olski.morph import analyse, generuj
 from olski.parse import (
     MAX_READINGS,
     PRZYŁĄCZONY_DO,
@@ -33,6 +33,7 @@ from olski.subset import (
     DEKLARACJA,
     FRAGMENT,
     GRAMMAR,
+    KOPULA,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
     PREDYKATYWY,
@@ -40,6 +41,7 @@ from olski.subset import (
     PRZYSŁÓWKOWY,
     PRZYŁĄCZANY,
     PYTAJNY,
+    RAMA_BEZ_BIERNIKA,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_PRZECINKOWY,
     SPÓJNIKI_PRZECINKOWE,
@@ -105,8 +107,14 @@ def test_terminal_żąda_obecności_cechy_a_nie_wartości(forma: str, stopniowan
     cechy = czytanie.tag.cechy
     wartości = word("adv", degree="pos.com.sup")
     obecność = word("adv", niesie="degree")
-    assert bierze(wartości, czytanie.tag.pos, czytanie.lemma, cechy, EMPTY) is not None
-    wzięty = bierze(obecność, czytanie.tag.pos, czytanie.lemma, cechy, EMPTY) is not None
+    assert (
+        bierze(wartości, czytanie.tag.pos, czytanie.lemma, segment.lematy, cechy, EMPTY)
+        is not None
+    )
+    wzięty = (
+        bierze(obecność, czytanie.tag.pos, czytanie.lemma, segment.lematy, cechy, EMPTY)
+        is not None
+    )
     assert wzięty is stopniowany
 
 
@@ -120,8 +128,10 @@ def test_forma_bez_żądanej_cechy_nie_jest_licencjonowana_przez_gramatykę():
     """
     grammar = Grammar(start="A")
     grammar.rule("A", [word("adv", niesie="degree")])
-    assert grammar.licencjonuje("adv", "bardzo", {"degree": frozenset({"pos"})})
-    assert not grammar.licencjonuje("adv", "tu", {})
+    assert grammar.licencjonuje(
+        "adv", "bardzo", frozenset({"bardzo"}), {"degree": frozenset({"pos"})}
+    )
+    assert not grammar.licencjonuje("adv", "tu", frozenset({"tu"}), {})
 
 
 def test_lewa_rekursja_wyprowadza_się_zamiast_zapętlać():
@@ -581,7 +591,7 @@ def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
         ),
         (
             "Po upływie kadencji rady gminy zarząd działa do dnia wyboru nowego zarządu.",
-            6,
+            3,
             "nowego zarządu",
         ),
     ],
@@ -1064,10 +1074,12 @@ def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     #  gdyby licencja stała napisana obok, ta zmiana nie doszłaby do niej wcale.
     uboga = Grammar(start="NP")
     uboga.rule("NP", [word("subst")])
-    czytanie = next(r for r in analyse("zapisuje")[0].readings if r.tag.pos == "fin")
+    [segment] = analyse("zapisuje")
+    czytanie = next(r for r in segment.readings if r.tag.pos == "fin")
     cechy = czytanie.tag.cechy
-    assert not uboga.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
-    assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, cechy)
+    lematy = segment.lematy
+    assert not uboga.licencjonuje(czytanie.tag.pos, czytanie.lemma, lematy, cechy)
+    assert GRAMMAR.licencjonuje(czytanie.tag.pos, czytanie.lemma, lematy, cechy)
 
 
 def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
@@ -1349,11 +1361,16 @@ def _biorące(lemat):
     return [
         produkcja
         for produkcja in GRAMMAR.productions
-        if any(
-            isinstance(część, Word) and bierze(część, "interp", lemat, {}, EMPTY) is not None
-            for część in produkcja.body
-        )
+        if any(_znak(część, lemat) for część in produkcja.body)
     ]
+
+
+def _znak(część, lemat):
+    """Czy ta część ciała jest tym znakiem."""
+    return (
+        isinstance(część, Word)
+        and bierze(część, "interp", lemat, frozenset({lemat}), {}, EMPTY) is not None
+    )
 
 
 @pytest.mark.parametrize("lemat", [";", "—", "–"])
@@ -1378,7 +1395,7 @@ def test_dwa_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
         [gdzie] = [
             numer
             for numer, część in enumerate(produkcja.body)
-            if isinstance(część, Word) and bierze(część, "interp", ":", {}, EMPTY) is not None
+            if _znak(część, ":")
         ]
         za_dwukropkiem.add(produkcja.body[gdzie + 1].name)
     assert za_dwukropkiem == {"Clause", "NP"}
@@ -1502,13 +1519,15 @@ def test_dwie_klasy_spójnika_zdaniowego_nie_zachodzą_na_siebie(lemat: str):
     #  a pominięty na liście nie wszedłby do żadnej z nich. Literówka wygląda
     #  dokładnie tak jak pominięcie: pozycja z przecinkiem milczy wtedy o słowie
     #  i nie widać tego po żadnym zdaniu.
-    czytania = [(r.tag.pos, r.lemma) for r in analyse(lemat)[0].readings]
+    [segment] = analyse(lemat)
+    czytania = [(r.tag.pos, r.lemma, segment.lematy) for r in segment.readings]
     brane = [c for c in czytania if bierze(SPÓJNIK_PRZECINKOWY, *c, {}, EMPTY) is not None]
     assert brane, (lemat, czytania)
     assert not [c for c in czytania if bierze(SPÓJNIK_BEZ_PRZECINKA, *c, {}, EMPTY) is not None]
     #  Spójnik spoza listy idzie odwrotnie, więc klasy pokrywają ją całą.
-    assert bierze(SPÓJNIK_BEZ_PRZECINKA, "conj", "i", {}, EMPTY) is not None
-    assert bierze(SPÓJNIK_PRZECINKOWY, "conj", "i", {}, EMPTY) is None
+    jedno = frozenset({"i"})
+    assert bierze(SPÓJNIK_BEZ_PRZECINKA, "conj", "i", jedno, {}, EMPTY) is not None
+    assert bierze(SPÓJNIK_PRZECINKOWY, "conj", "i", jedno, {}, EMPTY) is None
 
 
 def test_rozdzielające_a_nie_wchodzi_do_wyrażenia_przyimkowego():
@@ -1669,6 +1688,51 @@ def test_klasy_walencyjne_nie_zachodzą_na_siebie(leksykon):
     assert len(lematy) == len(set(lematy))
 
 
+def test_żadna_forma_nie_wpada_w_dwie_klasy_walencyjne_naraz():
+    #  Test wyżej pilnuje rozłączności po lematach, a rama jest własnością formy,
+    #  więc forma o lematach w dwóch klasach niesie dwie ramy i wychodzi dwoma
+    #  wyprowadzeniami jednego kształtu, których liczba czytań nie rozdziela.
+    #  Klasa domyślna pyta o całą formę i pary z nią już nie ma, więc zostaje para
+    #  dwóch klas twierdzących: kopuła obok klasy wąskiej. Formy idą z syntetyzatora,
+    #  bo pytanie jest o słownik, a nie o to, co któryś rejestr napisał.
+    kopuła = set(KOPULA.split("|"))
+    wąskie = set(WALENCJA[RAMA_BEZ_BIERNIKA].split("|"))
+    zderzenia = [
+        (forma, sorted(segment.lematy & wąskie))
+        for lemat in kopuła
+        for forma, *_ in generuj(lemat)
+        for segment in analyse(forma)
+        if segment.lematy & kopuła and segment.lematy & wąskie
+    ]
+    assert not zderzenia, zderzenia
+
+
+def test_forma_o_dwóch_lematach_nie_omija_zawężenia_leksykonem():
+    #  Zawężenie postawione lematowi omija forma, której słownik daje lemat jeszcze
+    #  inny: `zapisuje` jest i od `zapisywać`, i od `zapisować`, a tego drugiego
+    #  leksykon nie wymienia, więc czytanie stąd brało ramę domyślną z biernikiem,
+    #  którego `zapisywać się` nie bierze. Drugie zdanie jest w parze dlatego, że
+    #  czasownik bez cząstki biernik bierze i zawężenie nie ma się na niego rozlać.
+    assert verdict("Program zapisuje się ustawienia.").status == "rejected"
+    assert verdict("Program zapisuje ustawienia.").status == "valid"
+
+
+def test_wykluczenie_leksykalne_mówi_o_czytaniu_a_nie_o_formie():
+    #  Warunki ujemne są dwa i różni je zasięg, a nad Składnicą nie różni ich ani
+    #  jedno zdanie (docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem), więc
+    #  jeden podstawiony za drugi nie wywraca ani suity, ani przebiegu nad korpusem.
+    #  Pilnuje ich zatem to jedno miejsce. `nie` jest u Morfeusza cząstką `nie`
+    #  i formą `on`: wykluczenie o czytaniu zostawia to drugie czytanie, a o formie
+    #  zabiera oba, czyli zabiera czytanie, o którym nic nie mówi.
+    [segment] = analyse("nie")
+    zaimek = next(reading for reading in segment.readings if reading.lemma == "on")
+    pytanie = (zaimek.tag.pos, zaimek.lemma, segment.lematy, zaimek.tag.cechy, EMPTY)
+    o_czytaniu = word(zaimek.tag.pos, bez_lematu="nie")
+    o_formie = word(zaimek.tag.pos, bez_lematu_formy="nie")
+    assert bierze(o_czytaniu, *pytanie) is not None
+    assert bierze(o_formie, *pytanie) is None
+
+
 def test_cząstka_się_pyta_leksykonu_o_inny_czasownik_niż_forma_bez_niej():
     #  Otwierać bierze dopełnienie w bierniku, a otwierać się go nie bierze, i
     #  Morfeusz daje obu formom ten sam lemat. Leksykon trzymany pod samym lematem
@@ -1816,10 +1880,11 @@ def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     #  wyprowadzenia. `tylko` jest u Morfeusza także spójnikiem, więc dopisane tu
     #  kosztowałoby czytanie każdego zdania, w którym stoi, i tego ten test pilnuje
     #  po stronie listy, a nie po stronie zdania.
-    czytania = [(r.tag.pos, r.lemma, r.tag.cechy) for r in analyse(lemat)[0].readings]
+    [segment] = analyse(lemat)
+    czytania = [(r.tag.pos, r.lemma, segment.lematy, r.tag.cechy) for r in segment.readings]
     brane = [c for c in czytania if GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
-    assert {pos for pos, _, _ in brane} == {"part"}, (lemat, brane)
+    assert {pos for pos, *_ in brane} == {"part"}, (lemat, brane)
 
 
 @pytest.mark.parametrize(
@@ -2145,7 +2210,8 @@ def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
     #  Usterka, którą to łapie: lemat wpisany na listę, którego Morfeusz pod `pred`
     #  nie ma. `trudno` i `łatwo` są u niego przysłówkami, więc wpisane tutaj byłyby
     #  wierszem martwym, a martwego wiersza nie widać po żadnym zdaniu.
-    czytania = [(r.tag.pos, r.lemma, r.tag.cechy) for r in analyse(lemat)[0].readings]
+    [segment] = analyse(lemat)
+    czytania = [(r.tag.pos, r.lemma, segment.lematy, r.tag.cechy) for r in segment.readings]
     brane = [c for c in czytania if c[0] == "pred" and GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
 

@@ -1542,8 +1542,11 @@ Monotoniczność, spod której ten warunek ucieka, jest przy tym nośna:
 że unifikacja nigdy nie poszerza,
 co [więzy wyprowadzone z gramatyki](#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
 biorą za darmo.
-Jedyny warunek ujemny tej gramatyki płaci więc polem za to,
-z czego wszystko obok niego żyje.
+Warunek ujemny tej gramatyki płaci więc polem za to,
+z czego wszystko obok niego żyje,
+i płaci nim na każdy zasięg, o jaki pyta:
+osobne pole ma wykluczenie czytania, osobne wykluczenie całej formy
+([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
 
 Żądanie obecności cechy ucieka temu przecięciu z drugiej strony
 i stoi poza `unify` z tego samego powodu.

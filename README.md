@@ -113,7 +113,7 @@ Werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka.
 Całą tę różnicę trzyma
 [docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
 
-Analiza staje w długim zdaniu kilka razy.
+W długim zdaniu analiza staje w kilku miejscach.
 Werdykt nazywa pierwsze zatrzymanie.
 Osobna flaga nazywa każde zatrzymanie.
 

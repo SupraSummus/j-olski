@@ -87,8 +87,13 @@ class Word:
     #: Lematy, których ten terminal nie bierze, czyli warunek ujemny. Stoi na
     #: lemacie, bo lemat jest osobnym testem w :func:`bierze`, a nie żądaniem
     #: wobec cech, których przecięcie negacji nie zna; docs/subset.md wywodzi to
-    #: pod jedynym warunkiem tego rodzaju, jaki gramatyka stawia.
+    #: pod pierwszym z warunków tego rodzaju i tam rozdziela oba ich zasięgi.
     bez_lematów: frozenset[str] | None = None
+    #: Ten sam warunek ujemny o formie zamiast o czytaniu: formę, której lemat
+    #: wypada tu którymkolwiek czytaniem, terminal odrzuca całą. Żąda tego zasięgu
+    #: rozłączność klas walencyjnych (:func:`_klasy` w ``olski/subset.py``);
+    #: czemu zostają dwa, wywodzi docs/subset.md pod warunkiem wyżej.
+    bez_lematów_formy: frozenset[str] | None = None
     #: Cechy, które forma ma nieść, żeby ten terminal ją wziął, czyli żądanie
     #: samej obecności: `word("adv", niesie="degree")` bierze `bardzo`, a `tu` nie.
     #: Stoi obok testu na lemat, a nie w :func:`unify`, bo cechy nieobecnej
@@ -101,7 +106,16 @@ class Word:
         object.__setattr__(
             self,
             "_hasz",
-            hash((self.pos, self.constraints, self.lemmas, self.bez_lematów, self.niesione)),
+            hash(
+                (
+                    self.pos,
+                    self.constraints,
+                    self.lemmas,
+                    self.bez_lematów,
+                    self.bez_lematów_formy,
+                    self.niesione,
+                )
+            ),
         )
 
     def __hash__(self) -> int:
@@ -188,13 +202,16 @@ def word(
     pos: str,
     lemma: str | None = None,
     bez_lematu: str | None = None,
+    bez_lematu_formy: str | None = None,
     niesie: str | None = None,
     **features,
 ) -> Word:
     """Match a morphological reading: ``word("subst", case=V("c"))``.
 
     ``pos`` may name alternatives, as in ``"fin|praet"``.
-    ``bez_lematu`` names alternatives the same way and excludes them instead.
+    ``bez_lematu`` names alternatives the same way and excludes them instead,
+    and ``bez_lematu_formy`` excludes them by the whole form
+    rather than by the one reading being matched.
     ``niesie`` nazywa cechy, które forma ma nieść, tak samo rozdzielone kreską.
     """
     return Word(
@@ -202,6 +219,9 @@ def word(
         constraints=_constraints(features),
         lemmas=None if lemma is None else frozenset(lemma.split("|")),
         bez_lematów=None if bez_lematu is None else frozenset(bez_lematu.split("|")),
+        bez_lematów_formy=(
+            None if bez_lematu_formy is None else frozenset(bez_lematu_formy.split("|"))
+        ),
         niesione=None if niesie is None else frozenset(niesie.split("|")),
     )
 
@@ -239,7 +259,13 @@ class Grammar:
     def for_head(self, head: str) -> list[Production]:
         return self._by_head.get(head, [])
 
-    def licencjonuje(self, pos: str, lemma: str, features: dict[str, frozenset[str]]) -> bool:
+    def licencjonuje(
+        self,
+        pos: str,
+        lemma: str,
+        lematy: frozenset[str],
+        features: dict[str, frozenset[str]],
+    ) -> bool:
         """Czy jakikolwiek terminal tej gramatyki bierze takie czytanie formy.
 
         Pytanie stawiane przed rozbiorem i wyprowadzone z gramatyki, a nie
@@ -250,7 +276,7 @@ class Grammar:
         to samo obok gramatyki byłaby gramatyką napisaną dwa razy.
         """
         return any(
-            bierze(terminal, pos, lemma, features, EMPTY) is not None
+            bierze(terminal, pos, lemma, lematy, features, EMPTY) is not None
             for terminal in self.terminale_dla(pos)
         )
 
@@ -453,6 +479,7 @@ def bierze(
     terminal: Word,
     pos: str,
     lemma: str,
+    lematy: frozenset[str],
     features: dict[str, frozenset[str]],
     env: Env,
 ) -> Env | None:
@@ -462,12 +489,19 @@ def bierze(
     ze środowiskiem, które przyszło od rodzeństwa, a :meth:`Grammar.licencjonuje`
     pyta z ``EMPTY``, żeby odpowiedź nie zależała od zdania, w którym forma
     stanęła.
+
+    ``lemma`` jest lematem tego czytania, a ``lematy`` lematami całej formy, czyli
+    tym, o co pyta :attr:`Word.bez_lematów_formy`. Oba przychodzą argumentem, żeby
+    warunek został w jednej kopii dla każdego, kto go woła. Odpowiedź od zdania nie
+    zależy przez to dalej: lematy formy są własnością formy, a nie jej miejsca.
     """
     if pos not in terminal.pos:
         return None
     if terminal.lemmas is not None and lemma not in terminal.lemmas:
         return None
     if terminal.bez_lematów is not None and lemma in terminal.bez_lematów:
+        return None
+    if terminal.bez_lematów_formy is not None and terminal.bez_lematów_formy & lematy:
         return None
     if terminal.niesione is not None and any(
         not features.get(cecha) for cecha in terminal.niesione

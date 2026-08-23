@@ -1566,8 +1566,25 @@ z `olski/grammar.py`, więc negacja jest tam tym samym testem odwróconym.
 Symetria jest zatem z `lemmas`, a nie z cechami,
 i to samo rozstrzygnęło, czym jest klasa domyślna
 [leksykonu walencyjnego](#walencja-jest-leksykonem-o-ramie-domyślnej):
-bierze ona każdy lemat, którego leksykon nie wymienia,
+bierze ona każdą formę, której lematów leksykon nie wymienia,
 i jest to drugi warunek ujemny, jaki ta gramatyka stawia.
+
+Te dwa warunki różnią się zasięgiem.
+Wykluczenie zaimka mówi „tym słowem nie bądź”, więc pyta o jedno czytanie formy;
+klasa domyślna mówi „tą formą nie bądź”, więc pyta o wszystkie jej lematy naraz.
+Klasa domyślna bez tego zasięgu przepuszcza formę, którą miała zatrzymać,
+a co jej tą drogą przeszło, mówi
+[sekcja o leksykonie](#walencja-jest-leksykonem-o-ramie-domyślnej).
+Wykluczenia leksykalne zostają przy czytaniu, bo o czytaniu mówią.
+Czytanie i forma nie są tym samym słowem:
+`nie` jest u Morfeusza cząstką `nie` i formą `on`,
+`lecz` spójnikiem i rozkaźnikiem od `leczyć`,
+a `pnie` grupą imienną od `pień` obok formy od `piąć`.
+Pomiar tej różnicy nie widzi:
+zamiana ich wszystkich na zasięg formy
+nie rusza nad Składnicą ani jednego zdania pod żadną morfologią.
+Zobaczy ją pierwsze wykluczenie, które taką formę trafi,
+bo zasięg formy odbierze jej czytanie, o którym to wykluczenie nic nie mówi.
 
 Warunek i kupuje, i płaci, a pomiar mówi ile.
 Nad Składnicą pod Morfeuszem
@@ -1671,6 +1688,43 @@ Ręcznie stoi w nim jeden wpis i jest nim kopula:
 narzędnika rama domyślna nie ma, a biernika nie ma rama kopuli.
 Reszta wpisów bierze się z Walentego i mówi o lemacie tyle,
 ile któryś z kierunków ma z tego czym zapytać, o czym niżej.
+
+Ramę wybiera forma, a nie jej pojedyncze czytanie,
+bo inaczej wystarczy formie jeden lemat spoza leksykonu, żeby zawężenie ominąć.
+`zapisuje` jest u Morfeusza i od `zapisywać`, i od `zapisować`;
+drugiego z nich leksykon nie wymienia, więc czytanie stąd brało ramę domyślną
+razem z biernikiem, i `Program zapisuje się ustawienia.` się wyprowadzało,
+choć `zapisywać się` biernika nie bierze.
+Klasa domyślna pyta więc o wszystkie lematy formy naraz
+i wypada tam, gdzie leksykon wymienia którykolwiek z nich
+(`bez_lematów_formy` w `olski/grammar.py`).
+Forma o lematach niezgodnych bierze przez to ramę najwęższą z nich:
+`działa` jest formą `działać`, która biernika nie bierze,
+i formą `dziać`, która go bierze; jako forma biernika nie bierze.
+
+Pod złotą morfologią pytanie nie powstaje.
+Anotator wybrał po jednym czytaniu na token, więc forma ma tam jeden lemat,
+i przebieg nad Składnicą nie rusza ani jednego zdania ani jednego czytania.
+Cena i zysk wypadają więc pod Morfeuszem, gdzie ubywa przeszło setka czytań.
+Po kilka zdań idzie tam w każdą ze stron:
+jedne przechodzą z wieloznacznych na przyjęte, drugie tracą jedyne czytanie.
+Rozsądza je czytanie ręką, bo pod żywą morfologią
+rozpiętości złotego drzewa nie są porównywalne (`olski/coverage.py`).
+Wypadają w jedną stronę.
+Ubywa czytań z dopełnieniem, którego czasownik nie bierze:
+`Wszedł do starej komórki.` czytało się także z dopełnieniem `komórki`,
+a `Wzrosły również obroty całego rynku.` z dopełnieniem `obroty całego rynku`.
+Zdania odrzucone opierały się wszystkie na trzech formach —
+`pora`, `sposób`, `cieszą` — i żadne z nich na czytaniu prawdziwym.
+`Już pora.` przechodziło z `pora` jako czasownikiem,
+`Wprost nie sposób!` z rozkaźnikiem od `sposobić`,
+a `Z decyzji cieszą się związkowcy, którzy żądali odwołania dyrektora.`
+z dopełnieniem `odwołania dyrektora` wyrwanym ze zdania względnego.
+Dla dwóch pierwszych zdań olski czytania prawdziwego nie ma,
+bo nie ma predykatywu `pora` ani `nie sposób` na swojej liście
+(`PREDYKATYWY` w `olski/subset.py`; co z tym zrobić, notuje `TODO.md`),
+więc odrzucenie mówi o nich prawdę, której `valid` nie mówiło
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
 Rama domyślna nie jest wygodą, tylko warunkiem, żeby żądanie było żądaniem.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,

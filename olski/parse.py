@@ -678,7 +678,10 @@ class _Tablica:
                 for reading in segment.readings:
                     pos, cechy = reading.tag.pos, reading.tag.cechy
                     for terminal in self.grammar.terminale_dla(pos):
-                        if bierze(terminal, pos, reading.lemma, cechy, EMPTY) is not None:
+                        if (
+                            bierze(terminal, pos, reading.lemma, segment.lematy, cechy, EMPTY)
+                            is not None
+                        ):
                             zebrane.setdefault(terminal, {})[segment] = None
             gotowe = self._brane_memo[k] = {
                 terminal: tuple(krawędzie) for terminal, krawędzie in zebrane.items()
@@ -998,7 +1001,14 @@ class Las:
             for numer, (segment, reading) in enumerate(
                 self._czytania_liścia.get(dziecko.span, ())
             ):
-                złożone = bierze(część, reading.tag.pos, reading.lemma, reading.tag.cechy, env)
+                złożone = bierze(
+                    część,
+                    reading.tag.pos,
+                    reading.lemma,
+                    segment.lematy,
+                    reading.tag.cechy,
+                    env,
+                )
                 if złożone is not None:
                     yield numer, Leaf(segment, reading), złożone
             return
