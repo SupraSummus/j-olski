@@ -947,6 +947,34 @@ it flatters any grammar that shares them more closely,
 and it understates one that does not.
 The 41% of forests with no gold tree is the visible edge of the same problem.
 
+It is not measured against an error-free gold tree.
+Every forest was verified by two annotators independently
+with a third settling the disagreements, and the two agreed on 88% of utterances.
+Woliński then sampled 100 verified trees and found errors in 18,
+several of them carrying more than one:
+six attached a subordinate somewhere evidently wrong,
+eight called a required phrase loose or the other way round,
+four carried a plainly wrong structure, and the remainder were single cases.
+He read the two leading classes as the ones to expect,
+prepositional phrases attaching in several places
+and the required-versus-loose call being unclear or arbitrary,
+which is the pair that names
+[the classes olski's own ambiguity falls into](disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca).
+The sample dates from the first stage of the corpus,
+so it fixes a rate at a moment rather than describing this release.
+The source is Woliński,
+*Automatyczna analiza składnikowa języka polskiego*, 2019, §6.6,
+which [swigra.md](swigra.md#sources) lists.
+
+What that costs a figure here is bounded by what the figure reads.
+These runs compare two roles and ignore the rest of the tree,
+so a wrong modifier host cannot move them and a wrong subject can,
+and the required-versus-loose call reaches them
+wherever it decides which phrase is the object.
+The direction is not knowable from the rate either:
+a wrong gold tree can cost olski a match it deserved
+or hand it one it did not.
+
 It is not a check on where a constituent decision came from either.
 An analysis agreeing with GFJP scores the same here
 whether it was derived or inherited,

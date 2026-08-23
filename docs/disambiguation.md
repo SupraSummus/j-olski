@@ -124,6 +124,43 @@ Rzędu wielkości to nie rusza:
 architektura, o którą tu chodzi, startuje z dwóch trzecich zrobionych,
 i to jest ta część pytania, o której najłatwiej zapomnieć.
 
+### Cechy lekkie biją ciężkie, bo uzgodnienia sprawdziła już gramatyka
+
+Świgra ma za sobą serię pomiarów tej warstwy i mówią one, ile model musi zobaczyć.
+Model w stylu PCFG, patrzący na same nazwy jednostek nieterminalnych
+i nieznający ani jednego atrybutu,
+osiąga nad Składnicą 93,3% F-miary na zasięgu i nazwie wierzchołka oraz 90,2% ULAS.
+Atrybuty dołożone do tego modelu nic już nie dają,
+bo obserwacji przybywa wtedy szybciej niż danych, na których się je liczy.
+Model maksimum entropii idzie w tę samą stronę dalej:
+zestaw cech mówiących o nadrzędniku i pojedynczym podrzędniku liczy 2 070 cech
+i bije zestaw wypisujący całe ciągi składników bezpośrednich, liczący ich 67 590.
+Dołożenie tych ciągów do najlepszego zestawu podnosi jedną z trzech miar
+o tysięczną, a liczy się trzydzieści razy dłużej;
+sam ten zestaw wychodzi na 95,6% F-miary i 93,7% ULAS.
+Woliński czyta to tak, że uzgodnienia zapewnia już analizator regułowy,
+więc ujednoznacznianie jest innym zadaniem niż analiza
+i wystarcza mu informacja wybiórcza
+(Woliński 2019, p. 7.2 i 7.3, w [źródłach](#sources) na końcu).
+
+Dla warstwy, której tu nie ma, wynika z tego tyle:
+nie musiałaby ona powtarzać tego, co gramatyka już sprawdziła,
+więc jej cena nie rośnie z liczbą cech, które niesie werdykt.
+Drugi pomiar z tej serii mówi, gdzie leży masa decyzji, i jest gorszą wiadomością.
+Usunięcie z drzew Składnicy rozróżnienia frazy wymaganej od luźnej
+podniosło na starszej wersji korpusu zgodność wszystkich atrybutów
+z 72,1% na 92,2%.
+Tyle model nie zyskał, bo prostsze zrobiło się samo zadanie:
+losowanie po tak zmienionych drzewach też trafia wyżej.
+Woliński dopowiada, że rozróżnienie to jest słabo ugruntowane lingwistycznie,
+choć wszechobecne w teoriach i słownikach.
+Człowiek myli się na nim tak samo
+([corpus.md](corpus.md#what-this-number-is-not)).
+U olskiego jest to różnica dopełnienia od okolicznika, czyli klasa `rola`
+z [rozbicia niżej](#czym-różnią-się-czytania-które-olski-odrzuca),
+i zaniedbać jej ten parser nie może:
+werdykt nazywa role, więc czytanie, które obsadza je inaczej, jest innym czytaniem.
+
 ## Czym różnią się czytania, które olski odrzuca
 
 Zanim wiadomo, ile ranking kosztuje, trzeba wiedzieć, co miałby rozstrzygać.
@@ -1383,6 +1420,11 @@ czyli zdania, w których o znaczeniu nie mówi żaden schemat.
   Rogozińska i Woliński,
   *Experiments in PCFG-like Disambiguation of Constituency Parse Forests for Polish*,
   LNCS 9561, 2016, skąd 94,1% PARSEVAL i 92,1% ULAS nad lasami Świgry
+- <https://www.wuw.pl/data/include/cms/Automatyczna_analiza_skladnikowa_Wolinski_Marcin_2019.pdf> —
+  Woliński, *Automatyczna analiza składnikowa języka polskiego*, 2019,
+  gdzie rozdział 7 zestawia PCFG z maksimum entropii nad lasami Świgry:
+  skąd liczby cech, przewaga cech lekkich
+  i zysk ze zdjęcia rozróżnienia frazy wymaganej od luźnej
 - <https://www.let.rug.nl/vannoord/papers/> —
   publikacje van Noorda o modelu ujednoznaczniającym Alpino,
   w tym *Using Self-Trained Bilexical Preferences to Improve Disambiguation Accuracy*, 2007

@@ -266,6 +266,17 @@ plan i otwarte pytania.
   Warto wziąć z tych źródeł kilka mechanizmów.
   Sonda mierzy przy tym czas rozbioru.
 
+## Na czym olski stoi
+
+Zasoby, na których stoi ten parser, napisał Marcin Woliński.
+Znaczniki ustala Morfeusz, a leksykon walencyjny ustala Walenty.
+Pokrycie mierzy się na Składnicy.
+Najbliższym parserem polszczyzny jest jego Świgra.
+Czytamy tutaj jej reguły oraz monografię, która opisuje tę gramatykę.
+Ta gramatyka spotkała problemy, w które olski wchodzi.
+Monografia nazywa przy tym ceny, których kod nie pokazuje.
+Zobacz [docs/swigra.md](docs/swigra.md).
+
 ## Konwencje
 
 Prozę w tym repozytorium łamiemy według

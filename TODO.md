@@ -125,6 +125,27 @@ a reguła językowa rozstrzyga to zdaniem o sekcji bez własnej prozy,
 której tamta sekcja nie jest.
 Kto podnosi przekład, odpowiada więc najpierw na to.
 
+`docs/swigra.md` wylicza mechanizmy warte wzięcia i wyliczył je z kodu,
+a monografia Świgry opisuje trzy, których kod pokazuje jako zapis, a nie jako wybór.
+Pierwszym jest wartość `req(Neg)`: fraza bezokolicznikowa z podrzędnikiem
+wymuszającym negację niesie w górę żądanie zamiast wartości,
+a unifikuje je dopiero reguła czasownika nadrzędnego (Woliński 2019, p. 4.4.2).
+Drugim jest przecinkowość, czyli para wartości na obu końcach frazy
+i czteroklauzulowy warunek zgodności sąsiadów,
+w którym surowość gramatyki wobec pominiętych przecinków
+ustawia się włączaniem klauzul (tamże, p. 4.4.5).
+Trzecim jest `sequence_of` z warunkami iterowanymi, czyli reguła o zmiennej
+liczbie składników, w której warunek zawodzący w kroku ucina budowę reszty
+sekwencji (tamże, p. 4.2.2 i 4.2.3, gdzie stoi też cena: komplikacja zapisu reguł).
+Ruchem jest dopisanie ich do
+[mechanizmów](docs/swigra.md#what-the-code-does-that-olski-should-take),
+a do przeczytania jest przy każdym `gfjp2.dcg` obok książki,
+bo tamta sekcja powstała z kodu
+i dopisanie do niej z książki może dać drugą kopię tego, co już tam stoi.
+Rozstrzygnąć trzeba też, czy każdy z tych trzech jest mechanizmem:
+przecinkowość Woliński sam nazywa ceną formalizmu,
+więc może chcieć innego miejsca niż dwa pozostałe.
+
 `docs/open-questions.md` trzyma listę decyzji zamkniętych,
 a każda z nich ma właściciela gdzie indziej.
 Sekcja `Settled` powtarza to, co jest budowane, wraz z kierunkiem toru
@@ -1138,8 +1159,16 @@ a gotowej nie ma gdzie wziąć:
 [pomiar wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
 wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
 czyli konstrukcję inną niż ta.
-Pierwszym pytaniem jest więc, czy bank drzew rozdziela apozycję od koordynacji
-etykietą, po której da się ją policzyć.
+Pierwsze pytanie — czy bank drzew rozdziela apozycję od koordynacji etykietą —
+ma odpowiedź w monografii Świgry i brzmi ona: nie etykietą.
+Apozycja jest tam frazą nominalną o dwóch nominalnych składnikach,
+a konstrukcja współrzędna frazą, której centrum stanowi spójnik albo przecinek
+(Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)).
+Liczy się je więc kształtem, a nie nazwą:
+węzeł nominalny o dwóch nominalnych dzieciach i bez znaku między nimi.
+`Constituent` w `olski/corpus.py` niesie kategorię, rozpiętość i rodzica,
+a segmenty niesie `Sentence` obok, więc ten kształt da się policzyć
+bez czytania z banku drzew czegokolwiek, czego przebiegi jeszcze nie czytają.
 
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
