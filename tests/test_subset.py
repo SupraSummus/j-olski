@@ -1336,24 +1336,29 @@ def test_tryb_przypuszczający_bierze_osobę_stamtąd_skąd_czas_przeszły():
 
 
 @pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)
-def test_symbol_współrzędny_stoi_nad_sobą_dokładnie_tam_gdzie_ma_znak_koordynacji(symbol):
-    #  Kryterium, na którym stoją dwie rzeczy naraz: `_nawiasuj` w `olski/parse.py`
-    #  poznaje ciąg współrzędny po tym, że symbol stoi nad sobą, i po tym samym
-    #  poznaje go pomiar różnicowy, żeby wiedzieć, którą produkcję zdjąć.
-    #  Produkcja, która to rozdziela, psuje jedno z dwóch po cichu: nawias staje
-    #  tam, gdzie ciągu nie ma, albo sonda zdejmuje zdanie podrzędne zamiast
-    #  koordynacji. Pusta lista łapie przemianowany symbol.
+def test_symbol_stojący_nad_sobą_ze_słowem_w_ciele_ma_w_nim_znak_koordynacji(symbol):
+    #  Kryterium, na którym stoją dwie rzeczy naraz: `_koordynuje` w `olski/parse.py`
+    #  poznaje ciąg współrzędny po tym, że symbol stoi nad sobą i że znak spinający
+    #  go stoi w ciele słowem, a po tym samym poznaje go pomiar różnicowy, żeby
+    #  wiedzieć, którą produkcję zdjąć. Produkcja, która to rozdziela, psuje jedno
+    #  z dwóch po cichu: nawias staje tam, gdzie ciągu nie ma, albo sonda zdejmuje
+    #  zdanie podrzędne zamiast koordynacji. Pusta lista łapie przemianowany symbol.
+    #
+    #  Samo stanie nad sobą ciągu nie znaczy: okolicznik zdaniowy dochodzący do
+    #  całego ciągu stoi nad `Clause` i znaku nie ma. Rozdziela je słowo stojące
+    #  w ciele wprost i to ma je rozdzielać dalej.
     produkcje = [production for production in GRAMMAR.productions if production.head == symbol]
     assert produkcje, symbol
     for production in produkcje:
         nad_sobą = any(
             isinstance(part, Sym) and part.name == symbol for part in production.body
         )
+        ze_słowem = any(isinstance(part, Word) for part in production.body)
         ze_znakiem = any(
             isinstance(part, Word) and (part == PRZECINEK or "conj" in part.pos)
             for part in production.body
         )
-        assert nad_sobą == ze_znakiem, production
+        assert (nad_sobą and ze_słowem) == ze_znakiem, production
 
 
 def _biorące(lemat):
@@ -2594,6 +2599,35 @@ def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
     assert found.result.ile == 2, found.explain()
     assert found.result.różniące == ("AdverbialClause",)
     assert {OKOLICZNIKOWY in reading for reading in found.readings} == {False, True}
+
+
+def test_okolicznik_zdaniowy_dochodzi_do_całego_ciągu_współrzędnego():
+    #  `aby rozwiązać problemy` mówi tu o obu członach naraz, a ciało stawiające
+    #  ten okolicznik przy zdaniu składowym daje samo czytanie o członie drugim.
+    #  Usterka, którą to łapie, nie jest odrzuceniem: zdanie wychodzi wtedy
+    #  jednoznaczne i jednoznaczne jest w nim czytanie, którego czytelnik nie bierze.
+    found = verdict("Dwoisz się i troisz, aby rozwiązać problemy.")
+    assert found.result.ile == 2, found.explain()
+    assert {reading[OKOLICZNIKOWY] for reading in found.readings} == {
+        "…, aby rozwiązać problemy → troisz",
+        "…, aby rozwiązać problemy → Dwoisz",
+    }
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Okolicznik za zdaniem i przed nim, każdy nad zdaniem o jednym członie.
+        "Program zapisuje ustawienia, ponieważ tekst jest gotowy.",
+        "Gdyby tekst był gotowy, program zapisałby ustawienia.",
+    ],
+)
+def test_zdanie_o_jednym_członie_nie_bierze_okolicznika_nad_ciągiem(zdanie):
+    #  Ciało nad ciągiem żąda ciągu cechą, bo nad zdaniem pojedynczym dawałoby ten
+    #  sam napis drugim kształtem: raz z okolicznikiem przy członie, raz nad ciągiem
+    #  o jednym członie. Powrotem tamtego stanu jest liczba czytań wyższa niż jeden.
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
 
 
 # --------------------------------------------------------------------------- #

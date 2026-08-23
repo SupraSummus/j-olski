@@ -88,14 +88,18 @@ def gospodarz(produkcja: Production) -> str | None:
     return None
 
 
+#: Warianty pomiaru, nazwane osobno, bo czyta je i sonda, i składanie jej
+#: gramatyki: ostatni z nich jest tym, który nie zdejmuje żadnej grupy.
+PRZYSŁÓWEK_WARIANTY = ("bez przysłówka", OKOLICZNIK, PRZY_PRZYMIOTNIKU, "olski")
+
 #: Deklaracja różnicowa przysłówka, czyli warianty, którymi ten pomiar buduje
 #: gramatykę bez któregoś gospodarza. Stoi tutaj, bo tutaj ma jedynego
 #: czytelnika: przebieg wyceniający samo wpuszczenie przysłówka jest w gicie.
 PRZYSŁÓWEK_SONDA = ruch.Sonda(
     nazwa="harness.płaski",
     opis="Przy którym gospodarzu stoi przysłówek w mierzonej gramatyce.",
-    warianty=("bez przysłówka", OKOLICZNIK, PRZY_PRZYMIOTNIKU, "olski"),
-    grupa=gospodarz,
+    warianty=PRZYSŁÓWEK_WARIANTY,
+    gramatyki=ruch.po_grupach(gospodarz, PRZYSŁÓWEK_WARIANTY),
     pytania=(
         "obaj gospodarze ruszają to samo zdanie",
         "razem wychodzi co innego niż osobno",

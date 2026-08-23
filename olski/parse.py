@@ -1656,14 +1656,15 @@ class Las:
         """Czy o wyborze pod tą pozycją mówi już któryś z pozostałych wierszy werdyktu.
 
         Ciąg współrzędny mówi go nawiasem w napisie roli,
-        więc kryterium jest tu to samo, co w :func:`_koordynuje`.
+        więc kryterium jest tu to samo, co w :func:`ciało_koordynuje`.
         Rolę nazywa :meth:`różniące`, a gospodarza modyfikatora :meth:`przyłączenia`,
         i oba widzą dokładnie to, co :meth:`_pod` znajduje w ciałach tej pozycji.
         Modyfikator o jednym gospodarzu wiersza tam nie ma,
         więc wybór nad nim zostaje temu podsumowaniu.
         """
         if pozycja.label in deklaracja.współrzędne and any(
-            dziecko.label == pozycja.label for ciało in ciała for dziecko in ciało
+            ciało_koordynuje(pozycja.label, (dziecko.label for dziecko in ciało))
+            for ciało in ciała
         ):
             return True
         pod = [self._pod(dziecko, deklaracja) for ciało in ciała for dziecko in ciało]
@@ -1994,16 +1995,38 @@ def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
     return kawałki
 
 
-def _koordynuje(node: Node, współrzędne: Sequence[str]) -> bool:
-    """Czy produkcja tego węzła koordynuje: symbol z deklaracji stojący nad sobą.
+def ciało_koordynuje(etykieta: str | None, córki: Iterable[str | None]) -> bool:
+    """Czy ciało o tych córkach koordynuje: etykieta powtórzona wśród nich, a znak obok.
 
-    Ciąg współrzędny jest resztą ciągu po odjęciu członu, więc symbol koordynacji
-    stoi wśród własnych córek i tym się poznaje. Liczba córek-konstytuentów tego
-    nie mówi: `NP → NPConjunct RelativeClause` ma je dwie i koordynacją nie jest,
-    a nawias postawiony nad nią pokazałby granicę członu tam, gdzie nie ma ciągu.
+    Ciąg współrzędny jest resztą ciągu po odjęciu członu,
+    więc symbol koordynacji stoi wśród własnych córek.
+    Liczba córek-konstytuentów tego nie mówi:
+    `NP → NPConjunct RelativeClause` ma je dwie i koordynacją nie jest.
+    Samo powtórzenie symbolu też go nie mówi,
+    bo nad ciągiem stoi jeszcze okolicznik zdaniowy dochodzący do całego ciągu,
+    który powtarza go tak samo.
+    Rozdziela je znak: koordynacja spina członów słowem,
+    a przecinek okolicznika należy do konstytuentu, który spójnik tworzy,
+    więc słowem w tym ciele nie stoi.
+    Znak wchodzi tu pustą nazwą, bo :class:`Pozycja` liścia etykiety nie ma,
+    i po tym samym poznają go pozostałe dwa wejścia.
+
+    Pytają o to kryterium trzy miejsca:
+    nawias w napisie roli (:func:`_koordynuje`),
+    wybór przemilczany wśród rozbieżności (:meth:`Las._nazwany_gdzie_indziej`)
+    i pomiar różnicowy (``koordynuje`` w ``harness/ruch.py``).
+    Stoi w jednym, bo rozejście tych trzech widać dopiero w liczbach,
+    a niezmiennik, na którym ono stoi, pilnuje ``tests/test_subset.py``.
     """
-    return node.label in współrzędne and any(
-        isinstance(dziecko, Node) and dziecko.label == node.label for dziecko in node.children
+    nazwy = list(córki)
+    return etykieta in nazwy and None in nazwy
+
+
+def _koordynuje(node: Node, współrzędne: Sequence[str]) -> bool:
+    """Czy produkcja tego węzła koordynuje; kryterium trzyma :func:`ciało_koordynuje`."""
+    return node.label in współrzędne and ciało_koordynuje(
+        node.label,
+        (dziecko.label if isinstance(dziecko, Node) else None for dziecko in node.children),
     )
 
 
