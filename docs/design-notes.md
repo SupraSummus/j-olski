@@ -62,9 +62,10 @@ Symbol powoływany obiektem czyta się lepiej tam, gdzie pisze się produkcję,
 a płaci dwiema nazwami na jeden symbol,
 bo identyfikator jest w tym repozytorium polski, a symbol gramatyki angielski.
 To, co miał kupić, przychodzi bez niego:
-dwa checki w `olski/grammar.py` łapią literówkę w głowie produkcji
-oraz więz na cechę, której nikt nie wypuszcza,
-a powtórzenie skraca perkolacja cech, którą trzyma `TODO.md`.
+checki w `olski/grammar.py` łapią literówkę w głowie produkcji,
+w nazwie cechy i w nazwie zmiennej,
+a powtórzenia nie ma, bo cechy córki-głowy wychodzą z konstytuenta same
+(tamże).
 Pytanie wraca, jeżeli symbole zaczną przybywać regularnie
 albo któryś z tych checków wyjdzie na gramatyce czerwony.
 
@@ -1593,11 +1594,12 @@ wartości są dwie, przecięcie tylko zawęża,
 a kierunek żądania zapisuje się jednostronnie —
 ciało z cząstką ogłasza `neg`, ciało bez niej `aff`,
 a dopełnienie mówi, przy którym z nich stoi.
-Płaci za to ścieżką, którą trzeba przeprowadzić przez każdy konstytuent osobno:
-`Complements` niesie tę cechę tylko po to, żeby ją przekazać,
-`InfinitivePhrase` ją wypuszcza, a fraza z własną cząstką ma jej nie wypuszczać.
-Zgodność takiej ścieżki nie potrzebuje, bo przypadek, liczbę i rodzaj
-konstytuent wypuszcza i tak, dla własnych córek.
+Płaci za to ścieżką, którą trzeba przeprowadzić przez każdy konstytuent,
+w którym cecha nie idzie od głowy:
+`Verb` ogłasza ją z cząstki stojącej obok niego,
+a fraza bezokolicznikowa z własną cząstką ma jej nie wypuszczać.
+Zgodność takiej ścieżki nie potrzebuje wcale, bo przypadek, liczbę i rodzaj
+konstytuent bierze od swojej głowy sam (`olski/grammar.py`).
 Pierwsza własność wpuszcza więc rzecz do kanału, a dwie pozostałe rozstrzygają,
 czy wjedzie za darmo.
 
