@@ -1296,9 +1296,36 @@ a dopełniacza po sobie nie bierze,
 więc nie jest to wieloznaczność, którą czytelnik ma rozstrzygać.
 Warunek obejmuje więc każdą głowę, która rządzi dopełniaczem,
 i mówi tyle: taka głowa nie jest zaimkiem rzeczownym.
-Produkcji z nią jest cztery, bo pod głową może stać jeszcze przymiotnik,
-wyrażenie przyimkowe albo jedno i drugie.
+W grupie imiennej produkcji z nią jest cztery,
+bo pod głową może stać jeszcze przymiotnik, wyrażenie przyimkowe albo jedno i drugie.
+Dwie następne są w [grupie, którą polszczyzna wysuwa przed zdanie względne
+razem z zaimkiem](#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka):
+przydawką dopełniaczową jest tam sam zaimek względny,
+więc bez warunku `Polszczyzna, której nikt nie napisał, jest podzbiorem.`
+wychodzi drugim czytaniem, w którym `której nikt` jest taką grupą.
 Gdzie indziej czytanie zostaje, bo gdzie indziej jest tym, czym w polszczyźnie jest.
+
+Paradygmat `ten` jest częścią tej klasy, a nie całą klasą.
+`nikt`, `kto`, `nic`, `coś` i `ktoś` mają u Morfeusza czytanie jedno
+i jest ono rzeczownikowe,
+więc pod nimi nie stoją dwa czytania tej samej formy,
+a mimo to produkcja z dopełniaczem po głowie bierze je za głowę:
+bez warunku `Wtedy nikt nas nie zauważy.` wychodzi drugim czytaniem,
+w którym `nikt nas` jest grupą imienną.
+Przy paradygmacie `ten` takie czytanie zdejmuje także złota morfologia,
+bo anotator wybiera jedno czytanie formy.
+Tutaj wybierać nie ma z czego, więc czytanie zostaje po obu morfologiach,
+a warunek jest jedynym miejscem, w którym ono ginie.
+
+Wpisem na tej liście jest lemat, bo słownik nie daje nic innego,
+o co dałoby się zapytać:
+`nikt` jest `subst:sg:nom:m1` tak samo, jak `parser` jest `subst:sg:nom:m3`,
+a zaimka od rzeczownika nie rozdziela w nim
+ani znacznik, ani cecha, ani kwalifikator.
+Lista jest przez to zamknięta i starzeje się o każdy zaimek,
+którego nikt do niej nie dopisze.
+Starzenie kosztuje wieloznaczność, a nie zdanie odrzucone:
+lemat dopisany odbiera czytanie i żadnego nie dodaje.
 
 Jest to pierwszy warunek ujemny w tej gramatyce i lemat jest tym,
 na czym wolno go postawić.
@@ -1314,15 +1341,31 @@ i to samo rozstrzygnęło, czym jest klasa domyślna
 bierze ona każdy lemat, którego leksykon nie wymienia,
 i jest to drugi warunek ujemny, jaki ta gramatyka stawia.
 
-Cena jest zerowa i jest to wynik pomiaru, a nie założenie.
-Pod złotą morfologią przebieg nad Składnicą nie rusza się o ani jedno zdanie,
-bo tam każda forma ma jedno czytanie wybrane przez człowieka.
-Pod Morfeuszem [warunek podnosi liczbę zdań przyjętych](corpus.md#what-morphological-ambiguity-costs),
-a jedyne zdanie, które odrzuca, stało na frazie, której polszczyzna nie ma.
-Cała ta cena idzie na dwie z tych czterech produkcji, te bez przymiotnika:
-na pozostałych dwóch warunek nie rusza ani jednego zdania żadnego z korpusów,
-bo `to` z przymiotnikiem i dopełniaczem pod nim nie pojawia się w nich ani razu.
-Jest tam więc z wywodu, a nie z pomiaru.
+Warunek i kupuje, i płaci, a pomiar mówi ile.
+Nad Składnicą pod Morfeuszem
+[podnosi on liczbę zdań przyjętych](corpus.md#what-morphological-ambiguity-costs)
+o kilkadziesiąt, a odrzuca kilka.
+Pod złotą morfologią widać obie strony tej wymiany:
+kilka zdań przechodzi z wieloznacznych na przyjęte i każde z nich zgadza się
+z drzewem wzorcowym, a kilku warunek zabiera jedyne czytanie, jakie miały,
+i były to czytania, którym drzewo wzorcowe przeczyło albo których nie potwierdzało.
+Każde z tych zdań stało na jednej frazie, której polszczyzna nie ma —
+`to` z dopełniaczem pod sobą tam, gdzie tym dopełniaczem rządzi czasownik —
+i tamten dokument jedno z nich cytuje.
+Liczby dzisiejsze wydają dwa przebiegi `olski-corpus`, z warunkiem i bez niego:
+sonda różnicowa zdejmuje produkcje, a to jest warunek w terminalu.
+
+Rozłożona na produkcje cena wypada po obu stronach inaczej.
+W grupie imiennej warunek coś znaczy w każdym z czterech ciał:
+zdjęty z dwóch, pod których głową stoi jeszcze przymiotnik,
+oddaje pod morfologią żywą wieloznaczność
+`Wprowadźmy do tego trupiego świata poprawkę.`
+i podwaja liczbę czytań kilku dłuższym zdaniom banku drzew,
+a pod złotą nie rusza tam nic.
+W dwóch produkcjach wysunięcia nie rusza nad Składnicą liczby czytań
+ani jednego zdania pod żadną z dwóch morfologii,
+więc jest w nich z wywodu, a wywód jest ten sam:
+przydawka dopełniaczowa jest w obu miejscach tą samą przydawką.
 
 ## Rozdzielające `a` nie jest przyimkiem tego rejestru
 
@@ -2240,7 +2283,7 @@ pozycja dopisana kiedyś rzeczownikowi dochodzi tą samą deklaracją i drugiej 
 
 Jedno wykluczenie stoi po stronie rzeczownika i nie dotyczy tej głowy.
 Głowa rządząca dopełniaczem nie jest [zaimkiem rzeczownym](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
-a paradygmatu odczasownikowego `to` nie ma,
+a żaden z tych zaimków nie jest rzeczownikiem odczasownikowym,
 więc po tej stronie nie ma czego wykluczać i warunek stoi w deklaracji pary,
 a nie w każdym ciele osobno.
 

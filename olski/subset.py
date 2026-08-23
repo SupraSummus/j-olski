@@ -346,11 +346,15 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
 #: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
 WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
-#: Zaimek rzeczowny, którego Morfeusz daje obok przymiotnikowego `ten`. Dopełniacza
+#: Zaimki rzeczowne, którym Morfeusz daje czytanie `subst`. Dopełniacza żaden z nich
 #: nie bierze: `tego podzbioru` jest przymiotnikiem przy rzeczowniku i niczym
 #: więcej, a produkcja z dopełniaczem po głowie czyta to drugi raz jako zaimek
-#: rządzący rzeczownikiem. docs/subset.md wywodzi kryterium i mierzy jego cenę.
-ZAIMEK_RZECZOWNY = "to"
+#: rządzący rzeczownikiem. Lista jest zamknięta, bo czytanie tych form niczym się
+#: nie różni od czytania rzeczownika: `nikt` jest `subst:sg:nom:m1` tak samo jak
+#: `parser` jest `subst:sg:nom:m3`. docs/subset.md wywodzi kryterium i mierzy cenę.
+ZAIMEK_RZECZOWNY = (
+    "to|tamto|owo|kto|któż|ktoś|ktokolwiek|co|cóż|coś|cokolwiek|nikt|nic|wszystko"
+)
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -1432,10 +1436,10 @@ def build() -> Grammar:
     # docs/subset.md wywodzi, czemu ta głowa jest głową grupy, a nie pozycją ramy.
     #
     # Głowa, która rządzi dopełniaczem, nie jest zaimkiem rzeczownym: bez tego
-    # warunku każda forma paradygmatu ten, którą Morfeusz zna też jako rzeczownik,
-    # daje grupie imiennej drugie czytanie tego samego kształtu. Warunek stoi w
-    # deklaracji pary, a nie w każdym ciele, bo ciał z dopełniaczem pod głową jest
-    # kilka, a paradygmat odczasownikowy `to` nie ma i wykluczać tam nie ma czego;
+    # warunku każdy taki zaimek daje grupie imiennej drugie czytanie tego samego
+    # kształtu. Warunek stoi w deklaracji pary, a nie w każdym ciele, bo ciał z
+    # dopełniaczem pod głową jest kilka, a rzeczownikiem odczasownikowym nie jest
+    # żaden z tych zaimków i wykluczać tam nie ma czego;
     # wywód i cenę trzyma docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
     for głowa, głowa_dopełniacza in (
         (word("subst", **AGREE), word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)),
@@ -1674,7 +1678,11 @@ def build() -> Grammar:
     #
     # Każdy z tych dwóch kształtów jest osobnym ciałem, bo cechy nie przechodzą
     # przez grupę imienną same, więc głowa z przydawką pod sobą wysunięcia nie ma.
-    głowa_grupy = word("subst", **AGREE)
+    #
+    # Zaimka rzeczownego ta głowa nie bierze z tego samego powodu, z którego nie
+    # bierze go głowa grupy imiennej wyżej: zaimek w dopełniaczu jest tu przydawką,
+    # a zaimek rzeczowny przydawki dopełniaczowej przy sobie nie ma.
+    głowa_grupy = word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)
     zaimek_dopełniacza = nt("RelativePronoun", case="gen", **POPRZEDNIK)
     for ciało in (
         [Głowa(głowa_grupy), zaimek_dopełniacza],
