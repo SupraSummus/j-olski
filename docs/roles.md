@@ -12,7 +12,7 @@ Lista dokumentów w [README](../README.md) mówi, co w którym jest,
 i nie mówi, kto po to przychodzi,
 więc dopisanie akapitu jest tanie,
 a przecięcie komuś drogi niewidoczne.
-[Przegląd zmian](../CLAUDE.md#the-review-pass) pyta, jaki problem znika ze zmianą;
+[Przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku) pyta, jaki problem znika ze zmianą;
 tu stoi druga połowa tego pytania, czyli kogo ta zmiana dotyczy.
 
 ## Rola jest postawą, nie osobą
@@ -58,8 +58,8 @@ cała droga tej roli mieści się w jednym pliku.
 **Psuje ją** mechanizm postawiony przed ramą
 i nazwa użyta przed wprowadzeniem, czytanie albo walencja na pierwszej stronie.
 Obie rzeczy są niewidoczne dla autora, bo autor wie, co jest niżej,
-i dlatego [przegląd zmian](../CLAUDE.md#the-review-pass) każe czytać od miejsca edycji
-tak, jakby dalszej części nie było.
+i dlatego [reguła o czytaniu zdanie po zdaniu](../CLAUDE.md#the-reader-goes-sentence-by-sentence)
+każe czytać od miejsca edycji tak, jakby dalszej części nie było.
 
 **Obsady** ta rola nie ma.
 Jedyny dowód, że ta droga działa,
@@ -238,7 +238,7 @@ i cały [CLAUDE.md](../CLAUDE.md) jest pisany pod tę rolę.
 
 Recenzent nie jest rolą, jest fazą,
 którą kończy każda postawa cokolwiek pisząca,
-i opisuje ją [przegląd zmian](../CLAUDE.md#the-review-pass).
+i opisuje ją [przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku).
 Nie ma autora reguły, bo wyszedł razem z torem lintera,
 a kto chciałby tę rolę obsadzić na nowo,
 zaczyna od tego, [co ją zamknęło](linter.md#what-closed-the-track),

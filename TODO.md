@@ -5,7 +5,7 @@ rewrites, merges, documents that have drifted apart,
 dangling references, gaps, and code worth improving.
 Something noticed while working on another topic goes here
 instead of stretching the current change or being forgotten.
-[The review pass](CLAUDE.md#the-review-pass) is the other way in:
+[The review pass](CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku) is the other way in:
 a refactor too large to do on the spot is written down rather than started,
 and the review also checks whether a change deleted the entries it closes.
 Read the section your work touches before starting,
