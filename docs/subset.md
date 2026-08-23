@@ -2470,6 +2470,66 @@ wychodzi dwoma czytaniami: `Rada gminy liczy piętnastu członków.` czyta się
 i tak, że rada liczy członków, i tak, że członkowie liczą radę.
 Polszczyzna ma oba te czytania, więc olski to zdanie odrzuca i odrzuca słusznie.
 
+### Liczebnik złożony przyłącza się wedle ostatniego członu
+
+`Dwadzieścia dwa chleby leżą.` odmienia się wedle `dwa`,
+a `Dwadzieścia siedem chlebów leży.` wedle `siedem`,
+czyli wedle tego z dwóch przyłączeń wyżej, które niesie człon skrajnie prawy.
+Dwa liczebniki obok siebie są więc łańcuchem o głowie po prawej,
+a nie trzecim przyłączeniem ani warunkiem w środku tamtych dwóch:
+symbol `Liczebnik` bierze `accommodability` od swojej głowy,
+a oba tamte ciała pytają go tym samym, czym pytały terminala.
+Łańcuch jest osobnym ciałem, bo sonda wycenia go zdejmowaniem ciał.
+
+Przypadek, liczba i rodzaj są w łańcuchu wspólne wszystkim członom,
+bo polszczyzna odmienia każdy z nich:
+`Dwudziestu dwóch mężczyzn przyszło.` stawia w mianowniku oba człony,
+a `dwadzieścia dwóch` nie jest niczym.
+Łańcuch wiąże w prawo, więc `sto dwadzieścia dwa` ma jedno nawiasowanie.
+
+Ostatniego członu `jeden` łańcuch nie bierze.
+`Dwadzieścia jeden chlebów` żąda dopełniacza mnogiego,
+choć `jeden chleb` żąda zgodności,
+czyli ten człon rządzi w łańcuchu inaczej, niż rządzi sam.
+Osobne ciało na `jeden` po liczebniku kupiłoby liczby zakończone na jeden,
+więc wejdzie dopiero wtedy, gdy takich zdań naliczy się więcej niż garść.
+
+Płaci łańcuch drugą walutą i płaci w dwóch miejscach.
+Pierwsze z nich zdejmuje warunek ujemny.
+Morfeusz daje `pięć` drugie czytanie — dopełniacz mnogi rzeczownika
+odczasownikowego od `piąć` — a rzeczownik odczasownikowy jest
+[głową grupy imiennej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku),
+więc bez warunku `Dwadzieścia pięć chlebów leży.` wychodzi dwoma czytaniami:
+łańcuchem oraz `dwadzieścia` nad grupą, której głową jest `pięć`.
+Drugiego polszczyzna nie ma, a kolizja bierze co dziesiątą liczbę pisaną słowem,
+bo tyle kończy się na pięć,
+więc terminal rzeczownika odczasownikowego tego lematu nie bierze.
+Jest to czwarty warunek ujemny w tej gramatyce
+i trzeci postawiony na lemacie po to, żeby odebrać czytanie,
+którego polszczyzna w tym miejscu nie ma
+([wyżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+Zabiera on cały leksem, bo negacji unifikacja nie zna,
+więc `Pięcie jest trudne.` przestaje się wyprowadzać,
+a skreślenie jednego argumentu oddaje to zdanie z powrotem.
+
+Drugie miejsce zostaje i jest nim zagnieżdżenie.
+Grupa, którą buduje liczebnik zgodny, jest dopełniaczem mnogim tak samo jak sam
+rzeczownik — `brakuje dwóch mężczyzn` — więc ciało rządzące bierze ją nad sobą
+i `Dwudziestu dwóch mężczyzn przyszło.` czyta się dwojako:
+o dwudziestu dwóch oraz o dwudziestu z dwóch.
+Drugie czytanie polszczyzna pisze przyimkiem, którego w tym zdaniu nie ma,
+a odróżnić tych dwóch nie ma tu czym:
+liczebnik zgodny wypuszcza grupę o cechach samego rzeczownika,
+więc różni je sam kształt.
+Warunek na kształt żądałby drugiej kopii każdej pozycji grupy imiennej,
+więc czytanie zostaje, a wpis o nim trzyma [`TODO.md`](../TODO.md).
+Zagnieżdżenie zachodzi tam, gdzie pierwszy człon jest synkretyczny
+między rządzącym i zgodnym, czyli w formach męskoosobowych i przypadkach zależnych.
+`Dwadzieścia dwa chleby leżą.` wychodzi jednym czytaniem.
+Przed tą pozycją zdanie o dwudziestu dwóch przechodziło pod samym zagnieżdżeniem,
+więc łańcuch zamienia tu werdykt nieprawdziwy na odmowę
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
 ### Cyfry olski nie bierze, bo cyfra nie niesie morfologii
 
 Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą:

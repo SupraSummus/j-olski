@@ -352,6 +352,14 @@ PRZYIMEK_ROZDZIELAJĄCY = "a"
 #: użycia produkcja, a nie słownik.
 ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 
+#: `Pięcie`, czyli rzeczownik odczasownikowy od `piąć`. Jego dopełniacz mnogi
+#: Morfeusz pisze `pięć` i daje mu liczbę mnogą oraz rodzaj nijaki, czyli to,
+#: czego liczebnik rządzący żąda od tego, co pod nim stoi, więc bez tego warunku
+#: `dwadzieścia pięć chlebów` ma drugie czytanie z `pięć` w głowie grupy.
+#: Wywód i cenę trzyma
+#: docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
+PIĘCIE = "piąć"
+
 #: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny,
 #: bezokolicznik, zdanie podrzędne i pytanie zależne. Narzędnika w niej nie ma, i
 #: to jest to jedno miejsce, w którym rama domyślna czegoś zabrania: orzecznik
@@ -1630,7 +1638,7 @@ def build() -> Grammar:
     # wywód i cenę trzyma docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
     for głowa, głowa_dopełniacza in (
         (word("subst", **AGREE), word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)),
-        (word("ger", **AGREE), word("ger", **AGREE)),
+        (word("ger", bez_lematu=PIĘCIE, **AGREE), word("ger", bez_lematu=PIĘCIE, **AGREE)),
     ):
         grammar.rule("NPConjunct", [głowa], person="ter", **AGREE)
         grammar.rule(
@@ -1712,16 +1720,35 @@ def build() -> Grammar:
     # `pięciu mężczyzn` ma rodzaj męskoosobowy, a `pięć kobiet` żeński, i są to
     # dwie różne formy liczebnika. Cyfry żadne z tych ciał nie bierze i dlaczego,
     # mówi docs/subset.md pod „Cyfry olski nie bierze”, gdzie stoi też pomiar obu.
+    #
+    # Oba pytają symbolu `Liczebnik`, a nie terminala, bo liczebnik złożony
+    # przyłącza się wedle członu skrajnie prawego: `dwadzieścia dwa chleby` wedle
+    # `dwa`, a `dwadzieścia pięć chlebów` wedle `pięć`. Symbol jest łańcuchem o
+    # głowie po prawej i od niej bierze `accommodability`; czego nie bierze i co
+    # płaci, mówi
+    # docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
+    grammar.rule(
+        "Liczebnik",
+        [word("num", accommodability=V("a"), **AGREE)],
+        accommodability=V("a"),
+        **AGREE,
+    )
+    grammar.rule(
+        "Liczebnik",
+        [word("num", **AGREE), Głowa(nt("Liczebnik", accommodability=V("a"), **AGREE))],
+        accommodability=V("a"),
+        **AGREE,
+    )
     grammar.rule(
         "NPConjunct",
-        [word("num", accommodability="congr", **AGREE), Głowa(nt("NPConjunct", **AGREE))],
+        [nt("Liczebnik", accommodability="congr", **AGREE), Głowa(nt("NPConjunct", **AGREE))],
         person="ter",
         **AGREE,
     )
     grammar.rule(
         "NPConjunct",
         [
-            Głowa(word("num", accommodability="rec", case=V("c"), gender=V("g"))),
+            Głowa(nt("Liczebnik", accommodability="rec", case=V("c"), gender=V("g"))),
             nt("NP", case="gen", number="pl", gender=V("g")),
         ],
         case=V("c"),
