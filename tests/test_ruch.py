@@ -20,7 +20,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness import płaski
-from harness.ruch import Sonda, gramatyka, zmierz
+from harness.ruch import Sonda, gramatyka, nad_prozą, zmierz
 from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR, check
 
@@ -111,3 +111,39 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
     raport = zmierz(płaski.PRZYSŁÓWEK_SONDA, [zdanie], źródło="live")
     assert raport.przejścia[płaski.PRZYSŁÓWEK_SONDA.czysty] == {"rejected → valid": 1}
     assert not raport.zgodność
+
+
+#: Proza pod przebieg nad nią: zdanie, które kupuje przysłówek u pierwszego
+#: gospodarza, zdanie odrzucone przez każdy wariant i napis, którego nic nie
+#: punktuje jako zdania. Trzy, bo o trzy rzeczy naraz pyta pominięcie rozbiorów.
+PROZA = (
+    "Teraz program zapisuje ustawienia. "
+    "Nowa program zapisuje ustawienia. "
+    "Nagłówek bez kropki"
+)
+
+
+def test_zdanie_przyjęte_przez_wariant_przeżywa_pominięcie_zbędnych_rozbiorów():
+    """Rozbiór pomija się po werdykcie olskiego, a nie po werdykcie mianownika.
+
+    Mianownik zdejmuje wszystko, więc odrzuca właśnie te zdania, które sonda ma
+    policzyć jako zakup: pominięcie oparte na nim wypisałoby je odrzucone pod
+    każdym wariantem, kolumna przyjętych stanęłaby na zerze i żaden wiersz
+    wydruku by nie powiedział, że przebieg mierzył co innego, niż mówi.
+    """
+    raport = nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA)
+    sonda = płaski.PRZYSŁÓWEK_SONDA
+    assert raport.stany[sonda.czysty] == {"valid": 1, "rejected": 1}
+    assert raport.stany[sonda.warianty[0]] == {"rejected": 2}
+    assert raport.przejścia[sonda.czysty] == {"rejected → valid": 1}
+
+
+def test_napis_bez_znaku_kończącego_nie_wchodzi_do_mianownika_przebiegu_nad_prozą():
+    """Nagłówek i pozycja listy dochodzą tu jako akapity i zdaniem nie są.
+
+    Policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru, więc stoją
+    osobno, wypisane z powodem, a nie odjęte po cichu.
+    """
+    raport = nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA)
+    assert raport.pominięte == {"fragment, a nie zdanie": 1}
+    assert raport.zmierzone == 2
