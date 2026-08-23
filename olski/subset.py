@@ -1,27 +1,14 @@
-"""Olski itself: the subset of Polish this grammar admits.
+"""Deklaracja podzbioru: produkcje, wykluczenia i werdykt nad zdaniem.
 
-Two properties define it, and both are exclusions rather than inventions:
+Wykluczenia są dwojakie, bo produkcja rozstrzyga o zdaniu, a nie o formie.
+Produkcje niżej mówią, jakie zdanie się wyprowadza,
+a ``admissible`` odbiera formie czytania, zanim produkcja je zobaczy.
 
-**Every olski sentence is a well-formed Polish sentence.** No helper notation, no
-convenient deviation. What olski leaves out, it leaves out entirely.
-
-**Every olski sentence has exactly one reading.** This is the property doing the
-real work. Polish is full of sentences that parse two ways, and a reader resolves
-them from context or from knowing what the writer meant. Olski excludes them,
-because a sentence with two readings has no checkable meaning and, more
-importantly, no reliable one.
-
-The grammar below admits every order the subject, the object and the verb can
-stand in, since Polish uses all six of them, which is why case
-syncretism makes some sentences ambiguous. The alternative — declaring that olski
-is SVO and reading the first noun phrase as the subject — would make those
-sentences unambiguous to a reader who knows the convention and still ambiguous to
-every other Polish speaker. Rejecting them keeps the promise that olski is
-readable as ordinary Polish.
-
-That property is about Polish, and a dictionary offers readings Polish does not,
-so the subset excludes readings as well as constructions: see ``admissible``
-below.
+Werdykt mówi o zdaniu więcej niż sam status, bo autor ma je poprawić.
+Zdanie o dwóch czytaniach nie jest olskie
+(docs/subset.md#validity-is-uniqueness-not-just-derivability),
+a :meth:`Verdict.explain` pokazuje, gdzie te czytania się rozchodzą;
+zdanie odrzucone dostaje miejsce, na którym rozbiór stanął.
 """
 
 from __future__ import annotations
