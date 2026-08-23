@@ -1338,6 +1338,21 @@ więc zawężenie ma tu tego samego adresata co przy ciągu.
 Nad prozą `docs/` samą liczbą czytań zostaje kilkanaście zdań,
 a ile z nich stoi na którym z tych dwóch wykluczeń, jest do przeczytania.
 
+Wiersz werdyktu o nierozstrzygniętym przyłączeniu liczy samo wyrażenie przyimkowe,
+więc `Począł myśleć gorączkowo.` tego wiersza nie ma,
+choć różnicę ma tę samą co `Począł myśleć nad ranem.`, gdzie on stoi,
+i `harness.czytania` liczy takie zdanie w klasie „sama liczba czytań”.
+Rolę tę trzyma `rozstrzygany` w `DEKLARACJA` (`olski/subset.py`),
+a czyta ją `Las.przyłączenia` wraz z warstwą rozstrzygającą.
+Ruchem jest wpuszczenie do tego pola pozostałych ról z `przyłączane`,
+a cena jest podwójna: warstwa nad takim przyłączeniem milczy,
+bo tabela skłonności i leksykon walencyjny mówią o przyimkach,
+a udziały klas w `docs/disambiguation.md` wychodzą z `harness.czytania` nad Składnicą,
+więc trzeba je przeliczyć tą samą zmianą.
+Do przeczytania jest, ile zdań Składnicy przechodzi przez to
+z klasy „sama liczba czytań” do klasy „przyłączenie”,
+bo od tej liczby zależy, czy przeliczenie tabel jest warte ruchu.
+
 Porównanie ról liczy za niezgodność i czytanie dobre, i czytanie złe,
 kiedy drzewo wzorcowe nie znaczy w tym miejscu żadnego gniazda.
 `agreement` w `olski/coverage.py` pyta o rozpiętości roli po obu stronach,

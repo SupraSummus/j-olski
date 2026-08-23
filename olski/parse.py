@@ -276,11 +276,18 @@ class Deklaracja:
 
     #: Role, którymi streszcza się czytanie i o które czytania mogą się różnić.
     role: tuple[str, ...]
-    #: Ta z ról, która się przyłącza,
-    #: czyli ta, przy której streszczenie nazywa jeszcze gospodarza.
-    przyłączany: str
-    #: Symbole konstytuentów, w których produkcjach to przyłączenie stoi.
+    #: Role, które się przyłączają,
+    #: czyli te, przy których streszczenie nazywa jeszcze gospodarza.
+    przyłączane: tuple[str, ...]
+    #: Symbole konstytuentów, w których produkcjach przyłączenie stoi.
     gospodarze: tuple[str, ...]
+    #: Ta z ról przyłączanych, której nierozstrzygniętego gospodarza werdykt liczy
+    #: osobnym wierszem (:meth:`Las.przyłączenia`),
+    #: a warstwa za parserem zgaduje (``olski/rozstrzyganie.py``).
+    #: Jest nią jedna, bo tabela skłonności i leksykon walencyjny
+    #: mówią o wyrażeniu przyimkowym, a nie o każdym okoliczniku;
+    #: czy wiersz werdyktu ma być szerszy od warstwy, trzyma ``TODO.md``.
+    rozstrzygany: str
     #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
     #: nawiasuje człon ciągu współrzędnego.
     współrzędne: tuple[str, ...]
@@ -1494,7 +1501,7 @@ class Las:
         u_kogo: dict[int, set[Pozycja]] = {}
         najkrótsze: dict[int, Pozycja] = {}
         for pozycja in sorted({para[0] for para in self._żywe()}, key=lambda p: p.span):
-            if pozycja.label != deklaracja.przyłączany:
+            if pozycja.label != deklaracja.rozstrzygany:
                 continue
             początek = pozycja.span[0]
             najkrótsze.setdefault(początek, pozycja)
@@ -1642,7 +1649,7 @@ class Las:
         gotowe = self._pod_pozycją.get((pozycja, deklaracja))
         if gotowe is not None:
             return gotowe
-        przyłączane = {pozycja.span[0]} if pozycja.label == deklaracja.przyłączany else set()
+        przyłączane = {pozycja.span[0]} if pozycja.label == deklaracja.rozstrzygany else set()
         rola = pozycja.label in deklaracja.role
         # Liść klas nie ma, więc pętla nad nim się nie wykonuje i liść nie potrzebuje warunku.
         for klasa in self.klasy(pozycja):
@@ -1805,15 +1812,17 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     granica biegnie wewnątrz wypełnienia, więc widać ją tylko w samym napisie.
     Co dostaje nawias, a co nie, mówi :func:`_nawiasuj`.
 
-    Żąda tego jedna rola, bo jedną gramatyka zostawia nierozstrzygniętą rozmyślnie:
+    Żądają tego role przyłączane,
+    bo ich gospodarza gramatyka zostawia nierozstrzygniętego rozmyślnie:
     podmiot i dopełnienie rozstrzyga przypadek,
     a pozycje przyłączeniowe stoją po to, żeby dać oba czytania
     (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
     Dopisane jest wypełnienie, a nie pozycja obok niego,
     więc :attr:`Deklaracja.role` zostaje listą ról.
 
-    Nazwany jest pierwszy modyfikator czytania i tylko on,
-    więc dwa czytania różne miejscem drugiego wychodzą stąd jednym napisem.
+    Nazwane jest pierwsze wystąpienie roli i tylko ono,
+    więc dwa czytania różne miejscem drugiego okolicznika tej samej roli
+    wychodzą stąd jednym napisem.
     Streszczenie jest po to jedno na czytanie, a wierszy jest tyle, ile czytań;
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
@@ -1827,6 +1836,8 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     po której zdanie ma jeszcze składowe, i tylko tyle o nich mówi:
     wierszy jest tyle, ile czytań, i tego znak nie rusza
     (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
+    Znak przylega przy tym do wypełnienia i poprzedza gospodarza,
+    bo dopisany za jego nazwą czyta się jak jej część.
     """
     streszczenie = {}
     składowe = _składowe(node, deklaracja.składowe)
@@ -1834,10 +1845,11 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
         znalezione = node.find(rola, deklaracja.podrzędne)
         if not znalezione:
             continue
-        napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
-        if rola == deklaracja.przyłączany:
+        wypełnienie = _nawiasuj(znalezione[0], deklaracja.współrzędne)
+        napis = _wśród_składowych(wypełnienie, znalezione[0].span, składowe)
+        if rola in deklaracja.przyłączane:
             napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
-        streszczenie[rola] = _wśród_składowych(napis, znalezione[0].span, składowe)
+        streszczenie[rola] = napis
     return streszczenie
 
 
