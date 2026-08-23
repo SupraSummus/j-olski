@@ -8,6 +8,10 @@
 //  kopią tej liczby i po zmianie na serwerze kłamałaby, nie mówiąc tego.
 let granica = null;
 
+//  Etykieta przycisku schowka jest stałą, bo przycisk wraca do niej po pokazaniu,
+//  że skopiował.
+const KOPIUJ = "Kopiuj";
+
 const pytanie = document.getElementById("pytanie");
 const pole = document.getElementById("tekst");
 const wyślij = document.getElementById("wyślij");
@@ -25,6 +29,13 @@ function element(nazwa, klasa, napis) {
   return węzeł;
 }
 
+//  Wiersz stanu mówi, co wyszło albo czemu nie wyszło, a klasę pomyłki trzeba
+//  zdjąć tak samo jak założyć, więc jedno miejsce robi oba.
+function powiedz(napis, pomyłka = false) {
+  stan.classList.toggle("pomyłka", pomyłka);
+  stan.textContent = napis;
+}
+
 function odmierz() {
   const znaków = pole.value.length;
   miara.textContent = granica === null ? `${znaków} znaków` : `${znaków} / ${granica}`;
@@ -40,6 +51,21 @@ async function zapytaj(adres, opcje) {
   return dane;
 }
 
+//  Napis, którego strona jest właścicielem, ma dwa widoki: węzeł na stronie i
+//  wiersz w tekście dla schowka. Dwie kopie rozjechałyby się po cichu, więc
+//  każdy taki napis powstaje w jednej funkcji.
+function podpisCzytań(pokazanych, ile) {
+  return ile > pokazanych ? `czytania: ${pokazanych} z ${ile}` : `czytania: ${pokazanych}`;
+}
+
+function podpisZatrzymania(forma) {
+  return `analiza staje też na „${forma}”`;
+}
+
+function podpisDomysłu(domysł) {
+  return `„${domysł.modyfikator}” → „${domysł.gospodarz}”`;
+}
+
 function czytanie(role) {
   const wiersz = element("li");
   for (const [rola, wypełnienie] of Object.entries(role)) {
@@ -53,10 +79,7 @@ function czytanie(role) {
 function czytania(lista, ile) {
   const zwój = element("details", "czytania");
   zwój.open = lista.length <= 2;
-  const podpis = ile > lista.length
-    ? `czytania: ${lista.length} z ${ile}`
-    : `czytania: ${lista.length}`;
-  zwój.append(element("summary", null, podpis));
+  zwój.append(element("summary", null, podpisCzytań(lista.length, ile)));
   const spis = element("ol", "czytanie-lista");
   lista.forEach((role) => spis.append(czytanie(role)));
   zwój.append(spis);
@@ -69,7 +92,7 @@ function domysły(lista) {
   for (const domysł of lista) {
     const wiersz = element("p");
     wiersz.append(
-      document.createTextNode(`„${domysł.modyfikator}” → „${domysł.gospodarz}” `),
+      document.createTextNode(`${podpisDomysłu(domysł)} `),
       element("span", "powód", `${domysł.powód} (${domysł.świadek})`),
     );
     blok.append(wiersz);
@@ -77,13 +100,53 @@ function domysły(lista) {
   return blok;
 }
 
+//  Tekst dla schowka jest drugim widokiem tych samych danych: wierszami, a nie
+//  węzłami. Czytania wchodzą wszystkie, także zwinięte pod zwojem, bo tekstu nie
+//  ma czym rozwinąć.
+function tekstWerdyktu(dane) {
+  const wiersze = [`${dane.status}  ${dane.zdanie}`, dane.wyjaśnienie];
+  for (const forma of dane.dalsze_zatrzymania) wiersze.push(podpisZatrzymania(forma));
+  if (dane.czytania.length) {
+    wiersze.push(podpisCzytań(dane.czytania.length, dane.liczba_czytań));
+    for (const role of dane.czytania) {
+      const pary = Object.entries(role).map(([rola, wypełnienie]) => `${rola}: ${wypełnienie}`);
+      wiersze.push(`- ${pary.join(", ")}`);
+    }
+  }
+  for (const domysł of dane.domysły) {
+    wiersze.push(`? ${podpisDomysłu(domysł)}: ${domysł.powód} (${domysł.świadek})`);
+  }
+  return `${wiersze.join("\n")}\n`;
+}
+
+//  Odmowa idzie do wiersza stanu, a nie na przycisk, bo przycisk przepisany na
+//  komunikat zostaje bez etykiety do kliknięcia.
+function kopiowanie(dane) {
+  const przycisk = element("button", "kopiuj", KOPIUJ);
+  przycisk.type = "button";
+  przycisk.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(tekstWerdyktu(dane));
+      przycisk.textContent = "skopiowane";
+      setTimeout(() => { przycisk.textContent = KOPIUJ; }, 1500);
+    } catch (pomyłka) {
+      powiedz(`nie udało się skopiować: ${pomyłka.message}`, true);
+    }
+  });
+  return przycisk;
+}
+
 function zdanie(dane) {
   const blok = element("div", `zdanie ${dane.status}`);
-  blok.append(element("span", `znaczek ${dane.status}`, dane.status));
-  blok.append(element("p", "treść", dane.zdanie));
+  const nagłówek = element("div", "nagłówek");
+  nagłówek.append(element("span", `znaczek ${dane.status}`, dane.status));
+  //  Schowka nie ma bez kontekstu bezpiecznego, czyli pod http poza localhostem,
+  //  a przycisk, który zawsze odmawia, jest gorszy niż jego brak.
+  if (navigator.clipboard) nagłówek.append(kopiowanie(dane));
+  blok.append(nagłówek, element("p", "treść", dane.zdanie));
   const wyjaśnienie = element("p", "wyjaśnienie", dane.wyjaśnienie);
   for (const forma of dane.dalsze_zatrzymania) {
-    wyjaśnienie.append(element("br"), document.createTextNode(`analiza staje też na „${forma}”`));
+    wyjaśnienie.append(element("br"), document.createTextNode(podpisZatrzymania(forma)));
   }
   blok.append(wyjaśnienie);
   if (dane.czytania.length) blok.append(czytania(dane.czytania, dane.liczba_czytań));
@@ -93,8 +156,7 @@ function zdanie(dane) {
 
 async function sprawdź() {
   wyślij.disabled = true;
-  stan.classList.remove("pomyłka");
-  stan.textContent = "sprawdzam…";
+  powiedz("sprawdzam…");
   try {
     const dane = await zapytaj("/werdykt", {
       method: "POST",
@@ -102,12 +164,11 @@ async function sprawdź() {
       body: JSON.stringify({ tekst: pole.value }),
     });
     werdykty.replaceChildren(...dane.zdania.map(zdanie));
-    stan.textContent = dane.podsumowanie.wyjaśnienie;
+    powiedz(dane.podsumowanie.wyjaśnienie);
     granica = dane.granica_znaków;
     odmierz();
   } catch (pomyłka) {
-    stan.classList.add("pomyłka");
-    stan.textContent = pomyłka.message;
+    powiedz(pomyłka.message, true);
   } finally {
     wyślij.disabled = false;
   }

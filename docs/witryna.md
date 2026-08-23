@@ -73,6 +73,16 @@ Przeładowanie całej strony odrzucamy z powodu prostszego:
 gubi ono tekst w polu, a API zostawia takie,
 że nie da się go zawołać niczym poza tą jedną stroną.
 
+Każde zdanie ma przycisk, który kopiuje jego werdykt do schowka,
+bo blok na stronie czyta się okiem,
+a do zgłoszenia albo do `TODO.md` wkleja się tekst.
+Tekst ten składa strona, a nie serwer,
+z tego samego powodu, z którego serwer nie oddaje HTML:
+pole z gotowym tekstem w odpowiedzi byłoby drugą warstwą prezentacji.
+Schowek wymaga kontekstu bezpiecznego, czyli https albo localhosta;
+gdzie przeglądarka go nie daje, przycisku nie ma,
+bo przycisk, który zawsze odmawia, jest gorszy niż jego brak.
+
 Stronę i API oddaje przy tym jeden dyno.
 Strona wzięta z osobnego adresu żądałaby nagłówków CORS,
 drugiego wdrożenia i drugiego rachunku,
@@ -110,8 +120,9 @@ historia, cofanie albo kilka widoków, i wtedy biblioteka wchodzi.
 Cena tej decyzji jest jedna i suita jej nie łapie:
 `witryna/skrypt.js` nie ma testu, bo w blokach checków nie ma node'a.
 Trzyma to `TODO.md`, a robocza odpowiedź jest taka,
-że wszystko, co może być nie tak, siedzi po stronie Pythona,
-a skrypt rysuje dane i nie liczy niczego.
+że skrypt rysuje dane i nie liczy niczego,
+więc prawie wszystko, co może być nie tak, siedzi po stronie Pythona.
+Wyjątkiem jest tekst dla schowka, którego nie składa nic poza stroną.
 Suita pyta o niego jedno z zewnątrz: czy strona woła te adresy, które serwer ma.
 
 ## Co witryna pokazuje
@@ -281,3 +292,4 @@ a rozstrzyga to dopiero ten, kto wpisze domenę.
 - <https://doc.scalingo.com/platform/internals/container-sizes> — wielkości kontenerów wraz z pamięcią
 - <https://doc.scalingo.com/platform/internals/routing> — granice routera, w tym czas na pierwszą odpowiedź
 - <https://pypi.org/project/morfeusz2/> — wydania Morfeusza wraz z wariantami wheela
+- <https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText> — czego pisanie do schowka żąda od strony

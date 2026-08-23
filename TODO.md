@@ -2601,7 +2601,8 @@ Suita pyta o niego z zewnątrz jedno — czy strona woła trasy, które serwer m
 bo w [bloku checków](CLAUDE.md#checks) nie ma node'a
 i dopisanie go tam kosztuje drugie środowisko w workflowie.
 Decyzja robi się potrzebna wtedy, gdy skrypt zacznie cokolwiek liczyć;
-dziś rysuje dane, a wszystko, co może być nie tak, jest po stronie Pythona
+dziś rysuje dane, a po stronie Pythona jest prawie wszystko, co może być nie tak —
+poza tekstem, który przycisk kopiuje do schowka
 ([`docs/witryna.md`](docs/witryna.md#ramy-nie-ma-bo-warstwa-http-jest-tablicą-tras)).
 Ruchy są dwa i różnią się tym, co przyjmują za granicę:
 albo node wchodzi do checków wraz z jednym testem strony w przeglądarce bezgłowej,

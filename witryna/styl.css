@@ -183,6 +183,31 @@ kbd {
 .znaczek.ambiguous { color: var(--ambiguous); }
 .znaczek.rejected { color: var(--rejected); }
 
+/*  Znaczek statusu i przycisk schowka idą jednym wierszem, a przycisk przy
+    prawej krawędzi, bo zdanie ma się zaczynać tam, gdzie zaczyna się blok. */
+.zdanie .nagłówek {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/*  Przycisk powtarza się przy każdym zdaniu, więc jest obwódką, a nie plamą
+    akcentu: kilkanaście plam przeważyłoby nad werdyktem, o który tu chodzi. */
+.kopiuj {
+  margin-left: auto;
+  padding: 0.1rem 0.6rem;
+  border-color: var(--kreska);
+  background: transparent;
+  color: var(--przygasły);
+  font-size: 0.8125rem;
+}
+
+.kopiuj:hover {
+  border-color: var(--akcent);
+  color: var(--akcent);
+  filter: none;
+}
+
 .treść { margin: 0.4rem 0 0; }
 
 .wyjaśnienie {
