@@ -33,9 +33,8 @@ go dopiero czytający.
 tekst nie rozstrzyga i czytelnik też nie, a ``żadne``, że wyboru nie ma wcale, bo
 pozycja nie jest przyłączeniem. Obie są tu po to, żeby milczenie warstwy dało się
 ocenić: nad takim wpisem milczenie jest odpowiedzią trafną, a nie brakiem
-odpowiedzi. Rozdzielone są, bo mówią o czym innym — pierwsza o rejestrze, druga o
-celności szukacza pozycji — a złożone w jeden licznik dawałyby liczbę, która nie
-wie, o czym jest.
+odpowiedzi. Rozdzielone są, bo mówią o czym innym: pierwsza o rejestrze, druga o
+celności szukacza pozycji.
 
 Plik z wyborami jest połową droższą i nie jest generowany: ``--zbuduj`` wypisuje
 kandydatów z pustym wzorcem na wyjście, a wzorzec wpisuje się ręką wraz z

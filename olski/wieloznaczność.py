@@ -2,8 +2,8 @@
 
 Kryterium wyjścia toru gramatycznego żąda jednego czytania od zdania, które w
 polszczyźnie ma dwa. Rozwidlenie, które z tego wychodzi, wraz z tym, co pomiar
-stąd nad nim rozstrzygnął, trzyma docs/open-questions.md; brakowało mu liczby i
-tę liczbę ten moduł podaje.
+stąd nad nim rozstrzygnął, trzyma docs/open-questions.md; liczbę, na której to
+rozstrzygnięcie stanęło, podaje ten moduł.
 
 To jest pomiar rejestru, a nie gramatyki, i tym różni się od olski/coverage.py,
 tak samo jak olski/attachment.py obok. Liczone są pozycje w tekście, a nie
@@ -20,8 +20,8 @@ tam grupę imienną nazywa węzeł, a tutaj część mowy.
 
 Synkretyzm: dwie grupy imienne czytają się i w mianowniku, i w bierniku, a
 czasownik przy nich bierze dopełnienie, więc SVO i OVS stoją oba do wzięcia.
-Dwa warunki zdejmują z tej klasy zdanie, które polszczyzna czyta raz, i żaden nie
-jest ozdobą: czasownika bez biernika nie liczy leksykon walencyjny, a grupy,
+Dwa warunki zdejmują z tej klasy zdanie, które polszczyzna czyta raz:
+czasownika bez biernika nie liczy leksykon walencyjny, a grupy,
 która z orzeczeniem nie zgadza się co do liczby i rodzaju, nie liczy sama zgoda.
 
 Liczba jest górnym oszacowaniem i myli się w jedną stronę. Grupą imienną jest tu
@@ -35,7 +35,7 @@ schematem, stoi w tej pozycji i do wyboru nie stoi, a ile go jest, mierzy nad
 Składnicą docs/subset.md. Wchodzi tu wreszcie każde czytanie, które słownik
 oferuje, a polszczyzna go nie ma: liczone jest to, co zostawia ``admissible`` w
 olski/subset.py, a zostawia ono nazwisko nieodmienne z formy ``Nowy`` i grę z
-formy ``go``. Obie klasy są otwarte i obie mają swoje miejsce — pierwsza jest
+formy ``go``. Obie te grupy są otwarte i obie mają swoje miejsce — pierwsza jest
 etapem 3 z docs/roadmap.md, drugą trzyma TODO.md — więc ten pomiar ruszy się,
 kiedy się zamkną.
 

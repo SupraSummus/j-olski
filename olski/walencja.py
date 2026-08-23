@@ -28,8 +28,8 @@ po stronie generatora jest jedyną obroną przed drzewem żądającym
 bezokolicznika od czasownika, który go nie bierze,
 a po stronie parsera zmierzono oba i żadne nie kupiło ani jednej jednoznaczności;
 liczby trzyma docs/subset.md.
-Pozycję zdania podrzędnego gramatyka podzbioru już ma,
-więc jest to teraz ta sama decyzja co przy bezokoliczniku, a nie brak pozycji.
+Pozycję zdania podrzędnego gramatyka podzbioru ma,
+więc jest to ta sama decyzja co przy bezokoliczniku, a nie brak pozycji.
 
 Przyimki czyta trzeci odbiorca i żadnej produkcji nie rusza:
 świadek ramowy w ``olski/rozstrzyganie.py`` pyta o nie po obu stronach

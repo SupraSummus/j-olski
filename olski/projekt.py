@@ -22,11 +22,9 @@ i różni je cena: wpisy stoją w pliku,
 a formy żądają Morfeusza w trybie syntezy,
 którego sama analiza tekstu nie potrzebuje do niczego.
 
-Czytania leksykonu dochodzą do czytań słownika w :func:`z_leksykonu`,
-a woła ją cała analiza: ``morphology`` w ``olski/subset.py``,
-czyli to miejsce, w którym notacja dostaje swoją krawędź,
-oraz ``_czytania`` w ``olski/rozstrzyganie.py``.
-Funkcja jest jedna, bo dołożona osobno w każdym z tych miejsc
+Czytania leksykonu dochodzą do czytań słownika w :func:`z_leksykonu`
+i woła ją cała analiza.
+Funkcja jest jedna, bo dołożona osobno w każdym z wołających
 byłaby tą samą regułą napisaną dwa razy.
 Skład go nie czyta i o tym, co mu z tego zostaje, mówi ``TODO.md``.
 """

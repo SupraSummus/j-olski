@@ -33,14 +33,14 @@ czyli razem z morfologią i z werdyktem.
 (<https://zil.ipipan.waw.pl/Świgra>), rozpakowany,
 a w nim gramatyka skompilowana i binarka zapisana jednym poleceniem.
 Nazwa archiwum nie mówi, które to wydanie, więc mówi to odcisk pobrania,
-po którym wyszła liczba niżej — ``sha256sum`` daje na nim
+po którym wyszły czasy w ``docs/swigra.md`` — ``sha256sum`` daje na nim
 ``0c87ba6ee3aa5ea5756189c13155cfd87309b48af903b8a3b59a426eb03d3513`` —
 a odcisk inny znaczy, że upstream podmienił archiwum i liczba jest z innego parsera::
 
     sed -i s/--tradtional/--traditional/ birnam_dcg2pl
     LC_ALL=C.UTF-8 ./genparser -2
 
-Obie poprawki są potrzebne i żadna nie jest wyborem.
+Żadna z tych dwóch poprawek nie jest wyborem.
 Literówki w skrypcie SWI-Prolog 9 nie wybacza,
 bo nieznaną opcję kończy wydrukiem pomocy,
 a bez locale UTF-8 czyta gramatykę bajtami i wywraca się na pierwszym ogonku.

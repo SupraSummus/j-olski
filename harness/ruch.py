@@ -13,15 +13,13 @@ olski ma, mierzy się właśnie tak, przez zdejmowanie. Dopisana mierzyłaby pro
 napisaną w sondzie, czyli drugą deklarację tego samego, i rozeszłaby się z olskim
 po pierwszej zmianie, której nikt by tu nie powtórzył.
 
-Konstrukcję, której olski nie ma, wyceniało się tu w drugą stronę: sonda
-dopisywała ją świeżej gramatyce, a mianownikiem był wariant bez dopisku. Ten
-kierunek wyszedł razem z przysłówkiem, czyli z jedyną sondą, która go używała, bo
-konstrukcja wyceniona i wpuszczona mierzy się już zdejmowaniem. Gdyby wrócił,
-wróci jako gramatyka wariantu brana funkcją, i tego żąda od tej maszynerii
+Konstrukcji, której olski nie ma, ta maszyneria nie wycenia: dopisywanie jej do
+świeżej gramatyki wyszło stąd razem z przysłówkiem, czyli z jedyną sondą, która
+tak mierzyła. Wróci jako gramatyka wariantu brana funkcją, czego żąda od niej
 ``harness/luka.py``; trzyma to ``TODO.md``.
 
-Podział pracy jest przez to jednozdaniowy. Sonda odpowiada, do której grupy
-produkcja należy, a warianty, przebieg, tabelę przejść i konkurencję grup dostaje
+:class:`Sonda` odpowiada, do której grupy produkcja należy,
+a warianty, przebieg, tabelę przejść i konkurencję grup dostaje
 z tego pliku; wiersz poleceń przychodzi z ``harness/komenda.py``, wspólny także
 sondom, które różnicowe nie są. Wariantów jest tyle, ile grup da się zdjąć
 osobno, bo cena każdej z nich jest osobną liczbą.

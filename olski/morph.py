@@ -5,7 +5,7 @@ what are this form's possible readings, and what are the features of each. It
 also segments, and it segments into a graph rather than a list, because Polish
 does not always agree with itself about where one word ends.
 
-Two things about the output matter more than the API:
+What matters about the output, more than the API:
 
 **A form usually has several readings.** ``ustawienia`` is the genitive singular
 or nominative plural of the noun ``ustawienie``, and also two forms of the

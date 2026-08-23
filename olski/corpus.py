@@ -3,13 +3,12 @@
 Składnica is a constituency treebank of Polish, built by parsing sentences drawn
 from NKJP with Świgra — Woliński's implementation of Świdziński's GFJP — and
 having annotators pick the correct tree out of the resulting forest. That
-provenance is what makes it useful here and what limits it, and both halves
-matter:
+provenance is what makes it useful here and what limits it:
 
 **Useful**, because each file is a whole forest with the gold reading marked
 inside it, rather than a single tree. Olski's question is not "is this the tree"
 but "does the correct reading survive, alone", and a forest with a marked answer
-is exactly what that question needs. The terminals also carry disambiguated
+is what that question needs. The terminals also carry disambiguated
 morphology, so the grammar can be measured with the analyser's ambiguity removed
 and then again with it restored, and the difference is attributable.
 

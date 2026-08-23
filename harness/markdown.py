@@ -4,7 +4,7 @@ The grammar needs a guarantee plain text gives and Markdown does not: every
 character is prose. This produces it, by dropping the apparatus and by joining
 what the renderer would have joined.
 
-Three decisions run through the whole module and are worth stating once.
+The decisions below run through the whole module.
 
 **A parser says where a construct is; this module says what to do with it.**
 Which characters are markup is a question about CommonMark, and markdown-it-py
@@ -24,13 +24,6 @@ behind, the space in front of it goes with it.
 holds is joined with single spaces, because that is what a renderer does with a
 newline inside one, and where the author's editor wrapped then leaves no trace
 in what comes out.
-
-Which documents enter the corpus is the same step's business, and it is the
-harness package that holds it: a coverage figure over Polish must not have
-another language in its denominator, and the extracted prose is what says which
-language a file is in. A document is one unit of that selection, and the case
-where one document holds two languages is an entry in TODO.md rather than a case
-this handles.
 """
 
 from __future__ import annotations

@@ -14,8 +14,6 @@ siedem aktów ustaw — a zlepienie go w jeden plik jest krokiem,
 którego dokument nie ma jak wydrukować obok liczby;
 jeden raport składa z nich ``scal`` po stronie sondy.
 
-Scalenie wiersza poleceń nie oddala liczby od kodu, który ją liczy,
-bo parser nie liczy nic.
 Przy sondzie zostaje wywołanie przebiegu i nagłówek nad wydrukiem,
 czyli te dwie rzeczy, którymi sondy się różnią,
 a stąd sonda otrzymuje ścieżki przyciętą listą oraz wybory z wiersza poleceń.
@@ -25,11 +23,6 @@ i tam też stoi powód, dla którego ``argv`` idzie w obu drugie.
 Pytanie własne sondy — ``--budżet``, ``--wariant``, ``--morfologia`` —
 wchodzi funkcją dopisującą argumenty,
 bo pomoc do niego mówi o tym, co ta jedna sonda mierzy.
-
-Poza tym wejściem zostają programy, które korpusu lasów nie czytają — ekstrakcja,
-to, co pyta Walentego, oraz ``harness/podłoża.py``, który czyta samą prozę i
-katalogu nie bierze wcale — a także ``harness/rama.py``, który bank drzew czyta
-innym kształtem wejścia: nie zna ani ``--limit``, ani ``--jobs``.
 """
 
 from __future__ import annotations

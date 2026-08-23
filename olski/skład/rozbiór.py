@@ -11,7 +11,7 @@ a wspólnym mają obie typ, a nie kod.
 Po co ten obieg stoi, czego z niego nie wraca i co to mówi o obu torach,
 trzyma ``docs/sklad.md``, a sam niezmiennik ``docs/design-notes.md``.
 
-Trzy zasady rozstrzygają o kodzie niżej i każda dotyczy każdej funkcji w nim.
+Zasady niżej rozstrzygają o kodzie i każda dotyczy każdej funkcji w nim.
 
 **Wydaje krotkę drzew, a nie drzewo.**
 Napis do drzewa jest relacją, bo ten zapis ma na jeden napis kilka drzew,

@@ -2,9 +2,8 @@
 
 The number this produces is the experiment docs/design-notes.md has been
 promising: what fraction of real Polish olski admits, per unit of formal power.
-Right now the answer is small, and it is supposed to be — olski is a deliberate
-subset — so the useful part of the report is not the fraction but the three
-breakdowns under it.
+The answer is small, and it is supposed to be — olski is a deliberate subset — so
+the useful part of the report is not the fraction but the breakdowns under it.
 
 **Where analyses die.** A rejected sentence stopped somewhere, and the part of
 speech of the token it stopped on names the construction that would have to be
@@ -22,7 +21,7 @@ grammar cannot derive at all.
 **Agreement, not just acceptance.** Accepting a sentence is worth nothing if the
 reading is wrong. Olski admits every order the subject, the object and the verb
 can stand in, so on every sentence it accepts
-there is a real question of whether it found the same subject the annotators did,
+there is a question of whether it found the same subject the annotators did,
 and a wrong subject is a worse outcome than a rejection: it is a sentence olski
 claims to understand backwards. Only the gold-morphology run can check this,
 because only there do spans mean the same thing on both sides.

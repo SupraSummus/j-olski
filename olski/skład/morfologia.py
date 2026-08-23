@@ -9,13 +9,12 @@ a nie ze zgadywania wzorca po zakończeniu wyrazu.
 Zgodność nie jest tu sprawdzana, tylko liczona.
 Parsowanie godzi ze sobą dwie wiązki cech, z których każda niesie kilka wartości,
 a synteza żąda jednej formy po tagu, który już stoi rozstrzygnięty.
-Cała trudność, dla której olski istnieje, przy tym kierunku nie powstaje,
-i dlatego ten moduł jest krótki.
+Cała trudność, dla której olski istnieje, przy tym kierunku nie powstaje.
 
 Trudność, która przy nim powstaje, jest inna i jest w danych.
 Tag rozstrzygnięty wskazuje kilka form, a wybór między nimi jest wyborem,
 którego autor drzewa nie zrobił i nie ma gdzie zrobić.
-Dwie klasy tego wyboru schodzą stąd, każda inaczej.
+Klasy tego wyboru schodzą stąd, każda inaczej.
 Kwalifikator, którym słownik odsyła formę poza rejestr, zdejmuje ją
 i tę klasę zdejmuje ``POZA_REJESTREM`` niżej.
 Leksem, którego lemat nie wskazuje, zostaje wyborem i jest wyborem autora,

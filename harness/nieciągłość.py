@@ -1,7 +1,7 @@
 """Ilu zdaniom nieciągłość jest potrzebna, ile kosztuje i co ukrywa, nad Składnicą.
 
 Wielkie rozwidlenie pytało, czy olski wpuszcza konstytuent nieciągły, i żądało
-odpowiedzi z pomiaru, a nie z gustu. Pomiar ma trzy części, bo jednoznaczność
+odpowiedzi z pomiaru, a nie z gustu. Pomiar dzieli się na części, bo jednoznaczność
 jest tu warunkiem poprawności: konstrukcja kupuje zdania, płaci zdaniami, a
 odmowa jej kosztuje osobno i w drugą stronę.
 

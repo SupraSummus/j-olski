@@ -21,7 +21,7 @@ Liczba jest przez to górnym oszacowaniem i myli się w jedną stronę, mocno.
 Celownik bywa posiadaczem albo tym, komu się przysłuży — ``ściągnąć komuś czapkę``
 — i taki celownik stoi obok frazy źródłowej, nie naprzeciwko niej. Ile z tego
 zostaje po przeczytaniu, mówi ``docs/disambiguation.md`` przy liczbie stąd; sonda
-sądu o parze nie wydaje i wydać go nie ma czym.
+sądu o parze nie wydaje.
 
 Plik wejściowy nie stoi w repozytorium: pobiera się go tak, jak bank drzew, a
 polecenie trzyma docs/subset.md.

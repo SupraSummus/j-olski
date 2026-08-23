@@ -2,9 +2,9 @@
 
 Zdanie względne stoi w gramatyce wypisane rolą po roli: kilkadziesiąt ciał
 ``RelativeCore``, po jednym na czoło razy wysunięta rola razy szyk reszty zdania
-razy miejsce na okolicznik razy przeczenie. Każdy dalszy kształt jest tam osobnym
-ciałem, a wyjęcia z głębi — ``ustawa, którą organ gminy może wydać`` — nie ma
-tam wcale, bo dopełnienie dochodzi tylko do formy osobowej.
+razy miejsce na okolicznik razy przeczenie. Wyjęcia z głębi — ``ustawa, którą
+organ gminy może wydać`` — nie ma tam wcale, bo dopełnienie dochodzi tylko do
+formy osobowej.
 
 Odpowiedzią drabiny jest cecha przeciągana, czyli szczebel 2: konstytuent niesie
 w cechach to, czego mu w środku brakuje, luka jest produkcją o pustym ciele, a

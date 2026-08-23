@@ -10,7 +10,7 @@ więc odpowiedź stoi tutaj, a nie w kolejności, w jakiej słownik wydaje formy
 Identyfikatory, którymi słownik je rozdziela, stoją niżej w ``LEKSEMY``,
 bo pisze się je do kodu, a nie do zdania.
 
-Wpis robi dwie rzeczy, a jest to jedna rzecz widziana z dwóch stron.
+Wpis robi jedną z dwóch rzeczy.
 Nazwa osobna daje osobnej rzeczy osobne miejsce w drzewie:
 ``oko_w_rosole`` odmienia się jak ``oko`` niezbiorowe,
 więc autor pisze nim to, czego przez ``oko`` nie powie.
@@ -18,7 +18,7 @@ Nazwa goła rozstrzyga, czym samo ``oko`` jest w tym repozytorium,
 i po to jest, żeby ``odmień`` nie wybierał w milczeniu.
 
 Nazwy, której tu nie ma, ten plik nie zabrania.
-Idzie ona do słownika jako lemat, tak jak szła przedtem,
+Idzie ona do słownika jako lemat,
 a identyfikator wolno postawić wprost w konstruktorze ``Rzecz``,
 bo słownik odmienia i po nim, choć przestrzeń nazw ``R`` dwukropka nie zapisze.
 Wpisu żąda dokładnie jeden przypadek i pilnuje tego ``odmień``:

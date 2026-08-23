@@ -19,7 +19,7 @@ Niesie to ``Postać``, a rozstrzyga o tym zmienna, którą autor tej postaci nad
 dwa razy napisany ``R.bazyliszek`` jest dwoma bazyliszkami,
 a dwa razy użyta jedna ``Postać`` jest jednym.
 
-Opuszczenie jest wąskie i jest wąskie z rozmysłu:
+Opuszczenie jest wąskie z rozmysłu:
 opuszczenie, po którym zdanie czyta się dwojako, nie jest oszczędnością,
 i jest to ta sama ostrożność, którą po drugiej stronie ma kryterium jednego czytania.
 Warunki trzyma ``pomijalny`` w ``olski/skład/składnia.py``, a nie ten moduł,

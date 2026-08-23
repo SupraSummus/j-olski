@@ -7,9 +7,9 @@ to „ma kilka wyprowadzeń”, a czytelnik, któremu ten werdykt pokazano, pyta
 znaczenia. Sonda mierzy różnicę: puszcza czytania zdania przez ``abstrahuj`` w
 ``olski/skład/rozbiór.py`` i pyta, czy wracają z niego tymi samymi drzewami.
 
-Porównywane są zbiory drzew, a nie ich liczba, i to jest tu pierwsze rozstrzygnięcie.
-Jedno czytanie wraca kilkoma drzewami, bo napis milczy o relacji przyimka i o
-znaczniku tematu (``docs/sklad.md``), więc suma drzew rośnie od tej ciszy tak
+Porównywane są zbiory drzew, a nie ich liczba. Jedno czytanie wraca kilkoma
+drzewami, bo napis milczy o relacji przyimka i o znaczniku tematu
+(``docs/sklad.md``), więc suma drzew rośnie od tej ciszy tak
 samo jak od wieloznaczności; pada ona natomiast pod każdym czytaniem tak samo,
 więc porównanie zbiorów ją dzieli, a policzenie drzew miesza ją z odpowiedzią.
 
@@ -21,8 +21,8 @@ zwinęło się przez brak kategorii. Zdania dzielą się więc najpierw po zasi�
 zapisu, a zestawienie zbiorów pada dopiero pod tym z nich, którego każde czytanie
 wróciło.
 
-Powód, dla którego czytanie nie wraca, jest tu drugą odpowiedzią, a nie
-przypisem. Zero kandydatów mówi, że kategorii nie ma i to jest miara tego, o ile
+Powód, dla którego czytanie nie wraca, jest tu drugą odpowiedzią.
+Zero kandydatów mówi, że kategorii nie ma i to jest miara tego, o ile
 ten zapis musiałby urosnąć; kandydat, który powstał i wypisuje się innym napisem,
 mówi co innego, bo kategorię ma, a oba kierunki nie zgadzają się co do jednego
 zdania (``Odczyt`` w ``olski/skład/rozbiór.py``). Trzeciego rodzaju tu nie ma:
@@ -33,15 +33,13 @@ Zdania przyjęte liczą się obok wieloznacznych i to one są kontrolą. Zasięg
 mierzony nad samymi wieloznacznymi nie mówi, czy zero wzięło się z
 wieloznaczności, czy z rejestru, a zdanie jednoznaczne przechodzi tą samą drogą,
 więc dwa wiersze obok siebie rozstrzygają to bez drugiego przebiegu. Drugi
-kierunek liczy się przy okazji i za darmo: zdanie jednoznaczne, które wraca
-kilkoma drzewami, jest miejscem, gdzie werdykt milczy, a zapis dziedziny widzi
-wybór.
+kierunek liczy się przy okazji: zdanie jednoznaczne, które wraca kilkoma
+drzewami, jest miejscem, gdzie werdykt milczy, a zapis dziedziny widzi wybór.
 
 Morfologia złota daje po jednym czytaniu na formę, a ten rozbiór pyta krawędź o
 wszystkie, więc nad bankiem drzew czyta wartości wybrane przez anotatorów. Źródło
 morfologii jest przez to flagą, tak jak w ``olski-corpus``, i obie odpowiedzi mają
-własną figurę: żywa daje pytaniu populację kilka razy większą od złotej i odpowiada
-tak samo.
+własną figurę.
 
 Wynik czyta ``docs/architecture.md``.
 

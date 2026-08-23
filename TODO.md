@@ -314,6 +314,21 @@ Ruchem jest to samo jedno z dwojga na figurę, co przy liczbach `docs/ustawy.md`
 Do przeczytania jest `python3 -m harness.czytania` obok tabeli klas:
 mówi on, które z tych liczb drukuje przebieg, a które policzono ręką.
 
+Docstring modułu bywa dłuższy od sekcji dokumentu i niesie wywód sięgający kilku
+modułów, którego właścicielem jest według
+[`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) dokument.
+`olski/skład/przegląd.py` zestawia się z `olski/wieloznaczność.py` przez dwa tory,
+`harness/wybory.py` wywodzi, który korpus umie ocenić którego świadka,
+a `olski/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
+Skreślić tego nie wolno, bo drugiej kopii nie ma,
+więc ruchem jest, per docstring, albo zdanie ze wskaźnikiem na sekcję,
+która ten wywód przyjmuje — `docs/sklad.md`, `docs/disambiguation.md`,
+`docs/subset.md` — albo powód zapisany przy docstringu,
+czemu wywód czyta się przy kodzie, a nie w dokumencie.
+Do przeczytania jest ten trzeci:
+czytania Walentego nie powtarza żaden dokument,
+więc stoi on najbliżej granicy i on mówi, ile ten ruch jest wart.
+
 ## Komendy i sondy
 
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
