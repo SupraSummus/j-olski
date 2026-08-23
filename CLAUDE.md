@@ -64,8 +64,7 @@ i w dokumencie, który po polsku nie jest,
 a akapit mocno przepisywany przekładamy przy okazji, tą samą zmianą.
 Zdanie dopisane do akapitu angielskiego, którego nie przepisujesz,
 piszemy po angielsku razem z nim, bo akapit czyta się w jednym języku.
-Przekład całego dokumentu jest osobną zmianą,
-której nie wpisujemy do `TODO.md`.
+Przekład całego dokumentu jest osobną zmianą.
 
 ## Six forces
 
