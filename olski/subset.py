@@ -15,6 +15,7 @@ a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
 from __future__ import annotations
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass, replace
 
 from olski import projekt
@@ -2419,6 +2420,57 @@ def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None
     )
 
 
+def dalsze_zatrzymania(verdict: Verdict, grammar: Grammar | None = None) -> tuple[str, ...]:
+    """Zatrzymania tego zdania poza tym, które nazwał już werdykt.
+
+    Zdanie z czytaniem nie stanęło nigdzie, więc krotka jest wtedy pusta, i tak
+    samo pusta jest nad fragmentem. Segmentacja idzie tu drugi raz, bo werdykt
+    segmentów nie niesie (:func:`werdykt`).
+    """
+    if verdict.status == FRAGMENT or not verdict.result.rejected:
+        return ()
+    return zatrzymania(morphology(verdict.text), grammar)[1:]
+
+
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     """Check every sentence of a text against the grammar."""
     return [werdykt(zdanie, morphology(zdanie), grammar) for zdanie in sentences(text)]
+
+
+@dataclass(frozen=True)
+class Podsumowanie:
+    """Ile zdań tekstu jest olskich, dla tego, kto pyta o cały tekst.
+
+    Liczby te wychodzą z werdyktów jedną regułą — fragment nie jest zdaniem, więc
+    nie wchodzi do mianownika, a zdanie odrzucone nie ma czytania — i pyta o nie
+    więcej niż jeden wołający, więc policzone u każdego z nich rozjeżdżają się po
+    cichu: mianownik mniejszy o fragment czyta się jak pomiar, a nie jak pomyłka.
+    """
+
+    #: Zdania, którym gramatyka daje dokładnie jedno czytanie, czyli zdania olskie.
+    olskie: int
+    #: Zdania, czyli to, o czym werdykt orzeka: fragmentów nie ma tu ani w liczniku.
+    zdań: int
+    #: Zdania, którym gramatyka daje przynajmniej jedno czytanie.
+    z_czytaniem: int
+    #: Napisy, których nic nie interpunkuje jako zdania.
+    fragmentów: int
+
+    @classmethod
+    def z_werdyktów(cls, werdykty: Sequence[Verdict]) -> Podsumowanie:
+        zdania = [verdict for verdict in werdykty if verdict.status != FRAGMENT]
+        return cls(
+            olskie=sum(verdict.result.valid for verdict in zdania),
+            zdań=len(zdania),
+            z_czytaniem=sum(not verdict.result.rejected for verdict in zdania),
+            fragmentów=len(werdykty) - len(zdania),
+        )
+
+    def explain(self) -> str:
+        summary = (
+            f"{self.olskie} of {self.zdań} sentences are olski, "
+            f"and {self.z_czytaniem} have a reading"
+        )
+        if self.fragmentów:
+            summary += f", beside {self.fragmentów} fragments that are not sentences"
+        return summary

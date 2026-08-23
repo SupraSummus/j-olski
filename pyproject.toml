@@ -15,6 +15,10 @@ dependencies = ["morfeusz2>=1.99"]
 #  this is what the checks install, and harness/ is not a package anybody
 #  installs.
 dev = ["markdown-it-py>=3", "pytest>=8", "ruff>=0.5"]
+#  Serwer HTTP witryny, czyli jedyna zależność bocznego toru. Aplikacja jest
+#  funkcją WSGI ze standardowej biblioteki, więc suita nie woła gunicorna, a
+#  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.
+witryna = ["gunicorn>=22"]
 
 [project.scripts]
 olski-check = "olski.check:main"

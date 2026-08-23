@@ -46,6 +46,7 @@ from olski.subset import (
     WALENCJA,
     WALENCJA_ZWROTNA,
     WTRĄCONY,
+    Podsumowanie,
     admissible,
     check,
     morphology,
@@ -2673,6 +2674,20 @@ def test_fragment_bez_znaku_zamykajacego_nie_jest_zdaniem_odrzuconym():
 def test_every_sentence_of_a_text_is_checked():
     verdicts = check("Zapisz plik. Nowa program zapisuje ustawienia.")
     assert [found.status for found in verdicts] == ["valid", "rejected"]
+
+
+def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
+    """Fragment nie jest zdaniem, więc tekst z nagłówkiem nie ma gorszego wyniku.
+
+    Reguła ta ma jednego właściciela dlatego, że pytają o nią wołający po obu
+    stronach repozytorium — wiersz poleceń i witryna — a policzona u każdego z
+    nich osobno daje mianownik większy o nagłówek i czyta się jak pomiar.
+    """
+    podsumowanie = Podsumowanie.z_werdyktów(
+        check("Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia.")
+    )
+    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 2)
+    assert (podsumowanie.z_czytaniem, podsumowanie.fragmentów) == (1, 1)
 
 
 def test_the_grammar_is_a_grammar_of_something():

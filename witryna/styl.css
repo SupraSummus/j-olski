@@ -1,0 +1,293 @@
+/*  Strona jest jednym plikiem CSS bez zależności: nie ma tu ani kroju do
+    pobrania, ani ramy, więc pierwsze wyświetlenie nie czeka na nic poza
+    odpowiedzią dyna. Palety są dwie i wybiera je ustawienie przeglądarki. */
+
+:root {
+  --papier: #fbfaf7;
+  --papier-głębszy: #f2efe8;
+  --atrament: #1b1a16;
+  --przygasły: #6a665c;
+  --kreska: #ddd8cc;
+  --akcent: #2f6f4f;
+  --valid: #2f6f4f;
+  --ambiguous: #9a6a12;
+  --rejected: #9c3b2e;
+  --fragment: #6a665c;
+  --proza: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --pismo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --maszyna: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papier: #16150f;
+    --papier-głębszy: #1f1e17;
+    --atrament: #ece8dd;
+    --przygasły: #9b968a;
+    --kreska: #33312a;
+    --akcent: #7fb894;
+    --valid: #7fb894;
+    --ambiguous: #d8a94c;
+    --rejected: #e08a76;
+    --fragment: #9b968a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  max-width: 44rem;
+  background: var(--papier);
+  color: var(--atrament);
+  font-family: var(--proza);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 span { color: var(--kreska); }
+
+h2 {
+  margin: 3rem 0 0.75rem;
+  font-family: var(--pismo);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--przygasły);
+}
+
+.wiodące { margin: 0.75rem 0 0; }
+
+p { margin: 0.75rem 0; }
+
+a { color: var(--akcent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+/*  Pole tekstowe jest tu głównym przedmiotem, więc nie ma obwódki formularza,
+    tylko kreskę pod spodem i papier o ton głębszy. */
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--kreska);
+  border-radius: 6px;
+  background: var(--papier-głębszy);
+  color: inherit;
+  font-family: var(--proza);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+textarea:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--akcent);
+  outline-offset: 2px;
+}
+
+.pasek {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+button {
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--akcent);
+  border-radius: 999px;
+  background: var(--akcent);
+  color: var(--papier);
+  font-family: var(--pismo);
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+button:hover { filter: brightness(1.08); }
+
+button[disabled] { opacity: 0.5; cursor: progress; }
+
+.wskazówka, .miara, .legenda, .stan { font-family: var(--pismo); font-size: 0.8125rem; }
+
+.wskazówka, .miara { color: var(--przygasły); }
+
+.miara { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.miara.pełna { color: var(--rejected); }
+
+kbd {
+  padding: 0.05rem 0.3rem;
+  border: 1px solid var(--kreska);
+  border-radius: 4px;
+  font-family: var(--maszyna);
+  font-size: 0.75rem;
+}
+
+/*  Legenda jest czterema parami znaczka i podpisu, więc para nie łamie się w
+    środku: łamie się między parami. */
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin: 1.25rem 0 0;
+  color: var(--przygasły);
+}
+
+.legenda > span { white-space: nowrap; }
+
+.legenda .znaczek { margin-right: 0.3rem; }
+
+.stan {
+  margin: 1.75rem 0 0;
+  min-height: 1.25rem;
+  color: var(--atrament);
+  font-weight: 500;
+}
+
+.stan.pomyłka { color: var(--rejected); }
+
+/*  Jedno zdanie: kreska statusu z lewej, zdanie prozą, werdykt maszyną. */
+.zdanie {
+  margin: 1rem 0;
+  padding: 0.875rem 0 0.875rem 1rem;
+  border-left: 3px solid var(--fragment);
+}
+
+.zdanie.valid { border-left-color: var(--valid); }
+.zdanie.ambiguous { border-left-color: var(--ambiguous); }
+.zdanie.rejected { border-left-color: var(--rejected); }
+
+.znaczek {
+  display: inline-block;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--papier-głębszy);
+  color: var(--fragment);
+  font-family: var(--maszyna);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.znaczek.valid { color: var(--valid); }
+.znaczek.ambiguous { color: var(--ambiguous); }
+.znaczek.rejected { color: var(--rejected); }
+
+.treść { margin: 0.4rem 0 0; }
+
+.wyjaśnienie {
+  margin: 0.35rem 0 0;
+  font-family: var(--maszyna);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--przygasły);
+}
+
+.czytania { margin: 0.6rem 0 0; font-size: 0.9375rem; }
+
+.czytania summary {
+  font-family: var(--pismo);
+  font-size: 0.8125rem;
+  color: var(--przygasły);
+  cursor: pointer;
+}
+
+ol.czytanie-lista {
+  margin: 0.4rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--atrament);
+}
+
+ol.czytanie-lista li { margin: 0.2rem 0; }
+
+.rola {
+  font-family: var(--pismo);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--przygasły);
+}
+
+.czytanie-lista .rola:not(:first-child) { margin-left: 0.5rem; }
+
+/*  Domysł nie jest werdyktem, więc stoi za znakiem zapytania i osobnym
+    podpisem: warstwa rozstrzygająca zgaduje, a nie orzeka. */
+.domysły {
+  margin: 0.6rem 0 0;
+  padding-left: 0.75rem;
+  border-left: 1px dashed var(--kreska);
+  font-size: 0.9375rem;
+}
+
+.domysły .podpis {
+  display: block;
+  font-family: var(--pismo);
+  font-size: 0.75rem;
+  color: var(--przygasły);
+}
+
+.domysły .powód { color: var(--przygasły); font-size: 0.875rem; }
+
+#pytanie-makiety {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-family: var(--pismo);
+  font-size: 0.875rem;
+}
+
+#pytanie-makiety label { color: var(--przygasły); }
+
+input[type="number"] {
+  width: 7rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--kreska);
+  border-radius: 6px;
+  background: var(--papier-głębszy);
+  color: inherit;
+  font-family: var(--maszyna);
+  font-size: 0.875rem;
+}
+
+.makieta-tekst {
+  margin: 1rem 0 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--kreska);
+  border-radius: 6px;
+  background: var(--papier-głębszy);
+}
+
+.makieta-tekst p { margin: 0 0 0.75rem; }
+
+.makieta-tekst p:last-child { margin-bottom: 0; }
+
+.ziarno { font-family: var(--maszyna); font-size: 0.75rem; color: var(--przygasły); }
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--kreska);
+  font-size: 0.9375rem;
+  color: var(--przygasły);
+}
+
+code { font-family: var(--maszyna); font-size: 0.875em; }
+
+.ukryte {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

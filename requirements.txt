@@ -1,0 +1,5 @@
+#  Plik ten jest wejściem platformy, a nie drugą listą zależności: buildpack
+#  Scalingo poznaje aplikację Pythona po nim, a wiersz niżej mówi mu tylko, żeby
+#  zainstalował to repozytorium wraz z dodatkiem `witryna`. Zależności deklaruje
+#  `pyproject.toml` i jest ich właścicielem; docs/witryna.md mówi, po co ten plik.
+.[witryna]

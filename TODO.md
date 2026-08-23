@@ -2573,6 +2573,21 @@ czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 
 ## Pakiet, instalacja i testy
 
+`witryna/skrypt.js` jest jedynym plikiem w repozytorium, którego nic nie uruchamia.
+Suita pyta o niego z zewnątrz jedno — czy strona woła trasy, które serwer ma
+(`tests/test_witryna.py`) — a samego skryptu nie wykonuje,
+bo w [bloku checków](CLAUDE.md#checks) nie ma node'a
+i dopisanie go tam kosztuje drugie środowisko w workflowie.
+Decyzja robi się potrzebna wtedy, gdy skrypt zacznie cokolwiek liczyć;
+dziś rysuje dane, a wszystko, co może być nie tak, jest po stronie Pythona
+([`docs/witryna.md`](docs/witryna.md#ramy-nie-ma-bo-warstwa-http-jest-tablicą-tras)).
+Ruchy są dwa i różnią się tym, co przyjmują za granicę:
+albo node wchodzi do checków wraz z jednym testem strony w przeglądarce bezgłowej,
+albo skrypt zostaje bez testu, a regułą staje się to,
+że logika nie schodzi do przeglądarki.
+Przeczytaj przed decyzją `tests/test_wydruki.py`,
+bo pokazuje on, ile pilnowania da się zrobić bez drugiego środowiska.
+
 The repository ships no licence.
 `pyproject.toml` carries no `license` field and there is no `LICENSE` file,
 so the terms under which any of this may be used are unstated.
