@@ -67,6 +67,50 @@ Dwa odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczeni
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
 potem odwrotnie, a teraz nie stoi wcale.
 
+## Po co tory są dwa
+
+Tory są dwa, a robota jedna: oba kończą się jakością zdania, które ktoś przeczyta.
+Różni je moment.
+Skład rozstrzyga o tej jakości przed zdaniem,
+bo drzewo wchodzi jednoznaczne i zgodność się w nim liczy
+([wyżej](#co-jest-budowane)).
+Gramatyka rozstrzyga po zdaniu,
+bo werdykt liczy odczytania, które napisane zdanie już ma.
+
+Paralela z programowaniem nazywa ten moment.
+Kompilator wypuszcza program z zapisu wyższego poziomu,
+a linter czyta zapis pisany ręką,
+i tak dzielą się tory: skład jest tym pierwszym, a parser tym drugim.
+Dalej paralela nie prowadzi, bo kod źródłowy i program są dwiema rzeczami,
+a nad polszczyzną rzeczą jest samo zdanie.
+Drzewo istnieje wtedy, gdy ktoś je napisał,
+więc nad tekstem napisanym po polsku nie istnieje żadne.
+Pytanie „czym jest ten tekst” nie ma zatem odpowiedzi,
+a ma ją pytanie o autora: na jakim poziomie pisze.
+Pisze nad zdaniem, czyli drzewem, albo w zdaniu, czyli po polsku.
+Poziomy, między którymi ten wybór przebiega, wylicza
+[sklad.md](sklad.md#three-architectures).
+
+Autorowi, który pisze w zdaniu, wycofanie lintera zostawia edytor pokazujący,
+co gramatyka dopuszcza na następnej pozycji:
+zdania spoza podzbioru nie da się wtedy napisać, więc nie ma czego diagnozować
+([sklad.md](sklad.md#the-predictive-editor-changes-this)).
+Zestaw reguł chodzący po tym samym tekście został zmierzony i wycofany
+([niżej](#tor-lintera-jest-wycofany)).
+
+Oba końce spina niezmiennik obiegu:
+zdanie wychodzi ze składu i wchodzi do parsera,
+a rozjazd wskazuje usterkę składu
+albo konstrukcję olskiego, której nie da się przeczytać z powrotem jednoznacznie
+([design-notes.md](design-notes.md#the-round-trip-invariant)).
+Paralela tego nie ma, bo binarki nikt nie rozbiera, żeby sprawdzić kompilator.
+
+Celem to nie jest, bo nie mówi, czym by się to sprawdziło,
+a tego [lista celów](#cele) żąda od każdej swojej pozycji.
+Mówi, po co tory są dwa, i o to pyta się celu kandydującego:
+czy poprawia zdanie przed napisaniem, czy mierzy je po napisaniu,
+czy zamyka obieg między jednym a drugim.
+
 ## Tor gramatyczny nie ma końca
 
 Kryterium wyjścia tego toru było [README](../README.md) tego repozytorium:
@@ -276,6 +320,8 @@ Kierunku, bo prowadzi on tor, zamiast stać na jego końcu,
 i ma [własną sekcję](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 Kryterium toru składu, bo jest kryterium, a zapisuje je
 [jego własna sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
+Tego, po co tory są dwa, bo cele wybiera się pod tym,
+i ma [własną sekcję](#po-co-tory-są-dwa).
 Nie ma też sparsowanej prozy tego repozytorium,
 która była pierwszym brzmieniem celu o wykrywaczu i upadła na drugiej zasadzie:
 udział zdań wyprowadzonych z naszego tekstu skraca przeredagowany akapit,
