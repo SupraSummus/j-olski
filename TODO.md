@@ -752,7 +752,7 @@ albo relacje dochodzą do niego dopiero z kategoriami składu,
 których dziś nie ma na warunek ani na przyzwolenie.
 Do przeczytania jest `olski/walencja.py` wraz z tym,
 co obu kierunkom z leksykonu walencyjnego wyszło różnego
-([`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)).
+([`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 Okolicznik przysłówkowy bierze całą część mowy, a Morfeusz daje czytanie `adv`
 formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`, `sam`.
@@ -970,7 +970,7 @@ Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
 a przy `int` wynik nie musi wypaść tak samo:
 pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
 gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic innego.
-Ruchem jest czwarte zdanie leksykonu, wzięte z `cp(int)` przez `olski/walenty.py`,
+Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `olski/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
 Czym ten wariant zmierzyć, jest rozstrzygnięte:
 zawężenie ramy jest zmianą danych, a nie grupą produkcji,
@@ -1083,8 +1083,8 @@ Tę samą obserwację robi nad `przewyższać`
 [`docs/subset.md`](docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
 gdzie porównanie mówi, w czym jedno przewyższa drugie,
 i nie ma jej dziś gdzie zapisać.
-Leksykon walencyjny mówi trzy zdania i wszystkie trzy zawężają ramę dopełnienia
-([`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)),
+Leksykon walencyjny mówi o pozycjach ramy, które czasownik bierze albo których nie bierze
+([`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
 a okolicznik pozycji ramy nie zajmuje i przyłącza się do każdego czasownika za darmo,
 więc żaden wpis nie odbiera czytania,
 w którym wzgląd dochodzi do `rodzą się`.
@@ -1448,7 +1448,7 @@ Pozycja przednia ma to samo po drugiej stronie —
 `Program otwierający się jest tani.` wychodzi z `się jest` w orzeczeniu —
 i obie usterki zdejmuje jeden ruch
 ([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
-Płaci za to [gramatyka](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego):
+Płaci za to [gramatyka](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on):
 zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
 a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
 więc parser tego zdania leksykonu nie czyta, choć skład je czyta,
@@ -1466,7 +1466,7 @@ Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
-[Liczba, na której leksykon stoi](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
+[Liczba, na której leksykon stoi](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
 bo `_slot_role` w `olski/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
@@ -2010,6 +2010,41 @@ Do przeczytania jest, czy powtórzony spójnik ma stanąć na wszystkich trzech
 poziomach naraz, bo `ani jedno zdanie, ani drugie` jest grupą imienną,
 a cena każdego poziomu jest osobną liczbą.
 
+Wolny celownik nie ma u olskiego pozycji żadnej:
+`Kompilator wyprowadza psa agentowi.` pada, `Kompilator wyprowadza psa.` przechodzi,
+a pierwsze jest polszczyzną
+([`docs/subset.md`](docs/subset.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem)).
+Leksykonem tego nie wpuścić, bo Walenty wypisuje pozycje żądane,
+a ten celownik dochodzi do orzeczenia dowolnego czasownika,
+więc ruchem jest pozycja okolicznika obok wyrażenia przyimkowego i przysłówka.
+Cena jest widoczna przed pomiarem i jest wysoka:
+okolicznik dochodzi do zdania i do grupy imiennej, a forma celownika żeńskiego
+jest zarazem miejscownikiem, więc każde `w gramatyce` dostaje drugie czytanie.
+Do przeczytania jest, ile zdań Składnicy niesie taki celownik —
+bank drzew nazywa pozycje wymagane, więc celownik niewymagany da się w nim policzyć
+kształtem — bo bez tej liczby wpis jest samą ceną,
+oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
+i mówi, ile go w Walentym widać z drugiej strony.
+
+Drugiej pozycji ramy naraz gramatyka nie ma:
+`Parser pokazuje autorowi oba czytania.` pada, a `Parser pokazuje oba czytania.`
+oraz `Reguła pomaga autorowi.` przechodzą
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
+`Complements` w `olski/subset.py` stawia jedno wypełnienie i okolicznik z obu jego stron,
+więc ruchem jest ciało o dwóch wypełnieniach, a nie wpis w leksykonie:
+celownik i dopełniacz leksykon już wymienia.
+Cena jest widoczna przed pomiarem, bo polszczyzna ma tu oba szyki —
+`daje córce książkę` i `daje książkę córce` — więc ciał przybywa dwa razy tyle,
+ile jest miejsc na okolicznik, a każde zdanie z dwoma dopełnieniami
+dostaje po jednym czytaniu na szyk, kiedy forma czyta się dwoma przypadkami.
+Do przeczytania jest, ile lematów Walenty daje z celownikiem i biernikiem naraz
+(`bierze_ramą` w `olski/walenty.py`), bo bez tej liczby wpis jest samą ceną,
+oraz czy pozycję ma wpuszczać para przypadków wzięta z jednego schematu,
+czy dwa zdania leksykonu policzone osobno — to drugie wpuszcza `daje` z parą,
+której żaden schemat nie ma naraz.
+Zamyka to zarazem bezokolicznik kontrolowany z celownika — `Krawiec kazał córce zejść.` —
+którego przekład z Walentego nie bierze, bo tej pary nie ma czym zapisać.
+
 Dwie liczby w [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
 są wyższe od tego, co mówi przebieg.
 Dokument mówi, że przyłączenie jest całą decyzją w siedmiu zdaniach na dziesięć,
@@ -2172,8 +2207,10 @@ Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy,
 trzecia poprosiła o dwie z nich znowu i wszystkie trzy z niej wypadły.
 `Czeladnik nie powiedział nikomu.` żąda celownika,
 `Czeladnik szukał córki krawca.` żąda dopełniacza,
-i to drugie `Robi` odrzuca, bo leksykon `szukać` wymienia jako czasownik bez biernika,
-czyli mówi o nim prawdę i mówi ją w jedyny sposób, jaki ma.
+i oba przypadki leksykon dziś wymienia,
+bo wpuściła je gramatyka podzbioru
+([`docs/subset.md`](docs/subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu));
+`Robi` o żaden z nich nie pyta i przez to odrzuca oba zdania.
 `Córka krawca nie wierzyła w bazyliszka.` żąda wyrażenia przyimkowego,
 którego czasownik wymaga, a nie takiego, które autor dokłada jako okoliczność,
 i ta klasa jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
@@ -2193,10 +2230,11 @@ Piątą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
 w którym `na izbach` jest okolicznością miejsca,
 a czyta się przez `czekać na kogoś`, czyli przez ramę, której tu nie ma,
 więc `olski/skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
-Do przeczytania jest `olski/walenty.py` wraz z tym,
-co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
-mówi o tym, co ten przekład z Walentego bierze, a czego nie,
-bo Walenty niesie wszystkie te ramy i jest to jedna zmiana po obu stronach.
+Po stronie leksykonu ta zmiana jest zrobiona:
+plik niesie zdanie o celowniku i zdanie o dopełniaczu,
+a czyta je sama gramatyka podzbioru
+([`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
+więc zostaje strona składu i to ona jest tym wpisem.
 Zdanie podrzędne dopisane po bezokoliczniku przesądziło ten wpis,
 bo pokazało, ile z tej zmiany jest zrobione, a ile nie:
 przekład umie wziąć trzecie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
@@ -2223,9 +2261,9 @@ Do przeczytania jest `cp(żeby)` obok `cp(że)` u Walentego,
 bo słownik te dwa kształty rozdziela i mówi, który lemat bierze który,
 oraz `Treść` w `olski/skład/składnia.py`, gdzie spójnik stoi stałą.
 Ruchem jest kategoria dziedziny na to, czy treść jest orzekana, czy żądana,
-wraz z czwartym zdaniem leksykonu; wpis jest przez to winien
+wraz z osobnym zdaniem leksykonu o `cp(żeby)`; wpis jest przez to winien
 przebieg `olski/walenty.py` oraz poprawkę liczb w
-[`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego).
+[`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 `Przysłówek` w `olski/skład/składnia.py` żąda od słownika formy przysłówkowej,
 a część okoliczności polszczyzna wyraża partykułą:
@@ -2365,7 +2403,7 @@ a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
 Do przeczytania jest, co `olski/walenty.py` bierze z Walentego przy pozycji `infp`,
 bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
 czy ma go w kształcie, którego ten przekład nie bierze,
-wraz z tym, co [`docs/subset.md`](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)
+wraz z tym, co [`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 mówi o granicach tego przekładu.
 Ruchem jest jedno z dwóch, zależnie od tego, co słownik powie:
 przekład biorący ten kształt, wraz z przebiegiem generatora

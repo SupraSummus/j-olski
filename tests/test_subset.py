@@ -624,7 +624,7 @@ def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
         ),
         (
             "Po upływie kadencji rady gminy zarząd działa do dnia wyboru nowego zarządu.",
-            3,
+            6,
             "nowego zarządu",
         ),
     ],
@@ -1817,6 +1817,52 @@ def test_rama_dochodzi_do_bezokolicznika_tak_samo_jak_do_formy_osobowej(text, st
     #  i widać to dopiero na parze zdań: samo przyjęcie dwóch pierwszych
     #  przechodziłoby też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
     assert verdict(text).status == status
+
+
+@pytest.mark.parametrize(
+    ("text", "status"),
+    [
+        ("Werdykt służy czytelnikowi.", "valid"),
+        ("Parser wyprowadza czytelnikowi.", "rejected"),
+        ("Wpis żąda dowodu.", "valid"),
+        ("Sonda mierzy dowodu.", "rejected"),
+    ],
+)
+def test_dopełnienia_poza_biernikiem_wpuszcza_leksykon_a_nie_przypadek(text, status):
+    #  Pary, na których widać, że pozycję wpuszcza wpis, a nie sam przypadek grupy:
+    #  `służyć` i `żądać` mają ją w Walentym, `wyprowadzać` i `mierzyć` nie mają.
+    #  Gramatyka biorąca każdy celownik i każdy dopełniacz przechodzi zdanie
+    #  pierwsze i trzecie tak samo, a różni się dopiero na drugim i czwartym.
+    assert verdict(text).status == status
+
+
+def test_dopełniacz_z_leksykonu_i_dopełniacz_negacji_dają_jedno_odczytanie():
+    #  Czasownik, który dopełniacz bierze ramą, bierze go pod przeczeniem także w
+    #  miejscu biernika, więc jeden napis wyprowadza się dwa razy. Odczytanie jest
+    #  jedno, bo kształt obu wyprowadzeń jest ten sam, i tego nie widać po
+    #  werdykcie żadnego innego zdania: para produkcji jest tu jedyna.
+    assert verdict("Wpis nie żąda dowodu.").result.ile == 1
+
+
+def test_czasownik_bierze_jedno_wypełnienie_a_nie_dwie_pozycje_ramy_naraz():
+    #  Celownik obok biernika jest osobnym kształtem, a nie sumą dwóch pozycji,
+    #  które gramatyka ma: `Complements` stawia jedno wypełnienie i okolicznik po
+    #  obu jego stronach. Każda z tych dwóch pozycji osobno wyprowadza się, więc
+    #  bez trzeciego zdania w tej trójce odrzucenie czytałoby się jak brak wpisu
+    #  w leksykonie.
+    assert verdict("Parser pokazuje autorowi oba czytania.").status == "rejected"
+    assert verdict("Parser pokazuje oba czytania.").status == "valid"
+    assert verdict("Reguła pomaga autorowi.").status == "valid"
+
+
+def test_wolny_celownik_pada_obok_dopełnienia_a_nie_na_leksykonie():
+    #  Celownik posiadacza dochodzi do orzeczenia dowolnego czasownika, więc
+    #  pierwsze zdanie jest polszczyzną, a olski go nie ma. Wpis w leksykonie tego
+    #  nie zmieni, bo dopełnienie stoi tu obok dopełnienia, i to jest ta granica,
+    #  którą para zdań z tej sekcji łatwo czyta się na opak: leksykon rozstrzyga o
+    #  pozycji ramy, a nie o tym, czy przy czasowniku wolno postawić celownik.
+    assert verdict("Kompilator wyprowadza psa agentowi.").status == "rejected"
+    assert verdict("Kompilator wyprowadza psa.").status == "valid"
 
 
 def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():

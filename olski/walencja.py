@@ -21,8 +21,8 @@ miałby ``być`` za czasownik biorący biernik
 i wypuszczałby ``Program jest ustawienia.``
 
 Wspólny jest też plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, a bezokolicznik oraz zdanie podrzędne
-czyta sam skład,
+Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
+a bezokolicznik oraz zdanie podrzędne czyta sam skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co on komu kupuje:
 po stronie generatora jest jedyną obroną przed drzewem żądającym
 bezokolicznika od czasownika, który go nie bierze,
@@ -66,6 +66,8 @@ LEKSYKON = Path(__file__).parent / "leksykon.txt"
 NIE_BIERZE_BIERNIKA = "nie_bierze_biernika"
 BIERZE_BEZOKOLICZNIK = "bierze_bezokolicznik"
 BIERZE_ZDANIE = "bierze_zdanie"
+BIERZE_CELOWNIK = "bierze_celownik"
+BIERZE_DOPEŁNIACZ = "bierze_dopełniacz"
 
 #: Klasy słowa, którymi plik rozdziela wpisy o jednym lemacie. Stoją tu z tego
 #: samego powodu co zdania wyżej, a rozdzielają dlatego, że jeden lemat bywa
@@ -128,6 +130,15 @@ def _lematy(zdanie: str, klasa: str) -> frozenset[str]:
 #: Lematy bez dopełnienia w bierniku, osobno dla formy bez cząstki ``się`` i z nią.
 BEZ_BIERNIKA = _lematy(NIE_BIERZE_BIERNIKA, CZASOWNIK)
 BEZ_BIERNIKA_ZWROTNE = _lematy(NIE_BIERZE_BIERNIKA, CZASOWNIK_ZWROTNY)
+
+#: Lematy z dopełnieniem w celowniku i z dopełnieniem w dopełniaczu, osobno dla
+#: obu klas czasownika. Kierunek jest tu przeciwny niż przy bierniku, bo przeciwna
+#: jest domyślność, od której te zdania odejmują: rama domyślna ma biernik, a
+#: przypadka poza nim nie ma żadnego, więc milczenie o lemacie odmawia mu pozycji.
+Z_CELOWNIKIEM = _lematy(BIERZE_CELOWNIK, CZASOWNIK)
+Z_CELOWNIKIEM_ZWROTNE = _lematy(BIERZE_CELOWNIK, CZASOWNIK_ZWROTNY)
+Z_DOPEŁNIACZEM = _lematy(BIERZE_DOPEŁNIACZ, CZASOWNIK)
+Z_DOPEŁNIACZEM_ZWROTNE = _lematy(BIERZE_DOPEŁNIACZ, CZASOWNIK_ZWROTNY)
 
 #: Lematy z bezokolicznikiem pod kontrolą podmiotu. Zbiór zwrotny stąd nie wychodzi,
 #: bo cząstki ``się`` nie ma czym zapisać po tej stronie, a parser tego zdania nie czyta.
@@ -198,7 +209,7 @@ def bierze_bezokolicznik(lemat: str) -> bool:
     Kontrolę leksykon już rozstrzygnął, więc to pytanie o nią nie pyta:
     ``kazać`` bierze w polszczyźnie bezokolicznik, a wykonawcą jest ten,
     komu kazano, i takiego zdania ta gramatyka nie ma czym zapisać,
-    bo celownika w niej nie ma.
+    bo celownik obok bezokolicznika jest w niej drugą pozycją ramy.
     """
     return lemat in Z_BEZOKOLICZNIKIEM
 

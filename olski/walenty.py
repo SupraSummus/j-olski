@@ -12,6 +12,12 @@ bo przeciwne są domyślności, od których oba odejmują: rama domyślna ma dop
 w bierniku i nie ma bezokolicznika, więc milczenie o lemacie znaczy przy pierwszym
 z nich, że biernik bierze, a przy drugim, że bezokolicznika nie bierze.
 
+Zdanie o celowniku i zdanie o dopełniaczu są twierdzące jak to o bezokoliczniku i
+mówią, że czasownik bierze dopełnienie w tym przypadku. Rama domyślna przypadka
+poza biernikiem nie ma, więc milczenie o lemacie odmawia mu tej pozycji, a
+gramatyka wpuszcza ją tym lematom, które Walenty tu wymienia
+(docs/subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu).
+
 Zdanie o zdaniu podrzędnym wprowadzonym przez ``że`` jest twierdzące tak samo i
 mówi, że stoi przy czasowniku to, co ktoś mówi, wie albo w co nie wierzy.
 Domyślność jest ta sama co przy bezokoliczniku, bo rama domyślna takiej pozycji
@@ -38,13 +44,14 @@ Kontrolę czytamy z Walentego, a nie z lematu, bo to ona odróżnia dwa czasowni
 bezokolicznikiem, których polszczyzna nie składa tak samo. U ``chcieć`` etykietę
 kontrolującą nosi pozycja podmiotu, czyli wykonawcą bezokolicznika jest podmiot, a
 u ``kazać`` nosi ją pozycja celownikowa, czyli wykonawcą jest ten, komu kazano.
-Celownika ta gramatyka nie ma, więc drugiego z nich nie ma jak zapisać, i lemat
-kontrolowany z celownika stąd nie wychodzi.
+Drugiego z nich ta gramatyka nie ma czym zapisać, choć celownik ma: czasownik
+bierze w niej jedno wypełnienie, a ``kazać`` żąda naraz celownika i
+bezokolicznika, więc lemat kontrolowany z celownika stąd nie wychodzi.
 
-Czytanie ujemne obejmuje sam biernik, choć Walenty zna wszystkie przypadki.
-Narzędnika nie bierze, bo ``inst`` jest u olskiego pozycją orzecznika, a Walenty
-nie odróżnia jej od argumentu narzędnikowego (``bawić się czymś``), więc wpis
-wzięty stąd wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie. Kopula
+Narzędnika nie bierze ani jedno z tych zdań, choć Walenty zna wszystkie
+przypadki, bo ``inst`` jest u olskiego pozycją orzecznika, a Walenty nie odróżnia
+jej od argumentu narzędnikowego (``bawić się czymś``), więc wpis wzięty stąd
+wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie. Kopula
 zostaje przez to listą pisaną ręcznie w ``olski/subset.py``, i to ta lista, a nie
 ten moduł, wyłącza swoje lematy stąd.
 
@@ -62,6 +69,8 @@ from pathlib import Path
 
 from olski.walencja import (
     BIERZE_BEZOKOLICZNIK,
+    BIERZE_CELOWNIK,
+    BIERZE_DOPEŁNIACZ,
     BIERZE_ZDANIE,
     CZASOWNIK,
     CZASOWNIK_ZWROTNY,
@@ -91,6 +100,22 @@ BEZOKOLICZNIK = "infp"
 #: kształtu oddziela go od ``ncp`` oraz ``prepncp``, czyli od zdania podrzędnego
 #: pod zaimkiem albo pod przyimkiem, których skład nie ma czym wypisać.
 ZDANIE = "cp(że)"
+
+#: Kształt dopełnienia w celowniku. Wymiany na inny przypadek ta pozycja u
+#: Walentego nie ma, więc kształt jest jeden, a przypadek strukturalny jej nie
+#: obejmuje: ``np(str)`` jest u niego biernikiem wymieniającym się na dopełniacz.
+CELOWNIK = ("np(dat)",)
+
+#: Kształty dopełnienia w dopełniaczu. Dwa, bo Walenty rozdziela dopełniacz
+#: żądany ramą od dopełniacza cząstkowego — ``potrzebować`` ma ``np(part)``,
+#: a ``żądać`` ``np(gen)`` — a obie pozycje realizuje polszczyzna tą samą formą i
+#: olski nie ma czym ich rozdzielić.
+#:
+#: Dopełniacza spod przeczenia nie ma w tej parze i mieć go nie może: tamten
+#: wchodzi w miejsce biernika i stoi w gramatyce drugą produkcją tej samej pozycji
+#: (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+#: a Walenty pisze go tym samym ``np(str)``, co biernik.
+DOPEŁNIACZ = ("np(gen)", "np(part)")
 
 #: Etykiety, którymi Walenty zapisuje kontrolę: kto wykonuje to, o czym mówi
 #: pozycja podrzędna. Pozycja kontrolowana jest tą, w której stoi bezokolicznik,
@@ -198,6 +223,34 @@ def bierze(schematy_lematu: Sequence[str], czego: Sequence[str]) -> bool:
     )
 
 
+def bierze_ramą(schematy_lematu: Sequence[str], czego: Sequence[str]) -> bool:
+    """To samo pytanie, zadane samym schematom, które mówią o ramie lematu.
+
+    Rozdziela te dwa pytania kierunek zdania, które z każdego z nich wychodzi.
+    Zdanie ujemne odejmuje od ramy domyślnej, więc kształt policzony za szeroko
+    zostawia lemat przy tej ramie i leksykon o nim milczy. Zdanie twierdzące ramę
+    poszerza, więc ta sama pomyłka wpuszcza dopełnienie tam, gdzie polszczyzna go
+    nie stawia, a obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem
+    polskim.
+
+    O ramie nie mówią dwa rodzaje schematów. Schemat z pozycją zleksykalizowaną
+    jest zwrotem, a pozycja stojąca w nim obok należy do tego zwrotu, a nie do
+    lematu: `mieć` bierze celownik w `mieć komuś za złe` i nie bierze go poza tym,
+    więc pozycja policzona osobno wpuszczałaby `Ludzie mają rozum.` z
+    dopełnieniem w celowniku wszędzie tam, gdzie forma tak się czyta. Schemat
+    spoza :data:`BRANE` nazywa zaś polszczyznę, której ten rejestr nie pisze.
+    Odpada przez to cały schemat, a nie sama jego pozycja.
+    """
+    return bierze(
+        [
+            schemat
+            for schemat in schematy_lematu
+            if ZLEKSYKALIZOWANA not in schemat and _pewność(schemat) in BRANE
+        ],
+        czego,
+    )
+
+
 def bierze_bezokolicznik_podmiotu(schematy_lematu: Sequence[str]) -> bool:
     """Czy któryś ze schematów daje bezokolicznik, którego wykonawcą jest podmiot.
 
@@ -245,6 +298,10 @@ def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
     orzeczone = []
     if not bierze(schematy_lematu, BIERNIK):
         orzeczone.append(NIE_BIERZE_BIERNIKA)
+    if bierze_ramą(schematy_lematu, CELOWNIK):
+        orzeczone.append(BIERZE_CELOWNIK)
+    if bierze_ramą(schematy_lematu, DOPEŁNIACZ):
+        orzeczone.append(BIERZE_DOPEŁNIACZ)
     if bierze_bezokolicznik_podmiotu(schematy_lematu):
         orzeczone.append(BIERZE_BEZOKOLICZNIK)
     if bierze(schematy_lematu, (ZDANIE,)):
@@ -297,11 +354,13 @@ NAGŁÓWEK = f"""\
 # `otwierać` bierze dopełnienie w bierniku, a `otwierać się` go nie bierze.
 #
 # `{NIE_BIERZE_BIERNIKA}` mówi, że czasownik nie bierze dopełnienia w bierniku.
-# `{BIERZE_BEZOKOLICZNIK}` mówi, że bierze bezokolicznik, którego wykonawcą jest
-# jego własny podmiot. `{BIERZE_ZDANIE}` mówi, że bierze zdanie podrzędne
-# wprowadzone przez `że`. Milczenie o lemacie zostawia mu ramę domyślną, czyli
-# biernik, brak bezokolicznika i brak zdania podrzędnego. Zdania te są o
-# czasowniku, więc wiersz rzeczownika ma tę kolumnę pustą.
+# `{BIERZE_CELOWNIK}` i `{BIERZE_DOPEŁNIACZ}` mówią, że bierze dopełnienie w tym
+# przypadku. `{BIERZE_BEZOKOLICZNIK}` mówi, że bierze bezokolicznik, którego
+# wykonawcą jest jego własny podmiot. `{BIERZE_ZDANIE}` mówi, że bierze zdanie
+# podrzędne wprowadzone przez `że`. Milczenie o lemacie zostawia mu ramę
+# domyślną, czyli biernik, brak dopełnienia w przypadku innym, brak bezokolicznika
+# i brak zdania podrzędnego. Zdania te są o czasowniku, więc wiersz rzeczownika ma
+# tę kolumnę pustą.
 #
 # Kolumna przyimków jest zbiorem, a nie zdaniem prawda-fałsz, i pusta znaczy
 # w niej dwie rzeczy naraz: że rama tego słowa nie ma pozycji przyimkowej albo

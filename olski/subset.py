@@ -32,7 +32,14 @@ from olski.parse import (
     streszczenia,
 )
 from olski.precedencja import Rozwinięcie
-from olski.walencja import BEZ_BIERNIKA, BEZ_BIERNIKA_ZWROTNE
+from olski.walencja import (
+    BEZ_BIERNIKA,
+    BEZ_BIERNIKA_ZWROTNE,
+    Z_CELOWNIKIEM,
+    Z_CELOWNIKIEM_ZWROTNE,
+    Z_DOPEŁNIACZEM,
+    Z_DOPEŁNIACZEM_ZWROTNE,
+)
 
 #: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
 #: więc streszczenie czytania nazywa przy niej i to, co ona określa:
@@ -381,9 +388,10 @@ ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 PIĘCIE = "piąć"
 
 #: Rama czasownika spoza leksykonu: dopełnienie w bierniku, orzecznik zgodny,
-#: bezokolicznik, zdanie podrzędne i pytanie zależne. Narzędnika w niej nie ma, i
-#: to jest to jedno miejsce, w którym rama domyślna czegoś zabrania: orzecznik
-#: narzędnikowy bierze kopula i nikt poza nią. Zdanie podrzędne stoi w niej mimo
+#: bezokolicznik, zdanie podrzędne i pytanie zależne. Zabrania ona dwóch rzeczy.
+#: Narzędnika w niej nie ma, bo orzecznik narzędnikowy bierze kopula i nikt poza
+#: nią, a celownika ani dopełniacza nie ma, bo dopełnienie w tych przypadkach
+#: wpuszcza wpis w leksykonie (:data:`DOKŁADANE`). Zdanie podrzędne stoi w niej mimo
 #: tego, że leksykon wylicza lematy, które je biorą: zawężenie zmierzono i nie
 #: odbiera ono ani jednego drugiego czytania, a kosztuje zdanie; docs/subset.md
 #: trzyma pomiar.
@@ -399,6 +407,48 @@ RAMA_DOMYŚLNA = "nom.acc.inf.comp.int"
 #: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
 RAMA_BEZ_BIERNIKA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "acc")
 
+#: Pozycja przypadkowa, której rama domyślna nie ma, a leksykon ją lematowi daje:
+#: nazwa pozycji wraz ze zbiorami lematów, osobno dla formy bez cząstki ``się``
+#: i z nią. Kolejność jest kolejnością, w której te pozycje dochodzą do ramy, więc
+#: jedna rama wychodzi stąd jednym napisem, a nie dwoma o tych samych pozycjach.
+#:
+#: Zdanie leksykonu jest tu twierdzące, a przy bierniku ujemne, i przeciwne są
+#: domyślności, od których oba odejmują: biernik stoi w ramie domyślnej, a
+#: przypadek poza nim nie stoi w niej wcale.
+DOKŁADANE = (
+    ("dat", Z_CELOWNIKIEM, Z_CELOWNIKIEM_ZWROTNE),
+    ("gen", Z_DOPEŁNIACZEM, Z_DOPEŁNIACZEM_ZWROTNE),
+)
+
+
+def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
+    """Pozycje dokładane wraz z lematami tej klasy słowa (:data:`DOKŁADANE`)."""
+    return [(nazwa, zwrotni if zwrotne else zwykli) for nazwa, zwykli, zwrotni in DOKŁADANE]
+
+
+def _rama(
+    lemat: str, bez_biernika: frozenset[str], dokładane: Sequence[tuple[str, frozenset]]
+) -> str:
+    """Rama tego lematu: domyślna bez tego, czego leksykon mu odmawia, i z tym, co mu daje."""
+    odjęta = RAMA_BEZ_BIERNIKA if lemat in bez_biernika else RAMA_DOMYŚLNA
+    return ".".join([odjęta, *(nazwa for nazwa, lematy in dokładane if lemat in lematy)])
+
+
+def _klasy_walencyjne(
+    bez_biernika: frozenset[str],
+    dokładane: Sequence[tuple[str, frozenset]],
+    poza: frozenset[str] = frozenset(),
+) -> dict[str, str]:
+    """Lematy leksykonu zebrane w klasy po ramie, którą leksykon każdemu z nich daje.
+
+    ``poza`` zabiera lematy, które mają ramę wypisaną ręcznie: klasy mają się nie
+    zachodzić, a lemat wzięty dwiema byłby dwoma czytaniami tego samego kształtu.
+    """
+    klasy: dict[str, set[str]] = {}
+    for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:
+        klasy.setdefault(_rama(lemat, bez_biernika, dokładane), set()).add(lemat)
+    return {rama: "|".join(sorted(lematy)) for rama, lematy in sorted(klasy.items())}
+
 
 def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     """Leksykon jako klasy walencyjne, osobno dla formy z cząstką ``się`` i bez niej.
@@ -412,15 +462,15 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
     co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
 
-    Zdanie leksykonu jest tu jedno, o bierniku, choć plik mówi trzy. Co zdejmuje
-    dwa pozostałe, mówi :data:`RAMA_DOMYŚLNA`.
+    Zdania leksykonu są tu trzy — o bierniku, o celowniku i o dopełniaczu — a plik
+    mówi pięć. Co zdejmuje dwa pozostałe, mówi :data:`RAMA_DOMYŚLNA`.
     """
     return (
         {
-            RAMA_BEZ_BIERNIKA: "|".join(sorted(BEZ_BIERNIKA - set(KOPULA.split("|")))),
+            **_klasy_walencyjne(BEZ_BIERNIKA, _dokładane(False), frozenset(KOPULA.split("|"))),
             "nom.inst": KOPULA,
         },
-        {RAMA_BEZ_BIERNIKA: "|".join(sorted(BEZ_BIERNIKA_ZWROTNE))},
+        _klasy_walencyjne(BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
     )
 
 
@@ -1374,6 +1424,26 @@ def build() -> Grammar:
     # zmienna, bo o przypadku rozstrzyga właśnie ta produkcja.
     grammar.rule("Object", [nt("NP", case="acc")], valency="acc", negacja="aff", czoło=BEZ_CZOŁA)
     grammar.rule("Object", [nt("NP", case="gen")], valency="acc", negacja="neg", czoło=BEZ_CZOŁA)
+
+    # Dopełnienie w przypadku, którego żąda sam czasownik: `Parser mówi autorowi.`,
+    # `Wpis żąda dowodu.` Pozycja jest tu ta sama co wyżej, a różni ją przypadek i
+    # to, że wpuszcza ją leksykon, a nie rama domyślna (:data:`DOKŁADANE`), więc
+    # forma w celowniku stoi przy tych czasownikach, którym Walenty celownik daje,
+    # i nie stoi przy żadnym innym.
+    #
+    # Przeczenia te dwa ciała nie ogłaszają i nie mają czego: dopełniacz negacji
+    # wchodzi w miejsce biernika i tam kończy się jego zasięg
+    # (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+    # a `nie mówi autorowi` stoi w celowniku tak samo jak `mówi autorowi`. Cechy,
+    # której konstytuent nie niesie, unifikacja nie sprawdza, więc oba przypadki
+    # stoją przy przeczeniu i bez niego.
+    #
+    # Dopełniacz z leksykonu i dopełniacz z przeczenia dają jednemu napisowi dwa
+    # wyprowadzenia tam, gdzie czasownik bierze oba — `nie żąda dowodu` — a jedno
+    # czytanie, bo kształt mają ten sam
+    # (docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
+    for przypadek, _lematy, _zwrotne in DOKŁADANE:
+        grammar.rule("Object", [nt("NP", case=przypadek)], valency=przypadek, czoło=BEZ_CZOŁA)
 
     # A predicate is a verb with what it takes. What it takes is one symbol
     # rather than a list of bodies, so that the finite verb and the infinitive

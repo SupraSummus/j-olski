@@ -1844,7 +1844,9 @@ Walencja nie jest więc sprawdzeniem doklejonym do rozbioru, tylko rozbiorem,
 dokładnie tak jak [zgodność](#what-the-grammar-covers).
 
 Leksykon jest otwarty i ma ramę domyślną.
-Stoi w nim czasownik, którego rama jest węższa niż domyślna,
+Stoi w nim czasownik, którego rama jest inna niż domyślna —
+węższa o biernik albo szersza o przypadek, którego domyślna nie ma
+([niżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)) —
 a każdy inny bierze domyślną,
 więc czasownik dopisuje się wpisem, a nie produkcją,
 i nie kosztuje ani jednego przyjętego zdania, dopóki wpisu nie ma.
@@ -1935,7 +1937,7 @@ a daje jednoznaczność tym, które stoją na nim obok czytania prawdziwego;
 [corpus.md](corpus.md#what-morphological-ambiguity-costs) trzyma liczby
 i zdania, które za nimi stoją.
 
-### Leksykon mówi trzy zdania na lemat i bierze je z Walentego
+### Zdania leksykonu pochodzą z Walentego i mówią mniej niż on
 
 Wpis pisany ręcznie kosztuje tyle, co rozstrzygnięcie o jednym czasowniku,
 a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to.
@@ -1943,27 +1945,31 @@ a rama ma obowiązywać wszędzie, więc źródłem jest słownik zrobiony po to
 64 022 schematami, a obok nich 1 996 lematów rzeczownikowych 14 295 schematami,
 i idzie na licencji CC BY-SA 4.0.
 Mówi przy tym o czasowniku znacznie więcej, niż którykolwiek z pytających umie żądać,
-więc przekład jest zejściem w dół i bierze z Walentego trzy zdania na lemat.
-Pierwsze jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
-Drugie jest twierdzące i mówi, że bierze bezokolicznik,
-którego wykonawcą jest jego własny podmiot.
-Trzecie jest twierdzące jak drugie i mówi, że bierze zdanie podrzędne
-wprowadzone przez `że`, czyli że stoi przy nim to, co ktoś mówi albo wie
+więc przekład jest zejściem w dół i o każdy z tych faktów pyta osobnym zdaniem.
+Zdanie o bierniku jest ujemne i mówi, że czasownik nie bierze dopełnienia w bierniku.
+Zdanie o celowniku i zdanie o dopełniaczu są twierdzące i mówią,
+że czasownik bierze dopełnienie w tym przypadku
+([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+Zdanie o bezokoliczniku mówi, że czasownik bierze bezokolicznik,
+którego wykonawcą jest jego własny podmiot,
+a zdanie o zdaniu podrzędnym — że bierze zdanie wprowadzone przez `że`,
+czyli że stoi przy nim to, co ktoś mówi albo wie
 ([sklad.md](sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
-Kierunek pierwszego jest przeciwny niż dwóch pozostałych,
-bo przeciwne są domyślności, od których odejmują:
-rama domyślna ma dopełnienie w bierniku, a nie ma ani bezokolicznika,
-ani zdania podrzędnego.
+Kierunek zdania o bierniku jest przeciwny niż kierunek pozostałych,
+bo przeciwne są domyślności, od których one odejmują:
+rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
+ani bezokolicznika, ani zdania podrzędnego.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
-zdanie pierwsze niesie 7 941 wpisów, drugie 285, a trzecie 2 498.
+zdanie o bierniku niesie 7 941 wpisów, o celowniku 8 076, o dopełniaczu 844,
+o bezokoliczniku 285, a o zdaniu podrzędnym 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
 Czyta go `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
 bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
 
-Czwarte zdanie tego pliku nie jest zdaniem prawda-fałsz, tylko zbiorem:
+Kolumna przyimków nie jest zdaniem prawda-fałsz, tylko zbiorem:
 przyimki, których żąda rama tego słowa, wzięte z pozycji `prepnp` Walentego.
 Kolumnę tę plik wypisuje przy czasowniku i przy rzeczowniku,
 bo pyta o nią świadek ramowy warstwy rozstrzygającej i pyta po obu stronach
@@ -1976,20 +1982,24 @@ a wybór miejsca należy do czytelnika
 ([wyżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
 
 Kolumna ta niesie coś przy 12 195 wpisach,
-a 6 179 z nich weszło do pliku nią samą, bez ani jednego z trzech zdań.
+a 3 787 z nich weszło do pliku nią samą, bez ani jednego zdania obok.
 Rzeczownik wchodzi tak zawsze, bo zdania tego leksykonu są o czasowniku
 i o rzeczowniku nie orzekają żadnego,
 a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
 
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, a bezokolicznik i zdanie podrzędne czyta sam skład,
+Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
+a bezokolicznik i zdanie podrzędne czyta sam skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
+Skład o dwa pierwsze nie pyta, bo `Robi` w `olski/skład/składnia.py`
+stawia rolę w bierniku i nie ma czym postawić jej w przypadku innym;
+co to kosztuje po tamtej stronie, trzyma [TODO.md](../TODO.md).
 Po stronie generatora jest bezokolicznik jedyną obroną przed drzewem,
 które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
 Po stronie parsera został zmierzony i pomiar stoi niżej w tej sekcji.
 
-Zdanie trzecie zmierzono po tej samej stronie i wyszło z tego to samo.
+Zdanie o zdaniu podrzędnym zmierzono po tej samej stronie i wyszło z tego to samo.
 Rama domyślna ma zdanie podrzędne, a leksykon wymienia 1 926 lematów,
 które je biorą, więc odjęcie reszty jest wobec Walentego prawdziwe:
 `zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` polszczyzną nie jest.
@@ -2100,6 +2110,122 @@ Wpis stoi, [grupa liczebnikowa](#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma
 też stoi, i zdanie wychodzi jednym czytaniem.
 Leksykon kupił tu więc jednoznaczność, a nie pokrycie,
 i widać to dopiero z produkcją, której wtedy nie było.
+
+### Leksykon licencjonuje dopełnienie w celowniku i w dopełniaczu
+
+Rama domyślna ma dopełnienie w bierniku i nie ma dopełnienia w przypadku innym,
+a czasownik, któremu Walenty daje pozycję celownikową albo dopełniaczową,
+dostaje ją wpisem w leksykonie.
+
+```sh
+python3 -m olski.check -c "Werdykt służy czytelnikowi.
+Parser wyprowadza czytelnikowi.
+Wpis żąda dowodu.
+Sonda mierzy dowodu."
+```
+
+```text
+<text>: valid     Werdykt służy czytelnikowi.
+                  one reading
+<text>: rejected  Parser wyprowadza czytelnikowi.
+                  no reading: the analysis reaches the end and nothing closes the sentence
+<text>: valid     Wpis żąda dowodu.
+                  one reading
+<text>: rejected  Sonda mierzy dowodu.
+                  no reading: the analysis reaches the end and nothing closes the sentence
+```
+
+Rozdziela te pary leksykon, a nie przypadek:
+`służyć` i `żądać` mają w Walentym tę pozycję, a `wyprowadzać` i `mierzyć` nie mają.
+Zdanie tego nie orzeka o samym przypadku przy czasowniku,
+bo celownik stoi w polszczyźnie i przy czasowniku, który go w ramie nie ma:
+`Kompilator wyprowadza psa agentowi.` jest polszczyzną i jest odrzucone
+([niżej](#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem)).
+Zajmują przy tym tę samą pozycję ramy, co dopełnienie w bierniku,
+a różni te produkcje sam przypadek grupy, która tę pozycję wypełnia,
+tak samo jak różni je [dopełniacz negacji](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
+
+Przeczenie tych dwóch pozycji nie rusza i ruszać nie ma czego:
+dopełniacz negacji wchodzi w miejsce biernika i tam kończy się jego zasięg,
+a `nie służy czytelnikowi` stoi w celowniku tak samo jak `służy czytelnikowi`.
+Tam, gdzie czasownik bierze dopełniacz z obu powodów naraz,
+jeden napis wyprowadza się dwa razy,
+a `Wpis nie żąda dowodu.` wychodzi jednym czytaniem,
+bo kształt obu wyprowadzeń jest ten sam
+([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
+
+Drugiego dopełnienia obok pierwszego ta pozycja nie daje.
+`Parser pokazuje autorowi oba czytania.` jest odrzucone,
+gdzie `Parser pokazuje oba czytania.` i `Reguła pomaga autorowi.` wyprowadzają się:
+czasownik bierze u olskiego jedno wypełnienie, a okolicznik z obu jego stron,
+więc dwie pozycje ramy naraz są osobnym kształtem i osobną ceną, której nikt nie policzył
+([TODO.md](../TODO.md)).
+Wyrażenia przyimkowego zakaz ten nie obejmuje, bo ono jest okolicznikiem:
+`Parser mówi autorowi o czytaniach.` wyprowadza się i wychodzi wieloznaczne,
+bo [olski nie wybiera przyłączenia](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
+
+Zdanie leksykonu jest tu twierdzące, a zdanie o bierniku ujemne,
+i ta różnica rozstrzyga o tym, których schematów Walentego wolno się pytać.
+Zdanie ujemne odejmuje od ramy domyślnej,
+więc kształt policzony za szeroko zostawia lemat przy tej ramie i nic o nim nie mówi.
+Zdanie twierdzące ramę poszerza, więc ta sama pomyłka wpuszcza dopełnienie tam,
+gdzie polszczyzna go przy tym czasowniku nie stawia.
+Odpadają przez to dwa rodzaje schematu.
+Schemat z pozycją zleksykalizowaną jest zwrotem,
+a pozycja stojąca w nim obok należy do zwrotu, a nie do lematu:
+celownik ma w Walentym `mieć` i ma go ze zwrotu `mieć komuś za złe`,
+a policzony osobno daje `Ludzie mają rozum i sumienie.` drugie czytanie,
+w którym `Ludzie` jest celownikiem od `Luda`, a ciąg współrzędny stoi w podmiocie.
+Schemat spoza `BRANE` w `olski/walenty.py` nazywa zaś polszczyznę,
+której ten rejestr nie pisze,
+i odpada z tego samego powodu, z którego odpada w kolumnie przyimków.
+
+#### Wolny celownik nie jest pozycją ramy i nie wchodzi leksykonem
+
+Celownik posiadacza i tego, komu się przysłuży — `wyprowadzić komuś psa`,
+`ściągnąć komuś czapkę`, `wykryć komuś raka` — nie jest pozycją, której czasownik żąda,
+tylko członem dochodzącym do całego orzeczenia,
+więc Walenty go nie wypisuje i wypisać nie może: stoi on przy czasowniku dowolnym
+([disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)
+liczy, ile takich celowników łapie kryterium pisane pod inną pozycję).
+Leksykon nie ma więc czym go wpuścić, a wpis zmyślony wpuszczałby przy jednym lemacie
+to, co polszczyzna ma przy każdym.
+
+Odrzucenie pada tu przy tym dwa razy, a nie raz.
+`Kompilator wyprowadza psa agentowi.` nie ma czytania także wtedy,
+gdy się celownik temu lematowi dopisze, bo dopełnienie stoi tam obok dopełnienia
+([wyżej](#what-it-does-not-cover-yet)),
+a wolny celownik dochodzi zawsze do orzeczenia, które ma już swoje wypełnienie.
+Ruchem jest przez to pozycja okolicznika, a nie pozycja ramy,
+i tym różni się ona od dwóch wpuszczonych wyżej:
+okolicznik dochodzi wszędzie, więc taka pozycja bierze każdą formę czytaną celownikiem,
+a te dzielą kształt z miejscownikiem w całej odmianie żeńskiej.
+Ceny tego nikt nie policzył; `TODO.md` trzyma ten przebieg.
+
+Cena i zakup są zmierzone nad Składnicą 180723 sondą różnicową,
+która zdejmuje produkcję dopełnienia w jednym przypadku,
+i wypadają po obu stronach morfologii inaczej.
+Pod złotą morfologią celownik nie odbiera jednoznaczności ani jednemu zdaniu,
+a daje ją kilkudziesięciu, które przedtem nie miały żadnego czytania.
+Dopełniacz jednoznaczność odbiera, a daje ją przeszło dwa razy większej liczbie zdań,
+niż tamtych odbiera.
+Role zdań nowo przyjętych zgadzają się przy tym z drzewem wzorcowym
+w przeszło czterech piątych, a odwrócone nie jest ani jedno,
+czyli zdania te przychodzą z czytaniem, które ma czytelnik
+([corpus.md](corpus.md#what-morphological-ambiguity-costs) mówi, ile waży odwrotne).
+Pod Morfeuszem obie pozycje kosztują więcej, bo forma ma tam kilka czytań naraz,
+i ruch idzie tam głównie z odrzuconych do wieloznacznych:
+przyjętych przybywa kilkadziesiąt, a odrzuconych ubywa przeszło dwieście.
+Obie pozycje ruszają przy tym te same kilkanaście zdań,
+a zdania, o którym razem mówiłyby co innego niż każda z osobna, nie ma ani jednego.
+
+Nad prozą tego repozytorium ta sama sonda liczby przyjętych prawie nie rusza,
+choć kilkudziesięciu zdaniom zmienia werdykt,
+i nie jest to sprzeczność z liczbami wyżej, tylko
+[zasłanianie](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony):
+zdanie o dwudziestu wyrazach ma kilka zatrzymań naraz,
+więc pozycja zdejmuje jedno z nich i zostawia zdanie odrzucone, tylko dalej.
+Widać ją za to nad zdaniem krótkim, i tam widać ją od razu.
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
 
@@ -3221,13 +3347,23 @@ Every one of these is a sentence that gets rejected and should not be:
   [corpus.md](corpus.md#where-the-analyses-stop) ranks,
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
+- Dwie pozycje ramy naraz, czyli dopełnienie obok dopełnienia:
+  `Parser pokazuje autorowi oba czytania.` jest odrzucone,
+  gdzie `Parser pokazuje oba czytania.` i `Reguła pomaga autorowi.` wyprowadzają się,
+  bo czasownik bierze jedno wypełnienie, a okolicznik z obu jego stron
+  ([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+  Tego samego kształtu żąda bezokolicznik kontrolowany z celownika —
+  `Krawiec kazał córce zejść.` — więc jedna produkcja zamyka dwie klasy zdań,
+  a ceny nie policzył nikt; `TODO.md` trzyma ten przebieg.
 - Narzędnik bez przyimka jako pozycja przy czasowniku:
   `Parser mierzy gramatykę sondą.` jest odrzucone,
   gdzie `Parser mierzy gramatykę.` wyprowadza się,
   a `Werdykt przychodzi z czytaniem.` wyprowadza się z przyimkiem przed sobą.
   Olski bierze więc ten przypadek pod przyimkiem i nie bierze go bez niego.
-  Jest to ta sama potrzeba, którą nazywa jedyny wpis tej sekcji
-  niebędący konstrukcją: pozycja poza biernikiem.
+  Celownik i dopełniacz mają tu pozycję i biorą ją z leksykonu
+  ([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+  a narzędnik jej nie dostał, bo `inst` jest u olskiego pozycją orzecznika
+  i Walenty nie odróżnia jej od argumentu narzędnikowego.
 - Człon bez czasownika wtrącony w środek zdania, a nie postawiony na jego końcu:
   `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
   gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
@@ -3267,21 +3403,13 @@ Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
 więc wiersz nazywa ją wprost,
 gdzie `interp` albo `part` grupuje po kilka.
 
-One entry is not a construction but a demand every construction makes:
-
-- **Valency, past the accusative.**
-  The lexicon [above](#walencja-jest-leksykonem-o-ramie-domyślnej)
-  records which verbs take no accusative object and nothing else,
-  so an agreeing predicative and an infinitive still go to every verb,
-  and so does the accusative for a lemma Walenty does not carry.
-  The infinitive is the position that was measured and left alone,
-  and what it waits on is `się` reaching the verb it belongs to
-  rather than the one it stands beside.
-
-Słowo, którego słownik nie ma, było tu drugim takim żądaniem i zeszło:
-odmianę takiego słowa deklaruje
+Żądania, które stawiała tu każda konstrukcja naraz, zeszły oba.
+Pozycję poza biernikiem wpuszcza leksykon
+([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+a `Werdykt służy czytelnikowi.` wyprowadza się i wyprowadza raz.
+Odmianę słowa, którego słownik nie ma, deklaruje
 [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
-a `Język olski jest podzbiorem polszczyzny.` wyprowadza się i wyprowadza raz.
+a `Język olski jest podzbiorem polszczyzny.` wyprowadza się tak samo.
 Słowo bez wpisu wraca dalej jako `ign`,
 i jest to wtedy brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 

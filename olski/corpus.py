@@ -101,12 +101,18 @@ def _slot_role(slot: str) -> str | None:
     Only the two roles olski has. A slot olski has no notion of is not forced
     into one: returning ``None`` keeps an unmapped construction invisible to the
     agreement check rather than silently counted as a disagreement.
+
+    Przypadków dopełnienia jest tu tyle, ile ich ma gramatyka, więc pozycja
+    dopisana tam dopisuje się i tu: celownik i dopełniacz wchodzą do olskiego z
+    leksykonu (``DOKŁADANE`` w ``olski/subset.py``), a niewymienione tutaj
+    wychodziłyby na zdaniu nowo przyjętym niezgodnością z drzewem wzorcowym,
+    czyli pomiar mówiłby o pomyłce tam, gdzie stoi sama nazwa roli.
     """
     if slot == "subj" or slot.startswith("subj("):
         return "Subject"
     if slot.startswith("np(") and slot.endswith(")"):
         inner = slot[3:-1]
-        if _case(inner) == "acc" or inner in {"accgen", "part"}:
+        if _case(inner) in {"acc", "dat", "gen"} or inner in {"accgen", "part"}:
             return "Object"
     return None
 

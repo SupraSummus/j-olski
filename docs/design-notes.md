@@ -1668,11 +1668,16 @@ i tym się od tamtych różni: rośnie z każdą konstrukcją,
 nie ma jednego miejsca, w którym da się o nią spierać, i nie mierzy jej nic.
 
 Reszta tej drogi myli się w drugą stronę i dlatego nie waży tyle samo.
-Lemat, którego leksykon nie wymienia, dostaje ramę domyślną, czyli szerszą,
+Lemat, którego leksykon nie wymienia, dostaje ramę domyślną wraz z jej biernikiem,
 a cecha, której forma nie niesie, jest przez `unify` pomijana:
 jedno i drugie dokłada czytania, więc zdanie wychodzi wieloznaczne,
 a wieloznaczność jest werdyktem, który ktoś przeczyta.
 `valid` czyta się inaczej, bo po niego ten tor jest.
+Wyjątkiem jest zdanie leksykonu twierdzące — o celowniku i o dopełniaczu —
+bo tam milczenie o lemacie pozycję odbiera i zdanie z nią pada
+([subset.md](subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+Odrzucenie nazywa formę, na której analiza stanęła, więc czyta je ten sam ktoś,
+a wpis dopisany do leksykonu jest tańszy niż produkcja.
 
 Warunki precedencji zabrały z tej listy pozycję ostatnią,
 bo miejsce zadeklarowane raz nie ma jak zostać zapomniane w jednym z ciał,

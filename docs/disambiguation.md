@@ -1172,7 +1172,7 @@ Dopiero to, co po nim zostaje, jest ujednoznacznianiem.
 
 Pierwszy ruch jest pytaniem do leksykonu i źródło już na nie odpowiada.
 Walenty, ściągnięty tak, jak mówi
-[subset.md](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego),
+[subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 daje `wynająć` cztery schematy:
 
 ```text
@@ -1186,7 +1186,7 @@ Wynajmuje się komuś i wynajmuje się od kogoś,
 a `Wynajmę mieszkanie.` nie obsadza ani celownika, ani frazy z `od`,
 więc podchodzi pod wszystkie cztery naraz.
 Rozróżnienie, którego werdykt nie ma, leży więc w słowniku, z którego olski leksykon bierze,
-a trzy zdania, na które ten przekład Walentego zawęża (tamże), nie są o nim.
+a zdania, na które ten przekład Walentego zawęża (tamże), nie są o nim.
 
 Cena pierwszego ruchu jest widoczna od razu:
 zdania, które dziś wychodzą `valid`, wychodziłyby `ambiguous`.
