@@ -641,6 +641,32 @@ CZĄSTKI = (
 #: bierze samą część mowy.
 CZĄSTKA = word("part", lemma=CZĄSTKI)
 
+#: Lemat cząstki czasownika zwrotnego. Stoi tu osobno od listy wyżej, bo leksykon
+#: czyta tę cząstkę jako drugi wymiar lematu, a nie jako określenie: `otwierać`
+#: bierze dopełnienie w bierniku, a `otwierać się` go nie bierze (:func:`_klasy`).
+#: Pyta o niego terminal oraz warunek na pozycję tej cząstki (:func:`po_słowie`).
+LEMAT_ZWROTNY = "się"
+
+#: Cząstka czasownika zwrotnego jako terminal.
+CZĄSTKA_ZWROTNA = word("part", lemma=LEMAT_ZWROTNY)
+
+#: Szyki cząstki zwrotnej wobec jej formy osobowej, każdy trójką: czy forma jest
+#: zwrotna, co dochodzi do ciała przed przeczeniem i co za formą. Forma bez cząstki
+#: ma oba miejsca puste, a forma z cząstką wchodzi tu raz na każdą pozycję, jaką
+#: polszczyzna cząstce przy niej daje: `mieści się` i `się mieści`. Szyki stoją
+#: wypisane, a nie składają się z listy pozycji, bo dwie pozycje puste dałyby formie
+#: bez cząstki dwa ciała jednym napisem.
+#:
+#: Cząstka poprzedza przeczenie, a nie stoi między nim i formą, bo tak stawia je
+#: polszczyzna: `się nie mieści`, a nie `nie się mieści`.
+#: docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej
+#: wywodzi cenę pozycji przedniej i mówi, czego ona nie obejmuje.
+SZYKI_CZĄSTKI: tuple[tuple[bool, tuple[Part, ...], tuple[Part, ...]], ...] = (
+    (False, (), ()),
+    (True, (), (CZĄSTKA_ZWROTNA,)),
+    (True, (CZĄSTKA_ZWROTNA,), ()),
+)
+
 
 def _bez_orzecznika(rama: str) -> str:
     """Ta rama bez orzecznika zgodnego, czyli rama zdania, które podmiotu nie ma.
@@ -1202,7 +1228,7 @@ def build() -> Grammar:
             valency=RAMA_BEZOSOBOWA,
             negacja=negacja,
         )
-        for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
+        for zwrotne, cząstka in ((False, ()), (True, (CZĄSTKA_ZWROTNA,))):
             for warunek, rama in _klasy(zwrotne):
                 grammar.rule(
                     BEZOSOBOWY,
@@ -1568,7 +1594,8 @@ def build() -> Grammar:
     # Czasownik zwrotny różni się od formy bez cząstki dwiema rzeczami i tyle też
     # mówi o nim ta pętla: stoi przy nim `się`, a rama bierze się z drugiego
     # leksykonu, bo otwierać bierze dopełnienie w bierniku, a otwierać się nie.
-    # Cząstka stoi w polszczyźnie i gdzie indziej, a olski bierze tylko tę pozycję.
+    # Pozycje cząstki stoją obie przy tej formie (:data:`SZYKI_CZĄSTKI`);
+    # przy bezokoliczniku i w oddaleniu od swojej formy cząstka pozycji nie ma.
     #
     # Ramę niosą wszystkie te produkcje, a nie tylko niektóre. Cechy, której
     # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
@@ -1579,13 +1606,13 @@ def build() -> Grammar:
     # nią nie stanie, więc przeczenie kosztuje jedną pozycję zamiast pozycji w
     # każdym szyku zdania. Ciało bez cząstki ogłasza przy tym `aff`, bo milczenie
     # przepuściłoby dopełniacz negacji do zdania, które nie przeczy.
-    for zwrotne, cząstka in ((False, ()), (True, (word("part", lemma="się"),))):
+    for zwrotne, przed, za in SZYKI_CZĄSTKI:
         for warunek, rama in _klasy(zwrotne):
             for ciało, osoba, tryb in _formy_skończone(warunek):
                 for przeczenie, negacja in PRZECZENIA:
                     grammar.rule(
                         "Verb",
-                        [*przeczenie, *ciało, *cząstka],
+                        [*przed, *przeczenie, *ciało, *za],
                         person=osoba,
                         valency=rama,
                         negacja=negacja,
@@ -2213,6 +2240,48 @@ def po_przyimku(segments: list[Segment]) -> list[Segment]:
     ]
 
 
+def po_słowie(segments: list[Segment]) -> list[Segment]:
+    """Zdejmij cząstce zwrotnej odczytanie tam, gdzie nie stoi przed nią żadne słowo.
+
+    Cząstka stoi przy swojej formie osobowej po obu jej stronach
+    (:data:`SZYKI_CZĄSTKI`), a pozycja przednia sięga początku zdania i miejsca
+    tuż za znakiem: bez tego warunku `Się myli.` oraz `Cena rośnie, się nie
+    liczy.` się wyprowadzają, a takich napisów polszczyzna nie ma. Cząstka opiera
+    się bowiem na słowie przed sobą, a znak słowem nie jest. Spójnik nim jest i
+    licencji udziela, bo `i przyrasta, i się topi` bank drzew pisze.
+
+    Pozycja tylna do tych miejsc nie sięga, bo przed nią stoi jej własna forma,
+    więc warunek nie zdejmuje ani jednego odczytania, które olski brał przed
+    wpuszczeniem pozycji przedniej.
+
+    Pytany jest graf, a nie lista, i pytanie jest to samo, które stawia
+    :func:`po_przyimku`: odczytanie zostaje tam, gdzie w węźle otwierającym tę
+    krawędź kończy się krawędź z odczytaniem, które nie jest znakiem.
+
+    Warunek stoi w warstwie morfologicznej, a nie na terminalu cząstki, z tego
+    samego powodu, z którego stoi tam tamten: miejsce, którego cząstka nie ma
+    zająć, jest miejscem w zdaniu, a terminal widzi samą formę.
+    docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej
+    trzyma, co warunek ten zostawia na zewnątrz.
+    """
+    licencjonujące = {
+        segment.end
+        for segment in segments
+        if any(reading.tag.pos != "interp" for reading in segment.readings)
+    }
+    return [
+        segment
+        if segment.start in licencjonujące
+        else replace(
+            segment,
+            readings=tuple(
+                reading for reading in segment.readings if reading.lemma != LEMAT_ZWROTNY
+            ),
+        )
+        for segment in segments
+    ]
+
+
 #: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu. Człony spaja
 #: ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe albo
 #: więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko wewnątrz
@@ -2305,10 +2374,11 @@ def morphology(text: str) -> list[Segment]:
     Forma pisana wersalikami, której słownik nie czyta wcale, dostaje czytanie
     nieodmienne (:func:`wersalik`). Reszta idzie do Morfeusza i traci te czytania,
     które odrzuca :func:`admissible`, a po nich te, które :func:`po_przyimku`
-    odrzuca formie stojącej bez przyimka, a na końcu napis objęty cudzysłowem
-    dostaje czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
+    odrzuca formie stojącej bez przyimka oraz :func:`po_słowie` cząstce zwrotnej
+    stojącej bez słowa przed sobą, a na końcu napis objęty cudzysłowem dostaje
+    czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
 
-    Dwa ostatnie warunki pytają o sąsiada, a nie o samą formę, więc idą po liście
+    Trzy ostatnie warunki pytają o sąsiada, a nie o samą formę, więc idą po liście
     gotowej, a nie po jednym segmencie jak te przed nimi. Przytoczenie idzie
     ostatnie, bo pyta o czytania, które zostały: ``be`` traci rzeczownik w
     :func:`admissible` i przytoczenie zastaje tam sam przymiotnik.
@@ -2318,8 +2388,10 @@ def morphology(text: str) -> list[Segment]:
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
     return przytoczenie(
-        po_przyimku(
-            [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
+        po_słowie(
+            po_przyimku(
+                [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
+            )
         )
     )
 

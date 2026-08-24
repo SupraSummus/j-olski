@@ -191,24 +191,34 @@ because the analysis stopped on it and not on the sentence's own end,
 which is the distinction a verdict over one sentence draws
 by naming the form (`bez_licencji` in `olski/subset.py`).
 The treebank raises none: an exclusion empties a form
-only where a pronoun's post-prepositional form stands without a preposition
-([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
-which is not Polish and so not what a press corpus is made of.
+where a pronoun's post-prepositional form stands without a preposition
+([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą))
+and where a reflexive particle stands with no word in front of it
+([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)),
+and neither is Polish, so neither is what a press corpus is made of.
 
-The particle comes second under the gold tags,
-with the reflexive `się` in front of it,
-and there the row names a construction the grammar *has*
-stopping short of Polish: `się` is admitted after its verb
-and Polish puts it before one as readily.
-Under Morfeusz the conjunction opening a sentence takes that place
-and the particle stands just behind it.
-Behind those two stand
-the past tense, the subordinator and the participle at both of its voices,
-and further down the compound future,
-a position this queue names where no register run does
+Wiersz cząstki stoi pod znacznikami złotymi zaraz za interpunkcją,
+a prowadzi go `się` w pozycjach, których olski nie ma:
+cząstka przy bezokoliczniku — `Trzeba się zabezpieczyć i uzbroić.` —
+oraz cząstka oddalona od swojej formy osobowej
+([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
+Za nią stoją w tym wierszu `jednak`, `czy`, `też` i `tylko`,
+a nazywają one dwie różne roboty:
+`jednak`, `też` i `tylko` są cząstkami,
+których zamknięta lista olskiego nie bierze
+([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+a `czy` jest pytaniem o rozstrzygnięcie, którego ta gramatyka nie ma
+([subset.md](subset.md#what-it-does-not-cover-yet)).
+Pod Morfeuszem wiersz ten schodzi niżej,
+bo przed nim staje zdanie, którego całości nic nie domyka,
+spójnik otwierający zdanie, forma nieznana słownikowi i liczba.
+Dalej w obu kolejkach idą czas przeszły, przyimek i bezokolicznik,
+a niżej czas przyszły złożony,
+czyli pozycja, którą ta kolejka nazywa,
+a której żaden przebieg nad rejestrem nie nazywa
 ([roadmap.md](roadmap.md#etap-6-reszta-konstrukcji)).
-What each of them is worth is measured one at a time
-rather than read off the row.
+Ile wart jest każdy z nich, mierzy się po jednym,
+a nie odczytuje z wiersza.
 
 Clause-level punctuation is the addition that showed
 how little a row says about what admitting its construction buys.

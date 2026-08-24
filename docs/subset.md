@@ -635,7 +635,9 @@ a ruch trzyma [TODO.md](../TODO.md).
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
 - A predicative before the copula, which is the mirror of OVS:
   `Wejściem jest zwykły tekst polski.`
-- Reflexive verbs, with `się` in the position after the verb
+- Reflexive verbs, with `się` in either position beside the finite verb:
+  `Rachunek zwraca się.`, `Rachunek się zwraca.`
+  ([below](#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej))
 - An agreeing predicative, under the copula and under a verb that is not one:
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
 - A nominal predicative in the instrumental, under the copula and nowhere else:
@@ -981,6 +983,71 @@ Zostaje też aglutynant przy spójniku, czyli `żebym napisał`:
 Morfeusz tnie ten napis na `żeby` i `m`,
 a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi
 ([TODO.md](../TODO.md)).
+
+## Cząstka zwrotna stoi po obu stronach swojej formy osobowej
+
+Cząstka `się` jest dla leksykonu drugim wymiarem lematu, a nie określeniem:
+`otwierać` bierze dopełnienie w bierniku, a `otwierać się` go nie bierze
+([niżej](#walencja-jest-leksykonem-o-ramie-domyślnej)).
+Polszczyzna daje jej przy formie osobowej dwie pozycje,
+więc gramatyka ma oba ciała:
+`Rachunek zwraca się.` oraz `Rachunek się zwraca.`
+W pozycji przedniej cząstka poprzedza przeczenie —
+`Rachunek się nie zwraca.` — bo tam ją polszczyzna stawia,
+a `Rachunek nie się zwraca.` nie jest niczym.
+Ramę oba ciała biorą z leksykonu zwrotnego,
+bo pozycja jest tu inna, a czasownik ten sam.
+
+Cena wyszła zerowa nad bankiem drzew pod obiema morfologiami
+oraz nad prozą tego repozytorium,
+a wynika to z gramatyki, nie z przebiegu:
+cząstki stojącej przed formą osobową nie brało przedtem ani jedno ciało,
+więc żaden napis nie miał odczytania, z którego dałoby się go wytrącić.
+Zakupem jest przeszło sześćdziesiąt zdań Składnicy zdjętych z odrzuconych,
+z czego większość na przyjęte, a pod morfologią żywą tyle samo.
+Role tych przyjętych nie kłócą się z drzewem wzorcowym nad ani jednym zdaniem,
+a tam, gdzie odczytanie olskiego obejmuje mniej niż drzewo,
+stoją zdania nieosobowe, którym bank drzew daje cząstce rolę podmiotu
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Nad prozą tych dokumentów zdejmuje z odrzuconych kilkanaście zdań.
+
+Pozycja przednia sięga początku zdania oraz miejsca tuż za znakiem,
+a `Się myli.` ani `Cena rośnie, się nie liczy.` polszczyzną nie są,
+więc cząstka żąda słowa przed sobą: opiera się o nie, a znak słowem nie jest.
+Spójnik słowem jest i licencji udziela — `Cena rośnie, a się nie liczy.` —
+bo taki napis bank drzew pisze:
+`Po wielu latach sporów wiadomo już, że lądolód Grenlandii i przyrasta, i się topi`
+oraz `żeby chór nie tylko istniał, ale się rozwijał`.
+Warunek stoi w warstwie morfologicznej, tam gdzie warunek na formę przyimkową
+zaimka ([wyżej](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
+i pyta o to samo: `po_słowie` w `olski/subset.py` zdejmuje cząstce odczytanie tam,
+gdzie w węźle otwierającym jej krawędź nie kończy się krawędź z odczytaniem,
+które znakiem nie jest.
+Werdykt nazywa wtedy formę bez licencji, a nie strukturę, której zdaniu brakuje,
+i tyle właśnie autorowi trzeba: przez cząstkę zdanie się nie otwiera.
+Pozycji tylnej ten warunek nie tyka, bo przed nią stoi jej własna forma,
+więc nie zdejmuje ani jednego odczytania, które olski brał przed tym ciałem.
+
+Poza podzbiorem zostaje cząstka przy bezokoliczniku:
+`Cena zaczyna otwierać się.` nie ma odczytania,
+gdzie `Cena zaczyna się otwierać.` wyprowadza się,
+a `Trzeba się zabezpieczyć.` nie ma odczytania w żadnym z tych dwóch szyków.
+Zostaje też cząstka oddalona od swojej formy —
+`Rachunek się dotąd nie zwraca.` obok `Rachunek dotąd się nie zwraca.` —
+i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+a nie brak pozycji.
+
+Pozycja przednia oddaje cząstkę formie osobowej za nią i nikomu innemu,
+więc gdzie cząstka należy do słowa przed sobą, zdanie wyprowadza się na opak:
+`Program otwierający się jest tani.` wychodzi z `się jest` w orzeczeniu,
+a `być się` czasownikiem nie jest.
+Jest to ta sama usterka, którą pozycja tylna ma po drugiej stronie —
+`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się` —
+i czeka na to samo rozstrzygnięcie ([TODO.md](../TODO.md)),
+bo obie biorą cząstkę wedle tego, przy czym stoi, a nie wedle tego, do czego należy.
+Ani bank drzew, ani ta proza nie stawiają słowa własnego cząstki przed nią
+w żadnym ze zdań, które ta pozycja nowo przyjmuje,
+więc odczytania takiego nie wydała nad nimi ani razu.
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
 

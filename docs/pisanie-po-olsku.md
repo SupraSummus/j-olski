@@ -225,14 +225,15 @@ różni ją to, że nie ma czym wpuścić jej osobno
 ([subset.md](subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
 cenę tej produkcji trzyma [`TODO.md`](../TODO.md).
 
-**Cząstka `się` przed swoim czasownikiem.**
-`Droga tej roli mieści się w pliku.` przechodzi,
-`Cała droga tej roli w jednym pliku się mieści.` pada.
-Gramatyka ma tę konstrukcję i zatrzymuje się przed polszczyzną:
-`się` dostało jedną pozycję, tę po czasowniku,
-a polszczyzna stawia je równie chętnie przed nim.
-Wiersz `part` prowadzi z tego powodu
-[kolejkę blokerów](corpus.md#where-the-analyses-stop) po interpunkcji.
+**Cząstka `się` poza swoją formą osobową.**
+`Cena zaczyna otwierać się.` pada, `Cena zaczyna się otwierać.` przechodzi,
+i tak samo pada cząstka oddalona od swojej formy:
+`Rachunek się dotąd nie zwraca.` pada, `Rachunek dotąd się nie zwraca.` przechodzi.
+Obie pozycje przy samej formie osobowej gramatyka ma
+([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)),
+a bezokolicznik cząstki nie bierze wcale.
+Te dwie pozycje prowadzą wiersz `part` w
+[kolejce blokerów](corpus.md#where-the-analyses-stop).
 
 **Cząstka `tylko` wewnątrz grupy imiennej.**
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,
@@ -340,12 +341,10 @@ Skracanie zostaje radą dla piszącego dzisiaj, a nie kierunkiem dla gramatyki.
 
 ## Czego ten dokument nie mówi
 
-Materiał wyszedł z trzech sesji agenta.
-Pierwsza przepisała [README](../README.md#konwencje) na zdania,
-które olski wyprowadza, i pisała pod gramatykę.
-Druga podnosiła liczbę zdań wyprowadzonych w [`roles.md`](roles.md),
-dopisując gramatyce to, czego temu dokumentowi brakowało.
-Trzecia czytała [`architecture.md`](architecture.md) w obu fotelach naraz.
+Materiał wyszedł z sesji agenta nad prozą tego repozytorium —
+[README](../README.md#konwencje), [`roles.md`](roles.md),
+[`architecture.md`](architecture.md) oraz kolejka po formie nad całym `docs/` —
+a fotel bywał w nich jeden, drugi albo oba naraz.
 Rejestr jest przy tym jeden, a człowiek redagujący własny plik
 nie siedział w żadnej z tych sesji, więc jest to raport, a nie pomiar.
 
