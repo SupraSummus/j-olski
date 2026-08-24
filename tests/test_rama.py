@@ -11,6 +11,10 @@ liczy.
 
 from __future__ import annotations
 
+import pytest
+
+pytest.importorskip("morfeusz2")
+
 from harness.rama import Odpowiedź, render
 
 

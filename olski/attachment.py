@@ -42,6 +42,12 @@ NP = "fno"
 #: dla olskiego jest przyłączeniem do czasownika.
 CLAUSE = frozenset({"wypowiedzenie", "zdanie", "ff", "fzd", "formaczas", "condaglt"})
 
+#: Dwie strony wyboru, czyli wartości pola ``host``: gospodarz imienny i gospodarz
+#: czasownikowy. Napis wydany tutaj jest zarazem kluczem liczników niżej i
+#: wydrukiem, a czytają go stąd sondy z ``harness/``; ``olski/rozstrzyganie.py``
+#: trzyma drugą kopię i mówi przy niej, dlaczego.
+STRONA_IMIENNA, STRONA_CZASOWNIKOWA = "noun", "clause"
+
 #: Fraza wymagana i fraza luźna: to, czy schemat czasownika tej frazy żąda, czy
 #: stoi ona przy nim swobodnie. Różnica dzieli przyłączenia do czasownika na te,
 #: które rozstrzygnie walencja, i na resztę.
@@ -57,7 +63,8 @@ CZASOWNIK = frozenset(
 class Attachment:
     """Jedno wyrażenie przyimkowe wybranego drzewa, i dokąd doszło."""
 
-    #: ``noun``, ``clause`` albo kategoria węzła, jeśli to ani jedno, ani drugie.
+    #: :data:`STRONA_IMIENNA`, :data:`STRONA_CZASOWNIKOWA` albo kategoria węzła,
+    #: jeśli to ani jedno, ani drugie.
     host: str
     #: Czy przed wyrażeniem stoi forma czasownikowa. Bez niej przyłączenie do
     #: czasownika nie było do wzięcia.
@@ -162,9 +169,9 @@ def _dokąd_doszło(node: Constituent) -> tuple[str | None, str | None]:
     if parent is None:
         return None, frame
     if parent.category == NP:
-        return "noun", frame
+        return STRONA_IMIENNA, frame
     if parent.category in CLAUSE:
-        return "clause", frame
+        return STRONA_CZASOWNIKOWA, frame
     return parent.category, frame
 
 
@@ -190,7 +197,7 @@ class Report:
         if not attachment.postverbal:
             return
         self.postverbal[attachment.host] += 1
-        if attachment.host not in ("noun", "clause"):
+        if attachment.host not in (STRONA_IMIENNA, STRONA_CZASOWNIKOWA):
             return
         self.preps.setdefault(attachment.prep, collections.Counter())[attachment.host] += 1
         if attachment.frame == WYMAGANA:
@@ -218,15 +225,17 @@ def render(report: Report, preps: int = 10) -> str:
     lines += [
         "",
         "z tego frazą wymaganą jest "
-        f"{report.required['clause']} przyłączonych do czasownika "
-        f"i {report.required['noun']} przyłączonych do rzeczownika",
+        f"{report.required[STRONA_CZASOWNIKOWA]} przyłączonych do czasownika "
+        f"i {report.required[STRONA_IMIENNA]} przyłączonych do rzeczownika",
         "",
         "po przyimku, wśród przyłączeń do rzeczownika i do czasownika:",
     ]
     ranking = sorted(report.preps.items(), key=lambda para: -sum(para[1].values()))
     for prep, counts in ranking[:preps]:
         razem = sum(counts.values())
-        lines.append(f"  {prep:12} {razem:6}  {counts['noun'] / razem:6.1%} do rzeczownika")
+        lines.append(
+            f"  {prep:12} {razem:6}  {counts[STRONA_IMIENNA] / razem:6.1%} do rzeczownika"
+        )
     return "\n".join(lines)
 
 

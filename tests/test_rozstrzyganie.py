@@ -37,6 +37,7 @@ pytest.importorskip("morfeusz2")
 from dataclasses import replace
 
 import olski.check
+from olski import attachment, rozstrzyganie
 from olski.parse import Przyłączenie
 from olski.rozstrzyganie import (
     PUSTE,
@@ -56,6 +57,19 @@ FAWORKI = Przyłączenie(modyfikator="na faworki", gospodarze=("Daj", "przepis")
 
 #: Licznik, przy którym świadek odpowiada: cztery wystąpienia, wszystkie w jedną stronę.
 JEDNOZNACZNY = {("na", "noun", "przepis"): (4, 4)}
+
+
+def test_nazwy_stron_wyboru_mówią_to_samo_co_pole_host():
+    """Kopia rozjechałaby się cicho: świadek wskazywałby stronę, której tabela nie zna.
+
+    Powód, dla którego kopia zostaje, jest wypisany przy niej,
+    więc równość obu par trzyma test, a nie import —
+    tak samo jak blok checków i kroki workflowu.
+    """
+    assert (rozstrzyganie.STRONA_IMIENNA, rozstrzyganie.STRONA_CZASOWNIKOWA) == (
+        attachment.STRONA_IMIENNA,
+        attachment.STRONA_CZASOWNIKOWA,
+    )
 
 
 @pytest.mark.parametrize(

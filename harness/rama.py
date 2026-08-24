@@ -50,14 +50,10 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from olski.attachment import LUŹNA, WYMAGANA, attachments
+from olski.attachment import LUŹNA, STRONA_CZASOWNIKOWA, STRONA_IMIENNA, WYMAGANA, attachments
 from olski.corpus import pliki, read_forest
 from olski.próbka import rozrzucona
 from olski.walenty import PEWNY, przyimki, schematy
-
-#: Gospodarz po stronie czasownika i po stronie rzeczownika, tak jak nazywa je
-#: ``olski/attachment.py`` w polu ``host``.
-CZASOWNIK, RZECZOWNIK = "clause", "noun"
 
 #: Ile odpowiedzi wypisać do przeczytania. Sama trafność nie mówi, czy świadek
 #: wskazuje gospodarza z powodu, który da się autorowi pokazać, a rozstrzyga to
@@ -105,7 +101,7 @@ def odpowiedzi(
         for przyłączenie in attachments(read_forest(path)):
             if not (przyłączenie.postverbal and przyłączenie.postnominal):
                 continue
-            if przyłączenie.host not in (CZASOWNIK, RZECZOWNIK):
+            if przyłączenie.host not in (STRONA_CZASOWNIKOWA, STRONA_IMIENNA):
                 continue
             żąda_czasownik = przyłączenie.prep in przyimki(
                 czasowniki.get(przyłączenie.verb, ()), tylko_pewne
@@ -115,9 +111,9 @@ def odpowiedzi(
             )
             wskazany = ""
             if żąda_czasownik and not żąda_rzeczownik:
-                wskazany = CZASOWNIK
+                wskazany = STRONA_CZASOWNIKOWA
             elif żąda_rzeczownik and not żąda_czasownik:
-                wskazany = RZECZOWNIK
+                wskazany = STRONA_IMIENNA
             zebrane.append(
                 Odpowiedź(
                     przyimek=przyłączenie.prep,
@@ -156,8 +152,8 @@ def render(wszystkie: Sequence[Odpowiedź], przykłady: int = PRZYKŁADY) -> str
         f"  {len(trafne):5}  {_udział(len(trafne), len(padłe))} trafność wśród tych odpowiedzi",
         "",
         "  czym odpowiedziała rama:",
-        rozbicie("czasownik", [o for o in padłe if o.wskazany == CZASOWNIK]),
-        rozbicie("rzeczownik", [o for o in padłe if o.wskazany == RZECZOWNIK]),
+        rozbicie("czasownik", [o for o in padłe if o.wskazany == STRONA_CZASOWNIKOWA]),
+        rozbicie("rzeczownik", [o for o in padłe if o.wskazany == STRONA_IMIENNA]),
         "",
         "  co bank drzew mówi o odpowiedziach, po frazie, pod którą stanęły:",
         rozbicie("wymagana", [o for o in padłe if o.fraza == WYMAGANA]),

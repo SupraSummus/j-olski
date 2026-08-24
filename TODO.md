@@ -269,17 +269,6 @@ Sesja dzieli się po plikach, bo każde wystąpienie rozstrzyga się osobno.
 
 ## Komendy i sondy
 
-`noun` i `clause` stoją w trzech miejscach, a nazwane są w dwóch z nich.
-Właściciel pola `host` nazwy nie ma:
-`_dokąd_doszło` w `olski/attachment.py` wydaje oba napisy wprost.
-Nazwane są u czytelników — `STRONA_IMIENNA` i `STRONA_CZASOWNIKOWA`
-w `olski/rozstrzyganie.py` oraz `CZASOWNIK` i `RZECZOWNIK` w `harness/rama.py` —
-a komentarz przy każdej z tych par odsyła po nazwę do tamtego pliku.
-Ruchem jest para nazw u właściciela pola, importowana przez oba pozostałe miejsca.
-Do przeczytania jest `render` w `olski/attachment.py`:
-te napisy są tam zarazem kluczami słownika (`counts['noun']`) i wydrukiem,
-więc nazwa wchodzi razem z jednym i z drugim.
-
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
 `harness/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
 bo schemat tak oznaczony nie należy do rejestru, o który olskiemu chodzi,
@@ -355,29 +344,6 @@ bo katalog znaczy tam bank drzew i chodzenia po drzewie nie ma dla nich wolnego
 (`harness/komenda.py`).
 Kto ten wpis podnosi, ma więc precedens po obu stronach
 i rozstrzyga, czy `olski-check` jest bliższy sondzie, czy dawnej komendzie.
-
-`olski-check` daje dokumentowi liczbę, której nie sprawdza żaden test.
-Samą komendę woła `tests/test_rozstrzyganie.py` — `main` z listą argumentów
-i wydruk czytany przez `capsys`, czyli tym wzorem, o który ten wpis prosił —
-ale pyta ją wyłącznie o wiersz warstwy rozstrzygającej
-i o sąsiedztwo, które ta warstwa dostaje po zdaniu.
-Niesprawdzone zostają trzy kody wyjścia
-(2 bez argumentów i nad ścieżką, której nie da się przeczytać,
-1 wtedy, gdy nie każde zdanie przeszło)
-oraz podsumowanie, w którym fragmenty liczą się obok zdań.
-Podsumowanie jest tym, po co dokument tę komendę woła:
-[`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
-bierze liczbę fragmentów nad korpusem audytowym z ostatniego wiersza wydruku,
-więc figura w dokumencie opiera się na formacie, którego nic nie pilnuje.
-Testem nie jest wydruk przepisany wiersz po wierszu do pliku testowego:
-kosztuje przy każdej zmianie układu
-i nie broni niczego, czego by czytelnik nie zobaczył.
-Wiersze przepisane do dokumentów to inna rzecz i pilnuje ich
-`tests/test_wydruki.py`: kosztu nie dokłada, bo bloki już tam stoją,
-a czytelnik rozjazdu nie widzi — dwa bloki sondy stały w `docs/disambiguation.md`
-nieprawdą, dopóki ktoś nie puścił polecenia stojącego nad nimi.
-Warte pisania zostają więc te dwie rzeczy: podsumowanie, bo cytuje je dokument
-poza blokiem, i kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok.
 
 Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
@@ -463,7 +429,7 @@ Ten sam argument stoi już w drugiej sondzie po jej własnej stronie:
 losowania ma ona dwa, a mianownik każdego niesie plik z wpisami,
 więc scalenie dodaje trzeci tryb do dwóch, a nie drugi do jednego.
 Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi poza
-`sonda/` właśnie dlatego, a program czytający ten plik jest najtańszą rzeczą w tej parze.
+`harness/` właśnie dlatego, a program czytający ten plik jest najtańszą rzeczą w tej parze.
 
 Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamkniętymi
 zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` prowadzą
@@ -480,20 +446,6 @@ Wpis waży mniej, odkąd wiersz nazywa czytanie licencjonowane,
 bo `interj` jest wierszem prawdziwych wykrzykników, a nie kryjówką dla `i`.
 
 ## Korpusy, ekstrakcja i figury
-
-`python3 -m harness.endings proza` liczy, co w `proza/` stoi, a nie korpus audytowy.
-Figura `końcówki` deklaruje `proza/ksef` i `proza/rit`,
-bo tabele w [`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
-są nad tymi dwoma,
-a polecenie, które ta sekcja drukuje, przechodzi całe drzewo `proza/`,
-więc sesja, która wyjęła wcześniej prozę z README
-tak, jak każe [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop),
-dostaje z tego samego polecenia liczby nad korpusem audytowym plus README
-i nic tego nie mówi w wydruku.
-Ruchem jest ścieżki liczone przez sondę wziąć z argumentów zamiast z jednego drzewa,
-czyli w tej sekcji i w tej figurze wymienić oba katalogi.
-Do przeczytania jest `main` w `harness/endings.py`,
-bo od tego zależy, czy druga ścieżka nie żąda zmiany w tym, co sonda przechodzi.
 
 Only one of the corpora in
 [`docs/corpora.md`](docs/corpora.md#how-the-counts-here-were-taken)
@@ -570,16 +522,14 @@ since a mirror nobody can check against upstream
 is the second copy of a fact that
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) warns about.
 
-Leksykon projektu rusza w deklaracji dwie figury i nie wiadomo, czy tylko dwie.
-`olski/projekt.py` wraz z `olski/projekt.txt` stoi wśród ruszających przy `readme`
-i przy `podłoża-readme`, bo tam zmierzono, że rusza,
-a figury nad prozą korpusu audytowego i nad rejestrem ustaw jego nie mają,
-choć czytają tekst tą samą drogą.
+Leksykon projektu rusza liczby brane nad prozą README, bo tam zmierzono, że rusza,
+a czy rusza je nad korpusem audytowym i nad rejestrem ustaw, nie sprawdził nikt,
+choć oba korpusy czytają tekst tą samą drogą.
 Rozstrzyga o tym jedna rzecz: czy ta proza pisze którąkolwiek formę tego leksykonu,
 bo wiersz nazywa formę, której słownik nie czyta,
 więc nad korpusem, który tej formy nie pisze, nie rusza on ani jednej liczby.
 Ruchem jest więc grep form tego leksykonu po `proza/`,
-a po nim albo przeliczenie obu figur, albo zdanie mówiące,
+a po nim albo przeliczenie liczb obu tych korpusów, albo zdanie mówiące,
 czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 `olski/projekt.py`.
 
@@ -639,17 +589,6 @@ Osobno stoi czas rozbioru, bo cechę wypuszczaną las rozdziela na klasy pozycji
 (`klasy` w `olski/parse.py`), a wpisów jest kilkadziesiąt.
 Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok tej listy,
 bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
-
-Więz na terminalu nie ma checku, który mają więzy na referencjach symboli
-(`olski/grammar.py`): cechy formy przychodzą z morfologii,
-więc literówka w `word("subst", nubmer=V("n"))` przepuszcza każdą formę,
-a wykryłby ją inwentarz nazw cech, który morfologia zamyka
-(`VALUES` w `olski/morph.py`).
-Więzów na terminalach jest w gramatyce kilkaset,
-czyli kilka razy mniej niż na referencjach, a martwy nie jest wśród nich ani jeden.
-Rozstrzygnąć trzeba jedno: czy formalizm sięga po ten inwentarz sam,
-czy dostaje go argumentem od wołającego,
-bo `olski/grammar.py` nie zna warstwy morfologicznej wcale.
 
 Para myślników nie ma wyprowadzenia, a jest w tej prozie użyciem częstszym niż
 myślnik pojedynczy
@@ -775,7 +714,7 @@ a pomyłka jest droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta
 Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
 dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
 tam, gdzie cztery szyki już konkurują z nią przed formą osobową,
-i cenę tamtych czterech zna figura `szyk` — sześć zdań —
+a cenę tamtych czterech — sześć zdań — trzyma commit, który je wpuścił,
 więc ta pozycja ma z czym się porównać, zanim zapadnie decyzja.
 Ruchem jest ciało `Complements`, a nie piąty szyk:
 pozycję ramy niesie fraza bezokolicznikowa
@@ -1275,8 +1214,8 @@ is a net of what an addition buys against what it costs in uniqueness
 so the shape wanted is two runs and what moved between them,
 not one run printed twice and diffed by eye.
 `harness/ruch.py` is that shape for a group of productions removed from olski,
-and five probes are written as declarations against it, `przecinek.py` among them,
-while `nieciągłość.py` computes its own net beside that machinery rather than on it.
+and the declaration in `harness/płaski.py` is written against it,
+while `harness/nieciągłość.py` computes its own net beside that machinery rather than on it.
 What it does not take is a morphology switched off,
 which is neither a group nor a production,
 so the exclusion-free column and the two morphologies compared stay hand-written.
@@ -2144,17 +2083,6 @@ Ruchem jest antecedens liczony z uczestników zdania poprzedniego i nadrzędnego
 a nie z samych ich podmiotów, wraz z testem na parę zdań,
 w której rodzaj tych dwóch ról jest wspólny, bo tam opuszczenie ma się nie stać.
 
-`Zdanie.podmioty` w `olski/skład/składnia.py` schodzi pod konstytuent na dwa poziomy,
-czyli tam, gdzie sięga `_wskazany`, a zdanie podrzędne stoi czasem głębiej:
-`Mysz goniła ogon myszy, która spała.` ma dwa podmioty, a widać stąd jeden.
-Kosztuje to opuszczenie postawione tam, gdzie czytelnik trafia na dwie rzeczy
-wyciągające z czasownika jedną formę, czyli dokładnie to, przed czym ten warunek broni.
-Do przeczytania jest `_zdania_pod` wraz z `_wskazany` w tym samym pliku,
-bo schodzą tak samo głęboko i tylko jednej z nich to wystarcza:
-tamta pyta, skąd zaimek wyjdzie na czoło, a ta, na kogo czytelnik trafi.
-Ruchem jest zejście po całym drzewie roli zamiast po dwóch jego poziomach,
-i jest ono tańsze niż tamto, bo nie ma z niego nic do wyprowadzenia.
-
 Rama czasownika, o którą pyta `Robi` w `olski/skład/składnia.py`,
 odpowiada na trzy pytania z listy: o biernik, o bezokolicznik i o zdanie podrzędne,
 więc rola w przypadku innym nie ma po tej stronie o co zapytać
@@ -2516,22 +2444,17 @@ Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
 czytnik banku drzew i trzy programy pomiarowe są w nim,
 a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
 
-Pomijania testów bez Morfeusza nie pilnuje nic, a raz już się rozeszło.
-[Sekcja Checks](CLAUDE.md#checks) mówi, że plik testowy sięgający analizatora
-pomija się zamiast wywracać zbiórkę,
-a sięgnąć go można nie wypisując go ani razu:
-`olski/subset.py` ciągnie `olski/morph.py`,
-gdzie `import morfeusz2` stoi na górze pliku.
-Linię tę mają dziś wszystkie pliki, które tam dochodzą,
-a własności, którą ona przywraca, nie pilnuje nic:
-przebieg z Morfeuszem przechodzi tak samo z nią i bez niej,
-więc rozejście widać wyłącznie w tym stanie, w który wchodzi się bokiem,
-a opisuje go wpis o `morfeusz2` w `dependencies`.
-Ruchem jest test czytający pliki z `tests/`:
-ten, którego import dochodzi do `olski/morph.py`,
-ma nad tym importem `pytest.importorskip("morfeusz2")`.
-Do rozstrzygnięcia jest, czy liczyć import wypisany w pliku,
-czy to, dokąd on dochodzi:
-`tests/test_ruch.py` sięga analizatora przez dwa moduły i ani razu go nie nazywa,
-a `tests/test_endings.py` nie sięga go wcale,
-choć nazywa `harness/endings.py`, który woła `morfeusz2` dopiero w `main`.
+`ruff format` nie stoi w [bloku checków](CLAUDE.md#checks),
+a nad kilkunastoma plikami z dziewięćdziesięciu ma zdanie inne niż to,
+co w nich stoi: wypisuje je `ruff format --check .`,
+a `--diff` pokazuje, że różnica jest w miejscach łamania wiersza, nie w kodzie.
+Wyborem to nie jest, bo [reguła o łamaniu](CLAUDE.md#semantic-line-breaks)
+oddaje kod zwykłemu narzędziu języka, a tym narzędziem jest tutaj ten formater.
+Płaci za to ten, kto puści go na pliku, który akurat poprawia:
+diff obejmuje wtedy wiersze, których nie tknął.
+Ruchem jest jedno z dwojga — `ruff format --check .` dopisany do bloku checków
+i do workflowu wraz z jednym przebiegiem po całym drzewie,
+albo zdanie w `CLAUDE.md`, że formatera tu nie używamy,
+a `ruff check` jest całym sprawdzeniem kodu.
+Do przeczytania jest `ruff format --diff olski/parse.py`,
+bo mówi, co ten przebieg zrobiłby z adnotacją typu rozbitą ręką na trzy wiersze.

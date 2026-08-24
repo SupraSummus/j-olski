@@ -43,7 +43,7 @@ Trzyma to ``TODO.md``, a miejsce w torze ``docs/roadmap.md``.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, fields, is_dataclass, replace
 
 from olski.skład.morfologia import odmień, rodzaj_rzeczownika
 from olski.skład.przyimki import przypadek
@@ -759,6 +759,33 @@ def _zdania_pod(konstytuent, kontekst: Kontekst = TERAZ):
         yield goły.zdanie, goły.wewnątrz(kontekst)
 
 
+def _zdania_głębiej(konstytuent):
+    """Zdania stojące gdziekolwiek pod tym konstytuentem, choćby o kilka pięter niżej.
+
+    Pyta o co innego niż ``_zdania_pod`` wyżej i dlatego schodzi głębiej.
+    Tamto sięga tak głęboko, jak zaimek ma dokąd wyjść na czoło,
+    a to sięga każdego zdania napisu, bo czytelnik trafia na każde:
+    `ogon myszy, która spała` stawia zdanie pod dopełniaczem,
+    czyli piętro niżej, niż tamto zagląda.
+    Kontekstu ta funkcja nie wydaje, bo jej jedyny czytelnik pyta o role,
+    a kontekst rozstrzyga o formach.
+
+    Zejście idzie po polach drzewa, a nie po liście kategorii:
+    lista rozjeżdżałaby się z pierwszą kategorią dopisaną i tam niedopisaną,
+    a pole niesie każda z nich.
+    Zdanie znalezione zamyka swoją gałąź, bo o zdania pod sobą pyta ono samo.
+    """
+    if isinstance(konstytuent, Zdanie):
+        yield konstytuent
+        return
+    if not is_dataclass(konstytuent):
+        return
+    for pole in fields(konstytuent):
+        wartość = getattr(konstytuent, pole.name)
+        for część in wartość if isinstance(wartość, tuple) else (wartość,):
+            yield from _zdania_głębiej(część)
+
+
 class Zdanie:
     """To, co orzeka o kimś: jedno zdarzenie albo kilka opowiedzianych naraz.
 
@@ -779,6 +806,9 @@ class Zdanie:
         Zdanie proste ma jeden podmiot, a złożone ma go tyle, ile ma zdarzeń,
         i wszystkie one są tym, na co czytelnik trafia,
         szukając podmiotu, którego zdanie obok nie wypisało.
+        Liczą się przez to zdania z każdego piętra drzewa (:func:`_zdania_głębiej`),
+        a nie z dwóch pierwszych: `Mysz goniła ogon myszy, która spała.`
+        ma dwa podmioty, a z dwóch pięter widać jeden.
 
         Kontekstu ta lista nie dostaje i nie ma po co,
         bo pyta o role wypisane w drzewie, a kontekst rozstrzyga o formach.
@@ -786,7 +816,7 @@ class Zdanie:
         pod = (
             rola
             for konstytuent in self.konstytuenty
-            for niższe, _ in _zdania_pod(konstytuent)
+            for niższe in _zdania_głębiej(konstytuent)
             for rola in niższe.podmioty
         )
         return (self.podmiot, *pod)

@@ -15,7 +15,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Var, Word, bierze, nt, unify, word
-from olski.morph import analyse, generuj
+from olski.morph import VALUES, analyse, generuj
 from olski.parse import (
     MAX_READINGS,
     PRZYŁĄCZONY_DO,
@@ -2966,6 +2966,15 @@ def test_każda_cecha_wypuszczana_przez_gramatykę_ma_co_wiązać_jej_zmienną()
 
 def test_każdy_wpis_wśród_niewypuszczanych_zatrzymuje_jakąś_cechę():
     assert GRAMMAR.nie_wypuszczane_bez_żądania() == frozenset()
+
+
+def test_każdy_więz_na_terminalu_pyta_o_cechę_którą_morfologia_zna():
+    """Literówka w nazwie cechy formy przepuszcza każdą formę i nie rusza wydruku.
+
+    Inwentarz podaje tu wołający, bo formalizm gramatyki morfologii nie zna,
+    a więzów na terminalach jest w tej gramatyce kilkaset.
+    """
+    assert GRAMMAR.więzy_terminali_niesprawdzane(set(VALUES.values())) == frozenset()
 
 
 # --------------------------------------------------------------------------- #
