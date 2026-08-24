@@ -6,35 +6,22 @@ is that none of them get made by accident.
 
 Questions are grouped by which track they block.
 
-## Settled
-
-- What is being built is a parser of a designed subset of Polish,
-  which hands ambiguity back instead of resolving it,
-  and the track has no end target, only a direction and a price per addition.
-  See [design-notes.md](design-notes.md)
-  and [roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca).
-- The style linter that stood beside it is retired,
-  and so is every question that blocked only that track.
-  See [linter.md](linter.md#what-closed-the-track).
-- Olski is as close to Polish as possible,
-  and a proper subset of it.
-- Morfeusz is the dictionary, because the grammar track needs generation
-  and only Morfeusz does it.
-  See [design-notes.md](design-notes.md#decisions-taken).
-- Olski does not scramble, so the subset stays context-free.
-  This was the largest fork on the grammar track,
-  and a measurement closed it rather than a preference.
-  See [design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
-
-Further grammar-track decisions are recorded in
-[design-notes.md](design-notes.md#decisions-taken).
+Decyzja, która już zapadła, stoi u właściciela swojego tematu:
+rozwidlenia toru gramatycznego trzymają
+[decisions taken](design-notes.md#decisions-taken)
+oraz [`roadmap.md`](roadmap.md#tor-gramatyczny-nie-ma-końca),
+a wycofanie toru linterowego trzyma
+[`linter.md`](linter.md#what-closed-the-track).
+Pytania, które blokowały wyłącznie tamten tor, zeszły razem z nim,
+więc na liście niżej ich nie ma.
 
 ## Grammar-track questions
 
 ### The rest of the subset
 
 Each row is a real fork, not a difficulty level,
-and each is cheaper than the settled question about scrambling above it.
+and each is cheaper than the scrambling fork
+[a measurement closed](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 The `closeness` column notes which option
 serves the settled goal of resembling Polish.
 

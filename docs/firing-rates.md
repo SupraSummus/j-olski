@@ -146,12 +146,10 @@ and 166 times over the prose, for the same one defect either way.
 [extraction.md](extraction.md#an-inline-construct-leaves-its-text-or-takes-the-space-with-it)
 holds the pair per rule for `ksef-docs`, and what the step costs to buy them.
 
-The two members lose different amounts to that step, and the reason is a format.
-`rit-dokumentacja` writes its API tables without leading pipes,
-four of its seven documents are mostly such tables,
-and a table is apparatus,
-so 17,264 words of its Markdown come out as 6,754 of prose
-where `ksef-docs` keeps two thirds of its own.
+The two members lose different amounts to that step, and the reason is a format
+that [the list](audit-corpus.md#the-list) names, with the counts:
+`rit-dokumentacja` writes API tables where `ksef-docs` writes prose,
+and a table is apparatus.
 That is the corpus the figures below are over,
 and the same difference is most of what the hits below are not.
 

@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import re
 import xml.etree.ElementTree as ET
+from collections.abc import Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -47,6 +48,10 @@ FULL = "FULL"
 #: żadnego (``nad_prozą`` w ``olski/coverage.py``). Nikt jej nie czyta, bo tabeli
 #: składu korpusu proza nie ma; stoi tu, żeby to pole nad prozą nie kłamało.
 PROZA = "proza"
+
+#: Czym bywają ścieżki podane w wierszu poleceń. Nazwy własne, a nie ``PROZA``
+#: wyżej: tamto jest werdyktem anotatora, którego zdanie prozy nie ma.
+BANK_DRZEW, PLIKI_PROZY, POMYŁKA = "bank drzew", "pliki prozy", "pomyłka"
 
 #: Składnica names cases in Polish and in Latin interchangeably, sometimes within
 #: one valency frame, so both are normalized to the Latin name Morfeusz uses.
@@ -376,6 +381,21 @@ def _segment(terminal: ET.Element, span: tuple[int, int]) -> Segment:
         form=form,
         readings=(Reading(form, lemma, tag(raw)),),
     )
+
+
+def rozdaj(ścieżki: Sequence[Path]) -> str:
+    """Czym są te ścieżki: bankiem drzew, plikami prozy albo pomyłką.
+
+    Wywód trzyma ``harness/komenda.py``,
+    a odpowiedź jest jedna dla obu wierszy poleceń,
+    bo druga kopia tej reguły rozeszłaby się cicho.
+    Komunikat o pomyłce zostaje przy wołającym, bo nazwa programu jest jego.
+    """
+    if len(ścieżki) == 1 and ścieżki[0].is_dir():
+        return BANK_DRZEW
+    if ścieżki and all(ścieżka.is_file() for ścieżka in ścieżki):
+        return PLIKI_PROZY
+    return POMYŁKA
 
 
 def pliki(root: Path | str) -> list[Path]:

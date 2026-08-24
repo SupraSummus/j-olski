@@ -1,6 +1,6 @@
 # Prose linters
 
-English has a working version of what olski is trying to build,
+English has a working version of what the linter track was building,
 several times over, and none of it is Polish.
 Two separable things can be taken from it.
 One is an architecture: how a rule is written,
@@ -38,14 +38,14 @@ are the whole vocabulary a rule author gets:
 `existence`, `substitution`, `occurrence`, `repetition`, `consistency`,
 `conditional`, `capitalization`, `readability`, `spelling`,
 `sequence`, `metric` and `script`.
-This is the same bet olski's engine makes —
-a check is one code path plus its parameters,
-a rule is a declaration — arrived at independently,
-with the vocabulary grown to twelve where olski's `CHECKS` holds five.
+This was the same bet olski's engine made —
+a check was one code path plus its parameters,
+a rule a declaration — arrived at independently,
+with the vocabulary grown to twelve where olski's `CHECKS` held five.
 
 Three of the twelve are worth naming,
 because they go past the patterns and rates
-that olski's five are made of.
+that olski's five were made of.
 
 `metric` evaluates an arithmetic formula
 over thirteen built-in counters —
@@ -88,7 +88,7 @@ existence, intra-document consistency, preferred form —
 and its standard for admitting a rule
 is that it come with a citation to a published usage authority:
 Garner, the Federal Plain Language Guidelines, Strunk and White, and others.
-That is the same demand olski's `justification` and `sources` fields make.
+That was the same demand olski's `justification` and `sources` fields made.
 
 The part worth copying is the evaluation.
 The 2016 paper defines a **lint score**,

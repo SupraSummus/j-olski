@@ -45,7 +45,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import PROZA, Sentence, pliki, read
+from olski.corpus import BANK_DRZEW, PLIKI_PROZY, PROZA, Sentence, pliki, read, rozdaj
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Segment
 from olski.parse import MAX_READINGS, Las, Result, las, podsumuj
@@ -665,9 +665,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--jobs takes at least one process")
 
     ścieżki = [Path(nazwa) for nazwa in args.ścieżki]
-    #  Rozdanie wejścia jest to samo, co w harness/komenda.py, i tam stoi jego
-    #  wywód; ten moduł wziąć go stamtąd nie może, bo harness stoi nad nim.
-    if len(ścieżki) == 1 and ścieżki[0].is_dir():
+    rozdanie = rozdaj(ścieżki)
+    if rozdanie == BANK_DRZEW:
         report = przebieg(
             pliki(ścieżki[0])[: args.limit],
             args.jobs,
@@ -675,7 +674,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             keep_examples=args.examples,
         )
         nad = "Składnica"
-    elif all(ścieżka.is_file() for ścieżka in ścieżki):
+    elif rozdanie == PLIKI_PROZY:
         raporty = [
             nad_prozą(ścieżka.read_text(encoding="utf-8"), args.examples) for ścieżka in ścieżki
         ]

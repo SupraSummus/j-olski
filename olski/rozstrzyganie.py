@@ -102,8 +102,9 @@ Licznik = dict[tuple[str, str, str], tuple[int, int]]
 #: i strona, którą wybrał anotator. Tabela liczy się z tego i ocena mierzy na tym.
 Wypadek = tuple[str, str, str, str]
 
-#: Nazwy dwóch stron wyboru, tak jak nazywa je ``olski/attachment.py``.
-RZECZOWNIK, CZASOWNIK = "noun", "clause"
+#: Nazwy dwóch stron wyboru, tak jak nazywa je ``olski/attachment.py``
+#: w polu ``host``.
+STRONA_IMIENNA, STRONA_CZASOWNIKOWA = "noun", "clause"
 
 #: Części mowy, po których poznaje się gospodarza czasownikowego.
 CZASOWNIKOWE = frozenset(
@@ -528,7 +529,7 @@ def _leksykon(lemat: str, gdzie: str) -> frozenset[str]:
     a nazywa ją :func:`strona` — jedno miejsce,
     w którym ta warstwa orzeka, po której stronie gospodarz stoi.
     """
-    return przyimki_rzeczownika(lemat) if gdzie == RZECZOWNIK else przyimki_czasownika(lemat)
+    return przyimki_rzeczownika(lemat) if gdzie == STRONA_IMIENNA else przyimki_czasownika(lemat)
 
 
 @dataclass(frozen=True)
@@ -597,15 +598,15 @@ class Rama:
         """
         przyimki = _lematy(przyimek)
         if self.weto and any(
-            przyimki & self.leksykon(lemat, CZASOWNIK)
+            przyimki & self.leksykon(lemat, STRONA_CZASOWNIKOWA)
             for _etykieta, gdzie, lematy in kandydaci
-            if gdzie == CZASOWNIK
+            if gdzie == STRONA_CZASOWNIKOWA
             for lemat in lematy
         ):
             return None
         wskazani = []
         for etykieta, gdzie, lematy in kandydaci:
-            if gdzie != RZECZOWNIK:
+            if gdzie != STRONA_IMIENNA:
                 continue
             if (żądanie := self._żądający(przyimki, lematy)) is not None:
                 wskazani.append((etykieta, *żądanie))
@@ -629,7 +630,7 @@ class Rama:
         i z tego samego powodu: powód ma wyjść ten sam w każdym przebiegu.
         """
         for lemat in sorted(lematy):
-            if pasujące := przyimki & self.leksykon(lemat, RZECZOWNIK):
+            if pasujące := przyimki & self.leksykon(lemat, STRONA_IMIENNA):
                 return lemat, sorted(pasujące)[0]
         return None
 
@@ -782,7 +783,7 @@ def strona(forma: str) -> str:
     którego wypuszcza ``olski-check``.
     """
     czasownikowa = any(reading.tag.pos in CZASOWNIKOWE for reading in _czytania(forma))
-    return CZASOWNIK if czasownikowa else RZECZOWNIK
+    return STRONA_CZASOWNIKOWA if czasownikowa else STRONA_IMIENNA
 
 
 # --------------------------------------------------------------------------- #
@@ -821,7 +822,9 @@ def wypadki(paths: Iterable[Path]) -> list[Wypadek]:
     zebrane = []
     for path in paths:
         for a in attachments(read_forest(path)):
-            if not (a.postnominal and a.postverbal) or a.host not in (RZECZOWNIK, CZASOWNIK):
+            if not (a.postnominal and a.postverbal):
+                continue
+            if a.host not in (STRONA_IMIENNA, STRONA_CZASOWNIKOWA):
                 continue
             if a.prep and a.noun and a.verb:
                 zebrane.append((a.prep, a.noun, a.verb, a.host))
@@ -838,7 +841,7 @@ def zbuduj(wybory: Iterable[Wypadek], wsparcie: int = WSPARCIE) -> Licznik:
     trafień: collections.Counter[tuple[str, str, str]] = collections.Counter()
     wszystkich: collections.Counter[tuple[str, str, str]] = collections.Counter()
     for przyimek, rzeczownik, czasownik, gospodarz in wybory:
-        for strona, lemat in ((RZECZOWNIK, rzeczownik), (CZASOWNIK, czasownik)):
+        for strona, lemat in ((STRONA_IMIENNA, rzeczownik), (STRONA_CZASOWNIKOWA, czasownik)):
             wszystkich[(przyimek, strona, lemat)] += 1
             if gospodarz == strona:
                 trafień[(przyimek, strona, lemat)] += 1
@@ -905,8 +908,8 @@ def _kandydaci(rzeczownik: str, czasownik: str) -> list[tuple[str, str, list[str
     czytania formy.
     """
     return [
-        (RZECZOWNIK, RZECZOWNIK, [rzeczownik]),
-        (CZASOWNIK, CZASOWNIK, [czasownik]),
+        (STRONA_IMIENNA, STRONA_IMIENNA, [rzeczownik]),
+        (STRONA_CZASOWNIKOWA, STRONA_CZASOWNIKOWA, [czasownik]),
     ]
 
 
@@ -959,7 +962,7 @@ def oceń(
     testowe = wypadki(paths[1::2])
 
     podłoga = Ocena(wypadków=len(testowe), odpowiedzi=len(testowe))
-    podłoga.trafień = sum(gospodarz == RZECZOWNIK for *_, gospodarz in testowe)
+    podłoga.trafień = sum(gospodarz == STRONA_IMIENNA for *_, gospodarz in testowe)
 
     krzywe = [
         (

@@ -34,7 +34,7 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from olski.corpus import pliki
+from olski.corpus import BANK_DRZEW, PLIKI_PROZY, pliki, rozdaj
 
 
 @dataclass(frozen=True)
@@ -78,10 +78,11 @@ def uruchom(komenda: Komenda, argv: Sequence[str] | None = None) -> int:
         parser.error("podaj ścieżkę albo -c")
 
     ścieżki = [Path(nazwa) for nazwa in args.ścieżki]
-    if len(ścieżki) == 1 and ścieżki[0].is_dir():
+    rozdanie = rozdaj(ścieżki)
+    if rozdanie == BANK_DRZEW:
         print(komenda.korpus(pliki(ścieżki[0])[: args.limit], args))
         return 0
-    if komenda.proza is not None and all(ścieżka.is_file() for ścieżka in ścieżki):
+    if rozdanie == PLIKI_PROZY and komenda.proza is not None:
         wejścia = [(ścieżka, ścieżka.read_text(encoding="utf-8")) for ścieżka in ścieżki]
         print(komenda.proza(wejścia, args))
         return 0

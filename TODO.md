@@ -75,18 +75,6 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
-`docs/design-notes.md` nazywa dwa razy „zdanie ustawy o 28 042 czytaniach”
-i mówi o nim „najdłuższe z tego rejestru”, a jedno i drugie jest już nieprawdą:
-polecenie z [`docs/ustawy.md`](docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
-drukuje dziś trzy liczby idące w setki tysięcy.
-Jest to [liczba krucha](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
-w dokumencie i rusza ją każda produkcja dopisana do gramatyki.
-Oba zdania wyceniają przy tym zmianę wydajności z commita `9456a22`,
-więc liczba skreślona bez zastąpienia zabiera tamtej wycenie skalę.
-Ruchem jest albo przypięcie liczby do tamtego commita jako liczby stamtąd,
-albo zastąpienie jej krotnością, która wycenę niesie bez liczby czytań.
-Do przeczytania są oba miejsca w `docs/design-notes.md` i wydruk tego polecenia.
-
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -150,74 +138,6 @@ Rozstrzygnąć trzeba też, czy każdy z tych trzech jest mechanizmem:
 przecinkowość Woliński sam nazywa ceną formalizmu,
 więc może chcieć innego miejsca niż dwa pozostałe.
 
-`docs/open-questions.md` trzyma listę decyzji zamkniętych,
-a każda z nich ma właściciela gdzie indziej.
-Sekcja `Settled` powtarza to, co jest budowane, wraz z kierunkiem toru
-([`docs/roadmap.md`](docs/roadmap.md#tor-gramatyczny-nie-ma-końca)),
-wycofanie toru linterowego ([`docs/linter.md`](docs/linter.md#what-closed-the-track)),
-bliskość polszczyzny
-([`docs/design-notes.md`](docs/design-notes.md#decisions-taken)),
-i słownik morfologiczny,
-czyli tę jedną decyzję, przy której `docs/design-notes.md` pisze wprost,
-że nie jest zapisana dwa razy.
-Ruchem jest usunięcie sekcji na rzecz zdania mówiącego, gdzie decyzje zapadłe stoją,
-czyli [zakaz znaczników zrobionego](CLAUDE.md#documents-describe-the-present-git-owns-the-past)
-zastosowany do listy otwartych pytań.
-Przeciw: lista zamkniętych rozwidleń oszczędza komuś otwierania ich z powrotem.
-Do przeczytania jest więc, czy któraś pozycja niesie odrzuconą alternatywę,
-której jej właściciel nie trzyma — taka zostaje, a reszta idzie.
-
-Lista dokumentów w README miesza dwa tory, które sekcja nad nią rozdziela.
-[`Co działa`](README.md#co-działa) mówi, że działają dwie rzeczy,
-a lista pod nią biegnie bez podziału i rośnie z każdym dokumentem,
-więc czytelnik toru gramatycznego i czytelnik toru składu
-przechodzą przez cudze pozycje, zanim dojdą do swoich.
-Ruchem jest pogrupowanie listy — tor gramatyczny, tor składu,
-to, co obsługuje oba, i zapis toru wycofanego — bez ruszania linków,
-czyli najtańsza zmiana, jaką ta lista przyjmie.
-Przeciw katalogom w `docs/`: przepisałyby każdy link względny po to,
-żeby dać indeks, którym ta lista już jest.
-Do rozstrzygnięcia jest, gdzie idą pozycje graniczne,
-bo [`docs/roles.md`](docs/roles.md), [`docs/roadmap.md`](docs/roadmap.md)
-i [`docs/open-questions.md`](docs/open-questions.md) obsługują oba tory.
-Etykiety grup nie ruszą `test_every_document_is_listed_in_the_readme`,
-który czyta pozycje wzorcem `^- [docs/…]` i nie patrzy, co stoi między nimi.
-
-`docs/firing-rates.md` wyprowadza drugi raz to, co należy do
-[listy korpusu audytowego](docs/audit-corpus.md#the-list):
-dlaczego `rit-dokumentacja` traci na ekstrakcji tyle, ile traci,
-czyli że jej tabele API stoją bez wiodących kresek
-i że takie tabele są większością jej dokumentów.
-Przyczyna stoi w obu miejscach w pełnej precyzji,
-a jeden właściciel rozumowania żąda tam zdania ze wskaźnikiem.
-Wniosek, po który `firing-rates.md` po nią sięga, zostaje:
-różnica formatu jest większością tego, czym trafienia niżej nie są.
-Wpis waży mniej, odkąd tamten dokument jest zapisem, którego nic nie rusza:
-zostaje z niego czytelnik trafiający na to samo wyprowadzenie dwa razy,
-a nie dwie kopie, które się rozjadą.
-
-`docs/prose-linters.md` mówi o wycofanym pakiecie w czasie teraźniejszym.
-Przeglądowi cudzych silników w tym dokumencie nic nie brakuje,
-ale własne odniesienia wskazują kod, którego nie ma:
-otwarcie pisze „what olski is trying to build",
-`Vale is the architecture to study` liczy pięć reguł w `CHECKS`,
-a `proselint measured what everyone else asserts` mówi, że pola `justification`
-i `sources` deklaracji reguły żądają tego samego, co standard proselinta.
-W kodzie nie ma żadnej deklaracji reguły, więc nie ma i tych pól,
-a `CHECKS` nie występuje w żadnym `.py`.
-Do przeczytania jest, jak mówią o sobie dwa pozostałe dokumenty tego toru:
-[`docs/linter.md`](docs/linter.md#what-closed-the-track) pisze
-„What follows is the design as it stood",
-a [`docs/firing-rates.md`](docs/firing-rates.md) nazywa pakiet wycofanym
-w drugim akapicie i mówi tam też, że żadnego przebiegu z niego nie da się powtórzyć.
-Ruchem jest albo takie zdanie w otwarciu tego dokumentu,
-albo czas przeszły przy każdym własnym odniesieniu osobno.
-Za drugim ruchem przemawia to, że zdanie w otwarciu zamroziłoby także
-przegląd cudzych silników, którego wycofanie toru nie dotyczy
-i po który ktoś do tego dokumentu wraca.
-Pozycja tego dokumentu na liście w README jest już w czasie przeszłym,
-więc rozstrzygnięcie dotyczy samego dokumentu, a nie tamtej listy.
-
 Prozy tych dokumentów nikt nie przeczytał pod jednym pytaniem:
 czy to zdanie przeżyje następną produkcję.
 Jedna sesja znalazła trzy zdania, które go nie przeżyły,
@@ -237,19 +157,6 @@ Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
 w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
 są one przypięte do gramatyki z chwili pomiaru,
 a pyta o nie wpis o liczbach `docs/ustawy.md`.
-
-Liczby wzięte nad własnym README stoją w dwóch dokumentach w pełnej precyzji,
-a właściciela mają w figurach `readme` i `podłoża-readme`.
-Zostaje zejść z pełnej precyzji tym trzem:
-mianownikowi i dwóm zgodnościom w
-[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
-bo jedno przeredagowanie rusza te trzy liczby naraz,
-a przeliczenie poprawia wtedy trzy zdania zamiast wskazać plik.
-Licznik klasy zdań w [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop)
-stał tu czwarty i zszedł z precyzji razem z liczbami tamtego dokumentu.
-Do przeczytania są oba te akapity: pierwszy z nich opiera się na zdaniu,
-którego README nie ma — o czym mówi wpis o `Cenie trzeciej` w sekcji o komendach —
-więc samo przeliczenie go nie naprawia.
 
 Nazwa `parser` obejmuje w tych dokumentach cały tor gramatyczny,
 a nazywa jedną z pięciu warstw, przez które przechodzi zdanie.
@@ -361,6 +268,17 @@ a zawodzi coś innego, więc werdykt sam wystąpień nie rozdziela.
 Sesja dzieli się po plikach, bo każde wystąpienie rozstrzyga się osobno.
 
 ## Komendy i sondy
+
+`noun` i `clause` stoją w trzech miejscach, a nazwane są w dwóch z nich.
+Właściciel pola `host` nazwy nie ma:
+`_dokąd_doszło` w `olski/attachment.py` wydaje oba napisy wprost.
+Nazwane są u czytelników — `STRONA_IMIENNA` i `STRONA_CZASOWNIKOWA`
+w `olski/rozstrzyganie.py` oraz `CZASOWNIK` i `RZECZOWNIK` w `harness/rama.py` —
+a komentarz przy każdej z tych par odsyła po nazwę do tamtego pliku.
+Ruchem jest para nazw u właściciela pola, importowana przez oba pozostałe miejsca.
+Do przeczytania jest `render` w `olski/attachment.py`:
+te napisy są tam zarazem kluczami słownika (`counts['noun']`) i wydrukiem,
+więc nazwa wchodzi razem z jednym i z drugim.
 
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
 `harness/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
@@ -515,49 +433,6 @@ tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
 więc ten, kto podnosi którykolwiek z dwóch, wybiera kształt dla drugiego,
 i jest to jedna sesja.
 
-Klasa `verb` w `NOMINALIZATION` z `harness/endings.py`
-stoi przed każdą nominalną,
-co jest słuszne dla `zostanie` i niesłuszne dla `dacie`.
-Oba niosą czytanie czasownikowe obok nominalnego,
-a dokument datujący fakturę ma na myśli miejscownik od `data`
-tam, gdzie ta kolejność wpisuje drugą osobę liczby mnogiej od `dać`,
-więc udział form odmienionych cytowany w
-[`docs/linter.md`](docs/linter.md#what-the-nominalization-endings-match)
-jest podłogą, a nie liczbą.
-Ruchem jest albo kolejność, którą rozstrzyga korpus —
-czytanie nominalne przed czasownikowym tam, gdzie czasownikowe jest osobą,
-której rejestr nie używa — albo podłoga wypisana tam, gdzie udział jest cytowany,
-czyli w tamtej sekcji i nigdzie indziej.
-Dowodem jest 7 słów: 6 razy `dacie` i raz `powiecie`,
-a rejestr obu używa jako rzeczowników.
-Waga wpisu spadła razem z torem, który tę sondę zamawiał:
-figura, którą on prostuje, jest teraz częścią zapisu o czymś wycofanym,
-a nie liczbą, na której coś stoi.
-
-`Cena trzecia` w
-[`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-opiera się na zdaniu, którego README nie ma.
-Cytuje `Zbiór tekstów przechodzących przez wszystkie reguły
-jest podzbiorem polszczyzny w jednym i w drugim przypadku`
-i liczy je ponad sześć sekund,
-a README niesie to zdanie z drugim członem,
-`a wyznaczenie go przez wykluczanie jest nieporównanie tańsze`,
-którego słów sonda nie przyłącza:
-dziedziny przycinają się wcześnie
-i cały plik kończy się najwolniejszym czasem poniżej dziesiątej części sekundy.
-Sam cytat podany przez `-c` liczy się ponad osiem sekund,
-więc zjawisko zostaje, a przykład z tego pliku wyszedł.
-Do przeczytania jest ten akapit obok `python3 -m harness.podłoża proza/README.txt`
-i tego samego zdania podanego przez `-c`.
-Ruchem jest albo zdanie, które README naprawdę ma i które ten czas pokazuje,
-albo powiedzenie tej ceny bez zdania z tego pliku.
-Liczby w tamtym akapicie zostały nieprzeliczone razem z resztą,
-bo przeliczenie jednej z nich w wywodzie bez dowodu czyta się jak uzgodnienie.
-Widać to teraz po samej sekcji: mówi ona wyżej o 48 zdaniach prozy README,
-a ten akapit o pozostałych 42, i różnicy nie tłumaczy w niej nic.
-Wpisu o figurach nad własną prozą to nie zamyka:
-tamten pyta, czy mianownik w ogóle zapisywać.
-
 `harness/konwersy.py` liczy lematy, a pytanie pod nią jest o zdania.
 Wraca ona ze 144 lematami z 17 224,
 czyli mówi, ilu czasowników dotyczy rama, której zdanie przechodnie samo nie wybiera,
@@ -589,36 +464,6 @@ losowania ma ona dwa, a mianownik każdego niesie plik z wpisami,
 więc scalenie dodaje trzeci tryb do dwóch, a nie drugi do jednego.
 Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi poza
 `sonda/` właśnie dlatego, a program czytający ten plik jest najtańszą rzeczą w tej parze.
-
-`CZASOWNIK` znaczy w trzech miejscach trzy rzeczy i jeden plik importuje dwie.
-`olski/attachment.py` nazywa tak zbiór części mowy, `olski/rozstrzyganie.py` stronę
-wyboru (`"clause"`), a `harness/polszczyzna.py` wzorzec `fin|impt|inf`.
-Nazwę drugą wzięto stamtąd, gdzie pierwsza już stała: komentarz przy niej mówi
-„tak jak nazywa je `olski/attachment.py`”, a tamten plik ma pod tą nazwą co innego.
-`olski/wieloznaczność.py` potrzebuje obu naraz, więc importuje jedną pod
-`STRONA_CZASOWNIKOWA` i tłumaczy to komentarzem, czyli płaci za kolizję,
-której nie zrobił.
-Ruchem jest nazwa dla strony wyboru mówiąca, że jest stroną — `STRONA_IMIENNA`
-i `STRONA_CZASOWNIKOWA` w miejsce `RZECZOWNIK` i `CZASOWNIK` — bo zbiór części mowy
-pod tą nazwą stoi w dwóch plikach, a strona w jednym.
-Czytelników strony jest sześciu i wszyscy są nazwani z imienia:
-`strona`, `wypadki`, `zbuduj`, `oceń` i `Skłonność.wybierz` w tamtym module
-oraz `harness/wskazania.py`.
-`olski/skłonności.txt` zmiana nie rusza, bo wartości `noun` i `clause` zostają
-te same; przemianowana jest nazwa stałej, a nie napis, który ona trzyma.
-
-Rozdanie wejścia stoi w dwóch kopiach, odkąd `olski.coverage` bierze prozę.
-`harness/komenda.py` trzyma wywód — bank drzew jest jednym katalogiem, więc kilka
-ścieżek naraz może znaczyć tylko prozę — i sam kod, wraz z komunikatem o katalogu
-podanym obok pliku, a `main` w `olski/coverage.py` ma teraz to samo drugi raz.
-Sondy z `harness/` importują z `olski/coverage.py`, a nie odwrotnie,
-więc ten moduł tamtego wziąć nie może i rozjazd jest tu tylko kwestią czasu.
-Ruchem jest funkcja rozdająca wejście w `olski/corpus.py`, obok `pliki`,
-którą wołają oba wiersze poleceń: pyta o listę ścieżek, oddaje katalog albo pliki,
-a komunikat o pomyłce zostaje przy wołającym, bo nazwa programu jest jego.
-Do przeczytania jest `uruchom` w `harness/komenda.py` obok `main` w
-`olski/coverage.py`: pierwszy woła sondę przez `Komenda`, drugi drukuje sam,
-więc wspólna jest sama odpowiedź na pytanie „katalog czy pliki”, a nie przebieg.
 
 Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamkniętymi
 zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` prowadzą
@@ -1444,19 +1289,6 @@ and a morphology changes the segments a variant is run over
 rather than the grammar it is run with.
 What to read is that field beside `SOURCES` in `olski/coverage.py`,
 because a variant of this second kind has to say where it enters.
-
-One figure is left going stale without a command,
-the rest of the list having gone with the counts
-`docs/corpus.md` no longer quotes.
-What stays is what the past tense bought, in
-[`docs/subset.md`](docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku):
-that document counts sentences and has nothing to recount them with,
-and the blocker queue's `praet` row has contradicted the figure
-since negation and the numeral landed.
-The value is not repeated here, because a value copied into this list
-goes stale twice over, and the move is either the probe above
-or rewriting that figure as an order of magnitude
-([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
 `NPConjunct` w `olski/subset.py` ma dwanaście ciał,
