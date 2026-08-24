@@ -35,6 +35,17 @@ def _role(streszczenie: dict[str, str]) -> str:
     return ", ".join(f"{rola}: {wypełnienie}" for rola, wypełnienie in streszczenie.items())
 
 
+def _czytanie(streszczenie: tuple[dict[str, str], ...], wcięcie: str) -> Iterator[str]:
+    """Wiersze jednego czytania: po jednym na zdanie składowe.
+
+    Kreska otwiera czytanie, a składowe następne stoją pod nim bez niej,
+    bo lista liczy czytania: kreska przy każdym składowym mówiłaby,
+    że zdanie o dwóch składowych i jednym czytaniu ma czytania dwa.
+    """
+    for numer, składowe in enumerate(streszczenie):
+        yield f"{wcięcie}- {_role(składowe)}" if numer == 0 else f"{wcięcie}  {_role(składowe)}"
+
+
 def _czytania(verdict: Verdict) -> Iterator[str]:
     """Wiersze, którymi ``--readings`` mówi, co stoi w której roli.
 
@@ -43,11 +54,11 @@ def _czytania(verdict: Verdict) -> Iterator[str]:
     (``Verdict.rozbieżne`` w ``olski/subset.py``).
     """
     for streszczenie in verdict.readings:
-        yield f"- {_role(streszczenie)}"
+        yield from _czytanie(streszczenie, "")
     for rozbieżność in verdict.rozbieżne:
         yield f"„{rozbieżność.konstytuent}” czyta się tak:"
         for streszczenie in rozbieżność.czytania:
-            yield f"  - {_role(streszczenie)}"
+            yield from _czytanie(streszczenie, "  ")
 
 
 def _dalsze(verdict: Verdict) -> str:

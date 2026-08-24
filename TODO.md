@@ -269,6 +269,31 @@ Sesja dzieli się po plikach, bo każde wystąpienie rozstrzyga się osobno.
 
 ## Komendy i sondy
 
+Lista czytań mnoży odmiany zdań składowych, a mogłaby je sumować.
+Wpisem na liście jest jedno czytanie, a streszczeniem czytania krotka
+o słowniku na każde składowe (`describe` w `olski/parse.py`),
+więc dwa składowe wieloznaczne każde na swój sposób dają tyle wpisów,
+ile jest par ich odmian, po tyle wierszy każdy, ile zdanie ma składowych.
+Cenę tę opisuje
+[`docs/design-notes.md`](docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+i bierze ją świadomie, więc ten wpis odwraca decyzję, a nie naprawia przeoczenie.
+Ruchem jest wpis na zdanie składowe wraz z odmianami tego jednego składowego,
+czyli ten sam kształt, jaki ma wiersz o konstytuencie rozbieżnym
+(`Rozbieżność` w `olski/parse.py`): wpisów jest wtedy tyle, ile składowych,
+a wierszy tyle, ile odmian wszystkich składowych razem.
+Sam kształt jest tu łatwiejszy niż dwie decyzje, które on wymusza.
+Pierwsza: czym jest to samo zdanie składowe w dwóch czytaniach,
+skoro czytania rozcinają zdanie w różnych miejscach —
+`Ludzie są wolni, równi i szczęśliwi.` ma czytanie o jednym składowym
+i czytanie o dwóch, więc numer w krotce znaczy w nich co innego.
+Druga: co liczy wtedy podpis `streszczenia czytań` na witrynie
+(`podpisCzytań` w `witryna/skrypt.js`), bo czytań liczyć przestaje.
+Do przeczytania jest wydruk `python3 -m olski.check --readings` nad
+`proza/README.txt` (`python3 -m harness.markdown README.md --into proza/`):
+jedno zdanie tego pliku wychodzi tam kilkudziesięcioma streszczeniami,
+a reszta pojedynczymi, więc ruch opłaca się samemu ogonowi rozkładu
+i trzeba przeczytać, czy ogon jest wart osobnego kształtu listy.
+
 Dwie sondy czytają Walentego i pytają go o różne schematy, a różnicy nie zmierzył nikt.
 `harness/rama.py` odsiewa kwalifikatory `archaiczny` i `zły` przez `BRANE`,
 bo schemat tak oznaczony nie należy do rejestru, o który olskiemu chodzi,

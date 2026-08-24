@@ -1215,19 +1215,49 @@ Reguła obowiązuje każdą z tych list, więc i tę pod konstytuentem:
 i tam dwa kształty o jednym napisie stoją jednym wpisem,
 a grupa imienna zostaje przez to bez listy.
 
-Zdanie współrzędne zatrzymania nie ma, więc streszczenie opisuje z niego
-to zdanie składowe, w którym rola występuje pierwszy raz.
-`Ludzie są wolni, równi i szczęśliwi.` ma czytanie,
-w którym `i szczęśliwi` jest drugim orzeczeniem,
-bo Morfeusz zna tę formę i jako przymiotnik, i jako `szczęśliwić fin:sg:ter:imperf`,
-a wiersz mówi wtedy `Predicative: wolni, równi` i o reszcie zdania milczy.
-Wielokropek jest po tej stronie roli, po której zdanie ma jeszcze składowe.
-`Autor działa i zapisuje ustawienia.` wychodzi przez to wierszem
-`Subject: Autor…, Object: …ustawienia, Verb: działa…`,
-z którego widać, że dopełnienie jest z innego składowego niż podmiot.
-Wiersza na zdanie składowe nie ma, bo wierszy ma przybywać z liczbą decyzji,
-a nie z liczbą części, na jakie zdanie się dzieli.
-Znak kosztuje jedno miejsce w napisie i wierszy nie rusza.
+Zdanie współrzędne zatrzymania nie ma, a streszczeń dostaje tyle,
+ile ma zdań składowych, po jednym na składowe:
+
+```sh
+python3 -m olski.check --readings -c "Autor działa i zapisuje ustawienia."
+```
+
+```text
+<text>: valid     Autor działa i zapisuje ustawienia.
+                  one reading
+                  - Subject: Autor, Verb: działa
+                    Object: ustawienia, Verb: zapisuje
+```
+
+Kreska otwiera czytanie, a składowe następne stoją pod nim bez niej,
+i widać po tym, że dopełnienie jest z innego zdania składowego niż podmiot.
+Jedno streszczenie na zdanie nazywałoby pierwsze wystąpienie każdej roli,
+czyli role zdania składowego pierwszego, i o reszcie zdania milczało:
+`Wciśnij klawisz wu i zapisz plik konfiguracyjny.` wychodziłoby wtedy
+werdyktem `valid` i wierszem `Object: klawisz wu, Verb: Wciśnij`,
+z którego czytelnik odczytuje, że parser drugiej połowy zdania nie rozebrał.
+Zdanie o dwóch składowych albo więcej jest w README co trzecie
+([corpus.md](corpus.md#the-same-queue-over-prose) mówi, czym się ten plik czyta),
+więc milczenie to nie jest przypadkiem z brzegu.
+Granicą podziału jest przy tym początek składowego następnego,
+a nie koniec poprzedniego,
+więc rola stojąca między składowymi wpada do tego przed nią:
+dopowiedzenie za dwukropkiem stoi poza każdym zdaniem składowym
+i podział po końcach zostawiłby je bez streszczenia.
+
+Cena tego podziału jest iloczynem i bierzemy ją świadomie.
+Streszczenia różne wchodzą na listę każde raz,
+a dwa składowe wieloznaczne każde na swój sposób
+dają streszczeń tyle, ile jest par ich odmian:
+jedno zdanie README wychodzi przez to kilkudziesięcioma streszczeniami
+po trzy wiersze każde, gdzie streszczenie jedno na zdanie dawało kilka wierszy.
+Iloczyn ucina `MAX_READINGS`, tak jak ucina listę czytań,
+a płacą go zdania odrzucone już jako wieloznaczne:
+zdanie `valid` ma jedno czytanie, więc dostaje po jednym wierszu na składowe.
+Wpisu na składowe zamiast wiersza na czytanie ta lista nie ma,
+choć zamieniłby ten iloczyn na sumę,
+tak jak zamienia go wiersz o konstytuencie rozbieżnym;
+co za to płaci, mówi [`TODO.md`](../TODO.md).
 
 Gospodarza nazywa jego głowa, czyli jedno słowo.
 `w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,

@@ -207,13 +207,10 @@ DEKLARACJA = Deklaracja(
     # Zdanie składowe, czyli człon ciągu, który koordynuje `Clause`.
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
-    # Czoło pytania stoi tu drugie i jest rozpiętością jednego zdania tak samo,
-    # bo pytanie o wyrażenie przyimkowe wynosi grupę pytajną ponad zdanie
-    # składowe, w którym ona rolę zajmuje. Bez tego symbolu grupa ta leży cała
-    # przed składowym i dostaje znak :data:`SĄSIEDNIE_ZDANIE_SKŁADOWE`, czyli
-    # zdanie o jednym zdaniu składowym mówi, że streszczenie milczy o drugim,
-    # a streszczenie właśnie to składowe wypisuje.
-    składowe=("ClauseConjunct", "InterrogativeCore"),
+    # Symbol jest jeden, bo jeden jest ciąg zdań składowych.
+    # Czoło pytania członem tego ciągu nie bywa, więc dopisane tutaj
+    # nie rozdzieliłoby ani jednego streszczenia.
+    składowe=("ClauseConjunct",),
     # Zdania podrzędne: względne, dopełnieniowe, pytanie zależne i okolicznikowe.
     # Każdy z tych symboli opakowuje takie zdanie, a nie jest symbolem samego zdania,
     # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —

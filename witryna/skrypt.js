@@ -75,17 +75,24 @@ function podpisRozbieżności(konstytuent) {
   return `„${konstytuent}” czyta się tak:`;
 }
 
-function czytanie(role) {
+//  Streszczenie czytania jest listą streszczeń zdań składowych, po jednym na
+//  składowe (`describe` w `olski/parse.py`), więc każde stoi w osobnym wierszu
+//  jednej pozycji spisu: pozycji jest tyle, ile czytań.
+function czytanie(streszczenie) {
   const wiersz = element("li");
-  for (const [rola, wypełnienie] of Object.entries(role)) {
-    wiersz.append(element("span", "rola", rola), document.createTextNode(` ${wypełnienie} `));
+  for (const składowe of streszczenie) {
+    const część = element("div");
+    for (const [rola, wypełnienie] of Object.entries(składowe)) {
+      część.append(element("span", "rola", rola), document.createTextNode(` ${wypełnienie} `));
+    }
+    wiersz.append(część);
   }
   return wiersz;
 }
 
 function spisCzytań(lista) {
   const spis = element("ol", "czytanie-lista");
-  lista.forEach((role) => spis.append(czytanie(role)));
+  lista.forEach((streszczenie) => spis.append(czytanie(streszczenie)));
   return spis;
 }
 
@@ -121,10 +128,15 @@ function domysły(lista) {
   return blok;
 }
 
-function wierszCzytania(role) {
-  return `- ${Object.entries(role)
-    .map(([rola, wypełnienie]) => `${rola}: ${wypełnienie}`)
-    .join(", ")}`;
+//  Wiersze jednego czytania, po jednym na zdanie składowe, w tym samym układzie,
+//  jaki pisze `_czytanie` w `olski/check.py`, i po co on taki, mówi tamten plik.
+function wierszeCzytania(streszczenie, wcięcie) {
+  return streszczenie.map((składowe, numer) => {
+    const role = Object.entries(składowe)
+      .map(([rola, wypełnienie]) => `${rola}: ${wypełnienie}`)
+      .join(", ");
+    return `${wcięcie}${numer === 0 ? "- " : "  "}${role}`;
+  });
 }
 
 //  Tekst dla schowka jest drugim widokiem tych samych danych: wierszami, a nie
@@ -135,11 +147,11 @@ function tekstWerdyktu(dane) {
   for (const forma of dane.dalsze_zatrzymania) wiersze.push(podpisZatrzymania(forma));
   if (dane.czytania.length) {
     wiersze.push(podpisCzytań(dane.czytania.length, dane.urwane));
-    for (const role of dane.czytania) wiersze.push(wierszCzytania(role));
+    for (const streszczenie of dane.czytania) wiersze.push(...wierszeCzytania(streszczenie, ""));
   }
   for (const wpis of dane.rozbieżne) {
     wiersze.push(podpisRozbieżności(wpis.konstytuent));
-    for (const role of wpis.czytania) wiersze.push(`  ${wierszCzytania(role)}`);
+    for (const streszczenie of wpis.czytania) wiersze.push(...wierszeCzytania(streszczenie, "  "));
   }
   for (const domysł of dane.domysły) {
     wiersze.push(`? ${podpisDomysłu(domysł)}: ${domysł.powód} (${domysł.świadek})`);
