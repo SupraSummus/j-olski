@@ -86,6 +86,25 @@ ten przemianowałby też formę `czytanie` cytowaną w bloku tamtej sekcji,
 gdzie jest ona przykładem rzeczownika o dwóch częściach mowy, a nie terminem.
 Wpis zamyka commit, po którym `czytanie` w znaczeniu wyniku nie zostaje nigdzie.
 
+Nagłówka nikt nie sprawdza po edycji sekcji,
+bo [przegląd](CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku)
+każe czytać od miejsca, w którym edycja się zaczęła,
+a nagłówek jest nad tym miejscem.
+Reguła o [czasowniku dokładnym w nagłówku](CLAUDE.md#dla-kogo-jest-napisane-zdanie)
+mówi, jaki nagłówek jest zły, i nie mówi, kto go zauważy.
+Ruchy są dwa i wystarczy jeden: pytanie na liście przeglądu,
+czyli przeczytaj nagłówek sam i powiedz, co spodziewasz się pod nim znaleźć,
+albo wykrywacz, którym obejmuje ten wzorzec
+[cel o wykrywaczu wzorców prozy](docs/roadmap.md#cele) —
+Morfeusz daje tagi, a nagłówek, w którym jedyny czasownik osobowy
+jest tym domowym, wychodzi z nich jednym warunkiem.
+Trafienia czyta się wszystkie, bo populacją są nagłówki tych dokumentów
+i jest ich kilkaset, więc próg stopy nie jest tu potrzebny
+([tor lintera](docs/roadmap.md#tor-lintera-jest-wycofany) upadł na tej różnicy).
+Kilkadziesiąt nagłówków ma za czasownik `stoi`, `bierze`, `niesie` albo `ma`,
+a między nimi `Naprawę niesie tagset, a formalizm ją bierze`
+w [`docs/subset.md`](docs/subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze).
+
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,

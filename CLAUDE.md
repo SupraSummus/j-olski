@@ -460,13 +460,22 @@ Powtarza się w niej kilka chwytów.
   bez udawania, że któreś z nich czegoś chce.
   Wykreślamy dopiero to, co rzeczy przypisuje wolę albo doznanie.
 - **Czasownik domowy.**
-  „Stoi”, „trzyma”, „bierze”, „kosztuje”, „schodzi”
+  „Stoi”, „trzyma”, „bierze”, „niesie”, „kosztuje”, „schodzi”
   obsłużyły już w tych dokumentach tyle znaczeń,
   że żadnego nie znaczą osobno:
   „stoi” zastępuje jest, obowiązuje, zależy i znajduje się.
   Czyta się to jak termin i nie jest zdefiniowane nigdzie.
   Test podstawieniowy: wstaw czasownik dokładny i sprawdź, czy zdanie zyskało.
   „Sklejenie stoi przed analizą” → „Sklejenie poprzedza analizę”.
+  W nagłówku czasownik domowy szkodzi najbardziej,
+  z tego samego powodu co peryfraza wyżej,
+  a dokłada się do tego cena przemianowania,
+  którą nazywa [reguła o liczbie w nagłówku](#pomiar-i-liczba-która-po-nim-zostaje).
+  Test podstawieniowy obowiązuje tam od pierwszej wersji nagłówka,
+  a nagłówek sekcji ruszanej z innego powodu liczy się jako ruszony,
+  choćby jego wiersz nie wszedł do zmiany.
+  Gdzie czasownik dokładny nie pasuje, nagłówek nazywa sam temat,
+  a tezę sekcji piszesz w jej pierwszym akapicie.
 - **„To” jako podmiot akapitu.**
   Zaimek odsyła do całego poprzedniego zdania, a nie do rzeczownika.
   Autor takiego zdania nie zauważy, bo wie, o czym pisał.
