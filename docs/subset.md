@@ -1463,9 +1463,12 @@ a `to` ma ponadto własną pozycję, której olski nie ma
 
 Znak rozdzielający spina dwa zdania, a obejmujący bierze to, co stoi w środku,
 i te dwie pary są w tym rejestrze dwiema różnymi konstrukcjami.
-Cudzysłów obejmuje tytuł albo termin cytowany — `„Zasady techniki prawodawczej”` —
-a nawias dopowiedzenie obok zdania, którym w tej prozie jest nazwa dokumentu:
-`(docs/subset.md)`, `(niżej)`.
+Cudzysłów obejmuje tytuł — `„Zasady techniki prawodawczej”` —
+albo napis przytoczony, o którym zdanie orzeka: `„B”`, `„nie”`.
+Tytuł odmienia się i jest grupą imienną, przytoczenie nie odmienia się wcale,
+więc pozycje są dwie.
+Nawias obejmuje dopowiedzenie obok zdania,
+którym w tej prozie jest nazwa dokumentu: `(docs/subset.md)`, `(niżej)`.
 
 **Cudzysłów przepuszcza grupę imienną całą.**
 Produkcja obejmuje grupę i wypuszcza jej przypadek, liczbę oraz rodzaj bez zmiany,
@@ -1474,8 +1477,49 @@ bo polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli, w której grupa
 a `Ustawa jest przepisem „Zasad techniki prawodawczej”.` dopełniacz.
 Znaki są dwa i są różne, bo polszczyzna otwiera cudzysłów innym znakiem,
 niż go zamyka, więc napis niedomknięty nie ma wyprowadzenia.
-Wnętrzem jest sama grupa imienna, więc `„to nie zdanie”` zostaje na zewnątrz:
+Wnętrzem tej produkcji jest sama grupa imienna,
+więc `„to nie zdanie”` zostaje na zewnątrz:
 w cudzysłowie stoi tam zdanie, a nie grupa.
+
+**Napis przytoczony grupą imienną nie jest i dostaje czytanie nieodmienne.**
+Cudzysłów obejmuje w tej prozie także `„B”`, `„nie”` i `„Daj”`,
+czyli napisy, o których zdanie orzeka, a nie słowa, którymi orzeka.
+Polszczyzna ich nie odmienia, więc produkcja nie ma tu czego przepuszczać,
+a napis dostaje rzeczownik nieodmienny, ten sam, który dostaje wersalik
+([wyżej](#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)).
+Nazwa litery zapisana słownie wyprowadza się bez tej pozycji,
+bo `wu` i `ce` słownik daje jako rzeczowniki nieodmienne,
+a litera zapisana znakiem jest u słownika skrótem — `B` pod lematem `bajt` —
+i skrótów ta gramatyka nie ma.
+
+Licencji udziela cudzysłów po obu stronach napisu,
+tak samo jak przyimek udziela jej formie przyimkowej
+([wyżej](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
+Napis niedomknięty nie jest więc przytoczeniem,
+a wnętrze dłuższe niż jedno słowo zostaje przy grupie.
+
+Napis z czytaniem rzeczownikowym zostaje przy grupie, choćby był jednym słowem,
+i jest to warunek, a nie oszczędność:
+czytanie nieodmienne spełnia każde żądanie przypadku, a niesie rodzaj nijaki,
+więc `Program zapisuje „ustawienia”.` dostałoby drugie czytanie,
+w którym napis jest podmiotem,
+a `„Reguła” jest tania.` przestałoby się wyprowadzać.
+Warunek pyta o czytania, a nie o ich użyteczność,
+więc `Znam „szybko”.` pada dalej:
+słownik daje tej formie wołacz rzeczownika `szybka`,
+którym dopełnienia nikt nie zbuduje, a przytoczenia on już nie dopuszcza.
+
+Cena jest ta sama, którą płaci wersalik, a do niej dochodzi jedna osobna:
+zdanie jednowyrazowe jest w cudzysłowie tym samym napisem co forma przytoczona,
+więc `Znam „Płacę”.` wychodzi jednym czytaniem,
+w którym mowa niezależna jest rzeczownikiem.
+
+Nad prozą tego repozytorium pozycja nie domyka ani jednego zdania:
+przytoczeń jest w niej kilkanaście, a każde zdanie z nimi niesie obok
+konstrukcje, których olski nie ma, więc pozycja zdejmuje jeden powód odrzucenia,
+a nie całe odrzucenie.
+Zakup jest przez to odłożony, a nie zmierzony na zero,
+tak samo jak przy drugiej pozycji nawiasu niżej.
 
 **Nawias dochodzi w każdym napisie do jednego gospodarza.**
 `Zdanie stoi (docs/subset.md).` wychodzi jednym czytaniem,

@@ -585,6 +585,23 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 
 ## Gramatyka, parser i pomiar pokrycia
 
+`GRUPA_JEDNYM_SŁOWEM` w `olski/subset.py` wypisuje części mowy,
+którymi grupa imienna staje sama jednym słowem,
+czyli fakt o gramatyce zapisany drugi raz obok niej.
+Głowa dopisana do grupy imiennej tej listy nie ruszy,
+a wtedy przytoczenie zamieni czytania napisowi, który cudzysłów bierze już jako grupę,
+i napis dostanie drugie czytanie albo straci rodzaj
+([`docs/subset.md`](docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+Rozjazdu nie widzi ani suita, ani przebieg nad prozą:
+statusy ruszy dopiero napis z nową głową postawiony w cudzysłowie.
+Ruchem jest pytanie gramatyki wprost, zamiast trzymania listy —
+`Grammar` odpowiada dziś, czy terminal bierze czytanie
+(`licencjonowane` w `olski/subset.py`),
+a brakuje odpowiedzi, czy bierze je terminal w produkcji grupy imiennej.
+Do rozstrzygnięcia jest, czy to pytanie warto do `Grammar` dopisać,
+czy taniej jest pilnować listy testem, który dla każdej głowy grupy
+żąda jednego czytania od napisu w cudzysłowie.
+
 Lista predykatywów nie ma `pora` ani `nie sposób`,
 a Składnica ma zdania, które orzekają jednym z tych dwóch:
 `Już pora.`, `Pora do łóżka!`, `Pora na nastolatki.`, `Wprost nie sposób!`
