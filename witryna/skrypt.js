@@ -245,5 +245,9 @@ pole.addEventListener("keydown", (zdarzenie) => {
   if (zdarzenie.key === "Enter" && (zdarzenie.ctrlKey || zdarzenie.metaKey)) sprawdź();
 });
 
+//  Oba tory pokazują się same przy wejściu,
+//  bo sekcja pusta do pierwszego kliknięcia nie mówi, co jest pod przyciskiem.
+//  Żądania idą dwa naraz, a dyno liczy je różnymi workerami (`Procfile`).
 odmierz();
 sprawdź();
+losuj();

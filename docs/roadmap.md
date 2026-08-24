@@ -1,8 +1,8 @@
 # Roadmap
 
 Uporządkowanie, a nie harmonogram.
-Dat tu nie ma, bo projekt jest dla przyjemności,
-a datowany plan hobby jest sposobem na to, żeby zaczęło przypominać pracę.
+Dat tu nie ma, bo nikt na żaden etap nie czeka,
+a plan z datami zamienia tę robotę w pracę.
 
 Każdy etap ma kryterium wyjścia,
 bo „kiedy to jest skończone” jest tą częścią planowania,

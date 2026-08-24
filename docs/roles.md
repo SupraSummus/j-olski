@@ -19,8 +19,8 @@ tu stoi druga połowa tego pytania, czyli kogo ta zmiana dotyczy.
 
 Wszystkie role z tej listy obsadza autor repozytorium, jedna osoba na wszystkie,
 plus sesje agenta, które mają w historii gita własne commity.
-Nie ma wydania, nie ma pakietu, nie ma aplikacji, która to napędza:
-[README](../README.md#kierunek) mówi, że projekt jest dla przyjemności.
+Nie ma wydania, nie ma pakietu, nie ma aplikacji, która to napędza
+([README](../README.md#kierunek)).
 
 To jest stan, którego warto pilnować, a nie brak do nadrobienia.
 Alienacja pracy, którą Marks opisał
@@ -53,7 +53,10 @@ więc każda rola niżej mówi, kto ją obsadza.
 Pyta, co to jest i czy go to dotyczy.
 Wchodzi na początek [README](../README.md) i czyta w dół,
 a lista dokumentów na jego końcu jest wyjściem, nie treścią:
-cała droga tej roli mieści się w jednym pliku.
+cała droga tej roli w repozytorium mieści się w jednym pliku.
+Drugim wejściem jest witryna, o ile ktoś postawi ją pod adresem:
+strona zaczyna od tego samego wprowadzenia, a prowadzi do pola tekstowego
+([witryna.md](witryna.md#strona-zaczyna-od-tego-czym-olski-jest)).
 
 **Psuje ją** mechanizm postawiony przed ramą
 i nazwa użyta przed wprowadzeniem, czytanie albo walencja na pierwszej stronie.

@@ -34,6 +34,36 @@ a `tests/test_witryna.py` podaje jej słownik środowiska i czyta odpowiedź.
 Zależnością wykonawczą witryny jest sam gunicorn i deklaruje go dodatek `witryna`,
 którego suita nie instaluje.
 
+## Strona zaczyna od tego, czym olski jest
+
+Strona pod adresem publicznym dostaje czytelnika, który o projekcie nie słyszał
+([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)),
+więc pierwsze akapity mówią, co parser robi i co znaczy jedno odczytanie,
+a pole tekstowe jest dopiero pod nimi.
+Żart o spiłowanym `p` jest w tym układzie podpisem pod wprowadzeniem:
+tłumaczy nazwę, a przeczytany pierwszy nie tłumaczy niczego.
+
+Wprowadzenie streszcza [README](../README.md) i mówi mniej dokładnie niż tamten plik.
+Ani liczb, ani wywodu strona nie powtarza, a odsyła do repozytorium,
+więc zmiana w README nie zostawia tutaj kopii nieaktualnej
+([CLAUDE.md](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)).
+Wyjaśnienie dłuższe niż dwa zdania wchodzi zwinięte,
+bo czytelnik przyszedł sprawdzić własne zdanie,
+a nie przeczytać akapit o wieloznaczności.
+
+Lista zastosowań mówi, co dałoby się z parsera zbudować,
+i mówi w zdaniu nad sobą, że nikt z tego niczego nie zbudował.
+Bez tego zdania czyta się ona jak spis funkcji, których strona nie ma.
+Właścicielem listy jest strona, bo na to pytanie nie odpowiada żaden dokument:
+[roadmap.md](roadmap.md#cele) wylicza cele, czyli to, czym sprawdzimy narzędzie,
+a nie to, co ktoś mógłby z niego złożyć.
+
+Oba tory pokazują się przy wejściu same: strona woła werdykt i makietę,
+zanim ktokolwiek naciśnie przycisk.
+Sekcja pusta do pierwszego kliknięcia nie mówi, co jest pod przyciskiem,
+a dwa żądania naraz obsługują różne workery
+([niżej](#ile-to-bierze-pamięci)).
+
 ## Werdykt idzie w tych słowach, w których drukuje go `olski-check`
 
 Frazę werdyktu ma na własność kod: `Verdict.explain` w `olski/subset.py`.

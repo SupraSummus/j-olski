@@ -66,9 +66,45 @@ h2 {
   color: var(--przygasły);
 }
 
-.wiodące { margin: 0.75rem 0 0; }
+.wiodące { margin: 0.75rem 0 0; font-size: 1.25rem; line-height: 1.45; }
 
 p { margin: 0.75rem 0; }
+
+/*  Dopisek jest podpisem do rzeczy obok:
+    mówi, jak czytać to, co pod nim albo nad nim,
+    i pismem odróżnia się od zdania, które o samym olskim mówi. */
+.dopisek {
+  font-family: var(--pismo);
+  font-size: 0.8125rem;
+  color: var(--przygasły);
+}
+
+/*  Wyjaśnienie dłuższe niż dwa zdania wchodzi zwinięte,
+    bo pierwszy rzut oka ma pokazać pole tekstowe, a nie akapit o wieloznaczności. */
+.więcej { margin: 0.75rem 0 0; }
+
+.więcej summary {
+  font-family: var(--pismo);
+  font-size: 0.8125rem;
+  color: var(--akcent);
+  cursor: pointer;
+}
+
+.więcej p:last-child { margin-bottom: 0; }
+
+/*  Listę zastosowań czyta się rzutem oka po pogrubieniach,
+    więc pozycja zaczyna się od nazwy rzeczy, a znacznika listy nie ma. */
+ul.zastosowania {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.zastosowania li {
+  margin: 0.9rem 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--kreska);
+}
 
 a { color: var(--akcent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 
