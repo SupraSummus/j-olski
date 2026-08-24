@@ -16,7 +16,7 @@ without anything having to choose a reading up front.
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from collections.abc import Collection, Iterable, Mapping
 from dataclasses import dataclass
 
 
@@ -443,7 +443,8 @@ class Grammar:
         i tym właśnie różni się forma odmienna od nieodmiennej.
 
         Więzu na terminalu to nie obejmuje: cechy formy przychodzą z morfologii,
-        a nie z produkcji, więc ich inwentarz stoi poza tym formalizmem.
+        a nie z produkcji, więc inwentarz ich nazw podaje formalizmowi wołający
+        (:meth:`więzy_terminali_niesprawdzane`).
         """
         wypuszczane: dict[str, set[str]] = {}
         for production in self.productions:
@@ -503,6 +504,29 @@ class Grammar:
             for symbol, cechy in self.nie_wypuszczane.items()
             for cecha in cechy
             if (symbol, cecha) not in żądane
+        )
+
+    def więzy_terminali_niesprawdzane(self, cechy: Collection[str]) -> frozenset[tuple[str, str]]:
+        """Pary części mowy i cechy, o którą pyta terminal, a inwentarz jej nie zna.
+
+        Cecha o nazwie spoza inwentarza nie przychodzi z żadnej formy, więc więz
+        na nią przepuszcza każdą i literówka luzuje gramatykę, nie zmieniając ani
+        jednego wiersza wydruku — tak samo jak w :meth:`więzy_niesprawdzane`,
+        tylko że tam nazwy pilnuje sama gramatyka, a tu morfologia, o której ten
+        formalizm nie wie nic. Inwentarz przychodzi więc argumentem od
+        wołającego, który zna oba: cechy formy zamyka ``VALUES``
+        w ``olski/morph.py``.
+
+        Żądanie samej obecności (:attr:`Word.niesione`) idzie tą samą drogą,
+        bo nazywa cechę tego samego inwentarza.
+        """
+        return frozenset(
+            ("|".join(sorted(part.pos)), cecha)
+            for production in self.productions
+            for part in production.body
+            if isinstance(part, Word)
+            for cecha in {name for name, _spec in part.constraints} | set(part.niesione or ())
+            if cecha not in cechy
         )
 
     def __len__(self) -> int:

@@ -654,6 +654,8 @@ Gdzie jego wheel się nie buduje,
 każdy plik testowy dochodzący do analizatora jest pomijany,
 zamiast wywracać zbiórkę,
 więc przebieg melduje testy stojące obok niego, a nie zero testów.
+Pilnuje tego `tests/test_zbiórka.py`, bo dochodzi się tam
+przez cudzy import i pominięcia brakującego nie widać w przebiegu z Morfeuszem.
 Przebieg zielony w takim środowisku nie sprawdza niczego,
 co do analizatora dochodzi, i widać to po liczbie pominięć.
 

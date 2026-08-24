@@ -53,13 +53,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness.komenda import Komenda, uruchom
-from olski.attachment import attachments
+from olski.attachment import STRONA_CZASOWNIKOWA, STRONA_IMIENNA, attachments
 from olski.corpus import Sentence, parse_forest, read_forest
 from olski.coverage import po_kawałkach, segments_for
 from olski.parse import Przyłączenie, Result, parse, sklej_formy
 from olski.rozstrzyganie import (
-    STRONA_CZASOWNIKOWA,
-    STRONA_IMIENNA,
     Rozstrzygnięcie,
     Świadek,
     domyślni,

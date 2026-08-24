@@ -286,6 +286,29 @@ def test_podmiot_spod_treści_odbiera_zdaniu_obok_opuszczenie():
     assert wiedział(R.kufer) == "Kot wiedział, że kufer stał. Kot zamykał okno."
 
 
+def test_podmiot_spod_dopełniacza_odbiera_zdaniu_obok_opuszczenie():
+    """Czytelnik trafia na rzecz z każdego piętra zdania, a nie z dwóch pierwszych.
+
+    Zdanie opisujące stoi tu pod dopełniaczem, czyli głębiej, niż sięga zaimek
+    wychodzący na czoło, i tym różni się to od opisu stojącego wprost w roli.
+    Dwa akapity różnią się rodzajem rzeczy opisanej, i tylko tym:
+    kot nie odbiera myszy niczego, a kotka odbiera jej formę żeńską.
+    """
+
+    def goniła(rzecz):
+        mysz = Postać(R.mysz)
+        opisana = Postać(rzecz)
+        return Opowieść(
+            Akapit(
+                V.gonić(mysz, R.ogon / opis(opisana, V.spać(opisana))),
+                V.zamykać(mysz, R.okno),
+            )
+        ).kompiluj()
+
+    assert goniła(R.kot) == "Mysz goniła ogon kota, który spał. Zamykała okno."
+    assert goniła(R.kotka) == "Mysz goniła ogon kotki, która spała. Mysz zamykała okno."
+
+
 def test_orzeczenie_imienne_opuszcza_podmiot_tak_samo_jak_zdanie_o_czynności():
     """Dwa konstruktory zdania, jedna reguła, bo czytelnik nie widzi, który z nich stoi.
 

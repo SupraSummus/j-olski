@@ -95,16 +95,20 @@ SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"
 WSPARCIE = 2
 PRÓG = 0.85
 
+#: Nazwy dwóch stron wyboru. Właścicielem jest pole ``host``
+#: w ``olski/attachment.py``, a drugi raz wypisujemy je tutaj, bo tamten moduł
+#: mierzy bank drzew: import w nagłówku wciągnąłby czytnik banku do
+#: ``olski-check``, który o werdykt pyta tę warstwę, a o bank drzew nie pyta
+#: wcale (:func:`wypadki` bierze czytnik dopiero w swoim ciele).
+#: Że obie pary mówią to samo, trzyma ``tests/test_rozstrzyganie.py``.
+STRONA_IMIENNA, STRONA_CZASOWNIKOWA = "noun", "clause"
+
 #: Tabela skłonności: ``(przyimek, strona, lemat)`` → ``(w tę stronę, wszystkich)``.
 Licznik = dict[tuple[str, str, str], tuple[int, int]]
 
 #: Jeden wybór wzięty z banku drzew: przyimek, lemat rzeczownika, lemat czasownika
 #: i strona, którą wybrał anotator. Tabela liczy się z tego i ocena mierzy na tym.
 Wypadek = tuple[str, str, str, str]
-
-#: Nazwy dwóch stron wyboru, tak jak nazywa je ``olski/attachment.py``
-#: w polu ``host``.
-STRONA_IMIENNA, STRONA_CZASOWNIKOWA = "noun", "clause"
 
 #: Części mowy, po których poznaje się gospodarza czasownikowego.
 CZASOWNIKOWE = frozenset(
