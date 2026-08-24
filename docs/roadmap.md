@@ -381,9 +381,8 @@ Bez niego `być` przyjmuje dopełnienie w bierniku,
 a `On jest wolny.` wychodzi wieloznaczne
 między orzecznikiem, który czytelnik ma,
 a dopełnieniem, którego nikt nie ma na myśli.
-[subset.md](subset.md#what-it-does-not-cover-yet) nazywa to żądaniem,
-które stawia każda konstrukcja, a nie konstrukcją obok innych,
-a [corpus.md](corpus.md#what-morphological-ambiguity-costs)
+Żądanie to stawia każda konstrukcja z osobna, a konstrukcją obok innych nie jest,
+i [corpus.md](corpus.md#what-morphological-ambiguity-costs)
 dochodzi do tej samej dziury od strony banku drzew.
 
 Etap stoi przed konstrukcjami z tego samego powodu co poprzedni,
@@ -1056,7 +1055,7 @@ a `Robi` w `olski/skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewi
 `Linter pomaga dobry kod.`
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi:
 bezokolicznik czyta stąd sam skład, bo tylko jemu to zdanie coś kupuje
-([subset.md](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego)).
+([subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 Etap stoi przed konstrukcjami z tego samego powodu,
 co [etap 2 toru gramatycznego](#etap-2-walencja):

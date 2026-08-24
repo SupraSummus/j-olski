@@ -108,6 +108,15 @@ bo za przecinkiem czekał w każdym z nich jeszcze jeden brak.
 Nagroda przychodzi więc za ostatni brak, a nie za każdy,
 i nie zależy od tego, kto go zdjął.
 
+Zasłanianie widać najlepiej na pozycji, którą zmierzono z obu stron naraz.
+Dopełnienie w celowniku i w dopełniaczu jest taką pozycją.
+Nad bankiem drzew kupuje przeszło sto zdań
+([subset.md](subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+a nad prozą tego repozytorium podnosi liczbę zdań przyjętych o pojedyncze sztuki,
+choć z tego fotela była brakiem najdroższym.
+Zdania tej prozy mają po kilka zatrzymań naraz,
+więc pozycja zdejmuje jedno zatrzymanie i rzadko kiedy domyka zdanie.
+
 Rada dla piszącego wychodzi z tego jedna:
 liczba pokrycia nad własnym dokumentem nie jest sygnałem,
 dopóki zdania tego dokumentu są długie.
@@ -185,12 +194,14 @@ O jednoznaczność ta lista nie pyta, bo pyta o pozycję, której w gramatyce ni
 Pozycja wpuszczona do gramatyki z tej listy schodzi
 i zostaje po niej sekcja w [`subset.md`](subset.md#what-the-grammar-covers).
 
-**Celownik.**
-`Parser mówi autorowi o czytaniach.` pada, `Parser pokazuje oba czytania.` przechodzi.
-Zdania, które README stawia najwyżej — parser mówi *autorowi*, że coś jest dwojakie —
-nie da się w olskim powiedzieć wcale, więc stoi ono tam bez adresata.
-[Walencja poza biernikiem](subset.md#what-it-does-not-cover-yet) obejmuje to jako żądanie,
-a nie jako pozycję, i z tego fotela jest to najdroższy pojedynczy brak.
+**Druga pozycja ramy.**
+`Parser mówi autorowi, że zdanie czyta się dwojako.` pada,
+a `Parser mówi autorowi.` oraz `Parser mówi, że zdanie czyta się dwojako.` przechodzą.
+Celownik i dopełniacz gramatyka ma
+([subset.md](subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+a wypełnienie bierze jedno naraz,
+więc zdanie, które README stawia najwyżej — parser mówi *autorowi*, że coś jest dwojakie —
+stoi tam bez adresata dalej, i z tego fotela jest to najdroższy pojedynczy brak.
 
 **Grupa imienna z elipsą głowy.**
 `Wszystkie obsadza jedna osoba.` pada, `Wszystkie role obsadza jedna osoba.` przechodzi.
@@ -244,11 +255,6 @@ a `tylko` zostaje poza listą cząstek,
 bo Morfeusz czyta je także jako spójnik;
 w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 
-**Czasownik rządzący dopełniaczem.**
-`Ten kierunek nie potrzebuje gramatyki.` pada, `Gramatyki skład nie czyta.` przechodzi.
-To jest walencja poza biernikiem widziana od strony pisania:
-`potrzebować`, `żądać` i `brakować` są w tym rejestrze codzienne.
-
 **Spójnik skorelowany.**
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
 `Werdykt nie wnosi i nie zdejmuje.` przechodzi.
@@ -268,6 +274,15 @@ bo rola pyta, a pytanie jest jej definicją.
 `Trzeba czytać dokumenty.` przechodzi.
 Predykatyw bierze bezokolicznik na swoim miejscu,
 a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
+
+**Przymiotnik w formie poprzyimkowej.**
+`Reguła działa po polsku.` pada, `Reguła działa wszędzie.` przechodzi.
+Morfeusz daje formie `polsku` część mowy `adjp`, której nie bierze żaden terminal,
+a okoliczność wyrażoną tak polszczyzna pisze wszędzie: `po kolei`, `po cichu`.
+Nazwa tego dokumentu potrzebuje przy tym dwóch napraw, a nie jednej,
+bo `olsku` wraca z Morfeusza jako `ign`:
+[leksykon projektu](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
+wydaje temu słowu przymiotnik i rzeczownik, a formy poprzyimkowej nie wydaje.
 
 **Angielska nazwa pisana małą literą.**
 `README mówi o podzbiorze.` przechodzi,

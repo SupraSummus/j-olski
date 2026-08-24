@@ -383,9 +383,12 @@ którego bezokolicznik nie wyraża,
 więc drzewo żądające go dla cudzego zdarzenia nie ma wyjść tekstem,
 w którym wróciłby czeladnik.
 Tego, że pytanie o kontrolę pada raz, nie zawdzięcza przy tym drzewo sobie:
-[Walenty rozdziela kontrolę](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego),
+[Walenty rozdziela kontrolę](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 więc `chcieć` bezokolicznik dostaje, a `kazać` nie dostaje go wcale,
-bo jego wykonawca stoi w celowniku, którego ta gramatyka nie ma.
+bo jego wykonawca stoi w celowniku,
+a celownik obok bezokolicznika jest drugą pozycją ramy,
+której gramatyka podzbioru nie ma
+([subset.md](subset.md#what-it-does-not-cover-yet)).
 
 Przeczenie sięga przez tę pozycję o piętro niżej i nie ma na to gałęzi.
 `Nie chciał wynieść lustra.` przeczy raz, przy czasowniku osobowym,
@@ -627,7 +630,7 @@ Wyszło z tego coś, czego niezmiennik obiegu nie zapowiadał:
 plik leksykonu jest wspólny, a dwa z trzech zdań, które on mówi, czyta jeden kierunek.
 Bezokolicznik parser zmierzył i nie kupiło mu to zawężenie ani jednej jednoznaczności,
 a zdania podrzędnego tamta gramatyka nie ma wcale, więc nie ma tam czego mierzyć;
-liczby trzyma [subset.md](subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego).
+liczby trzyma [subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 ### Co zapłaciło samym zapisem
 

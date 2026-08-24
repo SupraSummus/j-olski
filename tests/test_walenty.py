@@ -21,8 +21,11 @@ from olski.walencja import (
 )
 from olski.walenty import (
     BIERNIK,
+    CELOWNIK,
+    DOPEŁNIACZ,
     bierze,
     bierze_bezokolicznik_podmiotu,
+    bierze_ramą,
     leksykon,
     pozycje,
     przyimki,
@@ -85,6 +88,42 @@ def test_biernik_liczy_się_tylko_w_pozycji_niepodmiotowej(schemat, biernik):
 )
 def test_bezokolicznik_liczy_się_tylko_pod_kontrolą_podmiotu(schemat, bierze_go):
     assert bierze_bezokolicznik_podmiotu([schemat]) is bierze_go
+
+
+@pytest.mark.parametrize(
+    ("schemat", "kształty", "bierze_go"),
+    [
+        (" pewny: _: : imperf: subj{np(str)} + {np(dat)}", CELOWNIK, True),
+        (" pewny: _: : imperf: subj{np(str)} + obj{np(gen)}", DOPEŁNIACZ, True),
+        #  Dopełniacz cząstkowy realizuje polszczyzna tą samą formą, co żądany
+        #  ramą, więc jest tą samą pozycją: `potrzebować` ma w Walentym `np(part)`.
+        (" pewny: _: : imperf: subj{np(str)} + {np(part)}", DOPEŁNIACZ, True),
+        #  Schemat ze zleksykalizowaną pozycją jest zwrotem — `mieć komuś za złe` —
+        #  a celownik należy w nim do zwrotu, a nie do ramy lematu.
+        (
+            " pewny: _: : imperf: subj{np(str)} + {np(dat)}"
+            " + {lex(prepadjp(za,acc),sg,n,pos,'zły',natr)}",
+            CELOWNIK,
+            False,
+        ),
+        #  Kwalifikator dawnej polszczyzny odsyła schemat poza ten rejestr tak
+        #  samo, jak odsyła go w kolumnie przyimków (`BRANE`).
+        (" archaiczny: _: : imperf: subj{np(str)} + {np(dat)}", CELOWNIK, False),
+        #  Podmiotu to pytanie nie widzi, bo podmiot ma u olskiego własną produkcję.
+        (" pewny: _: : imperf: subj{np(dat)}", CELOWNIK, False),
+    ],
+)
+def test_dopełnienie_poza_biernikiem_liczy_się_z_samego_schematu_o_ramie(
+    schemat, kształty, bierze_go
+):
+    """Zdanie twierdzące ramę poszerza, więc bierze mniej schematów niż ujemne.
+
+    Kryterium ujemne — o bierniku — pyta wszystkich schematów, bo policzone za
+    szeroko zostawia lemat przy ramie domyślnej. Tutaj ta sama pomyłka wpuszcza
+    dopełnienie, którego polszczyzna przy tym czasowniku nie stawia, więc odpada
+    cały schemat mówiący o zwrocie albo o polszczyźnie spoza tego rejestru.
+    """
+    assert bierze_ramą([schemat], kształty) is bierze_go
 
 
 def test_rama_zbiera_pozycje_niepodmiotowe_i_pomija_nieprzyimkowe():
