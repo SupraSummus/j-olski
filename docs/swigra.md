@@ -164,7 +164,7 @@ and every obstacle below stops it on its own.
 It counts derivations where olski counts readings.
 `counttrees` in `birnam_cleanforest.pl`
 multiplies subtree counts through the packed forest,
-while [subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)
+while [subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)
 quotients over lemmas, feature values and parts of speech
 so that only structure counts,
 and writing that quotient against somebody else's tree shapes

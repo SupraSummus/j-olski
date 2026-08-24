@@ -238,7 +238,7 @@ where every question olski asks is a question about a tree:
 which phrase is the subject,
 where a modifier attached,
 and whether two derivations are
-[one reading](subset.md#co-się-liczy-jako-jedno-czytanie).
+[one reading](subset.md#co-się-liczy-jako-jedno-odczytanie).
 Nor is the surplus one Polish has a use for.
 Type 1 adds copying and counting,
 which is the direction the Swiss German and Bambara arguments run in
@@ -610,7 +610,7 @@ i to zdanie przechodzi jednym czytaniem.
 
 **Luka bez napisu nie ma czego przestawiać.**
 Ciało, które stawia ją między innym rodzeństwem, wydaje ten sam napis,
-a kształt inny, więc [jest to drugie czytanie](subset.md#co-się-liczy-jako-jedno-czytanie).
+a kształt inny, więc [jest to drugie odczytanie](subset.md#co-się-liczy-jako-jedno-odczytanie).
 `Reguła, która rozstrzyga, jest tania.` wychodzi dwoma czytaniami zamiast jednego,
 bo luka podmiotu wypada raz przed czasownikiem, a raz za nim;
 `Polszczyzna, którą ktoś napisał, jest trudna.` wychodzi trzema,
@@ -1294,7 +1294,7 @@ jak łączy je unifikacja.
 Pierwszy ma odpowiedź w gramatyce, a drugi dostał ją dopiero pomiarem.
 
 Czytanie jest kwotowane po lematach, po wartościach cech i po częściach mowy
-([subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)),
+([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),
 więc pozycja tablicy trzymana osobno dla każdego środowiska cech
 nie spakuje niczego i policzy wyprowadzenia zamiast czytań.
 Jest to dokładnie ten błąd, który zapisuje

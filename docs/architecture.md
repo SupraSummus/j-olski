@@ -46,7 +46,7 @@ na którym pytanie o wieloznaczność przestaje mieć tę samą odpowiedź.
 Dwa czytania różne kształtem znaczą czasem to samo
 i o tym mówi warstwa trzecia,
 której kryterium tożsamości opisuje
-[subset.md](subset.md#co-się-liczy-jako-jedno-czytanie).
+[subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie).
 Dwa czytania różne znaczeniem bywają rozstrzygnięte przez zdanie obok
 i o tym mówi warstwa czwarta,
 a co takie zdanie rozstrzyga, wycenia

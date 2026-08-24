@@ -351,7 +351,7 @@ i nie było pod nim żadnego pomiaru, kiedy je stawiano.
 Drugie z trzech pytań nie potrzebuje modelu ani banku drzew.
 Dwa wyprowadzenia są jednym czytaniem, kiedy mają ten sam kształt,
 a co do kształtu nie wchodzi, rozstrzyga `signature` w `olski/parse.py`
-i opisuje [subset.md](subset.md#co-się-liczy-jako-jedno-czytanie):
+i opisuje [subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie):
 lematy, wartości cech i część mowy są wyłączone rozmyślnie.
 Każde takie wyłączenie to wieloznaczność, która przestała być raportowana,
 zdjęta deterministycznie i bez ani jednego wyboru między czytaniami.

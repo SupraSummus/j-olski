@@ -54,12 +54,12 @@ async function zapytaj(adres, opcje) {
 //  Napis, którego strona jest właścicielem, ma dwa widoki: węzeł na stronie i
 //  wiersz w tekście dla schowka. Dwie kopie rozjechałyby się po cichu, więc
 //  każdy taki napis powstaje w jednej funkcji.
-//  Podpis liczy streszczenia, a nie czytania: streszczenie stoi pod zwojem raz,
-//  choć bywa napisem kilku czytań (`Verdict.readings` w `olski/subset.py`). Ile
-//  czytań zdanie ma, mówi wyjaśnienie nad zwojem, więc drugiej kopii tej liczby
+//  Podpis liczy streszczenia, a nie odczytania: streszczenie stoi pod zwojem raz,
+//  choć bywa napisem kilku odczytań (`Verdict.readings` w `olski/subset.py`). Ile
+//  odczytań zdanie ma, mówi wyjaśnienie nad zwojem, więc drugiej kopii tej liczby
 //  tutaj nie ma.
-function podpisCzytań(streszczeń, urwane) {
-  const podpis = `streszczenia czytań: ${streszczeń}`;
+function podpisOdczytań(streszczeń, urwane) {
+  const podpis = `streszczenia odczytań: ${streszczeń}`;
   return urwane ? `${podpis}, lista urwana` : podpis;
 }
 
@@ -103,7 +103,7 @@ function spisCzytań(lista) {
 function czytania(dane) {
   const zwój = element("details", "czytania");
   zwój.open = dane.czytania.length <= 2;
-  zwój.append(element("summary", null, podpisCzytań(dane.czytania.length, dane.urwane)));
+  zwój.append(element("summary", null, podpisOdczytań(dane.czytania.length, dane.urwane)));
   zwój.append(spisCzytań(dane.czytania));
   for (const wpis of dane.rozbieżne) {
     const blok = element("div", "rozbieżny");
@@ -146,7 +146,7 @@ function tekstWerdyktu(dane) {
   const wiersze = [`${dane.status}  ${dane.zdanie}`, dane.wyjaśnienie];
   for (const forma of dane.dalsze_zatrzymania) wiersze.push(podpisZatrzymania(forma));
   if (dane.czytania.length) {
-    wiersze.push(podpisCzytań(dane.czytania.length, dane.urwane));
+    wiersze.push(podpisOdczytań(dane.czytania.length, dane.urwane));
     for (const streszczenie of dane.czytania) wiersze.push(...wierszeCzytania(streszczenie, ""));
   }
   for (const wpis of dane.rozbieżne) {
