@@ -49,6 +49,7 @@ from olski.subset import (
     WTRĄCONY,
     Podsumowanie,
     admissible,
+    bez_licencji,
     check,
     morphology,
     na_czym_stanęło,
@@ -1894,6 +1895,35 @@ def test_cząstka_się_pyta_leksykonu_o_inny_czasownik_niż_forma_bez_niej():
     otwarcie = verdict("Otwierają się drzwi.")
     assert role(otwarcie) == [{"Subject": "drzwi", "Verb": "Otwierają się"}]
     assert verdict("Otwierają drzwi.").status == "ambiguous"
+
+
+def test_cząstka_zwrotna_przed_formą_pyta_o_ten_sam_leksykon_zwrotny():
+    #  Pozycja przednia jest tą samą pozycją tego samego czasownika, więc ramę ma
+    #  brać z leksykonu zwrotnego tak samo jak tylna. Ciało napisane z ramą
+    #  niezwrotną przechodziłoby zdanie drugie, bo otwierać się biernika nie
+    #  bierze, a otwierać go bierze.
+    assert role(verdict("Drzwi się otwierają.")) == [{"Subject": "Drzwi", "Verb": "się otwierają"}]
+    assert verdict("Drzwi się otwierają okno.").status == "rejected"
+
+
+def test_cząstka_zwrotna_poprzedza_przeczenie_swojej_formy():
+    #  Polszczyzna stawia w pozycji przedniej cząstkę przed przeczeniem, a nie
+    #  między nim i formą, i te dwa napisy różni sama ta kolejność.
+    assert verdict("Rachunek się nie zwraca.").status == "valid"
+    assert verdict("Rachunek nie się zwraca.").status == "rejected"
+
+
+def test_cząstka_zwrotna_opiera_się_o_słowo_a_nie_o_znak():
+    #  Pozycja przednia sięga początku zdania i miejsca tuż za znakiem, a takich
+    #  napisów polszczyzna nie ma. Warunek zdejmuje tam cząstce odczytanie
+    #  (po_słowie), więc werdykt nazywa formę bez licencji, a nie strukturę,
+    #  której zdaniu brakuje. Spójnik słowem jest i licencji udziela, więc para
+    #  ostatnia różni się samym nim.
+    assert verdict("Się myli.").status == "rejected"
+    assert bez_licencji(morphology("Się myli."), GRAMMAR) == ("Się",)
+    assert bez_licencji(morphology("Nic się nie zmienia."), GRAMMAR) == ()
+    assert verdict("Cena rośnie, się nie liczy.").status == "rejected"
+    assert verdict("Cena rośnie, a się nie liczy.").status == "valid"
 
 
 def test_leksykon_nie_zabiera_czasownikowi_bezokolicznika():

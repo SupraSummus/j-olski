@@ -1439,11 +1439,15 @@ a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
 Wpis jest winien przebiegi, których żąda ta sekcja tamtego dokumentu,
 bo rusza w niej każdą liczbę.
 
-Cząstka `się` stoi przy formie osobowej, a należy do bezokolicznika za nią.
+Cząstka `się` dochodzi do formy, przy której stoi, a nie do tej, do której należy.
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
 bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
 i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
 gdy zwrotny jest bezokolicznik.
+Pozycja przednia ma to samo po drugiej stronie —
+`Program otwierający się jest tani.` wychodzi z `się jest` w orzeczeniu —
+i obie usterki zdejmuje jeden ruch
+([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
 Płaci za to [gramatyka](docs/subset.md#leksykon-mówi-trzy-zdania-na-lemat-i-bierze-je-z-walentego):
 zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
 a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
@@ -1454,6 +1458,10 @@ a nie przez ten, przy którym stoi.
 Do rozstrzygnięcia jest, czy da się to postawić bez czytania,
 w którym oba czasowniki biorą ją naraz,
 bo takie czytanie jest drugim czytaniem tego samego zdania.
+To rozstrzygnięcie ma teraz napis, na którym się je sprawdza:
+przy bezokoliczniku cząstka nie ma dziś pozycji żadnej,
+a pozycja przednia dopisana mu bez tego rozstrzygnięcia
+daje `Zebranie ma się odbyć.` drugie wyprowadzenie.
 Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
