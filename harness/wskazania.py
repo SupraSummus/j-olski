@@ -58,8 +58,8 @@ from olski.corpus import Sentence, parse_forest, read_forest
 from olski.coverage import po_kawałkach, segments_for
 from olski.parse import Przyłączenie, Result, parse, sklej_formy
 from olski.rozstrzyganie import (
-    CZASOWNIK,
-    RZECZOWNIK,
+    STRONA_CZASOWNIKOWA,
+    STRONA_IMIENNA,
     Rozstrzygnięcie,
     Świadek,
     domyślni,
@@ -126,7 +126,7 @@ def dokąd_doszły(element: ET.Element, zdanie: Sentence) -> dict[str, str]:
     znalezione: dict[str, str] = {}
     sporne: set[str] = set()
     for a in attachments(element):
-        if a.host not in (RZECZOWNIK, CZASOWNIK):
+        if a.host not in (STRONA_IMIENNA, STRONA_CZASOWNIKOWA):
             continue
         formy = sklej_formy(s.form for s in zdanie.segments if a.start <= s.start < a.end)
         if znalezione.setdefault(formy, a.host) != a.host:
@@ -272,7 +272,7 @@ def _świadkowie(raport: Raport) -> list[str]:
             f"  {odpowiedzi:>7}  {odpowiedzi / raport.ze_wzorcem:>6.1%} odpowiedzi, "
             f"{trafność} trafień    {nazwa or 'razem'}"
         )
-    podłoga = raport.wzorzec[RZECZOWNIK] / raport.ze_wzorcem
+    podłoga = raport.wzorzec[STRONA_IMIENNA] / raport.ze_wzorcem
     wiersze.append(
         f"  {raport.ze_wzorcem:>7}  100,0% odpowiedzi, "
         f"{podłoga:>6.1%} trafień    podłoga: zawsze do rzeczownika"

@@ -245,10 +245,12 @@ this ending's gerund column is empty
 where `-anie` fills it 202 times.
 So a lemma moves the rule from firing on 198 words to firing on 46
 and does not make one of the 46 decidable.
-That 135 is a floor rather than a count:
+That 135 is a floor, and so is the inflected class it sits in:
 the classifier tests for a verb first, on the strength of `zostanie`,
-which files the 6 occurrences of `dacie` as the second person plural of `dać`
-where a document dating an invoice means the locative of `data`.
+so the 6 occurrences of `dacie` and the one of `powiecie` are counted
+in the verb row above,
+where a document dating an invoice means the locative of `data`
+and an address the locative of `powiat`.
 
 **No tier removes the ambiguous class, which is the larger one.**
 Morfeusz reads `pobranie`, `przeznaczenie` and `uprawnienie`

@@ -791,6 +791,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m harness.podłoża proza/README.txt
 python3 -m harness.podłoża proza/README.txt --budżet 0.1
 python3 -m harness.podłoża -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
+python3 -m harness.podłoża -c "Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem polszczyzny w jednym i w drugim przypadku."
 ```
 
 Każde zdanie tej prozy sonda rozbiera w budżecie 10 sekund,
@@ -922,21 +923,22 @@ Earley jest sześcianem w najgorszym przypadku, a przeszukiwanie więzów nie je
 niczym, i najdroższe jest tam, gdzie żadne słowo nie wypada lokalnie,
 bo wtedy przycinanie dziedzin nie ma czego uciąć,
 a policzenie czytań każe przejść całą przestrzeń.
-Takim zdaniem jest w README to,
-które [corpus.md](corpus.md#where-the-analyses-stop) liczy wśród odrzuconych
-bez ani jednej formy, której jakaś produkcja nie bierze,
-czyli stojących na kształcie, a nie na słowniku:
+Takim zdaniem jest to, w którym odrzucenie stoi na kształcie, a nie na słowniku,
+czyli takie, w którym każda forma ma czytanie brane przez jakąś produkcję:
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku`.
-Sonda liczy je ponad sześć sekund,
-gdzie każdemu z pozostałych 42 zdań wydaje werdykt
-poniżej trzech setnych sekundy, czyli o dwa rzędy wielkości szybciej.
-Trzyma tę liczbę warunek na lemat kopuli w deklaracji dopełnienia,
+README tego zdania nie ma i podaje się je sondzie przez `-c`.
+Sonda liczy je kilka sekund,
+a każdemu zdaniu prozy README wydaje werdykt w setnych częściach sekundy,
+czyli o dwa rzędy wielkości szybciej;
+ten plik pisze tę samą myśl zdaniem względnym z drugim członem,
+którego sonda nie przyłącza, więc dziedziny przycinają się tam wcześnie.
+Ten czas trzyma warunek na lemat kopuli w deklaracji dopełnienia,
 czyli walencja powiedziana po tej stronie:
-bez niego to samo zdanie liczy się ponad dwadzieścia sekund
-i budżetu nie dowozi wcale,
+bez niego to samo zdanie liczy się przeszło trzy razy dłużej
+i budżetu domyślnego nie dowozi wcale,
 więc przestrzeń, którą przycina jedna pozycja ramy,
-jest tutaj trzema czwartymi najgorszego przypadku.
+jest tutaj przeszło dwiema trzecimi najgorszego przypadku.
 Tej różnicy nie zdejmie lepsze przycinanie,
 bo tu nie ma czego przyciąć:
 każdy łuk tego zdania jest dozwolony,
@@ -1073,8 +1075,8 @@ Idzie o to, że enumerator zstępujący nie umiał go wydać tanio.
 `analyses` w `olski/parse.py` przed tą zmianą (commit `9456a22`)
 wyliczał pod pozycją każde wyprowadzenie, zanim oddał pierwsze,
 więc granica ucinała wydruk, a nie pracę.
-Zdanie ustawy o 28 042 czytaniach —
-[najdłuższe z tego rejestru](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem) —
+Zdanie ustawy o 28 042 czytaniach pod gramatyką z tamtej chwili —
+[jedno z tych, w których liczba czytań przestaje o czymkolwiek mówić](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem) —
 kosztowało go 76 s, żeby oddać sześćdziesiąt cztery drzewa i napis `64+`.
 Las podaje nad nim liczbę dokładną w 0,05 s.
 Sekundy zależą od maszyny, a krotność jest trzema rzędami wielkości,
@@ -1105,7 +1107,7 @@ więc rola, którą rozdziela dopiero sześćdziesiąte piąte czytanie,
 nie zostałaby z nich nazwana,
 a liczba obok niej granicy nie ma i tej niezgody po sobie nie pokazuje.
 Tak stoi
-[przepis o 28 042 czytaniach](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem):
+[przepis o dziesiątkach tysięcy czytań](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem):
 werdykt nazywa tam dopełnienie, którego wypisane czytania nie rozdzielają.
 Kosztuje to jedno rozstrzygnięcie, którego lista czytań nie potrzebuje.
 Etykieta roli pada w jednym czytaniu kilka razy,

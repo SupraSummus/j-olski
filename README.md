@@ -240,34 +240,25 @@ Zobacz [docs/witryna.md](docs/witryna.md).
 
 Resztą repozytorium są notatki projektowe, przegląd pola,
 plan i otwarte pytania.
+Lista dzieli je po torach, bo czytelnik przychodzi po jeden tor.
 
-- [docs/roles.md](docs/roles.md) nazywa role,
-  w których ktoś to repozytorium czyta.
-  Wszystkie te role obsadza jedna osoba.
-- [docs/architecture.md](docs/architecture.md) wylicza warstwy,
-  przez które zdanie przechodzi w obu kierunkach.
-  Oba tory mają jedną warstwę wspólną.
+Te dokumenty opisują **tor gramatyczny**.
+
 - [docs/subset.md](docs/subset.md) mówi, co gramatyka wpuszcza
   i ile kosztuje przyłączanie wyrażeń przyimkowych.
-- [docs/sklad.md](docs/sklad.md) mówi, co tekst wie ponad zdaniem
-  i czego brakuje w leksykonie.
-- [docs/witryna.md](docs/witryna.md) mówi, co witryna pokazuje w przeglądarce.
-  Boczny tor nie rusza rdzenia.
-  Dokument nazywa cenę tego układu.
-- [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md)
-  zbiera feedback z fotela użytkownika.
-  Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
+- [docs/design-notes.md](docs/design-notes.md) mówi,
+  co czyni polszczyznę trudną do parsowania.
+  Pokazuje drabinę kosztów i urwisko nieciągłości.
+- [docs/disambiguation.md](docs/disambiguation.md) nazywa to,
+  co warstwa za parserem musi rozstrzygnąć.
 - [docs/corpus.md](docs/corpus.md) mierzy gramatykę na Składnicy.
   Mówi, co daje pierwszy pomiar i czego nie dowodzi liczba pokrycia.
   Składnica jest tam bankiem drzew.
 - [docs/ustawy.md](docs/ustawy.md) mówi,
   czego żądają od zdania w ustawie „Zasady techniki prawodawczej”.
-- [docs/linter.md](docs/linter.md) mówi, po co był linter
-  i co zamknęło ten tor.
-- [docs/fiction.md](docs/fiction.md) mówi,
-  co psuje się w prozie literackiej z modelu i co z niej da się lintować.
-- [docs/generated-polish.md](docs/generated-polish.md)
-  mierzy prawdziwy zbiór polszczyzny z modelu.
+- [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md)
+  zbiera feedback z fotela użytkownika.
+  Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
 - [docs/extraction.md](docs/extraction.md)
   prowadzi korpus w Markdownie do gramatyki
   i mówi, co ten krok po drodze zmyśla.
@@ -276,31 +267,52 @@ plan i otwarte pytania.
 - [docs/audit-corpus.md](docs/audit-corpus.md) nazywa repozytoria,
   z których zrobiony jest korpus audytowy.
   Podaje commity, na których stoją liczby.
-- [docs/firing-rates.md](docs/firing-rates.md) mówi,
-  co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał.
-  Nazywa cenę, za którą ten tor został wycofany.
-- [docs/roadmap.md](docs/roadmap.md) wylicza cele oraz etapy dwóch torów.
-  Jeden tor ma kierunek, a drugi ma kryterium wyjścia.
-- [docs/prose-linters.md](docs/prose-linters.md) nazywa silniki,
-  które angielski i japoński już mają.
-  Jeden z nich zmierzył własną częstość fałszywych trafień.
-- [docs/similar-work.md](docs/similar-work.md) mówi,
-  które obietnice stu kontrolowanych języków naturalnych ktoś naprawdę zmierzył.
-- [docs/design-notes.md](docs/design-notes.md) mówi,
-  co czyni polszczyznę trudną do parsowania.
-  Pokazuje drabinę kosztów i urwisko nieciągłości.
-- [docs/disambiguation.md](docs/disambiguation.md) nazywa to,
-  co warstwa za parserem musi rozstrzygnąć.
-- [docs/open-questions.md](docs/open-questions.md) wylicza rozwidlenia,
-  na których nie zapadła decyzja.
 - [docs/prior-art.md](docs/prior-art.md)
   wylicza Morfeusza, Świgrę i resztę pola.
-- [docs/glr-in-practice.md](docs/glr-in-practice.md) jest raportem z terenu
-  o systemie, który puszcza swój parser nad prawdziwą polszczyzną.
 - [docs/swigra.md](docs/swigra.md) nazywa teren,
   który zajmuje najbliższy parser polszczyzny.
   Warto wziąć z tych źródeł kilka mechanizmów.
   Sonda mierzy przy tym czas rozbioru.
+- [docs/glr-in-practice.md](docs/glr-in-practice.md) jest raportem z terenu
+  o systemie, który puszcza swój parser nad prawdziwą polszczyzną.
+- [docs/witryna.md](docs/witryna.md) mówi, co witryna pokazuje w przeglądarce.
+  Boczny tor nie rusza rdzenia.
+  Dokument nazywa cenę tego układu.
+
+Ten dokument opisuje **tor składu**.
+
+- [docs/sklad.md](docs/sklad.md) mówi, co tekst wie ponad zdaniem
+  i czego brakuje w leksykonie.
+
+Te dokumenty obsługują **oba tory**.
+
+- [docs/roles.md](docs/roles.md) nazywa role,
+  w których ktoś to repozytorium czyta.
+  Wszystkie te role obsadza jedna osoba.
+- [docs/architecture.md](docs/architecture.md) wylicza warstwy,
+  przez które zdanie przechodzi w obu kierunkach.
+  Oba tory mają jedną warstwę wspólną.
+- [docs/roadmap.md](docs/roadmap.md) wylicza cele oraz etapy dwóch torów.
+  Jeden tor ma kierunek, a drugi ma kryterium wyjścia.
+- [docs/open-questions.md](docs/open-questions.md) wylicza rozwidlenia,
+  na których nie zapadła decyzja.
+- [docs/similar-work.md](docs/similar-work.md) mówi,
+  które obietnice stu kontrolowanych języków naturalnych ktoś naprawdę zmierzył.
+
+Te dokumenty zapisują **tor wycofany**.
+
+- [docs/linter.md](docs/linter.md) mówi, po co był linter
+  i co zamknęło ten tor.
+- [docs/firing-rates.md](docs/firing-rates.md) mówi,
+  co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał.
+  Nazywa cenę, za którą ten tor został wycofany.
+- [docs/prose-linters.md](docs/prose-linters.md) nazywa silniki,
+  które angielski i japoński już mają.
+  Jeden z nich zmierzył własną częstość fałszywych trafień.
+- [docs/fiction.md](docs/fiction.md) mówi,
+  co psuje się w prozie literackiej z modelu i co z niej da się lintować.
+- [docs/generated-polish.md](docs/generated-polish.md)
+  mierzy prawdziwy zbiór polszczyzny z modelu.
 
 ## Na czym olski stoi
 

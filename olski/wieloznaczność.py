@@ -63,10 +63,8 @@ from olski.próbka import rozrzucona
 
 # Kryterium łańcucha, zasięg frazy i strona wyboru należą do warstwy
 # rozstrzygającej i bierze się je stamtąd, żeby pozycja stąd była tym samym
-# pytaniem, które warstwa dostaje od werdyktu. Nazwa strony jest podstawiona, bo
-# ``CZASOWNIK`` znaczy tutaj część mowy, a tam stronę wyboru.
-from olski.rozstrzyganie import CZASOWNIK as STRONA_CZASOWNIKOWA
-from olski.rozstrzyganie import IMIENNE_LUB_NIEZNANE, ZASIĘG_FRAZY, strona
+# pytaniem, które warstwa dostaje od werdyktu.
+from olski.rozstrzyganie import IMIENNE_LUB_NIEZNANE, STRONA_CZASOWNIKOWA, ZASIĘG_FRAZY, strona
 from olski.subset import morphology, sentences
 
 # Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
