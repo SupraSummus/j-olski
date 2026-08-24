@@ -386,7 +386,7 @@ ale o to, co produkcja licencjonuje.
 
 Nazwiskowe czytanie rzeczownika, który zaczyna zdanie, z tej listy zeszło.
 Para lematów jednej formy nie jest dwoma czytaniami
-([subset.md](subset.md#co-się-liczy-jako-jedno-czytanie)),
+([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),
 więc jednoznaczności ta klasa nie kosztuje,
 a kryterium na pozycję nie kupuje ani jednego zdania i kosztuje zdania Składnicy.
 

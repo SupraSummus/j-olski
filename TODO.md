@@ -75,6 +75,17 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
+Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
+nazwy w kodzie i nazwy plików
+`harness/czytania.py` oraz `tests/test_czytania.py`.
+Nazwę rozstrzyga
+[sekcja o tym, co się liczy jako jedno odczytanie](docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
+Ruchem jest poprawianie reszty w miejscu ruszanym z innego powodu,
+a nie przebieg sedem po całym repozytorium:
+ten przemianowałby też formę `czytanie` cytowaną w bloku tamtej sekcji,
+gdzie jest ona przykładem rzeczownika o dwóch częściach mowy, a nie terminem.
+Wpis zamyka commit, po którym `czytanie` w znaczeniu wyniku nie zostaje nigdzie.
+
 `docs/corpus.md` and `docs/corpora.md` differ by two letters
 and hold unrelated things:
 the first measures the grammar against the Składnica treebank,
@@ -286,8 +297,8 @@ Pierwsza: czym jest to samo zdanie składowe w dwóch czytaniach,
 skoro czytania rozcinają zdanie w różnych miejscach —
 `Ludzie są wolni, równi i szczęśliwi.` ma czytanie o jednym składowym
 i czytanie o dwóch, więc numer w krotce znaczy w nich co innego.
-Druga: co liczy wtedy podpis `streszczenia czytań` na witrynie
-(`podpisCzytań` w `witryna/skrypt.js`), bo czytań liczyć przestaje.
+Druga: co liczy wtedy podpis `streszczenia odczytań` na witrynie
+(`podpisOdczytań` w `witryna/skrypt.js`), bo odczytań liczyć przestaje.
 Do przeczytania jest wydruk `python3 -m olski.check --readings` nad
 `proza/README.txt` (`python3 -m harness.markdown README.md --into proza/`):
 jedno zdanie tego pliku wychodzi tam kilkudziesięcioma streszczeniami,
@@ -1746,8 +1757,8 @@ więc `admissible` zostawia formie `go` czytanie `subst` obok `ppron3`,
 choć jest ono nieodmienne dokładnie tak jak nuta,
 której to samo wykluczenie odmawia
 ([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)).
-Tam, gdzie oba czytania dają jeden kształt, nie kosztuje to nic,
-bo [czytanie jest kształtem](docs/subset.md#co-się-liczy-jako-jedno-czytanie),
+Tam, gdzie oba odczytania dają jeden kształt, nie kosztuje to nic,
+bo [odczytanie jest kształtem](docs/subset.md#co-się-liczy-jako-jedno-odczytanie),
 i tak wychodzą trzy z sześciu zdań, które tamta sekcja liczy.
 Zostaje to, gdzie kształty się różnią,
 czyli produkcja dająca głowie grupy imiennej dopełniacz po niej:

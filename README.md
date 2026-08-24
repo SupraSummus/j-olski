@@ -4,13 +4,13 @@
 a razem z nim te części polszczyzny,
 przez które jest ona trudna dla sztywnych, zimnych maszyn.
 
-Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno czytanie.
+Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno odczytanie.
 **Parser tego podzbioru** mówi, że zdanie czyta się dwojako,
 a za autora nie wybiera.
 
 Wzorem jest kompilator, a model językowy nie jest tu wzorem.
 Parser jest tani i deterministyczny,
-a każdy werdykt przychodzi z czytaniem, które go wydało.
+a każdy werdykt przychodzi z odczytaniem, które go wydało.
 To samo wejście daje tę samą odpowiedź.
 
 Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej.
@@ -40,7 +40,7 @@ a na głębszym poziomie analizy przestaje być tania:
 [pomiar](docs/linter.md#what-closed-the-track) nad dwoma korpusami mówi,
 że taki poziom odpowiada na inne pytanie, niż zadaje reguła.
 Cenę białej listy płaci autor, bo nie czuje granicy.
-Odrabia ją parser, bo zamiast samej odmowy pokazuje oba czytania.
+Odrabia ją parser, bo zamiast samej odmowy pokazuje oba odczytania.
 Granicę pokazuje sama odpowiedź.
 
 ## Kierunek
@@ -66,10 +66,10 @@ Projekt jest dla przyjemności.
 Działają dwie rzeczy.
 
 **Gramatyka podzbioru polszczyzny** stoi nad Morfeuszem 2.
-Zdanie jest w niej olskie dopiero wtedy, gdy ma dokładnie jedno czytanie.
+Zdanie jest w niej olskie dopiero wtedy, gdy ma dokładnie jedno odczytanie.
 Nie chodzi o samo jedno wyprowadzenie:
-zdanie o koszcie szynki ma kilka czytań,
-a dwa czytania mówią rzecz przeciwną,
+zdanie o koszcie szynki ma kilka odczytań,
+a dwa odczytania mówią rzecz przeciwną,
 więc olski nie bierze tego zdania.
 
 ```sh
@@ -101,7 +101,7 @@ a podmiot jednego jest dopełnieniem drugiego.
 Wiersz werdyktu nazywa przy tym sam wybór.
 Skutków tego wyboru wiersz nie wylicza:
 każdy wybór, którego zdanie nie rozstrzyga, dostaje jeden wiersz,
-a iloczyn tych wyborów daje liczbę czytań.
+a iloczyn tych wyborów daje liczbę odczytań.
 Przyłączenie jest tu wyborem.
 Nad innym zdaniem takim wyborem jest konstytuent,
 którego streszczenie nie pokazuje.

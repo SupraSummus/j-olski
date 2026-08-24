@@ -34,7 +34,7 @@ niż wyszłoby w prozie.
 Lematu ``olski`` Morfeusz nie zna wcale i czyta go jako ``ign``,
 więc nazwa własna tego języka nie wyjdzie z drzewa w żadnej roli,
 i podmiotem stoi tu gramatyka tam, gdzie ``README.md`` pisze o olskim.
-Liczebnika skład nie ma, więc jedno czytanie mówi się tu przez brak drugiego.
+Liczebnika skład nie ma, więc jedno odczytanie mówi się tu przez brak drugiego.
 Relacji przyczyny nie ma w ``olski/skład/przyimki.py`` ani pod jednym przyimkiem,
 a ma ją ``olski/skład/spójniki.py``, więc wychodzi ona zdaniem i nie wychodzi frazą:
 przyjemność jest tu orzecznikiem tam, gdzie ``README.md`` pisze ``dla przyjemności``.
@@ -57,10 +57,10 @@ maszyna = Postać(R.maszyna)
 parser = Postać(R.parser)
 skład = Postać(R.skład)
 
-#: Czytania, o których zdanie nie rozstrzyga.
+#: Odczytania, o których zdanie nie rozstrzyga.
 #: Postacią są, bo zdanie opisujące stawia je drugi raz,
 #: a ``opis`` rozpoznaje opisywaną rzecz po tożsamości, a nie po lemacie.
-czytania = Postać(~R.czytanie)
+odczytania = Postać(~R.odczytanie)
 
 AKAPITY = (
     #: Po co podzbiór: trudność jest po stronie maszyny, a nie polszczyzny.
@@ -71,10 +71,10 @@ AKAPITY = (
     #: Kiedy zdanie jest poprawne i co werdykt z wieloznacznością robi.
     #: Ostatnie zdanie jest tym, po co ten tor jest: wybiera czytelnik.
     Akapit(
-        nie(V.mieć(A.poprawny * R.zdanie, A.drugi * R.czytanie)),
-        V.nazywać(parser, opis(czytania, nie(V.rozstrzygać(R.zdanie, czytania)))),
-        nie(V.wybierać(parser, R.czytanie)),
-        V.wybierać(R.czytelnik, R.czytanie),
+        nie(V.mieć(A.poprawny * R.zdanie, A.drugi * R.odczytanie)),
+        V.nazywać(parser, opis(odczytania, nie(V.rozstrzygać(R.zdanie, odczytania)))),
+        nie(V.wybierać(parser, R.odczytanie)),
+        V.wybierać(R.czytelnik, R.odczytanie),
     ),
     #: Dwa tory i to, że nie napędza ich żadna aplikacja.
     Akapit(

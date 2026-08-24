@@ -309,7 +309,7 @@ więc prefiks z dwudziestoma czytaniami różniącymi się jednym przyłączenie
 to jedna decyzja nierozstrzygnięta, a nie dwadzieścia.
 Liczy się liczba takich decyzji,
 czyli to samo rozróżnienie, które
-[subset.md](subset.md#co-się-liczy-jako-jedno-czytanie) robi dla całego zdania.
+[subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie) robi dla całego zdania.
 
 Rozbiory nie są równoprawdopodobne.
 Prefiks, którego jedno czytanie bierze prawie całe prawdopodobieństwo,

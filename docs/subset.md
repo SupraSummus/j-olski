@@ -60,13 +60,24 @@ How many sentences that is, and what admitting them would cost instead,
 is measured by
 [what discontinuity buys and costs](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 
-## Co się liczy jako jedno czytanie
+## Co się liczy jako jedno odczytanie
 
-Dwa wyprowadzenia są jednym czytaniem, kiedy mają ten sam kształt.
+Dwa wyprowadzenia są jednym odczytaniem, kiedy mają ten sam kształt.
 Liczy się więc to, co strukturę zmienia:
 która fraza jest podmiotem, co jest dopełnieniem
 i gdzie przyłącza się modyfikator.
-Rozmyślnie wyłączone są trzy rzeczy, a każda z innego powodu.
+
+Nazwą jest odczytanie, a nie czytanie.
+Czytanie nazywa po polsku czynność albo posiedzenie —
+projekt ustawy ma w Sejmie pierwsze czytanie —
+więc jako nazwa wyniku było kalką z angielskiego `reading`.
+Odczytaniem polszczyzna nazywa wynik i tak mówi o przepisie,
+który dopuszcza dwa odczytania.
+Dawną nazwę poprawiamy [przy okazji](../CLAUDE.md#reguły-przyjmujemy-leniwie),
+a nowy tekst pisze się od razu nową.
+
+Z liczenia odczytań wyłączone są rozmyślnie trzy rzeczy,
+a każda z innego powodu.
 
 - **Lematy.** `zapisuje` należy i do `zapisywać`, i do `zapisować`.
   Polskie formy są homonimiczne wszędzie,
@@ -78,7 +89,7 @@ Rozmyślnie wyłączone są trzy rzeczy, a każda z innego powodu.
   Zgodność wymusiła już unifikacja.
 - **Części mowy.** Tam, gdzie część mowy zmienia strukturę,
   różni te wyprowadzenia już kształt,
-  więc `do` jako przyimek i jako nuta dalej są dwoma czytaniami.
+  więc `do` jako przyimek i jako nuta dalej są dwoma odczytaniami.
   Zostaje przypadek, w którym kształt jest ten sam,
   i tam nie ma czym różnicy uzasadnić.
 
@@ -86,12 +97,12 @@ Ostatnie z tych trzech jest odwróceniem
 i stoi tu po to, żeby nikt go nie przywrócił przez przeoczenie:
 część mowy liczyła się obok kształtu.
 Rozstrzyga odsłownik.
-Morfeusz daje formie `zdanie` czytanie `subst` i czytanie `ger`,
+Morfeusz daje formie `zdanie` odczytanie `subst` i odczytanie `ger`,
 a produkcja z odsłownikiem w głowie grupy imiennej
 dawałaby każdemu takiemu zdaniu drugie wyprowadzenie tego samego kształtu,
 różniące się niczym, na co czytelnik mógłby zareagować.
 Nie jest to jedna forma ani klasa rzadka.
-Tę parę czytań niosą rzeczowniki,
+Tę parę odczytań niosą rzeczowniki,
 którymi ten rejestr mówi o samym sobie:
 
 ```sh
@@ -104,17 +115,17 @@ for forma in sys.argv[1:]:
 
 Drugie wyjście z tej klasy było wykluczeniem w słowniku
 i stanęło na tym, że nie ma czego wykluczyć.
-Olski takie wykluczenie ma i pyta ono o czytanie funkcyjne obok rzeczownikowego
+Olski takie wykluczenie ma i pyta ono o odczytanie funkcyjne obok rzeczownikowego
 ([niżej](#the-dictionary-offers-readings-polish-does-not)),
-a tutaj oba czytania są nominalne,
-i szersze kryterium kasowałoby czytanie, które polszczyzna ma:
+a tutaj oba odczytania są nominalne,
+i szersze kryterium kasowałoby odczytanie, które polszczyzna ma:
 `zdanie` jest i rzeczą, i czynnością.
-Wykluczenie odbiera formie czytanie, którego czytelnik nie ma,
+Wykluczenie odbiera formie odczytanie, którego czytelnik nie ma,
 a to nie jest ten przypadek.
 
 Odwrócenie kupuje nad Składnicą 180723 sześć zdań,
 które pod żywą morfologią przechodzą z wieloznacznych do przyjętych,
-i ani jednego pod złotą, gdzie anotatorzy wybrali po jednym czytaniu na token;
+i ani jednego pod złotą, gdzie anotatorzy wybrali po jednym odczytaniu na token;
 totale obu przebiegów trzyma
 [corpus.md](corpus.md#what-morphological-ambiguity-costs).
 
@@ -127,7 +138,7 @@ Trzeciej nie bierze żaden.
 a te dochodzą do grupy imiennej dwiema różnymi produkcjami,
 z których każda robi ją z jednego słowa.
 
-Ta trzecia jest zarazem czytaniem, którego polszczyzna nie ma,
+Ta trzecia jest zarazem odczytaniem, którego polszczyzna nie ma,
 tyle że wziętym z drugiej strony.
 `go` jest grą i jest nieodmienne dokładnie tak jak nuta,
 więc wykluczenie ze słownika byłoby tu na miejscu i nie sięga,
@@ -298,8 +309,8 @@ Kryterium, które kasuje tam czytanie o lemacie różniącym się od innego
 czytania tej samej formy samą wielką literą,
 traci 88 zdań — `Paweł`, `Niemcy`, `Bóg`, `Nowak`, `Róża` —
 i nie kupuje ani jednego.
-Kupić nie ma czego, bo taka para nie jest dwoma czytaniami:
-[czytanie jest swoim kształtem](#co-się-liczy-jako-jedno-czytanie),
+Kupić nie ma czego, bo taka para nie jest dwoma odczytaniami:
+[odczytanie jest swoim kształtem](#co-się-liczy-jako-jedno-odczytanie),
 a nazwisko i rzeczownik pospolity stają w tym samym miejscu tego samego drzewa.
 Drugie czytanie tego zdania robił zaimek rzeczowny,
 którego dopełniacza [gramatyka nie bierze](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
@@ -1599,7 +1610,7 @@ Produkcja, która daje głowie grupy imiennej dopełniacz po niej,
 bierze oba: `parser tego podzbioru` jest przymiotnikiem przy rzeczowniku,
 a drugi raz zaimkiem, który rządzi rzeczownikiem.
 Te dwa drzewa mają różny kształt,
-więc [są dwoma czytaniami](#co-się-liczy-jako-jedno-czytanie),
+więc [są dwoma odczytaniami](#co-się-liczy-jako-jedno-odczytanie),
 a nie jednym jak para lematów.
 Bez warunku niżej `Celem jest parser tego podzbioru.` wychodzi dwoma czytaniami
 o identycznym streszczeniu ról.
@@ -1753,7 +1764,7 @@ a nie te, które pasują kształtem.
 a `On jest wolny.` ma czytanie, w którym bierze:
 `wolny` czyta się jako przymiotnik i jako rzeczownik,
 a rzeczownikowe staje tam, gdzie produkcja czeka na biernik,
-[więc są to dwa czytania](#co-się-liczy-jako-jedno-czytanie).
+[więc są to dwa odczytania](#co-się-liczy-jako-jedno-odczytanie).
 Takiego czytania nie ma żaden czytelnik tego zdania.
 
 Ramą jest zbiór dopełnień, jakie czasownik bierze,
@@ -2277,7 +2288,7 @@ Produkcja rekurencyjna na poziomie członu daje `te [konstrukcje, które stoją]
 obok `[te konstrukcje], które stoją`,
 czyli dwa wyprowadzenia jednej struktury,
 a tych dwóch nie ma czym odsiać:
-kształty są różne, więc [są dwoma czytaniami](#co-się-liczy-jako-jedno-czytanie).
+kształty są różne, więc [są dwoma odczytaniami](#co-się-liczy-jako-jedno-odczytanie).
 Wyżej ten wybór nie istnieje, bo `NPConjunct` bierze wszystko, co grupa niesie przed nim.
 Kosztuje to symetrię w koordynacji:
 człon prawy zdanie względne unieść może, a lewy nie,
@@ -2613,8 +2624,8 @@ i nie ma czym pokazać, czym się różnią.
 Czytelnik nie ma tu przy tym czego rozstrzygać:
 określenie przed zdaniem nie mówi nic o tym, co stoi za zdaniem,
 a określenie za zdaniem nie mówi nic o tym, co stoi przed nim.
-[Czytaniem jest kształt](#co-się-liczy-jako-jedno-czytanie),
-więc dwa kształty na jedno czytanie są usterką tej gramatyki,
+[Odczytaniem jest kształt](#co-się-liczy-jako-jedno-odczytanie),
+więc dwa kształty na jedno odczytanie są usterką tej gramatyki,
 a nie faktem o polszczyźnie.
 
 Kształt zdejmuje gramatyka, choć oba znaczą to samo,
@@ -2966,7 +2977,7 @@ a formy `imps` takiego czytania nie mają:
 z 321 form tego znacznika w banku drzew jedna, `pito`, ma czytanie spoza tej
 części mowy, a każde inne drugie czytanie jest znów formą `imps`,
 czyli jednym czytaniem, a nie dwoma
-([wyżej](#co-się-liczy-jako-jedno-czytanie)).
+([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
 Cząstka `się` stoi przy tej formie tak samo jak przy osobowej
 i pyta o ten sam leksykon zwrotny, bo `zajmowano się sprawą`
 jest tym samym czasownikiem co `zajmuje się sprawą`.
