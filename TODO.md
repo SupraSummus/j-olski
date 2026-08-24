@@ -501,6 +501,26 @@ nad bankiem drzew, a nie samego dopisania zdania.
 Wpis waży mniej, odkąd wiersz nazywa czytanie licencjonowane,
 bo `interj` jest wierszem prawdziwych wykrzykników, a nie kryjówką dla `i`.
 
+Sonda nad Świgrą pyta jej wydruk o czas i o łuki, a `info(trees, …)` z tego samego
+wydruku pomija, więc różnicę, o którą w tym porównaniu chodzi najbardziej,
+`harness/świgra.py` zostawia niezmierzoną.
+Świgra liczy wyprowadzenia tam, gdzie olski liczy odczytania — `counttrees` w
+`birnam_cleanforest.pl` mnoży poddrzewa, a `signature` w `olski/parse.py` kwotuje po
+lematach, wartościach cech i częściach mowy — i dziś rozstrzyga to samo czytanie
+źródła ([`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)).
+Ruchem jest `trees` i `useful_edges` dopisane do `POLE`, kolumna w wydruku sondy,
+a przed jednym i drugim trzecia poprawka z docstringu sondy, bez której obie te
+liczby nie dochodzą do wydruku Świgry.
+Decyzją, której to żąda, jest kwota: liczba drzew mówi o zapisie lasu, a nie o
+wieloznaczności zdania, więc porównanie z liczbą odczytań musi powiedzieć, co nad
+cudzym drzewem jest jednym kształtem — etykieta z rozpiętością czy samo nawiasowanie,
+w którym łańcuchy jednoelementowe pomija się.
+Druga decyzja jest o zakresie: docstring sondy deklaruje, że rzeczą mierzoną jest
+czas, a nie kształt drzewa, więc ten wpis go odwraca, a nie dopracowuje.
+Do przeczytania jest jedno zdanie puszczone obiema stronami: zdanie o koszcie szynki
+z README wychodzi u Świgry tysiącami drzew, a u olskiego kilkoma odczytaniami,
+a dopóki kwota nie jest wybrana, tych dwóch liczb nie ma jak zestawić.
+
 ## Korpusy, ekstrakcja i figury
 
 Only one of the corpora in

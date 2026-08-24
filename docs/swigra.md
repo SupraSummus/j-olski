@@ -246,6 +246,70 @@ Valency is on the list of things
 [the subset does not cover](subset.md#what-it-does-not-cover-yet),
 and this is the shape to reach for when it does.
 
+### Fraza luźna jest pozycją, której nikt nie żąda
+
+Córki zdania dzielą się w GFJP na dwa rodzaje.
+Frazy wymaganej żąda rama walencyjna czasownika
+(`fw`, [wyżej](#valency-as-a-resource-that-gets-consumed)),
+a fraza luźna — u Świdzińskiego przyzdanie — dochodzi do zdania bez żądania (`fl`).
+Pod jedną pozycję wchodzi przez to wszystko, czego rama nie wymienia,
+i `gfjp2.dcg` mówi to przykładami wpisanymi nad regułami `fl`:
+
+```text
+Wymknął się po angielsku.
+Znam go od dawna.
+Czytałaś, dziewczyno.
+Wchodziliśmy do domu, depcząc trawnik.
+Umrze przeczytawszy książkę kucharską.
+```
+
+Okolicznik, wyrażenie przyimkowe, wołacz i dwa imiesłowy są jedną pozycją,
+a nie pięcioma; te same reguły biorą tam zdanie okolicznikowe
+i gołą grupę imienną mówiącą jak długo —
+`dwie godziny` w `Gotować mieszaninę dwie godziny.` dochodzi luźno,
+a zdanie to jest w gramatyce przykładem obowiązkowym.
+Kolejność jest wolna, a sufit jeden — `najwyżej3` w warunku iterowanym tego samego
+`sequence_of` ([wyżej](#free-word-order-without-factorial-rules)) —
+więc konstrukcje, które inaczej wchodziłyby po jednej, wchodzą tu jednym symbolem.
+
+Cena wychodzi z tego samego, z czego pożytek.
+Pozycja luźna przyjmuje frazę każdego typu i wchodzi w zdanie w każdym miejscu,
+więc grupa, której nie chce żadna pozycja ramy, ma gdzie wpaść —
+i wpada tam w każdej kombinacji z pozostałymi, bo kolejność jest wolna.
+Woliński płaci to ustępstwami wpisanymi w gramatykę,
+a jedno z nich dotyczy właśnie grupy luźnej
+([niżej](#a-full-scale-grammar-pays-the-ambiguity-tax-too)).
+
+Olski tej pozycji nie ma i nie jest to przeoczenie.
+Każda fraza czytania obsadza u niego rolę, którą werdykt nazywa:
+modyfikator dostaje nazwanego gospodarza,
+okolicznik wyrażony zdaniem dochodzi do zdania składowego
+([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+a przysłówki dostają wspólną listę.
+Frazy bez roli streszczenie nie ma czym nazwać,
+więc analiza dochodzi do końca zdania i nic go nie zamyka:
+
+```sh
+python3 -m olski.check -c "Czytałaś, dziewczyno.
+Gotuj mieszaninę dwie godziny."
+```
+
+```text
+<text>: rejected  Czytałaś, dziewczyno.
+                  no reading: the analysis reaches the end and nothing closes the sentence
+<text>: rejected  Gotuj mieszaninę dwie godziny.
+                  no reading: the analysis reaches the end and nothing closes the sentence
+0 of 2 sentences are olski, and 0 have a reading
+```
+
+Do wzięcia jest z tego mechanizmu sufit, a nie sama pozycja.
+Wpuszczenie pozycji bez roli odwracałoby dwie rzeczy naraz:
+werdykt, który role nazywa, i wieloznaczność, którą taka pozycja mnoży.
+Konstrukcje z listy wyżej wchodzą więc do olskiego pojedynczo, każda ze swoją rolą,
+a to, co ta pozycja robi z liczbą czytań, olski ma już u siebie o rozmiar mniejsze:
+płaska lista przysłówków daje zdaniu kształt, który mówi o nim nieprawdę
+([subset.md](subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+
 ### The comma as a grammatical attribute
 
 Every nonterminal in `gfjp2.dcg` carries `Pk`,
