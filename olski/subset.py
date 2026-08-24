@@ -535,6 +535,11 @@ ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
 CUDZYSŁÓW_OTWIERAJĄCY = word("interp", lemma=ZNAK_CUDZYSŁOWU_OTWIERAJĄCY)
 CUDZYSŁÓW_ZAMYKAJĄCY = word("interp", lemma=ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY)
 
+#: Znaki, którymi cytuje się poza tym rejestrem: cudzysłów maszynowy, pojedynczy,
+#: angielski i ostrokątny. Gramatyka bierze samą parę wyżej, a nad którymkolwiek
+#: z tych znaków werdykt dopowiada, którą (:func:`_podpowiedź`).
+ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
+
 #: Nawias, którym ten rejestr dopowiada obok zdania. Znaki są dwa tak samo jak
 #: przy cudzysłowie i z tego samego powodu.
 NAWIAS_OTWIERAJĄCY = word("interp", lemma="(")
@@ -1994,6 +1999,30 @@ def _rozbieżny(rozbieżność: Rozbieżność) -> str:
     return f"„{rozbieżność.konstytuent}” reads {rozbieżność.ile} ways"
 
 
+def _podpowiedź(nielicencjonowane: tuple[str, ...]) -> str:
+    """Znaki, którymi ten rejestr cytuje, gdy autor zacytował innymi; inaczej nic.
+
+    Czemu podpowiedź dostaje ten znak, a nie łącznik, mówi
+    docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka.
+
+    Pytanie jest o pierwszy i ostatni znak formy, bo Morfeusz scala cudzysłów
+    pojedynczy ze słowem w jedną formę — ``'Zasad'`` wychodzi jednym segmentem —
+    a apostrof w środku słowa nie cytuje: ``fact's`` brałby podpowiedź, gdyby
+    warunek pytał o samo zawieranie.
+    """
+    if not any(
+        forma[0] in ZAMIENNIKI_CUDZYSŁOWU or forma[-1] in ZAMIENNIKI_CUDZYSŁOWU
+        for forma in nielicencjonowane
+    ):
+        return ""
+    #  Średnik otwiera podpowiedź, bo tym znakiem wycina ją kolejka form bez
+    #  licencji (docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze).
+    return (
+        f"; a quotation opens with {ZNAK_CUDZYSŁOWU_OTWIERAJĄCY}"
+        f" and closes with {ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY}"
+    )
+
+
 @dataclass(frozen=True)
 class Verdict:
     """What olski says about one sentence."""
@@ -2053,7 +2082,8 @@ class Verdict:
                 # Cudzysłów jest treścią: najczęstszą formą bez licencji jest
                 # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
-                return f"no reading: no production takes {formy}"
+                podpowiedź = _podpowiedź(self.nielicencjonowane)
+                return f"no reading: no production takes {formy}{podpowiedź}"
             if self.zatrzymanie is None:
                 return "no reading: the analysis reaches the end and nothing closes the sentence"
             return f"no reading: the analysis stops at „{self.zatrzymanie}”"

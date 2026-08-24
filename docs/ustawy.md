@@ -358,7 +358,7 @@ gdzie werdykt „wieloznaczne” ma adresata poza autorem tekstu.
 ## Gdzie stają analizy w tym rejestrze
 
 ```sh
-python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K.*' \
+python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K[^;]*' \
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 

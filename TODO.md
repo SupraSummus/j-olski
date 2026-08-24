@@ -392,8 +392,9 @@ forma bez licencji stoi osobno od struktury bez licencji — tylko o szczebel ni
 i ma ona właściciela w [`docs/swigra.md`](docs/swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold).
 Kosztem jest wydruk, z którego jeden dokument wycina formy poleceniem:
 [`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
-robi to przez `grep -oP 'no production takes \K.*'`,
+bierze wszystko, co stoi za frazą `no production takes` do średnika,
 więc drugi komunikat rozsypuje tamto polecenie, jeżeli nie da się go wyciąć tak samo.
+Za tym średnikiem dopisuje się podpowiedź o cudzysłowie.
 Do przeczytania jest `explain` w `olski/subset.py` obok `bez_licencji`:
 formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pola
 w `Verdict`, a nie samego drugiego napisu.
