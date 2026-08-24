@@ -1962,22 +1962,97 @@ i przelicza obie liczby; sonda różnicowa robi to nad `harness/ruch.py`.
 Gdzie pomyłki się rozchodzą, całą zmianą jest zdanie o tym w tamtej sekcji,
 bo wtedy cena jest ceną przydawki, a nie jednego z dwóch imiesłowów.
 
-Pytanie zależne z `kto` albo `co` wychodzi ciągiem dwóch zdań współrzędnych,
-czyli czytaniem, którego polszczyzna nie ma: `Pyta, kto płaci.` jest dziś `valid`
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
-Morfeusz czyta oba słowa jako zaimki rzeczowne, a przecinek koordynuje zdania,
-więc zaimek staje podmiotem drugiego składowego i nic tego czytania nie odsiewa.
-Werdykt jest przez to gorszy od odrzucenia, którym kończą pozostałe słowa pytające,
-bo `valid` czytelnik przyjmuje bez sprawdzania
-([`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)).
-Ruchem jest czoło pytania na te dwa zaimki, czyli grupa pytajna bez rzeczownika
-przy zaimku, wraz z wykluczeniem obu z pozycji rzeczownej — bez wykluczenia jeden
-napis ma dwa wyprowadzenia, a wykluczenie samo zabiera tylko drugie czytanie
-nieprawdziwe, bo `Kto to napisał, wie autor.` wychodzi dziś tym samym ciągiem
-współrzędnym.
-Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok `PYTAJNY`:
-pytanie ma dziś czoło o kształcie zaimka przy rzeczowniku,
-a te dwa zaimka stoją same, więc jest to drugie czoło tej rodziny, a nie druga lista.
+Trzy przykłady w [sekcji o nieciągłości](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)
+mówią o zatrzymaniach, których olski już nie ma: `Co mamy wziąć?` i `To chcę
+podkreślić.` stają dziś na bezokoliczniku, a nie na zaimku rzeczownym, więc zdanie
+o tym, że wszystkie trzy staną na pierwszym słowie, jest nieprawdziwe — pierwsze
+z nich stawało na zaimku, którego pozycji rzeczownej nie ma
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Ruchem jest przebieg nad tamtym zbiorem 323 zdań i przepisanie tych przykładów na
+takie, które dziś stają tam, gdzie akapit mówi; sam akapit twierdzi rzecz szerszą —
+że nieciągłość jest w tych zdaniach brakiem ostatnim — i tej ta poprawka nie tyka.
+Do przeczytania jest `harness/nieciągłość.py`, bo on ten zbiór wyznacza,
+oraz `Outcome.blocker` w `olski/coverage.py`, bo stamtąd bierze się nazwa
+zatrzymania.
+
+Zaimek `kto` i `co` nie ma pozycji z przydawką: `Kto pierwszy wstaje od stołu?`
+pada, a `Kto z państwa senatorów jest za?` wyprowadza się
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Wyrażenie przyimkowe czoło o jednym słowie bierze, a przymiotnika za sobą nie bierze,
+i tym różni się ta pozycja od tamtej: `kto inny` oraz `co innego` są tym samym
+kształtem co `kto pierwszy`.
+Przy `co` brak tej pozycji kosztuje więcej niż odrzucenie, bo Morfeusz daje tej
+formie czytanie przyimka: `Co innego jest tanie.` wychodzi `valid` z `Co innego`
+w roli okolicznika, czyli czytaniem, którego polszczyzna nie ma.
+Ruchem jest trzecie ciało grupy pytajnej, czyli zaimek z przymiotnikiem za sobą,
+i zgodność w nim jest pytaniem otwartym: `kto` jest rodzaju męskiego, a `co`
+nijakiego, więc przymiotnik zgadza się z zaimkiem, a nie z rzeczownikiem, którego
+nie ma.
+
+Zdanie względne bez poprzednika stoi tylko w roli podmiotu, więc `Bezokolicznik ma
+dwa kształty, czyli to, kto wykonuje to, o czym mówi pozycja podrzędna.` pada, a
+`Kto wchodzi w środek, poprzedniego zdania nie przeczytał.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Ruchem jest drugie ciało dopełnienia obok tego podmiotu, i cena jest widoczna
+przed pomiarem: pytanie zależne stoi w tej samej pozycji ramy, więc każde zdanie
+z `kto` za czasownikiem dostanie drugie czytanie — pytanie i zdanie względne bez
+poprzednika są tam jednym napisem.
+Do przeczytania jest, ile takich zdań ma bank drzew: bez tej liczby wpis jest samą
+ceną, a kształt do policzenia daje `FreeRelativeClause` w `olski/subset.py`.
+
+Zdanie względne odnoszące się do całego zdania przed nim nie ma wyprowadzenia:
+`Sejm zaaprobował przekroczenie, co przekreśliło sens dalszych działań.` pada, a
+`Sejm zaaprobował to, co przekreśliło sens dalszych działań.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Poprzednikiem jest tam zdanie, a nie rzeczownik, więc zgodność liczby i rodzaju
+nie ma z czym się zgadzać i pozycja nie jest przydawką: `dzięki czemu` oraz
+`po czym` są tym samym kształtem z przyimkiem przed zaimkiem.
+Ta proza tak nie pisze, a prasa pisze, więc ruch jest tu wart tyle, ile bank drzew,
+i tyle też trzeba przeczytać przed nim: te kilkanaście zdań Składnicy,
+które olski odrzuca na tym kształcie.
+
+Zaimek pytajny stoi tylko na czele swojego zdania, więc drugie pytanie w tym samym
+zdaniu nie ma pozycji: `Kto jest kim?` pada, a `Czym jest parser?` wyprowadza się
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Pozycję na miejscu odbiera zaimkowi wykluczenie z pozycji rzeczownej, a czoło jest
+w zdaniu jedno, bo tyle wysuwa polszczyzna.
+Ruchem jest pozycja zaimka pytajnego w roli wypełnionej na miejscu, czyli cecha
+rozdzielająca zaimek stojący w pytaniu od tego, który stoi w zdaniu oznajmującym:
+bez niej `Parser zapisuje co.` wyprowadza się, a polszczyzną nie jest.
+Do przeczytania jest `BEZ_CZOŁA` w `olski/subset.py`, bo tą cechą gramatyka
+rozdziela dziś rolę wypełnioną czołem od wypełnionej na miejscu, i pytanie jest o to,
+czy druga wartość wystarczy, czy trzeba trzeciej.
+
+Pytanie zależne nie staje za dwukropkiem: `Tekst wie to: kto płaci.` pada, a
+`Tekst wie, kto płaci.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+Dwukropek spina u olskiego dwa zdania, a wylicza za sobą to, co samo jest zdaniem,
+więc czoło pytania nie ma tam pozycji, choć ten rejestr tak pisze:
+zdanie README o tym, co tekst wie o zdaniu, miało za dwukropkiem dwa pytania
+zależne i przepisano je na grupę imienną, bo przedtem wyprowadzało się przez
+pozycję rzeczowną zaimka, czyli czytaniem nieprawdziwym.
+Ruchem jest ciało dwukropka z ciągiem pytań (`InterrogativeChain`
+w `olski/subset.py`), a do rozstrzygnięcia jest, czy tym ciągiem ma być także
+zdanie z okolicznikiem pytającym: `kiedy to było` niesie pytanie przysłówkiem,
+którego czoło pytania nie bierze, więc ciąg mieszany żąda albo drugiego symbolu,
+albo tego okolicznika w czole.
+
+Pytanie o dopełnienie w dopełniaczu nie ma wyprowadzenia: `Kogo dotyczy zmiana?`
+pada, a `Kogo zna autor?` wyprowadza się
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Czoło dopełnienia w `_wysunięta_rola` w `olski/subset.py` bierze dopełniacz tylko
+przy przeczeniu, bo tam rządzi nim negacja, a `dotyczyć` rządzi nim ramą.
+Ruchem jest para przypadka i pozycji ramy wzięta z leksykonu, tak jak bierze ją
+dopełnienie stojące na swoim miejscu (`DOKŁADANE`), a nie trzecia wartość wypisana
+obok tamtych dwóch.
+
+Przytoczenie samego wyrazu funkcyjnego nie ma czytania, bo `kto` i `co` nie stoją
+w pozycji rzeczownej: `nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie
+jedno` pada, a ten sam ciąg bez `kto` w środku wyprowadza się
+([`docs/subset.md`](docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+Ruchem jest albo cudzysłów w tym zdaniu `docs/subset.md`, czyli poprawka w prozie,
+albo licencja dla wyrazu przytoczonego backtickami, czyli ta sama robota, którą
+trzyma wpis o angielskiej nazwie pisanej małą literą; drugie rozstrzyga o obu.
 
 Ciągu współrzędnego przymiotników przy rzeczowniku olski nie ma w żadnym z dwóch
 szyków przydawki: `Nowy i tani parser zapisuje ustawienia.` pada tak samo jak

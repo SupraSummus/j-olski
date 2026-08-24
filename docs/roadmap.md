@@ -158,6 +158,20 @@ i cztery z tych sześciu są tamtą naprawą.
 Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 że wyjdzie.
 
+Zaimki `kto` i `co` są pierwszym dopisaniem, po którym pokrycie spadło,
+i mówią o tym kierunku to, czego tamten przykład nie mówi
+([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Zdania z nimi wyprowadzały się przedtem ciągiem współrzędnym,
+czyli czytaniem, którego polszczyzna nie ma,
+a pokrycie liczyło każde z nich jako sukces.
+Odebranie tym zaimkom pozycji rzeczownej zabiera to czytanie wszystkim naraz,
+więc nad bankiem drzew zdań przyjętych ubywa kilkanaście,
+a nad prozą tego repozytorium przybywa ich kilka.
+Wybór między tymi dwiema liczbami rozstrzyga kierunek, a nie ich suma:
+werdykt, który stoi na czytaniu nieprawdziwym,
+jest miejscem, gdzie pokrycie i prawda mówią co innego,
+i wtedy jedno z dwojga trzeba wybrać.
+
 Kolejność etapów robi koszt przepisywania.
 To, co każda późniejsza produkcja ma realizować, wchodzi przed nią,
 bo dopisane potem każe przepisać je wszystkie:

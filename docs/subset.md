@@ -2626,6 +2626,9 @@ wychodziłoby zdaniem względnym z grupą pytajną na czole,
 a `Który zapisuje ustawienia?` pytaniem o sam zaimek.
 Tę samą robotę wykonuje przy `Predicative` cecha `valency`:
 rozdziela orzecznik zgodny od narzędnikowego, a kopula żąda drugiego z nich.
+Cechę `czoło` niesie `Predicative` obok tamtej i z tego samego powodu co podmiot:
+orzecznik wysunięty na czoło jest tam trzecią rolą, którą czoło wypełnia
+([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 
 Cena wyszła zerowa i wynika z kształtu tej zmiany, a nie z przebiegu.
 Etykieta nie zmienia tego, co się wyprowadza, tylko to, jak się nazywa,
@@ -2648,7 +2651,7 @@ bo sonda różnicowa liczy przejścia werdyktu (`harness/ruch.py`),
 a ta pozycja nie rusza ani jednego.
 Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czołem:
 `Subject → czoło` po jednej na czoło, `Object → czoło` po dwóch,
-bo tam rozdziela je przeczenie,
+bo tam rozdziela je przeczenie, oraz `Predicative → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
 `olski-corpus Składnica-frazowa-180723/` puszczony nad taką gramatyką
 wydaje obie tabele bez etykiety, a różnica wierszy jest tymi liczbami.
@@ -3266,6 +3269,105 @@ Wskazała ją sesja pisząca pod tę gramatykę zdanie po zdaniu.
 Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej
 ([pisanie-po-olsku.md](pisanie-po-olsku.md)).
 
+## Zaimki `kto` i `co` wchodzą wszystkimi pozycjami naraz
+
+Morfeusz trzyma te dwa zaimki pod rzeczownikiem,
+a przecinek koordynuje w tej gramatyce zdania,
+więc bez wykluczenia każde ich użycie ma jeden i ten sam kształt:
+zaimek jest podmiotem albo dopełnieniem zdania po przecinku.
+`Pyta, kto płaci.` wychodzi wtedy `valid` z czytaniem,
+które jest ciągiem dwóch zdań współrzędnych,
+czyli którego polszczyzna nie ma.
+Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
+jaki ten pomiar wydaje
+([corpus.md](corpus.md#what-morphological-ambiguity-costs)).
+
+Pozycji rzeczownej te dwa lematy dlatego nie mają.
+Z tą pozycją jeden napis dostaje dwa wyprowadzenia:
+`Kto płaci?` wyprowadza się i pytaniem, i zdaniem oznajmującym
+zamkniętym pytajnikiem, a role obu są te same.
+Wykluczenie stoi na terminalu głowy grupy imiennej,
+a nie w `admissible`, bo czytanie `subst` jest tym,
+o które pytają czoła niżej;
+tym różni się ono od wykluczenia ze słownika
+([wyżej](#the-dictionary-offers-readings-polish-does-not)).
+
+Wykluczenie to odbiera pozycję wszystkim użyciom tych zaimków naraz,
+a użycie jest w tym rejestrze niejedno.
+Dlatego pozycje niżej stoją w gramatyce razem, a nie jedna po drugiej:
+pozycja wpuszczona sama zostawia pozostałe bez ani jednego czytania,
+a pomiar mówi wtedy o zmianie, że obniża pokrycie,
+choć obniża je przez to, że pierwsza pozycja zabiera pozostałym czytanie
+nieprawdziwe i nie daje im nic w zamian.
+
+- **Czoło pytania o jednym słowie.**
+  `Kto płaci?`, `Pyta, kto płaci.` Grupa pytajna ma dwa ciała:
+  zaimek `który` przy rzeczowniku i te dwa zaimki same,
+  bo rzeczownika przy sobie nie mają.
+  Wyrażenie przyimkowe bierze to czoło osobnym ciałem —
+  `Kto z państwa senatorów jest za?` — bo grupy imiennej,
+  która by je wzięła, w środku nie ma.
+  Przyłączenia tego olski nie wybiera, tak samo jak wszędzie
+  ([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
+- **Zaimek względny.** `Sprawdzaj to, co mogło się zepsuć.`,
+  `Program zapisuje wszystko, co widzi.`
+  Pozycja jest ta sama co przy `który`, a ciało osobne,
+  bo lemat ma inną część mowy.
+- **Zdanie względne bez poprzednika w roli podmiotu.**
+  `Kto wchodzi w środek, poprzedniego zdania nie przeczytał.`
+  Poprzednika ta konstrukcja nie ma i nie potrzebuje,
+  bo zaimek sam nazywa to, o czym zdanie orzeka.
+  Przecinek zamyka ją tak samo jak każde zdanie względne,
+  a role jej wnętrza nie są rolami zdania nad nią.
+- **Ciąg pytań zależnych pod jednym czasownikiem.**
+  `Drzewo mówi, co jest tematem, a co jest nowe.`
+  Czasownik bierze jedno wypełnienie, więc pozycję ramy zajmuje ciąg cały.
+  Znakiem ciągu jest spójnik, a nie sam przecinek:
+  przecinek w tym miejscu zamyka zdanie podrzędne
+  ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
+  więc ciało z nim samym dałoby jednemu napisowi dwa wyprowadzenia.
+- **Orzecznik wysunięty na czoło.** `Czym jest parser?`, `to, czym jest GLR.`
+  Rola jest w tych dwóch rodzinach trzecia obok podmiotu i dopełnienia,
+  a pozycję ma jedną, bo narzędnika żąda kopula i nikt poza nią,
+  więc szyk jest jeden: czoło, kopula i podmiot.
+  Cechę `czoło` niosą oba ciała orzecznika stojącego na swoim miejscu,
+  bo bez niej orzecznik wysunięty wypełniałby także szyk zdania oznajmującego,
+  i `Czym jest parser?` miałoby znów dwa wyprowadzenia.
+
+Zakup i cena są różnicą wobec gramatyki bez tych pozycji,
+a między rejestrami rozchodzą się w tę stronę,
+którą [kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę) przewiduje.
+Nad prozą tego repozytorium przybywa zdań przyjętych jednoznacznie,
+a każde z nich ma w tamtej gramatyce także czytanie ciągu współrzędnego;
+kilka zdań dostaje czytanie tam, gdzie tamta nie daje żadnego,
+a kilkanaście przechodzi na odrzucone — i tym, co je tam wyprowadza,
+jest właśnie ten ciąg; konstrukcję, której im brakuje, nazywa kolejka niżej.
+Nad bankiem drzew zakup jest mniejszy, a cena większa,
+i tak wychodzi pod jedną morfologią i pod drugą:
+kilka zdań, których tamta gramatyka nie wyprowadza, wychodzi przyjętych,
+a kilkanaście, które w niej czytanie mają, przechodzi na odrzucone,
+więc suma przyjętych spada.
+Część z tych odrzuconych ma tam role zgodne z drzewem wzorcowym,
+bo zaimek naprawdę bywa podmiotem swojego zdania składowego,
+kiedy zdanie względne odnosi się do całego zdania przed nim.
+Rozdziela te dwa rejestry poprzednik, a nie częstość:
+`, co` niesie tu częściej niż co dwudzieste zdanie,
+a w banku drzew rzadziej niż co setne,
+tylko że tutaj stoi przed tym zaimkiem `to`, `wszystko` albo `niczego`,
+a tam zdanie całe — i to drugie jest tym, czemu wykluczenie zabiera czytanie.
+
+Wykluczenie zostawia po sobie kolejkę konstrukcji, a nie pustą listę,
+i stoją na niej te użycia, których czoła nie obejmują:
+zaimek z przydawką (`Kto pierwszy wstaje od stołu?`),
+zaimek stojący nie na czele, czyli drugie pytanie w tym samym zdaniu
+(`Kto jest kim?`),
+pytanie o dopełnienie w dopełniaczu (`Kogo dotyczy zmiana?`),
+zdanie względne bez poprzednika w roli innej niż podmiot,
+zdanie względne odnoszące się do całego zdania przed nim (`dzięki czemu`),
+oraz przytoczenie samego wyrazu, którym ten rejestr o sobie mówi
+(`nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie jedno`).
+`TODO.md` trzyma je wszystkie.
+
 ## What it does not cover yet
 
 Every one of these is a sentence that gets rejected and should not be:
@@ -3317,23 +3419,16 @@ Every one of these is a sentence that gets rejected and should not be:
   ([wyżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
   i czasownik nieosobowy w tym samym
   ([wyżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
-- Słowa, którymi ten rejestr pyta poza tym jednym zaimkiem:
-  `czy`, `kto`, `co`, `jak`, `dlaczego`, `gdzie`.
+- Słowa, którymi ten rejestr pyta poza zaimkami, które już wchodzą
+  ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
+  `czy`, `jak`, `jaki`, `ile`, `dlaczego`, `gdzie`.
   `Czy program zapisuje ustawienia?` jest odrzucone,
   gdzie `Który program zapisuje ustawienia?` wyprowadza się,
   a każde z tych słów żąda innego kształtu niż grupa pytajna,
   więc jest to kolejka konstrukcji, a nie jedna pozycja.
-  Dwa z tych słów wypadają z tej sekcji, bo nie są odrzucane:
-  `Pyta, kto płaci.` wychodzi `valid`, a `Mówi, co robi parser.` wieloznacznie,
-  i w obu wypadkach czytanie jest nieprawdziwe.
-  Morfeusz czyta `kto` i `co` jako zaimki rzeczowne, a przecinek koordynuje zdania,
-  więc pytanie zależne wychodzi ciągiem dwóch zdań współrzędnych,
-  w którym zaimek jest podmiotem drugiego.
-  Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
-  jaki ten pomiar wydaje
-  ([corpus.md](corpus.md#what-morphological-ambiguity-costs)),
-  więc te dwa słowa są robotą pilniejszą niż cztery pozostałe;
-  `TODO.md` trzyma ruch.
+  Dwa z nich zawracają zdanie tej prozy w ciągu pytań zależnych, którego
+  drugim członem są: `Pyta, ile ta gramatyka dziś kosztuje i co kupuje.`
+  jest odrzucone, gdzie `Pyta, co kupuje.` wyprowadza się.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
