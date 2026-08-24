@@ -49,6 +49,19 @@ katalog podaje się sondzie ścieżką.
 
     python3 -m harness.świgra proza/README.txt --świgra ~/swigra/parser
     python3 -m harness.świgra -c "Zapisz plik konfiguracyjny." --świgra ~/swigra/parser
+
+Poprawka trzecia nie należy do budowania parsera, a do czytania jego lasu.
+``portray('$VAR'(X)) :- format("_", [X])`` w ``gfjp_swidzinskify.pl``
+podaje formatowi argument, dla którego napis nie ma dyrektywy,
+na co SWI-Prolog 9 odpowiada ``format/2: Format error: too many arguments``,
+więc zrzut łuków urywa się na pierwszym z nich, który niesie zmienną.
+Za zrzutem drukują się ``info(trees, …)`` i ``info(useful_edges, …)``,
+czyli liczba drzew i liczba łuków użytecznych, i te nie dochodzą wtedy do wydruku.
+Czas przychodzi przed zrzutem, więc ta sonda mierzy dalej,
+a każde zdanie kończy się wtedy błędem po stronie Prologu,
+którego ``odczytaj`` nie widzi, bo pyta o ``parse_cputime``.
+Kto pyta las o cokolwiek poza czasem, zamienia tamten wiersz na
+``portray('$VAR'(_)) :- write('_').``
 """
 
 from __future__ import annotations
