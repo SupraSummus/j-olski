@@ -2092,7 +2092,8 @@ Kryterium wyjścia toru składu to i tak nie jest
 ([`docs/roadmap.md`](docs/roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)),
 bo tamto żąda znak w znak nad `README.md`, a nie treści oddanej innymi zdaniami.
 
-Trzy pozycje, których `README.py` zażądał i nie dostał, stoją każda w innym miejscu.
+Trzy pozycje, których skład nie ma, stoją każda w innym miejscu;
+dwie pierwsze widać w `README.py`.
 Lematu `olski` Morfeusz nie zna wcale, więc nazwa własna tego języka
 nie stanie w składanym zdaniu w żadnej roli:
 `olski/skład/leksemy.py` wybiera między leksemami, które SGJP ma,

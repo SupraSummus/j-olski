@@ -59,7 +59,6 @@ Zobacz [docs/design-notes.md](docs/design-notes.md)
 oraz [docs/roadmap.md](docs/roadmap.md#tor-gramatyczny-nie-ma-końca).
 
 Nie ma aplikacji, która napędzałaby to wszystko.
-Projekt jest dla przyjemności.
 
 ## Co działa
 

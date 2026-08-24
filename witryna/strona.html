@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>j-olski — parser podzbioru polszczyzny</title>
-    <meta name="description" content="Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno odczytanie.">
-    <!-- Znaczek karty jest tu wpisany, a nie pobierany: przeglądarka pyta o
-         /favicon.ico sama, a trasy takiej nie ma i nie ma po co jej dodawać. -->
+    <meta name="description" content="Wklej polski tekst, a parser pokaże, na ile sposobów da się przeczytać każde zdanie.">
+    <!-- Znaczek karty jest tu wpisany, a nie pobierany:
+         przeglądarka pyta o /favicon.ico sama,
+         a trasy takiej nie ma i nie ma po co jej dodawać. -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' x='4' font-size='26' font-family='Georgia,serif' fill='%232f6f4f'>o</text></svg>">
     <link rel="stylesheet" href="/styl.css">
   </head>
@@ -14,15 +15,45 @@
     <header>
       <h1><span aria-hidden="true">j-</span>olski</h1>
       <p class="wiodące">
-        <em>Język olski</em> to <em>język polski</em>, któremu spiłowano <em>p</em>.
-        Zdanie jest w nim poprawne dopiero wtedy, gdy ma dokładnie jedno odczytanie.
-        Parser mówi, że zdanie czyta się dwojako, a za autora nie wybiera.
+        Parser polszczyzny, który nie zgaduje.
+        Wklej tekst, a dla każdego zdania zobaczysz,
+        na ile sposobów da się je przeczytać i jakie to sposoby.
+      </p>
+      <p>
+        Odczytanie zdania mówi, kto wykonuje czynność,
+        na co ona przechodzi
+        i do którego słowa należy każde określenie.
+      </p>
+      <p>
+        Olski to polszczyzna zawężona do zdań jednoznacznych:
+        zdanie jest w nim poprawne dopiero wtedy, gdy ma jedno odczytanie.
+        Przy dwóch parser pokazuje oba i nie wybiera za autora.
+      </p>
+      <details class="więcej">
+        <summary>Skąd biorą się dwa odczytania</summary>
+        <p>
+          W zdaniu <em>Koszt samej szynki przewyższa koszt szynki z dodatkami</em>
+          fraza <em>z dodatkami</em> może należeć do szynki, do kosztu albo do przewyższania,
+          a podmiot wolno w polszczyźnie postawić za dopełnieniem.
+          Wychodzi z tego kilka odczytań i dwa z nich mówią rzecz przeciwną.
+          Człowiek wybiera jedno i zwykle nie zauważa reszty;
+          parser wypisuje wszystkie.
+        </p>
+      </details>
+      <p class="dopisek">
+        Nazwa: <em>język olski</em> to <em>język polski</em>,
+        któremu spiłowano <em>p</em>.
       </p>
     </header>
 
     <main>
       <section aria-labelledby="tytuł-werdyktu">
         <h2 id="tytuł-werdyktu">Sprawdź tekst</h2>
+        <p class="dopisek">
+          W polu są trzy zdania: jednoznaczne, dwuznaczne i takie,
+          którego parser nie przyjmuje.
+          Wpisz swoje i naciśnij <kbd>Ctrl</kbd> + <kbd>Enter</kbd>.
+        </p>
         <form id="pytanie">
           <label class="ukryte" for="tekst">Tekst po polsku</label>
           <textarea id="tekst" name="tekst" rows="5" spellcheck="false"
@@ -43,16 +74,68 @@ Nowa program zapisuje ustawienia.</textarea>
           <span><span class="znaczek fragment">fragment</span> nie zdanie</span>
         </p>
 
+        <p class="dopisek">
+          Sam werdykt przychodzi po angielsku:
+          strona pokazuje te słowa, które drukuje narzędzie w terminalu.
+        </p>
+
         <p id="stan" class="stan" role="status" aria-live="polite"></p>
         <div id="werdykty"></div>
+      </section>
+
+      <section aria-labelledby="tytuł-zastosowań">
+        <h2 id="tytuł-zastosowań">Do czego to może służyć</h2>
+        <p>
+          Parser jest komponentem: dostaje zdanie, a oddaje role albo odmowę,
+          zawsze tę samą dla tego samego zdania.
+          Nic z poniższej listy nie istnieje —
+          lista mówi, co dałoby się z takiego komponentu zbudować.
+        </p>
+        <ul class="zastosowania">
+          <li>
+            <strong>Edytor, w którym dwuznacznego zdania nie da się napisać.</strong>
+            Gramatyka wie, co wolno postawić na następnym miejscu,
+            więc podpowiedź przychodzi w trakcie pisania.
+          </li>
+          <li>
+            <strong>Kontrola instrukcji przed publikacją.</strong>
+            Zdanie instrukcji, które czyta się dwojako, kosztuje czyjąś pomyłkę,
+            a we własnym tekście trudno je zauważyć.
+          </li>
+          <li>
+            <strong>Przepisy, regulaminy, umowy.</strong>
+            W przepisie o <em>zadaniach ochrony ludności i obrony cywilnej</em>
+            nie widać, czy obrona cywilna jest drugim zadaniem,
+            czy drugą rzeczą chronioną.
+            Każde odczytanie daje inne obowiązki.
+          </li>
+          <li>
+            <strong>Sito na tekst z modelu językowego.</strong>
+            Model pisze płynnie i bywa przy tym dwuznaczny.
+            Werdykt jest tani, więc wolno nim sprawdzać każde wypisane zdanie.
+          </li>
+          <li>
+            <strong>Polecenia po polsku dla programu.</strong>
+            Program dostaje z parsera role: kto wykonuje czynność i na co ona przechodzi.
+            O polecenie z dwoma odczytaniami może dopytać, zamiast zgadywać.
+          </li>
+          <li>
+            <strong>Polskie zdania z danych.</strong>
+            Drugi tor składa zdanie z opisu tego, co ma zostać powiedziane,
+            i odmianę liczy po drodze,
+            więc komunikat programu nie musi powstawać ze sklejanych kawałków szablonu.
+          </li>
+        </ul>
       </section>
 
       <section aria-labelledby="tytuł-makiety">
         <h2 id="tytuł-makiety">Tekst do makiety</h2>
         <p>
-          Drugi tor idzie w przeciwną stronę: wchodzi drzewo tego, co ma zostać
-          powiedziane, a wychodzi polskie zdanie. Losowane jest drzewo, więc
-          zgodność form jest policzona, a nie sprawdzona. Ziarno odtwarza tekst.
+          Tekst poniżej wypisał ten drugi tor.
+          Zamiast łacińskiej sieczki wychodzą polskie zdania:
+          losowane jest drzewo tego, co ma zostać powiedziane,
+          a formy zgadzają się dlatego, że skład je policzył.
+          Ziarno odtwarza tekst.
         </p>
         <form id="pytanie-makiety">
           <label for="ziarno">Ziarno</label>
@@ -68,9 +151,8 @@ Nowa program zapisuje ustawienia.</textarea>
 
     <footer>
       <p>
-        Parser jest tani i deterministyczny, a to samo wejście daje tę samą
-        odpowiedź. Werdykt przychodzi tu w tych samych słowach, w których
-        drukuje go <code>olski-check</code> na klonie.
+        Werdykt wydaje tutaj ta sama gramatyka,
+        którą uruchamia <code>olski-check</code> na klonie repozytorium.
       </p>
       <p>
         <a href="https://github.com/SupraSummus/j-olski">Repozytorium</a> ·

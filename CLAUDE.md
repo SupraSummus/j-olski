@@ -497,8 +497,7 @@ Powtarza się w niej kilka chwytów.
   Test: przeczytaj trzy kolejne zdania na głos.
 
 Nie każde takie zdanie jest usterką.
-Projekt jest dla przyjemności ([README](README.md#kierunek)),
-więc tekst, który się dobrze czyta, jest tu jednym z celów.
+Tekst, który się dobrze czyta, jest tu jednym z celów.
 Granica biegnie między wywodem a instrukcją.
 Wywód wolno tak pisać: README i te dokumenty, które o coś argumentują,
 czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
@@ -561,20 +560,21 @@ The rules, in order of precedence:
    a long phrase,
    or a list item.
 
-Markdown collapses a single newline into a space,
-so the rendered output is identical either way.
-What changes is the diff:
-a reworded sentence touches only the lines that actually changed,
-instead of reflowing an entire paragraph
-or producing one unreadable single-line diff.
+Pojedynczy nowy wiersz zwija się w spację w Markdownie i w HTML-u,
+więc czytelnik widzi to samo, a różny jest diff:
+przeredagowane zdanie rusza tylko te wiersze, które naprawdę się zmieniły,
+zamiast przelewać cały akapit albo dawać jeden wiersz nie do przeczytania.
 
-This covers Markdown and plain text files,
-commit message bodies and pull request descriptions,
-and prose in comments and docstrings,
-where the same tighter diff is the same win.
-A comment that already fits on one line stays on one line.
-Code itself is unaffected;
-format it however the language's usual tooling says.
+Granicą reguły nie jest lista formatów, tylko warunek, który to zwijanie stawia:
+proza w pliku wersjonowanym, a złamanie wiersza nie zmienia tego, co widzi czytelnik.
+Markdown i zwykły tekst spełniają ten warunek tak samo jak akapit w HTML-u,
+komentarz, docstring, ciało komunikatu commita i opis pull requesta;
+wyliczenie to jest przykładami, a nie granicą.
+Gdzie wiersz idzie dosłownie — `pre` i `textarea` w HTML-u, blok kodu w Markdownie —
+łamać nie wolno, i mówi to pierwsza reguła wyżej.
+Komentarz mieszczący się w jednym wierszu zostaje w jednym wierszu.
+Samego kodu reguła nie tyka:
+formatuje go zwykłe narzędzie danego języka.
 
 Two mechanical consequences:
 

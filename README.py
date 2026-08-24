@@ -3,7 +3,7 @@
 Eksperyment stojący obok ``README.md``, a nie zamiast niego.
 Treść, o której tamten plik mówi na wstępie —
 dlaczego olski jest podzbiorem, kiedy zdanie jest w nim poprawne,
-komu werdykt oddaje wybór i po co ten projekt jest —
+komu werdykt oddaje wybór i co repozytorium mierzy —
 stoi tu jako drzewa w kategoriach ``olski.skład.składnia``,
 a polski tekst jest tym, co z nich wychodzi.
 Wypisuje go ``python3 README.py``.
@@ -35,9 +35,6 @@ Lematu ``olski`` Morfeusz nie zna wcale i czyta go jako ``ign``,
 więc nazwa własna tego języka nie wyjdzie z drzewa w żadnej roli,
 i podmiotem stoi tu gramatyka tam, gdzie ``README.md`` pisze o olskim.
 Liczebnika skład nie ma, więc jedno odczytanie mówi się tu przez brak drugiego.
-Relacji przyczyny nie ma w ``olski/skład/przyimki.py`` ani pod jednym przyimkiem,
-a ma ją ``olski/skład/spójniki.py``, więc wychodzi ona zdaniem i nie wychodzi frazą:
-przyjemność jest tu orzecznikiem tam, gdzie ``README.md`` pisze ``dla przyjemności``.
 Ruch przy każdej z nich trzyma ``TODO.md``.
 
 Część zdań, które stąd wychodzą, parser czyta dwojako,
@@ -47,7 +44,7 @@ i tyle obiecuje obieg zamknięty w ``docs/design-notes.md``.
 """
 
 from olski.skład import Akapit, Postać
-from olski.skład.słownik import A, R, Skąd, V, jest, nie, opis, razem
+from olski.skład.słownik import A, R, Skąd, V, nie, opis, razem
 
 #: Postaciami jest to, do czego tekst wraca; reszta rzeczy jest wymieniana raz.
 #: Tożsamość niesie sama zmienna, więc ``parser`` użyty niżej trzy razy
@@ -76,11 +73,10 @@ AKAPITY = (
         nie(V.wybierać(parser, R.odczytanie)),
         V.wybierać(R.czytelnik, R.odczytanie),
     ),
-    #: Dwa tory i to, że nie napędza ich żadna aplikacja.
+    #: Dwa tory i to, co repozytorium nimi mierzy.
     Akapit(
         V.mierzyć(R.repozytorium, razem([gramatyka, skład])),
         V.pisać(skład, R.zdanie, Skąd.z(R.drzewo)),
-        jest(R.projekt, R.przyjemność),
     ),
 )
 
