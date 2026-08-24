@@ -642,8 +642,7 @@ a ruch trzyma [TODO.md](../TODO.md).
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
 - A nominal predicative in the instrumental, under the copula and nowhere else:
   `Jan jest nauczycielem.`
-  The copula is a closed list of lemmas
-  (`być`, `zostać`, `zostawać`, `pozostać`, `pozostawać`),
+  The copula is a closed list of lemmas,
   and it is closed because it is the one entry of the valency lexicon
   that is written by hand
   ([below](#walencja-jest-leksykonem-o-ramie-domyślnej)),
@@ -667,8 +666,7 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Forma pisana wersalikami, której słownik nie czyta wcale,
   jako ten sam rzeczownik nieodmienny: `README mówi o podzbiorze.`, `Parser GLR
   jest tani.`
-  Warunek pyta o milczenie słownika, a nie o samo pismo formy, i wywód wraz z ceną
-  trzyma [poniżej](#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)
+  ([poniżej](#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym))
 - A modal with its infinitive.
   `powinien` inflects for gender and not for person,
   so the clause it heads agrees with its subject in gender
@@ -688,25 +686,17 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Przydawka imiesłowowa, czyli imiesłów przy rzeczowniku, w obu szykach przydawki
   i wraz z dopełniaczem, którego jego czasownik żąda:
   `Wymienione zadania są obowiązkowe.`, `Reguła sięgająca znaku jest tania.`
-  Bierny i czynny dochodzą osobnymi ciałami tego samego symbolu,
-  a orzecznik bierze biernego i nie bierze czynnego;
-  wywód wraz z ceną trzyma
-  [poniżej](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)
+  ([poniżej](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik))
 - Rzeczownik odczasownikowy jako głowa grupy imiennej, w każdej pozycji, którą
   ma rzeczownik: `Przyłączenie jest tanie.`, `Wyznaczenie granicy jest tańsze.`
-  Pozycją przy czasowniku ta głowa nie jest, bo dopełnienia żąda w dopełniaczu,
-  a nie w bierniku; wywód trzyma
-  [poniżej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)
+  ([poniżej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku))
 - Pronouns, and with them first and second person subjects.
   Person comes from the subject rather than being fixed at the third,
   so `Ja zapisuje plik.` is a disagreement
   in the way `Nowa program` is one.
 - Zaimek dzierżawczy przed rzeczownikiem, czyli `jego`, `jej` i `ich`:
   `Jego skutki są znane.`, `Ich cena jest niska.`
-  Zgodności ta pozycja nie ma, bo zaimek zgadza się ze swoim poprzednikiem,
-  a nie z rzeczownikiem, przy którym stoi;
-  warunek na formę trzyma
-  [poniżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)
+  ([poniżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
 - Coordination, of noun phrases, of adjective phrases and of clauses,
   joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
@@ -719,20 +709,14 @@ a ruch trzyma [TODO.md](../TODO.md).
   derives
 - Przecinek zamykający zdanie podrzędne przed spójnikiem bez przecinka:
   `Dokument mówi, że cena jest niska, i liczy cenę.`
-  Znak ten należy do zdania podrzędnego, a nie do koordynacji nad nim;
-  wywód trzyma
-  [poniżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)
+  ([poniżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim))
 - Człon, którego czasownik ten rejestr opuszcza:
   `Milczenie obejmuje wybór, a nie zdanie.`,
   `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
-  Rolą jest cały ten człon, a czemu on przeczy albo co powtarza,
-  gramatyka nie mówi; wywód i cenę trzyma
-  [poniżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)
+  ([poniżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze))
 - Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
   `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
-  Trzy lematy tej listy — `bowiem`, `zaś` i `jednak` — czoła nie zajmują wcale,
-  więc dopiero ta pozycja wpuszcza je do gramatyki; wywód trzyma
-  [poniżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)
+  ([poniżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu))
 - A colon opening a clause, which is how this register introduces an explanation:
   `Cena jest niska: gramatyka jest bezkontekstowa.`
   It stands above coordination rather than in it,
@@ -745,34 +729,21 @@ a ruch trzyma [TODO.md](../TODO.md).
   the hyphen having a job of its own inside a word
   ([below](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
-  `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`
-  Cząstka stoi przy czasowniku albo w spójniku nad zdaniem —
-  `Zażądałem, by wyszedł.` — a zdanie ogłasza cechą, gdzie stoi;
-  wywód trzyma
-  [poniżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)
+  `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`, `Zażądałem, by wyszedł.`
+  ([poniżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku))
 - Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
   `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
-  Rządzi tym, czym rządziłby czasownik, bo idzie tą samą ramą,
-  a rolę ma osobną, bo czasownikiem nie jest;
-  lematy są zamkniętą listą, a wywód trzyma
-  [poniżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)
+  ([poniżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
 - Cząstka przy zdaniu i wewnątrz grupy imiennej:
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
   `Nawet ptaki przestały śpiewać.`
-  Lematy są zamkniętą listą, a warunek na wejście jest jeden:
-  cząstka bez czytania, które gramatyka bierze gdzie indziej.
-  Przy zdaniu ma rolę osobną od przysłówka, którym nie jest,
-  a w grupie nie ma jej wcale, i jedno i drugie trzyma
-  [poniżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)
+  ([poniżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła
 - Nawias obok zdania składowego, czyli wtrącenie, którym ten rejestr dopowiada:
   `Zdanie stoi (docs/subset.md).`, `Cena jest niska (niżej).`
-  Wtrącenie jest rolą, którą werdykt nazywa,
-  a dochodzi do jednego miejsca, bo w zdaniu niczego nie wypełnia;
-  jedno i drugie trzyma
-  [poniżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)
+  ([poniżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania))
 - The past tense, agreeing with the subject in gender as well as in number,
   and with the person clitic Morfeusz cuts off the form:
   `Program zapisywał ustawienia.`, `Napisałem program.`
@@ -782,10 +753,7 @@ a ruch trzyma [TODO.md](../TODO.md).
   `Mieszkańcy grożą, że zablokują ulice.`
 - Okolicznik wyrażony zdaniem, przed swoim zdaniem i za nim:
   `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
-  Pozycją ramy nie jest, bo żaden czasownik go nie żąda,
-  więc dochodzi do zdania, a nie do orzeczenia;
-  spójnik jest zamkniętą listą lematów, a konstrukcję trzyma
-  [poniżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
+  ([poniżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania))
 - A relative clause on a noun phrase, agreeing with it in number and gender,
   with the pronoun standing for the subject, for the object,
   or under a fronted preposition together with the group it stands in:
@@ -809,20 +777,13 @@ a ruch trzyma [TODO.md](../TODO.md).
   Spójnika ono nie ma, bo podporządkowuje sam zaimek
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
-  Rzeczownik ten orzeka sam i niesie rolę, którą werdykt nazywa,
-  bo zdanie z nim nie ma ani podmiotu, ani czasownika,
-  a lematem jest `mowa` i nic poza nim;
-  wywód trzyma
-  [poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+  ([poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną))
 - Przysłówek u trzech gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
   stoi sam przysłówek stopniowany (`Koszt bardzo dużego pliku jest niski.`,
   `Program zapisuje ustawienia bardzo szybko.`).
-  Okolicznik przysłówkowy jest przy tym rolą, którą werdykt nazywa,
-  a określenie przymiotnika stoi w wypełnieniu roli nad nim;
-  gospodarzy trzyma
-  [poniżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)
+  ([poniżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe))
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case.
@@ -1327,9 +1288,7 @@ więc bez tego warunku `Zgodności ta pozycja nie ma i mieć nie może.`
 wychodzi dwoma zdaniami spiętymi przez `nie`.
 Warunek zabiera pojedyncze zdania tej prozy i każde z nich wyprowadzało się
 właśnie tak, czyli czytaniem, którego polszczyzna nie ma.
-Klasa z przecinkiem jest zamkniętą listą —
-`ale`, `a`, `lecz`, `natomiast`, `więc`, `zatem`, `toteż`, `czyli` —
-i obejmuje dwie części mowy naraz,
+Klasa z przecinkiem jest zamkniętą listą i obejmuje dwie części mowy naraz,
 bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`,
 a o interpunkcji przed nimi ten podział nie mówi nic.
 `zaś` i `jednak` na tej liście nie figurują, bo czoła swojego zdania nie zajmują:
@@ -1468,12 +1427,6 @@ więc bierze go koordynacja
 a czoło dałoby temu napisowi drugie wyprowadzenie tego samego kształtu.
 Cena wychodzi zatem z gramatyki, a nie z przebiegu, tak samo jak przy dwukropku,
 a zakup jest zmierzony: kilkadziesiąt zdań tej prozy.
-
-Rola jest osobna od cząstki, bo osobna jest część mowy:
-cząstka określa zdanie, a ten spójnik wiąże je z tym, co stoi przed nim,
-więc `Particle: zatem` mówiłoby o zdaniu, że ma określenie, którego nie ma.
-Jest to ten sam podział, którym cząstka stoi osobno od przysłówka
-([niżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
 
 Poza gramatyką zostaje `zatem` na czele swojego zdania —
 `Zatem milczenie jest wartością.` — czyli ta pozycja, którą trzy z tych lematów
@@ -1656,9 +1609,7 @@ pod złotą morfologią ani pod żywą,
 bo proza prasowa nawiasu wewnątrz zdania względnego nie pisze.
 Pisze go dokumentacja tego repozytorium, i pisze kilka razy,
 a przyjętego zdania ta pozycja jej dotąd nie kupiła:
-zdania te niosą obok tego nawiasu inne konstrukcje, których olski nie ma,
-więc pozycja zdejmuje jeden powód odrzucenia, a nie całe odrzucenie.
-Zakup jest przez to odłożony, a nie zmierzony na zero,
+zakup jest odłożony tak samo jak przy przytoczeniu wyżej,
 i tym różni się ta pozycja od tych, które wchodzą z przejściami między werdyktami.
 
 Na zewnątrz zostaje nawias w środku grupy imiennej —
@@ -2154,12 +2105,9 @@ a `Wpis nie żąda dowodu.` wychodzi jednym czytaniem,
 bo kształt obu wyprowadzeń jest ten sam
 ([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
 
-Drugiego dopełnienia obok pierwszego ta pozycja nie daje.
-`Parser pokazuje autorowi oba czytania.` jest odrzucone,
-gdzie `Parser pokazuje oba czytania.` i `Reguła pomaga autorowi.` wyprowadzają się:
-czasownik bierze u olskiego jedno wypełnienie, a okolicznik z obu jego stron,
-więc dwie pozycje ramy naraz są osobnym kształtem i osobną ceną, której nikt nie policzył
-([TODO.md](../TODO.md)).
+Drugiego dopełnienia obok pierwszego ta pozycja nie daje,
+a zdanie z nim stoi wśród tego,
+[czego olski nie bierze](#what-it-does-not-cover-yet).
 Wyrażenia przyimkowego zakaz ten nie obejmuje, bo ono jest okolicznikiem:
 `Parser mówi autorowi o czytaniach.` wyprowadza się i wychodzi wieloznaczne,
 bo [olski nie wybiera przyłączenia](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -3112,9 +3060,6 @@ choć `programy` jest tam biernikiem;
 osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbiera.
 Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
 zapadł ten sam wybór: rzeczownik orzekający stoi obok `Predicative`, a nie jest nim.
-Rolę ma predykatyw osobną od `Verb`, bo zgodności nie niesie:
-`Verb: trzeba` mówiłoby o zdaniu, że ma orzeczenie zgodne z podmiotem,
-którego ono nie ma.
 
 Lista lematów jest zamknięta, bo `pred` niesie całą klasę naraz,
 a kryterium na wejście jest jedno:
@@ -3181,12 +3126,8 @@ jest tym samym czasownikiem co `zajmuje się sprawą`.
 Orzecznika zgodnego nie ma ani jedna z tych dwóch ram,
 bo zgadza się on z podmiotem, którego takie zdanie nie ma:
 `Zgłoszono tania.` nie jest niczym, tak samo jak `Trzeba wolni.`
-Osobna od `Verb` jest ta rola także dla tej formy i decyduje o tym gramatyka:
-zgodności ta forma nie niesie żadnej,
-a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
-więc pod symbolem czasownika `Zgłoszono program.` wychodziłoby zdaniem
-o podmiocie `program`, choć `program` jest tam biernikiem.
-Symbol wspólny kosztuje przy tym pomiar różnicowy:
+
+Rola wspólna z predykatywem kosztuje pomiar różnicowy:
 zdjęcie ciała zdania zabiera obie głowy naraz,
 więc cenę każdej z nich mierzy się zdjęciem jej terminali
 ([CLAUDE.md](../CLAUDE.md#code)).
@@ -3832,9 +3773,6 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 ```
 
 Rolę niesie jeden z gospodarzy, i jest to decyzja, a nie przeoczenie.
-Przysłówek określający przymiotnik stoi wewnątrz orzecznika albo przydawki,
-więc widać go w wypełnieniu tamtej roli,
-a wypisany drugi raz obok mówiłby o zdaniu, że ma okolicznik, którego ono nie ma.
 Dwa czytania rozdziela przez to sama lista ról,
 zamiast czekać na to, że czytelnik porówna dwa napisy orzecznika.
 
@@ -3920,10 +3858,7 @@ gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
 Streszczenie nazywa przy tym pierwszy z nich,
 bo rola przysłówka nazywa okolicznik pierwszy tak samo jak rola przyłączana,
 więc drugi widać dopiero w napisie zdania.
-Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
-bo `valid` ktoś przeczyta
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
-a instrument, który liczy zgodność nad bankiem drzew, tego nie widzi:
+Instrument, który liczy zgodność nad bankiem drzew, tego nie widzi:
 porównuje podmiot i dopełnienie, a nie miejsce okolicznika.
 
 Liczy to osobne narzędzie, bo pyta o co innego niż pomiar wyżej:
