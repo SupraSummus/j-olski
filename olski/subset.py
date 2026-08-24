@@ -234,10 +234,14 @@ DEKLARACJA = Deklaracja(
     # i dopowiedzenie za dwukropkiem nazywają się całym napisem, bo grupa imienna
     # w środku żadnej z tych dwóch konstrukcji nie zajmuje pozycji zdania nad nią;
     # wywody trzymają :data:`ELIPSA` oraz :data:`DOPOWIEDZIANY`.
+    # Zdanie względne bez poprzednika jest tu ósme i jest zdaniem podrzędnym tak
+    # samo jak pierwsze z tej listy, a różni je pozycja: tamto określa rzeczownik,
+    # a to samo stoi w roli, więc jego role nie są rolami zdania nad nim.
     podrzędne=(
         "RelativeClause",
         "SubordinateClause",
         "InterrogativeClause",
+        "FreeRelativeClause",
         OKOLICZNIKOWY,
         WTRĄCONY,
         ELIPSA,
@@ -378,6 +382,20 @@ PRZYIMEK_ROZDZIELAJĄCY = "a"
 #: pyta, a `reguła, która rozstrzyga` zastępuje poprzednik, i rozdziela te dwa
 #: użycia produkcja, a nie słownik.
 ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
+
+#: Zaimek, którym pyta się o osobę i o rzecz, a Morfeusz trzyma go pod
+#: rzeczownikiem: `kto` i `co`. Czoła są z niego dwa — pytania i zdania względnego
+#: — a pozycji rzeczownej nie ma, bo dopóki ją miał, jeden napis dostawał dwa
+#: wyprowadzenia: `Kto płaci?` wyprowadzało się i pytaniem, i zdaniem
+#: oznajmującym zamkniętym pytajnikiem, a role obu były te same.
+#:
+#: Wykluczenie stoi na terminalu, a nie w :func:`admissible`, bo czytanie `subst`
+#: jest tym, o które pytają oba czoła. Odbiera ono pozycję wszystkim użyciom tych
+#: zaimków naraz, więc razem z czołami wchodzi wszystko, co ta pozycja dotąd
+#: niosła: zdanie względne bez poprzednika, ciąg pytań zależnych i orzecznik
+#: wysunięty. Wywód i cenę trzyma
+#: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+ZAIMEK_PYTAJNO_RZECZOWNY = "kto|co"
 
 #: `Pięcie`, czyli rzeczownik odczasownikowy od `piąć`. Jego dopełniacz mnogi
 #: Morfeusz pisze `pięć` i daje mu liczbę mnogą oraz rodzaj nijaki, czyli to,
@@ -989,6 +1007,20 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
         # docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
         zdanie.dominacja(symbol, [czoło_dopełnienie, Głowa(czasownik)], **POPRZEDNIK)
 
+    # Orzecznik wysunięty na czoło: `Czym jest parser?`, `to, czym jest GLR`.
+    # Rola jest tu trzecia obok podmiotu i dopełnienia, a pozycję ma jedną, bo
+    # narzędnika żąda kopula i nikt poza nią (:data:`KOPULA`), więc szyk jest jeden:
+    # czoło, kopula i podmiot, dokładnie jak w zdaniu oznajmującym.
+    #
+    # Liczby ani rodzaju czoło tu nie niesie, bo orzecznik narzędnikowy z niczym
+    # się nie zgadza; kopula zgadza się z podmiotem, który stoi za nią.
+    zdanie.grammar.rule(
+        "Predicative", [nt(czoło, case="inst", **zaimek)], valency="inst", czoło=czoło
+    )
+    czoło_orzecznik = nt("Predicative", valency="inst", czoło=czoło, **zaimek)
+    kopula = nt("Verb", number=V("nv"), gender=V("gv"), person=V("p"), valency="inst")
+    zdanie.dominacja(symbol, [czoło_orzecznik, Głowa(kopula), podmiot], **POPRZEDNIK)
+
 
 def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cechy) -> None:
     """Wpisz ciało zdania podrzędnego i to samo ciało zamknięte przecinkiem.
@@ -1192,8 +1224,10 @@ def build() -> Grammar:
         tryb=V("t"),
     )
     dopełnienie = nt("Object", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
-    orzecznik_ramy = nt("Predicative", number=V("n"), gender=V("g"), valency=V("w"))
-    orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"))
+    orzecznik_ramy = nt(
+        "Predicative", number=V("n"), gender=V("g"), valency=V("w"), czoło=BEZ_CZOŁA
+    )
+    orzecznik_wysunięty = nt("Predicative", number=V("n"), gender=V("g"), czoło=BEZ_CZOŁA)
 
     # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
     # ``nom``, a nie wspólna zmienna, bo rama nie zastępuje pozycji: wspólna
@@ -1413,6 +1447,29 @@ def build() -> Grammar:
     grammar.rule(
         "Subject",
         [nt("NP", case="nom", number=V("n"), gender=V("g"), person=V("p"))],
+        czoło=BEZ_CZOŁA,
+    )
+    # Zdanie względne bez poprzednika w roli podmiotu: `Kto wchodzi w środek,
+    # poprzedniego zdania nie przeczytał.`, `Kto chce liczby dzisiejszej, puszcza
+    # narzędzie.` Poprzednika ta konstrukcja nie ma i nie potrzebuje, bo zaimek
+    # sam nazywa to, o czym zdanie orzeka, a orzeczenie zgadza się z nim: liczbę i
+    # rodzaj wypuszcza więc ten podmiot z rdzenia, którego głową jest jego zaimek.
+    #
+    # Przecinek stoi w ciele podmiotu, a nie między nim a orzeczeniem, bo zamyka
+    # on zdanie względne, tak samo jak w :func:`_zamykane`; osoba jest trzecia,
+    # bo zaimek jest zaimkiem trzeciej osoby.
+    #
+    # Bez wykluczenia z pozycji rzeczownej (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`)
+    # konstrukcja ta wyprowadza się ciągiem współrzędnym, którego podmiotem jest
+    # ten zaimek, więc pozycja stoi w gramatyce razem z tamtym wykluczeniem.
+    grammar.rule(
+        "FreeRelativeClause",
+        [Głowa(nt("RelativeCore", number=V("n"), gender=V("g"))), PRZECINEK],
+    )
+    grammar.rule(
+        "Subject",
+        [Głowa(nt("FreeRelativeClause", number=V("n"), gender=V("g")))],
+        person="ter",
         czoło=BEZ_CZOŁA,
     )
     # Dopełnienie wychodzi z pozycją ramy, którą zajmuje, bo tym jest przypadek,
@@ -1655,8 +1712,18 @@ def build() -> Grammar:
     #
     # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
-    grammar.rule("Predicative", [nt("AP", case="nom", number=V("n"), gender=V("g"))], valency="nom")
-    grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst")
+    # Cechę `czoło` niosą oba ciała po to, żeby szyk z orzecznikiem wysuniętym
+    # umiał zażądać orzecznika stojącego na swoim miejscu: bez niej orzecznik
+    # wysunięty na czoło pytania wypełniałby także tamten szyk, i `Czym jest
+    # parser?` miałoby dwa wyprowadzenia — pytanie oraz zdanie oznajmujące
+    # zamknięte pytajnikiem (:data:`BEZ_CZOŁA`).
+    grammar.rule(
+        "Predicative",
+        [nt("AP", case="nom", number=V("n"), gender=V("g"))],
+        valency="nom",
+        czoło=BEZ_CZOŁA,
+    )
+    grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst", czoło=BEZ_CZOŁA)
 
     # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
     # to, co mówi ta produkcja.
@@ -1793,7 +1860,10 @@ def build() -> Grammar:
     # żaden z tych zaimków i wykluczać tam nie ma czego;
     # wywód i cenę trzyma docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
     for głowa, głowa_dopełniacza in (
-        (word("subst", **AGREE), word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE)),
+        (
+            word("subst", bez_lematu=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE),
+            word("subst", bez_lematu=ZAIMEK_RZECZOWNY, **AGREE),
+        ),
         (word("ger", bez_lematu=PIĘCIE, **AGREE), word("ger", bez_lematu=PIĘCIE, **AGREE)),
     ):
         grammar.rule("NPConjunct", [głowa], person="ter")
@@ -1981,6 +2051,19 @@ def build() -> Grammar:
         **zaimek_czoła(V("n"), V("g")),
     )
 
+    # Ten sam zaimek, którym zdanie pyta, zastępuje też poprzednik: `to, co mogło
+    # się zepsuć`, `wszystko, co zjadł`. Ciało jest osobne, bo lemat ma inną część
+    # mowy niż `który`, a nie dlatego, że pozycja jest inna — pozycja jest ta sama.
+    # Poprzednikiem jest tu rzeczownik rodzaju nijakiego, bo tego rodzaju są oba
+    # zaimki, i o zgodność z nim pyta zdanie względne (:func:`zaimek_czoła`).
+    # Ten rejestr pisze to zdanie częściej niż pytanie, a jedno wykluczenie stoi
+    # pod obydwoma (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`).
+    grammar.rule(
+        "RelativePronoun",
+        [word("subst", lemma=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE)],
+        **zaimek_czoła(V("n"), V("g")),
+    )
+
     # Grupa, którą polszczyzna wysuwa przed zdanie względne razem z zaimkiem:
     # rzeczownik z zaimkiem w dopełniaczu za sobą (`na podstawie której`) i ten
     # sam rzeczownik z zaimkiem przed sobą (`o którego zdaniu`).
@@ -2012,6 +2095,28 @@ def build() -> Grammar:
     grammar.rule(
         PYTAJNY,
         [ZAIMEK_PYTAJNY, Głowa(nt("NP", **AGREE))],
+        **zaimek_czoła(V("n"), V("g")),
+    )
+
+    # Czoło pytania o jednym słowie: `kto` i `co`, czyli zaimki, którymi pyta się
+    # o osobę i o rzecz, a nie o to, która z nich. Rzeczownika przy sobie nie mają,
+    # więc ciało jest drugie, a nie ten sam lemat dopisany do listy wyżej.
+    #
+    # Ciało tego samego symbolu, a nie symbol osobny jak przy zaimku względnym:
+    # tam czoła są dwa dlatego, że cena każdego z nich ma być osobną liczbą, a tu
+    # jest ona osobną i tak, bo zdejmuje się to jedno ciało. Symbol osobny kazałby
+    # ponadto :func:`_wysunięta_rola` wypisać dla niego wszystkie szyki drugi raz.
+    zaimek_pytajny_rzeczowny = word("subst", lemma=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE)
+    grammar.rule(PYTAJNY, [zaimek_pytajny_rzeczowny], **zaimek_czoła(V("n"), V("g")))
+    # Wyrażenie przyimkowe przy tym zaimku: `Kto z państwa senatorów jest za?`
+    # Grupa pytajna wyżej bierze je przez grupę imienną, którą ma w środku, a to
+    # czoło grupy imiennej nie ma, więc pozycja jest tu osobnym ciałem. Bez niej
+    # zdanie z takim wyrażeniem wychodzi przyjęte i mówi o zdaniu nieprawdę, bo
+    # wyrażenie przyłącza się wtedy do orzeczenia: pytanie jest o `kto z państwa`,
+    # a nie o `kto`.
+    grammar.rule(
+        PYTAJNY,
+        [Głowa(zaimek_pytajny_rzeczowny), nt(PRZYŁĄCZANY)],
         **zaimek_czoła(V("n"), V("g")),
     )
 
@@ -2063,8 +2168,32 @@ def build() -> Grammar:
     _zamykane(
         grammar,
         "InterrogativeClause",
-        [PRZECINEK, Głowa(nt("InterrogativeCore"))],
+        [PRZECINEK, Głowa(nt("InterrogativeChain"))],
         valency="int",
+    )
+
+    # Ciąg pytań pod jednym czasownikiem: `Drzewo mówi, co w zdaniu jest tematem,
+    # a co jest nowe.`, `Dokument mówi, po co był linter i co zamknęło ten tor.`
+    # Pozycję ramy zajmuje cały ciąg, a nie każdy człon osobno, bo czasownik bierze
+    # jedno wypełnienie (``Complements``), i dlatego ciąg jest tu symbolem, a nie
+    # drugim ciałem zdania podrzędnego.
+    #
+    # Znakiem ciągu jest spójnik, a nie sam przecinek: przecinek w tym miejscu
+    # zamyka zdanie podrzędne (:func:`_zamykane`), więc ciało z nim samym dałoby
+    # jednemu napisowi dwa wyprowadzenia. Ten rejestr pisze ten ciąg spójnikiem.
+    #
+    # Bez wykluczenia z pozycji rzeczownej (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`)
+    # człon drugi wyprowadza się zdaniem współrzędnym, którego podmiotem albo
+    # dopełnieniem jest ten zaimek, więc ciąg stoi razem z tamtym wykluczeniem.
+    człon_pytania = Głowa(nt("InterrogativeCore"))
+    grammar.rule("InterrogativeChain", [człon_pytania])
+    grammar.rule(
+        "InterrogativeChain",
+        [człon_pytania, SPÓJNIK_BEZ_PRZECINKA, nt("InterrogativeChain")],
+    )
+    grammar.rule(
+        "InterrogativeChain",
+        [człon_pytania, PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("InterrogativeChain")],
     )
 
     return grammar

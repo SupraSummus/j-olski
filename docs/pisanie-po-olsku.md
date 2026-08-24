@@ -261,10 +261,12 @@ w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 Polszczyzna powtarza tu spójnik przed każdym członem,
 a koordynacja olskiego stawia go raz i między członami.
 
-**Słowo pytające poza `który`.**
+**Słowo pytające poza tymi trzema.**
 `Pyta, czy go to dotyczy.` pada, `Pyta, który parser jest tani.` przechodzi.
-Pytanie ma w gramatyce kształt zaimka przy rzeczowniku,
-a `czy`, `co`, `jak` i `gdzie` żądają każde innego
+Pytanie ma w gramatyce dwa kształty — zaimek przy rzeczowniku
+oraz `kto` i `co` same
+([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)) —
+a `czy`, `jak`, `jaki`, `ile` i `gdzie` żądają każde innego
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Dokument, który opisuje rolę czytelnika, pisze te zdania zdanie po zdaniu,
 bo rola pyta, a pytanie jest jej definicją.

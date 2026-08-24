@@ -177,9 +177,9 @@ Gramatyki skład nie czyta.
 Pokrycia gramatyki skład nie dziedziczy.
 
 Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie:
-kiedy to było i o kim mowa była przed chwilą.
-Czas przeszły daje pierwsze,
-a drugie daje podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
+czas zdarzenia i osobę, o której mowa była przed chwilą.
+Czas przeszły daje pierwszy,
+a drugą daje podmiot opuszczony tam, gdzie opuszcza go polszczyzna.
 
 ```python
 from olski.skład import Akapit, Opowieść, Postać

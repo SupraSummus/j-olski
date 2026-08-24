@@ -2262,6 +2262,99 @@ def test_pytanie_zależne_nie_wychodzi_zdaniem_współrzędnym():
     assert role(found) == [{"Subject": "Ustawy", "Verb": "określają"}]
 
 
+def test_pytanie_zależne_z_kto_nie_wychodzi_zdaniem_współrzędnym():
+    #  Zdanie to jest werdyktem najgorszym, jaki ten podzbiór wydaje: Morfeusz
+    #  czyta `kto` jako zaimek rzeczowny, przecinek koordynuje zdania, więc bez
+    #  wykluczenia zaimek staje podmiotem zdania po przecinku i zdanie wychodzi
+    #  jednym czytaniem, które polszczyzny nie jest. Statusu to nie rusza — `valid`
+    #  było przed wykluczeniem i jest po nim — więc rozdzielają je same role:
+    #  ciąg współrzędny niesie dwa zdania składowe, a pytanie zależne jedno.
+    found = verdict("Pyta, kto płaci.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"Verb": "Pyta"}]
+
+
+def test_zaimek_pytajny_o_jednym_słowie_daje_zdaniu_jedno_wyprowadzenie():
+    #  Wykluczenie z pozycji rzeczownej i czoło pytania wchodzą razem, bo bez
+    #  pierwszego drugie dokłada każdemu takiemu zdaniu drugie wyprowadzenie:
+    #  pytanie oraz zdanie oznajmujące zamknięte pytajnikiem, w którym zaimek jest
+    #  podmiotem. Oba czytania mają te same role, więc widać je po ich liczbie.
+    found = verdict("Kto płaci?")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"Subject": "Kto", "Verb": "płaci", PYTAJNY: "Kto"}]
+
+
+def test_wykluczenie_zaimka_pytajnego_nie_tyka_pozostałych_zaimków_rzeczownych():
+    #  Zawężenie stoi na dwóch lematach, a nie na całej liście zaimków rzeczownych:
+    #  `to` i `nic` mają u Morfeusza tę samą klasę, a pytania nie zadaje nimi nikt,
+    #  więc pozycję rzeczowną mają dalej.
+    assert role(verdict("To jest tanie.")) == [
+        {"Subject": "To", "Predicative": "tanie", "Verb": "jest"}
+    ]
+    assert role(verdict("Nic nie rośnie.")) == [{"Subject": "Nic", "Verb": "nie rośnie"}]
+
+
+def test_zaimek_pytajny_zastępuje_też_poprzednik():
+    #  Ta sama forma, którą zdanie pyta, stoi na czele zdania względnego, i jest to
+    #  ta sama pozycja co przy `który`, a nie druga. Bez tego ciała wykluczenie z
+    #  pozycji rzeczownej odbiera zdaniu względnemu z `co` każde czytanie, a ten
+    #  rejestr pisze je częściej niż pytanie.
+    found = verdict("Sprawdzaj to, co mogło się zepsuć.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"Object": "to, co mogło się zepsuć", "Verb": "Sprawdzaj"}]
+
+
+def test_zdanie_względne_bez_poprzednika_jest_podmiotem_a_nie_zdaniem_współrzędnym():
+    #  `Kto` bez poprzednika nazywa sam to, o czym zdanie orzeka, więc zdanie z nim
+    #  jest podmiotem zdania nadrzędnego. Bez tej pozycji wychodziło ono zdaniem
+    #  współrzędnym, czyli czytaniem nieprawdziwym, a rozdzielają je role: orzeczenie
+    #  zdania nadrzędnego jest jedno i stoi za przecinkiem.
+    found = verdict("Kto wchodzi w środek, poprzedniego zdania nie przeczytał.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [
+        {
+            "Subject": "Kto wchodzi w środek,",
+            "Object": "poprzedniego zdania",
+            "Verb": "nie przeczytał",
+        }
+    ]
+
+
+def test_orzecznik_wysunięty_na_czoło_nie_wypełnia_szyku_zdania_oznajmującego():
+    #  Usterka, którą to łapie: szyk zdania oznajmującego żądający orzecznika bez
+    #  cechy `czoło`. Wygląda ona poprawnie, bo zdanie dalej się wyprowadza, a
+    #  wyprowadza się dwoma drzewami o tych samych rolach: orzecznik wysunięty
+    #  wypełnia wtedy i pytanie, i szyk zdania oznajmującego zamkniętego pytajnikiem.
+    #  Żądań orzecznika są trzy, więc pominięcie w którymkolwiek widać dopiero po
+    #  liczbie czytań.
+    found = verdict("Czym jest parser?")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [
+        {"Subject": "parser", "Predicative": "Czym", "Verb": "jest", PYTAJNY: "Czym"}
+    ]
+
+
+def test_ciąg_pytań_zależnych_stoi_pod_jednym_czasownikiem():
+    #  Czasownik bierze jedno wypełnienie, więc ciąg pytań zajmuje tę pozycję cały.
+    #  Znakiem ciągu jest spójnik: przecinek w tym miejscu zamyka zdanie podrzędne,
+    #  więc zdanie z przecinkiem samym nie jest ciągiem i nie ma czytania.
+    found = verdict("Drzewo mówi, co jest tematem, a co jest nowe.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"Subject": "Drzewo", "Verb": "mówi"}]
+    assert verdict("Drzewo mówi, co jest tematem, co jest nowe.").status == "rejected"
+
+
+def test_przecinek_za_pytaniem_zależnym_zamyka_je_i_nie_otwiera_ciągu():
+    #  Zdanie nadrzędne biegnie dalej spójnikiem, a przecinek przed nim zamyka
+    #  pytanie zależne (`_zamykane`). Ciało ciągu bierze ten sam spójnik, więc bez
+    #  tej linii nie widać, że jeden napis nie dostał dwóch wyprowadzeń.
+    found = verdict("Drzewo mówi, co jest tematem, i liczy cenę.")
+    assert found.status == "valid", found.explain()
+    assert found.readings == [
+        ({"Subject": "Drzewo", "Verb": "mówi"}, {"Object": "cenę", "Verb": "liczy"})
+    ]
+
+
 def test_pytanie_stawia_grupę_pytajną_w_podmiocie_i_w_dopełnieniu():
     #  Dwie role, bo tyle deklaruje `_wysunięta_rola`, i obie idą tą samą
     #  drogą co w zdaniu względnym. Werdykt nazywa grupę pytajną rolą, bo pytanie
