@@ -261,8 +261,8 @@ KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
 #: Rzeczownik, który orzeka bez czasownika, czyli ten, przy którym polszczyzna
 #: opuszcza kopułę: `zadania, o których mowa w ustawie` znaczy `o których jest
-#: mowa`, a `jest` nikt tam nie pisze. Zwrot ten niesie co siódme zdanie rejestru
-#: ustaw i jest w nim najczęstszym zdaniem względnym; docs/ustawy.md go liczy.
+#: mowa`, a `jest` nikt tam nie pisze. Jak często ten zwrot pada w rejestrze
+#: ustaw, liczy docs/ustawy.md.
 #:
 #: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
 #: imiennej w mianowniku — zmierzono i odrzucono; wywód trzyma
@@ -1231,9 +1231,8 @@ def build() -> Grammar:
 
     # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
     # ``nom``, a nie wspólna zmienna, bo rama nie zastępuje pozycji: wspólna
-    # zmienna wpuszcza tu kopulę z narzędnikiem i przyjmuje nad Składnicą
-    # ``Na to jest zbyt wielkim tchórzem.``, gdzie podmiotem wychodzi ``zbyt``.
-    # docs/subset.md trzyma ten pomiar wraz z drugim takim.
+    # zmienna wpuszcza tu kopulę z narzędnikiem. Co ona wtedy przyjmuje nad
+    # Składnicą, mierzy docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
     orzecznik = nt("Predicative", valency="nom", number=V("n"), gender=V("g"))
     czasownik_orzecznika = nt(
         "Verb", number=V("n"), gender=V("g"), person=V("p"), valency="nom", tryb=V("t")
