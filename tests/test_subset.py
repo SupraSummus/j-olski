@@ -1138,6 +1138,37 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     assert struktura.explain() == "no reading: the analysis stops at „ustawienia”"
 
 
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        'Przepisem "Zasad techniki prawodawczej" jest ustawa.',
+        #  Cudzysłów pojedynczy Morfeusz scala ze słowem w jedną formę, więc
+        #  podpowiedź pytająca o samą formę nie widzi go wcale.
+        "Przepisem 'Zasad techniki prawodawczej' jest ustawa.",
+    ],
+)
+def test_werdykt_nad_cudzysłowem_z_innego_rejestru_nazywa_parę_którą_gramatyka_bierze(zdanie):
+    #  Sama nazwana forma mówi autorowi tyle, że jego cudzysłów nie przechodzi.
+    werdykt = verdict(zdanie)
+    assert werdykt.status == "rejected"
+    assert werdykt.explain().endswith("; a quotation opens with „ and closes with ”")
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Łącznik: forma `-` bez licencji zostaje po nazwie pliku i po fladze,
+        #  a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
+        "Cena jest niska - gramatyka jest tania.",
+        #  Apostrof w środku słowa: warunek pytający o samo zawieranie brał go za
+        #  cytat nad kilkunastoma zdaniami prozy tego repozytorium.
+        "Reguła nazywa document's own list.",
+    ],
+)
+def test_podpowiedzi_o_cudzysłowie_nie_dostaje_znak_którym_nikt_nie_cytował(zdanie):
+    assert "quotation" not in verdict(zdanie).explain()
+
+
 def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     #  Gramatyka, która nie ma czasownika, przestaje licencjonować jego czytanie:
     #  gdyby licencja stała napisana obok, ta zmiana nie doszłaby do niej wcale.

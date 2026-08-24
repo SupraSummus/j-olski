@@ -207,6 +207,19 @@ więc przejście po `_przed_formą` w `olski/parse.py` oddaje w miejscu zatrzyma
 zbiór pusty nad każdym zdaniem tej prozy odrzuconym na strukturze.
 Wydruk oczekiwań milczałby zatem dokładnie tam, gdzie autor jest zgubiony.
 
+Inaczej jest przy pierwszej z tych trzech przyczyn:
+do formy, po którą nie sięga żadna produkcja,
+werdykt dokłada podpowiedź, gdy cudzysłów otwiera tę formę albo ją zamyka.
+Cudzysłowem maszynowym, pojedynczym, angielskim i ostrokątnym cytuje się
+poza tym rejestrem, a ta gramatyka bierze samą parę `„ ”`
+([niżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+Sama nazwana forma odpowiada wtedy autorowi, że jego cudzysłów nie przechodzi,
+i nie odpowiada, który przechodzi.
+Łącznika podpowiedź nie obejmuje, choć myślnik ten rejestr pisze pauzą:
+formę `-` bez licencji daje także nazwa pliku i flaga
+([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)),
+a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
+
 ## The dictionary offers readings Polish does not
 
 A word read as a noun rather than as a function word
@@ -1477,6 +1490,12 @@ bo polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli, w której grupa
 a `Ustawa jest przepisem „Zasad techniki prawodawczej”.` dopełniacz.
 Znaki są dwa i są różne, bo polszczyzna otwiera cudzysłów innym znakiem,
 niż go zamyka, więc napis niedomknięty nie ma wyprowadzenia.
+Cudzysłowa maszynowego — `"Zasady techniki prawodawczej"` — produkcja nie bierze,
+bo ten jeden znak nie jest żadnym z tych dwóch,
+a za napis, którego polszczyzna nie pisze, płaci autor
+([pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie));
+werdykt nazywa mu wtedy parę, którą ten rejestr pisze
+([wyżej](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 Wnętrzem tej produkcji jest sama grupa imienna,
 więc `„to nie zdanie”` zostaje na zewnątrz:
 w cudzysłowie stoi tam zdanie, a nie grupa.
