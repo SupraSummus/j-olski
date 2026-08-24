@@ -1165,9 +1165,9 @@ byłby prawostronnie rekurencyjny razem z nim
 i `A, B: C.` wyprowadzałby jako `A, (B: C)`,
 gdzie polszczyzna czyta `(A, B): C`:
 przed dwukropkiem jest teza, a za nim całe jej wyjaśnienie.
-Werdykt pokazuje ten podział znakiem `…` przy roli,
+Werdykt pokazuje ten podział streszczeniem na każde zdanie składowe,
 tak samo jak przy koordynacji przecinkiem,
-bo w jednym i w drugim po którejś ze stron roli zdanie ma jeszcze jedno składowe.
+bo w jednym i w drugim zdanie składowe obsadza role własnym materiałem.
 
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
 a wynika to z gramatyki, nie z przebiegu.

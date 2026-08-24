@@ -272,7 +272,7 @@ class Rozbieżność:
     #: Streszczenia tych czytań, każde raz (:func:`streszczenia`).
     #: Pola bez wartości domyślnej, bo jedno streszczenie jest tu twierdzeniem
     #: o konstytuencie: znaczy, że streszczenie tej różnicy nie widzi.
-    czytania: tuple[dict[str, str], ...]
+    czytania: tuple[tuple[dict[str, str], ...], ...]
 
 
 @dataclass(frozen=True)
@@ -305,8 +305,8 @@ class Deklaracja:
     #: nawiasuje człon ciągu współrzędnego.
     współrzędne: tuple[str, ...]
     #: Symbole zdań składowych, czyli członów ciągu zdań współrzędnych.
-    #: Streszczenie nazywa rolę z tego składowego, w którym pada ona pierwszy raz,
-    #: i znakiem obok niej mówi, że zdanie ma jeszcze inne (:func:`describe`).
+    #: Streszczeń jest tyle, ile zdanie ma składowych, po jednym na składowe,
+    #: więc widać w nich całe zdanie współrzędne (:func:`describe`).
     składowe: tuple[str, ...]
     #: Symbole zdań podrzędnych, czyli tych, których wnętrze jest osobnym zdaniem.
     #: Streszczenie i :meth:`Las.różniące` zatrzymują się na nich,
@@ -888,6 +888,8 @@ class Las:
         self._ciała_pozycji_lasu: dict[Pozycja, set[tuple[Pozycja, ...]]] | None = None
         #: Symbole zdań podrzędnych → pozycje, do których streszczenie zagląda.
         self._widoczne_pozycje: dict[tuple[str, ...], set[Pozycja]] = {}
+        #: Symbole zdań składowych → pozycje, które streszczenie streszcza osobno.
+        self._składowe_pozycje: dict[tuple[str, ...], set[Pozycja]] = {}
         #: (pozycja, deklaracja) → co pod nią widzą dwa pozostałe podsumowania (:meth:`_pod`).
         self._pod_pozycją: dict[tuple[Pozycja, Deklaracja], tuple[bool, frozenset[int]]] = {}
         #: Deklaracja → wybory przyłączenia, którym werdykt daje wiersz.
@@ -1348,10 +1350,18 @@ class Las:
         choć liczba obok niej granicy nie ma.
 
         Jednym wystąpieniem roli jest to, które nazywa :func:`describe`,
-        czyli pierwsze w porządku wyprowadzenia i spoza zdań podrzędnych.
+        czyli pierwsze w zdaniu składowym i spoza zdań podrzędnych.
         Etykieta pada w czytaniu kilka razy, bo zdanie współrzędne ma własny podmiot,
         a dwa podmioty stojące obok siebie w jednym czytaniu
         nie mówią nic o różnicy między czytaniami.
+        Pytamy więc o zdanie całe i o każde jego składowe osobno.
+        Bez pytania o składowe werdykt milczy o roli, którą lista czytań rozdziela:
+        czytania różne dopiero w składowym drugim mają w pierwszym to samo.
+        Bez pytania o zdanie całe milczy o rozcięciu zdania na dwa,
+        bo każde składowe niesie wtedy jedną rozpiętość, stojąc w jednym z czytań.
+        Iloczynu po składowych stąd nie ma:
+        pytanie zadane każdemu osobno kosztuje tyle, ile ich jest,
+        a rozpiętości brane naraz mnożyłyby się jak czytania.
 
         Porównujemy rozpiętości, a nie formy:
         formy nad jedną rozpiętością są w każdym czytaniu te same,
@@ -1359,18 +1369,32 @@ class Las:
         Rozpiętość ``None`` jest czytaniem bez tej roli,
         tak jak streszczenie bez tego klucza.
         """
-        znalezione = []
-        for etykieta in deklaracja.role:
-            wystąpienia = {
-                rozpiętość
-                for klasa in self.klasy(self.korzeń)
-                for rozpiętość in self._pierwsza_rola(
-                    (self.korzeń, klasa), etykieta, deklaracja.podrzędne
-                )
-            }
-            if len(wystąpienia) > 1:
-                znalezione.append(etykieta)
-        return tuple(znalezione)
+        składowe = self._składowe_lasu(deklaracja.składowe)
+        return tuple(
+            etykieta
+            for etykieta in deklaracja.role
+            if self._niezgodna(self.korzeń, etykieta, deklaracja.podrzędne)
+            or any(
+                self._niezgodna(pozycja, etykieta, deklaracja.podrzędne) for pozycja in składowe
+            )
+        )
+
+    def _niezgodna(self, pozycja: Pozycja, etykieta: str, podrzędne: tuple[str, ...]) -> bool:
+        """Czy pierwszy węzeł tej etykiety jest pod tą pozycją w kilku miejscach.
+
+        Klasa martwa nie wchodzi, i z tego samego powodu co w :meth:`_ile_kształtów`:
+        niezgoda ma być niezgodą między czytaniami.
+        Korzenia to nie dotyczyło, bo jego klasy są żywe wszystkie,
+        a pozycja zdania składowego bywa i martwa.
+        """
+        żywe = self._żywe()
+        wystąpienia = {
+            rozpiętość
+            for klasa in self.klasy(pozycja)
+            if (pozycja, klasa) in żywe
+            for rozpiętość in self._pierwsza_rola((pozycja, klasa), etykieta, podrzędne)
+        }
+        return len(wystąpienia) > 1
 
     def _pierwsza_rola(
         self, para: tuple[Pozycja, Klasa], etykieta: str, podrzędne: tuple[str, ...]
@@ -1750,6 +1774,37 @@ class Las:
         self._widoczne_pozycje[podrzędne] = znalezione
         return znalezione
 
+    def _składowe_lasu(self, składowe: tuple[str, ...]) -> set[Pozycja]:
+        """Pozycje zdań składowych, czyli te, które streszczenie streszcza osobno.
+
+        Od korzenia i bez wchodzenia w składowe już znalezione,
+        bo składowym ciągu jest zdanie najwyższe w gałęzi,
+        i tą samą drogą chodzi po drzewie :func:`_początki_składowych`.
+        Pozycje z różnych czytań stoją tu obok siebie i nie zlewają się:
+        zdanie, którego czytania rozcinają je w różnych miejscach,
+        daje jedną pozycję na każde takie rozcięcie,
+        a pytanie o rolę zadaje się każdej z nich osobno.
+        """
+        gotowe = self._składowe_pozycje.get(składowe)
+        if gotowe is not None:
+            return gotowe
+        znalezione: set[Pozycja] = set()
+        odwiedzone: set[Pozycja] = set()
+        stos = [self.korzeń]
+        while stos:
+            pozycja = stos.pop()
+            if pozycja in odwiedzone:
+                continue
+            odwiedzone.add(pozycja)
+            if pozycja.label in składowe:
+                znalezione.add(pozycja)
+                continue
+            for klasa in self.klasy(pozycja):
+                for kombinacja in self._krawędzie.get((pozycja, klasa), {}):
+                    stos.extend(dziecko for dziecko, _klasa in kombinacja if not dziecko.liść)
+        self._składowe_pozycje[składowe] = znalezione
+        return znalezione
+
     def _żywe(self) -> set[tuple[Pozycja, Klasa]]:
         """Pary pozycja–klasa, które stoją w którymś czytaniu.
 
@@ -1812,11 +1867,6 @@ class Las:
 #: a następuje tam forma wzięta ze zdania i nieodmieniana.
 PRZYŁĄCZONY_DO = " → "
 
-#: Znak, którym streszczenie mówi, że po tej stronie roli
-#: stoi jeszcze jedno zdanie składowe, o którym ono milczy.
-#: Wielokropek, bo mówi to samo, co mówi w prozie: zdanie idzie dalej.
-SĄSIEDNIE_ZDANIE_SKŁADOWE = "…"
-
 #: Formy, przed którymi w napisie nie ma odstępu.
 #: Wewnątrz konstytuentu gramatyka bierze jeden znak interpunkcyjny, przecinek
 #: koordynacji; kropkę niesie węzeł nad rolami i do streszczenia nie dochodzi.
@@ -1837,8 +1887,15 @@ def sklej_formy(formy: Iterable[str]) -> str:
     return napis
 
 
-def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
+def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     """Streszczenie czytania: co stoi w której roli i do czego doszedł modyfikator.
+
+    Streszczeń jest tyle, ile zdanie ma zdań składowych, po jednym na składowe,
+    bo każde z nich obsadza role własnym materiałem
+    (:func:`_zakresy` dzieli między nie zdanie),
+    i widać w nich przez to całe zdanie współrzędne.
+    Czemu nie jedno na zdanie i co ten podział kosztuje, mówi
+    docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
 
     Dwa czytania jednego zdania gdzieś się różnią,
     a streszczenie pokazuje tę różnicę temu, kto ma zdanie poprawić.
@@ -1862,42 +1919,51 @@ def describe(node: Node, deklaracja: Deklaracja) -> dict[str, str]:
     Dopisane jest wypełnienie, a nie pozycja obok niego,
     więc :attr:`Deklaracja.role` zostaje listą ról.
 
-    Nazwane jest pierwsze wystąpienie roli i tylko ono,
+    Nazwane jest pierwsze wystąpienie roli w składowym i tylko ono,
     więc dwa czytania różne miejscem drugiego okolicznika tej samej roli
     wychodzą stąd jednym napisem.
-    Streszczenie jest po to jedno na czytanie,
-    a wierszy wychodzi nie więcej niż czytań, bo powtórzone na listę nie wchodzi
-    (``Verdict.readings`` w ``olski/subset.py``);
+    Streszczeń wychodzi przez to nie więcej niż czytań, bo powtórzone na listę
+    nie wchodzi (``Verdict.readings`` w ``olski/subset.py``);
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
 
     Zdanie podrzędne jest z tego wyszukiwania wyjęte
     (:attr:`Deklaracja.podrzędne`), bo streszczane jest zdanie zewnętrzne.
-    Zdanie współrzędne wyjęte nie jest, bo jego role są rolami tego samego zdania,
-    a nazwane jest w nim pierwsze wystąpienie roli tak samo jak wszędzie,
-    więc każda rola jest z tego składowego, w którym pada pierwszy raz.
-    Znak :data:`SĄSIEDNIE_ZDANIE_SKŁADOWE` jest po tej stronie roli,
-    po której zdanie ma jeszcze składowe, i tylko tyle o nich mówi:
-    osobnego wiersza zdanie składowe nie dostaje
-    (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
-    Znak przylega przy tym do wypełnienia i poprzedza gospodarza,
-    bo dopisany za jego nazwą czyta się jak jej część.
+    Zdanie współrzędne wyjęte nie jest, bo jego role są rolami tego samego
+    zdania; osobne jest tylko streszczenie, w którym one stoją.
+    """
+    return tuple(
+        _streszcz(node, deklaracja, zakres) for zakres in _zakresy(node, deklaracja.składowe)
+    )
+
+
+def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> dict[str, str]:
+    """Streszczenie tej części zdania: pierwsze wystąpienie każdej roli w niej.
+
+    Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość:
+    dopowiedzenie za dwukropkiem stoi poza zdaniem składowym
+    (``Sentence → Clause : NP .``), więc porównanie całych rozpiętości
+    zostawiłoby je bez zakresu i streszczenie milczałoby o nim.
     """
     streszczenie = {}
-    składowe = _składowe(node, deklaracja.składowe)
     for rola in deklaracja.role:
-        znalezione = node.find(rola, deklaracja.podrzędne)
+        znalezione = [
+            węzeł
+            for węzeł in node.find(rola, deklaracja.podrzędne)
+            if zakres[0] <= węzeł.span[0] < zakres[1]
+        ]
         if not znalezione:
             continue
-        wypełnienie = _nawiasuj(znalezione[0], deklaracja.współrzędne)
-        napis = _wśród_składowych(wypełnienie, znalezione[0].span, składowe)
+        napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
         if rola in deklaracja.przyłączane:
             napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
         streszczenie[rola] = napis
     return streszczenie
 
 
-def streszczenia(drzewa: Iterable[Node], deklaracja: Deklaracja) -> list[dict[str, str]]:
+def streszczenia(
+    drzewa: Iterable[Node], deklaracja: Deklaracja
+) -> list[tuple[dict[str, str], ...]]:
     """Streszczenia tych drzew, każde raz i w kolejności pierwszego wystąpienia.
 
     Dwa drzewa różne poza zasięgiem :func:`describe` wychodzą z niego jednym
@@ -1906,7 +1972,7 @@ def streszczenia(drzewa: Iterable[Node], deklaracja: Deklaracja) -> list[dict[st
     z nich pokazuje, ile powtórzeń bywa: zdanie o siedmiu wyrażeniach
     przyimkowych ma czytań ponad sto, a napisów różnych kilka.
     """
-    wynik: list[dict[str, str]] = []
+    wynik: list[tuple[dict[str, str], ...]] = []
     for drzewo in drzewa:
         streszczenie = describe(drzewo, deklaracja)
         if streszczenie not in wynik:
@@ -1914,8 +1980,23 @@ def streszczenia(drzewa: Iterable[Node], deklaracja: Deklaracja) -> list[dict[st
     return wynik
 
 
-def _składowe(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
-    """Rozpiętości zdań składowych tego czytania.
+def _zakresy(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
+    """Zdanie podzielone na tyle części, ile ma zdań składowych, po jednej na składowe.
+
+    Granicą jest początek składowego następnego, a nie koniec poprzedniego,
+    więc każde słowo zdania wpada dokładnie do jednej części
+    i nie ginie z niej to, co między składowymi stoi: spójnik, przecinek,
+    a za ostatnim składowym dopowiedzenie i kropka.
+    Zdanie o jednym składowym wychodzi stąd całe i jedną częścią,
+    tak samo jak konstytuent, który składowego nie ma pod sobą wcale.
+    """
+    początki = _początki_składowych(node, symbole)
+    granice = [node.span[0], *początki[1:], node.span[1]]
+    return [(granice[i], granice[i + 1]) for i in range(len(granice) - 1)]
+
+
+def _początki_składowych(node: Node, symbole: Sequence[str]) -> list[int]:
+    """Początki zdań składowych tego czytania, w porządku zdania.
 
     Bierzemy zdanie najwyższe w gałęzi, a nie każdy węzeł o tej etykiecie:
     okolicznik zdania dokłada nad zdaniem składowym drugie o tej samej etykiecie
@@ -1923,31 +2004,17 @@ def _składowe(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
     a członem ciągu jest zewnętrzne z tych dwóch.
     Zdanie podrzędne jest wewnątrz składowego, więc zejście do niego nie dochodzi
     i nie trzeba go tu odejmować osobno.
+    Sam początek, bo granicą podziału jest początek składowego następnego
+    (:func:`_zakresy`), a końca nie pyta nikt.
     """
     if node.label in symbole:
-        return [node.span]
+        return [node.span[0]]
     return [
-        rozpiętość
+        początek
         for dziecko in node.children
         if isinstance(dziecko, Node)
-        for rozpiętość in _składowe(dziecko, symbole)
+        for początek in _początki_składowych(dziecko, symbole)
     ]
-
-
-def _wśród_składowych(
-    napis: str, rola: tuple[int, int], składowe: Sequence[tuple[int, int]]
-) -> str:
-    """Napis roli ze znakiem po tej stronie, po której jest jeszcze jedno zdanie składowe.
-
-    Porównujemy rolę z całymi zdaniami składowymi, a nie z zasięgiem zdania:
-    rola zaczyna się za początkiem swojego składowego i kończy przed jego końcem,
-    więc porównanie z zasięgiem dałoby znak prawie każdej roli.
-    Zdanie o jednym składowym nie dostaje przez to żadnego znaku,
-    bo nie ma składowego ani przed rolą, ani za nią.
-    """
-    przed = SĄSIEDNIE_ZDANIE_SKŁADOWE if any(koniec <= rola[0] for _, koniec in składowe) else ""
-    po = SĄSIEDNIE_ZDANIE_SKŁADOWE if any(rola[1] <= start for start, _ in składowe) else ""
-    return f"{przed}{napis}{po}"
 
 
 def _nawiasuj(node: Node, współrzędne: Sequence[str]) -> str:

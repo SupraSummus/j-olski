@@ -153,10 +153,12 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
    "status": "valid",
    "wyjaśnienie": "one reading",
    "czytania": [
-    {
-     "Object": "plik konfiguracyjny",
-     "Verb": "Zapisz"
-    }
+    [
+     {
+      "Object": "plik konfiguracyjny",
+      "Verb": "Zapisz"
+     }
+    ]
    ],
    "liczba_czytań": 1,
    "urwane": false,
@@ -182,6 +184,8 @@ a `liczba_czytań` wychodzi z lasu i mówi, ile czytań zdanie ma.
 Jedna z drugiej się przez to nie wylicza,
 więc o granicy wyliczania z `MAX_READINGS` w `olski/parse.py`
 mówi osobne pole `urwane`, a strona wpisuje je do podpisu zwoju.
+Samo streszczenie jest listą po jednym wpisie na zdanie składowe,
+bo każde składowe obsadza role własnym materiałem.
 Pod `rozbieżne` idą konstytuenty, których wieloznaczność ta lista zostawia
 nienazwaną, wraz ze streszczeniami ich kształtów,
 a strona daje każdemu z nich własny spis pod tym samym zwojem.
