@@ -1512,6 +1512,34 @@ def test_cudzysłów_przepuszcza_przypadek_grupy_którą_obejmuje():
     assert orzecznik.status == "valid", orzecznik.explain()
 
 
+def test_przytoczenie_bierze_licencję_od_cudzysłowu_a_nie_od_pisma_napisu():
+    #  Usterka, którą to łapie: warunek pytający o samą formę. Litera jest u
+    #  Morfeusza skrótem — `B` pod lematem `bajt` — i skrótów ta gramatyka nie ma,
+    #  więc bez cudzysłowu napisowi nie zostaje ani jedno czytanie do wzięcia.
+    przytoczony = verdict("Wciśnij klawisz „B” i zapisz plik konfiguracyjny.")
+    assert przytoczony.status == "valid", przytoczony.explain()
+    assert not verdict("Wciśnij klawisz B i zapisz plik konfiguracyjny.").readings
+
+
+def test_przytoczeniem_jest_napis_domknięty_i_jednosłowny():
+    #  Usterka, którą to łapie: warunek pytający o jeden znak z dwóch albo o
+    #  cudzysłów gdziekolwiek w zdaniu, zamiast o oba sąsiedztwa napisu. Wnętrzem
+    #  dłuższym niż jedno słowo jest grupa imienna albo nic.
+    assert not verdict("Wciśnij klawisz „B.").readings
+    assert not verdict("Znam „to nie zdanie”.").readings
+
+
+def test_przytoczenie_zostawia_tytuł_jednosłowny_grupie_imiennej():
+    #  Usterka, którą to łapie: GRUPA_JEDNYM_SŁOWEM opróżniona albo zawężona do
+    #  samego rzeczownika. Czytanie nieodmienne spełnia każdy przypadek i niesie
+    #  rodzaj nijaki, więc zamiana daje takiemu napisowi drugie czytanie w roli
+    #  podmiotu, a orzecznikowi żeńskiemu odbiera zgodność.
+    dopełnienie = verdict("Program zapisuje „ustawienia”.")
+    assert dopełnienie.status == "valid", dopełnienie.explain()
+    orzecznik = verdict("„Reguła” jest tania.")
+    assert orzecznik.status == "valid", orzecznik.explain()
+
+
 def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
     #  Wtrącenie jest rolą całym napisem, więc zejście po role zatrzymuje się na
     #  nim (`Deklaracja.podrzędne`). Bez tego wyrażenie przyimkowe z jego wnętrza

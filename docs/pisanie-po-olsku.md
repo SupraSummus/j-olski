@@ -278,7 +278,10 @@ pisane małą literą nie różnią się niczym od polskiego słowa,
 którego słownik nie ma, a takiemu czytania nieodmiennego dać nie wolno
 ([subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
 Dokumentacja przytacza je w cudzysłowie albo w backtickach,
-a olski widzi sam napis.
+i te dwa sposoby olski rozdziela.
+Cudzysłów licencjonuje przytoczenie, więc `Sekcja mówi o „build”.` przechodzi
+([subset.md](subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
+a `` `build` `` wraca z Morfeusza jednym napisem razem z backtickami.
 
 **Drugi leksem do napisu, który słownik zna.**
 `Linter sprawdza tekst.` przechodzi, `Cena lintera jest niska.` pada na `lintera`.

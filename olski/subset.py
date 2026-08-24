@@ -530,8 +530,13 @@ DWUKROPEK = word("interp", lemma=":")
 #: techniki prawodawczej”`. Znaki są dwa i są różne, bo polszczyzna otwiera
 #: cudzysłów innym znakiem, niż go zamyka, i po to ta para jest jednym napisem
 #: obu: produkcja bez znaku zamykającego wpuszczałaby napis niedomknięty.
-CUDZYSŁÓW_OTWIERAJĄCY = word("interp", lemma="„")
-CUDZYSŁÓW_ZAMYKAJĄCY = word("interp", lemma="”")
+#:
+#: Znaki są tu nazwane osobno, bo używa ich i terminal, i warunek, którym
+#: cudzysłów licencjonuje napis przytoczony (:func:`przytoczenie`).
+ZNAK_CUDZYSŁOWU_OTWIERAJĄCY = "„"
+ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
+CUDZYSŁÓW_OTWIERAJĄCY = word("interp", lemma=ZNAK_CUDZYSŁOWU_OTWIERAJĄCY)
+CUDZYSŁÓW_ZAMYKAJĄCY = word("interp", lemma=ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY)
 
 #: Nawias, którym ten rejestr dopowiada obok zdania. Znaki są dwa tak samo jak
 #: przy cudzysłowie i z tego samego powodu.
@@ -2193,8 +2198,8 @@ NOTACJA = re.compile(
     rf"(?<![\w./])(?=[\w./_-]*[^\W\d_]){CZŁON}(?:[-_]{CZŁON})*(?:[./]{CZŁON}(?:[-_]{CZŁON})*)+"
 )
 
-#: Czytanie, które notacja dostaje: rzeczownik nieodmienny, dokładnie ten tag,
-#: który Morfeusz daje `menu` i `atelier`.
+#: Czytanie, które dostaje notacja, wersalik i przytoczenie: rzeczownik
+#: nieodmienny, dokładnie ten tag, który Morfeusz daje `menu` i `atelier`.
 NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
 
 
@@ -2216,10 +2221,56 @@ def wersalik(segment: Segment) -> Segment:
     return replace(segment, readings=(Reading(segment.form, segment.form, NIEODMIENNY),))
 
 
+#: Części mowy, którymi grupa imienna staje sama jednym słowem. Napisu z takim
+#: czytaniem przytoczenie nie rusza, bo cudzysłów bierze go już jako grupę, a
+#: zamiana odebrałaby mu i przypadek, i rodzaj. Za co dokładnie, mówi
+#: docs/subset.md w sekcji o interpunkcji obejmującej.
+GRUPA_JEDNYM_SŁOWEM = frozenset({"subst", "ger", "ppron12", "ppron3"})
+
+
+def _przytoczony(segment: Segment, otwarte: set[int], zamknięte: set[int]) -> bool:
+    """Czy cudzysłów obejmuje sam ten napis, a grupą imienną on nie jest."""
+    if segment.start not in otwarte or segment.end not in zamknięte:
+        return False
+    return not any(reading.tag.pos in GRUPA_JEDNYM_SŁOWEM for reading in segment.readings)
+
+
+def przytoczenie(segments: list[Segment]) -> list[Segment]:
+    """Daj napisowi objętemu cudzysłowem czytanie nieodmienne, gdy grupą nie jest.
+
+    Napis przytoczony — `„B”`, `„nie”` — nie odmienia się, więc produkcja
+    przepuszczająca przypadek grupy nie ma na nim czego przepuszczać, a rzeczownik
+    nieodmienny spełnia każde żądanie przypadku, bo żadnego nie nosi. Wywód, cenę
+    i granicę warunku trzyma docs/subset.md w sekcji o interpunkcji obejmującej.
+
+    Licencji udziela cudzysłów po obu stronach, więc pytany jest graf, a nie sama
+    forma, tak samo jak przy formie przyimkowej (:func:`po_przyimku`). Warunek na
+    oba znaki naraz żąda przy tym, żeby napis wypełniał wnętrze sam. Czytania są
+    zamienione, a nie dołożone, bo napisu przytoczonego to zdanie nie używa jako
+    słowa.
+    """
+    otwarte = {
+        segment.end
+        for segment in segments
+        if any(reading.lemma == ZNAK_CUDZYSŁOWU_OTWIERAJĄCY for reading in segment.readings)
+    }
+    zamknięte = {
+        segment.start
+        for segment in segments
+        if any(reading.lemma == ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY for reading in segment.readings)
+    }
+    return [
+        replace(segment, readings=(Reading(segment.form, segment.form, NIEODMIENNY),))
+        if _przytoczony(segment, otwarte, zamknięte)
+        else segment
+        for segment in segments
+    ]
+
+
 def morphology(text: str) -> list[Segment]:
     """Analizuje tekst tak, jak czyta go olski.
 
-    Pięć rzeczy dzieje się tu przed gramatyką. Notacja rejestru dostaje jedną
+    Kilka rzeczy dzieje się tu przed gramatyką. Notacja rejestru dostaje jedną
     krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
     krawędzi, a czytelnik ma tam jedno słowo. Słowo, którego słownik nie ma,
     dostaje czytania z leksykonu projektu (:mod:`olski.projekt`), bo ``commitów``
@@ -2227,17 +2278,22 @@ def morphology(text: str) -> list[Segment]:
     Forma pisana wersalikami, której słownik nie czyta wcale, dostaje czytanie
     nieodmienne (:func:`wersalik`). Reszta idzie do Morfeusza i traci te czytania,
     które odrzuca :func:`admissible`, a po nich te, które :func:`po_przyimku`
-    odrzuca formie stojącej bez przyimka.
+    odrzuca formie stojącej bez przyimka, a na końcu napis objęty cudzysłowem
+    dostaje czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
 
-    Ostatni z pięciu warunków pyta o sąsiada, a nie o samą formę, więc idzie
-    po liście gotowej, a nie po jednym segmencie jak cztery przed nim.
+    Dwa ostatnie warunki pytają o sąsiada, a nie o samą formę, więc idą po liście
+    gotowej, a nie po jednym segmencie jak te przed nimi. Przytoczenie idzie
+    ostatnie, bo pyta o czytania, które zostały: ``be`` traci rzeczownik w
+    :func:`admissible` i przytoczenie zastaje tam sam przymiotnik.
 
     Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
-    return po_przyimku(
-        [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
+    return przytoczenie(
+        po_przyimku(
+            [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
+        )
     )
 
 
