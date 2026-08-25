@@ -496,9 +496,8 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
 #: zbiór dopełnień, nazwanych przypadkiem grupy, którą czasownik bierze, wraz z
 #: ``inf`` dla bezokolicznika, bo bezokolicznik przypadka nie ma.
 #:
-#: Leksykon jest otwarty: stoi w nim czasownik, którego rama jest węższa od
-#: domyślnej, a każdy inny bierze domyślną, więc czasownik dopisuje się wpisem, a
-#: nie produkcją i nie kosztuje ani jednego przyjętego zdania, dopóki go nie ma.
+#: Leksykon jest otwarty i ma ramę domyślną, więc czasownik dopisuje się wpisem, a
+#: nie produkcją.
 #: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
 WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
@@ -673,7 +672,7 @@ SPÓJNIK_BEZ_PRZECINKA = word(
 
 #: Spójnik przed członem bez czasownika, i spójnik wewnątrz swojego zdania. Oba
 #: pytają o dwie części mowy naraz, tak samo jak :data:`SPÓJNIK_PRZECINKOWY` i z
-#: tego samego powodu: Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`.
+#: tego samego powodu.
 SPÓJNIK_ELIPSY = word("conj|comp", lemma=SPÓJNIKI_ELIPSY)
 SPÓJNIK_WEWNĘTRZNY = word("conj|comp", lemma=SPÓJNIKI_WEWNĘTRZNE)
 
@@ -957,12 +956,11 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     czoło_podmiot = nt("Subject", number=V("n"), gender=V("g"), czoło=czoło, **zaimek)
     zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], **POPRZEDNIK)
 
-    # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, choć
-    # zdanie główne ma ten szyk tylko w pierwszej wersji: `które ktoś napisał`
-    # jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie, i różni je to,
-    # że czoło wysuwa polszczyzna zawsze, a dopełnienie z wyboru. Wypowiada to
-    # sam warunek precedencji: żąda on czoła na pierwszym miejscu i nie żąda
-    # niczego od dwóch pozostałych córek.
+    # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, bo czoło
+    # wysuwa polszczyzna zawsze, a dopełnienie z wyboru
+    # (docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
+    # Wypowiada to sam warunek precedencji: żąda on czoła na pierwszym miejscu i
+    # nie żąda niczego od dwóch pozostałych córek.
     #
     # Przypadek czoła rozstrzyga tu przeczenie stojące za nim: `polszczyzna, którą
     # napisał autor` obok `polszczyzna, której nie napisał autor`. Wspólnej zmiennej
@@ -1545,8 +1543,7 @@ def build() -> Grammar:
         grammar.rule("InfinitivePhrase", [*przeczenie, Głowa(word("inf"))], valency="inf")
 
     # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
-    # ramy niesie ono tak samo jak dopełnienie i bezokolicznik, więc żądanie wobec
-    # czasownika stoi raz, tutaj, a nie w każdym szyku, w którym to zdanie stoi.
+    # ramy niesie ono tak samo jak dopełnienie i bezokolicznik wyżej.
     # Przecinek należy do tego konstytuentu, a nie do produkcji nad nim, i tym
     # różni się podrzędność od koordynacji; wywód trzyma docs/subset.md.
     # Przecinek zamykający dokłada :func:`_zamykane`.
@@ -1621,10 +1618,11 @@ def build() -> Grammar:
         ],
     )
 
-    # Te same dwie pozycje nad całym ciągiem współrzędnym, bo `Dwoisz się i troisz,
-    # aby rozwiązać problemy.` mówi o obu członach naraz, a `Mieszkał z ojcem i nie
-    # chciał, żeby ktoś wiedział.` o samym drugim. Ciała powyżej dają czytanie
-    # drugie, te dwa dają pierwsze, i bez nich olski wybiera przez przeoczenie
+    # Te same dwie pozycje nad całym ciągiem współrzędnym, bo okolicznik mówi i o
+    # obu członach naraz, i o samym drugim; oba zdania trzyma
+    # docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
+    # Ciała powyżej dają czytanie drugie, te dwa dają pierwsze,
+    # i bez nich olski wybiera przez przeoczenie
     # (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
     #
     # Ciągu żąda tu cecha (:data:`CIĄG`), a dostawki żąda ciało z okolicznikiem
@@ -2358,11 +2356,10 @@ def admissible(segment: Segment) -> Segment:
     """Drop the noun reading of a form olski reads as a function word.
 
     Morfeusz reads ``do`` as the preposition and as the musical note, and the
-    note inflects for nothing: carrying all seven cases, it satisfies every
-    demand unification can make, which is the only filter olski has. So every
-    ``do`` in a text hands its sentence a second reading. That is ambiguity in
-    the dictionary rather than in Polish, and no parse can tell the two apart,
-    so the lexicon rules it out instead. docs/subset.md argues the criterion and
+    note inflects for nothing (:data:`EVERY_CASE`), so every ``do`` in a text
+    otherwise hands its sentence a second reading. That is ambiguity in the
+    dictionary rather than in Polish, and no parse can tell the two apart, so
+    the lexicon rules it out instead. docs/subset.md argues the criterion and
     docs/corpus.md measures what it is worth and what it costs.
     """
     if _acronym(segment.form):
@@ -2755,10 +2752,10 @@ def sentences(text: str) -> list[str]:
     gdzie ``docs/linter.md`` jest jednym słowem, a cięcie na kropce w jego środku
     wymyśla dwa zdania, których nikt nie napisał.
 
-    Cięcie stoi więc przed analizą, a nie po niej. Morfeusz jest wołany z
-    ``SKIP_WHITESPACES``, a segment niesie numery węzłów grafu zamiast przesunięć
-    w tekście, więc po analizie nie ma już czym zobaczyć spacji, która odróżnia
-    granicę zdania od nazwy pliku.
+    Cięcie stoi więc przed analizą, a nie po niej, i z tego samego powodu, z
+    którego stoi tam sklejenie notacji (:func:`morphology`): Morfeusz jest
+    wołany z ``SKIP_WHITESPACES``, więc po analizie nie ma już czym zobaczyć
+    spacji, która granicę zdania odróżnia od nazwy pliku.
     """
     document = Document(text)
     return [document.slice(span) for span in document.sentences]

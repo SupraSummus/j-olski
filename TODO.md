@@ -75,24 +75,18 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
-Mechanizm gramatyki opisują naraz `docs/subset.md` i komentarze `olski/subset.py`,
-tymi samymi zdaniami, a rozjazdu dwóch kopii nie łapie żaden test.
-Zdania wspólne obu plikom wypisuje przebieg po dziewięciowyrazowych frazach
-i wychodzi ich kilkaset, w kilkudziesięciu miejscach.
-Rozstrzygnąć trzeba jedno: gdzie mieszka mechanizm, czyli to,
-czemu warunek stoi w tym ciele, czemu stała jest osobna
-i co by się wyprowadziło bez tej cechy.
-Pomiar mieszka w dokumencie, bo kod nie zauważy, że korpus się ruszył,
-a nazwa roli przy stałej, bo tam się ją przemianowuje — i tyle już stoi.
-Do przeczytania są trzy pary, przy których obie kopie się bronią:
-akapit o rodzaju ciągu współrzędnego wobec komentarza nad tą produkcją,
-o zdaniu względnym przy `NP` i o sklejeniu notacji przed rozbiorem;
-one, a nie liczba fraz, mówią, ile ta decyzja kosztuje.
-Osobno stoi to, co z niej wynika dla wskazań:
-przeszło dwadzieścia zdań dokumentu opiera się na nazwie prywatnej modułu,
+Wskazania między `docs/subset.md` i `olski/subset.py` idą w obie strony,
+a pilnowane są tylko w jedną.
+Kilkanaście zdań dokumentu opiera się na nazwie w środku modułu,
 której nie pilnuje nic ([CLAUDE.md](CLAUDE.md#na-czym-wolno-oprzeć-zdanie)),
-a w drugą stronę przeszło jedna trzecia wskazań z `olski/subset.py`
-nie ma anchora, więc `tests/test_docs.py` sprawdza przy nich sam plik.
+a w drugą stronę przeszło jedna trzecia wskazań z `olski/subset.py` nie ma anchora,
+więc `tests/test_docs.py` sprawdza przy nich sam plik.
+Ruchem jest anchor przy każdym wskazaniu z kodu,
+a po stronie dokumentu nazwa modułu w miejsce nazwy w jego środku —
+tam, gdzie zdanie nadal mówi czytelnikowi, gdzie szukać.
+Wskazania na `morphology`, `po_przyimku` i `po_słowie` są tu przypadkiem
+najtrudniejszym, bo dokument opisuje kolejność tych trzech warstw
+i nazwa modułu tego nie odda.
 
 Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
 nazwy w kodzie i nazwy plików
@@ -202,6 +196,9 @@ dwa w [`docs/corpus.md`](docs/corpus.md#the-measurement)
 i akapit pod listą pozycji przyłączeniowych w
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie) —
 bo one, a nie liczba dokumentów, mówią, ile ten przebieg kosztuje.
+Jedno zdanie nienaprawione stoi w
+[`docs/subset.md`](docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
+i liczy tam ciała `RelativeCore` przed przeczeniem i po nim.
 Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
 w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
 są one przypięte do gramatyki z chwili pomiaru,
