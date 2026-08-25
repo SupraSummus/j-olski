@@ -2710,6 +2710,10 @@ więc zdanie z grupą liczebnikową obok drugiej grupy synkretycznej
 wychodzi dwoma czytaniami: `Rada gminy liczy piętnastu członków.` czyta się
 i tak, że rada liczy członków, i tak, że członkowie liczą radę.
 Polszczyzna ma oba te czytania, więc olski to zdanie odrzuca i odrzuca słusznie.
+Drugą taką parę czytań daje sam słownik:
+`więcej` i `najwięcej` Morfeusz zna jako liczebniki obok przysłówka `dużo`,
+więc `otrzymał więcej głosów` wychodzi i grupą liczebnikową, i okolicznikiem,
+a te dwa czytania polszczyzna ma tak samo.
 
 ### Liczebnik złożony przyłącza się wedle ostatniego członu
 
@@ -3602,8 +3606,7 @@ Dwa czytania rozdziela przez to sama lista ról,
 zamiast czekać na to, że czytelnik porówna dwa napisy orzecznika.
 
 Nad rejestrem ustaw okolicznik kupuje w skali dziesięć razy mniejszej,
-a drugi gospodarz dokłada tam zdanie, zamiast odejmować
-([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+a drugi gospodarz dokłada tam zdanie, zamiast odejmować,
 więc znak tej ceny zależy od rejestru,
 a nie od samych gospodarzy.
 Trzeci nie rusza tam ani jednego werdyktu, tak samo jak nad korpusem audytowym:
@@ -3710,8 +3713,7 @@ Oszacowanie sięga i przysłówka na czele zdania,
 bo pod symbolem przysłówka stoi każdy okolicznik przysłówkowy,
 a czoło zdania jest osobnym ciałem produkcji:
 `Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą.
-Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje
-([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
 więc konstrukcja jest tu droga w rejestrze,
 który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
 

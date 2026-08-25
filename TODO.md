@@ -205,7 +205,10 @@ więc zostaje po nim sama krotność: przeczenie podwaja te ciała.
 Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
 w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
 są one przypięte do gramatyki z chwili pomiaru,
-a pyta o nie wpis o liczbach `docs/ustawy.md`.
+a dokument rejestru ich nie powtarza: cena stoi przy konstrukcji,
+a przebieg, którym ją policzono, stoi w gicie
+([`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+Czy właściciel ma trzymać ją dokładną, czy w rzędzie wielkości, nie rozstrzygnął nikt.
 
 Nazwa `parser` obejmuje w tych dokumentach cały tor gramatyczny,
 a nazywa jedną z pięciu warstw, przez które przechodzi zdanie.
@@ -255,38 +258,6 @@ i to one mówią, ile ten przekład kosztuje.
 Wpisu tego nie zamyka commit tamtego: są to dwa wydruki i dwie komendy,
 a bloków w dokumentach `olski-corpus` nie ma,
 bo `tests/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
-
-[`docs/ustawy.md`](docs/ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)
-trzyma liczby, o których sam pisze, że rusza je każda zmiana w gramatyce
-i że nie drukuje ich żaden przebieg.
-Jest to usterka tej samej klasy, którą
-[`docs/corpus.md`](docs/corpus.md#the-measurement) z siebie zdjęło:
-liczbę kruchą trzyma akapit, a nie narzędzie
-([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
-Ruchem jest przepisanie każdej takiej liczby na rząd wielkości i kierunek.
-Zostają liczby ceny, czyli te, którymi ten dokument wycenia dopisane konstrukcje,
-i przy nich pytanie jest inne: cena wpuszczenia mieszka w gicie
-([`CLAUDE.md`](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)),
-więc rozstrzygnąć trzeba, czy dokument rejestru trzyma ją drugi raz po to,
-żeby dała się przeczytać bez gita, czy nie trzyma jej wcale.
-Wpisu tego nie zamyka jeden plik, bo tę samą usterkę mają dokumenty obok
-i wpis niżej nazywa drugi z nich.
-Do przeczytania są częstości form w sekcji `Gdzie stają analizy w tym rejestrze`:
-liczby stoją tam najgęściej, a rusza je pobranie korpusu, nie gramatyka,
-więc są to liczby korpusu i zostają.
-
-`docs/disambiguation.md` liczy sporne wyrażenia w pełnej precyzji,
-a rusza je każda dopisana produkcja.
-Tabela klas werdyktu zeszła z liczb bezwzględnych na udziały,
-bo udziały ruszyły się o pojedyncze punkty tam,
-gdzie mianownik wyrósł od tamtego przebiegu o dwie piąte.
-Zostają dwa miejsca: `576 z 4 517` wraz z figurami, które ten mianownik dzielą
-([`docs/disambiguation.md`](docs/disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)),
-oraz wydruk sondy nad prozą wklejony pod koniec dokumentu,
-którego liczby rusza zarazem każdy commit dotykający tekstu tego repozytorium.
-Ruchem jest to samo jedno z dwojga na figurę, co przy liczbach `docs/ustawy.md`.
-Do przeczytania jest `python3 -m harness.czytania` obok tabeli klas:
-mówi on, które z tych liczb drukuje przebieg, a które policzono ręką.
 
 Docstring modułu bywa dłuższy od sekcji dokumentu i niesie wywód sięgający kilku
 modułów, którego właścicielem jest według
