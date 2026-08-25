@@ -191,14 +191,17 @@ oraz akapit liczący produkcje `olski/subset.py` za sam kod.
 Ruchem jest przebieg po `docs/` z tym jednym pytaniem na zdanie,
 a po nim albo granica w miejsce środka, albo wniosek ze wskaźnikiem
 na właściciela w miejsce drugiej kopii.
+Pytanie obejmuje przy tym zdanie obok liczby, a nie samą liczbę:
+odsyłacz „czym są te trzy” przeżył akapit,
+w którym trzy zdania zrobiły się dwudziestoma kilkoma.
 Do przeczytania są te trzy zdania już poprawione —
 dwa w [`docs/corpus.md`](docs/corpus.md#the-measurement)
 i akapit pod listą pozycji przyłączeniowych w
 [`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie) —
 bo one, a nie liczba dokumentów, mówią, ile ten przebieg kosztuje.
-Jedno zdanie nienaprawione stoi w
-[`docs/subset.md`](docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
-i liczy tam ciała `RelativeCore` przed przeczeniem i po nim.
+Czwarte takie zdanie liczyło ciała `RelativeCore` przed przeczeniem i po nim,
+a rozwinięcie szyku wypisuje ich od tamtej pory rząd wielkości więcej,
+więc zostaje po nim sama krotność: przeczenie podwaja te ciała.
 Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
 w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
 są one przypięte do gramatyki z chwili pomiaru,

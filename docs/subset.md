@@ -42,8 +42,6 @@ because the convention would make the sentence unambiguous
 only to a reader who knows the convention,
 and the settled goal is that olski reads as ordinary Polish
 to any Polish speaker.
-A sentence nobody else can read reliably
-is not a sentence olski should let through.
 
 This also answers a question the linter track had left open.
 Deep analysis is expensive because ambiguity is expensive.
@@ -494,8 +492,7 @@ forma ma być pisana wersalikami i słownik ma jej nie czytać wcale.
 Pierwsze pytanie zadaje już wykluczenie słownikowe,
 które wersalik ze swojego zasięgu wyłącza,
 bo w wersalikach forma rzeczownikiem właśnie jest
-([wyżej](#the-dictionary-offers-readings-polish-does-not)),
-a tutaj stoi drugie zdanie tej samej myśli.
+([wyżej](#the-dictionary-offers-readings-polish-does-not)).
 Drugie pytanie broni polszczyzny: `NIE` i `PAN` słownik czyta,
 więc czytania nieodmiennego nie dostają
 i zdanie z nimi nie traci tego, które ma.
@@ -503,9 +500,7 @@ Nieodmienna taka forma jest przy tym w polszczyźnie naprawdę:
 akronim odmieniony pisze się z łącznikiem i małą końcówką — `PKB-u` —
 czyli już nie samymi wersalikami.
 
-Cena jest ta sama, którą płaci notacja, i płaci się ją z tego samego powodu:
-forma nieodmienna spełnia każde żądanie przypadku,
-jakie unifikacja umie postawić.
+Cena jest ta sama, którą płaci notacja, i płaci się ją z tego samego powodu.
 `Parser GLR jest tani.` wychodzi z tego jednym czytaniem,
 w którym `GLR` jest dopełniaczem przy `parser`,
 a czytelnik ma tam dopowiedzenie
@@ -773,11 +768,9 @@ and a sentence that cannot satisfy it is not in the language.
 
 ## Czas przeszły żąda rodzaju od każdego szyku
 
-W kolejce ze Składnicy czas przeszły stał na pierwszym miejscu
-jako kolejna forma czasownika w produkcji `Verb`
-([corpus.md](corpus.md#where-the-analyses-stop)).
-O mocy formalizmu opis ten był trafny — gramatyka dalej jest bezkontekstowa —
-a o jednej produkcji nie.
+Czas przeszły stoi w kolejce ze Składnicy
+([corpus.md](corpus.md#where-the-analyses-stop)),
+a kosztuje więcej niż jedną formę czasownika w produkcji `Verb`.
 Forma `praet` niesie rodzaj i liczbę, a osoby nie niesie wcale,
 czyli dokładnie odwrotnie niż `fin`,
 więc zgodność, którą czas teraźniejszy zostawiał grupie imiennej,
@@ -1002,7 +995,7 @@ Nieobecność cechy jest tym samym mechanizmem, którym grupa współrzędna nie
 rodzaju. Ta sama droga sięga wysuniętego zaimka względnego —
 `polszczyzna, której nikt nie napisał` obok `polszczyzna, którą ktoś napisał` —
 i tam kosztuje najwięcej, bo przypadek zaimka rozstrzyga przeczenie stojące za
-całą resztą zdania składowego, więc sześć ciał `RelativeCore` rośnie do dwunastu.
+całą resztą zdania składowego, więc `RelativeCore` ma dwa razy tyle ciał.
 
 Poza biernik dopełniacz negacji nie sięga.
 Orzecznik narzędnikowy stoi przy `nie jest` tak samo jak przy `jest`,
@@ -1134,9 +1127,7 @@ które wieloznaczność ma już z innego powodu.
 
 Polszczyzna łączy dwa zdania spójnikiem, przecinkiem albo jednym i drugim naraz,
 dwukropkiem wprowadza wyjaśnienie, a średnikiem rozdziela to, co spina treść.
-Olski wyprowadzał z tego dwa pierwsze sposoby,
-a resztę zostawiał wierszowi `interp`,
-który kolejkę blokerów prowadzi i liczy w niej tysiące zdań
+Wiersz `interp` prowadzi kolejkę blokerów i liczy w niej tysiące zdań
 ([corpus.md](corpus.md#where-the-analyses-stop)).
 
 Nowego kształtu zdania ta konstrukcja nie wymaga,
@@ -1154,8 +1145,7 @@ bo w jednym i w drugim zdanie składowe obsadza role własnym materiałem.
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
 a wynika to z gramatyki, nie z przebiegu:
 dwukropka nie bierze żaden inny terminal.
-Zero po stronie ceny jest przez to wyprowadzone, a nie zmierzone,
-i pilnuje tego `tests/test_subset.py`:
+Pilnuje tego zera `tests/test_subset.py`:
 za dwukropkiem stoi zdanie albo grupa imienna i nic trzeciego,
 a symbol trzeci zamieniłby to zero w liczbę, którą trzeba by policzyć.
 
@@ -1251,8 +1241,6 @@ Ten rejestr dokumentuje podzbiór przez to, czego w nim nie ma,
 więc `a nie` oraz `czyli` niosą setki zdań tej prozy,
 a za tym spójnikiem stoi sam człon, bez powtórzonego czasownika:
 `Milczenie obejmuje wybór, a nie zdanie.`
-Olski żądał tam zdania współrzędnego i dlatego takie zdanie odrzucał,
-choć `Milczenie obejmuje wybór.` przyjmował.
 
 Konstrukcja jest elipsą, a nie koordynacją,
 i rozstrzyga o tym pozycja, którą ten człon zajmuje:
@@ -1326,11 +1314,9 @@ Mierzy to za jednym razem obie kolejki, o których mówi
 
 `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`,
 `Linter zaś sprawdza tekst.`
-Polszczyzna stawia te spójniki wewnątrz zdania, za jego pierwszym wyrazem,
-a olski miał dla nich jedno miejsce — czoło drugiego zdania po przecinku —
-więc zdanie z takim spójnikiem w środku nie miało czytania.
+Polszczyzna stawia te spójniki wewnątrz zdania, za jego pierwszym wyrazem.
 Trzy lematy tej listy czoła nie zajmują wcale,
-i to o nich lista spójników okolicznikowych mówiła, że pozycji dla nich nie ma
+i to o nich lista spójników okolicznikowych mówi, że pozycji dla nich nie ma
 ([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
 
 Pozycją jest lista okoliczników i nic poza nią.
@@ -1382,8 +1368,8 @@ bank drzew stawia wewnątrz grupy każdy lemat tej listy, który w nim pada,
 i ten sam lemat stawia przy zdaniu.
 Udział wystąpień w grupie idzie od jednego na jedenaście przy `dopiero`
 do co drugiego przy `niemal`,
-a lematu, który stałby wyłącznie w grupie albo wyłącznie przy zdaniu, nie ma;
-trzy lematy stoją tam wyłącznie przy zdaniu i każdy pada mniej niż dziesięć razy.
+a lematu stojącego wyłącznie w grupie nie ma ani jednego;
+wyłącznie przy zdaniu stoją trzy i każdy pada mniej niż dziesięć razy.
 Podział listy po lemacie jest więc wariantem odrzuconym:
 bank drzew go nie potwierdza, a kryterium na tę pozycję nie jest leksykalne.
 Zostaje wieloznaczność oddana czytelnikowi,
@@ -1519,9 +1505,8 @@ Nad Składnicą ta pozycja nie rusza ani jednego zdania,
 pod złotą morfologią ani pod żywą,
 bo proza prasowa nawiasu wewnątrz zdania względnego nie pisze.
 Pisze go dokumentacja tego repozytorium, i pisze kilka razy,
-a przyjętego zdania ta pozycja jej dotąd nie kupiła:
-zakup jest odłożony tak samo jak przy przytoczeniu wyżej,
-i tym różni się ta pozycja od tych, które wchodzą z przejściami między werdyktami.
+a przyjętego zdania ta pozycja jej nie kupiła:
+zakup jest odłożony tak samo jak przy przytoczeniu wyżej.
 
 Na zewnątrz zostaje nawias w środku grupy imiennej —
 `grupa imienna (ta z dopełniaczem) stoi` —
@@ -1546,8 +1531,7 @@ o identycznym streszczeniu ról.
 
 Drugiego z nich polszczyzna nie ma.
 Zaimek rzeczowny stoi za przyimkiem i przy czasowniku — `do tego`, `tego nie wiem` —
-a dopełniacza po sobie nie bierze,
-więc nie jest to wieloznaczność, którą czytelnik ma rozstrzygać.
+a dopełniacza po sobie nie bierze.
 Warunek obejmuje więc każdą głowę, która rządzi dopełniaczem,
 i mówi tyle: taka głowa nie jest zaimkiem rzeczownym.
 W grupie imiennej produkcji z nią jest cztery,
@@ -1856,7 +1840,6 @@ co to kosztuje po tamtej stronie, trzyma [TODO.md](../TODO.md).
 Po stronie generatora jest bezokolicznik jedyną obroną przed drzewem,
 które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
-Po stronie parsera został zmierzony i pomiar stoi niżej w tej sekcji.
 
 Zdanie o zdaniu podrzędnym zmierzono po tej samej stronie i wyszło z tego to samo.
 Rama domyślna ma zdanie podrzędne, a leksykon wymienia 1 926 lematów,
@@ -2081,7 +2064,7 @@ i nie jest to sprzeczność z liczbami wyżej, tylko
 [zasłanianie](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony):
 zdanie o dwudziestu wyrazach ma kilka zatrzymań naraz,
 więc pozycja zdejmuje jedno z nich i zostawia zdanie odrzucone, tylko dalej.
-Widać ją za to nad zdaniem krótkim, i tam widać ją od razu.
+Widać ją za to nad zdaniem krótkim.
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
 
@@ -2116,11 +2099,8 @@ która swój przecinek niesie w sobie.
 Przecinek zamykający stawia polszczyzna wtedy, gdy zdanie nadrzędne biegnie dalej,
 a biegnie ono dalej także spójnikiem:
 `Dokument mówi, że cena jest niska, i liczy cenę.`
-Zdanie względne miało na to parę ciał — jedno zamknięte przecinkiem, drugie nie —
-a pozostałe trzy zdania podrzędne miały samo ciało otwarte,
-więc przecinek przed `i` dochodził do koordynacji,
-która spójnika przed sobą nie bierze, i zdanie nie miało ani jednego czytania.
-Parę ciał ma przez to każde z czterech.
+Parę ciał — jedno zamknięte przecinkiem, drugie nie —
+ma przez to każde zdanie podrzędne tej gramatyki.
 
 `A, i B` dalej się nie wyprowadza i to jest tu cała ostrożność.
 Przecinek przed `i` nie jest w polszczyźnie znakiem koordynacji zdaniowej
@@ -2287,13 +2267,9 @@ Tańsza z dwóch dróg do czytania, którego polszczyzna nie ma,
 prowadzi tędy, a nie przez wykluczenie w `admissible`
 ([roadmap.md](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
 
-Kosztowało to jedno zdanie Składnicy i było nim pytanie:
-`Który aktor robi na tobie największe wrażenie?`,
-gdzie `Który` jest zaimkiem pytajnym przy rzeczowniku.
-Pytanie zależne — `określają, które zadania` — kosztowało tyle samo w rejestrze
-ustaw: zdanie, które wychodziło błędnie, wychodziło po nim odrzucone.
-Cena była ceną pozycji, której gramatyka wtedy nie miała, a którą ten warunek nazwał;
-pozycję tę stawia pytanie, więc oba te zdania wyprowadzają się, każde raz.
+Cena była ceną pozycji, której gramatyka nie miała, a którą ten warunek nazwał.
+Pozycję tę stawia pytanie, więc `Który aktor robi na tobie największe wrażenie?`
+oraz pytanie zależne `określają, które zadania` wyprowadzają się, każde raz.
 
 ### Zdanie względne niesie liczbę i rodzaj swojego zaimka
 
@@ -2847,10 +2823,7 @@ która wchodzi tym samym kryterium, co każda inna
 ## Przydawka imiesłowowa stoi tam, gdzie przymiotnik
 
 `Wymienione zadania są obowiązkowe.` i `Reguła sięgająca znaku jest tania.`
-różniły się w gramatyce tym, na czym stawała analiza:
-pierwsze na kształcie grupy imiennej, drugie na samym słowie,
-bo formy `pact` nie brał żaden terminal.
-Konstrukcja jest jednak jedna i jest nią przydawka,
+niosą jedną konstrukcję i jest nią przydawka,
 a nie dwie pozycje przy dwóch częściach mowy.
 
 Imiesłów przy rzeczowniku zgadza się z nim przypadkiem, liczbą i rodzajem,
@@ -3305,16 +3278,6 @@ Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
 więc wiersz nazywa ją wprost,
 gdzie `interp` albo `part` grupuje po kilka.
 
-Żądania, które stawiała tu każda konstrukcja naraz, zeszły oba.
-Pozycję poza biernikiem wpuszcza leksykon
-([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
-a `Werdykt służy czytelnikowi.` wyprowadza się i wyprowadza raz.
-Odmianę słowa, którego słownik nie ma, deklaruje
-[leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma),
-a `Język olski jest podzbiorem polszczyzny.` wyprowadza się tak samo.
-Słowo bez wpisu wraca dalej jako `ign`,
-i jest to wtedy brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
-
 ## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 
 ```text
@@ -3477,7 +3440,7 @@ i każda z nich jest zwyczajną polszczyzną:
 - wewnątrz pytania, w tych samych trzech miejscach za grupą pytajną
   (`Który program w tym trybie zapisuje ustawienia?`)
 
-Wierszy jest dziesięć, a produkcji kilkadziesiąt,
+Produkcji jest kilkadziesiąt,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
 Ile ich jest dzisiaj, mówi `olski/subset.py`, a nie ten akapit:
@@ -3528,21 +3491,17 @@ a kupuje czytania, których olski nie czyta odwrotnie:
 gramatyka bez pozycji przy grupie imiennej i przymiotnikowej
 czyta wbrew ręcznemu rozbiorowi ponad dwieście zdań,
 a z nimi dwadzieścia kilka, i żadne z nich nie jest przyłączeniem, które olski wybrał.
-Ile ich dokładnie jest po obu stronach i czym są te trzy, trzyma
+Ile ich dokładnie jest po obu stronach i czym są te, które zostają, trzyma
 [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance);
 tutaj stoi rzędem wielkości, bo liczba zapisana w obu miejscach
 rozeszła się już raz i nikt tego nie zauważył.
 
-Klasa nie jest przez to zamknięta.
-Zdejmuje z niej tę część, w której czasownik frazy wymaga —
-576 z 4 517 wyrażeń wyżej, czyli 13% —
-[leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-domyślnej),
-bo tam czytanie rzeczownikowe łamie schemat czasownika,
-a nie konkuruje z nim.
-Leksykon nie sięga do tych 13% nigdzie,
-bo mówi o bierniku, a fraza wymagana jest tu przyimkowa,
-więc liczba mówi, co zdjąłby leksykon dochodzący do każdej pozycji,
-a nie co zdejmuje ten.
+Klasa nie jest przez to zamknięta:
+576 z 4 517 wyrażeń wyżej, czyli 13%, to frazy, których czasownik żąda swoim schematem,
+a tam odczytanie rzeczownikowe schemat łamie, zamiast z nim konkurować.
+Tyle zdjąłby [leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-domyślnej) dochodzący do każdej pozycji,
+a ten nie zdejmuje z klasy nic,
+bo mówi o bierniku, a fraza wymagana jest tu przyimkowa.
 
 ## Przysłówek wchodzi każdym gospodarzem, bo dalszy zdejmuje czytania nieprawdziwe
 
@@ -3747,11 +3706,10 @@ bo przysłówek stopniowany bywa okolicznikiem zdania
 i stoi wtedy przed przymiotnikiem, którego nie określa,
 jak w `Ostatecznie nowa ustawa wchodzi w życie.`
 Które formy to wywołują, wypisuje każda z tych figur, i prowadzi w nich `bardzo`.
-Oszacowanie sięga teraz i przysłówka na czele zdania,
+Oszacowanie sięga i przysłówka na czele zdania,
 bo pod symbolem przysłówka stoi każdy okolicznik przysłówkowy,
 a czoło zdania jest osobnym ciałem produkcji:
-`Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą,
-i to jest jedna z rzeczy, o które ta liczba urosła.
+`Oficjalnie cały Sejm RP śpi.` liczy się przez to razem z resztą.
 Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 więc konstrukcja jest tu droga w rejestrze,
