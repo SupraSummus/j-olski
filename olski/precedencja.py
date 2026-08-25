@@ -111,7 +111,8 @@ class Rozwinięcie:
     def _miejsca(self, szyk: Sequence[Part | Głowa]) -> Iterator[list[Part | Głowa]]:
         """Ten szyk bez okolicznika, a za nim ten sam szyk z okolicznikiem w każdym miejscu.
 
-        Miejsce jest za każdą córką, która okolicznika nie bierze sama, i miejsce
+        Miejsce jest za każdą córką, która okolicznika nie bierze sama — obok
+        takiej córki byłoby ono drugim wyprowadzeniem jednego napisu — i miejsce
         na końcu konstytuenta jest tym za córką ostatnią, a nie regułą obok.
         Ciało bez okolicznika idzie pierwsze, bo jest tym, o którym deklaracja mówi,
         a miejsca idą od lewej, żeby produkcje stały w gramatyce w kolejności,

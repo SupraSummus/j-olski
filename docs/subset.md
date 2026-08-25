@@ -263,14 +263,9 @@ a preposition, a conjunction, a particle, an interjection.
 `admissible` in `olski/subset.py` is where that happens.
 
 One exception runs the other way.
-`PO`, `AA` and `UP` are organizations,
-they inflect for nothing either,
-and their letters spell a preposition and two interjections.
-Here the noun is what the form is
-and the function word is the accident,
-so an all-caps form of more than one letter keeps every reading it has.
-A single capital is no evidence either way,
-since every sentence starts with one.
+`PO`, `AA` and `UP` are organizations whose letters spell function words,
+and there the noun is what the form is,
+so an all-caps form keeps every reading it has.
 
 Three simpler criteria were available and none holds.
 Morfeusz's own qualifiers mark the note `muz.`
@@ -357,32 +352,21 @@ i `npraep` przy tej, która stoi bez niego,
 a `nim` niesie obie naraz, tak samo jak `niej` i `nich` w miejscowniku,
 bo te formy stoją i pod przyimkiem, i bez niego.
 
-Grupa imienna bierze zaimek w każdej swojej pozycji,
-więc bez warunku na tę cechę `Cena niego rośnie.` się wyprowadza,
-a `nie` staje dopełnieniem w zdaniu, które przeczy:
-`Zagłębie nie płaci.` wychodzi wtedy dwoma czytaniami, gdzie polszczyzna ma jedno.
-Bywa i tak, że takie czytanie zostaje jedynym.
+Bez warunku na tę cechę wychodzą czytania, których polszczyzna nie ma,
+i bywa tak, że takie czytanie zostaje jedynym.
 Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
 jaki ten pomiar wydaje
 ([corpus.md](corpus.md#what-morphological-ambiguity-costs)),
 bo `valid` czytelnik przyjmuje bez sprawdzania.
 
 Warunek stoi przez to w warstwie morfologicznej i przed rozbiorem,
-a nie na terminalu zaimka.
-`po_przyimku` w `olski/subset.py` pyta graf segmentacji:
-czytanie o samym `praep` zostaje tam,
-gdzie w węźle otwierającym tę krawędź kończy się krawędź z czytaniem przyimkowym,
-a poza tym schodzi.
+a nie na terminalu zaimka;
+pyta on graf segmentacji, a jak, mówi `po_przyimku` w `olski/subset.py`.
 
-Licencji udziela przy tym przyimek, który ta gramatyka bierze,
-a nie każda forma z czytaniem przyimkowym,
+Licencji udziela sam przyimek tej gramatyki,
 więc wykluczenie rozdzielającego `a` stoi i tutaj, nie tylko na terminalu
 ([niżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
-Bez tego warunku `Cena jest niska, a nie.` się wyprowadza:
-Morfeusz czyta `a` jako przyimek, więc licencjonuje `nie` stojące za nim,
-a wyrażenia przyimkowego z tego `a` nie ma jak zbudować,
-czyli licencji udzielała pozycja, której nikt nie zajmuje.
-Zdanie po zdaniu widać to dopiero razem z członem bez czasownika
+Zdanie po zdaniu widać ten warunek dopiero razem z członem bez czasownika
 ([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)),
 bo dopiero on daje `, a` cokolwiek za sobą.
 Kosztuje ten warunek pojedyncze zdania tej prozy i oba czytania, które zdjął,
@@ -461,15 +445,9 @@ Rejestr, o który olskiemu chodzi, jest takich form pełen —
 i stoją one w zdaniach na miejscach rzeczownika,
 bo tym w takim zdaniu są.
 
-Olski daje więc takiej formie jedną krawędź i jedno czytanie:
-rzeczownik nieodmienny, dokładnie ten tag,
-który Morfeusz daje `menu` i `atelier`.
+Olski daje więc takiej formie jedną krawędź i jedno czytanie nieodmienne.
 Rzeczownikiem nieodmiennym taka forma jest w polszczyźnie naprawdę,
 a jedno czytanie znaczy, że nie ona daje zdaniu drugie.
-Sklejenie stoi przed analizą, a nie za nią,
-bo segment niesie numery węzłów grafu, a nie przesunięcia w tekście,
-więc po analizie nie ma już czym zobaczyć spacji,
-która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
 
 Wzorzec, który to rozpoznaje, stoi w `NOTACJA` w `olski/subset.py`,
 a tu stoi to, przed czym każde jego żądanie broni,
@@ -642,9 +620,7 @@ a ruch trzyma [TODO.md](../TODO.md).
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
 - A nominal predicative in the instrumental, under the copula and nowhere else:
   `Jan jest nauczycielem.`
-  The copula is a closed list of lemmas,
-  and it is closed because it is the one entry of the valency lexicon
-  that is written by hand
+  The copula is a closed list of lemmas
   ([below](#walencja-jest-leksykonem-o-ramie-domyślnej)),
   which is what keeps an instrumental adjunct from reading as a predicative
   under every other verb —
@@ -667,16 +643,10 @@ a ruch trzyma [TODO.md](../TODO.md).
   jako ten sam rzeczownik nieodmienny: `README mówi o podzbiorze.`, `Parser GLR
   jest tani.`
   ([poniżej](#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym))
-- A modal with its infinitive.
-  `powinien` inflects for gender and not for person,
-  so the clause it heads agrees with its subject in gender
-  and leaves person to whatever else constrains it.
-- An infinitive as what any other verb takes:
-  `Program pozwala zapisać ustawienia.`
-  A chain of them needs no rule of its own,
-  because an infinitive phrase takes complements
-  and an infinitive phrase is one of them,
-  so `ma pomagać pisać` comes out of the two productions already there.
+- A modal with its infinitive: `Program powinien zapisać ustawienia.`
+- An infinitive as what any other verb takes,
+  and a chain of them with no rule of its own:
+  `Program pozwala zapisać ustawienia.`, `Wpis ma pomagać pisać.`
 - Noun phrases with an adjective before or after the noun,
   a genitive modifier, or a prepositional modifier,
   and an adjective after the noun with a genitive under it as well:
@@ -704,9 +674,7 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Two clauses joined by a comma and a conjunction at once,
   which is how Polish punctuates the conjunctions it puts a comma in front of:
   `Plany są niczym, ale planowanie jest wszystkim.`
-  Those conjunctions are a closed list and the rest keep the position without the
-  comma, so the two classes do not overlap and neither `A ale B` nor `A, i B`
-  derives
+  ([below](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Przecinek zamykający zdanie podrzędne przed spójnikiem bez przecinka:
   `Dokument mówi, że cena jest niska, i liczy cenę.`
   ([poniżej](#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim))
@@ -717,16 +685,11 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
   `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
   ([poniżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu))
-- A colon opening a clause, which is how this register introduces an explanation:
-  `Cena jest niska: gramatyka jest bezkontekstowa.`
-  It stands above coordination rather than in it,
-  so `A, B: C.` reads as `(A, B): C`.
-  A noun phrase stands there as readily as a clause —
-  `Gramatyka ma dwie role: podmiot i dopełnienie.` —
-  and it is a second body rather than a wider symbol.
-  The semicolon and the dash separate at that same level and by that same body,
-  and the dash takes two of the three characters Polish writes it with,
-  the hyphen having a job of its own inside a word
+- A colon opening a clause or a noun phrase,
+  which is how this register introduces an explanation,
+  and a semicolon or a dash separating two clauses:
+  `Cena jest niska: gramatyka jest bezkontekstowa.`,
+  `Gramatyka ma dwie role: podmiot i dopełnienie.`
   ([below](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
   `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`, `Zażądałem, by wyszedł.`
@@ -917,8 +880,7 @@ Wypełnieniem bywa fraza bezokolicznikowa zamiast zdania —
 `Odnotowuję to, żeby złagodzić wrażenie.` —
 i w banku drzew pada ona pod tymi spójnikami
 niemal tak samo często jak forma na -ł.
-Bezokolicznik podmiotu nie ma i trybu nie niesie, więc ciało z nim o tryb nie pyta,
-a osobne jest dlatego, że jego cena jest osobną liczbą.
+Ciało z bezokolicznikiem jest osobne, bo jego cena jest osobną liczbą.
 Oba wypełnienia biorą oba miejsca okolicznika,
 bo zdanie z każdym z tych spójników polszczyzna wysuwa:
 `Żeby zostać rezydentem księstwa, musisz mieć oszczędności.`
@@ -1052,7 +1014,7 @@ nie zyskuje przy przeczeniu nowej pozycji.
 
 Produkcja mówi naraz dwie rzeczy: z czego zdanie się składa
 i w jakiej kolejności te córki stoją.
-Rozdzielone, te dwie rzeczy mieszczą się w siedmiu deklaracjach,
+Rozdzielone, te dwie rzeczy mieszczą się w kilku deklaracjach,
 z których rozwinięcie pisze kilkadziesiąt ciał `ClauseConjunct`.
 Deklaracja wymienia same córki,
 warunek precedencji obok niej mówi, które ich przestawienia wchodzą,
@@ -1063,20 +1025,13 @@ Olski zajmuje przez to szczebel 1 [drabiny](design-notes.md#the-cost-ladder)
 i płaci dokładnie tym, czym ten szczebel każe płacić:
 preprocesorem gramatyki, a nie innym parserem.
 
-Warunek wyklucza jeden szyk i mówi który, zamiast go przemilczeć.
-Jedna deklaracja wymienia podmiot, dopełnienie i czasownik,
-a warunek pod nią odmawia temu przestawieniu,
-w którym podmiot stoi pierwszy, a czasownik zaraz za nim:
-zdanie tego szyku składa się z podmiotu i orzeczenia,
-więc wypisane płasko drugi raz dałoby jednemu napisowi dwa wyprowadzenia.
-Pozostałych pięciu szyków orzeczenie nie składa,
-bo albo podmiot nie stoi w nich pierwszy, albo między nim a czasownikiem coś stoi.
+Warunek wyklucza jeden szyk — ten, który zdanie składa już z podmiotu
+i orzeczenia — i mówi to wprost, zamiast go przemilczeć.
 Tego żąda od tej gramatyki decyzja o szyku wyżej —
 szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem ciała —
 i żąda tego samego od każdego szyku dopisanego później.
 
-Miejsce na okolicznik wylicza to samo rozwinięcie
-i przez to nie ma go jak zapomnieć w jednym ciele z trzech.
+Miejsce na okolicznik wylicza to samo rozwinięcie.
 Reguła jest jedna: okolicznik staje po każdej córce, która jest grupą,
 oraz na końcu zdania, którego nie zamyka orzeczenie —
 to bierze swój okolicznik samo, przez `Complements`.
@@ -1099,29 +1054,12 @@ Zawężenie takiego kształtu mieści się po rozwinięciu w jednym argumencie
 deklaracji, a nie w kilkudziesięciu ciałach, z których żadne go nie wypowiada,
 i dopiero wtedy da się je wycenić jednym przebiegiem.
 
-Wyjęte zostaje orzeczenie, bo okolicznik bierze ono samo, przez `Complements`,
-więc miejsce obok niego byłoby drugim wyprowadzeniem jednego napisu.
-Dotyczy to obu miejsc, które ta córka ma, czyli tego za nią i tego na końcu zdania,
-więc pyta o nie jeden zbiór, a nie dwa.
-
-Cztery ciała gramatyka ma dlatego, że regułę liczy rozwinięcie, a nie ręka.
-Zdanie względne i pytanie mają za wysuniętą rolą trzy miejsca,
-a ciała z podmiotem przed czasownikiem miały dwa z nich,
-dopóki każde miejsce wypisywało osobne ciało.
-Bez trzeciego `Ustawa, którą organ w tym trybie wydaje, jest tania.`
+Regułę liczy rozwinięcie, a nie ręka, i widać to na zdaniu względnym:
+miejsc na okolicznik jest tam za wysuniętą rolą trzy,
+a bez trzeciego `Ustawa, którą organ w tym trybie wydaje, jest tania.`
 wychodzi jednym czytaniem, w którym `w tym trybie` dochodzi do `organ`,
 a czytania z okolicznikiem przy `wydaje` nie ma skąd wziąć —
 czyli werdykt `valid` nad zdaniem, które czytelnik czyta dwojako.
-Ciała są cztery, a nie dwa, bo przypadek wysuniętego dopełnienia rozstrzyga przeczenie
-([wyżej](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)),
-więc każda z dwóch rodzin ma tę deklarację w dwóch wersjach.
-
-Mnożenia się ciał rozwinięcie nie zdejmuje całego, bo część mnoży cecha.
-`RelativeCore` ma dwie deklaracje z dopełnieniem zamiast jednej,
-bo przypadek czoła zależy od tego, czy czasownik za nim przeczy,
-a `NPConjunct` mnoży kształt głowy przez obecność przydawki za nią;
-ani jedno, ani drugie nie jest kolejnością,
-więc warunek precedencji nie ma tam czego powiedzieć.
 
 ## The bare verb-initial order keeps the predicative one honest
 
@@ -1158,11 +1096,7 @@ and never `nowe [programy i pliki]`.
 That is a narrowing rather than a reading of Polish,
 and what it buys is an agreement that can still fail.
 
-A coordination has no gender of its own.
-Polish resolves the gender of `rozum i sumienie`
-by rules unification cannot state,
-and a feature a phrase does not carry
-is one no agreement can fail against,
+A coordination has no gender of its own,
 so an adjective scoping over the coordination
 would be an adjective agreeing with nothing
 and `nowa programy i pliki` would derive.
@@ -1210,34 +1144,25 @@ bo jej członami są zdania, które gramatyka wyprowadza i bez niej.
 Wymaga natomiast trzech rozstrzygnięć, po jednym na znak.
 
 **Dwukropek rozdziela zdanie wyżej niż przecinek.**
-Produkcja należy przez to do zdania, a nie do zdania składowego:
-`Sentence → Clause : Clause .`
-Dwukropek wpuszczony tam, gdzie przecinek, czyli do `Clause`,
-byłby prawostronnie rekurencyjny razem z nim
-i `A, B: C.` wyprowadzałby jako `A, (B: C)`,
-gdzie polszczyzna czyta `(A, B): C`:
-przed dwukropkiem jest teza, a za nim całe jej wyjaśnienie.
+Przed dwukropkiem jest teza, a za nim całe jej wyjaśnienie,
+więc `A, B: C.` polszczyzna czyta jako `(A, B): C`,
+a produkcja należy przez to do zdania, a nie do zdania składowego.
 Werdykt pokazuje ten podział streszczeniem na każde zdanie składowe,
 tak samo jak przy koordynacji przecinkiem,
 bo w jednym i w drugim zdanie składowe obsadza role własnym materiałem.
 
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
-a wynika to z gramatyki, nie z przebiegu.
-Dwukropek wchodzi w dwa ciała i nie bierze go żaden inny terminal,
-a te dwa żądają za nim symboli rozłącznych: jedno zdania, drugie grupy imiennej.
-Grupa imienna zdaniem nie jest, więc napis wzięty jednym z tych ciał
-nie ma wyprowadzenia drugim, a zdania bez dwukropka żadne z nich nie dotyczy.
+a wynika to z gramatyki, nie z przebiegu:
+dwukropka nie bierze żaden inny terminal.
 Zero po stronie ceny jest przez to wyprowadzone, a nie zmierzone,
 i pilnuje tego `tests/test_subset.py`:
-za dwukropkiem stoją dokładnie te dwa symbole,
-a trzeci zamieniłby to zero w liczbę, którą trzeba by policzyć.
+za dwukropkiem stoi zdanie albo grupa imienna i nic trzeciego,
+a symbol trzeci zamieniłby to zero w liczbę, którą trzeba by policzyć.
 
 **Za dwukropkiem stoi zdanie albo grupa imienna.**
-`Gramatyka ma dwie role: podmiot i dopełnienie.` wylicza to,
-co zdanie przed dwukropkiem nazwało liczbą albo terminem,
-a wylicza jednym ciągiem współrzędnym, więc grupa bierze tę pozycję cała.
-Ciało jest osobne od zdaniowego, bo cena każdego z nich jest osobną liczbą,
-a kupuje ono pojedyncze zdania tej prozy: konstrukcja jest częsta,
+`Gramatyka ma dwie role: podmiot i dopełnienie.` wylicza za dwukropkiem to,
+co zdanie przed nim nazwało liczbą albo terminem.
+Pozycja ta kupuje pojedyncze zdania tej prozy: konstrukcja jest częsta,
 lecz zdania, które ją niosą, potykają się jeszcze o co innego.
 Rolą jest cała ta grupa, tak samo jak przy wtrąceniu w nawiasie,
 i tyle właśnie werdykt o niej mówi:
@@ -1249,8 +1174,6 @@ i jest to ta sama odmowa, którą wydaje o członie bez czasownika
 `Program zapisuje ustawienia; cena jest niska.` wyprowadza się ciałem
 `Sentence → Clause ; Clause .`, czyli tym samym, tylko z drugim znakiem,
 a cena jest i tu zerowa z gramatyki: średnika nie bierze żaden inny terminal.
-Ciała są mimo to dwa, a nie jedno biorące oba znaki naraz,
-bo zakup każdego z nich jest osobną liczbą i sonda bierze ją zdejmowaniem ciał.
 
 Za tym znakiem stoi rejestr, a nie polszczyzna.
 Średnik stoi tam, gdzie stanąłby przecinek albo kropka,
@@ -1278,9 +1201,7 @@ zamiast rozdzielać dwa zdania.
 `Plany są niczym, ale planowanie jest wszystkim.` przecinka wymaga,
 a `Program zapisuje ustawienia i linter sprawdza tekst.` nie bierze go wcale,
 i rozstrzyga o tym sam spójnik, a nie miejsce, w którym pada.
-Spójnik zdaniowy rozdziela się przez to na dwie klasy,
-a drugą wyznacza warunek ujemny na pierwszą, bo klasy nie mają się zachodzić:
-lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma ona jeden.
+Spójnik zdaniowy rozdziela się przez to na dwie klasy, które się nie zachodzą.
 Klasa bez przecinka wyklucza ponadto cząstkę przeczącą, i to jest to samo
 wykluczenie o jeden lemat szersze: Morfeusz czyta `nie` także jako spójnik,
 a gramatyka ma dla tej formy pozycję przy czasowniku,
@@ -1288,10 +1209,8 @@ więc bez tego warunku `Zgodności ta pozycja nie ma i mieć nie może.`
 wychodzi dwoma zdaniami spiętymi przez `nie`.
 Warunek zabiera pojedyncze zdania tej prozy i każde z nich wyprowadzało się
 właśnie tak, czyli czytaniem, którego polszczyzna nie ma.
-Klasa z przecinkiem jest zamkniętą listą i obejmuje dwie części mowy naraz,
-bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`,
-a o interpunkcji przed nimi ten podział nie mówi nic.
-`zaś` i `jednak` na tej liście nie figurują, bo czoła swojego zdania nie zajmują:
+Klasa z przecinkiem jest zamkniętą listą.
+`zaś` i `jednak` na niej nie figurują, bo czoła swojego zdania nie zajmują:
 polszczyzna stawia je za pierwszym wyrazem — `linter zaś sprawdza tekst` —
 i jest to ten sam warunek, którym lista spójników okolicznikowych wyklucza `bowiem`
 ([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
@@ -1300,16 +1219,14 @@ Te trzy lematy bierze pozycja wewnątrz zdania i ona jedna
 Lemat pominięty na liście zostaje przy pozycji bez przecinka,
 więc pominięcie nie odbiera ani jednego zdania.
 
-Podział ten odbiera zarazem napisy, których polszczyzna nie ma.
-`Program zapisuje ustawienia ale linter sprawdza tekst.` wyprowadzało się,
-dopóki jedno ciało brało całą klasę `conj`,
-a klasa bez przecinka dochodzi do wszystkich trzech poziomów koordynacji,
-więc `Plik jest nowy ale duży.` przestaje wychodzić jednym czytaniem.
+Podział ten odbiera zarazem napisy, których polszczyzna nie ma:
+`Program zapisuje ustawienia ale linter sprawdza tekst.`,
+`Plik jest nowy ale duży.` i `Skład czyli Morfeusz jest tani.`
+czytania nie mają, bo polszczyzna stawia przed tymi spójnikami przecinek.
+W drugą stronę odbiera przecinek postawiony tam, gdzie polszczyzna go nie stawia:
+`Program zapisuje ustawienia, i linter sprawdza tekst.` czytania też nie ma.
 Pozycji z przecinkiem grupa imienna i przymiotnikowa nie dostają,
 bo `nie polszczyzny, a dziedziny` jest w nich elipsą, a nie ciągiem współrzędnym.
-Lemat dopisany do listy odbiera przez to napis bez przecinka:
-`Skład czyli Morfeusz jest tani.` wyprowadzało się, dopóki `czyli` stało w klasie
-bez przecinka, a polszczyzna ten znak przed nim stawia.
 Dopowiedzenia z `czyli` żadna z tych dwóch pozycji nie daje,
 bo dopowiedzenie odnosi się do składnika zdania,
 a koordynacja zdaniowa łączy dwa zdania;
@@ -1420,11 +1337,10 @@ Pozycją jest lista okoliczników i nic poza nią.
 Wystarcza to, bo miejsce na okolicznik wylicza się za każdą córką zdania,
 a nie przed pierwszą (`olski/precedencja.py`),
 czyli ta lista mówi dokładnie tyle, ile polszczyzna o tym spójniku mówi.
-Czoła zdania ten symbol nie dostaje, i to trzyma jeden napis przy jednym czytaniu:
-`Cena jest niska, więc gramatyka jest tania.` ma spójnik za przecinkiem,
-więc bierze go koordynacja
-([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
-a czoło dałoby temu napisowi drugie wyprowadzenie tego samego kształtu.
+Czoła zdania ten symbol nie dostaje, bo spójnik za przecinkiem
+bierze już koordynacja
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)):
+`Cena jest niska, więc gramatyka jest tania.` wychodzi tamtą produkcją.
 Cena wychodzi zatem z gramatyki, a nie z przebiegu, tak samo jak przy dwukropku,
 a zakup jest zmierzony: kilkadziesiąt zdań tej prozy.
 
@@ -1494,14 +1410,11 @@ a w niej cztery słowa, które olski bierze albo wyklucza osobno:
 a `by` żąda trybu przypuszczającego, którego ta gramatyka nie ma
 ([niżej](#what-it-does-not-cover-yet)).
 Lista jest więc zamknięta, a kryterium na wejście jedno:
-cząstka ma nie mieć czytania, które gramatyka bierze już gdzie indziej.
-`tylko` je ma, bo Morfeusz czyta je także jako spójnik, a spójnik bierze koordynacja,
-więc wpuszczone tutaj dałoby jednemu napisowi dwa wyprowadzenia;
-tym samym warunkiem stoją obok siebie dwie klasy
+cząstka ma nie mieć czytania, które gramatyka bierze już gdzie indziej,
+i tym samym warunkiem stoją obok siebie dwie klasy
 [spójnika zdaniowego](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają).
-Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`,
-a `to` ma ponadto własną pozycję, której olski nie ma
-([niżej](#what-it-does-not-cover-yet)).
+Poza listą zostaje przez to `to`, które ma ponadto własną pozycję,
+a tej olski nie ma ([niżej](#what-it-does-not-cover-yet)).
 
 ## Interpunkcja obejmująca: cudzysłów wchodzi w grupę, a nawias staje obok zdania
 
@@ -1519,8 +1432,7 @@ Produkcja obejmuje grupę i wypuszcza jej przypadek, liczbę oraz rodzaj bez zmi
 bo polszczyzna odmienia to, co cudzysłów obejmuje, wedle roli, w której grupa stanęła:
 `Same „Zasady techniki prawodawczej” stoją poza tą sumą.` ma w środku mianownik,
 a `Ustawa jest przepisem „Zasad techniki prawodawczej”.` dopełniacz.
-Znaki są dwa i są różne, bo polszczyzna otwiera cudzysłów innym znakiem,
-niż go zamyka, więc napis niedomknięty nie ma wyprowadzenia.
+Napis niedomknięty wyprowadzenia nie ma.
 Cudzysłowa maszynowego — `"Zasady techniki prawodawczej"` — produkcja nie bierze,
 bo ten jeden znak nie jest żadnym z tych dwóch,
 a za napis, którego polszczyzna nie pisze, płaci autor
@@ -1584,8 +1496,7 @@ Wtrącenie jest przy tym rolą, którą werdykt nazywa,
 i jest rolą całym napisem: przysłówek w środku nawiasu nie jest okolicznikiem zdania,
 więc zejście po role zatrzymuje się na wtrąceniu tak samo jak na zdaniu podrzędnym.
 
-Wnętrzem nawiasu jest grupa imienna albo przysłówek, bo tym są te dopowiedzenia:
-nazwą dokumentu i wskazaniem, gdzie szukać.
+Wnętrzem nawiasu jest grupa imienna albo przysłówek.
 Pozycje są dwie i obie stoją tam, gdzie nawias zamyka zdanie składowe
 albo zdanie względne odgrodzone przecinkami:
 `Reguła, która rozstrzyga (niżej), jest tania.` wychodzi jednym czytaniem.
@@ -1660,10 +1571,7 @@ bo anotator wybiera jedno czytanie formy.
 Tutaj wybierać nie ma z czego, więc czytanie zostaje po obu morfologiach,
 a warunek jest jedynym miejscem, w którym ono ginie.
 
-Wpisem na tej liście jest lemat, bo słownik nie daje nic innego,
-o co dałoby się zapytać:
-`nikt` jest `subst:sg:nom:m1` tak samo, jak `parser` jest `subst:sg:nom:m3`,
-a zaimka od rzeczownika nie rozdziela w nim
+Wpisem na tej liście jest lemat, bo zaimka od rzeczownika nie rozdziela w słowniku
 ani znacznik, ani cecha, ani kwalifikator.
 Lista jest przez to zamknięta i starzeje się o każdy zaimek,
 którego nikt do niej nie dopisze.
@@ -2308,33 +2216,23 @@ a nie do produkcji nad nim.
 
 Przecinek stoi przy tym po tej stronie, po której stoi zdanie nadrzędne,
 więc ciała są dwa, a wiąże je z pozycją cecha.
-Bez niej ciało z przecinkiem z przodu staje na czele zdania,
-a olski wyprowadza napis zaczynający się przecinkiem, którego nikt nie napisał.
 
-Spójnik jest warunkiem na lemat i lista jest zamknięta,
-bo klasa `comp` niesie także takie spójniki, których ta produkcja wziąć nie może.
-Spójnik ma stać na czele swojego zdania, czego `bowiem` nie robi:
-polszczyzna stawia je za pierwszym wyrazem zdania.
+Spójnik jest warunkiem na lemat i lista jest zamknięta.
+Poza nią zostaje `bowiem`, bo polszczyzna stawia je za pierwszym wyrazem zdania,
+oraz `więc`, bo zdania nie podporządkowuje, tylko dokłada skutek:
+`Program zapisuje ustawienia, więc linter sprawdza tekst.`
+jest dwoma zdaniami spiętymi spójnikiem po przecinku
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym,
 a `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają przypuszczającego
 i biorą przez to ciała osobne
 ([niżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
-`więc` Morfeusz znakuje tak samo i nie ma go na liście z trzeciego powodu:
-zdania nie podporządkowuje, tylko dokłada skutek,
-więc `Program zapisuje ustawienia, więc linter sprawdza tekst.`
-jest dwoma zdaniami spiętymi spójnikiem po przecinku,
-czyli tą konstrukcją, którą ten dokument trzyma
-[wśród nieobjętych](#what-it-does-not-cover-yet).
 
-Listy są przez to dwie, a nie jedna, bo wysunięcie jest faktem o słowie.
-Ciało z okolicznikiem za zdaniem bierze każdy spójnik z listy,
-a ciało z okolicznikiem przed zdaniem tylko te,
-których zdanie polszczyzna wysuwa:
+Listy są przez to dwie, a nie jedna, bo wysunięcie jest faktem o słowie:
 `Zostaję w domu, bo pada.` jest polszczyzną, a `Bo pada, zostaję w domu.` nie jest,
 i tak samo dzieli się `gdyż` od `ponieważ`, choć oba mówią o przyczynie.
 Fakt ten skład trzyma o dwóch z tych lematów
-(`staje_na_czele` w `olski/skład/spójniki.py`),
-bo jest to fakt o słowie, a nie o kierunku, w którym się go używa,
+(`olski/skład/spójniki.py`),
 i [TODO.md](../TODO.md) trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
 tak jak czytają jeden leksykon walencyjny.
 Sam podział ma przy tym świadka zmierzonego:
@@ -2424,12 +2322,8 @@ z tą różnicą, że tutaj większość wyborów odbiera zgodność,
 czyli to samo, czym odbiera je czytelnik.
 
 Zdanie względne dochodzi przy tym do `NP`, a nie do `NPConjunct`,
-i nie jest to wybór wygody.
-Produkcja rekurencyjna na poziomie członu daje `te [konstrukcje, które stoją]`
-obok `[te konstrukcje], które stoją`,
-czyli dwa wyprowadzenia jednej struktury,
-a tych dwóch nie ma czym odsiać:
-kształty są różne, więc [są dwoma odczytaniami](#co-się-liczy-jako-jedno-odczytanie).
+bo na poziomie członu produkcja rekurencyjna dałaby jednej strukturze
+dwa wyprowadzenia, a te [są dwoma odczytaniami](#co-się-liczy-jako-jedno-odczytanie).
 Wyżej ten wybór nie istnieje, bo `NPConjunct` bierze wszystko, co grupa niesie przed nim.
 Kosztuje to symetrię w koordynacji:
 człon prawy zdanie względne unieść może, a lewy nie,
@@ -2474,9 +2368,6 @@ w obie strony werdykt pewny siebie i błędny.
 
 Kształty grupy są dwa: rzeczownik z zaimkiem za sobą (`na podstawie której`)
 i ten sam rzeczownik z zaimkiem przed sobą (`o którego zdaniu`).
-Każdy jest osobnym ciałem produkcji,
-bo cechy nie przechodzą przez grupę imienną same,
-więc głowa z przydawką pod sobą wysunięcia nie ma.
 Sam zaimek (`o którym`, `która rozstrzyga`) jest obok tych dwóch
 czołem drugim, w tych samych dwóch pozycjach.
 Czoła są dwa, a nie jedno obejmujące oba kształty,
@@ -2660,9 +2551,7 @@ a nie na kolejkę ze Składnicy.
 Wpuszczają ją dwa ciała, a rozdziela je to, skąd bierze się wyrażenie,
 o którym ten rzeczownik orzeka.
 Kopuła opuszczona takiego wyrażenia żąda, więc `Mowa o zadaniach.` jest polszczyzną,
-a `Mowa.` nie jest, i stąd okolicznik stoi w zdaniu składowym córką żądaną,
-a nie miejscem, które dokłada
-[rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk).
+a `Mowa.` nie jest.
 Zdanie względne bierze to wyrażenie skądinąd:
 `o których` leży poza zdaniem składowym, bo wysuwa je `RelativeModifier`,
 więc ciało czoła bierze ten rzeczownik wprost i zdania składowego nie ma pod sobą wcale.
@@ -2828,9 +2717,6 @@ Nowe jest to, czemu ta wartość przeczy.
 Ciąg jest mnogi, bo dwie rzeczy są dwiema rzeczami,
 a `pięć kobiet` jest pojedyncze i nijakie wbrew każdemu słowu w środku,
 więc rodzaj nijaki nie opisuje tu niczego prócz zgodności, której polszczyzna żąda.
-Zmienna wspólna wygląda tam poprawnie i odwraca zgodność:
-przyjmuje `Pięć kobiet przyszły.`, którego polszczyzna nie ma,
-i odrzuca zdanie, które ma.
 Rodzaj przechodzi natomiast z liczebnika na dopełniacz,
 bo rodzaj męskoosobowy ma w polszczyźnie własną formę liczebnika:
 `Pięciu mężczyzn przyszło.` wyprowadza się, a `Pięć mężczyzn przyszło.` nie.
@@ -3021,19 +2907,11 @@ a grupa z taką głową stoi w każdej roli, w której stoi każda inna grupa im
 Ta głowa dostaje tyle pozycji, ile ma rzeczownik, i dostaje je jednym zapisem:
 pętla w `olski/subset.py` wypisuje każde ciało grupy imiennej dwa razy,
 raz z rzeczownikiem i raz z formą odczasownikową.
-Terminala o dwóch częściach mowy naraz w tym miejscu nie ma
-i nie jest to wybór wygody:
-cena tej głowy ma być osobną liczbą, a sonda różnicowa wycenia ją zdejmowaniem ciał
-([CLAUDE.md](../CLAUDE.md#code)),
-więc pozycja zlana w jeden terminal nie byłaby żadnym ciałem osobno.
-Pętla kupuje zarazem to, czego dwa komplety ciał wypisane obok siebie nie dają:
-pozycja dopisana kiedyś rzeczownikowi dochodzi tą samą deklaracją i drugiej głowie.
 
 Jedno wykluczenie stoi po stronie rzeczownika i nie dotyczy tej głowy.
 Głowa rządząca dopełniaczem nie jest [zaimkiem rzeczownym](#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
 a żaden z tych zaimków nie jest rzeczownikiem odczasownikowym,
-więc po tej stronie nie ma czego wykluczać i warunek stoi w deklaracji pary,
-a nie w każdym ciele osobno.
+więc po tej stronie nie ma czego wykluczać.
 
 Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie względne:
 `którego przyłączenia` nie ma wyprowadzenia, gdzie `którego wyrażenia` ma.
@@ -3061,9 +2939,8 @@ osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbie
 Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
 zapadł ten sam wybór: rzeczownik orzekający stoi obok `Predicative`, a nie jest nim.
 
-Lista lematów jest zamknięta, bo `pred` niesie całą klasę naraz,
-a kryterium na wejście jest jedno:
-czytanie konkurujące nie może stanąć na czele zdania tego samego kształtu.
+Lista lematów jest zamknięta, a poza nią zostaje słowo,
+którego czytanie konkurujące staje na czele zdania tego samego kształtu.
 `to` takie czytanie ma, i to dwa razy:
 grupa imienna bierze jego czytanie rzeczownikowe,
 a jako `pred` jest ono łącznikiem, czyli konstrukcją osobną i niewpuszczoną
@@ -3119,9 +2996,6 @@ z 321 form tego znacznika w banku drzew jedna, `pito`, ma czytanie spoza tej
 części mowy, a każde inne drugie czytanie jest znów formą `imps`,
 czyli jednym czytaniem, a nie dwoma
 ([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
-Cząstka `się` stoi przy tej formie tak samo jak przy osobowej
-i pyta o ten sam leksykon zwrotny, bo `zajmowano się sprawą`
-jest tym samym czasownikiem co `zajmuje się sprawą`.
 
 Orzecznika zgodnego nie ma ani jedna z tych dwóch ram,
 bo zgadza się on z podmiotem, którego takie zdanie nie ma:
@@ -3256,24 +3130,16 @@ nieprawdziwe i nie daje im nic w zamian.
   bo lemat ma inną część mowy.
 - **Zdanie względne bez poprzednika w roli podmiotu.**
   `Kto wchodzi w środek, poprzedniego zdania nie przeczytał.`
-  Poprzednika ta konstrukcja nie ma i nie potrzebuje,
-  bo zaimek sam nazywa to, o czym zdanie orzeka.
   Przecinek zamyka ją tak samo jak każde zdanie względne,
   a role jej wnętrza nie są rolami zdania nad nią.
 - **Ciąg pytań zależnych pod jednym czasownikiem.**
   `Drzewo mówi, co jest tematem, a co jest nowe.`
-  Czasownik bierze jedno wypełnienie, więc pozycję ramy zajmuje ciąg cały.
-  Znakiem ciągu jest spójnik, a nie sam przecinek:
-  przecinek w tym miejscu zamyka zdanie podrzędne
-  ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)),
-  więc ciało z nim samym dałoby jednemu napisowi dwa wyprowadzenia.
+  Czasownik bierze jedno wypełnienie, więc pozycję ramy zajmuje ciąg cały,
+  a znakiem tego ciągu jest spójnik, a nie sam przecinek
+  ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)).
 - **Orzecznik wysunięty na czoło.** `Czym jest parser?`, `to, czym jest GLR.`
   Rola jest w tych dwóch rodzinach trzecia obok podmiotu i dopełnienia,
-  a pozycję ma jedną, bo narzędnika żąda kopula i nikt poza nią,
-  więc szyk jest jeden: czoło, kopula i podmiot.
-  Cechę `czoło` niosą oba ciała orzecznika stojącego na swoim miejscu,
-  bo bez niej orzecznik wysunięty wypełniałby także szyk zdania oznajmującego,
-  i `Czym jest parser?` miałoby znów dwa wyprowadzenia.
+  a pozycję ma jedną, bo narzędnika żąda sama kopuła.
 
 Zakup i cena są różnicą wobec gramatyki bez tych pozycji,
 a między rejestrami rozchodzą się w tę stronę,

@@ -292,6 +292,22 @@ rationale that spans several modules, planned work, and open questions.
 An example that illustrates a *format* earns its place,
 while a copy of behaviour does not.
 
+**Komentarz nad ciałem jest właścicielem mechanizmu.**
+Czemu warunek stoi w tym ciele, czemu stała jest osobna
+i co by się wyprowadziło bez tej cechy —
+tego potrzebuje ten, kto to ciało zmienia,
+a on czyta ciało, nie dokument,
+więc wywód stoi w komentarzu nad ciałem, wraz ze swoim przykładem.
+Dokument, któremu ten wniosek jest potrzebny, powtarza go
+i nazywa przy tym moduł, a nie nazwę w jego środku
+([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie)).
+Dokumentowi zostaje polszczyzna, cena, granica podzbioru
+i alternatywa odrzucona, czyli to, czego kod nie pokaże.
+Przesłankę formalizmu — taką jak ta o cesze,
+której konstytuent nie niesie i której unifikacja nie sprawdza —
+wolno powtórzyć przy każdym ciele, które na niej stoi,
+bo jednym zdaniem podaje ona kontekst, a nie drugą kopię wywodu.
+
 ## Na czym wolno oprzeć zdanie
 
 Zdanie w dokumencie opiera się zwykle na czymś poza sobą.
