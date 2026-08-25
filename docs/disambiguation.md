@@ -390,8 +390,9 @@ Każde zwinięcie trzeba więc uzasadnić parą czytań, nad którą nikt nie wa
 
 Cztery piąte odrzuceń to przyłączenie,
 a części tych przyłączeń nie rozstrzyga się rankingiem, tylko słownikiem.
-Nad Składnicą 576 z 4 517 spornych wyrażeń to frazy, których czasownik żąda swoim schematem,
-a 214 to frazy, których żąda sam rzeczownik;
+Nad Składnicą przeszło co ósme sporne wyrażenie jest frazą,
+której czasownik żąda swoim schematem,
+a blisko co dwudzieste jest frazą, której żąda sam rzeczownik;
 liczby te wraz z ich rozkładem trzyma
 [subset.md](subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia).
 Po żadnej z tych stron nie ma konkurencji między czytaniami:
@@ -415,11 +416,11 @@ wycenia to kryterium osobno dla rzeczownika i dla czasownika,
 i wypada ono po tych dwóch stronach zupełnie inaczej,
 więc rzeczownik wskazuje gospodarza, a czasownik odbiera wskazanie.
 
-Ile z tych 73,7% by to zdjęło, ten dokument nie mówi.
+Ile odrzuceń za przyłączenie by to zdjęło, ten dokument nie mówi.
 Zasięg i trafność kryterium wycenia tamta sekcja,
 a to jest pytanie o zdania, nie o wyrażenia:
-790 z 4 517 to wyrażenia, a 573 z 777 to zdania,
-i jedno zdanie niesie ich czasem kilka.
+obie klasy wyżej liczą wyrażenia, tamta sekcja liczy zdania,
+a jedno zdanie niesie wyrażeń czasem kilka.
 Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu brakuje.
 
 ## Rama rozstrzyga po stronie rzeczownika, a po stronie czasownika nie
@@ -436,9 +437,9 @@ ma pozycję niepodmiotową z `prepnp` o tym przyimku.
 Odpowiedź pada w tej sondzie wtedy, gdy żąda go dokładnie jedna strona.
 Liczby drukuje `python3 -m harness.rama`.
 
-Mianownik jest tam węższy niż `4 517` wyżej i węższy o jeden warunek.
-Tamta liczba obejmuje każde przyłączenie w pozycji dwuznacznej,
-a ta bierze same te, które doszły do rzeczownika albo do zdania,
+Mianownik jest tam węższy niż mianownik wyżej i węższy o jeden warunek.
+Tamten obejmuje każde przyłączenie w pozycji dwuznacznej,
+a ten bierze same te, które doszły do rzeczownika albo do zdania,
 bo tylko o takich świadek ma co powiedzieć:
 kilkaset przyłączeń dochodzi do trzeciej kategorii — `fwe`, `fpt`, `fpm`, `fps` —
 i wzorca dla wyboru dwóch stron nie dają.
@@ -534,7 +535,7 @@ Warstwa bez weta wraca zarazem do stopy pomyłek tabeli,
 czyli rama przestaje być tym dowodem lepszym, dla którego stoi przed nią.
 
 Czego ten pomiar nie mówi, to ile zdań to zdejmuje.
-Mianownikiem jest tu wyrażenie, a `573 z 777` niżej liczy zdania,
+Mianownikiem jest tu wyrażenie, a pomiar zdań ma mianownik własny,
 i jedno zdanie niesie takich wyrażeń czasem kilka,
 więc złożenie dwóch mianowników zostaje tam, gdzie było.
 
@@ -576,7 +577,7 @@ bo nikt nie pokazywał tam akapitu.
 Wniosek jest więc taki, że ujednoznacznianie na poziomie zdania ma sufit,
 że sufit jest poniżej 93% na jedno przyłączenie
 i że nad zdaniem z dwoma przyłączeniami spada wykładniczo —
-a takich jest 162 z 777.
+a zdanie takie jest przeszło co piątym z tych, które sporne przyłączenie niosą.
 Powyżej sufitu nie ma modelu, jest budowanie kontekstu,
 czyli zadanie, którego ten parser nie stawia i którego wykonania nie umiałby wyjaśnić.
 

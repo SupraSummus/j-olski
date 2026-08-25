@@ -766,8 +766,7 @@ a cena wypadła poza ranking, bo rodzaj wszedł do każdego szyku zdania
 ([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
 Nad README nie kupił ani jednego zdania,
 bo kupił jedno i jedno stracił,
-a nad rejestrem ustaw nie kupił nic i pięć zdań uczynił wieloznacznymi
-([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
+a nad rejestrem ustaw nie kupił nic i kilka zdań uczynił wieloznacznymi.
 Reszta tej listy pochodzi z tego samego rankingu,
 więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
 

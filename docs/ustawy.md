@@ -383,21 +383,17 @@ Formy z czoła tego rankingu grupują się w trzy klasy:
 | cząstki | `także` 116, `również` 95 |
 | imiesłowy i odsłowniki | `obejmujący` 100, `wykonywania` 88, `wniesienia` 61 |
 
-Klasa przysłówkowa stała w tej tabeli piąta i zeszła z niej razem z produkcją:
-`odpowiednio` 175 i `niezwłocznie` 162 prowadziły ją i nie stoją tu już wcale
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
-Została po niej klasa cząstek, którą kolejka liczyła razem z nią,
+Klasa przysłówkowa stała w tej tabeli piąta, a klasa spójników podrzędnych druga.
+Obie zeszły z niej razem z produkcjami, które te formy wzięły
+([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe),
+[subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+Została po pierwszej klasa cząstek, którą kolejka liczyła razem z nią,
 a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
 więc produkcja przysłówka po nie nie sięga i nie miała sięgać.
-
-Klasa spójników podrzędnych stała w niej druga i zeszła z niej tak samo:
-`Jeżeli` 171, `jeżeli` 154 i `gdy` 49 prowadziły ją i nie stoją tu już wcale,
-bo okolicznik wyrażony zdaniem bierze je wszystkie
-([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
-Odrzuceń stojących na samej strukturze przybyło przy tym o tyle,
-o ile ubyło stojących na formie:
-zdanie, które stawało na spójniku, staje teraz dalej albo nie staje na żadnym słowie,
-a przyjęte przez to nie jest.
+Kolejka odrzuceń rusza się przy tym mocniej niż suma werdyktów:
+zdanie, które stawało na spójniku albo na `który` po przecinku,
+staje teraz dalej albo nie staje na żadnym słowie, a przyjęte przez to nie jest,
+więc odrzuceń stojących na formie ubywa, a stojących na strukturze przybywa tyle samo.
 
 Pierwsza klasa zajmuje dziewięć pierwszych miejsc rankingu,
 i jest to jedna konstrukcja, a nie dziewięć:
@@ -407,61 +403,39 @@ dywiz z nazwy kodeksu i nawias wokół adresu publikacji.
 Kolejka wychodzi więc inna niż ta,
 którą [Składnica ustawiła](corpus.md#where-the-analyses-stop),
 i różnica jest informacją o rejestrze.
-Czas przeszły prowadził tamtą kolejkę z 2934 zdaniami,
-a tutaj dawał 64 trafienia (`był`, `była`, `było`, `były`, `został`, `została`)
+Czas przeszły prowadził tamtą kolejkę,
+a tutaj dawał kilkadziesiąt trafień
+(`był`, `była`, `było`, `były`, `został`, `została`)
 i do dwudziestu pierwszych miejsc nie wchodził:
 ustawa mówi w czasie teraźniejszym o tym, co ma być,
 a przeszły zostaje jej na przepisy przechodnie.
-Gramatyka czas przeszły dostała i nad tymi siedmioma aktami
-nie przyjmuje przez niego ani jednego zdania,
-a pięć przenosi z odrzuconych na wieloznaczne, wszystkie w Kodeksie wyborczym
-([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
-Negacja poszła tu inaczej i tak samo skromnie:
-przyjmuje cztery zdania, trzydzieści pięć przenosi na wieloznaczne
-i jednemu przyjętemu wcześniej odbiera jednoznaczność,
-co jest jedynym takim zdaniem w trzech zmierzonych rejestrach.
-Cztery szyki podmiotu, dopełnienia i czasownika, dopisane po tamtych dwóch,
-wychodzą tu jeszcze skromniej i wychodzą pod zero:
-nie przyjmują ani jednego zdania,
-trzy przenoszą z odrzuconych na wieloznaczne
-i jednemu przyjętemu wcześniej odbierają jednoznaczność.
-Ustawa pisze zdanie w szyku, który olski miał,
+Na czele tej kolejki stało za to zdanie warunkowe,
+czyli kształt, w którym norma jest w ogóle zapisana:
+`Jeżeli` dawało kilkaset trafień na dwie pisownie.
+
+Gramatyka dostała i jedno, i drugie, a nad tym rejestrem nie kupiła prawie nic.
+Czas przeszły, przeczenie, cztery szyki podmiotu, dopełnienia i czasownika,
+zdanie warunkowe oraz pytanie zależne przyjmują tu najwyżej pojedyncze zdania,
+przenoszą z odrzuconych na wieloznaczne od pojedynczych do kilkudziesięciu
+i pojedynczym zdaniom przyjętym wcześniej odbierają jednoznaczność.
+Cena każdej z nich stoi przy konstrukcji — w [subset.md](subset.md)
+albo w [kolejce etapu 6](roadmap.md#etap-6-reszta-konstrukcji) —
+a przebieg, którym ją policzono, stoi w gicie:
+pytanie „wpuszczać czy nie” pada raz, więc ten dokument nie liczy jej drugi raz.
+Szyk wypada z tej listy najgorzej i wypada pod zero:
+ustawa pisze zdanie w szyku, który olski miał,
 więc dopisany daje jej same nowe czytania,
 i tym różni się ten rejestr od prozy z banku drzew,
-gdzie te same ciała kupują czterdzieści cztery zdania.
-Najtańszy duży zakup tamtej kolejki wyszedł tu poniżej zera.
-Zdanie warunkowe, czyli kształt, w którym norma jest w ogóle zapisana,
-stało za to na czele tej kolejki tam, gdzie tamta stawiała czas przeszły:
-`Jeżeli` dawało 325 trafień na dwie pisownie.
-Gramatyka je dostała, a wyszło z tego tyle, co z tamtych dwóch:
-ani jednego zdania przyjętego, pięć przeniesionych z odrzuconych na wieloznaczne,
-cztery w Kodeksie wyborczym i jedno w ochronie ludności,
-i ani jednego, któremu ubyłoby jednoznaczności.
-Pytanie zależne wychodzi tu inaczej niż tamte cztery i wychodzi po stronie zakupu:
-przyjmuje jedno zdanie jednoznacznie, nie przenosi na wieloznaczne żadnego
-i żadnemu jednoznaczności nie odbiera.
-Zdaniem tym jest `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`,
-a drugą połowę jego wyprowadzenia daje mu
+gdzie te same ciała kupują kilkadziesiąt zdań.
+Pytanie zależne kupiło tu zdanie
+`Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`,
+a drugą połowę jego wyprowadzenia daje
 [pozycja z obiema przydawkami](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa).
 Zdania pytającego ten rejestr nie ma ani razu, więc ta połowa konstrukcji nie rusza tu nic.
-Kolejka odrzuceń rusza się przy tym mocniej niż suma werdyktów:
-odrzuceń stojących na formie ubyły czterdzieści cztery,
-a na strukturze przybyły czterdzieści trzy,
-bo zdanie z `który` po przecinku dochodzi teraz dalej, choć przyjęte nie jest.
 
-Kolejka ta wskazuje więc konstrukcje trafnie i wyceniać ich nie umie,
-tak samo jak kolejka z banku drzew,
-a zdanie tego rejestru jest po prostu dłuższe niż to,
-co gramatyka domyka jedną konstrukcją.
-
-Liczebnik rozstrzyga ta kolejka jeszcze wyraźniej i rozstrzyga go na pół.
 [Grupa liczebnikowa](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
-przenosi nad tymi siedmioma aktami dwa zdania z odrzuconych na przyjęte
-i siedem na wieloznaczne, czyli w tę samą stronę co czas przeszły, tylko dalej.
-Cztery z tych siedmiu stoją na `więcej` i `najwięcej`,
-które Morfeusz zna jako liczebniki obok przysłówka `dużo`,
-więc `otrzymał więcej głosów` wychodzi i grupą liczebnikową, i okolicznikiem,
-i są to dwa czytania, które polszczyzna ma.
+przenosi nad tymi siedmioma aktami pojedyncze zdania,
+a pojedyncze z nich przechodzą aż na przyjęte.
 Zakupu nie ma tu więcej dlatego, że ten rejestr liczebnika nie pisze słowem.
 Pisze go cyfrą, a cyfra stoi w tym rankingu na miejscach 3, 5, 6, 10 i 13
 (`1` 612, `2` 380, `3` 319, `5` 175, `4` 166),
@@ -471,27 +445,12 @@ Cyfry olski nie bierze i dlaczego, mówi
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
-Interpunkcja zdaniowa wypadła tu najskromniej z całej tej listy
-(przebieg jest w gicie, w commicie `411475e`).
-
-Dwukropek nie rusza nad tymi siedmioma aktami ani jednego werdyktu,
-a przecinek przed spójnikiem rusza dwa i przenosi je z odrzuconych na wieloznaczne:
-
-```text
-Gmina nie ponosi odpowiedzialności za zobowiązania innych komunalnych osób prawnych,
-a te nie ponoszą odpowiedzialności za zobowiązania gminy.
-```
-
-Średnik rusza dwa i jest jedynym z tej trójki, który kupuje tu zdanie przyjęte:
-
-```text
-O terminie losowania zawiadamia się pełnomocników wyborczych;
-nieobecność pełnomocnika wyborczego nie wstrzymuje losowania.
-```
-
-Jednoznaczności ta trójka nie odbiera tu ani jednemu zdaniu przyjętemu wcześniej,
-tak samo jak nad Składnicą.
-Zero dwukropka mówi przy tym o rejestrze, a nie o produkcji.
+Interpunkcja zdaniowa weszła trójką znaków, a rusza tu dwoma z nich.
+Przecinek przed spójnikiem i średnik ruszają pojedyncze werdykty,
+a średnik jest jedynym, który kupuje tu zdanie przyjęte;
+jednoznaczności nie odbiera żaden z tych trzech znaków, tak samo jak nad Składnicą.
+Dwukropek nie rusza ani jednego werdyktu i jego zero mówi o rejestrze,
+a nie o produkcji.
 Dwukropek pada w tej prozie siedemdziesiąt razy i za każdym z nich stoi wyliczenie,
 a nie zdanie wyjaśniające — `W skład zarządu wchodzą: wójt albo burmistrz` —
 czyli dokładnie ta połowa tej konstrukcji, której olski nie bierze
@@ -500,102 +459,44 @@ Wszystkie siedemdziesiąt zdań jest odrzuconych i przed dopisaniem, i po nim,
 a stają one na strukturze, na nawiasie albo na cyfrze,
 więc pozycja, która tu weszła, nie ma nad tym rejestrem czego wziąć.
 
-Przysłówek wchodził do gramatyki mierzony i tu, i wypadł tak samo skromnie.
-Pierwszy przebieg jest w gicie, w commicie `411475e`,
-a wariantami nad tą prozą chodzi predykat pisany w sesji,
-bo sonda różnicowa polecenia nad prozą wielu plików nie ma
-([TODO.md](../TODO.md)):
-
-```sh
-cat proza/ustawy/*.txt > proza/ustawy.txt
-```
-
-Pozycja przy czasowniku kupuje tu pojedyncze zdania przyjęte
-i kilkadziesiąt wieloznacznych, pozycja przy przymiotniku kilka razy mniej,
-a pozycja przy przysłówku nie rusza ani jednego werdyktu.
-Nad Składnicą pozycja druga pierwszej odbiera, więc znak tej ceny
-zależy od rejestru
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
-Jednoznaczność traci tu jedno zdanie przyjęte przed przysłówkiem,
-czyli `Rejestr wyborców potwierdza prawo wybierania oraz prawo wybieralności.`,
-a odbiera mu ją czytanie, którego polszczyzna w tym miejscu nie ma:
-`prawo` jest u Morfeusza także przysłówkiem,
-a okolicznik bierze całą część mowy
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
-`Ta sama osoba może być ponownie powołana na stanowisko komisarza.`
-jest jednym z dwóch zdań, o które dwie pozycje spierają się naraz:
-każda daje mu dwa czytania osobno, bo `ponownie` dochodzi w nim
-i do zdania, i do `powołana`.
-Płaskiego czytania, które pierwsza pozycja daje nad Składnicą,
-nie dostaje tu ani jedno zdanie przyjęte,
-ani pod nią samą (`--wariant okolicznik`), ani pod wszystkimi trzema naraz.
+Przysłówek pokazuje najwyraźniej, jak mocno ta kolejka zawyża.
 Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
-`odpowiednio` i `niezwłocznie` — obiecywały 337 trafień,
-a przysłówek zdjął stąd 34 zdania z listy odrzuconych,
+`odpowiednio` i `niezwłocznie` — obiecywały przeszło trzysta trafień,
+a przysłówek zdjął stąd kilkadziesiąt zdań z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
-gdzie wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego
+gdzie wiersz `adv` oddał prawie jedną trzecią tego, co obiecywał
 ([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,
 czyli klasy zajmującej dziewięć pierwszych miejsc,
 która zdania nie wypuszcza tak czy tak.
+Ta sama arytmetyka rządzi czasownikiem nieosobowym:
+prawodawca pisze tę formę w ustawach 90 razy i w rozporządzeniu 35,
+a zdania z nią niosą także odsyłacz, cyfrę albo wyliczenie
+([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
 
 Grupa wysunięta razem z zaimkiem względnym rusza w każdym z dwóch tekstów
-tego rejestru inną ze swoich dwóch pozycji
-(przebieg jest w gicie, w commicie `411475e`).
-
-Nad rozporządzeniem rusza wyłącznie grupa pod przyimkiem
-i przenosi dwa zdania z odrzuconych na wieloznaczne,
-a jednym z nich jest przepis o dniu wejścia w życie rozporządzenia.
-Nad siedmioma ustawami rusza wyłącznie grupa bez przyimka i przenosi tak jedno zdanie.
-Różnica jest informacją o dwóch tekstach, a nie o produkcji:
+tego rejestru inną ze swoich dwóch pozycji,
+a różnica ta jest informacją o dwóch tekstach, a nie o produkcji:
 rozporządzenie pisze o ustawie i o akcie wykonawczym pod nią,
 więc `na podstawie której` jest tam zwrotem powtarzanym przepis po przepisie,
 gdzie ustawa nie ma o czym tak mówić.
 Ustawa stawia za to samą grupę bez przyimka — `w okręgu wyborczym, którego wzór ustala` —
 i to jest ta pozycja, którą rusza ona, a rozporządzenie nie.
 
-Trzy konstrukcje dopisane po niej wypadają tu najskromniej z całej tej listy
-i ani jedna nie przyjmuje zdania ani nie odbiera jednoznaczności.
-Predykatyw przenosi kilka zdań z odrzuconych na wieloznaczne —
-`Od chwili opieczętowania do końca głosowania urny wyborczej nie wolno otwierać.` —
-a tryb przypuszczający pojedyncze
-([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
-Myślnik nie rusza tu nic i nie mówi to o produkcji nic:
-tego znaku nie ma w tym tekście ani razu
-([wyżej](#ustawa-dochodzi-do-gramatyki-jako-drzewo-nie-jako-tekst)).
-
-Spójnik niosący cząstkę trybu rusza tu jedno zdanie
-i przenosi je z odrzuconych na wieloznaczne:
-
-```text
-Gdyby wskutek nadzwyczajnych wydarzeń głosowanie było przejściowo uniemożliwione,
-obwodowa komisja wyborcza może zarządzić jego przerwanie, przedłużenie
-albo odroczenie do dnia następnego.
-```
-
-Prawodawca zapisuje warunek przez `jeżeli`, którego pada tu przeszło trzysta,
-a `gdyby` pisze osiem razy i `żeby` ani razu.
-`aby` pisze za to kilkadziesiąt razy, prawie zawsze z bezokolicznikiem
+Trybem przypuszczającym ten rejestr warunku nie zapisuje:
+`jeżeli` pada tu przeszło trzysta razy, `gdyby` osiem, a `żeby` ani razu.
+`aby` pisze prawodawca kilkadziesiąt razy, prawie zawsze z bezokolicznikiem
 po `tak` albo `w taki sposób`, a zdania z nim niosą także co innego
-i wychodzą odrzucone przed dopisaniem i po nim
+i wychodzą odrzucone przed dopisaniem cząstki trybu i po nim
 ([subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
 
-Czasownik nieosobowy rusza tu pojedyncze zdania siedmiu ustaw
-i przenosi każde z odrzuconych na wieloznaczne,
-a nad rozporządzeniem nie rusza ani jednego werdyktu
-([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)):
-
-```text
-Jeżeli w proteście zarzucono popełnienie przestępstwa przeciwko wyborom,
-Sąd Najwyższy niezwłocznie zawiadamia o tym Prokuratora Generalnego.
-```
-
-Prawodawca pisze tę formę w obu tekstach, w ustawach 90 razy i w rozporządzeniu 35,
-a zdania z nią niosą także odsyłacz, cyfrę albo wyliczenie,
-więc konstrukcja, która wchodzi, ma tu skąd wziąć mniej, niż forma obiecuje —
-tak samo jak przy przysłówku wyżej.
+Wszystkie te dopisania mówią o kolejce jedno:
+wskazuje ona konstrukcje trafnie i wyceniać ich nie umie,
+tak samo jak kolejka z banku drzew,
+a zdanie tego rejestru jest po prostu dłuższe niż to,
+co gramatyka domyka jedną konstrukcją.
 
 ## Gramatyka bierze termin z dopełniaczem, bo ten rejestr go nazywa
 
@@ -618,22 +519,18 @@ Zakup czyta się przejściami między werdyktami, a nie liczbą pokrycia,
 bo przymiotnik za rzeczownikiem konkuruje z orzecznikiem przymiotnym,
 a dopełniacz pod nim z dopełniaczem pod rzeczownikiem po lewej.
 Zdejmowane są obie pozycje naraz, bo weszły razem.
-Nad siedmioma ustawami 29 zdań przestaje być odrzuconych:
-11 wychodzi jednoznacznych, 18 wieloznacznych.
-W drugą stronę idzie 5 zdań jednoznacznych, które przechodzą na wieloznaczne.
-Nad „Zasadami techniki prawodawczej” przejścia pierwszego rodzaju są dwa,
-nad [Składnicą](corpus.md#the-measurement) 41,
-a drugiego rodzaju jest tam 6.
-Liczby te są przeliczone nad gramatyką dzisiejszą, a nie wzięte z chwili,
-w której ta pozycja wchodziła, i są od tamtych wyższe:
-zdanie przechodzi tu wtedy, gdy do wyprowadzenia brakuje mu samej tej pozycji,
-a takich zdań jest tym więcej, im więcej gramatyka ma poza nią.
-Rusza je przez to każda zmiana w gramatyce,
-a nie drukuje ich żaden przebieg:
+Nad siedmioma ustawami kilkadziesiąt zdań przestaje być odrzuconych,
+z tego mniejsza część jednoznacznie,
+a w drugą stronę idą pojedyncze zdania jednoznaczne, które przechodzą na wieloznaczne;
+nad „Zasadami techniki prawodawczej” przejścia pierwszego rodzaju są pojedyncze,
+a nad [Składnicą](corpus.md#the-measurement) idą w tę samą stronę i są liczniejsze.
+Zdanie przechodzi tu wtedy, gdy do wyprowadzenia brakuje mu samej tej pozycji,
+a takich zdań jest tym więcej, im więcej gramatyka ma poza nią,
+więc rusza je każda zmiana w gramatyce, a nie drukuje ich żaden przebieg:
 liczy się je, zdejmując obie pozycje wymienione wyżej
 i puszczając werdykt nad trzema korpusami tej sekcji.
 
-Jednym z tych jedenastu jest zdanie, które ta pozycja przyjmowała kiedyś na opak.
+Jednym z przechodzących jest zdanie, które ta pozycja przyjmowała kiedyś na opak.
 `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
 wychodziło jednym czytaniem, w którym zdanie podrzędne z `które`
 jest zdaniem współrzędnym po przecinku,
@@ -649,7 +546,7 @@ bo gramatyka ma [pytanie zależne](subset.md#what-the-grammar-covers),
 a ta pozycja dalej daje mu grupę `które zadania własne gminy`:
 bez niej nie ma ono wyprowadzenia żadnego.
 
-Po drugiej stronie stoi tych pięć zdań, które przeszły na wieloznaczne,
+Po drugiej stronie stoją zdania, które przeszły na wieloznaczne,
 i płacą one z dwóch różnych powodów.
 
 ```sh
@@ -659,7 +556,7 @@ python3 -m olski.check -c "Komisarz wyborczy pełni swoją funkcję niezależnie
 python3 -m olski.check -c "Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy."
 ```
 
-Cztery z nich są wieloznaczne w polszczyźnie i olski melduje to słusznie.
+Prawie wszystkie są wieloznaczne w polszczyźnie i olski melduje to słusznie.
 Zdanie o gospodarce finansowej wychodzi trzema czytaniami,
 bo dopełniacz `gminy` ma gdzie stać poza pozycją dopełnienia,
 a kiedy tam stoi, `zarząd` jest i mianownikiem, i biernikiem, czyli tym synkretyzmem,
@@ -673,7 +570,7 @@ i jako Szefa Krajowego przy Biurze Wyborczym,
 a to są dwa różne stanowiska w tej samej ustawie.
 Tak samo dzieli się `opiekunów prawnych tych osób` z ustawy o ochronie ludności
 oraz `sędziego właściwego sądu` z Kodeksu wyborczego,
-i te dwa zdania są trzecim i czwartym z tych czterech.
+i zdania z tymi dwoma wyrażeniami stoją w tej samej klasie.
 Podział przydawki jest tym samym sporem, co przy
 [przyłączaniu wyrażenia przyimkowego](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
 o jeden poziom niżej: przydawka stoi między dwoma rzeczownikami
@@ -682,7 +579,7 @@ a rozstrzyga to wiedza o urzędach, a nie składnia.
 Gramatyka bez tej pozycji przyjmuje takie zdanie z jednym z dwóch czytań
 i nie mówi, że drugie istnieje.
 
-Piąte zdanie płaci za wieloznaczność słownika.
+Jedno z nich płaci za wieloznaczność słownika.
 Wychodzi dwoma czytaniami o tym samym streszczeniu ról,
 bo Morfeusz zna `zainteresowana` jako rzeczownik, a `rada` jako formę `rad`,
 i [wykluczenie](subset.md#the-dictionary-offers-readings-polish-does-not) tam nie sięga,
