@@ -292,12 +292,17 @@ rationale that spans several modules, planned work, and open questions.
 An example that illustrates a *format* earns its place,
 while a copy of behaviour does not.
 
-**Komentarz nad ciałem jest właścicielem mechanizmu.**
-Czemu warunek stoi w tym ciele, czemu stała jest osobna
-i co by się wyprowadziło bez tej cechy —
-tego potrzebuje ten, kto to ciało zmienia,
+**Komentarz nad ciałem jest właścicielem mechanizmu,
+a pisze się go tam, gdzie rozkmina jest głębsza od kodu.**
+Kod ma być zrozumiały sam:
+nazwa symbolu, nazwa cechy i kształt ciała mówią, co ta produkcja bierze,
+więc komentarz, który to powtarza, zabiera czytelnikowi czas i niczego nie dodaje.
+Zostaje ten, którego z kodu nie widać:
+czemu warunek stoi w tym ciele, czemu stała jest osobna
+i co by się wyprowadziło bez tej cechy.
+Tego potrzebuje ten, kto to ciało zmienia,
 a on czyta ciało, nie dokument,
-więc wywód stoi w komentarzu nad ciałem, wraz ze swoim przykładem.
+więc taki wywód stoi w komentarzu nad ciałem, wraz ze swoim przykładem.
 Dokument, któremu ten wniosek jest potrzebny, powtarza go
 i nazywa przy tym moduł, a nie nazwę w jego środku
 ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie)).
@@ -307,6 +312,14 @@ Przesłankę formalizmu — taką jak ta o cesze,
 której konstytuent nie niesie i której unifikacja nie sprawdza —
 wolno powtórzyć przy każdym ciele, które na niej stoi,
 bo jednym zdaniem podaje ona kontekst, a nie drugą kopię wywodu.
+
+Komentarz wolno przy tym skrócić,
+i nie jest to skreślenie, którego [reguła o skreślaniu](#skreślenie-bywa-całą-naprawą)
+żąda tylko wtedy, gdy druga kopia stoi gdzie indziej:
+zdanie, które powtarza wiersz pod sobą,
+oraz akapit, który wywodzi to, co dokument już wywiódł,
+schodzą do jednego zdania z nazwą modułu albo sekcji.
+Skraca ten, kto to ciało czyta, i robi to bez pytania.
 
 ## Na czym wolno oprzeć zdanie
 
@@ -975,7 +988,8 @@ a których nie zadaje żadna sekcja wyżej.
 - **Uczciwość.** Czy to miejsce mówi prawdę o tym, co robi?
   Czy ktoś, kto tu wejdzie za pół roku, zrozumie je bez pytania?
 - **Komentarze.** Czy w kodzie nie ma ich za dużo?
-  Komentarz, który powtarza wiersz nad sobą, jest zbędny.
+  Który komentarz zarabia na siebie, mówi
+  [reguła o jednym właścicielu](#one-owner-per-fact-repeat-narrative-freely).
 - **Co się otworzyło.** Czy da się teraz uprościć coś,
   czego wcześniej nie dało się ruszyć?
   Drobiazg zrób od razu, większe wpisz do `TODO.md`.

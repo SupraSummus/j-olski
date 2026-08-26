@@ -52,18 +52,15 @@ PRZYŁĄCZANY = "Modifier"
 #: że ma okolicznik, którego ono nie ma.
 PRZYSŁÓWKOWY = "Adverb"
 
-#: Rola okolicznika wyrażonego zdaniem,
-#: czyli tego, który mówi, kiedy, dlaczego albo pod jakim warunkiem
-#: zachodzi to, co mówi zdanie nad nim.
-#: Stoi ona zarazem wśród zdań podrzędnych,
-#: bo wnętrze tego okolicznika jest osobnym zdaniem,
-#: i tyle właśnie znaczy nazwanie go rolą:
+#: Rola okolicznika wyrażonego zdaniem.
+#: Stoi ona zarazem wśród zdań podrzędnych, bo wnętrze tego okolicznika
+#: jest osobnym zdaniem, i tyle znaczy nazwanie go rolą:
 #: streszczenie nazywa go całym napisem i w środek nie zagląda.
 OKOLICZNIKOWY = "AdverbialClause"
 
-#: Rola grupy pytajnej, czyli tego, o co zdanie pyta:
+#: Rola grupy pytajnej:
 #: `które zadania` w `Ustawy określają, które zadania mają charakter obowiązkowy.`
-#: Konstytuentem jest zaś grupa imienna,
+#: Konstytuentem jest grupa imienna,
 #: więc wnętrze streszczenie nazywa całym napisem, tak samo jak wnętrze podmiotu.
 PYTAJNY = "Interrogative"
 
@@ -71,20 +68,13 @@ PYTAJNY = "Interrogative"
 #: `mowa` w `zadania, o których mowa w ustawie`.
 #: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
 #: więc bez tej etykiety wychodziłoby `valid` bez ani jednej roli.
-#:
-#: Rola stoi obok `Predicative`, a nie jest nią,
-#: bo orzecznik jest pozycją ramy,
-#: a ten rzeczownik nie ma nad sobą czasownika, który by ramę ogłaszał;
-#: co przyjmuje gramatyka zlewająca te dwie, mierzy
+#: Czemu rola stoi obok `Predicative`, a nie jest nią, wywodzi
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
 #: Rola tego, co orzeka bez podmiotu. Głowy są dwie i obie rządzą ramą czasownika:
 #: predykatyw — `trzeba` w `Trzeba czytać dokumenty.` — oraz forma `imps` —
 #: `zgłoszono` w `Zgłoszono usterkę.`
-#: Od rzeczownika orzekającego różni tę rolę kształt orzekania:
-#: tamten stoi w mianowniku i żąda okolicznika,
-#: a te dwie rządzą tym, czym rządziłby czasownik, i podmiotu nie mają.
 #:
 #: Rola stoi obok `Verb`, a nie jest nią, bo żadna z tych dwóch głów zgodności nie
 #: niesie: `Verb: trzeba` mówiłoby o zdaniu, że ma orzeczenie zgodne z podmiotem,
@@ -95,18 +85,15 @@ ORZEKAJĄCY = "NominalPredicate"
 #: docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
 BEZOSOBOWY = "ImpersonalPredicate"
 
-#: Rola cząstki, czyli tej, która stoi przy zdaniu: `już`, `dopiero`, `także`.
-#: Od przysłówka różni ją część mowy: cząstka przysłówkiem nie jest,
-#: więc `Adverb: już` mówiłoby o zdaniu,
-#: że ma okolicznik przysłówkowy, którego ono nie ma.
-#: Pozycję ma tę samą co przysłówek i dlatego pisze je jedna pętla.
+#: Rola cząstki stojącej przy zdaniu: `już`, `dopiero`, `także`.
+#: Od przysłówka różni ją część mowy, a pozycję ma tę samą,
+#: i dlatego pisze je jedna pętla.
 CZĄSTKOWY = "Particle"
 
-#: Rola wtrącenia w nawiasie,
-#: czyli tego, co ten rejestr dopowiada obok zdania: `(docs/subset.md)`, `(niżej)`.
-#: Rolą zdania jest samo wtrącenie, a nie to, co ono niesie:
-#: nawias dopowiada, a nie wypełnia pozycji,
-#: więc grupa imienna w jego środku nie jest ani podmiotem, ani dopełnieniem,
+#: Rola wtrącenia w nawiasie: `(docs/subset.md)`, `(niżej)`.
+#: Rolą zdania jest samo wtrącenie, a nie to, co ono niesie,
+#: bo nawias dopowiada, a nie wypełnia pozycji:
+#: grupa imienna w jego środku nie jest ani podmiotem, ani dopełnieniem,
 #: i streszczenie nazywa ją całym napisem.
 WTRĄCONY = "Parenthetical"
 
@@ -126,8 +113,7 @@ ELIPSA = "Ellipsis"
 
 #: Rola spójnika, który stoi wewnątrz swojego zdania: `zatem` w `Milczenie jest
 #: zatem wartością.` Od cząstki różni ją to, co to słowo robi: cząstka określa
-#: zdanie, a ten spójnik wiąże je z tym, co stoi przed nim, więc `Particle:
-#: zatem` mówiłoby o zdaniu, że ma określenie, którego ono nie ma.
+#: zdanie, a ten spójnik wiąże je z tym, co stoi przed nim.
 SPÓJNIKOWY = "Connective"
 
 #: Rola grupy imiennej, którą ten rejestr wylicza za dwukropkiem: `Zdanie oraz
@@ -184,21 +170,16 @@ DEKLARACJA = Deklaracja(
         ELIPSA,
     ),
     rozstrzygany=PRZYŁĄCZANY,
-    # Konstytuenty, do których wyrażenie przyimkowe dochodzi,
-    # czyli te, na których zatrzymuje się zejście w górę od modyfikatora
-    # (``_gospodarze`` w ``olski/parse.py``):
-    # grupa imienna, grupa przymiotnikowa i zdanie składowe.
+    # Konstytuenty, na których zatrzymuje się zejście w górę od modyfikatora
+    # (``_gospodarze`` w ``olski/parse.py``).
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
-    # a okolicznik zdania nie ma nad sobą żadnego z dwóch pierwszych i zostaje przy zdaniu.
-    # Zdanie względne jest tu czwarte i jest zdaniem tak samo jak ``ClauseConjunct``:
-    # bez niego okolicznik z jego wnętrza wychodzi w górę do grupy imiennej,
-    # którą to zdanie określa, i werdykt nazywa poprzednik zamiast orzeczenia.
-    # Fraza bezokolicznikowa jest tu piąta i bierze okolicznik przez to samo ``Complements``,
-    # którym bierze go forma osobowa nad nią: bez niej okolicznik wychodzi z niej do zdania,
-    # a oba czytania streszczają się wtedy jednym napisem.
-    # Czoło pytania jest tu szóste i jest zdaniem tak samo jak ``RelativeCore``:
-    # bez niego okolicznik z pytania wychodzi w górę do zdania nadrzędnego,
-    # a werdykt nazywa jego orzeczenie zamiast tego, przy którym okolicznik stoi.
+    # a okolicznik zdania nie ma nad sobą ani grupy imiennej, ani przymiotnikowej
+    # i zostaje przy zdaniu.
+    # Pominięty wpis nie odbiera zdania, tylko przekłamuje streszczenie:
+    # okolicznik wychodzi z takiego konstytuentu w górę,
+    # a werdykt nazywa gospodarza stojącego nad nim
+    # — bez ``RelativeCore`` poprzednik zamiast orzeczenia zdania względnego —
+    # albo streszcza oba czytania jednym napisem, jak bez ``InfinitivePhrase``.
     gospodarze=(
         "NP",
         "AP",
@@ -211,32 +192,18 @@ DEKLARACJA = Deklaracja(
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
     współrzędne=("NP", "AP", "Clause"),
-    # Zdanie składowe, czyli człon ciągu, który koordynuje `Clause`.
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
-    # Symbol jest jeden, bo jeden jest ciąg zdań składowych.
     # Czoło pytania członem tego ciągu nie bywa, więc dopisane tutaj
     # nie rozdzieliłoby ani jednego streszczenia.
     składowe=("ClauseConjunct",),
-    # Zdania podrzędne: względne, dopełnieniowe, pytanie zależne i okolicznikowe.
-    # Każdy z tych symboli opakowuje takie zdanie, a nie jest symbolem samego zdania,
+    # Lista zatrzymuje zejście po role wszędzie, gdzie konstytuent nazywa się
+    # całym napisem, a nie tylko przy zdaniu podrzędnym: wywody trzymają
+    # :data:`OKOLICZNIKOWY`, :data:`WTRĄCONY`, :data:`ELIPSA` i :data:`DOPOWIEDZIANY`.
+    # Zdania podrzędne stoją tu symbolem opakowującym, a nie samym `Clause`,
     # bo `Clause` koordynuje — jest wypisane wyżej wśród współrzędnych —
     # więc zatrzymanie na nim objęłoby także zdanie współrzędne,
     # którego role są rolami tego samego zdania.
-    # Czwarty stoi zarazem wśród ról, bo okolicznik jest rolą zdania nad nim,
-    # a zdaniem osobnym jest jego wnętrze; :data:`OKOLICZNIKOWY` trzyma wywód.
-    # Piąty zdaniem nie jest i mówi o tej liście to, czego cztery pierwsze nie mówią:
-    # zatrzymuje ona zejście po role wszędzie, gdzie konstytuent nazywa się całym
-    # napisem, a nie tylko przy zdaniu podrzędnym. Wtrącenie w nawiasie jest takim
-    # konstytuentem, bo przysłówek w jego środku nie jest okolicznikiem zdania nad
-    # nim, a grupa imienna nie jest w nim żadną rolą; :data:`WTRĄCONY` trzyma wywód.
-    # Szósty i siódmy stoją tu z tego samego powodu co piąty: człon bez czasownika
-    # i dopowiedzenie za dwukropkiem nazywają się całym napisem, bo grupa imienna
-    # w środku żadnej z tych dwóch konstrukcji nie zajmuje pozycji zdania nad nią;
-    # wywody trzymają :data:`ELIPSA` oraz :data:`DOPOWIEDZIANY`.
-    # Zdanie względne bez poprzednika jest tu ósme i jest zdaniem podrzędnym tak
-    # samo jak pierwsze z tej listy, a różni je pozycja: tamto określa rzeczownik,
-    # a to samo stoi w roli, więc jego role nie są rolami zdania nad nim.
     podrzędne=(
         "RelativeClause",
         "SubordinateClause",
@@ -259,11 +226,8 @@ FRAGMENT = "fragment"
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
 
-#: Rzeczownik, który orzeka bez czasownika, czyli ten, przy którym polszczyzna
-#: opuszcza kopułę: `zadania, o których mowa w ustawie` znaczy `o których jest
-#: mowa`, a `jest` nikt tam nie pisze. Jak często ten zwrot pada w rejestrze
-#: ustaw, liczy docs/ustawy.md.
-#:
+#: Rzeczownik, przy którym polszczyzna opuszcza kopułę: `o których mowa`.
+#: Jak często ten zwrot pada w rejestrze ustaw, liczy docs/ustawy.md.
 #: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
 #: imiennej w mianowniku — zmierzono i odrzucono; wywód trzyma
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
@@ -293,18 +257,12 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #: Spójniki otwierające okolicznik wyrażony zdaniem, czyli obie listy razem.
 #: Lista jest zamknięta i stawia formie dwa żądania naraz, bo klasa `comp` niesie
 #: także takie spójniki, których ta produkcja wziąć nie może.
-#:
-#: Spójnik ma stać na czele swojego zdania, czego `bowiem` nie robi: polszczyzna
-#: stawia je za pierwszym wyrazem zdania, więc wpuszczone tutaj brałoby pozycję,
-#: której nie zajmuje.
+#: Kogo zostawia na zewnątrz — `bowiem` i `więc` — i za co, wywodzi
+#: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
 #:
 #: Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym, a spójniki, pod
 #: którymi stoi tryb przypuszczający, wylicza :data:`SPÓJNIKI_TRYBU` i bierze
 #: osobne ciało, bo żądają one od zdania cechy, której ta lista nie żąda.
-#:
-#: `więc` Morfeusz znakuje tak samo, a nie ma go tu, bo zdania nie podporządkowuje,
-#: tylko dokłada skutek: `Program zapisuje ustawienia, więc linter sprawdza tekst.`
-#: jest dwoma zdaniami spiętymi spójnikiem po przecinku, więc bierze je lista niżej.
 SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
 
 #: Spójniki, które niosą cząstkę trybu przypuszczającego: `żeby` to `że` i `by`,
@@ -314,9 +272,8 @@ SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
 #: wyprowadzałoby się `aby program zapisuje ustawienia`, a obietnicą podzbioru
 #: jest, że każde zdanie olskiego jest zdaniem polskim.
 #:
-#: Oba miejsca okolicznika bierze każdy z nich, bo zdanie z każdym polszczyzna
-#: wysuwa: `Żeby zostać rezydentem, musisz mieć oszczędności.` obok `Odnotowuję to,
-#: żeby złagodzić wrażenie.` Tym różnią się one od :data:`SPÓJNIKI_PO_ZDANIU`.
+#: Oba miejsca okolicznika bierze każdy z nich, i tym różnią się one
+#: od :data:`SPÓJNIKI_PO_ZDANIU`.
 #:
 #: `iżby` i `by` w roli cząstki na tej liście nie stoją, choć Morfeusz zna oba:
 #: pierwszego bank drzew nie ma ani raz, a drugie bierze terminal cząstki
@@ -386,8 +343,7 @@ ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 #: Zaimek, którym pyta się o osobę i o rzecz, a Morfeusz trzyma go pod
 #: rzeczownikiem: `kto` i `co`. Czoła są z niego dwa — pytania i zdania względnego
 #: — a pozycji rzeczownej nie ma, bo dopóki ją miał, jeden napis dostawał dwa
-#: wyprowadzenia: `Kto płaci?` wyprowadzało się i pytaniem, i zdaniem
-#: oznajmującym zamkniętym pytajnikiem, a role obu były te same.
+#: wyprowadzenia.
 #:
 #: Wykluczenie stoi na terminalu, a nie w :func:`admissible`, bo czytanie `subst`
 #: jest tym, o które pytają oba czoła. Odbiera ono pozycję wszystkim użyciom tych
@@ -492,13 +448,10 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     )
 
 
-#: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami. Ramą jest
-#: zbiór dopełnień, nazwanych przypadkiem grupy, którą czasownik bierze, wraz z
-#: ``inf`` dla bezokolicznika, bo bezokolicznik przypadka nie ma.
-#:
+#: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami.
 #: Leksykon jest otwarty i ma ramę domyślną, więc czasownik dopisuje się wpisem, a
-#: nie produkcją.
-#: docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
+#: nie produkcją; czym taki leksykon jest, a czym nie jest, wywodzi
+#: docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
 #: Zaimki rzeczowne, którym Morfeusz daje czytanie `subst`. Dopełniacza żaden z nich
@@ -613,8 +566,7 @@ NAWIAS_OTWIERAJĄCY = word("interp", lemma="(")
 NAWIAS_ZAMYKAJĄCY = word("interp", lemma=")")
 
 #: Myślnik, którym ten rejestr rozdziela zdanie: `Cena jest niska — gramatyka jest
-#: bezkontekstowa.` Stoi obok dwukropka i średnika, bo rozdziela na tej samej
-#: wysokości i tak samo nie konkuruje z niczym.
+#: bezkontekstowa.` Stoi obok dwukropka i średnika (:data:`ŚREDNIK`).
 #:
 #: Znaki są dwa, bo polszczyzna pisze myślnik pauzą i półpauzą, a łącznik spaja
 #: wewnątrz wyrazu — `16-latków`, `UTF-8` — więc tego warunek nie bierze. Co to
@@ -693,12 +645,8 @@ PRZYSŁÓWEK = word("adv")
 #: bierze koordynacja — więc wpuszczone tutaj dałoby jednemu napisowi dwa
 #: wyprowadzenia, i tym samym warunkiem stoi lista spójników przecinkowych obok
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
-#:
-#: Poza listą zostaje przez to `tylko`, `też`, `bo` i `to`, a poza nią z powodu
-#: własnego cztery cząstki, które olski bierze albo wyklucza osobno: `nie` przeczy
-#: (:data:`PRZECZENIE`), `się` stoi przy czasowniku zwrotnym, `by` niesie tryb
-#: przypuszczający (:data:`CZĄSTKA_TRYBU`), a `czy` otwiera pytanie o
-#: rozstrzygnięcie, którego ta gramatyka nie ma (docs/subset.md).
+#: Kto zostaje poza listą i z jakiego powodu, wylicza
+#: docs/subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
 CZĄSTKI = (
     "już|jeszcze|dopiero|także|również|nawet|zarazem|naprawdę"
     "|znowu|wreszcie|ponadto|jedynie|niemal|niespełna|zresztą|przynajmniej"
@@ -766,12 +714,11 @@ PREDYKATYWY = "można|trzeba|warto|wiadomo|widać|wolno|słychać|znać"
 #: :data:`CZĄSTKA`.
 PREDYKATYW = word("pred", lemma=PREDYKATYWY)
 
-#: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia. Stopień ma
-#: przysłówek odprzymiotnikowy, a pierwotny go nie ma, i tylko pierwszy z tych
-#: dwóch przymiotnik określa, więc `tu duży` z tej pozycji wypada, a `bardzo duży`
-#: zostaje. Terminale są przez to dwa, choć część mowy jedna: warunek należy do
-#: jednego gospodarza, a drugi bierze przysłówek każdy. Czym jest żądanie obecności
-#: cechy, mówi ``niesione`` w olski/grammar.py, a cenę tego warunku trzyma
+#: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia, więc
+#: `tu duży` z tej pozycji wypada, a `bardzo duży` zostaje. Terminale są przez to
+#: dwa, choć część mowy jedna: warunek należy do jednego gospodarza, a drugi bierze
+#: przysłówek każdy. Czym jest żądanie obecności cechy, mówi ``niesione``
+#: w olski/grammar.py, a cenę tego warunku trzyma
 #: docs/subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze.
 PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
 
@@ -1079,8 +1026,6 @@ def build() -> Grammar:
 
     # Przymiotnik przy rzeczowniku i przymiotnik w orzeczniku, nazwane raz, bo
     # oba wykluczają ten sam lemat i wykluczenie ma być w każdym ciele to samo.
-    # Zaimka względnego nie bierze ani jeden z nich: pozycję ma on jedną i stoi
-    # ona niżej, na czole zdania względnego.
     #
     # Konstytuentem, a nie słowem, bo przysłówek stopniowany przymiotnik określa:
     # `bardzo duży`, `nieporównanie tańsze`. Symbol stawia tę pozycję raz, zamiast
@@ -1113,16 +1058,11 @@ def build() -> Grammar:
     # `A, B: C.` czyta się jako `(A, B): C`, a na poziomie `Clause` byłaby
     # prawostronnie rekurencyjna razem z przecinkiem i wypuszczała `A, (B: C)`.
     #
-    # Jednoznaczności nie odbiera ani jednemu zdaniu i wynika to z gramatyki, nie
-    # z przebiegu: dwukropka nie bierze żaden inny terminal, więc zdanie z nim nie
-    # ma bez tej produkcji ani jednego czytania (``bez_licencji``). Niezmiennik
-    # pilnuje tests/test_subset.py, a wywód wraz z zakupem i z tym, czego ta
-    # produkcja nie bierze, trzyma docs/subset.md.
-    # Średnik rozdziela zdanie tak samo i tym samym kształtem: `Dlaczego, mówi
-    # docs/linter.md; ile ten pakiet kosztował, mówi docs/firing-rates.md.` Ciała
-    # są mimo to dwa, a nie jedno biorące oba znaki, bo zakup każdego z nich jest
+    # Niezmiennik — że jednoznaczności nie odbiera ani jedno z tych ciał —
+    # pilnuje tests/test_subset.py, a wywód wraz z zakupem trzyma
+    # docs/subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają.
+    # Ciała są trzy, a nie jedno biorące trzy znaki, bo zakup każdego z nich jest
     # osobną liczbą i sonda bierze ją zdejmowaniem ciał.
-    # Myślnik jest trzeci i rozdziela tym samym kształtem (:data:`MYŚLNIK`).
     for znak in (DWUKROPEK, ŚREDNIK, MYŚLNIK):
         grammar.rule("Sentence", [Głowa(nt("Clause")), znak, nt("Clause"), KONIEC_ZDANIA])
 
@@ -1134,31 +1074,23 @@ def build() -> Grammar:
     #
     # Ciało jest osobne, a nie symbolem obejmującym zdanie i grupę, bo cena
     # każdego z nich jest osobną liczbą. Drugiego czytania nie daje żadnemu
-    # napisowi: grupa imienna zdaniem nie jest, więc napis wzięty tym ciałem nie
-    # ma wyprowadzenia tamtym, i to jest to, co pilnuje tests/test_subset.py.
+    # napisowi, bo grupa imienna zdaniem nie jest, i to pilnuje tests/test_subset.py.
     #
     # Myślnik i średnik tej pozycji nie dostają, bo ten rejestr nie pisze za nimi
     # samej grupy: myślnikiem wtrąca całe zdanie, a średnikiem rozdziela dwa.
     grammar.rule(DOPOWIEDZIANY, [DWUKROPEK, Głowa(nt("NP"))])
     grammar.rule("Sentence", [Głowa(nt("Clause")), nt(DOPOWIEDZIANY), KONIEC_ZDANIA])
 
-    # Koordynacja jest jednym członem, znakiem koordynacji i resztą,
-    # na każdym z trzech poziomów, które ją mają.
     # To, co człon może zawierać, rozstrzyga,
     # do czego koordynację da się przyłączyć z zewnątrz,
     # i na tym stoi zawężenie zasięgu, a nie na kształcie tych produkcji.
     # X → X conj X powiedziałoby to samo o zasięgu
     # i tablica Earleya bierze taką produkcję bez skargi,
     # a różni je liczba czytań ciągu współrzędnego; TODO.md trzyma ten wybór.
-    #
-    # Znakiem koordynacji jest spójnik albo przecinek,
-    # i dlatego stoją po dwie produkcje na poziom,
-    # a nie jedna z osobnym symbolem na oba znaki.
-    # Wspólny symbol powiedziałby to samo raz,
+    # Symbol wspólny na spójnik i na przecinek powiedziałby to samo raz,
     # ale przecinek przestałby stać przy swoim poziomie,
-    # a cena i zakup każdego z trzech są osobnymi liczbami,
-    # których cenę wzięto zdejmowaniem po jednej.
-    #
+    # a cena i zakup każdego z trzech poziomów są osobnymi liczbami,
+    # które wzięto zdejmowaniem po jednej.
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
     # coordination distributes into it”.
     #
@@ -1168,8 +1100,6 @@ def build() -> Grammar:
     # żądałaby jej od wszystkich i zabierałaby przy tym zdania już przyjęte, bo
     # `Program zapisuje ustawienia, a linter sprawdziłby tekst.` koordynuje tryb
     # oznajmujący z przypuszczającym.
-    #
-    # Ciągiem albo jednym członem ogłasza się każde z tych ciał (:data:`CIĄG`).
     człon = nt("ClauseConjunct", tryb=V("t"))
     grammar.rule("Clause", [człon], ciąg=BEZ_CIĄGU)
     grammar.rule("Clause", [Głowa(człon), SPÓJNIK_BEZ_PRZECINKA, nt("Clause")], ciąg=CIĄG)
@@ -1262,8 +1192,6 @@ def build() -> Grammar:
     zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("Predicate",))
     zdanie.dominacja("ClauseConjunct", [podmiot, Głowa(orzeczenie)])
 
-    # Zdanie bez podmiotu: Zapisz plik podmiotu nie ma i nie potrzebuje, tak samo
-    # jak Zapisuje ustawienia.
     zdanie.dominacja("ClauseConjunct", [nt("Predicate", tryb=V("t"))])
 
     # Mianownika pojedynczego żąda ten terminal, bo tyle mówi o tej konstrukcji
@@ -1277,24 +1205,22 @@ def build() -> Grammar:
         [Głowa(word("subst", lemma=RZECZOWNIK_ORZEKAJĄCY, case="nom", number="sg"))],
     )
 
-    # Zdanie składowe, w którym ten rzeczownik orzeka, a okolicznik stoi w nim
-    # córką żądaną, a nie miejscem wyliczonym: kopuła opuszczona żąda tego, o czym
-    # mowa, więc `Mowa o zadaniach.` jest polszczyzną, a `Mowa.` nie jest.
-    # Rozwinięcie szyku tej deklaracji nie pisze, bo pisałoby ciało bez okolicznika
-    # razem z nim.
+    # Zdanie składowe, w którym ten rzeczownik orzeka. Okolicznik stoi w nim córką
+    # żądaną, a nie miejscem wyliczonym, bo kopuła opuszczona żąda tego, o czym
+    # mowa, i dlatego rozwinięcie szyku tej deklaracji nie pisze: pisałoby ciało
+    # bez okolicznika razem z nim.
     #
     # Ciało drugie stoi pod czołem zdania względnego niżej, bo tam to wyrażenie
     # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
     # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
     grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY)
 
-    # Głowa, która orzeka bez podmiotu: predykatyw — `Trzeba czytać dokumenty.`,
-    # `Nie widać granicy.` — oraz forma nieosobowa czasownika — `Zgłoszono
-    # usterkę.`, `Nie mówiono o tym.` Rama i `Complements` są u obu te same, co u
-    # czasownika, a różni je to, skąd rama przychodzi: predykatyw ma jedną wpisaną
-    # obok listy lematów, a forma nieosobowa bierze ramę swojego lematu tak samo
-    # jak forma osobowa (:func:`_klasy`). Orzecznika zgodnego nie ma żadna z tych
-    # dwóch ram, bo zgadzać się on nie ma z czym (:func:`_bez_orzecznika`).
+    # Głowa, która orzeka bez podmiotu: predykatyw i forma nieosobowa czasownika.
+    # Rama i `Complements` są u obu te same, co u czasownika, a różni je to, skąd
+    # rama przychodzi: predykatyw ma jedną wpisaną obok listy lematów, a forma
+    # nieosobowa bierze ramę swojego lematu tak samo jak forma osobowa
+    # (:func:`_klasy`). Orzecznika zgodnego nie ma żadna z tych dwóch ram, bo
+    # zgadzać się on nie ma z czym (:func:`_bez_orzecznika`).
     # Cząstka `się` stoi przy formie nieosobowej tak samo jak przy osobowej i pyta
     # o ten sam leksykon zwrotny: `zajmowano się sprawą` jest tym samym
     # czasownikiem co `zajmuje się sprawą`.
@@ -1358,9 +1284,8 @@ def build() -> Grammar:
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
     # ustawienia się nie wyprowadza i żadne zdanie SVO nie konkuruje z czytaniem
-    # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają z
-    # tego samego powodu, dla którego nie ma go deklaracja wyżej: składa go
-    # podmiot z orzeczeniem.
+    # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają
+    # z tego samego powodu co deklaracja wyżej.
     zdanie.dominacja("ClauseConjunct", [Głowa(czasownik), podmiot])
     zdanie.dominacja("ClauseConjunct", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
 
@@ -1394,12 +1319,10 @@ def build() -> Grammar:
     for wnętrze in (nt("NP"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCONY, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
 
-    # Człon, którego czasownik ten rejestr opuszcza: `Milczenie obejmuje wybór, a
-    # nie zdanie.`, `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
-    #
-    # Wypełnieniem jest konstytuent, który zajmuje w zdaniu pozycję, a ciała są
-    # osobne, po jednym na wypełnienie, bo cena każdego z nich jest osobną
-    # liczbą. Przysłówka wśród nich nie ma, bo zmierzono go i nie wyszedł
+    # Człon bez czasownika (:data:`ELIPSA`). Wypełnieniem jest konstytuent, który
+    # zajmuje w zdaniu pozycję, a ciała są osobne, po jednym na wypełnienie, bo
+    # cena każdego z nich jest osobną liczbą. Przysłówka wśród nich nie ma, bo
+    # zmierzono go i nie wyszedł
     # (docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze).
     #
     # Cząstka przecząca stoi w ciele parą, bo ten rejestr pisze oba: `a nie
@@ -1424,9 +1347,9 @@ def build() -> Grammar:
             dostawka=DOSTAWKA,
         )
 
-    # A fronted adjunct. Polish modifies a noun with a prepositional phrase only
-    # from behind it, so in front of a clause there is no noun to attach to and
-    # the attachment ambiguity docs/subset.md is about cannot arise.
+    # Okolicznik wysunięty przed zdanie. Polszczyzna określa rzeczownik wyrażeniem
+    # przyimkowym tylko od tyłu, więc przed zdaniem nie ma rzeczownika, do którego
+    # to wyrażenie mogłoby się przyłączyć, i wieloznaczności przyłączenia tu nie ma.
     #
     # Przysłówek dostaje tu ciało wypisane, a nie listę okoliczników, bo `Adjuncts`
     # w tym miejscu dałoby wyrażeniu przyimkowemu drugie wyprowadzenie tego samego
@@ -1499,9 +1422,8 @@ def build() -> Grammar:
     for przypadek, _lematy, _zwrotne in DOKŁADANE:
         grammar.rule("Object", [nt("NP", case=przypadek)], valency=przypadek, czoło=BEZ_CZOŁA)
 
-    # A predicate is a verb with what it takes. What it takes is one symbol
-    # rather than a list of bodies, so that the finite verb and the infinitive
-    # below share it instead of each carrying its own copy.
+    # To, co czasownik bierze, jest jednym symbolem, a nie listą ciał, żeby forma
+    # osobowa i bezokolicznik niżej dzieliły ją, zamiast nieść każde swoją kopię.
     grammar.rule("Predicate", [czasownik])
     grammar.rule(
         "Predicate",
@@ -1517,9 +1439,9 @@ def build() -> Grammar:
         ],
     )
 
-    # A modal and its infinitive. Powinien inflects for gender and not for
-    # person, so the clause it heads agrees with its subject in gender and
-    # leaves person to whatever else constrains it.
+    # `winien` odmienia się przez rodzaj, a nie przez osobę, więc zdanie, którego
+    # jest głową, zgadza się z podmiotem rodzajem, a osobę zostawia temu, co ją
+    # zawęża gdzie indziej.
     #
     # Tryb stoi tu wypisany, bo `winien` cząstki trybu nie bierze: `żeby powinien`
     # nie jest polszczyzną, a cechy, której konstytuent nie niesie, unifikacja nie
@@ -1543,10 +1465,8 @@ def build() -> Grammar:
         grammar.rule("InfinitivePhrase", [*przeczenie, Głowa(word("inf"))], valency="inf")
 
     # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
-    # ramy niesie ono tak samo jak dopełnienie i bezokolicznik wyżej.
-    # Przecinek należy do tego konstytuentu, a nie do produkcji nad nim, i tym
-    # różni się podrzędność od koordynacji; wywód trzyma docs/subset.md.
-    # Przecinek zamykający dokłada :func:`_zamykane`.
+    # ramy niesie ono tak samo jak dopełnienie i bezokolicznik wyżej,
+    # a przecinek zamykający dokłada :func:`_zamykane`.
     _zamykane(
         grammar,
         "SubordinateClause",
@@ -1676,8 +1596,8 @@ def build() -> Grammar:
             grammar.rule("Complements", ciało)
     grammar.rule("Complements", [okoliczniki])
 
-    # More than one adjunct, because postępować wobec innych w duchu braterstwa
-    # has two and a verb that takes one of them takes any number.
+    # Okoliczników bywa więcej niż jeden, bo `postępować wobec innych w duchu
+    # braterstwa` ma dwa, a czasownik, który bierze jeden, bierze każdą ich liczbę.
     #
     # Okolicznikiem jest wyrażenie przyimkowe albo przysłówek, więc lista bierze
     # jedno i drugie, a przysłówek dostaje przez nią każdą pozycję, jaką okolicznik
@@ -1703,10 +1623,6 @@ def build() -> Grammar:
     grammar.rule("Adjuncts", [nt(SPÓJNIKOWY)])
     grammar.rule("Adjuncts", [Głowa(nt(SPÓJNIKOWY)), okoliczniki])
 
-    # What is predicated of the subject: an adjective phrase agreeing with it,
-    # or a noun phrase in the instrumental. Both are what być takes, and the
-    # first is also what rodzą się wolni i równi predicates without one.
-    #
     # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
     # Cechę `czoło` niosą oba ciała po to, żeby szyk z orzecznikiem wysuniętym
@@ -1727,9 +1643,9 @@ def build() -> Grammar:
     #
     # Czasownik zwrotny różni się od formy bez cząstki dwiema rzeczami i tyle też
     # mówi o nim ta pętla: stoi przy nim `się`, a rama bierze się z drugiego
-    # leksykonu, bo otwierać bierze dopełnienie w bierniku, a otwierać się nie.
-    # Pozycje cząstki stoją obie przy tej formie (:data:`SZYKI_CZĄSTKI`);
-    # przy bezokoliczniku i w oddaleniu od swojej formy cząstka pozycji nie ma.
+    # leksykonu (:data:`LEMAT_ZWROTNY`). Pozycje cząstki stoją obie przy tej formie
+    # (:data:`SZYKI_CZĄSTKI`); przy bezokoliczniku i w oddaleniu od swojej formy
+    # cząstka pozycji nie ma.
     #
     # Ramę niosą wszystkie te produkcje, a nie tylko niektóre. Cechy, której
     # konstytuent nie niesie, unifikacja nie sprawdza, więc rama postawiona części
@@ -1818,10 +1734,9 @@ def build() -> Grammar:
             CUDZYSŁÓW_ZAMYKAJĄCY,
         ],
     )
-    # A coordination of noun phrases is plural and third person whatever its
-    # conjuncts are, and it carries no gender: Polish resolves the gender of
-    # rozum i sumienie by rules unification cannot state, and a feature a phrase
-    # does not carry is one no agreement can fail against.
+    # Rodzaju ciąg współrzędny nie niesie: rodzaj `rozumu i sumienia` polszczyzna
+    # rozstrzyga regułami, których unifikacja nie wypowie, a cechy, której fraza
+    # nie niesie, nie ma o co zawieść żadna zgodność.
     grammar.rule(
         "NP",
         [Głowa(nt("NPConjunct", case=V("c"))), SPÓJNIK_BEZ_PRZECINKA, nt("NP", case=V("c"))],
@@ -1835,11 +1750,10 @@ def build() -> Grammar:
         person="ter",
     )
 
-    # Noun phrases: a noun, an agreeing adjective before it, a genitive
-    # modifier after it. Agreement is the unification, not a separate check,
-    # and every one of these shares the same three variables, so they are named
-    # once. A conjunct headed by a noun is third person by saying so; leaving
-    # that off one of them would quietly let a first person verb take it.
+    # Zgodność jest tu samą unifikacją, a nie osobnym sprawdzeniem, i wszystkie te
+    # ciała dzielą te same trzy zmienne (:data:`AGREE`). Człon z rzeczownikiem w
+    # głowie ogłasza trzecią osobę wprost, bo bez tego ogłoszenia wziąłby go po
+    # cichu czasownik w pierwszej.
     grammar.rule("NPConjunct", [przymiotnik, Głowa(nt("NPConjunct", **AGREE))], person="ter")
     # Głową grupy imiennej jest rzeczownik albo rzeczownik odczasownikowy, więc
     # każda pozycja niżej wychodzi dwoma ciałami, po jednym na głowę. Terminala o
@@ -1865,9 +1779,9 @@ def build() -> Grammar:
     ):
         grammar.rule("NPConjunct", [głowa], person="ter")
         grammar.rule("NPConjunct", [Głowa(głowa_dopełniacza), nt("NP", case="gen")], person="ter")
-        # Polish puts an attributive adjective after the noun in terminology:
-        # plik konfiguracyjny, język polski. Both orders are the language, so both
-        # are here, and where a sentence admits both readings it is ambiguous.
+        # Przydawkę terminu polszczyzna stawia za rzeczownikiem: `plik
+        # konfiguracyjny`, `język polski`. Oba szyki są polszczyzną, więc oba stoją
+        # tutaj, a zdanie, które przyjmuje oba czytania, jest wieloznaczne.
         grammar.rule("NPConjunct", [Głowa(głowa), przymiotnik], person="ter")
         grammar.rule("NPConjunct", [Głowa(głowa), nt("Modifier")], person="ter")
         # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
@@ -1901,9 +1815,8 @@ def build() -> Grammar:
     # Grupa liczebnikowa, w dwóch ciałach, bo polszczyzna ma dwa przyłączenia
     # liczebnika i Morfeusz rozdziela je cechą `accommodability`.
     #
-    # Liczebnik zgodny stoi jak przymiotnik przy rzeczowniku i zgadza się z nim
-    # we wszystkich trzech cechach: `dwie rzeczy`, `cztery wozy`, `oba pliki`.
-    # Głową jest rzeczownik, tak samo jak pod przymiotnikiem wyżej.
+    # Liczebnik zgodny stoi jak przymiotnik przy rzeczowniku: `dwie rzeczy`,
+    # `cztery wozy`, `oba pliki`.
     #
     # Liczebnik rządzący wymaga dopełniacza mnogiego i wypuszcza grupę, której
     # liczba i rodzaj nie są liczbą ani rodzajem żadnego słowa pod nią:
@@ -1948,9 +1861,8 @@ def build() -> Grammar:
         person="ter",
     )
 
-    # A pronoun is the one conjunct that carries its own person, which is the
-    # whole reason it is here: without one, first and second person subjects
-    # have no noun phrase to be.
+    # Zaimek jest tym jednym członem, który niesie własną osobę, i po to jedno tu
+    # stoi: bez niego podmiot w pierwszej i w drugiej osobie nie ma czym być.
     grammar.rule("NPConjunct", [word("ppron3|ppron12", person=V("p"), **AGREE)])
 
     # Zaimek dzierżawczy przed grupą imienną: `jego skutki`, `ich cena`
@@ -1977,21 +1889,20 @@ def build() -> Grammar:
     # (`Nawet ja zapisuję ustawienia.`).
     grammar.rule("NPConjunct", [CZĄSTKA, Głowa(nt("NPConjunct", person=V("p"), **AGREE))])
 
-    # Adjective phrases, coordinated the same way and agreeing throughout, so
-    # that wolni i równi is one predicative and wolna i równi is none.
+    # Grupa przymiotnikowa koordynuje się tak samo i zgadza się przez cały ciąg,
+    # więc `wolni i równi` jest jednym orzecznikiem, a `wolna i równi` żadnym.
     grammar.rule("AP", [nt("APConjunct", **AGREE)])
     grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), SPÓJNIK_BEZ_PRZECINKA, nt("AP", **AGREE)])
     grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), PRZECINEK, nt("AP", **AGREE)])
-    # A passive participle is an adjective for these purposes, and it keeps the
-    # complement its verb governed: obdarzeni rozumem i sumieniem.
+    # Imiesłów bierny jest tu przymiotnikiem i zatrzymuje dopełnienie, którym
+    # rządził jego czasownik: `obdarzeni rozumem i sumieniem`.
     grammar.rule("APConjunct", [orzecznikowy])
     grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("NP", case="inst")])
     # Trzecie miejsce, do którego wyrażenie przyimkowe dochodzi: powiązani z
     # interesami postkomunistów, przeznaczany na budowę.
     grammar.rule("APConjunct", [Głowa(orzecznikowy), nt("Modifier")])
 
-    # A preposition governs a case, and the noun phrase has to be in it.
-    # One lemma is excluded and it is excluded by name
+    # Jeden lemat jest tu wykluczony i wykluczony jest z nazwy
     # (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
     grammar.rule("Modifier", [Głowa(PRZYIMEK), nt("NP", case=V("c"))])
 
@@ -2011,15 +1922,10 @@ def build() -> Grammar:
     # wypadły tą samą ceną: ciało rekurencyjne bierze łańcuch za darmo.
     grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK_STOPNIA, Głowa(nt(PRZYSŁÓWKOWY))])
 
-    # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią: zdanie przyjęte
-    # z `już` albo `dopiero` wychodziłoby bez tej etykiety `valid` bez słowa o tym,
-    # co olski w nim przyjął. Lista lematów jest zamknięta i kryterium na nią stoi
-    # przy :data:`CZĄSTKI`.
+    # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią
+    # (:data:`CZĄSTKOWY`); kryterium na jej listę stoi przy :data:`CZĄSTKI`.
     grammar.rule(CZĄSTKOWY, [CZĄSTKA])
 
-    # Spójnik wewnątrz swojego zdania: `Milczenie jest zatem wartością.`,
-    # `Reguła jest bowiem tania.` Rola jest osobna od cząstki, bo ten spójnik wiąże
-    # zdanie z tym, co stoi przed nim, zamiast je określać (:data:`SPÓJNIKOWY`).
     grammar.rule(SPÓJNIKOWY, [SPÓJNIK_WEWNĘTRZNY])
 
     # Zdanie względne, czyli przecinek i `RelativeCore`, którym jest samo zdanie
