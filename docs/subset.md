@@ -1016,16 +1016,61 @@ Zostaje też cząstka oddalona od swojej formy —
 i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
 a nie brak pozycji.
 
-Pozycja przednia oddaje cząstkę formie osobowej za nią i nikomu innemu,
+Klasa domyślna leksykonu zwrotnego cząstki kopuli nie daje.
+Leksykon ten wymienia zwrotność zleksykalizowaną i tylko ją,
+a lemat, którego nie wymienia, bierze pod cząstką ramę domyślną,
+bo cząstkę polszczyzna stawia przy czasowniku dowolnym: `myśli się`, `pije się`.
+Kopula wchodzi tamtędy razem z nimi, a `być się` czasownikiem nie jest,
+więc bez odmowy wyprowadza się `Cena się jest niska.`
+Odmowa stoi przy tej klasie i wymienia lematy kopuli
+(`KOPULA` w `olski/subset.py`);
+jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost.
+Lematu `zostać` nie tyka, bo leksykon zwrotny go wymienia,
+a klasa domyślna po lemat wymieniony nie sięga.
+
+Cena tej odmowy jest zmierzona i cała stoi na czytaniach nieprawdziwych.
+Nad Składnicą pod złotą morfologią odpadają cztery zdania, a pod żywą sześć,
+i wszystkie są jednego kształtu: `będzie się` z bezokolicznikiem za nim.
+`Fabryki nowej spółki będą się znajdować we Włoszech, Francji, Wielkiej Brytanii
+i Hiszpanii.` jest jednym z nich: cząstka należy tam do bezokolicznika,
+a bez odmowy bierze ją forma `będzie`.
+Odrzucenie jest w tych zdaniach werdyktem prawdziwym,
+bo cząstki przy bezokoliczniku ten podzbiór nie ma.
+Nad prozą tego repozytorium rusza się jeden werdykt
+i jest nim to zdanie, zacytowane tutaj z banku drzew.
+
+Zamknięcie całego leksykonu zwrotnego zmierzono i olski go nie bierze.
+Gramatyka odmawiająca cząstki każdemu lematowi, którego Walenty nie wymienia
+jako czasownika zwrotnego, traci nad Składnicą pod złotą morfologią
+dwadzieścia dziewięć zdań przyjętych i tyle samo wieloznacznych,
+a jednoznaczności nie kupuje żadnej:
+ani jedno zdanie nie traci przy niej samego czytania.
+Zdania przyjęte przeczytano po kolei i większość z nich niesie polszczyznę,
+a nie usterkę.
+Dziesięć niesie zwrotność, którą Walenty pisze pozycją `refl` albo `recip`
+w schemacie lematu niezwrotnego, a nie osobnym lematem:
+`Spotkał się ze stanowczą odmową.`
+Tą jedną klasą stoi szesnaście z tych 58 zdań,
+a liczbę daje ten sam przebieg z leksykonem czytającym obie te pozycje.
+Czternaście niesie cząstkę bezosobową — `Myśli się językowo.`,
+`Wino białe pije się inaczej.` — której Walenty nie leksykalizuje,
+bo dochodzi ona do czasownika dowolnego,
+a olski wyprowadza ją dziś tą samą klasą domyślną,
+czytając ją czasownikiem zwrotnym z podmiotem.
+Pięć ostatnich stoi na cząstce należącej do bezokolicznika,
+czyli na czytaniu, którego polszczyzna nie ma.
+Decyzję odwraca pozycja na cząstkę bezosobową, czyli zdanie bez podmiotu
+z dopełnieniem w bierniku, wraz z leksykonem czytającym obie pozycje Walentego;
+bez nich zamknięcie listy płaci pokryciem za czytania prawdziwe.
+
+Cząstkę bierze przy tym forma, przy której stoi, a nie ta, do której należy,
 więc gdzie cząstka należy do słowa przed sobą, zdanie wyprowadza się na opak:
-`Program otwierający się jest tani.` wychodzi z `się jest` w orzeczeniu,
-a `być się` czasownikiem nie jest.
-Jest to ta sama usterka, którą pozycja tylna ma po drugiej stronie —
+`Program otwierający się psuje.` wychodzi z `się psuje` w orzeczeniu.
+Tę samą usterkę ma pozycja tylna po drugiej stronie —
 `Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się` —
-i czeka na to samo rozstrzygnięcie ([TODO.md](../TODO.md)),
-bo obie biorą cząstkę wedle tego, przy czym stoi, a nie wedle tego, do czego należy.
+i czeka na to samo rozstrzygnięcie ([TODO.md](../TODO.md)).
 Ani bank drzew, ani ta proza nie stawiają słowa własnego cząstki przed nią
-w żadnym ze zdań, które ta pozycja nowo przyjmuje,
+w żadnym ze zdań, które pozycja przednia nowo przyjmuje,
 więc odczytania takiego nie wydała nad nimi ani razu.
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
