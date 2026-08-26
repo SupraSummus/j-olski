@@ -181,6 +181,17 @@ Rozstrzygnąć trzeba też, czy każdy z tych trzech jest mechanizmem:
 przecinkowość Woliński sam nazywa ceną formalizmu,
 więc może chcieć innego miejsca niż dwa pozostałe.
 
+Przebieg nad prozą README nic nie kosztuje, a zdanie spoza podzbioru
+przeżyło w tym pliku pięćdziesiąt kilka commitów:
+`Czytania szynki dzieli szyk oraz gospodarz frazy` miało liczbę pojedynczą
+przy podmiocie z dwóch członów.
+[`docs/roadmap.md`](docs/roadmap.md#readme-jest-przyrządem-pomiarowym) zakłada,
+że ten przebieg wykona każda sesja.
+Ruchem jest test żądający, żeby każde odrzucenie w tej prozie było jednym z tych,
+które tamta sekcja wylicza.
+Ceną są dwie rzeczy: wyliczenie stoi wtedy drugi raz,
+a test czerwienieje po redakcji README, a nie po zmianie w gramatyce.
+
 Prozy tych dokumentów nikt nie przeczytał pod jednym pytaniem:
 czy to zdanie przeżyje następną produkcję.
 Jedna sesja znalazła trzy zdania, które go nie przeżyły,
@@ -286,6 +297,10 @@ Do przeczytania jest samo zdanie przy każdym z nich, bo tego nie policzy żaden
 przebieg: olski odrzuca zarazem zdania, w których ten przecinek jest na miejscu,
 a zawodzi coś innego, więc werdykt sam wystąpień nie rozdziela.
 Sesja dzieli się po plikach, bo każde wystąpienie rozstrzyga się osobno.
+Wpis jest mniejszy, niż mówi liczba wystąpień:
+w `docs/design-notes.md` i w `docs/roadmap.md` większość domyka zdanie podrzędne
+albo powtarza spójnik, a z garści, która zostaje, część żąda przepisania zdania:
+`a liczba nie, i` bez przecinka zestawia przeczenie ze spójnikiem.
 
 ## Komendy i sondy
 
