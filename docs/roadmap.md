@@ -468,7 +468,7 @@ a kryterium przyjęte zmierzone na Składnicy tym, ile zdań zabiera.
 Podrzędność z `że` i `który`, obok koordynacji przecinkiem, która już stoi.
 Koordynacja weszła osobno, bo osobno się ją zmierzyło:
 nie odbiera nad Składnicą ani jednego zdania już przyjętego
-i dokłada dwadzieścia dwa nowe.
+i dokłada dwadzieścia kilka nowych.
 Nad README przyjęła dwa zdania, oba na poziomie zdaniowym,
 a reszta zdań z przecinkiem niesie w tym pliku także zdanie podrzędne.
 Podrzędność jest więc tym, na czym ten etap stoi,
@@ -509,147 +509,53 @@ czego [tamten przebieg](corpus.md#where-the-analyses-stop) nie przewidział inac
 niż mówiąc, że większość zdań odrzuconych niesie dwie klasy albo więcej.
 
 Dwie pozycje podrzędności, których gramatyce brakowało,
-odsłoniło właśnie to dopisanie,
-a każda z nich wchodzi niżej razem ze swoim pomiarem.
+odsłoniło właśnie to dopisanie: okolicznik wyrażony zdaniem, przed swoim zdaniem
+i za nim, oraz kopuła opuszczona.
+Weszły razem z interpunkcją zdaniową — dwukropkiem, średnikiem i przecinkiem
+przed spójnikiem — z pytaniem, z grupą wysuniętą pod przyimkiem i bez niego,
+ze spójnikiem, który cząstkę trybu niesie sam,
+oraz z podmiotem opuszczonym w zdaniu z wysuniętym dopełnieniem.
+Wywód i cenę każdej z tych konstrukcji trzyma jej sekcja w
+[subset.md](subset.md), a przebiegi, którymi je policzono, są w gicie.
+Lista pozycji tego etapu jest przez to pusta,
+a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
 
-Okolicznik wyrażony zdaniem wchodzi obiema pozycjami, przed swoim zdaniem i za nim,
-i jest pierwszym policzonym dopisaniem tego etapu.
-Zdejmuje on z listy odrzuconych blisko pięćdziesiąt zdań Składnicy,
-a jednoznaczności nie odbiera pod złotą morfologią ani jednemu zdaniu
-i sześciu pod żywą.
-Płaci się tu za to samo, co przy przysłówku:
-te sześć zdań wychodziło przedtem jednym czytaniem, którego polszczyzna nie ma,
-bo `gdy` stoi w nich jako okolicznik przysłówkowy po przecinku koordynacji.
-Nad prozą tego repozytorium nie kupuje ani jednego zdania,
-tak samo jak cztery dopisania przed nim,
-i jest to o tamtej kolejce odczyt, a nie o konstrukcji:
-zdanie tego pliku, które stało na spójniku, stoi także na rzeczowniku
-odczasownikowym albo na średniku.
-Spójniki trybu przypuszczającego mają niżej własny akapit,
-bo żądają od zdania cechy, której ta lista nie żąda, i osobno się je liczy.
+Pomiary tego etapu mówią przy tym coś o samym planowaniu.
 
-Interpunkcja zdaniowa jest drugim policzonym dopisaniem tego etapu
-i jest zarazem najtańszym, jakie ta gramatyka dotąd przyjęła:
-dwukropek otwierający zdanie, średnik oraz przecinek przed spójnikiem
-zdejmują z listy odrzuconych sześćdziesiąt pięć zdań Składnicy,
-a jednoznaczności nie odbierają ani jednemu zdaniu pod żadną z dwóch morfologii.
-Zero po stronie ceny nie jest przy dwukropku ani przy średniku wynikiem przebiegu:
-żadnego z tych znaków nie brała przedtem produkcja,
-więc zdanie z nim nie miało czytania, z którego dałoby się je wytrącić.
-Kolejka nad prozą tego repozytorium stawiała dwukropek na czele
-([corpus.md](corpus.md#where-the-analyses-stop))
-i nad tym plikiem nie kupuje ta trójka żadnego zdania przyjętego,
-tak samo jak dopisania przed nią,
-za to zdejmuje z listy form bez licencji wszystkie trzy znaki naraz,
-więc osiemnaście zdań README staje odtąd na strukturze, a nie na znaku.
-Nad rejestrem ustaw kupuje jedno zdanie i nic nie odbiera
-([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
-więc trzeci rejestr odpowiedział tu tak samo jak drugi, tylko ciszej.
+Zero po stronie ceny bywa własnością gramatyki, a nie wynikiem przebiegu.
+Dwukropka ani średnika nie brała przedtem żadna produkcja,
+więc zdanie z takim znakiem nie miało czytania,
+z którego dałoby się je wytrącić.
+Cena zerowa nie mówi wtedy, że konstrukcja niczego nie psuje,
+tylko że nie miała czego zepsuć.
 
-Średnik wszedł do tej trójki później niż dwukropek i wszedł za sam rejestr:
-argumentu o polszczyźnie nie ma, bo znak ten stoi tam, gdzie stanąłby przecinek
-albo kropka, a zdanie README, które go niesie, jest tym, co za nim przemawia.
-Zakup wypadł przy nim na dwa zdania Składnicy i jedno zdanie ustawy,
-czyli o rząd wielkości mniej niż przy przecinku przed spójnikiem.
-
-Płaci za tę parę osobny warunek, i nie płaci ani w zdaniach, ani w czytaniach:
-przecinek przed spójnikiem nie kupowałby prawie nic,
+Zakup bywa poza obiema walutami, którymi mierzy
+[kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Przecinek przed spójnikiem nie kupowałby prawie nic,
 dopóki `a` czyta się jako przyimek rządzący mianownikiem,
 a warunek, który to czytanie odbiera, sam odbiera zdanie README —
 i to samo zdanie wraca z tą parą, z trzema czytaniami w miejsce trzech,
 tylko że prawdziwymi
 ([subset.md](subset.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
-Cena wypadła więc trzeci raz poza obie waluty, którymi ten kierunek mierzy,
-i wypadła po stronie zakupu.
+Para ta kupuje więc prawdę o zdaniu,
+a prawdy nie liczy ani pokrycie, ani lista zdań wieloznacznych.
 
-Pytanie jest trzecim policzonym dopisaniem tego etapu
-i jest z nich wszystkich najtańsze: cena wyszła zerowa w obu korpusach,
-pod obiema morfologiami banku drzew.
-Zdanie pytające i pytanie zależne weszły razem, bo dzielą kształt ze zdaniem względnym,
-a zakup wyszedł na jedno zdanie w banku drzew i jedno w ustawach.
-Jedno z nich jest zarazem tym zdaniem, które ten etap wcześniej zabrał:
-warunek na lemat, którym etap zdjął czytanie współrzędne, nazwał zarazem pozycję,
-której gramatyce brakowało, i pytanie ją stawia.
-
-Zakup jednym zdaniem na korpus jest odczytem o rejestrze, a nie o produkcjach:
-pytań jest w Składnicy jedno na piętnaście zdań,
+Zakup liczony pojedynczymi zdaniami na korpus jest odczytem o rejestrze,
+a nie o produkcjach.
+Pytań jest w Składnicy jedno na piętnaście zdań,
 a otwiera je `czy`, `kto`, `co`, `jak` albo `dlaczego`,
-czyli słowa żądające każde innego kształtu niż grupa imienna na czole zdania.
-Kolejka po tym dopisaniu jest więc kolejką kształtów pytania,
+czyli słowa żądające każde innego kształtu niż grupa imienna na czole zdania,
+więc kolejka po tym dopisaniu jest kolejką kształtów pytania,
 a nie listą lematów do dopisania obok jednego, który olski ma.
-
-Grupa wysunięta razem z zaimkiem pod przyimkiem
-jest czwartym policzonym dopisaniem tego etapu.
-Polszczyzna wysuwa na czoło nie tylko zaimek `który`, ale i grupę, w której on stoi,
-a grupa ta rozchodzi cechy na dwie strony:
-przypadek do przyimka nad sobą, a liczbę i rodzaj do poprzednika
-([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
-Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-a zakup drobny: dwa zdania „Zasad techniki prawodawczej” i jedno Składnicy.
-Zera po stronie ceny nikt tu nie przewidział,
-bo grupa następuje po przyimku, którego przyłączenia olski nie wybiera.
-Nie kosztuje ona dlatego, że żąda dwóch przypadków naraz:
-dopełniacza od zaimka i przypadka przyimka od swojej głowy.
-
-Pytanie o tę grupę weszło razem z nią i nie kupiło ani jednego zdania nigdzie,
-co jest o rejestrze odczytem, a nie o produkcji:
-`W którym roku ustawa weszła?` napisała ta dokumentacja, a nie żaden korpus.
-Zdanie względne żądało tu kształtu grupy, a pytanie drugiego czoła,
-i te dwie połowy zostały przez to policzone osobno.
-
-Ta sama grupa wysunięta bez przyimka jest piątym policzonym dopisaniem
-i pierwszym, którego przeszkodą jest zgodność.
-Grupa niesie liczbę i rodzaj dwa razy, bo orzeczenie zgadza się z jej głową,
-a poprzednik z jej zaimkiem, więc para jedna wydaje werdykt pewny siebie i błędny —
-raz przyjmując `Ustawa, której autorzy pisze`,
-a raz `Ustawy, której autorzy piszą`.
-Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-tak samo jak przy pozycji pod przyimkiem,
-a zakup jest pierwszym, jaki ta konstrukcja robi nad bankiem drzew
-pod złotą morfologią: jedno zdanie przyjęte i trzy wyciągnięte z odrzucenia.
-Rejestry odpowiadają przy tym na obie pozycje różnie:
-rozporządzenie rusza tylko pierwsza, siedem ustaw tylko druga, a bank drzew obie,
-i to jest odczyt o rejestrach, bo kształt grupy jest w obu pozycjach ten sam.
-Nad prozą tego repozytorium nie kupuje ani jednego zdania,
-tak samo jak dopisania przed nią.
-
-Kopuła opuszczona jest szóstym policzonym dopisaniem tego etapu,
-czyli zdaniem względnym, które obywa się bez czasownika: `o którym mowa`.
-Pozycji tej nie ustawiła ani kolejka ze Składnicy, ani ranking form bez licencji,
-bo każda forma tego zwrotu licencję ma, a odrzucenie stało na strukturze;
-znalazł ją grep, którym mierzono szyki grupy wysuniętej.
-Gramatyka wpuszcza ją wpisem na jeden lemat, a nie pozycją ogólną,
-bo pozycja ogólna czyni zdaniem składowym każdą grupę imienną w mianowniku,
-czyli psuje każdy ciąg współrzędny takich grup
-([subset.md](subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)).
-Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-a zakupem jest jedno zdanie rejestru ustaw,
-czyli przeszło o dwa rzędy wielkości mniej, niż obiecywało 851 wystąpień tego zwrotu:
-prawodawca pisze go razem z adresem przepisu, a cyfry olski nie bierze
+Tak samo `o którym mowa` obiecuje w rejestrze ustaw 851 wystąpień,
+a oddaje przeszło o dwa rzędy wielkości mniej,
+bo prawodawca pisze ten zwrot razem z adresem przepisu,
+a cyfry olski nie bierze
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
-
-Spójnik niosący cząstkę trybu jest siódmym policzonym dopisaniem tego etapu.
-`żeby` jest z `że` i `by`, `gdyby` z `gdy` i `by`,
-więc cząstka stoi w spójniku, a zdanie pod nim niesie formę na -ł bez własnej.
-Cena wyszła zerowa, a zakupem są zdania Składnicy zdjęte z listy odrzuconych;
-wypełnienia weszły oba naraz, zdanie i fraza bezokolicznikowa.
-Wywód i liczby trzyma
-[subset.md](subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku).
-Nad prozą tego repozytorium nie kupuje ani jednego zdania,
-tak samo jak dopisania przed nim.
-
-Lista pozycji tego etapu jest przez to pusta,
-a otwarte zostaje samo jego wyjście drugie, czyli pokrycie nad README.
-Brak tego pokrycia jest odczytem o pomiarze nad tym plikiem, a nie o podrzędności,
-i akapit wyżej nazywa formy, na których stoją zdania stojące przedtem na spójniku.
-
-Podmiot opuszczony w zdaniu z wysuniętym dopełnieniem wszedł już po tej liście,
-bo wskazał go nie ranking, tylko pomiar luki, który kupował go mimochodem
-([design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
-Zakupem są zdania Składnicy wyjęte z odrzucenia, a ceną jednoznaczność zdania,
-w którym zaimek jest zarazem mianownikiem i biernikiem;
-nad rejestrem ustaw nie rusza się ani jedno, ani drugie
-([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
+Rejestr rozstrzyga zarazem, którą pozycję konstrukcji pomiar w ogóle zobaczy.
+Grupa wysunięta ma dwie, pod przyimkiem i bez niego,
+a rozporządzenie odpowiada tylko na pierwszą, siedem ustaw tylko na drugą,
+a bank drzew na obie, choć kształt grupy jest w obu ten sam.
 
 ## Etap 5: słowa, których słownik nie ma
 
@@ -689,7 +595,12 @@ i jest to odtąd brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 
 ## Etap 6: reszta konstrukcji
 
-`to` w roli łącznika i liczebnik pisany cyfrą.
+Etap ma opróżnić listę tego,
+[czego olski nie bierze](subset.md#what-it-does-not-cover-yet),
+a zostały na niej dwie pozycje: `to` w roli łącznika i liczebnik pisany cyfrą.
+Konstrukcje, które olski już bierze, mają wywód i cenę
+w swoich sekcjach [subset.md](subset.md#what-the-grammar-covers),
+a przebiegi, którymi je policzono, są w gicie.
 Kolejka ze Składnicy stawia oba wysoko, bo `to` prowadzi w niej dwa wiersze.
 Wobec README podnoszą pokrycie dopiero razem,
 a żaden z pięciu zmierzonych dodany sam go nie rusza.
@@ -697,8 +608,12 @@ a żaden z pięciu zmierzonych dodany sam go nie rusza.
 a nad łącznikiem nie mierzy nic,
 więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
 
-Lista, którą ten etap ma opróżnić, ma jednak dwa źródła
-i drugim z nich nie jest kolejka.
+Cyfra jest przy tym osobną pozycją, a nie resztą liczebnika:
+zdejmie ją warstwa nad morfologią, a nie produkcja,
+bo `dig` nie niesie ani przypadka, ani liczby
+([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+
+Lista ta ma dwa źródła i drugim z nich nie jest kolejka.
 Narzędnik bez przyimka, koordynacja `a nie`, dopowiedzenie z `czyli`
 i imiesłów czynny przy rzeczowniku weszły na nią z przebiegu nad prozą,
 która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
@@ -719,169 +634,32 @@ Zmierzona nie jest z nich żadna,
 a kolejność między nimi rozstrzyga cena,
 tak samo jak przy pozostałych pozycjach tej listy.
 
-Na koniec wychodzą dlatego, że żadna z nich nie żąda niczego
+Trzy konstrukcje weszły przy tym poza wszystkimi tymi źródłami.
+Zaimek dzierżawczy postawiła sesja pisząca pod tę gramatykę zdanie po zdaniu
+([pisanie-po-olsku.md](pisanie-po-olsku.md)),
+podmiot opuszczony postawił pomiar luki, który kupował go mimochodem
+([design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)),
+a miejsce na okolicznik po czasowniku postawiło zawężenie stojące obok reguły,
+która te miejsca wylicza
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+Żadnej z tych trzech kolejka blokerów nie widzi,
+bo każda forma tych zdań licencję ma, a odrzucenie stoi na strukturze.
+
+Pozycje tej listy wychodzą na koniec dlatego, że żadna nie żąda niczego
 od produkcji pisanych po niej,
 więc [koszt przepisywania](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
 ich nie porządkuje, a między sobą rozstrzyga je sama cena.
 Dwie kolejki, które ją wyceniają, nie zgadzają się co do kolejności,
 i jest to wynik pomiaru, a nie usterka w którejś z nich.
 
-Liczebnik pisany słowem był na tej liście i zszedł z niej cały,
-a cyfra została i jest osobną pozycją, a nie resztą tej samej.
-Kupił on 56 zdań Składnicy przy 35 uczynionych wieloznacznymi,
-jedno zdanie README i jedno zdanie ustawy,
-a jednoznaczności nie odebrał ani jednemu zdaniu przyjętemu wcześniej,
-w żadnym z tych trzech korpusów.
-Tym różni się od czasu przeszłego, który nad ustawami zabrał pięć.
-Sam ranking wypadł natomiast tak samo jak przy nim:
-wiersz `num` obiecywał 453 zdania i oddał 91,
-gdzie `praet` obiecywał 2934 i oddał 566, czyli oba po jednej piątej.
-Cyfrę zdejmie z tej listy warstwa nad morfologią, a nie produkcja,
-bo `dig` nie niesie ani przypadka, ani liczby
-([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)),
-i tym różni się ta pozycja od pozostałych czterech.
-
-Negacja była na tej liście i zeszła z niej cała, razem z dopełniaczem negacji,
-bo cząstka bez tego przypadka kupuje dwie trzecie tego, co obie razem.
-Kupiła 146 zdań Składnicy przy 45 uczynionych wieloznacznymi
-i cztery zdania ustawy przy trzydziestu,
-a jednoznaczność odebrała jednemu zdaniu przyjętemu wcześniej —
-i nie odebrał jej dopełniacz, tylko czytanie zaimka, które słownik daje formie `nie`.
-Ranking wypadł przy niej lepiej niż przy tamtych dwóch:
-wiersz `qub` obiecywał 710 zdań na samym `nie` i oddał 191, czyli ponad jedną
-czwartą, gdzie tamte oddawały po jednej piątej.
-Płaci za to gdzie indziej: trzy zdania olski czyta po tej zmianie odwrotnie,
-niż czyta je czytelnik, bo dopełniacz stojący przed czasownikiem
-wpada do grupy imiennej przed nim, a szyku, który by go stamtąd wyjął,
-gramatyka nie ma.
-Cena konstrukcji nie musi więc dać się policzyć w żadnej z dwóch walut,
-które ta sekcja zna.
-
-Czas przeszły był na tej liście i z niej zszedł,
-a to, jak zszedł, mówi o samej liście dwie rzeczy.
-Kolejka ze Składnicy stawiała go na pierwszym miejscu
-i nazywała najtańszym dużym zyskiem;
-zysk wyszedł na piątą część tego, co ranking obiecywał,
-a cena wypadła poza ranking, bo rodzaj wszedł do każdego szyku zdania
-([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
-Nad README nie kupił ani jednego zdania,
-bo kupił jedno i jedno stracił,
-a nad rejestrem ustaw nie kupił nic i kilka zdań uczynił wieloznacznymi.
-Reszta tej listy pochodzi z tego samego rankingu,
-więc mierzone ma być każde dopisanie z osobna, a nie sama lista na końcu.
-
-Przysłówek zszedł z tej listy cały, czyli obu swoimi gospodarzami,
-i jest największym dopisaniem, jakie ta lista dotąd oddała:
-zdań przyjętych nad Składnicą jest po nim o ponad jedną trzecią więcej
-([corpus.md](corpus.md#the-measurement)).
-Wybór był między dwiema cenami w różnych walutach —
-zdaniami, którym drugi gospodarz odbiera jednoznaczność,
-przeciw werdyktom, które pierwszy sam wydaje wbrew drzewu —
-i rozstrzygnął go [kierunek](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę):
-za każde zdanie oddane drugiemu gospodarzowi ubywa jedno czytanie nieprawdziwe,
-a `valid` mówiący o zdaniu nieprawdę czyta się jak twierdzenie
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
-Nad README nie kupuje ani jednego zdania, tak samo jak cztery dopisania przed nim,
-a cztery zdania przenosi z odrzuconych na wieloznaczne;
-dwa z tych czterech przyszły tam po nim, razem z interpunkcją zdaniową.
-Ranking wypadł przy nim lepiej niż przy każdym z tamtych czterech:
-wiersz `adv` obiecywał 1992 zdania i oddał prawie jedną trzecią tego.
-
-Cząstka na tej liście nie stała i weszła prosto z przebiegu nad prozą,
-czyli z tego samego źródła, z którego weszły na nią cztery pozycje wyżej.
-Kupiła dziewięćdziesiąt jeden zdań Składnicy przy siedemdziesięciu dziewięciu
-uczynionych wieloznacznymi, a jednoznaczności nie odebrała ani jednemu zdaniu.
-Cena wypadła i tu poza obie waluty tego etapu, a wypadła w zasięgu:
-sama pozycja przy zdaniu czyta zdanie ciaśniej, niż czyta je bank drzew,
-bo cząstka stoi tam wewnątrz grupy imiennej.
-Zasięg zdejmuje gospodarz drugi, a płaci za to jednoznacznością zdań,
-w których cząstka określa zdanie
-([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
-Pary do przelicznika niżej to dopisanie nie dokłada z tego samego powodu,
-z którego nie dokłada jej rzeczownik odczasownikowy.
-
-Interpunkcja obejmująca — cudzysłów i nawias — weszła tą samą drogą,
-a różni ją to, czym za nią przemawia proza:
-w prozie ustaw i w prasie te znaki stoją, ale zdania z nimi stoją także na czym innym,
-więc zakup jest tam liczony w pojedynczych zdaniach.
-Cena wyszła zerowa z gramatyki, bo żadnego z czterech znaków nie brał przedtem terminal.
-Nad prozą, dla której to weszło, zakupu nie mierzy żadna figura i mierzyć nie będzie:
-byłaby należna przeliczenia po każdym commicie dotykającym tekstu
-([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
-a nawias nie ma nad README ani jednego zdania do wzięcia,
-bo ten plik pisze odsyłacz odnośnikiem, a nie w nawiasie.
-
-Rzeczownik odczasownikowy zszedł z tej listy cały:
-cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-a zakupem jest sześćdziesiąt jeden zdań Składnicy i dwadzieścia zdań ustawy.
-Zero po stronie ceny wychodzi tu z tego, co jest jednym czytaniem:
-`czytanie` jest u Morfeusza i rzeczownikiem, i formą odczasownikową,
-a dwa wyprowadzenia jednego kształtu są jednym czytaniem,
-więc zdanie już przyjęte nie ma jak stracić jednoznaczności na tej głowie.
-Nad prozą tego repozytorium nie kupuje ani jednego zdania,
-tak samo jak dopisania przed nim,
-za to zdejmuje z listy form bez licencji nad nią całą swoją klasę,
-i kolejkę nad tym plikiem prowadzi odtąd cząstka.
-Pary do przelicznika niżej to dopisanie nie dokłada,
-bo obietnicą jest wiersz `ger` liczony wtedy, gdy konstrukcji jeszcze nie ma,
-a tabeli, która ten wiersz trzyma, nikt tu od tamtej pory nie przeliczył.
-
-Tryb przypuszczający zszedł z tej listy cząstką przy czasowniku,
-a spójniki, które ten tryb niosą same, weszły osobno i wyżej,
-bo są podrzędnością ([etap 4](#etap-4-zdanie-złożone)).
-Kupuje kilkanaście zdań Składnicy i pojedyncze zdania tej prozy,
-a jednoznaczności nie odbiera ani jednemu zdaniu w żadnym z tych dwóch korpusów.
-
-Predykatyw na tej liście nie stał i wszedł prosto z kolejki blokerów,
-z wiersza `pred`, którego olski nie ruszał dotąd wcale
-([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
-Kupuje kilkadziesiąt zdań Składnicy i kilka zdań tej prozy przy zerowej cenie
-w czytaniach, a wiersz, z którego wchodzi, prowadzi `to`,
-czyli łącznik, którego lista lematów nie bierze:
-połowa tamtego wiersza zostaje przez to po jego stronie.
-
-Myślnik dołożył interpunkcji zdaniowej trzeci znak rozdzielający
-i jest z tych trzech najskromniejszy: nad bankiem drzew nie rusza ani jednego
-werdyktu, a nad tą prozą kupuje pojedyncze zdania.
-Zakupem jest przy tym coś, czego żadna z tych dwóch liczb nie liczy:
-znak ten schodzi z listy form bez licencji nad tą prozą,
-więc dopiero teraz widać, czego brakuje zdaniom, które go niosą.
-Parę myślników trzyma [TODO.md](../TODO.md).
-
-Nad samym README żadne z tych trzech dopisań nie rusza ani jednego werdyktu,
-tak samo jak dopisania przed nimi.
-Myślnika ten plik nie pisze ani razu,
-a zdania, które niosą dwie pozostałe konstrukcje, stoją w nim także na czym innym.
-
-Zaimek dzierżawczy na tej liście nie stał
-i nie wyszedł z żadnego z jej dwóch źródeł, tylko z trzeciego:
-z sesji, która pisała pod tę gramatykę zdanie po zdaniu
-([pisanie-po-olsku.md](pisanie-po-olsku.md)).
-Kolejka blokerów tej pozycji nie widzi, bo `jego`, `jej` i `ich` licencję mają,
-więc odrzucenie stoi na strukturze
-([subset.md](subset.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)).
-Kupuje kilkadziesiąt zdań Składnicy, kilka zdań ustawy
-i pojedyncze zdania tej prozy,
-a jednoznaczność odbiera pojedynczym zdaniom banku drzew
-i odbiera ją przyłączeniem, którego olski nie wybiera.
-Pary do przelicznika niżej to dopisanie nie dokłada, bo z kolejki nie wyszło.
-
-Czasownik nieosobowy zszedł z tej listy
-i jest jej pierwszą pozycją postawioną przez kolejkę czytaną po części mowy.
-Kupuje nad Składnicą kilkadziesiąt zdań zdjętych z listy odrzuconych,
-tyle samo pod jedną morfologią co pod drugą, a rozkłada je inaczej:
-pod złotą przeszło połowa wychodzi przyjęta, a pod żywą wieloznaczna.
-Nad rejestrem ustaw kupuje pojedyncze zdania,
-a nad rozporządzeniem i nad tą prozą nie rusza ani jednego werdyktu.
-Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
-a zero po jej stronie nie jest wynikiem przebiegu:
-formy `imps` nie brała przedtem żadna produkcja,
-więc zdania przyjętego ta konstrukcja nie miała z czego wytrącić,
-tak samo jak dwukropek i średnik ([etap 4](#etap-4-zdanie-złożone)).
-Wywód trzyma
-[subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
-Parę do przelicznika niżej to dopisanie dokłada:
-wiersz `imps` obiecywał 262 zdania i oddał 77.
+Mierzy się przy tym każde dopisanie z osobna, a nie samą listę na końcu,
+bo kolejka wycenia pozycję, zanim się ją napisze:
+zysk wypada na ułamek tego, co obiecywała, a cena bywa poza nią.
+Czas przeszły stał w tej kolejce pierwszy, a kolejka nazywała go
+najtańszym dużym zyskiem;
+zapłacił on rodzajem wchodzącym do każdego szyku zdania
+([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+czego kolejka nie widziała i widzieć nie mogła.
 
 Zmierzone są tym samym wiersze tej kolejki: `num`, `praet`, `qub`, `adv` i `imps`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
@@ -904,30 +682,6 @@ i tym różni się od tamtych, z których każdy stał za jedną.
 Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:
 nazywa ona część mowy, na której analiza stanęła, a nie konstrukcję, której zabrakło.
-
-Trzeci gospodarz przysłówka jest jedynym dopisaniem tego etapu,
-po którego stronie nie stoi ani jedno zdanie odrzucone:
-przysłówek przed drugim przysłówkiem wyprowadzał się i przedtem,
-tylko jednym czytaniem, w którym oba przysłówki określają zdanie
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
-Zakupem jest przez to sama prawda o drzewie, a nie pokrycie:
-zdań przyjętych nie dokłada ani jednego,
-a jednoznaczność odbiera dokładnie tym zdaniom Składnicy, które ją miały fałszywie.
-Nad rejestrem ustaw i nad korpusem audytowym nie rusza ani jednego werdyktu,
-bo tej konstrukcji te dwa rejestry nie piszą.
-
-Miejsce na okolicznik po czasowniku nie wyszło ani z tej kolejki, ani z listy
-braków, tylko z zawężenia postawionego obok reguły, która te miejsca wylicza
-([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
-Kupuje nad Składnicą przeszło setkę zdań pod złotą morfologią
-i blisko setkę pod żywą, pojedyncze zdania w obu rejestrach,
-a jednoznaczność odbiera dwóm zdaniom banku drzew,
-czyli jest największym zakupem tego etapu.
-Zgodność ról zależy przy nim od innej konstrukcji:
-zdania, które kupuje, mają podmiot za czasownikiem,
-a bank drzew wciąga do tego podmiotu cząstkę stojącą przed nim,
-i tę klasę zdejmuje cząstka wpuszczona do grupy imiennej
-([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)).
 
 **Wyjście:** lista w [subset.md](subset.md#what-it-does-not-cover-yet) jest pusta,
 bo etap jest ostatnim, który ma z niej co brać,

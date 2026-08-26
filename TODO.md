@@ -150,6 +150,23 @@ and takes the command along as `python3 -m harness.coverage`,
 which leaves nothing there to rename,
 so whichever entry is picked up first is answering for the other.
 
+Otwarcie [etapu 6](docs/roadmap.md#etap-6-reszta-konstrukcji) liczy „pięciu zmierzonych”
+i „czterema z nich”, a zbiór, o który idzie, wylicza dopiero akapit o przeliczniku
+kilkadziesiąt wierszy niżej — `num`, `praet`, `qub`, `adv` i `imps`.
+Czytelnik idzie [zdanie po zdaniu](CLAUDE.md#the-reader-goes-sentence-by-sentence),
+więc liczba przed swoim zbiorem każe mu szukać wstecz od miejsca, którego jeszcze nie widział,
+a sama liczba jest [drugą kopią długości listy](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
+którą szóste dopisanie unieważni.
+Zdanie to było czytelne, dopóki każda z tych pięciu konstrukcji miała w tej sekcji
+własny akapit z parą obietnicy i zakupu; akapity zeszły razem z rejestrem cen wpuszczenia.
+Ruchem jest zdanie bez liczby, a przed nim rozstrzygnięcie, co ono właściwie mówi:
+„`corpus.md` mierzy to nad czterema z nich” nie daje się dziś odczytać,
+bo `corpus.md` opisuje zmianę wiersza przy przysłówku, odsłowniku, czasowniku
+nieosobowym, przeczeniu i liczebniku, czyli przy pięciu, a nie przy czterech.
+Do przeczytania jest [kolejka blokerów](docs/corpus.md#where-the-analyses-stop)
+w całości obok tego akapitu, bo rozstrzyga się tu, co jednemu dokumentowi
+zostaje do dopisania, a drugiemu do zbudowania.
+
 `docs/subset.md` jest dokumentem mieszanym.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
@@ -214,12 +231,16 @@ Czwarte takie zdanie liczyło ciała `RelativeCore` przed przeczeniem i po nim,
 a rozwinięcie szyku wypisuje ich od tamtej pory rząd wielkości więcej,
 więc zostaje po nim sama krotność: przeczenie podwaja te ciała.
 Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
-w [`docs/roadmap.md`](docs/roadmap.md#etap-6-reszta-konstrukcji) i w `docs/subset.md`
-są one przypięte do gramatyki z chwili pomiaru,
-a dokument rejestru ich nie powtarza: cena stoi przy konstrukcji,
+właścicielem każdej z nich jest sekcja konstrukcji w `docs/subset.md`,
+gdzie są przypięte do gramatyki z chwili pomiaru,
+a plan etapów i dokumenty rejestrów ich nie powtarzają: cena stoi przy konstrukcji,
 a przebieg, którym ją policzono, stoi w gicie
 ([`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 Czy właściciel ma trzymać ją dokładną, czy w rzędzie wielkości, nie rozstrzygnął nikt.
+Jedna cena stoi poza tą regułą i stoi tak dlatego, że nie ma sekcji:
+koordynację wycenia [etap 4](docs/roadmap.md#etap-4-zdanie-złożone),
+bo `docs/subset.md` ma sekcję o tym, co ją dzieli od podrzędności,
+a nie o tym, co jej wpuszczenie kosztowało.
 
 Nazwa `parser` obejmuje w tych dokumentach cały tor gramatyczny,
 a nazywa jedną z pięciu warstw, przez które przechodzi zdanie.

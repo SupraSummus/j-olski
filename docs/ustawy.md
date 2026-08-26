@@ -418,8 +418,7 @@ Czas przeszły, przeczenie, cztery szyki podmiotu, dopełnienia i czasownika,
 zdanie warunkowe oraz pytanie zależne przyjmują tu najwyżej pojedyncze zdania,
 przenoszą z odrzuconych na wieloznaczne od pojedynczych do kilkudziesięciu
 i pojedynczym zdaniom przyjętym wcześniej odbierają jednoznaczność.
-Cena każdej z nich stoi przy konstrukcji — w [subset.md](subset.md)
-albo w [kolejce etapu 6](roadmap.md#etap-6-reszta-konstrukcji) —
+Cena każdej z nich stoi przy konstrukcji, czyli w jej sekcji [subset.md](subset.md),
 a przebieg, którym ją policzono, stoi w gicie:
 pytanie „wpuszczać czy nie” pada raz, więc ten dokument nie liczy jej drugi raz.
 Szyk wypada z tej listy najgorzej i wypada pod zero:
