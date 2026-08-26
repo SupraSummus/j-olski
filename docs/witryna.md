@@ -68,22 +68,28 @@ a dwa żądania naraz obsługują różne workery
 
 Frazę werdyktu ma na własność kod: `Verdict.explain` w `olski/subset.py`.
 Witryna jej nie tłumaczy i drugiej nie pisze,
-więc przez API idzie `one reading` oraz `no reading: the analysis stops at „ustawienia”`,
-czyli angielskie zdania na polskiej stronie.
+więc przez API idzie `jedno odczytanie`
+oraz `brak odczytania: analiza staje na „ustawienia”`,
+czyli to samo zdanie, które drukuje komenda.
 
-Cena jest widoczna i płacimy ją rozmyślnie.
-Tłumaczenie na polski byłoby drugą kopią tej frazy,
+Fraza polska napisana na stronie byłaby drugą kopią,
 a druga kopia rozjeżdża się po cichu:
 zmiana w `explain` zostawiłaby na stronie zdanie,
 którego olski już o żadnym zdaniu nie mówi,
 i nie zgłosiłby tego żaden check.
-Po polsku jest zatem wszystko, co o zdaniu nie orzeka —
-podpisy, przyciski, legenda statusów, nagłówki sekcji —
-bo tego kod nie drukuje i właścicielem tego jest strona.
+Werdykt należy przez to do kodu,
+a podpisy, przyciski, legenda statusów i nagłówki sekcji do strony.
+Wiersz o dalszym zatrzymaniu składają dwa miejsca w tym samym brzmieniu —
+komenda w `olski/check.py`, strona w `witryna/skrypt.js` —
+bo API oddaje pod tym kluczem same formy, a nie zdanie o nich.
 
 Klucze JSON-a wybieramy sami, więc są po polsku.
-Nazwy roli w czytaniu — `Subject`, `Object`, `Verb`, `Modifier` —
-przychodzą z `DEKLARACJA` w `olski/subset.py` i zostają takie, jakie przyszły.
+Po angielsku zostaje status w znaczku —
+`valid`, `ambiguous`, `rejected`, `unclosed`, `fragment` —
+i legenda pod polem tłumaczy każdy z nich na polskie zdanie.
+Zostaje też nazwa roli w odczytaniu — `Subject`, `Object`, `Verb`, `Modifier` —
+bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset.py`.
+Co przekład każdej z tych dwóch rzeczy kosztuje, trzyma [`TODO.md`](../TODO.md).
 
 ## API oddaje dane, a nie HTML
 
@@ -181,7 +187,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
   {
    "zdanie": "Zapisz plik konfiguracyjny.",
    "status": "valid",
-   "wyjaśnienie": "one reading",
+   "wyjaśnienie": "jedno odczytanie",
    "czytania": [
     [
      {
@@ -202,7 +208,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
   "zdań": 1,
   "z_czytaniem": 1,
   "fragmentów": 0,
-  "wyjaśnienie": "1 of 1 sentences are olski, and 1 have a reading"
+  "wyjaśnienie": "olskie: 1 z 1 zdania; z odczytaniem: 1"
  },
  "granica_znaków": 4000
 }

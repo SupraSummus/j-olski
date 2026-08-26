@@ -189,7 +189,7 @@ a kolejkę form, na których staje, drukuje sam werdykt.
 
 ```sh
 python3 -m harness.markdown docs/ --into proza/
-python3 -m olski.check proza/*.txt | grep -oP 'stops at „\K[^”]+' | sort | uniq -c | sort -rn
+python3 -m olski.check proza/*.txt | grep -oP 'staje na „\K[^”]+' | sort | uniq -c | sort -rn
 ```
 
 Kolejka ta stawia na czele `i`, `a`, `więc`, przecinek, dwukropek i `czyli`,
@@ -2134,13 +2134,13 @@ Sonda mierzy dowodu."
 
 ```text
 <text>: valid     Werdykt służy czytelnikowi.
-                  one reading
+                  jedno odczytanie
 <text>: rejected  Parser wyprowadza czytelnikowi.
-                  no reading: the analysis reaches the end and nothing closes the sentence
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 <text>: valid     Wpis żąda dowodu.
-                  one reading
+                  jedno odczytanie
 <text>: rejected  Sonda mierzy dowodu.
-                  no reading: the analysis reaches the end and nothing closes the sentence
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 ```
 
 Rozdziela te pary leksykon, a nie przypadek:
@@ -2742,7 +2742,7 @@ python3 -m olski.check -c "Mowa o zadaniach." --readings
 
 ```text
 <text>: valid     Mowa o zadaniach.
-                  one reading
+                  jedno odczytanie
                   - NominalPredicate: Mowa, Modifier: o zadaniach → Mowa
 ```
 
@@ -3776,10 +3776,10 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 
 ```text
 <text>: ambiguous Plik jest bardzo duży.
-                  2 readings, differing in Adverb, Predicative
+                  2 odczytania, różne w Adverb, Predicative
                   - Subject: Plik, Predicative: bardzo duży, Verb: jest
                   - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo → jest
-0 of 1 sentences are olski, and 1 have a reading
+olskie: 0 z 1 zdania; z odczytaniem: 1
 ```
 
 Rolę niesie jeden z gospodarzy, i jest to decyzja, a nie przeoczenie.

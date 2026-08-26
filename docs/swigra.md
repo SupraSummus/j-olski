@@ -296,10 +296,10 @@ Gotuj mieszaninę dwie godziny."
 
 ```text
 <text>: rejected  Czytałaś, dziewczyno.
-                  no reading: the analysis reaches the end and nothing closes the sentence
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 <text>: rejected  Gotuj mieszaninę dwie godziny.
-                  no reading: the analysis reaches the end and nothing closes the sentence
-0 of 2 sentences are olski, and 0 have a reading
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+olskie: 0 z 2 zdań; z odczytaniem: 0
 ```
 
 Do wzięcia jest z tego mechanizmu sufit, a nie sama pozycja.

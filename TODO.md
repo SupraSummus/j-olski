@@ -257,21 +257,34 @@ Przeciw przemianowaniu: `olski/parse.py` i `olski-check` noszą to słowo,
 a [`docs/swigra.md`](docs/swigra.md) porównuje olskiego ze Świgrą jako parser z parserem,
 więc przekład nazwy rozjeżdża to porównanie z polem.
 
-Wydruk `olski-check` jest po angielsku,
+Nazwy, które werdykt wypisuje jako role odczytania, są po angielsku,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
-obejmuje komunikaty, które drukuje narzędzie.
-Nieprzełożone są tam dwie rzeczy naraz:
-komunikaty z `explain` w `olski/subset.py`
-i nazwy symboli, które ten sam wiersz wypisuje jako role czytania.
-Ruchem jest przekład jednym commitem,
-bo nazwa sięga wszystkich swoich wystąpień, a wydruk stoi w dokumentach.
-Słownik symboli przekłada się przy tym w całości albo wcale,
+obejmuje nazwy, które w kodzie wybieramy.
+Komunikaty werdyktu są polskie, a te nazwy nie,
+bo `Subject` i `Object` są zarazem symbolami gramatyki w `olski/subset.py`,
+więc przekład sięga każdego wystąpienia symbolu, a nie samego wydruku.
+Słownik przekłada się przy tym w całości albo wcale,
 bo nazwa dopisana po polsku daje mieszaninę wewnątrz słownika.
-Do przeczytania są bloki werdyktu cytowane w dokumentach:
-przekład bierze je na nowo ręką, i to one, a nie liczba nazw,
-mówią, ile ta zmiana kosztuje.
-Które to bloki, wylicza `tests/test_wydruki.py`, a lista wypisana tutaj
-rozjeżdżała się z drzewem.
+Ruchem jest przekład jednym commitem wraz z blokami werdyktu w dokumentach,
+a które to bloki, wylicza `tests/test_wydruki.py`.
+Do przeczytania jest
+[decyzja o gramatyce jako danych](docs/design-notes.md#decisions-taken):
+symbol ma tam jedną nazwę i jest nią ta, którą drukuje werdykt,
+a identyfikator jest polski, gdy symbol jest angielski.
+Przekład odwraca to zdanie, więc idzie razem z nim.
+
+Status werdyktu jest po angielsku — `valid`, `ambiguous`, `rejected`,
+`unclosed`, `fragment` — i wypisują go oba wydruki:
+kolumna `olski-check` oraz znaczek na stronie,
+gdzie polskie zdanie stoi obok niego w legendzie (`witryna/strona.html`).
+Napis ten jest zarazem klasą CSS strony (`witryna/styl.css`),
+wartością pod kluczem JSON-a
+oraz tym, o co pyta kilkanaście testów i sond w `harness/`,
+więc przekład sięga ich wszystkich i idzie jednym commitem.
+Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse.py`
+obok `Verdict.status` w `olski/subset.py`:
+nazwy właściwości zostają angielskie przy polskich wartościach,
+czyli daje to mieszaninę, którą wpis wyżej odrzuca dla symboli.
 
 Wydruk `olski-corpus` jest po angielsku tak samo jak tamten,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) obejmuje oba.
@@ -571,6 +584,17 @@ czas, a nie kształt drzewa, więc ten wpis go odwraca, a nie dopracowuje.
 Do przeczytania jest jedno zdanie puszczone obiema stronami: zdanie o koszcie szynki
 z README wychodzi u Świgry tysiącami drzew, a u olskiego kilkoma odczytaniami,
 a dopóki kwota nie jest wybrana, tych dwóch liczb nie ma jak zestawić.
+
+Flaga `--readings` w `olski/check.py` jest po angielsku,
+a stojące obok niej `--rozstrzygaj` i `--zatrzymania` po polsku,
+choć [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
+obejmuje nazwy flag tak samo jak komunikaty, które komenda drukuje.
+Ruchem jest `--odczytania` wraz z każdym wywołaniem w dokumentach;
+bloki nad wydrukami pilnuje `tests/test_wydruki.py`, bo puszcza to, co w nich stoi,
+a wystąpień w prozie nie pilnuje nic i te trzeba przejść grepem.
+Do przeczytania jest przy tym
+[`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
+gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
 
 ## Korpusy, ekstrakcja i figury
 
@@ -2355,7 +2379,7 @@ i sam mówi, że leksem nieznany nie ma ani jednej formy.
 Odmianę tego słowa deklaruje `olski/projekt.txt`, a skład go nie czyta,
 i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
 a nie ta pozycja.
-Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno czytanie` z drzewa nie wyjdzie,
+Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
 i jest to ta sama konstrukcja, którą gramatyka po drugiej stronie już ma
 ([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 czyli tor składu jest tu za nią, a nie przed.
@@ -2365,6 +2389,24 @@ a ma wpis w `olski/skład/spójniki.py`, więc wychodzi zdaniem i nie wychodzi f
 Jest to jedyna z tych trzech pozycji, przy której skład ma pół konstrukcji, a nie zero.
 Do przeczytania przy niej jest ten leksykon obok
 `tests/test_przyimki.py`, który świadkuje przypadkom, a nie doborowi relacji.
+
+Komunikat werdyktu jest napisem wpisanym w kod, a repozytorium ma tor,
+który polskie zdanie składa z drzewa,
+więc werdykt mógłby być pierwszym konsumentem tego toru:
+formę po liczebniku liczyłaby wtedy morfologia,
+a nie tabela na trzy przedziały w `_odczytań` w `olski/subset.py`.
+Wpis stoi zaparkowany za wpisem o pozycjach, których skład nie ma,
+bo liczebnik jest jedną z nich,
+a bez liczebnika nie wyjdzie z drzewa ani jeden wiersz tego werdyktu.
+Liczebnik nie jest przy tym wszystkim, czego temu komunikatowi brakuje.
+Wiersz werdyktu cytuje formę wziętą ze sprawdzanego zdania,
+a drzewo składu nie ma pozycji na napis, którego się nie odmienia.
+Skład zgłasza przy tym `BrakFormy` oraz `PozaRamą` nad drzewem,
+którego nie umie zrealizować, a werdykt wypisuje się nad każdym zdaniem,
+więc komunikat z drzewa dokłada gałąź na wypadek, którego napis nie ma.
+Do przeczytania jest `explain` w `olski/subset.py`,
+bo część jego wierszy jest polskim zdaniem, a część listą par i liczbą,
+czyli rozstrzygnąć trzeba i to, ile z tego wydruku skład bierze.
 
 Słowo, którego SGJP nie ma, mówi gramatyka i nie mówi go skład.
 `olski/projekt.txt` deklaruje leksem, wedle którego takie słowo się odmienia

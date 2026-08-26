@@ -14,7 +14,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.czytania import SAMA_LICZBA, całe_przyłączenie, klasa
-from olski.subset import check
+from olski.subset import _odczytań, check
 
 #: Po jednym zdaniu na klasę, którą ta sonda kiedykolwiek naliczyła nad
 #: Składnicą, w brzmieniu, które przechodzi przez żywą morfologię.
@@ -33,7 +33,7 @@ def test_klasa_milczy_dokładnie_tam_gdzie_milczy_werdykt(zdanie: str):
     assert len(werdykty) == 1
     werdykt = werdykty[0]
     assert werdykt.result.ambiguous
-    milczy = werdykt.explain() == f"{werdykt.result.ile} readings"
+    milczy = werdykt.explain() == _odczytań(werdykt.result.ile)
     assert (klasa(werdykt.result) == SAMA_LICZBA) is milczy
 
 
