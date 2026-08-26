@@ -319,6 +319,22 @@ w `docs/design-notes.md` i w `docs/roadmap.md` większość domyka zdanie podrz�
 albo powtarza spójnik, a z garści, która zostaje, część żąda przepisania zdania:
 `a liczba nie, i` bez przecinka zestawia przeczenie ze spójnikiem.
 
+Strona nie przedstawia drugiego toru, a nazywa go dwa razy:
+w ostatniej pozycji listy zastosowań i w akapicie nad makietą
+(`witryna/strona.html`).
+Wprowadzenie mówi o samym parserze, więc czytelnik z zewnątrz
+([`docs/roles.md`](docs/roles.md#ktoś-kto-trafia-tu-pierwszy-raz))
+dostaje nazwę, której nikt mu nie przedstawił
+([`CLAUDE.md`](CLAUDE.md#the-reader-goes-sentence-by-sentence)).
+To samo dotyka zdania nad listą: obiecuje ono jeden komponent,
+a ostatnia pozycja mówi o składzie, czyli nie o nim.
+Ruchem jest jedno zdanie we wprowadzeniu strony, które nazywa oba tory,
+oraz przepisane zdanie nad listą.
+Do przeczytania jest
+[`docs/roadmap.md`](docs/roadmap.md#po-co-tory-są-dwa),
+bo mówi, czym tory się różnią, a zdanie na stronie ma być od niego zgrubniejsze
+([`docs/witryna.md`](docs/witryna.md#strona-zaczyna-od-tego-czym-olski-jest)).
+
 ## Komendy i sondy
 
 Lista czytań mnoży odmiany zdań składowych, a mogłaby je sumować.
