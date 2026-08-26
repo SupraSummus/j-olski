@@ -2,12 +2,12 @@
 
 Frazę werdyktu ma na własność kod (``Verdict.explain`` w ``olski/subset.py``),
 więc ten moduł jej nie tłumaczy i drugiej nie pisze:
-przez API idzie ta sama angielska fraza, którą drukuje ``olski-check``.
-Po polsku jest strona wokół niej — podpisy, przyciski, nagłówki —
-bo one o żadnym zdaniu nie orzekają, i mówi o tym ``docs/witryna.md``.
+przez API idzie ta sama fraza, którą drukuje ``olski-check``.
+Po polsku jest przez to i werdykt, i strona wokół niego —
+podpisy, przyciski, nagłówki — a co z tego czyje, mówi ``docs/witryna.md``.
 
 Klucz JSON-a wybieramy tutaj, więc jest po polsku.
-Nazwa roli w czytaniu przychodzi z ``DEKLARACJA`` w ``olski/subset.py``
+Nazwa roli w odczytaniu przychodzi z ``DEKLARACJA`` w ``olski/subset.py``
 i zostaje taka, jaka przyszła.
 """
 

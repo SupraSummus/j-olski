@@ -321,9 +321,9 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 
 ```text
 <text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
-                  4 readings, differing in Subject; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” reads 2 ways
+                  4 odczytania, różne w Subject; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” ma 2 odczytania
 <text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
-                  2 readings, differing in Object; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
+                  2 odczytania, różne w Object; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
 ```
 
 Pierwsze niesie obok przyłączenia drugi wybór, ten słownikowy:
@@ -358,7 +358,7 @@ gdzie werdykt „wieloznaczne” ma adresata poza autorem tekstu.
 ## Gdzie stają analizy w tym rejestrze
 
 ```sh
-python3 -m olski.check proza/ustawy/*.txt | grep -oP 'no production takes \K[^;]*' \
+python3 -m olski.check proza/ustawy/*.txt | grep -oP 'nie bierze \K[^;]*' \
   | grep -oP '(?<=„)[^”]+(?=”)' | sort | uniq -c | sort -rn | head -20
 ```
 

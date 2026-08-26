@@ -1,6 +1,6 @@
 """Ile czasowników czyta zdanie przechodnie w obie strony naraz, według Walentego.
 
-``Wynajmę mieszkanie.`` olski przyjmuje i mówi o nim ``one reading``, a czytelnik
+``Wynajmę mieszkanie.`` olski przyjmuje i mówi o nim ``jedno odczytanie``, a czytelnik
 ma dwa: raz mieszkanie wynajmuje właściciel, raz lokator. Jest to wieloznaczność,
 której werdykt nie melduje, i ``docs/disambiguation.md`` opisuje ją wraz z tym,
 co miałoby ją zdejmować. Ta sonda odpowiada na pytanie, które stoi przed tamtym:

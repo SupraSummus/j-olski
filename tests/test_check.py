@@ -33,8 +33,8 @@ def test_ostatni_wiersz_wydruku_niesie_liczbę_fragmentów(capsys):
     """Z tego wiersza bierze liczbę fragmentów `docs/extraction.md`."""
     assert olski.check.main(["-c", MIESZANY]) == 1
     ostatni = _podsumowanie(capsys)
-    assert "1 of 2 sentences are olski" in ostatni
-    assert "1 fragment" in ostatni
+    assert "olskie: 1 z 2 zdań" in ostatni
+    assert "fragmenty, których nic nie punktuje jako zdania: 1" in ostatni
 
 
 def test_tekst_bez_fragmentów_nie_mówi_o_nich_ani_słowa(capsys):
@@ -45,7 +45,7 @@ def test_tekst_bez_fragmentów_nie_mówi_o_nich_ani_słowa(capsys):
 
 def test_ścieżka_której_nie_da_się_przeczytać_daje_kod_dwa(capsys, tmp_path):
     assert olski.check.main([str(tmp_path / "nie-ma.txt")]) == 2
-    assert "could not read" in capsys.readouterr().err
+    assert "nie udało się przeczytać" in capsys.readouterr().err
 
 
 def test_wołanie_bez_zdania_do_sprawdzenia_daje_kod_dwa(capsys):

@@ -632,7 +632,7 @@ okolicznik raz stoi w zdaniu za luką, a raz przed całym zdaniem z luką w śro
 Streszczenia obu są znak w znak te same,
 więc werdykt nie nazywa nad tym wariantem ani jednej roli
 i o różnicy mówi [wierszem o konstytuencie](#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań):
-`„przed laty kształcili kolejarskich specjalistów” reads 2 ways`,
+`„przed laty kształcili kolejarskich specjalistów” ma 2 odczytania`,
 czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 
 **Nie kupuje przy tym tej konstrukcji, po którą sięgano.**
@@ -1121,9 +1121,9 @@ różni czytanie słownikowe wewnątrz wypełnienia jednej roli —
 a `Ustawa mówi, że organ gminy wydaje przepis.` różni podmiot i dopełnienie
 zdania podrzędnego, w które streszczenie nie zagląda.
 Lista czytań zdania o tej różnicy milczy, bo oba czytania mają w niej jeden wpis,
-więc bez tego wiersza werdykt mówi nad każdym z tych zdań samo `2 readings`,
+więc bez tego wiersza werdykt mówi nad każdym z tych zdań samo `2 odczytania`,
 czyli nie mówi, czym te dwa czytania się różnią.
-Z nim mówi `„zainteresowana rada gminy” reads 2 ways`.
+Z nim mówi `„zainteresowana rada gminy” ma 2 odczytania`.
 
 Nazwany jest konstytuent, a nie różnica pod nim,
 i tę granicę stawia tożsamość czytania:
@@ -1146,12 +1146,12 @@ python3 -m olski.check --readings -c "Ustawa mówi, że organ gminy wydaje przep
 
 ```text
 <text>: ambiguous Ustawa mówi, że organ gminy wydaje przepis.
-                  2 readings; „organ gminy wydaje przepis” reads 2 ways
+                  2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania
                   - Subject: Ustawa, Verb: mówi
                   „organ gminy wydaje przepis” czyta się tak:
                     - Subject: organ gminy, Object: przepis, Verb: wydaje
                     - Subject: przepis, Object: organ gminy, Verb: wydaje
-0 of 1 sentences are olski, and 1 have a reading
+olskie: 0 z 1 zdania; z odczytaniem: 1
 ```
 
 Granicy między konstytuentem a różnicą pod nim lista nie rusza:
@@ -1207,7 +1207,7 @@ python3 -m olski.check --readings -c "Autor działa i zapisuje ustawienia."
 
 ```text
 <text>: valid     Autor działa i zapisuje ustawienia.
-                  one reading
+                  jedno odczytanie
                   - Subject: Autor, Verb: działa
                     Object: ustawienia, Verb: zapisuje
 ```

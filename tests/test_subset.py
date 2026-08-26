@@ -416,7 +416,7 @@ def test_niezgoda_w_drugim_zdaniu_składowym_zostaje_nazwana_rolą():
 
     Pierwsze wystąpienie każdej roli w tym zdaniu jest w składowym pierwszym i jest
     w obu czytaniach to samo, a różnica siedzi w drugim. Pytanie zadane samemu
-    zdaniu całemu zostawia więc `2 readings` nad dwoma streszczeniami, które podmiot
+    zdaniu całemu zostawia więc `2 odczytania` nad dwoma streszczeniami, które podmiot
     i dopełnienie rozdzielają, czyli werdykt nie mówi, czym te dwa czytania się różnią.
     """
     werdykt = verdict("Program zapisuje ustawienia i przepis wydaje organ.")
@@ -574,7 +574,7 @@ def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():
     assert (rozbieżność.konstytuent, rozbieżność.ile) == ("zainteresowana rada gminy", 2)
     assert rozbieżność.czytania == (({},),)
     assert found.rozbieżne == []
-    assert found.explain() == "2 readings; „zainteresowana rada gminy” reads 2 ways"
+    assert found.explain() == "2 odczytania; „zainteresowana rada gminy” ma 2 odczytania"
 
 
 def test_konstytuent_będący_zdaniem_streszcza_się_swoimi_rolami():
@@ -1151,13 +1151,13 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     #  odpowiedź pierwszą pokazuje dopiero forma spoza tego leksykonu.
     forma = verdict("Modele stawiają prozę wyżej od New Yorkera.")
     assert forma.nielicencjonowane == ("Yorkera",)
-    assert "no production takes" in forma.explain()
+    assert "żadna produkcja nie bierze" in forma.explain()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()
     #  Zdanie to stoi w README jako przykład odrzucenia, więc jego werdykt stoi
     #  tam wypisany co do znaku. Czemu analiza staje na `ustawienia`, a nie na
     #  niezgodnej parze, mówi `na_czym_stanęło` w `olski/subset.py`.
-    assert struktura.explain() == "no reading: the analysis stops at „ustawienia”"
+    assert struktura.explain() == "brak odczytania: analiza staje na „ustawienia”"
 
 
 @pytest.mark.parametrize(
@@ -1173,7 +1173,7 @@ def test_werdykt_nad_cudzysłowem_z_innego_rejestru_nazywa_parę_którą_gramaty
     #  Sama nazwana forma mówi autorowi tyle, że jego cudzysłów nie przechodzi.
     werdykt = verdict(zdanie)
     assert werdykt.status == "rejected"
-    assert werdykt.explain().endswith("; a quotation opens with „ and closes with ”")
+    assert werdykt.explain().endswith("; a cytat otwiera się znakiem „ i zamyka znakiem ”")
 
 
 @pytest.mark.parametrize(
@@ -1212,7 +1212,7 @@ def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
     #  where the sentence ran out.
     zdanie = "Plany są niczym ale planowanie jest wszystkim."
     assert parse(GRAMMAR, morphology(zdanie)).furthest == 3
-    assert verdict(zdanie).explain() == "no reading: the analysis stops at „ale”"
+    assert verdict(zdanie).explain() == "brak odczytania: analiza staje na „ale”"
 
 
 def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrzymania():
@@ -1223,7 +1223,7 @@ def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrz
     assert werdykt.status == "rejected"
     assert werdykt.zatrzymanie is None
     assert werdykt.explain() == (
-        "no reading: the analysis reaches the end and nothing closes the sentence"
+        "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
     )
 
 
@@ -1732,12 +1732,12 @@ def test_werdykt_rośnie_z_liczbą_wyborów_a_nie_z_liczbą_czytań():
         "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
     )
     assert dwa.explain() == (
-        "4 readings, differing in Object; "
+        "4 odczytania, różne w Object; "
         "„w pliku” → „zapisuje”, „ustawienia”; "
         "„w katalogu” → „zapisuje”, „pliku”"
     )
     assert sześć.explain().count(PRZYŁĄCZONY_DO) == 6
-    assert sześć.explain().startswith("64 readings, differing in Object; „w pliku” → ")
+    assert sześć.explain().startswith("64 odczytania, różne w Object; „w pliku” → ")
 
 
 @pytest.mark.parametrize(
@@ -1895,7 +1895,7 @@ def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
     #  Werdykt nazywa tu jedno przyłączenie z dwóch, i to jest ta ostrość, którą
     #  las kupuje: `w pliku` dochodzi do zdania w obu czytaniach.
     found = verdict("Autor zapisuje w pliku w katalogu.")
-    assert found.explain() == '2 readings; „w katalogu” → „zapisuje”, „pliku”'
+    assert found.explain() == '2 odczytania; „w katalogu” → „zapisuje”, „pliku”'
 
 
 @pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])
@@ -2784,7 +2784,7 @@ def test_okolicznik_przy_bezokoliczniku_ma_dwóch_gospodarzy():
     #  Fraza bezokolicznikowa bierze okolicznik przez to samo `Complements`,
     #  którym bierze go forma osobowa nad nią, więc stoi wśród gospodarzy
     #  przyłączenia. Bez niej okolicznik wychodzi do zdania w obu czytaniach,
-    #  oba streszczają się jednym napisem, a werdykt mówi samo `2 readings`.
+    #  oba streszczają się jednym napisem, a werdykt mówi samo `2 odczytania`.
     found = verdict("Syn usiłował wejść na ołtarz.")
     assert found.result.ile == 2, found.explain()
     (przyłączenie,) = found.result.przyłączenia
@@ -2813,7 +2813,7 @@ def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
     assert all(
         "Object" not in składowe for czytanie in found.readings for składowe in czytanie
     )
-    assert found.explain() == "2 readings; „organ gminy wydaje przepis” reads 2 ways"
+    assert found.explain() == "2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania"
 
 
 @pytest.mark.parametrize(

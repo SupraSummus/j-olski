@@ -2179,6 +2179,20 @@ def _nierozstrzygnięte(przyłączenie: Przyłączenie) -> str:
     return f"„{przyłączenie.modyfikator}”{PRZYŁĄCZONY_DO}{głowy}"
 
 
+def _odczytań(ile: int) -> str:
+    """Liczba odczytań w formie, której polski liczebnik żąda po sobie.
+
+    Formę wybiera jedno miejsce, bo werdykt nazywa tę liczbę w kilku wierszach.
+    Nazwą jest odczytanie, a nie czytanie, i wywodzi to
+    docs/subset.md#co-się-liczy-jako-jedno-odczytanie.
+    """
+    if ile == 1:
+        return "jedno odczytanie"
+    if ile % 10 in (2, 3, 4) and ile % 100 not in (12, 13, 14):
+        return f"{ile} odczytania"
+    return f"{ile} odczytań"
+
+
 def _rozbieżny(rozbieżność: Rozbieżność) -> str:
     """Konstytuent i liczba jego czytań, jako jeden wiersz werdyktu.
 
@@ -2187,7 +2201,7 @@ def _rozbieżny(rozbieżność: Rozbieżność) -> str:
     konstytuenta, a nazwana byłaby lematem, którego liczba czytań nie liczy
     (:class:`Rozbieżność`).
     """
-    return f"„{rozbieżność.konstytuent}” reads {rozbieżność.ile} ways"
+    return f"„{rozbieżność.konstytuent}” ma {_odczytań(rozbieżność.ile)}"
 
 
 def _podpowiedź(nielicencjonowane: tuple[str, ...]) -> str:
@@ -2209,8 +2223,8 @@ def _podpowiedź(nielicencjonowane: tuple[str, ...]) -> str:
     #  Średnik otwiera podpowiedź, bo tym znakiem wycina ją kolejka form bez
     #  licencji (docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze).
     return (
-        f"; a quotation opens with {ZNAK_CUDZYSŁOWU_OTWIERAJĄCY}"
-        f" and closes with {ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY}"
+        f"; a cytat otwiera się znakiem {ZNAK_CUDZYSŁOWU_OTWIERAJĄCY}"
+        f" i zamyka znakiem {ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY}"
     )
 
 
@@ -2279,25 +2293,26 @@ class Verdict:
 
     def explain(self) -> str:
         if self.status == NIEDOMKNIĘTE:
-            czytań = self.domknięcie.czytań
-            ile = "one reading" if czytań == 1 else f"{czytań} readings"
-            return f"nothing closes it: „{self.domknięcie.znak}” at the end gives {ile}"
+            return (
+                f"nic tego nie domyka: „{self.domknięcie.znak}” na końcu"
+                f" daje {_odczytań(self.domknięcie.czytań)}"
+            )
         if self.status == FRAGMENT:
-            return "not a sentence: nothing punctuates it as one"
+            return "to nie zdanie: nic go nie punktuje jako zdania"
         if self.result.valid:
-            return "one reading"
+            return _odczytań(1)
         if self.result.rejected:
             if self.nielicencjonowane:
                 # Cudzysłów jest treścią: najczęstszą formą bez licencji jest
                 # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
                 podpowiedź = _podpowiedź(self.nielicencjonowane)
-                return f"no reading: no production takes {formy}{podpowiedź}"
+                return f"brak odczytania: żadna produkcja nie bierze {formy}{podpowiedź}"
             if self.zatrzymanie is None:
-                return "no reading: the analysis reaches the end and nothing closes the sentence"
-            return f"no reading: the analysis stops at „{self.zatrzymanie}”"
+                return "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
+            return f"brak odczytania: analiza staje na „{self.zatrzymanie}”"
         przyłączenia = self.result.przyłączenia
-        differing = sorted(
+        różne = sorted(
             role
             for role in self.result.różniące
             # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
@@ -2306,12 +2321,12 @@ class Verdict:
         )
         # Liczba i role wychodzą z lasu, więc granica wyliczania sięga listy
         # czytań i nie sięga tego wiersza: liczba jest liczbą, a nie „64+”.
-        count = f"{self.result.ile} readings"
-        if differing:
-            count += f", differing in {', '.join(differing)}"
+        wiersz = _odczytań(self.result.ile)
+        if różne:
+            wiersz += f", różne w {', '.join(różne)}"
         return "; ".join(
             [
-                count,
+                wiersz,
                 *map(_nierozstrzygnięte, przyłączenia),
                 *map(_rozbieżny, self.result.rozbieżności),
             ]
@@ -2861,12 +2876,14 @@ class Podsumowanie:
         )
 
     def explain(self) -> str:
-        summary = (
-            f"{self.olskie} of {self.zdań} sentences are olski, "
-            f"and {self.z_czytaniem} have a reading"
+        #  Wiersz jest listą par, a nie zdaniem: liczba na końcu członu nie żąda
+        #  zgody od słowa przed sobą, więc odmienia się tu jedno słowo, a nie każde.
+        zdań = "zdania" if self.zdań == 1 else "zdań"
+        podsumowanie = (
+            f"olskie: {self.olskie} z {self.zdań} {zdań}; z odczytaniem: {self.z_czytaniem}"
         )
         if self.fragmentów:
-            #  Nie „that are not sentences”: napis niedomknięty jest w tej liczbie,
-            #  a werdykt nad nim mówi, że olski to zdanie czyta.
-            summary += f", beside {self.fragmentów} fragments nothing punctuates as a sentence"
-        return summary
+            #  Nie „fragmenty, które nie są zdaniami”: napis niedomknięty jest w tej
+            #  liczbie, a werdykt nad nim mówi, że olski to zdanie czyta.
+            podsumowanie += f"; fragmenty, których nic nie punktuje jako zdania: {self.fragmentów}"
+        return podsumowanie

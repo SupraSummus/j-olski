@@ -32,7 +32,7 @@ opisuje sekcja pod wywodem, z którego jego kształt wynika.
 
 Trzy pytania niżej są o czytaniach, które las trzyma,
 a zdanie niesie jeszcze wieloznaczność, która do lasu nie dochodzi:
-`Wynajmę mieszkanie.` olski przyjmuje i mówi o nim „one reading”,
+`Wynajmę mieszkanie.` olski przyjmuje i mówi o nim „jedno odczytanie”,
 a wynajmuje w nim raz właściciel, raz lokator.
 Klasa ta wraz z tym, co miałoby ją zdejmować, opisana jest
 [niżej](#wieloznaczność-której-werdykt-nie-melduje), za wywodem o czytaniach,
@@ -611,7 +611,7 @@ python3 -m olski.check --rozstrzygaj -c "Daj przepis na faworki."
 
 ```text
 <text>: ambiguous Daj przepis na faworki.
-                  2 readings, differing in Object; „na faworki” → „Daj”, „przepis”
+                  2 odczytania, różne w Object; „na faworki” → „Daj”, „przepis”
                   ? „na faworki” → „przepis”: „na” przy „przepis” doszło tam w 4 z 4 wypadków banku drzew, 100%
 ```
 
@@ -642,11 +642,11 @@ python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator
 
 ```text
 <text>: ambiguous Wystąpiła awaria w systemie.
-                  2 readings, differing in Subject; „w systemie” → „Wystąpiła”, „awaria”
+                  2 odczytania, różne w Subject; „w systemie” → „Wystąpiła”, „awaria”
 <text>: ambiguous Operator zgłosił awarię w systemie.
-                  2 readings, differing in Object; „w systemie” → „zgłosił”, „awarię”
+                  2 odczytania, różne w Object; „w systemie” → „zgłosił”, „awarię”
                   ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
-0 of 2 sentences are olski, and 2 have a reading
+olskie: 0 z 2 zdań; z odczytaniem: 2
 ```
 
 Dowodem jest powtórzenie, a nie znajomość rzeczy.
@@ -1139,12 +1139,12 @@ python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
 
 ```text
 <text>: valid     Wynajmę mieszkanie.
-                  one reading
+                  jedno odczytanie
                   - Object: mieszkanie, Verb: Wynajmę
 <text>: valid     Znam go.
-                  one reading
+                  jedno odczytanie
                   - Object: go, Verb: Znam
-2 of 2 sentences are olski, and 2 have a reading
+olskie: 2 z 2 zdań; z odczytaniem: 2
 ```
 
 Pierwsze zdanie mówi raz, że wynajmuję komuś swoje mieszkanie,

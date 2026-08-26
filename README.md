@@ -79,10 +79,10 @@ Nowa program zapisuje ustawienia."
 
 ```text
 <text>: valid     Zapisz plik konfiguracyjny.
-                  one reading
+                  jedno odczytanie
                   - Object: plik konfiguracyjny, Verb: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 readings, differing in Object, Subject; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
+                  6 odczytań, różne w Object, Subject; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
                   - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → szynki
                   - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt
                   - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
@@ -90,8 +90,8 @@ Nowa program zapisuje ustawienia."
                   - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt
                   - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
-                  no reading: the analysis stops at „ustawienia”
-1 of 3 sentences are olski, and 2 have a reading
+                  brak odczytania: analiza staje na „ustawienia”
+olskie: 1 z 3 zdań; z odczytaniem: 2
 ```
 
 Czytania szynki dzielą szyk oraz gospodarz frazy `z dodatkami`.
@@ -122,9 +122,9 @@ python3 -m olski.check --zatrzymania -c "Nowa program zapisuje ustawienia, i lin
 
 ```text
 <text>: rejected  Nowa program zapisuje ustawienia, i linter sprawdza teksty.
-                  no reading: the analysis stops at „ustawienia”
-                  the analysis stops again at „i”
-0 of 1 sentences are olski, and 0 have a reading
+                  brak odczytania: analiza staje na „ustawienia”
+                  analiza staje też na „i”
+olskie: 0 z 1 zdania; z odczytaniem: 0
 ```
 
 Cięcie nie jest granicą konstrukcji.

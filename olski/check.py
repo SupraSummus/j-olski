@@ -69,22 +69,22 @@ def _dalsze(verdict: Verdict) -> str:
     """
     dalsze = dalsze_zatrzymania(verdict)
     if not dalsze:
-        return "the analysis stops nowhere else"
+        return "analiza nie staje nigdzie więcej"
     formy = ", ".join(f"„{forma}”" for forma in dalsze)
-    return f"the analysis stops again at {formy}"
+    return f"analiza staje też na {formy}"
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-check",
-        description="Check whether each sentence of a Polish text is olski.",
+        description="Sprawdź, czy każde zdanie polskiego tekstu jest olskie.",
     )
-    parser.add_argument("paths", nargs="*", help="files of plain Polish text")
-    parser.add_argument("-c", "--text", help="check this text instead of a file")
+    parser.add_argument("paths", nargs="*", help="pliki zwykłego polskiego tekstu")
+    parser.add_argument("-c", "--text", help="sprawdź ten tekst zamiast pliku")
     parser.add_argument(
         "--readings",
         action="store_true",
-        help="print what fills each role, once per distinct reading summary",
+        help="pokaż, co stoi w której roli, raz na streszczenie odczytania",
     )
     parser.add_argument(
         "--rozstrzygaj",
@@ -110,7 +110,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         try:
             sources.append((raw, path.read_text(encoding="utf-8")))
         except (OSError, UnicodeDecodeError) as error:
-            print(f"olski-check: could not read {raw}: {error}", file=sys.stderr)
+            print(f"olski-check: nie udało się przeczytać {raw}: {error}", file=sys.stderr)
             return 2
 
     #  Świadkowie powstają raz na przebieg, a nie raz na zdanie: tabela skłonności
