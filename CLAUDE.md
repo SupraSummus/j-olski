@@ -984,6 +984,12 @@ a których nie zadaje żadna sekcja wyżej.
   Wpis, który ta zmiana zamyka, kasujesz
   ([dokument opisuje teraźniejszość](#documents-describe-the-present-git-owns-the-past)),
   a wpis zamknięty w połowie przepisujesz na to, co z niego zostało.
+- **Nagłówek.** Przeczytaj sam nagłówek każdej ruszonej sekcji
+  i powiedz, czego się pod nim spodziewasz.
+  Czytasz od miejsca, w którym zaczęła się edycja, a nagłówek jest nad nim,
+  więc bez tego pytania nie przeczyta go nikt.
+  Jaki nagłówek jest zły, mówi
+  [dla kogo jest napisane zdanie](#dla-kogo-jest-napisane-zdanie).
 - **Poza zasięgiem suity.** Czego `tests/test_docs.py` nie sprawdzi:
   nazwy napisanej bez backticków, nazwy sekcji
   ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie))

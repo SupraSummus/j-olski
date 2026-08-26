@@ -602,11 +602,11 @@ Konstrukcje, które olski już bierze, mają wywód i cenę
 w swoich sekcjach [subset.md](subset.md#what-the-grammar-covers),
 a przebiegi, którymi je policzono, są w gicie.
 Kolejka ze Składnicy stawia oba wysoko, bo `to` prowadzi w niej dwa wiersze.
-Wobec README podnoszą pokrycie dopiero razem,
-a żaden z pięciu zmierzonych dodany sam go nie rusza.
-[corpus.md](corpus.md#where-the-analyses-stop) mierzy to nad czterema z nich,
-a nad łącznikiem nie mierzy nic,
-więc tyle samo zostaje tam do dopisania, co tutaj do zbudowania.
+Wobec README podnoszą pokrycie dopiero razem.
+Co dopisanie konstrukcji robi z wierszami tej kolejki, opisuje
+[corpus.md](corpus.md#where-the-analyses-stop),
+a o łączniku nie mówi nic,
+więc łącznik trzeba tam opisać i tutaj zbudować.
 
 Cyfra jest przy tym osobną pozycją, a nie resztą liczebnika:
 zdejmie ją warstwa nad morfologią, a nie produkcja,
@@ -665,6 +665,7 @@ Zmierzone są tym samym wiersze tej kolejki: `num`, `praet`, `qub`, `adv` i `imp
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
 a `adv` oraz `imps` niemal jedną trzecią,
 więc przelicznik wychodzi trzy- do pięciokrotnego i żaden pomiar z niego nie wypadł.
+Żadne z tych dopisań nie rusza osobno pokrycia nad README.
 Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
 bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,
 i dlatego pary z siebie nie wynikają:
