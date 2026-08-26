@@ -23,12 +23,8 @@ Nie ma wydania, nie ma pakietu, nie ma aplikacji, która to napędza
 ([README](../README.md#kierunek)).
 
 To jest stan, którego warto pilnować, a nie brak do nadrobienia.
-Alienacja pracy, którą Marks opisał
-w *Rękopisach ekonomiczno-filozoficznych* z 1844 roku,
-to oddzielenie pracującego od wytworu jego pracy,
-a tutaj chodzi o jeden jej przypadek:
-użytkownik i twórca to dwie różne osoby.
-Wtedy o narzędziu decyduje ktoś, kto go nie używa,
+Użytkownik i twórca to zwykle dwie różne osoby,
+a wtedy o narzędziu decyduje ktoś, kto go nie używa,
 używa go ktoś, kto nie ma o nim nic do powiedzenia,
 i znika sprzężenie, które samo z siebie trzyma jakość.
 Tutaj tego rozejścia nie ma.

@@ -19,45 +19,18 @@ więc na liście niżej ich nie ma.
 
 ### The rest of the subset
 
-Each row is a real fork, not a difficulty level,
-and each is cheaper than the scrambling fork
+One fork is left, and it is cheaper than the scrambling fork
 [a measurement closed](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
-The `closeness` column notes which option
-serves the settled goal of resembling Polish.
-
-| Area | Cheap option | Expensive option | Closeness favours |
-| --- | --- | --- | --- |
-| Subject | Require an overt noun phrase | Allow pro-drop | Expensive |
-| Negation | Clause-wide `nie`, no case shift | Genitive of negation with propagation | Expensive |
-| Clauses | Main clauses only | `że` and `który` subordination | Expensive |
-| Coordination | Same-category only | Unlike categories, gapping | Unresolved |
-
-Closeness to Polish argues for the expensive column nearly everywhere,
-which is not a reason to build it all at once.
-
-Word order had a row here and has one no longer,
-and the fork closed in two moves rather than one.
-The expensive column was taken first as coverage:
-all six orders of subject, object and verb derive
-([subset.md](subset.md#what-the-grammar-covers)).
-The mechanism the column names arrived after it,
-so the clause now declares its daughters
-and a precedence condition beside them says which orders are written
-([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
-What is left of the area is not a fork but the constructions that carry order with them,
-and those sit in `TODO.md` as work rather than as a decision.
-
-Numerals had a row here and have one no longer.
-The fork was between excluding them and paying for the agreement fictions,
-the fictions cost one production feature written as a value rather than a variable
-([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
-What is left of the area is not a fork but work, and it is two pieces of it.
-One is the numeral written as a digit,
-which no production can take because `dig` carries no features at all
-([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
-The other is the reading a governing numeral takes over a congruent one,
-which no feature separates from the compound numeral standing beside it
-([subset.md](subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
+Olski coordinates noun phrases, adjective phrases and clauses,
+and both conjuncts have to be of one category
+([subset.md](subset.md#what-the-grammar-covers)),
+where Polish also coordinates unlike ones and gaps a repeated verb.
+Gapping is the half already taken, and taken as ellipsis rather than as coordination:
+a conjunct whose verb this register drops derives
+after the conjunctions that admit one
+([subset.md](subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+Closeness to Polish argues for the other half,
+and what it costs nobody has measured.
 
 ### Własność jednoznaczności żąda jej od zdania, które jej nie ma
 

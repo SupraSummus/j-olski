@@ -43,11 +43,10 @@ only to a reader who knows the convention,
 and the settled goal is that olski reads as ordinary Polish
 to any Polish speaker.
 
-This also answers a question the linter track had left open.
 Deep analysis is expensive because ambiguity is expensive.
 Rather than pay for machinery that resolves ambiguity,
 olski excludes the constructions that create it,
-and every later rule inherits the exclusion.
+and every production admitted inherits the exclusion.
 
 One of those exclusions bounds how far the property reaches.
 A phrase has to be a contiguous stretch of text,
@@ -808,9 +807,7 @@ i cząstkę dostaje ten czas i tylko on, bo tak stawia ją polszczyzna:
 
 Ceny w czytaniach ta cząstka nie ma żadnej i wynika to z gramatyki, nie z przebiegu:
 formy `by` nie bierze przy czasowniku żaden inny terminal,
-więc zdanie z nią albo wyprowadza się tymi dwoma ciałami,
-albo nie ma czytania wcale — tak samo jak zdanie z dwukropkiem
-([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+więc zdanie z nią albo wyprowadza się tymi dwoma ciałami, albo nie ma czytania wcale.
 Niezmiennika pilnuje `tests/test_subset.py`, gdzie zdanie z tą cząstką stoi wśród
 przyjmowanych: `by` dopisane do listy cząstek daje mu drugie czytanie i wywraca test.
 Ciało z aglutynantem nie rusza przy tym nad prozą tego repozytorium
@@ -883,9 +880,7 @@ bo zdanie z każdym z tych spójników polszczyzna wysuwa:
 
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 a wynika to z gramatyki, nie z przebiegu:
-`comp` z tymi lematami nie brał przedtem żaden terminal,
-więc zdanie z takim spójnikiem nie miało czytania,
-z którego dałoby się je wytrącić.
+`comp` z tymi lematami nie brał przedtem żaden terminal.
 Zakupem jest przeszło pięćdziesiąt zdań Składnicy zdjętych z listy odrzuconych,
 z czego połowa na przyjęte.
 Role tych przyjętych zgadzają się z drzewem wzorcowym poza jednym zdaniem:
@@ -920,8 +915,7 @@ bo pozycja jest tu inna, a czasownik ten sam.
 Cena wyszła zerowa nad bankiem drzew pod obiema morfologiami
 oraz nad prozą tego repozytorium,
 a wynika to z gramatyki, nie z przebiegu:
-cząstki stojącej przed formą osobową nie brało przedtem ani jedno ciało,
-więc żaden napis nie miał odczytania, z którego dałoby się go wytrącić.
+cząstki stojącej przed formą osobową nie brało przedtem ani jedno ciało.
 Zakupem jest przeszło sześćdziesiąt zdań Składnicy zdjętych z odrzuconych,
 z czego większość na przyjęte, a pod morfologią żywą tyle samo.
 Role tych przyjętych nie kłócą się z drzewem wzorcowym nad ani jednym zdaniem,
@@ -1807,7 +1801,7 @@ rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
 ani bezokolicznika, ani zdania podrzędnego.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
-zdanie o bierniku niesie 7 941 wpisów, o celowniku 8 076, o dopełniaczu 844,
+zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964, o dopełniaczu 821,
 o bezokoliczniku 285, a o zdaniu podrzędnym 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
@@ -1828,7 +1822,7 @@ a wybór miejsca należy do czytelnika
 ([wyżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
 
 Kolumna ta niesie coś przy 12 195 wpisach,
-a 3 787 z nich weszło do pliku nią samą, bez ani jednego zdania obok.
+a 3 800 z nich weszło do pliku nią samą, bez ani jednego zdania obok.
 Rzeczownik wchodzi tak zawsze, bo zdania tego leksykonu są o czasowniku
 i o rzeczowniku nie orzekają żadnego,
 a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
@@ -2997,8 +2991,7 @@ bo jedna forma stoi w nim sama, druga z wypełnieniem, a koordynuje je spójnik.
 
 Cena wyszła zerowa w trzech korpusach i pod obiema morfologiami banku drzew,
 a zero jest tu własnością konstrukcji, a nie wynikiem przebiegu:
-formy `imps` nie brała przedtem żadna produkcja,
-więc żadne zdanie przyjęte jej nie niosło.
+formy `imps` nie brała przedtem żadna produkcja.
 Niezgodnie z drzewem wzorcowym olski nie czyta ani jednego zdania nowo przyjętego,
 a pojedyncze czyta uboższą listą ról niż drzewo.
 Nad rejestrem ustaw zakup jest liczony w pojedynczych zdaniach i wszystkie
@@ -3100,7 +3093,7 @@ nieprawdziwe i nie daje im nic w zamian.
   zaimek `który` przy rzeczowniku i te dwa zaimki same,
   bo rzeczownika przy sobie nie mają.
   Wyrażenie przyimkowe bierze to czoło osobnym ciałem —
-  `Kto z państwa senatorów jest za?` — bo grupy imiennej,
+  `Kto z posłów zapisuje ustawienia?` — bo grupy imiennej,
   która by je wzięła, w środku nie ma.
   Przyłączenia tego olski nie wybiera, tak samo jak wszędzie
   ([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).

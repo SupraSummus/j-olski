@@ -88,10 +88,9 @@ It is distributed under CC BY-SA 4.0 —
 a friendlier licence than the parser
 whose lexicons are generated from it.
 Olski's valency lexicon is derived from it,
-taking the one fact its own frame can carry —
-which verbs take no accusative object —
-and leaving the rest,
-for the reasons [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) gives.
+taking the handful of facts its own frame can carry and leaving the rest,
+for the reasons
+[subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
 <http://walenty.ipipan.waw.pl/>
 
 **Składnica** —
