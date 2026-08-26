@@ -2579,6 +2579,25 @@ def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
     assert "Subject" not in role(found)[0], found.explain()
 
 
+def test_dopełnienie_wysunięte_przed_głowę_bez_podmiotu_zostawia_okolicznik_za_nią():
+    #  Usterki, które to łapie: pozycja wpisana jednej z dwóch głów zamiast wzięta
+    #  nazwą symbolu, po której wysunięcie ma predykatyw albo forma nieosobowa, a
+    #  nie obie; oraz dopełnienie wpisane wewnątrz `Complements`, po którym
+    #  `Usterkę zgłoszono wczoraj.` nie ma gdzie postawić okolicznika, bo tamten
+    #  symbol stoi w ciele za głową i tylko tam
+    #  (docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu).
+    forma = verdict("Usterkę zgłoszono.")
+    assert role(forma)[0]["Object"] == "Usterkę", forma.explain()
+    predykatyw = verdict("Nic nie widać.")
+    assert role(predykatyw)[0]["Object"] == "Nic", predykatyw.explain()
+    okolicznik = verdict("Usterkę zgłoszono wczoraj.")
+    assert okolicznik.status == "valid", okolicznik.explain()
+    #  Szyk odwrotny ma własne ciało, a nie przestawienie tego, więc jeden napis
+    #  wychodzi jednym wyprowadzeniem, a nie dwoma.
+    odwrotny = verdict("Zgłoszono usterkę.")
+    assert odwrotny.status == "valid", odwrotny.explain()
+
+
 def test_czasownik_nieosobowy_nie_bierze_orzecznika_zgodnego():
     #  Usterka, którą to łapie: rama leksykonu wzięta tej formie taka, jaka jest.
     #  Orzecznik zgodny zgadza się z podmiotem, więc zdanie bez podmiotu nie ma go
