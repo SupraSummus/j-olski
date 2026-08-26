@@ -1978,6 +1978,17 @@ def test_cząstka_zwrotna_poprzedza_przeczenie_swojej_formy():
     assert verdict("Rachunek nie się zwraca.").status == "rejected"
 
 
+def test_kopula_nie_bierze_cząstki_zwrotnej_w_żadnej_z_dwóch_pozycji():
+    #  Klasa domyślna leksykonu zwrotnego wpuszcza cząstkę do każdego lematu, którego
+    #  ten leksykon nie wymienia, a kopula jest wśród nich, więc bez odmowy `być się`
+    #  wychodzi czasownikiem w obu pozycjach cząstki i w czasie przyszłym.
+    #  Czasownik, przy którym cząstka stoi naprawdę, odmowa zostawia.
+    assert verdict("Cena się jest niska.").status == "rejected"
+    assert verdict("Cena jest się niska.").status == "rejected"
+    assert verdict("Cena się będzie niska.").status == "rejected"
+    assert verdict("Rachunek się zwraca.").status == "valid"
+
+
 def test_cząstka_zwrotna_opiera_się_o_słowo_a_nie_o_znak():
     #  Pozycja przednia sięga początku zdania i miejsca tuż za znakiem, a takich
     #  napisów polszczyzna nie ma. Warunek zdejmuje tam cząstce odczytanie

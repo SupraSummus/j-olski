@@ -782,11 +782,20 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
 
     Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
-    jak każdy inny nieznany.
+    jak każdy inny nieznany, bo cząstkę stawia polszczyzna przy czasowniku
+    dowolnym, a Walenty wymienia z niej samą zwrotność zleksykalizowaną.
+
+    Klasa domyślna leksykonu zwrotnego odmawia przy tym kopuli (:data:`KOPULA`), i
+    jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost: bez tego
+    ``Cena się jest niska.`` się wyprowadza, a ``być się`` czasownikiem nie jest.
+    Lematu ``zostać`` odmowa ta nie tyka, bo leksykon zwrotny go wymienia i klasa
+    domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
+    docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej.
     """
     leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
     klasy = [({"lemma": lematy}, rama) for rama, lematy in leksykon.items()]
-    return [*klasy, ({"bez_lematu_formy": "|".join(leksykon.values())}, RAMA_DOMYŚLNA)]
+    poza_domyślną = [*leksykon.values(), *([KOPULA] if zwrotne else [])]
+    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, RAMA_DOMYŚLNA)]
 
 
 def _formy_skończone(

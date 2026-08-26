@@ -1485,7 +1485,7 @@ bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
 i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
 gdy zwrotny jest bezokolicznik.
 Pozycja przednia ma to samo po drugiej stronie —
-`Program otwierający się jest tani.` wychodzi z `się jest` w orzeczeniu —
+`Program otwierający się psuje.` wychodzi z `się psuje` w orzeczeniu —
 i obie usterki zdejmuje jeden ruch
 ([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
 Płaci za to [gramatyka](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on):
@@ -1505,21 +1505,40 @@ daje `Zebranie ma się odbyć.` drugie wyprowadzenie.
 Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
-Klasa domyślna leksykonu zwrotnego daje cząstkę `się` czasownikowi, który jej nie ma.
-`Cena się jest niska.` wyprowadza się, a `być się` czasownikiem nie jest;
-tak samo wyprowadza się `Cena się będzie niska.`
-Klasa ta jest w `olski/subset.py` warunkiem ujemnym na lematy leksykonu zwrotnego,
-więc lemat, którego ten leksykon nie wymienia,
-bierze pod cząstką ramę domyślną, zamiast wypaść z ciała z cząstką.
-Od wpisu o cząstce, która dochodzi do formy stojącej obok, różni się tym,
-że tam cząstka ma swój czasownik i trafia do cudzego, a tu nie ma go wcale.
-Ruchem jest ciało z cząstką odmówione lematowi,
-którego leksykon zwrotny nie wymienia,
-czyli klasa domyślna zdjęta z tego jednego leksykonu.
-Do przeczytania jest
-[sekcja o ramie domyślnej](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
-bo cena tego zawężenia jest ceną braków Walentego:
-czasownik zwrotny, którego on nie wymienia, traci wtedy cząstkę.
+Olski czyta cząstkę bezosobową jako czasownik zwrotny z podmiotem.
+`Myśli się językowo.` wyprowadza się przez klasę domyślną leksykonu zwrotnego,
+czyli tak, jakby `myśleć się` było czasownikiem,
+a `Wino białe pije się inaczej.` dostaje przez to dwa czytania,
+z których to z podmiotem `Wino białe` jest czytaniem, którego polszczyzna nie ma:
+zdanie z tą cząstką podmiotu nie ma, a rzeczownik w nim stoi w bierniku.
+Ruchem jest pozycja na tę konstrukcję — zdanie bez podmiotu, forma trzeciej osoby
+liczby pojedynczej i dopełnienie w bierniku — a nie wpis w leksykonie:
+Walenty jej nie leksykalizuje, bo dochodzi ona do czasownika dowolnego.
+Pozycja ta jest zarazem warunkiem zamknięcia leksykonu zwrotnego:
+gramatyka odmawiająca cząstki lematowi spoza Walentego traci nad Składnicą
+kilkadziesiąt zdań przyjętych, a mniej więcej połowa z nich niesie tę cząstkę
+([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
+Do przeczytania jest, co ta pozycja zrobi ze zgodnością ról:
+bank drzew daje cząstce w zdaniu nieosobowym rolę podmiotu (tamże),
+a olski nazywa ją częścią orzeczenia,
+więc zdanie nowo przyjęte wchodzi do mianownika zgodności
+([docs/corpus.md](docs/corpus.md#agreement-which-matters-more-than-acceptance))
+z rolami, których drzewo wzorcowe rozstawia inaczej.
+
+Leksykon gubi zwrotność, którą Walenty zapisuje pozycją, a nie lematem.
+Walenty pisze `spotkać się` jako `spotkać` z pozycją `recip` w schemacie,
+a `myć się` jako `myć` z pozycją `refl`, i żadnej z nich `olski/walenty.py` nie czyta,
+więc `olski/leksykon.txt` mówi o 5 739 lematach zwrotnych,
+a 880 lematów tych schematów nie ma w nim wcale.
+Gramatyce nie odbiera to dziś nic, bo klasa domyślna leksykonu zwrotnego
+wpuszcza cząstkę i bez wpisu, a odbiera świadkowi ramowemu przyimki tych schematów
+(`przyimki_czasownika` w `olski/walencja.py`).
+Ruchem jest zdanie leksykonu o cząstce, czytane z obu zapisów naraz,
+a przed nim rozstrzygnięcie, czy pozycja `refl` odbiera ramie biernik:
+`się` stoi w niej w miejscu dopełnienia, więc lemat wzięty z ramą domyślną
+brałby biernik drugi raz.
+Do przeczytania jest, ile ta kolumna zmienia świadkowi:
+schematów z tymi pozycjami jest 2 407, a lematów 1 464.
 
 Klasa walencyjna mnoży produkcje formy `bedzie` przez lematy, których ta forma nie ma.
 Czas przyszły idzie w `olski/subset.py` przez tę samą pętlę co reszta form osobowych,
