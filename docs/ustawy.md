@@ -185,7 +185,7 @@ i jest to ta sama usterka korpusu, którą przegląd korpusów zgłasza
 
 ```sh
 python3 -m olski.check proza/ustawy/DU-1990-95.txt
-python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejected|fragment) ' \
+python3 -m olski.check proza/ustawy/*.txt | grep -oE ': (valid|ambiguous|rejected|fragment|unclosed) ' \
   | sort | uniq -c
 ```
 

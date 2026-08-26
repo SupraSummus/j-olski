@@ -22,8 +22,8 @@ from pathlib import Path
 
 from harness.polszczyzna import GRAMATYKA
 from harness.wiezy import Rozbiór, rozbierz
-from olski.subset import FRAGMENT, morphology, sentences
 from olski.subset import check as olski_check
+from olski.subset import morphology, sentences
 
 #: Ile czytań zbierać. Werdykt zamyka się na drugim, a wyższy limit stoi tu po
 #: to, żeby dało się porównać liczby z olskim, który zbiera do MAX_READINGS.
@@ -105,7 +105,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         werdykty = {werdykt.text: werdykt for werdykt in olski_check(tekst)}
         for zdanie in sentences(tekst):
             werdykt = werdykty[zdanie]
-            if werdykt.status == FRAGMENT:
+            if not werdykt.punktowane:
                 continue
             zdań += 1
             segmenty = morphology(zdanie)

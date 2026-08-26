@@ -62,7 +62,7 @@ from olski.corpus import read
 from olski.coverage import SOURCES, po_kawałkach, segments_for
 from olski.parse import MAX_READINGS, Node, Result, las, podsumuj
 from olski.skład.rozbiór import abstrahuj, sygnatura
-from olski.subset import DEKLARACJA, FRAGMENT, GRAMMAR, check
+from olski.subset import DEKLARACJA, GRAMMAR, check
 
 #: Ile zdań zachować pod każdym kluczem. Liczba bez zdania mówi, ile ich jest, i
 #: nie mówi, czy zwinięcie, które nazywa, jest zwinięciem, które czytelnik ma.
@@ -273,7 +273,7 @@ def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
     """
     raport = Raport(przykłady)
     for werdykt in check(tekst):
-        if werdykt.status == FRAGMENT:
+        if not werdykt.punktowane:
             raport.pominięte["fragment, a nie zdanie"] += 1
             continue
         policz(raport, werdykt.text, werdykt.result)

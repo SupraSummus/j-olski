@@ -705,7 +705,7 @@ a ruch trzyma [TODO.md](../TODO.md).
   ([poniżej](#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
-  Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła
+  Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła.
 - Nawias obok zdania składowego, czyli wtrącenie, którym ten rejestr dopowiada:
   `Zdanie stoi (docs/subset.md).`, `Cena jest niska (niżej).`
   ([poniżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania))
@@ -739,7 +739,7 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Pytanie zależne jako to, co czasownik bierze,
   czyli pozycja ramy osobna od pozycji zdania z `że`:
   `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
-  Spójnika ono nie ma, bo podporządkowuje sam zaimek
+  Spójnika ono nie ma, bo podporządkowuje sam zaimek.
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
   ([poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną))

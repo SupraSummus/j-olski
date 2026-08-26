@@ -12,6 +12,7 @@
   --valid: #2f6f4f;
   --ambiguous: #9a6a12;
   --rejected: #9c3b2e;
+  --unclosed: #4a6b8a;
   --fragment: #6a665c;
   --proza: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --pismo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -29,6 +30,7 @@
     --valid: #7fb894;
     --ambiguous: #d8a94c;
     --rejected: #e08a76;
+    --unclosed: #8fb3d1;
     --fragment: #9b968a;
   }
 }
@@ -203,6 +205,7 @@ kbd {
 .zdanie.valid { border-left-color: var(--valid); }
 .zdanie.ambiguous { border-left-color: var(--ambiguous); }
 .zdanie.rejected { border-left-color: var(--rejected); }
+.zdanie.unclosed { border-left-color: var(--unclosed); }
 
 .znaczek {
   display: inline-block;
@@ -218,6 +221,7 @@ kbd {
 .znaczek.valid { color: var(--valid); }
 .znaczek.ambiguous { color: var(--ambiguous); }
 .znaczek.rejected { color: var(--rejected); }
+.znaczek.unclosed { color: var(--unclosed); }
 
 /*  Znaczek statusu i przycisk schowka idą jednym wierszem, a przycisk przy
     prawej krawędzi, bo zdanie ma się zaczynać tam, gdzie zaczyna się blok. */

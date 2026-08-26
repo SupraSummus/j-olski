@@ -337,6 +337,19 @@ bo mówi, czym tory się różnią, a zdanie na stronie ma być od niego zgrubni
 
 ## Komendy i sondy
 
+Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
+Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
+(`Verdict.punktowane` w `olski/subset.py`),
+więc przebieg nad tekstem z jedną zapomnianą kropką kończy się zerem.
+Nad prozą pisaną ręką jest to usterka do zgłoszenia,
+a nad `docs/` wraz z nagłówkami — nie,
+i tej różnicy komenda o sobie nie wie, bo dostaje pliki, a nie ich rodzaj.
+Ruchem jest flaga, po której `unclosed` liczy się do kodu wyjścia,
+albo zdanie mówiące, czemu nie liczy się nigdy.
+Do przeczytania jest przebieg nad README,
+bo tam ta różnica rozstrzyga o przyrządzie pomiarowym
+([`docs/roadmap.md`](docs/roadmap.md#readme-jest-przyrządem-pomiarowym)).
+
 Lista czytań mnoży odmiany zdań składowych, a mogłaby je sumować.
 Wpisem na liście jest jedno czytanie, a streszczeniem czytania krotka
 o słowniku na każde składowe (`describe` w `olski/parse.py`),
@@ -648,6 +661,43 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 `olski/projekt.py`.
 
 ## Gramatyka, parser i pomiar pokrycia
+
+Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
+`unclosed` nazywa napis, który olski czyta po domknięciu, i podaje znak
+(`_domknięcie` w `olski/subset.py`),
+cudzysłów prosty dostaje podpowiedź wpisaną osobno w `_podpowiedź` tam samo,
+a brak spacji po kropce nie dostaje nic i wychodzi jako zatrzymanie na formie,
+która z pomyłką autora nie ma nic wspólnego.
+Świadkiem jest w każdym z trzech gramatyka — reguła strzela tam,
+gdzie podmieniony znak zmienia werdykt z „no reading” na czytanie —
+więc żadna nie potrzebuje kalibracji, której brak zamknął tor linterowy
+([`docs/linter.md`](docs/linter.md#what-closed-the-track)).
+Ruchem jest jedna klasa napraw wraz z jednym kształtem wypowiedzi o niej,
+a decyzją, którą to wymusza, czy zdanie naprawialne zostaje w `rejected`:
+zostawione tam mierzy podzbiór jak dziś, a wyjęte rusza pokrycie nad korpusami.
+Do przeczytania jest więc to, ile zdań Składnicy i korpusu audytowego
+odrzucenie bierze za sam cudzysłów albo za brakującą spację.
+
+Odrzucenie nie widzi małej litery na początku zdania.
+`cena jest niska.` wychodzi jednym czytaniem, choć zdaniem pisanej polszczyzny nie jest.
+Świadkiem jest tu norma, a nie rozbiór, bo gramatyka wyprowadza oba warianty tak samo.
+Norma ma dwa wyjątki i oba trafiają w ten rejestr.
+Nazwę pisaną małą literą zostawia się małą także na początku zdania,
+bo granicę zdania pokazuje kropka poprzedniego
+(Poradnia PWN, dr Jan Grzenia, „mała litera na początku nazwy własnej”) —
+czyli to samo, co u nas rozstrzyga o `FRAGMENT`.
+Pozycja wyliczenia zamknięta przecinkiem albo średnikiem zaczyna się małą literą,
+bo ciągnie zdanie zaczęte przed dwukropkiem.
+Blokerem jest ekstrakcja: `harness/markdown.py` zdejmuje backticki
+i nie mówi nikomu, że token nimi stał,
+a bez tego wyjątku pierwszego nie da się napisać —
+i nie zastąpi go test na polskie słowo,
+bo `odmień` i `przejrzyj` są nazwami funkcji i polskimi słowami naraz
+([`CLAUDE.md`](CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Ruchem jest więc najpierw ta informacja przeniesiona przez ekstrakcję,
+a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repozytorium:
+bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
+i ani razu trafnie.
 
 `GRUPA_JEDNYM_SŁOWEM` w `olski/subset.py` wypisuje części mowy,
 którymi grupa imienna staje sama jednym słowem,

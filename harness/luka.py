@@ -40,7 +40,7 @@ from olski.corpus import Sentence, read
 from olski.coverage import Outcome, po_kawałkach
 from olski.grammar import Grammar, Production, Sym, Var, nt
 from olski.parse import parse
-from olski.subset import BEZ_CZOŁA, FRAGMENT, build, check
+from olski.subset import BEZ_CZOŁA, build, check
 
 #: Cecha niosąca przypadek luki, czyli to, czego temu konstytuentowi w środku
 #: brakuje. ``brak`` stoi wypisany, a nie pominięty: cechy, której konstytuent
@@ -352,7 +352,7 @@ def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
     wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
     for kolejne in zip(*wyniki.values(), strict=True):
         werdykty = dict(zip(WARIANTY, kolejne, strict=True))
-        if werdykty[WARIANTY[0]].status == FRAGMENT:
+        if not werdykty[WARIANTY[0]].punktowane:
             raport.pominięte["fragment, a nie zdanie"] += 1
             continue
         raport.zapisz(

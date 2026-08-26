@@ -134,7 +134,11 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
 PROZA = (
     "Teraz program zapisuje ustawienia. "
     "Nowa program zapisuje ustawienia. "
-    "Nagłówek bez kropki"
+    "Nagłówek bez kropki\n\n"
+    #  Napis, który olski czyta po domknięciu, czyli werdykt `unclosed`. Stoi tu
+    #  dlatego, że pominięcie oparte na tym werdykcie zamiast na samym znaku
+    #  wpuszczałoby go do mianownika, a przebieg mierzyłby wtedy ekstrakcję.
+    "Cena jest niska"
 )
 
 
@@ -158,7 +162,11 @@ def test_napis_bez_znaku_kończącego_nie_wchodzi_do_mianownika_przebiegu_nad_pr
 
     Policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru, więc stoją
     osobno, wypisane z powodem, a nie odjęte po cichu.
+
+    Liczy się tu sam brak znaku, a nie werdykt: napisów bez znaku są dwa rodzaje,
+    bo jeden z nich olski po domknięciu czyta, a oba stoją poza mianownikiem
+    (`Verdict.punktowane` w `olski/subset.py`).
     """
     raport = nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA)
-    assert raport.pominięte == {"fragment, a nie zdanie": 1}
+    assert raport.pominięte == {"fragment, a nie zdanie": 2}
     assert raport.zmierzone == 2

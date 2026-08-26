@@ -49,7 +49,6 @@ from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
 from olski.subset import (
     DEKLARACJA,
-    FRAGMENT,
     PRZYSŁÓWEK,
     PRZYSŁÓWEK_STOPNIA,
     PRZYSŁÓWKOWY,
@@ -272,7 +271,7 @@ def nad_prozą(
     raport = Raport(przykłady)
     grammar = wariant(nazwa)
     for werdykt in check(tekst, grammar):
-        if werdykt.status == FRAGMENT:
+        if not werdykt.punktowane:
             raport.pominięte["fragment, a nie zdanie"] += 1
             continue
         raport.zapisz(werdykt.text, werdykt.result.readings)

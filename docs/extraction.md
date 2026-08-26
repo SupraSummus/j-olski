@@ -237,6 +237,16 @@ Dlatego `olski-check` ma na niego werdykt `fragment` obok `rejected`,
 i dlatego [przebieg nad prozą tego repozytorium](roadmap.md#readme-jest-przyrządem-pomiarowym)
 liczy jedno osobno od drugiego.
 
+Jedna klasa napisów bez tego znaku aparatem jednak nie jest
+i dostaje werdykt `unclosed` obok tamtych dwóch:
+napis, który olski czyta, kiedy się go domknie.
+Werdykt ten mówi o napisie, a nie o autorze, i musi tak być,
+bo nagłówek bywa zdaniem po domknięciu, a kropki mieć nie może;
+skąd napis przyszedł, wie dokument, a nie napis.
+Autor prozy czyta więc ten werdykt jako brakującą kropkę,
+a pomiar podzbioru nie liczy takiego napisu do mianownika tak samo jak fragmentu,
+bo domknięcia nie postawił nikt.
+
 Werdykt, a nie ciche pominięcie przy podziale.
 Przebieg, który zwęża sobie mianownik i nic o tym nie mówi,
 jest tym, czego
