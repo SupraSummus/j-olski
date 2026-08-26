@@ -68,6 +68,7 @@ BIERZE_BEZOKOLICZNIK = "bierze_bezokolicznik"
 BIERZE_ZDANIE = "bierze_zdanie"
 BIERZE_CELOWNIK = "bierze_celownik"
 BIERZE_DOPEŁNIACZ = "bierze_dopełniacz"
+BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU = "bierze_celownik_przy_wypełnieniu"
 
 #: Klasy słowa, którymi plik rozdziela wpisy o jednym lemacie. Stoją tu z tego
 #: samego powodu co zdania wyżej, a rozdzielają dlatego, że jeden lemat bywa
@@ -140,6 +141,15 @@ Z_CELOWNIKIEM_ZWROTNE = _lematy(BIERZE_CELOWNIK, CZASOWNIK_ZWROTNY)
 Z_DOPEŁNIACZEM = _lematy(BIERZE_DOPEŁNIACZ, CZASOWNIK)
 Z_DOPEŁNIACZEM_ZWROTNE = _lematy(BIERZE_DOPEŁNIACZ, CZASOWNIK_ZWROTNY)
 
+#: Lematy, przy których celownik stoi obok drugiego wypełnienia, osobno dla obu
+#: klas czasownika. Zbiór zawarty w tym wyżej; czemu para potrzebuje własnego
+#: zdania, zamiast wychodzić z dwóch policzonych osobno, wywodzi
+#: ``olski/walenty.py``.
+Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU = _lematy(BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK)
+Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE = _lematy(
+    BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK_ZWROTNY
+)
+
 #: Lematy z bezokolicznikiem pod kontrolą podmiotu. Zbiór zwrotny stąd nie wychodzi,
 #: bo cząstki ``się`` nie ma czym zapisać po tej stronie, a parser tego zdania nie czyta.
 Z_BEZOKOLICZNIKIEM = _lematy(BIERZE_BEZOKOLICZNIK, CZASOWNIK)
@@ -208,8 +218,9 @@ def bierze_bezokolicznik(lemat: str) -> bool:
 
     Kontrolę leksykon już rozstrzygnął, więc to pytanie o nią nie pyta:
     ``kazać`` bierze w polszczyźnie bezokolicznik, a wykonawcą jest ten,
-    komu kazano, i takiego zdania ta gramatyka nie ma czym zapisać,
-    bo celownik obok bezokolicznika jest w niej drugą pozycją ramy.
+    komu kazano, i tego skład nie ma czym zapisać.
+    Parser bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok
+    wypełnienia, a kto ten bezokolicznik wykonuje, nie pyta ani jedna produkcja.
     """
     return lemat in Z_BEZOKOLICZNIKIEM
 

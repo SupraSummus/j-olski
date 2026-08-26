@@ -1522,14 +1522,20 @@ pozycja zajęta znika z tego, co niesie reszta grupy.
 Wolno ją wyrazić cechą o dziedzinie skończonej,
 bo pozycji jest w ramie skończenie wiele,
 więc rozwinięcie idzie przed parsowaniem i nie rusza klasy złożoności.
-Kupuje to jednak dokładnie tyle, ile jest ram o dwóch pozycjach naraz, a takich nie ma:
+Kupuje to jednak tyle, ile jest ram o dwóch pozycjach naraz,
+a rama domyślna takiej nie ma:
 biernik z bezokolicznikiem naraz zmierzono i nad Składnicą pod złotą morfologią
 przyjmuje 289 zdań zamiast 293, a wieloznacznych ma 116 zamiast 110,
 bo grupa imienna za bezokolicznikiem dochodzi wtedy i do niego, i do formy osobowej.
-Wpis czeka więc na pozycję, która z inną naprawdę stoi,
-czyli na dopełnienie w celowniku obok biernika — `dać uczniowi książkę` —
-którego produkcji olski dziś nie ma;
-bez niej mechanizm rozwija się na jedną pozycję i nie liczy niczego.
+Pozycja, która z inną naprawdę stoi, jest już wpuszczona i jest nią celownik obok
+wypełnienia ([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+tyle że licencji nie niesie tam rama, tylko cecha obok niej,
+bo ramy unifikacja nie zużywa, a przecina.
+Ruch jest przez to odwróceniem tamtej decyzji, a nie dopisaniem do niej:
+rama zużywana zdejmuje tę cechę i wypowiada parę samą ramą.
+Do przeczytania jest, co robi z klasami walencyjnymi:
+dziś dzieli je para na dwie, a rama zużywana dzieliłaby je tym,
+ile pozycji lemat bierze naraz.
 
 Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
 Etykieta roli nad wysuniętym czołem nie rusza ani jednego
@@ -2298,24 +2304,34 @@ kształtem — bo bez tej liczby wpis jest samą ceną,
 oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
 i mówi, ile go w Walentym widać z drugiej strony.
 
-Drugiej pozycji ramy naraz gramatyka nie ma:
-`Parser pokazuje autorowi oba czytania.` pada, a `Parser pokazuje oba czytania.`
-oraz `Reguła pomaga autorowi.` przechodzą
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
-`Complements` w `olski/subset.py` stawia jedno wypełnienie i okolicznik z obu jego stron,
-więc ruchem jest ciało o dwóch wypełnieniach, a nie wpis w leksykonie:
-celownik i dopełniacz leksykon już wymienia.
-Cena jest widoczna przed pomiarem, bo polszczyzna ma tu oba szyki —
-`daje córce książkę` i `daje książkę córce` — więc ciał przybywa dwa razy tyle,
-ile jest miejsc na okolicznik, a każde zdanie z dwoma dopełnieniami
-dostaje po jednym czytaniu na szyk, kiedy forma czyta się dwoma przypadkami.
-Do przeczytania jest, ile lematów Walenty daje z celownikiem i biernikiem naraz
-(`bierze_ramą` w `olski/walenty.py`), bo bez tej liczby wpis jest samą ceną,
-oraz czy pozycję ma wpuszczać para przypadków wzięta z jednego schematu,
-czy dwa zdania leksykonu policzone osobno — to drugie wpuszcza `daje` z parą,
-której żaden schemat nie ma naraz.
-Zamyka to zarazem bezokolicznik kontrolowany z celownika — `Krawiec kazał córce zejść.` —
-którego przekład z Walentego nie bierze, bo tej pary nie ma czym zapisać.
+Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
+więc lemat z parą bierze wszystkie cztery naraz
+([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Walenty rozdziela je i mówi to o tysiącach lematów, których rozkład trzyma
+tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
+a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
+wyprowadza się i polszczyzną nie jest.
+Ruchem są cztery zdania leksykonu w miejsce jednego,
+a wraz z nimi cztery wartości cechy `druga` w `olski/subset.py` zamiast jednej.
+Do rozstrzygnięcia jest, czy warto:
+rama domyślna daje każdemu czasownikowi te same cztery wypełnienia naraz,
+więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
+a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
+Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
+ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
+
+Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
+([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
+i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
+Ruchem jest druga wartość cechy `druga` w `olski/subset.py`
+wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
+a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
+celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
+Do przeczytania jest, czy zdanie z tą parą da się w ogóle odróżnić po werdykcie:
+`Nauczyciel uczy dzieci matematyki.` wyprowadza się już dziś,
+bo dopełniacz za grupą imienną czyta się jej przydawką,
+więc brak tej pozycji nie odrzuca zdania, tylko odbiera mu drugie czytanie.
 
 Dwie liczby w [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
 są wyższe od tego, co mówi przebieg.

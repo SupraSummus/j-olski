@@ -194,15 +194,6 @@ O jednoznaczność ta lista nie pyta, bo pyta o pozycję, której w gramatyce ni
 Pozycja wpuszczona do gramatyki z tej listy schodzi
 i zostaje po niej sekcja w [`subset.md`](subset.md#what-the-grammar-covers).
 
-**Druga pozycja ramy.**
-`Parser mówi autorowi, że zdanie czyta się dwojako.` pada,
-a `Parser mówi autorowi.` oraz `Parser mówi, że zdanie czyta się dwojako.` przechodzą.
-Celownik i dopełniacz gramatyka ma
-([subset.md](subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
-a wypełnienie bierze jedno naraz,
-więc zdanie, które README stawia najwyżej — parser mówi *autorowi*, że coś jest dwojakie —
-stoi tam bez adresata dalej, i z tego fotela jest to najdroższy pojedynczy brak.
-
 **Grupa imienna z elipsą głowy.**
 `Wszystkie obsadza jedna osoba.` pada, `Wszystkie role obsadza jedna osoba.` przechodzi.
 Tak samo padają `ani jedna`, `dwa z tych czytań` i każde inne miejsce,

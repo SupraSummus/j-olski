@@ -463,9 +463,8 @@ a required phrase carries its valency slot,
 and `subj(np(nom))` is the subject.
 
 On the accepted sentences where the gold tree marks a role to compare,
-the roles agree in better than nineteen out of twenty,
-and the rest split between a *partial* verdict and a *disagreement*,
-a few dozen sentences in all.
+the roles agree in better than nine out of ten,
+and the rest split between a *partial* verdict and a *disagreement*.
 The run prints all three,
 and it prints beside them the accepted sentences with no role to compare against:
 a pro-drop sentence like `Wstaje.` realizes no subject,
