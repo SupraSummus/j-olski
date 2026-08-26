@@ -1285,9 +1285,8 @@ czyli tyle, ile nie warto czterech ciał.
 
 Osobno stoi cząstka przecząca, bo ciało z nią i ciało bez niej są dwoma ciałami,
 a nie jednym z cząstką pominiętą, i to ona kupuje najwięcej — przeszło sto zdań.
-Dopełniaczem nie rządzi i nie ma czym: czasownika pod nią nie ma,
-a przypadek członu jest przypadkiem tego, czemu on przeczy,
-więc cechy `negacja` to ciało nie niesie.
+Dopełniaczem nie rządzi i nie ma czym, bo czasownika pod nią nie ma,
+a przypadek członu jest przypadkiem tego, czemu on przeczy.
 
 **Przecinek zamykający ten człon jest drugim takim przecinkiem w gramatyce.**
 `Granica pakietu jest tu rozstrzygnięciem, a nie przypadkiem, i pilnuje go test.`
@@ -1423,8 +1422,7 @@ a za napis, którego polszczyzna nie pisze, płaci autor
 werdykt nazywa mu wtedy parę, którą ten rejestr pisze
 ([wyżej](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 Wnętrzem tej produkcji jest sama grupa imienna,
-więc `„to nie zdanie”` zostaje na zewnątrz:
-w cudzysłowie stoi tam zdanie, a nie grupa.
+więc `„to nie zdanie”` zostaje na zewnątrz.
 
 **Napis przytoczony grupą imienną nie jest i dostaje czytanie nieodmienne.**
 Cudzysłów obejmuje w tej prozie także `„B”`, `„nie”` i `„Daj”`,
@@ -1632,10 +1630,10 @@ miało przed tym warunkiem trzy czytania i każde z nich niosło
 Polszczyzna tego zdania tak nie czyta.
 Warunek obejmuje oba wyrażenia przyimkowe tej gramatyki — zwykłe i to,
 które wysunęło zaimek względny — i mówi tyle: przyimek tego wyrażenia nie jest `a`.
-Jest to trzeci warunek ujemny w tej gramatyce
-i drugi postawiony na lemacie po to,
-żeby odebrać czytanie, którego polszczyzna w tym miejscu nie ma
-([wyżej](#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+Warunek ujemny postawiony na lemacie po to,
+żeby odebrać czytanie, którego polszczyzna w tym miejscu nie ma,
+stoi w tej gramatyce także wyżej
+([zaimek rzeczowny](#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
 Tańsza z dwóch dróg pyta właśnie o to, co produkcja licencjonuje,
 a nie o to, co słownik oferuje
 ([roadmap.md](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
@@ -2308,8 +2306,7 @@ podmiot (`reguła, która rozstrzyga`),
 dopełnienie (`polszczyzna, którą ktoś napisał`)
 i wyrażenie przyimkowe (`język, o którym to repozytorium jest`).
 Ostatnia sięga najdalej i jest jedną produkcją,
-bo za wysuniętym wyrażeniem przyimkowym następuje zdanie składowe całe,
-w każdym szyku, jaki ono ma.
+bo za wysuniętym wyrażeniem przyimkowym stoi zdanie składowe całe.
 Podmiot za wysuniętym dopełnieniem stoi przy tym po czasowniku i przed nim,
 choć zdanie główne ma ten szyk tylko w pierwszej wersji:
 `które ktoś napisał` jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie,
@@ -2344,10 +2341,9 @@ i ten sam rzeczownik z zaimkiem przed sobą (`o którego zdaniu`).
 Sam zaimek (`o którym`, `która rozstrzyga`) jest obok tych dwóch
 czołem drugim, w tych samych dwóch pozycjach.
 Czoła są dwa, a nie jedno obejmujące oba kształty,
-i rozstrzyga o tym pomiar, a nie polszczyzna.
-Cenę każdej z dwóch pozycji bierze się osobno, zdejmując produkcje,
-a pod jednym czołem pozycja bez przyimka nie jest żadną produkcją osobno:
-te same ciała bierze wtedy sam zaimek, więc nie ma czego zdjąć.
+i rozstrzyga o tym pomiar, a nie polszczyzna:
+pod jednym czołem cena pozycji bez przyimka nie byłaby osobną liczbą,
+a wywód stoi w `olski/subset.py` przy czołach obu rodzin.
 
 Podmiotu zdanie z wysuniętym dopełnieniem nie żąda,
 bo deklaracje są dwie — z podmiotem i bez niego —
@@ -2427,12 +2423,8 @@ Rozdziela obie rodziny produkcji cecha `czoło` (`BEZ_CZOŁA` w `olski/subset.py
 a niosą ją wszystkie produkcje obu symboli,
 bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc rodzina milcząca przechodziłaby przez to żądanie za darmo.
-Rola na swoim miejscu ogłasza, że czoła nie ma;
-rola wysunięta ogłasza nazwę czoła, którym ją wypełniono.
 Wartością jest nazwa symbolu, a nie jedno „wysunięte”,
-bo czoła są trzy i każde należy do jednej rodziny:
-sam zaimek i grupa, w której on stoi, są czołami zdania względnego,
-a grupa pytajna czołem pytania.
+bo każde czoło należy do jednej rodziny.
 Wspólna wartość zlałaby te rodziny, więc `ustawa, który przepis obowiązuje`
 wychodziłoby zdaniem względnym z grupą pytajną na czole,
 a `Który zapisuje ustawienia?` pytaniem o sam zaimek.
@@ -2569,12 +2561,9 @@ Cena tej pozycji nie kończy się więc na tych siedmiu zdaniach:
 psuje ona każdy ciąg współrzędny grup imiennych,
 a takich ciągów ten rejestr niesie zdanie po zdaniu.
 
-Rzeczownik orzekający niesie etykietę roli, bo zdanie to nie ma żadnej innej:
-ani podmiotu, ani czasownika.
-Przyjęte bez etykiety wychodziłoby `valid` bez ani jednej roli,
-czyli bez słowa o tym, co olski w nim przyjął,
-a etykietę stawia produkcja, tak samo jak przy
-[czole zdania względnego](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza).
+Etykietę roli stawia temu rzeczownikowi produkcja, tak samo jak przy
+[czole zdania względnego](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza),
+a czego bez niej brakuje werdyktowi, mówi `olski/subset.py` przy tej roli.
 
 ```sh
 python3 -m olski.check -c "Mowa o zadaniach." --readings
@@ -2678,11 +2667,10 @@ tak jak wymaga go rzeczownik z dopełniaczem pod głową:
 Produkcje są więc dwie, a nie jedna z warunkiem w środku,
 bo te dwa przyłączenia dzielą tylko nazwę części mowy.
 
-Grupa, którą buduje liczebnik rządzący, zgadza się czymś, czego nie ma pod nią.
+Grupa, którą buduje liczebnik rządzący, zgadza się czymś, czego nie ma pod nią:
 `Pięć kobiet przyszło.` żąda czasownika w liczbie pojedynczej i rodzaju nijakim,
 choć `kobiet` jest mnogie i żeńskie,
-więc liczba i rodzaj są w tej produkcji wypisane wartością,
-a nie zmienną wspólną z córką.
+więc liczba i rodzaj są w tej produkcji wypisane wartością.
 Cecha wypisana wartością nie jest tu nowa:
 [ciąg współrzędny](#nothing-above-a-coordination-distributes-into-it)
 ogłasza liczbę mnogą i trzecią osobę tak samo, niezależnie od swoich członów.
@@ -2746,10 +2734,8 @@ więc bez warunku `Dwadzieścia pięć chlebów leży.` wychodzi dwoma czytaniam
 Drugiego polszczyzna nie ma, a kolizja bierze co dziesiątą liczbę pisaną słowem,
 bo tyle kończy się na pięć,
 więc terminal rzeczownika odczasownikowego tego lematu nie bierze.
-Jest to czwarty warunek ujemny w tej gramatyce
-i trzeci postawiony na lemacie po to, żeby odebrać czytanie,
-którego polszczyzna w tym miejscu nie ma
-([wyżej](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+Jest to znowu warunek ujemny na lemacie, ten sam ruch co
+[przy rozdzielającym `a`](#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru).
 Zabiera on cały leksem, bo negacji unifikacja nie zna,
 więc `Pięcie jest trudne.` przestaje się wyprowadzać,
 a skreślenie jednego argumentu oddaje to zdanie z powrotem.
@@ -3023,10 +3009,8 @@ Dopełniacz po rzeczowniku bierze inna produkcja,
 więc `skutki jego` wychodzi tak samo jak `skutki wyboru`
 ([wyżej](#what-the-grammar-covers)), i ciało jest dlatego jedno, a nie dwa.
 
-Zgodności ta pozycja nie ma i mieć nie może.
-Zaimek zgadza się liczbą i rodzajem ze swoim poprzednikiem,
-a poprzednik stoi w zdaniu obok, a nie w tej grupie,
-więc cechy grupy są cechami głowy, a zaimek nie wnosi do nich nic:
+Zgodności ta pozycja nie ma i mieć nie może,
+bo zaimek zgadza się ze swoim poprzednikiem, a ten stoi w zdaniu obok:
 `Jego skutki` ma zaimek pojedynczy przy rzeczowniku mnogim, a `Ich cena` odwrotnie.
 Zmienna wspólna — ta, którą wypuszcza przymiotnik i liczebnik zgodny obok —
 wygląda tu poprawnie i odbiera polszczyźnie prawie każdą taką parę;

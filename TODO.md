@@ -77,16 +77,30 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 Wskazania między `docs/subset.md` i `olski/subset.py` idą w obie strony,
 a pilnowane są tylko w jedną.
-Kilkanaście zdań dokumentu opiera się na nazwie w środku modułu,
-której nie pilnuje nic ([CLAUDE.md](CLAUDE.md#na-czym-wolno-oprzeć-zdanie)),
-a w drugą stronę przeszło jedna trzecia wskazań z `olski/subset.py` nie ma anchora,
-więc `tests/test_docs.py` sprawdza przy nich sam plik.
+Ćwierć wskazań z `olski/subset.py` nie ma anchora,
+więc `tests/test_docs.py` sprawdza przy nich sam plik,
+a kilka zdań dokumentu opiera się na nazwie w środku modułu,
+której nie pilnuje nic ([CLAUDE.md](CLAUDE.md#na-czym-wolno-oprzeć-zdanie)).
 Ruchem jest anchor przy każdym wskazaniu z kodu,
 a po stronie dokumentu nazwa modułu w miejsce nazwy w jego środku —
 tam, gdzie zdanie nadal mówi czytelnikowi, gdzie szukać.
 Wskazania na `morphology`, `po_przyimku` i `po_słowie` są tu przypadkiem
 najtrudniejszym, bo dokument opisuje kolejność tych trzech warstw
 i nazwa modułu tego nie odda.
+
+Komentarz w pozostałych modułach powstał pod regułą, która żądała wywodu
+przy każdym ciele, a nie pytała, czy z kodu widać to samo bez niego;
+[reguła dzisiejsza](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)
+zostawia komentarz tam, gdzie rozkmina jest głębsza od kodu.
+Ruchem jest ten sam przebieg nad `olski/parse.py`, `olski/grammar.py`,
+`olski/rozstrzyganie.py` i `olski/skład/`, po jednym module na commit,
+bo skreślenie wmieszane w cudzy moduł ginie w przeglądzie.
+Do przeczytania jest przy każdym module jedno pytanie:
+czy zdanie komentarza mówi to, co widać z nazwy symbolu i z kształtu ciała.
+Pułapkę tego przebiegu pokazał ten nad gramatyką:
+skrócone zdanie zabiera czasem jedyną kopię przesłanki,
+a zdanie obok zostaje wtedy bez poprzednika,
+i żadnego z tych dwóch nie łapie suita, tylko grep po skreślonej frazie.
 
 Liczba przepisana z pliku danych do dokumentu rozjeżdża się z nim po cichu.
 Liczby, którymi
