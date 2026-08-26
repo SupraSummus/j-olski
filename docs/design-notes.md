@@ -389,8 +389,7 @@ decides itself.
 
 ### Nieciągłość zmierzono i olski jej nie bierze
 
-Rozwidlenie o przestawianiu miało zapaść z pomiaru, a nie z gustu,
-i pomiar jest zrobiony.
+Rozwidlenie o przestawianiu zapadło z pomiaru, a nie z gustu.
 Nieciągłości potrzebuje 2,5 procent zdań cudzej polszczyzny,
 kupuje ona w olskim zero zdań,
 a odbiera jednoznaczność prawie co trzeciemu zdaniu, które ją ma.
@@ -427,8 +426,8 @@ Analizy odrzuconych kończą się na bezokoliczniku, na cząstce, na znaku
 przestankowym, na imiesłowie biernym i na predykatywie,
 czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku,
 a garść z nich dochodzi do końca zdania i nie domyka go wcale.
-Przysłówek stał w tej kolejce czwarty i zszedł z niej razem z produkcją,
-nie kupując ani jednego z tych zdań
+Przysłówka wśród nich nie ma: produkcja, która go stamtąd zdjęła,
+nie kupiła ani jednego z tych zdań
 ([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
@@ -638,7 +637,7 @@ czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 
 **Nie kupuje przy tym tej konstrukcji, po którą sięgano.**
 Zdanie składowe bez podmiotu, czyli to, co przeciąganie dawało mimochodem,
-gramatyka od tamtego pomiaru wypisuje sama
+gramatyka wypisuje sama
 ([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
 więc nad 13 035 zdaniami Składnicy pod złotą morfologią
 luka przypięta wyciąga z odrzucenia jedno zdanie
@@ -766,21 +765,16 @@ a nie przez to, że stoi wyżej niż gramatyka bezkontekstowa.
 
 ### Podłoże więzowe zmierzone sondą
 
-Otwartość środków była deklaracją, dopóki nikt żadnego innego nie wycenił.
+Otwartość środków jest deklaracją, dopóki nikt żadnego innego nie wyceni.
 `harness/wiezy.py` wycenia jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
 gdzie zgodność jest warunkiem na parę słów,
 szyk osobnym polem deklaracji,
 a spójność frazy jednym warunkiem globalnym, który wolno zdjąć.
-Wyszło z tego, że szyk i przyłączenie nie kosztują po tej stronie ani jednej deklaracji,
-a nieciągłość jest jedną wartością logiczną,
-i że cena stoi w trzech miejscach wymienionych niżej.
-Wyszło z tego także to, czego nikt nie szukał:
-dwa z trzech zysków nie żądają tego podłoża wcale.
-Szyk i przyłączenie kupuje rozdzielenie dominacji od precedencji,
-czyli szczebel 1 [drabiny](#the-cost-ladder), sześcian i gramatyka bezkontekstowa,
-i tylko nieciągłość zostaje przy podłożu, którego olski nie ma.
+Zyski i ceny stoją niżej, a podłoża tego żąda z nich tylko nieciągłość:
+szyk i przyłączenie kupuje rozdzielenie dominacji od precedencji,
+czyli szczebel 1 [drabiny](#the-cost-ladder), sześcian i gramatyka bezkontekstowa.
 Decyzji o przeniesieniu olskiego na to podłoże nie ma,
-a ruch, który z sondy wynikał, był tańszy niż ona sama i jest zrobiony:
+a ruch, który z sondy wynika, kosztuje mniej niż ona sama:
 zdanie deklaruje córki, a kolejność deklaruje warunek nad nimi
 ([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 
@@ -824,42 +818,31 @@ Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
 trzyma [`TODO.md`](../TODO.md); dopóki to nie zapadnie,
 liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
 
-Ten pomiar mówi mniej, niż mówił, i nie dlatego, że któryś program się zmienił.
-Liczba zgodnych zdań spadła o połowę wtedy,
-gdy README przeszło na zdania, które olski wyprowadza
-([README](../README.md#konwencje)):
-zdanie względne i zdanie współrzędne stoją w tym pliku odtąd gęsto,
+Ta liczba ma drugą przyczynę i jest nią sama proza:
+README omija konstrukcje, których olski nie wyprowadza
+([README](../README.md#konwencje)),
+więc zdanie względne i zdanie współrzędne stoją w tym pliku gęsto,
 a przecinek jest tym, czego sonda nie bierze.
-Zgodność mierzona nad prozą pisaną pod jedną ze stron
-mówi więc o tej prozie, a nie o żadnym z dwóch podłoży.
 Tak właśnie kosztuje figura brana nad własną prozą,
-przed czym [`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) ostrzega,
-a [`TODO.md`](../TODO.md) trzyma wpis o tym, co z tym zrobić.
+przed czym [`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) ostrzega.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
-`olski/subset.py` ma przeszło trzydzieści produkcji `ClauseConjunct`,
-bo każdy szyk stoi wypisany osobno, a każdy z nich jeszcze raz w tylu wersjach,
-ile ma miejsc na okolicznik.
+Kilka deklaracji wypisuje zdanie olskiego,
+a miejsce na okolicznik jedna reguła nad nimi
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+i dopiero rozwinięcie robi z nich kilkadziesiąt ciał `ClauseConjunct`,
+które czyta parser.
 Łuk podmiotu nie mówi o porządku nic,
-więc wszystkie sześć szyków są tam jedną deklaracją,
+więc wszystkie sześć szyków są po tamtej stronie jedną deklaracją,
 a pozycje okolicznika, których
 [subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)
 liczy kilkadziesiąt, są trzema, po jednej na głowę,
 i dwa czytania `Program zapisuje ustawienia w pliku`
 biorą się z tego, że dozwolone są oba łuki.
-Krotność, o której ta sonda mówi, urosła od czasu, kiedy ją mierzono,
-bo szyki dopisane po niej dołożyły ciał,
-więc jest ona podłogą, a nie liczbą tej gramatyki.
 
-Zysk pierwszy jest wzięty i wzięło go rozwinięcie szyku,
+Zysk pierwszy jest więc wzięty i wzięło go rozwinięcie szyku,
 a nie przeniesienie olskiego na to podłoże.
-Te produkcje pisze dziś kilka deklaracji,
-a miejsce na okolicznik jedna reguła nad nimi
-([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-więc liczba, którą ta sonda porównywała, spadła o rząd wielkości.
-Zostaje z niej to, że po tamtej stronie jeden łuk nie mnoży się wcale,
-a po tej rozwijają się one w kilkadziesiąt ciał, które czyta parser.
-Zysk drugi i trzeci są nietknięte, bo żaden nie był o szyk.
+Rozwinięcie nie tyka zysku drugiego ani trzeciego, bo żaden nie jest o szyk.
 
 **Nieciągłość przestaje być szczeblem.**
 `Dobrą Jan pisze polszczyznę` nie wyprowadza się w olskim wcale,
@@ -985,10 +968,18 @@ GLR is the right shape of answer but probably the wrong specific choice:
   and most of the speedup never arrives.
 - Table construction over a permutation-expanded free-word-order grammar
   can blow up badly.
-- Tomita's original algorithm breaks on nullable rules,
-  so pro-drop would force RNGLR or BRNGLR (Scott and Johnstone).
+  The one GLR system measured over real Polish says nothing about that cost:
+  its table is 146 states.
 
-**Earley was the boring recommendation and it is what `olski/parse.py` runs.**
+That same system supplies a baseline worth flinching at:
+20% of its input fails to parse
+against a grammar hand-fitted to a register far narrower than olski.
+See [glr-in-practice.md](glr-in-practice.md#measurements).
+
+Nullable rules, which pro-drop makes unavoidable, are not an objection:
+Tomita's original algorithm breaks on them and maintained implementations do not.
+
+**Earley is the boring answer and it is what `olski/parse.py` runs.**
 It handles any CFG, including left recursion and nullable rules,
 with no preprocessing;
 it produces a shared packed parse forest natively;
@@ -998,20 +989,6 @@ the grammar can change without rebuilding an automaton.
 GLR stays an optimization to reach for if measurement ever demands one,
 and no measurement does:
 a run over the whole of Składnica takes half a minute.
-
-One correction to the above,
-from measuring a working GLR system over real Polish:
-the nullable-rules objection is historical.
-Tomita's algorithm breaks on them,
-maintained implementations do not.
-The rest of the argument stands untouched —
-that system's table is 146 states,
-so it says nothing about what
-a permutation-expanded grammar would cost to build.
-It does supply a baseline worth flinching at:
-20% of its input fails to parse
-against a grammar hand-fitted to a register far narrower than olski.
-See [glr-in-practice.md](glr-in-practice.md#measurements).
 
 For free word order specifically,
 the move that keeps a CFG viable
@@ -1396,7 +1373,7 @@ i przewraca przy tym 12 werdyktów, wszystkie z `valid` na `ambiguous`;
 tablica rozszczepiona myli się nad 224 zdaniami i przewraca 85.
 Trzy zdania z tego mianownika nie mają się z czym porównać,
 bo wyliczanie stanęło na nich na `MAX_READINGS`, a tablica granicy nie ma.
-Nad prozą README, gdzie zdań jest 43,
+Nad prozą README, która miała wtedy 43 zdania,
 pozycji przybywa w tej samej krotności — 811 rośnie do 1218 —
 a każdy wariant myli się nad dwoma zdaniami.
 Rozszczepienie kosztuje więc półtorej tablicy,

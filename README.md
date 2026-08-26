@@ -94,7 +94,7 @@ Nowa program zapisuje ustawienia."
 1 of 3 sentences are olski, and 2 have a reading
 ```
 
-Czytania szynki dzieli szyk oraz gospodarz frazy `z dodatkami`.
+Czytania szynki dzielą szyk oraz gospodarz frazy `z dodatkami`.
 Pierwsze i czwarte dzieli sam szyk,
 a podmiot jednego jest dopełnieniem drugiego.
 Wiersz werdyktu nazywa przy tym sam wybór.
