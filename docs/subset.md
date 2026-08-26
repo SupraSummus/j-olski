@@ -144,10 +144,13 @@ bo zaimek do klas zamkniętych nie należy.
 Kształt załatwia to za darmo,
 bo dopełnieniem jest tu jedno słowo tak czy tak.
 
-Reszta tego, co się kupuje, dopiero przyjdzie:
-odsłownik dopisany do gramatyki podnosi pokrycie, zamiast je obniżać,
-i to jest warunek, pod którym
-[roadmap.md](roadmap.md#etap-6-reszta-konstrukcji) go bierze.
+Reszta tego, co się kupuje, przychodzi z odsłownikiem
+([niżej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)).
+Bez odwrócenia ta głowa obniżałaby pokrycie, zamiast je podnosić,
+bo każdemu zdaniu z formą taką jak `czytanie`
+dawałaby drugie wyprowadzenie tego samego kształtu;
+z odwróceniem zdanie już przyjęte nie ma jak stracić na niej jednoznaczności,
+i dlatego cena tej głowy wyszła zerowa.
 
 To jest to rozróżnienie, na którym
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
