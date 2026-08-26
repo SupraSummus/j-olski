@@ -813,38 +813,30 @@ and route every caller through one branch-free core.
 A branch is a second path to read, test and keep in sync;
 a unified flow is proven once.
 
-**Przebieg wyceniający wpuszczenie konstrukcji nie wchodzi do drzewa.**
-Cena wpuszczenia odpowiada na pytanie zadane raz — wpuszczać czy nie —
-więc przelicza się ją raz, a rok później mierzyłaby już co innego.
-Predykat pisze się w sesji, na jeden przebieg,
-a do repozytorium wchodzi sam commit, który konstrukcję wpuścił.
-Narzędzie, które taki predykat prowadzi, stoi w drzewie (`harness/ruch.py`),
-więc kto chce liczby dzisiejszej, pisze predykat na nowo i puszcza go;
-kto chce tej sprzed roku, czyta gita.
-Dwie reguły niżej obowiązują taki predykat od pierwszego wiersza,
-bo są warunkiem prawdziwości pomiaru, a nie dopracowaniem,
-a pilnuje ich przegląd, bo pliku nie ma nad czym testować.
+**Sondę różnicową puszcza się tam, gdzie liczba może ruch odwrócić.**
+Wycenia ona konstrukcję, zdejmując jej produkcje;
+prowadzi ją `harness/ruch.py`, gdzie stoją też warunki prawdziwości pomiaru.
+Predykat pisze się w sesji, na jeden przebieg, i do drzewa nie wchodzi,
+bo cena odpowiada na pytanie zadane raz — wpuszczać czy nie —
+a rok później mierzyłaby już co innego.
+Kto chce liczby dzisiejszej, pisze predykat na nowo i puszcza go;
+kto chce tej sprzed roku, czyta commit, który konstrukcję wpuścił.
 
-**Pomiar pyta o deklarację olskiego i nie trzyma jej drugiej kopii.**
-Predykat pyta produkcję, a nie listę nazw wypisaną obok gramatyki,
-bo lista milczy o produkcji dopisanej później
-i pomiar mierzy dalej te, które mu dano.
-Program, który podzbiór wypisuje drugi raz, ma tę usterkę w rozmiarze gramatyki:
-`harness/polszczyzna.py` deklaruje podzbiór na nowo,
-więc odrzuca zdanie, które olski wyprowadza,
-a rozjazd nie mówi wtedy nic o dwóch formalizmach, dla których go zestawiono.
-Jest jedyny takiego kształtu i ma cenę —
-[`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)
-mówi, co kupił, a `TODO.md`, czy zostaje.
+**Kod pyta o deklarację i nie trzyma jej drugiej kopii.**
+Produkcję pyta i predykat sondy, i kod chodzący po gramatyce,
+a nie listę nazw wypisaną obok niej,
+bo lista milczy o produkcji dopisanej później.
+Podzbiór deklaruje na nowo jeden program i jest to wybór z ceną:
+co kupił `harness/polszczyzna.py`, mówi
+[`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
+a `TODO.md`, czy zostaje.
 
 **Pozycja, której cena ma być osobną liczbą, musi być osobnym ciałem.**
-Pomiar różnicowy wycenia konstrukcję, zdejmując jej produkcje (`harness/ruch.py`),
+Sonda mierzy zdjęciem produkcji,
 więc kształt gramatyki rozstrzyga, co da się wycenić,
 a nie tylko co się wyprowadza.
 Symbol obejmujący dwie pozycje naraz oszczędza kilkanaście produkcji
 i odbiera pomiar, bo zdjęcie jego ciał zabiera obie pozycje, a nie jedną.
-`RelativeNP` stojące obok `RelativePronoun` w `olski/subset.py` jest tym wyborem,
-bo sonda wycenia każdą z tych dwóch pozycji osobno.
 Gdzie o cenę osobną nikt nie pyta, wybieramy symbol wspólny, bo jest tańszy.
 
 **Printed output does not take its order from a set.**

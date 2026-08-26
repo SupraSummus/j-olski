@@ -122,6 +122,8 @@ Wymaganie idzie z tą rolą od początku i jest jedno:
 konstrukcja dopisana gramatyce dokłada czytania każdemu zdaniu, które ją ma,
 a zdanie z dwoma czytaniami olski odrzuca,
 więc pokrycie kupione bez pomiaru bywa pokryciem ujemnym.
+Straconym zdaniem jest to, które wychodziło już bez tej produkcji,
+więc gdzie bez niej nie wychodzi żadne, liczba ruchu nie odwróci.
 Co pomiar mówi, trzyma [corpus.md](corpus.md).
 
 Cena odpowiada przy tym na pytanie „ile”, a nie na pytanie „czy”.
@@ -139,9 +141,7 @@ i [ustawy.md](ustawy.md#skąd-bierze-się-korpus),
 a wywód wraca do sekcji, która tę konstrukcję trzyma,
 oraz jednym zdaniem ze wskaźnikiem do [roadmap.md](roadmap.md) i dokumentów rejestrów.
 
-**Psuje ją** produkcja dopisana bez przebiegu nad bankiem drzew,
-bo wtedy nie widać, ile zdań straciła,
-i dokument powtarzający to, co produkcja robi,
+**Psuje ją** dokument powtarzający to, co produkcja robi,
 bo wtedy istnieją dwie wersje i nie widać, która obowiązuje.
 
 **Obsadzają ją** autor i sesje agenta.
