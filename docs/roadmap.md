@@ -442,6 +442,13 @@ Czytanie, którego polszczyzna nie ma, wolno więc odebrać dwiema drogami,
 i tańsza bywa ta, która pyta nie o to, co słownik oferuje,
 ale o to, co produkcja licencjonuje.
 
+Jedna klasa ma wycenę i nie ma decyzji.
+Orzecznik zgodny bierze u olskiego każdy czasownik,
+więc `Trwa akcja protestacyjna.` orzeka `protestacyjna` o akcji,
+a zawężenie tej pozycji do leksykonu daje zdań olskich więcej
+i zabiera przy tym orzeczenie wtórne, czyli zwyczajną polszczyznę
+([subset.md](subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
+
 Nazwiskowe czytanie rzeczownika na czele zdania do tego etapu nie należy:
 para lematów jednej formy nie jest dwoma czytaniami
 ([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),

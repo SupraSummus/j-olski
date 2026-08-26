@@ -2059,6 +2059,66 @@ też stoi, i zdanie wychodzi jednym czytaniem.
 Leksykon kupił tu więc jednoznaczność, a nie pokrycie,
 i widać to dopiero z produkcją, której wtedy nie było.
 
+### Zawężenie orzecznika zgodnego wyceniono i decyzji nie ma
+
+Orzecznik zgodny zgadza się z podmiotem — `Plik jest duży.` —
+a narzędnikowego żąda kopula.
+Stoi on w ramie domyślnej, czyli bierze go każdy czasownik,
+a `Trwa akcja protestacyjna.` wychodzi przez to dwoma czytaniami:
+drugie z nich orzeka `protestacyjna` o akcji i polszczyzna go nie ma
+([disambiguation.md](disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
+nazywa taką parę nadgeneracją).
+Pozycję tę Walenty ma i pisze ją `adjp(pred)` kontrolowanym z podmiotu,
+więc zawężenie wygląda na wpis w leksykonie.
+Miarą jest schemat niezleksykalizowany, tak jak przy celowniku
+(`bierze_ramą` w `olski/walenty.py`), oraz kontrola z podmiotu, tak jak przy
+bezokoliczniku, bo orzecznik zgodny orzeka o podmiocie i o nikim innym;
+w wydaniu z 2016 roku odpowiada temu czterdzieści lematów,
+w większości podobnych kopuli.
+
+Cena rozkłada się na trzy rzeczy i rozdziela je dopiero przeczytanie zdań.
+Kilka zdań prozy tego repozytorium staje się olskimi, bo ginie im czytanie nieprawdziwe:
+`Tor składu je ma` traci to, w którym `je` jest czasownikiem,
+`Jedna klasa czytań przyszła` to, w którym czasownikiem jest `Jedna`,
+a `Trwa akcja protestacyjna` swój orzecznik.
+Przeczytano wszystkie osiem i w żadnym nie zginęło czytanie prawdziwe.
+Zdań mniej niż tyle przestaje być olskimi i tam ginie czytanie czytelnika:
+`Dziewczyna milknie zakłopotana`, `Grupa przechodzi cała`, `Cena wyszła zerowa`,
+`Oba tory pokazują się same` — orzeczenie wtórne przy czasowniku,
+którego Walenty na poziomie ramy nie wymienia,
+bo wypisuje je tam, gdzie należy ono do zwrotu.
+Kilkanaście zdań zmienia rodzaj odmowy, a nie odpowiedź, bo z wieloznacznych
+robią się niewyprowadzalne, i te dwanaście rozpadło się przy czytaniu na pół:
+w jednych ginie czytanie prawdziwe — `zdanie wraca rozstrzygnięte` —
+a w innych olski czytania prawdziwego nie miał wcale,
+bo `kosztuje mniej niż ona sama` czyta `sama` orzecznikiem przy `kosztuje`
+i innego czytania temu zdaniu nie daje.
+
+Zdań olskich wychodzi przez to po zawężeniu więcej, a nie mniej,
+i to jest w tym pomiarze rzecz, której tabela przejść nie pokazuje:
+przejście `wieloznaczne → odrzucone` liczy się jako cena
+([`harness/ruch.py`](../harness/ruch.py) wywodzi, czemu),
+a zdaniem olskim nie było ani przed nim, ani po nim.
+Wycena nie rozstrzyga zatem tej pozycji i rozstrzygnąć jej nie może sama,
+bo waży dwie rzeczy w różnych walutach:
+zdanie zwyczajnej polszczyzny, które przestaje się wyprowadzać,
+i zdanie, które staje się olskim.
+Do przeczytania jest przedtem liczba nad Składnicą, której ten pomiar nie ma,
+bo populacja stąd jest tej wielkości, że czterema zdaniami przewraca wniosek.
+
+Tańsze od tego wyboru jest kryterium po stronie przymiotnika.
+Czytania, które zawężenie miało zdjąć, różni przymiotnik, a nie czasownik:
+`protestacyjna` orzekać nie może, a `zerowa` i `wypisany` mogą,
+więc kryterium postawione tam zdejmuje czytania nieprawdziwe,
+nie zabierając ani jednego orzeczenia wtórnego.
+Różnica ta jest własnością przymiotnika odrzeczownikowego,
+której tagset nie niesie, więc `niesie` po nią nie sięga
+([kanał cech](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
+a rejestr techniczny pisze takie przymiotniki gęsto:
+`plik konfiguracyjny`, `leksykon walencyjny`.
+Kryterium takie mógłby dać katalog przymiotnikowy Walentego,
+którego przekład nie czyta, bo nikt o niego nie pytał.
+
 ### Leksykon licencjonuje dopełnienie w celowniku i w dopełniaczu
 
 Rama domyślna ma dopełnienie w bierniku i nie ma dopełnienia w przypadku innym,

@@ -752,6 +752,12 @@ co jest odpowiedzią z tier 2 na problem z tier 3.
 Odpowiedzią na to, co olski ma przyjmować, nie musi więc być
 ani produkcja, ani wyższa klasa złożoności.
 
+Środka nie wybiera się natomiast tam, gdzie fakt rozstrzygający nie stoi w żadnym słowniku.
+Orzecznik zgodny jest tego przykładem: czytanie, które trzeba by zdjąć,
+rozstrzyga własność przymiotnika, a leksykon walencyjny mówi o czasowniku,
+więc ani produkcja, ani warstwa za parserem nie mają czym zapytać
+([subset.md](subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
+
 Otwarte są środki, a nie własności.
 Wiąże to, [czym olski jest](#what-olski-is):
 sprawdzalny tanio, deterministycznie i z wyjaśnieniem.

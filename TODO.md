@@ -2306,6 +2306,32 @@ Do przeczytania jest akapit pod nimi, bo argumentuje on ich rzędem wielkości,
 oraz sam wydruk, bo drugą z tych liczb przebieg drukuje osobno dla każdej z dwóch klas,
 a granica trzyma się tylko pod jedną z nich.
 
+Zawężenie orzecznika zgodnego ma wycenę nad prozą repozytorium i nie ma decyzji,
+bo populacja jest tam tej wielkości, że czterema zdaniami przewraca wniosek
+([`docs/subset.md`](docs/subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)
+trzyma cenę wraz z tym, co przy niej przeczytano).
+Ruchem jest ten sam wariant puszczony nad Składnicą — rama bez pozycji `nom`
+wszędzie poza kopulą — z pytaniem, ilu zdaniom ginie czytanie złote,
+bo tego pytania proza postawić nie umie, nie mając anotacji.
+Do przeczytania jest przy tym kryterium po stronie przymiotnika, które tamta sekcja
+nazywa tańszym: jeżeli katalog przymiotnikowy Walentego je daje, wybór między
+wpuszczeniem a zawężeniem po stronie czasownika przestaje być potrzebny,
+a wtedy cały ten wpis zamyka wpis o przymiotniku.
+
+Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kosztuje.
+Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
+córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
+([`docs/design-notes.md`](docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+Sonda więzowa płaci za to samo dwoma polami sprawdzanymi nad drzewem gotowym,
+czyli `wymaga` i `zakazuje` w `harness/wiezy.py`,
+i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,
+a warstwa za parserem umiałaby.
+Do przeczytania jest przedtem, czy w tej gramatyce jest w ogóle co zdejmować:
+ciało produkcji wylicza córki, więc pozycja wypełniona dwa razy żąda dwóch ciał,
+a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commicie.
+Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
+zmierzoną tak, jak mierzy się wpuszczenie pozycji.
+
 ## Skład i opowieści
 
 `README.py` powstał drzewami przed tekstem, czyli odwrotnie, niż deklaruje
