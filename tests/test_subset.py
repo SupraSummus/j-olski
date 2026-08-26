@@ -804,6 +804,15 @@ PRZYJMOWANE = [
     #  trzeciej i w pierwszej.
     "Czytelnik nie odzyskałby ról.",
     "Napisałbym program.",
+    #  Czas przyszły `być`, czyli forma `bedzie` stojąca sama, z orzecznikiem
+    #  zgodnym i z narzędnikowym.
+    "Cena będzie niska.",
+    "Parser będzie celem.",
+    #  Czas przyszły złożony, czyli ta sama forma nad czasownikiem niedokonanym:
+    #  raz nad formą na -ł, która wnosi rodzaj, raz nad bezokolicznikiem, który
+    #  rodzaju nie wnosi.
+    "Program będzie zapisywał ustawienia.",
+    "Program będzie zapisywać ustawienia.",
     #  Ten sam tryb pod spójnikiem, który cząstkę niesie sam, w obu miejscach
     #  okolicznika. Zdanie pod takim spójnikiem stoi w formie na -ł bez cząstki.
     "Program zapisuje ustawienia, żeby linter sprawdził polszczyznę.",
@@ -971,6 +980,16 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  Aglutynant zajmuje miejsce, które pod takim spójnikiem zajmuje jego
         #  własna końcówka: polszczyzna ma `żebym napisał`, a nie `żeby napisałem`.
         "Program zapisuje ustawienia, żeby napisałem plik.",
+        #  Liczbę niesie w czasie przyszłym złożonym forma `bedzie`, a bezokolicznik
+        #  pod nią nie niesie ani liczby, ani rodzaju, więc bez liczby ogłoszonej
+        #  przez samo ciało zdanie to się wyprowadza.
+        "Programy będzie zapisywać ustawienia.",
+        #  Rodzaj wnosi w tym czasie forma na -ł i to jest ta zgodność, której
+        #  wariant z bezokolicznikiem nie ma czym złamać.
+        "Lista będzie stał.",
+        #  Ten czas składa się z czasownikiem niedokonanym i z żadnym innym, więc
+        #  `zapisywał` wchodzi, a `zapisał` nie: `będzie zapisał` nie jest niczym.
+        "Program będzie zapisał ustawienia.",
     ],
 )
 def test_these_have_no_reading(text):

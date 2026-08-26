@@ -99,7 +99,7 @@ PRZYSŁÓWEK_SONDA = ruch.Sonda(
     nazwa="harness.płaski",
     opis="Przy którym gospodarzu stoi przysłówek w mierzonej gramatyce.",
     warianty=PRZYSŁÓWEK_WARIANTY,
-    gramatyki=ruch.po_grupach(gospodarz, PRZYSŁÓWEK_WARIANTY),
+    gramatyki=ruch.Zdejmowanie(gospodarz, PRZYSŁÓWEK_WARIANTY),
     pytania=(
         "obaj gospodarze ruszają to samo zdanie",
         "razem wychodzi co innego niż osobno",

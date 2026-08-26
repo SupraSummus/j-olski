@@ -157,7 +157,7 @@ The counts move with every production admitted, so the run owns them,
 and what this document owns is which rows lead and what stands in them.
 
 Punctuation leads it by a wide margin,
-accounting for something under a quarter of the rejections
+accounting for more than a fifth of the rejections
 without touching the interesting questions
 about discontinuity and formal power at all:
 of clause-level punctuation olski has the comma, the colon, the semicolon
@@ -213,9 +213,9 @@ Pod Morfeuszem wiersz ten schodzi niżej,
 bo przed nim staje zdanie, którego całości nic nie domyka,
 spójnik otwierający zdanie, forma nieznana słownikowi i liczba.
 Dalej w obu kolejkach idą czas przeszły, przyimek i bezokolicznik,
-a niżej czas przyszły złożony,
-czyli pozycja, którą ta kolejka nazywa,
-a której żaden przebieg nad rejestrem nie nazywa
+a niżej imiesłów przysłówkowy i zaimek `siebie`,
+czyli dwie pozycje, które ta kolejka nazywa,
+a których żaden przebieg nad rejestrem nie nazywa
 ([roadmap.md](roadmap.md#etap-6-reszta-konstrukcji)).
 Ile wart jest każdy z nich, mierzy się po jednym,
 a nie odczytuje z wiersza.
@@ -237,15 +237,21 @@ So the row a construction is admitted out of is not the row that records it,
 and most of what left the `conj` row
 moved onto another blocker instead of being accepted.
 
-Three constructions have left this queue outright —
-the adverb, the gerund and the impersonal verb
-([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)) —
+Four constructions have left this queue outright —
+the adverb, the gerund, the impersonal verb
+([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu))
+and the future tense
+([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)) —
 and their rows are gone from the front of it.
 The impersonal shows the paragraph above from the other side:
 its row fell to about a third of itself,
 the addition accepted well under half of what fell out of it,
 and the rows above it rose,
 because a sentence it did not buy stopped further along instead.
+The future tense is the addition that emptied its own row:
+what is left of `bedzie` is a handful of sentences at the bottom of the queue,
+and under half of what left it was accepted,
+the rest having stopped further along.
 Others took part of a row with them:
 the particle, the subordinator and clause-level punctuation
 are admitted in a shape narrower than Polish,

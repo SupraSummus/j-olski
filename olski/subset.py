@@ -791,10 +791,10 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
 
 def _formy_skończone(
     warunek: dict[str, str],
-) -> list[tuple[list[Part | Głowa], Var | str, str]]:
-    """Ciała formy osobowej czasownika, każde wraz z osobą i trybem, które niesie.
+) -> list[tuple[list[Part | Głowa], dict[str, Var | str]]]:
+    """Ciała czasownika w formie skończonej, każde wraz z cechami, które ogłasza.
 
-    Trzy pierwsze, bo czas przeszły niesie osobę inaczej niż teraźniejszy. ``fin``
+    Czas teraźniejszy i przeszły dzielą trzy ciała, bo osobę niosą inaczej. ``fin``
     niesie osobę i liczbę, a rodzaju nie ma; ``praet`` odwrotnie, więc osoba trzecia
     jest w nim wpisana tutaj, a bez tego ``Ja napisał program.`` się wyprowadza:
     cechy, której konstytuent nie niesie, unifikacja nie sprawdza. Osobę pierwszą
@@ -802,7 +802,7 @@ def _formy_skończone(
     ``napisałem`` wchodzi tu jako ``napisał`` i ``em`` — i która liczbę ma tę samą
     co czasownik przy niej.
 
-    Dwa ostatnie są trybem przypuszczającym i różnią się od dwóch nad sobą jedną
+    Tryb przypuszczający ma dwa ciała i różnią się one od dwóch przeszłych jedną
     cząstką (:data:`CZĄSTKA_TRYBU`): ``odzyskałby`` i ``odzyskałbym``. Dostaje ją
     czas przeszły i on jeden, bo tak stawia tę cząstkę polszczyzna: ``zapisujeby``
     nie jest niczym. Ciała są dwa, a nie jedno z cząstką pominiętą, bo cena trybu
@@ -814,22 +814,56 @@ def _formy_skończone(
     nie: aglutynant zajmuje miejsce, które pod takim spójnikiem zajmuje jego własna
     końcówka, więc polszczyzna ma ``żebym wiedział``, a nie ``żeby wiedziałem``.
 
-    Głowa stoi w każdym ciele, choć dwa z pięciu mają jedną część: ciało wychodzi
+    Czas przyszły ma trzy ciała.
+    Forma ``bedzie`` stoi w nich osobno od ``fin``, choć liczbę i osobę niesie
+    tak samo, z tego samego powodu, z którego osobno stoi tryb.
+    Bezokolicznik nie niesie ani liczby, ani rodzaju,
+    więc liczbę ogłasza to ciało samo — bez tego
+    ``Programy będzie zapisywać ustawienia.`` się wyprowadza —
+    a rodzaju nie żąda nikt.
+    Głową jest czasownik, a nie ``bedzie``, bo rama należy do czasownika
+    i po nim werdykt nazywa gospodarza przyłączenia.
+    Polszczyznę i cenę trzyma
+    docs/subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony.
+
+    Głowa stoi w każdym ciele, także w tym o jednej części: ciało wychodzi
     stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o
     dwóch częściach bez głowy nie powstaje.
     """
     czasownik = word("praet", number=V("n"), gender=V("g"), **warunek)
     aglutynant = word("aglt", number=V("n"), person=V("p"))
+    forma_przyszła = word("bedzie", number=V("n"), person=V("p"))
+    niedokonany = {"aspect": "imperf"}
     return [
         (
             [Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))],
-            V("p"),
-            TRYB_OZNAJMUJĄCY,
+            {"person": V("p"), "tryb": TRYB_OZNAJMUJĄCY},
         ),
-        ([Głowa(czasownik)], "ter", TRYB_FORMY_NA_Ł),
-        ([Głowa(czasownik), aglutynant], V("p"), TRYB_OZNAJMUJĄCY),
-        ([Głowa(czasownik), CZĄSTKA_TRYBU], "ter", TRYB_PRZYPUSZCZAJĄCY),
-        ([Głowa(czasownik), CZĄSTKA_TRYBU, aglutynant], V("p"), TRYB_PRZYPUSZCZAJĄCY),
+        ([Głowa(czasownik)], {"person": "ter", "tryb": TRYB_FORMY_NA_Ł}),
+        ([Głowa(czasownik), aglutynant], {"person": V("p"), "tryb": TRYB_OZNAJMUJĄCY}),
+        (
+            [Głowa(czasownik), CZĄSTKA_TRYBU],
+            {"person": "ter", "tryb": TRYB_PRZYPUSZCZAJĄCY},
+        ),
+        (
+            [Głowa(czasownik), CZĄSTKA_TRYBU, aglutynant],
+            {"person": V("p"), "tryb": TRYB_PRZYPUSZCZAJĄCY},
+        ),
+        (
+            [Głowa(word("bedzie", number=V("n"), person=V("p"), **warunek))],
+            {"person": V("p"), "tryb": TRYB_OZNAJMUJĄCY},
+        ),
+        (
+            [
+                forma_przyszła,
+                Głowa(word("praet", number=V("n"), gender=V("g"), **niedokonany, **warunek)),
+            ],
+            {"person": V("p"), "tryb": TRYB_OZNAJMUJĄCY},
+        ),
+        (
+            [forma_przyszła, Głowa(word("inf", **niedokonany, **warunek))],
+            {"person": V("p"), "number": V("n"), "tryb": TRYB_OZNAJMUJĄCY},
+        ),
     ]
 
 
@@ -990,7 +1024,9 @@ def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cech
 #: a wpis tutaj mówi o symbolu to, czego z jego ciał nie widać.
 #:
 #: Powody są trzy. Zdanie nie niesie liczby, rodzaju, osoby, ramy ani przeczenia
-#: swojego czasownika, bo nad zdaniem nie ma z czym ich zgadzać.
+#: swojego czasownika, bo nad zdaniem nie ma z czym ich zgadzać;
+#: tak samo czasownik nie niesie aspektu, o który pyta jedno jego ciało
+#: (:func:`_formy_skończone`).
 #: Rola nie niesie przypadka, bo sama go ustala.
 #: Cecha o kształcie wewnątrz konstytuenta — `czoło` wypełnienia,
 #: `accommodability` liczebnika, `dostawka` zdania — kończy się na nim.
@@ -1005,6 +1041,7 @@ def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cech
 NIE_WYPUSZCZANE = {
     "ClauseConjunct": ("number", "gender", "person", "valency", "negacja", "dostawka"),
     "Clause": ("dostawka",),
+    "Verb": ("aspect",),
     "Predicate": ("valency", "negacja"),
     "RelativeCore": ("person", "valency", "negacja"),
     "InterrogativeCore": ("person", "valency", "negacja"),
@@ -1658,15 +1695,14 @@ def build() -> Grammar:
     # przepuściłoby dopełniacz negacji do zdania, które nie przeczy.
     for zwrotne, przed, za in SZYKI_CZĄSTKI:
         for warunek, rama in _klasy(zwrotne):
-            for ciało, osoba, tryb in _formy_skończone(warunek):
+            for ciało, cechy in _formy_skończone(warunek):
                 for przeczenie, negacja in PRZECZENIA:
                     grammar.rule(
                         "Verb",
                         [*przed, *przeczenie, *ciało, *za],
-                        person=osoba,
                         valency=rama,
                         negacja=negacja,
-                        tryb=tryb,
+                        **cechy,
                     )
 
     # Bezokolicznik pyta o leksykon niezwrotny i ma pętlę osobną zamiast warunku
