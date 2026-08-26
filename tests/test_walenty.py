@@ -25,6 +25,7 @@ from olski.walenty import (
     DOPEŁNIACZ,
     bierze,
     bierze_bezokolicznik_podmiotu,
+    bierze_celownik_przy_wypełnieniu,
     bierze_ramą,
     leksykon,
     pozycje,
@@ -124,6 +125,34 @@ def test_dopełnienie_poza_biernikiem_liczy_się_z_samego_schematu_o_ramie(
     cały schemat mówiący o zwrocie albo o polszczyźnie spoza tego rejestru.
     """
     assert bierze_ramą([schemat], kształty) is bierze_go
+
+
+@pytest.mark.parametrize(
+    ("schematy", "para"),
+    [
+        ([" pewny: _: : imperf: subj{np(str)} + {np(dat)} + {np(str)}"], True),
+        ([" pewny: _: : imperf: subj{np(str)} + {np(dat)} + {cp(int)}"], True),
+        #  Celownik z jednego schematu i biernik z drugiego pary nie dowodzą:
+        #  lemat bierze wtedy każdy z nich osobno i żaden schemat nie stawia ich
+        #  obok siebie.
+        (
+            [
+                " pewny: _: : imperf: subj{np(str)} + {np(dat)}",
+                " pewny: _: : imperf: subj{np(str)} + {np(str)}",
+            ],
+            False,
+        ),
+        #  Sąsiad, którego olski nie ma pozycją ramy, pary nie robi: wyrażenie
+        #  przyimkowe przyłącza się u niego za darmo.
+        ([" pewny: _: : imperf: subj{np(str)} + {np(dat)} + {prepnp(o,loc)}"], False),
+        #  Jedna pozycja oferująca celownik albo pytanie — `dziwić się` — jest
+        #  wyborem, a nie parą, więc kształt trafiony drugi raz w tej samej
+        #  pozycji nie liczy się za sąsiada.
+        ([" pewny: _: : imperf: subj{np(str)} + {np(dat);cp(int)}"], False),
+    ],
+)
+def test_parę_liczy_się_z_jednego_schematu_i_z_dwóch_jego_pozycji(schematy, para):
+    assert bierze_celownik_przy_wypełnieniu(schematy) is para
 
 
 def test_rama_zbiera_pozycje_niepodmiotowe_i_pomija_nieprzyimkowe():

@@ -1867,6 +1867,12 @@ class Las:
 #: a następuje tam forma wzięta ze zdania i nieodmieniana.
 PRZYŁĄCZONY_DO = " → "
 
+#: Znak, którym streszczenie oddziela dwa wypełnienia jednej roli.
+#: Przecinka tu nie ma, bo przecinkiem wiersz streszczenia oddziela role od siebie
+#: (``_role`` w ``olski/check.py``), więc rola o dwóch wypełnieniach czytałaby się
+#: jak dwie role.
+OBOK = " + "
+
 #: Formy, przed którymi w napisie nie ma odstępu.
 #: Wewnątrz konstytuentu gramatyka bierze jeden znak interpunkcyjny, przecinek
 #: koordynacji; kropkę niesie węzeł nad rolami i do streszczenia nie dochodzi.
@@ -1919,9 +1925,9 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     Dopisane jest wypełnienie, a nie pozycja obok niego,
     więc :attr:`Deklaracja.role` zostaje listą ról.
 
-    Nazwane jest pierwsze wystąpienie roli w składowym i tylko ono,
-    więc dwa czytania różne miejscem drugiego okolicznika tej samej roli
-    wychodzą stąd jednym napisem.
+    Rola przyłączana jest nazwana pierwszym wystąpieniem w składowym
+    (:func:`_streszcz`), więc dwa czytania różne miejscem drugiego okolicznika
+    tej samej roli wychodzą stąd jednym napisem.
     Streszczeń wychodzi przez to nie więcej niż czytań, bo powtórzone na listę
     nie wchodzi (``Verdict.readings`` w ``olski/subset.py``);
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
@@ -1938,7 +1944,14 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
 
 
 def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> dict[str, str]:
-    """Streszczenie tej części zdania: pierwsze wystąpienie każdej roli w niej.
+    """Streszczenie tej części zdania: co stoi w której roli w niej.
+
+    Rola przyłączana jest nazwana pierwszym wystąpieniem, a wypełniająca
+    wszystkimi, i rozdziela je liczba, jaką każda z nich mieć może.
+    Okoliczników stoi przy zdaniu dowolnie wiele, więc wypisane wszystkie
+    rozmnożyłyby streszczenia. Wypełnień stoi najwyżej dwa
+    (``DRUGA_POZYCJA`` w ``olski/subset.py``), a pierwsze z nich samo zostawia
+    `Parser pokazuje autorowi oba czytania.` bez połowy tego, co olski w nim wziął.
 
     Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość:
     dopowiedzenie za dwukropkiem stoi poza zdaniem składowym
@@ -1954,9 +1967,11 @@ def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> di
         ]
         if not znalezione:
             continue
-        napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
         if rola in deklaracja.przyłączane:
+            napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
             napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
+        else:
+            napis = OBOK.join(_nawiasuj(węzeł, deklaracja.współrzędne) for węzeł in znalezione)
         streszczenie[rola] = napis
     return streszczenie
 

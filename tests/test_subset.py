@@ -596,9 +596,12 @@ def test_konstytuent_będący_zdaniem_streszcza_się_swoimi_rolami():
 def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
     """Wpisów ma być tyle, ile wyborów, więc wybór nazwany raz nie wraca drugim wierszem.
 
-    Dwanaście czytań tego zdania składa się z trzech gospodarzy jednego
-    wyrażenia przyimkowego, dwóch drugiego i dwóch kształtów `ulicy Pomorskiej`,
-    a wieloznaczność zamknięta w zdaniu podrzędnym jest poza zasięgiem
+    Dwadzieścia cztery czytania tego zdania składają się z trzech gospodarzy
+    jednego wyrażenia przyimkowego, dwóch drugiego, dwóch kształtów `ulicy
+    Pomorskiej` i dwóch miejsc, w których kończy się drugie z tych wyrażeń:
+    `zapewnić` ma drugą pozycję ramy, więc `połowie bieżącego roku` czyta się
+    także jej celownikiem, a przed nim zostaje samo `w pierwszej`.
+    Wieloznaczność zamknięta w zdaniu podrzędnym jest poza zasięgiem
     streszczenia: wiersz o przyłączeniu granicy tego zdania nie zna, więc gdyby
     ten wiersz szedł po samej granicy, wypisałby te same dwa wybory jeszcze raz,
     konstytuentem długim na całe zdanie podrzędne. Zdanie jest ze Składnicy.
@@ -607,10 +610,10 @@ def test_wiersz_o_konstytuencie_nie_powtarza_wyboru_nazwanego_przyłączeniem():
         "Władze miasta zapewniają, że remont kapitalny torowiska na ulicy Pomorskiej "
         "rozpocznie się w pierwszej połowie bieżącego roku."
     )
-    assert found.result.ile == 12, found.explain()
+    assert found.result.ile == 24, found.explain()
     assert [p.modyfikator for p in found.result.przyłączenia] == [
         "na ulicy Pomorskiej",
-        "w pierwszej połowie bieżącego roku",
+        "w pierwszej",
     ]
     [rozbieżność] = found.result.rozbieżności
     assert (rozbieżność.konstytuent, rozbieżność.ile) == ("ulicy Pomorskiej", 2)
@@ -1611,9 +1614,13 @@ def test_przytoczenie_bierze_licencję_od_cudzysłowu_a_nie_od_pisma_napisu():
     #  Usterka, którą to łapie: warunek pytający o samą formę. Litera jest u
     #  Morfeusza skrótem — `B` pod lematem `bajt` — i skrótów ta gramatyka nie ma,
     #  więc bez cudzysłowu napisowi nie zostaje ani jedno czytanie do wzięcia.
-    przytoczony = verdict("Wciśnij klawisz „B” i zapisz plik konfiguracyjny.")
+    #
+    #  `nacisnąć`, a nie `wcisnąć`: drugie ma drugą pozycję ramy, a grupa w
+    #  cudzysłowie idzie przez każdy przypadek, więc para dokłada temu zdaniu
+    #  czytanie z `„B”` w celowniku i pytanie o cudzysłów tonie w nim.
+    przytoczony = verdict("Naciśnij klawisz „B” i zapisz plik konfiguracyjny.")
     assert przytoczony.status == "valid", przytoczony.explain()
-    assert not verdict("Wciśnij klawisz B i zapisz plik konfiguracyjny.").readings
+    assert not verdict("Naciśnij klawisz B i zapisz plik konfiguracyjny.").readings
 
 
 def test_przytoczeniem_jest_napis_domknięty_i_jednosłowny():
@@ -1865,15 +1872,33 @@ def test_dopełniacz_z_leksykonu_i_dopełniacz_negacji_dają_jedno_odczytanie():
     assert verdict("Wpis nie żąda dowodu.").result.ile == 1
 
 
-def test_czasownik_bierze_jedno_wypełnienie_a_nie_dwie_pozycje_ramy_naraz():
-    #  Celownik obok biernika jest osobnym kształtem, a nie sumą dwóch pozycji,
-    #  które gramatyka ma: `Complements` stawia jedno wypełnienie i okolicznik po
-    #  obu jego stronach. Każda z tych dwóch pozycji osobno wyprowadza się, więc
-    #  bez trzeciego zdania w tej trójce odrzucenie czytałoby się jak brak wpisu
-    #  w leksykonie.
-    assert verdict("Parser pokazuje autorowi oba czytania.").status == "rejected"
-    assert verdict("Parser pokazuje oba czytania.").status == "valid"
+def test_druga_pozycja_ramy_wchodzi_zdaniem_leksykonu_a_nie_sumą_dwóch_pozycji():
+    #  Usterka, którą to łapie: para złożona z dwóch zdań leksykonu policzonych
+    #  osobno. `pomagać` celownik bierze, a pary z biernikiem nie ma w żadnym
+    #  schemacie, więc zdanie drugie odróżnia jedno zdanie leksykonu od drugiego;
+    #  bez niego odrzucenie czytałoby się jak brak celownika w ramie.
+    assert verdict("Parser pokazuje autorowi oba czytania.").status == "valid"
     assert verdict("Reguła pomaga autorowi.").status == "valid"
+    assert not verdict("Reguła pomaga autorowi oba czytania.").readings
+
+
+def test_druga_pozycja_ramy_stoi_w_obu_szykach_i_nie_stoi_dwa_razy():
+    #  Usterka, którą to łapie: wypełnienie pary wzięte zmienną ramy zamiast
+    #  wartością. Zmienna przecina się z tą samą ramą co celownik, więc wpuszcza
+    #  drugi celownik w miejsce biernika.
+    assert verdict("Parser pokazuje oba czytania autorowi.").status == "valid"
+    assert not verdict("Parser pokazuje autorowi autorowi.").readings
+
+
+def test_druga_pozycja_ramy_stoi_obok_każdego_wypełnienia_a_nie_samego_biernika():
+    #  Zdanie podrzędne i bezokolicznik zajmują pozycję ramy tak samo jak
+    #  dopełnienie, więc celownik staje obok każdego z nich.
+    #
+    #  `usiąść`, a nie `zejść`: drugie ma u Morfeusza czytanie rzeczownikowe w
+    #  dopełniaczu mnogim, więc `córce zejść` wychodzi jedną grupą imienną i to
+    #  zdanie wyprowadzało się także bez tej pozycji.
+    assert verdict("Parser mówi autorowi, że zdanie czyta się dwojako.").readings
+    assert verdict("Krawiec kazał córce usiąść.").status == "valid"
 
 
 def test_wolny_celownik_pada_obok_dopełnienia_a_nie_na_leksykonie():

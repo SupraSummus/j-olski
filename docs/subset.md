@@ -634,6 +634,10 @@ a ruch trzyma [TODO.md](../TODO.md).
 - What a verb takes, from a lexicon rather than from a production:
   `być` takes no accusative object,
   so `On jest wolny.` loses the reading in which `wolny` is one.
+- Dopełnienie w celowniku obok drugiego wypełnienia, tam gdzie leksykon parę wpuszcza:
+  `Parser pokazuje autorowi oba czytania.`,
+  `Parser mówi autorowi, że zdanie czyta się dwojako.`
+  ([poniżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia))
 - The register's own notation as an indeclinable noun:
   `Zobacz docs/subset.md.`, argued above
 - Forma pisana wersalikami, której słownik nie czyta wcale,
@@ -1899,6 +1903,9 @@ Zdanie o bierniku jest ujemne i mówi, że czasownik nie bierze dopełnienia w b
 Zdanie o celowniku i zdanie o dopełniaczu są twierdzące i mówią,
 że czasownik bierze dopełnienie w tym przypadku
 ([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+Zdanie o celowniku przy wypełnieniu jest węższe od tamtego pierwszego i mówi,
+że jeden schemat stawia ten celownik obok drugiej pozycji
+([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
 Zdanie o bezokoliczniku mówi, że czasownik bierze bezokolicznik,
 którego wykonawcą jest jego własny podmiot,
 a zdanie o zdaniu podrzędnym — że bierze zdanie wprowadzone przez `że`,
@@ -1910,7 +1917,8 @@ rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
 ani bezokolicznika, ani zdania podrzędnego.
 `olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
-zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964, o dopełniaczu 821,
+zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964,
+o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
 o bezokoliczniku 285, a o zdaniu podrzędnym 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
@@ -1983,7 +1991,10 @@ więc `Córka krawca chciała zejść.` mówi, że zeszłaby ona.
 U `kazać` nosi ją pozycja celownikowa,
 więc `Krawiec kazał córce zejść.` mówi, że zeszłaby córka.
 Przekład bierze pierwszy z tych kształtów i nie bierze drugiego,
-bo celownika ta gramatyka nie ma i wykonawcy nie miałaby czym postawić.
+bo wykonawcy nie ma czym postawić.
+Parser bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok wypełnienia
+([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+a kto zeszedł, nie pyta ani jedna produkcja.
 Zdanie leksykonu jest przez to zdaniem o kontroli, a nie o samym kształcie frazy,
 i tyle wystarcza, żeby skład nie musiał o kontrolę pytać drugi raz.
 
@@ -2162,10 +2173,10 @@ a `Wpis nie żąda dowodu.` wychodzi jednym czytaniem,
 bo kształt obu wyprowadzeń jest ten sam
 ([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
 
-Drugiego dopełnienia obok pierwszego ta pozycja nie daje,
-a zdanie z nim stoi wśród tego,
-[czego olski nie bierze](#what-it-does-not-cover-yet).
-Wyrażenia przyimkowego zakaz ten nie obejmuje, bo ono jest okolicznikiem:
+Drugiego dopełnienia obok pierwszego ta pozycja nie daje;
+daje je [pozycja niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)
+i wpuszcza ją osobne zdanie leksykonu.
+Wyrażenia przyimkowego to nie dotyczy, bo ono jest okolicznikiem:
 `Parser mówi autorowi o czytaniach.` wyprowadza się i wychodzi wieloznaczne,
 bo [olski nie wybiera przyłączenia](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
 
@@ -2231,6 +2242,89 @@ i nie jest to sprzeczność z liczbami wyżej, tylko
 zdanie o dwudziestu wyrazach ma kilka zatrzymań naraz,
 więc pozycja zdejmuje jedno z nich i zostawia zdanie odrzucone, tylko dalej.
 Widać ją za to nad zdaniem krótkim.
+
+### Druga pozycja ramy jest celownikiem obok wypełnienia
+
+`Parser pokazuje autorowi oba czytania.`, `Parser mówi autorowi, że zdanie czyta się dwojako.`
+Celownik stoi tu obok wypełnienia, które pozycję ramy zajmuje, a nie w niej samej,
+i tym różni się od [dopełnienia w celowniku](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu),
+które tę pozycję wypełnia samo.
+
+```sh
+python3 -m olski.check -c "Parser pokazuje autorowi oba czytania.
+Parser pokazuje oba czytania autorowi.
+Reguła pomaga autorowi oba czytania.
+Parser pokazuje autorowi autorowi."
+```
+
+```text
+<text>: valid     Parser pokazuje autorowi oba czytania.
+                  jedno odczytanie
+<text>: valid     Parser pokazuje oba czytania autorowi.
+                  jedno odczytanie
+<text>: rejected  Reguła pomaga autorowi oba czytania.
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: rejected  Parser pokazuje autorowi autorowi.
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+```
+
+Parę wpuszcza własne zdanie leksykonu, a nie koniunkcja dwóch tamtych,
+i liczy się je z jednego schematu Walentego.
+Celownik z jednego schematu i biernik z drugiego pary nie dowodzą:
+takich lematów jest 641, i to one dzielą `pomagać` od `pokazywać`.
+Sąsiadem musi być przy tym wypełnienie, które olski ma —
+dopełnienie w bierniku, bezokolicznik, zdanie podrzędne albo pytanie zależne —
+bo celownik obok wyrażenia przyimkowego pary nie potrzebuje:
+`mówić komuś o czymś` wychodzi okolicznikiem, który przyłącza się za darmo.
+Liczony szerzej dawałby parę 2 434 lematom, które poza takim sąsiadem żadnego nie mają.
+
+Licencję niesie cecha, a nie druga pozycja wypisana w ramie.
+Ramę unifikacja przecina, więc dwie pozycje wypisane w niej byłyby alternatywą,
+a żądanie jest tu koniunkcją: celownik razem z wypełnieniem, nie jedno albo drugie.
+Cecha licencjonuje przez to sam celownik, a wypełnienie licencjonuje rama obok niej.
+
+Który sąsiad przy nim stoi, zdanie leksykonu przemilcza,
+i jest to ta sama zgrubność, którą ma sama rama domyślna:
+skoro daje ona każdemu czasownikowi biernik, bezokolicznik, zdanie i pytanie naraz,
+para rozdzielona na cztery zdania byłaby dokładniejsza od tego, do czego dochodzi.
+Walenty daje celownik przy bierniku 4 611 lematom, przy zdaniu 666,
+przy pytaniu 360, a przy bezokoliczniku 91.
+Dopełniacza ta pozycja nie bierze, bo przy wypełnieniu daje go Walenty
+kilkudziesięciu lematom, a celownik kilku tysiącom.
+
+Cena i zakup są zmierzone nad Składnicą 180723 przebiegiem przed zmianą i po niej.
+Pod złotą morfologią czytanie dostaje przeszło sto zdań, które przedtem nie miały żadnego,
+a jednoznaczności nie traci ani jedno zdanie przyjęte;
+czytań przybywa pojedynczym zdaniom już wieloznacznym.
+Zgodność ról z drzewem wzorcowym spada o niecały punkt
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Pod Morfeuszem czytanie dostaje tyle samo zdań, a cena jest widoczna:
+jednoznaczność traci kilkadziesiąt zdań przyjętych,
+bo celownik dzieli formę z miejscownikiem w całej odmianie żeńskiej,
+więc każde `w gramatyce` za czasownikiem z parą czyta się także jej celownikiem.
+Część tych zdań na tym zyskuje, a nie traci:
+`Pokazują go swoim gościom.` wychodziło jednym czytaniem, w którym `go` było grą,
+a para dokłada mu to czytanie, które ma czytelnik.
+
+Okolicznik staje między członami pary, bo ten rejestr tak pisze —
+`pokazuje autorowi w wydruku oba czytania` —
+i miejsce to zmierzono osobno: kupuje kilka zdań, a jednoznaczność odbiera pojedynczemu.
+Bez niego wyrażenie przyimkowe w tym miejscu ma jednego gospodarza zamiast dwóch,
+czyli gramatyka wybierałaby przez przeoczenie
+([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+
+Werdykt nazywa oba dopełnienia, rozdzielając je plusem,
+bo rola o dwóch wypełnieniach czytałaby się jak dwie role:
+
+```sh
+python3 -m olski.check --readings -c "Parser pokazuje autorowi oba czytania."
+```
+
+```text
+<text>: valid     Parser pokazuje autorowi oba czytania.
+                  jedno odczytanie
+                  - Subject: Parser, Object: autorowi + oba czytania, Verb: pokazuje
+```
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
 
@@ -3293,7 +3387,9 @@ nieprawdziwe i nie daje im nic w zamian.
   a role jej wnętrza nie są rolami zdania nad nią.
 - **Ciąg pytań zależnych pod jednym czasownikiem.**
   `Drzewo mówi, co jest tematem, a co jest nowe.`
-  Czasownik bierze jedno wypełnienie, więc pozycję ramy zajmuje ciąg cały,
+  Drugie wypełnienie bierze przy czasowniku sam celownik
+  ([wyżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+  więc pozycję ramy zajmuje ciąg cały,
   a znakiem tego ciągu jest spójnik, a nie sam przecinek
   ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)).
 - **Orzecznik wysunięty na czoło.** `Czym jest parser?`, `to, czym jest GLR.`
@@ -3407,14 +3503,6 @@ Every one of these is a sentence that gets rejected and should not be:
   [corpus.md](corpus.md#where-the-analyses-stop) ranks,
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
-- Dwie pozycje ramy naraz, czyli dopełnienie obok dopełnienia:
-  `Parser pokazuje autorowi oba czytania.` jest odrzucone,
-  gdzie `Parser pokazuje oba czytania.` i `Reguła pomaga autorowi.` wyprowadzają się,
-  bo czasownik bierze jedno wypełnienie, a okolicznik z obu jego stron
-  ([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
-  Tego samego kształtu żąda bezokolicznik kontrolowany z celownika —
-  `Krawiec kazał córce zejść.` — więc jedna produkcja zamyka dwie klasy zdań,
-  a ceny nie policzył nikt; `TODO.md` trzyma ten przebieg.
 - Narzędnik bez przyimka jako pozycja przy czasowniku:
   `Parser mierzy gramatykę sondą.` jest odrzucone,
   gdzie `Parser mierzy gramatykę.` wyprowadza się,

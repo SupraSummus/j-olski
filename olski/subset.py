@@ -36,6 +36,8 @@ from olski.walencja import (
     BEZ_BIERNIKA,
     BEZ_BIERNIKA_ZWROTNE,
     Z_CELOWNIKIEM,
+    Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU,
+    Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE,
     Z_CELOWNIKIEM_ZWROTNE,
     Z_DOPEŁNIACZEM,
     Z_DOPEŁNIACZEM_ZWROTNE,
@@ -110,6 +112,13 @@ WTRĄCONY = "Parenthetical"
 #: Rolą jest cały człon, a nie to, co on niesie, i z tego samego powodu, z
 #: którego rolą jest całe wtrącenie (:data:`WTRĄCONY`).
 ELIPSA = "Ellipsis"
+
+#: Symbol pary wypełnień: dopełnienie w celowniku obok wypełnienia, które zajmuje
+#: pozycję ramy. Symbolem, a nie ciałami wypisanymi w `Complements`, bo inaczej
+#: szyk pary mnoży się przez miejsca na okolicznik wokół niej, a tak każde z tych
+#: dwóch mnoży się osobno. Rolą ta nazwa nie jest — role wylicza
+#: :data:`DEKLARACJA` — bo werdykt nazywa dopełnienie dopełnieniem, a nie parą.
+DRUGA_POZYCJA = "SecondComplement"
 
 #: Rola spójnika, który stoi wewnątrz swojego zdania: `zatem` w `Milczenie jest
 #: zatem wartością.` Od cząstki różni ją to, co to słowo robi: cząstka określa
@@ -404,6 +413,22 @@ DOKŁADANE = (
 def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
     """Pozycje dokładane wraz z lematami tej klasy słowa (:data:`DOKŁADANE`)."""
     return [(nazwa, zwrotni if zwrotne else zwykli) for nazwa, zwykli, zwrotni in DOKŁADANE]
+
+
+#: Druga pozycja ramy, czyli dopełnienie dokładane stojące obok wypełnienia:
+#: `Parser pokazuje autorowi oba czytania.` Wartość nazywa przypadek tego
+#: dopełnienia, a :data:`BEZ_DRUGIEJ` mówi, że lemat pary nie ma.
+#:
+#: Cechą osobną, a nie pozycją ramy, bo rama jest zbiorem, którego unifikacja
+#: przecina, więc żądanie dwóch pozycji naraz wypisane w niej byłoby ich
+#: alternatywą: ta cecha licencjonuje celownik, a rama równolegle wypełnienie,
+#: obok którego on stoi.
+#:
+#: Wartość jest jedna, bo jeden przypadek ma tę parę zmierzoną: dopełniacz obok
+#: wypełnienia bierze u Walentego kilkadziesiąt lematów, a celownik kilka tysięcy;
+#: liczby trzyma docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+DRUGA_CELOWNIK = "dat"
+BEZ_DRUGIEJ = "bez"
 
 
 def _rama(
@@ -774,8 +799,8 @@ TRYB_FORMY_NA_Ł = f"{TRYB_OZNAJMUJĄCY}.{TRYB_POD_SPÓJNIKIEM}"
 PRZECZENIA: tuple[tuple[tuple[Part, ...], str], ...] = (((), "aff"), ((PRZECZENIE,), "neg"))
 
 
-def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
-    """Klasy walencyjne: warunek na lemat i rama, którą ten warunek wpuszcza.
+def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str, str]]:
+    """Klasy walencyjne: warunek na lemat, rama i druga pozycja, którą warunek wpuszcza.
 
     Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
     leksykonu naraz, bo klasy mają się nie zachodzić: forma wzięta dwiema klasami
@@ -797,11 +822,30 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str]]:
     Lematu ``zostać`` odmowa ta nie tyka, bo leksykon zwrotny go wymienia i klasa
     domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
     docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej.
+
+    Klasa ramy dzieli się na dwie tam, gdzie leksykon daje części jej lematów
+    drugą pozycję (:data:`DRUGA_CELOWNIK`), a klasa domyślna drugiej pozycji nie
+    ma: zdanie o parze mówi o celowniku, więc lemat, który je niesie, stoi w
+    leksykonie i tej klasy nie dosięga.
     """
     leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
-    klasy = [({"lemma": lematy}, rama) for rama, lematy in leksykon.items()]
+    z_parą = Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE if zwrotne else Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU
+    klasy = [
+        ({"lemma": "|".join(wybrane)}, rama, druga)
+        for rama, lematy in leksykon.items()
+        for druga, wybrane in _po_drugiej(lematy.split("|"), z_parą)
+        if wybrane
+    ]
     poza_domyślną = [*leksykon.values(), *([KOPULA] if zwrotne else [])]
-    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, RAMA_DOMYŚLNA)]
+    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, RAMA_DOMYŚLNA, BEZ_DRUGIEJ)]
+
+
+def _po_drugiej(lematy: Sequence[str], z_parą: frozenset[str]) -> list[tuple[str, list[str]]]:
+    """Lematy klasy rozdzielone na te z drugą pozycją i te bez niej."""
+    return [
+        (DRUGA_CELOWNIK, [lemat for lemat in lematy if lemat in z_parą]),
+        (BEZ_DRUGIEJ, [lemat for lemat in lematy if lemat not in z_parą]),
+    ]
 
 
 def _formy_skończone(
@@ -1054,10 +1098,10 @@ def _zamykane(grammar: Grammar, symbol: str, ciało: list[Part | Głowa], **cech
 #: (`klasy` w ``olski/parse.py``), więc niesiona bez czytelnika kosztuje rozbiór;
 #: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (TODO.md).
 NIE_WYPUSZCZANE = {
-    "ClauseConjunct": ("number", "gender", "person", "valency", "negacja", "dostawka"),
+    "ClauseConjunct": ("number", "gender", "person", "valency", "negacja", "druga", "dostawka"),
     "Clause": ("dostawka",),
     "Verb": ("aspect",),
-    "Predicate": ("valency", "negacja"),
+    "Predicate": ("valency", "negacja", "druga"),
     "RelativeCore": ("person", "valency", "negacja"),
     "InterrogativeCore": ("person", "valency", "negacja"),
     OKOLICZNIKOWY: ("tryb",),
@@ -1201,6 +1245,7 @@ def build() -> Grammar:
         person=V("p"),
         valency=V("w"),
         negacja=V("z"),
+        druga=V("d"),
         tryb=V("t"),
     )
     dopełnienie = nt("Object", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
@@ -1286,14 +1331,16 @@ def build() -> Grammar:
             [*przeczenie, Głowa(PREDYKATYW)],
             valency=RAMA_BEZOSOBOWA,
             negacja=negacja,
+            druga=BEZ_DRUGIEJ,
         )
         for zwrotne, cząstka in ((False, ()), (True, (CZĄSTKA_ZWROTNA,))):
-            for warunek, rama in _klasy(zwrotne):
+            for warunek, rama, druga in _klasy(zwrotne):
                 grammar.rule(
                     BEZOSOBOWY,
                     [*przeczenie, Głowa(word("imps", **warunek)), *cząstka],
                     valency=_bez_orzecznika(rama),
                     negacja=negacja,
+                    druga=druga,
                 )
 
     # Zdaniem składowym jest ta głowa wprost, bo `Predicate` ma ciało z podmiotem,
@@ -1304,8 +1351,8 @@ def build() -> Grammar:
     grammar.rule(
         "ClauseConjunct",
         [
-            Głowa(nt(BEZOSOBOWY, valency=V("w"), negacja=V("z"))),
-            nt("Complements", valency=V("w"), negacja=V("z")),
+            Głowa(nt(BEZOSOBOWY, valency=V("w"), negacja=V("z"), druga=V("d"))),
+            nt("Complements", valency=V("w"), negacja=V("z"), druga=V("d")),
         ],
         tryb=TRYB_OZNAJMUJĄCY,
     )
@@ -1498,6 +1545,7 @@ def build() -> Grammar:
                 gender=V("g"),
                 valency=V("w"),
                 negacja=V("z"),
+                druga=V("d"),
             ),
         ],
     )
@@ -1659,6 +1707,46 @@ def build() -> Grammar:
             grammar.rule("Complements", ciało)
     grammar.rule("Complements", [okoliczniki])
 
+    # Druga pozycja ramy: dopełnienie w celowniku obok wypełnienia, które pozycję
+    # ramy zajmuje. `Parser pokazuje autorowi oba czytania.`, `Parser mówi
+    # autorowi, że zdanie czyta się dwojako.`, `Krawiec kazał córce usiąść.`
+    #
+    # Licencję niesie cecha, a nie pozycja ramy (:data:`DRUGA_CELOWNIK`), i wpuszcza
+    # ją osobne zdanie leksykonu, liczone z jednego schematu Walentego
+    # (``olski/walenty.py``).
+    #
+    # Wypełnieniem pary jest biernik wypisany wartością, a nie ``dopełnienie`` ze
+    # zmienną: zmienna przecina się z tą samą ramą co celownik, więc wpuszcza tu
+    # drugi celownik. Orzecznika w tej krotce nie ma, bo Walenty nie odróżnia go od
+    # argumentu narzędnikowego (:data:`olski.walenty.WYPEŁNIENIA`).
+    #
+    # Szyki są dwa, bo polszczyzna ma oba, a okolicznik staje między członami, bo
+    # ten rejestr tak pisze: `pokazuje autorowi w wydruku oba czytania`. Miejsca
+    # wokół całej pary wylicza ``Complements`` niżej.
+    celownikowe = nt("Object", valency=DRUGA_CELOWNIK, czoło=BEZ_CZOŁA)
+    for wypełnienie in (
+        nt("Object", valency="acc", negacja=V("z"), czoło=BEZ_CZOŁA),
+        nt("InfinitivePhrase", valency=V("w"), negacja=V("z")),
+        nt("SubordinateClause", valency=V("w")),
+        nt("InterrogativeClause", valency=V("w")),
+    ):
+        for ciało in (
+            [celownikowe, Głowa(wypełnienie)],
+            [celownikowe, okoliczniki, Głowa(wypełnienie)],
+            [Głowa(wypełnienie), celownikowe],
+            [Głowa(wypełnienie), okoliczniki, celownikowe],
+        ):
+            grammar.rule(DRUGA_POZYCJA, ciało, druga=DRUGA_CELOWNIK)
+
+    para = nt(DRUGA_POZYCJA, valency=V("w"), negacja=V("z"), druga=V("d"))
+    for ciało in (
+        [para],
+        [okoliczniki, Głowa(para)],
+        [Głowa(para), okoliczniki],
+        [okoliczniki, Głowa(para), okoliczniki],
+    ):
+        grammar.rule("Complements", ciało)
+
     # Okoliczników bywa więcej niż jeden, bo `postępować wobec innych w duchu
     # braterstwa` ma dwa, a czasownik, który bierze jeden, bierze każdą ich liczbę.
     #
@@ -1720,7 +1808,7 @@ def build() -> Grammar:
     # każdym szyku zdania. Ciało bez cząstki ogłasza przy tym `aff`, bo milczenie
     # przepuściłoby dopełniacz negacji do zdania, które nie przeczy.
     for zwrotne, przed, za in SZYKI_CZĄSTKI:
-        for warunek, rama in _klasy(zwrotne):
+        for warunek, rama, druga in _klasy(zwrotne):
             for ciało, cechy in _formy_skończone(warunek):
                 for przeczenie, negacja in PRZECZENIA:
                     grammar.rule(
@@ -1728,6 +1816,7 @@ def build() -> Grammar:
                         [*przed, *przeczenie, *ciało, *za],
                         valency=rama,
                         negacja=negacja,
+                        druga=druga,
                         **cechy,
                     )
 
@@ -1745,10 +1834,13 @@ def build() -> Grammar:
     # przenoszenie: `Program ma nie zapisywać ustawień` przeczy bezokolicznikowi,
     # a forma osobowa nad nim nie przeczy. Nieobecnością cechy broni się tu tak
     # samo jak grupa współrzędna, która rodzaju nie niesie.
-    for warunek, rama in _klasy(zwrotne=False):
+    for warunek, rama, druga in _klasy(zwrotne=False):
         grammar.rule(
             "InfinitivePhrase",
-            [Głowa(word("inf", **warunek)), nt("Complements", valency=rama, negacja=V("z"))],
+            [
+                Głowa(word("inf", **warunek)),
+                nt("Complements", valency=rama, negacja=V("z"), druga=druga),
+            ],
             valency="inf",
             negacja=V("z"),
         )
@@ -1757,7 +1849,7 @@ def build() -> Grammar:
             [
                 PRZECZENIE,
                 Głowa(word("inf", **warunek)),
-                nt("Complements", valency=rama, negacja="neg"),
+                nt("Complements", valency=rama, negacja="neg", druga=druga),
             ],
             valency="inf",
         )
@@ -2139,9 +2231,9 @@ def build() -> Grammar:
 
     # Ciąg pytań pod jednym czasownikiem: `Drzewo mówi, co w zdaniu jest tematem,
     # a co jest nowe.`, `Dokument mówi, po co był linter i co zamknęło ten tor.`
-    # Pozycję ramy zajmuje cały ciąg, a nie każdy człon osobno, bo czasownik bierze
-    # jedno wypełnienie (``Complements``), i dlatego ciąg jest tu symbolem, a nie
-    # drugim ciałem zdania podrzędnego.
+    # Pozycję ramy zajmuje cały ciąg, a nie każdy człon osobno, bo drugie
+    # wypełnienie bierze przy czasowniku sam celownik (:data:`DRUGA_CELOWNIK`),
+    # i dlatego ciąg jest tu symbolem, a nie drugim ciałem zdania podrzędnego.
     #
     # Znakiem ciągu jest spójnik, a nie sam przecinek: przecinek w tym miejscu
     # zamyka zdanie podrzędne (:func:`_zamykane`), więc ciało z nim samym dałoby
