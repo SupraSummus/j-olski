@@ -691,6 +691,11 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
   `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`, `Zażądałem, by wyszedł.`
   ([poniżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku))
+- Czas przyszły w obu rolach formy `bedzie`:
+  sama orzeka o podmiocie, a nad czasownikiem niedokonanym składa czas złożony —
+  `Cena będzie niska.`, `Program będzie zapisywał ustawienia.`,
+  `Program będzie zapisywać ustawienia.`
+  ([poniżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
 - Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
   `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
   ([poniżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
@@ -897,6 +902,67 @@ Zostaje też aglutynant przy spójniku, czyli `żebym napisał`:
 Morfeusz tnie ten napis na `żeby` i `m`,
 a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi
 ([TODO.md](../TODO.md)).
+
+## Forma `bedzie` orzeka sama albo składa czas przyszły złożony
+
+Czas przyszły stoi w kolejce ze Składnicy
+([corpus.md](corpus.md#where-the-analyses-stop)),
+a niesie go tam jedna część mowy:
+`bedzie` jest u Morfeusza osobną odmianą,
+więc wiersz kolejki nazywa tę konstrukcję wprost.
+
+Polszczyzna stawia tę formę w dwóch rolach i olski bierze obie.
+Sama orzeka o podmiocie tak jak każda inna forma `być`:
+`Cena będzie niska.`, `Testem będzie konkurs krajowy.`
+Ramę bierze przy tym z leksykonu razem z resztą form tego lematu
+([niżej](#walencja-jest-leksykonem-o-ramie-domyślnej)),
+więc biernika nie weźmie i `Cena będzie plik.` nie ma wyprowadzenia.
+Nad czasownikiem niedokonanym składa czas przyszły złożony:
+`Program będzie zapisywał ustawienia.`, `Program będzie zapisywać ustawienia.`
+
+Zgodność dzieli się w tym czasie na dwa słowa.
+`bedzie` niesie liczbę i osobę, a rodzaju nie niesie, dokładnie jak `fin`.
+Rodzaju żąda przez to zdanie z formą na -ł, tak samo jak czas przeszły
+([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+więc `Lista będzie stał.` nie ma wyprowadzenia,
+a zdanie z bezokolicznikiem nie żąda go wcale.
+Liczby żądają oba, bo ciało z bezokolicznikiem ogłasza ją samo;
+bez tego wyprowadza się `Programy będzie zapisywać ustawienia.`,
+skoro cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
+
+Aspekt jest tu żądaniem wypisanym:
+polszczyzna składa ten czas z czasownikiem niedokonanym i z żadnym innym,
+więc `Program będzie zapisał ustawienia.` zostaje na zewnątrz.
+
+Pozycje są dwie, a nie jedna z formą dopisaną do `fin`,
+bo cena każdej z nich ma być osobną liczbą
+([CLAUDE.md](../CLAUDE.md#code)).
+Obie kupują nad Składnicą po kilkanaście zdań przyjętych,
+a większość tego, co zdejmują z odrzuconych, wychodzi wieloznaczna.
+Pod złotą morfologią ani jedno zdanie banku drzew nie rusza się pod obiema naraz,
+a pod żywą jedno, więc liczba jednej pozycji nie zależy od drugiej.
+Razem oddają przeszło jedną trzecią tego, co obiecywał wiersz kolejki,
+i jest to pierwszy pomiar, który oddał więcej, niż obiecywał przelicznik
+[etapu 6](roadmap.md#etap-6-reszta-konstrukcji).
+Ani jedno nowo przyjęte zdanie nie czyta się odwrotnie niż drzewo wzorcowe.
+Nad prozą tego repozytorium zdejmują z odrzuconych jedno zdanie
+i wychodzi ono wieloznaczne, bo ten rejestr pisze czas teraźniejszy.
+
+Z wiersza `bedzie` zostaje po tym garść zdań, a prowadzi ją `trzeba będzie`,
+czyli czas przyszły predykatywu
+([niżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)):
+forma stoi tam za słowem, które orzeka,
+a predykatyw pozycji na czasownik nie ma, bo orzeka bez niego.
+
+Szyk jest jeden — forma przyszła przed czasownikiem —
+więc `Zapisywał będzie ustawienia.` zostaje na zewnątrz,
+choć polszczyzna ten szyk ma.
+Cząstka `się` ma przy tym czasie te same dwie pozycje co przy formie osobowej,
+czyli `Rachunek się będzie zwracał.` i `Rachunek będzie zwracał się.`,
+a pozycji między formą przyszłą a czasownikiem nie ma,
+więc `Rachunek będzie się zwracał.` zostaje na zewnątrz
+razem z resztą tego, czego ta cząstka nie obejmuje
+([niżej](#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
 
 ## Cząstka zwrotna stoi po obu stronach swojej formy osobowej
 
@@ -3238,12 +3304,11 @@ Every one of these is a sentence that gets rejected and should not be:
   że spójnika nie ma, więc nie ma czym jej wpuścić bez wpuszczenia zarazem
   dwóch rzeczowników postawionych obok siebie przez pomyłkę.
 
-- Czas przyszły złożony: `Program będzie zapisywał ustawienia.`
-  i `Program będzie zapisywać ustawienia.` są odrzucone,
-  gdzie `Program zapisuje ustawienia.` wyprowadza się.
-  Formy `bedzie` nie bierze żaden terminal,
-  a stoi ona nad bezokolicznikiem albo nad formą na `-ł`,
-  czyli nad dwiema pozycjami, które gramatyka ma osobno.
+- Czas przyszły predykatywu, czyli forma `bedzie` za słowem, które orzeka:
+  `Trzeba będzie zmierzyć cenę.` jest odrzucone,
+  gdzie `Trzeba zmierzyć cenę.` wyprowadza się i gdzie `Cena będzie niska.` też
+  ([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+  Predykatyw orzeka bez czasownika, więc pozycji na niego nie ma.
 - Imiesłów przysłówkowy: `Program zapisuje ustawienia, sprawdzając zgodność.`
   jest odrzucone.
   Jest to trzeci imiesłów obok dwóch, które stoją w
@@ -3258,9 +3323,10 @@ Te trzy wpisy stawia kolejka blokerów
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 a nie przebieg nad prozą ani ranking form bez licencji.
 Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
-`bedzie` niesie jedną konstrukcję na cały wiersz,
+`pcon` i `siebie` niosą po jednej konstrukcji na cały wiersz,
 więc wiersz nazywa ją wprost,
 gdzie `interp` albo `part` grupuje po kilka.
+Wiersz `bedzie` jest po wpuszczeniu czasu przyszłego jednym z tych drugich.
 
 ## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 

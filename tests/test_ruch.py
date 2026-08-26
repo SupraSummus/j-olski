@@ -15,6 +15,8 @@ wyceniający wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi
 
 from __future__ import annotations
 
+import pickle
+
 import pytest
 
 pytest.importorskip("morfeusz2")
@@ -33,6 +35,18 @@ NA_JEDNEJ_GRUPIE = [
     (płaski.PRZYSŁÓWEK_SONDA, "okolicznik", "Teraz program zapisuje ustawienia."),
     (płaski.PRZYSŁÓWEK_SONDA, "przy przymiotniku", "Koszt bardzo dużego pliku jest niski."),
 ]
+
+
+@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)
+def test_sonda_przechodzi_do_procesu_roboczego(sonda: Sonda):
+    """`przebieg` posyła sondę do procesu roboczego, więc sonda ma się dać posłać.
+
+    Usterka, którą to łapie: pole `gramatyki` wypełnione domknięciem. Sonda liczy
+    wtedy w jednym procesie to samo, co liczyłaby w kilku, więc każdy test obok
+    przechodzi, a `--jobs` większe od jednego wywraca przebieg nad całym bankiem
+    drzew — czyli dokładnie ten, po który sonda stoi.
+    """
+    assert pickle.loads(pickle.dumps(sonda)) == sonda
 
 
 @pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)

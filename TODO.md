@@ -1505,6 +1505,37 @@ daje `Zebranie ma się odbyć.` drugie wyprowadzenie.
 Zamierzone jest po tym powtórzenie tamtego pomiaru,
 bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
 
+Klasa domyślna leksykonu zwrotnego daje cząstkę `się` czasownikowi, który jej nie ma.
+`Cena się jest niska.` wyprowadza się, a `być się` czasownikiem nie jest;
+tak samo wyprowadza się `Cena się będzie niska.`
+Klasa ta jest w `olski/subset.py` warunkiem ujemnym na lematy leksykonu zwrotnego,
+więc lemat, którego ten leksykon nie wymienia,
+bierze pod cząstką ramę domyślną, zamiast wypaść z ciała z cząstką.
+Od wpisu o cząstce, która dochodzi do formy stojącej obok, różni się tym,
+że tam cząstka ma swój czasownik i trafia do cudzego, a tu nie ma go wcale.
+Ruchem jest ciało z cząstką odmówione lematowi,
+którego leksykon zwrotny nie wymienia,
+czyli klasa domyślna zdjęta z tego jednego leksykonu.
+Do przeczytania jest
+[sekcja o ramie domyślnej](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+bo cena tego zawężenia jest ceną braków Walentego:
+czasownik zwrotny, którego on nie wymienia, traci wtedy cząstkę.
+
+Klasa walencyjna mnoży produkcje formy `bedzie` przez lematy, których ta forma nie ma.
+Czas przyszły idzie w `olski/subset.py` przez tę samą pętlę co reszta form osobowych,
+a `bedzie` jest u Morfeusza formą jednego lematu,
+więc ciało z samą tą formą powstaje raz na klasę, a wystrzelić może w jednej.
+Reszta jest produkcjami, których nie dosięgnie ani jedno zdanie,
+i jest ich kilkadziesiąt, czyli kilka procent całej gramatyki.
+Ruchem jest to jedno ciało pisane dla tej klasy,
+której warunek wpuszcza lemat `być`, i dla żadnej innej,
+pytane u samej pętli klas, a nie u listy nazw obok niej
+([CLAUDE.md](CLAUDE.md#code)).
+Do rozstrzygnięcia jest, czy warto,
+a odpowiada na to czas rozbioru mierzony
+[na przemian](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje),
+bo zysk jest tu wyłącznie w nim: ani jedno zdanie werdyktu nie zmienia.
+
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
 [Liczba, na której leksykon stoi](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,

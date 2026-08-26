@@ -623,12 +623,14 @@ i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie
 
 Trzy pozycje stoją na tej liście z kolejki czytanej po części mowy,
 a nie po formie, i nie stawia ich ani jedno z tych dwóch źródeł:
-czas przyszły złożony, imiesłów przysłówkowy i zaimek `siebie`
+imiesłów przysłówkowy, zaimek `siebie` i czas przyszły predykatywu
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
-Pierwsza niesie jedną konstrukcję na cały wiersz,
-więc wiersz nazywa ją wprost,
-gdzie wiersze przed nią grupują po kilka konstrukcji naraz
+Dwie pierwsze niosą po jednej konstrukcji na cały wiersz,
+więc wiersz nazywa je wprost,
+gdzie wiersze przed nimi grupują po kilka konstrukcji naraz
 i dopiero czytanie form mówi, o które idzie.
+Trzecia jest resztką wiersza, którego czas przyszły nie opróżnił do końca
+([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
 Zmierzona nie jest z nich żadna,
 a kolejność między nimi rozstrzyga cena,
 tak samo jak przy pozostałych pozycjach tej listy.
@@ -660,10 +662,14 @@ zapłacił on rodzajem wchodzącym do każdego szyku zdania
 ([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
 czego kolejka nie widziała i widzieć nie mogła.
 
-Zmierzone są tym samym wiersze tej kolejki: `num`, `praet`, `qub`, `adv` i `imps`.
+Zmierzone są tym samym wiersze tej kolejki:
+`num`, `praet`, `qub`, `adv`, `imps` i `bedzie`.
 Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
 a `adv` oraz `imps` niemal jedną trzecią,
-więc przelicznik wychodzi trzy- do pięciokrotnego i żaden pomiar z niego nie wypadł.
+więc przelicznik wychodzi trzy- do pięciokrotnego.
+Wypadł z niego dopiero `bedzie` i wypadł w drugą stronę niż `comp` niżej:
+czas przyszły oddał więcej, niż przelicznik obiecywał
+([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
 Żadne z tych dopisań nie rusza osobno pokrycia nad README.
 Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
 bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,

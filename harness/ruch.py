@@ -9,7 +9,7 @@ odpowiadają: przejście ``przyjęte → wieloznaczne`` jest ceną, przejście
 zdaniu.
 
 Wariantem jest zwykle gramatyka olskiego z wyjętą grupą produkcji
-(:func:`po_grupach`),
+(:class:`Zdejmowanie`),
 bo tak mierzy się konstrukcję, którą olski już ma,
 a wariantów jest tyle, ile grup da się zdjąć osobno,
 bo cena każdej z nich jest osobną liczbą.
@@ -95,7 +95,7 @@ class Sonda:
     #: pełnym napisem: `bez przecinka`, a nie `bez`.
     warianty: tuple[str, ...]
     #: Gramatyka, którą ten wariant mierzy. Sonda zdejmująca grupy składa ją
-    #: :func:`po_grupach`, a sonda wyceniająca pozycję, której olski nie ma —
+    #: :class:`Zdejmowanie`, a sonda wyceniająca pozycję, której olski nie ma —
     #: cechę dopisaną do produkcji albo samą produkcję — po swojemu, bo grupą
     #: nie jest ani jedna, ani druga. Bez tego pola sesja przepisywałaby sobie
     #: cały przebieg obok tego pliku, żeby zmierzyć jedno wpuszczenie.
@@ -180,30 +180,37 @@ def gramatyka(sonda: Sonda, wariant: str) -> Grammar:
     return sonda.gramatyki(wariant)
 
 
-def po_grupach(
-    grupa: Callable[[Production], str | None], warianty: Sequence[str]
-) -> Callable[[str], Grammar]:
+@dataclass(frozen=True)
+class Zdejmowanie:
     """Gramatyka wariantu składana zdejmowaniem grup produkcji, po nazwie wariantu.
 
-    ``grupa`` odpowiada, do której grupy należy produkcja, a ``None`` znaczy, że
-    do żadnej i że zostaje w każdym wariancie. Wariant ostatni dostaje wszystkie,
-    czyli jest dokładnie olskim, i tego pilnuje ``tests/test_ruch.py``.
+    :attr:`grupa` odpowiada, do której grupy należy produkcja, a ``None`` znaczy,
+    że do żadnej i że zostaje w każdym wariancie. Wariant ostatni dostaje
+    wszystkie, czyli jest dokładnie olskim, i tego pilnuje ``tests/test_ruch.py``.
 
-    Przepisujemy produkcje ze świeżej gramatyki, takie jakie są, bo złożona drugi
-    raz z części gubiłaby głowę (``Grammar.dopisz``).
+    Klasą, a nie funkcją zwracającą domknięcie, bo :func:`przebieg` posyła sondę
+    do procesu roboczego, a domknięcia posłać nie sposób. Pilnuje tego
+    ``tests/test_ruch.py``, bo w jednym procesie sonda z domknięciem liczy to samo
+    i o tej granicy nie mówi.
     """
 
-    def gramatyka_grupy(wariant: str) -> Grammar:
+    grupa: Callable[[Production], str | None]
+    #: Krotką, a nie listą, bo :func:`gramatyka` haszuje sondę wraz z tym polem.
+    warianty: tuple[str, ...]
+
+    def __call__(self, wariant: str) -> Grammar:
+        """Produkcje przepisane ze świeżej gramatyki, takie jakie są.
+
+        Złożona drugi raz z części gubiłaby głowę (``Grammar.dopisz``).
+        """
         pełna = build()
         okrojona = Grammar(start=pełna.start)
         for produkcja in pełna.productions:
-            należy = grupa(produkcja)
-            if należy is not None and wariant != warianty[-1] and należy != wariant:
+            należy = self.grupa(produkcja)
+            if należy is not None and wariant != self.warianty[-1] and należy != wariant:
                 continue
             okrojona.dopisz(produkcja)
         return okrojona
-
-    return gramatyka_grupy
 
 
 @dataclass

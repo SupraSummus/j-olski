@@ -69,10 +69,10 @@ def phrase(nid, start, end, category, children, slot=None, chosen="true", rule="
 
 
 #: Tag czasownika, po który nie sięga żadna produkcja, więc zdanie z nim
-#: wychodzi odrzucone i te testy mają czym mierzyć odrzucenie. Czas przyszły
-#: złożony, czyli konstrukcja, której podzbiór nie ma
+#: wychodzi odrzucone i te testy mają czym mierzyć odrzucenie. Imiesłów
+#: przysłówkowy, czyli konstrukcja, której podzbiór nie ma
 #: (docs/subset.md#what-it-does-not-cover-yet).
-POZA_PODZBIOREM = "bedzie:sg:ter:imperf"
+POZA_PODZBIOREM = "pcon:imperf"
 
 
 def svo(subject="subj(np(nom))", obj="np(accgen)", verb=None, tag="fin:sg:ter:imperf"):
@@ -371,7 +371,7 @@ def test_a_rejected_sentence_is_not_asked_about_agreement():
 
 
 def test_a_rejected_sentence_names_the_part_of_speech_it_stopped_on():
-    assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "bedzie"
+    assert outcome(svo(tag=POZA_PODZBIOREM)).blocker == "pcon"
 
 
 def bez_czasownika():
