@@ -33,6 +33,7 @@ from olski.subset import (
     FRAGMENT,
     GRAMMAR,
     KOPULA,
+    NIEDOMKNIĘTE,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
     PREDYKATYWY,
@@ -47,6 +48,7 @@ from olski.subset import (
     WALENCJA,
     WALENCJA_ZWROTNA,
     WTRĄCONY,
+    Domknięcie,
     Podsumowanie,
     admissible,
     bez_licencji,
@@ -3251,6 +3253,48 @@ def test_fragment_bez_znaku_zamykajacego_nie_jest_zdaniem_odrzuconym():
     #  Sentence żąda na końcu kropki, więc odrzucone mierzyłyby ekstrakcję.
     assert verdict("Zapisywanie pliku").status == FRAGMENT
     assert verdict("Nowa program zapisuje ustawienia.").status == "rejected"
+
+
+def test_napis_który_olski_czyta_po_domknięciu_nie_jest_fragmentem():
+    """Fragment jest aparatem dokumentu, a to jest zdanie bez ostatniego znaku.
+
+    Rozdział ten jest całym zyskiem z werdyktu `unclosed`: bez niego autor, który
+    kropki nie postawił, dostawał odpowiedź, że nikt tego zdaniem nie napisał.
+    """
+    niedomknięte = verdict("Cena jest niska")
+    assert niedomknięte.status == NIEDOMKNIĘTE
+    assert niedomknięte.domknięcie == Domknięcie(".", 1)
+
+
+def test_niedomknięte_pytanie_dostaje_pytajnik_a_nie_kropkę():
+    #  Kropka stoi w DOMKNIĘCIA pierwsza, więc pytajnik wychodzi tylko tam, gdzie
+    #  kropka czytania nie daje: PYTAJNIK bierze jeden znak, a KONIEC_ZDANIA trzy.
+    assert verdict("Który program zapisuje ustawienia").domknięcie == Domknięcie("?", 1)
+
+
+def test_domknięcie_wieloznaczne_też_jest_niedomknięciem_a_nie_fragmentem():
+    """Warunkiem jest czytanie, a nie czytanie jedno.
+
+    `Program zapisuje ustawienia w pliku.` wychodzi dwoma czytaniami, bo `w pliku`
+    dochodzi raz do czasownika, a raz do dopełnienia. Brak kropki jest w tym
+    napisie tym samym brakiem co wyżej, a warunek na jedno czytanie schowałby go
+    pod odpowiedzią o wieloznaczności.
+    """
+    niedomknięte = verdict("Program zapisuje ustawienia w pliku")
+    assert niedomknięte.status == NIEDOMKNIĘTE
+    assert niedomknięte.domknięcie.czytań > 1
+
+
+def test_niedomknięte_stoi_poza_mianownikiem_tak_samo_jak_fragment():
+    """Domknięcia nie postawił nikt, więc zdaniem tekstu ten napis nie jest.
+
+    Liczone w mianowniku podniosłoby go o nagłówek, który po domknięciu się
+    wyprowadza, a `docs/extraction.md` mierzy tym mianownikiem podzbiór, a nie
+    ekstrakcję.
+    """
+    podsumowanie = Podsumowanie.z_werdyktów(check("Cena jest niska\n\nZapisz plik."))
+    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 1)
+    assert podsumowanie.fragmentów == 1
 
 
 def test_every_sentence_of_a_text_is_checked():

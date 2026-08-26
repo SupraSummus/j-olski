@@ -8,7 +8,7 @@ from collections.abc import Iterator, Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
-from olski.subset import FRAGMENT, Podsumowanie, Verdict, check, dalsze_zatrzymania
+from olski.subset import Podsumowanie, Verdict, check, dalsze_zatrzymania
 
 STATUS_WIDTH = 9
 
@@ -129,7 +129,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             wcięcie = f"{' ' * len(name)}  {' ' * STATUS_WIDTH}"
             print(f"{name}: {status:{STATUS_WIDTH}} {verdict.text}")
             print(f"{wcięcie} {verdict.explain()}")
-            if args.zatrzymania and status != FRAGMENT and verdict.result.rejected:
+            if args.zatrzymania and verdict.punktowane and verdict.result.rejected:
                 print(f"{wcięcie} {_dalsze(verdict)}")
             if args.readings:
                 for line in _czytania(verdict):

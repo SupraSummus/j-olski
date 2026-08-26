@@ -46,7 +46,7 @@ from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import ciało_koordynuje, parse
-from olski.subset import FRAGMENT, Verdict, build, morphology, sentences, werdykt
+from olski.subset import Verdict, build, morphology, sentences, werdykt
 
 #: Ile zdań zachować pod każdym przejściem. Przejście bez przykładu jest liczbą,
 #: o której nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
@@ -414,7 +414,7 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     for zdanie in sentences(tekst):
         werdykty = _werdykty(sonda, zdanie, morphology(zdanie))
         pierwszy = werdykty[sonda.warianty[0]]
-        if pierwszy.status == FRAGMENT:
+        if not pierwszy.punktowane:
             raport.pominięte["fragment, a nie zdanie"] += 1
             continue
         raport.zapisz(

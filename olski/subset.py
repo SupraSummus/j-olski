@@ -222,6 +222,12 @@ DEKLARACJA = Deklaracja(
 #: mierzy, jak dużą częścią rejestru ta klasa jest.
 FRAGMENT = "fragment"
 
+#: Werdykt o napisie, którego nic nie punktuje jako zdania, a który olski czyta,
+#: kiedy się go domknie. Odcięty od :data:`FRAGMENT`, bo fragment jest aparatem
+#: dokumentu, a ten napis jest zdaniem bez ostatniego znaku. Czemu mówi o napisie,
+#: a nie o autorze, wywodzi docs/extraction.md.
+NIEDOMKNIĘTE = "unclosed"
+
 #: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
 KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
@@ -2227,11 +2233,25 @@ class Verdict:
     #: znaku zdania. Pola bez wartości domyślnej z tego samego powodu co wyżej:
     #: ``None`` jest tu twierdzeniem, a nie brakiem odpowiedzi.
     zatrzymanie: str | None
+    #: Domknięcie, po którym olski ten napis czyta, albo ``None``. Pole, a nie
+    #: właściwość, bo :func:`_domknięcie` kosztuje rozbiór, a właściwość płaciłaby
+    #: tyle razy, ile razy ktoś ją przeczyta.
+    domknięcie: Domknięcie | None
+
+    @property
+    def punktowane(self) -> bool:
+        """Czy tekst punktuje ten napis jako zdanie.
+
+        Mianownik pomiaru pyta o to, a nie o :attr:`status`, bo odpowiedź jest ta
+        sama nad oboma werdyktami o napisie niepunktowanym i nie kosztuje rozbioru,
+        którego kosztuje :attr:`domknięcie` (:class:`Podsumowanie`).
+        """
+        return bool(SENTENCE_CLOSE.search(self.text))
 
     @property
     def status(self) -> str:
-        if not SENTENCE_CLOSE.search(self.text):
-            return FRAGMENT
+        if not self.punktowane:
+            return NIEDOMKNIĘTE if self.domknięcie else FRAGMENT
         return self.result.status
 
     @property
@@ -2258,6 +2278,10 @@ class Verdict:
         return [r for r in self.result.rozbieżności if len(r.czytania) > 1]
 
     def explain(self) -> str:
+        if self.status == NIEDOMKNIĘTE:
+            czytań = self.domknięcie.czytań
+            ile = "one reading" if czytań == 1 else f"{czytań} readings"
+            return f"nothing closes it: „{self.domknięcie.znak}” at the end gives {ile}"
         if self.status == FRAGMENT:
             return "not a sentence: nothing punctuates it as one"
         if self.result.valid:
@@ -2740,12 +2764,52 @@ def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None
     grammar = grammar or GRAMMAR
     result = parse(grammar, segmenty, deklaracja=DEKLARACJA)
     stanęło = na_czym_stanęło(segmenty, result.furthest)
+    nielicencjonowane = bez_licencji(segmenty, grammar)
     return Verdict(
         text=zdanie,
         result=result,
-        nielicencjonowane=bez_licencji(segmenty, grammar),
+        nielicencjonowane=nielicencjonowane,
         zatrzymanie=stanęło.form if stanęło is not None else None,
+        domknięcie=_domknięcie(zdanie, grammar, stanęło is None and not nielicencjonowane),
     )
+
+
+#: Znaki, którymi :func:`_domknięcie` domyka napis, w tej kolejności. Wykrzyknika
+#: nie ma, bo :data:`KONIEC_ZDANIA` bierze każdy z trzech, więc kropka zamyka
+#: każde czytanie, które zamknąłby on, i mówi przy tym o gramatyce, a nie o tonie
+#: autora. Pytajnik jest, bo pytanie zamyka się tylko nim (:data:`PYTAJNIK`).
+DOMKNIĘCIA = (".", "?")
+
+
+@dataclass(frozen=True)
+class Domknięcie:
+    """Znak, który z napisu robi zdanie, wraz z liczbą czytań, jakie mu daje.
+
+    Liczba idzie ze znakiem, bo policzona drugi raz żądałaby drugiego rozbioru
+    nad napisem, który werdykt już rozebrał.
+    """
+
+    znak: str
+    czytań: int
+
+
+def _domknięcie(zdanie: str, grammar: Grammar, doszło_do_końca: bool) -> Domknięcie | None:
+    """Domknięcie, po którym olski ten napis czyta, albo ``None``.
+
+    Pytanie to żąda drugiego rozbioru, więc pada tylko za tanim warunkiem:
+    analiza doszła do końca napisu i każda forma ma licencję. Warunek jest
+    konieczny, bo czytanie nad domkniętym bierze każdą formę, więc bierze ją i
+    analiza częściowa nad napisem bez znaku. Nie wystarcza: analiza dochodzi do
+    końca także tam, gdzie żadnego konstytuentu nie domyka, więc werdykt stoi na
+    rozbiorze, a nie na samym warunku.
+    """
+    if not doszło_do_końca or SENTENCE_CLOSE.search(zdanie):
+        return None
+    for znak in DOMKNIĘCIA:
+        wynik = parse(grammar, morphology(zdanie + znak), deklaracja=DEKLARACJA)
+        if not wynik.rejected:
+            return Domknięcie(znak, wynik.ile)
+    return None
 
 
 def dalsze_zatrzymania(verdict: Verdict, grammar: Grammar | None = None) -> tuple[str, ...]:
@@ -2755,7 +2819,7 @@ def dalsze_zatrzymania(verdict: Verdict, grammar: Grammar | None = None) -> tupl
     samo pusta jest nad fragmentem. Segmentacja idzie tu drugi raz, bo werdykt
     segmentów nie niesie (:func:`werdykt`).
     """
-    if verdict.status == FRAGMENT or not verdict.result.rejected:
+    if not verdict.punktowane or not verdict.result.rejected:
         return ()
     return zatrzymania(morphology(verdict.text), grammar)[1:]
 
@@ -2781,12 +2845,14 @@ class Podsumowanie:
     zdań: int
     #: Zdania, którym gramatyka daje przynajmniej jedno czytanie.
     z_czytaniem: int
-    #: Napisy, których nic nie interpunkuje jako zdania.
+    #: Napisy, których nic nie interpunkuje jako zdania. Liczba jest jedna na oba
+    #: werdykty o takim napisie, :data:`FRAGMENT` i :data:`NIEDOMKNIĘTE`, bo o
+    #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
     fragmentów: int
 
     @classmethod
     def z_werdyktów(cls, werdykty: Sequence[Verdict]) -> Podsumowanie:
-        zdania = [verdict for verdict in werdykty if verdict.status != FRAGMENT]
+        zdania = [verdict for verdict in werdykty if verdict.punktowane]
         return cls(
             olskie=sum(verdict.result.valid for verdict in zdania),
             zdań=len(zdania),
@@ -2800,5 +2866,7 @@ class Podsumowanie:
             f"and {self.z_czytaniem} have a reading"
         )
         if self.fragmentów:
-            summary += f", beside {self.fragmentów} fragments that are not sentences"
+            #  Nie „that are not sentences”: napis niedomknięty jest w tej liczbie,
+            #  a werdykt nad nim mówi, że olski to zdanie czyta.
+            summary += f", beside {self.fragmentów} fragments nothing punctuates as a sentence"
         return summary
