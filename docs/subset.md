@@ -3042,8 +3042,9 @@ Tę parę ciał dzieli z predykatywem forma nieosobowa czasownika
 ([niżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
 więc zdjęcie któregoś z nich zabiera obie głowy naraz.
 
-Ta konstrukcja ma jeden szyk — predykatyw stoi przed tym, czym rządzi —
-i tyle też po niej zostaje [niżej](#what-it-does-not-cover-yet).
+Szyki ma ta konstrukcja dwa: predykatyw stoi przed tym, czym rządzi,
+a dopełnienie przed predykatywem
+([niżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
 
 ## Czasownik nieosobowy orzeka bez podmiotu i rządzi ramą swojego lematu
 
@@ -3098,12 +3099,42 @@ Nad prozą tego repozytorium nie kupuje ani jednego zdania:
 README pisze taką formę raz, a zdanie z nią stoi na formie żartu z nazwy
 ([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)).
 
-Szyk ma ta konstrukcja jeden, ten sam co predykatyw — forma stoi przed tym,
-czym rządzi — więc wypełnienie wysunięte przed nią zostaje
-[niżej](#what-it-does-not-cover-yet) razem z wypełnieniem predykatywu.
+Szyki ma ta konstrukcja dwa, te same co predykatyw:
+forma stoi przed tym, czym rządzi, a dopełnienie przed formą
+([niżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
 Cząstki trybu przypuszczającego ta forma nie bierze:
 `Zgłoszono by usterkę.` jest odrzucone, bo cząstkę bierze forma na -ł
 i tylko ona ([wyżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+
+## Dopełnienie poprzedza głowę, która orzeka bez podmiotu
+
+`Usterkę zgłoszono.`, `Biura przeniesiono do Krakowa.`, `Nic nie widać.`
+Polszczyzna wysuwa dopełnienie przed predykatyw i przed formę nieosobową
+tak samo jak przed czasownik, którego podmiot opuszcza — `Cenę liczymy.` —
+więc jest to jedna pozycja, a obie głowy biorą ją tak samo,
+jak biorą dwa ciała zdania wyżej.
+
+Dopełnienie stoi w niej córką zdania, a nie wewnątrz `Complements`:
+tamten symbol stoi w ciele za głową i tylko tam,
+bo rozwinięcie szyku po nim nie chodzi
+([wyżej](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+a córka zdania dostaje miejsce na okolicznik wyliczone,
+więc `Usterkę zgłoszono wczoraj.` wychodzi z okolicznikiem za głową.
+
+Pozycja zdejmuje nad Składnicą z listy odrzuconych kilkadziesiąt zdań,
+pod obiema morfologiami tyle samo, a rozkłada je inaczej:
+pod złotą większość wychodzi przyjętych,
+pod żywą przyjętych i wieloznacznych po połowie.
+Nad prozą tego repozytorium przyjmuje parę zdań,
+a kilkanaście przenosi z odrzuconych na wieloznaczne.
+Ceny w jednoznaczności nie ma żadnej:
+ani jedno zdanie przyjęte nie staje się wieloznaczne,
+a czytań przybywa pojedynczym zdaniom już wieloznacznym.
+Zgodność ról rośnie o wszystkie nowo przyjęte zdania poza pojedynczymi
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+
+Wysunięte jest tu samo dopełnienie, a nie każde wypełnienie,
+i tyle też po tej pozycji zostaje [niżej](#what-it-does-not-cover-yet).
 
 ## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
 
@@ -3285,15 +3316,14 @@ Every one of these is a sentence that gets rejected and should not be:
   a pozycja, której ona żąda, jest wtrąceniem w środku zdania składowego,
   gdzie nawias stoi na jego końcu
   ([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
-- Wypełnienie wysunięte przed to, co orzeka bez podmiotu:
-  `Programy trzeba czytać.` jest odrzucone,
-  gdzie `Trzeba czytać programy.` wyprowadza się,
-  i tak samo `Usterkę zgłoszono.` obok `Zgłoszono usterkę.`
-  Szyk ma tam sześć wariantów, bo czasownik i podmiot mają je wszystkie,
-  a predykatyw stoi w jednym
-  ([wyżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
-  i czasownik nieosobowy w tym samym
-  ([wyżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+- Wypełnienie inne niż dopełnienie, wysunięte przed to, co orzeka bez podmiotu:
+  `Czytać trzeba dokumenty.` jest odrzucone,
+  gdzie `Usterkę zgłoszono.` wyprowadza się
+  ([wyżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
+  `Programy trzeba czytać.` zostaje na zewnątrz z innego powodu:
+  `programy` jest tam dopełnieniem bezokolicznika, a nie predykatywu,
+  a dopełnienia przed bezokolicznikiem, który je bierze, ta gramatyka nie ma
+  ([TODO.md](../TODO.md)).
 - Słowa, którymi ten rejestr pyta poza zaimkami, które już wchodzą
   ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
   `czy`, `jak`, `jaki`, `ile`, `dlaczego`, `gdzie`.

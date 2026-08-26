@@ -1305,6 +1305,17 @@ def build() -> Grammar:
     )
     grammar.rule("ClauseConjunct", [nt(BEZOSOBOWY)], tryb=TRYB_OZNAJMUJĄCY)
 
+    # Dopełnienie przed głową, która orzeka bez podmiotu: `Usterkę zgłoszono.`
+    # Córką zdania, a nie wewnątrz `Complements`: tamten symbol stoi w ciele wyżej
+    # za głową i tylko tam, a córka zdania dostaje miejsce na okolicznik wyliczone,
+    # więc `Usterkę zgłoszono wczoraj` zostawia okolicznik za głową.
+    # docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu
+    zdanie.dominacja(
+        "ClauseConjunct",
+        [dopełnienie, Głowa(nt(BEZOSOBOWY, valency=V("w"), negacja=V("z")))],
+        tryb=TRYB_OZNAJMUJĄCY,
+    )
+
     # Podmiot, dopełnienie i czasownik w każdym szyku, jaki polszczyzna ma, poza
     # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
     # Szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem produkcji,

@@ -932,18 +932,19 @@ nazywa on formę, na której rozbiór stanął,
 a przy zdaniu z czasownikiem w środku bywa to forma stojąca za prawdziwą przyczyną,
 więc część tej resztki może być artefaktem tego odczytu, a nie brakiem w gramatyce.
 
-Wypełnienie wysunięte przed głowę, która orzeka bez podmiotu, ma dwie głowy
-i nie ma ceny.
-`Programy trzeba czytać.` i `Usterkę zgłoszono.` są odrzucone,
-bo predykatyw i forma nieosobowa stoją w jednym szyku
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)),
-a populacja, której ta pozycja dotyczy, urosła razem z formą nieosobową.
-Wiersz `imps` został po jej wpuszczeniu z blisko setką zdań Składnicy
-i nikt ich nie przeczytał,
-więc nie wiadomo, czy stoi w nich ta pozycja, czy co innego.
-Ruchem jest przeczytanie tej resztki, a po nim wycena wysunięcia nad obiema
-głowami naraz, bo ciała zdania są dla nich wspólne
-([`docs/subset.md`](docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
+nie ma ani pozycji, ani ceny.
+Dopełnienie pozycję dostało i kupiło nad Składnicą kilkadziesiąt zdań
+([`docs/subset.md`](docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)),
+a `Czytać trzeba dokumenty.` jest dalej odrzucone,
+bo tamta deklaracja bierze samo dopełnienie
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
+Populacji, której to dotyczy, nie przeczytał nikt:
+wiersz `imps` został po wpuszczeniu formy nieosobowej z blisko setką zdań Składnicy,
+a wysunięte dopełnienie zabrało z niego część i nie wiadomo którą.
+Ruchem jest przeczytanie tej resztki, a po nim wycena pozostałych wypełnień
+nad obiema głowami naraz: deklaracja bierze głowę nazwą symbolu,
+więc wypełnienie dopisane do niej obejmuje predykatyw i formę nieosobową razem.
 Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
 z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
 
@@ -1527,19 +1528,25 @@ czyli tak, jakby `myśleć się` było czasownikiem,
 a `Wino białe pije się inaczej.` dostaje przez to dwa czytania,
 z których to z podmiotem `Wino białe` jest czytaniem, którego polszczyzna nie ma:
 zdanie z tą cząstką podmiotu nie ma, a rzeczownik w nim stoi w bierniku.
-Ruchem jest pozycja na tę konstrukcję — zdanie bez podmiotu, forma trzeciej osoby
-liczby pojedynczej i dopełnienie w bierniku — a nie wpis w leksykonie:
-Walenty jej nie leksykalizuje, bo dochodzi ona do czasownika dowolnego.
-Pozycja ta jest zarazem warunkiem zamknięcia leksykonu zwrotnego:
-gramatyka odmawiająca cząstki lematowi spoza Walentego traci nad Składnicą
-kilkadziesiąt zdań przyjętych, a mniej więcej połowa z nich niesie tę cząstkę
-([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
-Do przeczytania jest, co ta pozycja zrobi ze zgodnością ról:
-bank drzew daje cząstce w zdaniu nieosobowym rolę podmiotu (tamże),
-a olski nazywa ją częścią orzeczenia,
-więc zdanie nowo przyjęte wchodzi do mianownika zgodności
-([docs/corpus.md](docs/corpus.md#agreement-which-matters-more-than-acceptance))
-z rolami, których drzewo wzorcowe rozstawia inaczej.
+Ruchu tego olski nie bierze, bo czeka on na wpis niżej o zwrotności,
+którą Walenty zapisuje pozycją, a nie lematem.
+Ruchem jest trzecia głowa `ImpersonalPredicate` obok predykatywu i formy
+nieosobowej: forma osobowa trzeciej osoby liczby pojedynczej, w czasie przeszłym
+w rodzaju nijakim, klasa walencyjna z leksykonu niezwrotnego bez orzecznika
+zgodnego, cząstka w obu pozycjach.
+Klasa domyślna leksykonu zwrotnego jest tą konstrukcją przeczytaną nieprawdziwie,
+więc znika razem z odmową cząstki kopuli, która przy niej stoi.
+Cenę przeczytano zdanie po zdaniu i dzieli się ona na trzy klasy.
+Dwanaście stoi na cząstce należącej do bezokolicznika — `Musieli się przebić.`,
+`Wszystko musi się kiedyś skończyć.` — czyli na czytaniu, którego polszczyzna
+nie ma; jedenaście niesie `spotkać się`, czyli lemat spod wpisu niżej;
+osiem jest zwrotnością, której Walenty nie wymienia wcale.
+Zakupem jest garść zdań odzyskujących jednoznaczność pod żywą morfologią;
+pod złotą nie rusza się ani jeden werdykt, a zgodność ról spada,
+bo bank drzew daje cząstce w takim zdaniu rolę podmiotu
+([docs/corpus.md](docs/corpus.md#agreement-which-matters-more-than-acceptance)).
+Kto wpis podnosi, mierzy to na nowo po tamtym wpisie:
+jedenaście zdań wraca wtedy do przyjętych.
 
 Leksykon gubi zwrotność, którą Walenty zapisuje pozycją, a nie lematem.
 Walenty pisze `spotkać się` jako `spotkać` z pozycją `recip` w schemacie,
