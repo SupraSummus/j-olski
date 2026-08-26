@@ -317,8 +317,7 @@ the tics, the awkward phrasing, the ornamental excess.
 Style is apparently in the weights or nowhere;
 a context window of examples does not transfer it.
 
-Worth stating plainly:
-this is also the result with the ugliest implications,
+This is also the result with the ugliest implications,
 since the training data is somebody's copyrighted body of work.
 The Polish-language commentary on it treats that as the main point,
 and it is a reasonable reading.

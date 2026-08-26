@@ -2105,11 +2105,11 @@ def build() -> Grammar:
     # ponadto :func:`_wysunięta_rola` wypisać dla niego wszystkie szyki drugi raz.
     zaimek_pytajny_rzeczowny = word("subst", lemma=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE)
     grammar.rule(PYTAJNY, [zaimek_pytajny_rzeczowny], **zaimek_czoła(V("n"), V("g")))
-    # Wyrażenie przyimkowe przy tym zaimku: `Kto z państwa senatorów jest za?`
+    # Wyrażenie przyimkowe przy tym zaimku: `Kto z posłów zapisuje ustawienia?`
     # Grupa pytajna wyżej bierze je przez grupę imienną, którą ma w środku, a to
     # czoło grupy imiennej nie ma, więc pozycja jest tu osobnym ciałem. Bez niej
     # zdanie z takim wyrażeniem wychodzi przyjęte i mówi o zdaniu nieprawdę, bo
-    # wyrażenie przyłącza się wtedy do orzeczenia: pytanie jest o `kto z państwa`,
+    # wyrażenie przyłącza się wtedy do orzeczenia: pytanie jest o `kto z posłów`,
     # a nie o `kto`.
     grammar.rule(
         PYTAJNY,

@@ -240,8 +240,7 @@ które cel z tej listy ma wytrzymać.
 Pierwsza: cel nazywa, czym się go sprawdza.
 Nieosiągalny cel jest dopuszczalny, niesprawdzalny nie.
 Druga: cel nad tekstem, który sami piszemy, mierzy zdolność, a nie udział,
-bo udział skraca przeredagowany akapit tak samo jak dopisana produkcja,
-a wydruk nie mówi, które z dwojga zaszło.
+bo udział skraca też przeredagowany akapit.
 Trzecia zasada przychodzi z toru lintera ([niżej](#tor-lintera-jest-wycofany)),
 gdzie etap, na który nikt nie czeka, okazał się zaległością, a nie planem:
 cel, którego nikt nie podnosi, kasuje się razem z pracą, którą niósł.
@@ -443,11 +442,11 @@ Czytanie, którego polszczyzna nie ma, wolno więc odebrać dwiema drogami,
 i tańsza bywa ta, która pyta nie o to, co słownik oferuje,
 ale o to, co produkcja licencjonuje.
 
-Nazwiskowe czytanie rzeczownika, który zaczyna zdanie, z tej listy zeszło.
-Para lematów jednej formy nie jest dwoma czytaniami
+Nazwiskowe czytanie rzeczownika na czele zdania do tego etapu nie należy:
+para lematów jednej formy nie jest dwoma czytaniami
 ([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),
-więc jednoznaczności ta klasa nie kosztuje,
-a kryterium na pozycję nie kupuje ani jednego zdania i kosztuje zdania Składnicy.
+a kryterium pisane pod tę klasę zmierzono i ono nie stoi
+([subset.md](subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi)).
 
 Etap stoi między tamtymi a konstrukcjami,
 bo wieloznaczność zawęża, a pokrycia nie podnosi,
@@ -596,12 +595,12 @@ i jest to odtąd brak wiersza w jednym pliku, a nie brak pozycji w gramatyce.
 ## Etap 6: reszta konstrukcji
 
 Etap ma opróżnić listę tego,
-[czego olski nie bierze](subset.md#what-it-does-not-cover-yet),
-a zostały na niej dwie pozycje: `to` w roli łącznika i liczebnik pisany cyfrą.
+[czego olski nie bierze](subset.md#what-it-does-not-cover-yet).
 Konstrukcje, które olski już bierze, mają wywód i cenę
 w swoich sekcjach [subset.md](subset.md#what-the-grammar-covers),
 a przebiegi, którymi je policzono, są w gicie.
-Kolejka ze Składnicy stawia oba wysoko, bo `to` prowadzi w niej dwa wiersze.
+Kolejka ze Składnicy stawia najwyżej dwie pozycje tej listy —
+`to` w roli łącznika i liczebnik pisany cyfrą — bo `to` prowadzi w niej dwa wiersze.
 Wobec README podnoszą pokrycie dopiero razem.
 Co dopisanie konstrukcji robi z wierszami tej kolejki, opisuje
 [corpus.md](corpus.md#where-the-analyses-stop),
@@ -614,10 +613,10 @@ bo `dig` nie niesie ani przypadka, ani liczby
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
 Lista ta ma dwa źródła i drugim z nich nie jest kolejka.
-Narzędnik bez przyimka, koordynacja `a nie`, dopowiedzenie z `czyli`
-i imiesłów czynny przy rzeczowniku weszły na nią z przebiegu nad prozą,
+Narzędnik bez przyimka, człon bez czasownika wtrącony w środek zdania
+i nazwa postawiona przy rzeczowniku bez spójnika weszły na nią z przebiegu nad prozą,
 która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
-Trzy z tych czterech są przy tym kształtem, a nie formą,
+Wszystkie trzy są przy tym kształtem, a nie formą,
 więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
@@ -955,9 +954,7 @@ są usunięte, a razem z nimi cała analiza, która schodziła do znaku.
 Decyzję i jej powody trzyma [linter.md](linter.md#what-closed-the-track),
 a cenę, przy której zapadła, [firing-rates.md](firing-rates.md).
 
-Plan tego toru stał tutaj i szedł przez sześć etapów,
-od silnika reguł przez harness kalibracyjny aż po analizę głębszą niż wzorzec.
-Nie ma go tu już w żadnym kształcie i git go trzyma,
+Plan tego toru stał tutaj i git go trzyma,
 bo etap, na który nikt nie czeka, nie jest planem, tylko zaległością.
 Wraca za to jedna rzecz, którą ten plan ustalił i która wycofanie przeżywa:
 

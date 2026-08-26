@@ -88,6 +88,24 @@ Wskazania na `morphology`, `po_przyimku` i `po_słowie` są tu przypadkiem
 najtrudniejszym, bo dokument opisuje kolejność tych trzech warstw
 i nazwa modułu tego nie odda.
 
+Liczba przepisana z pliku danych do dokumentu rozjeżdża się z nim po cichu.
+Liczby, którymi
+[`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
+opisuje `olski/leksykon.txt`, przeliczają się z tego pliku jednym `cut`-em,
+a trzy z nich rozeszły się z nim w commicie, który pisał obie strony;
+znalazło je dopiero przeliczenie ręką.
+`tests/test_docs.py` pilnuje nazw plików i sekcji,
+`tests/test_wydruki.py` bloków stojących pod komendą,
+a liczby wziętej z pliku nie pilnuje nic
+([CLAUDE.md](CLAUDE.md#na-czym-wolno-oprzeć-zdanie)).
+Ruchem jest check przeliczający je z tego pliku, wzorowany na tym,
+czym `tests/test_docs.py` trzyma [blok checków](CLAUDE.md#checks) równy workflowowi.
+Do rozstrzygnięcia jest, czy warto: klasa jest dziś tą jedną sekcją
+i jedną liczbą poza nią, czyli `998 par` w
+[`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+a check czytający liczbę z prozy wyrażeniem regularnym
+czerwienieje po przeredagowaniu zdania, a nie po zmianie w danych.
+
 Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
 nazwy w kodzie i nazwy plików
 `harness/czytania.py` oraz `tests/test_czytania.py`.
@@ -747,8 +765,8 @@ Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym
 więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
 
 Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
-`SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o szesnastu lematach analizy,
-a `SPÓJNIKI` w `olski/skład/spójniki.py` o sześciu, których używa skład,
+`SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o kilkunastu lematach analizy,
+a `SPÓJNIKI` w `olski/skład/spójniki.py` o kilku, których używa skład,
 i obie listy zgadzają się dziś tam, gdzie się przecinają.
 Rama czasownika poszła tą samą drogą i zeszła do jednego pliku,
 bo jest faktem o słowie, a nie o kierunku, w którym się go używa
@@ -1313,19 +1331,17 @@ What to read is that field beside `SOURCES` in `olski/coverage.py`,
 because a variant of this second kind has to say where it enters.
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
-`NPConjunct` w `olski/subset.py` ma dwanaście ciał,
-z czego osiem jest iloczynem czterech kształtów głowy
+Ciała `NPConjunct` w `olski/subset.py` są iloczynem kształtów głowy
 przez obecność `Modifier` po niej,
-i mnoży to obecność oraz kolejność rodzajów przydawki,
+czyli mnoży je obecność oraz kolejność rodzajów przydawki,
 a nie permutacja argumentów,
 więc warunek precedencji nie ma tu czego powiedzieć
 ([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
-Czwarty kształt głowy, czyli przymiotnik z dopełniaczem naraz,
-wszedł jako dwa ciała, bo `Modifier` musiał wejść razem z nim,
-i tyle samo zażąda każdy następny.
+Kształt głowy dopisany do tego symbolu wchodzi przez to jako dwa ciała,
+bo `Modifier` musi wejść razem z nim.
 Zdanie względne tego iloczynu nie ruszyło i pokazuje, którędy się go omija:
 dochodzi ono do `NP`, czyli o poziom wyżej, więc jest jedną produkcją,
-a nie trzecim rodzajem przydawki razy cztery kształty głowy.
+a nie trzecim rodzajem przydawki razy kształty głowy.
 Kosztowało to symetrię w koordynacji i osobny wpis wyżej,
 a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
@@ -1966,7 +1982,7 @@ oraz `Outcome.blocker` w `olski/coverage.py`, bo stamtąd bierze się nazwa
 zatrzymania.
 
 Zaimek `kto` i `co` nie ma pozycji z przydawką: `Kto pierwszy wstaje od stołu?`
-pada, a `Kto z państwa senatorów jest za?` wyprowadza się
+pada, a `Kto z posłów zapisuje ustawienia?` wyprowadza się
 ([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Wyrażenie przyimkowe czoło o jednym słowie bierze, a przymiotnika za sobą nie bierze,
 i tym różni się ta pozycja od tamtej: `kto inny` oraz `co innego` są tym samym
@@ -1990,16 +2006,26 @@ poprzednika są tam jednym napisem.
 Do przeczytania jest, ile takich zdań ma bank drzew: bez tej liczby wpis jest samą
 ceną, a kształt do policzenia daje `FreeRelativeClause` w `olski/subset.py`.
 
-Zdanie względne odnoszące się do całego zdania przed nim nie ma wyprowadzenia:
-`Sejm zaaprobował przekroczenie, co przekreśliło sens dalszych działań.` pada, a
-`Sejm zaaprobował to, co przekreśliło sens dalszych działań.` wyprowadza się
+Zdanie względne odnoszące się do całego zdania przed nim nie ma pozycji,
+a zdanie z nim bywa mimo to przyjęte, i ta połowa wpisu jest gorsza.
+`Program zapisuje ustawienia, co przekreśla sens działań.` pada,
+bo `co` jest pojedyncze i nijakie, a `ustawienia` nie.
+Gdy rzeczownik przed przecinkiem tę parę cech ma,
+zaimek doczepia się do niego przydawką i całe zdanie podrzędne wpada w dopełnienie:
+`Sejm zaaprobował przekroczenie, co przekreśliło sens dalszych działań.`
+wychodzi `valid`
 ([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Poprzednikiem jest tam zdanie, a nie rzeczownik, więc zgodność liczby i rodzaju
-nie ma z czym się zgadzać i pozycja nie jest przydawką: `dzięki czemu` oraz
-`po czym` są tym samym kształtem z przyimkiem przed zaimkiem.
+nie ma z czym się zgadzać i pozycja nie jest przydawką:
+`dzięki czemu` oraz `po czym` są tym samym kształtem z przyimkiem przed zaimkiem
+i wychodzą tą samą drogą.
+Ruch jest przez to dwojaki: pozycja dla tego kształtu
+oraz odebranie zaimkowi `co` poprzednika rzeczownikowego,
+bo sama pozycja dokłada czytanie tam, gdzie dziś stoi nieprawdziwe,
+a werdykt pewny siebie i błędny waży więcej niż odrzucenie
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 Ta proza tak nie pisze, a prasa pisze, więc ruch jest tu wart tyle, ile bank drzew,
-i tyle też trzeba przeczytać przed nim: te kilkanaście zdań Składnicy,
-które olski odrzuca na tym kształcie.
+i tyle też trzeba przeczytać przed nim: te zdania Składnicy, które ten kształt niosą.
 
 Zaimek pytajny stoi tylko na czele swojego zdania, więc drugie pytanie w tym samym
 zdaniu nie ma pozycji: `Kto jest kim?` pada, a `Czym jest parser?` wyprowadza się

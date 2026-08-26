@@ -42,12 +42,9 @@ matches `-anie`, `-enie` and `-cie`,
 and the plan was that a lemma-keyed version would supersede it
 once morphological analysis arrived.
 [What the nominalization endings match](#what-the-nominalization-endings-match)
-measured the succession instead of assuming it,
-and found that a lemma removes the matches that are inflections,
-which are a sixth of them,
-and cannot touch the ambiguous ones, which are half,
-because morphology answers whether a word derives from a verb
-where the rule asks whether a verb would do instead.
+measured the succession instead of assuming it:
+a lemma removes the matches that are inflections
+and cannot touch the ambiguous ones, which are what the rule turns on.
 So the shallow rule reads characters
 and the deep one does not answer the question either.
 
@@ -321,8 +318,7 @@ and it puts a floor under any rate either ending reports over documentation.
 ### Recognizing a phrase by what it is not costs more
 
 The suffix finding moves rules down a tier.
-One kind of rule moves the other way,
-and it is worth naming before an inventory entry is filed too cheaply:
+One kind of rule moves the other way:
 a rule that has to know a phrase is *not* the subject.
 Rules about word order are of this kind.
 
@@ -564,16 +560,6 @@ That overlap is the project's best piece of luck:
 the rules can be defended on Polish stylistic grounds
 and still do the job they were wanted for.
 
-## The queue of candidate rules went with the track
-
-What the tiers, the calibration demand and those norms added up to
-was a queue of rules to write, grouped by the depth each one needed
-and marked for whether it had a source behind it or was a hypothesis.
-It is deleted along with the pack it was feeding,
-and git holds it.
-What stays here is the reasoning an item was judged against,
-which is the part that would survive somebody picking the idea up again.
-
 ## What already exists
 
 **Prose linters.**
@@ -684,8 +670,7 @@ the evidence that post-training rather than prompting produces them,
 and the interventions that have results behind them.
 What follows is the summary.
 
-A linter cannot deliver that,
-and it is worth being precise about why.
+A linter cannot deliver that.
 A linter removes defects.
 Removing every defect from a text
 produces something competent and dead,
@@ -754,9 +739,7 @@ so the defect exists at the corpus and not in any file.
 owns that measurement, and a check was written against it
 before the track closed.
 
-Both reach a trace and not a cause,
-which is worth saying before a queue of rules
-grows on the strength of them.
+Both reach a trace and not a cause.
 [fiction.md](fiction.md#what-this-means-for-olski) reads
 four of the ceiling defects as one failure to model minds across a text,
 and a text can end fewer sections on a negation
@@ -766,8 +749,7 @@ which is the whole of the claim in
 [what would actually help](#what-would-actually-help-and-is-not-linting)
 and none of the claim that the defect has been addressed.
 
-The generalization is worth stating as a constraint on such a queue:
-a candidate rule aimed above the phrase
+So a rule aimed above the phrase
 either names a position or names a thing that recurs,
 or it is a trope, and a trope is not lintable.
 The third case has been attempted and is worth learning from:

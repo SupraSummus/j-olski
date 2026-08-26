@@ -59,9 +59,8 @@ That is the whole design.
 The grammar is a frame for one extraction,
 not a model of the text.
 
-Worth stating plainly,
-because it is the opposite of what olski is attempting:
-this grammar covers a *register*, not a language.
+This grammar covers a *register*, not a language,
+which is the opposite of what olski is attempting.
 Archival shorthand is already a controlled natural language,
 controlled by editorial convention rather than by design,
 and that is why a few hundred lines of CFG get anywhere at all.

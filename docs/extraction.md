@@ -16,9 +16,6 @@ An extraction is a transformation the grammar is then measured over,
 so it owes an account of what it invents
 exactly as a coverage figure owes its corpus.
 That account is this document.
-A second reader of the same shape took the prose out of Python modules,
-so that the repository's own docstrings and comments could be measured too,
-and it is deleted along with what measured them.
 
 What makes it worth having is the two extractions written before this one.
 Both deleted inline markup and left the space that stood in front of it,
