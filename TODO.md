@@ -348,6 +348,28 @@ Do przeczytania jest
 bo mówi, czym tory się różnią, a zdanie na stronie ma być od niego zgrubniejsze
 ([`docs/witryna.md`](docs/witryna.md#strona-zaczyna-od-tego-czym-olski-jest)).
 
+Parę zdań odrzucone i przechodzące powtarza dla jednej konstrukcji kilka miejsc naraz,
+a właściciela nie wyznaczył nikt.
+W `docs/subset.md` wylicza je punkt listy
+[czego olski nie bierze](docs/subset.md#what-it-does-not-cover-yet),
+kolejka zamykająca sekcję
+[o zaimkach `kto` i `co`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
+oraz akapit sekcji
+[o wolnym celowniku](docs/subset.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem),
+a czwarty raz, ułożone częstością zawrócenia, wylicza je
+[`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej).
+Sześć wpisów sekcji o konstrukcjach, których gramatyka nie ma,
+przepisuje tę parę słowo w słowo: pięć za tamtą kolejką, jeden za tamtym akapitem.
+Obydwa te miejsca kończą się przy tym zdaniem oddającym ruch do tego pliku,
+więc powtórzenie nie jest kontekstem dla wpisu, tylko drugą kopią.
+Ruchem jest rozstrzygnięcie, które z tych miejsc jest właścicielem pary,
+a nie skrócenie sześciu wpisów po kolei:
+skrócić da się je równie dobrze z drugiej strony,
+czyli tam, gdzie lista ruch i tak oddaje.
+Do przeczytania są te cztery wyliczenia naraz, bo każde pisze tę samą parę
+dla innego czytelnika, oraz [`docs/roles.md`](docs/roles.md),
+bo od roli zależy, komu ta para jest w tym miejscu potrzebna.
+
 ## Komendy i sondy
 
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
@@ -812,19 +834,6 @@ Osobno stoi czas rozbioru, bo cechę wypuszczaną las rozdziela na klasy pozycji
 Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok tej listy,
 bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
 
-Para myślników nie ma wyprowadzenia, a jest w tej prozie użyciem częstszym niż
-myślnik pojedynczy
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
-Wtrącenie stoi w niej w środku zdania — `Zepsute miejsce — w prozie czy w kodzie —
-nie zawsze potrzebuje lepszej wersji.` — a nawias, który olski bierze, stoi na końcu
-zdania składowego, więc jest to pozycja nowa, a nie drugi znak w gotowym ciele.
-Ruchem jest para jako jedna córka w tym miejscu, które wylicza rozwinięcie szyku,
-czyli tam, gdzie staje okolicznik zdania.
-Do przeczytania jest ciało wtrącenia w `olski/subset.py` obok `Rozwinięcie`
-w `olski/precedencja.py`, bo pytanie jest o to, ile czytań ta pozycja dokłada
-zdaniu, które parę stawia na końcu: tam da się ją przyłączyć do zdania składowego
-i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
-
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
 choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
 ([`docs/architecture.md`](docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).
@@ -1090,22 +1099,6 @@ nazywa on formę, na której rozbiór stanął,
 a przy zdaniu z czasownikiem w środku bywa to forma stojąca za prawdziwą przyczyną,
 więc część tej resztki może być artefaktem tego odczytu, a nie brakiem w gramatyce.
 
-Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
-nie ma ani pozycji, ani ceny.
-Dopełnienie pozycję dostało i kupiło nad Składnicą kilkadziesiąt zdań
-([`docs/subset.md`](docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)),
-a `Czytać trzeba dokumenty.` jest dalej odrzucone,
-bo tamta deklaracja bierze samo dopełnienie
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
-Populacji, której to dotyczy, nie przeczytał nikt:
-wiersz `imps` został po wpuszczeniu formy nieosobowej z blisko setką zdań Składnicy,
-a wysunięte dopełnienie zabrało z niego część i nie wiadomo którą.
-Ruchem jest przeczytanie tej resztki, a po nim wycena pozostałych wypełnień
-nad obiema głowami naraz: deklaracja bierze głowę nazwą symbolu,
-więc wypełnienie dopisane do niej obejmuje predykatyw i formę nieosobową razem.
-Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
-z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
-
 Wiersz zdań bez struktury nad całością ma nad Składnicą przeszło tysiąc zdań
 i przeczytana jest z nich garść.
 Nazywa on zdarzenie, a nie konstrukcję — analiza wzięła każdą formę zdania
@@ -1203,26 +1196,6 @@ Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 `olski/skład/składnia.py` nie ma czym postawić,
 więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 
-Kopuła opuszczona ma listę o jednym lemacie, a polszczyzna opuszcza ją szerzej.
-`RZECZOWNIK_ORZEKAJĄCY` w `olski/subset.py` wymienia `mowa`,
-bo tego lematu zażądał rejestr ustaw,
-a `brak dowodów`, `szkoda czasu` i `pora wracać` są tą samą konstrukcją:
-rzeczownik w mianowniku orzeka, a czasownika nad nim nie ma.
-Wypełnienia żąda przy tym każdy z tych trzech innego niż `mowa` —
-dopełniacza albo bezokolicznika, a nie okolicznika —
-więc lemat dopisany do listy nie wystarcza,
-a wpis jest przez to o produkcję, a nie o dane.
-Ruchem jest lista wyczytana z korpusu, a nie z pamięci,
-a materiał do jej wyczytania daje pozycja ogólna dopisana do gramatyki:
-[`docs/subset.md`](docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
-nazywa dwie produkcje, które ona dopisuje,
-a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
-Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
-bo tym była większość zakupu tamtej pozycji nad siedmioma ustawami,
-a lemat dopisany za taki ciąg wraca ceną w każdym zdaniu, które ten ciąg niesie.
-Cenę każdego lematu bierze potem sonda kopuły odtworzona z commita, który ją trzyma,
-tak jak wzięła cenę tego jednego.
-
 Lista zaimków rzeczownych nie ma źródła poza pamięcią tego, kto ją pisał.
 O każdym lemacie `ZAIMEK_RZECZOWNY` w `olski/subset.py` sprawdzono w Morfeuszu,
 że niesie czytanie `subst`, a czy lista jest pełna, nie sprawdził nikt
@@ -1236,30 +1209,6 @@ zaimka nie odróżni od rzeczownika żaden test, ale odróżni go czytelnik.
 Do przeczytania jest przedtem cena wpisu:
 lemat dopisany odbiera czytanie i żadnego nie dodaje,
 więc kandydat mylny zabiera zdanie, które gramatyka dziś wyprowadza.
-
-Człon lewy ciągu współrzędnego nie unosi zdania względnego.
-Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
-żąda członu, a produkcja koordynacji daje po lewej człon i po prawej ciąg,
-więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia,
-a `pliki i katalogi, które rosną` ma.
-Ruchem jest symbol między `NP` a `NPConjunct`, przez który idą oba człony,
-i ruch ten zbudowano na próbę, więc cena jest policzona, a zakup nie.
-Cena ma trzy pozycje.
-Nad Składnicą pod Morfeuszem jedno zdanie traci jednoznaczność —
-`Przez czynniki ekonomiczne należy rozumieć te, które kształtują rozmiary
-i strukturę dochodów oraz wydatków budżetowych.` wychodzi trzema czytaniami
-zamiast jednego, bo `te, które kształtują rozmiary` staje się członem ciągu —
-i jest to czytanie, które polszczyzna ma, więc nie jest to usterka, tylko cena.
-Pod złotą morfologią nie rusza się ani jedno zdanie.
-Trzecią pozycją jest `_role` w `olski/skład/rozbiór.py`:
-czyta ono kształty gramatyki po etykiecie,
-więc każdy nowy poziom kosztuje tam gałąź, a obieg zamknięty bez niej pada.
-Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
-nad Składnicą i nad ustawami nie policzył ich nikt.
-Dopóki tej liczby nie ma, wpis stoi po stronie ceny,
-bo jednoznaczność płacona za pokrycie niepoliczone
-idzie wbrew cenie kroku, której żąda
-[`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 
 Wyrażenie przyimkowe przyłącza się do ostatniego członu ciągu współrzędnego
 albo do zdania, a do całego ciągu nie przyłącza się wcale.
@@ -1338,37 +1287,6 @@ a leksykalnie znaczy to tyle, że pozycję wypisuje słownik.
 Jeśli Walenty jej nie wypisuje, ruchu nie ma i cały wpis zamyka skasowanie,
 bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
 olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej.
-
-Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
-`Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
-`[moi sąsiedzi], lekarz i nauczyciel`, czyli ciągiem o trzech członach,
-a polszczyzna czyta to zdanie także drugim sposobem,
-w którym lekarz i nauczyciel są tymi samymi sąsiadami.
-Jest to jednoznaczność z braku produkcji,
-czyli to, czemu zapobiega
-[reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
-więc po werdykcie nie widać jej wcale.
-Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
-w tym samym przypadku, i cena jest widoczna przed pomiarem:
-przecinek jest już znakiem koordynacji na czterech poziomach
-([`docs/subset.md`](docs/subset.md#what-the-grammar-covers)),
-więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
-Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
-a gotowej nie ma gdzie wziąć:
-[pomiar wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
-czyli konstrukcję inną niż ta.
-Pierwsze pytanie — czy bank drzew rozdziela apozycję od koordynacji etykietą —
-ma odpowiedź w monografii Świgry i brzmi ona: nie etykietą.
-Apozycja jest tam frazą nominalną o dwóch nominalnych składnikach,
-a konstrukcja współrzędna frazą, której centrum stanowi spójnik albo przecinek
-(Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)).
-Liczy się je więc kształtem, a nie nazwą:
-węzeł nominalny o dwóch nominalnych dzieciach i bez znaku między nimi.
-`Constituent` w `olski/corpus.py` niesie kategorię, rozpiętość i rodzica,
-a segmenty niesie `Sentence` obok, więc ten kształt da się policzyć
-bez czytania z banku drzew czegokolwiek, czego przebiegi jeszcze nie czytają.
 
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
@@ -2242,6 +2160,174 @@ Do przeczytania jest `harness/nieciągłość.py`, bo on ten zbiór wyznacza,
 oraz `Outcome.blocker` w `olski/coverage.py`, bo stamtąd bierze się nazwa
 zatrzymania.
 
+Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
+więc lemat z parą bierze wszystkie cztery naraz
+([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Walenty rozdziela je i mówi to o tysiącach lematów, których rozkład trzyma
+tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
+a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
+wyprowadza się i polszczyzną nie jest.
+Ruchem są cztery zdania leksykonu w miejsce jednego,
+a wraz z nimi cztery wartości cechy `druga` w `olski/subset.py` zamiast jednej.
+Do rozstrzygnięcia jest, czy warto:
+rama domyślna daje każdemu czasownikowi te same cztery wypełnienia naraz,
+więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
+a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
+Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
+ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
+
+Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
+([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
+i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
+Ruchem jest druga wartość cechy `druga` w `olski/subset.py`
+wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
+a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
+celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
+Do przeczytania jest, czy zdanie z tą parą da się w ogóle odróżnić po werdykcie:
+`Nauczyciel uczy dzieci matematyki.` wyprowadza się już dziś,
+bo dopełniacz za grupą imienną czyta się jej przydawką,
+więc brak tej pozycji nie odrzuca zdania, tylko odbiera mu drugie czytanie.
+
+Dwie liczby w [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
+są wyższe od tego, co mówi przebieg.
+Dokument mówi, że przyłączenie jest całą decyzją w siedmiu zdaniach na dziesięć,
+a w dwóch klasach, które je nazywają, w przeszło czterech piątych,
+gdy `python3 -m harness.czytania` nad Składnicą 180723 mówi dziś mniej:
+przeszło trzy piąte i przeszło trzy czwarte.
+Ruchem jest granica postawiona po tej stronie, po której stoi pomiar
+([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
+albo zdanie oddające obie liczby przebiegowi.
+Do przeczytania jest akapit pod nimi, bo argumentuje on ich rzędem wielkości,
+oraz sam wydruk, bo drugą z tych liczb przebieg drukuje osobno dla każdej z dwóch klas,
+a granica trzyma się tylko pod jedną z nich.
+
+Zawężenie orzecznika zgodnego ma wycenę nad prozą repozytorium i nie ma decyzji,
+bo populacja jest tam tej wielkości, że czterema zdaniami przewraca wniosek
+([`docs/subset.md`](docs/subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)
+trzyma cenę wraz z tym, co przy niej przeczytano).
+Ruchem jest ten sam wariant puszczony nad Składnicą — rama bez pozycji `nom`
+wszędzie poza kopulą — z pytaniem, ilu zdaniom ginie czytanie złote,
+bo tego pytania proza postawić nie umie, nie mając anotacji.
+Do przeczytania jest przy tym kryterium po stronie przymiotnika, które tamta sekcja
+nazywa tańszym: jeżeli katalog przymiotnikowy Walentego je daje, wybór między
+wpuszczeniem a zawężeniem po stronie czasownika przestaje być potrzebny,
+a wtedy cały ten wpis zamyka wpis o przymiotniku.
+
+Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kosztuje.
+Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
+córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
+([`docs/design-notes.md`](docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+Sonda więzowa płaci za to samo dwoma polami sprawdzanymi nad drzewem gotowym,
+czyli `wymaga` i `zakazuje` w `harness/wiezy.py`,
+i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,
+a warstwa za parserem umiałaby.
+Do przeczytania jest przedtem, czy w tej gramatyce jest w ogóle co zdejmować:
+ciało produkcji wylicza córki, więc pozycja wypełniona dwa razy żąda dwóch ciał,
+a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commicie.
+Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
+zmierzoną tak, jak mierzy się wpuszczenie pozycji.
+
+## Konstrukcje, których gramatyka nie ma
+
+Para myślników nie ma wyprowadzenia, a wtrącenie, którego żąda, stoi w środku zdania,
+gdzie obie pozycje nawiasu zamykają zdanie,
+więc jest to pozycja nowa, a nie drugi znak w gotowym ciele
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
+Ruchem jest para jako jedna córka w tym miejscu, które wylicza rozwinięcie szyku,
+czyli tam, gdzie staje okolicznik zdania.
+Do przeczytania jest ciało wtrącenia w `olski/subset.py` obok `Rozwinięcie`
+w `olski/precedencja.py`, bo pytanie jest o to, ile czytań ta pozycja dokłada
+zdaniu, które parę stawia na końcu: tam da się ją przyłączyć do zdania składowego
+i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
+
+Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
+nie ma ani pozycji, ani ceny, bo deklaracja tej pozycji bierze samo dopełnienie
+([`docs/subset.md`](docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
+Populacji, której to dotyczy, nie przeczytał nikt:
+wiersz `imps` został po wpuszczeniu formy nieosobowej z blisko setką zdań Składnicy,
+a wysunięte dopełnienie zabrało z niego część i nie wiadomo którą.
+Ruchem jest przeczytanie tej resztki, a po nim wycena pozostałych wypełnień
+nad obiema głowami naraz: deklaracja bierze głowę nazwą symbolu,
+więc wypełnienie dopisane do niej obejmuje predykatyw i formę nieosobową razem.
+Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
+z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
+
+Kopuła opuszczona ma listę o jednym lemacie, a polszczyzna opuszcza ją szerzej.
+`RZECZOWNIK_ORZEKAJĄCY` w `olski/subset.py` wymienia `mowa`,
+bo tego lematu zażądał rejestr ustaw,
+a `brak dowodów`, `szkoda czasu` i `pora wracać` są tą samą konstrukcją:
+rzeczownik w mianowniku orzeka, a czasownika nad nim nie ma.
+Wypełnienia żąda przy tym każdy z tych trzech innego niż `mowa` —
+dopełniacza albo bezokolicznika, a nie okolicznika —
+więc lemat dopisany do listy nie wystarcza,
+a wpis jest przez to o produkcję, a nie o dane.
+Ruchem jest lista wyczytana z korpusu, a nie z pamięci,
+a materiał do jej wyczytania daje pozycja ogólna dopisana do gramatyki:
+[`docs/subset.md`](docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+nazywa dwie produkcje, które ona dopisuje,
+a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
+Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
+bo tym była większość zakupu tamtej pozycji nad siedmioma ustawami,
+a lemat dopisany za taki ciąg wraca ceną w każdym zdaniu, które ten ciąg niesie.
+Cenę każdego lematu bierze potem sonda kopuły odtworzona z commita, który ją trzyma,
+tak jak wzięła cenę tego jednego.
+
+Człon lewy ciągu współrzędnego nie unosi zdania względnego.
+Produkcja `NP → NPConjunct RelativeClause` w `olski/subset.py`
+żąda członu, a produkcja koordynacji daje po lewej człon i po prawej ciąg,
+więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia,
+a `pliki i katalogi, które rosną` ma.
+Ruchem jest symbol między `NP` a `NPConjunct`, przez który idą oba człony,
+i ruch ten zbudowano na próbę, więc cena jest policzona, a zakup nie.
+Cena ma trzy pozycje.
+Nad Składnicą pod Morfeuszem jedno zdanie traci jednoznaczność —
+`Przez czynniki ekonomiczne należy rozumieć te, które kształtują rozmiary
+i strukturę dochodów oraz wydatków budżetowych.` wychodzi trzema czytaniami
+zamiast jednego, bo `te, które kształtują rozmiary` staje się członem ciągu —
+i jest to czytanie, które polszczyzna ma, więc nie jest to usterka, tylko cena.
+Pod złotą morfologią nie rusza się ani jedno zdanie.
+Trzecią pozycją jest `_role` w `olski/skład/rozbiór.py`:
+czyta ono kształty gramatyki po etykiecie,
+więc każdy nowy poziom kosztuje tam gałąź, a obieg zamknięty bez niej pada.
+Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
+nad Składnicą i nad ustawami nie policzył ich nikt.
+Dopóki tej liczby nie ma, wpis stoi po stronie ceny,
+bo jednoznaczność płacona za pokrycie niepoliczone
+idzie wbrew cenie kroku, której żąda
+[`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+
+Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
+`Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
+`[moi sąsiedzi], lekarz i nauczyciel`, czyli ciągiem o trzech członach,
+a polszczyzna czyta to zdanie także drugim sposobem,
+w którym lekarz i nauczyciel są tymi samymi sąsiadami.
+Jest to jednoznaczność z braku produkcji,
+czyli to, czemu zapobiega
+[reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
+więc po werdykcie nie widać jej wcale.
+Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
+w tym samym przypadku, i cena jest widoczna przed pomiarem:
+przecinek jest już znakiem koordynacji na czterech poziomach
+([`docs/subset.md`](docs/subset.md#what-the-grammar-covers)),
+więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
+Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
+a gotowej nie ma gdzie wziąć:
+[pomiar wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
+wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
+czyli konstrukcję inną niż ta.
+Pierwsze pytanie — czy bank drzew rozdziela apozycję od koordynacji etykietą —
+ma odpowiedź w monografii Świgry i brzmi ona: nie etykietą.
+Apozycja jest tam frazą nominalną o dwóch nominalnych składnikach,
+a konstrukcja współrzędna frazą, której centrum stanowi spójnik albo przecinek
+(Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)).
+Liczy się je więc kształtem, a nie nazwą:
+węzeł nominalny o dwóch nominalnych dzieciach i bez znaku między nimi.
+`Constituent` w `olski/corpus.py` niesie kategorię, rozpiętość i rodzica,
+a segmenty niesie `Sentence` obok, więc ten kształt da się policzyć
+bez czytania z banku drzew czegokolwiek, czego przebiegi jeszcze nie czytają.
+
 Zaimek `kto` i `co` nie ma pozycji z przydawką: `Kto pierwszy wstaje od stołu?`
 pada, a `Kto z posłów zapisuje ustawienia?` wyprowadza się
 ([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
@@ -2319,7 +2405,7 @@ trzyma wpis o angielskiej nazwie pisanej małą literą; drugie rozstrzyga o obu
 Ciąg rozdzielny przymiotników nie ma ciała przecinkowego, więc `Warstwy trzecia,
 czwarta i piąta pracują.` jest odrzucone, a `Warstwy trzecia i czwarta pracują.`
 wyprowadza się
-([`docs/subset.md`](docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)).
+([`docs/subset.md`](docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)),
 choć polszczyzna trzeci człon pisze właśnie przecinkiem.
 Ruchem jest czwarte ciało tej rodziny, a przed nim pomiar:
 ciało rozdzielne ze spójnikiem kupuje nad Składnicą pojedyncze zdania,
@@ -2328,9 +2414,8 @@ Do przeczytania jest cena trzech ciał, które przydawka już ma,
 bo przecinek koordynuje w tej gramatyce na czterech poziomach
 i cena czwartego stanie w zdaniach już przyjętych, a nie w liczbie ciał.
 
-Człon bez czasownika stoi tylko na końcu zdania składowego, więc `Skład, czyli
-Morfeusz, jest tani.` pada, gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
-([`docs/subset.md`](docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+Człon bez czasownika stoi tylko na końcu zdania składowego, a wtrącony w środek pada
+([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
 Pozycja w środku zdania jest tą samą pozycją, której żąda para myślników,
 więc oba wpisy zamyka jedna sesja, a nie dwie:
 wtrącenie w środku wylicza rozwinięcie szyku, a nie osobne ciało na każdy znak.
@@ -2376,74 +2461,6 @@ bank drzew nazywa pozycje wymagane, więc celownik niewymagany da się w nim pol
 kształtem — bo bez tej liczby wpis jest samą ceną,
 oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
 i mówi, ile go w Walentym widać z drugiej strony.
-
-Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
-więc lemat z parą bierze wszystkie cztery naraz
-([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
-Walenty rozdziela je i mówi to o tysiącach lematów, których rozkład trzyma
-tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
-a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
-wyprowadza się i polszczyzną nie jest.
-Ruchem są cztery zdania leksykonu w miejsce jednego,
-a wraz z nimi cztery wartości cechy `druga` w `olski/subset.py` zamiast jednej.
-Do rozstrzygnięcia jest, czy warto:
-rama domyślna daje każdemu czasownikowi te same cztery wypełnienia naraz,
-więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
-a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
-Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
-ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
-
-Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
-([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
-Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
-i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
-Ruchem jest druga wartość cechy `druga` w `olski/subset.py`
-wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
-a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
-celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
-Do przeczytania jest, czy zdanie z tą parą da się w ogóle odróżnić po werdykcie:
-`Nauczyciel uczy dzieci matematyki.` wyprowadza się już dziś,
-bo dopełniacz za grupą imienną czyta się jej przydawką,
-więc brak tej pozycji nie odrzuca zdania, tylko odbiera mu drugie czytanie.
-
-Dwie liczby w [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
-są wyższe od tego, co mówi przebieg.
-Dokument mówi, że przyłączenie jest całą decyzją w siedmiu zdaniach na dziesięć,
-a w dwóch klasach, które je nazywają, w przeszło czterech piątych,
-gdy `python3 -m harness.czytania` nad Składnicą 180723 mówi dziś mniej:
-przeszło trzy piąte i przeszło trzy czwarte.
-Ruchem jest granica postawiona po tej stronie, po której stoi pomiar
-([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
-albo zdanie oddające obie liczby przebiegowi.
-Do przeczytania jest akapit pod nimi, bo argumentuje on ich rzędem wielkości,
-oraz sam wydruk, bo drugą z tych liczb przebieg drukuje osobno dla każdej z dwóch klas,
-a granica trzyma się tylko pod jedną z nich.
-
-Zawężenie orzecznika zgodnego ma wycenę nad prozą repozytorium i nie ma decyzji,
-bo populacja jest tam tej wielkości, że czterema zdaniami przewraca wniosek
-([`docs/subset.md`](docs/subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)
-trzyma cenę wraz z tym, co przy niej przeczytano).
-Ruchem jest ten sam wariant puszczony nad Składnicą — rama bez pozycji `nom`
-wszędzie poza kopulą — z pytaniem, ilu zdaniom ginie czytanie złote,
-bo tego pytania proza postawić nie umie, nie mając anotacji.
-Do przeczytania jest przy tym kryterium po stronie przymiotnika, które tamta sekcja
-nazywa tańszym: jeżeli katalog przymiotnikowy Walentego je daje, wybór między
-wpuszczeniem a zawężeniem po stronie czasownika przestaje być potrzebny,
-a wtedy cały ten wpis zamyka wpis o przymiotniku.
-
-Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kosztuje.
-Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
-córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
-([`docs/design-notes.md`](docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
-Sonda więzowa płaci za to samo dwoma polami sprawdzanymi nad drzewem gotowym,
-czyli `wymaga` i `zakazuje` w `harness/wiezy.py`,
-i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,
-a warstwa za parserem umiałaby.
-Do przeczytania jest przedtem, czy w tej gramatyce jest w ogóle co zdejmować:
-ciało produkcji wylicza córki, więc pozycja wypełniona dwa razy żąda dwóch ciał,
-a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commicie.
-Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
-zmierzoną tak, jak mierzy się wpuszczenie pozycji.
 
 ## Skład i opowieści
 
