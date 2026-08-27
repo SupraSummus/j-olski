@@ -718,8 +718,8 @@ jak obsadza je drzewo wzorcowe, i czy obsadza oba naraz —
 czytanie z dobrym podmiotem i cudzym dopełnieniem złotym czytaniem nie jest.
 
 Nad zdaniami wieloznacznymi, którym drzewo wzorcowe nazywa choć jedną rolę,
-złote czytanie ocalało w przeszło dziewięciu na dziesięć,
-a przepada w kilku na sto.
+złote czytanie ocalało w przeszło czterech na pięć,
+a przepada w mniej niż co piątym.
 Zdania wieloznaczne, którym drzewo wzorcowe nie nazywa ani jednej roli,
 przebieg liczy osobno pod tym wierszem z tego samego powodu,
 dla którego liczy tam zdania przyjęte bez roli do porównania.

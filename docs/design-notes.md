@@ -640,7 +640,7 @@ Zdanie składowe bez podmiotu, czyli to, co przeciąganie dawało mimochodem,
 gramatyka wypisuje sama
 ([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
 więc nad 13 035 zdaniami Składnicy pod złotą morfologią
-luka przypięta wyciąga z odrzucenia jedno zdanie
+luka przypięta wyciąga z odrzucenia kilka zdań
 i jednoznaczność odbiera kilku;
 tabelę przejść drukuje polecenie niżej.
 Wyjęcia z głębi nie ma przy tym wśród wyciągniętych ani jedno.
@@ -653,8 +653,10 @@ Konstrukcja, dla której sięga się po szczebel 2, nie występuje więc
 w żadnym korpusie, jaki to repozytorium czyta.
 
 **Zakup jest przy tym zerem, bo bank drzew stawia tę rolę na zaimku.**
-To jedno wyciągnięte zdanie olski czyta inaczej, niż czyta je drzewo wzorcowe,
-i czyta tak z samego mechanizmu:
+Każde z wyciągniętych zdań olski czyta inaczej, niż czyta je drzewo wzorcowe,
+i mówi to sonda sama: o rolach zdań nowo przyjętych wypisuje ona `disagrees`
+i nic poza tym.
+Czyta tak z samego mechanizmu:
 w `Myślę o tym człowieku, który mnie podglądał.`
 podmiotem wychodzi u niego rozpiętość pusta, a bank drzew wskazuje `który`.
 Role widoczne są przy tym dobre i o znaczeniu zdania luka nie kłamie:

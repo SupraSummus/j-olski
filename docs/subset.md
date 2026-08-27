@@ -736,6 +736,14 @@ a ruch trzyma [TODO.md](../TODO.md).
   because it is the pronoun that agrees with the antecedent;
   the construction is argued
   [below](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
+- Zdanie względne z zaimkiem `co`, o poprzedniku zaimkowym albo zdaniowym,
+  nad zdaniem składowym i nad całym ciągiem współrzędnym:
+  `To, co mogło się zepsuć, jest tanie.`,
+  `Cena jest niska, co przekreśla sens działań.`,
+  `Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia.`
+  Rzeczownika ten zaimek za poprzednik nie bierze, i to jest cała różnica
+  między nim a `który`
+  ([poniżej](#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie))
 - Zdanie pytające o grupie imiennej na czole,
   w pozycji podmiotu, dopełnienia i wyrażenia przyimkowego:
   `Który aktor robi na tobie największe wrażenie?`, `Które zadania gmina wykonuje?`,
@@ -3452,10 +3460,18 @@ nieprawdziwe i nie daje im nic w zamian.
   która by je wzięła, w środku nie ma.
   Przyłączenia tego olski nie wybiera, tak samo jak wszędzie
   ([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
-- **Zaimek względny.** `Sprawdzaj to, co mogło się zepsuć.`,
+- **Zaimek względny o poprzedniku zaimkowym.**
+  `To, co mogło się zepsuć, jest tanie.`,
   `Program zapisuje wszystko, co widzi.`
-  Pozycja jest ta sama co przy `który`, a ciało osobne,
-  bo lemat ma inną część mowy.
+  Czoło jest osobnym symbolem, a nie drugim ciałem czoła z `który`,
+  i rozstrzyga o tym poprzednik: `który` bierze rzeczownik,
+  a te dwa zaimka albo całe zdanie
+  ([niżej](#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)).
+- **Zdanie względne o poprzedniku zdaniowym.**
+  `Cena jest niska, co przekreśla sens działań.`,
+  `Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia.`
+  Poprzednikiem jest tu zdanie, więc zgodności nie ma z czym sprawdzać,
+  a pozycja bierze `co` i nie bierze `kto`, bo tamten jest męskoosobowy.
 - **Zdanie względne bez poprzednika w roli podmiotu.**
   `Kto wchodzi w środek, poprzedniego zdania nie przeczytał.`
   Przecinek zamyka ją tak samo jak każde zdanie względne,
@@ -3484,9 +3500,6 @@ i tak wychodzi pod jedną morfologią i pod drugą:
 kilka zdań, których tamta gramatyka nie wyprowadza, wychodzi przyjętych,
 a kilkanaście, które w niej czytanie mają, przechodzi na odrzucone,
 więc suma przyjętych spada.
-Część z tych odrzuconych ma tam role zgodne z drzewem wzorcowym,
-bo zaimek naprawdę bywa podmiotem swojego zdania składowego,
-kiedy zdanie względne odnosi się do całego zdania przed nim.
 Rozdziela te dwa rejestry poprzednik, a nie częstość:
 `, co` niesie tu częściej niż co dwudzieste zdanie,
 a w banku drzew rzadziej niż co setne,
@@ -3500,10 +3513,102 @@ zaimek stojący nie na czele, czyli drugie pytanie w tym samym zdaniu
 (`Kto jest kim?`),
 pytanie o dopełnienie w dopełniaczu (`Kogo dotyczy zmiana?`),
 zdanie względne bez poprzednika w roli innej niż podmiot,
-zdanie względne odnoszące się do całego zdania przed nim (`dzięki czemu`),
 oraz przytoczenie samego wyrazu, którym ten rejestr o sobie mówi
 (`nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie jedno`).
 `TODO.md` trzyma je wszystkie.
+
+## Poprzednikiem zaimka `co` jest zaimek albo zdanie
+
+Zaimek `który` zastępuje rzeczownik, a `co` zaimek rzeczowny albo całe zdanie,
+i są to trzy różne poprzedniki, nie dwa użycia jednego.
+Dopóki oba zaimki miały jedno czoło, rzeczownik dostawał zdanie względne z `co`
+wszędzie, gdzie parę cech miał przypadkiem —
+`Sejm zaaprobował przekroczenie budżetowe, co przekreśliło sens dalszych działań
+Trybunału Stanu.` wychodziło `valid` z jednym czytaniem,
+w którym `co` jest przydawką przy `przekroczenie`,
+a całe zdanie podrzędne wpada w dopełnienie.
+Poprzednikiem jest tam zdanie, więc było to czytanie,
+którego polszczyzna nie ma,
+a werdykt podawał je z pewnością jednego odczytania.
+Nad bankiem drzew wychodziło to w jednym wierszu `disagrees` i nigdzie poza nim,
+bo zdanie takie olski przyjmuje, a pokrycie liczy je jak przeczytane
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+
+Czoła są przez to dwa, każde osobnym symbolem,
+i nie jest to podział na lematy, tylko na poprzedniki:
+czoło z `który` wchodzi pod rzeczownik,
+a czoło z `kto` i `co` pod zaimek rzeczowny oraz pod zdanie.
+Zdanie względne bez poprzednika idzie tą drugą drogą,
+bo tam stoją zaimki, którymi ono się zaczyna;
+`który` wyprowadzenia w tej pozycji nie miał i bez tego podziału,
+więc przeniesienie jej nic nie zabiera i nic nie kupuje —
+gramatyka mówi po nim to, co i przedtem było prawdą.
+Poprzednik zaimkowy stoi przy tym w ciele członu grupy imiennej,
+a nie nad grupą całą, bo zaimek rzeczowny dopełniacza nie bierze
+([wyżej](#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+więc przydawki przed sobą nie ma i grupy z niego nie ma po co składać.
+
+Zgodności ta pozycja nie sprawdza,
+bo poprzednikiem jest zdanie, które liczby ani rodzaju nie ma.
+Wypisuje je więc sama, i są to liczba pojedyncza i rodzaj nijaki,
+czyli to, co niesie `co`.
+Rozdziela to `co` od `kto` bez osobnej cechy —
+`kto` jest męskoosobowy, więc tej pozycji nie dosięga,
+a `Cena jest niska, kto przekreśla sens.` zostaje odrzucone.
+Przyimek przed zaimkiem wchodzi tą samą drogą co przy poprzedniku zaimkowym,
+bo niesie go czoło, a nie ta pozycja, więc `dzięki czemu`, `przez co`, `po czym`
+i `wobec czego` wychodzą razem z `co` samym.
+Pozycje są dwie — nad zdaniem składowym i nad całym ciągiem współrzędnym —
+bo poprzednikiem bywa jedno i drugie,
+i są to te same dwie pozycje, które ma okolicznik wyrażony zdaniem
+([wyżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+
+Zakup i cena są nad bankiem drzew tego samego rzędu pod obiema morfologiami,
+a cena jest o włos większa.
+Zakupem jest garść zdań przechodzących z odrzuconych:
+`Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia z ciemnoczerwoną ścianą.`
+oraz `Podopieczni Leo Beenhakkera w obecnym sezonie nadzwyczaj skutecznie
+gromadzą punkty, dzięki czemu ich przewaga nad rywalami nie podlega dyskusji.`
+Ceną jest garść zdań tracących jednoznaczność,
+a przeczytane po kolei mówią, skąd ona się bierze:
+poza jednym wszystkie są pytaniem zależnym — `Wiem, co zrobię.`,
+`Sprawdziłeś, o co cię prosiłem?`, `Wiedzą, co robią.` —
+któremu ta pozycja dokłada drugie czytanie,
+bo `, co` z pytaniem zależnym dzieli napis co do znaku.
+Właścicielem tej ceny nie jest ta pozycja, tylko rama domyślna:
+pozycję pytania zależnego daje ona każdemu czasownikowi
+([niżej](#walencja-jest-leksykonem-o-ramie-domyślnej)),
+więc drugie czytanie wychodzi i tam, gdzie czasownik pytania nie żąda.
+Zawężenie tej pozycji do leksykonu trzyma `TODO.md`,
+i ten pomiar jest argumentem za nim.
+
+Drugie czoło kosztuje w produkcjach:
+`_wysunięta_rola` wypisuje dla niego wszystkie szyki reszty zdania,
+więc gramatyka rośnie o kilka procent,
+a liczbę na dziś drukuje kolumna `produkcji` w wydruku sondy luki
+([design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+Kosztu tego dałoby się uniknąć jednym czołem i cechą przy nim,
+mówiącą, który zaimek to czoło niesie,
+a odrzuca tę wersję pomiar, nie liczba produkcji:
+sonda wycenia pozycję zdjęciem produkcji, więc cena osobna żąda symbolu osobnego
+([CLAUDE.md](../CLAUDE.md#code)).
+Pod jednym czołem zdjęcie ciał zabrałoby razem z `co` także `który`,
+czyli tę pozycję dałoby się wpuścić, a nie dałoby się jej wycenić.
+Odwraca ten wybór jedno: gdy o cenę tej pozycji nikt już nie pyta,
+tańsze jest czoło wspólne.
+
+Pod złotą morfologią, czyli tam, gdzie pomiar sięga po drzewo wzorcowe,
+złotego czytania nie traci ani jedno zdanie,
+a zdanie o przekroczeniu budżetowym, od którego ta sekcja się zaczyna,
+przechodzi z wiersza niezgodnych do zgodnych.
+Ani jedno zdanie nie traci też tam wyprowadzenia;
+pod żywą traci je jedno, i jest to odrzucenie prawdziwsze od trzech czytań:
+`Kiedyś zapytałem kierowcę naszego gazika, kim właściwie jest mój przewodnik?`
+wyprowadzało się wyłącznie przez `kim` w przydawce przy `kierowcę`,
+a pytania z orzecznikiem wysuniętym za przecinkiem ten podzbiór nie ma,
+więc jedyne, czego temu zdaniu brakuje, jest tą pozycją, a nie przydawką
+([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
+wylicza ją wśród konstrukcji, które zostają w kolejce).
 
 ## What it does not cover yet
 

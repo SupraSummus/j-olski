@@ -194,6 +194,7 @@ DEKLARACJA = Deklaracja(
         "AP",
         "ClauseConjunct",
         "RelativeCore",
+        "NominalRelativeCore",
         "InfinitivePhrase",
         "InterrogativeCore",
     ),
@@ -220,6 +221,7 @@ DEKLARACJA = Deklaracja(
     # którego role są rolami tego samego zdania.
     podrzędne=(
         "RelativeClause",
+        "NominalRelativeClause",
         "SubordinateClause",
         "InterrogativeClause",
         "FreeRelativeClause",
@@ -963,12 +965,12 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     pierwsze zawsze, bo tak stawia je polszczyzna, i tyle mówi tu warunek
     precedencji; reszta zdania szyk ma swój.
 
-    Ten sam kształt ma zdanie względne (`reguła, która rozstrzyga`, `ustawa,
-    której przepisy obowiązują`) i pytanie (`które zadania mają charakter
-    obowiązkowy`), a różni je samo czoło, więc deklaracje powstają raz i biorą
-    czoło nazwą symbolu. Wypisane osobno dla każdego czoła rozeszłyby się na
-    pierwszym dopisanym szyku, a rozejście widać dopiero na zdaniu, którego
-    jedno z czół nie wyprowadza.
+    Ten sam kształt ma zdanie względne — z `który` (`reguła, która rozstrzyga`,
+    `ustawa, której przepisy obowiązują`) oraz z `co` (`to, co mogło się zepsuć`) —
+    i pytanie (`które zadania mają charakter obowiązkowy`), a różni je samo czoło,
+    więc deklaracje powstają raz i biorą czoło nazwą symbolu. Wypisane osobno dla
+    każdego czoła rozeszłyby się na pierwszym dopisanym szyku, a rozejście widać
+    dopiero na zdaniu, którego jedno z czół nie wyprowadza.
 
     Role są dwie: podmiot i dopełnienie. Trzeciej — wyrażenia przyimkowego —
     tutaj nie ma, bo wysuwa się ono razem z przyimkiem i z grupą, w której zaimek
@@ -1120,6 +1122,7 @@ NIE_WYPUSZCZANE = {
     "Verb": ("aspect",),
     "Predicate": ("valency", "negacja", "druga"),
     "RelativeCore": ("person", "valency", "negacja"),
+    "NominalRelativeCore": ("person", "valency", "negacja"),
     "InterrogativeCore": ("person", "valency", "negacja"),
     OKOLICZNIKOWY: ("tryb",),
     ORZEKAJĄCY: ("case", "number"),
@@ -1128,6 +1131,7 @@ NIE_WYPUSZCZANE = {
     "Predicative": ("case",),
     "Modifier": ("case",),
     "RelativeModifier": ("case",),
+    "NominalRelativeModifier": ("case",),
     "InterrogativeModifier": ("case",),
     "Complements": ("czoło",),
     "NPConjunct": ("accommodability",),
@@ -1550,7 +1554,7 @@ def build() -> Grammar:
     # ten zaimek, więc pozycja stoi w gramatyce razem z tamtym wykluczeniem.
     grammar.rule(
         "FreeRelativeClause",
-        [Głowa(nt("RelativeCore", number=V("n"), gender=V("g"))), PRZECINEK],
+        [Głowa(nt("NominalRelativeCore", number=V("n"), gender=V("g"))), PRZECINEK],
     )
     grammar.rule(
         "Subject",
@@ -1726,6 +1730,27 @@ def build() -> Grammar:
             nt(OKOLICZNIKOWY, pozycja="przed"),
             Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG, dostawka=BEZ_DOSTAWKI)),
         ],
+    )
+
+    # Zdanie względne, którego poprzednikiem jest całe zdanie przed przecinkiem:
+    # `Cena jest niska, co przekreśla sens działań.`, `Bierzemy ostry zakręt,
+    # dzięki czemu unikamy zderzenia.` Liczba i rodzaj stoją wypisane wartością,
+    # bo poprzednikiem jest zdanie, które ich nie ma, a tyle niesie zaimek `co` —
+    # i tym ta pozycja bierze `co`, a nie `kto` (`NominalRelativePronoun`).
+    #
+    # Pozycje są dwie, tak samo jak przy okoliczniku wyrażonym zdaniem wyżej:
+    # poprzednikiem bywa jedno zdanie składowe albo cały ciąg (:data:`CIĄG`),
+    # a dostawkę ogłaszają oba (:data:`DOSTAWKA`).
+    zdaniowe = nt("NominalRelativeClause", number="sg", gender="n")
+    grammar.rule(
+        "ClauseConjunct",
+        [Głowa(nt("ClauseConjunct", tryb=V("t"))), zdaniowe],
+        dostawka=DOSTAWKA,
+    )
+    grammar.rule(
+        "Clause",
+        [Głowa(nt("Clause", tryb=V("t"), ciąg=CIĄG)), zdaniowe],
+        dostawka=DOSTAWKA,
     )
 
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
@@ -1927,6 +1952,27 @@ def build() -> Grammar:
             Głowa(nt("NPConjunct", person=V("p"), **AGREE)),
             nt("RelativeClause", number=V("n"), gender=V("g")),
         ],
+    )
+    # Poprzednik zaimkowy, czyli druga droga zdania względnego z `co`:
+    # `to, co mogło się zepsuć`, `wszystko, co zjadł`, `nikt, kto wchodzi w środek`
+    # (`NominalRelativePronoun`).
+    #
+    # Poprzednikiem jest tu terminal, a nie grupa imienna, bo zaimek rzeczowny
+    # dopełniacza nie bierze
+    # (docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
+    # i przydawki przed sobą nikt tu nie policzył. Lematy schodzą się z dwóch
+    # deklaracji obok, zamiast stać trzecią listą, którą rozjeżdża dopisanie do
+    # którejkolwiek z nich.
+    poprzednik_zaimkowy = word(
+        "subst", lemma=ZAIMEK_RZECZOWNY, bez_lematu=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE
+    )
+    grammar.rule(
+        "NPConjunct",
+        [
+            Głowa(poprzednik_zaimkowy),
+            nt("NominalRelativeClause", number=V("n"), gender=V("g")),
+        ],
+        person="ter",
     )
     # Tytuł i termin w cudzysłowie: `„Zasady techniki prawodawczej”`. Grupa
     # przechodzi przez cudzysłów cała, bo polszczyzna odmienia to, co on obejmuje,
@@ -2154,6 +2200,12 @@ def build() -> Grammar:
     _zamykane(grammar, "RelativeClause", [PRZECINEK, rdzeń])
     grammar.rule("RelativeClause", [PRZECINEK, rdzeń, nt(WTRĄCONY), PRZECINEK])
 
+    # To samo zdanie względne z czołem rzeczownym: rzeczownik bierze tamten symbol,
+    # a poprzednik zaimkowy i zdaniowy ten (`NominalRelativePronoun`).
+    # Wtrącenia w nawiasie to ciało nie ma, bo pozycji tej nad nim nikt nie policzył.
+    rdzeń_rzeczowny = Głowa(nt("NominalRelativeCore", number=V("n"), gender=V("g")))
+    _zamykane(grammar, "NominalRelativeClause", [PRZECINEK, rdzeń_rzeczowny])
+
     # Zaimek względny jest grupą imienną o jednym słowie i osobnym symbolem, bo
     # grupa imienna stoi w zdaniu wszędzie, a on w jednym miejscu: na czele
     # zdania względnego. Wpuszczony do grupy imiennej stanąłby w każdej jej
@@ -2167,14 +2219,18 @@ def build() -> Grammar:
     )
 
     # Ten sam zaimek, którym zdanie pyta, zastępuje też poprzednik: `to, co mogło
-    # się zepsuć`, `wszystko, co zjadł`. Ciało jest osobne, bo lemat ma inną część
-    # mowy niż `który`, a nie dlatego, że pozycja jest inna — pozycja jest ta sama.
-    # Poprzednikiem jest tu rzeczownik rodzaju nijakiego, bo tego rodzaju są oba
-    # zaimki, i o zgodność z nim pyta zdanie względne (:func:`zaimek_czoła`).
-    # Ten rejestr pisze to zdanie częściej niż pytanie, a jedno wykluczenie stoi
-    # pod obydwoma (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`).
+    # się zepsuć`, `wszystko, co zjadł`. Symbol jest osobny od `RelativePronoun`,
+    # bo rozstrzyga poprzednik, a nie lemat: `co` zastępuje zaimek rzeczowny albo
+    # całe zdanie, a `który` rzeczownik, więc jednym symbolem rzeczownik dostawał
+    # zdanie względne z `co`. Wywód, cenę i zakup rozdzielenia trzyma
+    # docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie.
+    #
+    # Liczba i rodzaj zaimka odróżniają przy tym `co` od `kto` bez osobnej cechy:
+    # `co` jest nijakie, a `kto` męskoosobowe (:func:`zaimek_czoła`).
+    # Jedno wykluczenie z pozycji rzeczownej stoi pod tym czołem i pod pytaniem
+    # (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`).
     grammar.rule(
-        "RelativePronoun",
+        "NominalRelativePronoun",
         [word("subst", lemma=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE)],
         **zaimek_czoła(V("n"), V("g")),
     )
@@ -2254,6 +2310,7 @@ def build() -> Grammar:
     # ciałem osobno, bo te same ciała brałby sam zaimek, więc nie byłoby czego zdjąć.
     for symbol, modyfikator, czoła in (
         ("RelativeCore", "RelativeModifier", ("RelativePronoun", "RelativeNP")),
+        ("NominalRelativeCore", "NominalRelativeModifier", ("NominalRelativePronoun",)),
         ("InterrogativeCore", "InterrogativeModifier", (PYTAJNY,)),
     ):
         for czoło in czoła:
