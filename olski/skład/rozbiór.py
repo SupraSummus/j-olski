@@ -98,10 +98,12 @@ CZASOWNIKOWE = ("fin", "praet", "inf")
 #: i zaimkiem, więc pyta się o nią wraz z częścią mowy, tak jak o znak listy.
 PRZECZENIE = "nie"
 
-#: Symbol przymiotnika, którego gramatyka trzyma konstytuentem, bo przysłówek
-#: stopniowany go określa, więc kształt ciała nazywa tu symbol tam, gdzie przedtem
-#: stało słowo.
+#: Symbole przydawki przymiotnej: ciąg, który stoi przy rzeczowniku, i człon,
+#: którym ten ciąg bywa pojedynczy. Kształt ciała nazywa tu symbol tam, gdzie
+#: przedtem stało słowo, bo przysłówek stopniowany określa przymiotnik, a ciąg
+#: współrzędny spina kilka przymiotników przy jednym rzeczowniku.
 PRZYMIOTNIKOWA = "Adjective"
+CZŁON_PRZYMIOTNIKA = "AdjectiveConjunct"
 
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
 #: Ta sama siódemka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
@@ -239,18 +241,26 @@ def _rzeczowniki(liść: Leaf) -> tuple[tuple[str, str], ...]:
 
 
 def _cechy(drzewo: Node) -> tuple[str, ...]:
-    """Cechy, którymi ten przymiotnik bywa, po jednej na lemat.
+    """Cechy, którymi ta przydawka bywa, po jednej na lemat.
 
     Przysłówek stojący pod tym samym symbolem kategorii tu nie dostaje:
     ``Jaki`` trzyma cechę napisem, a `bardzo duży` jest stopniem tej cechy,
     czyli tym, o czym drzewo nie ma jak powiedzieć, i to jest ta cisza,
     którą ten kierunek zgłasza zamiast wypuścić drzewo mówiące mniej
     (``docs/sklad.md``).
+
+    Ciąg współrzędny kategorii nie dostaje z tego samego powodu:
+    ``Jaki`` niesie jedną cechę, a `nowy i tani parser` orzeka o rzeczy dwie,
+    więc drzewo z jedną z nich wypisałoby się z powrotem bez drugiej.
     """
-    kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    ciąg = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
+    if ciąg != (CZŁON_PRZYMIOTNIKA,):
+        raise PozaZapisem(f"przydawka z {', '.join(ciąg)} nie ma tu kategorii")
+    człon = drzewo.children[0]
+    kształt = tuple(_etykieta(dziecko) for dziecko in człon.children)
     if kształt != (SŁOWO,):
         raise PozaZapisem(f"przymiotnik z {', '.join(kształt)} nie ma tu kategorii")
-    return _lematy(drzewo.children[0], "adj")
+    return _lematy(człon.children[0], "adj")
 
 
 def _przysłówki(drzewo: Node) -> tuple[Przysłówek, ...]:

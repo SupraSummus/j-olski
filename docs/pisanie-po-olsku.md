@@ -200,12 +200,6 @@ Tak samo padają `ani jedna`, `dwa z tych czytań` i każde inne miejsce,
 w którym przymiotnik albo liczebnik stoi za rzeczownik,
 którego zdanie przed chwilą użyło.
 
-**Ciąg współrzędny przymiotników przy rzeczowniku.**
-`Nowy i tani parser zapisuje ustawienia.` pada,
-`Nowy parser zapisuje ustawienia.` przechodzi,
-i tak samo pada szyk drugi: `Warstwy trzecia i czwarta pracują.`
-Czego każdy z tych dwóch szyków żąda od gramatyki, mówi [`TODO.md`](../TODO.md).
-
 **Liczebnik w orzeczniku.**
 `Tory są dwa.` pada, `Torów jest dwa.` też,
 a `Działają dwie rzeczy.` przechodzi.

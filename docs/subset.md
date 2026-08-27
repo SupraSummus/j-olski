@@ -668,10 +668,14 @@ a ruch trzyma [TODO.md](../TODO.md).
 - Zaimek dzierżawczy przed rzeczownikiem, czyli `jego`, `jej` i `ich`:
   `Jego skutki są znane.`, `Ich cena jest niska.`
   ([poniżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
-- Coordination, of noun phrases, of adjective phrases and of clauses,
-  joined by a conjunction or by a comma.
+- Coordination, of noun phrases, of adjective phrases, of attributes
+  and of clauses, joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
-  on all three levels, so `Plik jest nowy ale duży.` has no derivation
+  on all four levels, so `Plik jest nowy ale duży.` has no derivation
+- Przydawka złożona z kilku przymiotników, w obu szykach przydawki,
+  wraz z tym szykiem, w którym człony dzielą między siebie rzeczownik:
+  `Nowy i tani parser zapisuje ustawienia.`, `Warstwy trzecia i czwarta pracują.`
+  ([poniżej](#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim))
 - Two clauses joined by a comma and a conjunction at once,
   which is how Polish punctuates the conjunctions it puts a comma in front of:
   `Plany są niczym, ale planowanie jest wszystkim.`
@@ -1234,6 +1238,77 @@ tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
 ([ustawy.md](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
 i tamta liczba mówi, ile taki mnożnik znaczy przy zdaniu,
 które wieloznaczność ma już z innego powodu.
+
+## Przydawka koordynuje się i rozdziela rzeczownik tylko za nim
+
+Przymiotniki przy jednym rzeczowniku polszczyzna spina spójnikiem i przecinkiem,
+a wychodzą z tego dwie różne rzeczy.
+Ciąg zgodny orzeka o jednej rzeczy kilka cech naraz:
+`warstwy nowe i tanie` są warstwami, które są nowe i zarazem tanie.
+Ciąg rozdzielny dzieli rzeczownik między swoje człony:
+`warstwy trzecia i czwarta` są dwiema warstwami, a nie jedną.
+Pierwszy stoi w obu szykach przydawki, drugi tylko za rzeczownikiem.
+
+```sh
+python3 -m olski.check -c "Nowy i tani parser zapisuje ustawienia.
+Warstwy trzecia i czwarta pracują.
+Warstwy trzecia, czwarta i piąta pracują.
+Nowy i tania parser zapisuje ustawienia."
+```
+
+```text
+<text>: valid     Nowy i tani parser zapisuje ustawienia.
+                  jedno odczytanie
+<text>: valid     Warstwy trzecia i czwarta pracują.
+                  jedno odczytanie
+<text>: rejected  Warstwy trzecia, czwarta i piąta pracują.
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: rejected  Nowy i tania parser zapisuje ustawienia.
+                  brak odczytania: analiza staje na „zapisuje”
+```
+
+Para symboli jest tu ta sama, którą ma grupa imienna i przymiotnikowa:
+`Adjective` jest ciągiem, a `AdjectiveConjunct` jednym członem,
+i wybrano ją dla liczby czytań, tak samo jak tam
+([wyżej](#nothing-above-a-coordination-distributes-into-it)).
+
+Ciąg rozdzielny wypuszcza liczbę mnogą wartością, a nie zmienną wspólną z członem,
+bo mnogi jest ciąg, a każdy przymiotnik w nim pojedynczy;
+tym samym chwytem stoi koordynacja imienna i grupa liczebnikowa
+([niżej](#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
+Z ciągiem zgodnym się nie miesza, bo `warstwy nowe i trzecia i czwarta`
+łączyłoby przydawkę orzekającą o wszystkich warstwach z dwiema, które je dzielą.
+
+Przed rzeczownikiem ciąg rozdzielny nie staje, bo polszczyzna go tam nie stawia:
+`trzecia i czwarta warstwy` nią nie jest, choć `warstwy trzecia i czwarta` jest.
+Zatrzymuje go cecha, bo oba ciała są jednym symbolem.
+Warunek nie rusza werdyktu ani jednego zdania Składnicy 180723
+pod żadną z dwóch morfologii, a odbiera `Trzecia i czwarta warstwy pracują.`
+czytanie, którego polszczyzna nie ma;
+samego zdania nie odrzuca, bo wyprowadza się ono ciągiem imiennym.
+
+Ciała są trzy — po jednym na znak koordynacji i trzecie na rozdział —
+a cena każdego z nich jest osobną liczbą, wziętą sondą różnicową (`harness/ruch.py`).
+Nad tym bankiem pod złotą morfologią czytanie dostaje kilkadziesiąt zdań,
+z których blisko połowa wychodzi jednoznaczna,
+a jednoznaczność traci kilka zdań przyjętych;
+pod Morfeuszem zakup jest tego samego rzędu, a cena o zdanie wyższa.
+Nad prozą tego repozytorium czytanie dostaje garść zdań, jedno traci jednoznaczność,
+a nad README nie rusza się ani jedno
+([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)).
+Ciało spójnikowe i przecinkowe kupują po kilkadziesiąt zdań,
+a rozdzielne pojedyncze i nie odbiera jednoznaczności żadnemu.
+Zgodność ról sprzedaje ciało przecinkowe i ono jedno:
+nie mniej niż co piąte zdanie nowo przez nie przyjęte
+olski czyta inaczej, niż czyta je bank drzew
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)),
+a zdania nowo przyjęte przez ciało spójnikowe zgadzają się z bankiem co do jednego.
+
+Ciała przecinkowego rodzina rozdzielna nie ma, bo jej ogonem jest ciąg zgodny
+w liczbie pojedynczej i rozdział pada w takim ciągu raz,
+więc `Warstwy trzecia, czwarta i piąta pracują.` jest odrzucone,
+choć polszczyzna trzeci człon pisze właśnie przecinkiem;
+ile to ciało kosztuje, trzyma [TODO.md](../TODO.md).
 
 ## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
 

@@ -197,9 +197,14 @@ DEKLARACJA = Deklaracja(
         "InfinitivePhrase",
         "InterrogativeCore",
     ),
-    # Symbole, które się koordynują: grupa imienna, grupa przymiotnikowa i zdanie.
+    # Symbole, których ciąg nawiasuje napis roli: grupa imienna, grupa
+    # przymiotnikowa i zdanie.
     # Człon nazywa tu produkcja spójnikowa i przecinkowa każdego z nich,
     # a nie symbol z końcówką ``Conjunct``, który jest jednym członem, a nie ciągiem.
+    # Przydawka koordynuje się tak samo i tutaj nie stoi:
+    # nawias schodzi do ciągu przez węzły o jednej córce (``_nawiasuj`` w ``olski/parse.py``),
+    # a przydawka stoi pod rzeczownikiem, czyli w ciele o kilku córkach,
+    # więc wpisana tu odbierałaby wiersz o konstytuencie, nie dając w zamian nawiasu.
     współrzędne=("NP", "AP", "Clause"),
     # Symbol jest tu ten z końcówką `Conjunct`, bo streszczenie pyta o rozpiętość
     # jednego zdania, a nie o ciąg, w którym ono stoi.
@@ -540,6 +545,18 @@ BEZ_DOSTAWKI = "brak"
 #: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
 CIĄG = "jest"
 BEZ_CIĄGU = "brak"
+
+#: Wartości cechy `rozdzielna`, czyli tego, czy ciąg przymiotników dzieli swój
+#: rzeczownik między człony: `warstwy trzecia i czwarta` są dwiema warstwami,
+#: a `warstwy nowe i tanie` warstwami, które są jedno i drugie naraz.
+#:
+#: Cecha rozdziela dwie rodziny ciał jednego symbolu, tak samo jak
+#: :data:`BEZ_CZOŁA`, i po to jedno tu jest: polszczyzna stawia ciąg rozdzielny
+#: za rzeczownikiem i nie stawia go przed nim.
+#: Cenę obu ciał trzyma
+#: docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
+ROZDZIELNA = "jest"
+BEZ_ROZDZIELNEJ = "brak"
 
 
 def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
@@ -1137,15 +1154,54 @@ def build() -> Grammar:
     # mowy, bo cena każdego z nich ma być osobną liczbą. Orzecznik bierze `ppas` i
     # nie bierze `pact`: `Reguła jest sięgająca.` nie jest zdaniem tego rejestru.
     for symbol, słowo in (
-        ("Adjective", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
-        ("Adjective", word("ppas", **AGREE)),
-        ("Adjective", word("pact", **AGREE)),
+        ("AdjectiveConjunct", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
+        ("AdjectiveConjunct", word("ppas", **AGREE)),
+        ("AdjectiveConjunct", word("pact", **AGREE)),
         ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
     ):
         grammar.rule(symbol, [Głowa(słowo)])
         grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)])
-    przymiotnik = nt("Adjective", **AGREE)
+    przymiotnik = nt("AdjectiveConjunct", **AGREE)
     orzecznikowy = nt("PredicativeAdjective", **AGREE)
+
+    # Ciąg współrzędny przymiotników przy rzeczowniku: `nowy i tani parser`.
+    # Para symboli jest ta sama, co u grupy imiennej, i z tego samego powodu;
+    # wywód trzyma docs/subset.md pod „Nothing above a coordination distributes
+    # into it”, a cenę każdego ciała
+    # docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
+    #
+    # Ogon jest nierozdzielny, bo ciąg mieszany — `warstwy nowe i trzecia
+    # i czwarta` — polszczyzną nie jest.
+    grammar.rule("Adjective", [przymiotnik], rozdzielna=BEZ_ROZDZIELNEJ)
+    zgodny_ogon = nt("Adjective", rozdzielna=BEZ_ROZDZIELNEJ, **AGREE)
+    grammar.rule(
+        "Adjective",
+        [Głowa(przymiotnik), SPÓJNIK_BEZ_PRZECINKA, zgodny_ogon],
+        rozdzielna=BEZ_ROZDZIELNEJ,
+    )
+    grammar.rule(
+        "Adjective",
+        [Głowa(przymiotnik), PRZECINEK, zgodny_ogon],
+        rozdzielna=BEZ_ROZDZIELNEJ,
+    )
+    # Ciąg rozdzielny, czyli ten, którego człony dzielą między siebie rzeczownik:
+    # `warstwy trzecia i czwarta` mówi o dwóch warstwach, a `warstwy nowe i tanie`
+    # o warstwach, które są jedno i drugie naraz.
+    # Liczba idzie wartością, bo żaden człon jej nie ma: mnogi jest ciąg,
+    # a każdy przymiotnik w nim pojedynczy.
+    rozdzielny_człon = nt("AdjectiveConjunct", case=V("c"), number="sg", gender=V("g"))
+    grammar.rule(
+        "Adjective",
+        [
+            Głowa(rozdzielny_człon),
+            SPÓJNIK_BEZ_PRZECINKA,
+            nt("Adjective", case=V("c"), number="sg", gender=V("g"), rozdzielna=BEZ_ROZDZIELNEJ),
+        ],
+        number="pl",
+        rozdzielna=ROZDZIELNA,
+    )
+    przydawka = nt("Adjective", **AGREE)
+    przydawka_nierozdzielna = nt("Adjective", rozdzielna=BEZ_ROZDZIELNEJ, **AGREE)
 
     grammar.rule("Sentence", [Głowa(nt("Clause")), KONIEC_ZDANIA])
 
@@ -1185,7 +1241,7 @@ def build() -> Grammar:
     # a różni je liczba czytań ciągu współrzędnego; TODO.md trzyma ten wybór.
     # Symbol wspólny na spójnik i na przecinek powiedziałby to samo raz,
     # ale przecinek przestałby stać przy swoim poziomie,
-    # a cena i zakup każdego z trzech poziomów są osobnymi liczbami,
+    # a cena i zakup każdego z czterech poziomów są osobnymi liczbami,
     # które wzięto zdejmowaniem po jednej.
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
     # coordination distributes into it”.
@@ -1908,7 +1964,9 @@ def build() -> Grammar:
     # ciała dzielą te same trzy zmienne (:data:`AGREE`). Człon z rzeczownikiem w
     # głowie ogłasza trzecią osobę wprost, bo bez tego ogłoszenia wziąłby go po
     # cichu czasownik w pierwszej.
-    grammar.rule("NPConjunct", [przymiotnik, Głowa(nt("NPConjunct", **AGREE))], person="ter")
+    grammar.rule(
+        "NPConjunct", [przydawka_nierozdzielna, Głowa(nt("NPConjunct", **AGREE))], person="ter"
+    )
     # Głową grupy imiennej jest rzeczownik albo rzeczownik odczasownikowy, więc
     # każda pozycja niżej wychodzi dwoma ciałami, po jednym na głowę. Terminala o
     # dwóch częściach mowy tu nie ma i nie jest to wybór wygody: cena tej głowy ma
@@ -1936,7 +1994,7 @@ def build() -> Grammar:
         # Przydawkę terminu polszczyzna stawia za rzeczownikiem: `plik
         # konfiguracyjny`, `język polski`. Oba szyki są polszczyzną, więc oba stoją
         # tutaj, a zdanie, które przyjmuje oba czytania, jest wieloznaczne.
-        grammar.rule("NPConjunct", [Głowa(głowa), przymiotnik], person="ter")
+        grammar.rule("NPConjunct", [Głowa(głowa), przydawka], person="ter")
         grammar.rule("NPConjunct", [Głowa(głowa), nt("Modifier")], person="ter")
         # Oba szyki przydawki naraz: dobrem wspólnym wszystkich obywateli, zadania
         # ochrony ludności. Bez tej pozycji dopełniacz dochodzi tylko do przymiotnika
@@ -1945,7 +2003,7 @@ def build() -> Grammar:
         # docs/ustawy.md trzyma, ile ta pozycja tam daje i ile odbiera.
         grammar.rule(
             "NPConjunct",
-            [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen")],
+            [Głowa(głowa_dopełniacza), przydawka, nt("NP", case="gen")],
             person="ter",
         )
         # Wyrażenie przyimkowe po rzeczowniku, który już coś przy sobie ma: akcja
@@ -1955,7 +2013,7 @@ def build() -> Grammar:
         # czytaniem przez czasownik. Trzecia idzie razem z przydawką wyżej: bez niej
         # wyrażenie po takim terminie dochodzi do dopełniacza i do nikogo więcej,
         # czyli gramatyka wybiera przyłączenie, którego wybierać nie ma.
-        grammar.rule("NPConjunct", [Głowa(głowa), przymiotnik, nt("Modifier")], person="ter")
+        grammar.rule("NPConjunct", [Głowa(głowa), przydawka, nt("Modifier")], person="ter")
         grammar.rule(
             "NPConjunct",
             [Głowa(głowa_dopełniacza), nt("NP", case="gen"), nt("Modifier")],
@@ -1963,7 +2021,7 @@ def build() -> Grammar:
         )
         grammar.rule(
             "NPConjunct",
-            [Głowa(głowa_dopełniacza), przymiotnik, nt("NP", case="gen"), nt("Modifier")],
+            [Głowa(głowa_dopełniacza), przydawka, nt("NP", case="gen"), nt("Modifier")],
             person="ter",
         )
     # Grupa liczebnikowa, w dwóch ciałach, bo polszczyzna ma dwa przyłączenia
