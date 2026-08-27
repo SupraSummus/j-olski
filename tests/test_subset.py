@@ -3204,6 +3204,63 @@ def test_zaimek_względny_w_dopełniaczu_przy_przeczącym_zdaniu_względnym():
 
 
 # --------------------------------------------------------------------------- #
+# Dopełnienie bezokolicznika wysunięte przed formę osobową
+# --------------------------------------------------------------------------- #
+
+
+def test_dopełnienie_bezokolicznika_wysunięte_przed_formę_osobową_dostaje_swoją_rolę():
+    #  Zdanie Składnicy, nad którym bank drzew czyta `premier` podmiotem, a
+    #  `większości` dopełnieniem, które bierze `ruszyć`. Bez tej pozycji zostaje
+    #  samo czytanie z grupą imienną, więc asercja jest o obu naraz: gramatyka ma
+    #  oddać oba, a nie wymienić jedno na drugie.
+    found = verdict("Premier większości nie może ruszyć.")
+    assert found.result.ile == 2, found.explain()
+    assert {streszczenie.get("Object") for streszczenie in role(found)} == {None, "większości"}
+
+
+def test_dopełnienie_wysunięte_pyta_o_ramę_bezokolicznika_a_o_przeczenie_formę_osobową():
+    #  Dwa kanały biegną tu w przeciwne strony i pomylenie każdego widać osobno.
+    #
+    #  Rama: celownik wpuszcza leksykon na lemat, `musieć` go nie ma, a `pomagać`
+    #  ma, więc pozycja stoi wtedy i tylko wtedy, gdy licencjonuje ją bezokolicznik.
+    assert verdict("Program autorowi musi pomagać.").status == "valid"
+    assert verdict("Program autorowi musi znać.").status == "rejected"
+    assert verdict("Program autorowi musi.").status == "rejected"
+    #  Przeczenie odwrotnie: dopełniacza żąda cząstka stojąca przy formie osobowej.
+    assert verdict("Premier ustawień może zapisać.").result.ile == 1
+    assert verdict("Premier ustawień nie może zapisać.").result.ile == 2
+
+
+def test_dopełnienie_wysunięte_nie_daje_drugiego_wyprowadzenia_zdaniu_które_już_stoi():
+    #  Dopełnienie za swoim bezokolicznikiem wyprowadza się przez `Complements`
+    #  bezokolicznika, a pozycja wysunięta ma szyk jeden, ten wypisany, więc napis
+    #  ten zostaje przy jednym czytaniu.
+    found = verdict("Premier nie może ruszyć większości.")
+    assert found.status == "valid", found.explain()
+
+
+def test_okolicznik_ma_przy_wysuniętym_dopełnieniu_tyle_gospodarzy_ile_bez_niego():
+    #  Tor zwykły daje okolicznikowi za bezokolicznikiem dwóch gospodarzy, a przed
+    #  nim jednego, bo `Complements` bezokolicznika stoi za swoją głową i przed nią
+    #  nie sięga.
+    assert verdict("Premier nie może ruszyć szybko.").result.ile == 2
+    assert verdict("Premier nie może szybko ruszyć.").result.ile == 1
+    #  Wysunięcie dokłada każdemu z tych czytań drugie, z dopełnieniem, i nie dokłada
+    #  nic ponad to, więc liczby się podwajają. Nierówność znaczy, że któreś z ciał
+    #  wybiera gospodarza przez przeoczenie.
+    assert verdict("Premier większości nie może ruszyć szybko.").result.ile == 4
+    assert verdict("Premier większości nie może szybko ruszyć.").result.ile == 2
+
+
+def test_okolicznik_przy_wysuniętym_dopełnieniu_nazywa_swojego_gospodarza():
+    #  Bez wpisu w `gospodarze` (`DEKLARACJA`) dwa czytania różne samym miejscem
+    #  okolicznika streszczają się jednym napisem, a werdykt milczy o wyborze,
+    #  który to zdanie zostawia.
+    found = verdict("Premier większości nie może ruszyć szybko.")
+    assert len({tuple(sorted(s.items())) for s in role(found)}) == found.result.ile
+
+
+# --------------------------------------------------------------------------- #
 # Readings the dictionary offers and olski does not take
 # --------------------------------------------------------------------------- #
 

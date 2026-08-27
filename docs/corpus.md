@@ -509,8 +509,8 @@ The label weighs more in that section than it does here.
 
 The *disagreements* are mostly one class, with a short tail behind it.
 The corpus's own notion of a constituent leads them,
-and behind it stand one reading a reader would not have
-and a few the check produces rather than the grammar.
+and behind it stand a few the check produces rather than the grammar.
+No reading a reader would not have stands in this row.
 Which classes those are is what this document owns;
 how many sentences stand in each is what the run prints.
 A particle standing inside a noun phrase does not reach this row,
@@ -518,30 +518,28 @@ because the grammar has that position and returns both readings
 ([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
 where this row is for a reading olski returns alone
 and the treebank contradicts.
-The one reading a reader would not have came in with negation:
+The shape such a reading takes is a genitive object standing in front of its verb,
+and it comes with negation:
 
 ```text
 Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
 ```
 
-The genitive object stands in front of its verb,
-and there it is also a genitive modifier of the noun phrase before it,
-so `premier większości` comes out as one subject
+There the object is also a genitive modifier of the noun phrase before it,
+so `premier większości` reads as one subject
 where the clause has a subject and an object.
-Both readings are shapes Polish has,
-and only the second is a shape *olski* has:
+Both readings are shapes Polish has, and both are shapes olski has:
 the object belongs to the infinitive under a modal,
-and the bodies that put an object in front of its verb
-put it in front of a finite one,
-so the reading a reader takes has no body to be derived by
-and the wrong one is returned alone rather than beside it.
-That is the cost negation is priced at here,
-and it lands among the disagreements rather than in the ambiguity column:
-[subset.md](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)
-holds what it buys and what it takes.
+and it has a body in front of the finite verb
+([subset.md](subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
+so the sentence is refused for its ambiguity
+rather than accepted on the reading a reader does not take.
+That body accepts no sentence at all, so this row is all it bought,
+and the section it is linked to prices it.
 
-Two sentences of this shape were in this row and left it,
-which is what the four word orders bought here beyond the sentences they accepted.
+Three sentences of this shape stand outside this row:
+this one on that body, and two on the four word orders,
+which is what those bought here beyond the sentences they accepted.
 `Apostołowie tego nie praktykowali.` now comes out with two readings,
 the reader's among them, so it is refused rather than read backwards.
 `Nikt niczego nie wybiera, coś wybiera za nas.` went further:

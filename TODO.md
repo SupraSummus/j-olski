@@ -926,25 +926,92 @@ Do przeczytania jest lista form, które warunek dotknie: `blisko` i `naprzeciw`
 niosą czytanie przysłówkowe, którego polszczyzna używa,
 więc cena stoi w zdaniach, a nie w samych czytaniach.
 
-Dopełnienie stoi przed swoim czasownikiem w czterech szykach dopisanych,
-a przed bezokolicznikiem, który je bierze, nie stoi w żadnym.
-Ciała biorą `Verb`, czyli formę osobową, więc `premier większości nie może
-ruszyć` dalej wychodzi z jednym podmiotem i bez dopełnienia,
-i jest to jedno zdanie Składnicy, które olski czyta odwrotnie, niż czyta je
-czytelnik,
-a pomyłka jest droższa od wieloznaczności, bo werdykt `valid` ktoś przeczyta.
-Do przeczytania jest, ile ta pozycja zabiera poza tym jednym zdaniem:
-dopełnienie przed łańcuchem `może ruszyć` konkuruje z przydawką dopełniaczową
-tam, gdzie cztery szyki już konkurują z nią przed formą osobową,
-a cenę tamtych czterech — sześć zdań — trzyma commit, który je wpuścił,
-więc ta pozycja ma z czym się porównać, zanim zapadnie decyzja.
-Ruchem jest ciało `Complements`, a nie piąty szyk:
-pozycję ramy niesie fraza bezokolicznikowa
-([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
-więc dopełnienie przed nią stoi wewnątrz orzeczenia,
-a nie w kolejności podmiotu wobec czasownika.
-Pomiar różnicowy nad tym jednym ciałem idzie przed decyzją;
-prowadzi go `harness/ruch.py`.
+Dopełnienie bezokolicznika wysunięte przed formę osobową ma szyk jeden,
+a polszczyzna ma ich kilka: `Większości premier nie może ruszyć.`
+oraz `Większości nie może ruszyć.` są odrzucone, gdzie
+`Premier większości nie może ruszyć.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
+Wzór stoi obok: deklaracja z dopełnieniem przy formie osobowej wypisuje pięć szyków
+warunkiem precedencji (`_poza_orzeczeniem` w `olski/subset.py`),
+a podmiot opuszczony ma tam ciało osobne.
+Ruchem jest ten warunek nad deklaracją z frazą bezokolicznikową
+wraz z ciałem bez podmiotu, a przed nim pomiar:
+szyk z dopełnieniem na czele konkuruje naraz z okolicznikiem wysuniętym przed zdanie
+i z przydawką dopełniaczową, czyli z dwiema pozycjami,
+z których żadna nie konkuruje z szykiem, który wszedł.
+Cenę szyku, który wszedł, trzyma tamta sekcja i mówi ona,
+od czego zaczyna każdy następny: zakupu nie ma tam żadnego,
+więc szyk dopisany zaczyna od ceny, a zakup ma do policzenia.
+
+Czoło zdania względnego sięga do formy osobowej i nie sięga do bezokolicznika pod nią,
+choć dopełnienie wysunięte przed formę osobową sięga tam ciałem wypisanym
+([`docs/subset.md`](docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
+`Ustawa, którą organ gminy może wydać, jest tania.` jest przez to odrzucone,
+a jest to jedyne zdanie, które kupuje cecha przeciągana
+([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)),
+więc pozycja dopisana wypisanymi ciałami zabiera luce cały jej zakup
+i zamyka rozwidlenie, które tamta sekcja trzyma otwarte —
+i to, a nie samo zdanie, jest tu stawką.
+Ruchem jest `_wysunięta_rola` w `olski/subset.py` pisząca ten szyk także z frazą
+bezokolicznikową, czyli te same córki, które wypisała deklaracja obok,
+z czołem w miejscu dopełnienia.
+Do rozstrzygnięcia jest, czy warto:
+zdania tego kształtu nie ma ani jeden korpus, który to repozytorium czyta,
+i mówi to sekcja o zdaniu względnym wraz z poleceniem,
+którym sprawdzono rejestr ustaw
+([`docs/subset.md`](docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+a `RelativeCore` ma kilkadziesiąt ciał i pozycja mnoży je przez klasy walencyjne.
+Do przeczytania jest przy tym `harness/luka.py`:
+tamten wariant zdejmuje ciała `RelativeCore` i zastępuje je luką,
+więc pozycja dopisana do nich rusza każdą liczbę tamtej sekcji.
+
+`gospodarze` w `DEKLARACJA` jest listą nazw stojącą obok gramatyki,
+czyli tym, czego zakazuje [`CLAUDE.md`](CLAUDE.md#code), i milczy o symbolu
+dopisanym później: symbol nieobecny na liście jest dla zejścia przezroczysty
+(`_gospodarze` w `olski/parse.py`), więc okolicznik pod nim dostaje w streszczeniu
+gospodarza stojącego wyżej, a dwa czytania różne samym miejscem okolicznika
+streszczają się jednym napisem.
+Zdania to nie odbiera i po werdykcie tego nie widać,
+a suita łapie to tylko wtedy, gdy ktoś napisze test na ten jeden symbol —
+tak wyszło przy symbolu frazy bezokolicznikowej z dopełnieniem wysuniętym
+([`docs/subset.md`](docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
+Ruchem jest check pytający gramatykę, a nie listę.
+Do rozstrzygnięcia jest kryterium, bo mechanicznego nie ma:
+`Complements` okolicznika pod sobą ma i gospodarzem nie jest,
+bo okolicznik stojący w nim określa czasownik nad nim, i po to zejście go mija,
+a `InfinitivePhrase` jest, bo okolicznik w nim określa bezokolicznik.
+Kandydatem jest symbol o własnej głowie leksykalnej, którą okolicznik może określać.
+Do przeczytania jest wpis o rodzinie czoła zadeklarowanej w czterech miejscach,
+bo `gospodarze` jest jednym z tych czterech i jedna sesja rozstrzyga oba.
+
+Myślnik stoi u olskiego między dwoma zdaniami i nie stoi wewnątrz zdania,
+a polszczyzna stawia go wewnątrz w miejscu pominiętego orzeczenia:
+`Ania lubi cydr, Janek — piwo.` jest odrzucone.
+Człon bez czasownika olski ma i licencjonuje go spójnikiem
+([`docs/subset.md`](docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)),
+więc `Ania lubi cydr, a nie piwo.` wyprowadza się i werdykt nazywa czasownik,
+do którego ten człon dochodzi.
+Różni je dwie rzeczy. Licencją jest tu sam znak, a nie spójnik, czyli ciało osobne.
+Oraz `Janek — piwo` niesie dwie pozycje, a nie jedną,
+więc człon musiałby zgodzić się z członem obok co do ról, których nie wypowiada,
+a dzisiejsze ciało bierze jeden konstytuent i o rolach nie mówi nic.
+Do rozstrzygnięcia jest przedtem granica zdania:
+`Ania lubi cydr. Janek — piwo.` ma orzeczenie w zdaniu poprzednim,
+a olski orzeka o zdaniu, nie o akapicie
+([`docs/roadmap.md`](docs/roadmap.md#co-jest-budowane)),
+więc albo konstrukcja wchodzi tylko wewnątrz jednego zdania,
+albo werdykt przestaje być wypowiedzią o zdaniu.
+To rozstrzygnięcie idzie pierwsze, bo od niego zależy,
+czy pozostałe dwie rzeczy mają gdzie stanąć.
+Wpis waży przy tym więcej, niż mówi liczba zdań, i mówi to drugie użycie tego znaku:
+`Premier — większości nie może ruszyć.` nie miałoby czytania z grupą
+`premier większości`, bo grupa imienna myślnika nie przechodzi,
+czyli autor dostaje znak, którym rozstrzyga sam
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)),
+a takich pozycji ten podzbiór ma niewiele.
+Ceną jest to, że znak ten spina dziś dwa zdania,
+a para myślników ma wpis osobny, ten o wtrąceniu w środku zdania,
+więc ciało wewnątrz zdania konkuruje z obydwoma i sesja bierze je razem.
 
 Zamknięta lista kopul nie ma `stawać się` ani `okazywać się`,
 a polszczyzna orzeka nimi narzędnik tak samo jak `zostawać`.
