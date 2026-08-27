@@ -47,13 +47,8 @@ from olski.corpus import read
 from olski.coverage import po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
-from olski.subset import (
-    DEKLARACJA,
-    PRZYSŁÓWEK,
-    PRZYSŁÓWEK_STOPNIA,
-    PRZYSŁÓWKOWY,
-    check,
-)
+from olski.subset import DEKLARACJA, PRZYSŁÓWEK, PRZYSŁÓWEK_STOPNIA, PRZYSŁÓWKOWY
+from olski.werdykt import check
 
 #: Ile zdań zachować pod każdą klasą, tak jak trzymają je pomiary obok.
 PRZYKŁADY = 8

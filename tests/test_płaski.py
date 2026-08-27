@@ -20,7 +20,7 @@ from harness.płaski import (
     płaskie,
     wariant,
 )
-from olski.subset import check
+from olski.werdykt import check
 
 
 def _czytanie(zdanie: str, nazwa: str = OKOLICZNIK):

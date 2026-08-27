@@ -70,9 +70,9 @@ from typing import Protocol
 
 from olski import projekt
 from olski.document import Document
+from olski.lematy import KOPULA
 from olski.morph import analyse
 from olski.parse import Przyłączenie
-from olski.subset import KOPULA
 from olski.walencja import przyimki_czasownika, przyimki_rzeczownika
 
 #: Plik z tabelą skłonności, generowany i czytany przy pierwszym pytaniu.
@@ -130,8 +130,9 @@ IMIENNE_LUB_NIEZNANE = IMIENNE | {"ign"}
 #: więc powtórzenie przy niej mówi tylko tyle, że oba zdania mają to samo
 #: orzeczenie. Gospodarzem kopula zostaje, bo okolicznik zdania wisi na
 #: orzeczeniu; odpada dowód, a nie pozycja, i dlaczego tak, wywodzi
-#: ``docs/disambiguation.md``. Lista jest ta, którą gramatyka ma dla orzecznika,
-#: więc lemat dopisany tam przestaje być dowodem i tutaj.
+#: ``docs/disambiguation.md``. Lista jest ta sama, którą gramatyka bierze dla
+#: orzecznika (``olski/lematy.py``), więc lemat dopisany tam przestaje być dowodem
+#: i tutaj.
 KOPULY = frozenset(KOPULA.split("|"))
 
 

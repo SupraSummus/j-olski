@@ -13,7 +13,8 @@ from __future__ import annotations
 
 from harness.wiezy import PO, PRZED, Gramatyka, Więz, Zgoda, Żąda
 from olski.grammar import V, word
-from olski.subset import AGREE, KOPULA, ZAIMEK_RZECZOWNY
+from olski.lematy import KOPULA
+from olski.subset import AGREE, ZAIMEK_RZECZOWNY
 
 #: Formy osobowe, które olski bierze: oznajmująca i rozkaźnik.
 OSOBOWY = "fin|impt"

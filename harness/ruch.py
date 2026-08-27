@@ -46,7 +46,9 @@ from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import ciało_koordynuje, parse
-from olski.subset import Verdict, build, morphology, sentences, werdykt
+from olski.segmentacja import morphology, sentences
+from olski.subset import build
+from olski.werdykt import Verdict, werdykt
 
 #: Ile zdań zachować pod każdym przejściem. Przejście bez przykładu jest liczbą,
 #: o której nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
@@ -406,7 +408,7 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     proza nie niesie, a fragment nie jest zdaniem i do mianownika nie wchodzi.
 
     Zdanie idzie tu przez warianty, a nie wariant przez cały tekst, bo segmenty
-    zależą od napisu, a nie od gramatyki (``werdykt`` w ``olski/subset.py``):
+    zależą od napisu, a nie od gramatyki (``werdykt`` w ``olski/werdykt.py``):
     inaczej ten sam tekst segmentuje się tyle razy, ile jest wariantów, i tyle
     samo razy rozbiera się zdanie, które olski odrzucił.
     """

@@ -23,7 +23,7 @@ from olski.skład.słownik import (
     potem,
     razem,
 )
-from olski.subset import check
+from olski.werdykt import check
 
 
 @pytest.mark.parametrize(

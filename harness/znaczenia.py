@@ -62,7 +62,8 @@ from olski.corpus import read
 from olski.coverage import SOURCES, po_kawałkach, segments_for
 from olski.parse import MAX_READINGS, Node, Result, las, podsumuj
 from olski.skład.rozbiór import abstrahuj, sygnatura
-from olski.subset import DEKLARACJA, GRAMMAR, check
+from olski.subset import DEKLARACJA, GRAMMAR
+from olski.werdykt import check
 
 #: Ile zdań zachować pod każdym kluczem. Liczba bez zdania mówi, ile ich jest, i
 #: nie mówi, czy zwinięcie, które nazywa, jest zwinięciem, które czytelnik ma.

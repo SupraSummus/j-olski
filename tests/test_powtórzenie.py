@@ -29,7 +29,7 @@ pytest.importorskip("morfeusz2")
 from pathlib import Path
 
 from harness.powtórzenie import przebieg
-from olski.subset import check
+from olski.werdykt import check
 
 #: Akapit, w którym fraza stoi dwa razy i za pierwszym razem przy rzeczowniku,
 #: obok akapitu drugiego, gdzie to samo zdanie stoi bez niczego przed sobą.

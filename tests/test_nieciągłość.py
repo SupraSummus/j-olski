@@ -20,7 +20,7 @@ pytest.importorskip("morfeusz2")
 
 from harness.nieciągłość import SZCZELINA, podłoże, szczeliny, w_lesie
 from olski.corpus import read_forest
-from olski.subset import morphology
+from olski.segmentacja import morphology
 from tests.test_corpus import forest, phrase, terminal
 
 

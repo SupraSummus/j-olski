@@ -749,7 +749,7 @@ a nie miejscem, w którym coś jest zakazane.
 Środek nie musi też stać na drabinie,
 a repozytorium już tak pracuje, więc jest to opis, a nie obietnica.
 Czytania, których żadna produkcja nie odbiera, odbiera kod obok gramatyki:
-`admissible` w `olski/subset.py` wyrzuca rzeczownik nieodmienny tam,
+`admissible` w `olski/segmentacja.py` wyrzuca rzeczownik nieodmienny tam,
 gdzie ta sama forma czyta się także jako słowo funkcyjne,
 a po co, mówi [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not).
 Nieciągłość zaś ma wyjście tańsze niż szczebel, na którym stoi:
@@ -1645,7 +1645,7 @@ Zostaje do tego dopisać kierunek, w którym ta pomyłka idzie,
 bo on mówi, ile ona waży.
 
 Zawężanie liczby czytań ma tu właścicieli wyłożonych i jednego niewyłożonego.
-`admissible` w `olski/subset.py` odbiera czytanie, którego polszczyzna nie ma,
+`admissible` w `olski/segmentacja.py` odbiera czytanie, którego polszczyzna nie ma,
 warunek na [zaimek rzeczowny](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
 odbiera grupie imiennej drugie czytanie tego samego kształtu,
 a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.

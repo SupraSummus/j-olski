@@ -702,7 +702,7 @@ Bez tego warunku `Zabronione jest tworzenie opisów w 1 osobie.` dostaje gospoda
 po zdaniu `Wymaga się, aby opisy tworzone były w 3 osobie liczby pojedynczej`,
 choć fraza dochodzi w nim do `tworzenie opisów`.
 Lematów jest pięć, bo bierzemy listę, którą gramatyka ma dla orzecznika
-(`KOPULA` w `olski/subset.py`), zamiast pisać drugą o tym samym.
+(`KOPULA` w `olski/lematy.py`), zamiast pisać drugą o tym samym.
 Cenę całej listy wypisuje sonda niżej, a `być` odpowiada nad tym korpusem za nią całą;
 czy pozostałe cztery lematy do tego kryterium należą,
 pyta wpis w [`TODO.md`](../TODO.md).

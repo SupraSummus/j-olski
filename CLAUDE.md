@@ -772,7 +772,7 @@ a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
 
 **Blok wydruku stoi w dokumencie pod komendą, która go odtwarza.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
-wiersz dopisany w `explain` w `olski/subset.py`
+wiersz dopisany w `explain` w `olski/werdykt.py`
 albo pole dopisane w `Deklaracja` w `olski/parse.py` —
 i wtedy każdy taki blok bierze się ręką.
 Który to blok, mówi `tests/test_wydruki.py`:

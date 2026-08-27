@@ -11,7 +11,8 @@ pytest.importorskip("morfeusz2")
 
 from olski.morph import analyse
 from olski.projekt import WPISY, Wpis, ZłyWpis, czytania, odmiana
-from olski.subset import check, morphology
+from olski.segmentacja import morphology
+from olski.werdykt import check
 
 
 def formy(wpis):

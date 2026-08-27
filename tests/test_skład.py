@@ -35,8 +35,9 @@ from olski.skład.słownik import (
     potem,
     razem,
 )
-from olski.subset import WALENCJA, check
+from olski.subset import WALENCJA
 from olski.walencja import bierze_biernik
+from olski.werdykt import check
 
 
 def test_zgodność_jest_liczona_a_nie_żądana_od_autora():

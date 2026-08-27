@@ -79,7 +79,8 @@ from itertools import product
 from pathlib import Path
 
 from olski.morph import analyse
-from olski.subset import check, sentences
+from olski.segmentacja import sentences
+from olski.werdykt import check
 
 #: Ile zdań pokazać pod liczbą. Sama mediana nie mówi, które zdanie zatrzymuje
 #: Świgrę najdłużej, a zatrzymuje ją zdanie krótkie tak samo jak długie.

@@ -12,7 +12,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.znaczenia import CZĘŚĆ, CZĘŚĆ_WSPÓLNA, ROZŁĄCZNE, TE_SAME, WSZYSTKIE, odpowiedz, zestaw
-from olski.subset import check
+from olski.werdykt import check
 
 
 @pytest.mark.parametrize(

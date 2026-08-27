@@ -15,6 +15,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Var, Word, bierze, nt, unify, word
+from olski.lematy import KOPULA
 from olski.morph import VALUES, analyse, generuj
 from olski.parse import (
     MAX_READINGS,
@@ -25,15 +26,20 @@ from olski.parse import (
     las,
     parse,
 )
+from olski.segmentacja import (
+    admissible,
+    bez_licencji,
+    morphology,
+    na_czym_stanęło,
+    sentences,
+    wersalik,
+)
 from olski.subset import (
     BEZOSOBOWY,
     CZĄSTKI,
     CZĄSTKOWY,
     DEKLARACJA,
-    FRAGMENT,
     GRAMMAR,
-    KOPULA,
-    NIEDOMKNIĘTE,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
     PREDYKATYWY,
@@ -48,17 +54,8 @@ from olski.subset import (
     WALENCJA,
     WALENCJA_ZWROTNA,
     WTRĄCONY,
-    Domknięcie,
-    Podsumowanie,
-    admissible,
-    bez_licencji,
-    check,
-    morphology,
-    na_czym_stanęło,
-    sentences,
-    wersalik,
-    zatrzymania,
 )
+from olski.werdykt import FRAGMENT, NIEDOMKNIĘTE, Domknięcie, Podsumowanie, check, zatrzymania
 
 
 def verdict(text):
@@ -1194,7 +1191,7 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     assert struktura.nielicencjonowane == ()
     #  Zdanie to stoi w README jako przykład odrzucenia, więc jego werdykt stoi
     #  tam wypisany co do znaku. Czemu analiza staje na `ustawienia`, a nie na
-    #  niezgodnej parze, mówi `na_czym_stanęło` w `olski/subset.py`.
+    #  niezgodnej parze, mówi `na_czym_stanęło` w `olski/segmentacja.py`.
     assert struktura.explain() == "brak odczytania: analiza staje na „ustawienia”"
 
 

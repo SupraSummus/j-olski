@@ -260,7 +260,7 @@ so the subset excludes readings as well as constructions:
 an uninflected noun reading goes
 wherever the same form also reads as a function word —
 a preposition, a conjunction, a particle, an interjection.
-`admissible` in `olski/subset.py` is where that happens.
+`admissible` in `olski/segmentacja.py` is where that happens.
 
 One exception runs the other way.
 `PO`, `AA` and `UP` are organizations whose letters spell function words,
@@ -361,7 +361,7 @@ bo `valid` czytelnik przyjmuje bez sprawdzania.
 
 Warunek stoi przez to w warstwie morfologicznej i przed rozbiorem,
 a nie na terminalu zaimka;
-pyta on graf segmentacji, a jak, mówi `po_przyimku` w `olski/subset.py`.
+pyta on graf segmentacji, a jak, mówi `po_przyimku` w `olski/segmentacja.py`.
 
 Licencji udziela sam przyimek tej gramatyki,
 więc wykluczenie rozdzielającego `a` stoi i tutaj, nie tylko na terminalu
@@ -449,7 +449,7 @@ Olski daje więc takiej formie jedną krawędź i jedno czytanie nieodmienne.
 Rzeczownikiem nieodmiennym taka forma jest w polszczyźnie naprawdę,
 a jedno czytanie znaczy, że nie ona daje zdaniu drugie.
 
-Wzorzec, który to rozpoznaje, stoi w `NOTACJA` w `olski/subset.py`,
+Wzorzec, który to rozpoznaje, stoi w `NOTACJA` w `olski/segmentacja.py`,
 a tu stoi to, przed czym każde jego żądanie broni,
 bo z samego wzorca tego nie widać.
 `np.` i `r.` mają kropkę i nie są notacją,
@@ -590,7 +590,7 @@ ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
 Ta połowa klasy zostaje przez to poza tym plikiem, a ruch trzyma [TODO.md](../TODO.md).
 
-Czyta ten leksykon cała analiza: `morphology` w `olski/subset.py`,
+Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,
 czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
 oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
@@ -1015,7 +1015,7 @@ bo taki napis bank drzew pisze:
 oraz `żeby chór nie tylko istniał, ale się rozwijał`.
 Warunek stoi w warstwie morfologicznej, tam gdzie warunek na formę przyimkową
 zaimka ([wyżej](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
-i pyta o to samo: `po_słowie` w `olski/subset.py` zdejmuje cząstce odczytanie tam,
+i pyta o to samo: `po_słowie` w `olski/segmentacja.py` zdejmuje cząstce odczytanie tam,
 gdzie w węźle otwierającym jej krawędź nie kończy się krawędź z odczytaniem,
 które znakiem nie jest.
 Werdykt nazywa wtedy formę bez licencji, a nie strukturę, której zdaniu brakuje,
@@ -1039,7 +1039,7 @@ bo cząstkę polszczyzna stawia przy czasowniku dowolnym: `myśli się`, `pije s
 Kopula wchodzi tamtędy razem z nimi, a `być się` czasownikiem nie jest,
 więc bez odmowy wyprowadza się `Cena się jest niska.`
 Odmowa stoi przy tej klasie i wymienia lematy kopuli
-(`KOPULA` w `olski/subset.py`);
+(`KOPULA` w `olski/lematy.py`);
 jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost.
 Lematu `zostać` nie tyka, bo leksykon zwrotny go wymienia,
 a klasa domyślna po lemat wymieniony nie sięga.

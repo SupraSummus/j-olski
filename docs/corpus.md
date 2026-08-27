@@ -173,7 +173,7 @@ The sentence that ran to its own end with nothing deriving the whole of it
 has a row of its own, and that row is no token's part of speech.
 The analysis took every form the sentence has and closed nothing over them,
 so there is no stopping form to name
-(`na_czym_stanęło` in `olski/subset.py` is the criterion,
+(`na_czym_stanęło` in `olski/segmentacja.py` is the criterion,
 and a verdict over a single sentence says the same thing in a second sentence).
 The row stands among the first few under either morphology,
 and reading it needs the sentences rather than the row.
@@ -189,7 +189,7 @@ and promise a construction the grammar already has.
 A form an exclusion emptied of every reading has a third row of its own,
 because the analysis stopped on it and not on the sentence's own end,
 which is the distinction a verdict over one sentence draws
-by naming the form (`bez_licencji` in `olski/subset.py`).
+by naming the form (`bez_licencji` in `olski/segmentacja.py`).
 The treebank raises none: an exclusion empties a form
 where a pronoun's post-prepositional form stands without a preposition
 ([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą))

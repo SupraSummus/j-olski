@@ -40,7 +40,8 @@ from olski.corpus import Sentence, read
 from olski.coverage import Outcome, po_kawałkach
 from olski.grammar import Grammar, Production, Sym, Var, nt
 from olski.parse import parse
-from olski.subset import BEZ_CZOŁA, build, check
+from olski.subset import BEZ_CZOŁA, build
+from olski.werdykt import check
 
 #: Cecha niosąca przypadek luki, czyli to, czego temu konstytuentowi w środku
 #: brakuje. ``brak`` stoi wypisany, a nie pominięty: cechy, której konstytuent

@@ -19,7 +19,8 @@ pytest.importorskip("morfeusz2")
 
 from harness.polszczyzna import GRAMATYKA
 from harness.wiezy import rozbierz
-from olski.subset import check, morphology
+from olski.segmentacja import morphology
+from olski.werdykt import check
 
 #: Zdania, nad którymi oba podłoża zgadzają się co do werdyktu, po jednym na
 #: konstrukcję, która to porównanie kiedykolwiek rozstrzygnęła: orzecznik w

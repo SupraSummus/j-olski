@@ -424,7 +424,7 @@ zmianą danych i jednego wymiaru klucza, a nie zmianą ani jednej produkcji.
 
 Morfeusz daje formie czytania, których czytelnik nie ma,
 a każde takie czytanie jest dla olskiego drugim czytaniem całego zdania.
-`admissible` w `olski/subset.py` wyklucza dziś jedną ich klasę,
+`admissible` w `olski/segmentacja.py` wyklucza dziś jedną ich klasę,
 czytanie nieodmienne stojące obok wyrazu funkcyjnego,
 i [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)
 mówi, czemu akurat te dwa warunki naraz.

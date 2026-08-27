@@ -918,7 +918,7 @@ co po drodze odpadło, a powód powstaje tam, gdzie kandydat odpada:
 zgłoszeniem, gdy brakuje kategorii, komunikatem morfologii, gdy brakuje formy,
 odmową ramy, gdy leksykon nie daje czasownikowi pozycji, którą kandydat zajął,
 i napisem, który wyszedł, gdy wyszedł inny.
-Pyta o to samo, co `explain` w `olski/subset.py` po tamtej stronie,
+Pyta o to samo, co `explain` w `olski/werdykt.py` po tamtej stronie,
 i jest potrzebne z tego samego powodu:
 lista wylicza przyczyny, a nie mówi, na którą trafiło to jedno zdanie.
 Rozdziela ona przy tym dwie pustki, których nazwać inaczej nie ma czym,
@@ -1264,7 +1264,7 @@ Identyfikatora nie potrzebuje tam nic:
 `Rosół ma oka.` i `Bazyliszek ma oczy.` wyprowadzają się po jednym czytaniu,
 a reguły o zbiorowość nie pytają.
 Leksem wpuszczony do czytania sięgnąłby za to każdego szukania po lemacie,
-czyli leksykonu walencyjnego i `KOPULA` w `olski/subset.py`,
+czyli leksykonu walencyjnego i `KOPULA` w `olski/lematy.py`,
 i każde z nich musiałoby powiedzieć, którą połowę identyfikatora dopasowuje.
 Wchodzi on tam wtedy, gdy będzie reguła, która tożsamości leksemu zażąda.
 Kryterium, które po tamtej stronie już stoi, jest innego rodzaju i nie zastępuje tego:
