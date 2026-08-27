@@ -240,6 +240,10 @@ def _po_liściach(liście, zamiast=None):
         "Projekt jest dla przyjemności.",
         #  Zdanie względne, żeby żądanie cech schodziło głębiej niż o jedną córkę.
         "Program zapisuje ustawienia, które sprawdza linter.",
+        #  Najkrótszy kształt wychodzący z dwóch ciał naraz, zaimkowego i
+        #  rzeczownikowego, więc liść niesie odczytania obu
+        #  (`Las._wsparte_kształtu` w olski/parse.py): tu ta suma może wyjść za szeroko.
+        "Znam go.",
     ],
 )
 def test_liść_wyliczonego_drzewa_niesie_odczytania_licencjonujące_jego_pozycję(zdanie: str):

@@ -891,9 +891,10 @@ class Las:
         #: kombinacji, której ona nie przepuszcza, nie ma tu wcale,
         #: więc każda gałąź kończy się czytaniem.
         #: Produkcji jest tu kilka, bo dwie o jednym ciele są jednym kształtem,
-        #: a wypuszczać mogą różne cechy,
+        #: a różnić je może i terminal, i wypuszczane cechy (:meth:`wyprowadzenia`),
         #: i wyliczenie drzewa wybiera stąd tę, która wypuszcza żądane
         #: (:meth:`_drzewa`).
+        #: Odczytania form czyta za to z każdej z nich (:meth:`_wsparte_kształtu`).
         self._krawędzie: dict[tuple[Pozycja, Klasa], dict[tuple, tuple[Production, ...]]] = {}
         self._czynne: set[Pozycja] = set()
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
@@ -903,9 +904,11 @@ class Las:
         #: domyka się od tego miejsca. Pyta o to raz na odczytanie liścia
         #: (:meth:`_wsparte`), a pary powtarzają się między odczytaniami.
         self._domknięcia: dict[tuple, bool] = {}
-        #: (produkcja, kombinacja, cechy dozwolone) → czym każda córka w tym ciele
-        #: być może (:meth:`_wsparte`).
-        self._wsparcia: dict[tuple, tuple[frozenset, ...]] = {}
+        #: (produkcje, kombinacja, cechy dozwolone) → czym każda córka w tym
+        #: kształcie być może (:meth:`_wsparte_kształtu`). Ciało pojedyncze drugiego
+        #: takiego słownika nie ma: pyta o nie sama ta suma, więc jego klucz nie
+        #: powtórzyłby się nigdy.
+        self._wsparcia_kształtów: dict[tuple, tuple[frozenset, ...]] = {}
         #: (para, etykieta, symbole mijane) → rozpiętości,
         #: jakie pierwszy węzeł tej etykiety pod nią bierze.
         self._pierwsze_role: dict[
@@ -944,8 +947,10 @@ class Las:
 
         Kluczem jest ciało, a nie produkcja,
         bo o kształcie rozstrzygają etykiety i rozpiętości córek.
-        Dwie produkcje o jednym ciele dają jedno czytanie i wchodzą tu razem;
-        różni je dopiero to, co wypuszczają.
+        Dwie produkcje o jednym ciele dają jedno czytanie i wchodzą tu razem,
+        choćby brały co innego: nad jedną formą ``NPConjunct`` z rzeczownika i
+        ``NPConjunct`` z zaimka są jednym ciałem, bo liść jest swoją rozpiętością.
+        Odczytania obu niesie potem liść (:meth:`Las._wsparte_kształtu`).
 
         Pytana o pozycję, której tablica nie domknęła, oddaje pusty słownik,
         więc jest to zarazem sposób zapytania lasu, czy taki konstytuent w ogóle powstał.
@@ -1282,15 +1287,17 @@ class Las:
 
         ``dozwolone`` są cechy, jakie ten kształt wolno tu wypuścić, czyli zwykle
         cała klasa, i idą osobno od żądanych, bo osobno od kształtu liczą się
-        odczytania form pod nim (:meth:`_wsparte`).
+        odczytania form pod nim (:meth:`_wsparte_kształtu`).
         """
         for kombinacja, produkcje in self._krawędzie[(pozycja, klasa)].items():
+            wsparte = self._wsparte_kształtu(produkcje, kombinacja, dozwolone)
             for production in produkcje:
-                wybory = self._wybory_ciała(production, kombinacja, wymagane, dozwolone)
+                wybory = self._wybory_ciała(production, kombinacja, wymagane)
                 if wybory is None:
                     continue
-                wsparte = self._wsparte(production, kombinacja, dozwolone)
-                yield from self._z_córek(pozycja, production, kombinacja, wybory, wsparte, ())
+                yield from self._z_córek(
+                    pozycja, production, kombinacja, _z_odczytaniami(wybory, wsparte), wsparte, ()
+                )
                 break
             else:
                 raise AssertionError(
@@ -1337,7 +1344,7 @@ class Las:
             )
 
     def _wybory_ciała(
-        self, production: Production, kombinacja: tuple, wymagane: Cechy, dozwolone: Klasa
+        self, production: Production, kombinacja: tuple, wymagane: Cechy
     ) -> tuple[Wybór, ...] | None:
         """Czym jest każda córka w ciele, które wypuszcza te cechy; ``None``, gdy w żadnym.
 
@@ -1347,30 +1354,58 @@ class Las:
         zawęża odczytania rzeczownika, który się z nim zgadza,
         i zawęża cechy, jakie ciało wypuszcza w górę.
 
-        Liść wychodzi stąd z każdym odczytaniem, którym forma może w tym ciele
-        stać (:meth:`_wsparte`), a nie z tym jednym, na które trafił wybór;
-        kształtu to nie rusza, bo o nim rozstrzyga sam wybór.
+        Wybór mówi o kształcie i tylko o nim.
+        Odczytań forma stąd nie dostaje: dokłada je :func:`_z_odczytaniami`
+        w :meth:`_drzewa`, bo nie liczy ich ani ten wybór, ani samo to ciało
+        (:meth:`_wsparte_kształtu`).
         """
-        klucz = (production, kombinacja, wymagane, dozwolone)
+        klucz = (production, kombinacja, wymagane)
         if klucz not in self._wybory_ciał:
-            wybory = self._wybierz(production, kombinacja, wymagane, 0, frozenset({EMPTY}))
-            self._wybory_ciał[klucz] = (
-                None
-                if wybory is None
-                else _z_odczytaniami(
-                    wybory, self._wsparte(production, kombinacja, dozwolone)
-                )
+            self._wybory_ciał[klucz] = self._wybierz(
+                production, kombinacja, wymagane, 0, frozenset({EMPTY})
             )
         return self._wybory_ciał[klucz]
+
+    def _wsparte_kształtu(
+        self, produkcje: tuple[Production, ...], kombinacja: tuple, dozwolone: Klasa
+    ) -> tuple[frozenset, ...]:
+        """Czym każda córka być może w tym kształcie: suma po ciałach, które go budują.
+
+        Odczytaniem jest kształt (:meth:`Node.signature`), a jeden kształt buduje
+        w tej gramatyce kilka ciał, więc forma stoi tu każdym odczytaniem, które
+        licencjonuje ją w którymkolwiek z nich.
+        Ciało wybrane, pytane samo, odpowiada tylko za swoje odczytania:
+        ``NPConjunct`` robi grupę imienną z jednej formy trzema ciałami —
+        rzeczownikowym, odsłownikowym i zaimkowym — więc bez sumy pod
+        dopełnieniem `Znam to polecenie.` wychodzi sam odsłownik `polecieć`,
+        a rzeczownik `polecenie` nie wychodzi wcale.
+
+        Zawężenia to nie luzuje: ``dozwolone`` jest tu tym samym, czym w
+        :meth:`_wsparte`, więc ciało, które przy tych cechach się nie domyka, nie
+        dokłada ani jednego odczytania.
+        Że suma nie sięga dalej niż kształt, sprawdza ``tests/test_subset.py``,
+        zawężając zdanie do odczytań, które liście niosą.
+
+        Zapamiętana, bo pyta o nią każde drzewo tej pozycji, czyli nad zdaniem
+        wieloznacznym tyle razy, ile ono ma odczytań.
+        """
+        klucz = (produkcje, kombinacja, dozwolone)
+        gotowe = self._wsparcia_kształtów.get(klucz)
+        if gotowe is None:
+            wsparcia = [
+                self._wsparte(production, kombinacja, dozwolone) for production in produkcje
+            ]
+            gotowe = tuple(
+                frozenset().union(*(wsparte[miejsce] for wsparte in wsparcia))
+                for miejsce in range(len(kombinacja))
+            )
+            self._wsparcia_kształtów[klucz] = gotowe
+        return gotowe
 
     def _wsparte(
         self, production: Production, kombinacja: tuple, dozwolone: Klasa
     ) -> tuple[frozenset, ...]:
         """Czym każda córka w tym ciele być może: wpis na córkę, w porządku ciała.
-
-        Zapamiętane, bo pytają o to dwa miejsca — wybory ciała i zejście do
-        córki — a wchodzi się w jedno ciało raz na drzewo rodzica, czyli nad
-        zdaniem wieloznacznym tyle razy, ile ono ma odczytań.
 
         Liść dostaje zbiór odczytań formy, a konstytuent zbiór cech, jakie
         wypuszcza, czyli to samo, czym jedno i drugie wchodzi do wyboru
@@ -1386,10 +1421,6 @@ class Las:
         kształt wypuszcza każde cechy swojej klasy, więc jedne z nich wybrane
         (:func:`_jedne`) odsiałyby odczytania, którymi forma w tym kształcie stoi.
         """
-        klucz = (production, kombinacja, dozwolone)
-        gotowe = self._wsparcia.get(klucz)
-        if gotowe is not None:
-            return gotowe
         córki = [
             (production.body[miejsce], dziecko, sorted(klasa, key=_klucz_cech) if klasa else ())
             for miejsce, (dziecko, klasa) in enumerate(kombinacja)
@@ -1408,8 +1439,7 @@ class Las:
                     ):
                         zebrane.add(wartość)
             wynik.append(frozenset(zebrane))
-        self._wsparcia[klucz] = tuple(wynik)
-        return self._wsparcia[klucz]
+        return tuple(wynik)
 
     def _domyka(
         self,

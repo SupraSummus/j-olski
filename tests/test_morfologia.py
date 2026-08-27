@@ -60,6 +60,25 @@ def test_forma_pod_orzeczeniem_nie_niesie_odczytań_rzeczownikowych():
     assert wiersz(tabela, "lubi") == ("lubić fin:sg:ter:imperf",)
 
 
+def test_wykaz_zbiera_odczytania_ze_wszystkich_ciał_jednego_kształtu():
+    """Kształt wychodzący z dwóch ciał niesie odczytania obu, a nie ciała wybranego.
+
+    `polecenie` jest u Morfeusza rzeczownikiem i odsłownikiem dwóch czasowników,
+    a grupę imienną z jednej formy robi w tej gramatyce osobne ciało dla każdej z
+    tych części mowy. Bez sumy po ciałach wykaz pokazuje stąd sam odsłownik
+    `polecieć`, czyli czasownik, którego w tym zdaniu nie ma, a rzeczownik
+    przemilcza (`Las._wsparte_kształtu` w olski/parse.py). Klasa nie jest rzadka:
+    stoi w niej słownictwo, którym ten rejestr mówi o sobie samym
+    (docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
+    """
+    [tabela] = werdykt("Znam to polecenie.").morfologia
+    assert wiersz(tabela, "polecenie") == (
+        "polecieć ger:sg:nom.acc:n:perf:aff",
+        "polecić ger:sg:nom.acc:n:perf:aff",
+        "polecenie subst:sg:nom.acc.voc:n:ncol",
+    )
+
+
 def test_forma_czytana_jednym_sposobem_nie_dostaje_wiersza():
     """Wiersz o niej powtarzałby zdanie, w którym ta forma i tak stoi."""
     [tabela] = werdykt("Zapisz plik konfiguracyjny.").morfologia
