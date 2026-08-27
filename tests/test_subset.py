@@ -1035,6 +1035,41 @@ def test_koordynacja_przecinkiem_żąda_zgodności_tak_samo_jak_spójnik():
     assert verdict("Pliki są nowe, duży.").status == "rejected"
 
 
+def test_ciąg_przydawki_zgadza_się_z_rzeczownikiem_każdym_członem():
+    #  Usterka, przed którą to stoi: ogon ciągu dopisany bez cech zgodności,
+    #  czyli produkcja, która wygląda jak koordynacja imienna, a wpuszcza pod
+    #  jeden rzeczownik przymiotniki uzgodnione z niczym.
+    assert verdict("Nowy i tani parser zapisuje ustawienia.").status == "valid"
+    assert verdict("Nowy i tania parser zapisuje ustawienia.").status == "rejected"
+
+
+def test_ciąg_przydawki_o_trzech_członach_wyprowadza_się_raz():
+    #  Usterka, przed którą to stoi: przydawka koordynowana produkcją stojącą
+    #  nad samą sobą, bez pary symboli. Zdanie wychodzi wtedy przyjęte tak samo,
+    #  a czytań ma tyle, ile ten ciąg dopuszcza nawiasowań, więc widać ją po
+    #  jednoznaczności, a nie po tym, czy zdanie się wyprowadza.
+    found = verdict("Nowy, tani i szybki parser zapisuje ustawienia.")
+    assert found.status == "valid", found.explain()
+
+
+def test_ciąg_rozdzielny_stoi_za_rzeczownikiem_i_nie_stoi_przed_nim():
+    #  Usterka, przed którą to stoi: ciało rozdzielne wpuszczone w oba szyki
+    #  przydawki, czyli czytanie, w którym `Trzecia i czwarta` są dwiema
+    #  warstwami stojącymi przed swoim rzeczownikiem, a polszczyzna go nie ma.
+    #  Zdania to nie odrzuca, bo wyprowadza się ono ciągiem imiennym, więc bez
+    #  cechy zatrzymującej ten szyk wychodzi ono wieloznaczne.
+    assert verdict("Warstwy trzecia i czwarta pracują.").status == "valid"
+    assert verdict("Trzecia i czwarta warstwy pracują.").status == "valid"
+
+
+def test_ciąg_zgodny_nie_bierze_ogona_rozdzielnego():
+    #  Usterka, przed którą to stoi: ogon ciągu zgodnego pytany o samą zgodność,
+    #  bez cechy, czyli czytanie, w którym pierwsza przydawka orzeka o wszystkich
+    #  warstwach, a dwie następne dzielą je między siebie. Zdanie zostaje przyjęte
+    #  ciągiem imiennym, więc usterkę widać po jednoznaczności.
+    assert verdict("Warstwy nowe i trzecia i czwarta pracują.").status == "valid"
+
+
 def test_grupa_liczebnikowa_zgadza_się_tym_czego_nie_ma_w_środku():
     #  Usterka, przed którą to stoi: liczba i rodzaj wypuszczone z liczebnika
     #  zmienną wspólną, tak jak wypuszcza je każda inna produkcja tej gramatyki.

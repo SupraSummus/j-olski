@@ -202,15 +202,20 @@ def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie)
     [
         ("Program, który zapisuje ustawienia, sprawdza tekst.", "RelativeClause"),
         ("Zapisz plik.", "w pozycji Verb"),
+        ("Nowy i tani parser zapisuje ustawienia.", "przydawka z"),
     ],
 )
 def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
-    """Dwa miejsca, w których pusta odpowiedź powstaje bez zgłoszenia po drodze.
+    """Trzy miejsca, w których pusta odpowiedź powstaje bez zgłoszenia po drodze.
 
     Zdanie względne jest ciałem produkcji, którego ten zapis nie czyta,
     a rozkaźnik nie ma lematu, którym ten zapis wypisuje czasownik,
     więc pierwsze wypada przy dopasowaniu ciała, a drugie na pustym iloczynie.
     Powód nazywa jedno i drugie, bo bez niego obie drogi wyglądają tak samo.
+
+    Trzecie stoi tam, gdzie ten zapis niesie mniej niż gramatyka:
+    ``Jaki`` trzyma jedną cechę, a ciąg współrzędny przydawki orzeka ich kilka,
+    więc czytanie wzięte z pierwszego członu wypisałoby się bez pozostałych.
     """
     odczyt = rozbierz(zdanie)
     assert any(powód in mówi for mówi in odczyt.powody), odczyt.powody

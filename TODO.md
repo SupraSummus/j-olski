@@ -1261,7 +1261,7 @@ tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
 więc po werdykcie nie widać jej wcale.
 Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
 w tym samym przypadku, i cena jest widoczna przed pomiarem:
-przecinek jest już znakiem koordynacji na trzech poziomach
+przecinek jest już znakiem koordynacji na czterech poziomach
 ([`docs/subset.md`](docs/subset.md#what-the-grammar-covers)),
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
 Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
@@ -1466,7 +1466,7 @@ czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
 Te dwie deklaracje rozeszły się na koordynacji przecinkiem
-— olski bierze przecinek na trzech poziomach, a sonda spójnik —
+— olski bierze przecinek na czterech poziomach, a sonda spójnik —
 i drugi raz na podrzędności, której sonda nie ma wcale,
 a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
 Trzecie rozejście widać i jest to grupa liczebnikowa:
@@ -2237,23 +2237,17 @@ Ruchem jest albo cudzysłów w tym zdaniu `docs/subset.md`, czyli poprawka w pro
 albo licencja dla wyrazu przytoczonego backtickami, czyli ta sama robota, którą
 trzyma wpis o angielskiej nazwie pisanej małą literą; drugie rozstrzyga o obu.
 
-Ciągu współrzędnego przymiotników przy rzeczowniku olski nie ma w żadnym z dwóch
-szyków przydawki: `Nowy i tani parser zapisuje ustawienia.` pada tak samo jak
-`Warstwy trzecia i czwarta pracują.`
-([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)).
-Koordynacja stoi na trzech poziomach — grupa imienna, grupa przymiotnikowa i zdanie
-([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)) —
-a przydawka nie jest żadnym z nich: ciała grupy imiennej biorą pojedynczy `Adjective`.
-Ruchem jest poziom członu pod przydawką, czyli para symboli taka, jaką grupa imienna
-ma dziś w `NP` i `NPConjunct`, bo `Adjective` jest już członem i produkcja nad samym
-sobą dałaby `a i b i c` dwa wyprowadzenia.
-Szyk drugi żąda ponadto liczby wypuszczanej wartością, a nie zmienną wspólną:
-`warstwy` jest mnogie, a `trzecia` pojedyncza, więc ciąg mówi o sobie `pl`,
-tak samo jak ciąg imienny i jak grupa liczebnikowa
-([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
-Do przeczytania jest, czy ciało rozdzielne wolno wpuścić w szyku pierwszym:
-`trzecia i czwarta warstwy` polszczyzną nie jest, więc pozycja przed rzeczownikiem
-żąda cechy, która je tam zatrzyma, albo pomiar powie, że nie warto.
+Ciąg rozdzielny przymiotników nie ma ciała przecinkowego, więc `Warstwy trzecia,
+czwarta i piąta pracują.` jest odrzucone, a `Warstwy trzecia i czwarta pracują.`
+wyprowadza się
+([`docs/subset.md`](docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)).
+choć polszczyzna trzeci człon pisze właśnie przecinkiem.
+Ruchem jest czwarte ciało tej rodziny, a przed nim pomiar:
+ciało rozdzielne ze spójnikiem kupuje nad Składnicą pojedyncze zdania,
+więc czwarte zaczyna od ceny, a zakup ma do policzenia.
+Do przeczytania jest cena trzech ciał, które przydawka już ma,
+bo przecinek koordynuje w tej gramatyce na czterech poziomach
+i cena czwartego stanie w zdaniach już przyjętych, a nie w liczbie ciał.
 
 Człon bez czasownika stoi tylko na końcu zdania składowego, więc `Skład, czyli
 Morfeusz, jest tani.` pada, gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
