@@ -88,6 +88,17 @@ def _zdanie(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> dict[str, Any]:
             for rozbieżność in verdict.rozbieżne
         ],
         "dalsze_zatrzymania": list(dalsze_zatrzymania(verdict)),
+        #  Czym formy stoją w każdym odczytaniu, wpis na wpis z ``czytania``
+        #  wyżej (``Verdict.morfologia`` w ``olski/werdykt.py``). Zdanie bez
+        #  odczytania dostaje jeden wpis i mówi w nim, co olski w formach czyta,
+        #  a rozstrzyga to werdykt, bo wydruk komendy pokazuje to samo.
+        "morfologia": [
+            [
+                {"forma": wiersz.forma, "odczytania": list(wiersz.odczytania)}
+                for wiersz in tabela
+            ]
+            for tabela in verdict.morfologia
+        ],
         "domysły": _domysły(verdict, sąsiedztwo),
     }
 

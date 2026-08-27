@@ -165,6 +165,60 @@ wraz z formami, na których leżą cięcia.
 Liczba cięć mówi, ile miejsc trzeba tknąć, i tyle ta flaga odpowiada.
 Wydruk stoi w [README](../README.md#co-działa) razem z zastrzeżeniem o cięciu.
 
+## Skąd bierze się odczytanie, którego autor nie widzi
+
+Werdykt nad zdaniem wieloznacznym nazywa role, w których odczytania się różnią,
+a nie mówi, czemu forma może w tej roli stanąć.
+`Janek lubi piwo.` dostaje dwa odczytania i w drugim `Janek` jest dopełnieniem,
+choć polszczyzna ma tam biernik `Janka`.
+Autor czyta wtedy własne zdanie jak pomyłkę parsera i nie ma czym jej sprawdzić.
+
+Odpowiada na to `--morfologia`, czyli wykaz form
+wraz z odczytaniami, którymi w tym odczytaniu zdania stać mogą:
+
+```sh
+python3 -m olski.check --readings --morfologia -c "Janek lubi piwo."
+```
+
+```text
+<text>: ambiguous Janek lubi piwo.
+                  2 odczytania, różne w Object, Subject
+                  - Subject: Janek, Object: piwo, Verb: lubi
+                  - Subject: piwo, Object: Janek, Verb: lubi
+                  odczytanie 1:
+                    „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f | Janek subst:sg:nom:m1
+                    „lubi”: lubić fin:sg:ter:imperf
+                  odczytanie 2:
+                    „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f
+                    „lubi”: lubić fin:sg:ter:imperf
+```
+
+Odpowiada odczytanie drugie, czyli to z dopełnieniem `Janek`:
+zostaje w nim jedno odczytanie tej formy i jest to rzeczownik żeński
+nieodmienny, czyli nazwisko, a nieodmienne niesie wszystkie przypadki naraz.
+Biernik jest wśród nich i innego biernika ta forma nie ma,
+więc dopełnieniem czyni `Janek` właśnie to jedno odczytanie.
+W odczytaniu pierwszym `Janek` jest podmiotem i stoi tam obok mianownika `m1`,
+bo podmiot bierze oba.
+
+Wykaz nie wypisuje przy tym odczytań, których to odczytanie zdania nie bierze:
+`lubi` ma tu samo `lubić`, choć Morfeusz czyta tę formę również
+jako rzeczownik i jako przymiotnik `luby`.
+Nie ma też wiersza o formie czytanej jednym sposobem —
+`piwo` i kropka — bo o niej wiersz nie mówiłby nic ponad zdanie samo.
+Zdanie odrzucone odczytania nie ma, więc odsiać go nie ma czym,
+i tam ten sam wykaz wypisuje każde odczytanie każdej formy.
+
+Odczytania nieodmiennego polszczyzna w tym zdaniu nie ma i nikt go nie zdejmuje:
+wykluczenie sięga odczytania nieodmiennego stojącego obok wyrazu funkcyjnego,
+a szersze zabrałoby `jury` i `menu`, czyli zwyczajne polskie słowa
+([subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)).
+Autorowi zostaje więc wymiana słowa, a nie przestawienie zdania:
+`Janek pije piwo.` jest wieloznaczne tak samo,
+a `Chłopiec lubi piwo.` ma jedno odczytanie.
+Wykaz mówi mu przy tym, którą formę wymienić,
+bo odczytanie z siedmioma przypadkami widać w nim po samym znaczniku.
+
 ## Kolejka czytana po formie mówi to, czego nie mówi po części mowy
 
 Kolejka blokerów grupuje zatrzymania po części mowy formy

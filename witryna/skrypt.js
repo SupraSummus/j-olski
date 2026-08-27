@@ -75,6 +75,30 @@ function podpisRozbieżności(konstytuent) {
   return `„${konstytuent}” czyta się tak:`;
 }
 
+//  Znak między dwoma odczytaniami jednej formy jest ten sam, którym składa ten
+//  wiersz `_morfologia` w `olski/check.py`, bo API oddaje pod tym kluczem same
+//  odczytania, a nie zdanie o nich.
+const MIĘDZY_ODCZYTANIAMI = " | ";
+
+//  Podpis nazywa dwie różne rzeczy: pod zdaniem z odczytaniem odczytania
+//  odsiane tym odczytaniem, a pod zdaniem bez niego wszystkie, jakie forma ma
+//  (`Verdict.morfologia` w `olski/werdykt.py`). Pyta więc o czytania zdania,
+//  a nie o długość samej listy wpisów.
+function podpisMorfologii(dane) {
+  if (!dane.czytania.length) return "lematy i znaczniki form";
+  return dane.czytania.length > 1
+    ? "czym formy stoją w każdym odczytaniu"
+    : "czym formy stoją w tym odczytaniu";
+}
+
+function podpisOdczytania(numer) {
+  return `odczytanie ${numer}:`;
+}
+
+function wierszMorfologii(wiersz) {
+  return `„${wiersz.forma}”: ${wiersz.odczytania.join(MIĘDZY_ODCZYTANIAMI)}`;
+}
+
 //  Streszczenie czytania jest listą streszczeń zdań składowych, po jednym na
 //  składowe (`describe` w `olski/parse.py`), więc każde stoi w osobnym wierszu
 //  jednej pozycji spisu: pozycji jest tyle, ile czytań.
@@ -111,6 +135,25 @@ function czytania(dane) {
     blok.append(spisCzytań(wpis.czytania));
     zwój.append(blok);
   }
+  return zwój;
+}
+
+//  Morfologię pokazujemy zwiniętą i za czytaniami, bo jest tym, z czego one
+//  wyszły: czytelnik otwiera ją wtedy, gdy odczytania w swoim zdaniu nie poznaje.
+//  Wpis odpowiada odczytaniu ze spisu wyżej, więc numerujemy tylko tam, gdzie
+//  jest co numerować.
+function morfologia(dane) {
+  const lista = dane.morfologia;
+  const zwój = element("details", "morfologia");
+  zwój.append(element("summary", null, podpisMorfologii(dane)));
+  lista.forEach((tabela, numer) => {
+    if (lista.length > 1) {
+      zwój.append(element("span", "podpis", podpisOdczytania(numer + 1)));
+    }
+    const spis = element("ol", "morfologia-lista");
+    tabela.forEach((wiersz) => spis.append(element("li", null, wierszMorfologii(wiersz))));
+    zwój.append(spis);
+  });
   return zwój;
 }
 
@@ -153,6 +196,13 @@ function tekstWerdyktu(dane) {
     wiersze.push(podpisRozbieżności(wpis.konstytuent));
     for (const streszczenie of wpis.czytania) wiersze.push(...wierszeCzytania(streszczenie, "  "));
   }
+  if (dane.morfologia.length) {
+    wiersze.push(podpisMorfologii(dane));
+    dane.morfologia.forEach((tabela, numer) => {
+      if (dane.morfologia.length > 1) wiersze.push(podpisOdczytania(numer + 1));
+      for (const wiersz of tabela) wiersze.push(wierszMorfologii(wiersz));
+    });
+  }
   for (const domysł of dane.domysły) {
     wiersze.push(`? ${podpisDomysłu(domysł)}: ${domysł.powód} (${domysł.świadek})`);
   }
@@ -190,6 +240,7 @@ function zdanie(dane) {
   }
   blok.append(wyjaśnienie);
   if (dane.czytania.length) blok.append(czytania(dane));
+  if (dane.morfologia.length) blok.append(morfologia(dane));
   if (dane.domysły.length) blok.append(domysły(dane.domysły));
   return blok;
 }

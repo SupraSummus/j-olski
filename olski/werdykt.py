@@ -1,11 +1,13 @@
 """Werdykt o zdaniu: status wraz z tym, co autor ma poprawić.
 
 Werdykt mówi o zdaniu więcej niż sam status, bo autor ma je poprawić.
-Zdanie o dwóch czytaniach nie jest olskie
+Zdanie o dwóch odczytaniach nie jest olskie
 (docs/subset.md#validity-is-uniqueness-not-just-derivability),
-a :meth:`Verdict.explain` pokazuje, gdzie te czytania się rozchodzą;
+a :meth:`Verdict.explain` pokazuje, gdzie te odczytania się rozchodzą;
 zdanie odrzucone dostaje miejsce, na którym rozbiór stanął,
 a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
+Skąd te odczytania się biorą, mówi ``Verdict.morfologia``:
+rozchodzą się w rolach, a zaczynają w lemacie i znaczniku formy.
 
 Kto pyta o cały tekst, dostaje :func:`check` i :class:`Podsumowanie`,
 czyli tyle werdyktów, ile zdań, oraz jedną odpowiedź policzoną z nich regułą.
@@ -18,7 +20,7 @@ a segmentację, po której werdykt pada, z ``olski/segmentacja.py``.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
 
 from olski.document import SENTENCE_CLOSE
@@ -28,14 +30,17 @@ from olski.lematy import (
     ZNAK_CUDZYSŁOWU_OTWIERAJĄCY,
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
 )
-from olski.morph import Segment
+from olski.morph import Reading, Segment
 from olski.parse import (
     PRZYŁĄCZONY_DO,
+    Node,
     Przyłączenie,
     Result,
     Rozbieżność,
+    liście,
     parse,
     streszczenia,
+    streszczone,
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło, sentences
 from olski.subset import DEKLARACJA, GRAMMAR, PRZYŁĄCZANY
@@ -194,15 +199,41 @@ class Verdict:
 
     @property
     def readings(self) -> list[dict[str, str]]:
-        """Streszczenia czytań, każde raz (:func:`streszczenia`).
+        """Streszczenia odczytań, każde raz (:func:`streszczenia`).
 
-        Lista jest po to, żeby pokazać różnicę między czytaniami,
+        Lista jest po to, żeby pokazać różnicę między odczytaniami,
         a różnicę spoza zasięgu streszczenia nazywa wiersz o konstytuencie
         (:func:`_rozbieżny`), więc powtórzony napis nie zostawia jej nienazwanej.
-        Liczbę czytań podaje las (:attr:`Result.ile`),
+        Liczbę odczytań podaje las (:attr:`Result.ile`),
         więc skrócenie tej listy jej nie rusza.
         """
         return streszczenia(self.result.readings, DEKLARACJA)
+
+    @property
+    def morfologia(self) -> list[tuple[OdczytaniaFormy, ...]]:
+        """Czym formy stoją w każdym odczytaniu: wpis na streszczenie z :attr:`readings`.
+
+        Po co ta odpowiedź autorowi, mówi
+        docs/pisanie-po-olsku.md#skąd-bierze-się-odczytanie-którego-autor-nie-widzi.
+
+        Wiersz dostaje forma czytana więcej niż jednym sposobem, a odczytania w
+        nim licencjonują ją w tym kształcie (:attr:`olski.parse.Leaf.odczytania`);
+        wiersze składa :func:`_pod_streszczeniem`, a nad streszczeniem, które
+        zbiera kilka kształtów, bierze odczytania z każdego z nich.
+        Wpisów jest tyle, ile streszczeń, więc nad zdaniem urwanym na
+        :data:`olski.parse.MAX_READINGS` mówią one o odczytaniach wypisanych.
+
+        Zdanie bez ani jednego odczytania dostaje jeden wpis, a w nim każde
+        odczytanie każdej formy (:func:`_morfologia_zdania`): odsiać ich nie ma
+        czym. Rozstrzyga się to tutaj, a nie w wydruku, bo wydruki są dwa
+        (``olski/check.py`` i ``witryna/werdykty.py``) i rozjechałyby się po cichu.
+        """
+        if self.result.rejected or not self.punktowane:
+            return [_morfologia_zdania(self.text)]
+        return [
+            _pod_streszczeniem(drzewa)
+            for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
+        ]
 
     @property
     def rozbieżne(self) -> list[Rozbieżność]:
@@ -326,6 +357,77 @@ def dalsze_zatrzymania(verdict: Verdict, grammar: Grammar | None = None) -> tupl
     if not verdict.punktowane or not verdict.result.rejected:
         return ()
     return zatrzymania(morphology(verdict.text), grammar)[1:]
+
+
+@dataclass(frozen=True)
+class OdczytaniaFormy:
+    """Forma zdania wraz z odczytaniami, którymi tam stać może, każde napisem.
+
+    Odczytanie jest napisem, a nie parą lematu i znacznika, bo oba wydruki
+    wypisują je razem, a rozdzielone kazałyby każdemu z nich składać ten napis
+    osobno.
+    """
+
+    forma: str
+    odczytania: tuple[str, ...]
+
+
+def _napisy(segment: Segment, odczytania: Iterable[Reading]) -> tuple[str, ...]:
+    """Te odczytania jako napisy, każdy raz i w kolejności odczytań segmentu.
+
+    Raz, bo lemat traci przy analizie indeks homonimu (:func:`olski.morph.analyse`),
+    więc `Zamek` wychodzi z Morfeusza dwoma odczytaniami o jednym lemacie i jednym
+    znaczniku, a wypisane oba czytają się jak pomyłka wydruku.
+
+    Kolejność jest kolejnością segmentu, bo odczytania przychodzą tu zbiorem,
+    z liści kilku drzew (:func:`_pod_streszczeniem`).
+    """
+    wybrane = set(odczytania)
+    napisy: list[str] = []
+    for czytanie in segment.readings:
+        napis = f"{czytanie.lemma} {czytanie.tag}"
+        if czytanie in wybrane and napis not in napisy:
+            napisy.append(napis)
+    return tuple(napisy)
+
+
+def _pod_streszczeniem(drzewa: Iterable[Node]) -> tuple[OdczytaniaFormy, ...]:
+    """Czym formy stoją pod tym streszczeniem: wiersz na formę, w porządku zdania.
+
+    Rozpiętość liścia jest kluczem, bo forma powtórzona w zdaniu stoi w dwóch
+    miejscach i każde bierze swoje odczytania: `koszt` przed dopełniaczem czyta
+    się inaczej niż `koszt` w dopełnieniu.
+    Zbiór wystarcza, bo kolejność wiersza bierze segment (:func:`_napisy`).
+    """
+    zebrane: dict[tuple[int, int], tuple[Segment, set[Reading]]] = {}
+    for drzewo in drzewa:
+        for liść in liście(drzewo):
+            _segment, odczytania = zebrane.setdefault(liść.span, (liść.segment, set()))
+            odczytania.update(liść.odczytania)
+    return tuple(
+        OdczytaniaFormy(segment.form, _napisy(segment, odczytania))
+        for _span, (segment, odczytania) in sorted(zebrane.items())
+        if len(segment.readings) > 1
+    )
+
+
+def _morfologia_zdania(zdanie: str) -> tuple[OdczytaniaFormy, ...]:
+    """Formy zdania wraz z każdym odczytaniem, jakie olski w nich czyta.
+
+    Odsiewu gramatyką nie ma: wchodzi tu i odczytanie, po które nie sięga żaden
+    terminal, a formę, której gramatyka nie bierze wcale, nazywa werdykt
+    (:attr:`Verdict.nielicencjonowane`).
+    Odczytania odsiane leksykalnie zdejmuje :func:`olski.segmentacja.morphology`,
+    więc wykaz jest tym, co weszło do rozbioru.
+
+    Segmentacja idzie tu drugi raz, bo werdykt segmentów nie niesie
+    (:func:`werdykt`), a forma dzielona przez Morfeusza jeszcze inaczej dostaje
+    tyle wierszy, ile podziałów ma w grafie (:attr:`Verdict.text`).
+    """
+    return tuple(
+        OdczytaniaFormy(segment.form, _napisy(segment, segment.readings))
+        for segment in morphology(zdanie)
+    )
 
 
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:

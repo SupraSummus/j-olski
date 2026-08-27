@@ -8,9 +8,20 @@ from collections.abc import Iterator, Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
-from olski.werdykt import Podsumowanie, Verdict, check, dalsze_zatrzymania
+from olski.werdykt import (
+    OdczytaniaFormy,
+    Podsumowanie,
+    Verdict,
+    check,
+    dalsze_zatrzymania,
+)
 
 STATUS_WIDTH = 9
+
+#: Znak, którym wiersz morfologii oddziela dwa odczytania jednej formy.
+#: Przecinka tu nie ma, bo przecinek jest formą i ma w tym wykazie własny
+#: wiersz, a średnikiem rozdziela werdykt własne człony.
+MIĘDZY_ODCZYTANIAMI = " | "
 
 #: Znak przed wierszem warstwy rozstrzygającej. Wiersz ten nie jest werdyktem
 #: i nie może się na werdykt czytać, bo werdykt mówi, co olski o zdaniu wie,
@@ -61,6 +72,28 @@ def _czytania(verdict: Verdict) -> Iterator[str]:
             yield from _czytanie(streszczenie, "  ")
 
 
+def _wiersz_formy(wiersz: OdczytaniaFormy, wcięcie: str) -> str:
+    return f"{wcięcie}„{wiersz.forma}”: {MIĘDZY_ODCZYTANIAMI.join(wiersz.odczytania)}"
+
+
+def _morfologia(verdict: Verdict) -> Iterator[str]:
+    """Wiersze, którymi ``--morfologia`` mówi, czym forma w odczytaniu stoi.
+
+    Odczytania są numerowane tak, jak je numeruje ``--readings``, bo obie flagi
+    biorą tę samą listę streszczeń (``Verdict.readings`` w ``olski/werdykt.py``).
+    Numeru nie ma tam, gdzie wpis jest jeden: nie ma go od czego odróżnić,
+    a nad zdaniem odrzuconym nie byłby numerem odczytania
+    (``Verdict.morfologia`` mówi, co taki wpis niesie).
+    """
+    tabele = verdict.morfologia
+    numerowane = len(tabele) > 1
+    for numer, tabela in enumerate(tabele, start=1):
+        if numerowane:
+            yield f"odczytanie {numer}:"
+        for wiersz in tabela:
+            yield _wiersz_formy(wiersz, "  " if numerowane else "")
+
+
 def _dalsze(verdict: Verdict) -> str:
     """Wiersz o zatrzymaniach poza pierwszym, które nazwał już werdykt.
 
@@ -90,6 +123,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--rozstrzygaj",
         action="store_true",
         help="obok werdyktu pokaż, co osobna warstwa mówi o przyłączeniach",
+    )
+    parser.add_argument(
+        "--morfologia",
+        action="store_true",
+        help="pokaż lemat i znacznik form, czyli czym stoją w odczytaniu",
     )
     parser.add_argument(
         "--zatrzymania",
@@ -133,6 +171,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"{wcięcie} {_dalsze(verdict)}")
             if args.readings:
                 for line in _czytania(verdict):
+                    print(f"{wcięcie} {line}")
+            #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
+            if args.morfologia:
+                for line in _morfologia(verdict):
                     print(f"{wcięcie} {line}")
             if świadkowie is not None:
                 for line in _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo):
