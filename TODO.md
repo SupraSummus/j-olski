@@ -774,6 +774,23 @@ Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
 więc funkcja na konstrukcję bierze je argumentami,
 a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
 
+Rodzina czoła stoi zadeklarowana w czterech miejscach i żadne nie pilnuje pozostałych.
+Pętla w `build` wylicza trójkę — rdzeń, modyfikator, czoła — a obok niej stoją
+dwa wpisy w `NIE_WYPUSZCZANE` (`{X}Core` i `{X}Modifier`, w obu trójkach te same
+cechy) oraz po jednym w `gospodarze` i w `podrzędne` w `DEKLARACJA`.
+Rodzin jest dziś trzy, bo doszła rzeczowna, i to dopisanie pokazało cenę kształtu:
+czwarta żąda czterech wpisów, a pominięty nie wywraca ani jednego testu —
+odbiera tylko wiersz werdyktu albo każe cesze kosztować rozbiór, po cichu
+([`CLAUDE.md`](CLAUDE.md#code) zabrania listy nazw obok gramatyki właśnie za to).
+Ruchem jest jedna deklaracja rodzin czytana przez wszystkie cztery miejsca,
+a przeszkodą jest kolejność: `NIE_WYPUSZCZANE` i `DEKLARACJA` są stałymi modułu,
+a trójka stoi wewnątrz `build`, więc deklaracja musi wyjść nad nie.
+Do rozstrzygnięcia jest, co taka deklaracja niesie poza trójką:
+rodzina rzeczowna ma dwa symbole opakowujące (`NominalRelativeClause` oraz
+`FreeRelativeClause`), a względna jeden, i to one, a nie rdzenie, stoją w `podrzędne`.
+Do przeczytania jest wpis wyżej o czterech miejscach jednej konstrukcji,
+bo pyta o to samo o szczebel niżej i jedna sesja rozstrzyga oba.
+
 `NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
 w górę, i żadnego z tych wpisów nie widać po werdykcie:
 gramatyka bez całej listy wydaje nad prozą tego repozytorium
@@ -1103,6 +1120,12 @@ Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
 a przy `int` wynik nie musi wypaść tak samo:
 pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
 gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic innego.
+Wpis waży więcej, odkąd `co` bierze poprzednik zdaniowy: cena tamtej pozycji
+stoi prawie cała na zdaniach z pytaniem zależnym, którym ono dokłada
+drugie czytanie
+([`docs/subset.md`](docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
+więc zawężenie `int` do leksykonu odbiera ją tym z nich,
+których czasownik pytania nie żąda.
 Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `olski/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
 Czym ten wariant zmierzyć, jest rozstrzygnięte:
@@ -1555,19 +1578,23 @@ etykieta jest konstytuentem nad czołem, a ciała zdania biorą ją nazwą symbo
 więc zdjęta zostawia rodzinę względną bez córki, a nie bez etykiety.
 Podać ją jest już czym (`Sonda.gramatyki`), więc zostaje napisanie tej gramatyki.
 
-Sonda luki domyka lukę w rodzinie względnej i nie domyka jej w pytaniu.
-`DOMYKA` w `harness/luka.py` wymienia `RelativeCore` i nic poza nim,
+Sonda luki zastępuje ciała jednej rodziny czoła z trzech.
+`ZASTĘPOWANE` w `harness/luka.py` wymienia `RelativeCore` i nic poza nim,
 a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
-także czoło pytania, więc wariant z luką zdejmuje ciała względne,
-a pytających nie zdejmuje, choć cecha przeciągana zastąpiłaby jedne i drugie.
+także czoło pytania oraz czoło rzeczowne, więc wariant z luką zdejmuje ciała
+względne z `który`, a pytających ani rzeczownych nie zdejmuje,
+choć cecha przeciągana zastąpiłaby wszystkie trzy.
+Rodzina rzeczowna stoi w `DOMYKA`, żeby luka nie wychodziła nad nią w górę,
+i tym różnią się te dwie stałe:
+pierwsza mówi, gdzie luka się wiąże, a druga, co sonda mierzy.
 Rodzina względna ma przy tym dwa czoła — sam zaimek i grupę, w której on stoi —
 a wariant z luką wiąże ją tylko zaimkiem, więc grupa wysunięta z niego wypada.
 Pomiar przez to zaniża i zakup, i cenę: zdanie `Które zadania wykonuje?`
 jest tam odrzucone tak samo jak bez luki
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
-Ruchem jest `InterrogativeCore` obok `RelativeCore` w tej stałej,
-a razem z nim `InterrogativeModifier` obok `RelativeModifier`
-w `_wysunięty_okolicznik` w tym samym pliku,
+Ruchem jest `InterrogativeCore` oraz `NominalRelativeCore` obok `RelativeCore`
+w `ZASTĘPOWANE`, a razem z nimi `InterrogativeModifier` i `NominalRelativeModifier`
+obok `RelativeModifier` w `_wysunięty_okolicznik` w tym samym pliku,
 bo pytanie ma dziś czoło przyimkowe tak samo jak zdanie względne
 i luki pod nim nie żąda z tego samego powodu.
 Przed jednym i drugim stoi rozstrzygnięcie, czym pytanie lukę wiąże:
@@ -2173,27 +2200,6 @@ poprzednika są tam jednym napisem.
 Do przeczytania jest, ile takich zdań ma bank drzew: bez tej liczby wpis jest samą
 ceną, a kształt do policzenia daje `FreeRelativeClause` w `olski/subset.py`.
 
-Zdanie względne odnoszące się do całego zdania przed nim nie ma pozycji,
-a zdanie z nim bywa mimo to przyjęte, i ta połowa wpisu jest gorsza.
-`Program zapisuje ustawienia, co przekreśla sens działań.` pada,
-bo `co` jest pojedyncze i nijakie, a `ustawienia` nie.
-Gdy rzeczownik przed przecinkiem tę parę cech ma,
-zaimek doczepia się do niego przydawką i całe zdanie podrzędne wpada w dopełnienie:
-`Sejm zaaprobował przekroczenie, co przekreśliło sens dalszych działań.`
-wychodzi `valid`
-([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
-Poprzednikiem jest tam zdanie, a nie rzeczownik, więc zgodność liczby i rodzaju
-nie ma z czym się zgadzać i pozycja nie jest przydawką:
-`dzięki czemu` oraz `po czym` są tym samym kształtem z przyimkiem przed zaimkiem
-i wychodzą tą samą drogą.
-Ruch jest przez to dwojaki: pozycja dla tego kształtu
-oraz odebranie zaimkowi `co` poprzednika rzeczownikowego,
-bo sama pozycja dokłada czytanie tam, gdzie dziś stoi nieprawdziwe,
-a werdykt pewny siebie i błędny waży więcej niż odrzucenie
-([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
-Ta proza tak nie pisze, a prasa pisze, więc ruch jest tu wart tyle, ile bank drzew,
-i tyle też trzeba przeczytać przed nim: te zdania Składnicy, które ten kształt niosą.
-
 Zaimek pytajny stoi tylko na czele swojego zdania, więc drugie pytanie w tym samym
 zdaniu nie ma pozycji: `Kto jest kim?` pada, a `Czym jest parser?` wyprowadza się
 ([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
@@ -2205,6 +2211,12 @@ bez niej `Parser zapisuje co.` wyprowadza się, a polszczyzną nie jest.
 Do przeczytania jest `BEZ_CZOŁA` w `olski/subset.py`, bo tą cechą gramatyka
 rozdziela dziś rolę wypełnioną czołem od wypełnionej na miejscu, i pytanie jest o to,
 czy druga wartość wystarczy, czy trzeba trzeciej.
+Wpis ma zdanie banku drzew, które ten brak odrzuca:
+`Kiedyś zapytałem kierowcę naszego gazika, kim właściwie jest mój przewodnik?`
+pada pod żywą morfologią, bo `co` nie bierze poprzednika rzeczownikowego
+([`docs/subset.md`](docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
+a pytanie zależne z orzecznikiem za przecinkiem jest jedyną rzeczą,
+której temu zdaniu brakuje.
 
 Pytanie zależne nie staje za dwukropkiem: `Tekst wie to: kto płaci.` pada, a
 `Tekst wie, kto płaci.` wyprowadza się

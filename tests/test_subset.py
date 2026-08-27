@@ -2387,13 +2387,19 @@ def test_wykluczenie_zaimka_pytajnego_nie_tyka_pozostałych_zaimków_rzeczownych
 
 
 def test_zaimek_pytajny_zastępuje_też_poprzednik():
-    #  Ta sama forma, którą zdanie pyta, stoi na czele zdania względnego, i jest to
-    #  ta sama pozycja co przy `który`, a nie druga. Bez tego ciała wykluczenie z
+    #  Ta sama forma, którą zdanie pyta, stoi na czele zdania względnego, a
+    #  poprzednikiem jest przy niej zaimek rzeczowny. Bez tego ciała wykluczenie z
     #  pozycji rzeczownej odbiera zdaniu względnemu z `co` każde czytanie, a ten
     #  rejestr pisze je częściej niż pytanie.
-    found = verdict("Sprawdzaj to, co mogło się zepsuć.")
+    #
+    #  Poprzednik stoi tu w podmiocie, bo za orzeczeniem to samo zdanie jest
+    #  wieloznaczne: `co` niesie tam także zdanie względne o poprzedniku zdaniowym,
+    #  i tę cenę trzyma test niżej razem z zakupem.
+    found = verdict("To, co mogło się zepsuć, jest tanie.")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Object": "to, co mogło się zepsuć", "Verb": "Sprawdzaj"}]
+    assert role(found) == [
+        {"Subject": "To, co mogło się zepsuć,", "Predicative": "tanie", "Verb": "jest"}
+    ]
 
 
 def test_zdanie_względne_bez_poprzednika_jest_podmiotem_a_nie_zdaniem_współrzędnym():
@@ -2410,6 +2416,50 @@ def test_zdanie_względne_bez_poprzednika_jest_podmiotem_a_nie_zdaniem_współrz
             "Verb": "nie przeczytał",
         }
     ]
+
+
+def test_poprzednikiem_zaimka_co_jest_zdanie_a_nie_rzeczownik_przed_przecinkiem():
+    #  Usterka, którą to łapie: jedno czoło na oba poprzedniki. Wygląda ona
+    #  poprawnie, bo zdanie dalej wychodzi `valid` z jednym czytaniem, a czytanie
+    #  jest inne, niż mówi zdanie: zaimek doczepia się przydawką do rzeczownika,
+    #  który parę cech ma przypadkiem, i całe zdanie podrzędne wpada w dopełnienie.
+    #  Nad Składnicą łapał to jeden wiersz `disagrees` i nic poza nim.
+    found = verdict("Sejm zaaprobował przekroczenie, co przekreśliło sens działań.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [
+        {"Subject": "Sejm", "Object": "przekroczenie", "Verb": "zaaprobował"}
+    ]
+
+    #  Poprzednika rzeczownikowego zaimek `który` ma dalej, i to on rozdziela te dwa
+    #  czoła: bez rozdzielenia oba zdania niżej wychodzą tym samym kształtem.
+    zgodny = verdict("Sejm zaaprobował przekroczenie, które przekreśliło sens działań.")
+    assert zgodny.status == "valid", zgodny.explain()
+    assert role(zgodny) == [
+        {
+            "Subject": "Sejm",
+            "Object": "przekroczenie, które przekreśliło sens działań",
+            "Verb": "zaaprobował",
+        }
+    ]
+
+
+def test_poprzednik_zdaniowy_bierze_zaimek_co_a_nie_kto():
+    #  Rodzaj zaimka jest tu całym kryterium: pozycja żąda poprzednika nijakiego, bo
+    #  tyle niesie `co`, a `kto` jest męskoosobowy. Cechy osobnej na to nie ma, więc
+    #  para zdań niżej jest jedynym miejscem, które ten wybór pilnuje.
+    #
+    #  Przyimek przed zaimkiem wchodzi przez czoło (`NominalRelativeModifier`), a nie
+    #  przez tę pozycję, i pierwsze zdanie jest tym, co to pokazuje.
+    found = verdict("Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"Object": "ostry zakręt", "Verb": "Bierzemy"}]
+
+    #  Para stoi w tej samej ramie i różni ją sam zaimek, więc mówi o rodzaju, a nie
+    #  o czymś innym w zdaniu. Pierwszy wiersz jest ujemny rozmyślnie: `co` daje temu
+    #  zdaniu dwa czytania szykiem wewnątrz zdania podrzędnego, czyli różnicą, o
+    #  której ten test nie orzeka.
+    assert verdict("Cena jest niska, co przekreśla sens działań.").status != "rejected"
+    assert verdict("Cena jest niska, kto przekreśla sens działań.").status == "rejected"
 
 
 def test_orzecznik_wysunięty_na_czoło_nie_wypełnia_szyku_zdania_oznajmującego():
@@ -2430,17 +2480,27 @@ def test_ciąg_pytań_zależnych_stoi_pod_jednym_czasownikiem():
     #  Czasownik bierze jedno wypełnienie, więc ciąg pytań zajmuje tę pozycję cały.
     #  Znakiem ciągu jest spójnik: przecinek w tym miejscu zamyka zdanie podrzędne,
     #  więc zdanie z przecinkiem samym nie jest ciągiem i nie ma czytania.
-    found = verdict("Drzewo mówi, co jest tematem, a co jest nowe.")
+    #
+    #  Członem jest tu `kto`, a nie `co`, i pilnuje tego sam wiersz z odrzuceniem:
+    #  `co` za zdaniem domkniętym niesie zdanie względne o poprzedniku zdaniowym
+    #  (`NominalRelativePronoun` w `olski/subset.py`), więc napis bez spójnika
+    #  wyprowadza się tamtędy i o ciągu nie mówi nic. `kto` jest męskoosobowe,
+    #  a tamta pozycja żąda poprzednika nijakiego, więc go nie bierze.
+    found = verdict("Drzewo mówi, kto jest tematem, a kto jest nowy.")
     assert found.status == "valid", found.explain()
     assert role(found) == [{"Subject": "Drzewo", "Verb": "mówi"}]
-    assert verdict("Drzewo mówi, co jest tematem, co jest nowe.").status == "rejected"
+    assert verdict("Drzewo mówi, kto jest tematem, kto jest nowy.").status == "rejected"
 
 
 def test_przecinek_za_pytaniem_zależnym_zamyka_je_i_nie_otwiera_ciągu():
     #  Zdanie nadrzędne biegnie dalej spójnikiem, a przecinek przed nim zamyka
     #  pytanie zależne (`_zamykane`). Ciało ciągu bierze ten sam spójnik, więc bez
     #  tej linii nie widać, że jeden napis nie dostał dwóch wyprowadzeń.
-    found = verdict("Drzewo mówi, co jest tematem, i liczy cenę.")
+    #
+    #  Pytaniem jest tu `kto`, a nie `co`, z tego samego powodu co w teście wyżej:
+    #  drugie wyprowadzenie dałoby temu napisowi zdanie względne o poprzedniku
+    #  zdaniowym, a nie ciało ciągu, czyli test mierzyłby nie to, co mówi.
+    found = verdict("Drzewo mówi, kto jest tematem, i liczy cenę.")
     assert found.status == "valid", found.explain()
     assert found.readings == [
         ({"Subject": "Drzewo", "Verb": "mówi"}, {"Object": "cenę", "Verb": "liczy"})

@@ -55,9 +55,15 @@ BRAK = frozenset({"brak"})
 #: Symbole, pod którymi luka staje, czyli te, które dostają produkcję pustą.
 #: Jest to cała decyzja tej sondy o tym, gdzie luki wolno szukać.
 PUSTE = ("Subject", "Object")
-#: Symbol, który lukę domyka, wiążąc ją ze swoim zaimkiem. Wyżej luka nie idzie,
+#: Symbole, które lukę domykają, wiążąc ją ze swoim zaimkiem. Wyżej luka nie idzie,
 #: i dlatego wyjęcie z wnętrza zdania względnego nie wyprowadza się wcale.
-DOMYKA = ("RelativeCore",)
+#: Rodzin względnych jest dwie, bo dwa poprzedniki biorą dwa czoła
+#: (``NominalRelativePronoun`` w ``olski/subset.py``), a domyka luki obie tak samo.
+DOMYKA = ("RelativeCore", "NominalRelativeCore")
+#: Rodzina, której ciała luka zastępuje, czyli zasięg tej sondy. Węższa od
+#: :data:`DOMYKA` i tym zaniża pomiar, bo zdanie z `co` na czole wychodzi w
+#: wariancie odrzucone tak samo jak bez luki; TODO.md trzyma ten brak.
+ZASTĘPOWANE = ("RelativeCore",)
 #: Symbol, pod którym luki stanąć nie wolno, bo jest korzeniem: zdanie z luką
 #: niedomkniętą zdaniem nie jest.
 KORZEŃ = "Sentence"
@@ -209,7 +215,7 @@ def gramatyka(wariant: str) -> Grammar:
         # Zdanie względne wypisane rolą po roli jest tym, co luka zastępuje, więc
         # z wariantu wychodzi. Zostaje ciało z wysuniętym wyrażeniem
         # przyimkowym, bo okolicznik jest wolny i luki nie potrzebuje.
-        if produkcja.head in DOMYKA and not _wysunięty_okolicznik(produkcja):
+        if produkcja.head in ZASTĘPOWANE and not _wysunięty_okolicznik(produkcja):
             continue
         wariantowa.dopisz(_przepisz(produkcja, None, unoszą))
         if produkcja.head not in unoszą:
