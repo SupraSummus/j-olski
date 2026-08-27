@@ -2229,6 +2229,25 @@ a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commic
 Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
 zmierzoną tak, jak mierzy się wpuszczenie pozycji.
 
+Wykaz morfologii sumuje odczytania po ciałach jednej klasy, a klasy sąsiedniej nie widzi.
+`Las._wsparte_kształtu` w `olski/parse.py` idzie po produkcjach spakowanych
+pod jedną parą pozycji i klasy cech, więc ciało, które ten sam kształt buduje,
+wypuszczając cechy z klasy obok, do sumy nie wchodzi.
+Widać to na lemacie, którego leksykon walencyjny nie zna:
+`Granicę pokazuje sama odpowiedź.` wypisuje `pokazywać`, a `pokazować` przemilcza,
+bo `olski/leksykon.txt` ma wpis tylko dla pierwszego,
+więc drugi bierze ramę domyślną i wychodzi inną klasą walencyjną.
+Nad zdaniami README trafia to na trzy formy — `pokazuje`, `staje`, `zeszła` —
+i na lematy, których ten rejestr nie używa: `pokazować`, `stajać`, `zniść`.
+Do przeczytania jest przedtem, czy klasa jest wyborem rodzica, czy tylko kanałem cech:
+suma sięgająca do klasy obok mówi, że forma stoi tu pod ramą,
+której rodzic nie wziął, a suma w obrębie klasy tego nie mówi.
+Wpis zamyka się też przez to, że tak zostaje, i wtedy powód idzie do
+`Las._wsparte_kształtu`, bo dziś stoi tam granica bez wywodu.
+Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
+zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
+puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
+
 ## Konstrukcje, których gramatyka nie ma
 
 Para myślników nie ma wyprowadzenia, a wtrącenie, którego żąda, stoi w środku zdania,
