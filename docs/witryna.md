@@ -82,6 +82,9 @@ a podpisy, przyciski, legenda statusów i nagłówki sekcji do strony.
 Wiersz o dalszym zatrzymaniu składają dwa miejsca w tym samym brzmieniu —
 komenda w `olski/check.py`, strona w `witryna/skrypt.js` —
 bo API oddaje pod tym kluczem same formy, a nie zdanie o nich.
+Tak samo składa się wiersz morfologii, i z tego samego powodu:
+pod tym kluczem idzie forma wraz ze swoimi odczytaniami,
+a nie gotowy wiersz o niej.
 
 Klucze JSON-a wybieramy sami, więc są po polsku.
 Po angielsku zostaje status w znaczku —
@@ -170,7 +173,7 @@ Suita pyta o niego jedno z zewnątrz: czy strona woła te adresy, które serwer 
 | `/makieta` | GET | tekst do makiety z drugiego toru, wraz z ziarnem |
 
 Werdykt niesie to, co drukuje `olski-check` z flagami:
-status, wyjaśnienie, czytania, dalsze zatrzymania
+status, wyjaśnienie, czytania, dalsze zatrzymania, morfologię form
 oraz to, co zgaduje warstwa rozstrzygająca.
 Domysł tej warstwy dostaje na stronie znak zapytania i osobny podpis,
 bo nie jest werdyktem
@@ -200,6 +203,22 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
    "urwane": false,
    "rozbieżne": [],
    "dalsze_zatrzymania": [],
+   "morfologia": [
+    [
+     {
+      "forma": "plik",
+      "odczytania": [
+       "plik subst:sg:nom.acc:m3"
+      ]
+     },
+     {
+      "forma": "konfiguracyjny",
+      "odczytania": [
+       "konfiguracyjny adj:sg:acc:m3:pos"
+      ]
+     }
+    ]
+   ],
    "domysły": []
   }
  ],
@@ -225,6 +244,15 @@ bo każde składowe obsadza role własnym materiałem.
 Pod `rozbieżne` idą konstytuenty, których wieloznaczność ta lista zostawia
 nienazwaną, wraz ze streszczeniami ich kształtów,
 a strona daje każdemu z nich własny spis pod tym samym zwojem.
+Pod `morfologia` idzie wpis na każde streszczenie z `czytania`,
+a w nim formy wraz z odczytaniami, którymi w tym odczytaniu zdania stać mogą:
+`lubi` pod orzeczeniem ma tam samo `lubić`, a nie wszystko, co Morfeusz w tej
+formie czyta (`Verdict.morfologia` w `olski/werdykt.py` mówi, po co ta odpowiedź jest).
+Zdanie bez odczytania dostaje pod tym kluczem jeden wpis
+i mówi w nim, co olski w formach czyta, bo odsiać tego nie ma czym.
+Komenda żąda na to flagi, a odpowiedź niesie to zawsze,
+bo strona zwija to do podpisu i rozwija jednym kliknięciem,
+czego wydruk w terminalu nie umie.
 Granicę znaków oddaje sama odpowiedź, bo licznik pod polem liczy przy niej,
 a wpisana w skrypcie byłaby drugą kopią liczby z serwera.
 

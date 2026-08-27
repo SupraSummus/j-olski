@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterable, Iterator, Mapping, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from itertools import islice, product
 
 from olski.grammar import (
@@ -99,16 +99,28 @@ class Pozycja:
 
 @dataclass(frozen=True)
 class Leaf:
-    """Forma pod terminalem i czytanie, którym go bierze."""
+    """Forma pod terminalem i czytania, którymi ją ten kształt bierze."""
 
     segment: Segment
-    #: Czytanie licencjonujące drzewo, w jakim ten liść stoi, a nie dowolne czytanie formy.
-    #: Licencjonujących bywa kilka i które z nich tu stoi, nie jest rozstrzygnięciem
-    #: gramatyki, a wyborem kolejności czytań z analizatora
-    #: (:meth:`Node.signature` mówi, dlaczego tak może być).
-    #: Kto pyta o lemat, tym wyborem wiązać się nie powinien:
-    #: ``olski/skład/rozbiór.py`` pyta o lemat krawędź grafu i mówi, po co.
-    reading: Reading
+    #: Odczytania licencjonujące ten liść w kształcie, w jakim stoi, a nie
+    #: dowolne odczytania formy: `lubi` pod orzeczeniem ma tu samo `lubić`, choć
+    #: Morfeusz czyta tę formę również jako rzeczownik i jako przymiotnik.
+    #: Jest ich kilka tam, gdzie kształtu nie rozstrzygają — `Janek` w podmiocie
+    #: stoi i jako `subst:sg:nom:m1`, i jako nazwisko nieodmienne —
+    #: i wtedy wybór między nimi nie należy do gramatyki
+    #: (:meth:`Node.signature` mówi, dlaczego odczytania kształt nie liczy).
+    #: Kolejność jest kolejnością odczytań w segmencie, żeby dwa przebiegi
+    #: wypisywały to samo.
+    odczytania: tuple[Reading, ...]
+
+    @property
+    def reading(self) -> Reading:
+        """Pierwsze z odczytań licencjonujących, dla tego, kto pyta o jedno.
+
+        Kto pyta o lemat, tym wyborem wiązać się nie powinien:
+        ``olski/skład/rozbiór.py`` pyta o lemat krawędź grafu i mówi, po co.
+        """
+        return self.odczytania[0]
 
     @property
     def span(self) -> tuple[int, int]:
@@ -782,13 +794,34 @@ def _klucz_cech(cechy: Cechy) -> list[tuple[str, list[str]]]:
 def _jedne(klasa: Klasa) -> Cechy:
     """Jedne cechy z tej klasy, do wyliczenia drzewa tam, gdzie cech nie żąda rodzic.
 
-    Klasa zbiera cechy, na jakie kształt przechodzi, a czytaniem jest kształt,
-    więc która z nich wychodzi na wierzch, żadnego czytania nie odróżnia:
+    Klasa zbiera cechy, na jakie kształt przechodzi, a odczytaniem jest kształt,
+    więc która z nich wychodzi na wierzch, żadnego odczytania nie odróżnia:
     ``dla przyjemności`` jest jedną grupą przyimkową w dwóch liczbach
     i drzewo pokazuje ją w jednej.
     Niżej w drzewie cech żąda rodzic, więc ten wybór pada raz na drzewo.
+    Odczytań formy pod tym drzewem nie rozstrzyga (:meth:`Las._wsparte`).
     """
     return min(klasa, key=_klucz_cech)
+
+
+def _z_odczytaniami(
+    wybory: tuple[Wybór, ...], wsparte: tuple[frozenset, ...]
+) -> tuple[Wybór, ...]:
+    """Te same wybory, a na liściach każde wsparte odczytanie, nie jedno.
+
+    Kolejność jest kolejnością odczytań segmentu, a nie zbioru wspartych:
+    zbiór wypisany po kolei różniłby się między przebiegami
+    (:meth:`_Tablica.ciała` mówi, czemu to psuje wydruk).
+    """
+    return tuple(
+        replace(
+            wybór,
+            odczytania=tuple(c for c in wybór.segment.readings if c in wsparte[miejsce]),
+        )
+        if isinstance(wybór, Leaf)
+        else wybór
+        for miejsce, wybór in enumerate(wybory)
+    )
 
 
 #: Rozpiętości ról jednego czytania: jedna pozycja na etykietę,
@@ -866,6 +899,13 @@ class Las:
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
         self._rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] | None = None
         self._prefiksy: dict[tuple, frozenset[Env]] = {}
+        #: (produkcja, kombinacja, cechy dozwolone, miejsce, środowisko) → czy ciało
+        #: domyka się od tego miejsca. Pyta o to raz na odczytanie liścia
+        #: (:meth:`_wsparte`), a pary powtarzają się między odczytaniami.
+        self._domknięcia: dict[tuple, bool] = {}
+        #: (produkcja, kombinacja, cechy dozwolone) → czym każda córka w tym ciele
+        #: być może (:meth:`_wsparte`).
+        self._wsparcia: dict[tuple, tuple[frozenset, ...]] = {}
         #: (para, etykieta, symbole mijane) → rozpiętości,
         #: jakie pierwszy węzeł tej etykiety pod nią bierze.
         self._pierwsze_role: dict[
@@ -1012,7 +1052,7 @@ class Las:
                     env,
                 )
                 if złożone is not None:
-                    yield numer, Leaf(segment, reading), złożone
+                    yield numer, Leaf(segment, (reading,)), złożone
             return
         for numer, wypuszczone in enumerate(cechy):
             złożone = unify(część.constraints, dict(wypuszczone), env)
@@ -1221,15 +1261,17 @@ class Las:
         żywe = self._żywe()
         for klasa in self.klasy(pozycja):
             if (pozycja, klasa) in żywe:
-                yield from self._drzewa(pozycja, klasa, _jedne(klasa))
+                yield from self._drzewa(pozycja, klasa, _jedne(klasa), klasa)
 
-    def _drzewa(self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy) -> Iterator[Node]:
+    def _drzewa(
+        self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy, dozwolone: Klasa
+    ) -> Iterator[Node]:
         """Drzewa tej pozycji, wypuszczające te cechy: po jednym na kształt pod tą klasą.
 
         Cechy przychodzą z góry, bo tylko rodzic wie, których żąda:
         klasa zbiera wszystkie, na jakie ten kształt przechodzi,
-        a ``szynki`` w pozycji dopełniacza przechodzi tam jednym czytaniem z dwóch.
-        Bez tego żądania drzewo pokazywałoby na liściu czytanie dowolne,
+        a ``szynki`` w pozycji dopełniacza przechodzi tam jednym odczytaniem z dwóch.
+        Bez tego żądania drzewo pokazywałoby na liściu odczytanie dowolne,
         więc i takie, którego pozycja nad nim nie licencjonuje.
 
         Drzew jest tyle, ile kształtów, niezależnie od żądanych cech:
@@ -1237,13 +1279,18 @@ class Las:
         bo klasą jest dokładnie zbiór cech tej kombinacji.
         Dwie produkcje o jednym ciele są jednym kształtem, więc wychodzi z nich jedno drzewo,
         i bierzemy tę, która żądane cechy wypuszcza.
+
+        ``dozwolone`` są cechy, jakie ten kształt wolno tu wypuścić, czyli zwykle
+        cała klasa, i idą osobno od żądanych, bo osobno od kształtu liczą się
+        odczytania form pod nim (:meth:`_wsparte`).
         """
         for kombinacja, produkcje in self._krawędzie[(pozycja, klasa)].items():
             for production in produkcje:
-                wybory = self._wybory_ciała(production, kombinacja, wymagane)
+                wybory = self._wybory_ciała(production, kombinacja, wymagane, dozwolone)
                 if wybory is None:
                     continue
-                yield from self._z_córek(pozycja, production, kombinacja, wybory, ())
+                wsparte = self._wsparte(production, kombinacja, dozwolone)
+                yield from self._z_córek(pozycja, production, kombinacja, wybory, wsparte, ())
                 break
             else:
                 raise AssertionError(
@@ -1257,6 +1304,7 @@ class Las:
         production: Production,
         kombinacja: tuple,
         wybory: tuple[Wybór, ...],
+        wsparte: tuple[frozenset, ...],
         zebrane: tuple,
     ) -> Iterator[Node]:
         """Drzewa, jakie z tych córek wychodzą, budowane od lewej i po jednym.
@@ -1278,27 +1326,122 @@ class Las:
         miejsce = len(zebrane)
         dziecko, córka = kombinacja[miejsce]
         wybór = wybory[miejsce]
-        córki = [wybór] if dziecko.liść else self._drzewa(dziecko, córka, wybór)
+        córki = (
+            [wybór]
+            if dziecko.liść
+            else self._drzewa(dziecko, córka, wybór, wsparte[miejsce])
+        )
         for drzewo in córki:
-            yield from self._z_córek(pozycja, production, kombinacja, wybory, (*zebrane, drzewo))
+            yield from self._z_córek(
+                pozycja, production, kombinacja, wybory, wsparte, (*zebrane, drzewo)
+            )
 
     def _wybory_ciała(
-        self, production: Production, kombinacja: tuple, wymagane: Cechy
+        self, production: Production, kombinacja: tuple, wymagane: Cechy, dozwolone: Klasa
     ) -> tuple[Wybór, ...] | None:
         """Czym jest każda córka w ciele, które wypuszcza te cechy; ``None``, gdy w żadnym.
 
         Wybór jest jeden na całe ciało, a nie jeden na córkę,
         bo córki wiąże unifikacja:
-        czytanie przymiotnika wybrane przy pierwszej z nich
-        zawęża czytania rzeczownika, który się z nim zgadza,
+        odczytanie przymiotnika wybrane przy pierwszej z nich
+        zawęża odczytania rzeczownika, który się z nim zgadza,
         i zawęża cechy, jakie ciało wypuszcza w górę.
+
+        Liść wychodzi stąd z każdym odczytaniem, którym forma może w tym ciele
+        stać (:meth:`_wsparte`), a nie z tym jednym, na które trafił wybór;
+        kształtu to nie rusza, bo o nim rozstrzyga sam wybór.
         """
-        klucz = (production, kombinacja, wymagane)
+        klucz = (production, kombinacja, wymagane, dozwolone)
         if klucz not in self._wybory_ciał:
-            self._wybory_ciał[klucz] = self._wybierz(
-                production, kombinacja, wymagane, 0, frozenset({EMPTY})
+            wybory = self._wybierz(production, kombinacja, wymagane, 0, frozenset({EMPTY}))
+            self._wybory_ciał[klucz] = (
+                None
+                if wybory is None
+                else _z_odczytaniami(
+                    wybory, self._wsparte(production, kombinacja, dozwolone)
+                )
             )
         return self._wybory_ciał[klucz]
+
+    def _wsparte(
+        self, production: Production, kombinacja: tuple, dozwolone: Klasa
+    ) -> tuple[frozenset, ...]:
+        """Czym każda córka w tym ciele być może: wpis na córkę, w porządku ciała.
+
+        Zapamiętane, bo pytają o to dwa miejsca — wybory ciała i zejście do
+        córki — a wchodzi się w jedno ciało raz na drzewo rodzica, czyli nad
+        zdaniem wieloznacznym tyle razy, ile ono ma odczytań.
+
+        Liść dostaje zbiór odczytań formy, a konstytuent zbiór cech, jakie
+        wypuszcza, czyli to samo, czym jedno i drugie wchodzi do wyboru
+        (:data:`Wybór`).
+
+        Wybór córki liczy się wtedy, gdy przechodzi przy którymś środowisku, do
+        jakiego ciało dochodzi z lewej, i gdy po nim ciało domyka się jeszcze
+        cechami dozwolonymi (:meth:`_domyka`).
+        Sprawdzane są wszystkie środowiska, do jakich ciało dochodzi, a nie te z
+        jednego przebytego ciała, bo odczytanie odsiane wyborem sąsiada
+        wyglądałoby jak odczytanie, którego gramatyka nie bierze.
+        Dozwolona jest przy tym cała klasa, a nie cechy żądane od drzewa:
+        kształt wypuszcza każde cechy swojej klasy, więc jedne z nich wybrane
+        (:func:`_jedne`) odsiałyby odczytania, którymi forma w tym kształcie stoi.
+        """
+        klucz = (production, kombinacja, dozwolone)
+        gotowe = self._wsparcia.get(klucz)
+        if gotowe is not None:
+            return gotowe
+        córki = [
+            (production.body[miejsce], dziecko, sorted(klasa, key=_klucz_cech) if klasa else ())
+            for miejsce, (dziecko, klasa) in enumerate(kombinacja)
+        ]
+        przed = [frozenset({EMPTY})]
+        for miejsce, (część, dziecko, cechy) in enumerate(córki):
+            przed.append(frozenset(self._dołóż(część, dziecko, cechy, przed[miejsce])))
+        wynik = []
+        for miejsce, (część, dziecko, cechy) in enumerate(córki):
+            zebrane = set()
+            for env in przed[miejsce]:
+                for _numer, wybór, złożone in self._sposoby(część, dziecko, cechy, env):
+                    wartość = wybór.reading if isinstance(wybór, Leaf) else wybór
+                    if wartość not in zebrane and self._domyka(
+                        production, kombinacja, dozwolone, miejsce + 1, złożone
+                    ):
+                        zebrane.add(wartość)
+            wynik.append(frozenset(zebrane))
+        self._wsparcia[klucz] = tuple(wynik)
+        return self._wsparcia[klucz]
+
+    def _domyka(
+        self,
+        production: Production,
+        kombinacja: tuple,
+        dozwolone: Klasa,
+        miejsce: int,
+        env: Env,
+    ) -> bool:
+        """Czy ciało domyka się od tego miejsca cechami dozwolonymi, z tego środowiska.
+
+        Pytanie jest o jedno środowisko, a nie o zbiór, i dlatego odpowiedź da
+        się zapamiętać: miejsc w ciele jest kilka, a środowisk tyle, ile
+        unifikacja przepuszcza, więc pytanie stawiane raz na odczytanie liścia
+        powtarza się nad tymi samymi parami.
+        """
+        klucz = (production, kombinacja, dozwolone, miejsce, env)
+        gotowe = self._domknięcia.get(klucz)
+        if gotowe is not None:
+            return gotowe
+        if miejsce == len(kombinacja):
+            odpowiedź = frozenset(features_of(production, env).items()) in dozwolone
+        else:
+            część = production.body[miejsce]
+            dziecko, klasa = kombinacja[miejsce]
+            cechy = sorted(klasa, key=_klucz_cech) if klasa else ()
+            odpowiedź = any(
+                self._domyka(production, kombinacja, dozwolone, miejsce + 1, złożone)
+                for _numer, _wybór, złożone in self._sposoby(część, dziecko, cechy, env)
+            )
+        self._domknięcia[klucz] = odpowiedź
+        return odpowiedź
 
     def _wybierz(
         self,
@@ -1852,7 +1995,7 @@ class Las:
         if gotowe is not None:
             return gotowe
         for klasa in self.klasy(pozycja):
-            for drzewo in self._drzewa(pozycja, klasa, _jedne(klasa)):
+            for drzewo in self._drzewa(pozycja, klasa, _jedne(klasa), klasa):
                 self._przedstawiciele[pozycja] = drzewo
                 return drzewo
         raise AssertionError(f"pozycja {pozycja} stoi w lesie bez ani jednego drzewa")
@@ -1877,6 +2020,19 @@ OBOK = " + "
 #: Wewnątrz konstytuentu gramatyka bierze jeden znak interpunkcyjny, przecinek
 #: koordynacji; kropkę niesie węzeł nad rolami i do streszczenia nie dochodzi.
 PRZYLEGAJĄCE = frozenset({","})
+
+
+def liście(drzewo: Tree) -> Iterator[Leaf]:
+    """Liście tego drzewa, w porządku zdania.
+
+    Pyta o nie werdykt, bo odczytania formy niesie liść
+    (:attr:`Leaf.odczytania`), a nie węzeł nad nim.
+    """
+    if isinstance(drzewo, Leaf):
+        yield drzewo
+        return
+    for dziecko in drzewo.children:
+        yield from liście(dziecko)
 
 
 def sklej_formy(formy: Iterable[str]) -> str:
@@ -1983,15 +2139,36 @@ def streszczenia(
 
     Dwa drzewa różne poza zasięgiem :func:`describe` wychodzą z niego jednym
     napisem, a napis wypisany drugi raz nie mówi nic ponad ten nad sobą.
-    Wołają to dwa miejsca — czytania zdania i kształty konstytuentu — i pierwsze
+    Wołają to dwa miejsca — odczytania zdania i kształty konstytuentu — i pierwsze
     z nich pokazuje, ile powtórzeń bywa: zdanie o siedmiu wyrażeniach
-    przyimkowych ma czytań ponad sto, a napisów różnych kilka.
+    przyimkowych ma odczytań ponad sto, a napisów różnych kilka.
     """
-    wynik: list[tuple[dict[str, str], ...]] = []
+    return [streszczenie for streszczenie, _drzewa in streszczone(drzewa, deklaracja)]
+
+
+def streszczone(
+    drzewa: Iterable[Node], deklaracja: Deklaracja
+) -> list[tuple[tuple[dict[str, str], ...], list[Node]]]:
+    """Te drzewa pogrupowane po streszczeniu, w kolejności pierwszego wystąpienia.
+
+    Odsiew ze :func:`streszczenia` jest tu jeden na oba pytania, bo werdykt pyta
+    o jedno i drugie: o same streszczenia i o to, czym forma stoi pod każdym z
+    nich (``Verdict.morfologia`` w ``olski/werdykt.py``). Napisany dwa razy
+    rozjechałby się po cichu i wtedy morfologia opisywałaby inne streszczenie
+    niż to, które nad nią wypisano.
+
+    Grupa ma pod sobą drzewa, a nie jedno z nich, bo streszczenie zbiera czasem
+    kilka kształtów, a odczytania formy nie muszą być w nich te same.
+    """
+    wynik: list[tuple[tuple[dict[str, str], ...], list[Node]]] = []
     for drzewo in drzewa:
         streszczenie = describe(drzewo, deklaracja)
-        if streszczenie not in wynik:
-            wynik.append(streszczenie)
+        for gotowe, pod_nim in wynik:
+            if gotowe == streszczenie:
+                pod_nim.append(drzewo)
+                break
+        else:
+            wynik.append((streszczenie, [drzewo]))
     return wynik
 
 

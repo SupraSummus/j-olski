@@ -260,12 +260,35 @@ kbd {
 
 .czytania { margin: 0.6rem 0 0; font-size: 0.9375rem; }
 
-.czytania summary {
+.czytania summary,
+.morfologia summary {
   font-family: var(--pismo);
   font-size: 0.8125rem;
   color: var(--przygasły);
   cursor: pointer;
 }
+
+/*  Wiersz morfologii niesie lemat i znacznik, czyli dane, a nie zdanie,
+    więc idzie maszyną tak samo jak wklejony wydruk komendy. */
+.morfologia { margin: 0.5rem 0 0; }
+
+.morfologia .podpis {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--pismo);
+  font-size: 0.75rem;
+  color: var(--przygasły);
+}
+
+ol.morfologia-lista {
+  margin: 0.4rem 0 0;
+  padding-left: 1.25rem;
+  font-family: var(--maszyna);
+  font-size: 0.8125rem;
+  color: var(--atrament);
+}
+
+ol.morfologia-lista li { margin: 0.2rem 0; }
 
 ol.czytanie-lista {
   margin: 0.4rem 0 0;
