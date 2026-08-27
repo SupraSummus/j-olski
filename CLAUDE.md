@@ -867,7 +867,8 @@ it costs a read, it has to be kept working,
 and it demonstrates a property nobody doubted.
 The tests worth writing are the ones
 that would have caught a mistake somebody could plausibly make,
-which is what `tests/test_subset.py` spends its length on:
+which is what `tests/test_subset.py` and `tests/test_segmentacja.py`
+spend their length on:
 a production that admits a phrase nothing should derive,
 a segmentation graph stitched together one node out,
 a lexical exclusion taking a reading the grammar needed.

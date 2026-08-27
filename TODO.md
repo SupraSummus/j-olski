@@ -2987,27 +2987,22 @@ Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
 czytnik banku drzew i trzy programy pomiarowe są w nim,
 a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
 
-`tests/test_subset.py` pyta o trzy moduły, a nazwę ma po jednym.
-Deklaracja podzbioru, warstwa morfologiczna i werdykt leżą osobno —
-`olski/subset.py`, `olski/segmentacja.py`, `olski/werdykt.py` —
-a testy wszystkich trzech są w jednym pliku na przeszło trzy tysiące wierszy,
-którego import wylicza nazwy z każdego z nich.
-Ogon pliku ma przy tym banery sekcji, które już mówią, o którą warstwę pytają:
-czytania, których słownik daje więcej niż olski bierze,
-forma przyimkowa zaimka i notacja rejestru pytają o segmentację,
-a fragment, niedomknięcie, podsumowanie i zatrzymania o werdykt.
-Ruchem jest przeniesienie tych sekcji tam, gdzie pytają:
-sekcje segmentacyjne do `tests/test_segmentacja.py`, gdzie stoi dziś sam test granicy,
-a werdyktowe do nowego pliku nazwanego po tamtym module,
-z pominięciem Morfeusza nad importem
-([`tests/test_zbiórka.py`](tests/test_zbiórka.py) mówi, czemu i gdzie ono stoi).
-Dwie rzeczy trzeba przy tym rozstrzygnąć.
-Pomocnicze `verdict` i `role` z góry pliku wołają wszystkie trzy grupy,
-a skopiowane do trzech plików rozjadą się po cichu.
-Sekcja „Splitting” sięga dwóch warstw naraz:
-`sentences` pyta o segmentację, a wszystko pod tym o werdykt.
-Do przeczytania jest ogon `tests/test_subset.py`
-od banera o czytaniach słownikowych w dół.
+`tests/test_subset.py` ma po podziale przeszło trzy tysiące wierszy
+i pyta obok podzbioru o dwa moduły niżej.
+Sekcja pierwsza, pod banerem „Unification, which is where agreement lives”,
+sprawdza unifikację i sprawdzenia formalizmu z `olski/grammar.py`,
+las i liczbę czytań z `olski/parse.py`,
+oraz to, co werdykt wypisuje o rolach, gospodarzach i konstytuentach,
+czyli `explain` z `olski/werdykt.py` nad rozbieżnościami z `olski/parse.py`.
+Ruchem jest przeniesienie tych grup do plików nazwanych po tamtych modułach,
+tak jak swoje dostały segmentacja i werdykt,
+a nazwa pliku o rozbiorze musi być inna niż `tests/test_rozbiór.py`,
+bo ten pyta o pakiet składu.
+Granica jest tu całą decyzją i oczywista nie jest:
+test o wydruku werdyktu pyta naraz o dwie warstwy,
+więc rozcięty na dwa pliki zostawia w każdym połowę zdania.
+Do przeczytania jest ta sekcja od góry pliku
+do banera o zdaniach przyjmowanych.
 
 `ruff format` nie stoi w [bloku checków](CLAUDE.md#checks),
 a nad kilkunastoma plikami z dziewięćdziesięciu ma zdanie inne niż to,
