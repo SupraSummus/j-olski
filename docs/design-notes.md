@@ -605,7 +605,7 @@ luka jest produkcją o pustym ciele,
 a zdanie względne wiąże ją ze swoim zaimkiem.
 Zdanie względne dostaje wtedy każdy szyk i każde miejsce na okolicznik,
 jakie ma zdanie zwykłe, wraz z wyjęciem z głębi,
-i to zdanie przechodzi jednym czytaniem.
+więc to zdanie się wyprowadza.
 
 **Luka bez napisu nie ma czego przestawiać.**
 Ciało, które stawia ją między innym rodzeństwem, wydaje ten sam napis,
@@ -616,6 +616,11 @@ bo luka podmiotu wypada raz przed czasownikiem, a raz za nim;
 a `Plik, który program zapisuje, jest konfiguracyjny.` sześcioma.
 Czytelnik ma w pierwszych dwóch zdaniach po jednym czytaniu, a w trzecim dwa,
 więc nadmiar bierze się w całości z miejsca, w które wypada luka.
+Nadmiar nie omija zdania, które luka kupuje:
+dopełnienie bezokolicznika ma pozycję wypisaną
+([subset.md](subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
+więc luka wypada obok niej i `Ustawa, którą organ gminy może wydać, jest tania.`
+wychodzi dwoma kształtami zamiast jednego.
 
 **Warunek precedencji na samą lukę odbiera większość tej ceny i nie całą.**
 Luka przypięta do pozycji swojej roli —

@@ -120,6 +120,17 @@ ELIPSA = "Ellipsis"
 #: :data:`DEKLARACJA` — bo werdykt nazywa dopełnienie dopełnieniem, a nie parą.
 DRUGA_POZYCJA = "SecondComplement"
 
+#: Symbol frazy bezokolicznikowej, której pozycji ramy nie wypełnia nic w jej
+#: środku: wypełnia ją konstytuent stojący przed formą osobową, która tę frazę
+#: bierze — `większości` w `premier większości nie może ruszyć`. Rama idzie z tej
+#: frazy w górę cechą `wysunięte`, bo o pozycję pyta dopełnienie stojące poza nią.
+#:
+#: Symbolem, a nie ciałem obok pozostałych ciał `InfinitivePhrase`, bo cena tej
+#: pozycji ma być osobną liczbą, a sonda różnicowa bierze ją zdejmowaniem ciał
+#: (CLAUDE.md#code): ciała dopisane tamtemu symbolowi schodziłyby razem z frazą,
+#: która pozycję ramy wypełnia sama.
+BEZOKOLICZNIK_OTWARTY = "OpenInfinitivePhrase"
+
 #: Rola spójnika, który stoi wewnątrz swojego zdania: `zatem` w `Milczenie jest
 #: zatem wartością.` Od cząstki różni ją to, co to słowo robi: cząstka określa
 #: zdanie, a ten spójnik wiąże je z tym, co stoi przed nim.
@@ -196,6 +207,7 @@ DEKLARACJA = Deklaracja(
         "RelativeCore",
         "NominalRelativeCore",
         "InfinitivePhrase",
+        BEZOKOLICZNIK_OTWARTY,
         "InterrogativeCore",
     ),
     # Symbole, których ciąg nawiasuje napis roli: grupa imienna, grupa
@@ -1329,6 +1341,19 @@ def build() -> Grammar:
     # zmienną z orzecznikiem, i to jest ta sama cena co wyżej.
     kopula = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), valency="inst", tryb=V("t"))
 
+    # Czasownik, który bierze bezokolicznik: `może`, `musi`, `chce`. Pozycja `inf`
+    # stoi tu wartością, żeby zmienna ramy została wolna dla dopełnienia, które ten
+    # bezokolicznik bierze (:data:`BEZOKOLICZNIK_OTWARTY`).
+    czasownik_bezokolicznika = nt(
+        "Verb",
+        number=V("n"),
+        gender=V("g"),
+        person=V("p"),
+        valency="inf",
+        negacja=V("z"),
+        tryb=V("t"),
+    )
+
     # Zdanie deklaruje córki, a kolejność, w jakiej one stoją, deklaruje osobno
     # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
     # rozbiorem (:mod:`olski.precedencja`). Tablica Earleya dostaje przez to
@@ -1450,6 +1475,28 @@ def build() -> Grammar:
     # ma go deklaracja z podmiotem (:func:`_poza_orzeczeniem`): czasownik wraz z
     # dopełnieniem za nim składa `Predicate`, a zdanie bez podmiotu jest nim samym.
     zdanie.dominacja("ClauseConjunct", [dopełnienie, Głowa(czasownik_ramy)])
+
+    # Dopełnienie bezokolicznika, wysunięte przed formę osobową, która ten
+    # bezokolicznik bierze: `premier większości nie może ruszyć`. Wywód i cenę trzyma
+    # docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze.
+    #
+    # Dopełnienie wchodzi tu tym samym symbolem, co w szykach bez bezokolicznika, i
+    # dzieli z nimi obie swoje zmienne. Ramę czyta jednak nie forma osobowa, a
+    # bezokolicznik, bo pozycja, którą to dopełnienie zajmuje, jest w jego ramie;
+    # przeczenie odwrotnie, bo dopełniacza żąda cząstka stojąca przy formie osobowej
+    # (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
+    #
+    # Szyk jest jeden, ten wypisany, bo cena każdego jest osobną liczbą, a ten
+    # jeden jest szykiem, którego żąda bank drzew.
+    zdanie.dominacja(
+        "ClauseConjunct",
+        [
+            podmiot,
+            dopełnienie,
+            Głowa(czasownik_bezokolicznika),
+            nt(BEZOKOLICZNIK_OTWARTY, wysunięte=V("w")),
+        ],
+    )
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
     # rozumem. Podmiot nie bierze tu własnych dopełnień, więc Zapisuje program
@@ -1934,6 +1981,25 @@ def build() -> Grammar:
             ],
             valency="inf",
         )
+
+    # Fraza bezokolicznikowa, która ramy swojego lematu nie zużywa na własną córkę, tylko
+    # wypuszcza ją w górę, bo pozycję z tej ramy zajmuje dopełnienie stojące przed
+    # formą osobową (:data:`BEZOKOLICZNIK_OTWARTY`).
+    #
+    # Cząstki przeczącej te ciała nie mają i nie ma jej po co: dopełnienie wysunięte
+    # przed formę osobową stoi przed każdym miejscem, w którym cząstka tej frazy by
+    # stanęła, więc przeczenie schodzi się z nim przy formie osobowej albo nigdzie.
+    #
+    # Miejsce na okolicznik jest za głową i nie ma go przed nią, bo tyle gospodarzy
+    # ma okolicznik na torze zwykłym: `Complements` bezokolicznika stoi za swoją
+    # głową i przed nią nie sięga, więc `nie może ruszyć szybko` ma tam dwóch
+    # gospodarzy, a `nie może szybko ruszyć` jednego. Bez miejsca za głową ta
+    # pozycja wybierałaby gospodarza przez przeoczenie
+    # (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+    for warunek, rama, _druga in _klasy(zwrotne=False):
+        głowa = Głowa(word("inf", **warunek))
+        grammar.rule(BEZOKOLICZNIK_OTWARTY, [głowa], wysunięte=rama)
+        grammar.rule(BEZOKOLICZNIK_OTWARTY, [głowa, okoliczniki], wysunięte=rama)
 
     grammar.rule("NP", [nt("NPConjunct", person=V("p"), **AGREE)])
     # Zdanie względne po grupie imiennej, w liczbie i rodzaju swojego zaimka:

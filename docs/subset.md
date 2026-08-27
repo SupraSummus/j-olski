@@ -3373,6 +3373,71 @@ Zgodność ról rośnie o wszystkie nowo przyjęte zdania poza pojedynczymi
 Wysunięte jest tu samo dopełnienie, a nie każde wypełnienie,
 i tyle też po tej pozycji zostaje [niżej](#what-it-does-not-cover-yet).
 
+## Dopełnienie bezokolicznika wysuwa się przed formę osobową, która go bierze
+
+```text
+Prezes firmy może wyrzucić każdego pracownika, premier większości nie może ruszyć.
+```
+
+Zdanie to jest zdaniem Składnicy, a `premier` jest w nim podmiotem,
+a `większości` dopełnieniem, którego żąda `ruszyć`.
+Drugie czytanie ma tu grupę imienną `premier większości`
+z przydawką dopełniaczową i bez dopełnienia w zdaniu,
+a polszczyzna oba te czytania ma.
+Gramatyka bez tej pozycji wyprowadza samo drugie,
+czyli oddaje to zdanie werdyktem `valid` i przeczytane odwrotnie,
+niż czyta je czytelnik, a tego zabrania
+[kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+
+Pozycję niesie osobny symbol, a nie ciało `Complements`,
+i nie jest to wybór między dwoma zapisami jednej rzeczy:
+`Complements` stoi w orzeczeniu za swoją głową i tylko tam,
+więc dopełnienie stojące przed formą osobową nie ma się gdzie w nim znaleźć.
+Wysunięte przed sam bezokolicznik byłoby zaś pozycją inną —
+`nie może większości ruszyć` — której ta gramatyka nie ma.
+Ramę czyta w tej pozycji bezokolicznik, a nie forma osobowa nad nim,
+bo pozycję, którą to dopełnienie zajmuje, ma rama `ruszyć`, a nie rama `móc`;
+jak to wypowiedziano cechami, mówi `olski/subset.py`.
+Przeczenie idzie drogą odwrotną: dopełniacza żąda cząstka stojąca przy formie
+osobowej i żąda go
+[ponad bezokolicznikiem](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
+
+Miejsce na okolicznik jest za bezokolicznikiem i nie ma go przed nim,
+bo tyle gospodarzy ma okolicznik na torze zwykłym,
+gdzie `Complements` bezokolicznika przed swoją głowę nie sięga.
+Bez miejsca za bezokolicznikiem ta pozycja
+[wybierałaby gospodarza przez przeoczenie](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+
+Szerokość ramy domyślnej pozycja dziedziczy i nie pogarsza.
+`Córka krawca chciała zejść.` dostaje przez nią czytanie z `krawca`
+w roli dopełnienia, choć `zejść` dopełnienia nie bierze,
+a to samo czytanie ma już `Córka chciała zejść krawca.`,
+bo biernik daje każdemu czasownikowi
+[rama domyślna](#walencja-jest-leksykonem-o-ramie-domyślnej).
+Zawężenie postawione w tej jednej pozycji nie naprawiłoby tego,
+tylko odebrałoby jeden szyk temu, co gramatyka dopuszcza w drugim,
+więc naprawa jest po stronie leksykonu.
+
+Nad Składnicą pozycja rusza pod obiema morfologiami jedno zdanie,
+i jest nim to, które ta sekcja otwiera:
+zdań przyjętych ubywa o nie, a wieloznacznych przybywa o nie.
+Z listy odrzuconych nie zdejmuje ani jednego zdania, czyli nie kupuje żadnego,
+i nad prozą tego repozytorium nie rusza ani jednego werdyktu.
+Pokrycie spada więc o jedno zdanie, a werdykt przestaje o nim kłamać;
+tym samym rachunkiem wchodzą
+[zaimki `kto` i `co`](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz).
+Gramatyka rośnie przy tym o kilkadziesiąt produkcji,
+bo ciała bezokolicznika powstają po dwa na klasę walencyjną.
+
+Szyk jest jeden, ten wypisany, bo cena każdego jest osobną liczbą,
+a głowa jedna: forma osobowa, i co po tym zostaje,
+wylicza [lista braków](#what-it-does-not-cover-yet).
+Zaimka względnego pozycja ta nie dosięga,
+więc `Ustawa, którą organ gminy może wydać, jest tania.` jest dalej odrzucone
+([wyżej](#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+i to zdanie zostaje tym jednym, które kupuje cecha przeciągana
+([design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+
 ## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
 
 `Jego skutki są znane.`, `Jej cena jest niska.`, `Ich liczba rośnie.`
@@ -3658,8 +3723,9 @@ Every one of these is a sentence that gets rejected and should not be:
   ([wyżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
   `Programy trzeba czytać.` zostaje na zewnątrz z innego powodu:
   `programy` jest tam dopełnieniem bezokolicznika, a nie predykatywu,
-  a dopełnienia przed bezokolicznikiem, który je bierze, ta gramatyka nie ma
-  ([TODO.md](../TODO.md)).
+  a dopełnienie wysunięte przed bezokolicznik, który je bierze,
+  ma pozycję przy formie osobowej i tylko przy niej
+  ([wyżej](#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
 - Słowa, którymi ten rejestr pyta poza zaimkami, które już wchodzą
   ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
   `czy`, `jak`, `jaki`, `ile`, `dlaczego`, `gdzie`.

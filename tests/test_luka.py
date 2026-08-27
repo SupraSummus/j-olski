@@ -69,9 +69,27 @@ def test_luka_przypięta_do_pozycji_roli_jednoznaczność_oddaje(zdanie: str):
 
 
 def test_luka_kupuje_to_czego_wypisane_ciała_nie_mają():
+    """Zakupem jest wyprowadzenie, więc tyle i tylko tyle żąda się tu od obu wariantów.
+
+    Jednoznaczność tego zdania jest osobną własnością i trzyma ją test niżej, tak
+    samo jak przy zdaniach z wysuniętym podmiotem i dopełnieniem wyżej.
+    """
     assert werdykt("olski", Z_GŁĘBI).status == "rejected"
     for wariant in WARIANTY[1:]:
-        assert werdykt(wariant, Z_GŁĘBI).result.ile == 1
+        assert werdykt(wariant, Z_GŁĘBI).result.ile > 0
+
+
+def test_luka_stojąca_wszędzie_odbiera_jednoznaczność_także_wyjęciu_z_głębi():
+    """Kształtów jest tyle, ile pozycji w gramatyce, i wyjęcie z głębi nie jest wyjątkiem.
+
+    Dopełnienie bezokolicznika ma pozycję wypisaną obok tej, w którą wypada luka
+    (``BEZOKOLICZNIK_OTWARTY`` w ``olski/subset.py``), więc luka stojąca wszędzie
+    wydaje ten napis dwoma kształtami. Warunek precedencji zdejmuje tę cenę tutaj
+    w całości, a przy ``Plik, który program zapisuje`` nie w całości, i o tę
+    różnicę idzie w tabeli sondy.
+    """
+    assert werdykt("luka wszędzie", Z_GŁĘBI).status == "ambiguous"
+    assert werdykt("luka kanoniczna", Z_GŁĘBI).result.ile == 1
 
 
 @pytest.mark.parametrize("wariant", WARIANTY[1:])
