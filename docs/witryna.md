@@ -66,7 +66,7 @@ a dwa żądania naraz obsługują różne workery
 
 ## Werdykt idzie w tych słowach, w których drukuje go `olski-check`
 
-Frazę werdyktu ma na własność kod: `Verdict.explain` w `olski/subset.py`.
+Frazę werdyktu ma na własność kod: `Verdict.explain` w `olski/werdykt.py`.
 Witryna jej nie tłumaczy i drugiej nie pisze,
 więc przez API idzie `jedno odczytanie`
 oraz `brak odczytania: analiza staje na „ustawienia”`,
@@ -215,7 +215,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
 ```
 
 Lista pod kluczem `czytania` niesie streszczenia różne, każde raz
-(`Verdict.readings` w `olski/subset.py`),
+(`Verdict.readings` w `olski/werdykt.py`),
 a `liczba_czytań` wychodzi z lasu i mówi, ile czytań zdanie ma.
 Jedna z drugiej się przez to nie wylicza,
 więc o granicy wyliczania z `MAX_READINGS` w `olski/parse.py`

@@ -53,6 +53,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass, fields, is_dataclass
 
 from olski.parse import Leaf, Node, parse
+from olski.segmentacja import morphology
 from olski.skład.morfologia import BrakFormy, WieleLeksemów
 from olski.skład.opowieść import Postać
 from olski.skład.przyimki import PRZYIMKI
@@ -78,7 +79,7 @@ from olski.skład.składnia import (
     kompiluj,
 )
 from olski.skład.spójniki import SPÓJNIKI
-from olski.subset import GRAMMAR, OKOLICZNIKOWY, PRZYSŁÓWKOWY, morphology
+from olski.subset import GRAMMAR, OKOLICZNIKOWY, PRZYSŁÓWKOWY
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
 #: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
@@ -798,7 +799,7 @@ def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
 
     Wieloznaczność napisu wychodzi tędy jako kilka drzew i nic jej nie odsiewa,
     bo pytanie jest tu o to, co autor mógł napisać, a nie o werdykt:
-    werdykt wydaje ``olski/subset.py`` i wydaje go czytelnikowi tekstu.
+    werdykt wydaje ``olski/werdykt.py`` i wydaje go czytelnikowi tekstu.
     Drzewo powtórzone przez dwa czytania stoi raz,
     bo dwa razy to samo nie jest dwiema odpowiedziami.
 

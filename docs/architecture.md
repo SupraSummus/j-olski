@@ -35,11 +35,11 @@ a wspólne mają dwie z nich.
 
 | warstwa | gdzie | wejście | wyjście |
 | --- | --- | --- | --- |
-| morfologia | `olski/morph.py`, `olski/projekt.py`, `admissible` i `po_przyimku` w `olski/subset.py` | napis | `Segment`, czyli krawędzie grafu segmentacji |
+| morfologia | `olski/morph.py`, `olski/projekt.py`, `olski/segmentacja.py` | napis | `Segment`, czyli krawędzie grafu segmentacji |
 | składnia | `olski/grammar.py`, `olski/parse.py` | krawędzie grafu | `Node`, po jednym na czytanie |
 | znaczenie | `abstrahuj` w `olski/skład/rozbiór.py` | `Node` | `Odczyt`, czyli drzewa `Zdanie` wraz z powodami |
 | tekst | `olski/rozstrzyganie.py` | wybory wraz z `Sąsiedztwo` | `Rozstrzygnięcie` albo wybór z powrotem |
-| werdykt | `Verdict` w `olski/subset.py` | `Result` | status, role i to, co zostało otwarte |
+| werdykt | `Verdict` w `olski/werdykt.py` | `Result` | status, role i to, co zostało otwarte |
 
 Nazwy trzeciej i czwartej warstwy nie są nazwami mechanizmu, a poziomu,
 na którym pytanie o wieloznaczność przestaje mieć tę samą odpowiedź.
@@ -82,7 +82,7 @@ dla której poziom tekstu ma przesłankę, a ten typ nie ma miejsca.
 
 ## Werdykt liczy wyprowadzenia, bo powstaje pod dwiema warstwami, które liczą znaczenia
 
-`Verdict` w `olski/subset.py` powstaje z czytań gramatyki,
+`Verdict` w `olski/werdykt.py` powstaje z czytań gramatyki,
 czyli z wyjścia warstwy drugiej,
 a warstwy trzecia i czwarta pracują obok niego i werdyktu nie ruszają.
 „Zdanie wieloznaczne” znaczy wobec tego „ma kilka wyprowadzeń”,

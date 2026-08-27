@@ -607,7 +607,7 @@ def test_forma_bez_czytań_po_wykluczeniu_nie_wpada_do_wiersza_zdania_bez_strukt
     #  `po_przyimku` zdejmuje `niego` wszystkie czytania, bo przyimka przed nim nie
     #  ma, więc analiza staje na tej formie, a nie na końcu zdania. Liczone razem,
     #  oba zdarzenia obiecują konstrukcję domykającą całość, choć werdykt nad tym
-    #  zdaniem wypisuje samą formę (`bez_licencji` w `olski/subset.py`).
+    #  zdaniem wypisuje samą formę (`bez_licencji` w `olski/segmentacja.py`).
     assert nad_prozą("Cena niego rośnie.").blockers == {NO_LICENCE: 1}
 
 

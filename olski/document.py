@@ -6,7 +6,7 @@ nim, bo cięcie jest rozstrzygnięciem o polszczyźnie — który skrót kończy
 a który je ciągnie — a nie krokiem czytania pliku.
 
 Cięcie stoi przed analizą, a nie po niej, i dlaczego, mówi ``sentences`` w
-olski/subset.py: po analizie nie ma już czym zobaczyć spacji, która odróżnia
+olski/segmentacja.py: po analizie nie ma już czym zobaczyć spacji, która odróżnia
 granicę zdania od nazwy pliku.
 """
 

@@ -1,6 +1,6 @@
 """Porównanie dwóch podłoży nad tymi samymi zdaniami.
 
-Werdykt olskiego bierze się z ``olski/subset.py``, werdykt sondy z tych samych
+Werdykt olskiego bierze się z ``olski/werdykt.py``, werdykt sondy z tych samych
 segmentów przepuszczonych przez ``harness/wiezy.py``, a wydruk pokazuje, gdzie się
 rozchodzą. Zdanie, na którym oba mówią to samo, jest tu dowodem taniości
 deklaracji, a zdanie, na którym się różnią, dowodem, czego podłoże więzowe nie
@@ -22,8 +22,8 @@ from pathlib import Path
 
 from harness.polszczyzna import GRAMATYKA
 from harness.wiezy import Rozbiór, rozbierz
-from olski.subset import check as olski_check
-from olski.subset import morphology, sentences
+from olski.segmentacja import morphology, sentences
+from olski.werdykt import check as olski_check
 
 #: Ile czytań zbierać. Werdykt zamyka się na drugim, a wyższy limit stoi tu po
 #: to, żeby dało się porównać liczby z olskim, który zbiera do MAX_READINGS.

@@ -282,7 +282,7 @@ wartością pod kluczem JSON-a
 oraz tym, o co pyta kilkanaście testów i sond w `harness/`,
 więc przekład sięga ich wszystkich i idzie jednym commitem.
 Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse.py`
-obok `Verdict.status` w `olski/subset.py`:
+obok `Verdict.status` w `olski/werdykt.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
 czyli daje to mieszaninę, którą wpis wyżej odrzuca dla symboli.
 
@@ -374,7 +374,7 @@ bo od roli zależy, komu ta para jest w tym miejscu potrzebna.
 
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
 Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
-(`Verdict.punktowane` w `olski/subset.py`),
+(`Verdict.punktowane` w `olski/werdykt.py`),
 więc przebieg nad tekstem z jedną zapomnianą kropką kończy się zerem.
 Nad prozą pisaną ręką jest to usterka do zgłoszenia,
 a nad `docs/` wraz z nagłówkami — nie,
@@ -511,7 +511,8 @@ Kosztem jest wydruk, z którego jeden dokument wycina formy poleceniem:
 bierze wszystko, co stoi za frazą `no production takes` do średnika,
 więc drugi komunikat rozsypuje tamto polecenie, jeżeli nie da się go wyciąć tak samo.
 Za tym średnikiem dopisuje się podpowiedź o cudzysłowie.
-Do przeczytania jest `explain` w `olski/subset.py` obok `bez_licencji`:
+Do przeczytania jest `explain` w `olski/werdykt.py`
+obok `bez_licencji` w `olski/segmentacja.py`:
 formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pola
 w `Verdict`, a nie samego drugiego napisu.
 Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
@@ -578,7 +579,7 @@ zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` 
 nad tą prozą `i` oraz `a`, a pod nimi stoją `czy`, `czyli` i `ani`
 ([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
 Ruchem jest `Outcome.blocker` w `olski/coverage.py` nazywający formę tam, gdzie każde
-jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/subset.py`),
+jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/segmentacja.py`),
 a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
 Do przeczytania jest, co taki wiersz zrobi z tabelami, które ten wydruk cytują —
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) czyta wiersze `interp`,
@@ -710,7 +711,7 @@ czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 
 Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
 `unclosed` nazywa napis, który olski czyta po domknięciu, i podaje znak
-(`_domknięcie` w `olski/subset.py`),
+(`_domknięcie` w `olski/werdykt.py`),
 cudzysłów prosty dostaje podpowiedź wpisaną osobno w `_podpowiedź` tam samo,
 a brak spacji po kropce nie dostaje nic i wychodzi jako zatrzymanie na formie,
 która z pomyłką autora nie ma nic wspólnego.
@@ -745,7 +746,7 @@ a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repo
 bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
 i ani razu trafnie.
 
-`GRUPA_JEDNYM_SŁOWEM` w `olski/subset.py` wypisuje części mowy,
+`GRUPA_JEDNYM_SŁOWEM` w `olski/segmentacja.py` wypisuje części mowy,
 którymi grupa imienna staje sama jednym słowem,
 czyli fakt o gramatyce zapisany drugi raz obok niej.
 Głowa dopisana do grupy imiennej tej listy nie ruszy,
@@ -756,7 +757,7 @@ Rozjazdu nie widzi ani suita, ani przebieg nad prozą:
 statusy ruszy dopiero napis z nową głową postawiony w cudzysłowie.
 Ruchem jest pytanie gramatyki wprost, zamiast trzymania listy —
 `Grammar` odpowiada dziś, czy terminal bierze czytanie
-(`licencjonowane` w `olski/subset.py`),
+(`licencjonowane` w `olski/segmentacja.py`),
 a brakuje odpowiedzi, czy bierze je terminal w produkcji grupy imiennej.
 Do rozstrzygnięcia jest, czy to pytanie warto do `Grammar` dopisać,
 czy taniej jest pilnować listy testem, który dla każdej głowy grupy
@@ -922,7 +923,7 @@ zdania spiętego przecinkiem.
 Cena tej klasy jest przez to zmierzona i wynosi sześć zdań Składnicy:
 tyle straciło jednoznaczność pod morfologią żywą, kiedy weszła podrzędność
 okolicznikowa, i wszystkie sześć niesie `gdy` albo `kiedy`.
-Kryterium słownikowe `admissible` w `olski/subset.py` po nie nie sięga,
+Kryterium słownikowe `admissible` w `olski/segmentacja.py` po nie nie sięga,
 bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego.
 Ruchem jest warunek na tę klasę, a dwa kandydujące są zmierzone i żaden nie jest darmowy.
 Odsiew czytania przysłówkowego przy czytaniu przyimkowym kupuje nad Składnicą
@@ -1029,7 +1030,7 @@ i `Człowiek staje się wyleniałym tygrysem.` są przez to odrzucone,
 i są to dwa z 75 zdań, które zawężenie narzędnika odrzuca nad Składnicą,
 a jedyne dwa, które odrzuca niesłusznie
 ([`docs/corpus.md`](docs/corpus.md#agreement-which-matters-more-than-acceptance)).
-Przeszkodą nie jest lista, tylko cząstka: `KOPULA` w `olski/subset.py` jest
+Przeszkodą nie jest lista, tylko cząstka: `KOPULA` w `olski/lematy.py` jest
 warunkiem na lemat, a te dwa czasowniki są kopulami wyłącznie z `się`,
 którego produkcja kopuli nie ma gdzie postawić —
 [`docs/subset.md`](docs/subset.md#what-the-grammar-covers) mówi to przy liście.
@@ -1069,7 +1070,7 @@ Do przeczytania jest, czy nad Składnicą taka pozycja pada i czy pada z innymi 
 bo od tego zależy, czy to usterka, czy sam porządek w kodzie.
 
 Grupa imienna rozbieżna zostaje bez listy czytań, bo streszczenie nie ma w niej czego nazwać.
-`Verdict.rozbieżne` w `olski/subset.py` wypuszcza konstytuent,
+`Verdict.rozbieżne` w `olski/werdykt.py` wypuszcza konstytuent,
 którego streszczenia naprawdę się różnią, czyli zdanie podrzędne, a grupy imiennej nie:
 `describe` w `olski/parse.py` szuka ról zdania, a grupa imienna żadnej nie nosi,
 więc oba jej kształty streszczają się pustym słownikiem.
@@ -1405,7 +1406,7 @@ Do przeczytania są te trzy zdania wraz z gniazdami wybranego drzewa:
 Rankingu form bez licencji nad dokumentem nie wypisuje nikt.
 `olski-check` mówi o zdaniu, a nie o pliku, więc formy, po które nie sięga
 ani jedna produkcja, widać po jednej naraz i tylko w werdykcie, który je wypisał
-(`bez_licencji` w `olski/subset.py`).
+(`bez_licencji` w `olski/segmentacja.py`).
 Kolejka blokerów odpowiada na inne pytanie, bo grupuje po części mowy zatrzymania,
 a forma bez licencji zatrzymania nie musi wywołać.
 Czytelników takiego rankingu jest już dwóch:
@@ -1835,7 +1836,7 @@ a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest
 
 `KOPULY` w `olski/rozstrzyganie.py` jest listą pożyczoną i cztery piąte jej nie zmierzono.
 Świadek kontekstowy nie bierze za dowód powtórzenia przy kopuli, a listę kopul bierze
-z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/subset.py` wylicza czasowniki
+z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/lematy.py` wylicza czasowniki
 biorące orzecznik w narzędniku, a tutaj chodzi o czasownik, przy którym okolicznik stoi
 bez związku z rzeczą. Nad korpusem audytowym rozstrzyga to samo `być`, a `zostać`, `zostawać`, `pozostać`
 i `pozostawać` ruszają wyłącznie wariant sondy pytający o cały prefiks zdania,
@@ -1983,7 +1984,7 @@ bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
 czego werdykt meldować nie powinien.
 
 Wykluczenie ze słownika nie sięga po zaimek, a `go` jest grą.
-`CLOSED_CLASS` w `olski/subset.py` wylicza siedem klas zamkniętych,
+`CLOSED_CLASS` w `olski/segmentacja.py` wylicza siedem klas zamkniętych,
 od przyimka po wykrzyknik, a zaimka wśród nich nie ma,
 więc `admissible` zostawia formie `go` czytanie `subst` obok `ppron3`,
 choć jest ono nieodmienne dokładnie tak jak nuta,
@@ -2042,7 +2043,7 @@ Zdanie przyjęte na takim czytaniu jest gorsze niż odrzucone,
 bo pokrycie liczy je jak zdanie przeczytane, a
 [wykluczenie ze słownika](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: żąda ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Do przeczytania jest `admissible` w `olski/subset.py` wraz z tym wykluczeniem
+Do przeczytania jest `admissible` w `olski/segmentacja.py` wraz z tym wykluczeniem
 i z [pomiarem jego ceny](docs/corpus.md#what-morphological-ambiguity-costs),
 bo to on mówi, co dzisiejsze kryterium zdejmuje i za ile.
 Ruchem jest liczba: ile zdań przyjętych każdego korpusu traci czytanie,
@@ -2100,14 +2101,14 @@ Warstwa rozstrzygająca tnie gospodarza inaczej niż gramatyka, kiedy jest nim n
 `_czytania` w `olski/rozstrzyganie.py` woła `analyse`,
 więc `docs/linter.md` wraca pięcioma lematami —
 `docs`, `linter`, `md` oraz kropka i ukośnik —
-a `morphology` w `olski/subset.py` ma tam jedną krawędź o czytaniu nieodmiennym.
+a `morphology` w `olski/segmentacja.py` ma tam jedną krawędź o czytaniu nieodmiennym.
 Nie kończy się to milczeniem:
 gospodarz `docs/linter.md` dopasowuje się do słowa `linter`
 stojącego w akapicie gdziekolwiek,
 a powód wypisuje wtedy to drugie słowo,
 więc wskazanie samo mówi, że stoi na dowodzie o czym innym.
 Ruchem jest sklejenie notacji pytane przez oba miejsca,
-czyli `_segmenty` w `olski/subset.py` wołane tą samą drogą,
+czyli `_segmenty` w `olski/segmentacja.py` wołane tą samą drogą,
 którą oba pytają dziś o leksykon projektu.
 Wpis jest winien przebieg nad korpusem audytowym,
 bo dokumentacja techniczna pisze notację gęsto,
@@ -2500,7 +2501,7 @@ Komunikat werdyktu jest napisem wpisanym w kod, a repozytorium ma tor,
 który polskie zdanie składa z drzewa,
 więc werdykt mógłby być pierwszym konsumentem tego toru:
 formę po liczebniku liczyłaby wtedy morfologia,
-a nie tabela na trzy przedziały w `_odczytań` w `olski/subset.py`.
+a nie tabela na trzy przedziały w `_odczytań` w `olski/werdykt.py`.
 Wpis stoi zaparkowany za wpisem o pozycjach, których skład nie ma,
 bo liczebnik jest jedną z nich,
 a bez liczebnika nie wyjdzie z drzewa ani jeden wiersz tego werdyktu.
@@ -2510,7 +2511,7 @@ a drzewo składu nie ma pozycji na napis, którego się nie odmienia.
 Skład zgłasza przy tym `BrakFormy` oraz `PozaRamą` nad drzewem,
 którego nie umie zrealizować, a werdykt wypisuje się nad każdym zdaniem,
 więc komunikat z drzewa dokłada gałąź na wypadek, którego napis nie ma.
-Do przeczytania jest `explain` w `olski/subset.py`,
+Do przeczytania jest `explain` w `olski/werdykt.py`,
 bo część jego wierszy jest polskim zdaniem, a część listą par i liczbą,
 czyli rozstrzygnąć trzeba i to, ile z tego wydruku skład bierze.
 
@@ -2743,7 +2744,7 @@ a nie żeby kompilator podmienił mu pierwsze.
 w `tests/test_subset.py`, a ze składu nie wyjdzie,
 bo lemat kopuli stoi w tym konstruktorze jako stała, a nie jako pole drzewa.
 Widać to dopiero od zmiany, po której rama czasownika przychodzi z leksykonu:
-`KOPULA` w `olski/subset.py` jest tą częścią walencji, której Walenty nie niesie,
+`KOPULA` w `olski/lematy.py` jest tą częścią walencji, której Walenty nie niesie,
 i [`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 nazywa ją jedynym wpisem leksykonu pisanym ręcznie,
 a stoi ona w gramatyce, a nie w `olski/walencja.py`, czyli tam, gdzie leksykon.
@@ -2985,6 +2986,28 @@ co nie kosztuje nic i przestaje odpowiadać dwa razy.
 Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
 czytnik banku drzew i trzy programy pomiarowe są w nim,
 a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
+
+`tests/test_subset.py` pyta o trzy moduły, a nazwę ma po jednym.
+Deklaracja podzbioru, warstwa morfologiczna i werdykt leżą osobno —
+`olski/subset.py`, `olski/segmentacja.py`, `olski/werdykt.py` —
+a testy wszystkich trzech są w jednym pliku na przeszło trzy tysiące wierszy,
+którego import wylicza nazwy z każdego z nich.
+Ogon pliku ma przy tym banery sekcji, które już mówią, o którą warstwę pytają:
+czytania, których słownik daje więcej niż olski bierze,
+forma przyimkowa zaimka i notacja rejestru pytają o segmentację,
+a fragment, niedomknięcie, podsumowanie i zatrzymania o werdykt.
+Ruchem jest przeniesienie tych sekcji tam, gdzie pytają:
+sekcje segmentacyjne do `tests/test_segmentacja.py`, gdzie stoi dziś sam test granicy,
+a werdyktowe do nowego pliku nazwanego po tamtym module,
+z pominięciem Morfeusza nad importem
+([`tests/test_zbiórka.py`](tests/test_zbiórka.py) mówi, czemu i gdzie ono stoi).
+Dwie rzeczy trzeba przy tym rozstrzygnąć.
+Pomocnicze `verdict` i `role` z góry pliku wołają wszystkie trzy grupy,
+a skopiowane do trzech plików rozjadą się po cichu.
+Sekcja „Splitting” sięga dwóch warstw naraz:
+`sentences` pyta o segmentację, a wszystko pod tym o werdykt.
+Do przeczytania jest ogon `tests/test_subset.py`
+od banera o czytaniach słownikowych w dół.
 
 `ruff format` nie stoi w [bloku checków](CLAUDE.md#checks),
 a nad kilkunastoma plikami z dziewięćdziesięciu ma zdanie inne niż to,

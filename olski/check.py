@@ -8,7 +8,7 @@ from collections.abc import Iterator, Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
-from olski.subset import Podsumowanie, Verdict, check, dalsze_zatrzymania
+from olski.werdykt import Podsumowanie, Verdict, check, dalsze_zatrzymania
 
 STATUS_WIDTH = 9
 
@@ -51,7 +51,7 @@ def _czytania(verdict: Verdict) -> Iterator[str]:
 
     Za streszczeniami zdania idą streszczenia konstytuentu, którego
     wieloznaczność streszczenie zdania zostawia nienazwaną
-    (``Verdict.rozbieżne`` w ``olski/subset.py``).
+    (``Verdict.rozbieżne`` w ``olski/werdykt.py``).
     """
     for streszczenie in verdict.readings:
         yield from _czytanie(streszczenie, "")

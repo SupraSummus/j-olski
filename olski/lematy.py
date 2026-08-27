@@ -1,0 +1,55 @@
+"""Lematy, o które pyta więcej niż jedna warstwa.
+
+Wpis należy tutaj wtedy, gdy o ten sam napis pyta gramatyka oraz warstwa poza nią:
+terminal bierze lemat, a warunek gdzie indziej porównuje ten sam napis
+z czytaniem formy albo z lematem gospodarza
+(``olski/segmentacja.py``, ``olski/werdykt.py``, ``olski/rozstrzyganie.py``).
+Kopia druga rozjeżdża się po cichu, bo napisu z napisem nie porównuje żaden test.
+Obok takiego lematu wpisujemy ten, który mu się przeciwstawia,
+choćby pytała o niego jedna warstwa:
+znaki cytowania spoza rejestru mówią, którą parę rejestr wybrał,
+a rozdzielone z tą parą przestają to mówić.
+
+Moduł ten leży poniżej gramatyki i nic z niej nie czyta.
+``olski/subset.py`` buduje ją przy imporcie,
+więc kto sięgałby po lemat tam, płaciłby za całą gramatykę i za leksykon walencyjny.
+Lemat, o który pyta sama gramatyka, zostaje przy swoim terminalu w tamtym module.
+"""
+
+from __future__ import annotations
+
+#: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
+#: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
+#: Pytają o nią klasy walencyjne gramatyki (``olski/subset.py``)
+#: oraz świadek kontekstowy, który przy tym czasowniku milczy
+#: (``olski/rozstrzyganie.py``).
+KOPULA = "być|zostać|zostawać|pozostać|pozostawać"
+
+#: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
+#: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego
+#: czytania nie bierze, bo bez tego warunku każde `, a` wychodzi okolicznikiem
+#: wysuniętym zdania po przecinku, którego podmiot w mianowniku właśnie stoi.
+#: Warunek pada na lemat, a nie na przypadek; czego kryterium na przypadek zabrałoby
+#: razem z nim, wywodzi docs/subset.md, i ono trzyma też cenę.
+PRZYIMEK_ROZDZIELAJĄCY = "a"
+
+#: Znaki, którymi ten rejestr obejmuje tytuł i termin cytowany: `„Zasady
+#: techniki prawodawczej”`. Znaki są dwa i są różne, bo polszczyzna otwiera
+#: cudzysłów innym znakiem, niż go zamyka.
+#: Pyta o nie terminal (``olski/subset.py``), warunek, którym cudzysłów
+#: licencjonuje napis przytoczony (``olski/segmentacja.py``),
+#: oraz podpowiedź werdyktu nad cytatem z innych znaków (``olski/werdykt.py``).
+ZNAK_CUDZYSŁOWU_OTWIERAJĄCY = "„"
+ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
+
+#: Znaki, którymi cytuje się poza tym rejestrem: cudzysłów maszynowy, pojedynczy,
+#: angielski i ostrokątny. Gramatyka bierze samą parę wyżej, a nad którymkolwiek
+#: z tych znaków werdykt dopowiada, którą (``olski/werdykt.py``).
+ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
+
+#: Lemat cząstki czasownika zwrotnego. Leksykon czyta tę cząstkę jako drugi wymiar
+#: lematu, a nie jako określenie: `otwierać` bierze dopełnienie w bierniku,
+#: a `otwierać się` go nie bierze.
+#: Pyta o niego terminal cząstki wraz z klasami walencyjnymi (``olski/subset.py``)
+#: oraz warunek na pozycję tej cząstki (``olski/segmentacja.py``).
+LEMAT_ZWROTNY = "się"

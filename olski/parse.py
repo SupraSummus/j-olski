@@ -417,7 +417,7 @@ def podsumuj(
     ile kosztował sam rozbiór — a nad zdaniem, które ma czytanie,
     oddaje koniec zdania bez przejścia.
     Czyta tę odpowiedź odrzucenie mówiące, gdzie stanęło
-    (``explain`` w ``olski/subset.py``) oraz ranking blokerów (``olski/coverage.py``);
+    (``explain`` w ``olski/werdykt.py``) oraz ranking blokerów (``olski/coverage.py``);
     przebieg, który liczy same werdykty, nie czyta jej wcale.
     Kto nie pyta, dostaje w ``Result.furthest`` stan „nikt nie pytał”.
 
@@ -1929,7 +1929,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     (:func:`_streszcz`), więc dwa czytania różne miejscem drugiego okolicznika
     tej samej roli wychodzą stąd jednym napisem.
     Streszczeń wychodzi przez to nie więcej niż czytań, bo powtórzone na listę
-    nie wchodzi (``Verdict.readings`` w ``olski/subset.py``);
+    nie wchodzi (``Verdict.readings`` w ``olski/werdykt.py``);
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
 

@@ -34,7 +34,7 @@ ponadto to, czego ten moduł nie widzi: wyrażenie, którego czasownik żąda sw
 schematem, stoi w tej pozycji i do wyboru nie stoi, a ile go jest, mierzy nad
 Składnicą docs/subset.md. Wchodzi tu wreszcie każde czytanie, które słownik
 oferuje, a polszczyzna go nie ma: liczone jest to, co zostawia ``admissible`` w
-olski/subset.py, a zostawia ono nazwisko nieodmienne z formy ``Nowy`` i grę z
+olski/segmentacja.py, a zostawia ono nazwisko nieodmienne z formy ``Nowy`` i grę z
 formy ``go``. Obie te grupy są otwarte i obie mają swoje miejsce — pierwsza jest
 etapem 3 z docs/roadmap.md, drugą trzyma TODO.md — więc ten pomiar ruszy się,
 kiedy się zamkną.
@@ -65,7 +65,7 @@ from olski.próbka import rozrzucona
 # rozstrzygającej i bierze się je stamtąd, żeby pozycja stąd była tym samym
 # pytaniem, które warstwa dostaje od werdyktu.
 from olski.rozstrzyganie import IMIENNE_LUB_NIEZNANE, STRONA_CZASOWNIKOWA, ZASIĘG_FRAZY, strona
-from olski.subset import morphology, sentences
+from olski.segmentacja import morphology, sentences
 
 # Lematy, którym leksykon odmawia dopełnienia w bierniku, osobno dla formy z
 # cząstką ``się`` i bez niej, bo są to dwa czasowniki i biorą co innego. Zdanie z

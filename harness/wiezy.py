@@ -13,7 +13,7 @@ liczby powtarza. Tutaj jest sam mechanizm.
 Cechy, unifikacja i słownik są tu olskiego, a nie własne. Żądanie na słowo jest
 `Word` z `olski/grammar.py`, zgodność między głową a zależnym robi wspólna
 zmienna przepuszczona przez `unify`, a segmenty przychodzą z
-`olski/subset.py`. Porównanie mierzy więc podłoże, bo warstwa morfologiczna w obu
+`olski/segmentacja.py`. Porównanie mierzy więc podłoże, bo warstwa morfologiczna w obu
 programach jest jedna i ta sama.
 """
 
@@ -166,7 +166,7 @@ class Rozbiór:
     #: Słowa, którym przycinanie zabrało wszystkie czytania. Odrzucenie mówi
     #: wtedy, na czym stanęło, a bierze to z pustej dziedziny, gdzie werdykt
     #: olskiego bierze najdalszy punkt analizy (``na_czym_stanęło`` w
-    #: ``olski/subset.py``).
+    #: ``olski/segmentacja.py``).
     bez_głowy: tuple[str, ...] = ()
 
     @property

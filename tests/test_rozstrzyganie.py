@@ -50,7 +50,7 @@ from olski.rozstrzyganie import (
     rozstrzygnij,
     sąsiedztwa,
 )
-from olski.subset import check
+from olski.werdykt import check
 
 #: Przyłączenie, jakie werdykt wydaje nad ``Daj przepis na faworki.``
 FAWORKI = Przyłączenie(modyfikator="na faworki", gospodarze=("Daj", "przepis"))

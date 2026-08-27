@@ -1,6 +1,6 @@
 """Werdykt olskiego jako dane, czyli to, co witryna oddaje przeglądarce.
 
-Frazę werdyktu ma na własność kod (``Verdict.explain`` w ``olski/subset.py``),
+Frazę werdyktu ma na własność kod (``Verdict.explain`` w ``olski/werdykt.py``),
 więc ten moduł jej nie tłumaczy i drugiej nie pisze:
 przez API idzie ta sama fraza, którą drukuje ``olski-check``.
 Po polsku jest przez to i werdykt, i strona wokół niego —
@@ -27,7 +27,7 @@ from olski.rozstrzyganie import (
     sąsiedztwa,
 )
 from olski.skład.makieta import losuj
-from olski.subset import Podsumowanie, Verdict, check, dalsze_zatrzymania
+from olski.werdykt import Podsumowanie, Verdict, check, dalsze_zatrzymania
 
 #: Ile akapitów makieta wypisuje najwyżej. Losowanie akapitu jest tanie, więc
 #: granica jest tu przeciw liczbie z żądania: `akapity=100000` zajęłoby workera.
