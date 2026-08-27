@@ -3,6 +3,11 @@
 The refusals matter more than the acceptances, and there are two kinds of them:
 a sentence with no reading is not olski, and a sentence with more than one is not
 olski either.
+
+O tych dwóch werdyktach rozstrzyga gramatyka, więc pyta się o nią tutaj.
+Warstwę pod nią sprawdza ``tests/test_segmentacja.py``,
+a odpowiedzi, które werdykt dokłada nad rozbiorem —
+fragment, niedomknięcie, zatrzymanie — sprawdza ``tests/test_werdykt.py``.
 """
 
 import os
@@ -26,14 +31,7 @@ from olski.parse import (
     las,
     parse,
 )
-from olski.segmentacja import (
-    admissible,
-    bez_licencji,
-    morphology,
-    na_czym_stanęło,
-    sentences,
-    wersalik,
-)
+from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło
 from olski.subset import (
     BEZOSOBOWY,
     CZĄSTKI,
@@ -55,25 +53,7 @@ from olski.subset import (
     WALENCJA_ZWROTNA,
     WTRĄCONY,
 )
-from olski.werdykt import FRAGMENT, NIEDOMKNIĘTE, Domknięcie, Podsumowanie, check, zatrzymania
-
-
-def verdict(text):
-    found = check(text)
-    assert len(found) == 1, f"expected one sentence, got {len(found)}"
-    return found[0]
-
-
-def role(werdykt):
-    """Role czytań zdania o jednym zdaniu składowym, po słowniku na czytanie.
-
-    Streszczeniem czytania jest krotka o słowniku na każde zdanie składowe
-    (``describe`` w ``olski/parse.py``).
-    Zdanie o dwóch składowych wywraca ten pomocnik,
-    zamiast wyjść z niego samym składowym pierwszym.
-    """
-    return [jedno for (jedno,) in werdykt.readings]
-
+from tests.test_werdykt import role, verdict
 
 # --------------------------------------------------------------------------- #
 # Unification, which is where agreement lives
@@ -649,6 +629,11 @@ def test_wiersz_o_konstytuencie_nazywa_najwęższy_z_nich(zdanie: str, ile: int,
     assert [r.konstytuent for r in found.result.rozbieżności] == [konstytuent]
 
 
+# --------------------------------------------------------------------------- #
+# Co formalizm sprawdza w gramatyce: na zabawce, a niżej nad całą deklaracją
+# --------------------------------------------------------------------------- #
+
+
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("Nieznane")])
@@ -716,6 +701,36 @@ def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
     grammar = Grammar(start="A")
     with pytest.raises(ValueError, match="która jest głową"):
         grammar.rule("A", [word("subst"), word("interp")])
+
+
+def test_the_grammar_is_a_grammar_of_something():
+    assert len(GRAMMAR) > 5
+    assert GRAMMAR.undefined() == frozenset()
+
+
+def test_każdy_symbol_gramatyki_jest_osiągalny_od_startu():
+    assert GRAMMAR.nieosiągalne() == frozenset()
+
+
+def test_każdy_więz_gramatyki_pyta_o_cechę_wypuszczaną():
+    assert GRAMMAR.więzy_niesprawdzane() == frozenset()
+
+
+def test_każda_cecha_wypuszczana_przez_gramatykę_ma_co_wiązać_jej_zmienną():
+    assert GRAMMAR.wypuszczane_bez_wiązania() == frozenset()
+
+
+def test_każdy_wpis_wśród_niewypuszczanych_zatrzymuje_jakąś_cechę():
+    assert GRAMMAR.nie_wypuszczane_bez_żądania() == frozenset()
+
+
+def test_każdy_więz_na_terminalu_pyta_o_cechę_którą_morfologia_zna():
+    """Literówka w nazwie cechy formy przepuszcza każdą formę i nie rusza wydruku.
+
+    Inwentarz podaje tu wołający, bo formalizm gramatyki morfologii nie zna,
+    a więzów na terminalach jest w tej gramatyce kilkaset.
+    """
+    assert GRAMMAR.więzy_terminali_niesprawdzane(set(VALUES.values())) == frozenset()
 
 
 # --------------------------------------------------------------------------- #
@@ -3255,292 +3270,3 @@ def test_okolicznik_przy_wysuniętym_dopełnieniu_nazywa_swojego_gospodarza():
     #  który to zdanie zostawia.
     found = verdict("Premier większości nie może ruszyć szybko.")
     assert len({tuple(sorted(s.items())) for s in role(found)}) == found.result.ile
-
-
-# --------------------------------------------------------------------------- #
-# Readings the dictionary offers and olski does not take
-# --------------------------------------------------------------------------- #
-
-
-def test_a_preposition_is_not_also_read_as_the_note_of_the_same_name():
-    #  Morfeusz reads do as the preposition and as the musical note. The note
-    #  inflects for nothing, so unification can never rule it out, and do Włoch
-    #  would derive as a noun phrase as well as a prepositional one.
-    #  docs/corpus.md counts how much of the corpus that reaches.
-    found = verdict("Jedziemy do Włoch.")
-    assert found.status == "valid", found.explain()
-    assert role(found)[0]["Modifier"] == "do Włoch → Jedziemy"
-
-
-def test_an_uninflected_noun_stays_where_its_form_is_only_a_noun():
-    #  The other half of the exclusion: jury inflects for nothing either, and
-    #  nothing else reads it, so it is an ordinary Polish noun and stays.
-    assert verdict("Jury ogłasza wyniki.").status == "valid"
-
-
-def test_an_acronym_keeps_the_noun_reading_the_exclusion_would_take():
-    #  PO inflects for nothing, exactly as the note does, and shares its letters
-    #  with a preposition. In capitals the noun is what the form is, so this is
-    #  where the exclusion has to stop.
-    assert verdict("PO ogłasza wyniki.").status == "valid"
-
-
-def test_excluding_a_reading_never_leaves_a_form_with_none():
-    #  A segment with no readings at all is a form Morfeusz does not know, which
-    #  is a different verdict and a wrong one here. What spares the segment is
-    #  the function-word reading, so that one is always among the survivors.
-    unfiltered = analyse("do")[0]
-    assert {reading.tag.pos for reading in unfiltered.readings} == {"prep", "subst"}
-    assert [reading.tag.pos for reading in admissible(unfiltered).readings] == ["prep"]
-
-
-# --------------------------------------------------------------------------- #
-# Forma przyimkowa zaimka, czyli wykluczenie pytające o sąsiada
-# --------------------------------------------------------------------------- #
-
-
-def test_forma_przyimkowa_bez_przyimka_zostaje_bez_ani_jednego_czytania():
-    #  `niego` czytania nieprzyimkowego nie ma, więc bez przyimka to wykluczenie
-    #  zabiera mu wszystkie i tym różni się od `admissible`, które krawędzi nie
-    #  opróżnia nigdy. Werdykt nazywa wtedy formę, a nie strukturę, i tego nie
-    #  wolno naprawić odmową opróżniania: grupa imienna bierze zaimek w każdej
-    #  swojej pozycji, więc zdanie wychodziłoby znów przyjęte.
-    werdykt = verdict("Cena niego rośnie.")
-    assert werdykt.status == "rejected"
-    assert werdykt.nielicencjonowane == ("niego",), werdykt.explain()
-
-
-def test_wykluczenie_przyimkowe_kupuje_jednoznaczność_zdaniu_z_przeczeniem():
-    #  `nie` jest u Morfeusza biernikiem `on`, więc bez tego wykluczenia staje
-    #  dopełnieniem w zdaniu, które przeczy, i zdanie wychodzi dwoma czytaniami,
-    #  gdzie polszczyzna ma jedno. Ta klasa jest tym, za co wykluczenie weszło.
-    assert verdict("Zagłębie nie płaci.").status == "valid"
-
-
-@pytest.mark.parametrize(
-    "zdanie",
-    [
-        #  Pod przyimkiem ta forma jest polszczyzną, więc warunek pytający o samą
-        #  formę, bez sąsiada, zabierałby ją i tutaj.
-        "Bez niego cena rośnie.",
-        #  `nim` niesie `praep` i `npraep` naraz, bo polszczyzna stawia je i po
-        #  przyimku, i bez niego, więc warunek na samą obecność `praep`
-        #  zabierałby tę formę wszędzie.
-        "Program jest nim.",
-    ],
-)
-def test_wykluczenie_przyimkowe_zostawia_formę_której_polszczyzna_tam_używa(zdanie):
-    assert verdict(zdanie).status == "valid"
-
-
-# --------------------------------------------------------------------------- #
-# Notacja rejestru, czyli słowo, którego słownik nie ma
-# --------------------------------------------------------------------------- #
-
-
-@pytest.mark.parametrize(
-    "text, formy",
-    [
-        #  Ścieżkę Morfeusz rozbija na pięć krawędzi, bo ukośnik i kropka są dla
-        #  niego interpunkcją, a czytelnik ma tam jedno słowo, którego rozbitego
-        #  nie bierze żadna produkcja. Łącznik idzie z nią, bo stoi w jej środku.
-        ("Zobacz docs/design-notes.md.", ["Zobacz", "docs/design-notes.md", "."]),
-        #  Łącznik sam ścieżki nie robi, a złożenie przymiotnikowe Morfeusz zna po
-        #  członach: sklejone w jedno wypadłoby ze słownika i z gramatyki.
-        ("czarno-biały", ["czarno", "-", "biały"]),
-        #  Skrót z kropką w środku ma człony jednoliterowe, więc wzorzec go mija.
-        ("m.in.", ["m.in", "."]),
-        #  Data spaja się kropkami tak samo jak ścieżka, a rzeczownikiem nie jest.
-        ("2018.07.23", ["2018.07.23"]),
-    ],
-)
-def test_notacja_jest_jednym_słowem_i_nic_poza_nią_nim_nie_jest(text, formy):
-    assert [segment.form for segment in morphology(text)] == formy
-
-
-def test_graf_kawałka_niejednoznacznego_zszywa_się_z_notacją_bez_przesunięcia():
-    #  Sklejanie stawia grafy kolejnych kawałków jeden za drugim, więc pomyłka o
-    #  jeden węzeł rozerwałaby zdanie w miejscu, którego nikt nie zobaczy w
-    #  formach. Morfeusz dzieli ktoś na kto i ś obok formy całej, czyli daje temu
-    #  kawałkowi graf, który się rozchodzi, i to on tę pomyłkę pokazuje.
-    krawędzie = [(s.start, s.end, s.form) for s in morphology("Ktoś zna docs/subset.md.")]
-    assert krawędzie == [
-        (0, 1, "Kto"),
-        (0, 2, "Ktoś"),
-        (1, 2, "ś"),
-        (2, 3, "zna"),
-        (3, 4, "docs/subset.md"),
-        (4, 5, "."),
-    ]
-
-
-def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
-    #  Notacja niesie jedno czytanie, i to nieodmienne, czyli dokładnie to, co
-    #  admissible odrzuca — broni jej przed tym drugi warunek, ten o wyrazie
-    #  funkcyjnym obok. Bez niego notacja wychodziłaby stąd bez czytań, a to jest
-    #  werdykt o formie, której Morfeusz nie zna, i tutaj byłby fałszywy.
-    segment = morphology("docs/subset.md")[0]
-    assert [reading.tag.raw for reading in segment.readings] == [
-        "subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol"
-    ]
-
-
-def test_forma_wersalikowa_której_słownik_nie_ma_jest_rzeczownikiem_nieodmiennym():
-    #  Druga połowa tej samej myśli co notacja: `README` nie niesie ani kropki,
-    #  ani ukośnika, więc wzorzec notacji go nie widzi, a Morfeusz oddaje `ign`,
-    #  którego nie bierze ani jedna produkcja.
-    found = verdict("README mówi o podzbiorze.")
-    assert found.readings, found.explain()
-
-
-def test_wersalik_nie_dokłada_czytania_formie_którą_słownik_czyta():
-    #  Usterka, którą to łapie: warunek postawiony na samym piśmie formy. `NIE`
-    #  słownik czyta jako cząstkę przeczącą, a czytanie nieodmienne postawione na
-    #  jej miejscu odbiera zdaniu przeczenie.
-    segment = analyse("NIE")[0]
-    assert wersalik(segment) is segment
-
-
-# --------------------------------------------------------------------------- #
-# Splitting
-# --------------------------------------------------------------------------- #
-
-
-def test_tekst_dzieli_się_na_zdania_a_nie_na_każdej_kropce():
-    #  Kropka w docs/linter.md granicą nie jest, a granica akapitu jest, choć
-    #  kropki tam nie ma. Jedno i drugie ma olski/document.py i żadnego nie ma
-    #  cięcie na każdej kropce, którym ten podział szedł.
-    assert sentences("Co działa\n\nCały wywód prowadzi docs/linter.md.") == [
-        "Co działa",
-        "Cały wywód prowadzi docs/linter.md.",
-    ]
-
-
-def test_werdykt_niesie_zdanie_tak_jak_stoi_a_nie_graf_segmentacji():
-    #  Morfeusz dzieli ktoś na kto i ś obok formy całej, więc jest to zdanie,
-    #  które wypisywało się jako cztery słowa, choć stoją w nim trzy.
-    assert verdict("Ktoś zapisał plik.").text == "Ktoś zapisał plik."
-
-
-def test_fragment_bez_znaku_zamykajacego_nie_jest_zdaniem_odrzuconym():
-    #  Nagłówek i pozycja listy dochodzą do olskiego jako akapity, a produkcja
-    #  Sentence żąda na końcu kropki, więc odrzucone mierzyłyby ekstrakcję.
-    assert verdict("Zapisywanie pliku").status == FRAGMENT
-    assert verdict("Nowa program zapisuje ustawienia.").status == "rejected"
-
-
-def test_napis_który_olski_czyta_po_domknięciu_nie_jest_fragmentem():
-    """Fragment jest aparatem dokumentu, a to jest zdanie bez ostatniego znaku.
-
-    Rozdział ten jest całym zyskiem z werdyktu `unclosed`: bez niego autor, który
-    kropki nie postawił, dostawał odpowiedź, że nikt tego zdaniem nie napisał.
-    """
-    niedomknięte = verdict("Cena jest niska")
-    assert niedomknięte.status == NIEDOMKNIĘTE
-    assert niedomknięte.domknięcie == Domknięcie(".", 1)
-
-
-def test_niedomknięte_pytanie_dostaje_pytajnik_a_nie_kropkę():
-    #  Kropka stoi w DOMKNIĘCIA pierwsza, więc pytajnik wychodzi tylko tam, gdzie
-    #  kropka czytania nie daje: PYTAJNIK bierze jeden znak, a KONIEC_ZDANIA trzy.
-    assert verdict("Który program zapisuje ustawienia").domknięcie == Domknięcie("?", 1)
-
-
-def test_domknięcie_wieloznaczne_też_jest_niedomknięciem_a_nie_fragmentem():
-    """Warunkiem jest czytanie, a nie czytanie jedno.
-
-    `Program zapisuje ustawienia w pliku.` wychodzi dwoma czytaniami, bo `w pliku`
-    dochodzi raz do czasownika, a raz do dopełnienia. Brak kropki jest w tym
-    napisie tym samym brakiem co wyżej, a warunek na jedno czytanie schowałby go
-    pod odpowiedzią o wieloznaczności.
-    """
-    niedomknięte = verdict("Program zapisuje ustawienia w pliku")
-    assert niedomknięte.status == NIEDOMKNIĘTE
-    assert niedomknięte.domknięcie.czytań > 1
-
-
-def test_niedomknięte_stoi_poza_mianownikiem_tak_samo_jak_fragment():
-    """Domknięcia nie postawił nikt, więc zdaniem tekstu ten napis nie jest.
-
-    Liczone w mianowniku podniosłoby go o nagłówek, który po domknięciu się
-    wyprowadza, a `docs/extraction.md` mierzy tym mianownikiem podzbiór, a nie
-    ekstrakcję.
-    """
-    podsumowanie = Podsumowanie.z_werdyktów(check("Cena jest niska\n\nZapisz plik."))
-    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 1)
-    assert podsumowanie.fragmentów == 1
-
-
-def test_every_sentence_of_a_text_is_checked():
-    verdicts = check("Zapisz plik. Nowa program zapisuje ustawienia.")
-    assert [found.status for found in verdicts] == ["valid", "rejected"]
-
-
-def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
-    """Fragment nie jest zdaniem, więc tekst z nagłówkiem nie ma gorszego wyniku.
-
-    Reguła ta ma jednego właściciela dlatego, że pytają o nią wołający po obu
-    stronach repozytorium — wiersz poleceń i witryna — a policzona u każdego z
-    nich osobno daje mianownik większy o nagłówek i czyta się jak pomiar.
-    """
-    podsumowanie = Podsumowanie.z_werdyktów(
-        check("Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia.")
-    )
-    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 2)
-    assert (podsumowanie.z_czytaniem, podsumowanie.fragmentów) == (1, 1)
-
-
-def test_the_grammar_is_a_grammar_of_something():
-    assert len(GRAMMAR) > 5
-    assert GRAMMAR.undefined() == frozenset()
-
-
-def test_każdy_symbol_gramatyki_jest_osiągalny_od_startu():
-    assert GRAMMAR.nieosiągalne() == frozenset()
-
-
-def test_każdy_więz_gramatyki_pyta_o_cechę_wypuszczaną():
-    assert GRAMMAR.więzy_niesprawdzane() == frozenset()
-
-
-def test_każda_cecha_wypuszczana_przez_gramatykę_ma_co_wiązać_jej_zmienną():
-    assert GRAMMAR.wypuszczane_bez_wiązania() == frozenset()
-
-
-def test_każdy_wpis_wśród_niewypuszczanych_zatrzymuje_jakąś_cechę():
-    assert GRAMMAR.nie_wypuszczane_bez_żądania() == frozenset()
-
-
-def test_każdy_więz_na_terminalu_pyta_o_cechę_którą_morfologia_zna():
-    """Literówka w nazwie cechy formy przepuszcza każdą formę i nie rusza wydruku.
-
-    Inwentarz podaje tu wołający, bo formalizm gramatyki morfologii nie zna,
-    a więzów na terminalach jest w tej gramatyce kilkaset.
-    """
-    assert GRAMMAR.więzy_terminali_niesprawdzane(set(VALUES.values())) == frozenset()
-
-
-# --------------------------------------------------------------------------- #
-# Zatrzymania, czyli miejsca, na których staje analiza
-# --------------------------------------------------------------------------- #
-
-
-@pytest.mark.parametrize(
-    ("zdanie", "oczekiwane"),
-    [
-        #  Werdykt nazywa jedno miejsce, bo jedno jest końcem przedrostka, który
-        #  się analizuje, a zdanie o kilkunastu wyrazach ma ich kilka i pierwsze
-        #  zasłania resztę.
-        ("Dokument nazywa role, w jakich ktoś czyta, a dla każdej: pytanie.", ("czyta", "a", ":")),
-        ("Zapisz plik konfiguracyjny.", ()),
-    ],
-)
-def test_zatrzymania_nazywają_każde_miejsce_a_nie_samo_pierwsze(zdanie, oczekiwane):
-    assert zatrzymania(morphology(zdanie)) == oczekiwane
-
-
-def test_analiza_wznawia_się_za_formą_zatrzymania_a_nie_na_niej():
-    #  Usterka, którą to łapie: przebieg wznowiony na formie zatrzymania. Formy,
-    #  której nie wzięła żadna analiza częściowa, nie weźmie też analiza zaczęta
-    #  od niej, więc taki przebieg nazywałby ją bez końca.
-    assert zatrzymania(morphology("Parser jest tani, i gramatyka jest tania.")) == ("i",)
