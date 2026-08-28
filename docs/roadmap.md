@@ -455,6 +455,17 @@ para lematów jednej formy nie jest dwoma czytaniami
 a kryterium pisane pod tę klasę zmierzono i ono nie stoi
 ([subset.md](subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
 
+Ile ta klasa waży, jest przeczytane ręką:
+nad bankiem drzew, nad rejestrem ustaw i nad prozą tego repozytorium
+opiera się na takim czytaniu kilka procent zdań przyjętych
+([subset.md](subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
+Część tej klasy nie należy przy tym do tego etapu.
+Gdzie czytanie czytelnika jest w słowniku, a nie licencjonuje go żadna produkcja —
+zaimek zwrotny, liczebnik za rzeczownikiem — wykluczenie zamienia zdanie przyjęte
+na odrzucone, czyli werdykt nieprawdziwy na uczciwy,
+a czytanie właściwe wraca do zdania dopiero z pozycją,
+czyli z [etapem 6](#etap-6-reszta-konstrukcji).
+
 Etap stoi między tamtymi a konstrukcjami,
 bo wieloznaczność zawęża, a pokrycia nie podnosi,
 i jest pierwszym, przy którym nie wiadomo, czy kryterium w ogóle istnieje.
