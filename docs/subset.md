@@ -610,9 +610,10 @@ a ruch trzyma [TODO.md](../TODO.md).
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
 - A predicative before the copula, which is the mirror of OVS:
   `Wejściem jest zwykły tekst polski.`
-- Reflexive verbs, with `się` in either position beside the finite verb:
-  `Rachunek zwraca się.`, `Rachunek się zwraca.`
-  ([below](#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej))
+- Reflexive verbs, with `się` in either position beside the verb it belongs to,
+  finite or not: `Rachunek zwraca się.`, `Rachunek się zwraca.`,
+  `Cena zaczyna się otwierać.`
+  ([below](#cząstka-zwrotna-należy-do-swojego-czasownika))
 - An agreeing predicative, under the copula and under a verb that is not one:
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
 - A nominal predicative in the instrumental, under the copula and nowhere else:
@@ -978,14 +979,18 @@ czyli `Rachunek się będzie zwracał.` i `Rachunek będzie zwracał się.`,
 a pozycji między formą przyszłą a czasownikiem nie ma,
 więc `Rachunek będzie się zwracał.` zostaje na zewnątrz
 razem z resztą tego, czego ta cząstka nie obejmuje
-([niżej](#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
+([niżej](#cząstka-zwrotna-należy-do-swojego-czasownika)).
 
-## Cząstka zwrotna stoi po obu stronach swojej formy osobowej
+## Cząstka zwrotna należy do swojego czasownika
 
 Cząstka `się` jest dla leksykonu drugim wymiarem lematu, a nie określeniem:
 `otwierać` bierze dopełnienie w bierniku, a `otwierać się` go nie bierze
 ([niżej](#walencja-jest-leksykonem-o-ramie-domyślnej)).
-Polszczyzna daje jej przy formie osobowej dwie pozycje,
+Należy przez to do czasownika, a nie do formy, w jakiej on stoi,
+więc pozycję ma przy formie osobowej, przy bezokoliczniku i przy imiesłowie
+czynnym, a ile ich jest przy każdej z nich, mówi polszczyzna.
+
+Polszczyzna daje cząstce przy formie osobowej dwie pozycje,
 więc gramatyka ma oba ciała:
 `Rachunek zwraca się.` oraz `Rachunek się zwraca.`
 W pozycji przedniej cząstka poprzedza przeczenie —
@@ -1023,14 +1028,57 @@ i tyle właśnie autorowi trzeba: przez cząstkę zdanie się nie otwiera.
 Pozycji tylnej ten warunek nie tyka, bo przed nią stoi jej własna forma,
 więc nie zdejmuje ani jednego odczytania, które olski brał przed tym ciałem.
 
-Poza podzbiorem zostaje cząstka przy bezokoliczniku:
-`Cena zaczyna otwierać się.` nie ma odczytania,
-gdzie `Cena zaczyna się otwierać.` wyprowadza się,
-a `Trzeba się zabezpieczyć.` nie ma odczytania w żadnym z tych dwóch szyków.
-Zostaje też cząstka oddalona od swojej formy —
-`Rachunek się dotąd nie zwraca.` obok `Rachunek dotąd się nie zwraca.` —
-i jest to [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
+Te same dwie pozycje ma bezokolicznik:
+`Cena zaczyna otwierać się.` i `Cena zaczyna się otwierać.` wyprowadzają się oba,
+a `Trzeba się zabezpieczyć.` wyprowadza się przez predykatyw.
+Imiesłów czynny bierze cząstkę jedną pozycją, za sobą —
+`program otwierający się` — bo tam ją polszczyzna stawia;
+bierny nie bierze jej wcale, bo strony biernej czasownik zwrotny nie ma.
+
+Pozycja przy bezokoliczniku kupuje nad Składnicą kilkadziesiąt zdań
+pod obiema morfologiami, a zgodność ról podnosi zamiast obniżać:
+zdań, w których przyjęte odczytanie przeczy drzewu wzorcowemu, nie przybywa
+ani jedno ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Nad prozą tych dokumentów zdejmuje z odrzuconych garść zdań —
+`Komentarz mieszczący się w jednym wierszu zostaje w jednym wierszu.` —
+a nad README nie rusza ani jednego werdyktu.
+
+Ceną jest garstka odrzuceń i wszystkie stoją na jednym:
+cząstka odgrodzona od swojego czasownika słowem,
+czyli [nieciągłość](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
 a nie brak pozycji.
+`Rachunek się dotąd nie zwraca.` pada, `Rachunek dotąd się nie zwraca.` przechodzi,
+a `Nie mogłem się na niczym skupić.` pada z tego samego powodu,
+bo cząstka należy tam do `skupić`, a odgradza ją od niego wyrażenie przyimkowe.
+Nad prozą tych dokumentów pada tak jedno zdanie —
+`Akt pod nim nie może się już zmienić.` — gdzie odgradza ją `już`.
+Odrzucenie jest w tych zdaniach werdyktem prawdziwym,
+bo jedyne odczytanie, jakie by zostało, prowadzi przez formę osobową obok —
+`mogłem się` — a takiego czasownika polszczyzna nie ma.
+Jedno miejsce zostaje poza podzbiorem, choć cząstka stoi w nim
+tuż przy swoim czasowniku: wnętrze czasu przyszłego złożonego,
+czyli `Fabryki będą się znajdować we Włoszech.`
+Cząstka stoi tam między dwiema częściami jednego orzeczenia
+([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
+a pozycji między nimi nie ma ani jedno ciało; ruch trzyma [TODO.md](../TODO.md).
+
+Gdzie cząstka może należeć do dwóch czasowników naraz, olski wypuszcza oba
+odczytania. `Program otwierający się psuje.` czyta się i z `otwierający się`
+w przydawce, i z `się psuje` w orzeczeniu, bo obie formy są w polszczyźnie
+zwrotne, a wybiera między nimi znaczenie.
+Tam, gdzie wybiera leksykon, wypuszcza jedno:
+`Zebranie ma się odbyć.` ma odczytanie z `odbyć się`
+i nie ma go z `mieć się`, bo `mieć się` bezokolicznika nie bierze
+([niżej](#walencja-jest-leksykonem-o-ramie-domyślnej)).
+Zostaje przez to konkurencja przy czasowniku zwrotnym,
+któremu Walenty bezokolicznik daje: `Nie daj się schwytać.`
+wychodzi dwoma odczytaniami, bo `dać się` bierze bezokolicznik
+i cząstka pasuje wtedy do obu ciał.
+Płaci za to [przyrząd pomiarowy](roadmap.md#readme-jest-przyrządem-pomiarowym):
+zdanie README o tym, co z prozy da się lintować, ma odtąd dwa razy tyle odczytań,
+i jest to jedyne zdanie tego pliku, które ta pozycja rusza.
+Ceną jest więc wieloznaczność przy kilkuset lematach, a nie przy każdym,
+i tyle właśnie kupuje odjęcie bezokolicznika ramie zwrotnej.
 
 Klasa domyślna leksykonu zwrotnego cząstki kopuli nie daje.
 Leksykon ten wymienia zwrotność zleksykalizowaną i tylko ją,
@@ -1043,51 +1091,27 @@ Odmowa stoi przy tej klasie i wymienia lematy kopuli
 jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost.
 Lematu `zostać` nie tyka, bo leksykon zwrotny go wymienia,
 a klasa domyślna po lemat wymieniony nie sięga.
-
-Cena tej odmowy jest zmierzona i cała stoi na czytaniach nieprawdziwych.
-Nad Składnicą pod złotą morfologią odpadają cztery zdania, a pod żywą sześć,
-i wszystkie są jednego kształtu: `będzie się` z bezokolicznikiem za nim.
-`Fabryki nowej spółki będą się znajdować we Włoszech, Francji, Wielkiej Brytanii
-i Hiszpanii.` jest jednym z nich: cząstka należy tam do bezokolicznika,
-a bez odmowy bierze ją forma `będzie`.
-Odrzucenie jest w tych zdaniach werdyktem prawdziwym,
-bo cząstki przy bezokoliczniku ten podzbiór nie ma.
-Nad prozą tego repozytorium rusza się jeden werdykt
-i jest nim to zdanie, zacytowane tutaj z banku drzew.
+Nic to nie kosztuje: gramatyka bez tej odmowy nie rusza nad Składnicą
+ani jednego werdyktu pod złotą morfologią, a jednego pod żywą.
 
 Zamknięcie całego leksykonu zwrotnego zmierzono i olski go nie bierze.
 Gramatyka odmawiająca cząstki każdemu lematowi, którego Walenty nie wymienia
-jako czasownika zwrotnego, traci nad Składnicą pod złotą morfologią
-dwadzieścia dziewięć zdań przyjętych i tyle samo wieloznacznych,
-a jednoznaczności nie kupuje żadnej:
-ani jedno zdanie nie traci przy niej samego czytania.
+jako czasownika zwrotnego, traci nad Składnicą pod obiema morfologiami
+kilkadziesiąt zdań, którym olski daje dziś odczytanie,
+a jednoznaczności kupuje przy tym pojedyncze zdania.
 Zdania przyjęte przeczytano po kolei i większość z nich niesie polszczyznę,
 a nie usterkę.
-Dziesięć niesie zwrotność, którą Walenty pisze pozycją `refl` albo `recip`
+Jedna klasa niesie zwrotność, którą Walenty pisze pozycją `refl` albo `recip`
 w schemacie lematu niezwrotnego, a nie osobnym lematem:
 `Spotkał się ze stanowczą odmową.`
-Tą jedną klasą stoi szesnaście z tych 58 zdań,
-a liczbę daje ten sam przebieg z leksykonem czytającym obie te pozycje.
-Czternaście niesie cząstkę bezosobową — `Myśli się językowo.`,
+Druga niesie cząstkę bezosobową — `Myśli się językowo.`,
 `Wino białe pije się inaczej.` — której Walenty nie leksykalizuje,
 bo dochodzi ona do czasownika dowolnego,
 a olski wyprowadza ją dziś tą samą klasą domyślną,
 czytając ją czasownikiem zwrotnym z podmiotem.
-Pięć ostatnich stoi na cząstce należącej do bezokolicznika,
-czyli na czytaniu, którego polszczyzna nie ma.
 Decyzję odwraca pozycja na cząstkę bezosobową, czyli zdanie bez podmiotu
 z dopełnieniem w bierniku, wraz z leksykonem czytającym obie pozycje Walentego;
 bez nich zamknięcie listy płaci pokryciem za czytania prawdziwe.
-
-Cząstkę bierze przy tym forma, przy której stoi, a nie ta, do której należy,
-więc gdzie cząstka należy do słowa przed sobą, zdanie wyprowadza się na opak:
-`Program otwierający się psuje.` wychodzi z `się psuje` w orzeczeniu.
-Tę samą usterkę ma pozycja tylna po drugiej stronie —
-`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się` —
-i czeka na to samo rozstrzygnięcie ([TODO.md](../TODO.md)).
-Ani bank drzew, ani ta proza nie stawiają słowa własnego cząstki przed nią
-w żadnym ze zdań, które pozycja przednia nowo przyjmuje,
-więc odczytania takiego nie wydała nad nimi ani razu.
 
 ## Negacja żąda dopełniacza i żąda go ponad bezokolicznikiem
 
@@ -1989,9 +2013,11 @@ Zdanie o celowniku i zdanie o dopełniaczu są twierdzące i mówią,
 Zdanie o celowniku przy wypełnieniu jest węższe od tamtego pierwszego i mówi,
 że jeden schemat stawia ten celownik obok drugiej pozycji
 ([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
-Zdanie o bezokoliczniku mówi, że czasownik bierze bezokolicznik,
-którego wykonawcą jest jego własny podmiot,
-a zdanie o zdaniu podrzędnym — że bierze zdanie wprowadzone przez `że`,
+Zdania o bezokoliczniku są dwa i jedno jest węższe od drugiego, jak przy celowniku:
+szersze mówi, że bezokolicznik przy tym czasowniku stoi,
+a węższe — że jego wykonawcą jest podmiot tego samego schematu
+([wyżej](#walencja-jest-leksykonem-o-ramie-domyślnej) mówi, komu które służy).
+Zdanie o zdaniu podrzędnym mówi, że czasownik bierze zdanie wprowadzone przez `że`,
 czyli że stoi przy nim to, co ktoś mówi albo wie
 ([sklad.md](sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
 Kierunek zdania o bierniku jest przeciwny niż kierunek pozostałych,
@@ -2002,7 +2028,8 @@ ani bezokolicznika, ani zdania podrzędnego.
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
 zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964,
 o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
-o bezokoliczniku 285, a o zdaniu podrzędnym 2 498.
+o bezokoliczniku 363, o bezokoliczniku pod kontrolą podmiotu 285,
+a o zdaniu podrzędnym 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
 Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
 Czyta go `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
@@ -2029,7 +2056,9 @@ a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
 
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
 Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
-a bezokolicznik i zdanie podrzędne czyta sam skład,
+zdanie podrzędne sam skład,
+a zdania o bezokoliczniku rozchodzą się na dwa: szersze czyta parser
+przy czasowniku zwrotnym, węższe skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
 Skład o dwa pierwsze nie pyta, bo `Robi` w `olski/skład/składnia.py`
 stawia rolę w bierniku i nie ma czym postawić jej w przypadku innym;
@@ -2073,24 +2102,32 @@ U `chcieć` etykietę kontrolującą nosi pozycja podmiotu,
 więc `Córka krawca chciała zejść.` mówi, że zeszłaby ona.
 U `kazać` nosi ją pozycja celownikowa,
 więc `Krawiec kazał córce zejść.` mówi, że zeszłaby córka.
-Przekład bierze pierwszy z tych kształtów i nie bierze drugiego,
-bo wykonawcy nie ma czym postawić.
-Parser bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok wypełnienia
-([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
-a kto zeszedł, nie pyta ani jedna produkcja.
-Zdanie leksykonu jest przez to zdaniem o kontroli, a nie o samym kształcie frazy,
-i tyle wystarcza, żeby skład nie musiał o kontrolę pytać drugi raz.
+Zdania są przez to dwa, a nie jedno, i różni je właśnie kontrola.
+Szersze mówi, że bezokolicznik przy tym czasowniku stoi,
+węższe — że wykonawcą jest jego własny podmiot,
+i drugie zawiera się w pierwszym tak samo jak celownik przy wypełnieniu
+w celowniku ([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
 
-Czyta to zdanie na razie sam skład, a nie parser, i to jest wynik pomiaru.
-Gramatyka odmawiająca bezokolicznika tym lematom, którym odmawia go Walenty,
-przyjmuje nad Składnicą dwa zdania mniej
+Węższe czyta skład, bo drzewo stawiające bezokolicznik stawia i wykonawcę,
+a `Krawiec kazał córce zejść.` mówi, że zeszłaby córka, i tego skład nie zapisze.
+Parser czyta szersze i o kontrolę nie pyta:
+bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok wypełnienia,
+a kto zeszedł, nie pyta ani jedna produkcja.
+Zdanie węższe czytane po tej stronie odbierałoby bezokolicznik czasownikom
+bezosobowym — `udać się` i `dać się` kontrolowane są z celownika —
+więc `Nie udało się ustalić rasy.` przestałoby się wyprowadzać, choć polszczyzną jest.
+
+Czyta je przy tym sama strona zwrotna, a strona zwykła zostaje przy ramie domyślnej,
+i to jest wynik pomiaru.
+Gramatyka odmawiająca bezokolicznika tym lematom niezwrotnym,
+którym odmawia go Walenty, przyjmuje nad Składnicą dwa zdania mniej
 i nie kupuje za to ani jednej jednoznaczności.
-Płaci za to cząstka `się`, która staje przy formie osobowej,
-należąc do bezokolicznika za nią:
-`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
-któremu Walenty bezokolicznika nie daje.
-Pomiar mówi o odmowie, a nie o wpisie,
-więc zdanie stojące w pliku i nieczytane przez parser nie kosztuje tam nic.
+Po stronie zwrotnej to samo zawężenie kupuje jednoznaczność każdemu zdaniu,
+w którym cząstka stoi między formą osobową a bezokolicznikiem
+([wyżej](#cząstka-zwrotna-należy-do-swojego-czasownika)),
+bo tam pozycja bezokolicznikowa jest tym, co dokłada odczytanie drugie.
+Ta sama pozycja ramy kosztuje więc po jednej stronie, a po drugiej płaci,
+i rozdziela je nie lemat, tylko to, czy cząstka przy nim stoi.
 
 Bank drzew mówi o walencji sam.
 Frazy wymagane niosą w Składnicy swoją pozycję,

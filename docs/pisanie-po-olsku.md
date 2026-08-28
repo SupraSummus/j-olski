@@ -275,15 +275,14 @@ różni ją to, że nie ma czym wpuścić jej osobno
 ([subset.md](subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
 cenę tej produkcji trzyma [`TODO.md`](../TODO.md).
 
-**Cząstka `się` poza swoją formą osobową.**
-`Cena zaczyna otwierać się.` pada, `Cena zaczyna się otwierać.` przechodzi,
-i tak samo pada cząstka oddalona od swojej formy:
-`Rachunek się dotąd nie zwraca.` pada, `Rachunek dotąd się nie zwraca.` przechodzi.
-Obie pozycje przy samej formie osobowej gramatyka ma
-([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)),
-a bezokolicznik cząstki nie bierze wcale.
-Te dwie pozycje prowadzą wiersz `part` w
-[kolejce blokerów](corpus.md#where-the-analyses-stop).
+**Cząstka `się` oddalona od swojego czasownika.**
+`Rachunek się dotąd nie zwraca.` pada,
+`Rachunek dotąd się nie zwraca.` przechodzi,
+i tak samo pada `Nie mogłem się na niczym skupić.`,
+gdzie cząstka należy do `skupić`, a odgradza ją od niego wyrażenie przyimkowe.
+Obie pozycje tuż przy czasowniku gramatyka ma i ma je przy każdej jego formie
+([subset.md](subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+więc naprawą jest przysunięcie cząstki do czasownika, do którego należy.
 
 **Cząstka `tylko` wewnątrz grupy imiennej.**
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,

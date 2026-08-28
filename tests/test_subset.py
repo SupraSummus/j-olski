@@ -2101,13 +2101,50 @@ def test_cząstka_zwrotna_opiera_się_o_słowo_a_nie_o_znak():
     assert verdict("Cena rośnie, a się nie liczy.").status == "valid"
 
 
-def test_leksykon_nie_zabiera_czasownikowi_bezokolicznika():
-    #  Walenty mówi i o bezokoliczniku, a przekład go nie bierze, bo cząstka się
-    #  staje przy formie osobowej, należąc do bezokolicznika za nią: mieć się
-    #  bezokolicznika w Walentym nie ma, a to zdanie stoi na nim. Nad Składnicą
-    #  zawężenie o bezokolicznik kosztuje dwa zdania i nie kupuje ani jednej
-    #  jednoznaczności, i to jest ten pomiar; docs/subset.md go trzyma.
-    assert verdict("Zebranie ma się odbyć.").status == "valid"
+@pytest.mark.parametrize(
+    ("text", "role_zdania"),
+    [
+        #  Cząstka stoi między dwoma czasownikami i należy do drugiego: mieć się
+        #  jest polszczyzną (ma się dobrze), a bezokolicznika nie bierze.
+        ("Zebranie ma się odbyć.", {"Subject": "Zebranie", "Verb": "ma"}),
+        #  Bezokolicznik ma obie pozycje, tak samo jak forma osobowa, więc oba
+        #  szyki wychodzą tym samym odczytaniem.
+        ("Cena zaczyna otwierać się.", {"Subject": "Cena", "Verb": "zaczyna"}),
+        ("Cena zaczyna się otwierać.", {"Subject": "Cena", "Verb": "zaczyna"}),
+    ],
+)
+def test_cząstka_należy_do_bezokolicznika_a_nie_do_formy_osobowej_przy_nim(text, role_zdania):
+    #  Bez pozycji przy bezokoliczniku cząstkę bierze forma osobowa obok i każde
+    #  z tych zdań wychodzi jednym odczytaniem z czasownikiem, którego polszczyzna
+    #  nie ma; werdykt ręczy wtedy za czytanie nieprawdziwe.
+    assert role(verdict(text)) == [role_zdania]
+
+
+def test_leksykon_zostawia_bezokolicznik_czasownikowi_zwrotnemu_który_go_bierze():
+    #  Odjęcie bezokolicznika ramie zwrotnej daje zdaniu wyżej jedno odczytanie
+    #  zamiast dwóch, a bierze je z leksykonu, a nie z całej klasy: bez tego wpisu
+    #  odjęcie sięga też czasowników, przy których bezokolicznik naprawdę stoi.
+    assert role(verdict("Stara się ustalić granicę.")) == [
+        {"Object": "granicę", "Verb": "Stara się"}
+    ]
+
+
+def test_zdanie_leksykonu_o_bezokoliczniku_nie_żąda_kontroli_podmiotu():
+    #  Zdanie węższe, o bezokoliczniku pod kontrolą podmiotu, czyta sam skład.
+    #  Parser czytający je zamiast szerszego odbiera bezokolicznik czasownikom
+    #  bezosobowym — udać się i dać się kontrolowane są z celownika — i tych zdań
+    #  Składnicy nie wyprowadza, choć polszczyzną są.
+    assert verdict("Nie udało się ustalić rasy.").status == "valid"
+    assert verdict("W teatrze nie da się oszukać widza.").status == "valid"
+
+
+def test_imiesłów_czynny_bierze_cząstkę_zwrotną_stojącą_za_nim():
+    #  Polszczyzna ma tu dwa odczytania, bo cząstka należy albo do imiesłowu, albo
+    #  do czasownika, a wybiera między nimi znaczenie. Bez tej pozycji cząstkę
+    #  bierze forma osobowa za przydawką i zostaje samo drugie.
+    czytania = role(verdict("Program otwierający się psuje."))
+    assert {"Subject": "Program otwierający", "Verb": "się psuje"} in czytania
+    assert {"Subject": "Program otwierający się", "Verb": "psuje"} in czytania
 
 
 def test_leksykon_odrzuca_zdanie_czytane_dotąd_z_dopełnieniem_którego_tam_nie_ma():

@@ -22,14 +22,20 @@ i wypuszczałby ``Program jest ustawienia.``
 
 Wspólny jest też plik, a nie każde zdanie, które on mówi.
 Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
-a bezokolicznik oraz zdanie podrzędne czyta sam skład,
-i nie jest to niezgoda o fakt, tylko różnica w tym, co on komu kupuje:
-po stronie generatora jest jedyną obroną przed drzewem żądającym
-bezokolicznika od czasownika, który go nie bierze,
-a po stronie parsera zmierzono oba i żadne nie kupiło ani jednej jednoznaczności;
+zdanie podrzędne sam skład,
+a o bezokoliczniku plik mówi dwoma zdaniami i każdy czyta swoje.
+Skład czyta węższe, o kontroli podmiotu, bo jest ono po tamtej stronie
+jedyną obroną przed drzewem żądającym bezokolicznika od czasownika,
+który go nie bierze.
+Parser czyta szersze i czyta je przy czasowniku zwrotnym:
+tam pozycja bezokolicznikowa dokłada odczytanie drugie zdaniu,
+w którym cząstka stoi między dwoma czasownikami,
+więc zawężenie kupuje jednoznaczność, zamiast kosztować zdanie.
+Po stronie niezwrotnej zmierzono je i nie kupiło ani jednej;
 liczby trzyma docs/subset.md.
 Pozycję zdania podrzędnego gramatyka podzbioru ma,
-więc jest to ta sama decyzja co przy bezokoliczniku, a nie brak pozycji.
+więc jest to ta sama decyzja co przy bezokoliczniku niezwrotnym,
+a nie brak pozycji.
 
 Przyimki czyta trzeci odbiorca i żadnej produkcji nie rusza:
 świadek ramowy w ``olski/rozstrzyganie.py`` pyta o nie po obu stronach
@@ -65,6 +71,7 @@ LEKSYKON = Path(__file__).parent / "leksykon.txt"
 #: a plik czytają wszyscy pytający i oni nie mają po co importować narzędzia.
 NIE_BIERZE_BIERNIKA = "nie_bierze_biernika"
 BIERZE_BEZOKOLICZNIK = "bierze_bezokolicznik"
+BIERZE_BEZOKOLICZNIK_PODMIOTU = "bierze_bezokolicznik_podmiotu"
 BIERZE_ZDANIE = "bierze_zdanie"
 BIERZE_CELOWNIK = "bierze_celownik"
 BIERZE_DOPEŁNIACZ = "bierze_dopełniacz"
@@ -150,9 +157,13 @@ Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE = _lematy(
     BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK_ZWROTNY
 )
 
-#: Lematy z bezokolicznikiem pod kontrolą podmiotu. Zbiór zwrotny stąd nie wychodzi,
-#: bo cząstki ``się`` nie ma czym zapisać po tej stronie, a parser tego zdania nie czyta.
-Z_BEZOKOLICZNIKIEM = _lematy(BIERZE_BEZOKOLICZNIK, CZASOWNIK)
+#: Zbiory różnią się zdaniem, a nie klasą słowa, i po to stoją tu oba naraz:
+#: pierwszy mówi, że przy formie z cząstką ``się`` bezokolicznik stoi, a drugi,
+#: że przy formie bez cząstki wykonawcą bezokolicznika jest jej własny podmiot.
+#: Zdanie węższe zawiera się w szerszym tak samo jak celownik przy wypełnieniu
+#: w celowniku, a komu które służy, mówi docstring tego modułu.
+Z_BEZOKOLICZNIKIEM_ZWROTNE = _lematy(BIERZE_BEZOKOLICZNIK, CZASOWNIK_ZWROTNY)
+Z_BEZOKOLICZNIKIEM_PODMIOTU = _lematy(BIERZE_BEZOKOLICZNIK_PODMIOTU, CZASOWNIK)
 
 #: Lematy ze zdaniem podrzędnym wprowadzonym przez ``że``. Formy zwrotnej ta strona
 #: nie ma czym zapisać, tak samo jak przy bezokoliczniku, więc zbiór jest jeden.
@@ -208,7 +219,7 @@ def bierze_biernik(lemat: str) -> bool:
     return lemat not in BEZ_BIERNIKA
 
 
-def bierze_bezokolicznik(lemat: str) -> bool:
+def bierze_bezokolicznik_podmiotu(lemat: str) -> bool:
     """Czy czasownik weźmie bezokolicznik, którego wykonawcą jest jego podmiot.
 
     Odpowiedź przecząca należy się lematowi, którego leksykon nie wymienia,
@@ -220,9 +231,11 @@ def bierze_bezokolicznik(lemat: str) -> bool:
     ``kazać`` bierze w polszczyźnie bezokolicznik, a wykonawcą jest ten,
     komu kazano, i tego skład nie ma czym zapisać.
     Parser bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok
-    wypełnienia, a kto ten bezokolicznik wykonuje, nie pyta ani jedna produkcja.
+    wypełnienia, a kto ten bezokolicznik wykonuje, nie pyta ani jedna produkcja,
+    więc po tamtej stronie czyta się zdanie szersze
+    (:data:`Z_BEZOKOLICZNIKIEM_ZWROTNE`).
     """
-    return lemat in Z_BEZOKOLICZNIKIEM
+    return lemat in Z_BEZOKOLICZNIKIEM_PODMIOTU
 
 
 def bierze_zdanie(lemat: str) -> bool:

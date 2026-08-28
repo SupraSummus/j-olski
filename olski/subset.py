@@ -27,6 +27,7 @@ from olski.precedencja import Rozwinięcie
 from olski.walencja import (
     BEZ_BIERNIKA,
     BEZ_BIERNIKA_ZWROTNE,
+    Z_BEZOKOLICZNIKIEM_ZWROTNE,
     Z_CELOWNIKIEM,
     Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU,
     Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE,
@@ -380,21 +381,51 @@ PIĘCIE = "piąć"
 #: przebieg.
 RAMA_DOMYŚLNA = "nom.acc.inf.comp.int"
 
-#: Rama lematu, o którym leksykon mówi, że biernika nie bierze. Wyliczona z
-#: domyślnej, a nie wypisana obok niej, żeby pozycję dopisaną tam widziała i ta.
-RAMA_BEZ_BIERNIKA = ".".join(p for p in RAMA_DOMYŚLNA.split(".") if p != "acc")
 
-#: Pozycja przypadkowa, której rama domyślna nie ma, a leksykon ją lematowi daje:
-#: nazwa pozycji wraz ze zbiorami lematów, osobno dla formy bez cząstki ``się``
-#: i z nią. Kolejność jest kolejnością, w której te pozycje dochodzą do ramy, więc
-#: jedna rama wychodzi stąd jednym napisem, a nie dwoma o tych samych pozycjach.
+def _bez(rama: str, pozycja: str) -> str:
+    """Ta rama bez tej pozycji.
+
+    Ramy węższe wyliczają się z domyślnej, a nie stoją wypisane obok niej, żeby
+    pozycję dopisaną tam widziała każda z nich.
+    """
+    return ".".join(p for p in rama.split(".") if p != pozycja)
+
+
+#: Rama lematu, o którym leksykon mówi, że biernika nie bierze.
+RAMA_BEZ_BIERNIKA = _bez(RAMA_DOMYŚLNA, "acc")
+
+#: Rama czasownika zwrotnego spoza leksykonu: domyślna bez bezokolicznika.
+#:
+#: Odjęcie to jest zdaniem o cząstce, a nie o czasowniku. Cząstka stoi po obu
+#: stronach swojej formy osobowej i po obu stronach bezokolicznika pod nią, więc w
+#: `ma się odbyć` jeden napis pasuje do dwóch ciał naraz: `[ma się] [odbyć]` oraz
+#: `[ma] [się odbyć]`. Polszczyzna ma tam jedno czytanie, a rozstrzyga o nim
+#: leksykon: `mieć się` bezokolicznika nie bierze, a `starać się` bierze
+#: (:data:`Z_BEZOKOLICZNIKIEM_ZWROTNE`). Bez tego odjęcia pozycja przy
+#: bezokoliczniku dokłada drugie wyprowadzenie każdemu zdaniu tego kształtu,
+#: zamiast odbierać nieprawdziwe.
+#:
+#: Po stronie niezwrotnej pozycja ta zostaje w ramie domyślnej, bo tam konkurencji
+#: nie ma i zawężenie zmierzono: nie kupiło ani jednego drugiego czytania
+#: (:data:`RAMA_DOMYŚLNA`). Cenę odjęcia zwrotnego trzyma
+#: docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika.
+RAMA_DOMYŚLNA_ZWROTNA = _bez(RAMA_DOMYŚLNA, "inf")
+
+#: Pozycja, której rama domyślna tej klasy słowa nie ma, a leksykon ją lematowi
+#: daje: nazwa pozycji wraz ze zbiorami lematów, osobno dla formy bez cząstki
+#: ``się`` i z nią. Kolejność jest kolejnością, w której te pozycje dochodzą do
+#: ramy, więc jedna rama wychodzi stąd jednym napisem, a nie dwoma o tych samych
+#: pozycjach.
 #:
 #: Zdanie leksykonu jest tu twierdzące, a przy bierniku ujemne, i przeciwne są
 #: domyślności, od których oba odejmują: biernik stoi w ramie domyślnej, a
-#: przypadek poza nim nie stoi w niej wcale.
+#: przypadek poza nim nie stoi w niej wcale. Bezokolicznik odejmuje w jedną stronę
+#: i dokłada w drugą, bo domyślności są tu dwie: rama zwykła go ma, a zwrotna nie
+#: (:data:`RAMA_DOMYŚLNA_ZWROTNA`), więc zbiór zwykły jest pusty.
 DOKŁADANE = (
     ("dat", Z_CELOWNIKIEM, Z_CELOWNIKIEM_ZWROTNE),
     ("gen", Z_DOPEŁNIACZEM, Z_DOPEŁNIACZEM_ZWROTNE),
+    ("inf", frozenset(), Z_BEZOKOLICZNIKIEM_ZWROTNE),
 )
 
 
@@ -420,14 +451,22 @@ BEZ_DRUGIEJ = "bez"
 
 
 def _rama(
-    lemat: str, bez_biernika: frozenset[str], dokładane: Sequence[tuple[str, frozenset]]
+    lemat: str,
+    domyślna: str,
+    bez_biernika: frozenset[str],
+    dokładane: Sequence[tuple[str, frozenset]],
 ) -> str:
-    """Rama tego lematu: domyślna bez tego, czego leksykon mu odmawia, i z tym, co mu daje."""
-    odjęta = RAMA_BEZ_BIERNIKA if lemat in bez_biernika else RAMA_DOMYŚLNA
+    """Rama tego lematu: domyślna bez tego, czego leksykon mu odmawia, i z tym, co mu daje.
+
+    ``domyślna`` jest domyślną jego klasy słowa, bo klasy te mają dwie różne
+    (:data:`RAMA_DOMYŚLNA_ZWROTNA`).
+    """
+    odjęta = _bez(domyślna, "acc") if lemat in bez_biernika else domyślna
     return ".".join([odjęta, *(nazwa for nazwa, lematy in dokładane if lemat in lematy)])
 
 
 def _klasy_walencyjne(
+    domyślna: str,
     bez_biernika: frozenset[str],
     dokładane: Sequence[tuple[str, frozenset]],
     poza: frozenset[str] = frozenset(),
@@ -439,7 +478,7 @@ def _klasy_walencyjne(
     """
     klasy: dict[str, set[str]] = {}
     for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:
-        klasy.setdefault(_rama(lemat, bez_biernika, dokładane), set()).add(lemat)
+        klasy.setdefault(_rama(lemat, domyślna, bez_biernika, dokładane), set()).add(lemat)
     return {rama: "|".join(sorted(lematy)) for rama, lematy in sorted(klasy.items())}
 
 
@@ -455,15 +494,18 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
     co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
 
-    Zdania leksykonu są tu trzy — o bierniku, o celowniku i o dopełniaczu — a plik
-    mówi pięć. Co zdejmuje dwa pozostałe, mówi :data:`RAMA_DOMYŚLNA`.
+    Zdania leksykonu są tu cztery — o bierniku, o celowniku, o dopełniaczu i o
+    bezokoliczniku — a plik mówi pięć. Bezokolicznik czyta sama strona zwrotna;
+    co zdejmuje go po drugiej i co zdejmuje piąte zdanie, mówi :data:`RAMA_DOMYŚLNA`.
     """
     return (
         {
-            **_klasy_walencyjne(BEZ_BIERNIKA, _dokładane(False), frozenset(KOPULA.split("|"))),
+            **_klasy_walencyjne(
+                RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), frozenset(KOPULA.split("|"))
+            ),
             "nom.inst": KOPULA,
         },
-        _klasy_walencyjne(BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
+        _klasy_walencyjne(RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
     )
 
 
@@ -690,7 +732,7 @@ CZĄSTKA_ZWROTNA = word("part", lemma=LEMAT_ZWROTNY)
 #:
 #: Cząstka poprzedza przeczenie, a nie stoi między nim i formą, bo tak stawia je
 #: polszczyzna: `się nie mieści`, a nie `nie się mieści`.
-#: docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej
+#: docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika
 #: wywodzi cenę pozycji przedniej i mówi, czego ona nie obejmuje.
 SZYKI_CZĄSTKI: tuple[tuple[bool, tuple[Part, ...], tuple[Part, ...]], ...] = (
     (False, (), ()),
@@ -708,7 +750,7 @@ def _bez_orzecznika(rama: str) -> str:
     predykatyw o domyślną (:data:`RAMA_BEZOSOBOWA`), forma nieosobowa o ramę
     swojego lematu — więc odejmowanie jest funkcją, a nie drugą stałą obok nich.
     """
-    return ".".join(pozycja for pozycja in rama.split(".") if pozycja != "nom")
+    return _bez(rama, "nom")
 
 
 #: Rama predykatywu (:data:`PREDYKATYWY`): domyślna bez orzecznika zgodnego.
@@ -800,13 +842,15 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str, str]]:
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
     jak każdy inny nieznany, bo cząstkę stawia polszczyzna przy czasowniku
     dowolnym, a Walenty wymienia z niej samą zwrotność zleksykalizowaną.
+    Domyślne są przy tym dwie i różni je bezokolicznik, o czym mówi
+    :data:`RAMA_DOMYŚLNA_ZWROTNA`.
 
     Klasa domyślna leksykonu zwrotnego odmawia przy tym kopuli (:data:`KOPULA`), i
     jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost: bez tego
     ``Cena się jest niska.`` się wyprowadza, a ``być się`` czasownikiem nie jest.
     Lematu ``zostać`` odmowa ta nie tyka, bo leksykon zwrotny go wymienia i klasa
     domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
-    docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej.
+    docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 
     Klasa ramy dzieli się na dwie tam, gdzie leksykon daje części jej lematów
     drugą pozycję (:data:`DRUGA_CELOWNIK`), a klasa domyślna drugiej pozycji nie
@@ -822,7 +866,8 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str, str]]:
         if wybrane
     ]
     poza_domyślną = [*leksykon.values(), *([KOPULA] if zwrotne else [])]
-    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, RAMA_DOMYŚLNA, BEZ_DRUGIEJ)]
+    domyślna = RAMA_DOMYŚLNA_ZWROTNA if zwrotne else RAMA_DOMYŚLNA
+    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, domyślna, BEZ_DRUGIEJ)]
 
 
 def _po_drugiej(lematy: Sequence[str], z_parą: frozenset[str]) -> list[tuple[str, list[str]]]:
@@ -1123,14 +1168,30 @@ def build() -> Grammar:
     # Imiesłowy dochodzą dwoma wierszami, a nie jednym terminalem o dwóch częściach
     # mowy, bo cena każdego z nich ma być osobną liczbą. Orzecznik bierze `ppas` i
     # nie bierze `pact`: `Reguła jest sięgająca.` nie jest zdaniem tego rejestru.
-    for symbol, słowo in (
-        ("AdjectiveConjunct", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
-        ("AdjectiveConjunct", word("ppas", **AGREE)),
-        ("AdjectiveConjunct", word("pact", **AGREE)),
-        ("PredicativeAdjective", word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE)),
+    #
+    # Imiesłów czynny bierze przy tym cząstkę zwrotną, bo jest formą czasownika,
+    # który ją bierze: `program otwierający się`. Wiersz jest osobny i pozycja
+    # jedna, za głową, bo tam ją polszczyzna stawia; `program się otwierający`
+    # zdaniem tego rejestru nie jest. Bierny jej nie bierze wcale, bo strony
+    # biernej czasownik zwrotny nie ma.
+    #
+    # Bez tego wiersza cząstkę zabiera forma osobowa stojąca za przydawką i
+    # `Program otwierający się psuje.` wychodzi jednym czytaniem, z `się psuje`
+    # w orzeczeniu, gdzie polszczyzna ma tam dwa: cząstka należy do imiesłowu
+    # albo do czasownika, a rozstrzyga o tym znaczenie.
+    for symbol, słowo, za in (
+        ("AdjectiveConjunct", word("adj", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE), ()),
+        ("AdjectiveConjunct", word("ppas", **AGREE), ()),
+        ("AdjectiveConjunct", word("pact", **AGREE), ()),
+        ("AdjectiveConjunct", word("pact", bez_lematu_formy=KOPULA, **AGREE), (CZĄSTKA_ZWROTNA,)),
+        (
+            "PredicativeAdjective",
+            word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE),
+            (),
+        ),
     ):
-        grammar.rule(symbol, [Głowa(słowo)])
-        grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo)])
+        grammar.rule(symbol, [Głowa(słowo), *za])
+        grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo), *za])
     przymiotnik = nt("AdjectiveConjunct", **AGREE)
     orzecznikowy = nt("PredicativeAdjective", **AGREE)
 
@@ -1633,8 +1694,18 @@ def build() -> Grammar:
     # nie w każdym ciele, w którym stoi ona. Łańcuch nie potrzebuje przy tym
     # własnej produkcji, bo InfinitivePhrase → inf Complements wraca do ciał niżej
     # i ma pomagać pisać wychodzi z tych dwóch.
-    for przeczenie, _ in PRZECZENIA:
-        grammar.rule("InfinitivePhrase", [*przeczenie, Głowa(word("inf"))], valency="inf")
+    #
+    # Cząstka zwrotna stoi przy tej głowie tak samo jak przy formie osobowej
+    # (:data:`SZYKI_CZĄSTKI`), bo należy do czasownika, a nie do formy, w jakiej on
+    # stoi. Klasy walencyjnej to ciało nie pyta, bo dopełnienia nie ma i rama nie ma
+    # tu czego licencjonować, więc z leksykonu zwrotnego zostaje sama odmowa kopuli:
+    # `być się` czasownikiem nie jest w żadnej formie.
+    for zwrotne, przed, za in SZYKI_CZĄSTKI:
+        głowa = word("inf", bez_lematu_formy=KOPULA) if zwrotne else word("inf")
+        for przeczenie, _ in PRZECZENIA:
+            grammar.rule(
+                "InfinitivePhrase", [*przed, *przeczenie, Głowa(głowa), *za], valency="inf"
+            )
 
     # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
     # ramy niesie ono tak samo jak dopełnienie i bezokolicznik wyżej,
@@ -1902,11 +1973,10 @@ def build() -> Grammar:
                         **cechy,
                     )
 
-    # Bezokolicznik pyta o leksykon niezwrotny i ma pętlę osobną zamiast warunku
-    # wewnątrz tamtej. Cząstki nie bierze, więc `zaczyna otwierać się` nie ma
-    # wyprowadzenia, i jest to ta sama dziura, którą docs/subset.md wypisuje pod
-    # walencją: `się` dochodzi do czasownika, przy którym stoi, a nie do tego, do
-    # którego należy.
+    # Bezokolicznik pyta o ten sam leksykon co forma osobowa i o tę samą stronę
+    # jego dwóch: z cząstką `się` o zwrotną, bez cząstki o zwykłą. Pętla jest
+    # osobna, bo ciało niesie tu własne dopełnienia, a nie dlatego, że rama byłaby
+    # inna.
     #
     # Fraza bez własnej cząstki wypuszcza negację, którą wzięła od dołu, więc
     # `Nie chcę czytać książki` żąda dopełniacza od dopełnienia stojącego pod
@@ -1916,25 +1986,30 @@ def build() -> Grammar:
     # przenoszenie: `Program ma nie zapisywać ustawień` przeczy bezokolicznikowi,
     # a forma osobowa nad nim nie przeczy. Nieobecnością cechy broni się tu tak
     # samo jak grupa współrzędna, która rodzaju nie niesie.
-    for warunek, rama, druga in _klasy(zwrotne=False):
-        grammar.rule(
-            "InfinitivePhrase",
-            [
-                Głowa(word("inf", **warunek)),
-                nt("Complements", valency=rama, negacja=V("z"), druga=druga),
-            ],
-            valency="inf",
-            negacja=V("z"),
-        )
-        grammar.rule(
-            "InfinitivePhrase",
-            [
-                PRZECZENIE,
-                Głowa(word("inf", **warunek)),
-                nt("Complements", valency=rama, negacja="neg", druga=druga),
-            ],
-            valency="inf",
-        )
+    for zwrotne, przed, za in SZYKI_CZĄSTKI:
+        for warunek, rama, druga in _klasy(zwrotne):
+            grammar.rule(
+                "InfinitivePhrase",
+                [
+                    *przed,
+                    Głowa(word("inf", **warunek)),
+                    *za,
+                    nt("Complements", valency=rama, negacja=V("z"), druga=druga),
+                ],
+                valency="inf",
+                negacja=V("z"),
+            )
+            grammar.rule(
+                "InfinitivePhrase",
+                [
+                    *przed,
+                    PRZECZENIE,
+                    Głowa(word("inf", **warunek)),
+                    *za,
+                    nt("Complements", valency=rama, negacja="neg", druga=druga),
+                ],
+                valency="inf",
+            )
 
     # Fraza bezokolicznikowa, która ramy swojego lematu nie zużywa na własną córkę, tylko
     # wypuszcza ją w górę, bo pozycję z tej ramy zajmuje dopełnienie stojące przed

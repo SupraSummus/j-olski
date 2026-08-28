@@ -1589,31 +1589,35 @@ a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
 Wpis jest winien przebiegi, których żąda ta sekcja tamtego dokumentu,
 bo rusza w niej każdą liczbę.
 
-Cząstka `się` dochodzi do formy, przy której stoi, a nie do tej, do której należy.
-`Zebranie ma się odbyć.` jest u olskiego czasownikiem `mieć się`,
-bo produkcja `Verb` w `olski/subset.py` skleja cząstkę z formą osobową
-i tylko z nią, a polszczyzna kładzie ją tam także wtedy,
-gdy zwrotny jest bezokolicznik.
-Pozycja przednia ma to samo po drugiej stronie —
-`Program otwierający się psuje.` wychodzi z `się psuje` w orzeczeniu —
-i obie usterki zdejmuje jeden ruch
-([docs/subset.md](docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
-Płaci za to [gramatyka](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on):
-zawężenie o bezokolicznik jest wobec Walentego prawdziwe,
-a nad Składnicą kosztuje dwa zdania i nie kupuje żadnej jednoznaczności,
-więc parser tego zdania leksykonu nie czyta, choć skład je czyta,
-i mówi w `olski/walenty.py`, dlaczego.
-Ruchem jest cząstka licencjonowana przez czasownik, do którego należy,
-a nie przez ten, przy którym stoi.
-Do rozstrzygnięcia jest, czy da się to postawić bez czytania,
-w którym oba czasowniki biorą ją naraz,
-bo takie czytanie jest drugim czytaniem tego samego zdania.
-To rozstrzygnięcie ma teraz napis, na którym się je sprawdza:
-przy bezokoliczniku cząstka nie ma dziś pozycji żadnej,
-a pozycja przednia dopisana mu bez tego rozstrzygnięcia
-daje `Zebranie ma się odbyć.` drugie wyprowadzenie.
-Zamierzone jest po tym powtórzenie tamtego pomiaru,
-bo zawężenie o bezokolicznik wraca wtedy do rozważenia.
+Cząstka zwrotna nie ma pozycji wewnątrz czasu przyszłego złożonego.
+`Fabryki nowej spółki będą się znajdować we Włoszech.` jest odrzucone,
+bo cząstka stoi tam między `będą` i bezokolicznikiem,
+czyli między dwiema częściami jednego orzeczenia,
+a `SZYKI_CZĄSTKI` w `olski/subset.py` stawia ją po obu stronach całego ciała
+(`_formy_skończone` tamże składa czas przyszły jednym ciałem `Verb`).
+Jest to ostatnie miejsce, w którym cząstka stoi tuż przy swoim czasowniku,
+a żadne ciało jej nie bierze
+([docs/subset.md](docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)).
+Ruchem jest trzecia pozycja w tym jednym ciele, między `bedzie` a głową,
+a przed nim rozstrzygnięcie, czy rama ma wtedy być zwrotna:
+głowa jest bezokolicznikiem, więc pytanie brzmi tak samo jak przy
+`InfinitivePhrase`, tylko cząstka nie stoi po żadnej stronie tej głowy.
+Do przeczytania jest odmowa kopuli przy klasie domyślnej leksykonu zwrotnego:
+kosztowała ona kiedyś właśnie te zdania, a odkąd cząstkę bierze bezokolicznik,
+nie kosztuje nad bankiem drzew nic, więc pozycja dopisana tutaj
+wraca do niej z pytaniem, czy dalej jest po co.
+
+Lista w [`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)
+jest ułożona częstością zawrócenia, a jednej pozycji ta częstość spadła
+i nikt listy nie przeliczył.
+Wpis o cząstce `się` obejmował dwie rzeczy — cząstkę przy bezokoliczniku
+i cząstkę oddaloną — a pierwsza weszła do gramatyki,
+więc został sam ogon: nad prozą tego repozytorium zawraca on jedno zdanie,
+a wpis stoi w liście tam, gdzie stał z obiema.
+Ruchem jest przeczytanie listy od góry z tym jednym pytaniem
+i przestawienie tego wpisu; sąsiadów nikt przy tej okazji nie mierzył,
+więc kto go podnosi, rozstrzyga zarazem, czym ta częstość jest mierzona,
+bo dokument pisze ją z fotela autora, a nie z przebiegu.
 
 Olski czyta cząstkę bezosobową jako czasownik zwrotny z podmiotem.
 `Myśli się językowo.` wyprowadza się przez klasę domyślną leksykonu zwrotnego,
@@ -1629,17 +1633,18 @@ w rodzaju nijakim, klasa walencyjna z leksykonu niezwrotnego bez orzecznika
 zgodnego, cząstka w obu pozycjach.
 Klasa domyślna leksykonu zwrotnego jest tą konstrukcją przeczytaną nieprawdziwie,
 więc znika razem z odmową cząstki kopuli, która przy niej stoi.
-Cenę przeczytano zdanie po zdaniu i dzieli się ona na trzy klasy.
-Dwanaście stoi na cząstce należącej do bezokolicznika — `Musieli się przebić.`,
-`Wszystko musi się kiedyś skończyć.` — czyli na czytaniu, którego polszczyzna
-nie ma; jedenaście niesie `spotkać się`, czyli lemat spod wpisu niżej;
-osiem jest zwrotnością, której Walenty nie wymienia wcale.
-Zakupem jest garść zdań odzyskujących jednoznaczność pod żywą morfologią;
-pod złotą nie rusza się ani jeden werdykt, a zgodność ról spada,
-bo bank drzew daje cząstce w takim zdaniu rolę podmiotu
+Cenę przeczytano zdanie po zdaniu i zostały po tym czytaniu dwie klasy z trzech.
+Klasa cząstki należącej do bezokolicznika — `Musieli się przebić.` — zeszła z tej
+ceny razem z pozycją przy bezokoliczniku i jest to kilkanaście zdań banku drzew;
+z reszty jedna klasa niesie `spotkać się`, czyli lemat spod wpisu niżej,
+a druga zwrotność, której Walenty nie wymienia wcale.
+Zakupem jest garść zdań odzyskujących jednoznaczność:
+przebieg z klasą domyślną zdjętą wypuszcza dziś pojedyncze zdania z wieloznacznych
+do przyjętych, czego przed tamtą pozycją nie robił ani razu.
+Zgodność ról przy tym spada, bo bank drzew daje cząstce w takim zdaniu rolę podmiotu
 ([docs/corpus.md](docs/corpus.md#agreement-which-matters-more-than-acceptance)).
-Kto wpis podnosi, mierzy to na nowo po tamtym wpisie:
-jedenaście zdań wraca wtedy do przyjętych.
+Kto wpis podnosi, mierzy to na nowo po wpisie niżej,
+bo `spotkać się` jest po nim lematem leksykonu, a nie klasy domyślnej.
 
 Leksykon gubi zwrotność, którą Walenty zapisuje pozycją, a nie lematem.
 Walenty pisze `spotkać się` jako `spotkać` z pozycją `recip` w schemacie,
@@ -1670,6 +1675,11 @@ Do rozstrzygnięcia jest, czy warto,
 a odpowiada na to czas rozbioru mierzony
 [na przemian](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje),
 bo zysk jest tu wyłącznie w nim: ani jedno zdanie werdyktu nie zmienia.
+Wpis waży więcej, odkąd leksykon zwrotny czyta zdanie o bezokoliczniku:
+klas walencyjnych przybyło, a klasy mnożą tę pętlę,
+więc produkcji jest o jedną trzecią więcej i przebieg nad bankiem drzew
+trwa o kilka procent dłużej, mierzony na przemian.
+Ten sam wzrost mnoży zarazem lematy, których `bedzie` nie ma.
 
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
 [Liczba, na której leksykon stoi](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
@@ -2899,7 +2909,8 @@ Kosztuje to dziś czasownik w tabeli `olski/skład/makieta.py`,
 która `zacząć` i `przestać` pomija, żeby losowanie takiego zdania nie wypuściło.
 Do przeczytania jest to, co `olski/walenty.py` bierze z Walentego,
 bo słownik ten aspekt przy pozycji `infp` wypisuje,
-oraz `bierze_bezokolicznik` w `olski/walencja.py`, czyli zdanie, które to pytanie zadaje.
+oraz `bierze_bezokolicznik_podmiotu` w `olski/walencja.py`,
+czyli zdanie, które to pytanie zadaje.
 Ruchem jest czwarta kolumna leksykonu wraz z żądaniem postawionym `odmień`,
 albo rozstrzygnięcie, że aspekt jest wyborem lematu i że wybiera go autor,
 a wtedy ruchem jest zdanie o tym w docstringu `Robi`.

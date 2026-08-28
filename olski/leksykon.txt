@@ -8,12 +8,16 @@
 #
 # `nie_bierze_biernika` mówi, że czasownik nie bierze dopełnienia w bierniku.
 # `bierze_celownik` i `bierze_dopełniacz` mówią, że bierze dopełnienie w tym
-# przypadku. `bierze_bezokolicznik` mówi, że bierze bezokolicznik, którego
-# wykonawcą jest jego własny podmiot. `bierze_zdanie` mówi, że bierze zdanie
-# podrzędne wprowadzone przez `że`. Milczenie o lemacie zostawia mu ramę
-# domyślną, czyli biernik, brak dopełnienia w przypadku innym, brak bezokolicznika
-# i brak zdania podrzędnego. Zdania te są o czasowniku, więc wiersz rzeczownika ma
-# tę kolumnę pustą.
+# przypadku. `bierze_celownik_przy_wypełnieniu` mówi, że jeden schemat stawia
+# ten celownik obok wypełnienia, czyli obok biernika, bezokolicznika, zdania
+# podrzędnego albo pytania zależnego. `bierze_bezokolicznik` mówi, że przy tym
+# czasowniku bezokolicznik stoi, a `bierze_bezokolicznik_podmiotu` — że
+# wykonawcą tego bezokolicznika jest jego własny podmiot; drugie zdanie jest
+# węższe od pierwszego tak samo jak celownik przy wypełnieniu od celownika.
+# `bierze_zdanie` mówi, że bierze zdanie podrzędne wprowadzone przez `że`.
+# Milczenie o lemacie zostawia mu ramę domyślną, czyli biernik, brak dopełnienia
+# w przypadku innym, brak bezokolicznika i brak zdania podrzędnego. Zdania te są
+# o czasowniku, więc wiersz rzeczownika ma tę kolumnę pustą.
 #
 # Kolumna przyimków jest zbiorem, a nie zdaniem prawda-fałsz, i pusta znaczy
 # w niej dwie rzeczy naraz: że rama tego słowa nie ma pozycji przyimkowej albo
@@ -226,7 +230,7 @@ bawić	czasownik się	nie_bierze_biernika,bierze_zdanie	w,z
 baza	rzeczownik		dla,do,pod
 bazgrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o,po
 bazować	czasownik	nie_bierze_biernika	na
-bać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+bać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 bałaganić	czasownik	nie_bierze_biernika,bierze_celownik	
 bałamucić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,z
 bałamucić	czasownik się	nie_bierze_biernika	w
@@ -253,13 +257,13 @@ bełtać	czasownik się	nie_bierze_biernika,bierze_celownik	od
 biadać	czasownik	nie_bierze_biernika,bierze_zdanie	na,nad
 biadolić	czasownik	nie_bierze_biernika,bierze_zdanie	na,nad
 biczować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	za
-biec	czasownik	nie_bierze_biernika,bierze_bezokolicznik	do,na,z,za
+biec	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,z,za
 bieda	rzeczownik		z
 biednieć	czasownik	nie_bierze_biernika	o
 biedować	czasownik	nie_bierze_biernika	o
 biedzić	czasownik się	nie_bierze_biernika	nad
 bieg	rzeczownik		dla,na,o,po,przez,z
-biegać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na,o,po,przy,z,za
+biegać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,o,po,przy,z,za
 biegłość	rzeczownik		w
 bieleć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 bielić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -311,7 +315,7 @@ bojownik	rzeczownik		dla,o,w
 boks	rzeczownik		dla,do,na,o,z
 boksować	czasownik		po,w,z
 boksować	czasownik się	nie_bierze_biernika	z
-boleć	czasownik	bierze_bezokolicznik,bierze_zdanie	nad,o
+boleć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	nad,o
 boleść	rzeczownik		nad,po
 bombardować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 bon	rzeczownik		dla,do,na,za
@@ -335,7 +339,7 @@ broczyć	czasownik	bierze_celownik
 broczyć	czasownik się	nie_bierze_biernika	
 brodzić	czasownik	nie_bierze_biernika	
 broić	czasownik	nie_bierze_biernika	
-bronić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	od,przed,z
+bronić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	od,przed,z
 bronić	czasownik się	nie_bierze_biernika,bierze_zdanie	od
 bronować	czasownik		pod
 broszura	rzeczownik		dla,o
@@ -353,7 +357,7 @@ brzdąkać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,po,w
 brzdąknąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,po,w
 brzmieć	czasownik	nie_bierze_biernika	dla,w
 brzydnąć	czasownik	nie_bierze_biernika,bierze_celownik	
-brzydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+brzydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 brząkać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,w
 brząknąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,w
 brzęczeć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	o
@@ -395,8 +399,8 @@ buzować	czasownik	nie_bierze_biernika
 byczyć	czasownik się	nie_bierze_biernika	przy
 bytność	rzeczownik		z
 bytować	czasownik	nie_bierze_biernika	
-bywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na,przy,u,w,z
-być	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	na,przeciw,przy,w,z,za
+bywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,przy,u,w,z
+być	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,przeciw,przy,w,z,za
 bzdura	rzeczownik		o,z
 bzyczeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 bzykać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -458,7 +462,7 @@ certyfikacja	rzeczownik		dla,na,przez
 certyfikować	czasownik		u,w
 certyfikować	czasownik się	nie_bierze_biernika	u,w
 cezura	rzeczownik		dla,między,w
-chadzać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na,w,za
+chadzać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,w,za
 chaos	rzeczownik		co do,w,wokół,z
 chapać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	za
 chapnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	za
@@ -470,8 +474,8 @@ charczeć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wyp
 charknąć	czasownik	nie_bierze_biernika,bierze_celownik	
 chat	rzeczownik		dla,o,z
 chałturzyć	czasownik	nie_bierze_biernika	
-chcieć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,od,za
-chcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+chcieć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,od,za
+chcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 chciwość	rzeczownik		dla,na,wobec,względem
 chełpić	czasownik się	nie_bierze_biernika,bierze_zdanie	przed
 chichot	rzeczownik		z
@@ -493,7 +497,7 @@ chlupotać	czasownik	nie_bierze_biernika,bierze_celownik	o,pod
 chlusnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o,po,w
 chlustać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 chmurzyć	czasownik się	nie_bierze_biernika	
-chodzić	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,koło,na,o,od,po,u,w,z,za
+chodzić	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,koło,na,o,od,po,u,w,z,za
 chomikować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 chorować	czasownik	nie_bierze_biernika	na,od,z
 chować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,przed
@@ -559,7 +563,7 @@ cielić	czasownik się	nie_bierze_biernika
 ciemnieć	czasownik	nie_bierze_biernika,bierze_celownik	
 cieniować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 cierpienie	rzeczownik		na,od,po,za
-cierpieć	czasownik	bierze_bezokolicznik,bierze_zdanie	na,nad,za
+cierpieć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,nad,za
 cierpliwość	rzeczownik		co do,do,w,wobec,względem
 cierpnąć	czasownik	nie_bierze_biernika,bierze_celownik	na,od,z
 cieszyć	czasownik się	nie_bierze_biernika,bierze_zdanie	na,z
@@ -604,7 +608,7 @@ cwał	rzeczownik		na
 cwałować	czasownik	nie_bierze_biernika	na
 cyganić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 cykać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-cykać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o,z
+cykać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o,z
 cyknąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 cyknąć	czasownik się	nie_bierze_biernika	z
 cynk	rzeczownik		co do,o
@@ -619,7 +623,7 @@ czaić	czasownik się	nie_bierze_biernika	do,na,w,z,za
 czapkować	czasownik	nie_bierze_biernika,bierze_celownik	przed
 czarować	czasownik	bierze_zdanie	
 czarterować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,od,u
-czas	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+czas	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 czat	rzeczownik		dla,o,z
 czatować	czasownik	nie_bierze_biernika	na,o,z
 czcić	czasownik		jako,za
@@ -650,7 +654,7 @@ czujność	rzeczownik		co do,na,wobec,względem,wśród
 czulić	czasownik się	nie_bierze_biernika	do
 czuwać	czasownik	nie_bierze_biernika	nad,przy
 czuć	czasownik	bierze_zdanie	do,od,przed
-czuć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	w
+czuć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	w
 czułość	rzeczownik		dla,do,między,na,wobec,względem,wśród
 czyhać	czasownik	nie_bierze_biernika	na
 czyn	rzeczownik		przeciw,wobec,względem
@@ -678,11 +682,11 @@ darzyć	czasownik		z
 darzyć	czasownik się	nie_bierze_biernika	
 datować	czasownik		na
 datować	czasownik się	nie_bierze_biernika	na
-dawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,w,z,za
-dawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	jako,za
+dawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,w,z,za
+dawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	jako,za
 dawkować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-dać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,w,z,za
-dać	czasownik się	bierze_celownik,bierze_zdanie	jako,za
+dać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,w,z,za
+dać	czasownik się	bierze_celownik,bierze_bezokolicznik,bierze_zdanie	jako,za
 dbać	czasownik	nie_bierze_biernika	o
 dbałość	rzeczownik		dla,o,przy,w,wobec,względem
 debata	rzeczownik		co do,między,nad,o,wokół,wśród,z
@@ -692,7 +696,7 @@ debiutować	czasownik	nie_bierze_biernika	jako,przed
 decentralizacja	rzeczownik		przez
 decentralizować	czasownik się	nie_bierze_biernika	
 decydować	czasownik	nie_bierze_biernika,bierze_zdanie	o
-decydować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na
+decydować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 decyzja	rzeczownik		co do,o,przeciw,wobec,wokół,względem,za
 dedukować	czasownik	bierze_zdanie	po,z
 dedykacja	rzeczownik		dla,do,od,z
@@ -714,7 +718,7 @@ dehumanizować	czasownik się	nie_bierze_biernika
 deklamować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 deklaracja	rzeczownik		co do,o
 deklarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	jako
-deklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	co do,jako,przeciw,z,za
+deklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,jako,przeciw,z,za
 deklasować	czasownik		o,w
 deklasować	czasownik się	nie_bierze_biernika	
 dekomunizować	czasownik się	nie_bierze_biernika	
@@ -928,7 +932,7 @@ dokarmiać	czasownik		z
 dokarmić	czasownik		z
 dokazać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_zdanie	
 dokazywać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_zdanie	z
-dokańczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+dokańczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 dokleić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do,między,na,pod,pomiędzy
 dokleić	czasownik się	nie_bierze_biernika,bierze_celownik	do
 doklejać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do,między,na,pod,pomiędzy
@@ -943,7 +947,7 @@ dokopać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	do
 dokopywać	czasownik	bierze_celownik	za
 dokopywać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	do
 dokować	czasownik		do
-dokończyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+dokończyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 dokrajać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do
 dokroić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do
 dokręcać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
@@ -1063,10 +1067,10 @@ dopiąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dope
 dopiąć	czasownik się	nie_bierze_biernika,bierze_celownik	do,w
 dopić	czasownik	nie_bierze_biernika,bierze_dopełniacz	z
 dopić	czasownik się	nie_bierze_biernika	
-dopomagać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,przy,w
+dopomagać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,przy,w
 dopominać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
 dopomnieć	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
-dopomóc	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,przy,w
+dopomóc	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,przy,w
 doposażać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 doposażyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 dopowiadać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do
@@ -1109,8 +1113,8 @@ dopłynąć	czasownik	nie_bierze_biernika,bierze_celownik	na
 dopływać	czasownik	nie_bierze_biernika,bierze_celownik	na
 dorabiać	czasownik	bierze_celownik,bierze_dopełniacz	do
 dorabiać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	na
-doradzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	w
-doradzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	w
+doradzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	w
+doradzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	w
 doradztwo	rzeczownik		co do,dla,w
 dorastać	czasownik	nie_bierze_biernika	do,w
 doregulować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -1164,12 +1168,12 @@ dospać	czasownik		do
 dostarczać	czasownik	bierze_celownik,bierze_dopełniacz	
 dostarczyć	czasownik	bierze_celownik,bierze_dopełniacz	
 dostawa	rzeczownik		dla,przez
-dostawać	czasownik	bierze_dopełniacz,bierze_bezokolicznik	do,na,od,po,przy,w,za
+dostawać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,od,po,przy,w,za
 dostawać	czasownik się	nie_bierze_biernika,bierze_celownik	do
 dostawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do
 dostawiać	czasownik się	nie_bierze_biernika	do
 dostawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do
-dostać	czasownik	bierze_dopełniacz,bierze_bezokolicznik	do,na,od,po,przy,w,za
+dostać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,od,po,przy,w,za
 dostać	czasownik się	nie_bierze_biernika,bierze_celownik	do
 dostosować	czasownik		do,pod
 dostosować	czasownik się	nie_bierze_biernika	do
@@ -1233,10 +1237,10 @@ dotyczyć	czasownik	nie_bierze_biernika,bierze_dopełniacz
 dotyk	rzeczownik		do
 dotykać	czasownik	bierze_dopełniacz	do
 dotykać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	do
-douczać	czasownik	bierze_dopełniacz,bierze_zdanie	
-douczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,o,od,u,z
-douczyć	czasownik	bierze_dopełniacz,bierze_zdanie	o
-douczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,o,od,u,z
+douczać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+douczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,o,od,u,z
+douczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+douczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,o,od,u,z
 dowalać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	do
 dowalać	czasownik się	nie_bierze_biernika	do
 dowalić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	do
@@ -1269,8 +1273,8 @@ doznawać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_zdanie
 doznać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_zdanie	
 dozorować	czasownik	bierze_dopełniacz	
 dozować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-dozwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-dozwolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+dozwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
+dozwolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 dozór	rzeczownik		dla,nad,przez,wobec,względem,za
 doładowywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
 doładowywać	czasownik się	nie_bierze_biernika	
@@ -1293,7 +1297,7 @@ doświetlać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 doświetlać	czasownik się	nie_bierze_biernika	
 doświetlić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 doświetlić	czasownik się	nie_bierze_biernika	
-dość	czasownik	nie_bierze_biernika,bierze_dopełniacz	
+dość	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
 dożywać	czasownik	bierze_dopełniacz	do
 dożyć	czasownik	bierze_dopełniacz	do
 dramatyzować	czasownik	bierze_zdanie	
@@ -1350,7 +1354,7 @@ dybać	czasownik	nie_bierze_biernika	na
 dychać	czasownik	nie_bierze_biernika	
 dyfundować	czasownik	nie_bierze_biernika	
 dygać	czasownik		po,przed
-dygać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+dygać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 dygnąć	czasownik		po,przed
 dygotać	czasownik	nie_bierze_biernika,bierze_celownik	od,pod,z
 dygresja	rzeczownik		co do,do,o,od,wobec,z
@@ -1428,7 +1432,7 @@ dąsać	czasownik się	nie_bierze_biernika,bierze_zdanie	na,o,za
 dąć	czasownik		na,w
 dąć	czasownik się	nie_bierze_biernika	na,przed,wobec
 dążność	rzeczownik		do,ku
-dążyć	czasownik	nie_bierze_biernika	do,na,z
+dążyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	do,na,z
 dławić	czasownik		w
 dławić	czasownik się	nie_bierze_biernika	od,z
 dłubać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	nad,przy,z
@@ -1532,7 +1536,7 @@ fasować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,u,z
 faszerować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 faszyzować	czasownik się	nie_bierze_biernika	
 fatygować	czasownik		do,na,z
-fatygować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,na,z
+fatygować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,z
 faul	rzeczownik		na
 faworyt	rzeczownik		do,na,w
 fazować	czasownik		z
@@ -1674,7 +1678,7 @@ gnuśnieć	czasownik	nie_bierze_biernika	w
 gnębić	czasownik		za
 gnębić	czasownik się	nie_bierze_biernika	
 godzić	czasownik		na,w,z
-godzić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	na,z
+godzić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,z
 goić	czasownik się	nie_bierze_biernika,bierze_celownik	na
 golić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 golić	czasownik się	nie_bierze_biernika	u,w
@@ -1949,7 +1953,7 @@ iskrzyć	czasownik się	nie_bierze_biernika,bierze_celownik	od,z
 istnieć	czasownik	nie_bierze_biernika	dla
 izolacja	rzeczownik		dla,między,od,przed,przez,wobec,względem,z
 izolować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,z
-iść	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,ku,na,o,po,w,z,za
+iść	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,ku,na,o,po,w,z,za
 jadać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,z
 jarać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	
 jarzyć	czasownik	bierze_zdanie	w
@@ -1979,7 +1983,7 @@ judzić	czasownik		do,na,przeciw
 jąkać	czasownik się	nie_bierze_biernika,bierze_zdanie	z
 jątrzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 jątrzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
-jąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+jąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 jąć	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
 jęczeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na,nad,o,z
 jędrnieć	czasownik	nie_bierze_biernika	
@@ -2056,7 +2060,7 @@ kategoryzować	czasownik		do,jako,na,po,pod,w,według
 katować	czasownik		za
 katować	czasownik się	nie_bierze_biernika	z
 kawałkować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-kazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+kazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 kazić	czasownik się	nie_bierze_biernika	
 kibicować	czasownik	nie_bierze_biernika,bierze_celownik	przy,w
 kiblować	czasownik	nie_bierze_biernika	
@@ -2118,7 +2122,7 @@ knocić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 knocić	czasownik się	nie_bierze_biernika,bierze_celownik	
 knować	czasownik		przeciw
 knuć	czasownik		przeciw
-kochać	czasownik	bierze_bezokolicznik	na,z,za
+kochać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
 kochać	czasownik się	nie_bierze_biernika	na,w,z
 kocić	czasownik się	nie_bierze_biernika	
 koczować	czasownik	nie_bierze_biernika	
@@ -2307,7 +2311,7 @@ kopnąć	czasownik się	nie_bierze_biernika	do,po
 koprodukcja	rzeczownik		między,o,z
 kopulować	czasownik	nie_bierze_biernika	z
 korba	rzeczownik		do,od,z
-korcić	czasownik	bierze_zdanie	do,na
+korcić	czasownik	bierze_bezokolicznik,bierze_zdanie	do,na
 korelacja	rzeczownik		między,z
 korelować	czasownik	bierze_celownik	z
 korelować	czasownik się	nie_bierze_biernika,bierze_celownik	z
@@ -2340,7 +2344,7 @@ kołować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,za
 kołować	czasownik się	nie_bierze_biernika,bierze_celownik	od,w
 kołysać	czasownik		na
 kołysać	czasownik się	nie_bierze_biernika	na
-kończyć	czasownik	bierze_bezokolicznik	na,z
+kończyć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z
 kończyć	czasownik się	nie_bierze_biernika,bierze_celownik	dla,na
 koślawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 koślawić	czasownik się	nie_bierze_biernika	
@@ -2404,7 +2408,7 @@ krążyć	czasownik	nie_bierze_biernika	wokół
 kręcić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 kręcić	czasownik się	nie_bierze_biernika,bierze_celownik	koło,przy,wokół,za
 krępować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
-krępować	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	w
+krępować	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	w
 kserować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 książeczka	rzeczownik		dla,do,o,od,przeciw,z
 książka	rzeczownik		dla,do,o,od,przeciw,z
@@ -2445,8 +2449,8 @@ kursować	czasownik	nie_bierze_biernika
 kurwić	czasownik się	nie_bierze_biernika	
 kurzyć	czasownik	bierze_celownik	
 kurzyć	czasownik się	nie_bierze_biernika,bierze_celownik	za
-kusić	czasownik	bierze_zdanie	do
-kusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na,o
+kusić	czasownik	bierze_bezokolicznik,bierze_zdanie	do
+kusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	na,o
 kusztykać	czasownik	nie_bierze_biernika	na
 kuć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,w,z
 kuśtykać	czasownik	nie_bierze_biernika	na
@@ -2455,7 +2459,7 @@ kwalifikacja	rzeczownik		dla,do,na,przez,w,według
 kwalifikacje	rzeczownik		do,w,względem,z
 kwalifikować	czasownik		do,jako,na
 kwalifikować	czasownik się	nie_bierze_biernika	do,jako,na
-kwapić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,z
+kwapić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,z
 kwas	rzeczownik		między,o,od,z
 kwasić	czasownik		w
 kwasić	czasownik się	nie_bierze_biernika	w
@@ -2482,7 +2486,7 @@ kłaniać	czasownik się	nie_bierze_biernika,bierze_celownik	od,przed
 kłapać	czasownik	nie_bierze_biernika,bierze_zdanie	na,o
 kłapnąć	czasownik	nie_bierze_biernika,bierze_zdanie	na,o
 kłaść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,o,pod,w
-kłaść	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	na
+kłaść	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 kłopot	rzeczownik		dla,o,w,z
 kłopotać	czasownik się	nie_bierze_biernika,bierze_zdanie	o
 kłosić	czasownik się	nie_bierze_biernika	
@@ -2521,14 +2525,14 @@ lek	rzeczownik		dla,na,od,po,przeciw
 lekarstwo	rzeczownik		dla,na,od,po,przeciw,w,z
 leniuchować	czasownik	nie_bierze_biernika	
 leniwić	czasownik się	nie_bierze_biernika	
-lenić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	z
+lenić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 lepić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 lepić	czasownik się	nie_bierze_biernika,bierze_celownik	do,od,z
 lewarować	czasownik		do
 lewarować	czasownik się	nie_bierze_biernika	
 lewicować	czasownik	nie_bierze_biernika	
 lewitować	czasownik	nie_bierze_biernika,bierze_celownik	na
-leźć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	po
+leźć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	po
 leżeć	czasownik	nie_bierze_biernika	na,u,w
 lgnąć	czasownik	nie_bierze_biernika,bierze_celownik	do
 liberalizacja	rzeczownik		co do,dla,przez,w,wobec,względem
@@ -2566,7 +2570,7 @@ lokować	czasownik		w
 lokować	czasownik się	nie_bierze_biernika	
 losować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	spośród,z
 lot	rzeczownik		na
-lubić	czasownik	bierze_bezokolicznik,bierze_zdanie	z,za
+lubić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z,za
 lubować	czasownik się	nie_bierze_biernika	w
 luka	rzeczownik		między,po,w
 lukrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -2582,7 +2586,7 @@ luzować	czasownik się	nie_bierze_biernika,bierze_celownik
 lądować	czasownik	nie_bierze_biernika	
 lęgnąć	czasownik się	nie_bierze_biernika,bierze_celownik	
 lęk	rzeczownik		co do,o,przed,wobec,względem
-lękać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+lękać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 lśnić	czasownik	nie_bierze_biernika,bierze_celownik	od
 lśnić	czasownik się	nie_bierze_biernika,bierze_celownik	od
 lżyć	czasownik	bierze_zdanie	od,za
@@ -2647,7 +2651,7 @@ marynować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 marynować	czasownik się	nie_bierze_biernika,bierze_celownik	w
 marzenie	rzeczownik		co do,o,wobec
 marznąć	czasownik	nie_bierze_biernika,bierze_celownik	od
-marzyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	o
+marzyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 marzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 marża	rzeczownik		na
 masakra	rzeczownik		na,przez
@@ -2719,9 +2723,9 @@ mieszanina	rzeczownik		z
 mieszać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,w,z
 mieszać	czasownik się	nie_bierze_biernika,bierze_celownik	do,w,z
 mieszkać	czasownik	nie_bierze_biernika	u,z
-miewać	czasownik	bierze_bezokolicznik,bierze_zdanie	na,w,z,za
+miewać	czasownik	bierze_bezokolicznik_podmiotu,bierze_zdanie	na,w,z,za
 miewać	czasownik się	nie_bierze_biernika	
-mieć	czasownik	bierze_bezokolicznik,bierze_zdanie	do,jako,na,przeciw,u,w,wśród,z,za
+mieć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,jako,na,przeciw,u,w,wśród,z,za
 mieć	czasownik się	nie_bierze_biernika	do,ku,z
 mieścić	czasownik się	nie_bierze_biernika	w
 migawka	rzeczownik		do,na,o,od,w,z
@@ -2828,7 +2832,7 @@ mozolić	czasownik się	nie_bierze_biernika	nad,z
 mościć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,z
 mościć	czasownik się	nie_bierze_biernika,bierze_celownik	
 możliwość	rzeczownik		co do,dla,do,na
-można	czasownik	bierze_zdanie	
+można	czasownik	bierze_bezokolicznik,bierze_zdanie	
 możność	rzeczownik		w
 mrocznieć	czasownik	nie_bierze_biernika,bierze_celownik	od
 mroczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -2847,7 +2851,7 @@ mumifikować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 mumifikować	czasownik się	nie_bierze_biernika	
 murować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 murszeć	czasownik	nie_bierze_biernika	od
-musieć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+musieć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 muskać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w
 musnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w
 musować	czasownik	nie_bierze_biernika,bierze_celownik	
@@ -2862,8 +2866,8 @@ mylić	czasownik się	nie_bierze_biernika,bierze_celownik	co do,w,z
 myszkować	czasownik	nie_bierze_biernika,bierze_celownik	po,za
 myć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 myśl	rzeczownik		co do,o
-myśleć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	jako,nad,o
-móc	czasownik	bierze_bezokolicznik,bierze_zdanie	
+myśleć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,nad,o
+móc	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 mówić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na,o,per,z
 mącić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 mącić	czasownik się	nie_bierze_biernika,bierze_celownik	od
@@ -3047,8 +3051,8 @@ nadziwić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie
 nadzór	rzeczownik		co do,nad,wobec,względem
 nadąsać	czasownik się	nie_bierze_biernika,bierze_zdanie	na,za
 nadąć	czasownik się	nie_bierze_biernika,bierze_celownik	
-nadążać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	z,za
-nadążyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	z,za
+nadążać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z,za
+nadążyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z,za
 nadłamać	czasownik się	nie_bierze_biernika	
 nadłamywać	czasownik się	nie_bierze_biernika	
 nadźwigać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
@@ -3117,8 +3121,8 @@ najść	czasownik	bierze_dopełniacz	na
 najść	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
 nakarmić	czasownik się	nie_bierze_biernika	
 nakaz	rzeczownik		co do,dla,o,wobec,względem
-nakazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-nakazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+nakazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+nakazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 nakierować	czasownik		na
 nakierować	czasownik się	nie_bierze_biernika	na
 nakierowywać	czasownik		na
@@ -3178,7 +3182,7 @@ nalewać	czasownik się	nie_bierze_biernika,bierze_celownik
 nalewka	rzeczownik		na,z
 naleźć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
 naleźć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
-należeć	czasownik	nie_bierze_biernika	do
+należeć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	do
 należeć	czasownik się	nie_bierze_biernika,bierze_celownik	od
 należność	rzeczownik		dla,wobec,względem,za
 naliczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
@@ -3217,8 +3221,8 @@ namowa	rzeczownik		do,na
 namozolić	czasownik się	nie_bierze_biernika	nad,z
 namydlać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 namydlić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-namyślać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na,nad
-namyślić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na,nad
+namyślać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,nad
+namyślić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,nad
 namówić	czasownik		do,na,przeciw
 namówić	czasownik się	nie_bierze_biernika	z
 namęczyć	czasownik się	nie_bierze_biernika	nad,przy,z
@@ -3227,7 +3231,7 @@ nanieść	czasownik się	nie_bierze_biernika,bierze_dopełniacz
 nanizać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	na
 nanosić	czasownik	bierze_celownik,bierze_dopełniacz	na,w
 nanosić	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
-naobiecywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+naobiecywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 naobiecywać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
 naoglądać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
 naoliwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -3260,7 +3264,7 @@ napełnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 napełnić	czasownik się	nie_bierze_biernika,bierze_celownik	
 napieprzać	czasownik	bierze_celownik	na,o,po,w,z
 napierać	czasownik	nie_bierze_biernika	na
-napierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+napierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	
 napierdalać	czasownik się	nie_bierze_biernika	
 napinać	czasownik się	nie_bierze_biernika,bierze_celownik	
 napis	rzeczownik		do,o,z
@@ -3301,7 +3305,7 @@ naprostować	czasownik się	nie_bierze_biernika,bierze_dopełniacz
 naprowadzać	czasownik		na
 naprowadzić	czasownik		na
 naprzeć	czasownik	nie_bierze_biernika	na
-naprzeć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+naprzeć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	
 naprzykrzać	czasownik się	nie_bierze_biernika,bierze_celownik	o
 naprzykrzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 naprzynosić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
@@ -3388,8 +3392,8 @@ naspraszać	czasownik	nie_bierze_biernika,bierze_dopełniacz	do,na
 naspędzać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
 nasrać	czasownik	nie_bierze_biernika	
 nasrożyć	czasownik się	nie_bierze_biernika,bierze_zdanie	na
-nastarczać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz,bierze_bezokolicznik	na,z
-nastarczyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz,bierze_bezokolicznik	na,z
+nastarczać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z
+nastarczyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z
 nastawać	czasownik	nie_bierze_biernika	dla,na
 nastawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do,na
 nastawiać	czasownik się	nie_bierze_biernika,bierze_zdanie	do,na
@@ -3462,10 +3466,10 @@ natłuszczać	czasownik się	nie_bierze_biernika,bierze_celownik
 natłuścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 natłuścić	czasownik się	nie_bierze_biernika,bierze_celownik	
 naubliżać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	od
-nauczać	czasownik	bierze_dopełniacz,bierze_zdanie	o
+nauczać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
 nauczka	rzeczownik		co do,dla,na,o,od
-nauczyć	czasownik	bierze_dopełniacz,bierze_zdanie	o
-nauczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o,od,z
+nauczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+nauczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o,od,z
 nauka	rzeczownik		co do,o
 naurągać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	od,za
 nawadniać	czasownik się	nie_bierze_biernika	
@@ -3519,8 +3523,8 @@ nawrócić	czasownik		do,ku,na,z
 nawrócić	czasownik się	nie_bierze_biernika	do,ku,na,z
 nawrót	rzeczownik		do,na
 nawyk	rzeczownik		co do,do,przy,u,w,wobec,względem,wśród
-nawykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	do
-nawyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	do
+nawykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
+nawyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
 nawymyślać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	na,od,za
 nazbierać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	
 nazbierać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -3596,8 +3600,8 @@ niekonsekwencja	rzeczownik		co do,w,wobec,z
 niemczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,z
 niemczyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 niemożliwość	rzeczownik		do,w
-nienawidzieć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	za
-nienawidzić	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	za
+nienawidzieć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
+nienawidzić	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 nienawiść	rzeczownik		dla,do,między,wobec,względem
 niepogoda	rzeczownik		dla,do,na
 niepokoić	czasownik się	nie_bierze_biernika,bierze_zdanie	o
@@ -3696,7 +3700,7 @@ obalać	czasownik się	nie_bierze_biernika
 obalić	czasownik się	nie_bierze_biernika	
 obandażować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 obawa	rzeczownik		co do,o,przed,wobec,względem
-obawiać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+obawiać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 obcałować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w,z
 obcałowywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w,z
 obchodzić	czasownik		z
@@ -3758,8 +3762,8 @@ obgotowywać	czasownik się	nie_bierze_biernika	w
 obgryzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 obgryźć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 obiecanka	rzeczownik		co do,dla,o
-obiecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
-obiecywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+obiecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
+obiecywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 obieg	rzeczownik		w,wokół
 obiekcja	rzeczownik		co do,do,przeciw,przed,wobec,wokół,względem
 obiektywizować	czasownik się	nie_bierze_biernika	
@@ -3827,7 +3831,7 @@ obliczać	czasownik	bierze_zdanie	na
 obliczać	czasownik się	nie_bierze_biernika	na
 obliczyć	czasownik	bierze_zdanie	na
 obliczyć	czasownik się	nie_bierze_biernika	na
-obligować	czasownik	bierze_bezokolicznik,bierze_zdanie	do,w
+obligować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,w
 oblizać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,z
 oblizać	czasownik się	nie_bierze_biernika	po,z
 oblizywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,z
@@ -4227,8 +4231,8 @@ oddzwonić	czasownik	nie_bierze_biernika,bierze_zdanie	z
 oddłużać	czasownik się	nie_bierze_biernika	
 oddłużyć	czasownik się	nie_bierze_biernika	
 odebrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
-odechciewać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
-odechcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+odechciewać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
+odechcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 odedrzeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,z
 odedrzeć	czasownik się	nie_bierze_biernika,bierze_celownik	od
 odegnać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -4667,10 +4671,10 @@ odtworzyć	czasownik się	nie_bierze_biernika,bierze_celownik	z
 odtykać	czasownik się	nie_bierze_biernika	
 odtłuszczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 odtłuścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-oduczać	czasownik	bierze_dopełniacz,bierze_zdanie	od
-oduczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	od
-oduczyć	czasownik	bierze_dopełniacz,bierze_zdanie	od
-oduczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	od
+oduczać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	od
+oduczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	od
+oduczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	od
+oduczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	od
 odwadniać	czasownik się	nie_bierze_biernika	
 odwaga	rzeczownik		co do,do,na,w,wobec,względem
 odwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,z,za
@@ -4679,9 +4683,9 @@ odwalić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,z,za
 odwalić	czasownik się	nie_bierze_biernika	od,w
 odwarknąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na
 odważać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-odważać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+odważać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 odważyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-odważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+odważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 odwdzięczać	czasownik się	nie_bierze_biernika,bierze_celownik	za
 odwdzięczyć	czasownik się	nie_bierze_biernika,bierze_celownik	za
 odwet	rzeczownik		na,wobec,względem,za
@@ -4721,8 +4725,8 @@ odwrócić	czasownik		ku,od,za
 odwrócić	czasownik się	nie_bierze_biernika	do,na,od
 odwrót	rzeczownik		od
 odwyk	rzeczownik		dla,od
-odwykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	od
-odwyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	od
+odwykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
+odwyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
 odwzajemniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 odwzajemniać	czasownik się	nie_bierze_biernika,bierze_celownik	za
 odwzajemnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -4746,10 +4750,10 @@ odzwierciedlać	czasownik		w
 odzwierciedlać	czasownik się	nie_bierze_biernika	w
 odzwierciedlić	czasownik		w
 odzwierciedlić	czasownik się	nie_bierze_biernika	w
-odzwyczaić	czasownik		od
-odzwyczaić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	od
-odzwyczajać	czasownik		od
-odzwyczajać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	od
+odzwyczaić	czasownik	bierze_bezokolicznik	od
+odzwyczaić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
+odzwyczajać	czasownik	bierze_bezokolicznik	od
+odzwyczajać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
 odzysk	rzeczownik		po,przez,z
 odzyskać	czasownik		od,z
 odzyskiwać	czasownik		od,z
@@ -4786,13 +4790,13 @@ odżywić	czasownik się	nie_bierze_biernika
 odżyć	czasownik	nie_bierze_biernika	
 ofensywa	rzeczownik		na,przeciw,wobec
 oferować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-oferować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	z
+oferować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 oferta	rzeczownik		co do,dla,na
 ofiara	rzeczownik		dla,na,wobec,z,za
 ofiarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,przez,za
-ofiarować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	z
+ofiarować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 ofiarowywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,za
-ofiarowywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	z
+ofiarowywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 oflagować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 ofukać	czasownik	bierze_zdanie	za
 ofuknąć	czasownik	bierze_zdanie	za
@@ -4856,10 +4860,10 @@ okalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 okaleczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 okaleczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 okazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-okazać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+okazać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 okazja	rzeczownik		dla,do,na
 okazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-okazywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+okazywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 oklapnąć	czasownik	nie_bierze_biernika,bierze_celownik	
 oklaskiwać	czasownik		za
 okleić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
@@ -4936,7 +4940,7 @@ omaścić	czasownik się	nie_bierze_biernika
 omdlewać	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 omdleć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 omiatać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
-omieszkać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+omieszkać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 omieść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 omijać	czasownik		przy,w
 omijać	czasownik się	nie_bierze_biernika	z
@@ -5242,8 +5246,8 @@ otrzeć	czasownik się	nie_bierze_biernika,bierze_celownik	o,z
 otrzeźwiać	czasownik		z
 otrzeźwieć	czasownik	nie_bierze_biernika	z
 otrzeźwić	czasownik	bierze_zdanie	z
-otrzymać	czasownik	bierze_bezokolicznik	do,na,od,przy,w,z,za
-otrzymywać	czasownik	bierze_bezokolicznik	do,na,od,przy,w,z,za
+otrzymać	czasownik	bierze_bezokolicznik_podmiotu	do,na,od,przy,w,z,za
+otrzymywać	czasownik	bierze_bezokolicznik_podmiotu	do,na,od,przy,w,z,za
 otrząsać	czasownik		z
 otrząsać	czasownik się	nie_bierze_biernika	po,z
 otrząsnąć	czasownik		z
@@ -5276,7 +5280,7 @@ oziębiać	czasownik się	nie_bierze_biernika	do,o,od,z
 oziębić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,o,od
 oziębić	czasownik się	nie_bierze_biernika	do,o,od,z
 oziębnąć	czasownik	nie_bierze_biernika	wobec
-oznaczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	dla,jako,przez
+oznaczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	dla,jako,przez
 oznaczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	jako,przez
 oznajmiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 oznajmić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
@@ -5290,9 +5294,9 @@ oślepić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 oślepnąć	czasownik	nie_bierze_biernika	od,wskutek,z
 oślinić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 ośmielać	czasownik		do,w
-ośmielać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+ośmielać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 ośmielić	czasownik		do,w
-ośmielić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+ośmielić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 ośmieszać	czasownik		jako,przed,wobec
 ośmieszać	czasownik się	nie_bierze_biernika	jako,przed,wobec
 ośmieszyć	czasownik		jako,przed,wobec
@@ -5330,11 +5334,11 @@ pakować	czasownik się	nie_bierze_biernika	do,w
 pakt	rzeczownik		dla,między,o,przeciw,z
 paktować	czasownik	nie_bierze_biernika	przeciw,z
 palić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
-palić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,z
+palić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,z
 palnąć	czasownik	bierze_celownik,bierze_zdanie	do,o,po,w,z
 palnąć	czasownik się	nie_bierze_biernika	o,w
 pamiątka	rzeczownik		dla,o,po,z
-pamiętać	czasownik	bierze_bezokolicznik,bierze_zdanie	jako,o
+pamiętać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,o
 pamięć	rzeczownik		co do,dla,do,o
 pan	rzeczownik		na,od
 panaceum	rzeczownik		dla,na,przeciw
@@ -5402,7 +5406,7 @@ pałętać	czasownik się	nie_bierze_biernika,bierze_celownik
 paść	czasownik	bierze_celownik	do,na,od,pod,przed,w,z
 paść	czasownik się	nie_bierze_biernika	na
 pchać	czasownik		do,między,w
-pchać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,między,na,w
+pchać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,między,na,w
 pchnąć	czasownik		do,w
 pech	rzeczownik		co do,do,przy,w,z
 pedałować	czasownik	nie_bierze_biernika	na
@@ -5512,7 +5516,7 @@ plama	rzeczownik		na,od,po,z
 plamić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 plamić	czasownik się	nie_bierze_biernika	od
 plan	rzeczownik		co do,na,wobec,względem
-planować	czasownik	bierze_bezokolicznik,bierze_zdanie	na
+planować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 plaskać	czasownik		o,po,w
 plasnąć	czasownik		o,po,w
 plasować	czasownik się	nie_bierze_biernika	
@@ -5552,9 +5556,9 @@ pobałamucić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze
 pobeczeć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,nad,o,w,z
 pobeczeć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,nad,o,z
 pobekiwać	czasownik	nie_bierze_biernika,bierze_zdanie	z
-pobiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik	do,ku,na,w,za
+pobiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,ku,na,w,za
 pobiedować	czasownik	nie_bierze_biernika	o
-pobiegać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	na,po,przy,z,za
+pobiegać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,przy,z,za
 pobielać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pobielać	czasownik się	nie_bierze_biernika	o
 pobieleć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
@@ -5669,17 +5673,17 @@ poczochrać	czasownik się	nie_bierze_biernika	o
 poczołgać	czasownik się		na
 poczubić	czasownik się	nie_bierze_biernika,bierze_zdanie	co do,o,z
 poczuwać	czasownik	nie_bierze_biernika	nad,przy
-poczuwać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do
+poczuwać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do
 poczuć	czasownik	bierze_zdanie	do,od,przed
-poczuć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,w
-poczynać	czasownik	bierze_bezokolicznik	z
+poczuć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	do,w
+poczynać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 poczynać	czasownik się	nie_bierze_biernika	w,z
 poczynić	czasownik	bierze_zdanie	na,o,w
-poczytać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	jako,o,w,z,za
-poczytywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	jako,za
+poczytać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,o,w,z,za
+poczytywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,za
 poczyścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 poczyścić	czasownik się	nie_bierze_biernika	
-począć	czasownik	bierze_bezokolicznik	z
+począć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 począć	czasownik się	nie_bierze_biernika	w,z
 poczęstować	czasownik się	nie_bierze_biernika	
 poczęstunek	rzeczownik		dla,od
@@ -5695,8 +5699,8 @@ podawać	czasownik się	nie_bierze_biernika	do,za
 podać	czasownik	bierze_celownik,bierze_dopełniacz,bierze_zdanie	do,na,o,w,za
 podać	czasownik się	nie_bierze_biernika	do,za
 podbarwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
-podbiec	czasownik	bierze_bezokolicznik	
-podbiegać	czasownik	bierze_bezokolicznik	
+podbiec	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
+podbiegać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 podbierać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podbijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,o
 podbijać	czasownik się	nie_bierze_biernika	na
@@ -5741,7 +5745,7 @@ poddusić	czasownik		na,w
 poddusić	czasownik się	nie_bierze_biernika	na,w
 podebrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podejmować	czasownik	bierze_zdanie	o,z
-podejmować	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+podejmować	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 podejrzenie	rzeczownik		co do,o,wobec,względem
 podejrzewać	czasownik	bierze_zdanie	o
 podejrzeć	czasownik	bierze_zdanie	
@@ -5795,7 +5799,7 @@ podjeżdżać	czasownik	bierze_celownik	do,ku,po
 podjudzać	czasownik		do,przeciw
 podjudzić	czasownik		do,przeciw
 podjąć	czasownik	bierze_zdanie	o,z
-podjąć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
+podjąć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 podkasać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podkasać	czasownik się	nie_bierze_biernika	
 podkasywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -5833,7 +5837,7 @@ podkurczać	czasownik		pod
 podkurczać	czasownik się	nie_bierze_biernika	pod
 podkurczyć	czasownik		pod
 podkurczyć	czasownik się	nie_bierze_biernika	pod
-podkusić	czasownik	bierze_zdanie	do
+podkusić	czasownik	bierze_bezokolicznik,bierze_zdanie	do
 podkuwać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podkuć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podkładać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do,pod
@@ -5889,7 +5893,7 @@ podniszczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 podniszczyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 podnosić	czasownik	bierze_zdanie	do,na,o,przeciw,w,z,znad
 podnosić	czasownik się	nie_bierze_biernika	na,o,z
-podobać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	
+podobać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 podobierać	czasownik	bierze_celownik,bierze_dopełniacz	do,w
 podobierać	czasownik się	nie_bierze_biernika,bierze_celownik	do,w,z
 podobieństwo	rzeczownik		co do,do,między,u,w,wobec,względem,wśród,z
@@ -5900,7 +5904,7 @@ podoić	czasownik		od,z
 podorabiać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do
 podorabiać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	na
 podorastać	czasownik	nie_bierze_biernika	do,w
-podostawać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	od,po,w
+podostawać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od,po,w
 podostawać	czasownik się	nie_bierze_biernika,bierze_celownik	
 podowcipkować	czasownik	nie_bierze_biernika,bierze_zdanie	o,z
 podołać	czasownik	nie_bierze_biernika,bierze_celownik	
@@ -5967,7 +5971,7 @@ podrażnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 podrażnić	czasownik się	nie_bierze_biernika	z
 podreperować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podreperować	czasownik się	nie_bierze_biernika,bierze_celownik	na
-podreptać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	za
+podreptać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 podretuszować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podrobić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 podroczyć	czasownik się	nie_bierze_biernika,bierze_zdanie	o,z
@@ -6057,10 +6061,10 @@ podtrzymywać	czasownik	bierze_zdanie	w,za
 podtuczyć	czasownik		na
 podtuczyć	czasownik się	nie_bierze_biernika	na
 podtykać	czasownik	bierze_celownik,bierze_dopełniacz	
-poduczać	czasownik	bierze_dopełniacz,bierze_zdanie	na,o,w,z
-poduczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,od,w,z
-poduczyć	czasownik	bierze_dopełniacz,bierze_zdanie	na,o,w,z
-poduczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,od,w,z
+poduczać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	na,o,w,z
+poduczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,od,w,z
+poduczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	na,o,w,z
+poduczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,od,w,z
 podumać	czasownik	nie_bierze_biernika,bierze_zdanie	nad,o
 podupadać	czasownik	nie_bierze_biernika	na
 podupaść	czasownik	nie_bierze_biernika	na
@@ -6146,7 +6150,7 @@ podżyrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 poeksperymentować	czasownik	nie_bierze_biernika	na,z
 pofarbować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pofarbować	czasownik się	nie_bierze_biernika,bierze_celownik	
-pofatygować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,na,z
+pofatygować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,z
 pofałdować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 pofałdować	czasownik się	nie_bierze_biernika,bierze_celownik	
 pofałszować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
@@ -6302,7 +6306,7 @@ poklepać	czasownik		po,w
 poklepywać	czasownik		po,w
 poklęczeć	czasownik	nie_bierze_biernika	
 poklękać	czasownik	nie_bierze_biernika	
-pokochać	czasownik	bierze_bezokolicznik	za
+pokochać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 pokochać	czasownik się	nie_bierze_biernika	z
 pokokietować	czasownik	bierze_zdanie	
 pokolorować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
@@ -6353,12 +6357,12 @@ pokumać	czasownik się	nie_bierze_biernika	z
 pokupować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,za
 pokusa	rzeczownik		do,na
 pokusić	czasownik		do
-pokusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na,o
+pokusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,o
 pokuta	rzeczownik		dla,wobec,względem,za
 pokutować	czasownik	nie_bierze_biernika	u,w,wśród,za
 pokuć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 pokuśtykać	czasownik	nie_bierze_biernika	na
-pokwapić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,z
+pokwapić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,z
 pokwasić	czasownik		w
 pokwasić	czasownik się	nie_bierze_biernika	w
 pokwikiwać	czasownik	nie_bierze_biernika,bierze_zdanie	z
@@ -6371,7 +6375,7 @@ pokąpać	czasownik się	nie_bierze_biernika	w
 pokąsać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po
 pokładać	czasownik		w
 pokładać	czasownik się	nie_bierze_biernika	
-pokłaść	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	z
+pokłaść	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	z
 pokłon	rzeczownik		dla,do,nad,przed,wobec
 pokłonić	czasownik		przed
 pokłonić	czasownik się	nie_bierze_biernika,bierze_celownik	ku,nad,przed
@@ -6390,11 +6394,11 @@ polać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopeł
 polać	czasownik się	nie_bierze_biernika,bierze_celownik	
 pole	rzeczownik		dla,do,pod
 polec	czasownik	nie_bierze_biernika	od,za
-polecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako,na
+polecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	do,jako,na
 polecać	czasownik się	nie_bierze_biernika	jako
 polecenie	rzeczownik		co do,dla,do,na,o,od,wobec,względem
-polecieć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,na,po,za
-polecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako,na
+polecieć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,po,za
+polecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	do,jako,na
 polecić	czasownik się	nie_bierze_biernika	jako
 polegać	czasownik	nie_bierze_biernika	na
 polegiwać	czasownik	nie_bierze_biernika	
@@ -6409,7 +6413,7 @@ polepszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 polepszyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 polerować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 polewać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	z
-poleźć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	po
+poleźć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	po
 poleżeć	czasownik	nie_bierze_biernika	
 policzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako,za
 policzyć	czasownik się	nie_bierze_biernika	z
@@ -6425,7 +6429,7 @@ polonizować	czasownik się	nie_bierze_biernika,bierze_celownik
 polować	czasownik	nie_bierze_biernika	na
 polszczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,z
 polszczyć	czasownik się	nie_bierze_biernika,bierze_celownik	
-polubić	czasownik	bierze_bezokolicznik	z,za
+polubić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z,za
 polukrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 polutować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 poluzować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
@@ -6436,7 +6440,7 @@ polśniewać	czasownik	nie_bierze_biernika,bierze_celownik
 pomacać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,za
 pomacać	czasownik się	nie_bierze_biernika	z
 pomachać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na
-pomagać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,przy,w
+pomagać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,na,przy,w
 pomalować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 pomarkotnieć	czasownik	nie_bierze_biernika,bierze_zdanie	od
 pomarnować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
@@ -6506,7 +6510,7 @@ pomysł	rzeczownik		co do,na,o
 pomyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pomyłka	rzeczownik		co do,o,w,wobec,względem,z
 pomyśleć	czasownik	bierze_zdanie	jako,nad,o
-pomóc	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,przy,w
+pomóc	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,na,przy,w
 pomówienie	rzeczownik		co do,o,przeciw,wobec,względem
 pomówić	czasownik	bierze_zdanie	o,z
 pomącić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
@@ -6551,8 +6555,8 @@ ponasadzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_d
 ponastawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	do,na,przeciw
 ponastawiać	czasownik się	nie_bierze_biernika,bierze_zdanie	do,na
 ponaszywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-ponauczać	czasownik	bierze_dopełniacz,bierze_zdanie	o
-ponauczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o,od,z
+ponauczać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+ponauczać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o,od,z
 ponawiać	czasownik się	nie_bierze_biernika	
 ponawlekać	czasownik	bierze_celownik,bierze_dopełniacz	na
 poniechać	czasownik	nie_bierze_biernika,bierze_dopełniacz	
@@ -6772,7 +6776,7 @@ poprzerzucać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,nad
 poprzerzucać	czasownik się	nie_bierze_biernika	na,z
 poprzerzynać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 poprzesadzać	czasownik		przez,w,z
-poprzestawać	czasownik	nie_bierze_biernika	na
+poprzestawać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na
 poprzestawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,z
 poprzestawiać	czasownik się	nie_bierze_biernika,bierze_celownik	na,z
 poprzestać	czasownik	nie_bierze_biernika	na
@@ -6790,13 +6794,13 @@ poprzeć	czasownik		w
 poprztykać	czasownik się	nie_bierze_biernika,bierze_zdanie	o,z
 poprzybierać	czasownik		na,w
 poprzybijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,z
-poprzychodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na,po,z
+poprzychodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,po,z
 poprzycinać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,o,w
 poprzycinać	czasownik się	nie_bierze_biernika	na
 poprzyciągać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
 poprzyczepiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
 poprzyczepiać	czasownik się	nie_bierze_biernika,bierze_celownik	do
-poprzyjeżdżać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na,po,w,za
+poprzyjeżdżać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,w,za
 poprzyjmować	czasownik	bierze_zdanie	do,jako,na,od,za
 poprzyjmować	czasownik się	nie_bierze_biernika	
 poprzyklejać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
@@ -6812,9 +6816,9 @@ poprzypinać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
 poprzypinać	czasownik się	nie_bierze_biernika	do
 poprzysiadać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na
 poprzysiadać	czasownik się	nie_bierze_biernika	do
-poprzysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
-poprzysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
-poprzysięgnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+poprzysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
+poprzysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
+poprzysięgnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 poprzystrajać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 poprzysuwać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 poprzysuwać	czasownik się	nie_bierze_biernika	
@@ -6825,7 +6829,7 @@ poprzytulać	czasownik się	nie_bierze_biernika	do,z
 poprzywiązywać	czasownik		do,za
 poprzywiązywać	czasownik się	nie_bierze_biernika	do
 poprzywozić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
-popróbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik	
+popróbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 popróbować	czasownik się	nie_bierze_biernika	z
 popróchnieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 popsuć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -6843,7 +6847,7 @@ popytać	czasownik	bierze_dopełniacz	o
 popytać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
 popęd	rzeczownik		do,na,wobec,względem
 popędzać	czasownik		do
-popędzić	czasownik	bierze_bezokolicznik	do,na,po,za
+popędzić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,po,za
 popękać	czasownik	nie_bierze_biernika,bierze_celownik	na,od,z
 popętać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 popętać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -6857,13 +6861,13 @@ popłoszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 popłukać	czasownik		pod,w
 popłynąć	czasownik	nie_bierze_biernika,bierze_celownik	na,za
 popływać	czasownik	nie_bierze_biernika	na
-pora	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+pora	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 porabiać	czasownik	nie_bierze_biernika	
 porachować	czasownik	bierze_zdanie	za
 porachować	czasownik się	nie_bierze_biernika	
 porachunek	rzeczownik		między,o,z
 porada	rzeczownik		co do,dla,na,o,od
-poradzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,z
+poradzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na,z
 poradzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz	
 poranić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,od,po,w
 poranić	czasownik się	nie_bierze_biernika	na,o,w
@@ -6942,7 +6946,7 @@ porozumieć	czasownik się	nie_bierze_biernika,bierze_zdanie	co do,z
 porozwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,po,w
 porozwalać	czasownik się	nie_bierze_biernika,bierze_celownik	
 portretować	czasownik się	nie_bierze_biernika	
-poruczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+poruczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 poruszać	czasownik		dla,u,w
 poruszać	czasownik się	nie_bierze_biernika	na,o,w
 poruszyć	czasownik		dla,u,w
@@ -7008,7 +7012,7 @@ poskarżyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_w
 poskarżyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na
 posklejać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 posklejać	czasownik się	nie_bierze_biernika,bierze_celownik	w,z
-poskoczyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+poskoczyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 poskracać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 poskracać	czasownik się	nie_bierze_biernika	o
 poskreślać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
@@ -7035,8 +7039,8 @@ pospajać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 pospajać	czasownik się	nie_bierze_biernika	w,z
 pospawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 pospać	czasownik	nie_bierze_biernika	nad,z
-pospieszać	czasownik	bierze_celownik,bierze_bezokolicznik	na,z,za
-pospieszyć	czasownik	bierze_celownik,bierze_bezokolicznik	na,z,za
+pospieszać	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
+pospieszyć	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
 pospieszyć	czasownik się	nie_bierze_biernika	do,z
 pospinać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 pospinać	czasownik się	nie_bierze_biernika	z
@@ -7059,14 +7063,14 @@ posrebrzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 posrebrzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 posrebrzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 post	rzeczownik		na,o,od,w
-postanawiać	czasownik	bierze_bezokolicznik,bierze_zdanie	o
-postanowić	czasownik	bierze_bezokolicznik,bierze_zdanie	o
-postarać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	o
+postanawiać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
+postanowić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
+postarać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	o
 postarzać	czasownik		o
 postarzeć	czasownik się	nie_bierze_biernika	o
 postarzyć	czasownik		o
 postawa	rzeczownik		co do,przeciw,wobec,względem,za
-postawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	do,między,na,nad,przed,w,z,za
+postawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,między,na,nad,przed,w,z,za
 postawić	czasownik się	nie_bierze_biernika,bierze_celownik	do,w,wobec
 postać	czasownik	nie_bierze_biernika,bierze_celownik	na,nad,po
 postepować	czasownik	nie_bierze_biernika	do
@@ -7174,7 +7178,7 @@ potonąć	czasownik	nie_bierze_biernika	po,w
 potopić	czasownik		w
 potopić	czasownik się	nie_bierze_biernika	w
 potracić	czasownik		dla,na,w,z
-potrafić	czasownik	bierze_bezokolicznik	
+potrafić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 potrajać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 potrajać	czasownik się	nie_bierze_biernika,bierze_celownik	
 potraktować	czasownik		z
@@ -7191,7 +7195,7 @@ potrzaskać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,o,po,
 potrzaskać	czasownik się	nie_bierze_biernika,bierze_celownik	na,w
 potrzaskiwać	czasownik	nie_bierze_biernika	o
 potrzeba	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do,na
-potrzebować	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	dla,do,na
+potrzebować	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	dla,do,na
 potrzepać	czasownik	bierze_zdanie	na,o,po,w
 potrzepać	czasownik się	nie_bierze_biernika	
 potrzeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o,po,w
@@ -7261,10 +7265,10 @@ powaśnić	czasownik		z
 powaśnić	czasownik się	nie_bierze_biernika	o,z
 poważanie	rzeczownik		co do,dla,do,między,wobec,względem
 poważać	czasownik		jako,za
-poważać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+poważać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 poważnieć	czasownik	nie_bierze_biernika,bierze_celownik	
 poważyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-poważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+poważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 powbijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 powbijać	czasownik się	nie_bierze_biernika,bierze_celownik	w
 powchodzić	czasownik	nie_bierze_biernika,bierze_celownik	na,w
@@ -7298,7 +7302,7 @@ powieźć	czasownik		na,w
 powikłanie	rzeczownik		od,po,u,w
 powikłać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 powikłać	czasownik się	nie_bierze_biernika,bierze_celownik	
-powinien	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+powinien	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 powinszować	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	
 powitanie	rzeczownik		dla,przez,z
 powitać	czasownik się	nie_bierze_biernika	z
@@ -7355,7 +7359,7 @@ powstawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 powstać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	przeciw,z
 powstrzymać	czasownik		od,przed
 powstrzymywać	czasownik		od,przed
-powstydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	przed,za
+powstydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	przed,za
 powszednieć	czasownik	nie_bierze_biernika,bierze_celownik	
 powtarzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	po,za
 powtarzać	czasownik się	nie_bierze_biernika	
@@ -7363,7 +7367,7 @@ powtykać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 powtórka	rzeczownik		dla,do,o,z
 powtórzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	po,za
 powtórzyć	czasownik się	nie_bierze_biernika	
-powybiegać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	za
+powybiegać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 powybierać	czasownik		do,między,na,spośród,z
 powybijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 powybijać	czasownik się	nie_bierze_biernika	
@@ -7477,7 +7481,7 @@ pozacierać	czasownik		po,za
 pozacierać	czasownik się	nie_bierze_biernika,bierze_celownik	
 pozaciągać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 pozaciągać	czasownik się	nie_bierze_biernika,bierze_celownik	o,od
-pozaczynać	czasownik	bierze_bezokolicznik	od,z
+pozaczynać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od,z
 pozaczynać	czasownik się	nie_bierze_biernika,bierze_celownik	od
 pozadawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
 pozadawać	czasownik się	nie_bierze_biernika	z
@@ -7519,7 +7523,7 @@ pozapisywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_
 pozapisywać	czasownik się	nie_bierze_biernika,bierze_celownik	do,na
 pozaplatać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	w
 pozaplatać	czasownik się	nie_bierze_biernika,bierze_celownik	w,z
-pozapominać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+pozapominać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 pozapominać	czasownik się	nie_bierze_biernika	w
 pozapuszczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pozapuszczać	czasownik się	nie_bierze_biernika	w
@@ -7610,7 +7614,7 @@ pozorować	czasownik	bierze_zdanie	na
 pozostawać	czasownik	nie_bierze_biernika,bierze_celownik	bez,między,po,przy,w,z
 pozostawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,po,w
 pozostawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,po,w
-pozostać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	bez,dla,do,między,na,po,przy,w,z,za
+pozostać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	bez,dla,do,między,na,po,przy,w,z,za
 pozostałość	rzeczownik		po,z
 pozować	czasownik	nie_bierze_biernika,bierze_celownik	do,na
 pozrażać	czasownik		do
@@ -7624,7 +7628,7 @@ pozsiadać	czasownik się	nie_bierze_biernika
 pozsuwać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pozsuwać	czasownik się	nie_bierze_biernika,bierze_celownik	
 pozszywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
-pozwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+pozwalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 pozwalniać	czasownik		od,z
 pozwalniać	czasownik się	nie_bierze_biernika	z
 pozwać	czasownik	bierze_zdanie	do,na,o,przed,za
@@ -7633,7 +7637,7 @@ pozwijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w,z
 pozwijać	czasownik się	nie_bierze_biernika,bierze_celownik	w
 pozwiązywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 pozwiązywać	czasownik się	nie_bierze_biernika	z
-pozwolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	do,na,z
+pozwolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,z
 pozwozić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
 pozwoływać	czasownik		do,na
 pozwracać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,przeciw
@@ -7660,11 +7664,11 @@ połaszczyć	czasownik się	nie_bierze_biernika	na
 połatać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 poławiać	czasownik		na,w
 połazikować	czasownik	nie_bierze_biernika	z
-połazić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	koło,na,po,w,z,za
+połazić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	koło,na,po,w,z,za
 połechtać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w
 połowić	czasownik		na,w
 położyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	dla,jako,na,pod,przy,w
-położyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	na
+położyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 połupać	czasownik		na,o,w,z
 połyskiwać	czasownik	nie_bierze_biernika,bierze_celownik	
 połów	rzeczownik		na,przez
@@ -7689,8 +7693,8 @@ poślubiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 poślubić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pośmiać	czasownik się	nie_bierze_biernika,bierze_zdanie	z
 pośniedzieć	czasownik	nie_bierze_biernika,bierze_celownik	
-pośpieszać	czasownik	bierze_celownik,bierze_bezokolicznik	na,z,za
-pośpieszyć	czasownik	bierze_celownik,bierze_bezokolicznik	na,z,za
+pośpieszać	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
+pośpieszyć	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
 pośpieszyć	czasownik się	nie_bierze_biernika	do,z
 pośpiewać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 pośrednictwo	rzeczownik		dla,między,w
@@ -7729,7 +7733,7 @@ pożądanie	rzeczownik		dla,do,między,wobec,względem
 pożądać	czasownik	nie_bierze_biernika,bierze_dopełniacz	
 praca	rzeczownik		dla,na,nad,o,przy,z,za
 pracować	czasownik	nie_bierze_biernika	dla,jako,na,nad,przeciw,przy,z
-pragnąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
+pragnąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 praktyka	rzeczownik		co do,w,z
 praktykować	czasownik		u,w
 prasnąć	czasownik		o,po,w
@@ -7749,7 +7753,7 @@ precyzować	czasownik się	nie_bierze_biernika
 predestynować	czasownik		do,na
 predysponować	czasownik		do,na
 predyspozycja	rzeczownik		co do,do,na,w,z
-preferować	czasownik	bierze_bezokolicznik	
+preferować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 prelekcja	rzeczownik		dla,o,z
 preliminować	czasownik		na
 preludium	rzeczownik		dla,do,na,o
@@ -7795,11 +7799,11 @@ promieniować	czasownik		na,od,z
 promocja	rzeczownik		dla,do,na,z
 promować	czasownik		do,między,na,po,pomiędzy,pośród,u,w,wśród,śród
 propaganda	rzeczownik		co do,o,przeciw,wobec,względem,za
-proponować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	dla,na
+proponować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	dla,na
 proporcja	rzeczownik		do,między,wobec,względem
 propozycja	rzeczownik		dla,do,na
 prorokować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	co do,na,o
-prosić	czasownik	bierze_dopełniacz,bierze_bezokolicznik	do,na,o,za
+prosić	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,o,za
 prosić	czasownik się	nie_bierze_biernika	o
 prosperować	czasownik	nie_bierze_biernika,bierze_celownik	
 prostować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
@@ -7954,8 +7958,8 @@ przedrzemać	czasownik się	nie_bierze_biernika
 przedrzeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 przedrzeć	czasownik się	nie_bierze_biernika,bierze_celownik	na,przez
 przedrzeźniać	czasownik się	nie_bierze_biernika	z
-przedsiębrać	czasownik	bierze_bezokolicznik	
-przedsięwziąć	czasownik	bierze_bezokolicznik	
+przedsiębrać	czasownik	bierze_bezokolicznik_podmiotu	
+przedsięwziąć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 przedstawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako
 przedstawiać	czasownik się	nie_bierze_biernika,bierze_celownik	jako
 przedstawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako
@@ -8395,12 +8399,12 @@ przesmażyć	czasownik się	nie_bierze_biernika	na,w
 przesolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 przespacerować	czasownik się	nie_bierze_biernika	
 przespać	czasownik się	nie_bierze_biernika	z
-przestawać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	z
+przestawać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 przestawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,nad,o,przez,z
 przestawiać	czasownik się	nie_bierze_biernika,bierze_celownik	na,z
 przestawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,nad,o,przez,z
 przestawić	czasownik się	nie_bierze_biernika,bierze_celownik	na,z
-przestać	czasownik	bierze_bezokolicznik	
+przestać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 przestrach	rzeczownik		co do,o,przed,wobec,względem
 przestrajać	czasownik		na,z
 przestrajać	czasownik się	nie_bierze_biernika	na,z
@@ -8446,9 +8450,9 @@ przeszczepiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 przeszczepiać	czasownik się	nie_bierze_biernika	
 przeszczepić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 przeszczepić	czasownik się	nie_bierze_biernika	
-przeszkadzać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	w
+przeszkadzać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	w
 przeszkoda	rzeczownik		co do,dla,do,przeciw,w,wobec,względem,z
-przeszkodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	w
+przeszkodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	w
 przeszkolić	czasownik		do,na,w,z
 przeszkolić	czasownik się	nie_bierze_biernika	do,na,w,z
 przeszmuglować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -8618,8 +8622,8 @@ przeżywać	czasownik się	nie_bierze_biernika
 przeżyć	czasownik	bierze_zdanie	na
 przeżyć	czasownik się	nie_bierze_biernika	
 przodować	czasownik	nie_bierze_biernika	w,wśród
-przybiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik	z
-przybiegać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	z
+przybiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
+przybiegać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 przybierać	czasownik		na,w
 przybijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,z
 przybić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,z
@@ -8637,7 +8641,7 @@ przybrudzić	czasownik się	nie_bierze_biernika,bierze_celownik	w
 przybywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	na
 przybyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	na
 przybłąkać	czasownik się	nie_bierze_biernika	za
-przychodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na,po,z
+przychodzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,po,z
 przychwycić	czasownik		na,przy,w,z,za
 przychwycić	czasownik się	nie_bierze_biernika	na
 przychylać	czasownik		do,ku
@@ -8744,17 +8748,17 @@ przyholować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 przyjazd	rzeczownik		na,w,za
 przyjaźnić	czasownik się	nie_bierze_biernika	z
 przyjaźń	rzeczownik		dla,do,między,wobec,względem,wśród,z
-przyjechać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na,po,w,za
+przyjechać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,w,za
 przyjemność	rzeczownik		dla,w,wobec,względem,z
-przyjeżdżać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na,po,w,za
-przyjmować	czasownik	bierze_zdanie	do,jako,na,od,za
+przyjeżdżać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,w,za
+przyjmować	czasownik	bierze_bezokolicznik,bierze_zdanie	do,jako,na,od,za
 przyjmować	czasownik się	nie_bierze_biernika	
 przyjrzeć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	
-przyjąć	czasownik	bierze_bezokolicznik,bierze_zdanie	do,jako,na,od,za
+przyjąć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,jako,na,od,za
 przyjąć	czasownik się	nie_bierze_biernika	
-przyjść	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,na,po,z
-przykazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-przykazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+przyjść	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,po,z
+przykazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+przykazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 przyklaskiwać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 przyklasnąć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 przykleić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -8793,7 +8797,7 @@ przylepiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 przylepiać	czasownik się	nie_bierze_biernika,bierze_celownik	do
 przylepić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 przylepić	czasownik się	nie_bierze_biernika,bierze_celownik	do
-przyleźć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	po,z,za
+przyleźć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	po,z,za
 przylgnąć	czasownik	nie_bierze_biernika,bierze_celownik	do
 przylizać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 przylizać	czasownik się	nie_bierze_biernika	
@@ -8836,7 +8840,7 @@ przynieść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_d
 przynosić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
 przynudzać	czasownik	nie_bierze_biernika,bierze_zdanie	o
 przynęta	rzeczownik		dla,do,na
-przyobiecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+przyobiecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 przyoblec	czasownik		w
 przyoblec	czasownik się	nie_bierze_biernika	w
 przyoblekać	czasownik		w
@@ -8856,7 +8860,7 @@ przypasować	czasownik się	nie_bierze_biernika	do
 przypatrywać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	
 przypatrzeć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	
 przypatrzyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	
-przypaść	czasownik	nie_bierze_biernika,bierze_celownik	do,na
+przypaść	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na
 przypełznąć	czasownik	nie_bierze_biernika,bierze_celownik	
 przypiec	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 przypiec	czasownik się	nie_bierze_biernika,bierze_celownik	o,od
@@ -8904,7 +8908,7 @@ przypudrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 przypudrować	czasownik się	nie_bierze_biernika	
 przypuszczać	czasownik	bierze_zdanie	do,na
 przypuścić	czasownik	bierze_zdanie	do,na
-przypędzić	czasownik		z
+przypędzić	czasownik	bierze_bezokolicznik	z
 przypłaszczyć	czasownik		do
 przypłaszczyć	czasownik się	nie_bierze_biernika	do
 przypłynąć	czasownik	nie_bierze_biernika	na,w
@@ -8913,9 +8917,9 @@ przyrastać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do,
 przyrosnąć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do,o,w
 przyrumienić	czasownik		na
 przyrumienić	czasownik się	nie_bierze_biernika	
-przyrzec	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+przyrzec	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 przyrzeczenie	rzeczownik		co do,na,o,od,przez,wobec,względem
-przyrzekać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+przyrzekać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 przyrzucić	czasownik	bierze_celownik,bierze_dopełniacz	do
 przyrządzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 przyrządzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
@@ -8925,14 +8929,14 @@ przyschnąć	czasownik	nie_bierze_biernika,bierze_celownik	do
 przysiad	rzeczownik		na,z
 przysiadać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
 przysiadać	czasownik się	nie_bierze_biernika	do
-przysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na
+przysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 przysiąc	czasownik się	nie_bierze_biernika,bierze_zdanie	na
 przysiąść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do
 przysiąść	czasownik się	nie_bierze_biernika	do
 przysięga	rzeczownik		na,o,przed,wobec
-przysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na
+przysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 przysięgać	czasownik się	nie_bierze_biernika,bierze_zdanie	na
-przysięgnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na
+przysięgnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 przysięgnąć	czasownik się	nie_bierze_biernika,bierze_zdanie	na
 przyskakiwać	czasownik	nie_bierze_biernika,bierze_celownik	
 przyskoczyć	czasownik	nie_bierze_biernika,bierze_celownik	
@@ -9079,21 +9083,21 @@ przywoływać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze
 przywracać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na
 przywrzeć	czasownik	nie_bierze_biernika,bierze_celownik	do
 przywrócić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na
-przywykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	do
-przywyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	do
+przywykać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
+przywyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
 przywóz	rzeczownik		na,przez
 przywędrować	czasownik	nie_bierze_biernika	
 przyznawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 przyznawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do
 przyznać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 przyznać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do
-przyzwalać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+przyzwalać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 przyzwać	czasownik	bierze_dopełniacz	do,jako
-przyzwolić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
-przyzwyczaić	czasownik	bierze_zdanie	do
-przyzwyczaić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do
-przyzwyczajać	czasownik	bierze_zdanie	do
-przyzwyczajać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do
+przyzwolić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
+przyzwyczaić	czasownik	bierze_bezokolicznik,bierze_zdanie	do
+przyzwyczaić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
+przyzwyczajać	czasownik	bierze_bezokolicznik,bierze_zdanie	do
+przyzwyczajać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do
 przyzywać	czasownik	bierze_dopełniacz	do,jako
 przyćmiewać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 przyćmiewać	czasownik się	nie_bierze_biernika	
@@ -9103,7 +9107,7 @@ przyłapać	czasownik		na,przy,w,z
 przyłapać	czasownik się	nie_bierze_biernika	na
 przyłapywać	czasownik	bierze_zdanie	na,przy,w,z
 przyłapywać	czasownik się	nie_bierze_biernika,bierze_zdanie	na
-przyłazić	czasownik	nie_bierze_biernika,bierze_bezokolicznik	po,z,za
+przyłazić	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	po,z,za
 przyłożyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,po,w
 przyłożyć	czasownik się	nie_bierze_biernika	do
 przyłączać	czasownik		do
@@ -9122,7 +9126,7 @@ przyświecić	czasownik	nie_bierze_biernika,bierze_celownik
 prząść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 próba	rzeczownik		co do,dla,na,nad,przed,wobec,względem,z
 próbka	rzeczownik		do,na,od,z
-próbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik	jako,w
+próbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	jako,w
 próbować	czasownik się	nie_bierze_biernika	z
 próchnieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 prószyć	czasownik	nie_bierze_biernika,bierze_celownik	
@@ -9179,14 +9183,14 @@ pytanie	rzeczownik		co do,dla,do,o,wobec,względem,z
 pytać	czasownik	bierze_dopełniacz	o,z
 pytać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
 pytlować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o,z
-pójść	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,na,o,po,w,z,za
+pójść	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,po,w,z,za
 półleżeć	czasownik	nie_bierze_biernika	
 późnić	czasownik się	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 pączkować	czasownik	nie_bierze_biernika	do,z
 pąsowieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 pęcznieć	czasownik	nie_bierze_biernika,bierze_celownik	do,w
 pęd	rzeczownik		do,ku,w,za
-pędzić	czasownik	bierze_bezokolicznik	do,na,po,w,z,za
+pędzić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,po,w,z,za
 pędzlować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 pękać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	na,od,przed,z
 pęknąć	czasownik	nie_bierze_biernika,bierze_celownik	na,od,z
@@ -9224,14 +9228,14 @@ racjonalizacja	rzeczownik		przez,w
 racjonalizować	czasownik się	nie_bierze_biernika	
 racjonować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 raczkować	czasownik	nie_bierze_biernika	na,w
-raczyć	czasownik	bierze_bezokolicznik	
+raczyć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 raczyć	czasownik się	nie_bierze_biernika	
 rada	rzeczownik		co do,dla,na,o,od
 radować	czasownik się	nie_bierze_biernika,bierze_zdanie	na,z
 radość	rzeczownik		po,z
 radykalizować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 radykalizować	czasownik się	nie_bierze_biernika,bierze_celownik	
-radzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	nad,o,z
+radzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	nad,o,z
 radzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz	u,w
 raić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 rajcować	czasownik		o,z
@@ -9308,7 +9312,7 @@ reklama	rzeczownik		dla,o,przeciw,przez
 reklamacja	rzeczownik		na,o
 reklamować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	od,z
 rekomendacja	rzeczownik		co do,dla,do,na
-rekomendować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,jako,na
+rekomendować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,jako,na
 rekompensata	rzeczownik		dla,od,przez,za
 rekompensować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 rekonstrukcja	rzeczownik		przez
@@ -9475,7 +9479,7 @@ rozchmurzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 rozchmurzać	czasownik się	nie_bierze_biernika,bierze_celownik	
 rozchmurzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 rozchmurzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
-rozchodzić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	o,z
+rozchodzić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	o,z
 rozchorować	czasownik się	nie_bierze_biernika	na,od,z
 rozchwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 rozchwiać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -9570,7 +9574,7 @@ rozegrać	czasownik		z
 rozegrać	czasownik się	nie_bierze_biernika	
 rozejm	rzeczownik		między,z
 rozejrzeć	czasownik się	nie_bierze_biernika	po,w,za
-rozejść	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	o,z
+rozejść	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	o,z
 rozentuzjazmować	czasownik		do
 rozentuzjazmować	czasownik się	nie_bierze_biernika,bierze_zdanie	do
 rozepchać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -9668,8 +9672,8 @@ rozkaprysić	czasownik się	nie_bierze_biernika
 rozkawałkować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 rozkawałkować	czasownik się	nie_bierze_biernika,bierze_celownik	na
 rozkaz	rzeczownik		dla,do,o,od,przeciw
-rozkazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-rozkazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+rozkazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+rozkazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 rozkleić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 rozkleić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	na,nad,w
 rozklejać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
@@ -10269,9 +10273,9 @@ rzeźba	rzeczownik		o,w,z
 rzeźbić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 rznąć	czasownik		na,o,w
 rzucać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na,o,po,w
-rzucać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,na,o,w
+rzucać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,w
 rzucić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na,o,w
-rzucić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	do,na,o,przed,w,za
+rzucić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,przed,w,za
 rzut	rzeczownik		na,przeciw,przez,za
 rzutować	czasownik		na,w
 rzygać	czasownik	nie_bierze_biernika	od,po,z
@@ -10282,7 +10286,7 @@ rządzić	czasownik się	nie_bierze_biernika	w
 rzępolić	czasownik		na
 rzęzić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	o,z
 równać	czasownik		z
-równać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	z
+równać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 równoważność	rzeczownik		do,między,wobec,względem,z
 równoważyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 równoważyć	czasownik się	nie_bierze_biernika	z
@@ -10437,7 +10441,7 @@ siekać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w,z
 siew	rzeczownik		pod
 sikać	czasownik	nie_bierze_biernika,bierze_celownik	
 siknąć	czasownik	nie_bierze_biernika,bierze_celownik	
-silić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+silić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 sinieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 siorbać	czasownik		z
 siorbnąć	czasownik	nie_bierze_biernika,bierze_dopełniacz	z
@@ -10597,7 +10601,7 @@ skowyczeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zd
 skołować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 skołtunić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 skołtunić	czasownik się	nie_bierze_biernika,bierze_celownik	
-skończyć	czasownik	bierze_bezokolicznik	z
+skończyć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	z
 skończyć	czasownik się	nie_bierze_biernika,bierze_celownik	na
 skracać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o
 skracać	czasownik się	nie_bierze_biernika	o
@@ -10680,8 +10684,8 @@ skupywać	czasownik		od
 skurczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 skurczyć	czasownik się	nie_bierze_biernika,bierze_celownik	do,od,z
 skurwić	czasownik się	nie_bierze_biernika	
-skusić	czasownik	bierze_zdanie	do
-skusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+skusić	czasownik	bierze_bezokolicznik,bierze_zdanie	do
+skusić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 skutek	rzeczownik		dla
 skutkować	czasownik	nie_bierze_biernika	dla
 skuwać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
@@ -10813,18 +10817,18 @@ spienić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 spienić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	na
 spieniężać	czasownik		na,za
 spieniężyć	czasownik		na,za
-spieprzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	przed
+spieprzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	przed
 spieprzać	czasownik się	nie_bierze_biernika,bierze_celownik	
 spieprzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 spieprzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 spierać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 spierać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	o,z
-spierdalać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
-spierdolić	czasownik	bierze_bezokolicznik	
+spierdalać	czasownik	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	
+spierdolić	czasownik	bierze_bezokolicznik_podmiotu	
 spierdolić	czasownik się	nie_bierze_biernika	
 spierzchnąć	czasownik	nie_bierze_biernika,bierze_celownik	od
-spieszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,ku,na,o,z
-spieszyć	czasownik się	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,na,o,z
+spieszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,ku,na,o,z
+spieszyć	czasownik się	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,o,z
 spijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,z
 spijać	czasownik się	nie_bierze_biernika	
 spiknąć	czasownik		z
@@ -10868,7 +10872,7 @@ spoczywać	czasownik	nie_bierze_biernika,bierze_celownik	na,w
 spocząć	czasownik	nie_bierze_biernika,bierze_celownik	na,w
 spodlić	czasownik się	nie_bierze_biernika	
 spodobać	czasownik się	nie_bierze_biernika,bierze_celownik	w
-spodziewać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	od,po
+spodziewać	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	od,po
 spoglądać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	na,po,w
 spoglądać	czasownik się	nie_bierze_biernika,bierze_celownik	na,w
 spoglądnąć	czasownik	nie_bierze_biernika	na
@@ -10905,7 +10909,7 @@ spostrzec	czasownik się	nie_bierze_biernika,bierze_zdanie
 spostrzegać	czasownik	bierze_zdanie	
 spostrzegać	czasownik się	nie_bierze_biernika,bierze_zdanie	
 spostrzeżenie	rzeczownik		co do,do,nad,o,po,wobec,względem,z
-sposób	czasownik	nie_bierze_biernika	
+sposób	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
 sposępnieć	czasownik	nie_bierze_biernika,bierze_celownik	
 spotkać	czasownik		z,za
 spotnieć	czasownik	nie_bierze_biernika,bierze_celownik	
@@ -11005,7 +11009,7 @@ sprzęgać	czasownik		w,z
 sprzęgać	czasownik się	nie_bierze_biernika	w,z
 sprzęgnąć	czasownik		w,z
 sprzęgnąć	czasownik się	nie_bierze_biernika	w,z
-spróbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik	jako,w
+spróbować	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	jako,w
 spróbować	czasownik się	nie_bierze_biernika	z
 spróchnieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 sprężać	czasownik		do
@@ -11088,7 +11092,7 @@ stapiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 stapiać	czasownik się	nie_bierze_biernika	w,z
 staranie	rzeczownik		co do,o,wobec,względem
 staranować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-starać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	o
+starać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	o
 starcie	rzeczownik		między,o,w,z
 starczać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	dla,do,na,za
 starczyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	dla,do,na,za
@@ -11102,7 +11106,7 @@ statystować	czasownik	nie_bierze_biernika	przy
 statystyka	rzeczownik		o
 stawać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	do,między,na,przeciw,przed,w,wobec,z,za
 stawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	dla,z
-stawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	do,między,na,przed,w,z,za
+stawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,między,na,przed,w,z,za
 stawiać	czasownik się	nie_bierze_biernika,bierze_celownik	do,u,wobec
 stawić	czasownik się	nie_bierze_biernika	do,na
 stać	czasownik	bierze_celownik,bierze_dopełniacz,bierze_zdanie	do,na,o,po,przeciw,przed,przy,w,wobec,z,za
@@ -11395,7 +11399,7 @@ szkic	rzeczownik		do,o,z
 szkicować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 szklić	czasownik		na
 szklić	czasownik się	nie_bierze_biernika,bierze_celownik	od
-szkoda	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	dla,do,na
+szkoda	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	dla,do,na
 szkodliwość	rzeczownik		dla,na,wobec,względem
 szkodzić	czasownik	nie_bierze_biernika,bierze_celownik	na
 szkolić	czasownik		do,na,w,z
@@ -11447,7 +11451,7 @@ szyfr	rzeczownik		do,od
 szykana	rzeczownik		dla,od,wobec,względem,za
 szykanować	czasownik	bierze_zdanie	za
 szykować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,do,na
-szykować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na
+szykować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na
 szyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 sączyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	przez,z
 sączyć	czasownik się	nie_bierze_biernika,bierze_celownik	między,przez
@@ -11548,7 +11552,7 @@ tlenić	czasownik się	nie_bierze_biernika
 tleć	czasownik	nie_bierze_biernika,bierze_celownik	od
 tleć	czasownik się	nie_bierze_biernika,bierze_celownik	od
 tlić	czasownik się	nie_bierze_biernika,bierze_celownik	od
-to	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+to	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 toast	rzeczownik		dla,do,na,o,z,za
 toczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,z
 toczyć	czasownik się	nie_bierze_biernika,bierze_celownik	po
@@ -11595,7 +11599,7 @@ trapić	czasownik	bierze_zdanie
 trapić	czasownik się	nie_bierze_biernika,bierze_zdanie	o
 trasa	rzeczownik		dla,do
 tratować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,pod
-trawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na,nad,przy
+trawić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,nad,przy
 trawić	czasownik się	nie_bierze_biernika	
 trema	rzeczownik		przed,u,wobec
 trend	rzeczownik		do,na,w,wśród
@@ -11623,7 +11627,7 @@ truć	czasownik się	nie_bierze_biernika
 trwać	czasownik	nie_bierze_biernika	przy,w
 trwoga	rzeczownik		o,przed,wobec,względem
 trwonić	czasownik		na
-trwożyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+trwożyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 trykać	czasownik		w
 trykać	czasownik się	nie_bierze_biernika	z
 trylogia	rzeczownik		o,według
@@ -11632,10 +11636,10 @@ trysnąć	czasownik	nie_bierze_biernika,bierze_celownik
 tryumf	rzeczownik		dla,nad,w,wśród
 tryumfować	czasownik	nie_bierze_biernika,bierze_zdanie	nad,w
 trywializować	czasownik się	nie_bierze_biernika	
-trza	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	do,na
+trza	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na
 trzaskać	czasownik	bierze_celownik	o,po,przed,w,z
 trzasnąć	czasownik	bierze_celownik	o,po,przed,w,z
-trzeba	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	do,na,o
+trzeba	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o
 trzebić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 trzepać	czasownik	bierze_zdanie	na,o,po,w,z
 trzepać	czasownik się	nie_bierze_biernika	
@@ -11743,17 +11747,17 @@ ubożeć	czasownik	nie_bierze_biernika	o,od
 ubożyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 ubrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 ubrać	czasownik się	nie_bierze_biernika	
-ubrdać	czasownik	bierze_bezokolicznik,bierze_zdanie	
+ubrdać	czasownik	bierze_bezokolicznik_podmiotu,bierze_zdanie	
 ubrdać	czasownik się	nie_bierze_biernika,bierze_celownik	
 ubrudzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,w
 ubrudzić	czasownik się	nie_bierze_biernika,bierze_celownik	od,w
 ubytek	rzeczownik		na,o,po,w,z
 ubywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	od
 ubyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	od
-ubzdurać	czasownik	bierze_bezokolicznik,bierze_zdanie	
+ubzdurać	czasownik	bierze_bezokolicznik_podmiotu,bierze_zdanie	
 ubzdurać	czasownik się	nie_bierze_biernika,bierze_celownik	
 ubój	rzeczownik		przez
-ubóstwiać	czasownik	bierze_bezokolicznik	w,za
+ubóstwiać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	w,za
 ubóść	czasownik		w
 ubłagać	czasownik		o
 ubłocić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -11827,17 +11831,17 @@ uczuć	czasownik się	nie_bierze_biernika
 uczynek	rzeczownik		dla,wobec,względem
 uczynić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	dla,na,w,z
 uczynić	czasownik się	nie_bierze_biernika,bierze_celownik	
-uczyć	czasownik	bierze_dopełniacz,bierze_zdanie	na,o
-uczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,od,u,z
+uczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	na,o
+uczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,od,u,z
 uczęszczać	czasownik	nie_bierze_biernika	do,na
 uczłowieczać	czasownik się	nie_bierze_biernika	
 uczłowieczyć	czasownik się	nie_bierze_biernika	
 udaremniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 udaremnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 udawać	czasownik	bierze_zdanie	
-udawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,dzięki,po,z
+udawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,dzięki,po,z
 udać	czasownik	bierze_zdanie	
-udać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	do,dzięki,po,przez,z
+udać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,dzięki,po,przez,z
 udeptać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 udeptywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 uderzać	czasownik	bierze_celownik	do,na,o,po,przed,w,z
@@ -11996,7 +12000,7 @@ ukuć	czasownik się	nie_bierze_biernika
 ukwiecić	czasownik się	nie_bierze_biernika	
 ukąsić	czasownik		w
 układać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,do,na,pod,w,z
-układać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	co do,do,na,o,pod,w,z
+układać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik_podmiotu	co do,do,na,o,pod,w,z
 ukłon	rzeczownik		dla,od,przed
 ukłonić	czasownik się	nie_bierze_biernika,bierze_celownik	od,przed
 ukłuć	czasownik		w
@@ -12050,7 +12054,7 @@ umiejscowić	czasownik się	nie_bierze_biernika,bierze_celownik
 umieralność	rzeczownik		na,u,wśród
 umierać	czasownik	nie_bierze_biernika,bierze_celownik	dla,na,od,przed,wskutek,z,za
 umieszczać	czasownik		w
-umieć	czasownik	bierze_bezokolicznik	w
+umieć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	w
 umieścić	czasownik		w
 umilać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 umilić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -12078,8 +12082,8 @@ umotywować	czasownik	bierze_zdanie	do
 umowa	rzeczownik		między,na,o,przeciw,z
 umościć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,z
 umościć	czasownik się	nie_bierze_biernika,bierze_celownik	
-umożliwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-umożliwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+umożliwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+umożliwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 umrzeć	czasownik	nie_bierze_biernika,bierze_celownik	dla,na,od,wskutek,z,za
 umuzykalniać	czasownik się	nie_bierze_biernika	
 umuzykalnić	czasownik się	nie_bierze_biernika	
@@ -12087,7 +12091,7 @@ umykać	czasownik	nie_bierze_biernika,bierze_celownik	przed
 umywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
 umywać	czasownik się	nie_bierze_biernika	do
 umyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
-umyślić	czasownik	bierze_bezokolicznik,bierze_zdanie	
+umyślić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 umówić	czasownik		do,na,z
 umówić	czasownik się	nie_bierze_biernika,bierze_zdanie	co do,do,na,z
 umęczyć	czasownik się	nie_bierze_biernika	
@@ -12097,8 +12101,8 @@ unaocznić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zd
 unaocznić	czasownik się	nie_bierze_biernika	w
 unerwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 unia	rzeczownik		między,z
-uniemożliwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-uniemożliwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+uniemożliwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
+uniemożliwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 unieruchamiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 unieruchomić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 unieważniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -12175,7 +12179,7 @@ upichcić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,w,z
 upichcić	czasownik się	nie_bierze_biernika	w
 upiec	czasownik		na,przy,w
 upiec	czasownik się	nie_bierze_biernika,bierze_celownik	na,w
-upierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na,przy
+upierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,przy
 upijać	czasownik	bierze_dopełniacz	z
 upijać	czasownik się	nie_bierze_biernika	
 upilnować	czasownik		przed
@@ -12188,7 +12192,7 @@ upiększać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 upiększać	czasownik się	nie_bierze_biernika	
 upiększyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 upiększyć	czasownik się	nie_bierze_biernika	
-uplanować	czasownik	bierze_bezokolicznik,bierze_zdanie	
+uplanować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 uplasować	czasownik się	nie_bierze_biernika	
 upleść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 upodabniać	czasownik		do,w
@@ -12263,7 +12267,7 @@ uprzedzić	czasownik się	nie_bierze_biernika	do
 uprzejmość	rzeczownik		dla,między,w,wobec,względem
 uprzemysławiać	czasownik się	nie_bierze_biernika	
 uprzemysłowić	czasownik się	nie_bierze_biernika	
-uprzeć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na,przy
+uprzeć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,przy
 uprzyjemniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 uprzyjemnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 uprzykrzać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -12296,7 +12300,7 @@ urabiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,od,z
 urabiać	czasownik się	nie_bierze_biernika	
 uraczyć	czasownik się	nie_bierze_biernika	
 uradować	czasownik się	nie_bierze_biernika,bierze_zdanie	na,z
-uradzić	czasownik	bierze_bezokolicznik,bierze_zdanie	z
+uradzić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 urastać	czasownik	nie_bierze_biernika,bierze_celownik	do,w
 uratować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od,przed,z
 uratować	czasownik się	nie_bierze_biernika	od,przed,z
@@ -12362,7 +12366,7 @@ usankcjonować	czasownik	bierze_zdanie
 uschnąć	czasownik	nie_bierze_biernika,bierze_celownik	za
 usiedzieć	czasownik	nie_bierze_biernika	
 usiąść	czasownik	nie_bierze_biernika	do
-usiłować	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+usiłować	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 uskakiwać	czasownik	nie_bierze_biernika	przed
 uskarżać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na
 uskoczyć	czasownik	nie_bierze_biernika	przed
@@ -12555,7 +12559,7 @@ uwalniać	czasownik się	nie_bierze_biernika	do,z
 uwarunkować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na
 uwarunkować	czasownik się	nie_bierze_biernika	
 uwarzyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	na,z
-uważać	czasownik	bierze_zdanie	na,o,za
+uważać	czasownik	bierze_bezokolicznik,bierze_zdanie	na,o,za
 uwiadomić	czasownik	bierze_zdanie	o
 uwiarygadniać	czasownik	bierze_zdanie	przed,wobec
 uwiarygodniać	czasownik	bierze_zdanie	przed,wobec
@@ -12568,7 +12572,7 @@ uwidocznić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_z
 uwidocznić	czasownik się	nie_bierze_biernika	w
 uwieczniać	czasownik się	nie_bierze_biernika	
 uwiecznić	czasownik się	nie_bierze_biernika	
-uwielbiać	czasownik	bierze_bezokolicznik	w,za
+uwielbiać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	w,za
 uwielbić	czasownik	bierze_zdanie	w,za
 uwierać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 uwierzyć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	w
@@ -12608,7 +12612,7 @@ uwyraźnić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_z
 uwyraźnić	czasownik się	nie_bierze_biernika	
 uwzględniać	czasownik	bierze_zdanie	w
 uwzględnić	czasownik	bierze_zdanie	w
-uwziąć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na
+uwziąć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 uwznioślać	czasownik się	nie_bierze_biernika	
 uwznioślić	czasownik się	nie_bierze_biernika	
 uwędzić	czasownik		w
@@ -12646,8 +12650,8 @@ uziemiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 uziemić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 uzmysławiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 uzmysłowić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-uznawać	czasownik	bierze_bezokolicznik,bierze_zdanie	jako,za
-uznać	czasownik	bierze_bezokolicznik,bierze_zdanie	jako,za
+uznawać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,za
+uznać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,za
 uzupełniać	czasownik	bierze_zdanie	o,w
 uzupełniać	czasownik się	nie_bierze_biernika	z
 uzupełnić	czasownik	bierze_zdanie	o,w
@@ -12661,7 +12665,7 @@ ułamać	czasownik się	nie_bierze_biernika,bierze_celownik	od,z
 ułatwiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 ułatwić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 ułożyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,do,na,pod,w,z
-ułożyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	co do,do,na,o,pod,w,z
+ułożyć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik_podmiotu	co do,do,na,o,pod,w,z
 ułuda	rzeczownik		o
 uścisk	rzeczownik		dla,na,od,z
 uściskać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
@@ -12705,12 +12709,12 @@ wabić	czasownik	bierze_zdanie	na
 wabić	czasownik się	nie_bierze_biernika	
 wachlować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wada	rzeczownik		w
-wadzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
+wadzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	w
 wadzić	czasownik się	nie_bierze_biernika	
 wagarować	czasownik	nie_bierze_biernika	
 wagary	rzeczownik		od
 wahać	czasownik	nie_bierze_biernika	
-wahać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,między,nad,od,przed
+wahać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,między,nad,od,przed
 wakować	czasownik	nie_bierze_biernika	
 walać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 walać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -12729,9 +12733,9 @@ wariacja	rzeczownik		o,wokół,z
 wariować	czasownik	nie_bierze_biernika	dla,od,z
 warknąć	czasownik	bierze_zdanie	do,na,o,za
 warować	czasownik	nie_bierze_biernika	na
-warować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+warować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu	
 warta	rzeczownik		z
-warto	czasownik	nie_bierze_biernika	
+warto	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
 warunek	rzeczownik		co do,dla,do,u,wobec,względem,z
 warunkować	czasownik		na
 warunkować	czasownik się	nie_bierze_biernika	
@@ -12743,7 +12747,7 @@ wałęsać	czasownik się	nie_bierze_biernika
 waśń	rzeczownik		między,o,z
 ważność	rzeczownik		dla
 ważyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
-ważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+ważyć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 wbiec	czasownik	nie_bierze_biernika	
 wbiegać	czasownik	nie_bierze_biernika	
 wbijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	w
@@ -12880,7 +12884,7 @@ widok	rzeczownik		na
 widywać	czasownik		jako
 widywać	czasownik się	nie_bierze_biernika	z
 widzieć	czasownik	bierze_zdanie	jako
-widzieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	jako,z
+widzieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	jako,z
 wiec	rzeczownik		przeciw
 wiecować	czasownik	nie_bierze_biernika	
 wieczerzać	czasownik	nie_bierze_biernika	
@@ -12914,9 +12918,9 @@ wina	rzeczownik		co do,przeciw,w,wobec,względem,za
 windować	czasownik		o,w
 windować	czasownik się	nie_bierze_biernika	o,w
 windykować	czasownik		od,u,z
-winien	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+winien	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 winić	czasownik	bierze_zdanie	o,za
-winszować	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	
+winszować	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	
 wionąć	czasownik	nie_bierze_biernika,bierze_celownik	
 wiosłować	czasownik	nie_bierze_biernika	
 wiotczeć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
@@ -13040,8 +13044,8 @@ wojażować	czasownik	nie_bierze_biernika	na,po,w
 wojna	rzeczownik		między,o,przeciw,z
 wojować	czasownik	nie_bierze_biernika	na,o,pod,przeciw,w,z,za
 wola	rzeczownik		co do,do,wobec,względem
-woleć	czasownik	bierze_bezokolicznik	od
-wolno	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+woleć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
+wolno	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 wolność	rzeczownik		od
 wonieć	czasownik	nie_bierze_biernika,bierze_celownik	od
 worać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -13049,7 +13053,7 @@ worać	czasownik się	nie_bierze_biernika,bierze_celownik
 woskować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wozić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
 wozić	czasownik się	nie_bierze_biernika	na,w,z,za
-wołać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,za
+wołać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,za
 wpadać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	na,pod,w,z
 wpajać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	w
 wpakować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
@@ -13241,8 +13245,8 @@ wstrząsnąć	czasownik się	nie_bierze_biernika	od,w,z
 wstręt	rzeczownik		dla,do,przed,wobec,względem
 wstukać	czasownik	bierze_zdanie	do,na,w
 wstukiwać	czasownik	bierze_zdanie	do,na,w
-wstyd	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	za
-wstydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	przed,za
+wstyd	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	za
+wstydzić	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	przed,za
 wstąpić	czasownik	nie_bierze_biernika	na,po,w,z
 wstęp	rzeczownik		co do,do,o
 wstępować	czasownik	nie_bierze_biernika	na,po,w,z
@@ -13344,9 +13348,9 @@ wybałuszyć	czasownik		na,z
 wybałuszyć	czasownik się	nie_bierze_biernika	na
 wybetonować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wybełkotać	czasownik	bierze_zdanie	do
-wybiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik	za
+wybiec	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 wybieg	rzeczownik		dla,do,z
-wybiegać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	za
+wybiegać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 wybiegać	czasownik się	nie_bierze_biernika	
 wybielać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wybielać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -13354,7 +13358,7 @@ wybieleć	czasownik	nie_bierze_biernika,bierze_celownik	od
 wybielić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wybielić	czasownik się	nie_bierze_biernika,bierze_celownik	
 wybierać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,do,między,na,spośród,z,za
-wybierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na,po,za
+wybierać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,za
 wybijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	co do,do,w
 wybijać	czasownik się	nie_bierze_biernika,bierze_celownik	na,ponad,w,z
 wybić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	co do,do,w
@@ -13363,7 +13367,7 @@ wyblaknąć	czasownik	nie_bierze_biernika,bierze_celownik	do
 wyborować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 wybraniać	czasownik		od,przed,z
 wybrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,do,między,na,spośród,z,za
-wybrać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na,po,za
+wybrać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po,za
 wybrnąć	czasownik	nie_bierze_biernika	z
 wybronić	czasownik		od,przed,z
 wybrudzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -13501,9 +13505,9 @@ wydatek	rzeczownik		dla,na,za
 wydatkować	czasownik		na
 wydatkować	czasownik się	nie_bierze_biernika	na
 wydawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w,z,za
-wydawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	za
+wydawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 wydać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w,z,za
-wydać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	za
+wydać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	za
 wydedukować	czasownik	bierze_zdanie	po,z
 wydekoltować	czasownik się	nie_bierze_biernika	
 wydelegować	czasownik		do,na
@@ -13595,7 +13599,7 @@ wyfruwać	czasownik	nie_bierze_biernika
 wygadać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o,przed
 wygadać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o,przed,z
 wygadywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na,o
-wyganiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+wyganiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 wygarbować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wygarniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	z
 wygarnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	z
@@ -13616,14 +13620,14 @@ wygiąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 wygiąć	czasownik się	nie_bierze_biernika,bierze_celownik	pod,w
 wyglansować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wyglądać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz,bierze_zdanie	do,na,przez,spod,z
-wygnać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+wygnać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 wygniatać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 wygniatać	czasownik się	nie_bierze_biernika,bierze_celownik	
 wygnieść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 wygnieść	czasownik się	nie_bierze_biernika,bierze_celownik	
 wygoić	czasownik się	nie_bierze_biernika,bierze_celownik	na
 wygolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-wygonić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+wygonić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 wygospodarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na
 wygospodarowywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na
 wygotować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
@@ -14111,7 +14115,7 @@ wypracować	czasownik się	nie_bierze_biernika
 wypracowywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 wypracowywać	czasownik się	nie_bierze_biernika	
 wyprasować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-wypraszać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	dla,o,od,u,w
+wypraszać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik_podmiotu	dla,o,od,u,w
 wyprawa	rzeczownik		dla,przeciw
 wyprawiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 wyprawiać	czasownik się	nie_bierze_biernika	na,w
@@ -14531,8 +14535,8 @@ wytłumiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 wytłumić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wytłuścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 wytłuścić	czasownik się	nie_bierze_biernika,bierze_celownik	
-wyuczyć	czasownik	bierze_dopełniacz,bierze_zdanie	do,na,o
-wyuczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o,od,z
+wyuczyć	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	do,na,o
+wyuczyć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,na,o,od,z
 wywalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,przed,za
 wywalać	czasownik się	nie_bierze_biernika,bierze_celownik	na
 wywalczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	dla
@@ -14733,16 +14737,16 @@ wzbogacać	czasownik		o,w
 wzbogacać	czasownik się	nie_bierze_biernika	na,o,w
 wzbogacić	czasownik		o,w
 wzbogacić	czasownik się	nie_bierze_biernika	na,o,w
-wzbraniać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
-wzbraniać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	od,przed,z
-wzbronić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
-wzbronić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	od,przed
+wzbraniać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
+wzbraniać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	od,przed,z
+wzbronić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
+wzbronić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od,przed
 wzbudzać	czasownik		u,w
 wzbudzić	czasownik		u,w
 wzburzać	czasownik się	nie_bierze_biernika,bierze_zdanie	
 wzburzyć	czasownik		w
 wzburzyć	czasownik się	nie_bierze_biernika,bierze_zdanie	w
-wzdragać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na,od,przed
+wzdragać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na,od,przed
 wzdrygać	czasownik	nie_bierze_biernika	
 wzdrygać	czasownik się	nie_bierze_biernika	na,od,przed,z
 wzdrygnąć	czasownik	nie_bierze_biernika	
@@ -14900,11 +14904,11 @@ zablokować	czasownik się	nie_bierze_biernika,bierze_celownik
 zabobon	rzeczownik		o
 zaboleć	czasownik	bierze_zdanie	
 zabraknąć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_dopełniacz	dla,do,na,o,od,z
-zabraniać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+zabraniać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 zabrać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zabrać	czasownik się	nie_bierze_biernika	do,z,za
 zabrnąć	czasownik	nie_bierze_biernika	w
-zabronić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+zabronić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 zabrudzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
 zabrudzić	czasownik się	nie_bierze_biernika,bierze_celownik	od
 zabrzmieć	czasownik	nie_bierze_biernika,bierze_celownik	dla,w
@@ -14932,8 +14936,8 @@ zachachmęcić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	przy,
 zachachmęcić	czasownik się	nie_bierze_biernika	
 zacharczeć	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 zachcianka	rzeczownik		co do,na,o,wobec
-zachciewać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
-zachcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+zachciewać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
+zachcieć	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 zachichotać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_zdanie	do,w,z
 zachlapać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zachlapać	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -15037,11 +15041,11 @@ zaczopować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 zaczopować	czasownik się	nie_bierze_biernika,bierze_celownik	
 zaczołgać	czasownik się	nie_bierze_biernika	na
 zaczyn	rzeczownik		dla,do,na,pod
-zaczynać	czasownik	bierze_bezokolicznik	od,z
+zaczynać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od,z
 zaczynać	czasownik się	nie_bierze_biernika,bierze_celownik	na,od
 zaczytać	czasownik się	nie_bierze_biernika	w
 zaczytywać	czasownik się	nie_bierze_biernika	w
-zacząć	czasownik	bierze_bezokolicznik	od
+zacząć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	od
 zacząć	czasownik się	nie_bierze_biernika,bierze_celownik	od
 zadanie	rzeczownik		dla,z
 zadatek	rzeczownik		dla,do,na,za
@@ -15057,7 +15061,7 @@ zadecydować	czasownik się	nie_bierze_biernika
 zadedykować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zadeklamować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 zadeklarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	jako
-zadeklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	co do,jako,na,przeciw,z,za
+zadeklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,jako,na,przeciw,z,za
 zadekować	czasownik się	nie_bierze_biernika	
 zademonstrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	przeciw,przed,wobec,za
 zadenuncjować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,jako,przed,za
@@ -15277,10 +15281,10 @@ zakasłać	czasownik się	nie_bierze_biernika
 zakatować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zakatrupić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zakaz	rzeczownik		co do,dla,na,o,od,wobec,względem
-zakazać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+zakazać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 zakazić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
 zakazić	czasownik się	nie_bierze_biernika	od
-zakazywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	
+zakazywać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	
 zakańczać	czasownik		na
 zakańczać	czasownik się	nie_bierze_biernika	na
 zakażać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	od
@@ -15429,10 +15433,10 @@ zalatywać	czasownik	bierze_celownik
 zalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zalać	czasownik się	nie_bierze_biernika	w
 zalec	czasownik	bierze_celownik	między,w
-zalecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+zalecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 zalecać	czasownik się	nie_bierze_biernika	do
 zalecieć	czasownik	bierze_celownik	
-zalecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+zalecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 zaleczyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zaleczyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 zalegalizować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -15480,7 +15484,7 @@ zamarynować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 zamarynować	czasownik się	nie_bierze_biernika,bierze_celownik	w
 zamarzać	czasownik	nie_bierze_biernika,bierze_celownik	
 zamarznąć	czasownik	nie_bierze_biernika,bierze_celownik	
-zamarzyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	o
+zamarzyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 zamarzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 zamaskować	czasownik		przed
 zamaskować	czasownik się	nie_bierze_biernika	przed
@@ -15507,10 +15511,10 @@ zamieniać	czasownik się	nie_bierze_biernika	na,w,z
 zamienić	czasownik		na,w,z
 zamienić	czasownik się	nie_bierze_biernika	na,w,z
 zamierać	czasownik	nie_bierze_biernika,bierze_celownik	w,z
-zamierzać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+zamierzać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zamierzać	czasownik się	nie_bierze_biernika	na
 zamierzenie	rzeczownik		co do,o,w,wobec,względem
-zamierzyć	czasownik	bierze_bezokolicznik	jako
+zamierzyć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	jako
 zamierzyć	czasownik się	nie_bierze_biernika	na
 zamieszać	czasownik		w
 zamieszać	czasownik się	nie_bierze_biernika	w
@@ -15554,9 +15558,9 @@ zamustrować	czasownik		do,jako,na
 zamykać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na,w
 zamykać	czasownik się	nie_bierze_biernika,bierze_celownik	dla,przed,w,za
 zamysł	rzeczownik		co do,na,nad,o,przeciw,wobec,względem
-zamyślać	czasownik	bierze_bezokolicznik,bierze_zdanie	
+zamyślać	czasownik	bierze_bezokolicznik_podmiotu,bierze_zdanie	
 zamyślać	czasownik się	nie_bierze_biernika,bierze_zdanie	nad
-zamyślić	czasownik	bierze_bezokolicznik,bierze_zdanie	
+zamyślić	czasownik	bierze_bezokolicznik_podmiotu,bierze_zdanie	
 zamyślić	czasownik się	nie_bierze_biernika,bierze_zdanie	nad
 zamówić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla
 zamówić	czasownik się	nie_bierze_biernika	do,na
@@ -15575,9 +15579,9 @@ zanieczyszczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 zanieczyszczać	czasownik się	nie_bierze_biernika	
 zanieczyścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zanieczyścić	czasownik się	nie_bierze_biernika	
-zaniedbać	czasownik	bierze_dopełniacz,bierze_bezokolicznik	
+zaniedbać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zaniedbać	czasownik się	nie_bierze_biernika	w
-zaniedbywać	czasownik	bierze_dopełniacz,bierze_bezokolicznik	
+zaniedbywać	czasownik	bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zaniedbywać	czasownik się	nie_bierze_biernika	w
 zaniemóc	czasownik	nie_bierze_biernika	na,od
 zaniemówić	czasownik	nie_bierze_biernika	
@@ -15605,9 +15609,9 @@ zanęcić	czasownik		do
 zanęcić	czasownik się	nie_bierze_biernika	na
 zaobserwować	czasownik	bierze_zdanie	
 zaoferować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-zaoferować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	z
+zaoferować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 zaofiarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	jako,na,za
-zaofiarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	z
+zaofiarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	z
 zaogniać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zaogniać	czasownik się	nie_bierze_biernika,bierze_celownik	
 zaognić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -15712,7 +15716,7 @@ zapiąć	czasownik się	nie_bierze_biernika	na
 zapić	czasownik się	nie_bierze_biernika	
 zaplamić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zaplamić	czasownik się	nie_bierze_biernika,bierze_celownik	od
-zaplanować	czasownik	bierze_bezokolicznik,bierze_zdanie	na
+zaplanować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 zaplatać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 zaplatać	czasownik się	nie_bierze_biernika,bierze_celownik	w,z
 zapleść	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
@@ -15735,11 +15739,11 @@ zapodać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdan
 zapodziać	czasownik się	nie_bierze_biernika,bierze_celownik	
 zapodziewać	czasownik się	nie_bierze_biernika,bierze_celownik	
 zapolować	czasownik	nie_bierze_biernika	na
-zapominać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+zapominać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 zapominać	czasownik się	nie_bierze_biernika	w
-zapomnieć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+zapomnieć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 zapomnieć	czasownik się	nie_bierze_biernika	w
-zapomnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+zapomnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 zapomnąć	czasownik się	nie_bierze_biernika	w
 zapomoga	rzeczownik		dla,na
 zapora	rzeczownik		na,przeciw,przed
@@ -15764,7 +15768,7 @@ zapracować	czasownik	nie_bierze_biernika	na
 zapracować	czasownik się	nie_bierze_biernika	
 zapracowywać	czasownik	nie_bierze_biernika	na
 zapracowywać	czasownik się	nie_bierze_biernika	
-zapragnąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
+zapragnąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zaprasować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zapraszać	czasownik		do,na,w
 zaprawa	rzeczownik		do
@@ -15778,7 +15782,7 @@ zaprezentować	czasownik się	nie_bierze_biernika,bierze_celownik	w
 zaprocentować	czasownik	nie_bierze_biernika	
 zaprogramować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w
 zaprojektować	czasownik		jako,na
-zaproponować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na
+zaproponować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na
 zaprosić	czasownik		do,na
 zaprotegować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na
 zaprotestować	czasownik	nie_bierze_biernika,bierze_zdanie	przeciw
@@ -15791,18 +15795,18 @@ zaprzedać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	za
 zaprzedać	czasownik się	nie_bierze_biernika,bierze_celownik	za
 zaprzepaszczać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zaprzepaścić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-zaprzestawać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
-zaprzestać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
+zaprzestawać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
+zaprzestać	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zaprzeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	o,w,z
 zaprzeć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_zdanie	na,o,przed,przy,w
 zaprzyjaźniać	czasownik		z
 zaprzyjaźniać	czasownik się	nie_bierze_biernika	z
 zaprzyjaźnić	czasownik		z
 zaprzyjaźnić	czasownik się	nie_bierze_biernika	z
-zaprzysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	jako,na
-zaprzysiąc	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na
-zaprzysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	jako,na
-zaprzysięgać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na
+zaprzysiąc	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,na
+zaprzysiąc	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
+zaprzysięgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	jako,na
+zaprzysięgać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 zaprząc	czasownik		do,w
 zaprzątać	czasownik	bierze_zdanie	
 zaprzątnąć	czasownik	bierze_zdanie	
@@ -15828,9 +15832,9 @@ zapytać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
 zapytywać	czasownik		o
 zapytywać	czasownik się	nie_bierze_biernika,bierze_dopełniacz	o
 zapędzać	czasownik		do
-zapędzać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,w
+zapędzać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,w
 zapędzić	czasownik		do
-zapędzić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	do,w
+zapędzić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,w
 zapętlać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zapętlać	czasownik się	nie_bierze_biernika,bierze_celownik	na,w
 zapętlić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -15860,7 +15864,7 @@ zarechotać	czasownik się	nie_bierze_biernika,bierze_zdanie	do,z
 zarejestrować	czasownik	bierze_zdanie	do,jako,na
 zarejestrować	czasownik się	nie_bierze_biernika	do,jako,na
 zareklamować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-zarekomendować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,jako,na
+zarekomendować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,jako,na
 zarekwirować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zareplikować	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na
 zarezerwować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	dla,na
@@ -16170,7 +16174,7 @@ zauważać	czasownik	bierze_zdanie
 zauważyć	czasownik	bierze_zdanie	
 zawadzać	czasownik	nie_bierze_biernika,bierze_celownik	o,w
 zawadzić	czasownik	nie_bierze_biernika,bierze_celownik	o
-zawahać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	między,nad,przed
+zawahać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	między,nad,przed
 zawalać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zawalać	czasownik się	nie_bierze_biernika,bierze_celownik	na,pod
 zawalczyć	czasownik	nie_bierze_biernika	o,z
@@ -16240,7 +16244,7 @@ zawyrokować	czasownik	nie_bierze_biernika,bierze_zdanie	co do,o
 zawyć	czasownik	bierze_celownik,bierze_zdanie	do,z,za
 zawyżać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,o
 zawyżyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,o
-zawziąć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	na
+zawziąć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 zawziętość	rzeczownik		do,na,przeciw,w,wobec,względem
 zawód	rzeczownik		co do,dla,o,w,wobec,względem
 zawędrować	czasownik	nie_bierze_biernika	
@@ -16376,7 +16380,7 @@ zbiegać	czasownik	bierze_celownik	na
 zbiegać	czasownik się	nie_bierze_biernika	w,z
 zbieleć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 zbierać	czasownik		na,po,w
-zbierać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	do,na,nad,w
+zbierać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,nad,w
 zbiesić	czasownik się	nie_bierze_biernika,bierze_zdanie	
 zbieżność	rzeczownik		co do,do,ku,między,w,z
 zbijać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,o,w,z
@@ -16432,13 +16436,13 @@ zdarzać	czasownik się	nie_bierze_biernika,bierze_celownik
 zdarzyć	czasownik	nie_bierze_biernika,bierze_zdanie	
 zdarzyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 zdawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,z
-zdawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	na
+zdawać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 zdać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,z
-zdać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	na
+zdać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 zdecentralizować	czasownik się	nie_bierze_biernika	
 zdechnąć	czasownik	nie_bierze_biernika,bierze_celownik	na,od,z,za
-zdecydować	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	o
-zdecydować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+zdecydować	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
+zdecydować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 zdefektować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zdefiniować	czasownik	bierze_zdanie	jako
 zdeformować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -16451,7 +16455,7 @@ zdegustować	czasownik się	nie_bierze_biernika
 zdehumanizować	czasownik się	nie_bierze_biernika	
 zdejmować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 zdeklarować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
-zdeklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_zdanie	co do,do,jako,na,przeciw,z,za
+zdeklarować	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,do,jako,na,przeciw,z,za
 zdeklasować	czasownik		o,w
 zdeklasować	czasownik się	nie_bierze_biernika	
 zdekodować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -16509,7 +16513,7 @@ zdobywać	czasownik się	nie_bierze_biernika	na
 zdobyć	czasownik się	nie_bierze_biernika	na
 zdolność	rzeczownik		do,w
 zdopingować	czasownik		do,w
-zdołać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+zdołać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zdołować	czasownik	bierze_zdanie	
 zdołować	czasownik się	nie_bierze_biernika,bierze_zdanie	
 zdrabniać	czasownik		do,na
@@ -16555,14 +16559,14 @@ zdziesiątkować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 zdziwaczeć	czasownik	nie_bierze_biernika	
 zdziwić	czasownik się	nie_bierze_biernika,bierze_zdanie	
 zdzwonić	czasownik się	nie_bierze_biernika	z
-zdążać	czasownik	nie_bierze_biernika,bierze_bezokolicznik	do,na,z,za
-zdążyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	na,z,za
+zdążać	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,z,za
+zdążyć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,z,za
 zdębieć	czasownik	nie_bierze_biernika,bierze_zdanie	z
 zdławić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w
 zdławić	czasownik się	nie_bierze_biernika	
 zebrać	czasownik		na,po,w
 zebrać	czasownik się	nie_bierze_biernika,bierze_celownik	do,na,nad,w
-zechcieć	czasownik	bierze_bezokolicznik	
+zechcieć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zedrzeć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,o,z,za
 zedrzeć	czasownik się	nie_bierze_biernika,bierze_celownik	o,od
 zejść	czasownik	bierze_celownik	do,na,z
@@ -16635,9 +16639,9 @@ zeznanie	rzeczownik		co do,o,przeciw,z,za
 zeznawać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	przeciw
 zeznać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	przeciw
 zezować	czasownik	nie_bierze_biernika,bierze_celownik	przez
-zezwalać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+zezwalać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 zezwierzęcić	czasownik się	nie_bierze_biernika	
-zezwolić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	na
+zezwolić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na
 zezłościć	czasownik się	nie_bierze_biernika,bierze_zdanie	na,o,za
 zełgać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 ześlizgiwać	czasownik się	nie_bierze_biernika,bierze_celownik	na,po,w
@@ -16652,7 +16656,7 @@ zeżreć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na
 zgadać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	co do,o,z
 zgadnąć	czasownik	bierze_zdanie	
 zgadywać	czasownik	bierze_zdanie	
-zgadzać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	co do,na,w,z
+zgadzać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,na,w,z
 zganiać	czasownik	bierze_zdanie	na
 zganiać	czasownik się	nie_bierze_biernika	
 zganić	czasownik	bierze_zdanie	za
@@ -16683,7 +16687,7 @@ zgnuśnieć	czasownik	nie_bierze_biernika	w
 zgnębić	czasownik		za
 zgoda	rzeczownik		co do,do,między,na,o,z
 zgodność	rzeczownik		co do,między,w,wobec,względem,wśród,z
-zgodzić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	co do,na,w,z
+zgodzić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,na,w,z
 zgolić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zgonić	czasownik	bierze_zdanie	na
 zgonić	czasownik się	nie_bierze_biernika	
@@ -16787,15 +16791,15 @@ zlaicyzować	czasownik się	nie_bierze_biernika
 zlatynizować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,z
 zlatynizować	czasownik się	nie_bierze_biernika,bierze_celownik	
 zlatywać	czasownik	nie_bierze_biernika,bierze_celownik	na
-zlatywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
+zlatywać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
 zlać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po
 zlać	czasownik się	nie_bierze_biernika,bierze_celownik	w,z
 zlec	czasownik	nie_bierze_biernika	
-zlecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
+zlecać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	
 zlecenie	rzeczownik		co do,dla,do,na
 zlecieć	czasownik	nie_bierze_biernika,bierze_celownik	na
-zlecieć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	na
-zlecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
+zlecieć	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na
+zlecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
 zleniwieć	czasownik	nie_bierze_biernika	
 zlepiać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	w,z
 zlepiać	czasownik się	nie_bierze_biernika,bierze_celownik	od,w,z
@@ -16820,7 +16824,7 @@ zlustrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu
 zlustrować	czasownik się	nie_bierze_biernika	w
 zluzować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	na,w,z
 zluzować	czasownik się	nie_bierze_biernika,bierze_celownik	
-zlęknąć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	o
+zlęknąć	czasownik się	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	o
 zmachać	czasownik się	nie_bierze_biernika	przy
 zmagania	rzeczownik		między,na,nad,o,przeciw,przy,w,wokół,z
 zmagazynować	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -16852,7 +16856,7 @@ zmasakrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	z
 zmaterializować	czasownik		jako,przez,w
 zmaterializować	czasownik się	nie_bierze_biernika	jako,przez
 zmatowieć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
-zmawiać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	co do,na,o,przeciw,z
+zmawiać	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,na,o,przeciw,z
 zmazać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zmazać	czasownik się	nie_bierze_biernika,bierze_celownik	
 zmazywać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
@@ -16929,8 +16933,8 @@ zmrozić	czasownik się	nie_bierze_biernika,bierze_celownik
 zmrużyć	czasownik się	nie_bierze_biernika,bierze_celownik	
 zmumifikować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zmumifikować	czasownik się	nie_bierze_biernika	
-zmusić	czasownik	bierze_bezokolicznik	do
-zmuszać	czasownik	bierze_bezokolicznik	do
+zmusić	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do
+zmuszać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do
 zmutować	czasownik		w,z
 zmutować	czasownik się	nie_bierze_biernika	na,w,z
 zmykać	czasownik	bierze_celownik	przed
@@ -16942,7 +16946,7 @@ zmyć	czasownik się	nie_bierze_biernika,bierze_celownik	z
 zmyślać	czasownik	bierze_zdanie	o
 zmyślić	czasownik	bierze_zdanie	o
 zmóc	czasownik się	nie_bierze_biernika	
-zmówić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_zdanie	co do,na,o,przeciw,z
+zmówić	czasownik się	nie_bierze_biernika,bierze_bezokolicznik_podmiotu,bierze_zdanie	co do,na,o,przeciw,z
 zmącić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 zmącić	czasownik się	nie_bierze_biernika,bierze_celownik	od
 zmądrzeć	czasownik	nie_bierze_biernika	od
@@ -16950,7 +16954,7 @@ zmęczyć	czasownik się	nie_bierze_biernika	przy
 zmętnieć	czasownik	nie_bierze_biernika,bierze_celownik	w
 zmężnieć	czasownik	nie_bierze_biernika	
 znacjonalizować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
-znaczyć	czasownik	bierze_bezokolicznik,bierze_zdanie	dla,w
+znaczyć	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	dla,w
 znaczyć	czasownik się	nie_bierze_biernika	
 znajdować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,w,z
 znajdować	czasownik się	nie_bierze_biernika	bez,między,w,z
@@ -17006,7 +17010,7 @@ zniżyć	czasownik		do,o
 zniżyć	czasownik się	nie_bierze_biernika	do,o
 znormalizować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 znormalizować	czasownik się	nie_bierze_biernika,bierze_celownik	
-znosić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	
+znosić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	
 znosić	czasownik się	nie_bierze_biernika	z
 znudzić	czasownik się	nie_bierze_biernika,bierze_celownik	
 znużyć	czasownik się	nie_bierze_biernika	
@@ -17015,12 +17019,12 @@ znęcić	czasownik		do
 znęcić	czasownik się	nie_bierze_biernika	do
 zobaczyć	czasownik		jako,na,w,z
 zobiektywizować	czasownik się	nie_bierze_biernika	
-zobligować	czasownik	bierze_bezokolicznik,bierze_zdanie	do,w
+zobligować	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,w
 zobojętniać	czasownik		do,na
 zobojętniać	czasownik się	nie_bierze_biernika	z
 zobojętnieć	czasownik	nie_bierze_biernika,bierze_celownik	na
-zobowiązać	czasownik	bierze_bezokolicznik,bierze_zdanie	do,w
-zobowiązywać	czasownik	bierze_bezokolicznik,bierze_zdanie	do,w
+zobowiązać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,w
+zobowiązywać	czasownik	bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	do,w
 zobrazować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	
 zoczyć	czasownik	bierze_zdanie	
 zogniskować	czasownik		na,wokół
@@ -17290,7 +17294,7 @@ zwycięstwo	rzeczownik		nad,przeciw,w,wobec,z
 zwyciężać	czasownik		nad,w,z
 zwyciężyć	czasownik		nad,w,z
 zwyczaj	rzeczownik		co do
-zwyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
+zwyknąć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 zwymiotować	czasownik		od,po,z
 zwymyślać	czasownik	bierze_zdanie	od,za
 zwyrodnieć	czasownik	nie_bierze_biernika	w
@@ -17364,7 +17368,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 łagodzić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 łajać	czasownik	bierze_zdanie	za
 łajdaczyć	czasownik się	nie_bierze_biernika	po,z
-łaknąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik	
+łaknąć	czasownik	nie_bierze_biernika,bierze_dopełniacz,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 łakomić	czasownik się	nie_bierze_biernika	na
 łamać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	na,nad,w
 łamać	czasownik się	nie_bierze_biernika,bierze_celownik	na,o,od,pod,w,z
@@ -17377,7 +17381,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 łatać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 łatwość	rzeczownik		do,w,z
 łazikować	czasownik	nie_bierze_biernika	
-łazić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik	koło,na,po,w,z,za
+łazić	czasownik	nie_bierze_biernika,bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	koło,na,po,w,z,za
 łeb	rzeczownik		do
 łechtać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	po,w
 łgać	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
@@ -17445,7 +17449,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 ściszać	czasownik się	nie_bierze_biernika	do
 ściszyć	czasownik		do,o
 ściszyć	czasownik się	nie_bierze_biernika	do,o
-ściągać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	na,od
+ściągać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,od
 ściągać	czasownik się	nie_bierze_biernika,bierze_celownik	
 ściągnąć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	do,na,od,w
 ściągnąć	czasownik się	nie_bierze_biernika,bierze_celownik	
@@ -17461,7 +17465,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 ślizgać	czasownik	nie_bierze_biernika	
 ślizgać	czasownik się	nie_bierze_biernika,bierze_celownik	na,po
 ślub	rzeczownik		dla,między,wobec,względem,z
-ślubować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_zdanie	na
+ślubować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu,bierze_zdanie	na
 ślęczeć	czasownik	nie_bierze_biernika	nad
 śmiać	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_zdanie	do,w,z
 śmiałość	rzeczownik		do,na,przy,w,wobec,względem
@@ -17469,14 +17473,14 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 śmiecić	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	
 śmierdzieć	czasownik	nie_bierze_biernika,bierze_celownik	
 śmieszność	rzeczownik		o,w
-śmieć	czasownik	nie_bierze_biernika,bierze_bezokolicznik	
-śmigać	czasownik	bierze_celownik,bierze_bezokolicznik	na,po
-śmignąć	czasownik	bierze_celownik,bierze_bezokolicznik	na,po
+śmieć	czasownik	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
+śmigać	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po
+śmignąć	czasownik	bierze_celownik,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	na,po
 śnieżyć	czasownik	bierze_celownik	
 śnić	czasownik	bierze_zdanie	o
-śnić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu	o
-śpieszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,ku,na,o,z
-śpieszyć	czasownik się	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	do,na,o,z
+śnić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik	o
+śpieszyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,ku,na,o,z
+śpieszyć	czasownik się	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	do,na,o,z
 śpiew	rzeczownik		o
 śpiewać	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	o
 śpiewka	rzeczownik		o
@@ -17504,7 +17508,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 święcić	czasownik się	nie_bierze_biernika	
 świętować	czasownik	bierze_zdanie	
 żachnąć	czasownik się	nie_bierze_biernika,bierze_zdanie	na
-żal	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_zdanie	za
+żal	czasownik	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik,bierze_zdanie	za
 żalić	czasownik się	nie_bierze_biernika,bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_zdanie	do,na
 żarcik	rzeczownik		co do,o,wobec,wokół,względem,z
 żart	rzeczownik		co do,o,wobec,wokół,względem,z
@@ -17520,7 +17524,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 żegnać	czasownik się	nie_bierze_biernika	na,z
 żenić	czasownik		z
 żenić	czasownik się	nie_bierze_biernika	dla,z
-żenować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik	
+żenować	czasownik się	nie_bierze_biernika,bierze_bezokolicznik,bierze_bezokolicznik_podmiotu	
 żer	rzeczownik		dla,do
 żerować	czasownik	nie_bierze_biernika	na
 żgać	czasownik		po
@@ -17531,7 +17535,7 @@ zżółknąć	czasownik	nie_bierze_biernika,bierze_celownik	od,z
 żreć	czasownik się	nie_bierze_biernika	o,z
 życzenia	rzeczownik		dla,na,od
 życzliwość	rzeczownik		dla,do,wobec,względem
-życzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz	od,za
+życzyć	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu,bierze_dopełniacz,bierze_bezokolicznik	od,za
 żyrować	czasownik	bierze_celownik,bierze_celownik_przy_wypełnieniu	za
 żywić	czasownik		do,wobec
 żywić	czasownik się	nie_bierze_biernika	na,u,w
