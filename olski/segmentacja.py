@@ -180,7 +180,7 @@ def po_słowie(segments: list[Segment]) -> list[Segment]:
     Warunek stoi w warstwie morfologicznej, a nie na terminalu cząstki, z tego
     samego powodu, z którego stoi tam tamten: miejsce, którego cząstka nie ma
     zająć, jest miejscem w zdaniu, a terminal widzi samą formę.
-    docs/subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej
+    docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika
     trzyma, co warunek ten zostawia na zewnątrz.
     """
     licencjonujące = {

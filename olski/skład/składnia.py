@@ -48,7 +48,7 @@ from dataclasses import dataclass, fields, is_dataclass, replace
 from olski.skład.morfologia import odmień, rodzaj_rzeczownika
 from olski.skład.przyimki import przypadek
 from olski.skład.spójniki import staje_na_czele, wprowadza
-from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
+from olski.walencja import bierze_bezokolicznik_podmiotu, bierze_biernik, bierze_zdanie
 
 #: Czas jako żądanie postawione morfologii, a nie jako gałąź w linearyzacji:
 #: forma przeszła zgadza się z podmiotem rodzajem, a teraźniejsza osobą,
@@ -983,7 +983,7 @@ class Robi(Zdanie):
             if not bierze_zdanie(self.czyn):
                 raise PozaRamą(f"{self.czyn} nie bierze zdania podrzędnego")
         elif isinstance(dopełnienie, Zdanie):
-            if not bierze_bezokolicznik(self.czyn):
+            if not bierze_bezokolicznik_podmiotu(self.czyn):
                 raise PozaRamą(f"{self.czyn} nie bierze bezokolicznika")
             if any(sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy):
                 raise PozaRamą(f"bezokolicznik przy {self.czyn} orzeka o kimś innym")

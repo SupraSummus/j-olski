@@ -194,16 +194,16 @@ The treebank raises none: an exclusion empties a form
 where a pronoun's post-prepositional form stands without a preposition
 ([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą))
 and where a reflexive particle stands with no word in front of it
-([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)),
+([subset.md](subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 and neither is Polish, so neither is what a press corpus is made of.
 
-Wiersz cząstki stoi pod znacznikami złotymi zaraz za interpunkcją,
-a prowadzi go `się` w pozycjach, których olski nie ma:
-cząstka przy bezokoliczniku — `Trzeba się zabezpieczyć i uzbroić.` —
-oraz cząstka oddalona od swojej formy osobowej
-([subset.md](subset.md#cząstka-zwrotna-stoi-po-obu-stronach-swojej-formy-osobowej)).
-Za nią stoją w tym wierszu `jednak`, `czy`, `też` i `tylko`,
-a nazywają one dwie różne roboty:
+Wiersz cząstki stoi pod znacznikami złotymi wysoko w tej kolejce,
+a prowadzą go `też`, `jednak`, `czy` i `tylko`.
+`się` prowadziło ten wiersz, dopóki cząstki nie brał bezokolicznik;
+z tamtej pozycji został sam ogon, czyli cząstka oddalona od swojego czasownika
+([subset.md](subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+i wiersz spadł przez to o rząd wielkości i o miejsce w kolejce.
+Cztery formy, które go teraz prowadzą, nazywają dwie różne roboty:
 `jednak`, `też` i `tylko` są cząstkami,
 których zamknięta lista olskiego nie bierze
 ([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),

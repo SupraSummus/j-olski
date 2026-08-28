@@ -14,6 +14,9 @@ import pytest
 
 from olski.walencja import (
     BIERZE_BEZOKOLICZNIK,
+    BIERZE_BEZOKOLICZNIK_PODMIOTU,
+    BIERZE_CELOWNIK,
+    BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU,
     CZASOWNIK,
     CZASOWNIK_ZWROTNY,
     NIE_BIERZE_BIERNIKA,
@@ -204,6 +207,9 @@ def test_do_leksykonu_wchodzi_słowo_wraz_ze_zdaniami_które_są_o_nim_prawdziwe
     #  Zwrotność schodzi z lematu do klasy słowa, bo Morfeusz jej w lemacie nie
     #  ma: cząstka jest u olskiego osobnym tokenem.
     #  Oba zdania naraz są tu wpisem jednym, a nie dwoma, bo słowo jest jedno.
+    #  Zdania o bezokoliczniku są dwa i `udać się` jest tym, który je rozdziela:
+    #  bezokolicznik przy nim stoi, a kontroluje go celownik, więc szersze zdanie
+    #  jest o nim prawdziwe, a węższe nie.
     czasowniki, rzeczowniki = _pliki(
         tmp_path,
         "% komentarz\n"
@@ -211,13 +217,35 @@ def test_do_leksykonu_wchodzi_słowo_wraz_ze_zdaniami_które_są_o_nim_prawdziwe
         "abonować: pewny: _: : imperf: subj{np(str)} + obj{np(str)}\n"
         "bawić się: pewny: _: : imperf: subj{np(str)} + {np(inst)}\n"
         "chcieć: pewny: _: : imperf: subj,controller{np(str)} + controllee{np(str);infp(_)}\n"
-        "bać się: pewny: _: : imperf: subj,controller{np(str)} + controllee{infp(_)}\n",
+        "bać się: pewny: _: : imperf: subj,controller{np(str)} + controllee{infp(_)}\n"
+        "udać się: pewny: _: : perf: controller{np(dat)} + controllee{infp(_)}\n",
     )
     assert leksykon(czasowniki, rzeczowniki) == [
         ("bawić", CZASOWNIK_ZWROTNY, (NIE_BIERZE_BIERNIKA,), frozenset()),
-        ("bać", CZASOWNIK_ZWROTNY, (NIE_BIERZE_BIERNIKA, BIERZE_BEZOKOLICZNIK), frozenset()),
-        ("chcieć", CZASOWNIK, (BIERZE_BEZOKOLICZNIK,), frozenset()),
+        (
+            "bać",
+            CZASOWNIK_ZWROTNY,
+            (NIE_BIERZE_BIERNIKA, BIERZE_BEZOKOLICZNIK, BIERZE_BEZOKOLICZNIK_PODMIOTU),
+            frozenset(),
+        ),
+        (
+            "chcieć",
+            CZASOWNIK,
+            (BIERZE_BEZOKOLICZNIK, BIERZE_BEZOKOLICZNIK_PODMIOTU),
+            frozenset(),
+        ),
         ("działać", CZASOWNIK, (NIE_BIERZE_BIERNIKA,), frozenset()),
+        (
+            "udać",
+            CZASOWNIK_ZWROTNY,
+            (
+                NIE_BIERZE_BIERNIKA,
+                BIERZE_CELOWNIK,
+                BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU,
+                BIERZE_BEZOKOLICZNIK,
+            ),
+            frozenset(),
+        ),
     ]
 
 

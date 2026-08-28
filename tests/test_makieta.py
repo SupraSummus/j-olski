@@ -31,7 +31,7 @@ from olski.skład.opowieść import Postać
 from olski.skład.przegląd import przejrzyj
 from olski.skład.przyimki import przypadek
 from olski.skład.składnia import Okolicznik, Przysłówek, Rzecz, byt, zdarzenie
-from olski.walencja import bierze_bezokolicznik, bierze_biernik, bierze_zdanie
+from olski.walencja import bierze_bezokolicznik_podmiotu, bierze_biernik, bierze_zdanie
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -170,7 +170,7 @@ def test_czasownik_z_tabeli_biernikowej_biernik_bierze(lemat):
 
 @pytest.mark.parametrize("lemat", CZYNY_Z_BEZOKOLICZNIKIEM)
 def test_czasownik_z_tabeli_bezokolicznikowej_bezokolicznik_bierze(lemat):
-    assert bierze_bezokolicznik(lemat)
+    assert bierze_bezokolicznik_podmiotu(lemat)
     assert odmień(lemat, "inf")
 
 
