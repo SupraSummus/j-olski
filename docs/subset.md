@@ -368,6 +368,86 @@ a nad korpusem audytowym ani jednego.
 Płaci więc nad bankiem drzew,
 a nad rejestrem, dla którego olski powstaje, nie kupuje nic.
 
+### Kilka procent zdań przyjętych opiera się na czytaniu, którego polszczyzna nie ma
+
+Zdanie przyjęte na takim czytaniu jest gorsze od odrzuconego,
+bo pokrycie liczy je jak zdanie przeczytane.
+Nad bankiem drzew, nad rejestrem ustaw i nad prozą tego repozytorium
+jest ich kilka na sto zdań przyjętych.
+Przyjętych, czyli tych, którym werdykt daje jedno odczytanie:
+w zdaniu wieloznacznym takie czytanie odbiera jednoznaczność,
+a nie przekręca tego, co werdykt o zdaniu mówi.
+
+Liczba pochodzi z czytania ręką, bo klasy tej nie nazywa żadne pytanie do słownika.
+`python3 -m olski.check <plik> --morfologia` drukuje pod zdaniem każdą formę,
+którą słownik czyta więcej niż jednym sposobem,
+wraz z tymi jej czytaniami, które licencjonują ją w przyjętym odczytaniu,
+a czytelnik pyta o jedno: czy jest wśród nich to, które sam tej formie daje.
+Przeczytano wszystkie 144 zdania przyjęte rejestru ustaw
+oraz wszystkie 36 zdań przyjętych korpusu audytowego,
+a ze Składnicy pod morfologią żywą i z prozy tego repozytorium
+po sześćdziesiąt zdań próbką rozrzuconą po całej liście (`olski/próbka.py`).
+Na czytaniu, którego polszczyzna nie ma, opiera się z tego
+dziewięć zdań ustaw, jedno zdanie korpusu audytowego,
+cztery zdania banku drzew i cztery zdania prozy tego repozytorium.
+Korpus audytowy mówi przy tym o kierunku, a nie o udziale:
+zdań przyjętych ma 36, a jedno zdanie waży przy takim mianowniku za dużo.
+
+Klasy są trzy i jedno kryterium ich nie obejmuje.
+
+**Nazwa własna czytana nieodmiennie.**
+`Podmiotami ochrony ludności są Polski Czerwony Krzyż.` wyprowadza się,
+bo nieodmienne `Krzyż` zgadza się z liczbą mnogą i pojedynczą naraz,
+a `Jerzy Buzek podkreślił, że Polska jest zainteresowana koncepcją europejskiej
+tożsamości obronnej.` — bo nieodmienny `Buzek` staje przydawką dopełniaczową pod imieniem.
+To samo czytanie wpuszcza `wójt` i `marszałek` w wyliczeniach organów.
+Kryterium na tę klasę jest zmierzone i odrzucone:
+bierze ją kryterium trzecie wyżej, a razem z nią zwyczajną polszczyznę,
+w której rzeczownik męski użyty o kobiecie jest nieodmienny.
+
+**Forma imienna czytana czasownikiem.**
+`Kalisz.`, `Przemyśl.` i `Nowy Sącz.` są pozycjami wyliczenia okręgów wyborczych,
+którym ekstrakcja dopisała kropkę,
+a `W dalsze wędrówki udaje się tylko dla zmiany ostoi.` jest zdaniem Składnicy,
+w którym `ostoi` czyta się formą osobową lematu `ostać`.
+`Nowy Sącz.` należy do obu klas naraz — `Nowy` jest w nim nazwą nieodmienną,
+a `Sącz` rozkaźnikiem — więc klasy te nie są podziałem.
+Wykluczenie ze słownika po tę klasę nie sięga z innego powodu niż po tamtą:
+czytanie czasownikowe nie jest nieodmienne,
+a co z nią zrobić po stronie ekstrakcji, trzyma [TODO.md](../TODO.md).
+
+**Wyraz funkcyjny albo zaimek czytany wyrazem treściowym.**
+`Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.` jest jednoznaczne,
+bo `Wszystko` czyta się przysłówkiem, a `kilka` rzeczownikiem, czyli rybą.
+W `Czego na tej liście nie ma.` przysłówkiem jest `czego`,
+w `Wszedłem na tę stronę i zrobiłem sobie profil.` rzeczownikiem `soba` jest `sobie`,
+a w `Atrybuty dzielą się na typy odzwierciedlające to jakie dane mogą przechowywać.`
+spójnikiem jest `to`.
+Klasa ta jest z trzech najliczniejsza i ma zdania we wszystkich czterech korpusach.
+Czytanie, które daje tym formom czytelnik, jest przy tym w słowniku,
+a wygrywa czytanie obok niego, bo tamtego nie licencjonuje żadna produkcja:
+zaimka zwrotnego gramatyka nie ma wcale,
+`co` poza pytaniem i zdaniem względnym nie ma pozycji rzeczownej
+([niżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
+a liczebnik za rzeczownikiem nie ma ciała,
+bo grupa liczebnikowa stawia go przed nim
+([niżej](#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
+Widać to na tym samym zdaniu z liczebnikiem przestawionym:
+`Wszystko wyżej pyta o zdanie, po którym zostaje kilka czytań.`
+jest wieloznaczne i `Wszystko` jest w nim podmiotem.
+Wykluczenie ze słownika zamieniłoby więc tę klasę na zdania odrzucone,
+czyli werdykt nieprawdziwy na uczciwy,
+a czytanie czytelnika wraca do niej dopiero z brakującą pozycją.
+
+Liczba jest sądem jednego czytelnika i jest oszacowaniem dolnym.
+Widać w niej to, co pokazuje wykaz morfologii,
+więc przypadek wybrany źle wewnątrz jednego znacznika do niej nie wchodzi,
+a przyłączenie postawione źle jest klasą osobną i nie liczy się tu wcale.
+Część klasy pochodzi przy tym ze zdań, które zrobiła ekstrakcja —
+pozycja wyliczenia z dopisaną kropką w ustawach,
+urwany przykład w prozie tego repozytorium —
+a nad bankiem drzew, gdzie zdania przychodzą całe, udział przez to nie spada.
+
 ## Forma przyimkowa zaimka żąda przyimka przed sobą
 
 Wykluczenie wyżej pyta o samą formę,

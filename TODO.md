@@ -707,6 +707,26 @@ a po nim albo przeliczenie liczb obu tych korpusów, albo zdanie mówiące,
 czemu ten leksykon nad tą prozą nie rusza nic; formy wypisuje `odmiana` w
 `olski/projekt.py`.
 
+Ekstrakcja ustaw robi zdanie z pozycji wyliczenia, która jest samą nazwą,
+a takie zdanie przyjmuje się na czytaniu czasownikowym:
+`Kalisz.`, `Przemyśl.` i `Nowy Sącz.` są pozycjami wyliczenia okręgów wyborczych
+i zajmują cztery ze 144 zdań przyjętych tego rejestru, a zdaniem żadne z nich nie jest
+([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
+Kropkę dopisuje `zdania` w `harness/ustawy.py` rozmyślnie i mówi to jej docstring:
+bez niej werdyktem nad każdą pozycją każdego wyliczenia byłoby „to nie zdanie”.
+Cena tej kropki jest przez to policzona po jednej stronie, a po drugiej nie:
+ile pozycji wyliczenia jest zdaniem, którego czytelnik nie odrzuci, nie liczy nikt.
+Ruchem jest ta druga liczba, a po niej wybór:
+albo pozycja bez formy czasownikowej wychodzi bez kropki i wpada w `fragment`,
+albo kropka zostaje, a cena zapisuje się przy niej.
+Wykluczenie ze słownika tej klasy nie zabierze przy żadnym z dwóch wyjść,
+bo czytanie czasownikowe nie jest nieodmienne
+i `admissible` w `olski/segmentacja.py` po nie nie sięga.
+Do przeczytania jest
+[`docs/extraction.md`](docs/extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem),
+bo druga ekstrakcja odpowiada na to samo pytanie odwrotnie
+i werdykt `fragment` jest tam odpowiedzią wybraną.
+
 ## Gramatyka, parser i pomiar pokrycia
 
 Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
@@ -910,7 +930,8 @@ więc README ten szyk odtąd omija ([README](README.md#konwencje)).
 Do przeczytania jest przy tym `Człowiek, który mnie zna, jest mądry.`:
 zdanie to wychodzi przyjęte, bo `mnie` czyta się formą osobową,
 czyli brak ten bywa zasłonięty czytaniem, którego polszczyzna nie ma,
-a ile jest zdań przyjętych na takim czytaniu, pyta wpis o nich.
+a takich zdań przyjętych jest kilka procent
+([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
 Ruchem jest drugie ciało obok tamtego, z dopełnieniem przed czasownikiem,
 pisane parą przypadka i przeczenia tak samo jak ciała z czołem dopełnieniowym,
 a przed nim pomiar: grupa imienna przed czasownikiem konkuruje wewnątrz zdania
@@ -961,6 +982,14 @@ na token, więc pomiar tej klasy idzie po morfologii żywej i po prozie.
 Do przeczytania jest lista form, które warunek dotknie: `blisko` i `naprzeciw`
 niosą czytanie przysłówkowe, którego polszczyzna używa,
 więc cena stoi w zdaniach, a nie w samych czytaniach.
+Kandydat trzeci wyszedł z czytania zdań przyjętych i nie ma pomiaru:
+czytanie przysłówkowe stojące przy czytaniu rzeczownikowym tej samej formy.
+Zabiera ono `Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.`
+oraz `Czego na tej liście nie ma.`, czyli zdania przyjęte na czytaniu,
+którego polszczyzna nie ma
+([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)),
+a dwa kandydujące wyżej po nie nie sięgają,
+bo przy przysłówku stoi w nich rzeczownik, a nie przyimek ani spójnik.
 
 Dopełnienie bezokolicznika wysunięte przed formę osobową ma szyk jeden,
 a polszczyzna ma ich kilka: `Większości premier nie może ruszyć.`
@@ -2015,7 +2044,8 @@ i pierwszym pytaniem jest, czy jakiekolwiek kryterium tu jest;
 wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
 co [`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
 pokazuje na `jury` i `menu`.
-Ten sam sąd niesie wpis o zaimku wykluczonym ze słownika,
+Ten sam sąd niesie wpis o czytaniu przysłówkowym formy,
+której ten rejestr używa jako przyimka albo spójnika,
 bo oba pytają, co wykluczeniu w `admissible` wolno powiedzieć,
 więc rozstrzyga je jedna sesja, a nie dwie.
 Zdanie to jest przy tym warunkiem pod
@@ -2042,32 +2072,6 @@ Ostatni warunek ma skąd się wziąć:
 Do przeczytania jest zasięg tej kolumny nad tym korpusem, bo plik rzeczownikowy
 Walentego wylicza 1 996 lematów, a `narzędzie` i `moduł` są tu tymi, na których
 wszystko stoi: pozycja licząca się z ramy nieobecnej liczy zero i nie mówi tego.
-
-Nie wiadomo, ile zdań przyjętych opiera się na czytaniu,
-którego polszczyzna nie ma.
-Nad rejestrem ustaw widać dwa takie z 69 na jednej klasie i jedno na drugiej
-([`docs/ustawy.md`](docs/ustawy.md#co-gramatyka-z-tego-wyprowadza)),
-a przeczytano je okiem, nie policzono:
-`Kalisz.` wyprowadza się jako czasownik, a `Polski Czerwony Krzyż` jako nazwisko
-nieodmienne, czyli forma zgodna z każdą liczbą naraz.
-Zdanie przyjęte na takim czytaniu jest gorsze niż odrzucone,
-bo pokrycie liczy je jak zdanie przeczytane, a
-[wykluczenie ze słownika](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
-po nie nie sięga: żąda ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Drugie z tych dwóch zdań zabrałoby kryterium szersze, a ono nie stoi:
-zdjęcie czytania nieodmiennego wszędzie kosztuje 122 zdania Składnicy
-czytanie wybrane przez anotatorów i bierze przy tym zwyczajną polszczyznę
-([`docs/subset.md`](docs/subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
-Pierwszego nie zabierze żadne kryterium tego kształtu,
-bo `Kalisz` czyta się tam formą osobową lematu `kalić`,
-a nie rzeczownikiem nieodmiennym.
-Ruchem jest więc liczba wzięta bez kryterium:
-ile zdań przyjętych każdego korpusu stoi na czytaniu, którego polszczyzna nie ma,
-przeczytane ręką na próbie z każdego z nich,
-bo klasy tej nie nazywa żadne pytanie do słownika.
-Do przeczytania jest `admissible` w `olski/segmentacja.py` wraz z
-[pomiarem jego ceny](docs/corpus.md#what-morphological-ambiguity-costs),
-bo to on mówi, po które czytania kryterium słownikowe sięga, a po które nie.
 
 Figury brane nad gramatyką z wyjętą grupą produkcji
 bierze każda sesja własnym skryptem, bo żadnego nie ma w repozytorium,
@@ -2499,6 +2503,28 @@ bank drzew nazywa pozycje wymagane, więc celownik niewymagany da się w nim pol
 kształtem — bo bez tej liczby wpis jest samą ceną,
 oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
 i mówi, ile go w Walentym widać z drugiej strony.
+
+Zaimek zwrotny nie ma pozycji, a werdykt mówi to tylko o połowie jego form.
+`Widzę siebie.` jest odrzucone i powód nazywa rzecz wprost:
+żadna produkcja nie bierze `siebie`.
+`Autor pisze o sobie.` oraz `Program zapisuje ustawienia sobie.` wychodzą przyjęte,
+bo Morfeusz zna rzeczownik `soba` w celowniku, miejscowniku i narzędniku,
+czyli brak zasłania tam czytanie, którego polszczyzna nie ma
+([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)),
+a biernika i dopełniacza zasłonić nie ma czym.
+Ruchem jest terminal na klasę `siebie` w pozycjach, które ten zaimek zajmuje,
+i jest on tani, bo zaimek ten nie zgadza się z niczym.
+Cena jest po drugiej stronie i widać ją przed przebiegiem:
+`soba` jest rzeczownikiem odmiennym, więc wykluczenie ze słownika po nie nie sięga,
+a zdanie z `sobie` dostaje po tym ruchu dwa czytania zamiast jednego —
+ubywa zdań przyjętych i ubywa werdyktów nieprawdziwych naraz.
+Tym samym brakiem zasłoniętym jest liczebnik za rzeczownikiem,
+czyli `po którym zostaje czytań kilka`:
+zasłania go rzeczownikowe czytanie formy `kilka`,
+a grupa liczebnikowa stawia liczebnik przed rzeczownikiem
+([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
+Oba braki dzielą jedno pytanie: kolejka blokerów ich nie pokazuje,
+bo zdanie się wyprowadza, więc podnosi je czytanie werdyktów, a nie przebieg.
 
 ## Skład i opowieści
 

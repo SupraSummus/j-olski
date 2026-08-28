@@ -244,8 +244,12 @@ czyli czytanie pasujące do liczby mnogiej i pojedynczej naraz.
 W obu klasach wyprowadzenie opiera się na czytaniu, którego polszczyzna nie ma, a
 [wykluczenie ze słownika](subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: wymaga ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Ilu zdań to dotyczy, ten pomiar nie liczy,
-a policzenie tego jest wpisem w [TODO.md](../TODO.md).
+Zdania przyjęte tego rejestru przeczytano wszystkie
+i takich jest wśród nich kilka procent;
+liczbę wraz z klasami trzyma
+[subset.md](subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma).
+Prowadzą obie klasy wyżej, czyli te, które robi ekstrakcja:
+pozycja wyliczenia zamknięta kropką oraz przesłanka złożona z pozycją.
 
 Średnie zdanie ma tu 21 słów (104 062 na 4921),
 a pokrycie gramatyki [urywa się nad dziesięcioma](corpus.md#the-measurement),
