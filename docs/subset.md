@@ -138,10 +138,10 @@ z których każda robi ją z jednego słowa.
 Ta trzecia jest zarazem odczytaniem, którego polszczyzna nie ma,
 tyle że wziętym z drugiej strony.
 `go` jest grą i jest nieodmienne dokładnie tak jak nuta,
-więc wykluczenie ze słownika byłoby tu na miejscu i nie sięga,
-bo zaimek do klas zamkniętych nie należy.
-Kształt załatwia to za darmo,
-bo dopełnieniem jest tu jedno słowo tak czy tak.
+więc to czytanie zdejmuje wykluczenie ze słownika
+([niżej](#the-dictionary-offers-readings-polish-does-not)).
+Werdyktu nad tym zdaniem wykluczenie i tak nie rusza,
+bo dopełnieniem jest w obu czytaniach jedno słowo, czyli kształt jest ten sam.
 
 Reszta tego, co się kupuje, przychodzi z odsłownikiem
 ([niżej](#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)).
@@ -258,9 +258,18 @@ This one is ambiguous only in the dictionary,
 and a parse cannot tell those two cases apart,
 so the subset excludes readings as well as constructions:
 an uninflected noun reading goes
-wherever the same form also reads as a function word —
-a preposition, a conjunction, a particle, an interjection.
+wherever the same form also reads as a closed-class word —
+a preposition, a conjunction, a particle, an interjection, a pronoun.
 `admissible` in `olski/segmentacja.py` is where that happens.
+
+Zaimek jest na tej liście dla tej samej pary, a nie dla swojej składni.
+Morfeusz czyta `go` zaimkiem i grą, `mi` zaimkiem i nutą,
+a `te` zaimkiem i nazwą litery,
+czyli tak samo, jak czyta `do` przyimkiem i nutą:
+czytanie rzeczownikowe nie odmienia się przez nic,
+a drugie z pary jest tym, czym forma w tym rejestrze prawie zawsze jest.
+Ile ta pozycja kupuje i ile kosztuje, mierzy
+[corpus.md](corpus.md#what-morphological-ambiguity-costs).
 
 One exception runs the other way.
 `PO`, `AA` and `UP` are organizations whose letters spell function words,
@@ -283,18 +292,19 @@ What makes the exclusion safe is that it asks for both at once:
 the reading inflects for nothing,
 and the form carries another one that is what it almost always is.
 
-### Dwa szersze kryteria zmierzono i żadne nie stoi
+### Każde szersze kryterium zmierzono i żadne nie stoi
 
-Wykluczenie sięga czytania nieodmiennego i dalej nie sięga.
-Dwa kryteria, które szły dalej, mają cenę policzoną
+Wykluczenie sięga czytania nieodmiennego stojącego przy klasie zamkniętej
+i dalej nie sięga.
+Kryteria, które szły dalej, mają cenę policzoną
 na 13 035 lasach Składnicy z pełnym drzewem,
 a miarą jest to, ile z nich traci czytanie wybrane przez anotatorów.
-Obie liczby są ceną, przy której kryterium odrzucono,
-i wzięto je nad gramatyką z tamtej chwili, czyli bez przysłówka:
+Każda z tych liczb jest ceną, przy której kryterium odrzucono,
+i wzięto je nad gramatyką z tamtej chwili, czyli dwie pierwsze bez przysłówka:
 kryterium odrzucone zostaje odrzucone, kiedy jego cena się rusza,
 więc przeliczenie broniłoby liczby, a nie decyzji.
 Tą samą miarą [corpus.md](corpus.md#what-morphological-ambiguity-costs)
-liczy wykluczenie, które stoi, i wychodzi mu pięć.
+liczy wykluczenie, które stoi, i wychodzi mu sześć.
 
 **Wielka litera z początku zdania nie jest świadectwem nazwiska.**
 Morfeusz daje formie `Celem` lemat `Cel` obok lematu `cel`,
@@ -337,6 +347,26 @@ więc kryterium na nią żąda liczby z korpusu, której olski nie ma.
 [TODO.md](../TODO.md) trzyma to, co z tej klasy zostaje otwarte,
 wraz z pomiarem mówiącym, że nad prozą tego repozytorium
 niesie ją paradygmat zaimkowy, a nie przymiotnik.
+
+**Polszczyzna ma słowa nieodmienne, więc sama nieodmienność kryterium nie jest.**
+Kryterium trzecie jest dzisiejszym bez warunku o klasie zamkniętej:
+czytanie rzeczownikowe o wszystkich siedmiu przypadkach schodzi wtedy z każdej
+formy, która ma obok choć jedno inne czytanie,
+bo krawędzi bez czytań zostawić nie wolno.
+Traci ono 122 zdania i tracą je te, w których polszczyzna naprawdę nie odmienia:
+`do dziś` i `od wczoraj`, skrót `PiS` pisany nie samymi wersalikami,
+zapożyczenie `jury`, `zen`, `macho`, `logo`,
+nazwa obca `Mao`, `Betlejem`, `Merkel`, `Denver`,
+oraz rzeczownik męski użyty o kobiecie — `panią prezes`, `pani poseł`, `dyrektor` —
+który jest w takim zdaniu nieodmienny dokładnie tak jak nuta.
+Od nuty odróżnia te słowa jedno: polszczyzna ich używa,
+a znamienia formalnego to rozróżnienie nie ma.
+Kryterium kupuje przy tym jednoznaczność 32 zdaniom banku drzew,
+odbiera wyprowadzenie 65 zdaniom, z czego 15 przyjętym,
+nad prozą tego repozytorium rusza sześć zdań z 6 110,
+a nad korpusem audytowym ani jednego.
+Płaci więc nad bankiem drzew,
+a nad rejestrem, dla którego olski powstaje, nie kupuje nic.
 
 ## Forma przyimkowa zaimka żąda przyimka przed sobą
 
@@ -2423,8 +2453,8 @@ jednoznaczność traci kilkadziesiąt zdań przyjętych,
 bo celownik dzieli formę z miejscownikiem w całej odmianie żeńskiej,
 więc każde `w gramatyce` za czasownikiem z parą czyta się także jej celownikiem.
 Część tych zdań na tym zyskuje, a nie traci:
-`Pokazują go swoim gościom.` wychodziło jednym czytaniem, w którym `go` było grą,
-a para dokłada mu to czytanie, które ma czytelnik.
+`Pokazują go swoim gościom.` ma jedno czytanie i jest nim czytanie czytelnika,
+bo biernik i celownik dochodzą tam do czasownika dopiero razem.
 
 Okolicznik staje między członami pary, bo ten rejestr tak pisze —
 `pokazuje autorowi w wydruku oba czytania` —

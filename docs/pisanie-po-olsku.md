@@ -210,7 +210,7 @@ Zdanie odrzucone odczytania nie ma, więc odsiać go nie ma czym,
 i tam ten sam wykaz wypisuje każde odczytanie każdej formy.
 
 Odczytania nieodmiennego polszczyzna w tym zdaniu nie ma i nikt go nie zdejmuje:
-wykluczenie sięga odczytania nieodmiennego stojącego obok wyrazu funkcyjnego,
+wykluczenie sięga odczytania nieodmiennego stojącego obok czytania z klasy zamkniętej,
 a szersze zabrałoby `jury` i `menu`, czyli zwyczajne polskie słowa
 ([subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)).
 Autorowi zostaje więc wymiana słowa, a nie przestawienie zdania:
@@ -314,6 +314,16 @@ bo rola pyta, a pytanie jest jej definicją.
 `Trzeba czytać dokumenty.` przechodzi.
 Predykatyw bierze bezokolicznik na swoim miejscu,
 a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
+
+**Dopełnienie przed czasownikiem w zdaniu względnym.**
+`Reguła, która tekst sprawdza, jest tania.` pada,
+`Reguła, która sprawdza tekst, jest tania.` przechodzi,
+choć `Reguła tekst sprawdza.` przechodzi też.
+Zdanie główne ma wszystkie szyki podmiotu, dopełnienia i czasownika
+([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+a zdanie względne, którego czoło jest podmiotem, ma jeden:
+ten z dopełnieniem za czasownikiem.
+Ruch trzyma [`TODO.md`](../TODO.md).
 
 **Przymiotnik w formie poprzyimkowej.**
 `Reguła działa po polsku.` pada, `Reguła działa wszędzie.` przechodzi.

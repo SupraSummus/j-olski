@@ -10,7 +10,7 @@ a za autora nie wybiera.
 
 Wzorem jest kompilator, a model językowy nie jest tu wzorem.
 Parser jest tani i deterministyczny,
-a każdy werdykt przychodzi z odczytaniem, które go wydało.
+a każdy werdykt przychodzi z odczytaniem, z którego wyszedł.
 To samo wejście daje tę samą odpowiedź.
 
 Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej.
