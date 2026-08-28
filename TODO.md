@@ -895,6 +895,32 @@ a `RelativeCore` jest osobnym symbolem i ciała z tym symbolem w środku ma jedn
 Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym,
 więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
 
+Dopełnienie nie ma miejsca przed czasownikiem tam, gdzie czoło jest podmiotem.
+`Reguła, która tekst sprawdza, jest tania.` jest odrzucone,
+choć `Reguła tekst sprawdza.` wyprowadza się w zdaniu głównym,
+bo `_wysunięta_rola` w `olski/subset.py` daje zdaniu z czołem podmiotowym
+jedno ciało — czoło i `Predicate` — a `Predicate` stawia dopełnienie za czasownikiem.
+Zdanie z czołem dopełnieniowym ma tam ciała wypisane płasko,
+więc brak jest po jednej stronie tej pary, a nie po obu.
+Odsłoniło go wpuszczenie zaimka do wykluczenia słownikowego
+([`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)):
+ostatnie zdanie akapitu o parserze w README wyprowadzało się dotąd grupą `które go`,
+w której `go` było grą, a po wykluczeniu stanęło na tym braku,
+więc README ten szyk odtąd omija ([README](README.md#konwencje)).
+Do przeczytania jest przy tym `Człowiek, który mnie zna, jest mądry.`:
+zdanie to wychodzi przyjęte, bo `mnie` czyta się formą osobową,
+czyli brak ten bywa zasłonięty czytaniem, którego polszczyzna nie ma,
+a ile jest zdań przyjętych na takim czytaniu, pyta wpis o nich.
+Ruchem jest drugie ciało obok tamtego, z dopełnieniem przed czasownikiem,
+pisane parą przypadka i przeczenia tak samo jak ciała z czołem dopełnieniowym,
+a przed nim pomiar: grupa imienna przed czasownikiem konkuruje wewnątrz zdania
+względnego z przydawką i z podmiotem, więc cena stoi w jednoznaczności zdań
+już przyjętych, a nie w liczbie ciał.
+Do przeczytania jest `_poza_orzeczeniem` w tym samym pliku:
+tam to samo pytanie rozstrzygnęło zdanie główne, wypisując pięć szyków płasko
+i zostawiając szósty `Predicate`, więc kryterium na to, co wolno wypisać,
+jest gotowe i wystarczy przenieść je o poziom niżej.
+
 Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
 `SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o kilkunastu lematach analizy,
 a `SPÓJNIKI` w `olski/skład/spójniki.py` o kilku, których używa skład,
@@ -1443,6 +1469,10 @@ and a morphology changes the segments a variant is run over
 rather than the grammar it is run with.
 What to read is that field beside `SOURCES` in `olski/coverage.py`,
 because a variant of this second kind has to say where it enters.
+The column is not its only caller: every criterion weighed in
+[`docs/subset.md`](docs/subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)
+is an exclusion measured this way,
+and each was measured with a probe written for the one session that priced it.
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
 Ciała `NPConjunct` w `olski/subset.py` są iloczynem kształtów głowy
@@ -1770,13 +1800,13 @@ czy figurą osobną: tabela liczy odpowiedzi, a to jest pytanie o mianownik pod 
 
 Świadek kontekstowy nie ma zmierzonej trafności, a odpowiedzi do przeczytania ma siedemnaście.
 `harness/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
-akapitu i 130 bez niej, a przeczytane ręką jest siedem pierwszych i dziesięć
+akapitu i 127 bez niej, a przeczytane ręką jest siedem pierwszych i dziesięć
 rozrzuconych po pozostałych
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
-czyli odczyt, a nie stopa pomyłek: nad 1 113 pozycjami siedemnaście sądów nie jest częstością.
+czyli odczyt, a nie stopa pomyłek: nad 1 126 pozycjami siedemnaście sądów nie jest częstością.
 Wzorzec, przy którym byłaby, jest dwojaki i oba są cudzą robotą.
 `próba/wybory.txt` daje trzydzieści sądów, a wskazania tego świadka są w nich dwa,
-i losowanie go nie dosięga z żadnej strony: nad 1 113 pozycjami odzywa się siedem razy,
+i losowanie go nie dosięga z żadnej strony: nad 1 126 pozycjami odzywa się siedem razy,
 a próba zawężona do samych odpowiedzi warstwy wzięła trzydzieści ze 123 i nie trafiła w ani jedno
 ([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
 więc po tej stronie zostaje przeczytanie wszystkich siedmiu, a nie próba.
@@ -1854,7 +1884,7 @@ gdzie zdjęcie takiego dowodu odsłania gospodarza zasłoniętego przez kopulę.
 Liczbę tę daje `Powtórzenie(kopuly=frozenset({"być"}))` puszczone przez
 `przebieg` w `harness/powtórzenie.py` obok listy pełnej: wiersze wypuszczany,
 bez granicy akapitu i „sąsiad bezpośredni” wychodzą wtedy identyczne,
-a „cały prefiks zdania” schodzi ze 126 na 124.
+a „cały prefiks zdania” schodzi ze 128 na 126.
 Do przeczytania jest, czy dowód przy `zostać` w stronie biernej mówi coś o rzeczy:
 `obiekt zostanie przyjęty do bazy RIT` niesie treść w imiesłowie, a nie w czasowniku,
 więc gospodarzem bywa tam imiesłów i wtedy zdjęcie lematu `zostać` niczego nie kosztuje.
@@ -1974,7 +2004,7 @@ bo `to` dopełniacza nie bierze,
 a `dobry` bierze: rzeczownik odprzymiotnikowy dopełniaczem rządzi
 i kryterium na tę pozycję zabiera zdania Składnicy, w których rządzi,
 co zmierzone stoi w
-[`docs/subset.md`](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
+[`docs/subset.md`](docs/subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi).
 Zostaje więc sąsiad, nie głowa:
 pary nie ma bez dopełniacza `kod`, czyli bez lematu `koda`,
 którego ten rejestr nie zna,
@@ -1992,35 +2022,6 @@ Zdanie to jest przy tym warunkiem pod
 [kierunkiem toru](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
 bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
 czego werdykt meldować nie powinien.
-
-Wykluczenie ze słownika nie sięga po zaimek, a `go` jest grą.
-`CLOSED_CLASS` w `olski/segmentacja.py` wylicza siedem klas zamkniętych,
-od przyimka po wykrzyknik, a zaimka wśród nich nie ma,
-więc `admissible` zostawia formie `go` czytanie `subst` obok `ppron3`,
-choć jest ono nieodmienne dokładnie tak jak nuta,
-której to samo wykluczenie odmawia
-([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)).
-Tam, gdzie oba odczytania dają jeden kształt, nie kosztuje to nic,
-bo [odczytanie jest kształtem](docs/subset.md#co-się-liczy-jako-jedno-odczytanie),
-i tak wychodzą trzy z sześciu zdań, które tamta sekcja liczy.
-Zostaje to, gdzie kształty się różnią,
-czyli produkcja dająca głowie grupy imiennej dopełniacz po niej:
-zaimka jako głowy ta produkcja nie bierze, a rzeczownik bierze.
-Kosztuje to już jedną figurę i to jest tańsza połowa dowodu.
-`olski/wieloznaczność.py` liczy nad korpusem audytowym to, co zostawia
-`admissible`, więc para `go` i `gov.pl` wychodzi tam dwiema grupami imiennymi,
-a udział, który stąd rośnie, cytuje
-[`docs/open-questions.md`](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-jako miękką z dwóch swoich liczb.
-Do przeczytania zostaje to, czy takie zdanie kosztuje także werdykt,
-bo dopiero ono mówi, czy jest tu co naprawiać w gramatyce;
-przebieg nad Składnicą, który to pokaże, jest tym samym,
-którym mierzy się cenę
-[dwóch szerszych kryteriów](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi),
-czyli liczbą lasów tracących czytanie wybrane przez anotatorów.
-Ruchem, gdyby było, jest `ppron3` i `ppron12` dopisane do `CLOSED_CLASS`.
-Przeciw: zaimek nie jest wyrazem funkcyjnym w tym sensie, w którym są nim tamte,
-a kryterium rozszerzone na niego przestaje mówić to, co mówi dziś.
 
 Maskowanie nieciągłości zmierzono nad Składnicą, a nad rejestrem docelowym nie,
 i korpus prasowy zaniża tę liczbę względem dokumentacji, zamiast ją zawyżać,
@@ -2053,13 +2054,20 @@ Zdanie przyjęte na takim czytaniu jest gorsze niż odrzucone,
 bo pokrycie liczy je jak zdanie przeczytane, a
 [wykluczenie ze słownika](docs/subset.md#the-dictionary-offers-readings-polish-does-not)
 po nie nie sięga: żąda ono, żeby forma miała obok czytanie z klasy zamkniętej.
-Do przeczytania jest `admissible` w `olski/segmentacja.py` wraz z tym wykluczeniem
-i z [pomiarem jego ceny](docs/corpus.md#what-morphological-ambiguity-costs),
-bo to on mówi, co dzisiejsze kryterium zdejmuje i za ile.
-Ruchem jest liczba: ile zdań przyjętych każdego korpusu traci czytanie,
-gdy zdjąć czytania nieodmienne wszędzie, a nie tylko przy klasie zamkniętej.
-Dopóki jej nie ma, nie wiadomo, czy szersze kryterium jest zakupem, czy stratą,
-bo [dwa szersze zmierzono i oba brały za dużo](docs/subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
+Drugie z tych dwóch zdań zabrałoby kryterium szersze, a ono nie stoi:
+zdjęcie czytania nieodmiennego wszędzie kosztuje 122 zdania Składnicy
+czytanie wybrane przez anotatorów i bierze przy tym zwyczajną polszczyznę
+([`docs/subset.md`](docs/subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
+Pierwszego nie zabierze żadne kryterium tego kształtu,
+bo `Kalisz` czyta się tam formą osobową lematu `kalić`,
+a nie rzeczownikiem nieodmiennym.
+Ruchem jest więc liczba wzięta bez kryterium:
+ile zdań przyjętych każdego korpusu stoi na czytaniu, którego polszczyzna nie ma,
+przeczytane ręką na próbie z każdego z nich,
+bo klasy tej nie nazywa żadne pytanie do słownika.
+Do przeczytania jest `admissible` w `olski/segmentacja.py` wraz z
+[pomiarem jego ceny](docs/corpus.md#what-morphological-ambiguity-costs),
+bo to on mówi, po które czytania kryterium słownikowe sięga, a po które nie.
 
 Figury brane nad gramatyką z wyjętą grupą produkcji
 bierze każda sesja własnym skryptem, bo żadnego nie ma w repozytorium,

@@ -1027,7 +1027,7 @@ tę drugą liczbę bierze [próba zawężona do odpowiedzi](#częstość-nad-dok
 
 Losowanie padło przy tym nad populacją mniejszą od dzisiejszej:
 `pytania` dawało wtedy 1 058 pozycji, a gospodarza proponowało ogonem łańcucha
-imiennego, gdzie dzisiejsze daje 1 113 pozycji i głowę grupy.
+imiennego, gdzie dzisiejsze daje 1 126 pozycji i głowę grupy.
 Ta sama komenda puszczona teraz z `--ile 30` dzieli z tym plikiem dwa zdania z trzydziestu,
 więc powiększenie próby jest przerysowaniem siatki, a nie dopisaniem wpisów do niej;
 co z tym zrobić, pyta wpis w [`TODO.md`](../TODO.md).
@@ -1041,15 +1041,16 @@ więc mówi, jak często warstwa odpowiada, a nie mówi, jak często się myli:
 odpowiedzi pada w niej pięć i jedna pomyłka przesuwałaby stopę o dwadzieścia punktów.
 Częstość pomyłek żąda mianownika, którym jest odpowiedź, a nie pozycja,
 a taki mianownik daje losowanie zawężone do tych pozycji, nad którymi warstwa się odzywa:
-odzywa się nad 122 z 1 113 pozycji korpusu audytowego, czyli nad co dziewiątą,
-i spośród tych 122 losuje się trzydzieści (`z_odpowiedzią` w `harness/wybory.py`).
+odzywa się nad 212 z 1 126 pozycji korpusu audytowego, czyli nad co piątą,
+i spośród nich losuje się trzydzieści (`z_odpowiedzią` w `harness/wybory.py`).
 `próba/wybory-z-odpowiedzią.txt` jest tym losowaniem przeczytanym ręką
 i jest osobnym plikiem, a nie częścią próby wyżej,
 bo jeden wydruk z dwoma mianownikami czyta się jako jeden.
 
-Wpisy pochodzą z losowania ze 123 pozycji, czyli o jedną szerszego:
-tą jedną jest wskazanie świadka kontekstowego, odebrane wraz z dowodem z kopuli.
-Próby to nie przerysowuje.
+Wpisy pochodzą z losowania ze 123 pozycji, bo tyle warstwa dawała odpowiedzi wtedy,
+kiedy dawała je sama tabela częstości;
+jedną z tych 123 było wskazanie świadka kontekstowego,
+odebrane wraz z dowodem z kopuli, i próby to nie przerysowuje.
 Wpisy te były odpowiedziami tabeli częstości w chwili losowania,
 a dziś ponad połowę z nich oddaje świadek ramowy,
 bo stoi przed tabelą i bierze wybór tam, gdzie rama rzeczownika go rozstrzyga.

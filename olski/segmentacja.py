@@ -57,7 +57,11 @@ def sentences(text: str) -> list[str]:
 
 #: The closed-class parts of speech. A noun reading of a form that also reads as
 #: one of these is competing with the reading the form nearly always carries.
-CLOSED_CLASS = frozenset({"prep", "conj", "comp", "qub", "part", "pred", "interj"})
+#: The pronoun is on the list for that property rather than for its syntax,
+#: which docs/subset.md argues and docs/corpus.md prices.
+CLOSED_CLASS = frozenset(
+    {"prep", "conj", "comp", "qub", "part", "pred", "interj", "ppron3", "ppron12"}
+)
 
 #: The seven cases. A noun reading carrying all of them inflects for nothing, so
 #: no case demand can fail against it.
@@ -76,7 +80,7 @@ def _acronym(form: str) -> bool:
 
 
 def admissible(segment: Segment) -> Segment:
-    """Drop the noun reading of a form olski reads as a function word.
+    """Drop the noun reading of a form olski reads as a closed-class word.
 
     Morfeusz reads ``do`` as the preposition and as the musical note, and the
     note inflects for nothing (:data:`EVERY_CASE`), so every ``do`` in a text

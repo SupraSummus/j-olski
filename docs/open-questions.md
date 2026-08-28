@@ -88,9 +88,9 @@ python3 -m harness.markdown rit-dokumentacja --into proza/rit
 python3 -m olski.wieloznaczność proza/ksef/*.txt proza/rit/*.txt
 ```
 
-Pozycję którejś z dwóch klas niesie tam 751 z 1 183 zdań, czyli 63.5%:
-przyłączenie 56.1%, synkretyzm 21.1%,
-a 271 zdań niesie samych przyłączeń dwa albo więcej,
+Pozycję którejś z dwóch klas niesie tam 747 z 1 183 zdań, czyli 63.1%:
+przyłączenie 56.0%, synkretyzm 21.0%,
+a 278 zdań niesie samych przyłączeń dwa albo więcej,
 czyli czytań ma po cztery i wzwyż.
 To samo polecenie puszczone nad prozą tego repozytorium
 daje udział niższy, bliższy połowie niż dwóm trzecim,
@@ -120,7 +120,7 @@ bo kompendium dokumentu nie stanowi.
 Jest to jedna osoba nad dwudziestoma czterema zdaniami, a nie pomiar,
 i tyle z tego wynika.
 
-Wniosek wychodzi odwrotny do tego, na co 63.5% wygląda.
+Wniosek wychodzi odwrotny do tego, na co 63.1% wygląda.
 Werdykt, którego to pytanie szuka, objąłby zdania rzadkie, a nie większość rejestru,
 bo zdań, w których czytelnik naprawdę ma dwa czytania, jest w tej próbce tyle co nic.
 Liczba wycenia natomiast co innego, o co nikt tu nie pytał:
@@ -133,16 +133,18 @@ więc apozycja liczy się jak dwie grupy —
 `podpis CERTYFIKAT`, `Element report` — choć jest jedną,
 a wyrażenia, którego czasownik żąda swoim schematem,
 ten pomiar od stojącego do wyboru nie odróżnia.
-Podnosi ją też każde czytanie, które słownik ma, a polszczyzna nie:
-`synkretyzm [go, gov.pl]` stoi na zaimku czytanym jako gra,
-czego wykluczenie ze słownika nie sięga.
+Podnosi ją też każde czytanie, które słownik ma, a polszczyzna nie.
+Wykluczenie ze słownika sięga po nie tam, gdzie czytanie jest nieodmienne
+([subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)),
+więc pary `go` i `gov.pl` ta liczba już nie niesie,
+a `sam` czytany sklepem zostaje w niej, bo sklep odmienia się jak rzeczownik.
 Osobno stoi to, co dokłada ekstrakcja:
 nagłówek sklejony ze zdaniem za nim daje parę, której nikt nie napisał,
 i należy to do [extraction.md](extraction.md), a nie tutaj.
 Wszystkie te klasy podnoszą populację,
 a wniosek wyżej idzie w tę samą stronę co one, więc żadna go nie odwraca.
 Zbiera się ich przy tym najwięcej pod synkretyzmem,
-więc to jego 21.1% jest z dwóch liczb tą miękką.
+więc to jego 21.0% jest z dwóch liczb tą miękką.
 
 Dwa węższe kryteria synkretyzmu zmierzono, każde zdejmuje jedno zdanie z 250,
 i zdejmują dwa różne zdania z dwóch różnych powodów.

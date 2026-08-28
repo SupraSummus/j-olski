@@ -822,7 +822,7 @@ and what it is worth is measured where it is argued
 ([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 The first is the one this section is about.
 Olski drops an uninflected noun reading
-wherever the form also reads as a function word,
+wherever the form also reads as a closed-class word,
 for the reasons
 [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not) gives.
 `do` is the form that makes it worth doing:
@@ -833,16 +833,28 @@ Leave those readings in and the live column loses acceptances to ambiguity:
 dozens of those ambiguities are readings nobody can have meant,
 and dropping them leaves each of those sentences with exactly one.
 
-Across the annotated sentences the exclusion reaches 19 forms
-and 1,851 tokens, all but 150 of them `do`.
-Most of the rest is surnames:
-`Tam`, `Tylko`, `Tym` and `Ponieważ` are each one in Morfeusz's dictionary,
-indeclinable in the feminine,
-so a sentence opening on any of those words
-hands olski a noun it can put anywhere.
+Nad zdaniami anotowanymi wykluczenie sięga 22 form i 2 298 tokenów,
+licząc `do` i `Do` za jedną formę.
+Prawie cała ta liczba to dwie pozycje:
+`do` z 1 704 tokenami i zaimek — `go`, `mi`, `te` — z 443.
+Reszta jest w większości nazwiskami.
+`Tam`, `Tylko`, `Tym` i `Ponieważ` Morfeusz zna każde jako nazwisko,
+nieodmienne w rodzaju żeńskim,
+więc zdanie zaczynające się którymkolwiek z tych słów
+dostaje rzeczownik, który stanie w nim gdziekolwiek.
 
-Five times in the corpus the exclusion removes the reading
-the annotators themselves chose: `La` four times and `Amen` once.
+Zaimek kupuje nad tym korpusem jednoznaczność kilkudziesięciu zdaniom wieloznacznym
+i zabiera wyprowadzenie kilkunastu, z czego dwóm przyjętym.
+Zabrane stały na czytaniu, które ta pozycja zdejmuje —
+`Nie było go wtedy w domu.` wychodziło dwoma czytaniami,
+a w obu gra `go` była podmiotem albo orzecznikiem —
+więc odrzucenie jest nad nimi werdyktem prawdziwym,
+czyli tym, czego [kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
+żąda od werdyktu.
+
+Six times in the corpus the exclusion removes the reading
+the annotators themselves chose:
+`La` four times, `Amen` once, and `Go` once in the name of a festival.
 That is both the shape of the mistake it can make
 and the rate at which it makes it.
 

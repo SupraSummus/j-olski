@@ -425,7 +425,7 @@ zmianą danych i jednego wymiaru klucza, a nie zmianą ani jednej produkcji.
 Morfeusz daje formie czytania, których czytelnik nie ma,
 a każde takie czytanie jest dla olskiego drugim czytaniem całego zdania.
 `admissible` w `olski/segmentacja.py` wyklucza dziś jedną ich klasę,
-czytanie nieodmienne stojące obok wyrazu funkcyjnego,
+czytanie nieodmienne stojące obok czytania z klasy zamkniętej,
 i [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)
 mówi, czemu akurat te dwa warunki naraz.
 README rozpada się na jednej klasie, której to kryterium nie obejmuje:
@@ -453,7 +453,7 @@ Nazwiskowe czytanie rzeczownika na czele zdania do tego etapu nie należy:
 para lematów jednej formy nie jest dwoma czytaniami
 ([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),
 a kryterium pisane pod tę klasę zmierzono i ono nie stoi
-([subset.md](subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi)).
+([subset.md](subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
 
 Etap stoi między tamtymi a konstrukcjami,
 bo wieloznaczność zawęża, a pokrycia nie podnosi,
@@ -461,9 +461,9 @@ i jest pierwszym, przy którym nie wiadomo, czy kryterium w ogóle istnieje.
 Wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
 co tamten dokument pokazuje na `jury` i `menu`,
 więc odpowiedzią bywa tu decyzja, że klasy się nie da wykluczyć.
-Oba kryteria, jakie na te klasy zaproponowano, są taką odpowiedzią,
+Każde kryterium, jakie na te klasy zaproponowano, jest taką odpowiedzią,
 a cenę każdego trzyma
-[subset.md](subset.md#dwa-szersze-kryteria-zmierzono-i-żadne-nie-stoi).
+[subset.md](subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi).
 
 **Wyjście:** klasa rozstrzygnięta kryterium
 albo zapisaną decyzją, że kryterium nie ma,

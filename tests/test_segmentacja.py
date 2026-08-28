@@ -81,10 +81,17 @@ def test_an_acronym_keeps_the_noun_reading_the_exclusion_would_take():
     assert verdict("PO ogłasza wyniki.").status == "valid"
 
 
+def test_wykluczenie_sięga_czytania_rzeczownikowego_formy_zaimkowej():
+    #  `go` jest u Morfeusza grą obok zaimka, a gra nie odmienia się przez nic,
+    #  więc bez zaimka na liście klas zamkniętych zdanie to wychodzi kilkoma
+    #  czytaniami, w których gra staje w każdej wolnej pozycji.
+    assert verdict("Kierują go na kursy dywersji.").status == "valid"
+
+
 def test_excluding_a_reading_never_leaves_a_form_with_none():
     #  A segment with no readings at all is a form Morfeusz does not know, which
     #  is a different verdict and a wrong one here. What spares the segment is
-    #  the function-word reading, so that one is always among the survivors.
+    #  the closed-class reading, so that one is always among the survivors.
     unfiltered = analyse("do")[0]
     assert {reading.tag.pos for reading in unfiltered.readings} == {"prep", "subst"}
     assert [reading.tag.pos for reading in admissible(unfiltered).readings] == ["prep"]

@@ -1882,10 +1882,11 @@ def test_rama_kopuli_zdejmuje_dopełnienie_którego_nikt_w_tym_zdaniu_nie_ma():
     #  wolny czyta się jako przymiotnik i jako rzeczownik, a być dopełnienia w
     #  bierniku nie bierze, więc czytania z dopełnieniem nie ma żaden czytelnik
     #  tego zdania. Zabiera je rama kopuli i to jest to, co walencja kupuje.
-    #  Zostają dwa czytania i każde stoi na innej dziurze: rzeczownikowym czytaniu
-    #  przymiotnika, i na tym, że On jest w słowniku Morfeusza nazwiskiem
-    #  nieodmiennym, więc staje tam, gdzie stoi orzecznik wysunięty, a wykluczenie
-    #  słownikowe go zostawia, bo zaimek wyrazem funkcyjnym nie jest.
+    #  Zostają dwa czytania i każde stoi na innej dziurze: na rzeczownikowym
+    #  czytaniu przymiotnika `wolny`, i na tym, że Morfeusz daje formie `On`
+    #  czytanie przymiotnikowe obok zaimkowego, więc staje ona tam, gdzie stoi
+    #  orzecznik wysunięty. Wykluczenie słownikowe po żadne z dwóch nie sięga,
+    #  bo pyta o czytanie nieodmienne, a te dwa odmieniają się jak każde inne.
     found = verdict("On jest wolny.")
     assert found.status == "ambiguous"
     assert role(found) == [
