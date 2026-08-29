@@ -6,7 +6,8 @@ mała i ma taka być — olski jest podzbiorem z wyboru — więc czyta się nie
 ułamek, a rozbicia pod nim.
 
 **Gdzie umiera analiza.** Kolejka blokerów uszeregowana częstością mówi, ile
-polszczyzny kupuje każde dopisanie, i jest tą samą kolejką, którą autor czyta nad
+polszczyzny każde dopisanie obiecuje, a ile z tej obietnicy zostaje, widać dopiero
+po dopisaniu (docs/roadmap.md). Jest to ta sama kolejka, którą autor czyta nad
 własnym plikiem, więc liczy ją ``olski/pokrycie.py`` i stamtąd bierze się tu
 :class:`Wynik` wraz z nią.
 

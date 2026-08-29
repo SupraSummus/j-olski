@@ -2,8 +2,9 @@
 
 Kto pisze po olsku, dostaje od ``olski-check`` werdykt na zdanie, a od tego
 programu dwie liczby o całym pliku naraz. Pierwszą jest ranking form, na których
-analiza staje: forma stojąca na czele tego rankingu nazywa konstrukcję, po której
-dopisaniu wyprowadzi się najwięcej zdań tego dokumentu. Drugą jest krzywa
+analiza staje: forma z czoła mówi, gdzie gramatyka nad tym dokumentem zawraca
+najczęściej, i tyle z wiersza wynika, bo którą konstrukcję dopisać następną i ile
+ona kupi, rozstrzyga się poza tym wydrukiem (docs/roadmap.md). Drugą jest krzywa
 pokrycia po długości zdania, bo pokrycie nad zdaniem krótkim i nad długim rusza
 się inaczej.
 
