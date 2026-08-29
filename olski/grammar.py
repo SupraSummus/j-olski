@@ -55,6 +55,16 @@ def _spec(value: Var | Zbiór) -> Spec:
     return value if isinstance(value, Var) else _zbiór(value)
 
 
+def _wypisz(spec: Spec) -> str:
+    """Więz wypisany tak, że dwa przebiegi piszą go tak samo.
+
+    Hasze napisów są losowane przy starcie, więc ``repr`` zbioru wypisuje
+    wartości za każdym razem w innej kolejności, a odcisk gramatyki wzięty
+    z dwóch drzew roboczych pokazuje wtedy różnicę, której nie ma.
+    """
+    return repr(spec) if isinstance(spec, Var) else "{" + ", ".join(sorted(spec)) + "}"
+
+
 def _constraints(features: dict) -> tuple[tuple[str, Spec], ...]:
     """Więzy w kolejności ustalonej tutaj, bo unifikacja przechodzi je po kolei.
 
@@ -83,7 +93,7 @@ class Sym:
     def __repr__(self) -> str:
         if not self.constraints:
             return self.name
-        inner = ", ".join(f"{n}={v!r}" for n, v in self.constraints)
+        inner = ", ".join(f"{n}={_wypisz(v)}" for n, v in self.constraints)
         return f"{self.name}[{inner}]"
 
 

@@ -639,6 +639,24 @@ Do przeczytania jest przy tym
 [`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
 
+Zmiana, która przestawia gramatykę, nie ruszając tego, co się z niej wyprowadza,
+nie ma czym tego dowieść.
+Odcisk z [`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
+jest przebiegiem werdyktu po całej prozie:
+trwa parę minut, żąda Morfeusza i mówi o zdaniach, a nie o produkcjach,
+więc różnicę pokazuje dopiero na zdaniu, którego werdykt się przez nią zmienia.
+Deklaracja czytana w miejsce listy wypisanej ręką nie zmienia żadnego werdyktu,
+a dowodu żąda tak samo, i wtedy ostrzejszy jest odcisk samej gramatyki:
+produkcje wraz z deklaracją wypisane tak,
+żeby dwa drzewa robocze dały się porównać diffem.
+Ruchem jest komenda, która to drukuje.
+Do przeczytania jest `_wypisz` w `olski/grammar.py`:
+odcisk pisany w sesji wypisał kilkadziesiąt różnic, których nie było,
+bo `repr` zbioru szedł kolejnością haszy losowanych przy starcie
+([`CLAUDE.md`](CLAUDE.md#code)).
+To jedno miejsce jest naprawione,
+a komenda ma oszczędzić następnej sesji pisania tego skryptu razem z tą pomyłką.
+
 ## Korpusy, ekstrakcja i figury
 
 Only one of the corpora in
@@ -836,23 +854,10 @@ Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
 `Complements`, `Adjuncts`, zmienne zgodności — są w nim zmiennymi lokalnymi,
 więc funkcja na konstrukcję bierze je argumentami,
 a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
-
-Rodzina czoła stoi zadeklarowana w czterech miejscach i żadne nie pilnuje pozostałych.
-Pętla w `build` wylicza trójkę — rdzeń, modyfikator, czoła — a obok niej stoją
-dwa wpisy w `NIE_WYPUSZCZANE` (`{X}Core` i `{X}Modifier`, w obu trójkach te same
-cechy) oraz po jednym w `gospodarze` i w `podrzędne` w `DEKLARACJA`.
-Rodzin jest dziś trzy, bo doszła rzeczowna, i to dopisanie pokazało cenę kształtu:
-czwarta żąda czterech wpisów, a pominięty nie wywraca ani jednego testu —
-odbiera tylko wiersz werdyktu albo każe cesze kosztować rozbiór, po cichu
-([`CLAUDE.md`](CLAUDE.md#code) zabrania listy nazw obok gramatyki właśnie za to).
-Ruchem jest jedna deklaracja rodzin czytana przez wszystkie cztery miejsca,
-a przeszkodą jest kolejność: `NIE_WYPUSZCZANE` i `DEKLARACJA` są stałymi modułu,
-a trójka stoi wewnątrz `build`, więc deklaracja musi wyjść nad nie.
-Do rozstrzygnięcia jest, co taka deklaracja niesie poza trójką:
-rodzina rzeczowna ma dwa symbole opakowujące (`NominalRelativeClause` oraz
-`FreeRelativeClause`), a względna jeden, i to one, a nie rdzenie, stoją w `podrzędne`.
-Do przeczytania jest wpis wyżej o czterech miejscach jednej konstrukcji,
-bo pyta o to samo o szczebel niżej i jedna sesja rozstrzyga oba.
+Rodzina czoła jest tu precedensem: jej cztery miejsca czytają jedną wartość
+(`Rodzina` w `olski/subset.py`), a nie stoją pod jednym komentarzem.
+Wprost się on jednak nie przenosi, bo rodzina wypisuje same nazwy symboli,
+a konstrukcja wypisuje też ciała, a te powstają wywołaniem, nie wartością.
 
 `NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
 w górę, i żadnego z tych wpisów nie widać po werdykcie:
@@ -1022,25 +1027,6 @@ a `RelativeCore` ma kilkadziesiąt ciał i pozycja mnoży je przez klasy walency
 Do przeczytania jest przy tym `harness/luka.py`:
 tamten wariant zdejmuje ciała `RelativeCore` i zastępuje je luką,
 więc pozycja dopisana do nich rusza każdą liczbę tamtej sekcji.
-
-`gospodarze` w `DEKLARACJA` jest listą nazw stojącą obok gramatyki,
-czyli tym, czego zakazuje [`CLAUDE.md`](CLAUDE.md#code), i milczy o symbolu
-dopisanym później: symbol nieobecny na liście jest dla zejścia przezroczysty
-(`_gospodarze` w `olski/parse.py`), więc okolicznik pod nim dostaje w streszczeniu
-gospodarza stojącego wyżej, a dwa czytania różne samym miejscem okolicznika
-streszczają się jednym napisem.
-Zdania to nie odbiera i po werdykcie tego nie widać,
-a suita łapie to tylko wtedy, gdy ktoś napisze test na ten jeden symbol —
-tak wyszło przy symbolu frazy bezokolicznikowej z dopełnieniem wysuniętym
-([`docs/subset.md`](docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
-Ruchem jest check pytający gramatykę, a nie listę.
-Do rozstrzygnięcia jest kryterium, bo mechanicznego nie ma:
-`Complements` okolicznika pod sobą ma i gospodarzem nie jest,
-bo okolicznik stojący w nim określa czasownik nad nim, i po to zejście go mija,
-a `InfinitivePhrase` jest, bo okolicznik w nim określa bezokolicznik.
-Kandydatem jest symbol o własnej głowie leksykalnej, którą okolicznik może określać.
-Do przeczytania jest wpis o rodzinie czoła zadeklarowanej w czterech miejscach,
-bo `gospodarze` jest jednym z tych czterech i jedna sesja rozstrzyga oba.
 
 Myślnik stoi u olskiego między dwoma zdaniami i nie stoi wewnątrz zdania,
 a polszczyzna stawia go wewnątrz w miejscu pominiętego orzeczenia:
@@ -1654,6 +1640,8 @@ w `ZASTĘPOWANE`, a razem z nimi `InterrogativeModifier` i `NominalRelativeModif
 obok `RelativeModifier` w `_wysunięty_okolicznik` w tym samym pliku,
 bo pytanie ma dziś czoło przyimkowe tak samo jak zdanie względne
 i luki pod nim nie żąda z tego samego powodu.
+Wypisywać tych sześciu nazw nie trzeba: `RODZINY` w `olski/subset.py`
+zbiera je rodzina po rodzinie, więc oba te miejsca biorą je stamtąd.
 Przed jednym i drugim stoi rozstrzygnięcie, czym pytanie lukę wiąże:
 zdanie względne wiąże ją zaimkiem, którego liczbę i rodzaj podejmuje poprzednik,
 a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
