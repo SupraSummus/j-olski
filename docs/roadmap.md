@@ -60,12 +60,13 @@ a gramatyka podzbioru nie jest temu torowi potrzebna do niczego:
 parser stoi w nim jako świadek, a nie jako zależność
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).
 
-Linter stylu dla polskiej dokumentacji technicznej stał obok, na torze opcjonalnym,
-i jest wycofany razem z całą analizą, która schodziła do znaku,
-o czym [niżej](#tor-lintera-jest-wycofany).
+Linter stylu dla polskiej dokumentacji technicznej stał obok, na torze opcjonalnym.
+Jego pakiet reguł jest wycofany, o czym [niżej](#wycofany-jest-pakiet-reguł).
+Sam linter został celem.
+[Lista celów](#cele) nazywa go wykrywaczem wzorców prozy.
 Dwa odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
-potem odwrotnie, a teraz nie stoi wcale.
+a potem odwrotnie.
 
 ## Po co tory są dwa
 
@@ -91,12 +92,12 @@ Pisze nad zdaniem, czyli drzewem, albo w zdaniu, czyli po polsku.
 Poziomy, między którymi ten wybór przebiega, wylicza
 [sklad.md](sklad.md#three-architectures).
 
-Autorowi, który pisze w zdaniu, wycofanie lintera zostawia edytor pokazujący,
+Autorowi, który pisze w zdaniu, wycofanie tamtego pakietu zostawia edytor pokazujący,
 co gramatyka dopuszcza na następnej pozycji:
 zdania spoza podzbioru nie da się wtedy napisać, więc nie ma czego diagnozować
 ([sklad.md](sklad.md#the-predictive-editor-changes-this)).
 Zestaw reguł chodzący po tym samym tekście został zmierzony i wycofany
-([niżej](#tor-lintera-jest-wycofany)).
+([niżej](#wycofany-jest-pakiet-reguł)).
 
 Oba końce spina niezmiennik obiegu:
 zdanie wychodzi ze składu i wchodzi do parsera,
@@ -241,7 +242,7 @@ Pierwsza: cel nazywa, czym się go sprawdza.
 Nieosiągalny cel jest dopuszczalny, niesprawdzalny nie.
 Druga: cel nad tekstem, który sami piszemy, mierzy zdolność, a nie udział,
 bo udział skraca też przeredagowany akapit.
-Trzecia zasada przychodzi z toru lintera ([niżej](#tor-lintera-jest-wycofany)),
+Trzecia zasada przychodzi z wycofanego pakietu ([niżej](#wycofany-jest-pakiet-reguł)),
 gdzie etap, na który nikt nie czeka, okazał się zaległością, a nie planem:
 cel, którego nikt nie podnosi, kasuje się razem z pracą, którą niósł.
 
@@ -255,12 +256,14 @@ a sprawdza je przegląd zmian, czyli człowiek czytający zdanie po zdaniu.
 Cel żąda, żeby wzorzec raz nazwany dostał wykrywacz,
 a wykrywacz przeszedł po całej prozie repozytorium i stanął na zerze.
 Sprawdza go przebieg, a nie udział, więc przeredagowanie akapitu jest tu robotą.
-Wycofanego toru cel ten nie wskrzesza, choć wygląda podobnie,
-a różni je populacja:
+Ten cel jest linterem tego repozytorium.
+Wycofanego pakietu nie wskrzesza, a różni je populacja:
 tamten zestaw reguł strzelał nad cudzą polszczyzną i żądał kalibracji,
 której się nie doczekał,
 a ten chodzi po tekście, który sami napisaliśmy,
 więc trafienia czyta się wszystkie, zamiast progować ich stopę.
+Tę różnicę rozkłada na osie
+[linter.md](linter.md#cztery-osie-każdej-reguły).
 Milczenie kosztuje przy tym zero:
 zdanie, którego olski nie wyprowadza, zostaje przy przeglądzie,
 czyli przy tym, co je dziś sprawdza,
@@ -271,7 +274,7 @@ Osiągnięty, unieważni zdanie z CLAUDE.md,
 póki nie jest osiągnięty, zdanie to obowiązuje.
 Czeka na czytnik prozy z modułów, bo docstring i blok komentarza
 są prozą tych samych reguł:
-taki czytnik wyszedł razem z torem lintera i trzyma go git,
+taki czytnik wyszedł razem z pakietem reguł i trzyma go git,
 więc wraca poleceniem `git show f5f5561^:harness/python.py`,
 zamiast powstawać od nowa.
 
@@ -343,7 +346,7 @@ a wykrywacz, który ma stać na zerze, skraca tylko poprawione zdanie.
 ## Etap 0: gramatyka, która stoi
 
 Gramatyka podzbioru nad Morfeuszem 2,
-w której poprawność zdania znaczy dokładnie jedno czytanie,
+w której zdanie jest olskie dopiero przy jednym odczytaniu,
 polecenie wydające werdykt zdanie po zdaniu,
 i pomiar tego wszystkiego na banku drzew.
 
@@ -953,7 +956,7 @@ i stoi jako warstwa osobna w
 Etapem nie jest, bo nic w tym torze na niego nie czeka,
 a jego miejsce w repozytorium jest do rozstrzygnięcia,
 bo reguły tej warstwy stały po stronie sprawdzania,
-w pakiecie, który wyszedł razem z torem lintera.
+w pakiecie, który wyszedł razem z silnikiem reguł.
 
 Etapem nie jest także warstwa nad zdaniem, czyli `olski/skład/opowieść.py`,
 choć stoi i choć wypuszcza czas przeszły oraz opuszczony podmiot.
@@ -971,11 +974,13 @@ Cztery takie fakty wyszły z niego wprost do [`TODO.md`](../TODO.md),
 a wywód trzyma
 [sklad.md](sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
 
-## Tor lintera jest wycofany
+## Wycofany jest pakiet reguł
 
 Silnik reguł, pakiet typograficzny i polecenie, które je uruchamiało,
 są usunięte, a razem z nimi cała analiza, która schodziła do znaku.
-Decyzję i jej powody trzyma [linter.md](linter.md#what-closed-the-track),
+Linter nie jest wycofany.
+Nazywa go [lista celów](#cele) wyżej.
+Decyzję i jej powody trzyma [linter.md](linter.md#co-zamknęło-pakiet-reguł),
 a cenę, przy której zapadła, [firing-rates.md](firing-rates.md).
 
 Plan tego toru stał tutaj i git go trzyma,
@@ -992,9 +997,8 @@ Tor gramatyczny czyta z tego tyle, ile mówi kształt werdyktu:
 „to zdanie ma dwa czytania, oto one” jest wypowiedzią o zdaniu,
 stopa wzorca na tysiąc słów nie jest,
 a pierwsze nie potrzebuje kalibracji, bo niczego nie proguje.
-
-Wykrywacza wzorców prozy, którego żąda [cel](#cele), wycofanie to nie odwraca,
-a czym się różni od tamtego zestawu reguł, mówi tamta sekcja.
+Kształt jest jedną z [czterech osi](linter.md#cztery-osie-każdej-reguły).
+Wycofanie dotyczy trzech z nich.
 
 Życzenie, które ten tor niósł obok siebie, wycofania nie dotyczy,
 bo nie było etapem i nie było linterem:

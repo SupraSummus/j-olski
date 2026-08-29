@@ -11,7 +11,7 @@ which [the reading that removed them](#dwie-reguły-wyszły-z-pakietu-i-to-jest-
 holds along with their numbers.
 
 The pack is retired and so is the engine that ran it,
-and [linter.md](linter.md#what-closed-the-track) holds that decision.
+and [linter.md](linter.md#co-zamknęło-pakiet-reguł) holds that decision.
 This document survives it because it is the price the decision was taken at:
 a reader who thinks the idea deserves another try
 should start from these numbers rather than from the intuition that produced them.

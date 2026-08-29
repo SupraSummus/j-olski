@@ -370,6 +370,21 @@ Do przeczytania są te cztery wyliczenia naraz, bo każde pisze tę samą parę
 dla innego czytelnika, oraz [`docs/roles.md`](docs/roles.md),
 bo od roli zależy, komu ta para jest w tym miejscu potrzebna.
 
+[`docs/linter.md`](docs/linter.md) jest dwoma dokumentami w jednym.
+Sekcja [o czterech osiach](docs/linter.md#cztery-osie-każdej-reguły)
+i wniosek pod tabelą poziomów mówią o linterze, który jest celem.
+Reszta opisuje wycofany pakiet reguł.
+Granicę między jednym a drugim niesie dziś jedno zdanie,
+a nazwa dokumentu jej nie widzi.
+Ruchem jest rozcięcie na dwa dokumenty:
+jeden o regule, którą ktoś dopiero napisze, drugi o pakiecie, który wyszedł.
+Do przeczytania jest przedtem, które sekcje idą po której stronie,
+bo [`CLAUDE.md`](CLAUDE.md#the-reader-goes-sentence-by-sentence),
+[`docs/prose-linters.md`](docs/prose-linters.md)
+i [`docs/fiction.md`](docs/fiction.md)
+linkują tabelę poziomów jako rzecz dzisiejszą,
+a resztę tamtego dokumentu jako zapis.
+
 ## Komendy i sondy
 
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
@@ -463,7 +478,7 @@ Wpis podnosi więc sesja, która ten rejestr ma.
 Widać to w poleceniu, którym
 [`docs/extraction.md`](docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
-Komenda, która po katalogu chodziła, wyszła razem z torem lintera,
+Komenda, która po katalogu chodziła, wyszła razem z pakietem reguł,
 a chodzenia po drzewie nie ma teraz żadna z dwóch, które zostały:
 `main` w `olski/check.py` i `main` w `olski/wieloznaczność.py`
 czytają po prostu każdą podaną ścieżkę, więc obu rozwija się je powłoką.
@@ -737,8 +752,8 @@ a brak spacji po kropce nie dostaje nic i wychodzi jako zatrzymanie na formie,
 która z pomyłką autora nie ma nic wspólnego.
 Świadkiem jest w każdym z trzech gramatyka — reguła strzela tam,
 gdzie podmieniony znak zmienia werdykt z „no reading” na czytanie —
-więc żadna nie potrzebuje kalibracji, której brak zamknął tor linterowy
-([`docs/linter.md`](docs/linter.md#what-closed-the-track)).
+więc żadna nie potrzebuje kalibracji, której brak zamknął pakiet reguł
+([`docs/linter.md`](docs/linter.md#co-zamknęło-pakiet-reguł)).
 Ruchem jest jedna klasa napraw wraz z jednym kształtem wypowiedzi o niej,
 a decyzją, którą to wymusza, czy zdanie naprawialne zostaje w `rejected`:
 zostawione tam mierzy podzbiór jak dziś, a wyjęte rusza pokrycie nad korpusami.

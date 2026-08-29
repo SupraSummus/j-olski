@@ -280,7 +280,7 @@ peaking high but short of the extreme,
 so the quantity has an optimum rather than a maximum.
 Its cost is that computing it takes a language model,
 which this repository does not use for anything
-and which the retired linter track declined to take on.
+and which the retired rule pack declined to take on.
 
 Three things follow.
 

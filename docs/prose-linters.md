@@ -1,6 +1,6 @@
 # Prose linters
 
-English has a working version of what the linter track was building,
+English has a working version of what the linter here is aiming at,
 several times over, and none of it is Polish.
 Two separable things can be taken from it.
 One is an architecture: how a rule is written,
@@ -186,7 +186,7 @@ and it comes out where [the tier table](linter.md#how-deep-does-each-rule-have-t
 predicts: most of the value below the morphology line.
 
 The same authors ship `textlint-rule-preset-ai-writing`,
-which is the linter track's counterpart in another language:
+which is this linter's counterpart in another language:
 mechanical list formatting, hype vocabulary, mechanical bold emphasis,
 colon-before-block constructions that read as translated English,
 and a technical-writing guideline rule with optional document-level statistics.

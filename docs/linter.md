@@ -8,20 +8,23 @@ models rarely make those —
 but for the patterns they habitually fall into.
 
 A linter helps write good code.
-This was to help write good Polish.
+This is to help write good Polish.
 
-The track is retired.
-The rule engine, the typography pack and the command that ran them are gone,
-and this document is what remains of the reasoning,
-kept because what holds in it is about Polish rather than about a program.
-[firing-rates.md](firing-rates.md) keeps what the pack did
-over Polish somebody wrote,
-which is the price the decision was taken at
-and where every figure behind it lives.
+Wycofaliśmy pakiet reguł, a nie linter.
+Usunięte są silnik reguł, pakiet typograficzny i polecenie, które je uruchamiało.
+Linter został celem.
+[Lista celów](roadmap.md#cele) nazywa go wykrywaczem wzorców prozy.
+Powody tamtej decyzji zostają w tym dokumencie.
+Zostają dlatego, że mówią o polszczyźnie, a nie o programie.
+Ile razy reguły strzeliły nad tekstem, który ktoś napisał,
+liczy [firing-rates.md](firing-rates.md).
+Tam są też wszystkie liczby, na których decyzja się oparła.
 
-## What closed the track
+## Co zamknęło pakiet reguł
 
-Three findings, and none of them is that the idea was uninteresting.
+Powody są trzy.
+Żaden z nich nie mówi, że linter to zły pomysł.
+Każdy dotyczy innej z [czterech osi](#cztery-osie-każdej-reguły) opisanych niżej.
 
 **Every rule that shipped was decided by a character,
 and a character is not what this repository is about.**
@@ -50,7 +53,7 @@ and the deep one does not answer the question either.
 
 **Calibration never happened, and without it a rule is an opinion.**
 [Calibration](#the-thing-that-makes-or-breaks-it-calibration)
-is stated below as the thing that makes or breaks the whole track,
+is stated below as the thing that makes or breaks the whole pack,
 and no rule ever carried one: each shipped saying so in its own declaration.
 What ran instead was a firing rate over two bodies of Polish,
 which is [half of the pair](#what-a-rate-on-human-polish-means-depends-on-the-rule)
@@ -63,7 +66,47 @@ and [the two rules that left the pack before it](firing-rates.md#dwie-reguły-wy
 had fired over a hundred times without finding one defect.
 The counts are that document's.
 
-What follows is the design as it stood.
+## Cztery osie każdej reguły
+
+Każdą regułę da się ustawić na czterech osiach.
+Osie są od siebie niezależne.
+Każda rozstrzyga co innego.
+
+| oś | wartości | co rozstrzyga |
+| --- | --- | --- |
+| głębokość | znak, morfologia, rozbiór | ile maszynerii reguła potrzebuje |
+| kształt | werdykt o zdaniu, stopa nad tekstem | czy potrzebny jest próg |
+| populacja | proza własna, cudza polszczyzna | czy trafienia da się przeczytać wszystkie |
+| pytanie | o strukturę, o uzus | czy głębsza analiza pomoże |
+
+Każdy z trzech powodów [zamknięcia](#co-zamknęło-pakiet-reguł) dotyczy innej osi.
+Pierwszy dotyczy głębokości: reguła rozstrzygała się na samym znaku.
+Drugi dotyczy pytania: nominalizacja pyta o uzus.
+Trzeci dotyczy kształtu i populacji naraz: stopa nad cudzą prozą, bez progu.
+
+Tylko jeden z tych powodów dotyczy więc głębokości.
+Jest to zarazem powód najsłabszy.
+Mówi on, że taka reguła jest w tym repozytorium nieciekawa.
+Nie mówi, że jest nietrafna.
+Dwa pozostałe powody dotyczą reguły na każdej głębokości.
+Weźmy regułę, która liczy konstrukcję zamiast znaku.
+Jest głębsza od reguł z tamtego pakietu.
+Dalej jest jednak stopą nad cudzą prozą, więc progu potrzebuje tak samo.
+
+Praktyczne wnioski są takie.
+Reguła, która jest stopą, potrzebuje progu, a próg trzeba skalibrować.
+Reguła, która jest werdyktem o zdaniu, progu nie ma i kalibracji nie potrzebuje.
+Reguła, która chodzi po naszym własnym tekście i ma nie znaleźć nic,
+progu też nie potrzebuje, bo wszystkie trafienia i tak się czyta.
+Tak jest zbudowany cel [wykrywacza wzorców prozy](roadmap.md#cele).
+Reguła, która pyta o uzus, nie zyska na głębszej analizie.
+Reguła, która pyta o strukturę, zyska tylko na niej.
+
+Wszystkie cztery osie nazywaliśmy przedtem słowem „linter”.
+Dlatego wycofanie pakietu wyglądało jak wycofanie celu.
+Gdzie linter wypadnie na tych osiach, rozstrzygnie reguła, którą ktoś napisze.
+
+Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 
 ## The target register: technical documentation
 
@@ -187,17 +230,22 @@ and what the other two want is not morphology at all.
 [What the nominalization endings match](#what-the-nominalization-endings-match)
 is that measured rather than predicted.
 
-The honest consequence:
-tiers A and B probably carry most of this tool's value,
-and the Earley parser, the parse forests,
-the LCFRS question and the Składnica coverage curve
-all leave its critical path.
-They are the other track,
-which [roadmap.md](roadmap.md#co-jest-budowane) makes what is being built,
-and the linter reached it only as tier D.
-Read the other way round, which is how it ended up being read,
-that sentence says the linter had almost nothing to do
-with what this repository is for.
+Wyciągnęliśmy stąd wniosek w dwóch krokach.
+Krok pierwszy: poziomy A i B niosą większość wartości takiego narzędzia.
+Krok drugi: parser i las rozbiorów nie są więc linterowi potrzebne,
+a linter ma z tym repozytorium mało wspólnego.
+
+Krok pierwszy zostaje.
+Potwierdza go japoński pakiet reguł, w którym po morfologię sięga garść reguł
+([prose-linters.md](prose-linters.md#japanese-is-the-proof-that-this-transfers)).
+Krok drugi z pierwszego nie wynika.
+Reguła, która nie potrzebuje naszej maszynerii, jest dalej regułą, której chcemy.
+O tym, czy reguła jest warta wydania, rozstrzyga kalibracja, a nie głębokość.
+
+Zostaje jedna rzecz, której nie da się zbudować gdzie indziej.
+Jest to reguła, która rozstrzyga się na rozbiorze polskiego zdania.
+U nas poziom C i D kosztuje tyle, co napisanie samej reguły, bo parser już jest.
+Gdzie indziej trzeba do tego napisać parser polszczyzny.
 
 ### What the nominalization endings match
 
@@ -266,7 +314,7 @@ for the suffix to look like a cheap version of a lemma rule,
 and they come apart over nearly half of this corpus.
 
 This is the finding that shut the plan's escape hatch,
-and [it is one of the three that closed the track](#what-closed-the-track).
+and [it is one of the three that closed the pack](#co-zamknęło-pakiet-reguł).
 A suffix rule was to ship early
 on the promise that a later lemma version would have to beat it on the numbers,
 and here the lemma version is the same rule:
@@ -366,7 +414,7 @@ will punish exactly the human writing it claims to protect,
 and there is no way to know which rules are like that
 without measuring.
 
-So the track needed a paired corpus:
+So the pack needed a paired corpus:
 
 - **Human Polish**, in the register a pack is scoped to
   and at the stage a linter runs at.
@@ -399,7 +447,7 @@ and it is the better experiment:
 cheaper to run, and it produces a rule set
 that has earned each of its rules.
 It is also the piece that never got built,
-which is [the third finding](#what-closed-the-track).
+which is [the third finding](#co-zamknęło-pakiet-reguł).
 
 ### What a rate on human Polish means depends on the rule
 
@@ -737,7 +785,7 @@ is a legitimate choice once and a habit at scale,
 so the defect exists at the corpus and not in any file.
 [generated-polish.md](generated-polish.md#two-entities-in-five-are-introduced-and-dropped)
 owns that measurement, and a check was written against it
-before the track closed.
+before the pack was retired.
 
 Both reach a trace and not a cause.
 [fiction.md](fiction.md#what-this-means-for-olski) reads

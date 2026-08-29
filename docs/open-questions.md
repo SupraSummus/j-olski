@@ -10,9 +10,9 @@ Decyzja, która już zapadła, stoi u właściciela swojego tematu:
 rozwidlenia toru gramatycznego trzymają
 [decisions taken](design-notes.md#decisions-taken)
 oraz [`roadmap.md`](roadmap.md#tor-gramatyczny-nie-ma-końca),
-a wycofanie toru linterowego trzyma
-[`linter.md`](linter.md#what-closed-the-track).
-Pytania, które blokowały wyłącznie tamten tor, zeszły razem z nim,
+a wycofanie pakietu reguł trzyma
+[`linter.md`](linter.md#co-zamknęło-pakiet-reguł).
+Pytania, które blokowały wyłącznie tamten pakiet, zeszły razem z nim,
 więc na liście niżej ich nie ma.
 
 ## Grammar-track questions
@@ -272,7 +272,7 @@ bo koszt płaci się przy rozumieniu, a nie przy czytaniu,
 i płaci niewidocznie, skoro czytelnik nie wie, że wybrał.
 Zdanie ze ścieżką ogrodową jest odwrotne:
 jedno czytanie na końcu i długi prefiks, który trzymał inne.
-Kryterium stoi więc na poprawności,
+Kryterium stoi więc na jednoznaczności,
 a hipoteza go nie podpiera i stawia obok niego drugą wielkość.
 
 Trzy rzeczy trzeba w niej zaostrzyć, zanim da się ją zmierzyć.

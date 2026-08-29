@@ -75,7 +75,7 @@ Osobnego podręcznika nie ma,
 a dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać:
-[dlaczego poprawność znaczy tu jedno czytanie](subset.md#validity-is-uniqueness-not-just-derivability).
+[dlaczego zdanie jest olskie dopiero przy jednym odczytaniu](subset.md#validity-is-uniqueness-not-just-derivability).
 
 Drugie wejście tej roli jest w przeglądarce
 i prowadzi do tego samego werdyktu:
@@ -156,7 +156,7 @@ a korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
 Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia
 ([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
 więc zdanie w dokumencie mówi rząd wielkości, a przebieg mówi liczbę.
-Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z torem lintera,
+Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z pakietem reguł,
 i każdy dokument, który je nosi, mówi to o sobie sam:
 [firing-rates.md](firing-rates.md) nazywa wypisane w sobie polecenia zapisem,
 a nie robotą do powtórzenia,
@@ -172,7 +172,7 @@ który mierzy kod sprzed niej i nigdzie tego nie mówi.
 
 ## Czytelnik toru gramatycznego
 
-Pyta, co olski parsuje i dlaczego zdanie jest poprawne dopiero przy jednym czytaniu.
+Pyta, co olski parsuje i dlaczego zdanie jest olskie dopiero przy jednym odczytaniu.
 Wchodzi w [subset.md](subset.md), dalej w [design-notes.md](design-notes.md)
 po drabinę kosztów i urwisko nieciągłości,
 a sąsiedztwo tego toru opisują
@@ -252,9 +252,9 @@ i cały [CLAUDE.md](../CLAUDE.md) jest pisany pod tę rolę.
 Recenzent nie jest rolą, jest fazą,
 którą kończy każda postawa cokolwiek pisząca,
 i opisuje ją [przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku).
-Nie ma autora reguły, bo wyszedł razem z torem lintera,
+Nie ma autora reguły, bo wyszedł razem z pakietem reguł,
 a kto chciałby tę rolę obsadzić na nowo,
-zaczyna od tego, [co ją zamknęło](linter.md#what-closed-the-track),
+zaczyna od tego, [co ją zamknęło](linter.md#co-zamknęło-pakiet-reguł),
 a nie od formatu, w którym reguła kiedyś stała.
 Nie ma też roli osoby dokładającej się z zewnątrz,
 a rozdzielenie CLAUDE.md na wersję dla autora i wersję dla gości

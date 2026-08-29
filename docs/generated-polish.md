@@ -30,7 +30,7 @@ and the difference decides how much weight each carries.
 **A run that was redoable while the linter stood.**
 That table, and every rate a rule reports below, came out of three commands,
 of which the third is gone with the engine that ran it
-([linter.md](linter.md#what-closed-the-track)):
+([linter.md](linter.md#co-zamknęło-pakiet-reguł)):
 
 ```sh
 git clone --depth 1 https://github.com/SupraSummus/the-agent
