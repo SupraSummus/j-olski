@@ -63,7 +63,9 @@ from olski.subset import (
     RODZINY,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_PRZECINKOWY,
+    SPÓJNIK_PYTAJNY,
     SPÓJNIKI_PRZECINKOWE,
+    SPÓJNIKI_SKORELOWANE,
     WALENCJA,
     WALENCJA_ZWROTNA,
     WTRĄCONY,
@@ -989,6 +991,17 @@ PRZYJMOWANE = [
     "Parser jest tani, czyli Morfeusz.",
     #  Spójnik stojący wewnątrz swojego zdania, a nie na jego czele.
     "Milczenie jest zatem wartością.",
+    #  Ten sam spójnik na czele całego zdania, w obu częściach mowy, którymi
+    #  Morfeusz tę klasę zapisuje: `i` jest tam `conj`, a `zatem` `comp`.
+    "I nikt tego nie zauważył.",
+    "Zatem milczenie jest wartością.",
+    #  Przymiotnik za zaimkiem, którym pyta się o osobę i o rzecz.
+    "Kto pierwszy wstaje od stołu?",
+    #  Pytanie zależne za dwukropkiem, czyli trzecia rzecz, jaką ten znak bierze.
+    "Sprawdzasz to jednym pytaniem: czy skreślona rzecz jest powiedziana gdzie indziej?",
+    #  Spójnik skorelowany na obu poziomach, które go dostały.
+    "Ani parser nie rośnie, ani linter nie sprawdza.",
+    "Ani parser, ani linter nie rośnie.",
     #  Grupa imienna za dwukropkiem, czyli wyliczenie tego, co zdanie przed nim
     #  nazwało liczbą.
     "Gramatyka ma dwie role: podmiot i dopełnienie.",
@@ -1770,13 +1783,16 @@ def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurow
     assert len(_biorące(lemat)) == 1, _biorące(lemat)
 
 
-def test_dwa_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
-    #  Dwukropek stoi w dwóch ciałach, więc jedynki wyżej mieć nie może, a zdanie
+def test_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
+    #  Dwukropek stoi w kilku ciałach, więc jedynki wyżej mieć nie może, a zdanie
     #  o jednoznaczności zostaje to samo i stoi na czym innym: za dwukropkiem
-    #  jedno ciało żąda zdania, a drugie grupy imiennej, a grupa imienna zdaniem
-    #  nie jest, więc napis wzięty jednym nie ma wyprowadzenia drugim.
-    #  Usterka, którą to łapie: symbol dopisany za dwukropkiem do jednego z tych
-    #  dwóch ciał tak, że oba biorą ten sam napis.
+    #  jedno ciało żąda zdania, drugie grupy imiennej, a trzecie ciągu pytań
+    #  zależnych, i żaden z tych trzech napisów nie ma wyprowadzenia pozostałymi —
+    #  grupa imienna zdaniem nie jest, a zdanie składowe nie zaczyna się ani `czy`
+    #  (:data:`SPÓJNIK_NA_CZELE` tego lematu nie ma), ani zaimkiem, który pozycji
+    #  rzeczownej nie dostał (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`).
+    #  Usterka, którą to łapie: symbol dopisany za dwukropkiem do któregoś z tych
+    #  ciał tak, że dwa biorą ten sam napis.
     za_dwukropkiem = set()
     for produkcja in _biorące(":"):
         [gdzie] = [
@@ -1785,7 +1801,23 @@ def test_dwa_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
             if _znak(część, ":")
         ]
         za_dwukropkiem.add(produkcja.body[gdzie + 1].name)
-    assert za_dwukropkiem == {"Clause", "NP"}
+    assert za_dwukropkiem == {"Clause", "NP", "InterrogativeChain"}
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  `czy` podporządkowuje u olskiego pytanie o rozstrzygnięcie.
+        "Czy zmiana idzie w dobrą stronę?",
+        #  `to` jest zaimkiem, a Morfeusz daje mu czytanie spójnikowe.
+        "To samo wejście daje tę samą odpowiedź.",
+    ],
+)
+def test_lemat_o_własnej_pozycji_nie_staje_na_czele_zdania_spójnikiem(zdanie: str):
+    #  Usterka, przed którą to stoi: czoło zdania pisane wykluczeniem zamiast listy
+    #  lematów. Oba te zdania mają wtedy dwa czytania, a polszczyzna czyta je raz;
+    #  docs/subset.md trzyma pomiar, przy którym lista wygrała z wykluczeniem.
+    assert verdict(zdanie).status == "valid"
 
 
 def test_człon_bez_czasownika_nie_wchodzi_za_spójnikiem_dokładającym_skutek():
@@ -1808,15 +1840,48 @@ def test_człon_bez_czasownika_przepuszcza_zdanie_nadrzędne_za_przecinkiem():
     assert zamknięty.readings, zamknięty.explain()
 
 
-def test_spójnik_wewnątrz_zdania_nie_dostaje_czoła_więc_koordynacja_zostaje_jednoznaczna():
-    #  Usterka, którą to łapie: SPÓJNIKOWY dopisany do pętli, która daje cząstce i
-    #  przysłówkowi czoło zdania składowego. `więc` stoi wtedy w dwóch pozycjach
+def test_ciąg_skorelowany_bierze_liczbę_z_członu_a_nie_wartością():
+    #  Usterka, którą to łapie: `number="pl"` przepisane z dwóch ciał koordynacji
+    #  obok. Ciąg z przeczeniem rozdziela człony, zamiast je sumować, więc orzeka
+    #  w liczbie pojedynczej, a wartość `pl` odbiera temu zdaniu każde czytanie.
+    assert verdict("Ani parser, ani linter nie rośnie.").status == "valid"
+    assert verdict("Ani parsery, ani lintery nie rosną.").status == "valid"
+    #  Zgodność zostaje przy tym zgodnością: człon w innej liczbie niż orzeczenie
+    #  czytania nie ma.
+    assert verdict("Ani parser, ani linter nie rosną.").status == "rejected"
+
+
+def test_ciąg_skorelowany_nie_bierze_lematu_o_własnej_pozycji():
+    #  Usterka, którą to łapie: `czy` dopisane do listy skorelowanych. Lemat ten
+    #  podporządkowuje pytanie o rozstrzygnięcie, więc ciąg dawałby `Pyta, czy
+    #  rośnie, czy maleje.` drugie wyprowadzenie tego samego kształtu, a werdykt
+    #  zostawałby ten sam: zdanie jest wieloznaczne i bez tego czytania, więc
+    #  pomiar różnicowy tej ceny nie pokaże (docs/subset.md).
+    assert SPÓJNIK_PYTAJNY not in SPÓJNIKI_SKORELOWANE
+
+
+def test_analiza_staje_na_spójniku_przed_którym_stoi_zbędny_przecinek():
+    #  Usterka, którą to łapie: `i` dopisane do listy spójników skorelowanych.
+    #  Terminal ciągu wpuszcza tę formę na czoło członu, czyli wszędzie tam, gdzie
+    #  człon może się zacząć, więc analiza idzie przez nią dalej, niż napis na to
+    #  pozwala: przecinka przed `i` polszczyzna nie stawia (docs/subset.md).
+    stanęło = verdict("Cena rośnie, i linter sprawdza tekst.")
+    assert stanęło.status == "rejected", stanęło.explain()
+    assert stanęło.zatrzymanie == "i", stanęło.explain()
+
+
+def test_spójnik_ma_czoło_całego_zdania_a_nie_czoło_zdania_składowego():
+    #  Granica biegnie między dwoma poziomami, a jedno zdanie sprawdza oba.
+    #  Usterka po stronie zdania składowego: SPÓJNIKOWY dopisany do pętli, która
+    #  daje cząstce i przysłówkowi czoło składowego, albo ciało czoła postawione
+    #  przy `Clause` zamiast przy `Sentence`. `więc` stoi wtedy w dwóch pozycjach
     #  naraz — na czele drugiego składowego i w jego liście okoliczników — więc
     #  zdanie spięte przecinkiem dostaje drugie czytanie tego samego kształtu.
     spięte = verdict("Cena jest niska, więc gramatyka jest tania.")
     assert spięte.status == "valid", spięte.explain()
-    #  Czoła zdania ta pozycja nie daje, i to jest granica, a nie przeoczenie.
-    assert not role(verdict("Zatem milczenie jest wartością."))
+    #  Ten sam spójnik między dwoma zdaniami bez przecinka, czyli druga z dwóch
+    #  klas, na jakie gramatyka dzieli spójnik zdaniowy.
+    assert verdict("Cena jest niska i gramatyka jest tania.").status == "valid"
 
 
 def test_cząstka_przecząca_nie_spina_dwóch_zdań_w_ciąg_współrzędny():
@@ -2617,6 +2682,18 @@ def test_zaimek_pytajny_o_jednym_słowie_daje_zdaniu_jedno_wyprowadzenie():
     found = verdict("Kto płaci?")
     assert found.status == "valid", found.explain()
     assert role(found) == [{"Subject": "Kto", "Verb": "płaci", PYTAJNY: "Kto"}]
+
+
+def test_przymiotnik_za_zaimkiem_pytajnym_nie_bierze_zaimka_wskazującego():
+    #  Usterka, przed którą to stoi: symbol przydawki postawiony w tym ciele
+    #  zamiast terminala z wykluczeniem. Morfeusz czyta `to` także jako przymiotnik
+    #  od `ten`, więc `co to` wychodzi wtedy grupą pytajną, a polszczyzna ma tam
+    #  dwa zaimki obok siebie: pytanie dostaje drugie czytanie, którego nie ma.
+    pierwszy = verdict("Kto inny zapisuje ustawienia?")
+    assert role(pierwszy) == [
+        {"Subject": "Kto inny", "Object": "ustawienia", "Verb": "zapisuje", PYTAJNY: "Kto inny"}
+    ], pierwszy.explain()
+    assert verdict("Co to jest?").status == "valid"
 
 
 def test_wykluczenie_zaimka_pytajnego_nie_tyka_pozostałych_zaimków_rzeczownych():

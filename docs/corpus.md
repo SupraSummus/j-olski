@@ -146,9 +146,12 @@ that would have to be admitted next.
 Where the form reads several ways,
 the row takes a reading the grammar licenses over one it does not,
 because a reading no terminal reaches for names no construction to admit.
-Sentence-opening `i` is what that criterion is worth:
+The form `i` is what that criterion is worth:
 Morfeusz reads it as an interjection before it reads it as a conjunction,
 and under the interjection it lands in a row naming nothing to build.
+An analysis stops on it where a comma stands in front of it,
+which is a string Polish does not write
+([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Ranked, those parts of speech are a work queue,
 and the run above prints it: a row per part of speech,
 ordered by how many analyses died on one,
@@ -232,22 +235,33 @@ The colon and the comma standing in front of a conjunction came in together
 the `interp` row they belong to barely moved,
 the `conj` row lost several times more sentences than that,
 and the particle row *rose*.
-The three forms leading the `conj` row are still the same three,
+The three forms leading the `conj` row were the same three after that addition,
 all of them capitalized:
 what left that row is the conjunction standing between two clauses,
-and what stays is the conjunction opening a sentence,
-which is another construction
-([subset.md](subset.md#what-it-does-not-cover-yet)).
+and what stayed is the conjunction opening a sentence,
+which is another construction and has since been admitted
+([subset.md](subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)).
 So the row a construction is admitted out of is not the row that records it,
 and most of what left the `conj` row
 moved onto another blocker instead of being accepted.
+The second addition read the row before writing anything,
+which is how the two constructions turned out to be one:
+the lemmas opening a sentence in this treebank are the lemmas
+the two lists of clause-level conjunctions already carried, plus two.
 
-Four constructions have left this queue outright —
+Five constructions have left this queue outright —
 the adverb, the gerund, the impersonal verb
-([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu))
-and the future tense
-([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)) —
+([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+the future tense
+([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
+and the sentence-initial conjunction
+([subset.md](subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)) —
 and their rows are gone from the front of it.
+The last of those emptied a row that had been fourth,
+and it shows the paragraph above once more:
+the rows for the particle and for a sentence with no structure over it
+both rose, because most of what left the `conj` row
+stopped further along rather than being accepted.
 The impersonal shows the paragraph above from the other side:
 its row fell to about a third of itself,
 the addition accepted well under half of what fell out of it,

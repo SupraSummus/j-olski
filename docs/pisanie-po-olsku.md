@@ -375,11 +375,16 @@ a `tylko` zostaje poza listą cząstek,
 bo Morfeusz czyta je także jako spójnik;
 w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 
-**Spójnik skorelowany.**
+**Spójnik skorelowany zaczynający się za podmiotem.**
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
-`Werdykt nie wnosi i nie zdejmuje.` przechodzi.
-Polszczyzna powtarza tu spójnik przed każdym członem,
-a koordynacja olskiego stawia go raz i między członami.
+`Ani werdykt nie wnosi, ani nie zdejmuje.` przechodzi.
+Spójnik powtórzony przed każdym członem gramatyka ma
+([subset.md](subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+a te dwa zdania rozdziela miejsce, w którym ciąg się zaczyna:
+w drugim otwiera on zdanie składowe, w pierwszym stoi za jego podmiotem,
+czyli spina same orzeczenia, a takiej pozycji koordynacja nie ma.
+Polszczyzna pisze oba szyki, a autor płaci tu przestawieniem podmiotu
+przed pierwszy spójnik.
 
 **Słowo pytające poza tymi czterema.**
 `Pyta, ile ta gramatyka kosztuje.` pada,
