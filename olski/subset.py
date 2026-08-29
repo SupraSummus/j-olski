@@ -444,10 +444,30 @@ SPÓJNIKI_ELIPSY = frozenset({"a", "ale", "lecz", "natomiast", "tylko", "czyli"}
 #: Trzy z nich — `bowiem`, `zaś` i `jednak` — polszczyzna stawia za pierwszym
 #: wyrazem zdania i nigdzie poza tym, więc olski nie brał ich wcale; pozostałe
 #: stoją zarazem na czele zdania i tam biorą je :data:`SPÓJNIKI_PRZECINKOWE`.
-#: Czoła ta lista nie dostaje wcale, i to trzyma jeden napis przy jednym
-#: czytaniu: `Cena jest niska, więc gramatyka jest tania.` ma spójnik za
-#: przecinkiem, więc bierze go tamta lista.
+#: Pozycja wewnątrz zdania czoła zdania składowego nie dostaje, i to trzyma jeden
+#: napis przy jednym czytaniu: `Cena jest niska, więc gramatyka jest tania.` ma
+#: spójnik za przecinkiem, więc bierze go tamta lista. Czoło całego zdania jest
+#: pozycją trzecią i bierze tę listę wraz z tamtą (:data:`SPÓJNIK_NA_CZELE`).
 SPÓJNIKI_WEWNĘTRZNE = frozenset({"zatem", "więc", "bowiem", "natomiast", "zaś", "jednak"})
+
+#: Spójniki, które polszczyzna powtarza przed każdym członem ciągu, żądając przed
+#: drugim przecinka: `Ani parser nie rośnie, ani linter nie sprawdza.`
+#:
+#: Klasa, a nie lemat, bo polszczyzna powtarza tak również `i` oraz `czy`;
+#: oba zmierzono i oba wypadły, każde z innego powodu, a wywód trzyma
+#: docs/subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
+SPÓJNIKI_SKORELOWANE = frozenset({"ani"})
+
+#: Spójniki łączące, które ten rejestr stawia na czele całego zdania, a których
+#: żadna lista wyżej nie ma: `I nikt tego nie zauważył.`, `Albo inaczej.`
+#:
+#: Lista jest trzecia i jest krótka, bo dwie pozostałe niosą już `a`, `ale`,
+#: `lecz`, `więc` i `zatem`, czyli to, czym ten rejestr zdanie otwiera najczęściej.
+#: `ani` do niej nie należy, choć bank drzew otwiera nim zdania: otwiera je
+#: spójnikiem skorelowanym — `Ani X, ani Y nie podpisują się` — czyli konstrukcją,
+#: której olski nie ma, a wpuszczone tutaj samo `ani` odbiera jednoznaczność
+#: `Ani jedno zdanie nie czyta się odwrotnie.` i nie kupuje ani jednego zdania.
+SPÓJNIKI_ŁĄCZĄCE = frozenset({"i", "albo"})
 
 #: Zaimek pytajno-względny, któremu Morfeusz daje znacznik przymiotnika.
 #: Przymiotnikiem przy rzeczowniku nie jest nigdy, więc terminale przydawki i
@@ -474,6 +494,14 @@ ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 #: wysunięty. Wywód i cenę trzyma
 #: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
 ZAIMEK_PYTAJNO_RZECZOWNY = frozenset({"kto", "co"})
+
+#: Zaimek wskazujący, którego Morfeusz trzyma pod przymiotnikiem: formy `ten`,
+#: `ta`, `to`. Przydawką przy rzeczowniku on jest — `ten parser` — więc terminale
+#: przydawki go biorą, a wyklucza go jedno miejsce: przymiotnik za zaimkiem
+#: pytajno-rzeczownym, gdzie `co to` wychodziłoby grupą pytajną, a polszczyzna
+#: ma tam dwa zaimki obok siebie. Wywód i cenę trzyma
+#: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+ZAIMEK_WSKAZUJĄCY = "ten"
 
 #: `Pięcie`, czyli rzeczownik odczasownikowy od `piąć`. Jego dopełniacz mnogi
 #: Morfeusz pisze `pięć` i daje mu liczbę mnogą oraz rodzaj nijaki, czyli to,
@@ -837,6 +865,26 @@ SPÓJNIK_BEZ_PRZECINKA = word("conj", bez_lematu=SPÓJNIKI_PRZECINKOWE | {LEMAT_
 #: Spójnik przed członem bez czasownika, i spójnik wewnątrz swojego zdania.
 SPÓJNIK_ELIPSY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_ELIPSY)
 SPÓJNIK_WEWNĘTRZNY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_WEWNĘTRZNE)
+
+#: Spójnik powtarzany przed każdym członem ciągu (:data:`SPÓJNIKI_SKORELOWANE`).
+SPÓJNIK_SKORELOWANY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_SKORELOWANE)
+
+#: Spójnik na czele całego zdania, czyli ten sam spójnik zdaniowy, przed którym
+#: nie stoi zdanie: `I nikt tego nie zauważył.`, `Zatem milczenie jest wartością.`
+#:
+#: Lematy schodzą się z trzech list, a wszystkie trzy nazywają spójnik łączący
+#: dwa zdania. Listą, a nie wykluczeniem, bo formy o czytaniu spójnikowym, którym
+#: ta gramatyka daje inną pozycję — `czy`, `to`, `jak`, `tymczasem` — dostają pod
+#: wykluczeniem drugie czytanie, a klasy tej nie widać nad jednym korpusem;
+#: pomiar trzyma docs/subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
+#:
+#: Obie części mowy naraz (:data:`SPÓJNIKOWE`), bo `zatem` i `więc` na czele
+#: zdania dostają u Morfeusza `comp`, a bank drzew nazywa je tam `conj`; samo
+#: `conj` wzięłoby więc te lematy nad korpusem i nie wzięłoby ich nad tekstem
+#: czytanym na żywo.
+SPÓJNIK_NA_CZELE = word(
+    SPÓJNIKOWE, lemma=SPÓJNIKI_PRZECINKOWE | SPÓJNIKI_WEWNĘTRZNE | SPÓJNIKI_ŁĄCZĄCE
+)
 
 #: Przyimek wyrażenia przyimkowego, tego zwykłego i tego, które wysunęło zaimek
 #: względny. Nazwany raz, bo oba wykluczają ten sam lemat i wykluczenie ma być w
@@ -1424,6 +1472,19 @@ def build() -> Grammar:
 
     grammar.rule("Sentence", [Głowa(nt("Clause")), KONIEC_ZDANIA])
 
+    # Spójnik na czele całego zdania: `I nikt tego nie zauważył.`, `Zatem
+    # milczenie jest wartością.`
+    #
+    # Ciało należy do zdania, a nie do zdania składowego, i nie jest to ten sam
+    # powód co przy dwukropku niżej: na poziomie `Clause` tej pozycji nie ma jak
+    # odgraniczyć od koordynacji, bo `A, i B` miałoby wtedy dwa wyprowadzenia —
+    # spójnik zaczyna człon drugi albo koordynuje. Zdanie ma czoło jedno, więc
+    # tutaj rozgraniczenie jest za darmo.
+    #
+    # Zakup, cenę i to, czemu lematy są listą, trzyma
+    # docs/subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
+    grammar.rule("Sentence", [SPÓJNIK_NA_CZELE, Głowa(nt("Clause")), KONIEC_ZDANIA])
+
     # Dwukropek otwierający zdanie: `Cena jest niska: gramatyka jest
     # bezkontekstowa.` Produkcja należy do zdania, a nie do zdania składowego, bo
     # `A, B: C.` czyta się jako `(A, B): C`, a na poziomie `Clause` byłaby
@@ -1450,6 +1511,14 @@ def build() -> Grammar:
     # Myślnik i średnik tej pozycji nie dostają, bo ten rejestr nie pisze za nimi
     # samej grupy: myślnikiem wtrąca całe zdanie, a średnikiem rozdziela dwa.
     grammar.rule(DOPOWIEDZIANY, [DWUKROPEK, Głowa(nt("NP"))])
+    # Pytanie zależne w tym samym miejscu: `Sprawdzasz to jednym pytaniem: czy
+    # skreślona rzecz jest nadal powiedziana gdzie indziej?`
+    #
+    # Ciałem jest ciąg, a nie pojedyncze pytanie, bo pytania stoją tu obok siebie
+    # tak samo jak przy czasowniku, który je bierze (`InterrogativeChain`).
+    # Rozłączności trzech symboli za tym znakiem pilnuje tests/test_subset.py,
+    # a zakup i cenę trzyma docs/subset.md pod interpunkcją zdaniową.
+    grammar.rule(DOPOWIEDZIANY, [DWUKROPEK, Głowa(nt("InterrogativeChain"))])
     grammar.rule("Sentence", [Głowa(nt("Clause")), nt(DOPOWIEDZIANY), KONIEC_ZDANIA])
 
     # To, co człon może zawierać, rozstrzyga,
@@ -1481,6 +1550,17 @@ def build() -> Grammar:
     # listą spójników zdaniowych: `nie polszczyzny, a dziedziny` jest w niej
     # elipsą, a nie ciągiem współrzędnym dwóch grup imiennych.
     grammar.rule("Clause", [Głowa(człon), PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("Clause")], ciąg=CIĄG)
+    # Spójnik skorelowany, czyli powtórzony przed każdym członem: `Ani parser nie
+    # rośnie, ani linter nie sprawdza.` Ciało jest trzecim na tym poziomie, a nie
+    # drugą listą lematów, bo polszczyzna stawia spójnik dwa razy i przed drugim
+    # żąda przecinka, gdzie koordynacja wyżej stawia go raz i między członami.
+    # Zakup i cenę trzyma
+    # docs/subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
+    grammar.rule(
+        "Clause",
+        [SPÓJNIK_SKORELOWANY, Głowa(człon), PRZECINEK, SPÓJNIK_SKORELOWANY, nt("Clause")],
+        ciąg=CIĄG,
+    )
 
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
     # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
@@ -2387,6 +2467,24 @@ def build() -> Grammar:
         number="pl",
         person="ter",
     )
+    # Ten sam spójnik skorelowany, co na poziomie zdaniowym: `Ani parser, ani
+    # linter nie rośnie.`
+    #
+    # Liczba idzie tu z członu, a nie wartością `pl` jak w dwóch ciałach wyżej:
+    # ten ciąg orzeka w liczbie pojedynczej, bo przeczenie rozdziela człony,
+    # zamiast je sumować, a mnoga wychodzi z niego wtedy, gdy niosą ją człony
+    # (`Ani parsery, ani lintery nie rosną.`).
+    grammar.rule(
+        "NP",
+        [
+            SPÓJNIK_SKORELOWANY,
+            Głowa(nt("NPConjunct", case=V("c"), number=V("n"), gender=V("g"))),
+            PRZECINEK,
+            SPÓJNIK_SKORELOWANY,
+            nt("NP", case=V("c")),
+        ],
+        person="ter",
+    )
     # Wyrażenie przyimkowe za całym ciągiem: `pliki i katalogi w tym drzewie`
     # mówi o obu, gdzie ciało wyżej mówi o samych katalogach, bo ciąg wiąże się
     # w prawo i wyrażenie zostaje pod członem ostatnim. Cechy, której konstytuent
@@ -2718,6 +2816,19 @@ def build() -> Grammar:
     grammar.rule(
         PYTAJNY,
         [Głowa(zaimek_pytajny_rzeczowny), nt(PRZYŁĄCZANY)],
+        **zaimek_czoła(V("n"), V("g")),
+    )
+    # Przymiotnik za tym zaimkiem: `Kto pierwszy wstaje od stołu?`, `Kto inny
+    # zapisuje ustawienia?` Zaimek zgadza się z nim sam, bo rzeczownika przy sobie
+    # nie ma: `kto` jest rodzaju męskiego, a `co` nijakiego.
+    #
+    # Terminal, a nie symbol przydawki, bo wyklucza zaimek wskazujący
+    # (:data:`ZAIMEK_WSKAZUJĄCY`); przysłówka stopnia ta pozycja przez to nie
+    # bierze i nikt go tu nie policzył. Cenę i to, czego ta pozycja nie naprawia,
+    # trzyma docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+    grammar.rule(
+        PYTAJNY,
+        [Głowa(zaimek_pytajny_rzeczowny), word("adj", bez_lematu=ZAIMEK_WSKAZUJĄCY, **AGREE)],
         **zaimek_czoła(V("n"), V("g")),
     )
 

@@ -106,7 +106,11 @@ def test_analiza_wznawia_się_za_formą_zatrzymania_a_nie_na_niej():
     #  Usterka, którą to łapie: przebieg wznowiony na formie zatrzymania. Formy,
     #  której nie wzięła żadna analiza częściowa, nie weźmie też analiza zaczęta
     #  od niej, więc taki przebieg nazywałby ją bez końca.
-    assert zatrzymania(morphology("Parser jest tani, i gramatyka jest tania.")) == ("i",)
+    #  Zatrzymanie drugie stoi tu na spójniku, a bierze się ono z tego, że człon
+    #  przed przecinkiem czytania nie ma: gdzie ten człon się wyprowadza, analiza
+    #  częściowa przez spójnik przechodzi (docs/subset.md).
+    zdanie = "Nowa program zapisuje ustawienia, i linter sprawdza teksty."
+    assert zatrzymania(morphology(zdanie)) == ("ustawienia", "i")
 
 
 # --------------------------------------------------------------------------- #

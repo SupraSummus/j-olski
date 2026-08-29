@@ -897,6 +897,14 @@ i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
 - Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
   `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
   ([poniżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu))
+- Ten sam spójnik na czele całego zdania, wiążący je z poprzednim:
+  `I nikt tego nie zauważył.`, `Zatem milczenie jest wartością.`
+  ([poniżej](#spójnik-na-czele-zdania-wiąże-je-z-poprzednim))
+- Spójnik skorelowany, czyli powtórzony przed każdym członem,
+  na poziomie zdaniowym i imiennym:
+  `Ani parser nie rośnie, ani linter nie sprawdza.`,
+  `Ani parser, ani linter nie rośnie.`
+  ([poniżej](#spójnik-skorelowany-powtarza-się-przed-każdym-członem))
 - A colon opening a clause or a noun phrase,
   which is how this register introduces an explanation,
   and a semicolon or a dash separating two clauses:
@@ -1518,6 +1526,63 @@ tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
 i tamta liczba mówi, ile taki mnożnik znaczy przy zdaniu,
 które wieloznaczność ma już z innego powodu.
 
+## Spójnik skorelowany powtarza się przed każdym członem
+
+`Ani parser nie rośnie, ani linter nie sprawdza.`,
+`Ani parser, ani linter nie rośnie.`
+Polszczyzna stawia tu spójnik dwa razy, po jednym przed każdym członem,
+i przed drugim żąda przecinka,
+gdzie koordynacja wyżej stawia go raz i między członami.
+Ciało jest przez to trzecie na swoim poziomie, a nie drugą listą lematów.
+
+Poziomy są trzy i każdy zmierzono osobno, bo cena każdego jest osobną liczbą.
+Weszły dwa.
+Poziom zdaniowy i imienny wyciągają razem kilka zdań banku drzew z odrzucenia,
+a każde z nich zgadza się z drzewem wzorcowym;
+nad prozą tego repozytorium kilka zdań dostaje czytanie, nie dostając
+jednoznaczności, i są to zdania długie, wieloznaczne z innych powodów.
+Jednoznaczności nie traci ani jedno zdanie w żadnym z tych dwóch przebiegów.
+Poziom przymiotnikowy — `Plik jest ani nowy, ani duży.` —
+nie kupuje ani jednego zdania w żadnym z nich, więc nie wchodzi.
+
+Liczba idzie na poziomie imiennym z członu, a nie wartością `pl`,
+i tym ten ciąg różni się od koordynacji zwykłej:
+`Ani parser, ani linter nie rośnie.` orzeka w liczbie pojedynczej,
+bo przeczenie rozdziela człony, zamiast je sumować,
+a `Ani parsery, ani lintery nie rosną.` wychodzi z tego samego ciała mnogie,
+bo mnogie są człony.
+
+Z lematów zostało samo `ani`, choć polszczyzna powtarza tak również `i` oraz `czy`.
+Oba zmierzono i oba wypadły, każde z innego powodu.
+
+`i` wypada na napisie, którego polszczyzna nie ma.
+Jego zakup jest sam w sobie dodatni: kilka zdań banku drzew dostaje czytanie,
+a jednoznaczności nie traci żadne.
+Terminal wpuszcza jednak spójnik na czoło członu, czyli wszędzie tam,
+gdzie człon może się zacząć,
+więc `Cena rośnie, i linter sprawdza tekst.` przestaje zatrzymywać analizę na `i`,
+a przecinka przed tym spójnikiem polszczyzna nie stawia
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+Zdanie zostaje odrzucone tak samo, a analiza idzie w nim dalej, niż napis pozwala,
+i schodzi ono przy tym z wiersza `conj` kolejki blokerów
+do wiersza zdań bez struktury nad całością
+([corpus.md](corpus.md#where-the-analyses-stop)).
+
+`czy` wypada na drugim wyprowadzeniu jednego kształtu.
+Nad bankiem drzew nie rusza ani jednego zdania,
+a nad prozą tego repozytorium daje czytanie dwóm,
+tyle że tym samym czytaniem, którym pytanie zależne alternatywne
+staje się ciągiem dwóch zdań oznajmujących:
+`Pyta, czy rośnie, czy maleje.` dostaje trzecie czytanie tam,
+gdzie ciąg pytań zależnych ma już swoje
+([niżej](#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
+`ani` żadnej z tych dwóch rzeczy nie robi, bo nie licencjonuje go dziś nic.
+
+Pary lematów gramatyka nie wymusza, bo terminal lematu nie wypuszcza,
+a przy jednym lemacie na liście nie ma czego mieszać.
+Lemat dopisany do niej wymusiłby parę dopiero ciałem na lemat,
+czyli tyloma ciałami na poziom, ile lematów, i tej ceny nikt nie policzył.
+
 ## Przydawka koordynuje się i rozdziela rzeczownik tylko za nim
 
 Przymiotniki przy jednym rzeczowniku polszczyzna spina spójnikiem i przecinkiem,
@@ -1611,20 +1676,44 @@ bo w jednym i w drugim zdanie składowe obsadza role własnym materiałem.
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
 a wynika to z gramatyki, nie z przebiegu:
 dwukropka nie bierze żaden inny terminal.
-Pilnuje tego zera `tests/test_subset.py`:
-za dwukropkiem stoi zdanie albo grupa imienna i nic trzeciego,
-a symbol trzeci zamieniłby to zero w liczbę, którą trzeba by policzyć.
+Pilnuje tego zera `tests/test_subset.py`,
+i pilnuje go warunkiem, a nie liczbą ciał:
+symbole stojące za dwukropkiem mają być rozłączne,
+więc napis wzięty jednym nie ma wyprowadzenia pozostałymi.
 
-**Za dwukropkiem stoi zdanie albo grupa imienna.**
+**Za dwukropkiem stoi zdanie, grupa imienna albo pytanie zależne.**
 `Gramatyka ma dwie role: podmiot i dopełnienie.` wylicza za dwukropkiem to,
-co zdanie przed nim nazwało liczbą albo terminem.
-Pozycja ta kupuje pojedyncze zdania tej prozy: konstrukcja jest częsta,
-lecz zdania, które ją niosą, potykają się jeszcze o co innego.
+co zdanie przed nim nazwało liczbą albo terminem,
+a `Sprawdzasz to jednym pytaniem: czy skreślona rzecz jest powiedziana gdzie
+indziej?` stawia za nim pytanie, które zdanie przed dwukropkiem zapowiedziało.
+Symbole te są rozłączne: grupa imienna zdaniem nie jest,
+a zdanie składowe nie zaczyna się ani od `czy`,
+ani od zaimka, który pozycji rzeczownej nie dostał
+([niżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Rolą jest cała ta grupa, tak samo jak przy wtrąceniu w nawiasie,
 i tyle właśnie werdykt o niej mówi:
 do którego składnika zdania ona się odnosi, gramatyka nie rozstrzyga,
 i jest to ta sama odmowa, którą wydaje o członie bez czasownika
 ([wyżej](#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+
+Obie pozycje kupują pojedyncze zdania tej prozy: konstrukcje są częste,
+lecz zdania, które je niosą, potykają się jeszcze o co innego.
+Pytanie zależne rozdziela przy tym dwa rejestry.
+Nad bankiem drzew nie rusza ani jednego zdania, pod żadną z dwóch morfologii,
+a nad prozą tego repozytorium przyjmuje kilka zdań i kilku dokłada czytanie:
+jest to konstrukcja rejestru docelowego.
+Kolejka blokerów nazwy jej nie podsuwa,
+bo zdanie z takim dwukropkiem staje dopiero na swoim końcu
+i wpada do wiersza zdań bez struktury nad całością,
+czyli do tego jednego, który konstrukcji nie nazywa
+([roadmap.md](roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)).
+Jedno zdanie tej prozy przechodzi przy tym z przyjętego na wieloznaczne,
+i jest to zysk, a nie cena:
+`Rozdziela tę tradycję jedno pytanie: co autor podaje na wejściu.`
+wyprowadzało się dotąd przez przyimkowe czytanie formy `co`,
+czyli czytaniem, którego nikt nie ma,
+a teraz stoi obok niego to, które ma czytelnik
+([niżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 
 **Średnik rozdziela tak samo jak dwukropek i tak samo nie kosztuje nic.**
 `Program zapisuje ustawienia; cena jest niska.` wyprowadza się ciałem
@@ -1795,10 +1884,69 @@ bierze już koordynacja
 Cena wychodzi zatem z gramatyki, a nie z przebiegu, tak samo jak przy dwukropku,
 a zakup jest zmierzony: kilkadziesiąt zdań tej prozy.
 
-Poza gramatyką zostaje `zatem` na czele swojego zdania —
-`Zatem milczenie jest wartością.` — czyli ta pozycja, którą trzy z tych lematów
-mają, a której koordynacja nie daje, bo żąda przecinka przed sobą.
-Ruch trzyma [`TODO.md`](../TODO.md).
+Czoło całego zdania jest pozycją osobną
+i ma [własną sekcję](#spójnik-na-czele-zdania-wiąże-je-z-poprzednim).
+
+## Spójnik na czele zdania wiąże je z poprzednim
+
+`I nikt tego nie zauważył.`, `Zatem milczenie jest wartością.`,
+`Albo inaczej.`
+Spójnik nie ma tu zdania przed sobą, a wiąże swoje zdanie z poprzednim.
+Spójnik współrzędny i `zatem` stoją w tym miejscu jedną pozycją,
+choć koordynacja rozdziela je na dwie klasy:
+przed jednym żąda przecinka, przed drugim nie,
+a czoło zdania nie ma przecinka przed czym postawić.
+
+Ciało należy do zdania, a nie do zdania składowego.
+Na poziomie składowego tej pozycji nie ma jak odgraniczyć od koordynacji —
+`Cena jest niska, i gramatyka jest tania.` miałoby wtedy dwa wyprowadzenia,
+bo spójnik zaczynałby człon drugi i zarazem go koordynował —
+a zdanie ma czoło jedno, więc na tym poziomie rozgraniczenie nic nie kosztuje.
+
+Lematy są listą dodatnią, a nie wykluczeniem, i rozstrzyga o tym cena obu.
+Wykluczenie wzięłoby każdą formę, którą Morfeusz czyta jako spójnik,
+a gramatyka daje kilku z nich pozycję własną:
+`czy` podporządkowuje pytanie o rozstrzygnięcie
+([niżej](#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)),
+`to` jest zaimkiem, a `jak` i `tymczasem` przysłówkiem.
+Wpuszczone czołem, dają one drugie czytanie zdaniom,
+które polszczyzna czyta raz — `Czy zmiana idzie w dobrą stronę?`,
+`To samo wejście daje tę samą odpowiedź.`, `Tymczasem byk już był przy nim.` —
+a klasa ta ma więcej lematów, niż widać nad jednym korpusem:
+pod złotą morfologią wykluczenie nie kosztuje nic,
+a pod żywą odbiera jednoznaczność kilkudziesięciu zdaniom banku drzew,
+i kilkunastu nawet wtedy, gdy nazywa już trzy najczęstsze lematy,
+gdzie lista dodatnia odbiera ją jednemu.
+Rosłaby więc o każdy lemat, który ktoś zauważy,
+i tym różni się od wykluczenia cząstki przeczącej,
+które nazywa jeden lemat i jedną pozycję
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+
+Lista schodzi się z trzech: spójniki, przed którymi polszczyzna stawia przecinek,
+spójniki, które ten rejestr stawia wewnątrz zdania
+([wyżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)),
+oraz `i` i `albo`, których żadna z tamtych nie ma.
+`ani` do trzeciej nie należy, i jest to wynik, a nie przeoczenie:
+bank drzew otwiera nim zdania spójnikiem skorelowanym,
+a tę konstrukcję gramatyka bierze ciągiem
+([wyżej](#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+więc czoło nie kupiłoby przy niej ani jednego zdania,
+a odebrałoby jednoznaczność grupie `ani jedno`.
+Terminal bierze przy tym obie części mowy spójnika,
+bo `zatem` i `więc` na czele zdania dostają u Morfeusza `comp`,
+a bank drzew nazywa je tam `conj`.
+
+Pozycję podsunął wiersz `conj` kolejki blokerów, który prowadził ją czwarty,
+a przeszło dwie trzecie jego zdań stało właśnie na czele
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Nad bankiem drzew wychodzi z odrzucenia przeszło sto zdań,
+pod jedną morfologią i pod drugą,
+a kilkadziesiąt kolejnych dostaje czytanie, nie dostając jednoznaczności.
+Z tych, które mają w drzewie wzorcowym rolę do porównania,
+zgadza się z nim przeszło dziewięć na dziesięć, a jedno czyta się odwrotnie.
+Nad prozą tego repozytorium przybywa kilkanaście zdań przyjętych.
+Jednoznaczności nie traci przy tym pod złotą morfologią i nad tą prozą
+ani jedno zdanie, a pod żywą jedno, bo tej pozycji nie bierze żaden inny kształt.
 
 ## Cząstka wchodzi obu gospodarzami, a w grupie nie nosi etykiety
 
@@ -3980,6 +4128,18 @@ nieprawdziwe i nie daje im nic w zamian.
   która by je wzięła, w środku nie ma.
   Przyłączenia tego olski nie wybiera, tak samo jak wszędzie
   ([niżej](#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
+  Przymiotnik za zaimkiem jest ciałem trzecim:
+  `Kto pierwszy wstaje od stołu?`, `Kto inny zapisuje ustawienia?`
+  Zaimek zgadza się z nim sam, bo rzeczownika przy sobie nie ma.
+  Ciało bierze terminal, a nie symbol przydawki, i wyklucza zaimek wskazujący:
+  Morfeusz czyta `to` także jako przymiotnik od `ten`,
+  więc bez wykluczenia `co to` wychodzi grupą pytajną,
+  gdzie polszczyzna ma dwa zaimki obok siebie,
+  a `Co to jest?` dostaje drugie czytanie.
+  Zakupem jest jedno zdanie banku drzew, ceną zero pod obiema morfologiami,
+  a szersze ciało kupowałoby więcej i kupowałoby właśnie tamtym czytaniem,
+  więc rozstrzyga tu
+  [kierunek](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę), a nie pokrycie.
 - **Zaimek względny o poprzedniku zaimkowym.**
   `To, co mogło się zepsuć, jest tanie.`,
   `Program zapisuje wszystko, co widzi.`
@@ -4028,13 +4188,21 @@ a tam zdanie całe — i to drugie jest tym, czemu wykluczenie zabiera czytanie.
 
 Wykluczenie zostawia po sobie kolejkę konstrukcji, a nie pustą listę,
 i stoją na niej te użycia, których czoła nie obejmują:
-zaimek z przydawką (`Kto pierwszy wstaje od stołu?`),
 zaimek stojący nie na czele, czyli drugie pytanie w tym samym zdaniu
 (`Kto jest kim?`),
 zdanie względne bez poprzednika w roli innej niż podmiot,
 oraz przytoczenie samego wyrazu, którym ten rejestr o sobie mówi
 (`nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie jedno`).
 `TODO.md` trzyma je wszystkie.
+
+Jedno użycie zostaje na tej kolejce mimo ciała trzeciego i zostaje osobno:
+`Co innego jest tanie.` wychodzi przyjęte z `Co innego` w okoliczniku,
+bo Morfeusz czyta `co` także jako przyimek,
+a przymiotnik za zaimkiem tego czytania nie zdejmuje:
+`innego` jest dopełniaczem, więc zgadza się z `co` w dopełniaczu,
+a rola, w której to stoi, żąda mianownika.
+Przydawka i ten napis są więc dwiema robotami, a nie jedną,
+i drugą z nich zamyka wykluczenie po stronie słownika, a nie produkcja.
 
 ## Poprzednikiem zaimka `co` jest zaimek albo zdanie
 
@@ -4271,14 +4439,6 @@ Every one of these is a sentence that gets rejected and should not be:
   `(A; B); C` and `A; (B; C)` are the same string
   and a right-recursive body would give it two derivations,
   where the enumeration this register writes with semicolons is one flat list.
-- A conjunction opening a sentence, which is what leads the `conj` row
-  [corpus.md](corpus.md#where-the-analyses-stop) ranks:
-  `I nikt tego nie zauważył.` is rejected
-  where the same conjunction between two clauses derives.
-  Every one of the three forms leading that row is capitalized,
-  and that is the whole of what is left of the row for this construction:
-  the comma in front of a conjunction took the lowercase ones
-  ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 - Para myślników, czyli wtrącenie w środku zdania:
   `Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
   jest odrzucone, gdzie ten sam znak pojedynczy rozdziela dwa zdania
@@ -4310,6 +4470,9 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Pyta, co ona kupuje.` wyprowadza się,
   a każde z tych słów żąda innego kształtu niż grupa pytajna,
   więc jest to kolejka konstrukcji, a nie jedna pozycja.
+  Czoło dopisane pod którekolwiek z nich wejdzie zarazem w ciąg pytań
+  i za dwukropek, bo obie te pozycje biorą ciąg cały
+  ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 - Pytanie o miejsce: `Gdzie są przetrzymywani zakładnicy?` jest odrzucone,
   gdzie `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.`
   wyprowadza się

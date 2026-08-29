@@ -29,10 +29,12 @@ def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
 
 
 def test_wiersz_kolejki_nazywa_czytanie_po_które_gramatyka_sięga():
-    #  Morfeusz czyta `I` najpierw jako wykrzyknik, a olski bierze pod tą formą
+    #  Morfeusz czyta `i` najpierw jako wykrzyknik, a olski bierze pod tą formą
     #  spójnik, więc wiersz nazwany czytaniem pierwszym obiecywałby konstrukcję,
-    #  której nikt nie zbuduje, a spójnik otwierający zdanie chowałby się pod nim.
-    assert nad_prozą("I nikt tego nie zauważył.").blockers == {"conj": 1}
+    #  której nikt nie zbuduje, a ta chowałaby się pod nim. Zdanie stawia przed
+    #  spójnikiem przecinek, którego polszczyzna tam nie stawia (docs/subset.md),
+    #  więc analiza staje właśnie na tej formie.
+    assert nad_prozą("Cena rośnie, i linter sprawdza tekst.").blockers == {"conj": 1}
 
 
 def test_forma_bez_czytań_po_wykluczeniu_nie_wpada_do_wiersza_zdania_bez_struktury():

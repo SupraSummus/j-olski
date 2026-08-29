@@ -1483,21 +1483,29 @@ Kosztowało to symetrię w koordynacji, czyli wpis o członie lewym,
 który zdania względnego nie unosi,
 a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
-Kierunek pokazuje więc samo zdanie względne: `Modifier` dochodzący do `NP`
+Kierunek pokazywało samo zdanie względne: `Modifier` dochodzący do `NP`
 zamiast do członu znosi ten iloczyn.
-Zasięgu ruch ten już nie zmienia, bo wyrażenie przyimkowe ma już pozycję nad ciągiem
-([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
-i to samo wpuszczenie stawia mu warunek nowy:
-`NP → NP Modifier` musi wejść za tamte cztery ciała, a nie obok nich,
-bo obok dałoby ciągowi dwa wyprowadzenia jednego zasięgu.
-Zamiana ta zdejmuje cztery ciała z ośmiu na kształt głowy
-i dokłada pozycję, której nikt nie wycenił:
-produkcja rekurencyjna wpuszcza wyrażenia piętrzone
-(`plik w drzewie na dysku` z obydwoma przy `plik`),
-czego dzisiejsze ciało z jednym `Modifier` nie wpuszcza.
-Cena tej pozycji jest przez to ceną ruchu i bierze się ją przed nim,
-a nie po nim.
-Do przeczytania jest `_role` w `olski/skład/rozbiór.py`,
+Zamianę tę zmierzono — cztery ciała z ośmiu zdjęte, `NP → NP Modifier` w ich
+miejsce — i ona nie stoi.
+Nad bankiem drzew traci jednoznaczność blisko sto zdań przyjętych,
+a odzyskują ją dwa; nad prozą tego repozytorium traci ją kilka, a odzyskuje jedno.
+Przyczyną nie jest piętrzenie, którego ten wpis się spodziewał
+(`plik w drzewie na dysku` z obydwoma przy `plik`), tylko zasięg:
+produkcja rekurencyjna przyłącza wyrażenie do każdego kształtu głowy naraz,
+a cztery zdjęte ciała stoją przy głowie rzeczownikowej i odsłownikowej,
+i tylko przy nich.
+Czterdzieści przeczytanych zdań traci jednoznaczność na tym samym —
+`Nadziałem je na haczyk i zarzuciłem.`, `Kierują go na kursy dywersji.` —
+czyli na wyrażeniu przyłączonym do zaimka,
+którego polszczyzna tam nie przyłącza;
+jedno traci ją na grupie liczebnikowej.
+Iloczyn zostaje przez to, czym był, a droga do jego zniesienia biegnie
+przez cechę, która odróżnia głowę biorącą przyłączenie od zaimka,
+i wtedy `NP → NP Modifier` żąda tej cechy zamiast brać wszystko.
+Do przeczytania przed taką cechą jest jej cena w czasie rozbioru:
+klasa cech rozdziela pozycje lasu (`klasy` w `olski/parse.py`),
+a wpis o produkcjach formy `bedzie` mierzy, ile kosztuje jedna klasa więcej.
+Do przeczytania jest też `_role` w `olski/skład/rozbiór.py`,
 bo czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź.
 
@@ -2339,6 +2347,25 @@ Do rozstrzygnięcia jest przedtem cena: `olski/konfiguracja.py` czyta się przy
 imporcie i nie żąda dziś Morfeusza w żadnym trybie,
 a check ten kazałby żądać go każdemu, kto pyta o samą konfigurację.
 
+Spójnik dzieli się w `olski/subset.py` na kilka list lematów,
+a jak się one mają do siebie, nie mówi ani jedno miejsce.
+Listy te odpowiadają na różne pytania o lemat — czy żąda przecinka,
+czy bierze człon bez czasownika, czy stoi wewnątrz zdania,
+czy powtarza się przed każdym członem, czy otwiera całe zdanie —
+więc przecinają się i przecinać się mają: `natomiast` stoi w trzech.
+Rozejść, których nikt nie chce, żadna z nich jednak nie widzi,
+a kosztują one czytanie nieprawdziwe, którego pomiar różnicowy nie pokazuje:
+lemat mający już pozycję podporządkowującą, dopisany do listy koordynacyjnej,
+daje drugie wyprowadzenie zdaniu, które i bez niego jest wieloznaczne.
+Tak wypadło `czy` z listy skorelowanych
+([`docs/subset.md`](docs/subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+a złapała je ręka, nie przebieg; `tests/test_subset.py` pilnuje odtąd tej jednej pary.
+Ruchem jest check nad wszystkimi parami naraz,
+a do rozstrzygnięcia jest jego kryterium:
+przecięcie samo w sobie usterką nie jest, więc check musi pytać o coś węższego,
+i pierwszym kandydatem jest para, w której jedna lista podporządkowuje,
+a druga koordynuje.
+
 ## Konstrukcje, których gramatyka nie ma
 
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
@@ -2458,19 +2485,32 @@ a nie o konstrukcji, której nie ma.
 Zostaje sama cena: ile czytań apozycja dokłada zdaniom, w których ciąg
 rozdzielony przecinkiem już się wyprowadza.
 
-Zaimek `kto` i `co` nie ma pozycji z przydawką: `Kto pierwszy wstaje od stołu?`
-pada, a `Kto z posłów zapisuje ustawienia?` wyprowadza się
-([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
-Wyrażenie przyimkowe czoło o jednym słowie bierze, a przymiotnika za sobą nie bierze,
-i tym różni się ta pozycja od tamtej: `kto inny` oraz `co innego` są tym samym
-kształtem co `kto pierwszy`.
-Przy `co` brak tej pozycji kosztuje więcej niż odrzucenie, bo Morfeusz daje tej
-formie czytanie przyimka: `Co innego jest tanie.` wychodzi `valid` z `Co innego`
-w roli okolicznika, czyli czytaniem, którego polszczyzna nie ma.
-Ruchem jest trzecie ciało grupy pytajnej, czyli zaimek z przymiotnikiem za sobą,
-i zgodność w nim jest pytaniem otwartym: `kto` jest rodzaju męskiego, a `co`
-nijakiego, więc przymiotnik zgadza się z zaimkiem, a nie z rzeczownikiem, którego
-nie ma.
+`Co innego jest tanie.` wychodzi `valid` z `Co innego` w roli okolicznika,
+czyli czytaniem, którego polszczyzna nie ma,
+bo Morfeusz daje formie `co` czytanie przyimka rządzącego dopełniaczem.
+Przydawka za tym zaimkiem tego napisu nie odzyskała i odzyskać nie mogła
+([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
+`innego` jest dopełniaczem, więc zgadza się z `co` w dopełniaczu,
+a rola, w której ta grupa stoi, żąda mianownika.
+Ruchem jest wykluczenie po stronie słownika, czyli ta sama droga,
+którą `admissible` w `olski/segmentacja.py` odbiera czytania spoza polszczyzny
+([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)),
+a nie kolejna produkcja.
+Słownictwem projektu tego nie zrobić, choć obie jego sekcje sięgają do słownika:
+`pomijane` odbiera lematowi czytania wszystkie (`olski/słownictwo.py`),
+a ten rejestr pyta przez `co` zdanie po zdaniu,
+więc naprawa jest kryterium na czytanie, a nie deklaracją na lemat.
+Do rozstrzygnięcia jest, czy kryterium ma stać na parze `co` z przymiotnikiem,
+czy na samym czytaniu przyimkowym tej formy:
+`co godzinę` i `co dzień` są w polszczyźnie właśnie tym przyimkiem,
+więc wykluczenie szersze zabiera zwyczajne zdania,
+a wąskie jest listą, która rośnie o każdy przymiotnik.
+Do przeczytania jest przedtem, ile zdań na tym czytaniu stoi:
+bez tej liczby wpis jest samą ceną.
+Pyta o to przebieg werdyktów, a nie bank drzew ani kolejka blokerów —
+zdanie się wyprowadza, więc żadna z nich go nie pokazuje —
+czyli sonda zdejmująca formie `co` czytanie przyimkowe
+i licząca, którym zdaniom werdykt się przez to zmienia.
 
 Zdanie względne bez poprzednika stoi tylko w roli podmiotu, więc `Bezokolicznik ma
 dwa kształty, czyli to, kto wykonuje to, o czym mówi pozycja podrzędna.` pada, a
@@ -2500,20 +2540,6 @@ pada pod żywą morfologią, bo `co` nie bierze poprzednika rzeczownikowego
 ([`docs/subset.md`](docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
 a pytanie zależne z orzecznikiem za przecinkiem jest jedyną rzeczą,
 której temu zdaniu brakuje.
-
-Pytanie zależne nie staje za dwukropkiem: `Tekst wie to: kto płaci.` pada, a
-`Tekst wie, kto płaci.` wyprowadza się
-([`docs/subset.md`](docs/subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
-Dwukropek spina u olskiego dwa zdania, a wylicza za sobą to, co samo jest zdaniem,
-więc czoło pytania nie ma tam pozycji, choć ten rejestr tak pisze:
-zdanie README o tym, co tekst wie o zdaniu, miało za dwukropkiem dwa pytania
-zależne i przepisano je na grupę imienną, bo przedtem wyprowadzało się przez
-pozycję rzeczowną zaimka, czyli czytaniem nieprawdziwym.
-Ruchem jest ciało dwukropka z ciągiem pytań (`InterrogativeChain`
-w `olski/subset.py`), a do rozstrzygnięcia jest, czy tym ciągiem ma być także
-zdanie z okolicznikiem pytającym: `kiedy to było` niesie pytanie przysłówkiem,
-którego czoło pytania nie bierze, więc ciąg mieszany żąda albo drugiego symbolu,
-albo tego okolicznika w czole.
 
 Przytoczenie samego wyrazu funkcyjnego nie ma czytania, bo `kto` i `co` nie stoją
 w pozycji rzeczownej: `nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie
@@ -2554,29 +2580,22 @@ wtrącenie w środku wylicza rozwinięcie szyku, a nie osobne ciało na każdy z
 Do przeczytania jest, ile czytań ta pozycja dokłada zdaniu, które ten człon stawia
 na końcu, bo tam da się go przyłączyć do zdania składowego i do zdania nad nim.
 
-`zatem` i `więc` na czele swojego zdania nie mają pozycji bez przecinka przed sobą:
-`Zatem milczenie jest wartością.` pada, a `Cena jest niska, więc gramatyka jest tania.`
-wyprowadza się
-([`docs/subset.md`](docs/subset.md#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)).
-Pozycji tej celowo nie dała pozycja wewnątrz zdania, bo czoło dałoby zdaniu
-z przecinkiem drugie czytanie tego samego kształtu.
-Ruchem jest ciało `Sentence` z tym spójnikiem przed zdaniem, a nie ciało `Clause`:
-na poziomie zdania składowego nie ma go jak odgraniczyć od koordynacji.
-Do przeczytania jest wpis o spójniku otwierającym zdanie
-([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)),
-bo `I nikt tego nie zauważył.` żąda tego samego ciała i obie konstrukcje
-zamknęłaby jedna produkcja, jeśli lista lematów jest w nich ta sama.
-
-Spójnika skorelowanego — `ani … ani`, `i … i`, `czy … czy` — olski nie ma:
-`Werdykt ani nie wnosi, ani nie zdejmuje.` pada, gdzie `Werdykt nie wnosi
-i nie zdejmuje.` wyprowadza się
-([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)).
-Koordynacja olskiego stawia spójnik między członami i stawia go raz,
-a polszczyzna powtarza go przed każdym członem i przed drugim żąda przecinka,
-więc jest to trzecie ciało koordynacji, a nie druga lista lematów.
-Do przeczytania jest, czy powtórzony spójnik ma stanąć na wszystkich trzech
-poziomach naraz, bo `ani jedno zdanie, ani drugie` jest grupą imienną,
-a cena każdego poziomu jest osobną liczbą.
+Spójnik skorelowany nie zaczyna się za podmiotem:
+`Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
+gdzie `Ani werdykt nie wnosi, ani nie zdejmuje.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)).
+Dwa ciała, które weszły, spinają zdania składowe i grupy imienne,
+a w tym napisie ciąg zaczyna się za podmiotem, czyli spina same orzeczenia,
+a takiej pozycji koordynacja olskiego nie ma na żadnym poziomie.
+Zdanie to nazywa ten brak na liście w
+[`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej).
+Ruchem jest ciało spinające orzeczenia, a nie kolejny lemat ani kolejny poziom,
+i cena jest widoczna przed pomiarem: orzeczenie niesie ramę czasownika,
+więc ciąg musiałby powiedzieć, którą ramę wypuszcza w górę,
+a dwa czasowniki o różnych ramach dzielą wtedy jedno wypełnienie.
+Do przeczytania jest `Complements` w `olski/subset.py` obok
+[`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it),
+bo zasięg koordynacji rozstrzyga się tam, gdzie stoi to, co człon zawiera.
 
 Wolny celownik nie ma u olskiego pozycji żadnej:
 `Kompilator wyprowadza psa agentowi.` pada, `Kompilator wyprowadza psa.` przechodzi,
