@@ -34,16 +34,25 @@ def V(name: str) -> Var:
     return Var(name)
 
 
+#: Zbiór napisów, o jaki pyta gramatyka: wartość cechy, część mowy, lemat albo
+#: nazwa cechy. Napis pojedynczy znaczy zbiór jednoelementowy, bo o jedną wartość
+#: pyta większość tych pytań, a klamry wokół jednej wartości niczego o niej nie
+#: mówią.
+Zbiór = str | Collection[str]
+
+
+def _zbiór(wartość: Zbiór | None) -> frozenset[str] | None:
+    if wartość is None:
+        return None
+    return frozenset({wartość} if isinstance(wartość, str) else wartość)
+
+
 #: What a feature may be constrained to: a variable, or a set of literal values.
 Spec = Var | frozenset
 
 
-def _spec(value) -> Spec:
-    if isinstance(value, Var):
-        return value
-    if isinstance(value, str):
-        return frozenset(value.split("."))
-    return frozenset(value)
+def _spec(value: Var | Zbiór) -> Spec:
+    return value if isinstance(value, Var) else _zbiór(value)
 
 
 def _constraints(features: dict) -> tuple[tuple[str, Spec], ...]:
@@ -199,18 +208,6 @@ class Production:
 def nt(name: str, **features) -> Sym:
     """Refer to a non-terminal: ``nt("NP", case="nom", number=V("n"))``."""
     return Sym(name=name, constraints=_constraints(features))
-
-
-#: Zbiór napisów, o jaki pyta terminal: części mowy, lematy albo nazwy cech.
-#: Napis pojedynczy znaczy zbiór jednoelementowy, bo o jedną wartość pyta
-#: większość terminali, a klamry wokół jednej wartości niczego o niej nie mówią.
-Zbiór = str | Collection[str]
-
-
-def _zbiór(wartość: Zbiór | None) -> frozenset[str] | None:
-    if wartość is None:
-        return None
-    return frozenset({wartość} if isinstance(wartość, str) else wartość)
 
 
 def word(

@@ -2264,25 +2264,6 @@ Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
-Wartość cechy jest zbiorem, a zapisuje się ją napisem z kropkami.
-`_spec` w `olski/grammar.py` rozcina taki napis na zbiór,
-więc `RAMA_DOMYŚLNA` w `olski/subset.py` wylicza pozycje ramy napisem,
-`_bez` odejmuje od niego pozycję rozcięciem i sklejeniem,
-a `TRYB_FORMY_NA_Ł` skleja dwie wartości `f`-napisem.
-Listy lematów są w tym samym module zbiorami, a wartości cechy nie,
-choć usterka jest ta sama.
-Ruchem jest zbiór wszędzie tam, gdzie dziś stoi napis z kropkami:
-`_spec` bierze kolekcję już teraz, `_bez` schodzi do różnicy zbiorów,
-a klucz `WALENCJA` przestaje być napisem.
-Do przeczytania jest przedtem kolejność klas walencyjnych:
-`_klasy_walencyjne` sortuje je po ramie, a `sorted` po zbiorach się nie wywraca,
-tylko porównuje je zawieraniem, więc oddaje kolejność zależną od wejścia.
-Kolejność produkcji ustala kolejność, w jakiej las wydaje czytania,
-więc rama-zbiór potrzebuje klucza wypisanego wprost
-([CLAUDE.md](CLAUDE.md#code)).
-Ruszy się przy tym `"acc" not in rama.split(".")` w `tests/test_skład.py`
-i każde zdanie dokumentu, które ramę cytuje napisem.
-
 ## Konstrukcje, których gramatyka nie ma
 
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
