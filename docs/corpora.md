@@ -1,6 +1,6 @@
 # Sourcing the human half
 
-The retired linter track
+The retired rule pack
 [needed a paired corpus](linter.md#the-thing-that-makes-or-breaks-it-calibration),
 and the human half was the blocking one.
 This document is the survey behind that half:
@@ -74,7 +74,7 @@ python3 -m harness.markdown ksef-docs --into proza/ksef
 ```
 
 The counting was done by the rule engine that ran the typography pack,
-which is retired ([linter.md](linter.md#what-closed-the-track)),
+which is retired ([linter.md](linter.md#co-zamknęło-pakiet-reguł)),
 so the figures over it are dated
 and a second person redoing them writes the count.
 

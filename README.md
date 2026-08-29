@@ -4,7 +4,11 @@
 a razem z nim te części polszczyzny,
 przez które jest ona trudna dla sztywnych, zimnych maszyn.
 
-Zdanie jest w olskim poprawne dopiero wtedy, gdy ma dokładnie jedno odczytanie.
+Repozytorium jest projektem wokół tego języka.
+Narzędzia tego projektu biorą podzbiór, a nie całą polszczyznę.
+Żaden cel nie żąda pełnego pokrycia.
+Cele wylicza [docs/roadmap.md](docs/roadmap.md#cele).
+
 **Parser tego podzbioru** mówi, że zdanie czyta się dwojako,
 a za autora nie wybiera.
 
@@ -13,9 +17,9 @@ Parser jest tani i deterministyczny,
 a każdy werdykt przychodzi z odczytaniem, z którego wyszedł.
 To samo wejście daje tę samą odpowiedź.
 
-Obok parsera stał tu linter stylu dla polskiej dokumentacji technicznej.
-Linter jest wycofany, a analiza, która schodziła do znaku, zeszła razem z nim.
-Przyczynę trzyma [docs/linter.md](docs/linter.md#what-closed-the-track),
+Obok parsera stał tu pakiet reguł stylu dla polskiej dokumentacji technicznej.
+Pakiet jest wycofany, a linter zostaje celem projektu.
+Przyczynę wycofania trzyma [docs/linter.md](docs/linter.md#co-zamknęło-pakiet-reguł),
 a cenę pakietu liczy [docs/firing-rates.md](docs/firing-rates.md).
 
 ## Dlaczego biała lista, skoro czarna była tańsza
@@ -37,7 +41,7 @@ Czarna lista kupowała jednak co innego, niż obiecywała.
 Reguła, która sięga do znaku w zdaniu,
 nie mówi o polszczyźnie tego zdania nic,
 a na głębszym poziomie analizy przestaje być tania:
-[pomiar](docs/linter.md#what-closed-the-track) nad dwoma korpusami mówi,
+[pomiar](docs/linter.md#co-zamknęło-pakiet-reguł) nad dwoma korpusami mówi,
 że taki poziom odpowiada na inne pytanie, niż zadaje reguła.
 Cenę białej listy płaci autor, bo nie czuje granicy.
 Odrabia ją parser, bo zamiast samej odmowy pokazuje oba odczytania.
@@ -298,13 +302,14 @@ Te dokumenty obsługują **oba tory**.
 - [docs/similar-work.md](docs/similar-work.md) mówi,
   które obietnice stu kontrolowanych języków naturalnych ktoś naprawdę zmierzył.
 
-Te dokumenty zapisują **tor wycofany**.
+Te dokumenty opisują **linter**.
+Jego pakiet reguł jest wycofany.
 
-- [docs/linter.md](docs/linter.md) mówi, po co był linter
-  i co zamknęło ten tor.
+- [docs/linter.md](docs/linter.md) wylicza cztery osie reguły
+  i mówi, co zamknęło tamten pakiet.
 - [docs/firing-rates.md](docs/firing-rates.md) mówi,
   co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał.
-  Nazywa cenę, za którą ten tor został wycofany.
+  Nazywa cenę, za którą pakiet został wycofany.
 - [docs/prose-linters.md](docs/prose-linters.md) nazywa silniki,
   które angielski i japoński już mają.
   Jeden z nich zmierzył własną częstość fałszywych trafień.

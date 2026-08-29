@@ -89,7 +89,7 @@ python3 -m harness.markdown rit-dokumentacja --into proza/rit
 
 The word and character counts below were taken over `proza/`
 with the rule engine that ran the typography pack,
-which is retired ([linter.md](linter.md#what-closed-the-track)),
+which is retired ([linter.md](linter.md#co-zamknęło-pakiet-reguł)),
 so the last step is a count somebody redoing this writes for themselves.
 `--depth 1` is not in the clone,
 because a shallow clone cannot check out the commit that follows it.

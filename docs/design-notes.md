@@ -4,8 +4,8 @@ Decisions that have been taken are marked as such;
 everything still open lives in [open-questions.md](open-questions.md).
 The direction this grammar is grown in, which has no end target, is in
 [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
-and the linter track that stood beside it, now retired,
-is in [linter.md](linter.md#what-closed-the-track).
+and the linter that stands beside it, whose rule pack is retired,
+is in [linter.md](linter.md#co-zamknęło-pakiet-reguł).
 The other direction over the same subset —
 a tree in, a Polish sentence out —
 is in [sklad.md](sklad.md).
@@ -19,6 +19,14 @@ designed rather than described,
 small enough that a machine can check it
 cheaply, deterministically, and explainably.
 
+Olski jest nazwą języka, a *j-olski* jest nazwą projektu wokół niego.
+Projekt ma kilka celów i wylicza je [roadmap.md](roadmap.md#cele).
+Wszystkie dzielą jeden podzbiór.
+Każdy cel bierze zaprojektowaną część polszczyzny.
+Żaden nie żąda pełnego pokrycia.
+O tym, ile tej polszczyzny wchodzi, rozstrzyga cena mechanizmu.
+Jest to wymiana opisana [niżej](#decisions-taken).
+
 The goal on this track is fun and experimentation.
 That is the actual goal, not a modest way of stating a real one.
 There is no application driving the design,
@@ -27,12 +35,12 @@ and any construction may be cut for being boring or annoying.
 The scoreboard here is internal consistency:
 a grammar that contradicts itself is broken
 whether or not it matches usage.
-That is a narrower criterion than the retired linter's,
+That is a narrower criterion than a linter's,
 and the difference is deliberate.
 A linter is judged against a corpus of real Polish
 because its whole claim is about how Poles actually write,
 and [not doing that](linter.md#the-thing-that-makes-or-breaks-it-calibration)
-is what closed the track.
+is what closed the rule pack.
 A designed subset is judged against itself first,
 and against Składnica only when it wants a coverage number.
 
@@ -85,10 +93,10 @@ This settles what was the largest fork on this track.
 Morfeusz specifically, and not Morfologik,
 because this track needs **generation**:
 a lemma plus a tag yielding a surface form.
-The retired linter track needed only analysis
+A linter needs only analysis
 and would have reached for Morfologik instead.
 Two dictionaries for two jobs,
-and only one of the two jobs is left.
+and Morfeusz is the one that does both.
 
 **Olski does not scramble.**
 Discontinuous constituents stay out,
@@ -1815,7 +1823,7 @@ holds the reading that settled it.
 
 Typographic rules were lint rules,
 so it shipped with the pack and went with it
-([linter.md](linter.md#what-closed-the-track)).
+([linter.md](linter.md#co-zamknęło-pakiet-reguł)).
 
 ## Sources
 

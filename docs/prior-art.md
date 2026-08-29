@@ -5,7 +5,7 @@ so that reimplementation is a choice rather than an accident.
 
 Mostly resources for the
 [grammar track](design-notes.md).
-Tools for the retired linter track —
+Tools for the linter —
 prose linters, LanguageTool, StyloMetrix —
 are listed in [linter.md](linter.md#what-already-exists),
 and the wider landscape in [similar-work.md](similar-work.md).
@@ -62,7 +62,7 @@ the other freely licensed Polish morphological dictionary,
 with roughly 3.5 million forms,
 and the one LanguageTool uses for Polish.
 Lighter than SGJP and oriented toward analysis rather than generation,
-which is why the retired linter track would have taken it
+which is why the retired rule pack would have taken it
 where no surface forms need to be produced.
 See [linter.md](linter.md#what-already-exists).
 

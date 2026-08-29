@@ -96,7 +96,7 @@ an image with no description, an HTML comment —
 take that whitespace along instead.
 
 What that buys is measurable, and it was measured with the typography pack,
-which is retired ([linter.md](linter.md#what-closed-the-track)).
+which is retired ([linter.md](linter.md#co-zamknęło-pakiet-reguł)).
 The instrument is gone and the property it was pointed at is what this step owes:
 a mark standing where nobody typed one is a mark somebody else's text does not have,
 and the sentence splitter under the grammar reads marks

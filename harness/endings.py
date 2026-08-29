@@ -1,6 +1,6 @@
 """What an ending finds when the analyser is asked what it matched.
 
-The retired linter track filed its central rules at tier A on the strength of an
+The retired rule pack filed its central rules at tier A on the strength of an
 ending: a rule matches a suffix, so it ships before the analyser does. What that
 costs is every other word the ending also ends, and the cost was named lexically
 — ``zdanie`` and ``mieszkanie`` are not zombie nouns.

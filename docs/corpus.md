@@ -1055,7 +1055,7 @@ and [swigra.md](swigra.md#którędy-gfjp-wchodzi-do-olskiego)
 owns what follows for a grammar written beside GFJP's own resources.
 
 It is also not a measurement of style.
-The retired linter track
+The retired rule pack
 [wanted paired human and generated Polish](linter.md#the-thing-that-makes-or-breaks-it-calibration)
 and would have measured firing rates;
 this measures what the grammar derives.

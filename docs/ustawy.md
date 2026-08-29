@@ -593,7 +593,7 @@ i tak samo nazywa `Szefa Krajowego Biura Wyborczego` w zdaniu o wynagrodzeniu.
 
 ## Pakiet typograficzny nad tym rejestrem milczał
 
-Pakiet jest wycofany ([linter.md](linter.md#what-closed-the-track)),
+Pakiet jest wycofany ([linter.md](linter.md#co-zamknęło-pakiet-reguł)),
 więc ten przebieg jest zapisem, a nie poleceniem do powtórzenia.
 Nad 104 062 słowami nie strzeliła ani jedna reguła.
 Cudzysłowów prostych i angielskich nie ma,
