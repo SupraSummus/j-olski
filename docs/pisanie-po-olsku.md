@@ -122,7 +122,7 @@ liczba pokrycia nad własnym dokumentem nie jest sygnałem,
 dopóki zdania tego dokumentu są długie.
 Sygnałem jest zatrzymanie, bo ono się rusza,
 i po to `--zatrzymania` pokazuje je wszystkie nad jednym zdaniem,
-a `olski.coverage` nad całym plikiem układa je w kolejkę
+a `olski-pokrycie` nad całym plikiem układa je w kolejkę
 ([corpus.md](corpus.md#the-same-queue-over-prose)).
 Nad zdaniem krótkim jest odwrotnie:
 jedno zatrzymanie, jedna poprawka i widoczny skutek,
@@ -222,7 +222,7 @@ bo odczytanie z siedmioma przypadkami widać w nim po samym znaczniku.
 ## Kolejka czytana po formie mówi to, czego nie mówi po części mowy
 
 Kolejka blokerów grupuje zatrzymania po części mowy formy
-([`olski/coverage.py`](../olski/coverage.py)).
+([`olski/pokrycie.py`](../olski/pokrycie.py)).
 Nad wierszami otwartymi — `fin`, `subst`, `prep` — mówi to dość,
 a nad zamkniętymi zbiera pod jedną nazwą formy żądające każda innej konstrukcji:
 wiersz `conj` prowadzą w tym rejestrze `i` oraz `a`,
@@ -415,8 +415,8 @@ nie siedział w żadnej z tych sesji, więc jest to raport, a nie pomiar.
 
 Liczby mają właścicieli tam, gdzie stoją nad tekstem z repozytorium:
 ile zdań pliku się wyprowadza, drukuje `olski.check`,
-a kolejkę blokerów i krzywą pokrycia po długości zdania — tę nad prozą i tę nad
-bankiem drzew — drukuje `olski.coverage`
+a kolejkę blokerów i krzywą pokrycia po długości zdania nad prozą
+drukuje `olski-pokrycie`, i te same tabele nad bankiem drzew `harness.pomiar`
 ([corpus.md](corpus.md#the-same-queue-over-prose)).
 Zdania kandydujące z pierwszej sesji stały w katalogu tymczasowym
 i do repozytorium nie weszły, więc jej liczby zostały w gicie.

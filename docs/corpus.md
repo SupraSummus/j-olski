@@ -6,7 +6,7 @@ measured rather than asserted.
 
 For the theory behind the measurement,
 see the coverage curve in [design-notes.md](design-notes.md);
-the tooling is `olski/corpus.py` and `olski/coverage.py`.
+the tooling is `harness/corpus.py` and `harness/pomiar.py`.
 
 ## What Składnica is
 
@@ -48,8 +48,8 @@ and nothing here reads it.
 Then:
 
 ```sh
-olski-corpus Składnica-frazowa-180723/
-olski-corpus Składnica-frazowa-180723/ --morphology live
+python3 -m harness.pomiar Składnica-frazowa-180723/
+python3 -m harness.pomiar Składnica-frazowa-180723/ --morphology live
 ```
 
 Those two runs own every count this document is about,
@@ -130,7 +130,7 @@ so leaving them out buys nothing and the denominator is the whole annotated corp
 What that denominator counts is a sentence the treebank hands over whole.
 A gold tree's terminals have to tile it without a gap and without an overlap,
 and the run asks rather than assumes it
-(`Sentence.całe` in `olski/corpus.py`),
+(`Sentence.całe` in `harness/corpus.py`),
 because a terminal the reader loses takes a word out of the sentence
 and takes the span the role comparison stands on with it.
 No `FULL` forest of the 2018 release breaks the criterion,
@@ -424,13 +424,13 @@ owns that class and how much of this register it is.
 
 ### The same queue over prose
 
-The run takes files of prose as readily as this directory,
-and over them it prints the queue, the length curve and the status table
-while the three gold-tree tables go silent.
+The queue, the length curve and the status table are computed by
+`olski/pokrycie.py`, which the run here extends with the gold-tree tables,
+so the same three tables come off a file of prose under a command of their own:
 
 ```sh
 python3 -m harness.markdown docs/roles.md --into proza/
-python3 -m olski.coverage proza/roles.txt
+olski-pokrycie proza/roles.txt
 ```
 
 Whoever raises coverage over a document of their own needs this ranking
@@ -980,7 +980,7 @@ the annotators having chosen one reading per token.
 The agreement check cannot see any of it:
 under live morphology the parser numbers positions in characters
 while the gold tree numbers them in tokens,
-so `olski-corpus --morphology live` reports no agreement column at all
+so `harness.pomiar --morphology live` reports no agreement column at all
 rather than a wrong one.
 The live figure is therefore the weaker of the two measurements,
 and where they disagree the gold one is the one to trust.

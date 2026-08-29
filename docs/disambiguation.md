@@ -430,7 +430,7 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 i pomiar rozstrzygnął go na pół.
 `harness/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
 i zestawia to z samym kryterium, a nie z werdyktem.
-Kryterium jest jedno i ma jednego właściciela — `przyimki` w `olski/walenty.py`,
+Kryterium jest jedno i ma jednego właściciela — `przyimki` w `harness/walenty.py`,
 skąd bierze je i ta sonda, i kolumna leksykonu:
 lemat żąda przyimka, gdy któryś jego schemat
 ma pozycję niepodmiotową z `prepnp` o tym przyimku.
@@ -443,7 +443,7 @@ a ten bierze same te, które doszły do rzeczownika albo do zdania,
 bo tylko o takich świadek ma co powiedzieć:
 kilkaset przyłączeń dochodzi do trzeciej kategorii — `fwe`, `fpt`, `fpm`, `fps` —
 i wzorca dla wyboru dwóch stron nie dają.
-`Report` w `olski/attachment.py` liczy tak samo w swoim rozkładzie po przyimku,
+`Report` w `harness/attachment.py` liczy tak samo w swoim rozkładzie po przyimku,
 więc oba mianowniki są tam obok siebie.
 
 Rama odpowiada nad dwiema piątymi spornych przyłączeń
@@ -478,7 +478,7 @@ Pod `--tylko-pewne` żadna z tych liczb nie rusza się o więcej niż pół punk
 czyli pewność nie odróżnia ramy od okolicznika.
 Zwężeniem, które by to zrobiło, jest przypadek grupy pod przyimkiem:
 Walenty pisze `prepnp(o,loc)` obok `prepnp(o,acc)`,
-a `Attachment` w `olski/attachment.py` niesie sam przyimek,
+a `Attachment` w `harness/attachment.py` niesie sam przyimek,
 więc żaden przebieg tej sondy dziś tego nie pyta.
 
 Świadek, który z tego wyszedł, bierze z kryterium połowę:
@@ -510,7 +510,7 @@ Kolejność ta nie jest przy tym porównaniem dwóch trafności, tylko
 [hipotezą](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza),
 i z niej wynika też, czego rama nie bije: świadek kontekstowy stoi przed nią,
 bo akapit mówi o tym tekście, a leksykon o polszczyźnie.
-Wszystkie te liczby drukuje `python3 -m olski.rozstrzyganie <korpus> --oceń`,
+Wszystkie te liczby drukuje `python3 -m harness.skłonności <korpus> --oceń`,
 bo ten przebieg mierzy warstwę, a nie kryterium nad samym Walentym.
 
 **Rama czasownika zostaje za to wetem, a weto kosztuje zasięg.**
@@ -746,7 +746,7 @@ i jego zero jest tam w większości liczbą o gramatyce:
 Pozycja znaleziona morfologią stoi tam, gdzie polszczyzna daje dwa czytania,
 niezależnie od tego, czy olski to zdanie rozbiera,
 i jest tym pytaniem, które warstwa dostanie, kiedy gramatyka po nią sięgnie
-(`pytania` w `olski/wieloznaczność.py`).
+(`pytania` w `harness/wieloznaczność.py`).
 Populacja jest przez to ta sama, którą ma
 [wzorzec czytany ręką](#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów),
 więc zasięg zmierzony tutaj i trafność zmierzona tam mówią o jednych pytaniach.
@@ -791,7 +791,7 @@ i są to `nowa faktura z datą PermanentStorage`
 oraz `uprawnień pracownikom do przeglądania`, czyli dwa wskazania dobre.
 
 Zakup ten jest zasięgiem i o trafności nie mówi nic sam z siebie.
-Dziesięć odpowiedzi rozrzuconych po tych spoza akapitu (`rozrzucona` w `olski/próbka.py`)
+Dziesięć odpowiedzi rozrzuconych po tych spoza akapitu (`rozrzucona` w `harness/próbka.py`)
 czyta się jako sześć wskazań dobrych i cztery słabsze,
 a pomyłki co do strony wyboru nie ma wśród nich żadnej:
 `atrybutów posiadanych przez obiekt w systemie źródłowym` dostaje `obiekt`,
@@ -848,8 +848,8 @@ i odpowiada dopiero powyżej progu wsparcia i progu przewagi.
 Tabelę buduje się i ocenia z tego samego korpusu:
 
 ```sh
-python3 -m olski.rozstrzyganie Składnica-frazowa-180723/ --oceń
-python3 -m olski.rozstrzyganie Składnica-frazowa-180723/ --zbuduj --wsparcie 2
+python3 -m harness.skłonności Składnica-frazowa-180723/ --oceń
+python3 -m harness.skłonności Składnica-frazowa-180723/ --zbuduj --wsparcie 2
 ```
 
 Ocena buduje tabelę na połowie banku drzew i sprawdza ją na drugiej,
@@ -956,7 +956,7 @@ Drugie ma dwie kategorie i obie wypadają z tego samego powodu.
 a `Muszę jechać do domu.` do frazy werbalnej z bezokolicznikiem,
 czyli dokładnie tam, gdzie stawia ją werdykt:
 odpowiedź anotatora jest tu zgodna i mimo to nie liczy się jako wzorzec,
-bo `CLAUSE` w `olski/attachment.py` tej kategorii nie wylicza.
+bo `CLAUSE` w `harness/attachment.py` tej kategorii nie wylicza.
 Złączenie idzie formami modyfikatora, bo tyle mają obie strony:
 werdykt rozpiętości nie niesie.
 
@@ -973,8 +973,8 @@ Zdania są przy tym cudze, a nasz jest sam sąd.
 Zdanie wymyślone pod świadka mierzy autora, a nie rejestr,
 więc pozycje bierze się z [korpusu audytowego](audit-corpus.md#the-list) takie, jakie tam stoją,
 i losuje spośród wszystkich, a jest ich w tym korpusie ponad tysiąc
-(`rozrzucona` w `olski/próbka.py`).
-Wyznacza je morfologia, a nie werdykt (`pytania` w `olski/wieloznaczność.py`),
+(`rozrzucona` w `harness/próbka.py`).
+Wyznacza je morfologia, a nie werdykt (`pytania` w `harness/wieloznaczność.py`),
 bo werdykty stawiają nad tym rejestrem 49 wyborów na 2 915 zdań
 i nie ma czego z nich losować.
 Jest to ta sama populacja, którą liczy
@@ -1313,7 +1313,7 @@ bo `szukać` stoi w `olski/leksykon.txt` jako czasownik, który biernika nie bie
 a dopełniacza dopełnieniowego olski nie ma.
 Warstwa czytałaby więc zdanie sąsiednie czymś słabszym niż gramatyka,
 formami i lematami z Morfeusza,
-tak jak nad rejestrem czyta je `olski/wieloznaczność.py`.
+tak jak nad rejestrem czyta je `harness/wieloznaczność.py`.
 
 ## Wzorzec na tę warstwę jest po drugiej stronie
 

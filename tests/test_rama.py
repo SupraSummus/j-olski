@@ -1,7 +1,7 @@
 """Dwa mianowniki wydruku tej sondy, bo jeden z nich mówiłby o zasięgu drugi raz.
 
 Kryterium, o które sonda pyta, ma testy tam, gdzie stoi jego właściciel:
-`przyimki` w `olski/walenty.py`, a więc w `tests/test_walenty.py`. Tutaj zostaje
+`przyimki` w `harness/walenty.py`, a więc w `tests/test_walenty.py`. Tutaj zostaje
 to, co jest własnością samej sondy.
 
 Test idzie po wydruku, a nie po przebiegu nad korpusem: Walenty i bank drzew nie

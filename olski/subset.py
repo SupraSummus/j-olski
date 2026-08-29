@@ -1866,12 +1866,12 @@ def build() -> Grammar:
     #
     # Licencję niesie cecha, a nie pozycja ramy (:data:`DRUGA_CELOWNIK`), i wpuszcza
     # ją osobne zdanie leksykonu, liczone z jednego schematu Walentego
-    # (``olski/walenty.py``).
+    # (``harness/walenty.py``).
     #
     # Wypełnieniem pary jest biernik wypisany wartością, a nie ``dopełnienie`` ze
     # zmienną: zmienna przecina się z tą samą ramą co celownik, więc wpuszcza tu
     # drugi celownik. Orzecznika w tej krotce nie ma, bo Walenty nie odróżnia go od
-    # argumentu narzędnikowego (:data:`olski.walenty.WYPEŁNIENIA`).
+    # argumentu narzędnikowego (:data:`harness.walenty.WYPEŁNIENIA`).
     #
     # Szyki są dwa, bo polszczyzna ma oba, a okolicznik staje między członami, bo
     # ten rejestr tak pisze: `pokazuje autorowi w wydruku oba czytania`. Miejsca

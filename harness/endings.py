@@ -19,7 +19,8 @@ that same nominal reading is an adverb and the whole of the contamination. One
 class set over both would have to name the union and would answer neither, which
 is why a :class:`Probe` carries its own.
 
-It lives here rather than in ``olski`` because it asserts nothing about Polish.
+Stoi tutaj, a nie w ``olski``, bo liczbami z niego rozstrzyga się o pakiecie
+reguł, a nie sprawdza własnego tekstu (``harness/__init__.py``).
 
     python3 -m harness.endings proza/ --probe nominalization
 """

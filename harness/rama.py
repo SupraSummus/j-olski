@@ -13,7 +13,7 @@ Populacją jest tu wyrażenie, a nie zdanie, więc żadna produkcja tych liczb n
 rusza.
 
 **Kryterium jest jedno i pyta o nie ta sonda oraz leksykon.** ``przyimki``
-w ``olski/walenty.py`` mówi, że lemat żąda przyimka wtedy, gdy któryś jego
+w ``harness/walenty.py`` mówi, że lemat żąda przyimka wtedy, gdy któryś jego
 schemat ma pozycję niepodmiotową z ``prepnp`` o tym przyimku, i to samo pytanie
 wypisuje kolumnę ``olski/leksykon.txt``, którą czyta świadek. Druga kopia
 rozeszłaby się cicho, bo rozejście widać dopiero w liczbach, a nie w wydruku.
@@ -28,7 +28,7 @@ Kryterium pyta o przyimek i nie pyta o przypadek, więc zasięg wychodzi z niego
 zawyżony: Walenty pisze ``prepnp(o,loc)`` obok ``prepnp(o,acc)``, a
 ``Attachment`` niesie sam przyimek, więc ``informacja o błędzie`` pasuje tu do
 obu wpisów naraz. Zwężenie żąda przypadka grupy pod przyimkiem, czyli pola,
-którego ``olski/attachment.py`` nie wydaje.
+którego ``harness/attachment.py`` nie wydaje.
 
 Sonda czyta Walentego wprost, a nie leksykon, i to jest tu różnica: leksykon
 niesie kolumnę o rzeczowniku wypisanym w pliku rzeczownikowym, a ta sonda pyta
@@ -50,10 +50,10 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from olski.attachment import LUŹNA, STRONA_CZASOWNIKOWA, STRONA_IMIENNA, WYMAGANA, attachments
-from olski.corpus import pliki, read_forest
-from olski.próbka import rozrzucona
-from olski.walenty import PEWNY, przyimki, schematy
+from harness.attachment import LUŹNA, STRONA_CZASOWNIKOWA, STRONA_IMIENNA, WYMAGANA, attachments
+from harness.corpus import pliki, read_forest
+from harness.próbka import rozrzucona
+from harness.walenty import PEWNY, przyimki, schematy
 
 #: Ile odpowiedzi wypisać do przeczytania. Sama trafność nie mówi, czy świadek
 #: wskazuje gospodarza z powodu, który da się autorowi pokazać, a rozstrzyga to
@@ -92,7 +92,7 @@ def odpowiedzi(
 
     Populacją jest pozycja dwuznaczna, czyli ta, w której oba gospodarze stoją do
     wzięcia: to samo zwężenie, którym liczy ``Report`` w
-    ``olski/attachment.py``. Wyrażenie, przed którym nie kończy się grupa imienna
+    ``harness/attachment.py``. Wyrażenie, przed którym nie kończy się grupa imienna
     albo nie stoi forma czasownikowa, wyboru nie stawia, więc świadek nie ma tam
     czego rozstrzygać.
     """

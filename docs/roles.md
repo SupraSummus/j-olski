@@ -153,6 +153,10 @@ Odpowiadają mu narzędzia w `harness/`: każde drukuje swoje liczby,
 żadne nie zapisuje ich do repozytorium,
 a korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
 ([corpus.md](corpus.md#fetching-it)).
+Dwa programy tego pakietu do repozytorium jednak piszą i pomiarem nie są:
+`harness/walenty.py` i `harness/skłonności.py` wypisują pliki, które gramatyka
+potem czyta, a co z tego wynika, mówi
+[CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
 Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia
 ([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)),
 więc zdanie w dokumencie mówi rząd wielkości, a przebieg mówi liczbę.

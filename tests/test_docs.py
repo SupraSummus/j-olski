@@ -47,9 +47,15 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: looking live, exactly as a renamed section leaves a link looking live.
 #: Strona witryny stoi tu obok modułów, bo dokument nazywa jej pliki tak samo,
 #: a przeglądarka bierze je z tablicy tras i przemianowany daje 404.
+#: Plik danych stojący w korzeniu, a nie w pakiecie: leksykon projektu leży tam,
+#: bo mówi o projekcie, a nie o polszczyźnie (``olski/projekt.py``). Nazwany
+#: wprost, bo wzorzec na samą nazwę pliku łapałby każde `plik.txt` z bloku
+#: polecenia.
+W_KORZENIU = "projekt.txt"
 CITED_PATH = re.compile(
     r"`((?:olski|harness|tests|opowieści|próba|witryna)"
-    r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt|html|css|js))`"
+    r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt|html|css|js)"
+    rf"|{W_KORZENIU})`"
 )
 #: The one document whose subject is code that is gone: it prices the retired
 #: pack at the state it was retired in, and ``CLAUDE.md`` says nothing in it is

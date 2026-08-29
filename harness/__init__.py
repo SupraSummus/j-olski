@@ -1,4 +1,39 @@
-"""What turns a corpus into something olski can read.
+"""Co służy temu, kto olskiego zmienia, a nie temu, kto go używa.
+
+Granicą między tym pakietem a ``olski`` jest fotel, z którego ktoś program uruchamia.
+W ``olski`` stoi to, czego potrzebuje ktoś sprawdzający własny tekst:
+komenda ``olski-check``, warstwy, przez które przechodzi jego zdanie,
+i dane, które te warstwy czytają.
+Tutaj stoi to, czego potrzebuje ktoś, kto tę gramatykę zmienia:
+ekstrakcja cudzego korpusu, pomiary nad nim
+oraz programy wypisujące pliki, które paczka potem niesie.
+
+Kryterium nie pyta o to, czy program mówi coś o polszczyźnie,
+bo mówią o niej oba pakiety, ani o to, czy czyta format dokumentu,
+bo ten jest jednym przypadkiem tej granicy, a nie nią samą.
+Pyta o to, czy program przyda się komuś, kto olskiego nie rozwija.
+Pomiar zostaje więc tutaj także wtedy, gdy o polszczyźnie orzeka wprost
+i gdy liczy przez decyzje toru gramatycznego:
+``harness/wieloznaczność.py`` liczy przez ``admissible``
+i przez leksykon walencyjny, a stoi tutaj, bo liczbę stamtąd czyta ten,
+kto rozstrzyga, co gramatyka ma brać dalej.
+Odwrotnie ``olski/pokrycie.py``, który liczy to samo, co ``harness/pomiar.py``,
+a stoi po drugiej stronie, bo kolejkę blokerów nad własnym plikiem
+czyta autor (docs/pisanie-po-olsku.md).
+
+Trzeciej odpowiedzi to kryterium nie ma i jedna rzecz jej potrzebowała.
+``projekt.txt`` nie służy ani jednemu, ani drugiemu, bo jest konfiguracją
+jednego projektu, więc nie leży w żadnym z tych pakietów, tylko w korzeniu
+tego, nad którym olskiego uruchomiono (``znajdź`` w ``olski/projekt.py``).
+
+Wychodzą stąd trzy rzeczy.
+Import idzie w jedną stronę: ani jeden moduł ``olski`` nie czyta niczego stąd.
+Paczka niesie samo ``olski`` (``include = ["olski*"]`` w ``pyproject.toml``),
+więc kto chce tutejszego programu, ma klon, a nie instalację.
+Komendy stąd wołają się przez ``python3 -m harness.<moduł>``,
+bo ``[project.scripts]`` jest wykazem tego, co dostaje użytkownik.
+Skryptu pisanego na jeden pomiar to nie obejmuje:
+ten zostaje w sesji, która mierzyła (``CLAUDE.md#code``).
 
 The grammar takes plain Polish sentences, and a corpus arrives as Markdown or as
 an act of parliament served in HTML, so a body of text reaches the grammar
@@ -10,12 +45,6 @@ Only the reading of one file differs between formats. The walk over a tree, the
 selection by language and the mirrored output are the same step every time, so
 they live here, and a format arrives as a declaration rather than as a second
 path through them.
-
-Beside the extraction stand the programs that produce what a document cites.
-They are here for the reason the extraction is, which is that they serve the
-documents rather than the grammar, and no module of ``olski`` imports any of
-them. A script written to price one construction is not among them: it lives in
-the session that measured (``CLAUDE.md#code``).
 """
 
 from __future__ import annotations

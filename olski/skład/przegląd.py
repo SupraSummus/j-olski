@@ -29,7 +29,7 @@ i dlatego kolizja nie jest tu wyjątkiem: obie rzeczy są własnością napisu,
 a nie błędem drzewa, które ten napis wypuściło.
 
 Wieloznaczność jest przy tym przekleństwem parsera, a nie generatora.
-``olski/wieloznaczność.py`` liczy tę samą klasę nad cudzym tekstem
+``harness/wieloznaczność.py`` liczy tę samą klasę nad cudzym tekstem
 i musi zgadywać z form to, co tutaj wiadomo z drzewa:
 gdzie kończy się grupa imienna, co jest uczestnikiem, a co stoi pod przyimkiem,
 i przy którym orzeczeniu para stanęła.

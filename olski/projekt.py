@@ -3,9 +3,11 @@
 Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał
 (``olski/morph.py``), więc ``commitów`` wraca jako ``ign``
 i nie bierze go ani jedna produkcja.
-Odmianę takiego słowa deklaruje ``olski/projekt.txt`` wierszem o trzech kolumnach,
+Odmianę takiego słowa deklaruje ``projekt.txt`` wierszem o trzech kolumnach,
 a docs/subset.md wywodzi, czemu deklaracja, czemu wskazanie leksemu
 zamiast listy form i co to kosztuje.
+Plik ten należy do projektu, nad którym olskiego uruchomiono, a nie do paczki,
+i szuka się go od katalogu roboczego w górę (:func:`znajdź`).
 
 Odmianę wydaje z takiego wiersza sam słownik.
 Temat wzorca podmienia się na temat naszego słowa, a granicę między tematem
@@ -38,7 +40,30 @@ from typing import NamedTuple
 
 from olski.morph import Reading, Segment, generuj, tag
 
-PROJEKT = Path(__file__).parent / "projekt.txt"
+#: Nazwa pliku, w którym projekt deklaruje swoje słowa.
+NAZWA = "projekt.txt"
+
+
+def znajdź(skąd: Path | None = None) -> Path | None:
+    """Leksykon projektu, w którym olskiego uruchomiono; ``None``, gdy go nie ma.
+
+    Szuka się go od katalogu roboczego w górę, tak samo jak szuka się
+    ``.editorconfig`` albo ``pyproject.toml``, bo wpisy mówią o jednym projekcie
+    i o żadnym innym: `commit` i `Świgra` należą do tego repozytorium,
+    a kto sprawdza własny tekst, deklaruje własne słowa.
+    Wewnątrz paczki plik ten nie stoi i stać nie może:
+    zainstalowany olski jest wtedy jeden dla wszystkich projektów naraz.
+
+    Braku pliku nie zgłasza się, bo brak jest stanem zwykłym.
+    Słowo, którego SGJP nie ma, wraca wtedy jako ``ign``,
+    czyli tak samo jak przed dopisaniem mu wiersza (docs/subset.md).
+    """
+    katalog = (skąd or Path.cwd()).resolve()
+    for miejsce in (katalog, *katalog.parents):
+        kandydat = miejsce / NAZWA
+        if kandydat.is_file():
+            return kandydat
+    return None
 
 #: Część mowy, którą słownik daje skrótowi: ``tel`` stoi pod lematem ``telefon``.
 #: Formą paradygmatu skrót nie jest — jest napisem uciętym — a wycina granicę
@@ -87,7 +112,11 @@ def _czytaj(path: Path) -> tuple[Wpis, ...]:
     return tuple(wpisy)
 
 
-WPISY = _czytaj(PROJEKT)
+#: Wpisy leksykonu tego projektu, przeczytane przy imporcie.
+#: Pusta krotka znaczy projekt bez leksykonu i jest odpowiedzią zwykłą
+#: (:func:`znajdź`).
+PROJEKT = znajdź()
+WPISY = _czytaj(PROJEKT) if PROJEKT else ()
 
 
 @functools.cache

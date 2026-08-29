@@ -44,13 +44,8 @@ from olski.morph import Reading, Segment, tag
 #: ungrammatical, or its morphological annotation was wrong.
 FULL = "FULL"
 
-#: Wartość, którą w polu werdyktu stawia zdanie prozy: anotator nie wydał o nim
-#: żadnego (``nad_prozą`` w ``olski/coverage.py``). Nikt jej nie czyta, bo tabeli
-#: składu korpusu proza nie ma; stoi tu, żeby to pole nad prozą nie kłamało.
-PROZA = "proza"
-
-#: Czym bywają ścieżki podane w wierszu poleceń. Nazwy własne, a nie ``PROZA``
-#: wyżej: tamto jest werdyktem anotatora, którego zdanie prozy nie ma.
+#: Czym bywają ścieżki podane w wierszu poleceń: katalogiem banku drzew,
+#: plikami prozy albo pomyłką.
 BANK_DRZEW, PLIKI_PROZY, POMYŁKA = "bank drzew", "pliki prozy", "pomyłka"
 
 #: Składnica names cases in Polish and in Latin interchangeably, sometimes within
@@ -119,13 +114,7 @@ def _slot_role(slot: str) -> str | None:
 
 @dataclass(frozen=True)
 class Sentence:
-    """One sentence to measure, with as much of its forest as olski has any use for.
-
-    Nad prozą pól banku drzew nie ma: werdyktem jest :data:`PROZA`, rola żadna nie
-    stoi, a segmenty wychodzą z morfologii, którą czyta sprawdzany dokument. Przez
-    to jeden przebieg mierzy oba wejścia (``nad_prozą`` w ``olski/coverage.py``), a
-    nie dwa raporty o jednej nazwie.
-    """
+    """One sentence to measure, with as much of its forest as olski has any use for."""
 
     sent_id: str
     text: str
@@ -158,7 +147,7 @@ class Sentence:
         prowadzi, a :data:`NIEWYBRANY` wycina węzły, którym ``chosen`` przeczy.
         Zgubiony terminal zabiera zdaniu słowo, a razem z nim rozpiętość, na
         której stoi zgodność ról, i nie mówi o tym nic, więc pyta o to przebieg
-        (``measure`` w ``olski/coverage.py``).
+        (``measure`` w ``harness/pomiar.py``).
 
         Odpowiada o wybranym drzewie, a nie o zdaniu: las bez werdyktu
         :data:`FULL` niesie fragment i przeczy temu masowo, bo :func:`_root`
@@ -278,7 +267,7 @@ def constituents(forest: ET.Element) -> list[Constituent]:
     """Nieterminale wybranego drzewa, rodzic przed dzieckiem.
 
     Terminale zostają na zewnątrz: co niosą, trzyma :class:`Sentence`, a tu
-    liczy się kształt drzewa nad nimi. ``olski/attachment.py`` jest tym, co o ten
+    liczy się kształt drzewa nad nimi. ``harness/attachment.py`` jest tym, co o ten
     kształt pyta.
     """
     nodes = {node.get("nid"): node for node in forest.findall("node") if node.get("nid")}
@@ -407,7 +396,7 @@ def rozdaj(ścieżki: Sequence[Path]) -> str:
 def pliki(root: Path | str) -> list[Path]:
     """Lasy pod katalogiem, w stałym porządku.
 
-    Lista, a nie czytanie po kolei, bo pulę procesów w `olski/coverage.py` dzieli
+    Lista, a nie czytanie po kolei, bo pulę procesów w `harness/pomiar.py` dzieli
     się właśnie na niej, a czyta się już w procesach roboczych. Porządek jest
     stały, bo na nim stoi to, że kawałki scalają się w wydruk jednego przebiegu.
     """

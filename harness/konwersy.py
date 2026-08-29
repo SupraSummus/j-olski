@@ -35,8 +35,8 @@ import argparse
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
-from olski.próbka import rozrzucona
-from olski.walenty import PODMIOT, pozycje, schematy
+from harness.próbka import rozrzucona
+from harness.walenty import PODMIOT, pozycje, schematy
 
 #: Etykieta pozycji dopełnienia. Sprawdza się ją dopiero po podmiocie, bo ``subj``
 #: niesie ``obj`` w środku i pytanie zadane samym ``in`` czytałoby podmiot jako
@@ -92,9 +92,9 @@ def alternatywy(żądanie: str) -> list[str]:
     Walenty rozdziela alternatywy średnikiem — ``obj{np(str);ncp(str,że)}`` — a
     średnik stoi też wewnątrz nawiasu pozycji zleksykalizowanej, gdzie rozdziela
     słowa: ``OR('twarz';'usta')``. Rozcięcie idzie więc po średnikach spoza
-    nawiasów, tak jak :func:`olski.walenty.pozycje` idzie po plusach spoza nich.
+    nawiasów, tak jak :func:`harness.walenty.pozycje` idzie po plusach spoza nich.
 
-    Klamry zdejmuje się z obu stron, choć :func:`olski.walenty.pozycje` wydaje
+    Klamry zdejmuje się z obu stron, choć :func:`harness.walenty.pozycje` wydaje
     żądanie bez otwierającej: żądanie jest tym, co stoi w klamrach, a kształt
     zależny od tego, która z nich została, byłby drugą umową do zapamiętania.
     """

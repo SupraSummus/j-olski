@@ -883,7 +883,7 @@ a nie samym porównaniem deklaracji.
 **Odrzucenie zaczyna mówić, na czym stanęło.**
 Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
 i nad zdaniem o konwencjach z README wychodzą z tego dwa przecinki.
-Jest to ta sama informacja, którą `olski-corpus` liczy jako bloker,
+Jest to ta sama informacja, którą `harness.pomiar` liczy jako bloker,
 a `olski-check` mówi osobnym zdaniem werdyktu
 ([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)),
 tylko wzięta nie z najdalszego osiągniętego punktu, a z pustej dziedziny.
@@ -1467,7 +1467,7 @@ Czytanie bez licencji nie zmienia dziś żadnego werdyktu,
 bo `terminal` w `olski/parse.py` odrzuca je tak samo,
 ani nie rusza `furthest`, który idzie w górę wyłącznie po dopasowaniu udanym,
 więc wycięcie takiego czytania przed rozbiorem oddaje ten sam `Result`, tylko szybciej.
-Rusza się co innego: `blocker` w `olski/coverage.py`
+Rusza się co innego: `bloker` w `olski/pokrycie.py`
 nazywa część mowy pierwszego czytania formy,
 więc formie wyciętej do zera nazwałby brak struktury zamiast braku licencji,
 a na tym odczycie stoi kolejka z [corpus.md](corpus.md#where-the-analyses-stop).

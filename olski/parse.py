@@ -429,7 +429,7 @@ def podsumuj(
     ile kosztował sam rozbiór — a nad zdaniem, które ma czytanie,
     oddaje koniec zdania bez przejścia.
     Czyta tę odpowiedź odrzucenie mówiące, gdzie stanęło
-    (``explain`` w ``olski/werdykt.py``) oraz ranking blokerów (``olski/coverage.py``);
+    (``explain`` w ``olski/werdykt.py``) oraz ranking blokerów (``olski/pokrycie.py``);
     przebieg, który liczy same werdykty, nie czyta jej wcale.
     Kto nie pyta, dostaje w ``Result.furthest`` stan „nikt nie pytał”.
 
@@ -1623,7 +1623,7 @@ class Las:
         Rolami, a nie kształtem, bo dwie gramatyki grupują materiał każda po swojemu,
         więc porównanie nawiasów mierzyłoby różnicę między formalizmami.
         Rolę obie orzekają o zdaniu, i tą samą miarą mierzy zgodność
-        ``Outcome.agreement`` w ``olski/coverage.py``, więc obie odpowiedzi mówią o jednym.
+        ``Outcome.agreement`` w ``harness/pomiar.py``, więc obie odpowiedzi mówią o jednym.
 
         Odpowiedź składa się z dwóch pytań zadanych po kolei i oba są tu potrzebne.
         Czy takie czytanie w lesie jest, mówi las bez wyliczania drzew,

@@ -600,7 +600,7 @@ i widać ją dopiero w przebiegu nad dokumentacją.
 
 **Wyjście:** `Język olski jest podzbiorem polszczyzny.`
 wyprowadza się i wyprowadza raz.
-Zaliczone: odmianę takiego słowa deklaruje `olski/projekt.txt`,
+Zaliczone: odmianę takiego słowa deklaruje `projekt.txt`,
 wskazując leksem, wedle którego się ono odmienia, wraz z formą, którą ten leksem
 ma wydać, zob.
 [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
@@ -739,7 +739,7 @@ a granicę między jednym a drugim wyznacza
 [hipoteza tamtego dokumentu](disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza).
 Frazy przyimkowej, której rzeczownik żąda swoim schematem,
 nie rozstrzyga maszyna za parserem, tylko kolumna `olski/leksykon.txt`,
-którą wypisuje `olski/walenty.py`,
+którą wypisuje `harness/walenty.py`,
 czyli generator zbudowany na [etapie 2](#etap-2-walencja)
 ([disambiguation.md](disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)).
 Odpowiedź wyczytana ze słownika nie potrzebuje więc etapu i etapem nie jest.

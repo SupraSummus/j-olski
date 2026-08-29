@@ -495,7 +495,7 @@ def test_pusty_zbiór_żąda_czytania_które_tej_roli_nigdzie_nie_obsadza():
 
     Bez tego czytanie z dopełnieniem przechodziłoby jako cudze czytanie
     bez dopełnienia, czyli jako to samo czytanie zawężone,
-    a `Outcome.agreement` w `olski/coverage.py` liczy taką parę jako niezgodę.
+    a `Outcome.agreement` w `harness/pomiar.py` liczy taką parę jako niezgodę.
     """
     zbudowany = las(GRAMMAR, morphology("Program zapisuje ustawienia."))
     podmiot = frozenset({(0, 1)})
@@ -1222,7 +1222,7 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     #  więc test pilnuje, żeby zdania zostały dwa.
     #
     #  Formą jest tu nazwa obca, a nie `commitów`, bo słowo, które leksykon
-    #  projektu nazywa, ma czytania i licencję (`olski/projekt.txt`), więc
+    #  projektu nazywa, ma czytania i licencję (`projekt.txt`), więc
     #  odpowiedź pierwszą pokazuje dopiero forma spoza tego leksykonu.
     forma = verdict("Modele stawiają prozę wyżej od New Yorkera.")
     assert forma.nielicencjonowane == ("Yorkera",)

@@ -12,6 +12,9 @@
 # odmienia, świadkiem jest forma stojąca w niej naprawdę. `lintuje` jest jedynym,
 # którego proza nie pokazuje: `lintować` stoi w niej tylko w bezokoliczniku.
 #
+# Plik ten należy do tego projektu, a nie do paczki: olski szuka go od katalogu
+# roboczego w górę, więc każdy projekt deklaruje swoje słowa u siebie.
+#
 # Komu wiersz się należy, a komu nie — angielskiej nazwie przytoczonej, leksemowi
 # dokładanemu do napisu, który słownik zna — mówi sekcja o tym leksykonie w
 # `docs/subset.md`.

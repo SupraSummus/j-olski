@@ -18,20 +18,10 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.corpus import FULL, Sentence, parse_forest, pliki, read
-from olski.coverage import (
-    NO_LICENCE,
-    NO_STRUCTURE,
-    Outcome,
-    main,
-    measure,
-    nad_prozą,
-    przebieg,
-    render,
-    scal,
-    zmierz_zdanie,
-)
+from harness.corpus import FULL, Sentence, parse_forest, pliki, read
+from harness.pomiar import Outcome, main, measure, przebieg, scal, zmierz_zdanie
 from olski.parse import parse
+from olski.pokrycie import NO_STRUCTURE, render
 from olski.subset import GRAMMAR
 
 
@@ -538,7 +528,7 @@ def test_an_unknown_morphology_source_is_refused():
 
 def test_the_report_renders_what_it_measured(tmp_path):
     write(tmp_path, "a-s.xml", SVO)
-    text = render(przebieg(pliki(tmp_path), jobs=1, keep_examples=1))
+    text = render(przebieg(pliki(tmp_path), jobs=1, keep_examples=1), "Składnica")
     assert "gold morphology" in text
     assert "valid" in text
     assert "Program zapisuje ustawienia." in text
@@ -566,7 +556,9 @@ def test_raport_scalony_z_kawałków_jest_tym_samym_raportem(tmp_path):
     ścieżki = pliki(tmp_path)
     całość = measure((read(path) for path in ścieżki), keep_examples=1)
     kawałki = [measure([read(path)], keep_examples=1) for path in ścieżki]
-    assert render(scal(kawałki, source="gold", keep_examples=1)) == render(całość)
+    assert render(scal(kawałki, source="gold", keep_examples=1), "Składnica") == render(
+        całość, "Składnica"
+    )
 
 
 def test_pula_procesów_drukuje_to_samo_co_jeden_proces(tmp_path, capsys):
@@ -583,74 +575,6 @@ def test_pula_procesów_drukuje_to_samo_co_jeden_proces(tmp_path, capsys):
     assert "corpus: 2 forests" in jeden
 
 
-def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
-    #  Kolejka i krzywa są tym, po co ktoś sięga nad własnym dokumentem, i liczy
-    #  je ten sam raport, co nad bankiem drzew.
-    raport = nad_prozą(
-        "Zapisz plik konfiguracyjny. Nowa program zapisuje ustawienia w pliku konfiguracyjnym."
-    )
-    assert raport.statuses == {"valid": 1, "rejected": 1}
-    #  Zatrzymanie stoi na „ustawienia”, której czytania gramatyka bierze wszystkie,
-    #  więc wiersz nazywa pierwsze z nich, czyli odsłownik.
-    assert raport.blockers == {"ger": 1}
-    assert raport.lengths == {"1-5": {"valid": 1}, "6-10": {"rejected": 1}}
-
-
-def test_wiersz_kolejki_nazywa_czytanie_po_które_gramatyka_sięga():
-    #  Morfeusz czyta `I` najpierw jako wykrzyknik, a olski bierze pod tą formą
-    #  spójnik, więc wiersz nazwany czytaniem pierwszym obiecywałby konstrukcję,
-    #  której nikt nie zbuduje, a spójnik otwierający zdanie chowałby się pod nim.
-    assert nad_prozą("I nikt tego nie zauważył.").blockers == {"conj": 1}
-
-
-def test_forma_bez_czytań_po_wykluczeniu_nie_wpada_do_wiersza_zdania_bez_struktury():
-    #  `po_przyimku` zdejmuje `niego` wszystkie czytania, bo przyimka przed nim nie
-    #  ma, więc analiza staje na tej formie, a nie na końcu zdania. Liczone razem,
-    #  oba zdarzenia obiecują konstrukcję domykającą całość, choć werdykt nad tym
-    #  zdaniem wypisuje samą formę (`bez_licencji` w `olski/segmentacja.py`).
-    assert nad_prozą("Cena niego rośnie.").blockers == {NO_LICENCE: 1}
-
-
-def test_proza_nie_dostaje_wierszy_o_zgodności_z_drzewem_wzorcowym():
-    #  Usterka, którą to łapie: proza mierzona jako porównywalna. Rozpiętości nie
-    #  ma tam z czym porównać, więc wiersz o zgodności ról stanąłby nad zdaniem,
-    #  o którym nikt nie wie, gdzie ma podmiot, i mówiłby, że olski się z tym
-    #  zgadza.
-    raport = nad_prozą("Zapisz plik konfiguracyjny.")
-    assert not raport.agreements
-    assert raport.unjudged == 0
-    assert "gold tree" not in render(raport)
-
-
-def test_fragment_prozy_wchodzi_do_niemierzonych_a_nie_do_odrzuconych():
-    #  Nagłówek i pozycja listy dochodzą tu akapitem tak samo jak zdanie, a
-    #  policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
-    raport = nad_prozą("Nagłówek bez kropki\n\nZapisz plik konfiguracyjny.")
-    assert raport.statuses == {"valid": 1}
-    assert sum(raport.skipped.values()) == 1
-
-
-def test_przebieg_nad_prozą_nazywa_pliki_a_nie_bank_drzew(tmp_path, capsys):
-    #  Nagłówek wydruku mówi, po czym wyszła liczba, i nad prozą nie ma prawa
-    #  powiedzieć „Składnica”; tabela składu korpusu schodzi tam razem z nim, bo
-    #  werdykt anotatora jest jeden i nie mówi nic.
-    ścieżka = tmp_path / "proza.txt"
-    ścieżka.write_text("Zapisz plik konfiguracyjny.", encoding="utf-8")
-    assert main([str(ścieżka)]) == 0
-    wydruk = capsys.readouterr().out
-    assert wydruk.startswith("proza.txt, live morphology")
-    assert "forests" not in wydruk
-
-
-def test_katalog_podany_obok_pliku_jest_pomyłką_a_nie_prozą(tmp_path, capsys):
-    #  Bank drzew jest jednym katalogiem, więc kilka ścieżek naraz może znaczyć
-    #  tylko prozę, a katalog między nimi jest pomyłką, której nie wolno
-    #  przeczytać jako pliku.
-    (tmp_path / "proza.txt").write_text("Zapisz plik.", encoding="utf-8")
-    assert main([str(tmp_path / "proza.txt"), str(tmp_path)]) == 2
-    assert "a directory comes alone" in capsys.readouterr().err
-
-
 def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path):
     #  Pro-drop realizes no subject, so the gold tree marks nothing to compare
     #  and the agreement table has no row for the sentence. Left uncounted, the
@@ -661,4 +585,4 @@ def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path)
     assert report.statuses["valid"] == 2
     assert sum(report.agreements.values()) == 1
     assert report.unjudged == 1
-    assert "no gold role to compare" in render(report)
+    assert "no gold role to compare" in render(report, "Składnica")

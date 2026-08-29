@@ -9,7 +9,7 @@ wzorzec pochodzi z przeczytania, a nie z cudzego korpusu ani z przebiegu.
 
 **Zdania są cudze, a wzorzec nasz.** Zdanie wymyślone pod świadka mierzy autora,
 a nie rejestr, więc pozycje bierze się z korpusu audytowego takie, jakie tam
-stoją, i losuje (``rozrzucona`` w ``olski/próbka.py``).
+stoją, i losuje (``rozrzucona`` w ``harness/próbka.py``).
 Ręką dopisuje się jedno: który gospodarz jest tym, o którego w tym tekście
 chodziło. Rozkładu to nie rusza, bo o rozkładzie decyduje losowanie, a nie ten,
 kto potem czyta.
@@ -24,7 +24,7 @@ która wyjaśnia, dlaczego pierwsze na częstość pomyłek nie starcza.
 
 **Pozycji nie wyznacza werdykt, tylko morfologia**, bo werdyktów jest nad tym
 rejestrem za mało, żeby cokolwiek zmierzyć; wywód i liczby pod nim trzyma
-``pytania`` w ``olski/wieloznaczność.py``, a zasięg nad tą samą populacją mierzy
+``pytania`` w ``harness/wieloznaczność.py``, a zasięg nad tą samą populacją mierzy
 ``harness/powtórzenie.py``. Ceną jest to, że wybór bywa pozorny: przyimek, którego
 żąda schemat czasownika, stoi w tej pozycji i do wyboru nie stoi wcale, a odsiewa
 go dopiero czytający.
@@ -56,9 +56,10 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.próbka import rozrzucona
+from harness.wieloznaczność import pytania
 from olski.document import Document
 from olski.parse import Przyłączenie
-from olski.próbka import rozrzucona
 from olski.rozstrzyganie import (
     Rozstrzygnięcie,
     Sąsiedztwo,
@@ -67,7 +68,6 @@ from olski.rozstrzyganie import (
     rozstrzygnij,
     sąsiedztwa,
 )
-from olski.wieloznaczność import pytania
 
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"
@@ -83,7 +83,7 @@ OBA = "oba"
 #: Wzorzec pozycji, w której wyboru nie ma wcale: fraza nie jest frazą albo stoi
 #: przy niej jeden gospodarz. Milczenie jest tu tak samo trafne jak przy
 #: :data:`OBA`, a liczy się osobno, bo mówi o czym innym: tamto o rejestrze, a to
-#: o celności szukacza pozycji z ``olski/wieloznaczność.py``.
+#: o celności szukacza pozycji z ``harness/wieloznaczność.py``.
 ŻADNE = "żadne"
 
 #: Wzorce, na które trafną odpowiedzią jest milczenie.
@@ -322,7 +322,7 @@ def zapisz(wybory: Iterable[Wybór], skąd: str = Z_CAŁOŚCI) -> str:
 def kandydaci(paths: Iterable[Path], korzeń: Path) -> list[Wybór]:
     """Pozycje przyłączeniowe całego korpusu, każda ze swoim akapitem.
 
-    Pozycje i frazy daje ``pytania`` w ``olski/wieloznaczność.py``, czyli to samo
+    Pozycje i frazy daje ``pytania`` w ``harness/wieloznaczność.py``, czyli to samo
     miejsce, z którego bierze je sonda mierząca zasięg świadka kontekstowego
     (``harness/powtórzenie.py``): wzorzec czytany ręką ma opisywać tę populację,
     którą ta sonda mierzy, a nie populację obok niej.

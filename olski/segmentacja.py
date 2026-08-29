@@ -358,7 +358,7 @@ def licencjonowane(segment: Segment, grammar: Grammar) -> tuple[Reading, ...]:
 
     Pytają o to dwie odpowiedzi o jednym kryterium: werdykt wypisuje formę, której
     nie zostaje ani jedno (:func:`bez_licencji`), a przebieg nad korpusem nazywa
-    część mowy tego, które zostało (``Outcome.blocker`` w ``olski/coverage.py``).
+    część mowy tego, które zostało (``bloker`` w ``olski/pokrycie.py``).
     Kryterium wyprowadza z gramatyki :meth:`olski.grammar.Grammar.licencjonuje`,
     a ta funkcja jest samym jego zastosowaniem do czytań formy.
     """
@@ -417,7 +417,7 @@ def na_czym_stanęło(segments: list[Segment], furthest: int) -> Segment | None:
     Ostatniego znaku zdania nie nazywa, bo zdanie, które bierze każdą swoją
     formę i nie domyka się, jest drugim zdarzeniem i dostaje drugie zdanie
     werdyktu (``Verdict.explain``) oraz drugi wiersz przebiegu nad korpusem
-    (``NO_STRUCTURE`` w ``olski/coverage.py``).
+    (``NO_STRUCTURE`` w ``olski/pokrycie.py``).
 
     Krawędź, a nie forma, bo pytają o nią dwie odpowiedzi: werdykt bierze stąd
     formę, a ranking blokerów część mowy jej czytania, i kryterium jest jedno.

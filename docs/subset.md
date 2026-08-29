@@ -386,7 +386,7 @@ a czytelnik pyta o jedno: czy jest wśród nich to, które sam tej formie daje.
 Przeczytano wszystkie 144 zdania przyjęte rejestru ustaw
 oraz wszystkie 36 zdań przyjętych korpusu audytowego,
 a ze Składnicy pod morfologią żywą i z prozy tego repozytorium
-po sześćdziesiąt zdań próbką rozrzuconą po całej liście (`olski/próbka.py`).
+po sześćdziesiąt zdań próbką rozrzuconą po całej liście (`harness/próbka.py`).
 Na czytaniu, którego polszczyzna nie ma, opiera się z tego
 dziewięć zdań ustaw, jedno zdanie korpusu audytowego,
 cztery zdania banku drzew i cztery zdania prozy tego repozytorium.
@@ -533,7 +533,7 @@ jest dla werdyktu formą bez licencji,
 więc `Cena niego rośnie.` wychodzi odrzucone z `niego` wypisanym.
 Przebieg nad korpusem czyta ją inaczej i liczy takie zdanie
 jako zdanie bez struktury nad całością,
-bo `blocker` w `olski/coverage.py` nazywa część mowy pierwszego czytania,
+bo `bloker` w `olski/pokrycie.py` nazywa część mowy pierwszego czytania,
 a tu nie ma ani jednego.
 Rozejście to jest zapowiedziane
 ([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
@@ -642,7 +642,13 @@ Zgadywanie odmiany po zakończeniu wyrazu odpada z tego samego powodu:
 Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał (`olski/morph.py`),
 bo czytanie zgadnięte jest czytaniem, którego nikt nie zadeklarował.
 
-Zostaje deklaracja, a zapisuje ją `olski/projekt.txt`.
+Zostaje deklaracja, a zapisuje ją `projekt.txt` w korzeniu repozytorium.
+Plik leży tam, a nie w paczce, bo mówi o jednym projekcie:
+`commit`, `Świgra` i `lintować` są słowami tego repozytorium,
+a kto sprawdza własny tekst, ma własne słowa do zadeklarowania.
+Olski szuka go od katalogu roboczego w górę i braku nie zgłasza,
+bo projekt bez takiego pliku jest zwykłym projektem
+i słowo spoza słownika wraca w nim jako `ign`.
 Wpis wskazuje leksem, wedle którego słowo się odmienia, a form nie wypisuje:
 `commit` odmienia się wedle `bat`, a `Python` wedle `dzban`.
 Wzorzec jest przy tym faktem o odmianie, a nie o znaczeniu,
@@ -1931,7 +1937,7 @@ i były to czytania, którym drzewo wzorcowe przeczyło albo których nie potwie
 Każde z tych zdań stało na jednej frazie, której polszczyzna nie ma —
 `to` z dopełniaczem pod sobą tam, gdzie tym dopełniaczem rządzi czasownik —
 i tamten dokument jedno z nich cytuje.
-Liczby dzisiejsze wydają dwa przebiegi `olski-corpus`, z warunkiem i bez niego:
+Liczby dzisiejsze wydają dwa przebiegi `harness.pomiar`, z warunkiem i bez niego:
 sonda różnicowa zdejmuje produkcje, a to jest warunek w terminalu.
 
 Rozłożona na produkcje cena wypada po obu stronach inaczej.
@@ -2045,7 +2051,7 @@ Cena i zysk wypadają więc pod Morfeuszem, gdzie ubywa przeszło setka czytań.
 Po kilka zdań idzie tam w każdą ze stron:
 jedne przechodzą z wieloznacznych na przyjęte, drugie tracą jedyne czytanie.
 Rozsądza je czytanie ręką, bo pod żywą morfologią
-rozpiętości złotego drzewa nie są porównywalne (`olski/coverage.py`).
+rozpiętości złotego drzewa nie są porównywalne (`harness/pomiar.py`).
 Wypadają w jedną stronę.
 Ubywa czytań z dopełnieniem, którego czasownik nie bierze:
 `Wszedł do starej komórki.` czytało się także z dopełnieniem `komórki`,
@@ -2134,7 +2140,7 @@ Kierunek zdania o bierniku jest przeciwny niż kierunek pozostałych,
 bo przeciwne są domyślności, od których one odejmują:
 rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
 ani bezokolicznika, ani zdania podrzędnego.
-`olski/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
+`harness/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
 zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964,
 o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
@@ -2254,7 +2260,7 @@ w których pozycja `accgen` jest dopełniaczem, a nie biernikiem,
 czyli konstrukcja, [której olski nie ma](#what-it-does-not-cover-yet).
 Liczby tego akapitu bierze się ręcznie nad tym samym bankiem,
 tak jak te, o których mówi [corpus.md](corpus.md#fetching-it),
-bo `olski/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
+bo `harness/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
 co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
 
 Cena i zysk są zmierzone nad Składnicą i idą w obie strony;
@@ -2282,7 +2288,7 @@ Plik wejściowy nie stoi w repozytorium, tak samo jak bank drzew:
 curl -L -o walenty.zip \
   'http://zil.ipipan.waw.pl/Walenty?action=AttachFile&do=get&target=walenty_20160418-text.zip'
 unzip walenty.zip
-python3 -m olski.walenty walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt \
+python3 -m harness.walenty walenty_20160418-text/verbs/walenty_20160418_verbs_all.txt \
   --rzeczowniki walenty_20160418-text/nouns/walenty_20160418_nouns_all.txt \
   > olski/leksykon.txt
 ```
@@ -2312,7 +2318,7 @@ nazywa taką parę nadgeneracją).
 Pozycję tę Walenty ma i pisze ją `adjp(pred)` kontrolowanym z podmiotu,
 więc zawężenie wygląda na wpis w leksykonie.
 Miarą jest schemat niezleksykalizowany, tak jak przy celowniku
-(`bierze_ramą` w `olski/walenty.py`), oraz kontrola z podmiotu, tak jak przy
+(`bierze_ramą` w `harness/walenty.py`), oraz kontrola z podmiotu, tak jak przy
 bezokoliczniku, bo orzecznik zgodny orzeka o podmiocie i o nikim innym;
 w wydaniu z 2016 roku odpowiada temu czterdzieści lematów,
 w większości podobnych kopuli.
@@ -2422,7 +2428,7 @@ a pozycja stojąca w nim obok należy do zwrotu, a nie do lematu:
 celownik ma w Walentym `mieć` i ma go ze zwrotu `mieć komuś za złe`,
 a policzony osobno daje `Ludzie mają rozum i sumienie.` drugie czytanie,
 w którym `Ludzie` jest celownikiem od `Luda`, a ciąg współrzędny stoi w podmiocie.
-Schemat spoza `BRANE` w `olski/walenty.py` nazywa zaś polszczyznę,
+Schemat spoza `BRANE` w `harness/walenty.py` nazywa zaś polszczyznę,
 której ten rejestr nie pisze,
 i odpada z tego samego powodu, z którego odpada w kolumnie przyimków.
 
@@ -2937,7 +2943,7 @@ oraz nad trzema korpusami prozy wydają to samo, zdanie po zdaniu.
 Rusza się w nich sama kolejka blokerów, i o kilka zdań:
 bloker mówi, dokąd rozbiór doszedł, a nie co się udało,
 więc produkcja dopisana przesuwa go tam, gdzie tablica sięga dalej
-(`Outcome.blocker` w `olski/coverage.py`).
+(`bloker` w `olski/pokrycie.py`).
 
 Zakup liczy się przez to w innej walucie i widać go w dwóch porównaniach ról
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
@@ -2952,7 +2958,7 @@ Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czo�
 `Subject → czoło` po jednej na czoło, `Object → czoło` po dwóch,
 bo tam rozdziela je przeczenie, oraz `Predicative → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
-`olski-corpus Składnica-frazowa-180723/` puszczony nad taką gramatyką
+`python3 -m harness.pomiar Składnica-frazowa-180723/` puszczony nad taką gramatyką
 wydaje obie tabele bez etykiety, a różnica wierszy jest tymi liczbami.
 Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
 
@@ -3334,7 +3340,7 @@ Werdykt mówi więc o zdaniu nieprawdę częściej niż przed tą pozycją,
 a kierunek ten trzyma
 [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
 czym te zdania są, ten przebieg nie mówi, a wpis trzyma [TODO.md](../TODO.md).
-Obie liczby drukuje `olski.coverage`, a te sprzed tej pozycji trzyma git.
+Obie liczby drukuje `harness.pomiar`, a te sprzed tej pozycji trzyma git.
 
 ## Rzeczownik odczasownikowy jest głową grupy imiennej, a nie pozycją przy czasowniku
 
@@ -3998,7 +4004,7 @@ Rozstrzyga między nimi prawdziwa polszczyzna, a nie gust.
 Ściągnięcie korpusu opisuje [corpus.md](corpus.md#fetching-it), a potem:
 
 ```sh
-python3 -m olski.attachment Składnica-frazowa-180723/
+python3 -m harness.attachment Składnica-frazowa-180723/
 ```
 
 W wydaniu 2018 Składnicy stoi 5 837 wyrażeń przyimkowych
@@ -4021,7 +4027,7 @@ fraza przymiotnikowa i drugie wyrażenie przyimkowe;
 
 Tabeli nie rusza zmiana w gramatyce, bo mierzone są cudze drzewa
 i żadna produkcja olskiego nic do tych liczb nie wnosi.
-Rusza ją wydanie korpusu i to, co `olski/attachment.py` liczy:
+Rusza ją wydanie korpusu i to, co `harness/attachment.py` liczy:
 które kategorie są zdaniem, a które grupą imienną, i co znaczy „po czasowniku”.
 
 Rozkład nie zmienia się na tyle, żeby przyimek go przewidywał.

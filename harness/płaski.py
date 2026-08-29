@@ -41,10 +41,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness import ruch
+from harness.corpus import read
 from harness.komenda import Komenda, nagłówek, uruchom
+from harness.pomiar import po_kawałkach, segments_for
 from harness.ruch import gramatyka
-from olski.corpus import read
-from olski.coverage import po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
 from olski.subset import DEKLARACJA, PRZYSŁÓWEK, PRZYSŁÓWEK_STOPNIA, PRZYSŁÓWKOWY
