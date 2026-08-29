@@ -69,6 +69,14 @@ PYTAJNY = "Interrogative"
 #: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZEKAJĄCY = "NominalPredicate"
 
+#: Rola grupy imiennej, która orzeka przed łącznikiem:
+#: `Flaga` w `Flaga to płat tkaniny.`
+#: Symbol jest osobny od :data:`ORZEKAJĄCY`, bo tamten czyni zdaniem każdą swoją
+#: córkę, a tutaj czyni je dopiero łącznik stojący za tą grupą; czemu grupa ta
+#: nie jest podmiotem, mówi
+#: docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+ORZECZNIK_ŁĄCZNIKA = "LinkedPredicate"
+
 #: Rola tego, co orzeka bez podmiotu. Głowy są dwie i obie rządzą ramą czasownika:
 #: predykatyw — `trzeba` w `Trzeba czytać dokumenty.` — oraz forma `imps` —
 #: `zgłoszono` w `Zgłoszono usterkę.`
@@ -205,6 +213,7 @@ DEKLARACJA = Deklaracja(
         "Predicative",
         "Verb",
         ORZEKAJĄCY,
+        ORZECZNIK_ŁĄCZNIKA,
         BEZOSOBOWY,
         PRZYSŁÓWKOWY,
         CZĄSTKOWY,
@@ -976,6 +985,12 @@ PREDYKATYWY = frozenset({
 #: :data:`CZĄSTKA`.
 PREDYKATYW = word("pred", lemma=PREDYKATYWY)
 
+#: Łącznik między orzecznikiem a podmiotem, oba w mianowniku:
+#: `to` w `Flaga to płat tkaniny.`
+#: Warunek na lemat, a nie sama część mowy, tak samo jak przy predykatywie wyżej:
+#: ``pred`` niesie całą klasę naraz.
+ŁĄCZNIK = word("pred", lemma="to")
+
 #: Przysłówek przy przymiotniku: ta sama część mowy i żądanie stopnia, więc
 #: `tu duży` z tej pozycji wypada, a `bardzo duży` zostaje. Terminale są przez to
 #: dwa, choć część mowy jedna: warunek należy do jednego gospodarza, a drugi bierze
@@ -1679,6 +1694,19 @@ def build() -> Grammar:
     # jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
     # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
     grammar.rule("ClauseConjunct", [Głowa(nt(ORZEKAJĄCY)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY)
+
+    # Zdanie z łącznikiem: `Flaga to płat tkaniny.` Czasownika ono nie ma, a które
+    # z dwóch grup jest podmiotem, rozstrzygnął pomiar wobec banku drzew:
+    # docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+    #
+    # Zgodności ciało nie żąda i nie ma czego zgadzać: `Lata dziewięćdziesiąte to
+    # okres rozwoju.` różni się w liczbie po obu stronach łącznika.
+    grammar.rule(
+        "ClauseConjunct",
+        [nt(ORZECZNIK_ŁĄCZNIKA), Głowa(ŁĄCZNIK), podmiot],
+        tryb=TRYB_OZNAJMUJĄCY,
+    )
+    grammar.rule(ORZECZNIK_ŁĄCZNIKA, [nt("NP", case="nom")])
 
     # Głowa, która orzeka bez podmiotu: predykatyw i forma nieosobowa czasownika.
     # Rama i `Complements` są u obu te same, co u czasownika, a różni je to, skąd
