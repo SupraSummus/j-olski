@@ -13,13 +13,26 @@ fragment, niedomknięcie, zatrzymanie — sprawdza ``tests/test_werdykt.py``.
 import os
 import subprocess
 import sys
-from dataclasses import replace
+from dataclasses import fields, replace
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, Głowa, Sym, V, Var, Word, bierze, nt, unify, word
+from olski.grammar import (
+    EMPTY,
+    Grammar,
+    Głowa,
+    Production,
+    Sym,
+    V,
+    Var,
+    Word,
+    bierze,
+    nt,
+    unify,
+    word,
+)
 from olski.lematy import KOPULA
 from olski.morph import VALUES, analyse, generuj
 from olski.parse import (
@@ -38,6 +51,7 @@ from olski.subset import (
     CZĄSTKOWY,
     DEKLARACJA,
     GRAMMAR,
+    MIJANE,
     OKOLICZNIKOWY,
     ORZEKAJĄCY,
     PREDYKATYWY,
@@ -46,6 +60,7 @@ from olski.subset import (
     PRZYŁĄCZANY,
     PYTAJNY,
     RAMA_BEZ_BIERNIKA,
+    RODZINY,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_PRZECINKOWY,
     SPÓJNIKI_PRZECINKOWE,
@@ -556,6 +571,112 @@ def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
     [przyłączenie] = found.result.przyłączenia
     assert przyłączenie.modyfikator == modyfikator
     assert przyłączenie.gospodarze == gospodarze
+
+
+def _symbole(produkcja: Production) -> set[str]:
+    """Nazwy symboli w ciele tej produkcji; słowa nazwy nie mają."""
+    return {part.name for part in produkcja.body if isinstance(part, Sym)}
+
+
+def test_konstytuent_z_rolą_przyłączaną_jest_gospodarzem_albo_stoi_wśród_mijanych():
+    """Symbol dopisany do gramatyki nie zostaje przezroczysty w ciszy.
+
+    Symbol spoza ``gospodarze`` zejście od modyfikatora mija, więc rola
+    przyłączana z jego wnętrza dostaje w streszczeniu gospodarza stojącego nad
+    nim, a że zdania to nie odbiera i liczby czytań nie rusza, nie widzi tego
+    ani suita, ani przebieg nad korpusem. Tu pyta o to gramatyka, a nie lista,
+    i pyta o każdy symbol naraz.
+
+    Podziału ten check nie wyprowadza i wyprowadzić go nie może: o tym, czy
+    okolicznik w danym konstytuencie określa jego głowę, czy czasownik nad nim,
+    gramatyka milczy. Żąda więc odpowiedzi, i tyle wystarcza, bo cała cena
+    pominięcia bierze się z tego, że nikt o nie nie pyta.
+    """
+    przyłączane = set(DEKLARACJA.przyłączane)
+    #  `Adjuncts` jest ciągiem tych ról i samo rolą nie jest, więc ciało z nim
+    #  niesie rolę przyłączaną tak samo jak ciało z którąkolwiek z nich.
+    #  Bez tej asercji rola dopisana do ciągu, a nie do `przyłączane`,
+    #  zawężałaby zbiór niżej i check pytałby po cichu o mniej.
+    ciąg = {
+        symbol
+        for produkcja in GRAMMAR.for_head("Adjuncts")
+        for symbol in _symbole(produkcja)
+    }
+    assert ciąg <= przyłączane | {"Adjuncts"}
+
+    niosące = {
+        produkcja.head
+        for produkcja in GRAMMAR.productions
+        if _symbole(produkcja) & (przyłączane | {"Adjuncts"})
+    }
+    #  Trzy asercje zamiast jednego porównania, żeby czerwony check nazwał symbol.
+    assert niosące - set(DEKLARACJA.gospodarze) - set(MIJANE) == set()
+    assert set(MIJANE) - niosące == set()
+    assert set(MIJANE) & set(DEKLARACJA.gospodarze) == set()
+
+
+def test_deklaracje_nazywają_wyłącznie_symbole_które_gramatyka_definiuje():
+    """Symbol przemianowany zostaje w deklaracji martwym napisem.
+
+    Deklaracje są listami nazw stojącymi obok gramatyki (CLAUDE.md#code) i wpis,
+    którego gramatyka nie ma, nie wywraca ani jednego wyprowadzenia: odbiera
+    tylko wiersz streszczeniu, tak samo cicho jak wpis pominięty. Pola bierzemy
+    z klasy, a nie z listy nazw, żeby pole dopisane później weszło pod ten check
+    samo.
+    """
+    zdefiniowane = {produkcja.head for produkcja in GRAMMAR.productions}
+    wypisane: set[str] = set(MIJANE)
+    for deklaracja in (DEKLARACJA, *RODZINY):
+        for pole in fields(deklaracja):
+            wartość = getattr(deklaracja, pole.name)
+            wypisane |= {wartość} if isinstance(wartość, str) else set(wartość)
+    assert wypisane - zdefiniowane == set()
+
+
+def _po_głowach(symbol: str, widziane: set[str] | None = None) -> set[str]:
+    """Symbole, do których schodzi się od tego samymi głowami ciał."""
+    widziane = set() if widziane is None else widziane
+    for produkcja in GRAMMAR.for_head(symbol):
+        if not produkcja.body:
+            continue
+        głowa = produkcja.body[produkcja.głowa]
+        if isinstance(głowa, Sym) and głowa.name not in widziane:
+            widziane.add(głowa.name)
+            _po_głowach(głowa.name, widziane)
+    return widziane
+
+
+def test_symbol_opakowujący_rodzinę_czoła_ma_pod_głową_jej_rdzeń():
+    """Rodzina wypisana ręką ma stać zgodnie z tym, co gramatyka wyprowadza.
+
+    Cztery miejsca czytają dziś jedną :class:`Rodzina`, więc rozejść się może
+    już tylko ona sama z gramatyką, i najciszej wtedy, gdy nazwa jest symbolem
+    prawdziwym, tylko cudzym: symbol opakowujący wpisany do niewłaściwej rodziny
+    zatrzymuje streszczenie tam, gdzie role są rolami zdania nad nim.
+
+    Pytamy o łańcuch głów, a nie o córkę ani o dosięgnięcie w ogóle: zdanie
+    pytające dochodzi do swojego rdzenia przez ciąg pytań, więc córką rdzeń nie
+    jest, a dosięgnąć stąd można prawie każdego symbolu, bo zdanie podrzędne ma
+    pod sobą całe zdanie.
+    """
+    rdzenie = {rodzina.rdzeń for rodzina in RODZINY}
+    for rodzina in RODZINY:
+        for symbol in rodzina.opakowujące:
+            assert _po_głowach(symbol) & rdzenie == {rodzina.rdzeń}, symbol
+
+
+def test_przyimek_pod_zaimkiem_pytajnym_dostaje_w_werdykcie_swojego_gospodarza():
+    """Czoło pytania zatrzymuje zejście, bo przyimek pod nim określa sam zaimek.
+
+    Czytań pominięcie takiego gospodarza nie rusza, więc nie widać go po ich
+    liczbie: zejście mija wtedy czoło i oba czytania dostają jednego gospodarza,
+    czyli orzeczenie, choć w pierwszym z nich przyimek stoi pod `Kto`.
+    """
+    found = verdict("Kto z posłów zapisuje ustawienia?")
+    assert found.result.ile == 2, found.explain()
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.modyfikator == "z posłów"
+    assert przyłączenie.gospodarze == ("Kto", "zapisuje")
 
 
 def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():

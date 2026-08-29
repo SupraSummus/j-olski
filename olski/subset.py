@@ -13,6 +13,7 @@ więc kto pyta o sam lemat, sięga po ``olski/lematy.py``.
 from __future__ import annotations
 
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
 from olski.lematy import (
@@ -140,6 +141,54 @@ SPÓJNIKOWY = "Connective"
 #: dwa poziomy rozdzieliła, czyli maszynerii droższej niż druga nazwa.
 DOPOWIEDZIANY = "Apposition"
 
+
+@dataclass(frozen=True)
+class Rodzina:
+    """Zdanie z jedną rolą wysuniętą na czoło, wraz z symbolami wokół niego.
+
+    Nazwy jednej rodziny czytają cztery miejsca: :func:`_wysunięta_rola` pisze
+    nimi ciała, :data:`NIE_WYPUSZCZANE` zatrzymuje na nich cechy, a `gospodarze`
+    i `podrzędne` w :data:`DEKLARACJA` zatrzymują na nich dwa zejścia werdyktu.
+    Rodzina jest tu jedną wartością dlatego, że wpis pominięty w którymkolwiek
+    z tych miejsc nie wywraca żadnego testu: odbiera wiersz werdyktu albo każe
+    cesze kosztować rozbiór, po cichu.
+    """
+
+    #: Zdanie z wysuniętą rolą, czyli to, co czoło ma pod sobą.
+    rdzeń: str
+    #: Wyrażenie przyimkowe wysunięte razem z czołem. Przypadka nie wypuszcza,
+    #: bo ustala go przyimek nad nim, a nie zdanie pod czołem.
+    modyfikator: str
+    #: Czoła tej rodziny; każde wchodzi w obie pozycje wysunięte i pod przyimek.
+    czoła: tuple[str, ...]
+    #: Symbole, którymi to zdanie staje przy zdaniu nad nim, czyli te, na których
+    #: zatrzymuje się streszczenie (`podrzędne` w :data:`DEKLARACJA`).
+    opakowujące: tuple[str, ...]
+
+
+#: Symbole opakowujące są dwa tam, gdzie zdanie z poprzednikiem i zdanie bez
+#: niego stają przy zdaniu nad nim inaczej.
+RODZINY = (
+    Rodzina(
+        rdzeń="RelativeCore",
+        modyfikator="RelativeModifier",
+        czoła=("RelativePronoun", "RelativeNP"),
+        opakowujące=("RelativeClause",),
+    ),
+    Rodzina(
+        rdzeń="NominalRelativeCore",
+        modyfikator="NominalRelativeModifier",
+        czoła=("NominalRelativePronoun",),
+        opakowujące=("NominalRelativeClause", "FreeRelativeClause"),
+    ),
+    Rodzina(
+        rdzeń="InterrogativeCore",
+        modyfikator="InterrogativeModifier",
+        czoła=(PYTAJNY,),
+        opakowujące=("InterrogativeClause",),
+    ),
+)
+
 DEKLARACJA = Deklaracja(
     # Konstrukcja, na którą nie ma tu etykiety,
     # wychodzi `valid` bez słowa o tym, co olski w niej przyjął.
@@ -193,15 +242,16 @@ DEKLARACJA = Deklaracja(
     # a werdykt nazywa gospodarza stojącego nad nim
     # — bez ``RelativeCore`` poprzednik zamiast orzeczenia zdania względnego —
     # albo streszcza oba czytania jednym napisem, jak bez ``InfinitivePhrase``.
+    # :data:`PYTAJNY` stoi tu, choć jest zarazem rolą, bo wyrażenie przyimkowe
+    # ma pod zaimkiem pytajnym własne ciało: `Kto z posłów zapisuje ustawienia?`.
     gospodarze=(
         "NP",
         "AP",
         "ClauseConjunct",
-        "RelativeCore",
-        "NominalRelativeCore",
         "InfinitivePhrase",
         BEZOKOLICZNIK_OTWARTY,
-        "InterrogativeCore",
+        PYTAJNY,
+        *(rodzina.rdzeń for rodzina in RODZINY),
     ),
     # Symbole, których ciąg nawiasuje napis roli: grupa imienna, grupa
     # przymiotnikowa i zdanie.
@@ -225,16 +275,44 @@ DEKLARACJA = Deklaracja(
     # więc zatrzymanie na nim objęłoby także zdanie współrzędne,
     # którego role są rolami tego samego zdania.
     podrzędne=(
-        "RelativeClause",
-        "NominalRelativeClause",
+        *(symbol for rodzina in RODZINY for symbol in rodzina.opakowujące),
         "SubordinateClause",
-        "InterrogativeClause",
-        "FreeRelativeClause",
         OKOLICZNIKOWY,
         WTRĄCONY,
         ELIPSA,
         DOPOWIEDZIANY,
     ),
+)
+
+#: Konstytuenty, które zejście w górę od modyfikatora mija,
+#: choć rola przyłączana stoi w którymś ich ciele.
+#:
+#: Dopełnienie listy gospodarzy, potrzebne dlatego, że sama ta lista milczy
+#: o symbolu dopisanym później; ile takie milczenie kosztuje, mówi komentarz
+#: przy `gospodarze` wyżej.
+#: Obie strony razem mają pokrywać to, co gramatyka niesie, i pilnuje tego check
+#: w ``tests/test_subset.py``, gdzie stoi powód, dla którego podział jest
+#: wypisany, a nie wyprowadzony.
+MIJANE = (
+    # Sam ciąg ról przyłączanych oraz ciąg przysłówków w nim:
+    # zejście zaczyna się w środku, więc nie ma tu czego zatrzymywać.
+    "Adjuncts",
+    PRZYSŁÓWKOWY,
+    # Człon ciągu współrzędnego, którego gospodarzem jest cały ciąg
+    # (`współrzędne` wyżej): głowa członu wychodzi w górę razem z nim,
+    # więc streszczenie nazywa ją i tak.
+    "NPConjunct",
+    "APConjunct",
+    # Konstytuent, w którym okolicznik nie określa jego samego: w wypełnieniu
+    # roli określa czasownik stojący nad nim, a nad ciągiem zdań współrzędnych
+    # nie ma gospodarza i zostaje przy całym czytaniu.
+    "Complements",
+    DRUGA_POZYCJA,
+    "Clause",
+    # Symbol, który streszczenie nazywa całym sobą (`podrzędne` wyżej),
+    # więc rola z jego wnętrza gospodarza nie dostaje.
+    ELIPSA,
+    "RelativeClause",
 )
 
 #: Rzeczownik, przy którym polszczyzna opuszcza kopułę: `o których mowa`.
@@ -1208,18 +1286,14 @@ NIE_WYPUSZCZANE = {
     "Verb": ("aspect",),
     "Predicate": ("valency", "negacja", "druga"),
     ORZECZENIE_ODWRÓCONE: ("valency", "negacja", "druga"),
-    "RelativeCore": ("person", "valency", "negacja"),
-    "NominalRelativeCore": ("person", "valency", "negacja"),
-    "InterrogativeCore": ("person", "valency", "negacja"),
+    **{rodzina.rdzeń: ("person", "valency", "negacja") for rodzina in RODZINY},
     OKOLICZNIKOWY: ("tryb",),
     ORZEKAJĄCY: ("case", "number"),
     "Subject": ("case",),
     "Object": ("case",),
     "Predicative": ("case",),
     "Modifier": ("case",),
-    "RelativeModifier": ("case",),
-    "NominalRelativeModifier": ("case",),
-    "InterrogativeModifier": ("case",),
+    **{rodzina.modyfikator: ("case",) for rodzina in RODZINY},
     "Complements": ("czoło",),
     "NPConjunct": ("accommodability",),
 }
@@ -2517,15 +2591,11 @@ def build() -> Grammar:
     # pomiar: cena każdej z dwóch pozycji jest osobną liczbą,
     # zdejmując produkcje. Czołem jednym pozycja bez przyimka nie byłaby żadnym
     # ciałem osobno, bo te same ciała brałby sam zaimek, więc nie byłoby czego zdjąć.
-    for symbol, modyfikator, czoła in (
-        ("RelativeCore", "RelativeModifier", ("RelativePronoun", "RelativeNP")),
-        ("NominalRelativeCore", "NominalRelativeModifier", ("NominalRelativePronoun",)),
-        ("InterrogativeCore", "InterrogativeModifier", (PYTAJNY,)),
-    ):
-        for czoło in czoła:
-            _wysunięta_rola(zdanie, symbol, czoło)
+    for rodzina in RODZINY:
+        for czoło in rodzina.czoła:
+            _wysunięta_rola(zdanie, rodzina.rdzeń, czoło)
             grammar.rule(
-                modyfikator,
+                rodzina.modyfikator,
                 [Głowa(PRZYIMEK), nt(czoło, case=V("c"), **zaimek_czoła(V("nz"), V("gz")))],
                 **POPRZEDNIK,
             )
@@ -2534,7 +2604,11 @@ def build() -> Grammar:
         # wyraz (:data:`ORZEKAJĄCY`). Dwa ciała, a nie jedno z symbolem wspólnym:
         # cena każdego z nich jest osobną liczbą.
         for wnętrze in (nt("ClauseConjunct"), nt(ORZEKAJĄCY)):
-            grammar.rule(symbol, [nt(modyfikator, **POPRZEDNIK), Głowa(wnętrze)], **POPRZEDNIK)
+            grammar.rule(
+                rodzina.rdzeń,
+                [nt(rodzina.modyfikator, **POPRZEDNIK), Głowa(wnętrze)],
+                **POPRZEDNIK,
+            )
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
     # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka
