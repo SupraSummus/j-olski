@@ -1268,43 +1268,6 @@ Do przeczytania jest przedtem cena wpisu:
 lemat dopisany odbiera czytanie i żadnego nie dodaje,
 więc kandydat mylny zabiera zdanie, które gramatyka dziś wyprowadza.
 
-Wyrażenie przyimkowe przyłącza się do ostatniego członu ciągu współrzędnego
-albo do zdania, a do całego ciągu nie przyłącza się wcale.
-`Pliki i katalogi w tym drzewie rosną.` wychodzi dwoma czytaniami —
-`Pliki i [katalogi w tym drzewie]` oraz `w tym drzewie` przy `rosną` —
-a czytania, w którym w tym drzewie są i pliki, i katalogi, nie ma,
-choć polszczyzna je ma.
-Powodem są produkcje przyjmujące `Modifier`:
-`NPConjunct` i `APConjunct` w `olski/subset.py` mają go pod głową członu,
-a produkcje koordynacji nie mają go wcale.
-[Zawężenie o przydawce](docs/subset.md#nothing-above-a-coordination-distributes-into-it)
-tej pozycji nie uzasadnia, bo wywodzi się z braku rodzaju u ciągu:
-przymiotnik nad ciągiem zgadzałby się z niczym,
-a wyrażenie przyimkowe nie zgadza się z niczym również pod członem.
-Tamta sekcja mówi to już o sobie sama, bo okolicznik zdaniowy dochodzący do
-całego ciągu wszedł do gramatyki i sprowadził jej wywód do zgodności,
-więc ruch dopisuje tam pozycję, a nie przepisuje wywodu.
-Precedens ten daje zarazem cenę, której się spodziewać:
-tam jednoznaczność straciła garść zdań przyjętych, a pokrycia nie kupiła żadnego.
-Żąda jej natomiast
-[reguła o obu czytaniach wszędzie](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-bo pozycja z produkcją na jedno przyłączenie i bez produkcji na drugie
-wybiera przez przeoczenie.
-Ruchem są dwa ciała `NP` i dwa `AP`, po jednym na spójnik i na przecinek,
-z `Modifier` za całym ciągiem.
-`NP → NP Modifier` tym ruchem nie jest:
-dałoby drugie wyprowadzenie każdej grupie bez koordynacji,
-czyli czytanie, którego polszczyzna tam nie ma.
-Do przeczytania jest
-`test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimkowego`
-w `tests/test_subset.py`, bo wylicza dwa czytania pierwszego artykułu Deklaracji,
-a ruch dopisuje im trzecie.
-Wpis jest winien przebiegi, których [sekcja o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
-żąda od zmiany w gramatyce,
-wraz z listą pozycji przyłączeniowych w
-[`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-która rośnie o tę jedną.
-
 `pod względem` żąda licencji od słowa, do którego się przyłącza,
 a olski żąda licencji tylko od dopełnienia.
 Czytelnik odrzuca `wolni pod względem swej godności` bez pomocy składni,
@@ -1326,7 +1289,6 @@ Robi ono z pierwszego artykułu Deklaracji zdanie olskie:
 odejmuje czytanie z `rodzą się`, bo ten czasownik wzglądu nie licencjonuje,
 a zostaje czytanie z `równi`, czyli jedno.
 Odejmuje też czytanie nad całym ciągiem współrzędnym,
-kiedy dopisze je wpis o wyrażeniu przyimkowym przyłączanym do ciągu,
 bo `wolny` wzglądu nie licencjonuje tak samo.
 Do rozstrzygnięcia jest, czy to jeszcze walencja, czy już ta warstwa,
 którą [`docs/open-questions.md`](docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
@@ -1517,15 +1479,24 @@ bo `Modifier` musi wejść razem z nim.
 Zdanie względne tego iloczynu nie ruszyło i pokazuje, którędy się go omija:
 dochodzi ono do `NP`, czyli o poziom wyżej, więc jest jedną produkcją,
 a nie trzecim rodzajem przydawki razy kształty głowy.
-Kosztowało to symetrię w koordynacji i osobny wpis wyżej,
+Kosztowało to symetrię w koordynacji, czyli wpis o członie lewym,
+który zdania względnego nie unosi,
 a `Adjuncts` w tym samym pliku się nie mnoży,
 bo okoliczniki są jednego rodzaju.
-Kierunek pokazuje więc samo zdanie względne: przydawka dochodząca do `NP`
-zamiast do członu znosi ten iloczyn,
-a przy okazji zmienia zasięg, bo daje przydawkę całemu ciągowi współrzędnemu,
-czego przydawka pod członem nie daje.
-Jest to ta sama pozycja, o którą prosi wpis o wyrażeniu przyimkowym nad ciągiem,
-więc kto podnosi jeden z tych dwóch wpisów, rozstrzyga i drugi.
+Kierunek pokazuje więc samo zdanie względne: `Modifier` dochodzący do `NP`
+zamiast do członu znosi ten iloczyn.
+Zasięgu ruch ten już nie zmienia, bo wyrażenie przyimkowe ma już pozycję nad ciągiem
+([`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it)),
+i to samo wpuszczenie stawia mu warunek nowy:
+`NP → NP Modifier` musi wejść za tamte cztery ciała, a nie obok nich,
+bo obok dałoby ciągowi dwa wyprowadzenia jednego zasięgu.
+Zamiana ta zdejmuje cztery ciała z ośmiu na kształt głowy
+i dokłada pozycję, której nikt nie wycenił:
+produkcja rekurencyjna wpuszcza wyrażenia piętrzone
+(`plik w drzewie na dysku` z obydwoma przy `plik`),
+czego dzisiejsze ciało z jednym `Modifier` nie wpuszcza.
+Cena tej pozycji jest przez to ceną ruchu i bierze się ją przed nim,
+a nie po nim.
 Do przeczytania jest `_role` w `olski/skład/rozbiór.py`,
 bo czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź.
@@ -2275,20 +2246,24 @@ Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
-Trzy miejsca w `olski/subset.py` wypisują to samo: który przypadek wypełnia którą
-pozycję ramy i co mówi przy tym o przeczeniu.
-Stoją tak dopełnienie na swoim miejscu, dopełnienie wysunięte na czoło
-(`_wysunięta_rola`) i dopełnienie wyrażone zaimkiem zwrotnym,
-a każde z nich bierze z `DOKŁADANE` inny wycinek i z innego powodu.
-Widać po tym jedną usterkę: `Object → NP[case=inf]` powstaje z tamtej pętli
-i nie wyprowadza niczego, bo grupa imienna przypadka `inf` nie niesie,
-a pozycję bezokolicznikową wypełnia `InfinitivePhrase`.
-Ruchem jest rozdzielić w `DOKŁADANE` pozycje będące przypadkiem od tej, która nim
-nie jest, po czym te trzy miejsca czytają jedną listę zamiast trzech wycinków.
-Do przeczytania jest przedtem, czy wycinki naprawdę pokrywają się co do wartości
-przeczenia: czoło wypisuje trzy pozycje, zaimek cztery, a pętla `NP` bierze całą
-listę, więc różnica bywa wyborem, a nie przeoczeniem.
-Odcisk gramatyki po ruchu ma się różnić o tę jedną martwą produkcję i o nic więcej.
+Produkcji, której żadne ciało nie dopasuje, nie pilnuje nic.
+`Object → NP[case=inf]` stała w gramatyce tak długo, ile trwało czytanie
+`DOKŁADANE` jako listy przypadków, i nie odbierała ani zdania, ani czytania:
+grupa imienna przypadka `inf` nie niesie, więc ciało po prostu nie domykało się
+nigdy.
+Suita tego nie widzi, bo werdykty wychodzą te same,
+a `nieosiągalne` w `olski/grammar.py` też nie, bo pyta o symbol,
+a tu nieosiągalny jest układ cech pod symbolem osiągalnym.
+Znalazła ją ręka, czytając trzy miejsca, które wypisywały jedną listę.
+Ruchem jest check pytający o wartość, a nie o nazwę:
+dla każdej pozycji ciała będącej `Sym` z wartością wypisaną wprost
+ma istnieć produkcja tego symbolu, która tę wartość wypuszcza.
+Do przeczytania jest przedtem, ile taki check kosztuje wyprowadzenia:
+cecha idzie zwykle zmienną wspólną z córką, więc odpowiedź żąda punktu stałego
+po całej gramatyce, a nie spojrzenia na jedną produkcję,
+i to rozstrzyga, czy jest to check, czy sonda puszczana ręką.
+Wynikiem pierwszego przebiegu jest lista produkcji martwych,
+a każda z nich jest albo skreśleniem, albo pozycją napisaną nie tak, jak chciano.
 
 Rzeczownik `soba` zabiera kilkunastu zdaniom banku drzew jednoznaczność,
 odkąd zaimek zwrotny ma pozycję

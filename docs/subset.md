@@ -1368,9 +1368,47 @@ bo nie zgadza się z niczym ani pod członem, ani nad ciągiem,
 więc brak rodzaju u ciągu nic mu nie odbiera,
 a czytania są dwa i oba polszczyzna ma
 ([wyżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
-Zawężenie zostaje przez to przy przydawce, czyli przy tym, co je uzasadnia,
-a [TODO.md](../TODO.md) trzyma pozycję trzecią, czyli wyrażenie przyimkowe nad ciągiem,
-którego zawężenie nie uzasadnia z tego samego powodu.
+Zawężenie zostaje przez to przy przydawce, czyli przy tym, co je uzasadnia.
+Wyrażenie przyimkowe przyłącza się do całego ciągu z tego samego powodu,
+z którego przyłącza się do niego okolicznik:
+`pliki i katalogi w tym drzewie` mówi o obu członach,
+gdzie to samo wyrażenie pod członem ostatnim mówi o samych katalogach,
+a polszczyzna ma oba czytania, więc gramatyka ma oba ciała
+([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+Ciąg przymiotnikowy dostaje tę pozycję tak samo,
+choć zgodność niesie przez cały siebie:
+wyrażenie przyimkowe żadnej cechy nie zmienia, więc zasięg zostaje dwojaki.
+
+Pozycję tę zapisuje ciało ze spójnikiem, a nie produkcja `NP → NP Modifier`.
+O zasięgu obie mówiłyby to samo.
+Różni je liczba czytań: produkcja rekurencyjna dokłada drugie wyprowadzenie
+każdej grupie bez koordynacji, a werdykt nie ma czym go odróżnić od pierwszego,
+bo obu daje tego samego gospodarza.
+Spójnik w ciele jest tym, co jedno od drugiego odróżnia,
+więc ciała są dwa, po jednym na spójnik i na przecinek,
+i tak samo dwa są nad ciągiem przymiotnikowym.
+
+Ciąg dłuższy niż dwuczłonowy ma tę pozycję na każdym swoim poziomie,
+bo ogonem ciągu jest `NP`:
+`A i B i C w drzewie` czyta wyrażenie przy samym `C`, przy `B i C`
+oraz przy całej trójce, po jednym wyprowadzeniu na zasięg i bez nawiasowań ponad to.
+
+Pozycja ta kosztowała mniej, niż zapowiadał precedens okolicznika zdaniowego.
+Nad bankiem drzew nie rusza ani jednego werdyktu,
+i tak samo pod morfologią złotą, jak pod żywą:
+zdań przyjętych nie ubywa i nie przybywa.
+Przebieg pod morfologią złotą mówi ponadto to, czego tamten nie liczy:
+zgodność z drzewem wzorcowym zostaje ta sama,
+a złote czytanie ocala się w tylu zdaniach wieloznacznych, w ilu ocalało przedtem.
+Rusza się w nim jedno zdanie i nie werdyktem, tylko głębokością:
+złote czytanie schodzi w nim poniżej granicy z `MAX_READINGS`.
+Nad prozą tego repozytorium pozycja dokłada czytanie kilku zdaniom
+już wieloznacznym i nie odbiera jednoznaczności żadnemu,
+a czytania te są tymi, które polszczyzna nad nimi ma:
+`Braki w leksykonie i braki w formach wylicza docs/roadmap.md.`
+czyta odtąd `w formach` także przy obu brakach.
+Kto chce liczby dzisiejszej, puszcza polecenia z
+[corpus.md](corpus.md#fetching-it).
 
 Dwa symbole zamiast jednego wybrano dla liczby czytań, a nie dla parsera.
 Tablica Earleya bierze rekursję lewostronną,
@@ -4383,6 +4421,9 @@ i każda z nich jest zwyczajną polszczyzną:
   (`Program zapisuje w pliku ustawienia.`)
 - po czasowniku w szykach z czasownikiem na czele
   (`Trwa w tej sprawie dochodzenie.`, `Zapisuje w pliku program ustawienia.`)
+- za całym ciągiem współrzędnym, imiennym i przymiotnikowym,
+  obok tego samego wyrażenia stojącego pod członem ostatnim
+  (`pliki i katalogi w tym drzewie`, `wolni i równi pod względem swej godności`)
 - po rzeczowniku, który już ma przy sobie przymiotnik, dopełniacz albo oba
   (`akcja zbrojna w Strefie Gazy`, `zadania ochrony ludności w gminie`),
   oraz po imiesłowie (`powiązani z interesami postkomunistów`)
@@ -4415,6 +4456,9 @@ Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
 oraz ta, w której `Modifier` dochodzi do głowy mającej już przydawkę
 albo do imiesłowu, czyli `APConjunct → adj|ppas Modifier`.
+Wchodzi też ciało, w którym `Modifier` stoi za całym ciągiem współrzędnym,
+bo to samo wyrażenie mieści się zarazem pod członem ostatnim
+([wyżej](#nothing-above-a-coordination-distributes-into-it)).
 Nie wchodzi `NPConjunct → subst Modifier`, czyli naga głowa z okolicznikiem:
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.

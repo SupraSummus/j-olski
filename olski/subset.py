@@ -25,6 +25,7 @@ from olski.lematy import (
 )
 from olski.parse import Deklaracja
 from olski.precedencja import Rozwinięcie
+from olski.segmentacja import EVERY_CASE
 from olski.walencja import (
     BEZ_BIERNIKA,
     BEZ_BIERNIKA_ZWROTNE,
@@ -535,6 +536,21 @@ DOKŁADANE = (
     ("dat", Z_CELOWNIKIEM, Z_CELOWNIKIEM_ZWROTNE),
     ("gen", Z_DOPEŁNIACZEM, Z_DOPEŁNIACZEM_ZWROTNE),
     ("inf", frozenset(), Z_BEZOKOLICZNIKIEM_ZWROTNE),
+)
+
+
+#: Te pozycje dokładane, które są przypadkiem, czyli te, które wypełnia grupa
+#: imienna (:data:`DOKŁADANE`). Bezokolicznik odpada, bo wypełnia go
+#: ``InfinitivePhrase``.
+#:
+#: Warunek pyta o listę przypadków (:data:`EVERY_CASE`), a nie wylicza pozycji,
+#: których na niej nie ma. Cała lista czytana jako przypadki wypuszczała
+#: ``Object → NP[case=inf]`` — ciało, którego nie dopasuje żadna grupa imienna —
+#: i nie widziała go ani suita, ani :meth:`Grammar.nieosiągalne`, bo nieosiągalny
+#: jest tu układ cech, a nie symbol. Pozycja dopisana do leksykonu poza
+#: przypadkami wpadłaby w to samo, gdyby warunek nazywał wyjątki.
+DOKŁADANE_PRZYPADKI = tuple(
+    nazwa for nazwa, _zwykli, _zwrotni in DOKŁADANE if nazwa in EVERY_CASE
 )
 
 
@@ -1207,12 +1223,12 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # biernika i tam kończy się jego zasięg, a `nie brakuje ceny` stoi w
     # dopełniaczu tak samo jak `brakuje ceny`.
     #
-    # Para stoi wypisana, a nie wzięta z :data:`DOKŁADANE`, bo z tamtej listy
-    # wchodzi tu jedna pozycja z trzech, a każda z pozostałych dwóch wypada z
-    # własnego powodu: bezokolicznik jest wypełnieniem innym niż dopełnienie i na
-    # czoło się nie wysuwa, a celownik zmierzono i nie kupił ani jednego zdania
-    # prawdziwego. Oba powody trzyma
-    # docs/subset.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie.
+    # Para stoi wypisana, a nie wzięta z :data:`DOKŁADANE_PRZYPADKI`, bo z tamtej
+    # listy wchodzi tu jedna pozycja z dwóch: celownik zmierzono i nie kupił ani
+    # jednego zdania prawdziwego
+    # (docs/subset.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie).
+    # Bezokolicznika nie ma w tamtej liście wcale, bo przypadkiem nie jest, a na
+    # czoło i tak by się nie wysuwał: jest wypełnieniem innym niż dopełnienie.
     pozycje = (("acc", "acc", "aff"), ("gen", "acc", "neg"), ("gen", "gen", None))
     for przypadek, rama, negacja in pozycje:
         przeczenie = {} if negacja is None else {"negacja": negacja}
@@ -1836,21 +1852,21 @@ def build() -> Grammar:
     # wyprowadzenia tam, gdzie czasownik bierze oba — `nie żąda dowodu` — a jedno
     # czytanie, bo kształt mają ten sam
     # (docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
-    for przypadek, _lematy, _zwrotne in DOKŁADANE:
+    for przypadek in DOKŁADANE_PRZYPADKI:
         grammar.rule("Object", [nt("NP", case=przypadek)], valency=przypadek, czoło=BEZ_CZOŁA)
 
     # Te same cztery pozycje wypełnione zaimkiem zwrotnym (:data:`ZWROTNY`):
-    # `Widzę siebie.`, `Nie widzę siebie.` Pozycje stoją wypisane, a nie wzięte z
-    # :data:`DOKŁADANE`, z tego samego powodu, z którego wypisuje je czoło
-    # (:func:`_wysunięta_rola`): z tamtej listy wchodzą tu dwie z trzech, bo
-    # bezokolicznik przypadkiem nie jest.
+    # `Widzę siebie.`, `Nie widzę siebie.` Dwie pierwsze idą z ramy domyślnej i
+    # stoją wypisane, bo o przeczeniu mówią to, czego lista pozycji nie mówi;
+    # dwie następne są pozycjami dokładanymi i czytają tę samą listę, co ciała z
+    # grupą imienną wyżej, żeby przypadek dopisany do leksykonu wszedł tu razem z
+    # nimi (:data:`DOKŁADANE_PRZYPADKI`).
     #
     # Mianownika ta część mowy nie ma, więc podmiotu nie ma czym wypełnić.
     for przypadek, rama, negacja in (
         ("acc", "acc", "aff"),
         ("gen", "acc", "neg"),
-        ("dat", "dat", None),
-        ("gen", "gen", None),
+        *((przypadek, przypadek, None) for przypadek in DOKŁADANE_PRZYPADKI),
     ):
         przeczenie = {} if negacja is None else {"negacja": negacja}
         grammar.rule(
@@ -2371,6 +2387,29 @@ def build() -> Grammar:
         number="pl",
         person="ter",
     )
+    # Wyrażenie przyimkowe za całym ciągiem: `pliki i katalogi w tym drzewie`
+    # mówi o obu, gdzie ciało wyżej mówi o samych katalogach, bo ciąg wiąże się
+    # w prawo i wyrażenie zostaje pod członem ostatnim. Cechy, której konstytuent
+    # nie niesie, unifikacja nie sprawdza, więc rodzaju brakującego ciągowi to
+    # wyrażenie nie potrzebuje — inaczej niż przydawka, której tamten brak tę
+    # pozycję odbiera.
+    #
+    # Ciała są dwa, po jednym na spójnik i na przecinek, bo spójnik w ciele jest
+    # tym, co odróżnia je od `NP → NP Modifier`; czemu produkcja rekurencyjna
+    # nie wchodzi i ile ta pozycja kosztowała, trzyma
+    # docs/subset.md#nothing-above-a-coordination-distributes-into-it.
+    for spinacz in (SPÓJNIK_BEZ_PRZECINKA, PRZECINEK):
+        grammar.rule(
+            "NP",
+            [
+                Głowa(nt("NPConjunct", case=V("c"))),
+                spinacz,
+                nt("NP", case=V("c")),
+                nt(PRZYŁĄCZANY),
+            ],
+            number="pl",
+            person="ter",
+        )
 
     # Zgodność jest tu samą unifikacją, a nie osobnym sprawdzeniem, i wszystkie te
     # ciała dzielą te same trzy zmienne (:data:`AGREE`). Człon z rzeczownikiem w
@@ -2518,6 +2557,18 @@ def build() -> Grammar:
     grammar.rule("AP", [nt("APConjunct", **AGREE)])
     grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), SPÓJNIK_BEZ_PRZECINKA, nt("AP", **AGREE)])
     grammar.rule("AP", [Głowa(nt("APConjunct", **AGREE)), PRZECINEK, nt("AP", **AGREE)])
+    # Wyrażenie przyimkowe za całym ciągiem przymiotników, czyli ta sama pozycja,
+    # którą ciąg grup imiennych dostaje wyżej i z tego samego powodu:
+    # `wolni i równi pod względem swej godności` mówi o obu członach, gdzie ciało
+    # bez tego wyrażenia zostawia je przy samych równych.
+    #
+    # Zgodność ciąg przymiotnikowy niesie przez cały siebie, inaczej niż imienny,
+    # więc zmienne idą tu przez oba człony (:data:`AGREE`). Zasięgu wyrażenia
+    # zgodność nie zawęża, bo żadnej z tych cech ono nie dotyka.
+    for spinacz in (SPÓJNIK_BEZ_PRZECINKA, PRZECINEK):
+        grammar.rule(
+            "AP", [Głowa(nt("APConjunct", **AGREE)), spinacz, nt("AP", **AGREE), nt(PRZYŁĄCZANY)]
+        )
     # Imiesłów bierny jest tu przymiotnikiem i zatrzymuje dopełnienie, którym
     # rządził jego czasownik: `obdarzeni rozumem i sumieniem`.
     grammar.rule("APConjunct", [orzecznikowy])
