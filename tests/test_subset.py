@@ -1022,19 +1022,22 @@ def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimko
     #  Zdanie, które wpędziło do gramatyki konstrukcje wyliczone wyżej: czasownik
     #  zwrotny, orzecznik i dopełniacz w koordynacji, kwantyfikator. Wszystkie w
     #  nim są, a zdaniem olskim nie jest, bo pod względem swej godności określa
-    #  równych albo całe zdanie, i te dwa czytania olski melduje zamiast wybierać
-    #  jedno z nich.
+    #  samych równych, oboje albo całe zdanie, i te trzy czytania olski melduje
+    #  zamiast wybierać jedno z nich.
     found = verdict(
         "Wszyscy ludzie rodzą się wolni i równi "
         "pod względem swej godności i swych praw."
     )
     assert found.status == "ambiguous", found.explain()
-    #  Nawias nazywa człon, w którym wyrażenie się znalazło, czyli mówi, że wzgląd
-    #  określa samych równych: ciąg wiąże się w prawo, więc drugim członem jest
-    #  `równi` wraz z tym wyrażeniem, a nie para `wolni i równi`.
+    #  Nawias nazywa człon, w którym wyrażenie się znalazło, i tym odróżnia dwa
+    #  zasięgi wewnątrz orzecznika: ciąg wiąże się w prawo, więc pod członem
+    #  ostatnim wzgląd określa samych równych, a nad ciągiem oboje. Czytanie
+    #  trzecie zostawia orzecznik bez wyrażenia, bo wzgląd doszedł tam do zdania
+    #  (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
     assert {reading["Predicative"] for reading in role(found)} == {
         "wolni i równi",
         "wolni i [równi pod względem swej godności i swych praw]",
+        "wolni i równi [pod względem swej godności i swych praw]",
     }
 
 
@@ -1250,6 +1253,27 @@ def test_ciąg_zgodny_nie_bierze_ogona_rozdzielnego():
     #  warstwach, a dwie następne dzielą je między siebie. Zdanie zostaje przyjęte
     #  ciągiem imiennym, więc usterkę widać po jednoznaczności.
     assert verdict("Warstwy nowe i trzecia i czwarta pracują.").status == "valid"
+
+
+def test_wyrażenie_przyimkowe_dochodzi_i_do_członu_ostatniego_i_do_całego_ciągu():
+    #  Usterka, przed którą to stoi: pozycja nad ciągiem dopisana produkcją
+    #  rekurencyjną `NP → NP Modifier`, czyli bez spójnika w ciele. Zdania są dwa,
+    #  bo każde pokazuje inną jej połowę.
+    #  Nawias mówi, którego członu wyrażenie sięga, więc zasięgi są tu trzy i każdy
+    #  da się nazwać; tamta produkcja zabiera nawias ostatniemu z nich, bo
+    #  gospodarzem jest w nim cała grupa.
+    found = verdict("Pliki i katalogi w tym drzewie rosną.")
+    assert found.status == "ambiguous", found.explain()
+    assert {reading["Subject"] for reading in role(found)} == {
+        "Pliki i katalogi",
+        "Pliki i [katalogi w tym drzewie]",
+        "Pliki i katalogi [w tym drzewie]",
+    }
+    #  Grupa bez koordynacji ma dwa czytania i tyle ma ich mieć: tamta produkcja
+    #  dokłada trzecie, którego werdykt nie ma czym odróżnić od pierwszego, bo obu
+    #  daje tego samego gospodarza.
+    bez_ciągu = verdict("Katalogi w tym drzewie rosną.")
+    assert len(bez_ciągu.readings) == 2, bez_ciągu.explain()
 
 
 def test_grupa_liczebnikowa_zgadza_się_tym_czego_nie_ma_w_środku():

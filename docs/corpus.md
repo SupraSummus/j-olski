@@ -609,7 +609,10 @@ the attributive participle being a construction olski lacks
 so the analysis ran as far as the next missing position.
 
 Drop the positions that hang a prepositional phrase on a noun or on an adjective —
-`Modifier` under `NPConjunct` and under `APConjunct`, which are the attachment
+`Modifier` under `NPConjunct` and under `APConjunct`, and the bodies that put it
+over a whole coordination
+([subset.md](subset.md#nothing-above-a-coordination-distributes-into-it)),
+which together are the attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 leaves to the reader —
 and this row grows by an order of magnitude,
