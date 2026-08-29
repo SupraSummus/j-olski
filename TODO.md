@@ -1932,6 +1932,21 @@ Ceną jest to, że `CLAUSE` czyta zarazem
 więc kategoria dopisana tam rusza figurę, której ten wpis nie dotyczy,
 i przeliczenie obu idzie razem z tą zmianą.
 
+Nieterminal banku drzew niesie nazwę reguły, a pyta o nią jedna sonda z pięciu.
+`rule` w `Constituent` (`harness/corpus.py`) doszło tam po to, żeby policzyć
+apozycję, której kategoria nie rozdziela od przydawki dopełniaczowej,
+i ta sama różnica stoi pod innymi pytaniami tego katalogu:
+`harness/attachment.py` rozdziela gospodarzy kategorią rodzica,
+a kategoria mówi, czym rodzic jest, gdzie reguła mówi, którą konstrukcją powstał.
+Ruchem jest przeczytanie, czy wzorce bez pokrycia z wpisu o 184 przyłączeniach
+rozdzielają się regułą tam, gdzie kategoria je zlewa;
+jeżeli tak, wpis tamten zamyka reguła, a nie kategoria dopisana do `CLAUSE`,
+której ceną jest figura przeliczana razem z nią.
+Do przeczytania jest przedtem, ile reguł stoi nad kategoriami, które `CLAUSE`
+wylicza, bo od tej liczby zależy, czym ten ruch będzie:
+garść reguł nad setkami zdań jest kryterium,
+a setka reguł nad garścią zdań jest listą pisaną ręką.
+
 Stopa pomyłek warstwy jest zmierzona na 29 odpowiedziach i tyle nie odróżnia
 rejestru od banku drzew, więc
 [druga połowa hipotezy](docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
@@ -2362,12 +2377,18 @@ Pod złotą morfologią nie rusza się ani jedno zdanie.
 Trzecią pozycją jest `_role` w `olski/skład/rozbiór.py`:
 czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź, a obieg zamknięty bez niej pada.
-Do policzenia zostaje zakup, czyli ile zdań z takim ciągiem rejestr ma;
-nad Składnicą i nad ustawami nie policzył ich nikt.
-Dopóki tej liczby nie ma, wpis stoi po stronie ceny,
-bo jednoznaczność płacona za pokrycie niepoliczone
-idzie wbrew cenie kroku, której żąda
-[`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Taki ciąg niosą cztery zdania Składnicy z 13035 mających drzewo wzorcowe
+(`python3 -m harness.kształty`); nad ustawami nie policzył ich nikt.
+Każde z tych czterech ma powyżej piętnastu słów, a jedno dwadzieścia pięć,
+więc zakup jest mniejszy niż sama czwórka:
+zdanie tej długości pada zwykle na czymś jeszcze,
+a wpuszczona produkcja kupuje je dopiero wtedy, gdy pada wyłącznie na niej.
+Kto ten wpis podnosi, nie zamknie go tą liczbą, bo cztery zdania przeciw jednemu
+traconemu i gałęzi w `_role` ważą tyle samo.
+Zamyka go pytanie o czytanie: to, które ten ciąg dokłada, polszczyzna ma,
+więc dopisanie produkcji odbiera werdykt nieprawdziwy, a nie samą jednoznaczność,
+i po tej stronie stoi
+[kierunek](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 
 Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
 `Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
@@ -2384,21 +2405,23 @@ w tym samym przypadku, i cena jest widoczna przed pomiarem:
 przecinek jest już znakiem koordynacji na czterech poziomach
 ([`docs/subset.md`](docs/subset.md#what-the-grammar-covers)),
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
-Do przeczytania jest, ile apozycji rejestr ma, bo bez tej liczby wpis jest samą ceną,
-a gotowej nie ma gdzie wziąć:
-[pomiar wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
-wymienia apozycję wśród swoich zawyżeń, ale tę bez przecinka — `podpis CERTYFIKAT` —
-czyli konstrukcję inną niż ta.
-Pierwsze pytanie — czy bank drzew rozdziela apozycję od koordynacji etykietą —
-ma odpowiedź w monografii Świgry i brzmi ona: nie etykietą.
-Apozycja jest tam frazą nominalną o dwóch nominalnych składnikach,
-a konstrukcja współrzędna frazą, której centrum stanowi spójnik albo przecinek
-(Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)).
-Liczy się je więc kształtem, a nie nazwą:
-węzeł nominalny o dwóch nominalnych dzieciach i bez znaku między nimi.
-`Constituent` w `harness/corpus.py` niesie kategorię, rozpiętość i rodzica,
-a segmenty niesie `Sentence` obok, więc ten kształt da się policzyć
-bez czytania z banku drzew czegokolwiek, czego przebiegi jeszcze nie czytają.
+Apozycję z przecinkiem niesie 217 zdań Składnicy z 13035 mających drzewo wzorcowe
+(`python3 -m harness.kształty`), i jest to największy zakup w tej sekcji.
+Apozycja bez przecinka wychodzi z tego przebiegu osobno, w 1274 zdaniach,
+bo jest konstrukcją inną i stoi już wśród zawyżeń
+[pomiaru wieloznaczności](docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
+jako `podpis CERTYFIKAT`; ten wpis mówi o pierwszej z tych dwóch liczb.
+Kształtem żadnej z nich nie policzyć, i tu wpis się mylił.
+Monografia Świgry mówi, że apozycji nie rozdziela od koordynacji etykieta
+(Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)),
+a wynika z tego tylko tyle, że nie rozdziela jej kategoria:
+rozdziela ją nazwa reguły, którą bank drzew niesie przy każdym rozwinięciu.
+Węzeł nominalny o dwóch nominalnych dzieciach jest w tym banku przydawką
+dopełniaczową w 6580 zdaniach, przy 217 apozycji z przecinkiem,
+więc liczba wzięta kształtem mówiłaby o przydawce, którą olski ma,
+a nie o konstrukcji, której nie ma.
+Zostaje sama cena: ile czytań apozycja dokłada zdaniom, w których ciąg
+rozdzielony przecinkiem już się wyprowadza.
 
 Zaimek `kto` i `co` nie ma pozycji z przydawką: `Kto pierwszy wstaje od stołu?`
 pada, a `Kto z posłów zapisuje ustawienia?` wyprowadza się
@@ -2470,12 +2493,20 @@ czwarta i piąta pracują.` jest odrzucone, a `Warstwy trzecia i czwarta pracuj�
 wyprowadza się
 ([`docs/subset.md`](docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)),
 choć polszczyzna trzeci człon pisze właśnie przecinkiem.
-Ruchem jest czwarte ciało tej rodziny, a przed nim pomiar:
-ciało rozdzielne ze spójnikiem kupuje nad Składnicą pojedyncze zdania,
-więc czwarte zaczyna od ceny, a zakup ma do policzenia.
-Do przeczytania jest cena trzech ciał, które przydawka już ma,
-bo przecinek koordynuje w tej gramatyce na czterech poziomach
-i cena czwartego stanie w zdaniach już przyjętych, a nie w liczbie ciał.
+Ruchem byłoby czwarte ciało tej rodziny, a pomiar przed nim mówi, żeby go nie pisać:
+zakup jest zerowy.
+Ani jedno zdanie Składnicy nie stawia między przydawkami samego przecinka
+(`python3 -m harness.kształty`), a dziesięć, które stawia go w tej pozycji,
+stawia go razem ze spójnikiem — `dynamiczne, ale dostosowane`,
+`tak prawicowej, jak i lewicowej` — czyli w kształcie, którego to ciało nie daje.
+Wpis zamyka więc albo skasowanie, albo ciało na przecinek ze spójnikiem —
+a takie ciało wpuszcza konstrukcję inną niż ta z pierwszego zdania wpisu,
+bo ciąg rozdzielny dzieli rzeczownik między człony, a `dynamiczne, ale
+dostosowane` mówi obie rzeczy o jednym.
+Zdanie `Warstwy trzecia, czwarta i piąta pracują.` zostaje przez to odrzucone
+z ceną, której nikt nie zapłacił, bo rejestr banku drzew go nie pisze;
+czy pisze je rejestr docelowy, mówi przebieg nad prozą tego repozytorium,
+a nie ten nad Składnicą.
 Zdanie tego kształtu stoi w [`docs/architecture.md`](docs/architecture.md),
 a autor odmówił tam zapłaty, bo wersja przechodząca żąda liczby pojedynczej
 od trzech warstw naraz.
@@ -2522,11 +2553,20 @@ więc ruchem jest pozycja okolicznika obok wyrażenia przyimkowego i przysłówk
 Cena jest widoczna przed pomiarem i jest wysoka:
 okolicznik dochodzi do zdania i do grupy imiennej, a forma celownika żeńskiego
 jest zarazem miejscownikiem, więc każde `w gramatyce` dostaje drugie czytanie.
-Do przeczytania jest, ile zdań Składnicy niesie taki celownik —
-bank drzew nazywa pozycje wymagane, więc celownik niewymagany da się w nim policzyć
-kształtem — bo bez tej liczby wpis jest samą ceną,
-oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
-i mówi, ile go w Walentym widać z drugiej strony.
+Ceny tej zakup nie równoważy.
+Celownik pod pozycją luźną, czyli ten, którego schemat czasownika nie żąda,
+niesie w Składnicy 10 zdań z rzeczownikiem i 54 z zaimkiem,
+na 13035 mających drzewo wzorcowe (`python3 -m harness.kształty`).
+Pozycji, którą wpis proponuje, żąda pierwsza z tych liczb, a nie ich suma:
+zaimek zwrotny olski ma już terminalem
+([`docs/subset.md`](docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)),
+a `Rozbiłaś mi samochód!` żąda zaimka osobowego, nie grupy imiennej.
+Rozdzielić te dwie liczby trzeba przy tym lematem, a nie klasą głowy,
+którą bank drzew przy frazie wypisuje: `siebie` liczy on do klasy rzeczownika,
+więc podział po samej klasie stawia każde `sobie` po stronie rzeczownikowej
+i zawyża tam wiersz kilkakrotnie.
+Zostaje `harness/konwersy.py`, bo tamto kryterium łapie ten celownik dziś jako
+pomyłkę i mówi, ile go w Walentym widać z drugiej strony.
 
 Liczebnik za rzeczownikiem nie ma pozycji, a zasłania to czytanie rzeczownikowe.
 `po którym zostaje czytań kilka` wychodzi przyjęte,

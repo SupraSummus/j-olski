@@ -18,7 +18,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from harness.corpus import FULL, Sentence, parse_forest, pliki, read
+from harness.corpus import FULL, Sentence, constituents, parse_forest, pliki, read
 from harness.pomiar import Outcome, main, measure, przebieg, scal, zmierz_zdanie
 from olski.parse import parse
 from olski.pokrycie import NO_STRUCTURE, render
@@ -47,12 +47,16 @@ def terminal(nid, start, end, orth, tag, lemma=None, chosen="true"):
     )
 
 
-def phrase(nid, start, end, category, children, slot=None, chosen="true", rule="r"):
+def phrase(nid, start, end, category, children, slot=None, chosen="true", rule="r", **cechy):
+    #  Cechy idą słowami kluczowymi, bo test pisze zwykle jedną — `przypadek`
+    #  albo `klasa` — a pozycyjny słownik kazałby wypisywać ją w każdym wywołaniu,
+    #  także tam, gdzie o cechy nie chodzi.
+    pola = "".join(f'<f type="{nazwa}">{wartość}</f>' for nazwa, wartość in cechy.items())
     slot_f = f'<f type="tfw">{slot}</f>' if slot else ""
     kids = "".join(f'<child nid="{child}"/>' for child in children)
     return (
         f'<node nid="{nid}" from="{start}" to="{end}" chosen="{chosen}">'
-        f"<nonterminal><category>{category}</category>{slot_f}</nonterminal>"
+        f"<nonterminal><category>{category}</category>{slot_f}{pola}</nonterminal>"
         f'<children rule="{rule}" chosen="{chosen}">{kids}</children>'
         f"</node>"
     )
@@ -111,6 +115,19 @@ def test_gold_tags_become_readings_the_parser_can_use():
     assert reading.tag.get("case") == frozenset({"nom"})
     #  One reading per terminal: the treebank has already disambiguated.
     assert all(len(segment.readings) == 1 for segment in sentence.segments)
+
+
+def test_a_phrase_case_reads_the_same_whether_written_in_polish_or_latin():
+    """Składnica pisze przypadek raz po polsku, raz po łacinie, w jednym wydaniu.
+
+    Sonda pytająca o przypadek frazy dostałaby bez tego przekładu dwie odpowiedzi
+    na jedną konstrukcję i policzyła każdą z nich osobno.
+    """
+    po_polsku = phrase(0, 0, 1, "fno", [1], przypadek="cel") + terminal(1, 0, 1, "mu", "ppron3")
+    po_łacinie = po_polsku.replace(">cel<", ">dat<")
+
+    assert constituents(forest(po_polsku))[0].przypadek == "dat"
+    assert constituents(forest(po_łacinie))[0].przypadek == "dat"
 
 
 def test_a_node_outside_the_chosen_tree_is_left_out():
