@@ -642,19 +642,22 @@ więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
 i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
 
-Trzy pozycje stoją na tej liście z kolejki czytanej po części mowy,
-a nie po formie, i nie stawia ich ani jedno z tych dwóch źródeł:
-imiesłów przysłówkowy, zaimek `siebie` i czas przyszły predykatywu
-([subset.md](subset.md#what-it-does-not-cover-yet)).
-Dwie pierwsze niosą po jednej konstrukcji na cały wiersz,
-więc wiersz nazywa je wprost,
-gdzie wiersze przed nimi grupują po kilka konstrukcji naraz
-i dopiero czytanie form mówi, o które idzie.
-Trzecia jest resztką wiersza, którego czas przyszły nie opróżnił do końca
-([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
-Zmierzona nie jest z nich żadna,
-a kolejność między nimi rozstrzyga cena,
-tak samo jak przy pozostałych pozycjach tej listy.
+Kolejkę tę czyta się przy tym dwojako i tylko jedno z dwóch czytań stawia dziś
+pozycje na tej liście.
+Po formie widać zdanie, na którym analiza stanęła.
+Po części mowy widać konstrukcję, ale tylko tam, gdzie cały wiersz niesie ją jedną —
+tak stoją `pcon` oraz `siebie` — bo wiersz taki jak `interp` albo `part`
+grupuje po kilka i dopiero czytanie form mówi, o którą idzie.
+Czytanie po części mowy nie stawia na tej liście nic,
+bo wpuszczone są wszystkie trzy pozycje, które nazwało:
+[imiesłów przysłówkowy](subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem),
+[zaimek `siebie`](subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)
+oraz [czas przyszły predykatywu](subset.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem),
+czyli resztka wiersza, którego czas przyszły nie opróżnił do końca.
+Wiersze tych trzech w kolejce zostają
+([corpus.md](corpus.md#where-the-analyses-stop)),
+i mówi to o niej to samo, co wiersz `comp` wyżej:
+nazywa ona część mowy, a nie konstrukcję.
 
 Trzy konstrukcje weszły przy tym poza wszystkimi tymi źródłami.
 Zaimek dzierżawczy postawiła sesja pisząca pod tę gramatykę zdanie po zdaniu

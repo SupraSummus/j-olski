@@ -81,6 +81,12 @@ ORZEKAJĄCY = "NominalPredicate"
 #: docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
 BEZOSOBOWY = "ImpersonalPredicate"
 
+#: Symbol imiesłowu przysłówkowego wraz z przeczeniem i cząstką zwrotną:
+#: `sprawdzając` w `Program zapisuje ustawienia, sprawdzając zgodność.`
+#: Rolą ta nazwa nie jest, bo rolą jest cały okolicznik (:data:`OKOLICZNIKOWY`),
+#: który werdykt nazywa całym napisem i w środek nie zagląda.
+IMIESŁÓW = "AdverbialParticiple"
+
 #: Rola cząstki stojącej przy zdaniu: `już`, `dopiero`, `także`.
 #: Od przysłówka różni ją część mowy, a pozycję ma tę samą,
 #: i dlatego pisze je jedna pętla.
@@ -244,6 +250,12 @@ DEKLARACJA = Deklaracja(
     # albo streszcza oba czytania jednym napisem, jak bez ``InfinitivePhrase``.
     # :data:`PYTAJNY` stoi tu, choć jest zarazem rolą, bo wyrażenie przyimkowe
     # ma pod zaimkiem pytajnym własne ciało: `Kto z posłów zapisuje ustawienia?`.
+    # :data:`OKOLICZNIKOWY` stoi tu z tego samego powodu i tylko dla jednej ze
+    # swoich dwóch głów: okolicznik wyrażony zdaniem ma pod sobą zdanie, a więc
+    # i `ClauseConjunct`, na którym zejście staje wcześniej, a imiesłów
+    # przysłówkowy nie ma pod sobą żadnego innego gospodarza, więc bez tego wpisu
+    # `sprawdzając zgodność z dokumentem` nazywa gospodarzem orzeczenie zdania
+    # nadrzędnego i dwa czytania wychodzą jednym napisem.
     gospodarze=(
         "NP",
         "AP",
@@ -251,6 +263,7 @@ DEKLARACJA = Deklaracja(
         "InfinitivePhrase",
         BEZOKOLICZNIK_OTWARTY,
         PYTAJNY,
+        OKOLICZNIKOWY,
         *(rodzina.rdzeń for rodzina in RODZINY),
     ),
     # Symbole, których ciąg nawiasuje napis roli: grupa imienna, grupa
@@ -629,6 +642,15 @@ ZAIMEK_RZECZOWNY = frozenset({
     "to", "tamto", "owo", "kto", "któż", "ktoś", "ktokolwiek",
     "co", "cóż", "coś", "cokolwiek", "nikt", "nic", "wszystko",
 })
+
+#: Zaimek zwrotny, którego Morfeusz trzyma pod częścią mowy tej jednej formy:
+#: `siebie:gen`, `sobie:dat`, `sobą:inst`. Terminalem, a nie ciałem grupy imiennej,
+#: bo grupa niesie liczbę i rodzaj, a ciało bez nich wpuściłoby ten zaimek tam,
+#: gdzie zgodności żąda ktoś inny: cechy, której konstytuent nie niesie, unifikacja
+#: nie sprawdza, więc `Widzę siebie, która stoi.` by się wyprowadzało.
+#: Cenę i pozycje trzyma
+#: docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym.
+ZWROTNY = word("siebie", case=V("c"))
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -1287,7 +1309,7 @@ NIE_WYPUSZCZANE = {
     "Predicate": ("valency", "negacja", "druga"),
     ORZECZENIE_ODWRÓCONE: ("valency", "negacja", "druga"),
     **{rodzina.rdzeń: ("person", "valency", "negacja") for rodzina in RODZINY},
-    OKOLICZNIKOWY: ("tryb",),
+    OKOLICZNIKOWY: ("tryb", "valency", "negacja", "druga"),
     ORZEKAJĄCY: ("case", "number"),
     "Subject": ("case",),
     "Object": ("case",),
@@ -1583,6 +1605,19 @@ def build() -> Grammar:
             negacja=negacja,
             druga=BEZ_DRUGIEJ,
         )
+        # Czas przyszły tej głowy: `Trzeba będzie zmierzyć cenę.` Liczba i osoba
+        # stoją wypisane wartością, a nie zmienną, bo predykatyw nie niesie ani
+        # jednej, a cechy, której konstytuent nie niesie, unifikacja nie sprawdza:
+        # bez tych dwóch wartości `Trzeba będą zmierzyć cenę.` się wyprowadza.
+        # Szyk odwrotny i cenę trzyma
+        # docs/subset.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
+        grammar.rule(
+            BEZOSOBOWY,
+            [*przeczenie, Głowa(PREDYKATYW), word("bedzie", number="sg", person="ter")],
+            valency=RAMA_BEZOSOBOWA,
+            negacja=negacja,
+            druga=BEZ_DRUGIEJ,
+        )
         for zwrotne, cząstka in ((False, ()), (True, (CZĄSTKA_ZWROTNA,))):
             for warunek, rama, druga in _klasy(zwrotne):
                 grammar.rule(
@@ -1804,6 +1839,28 @@ def build() -> Grammar:
     for przypadek, _lematy, _zwrotne in DOKŁADANE:
         grammar.rule("Object", [nt("NP", case=przypadek)], valency=przypadek, czoło=BEZ_CZOŁA)
 
+    # Te same cztery pozycje wypełnione zaimkiem zwrotnym (:data:`ZWROTNY`):
+    # `Widzę siebie.`, `Nie widzę siebie.` Pozycje stoją wypisane, a nie wzięte z
+    # :data:`DOKŁADANE`, z tego samego powodu, z którego wypisuje je czoło
+    # (:func:`_wysunięta_rola`): z tamtej listy wchodzą tu dwie z trzech, bo
+    # bezokolicznik przypadkiem nie jest.
+    #
+    # Mianownika ta część mowy nie ma, więc podmiotu nie ma czym wypełnić.
+    for przypadek, rama, negacja in (
+        ("acc", "acc", "aff"),
+        ("gen", "acc", "neg"),
+        ("dat", "dat", None),
+        ("gen", "gen", None),
+    ):
+        przeczenie = {} if negacja is None else {"negacja": negacja}
+        grammar.rule(
+            "Object",
+            [word("siebie", case=przypadek)],
+            valency=rama,
+            czoło=BEZ_CZOŁA,
+            **przeczenie,
+        )
+
     # To, co czasownik bierze, jest jednym symbolem, a nie listą ciał, żeby forma
     # osobowa i bezokolicznik niżej dzieliły ją, zamiast nieść każde swoją kopię.
     dopełnienia = nt(
@@ -1945,6 +2002,40 @@ def build() -> Grammar:
     for wnętrze in (nt("Clause", tryb=TRYB_POD_SPÓJNIKIEM), nt("InfinitivePhrase")):
         _zamykane(grammar, OKOLICZNIKOWY, [PRZECINEK, spójnik, Głowa(wnętrze)], pozycja="za")
         grammar.rule(OKOLICZNIKOWY, [spójnik, Głowa(wnętrze), PRZECINEK], pozycja="przed")
+
+    # Ten sam okolicznik wyrażony imiesłowem przysłówkowym: `Program zapisuje
+    # ustawienia, sprawdzając zgodność.` Ciała stoją pod tym symbolem, a nie pod
+    # własnym: imiesłów zajmuje miejsce, które ten symbol już ma, więc symbol
+    # osobny żądałby drugiej kopii obu pozycji i obu ciał nad ciągiem współrzędnym.
+    # Spójnika te ciała nie mają, bo imiesłów podporządkowuje sam.
+    #
+    # Ciała są dwa na każdą pozycję, bo zakup imiesłowu bez wypełnienia jest osobną
+    # liczbą. Wywód, pozycje i cenę trzyma
+    # docs/subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem.
+    imiesłów = nt(IMIESŁÓW, valency=V("w"), negacja=V("z"), druga=V("d"))
+    wypełnienie_imiesłowu = nt("Complements", valency=V("w"), negacja=V("z"), druga=V("d"))
+    for wnętrze in ([Głowa(imiesłów), wypełnienie_imiesłowu], [Głowa(nt(IMIESŁÓW))]):
+        _zamykane(grammar, OKOLICZNIKOWY, [PRZECINEK, *wnętrze], pozycja="za")
+        grammar.rule(OKOLICZNIKOWY, [*wnętrze, PRZECINEK], pozycja="przed")
+
+    # Głowa tego okolicznika. Symbolem, a nie ciałem wypisanym w każdej z sześciu
+    # pozycji wyżej, bo klas walencyjnych jest kilkadziesiąt i każda pozycja
+    # niosłaby je wszystkie osobno.
+    #
+    # Ramę bierze imiesłów z leksykonu swojego lematu, tak samo jak forma
+    # nieosobowa, i tak samo bez orzecznika zgodnego: podmiot tego imiesłowu stoi
+    # w zdaniu nadrzędnym, więc pod nim nie ma z czym zgodzić ani jego, ani
+    # niczego innego.
+    for przeczenie, negacja in PRZECZENIA:
+        for zwrotne, przed, za in SZYKI_CZĄSTKI:
+            for warunek, rama, druga in _klasy(zwrotne):
+                grammar.rule(
+                    IMIESŁÓW,
+                    [*przed, *przeczenie, Głowa(word("pcon", **warunek)), *za],
+                    valency=_bez_orzecznika(rama),
+                    negacja=negacja,
+                    druga=druga,
+                )
 
     # Dwie pozycje, bo polszczyzna stawia ten okolicznik przed swoim zdaniem i za
     # nim, a szyku wewnątrz zdania nadrzędnego nie zmienia ani jedna, ani druga.
@@ -2438,6 +2529,11 @@ def build() -> Grammar:
     # Jeden lemat jest tu wykluczony i wykluczony jest z nazwy
     # (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
     grammar.rule("Modifier", [Głowa(PRZYIMEK), nt("NP", case=V("c"))])
+
+    # To samo wyrażenie z zaimkiem zwrotnym pod przyimkiem: `Reguły odsyłają do
+    # siebie.` Ciało jest osobne, bo zakup jest osobną liczbą, a przypadek idzie
+    # tą samą zmienną, więc przyimek rządzi zaimkiem tak, jak rządzi grupą.
+    grammar.rule("Modifier", [Głowa(PRZYIMEK), ZWROTNY])
 
     # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
     # bo bez tego symbolu okolicznik przysłówkowy nie ma węzła, który werdykt nazwie
