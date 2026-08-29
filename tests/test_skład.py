@@ -127,7 +127,7 @@ def test_biernika_odmawiają_oba_kierunki_tym_samym_lematom():
         lemat
         for rama, lematy in WALENCJA.items()
         if "acc" not in rama.split(".")
-        for lemat in lematy.split("|")
+        for lemat in lematy
     }
     assert {lemat for lemat in odmawia_parser if bierze_biernik(lemat)} == set()
     #  Odmowa postawiona każdemu lematowi przeszłaby powyższe, więc świadek

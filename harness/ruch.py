@@ -47,7 +47,7 @@ from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import ciało_koordynuje, parse
 from olski.segmentacja import morphology, sentences
-from olski.subset import build
+from olski.subset import SPÓJNIKOWE, build
 from olski.werdykt import Verdict, werdykt
 
 #: Ile zdań zachować pod każdym przejściem. Przejście bez przykładu jest liczbą,
@@ -129,11 +129,6 @@ class Sonda:
         ``tests/test_ruch.py``.
         """
         return self.warianty[-1]
-
-
-#: Części mowy, pod którymi Morfeusz trzyma spójnik. Dwie, bo rozdziela on
-#: podrzędny od współrzędnego, a interpunkcja przed spójnikiem tego podziału nie zna.
-SPÓJNIKOWE = frozenset({"conj", "comp"})
 
 
 def koordynuje(produkcja: Production) -> bool:

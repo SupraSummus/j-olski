@@ -201,31 +201,41 @@ def nt(name: str, **features) -> Sym:
     return Sym(name=name, constraints=_constraints(features))
 
 
+#: Zbiór napisów, o jaki pyta terminal: części mowy, lematy albo nazwy cech.
+#: Napis pojedynczy znaczy zbiór jednoelementowy, bo o jedną wartość pyta
+#: większość terminali, a klamry wokół jednej wartości niczego o niej nie mówią.
+Zbiór = str | Collection[str]
+
+
+def _zbiór(wartość: Zbiór | None) -> frozenset[str] | None:
+    if wartość is None:
+        return None
+    return frozenset({wartość} if isinstance(wartość, str) else wartość)
+
+
 def word(
-    pos: str,
-    lemma: str | None = None,
-    bez_lematu: str | None = None,
-    bez_lematu_formy: str | None = None,
-    niesie: str | None = None,
+    pos: Zbiór,
+    lemma: Zbiór | None = None,
+    bez_lematu: Zbiór | None = None,
+    bez_lematu_formy: Zbiór | None = None,
+    niesie: Zbiór | None = None,
     **features,
 ) -> Word:
     """Match a morphological reading: ``word("subst", case=V("c"))``.
 
-    ``pos`` may name alternatives, as in ``"fin|praet"``.
+    ``pos`` may name alternatives, as in ``{"fin", "praet"}``.
     ``bez_lematu`` names alternatives the same way and excludes them instead,
     and ``bez_lematu_formy`` excludes them by the whole form
     rather than by the one reading being matched.
-    ``niesie`` nazywa cechy, które forma ma nieść, tak samo rozdzielone kreską.
+    ``niesie`` nazywa cechy, które forma ma nieść, tym samym zbiorem.
     """
     return Word(
-        pos=frozenset(pos.split("|")),
+        pos=_zbiór(pos),
         constraints=_constraints(features),
-        lemmas=None if lemma is None else frozenset(lemma.split("|")),
-        bez_lematów=None if bez_lematu is None else frozenset(bez_lematu.split("|")),
-        bez_lematów_formy=(
-            None if bez_lematu_formy is None else frozenset(bez_lematu_formy.split("|"))
-        ),
-        niesione=None if niesie is None else frozenset(niesie.split("|")),
+        lemmas=_zbiór(lemma),
+        bez_lematów=_zbiór(bez_lematu),
+        bez_lematów_formy=_zbiór(bez_lematu_formy),
+        niesione=_zbiór(niesie),
     )
 
 

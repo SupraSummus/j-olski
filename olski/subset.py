@@ -263,7 +263,10 @@ SPÓJNIK_PYTAJNY = "czy"
 #: Spójniki, których zdanie polszczyzna stawia przed zdaniem nadrzędnym i za nim.
 #: Zajmują one obie pozycje okolicznika, a pozostałe stałe niżej wyliczają to,
 #: co każda z tych dwóch list trzyma na zewnątrz.
-SPÓJNIKI_WYSUWANE = "gdy|kiedy|jeśli|jeżeli|zanim|nim|choć|chociaż|dopóki|póki|skoro|ponieważ"
+SPÓJNIKI_WYSUWANE = frozenset({
+    "gdy", "kiedy", "jeśli", "jeżeli", "zanim", "nim",
+    "choć", "chociaż", "dopóki", "póki", "skoro", "ponieważ",
+})
 
 #: Spójniki, których zdanie stoi za zdaniem nadrzędnym i tylko tam, bo mówią one
 #: o przyczynie dopowiedzianej, a nie o ramie, w której coś zachodzi:
@@ -274,7 +277,7 @@ SPÓJNIKI_WYSUWANE = "gdy|kiedy|jeśli|jeżeli|zanim|nim|choć|chociaż|dopóki|
 #: TODO.md trzyma ruch, którym oba kierunki przeczytałyby jeden leksykon,
 #: bo tą samą drogą poszła walencja.
 #: Świadka nad bankiem drzew czyta docs/subset.md.
-SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
+SPÓJNIKI_PO_ZDANIU = frozenset({"bo", "gdyż", "albowiem", "aż"})
 
 #: Spójniki otwierające okolicznik wyrażony zdaniem, czyli obie listy razem.
 #: Lista jest zamknięta i stawia formie dwa żądania naraz, bo klasa `comp` niesie
@@ -285,7 +288,7 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #: Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym, a spójniki, pod
 #: którymi stoi tryb przypuszczający, wylicza :data:`SPÓJNIKI_TRYBU` i bierze
 #: osobne ciało, bo żądają one od zdania cechy, której ta lista nie żąda.
-SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
+SPÓJNIKI_OKOLICZNIKOWE = SPÓJNIKI_WYSUWANE | SPÓJNIKI_PO_ZDANIU
 
 #: Przysłówek względny, którym ten rejestr dopowiada miejsce: `Wchodzi w
 #: subset.md, gdzie produkcje stoją jedna pod drugą.` Morfeusz daje mu `adv`, a
@@ -312,16 +315,17 @@ PRZYSŁÓWEK_WZGLĘDNY = "gdzie"
 #: pierwszego bank drzew nie ma ani raz, a drugie bierze terminal cząstki
 #: (:data:`CZĄSTKA_TRYBU`), bo `by` jest jedną formą w dwóch rolach i rozdziela je
 #: część mowy, którą słownik daje: `comp` spójnikowi, `part` cząstce.
-SPÓJNIKI_TRYBU = "aby|ażeby|żeby|by|gdyby|jakby"
+SPÓJNIKI_TRYBU = frozenset({"aby", "ażeby", "żeby", "by", "gdyby", "jakby"})
 
 #: Spójniki zdaniowe, przed którymi polszczyzna stawia przecinek: `Plany są
 #: niczym, ale planowanie jest wszystkim.` przecinka żąda, a `Program zapisuje
 #: ustawienia i linter sprawdza tekst.` nie bierze go wcale. Fakt jest to o słowie,
 #: tak samo jak wysunięcie okolicznika (:data:`SPÓJNIKI_WYSUWANE`), więc lista
-#: rozdziela spójnik zdaniowy na dwie klasy i obejmuje dwie części mowy naraz,
-#: bo Morfeusz zna `więc` jako `comp`, a `ale` jako `conj`. Kogo nie obejmuje,
-#: za ile i po co, wywodzi docs/subset.md.
-SPÓJNIKI_PRZECINKOWE = "ale|a|lecz|natomiast|więc|zatem|toteż|czyli"
+#: rozdziela spójnik zdaniowy na dwie klasy i obejmuje dwie części mowy naraz
+#: (:data:`SPÓJNIKOWE`). Kogo nie obejmuje, za ile i po co, wywodzi docs/subset.md.
+SPÓJNIKI_PRZECINKOWE = frozenset({
+    "ale", "a", "lecz", "natomiast", "więc", "zatem", "toteż", "czyli",
+})
 
 #: Cząstka przecząca jako lemat, bo pytają o nią dwa miejsca: terminal, którym
 #: olski przeczy (:data:`PRZECZENIE`), i wykluczenie w klasie spójników bez
@@ -340,7 +344,7 @@ LEMAT_PRZECZENIA = "nie"
 #: `tylko` tu stoi, choć poza cząstkami zostało z powodu, który mówi o dwóch
 #: czytaniach jednego napisu (:data:`CZĄSTKI`): warunek na spójnik czytania
 #: cząstkowego tu nie wpuszcza.
-SPÓJNIKI_ELIPSY = "a|ale|lecz|natomiast|tylko|czyli"
+SPÓJNIKI_ELIPSY = frozenset({"a", "ale", "lecz", "natomiast", "tylko", "czyli"})
 
 #: Spójniki, które ten rejestr stawia wewnątrz swojego zdania (:data:`SPÓJNIKOWY`):
 #: `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
@@ -351,7 +355,7 @@ SPÓJNIKI_ELIPSY = "a|ale|lecz|natomiast|tylko|czyli"
 #: Czoła ta lista nie dostaje wcale, i to trzyma jeden napis przy jednym
 #: czytaniu: `Cena jest niska, więc gramatyka jest tania.` ma spójnik za
 #: przecinkiem, więc bierze go tamta lista.
-SPÓJNIKI_WEWNĘTRZNE = "zatem|więc|bowiem|natomiast|zaś|jednak"
+SPÓJNIKI_WEWNĘTRZNE = frozenset({"zatem", "więc", "bowiem", "natomiast", "zaś", "jednak"})
 
 #: Zaimek pytajno-względny, któremu Morfeusz daje znacznik przymiotnika.
 #: Przymiotnikiem przy rzeczowniku nie jest nigdy, więc terminale przydawki i
@@ -377,7 +381,7 @@ ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 #: niosła: zdanie względne bez poprzednika, ciąg pytań zależnych i orzecznik
 #: wysunięty. Wywód i cenę trzyma
 #: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
-ZAIMEK_PYTAJNO_RZECZOWNY = "kto|co"
+ZAIMEK_PYTAJNO_RZECZOWNY = frozenset({"kto", "co"})
 
 #: `Pięcie`, czyli rzeczownik odczasownikowy od `piąć`. Jego dopełniacz mnogi
 #: Morfeusz pisze `pięć` i daje mu liczbę mnogą oraz rodzaj nijaki, czyli to,
@@ -492,7 +496,7 @@ def _klasy_walencyjne(
     bez_biernika: frozenset[str],
     dokładane: Sequence[tuple[str, frozenset]],
     poza: frozenset[str] = frozenset(),
-) -> dict[str, str]:
+) -> dict[str, frozenset[str]]:
     """Lematy leksykonu zebrane w klasy po ramie, którą leksykon każdemu z nich daje.
 
     ``poza`` zabiera lematy, które mają ramę wypisaną ręcznie: klasy mają się nie
@@ -501,10 +505,10 @@ def _klasy_walencyjne(
     klasy: dict[str, set[str]] = {}
     for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:
         klasy.setdefault(_rama(lemat, domyślna, bez_biernika, dokładane), set()).add(lemat)
-    return {rama: "|".join(sorted(lematy)) for rama, lematy in sorted(klasy.items())}
+    return {rama: frozenset(lematy) for rama, lematy in sorted(klasy.items())}
 
 
-def _walencja() -> tuple[dict[str, str], dict[str, str]]:
+def _walencja() -> tuple[dict[str, frozenset[str]], dict[str, frozenset[str]]]:
     """Leksykon jako klasy walencyjne, osobno dla formy z cząstką ``się`` i bez niej.
 
     Zwrotność jest drugim wymiarem klucza, a nie częścią lematu, i dlaczego,
@@ -522,9 +526,7 @@ def _walencja() -> tuple[dict[str, str], dict[str, str]]:
     """
     return (
         {
-            **_klasy_walencyjne(
-                RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), frozenset(KOPULA.split("|"))
-            ),
+            **_klasy_walencyjne(RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), KOPULA),
             "nom.inst": KOPULA,
         },
         _klasy_walencyjne(RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
@@ -543,9 +545,10 @@ WALENCJA, WALENCJA_ZWROTNA = _walencja()
 #: rządzący rzeczownikiem. Lista jest zamknięta, bo czytanie tych form niczym się
 #: nie różni od czytania rzeczownika: `nikt` jest `subst:sg:nom:m1` tak samo jak
 #: `parser` jest `subst:sg:nom:m3`. docs/subset.md wywodzi kryterium i mierzy cenę.
-ZAIMEK_RZECZOWNY = (
-    "to|tamto|owo|kto|któż|ktoś|ktokolwiek|co|cóż|coś|cokolwiek|nikt|nic|wszystko"
-)
+ZAIMEK_RZECZOWNY = frozenset({
+    "to", "tamto", "owo", "kto", "któż", "ktoś", "ktokolwiek",
+    "co", "cóż", "coś", "cokolwiek", "nikt", "nic", "wszystko",
+})
 
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
@@ -656,10 +659,10 @@ NAWIAS_ZAMYKAJĄCY = word("interp", lemma=")")
 #: Znaki są dwa, bo polszczyzna pisze myślnik pauzą i półpauzą, a łącznik spaja
 #: wewnątrz wyrazu — `16-latków`, `UTF-8` — więc tego warunek nie bierze. Co to
 #: wykluczenie kosztuje, mierzy docs/subset.md.
-MYŚLNIK = word("interp", lemma="—|–")
+MYŚLNIK = word("interp", lemma={"—", "–"})
 
 #: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
-KONIEC_ZDANIA = word("interp", lemma=".|!|?")
+KONIEC_ZDANIA = word("interp", lemma={".", "!", "?"})
 
 #: Pytajnik, którym ktoś zamknął zdanie pytające. Osobno od :data:`KONIEC_ZDANIA`,
 #: bo tamten bierze każdy z trzech znaków, a zdanie pytające zamyka się jednym:
@@ -692,6 +695,13 @@ ZAIMEK_DZIERŻAWCZY = word(
     "ppron3", case="gen", accentability="akc", post_prepositionality="npraep"
 )
 
+#: Części mowy, pod którymi Morfeusz trzyma spójnik: `ale` jest `conj`, a `więc`
+#: `comp`, bo słownik rozdziela spójnik podrzędny od współrzędnego. Interpunkcja
+#: przed spójnikiem tego podziału nie zna (:data:`SPÓJNIKI_PRZECINKOWE`), więc
+#: terminale niżej pytają o obie naraz. Pyta o nie także sonda, która szuka
+#: spójnika w cudzym ciele (``harness/ruch.py``).
+SPÓJNIKOWE = frozenset({"conj", "comp"})
+
 #: Dwie klasy, na jakie :data:`SPÓJNIKI_PRZECINKOWE` rozdziela spójnik zdaniowy.
 #: Druga jest warunkiem ujemnym na pierwszą, bo klasy mają się nie zachodzić:
 #: lemat wzięty obiema pozycjami dałby polszczyźnie dwa napisy tam, gdzie ma jeden.
@@ -703,16 +713,12 @@ ZAIMEK_DZIERŻAWCZY = word(
 #: pozycję przy czasowniku (:data:`PRZECZENIE`), a Morfeusz czyta ją także jako
 #: spójnik; kryterium jest to samo, którym stoi lista cząstek (:data:`CZĄSTKI`).
 #: Cenę tego warunku trzyma docs/subset.md pod interpunkcją zdaniową.
-SPÓJNIK_PRZECINKOWY = word("conj|comp", lemma=SPÓJNIKI_PRZECINKOWE)
-SPÓJNIK_BEZ_PRZECINKA = word(
-    "conj", bez_lematu=f"{SPÓJNIKI_PRZECINKOWE}|{LEMAT_PRZECZENIA}"
-)
+SPÓJNIK_PRZECINKOWY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_PRZECINKOWE)
+SPÓJNIK_BEZ_PRZECINKA = word("conj", bez_lematu=SPÓJNIKI_PRZECINKOWE | {LEMAT_PRZECZENIA})
 
-#: Spójnik przed członem bez czasownika, i spójnik wewnątrz swojego zdania. Oba
-#: pytają o dwie części mowy naraz, tak samo jak :data:`SPÓJNIK_PRZECINKOWY` i z
-#: tego samego powodu.
-SPÓJNIK_ELIPSY = word("conj|comp", lemma=SPÓJNIKI_ELIPSY)
-SPÓJNIK_WEWNĘTRZNY = word("conj|comp", lemma=SPÓJNIKI_WEWNĘTRZNE)
+#: Spójnik przed członem bez czasownika, i spójnik wewnątrz swojego zdania.
+SPÓJNIK_ELIPSY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_ELIPSY)
+SPÓJNIK_WEWNĘTRZNY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_WEWNĘTRZNE)
 
 #: Przyimek wyrażenia przyimkowego, tego zwykłego i tego, które wysunęło zaimek
 #: względny. Nazwany raz, bo oba wykluczają ten sam lemat i wykluczenie ma być w
@@ -741,10 +747,10 @@ PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWEK_WZGLĘDNY)
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
 #: Kto zostaje poza listą i z jakiego powodu, wylicza
 #: docs/subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
-CZĄSTKI = (
-    "już|jeszcze|dopiero|także|również|nawet|zarazem|naprawdę"
-    "|znowu|wreszcie|ponadto|jedynie|niemal|niespełna|zresztą|przynajmniej"
-)
+CZĄSTKI = frozenset({
+    "już", "jeszcze", "dopiero", "także", "również", "nawet", "zarazem", "naprawdę",
+    "znowu", "wreszcie", "ponadto", "jedynie", "niemal", "niespełna", "zresztą", "przynajmniej",
+})
 
 #: Cząstka w okoliczniku: sama lista i nic więcej, tak samo jak :data:`PRZYSŁÓWEK`
 #: bierze samą część mowy.
@@ -796,7 +802,9 @@ RAMA_BEZOSOBOWA = _bez_orzecznika(RAMA_DOMYŚLNA)
 #: jest jedno: czytanie konkurujące nie może stanąć na czele zdania tego samego
 #: kształtu. Kogo ono zostawia na zewnątrz i za ile, wywodzi
 #: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
-PREDYKATYWY = "można|trzeba|warto|wiadomo|widać|wolno|słychać|znać"
+PREDYKATYWY = frozenset({
+    "można", "trzeba", "warto", "wiadomo", "widać", "wolno", "słychać", "znać",
+})
 
 #: Predykatyw na czele swojego zdania: sama lista i nic więcej, tak samo jak
 #: :data:`CZĄSTKA`.
@@ -856,7 +864,7 @@ TRYB_FORMY_NA_Ł = f"{TRYB_OZNAJMUJĄCY}.{TRYB_POD_SPÓJNIKIEM}"
 PRZECZENIA: tuple[tuple[tuple[Part, ...], str], ...] = (((), "aff"), ((PRZECZENIE,), "neg"))
 
 
-def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str, str]]:
+def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], str, str]]:
     """Klasy walencyjne: warunek na lemat, rama i druga pozycja, którą warunek wpuszcza.
 
     Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
@@ -890,22 +898,21 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, str], str, str]]:
     leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
     z_parą = Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE if zwrotne else Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU
     klasy = [
-        ({"lemma": "|".join(wybrane)}, rama, druga)
+        ({"lemma": wybrane}, rama, druga)
         for rama, lematy in leksykon.items()
-        for druga, wybrane in _po_drugiej(lematy.split("|"), z_parą)
+        for druga, wybrane in _po_drugiej(lematy, z_parą)
         if wybrane
     ]
-    poza_domyślną = [*leksykon.values(), *([KOPULA] if zwrotne else [])]
+    poza_domyślną = (KOPULA if zwrotne else frozenset()).union(*leksykon.values())
     domyślna = RAMA_DOMYŚLNA_ZWROTNA if zwrotne else RAMA_DOMYŚLNA
-    return [*klasy, ({"bez_lematu_formy": "|".join(poza_domyślną)}, domyślna, BEZ_DRUGIEJ)]
+    return [*klasy, ({"bez_lematu_formy": poza_domyślną}, domyślna, BEZ_DRUGIEJ)]
 
 
-def _po_drugiej(lematy: Sequence[str], z_parą: frozenset[str]) -> list[tuple[str, list[str]]]:
+def _po_drugiej(
+    lematy: frozenset[str], z_parą: frozenset[str]
+) -> list[tuple[str, frozenset[str]]]:
     """Lematy klasy rozdzielone na te z drugą pozycją i te bez niej."""
-    return [
-        (DRUGA_CELOWNIK, [lemat for lemat in lematy if lemat in z_parą]),
-        (BEZ_DRUGIEJ, [lemat for lemat in lematy if lemat not in z_parą]),
-    ]
+    return [(DRUGA_CELOWNIK, lematy & z_parą), (BEZ_DRUGIEJ, lematy - z_parą)]
 
 
 def _formy_skończone(
@@ -955,7 +962,7 @@ def _formy_skończone(
     niedokonany = {"aspect": "imperf"}
     return [
         (
-            [Głowa(word("fin|impt", number=V("n"), person=V("p"), **warunek))],
+            [Głowa(word({"fin", "impt"}, number=V("n"), person=V("p"), **warunek))],
             {"person": V("p"), "tryb": TRYB_OZNAJMUJĄCY},
         ),
         ([Głowa(czasownik)], {"person": "ter", "tryb": TRYB_FORMY_NA_Ł}),
@@ -1237,7 +1244,7 @@ def build() -> Grammar:
         ("AdjectiveConjunct", word("pact", bez_lematu_formy=KOPULA, **AGREE), (CZĄSTKA_ZWROTNA,)),
         (
             "PredicativeAdjective",
-            word("adj|ppas", bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE),
+            word({"adj", "ppas"}, bez_lematu=ZAIMEK_PYTAJNO_WZGLĘDNY, **AGREE),
             (),
         ),
     ):
@@ -2297,7 +2304,7 @@ def build() -> Grammar:
 
     # Zaimek jest tym jednym członem, który niesie własną osobę, i po to jedno tu
     # stoi: bez niego podmiot w pierwszej i w drugiej osobie nie ma czym być.
-    grammar.rule("NPConjunct", [word("ppron3|ppron12", person=V("p"), **AGREE)])
+    grammar.rule("NPConjunct", [word({"ppron3", "ppron12"}, person=V("p"), **AGREE)])
 
     # Zaimek dzierżawczy przed grupą imienną: `jego skutki`, `ich cena`
     # (:data:`ZAIMEK_DZIERŻAWCZY`). Zgodności ta pozycja nie ma i mieć nie może:

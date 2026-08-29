@@ -17,19 +17,19 @@ from olski.lematy import KOPULA
 from olski.subset import AGREE, ZAIMEK_RZECZOWNY
 
 #: Formy osobowe, które olski bierze: oznajmująca i rozkaźnik.
-OSOBOWY = "fin|impt"
+OSOBOWY = frozenset({"fin", "impt"})
 
 #: Głowy, pod które idzie dopełnienie i bezokolicznik: forma osobowa i sam
 #: bezokolicznik, bo ``ma pomagać pisać`` wiesza bezokolicznik pod bezokolicznikiem.
-CZASOWNIK = "fin|impt|inf"
+CZASOWNIK = frozenset({"fin", "impt", "inf"})
 
 #: To, co wypełnia pozycję rzeczownikową: rzeczownik albo zaimek. Zaimek stoi
 #: osobno wszędzie tam, gdzie osoba wchodzi do zgodności, bo tag rzeczownika osoby
 #: nie niesie, a unifikacja cechy, której nie ma, nie sprawdza.
-NOMINALNE = "subst|ppron3|ppron12"
+NOMINALNE = frozenset({"subst", "ppron3", "ppron12"})
 
 #: Przymiotnik i imiesłów przymiotnikowy bierny, jak w ``APConjunct`` olskiego.
-PRZYMIOTNIK = "adj|ppas"
+PRZYMIOTNIK = frozenset({"adj", "ppas"})
 
 WIĘZY = (
     # Podmiot, czyli Subject → NP[nom] wraz ze zgodnością, którą w olskim robią
@@ -44,7 +44,7 @@ WIĘZY = (
     Więz(
         "Subject",
         word(OSOBOWY, number=V("n"), person=V("p")),
-        word("ppron3|ppron12", case="nom", number=V("n"), person=V("p")),
+        word({"ppron3", "ppron12"}, case="nom", number=V("n"), person=V("p")),
     ),
     # Dopełnienie, czyli Object → NP[acc], w dwóch deklaracjach zamiast jednej: za
     # czasownikiem bez warunku, przed nim z tym, który uzasadnia pole ``wymaga``.
@@ -160,7 +160,7 @@ WIĘZY = (
     ),
     Więz(
         "Coord",
-        word("subst|adj|ppas|fin|impt"),
+        word({"subst", "adj", "ppas", "fin", "impt"}),
         word("conj"),
         strona=PO,
         wymaga=("Conjunct",),
@@ -182,5 +182,5 @@ GRAMATYKA = Gramatyka(
     więzy=WIĘZY,
     zgody=ZGODY,
     żądania=ŻĄDANIA,
-    domknięcie=word("interp", lemma=".|!|?"),
+    domknięcie=word("interp", lemma={".", "!", "?"}),
 )
