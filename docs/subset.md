@@ -3582,6 +3582,34 @@ Szyki ma ta konstrukcja dwa: predykatyw stoi przed tym, czym rządzi,
 a dopełnienie przed predykatywem
 ([niżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
 
+### Forma bedzie składa czas przyszły także z predykatywem
+
+`Trzeba będzie zmierzyć cenę.`
+Forma `bedzie` składa ten czas z predykatywem tak samo,
+jak składa go z bezokolicznikiem przy czasowniku
+([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
+a jedna rzecz jest tu inna: głową zostaje predykatyw, bo rama należy do niego.
+
+Gramatyka wpisuje temu ciału liczbę i osobę, zamiast brać je zmienną.
+Predykatyw nie niesie ani jednej,
+a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc bez tych dwóch wartości `Trzeba będą zmierzyć cenę.` się wyprowadza.
+Trzecia osoba pojedyncza jest jedyną, w której polszczyzna to zdanie pisze.
+
+Ciało jest jedno i stawia `bedzie` za predykatywem.
+`Będzie trzeba zmierzyć cenę.` polszczyzną jest i zostaje odrzucone:
+szyk odwrotny jest osobnym ciałem i osobną liczbą,
+której nikt nie policzył, a wpis trzyma [TODO.md](../TODO.md).
+
+Zakup jest liczony w pojedynczych zdaniach banku drzew
+i po stronie ceny nie ma nic: ani jedno zdanie przyjęte nie staje się
+wieloznaczne, pod żadną z dwóch morfologii.
+Nad prozą tego repozytorium nie rusza ani jednego werdyktu,
+bo ten rejestr tej formy nie pisze.
+Wiersz `bedzie` w kolejce blokerów po tej konstrukcji nie pustoszeje:
+zostaje w nim garść zdań, a dlaczego, mówi
+[corpus.md](corpus.md#where-the-analyses-stop).
+
 ## Czasownik nieosobowy orzeka bez podmiotu i rządzi ramą swojego lematu
 
 `Zgłoszono usterkę.`, `Nie zrobiono nic.`, `Podano do stołu.` —
@@ -3973,6 +4001,105 @@ więc jedyne, czego temu zdaniu brakuje, jest tą pozycją, a nie przydawką
 ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
 wylicza ją wśród konstrukcji, które zostają w kolejce).
 
+## Zaimek zwrotny jest terminalem, bo nie zgadza się z niczym
+
+`Widzę siebie.`, `Osie są od siebie niezależne.`
+Morfeusz trzyma ten zaimek pod częścią mowy tej jednej formy — `siebie:gen`,
+`sobie:dat`, `sobą:inst` — a przypadek jest jedyną cechą, jaką ta część mowy niesie.
+
+Rozstrzyga o tym brak liczby i rodzaju.
+Grupa imienna niesie obie, bo zgadza się nimi z przydawką i ze zdaniem względnym,
+a ciało grupy bez nich wpuszczałoby ten zaimek wszędzie tam,
+gdzie zgodności żąda ktoś inny:
+cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
+więc `Widzę siebie, która stoi.` dostawałoby wyprowadzenie.
+Ceną terminalu jest to, że przydawki ani dopełniacza ten zaimek pod sobą nie bierze,
+a polszczyzna nie daje mu ani jednego, ani drugiego.
+
+Pozycje są dwie: dopełnienie oraz grupa pod przyimkiem.
+Dopełnienie powtarza ciała grupy imiennej —
+biernik, dopełniacz negacji oraz celownik i dopełniacz z leksykonu
+([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)) —
+a stoją one wypisane, bo z listy leksykonu wchodzą tu dwie pozycje z trzech:
+bezokolicznik przypadkiem nie jest.
+Mianownika ta część mowy nie ma i mieć nie może,
+skoro zaimek ten odsyła do podmiotu, więc podmiotem nie bywa
+i produkcji na to nie ma.
+Orzecznika narzędnikowego ten zaimek nie dostał,
+a zdanie z nim mimo to się wyprowadza:
+`Parser jest sobą.` wychodzi jednoznaczne na rzeczowniku `soba` w narzędniku.
+Pozycja i ten lemat schodzą się przez to w jedno pytanie, a wpis trzyma
+[TODO.md](../TODO.md).
+
+Zakup jest tu kilkudziesięcioma zdaniami banku drzew wyciągniętymi z odrzucenia,
+w większości przyjętymi, i po stronie ceny nie ma pod złotą morfologią nic:
+ani jedno zdanie przyjęte wcześniej nie staje się wieloznaczne.
+Pod żywą płaci ten sam lemat `soba`, którego Morfeusz zna w celowniku,
+miejscowniku i narzędniku: jednoznaczności traci kilkanaście zdań z `sobie`
+i `sobą`, a `siebie` żadnego.
+Każde z nich wychodziło bez tej pozycji jednoznaczne właśnie na rzeczowniku,
+czyli na czytaniu, którego polszczyzna tam nie ma
+([wyżej](#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)),
+więc razem z jednoznacznością ubywa werdyktów nieprawdziwych.
+Wykluczenie ze słownika po ten lemat nie sięga, bo jest to rzeczownik odmienny
+([wyżej](#the-dictionary-offers-readings-polish-does-not)).
+Nad prozą tego repozytorium zakup jest liczony w pojedynczych zdaniach,
+a ceny nie ma żadnej.
+Z drzewem wzorcowym olski nie zgadza się nad pojedynczymi zdaniami nowo przyjętymi,
+a garść czyta bez roli, którą dałoby się z tym drzewem porównać:
+podmiot jest w nich opuszczony, a zaimek stoi pod przyimkiem.
+
+## Imiesłów przysłówkowy stoi tam, gdzie okolicznik wyrażony zdaniem
+
+`Program zapisuje ustawienia, sprawdzając zgodność.`
+Konstrukcja ta jest okolicznikiem i zajmuje miejsce,
+które okolicznik wyrażony zdaniem w tej gramatyce już ma
+([wyżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+więc dochodzi jego ciałami, a nie własnym symbolem.
+Przemawia za tym to samo, co przy [przydawce
+imiesłowowej](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik):
+symbol osobny żądałby drugiej kopii obu pozycji okolicznika
+oraz obu ciał nad ciągiem współrzędnym,
+a nie kupowałby za to niczego, czego polszczyzna w tych miejscach rozdziela.
+
+Spójnika te ciała nie mają i mieć nie mogą,
+bo imiesłów podporządkowuje sam: formą osobową nie jest.
+Przecinek zostaje, bo to on tę konstrukcję w zdaniu odgranicza.
+
+Wypełnienie bierze imiesłów ramą swojego lematu,
+tak samo jak forma nieosobowa czasownika
+([wyżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+i tak samo bez orzecznika zgodnego:
+podmiot tego imiesłowu stoi w zdaniu nadrzędnym,
+więc pod nim nie ma z czym zgodzić ani orzecznika, ani niczego innego.
+Widać to na lemacie, o którym leksykon mówi, że biernika nie bierze:
+`Program zapisuje ustawienia, pomagając zgodność.` jest odrzucone,
+gdzie `pomagając linterowi` się wyprowadza.
+Polszczyzna żąda przy tym od tego imiesłowu tożsamości podmiotu,
+a nie zgodności form, więc gramatyka nie ma tego czym złamać:
+`pcon` nie niesie ani liczby, ani rodzaju, ani osoby.
+
+Ciała są dwa na każdą pozycję, bo zakup imiesłowu samego —
+`Program zapisuje ustawienia, milcząc.` — jest osobną liczbą.
+Cząstka zwrotna stoi przy nim po obu stronach, tak samo jak przy formie osobowej.
+
+Przez tę konstrukcję symbol okolicznika wchodzi między gospodarzy przyłączenia,
+i jest to jedyna jego głowa, która tego wpisu potrzebuje.
+Pod okolicznikiem wyrażonym zdaniem stoi zdanie składowe,
+na którym zejście po gospodarza staje wcześniej,
+a pod imiesłowem nie stoi żaden inny gospodarz,
+więc bez tego wpisu `sprawdzając zgodność z dokumentem`
+nazywałoby gospodarzem orzeczenie zdania nadrzędnego
+i dwa czytania wychodziłyby z werdyktu jednym napisem
+([wyżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+
+Zakup jest tu kilkudziesięcioma zdaniami banku drzew wyciągniętymi z odrzucenia,
+w większości wieloznacznymi, a ceny nie ma żadnej pod żadną z dwóch morfologii:
+ani jedno zdanie przyjęte wcześniej nie staje się wieloznaczne.
+Niezgodnie z drzewem wzorcowym olski nie czyta ani jednego zdania nowo przyjętego.
+Nad prozą tego repozytorium zakup jest liczony w pojedynczych zdaniach,
+bo ten rejestr pisze tę formę rzadko.
+
 ## What it does not cover yet
 
 Every one of these is a sentence that gets rejected and should not be:
@@ -4097,30 +4224,12 @@ Every one of these is a sentence that gets rejected and should not be:
   słownik Morfeusz — a od członu bez czasownika różni tę konstrukcję to,
   że spójnika nie ma, więc nie ma czym jej wpuścić bez wpuszczenia zarazem
   dwóch rzeczowników postawionych obok siebie przez pomyłkę.
-
-- Czas przyszły predykatywu, czyli forma `bedzie` za słowem, które orzeka:
-  `Trzeba będzie zmierzyć cenę.` jest odrzucone,
-  gdzie `Trzeba zmierzyć cenę.` wyprowadza się i gdzie `Cena będzie niska.` też
-  ([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
-  Predykatyw orzeka bez czasownika, więc pozycji na niego nie ma.
-- Imiesłów przysłówkowy: `Program zapisuje ustawienia, sprawdzając zgodność.`
-  jest odrzucone.
-  Jest to trzeci imiesłów obok dwóch, które stoją w
-  [przydawce](#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik),
-  i różni się od nich gospodarzem: dochodzi do zdania, a nie do rzeczownika.
-- Zaimek `siebie`, który słownik trzyma pod częścią mowy tej jednej formy:
-  `Reguły odsyłają do siebie.` jest odrzucone,
-  gdzie `Reguły odsyłają do dokumentu.` wyprowadza się.
-  Stoi on w tej prozie i w banku drzew, a odrzucenie pada w obu na samej formie.
-
-Te trzy wpisy stawia kolejka blokerów
-([corpus.md](corpus.md#where-the-analyses-stop)),
-a nie przebieg nad prozą ani ranking form bez licencji.
-Widać je dlatego, że kolejkę czyta się tu po części mowy, a nie po formie:
-`pcon` i `siebie` niosą po jednej konstrukcji na cały wiersz,
-więc wiersz nazywa ją wprost,
-gdzie `interp` albo `part` grupuje po kilka.
-Wiersz `bedzie` jest po wpuszczeniu czasu przyszłego jednym z tych drugich.
+- Predykatyw postawiony za formą `bedzie`, a nie przed nią:
+  `Będzie trzeba zmierzyć cenę.` jest odrzucone,
+  gdzie `Trzeba będzie zmierzyć cenę.` wyprowadza się
+  ([wyżej](#forma-bedzie-składa-czas-przyszły-także-z-predykatywem)).
+  Szyk odwrotny jest osobnym ciałem i osobną liczbą,
+  której nikt nie policzył; `TODO.md` trzyma ten przebieg.
 
 ## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 

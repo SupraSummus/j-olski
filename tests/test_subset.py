@@ -992,6 +992,17 @@ PRZYJMOWANE = [
     #  Grupa imienna za dwukropkiem, czyli wyliczenie tego, co zdanie przed nim
     #  nazwało liczbą.
     "Gramatyka ma dwie role: podmiot i dopełnienie.",
+    #  Zaimek zwrotny w dopełnieniu i pod przyimkiem, czyli w obu pozycjach, które
+    #  ta część mowy zajmuje. Przypadek jest jedyną cechą, którą ona niesie.
+    "Widzę siebie.",
+    "Osie są od siebie niezależne.",
+    #  Czas przyszły predykatywu, czyli forma `bedzie` za słowem, które orzeka bez
+    #  podmiotu i bez czasownika.
+    "Trzeba będzie zmierzyć cenę.",
+    #  Imiesłów przysłówkowy w obu miejscach okolicznika, i osobno bez wypełnienia.
+    "Program zapisuje ustawienia, sprawdzając zgodność.",
+    "Sprawdzając zgodność, program zapisuje ustawienia.",
+    "Program zapisuje ustawienia, milcząc.",
 ]
 
 
@@ -1153,6 +1164,19 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
         #  Ten czas składa się z czasownikiem niedokonanym i z żadnym innym, więc
         #  `zapisywał` wchodzi, a `zapisał` nie: `będzie zapisał` nie jest niczym.
         "Program będzie zapisał ustawienia.",
+        #  Liczbę i osobę formy `bedzie` przy predykatywie wpisuje ciało, bo
+        #  predykatyw nie niesie ani jednej, a cechy, której konstytuent nie
+        #  niesie, unifikacja nie sprawdza: bez tych dwóch wartości oba te napisy
+        #  się wyprowadzają.
+        "Trzeba będą zmierzyć cenę.",
+        "Trzeba będziesz zmierzyć cenę.",
+        #  Mianownika ta część mowy nie ma, więc podmiotem ten zaimek nie bywa.
+        "Siebie zapisuje ustawienia.",
+        #  Zaimek zwrotny wchodzi terminalem właśnie po to: jako ciało grupy
+        #  imiennej nie niósłby liczby ani rodzaju, a cechy, której konstytuent
+        #  nie niesie, unifikacja nie sprawdza, więc zdanie względne zgodziłoby
+        #  się z nim w każdej.
+        "Widzę siebie, która stoi.",
     ],
 )
 def test_these_have_no_reading(text):
@@ -3395,6 +3419,39 @@ def test_imiesłów_czynny_nie_dochodzi_do_orzecznika():
     #  jednym terminalem do obu symboli przymiotnikowych naraz.
     found = verdict("Reguła jest sięgająca.")
     assert found.status == "rejected", found.explain()
+
+
+# --------------------------------------------------------------------------- #
+# Imiesłów przysłówkowy
+# --------------------------------------------------------------------------- #
+
+
+def test_imiesłów_przysłówkowy_bierze_ramę_swojego_lematu():
+    #  Rama idzie z głowy cechą, tak samo jak przy formie nieosobowej, więc lemat,
+    #  o którym leksykon mówi, że biernika nie bierze, nie bierze go i tutaj.
+    #  Usterka, którą to łapie: rama wypisana przy tych ciałach ręką, po której
+    #  imiesłów bierze wszystko, co bierze czasownik dowolny.
+    assert verdict("Program zapisuje ustawienia, pomagając linterowi.").status == "valid"
+    odrzucone = verdict("Program zapisuje ustawienia, pomagając zgodność.")
+    assert odrzucone.status == "rejected", odrzucone.explain()
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "gospodarz"),
+    [
+        #  Imiesłów nie ma pod sobą zdania składowego, więc bez wpisu wśród
+        #  gospodarzy zejście mija cały ten okolicznik i nazywa orzeczenie zdania
+        #  nadrzędnego. Usterka, którą to łapie: oba czytania mówią wtedy
+        #  `→ zapisuje`, więc wychodzą z werdyktu jednym napisem.
+        ("Program zapisuje ustawienia, sprawdzając zgodność z dokumentem.", "sprawdzając"),
+        #  Drugiej głowy tego symbolu ten sam wpis ruszyć nie ma: pod zdaniem
+        #  podrzędnym stoi `ClauseConjunct`, na którym zejście staje wcześniej.
+        ("Program zapisuje ustawienia, gdy linter sprawdza zgodność z dokumentem.", "sprawdza"),
+    ],
+)
+def test_gospodarzem_pod_okolicznikiem_jest_jego_własna_głowa(zdanie: str, gospodarz: str):
+    found = verdict(zdanie)
+    assert f"„z dokumentem” → „{gospodarz}”" in found.explain(), found.explain()
 
 
 # --------------------------------------------------------------------------- #

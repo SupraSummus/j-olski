@@ -858,6 +858,10 @@ Rodzina czoła jest tu precedensem: jej cztery miejsca czytają jedną wartość
 (`Rodzina` w `olski/subset.py`), a nie stoją pod jednym komentarzem.
 Wprost się on jednak nie przenosi, bo rodzina wypisuje same nazwy symboli,
 a konstrukcja wypisuje też ciała, a te powstają wywołaniem, nie wartością.
+Miejsc bywa przy tym więcej niż cztery, i pokazuje to imiesłów przysłówkowy
+([`docs/subset.md`](docs/subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)):
+dochodzą przy nim wpis wśród gospodarzy oraz wpis w `NIE_WYPUSZCZANE`,
+a ciała ma w dwóch miejscach `build`, bo głowa stoi osobno od swoich pozycji.
 
 `NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
 w górę, i żadnego z tych wpisów nie widać po werdykcie:
@@ -2271,6 +2275,45 @@ Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
+Trzy miejsca w `olski/subset.py` wypisują to samo: który przypadek wypełnia którą
+pozycję ramy i co mówi przy tym o przeczeniu.
+Stoją tak dopełnienie na swoim miejscu, dopełnienie wysunięte na czoło
+(`_wysunięta_rola`) i dopełnienie wyrażone zaimkiem zwrotnym,
+a każde z nich bierze z `DOKŁADANE` inny wycinek i z innego powodu.
+Widać po tym jedną usterkę: `Object → NP[case=inf]` powstaje z tamtej pętli
+i nie wyprowadza niczego, bo grupa imienna przypadka `inf` nie niesie,
+a pozycję bezokolicznikową wypełnia `InfinitivePhrase`.
+Ruchem jest rozdzielić w `DOKŁADANE` pozycje będące przypadkiem od tej, która nim
+nie jest, po czym te trzy miejsca czytają jedną listę zamiast trzech wycinków.
+Do przeczytania jest przedtem, czy wycinki naprawdę pokrywają się co do wartości
+przeczenia: czoło wypisuje trzy pozycje, zaimek cztery, a pętla `NP` bierze całą
+listę, więc różnica bywa wyborem, a nie przeoczeniem.
+Odcisk gramatyki po ruchu ma się różnić o tę jedną martwą produkcję i o nic więcej.
+
+Rzeczownik `soba` zabiera kilkunastu zdaniom banku drzew jednoznaczność,
+odkąd zaimek zwrotny ma pozycję
+([`docs/subset.md`](docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)).
+Czytania tego polszczyzna w tych zdaniach nie ma —
+`sobie` i `sobą` są w nich zaimkiem — więc jest to wieloznaczność w słowniku,
+a nie w polszczyźnie, czyli dokładnie to, co odbiera `admissible`
+w `olski/segmentacja.py`
+([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)).
+Kryterium tamtego wykluczenia po ten lemat nie sięga i sięgnąć nie może:
+pyta ono o rzeczownik nieodmienny, a `soba` odmienia się przez przypadki.
+Ruchem jest wykluczenie na lemat, czyli druga lista obok tamtego kryterium,
+i to ona jest tu ceną: kryterium wyprowadzalne broni się samo,
+a lista pisana ręką rośnie o każdy lemat, który ktoś zauważy.
+Do przeczytania jest przedtem, ile takich lematów widać nad bankiem drzew:
+sonda różnicowa zaimka wypisuje zdania tracące jednoznaczność pod żywą
+morfologią i tyle wystarcza, żeby powiedzieć, czy lemat jest jeden, czy jest ich wiele.
+Ten sam lemat trzyma zarazem drugą pozycję poza zasięgiem pomiaru.
+Orzecznika narzędnikowego zaimek zwrotny nie ma, a `Parser jest sobą.` mimo to
+wychodzi jednoznaczne, bo bierze je `soba`,
+więc dopisanie tej pozycji zamieniłoby jedno czytanie na dwa,
+a nie odebrałoby odrzucenia.
+Wykluczenie lematu idzie przez to przed pozycją, a nie po niej:
+po nim widać, ile ta pozycja naprawdę kupuje.
+
 ## Konstrukcje, których gramatyka nie ma
 
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
@@ -2510,27 +2553,38 @@ kształtem — bo bez tej liczby wpis jest samą ceną,
 oraz `harness/konwersy.py`, bo tamto kryterium łapie go dziś jako pomyłkę
 i mówi, ile go w Walentym widać z drugiej strony.
 
-Zaimek zwrotny nie ma pozycji, a werdykt mówi to tylko o połowie jego form.
-`Widzę siebie.` jest odrzucone i powód nazywa rzecz wprost:
-żadna produkcja nie bierze `siebie`.
-`Autor pisze o sobie.` oraz `Program zapisuje ustawienia sobie.` wychodzą przyjęte,
-bo Morfeusz zna rzeczownik `soba` w celowniku, miejscowniku i narzędniku,
-czyli brak zasłania tam czytanie, którego polszczyzna nie ma
-([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)),
-a biernika i dopełniacza zasłonić nie ma czym.
-Ruchem jest terminal na klasę `siebie` w pozycjach, które ten zaimek zajmuje,
-i jest on tani, bo zaimek ten nie zgadza się z niczym.
-Cena jest po drugiej stronie i widać ją przed przebiegiem:
-`soba` jest rzeczownikiem odmiennym, więc wykluczenie ze słownika po nie nie sięga,
-a zdanie z `sobie` dostaje po tym ruchu dwa czytania zamiast jednego —
-ubywa zdań przyjętych i ubywa werdyktów nieprawdziwych naraz.
-Tym samym brakiem zasłoniętym jest liczebnik za rzeczownikiem,
-czyli `po którym zostaje czytań kilka`:
-zasłania go rzeczownikowe czytanie formy `kilka`,
+Liczebnik za rzeczownikiem nie ma pozycji, a zasłania to czytanie rzeczownikowe.
+`po którym zostaje czytań kilka` wychodzi przyjęte,
+bo Morfeusz zna `kilka` także rzeczownikiem,
 a grupa liczebnikowa stawia liczebnik przed rzeczownikiem
-([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
-Oba braki dzielą jedno pytanie: kolejka blokerów ich nie pokazuje,
-bo zdanie się wyprowadza, więc podnosi je czytanie werdyktów, a nie przebieg.
+([`docs/subset.md`](docs/subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+czyli brak zasłania tam czytanie, którego polszczyzna nie ma
+([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
+Kolejka blokerów tego nie pokazuje, bo zdanie się wyprowadza,
+więc podnosi ten brak czytanie werdyktów, a nie przebieg.
+Czego się po ruchu spodziewać, mówi zaimek zwrotny, czyli ten sam brak wpuszczony
+([`docs/subset.md`](docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)):
+pozycja dopisana zabiera zdaniu jednoznaczność i zabiera mu zarazem werdykt
+nieprawdziwy, a wybór między tymi dwiema liczbami rozstrzyga kierunek
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
+Szyk `Będzie trzeba zmierzyć cenę.` nie ma ciała, a wywód i zdanie odrzucone stoją
+w [`docs/subset.md`](docs/subset.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem).
+Ruchem jest drugie ciało tej samej pary produkcji wraz z pomiarem,
+bo cena każdego ciała jest osobną liczbą.
+Do przeczytania jest przedtem, czy ten szyk nie daje drugiego czytania zdaniu,
+które dziś wychodzi jednoznaczne:
+`bedzie` orzeka też samo
+([`docs/subset.md`](docs/subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
+a predykatyw za nim stanąłby wtedy tam, gdzie stoi orzecznik.
+
+Zaimek zwrotny nie ma pozycji orzecznika narzędnikowego,
+a wywód stoi w [`docs/subset.md`](docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym).
+Ruchem jest jedno ciało wraz z pomiarem nad bankiem drzew,
+bo proza tego repozytorium tej konstrukcji nie pisze.
+Wpis ten jest zablokowany rzeczownikiem `soba`, o który pyta wpis w sekcji
+o gramatyce i pomiarze: dopóki ten lemat bierze `sobą`, pomiar tej pozycji
+liczy zamianę jednego czytania na dwa, a nie zakup.
 
 ## Skład i opowieści
 

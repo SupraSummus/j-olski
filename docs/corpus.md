@@ -213,12 +213,14 @@ Pod Morfeuszem wiersz ten schodzi niżej,
 bo przed nim staje zdanie, którego całości nic nie domyka,
 spójnik otwierający zdanie, forma nieznana słownikowi i liczba.
 Dalej w obu kolejkach idą czas przeszły, przyimek i bezokolicznik,
-a niżej imiesłów przysłówkowy i zaimek `siebie`,
-czyli dwie pozycje, które ta kolejka nazywa,
-a których żaden przebieg nad rejestrem nie nazywa
-([roadmap.md](roadmap.md#etap-6-reszta-konstrukcji)).
-Ile wart jest każdy z nich, mierzy się po jednym,
-a nie odczytuje z wiersza.
+a przy samym dole stoją `pcon` oraz `siebie`, każdy z garścią zdań.
+Konstrukcje, po których te dwa wiersze się nazywają, gramatyka ma
+([subset.md](subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)),
+a wiersze przez to nie znikają i tym mówią o tej kolejce rzecz najważniejszą:
+nazywa ona część mowy, na której analiza stanęła,
+a nie konstrukcję, której zabrakło.
+Ile wart jest każdy taki wiersz, mierzy się po jednym,
+a nie odczytuje z jego wysokości.
 
 Clause-level punctuation is the addition that showed
 how little a row says about what admitting its construction buys.
@@ -253,7 +255,9 @@ what is left of `bedzie` is a handful of sentences at the bottom of the queue,
 and under half of what left it was accepted,
 the rest having stopped further along.
 Others took part of a row with them:
-the particle, the subordinator and clause-level punctuation
+the particle, the subordinator, clause-level punctuation,
+the adverbial participle, the reflexive pronoun
+and the predicative's future tense
 are admitted in a shape narrower than Polish,
 so their rows stay and what stands in them is what the shape leaves out.
 What their arrival did to the rows below them is the point of the paragraph
