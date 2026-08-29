@@ -462,6 +462,25 @@ i o tym mówi
 Zbieżności tej nie wymusza sam problem,
 tylko to, że bank drzew polszczyzny jest jeden.
 
+Kolejka blokerów jest kanałem osobnym od pomiaru,
+choć drukuje ją ten sam przebieg:
+ustawia ona olskiemu porządek robót.
+Nazywa część mowy, na której analiza stanęła
+([corpus.md](corpus.md#where-the-analyses-stop)),
+a wpuszczenia powołują się na jej wiersze wprost:
+czas przyszły wszedł stamtąd
+([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+Wiersz liczy jednak tylko zdania z drzewem wzorcowym, bo tyle mierzy przebieg,
+a drzewa nie ma tam, gdzie Świgra dobrego nie znalazła
+([corpus.md](corpus.md#what-the-corpus-contains)),
+więc konstrukcja potrzebna w takim zdaniu nie staje w kolejce wcale:
+zdania, którego nikt nie rozebrał, nikt też nie przeliczył
+([design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)).
+Pomiar mówi przez to, jak oceniono gramatykę dzisiejszą,
+a kolejka mówi, która konstrukcja powstanie następna.
+Odpowiedzią na to jest ta sama kolejka policzona nad własnym dokumentem
+([corpus.md](corpus.md#the-same-queue-over-prose)).
+
 Kanał, którego nie ma jak sprawdzić, został tu nazwany właśnie dlatego.
 Prozę i kod tego repozytorium pisze sesja modelu językowego,
 a Świgra jest publiczna od dwóch dekad razem z monografiami, które ją opisują,
