@@ -254,13 +254,33 @@ class Constituent:
     """Nieterminal wybranego drzewa: kategoria, rozpiętość i to, pod czym stoi.
 
     Rodzic jest tu polem, a nie listą dzieci, bo pytanie, dla którego to jest
-    czytane, biegnie w tę stronę: fraza pyta, do czego doszła.
+    czytane, biegnie w tę stronę: fraza pyta, do czego doszła. Kto pyta w drugą
+    stronę, grupuje po rodzicu i porządkuje rozpiętością, bo rodzeństwo dzieli
+    między siebie rozpiętość rodzica, więc lista dzieci byłaby tu drugą kopią
+    tego, co pole rodzica już mówi.
     """
 
     category: str
     start: int
     end: int
     parent: Constituent | None = None
+    #: Nazwa reguły Świgry, którą ten węzeł się rozwinął; pusta tam, gdzie las nie
+    #: wybrał rozwinięcia. Kategoria mówi, czym fraza jest, a reguła — którą
+    #: konstrukcją została zbudowana, i te dwie odpowiedzi się rozchodzą: jeden
+    #: kształt bywa kilkoma konstrukcjami, które nazywa dopiero reguła
+    #: (``harness/kształty.py``).
+    rule: str = ""
+    #: Przypadek frazy, nazwany po łacinie tak, jak nazywa go Morfeusz; pusty
+    #: tam, gdzie kategoria przypadka nie niesie.
+    przypadek: str = ""
+    #: Czym jest głowa tej frazy: ``rzecz``, ``os``, ``kto``, ``co``, ``który``.
+    #: Odpowiedź banku drzew, a nie wyprowadzana z dzieci: głowa grupy imiennej
+    #: stoi pod nią tyle poziomów, ile ma przydawek, więc pytanie o pierwsze
+    #: dziecko odpowiada o przydawce, a nie o głowie.
+    klasa: str = ""
+    #: Lemat głowy tej frazy. Stoi obok :attr:`klasa`, bo klasa bywa od pytania
+    #: grubsza: ``siebie`` jest tu głową klasy ``rzecz``.
+    lemat: str = ""
 
 
 def constituents(forest: ET.Element) -> list[Constituent]:
@@ -278,15 +298,43 @@ def constituents(forest: ET.Element) -> list[Constituent]:
         nonterminal = node.find("nonterminal")
         if span is None or nonterminal is None:
             continue
+        # Nazwa przypadka idzie przez `CASES` z tego samego powodu, z którego
+        # idzie tam przypadek schematu: Składnica pisze go raz po polsku, raz po
+        # łacinie, w jednym wydaniu.
+        przypadek = _cecha(nonterminal, "przypadek")
         constituent = Constituent(
             category=(nonterminal.findtext("category") or "").strip(),
             start=span[0],
             end=span[1],
             parent=zbudowane.get(parent.get("nid") or "") if parent is not None else None,
+            rule=_reguła(node),
+            przypadek=CASES.get(przypadek, przypadek),
+            klasa=_cecha(nonterminal, "klasa"),
+            lemat=_cecha(nonterminal, "lex"),
         )
         zbudowane[node.get("nid") or ""] = constituent
         found.append(constituent)
     return found
+
+
+def _reguła(node: ET.Element) -> str:
+    """Reguła, którą ten węzeł się rozwinął w wybranym drzewie.
+
+    Czytana z węzła, a nie ze zejścia, bo ``children`` należy do rozwijanego
+    węzła, a nie do dziecka, którym się do niego doszło; :func:`_gold` niesie
+    rodzica i tamta odpowiedź jest o czym innym.
+    """
+    for children in node.findall("children"):
+        if children.get("chosen") == "true":
+            # Jedno wybrane rozwinięcie na węzeł, tak samo jak w `_gold`:
+            # drugie byłoby drugą odpowiedzią.
+            return children.get("rule") or ""
+    return ""
+
+
+def _cecha(nonterminal: ET.Element, nazwa: str) -> str:
+    """Wartość tej cechy nieterminala, albo pusty napis, gdy nieterminal jej nie ma."""
+    return (nonterminal.findtext(f'f[@type="{nazwa}"]') or "").strip()
 
 
 def _gold(nodes: dict[str, ET.Element]) -> list[tuple[ET.Element, ET.Element | None]]:
