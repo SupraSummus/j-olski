@@ -40,19 +40,31 @@ więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 Żaden check nie pilnuje tej reguły ani żadnej innej reguły prozy:
 sprawdzamy je w przeglądzie zmian, a nie w testach.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
-wyprowadza znacznie mniej, niż te dokumenty zawierają —
-przebieg nad `docs/` przyjmuje jedno zdanie na kilkadziesiąt —
-i nie przepisujemy tych dokumentów tak, żeby się pod nią zmieściły.
+wyprowadza znacznie mniej, niż te dokumenty zawierają.
 
-Wyjątkiem jest README i jest to wyjątek nazwany:
+Zdanie, którego olski nie bierze, wolno jednak w każdym dokumencie ruszyć,
+i wolno przy tym ruszyć zamiast niego gramatykę.
+Który z tych dwóch ruchów wykonać nad danym zdaniem, a kiedy oba naraz,
+rozstrzyga
+[`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu),
+i on jest właścicielem tego kryterium.
+Granica jest jedna i pada na zdanie, a nie na dokument:
+zdanie po przepisaniu ma mówić to samo i mówić nie gorzej,
+a takie, które pod parser zbiedniało, zostaje przy wersji autorskiej,
+choćby przez to dalej nie przechodziło.
+Przebieg po całym dokumencie jest przez to osobną zmianą, a nie robotą przy okazji:
+każde zdanie rozstrzyga się w nim osobno,
+a przebieg mechaniczny łamie tę granicę na tych zdaniach, których nie przeczytał.
+Dokument przepisany zostawia po sobie zdania odrzucone i zostawić je musi,
+bo część konstrukcji tańsza jest do wpuszczenia niż do obejścia.
+
+README stoi pod tą regułą najostrzej i jest to wyjątek nazwany:
 zdania tego jednego pliku piszemy tak, żeby olski je wyprowadzał,
 a wieloznaczność mu zostawiamy, bo wyboru za czytelnika nie robi.
 Cenę tego — pokrycie, które mierzy pisanie tak samo jak gramatykę —
 trzyma [`docs/roadmap.md`](docs/roadmap.md#readme-jest-przyrządem-pomiarowym),
 a polecenie, którym się to sprawdza,
 [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop).
-Na pozostałe dokumenty tego wyjątku nie rozciągamy:
-zdanie, którego olski nie bierze, zostaje w nich przy przeglądzie.
 
 Regułę przyjmujemy [leniwie](#reguły-przyjmujemy-leniwie) jak resztę,
 ale jednostka jest tu inna.

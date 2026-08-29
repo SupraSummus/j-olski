@@ -2744,6 +2744,42 @@ Czytania są dwa i oba polszczyzna nad tym zdaniem ma,
 a streszczenie rozdziela je nazwaniem tej roli albo przemilczeniem jej:
 okolicznik doszedł do zdania streszczanego albo do tego, które stoi pod `że`.
 
+### Przysłówek względny otwiera okolicznik i nie określa zdania
+
+Ten sam okolicznik otwiera `gdzie`, a Morfeusz daje mu `adv`, a nie `comp`,
+więc pozycji spójnika nie dosięga i bierze osobne ciało.
+
+```text
+Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.
+Gdzie cząstka może należeć do dwóch czasowników, olski wypuszcza oba odczytania.
+```
+
+Miejsca są dwa, tak samo jak przy spójniku wysuwanym,
+i o drugim z nich rozstrzyga pomiar, a nie wywód:
+zdanie wysunięte znaczy tu `wszędzie tam, gdzie` i o miejsce nie pyta,
+więc wygląda na kształt, którego ta proza nie pisze, a pisze go.
+Ciało samo za zdaniem odbiera przez to czytanie napisom, które w niej stoją.
+
+**Okolicznikiem zdania oznajmującego ta forma nie bywa i pozycji tej nie ma.**
+Wpuszczona tam daje każdemu zdaniu z `gdzie` czytanie ciągu współrzędnego,
+w którym przysłówek określa człon drugi,
+i jest to nad `Program zapisuje ustawienia, gdzie linter sprawdza tekst.`
+czytanie jedyne, a polszczyzna go nie ma.
+Wykluczenie stoi więc na terminalu okolicznika i weszło razem z tym ciałem,
+tak samo jak wykluczenie zaimka rzeczownego weszło razem ze swoimi czołami
+([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+
+Cena tego wykluczenia jest wypisana, bo mierzy się ją osobno:
+bez niego nad prozą tego repozytorium zdań przyjętych jednoznacznie
+jest o kilka mniej, a wieloznacznych o kilkanaście więcej.
+Zabiera ono za to `gdzie indziej`, czyli parę, w której ta forma określa
+drugi przysłówek, więc para ta dostaje własne ciało
+i bez niego wykluczenie odbierałoby zdania, które ta proza pisze.
+Pytania o miejsce to wykluczenie zabiera i zdania takiego olski nie ma:
+rolą wysuniętą jest tam okolicznik, a czoła pytań wysuwają podmiot,
+dopełnienie albo orzecznik, więc pytanie o miejsce zostaje
+[niżej](#what-it-does-not-cover-yet).
+
 ### Zaimek względny nie jest przymiotnikiem przy rzeczowniku
 
 Morfeusz daje `który` znacznik `adj`, czyli ten sam, co `nowy` i `polski`,
@@ -2813,6 +2849,33 @@ choć zdanie główne ma ten szyk tylko w pierwszej wersji:
 `które ktoś napisał` jest w polszczyźnie zwyczajne, a `Teksty ktoś napisał` nie,
 i różni je to, że zaimek względny wysuwa polszczyzna zawsze,
 a dopełnienie z wyboru.
+
+**Dopełnienie stoi przed czasownikiem także tam, gdzie czołem jest podmiot.**
+`reguła, która tekst sprawdza` i `ktoś, kto go nie używa` są w tym rejestrze
+tak samo zwyczajne jak szyk z dopełnieniem za czasownikiem,
+a zdanie główne ma oba od początku,
+więc gramatyka bez tego ciała mówiła o szyku rzecz nieprawdziwą:
+że zależy on od tego, czy któraś rola stoi wysunięta.
+
+Ciało jest drugie i bierze osobny symbol orzeczenia,
+a nie szyk dopisany do córek zdania.
+Rozstrzyga o tym duplikat: córki zdania głównego przestawia
+[deklaracja szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk),
+więc szyk dopisany tam dałby `Reguła tekst sprawdza.` drugie wyprowadzenie
+tego samego kształtu, czyli [drugie odczytanie](#co-się-liczy-jako-jedno-odczytanie).
+Przed czasownik wychodzi przy tym samo dopełnienie, a nie całe wypełnienie ramy,
+i to też jest warunek, a nie oszczędność:
+wypełnienie niesie okolicznik w swoich ciałach, a okolicznik stawia przed
+czasownikiem także deklaracja szyku, więc `którzy na niej stoją`
+miałoby dwa wyprowadzenia jednego kształtu.
+
+Nad prozą tego repozytorium ciało to daje czytanie kilkunastu zdaniom,
+a jednoznacznych przybywa wśród nich kilka.
+Ceną jest para zdań tracących jednoznaczność,
+czyli takich, w których grupa imienna przed czasownikiem
+konkuruje wewnątrz zdania względnego z przydawką albo z podmiotem.
+Ani jedno zdanie nie traci przy tym czytania,
+bo szyku tego nie bierze żaden inny kształt.
 
 Wysunięte na czoło jest przy tym nie sam zaimek,
 ale cała grupa, w której on stoi.
@@ -2895,6 +2958,30 @@ a nie z korpusu.
 Po ten brak sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych ciał,
 a ile ona kupuje i dlaczego nie weszła, mierzy
 [design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
+
+### Pytanie o rozstrzygnięcie podporządkowuje spójnikiem, a nie rolą
+
+Pytanie o rolę wysuwa tę rolę na czoło, a pytanie o rozstrzygnięcie
+nie wysuwa niczego: podporządkowuje je spójnik, a zdanie pod nim jest całe.
+
+```text
+Czy program zapisuje ustawienia?
+Pyta, czy go to dotyczy.
+Pyta, kto płaci i czy to działa.
+```
+
+Czoło jest przez to osobnym ciałem, a nie lematem dopisanym do listy zaimków,
+i nie przechodzi przez funkcję wypisującą szyki reszty zdania.
+Pozycję ramy niesie ono tak samo jak pozostałe czoła,
+więc ciąg pytań pod jednym czasownikiem miesza te dwa kształty bez osobnej pozycji.
+
+Ten sam lemat bierze zarazem koordynacja bez przecinka,
+gdzie `czy` znaczy `albo`, a rozdziela te dwa użycia materiał pod spójnikiem:
+koordynacja stawia po nim człon, a to ciało zdanie.
+Napisu wspólnego oba nie mają, więc drugiego czytania to ciało nie dokłada nikomu,
+i tym różni się ono od czół zaimkowych,
+które weszły razem z wykluczeniem
+([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 
 ### Czoło niesie etykietę roli, którą zajmuje, a werdyktu nie rusza
 
@@ -3879,16 +3966,20 @@ Every one of these is a sentence that gets rejected and should not be:
   a dopełnienie wysunięte przed bezokolicznik, który je bierze,
   ma pozycję przy formie osobowej i tylko przy niej
   ([wyżej](#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
-- Słowa, którymi ten rejestr pyta poza zaimkami, które już wchodzą
-  ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
-  `czy`, `jak`, `jaki`, `ile`, `dlaczego`, `gdzie`.
-  `Czy program zapisuje ustawienia?` jest odrzucone,
-  gdzie `Który program zapisuje ustawienia?` wyprowadza się,
+- Słowa, którymi ten rejestr pyta poza tymi, które już wchodzą
+  ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
+  oraz [wyżej](#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):
+  `jak`, `jaki`, `ile`, `dlaczego`.
+  `Pyta, ile ta gramatyka dziś kosztuje.` jest odrzucone,
+  gdzie `Pyta, co ona kupuje.` wyprowadza się,
   a każde z tych słów żąda innego kształtu niż grupa pytajna,
   więc jest to kolejka konstrukcji, a nie jedna pozycja.
-  Dwa z nich zawracają zdanie tej prozy w ciągu pytań zależnych, którego
-  drugim członem są: `Pyta, ile ta gramatyka dziś kosztuje i co kupuje.`
-  jest odrzucone, gdzie `Pyta, co kupuje.` wyprowadza się.
+- Pytanie o miejsce: `Gdzie są przetrzymywani zakładnicy?` jest odrzucone,
+  gdzie `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.`
+  wyprowadza się
+  ([wyżej](#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)).
+  Rolą wysuniętą jest tu okolicznik, a czoła pytań wysuwają podmiot,
+  dopełnienie albo orzecznik, więc kształt jest inny niż tamtych trzech.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
