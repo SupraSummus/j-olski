@@ -846,6 +846,9 @@ a ruch trzyma [TODO.md](../TODO.md).
   ([poniżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania))
 - A relative clause on a noun phrase, agreeing with it in number and gender,
   with the pronoun standing for the subject, for the object,
+  for the object in the genitive its verb's frame demands
+  (`cena, której żądamy`, `Kogo dotyczy zmiana?`,
+  [below](#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)),
   or under a fronted preposition together with the group it stands in:
   `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`,
   `ustawy, na podstawie której jest ono wydawane`
@@ -2959,6 +2962,62 @@ Po ten brak sięgnęłaby cecha przeciągana, czyli luka zamiast wypisanych cia�
 a ile ona kupuje i dlaczego nie weszła, mierzy
 [design-notes.md](design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze).
 
+### Dopełniacz z ramy wysuwa się na czoło, a celownik nie
+
+Czoło dopełnienia brało dopełniacz przy przeczeniu i tylko przy nim,
+bo tam rządzi nim negacja.
+Dopełniaczem rządzi jednak i rama, więc zdanie względne o czasowniku,
+który go żąda, nie miało czytania:
+
+```text
+Cena, której żądamy, jest niska.
+Pozycja, której brakuje, jest droga.
+Kogo dotyczy zmiana?
+```
+
+Pozycja jest trzecim ciałem tej samej trójki szyków,
+a różni ją od dwóch pozostałych to, że przeczenia nie ogłasza.
+Nie ma czego: dopełniacz negacji wchodzi w miejsce biernika
+i tam kończy się jego zasięg
+([wyżej](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)),
+a `nie brakuje ceny` stoi w dopełniaczu tak samo jak `brakuje ceny`.
+Tam, gdzie czasownik bierze oba dopełniacze, jeden napis dostaje przez to
+dwa wyprowadzenia i jedno czytanie, bo kształt mają ten sam
+([wyżej](#co-się-liczy-jako-jedno-odczytanie)).
+
+Zakupem nad bankiem drzew jest pod złotą morfologią jedno zdanie
+wyjęte z odrzucenia, a jest nim `Nie wiem, czego się obawia.`
+Złote czytanie w nim ocalało.
+Jednoznaczności nie traci pod tą morfologią ani jedno zdanie.
+Pod żywą traci ją to samo zdanie
+wraz z `Zadałem sobie pytanie, ile mogę zaryzykować, czego najbardziej się boję.`,
+i jest to ta sama zamiana, którą liczy
+[corpus.md](corpus.md#what-morphological-ambiguity-costs):
+oba stały tam na `czego` przeczytanym jako przysłówek,
+czyli na czytaniu, którego polszczyzna w tym zdaniu nie ma,
+a teraz stoją obok czytania prawdziwego.
+
+Nad prozą tego repozytorium konstrukcja przyjmuje kilka zdań
+i kilku dalszym daje pierwsze czytanie.
+Jednoznaczność traci przy tym `jest zdaniem, którego makieta potrzebuje.`,
+bo zdanie to miało czytanie z grupą `którego makieta` w podmiocie,
+a dostaje obok niego czytanie z dopełnieniem `którego`.
+Polszczyzna ma oba, więc wieloznaczność jest tu prawdziwa.
+
+Celownika ta pozycja nie bierze i rozstrzyga o tym pomiar.
+Nad bankiem drzew nie kupuje on ani jednego zdania w żadnej z dwóch morfologii,
+a pod żywą odbiera jednoznaczność jednemu ponad te dwa wyżej.
+Nad prozą tego repozytorium daje czytanie jednemu zdaniu
+i jest to czytanie nieprawdziwe:
+`szew, którym to zdanie wychodzi poza podzbiór` z tego dokumentu
+niesie narzędnik, którego olski bez przyimka nie bierze
+([niżej](#what-it-does-not-cover-yet)),
+a celownik na czole czyta ten napis jako dopełnienie `wychodzić`.
+Bezokolicznik z tej samej listy
+([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu))
+zostaje na zewnątrz z powodu ogólniejszego:
+wypełnienie inne niż dopełnienie na czoło się nie wysuwa.
+
 ### Pytanie o rozstrzygnięcie podporządkowuje spójnikiem, a nie rolą
 
 Pytanie o rolę wysuwa tę rolę na czoło, a pytanie o rozstrzygnięcie
@@ -3816,7 +3875,6 @@ i stoją na niej te użycia, których czoła nie obejmują:
 zaimek z przydawką (`Kto pierwszy wstaje od stołu?`),
 zaimek stojący nie na czele, czyli drugie pytanie w tym samym zdaniu
 (`Kto jest kim?`),
-pytanie o dopełnienie w dopełniaczu (`Kogo dotyczy zmiana?`),
 zdanie względne bez poprzednika w roli innej niż podmiot,
 oraz przytoczenie samego wyrazu, którym ten rejestr o sobie mówi
 (`nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie jedno`).
@@ -3925,6 +3983,23 @@ Every one of these is a sentence that gets rejected and should not be:
   i gdzie `Grupa imienna, która stoi (niżej), jest tania.` też,
   bo pozycje nawiasu są dwie i obie zamykają zdanie
   ([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+- Grupa imienna z elipsą głowy, czyli przydawka stojąca za rzeczownik,
+  którego zdanie przed chwilą użyło:
+  `Wszystkie obsadza jedna osoba.` jest odrzucone,
+  gdzie `Wszystkie role obsadza jedna osoba.` wyprowadza się,
+  i tak samo padają `ani jedna`, `dwie z nich` oraz `w każdym z nich`.
+  Pozycja jest jednym ciałem — człon grupy imiennej złożony z samej przydawki —
+  i to ciało wyceniła sonda różnicowa (`harness/ruch.py`).
+  Nad bankiem drzew wyciąga ono pod złotą morfologią 89 zdań z odrzucenia,
+  a jednoznaczność odbiera 168 zdaniom przyjętym wcześniej;
+  z tych 89 zgadza się z drzewem wzorcowym 54, a 27 wychodzi przeczytanych na opak.
+  Pod żywą morfologią wyciąga 54, a jednoznaczność odbiera 313.
+  Nad prozą tego repozytorium przyjmuje kilkanaście zdań,
+  a jednoznaczność odbiera kilkadziesiąt.
+  Bilans jest ujemny w każdym z trzech przebiegów, i to jest cała odpowiedź:
+  konstrukcję tę pisze ten rejestr zdanie po zdaniu,
+  a płaci za nią autor przepisaniem
+  ([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)).
 - Forma przyimkowa zaimka w drugim członie ciągu pod jednym przyimkiem:
   `Program zapisuje ustawienia dla niego i niej.` jest odrzucone,
   gdzie `Program zapisuje ustawienia dla niego.` wyprowadza się,
@@ -3966,6 +4041,12 @@ Every one of these is a sentence that gets rejected and should not be:
   a dopełnienie wysunięte przed bezokolicznik, który je bierze,
   ma pozycję przy formie osobowej i tylko przy niej
   ([wyżej](#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
+- Dopełnienie w celowniku wysunięte na czoło:
+  `Komu parser odpowiada?` jest odrzucone,
+  gdzie `Kogo dotyczy zmiana?` wyprowadza się
+  ([wyżej](#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)).
+  Pozycja jest tam wypisana dopełniaczem, a nie wzięta z leksykonu całą listą,
+  i tamta sekcja trzyma pomiar, który celownik zatrzymał.
 - Słowa, którymi ten rejestr pyta poza tymi, które już wchodzą
   ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
   oraz [wyżej](#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):

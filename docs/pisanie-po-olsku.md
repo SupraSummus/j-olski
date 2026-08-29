@@ -165,6 +165,44 @@ choć obok pozycji, o którą jej zdania i tak się potykają, kupuje wielokrotn
 Cena pozycji nie jest przez to liczbą, którą raz się zapisuje,
 a dwie pozycje wpuszczone razem bywają warte więcej niż z osobna.
 
+## Przebieg po całym dokumencie kupuje zdania szykiem, a nie produkcją
+
+Jedno zdanie poprawia się w minutę, a jeden dokument przechodzi się w jednej sesji,
+i te dwie roboty dają różne odpowiedzi.
+`architecture.md` przeszedł taką sesję zdanie po zdaniu, oba fotele naraz.
+Czytanie miało przed nią niespełna trzy zdania z dziesięciu, a po niej ma prawie każde;
+przyjętych była garść, a jest ich kilkadziesiąt.
+Liczbę dzisiejszą drukuje `olski.check` nad tym plikiem.
+
+Ruch, który kupił najwięcej, jest jeden i nie jest to wymiana słowa:
+zdanie długie rozbite na dwa albo trzy krótkie.
+Odpowiada to [zasłanianiu](#zasłanianie-działa-w-obie-strony) od drugiej strony.
+Zatrzymań w zdaniu długim jest kilka i nagroda przychodzi za ostatnie,
+a rozbicie zdania dzieli te zatrzymania między dwa zdania,
+więc każda połowa domyka się osobno i osobno wchodzi do liczby.
+
+Trzy ruchy dalsze kupują mniej, a każdy ma swoją cenę po stronie prozy.
+Rzeczownik powtórzony w miejscu elipsy głowy wydłuża zdanie
+i to jest cała jego cena.
+Słowo wymienione na takie, które Morfeusz czyta jak trzeba — `niekiedy` za `czasem`,
+`identyczne` za `te same` — rusza rejestr, a nie treść.
+Nazwa funkcji zdjęta na rzecz nazwy modułu nie kosztuje nic
+i jest to jedyny z czterech ruchów, którego
+[reguły prozy](../CLAUDE.md#na-czym-wolno-oprzeć-zdanie) chciały i bez olskiego.
+
+Zdania odrzucone zostają i zostać muszą,
+a granica przebiega przez nie dwiema drogami.
+Jedne niosą po kilka zatrzymań naraz i rozbite na krótsze straciłyby wywód.
+Drugie przeszłyby, gdyby powiedzieć w nich mniej, i te nazywają granicę wprost.
+Zdanie o warstwie pierwszej, drugiej i piątej żąda liczby mnogiej,
+a ciągu rozdzielnego przydawek gramatyka nie ma
+i wpis o nim trzyma [`TODO.md`](../TODO.md).
+Zdanie o populacji kilka razy większej przechodzi bez `kilka razy`,
+tylko że wtedy rzędu wielkości nie mówi,
+a rząd wielkości jest tu tym, po co ono stoi.
+Granicę tę stawia [`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
+i to ona rozstrzyga, kiedy przebieg po dokumencie się kończy.
+
 ## Odrzucenie mówi, na czym stanęło, i mówi to raz
 
 Gdyby odrzucenie miejsca nie nazywało, autorowi zostawałaby bisekcja ręką:
@@ -279,6 +317,24 @@ i zostaje po niej sekcja w [`subset.md`](subset.md#what-the-grammar-covers).
 Tak samo padają `ani jedna`, `dwa z tych czytań` i każde inne miejsce,
 w którym przymiotnik albo liczebnik stoi za rzeczownik,
 którego zdanie przed chwilą użyło.
+Pozycja ta stoi tu inaczej niż pozostałe, bo jest już zmierzona:
+jedno ciało wyciąga zdania z odrzucenia,
+a jednoznaczność odbiera większej liczbie zdań, niż wyciąga,
+i wypada tak w każdym z trzech przebiegów
+([subset.md](subset.md#what-it-does-not-cover-yet) trzyma liczby).
+Płaci więc za nią autor i będzie płacił, a wpis zostaje na liście po to,
+żeby nikt nie liczył jej drugi raz.
+
+**Okolicznik wyrażony narzędnikiem bez przyimka.**
+`Granica jest czasem granicą modułu.` pada,
+`Granica jest niekiedy granicą modułu.` przechodzi.
+Narzędnika bez przyimka olski nie bierze przy czasowniku
+([subset.md](subset.md#what-it-does-not-cover-yet)),
+a ten rejestr wyraża nim okoliczność: `czasem`, `ręką`, `kilkoma drzewami`.
+Formy `czasem` Morfeusz nie czyta przy tym jako przysłówka wcale,
+tylko jako narzędnik `czasu`,
+więc słowo, którym ten rejestr mówi `niekiedy`, nie ma w olskim ani jednej pozycji.
+Naprawą jest tu wymiana słowa, a nie przestawienie zdania.
 
 **Liczebnik w orzeczniku.**
 `Tory są dwa.` pada, `Torów jest dwa.` też,
@@ -437,6 +493,10 @@ Materiał wyszedł z sesji agenta nad prozą tego repozytorium —
 [README](../README.md#konwencje), [`roles.md`](roles.md),
 [`architecture.md`](architecture.md) oraz kolejka po formie nad całym `docs/` —
 a fotel bywał w nich jeden, drugi albo oba naraz.
+Nad `architecture.md` sesje były dwie i różni je jednostka:
+pierwsza szła za jedną formą przez cały katalog,
+a druga rozstrzygnęła każde zdanie tego jednego dokumentu po kolei
+([wyżej](#przebieg-po-całym-dokumencie-kupuje-zdania-szykiem-a-nie-produkcją)).
 Rejestr jest przy tym jeden, a człowiek redagujący własny plik
 nie siedział w żadnej z tych sesji, więc jest to raport, a nie pomiar.
 
