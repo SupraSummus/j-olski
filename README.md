@@ -294,7 +294,7 @@ Te dokumenty obsługują **oba tory**.
   Wszystkie te role obsadza jedna osoba.
 - [docs/architecture.md](docs/architecture.md) wylicza warstwy,
   przez które zdanie przechodzi w obu kierunkach.
-  Oba tory mają jedną warstwę wspólną.
+  Oba tory mają dwie warstwy wspólne.
 - [docs/roadmap.md](docs/roadmap.md) wylicza cele oraz etapy dwóch torów.
   Jeden tor ma kierunek, a drugi ma kryterium wyjścia.
 - [docs/open-questions.md](docs/open-questions.md) wylicza rozwidlenia,

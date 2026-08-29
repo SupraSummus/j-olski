@@ -1,35 +1,33 @@
 # Architektura: warstwy i typy na ich granicach
 
-Ten dokument wylicza warstwy, przez które przechodzi zdanie w obu kierunkach,
-i nazywa typ, którym jedna warstwa oddaje wynik następnej.
+Ten dokument wylicza warstwy, przez które przechodzi zdanie w obu kierunkach.
+Nazywa przy tym typ wyniku, który jedna warstwa przekazuje dalej.
 Uzasadnień tu nie ma.
-Mechanikę toru gramatycznego opisuje [design-notes.md](design-notes.md),
-poziomy kompilatora [sklad.md](sklad.md),
-cenę warstwy rozstrzygającej [disambiguation.md](disambiguation.md),
-a o tym, co jest budowane, mówi [roadmap.md](roadmap.md#co-jest-budowane).
+Mechanikę toru gramatycznego opisuje [design-notes.md](design-notes.md).
+Poziomy kompilatora opisuje [sklad.md](sklad.md).
+Cenę warstwy rozstrzygającej liczy [disambiguation.md](disambiguation.md).
+O tym, co jest budowane, mówi [roadmap.md](roadmap.md#co-jest-budowane).
 
-Warstwy wyszły z pisania kodu, a nie z projektu spisanego przed nim,
-więc granica między dwiema bywa granicą modułu, a bywa granicą pakietu.
-Opisane są takie, jakie wychodzą z importów,
-wraz z jednym miejscem, w którym ich kolejność przeczy temu,
-po co warstwa rozstrzygająca powstała.
+Warstwy wyszły z pisania kodu, a nie z projektu spisanego przed nim.
+Granice między warstwami są granicami modułu albo granicami pakietu.
+Kolejność warstw wychodzi tu z importów.
+Jedno miejsce przeczy w niej temu, po co warstwa rozstrzygająca powstała.
 
 ## Warstwa albo wnosi wieloznaczność, albo ją zdejmuje
 
-Warstw jest pięć i porządkuje je wieloznaczność,
-bo o nią jedną wolno zapytać każdą z nich osobno.
+Wieloznaczność porządkuje pięć warstw,
+bo o samą wieloznaczność wolno zapytać każdą warstwę osobno.
 Morfologia i składnia ją wnoszą:
 słownik daje czytania formie, a gramatyka daje je zdaniu.
 Znaczenie i tekst ją zdejmują:
-pierwsze łączy czytania, które mówią to samo,
-drugie odrzuca te, którym przeczy akapit.
-Werdykt ani nie wnosi, ani nie zdejmuje,
+znaczenie łączy czytania, które mówią to samo,
+a tekst odrzuca czytania sprzeczne z akapitem.
+Werdykt nie wnosi wieloznaczności i nie zdejmuje jej,
 bo jest wypowiedzią o czterech warstwach pod nim.
 
 Podział ten nie pokrywa się z podziałem na tory.
-Każdy tor przechodzi wszystkie pięć warstw,
-tylko w przeciwnych kierunkach,
-a wspólne mają dwie z nich.
+Każdy tor przechodzi wszystkie pięć warstw w przeciwnym kierunku.
+Dwie warstwy powtarzają się w obu torach.
 
 ## Pięć warstw toru gramatycznego
 
@@ -43,27 +41,27 @@ a wspólne mają dwie z nich.
 
 Nazwy trzeciej i czwartej warstwy nie są nazwami mechanizmu, a poziomu,
 na którym pytanie o wieloznaczność przestaje mieć tę samą odpowiedź.
-Dwa czytania różne kształtem znaczą czasem to samo
+Dwa czytania o różnym kształcie znaczą niekiedy to samo
 i o tym mówi warstwa trzecia,
 której kryterium tożsamości opisuje
 [subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie).
-Dwa czytania różne znaczeniem bywają rozstrzygnięte przez zdanie obok
-i o tym mówi warstwa czwarta,
-a co takie zdanie rozstrzyga, wycenia
+Niekiedy dwa czytania o różnym znaczeniu rozstrzyga zdanie obok.
+Mówi o tym warstwa czwarta.
+Co takie zdanie rozstrzyga, wycenia
 [disambiguation.md](disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem).
 
 ## Warstwa rozstrzygająca wydaje zawężenie z powodem, a nie znaczenie
 
-Typ tej warstwy jest trudniejszy niż typy czterech pozostałych,
-bo tamte wydają strukturę, a ta odpowiedź o strukturze.
-Sygnatura `rozstrzygnij` w `olski/rozstrzyganie.py` odpowiada wprost:
-wybór wraca zamknięty wraz z powodem albo wraca taki, jaki wszedł.
+Typ tej warstwy jest trudniejszy od typów czterech warstw pozostałych,
+bo tamte warstwy wydają strukturę, a ta warstwa wydaje odpowiedź o strukturze.
+Sygnatura tej warstwy w `olski/rozstrzyganie.py` odpowiada wprost:
+wybór wraca zamknięty wraz z powodem albo wraca otwarty.
 Milczenie jest zatem wartością, a nie brakiem odpowiedzi,
 i żąda tego od tej warstwy
 [hipoteza](disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza),
 pod którą odpowiedź przychodzi z powodem albo nie przychodzi wcale.
 
-Trzy własności wychodzą z takiego typu i żadna nie wychodzi z rankingu.
+Trzy własności wychodzą z takiego typu, a nie z rankingu.
 
 Zbiór kandydatów wyłącznie maleje,
 więc świadkowie składają się w dowolnej kolejności,
@@ -72,31 +70,36 @@ a świadek dopisany później nie przywraca kandydata zdjętego wcześniej.
 Milczenie obejmuje wybór, a nie zdanie,
 więc jedno zdanie wraca rozstrzygnięte w jednym miejscu i otwarte w drugim.
 
-Zbiór pusty znaczyłby, że akapit przeczy każdemu czytaniu,
-czyli że zdanie kłóci się z tekstem, w którym je postawiono.
+Zbiór pusty mówiłby, że akapit przeczy każdemu czytaniu.
+Zdanie kłóciłoby się wtedy z tekstem, w którym je postawiono.
 Odpowiedzi tej ta warstwa nie wydaje,
-bo `rozstrzygnij` wybiera jednego gospodarza na przyłączenie
-i pustki nie ma jak zwrócić.
+bo wybiera jednego gospodarza na przyłączenie i nie umie zwrócić pustki.
 Sprzeczność zdania z akapitem jest zatem wypowiedzią,
 dla której poziom tekstu ma przesłankę, a ten typ nie ma miejsca.
 
 ## Werdykt liczy wyprowadzenia, bo powstaje pod dwiema warstwami, które liczą znaczenia
 
-`Verdict` w `olski/werdykt.py` powstaje z czytań gramatyki,
-czyli z wyjścia warstwy drugiej,
+Werdykt powstaje z czytań gramatyki, czyli z wyjścia warstwy drugiej,
 a warstwy trzecia i czwarta pracują obok niego i werdyktu nie ruszają.
 „Zdanie wieloznaczne” znaczy wobec tego „ma kilka wyprowadzeń”,
 a nie „ma kilka znaczeń”.
-Różnicę między jednym a drugim mierzy przebieg nad korpusem audytowym,
-w którym pozycję dwuznaczną niesie większość zdań rejestru,
-a czytelnik nie waha się nad żadnym z przeczytanych ręką
+Tę różnicę mierzy przebieg nad korpusem audytowym.
+Pozycję dwuznaczną niesie tam większość zdań rejestru,
+a czytelnik nie waha się nad żadnym przeczytanym zdaniem
 ([open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)).
 
 Od strony kodu tę samą różnicę bierze `harness/znaczenia.py`:
 puszcza czytania zdania przez warstwę trzecią
-i pyta, czy wracają z niej tymi samymi drzewami
-(`python3 -m harness.znaczenia`, z flagą `--morfologia live` i bez niej).
-Odpowiedzi są dwie i pierwsza jest o mianowniku, a nie o wieloznaczności.
+i pyta, czy wracają z niej w tych samych drzewach.
+Pytanie stawia się pod obiema morfologiami.
+
+```sh
+python3 -m harness.znaczenia Składnica-frazowa-180723/
+python3 -m harness.znaczenia Składnica-frazowa-180723/ --morfologia live
+```
+
+Ten przebieg daje dwie odpowiedzi.
+Pierwsza odpowiedź jest o mianowniku, a nie o wieloznaczności.
 Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
 z tysiąca z górą, które olski melduje jako wieloznaczne,
 bo nad resztą nie wraca ani jedno czytanie,
@@ -105,13 +108,14 @@ Kategorią, której brakuje najczęściej,
 jest wyrażenie przyimkowe pod grupą imienną,
 czyli dokładnie to przyłączenie, o które w tym pytaniu chodzi.
 Warstwa trzecia zameldowanej wieloznaczności zatem nie zdejmuje,
-tylko jej nie dosięga.
+bo jej nie dosięga.
 Nad tymi zdaniami, nad którymi ją dosięga, wieloznaczność zostaje:
-czytania wracają drzewami rozłącznymi w każdym z nich
-i mówią to obie morfologie, choć żywa daje pytaniu populację kilka razy większą.
+czytania wracają w tych zdaniach w drzewach rozłącznych.
+Mówią to obie morfologie, choć żywa daje pytaniu populację kilka razy większą.
 
 Druga odpowiedź jest o tym, jak ten pomiar wolno postawić.
-Zdanie o jednym czytaniu wraca z tej warstwy kilkoma drzewami, najczęściej czterema,
+Zdanie o jednym czytaniu ma w tej warstwie kilka drzew.
+Najczęściej ma cztery drzewa,
 bo napis milczy o relacji przyimka i o znaczniku tematu
 ([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
 więc liczba drzew mierzy tę ciszę tak samo jak wieloznaczność.
@@ -120,60 +124,59 @@ i na tym kryterium stoi ta sonda.
 
 Kolejność warstw jest zatem tym miejscem,
 w którym architektura przeczy powodowi, dla którego czwarta powstała.
-Warstwa rozstrzygająca powstała po to, żeby odpowiedzieć czymś ponad składnią,
-a pyta o `Przyłączenie`, czyli o obiekt składniowy,
-i widać to na jednym świadku:
+Warstwa rozstrzygająca powstała po to, żeby odpowiedzieć ponad składnią.
+Warstwa ta pyta jednak o `Przyłączenie`, czyli o obiekt składniowy.
+Widać to na jednym świadku:
 powtórzenie frazy przy kopuli nie dowodzi niczego o tym czasowniku,
 więc świadek kontekstowy nad taką parą milczy
 ([disambiguation.md](disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Ruch, który z tego wychodzi, wraz z tym, co przy nim przeczytać,
-opisuje wpis w [TODO.md](../TODO.md).
+Ruch, który z tego wychodzi, opisuje wpis w [TODO.md](../TODO.md).
 
 ## Warstwa znacząca leży w pakiecie drugiego toru
 
-`abstrahuj` w `olski/skład/rozbiór.py` przechodzi z czytania parsera
-na drzewo kategorii dziedziny, czyli jest warstwą trzecią toru gramatycznego,
-a leży w pakiecie toru składu i importuje z niego morfologię,
-opowieść, przyimki oraz składnię.
-Wzięło się to z pytania, dla którego ta funkcja powstała:
-obieg zamknięty pyta, czy z napisu wraca drzewo, które ten napis wypuściło,
-a nie czy zdanie ma jedno znaczenie.
+Warstwa trzecia toru gramatycznego przechodzi z czytania parsera
+na drzewo kategorii dziedziny.
+Wypuszcza ją `olski/skład/rozbiór.py`, czyli moduł z pakietu toru składu,
+i importuje z tego pakietu morfologię, opowieść, przyimki oraz składnię.
+Wzięło się to z pytania, dla którego ta warstwa powstała:
+obieg zamknięty pyta, czy z napisu wraca drzewo, które ten napis wypuściło.
+O jedno znaczenie zdania obieg nie pyta.
 
 Granica pakietu jest tu rozstrzygnięciem, a nie przypadkiem,
 i pilnuje go `tests/test_rozbiór.py`.
-Moduł czyta gramatykę, a ta buduje się przy imporcie,
-więc wpisany do `olski/skład/__init__.py` kazałby ją zbudować każdemu,
-kto sięga po sam kompilator,
-a parser przestałby być świadkiem obiegu i stałby się jego zależnością
+Moduł czyta gramatykę, a gramatyka buduje się przy imporcie.
+Po wpisaniu tego modułu do `olski/skład/__init__.py`
+gramatykę budowałby każdy import samego kompilatora.
+Parser przestałby wtedy być świadkiem obiegu i byłby jego zależnością
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).
-Wołanie `abstrahuj` z toru gramatycznego przechodzi tę granicę w drugą stronę,
+Wołanie z toru gramatycznego przechodzi tę granicę w drugą stronę,
 więc jest przestawieniem granicy pakietu, a nie przeniesieniem funkcji.
 
-Warstwa ta jest przy tym cząstkowa i tym różni się od czterech pozostałych.
-Dziedzinę ma ograniczoną tym, co `olski/skład/składnia.py` umie powiedzieć,
-a gramatyka wyprowadza więcej,
-więc krotka krótsza od liczby czytań wraca stąd z dwóch różnych powodów:
-dwa czytania zeszły się w jedno albo któreś nie mieści się w tym zapisie.
-Powód pierwszy jest zdjętą wieloznacznością, a drugi dziurą w kompilatorze,
-i rozdziela je `Odczyt`, a nie sama długość krotki:
+Warstwa ta jest przy tym cząstkowa, a cztery warstwy pozostałe nie są cząstkowe.
+Ogranicza jej dziedzinę to, co `olski/skład/składnia.py` umie powiedzieć,
+a gramatyka wyprowadza więcej.
+Krotka krótsza od liczby czytań wraca stąd z dwóch różnych powodów:
+dwa czytania zeszły się w jedno albo któreś czytanie nie mieści się w tym zapisie.
+Powód pierwszy jest zdjętą wieloznacznością, a powód drugi jest dziurą w kompilatorze.
+Rozdziela je `Odczyt`, a nie sama długość krotki:
 `powody` opisuje słowami kandydata, który odpadł,
 a `kandydaci` mówi, czy ten zapis w ogóle miał czym odpowiedzieć.
 Werdykt liczony nad wyjściem tej warstwy odrzucałby wobec tego zdanie,
-którego gramatyka nie odrzuca,
-i to jest cena, którą przestawienie kolejności warstw płaci.
+którego gramatyka nie odrzuca.
+Tę cenę płaci przestawienie kolejności warstw.
 
 ## Oba kierunki dzielą typ, a nie kod
 
-Warstwy trzecia i czwarta są w obu kierunkach te same,
-bo w obu chodzi o te same dwa typy:
-`Zdanie` oraz `Kontekst`, oba zadeklarowane w `olski/skład/składnia.py`.
+Warstwy trzecia i czwarta są w obu kierunkach identyczne,
+bo w obu kierunkach chodzi o te same dwa typy.
+Typami tymi są `Zdanie` oraz `Kontekst`, a deklaruje je `olski/skład/składnia.py`.
 `Kontekst` leży tam, a nie w `olski/skład/opowieść.py`,
-bo niesie naraz to, co o zdaniu wie tekst — czas i to, kogo wolno pominąć —
-oraz to, co o nim wie drzewo nad nim.
+bo niesie naraz to, co o zdaniu wie tekst, oraz to, co wie o nim drzewo nad nim.
+Tekst wie czas zdarzenia i podmiot do pominięcia.
 Dwa pola tekstowe wypełnia `Akapit` w `olski/skład/opowieść.py`,
 a tożsamość, której lemat nie daje, niesie stojąca tam `Postać`.
-Kategorie drzewa `Zdanie` należą do dziedziny, a nie do polszczyzny,
-i wywód za tym poziomem trzyma
+Kategorie tego drzewa należą do dziedziny, a nie do polszczyzny.
+Wywód za tym poziomem trzyma
 [sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka).
 Co tekst wie ponad zdaniem, dowodzi tamten dokument osobno
 ([sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
@@ -186,20 +189,19 @@ Co tekst wie ponad zdaniem, dowodzi tamten dokument osobno
 | morfologia | `olski/skład/morfologia.py` | lemat wraz z żądanymi cechami | napis |
 | przegląd | `olski/skład/przegląd.py` | napis w swoim tekście | role, których czytelnik z napisu nie odzyska |
 
-Warstwy pierwsza, druga i piąta różnią się między kierunkami,
-a różni je to, czego jeden z nich nie ma.
-Kompilator nie ma wieloznaczności, bo z jednego drzewa wychodzi jeden napis,
-więc nie ma w nim czego rozstrzygać ani o czym wydawać werdykt,
-a `przegląd` pyta o co innego niż `Verdict`:
-nie o to, ile czytań zdanie ma, ale o to, czy niesie te role, które je wypuściły.
-Parser nie ma autora, który by powiedział, o kim mowa,
-więc czyta to z akapitu przez `Sąsiedztwo`,
-zamiast dostać gotowe w `Kontekst`.
+Warstwy pierwsza, druga i piąta nie powtarzają się w obu torach,
+a różni je to, czego jeden z kierunków nie ma.
+Kompilator nie ma wieloznaczności, bo z jednego drzewa wychodzi jeden napis.
+Nie ma w nim czego rozstrzygać, a werdykt nie ma czego liczyć.
+Przegląd pyta o inną rzecz niż werdykt:
+nie pyta o liczbę czytań zdania, a o role, które to zdanie wypuściły.
+Parser nie ma autora, więc nie wie, o kim mowa.
+Czyta to z akapitu przez `Sąsiedztwo`, a nie dostaje odpowiedzi w `Kontekst`.
 
-Zasadę tę zapisuje docstring `olski/skład/rozbiór.py`:
-wspólny oba kierunki mają typ, a nie kod.
+Zasadę tę zapisuje `olski/skład/rozbiór.py`:
+oba kierunki mają wspólny typ, a nie wspólny kod.
 Wymuszona symetria poniżej tych dwóch warstw
-dołożyłaby każdej stronie warstwę, której ta strona nie potrzebuje.
+dałaby każdej stronie warstwę, której ta strona nie potrzebuje.
 
 Wspólny typ kupuje przy tym wzorzec, którego bank drzew nie daje.
 Drzewo, z którego skład wypuszcza napis, zna czytanie, o które chodziło,

@@ -1099,24 +1099,40 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # więc dalej niż gdziekolwiek indziej w tej gramatyce, i tyle też kosztuje:
     # jedna deklaracja rośnie do dwóch. Rozwinięcia szyku to nie dotyka, bo mnoży
     # tu cecha, a nie kolejność.
-    for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
+    #
+    # Dopełniacz, którego czasownik żąda ramą, a nie przeczeniem, wysuwa się tą
+    # samą trójką ciał: `cena, której żądamy`, `pozycja, której brakuje`, `Kogo
+    # dotyczy zmiana?` Przeczenia to ciało nie ogłasza i nie ma czego, dokładnie
+    # jak dopełnienie na swoim miejscu: dopełniacz negacji wchodzi w miejsce
+    # biernika i tam kończy się jego zasięg, a `nie brakuje ceny` stoi w
+    # dopełniaczu tak samo jak `brakuje ceny`.
+    #
+    # Para stoi wypisana, a nie wzięta z :data:`DOKŁADANE`, bo z tamtej listy
+    # wchodzi tu jedna pozycja z trzech, a każda z pozostałych dwóch wypada z
+    # własnego powodu: bezokolicznik jest wypełnieniem innym niż dopełnienie i na
+    # czoło się nie wysuwa, a celownik zmierzono i nie kupił ani jednego zdania
+    # prawdziwego. Oba powody trzyma
+    # docs/subset.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie.
+    pozycje = (("acc", "acc", "aff"), ("gen", "acc", "neg"), ("gen", "gen", None))
+    for przypadek, rama, negacja in pozycje:
+        przeczenie = {} if negacja is None else {"negacja": negacja}
         zdanie.grammar.rule(
             "Object",
             [nt(czoło, case=przypadek, **zaimek)],
-            valency="acc",
-            negacja=negacja,
+            valency=rama,
             czoło=czoło,
+            **przeczenie,
         )
         czoło_dopełnienie = nt(
-            "Object", valency="acc", negacja=negacja, czoło=czoło, **zaimek
+            "Object", valency=rama, czoło=czoło, **zaimek, **przeczenie
         )
         czasownik = nt(
             "Verb",
             number=V("nv"),
             gender=V("gv"),
             person=V("p"),
-            valency="acc",
-            negacja=negacja,
+            valency=rama,
+            **przeczenie,
         )
         zdanie.dominacja(
             symbol,

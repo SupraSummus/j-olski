@@ -1087,6 +1087,25 @@ czyli ta sama droga, którą walencja rozdziela formę z cząstką od formy bez 
 a do przeczytania jest, co zwrotna kopula robi z `Ludzie rodzą się wolni.`,
 gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
 
+Zamknięta lista kopul nie ma także `bywać`,
+a ten czasownik orzeka narzędnik bez cząstki,
+więc dopisanie go do `KOPULA` w `olski/lematy.py` jest jednym wierszem
+i ten wiersz jest zmierzony.
+Nad bankiem drzew kupuje jedno zdanie i jedno odbiera:
+`W jego moskiewskim salonie bywała śmietanka przedrewolucyjnej Rosji.`
+przechodzi z wieloznacznego na przyjęte,
+a `Bywa, że dzieci ulegają nam, podporządkowują się naszej woli.`
+zostaje bez ani jednego czytania.
+Nad prozą tego repozytorium daje czytanie kilku zdaniom odrzuconym,
+przyjętego nie dokłada ani jednego, a czytanie odbiera zdaniu z `bywa tak, że`.
+Przeszkodą jest to, że klasa kopuli zabiera lematowi wpis z leksykonu
+(`_walencja` w `olski/subset.py`),
+więc `bywać` nie może być naraz kopulą i czasownikiem, który bierze zdanie z `że`.
+Ruchem jest rama kopuli liczona jako suma z ramą tego lematu,
+a nie jedna wartość na całą listę,
+i wtedy ta sama zmiana rusza `być`, któremu Walenty daje dopełniacz,
+bezokolicznik oraz zdanie podrzędne; tamtego rozszerzenia nie zmierzył nikt.
+
 Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
 `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
 daje wiersz `„do udziału” → „może”, „przedstawiciela”`,
@@ -2432,15 +2451,6 @@ zdanie z okolicznikiem pytającym: `kiedy to było` niesie pytanie przysłówkie
 którego czoło pytania nie bierze, więc ciąg mieszany żąda albo drugiego symbolu,
 albo tego okolicznika w czole.
 
-Pytanie o dopełnienie w dopełniaczu nie ma wyprowadzenia: `Kogo dotyczy zmiana?`
-pada, a `Kogo zna autor?` wyprowadza się
-([`docs/subset.md`](docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
-Czoło dopełnienia w `_wysunięta_rola` w `olski/subset.py` bierze dopełniacz tylko
-przy przeczeniu, bo tam rządzi nim negacja, a `dotyczyć` rządzi nim ramą.
-Ruchem jest para przypadka i pozycji ramy wzięta z leksykonu, tak jak bierze ją
-dopełnienie stojące na swoim miejscu (`DOKŁADANE`), a nie trzecia wartość wypisana
-obok tamtych dwóch.
-
 Przytoczenie samego wyrazu funkcyjnego nie ma czytania, bo `kto` i `co` nie stoją
 w pozycji rzeczownej: `nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie
 jedno` pada, a ten sam ciąg bez `kto` w środku wyprowadza się
@@ -2460,6 +2470,9 @@ więc czwarte zaczyna od ceny, a zakup ma do policzenia.
 Do przeczytania jest cena trzech ciał, które przydawka już ma,
 bo przecinek koordynuje w tej gramatyce na czterech poziomach
 i cena czwartego stanie w zdaniach już przyjętych, a nie w liczbie ciał.
+Zdanie tego kształtu stoi w [`docs/architecture.md`](docs/architecture.md),
+a autor odmówił tam zapłaty, bo wersja przechodząca żąda liczby pojedynczej
+od trzech warstw naraz.
 
 Człon bez czasownika stoi tylko na końcu zdania składowego, a wtrącony w środek pada
 ([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
