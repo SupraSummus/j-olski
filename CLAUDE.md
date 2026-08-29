@@ -810,11 +810,12 @@ gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
 a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
 
 Reguła ta obejmuje dane paczki, a nie każdy plik, który kod czyta.
-`projekt.txt` w korzeniu jest leksykonem projektu i pisze się go ręką,
-bo wiersz odpowiada na pytanie, na które nie odpowiada żaden korpus:
-wedle którego leksemu odmienia się słowo, którego słownik nie ma
+`olski.toml` w korzeniu jest konfiguracją projektu i pisze się go ręką,
+bo odpowiada on na pytania, na które nie odpowiada żaden korpus:
+wedle którego leksemu odmienia się słowo, którego słownik nie ma,
+oraz których lematów ten projekt używa, a których nie używa wcale
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
-Ten plik nie ma generatora; przebiegiem wychodzą z niego formy, a nie wiersze.
+Ten plik nie ma generatora; przebiegiem wychodzą z niego formy, a nie wpisy.
 
 ## Code
 

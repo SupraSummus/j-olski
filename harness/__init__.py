@@ -21,10 +21,10 @@ Odwrotnie ``olski/pokrycie.py``, który liczy to samo, co ``harness/pomiar.py``,
 a stoi po drugiej stronie, bo kolejkę blokerów nad własnym plikiem
 czyta autor (docs/pisanie-po-olsku.md).
 
-Trzeciej odpowiedzi to kryterium nie ma i jedna rzecz jej potrzebowała.
-``projekt.txt`` nie służy ani jednemu, ani drugiemu, bo jest konfiguracją
+Trzeciej odpowiedzi to kryterium nie ma i potrzebują jej pliki deklaracji.
+``olski.toml`` nie służy ani jednemu, ani drugiemu, bo jest konfiguracją
 jednego projektu, więc nie leży w żadnym z tych pakietów, tylko w korzeniu
-tego, nad którym olskiego uruchomiono (``znajdź`` w ``olski/projekt.py``).
+tego, nad którym olskiego uruchomiono (``znajdź`` w ``olski/konfiguracja.py``).
 
 Wychodzą stąd trzy rzeczy.
 Import idzie w jedną stronę: ani jeden moduł ``olski`` nie czyta niczego stąd.

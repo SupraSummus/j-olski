@@ -10,7 +10,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.morph import analyse
-from olski.projekt import WPISY, Wpis, ZłyWpis, czytania, odmiana, znajdź
+from olski.projekt import WPISY, Wpis, ZłyWpis, czytania, odmiana
 from olski.segmentacja import morphology
 from olski.werdykt import check
 
@@ -144,21 +144,3 @@ def test_każda_forma_leksykonu_jest_dla_morfeusza_jedną_krawędzią():
     for wpis in WPISY:
         for czytanie in odmiana(wpis):
             assert len(analyse(czytanie.form)) == 1, czytanie.form
-
-
-def test_leksykon_znajduje_się_z_podkatalogu_projektu(tmp_path):
-    #  Wpisy mówią o projekcie, a projekt ma podkatalogi, więc szukanie tylko w
-    #  katalogu roboczym gubiłoby leksykon każdemu, kto woła olskiego spod
-    #  `docs/` albo spod `src/`. Szuka się w górę, tak jak szuka się
-    #  `.editorconfig`.
-    (tmp_path / "projekt.txt").write_text("olski\tpolski:A\tolskim\n", encoding="utf-8")
-    głęboko = tmp_path / "docs" / "wewnątrz"
-    głęboko.mkdir(parents=True)
-    assert znajdź(głęboko) == tmp_path / "projekt.txt"
-
-
-def test_projekt_bez_leksykonu_nie_zgłasza_braku(tmp_path):
-    #  Brak jest stanem zwykłym: kto sprawdza cudzy tekst, nie ma tego pliku, a
-    #  słowo spoza słownika wraca mu jako `ign`, czyli tak samo jak przed tą
-    #  warstwą. Wyjątek zamiast tego wywracałby import całego olskiego.
-    assert znajdź(tmp_path) is None

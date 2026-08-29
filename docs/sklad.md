@@ -1132,12 +1132,12 @@ co kupuje [leksykon walencyjny](subset.md#walencja-jest-leksykonem-o-ramie-domy�
 że `komit` jest słowem raz, a nie dwa razy.
 
 Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:
-`projekt.txt` nazywa leksem, wedle którego słowo się odmienia,
+`olski.toml` nazywa leksem, wedle którego słowo się odmienia,
 wraz z jedną formą, którą ten leksem ma wydać.
 Alternacja tematu, która przeciw wskazaniu leksemu stała,
 schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,
 trzyma [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
-Czyta ten plik strona analizy, a skład go nie czyta,
+Czyta tę sekcję strona analizy, a skład jej nie czyta,
 więc obietnica z akapitu wyżej — że `komit` jest słowem raz, a nie dwa razy —
 czeka na drugiego czytelnika, i ruch do niej trzyma [`TODO.md`](../TODO.md).
 

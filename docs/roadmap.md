@@ -600,7 +600,7 @@ i widać ją dopiero w przebiegu nad dokumentacją.
 
 **Wyjście:** `Język olski jest podzbiorem polszczyzny.`
 wyprowadza się i wyprowadza raz.
-Zaliczone: odmianę takiego słowa deklaruje `projekt.txt`,
+Zaliczone: odmianę takiego słowa deklaruje `olski.toml`,
 wskazując leksem, wedle którego się ono odmienia, wraz z formą, którą ten leksem
 ma wydać, zob.
 [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).

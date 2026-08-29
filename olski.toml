@@ -1,0 +1,62 @@
+# Konfiguracja olskiego dla tego projektu: to, co projekt deklaruje o sobie,
+# a nie o polszczyźnie. Plik leży w korzeniu projektu, nad którym olskiego
+# uruchomiono, a nie w paczce: zainstalowany olski jest jeden dla wszystkich
+# projektów naraz. Szuka się go od katalogu roboczego w górę, więc olski wołany
+# spod `docs/` czyta ten sam. Braku nie zgłasza się: projekt bez tego pliku jest
+# zwykłym projektem.
+#
+# Nazwy sekcji i kluczy nie mają znaków diakrytycznych, bo klucz nagi w TOML-u
+# jest ASCII. Jest to jedyne miejsce, w którym reguła o polskich nazwach z
+# `CLAUDE.md` ustępuje formatowi; `olski/konfiguracja.py` mówi to samo obok kodu.
+
+# Słowa, których SGJP nie ma, a rejestr ich używa.
+#
+# Wpis to lemat, leksem, wedle którego to słowo się odmienia, oraz świadek,
+# czyli jedna forma, którą ten leksem ma wydać.
+#
+# Leksem zapisuje się identyfikatorem SGJP, bo lemat leksemu nie wskazuje, a
+# odmianą różnią się właśnie leksemy: `bat:Sm3~a` ma dopełniacz `bata`, a
+# `bat:Sm3~u` ma `batu`. Wedle którego, jest faktem o odmianie, a nie o
+# znaczeniu, więc `commit` odmienia się wedle `bat`, a `Python` wedle `dzban`.
+#
+# Świadek jest formą inną niż lemat, bo lemat wychodzi z każdego leksemu, który
+# przeszedł warunek na końcówkę, i tam, gdzie proza tego repozytorium słowo
+# odmienia, świadkiem jest forma stojąca w niej naprawdę. `lintuje` jest jedynym,
+# którego proza nie pokazuje: `lintować` stoi w niej tylko w bezokoliczniku.
+#
+# Komu wpis się należy, a komu nie — angielskiej nazwie przytoczonej, leksemowi
+# dokładanemu do napisu, który słownik zna — mówi sekcja o leksykonie projektu w
+# `docs/subset.md`.
+#
+# Jeden lemat ma tyle wpisów, ile leksemów mu się należy. `olski` jest i
+# przymiotnikiem, i rzeczownikiem, tak samo jak `polski`, a `konstytuent` ma w
+# tej prozie dwa dopełniacze, `konstytuentu` i `konstytuenta`, więc stoi tu
+# dwoma wpisami, tak jak słownik trzyma `bat` dwoma leksemami.
+#
+# Sekcję tę pisze się ręką i tym różni się ona od `olski/leksykon.txt`, który
+# powstaje przebiegiem. Form nie wypisuje żaden wpis, więc nie stoi tu ani jedna
+# komórka przepisana ze słownika: wydaje je Morfeusz, a `olski/projekt.py` mówi,
+# jak z leksemu robi się paradygmat i co go pilnuje.
+[leksykon]
+wpisy = [
+  ["commit", "bat:Sm3~a", "commita"],
+  ["konstytuent", "argument", "konstytuentu"],
+  ["konstytuent", "bat:Sm3~a", "konstytuenta"],
+  ["krotka", "kropka", "krotki"],
+  ["lintować", "malować", "lintuje"],
+  ["Markdown", "wagon", "Markdownie"],
+  ["olski", "polski:A", "olskim"],
+  ["olski", "polski:S", "olskiemu"],
+  ["Python", "dzban", "Pythona"],
+  ["Świgra", "figura", "Świgrze"],
+]
+
+# Lematy, o których ten projekt orzeka wprost.
+# `wpuszczane` uchyla wykluczenie słownikowe: tekst o grze deklaruje tu `go`, bo
+# bez tego `Go jest grą.` nie ma podmiotu. `pomijane` odbiera lematowi czytania
+# w całym projekcie. Wywód i cenę obu kierunków trzyma sekcja o słownictwie
+# projektu w `docs/subset.md`; obie listy są tu puste i po to są wypisane, żeby
+# liczby tamtego dokumentu odtwarzały się przebiegiem tego repozytorium.
+[lematy]
+wpuszczane = []
+pomijane = []

@@ -6,6 +6,10 @@ a warunki niżej odbierają formie czytanie, zanim produkcja je zobaczy,
 oraz dokładają je tam, gdzie słownik milczy.
 W jakiej kolejności te warunki idą i czemu w takiej, mówi :func:`morphology`.
 
+Jeden z nich nie jest przy tym zdaniem podzbioru, tylko zdaniem projektu:
+``olski/słownictwo.py`` mówi, których lematów projekt nie używa
+i którym uchyla wykluczenie słownikowe.
+
 Nad gotowym grafem stoją tu jeszcze dwa pytania o niego,
 bo odpowiada na nie i werdykt, i przebieg nad korpusem:
 po które czytanie formy nie sięga ani jeden terminal (:func:`licencjonowane`)
@@ -34,6 +38,7 @@ from olski.lematy import (
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
 )
 from olski.morph import Reading, Segment, analyse, tag
+from olski.słownictwo import SŁOWNICTWO, Słownictwo
 
 
 def sentences(text: str) -> list[str]:
@@ -79,7 +84,7 @@ def _acronym(form: str) -> bool:
     return len(form) > 1 and form.isupper()
 
 
-def admissible(segment: Segment) -> Segment:
+def admissible(segment: Segment, słownictwo: Słownictwo = SŁOWNICTWO) -> Segment:
     """Drop the noun reading of a form olski reads as a closed-class word.
 
     Morfeusz reads ``do`` as the preposition and as the musical note, and the
@@ -88,6 +93,12 @@ def admissible(segment: Segment) -> Segment:
     dictionary rather than in Polish, and no parse can tell the two apart, so
     the lexicon rules it out instead. docs/subset.md argues the criterion and
     docs/corpus.md measures what it is worth and what it costs.
+
+    Wieloznaczność ta jest jednak wieloznacznością w rejestrze, a nie w słowniku:
+    `Go jest grą.` polszczyzna ma, a to wykluczenie odbiera jej podmiot.
+    Lemat, o którym projekt mówi, że go używa, zostaje przez to nietknięty
+    (``olski/słownictwo.py``), a projekt bez takiej deklaracji dostaje kryterium
+    całe, bo o grze nie pisze prawie nikt.
     """
     if _acronym(segment.form):
         return segment
@@ -96,12 +107,34 @@ def admissible(segment: Segment) -> Segment:
     kept = tuple(
         reading
         for reading in segment.readings
-        if not (reading.tag.pos == "subst" and reading.tag.get("case") >= EVERY_CASE)
+        if reading.lemma in słownictwo.wpuszczane
+        or not (reading.tag.pos == "subst" and reading.tag.get("case") >= EVERY_CASE)
     )
     if len(kept) == len(segment.readings):
         return segment
     # A closed-class reading is not a noun reading, so the one that spared this
     # segment is itself among the survivors and the tuple is never emptied.
+    return replace(segment, readings=kept)
+
+
+def w_słownictwie(segment: Segment, słownictwo: Słownictwo = SŁOWNICTWO) -> Segment:
+    """Zdejmij czytania lematu, o którym projekt mówi, że go nie używa.
+
+    Warunek wyżej pyta o kształt czytania, a ten o sam lemat, i po to jest:
+    `soba` odmienia się przez przypadki, więc kryterium nieodmienności po nią nie
+    dochodzi, a od zaimka zwrotnego nie odróżnia jej żadne znamię formalne.
+    Kryterium nie ma tu skąd wyjść i rozstrzyga deklaracja (``olski/słownictwo.py``).
+
+    Krawędź wolno temu warunkowi opróżnić i tym różni się on od warunku wyżej,
+    a zgadza z :func:`po_przyimku`: projekt, który mówi, że słowa nie używa,
+    mówi to także o zdaniu, w którym stoi ono samo, a werdykt nazywa wtedy formę
+    bez licencji (:func:`bez_licencji`).
+    """
+    kept = tuple(
+        reading for reading in segment.readings if reading.lemma not in słownictwo.pomijane
+    )
+    if len(kept) == len(segment.readings):
+        return segment
     return replace(segment, readings=kept)
 
 
@@ -286,7 +319,7 @@ def przytoczenie(segments: list[Segment]) -> list[Segment]:
     ]
 
 
-def morphology(text: str) -> list[Segment]:
+def morphology(text: str, słownictwo: Słownictwo = SŁOWNICTWO) -> list[Segment]:
     """Analizuje tekst tak, jak czyta go olski.
 
     Kilka rzeczy dzieje się tu przed gramatyką. Notacja rejestru dostaje jedną
@@ -296,7 +329,8 @@ def morphology(text: str) -> list[Segment]:
     jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieodmiennego.
     Forma pisana wersalikami, której słownik nie czyta wcale, dostaje czytanie
     nieodmienne (:func:`wersalik`). Reszta idzie do Morfeusza i traci te czytania,
-    które odrzuca :func:`admissible`, a po nich te, które :func:`po_przyimku`
+    które odrzuca :func:`admissible`, po nich te, których lematu projekt nie używa
+    (:func:`w_słownictwie`), a po nich te, które :func:`po_przyimku`
     odrzuca formie stojącej bez przyimka oraz :func:`po_słowie` cząstce zwrotnej
     stojącej bez słowa przed sobą, a na końcu napis objęty cudzysłowem dostaje
     czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
@@ -306,15 +340,23 @@ def morphology(text: str) -> list[Segment]:
     ostatnie, bo pyta o czytania, które zostały: ``be`` traci rzeczownik w
     :func:`admissible` i przytoczenie zastaje tam sam przymiotnik.
 
+    Słownictwo projektu wchodzi tu argumentem, a nie stałą czytaną w dwóch
+    warunkach, bo bez tego nie da się przeczytać jednego zdania dwoma
+    deklaracjami, a takiego pytania żąda i suita, i każdy, kto tę deklarację
+    wycenia (``olski/słownictwo.py``).
+
     Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
     grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
     spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
     """
     return przytoczenie(
         po_słowie(
-            po_przyimku(
-                [admissible(wersalik(projekt.z_leksykonu(segment))) for segment in _segmenty(text)]
-            )
+            po_przyimku([
+                w_słownictwie(
+                    admissible(wersalik(projekt.z_leksykonu(segment)), słownictwo), słownictwo
+                )
+                for segment in _segmenty(text)
+            ])
         )
     )
 
