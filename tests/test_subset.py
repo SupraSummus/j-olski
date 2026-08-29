@@ -1763,7 +1763,7 @@ def test_myślnik_rozdziela_zdanie_a_łącznik_nie(znak, status):
     assert found.status == status, found.explain()
 
 
-@pytest.mark.parametrize("lemat", SPÓJNIKI_PRZECINKOWE.split("|"))
+@pytest.mark.parametrize("lemat", sorted(SPÓJNIKI_PRZECINKOWE))
 def test_dwie_klasy_spójnika_zdaniowego_nie_zachodzą_na_siebie(lemat: str):
     #  Lemat wzięty obiema pozycjami dałby polszczyźnie i `A, ale B`, i `A ale B`,
     #  a pominięty na liście nie wszedłby do żadnej z nich. Literówka wygląda
@@ -2003,7 +2003,7 @@ def test_klasy_walencyjne_nie_zachodzą_na_siebie(leksykon):
     #  pokaże i żaden inny test tu nie sięga. Zachodzą klasy łatwo, bo Walenty
     #  mówi o kopuli to samo, co o każdym innym lemacie leksykonu, więc wpis
     #  ręczny musi swoje lematy leksykonowi zabrać, a nie stanąć obok nich.
-    lematy = [lemat for alternatywa in leksykon.values() for lemat in alternatywa.split("|")]
+    lematy = [lemat for klasa in leksykon.values() for lemat in klasa]
     assert len(lematy) == len(set(lematy))
 
 
@@ -2014,14 +2014,13 @@ def test_żadna_forma_nie_wpada_w_dwie_klasy_walencyjne_naraz():
     #  Klasa domyślna pyta o całą formę i pary z nią już nie ma, więc zostaje para
     #  dwóch klas twierdzących: kopuła obok klasy wąskiej. Formy idą z syntetyzatora,
     #  bo pytanie jest o słownik, a nie o to, co któryś rejestr napisał.
-    kopuła = set(KOPULA.split("|"))
-    wąskie = set(WALENCJA[RAMA_BEZ_BIERNIKA].split("|"))
+    wąskie = WALENCJA[RAMA_BEZ_BIERNIKA]
     zderzenia = [
         (forma, sorted(segment.lematy & wąskie))
-        for lemat in kopuła
+        for lemat in KOPULA
         for forma, *_ in generuj(lemat)
         for segment in analyse(forma)
-        if segment.lematy & kopuła and segment.lematy & wąskie
+        if segment.lematy & KOPULA and segment.lematy & wąskie
     ]
     assert not zderzenia, zderzenia
 
@@ -2269,7 +2268,7 @@ def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
     assert "Nawet ja" in {czytanie.get("Subject") for czytanie in role(found)}, found.explain()
 
 
-@pytest.mark.parametrize("lemat", CZĄSTKI.split("|"))
+@pytest.mark.parametrize("lemat", sorted(CZĄSTKI))
 def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     #  Kryterium na wejście do tej listy, postawione lemat po lemacie: cząstka,
     #  której inne czytanie gramatyka bierze, daje jednemu napisowi dwa
@@ -2754,7 +2753,7 @@ def test_predykatyw_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
     assert wysunięte.status == "rejected", wysunięte.explain()
 
 
-@pytest.mark.parametrize("lemat", PREDYKATYWY.split("|"))
+@pytest.mark.parametrize("lemat", sorted(PREDYKATYWY))
 def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
     #  Usterka, którą to łapie: lemat wpisany na listę, którego Morfeusz pod `pred`
     #  nie ma. `trudno` i `łatwo` są u niego przysłówkami, więc wpisane tutaj byłyby

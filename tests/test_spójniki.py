@@ -11,7 +11,7 @@ SŁOWA = sorted({spójnik for spójnik, _relacja in SPÓJNIKI})
 
 #: Spójniki, którymi analiza otwiera okolicznik wyrażony zdaniem, obie listy razem.
 #: Świadek jest ten sam i sprawdza to samo po drugiej stronie.
-OKOLICZNIKOWE = sorted(set(SPÓJNIKI_OKOLICZNIKOWE.split("|")))
+OKOLICZNIKOWE = sorted(SPÓJNIKI_OKOLICZNIKOWE)
 
 
 @pytest.mark.parametrize("spójnik", SŁOWA)

@@ -471,7 +471,7 @@ o którym nie mówi nic.
 Widać to na lematach, które padają w pomyłkach — `być` z `na`, `być` z `z`,
 `mieć` z `w`, `powodować` z `w` —
 czyli na tej samej klasie, przed którą warstwa rozstrzygająca broni się już
-listą `KOPULY` w `olski/rozstrzyganie.py`.
+listą kopul odejmowaną od dowodu w `olski/rozstrzyganie.py`.
 
 Zwężenie do schematów o kwalifikatorze `pewny` tego nie naprawia i nie stoi.
 Pod `--tylko-pewne` żadna z tych liczb nie rusza się o więcej niż pół punktu,

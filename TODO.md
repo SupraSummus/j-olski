@@ -879,7 +879,7 @@ bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
 choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
 ([`docs/architecture.md`](docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).
 Widać to na kopuli: powtórzenie frazy przy `być` nie dowodzi niczego o tym czasowniku,
-więc `KOPULY` odbiera dowód, zamiast dać świadkowi pytanie, na które kopuła odpowiada
+więc lista kopul odbiera dowód, zamiast dać świadkowi pytanie, na które kopuła odpowiada
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Świadka pytającego o drzewo dziedziny zamiast o gospodarza zmierzono przed napisaniem
 i wyszło, że nie miałby o co pytać:
@@ -1896,7 +1896,8 @@ mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m harness.p
 Ten sam warunek czyta `_łańcuch` w `olski/rozstrzyganie.py`, bo kryterium jest jedno,
 a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest inna po obu stronach.
 
-`KOPULY` w `olski/rozstrzyganie.py` jest listą pożyczoną i cztery piąte jej nie zmierzono.
+Lista kopul, którą `olski/rozstrzyganie.py` odejmuje od dowodu,
+jest pożyczona i cztery piąte jej nie zmierzono.
 Świadek kontekstowy nie bierze za dowód powtórzenia przy kopuli, a listę kopul bierze
 z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/lematy.py` wylicza czasowniki
 biorące orzecznik w narzędniku, a tutaj chodzi o czasownik, przy którym okolicznik stoi
@@ -2262,6 +2263,25 @@ Wpis zamyka się też przez to, że tak zostaje, i wtedy powód idzie do
 Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
+
+Wartość cechy jest zbiorem, a zapisuje się ją napisem z kropkami.
+`_spec` w `olski/grammar.py` rozcina taki napis na zbiór,
+więc `RAMA_DOMYŚLNA` w `olski/subset.py` wylicza pozycje ramy napisem,
+`_bez` odejmuje od niego pozycję rozcięciem i sklejeniem,
+a `TRYB_FORMY_NA_Ł` skleja dwie wartości `f`-napisem.
+Listy lematów są w tym samym module zbiorami, a wartości cechy nie,
+choć usterka jest ta sama.
+Ruchem jest zbiór wszędzie tam, gdzie dziś stoi napis z kropkami:
+`_spec` bierze kolekcję już teraz, `_bez` schodzi do różnicy zbiorów,
+a klucz `WALENCJA` przestaje być napisem.
+Do przeczytania jest przedtem kolejność klas walencyjnych:
+`_klasy_walencyjne` sortuje je po ramie, a `sorted` po zbiorach się nie wywraca,
+tylko porównuje je zawieraniem, więc oddaje kolejność zależną od wejścia.
+Kolejność produkcji ustala kolejność, w jakiej las wydaje czytania,
+więc rama-zbiór potrzebuje klucza wypisanego wprost
+([CLAUDE.md](CLAUDE.md#code)).
+Ruszy się przy tym `"acc" not in rama.split(".")` w `tests/test_skład.py`
+i każde zdanie dokumentu, które ramę cytuje napisem.
 
 ## Konstrukcje, których gramatyka nie ma
 

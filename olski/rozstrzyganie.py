@@ -116,15 +116,6 @@ IMIENNE = frozenset({"subst", "ger", "depr"})
 #: a Morfeusz oddaje je z ``ign`` w tagu.
 IMIENNE_LUB_NIEZNANE = IMIENNE | {"ign"}
 
-#: Lematy, którymi gospodarz dowodu się nie dopasuje: kopula sama nic nie orzeka,
-#: więc powtórzenie przy niej mówi tylko tyle, że oba zdania mają to samo
-#: orzeczenie. Gospodarzem kopula zostaje, bo okolicznik zdania wisi na
-#: orzeczeniu; odpada dowód, a nie pozycja, i dlaczego tak, wywodzi
-#: ``docs/disambiguation.md``. Lista jest ta sama, którą gramatyka bierze dla
-#: orzecznika (``olski/lematy.py``), więc lemat dopisany tam przestaje być dowodem
-#: i tutaj.
-KOPULY = frozenset(KOPULA.split("|"))
-
 
 @dataclass(frozen=True)
 class Rozstrzygnięcie:
@@ -291,7 +282,7 @@ def _gdzie_stała(
 
 
 def _pasujący(
-    formy: Iterable[str], lematy: dict[str, frozenset[str]], kopuly: frozenset[str] = KOPULY
+    formy: Iterable[str], lematy: dict[str, frozenset[str]], kopuly: frozenset[str] = KOPULA
 ) -> Iterator[tuple[str, str]]:
     """Gospodarze o lemacie wspólnym z którąś z tych form, każdy z tym lematem.
 
@@ -299,7 +290,7 @@ def _pasujący(
     ``danych`` jest u Morfeusza i od ``dane``, i od ``dać``,
     a powód ma wyjść ten sam w każdym przebiegu, bo zbiór lematów kolejności nie ma.
 
-    Kopula dopasowaniem nie jest (:data:`KOPULY`), a gospodarz o lemacie także
+    Kopula dopasowaniem nie jest (:attr:`Powtórzenie.kopuly`), a gospodarz o lemacie także
     innym dopasowuje się tym innym: odpada lemat, a nie gospodarz.
     """
     for forma in formy:
@@ -381,7 +372,7 @@ class Sąsiedztwo:
         rzeczownik: frozenset[str],
         gospodarze: Iterable[str],
         kandydaci: Kandydaci = _łańcuch,
-        kopuly: frozenset[str] = KOPULY,
+        kopuly: frozenset[str] = KOPULA,
     ) -> dict[str, Dowód]:
         """Ci z gospodarzy, przy których ta fraza w tym sąsiedztwie już stała.
 
@@ -461,7 +452,7 @@ class Powtórzenie:
     sąsiedztwo powtarza wtedy sporne przyłączenie, zamiast je rozstrzygać.
 
     Milczy też tam, gdzie jedynym dowodem jest powtórzenie przy kopuli
-    (:data:`KOPULY`), bo powtórzenie prawdziwe bywa puste. Kopula przy drugim
+    (:attr:`kopuly`), bo powtórzenie prawdziwe bywa puste. Kopula przy drugim
     dowodzie wskazania nie blokuje: dwóch gospodarzy liczy się po odsianiu par
     z takim lematem.
     """
@@ -472,9 +463,15 @@ class Powtórzenie:
     #: a nie po to, żeby ją zmieniać w werdykcie: cenę drukuje
     #: ``harness/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
     kandydaci: Kandydaci = _łańcuch
-    #: Lematy, którymi gospodarz dowodu się nie dopasuje (:data:`KOPULY`).
+    #: Lematy, którymi gospodarz dowodu się nie dopasuje: kopula sama nic nie
+    #: orzeka, więc powtórzenie przy niej mówi tylko tyle, że oba zdania mają to
+    #: samo orzeczenie. Gospodarzem kopula zostaje, bo okolicznik zdania wisi na
+    #: orzeczeniu; odpada dowód, a nie pozycja, i dlaczego tak, wywodzi
+    #: ``docs/disambiguation.md``. Lista jest pożyczona od gramatyki
+    #: (``KOPULA`` w ``olski/lematy.py``), więc lemat dopisany tam przestaje być
+    #: dowodem i tutaj.
     #: Podstawiane tą samą drogą i z tego samego powodu co :attr:`kandydaci`.
-    kopuly: frozenset[str] = KOPULY
+    kopuly: frozenset[str] = KOPULA
 
     def __call__(
         self, przyłączenie: Przyłączenie, sąsiedztwo: Sąsiedztwo
