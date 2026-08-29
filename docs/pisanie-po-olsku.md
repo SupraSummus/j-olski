@@ -24,8 +24,8 @@ Oba fotele obsadza jedna osoba i to ona wymusza równowagę
 kto zdanie przepisuje, sam potem wycenia produkcję, która by je wpuściła,
 więc kosztu nie ma komu podrzucić.
 Każde zdanie ta osoba rozstrzyga przy tym osobno,
-a rozstrzyga je [pytaniem](#kto-płaci-za-odrzucone-zdanie),
-którego odpowiedź otwiera jeden z trzech rachunków.
+a rozstrzyga je tak, że rusza obie strony naraz
+i zatrzymuje się w [punkcie kompromisu](#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu).
 
 Planem to nie jest.
 Właścicielem ruchu jest [`TODO.md`](../TODO.md),
@@ -34,34 +34,60 @@ a ceny wpuszczenia konstrukcji
 [`subset.md`](subset.md#what-the-grammar-covers);
 tu stoi tylko materiał, którego te trzy dokumenty nie miały skąd wziąć.
 
-## Kto płaci za odrzucone zdanie
+## Ruchy są dwa i spotykają się w punkcie kompromisu
 
-**Pytanie brzmi: czy polszczyzna ma ten napis.**
-Nie czy zdanie jest zrozumiałe i nie czy da się je poprawić.
+Odrzucone zdanie rusza dwie rzeczy naraz i obie wolno ruszyć.
+Autor przepisuje zdanie tak, żeby olski je wziął.
+Developer dopisuje produkcję tak, żeby olski wziął zdanie bez zmiany.
+Ruchy te nie wykluczają się i najczęściej wchodzą razem:
+autor skraca zdanie, nowy napis dalej nie przechodzi,
+a developer dopisuje pozycję, której ten nowy napis żąda.
 
-**Za napis, którego polszczyzna nie ma, płaci autor.**
-Gramatyka zapłacić nie może, bo obietnicą podzbioru jest,
-że każde zdanie olskiego jest zdaniem polskim,
+**Punkt spotkania nie leży w połowie i nie ma leżeć.**
+Wybiera go za każdym razem to, co która strona traci.
+Autor traci wtedy, gdy zdanie po przepisaniu mówi mniej albo mówi gorzej;
+gramatyka traci wtedy, gdy produkcja dokłada czytanie każdemu zdaniu,
+które ją niesie ([roles.md](roles.md#autor-produkcji)).
+Gdzie autor traci mało, a produkcja kosztowałaby dużo, rusza się zdanie.
+Gdzie zdanie po przepisaniu byłoby gorszą polszczyzną, rusza się gramatyka.
+Obie te straty widzi jedna osoba, i po to
+[fotele obsadza jedna osoba](roles.md#rola-jest-postawą-nie-osobą).
+
+**Jedna granica stoi ponad tym wyborem: czy polszczyzna ma ten napis.**
+Napisu, którego polszczyzna nie ma, gramatyka nie bierze za żadną cenę,
+bo obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim,
 a produkcja wpuszczająca taki napis odbiera tę obietnicę wszystkim zdaniom naraz.
-Autor dostaje za to poprawiony tekst
+Tam ruch jest jeden i robi go autor, a dostaje za to poprawiony tekst
 ([niżej](#odrzucenie-bywa-poprawką)).
-
-**Za napis, który polszczyzna ma i ten rejestr pisze, płaci gramatyka.**
-Autor zapłacić nie może, bo przepisanie takiego zdania znaczy napisanie go
-gorzej pod parser, a podzbiór, w którym nie da się pisać tego,
-co ten rejestr mówi, mierzy sam siebie zamiast polszczyzny.
-Cenę produkcji liczy autor przed dopisaniem ([README](../README.md#kierunek)).
-
-**Za napis, który polszczyzna ma, a ten rejestr pisze rzadko, nie płaci nikt.**
-Taki napis wchodzi na kolejkę, a rachunek ten jest z trzech największy:
-o nim mówi cała [kolejka blokerów](corpus.md#where-the-analyses-stop).
-Rozstrzyga o nim cena, czyli liczba zdań, które konstrukcja kupuje,
-i po tej liczbie tamta kolejka jest ułożona, a nie po dolegliwości.
+Poza tą granicą wybór jest otwarty i rozstrzyga go cena obu stron.
 
 Tego pytania nie policzy żaden przebieg.
 Kolejka mówi, ile razy analiza stanęła na danej formie,
 a czy stanęła na polszczyźnie, czy na literówce, widać dopiero po przeczytaniu zdania.
 Dlatego z tego fotela wychodzi dokument, a nie druga tabela.
+
+## Kto płaci za odrzucone zdanie
+
+Rachunki są trzy i mówią, ile która strona ma do stracenia
+w [punkcie kompromisu](#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu).
+
+**Za napis, którego polszczyzna nie ma, płaci autor.**
+Jest to ta jedna granica, za którą wyboru nie ma.
+
+**Za napis, który polszczyzna ma i ten rejestr pisze, płaci głównie gramatyka.**
+Autor zapłaciłby tu najwięcej, bo przepisanie takiego zdania znaczy napisanie go
+gorzej pod parser, a podzbiór, w którym nie da się pisać tego,
+co ten rejestr mówi, mierzy sam siebie zamiast polszczyzny.
+Cenę produkcji liczy autor przed dopisaniem ([README](../README.md#kierunek)).
+Zdania wolno przy tym dotknąć, gdy nic ono na tym nie traci:
+zdanie długie ma kilka zatrzymań naraz i rozbite na dwa
+zdejmuje developerowi część roboty, nie mówiąc przez to mniej.
+
+**Za napis, który polszczyzna ma, a ten rejestr pisze rzadko, płaci autor.**
+Produkcja czeka wtedy na kolejce, a nie na tę jedną sesję:
+o niej mówi cała [kolejka blokerów](corpus.md#where-the-analyses-stop).
+Rozstrzyga o niej cena, czyli liczba zdań, które konstrukcja kupuje,
+i po tej liczbie tamta kolejka jest ułożona, a nie po dolegliwości.
 
 ## Odrzucenie bywa poprawką
 
@@ -299,31 +325,32 @@ w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 Polszczyzna powtarza tu spójnik przed każdym członem,
 a koordynacja olskiego stawia go raz i między członami.
 
-**Słowo pytające poza tymi trzema.**
-`Pyta, czy go to dotyczy.` pada, `Pyta, który parser jest tani.` przechodzi.
-Pytanie ma w gramatyce dwa kształty — zaimek przy rzeczowniku
-oraz `kto` i `co` same
-([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)) —
-a `czy`, `jak`, `jaki`, `ile` i `gdzie` żądają każde innego
+**Słowo pytające poza tymi czterema.**
+`Pyta, ile ta gramatyka kosztuje.` pada,
+`Pyta, czy go to dotyczy.` przechodzi.
+Pytanie ma w gramatyce trzy kształty — zaimek przy rzeczowniku,
+`kto` i `co` same
+([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))
+oraz `czy` nad całym zdaniem
+([subset.md](subset.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)) —
+a `jak`, `jaki`, `ile` i `dlaczego` żądają każde innego
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Dokument, który opisuje rolę czytelnika, pisze te zdania zdanie po zdaniu,
 bo rola pyta, a pytanie jest jej definicją.
+
+**Pytanie o miejsce.**
+`Gdzie są przetrzymywani zakładnicy?` pada,
+a `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.` przechodzi.
+Okolicznik z `gdzie` gramatyka ma
+([subset.md](subset.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
+a pytania o miejsce nie ma, bo rolą wysuniętą jest tam okolicznik,
+i tym różni się ono od pytania o podmiot albo o dopełnienie.
 
 **Bezokolicznik pod słowem, które orzeka bez podmiotu.**
 `To jest stan, którego warto pilnować.` pada,
 `Trzeba czytać dokumenty.` przechodzi.
 Predykatyw bierze bezokolicznik na swoim miejscu,
 a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
-
-**Dopełnienie przed czasownikiem w zdaniu względnym.**
-`Reguła, która tekst sprawdza, jest tania.` pada,
-`Reguła, która sprawdza tekst, jest tania.` przechodzi,
-choć `Reguła tekst sprawdza.` przechodzi też.
-Zdanie główne ma wszystkie szyki podmiotu, dopełnienia i czasownika
-([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-a zdanie względne, którego czoło jest podmiotem, ma jeden:
-ten z dopełnieniem za czasownikiem.
-Ruch trzyma [`TODO.md`](../TODO.md).
 
 **Przymiotnik w formie poprzyimkowej.**
 `Reguła działa po polsku.` pada, `Reguła działa wszędzie.` przechodzi.

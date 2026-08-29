@@ -935,33 +935,6 @@ a `RelativeCore` jest osobnym symbolem i ciała z tym symbolem w środku ma jedn
 Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym,
 więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
 
-Dopełnienie nie ma miejsca przed czasownikiem tam, gdzie czoło jest podmiotem.
-`Reguła, która tekst sprawdza, jest tania.` jest odrzucone,
-choć `Reguła tekst sprawdza.` wyprowadza się w zdaniu głównym,
-bo `_wysunięta_rola` w `olski/subset.py` daje zdaniu z czołem podmiotowym
-jedno ciało — czoło i `Predicate` — a `Predicate` stawia dopełnienie za czasownikiem.
-Zdanie z czołem dopełnieniowym ma tam ciała wypisane płasko,
-więc brak jest po jednej stronie tej pary, a nie po obu.
-Odsłoniło go wpuszczenie zaimka do wykluczenia słownikowego
-([`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)):
-ostatnie zdanie akapitu o parserze w README wyprowadzało się dotąd grupą `które go`,
-w której `go` było grą, a po wykluczeniu stanęło na tym braku,
-więc README ten szyk odtąd omija ([README](README.md#konwencje)).
-Do przeczytania jest przy tym `Człowiek, który mnie zna, jest mądry.`:
-zdanie to wychodzi przyjęte, bo `mnie` czyta się formą osobową,
-czyli brak ten bywa zasłonięty czytaniem, którego polszczyzna nie ma,
-a takich zdań przyjętych jest kilka procent
-([`docs/subset.md`](docs/subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
-Ruchem jest drugie ciało obok tamtego, z dopełnieniem przed czasownikiem,
-pisane parą przypadka i przeczenia tak samo jak ciała z czołem dopełnieniowym,
-a przed nim pomiar: grupa imienna przed czasownikiem konkuruje wewnątrz zdania
-względnego z przydawką i z podmiotem, więc cena stoi w jednoznaczności zdań
-już przyjętych, a nie w liczbie ciał.
-Do przeczytania jest `_poza_orzeczeniem` w tym samym pliku:
-tam to samo pytanie rozstrzygnęło zdanie główne, wypisując pięć szyków płasko
-i zostawiając szósty `Predicate`, więc kryterium na to, co wolno wypisać,
-jest gotowe i wystarczy przenieść je o poziom niżej.
-
 Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
 `SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o kilkunastu lematach analizy,
 a `SPÓJNIKI` w `olski/skład/spójniki.py` o kilku, których używa skład,
@@ -2291,6 +2264,17 @@ zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
 ## Konstrukcje, których gramatyka nie ma
+
+Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
+`Pyta, co to jest i czy to działa.` staje na `czy`,
+a `Pyta, co to jest.` oraz `Pyta, kto płaci i czy to działa.` wyprowadzają się,
+więc brak jest w samym złożeniu, a nie w żadnym z dwóch czół
+([`docs/subset.md`](docs/subset.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
+Do przeczytania jest `InterrogativeChain` w `olski/subset.py` obok pozycji
+orzecznika wysuniętego, bo pytanie jest o to, czy człon z orzecznikiem
+wypuszcza cechę, której ciało ciągu żąda od członu pierwszego.
+Zdanie to pisze `docs/roles.md`, a odrzucenie jest werdyktem uczciwym,
+więc pozycja nie ma pilności, jaką miałby brak wydający `valid`.
 
 Para myślników nie ma wyprowadzenia, a wtrącenie, którego żąda, stoi w środku zdania,
 gdzie obie pozycje nawiasu zamykają zdanie,

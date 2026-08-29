@@ -2959,8 +2959,61 @@ def test_zdanie_względne_nie_daje_dwóch_wyprowadzeń_jednej_struktury():
     #  Zaimek jest męskoosobowy, bo `które` jest zarazem mianownikiem i
     #  biernikiem, więc zdanie z nim wychodzi drugim czytaniem — z opuszczonym
     #  podmiotem — i to czytanie zasłoniłoby usterkę, o którą tu idzie.
+    #
+    #  Ten sam napis łapie drugą usterkę tego samego kształtu: ciało z
+    #  dopełnieniem przed czasownikiem (:data:`ORZECZENIE_ODWRÓCONE`) biorące
+    #  całe wypełnienie ramy zamiast samego dopełnienia. Wypełnienie niesie
+    #  okolicznik w swoich ciałach, a przed czasownikiem stawia go także
+    #  rozwinięcie szyku, więc `na niej` wychodzi wtedy dwoma wyprowadzeniami.
     found = verdict("Istnieją ci ludzie, którzy na niej stoją.")
     assert found.status == "valid", found.explain()
+
+
+def test_dopełnienie_przed_czasownikiem_nie_dubluje_szyku_zdania_głównego():
+    #  Usterka, którą to łapie: szyk z dopełnieniem przed czasownikiem dopisany
+    #  do `Predicate` zamiast do osobnego symbolu. Zdanie główne ma ten szyk już
+    #  z deklaracji swoich córek, więc dopisany tam daje jednemu napisowi dwa
+    #  wyprowadzenia tego samego kształtu, czyli drugie odczytanie.
+    #
+    #  Zdanie podrzędne i główne stoją tu obok siebie, bo dopisanie zdejmuje
+    #  odrzucenie pierwszemu i wolno mu przy tym nie ruszyć drugiego.
+    podrzędne = verdict("Reguła, która tekst sprawdza, jest tania.")
+    assert podrzędne.status == "valid", podrzędne.explain()
+    główne = verdict("Reguła tekst sprawdza.")
+    assert główne.status == "valid", główne.explain()
+
+
+def test_przysłówek_względny_nie_stoi_okolicznikiem_zdania_współrzędnego():
+    #  Usterka, którą to łapie: `gdzie` zostawione w terminalu okolicznika obok
+    #  własnego ciała. Zdanie za przecinkiem wyprowadza się wtedy członem
+    #  współrzędnym, w którym ta forma jest okolicznikiem, i jest to czytanie,
+    #  którego polszczyzna nie ma; drugie czytanie zdania jest tu całą usterką,
+    #  bo werdykt bez wykluczenia niczego nie odrzuca.
+    #
+    #  Dopełnienie jest żeńskie, bo `tekst` jest zarazem mianownikiem i
+    #  biernikiem, więc zdanie z nim wychodzi drugim czytaniem na synkretyzmie
+    #  i to czytanie zasłoniłoby usterkę, o którą tu idzie.
+    found = verdict("Wchodzi w roadmap.md, gdzie linter sprawdza regułę.")
+    assert found.status == "valid", found.explain()
+
+
+def test_przysłówek_względny_określa_drugi_przysłówek():
+    #  Wykluczenie wyżej zabiera parę, w której ta forma zdania nie otwiera, więc
+    #  para ma własne ciało. Bez niego wykluczenie odbiera zdania, które ta proza
+    #  pisze, i jest to cena płacona za czytanie, o które szło tamtemu testowi.
+    found = verdict("Cena jest gdzie indziej.")
+    assert found.status == "valid", found.explain()
+
+
+def test_pytanie_o_rozstrzygnięcie_nie_dubluje_się_z_koordynacją():
+    #  `czy` bierze zarazem koordynacja bez przecinka, gdzie znaczy `albo`, więc
+    #  usterką byłoby czoło pytania biorące człon zamiast zdania: jeden napis
+    #  dostałby wtedy oba wyprowadzenia. Rozdziela je materiał pod spójnikiem i
+    #  tego pilnuje ta para.
+    pytanie = verdict("Pyta, czy go to dotyczy.")
+    assert pytanie.status == "valid", pytanie.explain()
+    ciąg = verdict("Pyta, kto płaci i czy to działa.")
+    assert ciąg.status == "valid", ciąg.explain()
 
 
 def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():

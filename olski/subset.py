@@ -249,6 +249,17 @@ RZECZOWNIK_ORZEKAJĄCY = "mowa"
 #: zdania, więc wpuszczone tą produkcją stanęłyby w pozycji, której nie zajmują.
 SPÓJNIK_DOPEŁNIENIOWY = "że"
 
+#: Orzeczenie, w którym dopełnienie stoi przed czasownikiem: `kto go nie używa`.
+#: Symbol osobny od `Predicate`, bo szyk ten bierze samo zdanie o czole
+#: podmiotowym, a zdanie główne ma go już skądinąd; wywód stoi przy jego ciele.
+ORZECZENIE_ODWRÓCONE = "InvertedPredicate"
+
+#: Spójnik pytania rozstrzygnięcia: `Pyta, czy go to dotyczy.` Pytanie o rolę
+#: podporządkowuje sam zaimek, więc czoło niesie tam rolę wysuniętą
+#: (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`), a tutaj podporządkowuje spójnik i zdanie
+#: pod nim jest całe. Stąd osobne ciało czoła, a nie lemat dopisany do listy.
+SPÓJNIK_PYTAJNY = "czy"
+
 #: Spójniki, których zdanie polszczyzna stawia przed zdaniem nadrzędnym i za nim.
 #: Zajmują one obie pozycje okolicznika, a pozostałe stałe niżej wyliczają to,
 #: co każda z tych dwóch list trzyma na zewnątrz.
@@ -275,6 +286,17 @@ SPÓJNIKI_PO_ZDANIU = "bo|gdyż|albowiem|aż"
 #: którymi stoi tryb przypuszczający, wylicza :data:`SPÓJNIKI_TRYBU` i bierze
 #: osobne ciało, bo żądają one od zdania cechy, której ta lista nie żąda.
 SPÓJNIKI_OKOLICZNIKOWE = f"{SPÓJNIKI_WYSUWANE}|{SPÓJNIKI_PO_ZDANIU}"
+
+#: Przysłówek względny, którym ten rejestr dopowiada miejsce: `Wchodzi w
+#: subset.md, gdzie produkcje stoją jedna pod drugą.` Morfeusz daje mu `adv`, a
+#: nie `comp`, więc pozycji spójnika nie dosięga i bierze go ciało osobne.
+#:
+#: Miejsca ma dwa, tak samo jak :data:`SPÓJNIKI_WYSUWANE`, i drugie z nich
+#: dopisał pomiar, a nie wywód: ciało samo za zdaniem odbierało czytanie zdaniu
+#: `Gdzie cząstka może należeć do dwóch czasowników naraz, olski wypuszcza oba
+#: odczytania.`, czyli napisowi, który ta proza pisze. Zdanie wysunięte znaczy
+#: `wszędzie tam, gdzie`, a nie pyta o miejsce.
+PRZYSŁÓWEK_WZGLĘDNY = "gdzie"
 
 #: Spójniki, które niosą cząstkę trybu przypuszczającego: `żeby` to `że` i `by`,
 #: `gdyby` to `gdy` i `by`, `aby` to `a` i `by`, a `jakby` to `jak` i `by`.
@@ -697,10 +719,18 @@ SPÓJNIK_WEWNĘTRZNY = word("conj|comp", lemma=SPÓJNIKI_WEWNĘTRZNE)
 #: obu to samo (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
 PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 
-#: Przysłówek w okoliczniku: cała część mowy i nic więcej. Stopnia nie żąda, bo
-#: `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są okolicznikami
-#: zdania.
-PRZYSŁÓWEK = word("adv")
+#: Przysłówek w okoliczniku: cała część mowy bez przysłówka względnego. Stopnia
+#: nie żąda, bo `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są
+#: okolicznikami zdania.
+#:
+#: `gdzie` zostaje na zewnątrz z tego samego powodu, z którego pozycji rzeczownej
+#: nie mają `kto` i `co` (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`): okolicznikiem zdania
+#: oznajmującego ono nie bywa, a wpuszczone tutaj daje każdemu zdaniu z nim
+#: czytanie ciągu współrzędnego, w którym `gdzie` określa człon drugi. Czytania
+#: tego polszczyzna nie ma, a jest ono jedynym, jakie ta forma dostaje bez
+#: własnego ciała (:data:`PRZYSŁÓWEK_WZGLĘDNY`), więc wykluczenie i to ciało
+#: wchodzą razem.
+PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWEK_WZGLĘDNY)
 
 #: Cząstki, które ten rejestr stawia przy zdaniu: `już`, `dopiero`, `także`.
 #: Lista jest zamknięta, bo ``part`` niesie całą klasę cząstek naraz, a kryterium
@@ -1026,6 +1056,26 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     czoło_podmiot = nt("Subject", number=V("n"), gender=V("g"), czoło=czoło, **zaimek)
     zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie)], **POPRZEDNIK)
 
+    # Ten sam podmiot wysunięty nad orzeczeniem, w którym dopełnienie stoi przed
+    # czasownikiem: `ktoś, kto go nie używa`, `aplikacja, która to napędza`,
+    # `Pyta, co olski parsuje.` Szyk ten polszczyzna pisze w zdaniu podrzędnym tak
+    # samo jak ten drugi, a zdanie główne miało go od początku, więc bez tego
+    # ciała gramatyka mówiła o szyku rzecz nieprawdziwą: że zależy on od tego, czy
+    # rola stoi wysunięta.
+    #
+    # Ciało jest drugie, a nie szyk dopisany do córek wyżej, bo przestawia ono
+    # córki orzeczenia, a nie córki zdania; symbol trzyma tę różnicę
+    # (:data:`ORZECZENIE_ODWRÓCONE`).
+    #
+    # Przed czasownik wychodzi samo dopełnienie, a nie całe `Complements`:
+    # tamten symbol niesie okolicznik w swoich ciałach, a okolicznik stawia przed
+    # czasownikiem także :meth:`Rozwinięcie.dominacja` tutaj, więc `którzy na niej
+    # stoją` miałoby dwa wyprowadzenia jednego kształtu.
+    orzeczenie_odwrócone = nt(
+        ORZECZENIE_ODWRÓCONE, number=V("n"), gender=V("g"), person="ter"
+    )
+    zdanie.dominacja(symbol, [czoło_podmiot, Głowa(orzeczenie_odwrócone)], **POPRZEDNIK)
+
     # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, bo czoło
     # wysuwa polszczyzna zawsze, a dopełnienie z wyboru
     # (docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
@@ -1132,6 +1182,7 @@ NIE_WYPUSZCZANE = {
     "Clause": ("dostawka",),
     "Verb": ("aspect",),
     "Predicate": ("valency", "negacja", "druga"),
+    ORZECZENIE_ODWRÓCONE: ("valency", "negacja", "druga"),
     "RelativeCore": ("person", "valency", "negacja"),
     "NominalRelativeCore": ("person", "valency", "negacja"),
     "InterrogativeCore": ("person", "valency", "negacja"),
@@ -1656,20 +1707,28 @@ def build() -> Grammar:
 
     # To, co czasownik bierze, jest jednym symbolem, a nie listą ciał, żeby forma
     # osobowa i bezokolicznik niżej dzieliły ją, zamiast nieść każde swoją kopię.
+    dopełnienia = nt(
+        "Complements",
+        number=V("n"),
+        gender=V("g"),
+        valency=V("w"),
+        negacja=V("z"),
+        druga=V("d"),
+    )
     grammar.rule("Predicate", [czasownik])
+    grammar.rule("Predicate", [Głowa(czasownik_ramy), dopełnienia])
+
+    # To samo orzeczenie z dopełnieniem przed czasownikiem: `kto go nie używa`,
+    # `która to wszystko napędza`. Symbol jest osobny od `Predicate`, a nie drugim
+    # jego ciałem, i rozstrzyga o tym zdanie główne: ono ma ten szyk już z
+    # deklaracji swoich córek (:meth:`Rozwinięcie.dominacja`), więc ciało dopisane
+    # tam dałoby `Reguła tekst sprawdza.` drugie wyprowadzenie tego samego
+    # kształtu. Bierze go zdanie, którego czoło jest podmiotem, i ono jedno
+    # (:func:`_wysunięta_rola`).
     grammar.rule(
-        "Predicate",
-        [
-            Głowa(czasownik_ramy),
-            nt(
-                "Complements",
-                number=V("n"),
-                gender=V("g"),
-                valency=V("w"),
-                negacja=V("z"),
-                druga=V("d"),
-            ),
-        ],
+        ORZECZENIE_ODWRÓCONE,
+        [dopełnienie, Głowa(czasownik_ramy)],
+        druga=BEZ_DRUGIEJ,
     )
 
     # `winien` odmienia się przez rodzaj, a nie przez osobę, więc zdanie, którego
@@ -1748,6 +1807,28 @@ def build() -> Grammar:
     grammar.rule(
         OKOLICZNIKOWY,
         [word("comp", lemma=SPÓJNIKI_WYSUWANE), Głowa(nt("Clause")), PRZECINEK],
+        pozycja="przed",
+    )
+
+    # Ten sam okolicznik otwarty przysłówkiem względnym (:data:`PRZYSŁÓWEK_WZGLĘDNY`),
+    # a nie spójnikiem: `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.`
+    # Ciało jest osobne od dwóch wyżej, bo pyta o inną część mowy, i ma jedno
+    # miejsce, bo zapowiednika ta gramatyka nie ma; oba fakty stoją przy stałej.
+    #
+    # Gospodarza ta pozycja nie wybiera i jest to ta sama odmowa, którą olski
+    # wydaje o wyrażeniu przyimkowym: `gdzie` dopowiada miejsce nazwane w zdaniu
+    # nadrzędnym, a które to miejsce, rozstrzyga znaczenie, nie składnia
+    # (docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
+    przysłówek_względny = word("adv", lemma=PRZYSŁÓWEK_WZGLĘDNY)
+    _zamykane(
+        grammar,
+        OKOLICZNIKOWY,
+        [PRZECINEK, przysłówek_względny, Głowa(nt("Clause"))],
+        pozycja="za",
+    )
+    grammar.rule(
+        OKOLICZNIKOWY,
+        [przysłówek_względny, Głowa(nt("Clause")), PRZECINEK],
         pozycja="przed",
     )
 
@@ -2274,6 +2355,14 @@ def build() -> Grammar:
     # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała
     # wypadły tą samą ceną: ciało rekurencyjne bierze łańcuch za darmo.
     grammar.rule(PRZYSŁÓWKOWY, [PRZYSŁÓWEK_STOPNIA, Głowa(nt(PRZYSŁÓWKOWY))])
+    # `gdzie indziej`, czyli para, w której przysłówek względny nie otwiera zdania,
+    # tylko określa drugi przysłówek. Ciało jest osobne, bo terminal okolicznika
+    # ten lemat wyklucza (:data:`PRZYSŁÓWEK`), a bez tego ciała wykluczenie
+    # zabiera zdania, które ta proza pisze: `Cena jest gdzie indziej.`
+    grammar.rule(
+        PRZYSŁÓWKOWY,
+        [word("adv", lemma=PRZYSŁÓWEK_WZGLĘDNY), Głowa(word("adv", lemma="indziej"))],
+    )
 
     # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią
     # (:data:`CZĄSTKOWY`); kryterium na jej listę stoi przy :data:`CZĄSTKI`.
@@ -2452,6 +2541,21 @@ def build() -> Grammar:
     # Bez wykluczenia z pozycji rzeczownej (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`)
     # człon drugi wyprowadza się zdaniem współrzędnym, którego podmiotem albo
     # dopełnieniem jest ten zaimek, więc ciąg stoi razem z tamtym wykluczeniem.
+    # Czoło pytania o rozstrzygnięcie: `Czy program zapisuje ustawienia?`, `Pyta,
+    # czy go to dotyczy.` Wysuniętej roli tu nie ma, bo pytanie jest o całe zdanie,
+    # a nie o to, co w nim stoi w którymś miejscu, więc ciało bierze `Clause` całe
+    # i nie przechodzi przez :func:`_wysunięta_rola`.
+    #
+    # Ten sam lemat bierze zarazem koordynacja bez przecinka
+    # (:data:`SPÓJNIK_BEZ_PRZECINKA`), gdzie `czy` znaczy `albo`, i te dwa użycia
+    # rozdziela materiał pod spójnikiem: koordynacja stawia po nim człon, a to
+    # ciało zdanie. Napisu wspólnego oba nie mają, więc drugiego czytania to ciało
+    # nie dokłada nikomu.
+    grammar.rule(
+        "InterrogativeCore",
+        [word("conj", lemma=SPÓJNIK_PYTAJNY), Głowa(nt("Clause"))],
+    )
+
     człon_pytania = Głowa(nt("InterrogativeCore"))
     grammar.rule("InterrogativeChain", [człon_pytania])
     grammar.rule(
