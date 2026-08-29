@@ -184,6 +184,65 @@ Formalizm miejsca w tej kolejności nie ma,
 bo kierunek mówi, co ma zajść nad zdaniem, a nie czym ma być wyprowadzone
 ([design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem)).
 
+## Kolejka blokerów odsiewa, a kolejność dopisań ustala tekst
+
+Kolejka blokerów nazywa kandydatów i tyle o niej wiadomo z pomiaru.
+Wiersz nazywa część mowy, na której analiza stanęła
+([corpus.md](corpus.md#where-the-analyses-stop)),
+więc liczy czasem kilka konstrukcji naraz,
+a ile z jego obietnicy zostaje po dopisaniu i czym pozycja płaci poza nim,
+mierzy [etap 6](#etap-6-reszta-konstrukcji) parami wziętymi po kolei.
+Braku, który jest kształtem zdania, a nie formą — szyku, wtrącenia,
+członu bez czasownika — kolejka nie nazywa,
+bo zdanie staje wtedy na cudzym wierszu albo na tym jednym,
+który nie nazywa żadnej konstrukcji
+([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
+a takich pozycji weszło do gramatyki kilka,
+wśród nich cztery szyki podmiotu, dopełnienia i czasownika
+([wyżej](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Zostaje z niej sito.
+Wiersz mówi z grubsza, ile pozycja obiecuje w tym rejestrze,
+i nie mówi, że jest następna, ani wtedy, gdy stoi na czele.
+
+Kolejność dopisań ustala tekst, który ma się wyprowadzić,
+a rozstrzyga o niej to, komu wolno się ruszyć.
+Tekstu, który wolno przepisać bez straty, gramatyka brać nie musi:
+zatrzymanie zdejmuje wtedy autor i płaci zdaniem napisanym inaczej,
+a rachunki te rozdziela
+[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
+Tekst, którego przepisać nie wolno, bo przepisany powiedziałby mniej,
+zostawia zatrzymanie gramatyce, i dopiero to jest robota, a nie kandydat.
+Tak wyszła kolejka konstrukcji legendy,
+którą wypisuje tor składu (`opowieści/bazyliszek.py`),
+i wyszło z niej co innego, niż wyszłoby z listy spisanej z góry
+([sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
+
+Uznaniowy zostaje wybór tekstu i jest to cena tego kryterium.
+Tekst pisany pod gramatykę żądania nie postawi,
+bo omija konstrukcje, których olski nie wyprowadza,
+i dlatego kolejki nie ustawia już [README](#readme-jest-przyrządem-pomiarowym).
+Stawia je dopiero tekst, który powstałby i bez olskiego:
+korpus przypięty wydaniem albo adresem, cudza dokumentacja,
+opowieść, która ma być opowieścią.
+
+Bank drzew zostaje przy tym przyrządem weryfikacji.
+Drzewa Składnicy pochodzą z wyjścia Świgry,
+czyli parsera cudzej gramatyki formalnej polszczyzny,
+więc pomiar nad tym bankiem nie odrzuci decyzji zgodnej z tamtą gramatyką,
+a wywód o tym trzyma
+[swigra.md](swigra.md#którędy-gfjp-wchodzi-do-olskiego).
+Kolejka ustawiona nad tym bankiem przenosi to skrzywienie z pomiaru na plan,
+gdzie nie zostawia po sobie liczby:
+konstrukcja, której Świgra nie rozebrała, nie ma w kolejce ani jednego wiersza,
+więc plan z niej nie mówi o niej nic i nie mówi też, że milczy.
+Skrzywienie to stoi jednak w obu przebiegach naraz,
+więc zgodności, która ubyła, nie podrabia:
+czy dopisanie zepsuło rozbiór, który gramatyka miała przedtem,
+bank drzew rozstrzyga.
+Zgodności przybyłej nie potwierdza tak samo,
+bo decyzję zbliżoną do tamtej gramatyki nagrodzi i w różnicy, i w poziomie,
+a to jest ta jedna rzecz, o którą nad tym bankiem pytać nie wolno.
+
 ## README jest przyrządem pomiarowym
 
 Przebieg nad [README](../README.md) zostaje, bo nic nie kosztuje:

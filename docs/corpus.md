@@ -155,6 +155,9 @@ ordered by how many analyses died on one,
 and one row for the sentence that stopped on no token at all.
 The counts move with every production admitted, so the run owns them,
 and what this document owns is which rows lead and what stands in them.
+How much the ranking settles about what gets built next is another document's:
+[roadmap.md](roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)
+takes it as a sieve rather than as an order of work.
 
 Punctuation leads it by a wide margin,
 accounting for more than a fifth of the rejections

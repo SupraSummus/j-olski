@@ -464,7 +464,7 @@ tylko to, że bank drzew polszczyzny jest jeden.
 
 Kolejka blokerów jest kanałem osobnym od pomiaru,
 choć drukuje ją ten sam przebieg:
-ustawia ona olskiemu porządek robót.
+podsuwa ona olskiemu konstrukcje do dopisania.
 Nazywa część mowy, na której analiza stanęła
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 a wpuszczenia powołują się na jej wiersze wprost:
@@ -477,9 +477,12 @@ więc konstrukcja potrzebna w takim zdaniu nie staje w kolejce wcale:
 zdania, którego nikt nie rozebrał, nikt też nie przeliczył
 ([design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze)).
 Pomiar mówi przez to, jak oceniono gramatykę dzisiejszą,
-a kolejka mówi, która konstrukcja powstanie następna.
-Odpowiedzią na to jest ta sama kolejka policzona nad własnym dokumentem
-([corpus.md](corpus.md#the-same-queue-over-prose)).
+a kolejka podsuwa konstrukcje, które powstaną.
+Kolejności ich dopisania nie ustala ani ona,
+ani ta sama kolejka policzona nad własnym dokumentem
+([corpus.md](corpus.md#the-same-queue-over-prose)),
+tylko tekst, który ma się wyprowadzić
+([roadmap.md](roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)).
 
 Kanał, którego nie ma jak sprawdzić, został tu nazwany właśnie dlatego.
 Prozę i kod tego repozytorium pisze sesja modelu językowego,
