@@ -53,6 +53,7 @@ from olski.subset import (
     GRAMMAR,
     MIJANE,
     OKOLICZNIKOWY,
+    ORZECZNIK_ŁĄCZNIKA,
     ORZEKAJĄCY,
     PREDYKATYWY,
     PRZECINEK,
@@ -2987,6 +2988,28 @@ def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
     assert forma.status == "rejected", forma.explain()
     lemat = verdict("Przepisy, o których cisza, obowiązują.")
     assert lemat.status == "rejected", lemat.explain()
+
+
+def test_łącznik_czyni_podmiotem_grupę_za_sobą_a_orzecznikiem_tę_przed_sobą():
+    #  Obie grupy stoją w mianowniku, więc unifikacja nie odróżnia stron i wybiera
+    #  o tym samo ciało. Bank drzew stawia podmiot za łącznikiem, a wariant
+    #  odwrotny przyjmuje te same zdania, czytając je niezgodnie z drzewem
+    #  wzorcowym (docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim),
+    #  czyli usterka ta jest po wydruku niewidoczna wszędzie poza tą linią.
+    found = verdict("Flaga to płat tkaniny określonego kształtu.")
+    assert found.status == "valid", found.explain()
+    [(reading,)] = found.readings
+    assert reading["Subject"] == "płat tkaniny określonego kształtu", found.explain()
+    assert reading[ORZECZNIK_ŁĄCZNIKA] == "Flaga", found.explain()
+
+
+def test_łącznik_żąda_lematu_a_nie_samej_części_mowy():
+    #  Usterka, którą to łapie: ciało łącznika napisane na samą część mowy `pred`.
+    #  Predykatyw stoi wtedy między dwiema grupami w mianowniku i olski przyjmuje
+    #  `Cena widać koszt.`, czego polszczyzna nie pisze, a obietnicą podzbioru
+    #  jest, że każde zdanie olskiego jest zdaniem polskim.
+    found = verdict("Cena widać koszt.")
+    assert found.status == "rejected", found.explain()
 
 
 def test_predykatyw_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():

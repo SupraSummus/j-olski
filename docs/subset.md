@@ -977,6 +977,10 @@ i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
   ([poniżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną))
+- Łącznik `to` między dwiema grupami w mianowniku, czyli drugie zdanie bez czasownika:
+  `Flaga to płat tkaniny określonego kształtu.`
+  Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim
+  ([poniżej](#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim))
 - Przysłówek u trzech gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
@@ -3801,6 +3805,63 @@ Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie wzglę
 Czoło zdania względnego bierze rzeczownik, a tej głowy nie bierze,
 i wpuszczenie jej tam trzyma [TODO.md](../TODO.md).
 
+## Łącznik `to` orzeka bez czasownika, a podmiot stoi za nim
+
+`Flaga to płat tkaniny określonego kształtu.`, `Jedyna różnica to rozmiar.` —
+zdanie ma tu dwie grupy imienne w mianowniku i nie ma czasownika,
+a spina je `to`, które Morfeusz trzyma pod `pred`.
+Zamknięta lista predykatywów tego lematu nie bierze
+([niżej](#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)),
+bo łącznik orzeka inaczej niż tamte słowa:
+ma przy sobie podmiot i ramy czasownika nie rządzi.
+Wchodzi przez to osobnym ciałem.
+
+Która grupa jest podmiotem, rozstrzyga bank drzew, a nie morfologia:
+obie stoją w mianowniku, więc zgodność nie mówi o tym nic,
+a polszczyzna parafrazuje to zdanie kopulą w obie strony —
+`Flaga jest płatem tkaniny.` i `Rozmiar jest jedyną różnicą.`
+Warianty gramatyki są przez to dwa, po jednym na stronę,
+i nad Składnicą przyjmują te same zdania, różniąc się samą etykietą:
+podmiot postawiony za łącznikiem zgadza się z drzewem wzorcowym niemal wszędzie,
+a postawiony przed nim jest niezgodny niemal wszędzie.
+Podmiot stoi więc za łącznikiem, czyli tam, gdzie stawia go Składnica.
+
+Grupa przed łącznikiem dostaje własną rolę,
+a nie rolę rzeczownika orzekającego
+([wyżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)):
+tamten symbol czyni zdaniem każdą swoją córkę,
+więc grupa imienna pod nim byłaby pozycją ogólną, którą tamta sekcja odrzuca.
+Orzecznikiem nie jest z tego samego powodu, co tamten rzeczownik:
+nie ma nad sobą czasownika, więc pozycji jego ramy nie zajmuje.
+
+```sh
+python3 -m olski.check -c "Flaga to płat tkaniny określonego kształtu." --readings
+```
+
+```text
+<text>: valid     Flaga to płat tkaniny określonego kształtu.
+                  jedno odczytanie
+                  - Subject: płat tkaniny określonego kształtu, LinkedPredicate: Flaga
+```
+
+Zakup wynosi nad Składnicą kilkadziesiąt zdań schodzących z odrzucenia,
+w większości przyjętych jednoznacznie,
+a ceny nie ma żadnej: ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności.
+Nad prozą tego repozytorium zakup jest zerowy — ten rejestr pisze się bez łącznika,
+bo olski go nie brał — a dwa zdania schodzą z odrzucenia do wieloznaczności,
+i obu wieloznaczność daje przyłączenie wewnątrz grupy, a nie sam łącznik.
+
+Poza ciałem zostają dwie konstrukcje i obie trzyma [TODO.md](../TODO.md).
+Łącznik przy formie osobowej, w obu szykach:
+`Był to nieforemny chłopak.` i `To są oczywistości.` są odrzucone,
+bo `to` nie stoi w nich między dwiema grupami, tylko przy czasowniku.
+Te dwa szyki prowadzą resztę wiersza `pred`
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Przeczenie: `Parser to nie kompilator.` jest odrzucone,
+bo cząstka przecząca stoi w gramatyce przy czasowniku, a łącznik nim nie jest.
+`To jest tanie.` wyprowadza się przy tym bez tej produkcji,
+bo `to` jest w nim rzeczownikiem w podmiocie.
+
 ## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
 
 `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.` —
@@ -3826,9 +3887,11 @@ Lista lematów jest zamknięta, a poza nią zostaje słowo,
 którego czytanie konkurujące staje na czele zdania tego samego kształtu.
 `to` takie czytanie ma, i to dwa razy:
 grupa imienna bierze jego czytanie rzeczownikowe,
-a jako `pred` jest ono łącznikiem, czyli konstrukcją osobną i niewpuszczoną
-([niżej](#what-it-does-not-cover-yet)).
-Prowadzi ono zarazem ten wiersz kolejki, więc wyłączenie `to` jest ceną tej listy.
+a jako `pred` jest ono łącznikiem, czyli konstrukcją osobną i wpuszczoną osobnym ciałem
+([wyżej](#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+Prowadzi ono ten wiersz kolejki,
+a stoją w nim szyki, których łącznik nie bierze,
+więc wyłączenie `to` z tej listy nie kosztuje jej ani jednego zdania.
 Poza listą stoją tak samo `brak`, `czas`, `pora`, `żal`, `sposób` i `szkoda`:
 każde z nich Morfeusz zna także jako rzeczownik,
 a rzeczownik w mianowniku z dopełniaczem za sobą jest grupą imienną,

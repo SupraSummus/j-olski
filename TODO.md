@@ -2368,6 +2368,19 @@ a druga koordynuje.
 
 ## Konstrukcje, których gramatyka nie ma
 
+Łącznik `to` nie stoi przy formie osobowej ani przy przeczeniu.
+`Był to nieforemny chłopak.`, `To są oczywistości.` i `Parser to nie kompilator.`
+są odrzucone, gdzie `Flaga to płat tkaniny.` wyprowadza się
+([`docs/subset.md`](docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+Ruchy są dwa, a pierwszy jest wart więcej:
+łącznik przy czasowniku prowadzi resztę wiersza `pred` kolejki blokerów
+i stoi w nim setkami zdań, w obu szykach niemal po równo.
+Przeczenia przy łączniku nie policzył nikt i ten wiersz o nim nie mówi,
+bo takie zdanie staje na grupie za `nie`, a nie na samym łączniku.
+Do przeczytania jest ten wiersz, a wycenić trzeba każdy szyk osobno,
+bo pozycja pod jednym symbolem zabrałaby pomiar obu naraz
+([CLAUDE.md](CLAUDE.md#code)).
+
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
 `Pyta, co to jest i czy to działa.` staje na `czy`,
 a `Pyta, co to jest.` oraz `Pyta, kto płaci i czy to działa.` wyprowadzają się,

@@ -679,13 +679,10 @@ Etap ma opróżnić listę tego,
 Konstrukcje, które olski już bierze, mają wywód i cenę
 w swoich sekcjach [subset.md](subset.md#what-the-grammar-covers),
 a przebiegi, którymi je policzono, są w gicie.
-Kolejka ze Składnicy stawia najwyżej dwie pozycje tej listy —
-`to` w roli łącznika i liczebnik pisany cyfrą — bo `to` prowadzi w niej dwa wiersze.
-Wobec README podnoszą pokrycie dopiero razem.
+Kolejka ze Składnicy stawia najwyżej jedną pozycję tej listy,
+czyli liczebnik pisany cyfrą.
 Co dopisanie konstrukcji robi z wierszami tej kolejki, opisuje
-[corpus.md](corpus.md#where-the-analyses-stop),
-a o łączniku nie mówi nic,
-więc łącznik trzeba tam opisać i tutaj zbudować.
+[corpus.md](corpus.md#where-the-analyses-stop).
 
 Cyfra jest przy tym osobną pozycją, a nie resztą liczebnika:
 zdejmie ją warstwa nad morfologią, a nie produkcja,

@@ -273,10 +273,16 @@ and under half of what left it was accepted,
 the rest having stopped further along.
 Others took part of a row with them:
 the particle, the subordinator, clause-level punctuation,
-the adverbial participle, the reflexive pronoun
-and the predicative's future tense
+the adverbial participle, the reflexive pronoun,
+the predicative's future tense and the linker `to`
 are admitted in a shape narrower than Polish,
 so their rows stay and what stands in them is what the shape leaves out.
+The linker took about a fifth of the `pred` row with it
+and moved that row two places down the queue.
+`to` leads what is left, and by a wide margin,
+in the two orders that stand it beside a finite verb rather than between two phrases:
+`Był to nieforemny chłopak.` and `To są oczywistości.`
+([subset.md](subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
 What their arrival did to the rows below them is the point of the paragraph
 above: a row falls by more than the sentences an addition accepts.
 
@@ -976,8 +982,9 @@ and the largest single class of it is the one
 To są oczywistości.
 ```
 
-Gold tags call `To` a `pred`, and olski's closed list of those leaves it out
-([subset.md](subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)),
+Gold tags call `To` a `pred`, which olski reads as the linker,
+and the linker stands between two noun phrases rather than in front of a verb
+([subset.md](subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)),
 so the sentence is rejected on either morphology.
 What Morfeusz adds is `subst:sg:acc:n`,
 which stands exactly where an accusative object stands,
