@@ -13,8 +13,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.corpus import parse_forest
 from harness.wskazania import dokąd_doszły
-from olski.corpus import parse_forest
 from olski.parse import parse
 from olski.subset import DEKLARACJA, GRAMMAR
 from tests.test_attachment import zdanie

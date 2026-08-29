@@ -1,7 +1,7 @@
 """Dokąd bank drzew przyłącza wyrażenie przyimkowe stojące po grupie imiennej.
 
 To jest pomiar korpusu, a nie gramatyki, i tym różni się od
-``olski/coverage.py`` obok. Pyta o samą polszczyznę: gdy zdanie stawia wyrażenie
+``harness/pomiar.py`` obok. Pyta o samą polszczyznę: gdy zdanie stawia wyrażenie
 przyimkowe tuż za grupą imienną, a więc daje czytelnikowi dwa przyłączenia do
 wyboru, to które z nich wybiera człowiek, który to zdanie rozbierał. Liczba stąd
 rozstrzygnęła, którym wyjściem z przyłączania idzie olski
@@ -9,7 +9,7 @@ rozstrzygnęła, którym wyjściem z przyłączania idzie olski
 
 Rusza ją wydanie korpusu i to, co ten moduł liczy, a nie zmiana w gramatyce:
 żadna produkcja olskiego nie ma tu nic do powiedzenia, bo mierzone są cudze
-drzewa. Przebieg idzie więc jednym procesem, gdzie ``olski/coverage.py`` obok
+drzewa. Przebieg idzie więc jednym procesem, gdzie ``harness/pomiar.py`` obok
 dzieli pracę na pulę: raz na wydanie korpusu minuta nie jest ceną, za którą warto
 mieć drugą maszynerię.
 
@@ -30,7 +30,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.corpus import Constituent, constituents, parse_forest, pliki, read_forest
+from harness.corpus import Constituent, constituents, parse_forest, pliki, read_forest
 
 #: Kategoria wyrażenia przyimkowego w gramatyce, z której Składnica powstała.
 PP = "fpm"
@@ -241,7 +241,7 @@ def render(report: Report, preps: int = 10) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m olski.attachment",
+        prog="python3 -m harness.attachment",
         description="Policz, dokąd Składnica przyłącza wyrażenie przyimkowe za grupą imienną.",
     )
     parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
@@ -251,8 +251,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     root = Path(args.root)
     if not root.is_dir():
-        print(f"olski.attachment: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("olski.attachment: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
+        print(f"harness.attachment: nie ma takiego katalogu: {root}", file=sys.stderr)
+        print("harness.attachment: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
         return 2
     print(render(measure(pliki(root)[: args.limit]), args.preps))
     return 0

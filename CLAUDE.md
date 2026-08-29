@@ -784,9 +784,9 @@ dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,
-który `olski/walenty.py` wyprowadza z Walentego,
+który `harness/walenty.py` wyprowadza z Walentego,
 a `olski/skłonności.txt` tabelą skłonności,
-którą `olski/rozstrzyganie.py` liczy nad Składnicą.
+którą `harness/skłonności.py` liczy nad Składnicą.
 Polecenie i wejścia podaje przy pierwszym
 [sekcja o leksykonie](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a przy drugim
@@ -797,8 +797,8 @@ Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któ
 gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
 a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
 
-Reguła ta nie obejmuje każdych danych w `olski/`.
-`olski/projekt.txt` jest leksykonem projektu i pisze się go ręką,
+Reguła ta obejmuje dane paczki, a nie każdy plik, który kod czyta.
+`projekt.txt` w korzeniu jest leksykonem projektu i pisze się go ręką,
 bo wiersz odpowiada na pytanie, na które nie odpowiada żaden korpus:
 wedle którego leksemu odmienia się słowo, którego słownik nie ma
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).

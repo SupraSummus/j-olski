@@ -30,7 +30,7 @@
 # CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
-# Wyprowadza go `olski/walenty.py`, który mówi, co stąd bierze, a czego nie;
+# Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
 # ramę nazywa `olski/subset.py`, a docs/subset.md trzyma polecenie wraz z tym,
 # skąd wziąć pliki wejściowe.
 Oscar	rzeczownik		dla,za

@@ -2,7 +2,7 @@
 
 Liczb sonda nie ma czym bronić: wychodzą z korpusu, którego repozytorium nie
 trzyma, i zmieniają się z każdą zmianą tego, co ``pytania`` w
-``olski/wieloznaczność.py`` liczy za pozycję. Pięć rzeczy jest innych, bo psują
+``harness/wieloznaczność.py`` liczy za pozycję. Pięć rzeczy jest innych, bo psują
 liczbę po cichu i nie zgłasza ich nic.
 
 Populacja ma nie wychodzić z werdyktu, bo gramatyka odrzuca w tym rejestrze
@@ -139,7 +139,7 @@ def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
     """Zdanie z dwoma wyrażeniami przyimkowymi stawia więcej niż jeden wybór.
 
     Liczby dokładnej nie ma w asercji celowo: ile pozycji stoi w tym zdaniu,
-    rozstrzyga ``pytania`` w ``olski/wieloznaczność.py``, a ta sonda ma tylko nie
+    rozstrzyga ``pytania`` w ``harness/wieloznaczność.py``, a ta sonda ma tylko nie
     zliczać ich po zdaniach — pomyłka o jeden mianownik przesuwa figurę, którą
     czyta dokument.
     """

@@ -48,11 +48,11 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.corpus import constituents, parse_forest, read_forest
 from harness.komenda import Komenda, uruchom
 from harness.polszczyzna import GRAMATYKA
+from harness.pomiar import Outcome, po_kawałkach, segments_for
 from harness.wiezy import rozbierz
-from olski.corpus import constituents, parse_forest, read_forest
-from olski.coverage import Outcome, po_kawałkach, segments_for
 from olski.parse import parse
 from olski.subset import GRAMMAR
 
@@ -63,7 +63,7 @@ SZCZELINA = "ξ"
 #: Ta sama kategoria szukana w pliku, czyli razem z czytaniami, których annotator
 #: nie wybrał. Po bajtach, bo ``read_forest`` te węzły wycina, a właśnie one są
 #: tu populacją; wzorzec czyta ten format tak samo, jak czyta go ``NIEWYBRANY``
-#: w ``olski/corpus.py``. Kosztuje to drugi odczyt pliku i tyle: rozbiór lasu
+#: w ``harness/corpus.py``. Kosztuje to drugi odczyt pliku i tyle: rozbiór lasu
 #: nieokrojonego jest droższy, a las okrojony na to pytanie nie odpowiada.
 SZCZELINA_W_LESIE = re.compile(f"<category>{SZCZELINA}</category>".encode())
 
@@ -201,7 +201,7 @@ def zmierz(
     olskiego są przy tym dwiema populacjami, a nie jedną: pierwsza mówi, ile
     nieciągłość kupuje, druga, ile kosztuje.
 
-    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    Populacja jest ta sama, co w ``harness.pomiar.measure``: każde zdanie z
     drzewem wzorcowym, bez granicy na długość. Podłoże więzowe zostaje przy tym
     pod :data:`BUDŻET`, bo ograniczenia parsera tablicowego nie ma, a zdanie,
     które budżetu nie dowiozło, wchodzi do tabeli jako urwane.
@@ -261,7 +261,7 @@ def przebieg(
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
 
-    Podział na kawałki jest ten sam, którym idzie ``olski-corpus``, i stoi tam,
+    Podział na kawałki jest ten sam, którym idzie ``harness.pomiar``, i stoi tam,
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem tej sondy.
     """

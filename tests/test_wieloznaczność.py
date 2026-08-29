@@ -9,7 +9,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.wieloznaczność import PRZYŁĄCZENIE, SYNKRETYZM, measure, miejsca
+from harness.wieloznaczność import PRZYŁĄCZENIE, SYNKRETYZM, measure, miejsca
 
 
 def klasy(zdanie):
@@ -59,7 +59,7 @@ def test_dwa_zdania_składowe_nie_dają_pary_do_wyboru():
 
 
 def test_pozycja_dwuznaczna_żąda_rzeczownika_przed_wyrażeniem_i_czasownika():
-    #  Populacja jest ta sama, którą liczy olski/attachment.py: bez rzeczownika
+    #  Populacja jest ta sama, którą liczy harness/attachment.py: bez rzeczownika
     #  przed wyrażeniem nie ma drugiego przyłączenia, a bez czasownika przed nim
     #  nie ma pierwszego. Zdanie z wysuniętym wyrażeniem jest przy tym tym
     #  wyjściem, które docs/subset.md zostawia autorowi.

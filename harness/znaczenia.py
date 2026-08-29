@@ -38,7 +38,7 @@ drzewami, jest miejscem, gdzie werdykt milczy, a zapis dziedziny widzi wybór.
 
 Morfologia złota daje po jednym czytaniu na formę, a ten rozbiór pyta krawędź o
 wszystkie, więc nad bankiem drzew czyta wartości wybrane przez anotatorów. Źródło
-morfologii jest przez to flagą, tak jak w ``olski-corpus``, i obie odpowiedzi mają
+morfologii jest przez to flagą, tak jak w ``harness.pomiar``, i obie odpowiedzi mają
 własną figurę.
 
 Wynik czyta ``docs/architecture.md``.
@@ -57,9 +57,9 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.corpus import read
 from harness.komenda import Komenda, nagłówek, uruchom
-from olski.corpus import read
-from olski.coverage import SOURCES, po_kawałkach, segments_for
+from harness.pomiar import SOURCES, po_kawałkach, segments_for
 from olski.parse import MAX_READINGS, Node, Result, las, podsumuj
 from olski.skład.rozbiór import abstrahuj, sygnatura
 from olski.subset import DEKLARACJA, GRAMMAR

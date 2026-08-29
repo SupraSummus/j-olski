@@ -9,7 +9,7 @@ drzew jest zbiorem zdań stojących osobno.
 
 **Pozycji nie wyznacza werdykt, tylko morfologia**, bo świadek pytany o
 przyłączenia z werdyktów odpowiadałby o gramatyce; wywód i liczby pod nim trzyma
-``pytania`` w ``olski/wieloznaczność.py``. Wzorzec czytany ręką stoi nad tą samą
+``pytania`` w ``harness/wieloznaczność.py``. Wzorzec czytany ręką stoi nad tą samą
 populacją (``harness/wybory.py``), więc zasięg zmierzony tutaj i trafność zmierzona
 tam mówią o jednych pytaniach.
 
@@ -44,9 +44,9 @@ from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.wieloznaczność import pytania
 from olski.document import Document
 from olski.rozstrzyganie import Powtórzenie, Rozstrzygnięcie, Sąsiedztwo, sąsiedztwa
-from olski.wieloznaczność import pytania
 
 #: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
 PROZA = "*.txt"

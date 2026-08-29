@@ -148,20 +148,12 @@ so those are the ones to grep for.
 That name lands beside `docs/sklad.md`, which is the compiler and not the treebank,
 so a grep for `sklad` finds both,
 and the pair this entry is about becomes that one.
-The package has the same collision and the same argument settles it.
-`olski-corpus` runs `olski/coverage.py`,
-where `olski/corpus.py` is the treebank reader beside it,
-so the command, the module and the document
-are three names for what a reader takes to be one thing.
-Renaming the document alone leaves the module and the command as they are,
-which is why they are one entry:
-what has to be decided is what these things are called,
-and the answer for the document is the answer for the other two.
-The entry about the harness boundary reaches the third of them on its own grounds,
-since one of the two answers it offers moves the treebank reader to `harness/`
-and takes the command along as `python3 -m harness.coverage`,
-which leaves nothing there to rename,
-so whichever entry is picked up first is answering for the other.
+The package no longer collides with either name,
+the coverage run over prose having become `olski-pokrycie`
+and the run over the treebank `python3 -m harness.pomiar`,
+so `corpus` names the treebank reader and this document and nothing else.
+That leaves the document alone to rename, and its neighbour is the reason to:
+a reader who greps for one of the two corpora documents finds both.
 
 `docs/subset.md` jest dokumentem mieszanym.
 Polskie sekcje dopisano tam do angielskiego dokumentu,
@@ -286,26 +278,28 @@ obok `Verdict.status` w `olski/werdykt.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
 czyli daje to mieszaninę, którą wpis wyżej odrzuca dla symboli.
 
-Wydruk `olski-corpus` jest po angielsku tak samo jak tamten,
+Wydruk `olski-pokrycie` jest po angielsku tak samo jak tamten,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) obejmuje oba.
 Przekłada się go w całości albo wcale, bo etykieta dopisana po polsku daje
 mieszaninę wewnątrz jednej tabeli: `NO_STRUCTURE` i `NO_LICENCE`
-w `olski/coverage.py` stoją w kolejce blokerów parą i czyta się je obok siebie.
+w `olski/pokrycie.py` stoją w kolejce blokerów parą i czyta się je obok siebie.
 Nazwy części mowy w tej samej kolejce zostają, bo są nazwami tagsetu,
 czyli tym, czego się tu nie wybiera.
+Ten sam wydruk drukuje `harness/pomiar.py` nad bankiem drzew,
+więc przekład obejmuje obie komendy naraz.
 Do przeczytania jest `render` w tym pliku, bo wierszy jest tam więcej niż ta para —
 nagłówki tabel, powody pominięcia, wiersze krzywej pokrycia —
 i to one mówią, ile ten przekład kosztuje.
 Wpisu tego nie zamyka commit tamtego: są to dwa wydruki i dwie komendy,
-a bloków w dokumentach `olski-corpus` nie ma,
+a bloków w dokumentach `olski-pokrycie` nie ma,
 bo `tests/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
 
 Docstring modułu bywa dłuższy od sekcji dokumentu i niesie wywód sięgający kilku
 modułów, którego właścicielem jest według
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely) dokument.
-`olski/skład/przegląd.py` zestawia się z `olski/wieloznaczność.py` przez dwa tory,
+`olski/skład/przegląd.py` zestawia się z `harness/wieloznaczność.py` przez dwa tory,
 `harness/wybory.py` wywodzi, który korpus umie ocenić którego świadka,
-a `olski/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
+a `harness/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
 Skreślić tego nie wolno, bo drugiej kopii nie ma,
 więc ruchem jest, per docstring, albo zdanie ze wskaźnikiem na sekcję,
 która ten wywód przyjmuje — `docs/sklad.md`, `docs/disambiguation.md`,
@@ -386,6 +380,17 @@ linkują tabelę poziomów jako rzecz dzisiejszą,
 a resztę tamtego dokumentu jako zapis.
 
 ## Komendy i sondy
+
+`harness/pomiar.py` ma własny wiersz poleceń, choć bierze już to samo,
+co bierze `harness/komenda.py`.
+Stał poza nim, dopóki rozdawał ścieżki na bank drzew albo pliki prozy;
+po podziale bierze sam katalog, czyli dokładnie wejście tamtego modułu,
+a `--limit`, `--przykłady` i `--jobs` tamten moduł już daje.
+Ruchem jest deklaracja `Komenda` zamiast tego parsera,
+z `--morphology`, `--blockers` i `--examples` podanymi funkcją dopisującą argumenty.
+Do rozstrzygnięcia jest przy tym język flag,
+bo `harness/komenda.py` pyta o `--przykłady`, a ten przebieg o `--examples`,
+i jest to ta sama decyzja, co przekład wydruku, więc oba wpisy podnosi się razem.
 
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
 Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
@@ -480,7 +485,7 @@ Widać to w poleceniu, którym
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
 Komenda, która po katalogu chodziła, wyszła razem z pakietem reguł,
 a chodzenia po drzewie nie ma teraz żadna z dwóch, które zostały:
-`main` w `olski/check.py` i `main` w `olski/wieloznaczność.py`
+`main` w `olski/check.py` i `main` w `harness/wieloznaczność.py`
 czytają po prostu każdą podaną ścieżkę, więc obu rozwija się je powłoką.
 Ruchem jest jedno miejsce, które schodzi po `rglob`,
 bierze pliki o rozszerzeniu, które ekstrakcja pisze,
@@ -504,7 +509,7 @@ i rozstrzyga, czy `olski-check` jest bliższy sondzie, czy dawnej komendzie.
 Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
 i wtedy, gdy je ma, a nie sięga po nie żadna produkcja;
-pierwsze naprawia wiersz w `olski/projekt.txt`
+pierwsze naprawia wiersz w `projekt.txt`
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
 a drugie produkcja w `olski/subset.py`.
 Trzecie jest formą, której czytania zdjęła morfologia:
@@ -514,7 +519,7 @@ czyli ani leksykon, ani produkcja.
 Ta trzecia waży najwięcej na torze pisania pod tę gramatykę
 ([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md)),
 bo komunikat odsyła autora do gramatyki, a poprawka stoi w jego zdaniu.
-Rozdziela ją już przebieg nad korpusem: `Outcome.blocker` w `olski/coverage.py`
+Rozdziela ją już przebieg nad korpusem: `bloker` w `olski/pokrycie.py`
 daje formie opróżnionej wykluczeniem wiersz osobny od zdania bez struktury,
 więc po tamtej stronie kształt jest wybrany, a werdykt mówi o tej formie
 to samo, co o dwóch pozostałych.
@@ -574,7 +579,7 @@ więc przebieg nad rejestrem wart jest dokładnie tyle, ile lista, na której st
 
 Dwie sondy stoją nad jedną populacją i wołają tych samych świadków.
 `harness/powtórzenie.py` i `harness/wybory.py` pytają obie o `pytania` z
-`olski/wieloznaczność.py` i obie wypisują odpowiedź wraz ze zdaniem, nad którym
+`harness/wieloznaczność.py` i obie wypisują odpowiedź wraz ze zdaniem, nad którym
 padła; różni je to, że pierwsza wycenia wariantem granicę akapitu i regułę
 kandydata, a druga ma obok wzorzec czytany ręką
 ([`docs/disambiguation.md`](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
@@ -593,7 +598,7 @@ Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamknię
 zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` prowadzą
 nad tą prozą `i` oraz `a`, a pod nimi stoją `czy`, `czyli` i `ani`
 ([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
-Ruchem jest `Outcome.blocker` w `olski/coverage.py` nazywający formę tam, gdzie każde
+Ruchem jest `bloker` w `olski/pokrycie.py` nazywający formę tam, gdzie każde
 jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/segmentacja.py`),
 a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
 Do przeczytania jest, co taki wiersz zrobi z tabelami, które ten wydruk cytują —
@@ -1165,7 +1170,7 @@ są w tej resztce obok siebie, a łączy je tyle, że bloker wskazał czasownik.
 Ruchem jest odczytanie tej resztki i rozbicie jej na klasy,
 z tego klasy nazwane w [`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet),
 jeśli któraś jest konstrukcją, a nie zbiegiem okoliczności.
-Do przeczytania jest sam `blocker` w `olski/coverage.py`:
+Do przeczytania jest sam `bloker` w `olski/pokrycie.py`:
 nazywa on formę, na której rozbiór stanął,
 a przy zdaniu z czasownikiem w środku bywa to forma stojąca za prawdziwą przyczyną,
 więc część tej resztki może być artefaktem tego odczytu, a nie brakiem w gramatyce.
@@ -1209,7 +1214,7 @@ bo od ich liczby zależy, czy ten wpis jest wart ceny ruchu.
 Luka jest węzłem o pustej rozpiętości, więc rola wypełniona przez nią nie ma nazwy,
 i na tym stanął pomiar cechy przeciąganej
 ([`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
-`agreement` w `olski/coverage.py` porównuje rozpiętości,
+`Outcome.agreement` w `harness/pomiar.py` porównuje rozpiętości,
 więc rozpiętość pusta nie trafia w żadną złotą i liczy się jako niezgodna —
 tak wyszło zdanie, które luka wyciąga ze Składnicy,
 choć role widoczne ma dobre.
@@ -1257,7 +1262,7 @@ drugie czytanie
 ([`docs/subset.md`](docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
 więc zawężenie `int` do leksykonu odbiera ją tym z nich,
 których czasownik pytania nie żąda.
-Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `olski/walenty.py`,
+Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `harness/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
 Czym ten wariant zmierzyć, jest rozstrzygnięte:
 zawężenie ramy jest zmianą danych, a nie grupą produkcji,
@@ -1360,7 +1365,7 @@ bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
 olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej.
 
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
-`zmierz_zdanie` w `olski/coverage.py` woła `podsumuj` bez deklaracji,
+`zmierz_zdanie` w `harness/pomiar.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
 a `harness/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
 Trzeci jest `harness/wskazania.py`, który tych samych przyłączeń potrzebuje,
@@ -1383,20 +1388,20 @@ osobno.
 Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
 po którym tabela z
 [`docs/disambiguation.md`](docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
-wychodzi z `olski-corpus`, a sonda się kasuje.
+wychodzi z `harness.pomiar`, a sonda się kasuje.
 Ceną jest to, czego dziś ten przebieg nie liczy:
 `różniące`, `przyłączenia` i `rozbieżności` chodzą po lesie osobno,
-a `olski-corpus` puszcza się nad 13 035 zdaniami i pod pulą procesów.
+a `harness.pomiar` puszcza się nad 13 035 zdaniami i pod pulą procesów.
 Drugą pozycją ceny jest zatrzymanie:
-sondy z tej czwórki o nie nie pytają, bo żadna go nie czyta, a `olski-corpus` pyta,
+sondy z tej czwórki o nie nie pytają, bo żadna go nie czyta, a `harness.pomiar` pyta,
 bo z niego liczy tabelę blokerów,
 i nad zdaniem odrzuconym kosztuje ono mniej więcej drugi rozbiór
 (`podsumuj` w `olski/parse.py`).
 Do przeczytania jest więc najpierw, ile ta trójka dokłada do przebiegu,
 bo poniżej progu, przy którym to widać, ruch jest samym zdjęciem duplikatu,
 a powyżej jest wyborem między dwoma przebiegami a jednym droższym.
-Do przeczytania jest przy tym `Report.record` w `olski/coverage.py`,
-gdzie licznik klas musiałby stanąć, i `KAWAŁEK` obok,
+Do przeczytania jest przy tym `Raport.record` w `olski/pokrycie.py`,
+gdzie licznik klas musiałby stanąć, oraz `KAWAŁEK` w `harness/pomiar.py`,
 bo przez granicę procesu idzie licznik, a nie las.
 
 Ciąg współrzędny wewnątrz wypełnienia roli nie ma po werdykcie żadnego wiersza.
@@ -1454,7 +1459,7 @@ a do tej klasy wpadają po tym, że żaden wiersz podsumowania tej różnicy nie
 
 Porównanie ról liczy za niezgodność i czytanie dobre, i czytanie złe,
 kiedy drzewo wzorcowe nie znaczy w tym miejscu żadnego gniazda.
-`agreement` w `olski/coverage.py` pyta o rozpiętości roli po obu stronach,
+`Outcome.agreement` w `harness/pomiar.py` pyta o rozpiętości roli po obu stronach,
 a rolę przypisaną tam, gdzie gold ma zbiór pusty, liczy jako `disagrees`,
 więc `Powtarzaj je tak często, jak to jest potrzebne.` — gdzie wybrane drzewo
 dopełnienia rozkaźnika nie znaczy wcale — stoi w tym wierszu obok
@@ -1504,14 +1509,14 @@ while `harness/nieciągłość.py` computes its own net beside that machinery ra
 What it does not take is a morphology switched off,
 which is neither a group nor a production,
 so the exclusion-free column and the two morphologies compared stay hand-written.
-The move is a third `SOURCES` entry in `olski/coverage.py` for the exclusion-free
+The move is a third `SOURCES` entry in `harness/pomiar.py` for the exclusion-free
 morphology, and a variant in `harness/ruch.py` that is a morphology rather than
 a group of productions.
 What a variant is has been settled since, and a morphology is not one:
 `Sonda` takes the grammar each variant measures, given as a function,
 and a morphology changes the segments a variant is run over
 rather than the grammar it is run with.
-What to read is that field beside `SOURCES` in `olski/coverage.py`,
+What to read is that field beside `SOURCES` in `harness/pomiar.py`,
 because a variant of this second kind has to say where it enters.
 The column is not its only caller: every criterion weighed in
 [`docs/subset.md`](docs/subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)
@@ -1626,7 +1631,7 @@ Etykieta roli nad wysuniętym czołem nie rusza ani jednego
 a `Raport.zapisz` w `harness/ruch.py` notuje zgodność ról pod zdaniem nowo przyjętym,
 czyli dokładnie tam, gdzie werdykt się ruszył,
 i `Outcome.ocalenie` nie bierze wcale.
-Zakup wzięto więc dwoma przebiegami `olski-corpus` i odjęciem wierszy ręką,
+Zakup wzięto więc dwoma przebiegami `harness.pomiar` i odjęciem wierszy ręką,
 a tamta sekcja nazywa liczby oraz produkcje, które wariant zdejmuje,
 żeby dało się je wziąć drugi raz.
 Ruchem są dwie rzeczy naraz i żadna sama nie wystarcza.
@@ -1722,7 +1727,7 @@ bo `spotkać się` jest po nim lematem leksykonu, a nie klasy domyślnej.
 
 Leksykon gubi zwrotność, którą Walenty zapisuje pozycją, a nie lematem.
 Walenty pisze `spotkać się` jako `spotkać` z pozycją `recip` w schemacie,
-a `myć się` jako `myć` z pozycją `refl`, i żadnej z nich `olski/walenty.py` nie czyta,
+a `myć się` jako `myć` z pozycją `refl`, i żadnej z nich `harness/walenty.py` nie czyta,
 więc `olski/leksykon.txt` mówi o 5 739 lematach zwrotnych,
 a 880 lematów tych schematów nie ma w nim wcale.
 Gramatyce nie odbiera to dziś nic, bo klasa domyślna leksykonu zwrotnego
@@ -1758,7 +1763,7 @@ Ten sam wzrost mnoży zarazem lematy, których `bedzie` nie ma.
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
 [Liczba, na której leksykon stoi](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
-bo `_slot_role` w `olski/corpus.py` czyta z pola `tfw` dwie role olskiego,
+bo `_slot_role` w `harness/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
 Ruchem jest zejście po wybranym drzewie do węzłów `zdanie`,
 wzięcie lematu głowy i pozycji fraz wymaganych obok niej,
@@ -1766,13 +1771,13 @@ i porównanie tego z `WALENCJA` w `olski/subset.py`.
 Do rozstrzygnięcia jest, co taki przebieg drukuje:
 sama niezgodność jest liczbą, a pożytek z niej ma dopiero ten,
 kto widzi lemat, zdanie i pozycję, o którą poszło.
-Do rozstrzygnięcia jest też, czy to jest flaga `olski-corpus`,
+Do rozstrzygnięcia jest też, czy to jest flaga `harness.pomiar`,
 czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
 Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
-`olski/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
+`harness/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
 
 Warstwa rozstrzygająca nie dostaje pytania o synkretyzm, choć pomiar tę klasę liczy.
-`pytania` w `olski/wieloznaczność.py` wypuszcza same `Przyłączenie`,
+`pytania` w `harness/wieloznaczność.py` wypuszcza same `Przyłączenie`,
 a klasa synkretyzmu zostawia `gospodarze` puste, bo wyborem nie jest tam przyłączenie,
 więc `Koszt szynki i sera przewyższa koszt bułki.` nie stawia warstwie ani jednego pytania,
 choć werdykt nad nim mówi `differing in Object, Subject`.
@@ -1799,11 +1804,11 @@ warstwa, która pytania nie dostaje, nie umie nawet przemilczeć.
 Świadek ramowy pyta o przyimek i nie pyta o przypadek grupy pod nim,
 więc jego zasięg jest oszacowaniem górnym po obu stronach sporu.
 Walenty pisze `prepnp(o,loc)` obok `prepnp(o,acc)`, a `Attachment`
-w `olski/attachment.py` niesie sam przyimek, więc `informacja o błędzie` pasuje
+w `harness/attachment.py` niesie sam przyimek, więc `informacja o błędzie` pasuje
 do obu wpisów naraz i tak samo pasuje do nich rama czasownika,
 czyli weto pada częściej, niż powinno, i częściej pada też wskazanie.
 Ruchem jest przypadek wydawany przez `Attachment` wraz z kolumną leksykonu, która go
-niesie, i pytanie o obie wartości naraz — w `przyimki` w `olski/walenty.py`
+niesie, i pytanie o obie wartości naraz — w `przyimki` w `harness/walenty.py`
 oraz w `Rama` w `olski/rozstrzyganie.py`, bo kryterium jest jedno.
 Do przeczytania jest, ile ten zwrot zdejmuje: pod `--tylko-pewne` żadna liczba
 sondy nie ruszyła się o więcej niż pół punktu, więc pewność schematu tej klasy nie
@@ -1834,7 +1839,7 @@ Zasięg ogranicza mu słownik, a nie kryterium: plik rzeczownikowy Walentego wyl
 1 996 lematów, więc rzeczownik spoza tej listy jest dla świadka rzeczownikiem bez
 ramy, a nie rzeczownikiem, którego rama tej pozycji nie ma.
 Liczby są dwie i bank drzew nie mówi ani o jednej:
-ile pozycji spornych `olski/wieloznaczność.py` wypuszcza nad korpusem audytowym
+ile pozycji spornych `harness/wieloznaczność.py` wypuszcza nad korpusem audytowym
 z rzeczownikiem wypisanym w Walentym, i na ilu z nich świadek odpowiada.
 Ruchem jest wiersz w `harness/wskazania.py` albo osobny przebieg nad `proza/`,
 wzorowany na `harness/powtórzenie.py`, który tę populację już liczy
@@ -1899,7 +1904,7 @@ Do przeczytania jest, ile takich dopasowań w tym korpusie w ogóle pada,
 bo znane jest jedno i wyszło przez wskazanie, które warunek na kopulę zdjął;
 liczbę tę daje ten sam przebieg, kiedy wypisze dopasowania, a nie same wskazania.
 
-`_grupa` w `olski/wieloznaczność.py` przedłuża łańcuch imienny przez orzeczenie,
+`_grupa` w `harness/wieloznaczność.py` przedłuża łańcuch imienny przez orzeczenie,
 bo forma osobowa bywa zarazem imienna: `stanowi` jest u Morfeusza celownikiem od `stan`,
 więc `dokument stanowi kompendium wiedzy dla deweloperów` proponuje gospodarzy
 `wiedzy, kompendium, stanowi, dokument`, a wybór jest tam między `kompendium` i `stanowi`.
@@ -1946,18 +1951,18 @@ jest sufitem, a nie pomiarem.
 Dotyczy to samej tabeli, a nie każdego świadka:
 `Rama` czyta leksykon wyprowadzony z Walentego, więc materiału tego przebiegu nie
 widziała, a wiersz o niej jest pomiarem, a nie sufitem.
-Ruchem jest podział taki, jaki ma już `oceń` w `olski/rozstrzyganie.py`:
+Ruchem jest podział taki, jaki ma już `oceń` w `harness/skłonności.py`:
 tabela z połowy plików o numerze parzystym, przebieg po nieparzystych,
 czyli flaga podająca sondzie świadków zbudowanych z tamtej połowy zamiast z pliku.
 Do rozstrzygnięcia jest, czy zasięg liczyć wtedy na tej samej połowie:
 tabela z połowy korpusu ma mniej par, więc zasięg spadnie razem z trafnością,
 a te dwie liczby dziś nie pochodzą z jednego przebiegu i po tym ruchu pochodziłyby.
-Do przeczytania jest przy tym `KAWAŁEK` w `olski/coverage.py`,
+Do przeczytania jest przy tym `KAWAŁEK` w `harness/pomiar.py`,
 bo podział na kawałki idzie po plikach i musi minąć się z podziałem na połowy.
 
 Wzorca nie ma dla 184 z 695 przyłączeń, a dwie kategorie Składnicy to tłumaczą.
 `dokąd_doszły` w `harness/wskazaniach` bierze z drzewa te wyrażenia, którym
-`_dokąd_doszło` w `olski/attachment.py` daje `noun` albo `clause`, a `Auta są
+`_dokąd_doszło` w `harness/attachment.py` daje `noun` albo `clause`, a `Auta są
 kradzione dla okupu.` przyłącza frazę do węzła imiesłowowego, którego `CLAUSE`
 nie wylicza, więc zdanie wypada z mianownika trafności
 ([tamże](docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
@@ -1994,7 +1999,7 @@ cztery pomyłki z siedmiu odpowiedzi opartych na tym wsparciu, wobec jednej z 22
 ([częstość nad dokumentacją](docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
 Ruchem jest `WSPARCIE` w `olski/rozstrzyganie.py` podniesione do trzech,
 a przed nim cena po drugiej stronie, bo próg jest punktem na krzywej i tam jest jego właściciel:
-`python3 -m olski.rozstrzyganie <Składnica> --oceń` wypisuje zasięg i trafność
+`python3 -m harness.skłonności <Składnica> --oceń` wypisuje zasięg i trafność
 dla `(3, 0.85)` obok dzisiejszego `(2, 0.85)`, więc liczba jest jednym przebiegiem.
 Do przeczytania jest, co robi z trzema trafnymi odpowiedziami spod wsparcia dwóch:
 wszystkie trzy są liczebnikiem cząstkowym (`jednego z kilku uprawnień`),
@@ -2006,11 +2011,11 @@ a `próbę zawężoną do odpowiedzi` przerysowuje w całości, bo losowanie idz
 
 Próba wyborów jest losowaniem nad populacją, której `pytania` już nie daje.
 Wpisy w `próba/wybory.txt` padły nad populacją mniejszą i przy innej propozycji gospodarza,
-niż daje dzisiejsze `pytania` w `olski/wieloznaczność.py`, więc ta sama komenda z `--ile 30`
+niż daje dzisiejsze `pytania` w `harness/wieloznaczność.py`, więc ta sama komenda z `--ile 30`
 dzieli z tym plikiem dwa zdania z trzydziestu
 ([tamże](docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)).
 Sądów to nie unieważnia, bo zdanie i fraza stoją we wpisie w całości,
-a psuje powiększanie: `rozrzucona` w `olski/próbka.py` bierze co którąś pozycję,
+a psuje powiększanie: `rozrzucona` w `harness/próbka.py` bierze co którąś pozycję,
 więc próba większa jest siatką przerysowaną od zera, a nie tą siatką z wpisami między nimi.
 Ruchem jest jedno z dwojga: albo przerysowanie siatki wraz z przeczytaniem tych wpisów,
 które na nią nie trafiły, albo `--zbuduj` z pominięciem pozycji już przeczytanych,
@@ -2031,7 +2036,7 @@ a Walenty nie odróżnia jej od argumentu narzędnikowego,
 więc kopula zostaje listą pisaną ręcznie w `olski/subset.py`.
 Do przeczytania jest, czy bank drzew tę różnicę widzi:
 pozycja `adjp(pred)` stoi w polu `tfw` obok `np(inst)`,
-a `olski/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.
+a `harness/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.
 Gdyby ją widział, kopula przestaje być listą, a staje się wpisem jak każdy inny,
 i wtedy pytaniem jest, ile czasowników poza nią orzecznik w narzędniku bierze.
 
@@ -2077,7 +2082,7 @@ który wybiera ten sam przyimek co rama czasownika przed nim —
 `dziadek do orzechów`, `maszyna do szycia` —
 a dokumentacja techniczna tak właśnie nazywa swoje narzędzia,
 więc `narzędzie do podpisu` czy `moduł do fakturowania` są tam budulcem.
-Ruchem jest trzecia pozycja dopisana do `olski/wieloznaczność.py`,
+Ruchem jest trzecia pozycja dopisana do `harness/wieloznaczność.py`,
 który dwie takie liczy nad korpusem audytowym i ma na to całą maszynerię:
 rzeczownik, forma osobowa, a za nią przyimek, który ten rzeczownik bierze.
 Ostatni warunek ma skąd się wziąć:
@@ -2177,7 +2182,7 @@ Kierunek żąda od werdyktu prawdy o zdaniu
 ([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 więc pozycja, która kupuje pokrycie i sprzedaje zgodność, żąda odczytania,
 a nie samej liczby.
-Do przeczytania jest `python3 -m olski.coverage <korpus> --examples`
+Do przeczytania jest `python3 -m harness.pomiar <korpus> --examples`
 w wierszach `disagrees` oraz w tych, którym złote czytanie z lasu wypada,
 i pytanie do nich jest jedno: czy pomyłki stoją na jednym kształcie.
 Ciała są dwa, po jednym na imiesłów, więc kształt zdejmuje się po jednym
@@ -2195,7 +2200,7 @@ Ruchem jest przebieg nad tamtym zbiorem 323 zdań i przepisanie tych przykładó
 takie, które dziś stają tam, gdzie akapit mówi; sam akapit twierdzi rzecz szerszą —
 że nieciągłość jest w tych zdaniach brakiem ostatnim — i tej ta poprawka nie tyka.
 Do przeczytania jest `harness/nieciągłość.py`, bo on ten zbiór wyznacza,
-oraz `Outcome.blocker` w `olski/coverage.py`, bo stamtąd bierze się nazwa
+oraz `bloker` w `olski/pokrycie.py`, bo stamtąd bierze się nazwa
 zatrzymania.
 
 Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
@@ -2307,7 +2312,7 @@ a wysunięte dopełnienie zabrało z niego część i nie wiadomo którą.
 Ruchem jest przeczytanie tej resztki, a po nim wycena pozostałych wypełnień
 nad obiema głowami naraz: deklaracja bierze głowę nazwą symbolu,
 więc wypełnienie dopisane do niej obejmuje predykatyw i formę nieosobową razem.
-Do przeczytania jest `blocker` w `olski/coverage.py` z tego samego powodu,
+Do przeczytania jest `bloker` w `olski/pokrycie.py` z tego samego powodu,
 z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
 
 Kopuła opuszczona ma listę o jednym lemacie, a polszczyzna opuszcza ją szerzej.
@@ -2381,7 +2386,7 @@ a konstrukcja współrzędna frazą, której centrum stanowi spójnik albo przec
 (Woliński 2019, p. 2.8.2, wyliczony w [`docs/swigra.md`](docs/swigra.md#sources)).
 Liczy się je więc kształtem, a nie nazwą:
 węzeł nominalny o dwóch nominalnych dzieciach i bez znaku między nimi.
-`Constituent` w `olski/corpus.py` niesie kategorię, rozpiętość i rodzica,
+`Constituent` w `harness/corpus.py` niesie kategorię, rozpiętość i rodzica,
 a segmenty niesie `Sentence` obok, więc ten kształt da się policzyć
 bez czytania z banku drzew czegokolwiek, czego przebiegi jeszcze nie czytają.
 
@@ -2561,7 +2566,7 @@ Lematu `olski` Morfeusz nie zna wcale, więc nazwa własna tego języka
 nie stanie w składanym zdaniu w żadnej roli:
 `olski/skład/leksemy.py` wybiera między leksemami, które SGJP ma,
 i sam mówi, że leksem nieznany nie ma ani jednej formy.
-Odmianę tego słowa deklaruje `olski/projekt.txt`, a skład go nie czyta,
+Odmianę tego słowa deklaruje `projekt.txt`, a skład go nie czyta,
 i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
 a nie ta pozycja.
 Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
@@ -2594,7 +2599,7 @@ bo część jego wierszy jest polskim zdaniem, a część listą par i liczbą,
 czyli rozstrzygnąć trzeba i to, ile z tego wydruku skład bierze.
 
 Słowo, którego SGJP nie ma, mówi gramatyka i nie mówi go skład.
-`olski/projekt.txt` deklaruje leksem, wedle którego takie słowo się odmienia
+`projekt.txt` deklaruje leksem, wedle którego takie słowo się odmienia
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
 a `olski/skład/morfologia.py` pyta o formy sam Morfeusz i tego pliku nie czyta,
 więc `README.py` dalej nie wypuści zdania o olskim.
@@ -2764,7 +2769,7 @@ bo słownik te dwa kształty rozdziela i mówi, który lemat bierze który,
 oraz `Treść` w `olski/skład/składnia.py`, gdzie spójnik stoi stałą.
 Ruchem jest kategoria dziedziny na to, czy treść jest orzekana, czy żądana,
 wraz z osobnym zdaniem leksykonu o `cp(żeby)`; wpis jest przez to winien
-przebieg `olski/walenty.py` oraz poprawkę liczb w
+przebieg `harness/walenty.py` oraz poprawkę liczb w
 [`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 `Przysłówek` w `olski/skład/składnia.py` żąda od słownika formy przysłówkowej,
@@ -2874,7 +2879,7 @@ Ruchem jest ten warunek zapisany raz, w linearyzacji okolicznika,
 wraz z rozstrzygnięciem, czy wpis leksykonu wymienia obie postaci,
 czy jedną, a drugą liczy się z niej.
 
-Leksem dokładany do napisu, który słownik zna, stoi poza `olski/projekt.txt`
+Leksem dokładany do napisu, który słownik zna, stoi poza `projekt.txt`
 i jest drugą połową klasy, którą ten plik obsługuje; czym się te dwie różnią,
 trzyma [`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Wiersz na taki leksem — na `agent`, żeby projekt pisał o agentach `agenty` —
@@ -2902,7 +2907,7 @@ tym różni się ten wpis od tych, które nazywają brak po jednej stronie.
 Wywód trzyma
 [`docs/sklad.md`](docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
 a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
-Do przeczytania jest, co `olski/walenty.py` bierze z Walentego przy pozycji `infp`,
+Do przeczytania jest, co `harness/walenty.py` bierze z Walentego przy pozycji `infp`,
 bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
 czy ma go w kształcie, którego ten przekład nie bierze,
 wraz z tym, co [`docs/subset.md`](docs/subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
@@ -2956,7 +2961,7 @@ tylko o piętro niżej: tam leksykon mówi, czy bezokolicznik wolno postawić,
 a tutaj nie mówi, który.
 Kosztuje to dziś czasownik w tabeli `olski/skład/makieta.py`,
 która `zacząć` i `przestać` pomija, żeby losowanie takiego zdania nie wypuściło.
-Do przeczytania jest to, co `olski/walenty.py` bierze z Walentego,
+Do przeczytania jest to, co `harness/walenty.py` bierze z Walentego,
 bo słownik ten aspekt przy pozycji `infp` wypisuje,
 oraz `bierze_bezokolicznik_podmiotu` w `olski/walencja.py`,
 czyli zdanie, które to pytanie zadaje.
@@ -3030,41 +3035,6 @@ and set `license` in `pyproject.toml` to match.
 Reading a GPL v3 parser of Polish is what raised it
 (see [`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)),
 and the answer decides whether olski could ever link against such a thing.
-
-Granica harnessu jest napisana raz, a stosuje się dwa razy inaczej.
-`harness/__init__.py` mówi, że korpus w formacie znacznikowym
-dochodzi do gramatyki tędy, a nie przez `olski`,
-a `harness/endings.py` dokłada, że stoi tam,
-bo o polszczyźnie niczego nie twierdzi.
-Oba kryteria trafiają w `olski/corpus.py`, który czyta XML Składnicy,
-w `olski/coverage.py`, który mierzy nim gramatykę
-i produkuje tabele [`docs/corpus.md`](docs/corpus.md),
-oraz w `olski/attachment.py`, który mierzy nim sam korpus
-i produkuje tabelę
-[`docs/subset.md`](docs/subset.md#bank-drzew-nie-zna-domyślnego-przyłączenia).
-Trzeci z nich jest przy tym przypadkiem najostrzejszym,
-bo o gramatyce nie mówi nic, tak samo jak `harness/endings.py`.
-Czwarty pokazuje, że samo kryterium jest za grube:
-`olski/wieloznaczność.py` też o gramatyce nie mówi nic
-i mimo to do `harness/` nie pójdzie,
-bo liczy przez `admissible` i przez leksykon walencyjny,
-czyli przez dwie decyzje toru gramatycznego naraz.
-Trzy z tych czterech są liśćmi,
-a czwarty odbiera `olski/attachment.py` bycie liściem, importując go,
-i wszystkie instalują się z pakietem
-(`include = ["olski*"]` w `pyproject.toml`),
-a jeden ma własną komendę,
-gdzie tak samo pomiarowe programy w `harness/`
-nie mają ani instalacji, ani komendy.
-Ruchem jest rozstrzygnięcie granicy, a nie przeniesienie plików:
-albo obie idą do `harness/`, a `olski-corpus` staje się
-`python3 -m harness.coverage` jak dwie pozostałe komendy pomiarowe,
-co przepisuje polecenia w [`docs/corpus.md`](docs/corpus.md#fetching-it)
-albo `harness/__init__.py` mówi, czym granica jest,
-co nie kosztuje nic i przestaje odpowiadać dwa razy.
-Do przeczytania jest to, co pakiet ma dawać temu, kto go instaluje:
-czytnik banku drzew i trzy programy pomiarowe są w nim,
-a kto sprawdza zdanie gramatyką, żadnego z nich nie woła.
 
 `tests/test_subset.py` ma po podziale przeszło trzy tysiące wierszy
 i pyta obok podzbioru o dwa moduły niżej.

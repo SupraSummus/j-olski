@@ -12,17 +12,7 @@ a różnicę widać dopiero w liczbach `docs/disambiguation.md`.
 
 import pytest
 
-from olski.walencja import (
-    BIERZE_BEZOKOLICZNIK,
-    BIERZE_BEZOKOLICZNIK_PODMIOTU,
-    BIERZE_CELOWNIK,
-    BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU,
-    CZASOWNIK,
-    CZASOWNIK_ZWROTNY,
-    NIE_BIERZE_BIERNIKA,
-    RZECZOWNIK,
-)
-from olski.walenty import (
+from harness.walenty import (
     BIERNIK,
     CELOWNIK,
     DOPEŁNIACZ,
@@ -33,6 +23,16 @@ from olski.walenty import (
     leksykon,
     pozycje,
     przyimki,
+)
+from olski.walencja import (
+    BIERZE_BEZOKOLICZNIK,
+    BIERZE_BEZOKOLICZNIK_PODMIOTU,
+    BIERZE_CELOWNIK,
+    BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU,
+    CZASOWNIK,
+    CZASOWNIK_ZWROTNY,
+    NIE_BIERZE_BIERNIKA,
+    RZECZOWNIK,
 )
 
 #: Schemat `informacja`, skrócony do pozycji, o które pyta kryterium przyimkowe.

@@ -15,7 +15,7 @@ Populację wyznacza werdykt olskiego, a nie bank drzew:
 liczone są przyłączenia, przed którymi olski postawił wybór,
 bo tylko o takie warstwa jest kiedykolwiek pytana.
 Wzorzec dokłada drzewo, czyli odpowiedź na pytanie, dokąd wyrażenie doszło,
-i właścicielem tego odczytu jest ``olski/attachment.py``.
+i właścicielem tego odczytu jest ``harness/attachment.py``.
 
 **Złączenie idzie formami modyfikatora, bo tyle mają obie strony.**
 Werdykt nazywa modyfikator formami i rozpiętości nie niesie
@@ -52,10 +52,10 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.attachment import STRONA_CZASOWNIKOWA, STRONA_IMIENNA, attachments
+from harness.corpus import Sentence, parse_forest, read_forest
 from harness.komenda import Komenda, uruchom
-from olski.attachment import STRONA_CZASOWNIKOWA, STRONA_IMIENNA, attachments
-from olski.corpus import Sentence, parse_forest, read_forest
-from olski.coverage import po_kawałkach, segments_for
+from harness.pomiar import po_kawałkach, segments_for
 from olski.parse import Przyłączenie, Result, parse, sklej_formy
 from olski.rozstrzyganie import (
     Rozstrzygnięcie,

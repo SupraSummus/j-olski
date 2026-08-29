@@ -37,7 +37,8 @@ pytest.importorskip("morfeusz2")
 from dataclasses import replace
 
 import olski.check
-from olski import attachment, rozstrzyganie
+from harness import attachment
+from olski import rozstrzyganie
 from olski.parse import Przyłączenie
 from olski.rozstrzyganie import (
     PUSTE,

@@ -52,7 +52,7 @@ a rzeczownik jest trzecim słowem i ma własną ramę.
 Leksykon trzymany pod samym lematem zlewałby te słowa w jedno
 i kłamał o każdym z nich.
 
-Plik jest generowany z Walentego przez ``olski/walenty.py``,
+Plik jest generowany z Walentego przez ``harness/walenty.py``,
 który mówi, co stamtąd bierze, a czego nie,
 a docs/subset.md wywodzi, czym taki leksykon jest, a czym nie jest.
 """
@@ -151,7 +151,7 @@ Z_DOPEŁNIACZEM_ZWROTNE = _lematy(BIERZE_DOPEŁNIACZ, CZASOWNIK_ZWROTNY)
 #: Lematy, przy których celownik stoi obok drugiego wypełnienia, osobno dla obu
 #: klas czasownika. Zbiór zawarty w tym wyżej; czemu para potrzebuje własnego
 #: zdania, zamiast wychodzić z dwóch policzonych osobno, wywodzi
-#: ``olski/walenty.py``.
+#: ``harness/walenty.py``.
 Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU = _lematy(BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK)
 Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE = _lematy(
     BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK_ZWROTNY

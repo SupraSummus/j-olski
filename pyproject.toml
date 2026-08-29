@@ -22,7 +22,7 @@ witryna = ["gunicorn>=22"]
 
 [project.scripts]
 olski-check = "olski.check:main"
-olski-corpus = "olski.coverage:main"
+olski-pokrycie = "olski.pokrycie:main"
 
 [tool.setuptools.packages.find]
 include = ["olski*"]
@@ -31,10 +31,12 @@ include = ["olski*"]
 #  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.
 #  Tabela skłonności przyłączeniowych idzie tą samą drogą i z tym się różni, że
 #  bez niej warstwa rozstrzygająca milczy, zamiast nie wstać.
-#  Leksykon projektu idzie nią jako trzeci i czyta się przy imporcie jak pierwszy,
-#  a bez niego wraca `ign` na każde słowo, którego SGJP nie ma.
+#  Oba mówią o polszczyźnie, więc są te same dla każdego, kto olskiego zainstaluje.
+#  Leksykon projektu tędy nie idzie i dlatego, że mówi o jednym projekcie:
+#  `projekt.txt` leży w katalogu, nad którym olskiego uruchomiono
+#  (`znajdź` w `olski/projekt.py`).
 [tool.setuptools.package-data]
-olski = ["leksykon.txt", "skłonności.txt", "projekt.txt"]
+olski = ["leksykon.txt", "skłonności.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

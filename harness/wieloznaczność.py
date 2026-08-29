@@ -5,8 +5,8 @@ polszczyźnie ma dwa. Rozwidlenie, które z tego wychodzi, wraz z tym, co pomiar
 stąd nad nim rozstrzygnął, trzyma docs/open-questions.md; liczbę, na której to
 rozstrzygnięcie stanęło, podaje ten moduł.
 
-To jest pomiar rejestru, a nie gramatyki, i tym różni się od olski/coverage.py,
-tak samo jak olski/attachment.py obok. Liczone są pozycje w tekście, a nie
+To jest pomiar rejestru, a nie gramatyki, i tym różni się od harness/pomiar.py,
+tak samo jak harness/attachment.py obok. Liczone są pozycje w tekście, a nie
 werdykty nad nim, więc zdanie liczy się i wtedy, gdy gramatyka nie umie go
 rozebrać wcale. Inaczej się nie da: takich zdań jest w tym rejestrze większość,
 a to o nie właśnie pytanie idzie.
@@ -15,7 +15,7 @@ Klasy są dwie i obie stoją w tamtym pytaniu wraz ze swoim zdaniem.
 
 Przyłączenie: wyrażenie przyimkowe stoi tuż za grupą imienną, a czasownik przed
 nim, więc dochodzi do jednego albo do drugiego. Populacja jest ta sama, którą
-olski/attachment.py liczy nad Składnicą, przełożona z cudzych drzew na formy:
+harness/attachment.py liczy nad Składnicą, przełożona z cudzych drzew na formy:
 tam grupę imienną nazywa węzeł, a tutaj część mowy.
 
 Synkretyzm: dwie grupy imienne czytają się i w mianowniku, i w bierniku, a
@@ -55,11 +55,11 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from olski.attachment import CZASOWNIK
+from harness.attachment import CZASOWNIK
+from harness.próbka import rozrzucona
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Reading, Segment
 from olski.parse import Przyłączenie
-from olski.próbka import rozrzucona
 
 # Kryterium łańcucha, zasięg frazy i strona wyboru należą do warstwy
 # rozstrzygającej i bierze się je stamtąd, żeby pozycja stąd była tym samym
@@ -376,7 +376,7 @@ def render(report: Raport, przykłady: int = 0) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m olski.wieloznaczność",
+        prog="python3 -m harness.wieloznaczność",
         description="Policz zdania, które czytają się dwojako w samej polszczyźnie.",
     )
     parser.add_argument("paths", nargs="+", help="pliki zwykłego tekstu")
@@ -388,7 +388,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         try:
             texts.append(Path(path).read_text(encoding="utf-8"))
         except OSError as błąd:
-            print(f"olski.wieloznaczność: {błąd}", file=sys.stderr)
+            print(f"harness.wieloznaczność: {błąd}", file=sys.stderr)
             return 2
     print(render(measure(texts), args.przykłady))
     return 0

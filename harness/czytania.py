@@ -34,9 +34,9 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.corpus import Sentence, read
 from harness.komenda import Komenda, uruchom
-from olski.corpus import Sentence, read
-from olski.coverage import PORÓWNYWANE_ROLE, po_kawałkach, segments_for
+from harness.pomiar import PORÓWNYWANE_ROLE, po_kawałkach, segments_for
 from olski.parse import Las, Result, las, podsumuj
 from olski.subset import DEKLARACJA, GRAMMAR
 

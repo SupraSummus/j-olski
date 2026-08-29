@@ -760,7 +760,7 @@ Parser jest tu [świadkiem, a nie zależnością](design-notes.md#the-round-trip
 a check postawiony na liczbie czytań milczałby tam, gdzie kończy się podzbiór:
 legenda o bazyliszku ma zdania, których gramatyka nie wyprowadza,
 więc to pokrycie olskiego rozstrzygałoby, o których zdaniach przegląd się wypowie.
-Nie woła też `olski/wieloznaczność.py`, który tę samą klasę liczy nad tekstem,
+Nie woła też `harness/wieloznaczność.py`, który tę samą klasę liczy nad tekstem,
 i to jest różnica warta zapisania, bo pokazuje, co ten kierunek daje.
 Tamten moduł musi zgadywać z form to, co tutaj wiadomo z drzewa:
 gdzie kończy się grupa imienna, co jest uczestnikiem, a co stoi pod przyimkiem,
@@ -1132,7 +1132,7 @@ co kupuje [leksykon walencyjny](subset.md#walencja-jest-leksykonem-o-ramie-domy�
 że `komit` jest słowem raz, a nie dwa razy.
 
 Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:
-`olski/projekt.txt` nazywa leksem, wedle którego słowo się odmienia,
+`projekt.txt` nazywa leksem, wedle którego słowo się odmienia,
 wraz z jedną formą, którą ten leksem ma wydać.
 Alternacja tematu, która przeciw wskazaniu leksemu stała,
 schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,

@@ -30,7 +30,7 @@ def test_import_warstwy_pod_gramatyką_nie_buduje_gramatyki(moduł):
     """Docstringi obu modułów obiecują to zdanie, a nie pilnowało go nic.
 
     Jeden import dopisany do tamtych modułów oddaje koszt gramatyki każdemu,
-    kto pyta o samą segmentację, a ``olski/wieloznaczność.py`` jest takim pytającym.
+    kto pyta o samą segmentację, a ``harness/wieloznaczność.py`` jest takim pytającym.
     Zapłacono za to zdanie osobnym modułem na lematy dwóch warstw
     (``olski/lematy.py`` mówi, czym ten koszt jest),
     a wraca ono po cichu: suita przechodzi tak samo z takim importem i bez niego.

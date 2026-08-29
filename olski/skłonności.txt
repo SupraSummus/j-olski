@@ -3,8 +3,8 @@
 # gospodarza, przyłączeń w tę stronę i przyłączeń wszystkich.
 #
 # Plik jest generowany i nie pisze się go ręcznie. Powstaje ze Składnicy przez
-# `python3 -m olski.rozstrzyganie <korpus> --zbuduj`, a co z niej bierze, mówi
-# `olski/attachment.py`. Wpisy o wsparciu poniżej progu tu nie wchodzą, bo
+# `python3 -m harness.skłonności <korpus> --zbuduj`, a co z niej bierze, mówi
+# `harness/attachment.py`. Wpisy o wsparciu poniżej progu tu nie wchodzą, bo
 # świadek i tak by na nie nie patrzył.
 #
 # Bank drzew jest prozą literacką i prasową, a olski celuje w dokumentację

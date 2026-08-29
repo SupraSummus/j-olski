@@ -3,7 +3,7 @@
 Pytanie, które ta maszyneria obsługuje, jest jedno i stawia je każda sonda
 osobno: ile zdań konstrukcja odbiera. Zdanie odrzucone przez wieloznaczność jest
 droższe niż zdanie, którego gramatyka nie wyprowadza wcale, bo tamto czeka na
-produkcję, a to na jej wycofanie, więc sumy z ``olski-corpus`` na to nie
+produkcję, a to na jej wycofanie, więc sumy z ``harness.pomiar`` na to nie
 odpowiadają: przejście ``przyjęte → wieloznaczne`` jest ceną, przejście
 ``odrzucone → przyjęte`` zakupem, a jedno i drugie widać dopiero zdanie po
 zdaniu.
@@ -40,9 +40,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TypeVar
 
+from harness.corpus import Sentence, read
 from harness.komenda import Komenda, nagłówek, uruchom
-from olski.corpus import Sentence, read
-from olski.coverage import SOURCES, Outcome, po_kawałkach, segments_for
+from harness.pomiar import SOURCES, Outcome, po_kawałkach, segments_for
 from olski.grammar import Grammar, Production, Sym, Word
 from olski.morph import Segment
 from olski.parse import ciało_koordynuje, parse
@@ -69,7 +69,7 @@ ROLA = "rola:"
 ZGODNE = "agrees"
 
 #: Nazwy obu morfologii w nagłówku wydruku, bo nagłówek stoi po polsku.
-#: Kluczem jest nazwa źródła z ``olski/coverage.py``, żeby źródło dopisane tam
+#: Kluczem jest nazwa źródła z ``harness/pomiar.py``, żeby źródło dopisane tam
 #: zgłosiło się tutaj brakiem nazwy, a nie wydrukiem, który milczy o tym,
 #: co mierzył.
 MORFOLOGIA = {"gold": "złota", "live": "żywa"}
@@ -311,7 +311,7 @@ def _bez_zbędnych(sonda: Sonda, wynik: Callable[[str], Wynik]) -> dict[str, Wyn
     co on, więc zdanie odrzucone przez niego jest odrzucone pod wszystkimi.
     Jego rozbiór idzie przez to pierwszy, a odrzucenie zamyka pozostałe warianty
     jedną odpowiedzią, bo o zdaniu odrzuconym mówią one to samo.
-    Olski odrzuca większość zdań banku drzew, co drukuje ``olski-corpus``,
+    Olski odrzuca większość zdań banku drzew, co drukuje ``harness.pomiar``,
     więc z przebiegu wypada przeszło połowa rozbiorów.
 
     Kolejność tę deklaruje sonda i odpowiada za nią sama (:class:`Sonda`):
@@ -368,7 +368,7 @@ def zmierz(
 ) -> Raport:
     """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
 
-    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    Populacja jest ta sama, co w ``harness.pomiar.measure``: każde zdanie z
     drzewem wzorcowym, bez granicy na długość.
 
     Morfologia jest dwojaka i konstrukcja bywa taka, że pod jedną z nich nie
@@ -440,7 +440,7 @@ def przebieg(
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
 
-    Podział na kawałki jest ten sam, którym idzie ``olski-corpus``, i stoi tam,
+    Podział na kawałki jest ten sam, którym idzie ``harness.pomiar``, i stoi tam,
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem sondy.
     """

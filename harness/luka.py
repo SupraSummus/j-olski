@@ -35,9 +35,9 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.corpus import Sentence, read
 from harness.komenda import Komenda, nagłówek, uruchom
-from olski.corpus import Sentence, read
-from olski.coverage import Outcome, po_kawałkach
+from harness.pomiar import Outcome, po_kawałkach
 from olski.grammar import Grammar, Production, Sym, Var, nt
 from olski.parse import parse
 from olski.subset import BEZ_CZOŁA, build
@@ -322,7 +322,7 @@ class Raport:
 def zmierz(zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY) -> Raport:
     """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
 
-    Populacja jest ta sama, co w ``olski.coverage.measure``: każde zdanie z
+    Populacja jest ta sama, co w ``harness.pomiar.measure``: każde zdanie z
     drzewem wzorcowym, bez granicy na długość.
     """
     raport = Raport(przykłady)

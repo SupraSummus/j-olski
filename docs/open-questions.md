@@ -85,7 +85,7 @@ Klony korpusu audytowego stoją w
 ```sh
 python3 -m harness.markdown ksef-docs --into proza/ksef
 python3 -m harness.markdown rit-dokumentacja --into proza/rit
-python3 -m olski.wieloznaczność proza/ksef/*.txt proza/rit/*.txt
+python3 -m harness.wieloznaczność proza/ksef/*.txt proza/rit/*.txt
 ```
 
 Pozycję którejś z dwóch klas niesie tam 747 z 1 183 zdań, czyli 63.1%:
@@ -170,7 +170,7 @@ czyli przez dwa czytania, których polszczyzna w tym miejscu nie ma.
 Powód zostaje, bo jest o polszczyźnie, a nie o tym korpusie,
 a to jedno trafienie należy do klasy wyliczonej wyżej i tak samo jak ona liczbę podnosi.
 
-Oba warianty mierzy się podstawieniem pod `_obojętny` w `olski/wieloznaczność.py`,
+Oba warianty mierzy się podstawieniem pod `_obojętny` w `harness/wieloznaczność.py`,
 bo sondy na nie nie ma i jedno zdanie jej nie kupuje.
 
 ### Olski melduje wieloznaczność, której czytelnik nie ma

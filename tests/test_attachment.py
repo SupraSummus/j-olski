@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.attachment import Report, attachments, main, measure, render
+from harness.attachment import Report, attachments, main, measure, render
 from tests.test_corpus import forest, phrase, terminal
 
 

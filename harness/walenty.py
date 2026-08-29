@@ -146,7 +146,7 @@ SIĘ = " się"
 
 #: Kształt pozycji przyimkowej, wraz z przyimkiem w środku. Przypadek stoi za
 #: przecinkiem i to czytanie o niego nie pyta, bo ``Attachment`` w
-#: ``olski/attachment.py`` niesie sam przyimek: ``prepnp(o,loc)`` i
+#: ``harness/attachment.py`` niesie sam przyimek: ``prepnp(o,loc)`` i
 #: ``prepnp(o,acc)`` wychodzą stąd jednym wpisem. Ile ten brak zawyża zasięg
 #: świadka, mówi docs/disambiguation.md.
 PRZYIMKOWA = re.compile(r"prepnp\(([^,)]+),")
@@ -438,7 +438,7 @@ NAGŁÓWEK = f"""\
 # CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
-# Wyprowadza go `olski/walenty.py`, który mówi, co stąd bierze, a czego nie;
+# Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
 # ramę nazywa `olski/subset.py`, a docs/subset.md trzyma polecenie wraz z tym,
 # skąd wziąć pliki wejściowe.
 """
@@ -459,7 +459,7 @@ def zapisz(wpisy: Sequence[tuple[str, str, tuple[str, ...], frozenset[str]]], ou
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="python3 -m olski.walenty",
+        prog="python3 -m harness.walenty",
         description="Wypisz słowa wraz z tym, co Walenty o ich ramie mówi.",
     )
     parser.add_argument("schematy", help="walenty_*_verbs_all.txt z wydania tekstowego")

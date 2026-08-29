@@ -22,8 +22,8 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness import płaski
+from harness.corpus import FULL, Sentence
 from harness.ruch import Sonda, gramatyka, nad_prozą, zmierz
-from olski.corpus import FULL, Sentence
 from olski.subset import GRAMMAR
 from olski.werdykt import check
 
