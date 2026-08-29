@@ -95,7 +95,7 @@ def test_terminal_żąda_obecności_cechy_a_nie_wartości(forma: str, stopniowan
     [segment] = analyse(forma)
     [czytanie] = segment.readings
     cechy = czytanie.tag.cechy
-    wartości = word("adv", degree="pos.com.sup")
+    wartości = word("adv", degree={"pos", "com", "sup"})
     obecność = word("adv", niesie="degree")
     assert (
         bierze(wartości, czytanie.tag.pos, czytanie.lemma, segment.lematy, cechy, EMPTY)

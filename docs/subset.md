@@ -4416,7 +4416,7 @@ i tylko pierwszy z tych dwóch określa przymiotnik.
 Formalizm ma na to warunek i jest nim `niesie`:
 `word("adv", niesie="degree")` bierze `bardzo`, a `tu` nie.
 Wypisanie wszystkich wartości cechy tego nie mówi,
-bo `word("adv", degree="pos.com.sup")` bierze `tu` tak samo jak `bardzo`.
+bo `word("adv", degree={"pos", "com", "sup"})` bierze `tu` tak samo jak `bardzo`.
 Dlaczego warunek nie mieszka w unifikacji i co jeszcze jest obok niej,
 wywodzi [kanał cech](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
 

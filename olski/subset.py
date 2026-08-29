@@ -405,20 +405,14 @@ PIĘCIE = "piąć"
 #: polecenie trzyma docs/subset.md. Stoi ono w ramie domyślnej tak samo jak `comp`,
 #: a zawężenia tej pozycji do leksykonu nikt nie zmierzył — TODO.md trzyma ten
 #: przebieg.
-RAMA_DOMYŚLNA = "nom.acc.inf.comp.int"
-
-
-def _bez(rama: str, pozycja: str) -> str:
-    """Ta rama bez tej pozycji.
-
-    Ramy węższe wyliczają się z domyślnej, a nie stoją wypisane obok niej, żeby
-    pozycję dopisaną tam widziała każda z nich.
-    """
-    return ".".join(p for p in rama.split(".") if p != pozycja)
+RAMA_DOMYŚLNA = frozenset({"nom", "acc", "inf", "comp", "int"})
 
 
 #: Rama lematu, o którym leksykon mówi, że biernika nie bierze.
-RAMA_BEZ_BIERNIKA = _bez(RAMA_DOMYŚLNA, "acc")
+#:
+#: Ramy węższe odejmują od domyślnej, a nie stoją wypisane obok niej, żeby
+#: pozycję dopisaną tam widziała każda z nich.
+RAMA_BEZ_BIERNIKA = RAMA_DOMYŚLNA - {"acc"}
 
 #: Rama czasownika zwrotnego spoza leksykonu: domyślna bez bezokolicznika.
 #:
@@ -435,13 +429,11 @@ RAMA_BEZ_BIERNIKA = _bez(RAMA_DOMYŚLNA, "acc")
 #: nie ma i zawężenie zmierzono: nie kupiło ani jednego drugiego czytania
 #: (:data:`RAMA_DOMYŚLNA`). Cenę odjęcia zwrotnego trzyma
 #: docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika.
-RAMA_DOMYŚLNA_ZWROTNA = _bez(RAMA_DOMYŚLNA, "inf")
+RAMA_DOMYŚLNA_ZWROTNA = RAMA_DOMYŚLNA - {"inf"}
 
 #: Pozycja, której rama domyślna tej klasy słowa nie ma, a leksykon ją lematowi
 #: daje: nazwa pozycji wraz ze zbiorami lematów, osobno dla formy bez cząstki
-#: ``się`` i z nią. Kolejność jest kolejnością, w której te pozycje dochodzą do
-#: ramy, więc jedna rama wychodzi stąd jednym napisem, a nie dwoma o tych samych
-#: pozycjach.
+#: ``się`` i z nią.
 #:
 #: Zdanie leksykonu jest tu twierdzące, a przy bierniku ujemne, i przeciwne są
 #: domyślności, od których oba odejmują: biernik stoi w ramie domyślnej, a
@@ -478,37 +470,47 @@ BEZ_DRUGIEJ = "bez"
 
 def _rama(
     lemat: str,
-    domyślna: str,
+    domyślna: frozenset[str],
     bez_biernika: frozenset[str],
     dokładane: Sequence[tuple[str, frozenset]],
-) -> str:
+) -> frozenset[str]:
     """Rama tego lematu: domyślna bez tego, czego leksykon mu odmawia, i z tym, co mu daje.
 
     ``domyślna`` jest domyślną jego klasy słowa, bo klasy te mają dwie różne
     (:data:`RAMA_DOMYŚLNA_ZWROTNA`).
     """
-    odjęta = _bez(domyślna, "acc") if lemat in bez_biernika else domyślna
-    return ".".join([odjęta, *(nazwa for nazwa, lematy in dokładane if lemat in lematy)])
+    odjęta = domyślna - {"acc"} if lemat in bez_biernika else domyślna
+    return odjęta | {nazwa for nazwa, lematy in dokładane if lemat in lematy}
 
 
 def _klasy_walencyjne(
-    domyślna: str,
+    domyślna: frozenset[str],
     bez_biernika: frozenset[str],
     dokładane: Sequence[tuple[str, frozenset]],
     poza: frozenset[str] = frozenset(),
-) -> dict[str, frozenset[str]]:
+) -> dict[frozenset[str], frozenset[str]]:
     """Lematy leksykonu zebrane w klasy po ramie, którą leksykon każdemu z nich daje.
 
     ``poza`` zabiera lematy, które mają ramę wypisaną ręcznie: klasy mają się nie
     zachodzić, a lemat wzięty dwiema byłby dwoma czytaniami tego samego kształtu.
+
+    Klucz sortowania jest wypisany, bo rama jest zbiorem, a ``<`` na zbiorach
+    porównuje zawieraniem: ``sorted`` bez klucza oddaje kolejność wejścia i nie
+    wywraca się przy tym. Kolejność klas ustala kolejność produkcji, a ta
+    kolejność, w jakiej las wydaje czytania (CLAUDE.md#code).
     """
-    klasy: dict[str, set[str]] = {}
+    klasy: dict[frozenset[str], set[str]] = {}
     for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:
         klasy.setdefault(_rama(lemat, domyślna, bez_biernika, dokładane), set()).add(lemat)
-    return {rama: frozenset(lematy) for rama, lematy in sorted(klasy.items())}
+    return {
+        rama: frozenset(lematy)
+        for rama, lematy in sorted(klasy.items(), key=lambda para: sorted(para[0]))
+    }
 
 
-def _walencja() -> tuple[dict[str, frozenset[str]], dict[str, frozenset[str]]]:
+def _walencja() -> tuple[
+    dict[frozenset[str], frozenset[str]], dict[frozenset[str], frozenset[str]]
+]:
     """Leksykon jako klasy walencyjne, osobno dla formy z cząstką ``się`` i bez niej.
 
     Zwrotność jest drugim wymiarem klucza, a nie częścią lematu, i dlaczego,
@@ -527,7 +529,7 @@ def _walencja() -> tuple[dict[str, frozenset[str]], dict[str, frozenset[str]]]:
     return (
         {
             **_klasy_walencyjne(RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), KOPULA),
-            "nom.inst": KOPULA,
+            frozenset({"nom", "inst"}): KOPULA,
         },
         _klasy_walencyjne(RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
     )
@@ -777,7 +779,7 @@ SZYKI_CZĄSTKI: tuple[tuple[bool, tuple[Part, ...], tuple[Part, ...]], ...] = (
 )
 
 
-def _bez_orzecznika(rama: str) -> str:
+def _bez_orzecznika(rama: frozenset[str]) -> frozenset[str]:
     """Ta rama bez orzecznika zgodnego, czyli rama zdania, które podmiotu nie ma.
 
     Orzecznik zgodny zgadza się z podmiotem, więc zdanie bez podmiotu nie ma go z
@@ -786,7 +788,7 @@ def _bez_orzecznika(rama: str) -> str:
     predykatyw o domyślną (:data:`RAMA_BEZOSOBOWA`), forma nieosobowa o ramę
     swojego lematu — więc odejmowanie jest funkcją, a nie drugą stałą obok nich.
     """
-    return _bez(rama, "nom")
+    return rama - {"nom"}
 
 
 #: Rama predykatywu (:data:`PREDYKATYWY`): domyślna bez orzecznika zgodnego.
@@ -853,7 +855,7 @@ TRYB_POD_SPÓJNIKIEM = "pod_spójnikiem"
 #: orzeka w trybie oznajmującym, kiedy stoi samo, i w przypuszczającym, kiedy
 #: cząstkę niesie spójnik nad nim. Jedna forma w dwóch trybach jest tu tym samym,
 #: czym jest jedna forma w dwóch przypadkach: zbiorem, który unifikacja przecina.
-TRYB_FORMY_NA_Ł = f"{TRYB_OZNAJMUJĄCY}.{TRYB_POD_SPÓJNIKIEM}"
+TRYB_FORMY_NA_Ł = frozenset({TRYB_OZNAJMUJĄCY, TRYB_POD_SPÓJNIKIEM})
 
 #: Przeczenie jako para: co dochodzi na początek ciała i jaką wartość cechy
 #: ``negacja`` to ciało wypuszcza. Para, bo obie strony powstają razem: ciało bez
@@ -864,7 +866,7 @@ TRYB_FORMY_NA_Ł = f"{TRYB_OZNAJMUJĄCY}.{TRYB_POD_SPÓJNIKIEM}"
 PRZECZENIA: tuple[tuple[tuple[Part, ...], str], ...] = (((), "aff"), ((PRZECZENIE,), "neg"))
 
 
-def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], str, str]]:
+def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str], str]]:
     """Klasy walencyjne: warunek na lemat, rama i druga pozycja, którą warunek wpuszcza.
 
     Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
