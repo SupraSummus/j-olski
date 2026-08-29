@@ -642,7 +642,8 @@ Zgadywanie odmiany po zakończeniu wyrazu odpada z tego samego powodu:
 Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał (`olski/morph.py`),
 bo czytanie zgadnięte jest czytaniem, którego nikt nie zadeklarował.
 
-Zostaje deklaracja, a zapisuje ją `projekt.txt` w korzeniu repozytorium.
+Zostaje deklaracja, a zapisuje ją sekcja `leksykon` w `olski.toml`
+w korzeniu repozytorium.
 Plik leży tam, a nie w paczce, bo mówi o jednym projekcie:
 `commit`, `Świgra` i `lintować` są słowami tego repozytorium,
 a kto sprawdza własny tekst, ma własne słowa do zadeklarowania.
@@ -656,8 +657,8 @@ i dlatego wolno nim wskazać słowo, które z naszym nie ma nic wspólnego.
 Wskazuje się leksem, a nie lemat,
 bo pod jednym napisem stoi ich kilka i różnią się właśnie odmianą:
 `bat:Sm3~a` ma dopełniacz `bata`, a `bat:Sm3~u` ma `batu`.
-Jeden lemat ma tyle wierszy, ile leksemów mu się należy,
-więc `olski` dostaje tam dwa wiersze, przymiotnik i rzeczownik,
+Jeden lemat ma tyle wpisów, ile leksemów mu się należy,
+więc `olski` dostaje tam dwa wpisy, przymiotnik i rzeczownik,
 tak samo jak `polski` ma w słowniku dwa leksemy.
 
 Przeciw wskazaniu leksemu stała alternacja tematu,
@@ -687,24 +688,24 @@ bo formę wolno poprzedzić przedrostkiem:
 słownik trzyma `niemalowanie` w paradygmacie `malować`,
 więc `lintować` bierze stamtąd `nielintowanie`.
 
-Wiersza nie dostaje angielska nazwa przytoczona w polskim zdaniu.
+Wpisu nie dostaje angielska nazwa przytoczona w polskim zdaniu.
 `Grammatical Framework` i `Semantic Line Breaks` nie mają polskiego paradygmatu,
-więc nie ma czego wskazać i żaden wiersz by ich nie wpuścił;
-`New Yorkera` i `Morfologik` paradygmat mieć mogłyby i wiersza nie mają,
+więc nie ma czego wskazać i żaden wpis by ich nie wpuścił;
+`New Yorkera` i `Morfologik` paradygmat mieć mogłyby i wpisu nie mają,
 bo README pisze je w pozycji listy, a nie w zdaniu, na które czeka jakiś werdykt.
-Plik jest przez to rejestrem tego, co ktoś rozstrzygnął, a nie listą zamkniętą,
-i słowo bez wiersza wraca jako `ign`, czyli tak samo jak przed tym plikiem.
+Sekcja jest przez to rejestrem tego, co ktoś rozstrzygnął, a nie listą zamkniętą,
+i słowo bez wpisu wraca jako `ign`, czyli tak samo jak przed tą sekcją.
 
-Wiersza nie dostaje też leksem dokładany do napisu, który słownik zna,
-i tym plik ten różni się od `olski/skład/leksemy.py`, który wybiera między leksemami
+Wpisu nie dostaje też leksem dokładany do napisu, który słownik zna,
+i tym sekcja ta różni się od `olski/skład/leksemy.py`, który wybiera między leksemami
 słownika ([sklad.md](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)).
 Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
 a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego, czyli czym innym.
-Wiersz na taki leksem dokłada czytanie formie, którą słownik już czyta,
-więc łamie własność całego pliku:
+Wpis na taki leksem dokłada czytanie formie, którą słownik już czyta,
+więc łamie własność całej sekcji:
 ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
-Ta połowa klasy zostaje przez to poza tym plikiem, a ruch trzyma [TODO.md](../TODO.md).
+Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma [TODO.md](../TODO.md).
 
 Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,
 czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
@@ -712,6 +713,95 @@ oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
 ([sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
 a ruch trzyma [TODO.md](../TODO.md).
+
+## Słownictwo projektu orzeka o lemacie w obie strony
+
+[Wykluczenie słownikowe](#the-dictionary-offers-readings-polish-does-not)
+mówi o sobie, że odbiera czytania, których polszczyzna nie ma.
+Mówi tak o `do` czytanym jako nuta i o `mi` czytanym tak samo,
+a o `go` czytanym jako gra tak nie mówi:
+`Go jest grą.` jest polszczyzną, a olski tego zdania nie wyprowadza,
+bo `go` traci czytanie rzeczownikowe i podmiotu nie ma z czego zbudować.
+Kryterium jest więc zakładem o rejestr:
+dobrym tam, gdzie o grze nikt nie pisze, i fałszywym w tekście o grze.
+
+Zakład zostaje domyślnością, bo rejestr, dla którego olski powstaje, o grze nie pisze,
+a projekt, którego rejestr wygląda inaczej, uchyla go u siebie.
+Deklarację zapisuje sekcja `lematy` w `olski.toml`, czyli w tym samym pliku,
+który niesie [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+Plik jest jeden, bo projekt jest jedną rzeczą:
+dwa żądałyby dwóch odpowiedzi na pytanie, gdzie projekt się zaczyna,
+i rozjechałyby się na pierwszym, który stoi wyżej od drugiego.
+
+Kierunki są dwa i różni je to, po której stronie wykluczenia stoją.
+
+**`wpuszczane` uchyla wykluczenie na jednym lemacie.**
+Jest to kierunek, którego żąda tekst o grze,
+i sięga on jednego lematu, a nie klasy czytań:
+projekt, który zadeklarował `go`, dalej traci nutę na `do`.
+Kryterium pisane na część mowy albo na samą nieodmienność
+uchylałoby wykluczenie całe.
+
+Kupuje ona mniej, niż wygląda, bo zaimek pokrywa część pozycji tej gry.
+`Zasady go są proste.` wyprowadza się bez deklaracji i wyprowadza raz,
+bo zaimek `go` jest także dopełniaczem, więc przydawkę dopełniaczową
+ta forma niesie i tak.
+Deklaracji trzeba tam, gdzie gra stoi w przypadku, którego zaimek nie ma,
+a jest nim przede wszystkim mianownik: `Go jest trudne.`
+
+Płaci się za to całym czytaniem, bo uchylone jest nieodmienne:
+niesie liczbę `sg.pl` i wszystkie siedem przypadków naraz,
+więc żądaniu przypadka nie odmawia nigdy —
+czyli ma dokładnie tę własność, dla której to wykluczenie powstało.
+`Kierują go na kursy dywersji.` przestaje być przez to jednoznaczne
+w projekcie, który `go` zadeklarował:
+`go` staje w nim podmiotem, a takiego czytania polszczyzna nie ma,
+bo zaimek `go` jest biernikiem i dopełniaczem, a mianownikiem nie bywa.
+Deklaracja kupuje więc zdania o grze w mianowniku
+i sprzedaje jednoznaczność zdań z zaimkiem,
+a co przeważa, mówi pomiar nad tym tekstem, a nie ten dokument.
+
+**`pomijane` odbiera lematowi czytania w całym projekcie.**
+Jest to kierunek dla lematu, po który wykluczenie sięgnąć nie może:
+`soba` odmienia się przez przypadki,
+więc kryterium nieodmienności do niej nie dochodzi,
+a `sobie` i `sobą` są w prozie technicznej zaimkiem i niczym więcej.
+Znamienia formalnego, które by ją od zaimka odróżniło, nie ma,
+więc nie ma tu czego wyprowadzić i zostaje deklaracja.
+Krawędź wolno temu kierunkowi opróżnić,
+tak samo jak wolno [formie przyimkowej zaimka](#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą):
+projekt, który mówi, że słowa nie używa, mówi to także o zdaniu,
+w którym stoi ono samo, i werdykt nazywa wtedy formę bez licencji.
+
+Oba kierunki są warunkami w `olski/segmentacja.py`, a nie produkcjami:
+wykluczenie orzeka o formie, a nie o zdaniu,
+i deklaracja projektu orzeka o tej samej formie.
+
+Poza ceną, którą płaci deklarujący, mechanizm ten kosztuje osobno.
+
+Werdykt przestaje być funkcją samego zdania.
+Dwa projekty czytające ten sam napis dostają dwie odpowiedzi,
+a wydruk werdyktu o pliku nie mówi.
+Zaczął to leksykon projektu, który czytania dokłada,
+a ta sekcja je odbiera, więc sięga zdań, które wyprowadzały się przedtem.
+
+Liczby, które mierzą to wykluczenie —
+[ile kupuje i ile kosztuje](corpus.md#what-morphological-ambiguity-costs) —
+są odtąd liczbami przy deklaracji pustej.
+Repozytorium to ma sekcję `lematy` pustą i po to ją ma wypisaną:
+liczby te odtwarza się jego przebiegiem bez zastrzeżeń,
+a projekt z deklaracją mierzy co innego i nie ma tego z czym porównać.
+
+Lista pisana ręką rośnie o każdy lemat, który ktoś zauważy,
+i tym różni się od kryterium, które broni się samo.
+Cena ta jest tu jednak zapłacona świadomie:
+kryterium na `soba` [zmierzono i odrzucono](#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)
+wraz z każdym innym, które szło dalej niż dzisiejsze.
+
+Poza deklaracją zostaje warunek pytający o sąsiada.
+Forma przyimkowa zaimka i cząstka zwrotna tracą czytanie przez to, gdzie stoją,
+a nie przez to, czym są, więc lemat o nich nie orzeka
+i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
 
 ## What the grammar covers
 

@@ -509,7 +509,7 @@ i rozstrzyga, czy `olski-check` jest bliższy sondzie, czy dawnej komendzie.
 Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,
 i wtedy, gdy je ma, a nie sięga po nie żadna produkcja;
-pierwsze naprawia wiersz w `projekt.txt`
+pierwsze naprawia wpis w `olski.toml`
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
 a drugie produkcja w `olski/subset.py`.
 Trzecie jest formą, której czytania zdjęła morfologia:
@@ -2290,12 +2290,14 @@ w `olski/segmentacja.py`
 ([`docs/subset.md`](docs/subset.md#the-dictionary-offers-readings-polish-does-not)).
 Kryterium tamtego wykluczenia po ten lemat nie sięga i sięgnąć nie może:
 pyta ono o rzeczownik nieodmienny, a `soba` odmienia się przez przypadki.
-Ruchem jest wykluczenie na lemat, czyli druga lista obok tamtego kryterium,
-i to ona jest tu ceną: kryterium wyprowadzalne broni się samo,
-a lista pisana ręką rośnie o każdy lemat, który ktoś zauważy.
+Mechanizm już stoi — `pomijane` w sekcji `lematy` w `olski.toml`
+([`docs/subset.md`](docs/subset.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)) —
+a nie stoi w nim ani jeden lemat i to jest tu decyzja do podjęcia.
 Do przeczytania jest przedtem, ile takich lematów widać nad bankiem drzew:
 sonda różnicowa zaimka wypisuje zdania tracące jednoznaczność pod żywą
 morfologią i tyle wystarcza, żeby powiedzieć, czy lemat jest jeden, czy jest ich wiele.
+Liczba ta rozstrzyga, czy `soba` idzie do konfiguracji tego repozytorium sama,
+czy razem z listą, która rośnie o każdy lemat, który ktoś zauważy.
 Ten sam lemat trzyma zarazem drugą pozycję poza zasięgiem pomiaru.
 Orzecznika narzędnikowego zaimek zwrotny nie ma, a `Parser jest sobą.` mimo to
 wychodzi jednoznaczne, bo bierze je `soba`,
@@ -2303,6 +2305,39 @@ więc dopisanie tej pozycji zamieniłoby jedno czytanie na dwa,
 a nie odebrałoby odrzucenia.
 Wykluczenie lematu idzie przez to przed pozycją, a nie po niej:
 po nim widać, ile ta pozycja naprawdę kupuje.
+
+Autor nie ma jak zobaczyć, co wykluczenie słownikowe wycięło jego tekstowi.
+Lemat, który przez nie przepadł, nie zostawia po sobie ani wiersza werdyktu:
+`Go jest grą.` melduje zatrzymanie na `grą`, czyli miejsce, w którym gramatyce
+zabrakło podmiotu, a nie to, w którym zabrano czytanie
+([`docs/subset.md`](docs/subset.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)).
+Kierunek `wpuszczane` umie przez to napisać ten, kto już wie, co napisać.
+Ruchem jest wiersz wykazu morfologii o czytaniu zdjętym przez wykluczenie.
+Do przeczytania jest przedtem `_morfologia` w `olski/check.py`,
+bo wykaz ten wypisuje czytania, które do rozbioru weszły,
+a odpowiedzi trzeba tu o czytanie, którego w nim nie ma.
+
+Nie wiadomo, czy `CLOSED_CLASS` ma zostać w kodzie.
+Wykluczenie jest zakładem o rejestr, więc domyślność dostarczana z paczką jako
+konfiguracja byłaby uczciwsza wobec czytelnika werdyktu: projekt nadpisuje ją
+tam, gdzie chce, i widzi ją tak samo jak własną.
+Ceną są dwa pliki zamiast jednego,
+czyli `znajdź` w `olski/konfiguracja.py` przestający być całą regułą szukania.
+Wpis czeka na ten wyżej, bo o cenie rozstrzyga to, czy autor ma już skąd wiedzieć,
+co mu się wycina: kiedy ma, druga droga kupuje samo nadpisywanie.
+
+Deklaracji martwej nie pilnuje nic.
+Lemat wpisany do `wpuszczane`, po który wykluczenie i tak by nie sięgnęło —
+bo słownik nie daje mu czytania nieodmiennego obok klasy zamkniętej —
+nie zmienia ani jednego werdyktu i nie zgłasza się,
+tak samo jak lemat wpisany do `pomijane`, którego słownik nie zna wcale.
+Jest to ta sama klasa, którą po stronie leksykonu łapie świadek
+([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
+i tam wpis zły zgłasza się, a tutaj milczy.
+Ruchem jest check pytający słownik o lemat przy czytaniu konfiguracji.
+Do rozstrzygnięcia jest przedtem cena: `olski/konfiguracja.py` czyta się przy
+imporcie i nie żąda dziś Morfeusza w żadnym trybie,
+a check ten kazałby żądać go każdemu, kto pyta o samą konfigurację.
 
 ## Konstrukcje, których gramatyka nie ma
 
@@ -2621,7 +2656,7 @@ Lematu `olski` Morfeusz nie zna wcale, więc nazwa własna tego języka
 nie stanie w składanym zdaniu w żadnej roli:
 `olski/skład/leksemy.py` wybiera między leksemami, które SGJP ma,
 i sam mówi, że leksem nieznany nie ma ani jednej formy.
-Odmianę tego słowa deklaruje `projekt.txt`, a skład go nie czyta,
+Odmianę tego słowa deklaruje `olski.toml`, a skład go nie czyta,
 i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
 a nie ta pozycja.
 Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
@@ -2654,7 +2689,7 @@ bo część jego wierszy jest polskim zdaniem, a część listą par i liczbą,
 czyli rozstrzygnąć trzeba i to, ile z tego wydruku skład bierze.
 
 Słowo, którego SGJP nie ma, mówi gramatyka i nie mówi go skład.
-`projekt.txt` deklaruje leksem, wedle którego takie słowo się odmienia
+`olski.toml` deklaruje leksem, wedle którego takie słowo się odmienia
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
 a `olski/skład/morfologia.py` pyta o formy sam Morfeusz i tego pliku nie czyta,
 więc `README.py` dalej nie wypuści zdania o olskim.
@@ -2934,7 +2969,7 @@ Ruchem jest ten warunek zapisany raz, w linearyzacji okolicznika,
 wraz z rozstrzygnięciem, czy wpis leksykonu wymienia obie postaci,
 czy jedną, a drugą liczy się z niej.
 
-Leksem dokładany do napisu, który słownik zna, stoi poza `projekt.txt`
+Leksem dokładany do napisu, który słownik zna, stoi poza `olski.toml`
 i jest drugą połową klasy, którą ten plik obsługuje; czym się te dwie różnią,
 trzyma [`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Wiersz na taki leksem — na `agent`, żeby projekt pisał o agentach `agenty` —

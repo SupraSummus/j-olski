@@ -33,8 +33,8 @@ include = ["olski*"]
 #  bez niej warstwa rozstrzygająca milczy, zamiast nie wstać.
 #  Oba mówią o polszczyźnie, więc są te same dla każdego, kto olskiego zainstaluje.
 #  Leksykon projektu tędy nie idzie i dlatego, że mówi o jednym projekcie:
-#  `projekt.txt` leży w katalogu, nad którym olskiego uruchomiono
-#  (`znajdź` w `olski/projekt.py`).
+#  `olski.toml` leży w katalogu, nad którym olskiego uruchomiono
+#  (`znajdź` w `olski/konfiguracja.py`).
 [tool.setuptools.package-data]
 olski = ["leksykon.txt", "skłonności.txt"]
 

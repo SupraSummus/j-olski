@@ -47,11 +47,11 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: looking live, exactly as a renamed section leaves a link looking live.
 #: Strona witryny stoi tu obok modułów, bo dokument nazywa jej pliki tak samo,
 #: a przeglądarka bierze je z tablicy tras i przemianowany daje 404.
-#: Plik danych stojący w korzeniu, a nie w pakiecie: leksykon projektu leży tam,
-#: bo mówi o projekcie, a nie o polszczyźnie (``olski/projekt.py``). Nazwany
-#: wprost, bo wzorzec na samą nazwę pliku łapałby każde `plik.txt` z bloku
-#: polecenia.
-W_KORZENIU = "projekt.txt"
+#: Plik danych stojący w korzeniu, a nie w pakiecie: konfiguracja projektu leży
+#: tam, bo mówi o projekcie, a nie o polszczyźnie (``olski/konfiguracja.py``).
+#: Nazwany wprost, bo wzorzec na samą nazwę pliku łapałby każde `plik.toml`
+#: z bloku polecenia.
+W_KORZENIU = r"olski\.toml"
 CITED_PATH = re.compile(
     r"`((?:olski|harness|tests|opowieści|próba|witryna)"
     r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt|html|css|js)"

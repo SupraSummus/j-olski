@@ -3,23 +3,22 @@
 Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał
 (``olski/morph.py``), więc ``commitów`` wraca jako ``ign``
 i nie bierze go ani jedna produkcja.
-Odmianę takiego słowa deklaruje ``projekt.txt`` wierszem o trzech kolumnach,
+Odmianę takiego słowa deklaruje sekcja ``leksykon`` konfiguracji projektu
+wpisem o trzech polach (``olski/konfiguracja.py``),
 a docs/subset.md wywodzi, czemu deklaracja, czemu wskazanie leksemu
 zamiast listy form i co to kosztuje.
-Plik ten należy do projektu, nad którym olskiego uruchomiono, a nie do paczki,
-i szuka się go od katalogu roboczego w górę (:func:`znajdź`).
 
-Odmianę wydaje z takiego wiersza sam słownik.
+Odmianę wydaje z takiego wpisu sam słownik.
 Temat wzorca podmienia się na temat naszego słowa, a granicę między tematem
 i końcówką wycina to, na czym formy wzorca przestają się zgadzać
 (:func:`_granica`), więc alternację niesie wzorzec:
 ``bat`` ma ``bacie``, a ``commit`` bierze stamtąd i ``commitach``, i ``commicie``.
 Wzorzec alternujący inaczej niż nasze słowo spełnia przy tym warunek na końcówkę
 i wydaje formę fałszywą — ``pies`` dałby dla ``bies`` dopełniacz ``bsa`` —
-i po to jest trzecia kolumna, czyli forma, którą wzorzec ma wydać:
+i po to jest trzecie pole, czyli forma, którą wzorzec ma wydać:
 :func:`odmiana` sprawdza ją, zamiast zostawić pomyłkę w ciszy.
 
-Wpisy czyta się przy imporcie, a formy liczy się przy pierwszym pytaniu,
+Deklaracje te czyta się przy imporcie, a formy liczy się przy pierwszym pytaniu,
 i różni je cena: wpisy stoją w pliku,
 a formy żądają Morfeusza w trybie syntezy,
 którego sama analiza tekstu nie potrzebuje do niczego.
@@ -34,36 +33,15 @@ Skład go nie czyta i o tym, co mu z tego zostaje, mówi ``TODO.md``.
 from __future__ import annotations
 
 import functools
+from collections.abc import Mapping
 from dataclasses import replace
-from pathlib import Path
-from typing import NamedTuple
+from typing import Any, NamedTuple
 
+from olski.konfiguracja import LEKSYKON, ZłaKonfiguracja, sekcja
 from olski.morph import Reading, Segment, generuj, tag
 
-#: Nazwa pliku, w którym projekt deklaruje swoje słowa.
-NAZWA = "projekt.txt"
-
-
-def znajdź(skąd: Path | None = None) -> Path | None:
-    """Leksykon projektu, w którym olskiego uruchomiono; ``None``, gdy go nie ma.
-
-    Szuka się go od katalogu roboczego w górę, tak samo jak szuka się
-    ``.editorconfig`` albo ``pyproject.toml``, bo wpisy mówią o jednym projekcie
-    i o żadnym innym: `commit` i `Świgra` należą do tego repozytorium,
-    a kto sprawdza własny tekst, deklaruje własne słowa.
-    Wewnątrz paczki plik ten nie stoi i stać nie może:
-    zainstalowany olski jest wtedy jeden dla wszystkich projektów naraz.
-
-    Braku pliku nie zgłasza się, bo brak jest stanem zwykłym.
-    Słowo, którego SGJP nie ma, wraca wtedy jako ``ign``,
-    czyli tak samo jak przed dopisaniem mu wiersza (docs/subset.md).
-    """
-    katalog = (skąd or Path.cwd()).resolve()
-    for miejsce in (katalog, *katalog.parents):
-        kandydat = miejsce / NAZWA
-        if kandydat.is_file():
-            return kandydat
-    return None
+#: Klucz sekcji ``leksykon``, pod którym stoją wpisy.
+WPISY_KLUCZ = "wpisy"
 
 #: Część mowy, którą słownik daje skrótowi: ``tel`` stoi pod lematem ``telefon``.
 #: Formą paradygmatu skrót nie jest — jest napisem uciętym — a wycina granicę
@@ -72,12 +50,12 @@ SKRÓT = "brev"
 
 
 class ZłyWpis(Exception):
-    """Wiersz leksykonu, z którego nie wychodzi odmiana, którą on obiecuje.
+    """Wpis leksykonu, z którego nie wychodzi odmiana, którą on obiecuje.
 
     Wyjątek, a nie forma pominięta, bo każda przyczyna jest usterką w pliku
     pisanym ręką: leksem, którego słownik nie ma, paradygmat o dwóch tematach,
     końcówka, której nasz lemat nie ma, i świadek, którego wzorzec nie wydaje.
-    Ruch po zgłoszeniu jest za każdym razem ten sam, czyli poprawiony wiersz,
+    Ruch po zgłoszeniu jest za każdym razem ten sam, czyli poprawiony wpis,
     i dlatego klasa jest jedna.
     """
 
@@ -96,27 +74,31 @@ class Wpis(NamedTuple):
     świadek: str
 
 
-def _czytaj(path: Path) -> tuple[Wpis, ...]:
-    """Leksykon jako wpisy, w kolejności, w jakiej plik je wypisuje.
+def czytaj(dane: Mapping[str, Any]) -> tuple[Wpis, ...]:
+    """Leksykon jako wpisy, w kolejności, w jakiej konfiguracja je wypisuje.
 
     Kluczem nic tu nie jest, bo pytanie idzie o formę, a nie o lemat,
     a jeden lemat ma tyle wpisów, ile leksemów mu się należy:
     ``olski`` jest i przymiotnikiem, i rzeczownikiem, tak jak ``polski``.
     """
     wpisy = []
-    for wiersz in path.read_text(encoding="utf-8").splitlines():
-        if wiersz.startswith("#") or not wiersz.strip():
-            continue
-        lemat, wzorzec, świadek = wiersz.split("\t")
-        wpisy.append(Wpis(lemat=lemat, wzorzec=wzorzec, świadek=świadek))
+    for numer, wpis in enumerate(dane.get(WPISY_KLUCZ, []), start=1):
+        # Liczba pól wychodzi z samej klasy, więc pole dopisane do niej nie
+        # zostawia tu warunku, który przepuszcza wpis bez tego pola.
+        if not isinstance(wpis, list) or len(wpis) != len(Wpis._fields):
+            raise ZłaKonfiguracja(
+                f"sekcja {LEKSYKON}, wpis {numer}: "
+                f"wpisem jest lemat, leksem i świadek, a nie {wpis!r}"
+            )
+        if not all(isinstance(pole, str) for pole in wpis):
+            raise ZłaKonfiguracja(f"sekcja {LEKSYKON}, wpis {numer}: pola są napisami")
+        wpisy.append(Wpis(*wpis))
     return tuple(wpisy)
 
 
 #: Wpisy leksykonu tego projektu, przeczytane przy imporcie.
-#: Pusta krotka znaczy projekt bez leksykonu i jest odpowiedzią zwykłą
-#: (:func:`znajdź`).
-PROJEKT = znajdź()
-WPISY = _czytaj(PROJEKT) if PROJEKT else ()
+#: Pusta krotka znaczy projekt bez tej sekcji i jest odpowiedzią zwykłą.
+WPISY = czytaj(sekcja(LEKSYKON, (WPISY_KLUCZ,)))
 
 
 @functools.cache

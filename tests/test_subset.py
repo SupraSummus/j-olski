@@ -1391,7 +1391,7 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     #  więc test pilnuje, żeby zdania zostały dwa.
     #
     #  Formą jest tu nazwa obca, a nie `commitów`, bo słowo, które leksykon
-    #  projektu nazywa, ma czytania i licencję (`projekt.txt`), więc
+    #  projektu nazywa, ma czytania i licencję (`olski.toml`), więc
     #  odpowiedź pierwszą pokazuje dopiero forma spoza tego leksykonu.
     forma = verdict("Modele stawiają prozę wyżej od New Yorkera.")
     assert forma.nielicencjonowane == ("Yorkera",)
