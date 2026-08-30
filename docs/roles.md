@@ -248,7 +248,7 @@ Ta rola różni się od pozostałych trzema rzeczami, które robią jej całą d
 Przychodzi za każdym razem na zimno.
 [Nie widzi innych sesji](../CLAUDE.md#splitting-work-across-sessions).
 Dostaje klon,
-[który kłamie o historii](../CLAUDE.md#git-in-remote-sessions-history-is-truncated-or-stale).
+[który pokazuje historię obciętą albo nieświeżą](../CLAUDE.md#git-w-sesji-zdalnej).
 
 **Psuje ją** konwencja, która istnieje tylko w komunikacie commita
 albo w pamięci innej sesji.
