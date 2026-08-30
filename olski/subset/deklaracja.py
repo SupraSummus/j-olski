@@ -56,7 +56,7 @@ ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 #: Symbol jest osobny od :data:`ORZECZENIE_RZECZOWNIKOWE`, bo tamten czyni zdaniem każdą swoją
 #: córkę, a tutaj czyni je dopiero łącznik stojący za tą grupą; czemu grupa ta
 #: nie jest podmiotem, mówi
-#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
 ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 
 

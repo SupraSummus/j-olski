@@ -140,18 +140,44 @@ def _szyki_zdania_składowego(
         "zdanie_składowe", [Głowa(nt(ORZECZENIE_RZECZOWNIKOWE)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
     )
 
-    # Zdanie z łącznikiem: `Flaga to płat tkaniny.` Czasownika ono nie ma, a które
-    # z dwóch grup jest podmiotem, rozstrzygnął pomiar wobec banku drzew:
-    # docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+    # Zdanie z łącznikiem: `Flaga to płat tkaniny.`, `Parser to nie kompilator.`
+    # Czasownika ono nie ma, a które z dwóch grup jest podmiotem, rozstrzygnął
+    # pomiar wobec banku drzew:
+    # docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
     #
     # Zgodności ciało nie żąda i nie ma czego zgadzać: `Lata dziewięćdziesiąte to
     # okres rozwoju.` różni się w liczbie po obu stronach łącznika.
+    #
+    # Wartości cechy `negacja` ciało z cząstką nie wypuszcza, choć reszta gramatyki
+    # wypuszcza ją razem z cząstką (:data:`PRZECZENIA`): czyta tę cechę dopełnienie,
+    # a dopełnienia zdanie z łącznikiem nie bierze.
+    for przeczenie, _ in PRZECZENIA:
+        grammar.rule(
+            "zdanie_składowe",
+            [nt(ORZECZNIK_ŁĄCZNIKA), Głowa(ŁĄCZNIK), *przeczenie, podmiot],
+            tryb=TRYB_OZNAJMUJĄCY,
+        )
+    grammar.rule(ORZECZNIK_ŁĄCZNIKA, [nt("grupa_imienna", case="nom")])
+
+    # Ten sam łącznik przy formie osobowej kopuli, w trzech szykach: `Był to
+    # nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.`
+    # Przeczenie wchodzi tymi ciałami samo, bo cząstka stoi przy czasowniku.
+    #
+    # Kopula zgadza się tu z podmiotem, czyli z grupą za łącznikiem, i dopiero to
+    # rozstrzyga stronę, której ciało wyżej nie miało czym rozstrzygnąć.
+    # Czasownik dowolny dałby przy tym drugie czytanie zdaniu `Czytał to nieforemny
+    # chłopak.`, w którym `to` jest dopełnieniem, i to żądanie narzędnika je odsiewa.
+    # Narzędnik przy kopuli nie stoi, bo rama jest stanem, a nie zasobem,
+    # więc pozycja niewypełniona córki nie żąda.
+    #
+    # Ciała są trzy, a nie jedno z pozycją opuszczalną, bo cena każdego szyku jest
+    # osobną liczbą (CLAUDE.md#code); ile który kupił, mówi dokument wyżej.
+    grammar.rule("zdanie_składowe", [Głowa(kopula), ŁĄCZNIK, podmiot])
+    grammar.rule("zdanie_składowe", [ŁĄCZNIK, Głowa(kopula), podmiot])
     grammar.rule(
         "zdanie_składowe",
-        [nt(ORZECZNIK_ŁĄCZNIKA), Głowa(ŁĄCZNIK), podmiot],
-        tryb=TRYB_OZNAJMUJĄCY,
+        [nt(ORZECZNIK_ŁĄCZNIKA), ŁĄCZNIK, Głowa(kopula), podmiot],
     )
-    grammar.rule(ORZECZNIK_ŁĄCZNIKA, [nt("grupa_imienna", case="nom")])
 
     # Głowa, która orzeka bez podmiotu: predykatyw i forma nieosobowa czasownika.
     # Rama i `wypełnienia` są u obu te same, co u czasownika, a różni je to, skąd

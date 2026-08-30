@@ -2393,13 +2393,52 @@ def test_łącznik_czyni_podmiotem_grupę_za_sobą_a_orzecznikiem_tę_przed_sob�
     #  Obie grupy stoją w mianowniku, więc unifikacja nie odróżnia stron i wybiera
     #  o tym samo ciało. Bank drzew stawia podmiot za łącznikiem, a wariant
     #  odwrotny przyjmuje te same zdania, czytając je niezgodnie z drzewem
-    #  wzorcowym (docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim),
+    #  wzorcowym (docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim),
     #  czyli usterka ta jest po wydruku niewidoczna wszędzie poza tą linią.
     found = verdict("Flaga to płat tkaniny określonego kształtu.")
     assert found.status == "valid", found.explain()
     [(reading,)] = found.readings
     assert reading["podmiot"] == "płat tkaniny określonego kształtu", found.explain()
     assert reading[ORZECZNIK_ŁĄCZNIKA] == "Flaga", found.explain()
+
+
+def test_kopula_łącznika_zgadza_się_z_podmiotem_za_nim_a_nie_z_grupą_przed_łącznikiem():
+    #  Usterka, którą to łapie: zgodność związana z grupą przed łącznikiem. Ciało
+    #  bezczasownikowe zgodności nie żąda i żądać nie może, bo `Lata
+    #  dziewięćdziesiąte to okres rozwoju.` różni się liczbą po obu stronach, więc
+    #  strona zgodności rozstrzyga się dopiero tutaj i po wydruku jej nie widać:
+    #  oba warianty przyjmują `Kot to jest zwierzę.` i różnią się na tej parze.
+    zgodne = verdict("Te książki to jest skarb.")
+    assert zgodne.status == "valid", zgodne.explain()
+    [(reading,)] = zgodne.readings
+    assert reading["podmiot"] == "skarb", zgodne.explain()
+    assert reading[ORZECZNIK_ŁĄCZNIKA] == "Te książki", zgodne.explain()
+
+    niezgodne = verdict("Te książki to są skarb.")
+    assert niezgodne.status == "rejected", niezgodne.explain()
+
+
+def test_łącznik_przy_formie_osobowej_żąda_kopuli_a_nie_czasownika_każdego():
+    #  Usterka, którą to łapie: ciało napisane na `orzeczenie` bez żądania kopuli.
+    #  `to` jest wtedy łącznikiem przy każdym czasowniku, więc `Czytał to
+    #  nieforemny chłopak.` dostaje drugie czytanie, w którym `to` nie jest
+    #  dopełnieniem, a polszczyzna ma tu jedno.
+    found = verdict("Czytał to nieforemny chłopak.")
+    assert found.status == "valid", found.explain()
+    [(reading,)] = found.readings
+    assert reading["dopełnienie"] == "to", found.explain()
+
+
+def test_przeczenie_stoi_przy_łączniku_i_bez_czasownika_i_z_czasownikiem():
+    #  Usterki, które to łapie, są dwie i leżą po przeciwnych stronach. Ciało bez
+    #  czasownika napisane bez cząstki gubi zdanie drugie. Ciało dopisane cząstce
+    #  przy kopuli, choć ta bierze ją sama, czyni zdanie pierwsze wieloznacznym,
+    #  bo `valid` znaczy tu jedno czytanie, a nie jakiekolwiek.
+    z_czasownikiem = verdict("Parser to nie jest kompilator.")
+    assert z_czasownikiem.status == "valid", z_czasownikiem.explain()
+
+    bez_czasownika = verdict("Parser to nie kompilator.")
+    assert bez_czasownika.status == "valid", bez_czasownika.explain()
 
 
 def test_łącznik_żąda_lematu_a_nie_samej_części_mowy():

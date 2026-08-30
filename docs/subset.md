@@ -421,9 +421,14 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną))
 - Łącznik `to` między dwiema grupami w mianowniku, czyli drugie zdanie bez czasownika:
-  `Flaga to płat tkaniny określonego kształtu.`
+  `Flaga to płat tkaniny określonego kształtu.`, `Parser to nie kompilator.`
   Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim))
+- Ten sam łącznik przy formie osobowej kopuli, w trzech szykach:
+  `Był to nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.`
+  Kopula zgadza się tu z podmiotem stojącym za łącznikiem,
+  a przeczenie wchodzi tymi ciałami samo: `Parser to nie jest kompilator.`
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot))
 - Przysłówek u trzech gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
@@ -834,12 +839,13 @@ Every one of these is a sentence that gets rejected and should not be:
   [cyfry olski nie bierze](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
   z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
-- `to` as a copula.
-  `Kot to zwierzę.` is rejected where `Kot jest zwierzęciem.` derives,
-  and the form heads two of the rows
-  [corpus.md](corpus.md#where-the-analyses-stop) ranks,
-  one of predicatives and one of nominal pronouns,
-  which is the ambiguity admitting it has to survive.
+- Przeczenie przy łączniku `to`, w zdaniu bez czasownika i bez grupy przed łącznikiem:
+  `To nie kot.` jest odrzucone,
+  gdzie `Parser to nie kompilator.` wyprowadza się
+  i gdzie `To nie są oczywistości.` też
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
+  Pozycja jest osobnym ciałem i osobną liczbą, której nikt nie policzył;
+  `TODO.md` trzyma ten przebieg.
 - Narzędnik bez przyimka wysunięty przed zdanie:
   `Wieczorem wziął lustro.` jest odrzucone,
   gdzie `Wziął lustro wieczorem.` wyprowadza się.
