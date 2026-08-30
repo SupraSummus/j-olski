@@ -101,6 +101,17 @@ IMIESŁÓW = "AdverbialParticiple"
 #: i dlatego pisze je jedna pętla.
 CZĄSTKOWY = "Particle"
 
+#: Rola okoliczności wyrażonej narzędnikiem bez przyimka:
+#: `deskami` w `Mieszczanie zabili okna deskami.`, `Wieczorem`, `czasem`, `ręką`.
+#: Symbol jest osobny od :data:`PRZYSŁÓWKOWY`, choć pozycję ma tę samą, bo cena
+#: tej pozycji ma być osobną liczbą, a sonda mierzy zdjęciem ciał
+#: (CLAUDE.md#code); pod jednym symbolem zdjęcie zabrałoby obie naraz.
+#: Od orzecznika narzędnikowego różni ją to, kto jej udziela licencji:
+#: orzecznika żąda ramą kopula, a okolicznik stoi przy każdym czasowniku
+#: i przy żadnym nie wypełnia pozycji
+#: (docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
+NARZĘDNIKOWY = "InstrumentalAdjunct"
+
 #: Rola wtrącenia w nawiasie: `(docs/subset.md)`, `(niżej)`.
 #: Rolą zdania jest samo wtrącenie, a nie to, co ono niesie,
 #: bo nawias dopowiada, a nie wypełnia pozycji:
@@ -217,6 +228,7 @@ DEKLARACJA = Deklaracja(
         BEZOSOBOWY,
         PRZYSŁÓWKOWY,
         CZĄSTKOWY,
+        NARZĘDNIKOWY,
         SPÓJNIKOWY,
         OKOLICZNIKOWY,
         PYTAJNY,
@@ -242,6 +254,7 @@ DEKLARACJA = Deklaracja(
         PRZYŁĄCZANY,
         PRZYSŁÓWKOWY,
         CZĄSTKOWY,
+        NARZĘDNIKOWY,
         SPÓJNIKOWY,
         OKOLICZNIKOWY,
         WTRĄCONY,
@@ -780,6 +793,30 @@ def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
     """
     return {"liczba_zaimka": liczba, "rodzaj_zaimka": rodzaj}
+
+
+#: Czy ten czasownik żąda orzecznika w narzędniku, czyli czy jest kopulą.
+#:
+#: Cecha powtarza to, co mówi rama (:data:`KOPULA`), i stoi obok niej dlatego,
+#: że rama jest zbiorem, a unifikacja go przecina: żądanie umie wypisać `inst`
+#: i wpuścić kopulę, a żądania odwrotnego nie ma jak wypisać.
+#: Wartość :data:`KOPULARNY` jest przez to nośna, choć nie żąda jej ani jedno
+#: ciało: bez niej produkcje kopuli tej cechy nie niosą wcale,
+#: a cechy nieobecnej unifikacja nie sprawdza, więc żądanie przeszłoby i przy niej.
+#: Para taka jest w tej gramatyce zwykłym sposobem na powiedzenie „nie”
+#: — tak samo stoją :data:`BEZ_CZOŁA`, :data:`BEZ_DOSTAWKI` i :data:`BEZ_CIĄGU` —
+#: a czemu warunek ujemny nie wchodzi do samej unifikacji, wywodzi
+#: docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
+#:
+#: Żądają jej dwa ciała i oba są zdaniem, w którym przy czasowniku nie stoi
+#: żadne wypełnienie ramy (``build``): orzeczenie z samego czasownika oraz
+#: wypełnienie złożone z samych okoliczników. Kopula w takim zdaniu nie stoi,
+#: bo orzeka zawsze coś o czymś, a wpuszczona dałaby drugie czytanie każdemu
+#: zdaniu, w którym orzeka narzędnikiem (:data:`NARZĘDNIKOWY`).
+#: Cenę i zakup tego żądania trzyma
+#: docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+KOPULARNY = "jest"
+BEZ_KOPULI = "brak"
 
 
 #: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
@@ -1385,7 +1422,7 @@ NIE_WYPUSZCZANE = {
     "ClauseConjunct": ("number", "gender", "person", "valency", "negacja", "druga", "dostawka"),
     "Clause": ("dostawka",),
     "Verb": ("aspect",),
-    "Predicate": ("valency", "negacja", "druga"),
+    "Predicate": ("valency", "negacja", "druga", "kopula"),
     ORZECZENIE_ODWRÓCONE: ("valency", "negacja", "druga"),
     **{rodzina.rdzeń: ("person", "valency", "negacja") for rodzina in RODZINY},
     OKOLICZNIKOWY: ("tryb", "valency", "negacja", "druga"),
@@ -1395,7 +1432,7 @@ NIE_WYPUSZCZANE = {
     "Predicative": ("case",),
     "Modifier": ("case",),
     **{rodzina.modyfikator: ("case",) for rodzina in RODZINY},
-    "Complements": ("czoło",),
+    "Complements": ("czoło", "kopula"),
     "NPConjunct": ("accommodability",),
 }
 
@@ -1595,7 +1632,8 @@ def build() -> Grammar:
     # który by trybu nie przepuścił, przepuściłby pod taki spójnik każdy tryb.
     podmiot = nt("Subject", number=V("n"), gender=V("g"), person=V("p"), czoło=BEZ_CZOŁA)
     orzeczenie = nt("Predicate", number=V("n"), gender=V("g"), person=V("p"), tryb=V("t"))
-    czasownik = nt("Verb", number=V("n"), gender=V("g"), person=V("p"), tryb=V("t"))
+    cechy_zdania = {"number": V("n"), "gender": V("g"), "person": V("p"), "tryb": V("t")}
+    czasownik = nt("Verb", **cechy_zdania)
     okoliczniki = nt("Adjuncts")
 
     # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
@@ -1608,16 +1646,13 @@ def build() -> Grammar:
     # jakim przeczeniu stoi. Zgodnością to nie jest — rządzenie nie jest ani
     # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
     # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
-    czasownik_ramy = nt(
-        "Verb",
-        number=V("n"),
-        gender=V("g"),
-        person=V("p"),
-        valency=V("w"),
-        negacja=V("z"),
-        druga=V("d"),
-        tryb=V("t"),
-    )
+    cechy_ramy = {**cechy_zdania, "valency": V("w"), "negacja": V("z"), "druga": V("d")}
+    czasownik_ramy = nt("Verb", **cechy_ramy)
+    # Ten sam czasownik wraz z cechą, którą stawia mu wypełnienie
+    # (:data:`BEZ_KOPULI`). Węzeł jest osobny, bo cechy tej żąda jedno ciało
+    # z kilku, w których tamten stoi, a wypisana w nim wszędzie byłaby zmienną,
+    # której w pozostałych nikt nie wiąże.
+    czasownik_kopuli = nt("Verb", **cechy_ramy, kopula=V("k"))
     dopełnienie = nt("Object", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
     orzecznik_ramy = nt(
         "Predicative", number=V("n"), gender=V("g"), valency=V("w"), czoło=BEZ_CZOŁA
@@ -1899,6 +1934,12 @@ def build() -> Grammar:
         "ClauseConjunct",
         [nt("Modifier"), Głowa(nt("ClauseConjunct", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
     )
+    # Okolicznik narzędnikowy tej pozycji nie dostaje, choć polszczyzna go tu
+    # stawia — `Wieczorem wziął lustro.` — bo grupa wysunięta jest wtedy jedyną
+    # grupą przed czasownikiem, tak samo jak w szyku od czasownika i w zdaniu
+    # o opuszczonym podmiocie. Rozdziela te czytania morfologia, a nie struktura,
+    # więc produkcja nie ma czego zażądać; pomiar odmowny trzyma
+    # docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
         grammar.rule(
             "ClauseConjunct",
@@ -1994,9 +2035,16 @@ def build() -> Grammar:
         valency=V("w"),
         negacja=V("z"),
         druga=V("d"),
+        kopula=V("k"),
     )
-    grammar.rule("Predicate", [czasownik])
-    grammar.rule("Predicate", [Głowa(czasownik_ramy), dopełnienia])
+    # Orzeczenie z samego czasownika: `Świeca zgasła.`, `Córka krawca nie wróciła.`
+    # Kopula stoi poza nim, więc `Parser jest.` się nie wyprowadza
+    # (:data:`BEZ_KOPULI`).
+    grammar.rule("Predicate", [nt("Verb", **cechy_zdania, kopula=BEZ_KOPULI)])
+    # Ta sama cecha idzie tu zmienną wspólną, bo żąda jej wypełnienie, a nie ta
+    # produkcja: ciało z samymi okolicznikami ogłasza wartość, a każde ciało
+    # z wypełnieniem milczy i zostawia zmienną wolną (`Complements` niżej).
+    grammar.rule("Predicate", [Głowa(czasownik_kopuli), dopełnienia])
 
     # To samo orzeczenie z dopełnieniem przed czasownikiem: `kto go nie używa`,
     # `która to wszystko napędza`. Symbol jest osobny od `Predicate`, a nie drugim
@@ -2253,7 +2301,16 @@ def build() -> Grammar:
             [okoliczniki, Głowa(wypełnienie), okoliczniki],
         ):
             grammar.rule("Complements", ciało)
-    grammar.rule("Complements", [okoliczniki])
+
+    # Same okoliczniki, czyli czasownik, który pozycji ramy nie wypełnia niczym:
+    # `Mieszczanie zabili okna deskami.` ma tu `deskami`, a `Rachunek zwraca się
+    # dotąd.` ma `dotąd`.
+    #
+    # Wartość cechy przychodzi z listy, a nie stoi tu wypisana, bo kopulę zamyka
+    # sam narzędnik w tej liście, a nie każdy okolicznik (:data:`BEZ_KOPULI`):
+    # `Parser jest narzędziem.` ma odtąd jedno czytanie,
+    # a `Cena jest gdzie indziej.` nie traci swojego.
+    grammar.rule("Complements", [nt("Adjuncts", kopula=V("k"))], kopula=V("k"))
 
     # Druga pozycja ramy: dopełnienie w celowniku obok wypełnienia, które pozycję
     # ramy zajmuje. `Parser pokazuje autorowi oba czytania.`, `Parser mówi
@@ -2307,11 +2364,20 @@ def build() -> Grammar:
     # Cząstka stoi w tej liście obok przysłówka, bo pozycję w zdaniu ma tę samą, i
     # dlatego oba wypisuje jedna pętla; rolą jest przy tym każde z nich osobno,
     # bo cząstka przysłówkiem nie jest (:data:`CZĄSTKOWY`).
+    #
+    # Cechę `kopula` wypuszcza ta lista stamtąd, gdzie stoi w niej okolicznik
+    # narzędnikowy, i tylko stamtąd (:data:`BEZ_KOPULI`). Ogon niesie ją zmienną
+    # wspólną, bo okolicznik ten bywa w liście drugi: `zwraca się dotąd ręką`.
+    ogon = nt("Adjuncts", kopula=V("k"))
     grammar.rule("Adjuncts", [nt("Modifier")])
-    grammar.rule("Adjuncts", [Głowa(nt("Modifier")), okoliczniki])
+    grammar.rule("Adjuncts", [Głowa(nt("Modifier")), ogon], kopula=V("k"))
     for przy_zdaniu in (PRZYSŁÓWKOWY, CZĄSTKOWY):
         grammar.rule("Adjuncts", [nt(przy_zdaniu)])
-        grammar.rule("Adjuncts", [Głowa(nt(przy_zdaniu)), okoliczniki])
+        grammar.rule("Adjuncts", [Głowa(nt(przy_zdaniu)), ogon], kopula=V("k"))
+    # Ogona te dwa ciała nie pytają o nic, bo wartość ogłaszają same i ogłaszają ją
+    # niezależnie od tego, co stoi w liście za nimi.
+    grammar.rule("Adjuncts", [nt(NARZĘDNIKOWY)], kopula=BEZ_KOPULI)
+    grammar.rule("Adjuncts", [Głowa(nt(NARZĘDNIKOWY)), okoliczniki], kopula=BEZ_KOPULI)
 
     # Spójnik wewnętrzny wchodzi tą samą listą i tyle wystarcza, żeby stanął tam,
     # gdzie go polszczyzna stawia: miejsce na okolicznik wylicza się za każdą
@@ -2320,7 +2386,7 @@ def build() -> Grammar:
     # także czoło, a czoło dałoby `Cena jest niska, więc gramatyka jest tania.`
     # drugie czytanie tego samego kształtu.
     grammar.rule("Adjuncts", [nt(SPÓJNIKOWY)])
-    grammar.rule("Adjuncts", [Głowa(nt(SPÓJNIKOWY)), okoliczniki])
+    grammar.rule("Adjuncts", [Głowa(nt(SPÓJNIKOWY)), ogon], kopula=V("k"))
 
     # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
@@ -2336,6 +2402,27 @@ def build() -> Grammar:
         czoło=BEZ_CZOŁA,
     )
     grammar.rule("Predicative", [nt("NP", case="inst")], valency="inst", czoło=BEZ_CZOŁA)
+
+    # Liczebnik orzekający, czyli zdanie mówiące, ile czegoś jest: `Tory są dwa.`,
+    # `Konstrukcje są trzy.` Pozycja jest orzecznikiem zgodnym, a nie ramą, bo
+    # liczebnik zgadza się z podmiotem tak samo jak przymiotnik nad nim, i dlatego
+    # ta sama para cech idzie zmienną.
+    #
+    # Ciało jest osobne, a nie liczebnikiem wpuszczonym do `AP`, bo tamten symbol
+    # jest zarazem przydawką (`APConjunct` niżej), a liczebnik ma przy rzeczowniku
+    # własne ciała i własne przyłączenie (`NPConjunct` niżej); wpuszczony tam
+    # dałby `dwie rzeczy` drugie wyprowadzenie.
+    #
+    # `congr` stoi tu wartością, bo orzeka sam liczebnik zgodny. Rządzący orzeka
+    # innym zdaniem — `Torów jest dwa.` — którego podmiot stoi w dopełniaczu, a
+    # orzeczenie nie zgadza się z niczym, więc jest to osobne ciało i osobna
+    # liczba; docs/subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest trzyma oba.
+    grammar.rule(
+        "Predicative",
+        [nt("Liczebnik", accommodability="congr", case="nom", number=V("n"), gender=V("g"))],
+        valency="nom",
+        czoło=BEZ_CZOŁA,
+    )
 
     # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
     # to, co mówi ta produkcja.
@@ -2365,6 +2452,7 @@ def build() -> Grammar:
                         valency=rama,
                         negacja=negacja,
                         druga=druga,
+                        kopula=KOPULARNY if "inst" in rama else BEZ_KOPULI,
                         **cechy,
                     )
 
@@ -2739,6 +2827,19 @@ def build() -> Grammar:
     # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią
     # (:data:`CZĄSTKOWY`); kryterium na jej listę stoi przy :data:`CZĄSTKI`.
     grammar.rule(CZĄSTKOWY, [CZĄSTKA])
+
+    # Okoliczność wyrażona narzędnikiem bez przyimka (:data:`NARZĘDNIKOWY`).
+    # Konstytuentem, a nie samą grupą wpuszczoną do listy okoliczników, z tego
+    # samego powodu, z którego jest nim przysłówek: bez węzła werdykt nie ma czego
+    # nazwać, a `Adjuncts` samo jest w :data:`MIJANE`.
+    #
+    # Licencji ta pozycja nie żąda od niczego, i tym różni się od orzecznika
+    # narzędnikowego, którego żąda ramą kopula (`kopula` wyżej). Cenę tej różnicy
+    # płaci zdanie z kopulą: `Parser jest narzędziem.` ma odtąd dwa wyprowadzenia,
+    # bo grupa w narzędniku stoi w nim raz orzecznikiem, a raz okolicznikiem.
+    # Ile takich zdań traci przez to jednoznaczność, mierzy
+    # docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+    grammar.rule(NARZĘDNIKOWY, [nt("NP", case="inst")])
 
     grammar.rule(SPÓJNIKOWY, [SPÓJNIK_WEWNĘTRZNY])
 

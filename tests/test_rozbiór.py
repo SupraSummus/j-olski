@@ -256,16 +256,42 @@ def test_pusta_odpowiedź_mówi_liczbą_kandydatów_która_z_dwóch_pustek_padł
     assert (odczyt.kandydaci > 0) is zbudowano_kandydata
 
 
+@pytest.mark.parametrize(
+    ("drzewo", "napis"),
+    [
+        (
+            V.zapisywać(R.program, ~R.ustawienie, Czym(R.klucz)),
+            "Program zapisuje ustawienia kluczem.",
+        ),
+        (
+            V.zapisywać(R.program, ~R.ustawienie, Kiedy(R.wieczór)),
+            "Program zapisuje ustawienia wieczorem.",
+        ),
+    ],
+)
+def test_okoliczność_wyrażona_samym_przypadkiem_wraca_relacją_z_leksykonu(drzewo, napis):
+    """Obieg zamyka się na narzędniku bez przyimka, a relację niesie sam przypadek.
+
+    Relacji jest tu dwie i obie stoją w leksykonie pod przyimkiem żadnym
+    (``olski/skład/przyimki.py``), więc wracają tą samą drogą co relacja z przyimkiem,
+    a rozdziela je porównanie form: narzędzie i czas piszą się jednym przypadkiem.
+    """
+    przebieg = obieg(drzewo)
+    assert przebieg.napis == napis
+    assert przebieg.wróciło, przebieg.opisz()
+
+
 def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii():
     """Dwie pustki mówią o czym innym i obieg ma je rozdzielać.
 
-    Narzędzie stoi w napisie samym narzędnikiem, bez przyimka,
-    a narzędnik bierze w tej gramatyce orzecznik kopuli i nikt poza nim,
+    Narzędnik stoi tu wysunięty przed zdanie, bo ten zapis nazwał go tematem,
+    a wysuniętego narzędnika ta gramatyka nie bierze i nie bierze go z pomiaru
+    (docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika),
     więc to zdanie nie ma ani jednego czytania,
     i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
     """
-    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, Czym(R.klucz)))
-    assert przebieg.napis == "Program zapisuje ustawienia kluczem."
+    przebieg = obieg(V.zapisywać(R.program, ~R.ustawienie, Czym(R.klucz).temat))
+    assert przebieg.napis == "Kluczem program zapisuje ustawienia."
     assert not przebieg.wróciło
     assert "gramatyka olskiego nie wyprowadza" in przebieg.opisz()
 

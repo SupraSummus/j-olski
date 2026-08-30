@@ -689,14 +689,17 @@ zdejmie ją warstwa nad morfologią, a nie produkcja,
 bo `dig` nie niesie ani przypadka, ani liczby
 ([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
-Lista ta ma dwa źródła i drugim z nich nie jest kolejka.
-Narzędnik bez przyimka, człon bez czasownika wtrącony w środek zdania
+Lista ta ma trzy źródła i pierwszym z nich nie jest kolejka.
+Człon bez czasownika wtrącony w środek zdania
 i nazwa postawiona przy rzeczowniku bez spójnika weszły na nią z przebiegu nad prozą,
 która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
-Wszystkie trzy są przy tym kształtem, a nie formą,
+Trzecim jest tor składu: wysunięty narzędnik stoi na tej liście dlatego,
+że legenda o bazyliszku go wypisuje, a gramatyka go nie bierze
+([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+Wszystkie trzy pozycje są przy tym kształtem, a nie formą,
 więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
-i tym różni się to źródło od tamtego: pokazuje pozycje, których tamto nie stawia.
+i tym różnią się te dwa źródła od tamtego: pokazują pozycje, których tamto nie stawia.
 
 Kolejkę tę czyta się przy tym dwojako i tylko jedno z dwóch czytań stawia dziś
 pozycje na tej liście.

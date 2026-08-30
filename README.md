@@ -94,7 +94,7 @@ Nowa program zapisuje ustawienia."
                   - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt
                   - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
-                  brak odczytania: analiza staje na „ustawienia”
+                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 olskie: 1 z 3 zdań; z odczytaniem: 2
 ```
 
@@ -121,12 +121,12 @@ Werdykt nazywa pierwsze zatrzymanie.
 Osobna flaga nazywa każde zatrzymanie.
 
 ```sh
-python3 -m olski.check --zatrzymania -c "Nowa program zapisuje ustawienia, i linter sprawdza teksty."
+python3 -m olski.check --zatrzymania -c "Cena rośnie, i linter sprawdza tekst, i parser czyta tekst."
 ```
 
 ```text
-<text>: rejected  Nowa program zapisuje ustawienia, i linter sprawdza teksty.
-                  brak odczytania: analiza staje na „ustawienia”
+<text>: rejected  Cena rośnie, i linter sprawdza tekst, i parser czyta tekst.
+                  brak odczytania: analiza staje na „i”
                   analiza staje też na „i”
 olskie: 0 z 1 zdania; z odczytaniem: 0
 ```

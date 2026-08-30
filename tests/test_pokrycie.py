@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.pokrycie import NO_LICENCE, main, nad_prozą, render
+from olski.pokrycie import NO_LICENCE, NO_STRUCTURE, main, nad_prozą, render
 
 
 def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
@@ -22,9 +22,11 @@ def test_przebieg_nad_prozą_liczy_kolejkę_blokerów_i_krzywą_długości():
         "Zapisz plik konfiguracyjny. Nowa program zapisuje ustawienia w pliku konfiguracyjnym."
     )
     assert raport.statuses == {"valid": 1, "rejected": 1}
-    #  Zatrzymanie stoi na „ustawienia”, której czytania gramatyka bierze wszystkie,
-    #  więc wiersz nazywa pierwsze z nich, czyli odsłownik.
-    assert raport.blockers == {"ger": 1}
+    #  Analiza dochodzi tu do końca i nie domyka zdania, bo tablica domyka pozycję
+    #  po samym kształcie ciała, a o cechy pyta dopiero unifikacja po lesie
+    #  (tests/test_subset.py stoi na tej samej różnicy),
+    #  więc wiersz jest tym jednym, który nie nazywa żadnej formy.
+    assert raport.blockers == {NO_STRUCTURE: 1}
     assert raport.lengths == {"1-5": {"valid": 1}, "6-10": {"rejected": 1}}
 
 

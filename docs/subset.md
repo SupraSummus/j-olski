@@ -826,13 +826,21 @@ i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
   `Jan jest nauczycielem.`
   The copula is a closed list of lemmas
   ([below](#walencja-jest-leksykonem-o-ramie-domyślnej)),
-  which is what keeps an instrumental adjunct from reading as a predicative
-  under every other verb —
-  the mistake [corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
-  counts on `Kwitnie handel paszportami.`
+  which is what keeps the instrumental of `Kwitnie handel paszportami.`
+  out of the predicative under every other verb;
+  where it does stand under one, it is an adjunct
+  ([below](#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
   What the list leaves out is the copula that takes `się`:
   `okazać się` and `stać się` govern the same case
   and the production has no place for the particle.
+- Okoliczność wyrażona narzędnikiem bez przyimka, przy każdym czasowniku
+  i na każdym miejscu, na którym stoi okolicznik przyimkowy:
+  `Mieszczanie zabili okna deskami.`, `Granica jest czasem granicą modułu.`
+  Wysunięcia przed zdanie ta pozycja nie ma i nie ma go z pomiaru
+  ([below](#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika))
+- Liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest:
+  `Tory są dwa.`, `Warstwy są dwie.`
+  ([below](#liczebnik-orzeka-o-tym-ile-czegoś-jest))
 - Negation, with the genitive it demands of an object,
   through an infinitive chain and into a fronted relative pronoun:
   `Program nie zapisuje ustawień.`, `Nie chcę czytać książki.`,
@@ -3734,6 +3742,35 @@ Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
 która wchodzi tym samym kryterium, co każda inna
 ([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
 
+## Liczebnik orzeka o tym, ile czegoś jest
+
+`Tory są dwa.` mówi, ile torów jest, i orzeka to samym liczebnikiem,
+a nie rzeczownikiem ani przymiotnikiem.
+Pozycja jest orzecznikiem zgodnym, czyli tym samym miejscem, w którym stoi
+`Ludzie są wolni.`, bo liczebnik zgadza się tu z podmiotem tak samo jak przymiotnik:
+`Warstwy są dwie.` żąda formy żeńskiej, a `Tory są dwa.` męskorzeczowej.
+Ciało jest przez to jedno i wypisuje samą parę cech, tak jak orzecznik przymiotnikowy.
+
+Ciało jest osobne, a nie liczebnikiem wpuszczonym do symbolu grupy przymiotnikowej,
+bo tamten symbol jest zarazem przydawką,
+a liczebnik ma przy rzeczowniku
+[własne przyłączenia](#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+i własne ciała; wpuszczony tam dałby `dwie rzeczy` drugie wyprowadzenie.
+
+Pozycję tę bierze liczebnik zgodny i on jeden.
+`Torów jest dwa.` mówi to samo rządzącym i zostaje na zewnątrz:
+podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
+więc jest to osobne ciało i osobna liczba, której nikt nie policzył.
+
+Nad bankiem drzew to ciało wyciąga z odrzucenia dwa zdania —
+`Roześmieliśmy się obaj.` i `Ona płakała, a za chwilę płakałyśmy już obie.` —
+a jednoznaczności nie odbiera ani jednemu zdaniu przyjętemu wcześniej.
+Liczba jest mała, bo mierzy prozę prasową i literacką.
+Rejestr, o który olskiemu chodzi, liczy tory i konstrukcje zdanie po zdaniu,
+i to on postawił tę pozycję.
+Kolejka blokerów jej nie widzi, bo każda forma tych zdań licencję ma,
+a odrzucenie stoi na strukturze.
+
 ## Przydawka imiesłowowa stoi tam, gdzie przymiotnik
 
 `Wymienione zadania są obowiązkowe.` i `Reguła sięgająca znaku jest tania.`
@@ -4459,6 +4496,92 @@ Niezgodnie z drzewem wzorcowym olski nie czyta ani jednego zdania nowo przyjęte
 Nad prozą tego repozytorium zakup jest liczony w pojedynczych zdaniach,
 bo ten rejestr pisze tę formę rzadko.
 
+## Narzędnik bez przyimka jest okolicznikiem obok orzecznika
+
+`Mieszczanie zabili okna deskami.` mówi, czym zabili,
+a `Wziął lustro wieczorem.` mówi, kiedy wziął,
+i polszczyzna wyraża jedno i drugie samym narzędnikiem, bez przyimka.
+Olski brał ten przypadek pod przyimkiem i nie brał go bez niego,
+bo `inst` było u niego pozycją orzecznika i niczym więcej
+([wyżej](#walencja-jest-leksykonem-o-ramie-domyślnej)).
+
+Pozycja jest okolicznikiem, czyli stoi tam, gdzie stoi wyrażenie przyimkowe
+i przysłówek, i wchodzi tą samą listą co one.
+Symbol ma własny, choć pozycję dzieli z przysłówkiem,
+bo cena każdej z nich ma być osobną liczbą, a sonda bierze ją zdejmowaniem ciał
+([CLAUDE.md](../CLAUDE.md#code)).
+
+Od orzecznika różni ten okolicznik to, kto mu udziela licencji.
+Orzecznika żąda ramą kopula i nikt poza nią,
+a okolicznik stoi przy każdym czasowniku i nie wypełnia przy żadnym pozycji ramy.
+Zdanie, w którym kopula stoi przy grupie w narzędniku, ma przez to dwa czytania,
+i dlatego kopula wypada z dwóch ciał, w których orzecznika przy niej nie ma:
+`Parser jest.` przestaje się wyprowadzać,
+a `Parser jest narzędziem.` zostaje przy jednym czytaniu, tym prawdziwym.
+Zawężenie to kupuje jednoznaczność także zdaniu złożonemu:
+bez niego `Pomiar mówi, że gramatyka jest podzbiorem.` czyta się i tak,
+że zdanie podrzędne kończy się na `jest`,
+a `podzbiorem` jest okolicznikiem przy `mówi`.
+Cena jest jedna i nazwana: zdania orzekającego samym istnieniem — `Bóg jest.` —
+olski nie bierze, a ten rejestr go nie pisze.
+
+Zakup liczy się w setkach zdań i jest mniejszy niż ten, którym płacił
+[przysłówek](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
+Nad Składnicą pod złotą morfologią przeszło sto zdań wychodzi z odrzucenia
+z jednym czytaniem, a drugie tyle z kilkoma,
+i jest to więcej niż jedno zdanie odrzucone na trzydzieści.
+Cena jest kilkunastokrotnie mniejsza:
+jednoznaczność traci kilkanaście zdań przyjętych wcześniej.
+
+Ważniejsze od tych dwóch liczb jest to, co werdykt mówi o zdaniach nowo przyjętych.
+Z rolami drzewa wzorcowego zgadza się ponad cztery piąte z nich,
+a niezgodne jest co dziewiąte.
+Wśród niezgodnych stoi `Kwitnie handel paszportami.`,
+czyli to samo zdanie, którym
+[corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)
+mierzył, ile kosztuje orzecznik wpuszczony pod każdy czasownik:
+olski czyta je teraz tak, jak czyta je czytelnik — handel kwitnie w paszportach —
+a drzewo wzorcowe znaczy tam co innego.
+Odrzucenie zamieniło się więc na czytanie prawdziwe, a nie na zgodność
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
+Pod żywą morfologią rachunek jest inny i cała różnica jest w słowniku.
+Zdań z odczytaniem przybywa tam podobnie wiele, a przyjętych ubywa kilkanaście:
+forma czytana w kilku przypadkach naraz staje odtąd i w tym okoliczniku,
+więc drugie czytanie dostaje każde zdanie, w którym taka forma zajmuje rolę.
+Nazwa własna i nazwa urzędu mają to po Morfeuszu — `Jan`, `minister` i `redaktor`
+niosą czytanie żeńskie nieodmienne obok męskiego — a w tym rejestrze mają to
+[notacja](#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+oraz [napis przytoczony](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
+bo czytanie nieodmienne spełnia każde żądanie przypadku i spełnia też to.
+`Zobacz docs/subset.md.` traci przez to jednoznaczność,
+a `tests/test_subset.py` trzyma tę cenę wypisaną zdaniami.
+Nad prozą tego repozytorium ubywa przez to kilku zdań przyjętych,
+a odrzuconych nie ubywa ani jedno.
+
+**Wysunięcia przed zdanie ta pozycja nie dostaje i jest to pomiar odmowny.**
+`Wieczorem wziął lustro.` zostaje przez to na zewnątrz,
+choć polszczyzna ten szyk pisze, a tor składu go wypisuje
+(`tests/test_rozbiór.py`).
+
+Zderza się on z dwoma kształtami zdania, które gramatyka ma:
+z [szykiem od czasownika](#the-bare-verb-initial-order-keeps-the-predicative-one-honest)
+oraz ze zdaniem o opuszczonym podmiocie.
+W obu grupa wysunięta jest jedyną grupą przed czasownikiem,
+więc `Wejściem jest zwykły tekst polski.` czyta się i tak, że wejście jest
+orzecznikiem, i tak, że tekst jest wejściem, a `Jan jest nauczycielem.` dostaje
+czytanie mówiące, że ktoś jest nauczycielem przy pomocy Jana.
+Rozdziela te czytania morfologia, a nie struktura:
+pierwsze żąda mianownika, drugie narzędnika, a formy, o które idzie, mają oba.
+Produkcja nie ma więc czego zażądać,
+bo unifikacja przecina zbiory i nie umie zażądać przypadku jedynego
+([design-notes.md](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+
+Sonda mówi to samo liczbą: ciało to wyciąga z odrzucenia jeszcze kilkadziesiąt zdań,
+a jednoznaczność odbiera niemal tylu, ilu ją daje,
+więc płaci się za nie zdaniem tego rejestru, a dostaje zdania banku drzew.
+Liczby te trzyma commit, który to ciało odrzucił.
+
 ## What it does not cover yet
 
 Every one of these is a sentence that gets rejected and should not be:
@@ -4529,11 +4652,18 @@ Every one of these is a sentence that gets rejected and should not be:
   ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
   oraz [wyżej](#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):
   `jak`, `jaki`, `ile`, `dlaczego`.
-  `Pyta, ile ta gramatyka dziś kosztuje.` jest odrzucone,
-  gdzie `Pyta, co ona kupuje.` wyprowadza się,
-  a każde z tych słów żąda innego kształtu niż grupa pytajna,
-  więc jest to kolejka konstrukcji, a nie jedna pozycja.
-  Czoło dopisane pod którekolwiek z nich wejdzie zarazem w ciąg pytań
+  Pozycja ta stoi na tej liście inaczej niż pozostałe, bo zdania z nią nie padają:
+  `Pyta, ile ta gramatyka kosztuje.` wyprowadza się,
+  a wyprowadza się czytaniem, którego polszczyzna nie ma.
+  Morfeusz daje trzem z tych słów część mowy `adv`, a `jaki` przymiotnikową,
+  i olski bierze te części mowy całe, więc słowo pytające staje okolicznikiem
+  albo przydawką, a pytania zależnego w takim zdaniu nie ma.
+  Dopisanie ma więc dwie połowy i pierwsza z nich jest zawężeniem:
+  czytanie okolicznikowe ma zejść przed czołem, które je zastąpi
+  ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+  Każde z tych słów żąda przy tym innego kształtu niż grupa pytajna,
+  więc jest to kolejka konstrukcji, a nie jedna pozycja,
+  a czoło dopisane pod którekolwiek z nich wejdzie zarazem w ciąg pytań
   i za dwukropek, bo obie te pozycje biorą ciąg cały
   ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 - Pytanie o miejsce: `Gdzie są przetrzymywani zakładnicy?` jest odrzucone,
@@ -4555,15 +4685,25 @@ Every one of these is a sentence that gets rejected and should not be:
   [corpus.md](corpus.md#where-the-analyses-stop) ranks,
   one of predicatives and one of nominal pronouns,
   which is the ambiguity admitting it has to survive.
-- Narzędnik bez przyimka jako pozycja przy czasowniku:
-  `Parser mierzy gramatykę sondą.` jest odrzucone,
-  gdzie `Parser mierzy gramatykę.` wyprowadza się,
-  a `Werdykt przychodzi z czytaniem.` wyprowadza się z przyimkiem przed sobą.
-  Olski bierze więc ten przypadek pod przyimkiem i nie bierze go bez niego.
-  Celownik i dopełniacz mają tu pozycję i biorą ją z leksykonu
-  ([wyżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
-  a narzędnik jej nie dostał, bo `inst` jest u olskiego pozycją orzecznika
-  i Walenty nie odróżnia jej od argumentu narzędnikowego.
+- Narzędnik bez przyimka wysunięty przed zdanie:
+  `Wieczorem wziął lustro.` jest odrzucone,
+  gdzie `Wziął lustro wieczorem.` wyprowadza się.
+  Pozycja ta jest zmierzona i odrzucona, bo zderza się z orzecznikiem wysuniętym
+  przed kopulę
+  ([wyżej](#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+  więc wraca dopiero z cechą, która te dwa rozdzieli.
+- Liczebnik rządzący w orzeczniku:
+  `Torów jest dwa.` jest odrzucone,
+  gdzie `Tory są dwa.` wyprowadza się
+  ([wyżej](#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+  Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
+  więc jest to osobne ciało i osobna liczba, której nikt nie policzył;
+  `TODO.md` trzyma ten przebieg.
+- Zdanie orzekające samym istnieniem: `Bóg jest.` jest odrzucone,
+  gdzie `Świeca zgasła.` wyprowadza się.
+  Kopula wypadła z ciała, w którym przy czasowniku nic nie stoi,
+  i wypadła po to, żeby narzędnik nie czytał się przy niej dwojako
+  ([wyżej](#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 - Człon bez czasownika wtrącony w środek zdania, a nie postawiony na jego końcu:
   `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
   gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
