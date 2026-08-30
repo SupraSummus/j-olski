@@ -55,9 +55,24 @@ ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 #: `Flaga` w `Flaga to płat tkaniny.`
 #: Symbol jest osobny od :data:`ORZECZENIE_RZECZOWNIKOWE`, bo tamten czyni zdaniem każdą swoją
 #: córkę, a tutaj czyni je dopiero łącznik stojący za tą grupą; czemu grupa ta
-#: nie jest podmiotem, mówi
+#: stoi po tej stronie łącznika, mówi
 #: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
 ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
+
+
+#: Nazwy, którymi werdykt mówi o rolach zdania z łącznikiem `to`.
+#:
+#: Wykonywanym tu sądem jest zdanie „pozycja podmiotu przy łączniku `to` jest
+#: tym, co składnia szkolna nazywa orzecznikiem”. Wewnątrz gramatyki nazwa ta
+#: znaczy pozycję schematu, czyli to, co bank drzew woła `subj` i co stawia
+#: także tam, gdzie podmiotu nie ma; wywód i liczby trzyma
+#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
+#: Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem, więc żadnej
+#: liczby nad bankiem drzew nie rusza i ruszyć nie może.
+NAZWY_SZKOLNE = {
+    "podmiot": "orzecznik",
+    ORZECZNIK_ŁĄCZNIKA: "podmiot",
+}
 
 
 #: Rola tego, co orzeka bez podmiotu. Głowy są dwie i obie rządzą ramą czasownika:

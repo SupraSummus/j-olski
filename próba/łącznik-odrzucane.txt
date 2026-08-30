@@ -1,0 +1,49 @@
+# Ciągi wokół łącznika `to`, których olski nie ma wyprowadzać
+#
+# Plik stoi poza `harness/`, bo program jest kasowalny, a sąd o zdaniu nie —
+# ten sam powód, który podaje nagłówek `próba/wybory.txt`
+#
+# Czyta go sonda różnicowa jako plik prozy: `nad_prozą` w `harness/ruch.py`
+# segmentuje tekst i przepuszcza każde zdanie przez każdy wariant,
+# a przejście `odrzucone → przyjęte` jest tu ceną, a nie zakupem,
+# i na tym polega cała różnica między tym plikiem a prozą repozytorium
+#
+# Materiał ten jest potrzebny dlatego, że Składnica zawiera wyłącznie zdania
+# poprawne, więc pomiar nad nią nie ukarze wariantu za przyjęcie ciągu,
+# którego wyprowadzić nie wolno, i nie naprawia tego dogęszczenie banku drzew
+#
+# Żaden wiersz komentarza nie kończy się kropką i jest to warunek działania
+# tego pliku, a nie ozdoba: napis bez znaku zamykającego nie jest zdaniem
+# i do mianownika nie wchodzi, a wiersz zakończony kropką wchodzi do niego
+# jako zdanie poprawne i psuje liczbę, o którą ten plik jest pytany
+#
+# Zestaw obejmuje jeden łącznik, a nie całą gramatykę;
+# zestaw negatywny dla całej gramatyki jest osobnym przedsięwzięciem
+
+# Przypadek inny niż mianownik po którejś stronie łącznika
+
+Kotem to zwierzę.
+Kotu to zwierzę.
+Kotem to jest zwierzę.
+Kot to zwierzęciem.
+Kot to zwierzęcia.
+
+# Kopula zgadzająca się z grupą, z którą zgadzać się nie ma;
+# `Te książki to są skarb.` jest parą do `Te książki to jest skarb.`,
+# którą gramatyka wyprowadza i której pilnuje `tests/test_subset.py`
+
+Te książki to są skarb.
+To są kot.
+
+# Sąd niepotwierdzony, czyli ciąg, o którym nikt jeszcze nie orzekł,
+# że polszczyzna go nie ma; rozsądza go mówiony rejestr NKJP
+#
+# `Ty to jest leń.` wyprowadza się, a `Ty to jesteś leń.` jest odrzucone,
+# więc para ta pyta, czy odrzucenie stoi po właściwej stronie
+#
+# `Kot to są zwierzęta.` stało tu i wypadło:
+# kształt jest poprawny, bo `Rodzina to są ludzie.` i `Miłość to są drobiazgi.`
+# mają go tak samo, a złe jest w tamtym zdaniu znaczenie, nie składnia —
+# kot pojedynczy nie jest wieloma zwierzętami
+
+Ty to jest leń.

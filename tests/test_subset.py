@@ -36,6 +36,7 @@ from olski.morph import analyse, generuj
 from olski.parse import (
     PRZYŁĄCZONY_DO,
     parse,
+    streszczenia,
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło
 from olski.subset import (
@@ -2389,17 +2390,41 @@ def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
     assert lemat.status == "rejected", lemat.explain()
 
 
-def test_łącznik_czyni_podmiotem_grupę_za_sobą_a_orzecznikiem_tę_przed_sobą():
+def test_łącznik_wiąże_pozycję_podmiotu_z_grupą_za_sobą():
     #  Obie grupy stoją w mianowniku, więc unifikacja nie odróżnia stron i wybiera
-    #  o tym samo ciało. Bank drzew stawia podmiot za łącznikiem, a wariant
+    #  o tym samo ciało. Bank drzew stawia pozycję `subj` za łącznikiem, a wariant
     #  odwrotny przyjmuje te same zdania, czytając je niezgodnie z drzewem
-    #  wzorcowym (docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim),
-    #  czyli usterka ta jest po wydruku niewidoczna wszędzie poza tą linią.
+    #  wzorcowym (docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim).
+    #  Pytanie idzie tu do streszczenia sprzed przekładu na nazwy szkolne, bo po
+    #  przekładzie obie strony wyglądają tak samo, a zgodność ze Składnicą liczy
+    #  się właśnie przed nim (`_slot_role` w `harness/corpus.py`).
     found = verdict("Flaga to płat tkaniny określonego kształtu.")
     assert found.status == "valid", found.explain()
+    [(wewnętrzne,)] = streszczenia(found.result.readings, DEKLARACJA)
+    assert wewnętrzne["podmiot"] == "płat tkaniny określonego kształtu", found.explain()
+    assert wewnętrzne[ORZECZNIK_ŁĄCZNIKA] == "Flaga", found.explain()
+
+
+def test_wydruk_nazywa_podmiotem_grupę_przed_łącznikiem_a_orzecznikiem_tę_za_nim():
+    #  Usterka, którą to łapie: nazwy wewnętrzne wypuszczone do werdyktu. Wydruk
+    #  czyta człowiek znający składnię szkolną, a ta nazywa te role odwrotnie niż
+    #  pozycja `subj` w schemacie GFJP; sąd, który ten przekład wykonuje, stoi
+    #  przy `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`.
+    found = verdict("Flaga to płat tkaniny określonego kształtu.")
     [(reading,)] = found.readings
-    assert reading["podmiot"] == "płat tkaniny określonego kształtu", found.explain()
-    assert reading[ORZECZNIK_ŁĄCZNIKA] == "Flaga", found.explain()
+    assert reading["podmiot"] == "Flaga", found.explain()
+    assert reading["orzecznik"] == "płat tkaniny określonego kształtu", found.explain()
+    assert ORZECZNIK_ŁĄCZNIKA not in reading, found.explain()
+
+
+def test_przekład_na_nazwy_szkolne_pyta_o_czytanie_a_nie_o_zdanie():
+    #  Usterka, którą to łapie: warunek przekładu postawiony na zdaniu. `Ty to
+    #  leń.` ma oba czytania naraz — w jednym `Ty` stoi przed łącznikiem, w drugim
+    #  jest zwykłym podmiotem — więc przekład puszczony na całe zdanie zamieniłby
+    #  podmiot temu drugiemu.
+    found = verdict("Ty to leń.")
+    assert found.status == "ambiguous", found.explain()
+    assert {reading["podmiot"] for (reading,) in found.readings} == {"Ty"}, found.explain()
 
 
 def test_kopula_łącznika_zgadza_się_z_podmiotem_za_nim_a_nie_z_grupą_przed_łącznikiem():
@@ -2410,9 +2435,9 @@ def test_kopula_łącznika_zgadza_się_z_podmiotem_za_nim_a_nie_z_grupą_przed_�
     #  oba warianty przyjmują `Kot to jest zwierzę.` i różnią się na tej parze.
     zgodne = verdict("Te książki to jest skarb.")
     assert zgodne.status == "valid", zgodne.explain()
-    [(reading,)] = zgodne.readings
-    assert reading["podmiot"] == "skarb", zgodne.explain()
-    assert reading[ORZECZNIK_ŁĄCZNIKA] == "Te książki", zgodne.explain()
+    [(wewnętrzne,)] = streszczenia(zgodne.result.readings, DEKLARACJA)
+    assert wewnętrzne["podmiot"] == "skarb", zgodne.explain()
+    assert wewnętrzne[ORZECZNIK_ŁĄCZNIKA] == "Te książki", zgodne.explain()
 
     niezgodne = verdict("Te książki to są skarb.")
     assert niezgodne.status == "rejected", niezgodne.explain()

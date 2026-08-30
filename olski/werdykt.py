@@ -43,7 +43,13 @@ from olski.parse import (
     streszczone,
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło, sentences
-from olski.subset import DEKLARACJA, GRAMMAR, WYRAŻENIE_PRZYIMKOWE
+from olski.subset import (
+    DEKLARACJA,
+    GRAMMAR,
+    NAZWY_SZKOLNE,
+    ORZECZNIK_ŁĄCZNIKA,
+    WYRAŻENIE_PRZYIMKOWE,
+)
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -133,6 +139,33 @@ def _rozbieżny(rozbieżność: Rozbieżność) -> str:
     return f"„{rozbieżność.konstytuent}” ma {_odczytań(rozbieżność.ile)}"
 
 
+def _po_szkolnemu(streszczenie: dict[str, str]) -> dict[str, str]:
+    """To samo streszczenie nazwami, którymi te role nazywa składnia szkolna.
+
+    Przekłada się samo zdanie z łącznikiem i poznaje się je po obsadzonym
+    :data:`ORZECZNIK_ŁĄCZNIKA`, bo `podmiot` znaczy w nim co innego niż w zdaniu
+    obok. Pytać trzeba przy tym o streszczenie, a nie o zdanie: `Ty to leń.` ma
+    oba naraz, bo w jednym czytaniu `Ty` stoi przed łącznikiem, a w drugim jest
+    zwykłym podmiotem. Sąd wykonywany przez ten przekład stoi przy
+    :data:`NAZWY_SZKOLNE`.
+    """
+    if ORZECZNIK_ŁĄCZNIKA not in streszczenie:
+        return streszczenie
+    return {NAZWY_SZKOLNE.get(rola, rola): treść for rola, treść in streszczenie.items()}
+
+
+def _nazwy_szkolne(rola: str) -> tuple[str, ...]:
+    """Nazwy, pod którymi ta rola wychodzi z :func:`_po_szkolnemu`.
+
+    Rola łącznika wychodzi pod dwiema, bo przekład rozdziela ją na podmiot i
+    orzecznik: czytania różne tym, co obsadza pozycję przed łącznikiem, różnią
+    się po przekładzie obiema.
+    """
+    if rola == ORZECZNIK_ŁĄCZNIKA:
+        return (NAZWY_SZKOLNE[ORZECZNIK_ŁĄCZNIKA], NAZWY_SZKOLNE["podmiot"])
+    return (rola,)
+
+
 def _podpowiedź(nielicencjonowane: tuple[str, ...]) -> str:
     """Znaki, którymi ten rejestr cytuje, gdy autor zacytował innymi; inaczej nic.
 
@@ -207,7 +240,10 @@ class Verdict:
         Liczbę odczytań podaje las (:attr:`Result.ile`),
         więc skrócenie tej listy jej nie rusza.
         """
-        return streszczenia(self.result.readings, DEKLARACJA)
+        return [
+            tuple(map(_po_szkolnemu, streszczenie))
+            for streszczenie in streszczenia(self.result.readings, DEKLARACJA)
+        ]
 
     @property
     def morfologia(self) -> list[tuple[OdczytaniaFormy, ...]]:
@@ -267,12 +303,17 @@ class Verdict:
                 return "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
             return f"brak odczytania: analiza staje na „{self.zatrzymanie}”"
         przyłączenia = self.result.przyłączenia
+        # Przekład idzie i tutaj (:func:`_nazwy_szkolne`), bo wiersz ten nie ma
+        # nazywać roli, której lista czytań pod nim nie nazywa.
         różne = sorted(
-            role
-            for role in self.result.różniące
-            # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
-            # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
-            if not (przyłączenia and role == WYRAŻENIE_PRZYIMKOWE)
+            {
+                nazwa
+                for role in self.result.różniące
+                # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
+                # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
+                if not (przyłączenia and role == WYRAŻENIE_PRZYIMKOWE)
+                for nazwa in _nazwy_szkolne(role)
+            }
         )
         # Liczba i role wychodzą z lasu, więc granica wyliczania sięga listy
         # czytań i nie sięga tego wiersza: liczba jest liczbą, a nie „64+”.
