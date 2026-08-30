@@ -199,7 +199,7 @@ class Production:
     #: nie widzi, więc koszt rozstrzyga sam porządek — ten u góry wydruku i ten
     #: przed granicą wypisywania. Całkowity, bo jest deklaracją, a nie wagą
     #: wyuczoną; skąd się bierze i ile znaczy, mówi
-    #: docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie.
+    #: docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
     koszt: int = 0
 
     def __post_init__(self) -> None:

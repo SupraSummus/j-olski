@@ -72,6 +72,17 @@ def test_lemat_dwukropka_jest_dwukropkiem_a_nie_pustym_napisem():
     assert analyse("biegu")[0].with_pos("subst")[0].lemma == "bieg"
 
 
+def test_czytanie_niesie_kwalifikatory_ze_słownika_a_nie_nazwy_obok_nich():
+    #  Nazwy stoją w wydaniu Morfeusza obok kwalifikatorów, a wzięte za nie dają
+    #  `nazwa_pospolita` przy prawie każdym rzeczowniku: koszt policzony z tego
+    #  pola trafiałby wtedy w połowę zdania (`olski/rejestr.py`).
+    ócz = analyse("ócz")[0].readings[0]
+    assert ócz.lemma == "oko"
+    assert ócz.kwalifikatory == ("daw.,rzad.,anat.",)
+    #  Forma tego samego leksemu niesie sam kwalifikator dziedziny.
+    assert analyse("oczu")[0].readings[0].kwalifikatory == ("anat.",)
+
+
 def test_an_unknown_form_is_reported_rather_than_guessed_at():
     segments = analyse("Program zapisuje plikx.")
     assert [segment.form for segment in unknown(segments)] == ["plikx"]

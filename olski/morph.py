@@ -96,6 +96,11 @@ class Reading:
     form: str
     lemma: str
     tag: Tag
+    #: Kwalifikatory, którymi słownik opatrzył tę formę, sklejone przecinkiem
+    #: tak, jak on je wydaje; rozdziela je i czyta ``olski/rejestr.py``.
+    #: Pusta krotka nie znaczy, że słownik milczy: tyle niesie także czytanie
+    #: złożone poza tym modułem (``olski/segmentacja.py``, ``olski/projekt.py``).
+    kwalifikatory: tuple[str, ...] = ()
 
     def __str__(self) -> str:
         return f"{self.form}:{self.lemma}:{self.tag}"
@@ -203,12 +208,15 @@ def analyse(text: str) -> list[Segment]:
     edges: dict[tuple[int, int, str], list[Reading]] = {}
     for start, end, interpretation, *_ in _analyser().analyse(text):
         form, lemma, raw = interpretation[0], interpretation[1], interpretation[2]
+        kwalifikatory = tuple(interpretation[4])
         # Morfeusz appends a homonym index to some lemmas, as in bieg:s1. The
         # index is appended to a lemma, so what stands in front of the colon is
         # the lemma — except where the lemma is a colon and nothing stands in
         # front of it, and then the whole form is the lemma.
         lemma = lemma.split(":", 1)[0] or lemma
-        edges.setdefault((start, end, form), []).append(Reading(form, lemma, tag(raw)))
+        edges.setdefault((start, end, form), []).append(
+            Reading(form, lemma, tag(raw), kwalifikatory)
+        )
     return [
         Segment(start=start, end=end, form=form, readings=tuple(readings))
         for (start, end, form), readings in sorted(edges.items())

@@ -47,7 +47,7 @@ Warunek = Callable[[tuple[str, ...]], bool]
 
 #: Ile kosztuje konstytuent, który bierze okolicznik, wobec tego samego bez niego.
 #: Znak jest zmierzony, wielkość nie
-#: (docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie).
+#: (docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
 KOSZT_OKOLICZNIKA = 1
 
 #: Ile kosztuje jedna para córek stojąca odwrotnie niż w wypisanej deklaracji.
@@ -155,7 +155,7 @@ class Rozwinięcie:
 
         Miejsca kosztują wszystkie tyle samo: okolicznik postawiony w innym miejscu
         obejmuje inne słowa, więc rozstrzyga o nim cięcie, a nie koszt
-        (``_klucz_wyprowadzenia`` w ``olski/parse.py``).
+        (``_cięcie`` w ``olski/parse.py``).
         """
         nazwy = [_nazwa(część) for część in szyk]
         yield 0, list(szyk)

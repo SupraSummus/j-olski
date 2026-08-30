@@ -1,7 +1,7 @@
 """Kolejność czytań stoi na deklaracji, a nie na kolejności dopisań do gramatyki.
 
 Czym ta kolejność jest i po co, mówi
-docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie.
+docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
 """
 
 import random
@@ -66,3 +66,36 @@ def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
         czytania = parse(grammar, morphology("plik.")).readings
         kolejność.append([drzewo.children[0].label for drzewo in czytania])
     assert kolejność == [["lewe", "prawe"], ["prawe", "lewe"]]
+
+
+def test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica():
+    """Ciała córki rozstrzygnęła córka, więc jej koszt nie waży już nad rodzicem.
+
+    Gramatyka jest napisana pod tę jedną własność: `lewe` i `prawe` mają córki
+    tej samej rozpiętości i kosztują tyle samo, więc o kolejności rozstrzyga
+    alfabet etykiet, a koszt zsumowany po poddrzewie wpuszczałby przodem `prawe`.
+    Sumowanie jest tu pomyłką prawdopodobną, bo tak właśnie sumuje się koszt
+    morfologii, a widać ją tylko po kolejności: czytań nie ubywa.
+    """
+    grammar = Grammar(start="zdanie")
+    grammar.rule("zdanie", [Głowa(nt("lewe"))])
+    grammar.rule("zdanie", [Głowa(nt("prawe"))])
+    grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszt=5)
+    grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
+    czytania = parse(grammar, morphology("plik.")).readings
+    assert [drzewo.children[0].label for drzewo in czytania] == ["lewe", "prawe"]
+
+
+def test_czytanie_oparte_na_formie_spoza_rejestru_wychodzi_z_lasu_później():
+    """Koszt morfologii idzie w górę, aż trafi na ciała, które się nim różnią.
+
+    `Wszystko` jest u Morfeusza i rzeczownikiem, i przysłówkiem regionalnym
+    (``olski/rejestr.py``), a czytania te różnią się dopiero pod `zdanie_składowe`.
+    Koszt liczony na miejscu nie ruszyłby więc żadnego z nich.
+    Czytań przy tym nie ubywa i werdykt zostaje ten sam.
+    """
+    (werdykt,) = check("Wszystko jest podmiotem.")
+    assert [sorted(zdanie) for (zdanie,) in werdykt.readings] == [
+        ["orzeczenie", "orzecznik", "podmiot"],
+        ["okolicznik_przysłówkowy", "orzeczenie", "orzecznik"],
+    ]

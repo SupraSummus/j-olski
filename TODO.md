@@ -754,7 +754,7 @@ i werdykt `fragment` jest tam odpowiedzią wybraną.
 
 Kolejność czytań zmierzono nad cudzym rejestrem i tylko nad nim.
 Koszt produkcji i późne domknięcie wyceniono złotym czytaniem Składnicy
-([`docs/disambiguation.md`](docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie)),
+([`docs/disambiguation.md`](docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
 a rejestr, do którego olski celuje, nie mówi o kolejności nic,
 choć to w nim czytelnik ogląda czytanie pierwsze.
 Wzorzec na to jest jeden i już stoi: `próba/wybory.txt` nazywa ręką gospodarza,
@@ -762,13 +762,46 @@ o którego w danym zdaniu korpusu audytowego chodziło (`harness/wybory.py`).
 Ruchem jest pytanie tamtego pliku o co innego niż warstwa rozstrzygająca:
 czy czytanie pierwsze obsadza tego gospodarza, którego nazwał czytający.
 Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr,
-a liczba mówi, czy trzy dzisiejsze koszty są dobrane pod Składnicę,
+a liczba mówi, czy dzisiejsze koszty są dobrane pod Składnicę,
 czy pod dokumentację techniczną.
 
+Kosztu morfologii nie widzi ani jeden pomiar nad bankiem drzew.
+`harness/czytania.py` mierzy złote czytanie morfologią złotą, czyli czytaniem
+wziętym z drzewa wzorcowego, a `_segment` w `harness/corpus.py` buduje je bez
+kwalifikatorów, więc koszt ten wychodzi nad Składnicą zerem przy każdej formie
+i cały wydruk jest ten sam co bez niego, co do wiersza.
+Zielony przebieg nie mówi tam przez to nic — dokładnie tak, jak nie mówi nic
+przebieg bez Morfeusza ([`CLAUDE.md`](CLAUDE.md#checks)).
+Ruchem jest `--morphology` w `harness/czytania.py`, którą ma już `harness/pomiar.py`,
+a decyzją, którą to wymusza, jak dopasować drzewo wzorcowe do morfologii żywej:
+pod nią parser numeruje pozycje znakami, a nie terminalami drzewa
+(`Raport` w `harness/pomiar.py`), więc rola z drzewa nie trafia w rozpiętość lasu.
+Na czym wycena tego kosztu stoi bez tej liczby, mówi
+[`docs/disambiguation.md`](docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
+
+Wykluczenie słownikowe wywodzi z kształtu to, co słownik deklaruje wprost.
+`admissible` w `olski/segmentacja.py` odbiera czytanie rzeczownikowe formie,
+którą olski czyta jako słowo klasy zamkniętej, po kryterium nieodmienności,
+a Morfeusz opatruje dokładnie te czytania kwalifikatorem dziedziny:
+`do` w znaczeniu nuty niesie `muz.`, `go` w znaczeniu gry niesie `gry`,
+a `at`, `cent` i `real` niosą `monet.`
+Ruchem jest przeczytać, ile z tego, co `admissible` odbiera nad korpusem
+audytowym, niesie taki kwalifikator, i ile niesie go czytanie, którego ono nie
+odbiera — bo dopiero druga liczba mówi, czy kryterium dałoby się zastąpić listą.
+Do rozstrzygnięcia jest przy tym, że lista byłaby druga i osobna od
+`POZA_REJESTREM` w `olski/rejestr.py`: `muz.` i `gry` nazywają dziedzinę,
+a dziedzina rejestru nie odsyła i odsyłać nie może,
+bo `anat.` przy `oczy` wskazuje czytanie trafne
+([`docs/sklad.md`](docs/sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
+
 Sumy kosztów drzewa nikt nie zmierzył, więc nie wiadomo, czy bije porządek dzisiejszy.
-Las porządkuje ciała jednej pozycji kosztem produkcji, a drzewa wychodzą z niego
+Las porządkuje ciała jednej pozycji jej kosztem, a drzewa wychodzą z niego
 wyliczaniem w głąb, więc kolejność czytań jest leksykograficzna:
-koszt przy korzeniu waży więcej niż każdy koszt pod nim, choćby ich było kilka.
+koszt produkcji przy korzeniu waży więcej niż każdy koszt produkcji pod nim,
+choćby ich było kilka.
+Koszt morfologii sumuje się już dziś i jest minimum po poddrzewie
+(`koszt_morfologii` w `olski/parse.py`), więc pytanie o sumę stawia się teraz
+o drugą połowę kosztu, a nie o cały.
 Porządek po sumie kosztów całego drzewa jest inną odpowiedzią i wymaga innego wyliczania,
 bo minimum globalne żąda kolejki nad lasem, a nie przejścia w głąb,
 i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse.py`:
@@ -776,6 +809,12 @@ wyliczanie przystaje dziś na pierwszym drzewie, które trafia, i granicy nie po
 Ruchem jest wariant napisany w sondzie, a nie w parserze,
 i jedna liczba obok tamtej: złote czytanie Składnicy pod jednym porządkiem i pod drugim.
 Dopiero różnica mówi, czy warto płacić za kolejkę.
+Trop jest jeden i jest przeciw: sesja, która wpuściła koszt morfologii, sumowała
+przez pomyłkę także koszty produkcji i przestawiła wtedy nad prozą repozytorium
+dwa razy więcej zdań, a przeczytane ręką wypadły gorzej — `Co pan sądzi o pomyśle
+Pawła Piskorskiego?` wychodziło pierwszym czytaniem z `Co pan` w wyrażeniu
+przyimkowym. Sądów jest kilkanaście i pomiarem to nie jest, więc trop mówi tyle,
+że sondę warto puścić, zanim ktoś napisze kolejkę.
 
 Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
 `unclosed` nazywa napis, który olski czyta po domknięciu, i podaje znak
@@ -2860,7 +2899,8 @@ Ruchem jest `odmień` pytające o ten leksykon tam, gdzie słownik milczy,
 bo `odmiana` w `olski/projekt.py` wydaje dokładnie to, co `paradygmat`
 w tamtym pliku: formę wraz z cechami i leksemem.
 Do przeczytania są przy tym dwa odsiewy, których leksykon projektu nie ma:
-`POZA_REJESTREM` odsiewa kwalifikatorem, a wpis kwalifikatorów nie niesie,
+`POZA_REJESTREM` w `olski/rejestr.py` odsiewa kwalifikatorem,
+a wpis kwalifikatorów nie niesie,
 choć wzorzec bywa nimi oznaczony,
 i `WieleLeksemów`, bo wiersz wskazuje leksem wprost, czyli odpowiada już na to pytanie.
 Rozstrzygnąć trzeba przy tym, czy skład bierze stąd same formy,
