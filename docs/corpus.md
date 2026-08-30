@@ -778,7 +778,8 @@ bo numer policzony obok byłby tą kolejnością wypisaną drugi raz.
 Tam, gdzie złote czytanie ocalało, jest nim w trzech wypadkach na cztery
 czytanie pierwsze, czyli to, które czytelnik widzi na górze wydruku,
 a reszta stoi niżej.
-Żadne nie wypada poza wypisywane czytania i najgłębsze mieści się w nich z zapasem.
+Jedno jedyne wypada poza wypisywane czytania i wypada głęboko:
+stoi kilkakrotnie dalej niż granica wydruku, więc na wydruku go nie ma.
 Numer jest zarazem ceną, bo wyliczanie buduje tyle drzew, ile on wynosi:
 rusza dopiero po odpowiedzi lasu, że takie czytanie tam jest,
 i przystaje na pierwszym takim drzewie.

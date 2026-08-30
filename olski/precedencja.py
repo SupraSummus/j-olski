@@ -18,6 +18,14 @@ obok nich warunek precedencji nad ich kolejnością,
 i wpisuje do gramatyki każdy szyk, jaki ten warunek dopuszcza,
 w każdym miejscu na okolicznik, jakie ten szyk ma.
 
+Ciała jednego rozwinięcia konkurują potem o to samo zdanie, więc każde dostaje tu
+koszt, czyli miejsce w kolejności, w jakiej las wyda te czytania
+(``wyprowadzenia`` w ``olski/parse.py``).
+Wylicza go rozwinięcie, a nie wypisuje deklaracja: produkcji jest tysiąc kilkaset,
+z czego siedemset samego ``orzeczenia``, więc koszt wypisany byłby drugą deklaracją
+tego samego. Dwie stałe niżej mówią to samo:
+ciało wypisane w deklaracji jest podstawowe, a odstępstwo od niego stoi niżej.
+
 Preprocesorem jest to dlatego, że rozwinięcie kończy się przed rozbiorem:
 tablica Earleya dostaje ciała wypisane, takie same jak pisane ręką.
 Warunek sprawdzany dopiero w lesie zdjąłby rozwinięcie i zmieniłby liczbę czytań,
@@ -36,6 +44,28 @@ from olski.grammar import Grammar, Głowa, Part, Sym
 #: Nazwą jest nazwa symbolu, a terminal nazwy nie ma i wchodzi tam pusty,
 #: bo warunek mówi o kolejności konstytuentów, a nie o słowach między nimi.
 Warunek = Callable[[tuple[str, ...]], bool]
+
+#: Ile kosztuje konstytuent, który bierze okolicznik, wobec tego samego bez niego.
+#: Znak jest zmierzony, wielkość nie
+#: (docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie).
+KOSZT_OKOLICZNIKA = 1
+
+#: Ile kosztuje jedna para córek stojąca odwrotnie niż w wypisanej deklaracji.
+#: Szyk wypisany kosztuje przez to zero, a każdy inny tyle, ile par trzeba
+#: w nim odwrócić. Dwa szyki jednego zdania mają córki tej samej rozpiętości,
+#: więc bez tej stałej rozstrzygałby o nich alfabet etykiet i `Janek lubi piwo.`
+#: wychodziłoby czytaniem z `piwo` w podmiocie (``tests/test_morfologia.py``).
+KOSZT_PRZESTAWIENIA = 1
+
+
+def _przestawienia(numery: Sequence[int]) -> int:
+    """Ile par tego szyku stoi odwrotnie niż w deklaracji, czyli odległość Kendalla."""
+    return sum(
+        1
+        for pierwsza in range(len(numery))
+        for druga in range(pierwsza + 1, len(numery))
+        if numery[pierwsza] > numery[druga]
+    )
 
 
 def _nazwa(część: Part | Głowa) -> str:
@@ -84,6 +114,7 @@ class Rozwinięcie:
         symbol: str,
         córki: Sequence[Part | Głowa],
         precedencja: Warunek | None = None,
+        koszt: int = 0,
         **cechy,
     ) -> None:
         """Wpisz ten konstytuent każdym szykiem tych córek i każdym miejscem na okolicznik.
@@ -92,35 +123,43 @@ class Rozwinięcie:
         podany przepuszcza te przestawienia córek, na które odpowiada prawdą.
         Cechy są wspólne wszystkim wypisanym ciałom, bo wypuszcza je konstytuent,
         a nie kolejność, w jakiej stoją jego córki.
+
+        Koszt podany tutaj mówi, że cała ta rodzina jest konstrukcją nacechowaną,
+        więc stoi w wydruku pod podstawową. Dodają się do niego dwa koszty
+        wyliczane z deklaracji, bo produkcja niesie jedną liczbę.
         """
-        for szyk in self._szyki(córki, precedencja):
-            for ciało in self._miejsca(szyk):
-                self.grammar.rule(symbol, ciało, **cechy)
+        for koszt_szyku, szyk in self._szyki(córki, precedencja):
+            for koszt_okolicznika, ciało in self._miejsca(szyk):
+                self.grammar.rule(
+                    symbol, ciało, koszt=koszt + koszt_szyku + koszt_okolicznika, **cechy
+                )
 
     def _szyki(
         self, córki: Sequence[Part | Głowa], precedencja: Warunek | None
-    ) -> Iterator[list[Part | Głowa]]:
-        """Szyki, na które ten warunek pozwala, w kolejności przestawień córek."""
+    ) -> Iterator[tuple[int, list[Part | Głowa]]]:
+        """Szyki, na które ten warunek pozwala, każdy wraz ze swoim kosztem."""
         if precedencja is None:
-            yield list(córki)
+            yield 0, list(córki)
             return
-        for szyk in permutations(córki):
+        for numery in permutations(range(len(córki))):
+            szyk = [córki[numer] for numer in numery]
             if precedencja(tuple(_nazwa(część) for część in szyk)):
-                yield list(szyk)
+                yield _przestawienia(numery) * KOSZT_PRZESTAWIENIA, szyk
 
-    def _miejsca(self, szyk: Sequence[Part | Głowa]) -> Iterator[list[Part | Głowa]]:
+    def _miejsca(self, szyk: Sequence[Part | Głowa]) -> Iterator[tuple[int, list[Part | Głowa]]]:
         """Ten szyk bez okolicznika, a za nim ten sam szyk z okolicznikiem w każdym miejscu.
 
         Miejsce jest za każdą córką, która okolicznika nie bierze sama — obok
         takiej córki byłoby ono drugim wyprowadzeniem jednego napisu — i miejsce
         na końcu konstytuenta jest tym za córką ostatnią, a nie regułą obok.
-        Ciało bez okolicznika idzie pierwsze, bo jest tym, o którym deklaracja mówi,
-        a miejsca idą od lewej, żeby produkcje stały w gramatyce w kolejności,
-        którą wypisuje sam szyk.
+
+        Miejsca kosztują wszystkie tyle samo: okolicznik postawiony w innym miejscu
+        obejmuje inne słowa, więc rozstrzyga o nim cięcie, a nie koszt
+        (``_klucz_wyprowadzenia`` w ``olski/parse.py``).
         """
         nazwy = [_nazwa(część) for część in szyk]
-        yield list(szyk)
+        yield 0, list(szyk)
         for gdzie, córka in enumerate(nazwy, start=1):
             if córka in self.własny_okolicznik:
                 continue
-            yield [*szyk[:gdzie], self.okolicznik, *szyk[gdzie:]]
+            yield KOSZT_OKOLICZNIKA, [*szyk[:gdzie], self.okolicznik, *szyk[gdzie:]]

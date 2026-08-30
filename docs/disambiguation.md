@@ -107,7 +107,8 @@ bo o zdaniu z jednym czytaniem nie ma czego pytać.
 
 Punktem odniesienia dla każdej takiej maszyny
 jest to, co ten parser oddaje za darmo.
-Las wydaje czytania w kolejności ustalonej przez `ciała` w `olski/parse.py`,
+Las wydaje czytania w kolejności, którą ustala
+`wyprowadzenia` w `olski/parse.py` ([sekcja niżej](#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie)),
 a kolejność ustalona jest rankingiem,
 tyle że takim, który nie widział ani jednego drzewa wzorcowego.
 Nad zdaniami, które olski odrzuca za wieloznaczność,
@@ -123,6 +124,66 @@ bo mierzy zgodność dwóch ról, a nie całego drzewa
 Rzędu wielkości to nie rusza:
 architektura, o którą tu chodzi, startuje z dwóch trzecich zrobionych,
 i to jest ta część pytania, o której najłatwiej zapomnieć.
+
+### Kolejność czytań ustala koszt produkcji i późne domknięcie
+
+Kolejność, którą mierzy sekcja wyżej, jest deklaracją.
+Las porządkuje ciała jednej pozycji trzema rzeczami po kolei
+(`wyprowadzenia` w `olski/parse.py`):
+kosztem produkcji, potem miejscem cięcia, a na końcu etykietą córki.
+Werdyktu żadna z nich nie rusza — czytań jest tyle samo i mówią to samo —
+więc rozstrzygają one o tym, co czytelnik widzi u góry wydruku
+i co mieści się w czytaniach wypisywanych przed granicą wyliczania.
+
+Koszt jest liczbą całkowitą stojącą przy produkcji.
+Całkowitą, bo jest deklaracją, a nie wagą wyuczoną:
+koszt ułamkowy byłby logarytmem prawdopodobieństwa,
+czyli tym modelem, którego [ten dokument nie chce](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje).
+Wypisywać go przy każdej produkcji nie sposób,
+bo jest ich tysiąc kilkaset, z czego blisko połowa to samo `orzeczenie`,
+a wypisuje je rozwinięcie z jednej deklaracji.
+Liczby są przez to trzy i wszystkie mówią to samo:
+ciało wypisane w deklaracji jest tym podstawowym.
+Dwie wyliczają koszt z deklaracji (`olski/precedencja.py`) —
+konstytuent bierze okolicznik, a jego córki stoją w innym szyku niż wypisany —
+a trzecia mówi o jednej rodzinie produkcji, że jest konstrukcją nacechowaną,
+i jest nią orzecznik wysunięty przed kopulę (`olski/subset.py`).
+
+Cięcie rozstrzyga ciała jednego kosztu i idzie rozpiętością malejąco,
+czyli przepuszcza przodem to czytanie, w którym wyrażenie dołączyło
+do konstytuentu stojącego tuż przed nim, a nie do tego wyżej.
+Nazywa się to domknięciem późnym, a kierunek wybrano pomiarem,
+bo argumentu z góry na niego nie było.
+
+Zmierzono nad Składnicą każdą z tych rzeczy osobno
+i pomiar mówi jedno: rozstrzyga cięcie, a koszty niemal nie.
+Cięcie odwrócone na rosnące traci co dziesiąte trafienie w złote czytanie,
+czyli spada z niespełna sześciu na dziesięć poniżej pięciu.
+Koszty przy dobrym cięciu ruszają kilka zdań na dwa tysiące,
+a wyjątkiem jest sam znak kosztu okolicznika:
+czytanie z okolicznikiem postawione przed czytaniem bez niego
+traci prawie tyle, co odwrócone cięcie.
+
+Zostały mimo to i jest to decyzja, a nie odczyt.
+Rozstrzygają zdania, o których ten korpus nie ma zdania:
+bez kosztu szyku `Janek lubi piwo.`, a bez kosztu wysunięcia `On jest wolny.`
+wychodzą pierwszym czytaniem odwróconym,
+bo ciała o córkach tej samej rozpiętości rozstrzyga wtedy alfabet etykiet.
+Bank drzew ma oba szyki i koszt wygrywa nad nim tyle zdań, ile traci,
+więc pomiar milczy i rozstrzyga sama deklaracja:
+szyk wypisany w niej jest podstawowy, a wysunięcie jest nacechowane.
+Czwarta taka liczba nie została: odsunięcie okolicznika od końca konstytuenta
+wyceniano tak samo i nie rusza ono ani jednego zdania,
+bo miejsca okolicznika różnią się rozpiętością córek, a o tych mówi już cięcie.
+
+Kolejności dopisań nie widać w żadnej z tych trzech rzeczy i to jest cel.
+Przestawiona zmieniałaby pierwsze czytanie mniej więcej w połowie zdań
+wieloznacznych README, a werdyktu nie ruszała w żadnym;
+że dziś nie zmienia żadnego, pilnuje `tests/test_kolejność.py`.
+Sama liczba trafień na tym nie zyskała, bo kolejność dopisań trafiała podobnie,
+i nie to było pytaniem: liczba z sekcji wyżej wisiała na czymś,
+czego nikt nie zadeklarował, więc ruszało ją każde przestawienie produkcji
+i nie było tego widać w przeglądzie.
 
 ### Cechy lekkie biją ciężkie, bo uzgodnienia sprawdziła już gramatyka
 
