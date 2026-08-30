@@ -138,7 +138,7 @@ Kryterium trzyma
 Droga jest za każdym razem ta sama.
 Tyle o niej trzeba wiedzieć.
 Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi.
-Ciało dochodzi do `build` w `olski/subset.py`.
+Ciało dochodzi do sekcji swojego gospodarza w `olski/subset.py`.
 Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
 ([CLAUDE.md](../CLAUDE.md#code)).
 Korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)
