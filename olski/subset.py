@@ -955,6 +955,11 @@ PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 #: wchodzą razem.
 PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWEK_WZGLĘDNY)
 
+#: Przymiotnik w formie poprzyimkowej: `polsku`, `cichu`, `prostu`, `bliska`.
+#: Cała część mowy, bo `adjp` jest u Morfeusza formą, która poza przyimkiem nie
+#: stoi, więc lista lematów nie miałaby czego odsiać.
+FORMA_POPRZYIMKOWA = word("adjp")
+
 #: Cząstki, które ten rejestr stawia przy zdaniu: `już`, `dopiero`, `także`.
 #: Lista jest zamknięta, bo ``part`` niesie całą klasę cząstek naraz, a kryterium
 #: na wejście jest jedno: cząstka ma nie mieć czytania, które gramatyka bierze już
@@ -2882,6 +2887,15 @@ def build() -> Grammar:
         OKOLICZNIK_PRZYSŁÓWKOWY,
         [word("adv", lemma=PRZYSŁÓWEK_WZGLĘDNY), Głowa(word("adv", lemma="indziej"))],
     )
+    # Przyimek z przymiotnikiem w formie poprzyimkowej: `po polsku`, `po cichu`.
+    # Okolicznikiem, a nie wyrażeniem przyimkowym, bo `adjp` nie niesie przypadka,
+    # więc przyimek nie rządzi tu niczym, a pytanie, na które ta para odpowiada,
+    # jest pytaniem przysłówka.
+    #
+    # Głową jest forma, a nie przyimek, i z tego samego powodu: głowa wypuszcza
+    # swoje cechy w górę (``Grammar._wypuszczane``), więc przyimek wypuszczałby
+    # przypadek, którego okolicznik nie ma z czym uzgadniać.
+    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYIMEK, Głowa(FORMA_POPRZYIMKOWA)])
 
     # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią
     # (:data:`CZĄSTKA_ZDANIA`); kryterium na jej listę stoi przy :data:`CZĄSTKI`.

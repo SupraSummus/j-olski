@@ -364,6 +364,22 @@ i [`docs/fiction.md`](docs/fiction.md)
 linkują tabelę poziomów jako rzecz dzisiejszą,
 a resztę tamtego dokumentu jako zapis.
 
+Bloki Markdowna czyta w tym repozytorium jeden program wzorcem, a drugi parserem.
+`_ogrodzone` w `tests/test_wydruki.py` szuka ogrodzeń po wierszach,
+bo `_wydruki` obok potrzebuje numeru wiersza:
+paruje blok poleceń z wydrukiem stojącym pod nim.
+`wstawki` w `harness/cytaty.py` pyta o to samo `markdown_it`,
+czyli tak, jak granicę między parserem a decyzją stawia `harness/markdown.py`.
+Różnica nie jest kosmetyczna: wzorzec po wierszach czyta ciąg backticków
+otwierający blok tak samo jak wstawkę i nie schodzi do pozycji listy.
+Ruchem jest przepisanie tamtego czytnika na tokeny,
+bo `markdown_it` daje pod `map` zakres wierszy, którego to parowanie potrzebuje.
+Do przeczytania jest `_wydruki`, a nie sam `_ogrodzone`, bo to ono liczy na numery.
+Zbiór plików wypisują przy tym trzy miejsca i nie jest on w nich ten sam:
+`DOCUMENTS` w `tests/test_docs.py` oraz `domyślne` w `harness/cytaty.py`
+biorą korzeń wraz z `docs/`, a `_wydruki` pomija `CLAUDE.md` i `TODO.md`,
+więc bloku wydruku wklejonego do tych dwóch nie pilnuje nic.
+
 ## Komendy i sondy
 
 `harness/pomiar.py` ma własny wiersz poleceń, choć bierze już to samo,
@@ -428,25 +444,6 @@ a potem albo `BRANE` wspólne dla obu sond, albo zapisany powód, czemu jedna go
 Do przeczytania jest `_pewność` w `harness/rama.py` oraz dwanaście par,
 które tamta sonda wypisuje: jeżeli odsiew rusza liczbę, to rusza i te pary,
 a wtedy należy się ich przeczytanie, a nie sama poprawiona liczba.
-
-Zdania wklejone w prozę zmienia gramatyka, a żaden przebieg tego nie wypisuje.
-Przykład przestaje wtedy pokazywać to, o czym mówi zdanie nad nim,
-i widać to dopiero wtedy, gdy ktoś je puści ręką:
-`tests/test_docs.py` czyta linki i anchory, a nie liczbę czytań,
-a `tests/test_wydruki.py` pilnuje bloków stojących pod komendą i tych zdań nie tyka.
-Wpuszczenie dopełnienia przed czasownik zdania bez podmiotu ruszyło werdykt
-czternastu takich zdań, a poprawki żądały cztery, i wszystkie cztery znalazł
-przebieg pisany na jedną sesję, bo w drzewie takiego nie ma.
-Ruchem jest komenda wypisująca werdykt i liczbę czytań każdego zdania cytowanego
-w prozie, po jednym wierszu na zdanie, żeby dwa drzewa robocze dały się porównać
-diffem — tak samo jak przy zmianie, która ma tylko przyspieszyć
-([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
-Do rozstrzygnięcia jest, co jest zdaniem cytowanym:
-sesja brała span kodu zaczynający się wielką literą i kończący kropką
-oraz wiersze bloków `text`, i to kryterium wpuszcza nazwy plików razem ze zdaniami.
-Do przeczytania jest `_ogrodzone` w `tests/test_wydruki.py`,
-bo bloki czyta już ono, a różnica jest w tym, że tamto pyta komendę,
-a to ma pytać gramatykę.
 
 Polecenie powtarzające pomiar luki zlepia siedem aktów `cat`-em,
 a sonda bierze je teraz osobno.
@@ -623,24 +620,6 @@ a wystąpień w prozie nie pilnuje nic i te trzeba przejść grepem.
 Do przeczytania jest przy tym
 [`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
-
-Zmiana, która przestawia gramatykę, nie ruszając tego, co się z niej wyprowadza,
-nie ma czym tego dowieść.
-Odcisk z [`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
-jest przebiegiem werdyktu po całej prozie:
-trwa parę minut, żąda Morfeusza i mówi o zdaniach, a nie o produkcjach,
-więc różnicę pokazuje dopiero na zdaniu, którego werdykt się przez nią zmienia.
-Deklaracja czytana w miejsce listy wypisanej ręką nie zmienia żadnego werdyktu,
-a dowodu żąda tak samo, i wtedy ostrzejszy jest odcisk samej gramatyki:
-produkcje wraz z deklaracją wypisane tak,
-żeby dwa drzewa robocze dały się porównać diffem.
-Ruchem jest komenda, która to drukuje.
-Do przeczytania jest `_wypisz` w `olski/grammar.py`:
-odcisk pisany w sesji wypisał kilkadziesiąt różnic, których nie było,
-bo `repr` zbioru szedł kolejnością haszy losowanych przy starcie
-([`CLAUDE.md`](CLAUDE.md#code)).
-To jedno miejsce jest naprawione,
-a komenda ma oszczędzić następnej sesji pisania tego skryptu razem z tą pomyłką.
 
 ## Korpusy, ekstrakcja i figury
 

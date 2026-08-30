@@ -1449,7 +1449,7 @@ python3 -m olski.check -c "Prozę w tym repozytorium łamiemy według Semantic L
 python3 -m olski.check -c "Nowa program zapisuje ustawienia."
 ```
 
-Pierwsze zdanie stoi na nazwie obcej przytoczonej po polsku i na `polsku`,
+Pierwsze zdanie stoi na nazwie obcej przytoczonej bez cudzysłowu,
 a drugie ma każdą formę wziętą i stoi na zgodności rodzaju.
 Są to dwie różne odpowiedzi i dwie różne roboty do zrobienia,
 i dlatego werdykt je rozdziela, tak jak
