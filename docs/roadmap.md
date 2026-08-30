@@ -29,10 +29,10 @@ i żaden nie mówi, na co drugi czeka.
 
 Tor gramatyczny:
 parser zaprojektowanego podzbioru polszczyzny,
-który wieloznaczność oddaje autorowi, zamiast rozstrzygać ją za niego.
+który zwraca wszystkie odczytania zdania i zostawia wybór autorowi.
 Zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie,
 więc werdykt takiego parsera jest wypowiedzią o zdaniu:
-mówi, że się nie wyprowadza, albo że wyprowadza się na dwa sposoby, i na jakie.
+mówi, że się nie wyprowadza, albo że wyprowadza się na kilka sposobów, i na jakie.
 [subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
 trzyma decyzję, która czyni tę własność olskiego własnością,
 a [swigra.md](swigra.md#what-it-leaves-open) miejsce, w którym przegląd zastał puste pole:
@@ -266,6 +266,15 @@ O polszczyźnie, której nikt pod olskiego nie pisał,
 mówią odtąd bank drzew i ustawy, i tylko one.
 Liczby wzięte nad tym plikiem przed przepisaniem trzyma git,
 a dzisiejsze drukuje przebieg.
+
+**Redakcja README ma pierwszeństwo przed pomiarem, który jego prozę cytuje.**
+Plik wprowadza kogoś, kto trafia tu pierwszy raz
+([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)),
+a zdanie skasowane albo przepisane zabiera przy okazji przykład dokumentowi,
+który to zdanie cytował jako pozycję przebiegu.
+Ustępuje wtedy dokument: zdanie służy w nim dalej za przykład,
+traci wskazanie na tę prozę, a liczbę nad nią przelicza polecenie.
+Odwrotnie nie wolno, bo README pisane pod cudzy cytat przestaje wprowadzać.
 
 Zdaniem jest tu to, co zamyka kropka, wykrzyknik albo pytajnik.
 Nagłówek, pozycja listy i wiersz tabeli

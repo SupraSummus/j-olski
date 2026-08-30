@@ -356,8 +356,8 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-Half of that README's sentences derive once,
-half derive more than once,
+A third of that README's sentences derive once,
+most of the rest derive more than once,
 and a handful are rejected.
 The file is written that way rather than found that way:
 it omits the constructions olski does not derive
@@ -410,8 +410,8 @@ and disagree on what admitting one is worth.
 Most sentences either run rejects carry two missing classes or more,
 so a production added by itself leaves them where they stand,
 and the row the treebank ranks first rates at nothing here.
-`Działają dwie rzeczy` is the one sentence this run has bought
-against a prediction made before the addition:
+A prediction made before an addition can be checked against one sentence,
+and `Działają dwie rzeczy.` is the sentence it was checked on:
 it needed the numeral phrase and nothing else.
 The reason the prediction could be made at all was
 [the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) —

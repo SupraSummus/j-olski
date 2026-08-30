@@ -9,43 +9,12 @@ Narzędzia tego projektu biorą podzbiór, a nie całą polszczyznę.
 Żaden cel nie żąda pełnego pokrycia.
 Cele wylicza [docs/roadmap.md](docs/roadmap.md#cele).
 
-**Parser tego podzbioru** mówi, że zdanie czyta się dwojako,
-a za autora nie wybiera.
+**Parser tego podzbioru** zwraca wszystkie odczytania zdania.
+Wieloznaczność widać po ich liczbie, a wybór zostaje przy autorze.
 
-Wzorem jest kompilator, a model językowy nie jest tu wzorem.
-Parser jest tani i deterministyczny,
-a każdy werdykt przychodzi z odczytaniem, z którego wyszedł.
-To samo wejście daje tę samą odpowiedź.
-
-Obok parsera stał tu pakiet reguł stylu dla polskiej dokumentacji technicznej.
-Pakiet jest wycofany, a linter zostaje celem projektu.
-Przyczynę wycofania trzyma [docs/linter.md](docs/linter.md#co-zamknęło-pakiet-reguł),
-a cenę pakietu liczy [docs/firing-rates.md](docs/firing-rates.md).
-
-## Dlaczego biała lista, skoro czarna była tańsza
-
-Język kontrolowany jest białą listą,
-a biała lista mówi, które konstrukcje istnieją.
-Linter jest czarną listą,
-a czarna lista mówi, które wzorce zostaną zgłoszone.
-Autor pisze poza tym, co chce.
-
-Zbiór tekstów, które przechodzą przez wszystkie reguły,
-jest w obu przypadkach podzbiorem polszczyzny,
-a wyznaczenie tego zbioru przez wykluczanie jest nieporównanie tańsze.
-Po to ta czarna lista tu stała.
-[Wywód, który za nią stał](docs/linter.md#this-is-the-same-subset-approached-from-behind),
-stoi dalej.
-
-Czarna lista kupowała jednak co innego, niż obiecywała.
-Reguła, która sięga do znaku w zdaniu,
-nie mówi o polszczyźnie tego zdania nic,
-a na głębszym poziomie analizy przestaje być tania:
-[pomiar](docs/linter.md#co-zamknęło-pakiet-reguł) nad dwoma korpusami mówi,
-że taki poziom odpowiada na inne pytanie, niż zadaje reguła.
-Cenę białej listy płaci autor, bo nie czuje granicy.
-Odrabia ją parser, bo zamiast samej odmowy pokazuje oba odczytania.
-Granicę pokazuje sama odpowiedź.
+Wzorem jest kompilator, a nie model językowy.
+Rozbiór jest deterministyczny, więc to samo wejście daje tę samą odpowiedź.
+Każdy werdykt przychodzi z odczytaniem, z którego wyszedł.
 
 ## Kierunek
 
@@ -65,8 +34,6 @@ oraz [docs/roadmap.md](docs/roadmap.md#tor-gramatyczny-nie-ma-końca).
 Nie ma aplikacji, która napędzałaby to wszystko.
 
 ## Co działa
-
-Działają dwie rzeczy.
 
 **Gramatyka podzbioru polszczyzny** stoi nad Morfeuszem 2.
 Zdanie jest w niej olskie dopiero wtedy, gdy ma dokładnie jedno odczytanie.
@@ -173,11 +140,10 @@ kompiluj(V.sprawdzać(R.parser, ~(A.polski * R.tekst)))  # Parser sprawdza polsk
 ```
 
 Kategorie tego drzewa są kategoriami dziedziny.
-Drzewo mówi, że jedna rzecz jest określeniem drugiej albo celem.
-Przypadków drzewo nie nazywa.
-Zgodność liczy skład po drodze.
-Gramatyki skład nie czyta.
-Pokrycia gramatyki skład nie dziedziczy.
+Drzewo nazywa jedną rzecz określeniem drugiej albo jej celem.
+Przypadki dobiera skład, a zgodność form liczy po drodze.
+Skład pracuje bez gramatyki podzbioru.
+Pokrycie tego toru jest osobne.
 
 Nad zdaniem stoi opowieść, bo tekst wie to, czego zdanie samo o sobie nie wie:
 czas zdarzenia i osobę, o której mowa była przed chwilą.
@@ -307,11 +273,11 @@ Te dokumenty obsługują **oba tory**.
 - [docs/similar-work.md](docs/similar-work.md) mówi,
   które obietnice stu kontrolowanych języków naturalnych ktoś naprawdę zmierzył.
 
-Te dokumenty opisują **linter**.
-Jego pakiet reguł jest wycofany.
+Te dokumenty opisują **linter**, czyli wykrywacz wzorców prozy.
+Jest on jednym z [celów](docs/roadmap.md#cele).
 
 - [docs/linter.md](docs/linter.md) wylicza cztery osie reguły
-  i mówi, co zamknęło tamten pakiet.
+  i mówi, co zamknęło wycofany pakiet reguł.
 - [docs/firing-rates.md](docs/firing-rates.md) mówi,
   co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał.
   Nazywa cenę, za którą pakiet został wycofany.

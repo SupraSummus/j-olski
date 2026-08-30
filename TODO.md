@@ -215,6 +215,38 @@ które tamta sekcja wylicza.
 Ceną są dwie rzeczy: wyliczenie stoi wtedy drugi raz,
 a test czerwienieje po redakcji README, a nie po zmianie w gramatyce.
 
+Liczby sond stojące nad prozą README zmierzono nad tekstem sprzed redakcji.
+Zdania `nad README nie rusza ani jednego werdyktu` w
+[`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md)
+oraz liczby luki i podłoża więzowego w
+[`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
+mówią o pliku, który stracił sekcję o dwóch listach,
+a akapit o parserze ma przepisany na twierdzący.
+Ruchem jest przebieg tych sond nad prozą dzisiejszą
+(`python3 -m harness.markdown README.md --into proza/`)
+i poprawka tych zdań, które przebieg zastanie nieprawdziwymi.
+Predykat sondy do drzewa nie wchodzi, więc pisze się go na nowo
+([`CLAUDE.md`](CLAUDE.md#code)).
+Wpis waży tyle, ile ważą te zdania:
+większość mówi kierunek albo rząd wielkości i redakcję przeżyje bez zmiany.
+
+Orzekanie przez zaprzeczenie stoi w prozie tego repozytorium setki razy.
+Zdanie tej klasy niesie predykację w członie zanegowanym,
+a po skreśleniu tego członu nie mówi nic:
+`Cięcie nie jest granicą konstrukcji.` w README stoi tak dalej,
+a sam zwrot „a nie” pada w `docs/konstrukcje-gramatyczne.md` przeszło sto razy.
+Ruchem jest przebieg z jednym pytaniem na zdanie —
+co zostaje po skreśleniu członu zanegowanego —
+i zdanie twierdzące tam, gdzie nie zostaje nic;
+wykluczenie, które ktoś naprawdę by zaproponował, zostaje
+([`CLAUDE.md`](CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)).
+Do przeczytania jest cena po stronie gramatyki:
+zdanie zanegowane wychodzi jednoznaczne przez dopełniacz,
+więc taki przebieg kupuje czytelność kosztem jednoznaczności
+([`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#cena-którą-olski-zostawia-w-prozie)).
+Kto podnosi ten wpis, rozstrzyga też, czy klasa jest robotą ręczną,
+czy pierwszym wzorcem dla wykrywacza z [listy celów](docs/roadmap.md#cele).
+
 Prozy tych dokumentów nikt nie przeczytał pod jednym pytaniem:
 czy to zdanie przeżyje następną produkcję.
 Jedna sesja znalazła trzy zdania, które go nie przeżyły,
@@ -1706,14 +1738,13 @@ Te dwie deklaracje rozeszły się na koordynacji przecinkiem
 — olski bierze przecinek na czterech poziomach, a sonda spójnik —
 i drugi raz na podrzędności, której sonda nie ma wcale,
 a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
-Trzecie rozejście widać i jest to grupa liczebnikowa:
-`Działają dwie rzeczy` olski wyprowadza jednym czytaniem, a sonda odrzuca,
-więc liczba zdań zgodnych spadła i mówi teraz o tym, czego sonda nie ma,
-a nie o tym, czym się te dwa opisy różnią
+Trzecie rozejście jest grupą liczebnikową:
+`Działają dwie rzeczy.` olski wyprowadza jednym czytaniem, a sonda odrzuca.
+README tego zdania nie ma, więc liczba zdań zgodnych rozejścia nie pokazuje,
+a same opisy różnią się dalej
 ([`docs/design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)).
-Jest to pierwsze rozejście, które ta liczba pokazuje,
-i przez to pierwszy dowód, że kopia starzeje się przy każdej produkcji.
-Czwarte przyszło z interpunkcją zdaniową i pokazuje się tą samą liczbą:
+Czwarte przyszło z interpunkcją zdaniową i tą samą liczbą się pokazuje,
+przez co jest dowodem, że kopia starzeje się przy każdej produkcji:
 dwa zdania README olski wyprowadza od tej pory, a sonda odrzuca oba,
 bo dwukropka ani przecinka przed spójnikiem nie ma po tamtej stronie.
 Piąte przyszło z okolicznikiem narzędnikowym i zabrało tej kopii zdanie,

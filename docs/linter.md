@@ -178,6 +178,13 @@ The failure mode drops from
 to "the tool nags about my sentence",
 which is a category of failure every programmer already tolerates daily.
 
+Cenę tę u olskiego płaci autor, a odrabia mu ją kształt odpowiedzi.
+Werdykt wypisuje odczytania, które zdanie ma,
+więc autor czyta granicę z samej odpowiedzi, a nie z odmowy
+([README](../README.md#co-działa)).
+Rachunek z fotela autora opisuje
+[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
+
 ### It also removes two hard requirements
 
 No generator is needed,
