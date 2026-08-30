@@ -100,18 +100,19 @@ python3 -m harness.znaczenia Składnica-frazowa-180723/ --morfologia live
 
 Ten przebieg daje dwie odpowiedzi.
 Pierwsza odpowiedź jest o mianowniku, a nie o wieloznaczności.
-Nad bankiem drzew pytanie to daje się postawić kilku zdaniom
-z tysiąca z górą, które olski melduje jako wieloznaczne,
+Pytanie to daje się postawić najwyżej kilku zdaniom na tysiąc
+spośród tych, które olski melduje jako wieloznaczne,
 bo nad resztą nie wraca ani jedno czytanie,
-a nad prozą tego repozytorium nie daje się postawić żadnemu.
+i mówi to tak samo bank drzew, jak i proza tego repozytorium.
 Kategorią, której brakuje najczęściej,
 jest wyrażenie przyimkowe pod grupą imienną,
 czyli dokładnie to przyłączenie, o które w tym pytaniu chodzi.
 Warstwa trzecia zameldowanej wieloznaczności zatem nie zdejmuje,
 bo jej nie dosięga.
 Nad tymi zdaniami, nad którymi ją dosięga, wieloznaczność zostaje:
-czytania wracają w tych zdaniach w drzewach rozłącznych.
-Mówią to obie morfologie, choć żywa daje pytaniu populację kilka razy większą.
+czytania wracają w tych zdaniach w drzewach rozłącznych, i to bez wyjątku.
+Mówią to obie morfologie i mówi to proza,
+choć morfologia żywa daje pytaniu populację kilka razy większą niż złota.
 
 Druga odpowiedź jest o tym, jak ten pomiar wolno postawić.
 Zdanie o jednym czytaniu ma w tej warstwie kilka drzew.

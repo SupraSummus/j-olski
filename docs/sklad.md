@@ -882,6 +882,7 @@ Który z dwóch mówi tu prawdę, pyta [`TODO.md`](../TODO.md).
 
 Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
 Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
+cząstki, drugiego dopełnienia, spójnika na czele zdania,
 okoliczności przy orzeczeniu imiennym
 oraz wyrażenia przyimkowego pod grupą imienną ten zapis nie ma czym powiedzieć.
 Przymiotnik po rzeczowniku kategorię ma, a wraca z niej inny szyk,
@@ -941,6 +942,22 @@ Różnica jest jedna i jest nią właśnie tożsamość:
 wychodzi ona numerem nadanym po kolei, a nie obiektem,
 bo drzewo zbudowane z napisu nie ma jak dzielić obiektów z tym,
 z którego ten napis wyszedł.
+
+Kryteria tożsamości są przy tym dwa, bo pytania są dwa.
+Obok `sygnatura` stoi `znaczenie`, które pyta o jedno zdanie logiczne,
+a nie o jedno drzewo, i zdejmuje w tym celu znacznik tematu:
+`Celem jest parser.` i `Parser jest celem.` wychodzą pod nim równe.
+Obieg zostaje przy sygnaturze, bo żąda z powrotem tego drzewa,
+które napis wypuściło, a nie tego samego zdania logicznego.
+Czy łącznik `to` schodzi tą samą drogą co znacznik,
+nie rozstrzygnięto, i trzyma to [`TODO.md`](../TODO.md).
+
+`harness/znaczenia.py` zostaje przy sygnaturze i jest to pomiar, a nie przeoczenie.
+Przestawiona na drugie kryterium nie rusza ani jednego werdyktu,
+i mówią to wszystkie zdania, którym pytanie to daje się dziś postawić,
+pod obiema morfologiami banku drzew i nad prozą tego repozytorium.
+Znacznik tematu pada bowiem pod każdym czytaniem tak samo,
+więc zbiory drzew dzielą go i bez tego kryterium.
 
 Przyłączenie widać na tym obiegu tak, jak je ten zapis rozstrzyga.
 `Program zapisuje ustawienia w repozytorium.` czyta się w olskim dwojako,
