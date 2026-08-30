@@ -387,7 +387,7 @@ and charges for the ones that had a single reading and now have two.
 Each point is a net of those two counts,
 and a tier can cost more sentences than it buys.
 Tier 0 already spends that way on purpose in one place:
-[the bare verb-initial order](subset.md#the-bare-verb-initial-order-keeps-the-predicative-one-honest)
+[the bare verb-initial order](konstrukcje-gramatyczne.md#the-bare-verb-initial-order-keeps-the-predicative-one-honest)
 was admitted knowing it takes a sentence's uniqueness with it,
 and [corpus.md](corpus.md#what-morphological-ambiguity-costs)
 watches the same exchange arriving from the morphology instead.
@@ -438,7 +438,7 @@ czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku,
 a garść z nich dochodzi do końca zdania i nie domyka go wcale.
 Przysłówka wśród nich nie ma: produkcja, która go stamtąd zdjęła,
 nie kupiła ani jednego z tych zdań
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
 `Co mamy wziąć?` i `To chcę podkreślić.` stają na zaimku rzeczownym,
@@ -487,7 +487,7 @@ i po zdjęciu spójności 100 z tych 348 przestaje mieć jedno czytanie.
 Mianownik rośnie z gramatyką, a te dwie liczby rosną z nim wtedy,
 gdy gramatyka dopisuje kształt, który podłoże już miało.
 Grupy liczebnikowej podłoże nie ma
-([subset.md](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 więc każde zdanie, które ona olskiemu kupiła, odrzuca i tych liczb nie rusza;
 cztery szyki ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
 i podłoże czytało te zdania, zanim olski dostał na nie ciała.
@@ -606,7 +606,7 @@ kilkadziesiąt ciał `rdzeń_względny` w `olski/subset/podrzędne.py`,
 po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie,
 a role, które te ciała wypełniają, wywodzi
-[subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
+[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
 Wysunięte dopełnienie sięga tam tylko do formy osobowej,
 więc `Ustawa, którą organ gminy może wydać, jest tania.` nie wyprowadza się wcale.
 Cecha przeciągana zastępuje te ciała jedną produkcją:
@@ -628,7 +628,7 @@ Czytelnik ma w pierwszych dwóch zdaniach po jednym czytaniu, a w trzecim dwa,
 więc nadmiar bierze się w całości z miejsca, w które wypada luka.
 Nadmiar nie omija zdania, które luka kupuje:
 dopełnienie bezokolicznika ma pozycję wypisaną
-([subset.md](subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
 więc luka wypada obok niej i `Ustawa, którą organ gminy może wydać, jest tania.`
 wychodzi dwoma kształtami zamiast jednego.
 
@@ -653,7 +653,7 @@ czyli wskazuje zdanie względne i nie mówi, że idzie o miejsce luki w nim.
 **Nie kupuje przy tym tej konstrukcji, po którą sięgano.**
 Zdanie składowe bez podmiotu, czyli to, co przeciąganie dawało mimochodem,
 gramatyka wypisuje sama
-([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
 więc nad 13 035 zdaniami Składnicy pod złotą morfologią
 luka przypięta wyciąga z odrzucenia kilka zdań
 i jednoznaczność odbiera kilku;
@@ -663,7 +663,7 @@ Rejestr ustaw odpowiada mocniej: nad jego 4921 zdaniami
 ([ustawy.md](ustawy.md#co-gramatyka-z-tego-wyprowadza))
 luka nie wyciąga z odrzucenia ani jednego zdania i dwa kosztuje,
 a zdania o kształcie tamtej ustawy nie ma w tym rejestrze wcale
-([subset.md](subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)).
 Konstrukcja, dla której sięga się po szczebel 2, nie występuje więc
 w żadnym korpusie, jaki to repozytorium czyta.
 
@@ -761,7 +761,7 @@ a repozytorium już tak pracuje, więc jest to opis, a nie obietnica.
 Czytania, których żadna produkcja nie odbiera, odbiera kod obok gramatyki:
 `admissible` w `olski/segmentacja.py` wyrzuca rzeczownik nieodmienny tam,
 gdzie ta sama forma czyta się także jako słowo funkcyjne,
-a po co, mówi [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not).
+a po co, mówi [warstwa-leksykalna.md](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not).
 Nieciągłość zaś ma wyjście tańsze niż szczebel, na którym stoi:
 Świgra przeciąga przez ciąg o swobodnym szyku jedną lukę
 ([swigra.md](swigra.md#one-gap-instead-of-a-different-complexity-class)),
@@ -773,7 +773,7 @@ ani produkcja, ani wyższa klasa złożoności.
 Orzecznik zgodny jest tego przykładem: czytanie, które trzeba by zdjąć,
 rozstrzyga własność przymiotnika, a leksykon walencyjny mówi o czasowniku,
 więc ani produkcja, ani warstwa za parserem nie mają czym zapytać
-([subset.md](subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
 
 Otwarte są środki, a nie własności.
 Wiąże to, [czym olski jest](#what-olski-is):
@@ -828,7 +828,7 @@ którego ekstrakcja nie wypuszcza.
 Większość rozejść staje na przecinku, którego sonda nie ma do czego przyłączyć.
 Granica biegnie tam, gdzie olski bierze
 [przecinek jako znak koordynacji](subset.md#what-the-grammar-covers)
-oraz [interpunkcję zdaniową](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają),
+oraz [interpunkcję zdaniową](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają),
 a sonda po swojej stronie ma spójnik i nic poza nim.
 Reszta rozejść nie mówi o formalizmie nic i mówi coś o samej sondzie:
 liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego
@@ -917,7 +917,7 @@ Trzeciego nie zamyka nic poza leksykonem walencyjnym,
 i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
 a w sondzie trzema czytaniami różniącymi się tym, który czasownik bierze biernik.
-[Leksykon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
+[Leksykon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
 po stronie olskiego, bo mówi, że `pomagać` biernika nie bierze,
 a sonda ma po swojej stronie warunek na sam lemat kopuli,
 więc rozbieżność jest tym, o ile leksykon wyprzedził tamtą deklarację.
@@ -1319,7 +1319,7 @@ i nie jest to brak maszynerii, tylko granica tej decyzji:
 pozycja, której cena ma stać na takim rozdzieleniu,
 albo wypuszcza cechę, po której ją widać, albo dostaje osobny symbol.
 Wpuszczenie okolicznika zdaniowego nad ciąg współrzędny poszło drogą pierwszą
-([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
 a tym, co żadnej z nich nie ma, jest luka: różni ją dokładnie to,
 czego pozycja o sobie nie mówi.
 
@@ -1334,10 +1334,10 @@ niż ma ich to zdanie.
 `wypełnienia` nad `docs/subset.md` budują się trzema produkcjami
 z `olski/subset/zdanie.py` — przez `dopełnienie`, przez `orzecznik`
 i przez okolicznik narzędnikowy —
-bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+bo [notacja rejestru](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
 Czytania są z tego dwa, bo okolicznik narzędnikowy dochodzi tu do czasownika
-([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
 a orzecznik ginie u rodzica.
 Obie są czytaniami tej rozpiętości, więc pakowanie stawia je pod jedną pozycją
 i robi z nimi to, czego pierwszy warunek żąda.
@@ -1506,7 +1506,7 @@ a dopisana produkcjami mnoży je przez czasowniki,
 co [etap 2](roadmap.md#etap-2-walencja) liczy jako powód swojej kolejności.
 Wchodzi więc cechą, którą czasownik niesie z leksykonu,
 a to, co przy nim stoi, żąda w niej swojej pozycji
-([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 Mówi przez to, co czasownik bierze, i nie mówi, ile tego bierze:
 liczba dopełnień zostaje w produkcjach,
 a rama, która się zużywa, jest tym, czego olski nie ma i co pokazuje
@@ -1553,7 +1553,7 @@ a ten sam warunek rozwinięty odpowiada raz na gramatykę.
 Rozwinięcie zostaje przez to wyborem o liczbę czytań, a nie ceną wejścia,
 i drugi z dwóch odbiorców tego warunku — luka — czeka po tamtej stronie granicy:
 pozycji w napisie nie pilnuje pozycja w ciele
-([niżej](#lukę-zmierzono-i-olski-jej-nie-bierze)).
+([wyżej](#lukę-zmierzono-i-olski-jej-nie-bierze)).
 
 Urwiska to nie dotyka i nie ma udawać, że dotyka.
 Pozycja lasu jest jednym odcinkiem tekstu,
@@ -1598,7 +1598,7 @@ Warunek ujemny tej gramatyki płaci więc polem za to,
 z czego wszystko obok niego żyje,
 i płaci nim na każdy zasięg, o jaki pyta:
 osobne pole ma wykluczenie czytania, osobne wykluczenie całej formy
-([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
 
 Żądanie obecności cechy ucieka temu przecięciu z drugiej strony
 i stoi poza `unify` z tego samego powodu.
@@ -1612,7 +1612,7 @@ jeden odmawia lematowi, drugi formie, która cechy nie niesie.
 Kupuje to klasę, którą tagset rozdziela, a produkcja nie umiała zażądać —
 przysłówek odprzymiotnikowy niesie stopień, a pierwotny nie —
 i tyle wystarcza, żeby przymiotnik brał jednego z nich
-([subset.md](subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
 
 Rodzaj grupy współrzędnej nie jest symetryczny między członami,
 bo polszczyzna wylicza go regułami, których unifikacja nie umie powiedzieć,
@@ -1626,7 +1626,7 @@ Negacja weszła tym kanałem, nie mając ani drugiej własności, ani trzeciej.
 Rządzenie nie jest symetryczne — czasownik żąda przypadka od dopełnienia,
 a dopełnienie od czasownika nie żąda niczego — i nie rozstrzyga się nad parą,
 bo dopełniacz negacji sięga pod bezokolicznik przez łańcuch dowolnej długości
-([subset.md](subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
 Przeszła dzięki pierwszej własności, czyli tej, na której stoi unifikacja:
 wartości są dwie, przecięcie tylko zawęża,
 a kierunek żądania zapisuje się jednostronnie —
@@ -1662,11 +1662,11 @@ bo on mówi, ile ona waży.
 
 Zawężanie liczby czytań ma tu właścicieli wyłożonych i jednego niewyłożonego.
 `admissible` w `olski/segmentacja.py` odbiera czytanie, którego polszczyzna nie ma,
-warunek na [zaimek rzeczowny](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
+warunek na [zaimek rzeczowny](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
 odbiera grupie imiennej drugie czytanie tego samego kształtu,
 a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.
 Każde z tych trzech jest pojedynczą decyzją z wywodem i z ceną:
-pierwsze wykłada [kryterium słownikowe](subset.md#the-dictionary-offers-readings-polish-does-not),
+pierwsze wykłada [kryterium słownikowe](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not),
 a ostatnie jest czterema wierszami, które ruszają każdy werdykt,
 choć nie ma w nich ani jednej produkcji.
 Lista ciał zawęża przez to, czego w niej nie ma,
@@ -1681,7 +1681,7 @@ a wieloznaczność jest werdyktem, który ktoś przeczyta.
 `valid` czyta się inaczej, bo po niego ten tor jest.
 Wyjątkiem jest zdanie leksykonu twierdzące — o celowniku i o dopełniaczu —
 bo tam milczenie o lemacie pozycję odbiera i zdanie z nią pada
-([subset.md](subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
 Odrzucenie nazywa formę, na której analiza stanęła, więc czyta je ten sam ktoś,
 a wpis dopisany do leksykonu jest tańszy niż produkcja.
 
@@ -1732,7 +1732,7 @@ the naturalness the project is aiming for.
 It follows that the **lexicon** is one declarative source read in both
 directions: what `używać` governs is a fact about a word,
 and a second copy of it drifts.
-[Walenty is that source](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+[Walenty is that source](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 and `olski/walencja.py` is what each direction reads it through:
 the parser turns it into the valency classes its productions need,
 and `Robi` in `olski/skład/składnia.py` asks it about the one lemma it was handed.

@@ -47,7 +47,7 @@ GRUPA_PYTAJNA = "grupa_pytajna"
 #: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
 #: więc bez tej etykiety wychodziłoby `valid` bez ani jednej roli.
 #: Czemu rola stoi obok orzecznika, a nie jest nim, wywodzi
-#: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+#: docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 
 
@@ -56,7 +56,7 @@ ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 #: Symbol jest osobny od :data:`ORZECZENIE_RZECZOWNIKOWE`, bo tamten czyni zdaniem każdą swoją
 #: córkę, a tutaj czyni je dopiero łącznik stojący za tą grupą; czemu grupa ta
 #: nie jest podmiotem, mówi
-#: docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
 ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 
 
@@ -69,8 +69,8 @@ ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 #: którego ono nie ma, a `orzeczenie: zgłoszono` dałoby `Zgłoszono program.` podmiot
 #: `program`, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 #: Co wpuszczenie każdej z tych dwóch głów kosztuje, mierzą
-#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
-#: docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
+#: docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
+#: docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
 ORZECZENIE_BEZOSOBOWE = "orzeczenie_bezosobowe"
 
 
@@ -95,7 +95,7 @@ CZĄSTKA_ZDANIA = "cząstka_zdania"
 #: Od orzecznika narzędnikowego różni ją to, kto jej udziela licencji:
 #: orzecznika żąda ramą kopula, a okolicznik stoi przy każdym czasowniku
 #: i przy żadnym nie wypełnia pozycji
-#: (docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
+#: (docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
 OKOLICZNIK_NARZĘDNIKOWY = "okolicznik_narzędnikowy"
 
 

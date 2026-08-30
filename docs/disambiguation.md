@@ -304,10 +304,10 @@ a w dwóch klasach, które je nazywają, w przeszło czterech piątych.**
 Udział ten obniża każda konstrukcja, której dwaj gospodarze różnią czytania rolą,
 a nie przyłączeniem, bo klasa `rola` rośnie wtedy, a tamta nie:
 pierwszym takim dopisaniem jest przysłówek
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 a zdanie okolicznikowe oraz interpunkcja zdaniowa idą tą samą drogą
-([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
-[subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
+[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Liczba jest górnym oszacowaniem i myli się w jedną stronę,
 bo dwa przyłączenia, z których jedno ma gospodarza tylko pod jednym czytaniem drugiego,
 dają czytań mniej niż iloczyn;
@@ -501,7 +501,7 @@ przeczytanie frazy wymaganej po drugiej stronie łamie schemat tego, kto jej ż�
 Olski taki leksykon ma i sięga nim po tę klasę.
 `olski/leksykon.txt` niesie kolumnę przyimków, których żąda rama słowa,
 i niesie ją po obu stronach sporu: przy czasowniku i przy rzeczowniku
-([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 bo Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika.
 Kolumna jest rozszerzeniem generatora, a nie nową maszyną,
 i mieści się w tym, co [etap 2](roadmap.md#etap-2-walencja) obejmuje.
@@ -526,7 +526,7 @@ Pomiar, który by te dwa mianowniki złożył, jest jedną z rzeczy, których tu
 ## Rama rozstrzyga po stronie rzeczownika, a po stronie czasownika nie
 
 Świadka ramowego wyceniono przed dopisaniem go, tak jak
-[przysłówek](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe),
+[przysłówek](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe),
 i pomiar rozstrzygnął go na pół.
 `harness/rama.py` pyta bank drzew, dokąd wyrażenie doszło u anotatora,
 i zestawia to z samym kryterium, a nie z werdyktem.
@@ -587,7 +587,7 @@ a po stronie czasownika nie wskazuje nikogo.
 Wyceniono to tak samo jak przysłówek, czyli połowa na gospodarza,
 a rozstrzygnęło się inaczej: tam obie połowy weszły,
 bo druga kupowała prawdę o drzewie
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
 a tutaj druga nie ma czym odpowiedzieć.
 Wypada to zgodnie z próbą nad rejestrem, wziętą nad innym korpusem i inną ręką:
 tam też rozstrzyga rama rzeczownika, i to w większości tych odpowiedzi,
@@ -1274,7 +1274,7 @@ Dopiero to, co po nim zostaje, jest ujednoznacznianiem.
 
 Pierwszy ruch jest pytaniem do leksykonu i źródło już na nie odpowiada.
 Walenty, ściągnięty tak, jak mówi
-[subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
+[warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 daje `wynająć` cztery schematy:
 
 ```text

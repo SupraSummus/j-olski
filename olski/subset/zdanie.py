@@ -71,7 +71,7 @@ def _szyki_zdania_składowego(
     #
     # Rodzaj przechodzi przez każdy szyk, bo żąda go czas przeszły, i dlatego
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
-    # docs/subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
+    # docs/konstrukcje-gramatyczne.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
     # a niezmiennik pilnuje test w tests/test_subset.py.
     #
     # Tryb przechodzi przez każdy szyk tą samą drogą i z tego samego powodu: żąda
@@ -86,7 +86,7 @@ def _szyki_zdania_składowego(
     # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
     # ``nom``, a nie wspólna zmienna, bo rama nie zastępuje pozycji: wspólna
     # zmienna wpuszcza tu kopulę z narzędnikiem. Co ona wtedy przyjmuje nad
-    # Składnicą, mierzy docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+    # Składnicą, mierzy docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
     orzecznik = nt("orzecznik", valency="nom", number=V("n"), gender=V("g"))
     czasownik_orzecznika = nt(
         "orzeczenie", number=V("n"), gender=V("g"), person=V("p"), valency="nom", tryb=V("t")
@@ -135,14 +135,14 @@ def _szyki_zdania_składowego(
     #
     # Ciało drugie stoi pod czołem zdania względnego (``olski/subset/podrzędne.py``),
     # bo tam to wyrażenie jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
-    # docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+    # docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
     grammar.rule(
         "zdanie_składowe", [Głowa(nt(ORZECZENIE_RZECZOWNIKOWE)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
     )
 
     # Zdanie z łącznikiem: `Flaga to płat tkaniny.` Czasownika ono nie ma, a które
     # z dwóch grup jest podmiotem, rozstrzygnął pomiar wobec banku drzew:
-    # docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
+    # docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim.
     #
     # Zgodności ciało nie żąda i nie ma czego zgadzać: `Lata dziewięćdziesiąte to
     # okres rozwoju.` różni się w liczbie po obu stronach łącznika.
@@ -164,8 +164,8 @@ def _szyki_zdania_składowego(
     # czasownikiem co `zajmuje się sprawą`.
     #
     # Wywody trzymają
-    # docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
-    # docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
+    # docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
+    # docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
     for przeczenie, negacja in PRZECZENIA:
         grammar.rule(
             ORZECZENIE_BEZOSOBOWE,
@@ -179,7 +179,7 @@ def _szyki_zdania_składowego(
         # jednej, a cechy, której konstytuent nie niesie, unifikacja nie sprawdza:
         # bez tych dwóch wartości `Trzeba będą zmierzyć cenę.` się wyprowadza.
         # Szyk odwrotny i cenę trzyma
-        # docs/subset.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
+        # docs/konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
         grammar.rule(
             ORZECZENIE_BEZOSOBOWE,
             [*przeczenie, Głowa(PREDYKATYW), word("bedzie", number="sg", person="ter")],
@@ -216,7 +216,7 @@ def _szyki_zdania_składowego(
     # Córką zdania, a nie pod `wypełnienia`: tamten symbol stoi w ciele wyżej
     # za głową i tylko tam, a córka zdania dostaje miejsce na okolicznik wyliczone,
     # więc `Usterkę zgłoszono wczoraj` zostawia okolicznik za głową.
-    # docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu
+    # docs/konstrukcje-gramatyczne.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu
     zdanie.dominacja(
         "zdanie_składowe",
         [dopełnienie, Głowa(nt(ORZECZENIE_BEZOSOBOWE, valency=V("w"), negacja=V("z")))],
@@ -247,13 +247,13 @@ def _szyki_zdania_składowego(
 
     # Dopełnienie bezokolicznika, wysunięte przed formę osobową, która ten
     # bezokolicznik bierze: `premier większości nie może ruszyć`. Wywód i cenę trzyma
-    # docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze.
+    # docs/konstrukcje-gramatyczne.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze.
     #
     # Dopełnienie wchodzi tu tym samym symbolem, co w szykach bez bezokolicznika, i
     # dzieli z nimi obie swoje zmienne. Ramę czyta jednak nie forma osobowa, a
     # bezokolicznik, bo pozycja, którą to dopełnienie zajmuje, jest w jego ramie;
     # przeczenie odwrotnie, bo dopełniacza żąda cząstka stojąca przy formie osobowej
-    # (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
+    # (docs/konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
     #
     # Szyk jest jeden, ten wypisany, bo cena każdego jest osobną liczbą, a ten
     # jeden jest szykiem, którego żąda bank drzew.
@@ -310,7 +310,7 @@ def _dostawki_zdania(grammar: Grammar) -> None:
     # to jedno czytanie, a nie tyle, ile gospodarzy ma wyrażenie przyimkowe.
     # Dlaczego wolno tu wybrać jedno miejsce, a przy wyrażeniu przyimkowym nie
     # wolno, i co obie pozycje zostawiają na zewnątrz, wywodzi
-    # docs/subset.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
+    # docs/konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
     for wnętrze in (nt("grupa_imienna"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCENIE, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
 
@@ -318,7 +318,7 @@ def _dostawki_zdania(grammar: Grammar) -> None:
     # zajmuje w zdaniu pozycję, a ciała są osobne, po jednym na wypełnienie, bo
     # cena każdego z nich jest osobną liczbą. Przysłówka wśród nich nie ma, bo
     # zmierzono go i nie wyszedł
-    # (docs/subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze).
+    # (docs/konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze).
     #
     # Cząstka przecząca stoi w ciele parą, bo ten rejestr pisze oba: `a nie
     # zdanie` i `czyli o obiekt`. Dopełniaczem nie rządzi i nie ma czym, bo
@@ -361,7 +361,7 @@ def _dostawki_zdania(grammar: Grammar) -> None:
     # grupą przed czasownikiem, tak samo jak w szyku od czasownika i w zdaniu
     # o opuszczonym podmiocie. Rozdziela te czytania morfologia, a nie struktura,
     # więc produkcja nie ma czego zażądać; pomiar odmowny trzyma
-    # docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+    # docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
     for przy_zdaniu in (OKOLICZNIK_PRZYSŁÓWKOWY, CZĄSTKA_ZDANIA):
         grammar.rule(
             "zdanie_składowe",
@@ -432,7 +432,7 @@ def _dopełnienie(grammar: Grammar) -> None:
     #
     # Przeczenia te dwa ciała nie ogłaszają i nie mają czego: dopełniacz negacji
     # wchodzi w miejsce biernika i tam kończy się jego zasięg
-    # (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+    # (docs/konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
     # a `nie mówi autorowi` stoi w celowniku tak samo jak `mówi autorowi`. Cechy,
     # której konstytuent nie niesie, unifikacja nie sprawdza, więc oba przypadki
     # stoją przy przeczeniu i bez niego.
@@ -644,7 +644,7 @@ def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
     # jedno i drugie, a przysłówek dostaje przez nią każdą pozycję, jaką okolicznik
     # w zdaniu ma. Lista jest przy tym płaska, więc `bardzo szybko` wychodzi dwoma
     # okolicznikami zdania obok siebie; ile takich czytań zostaje, mierzy
-    # docs/subset.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę.
+    # docs/konstrukcje-gramatyczne.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę.
     #
     # Cząstka stoi w tej liście obok przysłówka, bo pozycję w zdaniu ma tę samą, i
     # dlatego oba wypisuje jedna pętla; rolą jest przy tym każde z nich osobno,
@@ -707,7 +707,7 @@ def _orzecznik(grammar: Grammar) -> None:
     # `congr` stoi tu wartością, bo orzeka sam liczebnik zgodny. Rządzący orzeka
     # innym zdaniem — `Torów jest dwa.` — którego podmiot stoi w dopełniaczu, a
     # orzeczenie nie zgadza się z niczym, więc jest to osobne ciało i osobna
-    # liczba; docs/subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest trzyma oba.
+    # liczba; docs/konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest trzyma oba.
     grammar.rule(
         "orzecznik",
         [nt("liczebnik", accommodability="congr", case="nom", number=V("n"), gender=V("g"))],

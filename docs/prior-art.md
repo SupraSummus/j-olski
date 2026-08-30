@@ -90,7 +90,7 @@ whose lexicons are generated from it.
 Olski's valency lexicon is derived from it,
 taking the handful of facts its own frame can carry and leaving the rest,
 for the reasons
-[subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
+[warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
 <http://walenty.ipipan.waw.pl/>
 
 **Składnica** —

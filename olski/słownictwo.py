@@ -8,7 +8,7 @@ albo odbiera lematowi czytania tam, gdzie tamto kryterium sięgnąć nie może
 (:data:`POMIJANE`).
 
 Wywód obu kierunków wraz z ich ceną trzyma
-docs/subset.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony.
+docs/warstwa-leksykalna.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony.
 """
 
 from __future__ import annotations

@@ -632,6 +632,9 @@ Two mechanical consequences:
   so end the line with a backslash or start a new paragraph.
 - Line-length linting is off (see `.markdownlint.jsonc`),
   because sembr line lengths are meant to vary.
+  `E501` is off in `pyproject.toml` for the same reason:
+  a comment and a docstring are prose under this rule,
+  and ruff cannot hold a column against code without holding it against them.
 
 ## Where open work goes
 
@@ -819,7 +822,7 @@ który `harness/walenty.py` wyprowadza z Walentego,
 a `olski/skłonności.txt` tabelą skłonności,
 którą `harness/skłonności.py` liczy nad Składnicą.
 Polecenie i wejścia podaje przy pierwszym
-[sekcja o leksykonie](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+[sekcja o leksykonie](docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a przy drugim
 [sekcja o świadku](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
 Wpis dopisany do takiego pliku wprost ginie przy następnym przebiegu generatora,
@@ -833,7 +836,7 @@ Reguła ta obejmuje dane paczki, a nie każdy plik, który kod czyta.
 bo odpowiada on na pytania, na które nie odpowiada żaden korpus:
 wedle którego leksemu odmienia się słowo, którego słownik nie ma,
 oraz których lematów ten projekt używa, a których nie używa wcale
-([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
+([`docs/warstwa-leksykalna.md`](docs/warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
 Ten plik nie ma generatora; przebiegiem wychodzą z niego formy, a nie wpisy.
 
 ## Code

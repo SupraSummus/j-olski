@@ -160,7 +160,7 @@ def po_przyimku(segments: list[Segment]) -> list[Segment]:
     które przeczy. Są to czytania, których polszczyzna nie ma, czyli to samo, co
     odbiera :func:`admissible`; dlaczego warunek stoi tutaj, a nie na terminalu
     zaimka ani za rozbiorem, wywodzi
-    docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą.
+    docs/konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą.
 
     Pytany jest graf, a nie lista: licencji udziela każda krawędź z czytaniem
     przyimkowym, która kończy się w węźle, gdzie ta się zaczyna. Krawędź bez ani
@@ -217,7 +217,7 @@ def po_słowie(segments: list[Segment]) -> list[Segment]:
     Warunek stoi w warstwie morfologicznej, a nie na terminalu cząstki, z tego
     samego powodu, z którego stoi tam tamten: miejsce, którego cząstka nie ma
     zająć, jest miejscem w zdaniu, a terminal widzi samą formę.
-    docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika
+    docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika
     trzyma, co warunek ten zostawia na zewnątrz.
     """
     licencjonujące = {

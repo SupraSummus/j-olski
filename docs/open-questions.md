@@ -28,7 +28,7 @@ where Polish also coordinates unlike ones and gaps a repeated verb.
 Gapping is the half already taken, and taken as ellipsis rather than as coordination:
 a conjunct whose verb this register drops derives
 after the conjunctions that admit one
-([subset.md](subset.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
 Closeness to Polish argues for the other half,
 and what it costs nobody has measured.
 
@@ -37,7 +37,7 @@ and what it costs nobody has measured.
 `Cały wywód prowadzi docs/linter.md.` ma dwa czytania,
 SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
 Zdanie naprawdę nie mówi, co tu prowadzi co,
-i [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+i [warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 trzyma to jako cenę przyjętą świadomie.
 
 Dwie rzeczy, każda obroniona osobno, mówią o takim zdaniu co innego.
@@ -135,7 +135,7 @@ a wyrażenia, którego czasownik żąda swoim schematem,
 ten pomiar od stojącego do wyboru nie odróżnia.
 Podnosi ją też każde czytanie, które słownik ma, a polszczyzna nie.
 Wykluczenie ze słownika sięga po nie tam, gdzie czytanie jest nieodmienne
-([subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)),
+([warstwa-leksykalna.md](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)),
 więc pary `go` i `gov.pl` ta liczba już nie niesie,
 a `sam` czytany sklepem zostaje w niej, bo sklep odmienia się jak rzeczownik.
 Osobno stoi to, co dokłada ekstrakcja:

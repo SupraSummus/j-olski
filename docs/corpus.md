@@ -151,7 +151,7 @@ Morfeusz reads it as an interjection before it reads it as a conjunction,
 and under the interjection it lands in a row naming nothing to build.
 An analysis stops on it where a comma stands in front of it,
 which is a string Polish does not write
-([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 Ranked, those parts of speech are a work queue,
 and the run above prints it: a row per part of speech,
 ordered by how many analyses died on one,
@@ -170,7 +170,7 @@ of clause-level punctuation olski has the comma, the colon, the semicolon
 and the dash, and the form in front of that row is the hyphen,
 ahead of everything else in it several times over.
 The hyphen is what the dash production does not take, by a criterion of its own
-([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
 and this corpus writes its dash with it —
 as dialogue and reported speech, which newspapers and prose are full of
 and technical documentation has none of.
@@ -198,21 +198,21 @@ which is the distinction a verdict over one sentence draws
 by naming the form (`bez_licencji` in `olski/segmentacja.py`).
 The treebank raises none: an exclusion empties a form
 where a pronoun's post-prepositional form stands without a preposition
-([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą))
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą))
 and where a reflexive particle stands with no word in front of it
-([subset.md](subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 and neither is Polish, so neither is what a press corpus is made of.
 
 Wiersz cząstki stoi pod znacznikami złotymi wysoko w tej kolejce,
 a prowadzą go `też`, `jednak`, `czy` i `tylko`.
 `się` prowadziło ten wiersz, dopóki cząstki nie brał bezokolicznik;
 z tamtej pozycji został sam ogon, czyli cząstka oddalona od swojego czasownika
-([subset.md](subset.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 i wiersz spadł przez to o rząd wielkości i o miejsce w kolejce.
 Cztery formy, które go teraz prowadzą, nazywają dwie różne roboty:
 `jednak`, `też` i `tylko` są cząstkami,
 których zamknięta lista olskiego nie bierze
-([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
 a `czy` jest pytaniem o rozstrzygnięcie, którego ta gramatyka nie ma
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Pod Morfeuszem wiersz ten schodzi niżej,
@@ -221,7 +221,7 @@ spójnik otwierający zdanie, forma nieznana słownikowi i liczba.
 Dalej w obu kolejkach idą czas przeszły, przyimek i bezokolicznik,
 a przy samym dole stoją `pcon` oraz `siebie`, każdy z garścią zdań.
 Konstrukcje, po których te dwa wiersze się nazywają, gramatyka ma
-([subset.md](subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)),
 a wiersze przez to nie znikają i tym mówią o tej kolejce rzecz najważniejszą:
 nazywa ona część mowy, na której analiza stanęła,
 a nie konstrukcję, której zabrakło.
@@ -231,7 +231,7 @@ a nie odczytuje z jego wysokości.
 Clause-level punctuation is the addition that showed
 how little a row says about what admitting its construction buys.
 The colon and the comma standing in front of a conjunction came in together
-([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
 the `interp` row they belong to barely moved,
 the `conj` row lost several times more sentences than that,
 and the particle row *rose*.
@@ -240,7 +240,7 @@ all of them capitalized:
 what left that row is the conjunction standing between two clauses,
 and what stayed is the conjunction opening a sentence,
 which is another construction and has since been admitted
-([subset.md](subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)).
 So the row a construction is admitted out of is not the row that records it,
 and most of what left the `conj` row
 moved onto another blocker instead of being accepted.
@@ -251,11 +251,11 @@ the two lists of clause-level conjunctions already carried, plus two.
 
 Five constructions have left this queue outright —
 the adverb, the gerund, the impersonal verb
-([subset.md](subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
 the future tense
-([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
 and the sentence-initial conjunction
-([subset.md](subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)) —
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)) —
 and their rows are gone from the front of it.
 The last of those emptied a row that had been fourth,
 and it shows the paragraph above once more:
@@ -282,7 +282,7 @@ and moved that row two places down the queue.
 `to` leads what is left, and by a wide margin,
 in the two orders that stand it beside a finite verb rather than between two phrases:
 `Był to nieforemny chłopak.` and `To są oczywistości.`
-([subset.md](subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
 What their arrival did to the rows below them is the point of the paragraph
 above: a row falls by more than the sentences an addition accepts.
 
@@ -414,7 +414,7 @@ and the row the treebank ranks first rates at nothing here.
 against a prediction made before the addition:
 it needed the numeral phrase and nothing else.
 The reason the prediction could be made at all was
-[the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) —
+[the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) —
 `dwie rzeczy` is nominative or accusative and a subjectless clause takes an object,
 so without the entry saying `działać` takes none
 the numeral would have made this sentence ambiguous rather than accepted.
@@ -422,8 +422,8 @@ the numeral would have made this sentence ambiguous rather than accepted.
 One thing in that run belongs to the register and not to the queue.
 A form Morfeusz does not know stops a sentence,
 and gold morphology leaves a treebank no such form to rank,
-which is why [subset.md](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
-and [the lexicon beside it](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
+which is why [warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+and [the lexicon beside it](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
 own it.
 It is a demand on the grammar that this register makes and the treebank cannot,
 and it is the reason to take this run at all
@@ -530,7 +530,7 @@ is not counted as agreeing with it.
 Where the gold tree puts a role on a fronted `który`,
 olski puts one there too:
 the fronted constituent carries the label of the role it fills
-([subset.md](subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
 A relative clause or a question reaches this row
 on whatever else its reading says, and not on that one label.
 The label weighs more in that section than it does here.
@@ -543,7 +543,7 @@ Which classes those are is what this document owns;
 how many sentences stand in each is what the run prints.
 A particle standing inside a noun phrase does not reach this row,
 because the grammar has that position and returns both readings
-([subset.md](subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
 where this row is for a reading olski returns alone
 and the treebank contradicts.
 The shape such a reading takes is a genitive object standing in front of its verb,
@@ -559,7 +559,7 @@ where the clause has a subject and an object.
 Both readings are shapes Polish has, and both are shapes olski has:
 the object belongs to the infinitive under a modal,
 and it has a body in front of the finite verb
-([subset.md](subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
 so the sentence is refused for its ambiguity
 rather than accepted on the reading a reader does not take.
 That body accepts no sentence at all, so this row is all it bought,
@@ -572,7 +572,7 @@ which is what those bought here beyond the sentences they accepted.
 the reader's among them, so it is refused rather than read backwards.
 `Nikt niczego nie wybiera, coś wybiera za nas.` went further:
 the substantival pronoun takes no genitive after it
-([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
 which leaves the second reading nowhere to stand,
 and the one left agrees with the gold tree.
 
@@ -636,7 +636,7 @@ Drop the positions that hang a prepositional phrase on a noun or on an adjective
 `wyrażenie_przyimkowe` under `człon_imienny` and under `człon_przymiotnikowy`,
 and the bodies that put it
 over a whole coordination
-([subset.md](subset.md#nothing-above-a-coordination-distributes-into-it)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it)),
 which together are the attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 leaves to the reader —
@@ -673,12 +673,12 @@ has the trade predicated of passports rather than blooming in them.
 Two things keep that reading out and neither is about the predicative.
 `Kwitnąć` takes no instrumental,
 which is what the copula's frame says, the copula being the lexicon's hand-written entry
-([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 and the verb-initial order with a predicative takes the agreeing one alone,
 which is a second refusal of the same reading.
 The sentence itself now derives, and derives the way a reader reads it:
 the instrumental is an adjunct, admitted as a position of its own
-([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
 so what the restriction refuses is the predicative and not the sentence.
 Dropped from the frame — every valency class gaining `inst`,
 the verb-initial position left as it stands —
@@ -707,7 +707,7 @@ Człowiek staje się wyleniałym tygrysem.
 
 `Stawać się` predicates an instrumental exactly as `zostawać` does,
 and the closed list of copulas
-([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej))
+([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej))
 does not carry it,
 so a sentence with either verb is refused by a lexicon entry that is missing
 rather than by a decision anybody took.
@@ -791,7 +791,7 @@ złote czytanie największego z tych lasów jest w nim pierwsze.
 Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
 a olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,
 i tak samo je nazywa, bo czoło niesie etykietę roli, którą zajmuje
-([subset.md](subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
 Bez tej etykiety rozdanie ról wychodziłoby o tę jedną rolę uboższe
 i złotemu nie równałoby się nigdy, a wiersz `lost` liczyłby kilkadziesiąt zdań więcej —
 i byłby to odczyt o mierze, a nie o gramatyce,
@@ -828,7 +828,7 @@ Przysłówek dołożył do tej listy klasę własną i jest ona jedną z rozpię
 `Dlatego właśnie przed laty do Monako przenosili się masowo szwedzcy tenisiści.`
 wychodzi z podmiotem `masowo szwedzcy tenisiści`,
 bo przysłówek stopniowany dochodzi do przymiotnika, a bank drzew zostawia go zdaniu
-([subset.md](subset.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
 
 Miara porównuje przy tym dwie role i nic poza nimi.
 Czytanie, które je obsadza tak jak drzewo wzorcowe,
@@ -856,12 +856,12 @@ the annotators having already chosen one reading per token.
 The second of them drops the post-prepositional form of a pronoun
 wherever no preposition stands in front of it,
 and what it is worth is measured where it is argued
-([subset.md](subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 The first is the one this section is about.
 Olski drops an uninflected noun reading
 wherever the form also reads as a closed-class word,
 for the reasons
-[subset.md](subset.md#the-dictionary-offers-readings-polish-does-not) gives.
+[warstwa-leksykalna.md](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not) gives.
 `do` is the form that makes it worth doing:
 the corpus's ninth commonest token and its fourth commonest preposition,
 1,706 occurrences among 151,525,
@@ -913,7 +913,7 @@ and a single reading is the one verdict a writer takes at face value.
 
 `Tylko` arrived with the grammar rather than with the dictionary:
 `dwa razy` is a noun phrase only since
-[the numeral phrase](subset.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+[the numeral phrase](konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
 was admitted, and it is what gives the surname an object position to fill.
 So what this exclusion is worth grows as the grammar does,
 which is the argument for it stated as a rate rather than as a count:
@@ -949,7 +949,7 @@ so the sentence stays out of olski on a reading no reader of it has.
 One reading Polish does not have is refused by the grammar and not by the lexicon,
 and the live column is the run with that refusal in force.
 The substantival pronoun takes no genitive after it
-([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)),
 and without that condition dozens of these sentences carry
 a second reading, a few of them their only one —
 `Weźmy dzieje sztuki tego okresu.`,
@@ -983,7 +983,7 @@ finding most of them ambiguous and rejecting the rest.
 
 The sentences live accepts alone are the warning in that comparison,
 and the largest single class of it is the one
-[the valency lexicon](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
+[the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
 ```text
 To są oczywistości.
@@ -991,7 +991,7 @@ To są oczywistości.
 
 Gold tags call `To` a `pred`, which olski reads as the linker,
 and the linker stands between two noun phrases rather than in front of a verb
-([subset.md](subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)),
 so the sentence is rejected on either morphology.
 What Morfeusz adds is `subst:sg:acc:n`,
 which stands exactly where an accusative object stands,
