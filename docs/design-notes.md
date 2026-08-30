@@ -1331,7 +1331,7 @@ python3 -m olski.check -c "Zobacz docs/subset.md."
 Suma iloczynów po samych pozycjach liczy nad nim o jedno czytanie więcej,
 niż ma ich to zdanie.
 `wypełnienia` nad `docs/subset.md` budują się trzema produkcjami
-z `build` w `olski/subset.py` — przez `dopełnienie`, przez `orzecznik`
+z `olski/subset.py` — przez `dopełnienie`, przez `orzecznik`
 i przez okolicznik narzędnikowy —
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.

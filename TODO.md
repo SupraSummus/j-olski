@@ -869,19 +869,21 @@ bo od tego zależy, czy sama lista tu wystarczy.
 
 `olski/subset.py` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
 rozkłada się w nim na cztery miejsca: rolę przy `DEKLARACJA`, ramę i listę lematów
-wśród stałych, terminal wśród terminali i ciała w `build`.
+wśród stałych, terminal wśród terminali i ciała w sekcji `build`.
 Kto ją czyta albo zdejmuje, chodzi po tych czterech miejscach,
 choć zmieniają się one razem i tylko razem mają sens —
 sonda różnicowa grupuje właśnie po konstrukcji (`grupa` w `harness/ruch.py`).
 Ruchem jest blok na konstrukcję: rama, lista, terminal i ciała pod jednym
 nagłówkiem komentarza, w kolejności, w jakiej konstrukcje wchodziły.
 Ceną są dwie rzeczy, które w bloku nie zmieszczą się nigdy: rola musi stać w
-`DEKLARACJA`, bo werdykt czyta jedną listę ról, a ciało musi stać w `build`,
-bo produkcje powstają w jednym wywołaniu.
-Do przeczytania jest `build`: symbole używane przez kilka konstrukcji —
-`wypełnienia`, `okoliczniki`, zmienne zgodności — są w nim zmiennymi lokalnymi,
-więc funkcja na konstrukcję bierze je argumentami,
-a pytanie jest o to, czy sam blok komentarza nie kupuje tego samego taniej.
+`DEKLARACJA`, bo werdykt czyta jedną listę ról, a ciało musi stać w sekcji
+swojego gospodarza, bo tam `build` wpisuje produkcje.
+Argumentów taki blok wziąłby przy tym niewiele, i to jest już przeczytane:
+`build` dzieli się na sekcje po gospodarzu,
+a symbole, które jedna z nich wpisuje, a czyta je druga,
+wylicza blok na czele `build`.
+Blok na konstrukcję zmieściłby się przez to wewnątrz jednej sekcji,
+zamiast ciąć ją w poprzek.
 Rodzina czoła jest tu precedensem: jej cztery miejsca czytają jedną wartość
 (`Rodzina` w `olski/subset.py`), a nie stoją pod jednym komentarzem.
 Wprost się on jednak nie przenosi, bo rodzina wypisuje same nazwy symboli,
@@ -889,7 +891,16 @@ a konstrukcja wypisuje też ciała, a te powstają wywołaniem, nie wartością.
 Miejsc bywa przy tym więcej niż cztery, i pokazuje to imiesłów przysłówkowy
 ([`docs/subset.md`](docs/subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)):
 dochodzą przy nim wpis wśród gospodarzy oraz wpis w `NIE_WYPUSZCZANE`,
-a ciała ma w dwóch miejscach `build`, bo głowa stoi osobno od swoich pozycji.
+a ciała ma w dwóch miejscach jednej sekcji, bo głowa stoi osobno od swoich pozycji.
+
+`fraza_bezokolicznikowa` w `olski/subset.py` ma ciała w dwóch sekcjach,
+i jako jedyny z czterech takich symboli nie ma po temu powodu:
+bezokolicznik bez wypełnienia wpisano przy grupie orzeczenia, a z wypełnieniem
+przy orzeczeniu, i rozdziela je sama kolejność, w jakiej powstawały.
+Ruchem jest przeniesienie tego pierwszego do drugiej sekcji.
+Ceną jest pomiar: przeniesienie rusza kolejność wpisywania produkcji,
+a tę widać po czytaniach (docstring `build`),
+więc zmiana żąda odcisku prozy repozytorium, a nie samej zielonej suity.
 
 `NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
 w górę, i żadnego z tych wpisów nie widać po werdykcie:

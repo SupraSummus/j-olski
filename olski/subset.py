@@ -15,7 +15,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
+from olski.grammar import Grammar, Głowa, Part, Sym, V, Var, nt, word
 from olski.lematy import (
     KOPULA,
     LEMAT_ZWROTNY,
@@ -1448,8 +1448,94 @@ NIE_WYPUSZCZANE = {
 
 
 def build() -> Grammar:
+    """Gramatyka olskiego, złożona z sekcji niżej, po jednej na gospodarza.
+
+    Kolejność wywołań jest kolejnością wpisywania produkcji, a tę widać po
+    czytaniach: rozstrzyga o nich koszt, a przy równym koszcie właśnie ona
+    (``wyprowadzenia`` w ``olski/parse.py``). Sekcja przestawiona zmienia więc
+    czytania, a nie sam układ pliku.
+    """
     grammar = Grammar(start="wypowiedzenie", nie_wypuszczane=NIE_WYPUSZCZANE)
 
+    # Symbole, które jedna sekcja niżej wpisuje, a czyta je druga, wraz z kanałem
+    # cech, na którym stoją; nazwę czytaną w jednej sekcji deklaruje ta sekcja
+    # u siebie. Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące
+    # ten sam obiekt mówią dalej każda o swojej zgodności.
+    #
+    # Cechę, której żąda się tu od głowy, konstytuent niesie w górę sam
+    # (``olski/grammar.py``).
+    orzecznikowy = nt("przymiotnik_orzecznikowy", **AGREE)
+    przydawka = nt("przydawka", **AGREE)
+    przydawka_nierozdzielna = nt("przydawka", rozdzielna=BEZ_ROZDZIELNEJ, **AGREE)
+    cechy_zdania = {"number": V("n"), "gender": V("g"), "person": V("p"), "tryb": V("t")}
+    okoliczniki = nt("okoliczniki")
+
+    # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
+    # siebie swoją ramę, dopełnienie mówi, którą pozycję ramy zajmuje, a
+    # unifikacja przecina jedno z drugim. Czasownik, przy którym nic nie stoi,
+    # ramy nie ogłasza nikomu i stoi tu bez niej.
+    #
+    # Negacja jedzie tą samą drogą i rządzi tym samym: przypadkiem grupy, którą
+    # czasownik bierze. Czasownik ogłasza, czy przeczy, dopełnienie mówi, przy
+    # jakim przeczeniu stoi. Zgodnością to nie jest — rządzenie nie jest ani
+    # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
+    # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
+    cechy_ramy = {**cechy_zdania, "valency": V("w"), "negacja": V("z"), "druga": V("d")}
+    czasownik_ramy = nt("orzeczenie", **cechy_ramy)
+    # Ten sam czasownik wraz z cechą, którą stawia mu wypełnienie
+    # (:data:`BEZ_KOPULI`). Węzeł jest osobny, bo cechy tej żąda jedno ciało
+    # z kilku, w których tamten stoi, a wypisana w nim wszędzie byłaby zmienną,
+    # której w pozostałych nikt nie wiąże.
+    czasownik_kopuli = nt("orzeczenie", **cechy_ramy, kopula=V("k"))
+    dopełnienie = nt("dopełnienie", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
+    orzecznik_ramy = nt(
+        "orzecznik", number=V("n"), gender=V("g"), valency=V("w"), czoło=BEZ_CZOŁA
+    )
+
+    # Zdanie deklaruje córki, a kolejność, w jakiej one stoją, deklaruje osobno
+    # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
+    # rozbiorem (:mod:`olski.precedencja`). Tablica Earleya dostaje przez to
+    # ciała wypisane, bo rozwinięcie kończy się przed nią, a rodzina mnożąca się
+    # przez szyk i przez miejsca na okolicznik ma sześć deklaracji na kilkadziesiąt
+    # ciał.
+    #
+    # Miejsce na okolicznik wylicza to samo rozwinięcie i przez to nie ma go jak
+    # zapomnieć w jednym z ciał: przyłączenie wyrażenia przyimkowego olski oddaje
+    # czytelnikowi, więc każde miejsce, w którym grupa imienna takie wyrażenie
+    # bierze, musi umieć oddać je też zdaniu. Pozycji brakującej nie widać po
+    # zdaniu odrzuconym, tylko po przyjętym: wychodzi ono jednym czytaniem, bo
+    # drugie nie miało gdzie się wyprowadzić. docs/subset.md trzyma wywód i cenę.
+    #
+    # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
+    # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
+    # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
+    zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("grupa_orzeczenia",))
+
+    _przydawka(grammar)
+    _interpunkcja_wypowiedzenia(grammar)
+    _koordynacja_zdań(grammar)
+    _szyki_zdania_składowego(
+        grammar, zdanie, cechy_zdania, czasownik_ramy, dopełnienie, okoliczniki
+    )
+    _dostawki_zdania(grammar)
+    _podmiot(grammar)
+    _dopełnienie(grammar)
+    _grupa_orzeczenia(grammar, cechy_zdania, czasownik_ramy, czasownik_kopuli, dopełnienie)
+    _zdania_podrzędne(grammar)
+    _wypełnienia(grammar, okoliczniki, dopełnienie, orzecznik_ramy)
+    _lista_okoliczników(grammar, okoliczniki)
+    _orzecznik(grammar)
+    _orzeczenie(grammar, okoliczniki)
+    _grupa_imienna(grammar, przydawka, przydawka_nierozdzielna)
+    _grupa_przymiotnikowa(grammar, orzecznikowy)
+    _okoliczniki_leksykalne(grammar)
+    _rodziny_czoła(grammar, zdanie)
+
+    return grammar
+
+
+def _przydawka(grammar: Grammar) -> None:
+    """Przymiotnik przy rzeczowniku i w orzeczniku, wraz z ciągiem współrzędnym przydawek."""
     # Przymiotnik przy rzeczowniku i przymiotnik w orzeczniku, nazwane raz, bo
     # oba wykluczają ten sam lemat i wykluczenie ma być w każdym ciele to samo.
     #
@@ -1491,7 +1577,6 @@ def build() -> Grammar:
         grammar.rule(symbol, [Głowa(słowo), *za])
         grammar.rule(symbol, [PRZYSŁÓWEK_STOPNIA, Głowa(słowo), *za])
     przymiotnik = nt("człon_przydawki", **AGREE)
-    orzecznikowy = nt("przymiotnik_orzecznikowy", **AGREE)
 
     # Ciąg współrzędny przymiotników przy rzeczowniku: `nowy i tani parser`.
     # Para symboli jest ta sama, co u grupy imiennej, i z tego samego powodu;
@@ -1529,9 +1614,10 @@ def build() -> Grammar:
         number="pl",
         rozdzielna=ROZDZIELNA,
     )
-    przydawka = nt("przydawka", **AGREE)
-    przydawka_nierozdzielna = nt("przydawka", rozdzielna=BEZ_ROZDZIELNEJ, **AGREE)
 
+
+def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
+    """Znaki, którymi ten rejestr spina zdania, wraz z dopowiedzeniem za dwukropkiem."""
     grammar.rule("wypowiedzenie", [Głowa(nt("zdanie")), KONIEC_ZDANIA])
 
     # Spójnik na czele całego zdania: `I nikt tego nie zauważył.`, `Zatem
@@ -1583,6 +1669,9 @@ def build() -> Grammar:
     grammar.rule(DOPOWIEDZENIE, [DWUKROPEK, Głowa(nt("ciąg_pytajny"))])
     grammar.rule("wypowiedzenie", [Głowa(nt("zdanie")), nt(DOPOWIEDZENIE), KONIEC_ZDANIA])
 
+
+def _koordynacja_zdań(grammar: Grammar) -> None:
+    """Ciąg współrzędny zdań składowych, spięty spójnikiem albo przecinkiem."""
     # To, co człon może zawierać, rozstrzyga,
     # do czego koordynację da się przyłączyć z zewnątrz,
     # i na tym stoi zawężenie zasięgu, a nie na kształcie tych produkcji.
@@ -1624,12 +1713,17 @@ def build() -> Grammar:
         ciąg=CIĄG,
     )
 
+
+def _szyki_zdania_składowego(
+    grammar: Grammar,
+    zdanie: Rozwinięcie,
+    cechy_zdania: dict[str, Var],
+    czasownik_ramy: Sym,
+    dopełnienie: Sym,
+    okoliczniki: Sym,
+) -> None:
+    """Zdanie składowe w każdym szyku, jaki ma, wraz z głowami, które orzekają bez podmiotu."""
     # Części zdania, nazwane raz, bo każda z nich stoi w kilku szykach naraz.
-    # Zmienna cechy jest zakresu produkcji, więc dwie produkcje biorące ten sam
-    # obiekt mówią dalej każda o swojej zgodności.
-    #
-    # Cechę, której żąda się tu od głowy, konstytuent niesie w górę sam
-    # (``olski/grammar.py``).
     #
     # Rodzaj przechodzi przez każdy szyk, bo żąda go czas przeszły, i dlatego
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
@@ -1642,31 +1736,7 @@ def build() -> Grammar:
     # który by trybu nie przepuścił, przepuściłby pod taki spójnik każdy tryb.
     podmiot = nt("podmiot", number=V("n"), gender=V("g"), person=V("p"), czoło=BEZ_CZOŁA)
     orzeczenie = nt("grupa_orzeczenia", number=V("n"), gender=V("g"), person=V("p"), tryb=V("t"))
-    cechy_zdania = {"number": V("n"), "gender": V("g"), "person": V("p"), "tryb": V("t")}
     czasownik = nt("orzeczenie", **cechy_zdania)
-    okoliczniki = nt("okoliczniki")
-
-    # Walencja jest wspólną zmienną, tak jak zgodność: czasownik wypuszcza z
-    # siebie swoją ramę, dopełnienie mówi, którą pozycję ramy zajmuje, a
-    # unifikacja przecina jedno z drugim. Czasownik, przy którym nic nie stoi,
-    # ramy nie ogłasza nikomu i stoi tu bez niej.
-    #
-    # Negacja jedzie tą samą drogą i rządzi tym samym: przypadkiem grupy, którą
-    # czasownik bierze. Czasownik ogłasza, czy przeczy, dopełnienie mówi, przy
-    # jakim przeczeniu stoi. Zgodnością to nie jest — rządzenie nie jest ani
-    # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
-    # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
-    cechy_ramy = {**cechy_zdania, "valency": V("w"), "negacja": V("z"), "druga": V("d")}
-    czasownik_ramy = nt("orzeczenie", **cechy_ramy)
-    # Ten sam czasownik wraz z cechą, którą stawia mu wypełnienie
-    # (:data:`BEZ_KOPULI`). Węzeł jest osobny, bo cechy tej żąda jedno ciało
-    # z kilku, w których tamten stoi, a wypisana w nim wszędzie byłaby zmienną,
-    # której w pozostałych nikt nie wiąże.
-    czasownik_kopuli = nt("orzeczenie", **cechy_ramy, kopula=V("k"))
-    dopełnienie = nt("dopełnienie", valency=V("w"), negacja=V("z"), czoło=BEZ_CZOŁA)
-    orzecznik_ramy = nt(
-        "orzecznik", number=V("n"), gender=V("g"), valency=V("w"), czoło=BEZ_CZOŁA
-    )
     orzecznik_wysunięty = nt("orzecznik", number=V("n"), gender=V("g"), czoło=BEZ_CZOŁA)
 
     # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
@@ -1699,24 +1769,6 @@ def build() -> Grammar:
         tryb=V("t"),
     )
 
-    # Zdanie deklaruje córki, a kolejność, w jakiej one stoją, deklaruje osobno
-    # warunek precedencji nad nimi; rozwinięcie składa jedno z drugim przed
-    # rozbiorem (:mod:`olski.precedencja`). Tablica Earleya dostaje przez to
-    # ciała wypisane, bo rozwinięcie kończy się przed nią, a rodzina mnożąca się
-    # przez szyk i przez miejsca na okolicznik ma sześć deklaracji na kilkadziesiąt
-    # ciał.
-    #
-    # Miejsce na okolicznik wylicza to samo rozwinięcie i przez to nie ma go jak
-    # zapomnieć w jednym z ciał: przyłączenie wyrażenia przyimkowego olski oddaje
-    # czytelnikowi, więc każde miejsce, w którym grupa imienna takie wyrażenie
-    # bierze, musi umieć oddać je też zdaniu. Pozycji brakującej nie widać po
-    # zdaniu odrzuconym, tylko po przyjętym: wychodzi ono jednym czytaniem, bo
-    # drugie nie miało gdzie się wyprowadzić. docs/subset.md trzyma wywód i cenę.
-    #
-    # Osoba bierze się z podmiotu, a nie stoi na trzeciej, i to jest to, co
-    # wpuszcza zaimek pierwszej i drugiej osoby. Grupa imienna z rzeczownikiem w
-    # głowie mówi person=ter sama, więc rozkaźnik dalej takiej nie weźmie.
-    zdanie = Rozwinięcie(grammar, okolicznik=okoliczniki, własny_okolicznik=("grupa_orzeczenia",))
     zdanie.dominacja("zdanie_składowe", [podmiot, Głowa(orzeczenie)])
 
     zdanie.dominacja("zdanie_składowe", [nt("grupa_orzeczenia", tryb=V("t"))])
@@ -1899,6 +1951,9 @@ def build() -> Grammar:
         "zdanie_składowe", [orzecznik_wysunięty, Głowa(kopula), podmiot], koszt=KOSZT_WYSUNIĘCIA
     )
 
+
+def _dostawki_zdania(grammar: Grammar) -> None:
+    """Wtrącenie, elipsa i okolicznik, które stają obok gotowego zdania składowego."""
     # Wtrącenie w nawiasie: `Zdanie stoi (docs/subset.md).`, `Cena jest zerowa
     # (niżej).` Wnętrzem jest grupa imienna albo przysłówek, bo tym są te
     # dopowiedzenia: nazwą dokumentu i wskazaniem, gdzie szukać. Przysłówek wchodzi
@@ -1969,6 +2024,9 @@ def build() -> Grammar:
             [nt(przy_zdaniu), Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
         )
 
+
+def _podmiot(grammar: Grammar) -> None:
+    """Czym bywa podmiot: grupą imienną, bezokolicznikiem albo zdaniem względnym."""
     grammar.rule(
         "podmiot",
         [nt("grupa_imienna", case="nom", number=V("n"), gender=V("g"), person=V("p"))],
@@ -2019,6 +2077,9 @@ def build() -> Grammar:
         czoło=BEZ_CZOŁA,
     )
 
+
+def _dopełnienie(grammar: Grammar) -> None:
+    """Pozycje ramy, które wypełnia grupa imienna, wraz z tymi, które wpuszcza leksykon."""
     # Dopełnienie w przypadku, którego żąda sam czasownik: `Parser mówi autorowi.`,
     # `Wpis żąda dowodu.` Pozycja jest tu ta sama co wyżej, a różni ją przypadek i
     # to, że wpuszcza ją leksykon, a nie rama domyślna (:data:`DOKŁADANE`), więc
@@ -2063,6 +2124,15 @@ def build() -> Grammar:
             **przeczenie,
         )
 
+
+def _grupa_orzeczenia(
+    grammar: Grammar,
+    cechy_zdania: dict[str, Var],
+    czasownik_ramy: Sym,
+    czasownik_kopuli: Sym,
+    dopełnienie: Sym,
+) -> None:
+    """Czasownik wraz z tym, co bierze, a przy nim `winien` i fraza bezokolicznikowa."""
     # To, co czasownik bierze, jest jednym symbolem, a nie listą ciał, żeby forma
     # osobowa i bezokolicznik niżej dzieliły ją, zamiast nieść każde swoją kopię.
     dopełnienia = nt(
@@ -2131,6 +2201,9 @@ def build() -> Grammar:
                 "fraza_bezokolicznikowa", [*przed, *przeczenie, Głowa(głowa), *za], valency="inf"
             )
 
+
+def _zdania_podrzędne(grammar: Grammar) -> None:
+    """Zdanie podrzędne dopełnieniowe i okolicznik wyrażony zdaniem, w każdej jego postaci."""
     # Zdanie podrzędne dopełnieniowe: `pomiar mówi, że poziom odpowiada`. Pozycję
     # ramy niesie ono tak samo jak dopełnienie i bezokolicznik wyżej,
     # a przecinek zamykający dokłada :func:`_zamykane`.
@@ -2305,6 +2378,11 @@ def build() -> Grammar:
         dostawka=DOSTAWKA,
     )
 
+
+def _wypełnienia(
+    grammar: Grammar, okoliczniki: Sym, dopełnienie: Sym, orzecznik_ramy: Sym
+) -> None:
+    """Symbol, który czasownik bierze pod sobą, wraz z parą o celowniku w drugiej pozycji."""
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
     # Dopełnienie w bierniku, bezokolicznik i orzecznik — zgodny albo w narzędniku —
     # różnią się tym, którą pozycję ramy zajmują, a nie tym, gdzie stoją, więc każde
@@ -2389,6 +2467,9 @@ def build() -> Grammar:
     ):
         grammar.rule("wypełnienia", ciało)
 
+
+def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
+    """Lista okoliczników przy jednym czasowniku, o dowolnej długości."""
     # Okoliczników bywa więcej niż jeden, bo `postępować wobec innych w duchu
     # braterstwa` ma dwa, a czasownik, który bierze jeden, bierze każdą ich liczbę.
     #
@@ -2427,6 +2508,9 @@ def build() -> Grammar:
     grammar.rule("okoliczniki", [nt(SPÓJNIK)])
     grammar.rule("okoliczniki", [Głowa(nt(SPÓJNIK)), ogon], kopula=V("k"))
 
+
+def _orzecznik(grammar: Grammar) -> None:
+    """Orzecznik zgodny i orzecznik w narzędniku, wraz z liczebnikiem orzekającym."""
     # Pozycja ramy wychodzi z orzecznika, bo tym się te dwa różnią i to na nim stoi
     # ograniczenie wyżej: zgodny bierze każdy czasownik, narzędnikowy kopula.
     # Cechę `czoło` niosą oba ciała po to, żeby szyk z orzecznikiem wysuniętym
@@ -2464,6 +2548,9 @@ def build() -> Grammar:
         czoło=BEZ_CZOŁA,
     )
 
+
+def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
+    """Formy czasownika, którymi ten rejestr orzeka, wraz z frazą bezokolicznikową."""
     # Rozkaźnik idzie razem z oznajmującą, bo różni je to, co niosą tagi, a nie
     # to, co mówi ta produkcja.
     #
@@ -2553,6 +2640,9 @@ def build() -> Grammar:
         grammar.rule(FRAZA_BEZOKOLICZNIKOWA_OTWARTA, [głowa], wysunięte=rama)
         grammar.rule(FRAZA_BEZOKOLICZNIKOWA_OTWARTA, [głowa, okoliczniki], wysunięte=rama)
 
+
+def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sym) -> None:
+    """Grupa imienna wraz z członem, z którego się składa, i z liczebnikiem w tym członie."""
     grammar.rule("grupa_imienna", [nt("człon_imienny", person=V("p"), **AGREE)])
     # Zdanie względne po grupie imiennej, w liczbie i rodzaju swojego zaimka:
     # `reguła, która rozstrzyga`. Przypadka nie niesie, bo zaimek bierze go z
@@ -2825,6 +2915,9 @@ def build() -> Grammar:
     # (`Nawet ja zapisuję ustawienia.`).
     grammar.rule("człon_imienny", [CZĄSTKA, Głowa(nt("człon_imienny", person=V("p"), **AGREE))])
 
+
+def _grupa_przymiotnikowa(grammar: Grammar, orzecznikowy: Sym) -> None:
+    """Ciąg współrzędny przymiotników, a pod przymiotnikiem narzędnik i wyrażenie przyimkowe."""
     # Grupa przymiotnikowa koordynuje się tak samo i zgadza się przez cały ciąg,
     # więc `wolni i równi` jest jednym orzecznikiem, a `wolna i równi` żadnym.
     człon_przymiotnika = nt("człon_przymiotnikowy", **AGREE)
@@ -2855,6 +2948,9 @@ def build() -> Grammar:
     # interesami postkomunistów, przeznaczany na budowę.
     grammar.rule("człon_przymiotnikowy", [Głowa(orzecznikowy), nt("wyrażenie_przyimkowe")])
 
+
+def _okoliczniki_leksykalne(grammar: Grammar) -> None:
+    """Konstytuenty, którymi ten rejestr wyraża okoliczność, wraz z wyrażeniem przyimkowym."""
     # Jeden lemat jest tu wykluczony i wykluczony jest z nazwy
     # (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
     grammar.rule("wyrażenie_przyimkowe", [Głowa(PRZYIMEK), nt("grupa_imienna", case=V("c"))])
@@ -2916,6 +3012,9 @@ def build() -> Grammar:
 
     grammar.rule(SPÓJNIK, [SPÓJNIK_WEWNĘTRZNY])
 
+
+def _rodziny_czoła(grammar: Grammar, zdanie: Rozwinięcie) -> None:
+    """Zdania, w których jedna rola stoi wysunięta na czoło: względne i pytajne."""
     # Zdanie względne, czyli przecinek i `rdzeń_względny`, którym jest samo zdanie
     # bez przecinków odgraniczających. Przecinek zamykający dokłada
     # :func:`_zamykane`, tak samo jak trzem pozostałym zdaniom podrzędnym.
@@ -3125,8 +3224,6 @@ def build() -> Grammar:
         "ciąg_pytajny",
         [człon_pytania, PRZECINEK, SPÓJNIK_PRZECINKOWY, nt("ciąg_pytajny")],
     )
-
-    return grammar
 
 
 GRAMMAR = build()
