@@ -361,9 +361,10 @@ History that earns its place, always as rationale for the current state:
 
 - **A rejected alternative and the reason for rejecting it**,
   which saves the next person from proposing it again.
-  [Dlaczego biała lista, skoro czarna była tańsza](README.md#dlaczego-biała-lista-skoro-czarna-była-tańsza)
-  in the README is the reference example:
-  the linter framing is named, and priced, and turned down.
+  [Co zamknęło pakiet reguł](docs/linter.md#co-zamknęło-pakiet-reguł)
+  is the reference example:
+  the linter framing is named, and priced, and turned down,
+  in the document whose topic it is.
 - **A deliberate reversal or renaming**, so that nobody restores it by accident.
   `docs/roadmap.md` says the grammar is no longer the goal
   and what it survives as.
@@ -654,6 +655,10 @@ Alternatywy odrzuconej nie zamyka nikt, więc nie jest wpisem na żadnej z tych 
 Jest [wywodem o stanie dzisiejszym](#documents-describe-the-present-git-owns-the-past)
 i należy do dokumentu, który jest właścicielem tematu,
 razem z warunkiem, który ją odwraca.
+Właścicielem takiego wywodu nie jest README:
+czytelnik, który tam wchodzi, alternatywy nie zna,
+więc porównania z nią nie wyceni,
+a akapity o niej czyta przed zdaniem o tym, co projekt robi.
 
 ## Splitting work across sessions
 

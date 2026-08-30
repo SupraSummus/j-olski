@@ -1600,7 +1600,7 @@ a to zdanie stawia okolicznik po obu stronach czasownika.
 
 Płacą za to zdania, w których zaimek jest zarazem mianownikiem i biernikiem,
 a czasownik biernik bierze, bo daje mu go rama domyślna:
-`Wywód, który za nią stał, stoi dalej.` z prozy README jest takim zdaniem,
+`Wywód, który za nią stał, stoi dalej.` jest takim zdaniem,
 a nad Składnicą pod żywą morfologią traci jednoznaczność jedno.
 Pod złotą morfologią nie traci jej ani jedno,
 bo anotator wybrał tam jedno czytanie na token,
@@ -3163,9 +3163,7 @@ a rejestr, o który olskiemu chodzi, nie pisze jej wcale.
 
 Nad prozą tego repozytorium przysłówek daje wyprowadzenie,
 a jednoznaczności nie daje.
-Takim zdaniem jest to, o którym kolejka blokerów mówiła,
-że stoi na przysłówku i na niczym więcej
-([corpus.md](corpus.md#where-the-analyses-stop)):
+Widać to na zdaniu, które staje na przysłówku i na niczym więcej:
 
 ```text
 Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
@@ -3174,7 +3172,8 @@ Po to ta czarna lista tu stała i cały wywód za nią dalej stoi.
 Wyprowadzenie dostaje, jednoznaczności nie,
 bo w czytaniu, które przysłówek mu daje, `za nią` ma dwóch gospodarzy.
 Kolejka mówi więc, gdzie analiza stanęła, i nie mówi, co dopisanie kupi,
-także wtedy, gdy zdanie stoi na jednej klasie.
+także wtedy, gdy zdanie stoi na jednej klasie
+([corpus.md](corpus.md#where-the-analyses-stop)).
 
 Jedna klasa czytań przyszła razem z tą konstrukcją i nie jest przyłączeniem.
 Morfeusz daje czytanie przysłówkowe formom, które ten rejestr pisze
