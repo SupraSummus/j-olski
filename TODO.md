@@ -3131,6 +3131,24 @@ czy okoliczność przy orzeczeniu imiennym mówi o byciu czymś,
 czy o rzeczy, która czymś jest, bo `w piwnicy` przy `Kot jest zwierzęciem.`
 czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 
+`abstrahuj` w `olski/skład/rozbiór.py` nie ma pozycji na `LinkedPredicate`,
+więc `Flaga to kawałek tkaniny.` wraca brakiem kategorii,
+choć gramatyka to zdanie wyprowadza
+([`docs/subset.md`](docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+Rola stoi w `DEKLARACJA` w `olski/subset.py` i nie stoi w `POZYCJE`,
+czyli jest to ta usterka, którą komentarz nad `POZYCJE` opisuje.
+Samo dopisanie pozycji nie kupuje jednak nic i dlatego wpis jest jeden, a nie dwa:
+kandydat odpada wtedy na linearyzacji, bo `Jest` wypisuje kopulę,
+więc pierwsze rozstrzygnięcie jest o tym, czy łącznik niesie coś ponad nią.
+Niesie — wtedy jest kategorią dziedziny obok `Wyróżnienie`,
+a `Flaga to kawałek tkaniny.` i `Flaga jest kawałkiem tkaniny.` znaczą co innego.
+Nie niesie — wtedy zdejmuje go `znaczenie` tak samo jak znacznik tematu,
+linearyzacja przestaje być funkcją,
+a niezmiennik obiegu żąda przynależności po obu stronach
+([`docs/design-notes.md`](docs/design-notes.md#the-round-trip-invariant)).
+Pomiar nad Składnicą daje do tego rozkład obu konstrukcji, a nie samo rozstrzygnięcie,
+bo to jest osąd o polszczyźnie.
+
 ## Pakiet, instalacja i testy
 
 `witryna/skrypt.js` jest jedynym plikiem w repozytorium, którego nic nie uruchamia.

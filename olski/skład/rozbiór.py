@@ -679,6 +679,23 @@ def _członowie(drzewo: Node) -> list[Node]:
     raise PozaZapisem(f"zdanie złożone z {', '.join(kształt)} nie ma tu kategorii")
 
 
+def _zdanie(czytanie: Node) -> Node:
+    """Zdanie składowe pod ``Sentence``, albo brak kategorii, gdy ciało jest inne.
+
+    Ciało dopasowuje się całe z tego samego powodu co w :func:`_członowie`,
+    a żąda tego lista ciał, którą gramatyka trzyma pod tym symbolem:
+    spójnik na czele stawia w pierwszym dziecku liść,
+    a dwukropek i dopowiedzenie stawiają tam połowę zdania,
+    więc rozbiór biorący to dziecko wprost
+    odpowiada usterką Pythona albo drzewem o połowie zdania,
+    zamiast powiedzieć, że kategorii nie ma.
+    """
+    kształt = tuple(_etykieta(dziecko) for dziecko in czytanie.children)
+    if kształt == ("Clause", SŁOWO):
+        return czytanie.children[0]
+    raise PozaZapisem(f"zdanie z {', '.join(kształt)} nie ma tu kategorii")
+
+
 def _ciąg(drzewo: Node) -> Iterator[Zdanie]:
     """Zdanie albo następstwo zdarzeń, którym to zdanie złożone bywa.
 
@@ -780,7 +797,7 @@ def abstrahuj(czytanie: Node, kontekst: Kontekst = TERAZ) -> Odczyt:
     if czytanie.label != "Sentence":
         raise ValueError(f"czytanie zdania, a nie {czytanie.label}")
     try:
-        kandydaci = list(_ciąg(czytanie.children[0]))
+        kandydaci = list(_ciąg(_zdanie(czytanie)))
     except (PozaZapisem, PozaRamą) as błąd:
         return Odczyt((), (str(błąd),))
     drzewa: list[Zdanie] = []
@@ -841,18 +858,44 @@ def sygnatura(drzewo) -> tuple:
     bo kategoria dopisana do składni i tu pominięta
     porównywałaby się z dokładnością do niczego.
     """
-    return _sygnatura(drzewo, {})
+    return _sygnatura(drzewo, {}, znacznik=True)
 
 
-def _sygnatura(co, tożsamości: dict[int, int]):
+def znaczenie(drzewo) -> tuple:
+    """Co czyni dwa drzewa tego zapisu jednym zdaniem logicznym.
+
+    :func:`sygnatura` pyta, czy to jedno drzewo, i na niej stoi niezmiennik obiegu,
+    bo obieg żąda z powrotem tego drzewa, które napis wypuściło.
+    Tutaj pytanie jest o to, o czym zdanie jest,
+    więc dwa różne drzewa bywają pod nim jedną odpowiedzią.
+
+    Schodzi wyłącznie znacznik tematu i schodzi dlatego,
+    że niesie go szyk, a nie to, o czym zdanie jest:
+    `Celem jest parser.` i `Parser jest celem.` mówią to samo zdanie logiczne
+    i co innego stawiają na czele (``Wyróżnienie`` w ``olski/skład/składnia.py``).
+    Wypada przy tym cała kategoria, a nie samo pole ``miejsce``,
+    bo konstytuent wyróżniony ma stanąć równo z tym samym konstytuentem gołym.
+
+    Lemat, liczba, relacja okolicznika i tożsamość zostają,
+    bo każde z nich mówi, o czym zdanie jest, a nie jak zostało napisane.
+    Łącznik ``to`` byłby drugim takim kandydatem i nie jest nim,
+    bo o tym, czy niesie coś ponad kopulę, nie rozstrzygnął nikt;
+    trzyma to ``TODO.md``.
+    """
+    return _sygnatura(drzewo, {}, znacznik=False)
+
+
+def _sygnatura(co, tożsamości: dict[int, int], znacznik: bool):
+    if isinstance(co, Wyróżnienie) and not znacznik:
+        return _sygnatura(co.co, tożsamości, znacznik)
     if isinstance(co, Postać):
         numer = tożsamości.setdefault(id(co), len(tożsamości))
-        return ("postać", numer, _sygnatura(co.kto, tożsamości))
+        return ("postać", numer, _sygnatura(co.kto, tożsamości, znacznik))
     if is_dataclass(co):
-        wartości = (_sygnatura(getattr(co, pole.name), tożsamości) for pole in fields(co))
+        wartości = (_sygnatura(getattr(co, pole.name), tożsamości, znacznik) for pole in fields(co))
         return (type(co).__name__, *wartości)
     if isinstance(co, tuple):
-        return tuple(_sygnatura(element, tożsamości) for element in co)
+        return tuple(_sygnatura(element, tożsamości, znacznik) for element in co)
     return co
 
 

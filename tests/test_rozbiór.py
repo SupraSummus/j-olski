@@ -6,7 +6,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.skład import Kontekst, Postać, Robi, kompiluj
-from olski.skład.rozbiór import obieg, rozbierz, sygnatura
+from olski.skład.rozbiór import obieg, rozbierz, sygnatura, znaczenie
 from olski.skład.słownik import (
     A,
     Czym,
@@ -184,6 +184,7 @@ def test_pozycja_bezokolicznika_wraca_ramą_a_nie_brakiem_kategorii():
         "Ludzie są wolni.",
         "Program albo linter sprawdza tekst.",
         "Program, który zapisuje ustawienia, sprawdza tekst.",
+        "Zatem parser jest celem.",
     ],
 )
 def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie):
@@ -203,10 +204,13 @@ def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie)
         ("Program, który zapisuje ustawienia, sprawdza tekst.", "RelativeClause"),
         ("Zapisz plik.", "w pozycji Verb"),
         ("Nowy i tani parser zapisuje ustawienia.", "przydawka z"),
+        ("Zatem parser jest celem.", "zdanie z słowo, Clause"),
+        ("Cena jest niska: gramatyka jest bezkontekstowa.", "zdanie z Clause, słowo, Clause"),
+        ("Warstwa pyta o dwa typy: Zdanie oraz Kontekst.", "zdanie z Clause, Apposition"),
     ],
 )
 def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
-    """Trzy miejsca, w których pusta odpowiedź powstaje bez zgłoszenia po drodze.
+    """Miejsca, w których pusta odpowiedź powstaje bez zgłoszenia po drodze.
 
     Zdanie względne jest ciałem produkcji, którego ten zapis nie czyta,
     a rozkaźnik nie ma lematu, którym ten zapis wypisuje czasownik,
@@ -216,6 +220,13 @@ def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
     Trzecie stoi tam, gdzie ten zapis niesie mniej niż gramatyka:
     ``Jaki`` trzyma jedną cechę, a ciąg współrzędny przydawki orzeka ich kilka,
     więc czytanie wzięte z pierwszego członu wypisałoby się bez pozostałych.
+
+    Trzy ostatnie to trzy ciała samego ``Sentence``, czyli cała reszta tej listy
+    obok ciała ze zdaniem składowym, i one żądają tu najwięcej.
+    Spójnik na czele stawia w pierwszym dziecku liść,
+    a dwukropek i dopowiedzenie stawiają tam połowę zdania,
+    więc rozbiór biorący to dziecko wprost odpowiada usterką Pythona
+    albo drzewem, które wypisuje się połową napisu.
     """
     odczyt = rozbierz(zdanie)
     assert any(powód in mówi for mówi in odczyt.powody), odczyt.powody
@@ -338,3 +349,33 @@ def test_sygnatura_mówi_które_wystąpienia_są_jedną_rzeczą_a_nie_którą():
     assert jedna != taka_sama
     assert sygnatura(jedna) == sygnatura(taka_sama)
     assert sygnatura(jedna) != sygnatura(dwie)
+
+
+def test_dwa_szyki_jednego_zdania_logicznego_wychodzą_jednym_znaczeniem():
+    """Para, o której ``docs/sklad.md`` mówi, że znaczy to samo, wychodzi tu równa.
+
+    Oba zdania mają ten sam komplet ról i różni je to,
+    co która z nich stawia na czele.
+
+    Sygnatury zostają przy tym rozłączne i jest to warunek, a nie skutek uboczny:
+    kryterium zdejmujące znacznik po tamtej stronie
+    zamykałoby obieg zdaniu napisanemu w innym szyku.
+    """
+    czoło = rozbierz("Celem jest parser.").drzewa
+    koniec = rozbierz("Parser jest celem.").drzewa
+    assert {znaczenie(drzewo) for drzewo in czoło} == {znaczenie(drzewo) for drzewo in koniec}
+    assert not {sygnatura(drzewo) for drzewo in czoło} & {sygnatura(drzewo) for drzewo in koniec}
+
+
+def test_znacznik_tematu_schodzi_ze_znaczenia_także_z_okoliczności():
+    """Okoliczności stoją w ``Robi`` krotką, a role polami, i to jest tu różnica.
+
+    Test wyżej bierze znacznik przy roli, czyli tam, gdzie chodzi się po polach.
+    Znacznik przy okoliczności siedzi wewnątrz krotki,
+    więc kryterium, które zdejmuje go po korzeniu albo po samych polach,
+    zostawia go tutaj.
+    """
+    wyróżniona = V.mieszkać(R.kot, Gdzie.w(R.piwnica).temat)
+    goła = V.mieszkać(R.kot, Gdzie.w(R.piwnica))
+    assert znaczenie(wyróżniona) == znaczenie(goła)
+    assert sygnatura(wyróżniona) != sygnatura(goła)
