@@ -426,9 +426,10 @@ def podsumuj(
 
     O to, dokąd analiza doszła, pyta się na żądanie,
     bo nad zdaniem odrzuconym jest to najdroższe z podsumowań, jakie ta funkcja bierze:
-    :meth:`Las.najdalszy` przechodzi wtedy tablicę drugi raz — mniej więcej tyle,
-    ile kosztował sam rozbiór — a nad zdaniem, które ma czytanie,
-    oddaje koniec zdania bez przejścia.
+    :meth:`Las.najdalszy` przechodzi wtedy tablicę drugi raz, i to drożej,
+    niż kosztowało samo jej zbudowanie: przejście drugie unifikuje przebyte ciała,
+    czego budowanie nie robi wcale.
+    Nad zdaniem, które ma czytanie, oddaje koniec zdania bez przejścia.
     Czyta tę odpowiedź odrzucenie mówiące, gdzie stanęło
     (``explain`` w ``olski/werdykt.py``) oraz ranking blokerów (``olski/pokrycie.py``);
     przebieg, który liczy same werdykty, nie czyta jej wcale.
@@ -1258,6 +1259,12 @@ class Las:
         O żywości rozstrzyga para produkcji i źródła, a nie kropka w ciele,
         więc stany pozycji zebrane są pod taką parą,
         a para wchodzi do kolejki wtedy, kiedy ożywa.
+        Symbol ożywia w pozycji wszystkie swoje produkcje naraz,
+        a produkcja ma jedną głowę, więc rozwinięcie pilnowane po symbolu
+        wpisuje każdą z nich dokładnie raz i sprawdzania duplikatu tu nie ma.
+        Pilnowane po produkcji sprawdzałoby go przy każdym kolejnym żądaniu symbolu
+        tyle razy, ile ma on produkcji, a ``orzeczenie`` ma ich siedemset;
+        tak samo i z tego samego powodu pilnuje tablica (:meth:`_Tablica._przewiduj`).
 
         Stanu o kropce na zerze tablica nie trzyma (:meth:`_Tablica._rozwiń`),
         a analizą częściową on bywa, bo czeka na pierwszą formę swojego ciała.
@@ -1268,6 +1275,7 @@ class Las:
             (production, self._tablica.początek)
             for production in self.grammar.for_head(self._tablica.start)
         }
+        rozwinięte = {(self._tablica.start, self._tablica.początek)}
         for k in self._tablica.pozycje_grafu:
             kropki: dict[tuple[Production, int], list[int]] = {}
             for production, kropka, źródło in self._tablica.stany[k]:
@@ -1292,11 +1300,13 @@ class Las:
                     if not isinstance(część, Sym):
                         yield k, (production, kropka, źródło)
                         continue
+                    if (część.name, k) in rozwinięte:
+                        continue
+                    rozwinięte.add((część.name, k))
                     for przewidziana in self.grammar.for_head(część.name):
                         zaczęta = (przewidziana, k)
-                        if zaczęta not in żywe:
-                            żywe.add(zaczęta)
-                            kolejka.append(zaczęta)
+                        żywe.add(zaczęta)
+                        kolejka.append(zaczęta)
 
     def _zaczyna_się_tu(self, production: Production, źródło: int, k: int) -> bool:
         """Czy ta produkcja czeka w tej pozycji na pierwszą córkę swojego ciała.
