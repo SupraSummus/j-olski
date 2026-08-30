@@ -370,7 +370,7 @@ def test_lista_czytań_niesie_każde_streszczenie_raz():
 def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
     """Urwana lista ma być za każdym razem tymi samymi streszczeniami.
 
-    Kolejność ustala `ciała` w `olski/parse.py` i tam stoi wywód;
+    Kolejność ustala `wyprowadzenia` w `olski/parse.py` i tam stoi wywód;
     ten test pilnuje, żeby zbiór postawiony gdziekolwiek po drodze z lasu
     nie oddał jej z powrotem haszowaniu napisów.
     Po liczbie czytań tego nie widać, bo ta jest sumą po klasach,
@@ -496,18 +496,18 @@ def test_las_numeruje_te_i_tylko_te_rozdania_ról_które_wychodzą_z_jego_drzew(
 def test_czytanie_nazwane_rolami_znajduje_się_zza_granicy_wyliczania():
     """Pytanie o cudze czytanie idzie do lasu, bo lista czytań urywa się przed nim.
 
-    Zdanie o siedmiu przyłączeniach ma osiem rozdań ról, a wypisane `MAX_READINGS`
-    czytań niesie z nich dwa: rozdanie liczone po liście wychodziłoby przepadłe
-    sześć razy na osiem. Wieloznaczne są zaś dokładnie te zdania, na których ta
-    granica pada, czyli te, o które to pytanie w ogóle się zadaje.
+    Zdanie o siedmiu przyłączeniach ma osiem rozdań ról, a ostatnie z nich stoi
+    za granicą wypisywania: rozdanie liczone po liście wychodziłoby przepadłe.
+    Wieloznaczne są zaś dokładnie te zdania, na których ta granica pada, czyli te,
+    o które to pytanie w ogóle się zadaje.
 
     Numer wychodzi zza tej granicy razem z odpowiedzią, bo granica jest wydruku,
-    a nie wyliczenia: gdyby wiązała także tu, sześć z tych ośmiu nie miałoby numeru.
+    a nie wyliczenia: gdyby wiązała także tu, tamto rozdanie nie miałoby numeru.
     """
     zbudowany = las(GRAMMAR, morphology(SIEDEM_PRZYŁĄCZEŃ))
     czytania = _role_czytań(zbudowany)
     poza_listą = set(czytania) - set(czytania[:MAX_READINGS])
-    assert len(poza_listą) == 6
+    assert len(poza_listą) == 1
     for podmioty, dopełnienia in poza_listą:
         numer = zbudowany.numer_czytania({"podmiot": podmioty, "dopełnienie": dopełnienia})
         assert numer is not None and numer > MAX_READINGS

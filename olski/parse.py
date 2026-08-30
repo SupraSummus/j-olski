@@ -490,14 +490,27 @@ def _wewnątrz(węższa: tuple[int, int], szersza: tuple[int, int]) -> bool:
     return węższa[0] >= szersza[0] and węższa[1] <= szersza[1]
 
 
-def _klucz_ciała(ciało: tuple[Pozycja, ...]) -> tuple[tuple[int, int], ...]:
-    """Ciało w postaci, którą można porównać: same rozpiętości córek.
+def _klucz_wyprowadzenia(
+    wyprowadzenie: tuple[tuple[Pozycja, ...], list[Production]],
+) -> tuple[int, tuple[tuple[int, int, str], ...]]:
+    """Koszt tego ciała, a pod nim rozpiętości córek malejąco i ich etykiety.
 
-    Etykiety w kluczu nie ma, bo bierze się ją z produkcji:
-    córka na tym samym miejscu ma ją w każdym podziale tę samą,
-    więc dwa ciała różnią się rozpiętością i porządek po niej jest liniowy.
+    Kosztem ciała jest koszt najtańszej produkcji, która je składa,
+    bo kilka produkcji o jednym ciele jest jednym czytaniem (:meth:`Las.wyprowadzenia`).
+
+    Malejąco, czyli przodem idzie ciało o dłuższej pierwszej córce, a to znaczy,
+    że materiał dołączył do konstytuentu tuż przed nim, a nie do tego wyżej.
+    Kierunek wybrano pomiarem, bo argumentu z góry na niego nie było
+    (docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie).
+    Etykieta pod rozpiętością rozstrzyga ciała, których gramatyka nie różnicuje
+    ani kosztem, ani cięciem, i jest wyborem arbitralnym; liść wchodzi tam pusty,
+    bo czytaniem liścia jest sama rozpiętość.
     """
-    return tuple(pozycja.span for pozycja in ciało)
+    ciało, produkcje = wyprowadzenie
+    return (
+        min(production.koszt for production in produkcje),
+        tuple((-pozycja.span[0], -pozycja.span[1], pozycja.label or "") for pozycja in ciało),
+    )
 
 
 class _Tablica:
@@ -751,12 +764,9 @@ class _Tablica:
         Krotek jest tyle, na ile sposobów ta produkcja dzieli tu rozpiętość,
         czyli tyle, ile wyprowadzeń mieści jedna pozycja.
 
-        Uporządkowane rozpiętościami córek od lewej,
-        i to jedno miejsce ustala kolejność, w jakiej las wydaje drzewa:
-        dziedziczą ją klasy pozycji, krawędzie pod nimi i drzewa wyliczane z krawędzi.
-        Zbiór własnej kolejności nie ma, a haszowanie napisów jest losowane przy starcie,
-        więc ciała oddane zbiorem dawałyby w każdym przebiegu inną listę czytań,
-        a nad zdaniem urwanym po :data:`MAX_READINGS` — inne czytania.
+        Kolejności nie ustalają, choć wychodzą ze zbioru, a haszowanie napisów
+        jest losowane przy starcie: porządkuje je :meth:`Las.wyprowadzenia`,
+        i to porządkiem liniowym, więc przebieg drugi wydaje te same czytania.
         """
         if kropka == 0:
             return ((),) if źródło == k else ()
@@ -765,12 +775,13 @@ class _Tablica:
         if gotowe is not None:
             return gotowe
         stan = (production, kropka, źródło)
-        złożone = {
-            (*prefiks, dziecko)
-            for j, dziecko in self.stany[k].get(stan, ())
-            for prefiks in self.ciała(production, kropka - 1, źródło, j)
-        }
-        self._ciała_memo[klucz] = tuple(sorted(złożone, key=_klucz_ciała))
+        self._ciała_memo[klucz] = tuple(
+            {
+                (*prefiks, dziecko)
+                for j, dziecko in self.stany[k].get(stan, ())
+                for prefiks in self.ciała(production, kropka - 1, źródło, j)
+            }
+        )
         return self._ciała_memo[klucz]
 
 
@@ -954,6 +965,12 @@ class Las:
 
         Pytana o pozycję, której tablica nie domknęła, oddaje pusty słownik,
         więc jest to zarazem sposób zapytania lasu, czy taki konstytuent w ogóle powstał.
+
+        To jedno miejsce ustala kolejność, w jakiej las wydaje drzewa —
+        dziedziczą ją klasy pozycji, krawędzie pod nimi i drzewa z tych krawędzi —
+        a czym ta kolejność jest, mówi :func:`_klucz_wyprowadzenia`.
+        Nieposortowane szłyby tak, jak ``for_head`` oddaje produkcje,
+        czyli w kolejności dopisywania ich do gramatyki (docs/disambiguation.md).
         """
         gotowe = self._wyprowadzenia.get(pozycja)
         if gotowe is not None:
@@ -966,7 +983,10 @@ class Las:
                     continue
                 for ciało in self._tablica.ciała(production, len(production.body), źródło, k):
                     znalezione.setdefault(ciało, []).append(production)
-        zebrane = {ciało: tuple(produkcje) for ciało, produkcje in znalezione.items()}
+        zebrane = {
+            ciało: tuple(sorted(produkcje, key=lambda p: p.koszt))
+            for ciało, produkcje in sorted(znalezione.items(), key=_klucz_wyprowadzenia)
+        }
         self._wyprowadzenia[pozycja] = zebrane
         return zebrane
 

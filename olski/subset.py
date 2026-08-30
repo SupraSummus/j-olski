@@ -728,6 +728,10 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 #: czyli ta z dwóch par czoła (:func:`zaimek_czoła`), którą poprzednik czyta.
 POPRZEDNIK = {"number": V("nz"), "gender": V("gz")}
 
+#: O ile niżej stoi czytanie konstrukcji nacechowanej. Jedyny koszt wypisany w tej
+#: gramatyce ręką; resztę wylicza z deklaracji `olski/precedencja.py`.
+KOSZT_WYSUNIĘCIA = 1
+
 #: Wartość cechy `czoło` dla roli, którą wypełnia konstytuent stojący na swoim
 #: miejscu; rola wysunięta niesie tam nazwę czoła, którym ją wypełniono.
 #:
@@ -1882,7 +1886,13 @@ def build() -> Grammar:
     # je rama, a nie kolejność: kopula żąda narzędnika, a czasownik orzecznika
     # zgodnego żąda mianownika, więc przestawiona jedna z nich wypisałaby szyk,
     # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
-    zdanie.dominacja("zdanie_składowe", [orzecznik_wysunięty, Głowa(kopula), podmiot])
+    # Koszt mówi tu to, co wysunięcie: konstrukcja jest nacechowana. Bez niego
+    # `On jest wolny.` wychodzi pierwszym czytaniem z `wolny` w podmiocie, bo oba
+    # ciała mają córki tej samej rozpiętości i rozstrzyga między nimi alfabet
+    # etykiet. Czytań przy tym nie ubywa i zdanie zostaje wieloznaczne.
+    zdanie.dominacja(
+        "zdanie_składowe", [orzecznik_wysunięty, Głowa(kopula), podmiot], koszt=KOSZT_WYSUNIĘCIA
+    )
 
     # Wtrącenie w nawiasie: `Zdanie stoi (docs/subset.md).`, `Cena jest zerowa
     # (niżej).` Wnętrzem jest grupa imienna albo przysłówek, bo tym są te

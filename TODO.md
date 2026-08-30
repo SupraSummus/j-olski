@@ -752,6 +752,31 @@ i werdykt `fragment` jest tam odpowiedzią wybraną.
 
 ## Gramatyka, parser i pomiar pokrycia
 
+Kolejność czytań zmierzono nad cudzym rejestrem i tylko nad nim.
+Koszt produkcji i późne domknięcie wyceniono złotym czytaniem Składnicy
+([`docs/disambiguation.md`](docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie)),
+a rejestr, do którego olski celuje, nie mówi o kolejności nic,
+choć to w nim czytelnik ogląda czytanie pierwsze.
+Wzorzec na to jest jeden i już stoi: `próba/wybory.txt` nazywa ręką gospodarza,
+o którego w danym zdaniu korpusu audytowego chodziło (`harness/wybory.py`).
+Ruchem jest pytanie tamtego pliku o co innego niż warstwa rozstrzygająca:
+czy czytanie pierwsze obsadza tego gospodarza, którego nazwał czytający.
+Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr,
+a liczba mówi, czy trzy dzisiejsze koszty są dobrane pod Składnicę,
+czy pod dokumentację techniczną.
+
+Sumy kosztów drzewa nikt nie zmierzył, więc nie wiadomo, czy bije porządek dzisiejszy.
+Las porządkuje ciała jednej pozycji kosztem produkcji, a drzewa wychodzą z niego
+wyliczaniem w głąb, więc kolejność czytań jest leksykograficzna:
+koszt przy korzeniu waży więcej niż każdy koszt pod nim, choćby ich było kilka.
+Porządek po sumie kosztów całego drzewa jest inną odpowiedzią i wymaga innego wyliczania,
+bo minimum globalne żąda kolejki nad lasem, a nie przejścia w głąb,
+i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse.py`:
+wyliczanie przystaje dziś na pierwszym drzewie, które trafia, i granicy nie potrzebuje.
+Ruchem jest wariant napisany w sondzie, a nie w parserze,
+i jedna liczba obok tamtej: złote czytanie Składnicy pod jednym porządkiem i pod drugim.
+Dopiero różnica mówi, czy warto płacić za kolejkę.
+
 Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
 `unclosed` nazywa napis, który olski czyta po domknięciu, i podaje znak
 (`_domknięcie` w `olski/werdykt.py`),
