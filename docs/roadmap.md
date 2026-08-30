@@ -161,7 +161,7 @@ Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 
 Zaimki `kto` i `co` są pierwszym dopisaniem, po którym pokrycie spadło,
 i mówią o tym kierunku to, czego tamten przykład nie mówi
-([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Zdania z nimi wyprowadzały się przedtem ciągiem współrzędnym,
 czyli czytaniem, którego polszczyzna nie ma,
 a pokrycie liczyło każde z nich jako sukces.
@@ -475,7 +475,7 @@ wraz z nazwiskowym czytaniem, jakie Morfeusz daje formie `On`,
 a jedno i drugie należy do słownika i do etapu niżej.
 Zaliczone: rama czasownika jest cechą braną z leksykonu,
 który ma ramę domyślną i wpis na każdy lemat węższy od niej,
-zob. [subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+zob. [warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej).
 
 Leksykon urósł po tym etapie i urósł zdaniami na lemat oraz kolumną przyimków,
 którą czyta warstwa rozstrzygająca, a nie gramatyka.
@@ -488,7 +488,7 @@ Morfeusz daje formie czytania, których czytelnik nie ma,
 a każde takie czytanie jest dla olskiego drugim czytaniem całego zdania.
 `admissible` w `olski/segmentacja.py` wyklucza dziś jedną ich klasę,
 czytanie nieodmienne stojące obok czytania z klasy zamkniętej,
-i [subset.md](subset.md#the-dictionary-offers-readings-polish-does-not)
+i [warstwa-leksykalna.md](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)
 mówi, czemu akurat te dwa warunki naraz.
 README rozpada się na jednej klasie, której to kryterium nie obejmuje:
 na rzeczownikowym czytaniu formy, którą Morfeusz zna też jako przymiotnik.
@@ -499,7 +499,7 @@ Połowa tej klasy jest zamknięta i zamknęła się nie tam, gdzie ten etap patr
 Formy paradygmatu `ten` niosły to czytanie licznie,
 a zdejmuje je nie wykluczenie w słowniku, tylko warunek w produkcji:
 zaimek rzeczowny nie rządzi dopełniaczem
-([subset.md](subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
 Czytanie, którego polszczyzna nie ma, wolno więc odebrać dwiema drogami,
 i tańsza bywa ta, która pyta nie o to, co słownik oferuje,
 ale o to, co produkcja licencjonuje.
@@ -509,18 +509,18 @@ Orzecznik zgodny bierze u olskiego każdy czasownik,
 więc `Trwa akcja protestacyjna.` orzeka `protestacyjna` o akcji,
 a zawężenie tej pozycji do leksykonu daje zdań olskich więcej
 i zabiera przy tym orzeczenie wtórne, czyli zwyczajną polszczyznę
-([subset.md](subset.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
 
 Nazwiskowe czytanie rzeczownika na czele zdania do tego etapu nie należy:
 para lematów jednej formy nie jest dwoma czytaniami
 ([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)),
 a kryterium pisane pod tę klasę zmierzono i ono nie stoi
-([subset.md](subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
 
 Ile ta klasa waży, jest przeczytane ręką:
 nad bankiem drzew, nad rejestrem ustaw i nad prozą tego repozytorium
 opiera się na takim czytaniu kilka procent zdań przyjętych
-([subset.md](subset.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
 Część tej klasy nie należy przy tym do tego etapu.
 Gdzie czytanie czytelnika jest w słowniku, a nie licencjonuje go żadna produkcja —
 zaimek zwrotny, liczebnik za rzeczownikiem — wykluczenie zamienia zdanie przyjęte
@@ -536,7 +536,7 @@ co tamten dokument pokazuje na `jury` i `menu`,
 więc odpowiedzią bywa tu decyzja, że klasy się nie da wykluczyć.
 Każde kryterium, jakie na te klasy zaproponowano, jest taką odpowiedzią,
 a cenę każdego trzyma
-[subset.md](subset.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi).
+[warstwa-leksykalna.md](warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi).
 
 **Wyjście:** klasa rozstrzygnięta kryterium
 albo zapisaną decyzją, że kryterium nie ma,
@@ -564,7 +564,7 @@ Zdejmuje je warunek na lemat, a nie produkcja:
 zaimek względny nie jest przymiotnikiem przy rzeczowniku,
 więc `które zadania własne gminy` przestaje być grupą imienną
 i nie ma czym być podmiotem zdania po przecinku
-([subset.md](subset.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku)).
 Nad rejestrem ustaw to jedno zdanie policzone jako przyjęte przestaje nim być
 ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)),
 więc etap zdjął werdykt błędny, zanim dołożył nowe.
@@ -579,7 +579,7 @@ Zdanie dopełnieniowe z `że` i zdanie względne z `który` wyprowadzają się
 i pod złotą morfologią nie odbierają Składnicy ani jednego zdania przyjętego,
 a zdanie z `które` wychodzi odrzucone zamiast współrzędnego;
 wywód trzyma
-[subset.md](subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
+[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
 Pokrycie nad README nie ruszyło się o ani jedno zdanie
 i mówi to o pomiarze nad tym plikiem więcej niż o podrzędności:
 zdania tego pliku, które na podrzędności stały, stoją także na przysłówku,
@@ -615,7 +615,7 @@ dopóki `a` czyta się jako przyimek rządzący mianownikiem,
 a warunek, który to czytanie odbiera, sam odbiera zdanie README —
 i to samo zdanie wraca z tą parą, z trzema czytaniami w miejsce trzech,
 tylko że prawdziwymi
-([subset.md](subset.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
 Para ta kupuje więc prawdę o zdaniu,
 a prawdy nie liczy ani pokrycie, ani lista zdań wieloznacznych.
 
@@ -630,7 +630,7 @@ Tak samo `o którym mowa` obiecuje w rejestrze ustaw 851 wystąpień,
 a oddaje przeszło o dwa rzędy wielkości mniej,
 bo prawodawca pisze ten zwrot razem z adresem przepisu,
 a cyfry olski nie bierze
-([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 Rejestr rozstrzyga zarazem, którą pozycję konstrukcji pomiar w ogóle zobaczy.
 Grupa wysunięta ma dwie, pod przyimkiem i bez niego,
 a rozporządzenie odpowiada tylko na pierwszą, siedem ustaw tylko na drugą,
@@ -646,7 +646,7 @@ bo rzeczownikiem nieodmiennym taka forma w polszczyźnie jest.
 Drugą połową klasy jest polskie słowo odmienione, którego słownik nie zna:
 `olski`, `commitów`, `Pythonem`.
 Dla niego to samo czytanie byłoby nie tylko nieznane, ale fałszywe,
-i dlatego [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
+i dlatego [warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
 trzyma tę połowę osobno od tamtej.
 
 Etap nie zależy od czterech powyżej ani one od niego,
@@ -662,7 +662,7 @@ wyprowadza się i wyprowadza raz.
 Zaliczone: odmianę takiego słowa deklaruje `olski.toml`,
 wskazując leksem, wedle którego się ono odmienia, wraz z formą, którą ten leksem
 ma wydać, zob.
-[subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+[warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Etap kupił mechanizm, a nie listę słów, i widać to po cenie:
 ani jednej formy tego leksykonu słownik nie czyta,
 więc zdanie, które się wyprowadza, nie ma jak stracić przez niego jednoznaczności.
@@ -687,7 +687,7 @@ Co dopisanie konstrukcji robi z wierszami tej kolejki, opisuje
 Cyfra jest przy tym osobną pozycją, a nie resztą liczebnika:
 zdejmie ją warstwa nad morfologią, a nie produkcja,
 bo `dig` nie niesie ani przypadka, ani liczby
-([subset.md](subset.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
 Lista ta ma trzy źródła i pierwszym z nich nie jest kolejka.
 Człon bez czasownika wtrącony w środek zdania
@@ -695,7 +695,7 @@ i nazwa postawiona przy rzeczowniku bez spójnika weszły na nią z przebiegu na
 która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
 Trzecim jest tor składu: wysunięty narzędnik stoi na tej liście dlatego,
 że legenda o bazyliszku go wypisuje, a gramatyka go nie bierze
-([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Wszystkie trzy pozycje są przy tym kształtem, a nie formą,
 więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
@@ -709,9 +709,9 @@ tak stoją `pcon` oraz `siebie` — bo wiersz taki jak `interp` albo `part`
 grupuje po kilka i dopiero czytanie form mówi, o którą idzie.
 Czytanie po części mowy nie stawia na tej liście nic,
 bo wpuszczone są wszystkie trzy pozycje, które nazwało:
-[imiesłów przysłówkowy](subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem),
-[zaimek `siebie`](subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)
-oraz [czas przyszły predykatywu](subset.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem),
+[imiesłów przysłówkowy](konstrukcje-gramatyczne.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem),
+[zaimek `siebie`](konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)
+oraz [czas przyszły predykatywu](konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem),
 czyli resztka wiersza, którego czas przyszły nie opróżnił do końca.
 Wiersze tych trzech w kolejce zostają
 ([corpus.md](corpus.md#where-the-analyses-stop)),
@@ -742,7 +742,7 @@ zysk wypada na ułamek tego, co obiecywała, a cena bywa poza nią.
 Czas przeszły stał w tej kolejce pierwszy, a kolejka nazywała go
 najtańszym dużym zyskiem;
 zapłacił on rodzajem wchodzącym do każdego szyku zdania
-([subset.md](subset.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
 czego kolejka nie widziała i widzieć nie mogła.
 
 Zmierzone są tym samym wiersze tej kolejki:
@@ -752,7 +752,7 @@ a `adv` oraz `imps` niemal jedną trzecią,
 więc przelicznik wychodzi trzy- do pięciokrotnego.
 Wypadł z niego dopiero `bedzie` i wypadł w drugą stronę niż `comp` niżej:
 czas przyszły oddał więcej, niż przelicznik obiecywał
-([subset.md](subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
 Żadne z tych dopisań nie rusza osobno pokrycia nad README.
 Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
 bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,
@@ -911,7 +911,7 @@ a `Robi` w `olski/skład/składnia.py` pyta o jeden lemat, bo tyle stoi w drzewi
 `Linter pomaga dobry kod.`
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi:
 bezokolicznik czyta stąd sam skład, bo tylko jemu to zdanie coś kupuje
-([subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 Etap stoi przed konstrukcjami z tego samego powodu,
 co [etap 2 toru gramatycznego](#etap-2-walencja):
@@ -944,7 +944,7 @@ Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
 [sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
 a ruch trzyma [TODO.md](../TODO.md);
 kryterium po stronie analizy stoi tam, gdzie
-[`admissible`](subset.md#the-dictionary-offers-readings-polish-does-not).
+[`admissible`](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not).
 
 **Wyjście:** forma z kwalifikatorem, którego ten rejestr nie bierze, nie wychodzi,
 leksem jest tym, co drzewo nazywa,

@@ -20,7 +20,7 @@ Zdanie o celowniku i zdanie o dopełniaczu są twierdzące jak to o bezokoliczni
 mówią, że czasownik bierze dopełnienie w tym przypadku. Rama domyślna przypadka
 poza biernikiem nie ma, więc milczenie o lemacie odmawia mu tej pozycji, a
 gramatyka wpuszcza ją tym lematom, które Walenty tu wymienia
-(docs/subset.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu).
+(docs/warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu).
 
 Zdanie o zdaniu podrzędnym wprowadzonym przez ``że`` jest twierdzące tak samo i
 mówi, że stoi przy czasowniku to, co ktoś mówi, wie albo w co nie wierzy.
@@ -130,7 +130,7 @@ CELOWNIK = ("np(dat)",)
 #:
 #: Dopełniacza spod przeczenia nie ma w tej parze i mieć go nie może: tamten
 #: wchodzi w miejsce biernika i stoi w gramatyce drugą produkcją tej samej pozycji
-#: (docs/subset.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+#: (docs/konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
 #: a Walenty pisze go tym samym ``np(str)``, co biernik.
 DOPEŁNIACZ = ("np(gen)", "np(part)")
 
@@ -288,7 +288,7 @@ def bierze_celownik_przy_wypełnieniu(schematy_lematu: Sequence[str]) -> bool:
     Które wypełnienie przy nim stoi, to zdanie przemilcza, i jest to ta sama
     zgrubność, którą ma :data:`olski.subset.RAMA_DOMYŚLNA`.
     Co każde z tych trzech zawężeń kosztuje w lematach, trzyma
-    docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+    docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
     """
     for schemat in _ramowe(schematy_lematu):
         stoi_celownik = stoi_wypełnienie = False

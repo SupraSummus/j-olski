@@ -23,7 +23,7 @@ from olski.lematy import (
 #: Jak często ten zwrot pada w rejestrze ustaw, liczy docs/ustawy.md.
 #: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
 #: imiennej w mianowniku — zmierzono i odrzucono; wywód trzyma
-#: docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+#: docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
 RZECZOWNIK_ORZEKAJĄCY = "mowa"
 
 
@@ -71,7 +71,7 @@ SPÓJNIKI_PO_ZDANIU = frozenset({"bo", "gdyż", "albowiem", "aż"})
 #: Lista jest zamknięta i stawia formie dwa żądania naraz, bo klasa `comp` niesie
 #: także takie spójniki, których ta produkcja wziąć nie może.
 #: Kogo zostawia na zewnątrz — `bowiem` i `więc` — i za co, wywodzi
-#: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
+#: docs/konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
 #:
 #: Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym, a spójniki, pod
 #: którymi stoi tryb przypuszczający, wylicza :data:`SPÓJNIKI_TRYBU` i bierze
@@ -158,7 +158,7 @@ SPÓJNIKI_WEWNĘTRZNE = frozenset({"zatem", "więc", "bowiem", "natomiast", "za�
 #:
 #: Klasa, a nie lemat, bo polszczyzna powtarza tak również `i` oraz `czy`;
 #: oba zmierzono i oba wypadły, każde z innego powodu, a wywód trzyma
-#: docs/subset.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
+#: docs/konstrukcje-gramatyczne.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
 SPÓJNIKI_SKORELOWANE = frozenset({"ani"})
 
 
@@ -198,7 +198,7 @@ ZAIMEK_PYTAJNO_WZGLĘDNY = "który"
 #: zaimków naraz, więc razem z czołami wchodzi wszystko, co ta pozycja dotąd
 #: niosła: zdanie względne bez poprzednika, ciąg pytań zależnych i orzecznik
 #: wysunięty. Wywód i cenę trzyma
-#: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+#: docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
 ZAIMEK_PYTAJNO_RZECZOWNY = frozenset({"kto", "co"})
 
 
@@ -207,7 +207,7 @@ ZAIMEK_PYTAJNO_RZECZOWNY = frozenset({"kto", "co"})
 #: przydawki go biorą, a wyklucza go jedno miejsce: przymiotnik za zaimkiem
 #: pytajno-rzeczownym, gdzie `co to` wychodziłoby grupą pytajną, a polszczyzna
 #: ma tam dwa zaimki obok siebie. Wywód i cenę trzyma
-#: docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+#: docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
 ZAIMEK_WSKAZUJĄCY = "ten"
 
 
@@ -216,7 +216,7 @@ ZAIMEK_WSKAZUJĄCY = "ten"
 #: czego liczebnik rządzący żąda od tego, co pod nim stoi, więc bez tego warunku
 #: `dwadzieścia pięć chlebów` ma drugie czytanie z `pięć` w głowie grupy.
 #: Wywód i cenę trzyma
-#: docs/subset.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
+#: docs/konstrukcje-gramatyczne.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
 PIĘCIE = "piąć"
 
 
@@ -238,7 +238,7 @@ ZAIMEK_RZECZOWNY = frozenset({
 #: gdzie zgodności żąda ktoś inny: cechy, której konstytuent nie niesie, unifikacja
 #: nie sprawdza, więc `Widzę siebie, która stoi.` by się wyprowadzało.
 #: Cenę i pozycje trzyma
-#: docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym.
+#: docs/konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym.
 ZWROTNY = word("siebie", case=V("c"))
 
 
@@ -265,7 +265,7 @@ KOSZT_WYSUNIĘCIA = 1
 #: `podmiot` wpisany do ciała czoła wpuszcza tam także `podmiot → grupa_imienna`, a wartość
 #: osobna dla każdego czoła trzyma rodzinę względną osobno od pytającej.
 #: Co bez niej wraca i ile ta etykieta kupuje, wywodzi
-#: docs/subset.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza.
+#: docs/konstrukcje-gramatyczne.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza.
 BEZ_CZOŁA = "żadne"
 
 
@@ -278,7 +278,7 @@ BEZ_CZOŁA = "żadne"
 #:
 #: Bez tego żądania jeden napis wyprowadza się dwoma kształtami; co je różni, czego
 #: nie różni i dlaczego warunek stoi tutaj, wywodzi
-#: docs/subset.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim.
+#: docs/konstrukcje-gramatyczne.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim.
 DOSTAWKA = "jest"
 
 
@@ -295,7 +295,7 @@ BEZ_DOSTAWKI = "brak"
 #: okolicznik nad zdanie pojedyncze. Tym różni się ta cecha od :data:`DOSTAWKA`,
 #: której żądanie jest ujemne i której przemilczenie nic nie psuje. Cenę pozycji
 #: trzyma
-#: docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
+#: docs/konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
 CIĄG = "jest"
 
 
@@ -310,7 +310,7 @@ BEZ_CIĄGU = "brak"
 #: :data:`BEZ_CZOŁA`, i po to jedno tu jest: polszczyzna stawia ciąg rozdzielny
 #: za rzeczownikiem i nie stawia go przed nim.
 #: Cenę obu ciał trzyma
-#: docs/subset.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
+#: docs/konstrukcje-gramatyczne.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
 ROZDZIELNA = "jest"
 
 
@@ -336,7 +336,7 @@ BEZ_ROZDZIELNEJ = "brak"
 #: bo orzeka zawsze coś o czymś, a wpuszczona dałaby drugie czytanie każdemu
 #: zdaniu, w którym orzeka narzędnikiem (:data:`OKOLICZNIK_NARZĘDNIKOWY`).
 #: Cenę i zakup tego żądania trzyma
-#: docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+#: docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
 KOPULARNY = "jest"
 
 
@@ -468,7 +468,7 @@ SPÓJNIK_SKORELOWANY = word(SPÓJNIKOWE, lemma=SPÓJNIKI_SKORELOWANE)
 #: dwa zdania. Listą, a nie wykluczeniem, bo formy o czytaniu spójnikowym, którym
 #: ta gramatyka daje inną pozycję — `czy`, `to`, `jak`, `tymczasem` — dostają pod
 #: wykluczeniem drugie czytanie, a klasy tej nie widać nad jednym korpusem;
-#: pomiar trzyma docs/subset.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
+#: pomiar trzyma docs/konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
 #:
 #: Obie części mowy naraz (:data:`SPÓJNIKOWE`), bo `zatem` i `więc` na czele
 #: zdania dostają u Morfeusza `comp`, a bank drzew nazywa je tam `conj`; samo
@@ -513,7 +513,7 @@ FORMA_POPRZYIMKOWA = word("adjp")
 #: wyprowadzenia, i tym samym warunkiem stoi lista spójników przecinkowych obok
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
 #: Kto zostaje poza listą i z jakiego powodu, wylicza
-#: docs/subset.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
+#: docs/konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
 CZĄSTKI = frozenset({
     "już", "jeszcze", "dopiero", "także", "również", "nawet", "zarazem", "naprawdę",
     "znowu", "wreszcie", "ponadto", "jedynie", "niemal", "niespełna", "zresztą", "przynajmniej",
@@ -538,7 +538,7 @@ CZĄSTKA_ZWROTNA = word("part", lemma=LEMAT_ZWROTNY)
 #:
 #: Cząstka poprzedza przeczenie, a nie stoi między nim i formą, bo tak stawia je
 #: polszczyzna: `się nie mieści`, a nie `nie się mieści`.
-#: docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika
+#: docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika
 #: wywodzi cenę pozycji przedniej i mówi, czego ona nie obejmuje.
 SZYKI_CZĄSTKI: tuple[tuple[bool, tuple[Part, ...], tuple[Part, ...]], ...] = (
     (False, (), ()),
@@ -554,7 +554,7 @@ SZYKI_CZĄSTKI: tuple[tuple[bool, tuple[Part, ...], tuple[Part, ...]], ...] = (
 #: Lista jest zamknięta, bo ``pred`` niesie całą klasę naraz, a kryterium na wejście
 #: jest jedno: czytanie konkurujące nie może stanąć na czele zdania tego samego
 #: kształtu. Kogo ono zostawia na zewnątrz i za ile, wywodzi
-#: docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
+#: docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika.
 PREDYKATYWY = frozenset({
     "można", "trzeba", "warto", "wiadomo", "widać", "wolno", "słychać", "znać",
 })
@@ -577,7 +577,7 @@ PREDYKATYW = word("pred", lemma=PREDYKATYWY)
 #: dwa, choć część mowy jedna: warunek należy do jednego gospodarza, a drugi bierze
 #: przysłówek każdy. Czym jest żądanie obecności cechy, mówi ``niesione``
 #: w olski/grammar.py, a cenę tego warunku trzyma
-#: docs/subset.md#naprawę-niesie-tagset-a-formalizm-ją-bierze.
+#: docs/konstrukcje-gramatyczne.md#naprawę-niesie-tagset-a-formalizm-ją-bierze.
 PRZYSŁÓWEK_STOPNIA = word("adv", niesie="degree")
 
 
@@ -594,7 +594,7 @@ PRZECZENIE = word("part", lemma=LEMAT_PRZECZENIA)
 #:
 #: Pozycję ma tę jedną, przy czasowniku; co zostaje poza nią — cząstka stojąca dalej
 #: i cząstka wchodząca w spójnik — wywodzi
-#: docs/subset.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku.
+#: docs/konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku.
 CZĄSTKA_TRYBU = word("part", lemma="by")
 
 

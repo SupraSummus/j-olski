@@ -320,7 +320,7 @@ PRZYJMOWANE = [
 #: Każde niesie formę, którą słownik czyta i w narzędniku, i w przypadku roli,
 #: jaką ona tu zajmuje, więc drugie czytanie stawia ją okolicznikiem;
 #: cenę tę trzyma
-#: docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+#: docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
 WIELOZNACZNE_PRZEZ_NARZĘDNIK = [
     #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README. Czytanie
     #  nieodmienne spełnia każde żądanie przypadku (`olski/segmentacja.py`),
@@ -799,7 +799,7 @@ def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
 def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrzymania():
     #  Liczebnika rządzącego w orzeczniku ta gramatyka nie ma — `Torów jest dwa.`
     #  ma go, a `Warstwy są dwie.` stoi na liczebniku zgodnym i wchodzi
-    #  (docs/subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest) — więc żadna analiza
+    #  (docs/konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest) — więc żadna analiza
     #  nie zamyka tu zdania, choć każdą jego formę bierze jakaś produkcja.
     #  Zatrzymanie pada wtedy na kropce, a werdykt nazywający kropkę kazałby
     #  autorowi poprawić interpunkcję.
@@ -1518,7 +1518,7 @@ def test_rama_bezokolicznika_rozdziela_orzecznik_od_okolicznika_narzędnikowego(
     #  narzędnik ma pozycję okolicznika przy każdym czasowniku: oba zdania mają
     #  odczytanie, a różni je rola, którą narzędnik w nich zajmuje. `zostać` jest
     #  kopulą i bierze go orzecznikiem, `zapisać` nie jest i zostawia mu samą
-    #  pozycję okolicznika (docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+    #  pozycję okolicznika (docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej).
     kopula = verdict("Program pozwala zostać nauczycielem.")
     assert any("orzecznik" in czytanie for czytanie in role(kopula)), kopula.explain()
     zwykły = verdict("Program pozwala zapisać nauczycielem.")
@@ -1652,7 +1652,7 @@ def test_forma_o_dwóch_lematach_nie_omija_zawężenia_leksykonem():
 
 def test_wykluczenie_leksykalne_mówi_o_czytaniu_a_nie_o_formie():
     #  Warunki ujemne są dwa i różni je zasięg, a nad Składnicą nie różni ich ani
-    #  jedno zdanie (docs/subset.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem), więc
+    #  jedno zdanie (docs/konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem), więc
     #  jeden podstawiony za drugi nie wywraca ani suity, ani przebiegu nad korpusem.
     #  Pilnuje ich zatem to jedno miejsce. `nie` jest u Morfeusza cząstką `nie`
     #  i formą `on`: wykluczenie o czytaniu zostawia to drugie czytanie, a o formie
@@ -2379,7 +2379,7 @@ def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
     #  zdaniem wychodzi każda grupa imienna w mianowniku, więc `o których cisza`
     #  przechodzi razem ze zwrotem tego rejestru, a przecinek koordynacji czyta
     #  wtedy wyliczenie jako ciąg zdań
-    #  (docs/subset.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną).
+    #  (docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną).
     #  Bez liczby przechodzi `o których mowy`, i mianownik sam tego nie łapie:
     #  Morfeusz zna `mowy` i jako dopełniacz pojedynczy, i jako mianownik mnogi,
     #  więc warunek na sam przypadek bierze tę formę drugim czytaniem.
@@ -2393,7 +2393,7 @@ def test_łącznik_czyni_podmiotem_grupę_za_sobą_a_orzecznikiem_tę_przed_sob�
     #  Obie grupy stoją w mianowniku, więc unifikacja nie odróżnia stron i wybiera
     #  o tym samo ciało. Bank drzew stawia podmiot za łącznikiem, a wariant
     #  odwrotny przyjmuje te same zdania, czytając je niezgodnie z drzewem
-    #  wzorcowym (docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim),
+    #  wzorcowym (docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim),
     #  czyli usterka ta jest po wydruku niewidoczna wszędzie poza tą linią.
     found = verdict("Flaga to płat tkaniny określonego kształtu.")
     assert found.status == "valid", found.explain()
@@ -2414,7 +2414,7 @@ def test_łącznik_żąda_lematu_a_nie_samej_części_mowy():
 def test_predykatyw_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
     #  Usterka, którą to łapie: predykatyw wpuszczony jako `grupa_orzeczenia`, po którym
     #  `Programy trzeba czytać.` wychodzi zdaniem o podmiocie `Programy`
-    #  (docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
+    #  (docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
     found = verdict("Trzeba czytać dokumenty.")
     assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Trzeba", found.explain()
     wysunięte = verdict("Programy trzeba czytać.")
@@ -2437,7 +2437,7 @@ def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
     #  Zgodności ta forma nie niesie żadnej, a cechy, której konstytuent nie
     #  niesie, unifikacja nie sprawdza, więc pod tamtym symbolem `program`
     #  wychodzi podmiotem, choć jest tam biernikiem
-    #  (docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
+    #  (docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
     found = verdict("Zgłoszono program.")
     assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Zgłoszono", found.explain()
     assert "podmiot" not in role(found)[0], found.explain()
@@ -2449,7 +2449,7 @@ def test_dopełnienie_wysunięte_przed_głowę_bez_podmiotu_zostawia_okolicznik_
     #  nie obie; oraz dopełnienie wpisane pod `wypełnienia`, po którym
     #  `Usterkę zgłoszono wczoraj.` nie ma gdzie postawić okolicznika, bo tamten
     #  symbol stoi w ciele za głową i tylko tam
-    #  (docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu).
+    #  (docs/konstrukcje-gramatyczne.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu).
     forma = verdict("Usterkę zgłoszono.")
     assert role(forma)[0]["dopełnienie"] == "Usterkę", forma.explain()
     predykatyw = verdict("Nic nie widać.")
@@ -2754,7 +2754,7 @@ def test_każda_para_ciał_okalających_symbol_ma_zapisany_porządek():
     Dwie rodziny produkcji dochodzące do jednego symbolu nie mówią same z siebie,
     która dochodzi pierwsza, a pojedyncze zdanie tego nie łapie, bo ciał jest po
     kilka z każdej strony i zdanie przechodzi przez jedną ich parę
-    (docs/subset.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim).
+    (docs/konstrukcje-gramatyczne.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim).
     Warunek jest tu cechą, której wartości się nie przecinają, i pyta o niego
     unifikacja, więc porządek zapisany inną cechą przechodzi tak samo.
     """

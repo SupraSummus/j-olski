@@ -5,7 +5,7 @@ dopełnienie mówi, którą pozycję zajmuje, a przecina jedno z drugim unifikac
 Ramę czasownika podaje leksykon (``olski/leksykon.txt``),
 a ramę domyślną — tę, którą dostaje czasownik spoza leksykonu — deklaruje ten moduł;
 wywód, czemu leksykon ma ramę domyślną nad sobą, trzyma
-docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 """
 
 from __future__ import annotations
@@ -71,7 +71,7 @@ RAMA_BEZ_BIERNIKA = RAMA_DOMYŚLNA - {"acc"}
 #: Po stronie niezwrotnej pozycja ta zostaje w ramie domyślnej, bo tam konkurencji
 #: nie ma i zawężenie zmierzono: nie kupiło ani jednego drugiego czytania
 #: (:data:`RAMA_DOMYŚLNA`). Cenę odjęcia zwrotnego trzyma
-#: docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika.
+#: docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 RAMA_DOMYŚLNA_ZWROTNA = RAMA_DOMYŚLNA - {"inf"}
 
 
@@ -122,7 +122,7 @@ def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
 #:
 #: Wartość jest jedna, bo jeden przypadek ma tę parę zmierzoną: dopełniacz obok
 #: wypełnienia bierze u Walentego kilkadziesiąt lematów, a celownik kilka tysięcy;
-#: liczby trzyma docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+#: liczby trzyma docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
 DRUGA_CELOWNIK = "dat"
 
 
@@ -199,7 +199,7 @@ def _walencja() -> tuple[
 #: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami.
 #: Leksykon jest otwarty i ma ramę domyślną, więc czasownik dopisuje się wpisem, a
 #: nie produkcją; czym taki leksykon jest, a czym nie jest, wywodzi
-#: docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+#: docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
 
@@ -231,7 +231,7 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     Pyta on o formę, a nie o jedno jej czytanie, bo rama jest własnością formy:
     zapytany o czytanie rozdziela lematy zamiast form i wpuszcza ramę domyślną
     formie, której lemat leksykon wymienia. Reprodukcję, cenę i zysk trzyma
-    docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+    docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 
     Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
@@ -245,7 +245,7 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     ``Cena się jest niska.`` się wyprowadza, a ``być się`` czasownikiem nie jest.
     Lematu ``zostać`` odmowa ta nie tyka, bo leksykon zwrotny go wymienia i klasa
     domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
-    docs/subset.md#cząstka-zwrotna-należy-do-swojego-czasownika.
+    docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 
     Klasa ramy dzieli się na dwie tam, gdzie leksykon daje części jej lematów
     drugą pozycję (:data:`DRUGA_CELOWNIK`), a klasa domyślna drugiej pozycji nie
@@ -307,7 +307,7 @@ def _formy_skończone(
     Głową jest czasownik, a nie ``bedzie``, bo rama należy do czasownika
     i po nim werdykt nazywa gospodarza przyłączenia.
     Polszczyznę i cenę trzyma
-    docs/subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony.
+    docs/konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony.
 
     Głowa stoi w każdym ciele, także w tym o jednej części: ciało wychodzi
     stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o

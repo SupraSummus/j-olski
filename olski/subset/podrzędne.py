@@ -62,7 +62,7 @@ def zaimek_czoła(liczba: Var, rodzaj: Var) -> dict[str, Var]:
     a wtedy zdanie względne wychodzi bez liczby i rodzaju i przyjmuje każdy
     poprzednik. Nazwy cech są polskie, bo cechę tę wybiera ta gramatyka, a nie
     Morfeusz (``olski/morph.py`` nazywa jego kategorie); kto ją czyta, mówi
-    docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
+    docs/konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
     """
     return {"liczba_zaimka": liczba, "rodzaj_zaimka": rodzaj}
 
@@ -147,7 +147,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
 
     # Podmiot za wysuniętym dopełnieniem stoi po czasowniku i przed nim, bo czoło
     # wysuwa polszczyzna zawsze, a dopełnienie z wyboru
-    # (docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
+    # (docs/konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka).
     # Wypowiada to sam warunek precedencji: żąda on czoła na pierwszym miejscu i
     # nie żąda niczego od dwóch pozostałych córek.
     #
@@ -170,7 +170,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # Para stoi wypisana, a nie wzięta z :data:`DOKŁADANE_PRZYPADKI`, bo z tamtej
     # listy wchodzi tu jedna pozycja z dwóch: celownik zmierzono i nie kupił ani
     # jednego zdania prawdziwego
-    # (docs/subset.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie).
+    # (docs/konstrukcje-gramatyczne.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie).
     # Bezokolicznika nie ma w tamtej liście wcale, bo przypadkiem nie jest, a na
     # czoło i tak by się nie wysuwał: jest wypełnieniem innym niż dopełnienie.
     pozycje = (("acc", "acc", "aff"), ("gen", "acc", "neg"), ("gen", "gen", None))
@@ -207,7 +207,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
         # (``zdanie_składowe → grupa_orzeczenia``), więc i tu jest to druga deklaracja.
         # Warunku precedencji nie ma, bo czoło stoi pierwsze, a za nim została
         # jedna córka. Cenę i zakup trzyma
-        # docs/subset.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
+        # docs/konstrukcje-gramatyczne.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka.
         zdanie.dominacja(symbol, [czoło_dopełnienie, Głowa(czasownik)], **POPRZEDNIK)
 
     # Orzecznik wysunięty na czoło: `Czym jest parser?`, `to, czym jest GLR`.
@@ -259,11 +259,11 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
     # Konstrukcja jest okolicznikiem, a nie pozycją ramy, i tym różni się od
     # zdania z `że`: czasownik jej nie żąda i nie ma czasownika, który by jej
     # zabraniał, więc dochodzi ona do zdania, a nie do jego orzeczenia
-    # (docs/subset.md#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej).
+    # (docs/konstrukcje-gramatyczne.md#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej).
     #
     # Przecinek należy do tego konstytuentu, tak samo jak w zdaniu dopełnieniowym
     # i względnym, i po tym poznaje ciąg współrzędny werdykt oraz sonda
-    # (docs/subset.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
+    # (docs/konstrukcje-gramatyczne.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
     # Stoi on po tej stronie zdania podrzędnego, po której stoi zdanie nadrzędne,
     # więc cecha `pozycja` wiąże ciało z miejscem: bez niej ciało z przecinkiem
     # z przodu staje na czele zdania i olski wyprowadza napis zaczynający się
@@ -333,7 +333,7 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
     #
     # Ciała są dwa na każdą pozycję, bo zakup imiesłowu bez wypełnienia jest osobną
     # liczbą. Wywód, pozycje i cenę trzyma
-    # docs/subset.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem.
+    # docs/konstrukcje-gramatyczne.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem.
     imiesłów = nt(IMIESŁÓW_PRZYSŁÓWKOWY, valency=V("w"), negacja=V("z"), druga=V("d"))
     wypełnienie_imiesłowu = nt("wypełnienia", valency=V("w"), negacja=V("z"), druga=V("d"))
     for wnętrze in ([Głowa(imiesłów), wypełnienie_imiesłowu], [Głowa(nt(IMIESŁÓW_PRZYSŁÓWKOWY))]):
@@ -376,7 +376,7 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
 
     # Te same dwie pozycje nad całym ciągiem współrzędnym, bo okolicznik mówi i o
     # obu członach naraz, i o samym drugim; oba zdania trzyma
-    # docs/subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
+    # docs/konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania.
     # Ciała powyżej dają czytanie drugie, te dwa dają pierwsze,
     # i bez nich olski wybiera przez przeoczenie
     # (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
@@ -458,7 +458,7 @@ def _rodziny_czoła(grammar: Grammar, zdanie: Rozwinięcie) -> None:
     # bo rozstrzyga poprzednik, a nie lemat: `co` zastępuje zaimek rzeczowny albo
     # całe zdanie, a `który` rzeczownik, więc jednym symbolem rzeczownik dostawał
     # zdanie względne z `co`. Wywód, cenę i zakup rozdzielenia trzyma
-    # docs/subset.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie.
+    # docs/konstrukcje-gramatyczne.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie.
     #
     # Liczba i rodzaj zaimka odróżniają przy tym `co` od `kto` bez osobnej cechy:
     # `co` jest nijakie, a `kto` męskoosobowe (:func:`zaimek_czoła`).
@@ -532,7 +532,7 @@ def _rodziny_czoła(grammar: Grammar, zdanie: Rozwinięcie) -> None:
     # Terminal, a nie symbol przydawki, bo wyklucza zaimek wskazujący
     # (:data:`ZAIMEK_WSKAZUJĄCY`); przysłówka stopnia ta pozycja przez to nie
     # bierze i nikt go tu nie policzył. Cenę i to, czego ta pozycja nie naprawia,
-    # trzyma docs/subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
+    # trzyma docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz.
     grammar.rule(
         GRUPA_PYTAJNA,
         [Głowa(zaimek_pytajny_rzeczowny), word("adj", bez_lematu=ZAIMEK_WSKAZUJĄCY, **AGREE)],

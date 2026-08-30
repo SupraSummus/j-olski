@@ -23,6 +23,10 @@ and a renamed file leaves that claim looking live.
 ``docs/architecture.md`` is where the claims are densest,
 its whole content being the map from a layer to the module that is one,
 and the check that reads it found a deleted test file named in ``TODO.md``.
+
+Wskazanie mówiące, w którą stronę przewijać, jest zdaniem o kolejności w pliku.
+Sekcja przestawiona czyni je nieprawdą, a link rozwiązuje się dalej,
+więc nic w Markdownie nie czerwienieje.
 """
 
 import re
@@ -70,6 +74,11 @@ CITED_DOCUMENT = re.compile(r"(?:docs/[\w-]+|CLAUDE|TODO)\.md(?:#[\w-]+)?")
 #: puts a document on somebody's path.
 LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md)\]")
 HEADING = re.compile(r"(?m)^#+\s+(.*)$")
+#: Słowo, którym wskazanie mówi, w którą stronę przewijać. Kierunek jest
+#: własnością pary — wskazania i celu — a nie samego linku.
+W_DÓŁ = frozenset({"below", "niżej", "poniżej"})
+W_GÓRĘ = frozenset({"above", "wyżej", "powyżej"})
+DEIKTYCZNE = re.compile(rf"\[({'|'.join(sorted(W_DÓŁ | W_GÓRĘ))})\]\(#([\w-]+)\)")
 LISTED_CHECKS = re.compile(r"(?ms)^## Checks\n.*?^```sh\n(.*?)^```")
 WORKFLOW_STEP = re.compile(r"(?m)^\s*- run: (.*)$")
 
@@ -111,6 +120,33 @@ def cited_paths():
         if document.name != O_USUNIĘTYM
         for cited in CITED_PATH.finditer(document.read_text())
     ]
+
+
+def wskazania_deiktyczne():
+    parametry = []
+    for document in DOCUMENTS:
+        proza = document.read_text()
+        nagłówki = {anchor_of(m.group(1)): m.start() for m in HEADING.finditer(proza)}
+        for wskazanie in DEIKTYCZNE.finditer(proza):
+            # Kotwicy, której nie ma, pilnuje test wskazań względnych obok.
+            if wskazanie.group(2) not in nagłówki:
+                continue
+            wiersz = proza.count("\n", 0, wskazanie.start()) + 1
+            parametry.append(
+                pytest.param(
+                    wskazanie.group(1),
+                    wskazanie.start() < nagłówki[wskazanie.group(2)],
+                    id=f"{document.name}:{wiersz} -> {wskazanie.group(2)}",
+                )
+            )
+    return parametry
+
+
+@pytest.mark.parametrize(("słowo", "cel_niżej"), wskazania_deiktyczne())
+def test_słowo_kierunkowe_zgadza_się_z_tym_gdzie_stoi_cel(słowo: str, cel_niżej: bool):
+    assert (słowo in W_DÓŁ) == cel_niżej, (
+        f"wskazanie mówi {słowo}, a cel stoi {'niżej' if cel_niżej else 'wyżej'}"
+    )
 
 
 @pytest.mark.parametrize(("document", "target"), cited_paths())

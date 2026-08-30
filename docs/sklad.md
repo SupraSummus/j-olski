@@ -313,7 +313,7 @@ bo SGJP nie odróżnia tych dwóch słów niczym.
 Świadka daje jej za to bank drzew:
 `gdyż` nie otwiera w nim ani jednego zdania, a `gdy` dwie piąte swoich wystąpień
 i to samo rozstrzygnięcie stoi po stronie analizy, w dwóch listach lematów
-([subset.md](subset.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
 bo jest to fakt o słowie, a nie o kierunku, w którym się go używa.
 
 Okoliczność wyrażoną zdarzeniem gramatyka od niedawna wyprowadza,
@@ -383,7 +383,7 @@ którego bezokolicznik nie wyraża,
 więc drzewo żądające go dla cudzego zdarzenia nie ma wyjść tekstem,
 w którym wróciłby czeladnik.
 Tego, że pytanie o kontrolę pada raz, nie zawdzięcza przy tym drzewo sobie:
-[Walenty rozdziela kontrolę](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
+[Walenty rozdziela kontrolę](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 więc `chcieć` bezokolicznik dostaje, a `kazać` nie dostaje go wcale,
 bo jego wykonawca stoi w celowniku,
 a celownik obok bezokolicznika jest drugą pozycją ramy,
@@ -630,7 +630,7 @@ Wyszło z tego coś, czego niezmiennik obiegu nie zapowiadał:
 plik leksykonu jest wspólny, a dwa z trzech zdań, które on mówi, czyta jeden kierunek.
 Bezokolicznik parser zmierzył i nie kupiło mu to zawężenie ani jednej jednoznaczności,
 a zdania podrzędnego tamta gramatyka nie ma wcale, więc nie ma tam czego mierzyć;
-liczby trzyma [subset.md](subset.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
+liczby trzyma [warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 ### Co zapłaciło samym zapisem
 
@@ -1150,7 +1150,7 @@ co widać po zawartości katalogu, w który się instaluje,
 więc tamta droga żąda łańcucha narzędzi spoza PyPI
 i zabiera to, co [`CLAUDE.md`](../CLAUDE.md#checks) ma za instalację jednym poleceniem.
 Plik czytany przez oba kierunki kupuje przy tym to samo,
-co kupuje [leksykon walencyjny](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+co kupuje [leksykon walencyjny](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej):
 że `komit` jest słowem raz, a nie dwa razy.
 
 Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:
@@ -1158,7 +1158,7 @@ Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:
 wraz z jedną formą, którą ten leksem ma wydać.
 Alternacja tematu, która przeciw wskazaniu leksemu stała,
 schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,
-trzyma [subset.md](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+trzyma [warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Czyta tę sekcję strona analizy, a skład jej nie czyta,
 więc obietnica z akapitu wyżej — że `komit` jest słowem raz, a nie dwa razy —
 czeka na drugiego czytelnika, i ruch do niej trzyma [`TODO.md`](../TODO.md).
@@ -1291,6 +1291,6 @@ czyli leksykonu walencyjnego i `KOPULA` w `olski/lematy.py`,
 i każde z nich musiałoby powiedzieć, którą połowę identyfikatora dopasowuje.
 Wchodzi on tam wtedy, gdy będzie reguła, która tożsamości leksemu zażąda.
 Kryterium, które po tamtej stronie już stoi, jest innego rodzaju i nie zastępuje tego:
-[`admissible`](subset.md#the-dictionary-offers-readings-polish-does-not)
+[`admissible`](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)
 wyrzuca czytanie, którego polszczyzna nie ma,
 a tutaj oba czytania polszczyzna ma i różnią się tym, o czym mówią.
