@@ -611,7 +611,7 @@ python3 -m olski.check --rozstrzygaj -c "Daj przepis na faworki."
 
 ```text
 <text>: ambiguous Daj przepis na faworki.
-                  2 odczytania, różne w Object; „na faworki” → „Daj”, „przepis”
+                  2 odczytania, różne w roli: dopełnienie; „na faworki” → „Daj”, „przepis”
                   ? „na faworki” → „przepis”: „na” przy „przepis” doszło tam w 4 z 4 wypadków banku drzew, 100%
 ```
 
@@ -642,9 +642,9 @@ python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator
 
 ```text
 <text>: ambiguous Wystąpiła awaria w systemie.
-                  2 odczytania, różne w Subject; „w systemie” → „Wystąpiła”, „awaria”
+                  2 odczytania, różne w roli: podmiot; „w systemie” → „Wystąpiła”, „awaria”
 <text>: ambiguous Operator zgłosił awarię w systemie.
-                  2 odczytania, różne w Object; „w systemie” → „zgłosił”, „awarię”
+                  2 odczytania, różne w roli: dopełnienie; „w systemie” → „zgłosił”, „awarię”
                   ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
 olskie: 0 z 2 zdań; z odczytaniem: 2
 ```
@@ -1141,10 +1141,10 @@ python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
 ```text
 <text>: valid     Wynajmę mieszkanie.
                   jedno odczytanie
-                  - Object: mieszkanie, Verb: Wynajmę
+                  - dopełnienie: mieszkanie, orzeczenie: Wynajmę
 <text>: valid     Znam go.
                   jedno odczytanie
-                  - Object: go, Verb: Znam
+                  - dopełnienie: go, orzeczenie: Znam
 olskie: 2 z 2 zdań; z odczytaniem: 2
 ```
 

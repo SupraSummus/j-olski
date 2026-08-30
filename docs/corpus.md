@@ -335,7 +335,8 @@ Drop the one that puts a modifier in front of the clause
 and the `prep` row rises by an order of magnitude, into the first few,
 led by capitalized forms, because a fronted modifier opens its sentence.
 Drop instead the positions that hang a prepositional phrase on a noun or on an
-adjective — `Modifier` under `NPConjunct` and under `APConjunct`, which are the
+adjective — `wyrażenie_przyimkowe` under `człon_imienny`
+and under `człon_przymiotnikowy`, which are the
 attachment
 [subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)
 leaves to the reader — and the row doubles.
@@ -632,7 +633,8 @@ the attributive participle being a construction olski lacks
 so the analysis ran as far as the next missing position.
 
 Drop the positions that hang a prepositional phrase on a noun or on an adjective —
-`Modifier` under `NPConjunct` and under `APConjunct`, and the bodies that put it
+`wyrażenie_przyimkowe` under `człon_imienny` and under `człon_przymiotnikowy`,
+and the bodies that put it
 over a whole coordination
 ([subset.md](subset.md#nothing-above-a-coordination-distributes-into-it)),
 which together are the attachment

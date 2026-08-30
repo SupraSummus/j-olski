@@ -47,7 +47,7 @@ from harness.pomiar import po_kawałkach, segments_for
 from harness.ruch import gramatyka
 from olski.grammar import Grammar, Production, nt
 from olski.parse import Leaf, Node, Tree, parse
-from olski.subset import DEKLARACJA, PRZYSŁÓWEK, PRZYSŁÓWEK_STOPNIA, PRZYSŁÓWKOWY
+from olski.subset import DEKLARACJA, OKOLICZNIK_PRZYSŁÓWKOWY, PRZYSŁÓWEK, PRZYSŁÓWEK_STOPNIA
 from olski.werdykt import check
 
 #: Ile zdań zachować pod każdą klasą, tak jak trzymają je pomiary obok.
@@ -70,14 +70,14 @@ def gospodarz(produkcja: Production) -> str | None:
     i jego, więc osobnej ceny ten gospodarz nie ma.
 
     Okolicznik zdejmuje się przy tym czterema produkcjami, a wystarczyłaby jedna:
-    ``Adverb → adv`` jest jedyną, która przysłówek do zdania wpuszcza, więc bez
+    ``okolicznik_przysłówkowy → adv`` jest jedyną, która przysłówek do zdania wpuszcza, więc bez
     niej dwa ciała listy okoliczników i czoło zdania nie mają czym się wypełnić.
     Zdejmowane są mimo to wszystkie, bo wariant ma być gramatyką bez tej
     konstrukcji, a nie gramatyką z symbolem, do którego nic nie prowadzi.
     """
     if PRZYSŁÓWEK_STOPNIA in produkcja.body:
         return PRZY_PRZYMIOTNIKU
-    if PRZYSŁÓWEK in produkcja.body or nt(PRZYSŁÓWKOWY) in produkcja.body:
+    if PRZYSŁÓWEK in produkcja.body or nt(OKOLICZNIK_PRZYSŁÓWKOWY) in produkcja.body:
         return OKOLICZNIK
     return None
 
@@ -135,7 +135,7 @@ def płaskie(drzewo: Node) -> list[tuple[str, str]]:
     ``bardzo`` przed przymiotnikiem jest pomyłką, a ``ostatecznie`` przed nim może
     nie być, i rozstrzyga o tym słowo, a nie klasa.
 
-    Rodzicem musi być symbol przysłówka zdania (:data:`PRZYSŁÓWKOWY`), bo pod nim
+    Rodzicem musi być symbol przysłówka zdania (:data:`OKOLICZNIK_PRZYSŁÓWKOWY`), bo pod nim
     stoi przysłówek okolicznikowy i tylko on: przysłówek określający przymiotnik
     wisi w czytaniu drugiego gospodarza pod symbolem tego przymiotnika i wtedy
     drzewo mówi o nim prawdę. Płaskim czyni takie czytanie lista okoliczników nad
@@ -145,7 +145,7 @@ def płaskie(drzewo: Node) -> list[tuple[str, str]]:
     liście = _liście(drzewo)
     znalezione = []
     for (rodzic, liść), (_, następny) in zip(liście, liście[1:], strict=False):
-        if rodzic != PRZYSŁÓWKOWY or liść.reading.tag.pos != "adv":
+        if rodzic != OKOLICZNIK_PRZYSŁÓWKOWY or liść.reading.tag.pos != "adv":
             continue
         if not liść.reading.tag.get(STOPIEŃ):
             continue

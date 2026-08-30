@@ -122,7 +122,7 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
         sent_id="żywa",
         text="Teraz program zapisuje ustawienia.",
         verdict=FULL,
-        roles=(("Subject", 0, 1),),
+        roles=(("podmiot", 0, 1),),
     )
     raport = zmierz(płaski.PRZYSŁÓWEK_SONDA, [zdanie], źródło="live")
     assert raport.przejścia[płaski.PRZYSŁÓWEK_SONDA.czysty] == {"rejected → valid": 1}

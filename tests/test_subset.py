@@ -46,20 +46,19 @@ from olski.parse import (
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło
 from olski.subset import (
-    BEZOSOBOWY,
+    CZĄSTKA_ZDANIA,
     CZĄSTKI,
-    CZĄSTKOWY,
     DEKLARACJA,
     GRAMMAR,
+    GRUPA_PYTAJNA,
     MIJANE,
-    OKOLICZNIKOWY,
+    OKOLICZNIK_PRZYSŁÓWKOWY,
+    OKOLICZNIK_ZDANIOWY,
+    ORZECZENIE_BEZOSOBOWE,
+    ORZECZENIE_RZECZOWNIKOWE,
     ORZECZNIK_ŁĄCZNIKA,
-    ORZEKAJĄCY,
     PREDYKATYWY,
     PRZECINEK,
-    PRZYSŁÓWKOWY,
-    PRZYŁĄCZANY,
-    PYTAJNY,
     RAMA_BEZ_BIERNIKA,
     RODZINY,
     SPÓJNIK_BEZ_PRZECINKA,
@@ -69,7 +68,8 @@ from olski.subset import (
     SPÓJNIKI_SKORELOWANE,
     WALENCJA,
     WALENCJA_ZWROTNA,
-    WTRĄCONY,
+    WTRĄCENIE,
+    WYRAŻENIE_PRZYIMKOWE,
 )
 from tests.test_werdykt import role, verdict
 
@@ -244,7 +244,7 @@ def _po_liściach(liście, zamiast=None):
     "zdanie",
     [
         #  szynki jest dopełniaczem szynki i mianownikiem szynk, a pozycja pod
-        #  NPConjunct licencjonuje z tych dwóch sam dopełniacz. Poprawnym zdaniem
+        #  człon_imienny licencjonuje z tych dwóch sam dopełniacz. Poprawnym zdaniem
         #  to nie jest, więc czytelnik ogląda te drzewa, żeby zobaczyć różnicę.
         "Koszt szynki przewyższa koszt chleba.",
         #  Dobry jest przymiotnikiem zgodnym z kod i nazwiskiem rządzącym
@@ -322,14 +322,14 @@ def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():
     #  czytań: tablica domyka pozycję, gdy produkcja doszła do końca ciała, a o
     #  cechy pyta dopiero unifikacja po lesie. `zobacz` ma ramę domyślną, bez
     #  narzędnika, a notacja rejestru dostaje czytanie nieodmienne i przechodzi w
-    #  każdym przypadku, więc `Predicative` buduje się nad nią i ginie u rodzica.
+    #  każdym przypadku, więc `orzecznik` buduje się nad nią i ginie u rodzica.
     segments = morphology("Zobacz docs/subset.md.")
     assert not [
         węzeł
         for reading in parse(GRAMMAR, segments).readings
-        for węzeł in reading.find("Predicative")
+        for węzeł in reading.find("orzecznik")
     ]
-    assert las(GRAMMAR, segments).wyprowadzenia(Pozycja("Predicative", (1, 2)))
+    assert las(GRAMMAR, segments).wyprowadzenia(Pozycja("orzecznik", (1, 2)))
 
 
 #: Siedem przyłączeń, czyli czytań więcej, niż lista wypisuje.
@@ -413,14 +413,14 @@ def test_rola_różniąca_czytania_zostaje_nazwana_zza_granicy_wyliczania():
         "ochrony dóbr kultury na czas wojny z określeniem niezbędnych priorytetów."
     )
     assert werdykt.result.truncated
-    assert len({streszczenie.get("Subject") for streszczenie in role(werdykt)}) == 1
-    assert "Subject" in werdykt.result.różniące
+    assert len({streszczenie.get("podmiot") for streszczenie in role(werdykt)}) == 1
+    assert "podmiot" in werdykt.result.różniące
 
 
 def test_rola_stojąca_w_czytaniu_dwa_razy_nie_jest_niezgodą_między_czytaniami():
     """Zdanie współrzędne ma własny podmiot, a to nie jest różnica między czytaniami.
 
-    Pozycje o etykiecie `Subject` mają w lesie tego zdania różne rozpiętości,
+    Pozycje o etykiecie `podmiot` mają w lesie tego zdania różne rozpiętości,
     więc porównanie ich wszystkich naliczyłoby niezgodę tam, gdzie oba czytania
     mówią to samo. Jednym wystąpieniem roli jest to, które nazywa streszczenie:
     pierwsze w tym zdaniu składowym. Zdanie jest wieloznaczne czytaniem
@@ -432,7 +432,7 @@ def test_rola_stojąca_w_czytaniu_dwa_razy_nie_jest_niezgodą_między_czytaniami
         "Autor działa i dodatkowych przedstawicieli wyznacza zainteresowana rada gminy."
     )
     assert werdykt.result.ile == 2
-    assert all(len(czytanie.find("Subject")) == 2 for czytanie in werdykt.result.readings)
+    assert all(len(czytanie.find("podmiot")) == 2 for czytanie in werdykt.result.readings)
     assert werdykt.result.różniące == ()
 
 
@@ -445,10 +445,10 @@ def test_niezgoda_w_drugim_zdaniu_składowym_zostaje_nazwana_rolą():
     i dopełnienie rozdzielają, czyli werdykt nie mówi, czym te dwa czytania się różnią.
     """
     werdykt = verdict("Program zapisuje ustawienia i przepis wydaje organ.")
-    assert werdykt.result.różniące == ("Subject", "Object")
+    assert werdykt.result.różniące == ("podmiot", "dopełnienie")
     assert [drugie for _pierwsze, drugie in werdykt.readings] == [
-        {"Subject": "przepis", "Object": "organ", "Verb": "wydaje"},
-        {"Subject": "organ", "Object": "przepis", "Verb": "wydaje"},
+        {"podmiot": "przepis", "dopełnienie": "organ", "orzeczenie": "wydaje"},
+        {"podmiot": "organ", "dopełnienie": "przepis", "orzeczenie": "wydaje"},
     ]
 
 
@@ -456,8 +456,8 @@ def _role_czytań(zbudowany):
     """Rozpiętości podmiotu i dopełnienia w kolejnych czytaniach, po jednej parze."""
     return [
         (
-            frozenset(węzeł.span for węzeł in drzewo.find("Subject")),
-            frozenset(węzeł.span for węzeł in drzewo.find("Object")),
+            frozenset(węzeł.span for węzeł in drzewo.find("podmiot")),
+            frozenset(węzeł.span for węzeł in drzewo.find("dopełnienie")),
         )
         for drzewo in zbudowany.czytania()
     ]
@@ -487,7 +487,7 @@ def test_las_numeruje_te_i_tylko_te_rozdania_ról_które_wychodzą_z_jego_drzew(
     assert len(set(z_drzew)) > 1, "zdanie bez dwóch rozdań niczego tu nie rozstrzyga"
     for podmioty in {rozdanie[0] for rozdanie in z_drzew}:
         for dopełnienia in {rozdanie[1] for rozdanie in z_drzew}:
-            role = {"Subject": podmioty, "Object": dopełnienia}
+            role = {"podmiot": podmioty, "dopełnienie": dopełnienia}
             szukane = (podmioty, dopełnienia)
             oczekiwany = z_drzew.index(szukane) + 1 if szukane in z_drzew else None
             assert zbudowany.numer_czytania(role) == oczekiwany, role
@@ -509,7 +509,7 @@ def test_czytanie_nazwane_rolami_znajduje_się_zza_granicy_wyliczania():
     poza_listą = set(czytania) - set(czytania[:MAX_READINGS])
     assert len(poza_listą) == 6
     for podmioty, dopełnienia in poza_listą:
-        numer = zbudowany.numer_czytania({"Subject": podmioty, "Object": dopełnienia})
+        numer = zbudowany.numer_czytania({"podmiot": podmioty, "dopełnienie": dopełnienia})
         assert numer is not None and numer > MAX_READINGS
 
 
@@ -522,8 +522,8 @@ def test_pusty_zbiór_żąda_czytania_które_tej_roli_nigdzie_nie_obsadza():
     """
     zbudowany = las(GRAMMAR, morphology("Program zapisuje ustawienia."))
     podmiot = frozenset({(0, 1)})
-    assert zbudowany.numer_czytania({"Subject": podmiot, "Object": frozenset({(2, 3)})}) == 1
-    assert zbudowany.numer_czytania({"Subject": podmiot, "Object": frozenset()}) is None
+    assert zbudowany.numer_czytania({"podmiot": podmiot, "dopełnienie": frozenset({(2, 3)})}) == 1
+    assert zbudowany.numer_czytania({"podmiot": podmiot, "dopełnienie": frozenset()}) is None
 
 
 def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
@@ -601,21 +601,21 @@ def test_konstytuent_z_rolą_przyłączaną_jest_gospodarzem_albo_stoi_wśród_m
     pominięcia bierze się z tego, że nikt o nie nie pyta.
     """
     przyłączane = set(DEKLARACJA.przyłączane)
-    #  `Adjuncts` jest ciągiem tych ról i samo rolą nie jest, więc ciało z nim
+    #  `okoliczniki` jest ciągiem tych ról i samo rolą nie jest, więc ciało z nim
     #  niesie rolę przyłączaną tak samo jak ciało z którąkolwiek z nich.
     #  Bez tej asercji rola dopisana do ciągu, a nie do `przyłączane`,
     #  zawężałaby zbiór niżej i check pytałby po cichu o mniej.
     ciąg = {
         symbol
-        for produkcja in GRAMMAR.for_head("Adjuncts")
+        for produkcja in GRAMMAR.for_head("okoliczniki")
         for symbol in _symbole(produkcja)
     }
-    assert ciąg <= przyłączane | {"Adjuncts"}
+    assert ciąg <= przyłączane | {"okoliczniki"}
 
     niosące = {
         produkcja.head
         for produkcja in GRAMMAR.productions
-        if _symbole(produkcja) & (przyłączane | {"Adjuncts"})
+        if _symbole(produkcja) & (przyłączane | {"okoliczniki"})
     }
     #  Trzy asercje zamiast jednego porównania, żeby czerwony check nazwał symbol.
     assert niosące - set(DEKLARACJA.gospodarze) - set(MIJANE) == set()
@@ -719,7 +719,7 @@ def test_konstytuent_będący_zdaniem_streszcza_się_swoimi_rolami():
     assert len(found.readings) == 1
     [rozbieżność] = found.rozbieżne
     assert [
-        (składowe["Subject"], składowe["Object"])
+        (składowe["podmiot"], składowe["dopełnienie"])
         for (składowe,) in rozbieżność.czytania
     ] == [("organ gminy", "przepis"), ("przepis", "organ gminy")]
 
@@ -1001,7 +1001,7 @@ PRZYJMOWANE = [
     #  ma za czasownikiem: przy dopełnieniu i bez niego.
     "Mieszczanie zabili okna deskami.",
     "Wziął lustro wieczorem.",
-    #  Liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest.
+    #  liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest.
     "Tory są dwa.",
     #  Kopula, którą lista dostała razem z tym orzecznikiem.
     "Odpowiedzią bywa decyzja.",
@@ -1075,7 +1075,7 @@ def test_pierwszy_artykuł_deklaracji_stoi_na_przyłączeniu_wyrażenia_przyimko
     #  ostatnim wzgląd określa samych równych, a nad ciągiem oboje. Czytanie
     #  trzecie zostawia orzecznik bez wyrażenia, bo wzgląd doszedł tam do zdania
     #  (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
-    assert {reading["Predicative"] for reading in role(found)} == {
+    assert {reading["orzecznik"] for reading in role(found)} == {
         "wolni i równi",
         "wolni i [równi pod względem swej godności i swych praw]",
         "wolni i równi [pod względem swej godności i swych praw]",
@@ -1093,7 +1093,7 @@ def test_termin_z_dopełniaczem_bierze_wyrażenie_przyimkowe_na_własną_głowę
     found = verdict("Program zapisuje ustawienia domyślne użytkownika w pliku.")
     assert found.status == "ambiguous", found.explain()
     assert len(found.readings) == 3
-    assert {reading["Object"] for reading in role(found)} == {
+    assert {reading["dopełnienie"] for reading in role(found)} == {
         "ustawienia domyślne użytkownika w pliku",
         "ustawienia domyślne użytkownika",
     }
@@ -1106,37 +1106,37 @@ def test_predykatyw_przed_czasownikiem_nie_jest_czytany_jako_podmiot():
     found = verdict("Wejściem jest zwykły tekst polski.")
     assert found.status == "valid", found.explain()
     assert role(found)[0] == {
-        "Subject": "zwykły tekst polski",
-        "Predicative": "Wejściem",
-        "Verb": "jest",
+        "podmiot": "zwykły tekst polski",
+        "orzecznik": "Wejściem",
+        "orzeczenie": "jest",
     }
 
 
 def test_a_valid_sentence_says_what_fills_each_role():
     roles = role(verdict("Program zapisuje ustawienia."))[0]
-    assert roles["Subject"] == "Program"
-    assert roles["Object"] == "ustawienia"
-    assert roles["Verb"] == "zapisuje"
+    assert roles["podmiot"] == "Program"
+    assert roles["dopełnienie"] == "ustawienia"
+    assert roles["orzeczenie"] == "zapisuje"
 
 
 def test_a_fronted_modifier_belongs_to_the_clause_and_not_to_the_subject():
     #  Nothing but the clause rule can take it there, and the failure to guard
-    #  against is the subject swallowing it: NPConjunct → subst Modifier makes
+    #  against is the subject swallowing it: człon_imienny → subst wyrażenie_przyimkowe makes
     #  the same phrase between the subject and the verb come out valid and wrong.
     roles = role(verdict("Pod względem smaku chałka przewyższa zwykłą bułkę."))[0]
-    assert roles["Subject"] == "chałka"
+    assert roles["podmiot"] == "chałka"
     #  Streszczenie nazywa konstytuent, do którego przyłączenie doszło, jego
     #  głową, więc zdanie z nazwy tego testu stoi w samym napisie, a nie tylko w
     #  podmiocie obok: gospodarzem jest tu czasownik, a nie `chałka`.
-    assert roles["Modifier"] == "Pod względem smaku → przewyższa"
+    assert roles["wyrażenie_przyimkowe"] == "Pod względem smaku → przewyższa"
 
 
 def test_object_first_order_is_polish_and_is_read_that_way():
     #  Free word order is real: here the plural verb forces the plural noun to
     #  be the subject, so the sentence is unambiguous despite the OVS order.
     roles = role(verdict("Program zapisują ustawienia."))[0]
-    assert roles["Subject"] == "ustawienia"
-    assert roles["Object"] == "Program"
+    assert roles["podmiot"] == "ustawienia"
+    assert roles["dopełnienie"] == "Program"
 
 
 def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
@@ -1146,7 +1146,7 @@ def test_dopełniacz_negacji_przed_czasownikiem_ma_czym_się_wyprowadzić():
     #  jednoznaczne, a rola, którą czyta czytelnik, nie ma ciała.
     found = verdict("Apostołowie tego nie praktykowali.")
     assert found.status == "ambiguous", found.explain()
-    czytania = {(reading.get("Subject"), reading.get("Object")) for reading in role(found)}
+    czytania = {(reading.get("podmiot"), reading.get("dopełnienie")) for reading in role(found)}
     assert ("Apostołowie", "tego") in czytania, found.explain()
     assert ("Apostołowie tego", None) in czytania, found.explain()
 
@@ -1298,14 +1298,14 @@ def test_ciąg_zgodny_nie_bierze_ogona_rozdzielnego():
 
 def test_wyrażenie_przyimkowe_dochodzi_i_do_członu_ostatniego_i_do_całego_ciągu():
     #  Usterka, przed którą to stoi: pozycja nad ciągiem dopisana produkcją
-    #  rekurencyjną `NP → NP Modifier`, czyli bez spójnika w ciele. Zdania są dwa,
-    #  bo każde pokazuje inną jej połowę.
+    #  rekurencyjną `grupa_imienna → grupa_imienna wyrażenie_przyimkowe`,
+    #  czyli bez spójnika w ciele. Zdania są dwa, bo każde pokazuje inną jej połowę.
     #  Nawias mówi, którego członu wyrażenie sięga, więc zasięgi są tu trzy i każdy
     #  da się nazwać; tamta produkcja zabiera nawias ostatniemu z nich, bo
     #  gospodarzem jest w nim cała grupa.
     found = verdict("Pliki i katalogi w tym drzewie rosną.")
     assert found.status == "ambiguous", found.explain()
-    assert {reading["Subject"] for reading in role(found)} == {
+    assert {reading["podmiot"] for reading in role(found)} == {
         "Pliki i katalogi",
         "Pliki i [katalogi w tym drzewie]",
         "Pliki i katalogi [w tym drzewie]",
@@ -1485,8 +1485,8 @@ def test_podpowiedzi_o_cudzysłowie_nie_dostaje_znak_którym_nikt_nie_cytował(z
 def test_licencja_bierze_się_z_gramatyki_a_nie_z_listy_obok_niej():
     #  Gramatyka, która nie ma czasownika, przestaje licencjonować jego czytanie:
     #  gdyby licencja stała napisana obok, ta zmiana nie doszłaby do niej wcale.
-    uboga = Grammar(start="NP")
-    uboga.rule("NP", [word("subst")])
+    uboga = Grammar(start="grupa_imienna")
+    uboga.rule("grupa_imienna", [word("subst")])
     [segment] = analyse("zapisuje")
     czytanie = next(r for r in segment.readings if r.tag.pos == "fin")
     cechy = czytanie.tag.cechy
@@ -1541,11 +1541,11 @@ def test_case_syncretism_plus_free_word_order_makes_a_sentence_ambiguous():
     #  so this sentence does not say which cost is the greater one.
     found = verdict("Koszt samej szynki przewyższa koszt szynki z dodatkami.")
     assert found.status == "ambiguous"
-    subjects = {reading["Subject"] for reading in role(found)}
+    subjects = {reading["podmiot"] for reading in role(found)}
     #  Trzeci podmiot jest z drugiej wieloznaczności, nie z tej: z dodatkami
     #  dochodzi do zdania zamiast do kosztu, więc podmiotem zostaje sam koszt.
     assert subjects == {"Koszt samej szynki", "koszt szynki z dodatkami", "koszt szynki"}
-    assert "Subject" in found.explain()
+    assert "podmiot" in found.explain()
 
 
 def test_the_same_comparison_is_unambiguous_when_the_cases_are_not_syncretic():
@@ -1555,7 +1555,7 @@ def test_the_same_comparison_is_unambiguous_when_the_cases_are_not_syncretic():
     found = verdict("Chałka przewyższa zwykłą bułkę.")
     assert found.status == "valid", found.explain()
     assert role(found) == [
-        {"Subject": "Chałka", "Object": "zwykłą bułkę", "Verb": "przewyższa"}
+        {"podmiot": "Chałka", "dopełnienie": "zwykłą bułkę", "orzeczenie": "przewyższa"}
     ]
 
 
@@ -1576,7 +1576,7 @@ def test_prepositional_attachment_is_reported_as_the_ambiguity_it_is(text):
     #  habitability cost the uniqueness property has run into so far.
     found = verdict(text)
     assert found.status == "ambiguous"
-    assert len({reading["Object"] for reading in role(found)}) == 2
+    assert len({reading["dopełnienie"] for reading in role(found)}) == 2
 
 
 def test_zdanie_względne_bierze_okolicznik_między_podmiotem_a_czasownikiem():
@@ -1600,7 +1600,7 @@ def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniam
     found = verdict("Koszt samej szynki przewyższa koszt szynki z dodatkami.")
     napisy = {tuple(sorted(reading.items())) for reading in role(found)}
     assert len(napisy) == len(role(found)) == 6
-    assert {reading["Modifier"] for reading in role(found)} == {
+    assert {reading["wyrażenie_przyimkowe"] for reading in role(found)} == {
         "z dodatkami → koszt",
         "z dodatkami → szynki",
         "z dodatkami → przewyższa",
@@ -1610,8 +1610,8 @@ def test_czytania_różne_samym_przyłączeniem_wychodzą_osobnymi_streszczeniam
 @pytest.mark.parametrize(
     ("text", "rola", "modyfikator"),
     [
-        ("Począł myśleć gorączkowo.", "Adverb", "gorączkowo"),
-        ("Począł myśleć już.", "Particle", "już"),
+        ("Począł myśleć gorączkowo.", "okolicznik_przysłówkowy", "gorączkowo"),
+        ("Począł myśleć już.", "cząstka_zdania", "już"),
     ],
 )
 def test_okolicznik_bez_przyimka_nazywa_gospodarza_tak_jak_wyrażenie_przyimkowe(
@@ -1631,13 +1631,13 @@ def test_okolicznik_bez_przyimka_nazywa_gospodarza_tak_jak_wyrażenie_przyimkowe
 
 
 def test_streszczenie_wiąże_okolicznik_ze_zdaniem_a_nie_z_dopełnieniem():
-    #  `Adjuncts` stoi w drzewie pod `Complements`, czyli tuż obok dopełnienia,
+    #  `okoliczniki` stoją w drzewie pod `wypełnienia`, czyli tuż obok dopełnienia,
     #  więc przyłączenie wzięte z najbliższego węzła z materiałem obok
     #  nazwałoby okolicznik zdania określeniem dopełnienia —
     #  i byłoby to akurat to drugie czytanie, od którego olski to pierwsze odróżnia.
     found = verdict("Program zapisuje ustawienia w pliku w katalogu.")
-    zdaniowe = [reading for reading in role(found) if reading["Object"] == "ustawienia"]
-    assert {reading["Modifier"] for reading in zdaniowe} == {
+    zdaniowe = [reading for reading in role(found) if reading["dopełnienie"] == "ustawienia"]
+    assert {reading["wyrażenie_przyimkowe"] for reading in zdaniowe} == {
         "w pliku → zapisuje",
         "w pliku w katalogu → zapisuje",
     }
@@ -1649,26 +1649,26 @@ def test_streszczenie_nie_wstawia_odstępu_przed_przecinkiem():
     #  nikt nie napisał. Usterka jest widoczna w każdym zdaniu z koordynacją
     #  przecinkiem i w żadnym innym.
     roles = role(verdict("Program zapisuje ustawienia, dane i pliki."))[0]
-    assert roles["Object"] == "ustawienia, dane i pliki"
+    assert roles["dopełnienie"] == "ustawienia, dane i pliki"
 
 
 def test_czytanie_rozcinające_zdanie_nie_wychodzi_streszczeniem_całości():
     #  Usterka, którą to łapie: streszczenie czytające się jak streszczenie całości.
     #  Morfeusz zna `szczęśliwi` jako `szczęśliwić fin:sg:ter:imperf`, więc `i szczęśliwi`
     #  wychodzi drugim zdaniem składowym bez podmiotu. Streszczenie jedno na zdanie
-    #  mówi `Predicative: wolni, równi`, o reszcie zdania milczy i nie widać,
+    #  mówi `orzecznik: wolni, równi`, o reszcie zdania milczy i nie widać,
     #  że dwa czytania różni rozcięcie zdania na dwa, a nie żadna rola.
     found = verdict("Ludzie są wolni, równi i szczęśliwi.")
     assert found.readings == [
-        ({"Subject": "Ludzie", "Predicative": "wolni, równi i szczęśliwi", "Verb": "są"},),
+        ({"podmiot": "Ludzie", "orzecznik": "wolni, równi i szczęśliwi", "orzeczenie": "są"},),
         (
-            {"Subject": "Ludzie", "Predicative": "wolni, równi", "Verb": "są"},
-            {"Verb": "szczęśliwi"},
+            {"podmiot": "Ludzie", "orzecznik": "wolni, równi", "orzeczenie": "są"},
+            {"orzeczenie": "szczęśliwi"},
         ),
     ]
     #  Tę różnicę nazywa rolą samo pytanie o zdanie całe: każde zdanie składowe
     #  osobno niesie jeden orzecznik, bo stoi w jednym z tych dwóch czytań.
-    assert found.result.różniące == ("Predicative",)
+    assert found.result.różniące == ("orzecznik",)
 
 
 def test_zdanie_współrzędne_dostaje_streszczenie_na_każde_zdanie_składowe():
@@ -1679,15 +1679,15 @@ def test_zdanie_współrzędne_dostaje_streszczenie_na_każde_zdanie_składowe()
     #  o dopełnieniu i podmiocie z dwóch różnych zdań składowych.
     [streszczenie] = verdict("Autor działa i zapisuje ustawienia.").readings
     assert streszczenie == (
-        {"Subject": "Autor", "Verb": "działa"},
-        {"Object": "ustawienia", "Verb": "zapisuje"},
+        {"podmiot": "Autor", "orzeczenie": "działa"},
+        {"dopełnienie": "ustawienia", "orzeczenie": "zapisuje"},
     )
 
 
 def test_okolicznik_na_czele_zdania_nie_wychodzi_drugim_zdaniem_składowym():
     #  Usterka, którą to łapie: zdanie składowe policzone dwa razy. Okolicznik
     #  zdania dokłada nad składowym drugi węzeł o tej samej etykiecie
-    #  (`ClauseConjunct → Modifier ClauseConjunct`), więc zbieranie wszystkich
+    #  (`zdanie_składowe → wyrażenie_przyimkowe zdanie_składowe`), więc zbieranie wszystkich
     #  takich węzłów zamiast najwyższego w gałęzi widzi tu ciąg dwóch zdań
     #  i rozcina streszczenie na dwa, choć zdanie składowe jest jedno.
     [streszczenie] = verdict("Pod względem smaku chałka przewyższa zwykłą bułkę.").readings
@@ -1704,10 +1704,10 @@ def test_dwa_czytania_różne_granicą_członu_nie_wychodzą_jednym_napisem():
     found = verdict("Koszt szynki i sera przewyższa koszt chleba.")
     streszczenia = [tuple(sorted(reading.items())) for reading in role(found)]
     assert len(set(streszczenia)) == len(streszczenia), found.explain()
-    assert "[Koszt szynki] i sera" in {reading["Object"] for reading in role(found)}
+    assert "[Koszt szynki] i sera" in {reading["dopełnienie"] for reading in role(found)}
 
 
-@pytest.mark.parametrize("symbol", ["Verb", "Subject"])
+@pytest.mark.parametrize("symbol", ["orzeczenie", "podmiot"])
 def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(symbol):
     #  Czas przeszły zgadza się z podmiotem w rodzaju, a teraźniejszy tej cechy nie
     #  niesie, więc szyk, który rodzaju nie przepuszcza, wygląda przy `zapisuje` na
@@ -1734,7 +1734,7 @@ def test_każdy_szyk_zdania_przepuszcza_rodzaj_między_podmiotem_a_czasownikiem(
             assert "gender" in dict(production.features), production
 
 
-@pytest.mark.parametrize("symbol", ["Clause", "ClauseConjunct", "Predicate", "Verb"])
+@pytest.mark.parametrize("symbol", ["zdanie", "zdanie_składowe", "grupa_orzeczenia", "orzeczenie"])
 def test_każda_produkcja_od_czasownika_do_zdania_wypuszcza_tryb(symbol):
     #  Usterka, przed którą to stoi: ciało zdania dopisane bez cechy trybu.
     #  Spójnik niosący cząstkę tego trybu żąda jej od zdania pod sobą, a cechy,
@@ -1777,7 +1777,7 @@ def test_symbol_stojący_nad_sobą_ze_słowem_w_ciele_ma_w_nim_znak_koordynacji(
     #  zdanie podrzędne zamiast koordynacji. Pusta lista łapie przemianowany symbol.
     #
     #  Samo stanie nad sobą ciągu nie znaczy: okolicznik zdaniowy dochodzący do
-    #  całego ciągu stoi nad `Clause` i znaku nie ma. Rozdziela je słowo stojące
+    #  całego ciągu stoi nad symbolem `zdanie` i znaku nie ma. Rozdziela je słowo stojące
     #  w ciele wprost i to ma je rozdzielać dalej.
     produkcje = [production for production in GRAMMAR.productions if production.head == symbol]
     assert produkcje, symbol
@@ -1838,7 +1838,7 @@ def test_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
             if _znak(część, ":")
         ]
         za_dwukropkiem.add(produkcja.body[gdzie + 1].name)
-    assert za_dwukropkiem == {"Clause", "NP", "InterrogativeChain"}
+    assert za_dwukropkiem == {"zdanie", "grupa_imienna", "ciąg_pytajny"}
 
 
 @pytest.mark.parametrize(
@@ -1909,9 +1909,9 @@ def test_analiza_staje_na_spójniku_przed_którym_stoi_zbędny_przecinek():
 
 def test_spójnik_ma_czoło_całego_zdania_a_nie_czoło_zdania_składowego():
     #  Granica biegnie między dwoma poziomami, a jedno zdanie sprawdza oba.
-    #  Usterka po stronie zdania składowego: SPÓJNIKOWY dopisany do pętli, która
+    #  Usterka po stronie zdania składowego: SPÓJNIK dopisany do pętli, która
     #  daje cząstce i przysłówkowi czoło składowego, albo ciało czoła postawione
-    #  przy `Clause` zamiast przy `Sentence`. `więc` stoi wtedy w dwóch pozycjach
+    #  przy symbolu `zdanie` zamiast przy `wypowiedzenie`. `więc` stoi wtedy w dwóch pozycjach
     #  naraz — na czele drugiego składowego i w jego liście okoliczników — więc
     #  zdanie spięte przecinkiem dostaje drugie czytanie tego samego kształtu.
     spięte = verdict("Cena jest niska, więc gramatyka jest tania.")
@@ -1997,8 +1997,8 @@ def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
     werdykt = verdict("Cena jest niska (koszt w pliku).")
     assert werdykt.status == "valid", werdykt.explain()
     [(czytanie,)] = werdykt.readings
-    assert czytanie[WTRĄCONY] == "( koszt w pliku ) → jest", czytanie
-    assert PRZYŁĄCZANY not in czytanie, czytanie
+    assert czytanie[WTRĄCENIE] == "( koszt w pliku ) → jest", czytanie
+    assert WYRAŻENIE_PRZYIMKOWE not in czytanie, czytanie
 
 
 def test_wtrącenie_w_zdaniu_względnym_wychodzi_jednym_czytaniem():
@@ -2019,7 +2019,7 @@ def test_zdanie_względne_na_końcu_zdania_bierze_nawias_od_zdania_nadrzędnego(
 
 
 def test_zdanie_bierze_jeden_znak_rozdzielający_a_nie_ciąg_takich_znaków():
-    #  Produkcja stoi na poziomie zdania, a `Clause` żadnego z tych znaków nie ma,
+    #  Produkcja stoi na poziomie zdania, a `zdanie` żadnego z tych znaków nie ma,
     #  więc rekurencji nie ma czym zbudować i drugi znak w zdaniu odrzuca je. Jest
     #  to granica wypowiedziana, a nie przeoczona: docs/subset.md trzyma ją wśród
     #  tego, czego olski nie bierze, i ten test jest jej świadkiem.
@@ -2065,7 +2065,9 @@ def test_rozdzielające_a_nie_wchodzi_do_wyrażenia_przyimkowego():
     #  Żądanie idzie do każdego streszczenia, bo zdanie ma dwa składowe,
     #  a okolicznik z tego czytania stoi w drugim z nich.
     assert all(
-        "Modifier" not in składowe for czytanie in found.readings for składowe in czytanie
+        "wyrażenie_przyimkowe" not in składowe
+        for czytanie in found.readings
+        for składowe in czytanie
     )
 
 
@@ -2086,12 +2088,12 @@ def test_werdykt_rośnie_z_liczbą_wyborów_a_nie_z_liczbą_czytań():
         "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
     )
     assert dwa.explain() == (
-        "4 odczytania, różne w Object; "
+        "4 odczytania, różne w roli: dopełnienie; "
         "„w pliku” → „zapisuje”, „ustawienia”; "
         "„w katalogu” → „zapisuje”, „pliku”"
     )
     assert sześć.explain().count(PRZYŁĄCZONY_DO) == 6
-    assert sześć.explain().startswith("64 odczytania, różne w Object; „w pliku” → ")
+    assert sześć.explain().startswith("64 odczytania, różne w roli: dopełnienie; „w pliku” → ")
 
 
 @pytest.mark.parametrize(
@@ -2144,7 +2146,7 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     #  czytanie, którego polszczyzna w tym miejscu nie ma, i klasa, po którą
     #  `admissible` nie sięga, bo tamten warunek pyta o czytanie rzeczownikowe;
     #  TODO.md trzyma ruch i pomiar, którego on żąda.
-    assert {drugie["Modifier"] for _pierwsze, drugie in found.readings} == {
+    assert {drugie["wyrażenie_przyimkowe"] for _pierwsze, drugie in found.readings} == {
         "wobec innych → postępować",
         "wobec innych w duchu → postępować",
         "wobec innych w duchu braterstwa → postępować",
@@ -2165,8 +2167,8 @@ def test_rama_kopuli_zdejmuje_dopełnienie_którego_nikt_w_tym_zdaniu_nie_ma():
     found = verdict("On jest wolny.")
     assert found.status == "ambiguous"
     assert role(found) == [
-        {"Subject": "On", "Predicative": "wolny", "Verb": "jest"},
-        {"Subject": "wolny", "Predicative": "On", "Verb": "jest"},
+        {"podmiot": "On", "orzecznik": "wolny", "orzeczenie": "jest"},
+        {"podmiot": "wolny", "orzecznik": "On", "orzeczenie": "jest"},
     ]
 
 
@@ -2180,7 +2182,11 @@ def test_orzecznik_w_narzędniku_bierze_tylko_kopula():
     #  gdyby luka się otworzyła, `paszportami` wróciłoby do orzecznika.
     handel = verdict("Kwitnie handel paszportami.")
     assert role(handel) == [
-        {"Subject": "handel", "Verb": "Kwitnie", "InstrumentalAdjunct": "paszportami → Kwitnie"}
+        {
+            "podmiot": "handel",
+            "orzeczenie": "Kwitnie",
+            "okolicznik_narzędnikowy": "paszportami → Kwitnie",
+        }
     ], handel.explain()
     assert verdict("Jan jest nauczycielem.").status == "valid"
 
@@ -2197,7 +2203,7 @@ def test_kopula_nie_stoi_tam_gdzie_okolicznik_narzędnikowy_a_stoi_przy_innym():
     """
     orzecznik = verdict("Parser jest narzędziem.")
     assert role(orzecznik) == [
-        {"Subject": "Parser", "Predicative": "narzędziem", "Verb": "jest"}
+        {"podmiot": "Parser", "orzecznik": "narzędziem", "orzeczenie": "jest"}
     ], orzecznik.explain()
     przysłówek = verdict("Cena jest gdzie indziej.")
     assert przysłówek.status == "valid", przysłówek.explain()
@@ -2224,9 +2230,9 @@ def test_rama_bezokolicznika_rozdziela_orzecznik_od_okolicznika_narzędnikowego(
     #  kopulą i bierze go orzecznikiem, `zapisać` nie jest i zostawia mu samą
     #  pozycję okolicznika (docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
     kopula = verdict("Program pozwala zostać nauczycielem.")
-    assert any("Predicative" in czytanie for czytanie in role(kopula)), kopula.explain()
+    assert any("orzecznik" in czytanie for czytanie in role(kopula)), kopula.explain()
     zwykły = verdict("Program pozwala zapisać nauczycielem.")
-    assert not any("Predicative" in czytanie for czytanie in role(zwykły)), zwykły.explain()
+    assert not any("orzecznik" in czytanie for czytanie in role(zwykły)), zwykły.explain()
 
 
 @pytest.mark.parametrize(
@@ -2294,8 +2300,8 @@ def test_wolny_celownik_pada_obok_dopełnienia_a_nie_na_leksykonie():
 
 
 def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
-    #  Cztery ciała `Complements` stawiają okolicznik przed dopełnieniem i za nim,
-    #  a `Adjuncts` nawraca samo na siebie, więc dwie pozycje łatwo tu wypisać tak,
+    #  Cztery ciała `wypełnienia` stawiają okolicznik przed dopełnieniem i za nim,
+    #  a `okoliczniki` nawraca samo na siebie, więc dwie pozycje łatwo tu wypisać tak,
     #  żeby jedno zdanie wychodziło dwoma kształtami drzewa. Nie widać tego po
     #  werdykcie, bo zdanie jest wieloznaczne w jedną i w drugą stronę, i nie widać
     #  po rolach, bo obie pary przyłączeń zostają te same; widać po liczbie czytań.
@@ -2366,7 +2372,7 @@ def test_cząstka_się_pyta_leksykonu_o_inny_czasownik_niż_forma_bez_niej():
     #  dałby więc jednemu z tych dwóch zdań ramę drugiego, a widać to dopiero na
     #  parze: jedno przechodzi w każdą stronę, a drugie nie.
     otwarcie = verdict("Otwierają się drzwi.")
-    assert role(otwarcie) == [{"Subject": "drzwi", "Verb": "Otwierają się"}]
+    assert role(otwarcie) == [{"podmiot": "drzwi", "orzeczenie": "Otwierają się"}]
     assert verdict("Otwierają drzwi.").status == "ambiguous"
 
 
@@ -2375,7 +2381,9 @@ def test_cząstka_zwrotna_przed_formą_pyta_o_ten_sam_leksykon_zwrotny():
     #  brać z leksykonu zwrotnego tak samo jak tylna. Ciało napisane z ramą
     #  niezwrotną przechodziłoby zdanie drugie, bo otwierać się biernika nie
     #  bierze, a otwierać go bierze.
-    assert role(verdict("Drzwi się otwierają.")) == [{"Subject": "Drzwi", "Verb": "się otwierają"}]
+    assert role(verdict("Drzwi się otwierają.")) == [
+        {"podmiot": "Drzwi", "orzeczenie": "się otwierają"}
+    ]
     assert verdict("Drzwi się otwierają okno.").status == "rejected"
 
 
@@ -2415,11 +2423,11 @@ def test_cząstka_zwrotna_opiera_się_o_słowo_a_nie_o_znak():
     [
         #  Cząstka stoi między dwoma czasownikami i należy do drugiego: mieć się
         #  jest polszczyzną (ma się dobrze), a bezokolicznika nie bierze.
-        ("Zebranie ma się odbyć.", {"Subject": "Zebranie", "Verb": "ma"}),
+        ("Zebranie ma się odbyć.", {"podmiot": "Zebranie", "orzeczenie": "ma"}),
         #  Bezokolicznik ma obie pozycje, tak samo jak forma osobowa, więc oba
         #  szyki wychodzą tym samym odczytaniem.
-        ("Cena zaczyna otwierać się.", {"Subject": "Cena", "Verb": "zaczyna"}),
-        ("Cena zaczyna się otwierać.", {"Subject": "Cena", "Verb": "zaczyna"}),
+        ("Cena zaczyna otwierać się.", {"podmiot": "Cena", "orzeczenie": "zaczyna"}),
+        ("Cena zaczyna się otwierać.", {"podmiot": "Cena", "orzeczenie": "zaczyna"}),
     ],
 )
 def test_cząstka_należy_do_bezokolicznika_a_nie_do_formy_osobowej_przy_nim(text, role_zdania):
@@ -2434,7 +2442,7 @@ def test_leksykon_zostawia_bezokolicznik_czasownikowi_zwrotnemu_który_go_bierze
     #  zamiast dwóch, a bierze je z leksykonu, a nie z całej klasy: bez tego wpisu
     #  odjęcie sięga też czasowników, przy których bezokolicznik naprawdę stoi.
     assert role(verdict("Stara się ustalić granicę.")) == [
-        {"Object": "granicę", "Verb": "Stara się"}
+        {"dopełnienie": "granicę", "orzeczenie": "Stara się"}
     ]
 
 
@@ -2452,8 +2460,8 @@ def test_imiesłów_czynny_bierze_cząstkę_zwrotną_stojącą_za_nim():
     #  do czasownika, a wybiera między nimi znaczenie. Bez tej pozycji cząstkę
     #  bierze forma osobowa za przydawką i zostaje samo drugie.
     czytania = role(verdict("Program otwierający się psuje."))
-    assert {"Subject": "Program otwierający", "Verb": "się psuje"} in czytania
-    assert {"Subject": "Program otwierający się", "Verb": "psuje"} in czytania
+    assert {"podmiot": "Program otwierający", "orzeczenie": "się psuje"} in czytania
+    assert {"podmiot": "Program otwierający się", "orzeczenie": "psuje"} in czytania
 
 
 def test_leksykon_odrzuca_zdanie_czytane_dotąd_z_dopełnieniem_którego_tam_nie_ma():
@@ -2488,11 +2496,14 @@ def test_dwóch_gospodarzy_przysłówka_rozdziela_w_streszczeniu_rola():
     """
     found = verdict("Plik jest bardzo duży.")
     assert found.status == "ambiguous", found.explain()
-    assert {czytanie.get("Predicative") for czytanie in role(found)} == {
+    assert {czytanie.get("orzecznik") for czytanie in role(found)} == {
         "bardzo duży",
         "duży",
     }
-    assert {czytanie.get("Adverb") for czytanie in role(found)} == {None, "bardzo → jest"}
+    assert {czytanie.get("okolicznik_przysłówkowy") for czytanie in role(found)} == {
+        None,
+        "bardzo → jest",
+    }
 
 
 def test_okolicznik_staje_po_czasowniku_i_daje_zdaniu_czytanie_z_podmiotem():
@@ -2505,10 +2516,10 @@ def test_okolicznik_staje_po_czasowniku_i_daje_zdaniu_czytanie_z_podmiotem():
     """
     trwa = verdict("Trwa w tej sprawie dochodzenie.")
     assert trwa.status == "valid", trwa.explain()
-    assert role(trwa)[0]["Subject"] == "dochodzenie"
+    assert role(trwa)[0]["podmiot"] == "dochodzenie"
     zapisuje = verdict("Zapisuje w pliku program ustawienia.")
     assert ("program", "ustawienia") in {
-        (czytanie.get("Subject"), czytanie.get("Object")) for czytanie in role(zapisuje)
+        (czytanie.get("podmiot"), czytanie.get("dopełnienie")) for czytanie in role(zapisuje)
     }, zapisuje.explain()
 
 
@@ -2523,7 +2534,7 @@ def test_przysłówek_przed_przysłówkiem_dochodzi_do_niego_a_nie_do_zdania():
     """
     found = verdict("Program zapisuje ustawienia bardzo szybko.")
     assert found.status == "ambiguous", found.explain()
-    assert {czytanie.get("Adverb") for czytanie in role(found)} == {
+    assert {czytanie.get("okolicznik_przysłówkowy") for czytanie in role(found)} == {
         "bardzo szybko → zapisuje",
         "bardzo → zapisuje",
     }
@@ -2534,22 +2545,22 @@ def test_przysłówek_okolicznikowy_dostaje_rolę_a_nie_samo_wyprowadzenie():
     #  przyjął, a rola jest tym, po co werdykt stoi (docs/roadmap.md).
     found = verdict("Program zapisuje ustawienia szybko.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Adverb"] == "szybko → zapisuje"
+    assert role(found)[0]["okolicznik_przysłówkowy"] == "szybko → zapisuje"
 
 
 def test_cząstka_dostaje_rolę_osobną_od_przysłówka_w_obu_pozycjach():
-    #  Rola jest osobna, bo cząstka przysłówkiem nie jest: `Adverb: już` mówiłoby o
+    #  Rola jest osobna, bo cząstka przysłówkiem nie jest: `okolicznik_przysłówkowy: już` mówiłoby o
     #  zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma. Pozycje przy zdaniu
     #  są dwie i pisze je jedna pętla razem z przysłówkiem, więc zdania są dwa:
     #  rozejście się tych dwóch kompletów widać dopiero na tym, którego jedna z nich
     #  nie bierze. Zdanie drugie cząstkę wpuszcza także do podmiotu, więc pytamy o
     #  rolę wśród czytań, a nie o pierwsze z nich.
     okolicznik = verdict("Program już zapisuje ustawienia.")
-    assert role(okolicznik)[0][CZĄSTKOWY] == "już → zapisuje", okolicznik.explain()
-    assert PRZYSŁÓWKOWY not in role(okolicznik)[0], okolicznik.explain()
+    assert role(okolicznik)[0][CZĄSTKA_ZDANIA] == "już → zapisuje", okolicznik.explain()
+    assert OKOLICZNIK_PRZYSŁÓWKOWY not in role(okolicznik)[0], okolicznik.explain()
     czoło = verdict("Już program zapisuje ustawienia.")
     assert "Już → zapisuje" in {
-        czytanie.get(CZĄSTKOWY) for czytanie in role(czoło)
+        czytanie.get(CZĄSTKA_ZDANIA) for czytanie in role(czoło)
     }, czoło.explain()
 
 
@@ -2565,7 +2576,7 @@ def test_cząstka_w_grupie_imiennej_wchodzi_w_zasięg_roli_a_nie_obok_niej():
     found = verdict("Nawet ptaki przestały śpiewać.")
     assert found.status == "ambiguous", found.explain()
     assert {
-        (czytanie.get("Subject"), czytanie.get(CZĄSTKOWY)) for czytanie in role(found)
+        (czytanie.get("podmiot"), czytanie.get(CZĄSTKA_ZDANIA)) for czytanie in role(found)
     } == {("Nawet ptaki", None), ("ptaki", "Nawet → przestały")}, found.explain()
 
 
@@ -2574,7 +2585,7 @@ def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
     #  przepuszcza, bo staje i przed zaimkiem. Z `ter` w tym ciele grupa nie zgodziłaby
     #  się z czasownikiem osobą i to czytanie by nie wyszło.
     found = verdict("Nawet ja zapisuję ustawienia.")
-    assert "Nawet ja" in {czytanie.get("Subject") for czytanie in role(found)}, found.explain()
+    assert "Nawet ja" in {czytanie.get("podmiot") for czytanie in role(found)}, found.explain()
 
 
 @pytest.mark.parametrize("lemat", sorted(CZĄSTKI))
@@ -2621,7 +2632,7 @@ def test_gospodarzem_przyłączenia_zostaje_przymiotnik_a_nie_przysłówek_przed
     kolejność, w jakiej las wydaje czytania.
     """
     found = verdict("Program jest bardzo powiązany z interesami.")
-    assert {czytanie.get("Modifier") for czytanie in role(found)} == {
+    assert {czytanie.get("wyrażenie_przyimkowe") for czytanie in role(found)} == {
         "z interesami → powiązany",
         "z interesami → jest",
     }
@@ -2649,7 +2660,7 @@ def test_zaimek_rzeczowny_nie_bierze_dopełniacza():
     #  różnym kształcie i o identycznym streszczeniu ról.
     found = verdict("Celem jest parser tego podzbioru.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Subject"] == "parser tego podzbioru"
+    assert role(found)[0]["podmiot"] == "parser tego podzbioru"
 
 
 def test_zaimek_bez_czytania_przymiotnikowego_też_nie_bierze_dopełniacza():
@@ -2658,7 +2669,7 @@ def test_zaimek_bez_czytania_przymiotnikowego_też_nie_bierze_dopełniacza():
     #  jest grupą imienną, nie zdejmuje ani anotator, ani wykluczenie ze słownika.
     found = verdict("Wtedy nikt nas nie zauważy.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Subject"] == "nikt"
+    assert role(found)[0]["podmiot"] == "nikt"
 
 
 def test_zaimek_rzeczowny_nie_unosi_wysuniętego_zaimka_względnego():
@@ -2667,7 +2678,7 @@ def test_zaimek_rzeczowny_nie_unosi_wysuniętego_zaimka_względnego():
     #  zostawia to zdanie wieloznacznym, bo której nikt wychodzi taką grupą.
     found = verdict("Polszczyzna, której nikt nie napisał, jest podzbiorem.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Subject"] == "Polszczyzna, której nikt nie napisał,"
+    assert role(found)[0]["podmiot"] == "Polszczyzna, której nikt nie napisał,"
 
 
 def test_rzeczownik_dalej_bierze_dopełniacz_po_sobie():
@@ -2675,7 +2686,7 @@ def test_rzeczownik_dalej_bierze_dopełniacz_po_sobie():
     #  grupa imienna z dopełniaczem po głowie stoi tam, gdzie stała.
     found = verdict("Wejściem jest opis podzbioru.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Subject"] == "opis podzbioru"
+    assert role(found)[0]["podmiot"] == "opis podzbioru"
 
 
 def test_zaimek_rzeczowny_zostaje_wszędzie_indziej():
@@ -2691,7 +2702,7 @@ def test_zaimek_dzierżawczy_nie_zgadza_się_z_rzeczownikiem_przy_którym_stoi()
     #  poprzednikiem, który stoi w zdaniu obok. Para zdań łapie obie liczby.
     mnogi = verdict("Jego skutki są znane.")
     assert mnogi.status == "valid", mnogi.explain()
-    assert role(mnogi)[0]["Subject"] == "Jego skutki"
+    assert role(mnogi)[0]["podmiot"] == "Jego skutki"
     assert verdict("Ich cena jest niska.").status == "valid"
 
 
@@ -2734,7 +2745,7 @@ def test_pytanie_zależne_nie_wychodzi_zdaniem_współrzędnym():
     #  zależnego są rolami zdania nadrzędnego i tylko nimi.
     found = verdict("Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Subject": "Ustawy", "Verb": "określają"}]
+    assert role(found) == [{"podmiot": "Ustawy", "orzeczenie": "określają"}]
 
 
 def test_pytanie_zależne_z_kto_nie_wychodzi_zdaniem_współrzędnym():
@@ -2746,7 +2757,7 @@ def test_pytanie_zależne_z_kto_nie_wychodzi_zdaniem_współrzędnym():
     #  ciąg współrzędny niesie dwa zdania składowe, a pytanie zależne jedno.
     found = verdict("Pyta, kto płaci.")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Verb": "Pyta"}]
+    assert role(found) == [{"orzeczenie": "Pyta"}]
 
 
 def test_zaimek_pytajny_o_jednym_słowie_daje_zdaniu_jedno_wyprowadzenie():
@@ -2756,7 +2767,7 @@ def test_zaimek_pytajny_o_jednym_słowie_daje_zdaniu_jedno_wyprowadzenie():
     #  podmiotem. Oba czytania mają te same role, więc widać je po ich liczbie.
     found = verdict("Kto płaci?")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Subject": "Kto", "Verb": "płaci", PYTAJNY: "Kto"}]
+    assert role(found) == [{"podmiot": "Kto", "orzeczenie": "płaci", GRUPA_PYTAJNA: "Kto"}]
 
 
 def test_przymiotnik_za_zaimkiem_pytajnym_nie_bierze_zaimka_wskazującego():
@@ -2766,7 +2777,12 @@ def test_przymiotnik_za_zaimkiem_pytajnym_nie_bierze_zaimka_wskazującego():
     #  dwa zaimki obok siebie: pytanie dostaje drugie czytanie, którego nie ma.
     pierwszy = verdict("Kto inny zapisuje ustawienia?")
     assert role(pierwszy) == [
-        {"Subject": "Kto inny", "Object": "ustawienia", "Verb": "zapisuje", PYTAJNY: "Kto inny"}
+        {
+            "podmiot": "Kto inny",
+            "dopełnienie": "ustawienia",
+            "orzeczenie": "zapisuje",
+            GRUPA_PYTAJNA: "Kto inny",
+        }
     ], pierwszy.explain()
     #  Zdanie to jest odrzucone i było przyjęte na czytaniu, którego polszczyzna
     #  nie ma: `Co to` wychodziło wyrażeniem przyimkowym przy `jest`, bo kopula
@@ -2781,9 +2797,9 @@ def test_wykluczenie_zaimka_pytajnego_nie_tyka_pozostałych_zaimków_rzeczownych
     #  `to` i `nic` mają u Morfeusza tę samą klasę, a pytania nie zadaje nimi nikt,
     #  więc pozycję rzeczowną mają dalej.
     assert role(verdict("To jest tanie.")) == [
-        {"Subject": "To", "Predicative": "tanie", "Verb": "jest"}
+        {"podmiot": "To", "orzecznik": "tanie", "orzeczenie": "jest"}
     ]
-    assert role(verdict("Nic nie rośnie.")) == [{"Subject": "Nic", "Verb": "nie rośnie"}]
+    assert role(verdict("Nic nie rośnie.")) == [{"podmiot": "Nic", "orzeczenie": "nie rośnie"}]
 
 
 def test_zaimek_pytajny_zastępuje_też_poprzednik():
@@ -2798,7 +2814,7 @@ def test_zaimek_pytajny_zastępuje_też_poprzednik():
     found = verdict("To, co mogło się zepsuć, jest tanie.")
     assert found.status == "valid", found.explain()
     assert role(found) == [
-        {"Subject": "To, co mogło się zepsuć,", "Predicative": "tanie", "Verb": "jest"}
+        {"podmiot": "To, co mogło się zepsuć,", "orzecznik": "tanie", "orzeczenie": "jest"}
     ]
 
 
@@ -2811,9 +2827,9 @@ def test_zdanie_względne_bez_poprzednika_jest_podmiotem_a_nie_zdaniem_współrz
     assert found.status == "valid", found.explain()
     assert role(found) == [
         {
-            "Subject": "Kto wchodzi w środek,",
-            "Object": "poprzedniego zdania",
-            "Verb": "nie przeczytał",
+            "podmiot": "Kto wchodzi w środek,",
+            "dopełnienie": "poprzedniego zdania",
+            "orzeczenie": "nie przeczytał",
         }
     ]
 
@@ -2827,7 +2843,7 @@ def test_poprzednikiem_zaimka_co_jest_zdanie_a_nie_rzeczownik_przed_przecinkiem(
     found = verdict("Sejm zaaprobował przekroczenie, co przekreśliło sens działań.")
     assert found.status == "valid", found.explain()
     assert role(found) == [
-        {"Subject": "Sejm", "Object": "przekroczenie", "Verb": "zaaprobował"}
+        {"podmiot": "Sejm", "dopełnienie": "przekroczenie", "orzeczenie": "zaaprobował"}
     ]
 
     #  Poprzednika rzeczownikowego zaimek `który` ma dalej, i to on rozdziela te dwa
@@ -2836,9 +2852,9 @@ def test_poprzednikiem_zaimka_co_jest_zdanie_a_nie_rzeczownik_przed_przecinkiem(
     assert zgodny.status == "valid", zgodny.explain()
     assert role(zgodny) == [
         {
-            "Subject": "Sejm",
-            "Object": "przekroczenie, które przekreśliło sens działań",
-            "Verb": "zaaprobował",
+            "podmiot": "Sejm",
+            "dopełnienie": "przekroczenie, które przekreśliło sens działań",
+            "orzeczenie": "zaaprobował",
         }
     ]
 
@@ -2848,11 +2864,12 @@ def test_poprzednik_zdaniowy_bierze_zaimek_co_a_nie_kto():
     #  tyle niesie `co`, a `kto` jest męskoosobowy. Cechy osobnej na to nie ma, więc
     #  para zdań niżej jest jedynym miejscem, które ten wybór pilnuje.
     #
-    #  Przyimek przed zaimkiem wchodzi przez czoło (`NominalRelativeModifier`), a nie
-    #  przez tę pozycję, i pierwsze zdanie jest tym, co to pokazuje.
+    #  Przyimek przed zaimkiem wchodzi przez czoło
+    #  (`wyrażenie_przyimkowe_względne_rzeczowne`), a nie przez tę pozycję,
+    #  i pierwsze zdanie jest tym, co to pokazuje.
     found = verdict("Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia.")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Object": "ostry zakręt", "Verb": "Bierzemy"}]
+    assert role(found) == [{"dopełnienie": "ostry zakręt", "orzeczenie": "Bierzemy"}]
 
     #  Para stoi w tej samej ramie i różni ją sam zaimek, więc mówi o rodzaju, a nie
     #  o czymś innym w zdaniu. Pierwszy wiersz jest ujemny rozmyślnie: `co` daje temu
@@ -2872,7 +2889,7 @@ def test_orzecznik_wysunięty_na_czoło_nie_wypełnia_szyku_zdania_oznajmująceg
     found = verdict("Czym jest parser?")
     assert found.status == "valid", found.explain()
     assert role(found) == [
-        {"Subject": "parser", "Predicative": "Czym", "Verb": "jest", PYTAJNY: "Czym"}
+        {"podmiot": "parser", "orzecznik": "Czym", "orzeczenie": "jest", GRUPA_PYTAJNA: "Czym"}
     ]
 
 
@@ -2883,12 +2900,12 @@ def test_ciąg_pytań_zależnych_stoi_pod_jednym_czasownikiem():
     #
     #  Członem jest tu `kto`, a nie `co`, i pilnuje tego sam wiersz z odrzuceniem:
     #  `co` za zdaniem domkniętym niesie zdanie względne o poprzedniku zdaniowym
-    #  (`NominalRelativePronoun` w `olski/subset.py`), więc napis bez spójnika
+    #  (`zaimek_względny_rzeczowny` w `olski/subset.py`), więc napis bez spójnika
     #  wyprowadza się tamtędy i o ciągu nie mówi nic. `kto` jest męskoosobowe,
     #  a tamta pozycja żąda poprzednika nijakiego, więc go nie bierze.
     found = verdict("Drzewo mówi, kto jest tematem, a kto jest nowy.")
     assert found.status == "valid", found.explain()
-    assert role(found) == [{"Subject": "Drzewo", "Verb": "mówi"}]
+    assert role(found) == [{"podmiot": "Drzewo", "orzeczenie": "mówi"}]
     assert verdict("Drzewo mówi, kto jest tematem, kto jest nowy.").status == "rejected"
 
 
@@ -2903,7 +2920,10 @@ def test_przecinek_za_pytaniem_zależnym_zamyka_je_i_nie_otwiera_ciągu():
     found = verdict("Drzewo mówi, kto jest tematem, i liczy cenę.")
     assert found.status == "valid", found.explain()
     assert found.readings == [
-        ({"Subject": "Drzewo", "Verb": "mówi"}, {"Object": "cenę", "Verb": "liczy"})
+        (
+            {"podmiot": "Drzewo", "orzeczenie": "mówi"},
+            {"dopełnienie": "cenę", "orzeczenie": "liczy"},
+        )
     ]
 
 
@@ -2913,10 +2933,10 @@ def test_pytanie_stawia_grupę_pytajną_w_podmiocie_i_w_dopełnieniu():
     #  przyjęte bez niej nie mówiłoby, o co pyta.
     podmiot = verdict("Który aktor robi na tobie największe wrażenie?")
     assert podmiot.status == "valid", podmiot.explain()
-    assert role(podmiot)[0][PYTAJNY] == "Który aktor"
+    assert role(podmiot)[0][GRUPA_PYTAJNA] == "Który aktor"
     dopełnienie = verdict("Które zadania gmina wykonuje?")
     assert dopełnienie.status == "valid", dopełnienie.explain()
-    assert role(dopełnienie)[0][PYTAJNY] == "Które zadania"
+    assert role(dopełnienie)[0][GRUPA_PYTAJNA] == "Które zadania"
 
 
 def test_zdanie_pytające_żąda_pytajnika():
@@ -3047,11 +3067,11 @@ def test_rzeczownik_orzekający_niesie_etykietę_roli():
     #  Zdanie to nie ma ani podmiotu, ani czasownika, więc bez tej etykiety
     #  wychodzi `valid` bez ani jednej roli, czyli bez słowa o tym, co olski w nim
     #  przyjął. Pilnuje jej samo streszczenie, bo w zdanie względne ono nie
-    #  zagląda i tam ta usterka jest niewidoczna (:data:`olski.subset.ORZEKAJĄCY`).
+    #  zagląda i tam ta usterka jest niewidoczna (:data:`olski.subset.ORZECZENIE_RZECZOWNIKOWE`).
     found = verdict("Mowa o zadaniach.")
     assert found.status == "valid", found.explain()
     [(reading,)] = found.readings
-    assert reading[ORZEKAJĄCY] == "Mowa", found.explain()
+    assert reading[ORZECZENIE_RZECZOWNIKOWE] == "Mowa", found.explain()
 
 
 def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
@@ -3078,7 +3098,7 @@ def test_łącznik_czyni_podmiotem_grupę_za_sobą_a_orzecznikiem_tę_przed_sob�
     found = verdict("Flaga to płat tkaniny określonego kształtu.")
     assert found.status == "valid", found.explain()
     [(reading,)] = found.readings
-    assert reading["Subject"] == "płat tkaniny określonego kształtu", found.explain()
+    assert reading["podmiot"] == "płat tkaniny określonego kształtu", found.explain()
     assert reading[ORZECZNIK_ŁĄCZNIKA] == "Flaga", found.explain()
 
 
@@ -3092,11 +3112,11 @@ def test_łącznik_żąda_lematu_a_nie_samej_części_mowy():
 
 
 def test_predykatyw_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
-    #  Usterka, którą to łapie: predykatyw wpuszczony jako `Predicate`, po którym
+    #  Usterka, którą to łapie: predykatyw wpuszczony jako `grupa_orzeczenia`, po którym
     #  `Programy trzeba czytać.` wychodzi zdaniem o podmiocie `Programy`
     #  (docs/subset.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika).
     found = verdict("Trzeba czytać dokumenty.")
-    assert role(found)[0][BEZOSOBOWY] == "Trzeba", found.explain()
+    assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Trzeba", found.explain()
     wysunięte = verdict("Programy trzeba czytać.")
     assert wysunięte.status == "rejected", wysunięte.explain()
 
@@ -3113,27 +3133,27 @@ def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
 
 
 def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
-    #  Usterka, którą to łapie: forma `imps` wpuszczona pod symbolem `Verb`.
+    #  Usterka, którą to łapie: forma `imps` wpuszczona pod symbolem `orzeczenie`.
     #  Zgodności ta forma nie niesie żadnej, a cechy, której konstytuent nie
     #  niesie, unifikacja nie sprawdza, więc pod tamtym symbolem `program`
     #  wychodzi podmiotem, choć jest tam biernikiem
     #  (docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
     found = verdict("Zgłoszono program.")
-    assert role(found)[0][BEZOSOBOWY] == "Zgłoszono", found.explain()
-    assert "Subject" not in role(found)[0], found.explain()
+    assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Zgłoszono", found.explain()
+    assert "podmiot" not in role(found)[0], found.explain()
 
 
 def test_dopełnienie_wysunięte_przed_głowę_bez_podmiotu_zostawia_okolicznik_za_nią():
     #  Usterki, które to łapie: pozycja wpisana jednej z dwóch głów zamiast wzięta
     #  nazwą symbolu, po której wysunięcie ma predykatyw albo forma nieosobowa, a
-    #  nie obie; oraz dopełnienie wpisane wewnątrz `Complements`, po którym
+    #  nie obie; oraz dopełnienie wpisane pod `wypełnienia`, po którym
     #  `Usterkę zgłoszono wczoraj.` nie ma gdzie postawić okolicznika, bo tamten
     #  symbol stoi w ciele za głową i tylko tam
     #  (docs/subset.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu).
     forma = verdict("Usterkę zgłoszono.")
-    assert role(forma)[0]["Object"] == "Usterkę", forma.explain()
+    assert role(forma)[0]["dopełnienie"] == "Usterkę", forma.explain()
     predykatyw = verdict("Nic nie widać.")
-    assert role(predykatyw)[0]["Object"] == "Nic", predykatyw.explain()
+    assert role(predykatyw)[0]["dopełnienie"] == "Nic", predykatyw.explain()
     #  Okolicznik jest tu przysłówkiem bez czytania rzeczownikowego: `wczoraj` ma
     #  u Morfeusza obok przysłówka rzeczownik nieodmienny, więc stanęłoby zarazem
     #  w okoliczniku narzędnikowym i pytanie o pozycję utonęłoby w tamtej parze.
@@ -3177,16 +3197,16 @@ def test_czasownik_nieosobowy_przeczy_dopełniaczem_tak_jak_forma_osobowa():
     #  Usterka, którą to łapie: ciało napisane bez cząstki przeczącej. Zdanie z nią
     #  wychodzi wtedy odrzucone, a `nie` czyta się jak brak licencji na formę.
     found = verdict("Nie zgłoszono usterki.")
-    assert role(found)[0]["Object"] == "usterki", found.explain()
+    assert role(found)[0]["dopełnienie"] == "usterki", found.explain()
     biernik = verdict("Nie zgłoszono usterkę.")
     assert biernik.status == "rejected", biernik.explain()
 
 
 def test_rzeczownik_orzekający_nie_jest_orzecznikiem_pod_kopulą():
-    #  Rola stoi obok `Predicative`, a nie jest nią, a to zdanie jest tym, co
+    #  Rola stoi obok orzecznika, a nie jest nim, a to zdanie jest tym, co
     #  tamto wyjście przyjmuje: orzecznik przed kopulą ramy nie żąda, więc rzeczownik
-    #  wpuszczony do `Predicative` stanąłby tam i przyjął zdanie, w którym olski
-    #  czyta orzecznik w mianowniku (:data:`olski.subset.ORZEKAJĄCY`).
+    #  wpuszczony do orzecznika stanąłby tam i przyjął zdanie, w którym olski
+    #  czyta orzecznik w mianowniku (:data:`olski.subset.ORZECZENIE_RZECZOWNIKOWE`).
     found = verdict("Mowa jest ustawa.")
     assert found.status == "rejected", found.explain()
 
@@ -3206,12 +3226,12 @@ def test_oba_ciała_kopuli_opuszczonej_dają_temu_zdaniu_po_jednym_przyłączeni
 @pytest.mark.parametrize(
     ("zdanie", "rola", "czoło"),
     [
-        ("Reguła, która rozstrzyga, jest tania.", "Subject", "która"),
-        ("Polszczyzna, którą napisał autor, jest tania.", "Object", "którą"),
-        ("Ustawa, której autorzy piszą, jest tania.", "Subject", "której autorzy"),
-        ("Ustawa, której przepisy urzędnik ogłasza, jest tania.", "Object", "której przepisy"),
-        ("Który aktor robi na tobie największe wrażenie?", "Subject", "Który aktor"),
-        ("Które zadania gmina wykonuje?", "Object", "Które zadania"),
+        ("Reguła, która rozstrzyga, jest tania.", "podmiot", "która"),
+        ("Polszczyzna, którą napisał autor, jest tania.", "dopełnienie", "którą"),
+        ("Ustawa, której autorzy piszą, jest tania.", "podmiot", "której autorzy"),
+        ("Ustawa, której przepisy urzędnik ogłasza, jest tania.", "dopełnienie", "której przepisy"),
+        ("Który aktor robi na tobie największe wrażenie?", "podmiot", "Który aktor"),
+        ("Które zadania gmina wykonuje?", "dopełnienie", "Które zadania"),
     ],
 )
 def test_czoło_niesie_etykietę_roli_którą_zajmuje(zdanie, rola, czoło):
@@ -3237,8 +3257,8 @@ def test_czoło_niesie_etykietę_roli_którą_zajmuje(zdanie, rola, czoło):
 def test_etykieta_roli_nie_wpuszcza_na_czoło_swoich_pozostałych_produkcji():
     """Podmiot na czole zdania względnego jest czołem, a nie każdą grupą imienną.
 
-    Usterka, którą to łapie, jest ceną samej etykiety: `Subject` wpisany do ciała
-    czoła bez cechy rozdzielającej wpuszcza tam `Subject → NP`, więc `reguła, ta
+    Usterka, którą to łapie, jest ceną samej etykiety: `podmiot` wpisany do ciała
+    czoła bez cechy rozdzielającej wpuszcza tam `podmiot → grupa_imienna`, więc `reguła, ta
     reguła rozstrzyga` staje się zdaniem względnym, a `Który aktor robi
     wrażenie.` zdaniem oznajmującym o takim podmiocie, czyli wraca czytanie,
     które zdjął warunek na lemat.
@@ -3271,13 +3291,13 @@ def test_pytanie_wysuwa_grupę_pytajną_razem_z_przyimkiem():
     #  Napis roli jest tu drugim żądaniem, a nie sprawdzeniem tego samego dwa
     #  razy. Ta pozycja wynosi grupę pytajną ponad zdanie składowe i jest jedyną,
     #  która robi to bez zdania składowego nad sobą: okolicznik na czele zdania
-    #  wynosi rolę tak samo, ale stoi pod `ClauseConjunct`, a streszczenie bierze
+    #  wynosi rolę tak samo, ale stoi pod symbolem `zdanie_składowe`, a streszczenie bierze
     #  z gałęzi to najwyższe. Bez czoła pytania w `Deklaracja.składowe` pytanie o
     #  jednym zdaniu składowym dostaje więc wielokropek mówiący, że streszczenie
     #  milczy o drugim.
     found = verdict("W którym roku ustawa weszła?")
     assert found.status == "valid", found.explain()
-    assert role(found)[0][PYTAJNY] == "którym roku"
+    assert role(found)[0][GRUPA_PYTAJNA] == "którym roku"
 
 
 def test_pytanie_nie_wysuwa_z_przyimkiem_samego_zaimka():
@@ -3311,7 +3331,7 @@ def test_zdanie_względne_nie_daje_dwóch_wyprowadzeń_jednej_struktury():
     #  podmiotem — i to czytanie zasłoniłoby usterkę, o którą tu idzie.
     #
     #  Ten sam napis łapie drugą usterkę tego samego kształtu: ciało z
-    #  dopełnieniem przed czasownikiem (:data:`ORZECZENIE_ODWRÓCONE`) biorące
+    #  dopełnieniem przed czasownikiem (:data:`GRUPA_ORZECZENIA_ODWRÓCONA`) biorące
     #  całe wypełnienie ramy zamiast samego dopełnienia. Wypełnienie niesie
     #  okolicznik w swoich ciałach, a przed czasownikiem stawia go także
     #  rozwinięcie szyku, więc `na niej` wychodzi wtedy dwoma wyprowadzeniami.
@@ -3321,7 +3341,7 @@ def test_zdanie_względne_nie_daje_dwóch_wyprowadzeń_jednej_struktury():
 
 def test_dopełnienie_przed_czasownikiem_nie_dubluje_szyku_zdania_głównego():
     #  Usterka, którą to łapie: szyk z dopełnieniem przed czasownikiem dopisany
-    #  do `Predicate` zamiast do osobnego symbolu. Zdanie główne ma ten szyk już
+    #  do grupy orzeczenia zamiast do osobnego symbolu. Zdanie główne ma ten szyk już
     #  z deklaracji swoich córek, więc dopisany tam daje jednemu napisowi dwa
     #  wyprowadzenia tego samego kształtu, czyli drugie odczytanie.
     #
@@ -3379,7 +3399,7 @@ def test_okolicznik_ze_zdania_względnego_zostaje_w_nim():
 
 
 def test_okolicznik_przy_bezokoliczniku_ma_dwóch_gospodarzy():
-    #  Fraza bezokolicznikowa bierze okolicznik przez to samo `Complements`,
+    #  Fraza bezokolicznikowa bierze okolicznik przez to samo `wypełnienia`,
     #  którym bierze go forma osobowa nad nią, więc stoi wśród gospodarzy
     #  przyłączenia. Bez niej okolicznik wychodzi do zdania w obu czytaniach,
     #  oba streszczają się jednym napisem, a werdykt mówi samo `2 odczytania`.
@@ -3395,13 +3415,13 @@ def test_streszczenie_nazywa_czasownik_zdania_a_nie_zdania_względnego():
     #  zdania, więc zejście bez granicy nazywa czasownikiem `rozstrzyga`, a
     #  `jest` nie pada wtedy w wierszu wcale.
     roles = role(verdict("Reguła, która rozstrzyga o zdaniu, jest tania."))[0]
-    assert roles["Verb"] == "jest"
-    assert "Modifier" not in roles
+    assert roles["orzeczenie"] == "jest"
+    assert "wyrażenie_przyimkowe" not in roles
 
 
 def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
     #  Druga granica, i tu widać ją mocniej: zdanie nadrzędne dopełnienia nie ma
-    #  wcale, więc `Object` wzięty ze zdania podrzędnego nazywa rolę, której to
+    #  wcale, więc `dopełnienie` wzięty ze zdania podrzędnego nazywa rolę, której to
     #  zdanie nie ma. Wiersz werdyktu łapie przy tym drugie podsumowanie: bez tej
     #  samej granicy ogłasza niezgodę o rolę, której lista czytań nie nazywa.
     #  Wieloznaczność zostaje po tej stronie granicy nazwana konstytuentem, w
@@ -3409,7 +3429,7 @@ def test_streszczenie_nie_nazywa_roli_wziętej_ze_zdania_dopełnieniowego():
     found = verdict("Ustawa mówi, że organ gminy wydaje przepis.")
     assert found.result.ile == 2, found.explain()
     assert all(
-        "Object" not in składowe for czytanie in found.readings for składowe in czytanie
+        "dopełnienie" not in składowe for czytanie in found.readings for składowe in czytanie
     )
     assert found.explain() == "2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania"
 
@@ -3554,8 +3574,10 @@ def test_streszczenie_nazywa_okolicznik_zdaniowy_a_wnętrza_jego_nie_otwiera():
     #  ról, i wśród zdań podrzędnych.
     roles = verdict("Ponieważ linter sprawdza dokumentację, program zapisuje ustawienia.")
     [(streszczenie,)] = roles.readings
-    assert streszczenie["Subject"] == "program"
-    assert streszczenie["AdverbialClause"] == "Ponieważ linter sprawdza dokumentację, → zapisuje"
+    assert streszczenie["podmiot"] == "program"
+    assert (
+        streszczenie["okolicznik_zdaniowy"] == "Ponieważ linter sprawdza dokumentację, → zapisuje"
+    )
 
 
 def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
@@ -3565,8 +3587,8 @@ def test_okolicznik_zdaniowy_dochodzi_do_obu_zdań_i_werdykt_to_nazywa():
     #  streszczanym, a milczy, gdy stoi w tamtym.
     found = verdict("Pomiar mówi, że autor pisze, ponieważ tekst jest gotowy.")
     assert found.result.ile == 2, found.explain()
-    assert found.result.różniące == ("AdverbialClause",)
-    assert {OKOLICZNIKOWY in reading for reading in role(found)} == {False, True}
+    assert found.result.różniące == ("okolicznik_zdaniowy",)
+    assert {OKOLICZNIK_ZDANIOWY in reading for reading in role(found)} == {False, True}
 
 
 def test_okolicznik_zdaniowy_dochodzi_do_całego_ciągu_współrzędnego():
@@ -3576,7 +3598,7 @@ def test_okolicznik_zdaniowy_dochodzi_do_całego_ciągu_współrzędnego():
     #  jednoznaczne i jednoznaczne jest w nim czytanie, którego czytelnik nie bierze.
     found = verdict("Dwoisz się i troisz, aby rozwiązać problemy.")
     assert found.result.ile == 2, found.explain()
-    assert {drugie[OKOLICZNIKOWY] for _pierwsze, drugie in found.readings} == {
+    assert {drugie[OKOLICZNIK_ZDANIOWY] for _pierwsze, drugie in found.readings} == {
         ", aby rozwiązać problemy → troisz",
         ", aby rozwiązać problemy → Dwoisz",
     }
@@ -3651,7 +3673,7 @@ def test_imiesłów_przysłówkowy_bierze_ramę_swojego_lematu():
         #  `→ zapisuje`, więc wychodzą z werdyktu jednym napisem.
         ("Program zapisuje ustawienia, sprawdzając zgodność z dokumentem.", "sprawdzając"),
         #  Drugiej głowy tego symbolu ten sam wpis ruszyć nie ma: pod zdaniem
-        #  podrzędnym stoi `ClauseConjunct`, na którym zejście staje wcześniej.
+        #  podrzędnym stoi `zdanie_składowe`, na którym zejście staje wcześniej.
         ("Program zapisuje ustawienia, gdy linter sprawdza zgodność z dokumentem.", "sprawdza"),
     ],
 )
@@ -3726,7 +3748,7 @@ def test_dopełnienie_bezokolicznika_wysunięte_przed_formę_osobową_dostaje_sw
     #  oddać oba, a nie wymienić jedno na drugie.
     found = verdict("Premier większości nie może ruszyć.")
     assert found.result.ile == 2, found.explain()
-    assert {streszczenie.get("Object") for streszczenie in role(found)} == {None, "większości"}
+    assert {streszczenie.get("dopełnienie") for streszczenie in role(found)} == {None, "większości"}
 
 
 def test_dopełnienie_wysunięte_pyta_o_ramę_bezokolicznika_a_o_przeczenie_formę_osobową():
@@ -3743,7 +3765,7 @@ def test_dopełnienie_wysunięte_pyta_o_ramę_bezokolicznika_a_o_przeczenie_form
 
 
 def test_dopełnienie_wysunięte_nie_daje_drugiego_wyprowadzenia_zdaniu_które_już_stoi():
-    #  Dopełnienie za swoim bezokolicznikiem wyprowadza się przez `Complements`
+    #  Dopełnienie za swoim bezokolicznikiem wyprowadza się przez `wypełnienia`
     #  bezokolicznika, a pozycja wysunięta ma szyk jeden, ten wypisany, więc napis
     #  ten zostaje przy jednym czytaniu.
     found = verdict("Premier nie może ruszyć większości.")
@@ -3752,7 +3774,7 @@ def test_dopełnienie_wysunięte_nie_daje_drugiego_wyprowadzenia_zdaniu_które_j
 
 def test_okolicznik_ma_przy_wysuniętym_dopełnieniu_tyle_gospodarzy_ile_bez_niego():
     #  Tor zwykły daje okolicznikowi za bezokolicznikiem dwóch gospodarzy, a przed
-    #  nim jednego, bo `Complements` bezokolicznika stoi za swoją głową i przed nią
+    #  nim jednego, bo `wypełnienia` bezokolicznika stoi za swoją głową i przed nią
     #  nie sięga.
     assert verdict("Premier nie może ruszyć szybko.").result.ile == 2
     assert verdict("Premier nie może szybko ruszyć.").result.ile == 1

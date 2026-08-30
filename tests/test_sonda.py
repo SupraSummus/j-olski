@@ -59,7 +59,7 @@ def test_zdjęcie_spójności_wpuszcza_frazę_przerwaną_orzeczeniem():
     spójny = rozbierz(segmenty, GRAMATYKA, limit=64)
     nieciągły = rozbierz(segmenty, GRAMATYKA, limit=64, spójne=False)
 
-    assert [czytanie.rola("Object") for czytanie in spójny.czytania] == ["polszczyznę"]
+    assert [czytanie.rola("dopełnienie") for czytanie in spójny.czytania] == ["polszczyznę"]
     assert "Dobrą polszczyznę (nieciągłe)" in [
-        czytanie.rola("Object") for czytanie in nieciągły.czytania
+        czytanie.rola("dopełnienie") for czytanie in nieciągły.czytania
     ]

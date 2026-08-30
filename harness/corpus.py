@@ -104,11 +104,11 @@ def _slot_role(slot: str) -> str | None:
     czyli pomiar mówiłby o pomyłce tam, gdzie stoi sama nazwa roli.
     """
     if slot == "subj" or slot.startswith("subj("):
-        return "Subject"
+        return "podmiot"
     if slot.startswith("np(") and slot.endswith(")"):
         inner = slot[3:-1]
         if _case(inner) in {"acc", "dat", "gen"} or inner in {"accgen", "part"}:
-            return "Object"
+            return "dopełnienie"
     return None
 
 

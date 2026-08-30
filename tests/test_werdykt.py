@@ -48,7 +48,7 @@ def test_werdykt_niesie_zdanie_tak_jak_stoi_a_nie_graf_segmentacji():
 
 def test_fragment_bez_znaku_zamykajacego_nie_jest_zdaniem_odrzuconym():
     #  Nagłówek i pozycja listy dochodzą do olskiego jako akapity, a produkcja
-    #  Sentence żąda na końcu kropki, więc odrzucone mierzyłyby ekstrakcję.
+    #  wypowiedzenie żąda na końcu kropki, więc odrzucone mierzyłyby ekstrakcję.
     assert verdict("Zapisywanie pliku").status == FRAGMENT
     assert verdict("Nowa program zapisuje ustawienia.").status == "rejected"
 

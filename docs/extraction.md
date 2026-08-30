@@ -228,7 +228,7 @@ bo inaczej zapowiedź wpadałaby w prozę pod sobą.
 Regułom pakietu to nie przeszkadza:
 reguła mierzy znaki i słowa i niczego od zdania nie żąda.
 Gramatyce przeszkadza.
-Produkcja `Sentence` w `olski/subset.py` żąda na końcu kropki,
+Produkcja `wypowiedzenie` w `olski/subset.py` żąda na końcu kropki,
 wykrzyknika albo pytajnika,
 więc fragment, który takiego znaku nie niesie,
 nie wyprowadzi się przy żadnej gramatyce,

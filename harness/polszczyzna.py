@@ -28,153 +28,159 @@ CZASOWNIK = frozenset({"fin", "impt", "inf"})
 #: nie niesie, a unifikacja cechy, której nie ma, nie sprawdza.
 NOMINALNE = frozenset({"subst", "ppron3", "ppron12"})
 
-#: Przymiotnik i imiesłów przymiotnikowy bierny, jak w ``APConjunct`` olskiego.
+#: Przymiotnik i imiesłów przymiotnikowy bierny, jak w symbolu ``człon_przymiotnikowy`` olskiego.
 PRZYMIOTNIK = frozenset({"adj", "ppas"})
 
 WIĘZY = (
-    # Podmiot, czyli Subject → NP[nom] wraz ze zgodnością, którą w olskim robią
-    # szyki zdania. Dwie deklaracje, bo trzecią osobę trzeba postawić na
+    # Podmiot, czyli ``podmiot → grupa_imienna[nom]`` wraz ze zgodnością,
+    # którą w olskim robią szyki zdania. Dwie deklaracje, bo trzecią osobę trzeba postawić na
     # czasowniku wprost: gdyby stała na rzeczowniku, unifikacja by ją pominęła i
     # czasownik pierwszej osoby wziąłby rzeczownik za podmiot.
     Więz(
-        "Subject",
+        "podmiot",
         word(OSOBOWY, number=V("n"), person="ter"),
         word("subst", case="nom", number=V("n")),
     ),
     Więz(
-        "Subject",
+        "podmiot",
         word(OSOBOWY, number=V("n"), person=V("p")),
         word({"ppron3", "ppron12"}, case="nom", number=V("n"), person=V("p")),
     ),
-    # Dopełnienie, czyli Object → NP[acc], w dwóch deklaracjach zamiast jednej: za
-    # czasownikiem bez warunku, przed nim z tym, który uzasadnia pole ``wymaga``.
+    # Dopełnienie, czyli ``dopełnienie → grupa_imienna[acc]``, w dwóch deklaracjach
+    # zamiast jednej: za czasownikiem bez warunku, przed nim z tym, który uzasadnia
+    # pole ``wymaga``.
     # Głową nie jest kopula, bo biernika nie bierze, i to jest tu cała walencja:
     # rama, którą olski wypuszcza z czasownika, wychodzi po tej stronie warunkiem
     # na lemat głowy łuku.
     Więz(
-        "Object",
+        "dopełnienie",
         word(CZASOWNIK, bez_lematu=KOPULA),
         word(NOMINALNE, case="acc"),
         strona=PO,
-        zakazuje=("Predicative", "PredInst"),
+        zakazuje=("orzecznik", "orzecznik_narzędnikowy"),
     ),
     Więz(
-        "Object",
+        "dopełnienie",
         word(CZASOWNIK, bez_lematu=KOPULA),
         word(NOMINALNE, case="acc"),
         strona=PRZED,
-        wymaga=("Subject",),
-        zakazuje=("Predicative", "PredInst"),
+        wymaga=("podmiot",),
+        zakazuje=("orzecznik", "orzecznik_narzędnikowy"),
     ),
     # Orzecznik w narzędniku, którego nie bierze nic poza kopulą, i orzecznik
     # przymiotnikowy, który bierze każdy czasownik. Ograniczenie lematem jest to
     # samo, którym olski trzyma ramę kopuli.
     #
     # Dwie etykiety, a nie jedna, bo z podmiotem zgadza się orzecznik
-    # przymiotnikowy, a narzędnikowy nie: w olskim ``Predicative → NP[inst]``
+    # przymiotnikowy, a narzędnikowy nie: w olskim ``orzecznik → grupa_imienna[inst]``
     # wypuszcza z siebie sam przypadek, więc liczby ani rodzaju nie ma tam czym
     # sprawdzić. Raport nazywa oba orzecznikiem, bo takie one dla czytelnika są.
     Więz(
-        "PredInst",
+        "orzecznik_narzędnikowy",
         word(OSOBOWY, lemma=KOPULA),
         word("subst", case="inst"),
         strona=PO,
-        zakazuje=("Predicative",),
+        zakazuje=("orzecznik",),
     ),
     Więz(
-        "PredInst",
+        "orzecznik_narzędnikowy",
         word(OSOBOWY, lemma=KOPULA),
         word("subst", case="inst"),
         strona=PRZED,
-        wymaga=("Subject",),
-        zakazuje=("Predicative",),
+        wymaga=("podmiot",),
+        zakazuje=("orzecznik",),
     ),
     Więz(
-        "Predicative",
+        "orzecznik",
         word(OSOBOWY),
         word(PRZYMIOTNIK, case="nom"),
         strona=PO,
-        zakazuje=("PredInst",),
+        zakazuje=("orzecznik_narzędnikowy",),
     ),
     Więz(
-        "Predicative",
+        "orzecznik",
         word(OSOBOWY),
         word(PRZYMIOTNIK, case="nom"),
         strona=PRZED,
-        wymaga=("Subject",),
-        zakazuje=("PredInst",),
+        wymaga=("podmiot",),
+        zakazuje=("orzecznik_narzędnikowy",),
     ),
     # Bezokolicznik jako to, co czasownik bierze, i modalne ``winien`` obok. Stoi
     # za swoją głową, bo bez tego łańcuch ``ma pomagać pisać`` zwiesza się dwoma
     # sposobami: raz tak, jak stoi w tekście, a raz z drugim bezokolicznikiem pod
     # trzecim.
-    Więz("Inf", word(CZASOWNIK), word("inf"), strona=PO),
-    Więz("Inf", word("winien"), word("inf"), strona=PO),
+    Więz("bezokolicznik", word(CZASOWNIK), word("inf"), strona=PO),
+    Więz("bezokolicznik", word("winien"), word("inf"), strona=PO),
     # Zwrotne ``się`` przylega do swojego czasownika i stoi po nim.
-    Więz("Refl", word(OSOBOWY), word("part", lemma="się"), strona=PO, przyległy=True),
+    Więz("cząstka_zwrotna", word(OSOBOWY), word("part", lemma="się"), strona=PO, przyległy=True),
     # Grupa imienna: przymiotnik zgodny po obu stronach rzeczownika, dopełniacz za
     # nim. Zgodność jest tu tą samą trójką zmiennych, którą wymienia AGREE.
-    Więz("Attr", word("subst", **AGREE), word(PRZYMIOTNIK, **AGREE), jedyny=False),
-    # Dopełniacz jest jeden na rzeczownik, tak jak jedno ``NP[gen]`` w ciele
+    Więz("przydawka", word("subst", **AGREE), word(PRZYMIOTNIK, **AGREE), jedyny=False),
+    # Dopełniacz jest jeden na rzeczownik, tak jak jedno ``grupa_imienna[gen]`` w ciele
     # produkcji: bez tego ``tego podzbioru`` wisi u ``parser`` dwoma dopełniaczami
     # obok siebie i wychodzi z tego czytanie, którego olski nie ma. Głową nie jest
     # zaimek rzeczowny, i to jest ten sam warunek ujemny, który stoi w produkcji.
-    Więz("Gen", word("subst", bez_lematu=ZAIMEK_RZECZOWNY), word("subst", case="gen"), strona=PO),
+    Więz(
+        "dopełniacz",
+        word("subst", bez_lematu=ZAIMEK_RZECZOWNY),
+        word("subst", case="gen"),
+        strona=PO,
+    ),
     # Okolicznik: przyimek dochodzi do czasownika, do rzeczownika i do
-    # przymiotnika, czyli do tych trzech głów, pod którymi olski ma pozycje na
-    # Modifier.
-    Więz("Modifier", word(CZASOWNIK), word("prep"), jedyny=False),
-    Więz("Modifier", word("subst"), word("prep"), strona=PO, jedyny=False),
-    Więz("Modifier", word(PRZYMIOTNIK), word("prep"), strona=PO, jedyny=False),
+    # przymiotnika, czyli do tych trzech głów, pod którymi olski ma pozycje
+    # na ``wyrażenie_przyimkowe``.
+    Więz("wyrażenie_przyimkowe", word(CZASOWNIK), word("prep"), jedyny=False),
+    Więz("wyrażenie_przyimkowe", word("subst"), word("prep"), strona=PO, jedyny=False),
+    Więz("wyrażenie_przyimkowe", word(PRZYMIOTNIK), word("prep"), strona=PO, jedyny=False),
     # Przyimek rządzi przypadkiem swojej grupy, i rząd jest tu wspólną zmienną,
-    # dokładnie jak w Modifier → prep NP[case].
-    Więz("Prep", word("prep", case=V("c")), word(NOMINALNE, case=V("c")), strona=PO),
+    # dokładnie jak w ``wyrażenie_przyimkowe → prep grupa_imienna[case]``.
+    Więz("przyimek", word("prep", case=V("c")), word(NOMINALNE, case=V("c")), strona=PO),
     # Współrzędność na trzech poziomach, na których olski ją ma. Drugi członek
     # wisi pod pierwszym, więc zgodność członów jest parą słów, a spójnik wisi tam
     # samo. Oba łuki żądają siebie wzajemnie, bo bez tego dwa rzeczowniki obok
     # siebie są członami bez spójnika, a to jest już inna konstrukcja, której
     # olski nie ma: bez tego warunku ``Nowa program`` przechodzi.
     Więz(
-        "Conjunct",
+        "człon",
         word("subst", case=V("c")),
         word("subst", case=V("c")),
         strona=PO,
         jedyny=False,
-        wymaga=("Coord",),
+        wymaga=("spójnik_szeregu",),
     ),
     Więz(
-        "Conjunct",
+        "człon",
         word(PRZYMIOTNIK, **AGREE),
         word(PRZYMIOTNIK, **AGREE),
         strona=PO,
         jedyny=False,
-        wymaga=("Coord",),
+        wymaga=("spójnik_szeregu",),
     ),
     Więz(
-        "Conjunct",
+        "człon",
         word(OSOBOWY),
         word(OSOBOWY),
         strona=PO,
         jedyny=False,
-        wymaga=("Coord",),
+        wymaga=("spójnik_szeregu",),
     ),
     Więz(
-        "Coord",
+        "spójnik_szeregu",
         word({"subst", "adj", "ppas", "fin", "impt"}),
         word("conj"),
         strona=PO,
-        wymaga=("Conjunct",),
+        wymaga=("człon",),
     ),
 )
 
 ZGODY = (
     # Orzecznik przymiotnikowy zgadza się z podmiotem, a nie z czasownikiem.
-    Zgoda("Subject", "Predicative", ("number", "gender")),
+    Zgoda("podmiot", "orzecznik", ("number", "gender")),
 )
 
 ŻĄDANIA = (
     # Przyimek bez swojej grupy imiennej okolicznikiem nie jest.
-    Żąda(word("prep"), ("Prep",)),
+    Żąda(word("prep"), ("przyimek",)),
 )
 
 GRAMATYKA = Gramatyka(

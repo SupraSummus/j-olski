@@ -84,15 +84,15 @@ Nowa program zapisuje ustawienia."
 ```text
 <text>: valid     Zapisz plik konfiguracyjny.
                   jedno odczytanie
-                  - Object: plik konfiguracyjny, Verb: Zapisz
+                  - dopełnienie: plik konfiguracyjny, orzeczenie: Zapisz
 <text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 odczytań, różne w Object, Subject; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
-                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → szynki
-                  - Subject: Koszt samej szynki, Object: koszt szynki z dodatkami, Verb: przewyższa, Modifier: z dodatkami → koszt
-                  - Subject: Koszt samej szynki, Object: koszt szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
-                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → szynki
-                  - Subject: koszt szynki z dodatkami, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → koszt
-                  - Subject: koszt szynki, Object: Koszt samej szynki, Verb: przewyższa, Modifier: z dodatkami → przewyższa
+                  6 odczytań, różne w rolach: dopełnienie, podmiot; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
+                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki z dodatkami, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → szynki
+                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki z dodatkami, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → koszt
+                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → przewyższa
+                  - podmiot: koszt szynki z dodatkami, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → szynki
+                  - podmiot: koszt szynki z dodatkami, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → koszt
+                  - podmiot: koszt szynki, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → przewyższa
 <text>: rejected  Nowa program zapisuje ustawienia.
                   brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 olskie: 1 z 3 zdań; z odczytaniem: 2

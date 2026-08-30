@@ -1,7 +1,7 @@
 """Co kupuje i co kosztuje luka, czyli szczebel 2 drabiny kosztów.
 
 Zdanie względne stoi w gramatyce wypisane rolą po roli: kilkadziesiąt ciał
-``RelativeCore``, po jednym na czoło razy wysunięta rola razy szyk reszty zdania
+``rdzeń_względny``, po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie. Wyjęcia z głębi — ``ustawa, którą
 organ gminy może wydać`` — nie ma tam wcale, bo dopełnienie dochodzi tylko do
 formy osobowej.
@@ -55,19 +55,19 @@ BRAK = frozenset({"brak"})
 
 #: Symbole, pod którymi luka staje, czyli te, które dostają produkcję pustą.
 #: Jest to cała decyzja tej sondy o tym, gdzie luki wolno szukać.
-PUSTE = ("Subject", "Object")
+PUSTE = ("podmiot", "dopełnienie")
 #: Symbole, które lukę domykają, wiążąc ją ze swoim zaimkiem. Wyżej luka nie idzie,
 #: i dlatego wyjęcie z wnętrza zdania względnego nie wyprowadza się wcale.
 #: Rodzin względnych jest dwie, bo dwa poprzedniki biorą dwa czoła
-#: (``NominalRelativePronoun`` w ``olski/subset.py``), a domyka luki obie tak samo.
-DOMYKA = ("RelativeCore", "NominalRelativeCore")
+#: (``zaimek_względny_rzeczowny`` w ``olski/subset.py``), a domyka luki obie tak samo.
+DOMYKA = ("rdzeń_względny", "rdzeń_względny_rzeczowny")
 #: Rodzina, której ciała luka zastępuje, czyli zasięg tej sondy. Węższa od
 #: :data:`DOMYKA` i tym zaniża pomiar, bo zdanie z `co` na czole wychodzi w
 #: wariancie odrzucone tak samo jak bez luki; TODO.md trzyma ten brak.
-ZASTĘPOWANE = ("RelativeCore",)
+ZASTĘPOWANE = ("rdzeń_względny",)
 #: Symbol, pod którym luki stanąć nie wolno, bo jest korzeniem: zdanie z luką
 #: niedomkniętą zdaniem nie jest.
-KORZEŃ = "Sentence"
+KORZEŃ = "wypowiedzenie"
 
 WARIANTY = ("olski", "luka wszędzie", "luka kanoniczna")
 
@@ -132,12 +132,12 @@ def _wiązka(część: Sym, i: int) -> dict[str, Var]:
     tylko unosi, przelotem, bo on je już niesie.
     """
     wiązka: dict[str, Var] = {LUKA: Var(f"luka{i}")}
-    if część.name == "Subject":
+    if część.name == "podmiot":
         for cecha, nazwa in ((LUKA_N, "number"), (LUKA_G, "gender")):
             zmienna = _zmienna(część, nazwa)
             if zmienna is not None:
                 wiązka[cecha] = zmienna
-    elif część.name != "Object":
+    elif część.name != "dopełnienie":
         wiązka[LUKA_N] = Var(f"lukan{i}")
         wiązka[LUKA_G] = Var(f"lukag{i}")
     return wiązka
@@ -147,17 +147,17 @@ def _kanoniczna(produkcja: Production, i: int) -> bool:
     """Czy luka stoi w tej córce na pozycji, jaką ta rola zajmuje kanonicznie.
 
     Podmiot stoi na czele, bo tam go stawia zdanie względne. Dopełnienie stoi
-    tuż za czasownikiem, który je rządzi, czyli albo pod ``Complements``, albo w
-    ciele, w którym idzie zaraz po ``Verb``.
+    tuż za czasownikiem, który je rządzi, czyli albo pod symbolem ``wypełnienia``,
+    albo w ciele, w którym idzie zaraz za ``orzeczenie``.
     """
     część = produkcja.body[i]
-    if część.name == "Subject":
+    if część.name == "podmiot":
         return i == 0
-    if część.name == "Object":
-        if produkcja.head == "Complements":
+    if część.name == "dopełnienie":
+        if produkcja.head == "wypełnienia":
             return True
         poprzednia = produkcja.body[i - 1] if i else None
-        return isinstance(poprzednia, Sym) and poprzednia.name == "Verb"
+        return isinstance(poprzednia, Sym) and poprzednia.name == "orzeczenie"
     return True
 
 
@@ -168,7 +168,7 @@ def _wysunięty_okolicznik(produkcja: Production) -> bool:
     pod sobą nie żąda: za wysuniętym wyrażeniem następuje zdanie składowe całe.
     """
     return any(
-        isinstance(część, Sym) and część.name == "RelativeModifier"
+        isinstance(część, Sym) and część.name == "wyrażenie_przyimkowe_względne"
         for część in produkcja.body
     )
 
@@ -240,7 +240,7 @@ def gramatyka(wariant: str) -> Grammar:
     bez_czoła = ("czoło", frozenset({BEZ_CZOŁA}))
     wariantowa.dopisz(
         Production(
-            head="Subject",
+            head="podmiot",
             body=(),
             features=frozenset({(LUKA, frozenset({"nom"})), bez_czoła}),
         )
@@ -248,7 +248,7 @@ def gramatyka(wariant: str) -> Grammar:
     for przypadek, negacja in (("acc", "aff"), ("gen", "neg")):
         wariantowa.dopisz(
             Production(
-                head="Object",
+                head="dopełnienie",
                 body=(),
                 features=frozenset(
                     {
@@ -265,10 +265,10 @@ def gramatyka(wariant: str) -> Grammar:
     # jest. Jedna produkcja w miejsce piętnastu ciał.
     wariantowa.dopisz(
         Production(
-            head="RelativeCore",
+            head="rdzeń_względny",
             body=(
-                nt("RelativePronoun", case=Var("c"), number=Var("n"), gender=Var("g")),
-                nt("ClauseConjunct", **{LUKA: Var("c"), LUKA_N: Var("n"), LUKA_G: Var("g")}),
+                nt("zaimek_względny", case=Var("c"), number=Var("n"), gender=Var("g")),
+                nt("zdanie_składowe", **{LUKA: Var("c"), LUKA_N: Var("n"), LUKA_G: Var("g")}),
             ),
             features=frozenset({("number", Var("n")), ("gender", Var("g"))}),
             głowa=1,

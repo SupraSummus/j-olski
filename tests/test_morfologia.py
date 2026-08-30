@@ -38,7 +38,7 @@ def test_odczytanie_z_dopełnieniem_zostawia_formie_samo_odczytanie_biernikowe()
     """
     znalezione = werdykt("Janek lubi piwo.")
     podmiotem, dopełnieniem = znalezione.readings
-    assert (podmiotem[0]["Subject"], dopełnieniem[0]["Object"]) == ("Janek", "Janek")
+    assert (podmiotem[0]["podmiot"], dopełnieniem[0]["dopełnienie"]) == ("Janek", "Janek")
     wykaz = znalezione.morfologia
     assert wiersz(wykaz[1], "Janek") == ("Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f",)
     #  W podmiocie stoją oba mianowniki, bo podmiot bierze każdy z nich, i to

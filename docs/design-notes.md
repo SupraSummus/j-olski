@@ -67,8 +67,10 @@ See [Formalizm jest środkiem, a nie celem](#formalizm-jest-środkiem-a-nie-cele
 Produkcja nazywa swoją głowę napisem, a `nt` odsyła do symbolu tym samym napisem,
 więc symbol ma jedną nazwę i jest nią ta, którą drukuje werdykt.
 Symbol powoływany obiektem czyta się lepiej tam, gdzie pisze się produkcję,
-a płaci dwiema nazwami na jeden symbol,
-bo identyfikator jest w tym repozytorium polski, a symbol gramatyki angielski.
+a płaci deklaracją na każdy symbol z osobna,
+w której to samo słowo jest raz identyfikatorem, a raz napisem.
+Stałe w `olski/subset.py` płacą ją przy symbolach z wywodem,
+bo komentarz nad stałą jest jego miejscem.
 To, co miał kupić, przychodzi bez niego:
 checki w `olski/grammar.py` łapią literówkę w głowie produkcji,
 w nazwie cechy i w nazwie zmiennej,
@@ -600,7 +602,7 @@ Jest nim to, że luka nie ma napisu.
 
 **Co luka miała kupić.**
 Zdanie względne wypisuje się rolą po roli:
-kilkadziesiąt ciał `RelativeCore` w `olski/subset.py`,
+kilkadziesiąt ciał `rdzeń_względny` w `olski/subset.py`,
 po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie,
 a role, które te ciała wypełniają, wywodzi
@@ -688,8 +690,8 @@ tak samo jak nie nazywa roli wypełnionej zaimkiem,
 i zostaje cena z akapitu wyżej: rozpiętość pusta nie trafia w żadną złotą.
 
 **Symboli nie ubywa.**
-`RelativeCore` schodzi do tych ciał, które wysuwają wyrażenie przyimkowe,
-a `ClauseConjunct` rośnie za to kilkakrotnie,
+`rdzeń_względny` schodzi do tych ciał, które wysuwają wyrażenie przyimkowe,
+a `zdanie_składowe` rośnie za to kilkakrotnie,
 bo przeciąganie żąda ciała na każdą córkę, która lukę unosi,
 i cała gramatyka rośnie o kilkadziesiąt produkcji;
 liczby na dziś drukuje kolumna `produkcji` w wydruku sondy.
@@ -851,7 +853,7 @@ przed czym [`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) ost
 Kilka deklaracji wypisuje zdanie olskiego,
 a miejsce na okolicznik jedna reguła nad nimi
 ([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-i dopiero rozwinięcie robi z nich kilkadziesiąt ciał `ClauseConjunct`,
+i dopiero rozwinięcie robi z nich kilkadziesiąt ciał `zdanie_składowe`,
 które czyta parser.
 Łuk podmiotu nie mówi o porządku nic,
 więc wszystkie sześć szyków są po tamtej stronie jedną deklaracją,
@@ -1162,10 +1164,10 @@ python3 -m olski.check --readings -c "Ustawa mówi, że organ gminy wydaje przep
 ```text
 <text>: ambiguous Ustawa mówi, że organ gminy wydaje przepis.
                   2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania
-                  - Subject: Ustawa, Verb: mówi
+                  - podmiot: Ustawa, orzeczenie: mówi
                   „organ gminy wydaje przepis” czyta się tak:
-                    - Subject: organ gminy, Object: przepis, Verb: wydaje
-                    - Subject: przepis, Object: organ gminy, Verb: wydaje
+                    - podmiot: organ gminy, dopełnienie: przepis, orzeczenie: wydaje
+                    - podmiot: przepis, dopełnienie: organ gminy, orzeczenie: wydaje
 olskie: 0 z 1 zdania; z odczytaniem: 1
 ```
 
@@ -1223,8 +1225,8 @@ python3 -m olski.check --readings -c "Autor działa i zapisuje ustawienia."
 ```text
 <text>: valid     Autor działa i zapisuje ustawienia.
                   jedno odczytanie
-                  - Subject: Autor, Verb: działa
-                    Object: ustawienia, Verb: zapisuje
+                  - podmiot: Autor, orzeczenie: działa
+                    dopełnienie: ustawienia, orzeczenie: zapisuje
 ```
 
 Kreska otwiera czytanie, a składowe następne stoją pod nim bez niej,
@@ -1232,7 +1234,7 @@ i widać po tym, że dopełnienie jest z innego zdania składowego niż podmiot.
 Jedno streszczenie na zdanie nazywałoby pierwsze wystąpienie każdej roli,
 czyli role zdania składowego pierwszego, i o reszcie zdania milczało:
 `Wciśnij klawisz wu i zapisz plik konfiguracyjny.` wychodziłoby wtedy
-werdyktem `valid` i wierszem `Object: klawisz wu, Verb: Wciśnij`,
+werdyktem `valid` i wierszem `dopełnienie: klawisz wu, orzeczenie: Wciśnij`,
 z którego czytelnik odczytuje, że parser drugiej połowy zdania nie rozebrał.
 Zdanie o dwóch składowych albo więcej jest w README co trzecie
 ([corpus.md](corpus.md#the-same-queue-over-prose) mówi, czym się ten plik czyta),
@@ -1266,7 +1268,7 @@ i to jest powód, dla którego produkcja swoją głowę wyróżnia:
 grupa imienna otwierająca zdanie dzieli ten materiał z całym zdaniem,
 więc obaj gospodarze wychodzą jednym napisem,
 a rozdziela je dopiero dopisany symbol konstytuenta —
-`Władza zwierzchnia (NP)` obok `Władza zwierzchnia (ClauseConjunct)` —
+`Władza zwierzchnia (grupa_imienna)` obok `Władza zwierzchnia (zdanie_składowe)` —
 po którym wybór jest widoczny, a nie nazwany po imieniu.
 
 Głowę wyróżnia znacznik `Głowa` wewnątrz ciała, a nie numer pozycji obok niego.
@@ -1328,8 +1330,8 @@ python3 -m olski.check -c "Zobacz docs/subset.md."
 
 Suma iloczynów po samych pozycjach liczy nad nim o jedno czytanie więcej,
 niż ma ich to zdanie.
-`Complements` nad `docs/subset.md` buduje się trzema produkcjami
-z `build` w `olski/subset.py` — przez `Object`, przez `Predicative`
+`wypełnienia` nad `docs/subset.md` budują się trzema produkcjami
+z `build` w `olski/subset.py` — przez `dopełnienie`, przez `orzecznik`
 i przez okolicznik narzędnikowy —
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
@@ -1339,7 +1341,7 @@ a orzecznik ginie u rodzica.
 Obie są czytaniami tej rozpiętości, więc pakowanie stawia je pod jedną pozycją
 i robi z nimi to, czego pierwszy warunek żąda.
 Rozchodzi się dopiero to, czym pozycja jest dla rodzica:
-`Predicate → Verb Complements` wiąże jedną wspólną zmienną
+`grupa_orzeczenia → orzeczenie wypełnienia` wiąże jedną wspólną zmienną
 ramę czasownika z pozycją, którą dopełnienie zajmuje,
 a `zobacz` ma ramę domyślną, w której narzędnika nie ma.
 Rodzic wskazuje pozycję, a nie wariant,
@@ -1353,7 +1355,7 @@ czyli przewraca się werdykt, a nie sama liczba obok niego.
 
 Wyjścia są z tego dwa i tańsze jest drugie, bo pierwsze zmierzono i liczy gorzej.
 Pierwszym jest pozycja rozszczepiona po cechach, które wypuszcza:
-dwa warianty `Complements` z tego zdania stoją wtedy w tablicy osobno,
+dwa warianty `wypełnienia` z tego zdania stoją wtedy w tablicy osobno,
 para nieunifikująca się nie powstaje wcale i to zdanie wychodzi z jednym czytaniem.
 Rozszczepienie idzie po cechach wypuszczanych, a nie po całym środowisku,
 więc jest węższe od tego, przed którym broni pierwszy warunek wyżej —
@@ -1363,9 +1365,9 @@ ale nie dość węższe, i widać to na zdaniu, które olski przyjmuje tak samo:
 python3 -m olski.check -c "Projekt jest dla przyjemności."
 ```
 
-`przyjemności` ma pięć czytań, więc `NP` nad nim rozszczepia się na pięć pozycji,
+`przyjemności` ma pięć czytań, więc `grupa_imienna` nad nim rozszczepia się na pięć pozycji,
 a `dla` przepuszcza z nich dwie, obie w dopełniaczu i różne liczbą.
-`Modifier` nad tym przypadka ani liczby nie wypuszcza,
+`wyrażenie_przyimkowe` nad tym przypadka ani liczby nie wypuszcza,
 więc obie wracają pod jedną pozycję jako dwa wyprowadzenia jednego kształtu,
 i suma iloczynów liczy nad tym zdaniem dwa czytania zamiast jednego.
 Nadmiar wychodzi więc rozszczepieniu tam,
@@ -1631,7 +1633,7 @@ ciało z cząstką ogłasza `neg`, ciało bez niej `aff`,
 a dopełnienie mówi, przy którym z nich stoi.
 Płaci za to ścieżką, którą trzeba przeprowadzić przez każdy konstytuent,
 w którym cecha nie idzie od głowy:
-`Verb` ogłasza ją z cząstki stojącej obok niego,
+`orzeczenie` ogłasza ją z cząstki stojącej obok niego,
 a fraza bezokolicznikowa z własną cząstką ma jej nie wypuszczać.
 Zgodność takiej ścieżki nie potrzebuje wcale, bo przypadek, liczbę i rodzaj
 konstytuent bierze od swojej głowy sam (`olski/grammar.py`).

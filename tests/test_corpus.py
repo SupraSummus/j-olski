@@ -153,7 +153,7 @@ def test_a_forest_that_does_not_number_its_root_zero_still_reads():
     #  Only the root carries nid="0"; children are referenced by their own nids.
     sentence = parse_forest(forest(SVO.replace('nid="0"', 'nid="900"')))
     assert sentence.tokens == ("Program", "zapisuje", "ustawienia", ".")
-    assert sentence.spans("Subject") == frozenset({(0, 1)})
+    assert sentence.spans("podmiot") == frozenset({(0, 1)})
 
 
 def test_a_forest_with_no_gold_tree_carries_its_verdict_and_nothing_else():
@@ -210,23 +210,23 @@ def test_cząstka_znaczona_po_nkjp_wyprowadza_zdanie_zwrotne():
 
 
 def test_the_subject_slot_is_read_as_a_subject():
-    assert parse_forest(forest(SVO)).spans("Subject") == frozenset({(0, 1)})
+    assert parse_forest(forest(SVO)).spans("podmiot") == frozenset({(0, 1)})
 
 
 def test_a_bare_subject_slot_counts_too():
     #  Składnica writes both subj and subj(np(nom)).
-    assert parse_forest(forest(svo(subject="subj"))).spans("Subject") == frozenset({(0, 1)})
+    assert parse_forest(forest(svo(subject="subj"))).spans("podmiot") == frozenset({(0, 1)})
 
 
 def test_an_accusative_object_slot_is_read_as_an_object():
-    assert parse_forest(forest(SVO)).spans("Object") == frozenset({(2, 3)})
+    assert parse_forest(forest(SVO)).spans("dopełnienie") == frozenset({(2, 3)})
 
 
 @pytest.mark.parametrize("slot", ["np(bier)", "np(acc)", "np(accgen)"])
 def test_the_object_slot_is_recognized_under_either_naming(slot):
     #  Cases are named in Polish and in Latin interchangeably, sometimes in one
     #  frame, so bier and acc have to mean the same thing.
-    assert parse_forest(forest(svo(obj=slot))).spans("Object") == frozenset({(2, 3)})
+    assert parse_forest(forest(svo(obj=slot))).spans("dopełnienie") == frozenset({(2, 3)})
 
 
 @pytest.mark.parametrize("slot", ["np(dat)", "np(cel)", "np(gen)", "np(dop)"])
@@ -235,7 +235,7 @@ def test_dopełnienie_w_przypadku_z_leksykonu_jest_dopełnieniem(slot):
     #  leksykon (`DOKŁADANE` w `olski/subset.py`), więc drzewo wzorcowe ma tu
     #  z czym się zgodzić. Bez tego zdanie nowo przyjęte liczy się w tabeli
     #  zgodności jako niezgodne, choć rozeszła się sama nazwa roli.
-    assert parse_forest(forest(svo(obj=slot))).spans("Object") == frozenset({(2, 3)})
+    assert parse_forest(forest(svo(obj=slot))).spans("dopełnienie") == frozenset({(2, 3)})
 
 
 def test_the_partitive_object_slot_is_read_as_an_object():
@@ -245,14 +245,14 @@ def test_the_partitive_object_slot_is_read_as_an_object():
     #  tam ta sama co pod `np(accgen)`. Bez tego odwzorowania gold nie ma
     #  dopełnienia, z którym można by się zgodzić, i dobre czytanie liczy się w
     #  tabeli zgodności jako niezgodne (docs/corpus.md).
-    assert parse_forest(forest(svo(obj="np(part)"))).spans("Object") == frozenset({(2, 3)})
+    assert parse_forest(forest(svo(obj="np(part)"))).spans("dopełnienie") == frozenset({(2, 3)})
 
 
 @pytest.mark.parametrize("slot", ["np(inst)", "xp(temp)", "advp", "prepnp(do,gen)"])
 def test_a_slot_olski_has_no_role_for_is_not_forced_into_one(slot):
     sentence = parse_forest(forest(svo(obj=slot)))
-    assert sentence.spans("Object") == frozenset()
-    assert sentence.spans("Subject") == frozenset({(0, 1)})
+    assert sentence.spans("dopełnienie") == frozenset()
+    assert sentence.spans("podmiot") == frozenset({(0, 1)})
 
 
 # --------------------------------------------------------------------------- #
@@ -347,14 +347,14 @@ def test_a_disagreement_outranks_a_partial_on_the_other_role():
         20, 1, 2, "fw", [6], slot="np(bier)", chosen="false"
     )
     sentence = parse_forest(forest(both))
-    assert sentence.spans("Subject") == frozenset({(0, 1), (1, 2)})
+    assert sentence.spans("podmiot") == frozenset({(0, 1), (1, 2)})
     #  The object slot the gold tree marks is on a span olski calls the verb.
     podmieniony = Sentence(
         sent_id=sentence.sent_id,
         text=sentence.text,
         verdict=sentence.verdict,
         segments=sentence.segments,
-        roles=(("Object", 1, 2), ("Subject", 0, 1), ("Subject", 1, 2)),
+        roles=(("dopełnienie", 1, 2), ("podmiot", 0, 1), ("podmiot", 1, 2)),
     )
     assert zmierz_zdanie(podmieniony, podmieniony.segments, comparable=True).agreement == (
         "disagrees"
@@ -366,7 +366,7 @@ def test_a_role_the_gold_tree_marks_and_olski_does_not_is_partial_not_agreement(
     #  reading is not contradicted, so it is not a disagreement, and not a
     #  confirmed agreement either.
     extra = svo(verb="subj(np(nom))")
-    assert parse_forest(forest(extra)).spans("Subject") == frozenset({(0, 1), (1, 2)})
+    assert parse_forest(forest(extra)).spans("podmiot") == frozenset({(0, 1), (1, 2)})
     assert outcome(extra).agreement == "partial"
 
 
