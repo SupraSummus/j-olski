@@ -360,7 +360,7 @@ Cel żąda drugiej strony: zdanie rozebrane, zrozumiane i wypisane z powrotem,
 znak w znak.
 Filtr w środku jest parametrem tego przebiegu, a nie osobnym celem:
 „użyj formy przestarzałej, jeżeli słownik ją ma” odwraca odsiew,
-który robi `_w_rejestrze` w `olski/skład/morfologia.py`,
+który robi `poza_rejestrem` w `olski/rejestr.py`,
 a „nie używaj tej konstrukcji” jest tym, co pomiar różnicowy robi już dziś,
 zdejmując produkcje i porównując werdykty (`harness/ruch.py`).
 Blokuje ten cel pytanie otwarte, a nie brak kodu:
@@ -930,7 +930,7 @@ a odpowiada ich kilka z trzech różnych powodów, i tylko trzeci jest wyborem.
 
 Pierwszym jest kwalifikator, którym słownik odsyła formę poza ten rejestr,
 do dawnej polszczyzny albo do potocznej.
-Kryterium na tę klasę stoi w danych i czyta je `POZA_REJESTREM` w tym samym pliku,
+Kryterium na tę klasę stoi w danych i czyta je `POZA_REJESTREM` w `olski/rejestr.py`,
 wraz z podziałem, którego ta klasa żąda:
 nazwa dziedziny formy poza rejestr nie odsyła, więc `oczy` zostają, a `któren` nie.
 Drugim jest leksem, którego lemat nie wskazuje,
@@ -950,8 +950,8 @@ kryterium po stronie analizy stoi tam, gdzie
 leksem jest tym, co drzewo nazywa,
 a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
-Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` oraz `WieleLeksemów`
-w `olski/skład/morfologia.py`, wraz z
+Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` w `olski/rejestr.py`
+oraz `WieleLeksemów` w `olski/skład/morfologia.py`, wraz z
 [kwalifikatorem](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
 oraz [nazwą leksemu](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
 kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym

@@ -37,6 +37,7 @@ from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from itertools import islice, product
 
+from olski import rejestr
 from olski.grammar import (
     EMPTY,
     Env,
@@ -490,27 +491,18 @@ def _wewnątrz(węższa: tuple[int, int], szersza: tuple[int, int]) -> bool:
     return węższa[0] >= szersza[0] and węższa[1] <= szersza[1]
 
 
-def _klucz_wyprowadzenia(
-    wyprowadzenie: tuple[tuple[Pozycja, ...], list[Production]],
-) -> tuple[int, tuple[tuple[int, int, str], ...]]:
-    """Koszt tego ciała, a pod nim rozpiętości córek malejąco i ich etykiety.
-
-    Kosztem ciała jest koszt najtańszej produkcji, która je składa,
-    bo kilka produkcji o jednym ciele jest jednym czytaniem (:meth:`Las.wyprowadzenia`).
+def _cięcie(ciało: tuple[Pozycja, ...]) -> tuple[tuple[int, int, str], ...]:
+    """Rozpiętości córek malejąco, a pod każdą jej etykieta.
 
     Malejąco, czyli przodem idzie ciało o dłuższej pierwszej córce, a to znaczy,
     że materiał dołączył do konstytuentu tuż przed nim, a nie do tego wyżej.
     Kierunek wybrano pomiarem, bo argumentu z góry na niego nie było
-    (docs/disambiguation.md#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie).
+    (docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
     Etykieta pod rozpiętością rozstrzyga ciała, których gramatyka nie różnicuje
     ani kosztem, ani cięciem, i jest wyborem arbitralnym; liść wchodzi tam pusty,
     bo czytaniem liścia jest sama rozpiętość.
     """
-    ciało, produkcje = wyprowadzenie
-    return (
-        min(production.koszt for production in produkcje),
-        tuple((-pozycja.span[0], -pozycja.span[1], pozycja.label or "") for pozycja in ciało),
-    )
+    return tuple((-pozycja.span[0], -pozycja.span[1], pozycja.label or "") for pozycja in ciało)
 
 
 class _Tablica:
@@ -563,6 +555,10 @@ class _Tablica:
         self._zaczynane = grammar.zaczynane()
         #: Pozycja grafu → terminal → krawędzie, które on w niej bierze.
         self._brane_memo: dict[int, dict[Word, tuple[Segment, ...]]] = {}
+        #: (terminal, rozpiętość) → koszt najtańszego czytania, którym ten terminal
+        #: tę formę bierze (:meth:`koszt_morfologii`). Liczy się razem z ``_brane``,
+        #: bo pyta o to samo: które czytania krawędzi ten terminal przepuszcza.
+        self._koszty_morfologii: dict[tuple[Word, tuple[int, int]], int] = {}
         #: Pozycja grafu → części ciała, którymi da się w niej zacząć córkę.
         self._możliwe_memo: dict[int, frozenset[Part]] = {}
         self._rozbierz()
@@ -700,18 +696,39 @@ class _Tablica:
         if gotowe is None:
             zebrane: dict[Word, dict[Segment, None]] = {}
             for segment in self.krawędzie.get(k, ()):
+                span = (segment.start, segment.end)
                 for reading in segment.readings:
                     pos, cechy = reading.tag.pos, reading.tag.cechy
+                    koszt = rejestr.koszt(reading.kwalifikatory)
                     for terminal in self.grammar.terminale_dla(pos):
                         if (
                             bierze(terminal, pos, reading.lemma, segment.lematy, cechy, EMPTY)
                             is not None
                         ):
                             zebrane.setdefault(terminal, {})[segment] = None
+                            klucz = (terminal, span)
+                            self._koszty_morfologii[klucz] = min(
+                                self._koszty_morfologii.get(klucz, koszt), koszt
+                            )
             gotowe = self._brane_memo[k] = {
                 terminal: tuple(krawędzie) for terminal, krawędzie in zebrane.items()
             }
         return gotowe
+
+    def koszt_morfologii(self, terminal: Word, span: tuple[int, int]) -> int:
+        """Ile kosztuje najtańsze czytanie, którym ten terminal bierze tę formę.
+
+        Najtańsze, a nie każde, bo forma wzięta dwoma czytaniami jest w drzewie
+        jednym liściem i wybór między nimi nie należy do gramatyki (:class:`Leaf`):
+        `Janek` w podmiocie jest i rzeczownikiem, i nazwiskiem nieodmiennym,
+        więc kosztować może tylko to, co niosą oba.
+
+        Pytanie pada z ``EMPTY`` tak samo jak w :meth:`_brane`:
+        unifikacja odsiewa potem czytania, których to pytanie nie odsiało,
+        więc koszt jest tu najwyżej za niski, a nigdy za wysoki.
+        """
+        self._brane(span[0])
+        return self._koszty_morfologii.get((terminal, span), 0)
 
     def możliwe(self, k: int) -> frozenset[Part]:
         """Części ciała, którymi w tej pozycji grafu da się zacząć córkę.
@@ -896,6 +913,12 @@ class Las:
             miejsce = self._czytania_liścia.setdefault((segment.start, segment.end), [])
             miejsce.extend((segment, reading) for reading in segment.readings)
         self._wyprowadzenia: dict[Pozycja, dict[tuple[Pozycja, ...], tuple[Production, ...]]] = {}
+        #: Pozycja → koszt najtańszej morfologii pod nią (:meth:`koszt_morfologii`),
+        #: wpisywany razem z wyprowadzeniami, bo liczy się go z tego samego przejścia.
+        self._koszty: dict[Pozycja, int] = {}
+        #: Pozycje, których koszt właśnie się liczy, czyli strażnik cyklu w
+        #: gramatyce, gdzie symbol stoi pod sobą o tej samej rozpiętości.
+        self._liczone: set[Pozycja] = set()
         self._klasy: dict[Pozycja, dict[Klasa, int]] = {}
         #: (pozycja, klasa) → kombinacja klas córek → produkcje, którymi przeszła.
         #: To jest las już po unifikacji:
@@ -965,10 +988,12 @@ class Las:
 
         Pytana o pozycję, której tablica nie domknęła, oddaje pusty słownik,
         więc jest to zarazem sposób zapytania lasu, czy taki konstytuent w ogóle powstał.
+        Odpowiedź kosztuje przy tym całe poddrzewo, bo wycena schodzi po córkach
+        (:meth:`koszt_morfologii`), a nie samo domknięcie tej jednej pozycji.
 
         To jedno miejsce ustala kolejność, w jakiej las wydaje drzewa —
         dziedziczą ją klasy pozycji, krawędzie pod nimi i drzewa z tych krawędzi —
-        a czym ta kolejność jest, mówi :func:`_klucz_wyprowadzenia`.
+        a rozstrzyga o niej koszt ciała, a pod nim :func:`_cięcie`.
         Nieposortowane szłyby tak, jak ``for_head`` oddaje produkcje,
         czyli w kolejności dopisywania ich do gramatyki (docs/disambiguation.md).
         """
@@ -983,12 +1008,67 @@ class Las:
                     continue
                 for ciało in self._tablica.ciała(production, len(production.body), źródło, k):
                     znalezione.setdefault(ciało, []).append(production)
+        self._liczone.add(pozycja)
+        try:
+            wyceny = {
+                ciało: [
+                    (production.koszt, self._morfologia_ciała(production, ciało))
+                    for production in produkcje
+                ]
+                for ciało, produkcje in znalezione.items()
+            }
+        finally:
+            self._liczone.discard(pozycja)
+        # Morfologia dodaje się do kosztu tej produkcji, która ją wzięła,
+        # bo to jej terminale mówią, którym czytaniem forma tu weszła;
+        # ciało kosztuje potem tyle, co najtańsza z produkcji, które je składają.
+        koszty = {ciało: min(k + m for k, m in pary) for ciało, pary in wyceny.items()}
         zebrane = {
-            ciało: tuple(sorted(produkcje, key=lambda p: p.koszt))
-            for ciało, produkcje in sorted(znalezione.items(), key=_klucz_wyprowadzenia)
+            ciało: tuple(sorted(znalezione[ciało], key=lambda p: p.koszt))
+            for ciało in sorted(znalezione, key=lambda c: (koszty[c], _cięcie(c)))
         }
         self._wyprowadzenia[pozycja] = zebrane
+        self._koszty[pozycja] = min((m for pary in wyceny.values() for _k, m in pary), default=0)
         return zebrane
+
+    def _morfologia_ciała(self, production: Production, ciało: tuple[Pozycja, ...]) -> int:
+        """Koszt morfologii pod tym ciałem: po córce, a pod liściem po terminalu.
+
+        Koszt morfologii sumuje się po poddrzewie, a koszt produkcji zostaje przy
+        swoim ciele, i jest to ten sam warunek czytany dwa razy:
+        koszt rozstrzyga między ciałami jednej pozycji,
+        więc zostaje tam, gdzie konkurencja jest, a idzie wyżej, gdy jej nie ma.
+        Ciała córki rozstrzygnęła sama córka,
+        a czytania formy nie rozstrzyga nikt, bo liść ciał nie ma (:class:`Pozycja`).
+        Bez tego pchania w górę `Wszystko jest podmiotem.` wydaje przodem czytanie
+        z `Wszystko` w okoliczniku, choć opiera się ono na przysłówku,
+        który słownik nazywa regionalnym (``olski/rejestr.py``):
+        te dwa czytania różnią się dopiero pod `zdanie_składowe`,
+        a przysłówek jest trzy pozycje niżej.
+        """
+        return sum(
+            self._tablica.koszt_morfologii(część, dziecko.span)
+            if dziecko.liść
+            else self.koszt_morfologii(dziecko)
+            for część, dziecko in zip(production.body, ciało, strict=True)
+        )
+
+    def koszt_morfologii(self, pozycja: Pozycja) -> int:
+        """Najtańsza morfologia, na jakiej ten konstytuent się opiera.
+
+        Liść kosztuje zero, bo jego czytania widzi dopiero terminal, który je bierze
+        (:meth:`_Tablica.koszt_morfologii`):
+        jedna pozycja liścia obsługuje wszystkie terminale, jakie w niej stoją.
+
+        Pozycja stojąca pod sobą kosztuje tutaj zero i cyklu nie zgłasza,
+        bo zgłasza go :meth:`klasy`, licząc czytania.
+        Tam cykl jest błędem, a tutaj byłby nim porządek postawiony przed
+        odpowiedzią na pytanie, czy zdanie ma w ogóle czytania.
+        """
+        if pozycja.liść or pozycja in self._liczone:
+            return 0
+        self.wyprowadzenia(pozycja)
+        return self._koszty[pozycja]
 
     # -- unifikacja po lesie ------------------------------------------------ #
 

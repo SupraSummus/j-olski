@@ -108,7 +108,7 @@ bo o zdaniu z jednym czytaniem nie ma czego pytać.
 Punktem odniesienia dla każdej takiej maszyny
 jest to, co ten parser oddaje za darmo.
 Las wydaje czytania w kolejności, którą ustala
-`wyprowadzenia` w `olski/parse.py` ([sekcja niżej](#kolejność-czytań-ustala-koszt-produkcji-i-późne-domknięcie)),
+`wyprowadzenia` w `olski/parse.py` ([sekcja niżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
 a kolejność ustalona jest rankingiem,
 tyle że takim, który nie widział ani jednego drzewa wzorcowego.
 Nad zdaniami, które olski odrzuca za wieloznaczność,
@@ -125,21 +125,23 @@ Rzędu wielkości to nie rusza:
 architektura, o którą tu chodzi, startuje z dwóch trzecich zrobionych,
 i to jest ta część pytania, o której najłatwiej zapomnieć.
 
-### Kolejność czytań ustala koszt produkcji i późne domknięcie
+### Kolejność czytań ustala koszt i późne domknięcie
 
 Kolejność, którą mierzy sekcja wyżej, jest deklaracją.
 Las porządkuje ciała jednej pozycji trzema rzeczami po kolei
 (`wyprowadzenia` w `olski/parse.py`):
-kosztem produkcji, potem miejscem cięcia, a na końcu etykietą córki.
+kosztem, potem miejscem cięcia, a na końcu etykietą córki.
 Werdyktu żadna z nich nie rusza — czytań jest tyle samo i mówią to samo —
 więc rozstrzygają one o tym, co czytelnik widzi u góry wydruku
 i co mieści się w czytaniach wypisywanych przed granicą wyliczania.
 
-Koszt jest liczbą całkowitą stojącą przy produkcji.
+Koszt jest liczbą całkowitą i mówią o nim dwie rzeczy naraz:
+produkcja, którą ciało złożono, oraz morfologia, na której ono stoi.
 Całkowitą, bo jest deklaracją, a nie wagą wyuczoną:
 koszt ułamkowy byłby logarytmem prawdopodobieństwa,
 czyli tym modelem, którego [ten dokument nie chce](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje).
-Wypisywać go przy każdej produkcji nie sposób,
+
+Kosztu produkcji nie sposób wypisywać przy każdej,
 bo jest ich tysiąc kilkaset, z czego blisko połowa to samo `orzeczenie`,
 a wypisuje je rozwinięcie z jednej deklaracji.
 Liczby są przez to trzy i wszystkie mówią to samo:
@@ -148,6 +150,27 @@ Dwie wyliczają koszt z deklaracji (`olski/precedencja.py`) —
 konstytuent bierze okolicznik, a jego córki stoją w innym szyku niż wypisany —
 a trzecia mówi o jednej rodzinie produkcji, że jest konstrukcją nacechowaną,
 i jest nią orzecznik wysunięty przed kopulę (`olski/subset.py`).
+
+Czwarta liczba wycenia morfologię i orzeka o słowniku, a nie o gramatyce:
+czytanie oparte na formie, którą SGJP opatrzył kwalifikatorem odsyłającym ją
+poza ten rejestr, schodzi niżej od czytania, które na takiej formie się nie opiera
+(`olski/rejestr.py`).
+Częstością liczba ta nie jest i być nie może, bo słownik częstości nie zna:
+niesie on przy czytaniu nazwy i kwalifikatory, a licznika nie niesie żadnego.
+Kwalifikator mówi przy tym o formie więcej niż jedną rzecz i tylko jedna z nich
+jest rejestrem, więc odsyłające wypisuje lista, a nie wzorzec;
+wywód tego podziału wraz z ceną trzyma
+[sklad.md](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem),
+a tę samą listę czyta synteza, która formę odesłaną zdejmuje zamiast liczyć ją kosztem.
+
+Koszt morfologii idzie w górę, a koszt produkcji zostaje przy swoim ciele,
+i jest to ten sam warunek czytany dwa razy:
+koszt rozstrzyga między ciałami jednej pozycji,
+więc zostaje tam, gdzie konkurencja jest, a idzie wyżej, gdy jej nie ma.
+Ciała córki rozstrzygnęła sama córka,
+a czytania formy nie rozstrzyga nikt, bo liść ciał nie ma:
+dwa czytania jednej formy są jednym liściem (`Pozycja` w `olski/parse.py`).
+Koszt morfologii liczony na miejscu nie ruszyłby przez to ani jednego zdania.
 
 Cięcie rozstrzyga ciała jednego kosztu i idzie rozpiętością malejąco,
 czyli przepuszcza przodem to czytanie, w którym wyrażenie dołączyło
@@ -172,9 +195,25 @@ bo ciała o córkach tej samej rozpiętości rozstrzyga wtedy alfabet etykiet.
 Bank drzew ma oba szyki i koszt wygrywa nad nim tyle zdań, ile traci,
 więc pomiar milczy i rozstrzyga sama deklaracja:
 szyk wypisany w niej jest podstawowy, a wysunięcie jest nacechowane.
-Czwarta taka liczba nie została: odsunięcie okolicznika od końca konstytuenta
+Czwarty koszt produkcji nie został: odsunięcie okolicznika od końca konstytuenta
 wyceniano tak samo i nie rusza ono ani jednego zdania,
 bo miejsca okolicznika różnią się rozpiętością córek, a o tych mówi już cięcie.
+
+**Kosztu morfologii ten pomiar nie widzi wcale i jest to brak w przyrządzie.**
+Bank drzew mierzy się morfologią złotą, czyli czytaniem wziętym z drzewa
+wzorcowego, a takie czytanie kwalifikatora nie niesie
+([corpus.md](corpus.md#what-the-corpus-contains)),
+więc nad Składnicą koszt ten jest zerem przy każdej formie i cały wydruk
+wychodzi ten sam co bez niego, co do wiersza.
+Co mierzy, widać przez to nad prozą tego repozytorium, a mierzy niewiele:
+przestawia pierwsze czytanie kilkunastu zdań na blisko siedem tysięcy,
+werdyktu nie ruszając w żadnym.
+Kilka z nich przestawia w stronę czytania trafnego —
+`Wszystko jest podmiotem.` wychodziło pierwszym czytaniem z `Wszystko`
+w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem —
+a większość przestawia w obrębie zdań, których gramatyka i tak nie czyta dobrze.
+To jedno zdanie trzyma `tests/test_kolejność.py`, bo nad Składnicą nie ma czego
+trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`TODO.md`](../TODO.md).
 
 Kolejności dopisań nie widać w żadnej z tych trzech rzeczy i to jest cel.
 Przestawiona zmieniałaby pierwsze czytanie mniej więcej w połowie zdań

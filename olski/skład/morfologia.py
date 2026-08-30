@@ -16,7 +16,8 @@ Tag rozstrzygnięty wskazuje kilka form, a wybór między nimi jest wyborem,
 którego autor drzewa nie zrobił i nie ma gdzie zrobić.
 Klasy tego wyboru schodzą stąd, każda inaczej.
 Kwalifikator, którym słownik odsyła formę poza rejestr, zdejmuje ją
-i tę klasę zdejmuje ``POZA_REJESTREM`` niżej.
+i tę klasę zdejmuje ``olski/rejestr.py``, wraz z analizą, która tę samą listę
+czyta kosztem zamiast odsiewem.
 Leksem, którego lemat nie wskazuje, zostaje wyborem i jest wyborem autora,
 więc ma miejsce, w którym się go pisze: ``olski/skład/leksemy.py``,
 a nienapisany zgłasza się wyjątkiem, zamiast zapaść tutaj po cichu.
@@ -27,6 +28,7 @@ from __future__ import annotations
 import functools
 
 from olski.morph import generuj, tag
+from olski.rejestr import poza_rejestrem
 from olski.skład.leksemy import leksem
 
 
@@ -62,54 +64,6 @@ class WieleLeksemów(Exception):
         )
 
 
-#: Kwalifikatory, którymi słownik odsyła formę poza rejestr tego kompilatora.
-#: Wypisane są odsyłające, a nie przyjmowane, bo kwalifikator mówi o formie
-#: dwie różne rzeczy i tylko jedna z nich jest rejestrem.
-#: ``anat.`` przy ``oczy`` i ``żegl.`` przy ``dziobie`` nazywają dziedzinę,
-#: czyli znaczenie, w którym leksem tak się odmienia,
-#: więc odsianie po każdym kwalifikatorze naraz zamieniłoby zdanie legendy
-#: `Bazyliszek otworzył oczy.` na `Bazyliszek otworzył oka.`, czyli na oczka w sieci.
-#: Podział ten kosztuje dwa razy i oba razy cicho:
-#: nazwa rejestru, której tu nie ma, przechodzi jak nazwa dziedziny,
-#: a nazwa wpisana tu z literówką nie odsiewa niczego i nie zgłasza tego nigdzie,
-#: bo świadka w słowniku ta lista nie ma, a leksykon przyimków obok ma połowę swojego.
-#: Skąd się wzięła i czym ją przeliczyć, mówi ``docs/design-notes.md``.
-POZA_REJESTREM = frozenset(
-    {
-        "daw.",
-        "daw._dziś_gwar.",
-        "gwar.",
-        "indyw.",
-        "podniosłe",
-        "poet.",
-        "pogard.",
-        "pot.",
-        "przest.",
-        "przest._dziś_książk.",
-        "reg.",
-        "rub.",
-        "rzad.",
-        "środ.",
-        "wulg.",
-        "żart.",
-    }
-)
-
-
-def _w_rejestrze(kwalifikatory: list[str]) -> bool:
-    """Czy żaden kwalifikator formy nie odsyła jej poza rejestr.
-
-    Słownik wydaje kwalifikatory sklejone przecinkiem w jednym napisie,
-    a ``daw._dziś_gwar.`` jest jednym kwalifikatorem wraz z podkreślnikami,
-    więc rozdzielać wolno tylko przecinek.
-    Dość jednego odsyłającego, żeby forma wyszła, także obok nazwy dziedziny:
-    ``ócz`` niesie kwalifikator dawny razem z anatomicznym i wychodzi,
-    a ``oczy``, które niosą sam anatomiczny, zostają.
-    """
-    nazwy = {nazwa for napis in kwalifikatory for nazwa in napis.split(",")}
-    return not nazwy & POZA_REJESTREM
-
-
 @functools.lru_cache(maxsize=4096)
 def paradygmat(nazwa: str, pos: str) -> tuple[tuple[str, frozenset, str], ...]:
     """Formy nazwy w danej części mowy, które ten rejestr bierze, wraz z cechami i leksemem.
@@ -129,7 +83,7 @@ def paradygmat(nazwa: str, pos: str) -> tuple[tuple[str, frozenset, str], ...]:
     formy = []
     for forma, identyfikator, surowy, _nazwy, kwalifikatory in generuj(leksem(nazwa)):
         czytanie = tag(surowy)
-        if czytanie.pos == pos and _w_rejestrze(kwalifikatory):
+        if czytanie.pos == pos and not poza_rejestrem(kwalifikatory):
             formy.append((forma, czytanie.features, identyfikator))
     return tuple(formy)
 

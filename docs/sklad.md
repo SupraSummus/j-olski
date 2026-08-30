@@ -1118,10 +1118,15 @@ Ten identyfikator czyta jeden kierunek:
 synteza pyta o niego przez `olski/skład/leksemy.py`
 ([niżej](#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)),
 a `olski/morph.py` ucina go przy analizie.
-Kwalifikator słownik niesie tym samym polem, a czyta go jeden kierunek:
-`POZA_REJESTREM` w `olski/skład/morfologia.py` odsiewa nim formy przed syntezą,
-a analiza wyrzuca go razem z resztą pól,
-więc `projekta` oznaczone jako `daw.` ze składu nie wyjdzie, a do parsera wejdzie.
+Kwalifikator słownik niesie tym samym polem, a czytają go oba kierunki,
+każdy inaczej, i jedna lista mówi im obu to samo (`POZA_REJESTREM`
+w `olski/rejestr.py`).
+Synteza formę odesłaną poza rejestr zdejmuje, bo wybiera jedną z kilku poprawnych;
+analiza jej nie zdejmuje, bo zdanie z formą dawną polszczyzna ma, tylko liczy ją
+kosztem, przez który czytanie na niej stojące schodzi niżej w kolejności
+([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+`projekta` oznaczone jako `daw.` ze składu przez to nie wyjdzie,
+a do parsera wejdzie czytaniem droższym od pozostałych.
 Brak słowa, rozdzielony leksem i przeczytany kwalifikator
 widać naraz, nad `pl.sgjp.sgjp-2026.06.01`:
 
@@ -1181,7 +1186,8 @@ czyli na oczka w sieci albo w rosole.
 Nazwa dziedziny nie odsyła tu formy poza rejestr, tylko mówi, w którym znaczeniu
 leksem tak się odmienia, i jest to zupełnie inne zdanie o tej samej formie.
 
-Podział jest więc rozstrzygnięciem, a nie odczytem, i stoi w `POZA_REJESTREM`.
+Podział jest więc rozstrzygnięciem, a nie odczytem,
+i stoi w `POZA_REJESTREM` w `olski/rejestr.py`.
 Nazwy, które w słowniku występują, wypisuje polecenie
 nad listą lematów, którą to repozytorium już ma:
 
