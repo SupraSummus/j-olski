@@ -325,9 +325,9 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 
 ```text
 <text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
-                  4 odczytania, różne w Subject; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” ma 2 odczytania
+                  4 odczytania, różne w roli: podmiot; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” ma 2 odczytania
 <text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
-                  2 odczytania, różne w Object; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
+                  2 odczytania, różne w roli: dopełnienie; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
 ```
 
 Pierwsze niesie obok przyłączenia drugi wybór, ten słownikowy:
@@ -507,7 +507,7 @@ Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —
 `obrona cywilna`, `informacja publiczna`, `władza zwierzchnia`, `dobro wspólne` —
 a potem dokłada mu dopełniacz i pisze
 `zadania ochrony ludności`, `dobrem wspólnym wszystkich obywateli`.
-`NPConjunct` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
+`człon_imienny` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
 osobno rzeczownik z dopełniaczem,
 osobno każde z nich z wyrażeniem przyimkowym za sobą,
 a obie przydawki naraz bierze pozycja dopisana dla tego rejestru:

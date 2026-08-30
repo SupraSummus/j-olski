@@ -71,7 +71,7 @@ GŁĘBOKOŚCI = (1, MAX_READINGS)
 #: Jedna lista na oba pytania, bo zgodność czytania przyjętego i ocalenie czytania
 #: wśród wielu są tą samą miarą zadaną innym zbiorom zdań,
 #: a rozejście się tych list zrobiłoby z nich dwie miary o jednej nazwie.
-PORÓWNYWANE_ROLE = ("Subject", "Object")
+PORÓWNYWANE_ROLE = ("podmiot", "dopełnienie")
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -144,9 +144,9 @@ class Outcome(Wynik):
         # failure the whole ambiguity design exists to prevent: olski admits SVO
         # and OVS, so a sentence read with the subject and object exchanged is
         # not an imprecise analysis but the opposite claim, confidently made.
-        subject = frozenset(node.span for node in reading.find("Subject"))
-        objects = frozenset(node.span for node in reading.find("Object"))
-        if subject & self.sentence.spans("Object") or objects & self.sentence.spans("Subject"):
+        subject = frozenset(node.span for node in reading.find("podmiot"))
+        objects = frozenset(node.span for node in reading.find("dopełnienie"))
+        if subject & self.sentence.spans("dopełnienie") or objects & self.sentence.spans("podmiot"):
             return "reversed"
 
         # Both roles are judged before either verdict is returned. Returning on

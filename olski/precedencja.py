@@ -63,8 +63,8 @@ class Rozwinięcie:
     tam; co kosztowało wyjmowanie jej, trzyma
     docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk.
 
-    Miejsca nie dostaje ``Predicate``, bo okolicznik bierze ono samo, przez
-    ``Complements``, więc miejsce obok niego byłoby drugim wyprowadzeniem jednego
+    Miejsca nie dostaje ``grupa_orzeczenia``, bo okolicznik bierze ono samo, przez
+    ``wypełnienia``, więc miejsce obok niego byłoby drugim wyprowadzeniem jednego
     napisu. Dotyczy to obu miejsc, jakie taka córka ma — tego za nią i tego na
     końcu konstytuenta — i dlatego pyta o nie jeden zbiór, a nie dwa.
     """

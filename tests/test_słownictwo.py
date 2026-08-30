@@ -74,7 +74,7 @@ def test_uchylenie_oddaje_całe_czytanie_więc_zaimek_traci_jednoznaczność():
     z_deklaracją = morphology(zdanie, Słownictwo(wpuszczane=frozenset({"go"})))
     znalezione = werdykt(zdanie, z_deklaracją, None)
     assert znalezione.status == "ambiguous"
-    assert any("Subject" in jedno for (jedno,) in znalezione.readings)
+    assert any("podmiot" in jedno for (jedno,) in znalezione.readings)
 
 
 def test_przydawki_dopełniaczowej_deklaracja_nie_kupuje_bo_niesie_ją_zaimek():

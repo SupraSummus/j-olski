@@ -86,13 +86,14 @@ Tak samo składa się wiersz morfologii, i z tego samego powodu:
 pod tym kluczem idzie forma wraz ze swoimi odczytaniami,
 a nie gotowy wiersz o niej.
 
-Klucze JSON-a wybieramy sami, więc są po polsku.
+Klucze JSON-a wybieramy sami, więc są po polsku,
+i po polsku jest też nazwa roli w odczytaniu —
+`podmiot`, `dopełnienie`, `orzeczenie`, `wyrażenie_przyimkowe` —
+bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset.py`.
 Po angielsku zostaje status w znaczku —
 `valid`, `ambiguous`, `rejected`, `unclosed`, `fragment` —
 i legenda pod polem tłumaczy każdy z nich na polskie zdanie.
-Zostaje też nazwa roli w odczytaniu — `Subject`, `Object`, `Verb`, `Modifier` —
-bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset.py`.
-Co przekład każdej z tych dwóch rzeczy kosztuje, trzyma [`TODO.md`](../TODO.md).
+Co kosztuje przekład statusu, trzyma [`TODO.md`](../TODO.md).
 
 ## API oddaje dane, a nie HTML
 
@@ -194,8 +195,8 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
    "czytania": [
     [
      {
-      "Object": "plik konfiguracyjny",
-      "Verb": "Zapisz"
+      "dopełnienie": "plik konfiguracyjny",
+      "orzeczenie": "Zapisz"
      }
     ]
    ],

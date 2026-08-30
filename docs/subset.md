@@ -1023,7 +1023,7 @@ and a sentence that cannot satisfy it is not in the language.
 
 Czas przeszły stoi w kolejce ze Składnicy
 ([corpus.md](corpus.md#where-the-analyses-stop)),
-a kosztuje więcej niż jedną formę czasownika w produkcji `Verb`.
+a kosztuje więcej niż jedną formę czasownika w produkcji `orzeczenie`.
 Forma `praet` niesie rodzaj i liczbę, a osoby nie niesie wcale,
 czyli dokładnie odwrotnie niż `fin`,
 więc zgodność, którą czas teraźniejszy zostawiał grupie imiennej,
@@ -1372,7 +1372,7 @@ Nieobecność cechy jest tym samym mechanizmem, którym grupa współrzędna nie
 rodzaju. Ta sama droga sięga wysuniętego zaimka względnego —
 `polszczyzna, której nikt nie napisał` obok `polszczyzna, którą ktoś napisał` —
 i tam kosztuje najwięcej, bo przypadek zaimka rozstrzyga przeczenie stojące za
-całą resztą zdania składowego, więc `RelativeCore` ma dwa razy tyle ciał.
+całą resztą zdania składowego, więc `rdzeń_względny` ma dwa razy tyle ciał.
 
 Poza biernik dopełniacz negacji nie sięga.
 Orzecznik narzędnikowy stoi przy `nie jest` tak samo jak przy `jest`,
@@ -1385,7 +1385,7 @@ nie zyskuje przy przeczeniu nowej pozycji.
 Produkcja mówi naraz dwie rzeczy: z czego zdanie się składa
 i w jakiej kolejności te córki stoją.
 Rozdzielone, te dwie rzeczy mieszczą się w kilku deklaracjach,
-z których rozwinięcie pisze kilkadziesiąt ciał `ClauseConjunct`.
+z których rozwinięcie pisze kilkadziesiąt ciał `zdanie_składowe`.
 Deklaracja wymienia same córki,
 warunek precedencji obok niej mówi, które ich przestawienia wchodzą,
 a rozwinięcie składa jedno z drugim przed rozbiorem
@@ -1404,7 +1404,7 @@ i żąda tego samego od każdego szyku dopisanego później.
 Miejsce na okolicznik wylicza to samo rozwinięcie.
 Reguła jest jedna: okolicznik staje po każdej córce, która jest grupą,
 oraz na końcu zdania, którego nie zamyka orzeczenie —
-to bierze swój okolicznik samo, przez `Complements`.
+to bierze swój okolicznik samo, przez `wypełnienia`.
 Pierwsza połowa tej reguły jest odpowiedzią na przyłączenie oddawane czytelnikowi
 ([niżej](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)):
 gdzie grupa imienna bierze wyrażenie przyimkowe za sobą,
@@ -1455,9 +1455,9 @@ and stops every SVO sentence competing with a verb-initial reading of itself.
 
 A coordination is one **conjunct**, a conjunction, and the rest,
 and the grammar's symbols are named for it:
-`NPConjunct` is a noun phrase with no coordination in it,
-`NP` is one that may have.
-`NP` is also where a relative clause attaches,
+`człon_imienny` is a noun phrase with no coordination in it,
+`grupa_imienna` is one that may have.
+`grupa_imienna` is also where a relative clause attaches,
 for a reason [below](#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)
 that has nothing to do with coordination.
 An adjective attaches inside a conjunct and never above the coordination,
@@ -1489,7 +1489,8 @@ Ciąg przymiotnikowy dostaje tę pozycję tak samo,
 choć zgodność niesie przez cały siebie:
 wyrażenie przyimkowe żadnej cechy nie zmienia, więc zasięg zostaje dwojaki.
 
-Pozycję tę zapisuje ciało ze spójnikiem, a nie produkcja `NP → NP Modifier`.
+Pozycję tę zapisuje ciało ze spójnikiem,
+a nie produkcja `grupa_imienna → grupa_imienna wyrażenie_przyimkowe`.
 O zasięgu obie mówiłyby to samo.
 Różni je liczba czytań: produkcja rekurencyjna dokłada drugie wyprowadzenie
 każdej grupie bez koordynacji, a werdykt nie ma czym go odróżnić od pierwszego,
@@ -1499,7 +1500,7 @@ więc ciała są dwa, po jednym na spójnik i na przecinek,
 i tak samo dwa są nad ciągiem przymiotnikowym.
 
 Ciąg dłuższy niż dwuczłonowy ma tę pozycję na każdym swoim poziomie,
-bo ogonem ciągu jest `NP`:
+bo ogonem ciągu jest `grupa_imienna`:
 `A i B i C w drzewie` czyta wyrażenie przy samym `C`, przy `B i C`
 oraz przy całej trójce, po jednym wyprowadzeniu na zasięg i bez nawiasowań ponad to.
 
@@ -1523,7 +1524,8 @@ Kto chce liczby dzisiejszej, puszcza polecenia z
 Dwa symbole zamiast jednego wybrano dla liczby czytań, a nie dla parsera.
 Tablica Earleya bierze rekursję lewostronną,
 co pilnuje test w `tests/test_subset.py`,
-więc `NP → NP conj NP` dałoby się tu wpisać jedną produkcją w miejsce dwóch.
+więc `grupa_imienna → grupa_imienna conj grupa_imienna`
+dałoby się tu wpisać jedną produkcją w miejsce dwóch.
 Powiedziałoby ono o zasięgu dokładnie to samo, bo zawężenie wyżej stoi na rodzaju,
 którego ciąg nie ma, a nie na kształcie produkcji —
 i wypuszczałoby ciąg tyloma wyprowadzeniami, ilu on nawiasowań dopuszcza:
@@ -1624,7 +1626,7 @@ Nowy i tania parser zapisuje ustawienia."
 ```
 
 Para symboli jest tu ta sama, którą ma grupa imienna i przymiotnikowa:
-`Adjective` jest ciągiem, a `AdjectiveConjunct` jednym członem,
+`przydawka` jest ciągiem, a `człon_przydawki` jednym członem,
 i wybrano ją dla liczby czytań, tak samo jak tam
 ([wyżej](#nothing-above-a-coordination-distributes-into-it)).
 
@@ -1729,7 +1731,7 @@ a teraz stoi obok niego to, które ma czytelnik
 
 **Średnik rozdziela tak samo jak dwukropek i tak samo nie kosztuje nic.**
 `Program zapisuje ustawienia; cena jest niska.` wyprowadza się ciałem
-`Sentence → Clause ; Clause .`, czyli tym samym, tylko z drugim znakiem,
+`wypowiedzenie → zdanie ; zdanie .`, czyli tym samym, tylko z drugim znakiem,
 a cena jest i tu zerowa z gramatyki: średnika nie bierze żaden inny terminal.
 
 Za tym znakiem stoi rejestr, a nie polszczyzna.
@@ -1747,7 +1749,7 @@ którymi polszczyzna myślnik pisze.
 zdanie, które myślnik pisze łącznikiem, zostaje odrzucone.
 
 Drugiego znaku rozdzielającego zdanie nie bierze — ani dwóch średników, ani
-średnika razem z dwukropkiem — bo `Clause` żadnego z nich nie ma, więc rekurencji
+średnika razem z dwukropkiem — bo `zdanie` żadnego z nich nie ma, więc rekurencji
 nie ma czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
 [niżej](#what-it-does-not-cover-yet).
 Najwięcej kosztuje ona przy myślniku, bo ten rejestr stawia go parą częściej
@@ -1827,7 +1829,7 @@ Jest to ta sama odmowa, którą olski wydaje o przyłączeniu
 z jedną różnicą: przyłączenie olski melduje jako wieloznaczność,
 bo gramatyka ma tam kilka wyprowadzeń,
 a tutaj wyprowadzenie jest jedno i milczy o tym, do czego człon się odnosi.
-Werdykt nazywa więc rolę `Ellipsis` i wypisuje pod nią cały napis.
+Werdykt nazywa więc rolę `elipsa` i wypisuje pod nią cały napis.
 
 **Spójnik rozstrzyga, czy ten człon wchodzi, i lista jest węższa od zdaniowej.**
 `a`, `ale`, `lecz`, `natomiast`, `tylko` i `czyli` biorą człon bez czasownika,
@@ -1972,13 +1974,14 @@ cząstka w liście okoliczników i cząstka na czele zdania składowego.
 
 Przy zdaniu cząstka dostaje rolę osobną od przysłówka, choć pozycję ma tę samą,
 bo werdykt nazywa rolę etykietą węzła:
-`Adverb: już` mówiłoby o zdaniu, że ma okolicznik przysłówkowy, którego ono nie ma.
+`okolicznik_przysłówkowy: już` mówiłoby o zdaniu,
+że ma okolicznik przysłówkowy, którego ono nie ma.
 
 Drugim gospodarzem jest grupa imienna,
 bo tam polszczyzna cząstkę stawia tak samo:
 `Nawet ptaki przestały śpiewać.` mówi o ptakach, a nie o przestawaniu,
 i widać to po zasięgu podmiotu, a nie po żadnej roli.
-Ciałem jest `NPConjunct → part NPConjunct`, a osobę przepuszcza ono,
+Ciałem jest `człon_imienny → part człon_imienny`, a osobę przepuszcza ono,
 bo cząstka staje i przed zaimkiem: `Nawet ja zapisuję ustawienia.`
 
 W grupie cząstka etykiety nie nosi, bo widać ją w napisie roli,
@@ -2850,7 +2853,7 @@ python3 -m olski.check --readings -c "Parser pokazuje autorowi oba czytania."
 ```text
 <text>: valid     Parser pokazuje autorowi oba czytania.
                   jedno odczytanie
-                  - Subject: Parser, Object: autorowi + oba czytania, Verb: pokazuje
+                  - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
 ```
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
@@ -2868,10 +2871,10 @@ Jedno czytanie, pewne siebie i błędne, jest gorsze niż odmowa.
 
 Rozdziela je miejsce przecinka w produkcji, a nie warunek obok niej.
 Koordynacja ma przecinek na poziomie zdania i powtarza tam własny symbol:
-`Clause → ClauseConjunct , Clause`.
+`zdanie → zdanie_składowe , zdanie`.
 Podrzędność wciąga przecinek do konstytuentu, który sama tworzy,
-więc `SubordinateClause → , że Clause` jest jednym konstytuentem wraz z przecinkiem,
-a `Clause` się w nim nie powtarza.
+więc `zdanie_podrzędne → , że zdanie` jest jednym konstytuentem wraz z przecinkiem,
+a `zdanie` się w nim nie powtarza.
 Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse.py`)
 i po tym samym rozpoznaje go sonda, która przecinek zdejmuje.
 Samo powtórzenie symbolu im nie wystarcza, bo nad ciągiem stoi jeszcze
@@ -2913,7 +2916,7 @@ pozycją ramy, którą [leksykon walencyjny](#walencja-jest-leksykonem-o-ramie-d
 czasownikowi daje albo odbiera.
 Wchodzi więc jako czwarta pozycja ramy domyślnej,
 a nie jako produkcja dopisana do każdego szyku zdania z osobna,
-i tak samo jak tamte trzy dochodzi do czasownika przez `Complements`.
+i tak samo jak tamte trzy dochodzi do czasownika przez `wypełnienia`.
 Kosztuje to jedno słowo w `RAMA_DOMYŚLNA` i jedno ciało w `olski/subset.py`.
 
 Spójnikiem jest `że` i nic poza nim,
@@ -2954,7 +2957,7 @@ Gdy linter sprawdza tekst, program zapisuje ustawienia.
 Zdanie z `gdy` mówi, kiedy zachodzi to, o czym mówi zdanie obok niego,
 i mówi to o całym tym zdaniu, a nie o jego orzeczeniu,
 więc dochodzi tam, gdzie dochodzi wyrażenie przyimkowe wysunięte przed zdanie:
-do zdania składowego, a nie do `Complements`.
+do zdania składowego, a nie do symbolu `wypełnienia`.
 Dochodzi zarazem do całego ciągu współrzędnego, a nie do samego składowego w nim,
 i te dwa czytania są dwoma zdaniami:
 `Dwoisz się i troisz, aby rozwiązać problemy.` mówi o obu członach naraz,
@@ -3120,10 +3123,11 @@ gramatyka przyłączenia nie wybiera —
 z tą różnicą, że tutaj większość wyborów odbiera zgodność,
 czyli to samo, czym odbiera je czytelnik.
 
-Zdanie względne dochodzi przy tym do `NP`, a nie do `NPConjunct`,
+Zdanie względne dochodzi przy tym do symbolu `grupa_imienna`, a nie `człon_imienny`,
 bo na poziomie członu produkcja rekurencyjna dałaby jednej strukturze
 dwa wyprowadzenia, a te [są dwoma odczytaniami](#co-się-liczy-jako-jedno-odczytanie).
-Wyżej ten wybór nie istnieje, bo `NPConjunct` bierze wszystko, co grupa niesie przed nim.
+Wyżej ten wybór nie istnieje,
+bo `człon_imienny` bierze wszystko, co grupa niesie przed nim.
 Kosztuje to symetrię w koordynacji:
 człon prawy zdanie względne unieść może, a lewy nie,
 więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia.
@@ -3335,7 +3339,7 @@ które weszły razem z wykluczeniem
 Wysunięty konstytuent zajmuje w zdaniu składowym rolę:
 `która` w `reguła, która rozstrzyga` jest podmiotem,
 a `którą` w `polszczyzna, którą napisał autor` dopełnieniem.
-`_wysunięta_rola` w `olski/subset.py` stawia nad nim `Subject` albo `Object`,
+`_wysunięta_rola` w `olski/subset.py` stawia nad nim `podmiot` albo `dopełnienie`,
 czyli tę samą etykietę, którą nosi rola wypełniona na swoim miejscu.
 
 Bez tej etykiety olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,
@@ -3348,7 +3352,7 @@ Etykieta jest osobnym konstytuentem nad czołem, a nie cechą na nim,
 bo rolę czyta się z etykiety węzła (`Node.find` w `olski/parse.py`),
 i stąd bierze się trudność tej pozycji.
 Symbol wpisany do ciała wpuszcza tam wszystkie swoje produkcje,
-a `Subject → NP` wpuszcza w to miejsce każdą grupę imienną w mianowniku:
+a `podmiot → grupa_imienna` wpuszcza w to miejsce każdą grupę imienną w mianowniku:
 `reguła, ta reguła rozstrzyga` byłoby wtedy zdaniem względnym,
 a `Który aktor robi wrażenie.` zdaniem oznajmującym o takim podmiocie,
 czyli wróciłoby czytanie, które zdjął
@@ -3363,9 +3367,9 @@ bo każde czoło należy do jednej rodziny.
 Wspólna wartość zlałaby te rodziny, więc `ustawa, który przepis obowiązuje`
 wychodziłoby zdaniem względnym z grupą pytajną na czole,
 a `Który zapisuje ustawienia?` pytaniem o sam zaimek.
-Tę samą robotę wykonuje przy `Predicative` cecha `valency`:
+Tę samą robotę wykonuje przy orzeczniku cecha `valency`:
 rozdziela orzecznik zgodny od narzędnikowego, a kopula żąda drugiego z nich.
-Cechę `czoło` niesie `Predicative` obok tamtej i z tego samego powodu co podmiot:
+Cechę `czoło` niesie `orzecznik` obok tamtej i z tego samego powodu co podmiot:
 orzecznik wysunięty na czoło jest tam trzecią rolą, którą czoło wypełnia
 ([wyżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 
@@ -3389,18 +3393,18 @@ Tych dwóch liczb nie bierze żadne polecenie i bierze je ręka,
 bo sonda różnicowa liczy przejścia werdyktu (`harness/ruch.py`),
 a ta pozycja nie rusza ani jednego.
 Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czołem:
-`Subject → czoło` po jednej na czoło, `Object → czoło` po dwóch,
-bo tam rozdziela je przeczenie, oraz `Predicative → czoło` po jednej,
+`podmiot → czoło` po jednej na czoło, `dopełnienie → czoło` po dwóch,
+bo tam rozdziela je przeczenie, oraz `orzecznik → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
 `python3 -m harness.pomiar Składnica-frazowa-180723/` puszczony nad taką gramatyką
 wydaje obie tabele bez etykiety, a różnica wierszy jest tymi liczbami.
 Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
 
 Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
-`Interrogative` mówi, o co zdanie pyta,
+`grupa_pytajna` mówi, o co zdanie pyta,
 i bez niej pytanie przyjęte nie mówiłoby tego wcale
-(`PYTAJNY` w `olski/subset.py`),
-a `Subject` albo `Object` mówi, czym ta grupa w zdaniu jest,
+(`GRUPA_PYTAJNA` w `olski/subset.py`),
+a `podmiot` albo `dopełnienie` mówi, czym ta grupa w zdaniu jest,
 i tego żąda bank drzew, bo grupy pytajnej nie zna
 i obsadza `Który aktor` podmiotem.
 Streszczenie wypisuje przez to jedną rozpiętość dwa razy,
@@ -3453,7 +3457,7 @@ o którym ten rzeczownik orzeka.
 Kopuła opuszczona takiego wyrażenia żąda, więc `Mowa o zadaniach.` jest polszczyzną,
 a `Mowa.` nie jest.
 Zdanie względne bierze to wyrażenie skądinąd:
-`o których` leży poza zdaniem składowym, bo wysuwa je `RelativeModifier`,
+`o których` leży poza zdaniem składowym, bo wysuwa je `wyrażenie_przyimkowe_względne`,
 więc ciało czoła bierze ten rzeczownik wprost i zdania składowego nie ma pod sobą wcale.
 Czoło pytania bierze go tym samym ciałem, więc `O którym akcie mowa?`
 wyprowadza się razem z `o których mowa`.
@@ -3462,7 +3466,7 @@ Terminal tego rzeczownika żąda lematu, i to żądanie jest decyzją,
 bo polszczyzna opuszcza kopułę szerzej niż w tym jednym zwrocie.
 Wyjścia były dwa.
 Pozycja ogólna czyni zdaniem składowym każdą grupę imienną w mianowniku,
-czyli dopisuje `ClauseConjunct → Subject` obok `ClauseConjunct → Subject Adjuncts`.
+czyli dopisuje `zdanie_składowe → podmiot` obok `zdanie_składowe → podmiot okoliczniki`.
 Wpis leksykalny kupuje ten jeden zwrot i nic poza nim,
 tak samo jak spójnik, którym zaczepia się
 [zdanie z `że`](#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej).
@@ -3507,14 +3511,14 @@ python3 -m olski.check -c "Mowa o zadaniach." --readings
 ```text
 <text>: valid     Mowa o zadaniach.
                   jedno odczytanie
-                  - NominalPredicate: Mowa, Modifier: o zadaniach → Mowa
+                  - orzeczenie_rzeczownikowe: Mowa, wyrażenie_przyimkowe: o zadaniach → Mowa
 ```
 
-Rola ta stoi obok `Predicative`, a nie jest nim, i rozdziela je rama czasownika.
+Rola ta stoi obok orzecznika, a nie jest nim, i rozdziela je rama czasownika.
 Orzecznik jest pozycją ramy: rzeczownikowy stoi w narzędniku pod kopulą,
 a przymiotnikowy w mianowniku pod czasownikiem, którego rama go ma.
 Rzeczownik orzekający nie ma nad sobą czasownika, więc pozycji ramy nie zajmuje,
-a wpuszczony do `Predicative` stanąłby tam, gdzie orzecznik ramy nie ogłasza:
+a wpuszczony do orzecznika stanąłby tam, gdzie orzecznik ramy nie ogłasza:
 w szyku z orzecznikiem przed kopulą (`olski/subset.py`).
 Przyjąłby wtedy `Mowa jest ustawa.`, czyli zdanie,
 w którym olski czyta rzeczownikowy orzecznik w mianowniku.
@@ -3698,7 +3702,7 @@ grupa zbudowana przez liczebnik zgodny ogłasza się nim,
 ciało rządzące żąda od tego, co pod nim stoi, wartości przeciwnej,
 a `Dwudziestu dwóch mężczyzn przyszło.` wychodzi wtedy jednym czytaniem, tym właściwym.
 Drugiej kopii pozycji grupy imiennej znacznik nie żąda;
-żąda tej cechy w każdej produkcji `NP` i `NPConjunct`,
+żąda tej cechy w każdej produkcji `grupa_imienna` i `człon_imienny`,
 bo żądanie jest dodatnie, a cechy nieobecnej unifikacja nie sprawdza.
 Czytanie zostaje mimo to, bo naprawa nie kupuje niczego, co dałoby się zmierzyć.
 Zdań stawiających obok siebie dwie formy o czytaniu liczebnikowym
@@ -3878,7 +3882,7 @@ python3 -m olski.check -c "Flaga to płat tkaniny określonego kształtu." --rea
 ```text
 <text>: valid     Flaga to płat tkaniny określonego kształtu.
                   jedno odczytanie
-                  - Subject: płat tkaniny określonego kształtu, LinkedPredicate: Flaga
+                  - podmiot: płat tkaniny określonego kształtu, orzecznik_łącznika: Flaga
 ```
 
 Zakup wynosi nad Składnicą kilkadziesiąt zdań schodzących z odrzucenia,
@@ -3906,19 +3910,19 @@ Morfeusz trzyma te słowa pod `pred`, czyli w jednym wierszu kolejki blokerów
 ([corpus.md](corpus.md#where-the-analyses-stop)).
 Orzekają one bez podmiotu i bez czasownika,
 a rządzą tym, czym rządziłby czasownik,
-więc rama i `Complements` są tu te same, co u niego, tylko bez orzecznika zgodnego:
+więc rama i `wypełnienia` są tu te same, co u niego, tylko bez orzecznika zgodnego:
 dopełnienie, bezokolicznik, zdanie z `że`, pytanie zależne i okolicznik
 dochodzą bez ani jednego ciała osobnego, a dopełniacz negacji tą samą cechą,
 którą przechodzi przez zdanie z czasownikiem
 ([wyżej](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem)).
 
 Zdaniem składowym jest predykatyw wprost, a nie orzeczeniem pod nim.
-Pod `Predicate` stanęłoby przy nim ciało z podmiotem,
+Pod symbolem `grupa_orzeczenia` stanęłoby przy nim ciało z podmiotem,
 więc `Programy trzeba czytać.` wychodziłoby zdaniem o podmiocie `Programy`,
 choć `programy` jest tam biernikiem;
 osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbiera.
 Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
-zapadł ten sam wybór: rzeczownik orzekający stoi obok `Predicative`, a nie jest nim.
+zapadł ten sam wybór: rzeczownik orzekający stoi obok orzecznika, a nie jest nim.
 
 Lista lematów jest zamknięta, a poza nią zostaje słowo,
 którego czytanie konkurujące staje na czele zdania tego samego kształtu.
@@ -4054,7 +4058,7 @@ tak samo jak przed czasownik, którego podmiot opuszcza — `Cenę liczymy.` —
 więc jest to jedna pozycja, a obie głowy biorą ją tak samo,
 jak biorą dwa ciała zdania wyżej.
 
-Dopełnienie stoi w niej córką zdania, a nie wewnątrz `Complements`:
+Dopełnienie stoi w niej córką zdania, a nie pod `wypełnienia`:
 tamten symbol stoi w ciele za głową i tylko tam,
 bo rozwinięcie szyku po nim nie chodzi
 ([wyżej](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
@@ -4092,9 +4096,9 @@ czyli oddaje to zdanie werdyktem `valid` i przeczytane odwrotnie,
 niż czyta je czytelnik, a tego zabrania
 [kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
 
-Pozycję niesie osobny symbol, a nie ciało `Complements`,
+Pozycję niesie osobny symbol, a nie ciało `wypełnienia`,
 i nie jest to wybór między dwoma zapisami jednej rzeczy:
-`Complements` stoi w orzeczeniu za swoją głową i tylko tam,
+symbol ten stoi w orzeczeniu za swoją głową i tylko tam,
 więc dopełnienie stojące przed formą osobową nie ma się gdzie w nim znaleźć.
 Wysunięte przed sam bezokolicznik byłoby zaś pozycją inną —
 `nie może większości ruszyć` — której ta gramatyka nie ma.
@@ -4107,7 +4111,7 @@ osobowej i żąda go
 
 Miejsce na okolicznik jest za bezokolicznikiem i nie ma go przed nim,
 bo tyle gospodarzy ma okolicznik na torze zwykłym,
-gdzie `Complements` bezokolicznika przed swoją głowę nie sięga.
+gdzie `wypełnienia` bezokolicznika przed swoją głowę nie sięgają.
 Bez miejsca za bezokolicznikiem ta pozycja
 [wybierałaby gospodarza przez przeoczenie](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
 
@@ -4620,7 +4624,7 @@ Every one of these is a sentence that gets rejected and should not be:
   and so is a sentence carrying a colon and a semicolon at once.
   Both signs stand at the level of the sentence
   ([above](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
-  and `Clause` carries neither, so there is nothing to recurse through.
+  and `zdanie` carries neither, so there is nothing to recurse through.
   What such a production would have to settle is what the second sign separates:
   `(A; B); C` and `A; (B; C)` are the same string
   and a right-recursive body would give it two derivations,
@@ -4908,17 +4912,18 @@ Pozycję wewnątrz zdania względnego i wewnątrz pytania pisze
 [rozwinięcie szyku](#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk), a nie ręka,
 i jest to jedna pozycja w dwóch konstrukcjach z listy wyżej,
 którą gramatyka pisana ręką miała w dwóch ciałach z trzech.
-Wchodzi produkcja, w której `Adjuncts` stoi obok czegoś jeszcze,
+Wchodzi produkcja, w której `okoliczniki` stoją obok czegoś jeszcze,
 w tym obok drugiego okolicznika,
-oraz ta, w której `Modifier` dochodzi do głowy mającej już przydawkę
-albo do imiesłowu, czyli `APConjunct → adj|ppas Modifier`.
-Wchodzi też ciało, w którym `Modifier` stoi za całym ciągiem współrzędnym,
+oraz ta, w której `wyrażenie_przyimkowe` dochodzi do głowy mającej już przydawkę
+albo do imiesłowu, czyli `człon_przymiotnikowy → adj|ppas wyrażenie_przyimkowe`.
+Wchodzi też ciało, w którym `wyrażenie_przyimkowe` stoi
+za całym ciągiem współrzędnym,
 bo to samo wyrażenie mieści się zarazem pod członem ostatnim
 ([wyżej](#nothing-above-a-coordination-distributes-into-it)).
-Nie wchodzi `NPConjunct → subst Modifier`, czyli naga głowa z okolicznikiem:
+Nie wchodzi `człon_imienny → subst wyrażenie_przyimkowe`, czyli naga głowa z okolicznikiem:
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.
-Nie wchodzi z tego samego powodu `ClauseConjunct → NominalPredicate Adjuncts`,
+Nie wchodzi z tego samego powodu `zdanie_składowe → orzeczenie_rzeczownikowe okoliczniki`,
 czyli [kopuła opuszczona](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
 z okolicznikiem: rzeczownik orzekający grupą imienną nie jest,
 więc temu wyrażeniu nie ma tam do czego dojść poza zdaniem składowym.
@@ -5044,9 +5049,9 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 
 ```text
 <text>: ambiguous Plik jest bardzo duży.
-                  2 odczytania, różne w Adverb, Predicative
-                  - Subject: Plik, Predicative: bardzo duży, Verb: jest
-                  - Subject: Plik, Predicative: duży, Verb: jest, Adverb: bardzo → jest
+                  2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+                  - podmiot: Plik, orzecznik: bardzo duży, orzeczenie: jest
+                  - podmiot: Plik, orzecznik: duży, orzeczenie: jest, okolicznik_przysłówkowy: bardzo → jest
 olskie: 0 z 1 zdania; z odczytaniem: 1
 ```
 
@@ -5129,7 +5134,7 @@ Są przez to ceną, przy której warunek zapadł, a nie figurą o dzisiejszej gr
 
 Pierwszy gospodarz nie jest darmowy, bo lista okoliczników jest płaska.
 Sam wypuszcza `Program zapisuje ustawienia bardzo szybko.` jednym czytaniem,
-a jego kształtem jest `Adjuncts(bardzo Adjuncts(szybko))`,
+a jego kształtem jest `okoliczniki(bardzo okoliczniki(szybko))`,
 czyli dwa okoliczniki zdania obok siebie,
 gdzie `bardzo` określa `szybko` i zdania nie określa wcale.
 Streszczenie nazywa przy tym pierwszy z nich,

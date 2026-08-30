@@ -65,7 +65,7 @@ def test_a_preposition_is_not_also_read_as_the_note_of_the_same_name():
     #  docs/corpus.md counts how much of the corpus that reaches.
     found = verdict("Jedziemy do Włoch.")
     assert found.status == "valid", found.explain()
-    assert role(found)[0]["Modifier"] == "do Włoch → Jedziemy"
+    assert role(found)[0]["wyrażenie_przyimkowe"] == "do Włoch → Jedziemy"
 
 
 def test_an_uninflected_noun_stays_where_its_form_is_only_a_noun():

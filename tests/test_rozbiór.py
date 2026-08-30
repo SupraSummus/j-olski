@@ -201,12 +201,12 @@ def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie)
 @pytest.mark.parametrize(
     ("zdanie", "powód"),
     [
-        ("Program, który zapisuje ustawienia, sprawdza tekst.", "RelativeClause"),
-        ("Zapisz plik.", "w pozycji Verb"),
+        ("Program, który zapisuje ustawienia, sprawdza tekst.", "zdanie_względne"),
+        ("Zapisz plik.", "w pozycji orzeczenie"),
         ("Nowy i tani parser zapisuje ustawienia.", "przydawka z"),
-        ("Zatem parser jest celem.", "zdanie z słowo, Clause"),
-        ("Cena jest niska: gramatyka jest bezkontekstowa.", "zdanie z Clause, słowo, Clause"),
-        ("Warstwa pyta o dwa typy: Zdanie oraz Kontekst.", "zdanie z Clause, Apposition"),
+        ("Zatem parser jest celem.", "zdanie z słowo, zdanie"),
+        ("Cena jest niska: gramatyka jest bezkontekstowa.", "zdanie z zdanie, słowo, zdanie"),
+        ("Warstwa pyta o dwa typy: Zdanie oraz Kontekst.", "zdanie z zdanie, dopowiedzenie"),
     ],
 )
 def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
@@ -221,7 +221,7 @@ def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
     ``Jaki`` trzyma jedną cechę, a ciąg współrzędny przydawki orzeka ich kilka,
     więc czytanie wzięte z pierwszego członu wypisałoby się bez pozostałych.
 
-    Trzy ostatnie to trzy ciała samego ``Sentence``, czyli cała reszta tej listy
+    Trzy ostatnie to trzy ciała samego ``wypowiedzenie``, czyli cała reszta tej listy
     obok ciała ze zdaniem składowym, i one żądają tu najwięcej.
     Spójnik na czele stawia w pierwszym dziecku liść,
     a dwukropek i dopowiedzenie stawiają tam połowę zdania,

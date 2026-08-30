@@ -43,7 +43,7 @@ from olski.parse import (
     streszczone,
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło, sentences
-from olski.subset import DEKLARACJA, GRAMMAR, PRZYŁĄCZANY
+from olski.subset import DEKLARACJA, GRAMMAR, WYRAŻENIE_PRZYIMKOWE
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -272,13 +272,15 @@ class Verdict:
             for role in self.result.różniące
             # Przyłączenie nazwane niżej mówi o tej roli więcej niż sama jej
             # nazwa, więc wypisana obok byłaby tym samym zdaniem dwa razy.
-            if not (przyłączenia and role == PRZYŁĄCZANY)
+            if not (przyłączenia and role == WYRAŻENIE_PRZYIMKOWE)
         )
         # Liczba i role wychodzą z lasu, więc granica wyliczania sięga listy
         # czytań i nie sięga tego wiersza: liczba jest liczbą, a nie „64+”.
         wiersz = _odczytań(self.result.ile)
         if różne:
-            wiersz += f", różne w {', '.join(różne)}"
+            # Dwukropek oddziela nazwy od zdania: bez niego „różne w dopełnienie”
+            # czyta się jak rzeczownik, którego przyimek nie odmienił.
+            wiersz += f", różne w {'roli' if len(różne) == 1 else 'rolach'}: {', '.join(różne)}"
         return "; ".join(
             [
                 wiersz,

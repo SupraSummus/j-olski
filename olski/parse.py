@@ -948,8 +948,8 @@ class Las:
         Kluczem jest ciało, a nie produkcja,
         bo o kształcie rozstrzygają etykiety i rozpiętości córek.
         Dwie produkcje o jednym ciele dają jedno czytanie i wchodzą tu razem,
-        choćby brały co innego: nad jedną formą ``NPConjunct`` z rzeczownika i
-        ``NPConjunct`` z zaimka są jednym ciałem, bo liść jest swoją rozpiętością.
+        choćby brały co innego: nad jedną formą ``człon_imienny`` z rzeczownika i
+        ``człon_imienny`` z zaimka są jednym ciałem, bo liść jest swoją rozpiętością.
         Odczytania obu niesie potem liść (:meth:`Las._wsparte_kształtu`).
 
         Pytana o pozycję, której tablica nie domknęła, oddaje pusty słownik,
@@ -1375,7 +1375,7 @@ class Las:
         w tej gramatyce kilka ciał, więc forma stoi tu każdym odczytaniem, które
         licencjonuje ją w którymkolwiek z nich.
         Ciało wybrane, pytane samo, odpowiada tylko za swoje odczytania:
-        ``NPConjunct`` robi grupę imienną z jednej formy trzema ciałami —
+        ``człon_imienny`` robi grupę imienną z jednej formy trzema ciałami —
         rzeczownikowym, odsłownikowym i zaimkowym — więc bez sumy pod
         dopełnieniem `Znam to polecenie.` wychodzi sam odsłownik `polecieć`,
         a rzeczownik `polecenie` nie wychodzi wcale.
@@ -1745,7 +1745,8 @@ class Las:
         znalezione: dict[int, tuple[Pozycja, tuple[str, ...]]] = {}
         for początek, pozycja in sorted(najkrótsze.items()):
             # Etykieta rozstrzyga remis: `W skład rady wchodzą radni w liczbie.`
-            # daje gospodarzy `AP` i `NP` o jednej rozpiętości, a zbiór ich nie porządkuje.
+            # daje gospodarzy `grupa_przymiotnikowa` i `grupa_imienna` o jednej rozpiętości,
+            # a zbiór ich nie porządkuje.
             gospodarze_pozycji = sorted(u_kogo[początek], key=lambda p: (p.span, p.label))
             if len(gospodarze_pozycji) < 2:
                 continue
@@ -2136,12 +2137,12 @@ def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> di
     wszystkimi, i rozdziela je liczba, jaką każda z nich mieć może.
     Okoliczników stoi przy zdaniu dowolnie wiele, więc wypisane wszystkie
     rozmnożyłyby streszczenia. Wypełnień stoi najwyżej dwa
-    (``DRUGA_POZYCJA`` w ``olski/subset.py``), a pierwsze z nich samo zostawia
+    (``PARA_WYPEŁNIEŃ`` w ``olski/subset.py``), a pierwsze z nich samo zostawia
     `Parser pokazuje autorowi oba czytania.` bez połowy tego, co olski w nim wziął.
 
     Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość:
     dopowiedzenie za dwukropkiem stoi poza zdaniem składowym
-    (``Sentence → Clause : NP .``), więc porównanie całych rozpiętości
+    (``wypowiedzenie → zdanie : grupa_imienna .``), więc porównanie całych rozpiętości
     zostawiłoby je bez zakresu i streszczenie milczałoby o nim.
     """
     streszczenie = {}
@@ -2222,7 +2223,7 @@ def _początki_składowych(node: Node, symbole: Sequence[str]) -> list[int]:
 
     Bierzemy zdanie najwyższe w gałęzi, a nie każdy węzeł o tej etykiecie:
     okolicznik zdania dokłada nad zdaniem składowym drugie o tej samej etykiecie
-    (``ClauseConjunct → Modifier ClauseConjunct``),
+    (``zdanie_składowe → wyrażenie_przyimkowe zdanie_składowe``),
     a członem ciągu jest zewnętrzne z tych dwóch.
     Zdanie podrzędne jest wewnątrz składowego, więc zejście do niego nie dochodzi
     i nie trzeba go tu odejmować osobno.
@@ -2268,7 +2269,7 @@ def _kawałki(ciąg: Node, współrzędne: Sequence[str]) -> list[str]:
     """Ciąg rozpisany na napisy: człon dłuższy niż słowo w nawiasie, spójnik bez zmian.
 
     Ciąg trzech członów jest w tej gramatyce ciągiem dwóch,
-    którego drugi jest ciągiem dwóch (``NP → NPConjunct conj NP``),
+    którego drugi jest ciągiem dwóch (``grupa_imienna → człon_imienny conj grupa_imienna``),
     więc po prawym skraju schodzimy rekurencyjnie:
     inaczej ``ustawienia, dane i pliki`` miałoby drugi człon długi na resztę ciągu.
     Człon jednosłowny nawiasu nie dostaje, bo jego granicę widać po spójniku obok.
@@ -2290,7 +2291,7 @@ def ciało_koordynuje(etykieta: str | None, córki: Iterable[str | None]) -> boo
     Ciąg współrzędny jest resztą ciągu po odjęciu członu,
     więc symbol koordynacji stoi wśród własnych córek.
     Liczba córek-konstytuentów tego nie mówi:
-    `NP → NPConjunct RelativeClause` ma je dwie i koordynacją nie jest.
+    `grupa_imienna → człon_imienny zdanie_względne` ma je dwie i koordynacją nie jest.
     Samo powtórzenie symbolu też go nie mówi,
     bo nad ciągiem stoi jeszcze okolicznik zdaniowy dochodzący do całego ciągu,
     który powtarza go tak samo.

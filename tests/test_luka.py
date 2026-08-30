@@ -30,7 +30,7 @@ from olski.werdykt import check
 PODMIOT = "Reguła, która rozstrzyga, jest tania."
 DOPEŁNIENIE = "Polszczyzna, którą ktoś napisał, jest trudna."
 #: Wyjęcie z głębi: dopełnienie należy do bezokolicznika pod czasownikiem
-#: modalnym, więc żadne ciało ``RelativeCore`` po nie nie sięga. Kupione, a nie
+#: modalnym, więc żadne ciało ``rdzeń_względny`` po nie nie sięga. Kupione, a nie
 #: napotkane: nie ma go ani jeden korpus, jaki to repozytorium czyta, i dlatego
 #: jest tym jednym zdaniem, które luka wyprowadza, a wypisane ciała nie.
 Z_GŁĘBI = "Ustawa, którą organ gminy może wydać, jest tania."
@@ -53,8 +53,8 @@ def test_luki_nie_unosi_grupa_imienna_choć_niesie_zdanie_względne():
     konstrukcję, której nie ma po co mierzyć.
     """
     unoszą = niosące(GRAMMAR)
-    assert "ClauseConjunct" in unoszą
-    assert unoszą.isdisjoint({"NP", "NPConjunct", "RelativeCore", "Sentence"})
+    assert "zdanie_składowe" in unoszą
+    assert unoszą.isdisjoint({"grupa_imienna", "człon_imienny", "rdzeń_względny", "wypowiedzenie"})
 
 
 @pytest.mark.parametrize("zdanie", [PODMIOT, DOPEŁNIENIE])
@@ -84,7 +84,7 @@ def test_luka_stojąca_wszędzie_odbiera_jednoznaczność_także_wyjęciu_z_gł�
     """Kształtów jest tyle, ile pozycji w gramatyce, i wyjęcie z głębi nie jest wyjątkiem.
 
     Dopełnienie bezokolicznika ma pozycję wypisaną obok tej, w którą wypada luka
-    (``BEZOKOLICZNIK_OTWARTY`` w ``olski/subset.py``), więc luka stojąca wszędzie
+    (``FRAZA_BEZOKOLICZNIKOWA_OTWARTA`` w ``olski/subset.py``), więc luka stojąca wszędzie
     wydaje ten napis dwoma kształtami. Warunek precedencji zdejmuje tę cenę tutaj
     w całości, a przy ``Plik, który program zapisuje`` nie w całości, i o tę
     różnicę idzie w tabeli sondy.
@@ -114,6 +114,6 @@ def test_luka_wypełnia_rolę_pustą_rozpiętością(wariant: str):
     roli z jego wnętrza milczy tak samo, jak milczy o roli wypełnionej zaimkiem.
     """
     jeden = werdykt(wariant, "Myślę o regule, która rozstrzyga.")
-    (podmiot,) = jeden.result.readings[0].find("Subject")
+    (podmiot,) = jeden.result.readings[0].find("podmiot")
     assert podmiot.forms() == []
-    assert "Subject" not in jeden.readings[0]
+    assert "podmiot" not in jeden.readings[0]

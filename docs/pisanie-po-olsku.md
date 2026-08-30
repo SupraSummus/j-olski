@@ -246,9 +246,9 @@ python3 -m olski.check --readings --morfologia -c "Janek lubi piwo."
 
 ```text
 <text>: ambiguous Janek lubi piwo.
-                  2 odczytania, różne w Object, Subject
-                  - Subject: Janek, Object: piwo, Verb: lubi
-                  - Subject: piwo, Object: Janek, Verb: lubi
+                  2 odczytania, różne w rolach: dopełnienie, podmiot
+                  - podmiot: Janek, dopełnienie: piwo, orzeczenie: lubi
+                  - podmiot: piwo, dopełnienie: Janek, orzeczenie: lubi
                   odczytanie 1:
                     „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f | Janek subst:sg:nom:m1
                     „lubi”: lubić fin:sg:ter:imperf

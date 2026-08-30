@@ -100,7 +100,7 @@ class Gramatyka:
     zgody: tuple[Zgoda, ...] = ()
     żądania: tuple[Żąda, ...] = ()
     #: Słowo, którym zdanie się zamyka i które do drzewa nie wchodzi, tak jak
-    #: kropka nie jest konstytuentem w ``Sentence → Clause interp`` olskiego.
+    #: kropka nie jest konstytuentem w ``wypowiedzenie → zdanie interp`` olskiego.
     #: Zależnym być nie może: w zdaniu o dwóch formach osobowych czepiałaby się
     #: każdej z nich po kolei i zdanie wychodziłoby wieloznaczne od interpunkcji.
     domknięcie: Word | None = None

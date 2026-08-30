@@ -216,7 +216,7 @@ class Production:
 
 
 def nt(name: str, **features) -> Sym:
-    """Refer to a non-terminal: ``nt("NP", case="nom", number=V("n"))``."""
+    """Refer to a non-terminal: ``nt("grupa_imienna", case="nom", number=V("n"))``."""
     return Sym(name=name, constraints=_constraints(features))
 
 
@@ -251,7 +251,7 @@ class Grammar:
 
     Cechy, których produkcja żąda od córki oznaczonej :class:`Głowa`,
     wychodzą z konstytuenta same, bo konstytuent jest tą córką:
-    ``Predicate`` żądające liczby i rodzaju od czasownika
+    ``grupa_orzeczenia`` żądające liczby i rodzaju od czasownika
     wypuszcza tę liczbę i ten rodzaj bez wypisywania ich drugi raz.
     Wypisane wygrywa, więc produkcja wypuszczająca co innego mówi to wprost,
     a symbol, który cechy swojej głowy w górę nie niesie,
@@ -297,7 +297,7 @@ class Grammar:
     ) -> tuple[tuple[str, Spec], ...]:
         """Cechy wypisane, a za nimi te, które wychodzą z głowy same.
 
-        Wypisana wygrywa: ``RelativeCore`` wypuszcza liczbę i rodzaj swojego zaimka,
+        Wypisana wygrywa: ``rdzeń_względny`` wypuszcza liczbę i rodzaj swojego zaimka,
         a nie te, których żąda od czasownika.
         Ciało puste głowy nie ma, więc nie ma wtedy skąd wypuszczać.
         """

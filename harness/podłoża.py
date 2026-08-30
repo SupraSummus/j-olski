@@ -40,11 +40,11 @@ BUDŻET = 10.0
 #: orzecznika czytelnika nie interesują: różni je to, co się z czym zgadza, a nie
 #: to, czym orzecznik w zdaniu jest.
 ROLE = (
-    ("Subject", "Subject"),
-    ("Object", "Object"),
-    ("Predicative", "Predicative"),
-    ("PredInst", "Predicative"),
-    ("Modifier", "Modifier"),
+    ("podmiot", "podmiot"),
+    ("dopełnienie", "dopełnienie"),
+    ("orzecznik", "orzecznik"),
+    ("orzecznik_narzędnikowy", "orzecznik"),
+    ("wyrażenie_przyimkowe", "wyrażenie_przyimkowe"),
 )
 
 
