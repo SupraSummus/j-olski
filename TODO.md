@@ -2593,6 +2593,33 @@ przecięcie samo w sobie usterką nie jest, więc check musi pytać o coś węż
 i pierwszym kandydatem jest para, w której jedna lista podporządkowuje,
 a druga koordynuje.
 
+Zatrzymanie kosztuje nad zdaniem odrzuconym więcej niż zbudowanie tablicy,
+bo `najdalszy` w `olski/parse.py` przechodzi tablicę drugi raz
+i unifikuje przy tym przebyte ciała, czego samo jej budowanie nie robi wcale.
+Płaci to każdy, kto pyta o werdykt, a drukuje tylko ten, kto pokazuje odrzucenie.
+Jednym ruchem jest pytanie leniwe zamiast flagi `zatrzymanie`:
+`Result` trzymałby las i liczył punkt przy pierwszym pytaniu,
+więc kto zatrzymania nie drukuje, nie płaciłby go wcale
+i nie musiałby o fladze pamiętać.
+Ceną jest las żywy tak długo, jak werdykt,
+a przebieg nad korpusem trzyma werdykty wszystkich zdań naraz;
+sięgnąć trzeba przy tym do `Verdict.zatrzymanie` w `olski/werdykt.py`,
+bo werdykt pyta o punkt przy składaniu i tam cena zostaje.
+Drugim ruchem, niesprzecznym z pierwszym, jest tańsze drugie przejście.
+Kolejka w `_przed_formą` dostaje przy ożywieniu symbolu wszystkie jego produkcje,
+a tablica ma stan dla mniejszości z nich,
+więc ponad połowa par schodzi z kolejki, nie robiąc nic.
+Ruchem jest kolejka symboli w miejsce kolejki par:
+rozwinięty symbol brałby wtedy z tablicy same stany o tej głowie,
+a produkcje czekające na pierwszą córkę wchodziłyby tak,
+jak wchodzą do tablicy — przez `możliwe` tej pozycji, a nie przez przejrzenie wszystkich.
+Przybliżenie tańsze od tego, czyli najdalsza pozycja o jakimkolwiek stanie tablicy,
+jest zmierzone i odpada: myli się w co czwartym zdaniu, i to w obie strony,
+bo tablica trzyma stan bez oglądania się na unifikację i na to,
+czy analiza częściowa ten stan w ogóle przewidziała.
+Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse.py`:
+to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.
+
 ## Konstrukcje, których gramatyka nie ma
 
 Łącznik `to` nie stoi przy formie osobowej ani przy przeczeniu.

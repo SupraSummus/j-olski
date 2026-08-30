@@ -329,12 +329,13 @@ def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None
     nie od gramatyki: kto pyta o jedno zdanie kilka gramatyk — sonda różnicowa
     nad prozą — segmentuje je raz i pyta tyle razy, ile ma wariantów.
 
-    Podsumowania werdykt bierze wszystkie, także te, których wołający nie czyta.
-    Drugie wejście, pytające o mniej, byłoby drugą ścieżką do utrzymania, a
-    oszczędza najwyżej jeden rozbiór na zdanie — tyle bierze zatrzymanie nad
-    zdaniem odrzuconym (:func:`olski.parse.podsumuj`) — podczas gdy pominięcie
-    rozbiorów, których odpowiedź jest znana, oszczędza ich tyle, ile wariantów
-    minus jeden (``_bez_zbędnych`` w ``harness/ruch.py``).
+    Podsumowania werdykt bierze wszystkie, także te, których wołający nie czyta,
+    a ceną tego jednego wejścia jest zatrzymanie: nad zdaniem odrzuconym bierze
+    ono więcej niż sam rozbiór (:func:`olski.parse.podsumuj`), i płaci je także
+    ten, kto go nie drukuje.
+    Sonda nad prozą oszczędza gdzie indziej — pomija rozbiory, których odpowiedź
+    zna z góry, i tych oszczędza tyle, ile wariantów minus jeden
+    (``_bez_zbędnych`` w ``harness/ruch.py``).
     """
     grammar = grammar or GRAMMAR
     result = parse(grammar, segmenty, deklaracja=DEKLARACJA)
