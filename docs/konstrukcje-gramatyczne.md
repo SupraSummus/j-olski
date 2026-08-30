@@ -2223,7 +2223,7 @@ Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie wzglę
 Czoło zdania względnego bierze rzeczownik, a tej głowy nie bierze,
 i wpuszczenie jej tam trzyma [TODO.md](../TODO.md).
 
-## Łącznik `to` orzeka bez czasownika, a podmiot stoi za nim
+## Łącznik `to` orzeka sam albo przy kopuli, a podmiot stoi za nim
 
 `Flaga to płat tkaniny określonego kształtu.`, `Jedyna różnica to rozmiar.` —
 zdanie ma tu dwie grupy imienne w mianowniku i nie ma czasownika,
@@ -2269,16 +2269,71 @@ Nad prozą tego repozytorium zakup jest zerowy — ten rejestr pisze się bez ł
 bo olski go nie brał — a dwa zdania schodzą z odrzucenia do wieloznaczności,
 i obu wieloznaczność daje przyłączenie wewnątrz grupy, a nie sam łącznik.
 
-Poza ciałem zostają dwie konstrukcje i obie trzyma [TODO.md](../TODO.md).
-Łącznik przy formie osobowej, w obu szykach:
-`Był to nieforemny chłopak.` i `To są oczywistości.` są odrzucone,
-bo `to` nie stoi w nich między dwiema grupami, tylko przy czasowniku.
-Te dwa szyki prowadzą resztę wiersza `pred`
-([corpus.md](corpus.md#where-the-analyses-stop)).
-Przeczenie: `Parser to nie kompilator.` jest odrzucone,
-bo cząstka przecząca stoi w gramatyce przy czasowniku, a łącznik nim nie jest.
 `To jest tanie.` wyprowadza się przy tym bez tej produkcji,
 bo `to` jest w nim rzeczownikiem w podmiocie.
+
+### Przy kopuli ten sam łącznik ma trzy szyki, a zgodność wybiera podmiot
+
+`Był to nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.` —
+`to` stoi tu przy czasowniku, a nie między dwiema grupami.
+Czasownikiem tym jest kopula, czyli ta, która żąda narzędnika,
+i każdy z trzech szyków żąda jej tak samo:
+ciało napisane na czasownik dowolny dałoby `Czytał to nieforemny chłopak.`
+drugie czytanie, w którym `to` nie jest dopełnieniem, a polszczyzna ma tam jedno.
+Samego narzędnika przy kopuli nie ma, bo rama jest w tej gramatyce stanem,
+a nie zasobem, więc pozycja niewypełniona córki nie żąda.
+
+Zgodność rozstrzyga tu stronę, której ciało bezczasownikowe nie miało czym rozstrzygnąć.
+Kopula zgadza się z grupą stojącą za łącznikiem:
+`Te książki to jest skarb.` wyprowadza się, a `Te książki to są skarb.` jest odrzucone,
+więc podmiotem jest `skarb`.
+Wypada to na tę samą stronę, którą wybrał pomiar wobec banku drzew
+[wyżej](#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim),
+a wypowiada ją forma, więc czytelnik sprawdza ją bez korpusu.
+
+```sh
+python3 -m olski.check -c "Kot to jest zwierzę." --readings
+```
+
+```text
+<text>: valid     Kot to jest zwierzę.
+                  jedno odczytanie
+                  - podmiot: zwierzę, orzeczenie: jest, orzecznik_łącznika: Kot
+```
+
+Przeczenie wchodzi tymi ciałami samo, bo cząstka stoi w tej gramatyce przy czasowniku:
+`Parser to nie jest kompilator.`, `Nie jest to kompilator.` i `To nie są oczywistości.`
+wyprowadzają się bez ani jednej produkcji dopisanej po temu.
+Zdanie bez czasownika ma za to cząstkę wypisaną w ciele: `Parser to nie kompilator.`
+
+Zakup wynosi nad Składnicą pod złotą morfologią kilkadziesiąt zdań schodzących z odrzucenia,
+z których większość czyta się zgodnie z drzewem wzorcowym,
+a ceny nie ma żadnej: ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności.
+Pod morfologią żywą zakup jest mniejszy, a jednoznaczność traci kilka zdań.
+Nad prozą tego repozytorium przybywa kilka zdań przyjętych, a dwa tracą jednoznaczność
+na `to`, które stoi zarazem przydawką przy rzeczowniku za sobą:
+`Jest to górne oszacowanie.` czyta się i łącznikiem, i z `to górne oszacowanie` w podmiocie.
+
+Rozkład tego zakupu na dopisane ciała jest nierówny.
+Szyk `Był to` i szyk `To są` biorą go niemal w całości,
+ciało przeczenia bierze zdanie albo dwa,
+a szyk `Kot to jest` nie rusza ani jednego zdania w żadnym z trzech przebiegów.
+Wchodzi mimo to, i wchodzi po to, żeby `Parser to nie jest kompilator.` miało czym wejść:
+przeczenie przy kopuli stoi w tym szyku, a nie w tamtych dwóch.
+Konkurencji między ciałami nie ma przy tym żadnej —
+ani jedno zdanie nie rusza się pod dwoma naraz —
+więc żadna z tych liczb nie zasłania drugiej.
+
+Wiersz `pred` kolejki blokerów stał setkami zatrzymań,
+a po tym dopisaniu schodzi poniżej dwunastu wierszy, które
+[corpus.md](corpus.md#where-the-analyses-stop) drukuje.
+Zdań przyjętych przybyło kilkadziesiąt, czyli wiersz spadł o więcej,
+niż dopisanie przyjmuje: zdanie dalej odrzucone zatrzymuje się odtąd gdzie indziej.
+
+Poza ciałami zostaje przeczenie bez czasownika i bez grupy przed łącznikiem:
+`To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się.
+Jest to osobne ciało i osobna liczba, której nikt nie policzył;
+[TODO.md](../TODO.md) trzyma ten przebieg.
 
 ## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
 
@@ -2306,7 +2361,7 @@ którego czytanie konkurujące staje na czele zdania tego samego kształtu.
 `to` takie czytanie ma, i to dwa razy:
 grupa imienna bierze jego czytanie rzeczownikowe,
 a jako `pred` jest ono łącznikiem, czyli konstrukcją osobną i wpuszczoną osobnym ciałem
-([wyżej](#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+([wyżej](#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
 Prowadzi ono ten wiersz kolejki,
 a stoją w nim szyki, których łącznik nie bierze,
 więc wyłączenie `to` z tej listy nie kosztuje jej ani jednego zdania.

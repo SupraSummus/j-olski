@@ -462,6 +462,31 @@ a sekcja mówi, co robi się z partią wpisów — tylko że
 [sesja agenta](docs/roles.md#sesja-agenta) czyta i ten plik w całości,
 więc przeniesienie tam zostawia te wiersze w każdej sesji.
 
+Dwa zdania [`docs/corpus.md`](docs/corpus.md#where-the-analyses-stop) wskazują
+[listę braków](docs/subset.md#what-it-does-not-cover-yet), a nazywają konstrukcje wpuszczone.
+Zdanie o `czy` przy wierszu `qub` mówi, że pytania o rozstrzygnięcie ta gramatyka nie ma,
+a `Czy to działa?` i `Pyta, czy to działa.` wyprowadzają się
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
+Zdanie o spójnikach, pod którymi stoi tryb przypuszczający, przy wierszu `comp`
+mówi to samo o nich, a `Gdyby ustawa obowiązywała, cena byłaby niska.`
+i `Poseł mówi, żeby ustawa obowiązywała.` wyprowadzają się.
+Wiersz nazywa część mowy, a nie konstrukcję, więc po wpuszczeniu zostaje
+i mówi odtąd o tym, czego wpuszczony kształt nie obejmuje —
+akapit wyżej mówi to o czterech innych wierszach, a przy tych dwóch tego zdania brakuje.
+Ruchem jest w każdym z nich zdanie mówiące, na czym te zatrzymania stoją dzisiaj,
+a do przeczytania są same zatrzymania obu wierszy nad Składnicą,
+bo bez nich zostaje samo skreślenie wskazania.
+
+Zdanie [`docs/corpus.md`](docs/corpus.md#what-morphological-ambiguity-costs)
+o klasie, którą morfologia żywa przyjmuje sama, mówi „a large part of them”
+i jest to oszacowanie bez pomiaru pod spodem.
+Klasę mierzono, zanim łącznik `to` dostał ciała przy kopuli,
+a te zabrały jej członków: `To są oczywistości.` przyjmują odtąd obie morfologie.
+Ruchem jest porównanie zbiorów zdań przyjętych pod obiema morfologiami,
+po którym zdanie dostaje z powrotem stopień albo traci go na dobre.
+Polecenia na to porównanie nie ma i jest to ten sam brak,
+o którym mówi wpis o dwóch przebiegach całego korpusu.
+
 ## Komendy i sondy
 
 `harness/pomiar.py` ma własny wiersz poleceń, choć bierze już to samo,
@@ -2595,18 +2620,29 @@ a druga koordynuje.
 
 ## Konstrukcje, których gramatyka nie ma
 
-Łącznik `to` nie stoi przy formie osobowej ani przy przeczeniu.
-`Był to nieforemny chłopak.`, `To są oczywistości.` i `Parser to nie kompilator.`
-są odrzucone, gdzie `Flaga to płat tkaniny.` wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
-Ruchy są dwa, a pierwszy jest wart więcej:
-łącznik przy czasowniku prowadzi resztę wiersza `pred` kolejki blokerów
-i stoi w nim setkami zdań, w obu szykach niemal po równo.
-Przeczenia przy łączniku nie policzył nikt i ten wiersz o nim nie mówi,
-bo takie zdanie staje na grupie za `nie`, a nie na samym łączniku.
-Do przeczytania jest ten wiersz, a wycenić trzeba każdy szyk osobno,
-bo pozycja pod jednym symbolem zabrałaby pomiar obu naraz
-([CLAUDE.md](CLAUDE.md#code)).
+Zdanie z łącznikiem `to` nie ma miejsca na okolicznik.
+`Był to wczoraj problem.` jest odrzucone, gdzie `Był to problem w Warszawie.`
+wyprowadza się, a to drugie kontrprzykładem nie jest:
+wyrażenie przyimkowe dochodzi tam do rzeczownika, a nie do zdania.
+Ciała tej konstrukcji pisze `grammar.rule` w `olski/subset/zdanie.py`,
+a nie rozwinięcie szyku, które miejsca na okolicznik wylicza
+([`docs/subset.md`](docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+więc dziury tej nie widać po żadnym z ciał z osobna.
+Ruchem jest ta sama córka, którą bierze reszta zdań składowych, wraz z pomiarem.
+Do przeczytania jest przedtem, ile czytań to miejsce dokłada:
+`Flaga to płat tkaniny w muzeum.` jest wieloznaczne już bez niego,
+bo wyrażenie przyimkowe ma tam dwa miejsca przyłączenia, a nie jedno.
+
+Przeczenie przy łączniku `to` nie ma ciała w zdaniu bez grupy przed łącznikiem.
+`To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się
+i gdzie `To nie są oczywistości.` też
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
+Ruchem jest piąte ciało tej konstrukcji wraz z pomiarem,
+bo cena każdego ciała jest osobną liczbą ([CLAUDE.md](CLAUDE.md#code)).
+Do przeczytania jest przedtem rozkład zakupu na cztery ciała, które weszły:
+przeczenie z grupą przed łącznikiem wzięło zdanie albo dwa nad Składnicą
+i ani jednego nad prozą tego repozytorium,
+więc piąte ciało wycenia się wobec tamtej liczby, a nie wobec szyku `Był to`.
 
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
 `Pyta, co to jest i czy to działa.` staje na `czy`,
@@ -3404,7 +3440,7 @@ czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 `abstrahuj` w `olski/skład/rozbiór.py` nie ma pozycji na `orzecznik_łącznika`,
 więc `Flaga to kawałek tkaniny.` wraca brakiem kategorii,
 choć gramatyka to zdanie wyprowadza
-([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
 Rola stoi w `DEKLARACJA` w `olski/subset/deklaracja.py` i nie stoi w `POZYCJE`,
 czyli jest to ta usterka, którą komentarz nad `POZYCJE` opisuje.
 Samo dopisanie pozycji nie kupuje jednak nic i dlatego wpis jest jeden, a nie dwa:

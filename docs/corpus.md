@@ -274,17 +274,17 @@ the rest having stopped further along.
 Others took part of a row with them:
 the particle, the subordinator, clause-level punctuation,
 the adverbial participle, the reflexive pronoun,
-the predicative's future tense and the linker `to`
+and the predicative's future tense
 are admitted in a shape narrower than Polish,
 so their rows stay and what stands in them is what the shape leaves out.
-The linker took about a fifth of the `pred` row with it
-and moved that row two places down the queue.
-`to` leads what is left, and by a wide margin,
-in the two orders that stand it beside a finite verb rather than between two phrases:
-`Był to nieforemny chłopak.` and `To są oczywistości.`
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
-What their arrival did to the rows below them is the point of the paragraph
-above: a row falls by more than the sentences an addition accepts.
+The linker `to` is the one that left the printed queue instead.
+Its verbless body took about a fifth of the `pred` row and moved that row two
+places down; the orders that stand `to` beside a finite copula took what was
+left of it — `Był to nieforemny chłopak.`, `To są oczywistości.`
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)) —
+and the row now stands below the twelve this document prints.
+It fell by more than twice the sentences those bodies accept,
+which is the point of the paragraph above.
 
 The subordinator row is where that shows on today's queue.
 `że` leads it, and the grammar has `że`:
@@ -982,7 +982,7 @@ and gold accepts several times as many that live leaves unsettled,
 finding most of them ambiguous and rejecting the rest.
 
 The sentences live accepts alone are the warning in that comparison,
-and the largest single class of it is the one
+and a large part of them turn on the reading
 [the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
 ```text
@@ -990,13 +990,13 @@ To są oczywistości.
 ```
 
 Gold tags call `To` a `pred`, which olski reads as the linker,
-and the linker stands between two noun phrases rather than in front of a verb
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)),
-so the sentence is rejected on either morphology.
+and the sentence derives on either morphology
+by the order standing the linker in front of a finite copula
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
 What Morfeusz adds is `subst:sg:acc:n`,
 which stands exactly where an accusative object stands,
-so a grammar recording no valency reads the sentence as OVS,
-finds one such reading, and calls it valid.
+so a grammar recording no valency reads the sentence as OVS as well
+and hands back two readings where the frame leaves one.
 `Być` takes no accusative object,
 and the frame is what says so.
 
