@@ -79,7 +79,7 @@ from olski.skład.składnia import (
     kompiluj,
 )
 from olski.skład.spójniki import SPÓJNIKI
-from olski.subset import GRAMMAR, OKOLICZNIKOWY, PRZYSŁÓWKOWY
+from olski.subset import GRAMMAR, NARZĘDNIKOWY, OKOLICZNIKOWY, PRZYSŁÓWKOWY
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
 #: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
@@ -107,7 +107,7 @@ PRZYMIOTNIKOWA = "Adjective"
 CZŁON_PRZYMIOTNIKA = "AdjectiveConjunct"
 
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
-#: Ta sama siódemka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
+#: Ta sama ósemka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
 #: Nazwy roli przysłówkowej i okolicznikowej bierzemy stamtąd, a nie spisujemy
@@ -124,7 +124,13 @@ POZYCJE = (
     "Modifier",
     PRZYSŁÓWKOWY,
     OKOLICZNIKOWY,
+    NARZĘDNIKOWY,
 )
+
+#: Przyimek żaden, czyli klucz, pod którym leksykon trzyma relacje wyrażane samym
+#: przypadkiem (``olski/skład/przyimki.py``). Napisem, a nie wpisaną wartością,
+#: bo tym samym napisem woła się okolicznik po tamtej stronie obiegu.
+BEZ_PRZYIMKA = ""
 
 #: Pozycje wypełnione zdaniem, każda pod swoim symbolem gramatyki.
 #: Osobno od ``POZYCJE``, bo tamtą piątkę werdykt drukuje jako role,
@@ -384,6 +390,24 @@ def _okoliczniki(drzewo: Node) -> tuple[Okolicznik, ...]:
     )
 
 
+def _narzędniki(drzewo: Node) -> tuple[Okolicznik, ...]:
+    """Okoliczności, którymi ten narzędnik bywa, po jednej na relację bez przyimka.
+
+    Droga jest ta sama co przy wyrażeniu przyimkowym w :func:`_okoliczniki`,
+    a różni je to, że słowa nie ma i szukać go nie ma po co:
+    relacje stoją tu pod pustym napisem, bo tak zapisuje je leksykon przyimków
+    (:data:`BEZ_PRZYIMKA`), i wychodzą stąd obie, które polszczyzna wyraża
+    samym przypadkiem. Cisza jest ta sama, co tam: jeden napis wychodzi z kilku
+    różnych rzeczy do powiedzenia, a odsiewa je porównanie form.
+    """
+    [grupa] = drzewo.children
+    return tuple(
+        Okolicznik(BEZ_PRZYIMKA, relacja, co)
+        for relacja in RELACJE.get(BEZ_PRZYIMKA, ())
+        for co in _role(grupa)
+    )
+
+
 def _okoliczniki_zdaniowe(drzewo: Node) -> tuple[Okolicznik, ...]:
     """Okoliczności, którymi to zdanie okolicznikowe bywa, po jednej na relację.
 
@@ -522,6 +546,8 @@ def _konstytuenty(pozycja: str, drzewo: Leaf | Node) -> tuple:
         warianty = _przysłówki(drzewo)
     elif pozycja == OKOLICZNIKOWY:
         warianty = _okoliczniki_zdaniowe(drzewo)
+    elif pozycja == NARZĘDNIKOWY:
+        warianty = _narzędniki(drzewo)
     elif pozycja == BEZOKOLICZNIK:
         warianty = (drzewo,)
     elif pozycja == PODRZĘDNE:
@@ -598,7 +624,7 @@ def _złóż(
         #  jak albo gdzie coś się dzieje, więc obie idą tutaj, a nie polem.
         #  Okoliczność wyrażona zdarzeniem jest tą samą kategorią co wyrażona rzeczą
         #  (``Okolicznik`` w ``olski/skład/składnia.py``), więc idzie tą samą listą.
-        if pozycja in ("Modifier", PRZYSŁÓWKOWY, OKOLICZNIKOWY):
+        if pozycja in ("Modifier", PRZYSŁÓWKOWY, OKOLICZNIKOWY, NARZĘDNIKOWY):
             okoliczniki.append(oznaczony)
         else:
             pola[pozycja] = oznaczony

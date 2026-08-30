@@ -24,13 +24,16 @@ from olski.werdykt import check
 
 #: Zdania, nad którymi oba podłoża zgadzają się co do werdyktu, po jednym na
 #: konstrukcję, która to porównanie kiedykolwiek rozstrzygnęła: orzecznik w
-#: narzędniku, orzecznik przymiotnikowy, dwa dopełniacze, współrzędność, zgodność
-#: łamana przez rodzaj, przyłączenie oddane czytelnikowi i szyk OVS.
+#: narzędniku, orzecznik przymiotnikowy, dwa dopełniacze, zgodność łamana przez
+#: rodzaj, przyłączenie oddane czytelnikowi i szyk OVS.
+#:
+#: Współrzędność wypadła stąd razem z okolicznikiem narzędnikowym: notacja czyta
+#: się nieodmiennie, więc olski stawia ją odtąd i w tej pozycji, a podłoże więzowe
+#: jej nie ma. Jest to piąte rozejście dwóch deklaracji podzbioru i TODO.md je liczy.
 ZGODNE = [
     "Wejściem jest zwykły tekst polski.",
     "Ludzie są wolni.",
     "Celem jest parser tego podzbioru.",
-    "Zobacz docs/design-notes.md oraz docs/roadmap.md.",
     "Nowa program zapisuje ustawienia.",
     "Program zapisuje ustawienia w pliku.",
     "Cały wywód prowadzi docs/linter.md.",

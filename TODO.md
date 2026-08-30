@@ -1077,24 +1077,22 @@ czyli ta sama droga, którą walencja rozdziela formę z cząstką od formy bez 
 a do przeczytania jest, co zwrotna kopula robi z `Ludzie rodzą się wolni.`,
 gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
 
-Zamknięta lista kopul nie ma także `bywać`,
-a ten czasownik orzeka narzędnik bez cząstki,
-więc dopisanie go do `KOPULA` w `olski/lematy.py` jest jednym wierszem
-i ten wiersz jest zmierzony.
-Nad bankiem drzew kupuje jedno zdanie i jedno odbiera:
-`W jego moskiewskim salonie bywała śmietanka przedrewolucyjnej Rosji.`
-przechodzi z wieloznacznego na przyjęte,
-a `Bywa, że dzieci ulegają nam, podporządkowują się naszej woli.`
-zostaje bez ani jednego czytania.
-Nad prozą tego repozytorium daje czytanie kilku zdaniom odrzuconym,
-przyjętego nie dokłada ani jednego, a czytanie odbiera zdaniu z `bywa tak, że`.
-Przeszkodą jest to, że klasa kopuli zabiera lematowi wpis z leksykonu
-(`_walencja` w `olski/subset.py`),
-więc `bywać` nie może być naraz kopulą i czasownikiem, który bierze zdanie z `że`.
+Klasa kopuli zabiera lematowi wpis z leksykonu (`_walencja` w `olski/subset.py`),
+więc kopula nie bywa naraz czasownikiem, który bierze zdanie z `że`.
+Widać to na `bywać`, odkąd lemat ten stoi w `KOPULA` w `olski/lematy.py`:
+`Odpowiedzią bywa decyzja.` przechodzi z odrzuconego na przyjęte,
+a `bywa tak, że` zostaje bez ani jednego czytania —
+jedno zdanie Składnicy i jedno zdanie `docs/subset.md`.
+Ceną tą zapłacono za rolę: bez tego wpisu `Skreślenie bywa całą naprawą.`
+też ma jedno czytanie, tyle że z narzędnikiem w okoliczniku, a nie w orzeczniku
+([`docs/subset.md`](docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Ruchem jest rama kopuli liczona jako suma z ramą tego lematu,
 a nie jedna wartość na całą listę,
 i wtedy ta sama zmiana rusza `być`, któremu Walenty daje dopełniacz,
 bezokolicznik oraz zdanie podrzędne; tamtego rozszerzenia nie zmierzył nikt.
+Do przeczytania przed pomiarem jest, że sondzie różnicowej tego nie zmierzyć
+podmianą samej stałej: klasy walencyjne liczą się przy imporcie modułu,
+a nie w `build`, więc wariant złożony po podmianie `KOPULA` jest tą samą gramatyką.
 
 Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
 `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
@@ -1595,6 +1593,11 @@ i przez to pierwszy dowód, że kopia starzeje się przy każdej produkcji.
 Czwarte przyszło z interpunkcją zdaniową i pokazuje się tą samą liczbą:
 dwa zdania README olski wyprowadza od tej pory, a sonda odrzuca oba,
 bo dwukropka ani przecinka przed spójnikiem nie ma po tamtej stronie.
+Piąte przyszło z okolicznikiem narzędnikowym i zabrało tej kopii zdanie,
+którym mierzyła współrzędność: `Zobacz docs/design-notes.md oraz docs/roadmap.md.`
+wychodzi u olskiego wieloznaczne, bo notacja czyta się nieodmiennie
+i staje przez to także w tym okoliczniku, a sonda tej pozycji nie ma
+([`docs/subset.md`](docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie.
 Wpis czekał na to, aż szyk zejdzie do warunków precedencji,
 i tamten ruch jest zrobiony
@@ -2726,6 +2729,46 @@ które dziś wychodzi jednoznaczne:
 `bedzie` orzeka też samo
 ([`docs/subset.md`](docs/subset.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
 a predykatyw za nim stanąłby wtedy tam, gdzie stoi orzecznik.
+
+Okolicznik narzędnikowy nie ma pozycji przed zdaniem, a polszczyzna go tam stawia:
+`Wieczorem wziął lustro.` pada, `Wziął lustro wieczorem.` przechodzi,
+i pierwszy szyk wypisuje tor składu, więc obieg na nim nie zamyka się
+(`tests/test_rozbiór.py`).
+Ciało zmierzono i odrzucono, bo grupa wysunięta jest wtedy jedyną grupą przed
+czasownikiem, tak samo jak w szyku od czasownika i w zdaniu o opuszczonym podmiocie
+([`docs/subset.md`](docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+Ruchem nie jest więc ani samo ciało, ani znacznik na grupie:
+czytania rozdziela przypadek, a nie kształt, i formy, o które idzie,
+mają mianownik obok narzędnika, więc żądanie musiałoby mówić o przypadku jedynym,
+a unifikacja przecina zbiory i tego powiedzieć nie umie.
+Dwa obejścia, które ta gramatyka ma poza `unify`, tu nie sięgają:
+oba pytają o formę — jedno odmawia lematowi, drugie formie bez cechy —
+a żadne nie pyta, ile wartości ta cecha niesie
+([`docs/design-notes.md`](docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+Do przeczytania jest ta sekcja wraz z wpisem o wolnym celowniku:
+tamten stoi na tej samej przeszkodzie, bo forma celownika żeńskiego
+jest zarazem miejscownikiem, więc rozstrzygnięcie zapada dla obu naraz.
+
+Liczebnik rządzący nie orzeka: `Torów jest dwa.` pada,
+a `Tory są dwa.` przechodzi zgodnym
+([`docs/subset.md`](docs/subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
+więc ciało jest osobne i osobna jest jego cena, której nikt nie policzył.
+Do przeczytania jest, czy nie zderzy się ono z czasownikiem nieosobowym:
+tamten też orzeka bez zgodności z podmiotem
+([`docs/subset.md`](docs/subset.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+
+Słowa pytające `jak`, `jaki`, `ile` i `dlaczego` nie mają pozycji,
+a zdania z nimi nie padają, tylko przechodzą czytaniem, którego polszczyzna nie ma:
+`Pyta, ile ta gramatyka kosztuje.` wychodzi przyjęte z `ile` w okoliczniku
+przysłówkowym, bo Morfeusz daje tym słowom `adv`, a `jaki` część mowy
+przymiotnikową, i olski bierze te części mowy całe.
+Ruch ma przez to dwie połowy i pierwsza jest zawężeniem:
+czytanie okolicznikowe ma zejść, zanim wejdzie czoło, które je zastąpi
+([`docs/roadmap.md`](docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Do przeczytania jest wpis o okoliczniku przysłówkowym biorącym całą część mowy,
+bo wylicza on formy, które ten rejestr pisze inaczej, i te cztery słowa
+są jego dalszym ciągiem.
 
 Zaimek zwrotny nie ma pozycji orzecznika narzędnikowego,
 a wywód stoi w [`docs/subset.md`](docs/subset.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym).

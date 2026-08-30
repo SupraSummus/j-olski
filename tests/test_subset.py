@@ -187,17 +187,19 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
 
 
 @pytest.mark.parametrize(
-    "zdanie",
+    ("zdanie", "czytań"),
     [
         #  Pod jedną pozycją stoją tu dwie produkcje, a rodzic przyjmuje jedną,
-        #  więc iloczyn liczony po samych pozycjach naliczyłby dwa czytania.
-        "Zobacz docs/subset.md.",
+        #  więc iloczyn liczony po samych pozycjach naliczyłby trzy czytania.
+        #  Dwa, a nie jedno, bo notacja czyta się nieodmiennie, więc stoi także
+        #  w okoliczniku narzędnikowym (WIELOZNACZNE_PRZEZ_NARZĘDNIK niżej).
+        ("Zobacz docs/subset.md.", 2),
         #  Tu jest odwrotnie: jeden kształt przechodzi na dwa sposoby, więc dwa
         #  naliczyłaby pozycja rozdzielona po cechach.
-        "Projekt jest dla przyjemności.",
+        ("Projekt jest dla przyjemności.", 1),
     ],
 )
-def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str):
+def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str, czytań: int):
     """Oba nadmiary są z przeciwnych stron, i las nie ma prawa na żaden z nich wpaść.
 
     Zdanie, które przestało pokazywać swój nadmiar, zabiera podstawę wywodowi z
@@ -205,7 +207,7 @@ def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str
     tego po żadnej liczbie: test przechodziłby wtedy sam z siebie.
     """
     wynik = parse(GRAMMAR, morphology(zdanie))
-    assert wynik.ile == len(wynik.readings) == 1, wynik.status
+    assert wynik.ile == len(wynik.readings) == czytań, wynik.status
 
 
 def _liście(drzewo):
@@ -322,8 +324,11 @@ def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():
     #  narzędnika, a notacja rejestru dostaje czytanie nieodmienne i przechodzi w
     #  każdym przypadku, więc `Predicative` buduje się nad nią i ginie u rodzica.
     segments = morphology("Zobacz docs/subset.md.")
-    [reading] = parse(GRAMMAR, segments).readings
-    assert not reading.find("Predicative")
+    assert not [
+        węzeł
+        for reading in parse(GRAMMAR, segments).readings
+        for węzeł in reading.find("Predicative")
+    ]
     assert las(GRAMMAR, segments).wyprowadzenia(Pozycja("Predicative", (1, 2)))
 
 
@@ -952,12 +957,6 @@ PRZYJMOWANE = [
     "Podstawową jednostką redakcyjną ustawy jest artykuł.",
     #  A pronoun subject, and with it a person that is not the third.
     "Ja zapisuję plik.",
-    #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README.
-    "Zobacz docs/subset.md.",
-    #  Zdanie, którego graf segmentacji się rozchodzi: Morfeusz dzieli Ktoś
-    #  na Kto i ś obok formy całej, a ś nie ma ani jednego czytania, które
-    #  bierze jakakolwiek produkcja.
-    "Ktoś zna docs/subset.md.",
     #  Czas przeszły, czyli forma, która niesie rodzaj i nie niesie osoby.
     "Program zapisywał ustawienia.",
     #  Osoba pierwsza tego czasu, czyli aglutynant, którego Morfeusz odcina od
@@ -998,8 +997,14 @@ PRZYJMOWANE = [
     "Zatem milczenie jest wartością.",
     #  Przymiotnik za zaimkiem, którym pyta się o osobę i o rzecz.
     "Kto pierwszy wstaje od stołu?",
-    #  Pytanie zależne za dwukropkiem, czyli trzecia rzecz, jaką ten znak bierze.
-    "Sprawdzasz to jednym pytaniem: czy skreślona rzecz jest powiedziana gdzie indziej?",
+    #  Okoliczność wyrażona samym narzędnikiem, w obu miejscach, które okolicznik
+    #  ma za czasownikiem: przy dopełnieniu i bez niego.
+    "Mieszczanie zabili okna deskami.",
+    "Wziął lustro wieczorem.",
+    #  Liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest.
+    "Tory są dwa.",
+    #  Kopula, którą lista dostała razem z tym orzecznikiem.
+    "Odpowiedzią bywa decyzja.",
     #  Spójnik skorelowany na obu poziomach, które go dostały.
     "Ani parser nie rośnie, ani linter nie sprawdza.",
     "Ani parser, ani linter nie rośnie.",
@@ -1020,12 +1025,34 @@ PRZYJMOWANE = [
 ]
 
 
+#: Zdania, którym okolicznik narzędnikowy zabrał jednoznaczność, a nie odczytanie,
+#: więc stoją tu, a nie wśród przyjmowanych, choć pytanie drugie jest o nie to samo.
+#: Każde niesie formę, którą słownik czyta i w narzędniku, i w przypadku roli,
+#: jaką ona tu zajmuje, więc drugie czytanie stawia ją okolicznikiem;
+#: cenę tę trzyma
+#: docs/subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+WIELOZNACZNE_PRZEZ_NARZĘDNIK = [
+    #  Notacja rejestru w roli dopełnienia, czyli jedno zdanie README. Czytanie
+    #  nieodmienne spełnia każde żądanie przypadku (`olski/segmentacja.py`),
+    #  więc spełnia i to.
+    "Zobacz docs/subset.md.",
+    #  Zdanie, którego graf segmentacji się rozchodzi: Morfeusz dzieli Ktoś
+    #  na Kto i ś obok formy całej, a ś nie ma ani jednego czytania, które
+    #  bierze jakakolwiek produkcja.
+    "Ktoś zna docs/subset.md.",
+    #  Pytanie zależne za dwukropkiem, czyli trzecia rzecz, jaką ten znak bierze.
+    #  Tu narzędnik jest prawdziwy — `jednym pytaniem` sprawdza się coś — więc
+    #  czytanie pierwsze jest tym, którego to zdanie nie miało przed tą pozycją.
+    "Sprawdzasz to jednym pytaniem: czy skreślona rzecz jest powiedziana gdzie indziej?",
+]
+
+
 @pytest.mark.parametrize("text", PRZYJMOWANE)
 def test_these_are_olski(text):
     assert verdict(text).status == "valid", verdict(text).explain()
 
 
-@pytest.mark.parametrize("text", PRZYJMOWANE)
+@pytest.mark.parametrize("text", [*PRZYJMOWANE, *WIELOZNACZNE_PRZEZ_NARZĘDNIK])
 def test_zdanie_z_czytaniem_nie_zgłasza_żadnej_formy(text):
     #  Usterka, którą to łapie: werdykt nad zdaniem przyjętym nazywa ś z Ktoś,
     #  czyli krawędź, której ścieżka tego czytania w ogóle nie bierze.
@@ -1413,9 +1440,15 @@ def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()
     #  Zdanie to stoi w README jako przykład odrzucenia, więc jego werdykt stoi
-    #  tam wypisany co do znaku. Czemu analiza staje na `ustawienia`, a nie na
-    #  niezgodnej parze, mówi `na_czym_stanęło` w `olski/segmentacja.py`.
-    assert struktura.explain() == "brak odczytania: analiza staje na „ustawienia”"
+    #  tam wypisany co do znaku. Analiza dochodzi tu do końca, bo tablica domyka
+    #  pozycję po samym kształcie ciała, a o cechy pyta dopiero unifikacja po
+    #  lesie, więc `program` staje w tablicy okolicznikiem narzędnikowym i ginie
+    #  dopiero na przypadku.
+    #  Że werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka, wywodzi
+    #  docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka.
+    assert struktura.explain() == (
+        "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
+    )
 
 
 @pytest.mark.parametrize(
@@ -1474,10 +1507,13 @@ def test_odrzucenie_nazywa_formę_na_której_analiza_stanęła():
 
 
 def test_zdanie_którego_nic_nie_domyka_nie_nazywa_znaku_kończącego_jako_zatrzymania():
-    #  Liczebnika w orzeczniku ta gramatyka nie ma, więc żadna analiza nie zamyka
-    #  zdania, choć każdą jego formę bierze jakaś produkcja. Zatrzymanie pada wtedy
-    #  na kropce, a werdykt nazywający kropkę kazałby autorowi poprawić interpunkcję.
-    werdykt = verdict("Warstwy są dwie.")
+    #  Liczebnika rządzącego w orzeczniku ta gramatyka nie ma — `Torów jest dwa.`
+    #  ma go, a `Warstwy są dwie.` stoi na liczebniku zgodnym i wchodzi
+    #  (docs/subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest) — więc żadna analiza
+    #  nie zamyka tu zdania, choć każdą jego formę bierze jakaś produkcja.
+    #  Zatrzymanie pada wtedy na kropce, a werdykt nazywający kropkę kazałby
+    #  autorowi poprawić interpunkcję.
+    werdykt = verdict("Cena jest dwa.")
     assert werdykt.status == "rejected"
     assert werdykt.zatrzymanie is None
     assert werdykt.explain() == (
@@ -1925,8 +1961,12 @@ def test_przytoczenie_bierze_licencję_od_cudzysłowu_a_nie_od_pisma_napisu():
     #  `nacisnąć`, a nie `wcisnąć`: drugie ma drugą pozycję ramy, a grupa w
     #  cudzysłowie idzie przez każdy przypadek, więc para dokłada temu zdaniu
     #  czytanie z `„B”` w celowniku i pytanie o cudzysłów tonie w nim.
+    #  Pytanie jest tu o odczytanie, a nie o jednoznaczność: napis nieodmienny
+    #  spełnia każde żądanie przypadku, więc stoi i w dopełnieniu, i w okoliczniku
+    #  narzędnikowym (WIELOZNACZNE_PRZEZ_NARZĘDNIK wyżej), a licencji udziela mu
+    #  jedno i drugie tak samo.
     przytoczony = verdict("Naciśnij klawisz „B” i zapisz plik konfiguracyjny.")
-    assert przytoczony.status == "valid", przytoczony.explain()
+    assert przytoczony.readings, przytoczony.explain()
     assert not verdict("Naciśnij klawisz B i zapisz plik konfiguracyjny.").readings
 
 
@@ -2133,26 +2173,60 @@ def test_rama_kopuli_zdejmuje_dopełnienie_którego_nikt_w_tym_zdaniu_nie_ma():
 def test_orzecznik_w_narzędniku_bierze_tylko_kopula():
     #  Ta sama luka, z której da się wyjąć jeden slot i nie więcej. Bez
     #  ograniczenia narzędnik okolicznikowy czyta się jako orzecznik pod każdym
-    #  czasownikiem, co docs/corpus.md liczy jako niezgodność z bankiem drzew:
-    #  handel wychodzi wtedy orzekany o paszportach, a nie kwitnący w nich.
-    assert verdict("Kwitnie handel paszportami.").status == "rejected"
+    #  czasownikiem, co docs/corpus.md liczyło jako niezgodność z bankiem drzew:
+    #  handel wychodził wtedy orzekany o paszportach, a nie kwitnący w nich.
+    #  Odkąd narzędnik ma pozycję okolicznika, zdanie to nie pada, tylko czyta się
+    #  tak, jak czyta je czytelnik, i to jest sprawdzian ostrzejszy niż odrzucenie:
+    #  gdyby luka się otworzyła, `paszportami` wróciłoby do orzecznika.
+    handel = verdict("Kwitnie handel paszportami.")
+    assert role(handel) == [
+        {"Subject": "handel", "Verb": "Kwitnie", "InstrumentalAdjunct": "paszportami → Kwitnie"}
+    ], handel.explain()
     assert verdict("Jan jest nauczycielem.").status == "valid"
+
+
+def test_kopula_nie_stoi_tam_gdzie_okolicznik_narzędnikowy_a_stoi_przy_innym():
+    """Zawężenie, którym kopula płaci za okolicznik narzędnikowy, wraz z jego granicą.
+
+    Obie połowy tego testu są pomyłkami, które ta pozycja wpędza po kolei.
+    Bez zawężenia `narzędziem` wychodzi raz orzecznikiem, a raz okolicznikiem
+    przy czasowniku, który nic nie bierze, więc każde zdanie orzekające
+    narzędnikiem traci jednoznaczność.
+    Zawężenie postawione na całej liście okoliczników zamiast na narzędniku w niej
+    zabiera z kolei czytanie zdaniu, w którym przy kopuli stoi sam przysłówek.
+    """
+    orzecznik = verdict("Parser jest narzędziem.")
+    assert role(orzecznik) == [
+        {"Subject": "Parser", "Predicative": "narzędziem", "Verb": "jest"}
+    ], orzecznik.explain()
+    przysłówek = verdict("Cena jest gdzie indziej.")
+    assert przysłówek.status == "valid", przysłówek.explain()
 
 
 @pytest.mark.parametrize(
     ("text", "status"),
     [
-        ("Program pozwala zostać nauczycielem.", "valid"),
         ("Program pozwala zapisać ustawienia.", "valid"),
-        ("Program pozwala zapisać nauczycielem.", "rejected"),
         ("Program pozwala zostać ustawienia.", "rejected"),
     ],
 )
 def test_rama_dochodzi_do_bezokolicznika_tak_samo_jak_do_formy_osobowej(text, status):
     #  Bezokolicznik bierze dopełnienia z tego samego leksykonu, co forma osobowa,
-    #  i widać to dopiero na parze zdań: samo przyjęcie dwóch pierwszych
-    #  przechodziłoby też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
+    #  i widać to dopiero na parze zdań: samo przyjęcie pierwszego przechodziłoby
+    #  też gramatyce, która bezokolicznikowi ramy nie stawia wcale.
     assert verdict(text).status == status
+
+
+def test_rama_bezokolicznika_rozdziela_orzecznik_od_okolicznika_narzędnikowego():
+    #  Para narzędnikowa tego samego pytania. Statusem jej nie widać, odkąd
+    #  narzędnik ma pozycję okolicznika przy każdym czasowniku: oba zdania mają
+    #  odczytanie, a różni je rola, którą narzędnik w nich zajmuje. `zostać` jest
+    #  kopulą i bierze go orzecznikiem, `zapisać` nie jest i zostawia mu samą
+    #  pozycję okolicznika (docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+    kopula = verdict("Program pozwala zostać nauczycielem.")
+    assert any("Predicative" in czytanie for czytanie in role(kopula)), kopula.explain()
+    zwykły = verdict("Program pozwala zapisać nauczycielem.")
+    assert not any("Predicative" in czytanie for czytanie in role(zwykły)), zwykły.explain()
 
 
 @pytest.mark.parametrize(
@@ -2694,7 +2768,12 @@ def test_przymiotnik_za_zaimkiem_pytajnym_nie_bierze_zaimka_wskazującego():
     assert role(pierwszy) == [
         {"Subject": "Kto inny", "Object": "ustawienia", "Verb": "zapisuje", PYTAJNY: "Kto inny"}
     ], pierwszy.explain()
-    assert verdict("Co to jest?").status == "valid"
+    #  Zdanie to jest odrzucone i było przyjęte na czytaniu, którego polszczyzna
+    #  nie ma: `Co to` wychodziło wyrażeniem przyimkowym przy `jest`, bo kopula
+    #  stała wtedy bez orzecznika (:data:`olski.subset.BEZ_KOPULI`). Pytanie tego
+    #  testu jest jednak to samo: gdyby `co to` stało się grupą pytajną, zdanie
+    #  wróciłoby do przyjętych.
+    assert verdict("Co to jest?").status == "rejected"
 
 
 def test_wykluczenie_zaimka_pytajnego_nie_tyka_pozostałych_zaimków_rzeczownych():
@@ -2914,9 +2993,9 @@ def test_grupa_wysunięta_bez_przyimka_staje_także_w_dopełnieniu():
     #  nie świadczy. Przypadka żąda tam czasownik, a nie sama pozycja, więc
     #  przeczenie za nim przestawia grupę na dopełniacz tak samo jak przestawia
     #  czoło o jednym słowie.
-    dopełnienie = verdict("Ustawa, której przepisy minister ogłasza, jest tania.")
+    dopełnienie = verdict("Ustawa, której przepisy urzędnik ogłasza, jest tania.")
     assert dopełnienie.status == "valid", dopełnienie.explain()
-    przeczenie = verdict("Ustawa, której przepisów minister nie ogłasza, jest tania.")
+    przeczenie = verdict("Ustawa, której przepisów urzędnik nie ogłasza, jest tania.")
     assert przeczenie.status == "valid", przeczenie.explain()
 
 
@@ -3055,7 +3134,10 @@ def test_dopełnienie_wysunięte_przed_głowę_bez_podmiotu_zostawia_okolicznik_
     assert role(forma)[0]["Object"] == "Usterkę", forma.explain()
     predykatyw = verdict("Nic nie widać.")
     assert role(predykatyw)[0]["Object"] == "Nic", predykatyw.explain()
-    okolicznik = verdict("Usterkę zgłoszono wczoraj.")
+    #  Okolicznik jest tu przysłówkiem bez czytania rzeczownikowego: `wczoraj` ma
+    #  u Morfeusza obok przysłówka rzeczownik nieodmienny, więc stanęłoby zarazem
+    #  w okoliczniku narzędnikowym i pytanie o pozycję utonęłoby w tamtej parze.
+    okolicznik = verdict("Usterkę zgłoszono szybko.")
     assert okolicznik.status == "valid", okolicznik.explain()
     #  Szyk odwrotny ma własne ciało, a nie przestawienie tego, więc jeden napis
     #  wychodzi jednym wyprowadzeniem, a nie dwoma.
@@ -3127,7 +3209,7 @@ def test_oba_ciała_kopuli_opuszczonej_dają_temu_zdaniu_po_jednym_przyłączeni
         ("Reguła, która rozstrzyga, jest tania.", "Subject", "która"),
         ("Polszczyzna, którą napisał autor, jest tania.", "Object", "którą"),
         ("Ustawa, której autorzy piszą, jest tania.", "Subject", "której autorzy"),
-        ("Ustawa, której przepisy minister ogłasza, jest tania.", "Object", "której przepisy"),
+        ("Ustawa, której przepisy urzędnik ogłasza, jest tania.", "Object", "której przepisy"),
         ("Który aktor robi na tobie największe wrażenie?", "Subject", "Który aktor"),
         ("Które zadania gmina wykonuje?", "Object", "Które zadania"),
     ],

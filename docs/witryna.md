@@ -69,7 +69,7 @@ a dwa żądania naraz obsługują różne workery
 Frazę werdyktu ma na własność kod: `Verdict.explain` w `olski/werdykt.py`.
 Witryna jej nie tłumaczy i drugiej nie pisze,
 więc przez API idzie `jedno odczytanie`
-oraz `brak odczytania: analiza staje na „ustawienia”`,
+oraz `brak odczytania: analiza staje na „i”`,
 czyli to samo zdanie, które drukuje komenda.
 
 Fraza polska napisana na stronie byłaby drugą kopią,

@@ -325,26 +325,21 @@ i wypada tak w każdym z trzech przebiegów
 Płaci więc za nią autor i będzie płacił, a wpis zostaje na liście po to,
 żeby nikt nie liczył jej drugi raz.
 
-**Okolicznik wyrażony narzędnikiem bez przyimka.**
-`Granica jest czasem granicą modułu.` pada,
-`Granica jest niekiedy granicą modułu.` przechodzi.
-Narzędnika bez przyimka olski nie bierze przy czasowniku
-([subset.md](subset.md#what-it-does-not-cover-yet)),
-a ten rejestr wyraża nim okoliczność: `czasem`, `ręką`, `kilkoma drzewami`.
-Formy `czasem` Morfeusz nie czyta przy tym jako przysłówka wcale,
-tylko jako narzędnik `czasu`,
-więc słowo, którym ten rejestr mówi `niekiedy`, nie ma w olskim ani jednej pozycji.
-Naprawą jest tu wymiana słowa, a nie przestawienie zdania.
+**Okolicznik narzędnikowy wysunięty przed zdanie.**
+`Czasem granica jest granicą modułu.` pada,
+`Granica jest czasem granicą modułu.` przechodzi.
+Narzędnik bez przyimka gramatyka bierze i bierze go na każdym miejscu okolicznika
+poza tym jednym ([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+bo przed zdaniem stoi już orzecznik wysunięty przed kopulę.
+Naprawą jest tu przestawienie okolicznika za czasownik.
 
-**Liczebnik w orzeczniku.**
-`Tory są dwa.` pada, `Torów jest dwa.` też,
-a `Działają dwie rzeczy.` przechodzi.
-Grupa liczebnikowa jest wpuszczona jako podmiot i jako dopełnienie,
-a zdanie, które mówi, ile czegoś jest, nie wychodzi.
-Ten brak zasłania zarazem dwukropek, który wylicza:
-`Tory są dwa: gramatyka i skład.` ma pozycję za dwukropkiem
-([subset.md](subset.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
-a nie ma czasownika przed nim.
+**Liczebnik rządzący w orzeczniku.**
+`Torów jest dwa.` pada, `Tory są dwa.` przechodzi.
+Zgodny orzeka i orzeka razem z dwukropkiem, który wylicza —
+`Tory są dwa: gramatyka i skład.` —
+a rządzący stawia podmiot w dopełniaczu i nie zgadza orzeczenia z niczym
+([subset.md](subset.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+Naprawą jest tu wymiana szyku na zgodny.
 
 **Apozycja z nazwą.**
 `Bank drzew Składnica mierzy gramatykę.` pada,
@@ -387,8 +382,16 @@ Polszczyzna pisze oba szyki, a autor płaci tu przestawieniem podmiotu
 przed pierwszy spójnik.
 
 **Słowo pytające poza tymi czterema.**
-`Pyta, ile ta gramatyka kosztuje.` pada,
-`Pyta, czy go to dotyczy.` przechodzi.
+Pozycja ta stoi tu inaczej niż pozostałe, bo zdania z nią nie padają:
+`Pyta, ile ta gramatyka kosztuje.` i `Pyta, dlaczego gramatyka rośnie.`
+wychodzą przyjęte, a wychodzą na czytaniu, którego polszczyzna nie ma.
+Morfeusz daje `ile` i `dlaczego` część mowy `adv`, a `jaki` przymiotnikową,
+i olski bierze te części mowy całe, więc słowo pytające staje okolicznikiem
+albo przydawką, a pytania zależnego w tym zdaniu nie ma wcale.
+Autor nie ma po czym poznać, że napisał zdanie poza olskim,
+i dlatego pozycja ta jest droższa od tych, które zawracają.
+Dopisane słowo pytające ma to czytanie zdjąć, a nie stanąć obok niego;
+`TODO.md` trzyma ruch.
 Pytanie ma w gramatyce trzy kształty — zaimek przy rzeczowniku,
 `kto` i `co` same
 ([subset.md](subset.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))

@@ -1326,11 +1326,16 @@ Na czym drugi warunek się rozchodzi, pokazuje zdanie, które olski przyjmuje:
 python3 -m olski.check -c "Zobacz docs/subset.md."
 ```
 
-Czytanie ma jedno, a suma iloczynów po samych pozycjach liczy nad nim dwa.
-`Complements` nad `docs/subset.md` buduje się dwiema produkcjami
-z `build` w `olski/subset.py`, raz przez `Object`, raz przez `Predicative`,
+Suma iloczynów po samych pozycjach liczy nad nim o jedno czytanie więcej,
+niż ma ich to zdanie.
+`Complements` nad `docs/subset.md` buduje się trzema produkcjami
+z `build` w `olski/subset.py` — przez `Object`, przez `Predicative`
+i przez okolicznik narzędnikowy —
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
+Czytania są z tego dwa, bo okolicznik narzędnikowy dochodzi tu do czasownika
+([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+a orzecznik ginie u rodzica.
 Obie są czytaniami tej rozpiętości, więc pakowanie stawia je pod jedną pozycją
 i robi z nimi to, czego pierwszy warunek żąda.
 Rozchodzi się dopiero to, czym pozycja jest dla rodzica:
@@ -1338,7 +1343,7 @@ Rozchodzi się dopiero to, czym pozycja jest dla rodzica:
 ramę czasownika z pozycją, którą dopełnienie zajmuje,
 a `zobacz` ma ramę domyślną, w której narzędnika nie ma.
 Rodzic wskazuje pozycję, a nie wariant,
-więc liczy oba, choć unifikacja przepuściła jeden.
+więc liczy wszystkie trzy, choć unifikacja przepuściła dwa.
 
 Nadmiar jest więc wzięty z przeciwnej strony niż ten wyżej:
 tamten bierze się z rozdzielenia pozycji, a ten ze sklejenia.

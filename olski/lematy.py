@@ -23,7 +23,7 @@ from __future__ import annotations
 #: Pytają o nią klasy walencyjne gramatyki (``olski/subset.py``)
 #: oraz świadek kontekstowy, który przy tym czasowniku milczy
 #: (``olski/rozstrzyganie.py``).
-KOPULA = frozenset({"być", "zostać", "zostawać", "pozostać", "pozostawać"})
+KOPULA = frozenset({"być", "bywać", "zostać", "zostawać", "pozostać", "pozostawać"})
 
 #: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
 #: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego

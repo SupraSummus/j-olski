@@ -657,8 +657,8 @@ Beside the reading that leaves the adverbial to the clause
 it is a report the writer can act on
 rather than an analysis handed over with confidence.
 
-A second kind of wrong reading is missing from those counts,
-because the grammar refuses the sentences it stood on outright:
+A second kind of wrong reading is what the valency restriction keeps out,
+and this sentence is where it was read:
 
 ```text
 Kwitnie handel paszportami.
@@ -668,12 +668,16 @@ Kwitnie handel paszportami.
 a nominal predicative is a noun phrase in that case,
 so a grammar recording no valency
 has the trade predicated of passports rather than blooming in them.
-Two things keep it out and neither is about the predicative.
+Two things keep that reading out and neither is about the predicative.
 `Kwitnąć` takes no instrumental,
 which is what the copula's frame says, the copula being the lexicon's hand-written entry
 ([subset.md](subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 and the verb-initial order with a predicative takes the agreeing one alone,
-which is a second refusal of the same sentence.
+which is a second refusal of the same reading.
+The sentence itself now derives, and derives the way a reader reads it:
+the instrumental is an adjunct, admitted as a position of its own
+([subset.md](subset.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+so what the restriction refuses is the predicative and not the sentence.
 Dropped from the frame — every valency class gaining `inst`,
 the verb-initial position left as it stands —
 the restriction costs dozens of sentences every reading they had
