@@ -2311,6 +2311,16 @@ def test_pozycje_okolicznika_w_orzeczeniu_nie_zachodzą_na_siebie():
     assert found.explain() == '2 odczytania; „w katalogu” → „zapisuje”, „pliku”'
 
 
+def test_forma_poprzyimkowa_nie_stoi_okolicznikiem_bez_przyimka_przed_sobą():
+    #  `adjp` jest u Morfeusza formą, która poza przyimkiem nie stoi, i cała ta
+    #  pozycja jest ciałem o dwóch córkach właśnie dlatego. Usterka, którą to
+    #  łapie: `adjp` dopisane do części mowy terminala okolicznika zamiast do
+    #  osobnego ciała — wtedy każde zdanie z taką formą samą dostaje czytanie,
+    #  którego polszczyzna nie ma, a werdykt drugiego zdania mówi `valid`.
+    assert verdict("Reguła działa po polsku.").status == "valid"
+    assert verdict("Reguła działa polsku.").status == "rejected"
+
+
 @pytest.mark.parametrize("leksykon", [WALENCJA, WALENCJA_ZWROTNA])
 def test_klasy_walencyjne_nie_zachodzą_na_siebie(leksykon):
     #  Lemat wzięty dwiema klasami jest dwoma czytaniami tego samego kształtu, a

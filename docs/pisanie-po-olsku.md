@@ -416,15 +416,6 @@ i tym różni się ono od pytania o podmiot albo o dopełnienie.
 Predykatyw bierze bezokolicznik na swoim miejscu,
 a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
 
-**Przymiotnik w formie poprzyimkowej.**
-`Reguła działa po polsku.` pada, `Reguła działa wszędzie.` przechodzi.
-Morfeusz daje formie `polsku` część mowy `adjp`, której nie bierze żaden terminal,
-a okoliczność wyrażoną tak polszczyzna pisze wszędzie: `po kolei`, `po cichu`.
-Nazwa tego dokumentu potrzebuje przy tym dwóch napraw, a nie jednej,
-bo `olsku` wraca z Morfeusza jako `ign`:
-[leksykon projektu](subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
-wydaje temu słowu przymiotnik i rzeczownik, a formy poprzyimkowej nie wydaje.
-
 **Angielska nazwa pisana małą literą.**
 `README mówi o podzbiorze.` przechodzi,
 a `Sekcja mówi o build w olski/subset.py.` pada na `build`.

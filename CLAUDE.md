@@ -782,6 +782,10 @@ werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdan
 Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,
 a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
 
+Odcisk nad prozą pokazuje różnicę dopiero na zdaniu, którego werdykt się zmienił,
+więc zmiana przestawiająca same produkcje potrzebuje odcisku samej gramatyki:
+produkcje wraz z deklaracją wypisuje `harness/odcisk.py`.
+
 **Blok wydruku stoi w dokumencie pod komendą, która go odtwarza.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/werdykt.py`
@@ -793,6 +797,13 @@ i żąda, żeby każdy wypisany wiersz komenda naprawdę drukowała.
 Blok bez takiej komendy rozjeżdża się po cichu, więc go nie wklejamy.
 Arytmetyki pod nim test nie widzi:
 dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.
+
+Zdania zacytowanego w backtickach nie pilnuje ani ten test, ani `tests/test_docs.py`,
+a zmienia je dopisanie do gramatyki.
+Werdykt i liczbę czytań każdego takiego zdania wypisuje `harness/cytaty.py`,
+znów do porównania między dwoma drzewami roboczymi;
+zdanie, którego werdykt się zmienił, czyta się potem wraz z akapitem nad nim,
+bo dopisanie bywa naprawą tego zdania, a bywa unieważnieniem tamtego akapitu.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,

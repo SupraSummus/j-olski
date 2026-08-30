@@ -838,6 +838,9 @@ i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
   `Mieszczanie zabili okna deskami.`, `Granica jest czasem granicą modułu.`
   Wysunięcia przed zdanie ta pozycja nie ma i nie ma go z pomiaru
   ([below](#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika))
+- Okoliczność wyrażona przyimkiem i formą, która poza przyimkiem nie stoi:
+  `Reguła działa po polsku.`, `Mówi po cichu.`, `Widać to z bliska.`
+  ([below](#przymiotnik-w-formie-poprzyimkowej-jest-okolicznikiem-a-nie-wyrażeniem-przyimkowym))
 - Liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest:
   `Tory są dwa.`, `Warstwy są dwie.`
   ([below](#liczebnik-orzeka-o-tym-ile-czegoś-jest))
@@ -5170,6 +5173,44 @@ a czoło zdania jest osobnym ciałem produkcji:
 Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
 więc konstrukcja jest tu droga w rejestrze,
 który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
+
+## Przymiotnik w formie poprzyimkowej jest okolicznikiem, a nie wyrażeniem przyimkowym
+
+`Reguła działa po polsku.` wyprowadza się, a `Reguła działa polsku.` nie:
+Morfeusz daje takiej formie część mowy `adjp`, czyli formę, która poza przyimkiem nie stoi,
+i osobno nie bierze jej żaden terminal, więc para wchodzi jednym ciałem.
+
+Okolicznikiem, a nie wyrażeniem przyimkowym, bo pytanie, na które ta para odpowiada,
+jest pytaniem przysłówka: `po cichu` odpowiada tam, gdzie odpowiada `cicho`.
+Formalizm mówi to samo, bo `adjp` nie niesie przypadka i przyimek nie ma tu czym rządzić;
+ciało wraz z powodem, dla którego głową jest forma, stoi w `olski/subset.py`.
+
+Przyimka lista nie zawęża, i jest to cena wzięta świadomie.
+`w polsku` wyprowadza się przez to tak samo jak `po polsku`,
+choć polszczyzna pisze samo drugie.
+Która forma `adjp` staje po którym przyimku, jest faktem o leksemie, a nie o gramatyce,
+a lista pisana ręką odsiewałaby razem z tym `z bliska` i `od dawna`.
+Jednoznaczności to nie kosztuje:
+pary, której nikt nie pisze, nie ma w żadnym zdaniu, więc nie dokłada ona czytania żadnemu.
+
+Nad prozą tego repozytorium wiersz `adjp`
+[kolejki blokerów](pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)
+obiecywał kilkanaście zdań,
+a pozycja wyciąga z odrzucenia przeszło połowę z nich;
+reszta staje po niej na blokerze następnym, bo zdanie odrzucone niesie zwykle kilka.
+Wyciągnięte wychodzą prawie wszystkie wieloznaczne, a jednoznaczne wychodzi jedno,
+i tym ta pozycja jest podobna do okolicznika w ogóle: kupuje czytanie, a nie zdanie olskie.
+
+Cena liczona werdyktem wyszła zerowa:
+sonda różnicowa nie znalazła nad tą prozą ani jednego zdania,
+które traciłoby jednoznaczność, ani żadnego przejścia poza tymi dwoma w górę.
+Miejsce, w którym cena mogłaby paść, jednak istnieje,
+i jest nim forma niosąca obok `adjp` czytanie przymiotnikowe — `bliska`, `dawna`, `rzadka` —
+bo tamto czytanie produkcje brały już przedtem.
+Sonda liczy werdykty, więc czytanie dołożone zdaniu i tak wieloznacznemu
+stoi poza jej zasięgiem, a `TODO.md` trzyma ten brak;
+nad zdaniami cytowanymi w tej prozie, gdzie liczbę czytań widać zdanie po zdaniu
+(`harness/cytaty.py`), nie przybyło ono ani jednemu.
 
 ## Implementation
 
