@@ -384,7 +384,7 @@ więc bloku wydruku wklejonego do tych dwóch nie pilnuje nic.
 Wywód — czym jest ważność, co się liczy jako jedno odczytanie, co mówi odrzucenie,
 ile kosztuje przyłączanie — czyta się od góry,
 a rejestr konstrukcji przebiega się do swojego wpisu
-([CLAUDE.md](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)).
+([CLAUDE.md](CLAUDE.md#skreślenie-bywa-całą-naprawą)).
 Rejestr to przeszło trzy tysiące wierszy w pięćdziesięciu paru sekcjach
 między `What the grammar covers` a `What it does not cover yet`,
 czyli trzy czwarte pliku.
@@ -406,6 +406,37 @@ czy zostaje w ramie — oraz ogon za `What it does not cover yet`,
 gdzie przyłączanie i przysłówek są wywodem,
 a przymiotnik w formie poprzyimkowej konstrukcją.
 Granica pada na sekcję, a nie na temat, i to ona jest tu całą decyzją.
+
+Dwie sekcje `CLAUDE.md` opisują jedną rodzinę usterek rejestru
+i odsyłają do siebie nawzajem:
+[fraza gotowa](CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)
+pyta, czy słowo zostało wybrane,
+a [adresat](CLAUDE.md#dla-kogo-jest-napisane-zdanie) pyta, dla kogo zdanie napisano.
+Razem zajmują siódmą część pliku, który każda sesja czyta w całości.
+Ruchem jest jeden katalog chwytów zamiast dwóch,
+zamknięty jednym akapitem, bo oba akapity zamykające mówią dziś to samo:
+że trafienie jest wezwaniem do przeczytania zdania, a nie werdyktem.
+Do przeczytania jest, które pary chwytów są tą samą usterką —
+urzędowa fraza gubi wykonawcę, a wymyślony sprawca wstawia w jego miejsce abstrakcję —
+oraz czy zwinięcie zachowa granicę między wywodem a instrukcją,
+bo ona rozstrzyga, gdzie te chwyty wolno zostawić.
+
+[Splitting work across sessions](CLAUDE.md#splitting-work-across-sessions)
+odpowiada planiście dzielącemu partię wpisów,
+a `CLAUDE.md` pisany jest pod sesję, która podział dostaje już zrobiony
+([docs/roles.md](docs/roles.md#sesja-agenta)).
+Każda sesja czyta przez to kilkadziesiąt wierszy,
+a potrzebuje ich tylko ta, która taką partię układa.
+Ruchem jest przeniesienie sekcji do właściciela i zdanie z linkiem w jej miejscu,
+bo [sesja agenta](docs/roles.md#sesja-agenta) wskazuje ją
+jako jedną z trzech rzeczy, które robią tej roli całą drogę.
+Do rozstrzygnięcia jest właściciel, a dwaj kandydaci różnią się ceną.
+[Planista](docs/roles.md#planista) już nazywa tę postawę,
+a do `docs/roles.md` wchodzi tylko ten, kto po niego przyszedł.
+Nagłówek tego pliku mówi, czym jest pojedynczy wpis,
+a sekcja mówi, co robi się z partią wpisów — tylko że
+[sesja agenta](docs/roles.md#sesja-agenta) czyta i ten plik w całości,
+więc przeniesienie tam zostawia te wiersze w każdej sesji.
 
 ## Komendy i sondy
 
@@ -647,6 +678,31 @@ a wystąpień w prozie nie pilnuje nic i te trzeba przejść grepem.
 Do przeczytania jest przy tym
 [`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
+
+[Zdanie spakowane](CLAUDE.md#dla-kogo-jest-napisane-zdanie) wykrywa dziś tylko czytelnik,
+a pierwszy z dwóch ruchów tej reguły jest policzalny:
+formy osobowe w zdaniu daje Morfeusz,
+a spójnik między nimi widać bez rozbioru.
+Na [czterech osiach](docs/linter.md#cztery-osie-każdej-reguły)
+wypada to inaczej niż pakiet, który się zamknął:
+pytanie jest o strukturę, a nie o uzus,
+kształtem jest werdykt o zdaniu, a nie stopa nad tekstem,
+a populacją jest nasza własna proza,
+więc próg jest niepotrzebny i wszystkie trafienia i tak się czyta.
+Głębokością jest morfologia, bo rozbioru nad tymi plikami nie ma:
+gramatyka wyprowadza zdania README,
+a `CLAUDE.md` i `docs/` pisane są bez tej ambicji.
+Ruchem jest komenda nad prozą repozytorium, wzorowana na `olski/check.py`,
+który już chodzi po zdaniach pliku, i na `harness/markdown.py`, który go czyta.
+Drugi ruch reguły dzieli się na części o różnej cenie:
+„tak samo”, „też” i „odwrotnie” w miejscu orzeczenia są listą słów,
+a „napisane”, „go” i „co ją” żądają anafory, a anafory nikt tu nie zbudował.
+Do rozstrzygnięcia jest, czy wpis kończy się na tej liście słów,
+czy anafora dostaje własny wpis.
+Do przeczytania są dwa zdania wiodące w
+[sekcji o pomiarze](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) —
+o stosunku zgrubnym i o mierzeniu na przemian —
+bo oba są spakowane i mówią, czego ta komenda ma nie przepuścić.
 
 ## Korpusy, ekstrakcja i figury
 

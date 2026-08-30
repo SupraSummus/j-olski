@@ -144,33 +144,29 @@ czy skreślona rzecz jest nadal powiedziana gdzie indziej?
 Jest — bo fakt ma [właściciela](#one-owner-per-fact-repeat-narrative-freely),
 bo to drugie zdanie o tym samym,
 bo to komentarz powtarzający wiersz nad sobą,
-bo to [sprawozdanie, które odtwarza polecenie](#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem).
+bo to sprawozdanie, które odtwarza się poleceniem.
 Skreślasz wtedy od razu i bez pytania.
 Nie jest — bo to jedyna kopia tej myśli.
 Wtedy nie odchudzasz, tylko wycofujesz regułę albo wywód:
 wpisz to do [`TODO.md`](TODO.md) i zostaw decyzję osobnej zmianie.
 
-Skreślenie zrobione przy okazji idzie osobnym commitem,
-bo wmieszanego w zmianę merytoryczną nikt w przeglądzie nie zobaczy.
-Skreślenie, którego twoja zmiana wymaga, robisz w tym samym commicie co ją.
-
-## Wolno nie pisać tego, co odtwarza się poleceniem
-
-Pisze się to, czego bez sesji nie da się odtworzyć:
+**Nie pisz sprawozdań. Sprawozdanie, które zastaniesz, skreśl.**
+Nie potrzebujesz na to zgody ani lepszej wersji na jego miejsce.
+Pisz to, czego bez sesji nie da się odtworzyć:
 decyzję, odrzuconą alternatywę
 oraz te zdania korpusu, które trzeba przeczytać, żeby werdyktowi uwierzyć.
-Nie trzeba pisać tego, co odtwarza się poleceniem:
-tabeli, wyliczenia ani sprawozdania z przebiegu.
-O samej liczbie mówi to [akapit o liczbie kruchej](#pomiar-i-liczba-która-po-nim-zostaje),
-a tu chodzi o cały pasaż.
-
-Skreślić taki pasaż wolno każdemu, kto go zauważy,
-bez pytania i bez lepszej wersji na jego miejsce
-([skreślenie bywa całą naprawą](#skreślenie-bywa-całą-naprawą)).
+Tabela, wyliczenie i sprawozdanie z przebiegu odtwarzają się poleceniem.
+Sprawozdanie poznasz po dwóch rzeczach.
+Sekcja pisana w czasie przeszłym przebiegu — „wyszło”, „policzono” —
+jest sprawozdaniem, a nie dokumentem.
+Pozycja bez konsekwencji, czyli taka, która nie ruszyła
+ani decyzji, ani kodu, ani następnego ruchu, jest wyliczeniem tego, co próbowano.
 Licencja jest tu potrzebna dlatego, że sprawozdanie kosztowało sesję,
 a rzeczy zdobytej całą sesją nikt sam nie skreśli, dopóki nie wolno.
+O samej liczbie mówi [akapit o liczbie kruchej](#pomiar-i-liczba-która-po-nim-zostaje),
+a tu chodzi o cały pasaż.
 
-Wywodu ta licencja nie tyka i na nim się kończy.
+**Wywodu ta licencja nie tyka.**
 Powtórzenie polecenia kosztuje minuty,
 a dwie wersje jednego wywodu kosztują więcej niż liczba nieaktualna:
 liczby nikt nie broni, a rozjazdu dwóch wywodów nie łapie żaden test
@@ -178,21 +174,20 @@ liczby nikt nie broni, a rozjazdu dwóch wywodów nie łapie żaden test
 Kto skreśla, pyta więc o jedno:
 czy po tym trzeba będzie puścić polecenie, czy podjąć decyzję.
 
-Sprawozdanie widać po dwóch rzeczach.
-Sekcja pisana w czasie przeszłym przebiegu — „wyszło”, „policzono” —
-jest sprawozdaniem, a nie dokumentem.
-Pozycja bez konsekwencji, czyli taka, która nie ruszyła
-ani decyzji, ani kodu, ani następnego ruchu, jest wyliczeniem tego, co próbowano.
-
-Osobno stoi dokument, który rośnie razem z pracą —
-sekcja na konstrukcję, wpis na sondę, wiersz na figurę.
-Taki dokument jest rejestrem i przeczytania nie żąda:
+**Rejestr nie jest sprawozdaniem.**
+Rejestr rośnie razem z pracą —
+sekcja na konstrukcję, wpis na sondę, wiersz na figurę —
+i nie żąda przeczytania:
 przebiega się go do swojego wpisu, więc wolno mu mieć stałe pola albo tabelę
 zamiast prozy, którą czyta się od początku.
 Wpis zamknięty nie żąda przy tym sekcji, tylko zdania w tej,
 która jest jego wnioskiem
-([tak samo](#documents-describe-the-present-git-owns-the-past)
-schodzi znacznik zrobionego).
+(znacznik zrobionego
+[kasuje się z tego samego powodu](#documents-describe-the-present-git-owns-the-past)).
+
+Skreślenie zrobione przy okazji idzie osobnym commitem,
+bo wmieszanego w zmianę merytoryczną nikt w przeglądzie nie zobaczy.
+Skreślenie, którego twoja zmiana wymaga, robisz w tym samym commicie co ją.
 
 ## The reader goes sentence by sentence
 
@@ -517,15 +512,28 @@ Powtarza się w niej kilka chwytów.
   choćby jego wiersz nie wszedł do zmiany.
   Gdzie czasownik dokładny nie pasuje, nagłówek nazywa sam temat,
   a tezę sekcji piszesz w jej pierwszym akapicie.
+- **Zdanie spakowane.**
+  Autor wyrzuca z niego to, co czytelnik w zasadzie umie odtworzyć:
+  granicę między dwoma zdaniami, powtórzony rzeczownik, powtórzony czasownik.
+  Sam tego nie zauważa, bo zna treść i niczego nie odtwarza.
+  Tędy biegnie granica cięcia z reguły wyżej:
+  skreślone słowo, którego czytelnik nie odtwarza, jest zyskiem,
+  a skreślone słowo, które musi odtworzyć, jest kosztem.
+  Policz twierdzenia: w instrukcji ma być jedno na zdanie.
+  Sygnałem są dwa człony spięte przez „a”, „więc” albo „i”,
+  każdy z innym podmiotem.
+  Sprawdź potem, czy któregoś rzeczownika albo czasownika
+  nie trzeba wziąć z członu wcześniejszego, i wstaw słowo z powrotem.
+  „Sprawozdania nie pisze się, a napisane skreśla każdy, kto je zauważy” →
+  „Nie pisz sprawozdań. Sprawozdanie, które zastaniesz, skreśl”.
+  Dwa takie skróty mają niżej własne nazwy.
 - **„To” jako podmiot akapitu.**
   Zaimek odsyła do całego poprzedniego zdania, a nie do rzeczownika.
-  Autor takiego zdania nie zauważy, bo wie, o czym pisał.
   Wstaw w miejsce zaimka rzeczownik.
 - **Domyślne orzeczenie.**
-  Zdanie pomija czasownik i każe czytelnikowi odtworzyć go z poprzedniego zdania;
-  sygnałem jest „tak samo”, „też” albo „odwrotnie” w miejscu orzeczenia.
-  Kto wchodzi w środek, poprzedniego zdania nie przeczytał.
-  Powtórz czasownik, choćby zdanie wyszło dłuższe:
+  Sygnałem jest „tak samo”, „też” albo „odwrotnie” w miejscu orzeczenia.
+  Kto wchodzi w środek, poprzedniego zdania nie przeczytał,
+  więc powtórz czasownik, choćby zdanie wyszło dłuższe:
   „a zdanie, które i tak poprawiasz, tak samo” →
   „Te same reguły stosujemy do zdania, które poprawiamy z innego powodu”.
 - **Jeden rytm na wszystko.**
@@ -936,57 +944,29 @@ If a change deliberately hands some information over to git history —
 a deleted done-marker, a dropped section — the message says so
 rather than implying nothing was lost.
 
-## Git in remote sessions: history is truncated or stale
+## Git w sesji zdalnej
 
-A Claude Code session on the web may get a shallow clone.
-`.git/shallow` truncates history,
-and branches outside the task are fetched shallower still and staler.
-Such a clone manufactures illusions:
-the main branch can look two commits long,
-`git merge-base` finds no common ancestor,
-and `git log main..HEAD` prints the entire history
-as though the lines were disjoint.
-Before drawing a conclusion from history —
-about diverged branches, rewritten history, missing files —
-check `git rev-parse --is-shallow-repository`
-and deepen the clone with `git fetch origin --unshallow`,
-which also refreshes the truncated remote refs.
-Only a complete clone tells the truth about where a commit came from.
+Klon w sesji zdalnej pokazuje historię obciętą albo nieświeżą.
+`.git/shallow` ją ucina,
+a ref zdalny pobrany przy starcie kontenera przestaje nadążać za gałęzią.
+Obie przyczyny dają to samo złudzenie:
+`main` długi na dwa commity, `git merge-base` bez wspólnego przodka,
+`git log main..HEAD` wypisujący całą historię, jakby linie były rozłączne.
+`git rev-parse --is-shallow-repository` wykrywa tylko pierwszą z nich,
+a przy drugiej odpowiada `false`.
+`git fetch --all` i `git fetch origin --unshallow` usuwają obie,
+więc puść je, zanim oprzesz na refie wniosek o historii, diff albo squash.
+Świeży klon nie jest tu wyjątkiem.
 
-Shallowness is one of two causes, and its check reads `false` for the other.
-A remote-tracking ref that has not moved since the container started
-produces the same illusions against complete history,
-so a `main` that looks one commit long
-is not explained by `--is-shallow-repository` answering `false`.
-`git fetch --all` settles both at once,
-so fetch before you use a ref as a base, a diff target or a squash point,
-and a fresh clone is no exception.
-
-## Rewriting history
-
-**Squash onto the parent of your own first commit,
-not onto a branch name.**
-Find that commit explicitly
-and reset to `<your-first-commit>^`.
-Resetting to `origin/main` or any other name
-aims at a ref whose value you have not checked,
-and if it turns out to sit further back than you thought
-you will silently absorb commits somebody else wrote.
-
-**Check what you are about to rewrite, before you rewrite it.**
-`git log --oneline <base>..HEAD` should list your commits and nothing else.
-If a diffstat contains files you never touched,
-the base is wrong.
-
-**Never rewrite a commit you did not author in this session.**
-Its message and authorship are somebody's work.
-Absorbing it into a squash destroys both,
-and the loss is not visible in the resulting tree,
-which is why it has to be caught before the push
-rather than after.
-
-**Verify the squash preserved the content.**
-`git diff <squashed> <original-head>` must be empty.
+Przed squashem znajdź własny pierwszy commit, bo nazwa gałęzi,
+której wartości nie sprawdziłeś, sięga czasem dalej wstecz, niż myślisz,
+i wciąga wtedy w squash cudzy commit razem z jego autorstwem i komunikatem.
+Po drzewie tej straty nie widać, więc łapie się ją tylko przed pushem.
+Sprawdź potem, co przepisujesz:
+`git log --oneline <baza>..HEAD` ma wypisać twoje commity i nic poza tym,
+a diffstat tej bazy — tylko pliki, które ruszałeś.
+Dopiero wtedy resetuj na `<pierwszy-commit>^`,
+a po squashu `git diff <po-squashu> <dawny-head>` ma być pusty.
 
 ## Przegląd sprawdza zmianę wobec całego tego pliku
 
