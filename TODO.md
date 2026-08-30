@@ -1308,6 +1308,73 @@ Jeśli Walenty jej nie wypisuje, ruchu nie ma i cały wpis zamyka skasowanie,
 bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
 olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej.
 
+Wysunięte wyrażenie przyimkowe nie potrzebuje licencji od niczego,
+więc `Ustawa, o której flaga to płat, obowiązuje.` wychodzi `valid`.
+Wpuszcza je ciało `rodzina.rdzeń → rodzina.modyfikator ClauseConjunct`
+w `olski/subset.py`, które przed dowolnym zdaniem składowym dopuszcza dowolny przyimek.
+Łącznik `to` przyczyną nie jest i nie jest nią kopula pod nim opuszczona:
+`Ustawa, w której flaga to płat, obowiązuje.` jest polszczyzną
+i wyprowadza się tym samym ciałem,
+a `Ustawa, o której flaga jest płatem, obowiązuje.` jest tą samą usterką
+z kopulą wypisaną wprost.
+Licencji od każdego wysunięcia żądać też nie wolno,
+bo `Godzina, o której poseł śpi, mija.` jest polszczyzną,
+a rama `spać` wymienia `nad` i `z`.
+Fakt rozdzielający te zdania jest w `olski/leksykon.txt` —
+rama rzeczownika `mowa` wymienia `o`, a `flaga` ani `płat` nie mają tam wpisu —
+i czyta go sam świadek ramowy w `olski/rozstrzyganie.py`,
+a czemu nie czyta go gramatyka, wywodzi `olski/walencja.py`.
+Dzisiejsza unifikacja tego żądania nie zapisze,
+bo licencjonuje tu którekolwiek słowo zdania składowego, a nie jego głowa:
+w `o których mowa jest tam` przyimka żąda rama podmiotu, kiedy głową jest `jest`.
+Cechy wychodzą z samej głowy (`_wypuszczane` w `olski/grammar.py`),
+a unifikacja zbiory przecina,
+więc suma przyimków licencjonowanych przez wszystkie córki nie ma czym pójść w górę.
+Świadek nie ma tu z kolei czego zawężać, bo gospodarz jest jeden:
+wysunięte wyrażenie stoi przed całym zdaniem składowym,
+a zejście w górę zatrzymuje się na rdzeniu rodziny (`gospodarze` w `DEKLARACJA`),
+więc kilku gospodarzy daje dopiero luka.
+Pomiar luki tych ciał nie obejmuje:
+`_wysunięty_okolicznik` w `harness/luka.py` zostawia je nieruszone,
+więc liczby z
+[`docs/design-notes.md`](docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
+mówią o wysuniętym podmiocie i dopełnieniu, a nie o tym wyrażeniu.
+Powód tamtego odrzucenia też tu nie sięga: luka dokładała tam czytania,
+których czytelnik nie ma, a czytania po gospodarzach są tymi samymi,
+które olski daje wyrażeniu stojącemu na swoim miejscu
+([`docs/subset.md`](docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+Sama pozycja zarabia na siebie i mówi to sonda różnicowa
+zdejmująca ciała z `rodzina.modyfikator` w ciele, osobno dla każdego z dwóch wnętrz:
+nad Składnicą pod złotą morfologią wnętrze zdaniowe wyciąga z odrzucenia
+kilkadziesiąt zdań, w tym kilkanaście przyjętych jednoznacznie i zgodnych
+z drzewem wzorcowym, nad korpusem ustaw kilkadziesiąt i żadnego jednoznacznie,
+a jednoznaczności nie odbiera ani jednemu zdaniu w żadnym z dwóch korpusów.
+Wnętrze z rzeczownikiem orzekającym nie rusza nad Składnicą ani jednego zdania
+i jedno nad ustawami, czyli odpowiada rejestrowi, dla którego je wpisano.
+Cena luki ma przez to górną granicę i są nią zdania,
+które na tej pozycji stoją jednoznacznie, bo tylko one mają co stracić,
+a sonda wypisuje je z nazwiska.
+
+Przyimka wysuniętego wyrażenia nie widać w werdykcie, a innego przyimka widać:
+`O czym poseł mówi?` streszcza się jako `Interrogative: czym`,
+a `Poseł mówi o ustawie.` jako `Modifier: o ustawie → mówi`.
+Rola dla tego wyrażenia nic nie kosztuje i jest to zmierzone:
+`rodzina.modyfikator` dopisany do `role` i do `przyłączane`
+w `DEKLARACJA` (`olski/subset.py`)
+nie rusza werdyktu o ani jedno zdanie Składnicy ani korpusu ustaw.
+Sama rola kosztuje najwyżej tyle samo, bo streszczenie rozszczepia wtedy
+o jedno pole mniej, więc pomiaru drugi raz nie żąda.
+Strzałki temu wyrażeniu dać jednak nie wolno i mówi to kryterium listy obok:
+`przyłączane` bierze rolę, którą gramatyka wpuszcza w kilka miejsc,
+a to wyrażenie ma miejsce jedno, więc strzałka powtarzałaby czasownik zawsze —
+i za to samo stoi poza tamtą listą dopowiedzenie.
+Do rozstrzygnięcia przed samą rolą jest etykieta.
+Nazwą roli jest nazwa symbolu rodziny, więc jedna rzecz nosi trzy nazwy tam,
+gdzie wyrażenie stojące na swoim miejscu nosi `Modifier`,
+a zlanie trzech w jedną odbiera jedyną rzecz, jaką te trzy mówią:
+w której rodzinie stoi czoło.
+Do rozstrzygnięcia jest, czy ta rzecz ma czytelnika.
+
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `harness/pomiar.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
