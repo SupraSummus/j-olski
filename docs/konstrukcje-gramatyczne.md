@@ -2240,17 +2240,49 @@ a polszczyzna parafrazuje to zdanie kopulą w obie strony —
 `Flaga jest płatem tkaniny.` i `Rozmiar jest jedyną różnicą.`
 Warianty gramatyki są przez to dwa, po jednym na stronę,
 i nad Składnicą przyjmują te same zdania, różniąc się samą etykietą:
-podmiot postawiony za łącznikiem zgadza się z drzewem wzorcowym niemal wszędzie,
-a postawiony przed nim jest niezgodny niemal wszędzie.
-Podmiot stoi więc za łącznikiem, czyli tam, gdzie stawia go Składnica.
+pozycja podmiotu postawiona za łącznikiem zgadza się z drzewem wzorcowym
+niemal wszędzie, a postawiona przed nim jest niezgodna niemal wszędzie.
+Obie klasy zdań odpowiadają tak samo, więc liczby zbiorczej nie niesie jedna z nich:
+w klasie bezczasownikowej drzewo stawia tę pozycję za łącznikiem w 204 zdaniach
+i przed nim w 9, a w klasie z kopulą — `Był to nieforemny chłopak.` — w 162 i w 3.
+Mniejszość jest w obu i czyta się ją tak, jak przeczytałaby ją składnia szkolna:
+`Sebastian to niesłychanie ciepły, pracowity i dobry człowiek.`
+ma tę pozycję przed łącznikiem.
+Czym różnią się te zdania od czterdziestu razy liczniejszej większości, nie wiadomo,
+i tego pytania ten pomiar nie zamyka.
+Pozycja podmiotu stoi więc za łącznikiem, czyli tam, gdzie stawia ją Składnica.
+
+Nazwa, którą to wypowiada, jest przy tym nazwą banku drzew, a nie naszą.
+Frazę wymaganą opatruje on typem pozycji w schemacie głowy, a jedną z nich jest `subj`,
+i pozycja schematu funkcją zdaniową nie jest:
+`subj` stoi w Składnicy 170 razy na cząstce `się` —
+`Wszystkich podejrzewa się o rozprowadzanie narkotyków.` — gdzie podmiotu nie ma,
+a bywa też bezokolicznikiem i zdaniem z `że`
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Słowo `podmiot` dokłada dopiero przekład w `harness/corpus.py`,
+więc zgodność zmierzono z `subj`, a nie z podmiotem.
+
+Werdykt mówi wobec tego nazwami składni szkolnej:
+w `Kot to zwierzę.` podmiotem jest `Kot`, a orzecznikiem `zwierzę`.
+Słownictwo szkolne z zakresami GFJP byłoby twierdzeniem,
+którego nie stawia żadna gramatyka: `subj` jest pozycją schematu,
+składnia tradycyjna orzeka odwrotnie,
+a analiza dająca argument podmiotowy za kopulą opisuje zdania specyfikacyjne,
+nie takie, które orzekają kategorię.
+Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem,
+więc liczby wyżej biorą się sprzed niego i żadna z nich się nie rusza;
+sąd, który on wykonuje, wypisuje `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`.
+Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/test_subset.py`,
+pytając o streszczenie sprzed przekładu.
 
 Grupa przed łącznikiem dostaje własną rolę,
 a nie rolę rzeczownika orzekającego
 ([wyżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)):
 tamten symbol czyni zdaniem każdą swoją córkę,
 więc grupa imienna pod nim byłaby pozycją ogólną, którą tamta sekcja odrzuca.
-Orzecznikiem nie jest z tego samego powodu, co tamten rzeczownik:
+Orzecznikiem zgodnym nie jest z tego samego powodu, co tamten rzeczownik:
 nie ma nad sobą czasownika, więc pozycji jego ramy nie zajmuje.
+Rola ta nazywa się przez to osobno, a wydruk wypisuje pod nią `podmiot`.
 
 ```sh
 python3 -m olski.check -c "Flaga to płat tkaniny określonego kształtu." --readings
@@ -2259,7 +2291,7 @@ python3 -m olski.check -c "Flaga to płat tkaniny określonego kształtu." --rea
 ```text
 <text>: valid     Flaga to płat tkaniny określonego kształtu.
                   jedno odczytanie
-                  - podmiot: płat tkaniny określonego kształtu, orzecznik_łącznika: Flaga
+                  - orzecznik: płat tkaniny określonego kształtu, podmiot: Flaga
 ```
 
 Zakup wynosi nad Składnicą kilkadziesiąt zdań schodzących z odrzucenia,
@@ -2298,7 +2330,7 @@ python3 -m olski.check -c "Kot to jest zwierzę." --readings
 ```text
 <text>: valid     Kot to jest zwierzę.
                   jedno odczytanie
-                  - podmiot: zwierzę, orzeczenie: jest, orzecznik_łącznika: Kot
+                  - orzecznik: zwierzę, orzeczenie: jest, podmiot: Kot
 ```
 
 Przeczenie wchodzi tymi ciałami samo, bo cząstka stoi w tej gramatyce przy czasowniku:

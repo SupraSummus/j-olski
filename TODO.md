@@ -1663,6 +1663,14 @@ także jedno czytanie nieprawdziwe.
 Do przeczytania są te trzy zdania wraz z gniazdami wybranego drzewa:
 `nonch` przy `Co` w `Co pan sądzi o pomyśle Pawła Piskorskiego?` mówi,
 że fraza stoi poza ramą, i to jest trzeci powód pustki, różny od dwóch tamtych.
+Przyczynę tego jednego czytania nieprawdziwego widać przy tym bez korpusu,
+na parze zdań, i jest nią brak pozycji, a nie sama nazwa roli:
+`Czekał godzinę.` wychodzi z `dopełnienie: godzinę`, bo `czekać` nie ma w
+`olski/leksykon.txt` wykluczenia biernika, więc okolicznik czasu wchodzi na
+pozycję dopełnienia, a `Spał całą noc.` jest odrzucone, bo `spać` to wykluczenie
+ma i biernikowi nie zostaje w tym zdaniu żadna pozycja.
+Gramatyka nie ma więc okolicznika w bierniku wcale,
+a wpuszczenie go jest osobnym ruchem wraz z pomiarem.
 
 Rankingu form bez licencji nad dokumentem nie wypisuje nikt.
 `olski-check` mówi o zdaniu, a nie o pliku, więc formy, po które nie sięga
@@ -2644,6 +2652,96 @@ bo tablica trzyma stan bez oglądania się na unifikację i na to,
 czy analiza częściowa ten stan w ogóle przewidziała.
 Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse.py`:
 to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.
+
+Zestaw ciągów odrzucanych wokół łącznika `to` stoi w `próba/łącznik-odrzucane.txt`
+i nikt go jeszcze nie puścił sondą.
+Materiał ten jest potrzebny dlatego, że Składnica zawiera wyłącznie zdania poprawne,
+więc pomiar nad nią nie ukarze wariantu za przyjęcie ciągu,
+którego wyprowadzić nie wolno, i nie rusza tego dogęszczenie banku drzew.
+Sonda różnicowa widzi przy tym nadgenerację węższą — czytanie dołożone zdaniu
+poprawnemu — a ciągu przyjętego, którego przyjmować nie należało, nie widzi wcale.
+Ruchem jest przebieg sondy nad tym plikiem obok banku drzew,
+przy wariantach zdejmujących ciała łącznika, oraz odczytanie tabeli przejść
+w drugą stronę: `odrzucone → przyjęte` jest tu ceną, a nie zakupem.
+Do rozstrzygnięcia jest przy tym, czy wydruk ma tę odwrotność nazywać sam,
+bo dopiero to byłoby dopisaniem do `harness/ruch.py`;
+uruchomienie pliku nie żąda tam ani jednej linijki.
+Siedem ciągów pliku jest dziś odrzuconych i one są materiałem regresyjnym,
+a nadgeneracji nie pokazuje ani jeden: `Ty to jest leń.` jest sądem niepotwierdzonym,
+który rozsądza mówiony rejestr NKJP
+([`docs/corpora.md`](docs/corpora.md#the-national-corpus-of-polish)),
+więc dopóki to czytanie nie padnie, teza o ślepocie pomiaru materiału nie ma.
+Rosnąć ten zestaw ma o ciągi wokół tego jednego łącznika i nie dalej:
+zestaw negatywny dla całej gramatyki jest osobnym przedsięwzięciem.
+Kandydatami nie są `Kota to zwierzę.`, `Koty to zwierzę.` ani `Kot to są zwierzęta.`,
+choć wyprowadzają się: pierwsze stoi mianownikiem osobnego leksemu
+(`kota subst:sg:nom:f`), drugie tym, że ciało bezczasownikowe zgodności liczby
+nie żąda i żądać nie może, a trzecie ma kształt, który polszczyzna ma —
+`Rodzina to są ludzie.` — i złe jest w nim znaczenie, a nie składnia.
+Asercja w `tests/test_subset.py` może stanąć obok pliku i nic nie kosztuje,
+bo łapie inną awarię — ta pilnuje każdego commita, a sonda wyboru wariantu.
+
+Odrzucanie `Ty to jesteś leń.` jest luką pokrycia, a nie usterką nazwy.
+`My to jesteśmy szczęściarze.` stoi obok, a `Ty to jest leń.` i `My to szczęściarze.`
+wyprowadzają się, więc zatrzymuje tamte dwa osoba kopuli,
+a nie zaimek w grupie przed łącznikiem.
+Jest to konsekwencja tego, że pozycję podmiotu wiąże grupa za łącznikiem:
+`podmiot` i kopula biorą w każdym z tych ciał te same zmienne liczby, rodzaju i osoby,
+a grupa przed łącznikiem wchodzi tam bez ani jednej cechy
+(`_szyki_zdania_składowego` w `olski/subset/zdanie.py`),
+więc zgodności z `ty` nie ma czym postawić.
+Ruchem jest wypuszczenie cech w górę z grupy przed łącznikiem, wraz z pomiarem,
+i jest to jedyna zmiana, którą pomiar nad bankiem drzew odradza,
+bo strona podmiotu obroniła się w nim także w klasie spornej
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
+Do przeczytania jest przedtem, czy te zdania są w zakresie:
+Składnica jest tekstem pisanym, a należą one do rejestru mówionego,
+więc gramatyka celująca w tamten rejestr ma prawo ich nie brać.
+Obronę tę osłabia `My to szczęściarze.`, które wyprowadza się dziś:
+konstrukcja z dwiema grupami jest w zakresie, a wypada z niego dopiero forma osobowa,
+i granicy biegnącej właśnie tędy nie widać czym uzasadnić.
+
+`podmiot` znaczy w tym repozytorium dwie rzeczy i granica biegnie przez werdykt.
+Przed nim jest pozycją schematu, czyli tym, co bank drzew woła `subj`
+i co stawia 170 razy na cząstce `się`, gdzie podmiotu nie ma;
+za nim jest funkcją zdaniową, bo `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`
+przekłada role zdania z łącznikiem na nazwy składni szkolnej
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
+Użytkownika to nie kosztuje nic, a następnego programistę kosztuje ten sam wniosek,
+od którego zaczęła się cała ta sprawa: czyta `find("podmiot")` po polsku
+i bierze pozycję schematu za funkcję zdaniową.
+Ruchem jest nazwa wewnętrzna brzmiąca `subj`, bo wtedy `_slot_role`
+w `harness/corpus.py` schodzi do tożsamości i znika,
+a porównanie idzie `subj` do `subj` bez przekładu w środku.
+Żadna liczba się przez to nie rusza, bo obie strony porównania zmieniają się razem.
+Zmiana jest jednak większa, niż wygląda, i to jest tu do przeczytania przed nią.
+Napisów `"podmiot"` jest w kodzie 112, z czego większość stoi w testach
+i część z nich pyta o wydruk, czyli ma zostać po staremu;
+każde wystąpienie żąda więc osądu, po której stronie granicy stoi, a nie zamiany.
+Drugą rzeczą jest to, że przekład przestaje być miejscowy:
+dzisiaj `_po_szkolnemu` w `olski/werdykt.py` rusza samo zdanie z łącznikiem,
+a nad nazwą `subj` musiałby przekładać każde streszczenie, bo każde ją niesie.
+Trzecią jest `dopełnienie`, które przychodzi z `np(acc)` tą samą drogą:
+przemianowanie samego podmiotu zostawia je słowem szkolnym o zakresie GFJP,
+czyli dokładnie tą usterką, którą ta zmiana zdejmuje.
+Rozstrzygnięciem przed pierwszym commitem jest więc całe słownictwo ról naraz,
+a nie jedna nazwa.
+Przypadkiem tej usterki nie jest natomiast `dopełnienie: godzinę`
+w `Czekał godzinę.`, choć wygląda tak samo:
+tam zła jest struktura, bo biernik zajmuje pozycję dopełnienia naprawdę,
+a nie nazwa nad strukturą dobrą, i wpis o czwartym werdykcie porównania ról
+trzyma tamto razem z jego parą.
+
+Sekcja zgodności ról nie pojawiła się w wydruku `harness/pomiar.py`
+puszczonym nad wycinkiem Składnicy z `--limit 3000` i nikt nie wie czemu.
+Jest to ten gatunek awarii, na który poszła sesja o łączniku:
+pomiar, który po cichu czegoś nie mówi, czyta się jak pomiar mówiący, że jest dobrze,
+więc ktoś przeczyta przebieg bez tej tabeli i uzna, że role się zgadzają.
+Do przeczytania jest `Raport.wydruk` w `harness/pomiar.py` obok `agreements`:
+licznik ten zapełnia się tylko nad zdaniem przyjętym, porównywalnym
+i mającym w drzewie wzorcowym rolę, więc pusty bywa odpowiedzią prawdziwą,
+a wydrukiem nieodróżnialną od nieodpalonej sekcji.
+Ruchem jest wiersz mówiący zero tam, gdzie dziś nie ma wiersza.
 
 ## Konstrukcje, których gramatyka nie ma
 

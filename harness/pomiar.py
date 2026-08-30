@@ -140,6 +140,12 @@ class Outcome(Wynik):
             return None
         reading = self.result.readings[0]
 
+        #  `podmiot` znaczy tutaj pozycję schematu, a nie funkcję zdaniową, i to
+        #  jest pułapka, a nie skrót: funkcję wypisuje dopiero `NAZWY_SZKOLNE`
+        #  w `olski/subset/deklaracja.py`, za granicą werdyktu. Porównanie musi
+        #  iść pozycja do pozycji, bo innych drzewo wzorcowe nie ma. Że nazwa po
+        #  tej stronie ma brzmieć `subj`, trzyma TODO.md.
+
         # Taken apart from the extent disagreements below, because this is the
         # failure the whole ambiguity design exists to prevent: olski admits SVO
         # and OVS, so a sentence read with the subject and object exchanged is
