@@ -112,7 +112,7 @@ PRZYDAWKA = "przydawka"
 CZŁON_PRZYDAWKI = "człon_przydawki"
 
 #: Etykiety, pod którymi gramatyka trzyma to, co w zdaniu stoi na swojej pozycji.
-#: Ta sama ósemka stoi w ``DEKLARACJA`` w ``olski/subset.py``, gdzie jest listą ról
+#: Ta sama ósemka stoi w ``DEKLARACJA`` w ``olski/subset/deklaracja.py``, gdzie jest listą ról
 #: drukowanych w werdykcie, a tutaj tablicą rozdzielczą; pozycja dopisana tam
 #: i tu pominięta zgłasza się brakiem kategorii, a nie drzewem bez niej.
 #: Nazwy roli przysłówkowej i okolicznikowej bierzemy stamtąd, a nie spisujemy

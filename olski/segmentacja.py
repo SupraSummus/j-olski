@@ -1,7 +1,7 @@
 """Warstwa morfologiczna olskiego: z napisu graf segmentacji wraz z czytaniami.
 
 Wykluczenia podzbioru są dwojakie, bo produkcja rozstrzyga o zdaniu, a nie o formie.
-Produkcje w ``olski/subset.py`` mówią, jakie zdanie się wyprowadza,
+Produkcje w ``olski/subset/`` mówią, jakie zdanie się wyprowadza,
 a warunki niżej odbierają formie czytanie, zanim produkcja je zobaczy,
 oraz dokładają je tam, gdzie słownik milczy.
 W jakiej kolejności te warunki idą i czemu w takiej, mówi :func:`morphology`.
@@ -199,7 +199,7 @@ def po_słowie(segments: list[Segment]) -> list[Segment]:
     """Zdejmij cząstce zwrotnej odczytanie tam, gdzie nie stoi przed nią żadne słowo.
 
     Cząstka stoi przy swojej formie osobowej po obu jej stronach
-    (`SZYKI_CZĄSTKI` w ``olski/subset.py``), a pozycja przednia sięga początku zdania
+    (`SZYKI_CZĄSTKI` w ``olski/subset/słowa.py``), a pozycja przednia sięga początku zdania
     i miejsca
     tuż za znakiem: bez tego warunku `Się myli.` oraz `Cena rośnie, się nie
     liczy.` się wyprowadzają, a takich napisów polszczyzna nie ma. Cząstka opiera

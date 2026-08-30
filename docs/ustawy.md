@@ -507,7 +507,7 @@ Ten rejestr nazywa termin rzeczownikiem z przymiotnikiem za nim —
 `obrona cywilna`, `informacja publiczna`, `władza zwierzchnia`, `dobro wspólne` —
 a potem dokłada mu dopełniacz i pisze
 `zadania ochrony ludności`, `dobrem wspólnym wszystkich obywateli`.
-`człon_imienny` w `olski/subset.py` ma osobno rzeczownik z przymiotnikiem,
+`człon_imienny` w `olski/subset/grupa.py` ma osobno rzeczownik z przymiotnikiem,
 osobno rzeczownik z dopełniaczem,
 osobno każde z nich z wyrażeniem przyimkowym za sobą,
 a obie przydawki naraz bierze pozycja dopisana dla tego rejestru:

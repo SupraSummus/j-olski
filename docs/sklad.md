@@ -875,7 +875,7 @@ bo osobno każdy z nich ma tylko własne zdanie i nie ma go z czym porównać.
 O bezokolicznik gramatyka nie pyta wcale, bo pozycję na niego niesie
 każda klasa walencyjna prócz kopuli, a skład pyta o niego leksykon;
 `olski/walencja.py` nazywa to zdaniem leksykonu czytanym przez jeden kierunek.
-`Linter pomaga pisać dobry kod.` stoi przez to w komentarzu `olski/subset.py`
+`Linter pomaga pisać dobry kod.` stoi przez to w komentarzu `olski/subset/zdanie.py`
 jako przykład ciał produkcji `wypełnienia` i ze składu nie wychodzi wcale,
 bo `pomagać` bezokolicznika w tym leksykonie nie bierze.
 Który z dwóch mówi tu prawdę, pyta [`TODO.md`](../TODO.md).

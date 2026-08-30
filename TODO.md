@@ -75,9 +75,9 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 
 ## Dokumenty i konwencje
 
-Wskazania między `docs/subset.md` i `olski/subset.py` idą w obie strony,
+Wskazania między `docs/subset.md` i `olski/subset/` idą w obie strony,
 a pilnowane są tylko w jedną.
-Ćwierć wskazań z `olski/subset.py` nie ma anchora,
+Ćwierć wskazań z `olski/subset/` nie ma anchora,
 więc `tests/test_docs.py` sprawdza przy nich sam plik,
 a kilka zdań dokumentu opiera się na nazwie w środku modułu,
 której nie pilnuje nic ([CLAUDE.md](CLAUDE.md#na-czym-wolno-oprzeć-zdanie)).
@@ -203,7 +203,7 @@ Jedna sesja znalazła trzy zdania, które go nie przeżyły,
 i żadnego z nich nie łapał zakaz liczby kruchej
 ([`CLAUDE.md`](CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)): stosunek zgrubny w miejscu liczby,
 zdanie o kierunku, w którym rusza się pokrycie,
-oraz akapit liczący produkcje `olski/subset.py` za sam kod.
+oraz akapit liczący produkcje `olski/subset/` za sam kod.
 Ruchem jest przebieg po `docs/` z tym jednym pytaniem na zdanie,
 a po nim albo granica w miejsce środka, albo wniosek ze wskaźnikiem
 na właściciela w miejsce drugiej kopii.
@@ -261,7 +261,7 @@ Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse.py`
 obok `Verdict.status` w `olski/werdykt.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
 czyli daje to mieszaninę, której nazwy symboli nie mają
-(`DEKLARACJA` w `olski/subset.py`).
+(`DEKLARACJA` w `olski/subset/deklaracja.py`).
 
 Wydruk `olski-pokrycie` jest po angielsku tak samo jak tamten,
 a [reguła językowa](CLAUDE.md#piszemy-po-polsku-także-w-kodzie) obejmuje oba.
@@ -380,6 +380,33 @@ Zbiór plików wypisują przy tym trzy miejsca i nie jest on w nich ten sam:
 biorą korzeń wraz z `docs/`, a `_wydruki` pomija `CLAUDE.md` i `TODO.md`,
 więc bloku wydruku wklejonego do tych dwóch nie pilnuje nic.
 
+`docs/subset.md` ma przeszło pięć tysięcy wierszy i dwie role naraz.
+Wywód — czym jest ważność, co się liczy jako jedno odczytanie, co mówi odrzucenie,
+ile kosztuje przyłączanie — czyta się od góry,
+a rejestr konstrukcji przebiega się do swojego wpisu
+([CLAUDE.md](CLAUDE.md#wolno-nie-pisać-tego-co-odtwarza-się-poleceniem)).
+Rejestr to przeszło trzy tysiące wierszy w pięćdziesięciu paru sekcjach
+między `What the grammar covers` a `What it does not cover yet`,
+czyli trzy czwarte pliku.
+Ruchem jest rejestr wyniesiony do osobnego dokumentu,
+a rama zostająca pod nazwą `docs/subset.md`,
+bo bez kotwicy celuje w nią kilkaset wzmianek i te przeżywają wtedy wszystkie;
+kotwice się nie ruszają, rusza się sam przedrostek ścieżki,
+a przeoczone łapie `tests/test_docs.py`.
+Osobno warto wynieść leksykon walencyjny, bo ma właściciela poza tym dokumentem:
+generator `harness/walenty.py` oraz plik `olski/leksykon.txt`.
+Rejestru nie tnie się przy tym po jednej konstrukcji na plik,
+bo każdy dokument ma mieć wiersz w liście README
+(`test_every_document_is_listed_in_the_readme`), a pięćdziesiąt wierszy ją zatopi;
+nazwy plików niech będą płaskie, bo `DOCUMENTS` w `tests/test_docs.py`
+czyta `docs/` bez rekursji i podkatalog byłby dla checków niewidoczny.
+Do przeczytania są dwa miejsca, na których granica nie jest oczywista:
+sekcja `What the grammar covers` — czy jest indeksem rejestru i idzie z nim,
+czy zostaje w ramie — oraz ogon za `What it does not cover yet`,
+gdzie przyłączanie i przysłówek są wywodem,
+a przymiotnik w formie poprzyimkowej konstrukcją.
+Granica pada na sekcję, a nie na temat, i to ona jest tu całą decyzją.
+
 ## Komendy i sondy
 
 `harness/pomiar.py` ma własny wiersz poleceń, choć bierze już to samo,
@@ -493,7 +520,7 @@ Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 i wtedy, gdy je ma, a nie sięga po nie żadna produkcja;
 pierwsze naprawia wpis w `olski.toml`
 ([`docs/subset.md`](docs/subset.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
-a drugie produkcja w `olski/subset.py`.
+a drugie produkcja w `olski/subset/`.
 Trzecie jest formą, której czytania zdjęła morfologia:
 `Cena niego rośnie.` wychodzi z tym komunikatem, a naprawą jest przyimek w zdaniu
 ([`docs/subset.md`](docs/subset.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
@@ -858,7 +885,7 @@ a `sposób` rozkaźnikiem od `sposobić`;
 zawężenie ramy do lematów całej formy te czytania zdjęło
 ([`docs/subset.md`](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc dziś są odrzucone i werdykt mówi o nich prawdę.
-Ruchem jest dopisanie obu do `PREDYKATYWY` w `olski/subset.py`,
+Ruchem jest dopisanie obu do `PREDYKATYWY` w `olski/subset/słowa.py`,
 a czytanie `pred` obie formy u Morfeusza mają, więc terminal ma o co zapytać.
 Trudność jest przy `nie sposób`:
 przeczenie stoi w ciele osobno od predykatywu,
@@ -867,25 +894,27 @@ czego polszczyzna nie ma.
 Do przeczytania jest, czy bank drzew ma zdanie z `sposób` bez przeczenia,
 bo od tego zależy, czy sama lista tu wystarczy.
 
-`olski/subset.py` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
-rozkłada się w nim na cztery miejsca: rolę przy `DEKLARACJA`, ramę i listę lematów
-wśród stałych, terminal wśród terminali i ciała w sekcji `build`.
+`olski/subset/` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
+rozkłada się w nim na cztery miejsca, i po podziale na moduły są to cztery pliki:
+rolę bierze `olski/subset/deklaracja.py`, ramę `olski/subset/rama.py`,
+listę lematów wraz z terminalem `olski/subset/słowa.py`,
+a ciała moduł jej gospodarza.
 Kto ją czyta albo zdejmuje, chodzi po tych czterech miejscach,
 choć zmieniają się one razem i tylko razem mają sens —
 sonda różnicowa grupuje właśnie po konstrukcji (`grupa` w `harness/ruch.py`).
 Ruchem jest blok na konstrukcję: rama, lista, terminal i ciała pod jednym
 nagłówkiem komentarza, w kolejności, w jakiej konstrukcje wchodziły.
 Ceną są dwie rzeczy, które w bloku nie zmieszczą się nigdy: rola musi stać w
-`DEKLARACJA`, bo werdykt czyta jedną listę ról, a ciało musi stać w sekcji
-swojego gospodarza, bo tam `build` wpisuje produkcje.
+`DEKLARACJA`, bo werdykt czyta jedną listę ról, a ciało musi stać w module
+swojego gospodarza, bo stamtąd `build` bierze produkcje.
 Argumentów taki blok wziąłby przy tym niewiele, i to jest już przeczytane:
-`build` dzieli się na sekcje po gospodarzu,
+sekcje dzielą się po gospodarzu, po kilka na moduł,
 a symbole, które jedna z nich wpisuje, a czyta je druga,
 wylicza blok na czele `build`.
 Blok na konstrukcję zmieściłby się przez to wewnątrz jednej sekcji,
 zamiast ciąć ją w poprzek.
 Rodzina czoła jest tu precedensem: jej cztery miejsca czytają jedną wartość
-(`Rodzina` w `olski/subset.py`), a nie stoją pod jednym komentarzem.
+(`Rodzina` w `olski/subset/deklaracja.py`), a nie stoją pod jednym komentarzem.
 Wprost się on jednak nie przenosi, bo rodzina wypisuje same nazwy symboli,
 a konstrukcja wypisuje też ciała, a te powstają wywołaniem, nie wartością.
 Miejsc bywa przy tym więcej niż cztery, i pokazuje to imiesłów przysłówkowy
@@ -893,7 +922,7 @@ Miejsc bywa przy tym więcej niż cztery, i pokazuje to imiesłów przysłówkow
 dochodzą przy nim wpis wśród gospodarzy oraz wpis w `NIE_WYPUSZCZANE`,
 a ciała ma w dwóch miejscach jednej sekcji, bo głowa stoi osobno od swoich pozycji.
 
-`fraza_bezokolicznikowa` w `olski/subset.py` ma ciała w dwóch sekcjach,
+`fraza_bezokolicznikowa` w `olski/subset/zdanie.py` ma ciała w dwóch sekcjach,
 i jako jedyny z czterech takich symboli nie ma po temu powodu:
 bezokolicznik bez wypełnienia wpisano przy grupie orzeczenia, a z wypełnieniem
 przy orzeczeniu, i rozdziela je sama kolejność, w jakiej powstawały.
@@ -902,7 +931,7 @@ Ceną jest pomiar: przeniesienie rusza kolejność wpisywania produkcji,
 a tę widać po czytaniach (docstring `build`),
 więc zmiana żąda odcisku prozy repozytorium, a nie samej zielonej suity.
 
-`NIE_WYPUSZCZANE` w `olski/subset.py` wylicza cechy, których symbol nie niesie
+`NIE_WYPUSZCZANE` w `olski/subset/deklaracja.py` wylicza cechy, których symbol nie niesie
 w górę, i żadnego z tych wpisów nie widać po werdykcie:
 gramatyka bez całej listy wydaje nad prozą tego repozytorium
 te same werdykty i te same liczby czytań, zdanie po zdaniu,
@@ -920,7 +949,7 @@ Zdjęcie listy jest zmianą w gramatyce i pomiaru żąda osobno:
 proza tego repozytorium nie rusza się wcale, a banku drzew nie zmierzył nikt.
 Osobno stoi czas rozbioru, bo cechę wypuszczaną las rozdziela na klasy pozycji
 (`klasy` w `olski/parse.py`), a wpisów jest kilkadziesiąt.
-Do przeczytania jest `_wysunięta_rola` w `olski/subset.py` obok tej listy,
+Do przeczytania jest `_wysunięta_rola` w `olski/subset/podrzędne.py` obok tej listy,
 bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
 
 Świadkowie w `olski/rozstrzyganie.py` pytają o `Przyłączenie`, czyli o obiekt składniowy,
@@ -985,7 +1014,7 @@ Zdanie odrzucone jest przy tym werdyktem uczciwym, a nie czytaniem nieprawdziwym
 więc pozycja ta nie ma pilności, jaką miałby brak wydający `valid`.
 
 Wysunięcie zdania podrzędnego jest faktem o spójniku i stoi w dwóch plikach:
-`SPÓJNIKI_WYSUWANE` w `olski/subset.py` mówi to o kilkunastu lematach analizy,
+`SPÓJNIKI_WYSUWANE` w `olski/subset/słowa.py` mówi to o kilkunastu lematach analizy,
 a `SPÓJNIKI` w `olski/skład/spójniki.py` o kilku, których używa skład,
 i obie listy zgadzają się dziś tam, gdzie się przecinają.
 Rama czasownika poszła tą samą drogą i zeszła do jednego pliku,
@@ -1039,7 +1068,7 @@ oraz `Większości nie może ruszyć.` są odrzucone, gdzie
 `Premier większości nie może ruszyć.` wyprowadza się
 ([`docs/subset.md`](docs/subset.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
 Wzór stoi obok: deklaracja z dopełnieniem przy formie osobowej wypisuje pięć szyków
-warunkiem precedencji (`_poza_orzeczeniem` w `olski/subset.py`),
+warunkiem precedencji (`_poza_orzeczeniem` w `olski/subset/rama.py`),
 a podmiot opuszczony ma tam ciało osobne.
 Ruchem jest ten warunek nad deklaracją z frazą bezokolicznikową
 wraz z ciałem bez podmiotu, a przed nim pomiar:
@@ -1059,7 +1088,7 @@ a jest to jedyne zdanie, które kupuje cecha przeciągana
 więc pozycja dopisana wypisanymi ciałami zabiera luce cały jej zakup
 i zamyka rozwidlenie, które tamta sekcja trzyma otwarte —
 i to, a nie samo zdanie, jest tu stawką.
-Ruchem jest `_wysunięta_rola` w `olski/subset.py` pisząca ten szyk także z frazą
+Ruchem jest `_wysunięta_rola` w `olski/subset/podrzędne.py` pisząca ten szyk także z frazą
 bezokolicznikową, czyli te same córki, które wypisała deklaracja obok,
 z czołem w miejscu dopełnienia.
 Do rozstrzygnięcia jest, czy warto:
@@ -1118,7 +1147,7 @@ czyli ta sama droga, którą walencja rozdziela formę z cząstką od formy bez 
 a do przeczytania jest, co zwrotna kopula robi z `Ludzie rodzą się wolni.`,
 gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
 
-Klasa kopuli zabiera lematowi wpis z leksykonu (`_walencja` w `olski/subset.py`),
+Klasa kopuli zabiera lematowi wpis z leksykonu (`_walencja` w `olski/subset/rama.py`),
 więc kopula nie bywa naraz czasownikiem, który bierze zdanie z `że`.
 Widać to na `bywać`, odkąd lemat ten stoi w `KOPULA` w `olski/lematy.py`:
 `Odpowiedzią bywa decyzja.` przechodzi z odrzuconego na przyjęte,
@@ -1180,7 +1209,7 @@ imienną, a ile nad zdaniem podrzędnym, bo pierwsza z tych liczb jest ceną mil
 
 Czas przeszły zostawił za sobą resztkę wiersza `praet`, której nikt nie przeczytał.
 `praet` prowadził kolejkę blokerów,
-a po dopisaniu tej formy do `orzeczenie` w `olski/subset.py`
+a po dopisaniu tej formy do `orzeczenie` w `olski/subset/zdanie.py`
 wiersz zmalał o rząd wielkości
 i to, co w nim zostało, staje na czasie przeszłym dalej.
 Od tamtej pory wiersz rośnie, bo każde dopisanie przesuwa na czasownik blokery zdań,
@@ -1214,7 +1243,7 @@ pod żywą wpada do niej także forma, której wykluczenie zabrało wszystkie cz
 a tę drugą klasę trzyma wpis o wycięciu czytań bez licencji przed rozbiorem.
 
 Aglutynant dochodzi tylko do czasownika, przy którym stoi.
-`_formy_skończone` w `olski/subset.py` bierze `praet` z `aglt` po nim,
+`_formy_skończone` w `olski/subset/rama.py` bierze `praet` z `aglt` po nim,
 bo tak Morfeusz tnie `napisałem`,
 a polszczyzna stawia tę końcówkę także przy innym słowie zdania:
 `gdzieś ty był`, `myśmy przyszli`, `dlaczegoś to zrobił`.
@@ -1273,7 +1302,7 @@ i dlaczego, mówi
 [pakowanie czytań](docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
 
 Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
-`RAMA_DOMYŚLNA` w `olski/subset.py` daje `int` każdemu czasownikowi,
+`RAMA_DOMYŚLNA` w `olski/subset/rama.py` daje `int` każdemu czasownikowi,
 tak jak daje mu `comp`, a Walenty wypisuje osobno lematy z jednym i z drugim.
 Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
 a przy `int` wynik nie musi wypaść tak samo:
@@ -1296,7 +1325,7 @@ Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
 więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 
 Lista zaimków rzeczownych nie ma źródła poza pamięcią tego, kto ją pisał.
-O każdym lemacie `ZAIMEK_RZECZOWNY` w `olski/subset.py` sprawdzono w Morfeuszu,
+O każdym lemacie `ZAIMEK_RZECZOWNY` w `olski/subset/słowa.py` sprawdzono w Morfeuszu,
 że niesie czytanie `subst`, a czy lista jest pełna, nie sprawdził nikt
 i słownikiem się tego nie sprawdzi:
 czytanie zaimka niczym się nie różni od czytania rzeczownika
@@ -1352,7 +1381,7 @@ olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej
 Wysunięte wyrażenie przyimkowe nie potrzebuje licencji od niczego,
 więc `Ustawa, o której flaga to płat, obowiązuje.` wychodzi `valid`.
 Wpuszcza je ciało `rodzina.rdzeń → rodzina.modyfikator zdanie_składowe`
-w `olski/subset.py`, które przed dowolnym zdaniem składowym dopuszcza dowolny przyimek.
+w `olski/subset/podrzędne.py`, które przed dowolnym zdaniem składowym dopuszcza dowolny przyimek.
 Łącznik `to` przyczyną nie jest i nie jest nią kopula pod nim opuszczona:
 `Ustawa, w której flaga to płat, obowiązuje.` jest polszczyzną
 i wyprowadza się tym samym ciałem,
@@ -1401,7 +1430,7 @@ Przyimka wysuniętego wyrażenia nie widać w werdykcie, a innego przyimka wida�
 a `Poseł mówi o ustawie.` jako `wyrażenie_przyimkowe: o ustawie → mówi`.
 Rola dla tego wyrażenia nic nie kosztuje i jest to zmierzone:
 `rodzina.modyfikator` dopisany do `role` i do `przyłączane`
-w `DEKLARACJA` (`olski/subset.py`)
+w `DEKLARACJA` (`olski/subset/deklaracja.py`)
 nie rusza werdyktu o ani jedno zdanie Składnicy ani korpusu ustaw.
 Sama rola kosztuje najwyżej tyle samo, bo streszczenie rozszczepia wtedy
 o jedno pole mniej, więc pomiaru drugi raz nie żąda.
@@ -1494,7 +1523,7 @@ Wiersz werdyktu o nierozstrzygniętym przyłączeniu liczy samo wyrażenie przyi
 więc `Począł myśleć gorączkowo.` tego wiersza nie ma,
 choć różnicę ma tę samą co `Począł myśleć nad ranem.`, gdzie on stoi,
 i `harness.czytania` liczy takie zdanie w klasie „sama liczba czytań”.
-Rolę tę trzyma `rozstrzygany` w `DEKLARACJA` (`olski/subset.py`),
+Rolę tę trzyma `rozstrzygany` w `DEKLARACJA` (`olski/subset/deklaracja.py`),
 a czyta ją `Las.przyłączenia` wraz z warstwą rozstrzygającą.
 Ruchem jest wpuszczenie do tego pola pozostałych ról z `przyłączane`,
 a cena jest podwójna: warstwa nad takim przyłączeniem milczy,
@@ -1576,7 +1605,7 @@ is an exclusion measured this way,
 and each was measured with a probe written for the one session that priced it.
 
 Grupa imienna mnoży ciała iloczynem, którego rozwinięcie szyku nie dosięga.
-Ciała `człon_imienny` w `olski/subset.py` są iloczynem kształtów głowy
+Ciała `człon_imienny` w `olski/subset/grupa.py` są iloczynem kształtów głowy
 przez obecność `wyrażenie_przyimkowe` po niej,
 czyli mnoży je obecność oraz kolejność rodzajów przydawki,
 a nie permutacja argumentów,
@@ -1621,7 +1650,7 @@ bo czyta ono kształty gramatyki po etykiecie,
 więc każdy nowy poziom kosztuje tam gałąź.
 
 `harness/polszczyzna.py` jest drugą deklaracją podzbioru,
-który deklaruje `olski/subset.py`,
+który deklaruje `olski/subset/`,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
@@ -1660,7 +1689,7 @@ i że jednoznaczność bywa osiągana bez trafności.
 Kasowanie zabiera przy tym jedyny mechanizm w repozytorium,
 który wypuszcza konstytuent nieciągły:
 `spójne` w `harness/wiezy.py` jest warunkiem zdejmowanym,
-a produkcja z `olski/subset.py` spójności zdjąć nie umie.
+a produkcja z `olski/subset/` spójności zdjąć nie umie.
 Tym warunkiem zmierzono cenę nieciągłości i zamknięto
 [rozwidlenie o przestawianiu](docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
 a liczy ją `harness/nieciągłość.py`, czyli trzeci plik tego katalogu,
@@ -1679,7 +1708,7 @@ więc kto wpis podnosi, albo je przelicza, albo zdejmuje.
 
 Rama mówi, co czasownik bierze, i nie mówi, ile tego bierze.
 Dopełnień stoi przy czasowniku najwyżej jedno,
-bo tyle stoi w ciele każdej produkcji `wypełnienia` w `olski/subset.py`,
+bo tyle stoi w ciele każdej produkcji `wypełnienia` w `olski/subset/zdanie.py`,
 a nie dlatego, że rama tak mówi;
 ruchem jest rama zużywana, czyli ta,
 [którą pokazuje Świgra](docs/swigra.md#valency-as-a-resource-that-gets-consumed):
@@ -1722,7 +1751,7 @@ Podać ją jest już czym (`Sonda.gramatyki`), więc zostaje napisanie tej grama
 
 Sonda luki zastępuje ciała jednej rodziny czoła z trzech.
 `ZASTĘPOWANE` w `harness/luka.py` wymienia sam `rdzeń_względny`,
-a `_wysunięta_rola` w `olski/subset.py` pisze tym samym kształtem
+a `_wysunięta_rola` w `olski/subset/podrzędne.py` pisze tym samym kształtem
 także czoło pytania oraz czoło rzeczowne, więc wariant z luką zdejmuje ciała
 względne z `który`, a pytających ani rzeczownych nie zdejmuje,
 choć cecha przeciągana zastąpiłaby wszystkie trzy.
@@ -1740,7 +1769,7 @@ oraz `rdzeń_względny_rzeczowny`, a razem z nimi dopisanie
 do `_wysunięty_okolicznik` w tym samym pliku,
 bo pytanie ma dziś czoło przyimkowe tak samo jak zdanie względne
 i luki pod nim nie żąda z tego samego powodu.
-Wypisywać tych sześciu nazw nie trzeba: `RODZINY` w `olski/subset.py`
+Wypisywać tych sześciu nazw nie trzeba: `RODZINY` w `olski/subset/deklaracja.py`
 zbiera je rodzina po rodzinie, więc oba te miejsca biorą je stamtąd.
 Przed jednym i drugim stoi rozstrzygnięcie, czym pytanie lukę wiąże:
 zdanie względne wiąże ją zaimkiem, którego liczbę i rodzaj podejmuje poprzednik,
@@ -1752,7 +1781,7 @@ Cząstka zwrotna nie ma pozycji wewnątrz czasu przyszłego złożonego.
 `Fabryki nowej spółki będą się znajdować we Włoszech.` jest odrzucone,
 bo cząstka stoi tam między `będą` i bezokolicznikiem,
 czyli między dwiema częściami jednego orzeczenia,
-a `SZYKI_CZĄSTKI` w `olski/subset.py` stawia ją po obu stronach całego ciała
+a `SZYKI_CZĄSTKI` w `olski/subset/słowa.py` stawia ją po obu stronach całego ciała
 (`_formy_skończone` tamże składa czas przyszły jednym ciałem `orzeczenie`).
 Jest to ostatnie miejsce, w którym cząstka stoi tuż przy swoim czasowniku,
 a żadne ciało jej nie bierze
@@ -1822,7 +1851,7 @@ Do przeczytania jest, ile ta kolumna zmienia świadkowi:
 schematów z tymi pozycjami jest 2 407, a lematów 1 464.
 
 Klasa walencyjna mnoży produkcje formy `bedzie` przez lematy, których ta forma nie ma.
-Czas przyszły idzie w `olski/subset.py` przez tę samą pętlę co reszta form osobowych,
+Czas przyszły idzie w `olski/subset/rama.py` przez tę samą pętlę co reszta form osobowych,
 a `bedzie` jest u Morfeusza formą jednego lematu,
 więc ciało z samą tą formą powstaje raz na klasę, a wystrzelić może w jednej.
 Reszta jest produkcjami, których nie dosięgnie ani jedno zdanie,
@@ -1848,7 +1877,7 @@ bo `_slot_role` w `harness/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
 Ruchem jest zejście po wybranym drzewie do węzłów `zdanie`,
 wzięcie lematu głowy i pozycji fraz wymaganych obok niej,
-i porównanie tego z `WALENCJA` w `olski/subset.py`.
+i porównanie tego z `WALENCJA` w `olski/subset/rama.py`.
 Do rozstrzygnięcia jest, co taki przebieg drukuje:
 sama niezgodność jest liczbą, a pożytek z niej ma dopiero ten,
 kto widzi lemat, zdanie i pozycję, o którą poszło.
@@ -2130,7 +2159,7 @@ Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mó
 Narzędnika [przekład](docs/subset.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 nie bierze, bo `inst` jest u olskiego pozycją orzecznika,
 a Walenty nie odróżnia jej od argumentu narzędnikowego,
-więc kopula zostaje listą pisaną ręcznie w `olski/subset.py`.
+więc kopula zostaje listą pisaną ręcznie w `olski/subset/rama.py`.
 Do przeczytania jest, czy bank drzew tę różnicę widzi:
 pozycja `adjp(pred)` stoi w polu `tfw` obok `np(inst)`,
 a `harness/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.
@@ -2209,7 +2238,7 @@ przy czym wariant zbudowany przez podmianę `ZAIMEK_PYTAJNO_WZGLĘDNY`
 zdejmuje trzy naraz, bo ta stała stoi w wykluczeniu, w terminalu zaimka
 i w terminalu grupy pytajnej,
 więc sesja mierzy wtedy co innego, niż myśli, i nic jej o tym nie mówi.
-Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset.py`,
+Do przeczytania jest ta sekcja wraz z `_klasy` z `olski/subset/rama.py`,
 bo ramę zawęża ona i tylko ona.
 Ruchem jest predykat nad `harness/ruch.py`, który te warianty buduje i drukuje,
 wraz ze zdaniem w obu dokumentach mówiącym, że figury bierze się nim.
@@ -2308,7 +2337,7 @@ tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
 a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
 wyprowadza się i polszczyzną nie jest.
 Ruchem są cztery zdania leksykonu w miejsce jednego,
-a wraz z nimi cztery wartości cechy `druga` w `olski/subset.py` zamiast jednej.
+a wraz z nimi cztery wartości cechy `druga` w `olski/subset/rama.py` zamiast jednej.
 Do rozstrzygnięcia jest, czy warto:
 rama domyślna daje każdemu czasownikowi te same cztery wypełnienia naraz,
 więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
@@ -2320,7 +2349,7 @@ Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
 ([`docs/subset.md`](docs/subset.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
 Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
 i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
-Ruchem jest druga wartość cechy `druga` w `olski/subset.py`
+Ruchem jest druga wartość cechy `druga` w `olski/subset/rama.py`
 wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
 a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
 celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
@@ -2383,7 +2412,7 @@ suma sięgająca do klasy obok mówi, że forma stoi tu pod ramą,
 której rodzic nie wziął, a suma w obrębie klasy tego nie mówi.
 Wpis zamyka się też przez to, że tak zostaje, i wtedy powód idzie do
 `Las._wsparte_kształtu`, bo dziś stoi tam granica bez wywodu.
-Sondą jest warunek, który `tests/test_subset.py` sprawdza na garści zdań —
+Sondą jest warunek, który `tests/test_las.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
@@ -2466,7 +2495,7 @@ Do rozstrzygnięcia jest przedtem cena: `olski/konfiguracja.py` czyta się przy
 imporcie i nie żąda dziś Morfeusza w żadnym trybie,
 a check ten kazałby żądać go każdemu, kto pyta o samą konfigurację.
 
-Spójnik dzieli się w `olski/subset.py` na kilka list lematów,
+Spójnik dzieli się w `olski/subset/słowa.py` na kilka list lematów,
 a jak się one mają do siebie, nie mówi ani jedno miejsce.
 Listy te odpowiadają na różne pytania o lemat — czy żąda przecinka,
 czy bierze człon bez czasownika, czy stoi wewnątrz zdania,
@@ -2505,7 +2534,7 @@ Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszeg
 a `Pyta, co to jest.` oraz `Pyta, kto płaci i czy to działa.` wyprowadzają się,
 więc brak jest w samym złożeniu, a nie w żadnym z dwóch czół
 ([`docs/subset.md`](docs/subset.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
-Do przeczytania jest `ciąg_pytajny` w `olski/subset.py` obok pozycji
+Do przeczytania jest `ciąg_pytajny` w `olski/subset/podrzędne.py` obok pozycji
 orzecznika wysuniętego, bo pytanie jest o to, czy człon z orzecznikiem
 wypuszcza cechę, której ciało ciągu żąda od członu pierwszego.
 Zdanie to pisze `docs/roles.md`, a odrzucenie jest werdyktem uczciwym,
@@ -2517,7 +2546,7 @@ więc jest to pozycja nowa, a nie drugi znak w gotowym ciele
 ([`docs/subset.md`](docs/subset.md#what-it-does-not-cover-yet)).
 Ruchem jest para jako jedna córka w tym miejscu, które wylicza rozwinięcie szyku,
 czyli tam, gdzie staje okolicznik zdania.
-Do przeczytania jest ciało wtrącenia w `olski/subset.py` obok `Rozwinięcie`
+Do przeczytania jest ciało wtrącenia w `olski/subset/zdanie.py` obok `Rozwinięcie`
 w `olski/precedencja.py`, bo pytanie jest o to, ile czytań ta pozycja dokłada
 zdaniu, które parę stawia na końcu: tam da się ją przyłączyć do zdania składowego
 i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
@@ -2535,7 +2564,7 @@ Do przeczytania jest `bloker` w `olski/pokrycie.py` z tego samego powodu,
 z którego czyta go wpis o resztce `praet`: nazywa on formę, a nie przyczynę.
 
 Kopuła opuszczona ma listę o jednym lemacie, a polszczyzna opuszcza ją szerzej.
-`RZECZOWNIK_ORZEKAJĄCY` w `olski/subset.py` wymienia `mowa`,
+`RZECZOWNIK_ORZEKAJĄCY` w `olski/subset/słowa.py` wymienia `mowa`,
 bo tego lematu zażądał rejestr ustaw,
 a `brak dowodów`, `szkoda czasu` i `pora wracać` są tą samą konstrukcją:
 rzeczownik w mianowniku orzeka, a czasownika nad nim nie ma.
@@ -2555,7 +2584,7 @@ Cenę każdego lematu bierze potem sonda kopuły odtworzona z commita, który j�
 tak jak wzięła cenę tego jednego.
 
 Człon lewy ciągu współrzędnego nie unosi zdania względnego.
-Produkcja `grupa_imienna → człon_imienny zdanie_względne` w `olski/subset.py`
+Produkcja `grupa_imienna → człon_imienny zdanie_względne` w `olski/subset/grupa.py`
 żąda członu, a produkcja koordynacji daje po lewej człon i po prawej ciąg,
 więc `pliki, które rosną, i katalogi` nie ma wyprowadzenia,
 a `pliki i katalogi, które rosną` ma.
@@ -2654,7 +2683,7 @@ z `kto` za czasownikiem dostanie drugie czytanie — pytanie i zdanie względne 
 poprzednika są tam jednym napisem.
 Do przeczytania jest, ile takich zdań ma bank drzew: bez tej liczby wpis jest samą
 ceną, a kształt do policzenia daje `zdanie_względne_bez_poprzednika`
-w `olski/subset.py`.
+w `olski/subset/zdanie.py`.
 
 Zaimek pytajny stoi tylko na czele swojego zdania, więc drugie pytanie w tym samym
 zdaniu nie ma pozycji: `Kto jest kim?` pada, a `Czym jest parser?` wyprowadza się
@@ -2664,7 +2693,7 @@ w zdaniu jedno, bo tyle wysuwa polszczyzna.
 Ruchem jest pozycja zaimka pytajnego w roli wypełnionej na miejscu, czyli cecha
 rozdzielająca zaimek stojący w pytaniu od tego, który stoi w zdaniu oznajmującym:
 bez niej `Parser zapisuje co.` wyprowadza się, a polszczyzną nie jest.
-Do przeczytania jest `BEZ_CZOŁA` w `olski/subset.py`, bo tą cechą gramatyka
+Do przeczytania jest `BEZ_CZOŁA` w `olski/subset/słowa.py`, bo tą cechą gramatyka
 rozdziela dziś rolę wypełnioną czołem od wypełnionej na miejscu, i pytanie jest o to,
 czy druga wartość wystarczy, czy trzeba trzeciej.
 Wpis ma zdanie banku drzew, które ten brak odrzuca:
@@ -2726,7 +2755,7 @@ Ruchem jest ciało spinające orzeczenia, a nie kolejny lemat ani kolejny poziom
 i cena jest widoczna przed pomiarem: orzeczenie niesie ramę czasownika,
 więc ciąg musiałby powiedzieć, którą ramę wypuszcza w górę,
 a dwa czasowniki o różnych ramach dzielą wtedy jedno wypełnienie.
-Do przeczytania jest `wypełnienia` w `olski/subset.py` obok
+Do przeczytania jest `wypełnienia` w `olski/subset/zdanie.py` obok
 [`docs/subset.md`](docs/subset.md#nothing-above-a-coordination-distributes-into-it),
 bo zasięg koordynacji rozstrzyga się tam, gdzie stoi to, co człon zawiera.
 
@@ -3180,7 +3209,7 @@ czy schodzi razem z własnością.
 
 O bezokolicznik gramatyka nie pyta wcale, a skład pyta o niego leksykon,
 i te dwa zdania nie zgadzają się co do `pomagać`.
-`Linter pomaga pisać dobry kod.` stoi w komentarzu `olski/subset.py`
+`Linter pomaga pisać dobry kod.` stoi w komentarzu `olski/subset/zdanie.py`
 jako przykład ciał produkcji `wypełnienia`, olski je wyprowadza,
 a `Robi` w `olski/skład/składnia.py` odmawia mu ramy,
 bo `olski/leksykon.txt` mówi o tym lemacie samo `nie_bierze_biernika`.
@@ -3296,7 +3325,7 @@ czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 więc `Flaga to kawałek tkaniny.` wraca brakiem kategorii,
 choć gramatyka to zdanie wyprowadza
 ([`docs/subset.md`](docs/subset.md#łącznik-to-orzeka-bez-czasownika-a-podmiot-stoi-za-nim)).
-Rola stoi w `DEKLARACJA` w `olski/subset.py` i nie stoi w `POZYCJE`,
+Rola stoi w `DEKLARACJA` w `olski/subset/deklaracja.py` i nie stoi w `POZYCJE`,
 czyli jest to ta usterka, którą komentarz nad `POZYCJE` opisuje.
 Samo dopisanie pozycji nie kupuje jednak nic i dlatego wpis jest jeden, a nie dwa:
 kandydat odpada wtedy na linearyzacji, bo `Jest` wypisuje kopulę,
@@ -3336,23 +3365,6 @@ and set `license` in `pyproject.toml` to match.
 Reading a GPL v3 parser of Polish is what raised it
 (see [`docs/swigra.md`](docs/swigra.md#why-wrapping-it-does-not-get-there)),
 and the answer decides whether olski could ever link against such a thing.
-
-`tests/test_subset.py` ma po podziale przeszło trzy tysiące wierszy
-i pyta obok podzbioru o dwa moduły niżej.
-Sekcja pierwsza, pod banerem „Unification, which is where agreement lives”,
-sprawdza unifikację i sprawdzenia formalizmu z `olski/grammar.py`,
-las i liczbę czytań z `olski/parse.py`,
-oraz to, co werdykt wypisuje o rolach, gospodarzach i konstytuentach,
-czyli `explain` z `olski/werdykt.py` nad rozbieżnościami z `olski/parse.py`.
-Ruchem jest przeniesienie tych grup do plików nazwanych po tamtych modułach,
-tak jak swoje dostały segmentacja i werdykt,
-a nazwa pliku o rozbiorze musi być inna niż `tests/test_rozbiór.py`,
-bo ten pyta o pakiet składu.
-Granica jest tu całą decyzją i oczywista nie jest:
-test o wydruku werdyktu pyta naraz o dwie warstwy,
-więc rozcięty na dwa pliki zostawia w każdym połowę zdania.
-Do przeczytania jest ta sekcja od góry pliku
-do banera o zdaniach przyjmowanych.
 
 `ruff format` nie stoi w [bloku checków](CLAUDE.md#checks),
 a nad kilkunastoma plikami z dziewięćdziesięciu ma zdanie inne niż to,

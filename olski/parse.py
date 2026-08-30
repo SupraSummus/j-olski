@@ -1483,7 +1483,7 @@ class Las:
         Zawężenia to nie luzuje: ``dozwolone`` jest tu tym samym, czym w
         :meth:`_wsparte`, więc ciało, które przy tych cechach się nie domyka, nie
         dokłada ani jednego odczytania.
-        Że suma nie sięga dalej niż kształt, sprawdza ``tests/test_subset.py``,
+        Że suma nie sięga dalej niż kształt, sprawdza ``tests/test_las.py``,
         zawężając zdanie do odczytań, które liście niosą.
 
         Zapamiętana, bo pyta o nią każde drzewo tej pozycji, czyli nad zdaniem
@@ -2237,7 +2237,7 @@ def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> di
     wszystkimi, i rozdziela je liczba, jaką każda z nich mieć może.
     Okoliczników stoi przy zdaniu dowolnie wiele, więc wypisane wszystkie
     rozmnożyłyby streszczenia. Wypełnień stoi najwyżej dwa
-    (``PARA_WYPEŁNIEŃ`` w ``olski/subset.py``), a pierwsze z nich samo zostawia
+    (``PARA_WYPEŁNIEŃ`` w ``olski/subset/deklaracja.py``), a pierwsze z nich samo zostawia
     `Parser pokazuje autorowi oba czytania.` bez połowy tego, co olski w nim wziął.
 
     Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość:

@@ -863,6 +863,17 @@ Symbol obejmujący dwie pozycje naraz oszczędza kilkanaście produkcji
 i odbiera pomiar, bo zdjęcie jego ciał zabiera obie pozycje, a nie jedną.
 Gdzie o cenę osobną nikt nie pyta, wybieramy symbol wspólny, bo jest tańszy.
 
+**Plik dzieli się po tym, czym są jego kawałki, a nie po konstrukcji.**
+O jednej konstrukcji mówią trzy miejsca i każde grupuje inaczej:
+produkcje po gospodarzu, dokument po konstrukcji wraz z jej ceną,
+a test po zdaniu, które przechodzi przez kilka konstrukcji naraz.
+Podział zrobiony w tych trzech miejscach jednakowo
+daje więc czwartą rzecz do utrzymania — mapę nazw między trzema drzewami —
+a jej rozejścia nie łapie żaden check.
+Każde z nich tnie się przez to osobno:
+`olski/subset/` po warstwie, czyli po tym, co dany moduł deklaruje,
+a `tests/` po tym, o którą warstwę test pyta.
+
 **Printed output does not take its order from a set.**
 String hashing is randomised at startup,
 so a set walked in order to print something prints a different thing in every run,

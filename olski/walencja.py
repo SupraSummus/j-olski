@@ -246,7 +246,7 @@ def bierze_zdanie(lemat: str) -> bool:
     więc milczenie o lemacie odmawia.
     Gramatyka podzbioru czyta to inaczej i pyta o to innym pytaniem:
     tam pozycja stoi w ramie domyślnej i to zawężenie zmierzono,
-    o czym mówi ``RAMA_DOMYŚLNA`` w ``olski/subset.py``.
+    o czym mówi ``RAMA_DOMYŚLNA`` w ``olski/subset/rama.py``.
 
     O kontrolę to pytanie nie pyta i pytać nie ma czego:
     zdanie podrzędne niesie własny podmiot, więc nie ma tu nikogo,

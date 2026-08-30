@@ -232,7 +232,7 @@ def test_the_object_slot_is_recognized_under_either_naming(slot):
 @pytest.mark.parametrize("slot", ["np(dat)", "np(cel)", "np(gen)", "np(dop)"])
 def test_dopełnienie_w_przypadku_z_leksykonu_jest_dopełnieniem(slot):
     #  Celownik i dopełniacz są u olskiego pozycją dopełnienia, bo wpuszcza je
-    #  leksykon (`DOKŁADANE` w `olski/subset.py`), więc drzewo wzorcowe ma tu
+    #  leksykon (`DOKŁADANE` w `olski/subset/rama.py`), więc drzewo wzorcowe ma tu
     #  z czym się zgodzić. Bez tego zdanie nowo przyjęte liczy się w tabeli
     #  zgodności jako niezgodne, choć rozeszła się sama nazwa roli.
     assert parse_forest(forest(svo(obj=slot))).spans("dopełnienie") == frozenset({(2, 3)})
@@ -451,7 +451,7 @@ def test_złote_czytanie_zdania_wieloznacznego_zostaje_odnalezione_wśród_czyta
     found = outcome(przyłączenie(), text=PRZYŁĄCZENIE_TEKST)
     assert found.status == "ambiguous"
     assert found.ocalenie == "survives"
-    #  Że numer jest miejscem w kolejności czytań, pilnuje `tests/test_subset.py`;
+    #  Że numer jest miejscem w kolejności czytań, pilnuje `tests/test_las.py`;
     #  tutaj chodzi o to, że dochodzi on tędy razem z werdyktem.
     assert found.głębokość == 1
 

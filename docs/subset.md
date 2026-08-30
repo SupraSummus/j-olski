@@ -1,6 +1,6 @@
 # The subset, as implemented
 
-What `olski/subset.py` admits,
+What `olski/subset/` admits,
 and the decisions that shaped it.
 For the theory behind the track, see [design-notes.md](design-notes.md).
 
@@ -2361,7 +2361,7 @@ a `Z decyzji cieszą się związkowcy, którzy żądali odwołania dyrektora.`
 z dopełnieniem `odwołania dyrektora` wyrwanym ze zdania względnego.
 Dla dwóch pierwszych zdań olski czytania prawdziwego nie ma,
 bo nie ma predykatywu `pora` ani `nie sposób` na swojej liście
-(`PREDYKATYWY` w `olski/subset.py`; co z tym zrobić, notuje `TODO.md`),
+(`PREDYKATYWY` w `olski/subset/słowa.py`; co z tym zrobić, notuje `TODO.md`),
 więc odrzucenie mówi o nich prawdę, której `valid` nie mówiło
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
@@ -2444,7 +2444,7 @@ o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
 o bezokoliczniku 363, o bezokoliczniku pod kontrolą podmiotu 285,
 a o zdaniu podrzędnym 2 498.
 Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
-Nazywa ją `olski/subset.py` razem z domyślną, od której ją odejmuje.
+Nazywa ją `olski/subset/rama.py` razem z domyślną, od której ją odejmuje.
 Czyta go `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
 bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
@@ -2920,7 +2920,7 @@ czasownikowi daje albo odbiera.
 Wchodzi więc jako czwarta pozycja ramy domyślnej,
 a nie jako produkcja dopisana do każdego szyku zdania z osobna,
 i tak samo jak tamte trzy dochodzi do czasownika przez `wypełnienia`.
-Kosztuje to jedno słowo w `RAMA_DOMYŚLNA` i jedno ciało w `olski/subset.py`.
+Kosztuje to jedno słowo w `RAMA_DOMYŚLNA` i jedno ciało w `olski/subset/zdanie.py`.
 
 Spójnikiem jest `że` i nic poza nim,
 choć Morfeusz daje klasę `comp` także formom `gdy`, `jeśli` i `aby`.
@@ -3205,7 +3205,7 @@ czołem drugim, w tych samych dwóch pozycjach.
 Czoła są dwa, a nie jedno obejmujące oba kształty,
 i rozstrzyga o tym pomiar, a nie polszczyzna:
 pod jednym czołem cena pozycji bez przyimka nie byłaby osobną liczbą,
-a wywód stoi w `olski/subset.py` przy czołach obu rodzin.
+a wywód stoi w `olski/subset/podrzędne.py` przy czołach obu rodzin.
 
 Podmiotu zdanie z wysuniętym dopełnieniem nie żąda,
 bo deklaracje są dwie — z podmiotem i bez niego —
@@ -3342,7 +3342,7 @@ które weszły razem z wykluczeniem
 Wysunięty konstytuent zajmuje w zdaniu składowym rolę:
 `która` w `reguła, która rozstrzyga` jest podmiotem,
 a `którą` w `polszczyzna, którą napisał autor` dopełnieniem.
-`_wysunięta_rola` w `olski/subset.py` stawia nad nim `podmiot` albo `dopełnienie`,
+`_wysunięta_rola` w `olski/subset/podrzędne.py` stawia nad nim `podmiot` albo `dopełnienie`,
 czyli tę samą etykietę, którą nosi rola wypełniona na swoim miejscu.
 
 Bez tej etykiety olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,
@@ -3361,7 +3361,7 @@ a `Który aktor robi wrażenie.` zdaniem oznajmującym o takim podmiocie,
 czyli wróciłoby czytanie, które zdjął
 [warunek na lemat](#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku).
 
-Rozdziela obie rodziny produkcji cecha `czoło` (`BEZ_CZOŁA` w `olski/subset.py`),
+Rozdziela obie rodziny produkcji cecha `czoło` (`BEZ_CZOŁA` w `olski/subset/słowa.py`),
 a niosą ją wszystkie produkcje obu symboli,
 bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc rodzina milcząca przechodziłaby przez to żądanie za darmo.
@@ -3406,7 +3406,7 @@ Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
 Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
 `grupa_pytajna` mówi, o co zdanie pyta,
 i bez niej pytanie przyjęte nie mówiłoby tego wcale
-(`GRUPA_PYTAJNA` w `olski/subset.py`),
+(`GRUPA_PYTAJNA` w `olski/subset/deklaracja.py`),
 a `podmiot` albo `dopełnienie` mówi, czym ta grupa w zdaniu jest,
 i tego żąda bank drzew, bo grupy pytajnej nie zna
 i obsadza `Który aktor` podmiotem.
@@ -3505,7 +3505,7 @@ a takich ciągów ten rejestr niesie zdanie po zdaniu.
 
 Etykietę roli stawia temu rzeczownikowi produkcja, tak samo jak przy
 [czole zdania względnego](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza),
-a czego bez niej brakuje werdyktowi, mówi `olski/subset.py` przy tej roli.
+a czego bez niej brakuje werdyktowi, mówi `olski/subset/deklaracja.py` przy tej roli.
 
 ```sh
 python3 -m olski.check -c "Mowa o zadaniach." --readings
@@ -3522,7 +3522,7 @@ Orzecznik jest pozycją ramy: rzeczownikowy stoi w narzędniku pod kopulą,
 a przymiotnikowy w mianowniku pod czasownikiem, którego rama go ma.
 Rzeczownik orzekający nie ma nad sobą czasownika, więc pozycji ramy nie zajmuje,
 a wpuszczony do orzecznika stanąłby tam, gdzie orzecznik ramy nie ogłasza:
-w szyku z orzecznikiem przed kopulą (`olski/subset.py`).
+w szyku z orzecznikiem przed kopulą (`olski/subset/zdanie.py`).
 Przyjąłby wtedy `Mowa jest ustawa.`, czyli zdanie,
 w którym olski czyta rzeczownikowy orzecznik w mianowniku.
 
@@ -3575,7 +3575,7 @@ Warstwa znacząca dziedzinę ma węższą niż gramatyka i tych zdań nie dosię
 ([architecture.md](architecture.md#werdykt-liczy-wyprowadzenia-bo-powstaje-pod-dwiema-warstwami-które-liczą-znaczenia)).
 Warunek w gramatyce kosztuje za to jedną cechę, a las po nim maleje.
 
-Porządek jest zapisany cechą (`dostawka` w `olski/subset.py`):
+Porządek jest zapisany cechą (`dostawka` w `olski/subset/słowa.py`):
 określenie stojące za zdaniem ją wypuszcza,
 a określenie wysunięte przed zdanie żąda gospodarza, który jej nie niesie.
 Wysunięte wchodzi więc pod to, co stoi za zdaniem, i nigdy nad nie.
@@ -3836,7 +3836,7 @@ Rama czasownika zostaje przez to nietknięta,
 a grupa z taką głową stoi w każdej roli, w której stoi każda inna grupa imienna.
 
 Ta głowa dostaje tyle pozycji, ile ma rzeczownik, i dostaje je jednym zapisem:
-pętla w `olski/subset.py` wypisuje każde ciało grupy imiennej dwa razy,
+pętla w `olski/subset/grupa.py` wypisuje każde ciało grupy imiennej dwa razy,
 raz z rzeczownikiem i raz z formą odczasownikową.
 
 Jedno wykluczenie stoi po stronie rzeczownika i nie dotyczy tej głowy.
@@ -4107,7 +4107,7 @@ Wysunięte przed sam bezokolicznik byłoby zaś pozycją inną —
 `nie może większości ruszyć` — której ta gramatyka nie ma.
 Ramę czyta w tej pozycji bezokolicznik, a nie forma osobowa nad nim,
 bo pozycję, którą to dopełnienie zajmuje, ma rama `ruszyć`, a nie rama `móc`;
-jak to wypowiedziano cechami, mówi `olski/subset.py`.
+jak to wypowiedziano cechami, mówi `olski/subset/zdanie.py`.
 Przeczenie idzie drogą odwrotną: dopełniacza żąda cząstka stojąca przy formie
 osobowej i żąda go
 [ponad bezokolicznikiem](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
@@ -4900,7 +4900,7 @@ i każda z nich jest zwyczajną polszczyzną:
 Produkcji jest kilkadziesiąt,
 bo pozycja powtarza się w każdym szyku, który ją ma,
 a szyk jest w tej gramatyce osobną produkcją.
-Ile ich jest dzisiaj, mówi `olski/subset.py`, a nie ten akapit:
+Ile ich jest dzisiaj, mówi `olski/subset/podrzędne.py`, a nie ten akapit:
 rusza je każde dopisanie do gramatyki,
 a liczy się je tak, jak się je zdejmuje.
 Wiersz kosztuje przez to tym więcej ciał, im więcej szyków go ma,
@@ -5183,7 +5183,7 @@ i osobno nie bierze jej żaden terminal, więc para wchodzi jednym ciałem.
 Okolicznikiem, a nie wyrażeniem przyimkowym, bo pytanie, na które ta para odpowiada,
 jest pytaniem przysłówka: `po cichu` odpowiada tam, gdzie odpowiada `cicho`.
 Formalizm mówi to samo, bo `adjp` nie niesie przypadka i przyimek nie ma tu czym rządzić;
-ciało wraz z powodem, dla którego głową jest forma, stoi w `olski/subset.py`.
+ciało wraz z powodem, dla którego głową jest forma, stoi w `olski/subset/grupa.py`.
 
 Przyimka lista nie zawęża, i jest to cena wzięta świadomie.
 `w polsku` wyprowadza się przez to tak samo jak `po polsku`,
@@ -5252,7 +5252,7 @@ owns that argument,
 and [tożsamość czytania](design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
 owns what may share a position and how the counting joins two of them.
 
-`olski/subset.py` is olski itself:
+`olski/subset/` is olski itself:
 the grammar, what it reads as one word,
 the readings it declines to consider, and the verdicts.
 

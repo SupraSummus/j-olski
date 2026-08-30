@@ -1,7 +1,7 @@
 """Ten sam podzbiór polszczyzny, powiedziany łukami zamiast produkcjami.
 
 Porównanie ma sens tylko wtedy, gdy oba opisy mówią o tym samym, więc każda
-deklaracja niżej wskazuje produkcję z ``olski/subset.py``, którą oddaje, a
+deklaracja niżej wskazuje produkcję z ``olski/subset/``, którą oddaje, a
 morfologia, cechy i unifikacja są w obu programach jedne i te same.
 
 Gdzie liczba deklaracji rozjeżdża się z liczbą produkcji i co z tego wynika, mówi

@@ -111,7 +111,7 @@ class Word:
     bez_lematów: frozenset[str] | None = None
     #: Ten sam warunek ujemny o formie zamiast o czytaniu: formę, której lemat
     #: wypada tu którymkolwiek czytaniem, terminal odrzuca całą. Żąda tego zasięgu
-    #: rozłączność klas walencyjnych (:func:`_klasy` w ``olski/subset.py``);
+    #: rozłączność klas walencyjnych (:func:`_klasy` w ``olski/subset/rama.py``);
     #: czemu zostają dwa, wywodzi docs/subset.md pod warunkiem wyżej.
     bez_lematów_formy: frozenset[str] | None = None
     #: Cechy, które forma ma nieść, żeby ten terminal ją wziął, czyli żądanie

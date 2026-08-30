@@ -89,7 +89,7 @@ a nie gotowy wiersz o niej.
 Klucze JSON-a wybieramy sami, więc są po polsku,
 i po polsku jest też nazwa roli w odczytaniu —
 `podmiot`, `dopełnienie`, `orzeczenie`, `wyrażenie_przyimkowe` —
-bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset.py`.
+bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset/deklaracja.py`.
 Po angielsku zostaje status w znaczku —
 `valid`, `ambiguous`, `rejected`, `unclosed`, `fragment` —
 i legenda pod polem tłumaczy każdy z nich na polskie zdanie.
