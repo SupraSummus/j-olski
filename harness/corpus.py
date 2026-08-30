@@ -99,7 +99,7 @@ def _slot_role(slot: str) -> str | None:
 
     Przypadków dopełnienia jest tu tyle, ile ich ma gramatyka, więc pozycja
     dopisana tam dopisuje się i tu: celownik i dopełniacz wchodzą do olskiego z
-    leksykonu (``DOKŁADANE`` w ``olski/subset.py``), a niewymienione tutaj
+    leksykonu (``DOKŁADANE`` w ``olski/subset/rama.py``), a niewymienione tutaj
     wychodziłyby na zdaniu nowo przyjętym niezgodnością z drzewem wzorcowym,
     czyli pomiar mówiłby o pomyłce tam, gdzie stoi sama nazwa roli.
     """

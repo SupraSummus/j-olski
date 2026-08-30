@@ -11,7 +11,7 @@ znaki cytowania spoza rejestru mówią, którą parę rejestr wybrał,
 a rozdzielone z tą parą przestają to mówić.
 
 Moduł ten leży poniżej gramatyki i nic z niej nie czyta.
-``olski/subset.py`` buduje ją przy imporcie,
+``olski/subset/`` buduje ją przy imporcie,
 więc kto sięgałby po lemat tam, płaciłby za całą gramatykę i za leksykon walencyjny.
 Lemat, o który pyta sama gramatyka, zostaje przy swoim terminalu w tamtym module.
 """
@@ -20,7 +20,7 @@ from __future__ import annotations
 
 #: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
 #: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
-#: Pytają o nią klasy walencyjne gramatyki (``olski/subset.py``)
+#: Pytają o nią klasy walencyjne gramatyki (``olski/subset/rama.py``)
 #: oraz świadek kontekstowy, który przy tym czasowniku milczy
 #: (``olski/rozstrzyganie.py``).
 KOPULA = frozenset({"być", "bywać", "zostać", "zostawać", "pozostać", "pozostawać"})
@@ -36,7 +36,7 @@ PRZYIMEK_ROZDZIELAJĄCY = "a"
 #: Znaki, którymi ten rejestr obejmuje tytuł i termin cytowany: `„Zasady
 #: techniki prawodawczej”`. Znaki są dwa i są różne, bo polszczyzna otwiera
 #: cudzysłów innym znakiem, niż go zamyka.
-#: Pyta o nie terminal (``olski/subset.py``), warunek, którym cudzysłów
+#: Pyta o nie terminal (``olski/subset/słowa.py``), warunek, którym cudzysłów
 #: licencjonuje napis przytoczony (``olski/segmentacja.py``),
 #: oraz podpowiedź werdyktu nad cytatem z innych znaków (``olski/werdykt.py``).
 ZNAK_CUDZYSŁOWU_OTWIERAJĄCY = "„"
@@ -50,6 +50,6 @@ ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
 #: Lemat cząstki czasownika zwrotnego. Leksykon czyta tę cząstkę jako drugi wymiar
 #: lematu, a nie jako określenie: `otwierać` bierze dopełnienie w bierniku,
 #: a `otwierać się` go nie bierze.
-#: Pyta o niego terminal cząstki wraz z klasami walencyjnymi (``olski/subset.py``)
+#: Pyta o niego terminal cząstki wraz z klasami walencyjnymi (``olski/subset/słowa.py``)
 #: oraz warunek na pozycję tej cząstki (``olski/segmentacja.py``).
 LEMAT_ZWROTNY = "się"

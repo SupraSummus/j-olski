@@ -40,7 +40,7 @@ Katalog przymiotnikowy i przysłówkowy zostają na zewnątrz, bo nikt o nie nie
 pyta: sporny wybór stawiają dwie strony, a te dwie są w tym zapisie czasownikiem
 i rzeczownikiem (``strona`` w ``olski/rozstrzyganie.py``).
 
-Ramy ten moduł nie zna: nazywa ją ``olski/subset.py`` razem z resztą gramatyki, a
+Ramy ten moduł nie zna: nazywa ją ``olski/subset/rama.py`` razem z resztą gramatyki, a
 stąd wychodzą same słowa wraz z tym, które z tych zdań są o nich prawdziwe
 i jakich przyimków żąda ich rama.
 
@@ -57,7 +57,7 @@ Narzędnika nie bierze ani jedno z tych zdań, choć Walenty zna wszystkie
 przypadki, bo ``inst`` jest u olskiego pozycją orzecznika, a Walenty nie odróżnia
 jej od argumentu narzędnikowego (``bawić się czymś``), więc wpis wzięty stąd
 wpuszczałby orzecznik tam, gdzie polszczyzna ma dopełnienie. Kopula
-zostaje przez to listą pisaną ręcznie w ``olski/subset.py``, i to ta lista, a nie
+zostaje przez to listą pisaną ręcznie w ``olski/subset/rama.py``, i to ta lista, a nie
 ten moduł, wyłącza swoje lematy stąd.
 
 Pliki, które to czyta, nie stoją w repozytorium: pobiera się je tak, jak bank
@@ -439,7 +439,7 @@ NAGŁÓWEK = f"""\
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
-# ramę nazywa `olski/subset.py`, a docs/subset.md trzyma polecenie wraz z tym,
+# ramę nazywa `olski/subset/rama.py`, a docs/subset.md trzyma polecenie wraz z tym,
 # skąd wziąć pliki wejściowe.
 """
 

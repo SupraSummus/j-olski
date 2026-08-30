@@ -59,7 +59,7 @@ PUSTE = ("podmiot", "dopełnienie")
 #: Symbole, które lukę domykają, wiążąc ją ze swoim zaimkiem. Wyżej luka nie idzie,
 #: i dlatego wyjęcie z wnętrza zdania względnego nie wyprowadza się wcale.
 #: Rodzin względnych jest dwie, bo dwa poprzedniki biorą dwa czoła
-#: (``zaimek_względny_rzeczowny`` w ``olski/subset.py``), a domyka luki obie tak samo.
+#: (``zaimek_względny_rzeczowny`` w ``olski/subset/podrzędne.py``), a domyka luki obie tak samo.
 DOMYKA = ("rdzeń_względny", "rdzeń_względny_rzeczowny")
 #: Rodzina, której ciała luka zastępuje, czyli zasięg tej sondy. Węższa od
 #: :data:`DOMYKA` i tym zaniża pomiar, bo zdanie z `co` na czole wychodzi w

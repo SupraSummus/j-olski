@@ -418,7 +418,7 @@ a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
 
 **Angielska nazwa pisana małą literą.**
 `README mówi o podzbiorze.` przechodzi,
-a `Sekcja mówi o build w olski/subset.py.` pada na `build`.
+a `Sekcja mówi o build w olski/subset/__init__.py.` pada na `build`.
 Czytanie nieodmienne dostaje forma pisana wersalikami i nieznana słownikowi
 ([subset.md](subset.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)),
 a `build`, `merge` i `yet decided` pierwszego z tych dwóch żądań nie spełniają:

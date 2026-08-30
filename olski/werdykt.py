@@ -14,7 +14,7 @@ czyli tyle werdyktów, ile zdań, oraz jedną odpowiedź policzoną z nich regu�
 
 Warstwa ta ani nie wnosi wieloznaczności, ani jej nie zdejmuje,
 bo jest wypowiedzią o warstwach pod nią (docs/architecture.md).
-Gramatykę czyta gotową z ``olski/subset.py``,
+Gramatykę czyta gotową z ``olski/subset/``,
 a segmentację, po której werdykt pada, z ``olski/segmentacja.py``.
 """
 
@@ -61,7 +61,7 @@ NIEDOMKNIĘTE = "unclosed"
 #: nie ma, bo terminal końca zdania bierze każdy z trzech, więc kropka zamyka
 #: każde czytanie, które zamknąłby on, i mówi przy tym o gramatyce, a nie o tonie
 #: autora. Pytajnik jest, bo pytanie zamyka się tylko nim
-#: (`KONIEC_ZDANIA` i `PYTAJNIK` w ``olski/subset.py``).
+#: (`KONIEC_ZDANIA` i `PYTAJNIK` w ``olski/subset/słowa.py``).
 DOMKNIĘCIA = (".", "?")
 
 

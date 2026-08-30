@@ -69,7 +69,7 @@ więc symbol ma jedną nazwę i jest nią ta, którą drukuje werdykt.
 Symbol powoływany obiektem czyta się lepiej tam, gdzie pisze się produkcję,
 a płaci deklaracją na każdy symbol z osobna,
 w której to samo słowo jest raz identyfikatorem, a raz napisem.
-Stałe w `olski/subset.py` płacą ją przy symbolach z wywodem,
+Stałe w `olski/subset/` płacą ją przy symbolach z wywodem,
 bo komentarz nad stałą jest jego miejscem.
 To, co miał kupić, przychodzi bez niego:
 checki w `olski/grammar.py` łapią literówkę w głowie produkcji,
@@ -602,7 +602,7 @@ Jest nim to, że luka nie ma napisu.
 
 **Co luka miała kupić.**
 Zdanie względne wypisuje się rolą po roli:
-kilkadziesiąt ciał `rdzeń_względny` w `olski/subset.py`,
+kilkadziesiąt ciał `rdzeń_względny` w `olski/subset/podrzędne.py`,
 po jednym na czoło razy wysunięta rola razy szyk reszty zdania
 razy miejsce na okolicznik razy przeczenie,
 a role, które te ciała wypełniają, wywodzi
@@ -1277,7 +1277,8 @@ i nikt tego nie zauważy, a znacznik przesuwa się razem ze swoją częścią.
 Ciało o kilku częściach bez znacznika nie powstaje wcale,
 więc produkcja dopisana bez głowy przerywa budowanie gramatyki na swoim wierszu,
 zamiast nazwać gospodarza pierwszą córką, którąkolwiek by ona była.
-Odmowę i oba zdania z tymi werdyktami sprawdza `tests/test_subset.py`.
+Odmowę sprawdza `tests/test_gramatyka.py`,
+a oba zdania z tymi werdyktami `tests/test_las.py`.
 
 Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
 czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
@@ -1331,7 +1332,7 @@ python3 -m olski.check -c "Zobacz docs/subset.md."
 Suma iloczynów po samych pozycjach liczy nad nim o jedno czytanie więcej,
 niż ma ich to zdanie.
 `wypełnienia` nad `docs/subset.md` budują się trzema produkcjami
-z `olski/subset.py` — przez `dopełnienie`, przez `orzecznik`
+z `olski/subset/zdanie.py` — przez `dopełnienie`, przez `orzecznik`
 i przez okolicznik narzędnikowy —
 bo [notacja rejestru](subset.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
@@ -1390,7 +1391,7 @@ Liczby niżej są ceną, za jaką odrzucono rozszczepienie,
 i nie ma ich po co przeliczać:
 sonda, która je wzięła, poszła razem z enumeratorem będącym jej miarą,
 a wariant, który mierzyła, nie stoi w kodzie i nie ma jak się zmienić.
-Zdania, na których widać oba nadmiary, trzyma `tests/test_subset.py`,
+Zdania, na których widać oba nadmiary, trzyma `tests/test_las.py`,
 więc podstawa tego wywodu nie zniknie po cichu.
 
 Nad 13025 zdaniami Składnicy pod morfologią własną
@@ -1615,7 +1616,7 @@ i tyle wystarcza, żeby przymiotnik brał jednego z nich
 
 Rodzaj grupy współrzędnej nie jest symetryczny między członami,
 bo polszczyzna wylicza go regułami, których unifikacja nie umie powiedzieć,
-więc taka grupa nie niesie tej cechy wcale i `olski/subset.py` mówi to
+więc taka grupa nie niesie tej cechy wcale i `olski/subset/grupa.py` mówi to
 przy tej produkcji.
 Działa to dlatego, że `unify` pomija cechę, której konstytuent nie ma,
 czyli tą samą linią, którą nieodmienna część mowy jest niewinna zgodności.

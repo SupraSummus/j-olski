@@ -119,8 +119,8 @@ bo nagłówek TODO.md każe zaglądać tam przed zaczęciem czegokolwiek.
 ## Autor produkcji
 
 Pyta, jak dopisać gramatyce konstrukcję i co ona kosztuje.
-Wchodzi w [subset.md](subset.md), a stamtąd w `olski/subset.py`,
-gdzie produkcje stoją jedna pod drugą.
+Wchodzi w [subset.md](subset.md), a stamtąd w `olski/subset/`,
+gdzie produkcje stoją w module swojego gospodarza.
 Testy tych produkcji stoją w `tests/test_subset.py`.
 Wymaganie idzie z tą rolą od początku i jest jedno:
 konstrukcja dopisana gramatyce dokłada czytania każdemu zdaniu, które ją ma.
@@ -138,7 +138,7 @@ Kryterium trzyma
 Droga jest za każdym razem ta sama.
 Tyle o niej trzeba wiedzieć.
 Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi.
-Ciało dochodzi do sekcji swojego gospodarza w `olski/subset.py`.
+Ciało dochodzi do modułu swojego gospodarza w `olski/subset/`.
 Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
 ([CLAUDE.md](../CLAUDE.md#code)).
 Korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)

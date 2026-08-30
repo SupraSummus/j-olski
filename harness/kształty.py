@@ -51,7 +51,7 @@ PRZECINEK, SPÓJNIK = "przec", "spójnik"
 GŁOWA_RZECZOWNA = "rzecz"
 
 #: Lemat zaimka zwrotnego, tak jak nazywa go bank drzew. Kopia nazwy z
-#: ``olski/subset.py`` byłaby tu fałszywa: tamta stoi po stronie Morfeusza, a ta
+#: ``olski/subset/słowa.py`` byłaby tu fałszywa: tamta stoi po stronie Morfeusza, a ta
 #: po stronie Świgry.
 LEMAT_ZWROTNY = "siebie"
 

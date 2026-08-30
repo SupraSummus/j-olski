@@ -7,7 +7,7 @@ Po polsku jest przez to i werdykt, i strona wokół niego —
 podpisy, przyciski, nagłówki — a co z tego czyje, mówi ``docs/witryna.md``.
 
 Klucz JSON-a wybieramy tutaj, więc jest po polsku.
-Nazwa roli w odczytaniu przychodzi z ``DEKLARACJA`` w ``olski/subset.py``
+Nazwa roli w odczytaniu przychodzi z ``DEKLARACJA`` w ``olski/subset/deklaracja.py``
 i zostaje taka, jaka przyszła.
 """
 

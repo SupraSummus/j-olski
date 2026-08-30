@@ -149,7 +149,7 @@ ciało wypisane w deklaracji jest tym podstawowym.
 Dwie wyliczają koszt z deklaracji (`olski/precedencja.py`) —
 konstytuent bierze okolicznik, a jego córki stoją w innym szyku niż wypisany —
 a trzecia mówi o jednej rodzinie produkcji, że jest konstrukcją nacechowaną,
-i jest nią orzecznik wysunięty przed kopulę (`olski/subset.py`).
+i jest nią orzecznik wysunięty przed kopulę (`olski/subset/zdanie.py`).
 
 Czwarta liczba wycenia morfologię i orzeka o słowniku, a nie o gramatyce:
 czytanie oparte na formie, którą SGJP opatrzył kwalifikatorem odsyłającym ją

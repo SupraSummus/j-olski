@@ -51,10 +51,13 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: tam, bo mówi o projekcie, a nie o polszczyźnie (``olski/konfiguracja.py``).
 #: Nazwany wprost, bo wzorzec na samą nazwę pliku łapałby każde `plik.toml`
 #: z bloku polecenia.
+#: Pakiet nazywa się ukośnikiem na końcu — `olski/subset/` — i zdanie o nim
+#: rotuje tak samo jak zdanie o module, bo przemianowany katalog zostawia
+#: żywo wyglądającą nazwę.
 W_KORZENIU = r"olski\.toml"
 CITED_PATH = re.compile(
     r"`((?:olski|harness|tests|opowieści|próba|witryna)"
-    r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?\.(?:py|txt|html|css|js)"
+    r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?(?:\.(?:py|txt|html|css|js)|/)"
     rf"|{W_KORZENIU})`"
 )
 #: The one document whose subject is code that is gone: it prices the retired

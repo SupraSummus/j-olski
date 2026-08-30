@@ -21,8 +21,9 @@ from olski.segmentacja import morphology
 from olski.werdykt import FRAGMENT, NIEDOMKNIĘTE, Domknięcie, Podsumowanie, check, zatrzymania
 
 
-#  Wołają je też ``tests/test_subset.py`` i ``tests/test_segmentacja.py``,
-#  a kopia w każdym z trzech plików rozjechałaby się po cichu.
+#  Wołają je też ``tests/test_subset.py``, ``tests/test_las.py``
+#  i ``tests/test_segmentacja.py``,
+#  a kopia w każdym z czterech plików rozjechałaby się po cichu.
 def verdict(text):
     found = check(text)
     assert len(found) == 1, f"expected one sentence, got {len(found)}"

@@ -7,7 +7,7 @@ ten sam werdykt, i że nieciągłość jest tam zdejmowanym warunkiem, a nie
 konstrukcją.
 
 Pierwsza z nich pilnuje przy tym czegoś więcej niż siebie. ``harness/polszczyzna.py``
-jest drugą deklaracją podzbioru, więc zmiana w ``olski/subset.py`` zestarzeje ją
+jest drugą deklaracją podzbioru, więc zmiana w ``olski/subset/`` zestarzeje ją
 po cichu, a ten test jest jedynym miejscem, w którym to wychodzi. Wtedy albo
 deklaracje idą za produkcjami, albo sonda się kasuje, i `TODO.md` mówi, co
 rozstrzyga który.

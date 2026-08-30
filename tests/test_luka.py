@@ -84,8 +84,9 @@ def test_luka_stojąca_wszędzie_odbiera_jednoznaczność_także_wyjęciu_z_gł�
     """Kształtów jest tyle, ile pozycji w gramatyce, i wyjęcie z głębi nie jest wyjątkiem.
 
     Dopełnienie bezokolicznika ma pozycję wypisaną obok tej, w którą wypada luka
-    (``FRAZA_BEZOKOLICZNIKOWA_OTWARTA`` w ``olski/subset.py``), więc luka stojąca wszędzie
-    wydaje ten napis dwoma kształtami. Warunek precedencji zdejmuje tę cenę tutaj
+    (``FRAZA_BEZOKOLICZNIKOWA_OTWARTA`` w ``olski/subset/deklaracja.py``),
+    więc luka stojąca wszędzie wydaje ten napis dwoma kształtami.
+    Warunek precedencji zdejmuje tę cenę tutaj
     w całości, a przy ``Plik, który program zapisuje`` nie w całości, i o tę
     różnicę idzie w tabeli sondy.
     """
