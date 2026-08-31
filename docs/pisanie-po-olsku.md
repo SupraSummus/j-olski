@@ -365,7 +365,7 @@ więc naprawą jest przysunięcie cząstki do czasownika, do którego należy.
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,
 `Istnieją te konstrukcje, które stoją na liście.` przechodzi.
 Pozycję wewnątrz grupy cząstka ma
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 a `tylko` zostaje poza listą cząstek,
 bo Morfeusz czyta je także jako spójnik;
 w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.

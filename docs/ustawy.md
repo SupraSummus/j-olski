@@ -389,7 +389,7 @@ Formy z czoła tego rankingu grupują się w trzy klasy:
 
 Klasa przysłówkowa stała w tej tabeli piąta, a klasa spójników podrzędnych druga.
 Obie zeszły z niej razem z produkcjami, które te formy wzięły
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy),
 [konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
 Została po pierwszej klasa cząstek, którą kolejka liczyła razem z nią,
 a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
@@ -468,7 +468,7 @@ Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
 a przysłówek zdjął stąd kilkadziesiąt zdań z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
 gdzie wiersz `adv` oddał prawie jedną trzecią tego, co obiecywał
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,
@@ -477,7 +477,7 @@ która zdania nie wypuszcza tak czy tak.
 Ta sama arytmetyka rządzi czasownikiem nieosobowym:
 prawodawca pisze tę formę w ustawach 90 razy i w rozporządzeniu 35,
 a zdania z nią niosą także odsyłacz, cyfrę albo wyliczenie
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
 
 Grupa wysunięta razem z zaimkiem względnym rusza w każdym z dwóch tekstów
 tego rejestru inną ze swoich dwóch pozycji,
@@ -493,7 +493,7 @@ Trybem przypuszczającym ten rejestr warunku nie zapisuje:
 `aby` pisze prawodawca kilkadziesiąt razy, prawie zawsze z bezokolicznikiem
 po `tak` albo `w taki sposób`, a zdania z nim niosą także co innego
 i wychodzą odrzucone przed dopisaniem cząstki trybu i po nim
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką)).
 
 Wszystkie te dopisania mówią o kolejce jedno:
 wskazuje ona konstrukcje trafnie i wyceniać ich nie umie,

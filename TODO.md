@@ -121,22 +121,21 @@ i jedną liczbą poza nią, czyli `998 par` w
 a check czytający liczbę z prozy wyrażeniem regularnym
 czerwienieje po przeredagowaniu zdania, a nie po zmianie w danych.
 
-Nagłówki rejestru niosą doklejoną drugą tezę albo ramę przeciwstawną.
-`Czasownik nieosobowy orzeka bez podmiotu i rządzi ramą swojego lematu`
-mówi dwie rzeczy, a drugą wykłada dopiero ciało sekcji;
-`Kopuła opuszczona jest wpisem na lemat, a nie pozycją ogólną`
-bierze precyzję z tego, co wyklucza
-([CLAUDE.md](CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)).
-Trzy inne stoją na czasowniku domowym — „wchodzi”, „stoi” —
-którego nagłówek znosi najgorzej
-([CLAUDE.md](CLAUDE.md#dla-kogo-jest-napisane-zdanie)).
+Dwanaście nagłówków rejestru ma w orzeczeniu czasownik domowy —
+„stoi”, „wchodzi”, „niesie”, „bierze” — którego nagłówek znosi najgorzej
+([CLAUDE.md](CLAUDE.md#dla-kogo-jest-napisane-zdanie)),
+a sześć bierze precyzję z tego, co wyklucza
+([CLAUDE.md](CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen));
+`Czoło niesie etykietę roli, którą zajmuje, a werdyktu nie rusza`
+jest w obu tych zbiorach.
+Najtrudniejszy jest `Zaimki kto i co wchodzą wszystkimi pozycjami naraz`,
+bo „naraz” niesie tam tezę o pomiarze:
+pozycja wpuszczona sama obniża pokrycie.
 Ruchem jest przejście nagłówków `docs/konstrukcje-gramatyczne.md`
 testem podstawieniowym, po kilka na commit,
 bo każde przemianowanie rusza kotwicę i wszystkie wskazania na nią.
 Do przeczytania jest pierwszy akapit sekcji, bo teza skreślona z nagłówka
 ma tam stać, a zwykle już stoi.
-Jeden z tych nagłówków niesie przy tym wycofaną nazwę `czytania`,
-więc zamyka go ten sam commit, co wpis o niej.
 
 Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
 nazwy w kodzie i nazwy plików
@@ -268,14 +267,14 @@ bo one, a nie liczba dokumentów, mówią, ile ten przebieg kosztuje.
 Czwarte takie zdanie liczyło ciała `rdzeń_względny` przed przeczeniem i po nim,
 a rozwinięcie szyku wypisuje ich od tamtej pory rząd wielkości więcej,
 więc zostaje po nim sama krotność: przeczenie podwaja te ciała.
-Cen wpuszczenia w pełnej precyzji ten wpis nie obejmuje:
+Cen wpuszczenia ten wpis nie obejmuje:
 właścicielem każdej z nich jest sekcja konstrukcji
 w `docs/konstrukcje-gramatyczne.md`,
-gdzie są przypięte do gramatyki z chwili pomiaru,
 a plan etapów i dokumenty rejestrów ich nie powtarzają: cena stoi przy konstrukcji,
 a przebieg, którym ją policzono, stoi w gicie
 ([`docs/ustawy.md`](docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
-Czy właściciel ma trzymać ją dokładną, czy w rzędzie wielkości, nie rozstrzygnął nikt.
+Właściciel trzyma ją w rzędzie wielkości albo granicą, a nie w pełnej precyzji,
+i mówi to [jego wstęp](docs/konstrukcje-gramatyczne.md).
 Jedna cena stoi poza tą regułą i stoi tak dlatego, że nie ma sekcji:
 koordynację wycenia [etap 4](docs/roadmap.md#etap-4-zdanie-złożone),
 bo `docs/konstrukcje-gramatyczne.md` ma sekcję o tym, co ją dzieli od podrzędności,
@@ -1354,7 +1353,7 @@ a polszczyzna stawia tę końcówkę także przy innym słowie zdania:
 `gdzieś ty był`, `myśmy przyszli`, `dlaczegoś to zrobił`.
 Tym samym brakiem jest końcówka na spójniku niosącym cząstkę trybu —
 `żebym napisał`, które Morfeusz tnie na `żeby` i `m`
-([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką)).
 Ruchem jest aglutynant przyłączany do zdania, a nie do czasownika,
 czyli cecha osoby wypuszczana w górę z miejsca, w którym końcówka stanęła.
 Do rozstrzygnięcia jest, czy warto:
@@ -1400,7 +1399,7 @@ Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed 
 Odbiorca takiego warunku jest przy tym jeden i mówi to pomiar, a nie przeoczenie:
 tryb w ciągu współrzędnym i zagnieżdżenie liczebnika prosiły o tę samą maszynerię,
 a oba okazały się cechą albo pozycją nie wartą ceny
-([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką)
 oraz [tamże](docs/konstrukcje-gramatyczne.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
 Luka jest tu ostatnia, bo cechą jej zrobić nie da się wcale,
 i dlaczego, mówi
@@ -2814,7 +2813,7 @@ więc lemat dopisany do listy nie wystarcza,
 a wpis jest przez to o produkcję, a nie o dane.
 Ruchem jest lista wyczytana z korpusu, a nie z pamięci,
 a materiał do jej wyczytania daje pozycja ogólna dopisana do gramatyki:
-[`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+[`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
 nazywa dwie produkcje, które ona dopisuje,
 a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
 Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
@@ -3076,7 +3075,7 @@ Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
 więc ciało jest osobne i osobna jest jego cena, której nikt nie policzył.
 Do przeczytania jest, czy nie zderzy się ono z czasownikiem nieosobowym:
 tamten też orzeka bez zgodności z podmiotem
-([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)).
+([`docs/konstrukcje-gramatyczne.md`](docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
 
 Słowa pytające `jak`, `jaki`, `ile` i `dlaczego` nie mają pozycji,
 a zdania z nimi nie padają, tylko przechodzą czytaniem, którego polszczyzna nie ma:

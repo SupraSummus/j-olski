@@ -339,7 +339,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze))
 - Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
   `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-wewnątrz-zdania-ma-jedną-pozycję-i-jedno-odczytanie))
 - Ten sam spójnik na czele całego zdania, wiążący je z poprzednim:
   `I nikt tego nie zauważył.`, `Zatem milczenie jest wartością.`
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim))
@@ -356,7 +356,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
   `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`, `Zażądałem, by wyszedł.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką))
 - Czas przyszły w obu rolach formy `bedzie`:
   sama orzeka o podmiocie, a nad czasownikiem niedokonanym składa czas złożony —
   `Cena będzie niska.`, `Program będzie zapisywał ustawienia.`,
@@ -368,7 +368,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Cząstka przy zdaniu i wewnątrz grupy imiennej:
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
   `Nawet ptaki przestały śpiewać.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła.
@@ -419,7 +419,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   Spójnika ono nie ma, bo podporządkowuje sam zaimek.
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat))
 - Łącznik `to` między dwiema grupami w mianowniku, czyli drugie zdanie bez czasownika:
   `Flaga to płat tkaniny określonego kształtu.`, `Parser to nie kompilator.`
   Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim
@@ -434,7 +434,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
   stoi sam przysłówek stopniowany (`Koszt bardzo dużego pliku jest niski.`,
   `Program zapisuje ustawienia bardzo szybko.`).
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe))
+  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy))
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case.
@@ -685,7 +685,7 @@ Wiersz kosztuje przez to tym więcej ciał, im więcej szyków go ma,
 i to jest w tej gramatyce cena jednego szyku więcej.
 Przysłówek dostaje każdą pozycję listy okoliczników za darmo,
 bo lista bierze go tak samo jak wyrażenie przyimkowe
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)),
 a pytanie kosztuje najwięcej, bo ma własne czoło i własne orzeczenie.
 Wiersz ostatni, czyli okolicznik po czasowniku,
 ma pozycję w każdym szyku, w którym czasownik stoi przed grupą imienną.
@@ -705,7 +705,7 @@ Nie wchodzi `człon_imienny → subst wyrażenie_przyimkowe`, czyli naga głowa 
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.
 Nie wchodzi z tego samego powodu `zdanie_składowe → orzeczenie_rzeczownikowe okoliczniki`,
-czyli [kopuła opuszczona](konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+czyli [kopuła opuszczona](konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
 z okolicznikiem: rzeczownik orzekający grupą imienną nie jest,
 więc temu wyrażeniu nie ma tam do czego dojść poza zdaniem składowym.
 Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokumentach,

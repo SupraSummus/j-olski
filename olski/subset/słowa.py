@@ -23,7 +23,7 @@ from olski.lematy import (
 #: Jak często ten zwrot pada w rejestrze ustaw, liczy docs/ustawy.md.
 #: Lista jest zamknięta i ma jeden lemat, a pozycję ogólną — zdanie z samej grupy
 #: imiennej w mianowniku — zmierzono i odrzucono; wywód trzyma
-#: docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+#: docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat.
 RZECZOWNIK_ORZEKAJĄCY = "mowa"
 
 
@@ -513,7 +513,7 @@ FORMA_POPRZYIMKOWA = word("adjp")
 #: wyprowadzenia, i tym samym warunkiem stoi lista spójników przecinkowych obok
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
 #: Kto zostaje poza listą i z jakiego powodu, wylicza
-#: docs/konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
+#: docs/konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
 CZĄSTKI = frozenset({
     "już", "jeszcze", "dopiero", "także", "również", "nawet", "zarazem", "naprawdę",
     "znowu", "wreszcie", "ponadto", "jedynie", "niemal", "niespełna", "zresztą", "przynajmniej",
@@ -594,7 +594,7 @@ PRZECZENIE = word("part", lemma=LEMAT_PRZECZENIA)
 #:
 #: Pozycję ma tę jedną, przy czasowniku; co zostaje poza nią — cząstka stojąca dalej
 #: i cząstka wchodząca w spójnik — wywodzi
-#: docs/konstrukcje-gramatyczne.md#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku.
+#: docs/konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką.
 CZĄSTKA_TRYBU = word("part", lemma="by")
 
 

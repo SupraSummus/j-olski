@@ -438,7 +438,7 @@ czyli na słowach, których żadna produkcja nie bierze niezależnie od szyku,
 a garść z nich dochodzi do końca zdania i nie domyka go wcale.
 Przysłówka wśród nich nie ma: produkcja, która go stamtąd zdjęła,
 nie kupiła ani jednego z tych zdań
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)).
 Nieciągłość jest w tych zdaniach ostatnim brakiem, a nie pierwszym,
 i widać to nawet na najkrótszych z nich.
 `Co mamy wziąć?` i `To chcę podkreślić.` stają na zaimku rzeczownym,

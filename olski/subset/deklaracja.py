@@ -47,7 +47,7 @@ GRUPA_PYTAJNA = "grupa_pytajna"
 #: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
 #: więc bez tej etykiety wychodziłoby `valid` bez ani jednej roli.
 #: Czemu rola stoi obok orzecznika, a nie jest nim, wywodzi
-#: docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+#: docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat.
 ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 
 
@@ -85,7 +85,7 @@ NAZWY_SZKOLNE = {
 #: `program`, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 #: Co wpuszczenie każdej z tych dwóch głów kosztuje, mierzą
 #: docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
-#: docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
+#: docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
 ORZECZENIE_BEZOSOBOWE = "orzeczenie_bezosobowe"
 
 
