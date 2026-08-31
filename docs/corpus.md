@@ -212,7 +212,7 @@ i wiersz spadł przez to o rząd wielkości i o miejsce w kolejce.
 Cztery formy, które go teraz prowadzą, nazywają dwie różne roboty:
 `jednak`, `też` i `tylko` są cząstkami,
 których zamknięta lista olskiego nie bierze
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 a `czy` jest pytaniem o rozstrzygnięcie, którego ta gramatyka nie ma
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Pod Morfeuszem wiersz ten schodzi niżej,
@@ -251,7 +251,7 @@ the two lists of clause-level conjunctions already carried, plus two.
 
 Five constructions have left this queue outright —
 the adverb, the gerund, the impersonal verb
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)),
 the future tense
 ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
 and the sentence-initial conjunction
@@ -543,7 +543,7 @@ Which classes those are is what this document owns;
 how many sentences stand in each is what the run prints.
 A particle standing inside a noun phrase does not reach this row,
 because the grammar has that position and returns both readings
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety)),
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 where this row is for a reading olski returns alone
 and the treebank contradicts.
 The shape such a reading takes is a genitive object standing in front of its verb,
@@ -828,7 +828,7 @@ Przysłówek dołożył do tej listy klasę własną i jest ona jedną z rozpię
 `Dlatego właśnie przed laty do Monako przenosili się masowo szwedzcy tenisiści.`
 wychodzi z podmiotem `masowo szwedzcy tenisiści`,
 bo przysłówek stopniowany dochodzi do przymiotnika, a bank drzew zostawia go zdaniu
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)).
+([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)).
 
 Miara porównuje przy tym dwie role i nic poza nimi.
 Czytanie, które je obsadza tak jak drzewo wzorcowe,

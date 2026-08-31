@@ -5,6 +5,23 @@ Dokumentu nie czyta się od góry — czytelnik przebiega go do swojego wpisu.
 Wylicza te konstrukcje [lista pokrycia](subset.md#what-the-grammar-covers),
 a czym jest ważność i co mówi odrzucenie, wykłada [subset.md](subset.md).
 
+Cenę i zakup piszemy tu w rzędzie wielkości albo granicą, a nie liczbą dokładną,
+bo liczbę dokładną unieważnia dopisanie do gramatyki i unieważnia ją po cichu.
+Która liczba zostaje mimo to dokładna, wylicza
+[CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
+Ten rejestr dokłada do tamtej listy jedną:
+liczbę przypiętą do gramatyki, której już nie ma,
+o ile zdanie obok mówi, że żaden przebieg jej nie powtarza.
+Taka liczba jest ceną, przy której decyzja zapadła,
+a nie figurą o gramatyce dzisiejszej.
+Zero i jedno zostają zawsze, bo mówią kierunek, a nie wielkość.
+Pełną precyzję ten rejestr miał i zszedł z niej dlatego,
+że nie pilnuje jej żaden check: cenę przelicza przebieg nad korpusem,
+a korpus jest archiwem, którego suita nie pobiera
+([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+Wróci ona wtedy, gdy cenę będzie przeliczał check —
+tak jak `tests/test_wydruki.py` przelicza blok wydruku.
+
 ## Czas przeszły żąda rodzaju od każdego szyku
 
 Czas przeszły stoi w kolejce ze Składnicy
@@ -28,11 +45,11 @@ więc czasownik dostaje trzy ciała zamiast jednego:
 `fin` albo `impt`, samo `praet` z osobą trzecią wpisaną w produkcję,
 oraz `praet` z aglutynantem.
 Tryb przypuszczający dokłada do tych trzech dwa dalsze
-([niżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+([niżej](#tryb-przypuszczający-jest-jedną-cząstką)).
 Bez wpisanej trzeciej osoby `Ja napisał program.` wyprowadza się,
 bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 
-## Cząstka trybu stoi przy czasowniku albo w spójniku
+## Tryb przypuszczający jest jedną cząstką
 
 Morfeusz dzieli `odzyskałby` na czas przeszły i cząstkę `by`,
 a `napisałbym` na czas przeszły, cząstkę i aglutynant,
@@ -709,7 +726,7 @@ polszczyzna stawia je za pierwszym wyrazem — `linter zaś sprawdza tekst` —
 i jest to ten sam warunek, którym lista spójników okolicznikowych wyklucza `bowiem`
 ([niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
 Te trzy lematy bierze pozycja wewnątrz zdania i ona jedna
-([niżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)).
+([niżej](#spójnik-wewnątrz-zdania-ma-jedną-pozycję-i-jedno-odczytanie)).
 Lemat pominięty na liście zostaje przy pozycji bez przecinka,
 więc pominięcie nie odbiera ani jednego zdania.
 
@@ -813,7 +830,7 @@ podzbiór dokumentuje się przez wykluczanie, a gazeta nie.
 Mierzy to za jednym razem obie kolejki, o których mówi
 [corpus.md](corpus.md#the-same-queue-over-prose).
 
-## Spójnik wewnątrz zdania nie dostaje czoła i tym stoi przy jednym czytaniu
+## Spójnik wewnątrz zdania ma jedną pozycję i jedno odczytanie
 
 `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`,
 `Linter zaś sprawdza tekst.`
@@ -873,7 +890,7 @@ które nazywa jeden lemat i jedną pozycję
 
 Lista schodzi się z trzech: spójniki, przed którymi polszczyzna stawia przecinek,
 spójniki, które ten rejestr stawia wewnątrz zdania
-([wyżej](#spójnik-wewnątrz-zdania-nie-dostaje-czoła-i-tym-stoi-przy-jednym-czytaniu)),
+([wyżej](#spójnik-wewnątrz-zdania-ma-jedną-pozycję-i-jedno-odczytanie)),
 oraz `i` i `albo`, których żadna z tamtych nie ma.
 `ani` do trzeciej nie należy, i jest to wynik, a nie przeoczenie:
 bank drzew otwiera nim zdania spójnikiem skorelowanym,
@@ -897,13 +914,13 @@ Nad prozą tego repozytorium przybywa kilkanaście zdań przyjętych.
 Jednoznaczności nie traci przy tym pod złotą morfologią i nad tą prozą
 ani jedno zdanie, a pod żywą jedno, bo tej pozycji nie bierze żaden inny kształt.
 
-## Cząstka wchodzi obu gospodarzami, a w grupie nie nosi etykiety
+## Cząstka ma dwóch gospodarzy i przy jednym dostaje etykietę
 
 `Program już zapisuje ustawienia.`, `Reguła obowiązuje także wtedy.`,
 `Już program zapisuje ustawienia.` —
 cząstka stoi w zdaniu tam, gdzie okolicznik przysłówkowy,
 i tę pozycję gramatyka ma, odkąd ma
-[przysłówek](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
+[przysłówek](#przysłówek-dostaje-wszystkich-trzech-gospodarzy).
 Produkcje są przez to dwie i pisze je ta sama pętla, co tamte:
 cząstka w liście okoliczników i cząstka na czele zdania składowego.
 
@@ -922,7 +939,7 @@ bo cząstka staje i przed zaimkiem: `Nawet ja zapisuję ustawienia.`
 W grupie cząstka etykiety nie nosi, bo widać ją w napisie roli,
 którą ta grupa zajmuje: podmiotem jest `Nawet ptaki`.
 Rolę niesie przez to gospodarz jeden, tym samym prawem,
-którym niesie ją [jeden gospodarz przysłówka](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
+którym niesie ją [jeden gospodarz przysłówka](#przysłówek-dostaje-wszystkich-trzech-gospodarzy).
 
 Wybór gospodarza nie jest tu jednak rozstrzygnięciem, i tym cząstka różni się
 od przysłówka. Przysłówkowych gospodarzy rozdziela stopień, czyli cecha,
@@ -1191,7 +1208,7 @@ a grupa imienna po nim stoi w mianowniku,
 czyli w tym samym przypadku, w którym stoi podmiot zdania po spójniku.
 Każde `, a` w zdaniu wychodzi przez to okolicznikiem wysuniętym drugiego składowego:
 `Pierwsze i czwarte dzieli sam szyk, a podmiot jednego jest dopełnieniem drugiego.`
-miało przed tym warunkiem trzy czytania i każde z nich niosło
+miało przed tym warunkiem kilka czytań i każde z nich niosło
 `„a podmiot jednego” → „jest”`.
 
 Polszczyzna tego zdania tak nie czyta.
@@ -1223,10 +1240,9 @@ i `a` nie jest w tym korpusie przyimkiem ani razu.
 Pod żywą morfologią, czyli nad prozą README, warunek odbiera jedno zdanie —
 to wypisane wyżej — i oddaje je z powrotem przecinek przed spójnikiem
 ([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
-z trzema czytaniami w miejsce trzech.
-Liczba czytań wychodzi więc ta sama przed i po,
-a różnią się one tym, że tamte trzy niosły okolicznik, którego zdanie nie ma,
-a te trzy niosą podmiot, który ono ma.
+i liczba czytań wychodzi ta sama przed i po.
+Różnią się one tym, że tamte niosły okolicznik, którego zdanie nie ma,
+a te niosą podmiot, który ono ma.
 
 ## Podrzędność i koordynacja dzielą przecinek, a rozdziela je produkcja
 
@@ -1305,14 +1321,15 @@ dałyby czytanie, w którym je bierze.
 Własną pozycję dostały [niżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)
 i jest nią okolicznik zdania, czyli dokładnie ta, którą zajmują.
 
-Pod złotą morfologią przebieg nad Składnicą rusza 26 zdań i wszystkie w tę samą stronę:
-siedemnaście przechodzi z odrzucenia w jednoznaczność, dziewięć w wieloznaczność,
+Pod złotą morfologią przebieg nad Składnicą rusza kilkadziesiąt zdań
+i wszystkie w tę samą stronę:
+większość przechodzi z odrzucenia w jednoznaczność, reszta w wieloznaczność,
 a żadne zdanie już przyjęte nie traci werdyktu ani nie zyskuje drugiego czytania.
-Wśród nowo przyjętych zgodność z drzewem wzorcowym rośnie o dwanaście,
-jedno zdanie wychodzi zgodne częściowo, cztery nie mają w nim roli do porównania,
+Wśród nowo przyjętych większość zgadza się z drzewem wzorcowym,
+jedno zdanie wychodzi zgodne częściowo, garść nie ma w nim roli do porównania,
 a o ani jedno odwrócenie roli zgodność nie rośnie
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
-Liczba 26 rośnie przy tym z czasem przeszłym, a nie z podrzędnością:
+Zakup ten rośnie przy tym z czasem przeszłym, a nie z podrzędnością:
 zdanie podrzędne stoi w tym korpusie najczęściej przy czasowniku w tym czasie,
 więc konstrukcja zmierzona przed nim była mierzona przy części swoich zdań
 ([wyżej](#czas-przeszły-żąda-rodzaju-od-każdego-szyku)).
@@ -1373,7 +1390,7 @@ jest dwoma zdaniami spiętymi spójnikiem po przecinku
 Zdanie pod spójnikiem z tej listy stoi w trybie oznajmującym,
 a `aby`, `żeby`, `by`, `gdyby` i `jakby` żądają przypuszczającego
 i biorą przez to ciała osobne
-([wyżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+([wyżej](#tryb-przypuszczający-jest-jedną-cząstką)).
 
 Listy są przez to dwie, a nie jedna, bo wysunięcie jest faktem o słowie:
 `Zostaję w domu, bo pada.` jest polszczyzną, a `Bo pada, zostaję w domu.` nie jest,
@@ -1395,7 +1412,7 @@ Dwa wpisy listy wysuwanej nie mają w tym korpusie świadka wcale:
 więc na tej liście stoją z samego znaczenia, a nie z pomiaru.
 
 Okolicznik ten jest rolą, którą werdykt nazywa, tak samo jak przysłówek
-([niżej](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe)),
+([niżej](#przysłówek-dostaje-wszystkich-trzech-gospodarzy)),
 i jest zarazem zdaniem podrzędnym, czym żadna inna rola nie jest.
 Symbol stojący i wśród ról, i wśród zdań podrzędnych
 rozstrzyga o dwóch rzeczach naraz, i rozstrzyga je przeciwnie:
@@ -1589,11 +1606,10 @@ i jedno `Dyrektor wymienia imprezy, które on zorganizował.`.
 Ciała pisze obu rodzinom czół jedna funkcja, więc to samo dostało pytanie:
 `Które zadania wykonuje?` wyprowadza się obok `Które zadania gmina wykonuje?`.
 
-Zakupem są pod złotą morfologią cztery zdania Składnicy wyjęte z odrzucenia
-i piąte, które z odrzucenia przechodzi w wieloznaczność;
-pod żywą jest ich odpowiednio trzy i dwa.
-Role trzech z tych czterech zgadzają się z drzewem wzorcowym,
-a czwarte — `Złodzieje kradną drogi sprzęt, który potem sprzedają w cenie złomu.` —
+Zakupem jest pod obiema morfologiami garść zdań Składnicy wyjętych z odrzucenia
+i pojedyncze, które przechodzą z niego w wieloznaczność.
+Role nowo przyjętych zgadzają się z drzewem wzorcowym poza jednym zdaniem,
+a to jedno — `Złodzieje kradną drogi sprzęt, który potem sprzedają w cenie złomu.` —
 olski czyta z okolicznikiem przy zdaniu nadrzędnym zamiast przy względnym,
 bo miejsce na okolicznik jest w ciele jedno,
 a to zdanie stawia okolicznik po obu stronach czasownika.
@@ -1762,11 +1778,11 @@ więc produkcja dopisana przesuwa go tam, gdzie tablica sięga dalej
 
 Zakup liczy się przez to w innej walucie i widać go w dwóch porównaniach ról
 ([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
-Pod złotą morfologią 34 zdania wieloznaczne przechodzą z `lost` na `survives`,
-a 10 zdań przyjętych z `partial` na `agrees`;
+Pod złotą morfologią kilkadziesiąt zdań wieloznacznych przechodzi
+z `lost` na `survives`, a garść przyjętych z `partial` na `agrees`;
 `disagrees` nie rośnie o ani jedno.
 
-Tych dwóch liczb nie bierze żadne polecenie i bierze je ręka,
+Tych dwóch przejść nie liczy żadne polecenie i liczy je ręka,
 bo sonda różnicowa liczy przejścia werdyktu (`harness/ruch.py`),
 a ta pozycja nie rusza ani jednego.
 Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czołem:
@@ -1774,7 +1790,7 @@ Wariantem jest gramatyka bez produkcji, które `_wysunięta_rola` pisze nad czo�
 bo tam rozdziela je przeczenie, oraz `orzecznik → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
 `python3 -m harness.pomiar Składnica-frazowa-180723/` puszczony nad taką gramatyką
-wydaje obie tabele bez etykiety, a różnica wierszy jest tymi liczbami.
+wydaje obie tabele bez etykiety, a różnica wierszy jest tymi dwoma przejściami.
 Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
 
 Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
@@ -1797,10 +1813,11 @@ Przekłada to dzisiaj czytelnik banku drzew, razem z trzema innymi nazwami
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 i obie kolumny mierzą przez to zdanie względne tak samo.
 
-Pod złotą morfologią zdanie z `że` wyciąga z odrzucenia 66 zdań Składnicy,
-trzydzieści trzy jednoznaczne i trzydzieści trzy wieloznaczne,
-a zdanie względne 36, siedem jednoznacznych i dwadzieścia dziewięć wieloznacznych.
-Każdą z tych liczb bierze osobny kontrfaktyk, czyli ta gramatyka bez jednej z nich,
+Pod złotą morfologią zdanie z `że` wyciąga z odrzucenia kilkadziesiąt zdań Składnicy
+i połowę z nich przyjmuje jednoznacznie,
+a zdanie względne wyciąga mniej i jednoznacznie przyjmuje z nich garść.
+Każdy z tych dwóch zakupów bierze osobny kontrfaktyk,
+czyli tę gramatykę bez jednej z tych konstrukcji,
 więc suma tych dwóch nie jest liczbą, jaką dałoby zdjęcie obu naraz.
 Ani jedno zdanie przyjęte nie traci przy tym jednoznaczności,
 więc jednoznaczność obie konstrukcje kosztują tu zero,
@@ -1815,7 +1832,7 @@ i zapisana jest tutaj dlatego, że kolumna złota mówiła bez tego przekładu
 o zdaniu względnym nieprawdę:
 liczba, która się nie ruszyła, czyta się jak konstrukcja, która nic nie kupuje.
 
-### Kopuła opuszczona jest wpisem na lemat, a nie pozycją ogólną
+### Kopułę opuszczoną wpuszcza wpis na lemat
 
 Rejestr ustaw odsyła zwrotem `o którym mowa`:
 `Rada wykonuje zadania, o których mowa w ustawie.` znaczy `o których jest mowa`,
@@ -1850,9 +1867,9 @@ tak samo jak spójnik, którym zaczepia się
 
 Pozycję ogólną zmierzono, dopisując te dwie produkcje do gramatyki
 i porównując werdykty z werdyktami olskiego.
-Nad siedmioma ustawami wyciąga ona z odrzucenia 231 zdań,
-116 z nich przyjmuje jednoznacznie,
-a jednoznaczność odbiera siedmiu zdaniom przyjętym wcześniej;
+Nad siedmioma ustawami wyciąga ona z odrzucenia setki zdań,
+połowę z nich przyjmuje jednoznacznie,
+a jednoznaczność odbiera garści zdań przyjętych wcześniej;
 nad „Zasadami techniki prawodawczej” i nad prozą tego repozytorium
 odbiera ją po jednym zdaniu.
 Zakup nie jest jednak zakupem, i widać to po tym, co ona przyjmuje:
@@ -1870,10 +1887,10 @@ bo przecinek i spójnik koordynują u olskiego zdania:
 składowymi, z których drugim jest `burmistrz`,
 a `Statut związku powinien określać uczestników i czas trwania związku.`
 dostaje drugie czytanie, w którym zdaniem składowym jest `czas trwania związku`.
-Drugie z tych zdań jest jednym z siedmiu, którym ta pozycja odbiera jednoznaczność,
+Drugie z tych zdań jest jednym z tych, którym ta pozycja odbiera jednoznaczność,
 a dwa dalsze — `Przemyśl.` i `Kalisz.` — olski przyjmuje jako rozkaźnik
 i pozycja ogólna daje im drugie czytanie, w którym są nazwą miasta.
-Cena tej pozycji nie kończy się więc na tych siedmiu zdaniach:
+Cena tej pozycji nie kończy się więc na tej garści zdań:
 psuje ona każdy ciąg współrzędny grup imiennych,
 a takich ciągów ten rejestr niesie zdanie po zdaniu.
 
@@ -2101,10 +2118,10 @@ więc obie produkcje biorą cyfrę naraz.
 Odrzucić ją umie żądanie obecności cechy
 ([design-notes.md](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
 tyle że odrzuca wtedy każdą cyfrę i wpuszczenia nie kupuje.
-`Termin wynosi 14 dni.` wychodzi wtedy trzema czytaniami zamiast dwóch,
+`Termin wynosi 14 dni.` wychodzi wtedy o jedno czytanie więcej,
 bo `dni` jest i dopełniaczem mnogim, i mianownikiem mnogim,
 czyli jedna grupa wyprowadza się i pod produkcją rządzącą, i pod zgodną.
-Dwa z tych trzech czytań mają streszczenie znak w znak to samo,
+Dwa z tych czytań mają streszczenie znak w znak to samo,
 bo różni je część mowy słowa pod głową, a nie żadna rola,
 i po werdykcie czyta się to jak usterka narzędzia,
 a nie jak zdanie, które da się poprawić.
@@ -2277,7 +2294,7 @@ pytając o streszczenie sprzed przekładu.
 
 Grupa przed łącznikiem dostaje własną rolę,
 a nie rolę rzeczownika orzekającego
-([wyżej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)):
+([wyżej](#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)):
 tamten symbol czyni zdaniem każdą swoją córkę,
 więc grupa imienna pod nim byłaby pozycją ogólną, którą tamta sekcja odrzuca.
 Orzecznikiem zgodnym nie jest z tego samego powodu, co tamten rzeczownik:
@@ -2385,7 +2402,7 @@ Pod symbolem `grupa_orzeczenia` stanęłoby przy nim ciało z podmiotem,
 więc `Programy trzeba czytać.` wychodziłoby zdaniem o podmiocie `Programy`,
 choć `programy` jest tam biernikiem;
 osoby ani liczby predykatyw nie niesie, więc unifikacja tego czytania nie odbiera.
-Przy [kopuli opuszczonej](#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną)
+Przy [kopuli opuszczonej](#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
 zapadł ten sam wybór: rzeczownik orzekający stoi obok orzecznika, a nie jest nim.
 
 Lista lematów jest zamknięta, a poza nią zostaje słowo,
@@ -2419,7 +2436,7 @@ przyjętego, a pojedyncze czyta uboższą listą ról niż drzewo.
 Nad prozą tego repozytorium zakup jest liczony w kilku zdaniach przyjętych,
 a wieloznacznych przenosi więcej niż przyjmuje.
 Tę parę ciał dzieli z predykatywem forma nieosobowa czasownika
-([niżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+([niżej](#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)),
 więc zdjęcie któregoś z nich zabiera obie głowy naraz.
 
 Szyki ma ta konstrukcja dwa: predykatyw stoi przed tym, czym rządzi,
@@ -2454,7 +2471,7 @@ Wiersz `bedzie` w kolejce blokerów po tej konstrukcji nie pustoszeje:
 zostaje w nim garść zdań, a dlaczego, mówi
 [corpus.md](corpus.md#where-the-analyses-stop).
 
-## Czasownik nieosobowy orzeka bez podmiotu i rządzi ramą swojego lematu
+## Czasownik nieosobowy rządzi ramą swojego lematu
 
 `Zgłoszono usterkę.`, `Nie zrobiono nic.`, `Podano do stołu.` —
 Morfeusz trzyma te formy pod `imps`, czyli w jednym wierszu kolejki blokerów
@@ -2512,7 +2529,7 @@ forma stoi przed tym, czym rządzi, a dopełnienie przed formą
 ([niżej](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
 Cząstki trybu przypuszczającego ta forma nie bierze:
 `Zgłoszono by usterkę.` jest odrzucone, bo cząstkę bierze forma na -ł
-i tylko ona ([wyżej](#cząstka-trybu-stoi-przy-czasowniku-albo-w-spójniku)).
+i tylko ona ([wyżej](#tryb-przypuszczający-jest-jedną-cząstką)).
 
 ## Dopełnienie poprzedza głowę, która orzeka bez podmiotu
 
@@ -3024,7 +3041,7 @@ Przecinek zostaje, bo to on tę konstrukcję w zdaniu odgranicza.
 
 Wypełnienie bierze imiesłów ramą swojego lematu,
 tak samo jak forma nieosobowa czasownika
-([wyżej](#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu)),
+([wyżej](#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)),
 i tak samo bez orzecznika zgodnego:
 podmiot tego imiesłowu stoi w zdaniu nadrzędnym,
 więc pod nim nie ma z czym zgodzić ani orzecznika, ani niczego innego.
@@ -3086,7 +3103,7 @@ Cena jest jedna i nazwana: zdania orzekającego samym istnieniem — `Bóg jest.
 olski nie bierze, a ten rejestr go nie pisze.
 
 Zakup liczy się w setkach zdań i jest mniejszy niż ten, którym płacił
-[przysłówek](#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe).
+[przysłówek](#przysłówek-dostaje-wszystkich-trzech-gospodarzy).
 Nad Składnicą pod złotą morfologią przeszło sto zdań wychodzi z odrzucenia
 z jednym czytaniem, a drugie tyle z kilkoma,
 i jest to więcej niż jedno zdanie odrzucone na trzydzieści.
@@ -3142,7 +3159,7 @@ a jednoznaczność odbiera niemal tylu, ilu ją daje,
 więc płaci się za nie zdaniem tego rejestru, a dostaje zdania banku drzew.
 Liczby te trzyma commit, który to ciało odrzucił.
 
-## Przysłówek wchodzi każdym gospodarzem, bo dalszy zdejmuje czytania nieprawdziwe
+## Przysłówek dostaje wszystkich trzech gospodarzy
 
 Wyrażenie przyimkowe ma dwóch gospodarzy i oba czytania są prawdziwe,
 więc olski [oddaje je czytelnikowi](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera).
@@ -3192,8 +3209,8 @@ Pod `okolicznik` orzecznikiem jest `ustalony`, pod `przy przymiotniku`
 `ściśle ustalony`, a pod olskim te dwa czytania stoją obok siebie.
 
 Zakupem gospodarza dalszego jest prawda o zdaniach, które zostają.
-Pierwszy gospodarz sam wypuszcza jedno na czterdzieści zdań przyjętych
-z czytaniem, w którym przysłówek jest okolicznikiem zdania,
+Pierwszy gospodarz sam wypuszcza nie mniej niż jedno na pięćdziesiąt
+zdań przyjętych z czytaniem, w którym przysłówek jest okolicznikiem zdania,
 choć określa słowo stojące zaraz za nim.
 Drugi gospodarz zdejmuje z tych czytań te przed przymiotnikiem,
 a trzeci resztę, czyli te przed przysłówkiem,
@@ -3216,7 +3233,8 @@ Gospodarz trzeci nie rusza przy tym ani jednego z nich:
 odbiera jednoznaczność zdaniom czytanym zgodnie z drzewem wzorcowym,
 a zdania czytanego wbrew niemu ani nie zabiera, ani nie dokłada.
 Drugi gospodarz sam myli się przy tym najczęściej ze wszystkich,
-bo czyta wbrew drzewu jedno zdanie na osiem z tych, które kupuje sam:
+bo czyta wbrew drzewu nie mniej niż jedno zdanie na dziesięć z tych,
+które kupuje sam:
 zostają mu pomyłki na przysłówku odprzymiotnikowym,
 który określa i zdanie, więc stopień nie rozdziela niczego —
 `Oficjalnie cały Sejm RP śpi.` wychodzi z podmiotem `Oficjalnie cały Sejm RP`.

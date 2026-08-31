@@ -2380,7 +2380,7 @@ def test_kopuła_opuszczona_żąda_jednej_formy_i_żąda_lematu():
     #  zdaniem wychodzi każda grupa imienna w mianowniku, więc `o których cisza`
     #  przechodzi razem ze zwrotem tego rejestru, a przecinek koordynacji czyta
     #  wtedy wyliczenie jako ciąg zdań
-    #  (docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną).
+    #  (docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat).
     #  Bez liczby przechodzi `o których mowy`, i mianownik sam tego nie łapie:
     #  Morfeusz zna `mowy` i jako dopełniacz pojedynczy, i jako mianownik mnogi,
     #  więc warunek na sam przypadek bierze tę formę drugim czytaniem.
@@ -2501,7 +2501,7 @@ def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():
     #  Zgodności ta forma nie niesie żadnej, a cechy, której konstytuent nie
     #  niesie, unifikacja nie sprawdza, więc pod tamtym symbolem `program`
     #  wychodzi podmiotem, choć jest tam biernikiem
-    #  (docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu).
+    #  (docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu).
     found = verdict("Zgłoszono program.")
     assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Zgłoszono", found.explain()
     assert "podmiot" not in role(found)[0], found.explain()

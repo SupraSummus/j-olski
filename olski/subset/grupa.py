@@ -53,7 +53,7 @@ def _przydawka(grammar: Grammar) -> None:
     # dokładać ją do każdego ciała, w którym przymiotnik stoi, i stawia ją pod
     # przymiotnikiem, a nie obok rzeczownika, którego ten przysłówek nie określa.
     # Cenę tego gospodarza trzyma
-    # docs/konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe.
+    # docs/konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
     #
     # Przydawką jest tu także imiesłów, bo stoi on tam, gdzie przymiotnik, i zgadza
     # się tak samo; wywód i cenę trzyma
@@ -389,7 +389,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
 
     # Cząstka przed grupą imienną, czyli jej gospodarz drugi: `Nawet ptaki przestały
     # śpiewać.` Kurs, po którym weszła, trzyma
-    # docs/konstrukcje-gramatyczne.md#cząstka-wchodzi-obu-gospodarzami-a-w-grupie-nie-nosi-etykiety.
+    # docs/konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
     #
     # Córką lewą jest terminal, a nie symbol :data:`CZĄSTKA_ZDANIA`: etykieta roli
     # mówiłaby o zdaniu, że ma cząstkę zdania, a ta stoi w grupie.
@@ -453,7 +453,7 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # przy przymiotniku: `tu szybko` nie jest niczym. Bez tej pozycji `bardzo`
     # dochodziło do zdania na równi z `szybko`, czyli zdanie przyjęte mówiło o
     # sobie nieprawdę, a kurs, po którym ta pozycja weszła, trzyma
-    # docs/konstrukcje-gramatyczne.md#przysłówek-wchodzi-każdym-gospodarzem-bo-dalszy-zdejmuje-czytania-nieprawdziwe.
+    # docs/konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
     #
     # Córka prawa jest tym samym symbolem, a nie słowem, bo `wyjątkowo bardzo
     # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała

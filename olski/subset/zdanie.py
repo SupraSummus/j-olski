@@ -135,7 +135,7 @@ def _szyki_zdania_składowego(
     #
     # Ciało drugie stoi pod czołem zdania względnego (``olski/subset/podrzędne.py``),
     # bo tam to wyrażenie jest wysunięte. Co zdjęcie któregoś z dwóch kosztuje, mierzy
-    # docs/konstrukcje-gramatyczne.md#kopuła-opuszczona-jest-wpisem-na-lemat-a-nie-pozycją-ogólną.
+    # docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat.
     grammar.rule(
         "zdanie_składowe", [Głowa(nt(ORZECZENIE_RZECZOWNIKOWE)), okoliczniki], tryb=TRYB_OZNAJMUJĄCY
     )
@@ -191,7 +191,7 @@ def _szyki_zdania_składowego(
     #
     # Wywody trzymają
     # docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
-    # docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-orzeka-bez-podmiotu-i-rządzi-ramą-swojego-lematu.
+    # docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
     for przeczenie, negacja in PRZECZENIA:
         grammar.rule(
             ORZECZENIE_BEZOSOBOWE,
