@@ -4,8 +4,8 @@ Tu jest cała konwencja pracy w tym repozytorium.
 Osobnego przewodnika dla współpracowników nie ma;
 ten plik jest jedyną kopią.
 
-Reguły prozy obejmują README, wszystko w `docs/`,
-`TODO.md`, ten plik,
+Reguły prozy obejmują README, wszystko w `docs/` i w `todo/`,
+ten plik,
 komunikaty commitów i opisy pull requestów.
 
 ## Reguły przyjmujemy leniwie
@@ -148,7 +148,7 @@ bo to sprawozdanie, które odtwarza się poleceniem.
 Skreślasz wtedy od razu i bez pytania.
 Nie jest — bo to jedyna kopia tej myśli.
 Wtedy nie odchudzasz, tylko wycofujesz regułę albo wywód:
-wpisz to do [`TODO.md`](TODO.md) i zostaw decyzję osobnej zmianie.
+wpisz to do [`todo/`](todo/README.md) i zostaw decyzję osobnej zmianie.
 
 **Nie pisz sprawozdań. Sprawozdanie, które zastaniesz, skreśl.**
 Nie potrzebujesz na to zgody ani lepszej wersji na jego miejsce.
@@ -551,7 +551,7 @@ Tekst, który się dobrze czyta, jest tu jednym z celów.
 Granica biegnie między wywodem a instrukcją.
 Wywód wolno tak pisać: README i te dokumenty, które o coś argumentują,
 czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
-Instrukcji tak pisać nie wolno: ten plik, tematy commitów oraz `TODO.md`
+Instrukcji tak pisać nie wolno: ten plik, tematy commitów oraz `todo/`
 mówią komuś, co ma zrobić.
 Zdanie, które trzeba najpierw rozszyfrować,
 dokłada mu pracy do tej, którą już ma,
@@ -642,7 +642,7 @@ Two mechanical consequences:
 Something noticed while working on another topic
 belongs on a list rather than in the current change,
 and which list follows from who closes the entry.
-If a commit in this repository closes the entry, it belongs in [`TODO.md`](TODO.md),
+If a commit in this repository closes the entry, it belongs in [`todo/`](todo/README.md),
 whose header owns that boundary, the conventions for entries,
 and what an entry is worth to whoever picks it up.
 If the outside world closes the entry, it belongs in the list
@@ -674,7 +674,7 @@ So a split names, per session, the decision that session settles —
 what makes two derivations one reading, say,
 which the docstring of `Node.signature` in `olski/parse.py` settles.
 Where two come out the same, it is one session.
-This is the demand [`TODO.md`](TODO.md) makes of a single entry —
+This is the demand [`todo/`](todo/README.md) makes of a single entry —
 that it name the evidence it reads and not only the files it changes —
 applied to a batch of them.
 
@@ -869,7 +869,7 @@ bo lista milczy o produkcji dopisanej później.
 Podzbiór deklaruje na nowo jeden program i jest to wybór z ceną:
 co kupił `harness/polszczyzna.py`, mówi
 [`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
-a `TODO.md`, czy zostaje.
+a [`todo/pomiar.md`](todo/pomiar.md), czy zostaje.
 
 **Pozycja, której cena ma być osobną liczbą, musi być osobnym ciałem.**
 Sonda mierzy zdjęciem produkcji,
@@ -983,7 +983,7 @@ Czytaj ten plik od góry i sprawdzaj zmiany regułą po regule.
 Sprawdzaj to, co mogło się zepsuć:
 sprawdzenie, które nie może wypaść źle, niczego nie dowodzi.
 Drobne poprawki rób od razu,
-a większe wpisuj do [`TODO.md`](TODO.md), zamiast je zaczynać.
+a większe wpisuj do [`todo/`](todo/README.md), zamiast je zaczynać.
 Przed werdyktem puść [blok checków](#checks).
 
 Lista niżej nie dokłada reguł i żadnej z nich nie streszcza
@@ -1008,9 +1008,9 @@ a których nie zadaje żadna sekcja wyżej.
   [reguła o jednym właścicielu](#one-owner-per-fact-repeat-narrative-freely).
 - **Co się otworzyło.** Czy da się teraz uprościć coś,
   czego wcześniej nie dało się ruszyć?
-  Drobiazg zrób od razu, większe wpisz do `TODO.md`.
+  Drobiazg zrób od razu, większe wpisz do `todo/`.
 - **Listy i dokumenty.** Co dopisać, a co skasować —
-  w `TODO.md`, w tym pliku, w README, w `docs/`?
+  w `todo/`, w tym pliku, w README, w `docs/`?
   Wpis, który ta zmiana zamyka, kasujesz
   ([dokument opisuje teraźniejszość](#documents-describe-the-present-git-owns-the-past)),
   a wpis zamknięty w połowie przepisujesz na to, co z niego zostało.
@@ -1025,9 +1025,10 @@ a których nie zadaje żadna sekcja wyżej.
   ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie))
   i przykładu, który przestał pasować do reguły cytującej go.
   Poszukaj ich grepem, kiedy coś kasujesz albo przemianowujesz;
-  `TODO.md` też nazywa pliki i sekcje.
+  `todo/` też nazywa pliki i sekcje.
 - **Złamana reguła.** Czy zmiana łamie którąś regułę celowo?
   Wtedy zła jest reguła.
-  Popraw ją tym samym commitem — tutaj, w README albo w nagłówku `TODO.md`.
+  Popraw ją tym samym commitem — tutaj, w README
+  albo w [nagłówku rejestru](todo/README.md).
 - **Werdykt.** Ciągniemy dalej, zamykamy jak jest, czy wycofujemy całość?
   Z uzasadnieniem.

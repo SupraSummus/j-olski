@@ -721,7 +721,7 @@ a zacznie wskazywać zaimek, który ją wiąże:
 zakup przestaje wtedy przeczyć bankowi drzew, a wydruk dostaje nazwę roli.
 Zostaje po tym ta reszta pierwszej ceny,
 której warunek precedencji nie zdjął.
-Ruch trzyma [TODO.md](../TODO.md),
+Ruch trzyma [todo/](../todo/README.md),
 a zdania składowego bez podmiotu ten ruch nie dotyczy,
 bo wypisuje je sama gramatyka.
 
@@ -838,7 +838,7 @@ Deklaracja stojąca obok gramatyki jest drugim zapisem tego podzbioru,
 więc starzeje się po cichu przy każdym dopisaniu do olskiego,
 produkcji czy wiersza leksykonu.
 Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
-trzyma [`TODO.md`](../TODO.md); dopóki to nie zapadnie,
+trzyma [`todo/`](../todo/README.md); dopóki to nie zapadnie,
 liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
 
 Ta liczba ma drugą przyczynę i jest nią sama proza:
@@ -1181,7 +1181,7 @@ więc dwa wpisy jednego zdania stoją obok siebie, a nie jeden w drugim.
 Bez listy zostaje grupa imienna, bo roli zdania nie nosi.
 Jej streszczenia wychodzą puste i sobie równe, więc zostaje z nich jedno,
 a różnicę niesie tam głowa, której streszczenie nie nazywa
-([`TODO.md`](../TODO.md)).
+([`todo/`](../todo/README.md)).
 
 Wykluczenia są trzy i każde odpowiada jednemu wierszowi,
 który werdykt drukuje bez tego podsumowania.
@@ -1257,7 +1257,7 @@ zdanie `valid` ma jedno czytanie, więc dostaje po jednym wierszu na składowe.
 Wpisu na składowe zamiast wiersza na czytanie ta lista nie ma,
 choć zamieniłby ten iloczyn na sumę,
 tak jak zamienia go wiersz o konstytuencie rozbieżnym;
-co za to płaci, mówi [`TODO.md`](../TODO.md).
+co za to płaci, mówi [`todo/`](../todo/README.md).
 
 Gospodarza nazywa jego głowa, czyli jedno słowo.
 `w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,
@@ -1427,7 +1427,7 @@ Napisana obok niej jest gramatyką napisaną dwa razy,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i jest to ten sam zarzut, który przewraca obudowanie Świgry
-oraz ten, który [`TODO.md`](../TODO.md) stawia `harness/polszczyzna.py`.
+oraz ten, który [`todo/`](../todo/README.md) stawia `harness/polszczyzna.py`.
 Wyprowadzona nie kosztuje ani jednej deklaracji.
 
 Najtańszym kawałkiem takiej warstwy jest licencja terminala,
@@ -1480,7 +1480,7 @@ nazywa część mowy pierwszego czytania formy,
 więc formie wyciętej do zera nazwałby brak struktury zamiast braku licencji,
 a na tym odczycie stoi kolejka z [corpus.md](corpus.md#where-the-analyses-stop).
 Wycięcie jest więc zmianą w kolejce, a nie w parserze,
-i [`TODO.md`](../TODO.md) trzyma je razem z przebiegiem, który jest winne.
+i [`todo/`](../todo/README.md) trzyma je razem z przebiegiem, który jest winne.
 
 ### Kierunek: produkcja się rozwarstwia, a podłoże zostaje
 

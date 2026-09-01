@@ -84,7 +84,7 @@ so their figures come from a program written for this survey
 that is not in this repository.
 A figure of that kind is checkable by rewriting the count,
 which the stated selection makes possible and does not make free,
-and [TODO.md](../TODO.md) holds the question
+and [todo/](../todo/README.md) holds the question
 of whether the other formats get an extraction of their own.
 
 These are counts of characters and words rather than rule firings either way,

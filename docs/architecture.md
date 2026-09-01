@@ -131,7 +131,7 @@ Widać to na jednym świadku:
 powtórzenie frazy przy kopuli nie dowodzi niczego o tym czasowniku,
 więc świadek kontekstowy nad taką parą milczy
 ([disambiguation.md](disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
-Ruch, który z tego wychodzi, opisuje wpis w [TODO.md](../TODO.md).
+Ruch, który z tego wychodzi, opisuje wpis w [todo/](../todo/README.md).
 
 ## Warstwa znacząca leży w pakiecie drugiego toru
 

@@ -140,7 +140,7 @@ i dlatego README pisze `kontrolowanych języków naturalnych`,
 a kompilator z tego samego drzewa wypuszcza `kontrolowany naturalny język`.
 Języki o szyku ustalonym tego wyboru nie mają,
 więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
-Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`TODO.md`](../TODO.md).
+Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`todo/`](../todo/README.md).
 
 Szyk, który z tego drzewa wychodzi, ma z czym się porównać,
 bo rozkład szyków polszczyzny ktoś policzył.
@@ -456,7 +456,7 @@ czyli odwrotnie niż przy okoliczności, gdzie autor wybiera między `bo` i `pon
 Polszczyzna wybiera go tu za autora: `że` mówi, że tak jest, a `żeby`, że tak ma być,
 i to drugie jest inną kategorią dziedziny, której to drzewo nie ma.
 Odsłoniła ta pozycja jeszcze jedną, i jest nią czas zdania podrzędnego;
-obie trzyma [`TODO.md`](../TODO.md), a co pokazały,
+obie trzyma [`todo/`](../todo/README.md), a co pokazały,
 mówi [czego nie spełniono](#czego-nie-spełniono).
 
 ## Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
@@ -661,7 +661,7 @@ Drugą połową ceny jest szyk, i to ona jest tu nowa:
 `Chciał ją znaleźć.` stawia zaimek przed czasownikiem osobowym,
 czyli poza zdaniem, do którego on należy,
 więc zaimek i bezokolicznik są jedną zmianą, a nie dwiema stojącymi obok siebie.
-Ruch trzyma [TODO.md](../TODO.md), a `jego wzrok` jest przy tym trzecią rzeczą:
+Ruch trzyma [todo/](../todo/README.md), a `jego wzrok` jest przy tym trzecią rzeczą:
 zaimek dzierżawczy przestawia grupę imienną, a nie wypełnia pozycję w zdaniu.
 Czwartą odsłoniła treść i jest z tych czterech najtańsza,
 bo polszczyzna nie pisze tam zaimka wcale, tylko opuszcza podmiot:
@@ -678,7 +678,7 @@ a polszczyzna liczy czas zdania podrzędnego wobec zdania nad nim:
 `Wiedział, że pod ścianą stały postaci.` mówi co innego niż to samo ze `stoją`.
 Oba te zdania są polskie, więc jest to kategoria dziedziny, a nie forma do policzenia,
 i pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
-Trzyma to [TODO.md](../TODO.md), a legenda stoi na razie na wersji przeszłej.
+Trzyma to [todo/](../todo/README.md), a legenda stoi na razie na wersji przeszłej.
 
 ## Drzewo jest jednoznaczne, a napis z niego nie musi być
 
@@ -798,7 +798,7 @@ bo o wyrażeniu przyimkowym drzewo mówi to, czego przy rolach nie mówi:
 okolicznik dochodzi w nim do zdarzenia zawsze,
 więc każde takie miejsce byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego.
-Czym to zawęzić, trzyma [`TODO.md`](../TODO.md).
+Czym to zawęzić, trzyma [`todo/`](../todo/README.md).
 
 ## Czytanie parsera wraca drzewem, a jedno czytanie kilkoma
 
@@ -878,7 +878,7 @@ każda klasa walencyjna prócz kopuli, a skład pyta o niego leksykon;
 `Linter pomaga pisać dobry kod.` stoi przez to w komentarzu `olski/subset/zdanie.py`
 jako przykład ciał produkcji `wypełnienia` i ze składu nie wychodzi wcale,
 bo `pomagać` bezokolicznika w tym leksykonie nie bierze.
-Który z dwóch mówi tu prawdę, pyta [`TODO.md`](../TODO.md).
+Który z dwóch mówi tu prawdę, pyta [`todo/`](../todo/README.md).
 
 Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
 Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
@@ -950,7 +950,7 @@ a nie o jedno drzewo, i zdejmuje w tym celu znacznik tematu:
 Obieg zostaje przy sygnaturze, bo żąda z powrotem tego drzewa,
 które napis wypuściło, a nie tego samego zdania logicznego.
 Czy łącznik `to` schodzi tą samą drogą co znacznik,
-nie rozstrzygnięto, i trzyma to [`TODO.md`](../TODO.md).
+nie rozstrzygnięto, i trzyma to [`todo/`](../todo/README.md).
 
 `harness/znaczenia.py` zostaje przy sygnaturze i jest to pomiar, a nie przeoczenie.
 Przestawiona na drugie kryterium nie rusza ani jednego werdyktu,
@@ -1022,7 +1022,7 @@ Rozstrzygają je wszystkie tabele `olski/skład/makieta.py`, przez wpis albo prz
 czyli miejsce, które leksykonem nie jest i nim nie będzie:
 tabela wymienia lematy, których ten jeden program używa,
 a fakt o przyimku dotyczy każdego drzewa, jakie ktokolwiek napisze.
-Każdy z nich prócz jednego ma przez to wpis w [`TODO.md`](../TODO.md),
+Każdy z nich prócz jednego ma przez to wpis w [`todo/`](../todo/README.md),
 a przymiotnik go nie ma i nie ma mieć:
 o tym, którym przymiotnikiem opisuje się człowieka, nie rozstrzyga ani forma,
 ani rama, ani czytanie, więc nie ma go gdzie zapisać jako faktu o polszczyźnie.
@@ -1161,7 +1161,7 @@ schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,
 trzyma [warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Czyta tę sekcję strona analizy, a skład jej nie czyta,
 więc obietnica z akapitu wyżej — że `komit` jest słowem raz, a nie dwa razy —
-czeka na drugiego czytelnika, i ruch do niej trzyma [`TODO.md`](../TODO.md).
+czeka na drugiego czytelnika, i ruch do niej trzyma [`todo/`](../todo/README.md).
 
 ## Kwalifikator mówi o formie dwie rzeczy i tylko jedna jest rejestrem
 
@@ -1275,7 +1275,7 @@ i jest to słownik mówiący „albo tak, albo tak” pod jednym leksemem:
 `postaci` obok `postacie` w jednej komórce
 oraz `anioł` z rodzajem wypisanym dwiema wartościami w jednym tagu.
 Identyfikator nie rozstrzyga ani jednego, ani drugiego, i trzyma to
-[`TODO.md`](../TODO.md).
+[`todo/`](../todo/README.md).
 
 Leksykon ten jest przy tym innym plikiem niż
 [leksykon projektu](#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),

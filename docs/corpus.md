@@ -711,7 +711,7 @@ and the closed list of copulas
 does not carry it,
 so a sentence with either verb is refused by a lexicon entry that is missing
 rather than by a decision anybody took.
-[TODO.md](../TODO.md) holds them.
+[todo/](../todo/README.md) holds them.
 
 The rest of the lexicon — every entry but the copula's —
 moves dozens of sentences here and moves them the same way.
@@ -797,7 +797,7 @@ i złotemu nie równałoby się nigdy, a wiersz `lost` liczyłby kilkadziesiąt 
 i byłby to odczyt o mierze, a nie o gramatyce,
 bo etykieta nie zmienia ani jednego czytania ani jednego z tych zdań.
 Tą samą miarą płacą zdania z gniazdem `np(part)` w wierszu `disagrees` wyżej,
-i [TODO.md](../TODO.md) trzyma tamto.
+i [todo/](../todo/README.md) trzyma tamto.
 
 To, co po złotym czytaniu zostaje, rozkłada się na cztery klasy,
 a dwie z nich wiersze zgodności wyżej już opisują.

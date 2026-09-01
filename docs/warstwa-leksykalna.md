@@ -120,7 +120,7 @@ Zostaje drugie miejsce, w którym tę parę da się rozciąć, czyli sąsiad:
 `koda` jest wyrazem, którego ten rejestr nie zna,
 a rzadkość formalnego znamienia nie ma,
 więc kryterium na nią żąda liczby z korpusu, której olski nie ma.
-[TODO.md](../TODO.md) trzyma to, co z tej klasy zostaje otwarte,
+[todo/](../todo/README.md) trzyma to, co z tej klasy zostaje otwarte,
 wraz z pomiarem mówiącym, że nad prozą tego repozytorium
 niesie ją paradygmat zaimkowy, a nie przymiotnik.
 
@@ -190,7 +190,7 @@ w którym `ostoi` czyta się formą osobową lematu `ostać`.
 a `Sącz` rozkaźnikiem — więc klasy te nie są podziałem.
 Wykluczenie ze słownika po tę klasę nie sięga z innego powodu niż po tamtą:
 czytanie czasownikowe nie jest nieodmienne,
-a co z nią zrobić po stronie ekstrakcji, trzyma [TODO.md](../TODO.md).
+a co z nią zrobić po stronie ekstrakcji, trzyma [todo/](../todo/README.md).
 
 **Wyraz funkcyjny albo zaimek czytany wyrazem treściowym.**
 `Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.` jest jednoznaczne,
@@ -389,14 +389,14 @@ Wpis na taki leksem dokłada czytanie formie, którą słownik już czyta,
 więc łamie własność całej sekcji:
 ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
-Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma [TODO.md](../TODO.md).
+Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma [todo/](../todo/README.md).
 
 Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,
 czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
 oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
 ([sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
-a ruch trzyma [TODO.md](../TODO.md).
+a ruch trzyma [todo/](../todo/README.md).
 
 ## Słownictwo projektu orzeka o lemacie w obie strony
 
@@ -553,7 +553,7 @@ a `Z decyzji cieszą się związkowcy, którzy żądali odwołania dyrektora.`
 z dopełnieniem `odwołania dyrektora` wyrwanym ze zdania względnego.
 Dla dwóch pierwszych zdań olski czytania prawdziwego nie ma,
 bo nie ma predykatywu `pora` ani `nie sposób` na swojej liście
-(`PREDYKATYWY` w `olski/subset/słowa.py`; co z tym zrobić, notuje `TODO.md`),
+(`PREDYKATYWY` w `olski/subset/słowa.py`; co z tym zrobić, notuje `todo/`),
 więc odrzucenie mówi o nich prawdę, której `valid` nie mówiło
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
@@ -667,7 +667,7 @@ przy czasowniku zwrotnym, węższe skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
 Skład o dwa pierwsze nie pyta, bo `Robi` w `olski/skład/składnia.py`
 stawia rolę w bierniku i nie ma czym postawić jej w przypadku innym;
-co to kosztuje po tamtej stronie, trzyma [TODO.md](../TODO.md).
+co to kosztuje po tamtej stronie, trzyma [todo/](../todo/README.md).
 Po stronie generatora jest bezokolicznik jedyną obroną przed drzewem,
 które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
@@ -750,7 +750,7 @@ czyli konstrukcja, [której olski nie ma](subset.md#what-it-does-not-cover-yet).
 Liczby tego akapitu bierze się ręcznie nad tym samym bankiem,
 tak jak te, o których mówi [corpus.md](corpus.md#fetching-it),
 bo `harness/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
-co by kosztowało polecenie, trzyma [TODO.md](../TODO.md).
+co by kosztowało polecenie, trzyma [todo/](../todo/README.md).
 
 Cena i zysk są zmierzone nad Składnicą i idą w obie strony;
 liczby niżej wzięto nad gramatyką z chwili, w której leksykon wchodził,
@@ -941,7 +941,7 @@ Ruchem jest przez to pozycja okolicznika, a nie pozycja ramy,
 i tym różni się ona od dwóch wpuszczonych wyżej:
 okolicznik dochodzi wszędzie, więc taka pozycja bierze każdą formę czytaną celownikiem,
 a te dzielą kształt z miejscownikiem w całej odmianie żeńskiej.
-Ceny tego nikt nie policzył; `TODO.md` trzyma ten przebieg.
+Ceny tego nikt nie policzył; `todo/` trzyma ten przebieg.
 
 Cena i zakup są zmierzone nad Składnicą 180723 sondą różnicową,
 która zdejmuje produkcję dopełnienia w jednym przypadku,

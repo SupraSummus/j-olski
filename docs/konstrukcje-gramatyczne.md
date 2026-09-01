@@ -150,7 +150,7 @@ a nie brak pozycji.
 Zostaje też aglutynant przy spójniku, czyli `żebym napisał`:
 Morfeusz tnie ten napis na `żeby` i `m`,
 a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi
-([TODO.md](../TODO.md)).
+([todo/](../todo/README.md)).
 
 ## Forma `bedzie` orzeka sama albo składa czas przyszły złożony
 
@@ -292,7 +292,7 @@ tuż przy swoim czasowniku: wnętrze czasu przyszłego złożonego,
 czyli `Fabryki będą się znajdować we Włoszech.`
 Cząstka stoi tam między dwiema częściami jednego orzeczenia
 ([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
-a pozycji między nimi nie ma ani jedno ciało; ruch trzyma [TODO.md](../TODO.md).
+a pozycji między nimi nie ma ani jedno ciało; ruch trzyma [todo/](../todo/README.md).
 
 Gdzie cząstka może należeć do dwóch czasowników naraz, olski wypuszcza oba
 odczytania. `Program otwierający się psuje.` czyta się i z `otwierający się`
@@ -618,7 +618,7 @@ Ciała przecinkowego rodzina rozdzielna nie ma, bo jej ogonem jest ciąg zgodny
 w liczbie pojedynczej i rozdział pada w takim ciągu raz,
 więc `Warstwy trzecia, czwarta i piąta pracują.` jest odrzucone,
 choć polszczyzna trzeci człon pisze właśnie przecinkiem;
-ile to ciało kosztuje, trzyma [TODO.md](../TODO.md).
+ile to ciało kosztuje, trzyma [todo/](../todo/README.md).
 
 ## Interpunkcja zdaniowa spina zdania, które już się wyprowadzają
 
@@ -1397,7 +1397,7 @@ Listy są przez to dwie, a nie jedna, bo wysunięcie jest faktem o słowie:
 i tak samo dzieli się `gdyż` od `ponieważ`, choć oba mówią o przyczynie.
 Fakt ten skład trzyma o dwóch z tych lematów
 (`olski/skład/spójniki.py`),
-i [TODO.md](../TODO.md) trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
+i [todo/](../todo/README.md) trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
 tak jak czytają jeden leksykon walencyjny.
 Sam podział ma przy tym świadka zmierzonego:
 nad Składnicą `gdyż` nie otwiera ani jednego zdania,
@@ -1791,7 +1791,7 @@ bo tam rozdziela je przeczenie, oraz `orzecznik → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
 `python3 -m harness.pomiar Składnica-frazowa-180723/` puszczony nad taką gramatyką
 wydaje obie tabele bez etykiety, a różnica wierszy jest tymi dwoma przejściami.
-Czego brakuje, żeby wzięło je polecenie, trzyma [TODO.md](../TODO.md).
+Czego brakuje, żeby wzięło je polecenie, trzyma [todo/](../todo/README.md).
 
 Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
 `grupa_pytajna` mówi, o co zdanie pyta,
@@ -2200,7 +2200,7 @@ oraz zdania wieloznaczne, którym złote czytanie z lasu wypada.
 Werdykt mówi więc o zdaniu nieprawdę częściej niż przed tą pozycją,
 a kierunek ten trzyma
 [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
-czym te zdania są, ten przebieg nie mówi, a wpis trzyma [TODO.md](../TODO.md).
+czym te zdania są, ten przebieg nie mówi, a wpis trzyma [todo/](../todo/README.md).
 Obie liczby drukuje `harness.pomiar`, a te sprzed tej pozycji trzyma git.
 
 ## Rzeczownik odczasownikowy jest głową grupy imiennej, a nie pozycją przy czasowniku
@@ -2238,7 +2238,7 @@ więc po tej stronie nie ma czego wykluczać.
 Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie względne:
 `którego przyłączenia` nie ma wyprowadzenia, gdzie `którego wyrażenia` ma.
 Czoło zdania względnego bierze rzeczownik, a tej głowy nie bierze,
-i wpuszczenie jej tam trzyma [TODO.md](../TODO.md).
+i wpuszczenie jej tam trzyma [todo/](../todo/README.md).
 
 ## Łącznik `to` orzeka sam albo przy kopuli, a podmiot stoi za nim
 
@@ -2382,7 +2382,7 @@ niż dopisanie przyjmuje: zdanie dalej odrzucone zatrzymuje się odtąd gdzie in
 Poza ciałami zostaje przeczenie bez czasownika i bez grupy przed łącznikiem:
 `To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się.
 Jest to osobne ciało i osobna liczba, której nikt nie policzył;
-[TODO.md](../TODO.md) trzyma ten przebieg.
+[todo/](../todo/README.md) trzyma ten przebieg.
 
 ## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
 
@@ -2460,7 +2460,7 @@ Trzecia osoba pojedyncza jest jedyną, w której polszczyzna to zdanie pisze.
 Ciało jest jedno i stawia `bedzie` za predykatywem.
 `Będzie trzeba zmierzyć cenę.` polszczyzną jest i zostaje odrzucone:
 szyk odwrotny jest osobnym ciałem i osobną liczbą,
-której nikt nie policzył, a wpis trzyma [TODO.md](../TODO.md).
+której nikt nie policzył, a wpis trzyma [todo/](../todo/README.md).
 
 Zakup jest liczony w pojedynczych zdaniach banku drzew
 i po stronie ceny nie ma nic: ani jedno zdanie przyjęte nie staje się
@@ -2715,7 +2715,7 @@ bo `bloker` w `olski/pokrycie.py` nazywa część mowy pierwszego czytania,
 a tu nie ma ani jednego.
 Rozejście to jest zapowiedziane
 ([design-notes.md](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
-a naprawę trzyma [TODO.md](../TODO.md) razem z wycięciem czytań bez licencji,
+a naprawę trzyma [todo/](../todo/README.md) razem z wycięciem czytań bez licencji,
 które daje tę samą krawędź bez czytań na całej klasie form.
 
 ## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
@@ -2870,7 +2870,7 @@ zaimek stojący nie na czele, czyli drugie pytanie w tym samym zdaniu
 zdanie względne bez poprzednika w roli innej niż podmiot,
 oraz przytoczenie samego wyrazu, którym ten rejestr o sobie mówi
 (`nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie jedno`).
-`TODO.md` trzyma je wszystkie.
+`todo/` trzyma je wszystkie.
 
 Jedno użycie zostaje na tej kolejce mimo ciała trzeciego i zostaje osobno:
 `Co innego jest tanie.` wychodzi przyjęte z `Co innego` w okoliczniku,
@@ -2943,7 +2943,7 @@ Właścicielem tej ceny nie jest ta pozycja, tylko rama domyślna:
 pozycję pytania zależnego daje ona każdemu czasownikowi
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc drugie czytanie wychodzi i tam, gdzie czasownik pytania nie żąda.
-Zawężenie tej pozycji do leksykonu trzyma `TODO.md`,
+Zawężenie tej pozycji do leksykonu trzyma `todo/`,
 i ten pomiar jest argumentem za nim.
 
 Drugie czoło kosztuje w produkcjach:
@@ -3002,7 +3002,7 @@ Orzecznika narzędnikowego ten zaimek nie dostał,
 a zdanie z nim mimo to się wyprowadza:
 `Parser jest sobą.` wychodzi jednoznaczne na rzeczowniku `soba` w narzędniku.
 Pozycja i ten lemat schodzą się przez to w jedno pytanie, a wpis trzyma
-[TODO.md](../TODO.md).
+[todo/](../todo/README.md).
 
 Zakup jest tu kilkudziesięcioma zdaniami banku drzew wyciągniętymi z odrzucenia,
 w większości przyjętymi, i po stronie ceny nie ma pod złotą morfologią nic:
@@ -3294,7 +3294,7 @@ a `admissible` po nie nie sięga, bo pyta o czytanie rzeczownikowe.
 Kryterium na tę klasę nie jest przy tym oczywiste:
 `blisko` i `jak` niosą czytanie przysłówkowe, którego polszczyzna używa,
 więc warunek odsiewający przysłówek przy czytaniu przyimkowym zabrałby i je.
-[TODO.md](../TODO.md) trzyma ruch wraz z ceną obu kryteriów, które mu się nasuwają.
+[todo/](../todo/README.md) trzyma ruch wraz z ceną obu kryteriów, które mu się nasuwają.
 
 ### Naprawę niesie tagset, a formalizm ją bierze
 
@@ -3325,7 +3325,7 @@ Te trzy liczby wzięto nad gramatyką, w której przysłówka jeszcze nie było,
 i żaden przebieg ich dziś nie powtarza:
 wariant bez tego warunku nie jest grupą produkcji, tylko innym terminalem w tej samej,
 więc sonda różnicowa nie ma go czym zdjąć,
-a gramatyki wariantu branej funkcją żąda od tej maszynerii [TODO.md](../TODO.md).
+a gramatyki wariantu branej funkcją żąda od tej maszynerii [todo/](../todo/README.md).
 Są przez to ceną, przy której warunek zapadł, a nie figurą o dzisiejszej gramatyce.
 
 ### Płaska lista okoliczników mówi o zdaniu nieprawdę
@@ -3403,6 +3403,6 @@ Miejsce, w którym cena mogłaby paść, jednak istnieje,
 i jest nim forma niosąca obok `adjp` czytanie przymiotnikowe — `bliska`, `dawna`, `rzadka` —
 bo tamto czytanie produkcje brały już przedtem.
 Sonda liczy werdykty, więc czytanie dołożone zdaniu i tak wieloznacznemu
-stoi poza jej zasięgiem, a `TODO.md` trzyma ten brak;
+stoi poza jej zasięgiem, a `todo/` trzyma ten brak;
 nad zdaniami cytowanymi w tej prozie, gdzie liczbę czytań widać zdanie po zdaniu
 (`harness/cytaty.py`), nie przybyło ono ani jednemu.

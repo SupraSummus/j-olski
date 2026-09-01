@@ -1436,7 +1436,7 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     #  zdania bierze ją jako słowo, a `innych` zostaje wtedy dopełnieniem. Jest to
     #  czytanie, którego polszczyzna w tym miejscu nie ma, i klasa, po którą
     #  `admissible` nie sięga, bo tamten warunek pyta o czytanie rzeczownikowe;
-    #  TODO.md trzyma ruch i pomiar, którego on żąda.
+    #  todo/ trzyma ruch i pomiar, którego on żąda.
     assert {drugie["wyrażenie_przyimkowe"] for _pierwsze, drugie in found.readings} == {
         "wobec innych → postępować",
         "wobec innych w duchu → postępować",

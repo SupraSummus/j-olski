@@ -93,7 +93,7 @@ bo jest nazwą symbolu gramatyki, którą podaje `DEKLARACJA` w `olski/subset/de
 Po angielsku zostaje status w znaczku —
 `valid`, `ambiguous`, `rejected`, `unclosed`, `fragment` —
 i legenda pod polem tłumaczy każdy z nich na polskie zdanie.
-Co kosztuje przekład statusu, trzyma [`TODO.md`](../TODO.md).
+Co kosztuje przekład statusu, trzyma [`todo/`](../todo/README.md).
 
 ## API oddaje dane, a nie HTML
 
@@ -115,7 +115,7 @@ gubi ono tekst w polu, a API zostawia takie,
 
 Każde zdanie ma przycisk, który kopiuje jego werdykt do schowka,
 bo blok na stronie czyta się okiem,
-a do zgłoszenia albo do `TODO.md` wkleja się tekst.
+a do zgłoszenia albo do `todo/` wkleja się tekst.
 Tekst ten składa strona, a nie serwer,
 z tego samego powodu, z którego serwer nie oddaje HTML:
 pole z gotowym tekstem w odpowiedzi byłoby drugą warstwą prezentacji.
@@ -159,7 +159,7 @@ historia, cofanie albo kilka widoków, i wtedy biblioteka wchodzi.
 
 Cena tej decyzji jest jedna i suita jej nie łapie:
 `witryna/skrypt.js` nie ma testu, bo w blokach checków nie ma node'a.
-Trzyma to `TODO.md`, a robocza odpowiedź jest taka,
+Trzyma to `todo/`, a robocza odpowiedź jest taka,
 że skrypt rysuje dane i nie liczy niczego,
 więc prawie wszystko, co może być nie tak, siedzi po stronie Pythona.
 Wyjątkiem jest tekst dla schowka, którego nie składa nic poza stroną.

@@ -28,7 +28,7 @@ a rozstrzyga je tak, że rusza obie strony naraz
 i zatrzymuje się w [punkcie kompromisu](#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu).
 
 Planem to nie jest.
-Właścicielem ruchu jest [`TODO.md`](../TODO.md),
+Właścicielem ruchu jest [`todo/`](../todo/README.md),
 kolejności [`roadmap.md`](roadmap.md),
 a ceny wpuszczenia konstrukcji
 [`subset.md`](subset.md#what-the-grammar-covers);
@@ -114,7 +114,7 @@ Który z tych dwóch wypadków zachodzi, rozstrzyga czytelnik i po to ten fotel 
 
 Przecinek przed `i` stoi w tej prozie setki razy,
 a które z tych miejsc nie domykają niczego, widać dopiero po przeczytaniu każdego;
-ruch trzyma [`TODO.md`](../TODO.md).
+ruch trzyma [`todo/`](../todo/README.md).
 
 ## Zasłanianie działa w obie strony
 
@@ -196,7 +196,7 @@ Jedne niosą po kilka zatrzymań naraz i rozbite na krótsze straciłyby wywód.
 Drugie przeszłyby, gdyby powiedzieć w nich mniej, i te nazywają granicę wprost.
 Zdanie o warstwie pierwszej, drugiej i piątej żąda liczby mnogiej,
 a ciągu rozdzielnego przydawek gramatyka nie ma
-i wpis o nim trzyma [`TODO.md`](../TODO.md).
+i wpis o nim trzyma [`todo/`](../todo/README.md).
 Zdanie o populacji kilka razy większej przechodzi bez `kilka razy`,
 tylko że wtedy rzędu wielkości nie mówi,
 a rząd wielkości jest tu tym, po co ono stoi.
@@ -292,7 +292,7 @@ a nad zamkniętymi zbiera pod jedną nazwą formy żądające każda innej konst
 wiersz `conj` prowadzą w tym rejestrze `i` oraz `a`,
 a pod nimi stoją `czy`, `czyli` i `ani`
 ([corpus.md](corpus.md#where-the-analyses-stop) trzyma, które wiersze prowadzą).
-Ruch nad tym wierszem trzyma [`TODO.md`](../TODO.md).
+Ruch nad tym wierszem trzyma [`todo/`](../todo/README.md).
 
 Kolejka policzona po samej formie odpowiada zarazem na pytanie o rachunek.
 Forma nazywa słowo, a słowo da się przeczytać:
@@ -350,7 +350,7 @@ a olski żąda na to osobnego zdania.
 Spójnika apozycja nie ma, więc od członu bez czasownika, który wszedł,
 różni ją to, że nie ma czym wpuścić jej osobno
 ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
-cenę tej produkcji trzyma [`TODO.md`](../TODO.md).
+cenę tej produkcji trzyma [`todo/`](../todo/README.md).
 
 **Cząstka `się` oddalona od swojego czasownika.**
 `Rachunek się dotąd nie zwraca.` pada,
@@ -391,7 +391,7 @@ albo przydawką, a pytania zależnego w tym zdaniu nie ma wcale.
 Autor nie ma po czym poznać, że napisał zdanie poza olskim,
 i dlatego pozycja ta jest droższa od tych, które zawracają.
 Dopisane słowo pytające ma to czytanie zdjąć, a nie stanąć obok niego;
-`TODO.md` trzyma ruch.
+`todo/` trzyma ruch.
 Pytanie ma w gramatyce trzy kształty — zaimek przy rzeczowniku,
 `kto` i `co` same
 ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))
@@ -436,7 +436,7 @@ a `` `build` `` wraca z Morfeusza jednym napisem razem z backtickami.
 SGJP zna `linter` i daje mu dopełniacz `linteru`,
 a ta proza odmienia go wedle drugiego leksemu.
 Leksykon projektu takiego wiersza nie przyjmuje z powodu, który sam podaje,
-a ruch trzyma [`TODO.md`](../TODO.md).
+a ruch trzyma [`todo/`](../todo/README.md).
 
 **Notacja z jednoliterowym członem.**
 `docs/pisanie-po-olsku.md jest raportem.` przechodzi,

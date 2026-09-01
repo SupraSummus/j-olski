@@ -87,7 +87,7 @@ from olski.subset import (
 )
 
 #: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
-#: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``TODO.md``.
+#: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``todo/``.
 KOPULA = "być"
 
 #: Znaki, którymi ten zapis pisze listę: spójnik przed ostatnim członem,
@@ -285,7 +285,7 @@ def _przysłówki(drzewo: Node) -> tuple[Przysłówek, ...]:
     Ciało dopasowuje się całe, tak samo jak w :func:`_nominalne`:
     przysłówek określający drugi przysłówek stanie tu kiedyś ciałem o dwóch
     częściach, a ten zapis ma wtedy zgłosić brak kategorii, a nie przeczytać
-    pierwszą część za całość; ``TODO.md`` trzyma tamten ruch.
+    pierwszą część za całość; ``todo/`` trzyma tamten ruch.
     """
     kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
     if kształt != (SŁOWO,):
@@ -916,7 +916,7 @@ def znaczenie(drzewo) -> tuple:
     bo każde z nich mówi, o czym zdanie jest, a nie jak zostało napisane.
     Łącznik ``to`` byłby drugim takim kandydatem i nie jest nim,
     bo o tym, czy niesie coś ponad kopulę, nie rozstrzygnął nikt;
-    trzyma to ``TODO.md``.
+    trzyma to ``todo/``.
     """
     return _sygnatura(drzewo, {}, znacznik=False)
 

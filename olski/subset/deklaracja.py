@@ -381,7 +381,7 @@ MIJANE = (
 #: wydaje werdykt i liczbę czytań co do zdania te same.
 #: Wpisy zostają, bo cechę wypuszczaną rozdziela las na klasy pozycji
 #: (`klasy` w ``olski/parse.py``), więc niesiona bez czytelnika kosztuje rozbiór;
-#: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (TODO.md).
+#: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (todo/).
 NIE_WYPUSZCZANE = {
     "zdanie_składowe": ("number", "gender", "person", "valency", "negacja", "druga", "dostawka"),
     "zdanie": ("dostawka",),

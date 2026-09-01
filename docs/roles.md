@@ -103,7 +103,7 @@ Numeracja jest tam kolejnością i jest nośna.
 Całego toru gramatycznego nie zamyka żaden etap
 ([tamże](roadmap.md#tor-gramatyczny-nie-ma-końca)).
 Dalej rozchodzą się trzy listy.
-Granicę między nimi trzyma nagłówek [TODO.md](../TODO.md).
+Granicę między nimi trzyma [nagłówek rejestru](../todo/README.md).
 Co zamyka commit w tym repozytorium, jest tam.
 Co zamyka świat zewnętrzny, siedzi w [open-questions.md](open-questions.md)
 albo w sekcji `Not yet decided` dokumentu, który jest właścicielem tematu.
@@ -114,7 +114,7 @@ czyta się jak następny ruch i nie jest nim.
 Plik do napisania odłożony między pytania do świata nie jest w ogóle robotą.
 
 **Obsadzają ją** autor i każda sesja agenta,
-bo nagłówek TODO.md każe zaglądać tam przed zaczęciem czegokolwiek.
+bo nagłówek rejestru każe zaglądać tam przed zaczęciem czegokolwiek.
 
 ## Autor produkcji
 
@@ -243,7 +243,7 @@ Trzy dokumenty pisane dla kogoś z zewnątrz czytał tylko ten, kto je napisał.
 Pyta, jaka jest konwencja i którą decyzję ta sesja rozstrzyga.
 Wchodzi w [CLAUDE.md](../CLAUDE.md) i czyta całość,
 bo to jedyna kopia konwencji.
-Potem wchodzi w [TODO.md](../TODO.md).
+Potem wchodzi w [todo/](../todo/README.md).
 Ta rola różni się od pozostałych trzema rzeczami, które robią jej całą drogę.
 Przychodzi za każdym razem na zimno.
 [Nie widzi innych sesji](../CLAUDE.md#splitting-work-across-sessions).
@@ -255,7 +255,7 @@ albo w pamięci innej sesji.
 Psuje ją też podział pracy zrobiony po plikach zamiast po rozstrzyganych decyzjach,
 bo dwie sesje dochodzą wtedy do tego samego wniosku dwa razy
 i żaden merge tego nie zgłasza.
-Psuje ją wreszcie wpis z [TODO.md](../TODO.md) wykonany tak, jak stoi,
+Psuje ją wreszcie wpis z [todo/](../todo/README.md) wykonany tak, jak stoi,
 bo nie ma kogo zapytać, czy nazwany w nim ruch jest czymś więcej niż zgadnięciem.
 
 **Obsadzają ją** sesje agenta, które mają w gicie własne commity.

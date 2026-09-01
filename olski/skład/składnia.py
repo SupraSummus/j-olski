@@ -38,7 +38,7 @@ Dziura jest jedna i jest dziurą, a nie decyzją.
 Wewnątrz grupy imiennej szyku nie ma,
 bo ``Jaki`` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
-Trzyma to ``TODO.md``, a miejsce w torze ``docs/roadmap.md``.
+Trzyma to ``todo/``, a miejsce w torze ``docs/roadmap.md``.
 """
 
 from __future__ import annotations
@@ -623,7 +623,7 @@ class Treść:
 
     #: Spójnik, którym polszczyzna wprowadza treść orzekaną wprost. Stoi tu stałą,
     #: a nie w leksykonie jak słowo okoliczności, bo autor nie ma tu czego wybierać:
-    #: ``żeby`` mówi, że tak ma być, czyli jest inną kategorią, i trzyma to ``TODO.md``.
+    #: ``żeby`` mówi, że tak ma być, czyli jest inną kategorią, i trzyma to ``todo/``.
     SŁOWO = "że"
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
@@ -901,7 +901,7 @@ class Jest(Zdanie):
     przeczenie: bool = False
 
     #: Lemat kopuli, wpisany na stałe, bo drzewo go nie niesie.
-    #: Kopula jest tu jedna, a gramatyka bierze pięć; trzyma to ``TODO.md``.
+    #: Kopula jest tu jedna, a gramatyka bierze pięć; trzyma to ``todo/``.
     czasownik = "być"
 
     @property

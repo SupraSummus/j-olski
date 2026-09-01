@@ -43,7 +43,7 @@ Przyłączenia ten przegląd nie zgłasza,
 bo o wyrażeniu przyimkowym drzewo mówi to, czego przy rolach nie mówi:
 okolicznik dochodzi w nim do zdarzenia zawsze, więc każde miejsce byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego.
-Czym to zawęzić, jest osobnym pytaniem i trzyma je ``TODO.md``.
+Czym to zawęzić, jest osobnym pytaniem i trzyma je ``todo/``.
 """
 
 from __future__ import annotations
