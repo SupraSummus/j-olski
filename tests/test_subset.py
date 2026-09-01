@@ -303,6 +303,18 @@ PRZYJMOWANE = [
     "Program zapisuje ustawienia, sprawdzając zgodność.",
     "Sprawdzając zgodność, program zapisuje ustawienia.",
     "Program zapisuje ustawienia, milcząc.",
+    #  Para myślników wraz z każdym z trzech wypełnień, jakie ta gramatyka jej daje.
+    #  Każde z nich wychodzi jednym czytaniem, bo miejsce pary wskazują dwa znaki.
+    "Cena — pokrycie — jest niska.",
+    "Cena — w prozie — jest niska.",
+    "Cena — gramatyka rośnie — jest niska.",
+    #  Ta sama para, a za nią myślnik rozdzielający dwa zdania: znaki są trzy,
+    #  a czytanie zostaje jedno.
+    "Cena — pokrycie — jest niska — parser rośnie.",
+    #  Ciąg współrzędny wyrażeń przyimkowych, oboma spinaczami. Przyimek stoi
+    #  przed każdym członem, a przypadek każdy z nich bierze od swojego.
+    "Cena stoi w prozie i w kodzie.",
+    "Działa w Polsce, w okolicach Kielc.",
 ]
 
 
@@ -417,6 +429,10 @@ def test_a_valid_sentence_says_what_fills_each_role():
         #  nie niesie, unifikacja nie sprawdza, więc zdanie względne zgodziłoby
         #  się z nim w każdej.
         "Widzę siebie, która stoi.",
+        #  Para myślników niedomknięta, czyli znak jeden tam, gdzie wtrącenie żąda
+        #  dwóch. Licencji udzielają jej oba znaki, tak samo jak przy nawiasie
+        #  i przy cudzysłowie.
+        "Cena — pokrycie jest niska.",
     ],
 )
 def test_these_have_no_reading(text):

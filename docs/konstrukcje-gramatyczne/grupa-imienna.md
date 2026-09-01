@@ -164,6 +164,58 @@ więc `Warstwy trzecia, czwarta i piąta pracują.` jest odrzucone,
 choć polszczyzna trzeci człon pisze właśnie przecinkiem;
 ile to ciało kosztuje, trzyma [todo/](../../todo/README.md).
 
+## Wyrażenie przyimkowe koordynuje się tak jak grupa imienna
+
+`Leksykon mówi o bierniku i o bezokoliczniku.`,
+`Program zapisuje ustawienia w pliku i w katalogu.`
+Poziom jest piąty, obok zdania, grupy imiennej, grupy przymiotnikowej i przydawki.
+Bez tego poziomu przyimek pada w takim napisie raz — `o bierniku i bezokoliczniku` —
+a jest to jedno wyrażenie z ciągiem imiennym w środku,
+czyli inna konstrukcja i inny napis.
+
+Symbole są tu trzy, a nie dwa jak na poziomach obok.
+Człon i ciąg nad nim wybrano dla liczby czytań, tak samo jak przy grupie imiennej
+([wyżej](#nothing-above-a-coordination-distributes-into-it)).
+Trzeci jest rolą i stoi nad ciągiem, bo rolą jest cały napis:
+ogon ciągu pod nazwą roli wychodziłby w werdykcie drugim wyborem przyłączenia,
+a wybór jest tu jeden i czytanie już go nazwało.
+
+Przypadka ciąg nie wypuszcza, bo rządzi nim przyimek stojący w każdym członie
+z osobna, więc człony pod różnymi przyimkami stoją w jednym ciągu —
+`w Belgii i na Malcie` — i tym ten poziom różni się od czterech pozostałych,
+które zgodności właśnie żądają.
+
+Przyłączenie zostaje przy tym wyborem czytelnika, tak samo jak przy wyrażeniu
+pojedynczym: `Program zapisuje ustawienia w pliku i w katalogu.` ma dwa czytania,
+bo cały ciąg dochodzi i do czasownika, i do dopełnienia
+([subset.md](../subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
+
+**Spinacze są dwa i rozchodzą się rejestrem.**
+Nad polską prozą tego repozytorium spójnik wyciąga z odrzucenia kilkanaście zdań,
+a przecinek jedno; nad bankiem drzew jest odwrotnie,
+a zakup obu razem jest tam kilkakrotnie większy.
+Jednoznaczności nie traci nad tą prozą ani jedno zdanie,
+a nad bankiem drzew jedno, i odbiera mu ją przecinek.
+Z tych, które przecinek nowo przyjmuje pod złotą morfologią,
+przeszło dwie trzecie czyta role tak, jak czyta je drzewo wzorcowe,
+a reszta nie ma tam roli do porównania albo ma ją częściowo.
+Jedno zdanie olski czyta inaczej niż bank drzew i przyjmuje je spójnik:
+`W Tokio, Sydney i w Londynie rekordy spodziewane są dopiero dzisiaj.`
+
+Przecinek bierze zarazem zawężenie: `Działa w Polsce, w okolicach Kielc.`
+mówi o jednym miejscu, a nie o dwóch, i jest to apozycja, której olski nie ma.
+Zamiana ta nie jest tu nowa i nie jest tu do naprawienia:
+ciąg imienny robi ją tak samo, a wpis o apozycji trzyma
+[todo/](../../todo/README.md).
+
+**Skład tego poziomu nie ma i mówi to wprost.**
+`olski/skład/rozbiór.py` schodzi przez ciąg i człon do przyimka,
+a ciąg o kilku członach zgłasza brakiem kategorii,
+bo okoliczność mówi w tamtym zapisie o jednej relacji i o jednej rzeczy
+([sklad.md](../sklad.md)).
+Gałąź ta jest ceną, którą tamten kierunek płaci za każdy nowy poziom gramatyki,
+i płaci ją niezależnie od tego, czy sam ten poziom umie powiedzieć.
+
 ## Zaimek rzeczowny nie rządzi dopełniaczem
 
 Morfeusz daje formom paradygmatu `ten` czytanie rzeczownikowe obok

@@ -28,7 +28,9 @@ from __future__ import annotations
 from olski.grammar import Grammar, V, nt
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
+    CIĄG_PRZYIMKOWY,
     CZĄSTKA_ZDANIA,
+    CZŁON_PRZYIMKOWY,
     DEKLARACJA,
     GRUPA_PYTAJNA,
     MIJANE,
@@ -43,6 +45,7 @@ from olski.subset.deklaracja import (
     PARA_WYPEŁNIEŃ,
     RODZINY,
     WTRĄCENIE,
+    WTRĄCENIE_MYŚLNIKOWE,
     WYRAŻENIE_PRZYIMKOWE,
 )
 from olski.subset.grupa import (
@@ -179,8 +182,10 @@ GRAMMAR = build()
 __all__ = [
     "AGREE",
     "BEZ_CZOŁA",
+    "CIĄG_PRZYIMKOWY",
     "CZĄSTKA_ZDANIA",
     "CZĄSTKI",
+    "CZŁON_PRZYIMKOWY",
     "DEKLARACJA",
     "GRAMMAR",
     "GRUPA_PYTAJNA",
@@ -209,6 +214,7 @@ __all__ = [
     "WALENCJA",
     "WALENCJA_ZWROTNA",
     "WTRĄCENIE",
+    "WTRĄCENIE_MYŚLNIKOWE",
     "WYRAŻENIE_PRZYIMKOWE",
     "ZAIMEK_RZECZOWNY",
     "build",

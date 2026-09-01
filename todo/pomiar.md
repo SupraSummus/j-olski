@@ -202,7 +202,7 @@ czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
 Te dwie deklaracje rozeszły się na koordynacji przecinkiem
-— olski bierze przecinek na czterech poziomach, a sonda spójnik —
+— olski bierze przecinek na pięciu poziomach, a sonda spójnik —
 i drugi raz na podrzędności, której sonda nie ma wcale,
 a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
 Trzecie rozejście jest grupą liczebnikową:

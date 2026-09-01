@@ -230,6 +230,7 @@ def test_czytanie_którego_ten_zapis_nie_mówi_nie_wraca_żadnym_drzewem(zdanie)
         ("Zatem parser jest celem.", "zdanie z słowo, zdanie"),
         ("Cena jest niska: gramatyka jest bezkontekstowa.", "zdanie z zdanie, słowo, zdanie"),
         ("Warstwa pyta o dwa typy: Zdanie oraz Kontekst.", "zdanie z zdanie, dopowiedzenie"),
+        ("Kot mieszka w piwnicy i w kamienicy.", "nie jest tu jednym wyrażeniem przyimkowym"),
     ],
 )
 def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
@@ -244,12 +245,17 @@ def test_zdanie_bez_drzewa_mówi_czego_temu_zapisowi_brakuje(zdanie, powód):
     ``Jaki`` trzyma jedną cechę, a ciąg współrzędny przydawki orzeka ich kilka,
     więc czytanie wzięte z pierwszego członu wypisałoby się bez pozostałych.
 
-    Trzy ostatnie to trzy ciała samego ``wypowiedzenie``, czyli cała reszta tej listy
+    Trzy dalsze to trzy ciała samego ``wypowiedzenie``, czyli cała reszta tej listy
     obok ciała ze zdaniem składowym, i one żądają tu najwięcej.
     Spójnik na czele stawia w pierwszym dziecku liść,
     a dwukropek i dopowiedzenie stawiają tam połowę zdania,
     więc rozbiór biorący to dziecko wprost odpowiada usterką Pythona
     albo drzewem, które wypisuje się połową napisu.
+
+    Ostatnie żąda tego samego o szczebel niżej: ciąg współrzędny wyrażeń
+    przyimkowych stoi nad przyimkiem, a ``Okolicznik`` mówi o jednej relacji
+    i o jednej rzeczy, więc rozbiór biorący dzieci wprost odpowiada usterką
+    Pythona zamiast brakiem kategorii.
     """
     odczyt = rozbierz(zdanie)
     assert any(powód in mówi for mówi in odczyt.powody), odczyt.powody

@@ -21,6 +21,7 @@ from olski.subset.deklaracja import (
     PARA_WYPEŁNIEŃ,
     SPÓJNIK,
     WTRĄCENIE,
+    WTRĄCENIE_MYŚLNIKOWE,
 )
 from olski.subset.podrzędne import _zamykane
 from olski.subset.rama import (
@@ -42,6 +43,7 @@ from olski.subset.słowa import (
     GRUPA_ORZECZENIA_ODWRÓCONA,
     KOPULARNY,
     KOSZT_WYSUNIĘCIA,
+    MYŚLNIK,
     NAWIAS_OTWIERAJĄCY,
     NAWIAS_ZAMYKAJĄCY,
     PREDYKATYW,
@@ -339,6 +341,26 @@ def _dostawki_zdania(grammar: Grammar) -> None:
     # docs/konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania.
     for wnętrze in (nt("grupa_imienna"), PRZYSŁÓWEK):
         grammar.rule(WTRĄCENIE, [NAWIAS_OTWIERAJĄCY, Głowa(wnętrze), NAWIAS_ZAMYKAJĄCY])
+
+    # Wtrącenie w parze myślników (:data:`WTRĄCENIE_MYŚLNIKOWE`): `Zepsute miejsce
+    # — w prozie czy w kodzie — nie potrzebuje lepszej wersji.` Miejsce daje mu
+    # lista okoliczników (:func:`_lista_okoliczników`), bo tam para stoi w tym
+    # rejestrze: w środku zdania, a nie za jego ostatnią córką.
+    #
+    # Wypełnienia są trzy i cena każdego z nich jest osobną liczbą, więc każde ma
+    # swoje ciało. Zdanie składowe w środku pary jest zdaniem — `Program — cena
+    # rośnie — zapisuje ustawienia.` — a rolą zostaje mimo to całe wtrącenie, tak
+    # samo jak przy nawiasie: para dopowiada obok zdania i pozycji w nim nie
+    # wypełnia.
+    # Trybu to ciało od zdania w środku nie żąda i żądać nie ma czym: cecha
+    # wypisana tu zmienną nie wiąże się z niczym, a wyszłaby z głowy w górę i
+    # rozdzielała pozycje lasu bez czytelnika (:data:`NIE_WYPUSZCZANE`).
+    for wnętrze in (
+        nt("grupa_imienna"),
+        nt("wyrażenie_przyimkowe"),
+        nt("zdanie_składowe"),
+    ):
+        grammar.rule(WTRĄCENIE_MYŚLNIKOWE, [MYŚLNIK, Głowa(wnętrze), MYŚLNIK])
 
     # Człon bez czasownika (:data:`ELIPSA`). Wypełnieniem jest konstytuent, który
     # zajmuje w zdaniu pozycję, a ciała są osobne, po jednym na wypełnienie, bo
@@ -700,6 +722,18 @@ def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
     # drugie czytanie tego samego kształtu.
     grammar.rule("okoliczniki", [nt(SPÓJNIK)])
     grammar.rule("okoliczniki", [Głowa(nt(SPÓJNIK)), ogon], kopula=V("k"))
+
+    # Wtrącenie w parze myślników wchodzi tą samą listą, bo pyta o to samo: o
+    # miejsce, w którym coś staje obok zdania, nie zajmując w nim pozycji. Lista
+    # daje mu przez to każde miejsce, jakie ma okolicznik, i tego ta konstrukcja
+    # żąda: para stoi w tym rejestrze między podmiotem a orzeczeniem, za
+    # dopełnieniem i na końcu zdania składowego, a wypisane ciało na każde z tych
+    # miejsc byłoby drugą deklaracją szyku (``olski/precedencja.py``).
+    #
+    # Cechy `kopula` to ciało nie ogłasza, tak samo jak przysłówek wyżej: para nie
+    # jest narzędnikiem, więc kopuli nie zamyka.
+    grammar.rule("okoliczniki", [nt(WTRĄCENIE_MYŚLNIKOWE)])
+    grammar.rule("okoliczniki", [Głowa(nt(WTRĄCENIE_MYŚLNIKOWE)), ogon], kopula=V("k"))
 
 
 def _orzecznik(grammar: Grammar) -> None:

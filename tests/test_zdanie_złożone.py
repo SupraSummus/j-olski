@@ -28,6 +28,7 @@ from olski.subset import (
     SPÓJNIKI_PRZECINKOWE,
     SPÓJNIKI_SKORELOWANE,
     WTRĄCENIE,
+    WTRĄCENIE_MYŚLNIKOWE,
     WYRAŻENIE_PRZYIMKOWE,
 )
 from tests.test_werdykt import role, verdict
@@ -99,14 +100,33 @@ def _znak(część, lemat):
     )
 
 
-@pytest.mark.parametrize("lemat", [";", "—", "–"])
-def test_znak_rozdzielający_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować(lemat):
-    #  Na tej jedynce stoi zdanie, że średnik ani myślnik nie odbiera
-    #  jednoznaczności ani jednemu zdaniu: znak wchodzący w jedno ciało albo
-    #  wyprowadza zdanie tą produkcją, albo nie wyprowadza go wcale. Drugie ciało
-    #  z tym znakiem czyni z tego zera liczbę do zmierzenia i ten test jest tym,
-    #  co o tym powie.
-    assert len(_biorące(lemat)) == 1, _biorące(lemat)
+def test_średnik_bierze_jedna_produkcja_więc_nie_ma_z_czym_konkurować():
+    #  Na tej jedynce stoi zdanie, że średnik nie odbiera jednoznaczności ani
+    #  jednemu zdaniu: znak wchodzący w jedno ciało albo wyprowadza zdanie tą
+    #  produkcją, albo nie wyprowadza go wcale. Drugie ciało z tym znakiem czyni
+    #  z tego zera liczbę do zmierzenia i ten test jest tym, co o tym powie.
+    #  Myślnik tę jedynkę stracił, kiedy weszła para; jego cenę zmierzono i trzyma
+    #  ją docs/konstrukcje-gramatyczne/zdanie-złożone.md.
+    assert len(_biorące(";")) == 1, _biorące(";")
+
+
+@pytest.mark.parametrize("lemat", ["—", "–"])
+def test_para_myślników_żąda_w_środku_symboli_rozłącznych(lemat):
+    #  Myślnik stoi w czterech ciałach, więc jedynki wyżej mieć nie może, a zdanie
+    #  o jednoznaczności zostaje to samo i stoi na czym innym: para żąda w środku
+    #  grupy imiennej, wyrażenia przyimkowego albo zdania składowego, a żaden z tych
+    #  trzech napisów nie ma wyprowadzenia pozostałymi — wyrażenie przyimkowe
+    #  zaczyna się przyimkiem, którego grupa imienna nie bierze, a zdanie składowe
+    #  żąda czasownika albo rzeczownika orzekającego.
+    #  Usterka, którą to łapie: symbol dopisany w środek pary tak, że dwa ciała
+    #  biorą ten sam napis, czyli dokładają czytanie każdemu zdaniu z parą.
+    w_środku = set()
+    for produkcja in _biorące(lemat):
+        if produkcja.head != WTRĄCENIE_MYŚLNIKOWE:
+            continue
+        [rdzeń] = [część for część in produkcja.body if not _znak(część, lemat)]
+        w_środku.add(rdzeń.name)
+    assert w_środku == {"grupa_imienna", "wyrażenie_przyimkowe", "zdanie_składowe"}
 
 
 def test_ciała_dwukropka_żądają_za_nim_symboli_rozłącznych():
@@ -289,6 +309,39 @@ def test_wtrącenie_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
     [(czytanie,)] = werdykt.readings
     assert czytanie[WTRĄCENIE] == "( koszt w pliku ) → jest", czytanie
     assert WYRAŻENIE_PRZYIMKOWE not in czytanie, czytanie
+
+
+def test_para_myślników_nie_oddaje_zdaniu_ról_ze_swojego_wnętrza():
+    #  To samo, o co pyta test wyżej, na drugim znaku i na wypełnieniu, którego
+    #  nawias nie bierze: para obejmuje całe zdanie składowe, a rolą jest ona sama.
+    #  Bez wpisu w `MIJANE` i w `podrzędne` (`DEKLARACJA`) podmiot z jej wnętrza
+    #  wychodzi podmiotem zdania, które go nie ma.
+    werdykt = verdict("Cena — gramatyka rośnie — jest niska.")
+    assert werdykt.status == "valid", werdykt.explain()
+    [(czytanie,)] = werdykt.readings
+    assert czytanie[WTRĄCENIE_MYŚLNIKOWE] == "— gramatyka rośnie — → jest", czytanie
+    assert czytanie["podmiot"] == "Cena", czytanie
+
+
+def test_para_myślników_staje_w_każdym_miejscu_okolicznika_i_wyprowadza_raz():
+    #  Usterka, którą to łapie: para wpisana ciałem na jedno miejsce zamiast do
+    #  listy okoliczników. Miejsce na okolicznik wylicza się za każdą córką
+    #  (`olski/precedencja.py`), a te trzy napisy stawiają parę za każdą z nich
+    #  po kolei; ciało wypisane bierze zwykle to miejsce, które autor zapamiętał.
+    for zdanie in (
+        "Program — w pliku — zapisuje ustawienia.",
+        "Program zapisuje — w pliku — ustawienia.",
+        "Program zapisuje ustawienia — w pliku — dotąd.",
+    ):
+        assert verdict(zdanie).status == "valid", verdict(zdanie).explain()
+
+
+def test_myślnik_pojedynczy_rozdziela_dwa_zdania_mimo_pary():
+    #  Usterka, którą to łapie: para wpuszczona tak, że bierze także jeden znak,
+    #  czyli dwa ciała na jeden napis. Zdanie rozdzielone myślnikiem ma czytanie
+    #  jedno i miało je przed parą.
+    werdykt = verdict("Cena jest niska — parser rośnie.")
+    assert werdykt.status == "valid", werdykt.explain()
 
 
 def test_wtrącenie_w_zdaniu_względnym_wychodzi_jednym_czytaniem():

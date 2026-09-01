@@ -624,12 +624,25 @@ so `czegoś` has nowhere to stand and falls into the subject in front of it.
 That sentence and the one about `Co` are what the four word orders
 cost in this column, against the two they took out of it above.
 
-One is neither the check nor an extent:
+Two are neither the check nor an extent, and both stand on a participle:
 `W Hongkongu zmarły cztery osoby zarażone wirusem ptasiej grypy.`
 has the participle in the gold tree's subject and in olski's predicative,
 the attributive participle being a construction olski lacks
 ([subset.md](subset.md#what-it-does-not-cover-yet)),
 so the analysis ran as far as the next missing position.
+
+Drugie stoi na szyku i przyszło razem z ciągiem współrzędnym wyrażeń przyimkowych
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna)):
+w `W Tokio, Sydney i w Londynie rekordy spodziewane są dopiero dzisiaj.`
+drzewo wzorcowe orzeka imiesłowem o rekordach,
+a olski czyta go przydawką za rzeczownikiem i bierze `rekordy spodziewane` za podmiot.
+Czytania, które ma czytelnik, gramatyka nie ma czym wydać:
+orzecznika przed jego kopulą nie bierze, więc `Rekordy spodziewane są.`
+nie ma wyprowadzenia, a czytanie przydawkowe zostaje w tym zdaniu samo.
+Jest to ten sam brak, o którym mówi
+[przyjąć koszt](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
+widziany od strony zgodności, a nie od strony liczby czytań;
+ruch trzyma [todo/](../todo/README.md).
 
 Drop the positions that hang a prepositional phrase on a noun or on an adjective —
 `wyrażenie_przyimkowe` under `człon_imienny` and under `człon_przymiotnikowy`,
