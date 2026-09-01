@@ -130,7 +130,7 @@ CELOWNIK = ("np(dat)",)
 #:
 #: Dopełniacza spod przeczenia nie ma w tej parze i mieć go nie może: tamten
 #: wchodzi w miejsce biernika i stoi w gramatyce drugą produkcją tej samej pozycji
-#: (docs/konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+#: (docs/konstrukcje-gramatyczne/orzeczenie.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
 #: a Walenty pisze go tym samym ``np(str)``, co biernik.
 DOPEŁNIACZ = ("np(gen)", "np(part)")
 

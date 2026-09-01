@@ -114,7 +114,7 @@ pierwsze naprawia wpis w `olski.toml`
 a drugie produkcja w `olski/subset/`.
 Trzecie jest formą, której czytania zdjęła morfologia:
 `Cena niego rośnie.` wychodzi z tym komunikatem, a naprawą jest przyimek w zdaniu
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
 czyli ani leksykon, ani produkcja.
 Ta trzecia waży najwięcej na torze pisania pod tę gramatykę
 ([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md)),

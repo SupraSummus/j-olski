@@ -3,7 +3,7 @@
 What `olski/subset/` admits,
 and the decisions that shaped it.
 The constructions themselves are in
-[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md),
+[konstrukcje-gramatyczne/](konstrukcje-gramatyczne/README.md),
 and what olski takes for a word is in
 [warstwa-leksykalna.md](warstwa-leksykalna.md).
 For the theory behind the track, see [design-notes.md](design-notes.md).
@@ -148,7 +148,7 @@ Werdyktu nad tym zdaniem wykluczenie i tak nie rusza,
 bo dopełnieniem jest w obu czytaniach jedno słowo, czyli kształt jest ten sam.
 
 Reszta tego, co się kupuje, przychodzi z odsłownikiem
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku)).
 Bez odwrócenia ta głowa obniżałaby pokrycie, zamiast je podnosić,
 bo każdemu zdaniu z formą taką jak `czytanie`
 dawałaby drugie wyprowadzenie tego samego kształtu;
@@ -227,7 +227,7 @@ do formy, po którą nie sięga żadna produkcja,
 werdykt dokłada podpowiedź, gdy cudzysłów otwiera tę formę albo ją zamyka.
 Cudzysłowem maszynowym, pojedynczym, angielskim i ostrokątnym cytuje się
 poza tym rejestrem, a ta gramatyka bierze samą parę `„ ”`
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
 Sama nazwana forma odpowiada wtedy autorowi, że jego cudzysłów nie przechodzi,
 i nie odpowiada, który przechodzi.
 Łącznika podpowiedź nie obejmuje, choć myślnik ten rejestr pisze pauzą:
@@ -251,7 +251,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Reflexive verbs, with `się` in either position beside the verb it belongs to,
   finite or not: `Rachunek zwraca się.`, `Rachunek się zwraca.`,
   `Cena zaczyna się otwierać.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika))
 - An agreeing predicative, under the copula and under a verb that is not one:
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
 - A nominal predicative in the instrumental, under the copula and nowhere else:
@@ -261,7 +261,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   which is what keeps the instrumental of `Kwitnie handel paszportami.`
   out of the predicative under every other verb;
   where it does stand under one, it is an adjunct
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
   What the list leaves out is the copula that takes `się`:
   `okazać się` and `stać się` govern the same case
   and the production has no place for the particle.
@@ -269,18 +269,18 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   i na każdym miejscu, na którym stoi okolicznik przyimkowy:
   `Mieszczanie zabili okna deskami.`, `Granica jest czasem granicą modułu.`
   Wysunięcia przed zdanie ta pozycja nie ma i nie ma go z pomiaru
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika))
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika))
 - Okoliczność wyrażona przyimkiem i formą, która poza przyimkiem nie stoi:
   `Reguła działa po polsku.`, `Mówi po cichu.`, `Widać to z bliska.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przymiotnik-w-formie-poprzyimkowej-jest-okolicznikiem-a-nie-wyrażeniem-przyimkowym))
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#przymiotnik-w-formie-poprzyimkowej-jest-okolicznikiem-a-nie-wyrażeniem-przyimkowym))
 - Liczebnik zgodny w orzeczniku, czyli zdanie mówiące, ile czegoś jest:
   `Tory są dwa.`, `Warstwy są dwie.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest))
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest))
 - Negation, with the genitive it demands of an object,
   through an infinitive chain and into a fronted relative pronoun:
   `Program nie zapisuje ustawień.`, `Nie chcę czytać książki.`,
   `polszczyzna, której nikt nie napisał`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem))
 - What a verb takes, from a lexicon rather than from a production:
   `być` takes no accusative object,
   so `On jest wolny.` loses the reading in which `wolny` is one.
@@ -307,17 +307,17 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Przydawka imiesłowowa, czyli imiesłów przy rzeczowniku, w obu szykach przydawki
   i wraz z dopełniaczem, którego jego czasownik żąda:
   `Wymienione zadania są obowiązkowe.`, `Reguła sięgająca znaku jest tania.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik))
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik))
 - Rzeczownik odczasownikowy jako głowa grupy imiennej, w każdej pozycji, którą
   ma rzeczownik: `Przyłączenie jest tanie.`, `Wyznaczenie granicy jest tańsze.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku))
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#rzeczownik-odczasownikowy-jest-głową-grupy-imiennej-a-nie-pozycją-przy-czasowniku))
 - Pronouns, and with them first and second person subjects.
   Person comes from the subject rather than being fixed at the third,
   so `Ja zapisuje plik.` is a disagreement
   in the way `Nowa program` is one.
 - Zaimek dzierżawczy przed rzeczownikiem, czyli `jego`, `jej` i `ich`:
   `Jego skutki są znane.`, `Ich cena jest niska.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
 - Coordination, of noun phrases, of adjective phrases, of attributes
   and of clauses, joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
@@ -325,78 +325,78 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Przydawka złożona z kilku przymiotników, w obu szykach przydawki,
   wraz z tym szykiem, w którym człony dzielą między siebie rzeczownik:
   `Nowy i tani parser zapisuje ustawienia.`, `Warstwy trzecia i czwarta pracują.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim))
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim))
 - Two clauses joined by a comma and a conjunction at once,
   which is how Polish punctuates the conjunctions it puts a comma in front of:
   `Plany są niczym, ale planowanie jest wszystkim.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Przecinek zamykający zdanie podrzędne przed spójnikiem bez przecinka:
   `Dokument mówi, że cena jest niska, i liczy cenę.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim))
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim))
 - Człon, którego czasownik ten rejestr opuszcza:
   `Milczenie obejmuje wybór, a nie zdanie.`,
   `Warstwa pyta o Przyłączenie, czyli o obiekt składniowy.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze))
 - Spójnik stojący wewnątrz swojego zdania, a nie na jego czele:
   `Milczenie jest zatem wartością.`, `Reguła jest bowiem tania.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-wewnątrz-zdania-ma-jedną-pozycję-i-jedno-odczytanie))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-wewnątrz-zdania-ma-jedną-pozycję-i-jedno-odczytanie))
 - Ten sam spójnik na czele całego zdania, wiążący je z poprzednim:
   `I nikt tego nie zauważył.`, `Zatem milczenie jest wartością.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim))
 - Spójnik skorelowany, czyli powtórzony przed każdym członem,
   na poziomie zdaniowym i imiennym:
   `Ani parser nie rośnie, ani linter nie sprawdza.`,
   `Ani parser, ani linter nie rośnie.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem))
 - A colon opening a clause or a noun phrase,
   which is how this register introduces an explanation,
   and a semicolon or a dash separating two clauses:
   `Cena jest niska: gramatyka jest bezkontekstowa.`,
   `Gramatyka ma dwie role: podmiot i dopełnienie.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają))
 - Tryb przypuszczający, czyli czas przeszły z cząstką `by` za sobą:
   `Czytelnik nie odzyskałby ról.`, `Napisałbym program.`, `Zażądałem, by wyszedł.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#tryb-przypuszczający-jest-jedną-cząstką))
 - Czas przyszły w obu rolach formy `bedzie`:
   sama orzeka o podmiocie, a nad czasownikiem niedokonanym składa czas złożony —
   `Cena będzie niska.`, `Program będzie zapisywał ustawienia.`,
   `Program będzie zapisywać ustawienia.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
 - Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
   `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
 - Cząstka przy zdaniu i wewnątrz grupy imiennej:
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
   `Nawet ptaki przestały śpiewać.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę))
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła.
 - Nawias obok zdania składowego, czyli wtrącenie, którym ten rejestr dopowiada:
   `Zdanie stoi (docs/subset.md).`, `Cena jest niska (niżej).`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania))
 - The past tense, agreeing with the subject in gender as well as in number,
   and with the person clitic Morfeusz cuts off the form:
   `Program zapisywał ustawienia.`, `Napisałem program.`
-  What the form does to agreement is [konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)
+  What the form does to agreement is [konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)
 - A `że` clause as what a verb takes, which is a position in its frame
   rather than a construction beside the others:
   `Mieszkańcy grożą, że zablokują ulice.`
 - Okolicznik wyrażony zdaniem, przed swoim zdaniem i za nim:
   `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania))
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania))
 - A relative clause on a noun phrase, agreeing with it in number and gender,
   with the pronoun standing for the subject, for the object,
   for the object in the genitive its verb's frame demands
   (`cena, której żądamy`, `Kogo dotyczy zmiana?`,
-  [konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)),
+  [konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)),
   or under a fronted preposition together with the group it stands in:
   `Widoczny jest wzrost aspiracji społeczeństwa, które chce zdobywać wykształcenie.`,
   `ustawy, na podstawie której jest ono wydawane`
   The group carries the number and gender of the pronoun rather than of its own head,
   because it is the pronoun that agrees with the antecedent;
   the construction is argued
-  [konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)
+  [konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)
 - Zdanie względne z zaimkiem `co`, o poprzedniku zaimkowym albo zdaniowym,
   nad zdaniem składowym i nad całym ciągiem współrzędnym:
   `To, co mogło się zepsuć, jest tanie.`,
@@ -404,7 +404,7 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   `Bierzemy ostry zakręt, dzięki czemu unikamy zderzenia.`
   Rzeczownika ten zaimek za poprzednik nie bierze, i to jest cała różnica
   między nim a `który`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie))
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie))
 - Zdanie pytające o grupie imiennej na czole,
   w pozycji podmiotu, dopełnienia i wyrażenia przyimkowego:
   `Który aktor robi na tobie największe wrażenie?`, `Które zadania gmina wykonuje?`,
@@ -419,28 +419,28 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   Spójnika ono nie ma, bo podporządkowuje sam zaimek.
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat))
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat))
 - Łącznik `to` między dwiema grupami w mianowniku, czyli drugie zdanie bez czasownika:
   `Flaga to płat tkaniny określonego kształtu.`, `Parser to nie kompilator.`
   Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim))
 - Ten sam łącznik przy formie osobowej kopuli, w trzech szykach:
   `Był to nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.`
   Kopula zgadza się tu z podmiotem stojącym za łącznikiem,
   a przeczenie wchodzi tymi ciałami samo: `Parser to nie jest kompilator.`
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot))
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot))
 - Przysłówek u trzech gospodarzy: jako okolicznik zdania, w każdej pozycji, którą
   okolicznik ma (`Program zapisuje ustawienia szybko.`, `Teraz program zapisuje
   ustawienia.`), oraz jako określenie przymiotnika i drugiego przysłówka, gdzie
   stoi sam przysłówek stopniowany (`Koszt bardzo dużego pliku jest niski.`,
   `Program zapisuje ustawienia bardzo szybko.`).
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy))
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy))
 - Any number of prepositional adjuncts on one verb,
   because `postępować wobec innych w duchu braterstwa` has two
 - Prepositional phrases, with the preposition governing the case.
   One lemma stays out, by name: Morfeusz reads `a` as the preposition
   of `dwa bilety a pięć złotych`, which this register does not have
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru))
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru))
 - A prepositional phrase in front of the clause,
   which modifies the clause rather than any noun in it
 - An adjunct in every other position a prepositional phrase can follow
@@ -685,7 +685,7 @@ Wiersz kosztuje przez to tym więcej ciał, im więcej szyków go ma,
 i to jest w tej gramatyce cena jednego szyku więcej.
 Przysłówek dostaje każdą pozycję listy okoliczników za darmo,
 bo lista bierze go tak samo jak wyrażenie przyimkowe
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)),
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)),
 a pytanie kosztuje najwięcej, bo ma własne czoło i własne orzeczenie.
 Wiersz ostatni, czyli okolicznik po czasowniku,
 ma pozycję w każdym szyku, w którym czasownik stoi przed grupą imienną.
@@ -700,12 +700,12 @@ albo do imiesłowu, czyli `człon_przymiotnikowy → adj|ppas wyrażenie_przyimk
 Wchodzi też ciało, w którym `wyrażenie_przyimkowe` stoi
 za całym ciągiem współrzędnym,
 bo to samo wyrażenie mieści się zarazem pod członem ostatnim
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it)).
 Nie wchodzi `człon_imienny → subst wyrażenie_przyimkowe`, czyli naga głowa z okolicznikiem:
 jest to sama grupa imienna z wyrażeniem przyimkowym,
 a nie drugie miejsce, w którym to wyrażenie się mieści.
 Nie wchodzi z tego samego powodu `zdanie_składowe → orzeczenie_rzeczownikowe okoliczniki`,
-czyli [kopuła opuszczona](konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
+czyli [kopuła opuszczona](konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
 z okolicznikiem: rzeczownik orzekający grupą imienną nie jest,
 więc temu wyrażeniu nie ma tam do czego dojść poza zdaniem składowym.
 Granica jest wypisana dlatego, że liczba nad nią jest zapisana w dwóch dokumentach,
@@ -751,7 +751,7 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Grupa imienna stoi tu (niżej).` wyprowadza się
   i gdzie `Grupa imienna, która stoi (niżej), jest tania.` też,
   bo pozycje nawiasu są dwie i obie zamykają zdanie
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
 - Grupa imienna z elipsą głowy, czyli przydawka stojąca za rzeczownik,
   którego zdanie przed chwilą użyło:
   `Wszystkie obsadza jedna osoba.` jest odrzucone,
@@ -773,13 +773,13 @@ Every one of these is a sentence that gets rejected and should not be:
   `Program zapisuje ustawienia dla niego i niej.` jest odrzucone,
   gdzie `Program zapisuje ustawienia dla niego.` wyprowadza się,
   bo licencji udziela tej formie przyimek stojący przed nią
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)).
 - Two separating signs in one sentence, whether the same one twice or one of each.
   `Cena jest niska; gramatyka jest bezkontekstowa; parser jest tani.` is rejected
   where either half of it derives,
   and so is a sentence carrying a colon and a semicolon at once.
   Both signs stand at the level of the sentence
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
   and `zdanie` carries neither, so there is nothing to recurse through.
   What such a production would have to settle is what the second sign separates:
   `(A; B); C` and `A; (B; C)` are the same string
@@ -788,29 +788,29 @@ Every one of these is a sentence that gets rejected and should not be:
 - Para myślników, czyli wtrącenie w środku zdania:
   `Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
   jest odrzucone, gdzie ten sam znak pojedynczy rozdziela dwa zdania
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
   Ten rejestr pisze parę częściej niż znak pojedynczy,
   a pozycja, której ona żąda, jest wtrąceniem w środku zdania składowego,
   gdzie nawias stoi na jego końcu
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
 - Wypełnienie inne niż dopełnienie, wysunięte przed to, co orzeka bez podmiotu:
   `Czytać trzeba dokumenty.` jest odrzucone,
   gdzie `Usterkę zgłoszono.` wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
   `Programy trzeba czytać.` zostaje na zewnątrz z innego powodu:
   `programy` jest tam dopełnieniem bezokolicznika, a nie predykatywu,
   a dopełnienie wysunięte przed bezokolicznik, który je bierze,
   ma pozycję przy formie osobowej i tylko przy niej
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)).
 - Dopełnienie w celowniku wysunięte na czoło:
   `Komu parser odpowiada?` jest odrzucone,
   gdzie `Kogo dotyczy zmiana?` wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)).
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie)).
   Pozycja jest tam wypisana dopełniaczem, a nie wzięta z leksykonu całą listą,
   i tamta sekcja trzyma pomiar, który celownik zatrzymał.
 - Słowa, którymi ten rejestr pyta poza tymi, które już wchodzą
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
-  oraz [konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
+  oraz [konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):
   `jak`, `jaki`, `ile`, `dlaczego`.
   Pozycja ta stoi na tej liście inaczej niż pozostałe, bo zdania z nią nie padają:
   `Pyta, ile ta gramatyka kosztuje.` wyprowadza się,
@@ -825,25 +825,25 @@ Every one of these is a sentence that gets rejected and should not be:
   więc jest to kolejka konstrukcji, a nie jedna pozycja,
   a czoło dopisane pod którekolwiek z nich wejdzie zarazem w ciąg pytań
   i za dwukropek, bo obie te pozycje biorą ciąg cały
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
 - Pytanie o miejsce: `Gdzie są przetrzymywani zakładnicy?` jest odrzucone,
   gdzie `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.`
   wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)).
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)).
   Rolą wysuniętą jest tu okolicznik, a czoła pytań wysuwają podmiot,
   dopełnienie albo orzecznik, więc kształt jest inny niż tamtych trzech.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
   Cenę i warunek wejścia trzyma
-  [cyfry olski nie bierze](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
+  [cyfry olski nie bierze](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
   z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
 - Przeczenie przy łączniku `to`, w zdaniu bez czasownika i bez grupy przed łącznikiem:
   `To nie kot.` jest odrzucone,
   gdzie `Parser to nie kompilator.` wyprowadza się
   i gdzie `To nie są oczywistości.` też
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
   Pozycja jest osobnym ciałem i osobną liczbą, której nikt nie policzył;
   `todo/` trzyma ten przebieg.
 - Narzędnik bez przyimka wysunięty przed zdanie:
@@ -851,12 +851,12 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Wziął lustro wieczorem.` wyprowadza się.
   Pozycja ta jest zmierzona i odrzucona, bo zderza się z orzecznikiem wysuniętym
   przed kopulę
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
   więc wraca dopiero z cechą, która te dwa rozdzieli.
 - Liczebnik rządzący w orzeczniku:
   `Torów jest dwa.` jest odrzucone,
   gdzie `Tory są dwa.` wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
   Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
   więc jest to osobne ciało i osobna liczba, której nikt nie policzył;
   `todo/` trzyma ten przebieg.
@@ -864,11 +864,11 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Świeca zgasła.` wyprowadza się.
   Kopula wypadła z ciała, w którym przy czasowniku nic nie stoi,
   i wypadła po to, żeby narzędnik nie czytał się przy niej dwojako
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 - Człon bez czasownika wtrącony w środek zdania, a nie postawiony na jego końcu:
   `Skład, czyli Morfeusz, jest tani.` jest odrzucone,
   gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
   Pozycja jest jedna i stoi na końcu zdania składowego, tak samo jak pozycja
   nawiasu, a wtrącenie w środku jest osobnym ciałem i osobną liczbą,
   której nikt nie policzył; `todo/` trzyma ten przebieg.
@@ -882,7 +882,7 @@ Every one of these is a sentence that gets rejected and should not be:
 - Predykatyw postawiony za formą `bedzie`, a nie przed nią:
   `Będzie trzeba zmierzyć cenę.` jest odrzucone,
   gdzie `Trzeba będzie zmierzyć cenę.` wyprowadza się
-  ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem)).
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem)).
   Szyk odwrotny jest osobnym ciałem i osobną liczbą,
   której nikt nie policzył; `todo/` trzyma ten przebieg.
 

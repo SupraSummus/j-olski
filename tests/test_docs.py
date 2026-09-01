@@ -37,7 +37,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 DOCUMENTS = (
     sorted(ROOT.glob("*.md"))
-    + sorted((ROOT / "docs").glob("*.md"))
+    + sorted((ROOT / "docs").rglob("*.md"))
     + sorted((ROOT / "todo").glob("*.md"))
 )
 #: Every module the repository holds, because a citation rots wherever it
@@ -75,10 +75,16 @@ CITED_PATH = re.compile(
 O_USUNIĘTYM = "firing-rates.md"
 #: Rejestr otwartej roboty jest katalogiem, a nie plikiem, więc kod cytujący go
 #: nazywa katalog; ``todo/README.md`` jest jego nagłówkiem i cytuje się tak samo.
-CITED_DOCUMENT = re.compile(r"(?:docs/[\w-]+|CLAUDE)\.md(?:#[\w-]+)?|todo/(?:README\.md)?")
+#: Rejestr konstrukcji jest katalogiem wewnątrz ``docs/``, więc cytat z kodu
+#: nazywa plik w nim: sam katalog nie mówi, która warstwa jest właścicielem.
+CITED_DOCUMENT = re.compile(
+    r"(?:docs/[\w-]+(?:/[\w-]+)?|CLAUDE)\.md(?:#[\w-]+)?|todo/(?:README\.md)?"
+)
 #: An entry in the README's list of documents, which is the only place that
-#: puts a document on somebody's path.
-LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md)\]")
+#: puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
+#: więc wchodzi na tę listę tak jak dokument, a wiersz nazywa katalog:
+#: bez tego rejestr zszedłby ze ścieżki czytelnika i nic by nie czerwieniało.
+LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md|[\w-]+/)\]")
 HEADING = re.compile(r"(?m)^#+\s+(.*)$")
 #: Słowo, którym wskazanie mówi, w którą stronę przewijać. Kierunek jest
 #: własnością pary — wskazania i celu — a nie samego linku.
@@ -174,7 +180,9 @@ def test_every_document_cited_from_code_resolves(source: Path, target: str):
 
 def test_every_document_is_listed_in_the_readme():
     listed = set(LISTED_DOCUMENT.findall((ROOT / "README.md").read_text()))
-    assert {path.name for path in (ROOT / "docs").glob("*.md")} == listed
+    documents = {path.name for path in (ROOT / "docs").glob("*.md")}
+    registers = {f"{path.name}/" for path in (ROOT / "docs").iterdir() if path.is_dir()}
+    assert documents | registers == listed
 
 
 def test_the_checks_a_person_runs_are_the_checks_a_push_runs():

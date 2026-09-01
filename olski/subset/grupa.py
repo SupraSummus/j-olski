@@ -53,11 +53,11 @@ def _przydawka(grammar: Grammar) -> None:
     # dokładać ją do każdego ciała, w którym przymiotnik stoi, i stawia ją pod
     # przymiotnikiem, a nie obok rzeczownika, którego ten przysłówek nie określa.
     # Cenę tego gospodarza trzyma
-    # docs/konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
+    # docs/konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
     #
     # Przydawką jest tu także imiesłów, bo stoi on tam, gdzie przymiotnik, i zgadza
     # się tak samo; wywód i cenę trzyma
-    # docs/konstrukcje-gramatyczne.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik.
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik.
     # Imiesłowy dochodzą dwoma wierszami, a nie jednym terminalem o dwóch częściach
     # mowy, bo cena każdego z nich ma być osobną liczbą. Orzecznik bierze `ppas` i
     # nie bierze `pact`: `Reguła jest sięgająca.` nie jest zdaniem tego rejestru.
@@ -91,7 +91,7 @@ def _przydawka(grammar: Grammar) -> None:
     # Para symboli jest ta sama, co u grupy imiennej, i z tego samego powodu;
     # wywód trzyma docs/subset.md pod „Nothing above a coordination distributes
     # into it”, a cenę każdego ciała
-    # docs/konstrukcje-gramatyczne.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim.
     #
     # Ogon jest nierozdzielny, bo ciąg mieszany — `warstwy nowe i trzecia
     # i czwarta` — polszczyzną nie jest.
@@ -151,7 +151,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     #
     # Poprzednikiem jest tu terminal, a nie grupa imienna, bo zaimek rzeczowny
     # dopełniacza nie bierze
-    # (docs/konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
+    # (docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
     # i przydawki przed sobą nikt tu nie policzył. Lematy schodzą się z dwóch
     # deklaracji obok, zamiast stać trzecią listą, którą rozjeżdża dopisanie do
     # którejkolwiek z nich.
@@ -229,7 +229,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     # Ciała są dwa, po jednym na spójnik i na przecinek, bo spójnik w ciele jest
     # tym, co odróżnia je od `grupa_imienna → grupa_imienna wyrażenie_przyimkowe`;
     # czemu produkcja rekurencyjna nie wchodzi i ile ta pozycja kosztowała, trzyma
-    # docs/konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it.
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it.
     for spinacz in (SPÓJNIK_BEZ_PRZECINKA, PRZECINEK):
         grammar.rule(
             "grupa_imienna",
@@ -266,7 +266,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     # kształtu. Warunek stoi w deklaracji pary, a nie w każdym ciele, bo ciał z
     # dopełniaczem pod głową jest kilka, a rzeczownikiem odczasownikowym nie jest
     # żaden z tych zaimków i wykluczać tam nie ma czego;
-    # wywód i cenę trzyma docs/konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
+    # wywód i cenę trzyma docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem.
     for głowa, głowa_dopełniacza in (
         (
             word("subst", bez_lematu=ZAIMEK_PYTAJNO_RZECZOWNY, **AGREE),
@@ -347,7 +347,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     # `dwa`, a `dwadzieścia pięć chlebów` wedle `pięć`. Symbol jest łańcuchem o
     # głowie po prawej i od niej bierze `accommodability`; czego nie bierze i co
     # płaci, mówi
-    # docs/konstrukcje-gramatyczne.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu.
     grammar.rule("liczebnik", [word("num", accommodability=V("a"), **AGREE)])
     grammar.rule(
         "liczebnik",
@@ -382,14 +382,14 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     #
     # Ciało jest jedno, bo dopełniacz po rzeczowniku bierze produkcja wyżej.
     # Co ta pozycja kosztuje, mierzy
-    # docs/konstrukcje-gramatyczne.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem.
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem.
     grammar.rule(
         "człon_imienny", [ZAIMEK_DZIERŻAWCZY, Głowa(nt("człon_imienny", **AGREE))], person="ter"
     )
 
     # Cząstka przed grupą imienną, czyli jej gospodarz drugi: `Nawet ptaki przestały
     # śpiewać.` Kurs, po którym weszła, trzyma
-    # docs/konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
+    # docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
     #
     # Córką lewą jest terminal, a nie symbol :data:`CZĄSTKA_ZDANIA`: etykieta roli
     # mówiłaby o zdaniu, że ma cząstkę zdania, a ta stoi w grupie.
@@ -453,7 +453,7 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # przy przymiotniku: `tu szybko` nie jest niczym. Bez tej pozycji `bardzo`
     # dochodziło do zdania na równi z `szybko`, czyli zdanie przyjęte mówiło o
     # sobie nieprawdę, a kurs, po którym ta pozycja weszła, trzyma
-    # docs/konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
+    # docs/konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy.
     #
     # Córka prawa jest tym samym symbolem, a nie słowem, bo `wyjątkowo bardzo
     # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała
@@ -491,7 +491,7 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # płaci zdanie z kopulą: `Parser jest narzędziem.` ma odtąd dwa wyprowadzenia,
     # bo grupa w narzędniku stoi w nim raz orzecznikiem, a raz okolicznikiem.
     # Ile takich zdań traci przez to jednoznaczność, mierzy
-    # docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
+    # docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika.
     grammar.rule(OKOLICZNIK_NARZĘDNIKOWY, [nt("grupa_imienna", case="inst")])
 
     grammar.rule(SPÓJNIK, [SPÓJNIK_WEWNĘTRZNY])

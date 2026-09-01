@@ -47,7 +47,7 @@ GRUPA_PYTAJNA = "grupa_pytajna"
 #: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
 #: więc bez tej etykiety wychodziłoby `valid` bez ani jednej roli.
 #: Czemu rola stoi obok orzecznika, a nie jest nim, wywodzi
-#: docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat.
+#: docs/konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat.
 ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 
 
@@ -56,7 +56,7 @@ ORZECZENIE_RZECZOWNIKOWE = "orzeczenie_rzeczownikowe"
 #: Symbol jest osobny od :data:`ORZECZENIE_RZECZOWNIKOWE`, bo tamten czyni zdaniem każdą swoją
 #: córkę, a tutaj czyni je dopiero łącznik stojący za tą grupą; czemu grupa ta
 #: stoi po tej stronie łącznika, mówi
-#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
 ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 
 
@@ -66,7 +66,7 @@ ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 #: tym, co składnia szkolna nazywa orzecznikiem”. Wewnątrz gramatyki nazwa ta
 #: znaczy pozycję schematu, czyli to, co bank drzew woła `subj` i co stawia
 #: także tam, gdzie podmiotu nie ma; wywód i liczby trzyma
-#: docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
 #: Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem, więc żadnej
 #: liczby nad bankiem drzew nie rusza i ruszyć nie może.
 NAZWY_SZKOLNE = {
@@ -84,8 +84,8 @@ NAZWY_SZKOLNE = {
 #: którego ono nie ma, a `orzeczenie: zgłoszono` dałoby `Zgłoszono program.` podmiot
 #: `program`, bo cechy, której konstytuent nie niesie, unifikacja nie sprawdza.
 #: Co wpuszczenie każdej z tych dwóch głów kosztuje, mierzą
-#: docs/konstrukcje-gramatyczne.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
-#: docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
 ORZECZENIE_BEZOSOBOWE = "orzeczenie_bezosobowe"
 
 
@@ -110,7 +110,7 @@ CZĄSTKA_ZDANIA = "cząstka_zdania"
 #: Od orzecznika narzędnikowego różni ją to, kto jej udziela licencji:
 #: orzecznika żąda ramą kopula, a okolicznik stoi przy każdym czasowniku
 #: i przy żadnym nie wypełnia pozycji
-#: (docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
+#: (docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
 OKOLICZNIK_NARZĘDNIKOWY = "okolicznik_narzędnikowy"
 
 

@@ -287,7 +287,7 @@ a resztę zostawia bez nazwy.
 Zdanie, które to pokazuje, jest wyliczeniem siedmiu grup imiennych
 spiętych przecinkiem i spójnikiem —
 `ministrów, sekretarzy stanu i podsekretarzy stanu, …` —
-a olski bierze [współrzędność na czterech poziomach](konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it),
+a olski bierze [współrzędność na czterech poziomach](konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it),
 więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
 Wiersza ciąg nie dostaje, bo granicę członu pokazuje nawias w napisie roli
 ([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
@@ -389,8 +389,8 @@ Formy z czoła tego rankingu grupują się w trzy klasy:
 
 Klasa przysłówkowa stała w tej tabeli piąta, a klasa spójników podrzędnych druga.
 Obie zeszły z niej razem z produkcjami, które te formy wzięły
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy),
-[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy),
+[konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)).
 Została po pierwszej klasa cząstek, którą kolejka liczyła razem z nią,
 a Morfeusz rozdziela: `także` i `również` są w nim cząstkami, a nie przysłówkami,
 więc produkcja przysłówka po nie nie sięga i nie miała sięgać.
@@ -436,7 +436,7 @@ a drugą połowę jego wyprowadzenia daje
 [pozycja z obiema przydawkami](#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa).
 Zdania pytającego ten rejestr nie ma ani razu, więc ta połowa konstrukcji nie rusza tu nic.
 
-[Grupa liczebnikowa](konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+[Grupa liczebnikowa](konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
 przenosi nad tymi siedmioma aktami pojedyncze zdania,
 a pojedyncze z nich przechodzą aż na przyjęte.
 Zakupu nie ma tu więcej dlatego, że ten rejestr liczebnika nie pisze słowem.
@@ -444,7 +444,7 @@ Pisze go cyfrą, a cyfra stoi w tym rankingu na miejscach 3, 5, 6, 10 i 13
 (`1` 612, `2` 380, `3` 319, `5` 175, `4` 166),
 czyli wyżej niż cokolwiek, co gramatyka mogłaby dopisać jedną produkcją.
 Cyfry olski nie bierze i dlaczego, mówi
-[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii):
+[konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii):
 to jest ta połowa klasy, której ten rejestr używa,
 i przypada ona razem z aparatem odsyłaczowym, w którym te same cyfry stoją.
 
@@ -468,7 +468,7 @@ Dwie formy, którymi klasa przysłówkowa prowadziła w rankingu —
 a przysłówek zdjął stąd kilkadziesiąt zdań z listy odrzuconych,
 więc kolejka tego rejestru zawyża mocniej niż kolejka ze Składnicy,
 gdzie wiersz `adv` oddał prawie jedną trzecią tego, co obiecywał
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)).
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)).
 Powód widać w tym rankingu wyżej:
 trafienie liczy formę, a zdanie ustawy niesie ich kilka,
 i przysłówek stoi w nim obok odsyłacza,
@@ -477,7 +477,7 @@ która zdania nie wypuszcza tak czy tak.
 Ta sama arytmetyka rządzi czasownikiem nieosobowym:
 prawodawca pisze tę formę w ustawach 90 razy i w rozporządzeniu 35,
 a zdania z nią niosą także odsyłacz, cyfrę albo wyliczenie
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
 
 Grupa wysunięta razem z zaimkiem względnym rusza w każdym z dwóch tekstów
 tego rejestru inną ze swoich dwóch pozycji,
@@ -493,7 +493,7 @@ Trybem przypuszczającym ten rejestr warunku nie zapisuje:
 `aby` pisze prawodawca kilkadziesiąt razy, prawie zawsze z bezokolicznikiem
 po `tak` albo `w taki sposób`, a zdania z nim niosą także co innego
 i wychodzą odrzucone przed dopisaniem cząstki trybu i po nim
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką)).
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#tryb-przypuszczający-jest-jedną-cząstką)).
 
 Wszystkie te dopisania mówią o kolejce jedno:
 wskazuje ona konstrukcje trafnie i wyceniać ich nie umie,
@@ -542,7 +542,7 @@ pozycja z dopełniaczem dokładała ostatni brakujący kawałek wyprowadzenia,
 a resztę dawała koordynacja przecinkiem, którą gramatyka miała bez podrzędności.
 Werdykt jednoznaczny nad zdaniem przeczytanym na opak jest najgorszym,
 jaki olski wydaje, i zdjął go
-[warunek na zaimek względny](konstrukcje-gramatyczne.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
+[warunek na zaimek względny](konstrukcje-gramatyczne/podrzędność.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku),
 po którym zdanie było odrzucone i z tą pozycją, i bez niej.
 Dziś wyprowadza się raz i wyprowadza się tak, jak je czyta czytelnik,
 bo gramatyka ma [pytanie zależne](subset.md#what-the-grammar-covers),

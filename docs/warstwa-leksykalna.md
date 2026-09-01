@@ -4,7 +4,7 @@ Co olski bierze za słowo, których odczytań słownika nie bierze wcale
 i czego czasownik żąda wedle leksykonu walencyjnego.
 Każde z tych rozstrzygnięć orzeka o produkcji, której jeszcze nikt nie napisał,
 więc stoi tu, a nie przy konstrukcji, którą akurat obsługuje
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md)).
+([konstrukcje-gramatyczne/](konstrukcje-gramatyczne/README.md)).
 Czym jest ważność i co mówi odrzucenie, wykłada [subset.md](subset.md).
 
 ## The dictionary offers readings Polish does not
@@ -94,7 +94,7 @@ Kupić nie ma czego, bo taka para nie jest dwoma odczytaniami:
 [odczytanie jest swoim kształtem](subset.md#co-się-liczy-jako-jedno-odczytanie),
 a nazwisko i rzeczownik pospolity stają w tym samym miejscu tego samego drzewa.
 Drugie czytanie tego zdania robił zaimek rzeczowny,
-którego dopełniacza [gramatyka nie bierze](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
+którego dopełniacza [gramatyka nie bierze](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem),
 i to jest ta różnica, przy której kryterium na wielką literę
 mierzyło coś, czego nie było.
 Klasa kosztuje więc trafność, a nie jednoznaczność,
@@ -204,10 +204,10 @@ Czytanie, które daje tym formom czytelnik, jest przy tym w słowniku,
 a wygrywa czytanie obok niego, bo tamtego nie licencjonuje żadna produkcja:
 zaimka zwrotnego gramatyka nie ma wcale,
 `co` poza pytaniem i zdaniem względnym nie ma pozycji rzeczownej
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
 a liczebnik za rzeczownikiem nie ma ciała,
 bo grupa liczebnikowa stawia go przed nim
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)).
 Widać to na tym samym zdaniu z liczebnikiem przestawionym:
 `Wszystko wyżej pyta o zdanie, po którym zostaje kilka czytań.`
 jest wieloznaczne i `Wszystko` jest w nim podmiotem.
@@ -453,7 +453,7 @@ a `sobie` i `sobą` są w prozie technicznej zaimkiem i niczym więcej.
 Znamienia formalnego, które by ją od zaimka odróżniło, nie ma,
 więc nie ma tu czego wyprowadzić i zostaje deklaracja.
 Krawędź wolno temu kierunkowi opróżnić,
-tak samo jak wolno [formie przyimkowej zaimka](konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą):
+tak samo jak wolno [formie przyimkowej zaimka](konstrukcje-gramatyczne/grupa-imienna.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą):
 projekt, który mówi, że słowa nie używa, mówi to także o zdaniu,
 w którym stoi ono samo, i werdykt nazywa wtedy formę bez licencji.
 
@@ -483,7 +483,7 @@ kryterium na `soba` [zmierzono i odrzucono](#każde-szersze-kryterium-zmierzono-
 wraz z każdym innym, które szło dalej niż dzisiejsze.
 
 Poza deklaracją zostaje warunek pytający o sąsiada.
-[Forma przyimkowa zaimka](konstrukcje-gramatyczne.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)
+[Forma przyimkowa zaimka](konstrukcje-gramatyczne/grupa-imienna.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)
 i cząstka zwrotna tracą czytanie przez to, gdzie stoją,
 a nie przez to, czym są, więc lemat o nich nie orzeka
 i wiersz na `on` nie uchyliłby ani jednego z tych dwóch warunków.
@@ -729,7 +729,7 @@ którym odmawia go Walenty, przyjmuje nad Składnicą dwa zdania mniej
 i nie kupuje za to ani jednej jednoznaczności.
 Po stronie zwrotnej to samo zawężenie kupuje jednoznaczność każdemu zdaniu,
 w którym cząstka stoi między formą osobową a bezokolicznikiem
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 bo tam pozycja bezokolicznikowa jest tym, co dokłada odczytanie drugie.
 Ta sama pozycja ramy kosztuje więc po jednej stronie, a po drugiej płaci,
 i rozdziela je nie lemat, tylko to, czy cząstka przy nim stoi.
@@ -790,7 +790,7 @@ Leksykon zamyka tyle, ile mówi, i widać to na zdaniu, które go doczekało.
 bo bez niego liczebnik dopisany do gramatyki dałby temu zdaniu dwa czytania,
 a nie jedno: `dwie rzeczy` jest mianownikiem i biernikiem naraz,
 a zdanie bez podmiotu bierze dopełnienie.
-Wpis stoi, [grupa liczebnikowa](konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
+Wpis stoi, [grupa liczebnikowa](konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)
 też stoi, i zdanie wychodzi jednym czytaniem.
 Leksykon kupił tu więc jednoznaczność, a nie pokrycie,
 i widać to dopiero z produkcją, której wtedy nie było.
@@ -887,7 +887,7 @@ bo celownik stoi w polszczyźnie i przy czasowniku, który go w ramie nie ma:
 ([niżej](#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem)).
 Zajmują przy tym tę samą pozycję ramy, co dopełnienie w bierniku,
 a różni te produkcje sam przypadek grupy, która tę pozycję wypełnia,
-tak samo jak różni je [dopełniacz negacji](konstrukcje-gramatyczne.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
+tak samo jak różni je [dopełniacz negacji](konstrukcje-gramatyczne/orzeczenie.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
 
 Przeczenie tych dwóch pozycji nie rusza i ruszać nie ma czego:
 dopełniacz negacji wchodzi w miejsce biernika i tam kończy się jego zasięg,
@@ -976,7 +976,7 @@ i tym różni się od [dopełnienia w celowniku](#leksykon-licencjonuje-dopełni
 które tę pozycję wypełnia samo.
 Pozycja ta jest przez to faktem o wpisie leksykonu, a nie konstrukcją obok innych,
 i dlatego stoi tutaj, a nie w
-[konstrukcjach](konstrukcje-gramatyczne.md): licencji udziela jej schemat Walentego,
+[konstrukcjach](konstrukcje-gramatyczne/README.md): licencji udziela jej schemat Walentego,
 a nie ciało napisane ręką.
 
 ```sh

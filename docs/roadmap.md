@@ -161,7 +161,7 @@ Pokrycie wyszło więc skutkiem, dokładnie tak, jak ten kierunek mówi,
 
 Zaimki `kto` i `co` są pierwszym dopisaniem, po którym pokrycie spadło,
 i mówią o tym kierunku to, czego tamten przykład nie mówi
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Zdania z nimi wyprowadzały się przedtem ciągiem współrzędnym,
 czyli czytaniem, którego polszczyzna nie ma,
 a pokrycie liczyło każde z nich jako sukces.
@@ -508,7 +508,7 @@ Połowa tej klasy jest zamknięta i zamknęła się nie tam, gdzie ten etap patr
 Formy paradygmatu `ten` niosły to czytanie licznie,
 a zdejmuje je nie wykluczenie w słowniku, tylko warunek w produkcji:
 zaimek rzeczowny nie rządzi dopełniaczem
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)).
 Czytanie, którego polszczyzna nie ma, wolno więc odebrać dwiema drogami,
 i tańsza bywa ta, która pyta nie o to, co słownik oferuje,
 ale o to, co produkcja licencjonuje.
@@ -573,7 +573,7 @@ Zdejmuje je warunek na lemat, a nie produkcja:
 zaimek względny nie jest przymiotnikiem przy rzeczowniku,
 więc `które zadania własne gminy` przestaje być grupą imienną
 i nie ma czym być podmiotem zdania po przecinku
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku)).
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimek-względny-nie-jest-przymiotnikiem-przy-rzeczowniku)).
 Nad rejestrem ustaw to jedno zdanie policzone jako przyjęte przestaje nim być
 ([ustawy.md](ustawy.md#gramatyka-bierze-termin-z-dopełniaczem-bo-ten-rejestr-go-nazywa)),
 więc etap zdjął werdykt błędny, zanim dołożył nowe.
@@ -588,7 +588,7 @@ Zdanie dopełnieniowe z `że` i zdanie względne z `który` wyprowadzają się
 i pod złotą morfologią nie odbierają Składnicy ani jednego zdania przyjętego,
 a zdanie z `które` wychodzi odrzucone zamiast współrzędnego;
 wywód trzyma
-[konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
+[konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja).
 Pokrycie nad README nie ruszyło się o ani jedno zdanie
 i mówi to o pomiarze nad tym plikiem więcej niż o podrzędności:
 zdania tego pliku, które na podrzędności stały, stoją także na przysłówku,
@@ -624,7 +624,7 @@ dopóki `a` czyta się jako przyimek rządzący mianownikiem,
 a warunek, który to czytanie odbiera, sam odbiera zdanie README —
 i to samo zdanie wraca z tą parą, z trzema czytaniami w miejsce trzech,
 tylko że prawdziwymi
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
 Para ta kupuje więc prawdę o zdaniu,
 a prawdy nie liczy ani pokrycie, ani lista zdań wieloznacznych.
 
@@ -639,7 +639,7 @@ Tak samo `o którym mowa` obiecuje w rejestrze ustaw 851 wystąpień,
 a oddaje przeszło o dwa rzędy wielkości mniej,
 bo prawodawca pisze ten zwrot razem z adresem przepisu,
 a cyfry olski nie bierze
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 Rejestr rozstrzyga zarazem, którą pozycję konstrukcji pomiar w ogóle zobaczy.
 Grupa wysunięta ma dwie, pod przyimkiem i bez niego,
 a rozporządzenie odpowiada tylko na pierwszą, siedem ustaw tylko na drugą,
@@ -696,7 +696,7 @@ Co dopisanie konstrukcji robi z wierszami tej kolejki, opisuje
 Cyfra jest przy tym osobną pozycją, a nie resztą liczebnika:
 zdejmie ją warstwa nad morfologią, a nie produkcja,
 bo `dig` nie niesie ani przypadka, ani liczby
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
 
 Lista ta ma trzy źródła i pierwszym z nich nie jest kolejka.
 Człon bez czasownika wtrącony w środek zdania
@@ -704,7 +704,7 @@ i nazwa postawiona przy rzeczowniku bez spójnika weszły na nią z przebiegu na
 która ten rejestr pisze, czyli jako zdania odrzucone, a nie jako wiersz częstości.
 Trzecim jest tor składu: wysunięty narzędnik stoi na tej liście dlatego,
 że legenda o bazyliszku go wypisuje, a gramatyka go nie bierze
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Wszystkie trzy pozycje są przy tym kształtem, a nie formą,
 więc kolejka blokerów nie widzi ich w ogóle
 ([ustawy.md](ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)),
@@ -718,9 +718,9 @@ tak stoją `pcon` oraz `siebie` — bo wiersz taki jak `interp` albo `part`
 grupuje po kilka i dopiero czytanie form mówi, o którą idzie.
 Czytanie po części mowy nie stawia na tej liście nic,
 bo wpuszczone są wszystkie trzy pozycje, które nazwało:
-[imiesłów przysłówkowy](konstrukcje-gramatyczne.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem),
-[zaimek `siebie`](konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)
-oraz [czas przyszły predykatywu](konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem),
+[imiesłów przysłówkowy](konstrukcje-gramatyczne/okolicznik.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem),
+[zaimek `siebie`](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)
+oraz [czas przyszły predykatywu](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem),
 czyli resztka wiersza, którego czas przyszły nie opróżnił do końca.
 Wiersze tych trzech w kolejce zostają
 ([corpus.md](corpus.md#where-the-analyses-stop)),
@@ -751,7 +751,7 @@ zysk wypada na ułamek tego, co obiecywała, a cena bywa poza nią.
 Czas przeszły stał w tej kolejce pierwszy, a kolejka nazywała go
 najtańszym dużym zyskiem;
 zapłacił on rodzajem wchodzącym do każdego szyku zdania
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
 czego kolejka nie widziała i widzieć nie mogła.
 
 Zmierzone są tym samym wiersze tej kolejki:
@@ -761,7 +761,7 @@ a `adv` oraz `imps` niemal jedną trzecią,
 więc przelicznik wychodzi trzy- do pięciokrotnego.
 Wypadł z niego dopiero `bedzie` i wypadł w drugą stronę niż `comp` niżej:
 czas przyszły oddał więcej, niż przelicznik obiecywał
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
 Żadne z tych dopisań nie rusza osobno pokrycia nad README.
 Każda z tych par jest przy tym wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
 bo obietnicą jest wiersz kolejki liczony wtedy, gdy konstrukcji jeszcze nie ma,

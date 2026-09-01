@@ -68,7 +68,8 @@ def _wydruki() -> list:
     Lista wypisana ręką pomija blok dopisany później i nie mówi o tym ani słowem.
     """
     znalezione = []
-    for ścieżka in [ROOT / "README.md", *sorted((ROOT / "docs").glob("*.md"))]:
+    # Rekurencyjnie, bo rejestr konstrukcji jest katalogiem i wydruki w nim ma.
+    for ścieżka in [ROOT / "README.md", *sorted((ROOT / "docs").rglob("*.md"))]:
         bloki = _ogrodzone(ścieżka.read_text(encoding="utf-8"))
         # blok poleceń stoi nad wydrukiem, a rozdziela je jeden wiersz pusty
         nad = {blok.zamknięcie + 2: blok for blok in bloki if blok.rodzaj == "sh"}

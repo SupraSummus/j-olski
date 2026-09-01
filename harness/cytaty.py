@@ -49,10 +49,12 @@ def domyślne() -> list[Path]:
     Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
     ``docs/`` albo do ``todo/`` wszedł tu sam; ten sam zbiór bierze
     ``tests/test_docs.py``.
+    Rejestr konstrukcji jest katalogiem w ``docs/``, więc zejście tam jest
+    rekurencyjne: bez tego odcisk minąłby cały ten rejestr.
     """
     return (
         sorted(KORZEŃ.glob("*.md"))
-        + sorted((KORZEŃ / "docs").glob("*.md"))
+        + sorted((KORZEŃ / "docs").rglob("*.md"))
         + sorted((KORZEŃ / "todo").glob("*.md"))
     )
 

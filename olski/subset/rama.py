@@ -71,7 +71,7 @@ RAMA_BEZ_BIERNIKA = RAMA_DOMYŚLNA - {"acc"}
 #: Po stronie niezwrotnej pozycja ta zostaje w ramie domyślnej, bo tam konkurencji
 #: nie ma i zawężenie zmierzono: nie kupiło ani jednego drugiego czytania
 #: (:data:`RAMA_DOMYŚLNA`). Cenę odjęcia zwrotnego trzyma
-#: docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika.
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 RAMA_DOMYŚLNA_ZWROTNA = RAMA_DOMYŚLNA - {"inf"}
 
 
@@ -245,7 +245,7 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     ``Cena się jest niska.`` się wyprowadza, a ``być się`` czasownikiem nie jest.
     Lematu ``zostać`` odmowa ta nie tyka, bo leksykon zwrotny go wymienia i klasa
     domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
-    docs/konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika.
+    docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 
     Klasa ramy dzieli się na dwie tam, gdzie leksykon daje części jej lematów
     drugą pozycję (:data:`DRUGA_CELOWNIK`), a klasa domyślna drugiej pozycji nie
@@ -307,7 +307,7 @@ def _formy_skończone(
     Głową jest czasownik, a nie ``bedzie``, bo rama należy do czasownika
     i po nim werdykt nazywa gospodarza przyłączenia.
     Polszczyznę i cenę trzyma
-    docs/konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony.
+    docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony.
 
     Głowa stoi w każdym ciele, także w tym o jednej części: ciało wychodzi
     stąd do produkcji zwrotnej, która dopisuje mu cząstkę ``się``, a ciało o

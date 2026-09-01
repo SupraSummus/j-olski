@@ -72,7 +72,7 @@ obok czytań bez nawiasu — a werdykt streszcza las, a nie czytanie,
 więc kryterium przeniesione wprost nie ma gdzie stanąć.
 Do przeczytania jest przedtem, ile z tych dziesięciu zdań czyta się naprawdę dwojako,
 bo ciąg trzech członów ma w tej gramatyce kilka nawiasowań o jednym znaczeniu
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it)),
 a wtedy ruchem jest sygnatura czytania, a nie wiersz werdyktu.
 Dwa są przeczytane i wypadły po jednym na stronę:
 zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
@@ -122,7 +122,7 @@ Przed nim jest pozycją schematu, czyli tym, co bank drzew woła `subj`
 i co stawia 170 razy na cząstce `się`, gdzie podmiotu nie ma;
 za nim jest funkcją zdaniową, bo `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`
 przekłada role zdania z łącznikiem na nazwy składni szkolnej
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
 Użytkownika to nie kosztuje nic, a następnego programistę kosztuje ten sam wniosek,
 od którego zaczęła się cała ta sprawa: czyta `find("podmiot")` po polsku
 i bierze pozycję schematu za funkcję zdaniową.
