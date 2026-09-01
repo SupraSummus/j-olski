@@ -73,7 +73,7 @@ python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator
 <text>: ambiguous Operator zgłosił awarię w systemie.
                   2 odczytania, różne w roli: dopełnienie; „w systemie” → „zgłosił”, „awarię”
                   ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
-olskie: 0 z 2 zdań; z odczytaniem: 2
+zdań: 2; wieloznaczne: 2; bez odczytania: 0
 ```
 
 Dowodem jest powtórzenie, a nie znajomość rzeczy.

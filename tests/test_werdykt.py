@@ -170,7 +170,7 @@ def test_niedomknięte_stoi_poza_mianownikiem_tak_samo_jak_fragment():
     ekstrakcję.
     """
     podsumowanie = Podsumowanie.z_werdyktów(check("Cena jest niska\n\nZapisz plik."))
-    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 1)
+    assert (podsumowanie.zdań, podsumowanie.bez_odczytania) == (1, 0)
     assert podsumowanie.fragmentów == 1
 
 
@@ -189,5 +189,5 @@ def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
     podsumowanie = Podsumowanie.z_werdyktów(
         check("Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia.")
     )
-    assert (podsumowanie.olskie, podsumowanie.zdań) == (1, 2)
-    assert (podsumowanie.z_czytaniem, podsumowanie.fragmentów) == (1, 1)
+    assert (podsumowanie.zdań, podsumowanie.bez_odczytania) == (2, 1)
+    assert (podsumowanie.wieloznaczne, podsumowanie.fragmentów) == (0, 1)

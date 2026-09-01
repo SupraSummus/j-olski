@@ -1,8 +1,8 @@
-"""Werdykt o zdaniu: status wraz z tym, co autor ma poprawić.
+"""Werdykt o zdaniu: status wraz z tym, co autor ma przeczytać.
 
-Werdykt mówi o zdaniu więcej niż sam status, bo autor ma je poprawić.
-Zdanie o dwóch odczytaniach nie jest olskie
-(docs/subset.md#validity-is-uniqueness-not-just-derivability),
+Werdykt mówi o zdaniu więcej niż sam status, bo autor ma na niego zareagować.
+Zdanie o dwóch odczytaniach jest znaleziskiem
+(docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
 a :meth:`Verdict.explain` pokazuje, gdzie te odczytania się rozchodzą;
 zdanie odrzucone dostaje miejsce, na którym rozbiór stanął,
 a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
@@ -511,20 +511,23 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
 
 @dataclass(frozen=True)
 class Podsumowanie:
-    """Ile zdań tekstu jest olskich, dla tego, kto pyta o cały tekst.
+    """Znaleziska nad tekstem i to, o czym olski milczy, dla tego, kto pyta o cały tekst.
 
     Liczby te wychodzą z werdyktów jedną regułą — fragment nie jest zdaniem, więc
-    nie wchodzi do mianownika, a zdanie odrzucone nie ma czytania — i pyta o nie
-    więcej niż jeden wołający, więc policzone u każdego z nich rozjeżdżają się po
-    cichu: mianownik mniejszy o fragment czyta się jak pomiar, a nie jak pomyłka.
+    nie wchodzi do mianownika, a zdanie odrzucone nie jest znaleziskiem — i pyta
+    o nie więcej niż jeden wołający, więc policzone u każdego z nich rozjeżdżają
+    się po cichu: mianownik mniejszy o fragment czyta się jak pomiar, a nie jak
+    pomyłka.
     """
 
-    #: Zdania, którym gramatyka daje dokładnie jedno czytanie, czyli zdania olskie.
-    olskie: int
     #: Zdania, czyli to, o czym werdykt orzeka: fragmentów nie ma tu ani w liczniku.
     zdań: int
-    #: Zdania, którym gramatyka daje przynajmniej jedno czytanie.
-    z_czytaniem: int
+    #: Zdania o kilku odczytaniach, czyli znaleziska.
+    wieloznaczne: int
+    #: Zdania, których gramatyka nie wyprowadza. Olski o nich milczy, a milczenie
+    #: liczy się osobno, bo bez tej liczby przebieg nad tekstem, którego nie
+    #: przeczytał, czytałby się jak czysty.
+    bez_odczytania: int
     #: Napisy, których nic nie interpunkuje jako zdania. Liczba jest jedna na oba
     #: werdykty o takim napisie, :data:`FRAGMENT` i :data:`NIEDOMKNIĘTE`, bo o
     #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
@@ -534,18 +537,18 @@ class Podsumowanie:
     def z_werdyktów(cls, werdykty: Sequence[Verdict]) -> Podsumowanie:
         zdania = [verdict for verdict in werdykty if verdict.punktowane]
         return cls(
-            olskie=sum(verdict.result.valid for verdict in zdania),
             zdań=len(zdania),
-            z_czytaniem=sum(not verdict.result.rejected for verdict in zdania),
+            wieloznaczne=sum(verdict.result.ambiguous for verdict in zdania),
+            bez_odczytania=sum(verdict.result.rejected for verdict in zdania),
             fragmentów=len(werdykty) - len(zdania),
         )
 
     def explain(self) -> str:
-        #  Wiersz jest listą par, a nie zdaniem: liczba na końcu członu nie żąda
-        #  zgody od słowa przed sobą, więc odmienia się tu jedno słowo, a nie każde.
-        zdań = "zdania" if self.zdań == 1 else "zdań"
+        #  Wiersz jest listą par, a nie zdaniem: liczba stoi za dwukropkiem, więc
+        #  nie żąda zgody od słowa przed sobą i nic tu się nie odmienia.
         podsumowanie = (
-            f"olskie: {self.olskie} z {self.zdań} {zdań}; z odczytaniem: {self.z_czytaniem}"
+            f"zdań: {self.zdań}; wieloznaczne: {self.wieloznaczne};"
+            f" bez odczytania: {self.bez_odczytania}"
         )
         if self.fragmentów:
             #  Nie „fragmenty, które nie są zdaniami”: napis niedomknięty jest w tej

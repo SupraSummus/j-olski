@@ -79,7 +79,7 @@ Dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać.
 Jest nią to,
-[dlaczego zdanie jest olskie dopiero przy jednym odczytaniu](subset.md#validity-is-uniqueness-not-just-derivability).
+[dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
 
 Drugie wejście tej roli jest w przeglądarce i prowadzi do tego samego werdyktu.
 Witryna woła tę samą gramatykę.
@@ -186,7 +186,7 @@ Widać to po tabelach, które mają datowane pochodzenie.
 
 ## Czytelnik toru gramatycznego
 
-Pyta, co olski parsuje i dlaczego zdanie jest olskie dopiero przy jednym odczytaniu.
+Pyta, co olski parsuje i dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem.
 Wchodzi w [subset.md](subset.md), a dalej w [design-notes.md](design-notes.md)
 po drabinę kosztów i po urwisko nieciągłości.
 Sąsiedztwo tego toru opisują [swigra.md](swigra.md),

@@ -354,8 +354,8 @@ Osobne jest pytanie, co olski dostaje, gdy go weźmie, i odpowiedź jest ujemna.
 Ranking zamienia werdykt `ambiguous` na `valid` wraz z domysłem.
 Zdanie, o którym parser dziś mówi „dwa czytania, oto one”,
 mówiłoby wtedy „jedno czytanie”, i myliłoby się co trzecie albo co czwarte.
-Własność, która czyni olskiego podzbiorem, jest właśnie tym, że tego nie robi
-([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)),
+Werdykt olskiego jest właśnie tym, że tego nie robi
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
 a odrzucenie konwencji SVO i odrzucenie domyślnego przyłączenia
 stały na tym samym zarzucie z liczbą pod spodem:
 konwencja, która myli się dwa razy częściej, niż trafia,
@@ -587,7 +587,7 @@ python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
 <text>: valid     Znam go.
                   jedno odczytanie
                   - dopełnienie: go, orzeczenie: Znam
-olskie: 2 z 2 zdań; z odczytaniem: 2
+zdań: 2; wieloznaczne: 0; bez odczytania: 0
 ```
 
 Pierwsze zdanie mówi raz, że wynajmuję komuś swoje mieszkanie,
@@ -807,7 +807,7 @@ i to jest materiał, który da się położyć przed kimś, kto o gramatyce nie 
 
 Populację pod taki pomiar liczą już dwa miejsca.
 Ile zdań rejestru niesie pozycję dwuznaczną, mierzy
-[open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma),
+[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik),
 a ile ich niesie werdykt, mierzy tabela wyżej.
 Czego brakuje między nimi, to sąd nad parą,
 i dwadzieścia cztery zdania przeczytane raz jedną ręką

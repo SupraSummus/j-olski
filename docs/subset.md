@@ -8,58 +8,77 @@ and what olski takes for a word is in
 [warstwa-leksykalna.md](warstwa-leksykalna.md).
 For the theory behind the track, see [design-notes.md](design-notes.md).
 
-## Validity is uniqueness, not just derivability
+## Wieloznaczność jest znaleziskiem, a nie definicją olskiego
 
-A sentence is olski when it has **exactly one** reading.
-Not at least one.
+Zdanie jest olskie, gdy gramatyka je wyprowadza.
+Narzędzie nad tą gramatyką sprawdza zdania polskiego tekstu
+i zgłasza autorowi znaleziska.
+Wieloznaczność jest jednym z nich i jedynym, które narzędzie zgłasza:
+zdanie o kilku odczytaniach różnego kształtu
+([niżej](#co-się-liczy-jako-jedno-odczytanie))
+dostaje werdykt z tymi odczytaniami, a wybór zostaje przy autorze.
+Narzędzie odczytań nie rozstrzyga, i jest to decyzja, a nie brak:
+konwencja, że pierwsza grupa imienna jest podmiotem,
+czytałaby się jednoznacznie tylko temu, kto tę konwencję zna,
+a olski ma się czytać jak zwyczajna polszczyzna każdemu, kto mówi po polsku.
 
-The case that settled this:
+Zdanie, które to rozstrzygnęło:
 
 ```text
 Koszt samej szynki przewyższa koszt szynki z dodatkami.
 ```
 
-`koszt` is nominative or accusative — the syncretism is total for m3 nouns —
-and Polish permits both SVO and OVS.
-So the sentence parses two ways
-and says the opposite thing in each,
-without a Polish reader being able to tell which was meant.
-
-Nothing in the comparison itself does this.
-Give the same verb a subject and an object whose cases do not collide
-and the sentence has one reading:
+`koszt` jest mianownikiem albo biernikiem, bo synkretyzm rzeczowników m3 jest zupełny,
+a polszczyzna dopuszcza i SVO, i OVS,
+więc zdanie ma dwa odczytania i w każdym mówi rzecz przeciwną,
+a czytelnik nie ma z czego poznać, które było zamierzone.
+Nie robi tego samo porównanie.
+Ten sam czasownik z podmiotem i dopełnieniem, których przypadki się nie zlewają,
+daje jedno odczytanie:
 
 ```text
 Chałka przewyższa zwykłą bułkę.
 ```
 
-`chałka` is nominative and nothing else,
-`bułkę` accusative and nothing else,
-so OVS has nowhere to derive,
-and the syncretism is what costs the first sentence its meaning.
+`chałka` jest mianownikiem i niczym innym, `bułkę` biernikiem i niczym innym,
+więc OVS nie ma gdzie się wyprowadzić.
+Znalezisko nad pierwszym zdaniem mówi o tym zdaniu prawdę,
+a nad drugim nie pada, i tego od znaleziska się żąda.
 
-Where the cases do collide, two answers were available.
-Declare olski to be SVO and read the first noun phrase as the subject,
-or reject the sentence.
-Rejecting it wins,
-because the convention would make the sentence unambiguous
-only to a reader who knows the convention,
-and the settled goal is that olski reads as ordinary Polish
-to any Polish speaker.
+Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest.
+Olski go nie czyta i o jego polszczyźnie milczy,
+a werdykt mówi wtedy, dokąd analiza doszła
+([niżej](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+Nad prozą, której większości ten podzbiór nie bierze,
+jest to zwykły przypadek, a nie sąd o zdaniu.
+Czym milczenie z braku pokrycia różni się od wstrzymania się, wywodzi
+[linter.md](linter.md#abstention-is-allowed).
+Z tego samego powodu podsumowanie i kod wyjścia `olski-check`
+liczą znaleziska, a milczenie liczą osobno.
 
-Deep analysis is expensive because ambiguity is expensive.
-Rather than pay for machinery that resolves ambiguity,
-olski excludes the constructions that create it,
-and every production admitted inherits the exclusion.
+Znalezisko ma mówić o zdaniu, a nie o gramatyce.
+Odczytanie, którego polszczyzna nie ma, zdejmuje się więc z gramatyki,
+a odczytanie, które polszczyzna ma, zostaje w werdykcie,
+choćby zdanie wychodziło przez nie wieloznaczne
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Jedno wykluczenie ogranicza zasięg znaleziska.
+Fraza musi być ciągłym odcinkiem tekstu,
+więc zdanie, którego drugie odczytanie potrzebuje frazy nieciągłej,
+wychodzi z jednym odczytaniem i bez znaleziska,
+a werdykt nie mówi nic o odczytaniu, którego nie umiał wyprowadzić.
+Ile to zdań i co kosztowałoby wpuszczenie ich, mierzy
+[design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 
-One of those exclusions bounds how far the property reaches.
-A phrase has to be a contiguous stretch of text,
-so a sentence whose second reading needs a discontinuous one
-is let through carrying a single reading,
-and the verdict says nothing about the reading it could not derive.
-How many sentences that is, and what admitting them would cost instead,
-is measured by
-[what discontinuity buys and costs](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
+Jest to odwrócenie i stoi tu po to, żeby nikt go nie przywrócił przez przeoczenie.
+Olskie było zdanie o dokładnie jednym odczytaniu, a zdanie o dwóch olski odrzucał.
+Ta jedna własność ustawiała wiersz podsumowania, kod wyjścia i pierwsze zdania README,
+więc zdanie wieloznaczne w polszczyźnie wychodziło odrzucone
+za wieloznaczność, którą naprawdę ma
+([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
+Kolumna statusu dzieli zdania dalej po liczbie odczytań,
+a znalezisk poza wieloznacznością — wielkiej litery, znaku cudzysłowu —
+narzędzie nie zgłasza;
+oba ruchy trzyma [`todo/`](../todo/README.md).
 
 ## Co się liczy jako jedno odczytanie
 

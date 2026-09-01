@@ -439,7 +439,7 @@ Ruchem jest zdanie leksykonu odwrócone wobec tamtych trzech:
 nie „ten czasownik czegoś nie bierze”, tylko „to wyrażenie przyimkowe
 przyłącza się tam, gdzie licencjonuje je leksykon”,
 czyli cecha przy przyimku zleksykalizowanym, a nie przy jego gospodarzu.
-Robi ono z pierwszego artykułu Deklaracji zdanie olskie:
+Robi ono z pierwszego artykułu Deklaracji zdanie jednoznaczne:
 odejmuje czytanie z `rodzą się`, bo ten czasownik wzglądu nie licencjonuje,
 a zostaje czytanie z `równi`, czyli jedno.
 Odejmuje też czytanie nad całym ciągiem współrzędnym,
@@ -831,7 +831,8 @@ Do przeczytania jest, ile zdań ta proza pisze tym szykiem:
 garść zeszła razem z wykluczeniem przysłówka pytajnego
 ([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)),
 a wszystkie poza jednym są tego kształtu.
-Tym jednym jest `Jest nią to, dlaczego zdanie jest olskie.`,
+Tym jednym jest
+`Jest nią to, dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem.`,
 które stawia pytanie za zaimkiem `to`,
 czyli za zapowiednikiem, którego ta gramatyka nie ma,
 więc wpis ten go nie zamyka.

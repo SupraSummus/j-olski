@@ -9,8 +9,10 @@ Zostają dwie rzeczy, których nie widzi ani czytelnik wydruku, ani tamte pliki.
 Pierwszą jest ostatni wiersz, bo liczbę fragmentów bierze z niego
 ``docs/extraction.md``, a formatu tego wiersza nie sprawdzało nic.
 Drugą są kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok:
-zdanie odrzucone daje jeden, a wołanie, którego nie da się wykonać, dwa,
+znalezisko daje jeden, a wołanie, którego nie da się wykonać, dwa,
 i te dwie odpowiedzi nie mogą się zlać w jedną.
+Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem
+(``docs/subset.md``), więc kodu nie rusza.
 """
 
 import pytest
@@ -19,8 +21,8 @@ pytest.importorskip("morfeusz2")
 
 import olski.check
 
-#: Tekst o jednym zdaniu olskim, jednym odrzuconym i jednym nagłówku, czyli
-#: fragmencie, którego podsumowanie nie liczy jako zdania.
+#: Tekst o jednym zdaniu jednoznacznym, jednym odrzuconym i jednym nagłówku,
+#: czyli fragmencie, którego podsumowanie nie liczy jako zdania.
 MIESZANY = "Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia."
 
 
@@ -31,10 +33,14 @@ def _podsumowanie(capsys) -> str:
 
 def test_ostatni_wiersz_wydruku_niesie_liczbę_fragmentów(capsys):
     """Z tego wiersza bierze liczbę fragmentów `docs/extraction.md`."""
-    assert olski.check.main(["-c", MIESZANY]) == 1
-    ostatni = _podsumowanie(capsys)
-    assert "olskie: 1 z 2 zdań" in ostatni
-    assert "fragmenty, których nic nie punktuje jako zdania: 1" in ostatni
+    olski.check.main(["-c", MIESZANY])
+    assert "fragmenty, których nic nie punktuje jako zdania: 1" in _podsumowanie(capsys)
+
+
+def test_zdanie_wieloznaczne_daje_kod_jeden_a_odrzucone_nie():
+    """Kod wyjścia niesie znaleziska, a zdanie poza gramatyką znaleziskiem nie jest."""
+    assert olski.check.main(["-c", "Program otwierający się psuje."]) == 1
+    assert olski.check.main(["-c", "Nowa program zapisuje ustawienia."]) == 0
 
 
 def test_tekst_bez_fragmentów_nie_mówi_o_nich_ani_słowa(capsys):

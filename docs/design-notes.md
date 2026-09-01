@@ -561,9 +561,9 @@ więc zdań, w których czytelnik naprawdę ma dwa czytania, jest wśród tych 1
 Rozstrzyga każde takie zdanie człowiek, a nie przebieg,
 i jest to ta sama różnica między pozycją a czytelnikiem,
 którą nad rejestrem czyta próbką
-[open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma).
+[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik).
 Tamto pytanie idzie przy tym w stronę odwrotną niż to:
-tam olski melduje wieloznaczność, której czytelnik nie ma, i płaci odrzuceniem,
+tam olski melduje wieloznaczność, której czytelnik nie ma, i zgłasza ją jako znalezisko,
 a tutaj melduje jednoznaczność, której zdanie nie ma, i płaci obietnicą.
 
 Czego te liczby nie mówią, jest trojakie.

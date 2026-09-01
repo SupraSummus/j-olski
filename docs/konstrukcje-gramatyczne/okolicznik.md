@@ -357,7 +357,7 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
                   2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
                   - podmiot: Plik, orzecznik: bardzo duży, orzeczenie: jest
                   - podmiot: Plik, orzecznik: duży, orzeczenie: jest, okolicznik_przysłówkowy: bardzo → jest
-olskie: 0 z 1 zdania; z odczytaniem: 1
+zdań: 1; wieloznaczne: 1; bez odczytania: 0
 ```
 
 Rolę niesie jeden z gospodarzy, i jest to decyzja, a nie przeoczenie.
@@ -500,7 +500,7 @@ obiecywał kilkanaście zdań,
 a pozycja wyciąga z odrzucenia przeszło połowę z nich;
 reszta staje po niej na blokerze następnym, bo zdanie odrzucone niesie zwykle kilka.
 Wyciągnięte wychodzą prawie wszystkie wieloznaczne, a jednoznaczne wychodzi jedno,
-i tym ta pozycja jest podobna do okolicznika w ogóle: kupuje czytanie, a nie zdanie olskie.
+i tym ta pozycja jest podobna do okolicznika w ogóle: kupuje czytanie, a nie zdanie jednoznaczne.
 
 Cena liczona werdyktem wyszła zerowa:
 sonda różnicowa nie znalazła nad tą prozą ani jednego zdania,

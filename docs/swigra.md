@@ -299,7 +299,7 @@ Gotuj mieszaninę dwie godziny."
                   brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 <text>: rejected  Gotuj mieszaninę dwie godziny.
                   brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-olskie: 0 z 2 zdań; z odczytaniem: 0
+zdań: 2; wieloznaczne: 0; bez odczytania: 2
 ```
 
 Do wzięcia jest z tego mechanizmu sufit, a nie sama pozycja.

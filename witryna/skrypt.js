@@ -120,7 +120,7 @@ function spisCzytań(lista) {
   return spis;
 }
 
-//  Czytania stoją zwinięte, dopóki są dwa: zdanie olskie ma jedno, a zdanie
+//  Czytania stoją zwinięte, dopóki są dwa: zdanie jednoznaczne ma jedno, a zdanie
 //  wieloznaczne ma ich tyle, że rozwinięte zasłaniają następne zdanie.
 //  Konstytuent rozbieżny dostaje własny spis pod tym samym zwojem, bo mówi o
 //  czytaniach tego samego zdania.
