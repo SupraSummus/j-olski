@@ -12,6 +12,7 @@ from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     GRUPA_PYTAJNA,
     IMIESŁÓW_PRZYSŁÓWKOWY,
+    OKOLICZNIK_PYTAJNY,
     OKOLICZNIK_ZDANIOWY,
     ORZECZENIE_RZECZOWNIKOWE,
     RODZINY,
@@ -30,6 +31,7 @@ from olski.subset.słowa import (
     PRZECINEK,
     PRZECZENIA,
     PRZYIMEK,
+    PRZYSŁÓWEK_PYTAJNY,
     PRZYSŁÓWEK_WZGLĘDNY,
     PYTAJNIK,
     SPÓJNIK_BEZ_PRZECINKA,
@@ -574,6 +576,31 @@ def _rodziny_czoła(grammar: Grammar, zdanie: Rozwinięcie) -> None:
                 [nt(rodzina.modyfikator, **POPRZEDNIK), Głowa(wnętrze)],
                 **POPRZEDNIK,
             )
+
+    # Pytanie o okoliczność: `Dlaczego gramatyka rośnie?`,
+    # `Pyta, dlaczego gramatyka rośnie.`
+    #
+    # Wysunięty jest tu przysłówek, a nie rola zdania, więc zdanie pod nim stoi
+    # całe i ciało ma kształt wysuniętego wyrażenia przyimkowego
+    # (`rodzina.modyfikator` wyżej), a nie kształt czoła: :func:`_wysunięta_rola`
+    # wypisuje szyki zdania, któremu jednej roli brakuje, a temu zdaniu nie
+    # brakuje żadnej.
+    #
+    # Etykieta stoi nad przysłówkiem, bo bez niej pytanie wychodzi `valid` i o
+    # pytaniu nie mówi nic (:data:`OKOLICZNIK_PYTAJNY`). Gospodarza ta rola nie
+    # dostaje i nie jest to odmowa jak przy wyrażeniu przyimkowym: przysłówek
+    # stoi przed całym zdaniem, więc gospodarza nie wybiera nawet znaczenie.
+    #
+    # Pary poprzednika to ciało nie niesie, bo pytanie poprzednika nie ma:
+    # zdanie względne zgadza się z rzeczownikiem przed sobą (:data:`POPRZEDNIK`),
+    # a pytanie stoi samo.
+    #
+    # Bez wykluczenia z pozycji okolicznika (:data:`PRZYSŁÓWKI_PYTAJNE`) każde z
+    # tych zdań ma zarazem czytanie oznajmujące, w którym przysłówek określa
+    # czasownik, i tego czytania polszczyzna nie ma, więc wykluczenie wchodzi
+    # razem z tym ciałem.
+    grammar.rule(OKOLICZNIK_PYTAJNY, [PRZYSŁÓWEK_PYTAJNY])
+    grammar.rule("rdzeń_pytajny", [nt(OKOLICZNIK_PYTAJNY), Głowa(nt("zdanie_składowe"))])
 
     # Zdanie pytające: czoło pytania i pytajnik. Ciało jest osobne od zdania
     # oznajmującego, a nie wzięte przez :data:`KONIEC_ZDANIA`, bo pytanie zamyka

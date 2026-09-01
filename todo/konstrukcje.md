@@ -333,16 +333,25 @@ Do przeczytania jest, czy nie zderzy się ono z czasownikiem nieosobowym:
 tamten też orzeka bez zgodności z podmiotem
 ([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
 
-Słowa pytające `jak`, `jaki`, `ile` i `dlaczego` nie mają pozycji,
+Słowa pytające `jak`, `jaki` i `ile` nie mają pozycji,
 a zdania z nimi nie padają, tylko przechodzą czytaniem, którego polszczyzna nie ma:
 `Pyta, ile ta gramatyka kosztuje.` wychodzi przyjęte z `ile` w okoliczniku
-przysłówkowym, bo Morfeusz daje tym słowom `adv`, a `jaki` część mowy
+przysłówkowym, bo Morfeusz daje `jak` oraz `ile` część mowy `adv`, a `jaki`
 przymiotnikową, i olski bierze te części mowy całe.
 Ruch ma przez to dwie połowy i pierwsza jest zawężeniem:
 czytanie okolicznikowe ma zejść, zanim wejdzie czoło, które je zastąpi
 ([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
-Do przeczytania jest wpis o okoliczniku przysłówkowym biorącym całą część mowy,
-bo wylicza on formy, które ten rejestr pisze inaczej, i te cztery słowa
+Czwarte z tych słów, `dlaczego`, weszło i zostawiło po sobie kształt,
+w który `jak` wchodzi wprost, bo pyta tak samo o okoliczność
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)),
+a `ile` i `jaki` żądają każde innego: pierwsze rządzi dopełniaczem,
+a drugie zgadza się z rzeczownikiem i jest tym samym kształtem co `który`.
+Do przeczytania jest przy `jak` to, co ta gramatyka bierze z jego czytania
+spójnikowego — `tak samo jak reguła` — bo zawężenie odbiera zdania,
+które ta proza pisze, a wpuszczenie samego czytania przysłówkowego ich nie odbiera
+i wtedy jeden napis dostaje dwa wyprowadzenia.
+Do przeczytania jest też wpis o okoliczniku przysłówkowym biorącym całą część mowy,
+bo wylicza on formy, które ten rejestr pisze inaczej, i te trzy słowa
 są jego dalszym ciągiem.
 
 Zaimek zwrotny nie ma pozycji orzecznika narzędnikowego,

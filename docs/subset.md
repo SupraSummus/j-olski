@@ -425,6 +425,11 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
   czyli pozycja ramy osobna od pozycji zdania z `że`:
   `Ustawy określają, które zadania własne gminy mają charakter obowiązkowy.`
   Spójnika ono nie ma, bo podporządkowuje sam zaimek.
+- Pytanie o okoliczność, w obu miejscach, w których pytanie stoi:
+  `Dlaczego gramatyka rośnie?`, `Pyta, dlaczego gramatyka rośnie.`
+  Wysunięty jest tu przysłówek, a nie rola, więc zdanie pod nim jest całe,
+  a lematy wchodzą pojedynczo, bo rozdziela je reszta czytań, które mają
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe))
 - Kopuła opuszczona przy jednym rzeczowniku, czyli zdanie składowe bez czasownika:
   `Przepisy, o których mowa, obowiązują.`, `Mowa o zadaniach.`
   ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat))
@@ -811,27 +816,32 @@ Every one of these is a sentence that gets rejected and should not be:
 - Słowa, którymi ten rejestr pyta poza tymi, które już wchodzą
   ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
   oraz [konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)):
-  `jak`, `jaki`, `ile`, `dlaczego`.
+  `jak`, `jaki`, `ile`.
   Pozycja ta stoi na tej liście inaczej niż pozostałe, bo zdania z nią nie padają:
   `Pyta, ile ta gramatyka kosztuje.` wyprowadza się,
   a wyprowadza się czytaniem, którego polszczyzna nie ma.
-  Morfeusz daje trzem z tych słów część mowy `adv`, a `jaki` przymiotnikową,
+  Morfeusz daje `jak` oraz `ile` część mowy `adv`, a `jaki` przymiotnikową,
   i olski bierze te części mowy całe, więc słowo pytające staje okolicznikiem
   albo przydawką, a pytania zależnego w takim zdaniu nie ma.
   Dopisanie ma więc dwie połowy i pierwsza z nich jest zawężeniem:
   czytanie okolicznikowe ma zejść przed czołem, które je zastąpi
   ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
-  Każde z tych słów żąda przy tym innego kształtu niż grupa pytajna,
-  więc jest to kolejka konstrukcji, a nie jedna pozycja,
-  a czoło dopisane pod którekolwiek z nich wejdzie zarazem w ciąg pytań
-  i za dwukropek, bo obie te pozycje biorą ciąg cały
-  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+  Każde z tych słów żąda przy tym innego kształtu,
+  więc jest to kolejka konstrukcji, a nie jedna pozycja:
+  `jak` i `ile` mają poza pytaniem czytania, które ta gramatyka bierze —
+  spójnik porównania i liczebnik rządzący dopełniaczem —
+  a `jaki` żąda kształtu grupy pytajnej.
+  Czwartym z nich było `dlaczego` i ono weszło
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
 - Pytanie o miejsce: `Gdzie są przetrzymywani zakładnicy?` jest odrzucone,
   gdzie `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.`
   wyprowadza się
   ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)).
-  Rolą wysuniętą jest tu okolicznik, a czoła pytań wysuwają podmiot,
-  dopełnienie albo orzecznik, więc kształt jest inny niż tamtych trzech.
+  Kształt tej pozycji gramatyka ma, odkąd bierze pytanie o okoliczność,
+  i zostaje sam lemat, którego dopisanie zmierzono i odłożono:
+  daje ono drugie czytanie każdemu zdaniu, w którym `gdzie` otwiera okolicznik
+  pod czasownikiem spoza leksykonu, bo pytanie zależne stoi w ramie domyślnej.
+  Wraca razem z zawężeniem tamtej pozycji, a `todo/` trzyma i pomiar, i ruch.
 - Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
   gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.

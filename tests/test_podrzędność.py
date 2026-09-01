@@ -620,6 +620,31 @@ def test_przysłówek_względny_określa_drugi_przysłówek():
     assert found.status == "valid", found.explain()
 
 
+def test_pytanie_o_okoliczność_nazywa_przysłówek_którym_pyta():
+    #  Bez etykiety nad przysłówkiem pytanie wychodzi `valid` i o tym, że jest
+    #  pytaniem, nie mówi nic, bo role zdania pod nim są rolami zdania
+    #  oznajmującego. Werdykt jest tu przez to całym sprawdzeniem, a nie sam status.
+    proste = verdict("Dlaczego gramatyka rośnie?")
+    assert proste.status == "valid", proste.explain()
+    assert role(proste) == [
+        {"podmiot": "gramatyka", "orzeczenie": "rośnie", "okolicznik_pytajny": "Dlaczego"}
+    ]
+
+
+def test_przysłówek_pytajny_nie_stoi_okolicznikiem_zdania_współrzędnego():
+    #  Usterka, którą to łapie: `dlaczego` zostawione w terminalu okolicznika obok
+    #  własnego ciała. Zdanie za przecinkiem wyprowadza się wtedy członem
+    #  współrzędnym, w którym ten przysłówek określa czasownik, pytania zależnego
+    #  nie ma w zdaniu wcale, a werdykt mówi `valid`, czyli nie odrzuca niczego.
+    #
+    #  Streszczenie w pytanie zależne nie zagląda (`podrzędne` w
+    #  ``olski/subset/deklaracja.py``), więc czytanie prawdziwe poznaje się tu po
+    #  tym, że zdanie ma jedno zdanie składowe, a czytanie współrzędne po dwóch.
+    found = verdict("Pyta, dlaczego gramatyka rośnie.")
+    assert found.status == "valid", found.explain()
+    assert role(found) == [{"orzeczenie": "Pyta"}]
+
+
 def test_pytanie_o_rozstrzygnięcie_nie_dubluje_się_z_koordynacją():
     #  `czy` bierze zarazem koordynacja bez przecinka, gdzie znaczy `albo`, więc
     #  usterką byłoby czoło pytania biorące człon zamiast zdania: jeden napis
