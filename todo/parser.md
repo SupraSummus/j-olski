@@ -54,16 +54,8 @@ puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 Zatrzymanie kosztuje nad zdaniem odrzuconym więcej niż zbudowanie tablicy,
 bo `najdalszy` w `olski/parse/las.py` przechodzi tablicę drugi raz
 i unifikuje przy tym przebyte ciała, czego samo jej budowanie nie robi wcale.
-Płaci to każdy, kto pyta o werdykt, a drukuje tylko ten, kto pokazuje odrzucenie.
-Jednym ruchem jest pytanie leniwe zamiast flagi `zatrzymanie`:
-`Result` trzymałby las i liczył punkt przy pierwszym pytaniu,
-więc kto zatrzymania nie drukuje, nie płaciłby go wcale
-i nie musiałby o fladze pamiętać.
-Ceną jest las żywy tak długo, jak werdykt,
-a przebieg nad korpusem trzyma werdykty wszystkich zdań naraz;
-sięgnąć trzeba przy tym do `Verdict.zatrzymanie` w `olski/werdykt.py`,
-bo werdykt pyta o punkt przy składaniu i tam cena zostaje.
-Drugim ruchem, niesprzecznym z pierwszym, jest tańsze drugie przejście.
+Pomija je ten, kto go nie czyta (`werdykt` w `olski/werdykt.py`),
+więc do potanienia zostaje samo drugie przejście.
 Kolejka w `_przed_formą` dostaje przy ożywieniu symbolu wszystkie jego produkcje,
 a tablica ma stan dla mniejszości z nich,
 więc ponad połowa par schodzi z kolejki, nie robiąc nic.

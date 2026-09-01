@@ -352,7 +352,9 @@ def _werdykty(sonda: Sonda, zdanie: str, segmenty: list[Segment]) -> dict[str, V
     """Werdykt każdego wariantu nad jednym zdaniem prozy."""
 
     def wynik(wariant: str) -> Verdict:
-        return werdykt(zdanie, segmenty, gramatyka(sonda, wariant))
+        #  Sonda czyta z werdyktu sam status, a zatrzymanie jest najdroższym
+        #  z podsumowań (``werdykt`` w ``olski/werdykt.py``), więc o nie nie pyta.
+        return werdykt(zdanie, segmenty, gramatyka(sonda, wariant), zatrzymanie=False)
 
     return _bez_zbędnych(sonda, wynik)
 
