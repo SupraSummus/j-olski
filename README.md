@@ -38,13 +38,13 @@ Nie ma aplikacji, która napędzałaby to wszystko.
 **Gramatyka podzbioru polszczyzny** stoi nad Morfeuszem 2.
 Zdanie jest w niej olskie dopiero wtedy, gdy ma dokładnie jedno odczytanie.
 Nie chodzi o samo jedno wyprowadzenie:
-zdanie o koszcie szynki ma kilka odczytań,
+zdanie o programie ma kilka odczytań,
 a dwa odczytania mówią rzecz przeciwną,
 więc olski nie bierze tego zdania.
 
 ```sh
 python3 -m olski.check --readings -c "Zapisz plik konfiguracyjny.
-Koszt samej szynki przewyższa koszt szynki z dodatkami.
+Program otwierający się psuje.
 Nowa program zapisuje ustawienia."
 ```
 
@@ -52,29 +52,46 @@ Nowa program zapisuje ustawienia."
 <text>: valid     Zapisz plik konfiguracyjny.
                   jedno odczytanie
                   - dopełnienie: plik konfiguracyjny, orzeczenie: Zapisz
-<text>: ambiguous Koszt samej szynki przewyższa koszt szynki z dodatkami.
-                  6 odczytań, różne w rolach: dopełnienie, podmiot; „z dodatkami” → „przewyższa”, „koszt”, „szynki”
-                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki z dodatkami, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → szynki
-                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki z dodatkami, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → koszt
-                  - podmiot: Koszt samej szynki, dopełnienie: koszt szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → przewyższa
-                  - podmiot: koszt szynki z dodatkami, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → szynki
-                  - podmiot: koszt szynki z dodatkami, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → koszt
-                  - podmiot: koszt szynki, dopełnienie: Koszt samej szynki, orzeczenie: przewyższa, wyrażenie_przyimkowe: z dodatkami → przewyższa
+<text>: ambiguous Program otwierający się psuje.
+                  3 odczytania, różne w rolach: dopełnienie, orzeczenie, podmiot
+                  - dopełnienie: Program otwierający się, orzeczenie: psuje
+                  - podmiot: Program otwierający się, orzeczenie: psuje
+                  - podmiot: Program otwierający, orzeczenie: się psuje
 <text>: rejected  Nowa program zapisuje ustawienia.
                   brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 olskie: 1 z 3 zdań; z odczytaniem: 2
 ```
 
-Czytania szynki dzielą szyk oraz gospodarz frazy `z dodatkami`.
-Pierwsze i czwarte dzieli sam szyk,
-a podmiot jednego jest dopełnieniem drugiego.
-Wiersz werdyktu nazywa przy tym sam wybór.
-Skutków tego wyboru wiersz nie wylicza:
-każdy wybór, którego zdanie nie rozstrzyga, dostaje jeden wiersz,
-a iloczyn tych wyborów daje liczbę odczytań.
-Przyłączenie jest tu wyborem.
-Nad innym zdaniem takim wyborem jest konstytuent,
-którego streszczenie nie pokazuje.
+Pierwsze czytanie i drugie dzieli sama rola:
+program jest w pierwszym psuty, a w drugim psuje ustawienia.
+Trzecie dzieli od nich miejsce cząstki zwrotnej.
+Cząstka należy w nim do formy osobowej, a w dwóch pierwszych do imiesłowu.
+Obie te formy są w polszczyźnie zwrotne.
+Oba miejsca cząstki trzyma
+[docs/konstrukcje-gramatyczne/orzeczenie.md](docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika).
+Wiersz werdyktu nazywa przy tym role, w których czytania się różnią.
+Samego miejsca cząstki wiersz ten nie nazywa i widać je dopiero w czytaniach.
+
+Wybór zostaje przy autorze, a zdania niżej mówią te czytania osobno.
+
+```sh
+python3 -m olski.check --readings -c "Program otwierający się jest psuty.
+Program otwierający się psuje ustawienia.
+Program otwierający psuje się."
+```
+
+```text
+<text>: valid     Program otwierający się jest psuty.
+                  jedno odczytanie
+                  - podmiot: Program otwierający się, orzecznik: psuty, orzeczenie: jest
+<text>: valid     Program otwierający się psuje ustawienia.
+                  jedno odczytanie
+                  - podmiot: Program otwierający się, dopełnienie: ustawienia, orzeczenie: psuje
+<text>: valid     Program otwierający psuje się.
+                  jedno odczytanie
+                  - podmiot: Program otwierający, orzeczenie: psuje się
+olskie: 3 z 3 zdań; z odczytaniem: 3
+```
 
 Zgodność form jest tu parsowaniem.
 `Nowa program` nie ma wyprowadzenia.
