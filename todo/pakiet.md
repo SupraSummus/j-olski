@@ -1,5 +1,26 @@
 # Pakiet, instalacja i testy
 
+Trzy warstwy toru gramatycznego mają własny pakiet
+(`olski/parse/`, `olski/subset/`, `olski/skład/`),
+a dwie leżą luzem w `olski/`:
+morfologia w czterech modułach, które wylicza tabela w
+[`docs/architecture.md`](../docs/architecture.md#pięć-warstw-toru-gramatycznego),
+oraz to, co nad parserem, czyli `olski/werdykt.py`, `olski/rozstrzyganie.py`,
+`olski/pokrycie.py` i `olski/check.py`.
+Obok nich leżą moduły, którym tabela nie przypisuje żadnej warstwy,
+a `olski/lematy.py` mówi w docstringu, że pyta o niego więcej niż jedna.
+Usterką to nie jest, bo granica warstwy jest tam granicą modułu albo pakietu,
+a import między pakietami idzie w jedną stronę.
+Ruchem jest osobny pakiet dla morfologii, na wzór tamtych trzech,
+a nie przebieg po całym wierzchu.
+Podejmuje go dopiero sesja, która tej warstwie dopisuje moduł
+albo i tak przemianowuje jej ścieżki.
+Cena jest w ścieżkach: moduły morfologii nazywa z dokumentów i rejestru
+kilkanaście plików, a każdą taką nazwę pilnuje `tests/test_docs.py`.
+Do przeczytania przed ruchem są importy `olski/segmentacja.py`,
+bo czyta on `olski/grammar.py`, więc morfologia nie leży pod formalizmem, tylko obok niego,
+i pakiet tę zależność albo przyjmuje, albo przecina.
+
 `witryna/skrypt.js` jest jedynym plikiem w repozytorium, którego nic nie uruchamia.
 Suita pyta o niego z zewnątrz jedno — czy strona woła trasy, które serwer ma
 (`tests/test_witryna.py`) — a samego skryptu nie wykonuje,
