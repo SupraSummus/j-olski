@@ -18,7 +18,15 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.segmentacja import morphology
-from olski.werdykt import FRAGMENT, NIEDOMKNIĘTE, Domknięcie, Podsumowanie, check, zatrzymania
+from olski.werdykt import (
+    FRAGMENT,
+    NIEDOMKNIĘTE,
+    Domknięcie,
+    Podsumowanie,
+    check,
+    werdykt,
+    zatrzymania,
+)
 
 
 #  Wołają je też pliki pytające o gramatykę, o las i o segmentację,
@@ -115,6 +123,38 @@ def test_analiza_wznawia_się_za_formą_zatrzymania_a_nie_na_niej():
     #  i wznowieniu błędnemu.
     zdanie = "Cena rośnie, i linter sprawdza tekst, i parser czyta tekst."
     assert zatrzymania(morphology(zdanie)) == ("i", "i")
+
+
+def test_werdykt_bez_pytania_o_zatrzymanie_daje_ten_sam_status():
+    #  Na tym stoi cała oszczędność: sonda różnicowa czyta z werdyktu sam status
+    #  i po to o zatrzymanie nie pyta (``harness/ruch.py``).
+    #  Zdanie odrzucone, bo tylko nad takim zatrzymanie w ogóle się liczy.
+    zdanie = "Nowa program zapisuje ustawienia."
+    segmenty = morphology(zdanie)
+    pytany = werdykt(zdanie, segmenty)
+    milczący = werdykt(zdanie, segmenty, zatrzymanie=False)
+    assert (milczący.status, milczący.result.ile) == (pytany.status, pytany.result.ile)
+
+
+def test_wyjaśnienie_odrzucenia_bez_zatrzymania_odmawia_zamiast_zmyślać():
+    #  Usterka, którą to łapie: ``zatrzymanie`` jest ``None`` i wtedy, gdy analiza
+    #  doszła do końca, i wtedy, gdy nikt nie pytał, więc wyjaśnienie czytające
+    #  sam ten brak mówiłoby o zdaniu rzecz nieprawdziwą.
+    zdanie = "Nowa program zapisuje ustawienia."
+    milczący = werdykt(zdanie, morphology(zdanie), zatrzymanie=False)
+    assert milczący.result.rejected
+    with pytest.raises(ValueError, match="o zatrzymanie nie pytał"):
+        milczący.explain()
+
+
+def test_napis_bez_znaku_pyta_o_zatrzymanie_mimo_że_wołający_nie_prosił():
+    #  Domknięcie stawia się nad analizą, która doszła do końca, a status napisu
+    #  bez znaku od domknięcia zależy: flaga posłuchana tutaj dosłownie robi z
+    #  niedomknięcia fragment.
+    zdanie = "Cena jest niska"
+    milczący = werdykt(zdanie, morphology(zdanie), zatrzymanie=False)
+    assert milczący.status == NIEDOMKNIĘTE
+    assert milczący.domknięcie == Domknięcie(".", 1)
 
 
 # --------------------------------------------------------------------------- #

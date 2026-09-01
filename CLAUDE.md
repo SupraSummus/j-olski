@@ -816,6 +816,12 @@ baza i zmiana idą naprzemiennie w jednej komendzie, a porównuje się sąsiedni
 Bazą jest drzewo robocze gita ze stanem sprzed zmiany (`git worktree add`),
 bo oba katalogi stoją wtedy naraz,
 a przełączanie gałęzi każe mierzyć jedno po drugim.
+Naprzemienność zdejmuje dryf zegara i nie zdejmuje przechylenia kolejności:
+dwa procesy puszczone jeden po drugim różnią się o kilkanaście procent
+także wtedy, gdy niosą ten sam kod.
+Przyrząd sprawdza się więc bazą przeciwko bazie, zanim się nim cokolwiek zmierzy,
+bo różnica z takiego przebiegu jest podłogą dla każdej, którą on potem pokaże;
+podłoga schodzi do kilku procent, kiedy oba warianty idą w jednym procesie.
 Że nie ruszyło się nic poza czasem, mówi odcisk całej prozy repozytorium:
 werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdaniu.
 Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,

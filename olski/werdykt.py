@@ -208,6 +208,9 @@ class Verdict:
     #: którym odrzucenie stanęło; ``None``, gdy analiza doszła do ostatniego
     #: znaku zdania. Pola bez wartości domyślnej z tego samego powodu co wyżej:
     #: ``None`` jest tu twierdzeniem, a nie brakiem odpowiedzi.
+    #: Twierdzeniem jest tylko wtedy, gdy o zatrzymanie pytano.
+    #: Przebieg, który nie pytał (:func:`werdykt`), zostawia tu również ``None``.
+    #: Rozdziela te dwa ``Result.furthest`` i o niego pyta :meth:`explain`.
     zatrzymanie: str | None
     #: Domknięcie, po którym olski ten napis czyta, albo ``None``. Pole, a nie
     #: właściwość, bo :func:`_domknięcie` kosztuje rozbiór, a właściwość płaciłaby
@@ -299,6 +302,14 @@ class Verdict:
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
                 podpowiedź = _podpowiedź(self.nielicencjonowane)
                 return f"brak odczytania: żadna produkcja nie bierze {formy}{podpowiedź}"
+            if self.result.furthest is None:
+                #  Tak samo odmawia ``bloker`` w ``olski/pokrycie.py`` i z tego
+                #  samego powodu: milczenie o zatrzymaniu czytałoby się tu jako
+                #  zdanie o analizie, która doszła do końca.
+                raise ValueError(
+                    "wyjaśnienie odrzucenia nazywa miejsce zatrzymania, "
+                    "a ten przebieg o zatrzymanie nie pytał (werdykt w olski/werdykt.py)"
+                )
             if self.zatrzymanie is None:
                 return "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
             return f"brak odczytania: analiza staje na „{self.zatrzymanie}”"
@@ -363,31 +374,50 @@ def zatrzymania(segmenty: list[Segment], grammar: Grammar | None = None) -> tupl
     return tuple(formy)
 
 
-def werdykt(zdanie: str, segmenty: list[Segment], grammar: Grammar | None = None) -> Verdict:
+def werdykt(
+    zdanie: str,
+    segmenty: list[Segment],
+    grammar: Grammar | None = None,
+    zatrzymanie: bool = True,
+) -> Verdict:
     """Werdykt o zdaniu już zsegmentowanym, wraz z całym podsumowaniem.
 
     Segmenty przychodzą argumentem, a nie powstają tutaj, bo zależą od napisu, a
     nie od gramatyki: kto pyta o jedno zdanie kilka gramatyk — sonda różnicowa
     nad prozą — segmentuje je raz i pyta tyle razy, ile ma wariantów.
 
-    Podsumowania werdykt bierze wszystkie, także te, których wołający nie czyta,
-    a ceną tego jednego wejścia jest zatrzymanie: nad zdaniem odrzuconym bierze
-    ono więcej niż sam rozbiór (:func:`olski.parse.podsumuj`), i płaci je także
-    ten, kto go nie drukuje.
-    Sonda nad prozą oszczędza gdzie indziej — pomija rozbiory, których odpowiedź
-    zna z góry, i tych oszczędza tyle, ile wariantów minus jeden
-    (``_bez_zbędnych`` w ``harness/ruch.py``).
+    Zatrzymanie jest najdroższym z podsumowań i jedynym, które wolno pominąć.
+    Nad zdaniem odrzuconym przechodzi tablicę drugi raz
+    i unifikuje przy tym przebyte ciała (:func:`olski.parse.podsumuj`),
+    a nad prozą, której olski w większości nie wyprowadza,
+    odrzuconych jest osiem zdań na dziesięć,
+    więc waży w takim przebiegu więcej niż każde inne podsumowanie.
+    Czytają je :meth:`Verdict.explain` i kolejka blokerów (``olski/pokrycie.py``);
+    kto go nie czyta, prosi o werdykt bez niego.
+
+    Flagą, a nie pytaniem leniwym: ``Result`` trzymający las liczyłby punkt przy
+    pierwszym pytaniu, ale przebieg nad bankiem drzew pyta o niego przy każdym
+    zdaniu odrzuconym, a las porzuca rozmyślnie, bo waży tyle, ile jego tablica
+    (``zmierz_zdanie`` w ``harness/pomiar.py``).
+
+    Napis bez znaku kończącego pyta o zatrzymanie mimo flagi, bo od niego zależy
+    wtedy sam status: domknięcie stawia się nad analizą, która doszła do końca
+    (:func:`_domknięcie`), a nad napisem punktowanym nie stawia się go wcale.
     """
     grammar = grammar or GRAMMAR
-    result = parse(grammar, segmenty, deklaracja=DEKLARACJA)
-    stanęło = na_czym_stanęło(segmenty, result.furthest)
+    pytane = zatrzymanie or not SENTENCE_CLOSE.search(zdanie)
+    result = parse(grammar, segmenty, deklaracja=DEKLARACJA, zatrzymanie=pytane)
+    stanęło = na_czym_stanęło(segmenty, result.furthest) if pytane else None
+    #  Brak formy jest dojściem do końca dopiero wtedy, gdy pytano:
+    #  bez pytania ``stanęło`` jest puste także nad analizą, która stanęła.
+    doszło_do_końca = pytane and stanęło is None
     nielicencjonowane = bez_licencji(segmenty, grammar)
     return Verdict(
         text=zdanie,
         result=result,
         nielicencjonowane=nielicencjonowane,
         zatrzymanie=stanęło.form if stanęło is not None else None,
-        domknięcie=_domknięcie(zdanie, grammar, stanęło is None and not nielicencjonowane),
+        domknięcie=_domknięcie(zdanie, grammar, doszło_do_końca and not nielicencjonowane),
     )
 
 
