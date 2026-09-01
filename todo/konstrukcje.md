@@ -13,9 +13,10 @@ Do przeczytania jest przedtem, ile czytań to miejsce dokłada:
 `Flaga to płat tkaniny w muzeum.` jest wieloznaczne już bez niego,
 bo wyrażenie przyimkowe ma tam dwa miejsca przyłączenia, a nie jedno.
 
-Przeczenie przy łączniku `to` nie ma ciała w zdaniu bez grupy przed łącznikiem.
-`To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się
-i gdzie `To nie są oczywistości.` też
+Przeczenie przy łączniku `to` nie ma ciała w zdaniu bez grupy przed łącznikiem,
+a twierdzenie nie ma go tak samo.
+`To nie kot.` i `To kot.` są odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się
+i gdzie `To nie są oczywistości.` i `To jest kot.` też
 ([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
 Ruchem jest piąte ciało tej konstrukcji wraz z pomiarem,
 bo cena każdego ciała jest osobną liczbą ([CLAUDE.md](../CLAUDE.md#code)).
@@ -398,3 +399,67 @@ zamiast pierwszego prawdziwego, czyli zamieni werdykt nieprawdziwy na wieloznacz
 Do przeczytania jest przedtem, ile zdań banku drzew stoi na tym czytaniu:
 wpis znalazło jedno, które przyszło do wiersza niezgodnych razem z ciągiem
 współrzędnym wyrażeń przyimkowych, a przebiegu po całym wierszu nikt nie zrobił.
+
+Cząstka przybliżająca przed liczebnikiem nie ma pozycji,
+a rejestr pisze ją stale: `przeszło sto zdań` stoi w
+[`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md) i w README.
+`Kupuje przeszło sto zdań.` staje na `przeszło`.
+`Kupuje ponad sto zdań.` i `Kupuje blisko sto zdań.` wyprowadzają się,
+tylko że na czytaniach, których polszczyzna tam nie ma:
+`ponad sto zdań` wychodzi wyrażeniem przyimkowym bez dopełnienia w zdaniu,
+a `blisko` okolicznikiem przysłówkowym obok `sto zdań` w dopełnieniu.
+Morfeusz daje wszystkim trzem czytanie cząstki,
+a `CZĄSTKI` w `olski/subset/słowa.py` ma `niemal` i `niespełna`,
+a `przeszło`, `ponad` i `blisko` nie ma.
+Ruchem jest pozycja cząstki przed liczebnikiem w grupie liczebnikowej
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+a nie lemat dopisany do `CZĄSTKI`, bo tamta lista stawia cząstkę przy orzeczeniu
+i nie odebrałaby ani wyrażenia przyimkowego, ani okolicznika.
+Do przeczytania jest, ile zdań banku drzew wychodzi dziś przez te dwa czytania,
+bo pozycja ma je zdjąć, a nie stanąć obok nich
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+
+Cząstka `ani` przed liczebnikiem `jeden` nie ma ciała.
+`Rdzeń nie ma ani jednego wiersza.` i `Ani jeden wiersz nie woła witryny.` padają,
+a `Rdzeń nie ma wiersza.` wyprowadza się.
+Spójnik skorelowany `ani` wchodzi tylko powtórzony przed każdym członem
+([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+a pojedyncze `ani jeden` jest cząstką wzmacniającą przeczenie, nie koordynacją.
+Lista braków w [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)
+wymienia `ani jedna` przy elipsie głowy, a ten wpis mówi, że rzeczownik nic tu nie zmienia.
+Ruchem jest cząstka przy liczebniku, wraz z pomiarem,
+a do przeczytania jest lista cząstek przy grupie imiennej
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
+bo `ani` żąda przeczenia przy orzeczeniu, a tamta lista o przeczeniu nie mówi.
+
+Zaimek z wyrażeniem partytywnym nie ma pozycji tam, gdzie zaimek stoi sam.
+`Który z nich obowiązuje?` i `Nie widać, który z nich obowiązuje.` stają na `z`,
+`Strona daje każdemu z nich spis.` pada tuż za nimi,
+a `Jeden z nich obowiązuje.` wyprowadza się, bo `jeden` czyta się rzeczownikiem
+i `z nich` dochodzi do niego jak każde wyrażenie przyimkowe.
+`Który` i `każdy` bez rzeczownika padają już same, jako elipsa głowy,
+i tamta pozycja jest zmierzona i odrzucona
+([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)),
+tylko że z `z nich` obok elipsy nie ma:
+wyrażenie przyimkowe mówi, spośród czego się wybiera, i zastępuje rzeczownik.
+Ruchem jest ciało zaimka z tym jednym wyrażeniem, a nie elipsa głowy w ogóle,
+i cena jest inna niż tamtej, bo `z nich` jest napisem, którego przydawka nie bierze.
+Do przeczytania jest, ile takich zdań ma bank drzew, bo proza repozytorium
+pisze `który z nich` i `każdy z nich` co kilka dokumentów, a Składnicy nikt nie zapytał.
+
+Cząstka `prawie` przed grupą imienną nie ma pozycji.
+`Każda usterka siedzi po stronie Pythona.` wyprowadza się,
+a `Prawie każda usterka siedzi po stronie Pythona.` staje na `siedzi`,
+gdzie `Niemal każda usterka siedzi po stronie Pythona.` wyprowadza się.
+Morfeusz daje obu słowom część mowy `part`,
+a `CZĄSTKI` w `olski/subset/słowa.py` ma `niemal` i nie ma `prawie`,
+i to jest cała różnica.
+Jest to ten sam brak co `tylko` wewnątrz grupy
+([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)),
+tyle że `tylko` zostaje poza listą przez czytanie spójnikowe,
+a `prawie` niesie obok cząstki czytanie miejscownika od `prawo`,
+którego bez przyimka nie bierze nic.
+Ruchem jest lemat dopisany do tej listy wraz z pomiarem,
+a do przeczytania jest przedtem, ile zdań banku drzew stawia `prawie`
+przed czasownikiem, bo lista daje cząstce oba miejsca naraz
+i tam zdanie dostanie drugie czytanie.

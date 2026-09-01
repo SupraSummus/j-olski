@@ -5,7 +5,7 @@ Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał
 i nie bierze go ani jedna produkcja.
 Odmianę takiego słowa deklaruje sekcja ``leksykon`` konfiguracji projektu
 wpisem o trzech polach (``olski/konfiguracja.py``),
-a docs/subset.md wywodzi, czemu deklaracja, czemu wskazanie leksemu
+a docs/warstwa-leksykalna.md wywodzi, czemu deklaracja, czemu wskazanie leksemu
 zamiast listy form i co to kosztuje.
 
 Odmianę wydaje z takiego wpisu sam słownik.

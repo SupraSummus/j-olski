@@ -26,7 +26,7 @@
 #
 # Komu wpis się należy, a komu nie — angielskiej nazwie przytoczonej, leksemowi
 # dokładanemu do napisu, który słownik zna — mówi sekcja o leksykonie projektu w
-# `docs/subset.md`.
+# `docs/warstwa-leksykalna.md`.
 #
 # Jeden lemat ma tyle wpisów, ile leksemów mu się należy. `olski` jest i
 # przymiotnikiem, i rzeczownikiem, tak samo jak `polski`, a `konstytuent` ma w
@@ -39,15 +39,22 @@
 # jak z leksemu robi się paradygmat i co go pilnuje.
 [leksykon]
 wpisy = [
+  ["check", "hak", "checków"],
   ["commit", "bat:Sm3~a", "commita"],
+  ["curl", "mail", "curlowi"],
+  ["diffować", "malować", "diffowanie"],
+  ["gunicorn", "dzban", "gunicorna"],
+  ["harness", "biznes", "harnessu"],
   ["konstytuent", "argument", "konstytuentu"],
   ["konstytuent", "bat:Sm3~a", "konstytuenta"],
   ["krotka", "kropka", "krotki"],
   ["lintować", "malować", "lintuje"],
+  ["localhost", "bat:Sm3~a", "localhosta"],
   ["Markdown", "wagon", "Markdownie"],
   ["olski", "polski:A", "olskim"],
   ["olski", "polski:S", "olskiemu"],
   ["Python", "dzban", "Pythona"],
+  ["worker", "serwer", "workerów"],
   ["Świgra", "figura", "Świgrze"],
 ]
 
@@ -55,7 +62,7 @@ wpisy = [
 # `wpuszczane` uchyla wykluczenie słownikowe: tekst o grze deklaruje tu `go`, bo
 # bez tego `Go jest grą.` nie ma podmiotu. `pomijane` odbiera lematowi czytania
 # w całym projekcie. Wywód i cenę obu kierunków trzyma sekcja o słownictwie
-# projektu w `docs/subset.md`; obie listy są tu puste i po to są wypisane, żeby
+# projektu w `docs/warstwa-leksykalna.md`; obie listy są tu puste i po to są wypisane, żeby
 # liczby tamtego dokumentu odtwarzały się przebiegiem tego repozytorium.
 [lematy]
 wpuszczane = []
