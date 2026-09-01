@@ -213,7 +213,7 @@ Kilka z nich przestawia w stronę czytania trafnego —
 w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem —
 a większość przestawia w obrębie zdań, których gramatyka i tak nie czyta dobrze.
 To jedno zdanie trzyma `tests/test_kolejność.py`, bo nad Składnicą nie ma czego
-trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`TODO.md`](../TODO.md).
+trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`todo/`](../todo/README.md).
 
 Kolejności dopisań nie widać w żadnej z tych trzech rzeczy i to jest cel.
 Przestawiona zmieniałaby pierwsze czytanie mniej więcej w połowie zdań
@@ -343,7 +343,7 @@ opisuje w cudzym systemie — liczenie prób zamiast wyników —
 rozstrzyga się osobno nad każdym takim ciągiem:
 to zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
 a ciąg `równych praw kobiet i mężczyzn` z jednego ze zdań Składnicy — jedną.
-Ile jest których, notuje [`TODO.md`](../TODO.md).
+Ile jest których, notuje [`todo/`](../todo/README.md).
 
 ## Ranking nie jest wyjściem, którego ten parser potrzebuje
 
@@ -437,7 +437,7 @@ Stopę pomyłek daje dopiero losowanie zawężone do samych odpowiedzi
 a tabela z banku drzew myli się nad nim w 5 z 29 odpowiedzi,
 czyli tyle, ile jej własna ocena dopuszcza na próbie tej wielkości.
 Przenoszenie się częstości zostaje przez to pytaniem o liczbę przeczytanych odpowiedzi,
-a ile ich potrzeba, mówi wpis w [`TODO.md`](../TODO.md).
+a ile ich potrzeba, mówi wpis w [`todo/`](../todo/README.md).
 
 Ten sam przebieg mówi o kryterium powodu coś, czego stopa pomyłek nie mówi.
 Odpowiedzi z powodem leżącym w słowach zdania jest tam 23 i żadna nie jest pomyłką,
@@ -805,7 +805,7 @@ Lematów jest pięć, bo bierzemy listę, którą gramatyka ma dla orzecznika
 (`KOPULA` w `olski/lematy.py`), zamiast pisać drugą o tym samym.
 Cenę całej listy wypisuje sonda niżej, a `być` odpowiada nad tym korpusem za nią całą;
 czy pozostałe cztery lematy do tego kryterium należą,
-pyta wpis w [`TODO.md`](../TODO.md).
+pyta wpis w [`todo/`](../todo/README.md).
 
 Warunek dotyczy dowodu, a nie pozycji.
 Kopula zostaje gospodarzem, bo okolicznik całego zdania przyłącza się do orzeczenia,
@@ -864,7 +864,7 @@ bo zdanie nie biegnie z jednej do następnej
 ([extraction.md](extraction.md)).
 Ile z tych akapitów wyszło właśnie z list, nie mówi ani ten przebieg, ani żaden inny,
 bo ekstrakcja nie wypuszcza typu węzła, z którego akapit powstał;
-tego samego braku dotyczy wpis w [`TODO.md`](../TODO.md)
+tego samego braku dotyczy wpis w [`todo/`](../todo/README.md)
 o mapowaniu trafień z powrotem na konstrukcje.
 
 Drugi jest o świadku: fraza powtarza się przy gospodarzu
@@ -1039,7 +1039,7 @@ Trafność tego przebiegu jest mierzona na materiale, który ta tabela widziała
 `olski/skłonności.txt` powstaje z całej Składnicy, a przebieg idzie po całej Składnicy,
 więc liczba ta jest górnym oszacowaniem i pomiarem trafności nie jest.
 Trafnością poza próbą jest ta z oceny wyżej, o kilka punktów niższa,
-a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`TODO.md`](../TODO.md).
+a przebieg dzielący korpus tak, jak dzieli go tamta, trzyma [`todo/`](../todo/README.md).
 
 Gospodarzy jest więcej niż dwóch w co czwartym przyłączeniu,
 czyli w tylu wypadkach ocena z czwórek mierzy wybór łatwiejszy niż ten,
@@ -1130,7 +1130,7 @@ Losowanie padło przy tym nad populacją mniejszą od dzisiejszej:
 imiennego, gdzie dzisiejsze daje 1 126 pozycji i głowę grupy.
 Ta sama komenda puszczona teraz z `--ile 30` dzieli z tym plikiem dwa zdania z trzydziestu,
 więc powiększenie próby jest przerysowaniem siatki, a nie dopisaniem wpisów do niej;
-co z tym zrobić, pyta wpis w [`TODO.md`](../TODO.md).
+co z tym zrobić, pyta wpis w [`todo/`](../todo/README.md).
 Sądów tych to nie unieważnia, bo każdy stoi przy zdaniu i przy frazie wypisanych w całości,
 a gospodarzy poprawiła ręka.
 
@@ -1156,7 +1156,7 @@ a dziś ponad połowę z nich oddaje świadek ramowy,
 bo stoi przed tabelą i bierze wybór tam, gdzie rama rzeczownika go rozstrzyga.
 Przerysowania żąda ta próba przez to już teraz:
 mierzy dwóch świadków w proporcji, której nikt nie wylosował,
-a co z tym zrobić, pyta wpis w [`TODO.md`](../TODO.md).
+a co z tym zrobić, pyta wpis w [`todo/`](../todo/README.md).
 
 ```sh
 python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt
@@ -1179,7 +1179,7 @@ Stopa tych 29 jest przy tym stopą dwóch świadków razem, a tamta jednego,
 więc zestawienie mówi mniej, niż mówiło, gdy odpowiadała sama tabela.
 Druga połowa [hipotezy](#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
 żąda pomyłek częstszych niż tam, więc ta próba jej nie obala i nie potwierdza;
-ile odpowiedzi trzeba, żeby odróżniła, mówi wpis w [`TODO.md`](../TODO.md).
+ile odpowiedzi trzeba, żeby odróżniła, mówi wpis w [`todo/`](../todo/README.md).
 
 **Rozstrzyga natomiast, gdzie warstwa nad tym rejestrem odpowiada dobrze.**
 Wpisy dzielą się na dwoje po tym, czy wybór rozstrzyga któreś słowo tego zdania.
@@ -1218,7 +1218,7 @@ Trzy trafne spod wsparcia dwóch to trzy pozycje z liczebnikiem cząstkowym,
 czyli klasa, którą rozstrzyga reguła, a nie częstość.
 Wsparcie podniesione o jeden zdjęłoby więc nad tą próbą cztery pomyłki z pięciu
 i trzy odpowiedzi z 29, a cenę po stronie banku drzew wypisuje `--oceń`;
-ruch ten trzyma wpis w [`TODO.md`](../TODO.md).
+ruch ten trzyma wpis w [`todo/`](../todo/README.md).
 
 Wniosek tej próby mówi więc, co ta tabela nad tym rejestrem robiła:
 w 23 odpowiedziach z 29 zastępowała leksykon, a poza nimi myliła się pięć razy na sześć.
@@ -1226,7 +1226,7 @@ Cena świadka ramowego jest tym policzona po stronie rejestru, a nie tylko banku
 i to ona rozstrzygnęła, że świadek wchodzi po stronie rzeczownika.
 Sama próba jest przy tym starsza od niego: wpisy padły wtedy, gdy tabela
 odpowiadała pierwsza, więc część tych 23 odpowiedzi wydaje teraz rama,
-i tego ta próba nie mierzy; [`TODO.md`](../TODO.md) trzyma wpis o jej ponownym odczycie.
+i tego ta próba nie mierzy; [`todo/`](../todo/README.md) trzyma wpis o jej ponownym odczycie.
 
 ## Wieloznaczność, której werdykt nie melduje
 
@@ -1318,7 +1318,7 @@ Cenę pierwszego ruchu ta liczba wycenia przy tym po jednej stronie i tylko po j
 Mówi, że klasa jest w słowniku wąska — 144 lematy z 17 224 —
 a nie mówi, ile zdań rejestru niesie taki czasownik,
 bo `brać` i `wziąć` stoją na tej liście obok `wyczarterować`.
-Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go [`TODO.md`](../TODO.md).
+Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go [`todo/`](../todo/README.md).
 
 `Znam go.` jest drugą połową tej klasy i tam leksykon walencyjny milczy.
 Schematy, które `znać` u Walentego ma, różnią się kształtem dopełnienia,

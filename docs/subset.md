@@ -845,7 +845,7 @@ Every one of these is a sentence that gets rejected and should not be:
   i gdzie `To nie są oczywistości.` też
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
   Pozycja jest osobnym ciałem i osobną liczbą, której nikt nie policzył;
-  `TODO.md` trzyma ten przebieg.
+  `todo/` trzyma ten przebieg.
 - Narzędnik bez przyimka wysunięty przed zdanie:
   `Wieczorem wziął lustro.` jest odrzucone,
   gdzie `Wziął lustro wieczorem.` wyprowadza się.
@@ -859,7 +859,7 @@ Every one of these is a sentence that gets rejected and should not be:
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
   Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
   więc jest to osobne ciało i osobna liczba, której nikt nie policzył;
-  `TODO.md` trzyma ten przebieg.
+  `todo/` trzyma ten przebieg.
 - Zdanie orzekające samym istnieniem: `Bóg jest.` jest odrzucone,
   gdzie `Świeca zgasła.` wyprowadza się.
   Kopula wypadła z ciała, w którym przy czasowniku nic nie stoi,
@@ -871,7 +871,7 @@ Every one of these is a sentence that gets rejected and should not be:
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
   Pozycja jest jedna i stoi na końcu zdania składowego, tak samo jak pozycja
   nawiasu, a wtrącenie w środku jest osobnym ciałem i osobną liczbą,
-  której nikt nie policzył; `TODO.md` trzyma ten przebieg.
+  której nikt nie policzył; `todo/` trzyma ten przebieg.
 - Nazwa postawiona przy rzeczowniku bez spójnika:
   `Bank drzew Składnica mierzy gramatykę.` jest odrzucone,
   gdzie `Składnica jest bankiem drzew.` wyprowadza się.
@@ -884,7 +884,7 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Trzeba będzie zmierzyć cenę.` wyprowadza się
   ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem)).
   Szyk odwrotny jest osobnym ciałem i osobną liczbą,
-  której nikt nie policzył; `TODO.md` trzyma ten przebieg.
+  której nikt nie policzył; `todo/` trzyma ten przebieg.
 
 ## Implementation
 

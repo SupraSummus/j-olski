@@ -1,4 +1,4 @@
-"""Ile zdań banku drzew niesie konstrukcję, o którą pyta kolejka z ``TODO.md``.
+"""Ile zdań banku drzew niesie konstrukcję, o którą pyta kolejka z ``todo/``.
 
 Wpis o konstrukcji, której gramatyka nie ma, kończy się zwykle tym, że bez tej
 liczby jest samą ceną. Kolejka blokerów jej nie podaje, bo nazywa formę, na

@@ -9,7 +9,7 @@ konstrukcją.
 Pierwsza z nich pilnuje przy tym czegoś więcej niż siebie. ``harness/polszczyzna.py``
 jest drugą deklaracją podzbioru, więc zmiana w ``olski/subset/`` zestarzeje ją
 po cichu, a ten test jest jedynym miejscem, w którym to wychodzi. Wtedy albo
-deklaracje idą za produkcjami, albo sonda się kasuje, i `TODO.md` mówi, co
+deklaracje idą za produkcjami, albo sonda się kasuje, i `todo/` mówi, co
 rozstrzyga który.
 """
 
@@ -29,7 +29,7 @@ from olski.werdykt import check
 #:
 #: Współrzędność wypadła stąd razem z okolicznikiem narzędnikowym: notacja czyta
 #: się nieodmiennie, więc olski stawia ją odtąd i w tej pozycji, a podłoże więzowe
-#: jej nie ma. Jest to piąte rozejście dwóch deklaracji podzbioru i TODO.md je liczy.
+#: jej nie ma. Jest to piąte rozejście dwóch deklaracji podzbioru i todo/ je liczy.
 ZGODNE = [
     "Wejściem jest zwykły tekst polski.",
     "Ludzie są wolni.",

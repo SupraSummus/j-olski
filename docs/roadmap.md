@@ -502,7 +502,7 @@ mówi, czemu akurat te dwa warunki naraz.
 README rozpada się na jednej klasie, której to kryterium nie obejmuje:
 na rzeczownikowym czytaniu formy, którą Morfeusz zna też jako przymiotnik.
 Stoi na niej `Linter pomaga pisać dobry kod.`,
-a to, co z niej zostaje otwarte, trzyma [TODO.md](../TODO.md).
+a to, co z niej zostaje otwarte, trzyma [todo/](../todo/README.md).
 
 Połowa tej klasy jest zamknięta i zamknęła się nie tam, gdzie ten etap patrzy.
 Formy paradygmatu `ten` niosły to czytanie licznie,
@@ -900,7 +900,7 @@ Widać to na jednej frazie, bez żadnego pomiaru:
 README pisze `kontrolowanych języków naturalnych`,
 gdzie `kontrolowany` określa, a `naturalny` nazywa,
 a to samo drzewo wypuszcza `kontrolowany naturalny język`.
-Ruch wraz z tym, co do niego przeczytać, trzyma [TODO.md](../TODO.md).
+Ruch wraz z tym, co do niego przeczytać, trzyma [todo/](../todo/README.md).
 
 Etap stoi pierwszy, bo każdy etap dokładający nowy szyk zdania
 będzie tę kategorię realizował,
@@ -951,7 +951,7 @@ Trzecim jest wybór, który po tamtych dwóch zostaje,
 i dopiero on wymaga rozstrzygnięcia, czym ma być.
 Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
 [sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
-a ruch trzyma [TODO.md](../TODO.md);
+a ruch trzyma [todo/](../todo/README.md);
 kryterium po stronie analizy stoi tam, gdzie
 [`admissible`](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not).
 
@@ -1041,7 +1041,7 @@ Etapem nie jest wreszcie `olski/skład/makieta.py`, czyli tekst do makiety losow
 bo kryterium tego toru mierzy zdanie napisane, a losowanie mierzy co innego:
 pokazuje, których faktów o polszczyźnie nie ma tu żaden leksykon,
 i pokazuje je dlatego, że autor drzewa wybiera je, nie zauważając, że wybrał.
-Cztery takie fakty wyszły z niego wprost do [`TODO.md`](../TODO.md),
+Cztery takie fakty wyszły z niego wprost do [`todo/`](../todo/README.md),
 a wywód trzyma
 [sklad.md](sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
 

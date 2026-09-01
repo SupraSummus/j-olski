@@ -273,7 +273,7 @@ def test_podmiot_spod_treści_odbiera_zdaniu_obok_opuszczenie():
     i stoi tu dlatego, że treść wchodzi do niego osobną drogą.
     Czas idzie tą samą drogą i widać go tu przy okazji:
     polszczyzna napisałaby `stoi` zamiast `stała`, bo liczy czas
-    względem zdania nad sobą, a trzyma to ``TODO.md``.
+    względem zdania nad sobą, a trzyma to ``todo/``.
     """
 
     def wiedział(rzecz):

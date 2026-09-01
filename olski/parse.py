@@ -275,7 +275,7 @@ class Rozbieżność:
     podmiotem jest raz ``organ gminy``, a raz ``przepis``.
     Grupa imienna roli zdania nie nosi, więc oba jej kształty streszczają się
     pustym słownikiem i po odsianiu powtórzeń zostaje z nich jedno streszczenie:
-    różnicę niesie tam głowa, której streszczenie nie nazywa (``TODO.md``).
+    różnicę niesie tam głowa, której streszczenie nie nazywa (``todo/``).
     """
 
     #: Formy konstytuenta, czyli to, co autor ma przepisać.
@@ -312,7 +312,7 @@ class Deklaracja:
     #: a warstwa za parserem zgaduje (``olski/rozstrzyganie.py``).
     #: Jest nią jedna, bo tabela skłonności i leksykon walencyjny
     #: mówią o wyrażeniu przyimkowym, a nie o każdym okoliczniku;
-    #: czy wiersz werdyktu ma być szerszy od warstwy, trzyma ``TODO.md``.
+    #: czy wiersz werdyktu ma być szerszy od warstwy, trzyma ``todo/``.
     rozstrzygany: str
     #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
     #: nawiasuje człon ciągu współrzędnego.
@@ -2130,7 +2130,7 @@ class Las:
         przymiotnikiem przed rzeczownikiem, a raz rzeczownikiem z dopełniaczem
         po nim, więc jedna rozpiętość ma tam dwie głowy, a nazwa bierze tę z
         pierwszego drzewa i tego wyboru nie ogłasza. Co z tym zrobić, jest
-        otwarte w TODO.md.
+        otwarte w todo/.
         """
         gotowe = self._przedstawiciele.get(pozycja)
         if gotowe is not None:

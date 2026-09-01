@@ -45,7 +45,7 @@ from olski.walencja import (
 #: Pytanie zależne jest pozycją osobną od zdania z `że`, a nie tym samym `comp`,
 #: bo Walenty rozdziela je kształtem i mówi to o kilkuset lematach; wywód i
 #: polecenie trzyma docs/subset.md. Stoi ono w ramie domyślnej tak samo jak `comp`,
-#: a zawężenia tej pozycji do leksykonu nikt nie zmierzył — TODO.md trzyma ten
+#: a zawężenia tej pozycji do leksykonu nikt nie zmierzył — todo/ trzyma ten
 #: przebieg.
 RAMA_DOMYŚLNA = frozenset({"nom", "acc", "inf", "comp", "int"})
 

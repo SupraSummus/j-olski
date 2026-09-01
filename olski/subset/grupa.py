@@ -136,7 +136,7 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     # na tamtym poziomie produkcja rekurencyjna daje `te [konstrukcje, które
     # stoją]` obok `[te konstrukcje], które stoją`, czyli dwa wyprowadzenia
     # jednej struktury, których nie ma czym odsiać. Cenę tego poziomu — człon
-    # lewy zdania względnego nie unosi — trzyma TODO.md, a docs/subset.md
+    # lewy zdania względnego nie unosi — trzyma todo/, a docs/subset.md
     # wywodzi, co zgodność z poprzednikiem odbiera przyłączeniu.
     grammar.rule(
         "grupa_imienna",

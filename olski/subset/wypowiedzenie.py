@@ -85,7 +85,7 @@ def _koordynacja_zdań(grammar: Grammar) -> None:
     # i na tym stoi zawężenie zasięgu, a nie na kształcie tych produkcji.
     # X → X conj X powiedziałoby to samo o zasięgu
     # i tablica Earleya bierze taką produkcję bez skargi,
-    # a różni je liczba czytań ciągu współrzędnego; TODO.md trzyma ten wybór.
+    # a różni je liczba czytań ciągu współrzędnego; todo/ trzyma ten wybór.
     # Symbol wspólny na spójnik i na przecinek powiedziałby to samo raz,
     # ale przecinek przestałby stać przy swoim poziomie,
     # a cena i zakup każdego z czterech poziomów są osobnymi liczbami,

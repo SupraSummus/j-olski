@@ -342,4 +342,4 @@ Markdown is the only format this reads,
 and the corpora that come in others still reach their figures by hand:
 [corpora.md](corpora.md#how-the-counts-here-were-taken)
 says which of them that is,
-and [TODO.md](../TODO.md) holds what to do about it.
+and [todo/](../todo/README.md) holds what to do about it.

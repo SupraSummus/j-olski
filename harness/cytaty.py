@@ -46,10 +46,15 @@ KOŃCZY_ZDANIE = (".", "?", "!")
 def domyślne() -> list[Path]:
     """Cała proza repozytorium, czyli to, co obejmują reguły pisania (CLAUDE.md).
 
-    Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia albo do
-    ``docs/`` wszedł tu sam; ten sam zbiór bierze ``tests/test_docs.py``.
+    Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
+    ``docs/`` albo do ``todo/`` wszedł tu sam; ten sam zbiór bierze
+    ``tests/test_docs.py``.
     """
-    return sorted(KORZEŃ.glob("*.md")) + sorted((KORZEŃ / "docs").glob("*.md"))
+    return (
+        sorted(KORZEŃ.glob("*.md"))
+        + sorted((KORZEŃ / "docs").glob("*.md"))
+        + sorted((KORZEŃ / "todo").glob("*.md"))
+    )
 
 
 def wstawki(tekst: str) -> Iterator[str]:

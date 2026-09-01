@@ -94,7 +94,7 @@ def test_lewa_rekursja_wyprowadza_się_zamiast_zapętlać():
     #  jej nie płaci: `A` rośnie tu w lewo o interpunkcję i domyka się na
     #  rzeczowniku, a czytanie wychodzi jedno. Wraca przez to wybór, którego olski
     #  nie miał: koordynację wolno teraz napisać jedną produkcją zamiast trzech
-    #  poziomów, i TODO.md trzyma, co ten zapis rusza.
+    #  poziomów, i todo/ trzyma, co ten zapis rusza.
     grammar = Grammar(start="A")
     grammar.rule("A", [Głowa(nt("A")), word("interp")])
     grammar.rule("A", [word("subst")])

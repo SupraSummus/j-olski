@@ -22,7 +22,7 @@ so a document naming a module is making a claim about where a fact lives,
 and a renamed file leaves that claim looking live.
 ``docs/architecture.md`` is where the claims are densest,
 its whole content being the map from a layer to the module that is one,
-and the check that reads it found a deleted test file named in ``TODO.md``.
+and the check that reads it found a deleted test file named in ``todo/``.
 
 Wskazanie mówiące, w którą stronę przewijać, jest zdaniem o kolejności w pliku.
 Sekcja przestawiona czyni je nieprawdą, a link rozwiązuje się dalej,
@@ -35,7 +35,11 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCUMENTS = sorted(ROOT.glob("*.md")) + sorted((ROOT / "docs").glob("*.md"))
+DOCUMENTS = (
+    sorted(ROOT.glob("*.md"))
+    + sorted((ROOT / "docs").glob("*.md"))
+    + sorted((ROOT / "todo").glob("*.md"))
+)
 #: Every module the repository holds, because a citation rots wherever it
 #: stands: in the grammar, in the harness beside it, in a spike whose whole point
 #: is a document, or in a test's docstring.
@@ -69,7 +73,9 @@ CITED_PATH = re.compile(
 #: to be recomputed. A module name there is about that program, not about this
 #: one, so it outlives the file the same way its figures do.
 O_USUNIĘTYM = "firing-rates.md"
-CITED_DOCUMENT = re.compile(r"(?:docs/[\w-]+|CLAUDE|TODO)\.md(?:#[\w-]+)?")
+#: Rejestr otwartej roboty jest katalogiem, a nie plikiem, więc kod cytujący go
+#: nazywa katalog; ``todo/README.md`` jest jego nagłówkiem i cytuje się tak samo.
+CITED_DOCUMENT = re.compile(r"(?:docs/[\w-]+|CLAUDE)\.md(?:#[\w-]+)?|todo/(?:README\.md)?")
 #: An entry in the README's list of documents, which is the only place that
 #: puts a document on somebody's path.
 LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md)\]")
