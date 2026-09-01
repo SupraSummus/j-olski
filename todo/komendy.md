@@ -182,7 +182,7 @@ Dwie sondy stoją nad jedną populacją i wołają tych samych świadków.
 `harness/wieloznaczność.py` i obie wypisują odpowiedź wraz ze zdaniem, nad którym
 padła; różni je to, że pierwsza wycenia wariantem granicę akapitu i regułę
 kandydata, a druga ma obok wzorzec czytany ręką
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Ruchem jest jedna sonda z flagą na wariant, bo dwa przebiegi po tym samym korpusie
 rozejdą się na pierwszej zmianie w tym, co liczy się za pozycję.
 Do rozstrzygnięcia jest, co się wtedy dzieje z wydrukiem: sonda pierwsza liczy

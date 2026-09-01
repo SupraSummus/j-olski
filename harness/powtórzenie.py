@@ -23,13 +23,13 @@ siebie.
 produkcji: różnica między świadkiem wypuszczanym a tym samym świadkiem z jednym
 warunkiem zdjętym jest ceną tego warunku. Które warunki i przy jakiej granicy
 sąsiedztwa, mówi :class:`Pomiar`. Wariant nie jest propozycją: akapit ma
-uzasadnienie, które trzyma ``docs/disambiguation.md``, a cenę trzeba znać, zanim
+uzasadnienie, które trzyma ``docs/rozstrzyganie.md``, a cenę trzeba znać, zanim
 ktoś je podważy.
 
 Trafności ta sonda nie liczy i nie ma czym: wzorca, który mówi, przy którym
 gospodarzu fraza stoi naprawdę, nad tym korpusem nie ma. Wypisuje więc każdą
 odpowiedź wraz ze zdaniem, nad którym padła, bo trafność nad tym materiałem
-czyta się ręką, a przeczytane stoi w ``docs/disambiguation.md``.
+czyta się ręką, a przeczytane stoi w ``docs/rozstrzyganie.md``.
 
 Korpusem jest proza wyekstrahowana z korpusu audytowego, a skąd ją wziąć, mówi
 ``docs/audit-corpus.md``:

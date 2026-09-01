@@ -650,7 +650,7 @@ Kolumnę tę plik wypisuje przy czasowniku i przy rzeczowniku,
 bo pyta o nią świadek ramowy warstwy rozstrzygającej i pyta po obu stronach
 spornego wyrażenia:
 rzeczownik wskazuje mu gospodarza, a czasownik wskazanie odbiera
-([disambiguation.md](disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
+([rozstrzyganie.md](rozstrzyganie.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
 Gramatyka jej nie czyta i nie ma po co:
 wyrażenie przyimkowe przyłącza się u olskiego wszędzie, gdzie polszczyzna je stawia,
 a wybór miejsca należy do czytelnika

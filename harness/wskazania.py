@@ -37,7 +37,7 @@ a akapitu, którego ten świadek żąda, nie ma stąd skąd wziąć.
 Jego zasięg mierzy ``harness/powtórzenie.py`` nad korpusem audytowym,
 a trafność ``harness/wybory.py`` na wyborach przeczytanych ręką.
 
-Wynik czyta ``docs/disambiguation.md``.
+Wynik czyta ``docs/rozstrzyganie.md``.
 
     python3 -m harness.wskazania Składnica-frazowa-180723/
 """

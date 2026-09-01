@@ -254,7 +254,7 @@ def pytania(zdanie: str) -> list[Przyłączenie]:
     **Populacja warstwy nad żywym tekstem jest morfologiczna, a nie z werdyktów,
     i to jest powód, po który sięgają tu obie sondy.** Gramatyka odrzuca w
     rejestrze dokumentacji prawie każde zdanie, więc werdykty stawiają nad
-    korpusem audytowym 38 wyborów na 2 915 zdań (``docs/disambiguation.md``), a
+    korpusem audytowym 38 wyborów na 2 915 zdań (``docs/rozstrzyganie.md``), a
     liczba zmierzona na nich mówi o gramatyce, nie o warstwie. Pozycja znaleziona
     morfologią stoi tam, gdzie polszczyzna daje dwa czytania, niezależnie od tego,
     czy olski to zdanie rozbiera.

@@ -204,7 +204,7 @@ def przyimki_rzeczownika(lemat: str) -> frozenset[str]:
     Plik rzeczownikowy Walentego wylicza dwa tysiące lematów,
     więc drugie zdarza się częściej,
     i to ono ogranicza zasięg tego świadka;
-    docs/disambiguation.md liczy, ile z tego wychodzi.
+    docs/rozstrzyganie.md liczy, ile z tego wychodzi.
     """
     return _przyimki(lemat, RZECZOWNIK)
 

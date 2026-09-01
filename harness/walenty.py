@@ -33,7 +33,7 @@ Kolumna przyimków nie jest zdaniem prawda-fałsz, tylko zbiorem: pozycja
 Czyta ją warstwa rozstrzygająca, a nie gramatyka, i po obu stronach spornego
 wyrażenia przyimkowego: rzeczownik wskazuje gospodarza, a czasownik odbiera
 wskazanie. Dlaczego wskazuje jedna strona, a nie obie, wywodzi
-docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
+docs/rozstrzyganie.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
 
 Rzeczownik wchodzi przez to obok czasownika i jest drugim plikiem wejściowym.
 Katalog przymiotnikowy i przysłówkowy zostają na zewnątrz, bo nikt o nie nie
@@ -148,7 +148,7 @@ SIĘ = " się"
 #: przecinkiem i to czytanie o niego nie pyta, bo ``Attachment`` w
 #: ``harness/attachment.py`` niesie sam przyimek: ``prepnp(o,loc)`` i
 #: ``prepnp(o,acc)`` wychodzą stąd jednym wpisem. Ile ten brak zawyża zasięg
-#: świadka, mówi docs/disambiguation.md.
+#: świadka, mówi docs/rozstrzyganie.md.
 PRZYIMKOWA = re.compile(r"prepnp\(([^,)]+),")
 
 #: Pozycja zleksykalizowana, czyli taka, w której Walenty żąda konkretnego słowa
@@ -162,7 +162,7 @@ ZLEKSYKALIZOWANA = "lex("
 #:
 #: Zwężenie do samego ``pewny`` zmierzono sondą i nie rusza ono żadnej liczby
 #: o więcej niż pół punktu, więc kolumna go nie bierze;
-#: docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
+#: docs/rozstrzyganie.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie.
 BRANE = frozenset({"pewny", "wątpliwy", "potoczny"})
 
 #: Kwalifikator schematu niewątpliwego. Sonda ma na nim wariant, więc stała stoi

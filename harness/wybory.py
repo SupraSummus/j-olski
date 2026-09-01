@@ -249,7 +249,7 @@ Z_ODPOWIEDZIĄ = """\
 #
 # Populacja jest przez to własnością warstwy i zmiana w warstwie ją rusza.
 # Kiedy wpisy trzeba przez to przerysować, a kiedy zostają, mówi
-# docs/disambiguation.md.
+# docs/rozstrzyganie.md.
 """
 
 

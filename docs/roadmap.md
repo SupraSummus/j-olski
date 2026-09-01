@@ -804,7 +804,8 @@ i z powodu przeciwnego niż przy przestawianiu:
 tamto olski wyklucza, a to jest tym, co olski oddaje czytelnikowi zamiast rozstrzygać.
 Ile taka warstwa miałaby do rozstrzygnięcia i za ile,
 wycenia [disambiguation.md](disambiguation.md),
-a `olski/rozstrzyganie.py` jest jej zalążkiem stojącym obok werdyktu i nie ruszającym go.
+a `olski/rozstrzyganie.py` jest jej zalążkiem, który werdyktu nie rusza
+([rozstrzyganie.md](rozstrzyganie.md)).
 
 Wykluczenie dotyczy przy tym rankingu, a nie każdej odpowiedzi takiej warstwy,
 a granicę między jednym a drugim wyznacza

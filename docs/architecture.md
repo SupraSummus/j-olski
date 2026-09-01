@@ -6,7 +6,8 @@ Uzasadnień tu nie ma.
 Mechanikę toru gramatycznego opisuje [parsowanie.md](parsowanie.md),
 a cenę tego toru opisuje [design-notes.md](design-notes.md).
 Poziomy kompilatora opisuje [sklad.md](sklad.md).
-Cenę warstwy rozstrzygającej liczy [disambiguation.md](disambiguation.md).
+Cenę warstwy rozstrzygającej liczy [disambiguation.md](disambiguation.md),
+a jej zalążek opisuje [rozstrzyganie.md](rozstrzyganie.md).
 O tym, co jest budowane, mówi [roadmap.md](roadmap.md#co-jest-budowane).
 
 Warstwy wyszły z pisania kodu, a nie z projektu spisanego przed nim.
@@ -131,7 +132,7 @@ Warstwa ta pyta jednak o `Przyłączenie`, czyli o obiekt składniowy.
 Widać to na jednym świadku:
 powtórzenie frazy przy kopuli nie dowodzi niczego o tym czasowniku,
 więc świadek kontekstowy nad taką parą milczy
-([disambiguation.md](disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([rozstrzyganie.md](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Ruch, który z tego wychodzi, opisuje wpis w [todo/](../todo/README.md).
 
 ## Warstwa znacząca leży w pakiecie drugiego toru

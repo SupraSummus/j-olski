@@ -215,7 +215,7 @@ czyli to, czego żaden etap nie planuje.
 Ile taka warstwa miałaby do rozstrzygnięcia, z jaką skutecznością robią to cudze maszyny
 i dlaczego reszty nie rozstrzyga nic, co stoi w zdaniu,
 wycenia [disambiguation.md](disambiguation.md),
-i tam też stoi zalążek, który nie rusza werdyktu.
+a zalążek, który werdyktu nie rusza, opisuje [rozstrzyganie.md](rozstrzyganie.md).
 
 Do przeczytania jest najpierw to, czy próbka wyżej się broni.
 Dwadzieścia cztery zdania przeczytane przez jedną osobę

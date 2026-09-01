@@ -70,7 +70,7 @@ def test_pozycja_dwuznaczna_żąda_rzeczownika_przed_wyrażeniem_i_czasownika():
 
 def test_gospodarzem_imiennym_jest_cała_grupa_a_nie_jej_ogon():
     #  W łańcuchu dopełniaczowym formą tuż przed przyimkiem jest ogon grupy, a
-    #  fraza dochodzi do jej głowy: docs/disambiguation.md czyta „z systemem RIT”
+    #  fraza dochodzi do jej głowy: docs/rozstrzyganie.md czyta „z systemem RIT”
     #  jako przydawkę wymiany, nie danych. Świadek kontekstowy schodzi tą samą
     #  drogą (_łańcuch w olski/rozstrzyganie.py), więc gospodarz wzięty z
     #  jednej formy kazałby mu wskazywać ogon i mylić się na tym łańcuchu.
