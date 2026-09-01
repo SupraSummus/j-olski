@@ -351,3 +351,30 @@ def test_imiesłów_czynny_nie_dochodzi_do_orzecznika():
     #  jednym terminalem do obu symboli przymiotnikowych naraz.
     found = verdict("Reguła jest sięgająca.")
     assert found.status == "rejected", found.explain()
+
+
+def test_ciąg_przyimkowy_o_trzech_członach_wyprowadza_się_raz():
+    #  Usterka, którą to łapie: ciało `X → X spójnik X` zamiast członu i ciągu
+    #  nad nim. Trzem członom daje ono dwa wyprowadzenia — `A i (B i C)` oraz
+    #  `(A i B) i C` — a napis jest jeden i znaczy jedno.
+    werdykt = verdict("Cena stoi w prozie i w kodzie i w pliku.")
+    assert werdykt.status == "valid", werdykt.explain()
+
+
+def test_ogon_ciągu_przyimkowego_nie_jest_osobnym_wyborem_przyłączenia():
+    #  Usterka, którą to łapie: ciąg wpisany pod nazwą roli, czyli bez symbolu
+    #  między nimi. Ogon jest wtedy drugim wyrażeniem przyimkowym w czytaniu,
+    #  więc werdykt nazywa jego gospodarza obok gospodarza całego ciągu, a lista
+    #  czytań pod spodem tego wyboru nie ma.
+    werdykt = verdict("Program zapisuje ustawienia w pliku i w katalogu.")
+    assert werdykt.status == "ambiguous", werdykt.explain()
+    [przyłączenie] = werdykt.result.przyłączenia
+    assert przyłączenie.modyfikator == "w pliku i w katalogu", werdykt.explain()
+
+
+def test_człony_ciągu_przyimkowego_stoją_pod_różnymi_przyimkami():
+    #  Usterka, którą to łapie: przypadek wypuszczony przez ciąg albo przez człon.
+    #  Rządzi nim przyimek stojący w każdym członie z osobna, więc żądanie
+    #  postawione nad ciągiem odbiera każdy ciąg o dwóch różnych przyimkach.
+    werdykt = verdict("Program szyje ubrania w Belgii i na Malcie.")
+    assert werdykt.readings, werdykt.explain()

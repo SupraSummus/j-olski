@@ -81,6 +81,8 @@ from olski.skład.składnia import (
 )
 from olski.skład.spójniki import SPÓJNIKI
 from olski.subset import (
+    CIĄG_PRZYIMKOWY,
+    CZŁON_PRZYIMKOWY,
     GRAMMAR,
     OKOLICZNIK_NARZĘDNIKOWY,
     OKOLICZNIK_PRZYSŁÓWKOWY,
@@ -390,8 +392,16 @@ def _okoliczniki(drzewo: Node) -> tuple[Okolicznik, ...]:
     Relacji jest w leksykonie więcej niż przypadków, które one rozdzielają,
     więc jeden napis wychodzi z kilku różnych rzeczy do powiedzenia,
     i to jest pierwsza z dwóch cisz, o których mówi nagłówek tego modułu.
+
+    Nad przyimkiem stoi człon, a nad członem ciąg współrzędny, bo gramatyka
+    koordynuje wyrażenia przyimkowe
+    (``docs/konstrukcje-gramatyczne/grupa-imienna.md``).
+    Ciąg o kilku członach nie ma tu kategorii: ``Okolicznik`` mówi o jednej
+    relacji i o jednej rzeczy, a koordynacja stoi w tym zapisie pod rolą
+    (:class:`Koordynacja`), więc ten kierunek zgłasza taki napis brakiem
+    kategorii, zamiast zwracać sam człon pierwszy.
     """
-    przyimek, grupa = drzewo.children
+    przyimek, grupa = _człon_przyimkowy(drzewo).children
     if isinstance(przyimek, Node):
         raise PozaZapisem(f"{_nazwa(przyimek)} nie jest przyimkiem")
     return tuple(
@@ -400,6 +410,21 @@ def _okoliczniki(drzewo: Node) -> tuple[Okolicznik, ...]:
         for relacja in RELACJE.get(słowo, ())
         for co in _role(grupa)
     )
+
+
+def _człon_przyimkowy(drzewo: Node) -> Node:
+    """Jedyny człon tego ciągu; ciąg o kilku członach zgłasza brak kategorii.
+
+    Zejście idzie przez dwa symbole, bo tyle stoi nad przyimkiem: rola, a pod nią
+    ciąg współrzędny, którego ten zapis nie ma czym powiedzieć
+    (:func:`_okoliczniki`).
+    """
+    for etykieta in (CIĄG_PRZYIMKOWY, CZŁON_PRZYIMKOWY):
+        [dziecko, *reszta] = drzewo.children
+        if reszta or isinstance(dziecko, Leaf) or _etykieta(dziecko) != etykieta:
+            raise PozaZapisem(f"{_nazwa(drzewo)} nie jest tu jednym wyrażeniem przyimkowym")
+        drzewo = dziecko
+    return drzewo
 
 
 def _narzędniki(drzewo: Node) -> tuple[Okolicznik, ...]:

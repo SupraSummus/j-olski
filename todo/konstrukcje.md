@@ -35,17 +35,6 @@ wypuszcza cechę, której ciało ciągu żąda od członu pierwszego.
 Zdanie to pisze `docs/roles.md`, a odrzucenie jest werdyktem uczciwym,
 więc pozycja nie ma pilności, jaką miałby brak wydający `valid`.
 
-Para myślników nie ma wyprowadzenia, a wtrącenie, którego żąda, stoi w środku zdania,
-gdzie obie pozycje nawiasu zamykają zdanie,
-więc jest to pozycja nowa, a nie drugi znak w gotowym ciele
-([`docs/subset.md`](../docs/subset.md#what-it-does-not-cover-yet)).
-Ruchem jest para jako jedna córka w tym miejscu, które wylicza rozwinięcie szyku,
-czyli tam, gdzie staje okolicznik zdania.
-Do przeczytania jest ciało wtrącenia w `olski/subset/zdanie.py` obok `Rozwinięcie`
-w `olski/precedencja.py`, bo pytanie jest o to, ile czytań ta pozycja dokłada
-zdaniu, które parę stawia na końcu: tam da się ją przyłączyć do zdania składowego
-i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
-
 Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
 nie ma ani pozycji, ani ceny, bo deklaracja tej pozycji bierze samo dopełnienie
 ([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
@@ -120,7 +109,7 @@ tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
 więc po werdykcie nie widać jej wcale.
 Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
 w tym samym przypadku, i cena jest widoczna przed pomiarem:
-przecinek jest już znakiem koordynacji na czterech poziomach
+przecinek jest już znakiem koordynacji na pięciu poziomach
 ([`docs/subset.md`](../docs/subset.md#what-the-grammar-covers)),
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
 Apozycję z przecinkiem niesie 217 zdań Składnicy z 13035 mających drzewo wzorcowe
@@ -230,13 +219,24 @@ Zdanie tego kształtu stoi w [`docs/architecture.md`](../docs/architecture.md),
 a autor odmówił tam zapłaty, bo wersja przechodząca żąda liczby pojedynczej
 od trzech warstw naraz.
 
-Człon bez czasownika stoi tylko na końcu zdania składowego, a wtrącony w środek pada
-([`docs/subset.md`](../docs/subset.md#what-it-does-not-cover-yet)).
-Pozycja w środku zdania jest tą samą pozycją, której żąda para myślników,
-więc oba wpisy zamyka jedna sesja, a nie dwie:
-wtrącenie w środku wylicza rozwinięcie szyku, a nie osobne ciało na każdy znak.
-Do przeczytania jest, ile czytań ta pozycja dokłada zdaniu, które ten człon stawia
-na końcu, bo tam da się go przyłączyć do zdania składowego i do zdania nad nim.
+Człon bez czasownika stoi tylko na końcu zdania składowego, a wtrącony w środek pada:
+`Skład, czyli Morfeusz, jest tani.` nie ma czytania, a `Parser jest tani, czyli
+Morfeusz.` ma ([`docs/subset.md`](../docs/subset.md#what-it-does-not-cover-yet)).
+Miejsce w środku zdania gramatyka ma, bo weszła nim para myślników
+([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#para-myślników-obejmuje-wtrącenie-w-środku-zdania-a-nawias-na-jego-końcu)),
+więc został sam człon i to, czego on od tego miejsca żąda:
+przecinka po obu stronach.
+Ruchem jest przez to cecha na członie, a nie kolejne ciało w liście okoliczników:
+przecinek zamykający dokłada `_zamykane` w `olski/subset/podrzędne.py` osobnym ciałem,
+a dwa ciała jednego symbolu są dla produkcji nad nim jednym symbolem,
+więc pozycja wpisana bez tej cechy wpuszcza w środek zdania człon niedomknięty.
+Do przeczytania jest ta funkcja wraz z listą symboli, które przez nią przechodzą:
+cecha dopisana tam dochodzi zarazem do zdania podrzędnego i względnego,
+a cechy wypuszczanej bez czytelnika pilnuje `NIE_WYPUSZCZANE`
+w `olski/subset/deklaracja.py`.
+Do przeczytania jest przedtem, ile czytań ta pozycja dokłada zdaniu, które ten człon
+stawia na końcu: tam da się go przyłączyć i do zdania składowego, i do miejsca
+okolicznika za jego ostatnią córką, czyli dwa razy w tym samym napisie.
 
 Spójnik skorelowany nie zaczyna się za podmiotem:
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
@@ -370,3 +370,22 @@ bo para jest symbolem, a nie dwiema córkami zdania, i to ono rozstrzyga,
 czy ruchem jest szyk dopisany parze, czy para rozpisana na córki.
 Ruch żąda pomiaru, bo szyk wysunięty jest w tej gramatyce kosztowny
 i mnoży czytania tam, gdzie grupy są synkretyczne.
+
+Orzecznik nie stoi między podmiotem a swoją kopulą, więc `Rekordy spodziewane są.`
+nie ma wyprowadzenia, a `Rekordy są spodziewane.` ma i `Spodziewane są rekordy.` też.
+Jest to ta sama usterka, o której mówi
+[`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#the-bare-verb-initial-order-keeps-the-predicative-one-honest),
+tyle że o jeden szyk dalej: przymiotnik jest przydawką albo orzeka,
+a gramatyka mająca jeden z tych dwóch szyków wydaje drugie czytanie sama.
+Brak ten nie odrzuca zdania, tylko zostawia w nim czytanie nieprawdziwe:
+imiesłów przed kopulą czyta się przydawką za rzeczownikiem,
+więc `W Tokio, Sydney i w Londynie rekordy spodziewane są dopiero dzisiaj.`
+wychodzi z podmiotem `rekordy spodziewane`, a bank drzew orzeka tym imiesłowem
+([`docs/corpus.md`](../docs/corpus.md#agreement-which-matters-more-than-acceptance)).
+Ruchem jest ciało z tym szykiem wraz z pomiarem, a cena jest widoczna przed nim:
+przydawka za rzeczownikiem zostaje, więc każde takie zdanie dostanie drugie czytanie
+zamiast pierwszego prawdziwego, czyli zamieni werdykt nieprawdziwy na wieloznaczność
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+Do przeczytania jest przedtem, ile zdań banku drzew stoi na tym czytaniu:
+wpis znalazło jedno, które przyszło do wiersza niezgodnych razem z ciągiem
+współrzędnym wyrażeń przyimkowych, a przebiegu po całym wierszu nikt nie zrobił.

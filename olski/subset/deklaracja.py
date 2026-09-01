@@ -21,6 +21,20 @@ from olski.subset.słowa import GRUPA_ORZECZENIA_ODWRÓCONA
 WYRAŻENIE_PRZYIMKOWE = "wyrażenie_przyimkowe"
 
 
+#: Człon ciągu współrzędnego wyrażeń przyimkowych: `o bierniku` w `Leksykon mówi
+#: o bierniku i o bezokoliczniku.` Rolą ta nazwa nie jest, bo rolą jest cały ciąg,
+#: tak samo jak przy członie imiennym: werdykt nazywa wyrażenie przyimkowe wraz
+#: z gospodarzem, do którego ono doszło, a człony ciągu dochodzą do niego razem.
+CZŁON_PRZYIMKOWY = "człon_przyimkowy"
+
+
+#: Ciąg współrzędny tych członów, czyli to, co stoi pod rolą i nią nie jest.
+#: Symbol jest osobny od :data:`WYRAŻENIE_PRZYIMKOWE`, bo ogon ciągu pod tamtą
+#: nazwą byłby drugim wyborem przyłączenia: określa on to samo, co cały ciąg,
+#: a werdykt wypisałby go osobno i nazwał gospodarza, którego czytanie już nazwało.
+CIĄG_PRZYIMKOWY = "ciąg_przyimkowy"
+
+
 #: Rola przysłówka, czyli tego, który określa zdanie. Przysłówek określający
 #: przymiotnik roli nie dostaje: stoi on wewnątrz orzecznika albo przydawki, więc
 #: widać go w wypełnieniu tamtej roli, a wypisany drugi raz obok mówiłby o zdaniu,
@@ -120,6 +134,19 @@ OKOLICZNIK_NARZĘDNIKOWY = "okolicznik_narzędnikowy"
 #: grupa imienna w jego środku nie jest ani podmiotem, ani dopełnieniem,
 #: i streszczenie nazywa ją całym napisem.
 WTRĄCENIE = "wtrącenie"
+
+
+#: Rola wtrącenia w parze myślników: `— w prozie czy w kodzie —` w `Zepsute
+#: miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
+#:
+#: Symbol jest osobny od :data:`WTRĄCENIE`, choć oba dopowiadają obok zdania, bo
+#: rozdziela je miejsce: nawias staje tam, gdzie zdanie składowe się kończy, a
+#: para staje wszędzie tam, gdzie okolicznik zdania. Jeden symbol na oba dałby
+#: nawiasowi każde z tych miejsc, więc `Zdanie stoi (docs/subset.md).`
+#: wychodziłoby tyloma czytaniami, ilu gospodarzy ma w nim wyrażenie przyimkowe,
+#: a po to tamta pozycja jest jedna
+#: (docs/konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania).
+WTRĄCENIE_MYŚLNIKOWE = "wtrącenie_myślnikowe"
 
 
 #: Rola członu, którego czasownik ten rejestr opuszcza: `a nie zdanie` w
@@ -241,6 +268,7 @@ DEKLARACJA = Deklaracja(
         OKOLICZNIK_ZDANIOWY,
         GRUPA_PYTAJNA,
         WTRĄCENIE,
+        WTRĄCENIE_MYŚLNIKOWE,
         ELIPSA,
         DOPOWIEDZENIE,
         WYRAŻENIE_PRZYIMKOWE,
@@ -266,6 +294,7 @@ DEKLARACJA = Deklaracja(
         SPÓJNIK,
         OKOLICZNIK_ZDANIOWY,
         WTRĄCENIE,
+        WTRĄCENIE_MYŚLNIKOWE,
         ELIPSA,
     ),
     rozstrzygany=WYRAŻENIE_PRZYIMKOWE,
@@ -324,6 +353,7 @@ DEKLARACJA = Deklaracja(
         "zdanie_podrzędne",
         OKOLICZNIK_ZDANIOWY,
         WTRĄCENIE,
+        WTRĄCENIE_MYŚLNIKOWE,
         ELIPSA,
         DOPOWIEDZENIE,
     ),
@@ -358,6 +388,7 @@ MIJANE = (
     # Symbol, który streszczenie nazywa całym sobą (`podrzędne` wyżej),
     # więc rola z jego wnętrza gospodarza nie dostaje.
     ELIPSA,
+    WTRĄCENIE_MYŚLNIKOWE,
     "zdanie_względne",
 )
 
@@ -394,7 +425,7 @@ NIE_WYPUSZCZANE = {
     "podmiot": ("case",),
     "dopełnienie": ("case",),
     "orzecznik": ("case",),
-    "wyrażenie_przyimkowe": ("case",),
+    CZŁON_PRZYIMKOWY: ("case",),
     **{rodzina.modyfikator: ("case",) for rodzina in RODZINY},
     "wypełnienia": ("czoło", "kopula"),
     "człon_imienny": ("accommodability",),

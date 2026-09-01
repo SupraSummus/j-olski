@@ -287,7 +287,7 @@ a resztę zostawia bez nazwy.
 Zdanie, które to pokazuje, jest wyliczeniem siedmiu grup imiennych
 spiętych przecinkiem i spójnikiem —
 `ministrów, sekretarzy stanu i podsekretarzy stanu, …` —
-a olski bierze [współrzędność na czterech poziomach](konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it),
+a olski bierze [współrzędność na pięciu poziomach](konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it),
 więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
 Wiersza ciąg nie dostaje, bo granicę członu pokazuje nawias w napisie roli
 ([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).

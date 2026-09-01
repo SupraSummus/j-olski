@@ -271,8 +271,10 @@ Do przeczytania jest przy tym `harness/luka.py`:
 tamten wariant zdejmuje ciała `rdzeń_względny` i zastępuje je luką,
 więc pozycja dopisana do nich rusza każdą liczbę tamtej sekcji.
 
-Myślnik stoi u olskiego między dwoma zdaniami i nie stoi wewnątrz zdania,
-a polszczyzna stawia go wewnątrz w miejscu pominiętego orzeczenia:
+Myślnik rozdziela u olskiego dwa zdania i obejmuje parą wtrącenie
+([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#para-myślników-obejmuje-wtrącenie-w-środku-zdania-a-nawias-na-jego-końcu)),
+a pojedynczo w miejscu pominiętego orzeczenia nie stoi,
+choć polszczyzna go tam stawia:
 `Ania lubi cydr, Janek — piwo.` jest odrzucone.
 Człon bez czasownika olski ma i licencjonuje go spójnikiem
 ([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)),
@@ -296,9 +298,9 @@ Wpis waży przy tym więcej, niż mówi liczba zdań, i mówi to drugie użycie 
 czyli autor dostaje znak, którym rozstrzyga sam
 ([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md)),
 a takich pozycji ten podzbiór ma niewiele.
-Ceną jest to, że znak ten spina dziś dwa zdania,
-a para myślników ma wpis osobny, ten o wtrąceniu w środku zdania,
-więc ciało wewnątrz zdania konkuruje z obydwoma i sesja bierze je razem.
+Ceną jest to, że znak ten ma dziś dwa ciała — rozdzielające i parę —
+więc ciało pojedyncze wewnątrz zdania konkuruje z obydwoma,
+a napis z dwoma myślnikami ma wtedy wyprowadzenie także jako para.
 
 Zamknięta lista kopul nie ma `stawać się` ani `okazywać się`,
 a polszczyzna orzeka nimi narzędnik tak samo jak `zostawać`.

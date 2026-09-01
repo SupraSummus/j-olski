@@ -146,9 +146,16 @@ Drugiego znaku rozdzielającego zdanie nie bierze — ani dwóch średników, an
 średnika razem z dwukropkiem — bo `zdanie` żadnego z nich nie ma, więc rekurencji
 nie ma czym zbudować. Granica ta jest wypowiedziana, a nie przeoczona, i zostaje
 [subset.md](../subset.md#what-it-does-not-cover-yet).
-Najwięcej kosztuje ona przy myślniku, bo ten rejestr stawia go parą częściej
-niż pojedynczo, a para obejmuje wtrącenie w środku zdania,
-zamiast rozdzielać dwa zdania.
+Dwa myślniki w jednym zdaniu są przy tym konstrukcją inną, a nie tą granicą:
+para obejmuje wtrącenie, zamiast rozdzielać dwa zdania,
+i ma [własną sekcję](#para-myślników-obejmuje-wtrącenie-w-środku-zdania-a-nawias-na-jego-końcu).
+Zerowej ceny z gramatyki myślnik przez to nie ma,
+bo stoi w czterech ciałach zamiast w jednym,
+a rozdziela je liczba znaków: rozdzielające bierze jeden myślnik, para bierze dwa.
+Zdanie z dwoma znakami ma stąd wyprowadzenie jedno,
+bo rozdzielające żąda zdania za sobą, a zdanie drugiego myślnika nie ma.
+Zero jest tu więc liczbą z pomiaru, a nie z gramatyki:
+ani nad tą prozą, ani nad bankiem drzew nie traci jednoznaczności ani jedno zdanie.
 
 **Przecinek przed spójnikiem jest faktem o słowie.**
 `Plany są niczym, ale planowanie jest wszystkim.` przecinka wymaga,
@@ -467,6 +474,64 @@ i jest to w tej prozie mniejszość:
 nawias stoi w niej zwykle przed kropką albo przecinkiem,
 czyli tam, gdzie kończy się zdanie, jego składowe albo zdanie względne w nim,
 co liczy `grep -oP '\)[.,]' proza/docs.txt | wc -l` wobec wszystkich nawiasów tego pliku.
+
+## Para myślników obejmuje wtrącenie w środku zdania, a nawias na jego końcu
+
+`Zepsute miejsce — w prozie czy w kodzie — nie potrzebuje lepszej wersji.`,
+`Reszta jest prywatna — nazwa funkcji w module — i rusza ją zwykła robota.`
+Para obejmuje to samo, co nawias — dopowiedzenie, które w zdaniu pozycji nie
+zajmuje — a rozdziela je miejsce.
+Nawias zamyka zdanie składowe albo zdanie względne w nim
+([wyżej](#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
+a para wchodzi w środek zdania, między jego składniki.
+
+**Miejsce daje parze lista okoliczników, a nie ciało wypisane na każde z nich.**
+Miejsce na okolicznik wylicza się za każdą córką zdania (`olski/precedencja.py`),
+więc symbol dopisany do tej listy dostaje je wszystkie naraz:
+za podmiotem, za dopełnieniem i na końcu zdania składowego.
+Ciało wypisane na każde z tych miejsc byłoby drugą deklaracją szyku,
+a szyk deklaruje się w tej gramatyce raz
+([subset.md](../subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
+
+Symbol jest przy tym osobny od nawiasowego, a werdykt nazywa je dwiema rolami.
+Jeden symbol na oba wpuściłby nawias w każde miejsce okolicznika,
+więc `Zdanie stoi (docs/subset.md).` wychodziłoby tyloma czytaniami,
+ilu gospodarzy ma w nim wyrażenie przyimkowe,
+a jedno czytanie tego napisu jest tym, po co pozycja nawiasu jest jedna.
+Para tej ceny nie płaci, bo miejsce, w którym stoi, wskazują dwa znaki naraz:
+w `Cenę tego — pokrycie — trzyma dokument.` gospodarz jest jeden i wypisuje go werdykt.
+
+**Wypełnienia są trzy i cena każdego z nich jest osobną liczbą.**
+Grupa imienna kupuje kilka zdań tej prozy, a zdanie składowe pojedyncze.
+Pierwsze wtrąca nazwę albo wyliczenie, drugie całe zdanie:
+`Zdjęte jedno z nich nie odrzuca tego zdania — drugie wyprowadza je samo — tylko
+oddaje je jednym czytaniem.`
+Wyrażenie przyimkowe kupuje jedno zdanie i kupuje je razem z ciągiem
+współrzędnym wyrażeń przyimkowych
+([grupa-imienna.md](grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna)):
+bez tamtej pozycji `— w prozie czy w kodzie —` potyka się o spójnik w środku pary,
+a samo wypełnienie nie kupuje wtedy ani jednego zdania.
+Dwie pozycje wpuszczone razem bywają przez to warte więcej niż z osobna
+([pisanie-po-olsku.md](../pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
+Jednoznaczności nie traci przy żadnym z tych trzech ani jedno zdanie,
+a zdania nowo wyprowadzone wychodzą wieloznaczne:
+są długie i niosą wieloznaczność z innego powodu.
+
+**Zakup jest własnością rejestru, a nie gramatyki.**
+Nad bankiem drzew ta konstrukcja nie rusza ani jednego zdania,
+pod złotą morfologią ani pod żywą,
+bo proza prasowa wtrąca nawiasem i przecinkiem, a pary myślników nie pisze.
+Pisze ją dokumentacja tego repozytorium: przeszło sto zdań jej prozy niesie dwa
+myślniki, licząc znaki w zdaniach wyciętych przez `harness/markdown.py`.
+Rozjazd jest ten sam, co przy pytaniu zależnym za dwukropkiem
+([wyżej](#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
+
+Na zewnątrz zostaje para obejmująca człon bez czasownika —
+`Reszta jest prywatna — a nie publiczna — i rusza ją robota.` —
+oraz para, za którą stoi spójnik bez przecinka:
+`Szyk jest jeden — forma przyszła przed czasownikiem — więc reszta stoi za nim.`
+Pierwsza jest wypełnieniem czwartym, a druga koordynacją,
+której przecinka para nie zastępuje.
 
 ## Rozdzielające `a` nie jest przyimkiem tego rejestru
 

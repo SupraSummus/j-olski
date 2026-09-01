@@ -318,10 +318,14 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Zaimek dzierżawczy przed rzeczownikiem, czyli `jego`, `jej` i `ich`:
   `Jego skutki są znane.`, `Ich cena jest niska.`
   ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
-- Coordination, of noun phrases, of adjective phrases, of attributes
-  and of clauses, joined by a conjunction or by a comma.
+- Coordination, of noun phrases, of adjective phrases, of attributes,
+  of prepositional phrases and of clauses, joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
-  on all four levels, so `Plik jest nowy ale duży.` has no derivation
+  on all five levels, so `Plik jest nowy ale duży.` has no derivation
+- Ciąg współrzędny wyrażeń przyimkowych, czyli piąty z tych poziomów,
+  z przyimkiem powtórzonym przed każdym członem:
+  `Leksykon mówi o bierniku i o bezokoliczniku.`
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna))
 - Przydawka złożona z kilku przymiotników, w obu szykach przydawki,
   wraz z tym szykiem, w którym człony dzielą między siebie rzeczownik:
   `Nowy i tani parser zapisuje ustawienia.`, `Warstwy trzecia i czwarta pracują.`
@@ -375,6 +379,10 @@ a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
 - Nawias obok zdania składowego, czyli wtrącenie, którym ten rejestr dopowiada:
   `Zdanie stoi (docs/subset.md).`, `Cena jest niska (niżej).`
   ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania))
+- Para myślników obejmująca wtrącenie w środku zdania, tam gdzie staje okolicznik:
+  `Zepsute miejsce — w prozie czy w kodzie — nie potrzebuje lepszej wersji.`,
+  `Reszta jest prywatna — nazwa funkcji w module — i rusza ją zwykła robota.`
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#para-myślników-obejmuje-wtrącenie-w-środku-zdania-a-nawias-na-jego-końcu))
 - The past tense, agreeing with the subject in gender as well as in number,
   and with the person clitic Morfeusz cuts off the form:
   `Program zapisywał ustawienia.`, `Napisałem program.`
@@ -785,14 +793,6 @@ Every one of these is a sentence that gets rejected and should not be:
   `(A; B); C` and `A; (B; C)` are the same string
   and a right-recursive body would give it two derivations,
   where the enumeration this register writes with semicolons is one flat list.
-- Para myślników, czyli wtrącenie w środku zdania:
-  `Zepsute miejsce — w prozie czy w kodzie — nie zawsze potrzebuje lepszej wersji.`
-  jest odrzucone, gdzie ten sam znak pojedynczy rozdziela dwa zdania
-  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)).
-  Ten rejestr pisze parę częściej niż znak pojedynczy,
-  a pozycja, której ona żąda, jest wtrąceniem w środku zdania składowego,
-  gdzie nawias stoi na jego końcu
-  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
 - Wypełnienie inne niż dopełnienie, wysunięte przed to, co orzeka bez podmiotu:
   `Czytać trzeba dokumenty.` jest odrzucone,
   gdzie `Usterkę zgłoszono.` wyprowadza się
@@ -870,8 +870,12 @@ Every one of these is a sentence that gets rejected and should not be:
   gdzie `Parser jest tani, czyli Morfeusz.` wyprowadza się
   ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
   Pozycja jest jedna i stoi na końcu zdania składowego, tak samo jak pozycja
-  nawiasu, a wtrącenie w środku jest osobnym ciałem i osobną liczbą,
-  której nikt nie policzył; `todo/` trzyma ten przebieg.
+  nawiasu, a miejsce w środku zdania ma odtąd para myślników
+  ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#para-myślników-obejmuje-wtrącenie-w-środku-zdania-a-nawias-na-jego-końcu)).
+  Człon w tym miejscu żąda przecinka po obu stronach,
+  a przecinek zamykający jest w tej gramatyce ciałem osobnym, nie cechą,
+  więc pozycja wpuściłaby w środek zdania także człon niedomknięty;
+  `todo/` trzyma ten przebieg.
 - Nazwa postawiona przy rzeczowniku bez spójnika:
   `Bank drzew Składnica mierzy gramatykę.` jest odrzucone,
   gdzie `Składnica jest bankiem drzew.` wyprowadza się.

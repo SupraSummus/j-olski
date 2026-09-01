@@ -10,7 +10,9 @@ from __future__ import annotations
 
 from olski.grammar import Grammar, Głowa, Sym, V, nt, word
 from olski.subset.deklaracja import (
+    CIĄG_PRZYIMKOWY,
     CZĄSTKA_ZDANIA,
+    CZŁON_PRZYIMKOWY,
     OKOLICZNIK_NARZĘDNIKOWY,
     OKOLICZNIK_PRZYSŁÓWKOWY,
     SPÓJNIK,
@@ -437,12 +439,40 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     """Konstytuenty, którymi ten rejestr wyraża okoliczność, wraz z wyrażeniem przyimkowym."""
     # Jeden lemat jest tu wykluczony i wykluczony jest z nazwy
     # (:data:`PRZYIMEK_ROZDZIELAJĄCY`).
-    grammar.rule("wyrażenie_przyimkowe", [Głowa(PRZYIMEK), nt("grupa_imienna", case=V("c"))])
+    grammar.rule(CZŁON_PRZYIMKOWY, [Głowa(PRZYIMEK), nt("grupa_imienna", case=V("c"))])
 
     # To samo wyrażenie z zaimkiem zwrotnym pod przyimkiem: `Reguły odsyłają do
     # siebie.` Ciało jest osobne, bo zakup jest osobną liczbą, a przypadek idzie
     # tą samą zmienną, więc przyimek rządzi zaimkiem tak, jak rządzi grupą.
-    grammar.rule("wyrażenie_przyimkowe", [Głowa(PRZYIMEK), ZWROTNY])
+    grammar.rule(CZŁON_PRZYIMKOWY, [Głowa(PRZYIMEK), ZWROTNY])
+
+    # Ciąg współrzędny wyrażeń przyimkowych: `Leksykon mówi o bierniku i o
+    # bezokoliczniku.` Poziom jest piąty i ostatni z tych, które polszczyzna
+    # koordynuje, a olski miał cztery
+    # (docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it).
+    #
+    # Symbole są trzy. Człon i ciąg nad nim wybrano dla liczby czytań, tak samo jak
+    # przy grupie imiennej (dokument wyżej). Trzeci jest rolą i stoi nad ciągiem,
+    # bo ogon ciągu pod nazwą roli wychodziłby drugim wyborem przyłączenia,
+    # którego streszczenie czytania nie wypisuje.
+    #
+    # Przypadka nie wypuszcza ani człon, ani ciąg — rządzi nim przyimek, a nie to,
+    # co ciąg zajmuje (:data:`NIE_WYPUSZCZANE`) — więc dwa człony pod różnymi
+    # przyimkami stoją w jednym ciągu.
+    #
+    # Spinacze są dwa, po jednym ciele na każdy, tak samo jak na czterech poziomach
+    # obok, i cena każdego jest osobną liczbą. Przecinek bierze przy tym zarazem
+    # zawężenie — `Działa w Polsce, w okolicach Kielc.` — czyli apozycję, której
+    # olski nie ma, i jest to ta sama zamiana co na poziomie imiennym; ile który
+    # spinacz kupuje, mierzy
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna.
+    grammar.rule("wyrażenie_przyimkowe", [nt(CIĄG_PRZYIMKOWY)])
+    grammar.rule(CIĄG_PRZYIMKOWY, [nt(CZŁON_PRZYIMKOWY)])
+    for spinacz in (SPÓJNIK_BEZ_PRZECINKA, PRZECINEK):
+        grammar.rule(
+            CIĄG_PRZYIMKOWY,
+            [Głowa(nt(CZŁON_PRZYIMKOWY)), spinacz, nt(CIĄG_PRZYIMKOWY)],
+        )
 
     # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
     # bo bez tego symbolu okolicznik przysłówkowy nie ma węzła, który werdykt nazwie
