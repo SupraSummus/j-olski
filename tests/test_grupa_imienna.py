@@ -212,7 +212,7 @@ def test_dwa_czytania_tej_samej_głowy_są_jednym_czytaniem():
     #  Na tym stoi zerowa cena tej głowy: `czytanie` jest u Morfeusza i
     #  rzeczownikiem, i formą odczasownikową `czytać`, a ciała są dwa, więc zdanie
     #  ma dwa wyprowadzenia. Kształt mają jeden, a część mowy jest z tożsamości
-    #  czytania wyłączona (`Node.signature` w `olski/parse.py`), więc wpadają do
+    #  czytania wyłączona (`Node.signature` w `olski/parse/czytanie.py`), więc wpadają do
     #  jednej klasy i zdanie zostaje jednoznaczne.
     werdykt = verdict("Czytanie jest tanie.")
     assert werdykt.status == "valid", werdykt.explain()

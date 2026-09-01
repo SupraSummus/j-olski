@@ -34,7 +34,7 @@ Dwie warstwy powtarzają się w obu torach.
 | warstwa | gdzie | wejście | wyjście |
 | --- | --- | --- | --- |
 | morfologia | `olski/morph.py`, `olski/projekt.py`, `olski/słownictwo.py`, `olski/segmentacja.py` | napis | `Segment`, czyli krawędzie grafu segmentacji |
-| składnia | `olski/grammar.py`, `olski/parse.py` | krawędzie grafu | `Node`, po jednym na czytanie |
+| składnia | `olski/grammar.py`, `olski/parse/` | krawędzie grafu | `Node`, po jednym na czytanie |
 | znaczenie | `abstrahuj` w `olski/skład/rozbiór.py` | `Node` | `Odczyt`, czyli drzewa `Zdanie` wraz z powodami |
 | tekst | `olski/rozstrzyganie.py` | wybory wraz z `Sąsiedztwo` | `Rozstrzygnięcie` albo wybór z powrotem |
 | werdykt | `Verdict` w `olski/werdykt.py` | `Result` | status, role i to, co zostało otwarte |

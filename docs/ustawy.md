@@ -277,7 +277,7 @@ python3 -m olski.check proza/ustawy/*.txt | grep -oP '\d+(?= readings)' | sort -
 Kilkadziesiąt zdań ma ich więcej niż `MAX_READINGS`,
 a najdłuższe idą w setki tysięcy; trzy pierwsze drukuje polecenie wyżej.
 Liczby te są dokładne, bo las podaje je bez wyliczania drzew,
-a `MAX_READINGS` z `olski/parse.py` sięga wypisywania czytań
+a `MAX_READINGS` z `olski/parse/las.py` sięga wypisywania czytań
 i nie sięga ani liczenia ich, ani ról, o które się one różnią.
 
 Werdykt nad takim zdaniem nazywa dwa albo trzy przyłączenia

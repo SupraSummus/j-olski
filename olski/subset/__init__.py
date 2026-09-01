@@ -93,7 +93,7 @@ def build() -> Grammar:
 
     Kolejność wywołań jest kolejnością wpisywania produkcji, a tę widać po
     czytaniach: rozstrzyga o nich koszt, a przy równym koszcie właśnie ona
-    (``wyprowadzenia`` w ``olski/parse.py``). Sekcja przestawiona zmienia więc
+    (``wyprowadzenia`` w ``olski/parse/las.py``). Sekcja przestawiona zmienia więc
     czytania, a nie sam układ pakietu, i dlatego jej moduł tego nie rusza:
     kolejność stoi tutaj, w jednym miejscu, i dowodzi jej odcisk samej gramatyki
     (``harness/odcisk.py``).

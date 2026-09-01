@@ -118,7 +118,7 @@ def bloker(segments: Sequence[Segment], result: Result) -> str | None:
     if result.furthest is None:
         raise ValueError(
             "bloker nazywa formę z miejsca zatrzymania, "
-            "a ten przebieg o zatrzymanie nie pytał (podsumuj w olski/parse.py)"
+            "a ten przebieg o zatrzymanie nie pytał (podsumuj w olski/parse/)"
         )
     segment = na_czym_stanęło(list(segments), result.furthest)
     if segment is None:

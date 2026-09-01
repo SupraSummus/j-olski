@@ -35,7 +35,7 @@ def role(werdykt):
     """Role czytań zdania o jednym zdaniu składowym, po słowniku na czytanie.
 
     Streszczeniem czytania jest krotka o słowniku na każde zdanie składowe
-    (``describe`` w ``olski/parse.py``).
+    (``describe`` w ``olski/parse/streszczenie.py``).
     Zdanie o dwóch składowych wywraca ten pomocnik,
     zamiast wyjść z niego samym składowym pierwszym.
     """

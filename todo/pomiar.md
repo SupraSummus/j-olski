@@ -63,7 +63,7 @@ a wariant z luką tamtych ciał nie ma i musi ją postawić po swojemu:
 `rdzeń_względny` składa tam zaimek ze zdaniem,
 któremu brakuje dokładnie tego, czym on jest,
 więc etykieta ma stanąć nad zaimkiem w tej jednej produkcji.
-Do przeczytania jest przy tym `Node.span` w `olski/parse.py`,
+Do przeczytania jest przy tym `Node.span` w `olski/parse/czytanie.py`,
 bo pole to wpisano pod produkcję o pustym ciele, a ta sonda jest jego pierwszym czytelnikiem.
 Nie zamyka tego wpisu cała cena: warunek precedencji na lukę pilnuje pozycji w ciele,
 a nie w napisie, więc zdanie zagnieżdżone dalej wychodzi dwoma kształtami.
@@ -71,7 +71,7 @@ Rozdzielenie dominacji od precedencji tej reszty nie zamknęło i zamknąć nie 
 rozwinięcie mówi o kolejności córek w ciele, czyli o tym samym, o czym mówi luka dziś
 ([`docs/subset.md`](../docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
 a warunek pytany o rozpiętości musiałby stanąć w lesie, gdzie `_przejdź`
-w `olski/parse.py` dostaje ciało wraz z rozpiętościami córek.
+w `olski/parse/las.py` dostaje ciało wraz z rozpiętościami córek.
 Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed nim.
 Odbiorca takiego warunku jest przy tym jeden i mówi to pomiar, a nie przeoczenie:
 tryb w ciągu współrzędnym i zagnieżdżenie liczebnika prosiły o tę samą maszynerię,
@@ -114,7 +114,7 @@ Drugą pozycją ceny jest zatrzymanie:
 sondy z tej czwórki o nie nie pytają, bo żadna go nie czyta, a `harness.pomiar` pyta,
 bo z niego liczy tabelę blokerów,
 i nad zdaniem odrzuconym kosztuje ono mniej więcej drugi rozbiór
-(`podsumuj` w `olski/parse.py`).
+(`podsumuj` w `olski/parse/`).
 Do przeczytania jest więc najpierw, ile ta trójka dokłada do przebiegu,
 bo poniżej progu, przy którym to widać, ruch jest samym zdjęciem duplikatu,
 a powyżej jest wyborem między dwoma przebiegami a jednym droższym.

@@ -4,7 +4,7 @@ Gramatyka wyprowadza zdanie, a nie mówi o nim nic ponadto,
 więc streszczenie czytania bierze się stąd:
 nazwa roli jest etykietą, którą werdykt wypisuje,
 a :data:`DEKLARACJA` mówi, na których symbolach zejście po lesie staje
-(``olski/parse.py``).
+(``olski/parse/las.py``).
 Ile kosztuje wpis pominięty, mówi komentarz przy każdej z tych list.
 """
 
@@ -299,7 +299,7 @@ DEKLARACJA = Deklaracja(
     ),
     rozstrzygany=WYRAŻENIE_PRZYIMKOWE,
     # Konstytuenty, na których zatrzymuje się zejście w górę od modyfikatora
-    # (``_gospodarze`` w ``olski/parse.py``).
+    # (``_gospodarze`` w ``olski/parse/las.py``).
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
     # a okolicznik zdania nie ma nad sobą ani grupy imiennej, ani przymiotnikowej
     # i zostaje przy zdaniu.
@@ -332,7 +332,8 @@ DEKLARACJA = Deklaracja(
     # a nie symbol członu — ``człon_imienny``, ``człon_przymiotnikowy``,
     # ``zdanie_składowe`` — który jest jednym członem, a nie ciągiem.
     # Przydawka koordynuje się tak samo i tutaj nie stoi:
-    # nawias schodzi do ciągu przez węzły o jednej córce (``_nawiasuj`` w ``olski/parse.py``),
+    # nawias schodzi do ciągu przez węzły o jednej córce
+    # (``_nawiasuj`` w ``olski/parse/streszczenie.py``),
     # a przydawka stoi pod rzeczownikiem, czyli w ciele o kilku córkach,
     # więc wpisana tu odbierałaby wiersz o konstytuencie, nie dając w zamian nawiasu.
     współrzędne=("grupa_imienna", "grupa_przymiotnikowa", "zdanie"),
@@ -411,7 +412,7 @@ MIJANE = (
 #: poza `dostawka`, a nad prozą tego repozytorium gramatyka bez tych wpisów
 #: wydaje werdykt i liczbę czytań co do zdania te same.
 #: Wpisy zostają, bo cechę wypuszczaną rozdziela las na klasy pozycji
-#: (`klasy` w ``olski/parse.py``), więc niesiona bez czytelnika kosztuje rozbiór;
+#: (`klasy` w ``olski/parse/las.py``), więc niesiona bez czytelnika kosztuje rozbiór;
 #: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (todo/).
 NIE_WYPUSZCZANE = {
     "zdanie_składowe": ("number", "gender", "person", "valency", "negacja", "druga", "dostawka"),

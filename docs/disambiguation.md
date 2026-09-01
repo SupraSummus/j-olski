@@ -108,7 +108,7 @@ bo o zdaniu z jednym czytaniem nie ma czego pytać.
 Punktem odniesienia dla każdej takiej maszyny
 jest to, co ten parser oddaje za darmo.
 Las wydaje czytania w kolejności, którą ustala
-`wyprowadzenia` w `olski/parse.py` ([sekcja niżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
+`wyprowadzenia` w `olski/parse/las.py` ([sekcja niżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
 a kolejność ustalona jest rankingiem,
 tyle że takim, który nie widział ani jednego drzewa wzorcowego.
 Nad zdaniami, które olski odrzuca za wieloznaczność,
@@ -129,7 +129,7 @@ i to jest ta część pytania, o której najłatwiej zapomnieć.
 
 Kolejność, którą mierzy sekcja wyżej, jest deklaracją.
 Las porządkuje ciała jednej pozycji trzema rzeczami po kolei
-(`wyprowadzenia` w `olski/parse.py`):
+(`wyprowadzenia` w `olski/parse/las.py`):
 kosztem, potem miejscem cięcia, a na końcu etykietą córki.
 Werdyktu żadna z nich nie rusza — czytań jest tyle samo i mówią to samo —
 więc rozstrzygają one o tym, co czytelnik widzi u góry wydruku
@@ -169,7 +169,7 @@ koszt rozstrzyga między ciałami jednej pozycji,
 więc zostaje tam, gdzie konkurencja jest, a idzie wyżej, gdy jej nie ma.
 Ciała córki rozstrzygnęła sama córka,
 a czytania formy nie rozstrzyga nikt, bo liść ciał nie ma:
-dwa czytania jednej formy są jednym liściem (`Pozycja` w `olski/parse.py`).
+dwa czytania jednej formy są jednym liściem (`Pozycja` w `olski/parse/czytanie.py`).
 Koszt morfologii liczony na miejscu nie ruszyłby przez to ani jednego zdania.
 
 Cięcie rozstrzyga ciała jednego kosztu i idzie rozpiętością malejąco,
@@ -450,7 +450,7 @@ i nie było pod nim żadnego pomiaru, kiedy je stawiano.
 
 Drugie z trzech pytań nie potrzebuje modelu ani banku drzew.
 Dwa wyprowadzenia są jednym czytaniem, kiedy mają ten sam kształt,
-a co do kształtu nie wchodzi, rozstrzyga `signature` w `olski/parse.py`
+a co do kształtu nie wchodzi, rozstrzyga `signature` w `olski/parse/czytanie.py`
 i opisuje [subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie):
 lematy, wartości cech i część mowy są wyłączone rozmyślnie.
 Każde takie wyłączenie to wieloznaczność, która przestała być raportowana,

@@ -700,7 +700,7 @@ tylko że mnożenie wypada na rodzinie zdaniowej, a nie na względnej.
 
 Parser nie kosztował ani jednej zmiany, i tyle drabina obiecała.
 Tablica Earleya przyjmuje produkcję o pustym ciele,
-a `Node.span` w `olski/parse.py` jest wpisywane przy budowaniu właśnie dlatego,
+a `Node.span` w `olski/parse/czytanie.py` jest wpisywane przy budowaniu właśnie dlatego,
 że węzeł takiej produkcji nie ma dzieci, z których dałoby się rozpiętość wyliczyć.
 Cena szczebla 2 nie wypada więc w tym, co liczy rozbiór,
 a to jest ta sama obserwacja, którą robi
@@ -1002,7 +1002,7 @@ See [glr-in-practice.md](glr-in-practice.md#measurements).
 Nullable rules, which pro-drop makes unavoidable, are not an objection:
 Tomita's original algorithm breaks on them and maintained implementations do not.
 
-**Earley is the boring answer and it is what `olski/parse.py` runs.**
+**Earley is the boring answer and it is what `olski/parse/tablica.py` runs.**
 It handles any CFG, including left recursion and nullable rules,
 with no preprocessing;
 it produces a shared packed parse forest natively;
@@ -1072,7 +1072,7 @@ zostawić enumerator i powiedzieć, że zdanie o więcej niż `MAX_READINGS` czy
 jest po prostu za wieloznaczne, żeby je czytać.
 Werdykt „poddaję się” jest tu w porządku i nie o niego idzie.
 Idzie o to, że enumerator zstępujący nie umiał go wydać tanio.
-`analyses` w `olski/parse.py` przed tą zmianą (commit `9456a22`)
+`analyses` przed tą zmianą (commit `9456a22`, wtedy jeden moduł)
 wyliczał pod pozycją każde wyprowadzenie, zanim oddał pierwsze,
 więc granica ucinała wydruk, a nie pracę.
 Zdanie ustawy o 28 042 czytaniach pod gramatyką z tamtej chwili —
@@ -1377,7 +1377,7 @@ a stamtąd ten iloczyn idzie w górę aż do korzenia.
 
 Stoi więc wyjście drugie: iloczyn liczony po parach, które unifikacja przepuszcza,
 co zostawia tablicę spakowaną i przenosi koszt z pakowania do liczenia.
-Tak liczy `Las.klasy` w `olski/parse.py`:
+Tak liczy `Las.klasy` w `olski/parse/las.py`:
 kształty jednej pozycji stoją w klasach po tym, jakie cechy wypuszczają,
 i kombinacja klas, której produkcja nie składa, nie wnosi ani jednego czytania.
 Miarą, wobec której oba warianty zmierzono, był enumerator zstępujący,
@@ -1472,7 +1472,7 @@ Sonda tego pytania nie miała, bo
 
 Pierwszego zysku nie ma, a cena za niego stoi poza parserem.
 Czytanie bez licencji nie zmienia dziś żadnego werdyktu,
-bo `terminal` w `olski/parse.py` odrzuca je tak samo,
+bo `terminal` w `olski/parse/tablica.py` odrzuca je tak samo,
 ani nie rusza `furthest`, który idzie w górę wyłącznie po dopasowaniu udanym,
 więc wycięcie takiego czytania przed rozbiorem oddaje ten sam `Result`, tylko szybciej.
 Rusza się co innego: `bloker` w `olski/pokrycie.py`
@@ -1541,7 +1541,7 @@ z środowiskiem cech niesionym w dół,
 więc zgodność była wpleciona w sam rozbiór.
 Tablica Earleya o cechy nie pyta wcale,
 a unifikacja przechodzi po lesie osobno i w jednym miejscu:
-`_sposoby` w `olski/parse.py` rozstrzyga, czy córka pasuje do rodzica,
+`_sposoby` w `olski/parse/las.py` rozstrzyga, czy córka pasuje do rodzica,
 i nikt poza nim tego nie rozstrzyga.
 Warunek precedencji miał się więc gdzie wpisać —
 `_przejdź` dostaje ciało wraz z rozpiętościami córek,
@@ -1664,7 +1664,7 @@ Zawężanie liczby czytań ma tu właścicieli wyłożonych i jednego niewyłoż
 `admissible` w `olski/segmentacja.py` odbiera czytanie, którego polszczyzna nie ma,
 warunek na [zaimek rzeczowny](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem)
 odbiera grupie imiennej drugie czytanie tego samego kształtu,
-a `signature` w `olski/parse.py` liczy dwa wyprowadzenia jako jedno czytanie.
+a `signature` w `olski/parse/czytanie.py` liczy dwa wyprowadzenia jako jedno czytanie.
 Każde z tych trzech jest pojedynczą decyzją z wywodem i z ceną:
 pierwsze wykłada [kryterium słownikowe](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not),
 a ostatnie jest czterema wierszami, które ruszają każdy werdykt,

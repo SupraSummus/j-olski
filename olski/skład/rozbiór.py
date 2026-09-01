@@ -31,7 +31,7 @@ i jest to ten sam chwyt, którym mierzy się ``olski/skład/przegląd.py``.
 
 **Kształt bierze z drzewa, a wartości z formy.**
 Czytanie parsera jest swoim kształtem, a lematy i wartości cech
-są z niego wyłączone rozmyślnie (``signature`` w ``olski/parse.py``),
+są z niego wyłączone rozmyślnie (``signature`` w ``olski/parse/czytanie.py``),
 więc lemat wzięty z liścia jest lematem tego wyprowadzenia, które w czytaniu zostało,
 a nie tego, o którym mówi zdanie.
 Pytana jest zatem krawędź grafu segmentacji, czyli wszystkie czytania formy,

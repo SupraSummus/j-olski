@@ -259,7 +259,7 @@ def pytania(zdanie: str) -> list[Przyłączenie]:
     morfologią stoi tam, gdzie polszczyzna daje dwa czytania, niezależnie od tego,
     czy olski to zdanie rozbiera.
 
-    Typ jest ten sam, którym pyta werdykt (``Przyłączenie`` w ``olski/parse.py``),
+    Typ jest ten sam, którym pyta werdykt (``Przyłączenie`` w ``olski/parse/podsumowanie.py``),
     więc pytanie stąd i pytanie z rozbioru są jednym kształtem. Tyle samo nie
     znaczą: fraza jest tu propozycją, bo gdzie wyrażenie przyimkowe się kończy,
     mówi dopiero rozbiór, którego nad tym rejestrem w większości nie ma.

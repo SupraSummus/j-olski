@@ -26,7 +26,7 @@ Reading a GPL v3 parser of Polish is what raised it
 and the answer decides whether olski could ever link against such a thing.
 
 `ruff format` nie stoi w [bloku checków](../CLAUDE.md#checks),
-a nad kilkunastoma plikami z dziewięćdziesięciu ma zdanie inne niż to,
+a nad kilkudziesięcioma plikami ma zdanie inne niż to,
 co w nich stoi: wypisuje je `ruff format --check .`,
 a `--diff` pokazuje, że różnica jest w miejscach łamania wiersza, nie w kodzie.
 Wyborem to nie jest, bo [reguła o łamaniu](../CLAUDE.md#semantic-line-breaks)
@@ -37,5 +37,5 @@ Ruchem jest jedno z dwojga — `ruff format --check .` dopisany do bloku checkó
 i do workflowu wraz z jednym przebiegiem po całym drzewie,
 albo zdanie w `CLAUDE.md`, że formatera tu nie używamy,
 a `ruff check` jest całym sprawdzeniem kodu.
-Do przeczytania jest `ruff format --diff olski/parse.py`,
+Do przeczytania jest `ruff format --diff olski/parse/las.py`,
 bo mówi, co ten przebieg zrobiłby z adnotacją typu rozbitą ręką na trzy wiersze.

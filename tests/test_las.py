@@ -2,7 +2,7 @@
 
 Las odpowiada na pytanie, na które lista czytań odpowiedzieć nie umie:
 czytań bywa więcej, niż wydruk wypisuje
-(``MAX_READINGS`` w ``olski/parse.py``),
+(``MAX_READINGS`` w ``olski/parse/las.py``),
 więc liczba, numer czytania i to, czym czytania się różnią,
 biorą się z lasu, a nie z tej listy
 (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
@@ -106,7 +106,7 @@ def _po_liściach(liście, zamiast=None):
         "Program zapisuje ustawienia, które sprawdza linter.",
         #  Najkrótszy kształt wychodzący z dwóch ciał naraz, zaimkowego i
         #  rzeczownikowego, więc liść niesie odczytania obu
-        #  (`Las._wsparte_kształtu` w olski/parse.py): tu ta suma może wyjść za szeroko.
+        #  (`Las._wsparte_kształtu` w olski/parse/las.py): tu ta suma może wyjść za szeroko.
         "Znam go.",
     ],
 )
@@ -114,7 +114,7 @@ def test_liść_wyliczonego_drzewa_niesie_odczytania_licencjonujące_jego_pozycj
     """Drzewo pokazane czytelnikowi ma być tym, co gramatyka nad tymi odczytaniami wyprowadza.
 
     Pakowanie wyłącza z tożsamości odczytania lemat i część mowy
-    (`Node.signature` w olski/parse.py),
+    (`Node.signature` w olski/parse/czytanie.py),
     więc wyprowadzenia różne samą morfologią są jedną klasą,
     a przedstawiciel klasy mógłby nieść odczytania liści wzięte spoza niej:
     dopełniacz pod pozycją dopełniacza jest wtedy w drzewie mianownikiem,
@@ -122,7 +122,7 @@ def test_liść_wyliczonego_drzewa_niesie_odczytania_licencjonujące_jego_pozycj
     tego, kto je wypisuje, żeby zrozumieć wieloznaczność.
 
     Sprawdzane jest każde odczytanie liścia, a nie samo pierwsze, bo werdykt
-    wypisuje je wszystkie (`Las._wsparte` w olski/parse.py): odczytanie wpisane
+    wypisuje je wszystkie (`Las._wsparte` w olski/parse/las.py): odczytanie wpisane
     tam bez licencji mówiłoby autorowi, że forma stoi w tym odczytaniu zdania
     czymś, czym gramatyka jej nie bierze.
     """
@@ -214,7 +214,7 @@ def test_lista_czytań_niesie_każde_streszczenie_raz():
 def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
     """Urwana lista ma być za każdym razem tymi samymi streszczeniami.
 
-    Kolejność ustala `wyprowadzenia` w `olski/parse.py` i tam stoi wywód;
+    Kolejność ustala `wyprowadzenia` w `olski/parse/las.py` i tam stoi wywód;
     ten test pilnuje, żeby zbiór postawiony gdziekolwiek po drodze z lasu
     nie oddał jej z powrotem haszowaniu napisów.
     Po liczbie czytań tego nie widać, bo ta jest sumą po klasach,

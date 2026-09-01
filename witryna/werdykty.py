@@ -76,7 +76,7 @@ def _zdanie(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> dict[str, Any]:
         "wyjaśnienie": verdict.explain(),
         #  Lista niesie streszczenia różne, a liczba czytań wychodzi z lasu, więc
         #  jedna z drugiej się nie wylicza. Że wyliczanie stanęło na
-        #  ``MAX_READINGS`` (``olski/parse.py``), mówi osobne pole: po długości
+        #  ``MAX_READINGS`` (``olski/parse/las.py``), mówi osobne pole: po długości
         #  listy tego nie widać, bo skraca ją także samo powtórzenie napisu.
         "czytania": verdict.readings,
         "liczba_czytań": verdict.result.ile,

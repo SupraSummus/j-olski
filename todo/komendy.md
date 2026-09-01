@@ -26,7 +26,7 @@ bo tam ta różnica rozstrzyga o przyrządzie pomiarowym
 
 Lista czytań mnoży odmiany zdań składowych, a mogłaby je sumować.
 Wpisem na liście jest jedno czytanie, a streszczeniem czytania krotka
-o słowniku na każde składowe (`describe` w `olski/parse.py`),
+o słowniku na każde składowe (`describe` w `olski/parse/streszczenie.py`),
 więc dwa składowe wieloznaczne każde na swój sposób dają tyle wpisów,
 ile jest par ich odmian, po tyle wierszy każdy, ile zdanie ma składowych.
 Cenę tę opisuje
@@ -34,7 +34,7 @@ Cenę tę opisuje
 i bierze ją świadomie, więc ten wpis odwraca decyzję, a nie naprawia przeoczenie.
 Ruchem jest wpis na zdanie składowe wraz z odmianami tego jednego składowego,
 czyli ten sam kształt, jaki ma wiersz o konstytuencie rozbieżnym
-(`Rozbieżność` w `olski/parse.py`): wpisów jest wtedy tyle, ile składowych,
+(`Rozbieżność` w `olski/parse/podsumowanie.py`): wpisów jest wtedy tyle, ile składowych,
 a wierszy tyle, ile odmian wszystkich składowych razem.
 Sam kształt jest tu łatwiejszy niż dwie decyzje, które on wymusza.
 Pierwsza: czym jest to samo zdanie składowe w dwóch czytaniach,
@@ -212,7 +212,7 @@ Sonda nad Świgrą pyta jej wydruk o czas i o łuki, a `info(trees, …)` z tego
 wydruku pomija, więc różnicę, o którą w tym porównaniu chodzi najbardziej,
 `harness/świgra.py` zostawia niezmierzoną.
 Świgra liczy wyprowadzenia tam, gdzie olski liczy odczytania — `counttrees` w
-`birnam_cleanforest.pl` mnoży poddrzewa, a `signature` w `olski/parse.py` kwotuje po
+`birnam_cleanforest.pl` mnoży poddrzewa, a `signature` w `olski/parse/czytanie.py` kwotuje po
 lematach, wartościach cech i częściach mowy — i dziś rozstrzyga to samo czytanie
 źródła ([`docs/swigra.md`](../docs/swigra.md#why-wrapping-it-does-not-get-there)).
 Ruchem jest `trees` i `useful_edges` dopisane do `POLE`, kolumna w wydruku sondy,

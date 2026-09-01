@@ -8,7 +8,7 @@ w której głową jest `swojego`:
 przymiotnik ma czytanie rzeczownikowe, a rzeczownik dopełniaczowe,
 czyli tę samą parę, o którą pyta wpis o rzeczownikowym czytaniu przymiotnika.
 Wybór między tymi dwiema nazwami robi porządek, w jakim las wydaje drzewa,
-bo `_przedstawiciel` w `olski/parse.py` bierze pierwsze z nich,
+bo `_przedstawiciel` w `olski/parse/las.py` bierze pierwsze z nich,
 a porządek ten idzie po rozpiętościach córek (`ciała` w tym samym pliku)
 i o tym, która głowa nazywa grupę imienną, nie mówi nic.
 Formom to nie grozi, bo konstytuent ma je w każdym czytaniu te same.
@@ -23,7 +23,7 @@ bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów
 Grupa imienna rozbieżna zostaje bez listy czytań, bo streszczenie nie ma w niej czego nazwać.
 `Verdict.rozbieżne` w `olski/werdykt.py` wypuszcza konstytuent,
 którego streszczenia naprawdę się różnią, czyli zdanie podrzędne, a grupy imiennej nie:
-`describe` w `olski/parse.py` szuka ról zdania, a grupa imienna żadnej nie nosi,
+`describe` w `olski/parse/streszczenie.py` szuka ról zdania, a grupa imienna żadnej nie nosi,
 więc oba jej kształty streszczają się pustym słownikiem.
 Różnica siedzi tam w głowie — raz `rada` z przydawką `zainteresowana`,
 raz `zainteresowana` z przymiotnikiem `rada` i dopełniaczem `gminy` —
@@ -55,7 +55,7 @@ Do rozstrzygnięcia jest, czy ta rzecz ma czytelnika.
 
 Ciąg współrzędny wewnątrz wypełnienia roli nie ma po werdykcie żadnego wiersza.
 Nawias pokazuje granicę członu tylko nad ciągiem, którym jest sama rola
-(`_nawiasuj` w `olski/parse.py`),
+(`_nawiasuj` w `olski/parse/streszczenie.py`),
 a wiersz o konstytuencie ustępuje mu miejsca nad każdym ciągiem
 (`_nazwany_gdzie_indziej` tamże),
 więc `Ustawa określa zadania ochrony ludności i obrony cywilnej.`

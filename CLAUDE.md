@@ -695,7 +695,7 @@ which no merge tool reports and no test catches.
 
 So a split names, per session, the decision that session settles —
 what makes two derivations one reading, say,
-which the docstring of `Node.signature` in `olski/parse.py` settles.
+which the docstring of `Node.signature` in `olski/parse/czytanie.py` settles.
 Where two come out the same, it is one session.
 This is the demand [`todo/`](todo/README.md) makes of a single entry —
 that it name the evidence it reads and not only the files it changes —
@@ -828,7 +828,7 @@ produkcje wraz z deklaracją wypisuje `harness/odcisk.py`.
 **Blok wydruku stoi w dokumencie pod komendą, która go odtwarza.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/werdykt.py`
-albo pole dopisane w `Deklaracja` w `olski/parse.py` —
+albo pole dopisane w `Deklaracja` w `olski/parse/podsumowanie.py` —
 i wtedy każdy taki blok bierze się ręką.
 Który to blok, mówi `tests/test_wydruki.py`:
 puszcza komendę stojącą nad wydrukiem
@@ -922,7 +922,7 @@ String hashing is randomised at startup,
 so a set walked in order to print something prints a different thing in every run,
 and over a sentence truncated at `MAX_READINGS` it prints different readings.
 One place fixes the order and everything downstream inherits it:
-`ciała` in `olski/parse.py` does that for the forest,
+`wyprowadzenia` in `olski/parse/las.py` does that for the forest,
 and where a sort key can tie, the tiebreak is written into the key.
 A single value picked out of a set is the same defect wearing one value
 instead of many, and it hides better:

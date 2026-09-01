@@ -10,7 +10,7 @@ Rodzaje bierze z tego, co werdykt o zdaniu mówi, a nie z osobnej klasyfikacji
 napisanej obok: ``różniące`` nazywa role, które czytania obsadzają różnie,
 ``przyłączenia`` modyfikatory, których gospodarz zostaje nierozstrzygnięty, a
 ``rozbieżności`` konstytuenty czytane kilkoma sposobami poza zasięgiem
-streszczenia (``olski/parse.py``).
+streszczenia (``olski/parse/streszczenie.py``).
 
 Wynik odpowiada na dwa pytania naraz i to jest powód, żeby liczyć je jednym
 przebiegiem. Pierwsze: co musiałaby umieć maszyna, żeby zdanie z tej klasy
