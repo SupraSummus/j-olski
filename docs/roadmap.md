@@ -281,8 +281,8 @@ Nagłówek, pozycja listy i wiersz tabeli
 dochodzą do olskiego jako akapity, których nic nie punktuje,
 i przebieg liczy je osobno,
 bo policzone jako odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
-Ten plik nie ma już ani jednej takiej pozycji,
-bo lista dokumentów stoi w nim zdaniami.
+Ten plik nie ma ani jednej takiej pozycji,
+bo nie ma w nim ani listy, ani tabeli.
 Co je od zdania odróżnia i jak dużą częścią rejestru są, trzyma
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem).
 

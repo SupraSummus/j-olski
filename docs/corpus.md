@@ -356,7 +356,7 @@ python3 -m harness.markdown README.md --into proza/
 python3 -m olski.check proza/README.txt
 ```
 
-A third of that README's sentences derive once,
+Better than a quarter of that README's sentences derive once,
 most of the rest derive more than once,
 and a handful are rejected.
 The file is written that way rather than found that way:
@@ -445,8 +445,7 @@ The track has no exit criterion
 ([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)),
 so what the run prices is each addition rather than a distance to a finish.
 What it counts as a sentence is what the run reports as one,
-and every entry of the document list is one,
-so nothing in this file comes back `fragment` and stands outside the denominator.
+and nothing in this file comes back `fragment` and stands outside the denominator.
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)
 owns that class and how much of this register it is.
 

@@ -12,7 +12,7 @@ The block in ``CLAUDE.md`` is what a person runs,
 the workflow's steps are what a push runs,
 and nothing derives one from the other.
 
-A document the README does not list is the same rot with nothing renamed:
+A document ``docs/README.md`` does not list is the same rot with nothing renamed:
 it is on no reader's path, and adding one without listing it costs nothing.
 Which path a document sits on is what ``docs/roles.md`` names.
 
@@ -80,11 +80,12 @@ O_USUNIĘTYM = "firing-rates.md"
 CITED_DOCUMENT = re.compile(
     r"(?:docs/[\w-]+(?:/[\w-]+)?|CLAUDE)\.md(?:#[\w-]+)?|todo/(?:README\.md)?"
 )
-#: An entry in the README's list of documents, which is the only place that
-#: puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
+#: An entry in the docs register's list of documents, which is the only place
+#: that puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
 #: więc wchodzi na tę listę tak jak dokument, a wiersz nazywa katalog:
 #: bez tego rejestr zszedłby ze ścieżki czytelnika i nic by nie czerwieniało.
-LISTED_DOCUMENT = re.compile(r"(?m)^- \[docs/([\w-]+\.md|[\w-]+/)\]")
+#: Wiersz nazywa plik bez katalogu, bo spis stoi w tym samym katalogu co on.
+LISTED_DOCUMENT = re.compile(r"(?m)^- \[([\w-]+\.md|[\w-]+/)\]")
 HEADING = re.compile(r"(?m)^#+\s+(.*)$")
 #: Słowo, którym wskazanie mówi, w którą stronę przewijać. Kierunek jest
 #: własnością pary — wskazania i celu — a nie samego linku.
@@ -178,9 +179,10 @@ def test_every_document_cited_from_code_resolves(source: Path, target: str):
     assert_resolves(ROOT / path, anchor, source.name)
 
 
-def test_every_document_is_listed_in_the_readme():
-    listed = set(LISTED_DOCUMENT.findall((ROOT / "README.md").read_text()))
-    documents = {path.name for path in (ROOT / "docs").glob("*.md")}
+def test_every_document_is_listed_in_the_docs_register():
+    register = ROOT / "docs" / "README.md"
+    listed = set(LISTED_DOCUMENT.findall(register.read_text()))
+    documents = {path.name for path in (ROOT / "docs").glob("*.md")} - {register.name}
     registers = {f"{path.name}/" for path in (ROOT / "docs").iterdir() if path.is_dir()}
     assert documents | registers == listed
 
