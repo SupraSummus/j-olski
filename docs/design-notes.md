@@ -75,7 +75,7 @@ Stałe w `olski/subset/` płacą ją przy symbolach z wywodem,
 bo komentarz nad stałą jest jego miejscem.
 To, co miał kupić, przychodzi bez niego:
 checki w `olski/grammar.py` łapią literówkę w głowie produkcji,
-w nazwie cechy i w nazwie zmiennej,
+w nazwie cechy, w nazwie zmiennej i w wartości, której więz żąda,
 a powtórzenia nie ma, bo cechy córki-głowy wychodzą z konstytuenta same
 (tamże).
 Pytanie wraca, jeżeli symbole zaczną przybywać regularnie

@@ -193,6 +193,27 @@ def test_cecha_wypuszczana_zmienną_której_nic_nie_wiąże_jest_zgłaszana():
     assert grammar.wypuszczane_bez_wiązania() == frozenset({("A", "number")})
 
 
+def test_więz_na_wartość_której_symbol_nie_wypuszcza_jest_zgłaszany():
+    #  Tyle zostaje po literówce w wartości i po pozycji napisanej nie tak, jak
+    #  chciano: unifikacja przecina zbiory, więc ciało z takim więzem nie domyka
+    #  się przy żadnej formie i stoi w gramatyce, nie odbierając ani czytania.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [nt("B", case="inf")])
+    grammar.rule("B", [word("subst", case=V("c"))], case=V("c"))
+    assert grammar.więzy_niespełnialne(VALUES) == frozenset({("B", "case", frozenset({"inf"}))})
+
+
+def test_więz_domykający_się_na_produkcji_milczącej_o_cesze_nie_jest_zgłaszany():
+    #  Druga produkcja `B` przypadka nie niesie, a cechy nieobecnej unifikacja
+    #  nie sprawdza, więc ten sam więz co wyżej domyka się właśnie na niej.
+    #  Sprawdzenie liczące samą pierwszą produkcję żądałoby zdjęcia więzu żywego.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [nt("B", case="inf")])
+    grammar.rule("B", [word("subst", case=V("c"))], case=V("c"))
+    grammar.rule("B", [word("adv")])
+    assert grammar.więzy_niespełnialne(VALUES) == frozenset()
+
+
 def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
     #  Produkcja dopisana bez znacznika nazwałaby gospodarza przyłączenia pierwszą
     #  córką, cokolwiek nią jest, a werdykt wskazywałby wtedy nie to słowo i nie
@@ -230,4 +251,8 @@ def test_każdy_więz_na_terminalu_pyta_o_cechę_którą_morfologia_zna():
     a więzów na terminalach jest w tej gramatyce kilkaset.
     """
     assert GRAMMAR.więzy_terminali_niesprawdzane(set(VALUES.values())) == frozenset()
+
+
+def test_każdy_więz_gramatyki_żąda_wartości_którą_część_niesie():
+    assert GRAMMAR.więzy_niespełnialne(VALUES) == frozenset()
 
