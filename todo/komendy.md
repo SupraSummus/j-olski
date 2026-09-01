@@ -286,3 +286,23 @@ Do przeczytania są dwa zdania wiodące w
 [sekcji o pomiarze](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) —
 o stosunku zgrubnym i o mierzeniu na przemian —
 bo oba są spakowane i mówią, czego ta komenda ma nie przepuścić.
+
+`olski-check` szuka `olski.toml` od katalogu roboczego, a proza,
+którą sprawdza, leży zwykle gdzie indziej.
+Ekstrakcja pisze pliki `--into` dowolny katalog, więc kto puszcza komendę
+stamtąd, dostaje werdykty bez leksykonu projektu i nic mu o tym nie mówi:
+`olski` i `konstytuenty` wychodzą wtedy jako formy, których nie bierze żadna produkcja,
+a te same pliki puszczone z korzenia repozytorium przechodzą.
+Braku nie zgłasza się celowo, bo projekt bez konfiguracji jest zwykłym projektem
+(`znajdź` w `olski/konfiguracja.py`),
+i to zostaje; różnica jest w tym, że tu konfiguracja jest, a szukano jej nie tam.
+Ruchem jest jedno z dwojga: szukanie od katalogu sprawdzanego pliku,
+a nie od katalogu roboczego, albo wiersz w podsumowaniu nazywający
+konfigurację, którą komenda przeczytała, albo jej brak.
+Pierwsze psuje przypadek prozy wyekstrahowanej poza projekt, bo tam plik
+nie leży w projekcie, a leksykon jest ten sam;
+drugie nie naprawia nic, tylko pokazuje, i to wystarcza,
+bo błąd jest w tym, że rozjazdu nie widać.
+Do przeczytania jest `Podsumowanie` w `olski/werdykt.py`,
+bo wiersz o konfiguracji stanąłby obok liczby zdań,
+a `tests/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.

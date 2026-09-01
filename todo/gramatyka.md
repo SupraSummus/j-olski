@@ -836,3 +836,95 @@ nie domyka się tak samo jak ta z więzem martwym, a dziś nie widzi jej nic,
 bo `wiązanie` sumuje wtedy córki, zamiast je przecinać, i sumuje rozmyślnie.
 Do przeczytania jest, ile ta druga klasa jest warta:
 nad dzisiejszą gramatyką pada zero, więc jest to zabezpieczenie, a nie naprawa.
+
+Czytanie nieodmienne, którym wchodzi notacja i wersalik, bierze rolę okolicznika
+narzędnikowego, bo spełnia każde żądanie przypadku, także narzędnika.
+`Wprowadzenie streszcza README.` wychodzi czworgiem odczytań,
+a dwa z nich stawiają `README` w okoliczniku narzędnikowym przy `streszcza`;
+`Cały wywód prowadzi docs/linter.md.` wychodzi sześcioma,
+choć [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+mówi o dwóch, SVO i OVS, i zdanie to jest tam nieaktualne.
+Polszczyzna nie stawia nazwy pliku w narzędniku sposobu,
+więc jest to czytanie, którego czytelnik nie ma, a nie cena wieloznaczności.
+Ruchem jest `NIEODMIENNY` w `olski/segmentacja.py` bez narzędnika
+albo warunek na okoliczniku narzędnikowym odmawiający czytaniu nieodmiennemu,
+i przed nim pomiar nad prozą repozytorium, bo notacja stoi w niej gęsto
+i liczba zdań, którym ubędzie odczytań, jest tym, co ten ruch kupuje.
+Do przeczytania jest przedtem, czy tego samego czytania nie bierze orzecznik
+narzędnikowy przy kopuli, bo `Wprowadzenie jest streszczeniem README.`
+wychodzi trojgiem odczytań i jedno z nich orzeka samym `README`.
+
+Nazwa z podkreśleniem nie jest notacją i nie ma czytania:
+`Pole liczba_czytań wychodzi z lasu.` pada na `liczba_czytań`,
+a `Pole urwane wychodzi z lasu.` przechodzi.
+Morfeusz oddaje taki napis jednym segmentem `ign`,
+a `NOTACJA` w `olski/segmentacja.py` żąda kropki albo ukośnika między członami,
+więc klucz JSON-a, nazwa symbolu gramatyki i nazwa stałej pisana małymi literami
+nie wchodzą, choć wersalik z podkreśleniem — `NAJWIĘCEJ_ZNAKÓW` — wchodzi
+[warunkiem na wersalik](../docs/warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym).
+Rejestr pisze te nazwy wprost: `docs/witryna.md` nazywa klucze odpowiedzi,
+a każdy dokument o gramatyce nazywa `wyrażenie_przyimkowe` i `okolicznik_zdaniowy`.
+Ruchem jest podkreślenie jako trzeci znak spajający we wzorcu notacji,
+a ceny po stronie polszczyzny nie ma, bo żadne polskie słowo podkreślenia nie niesie.
+Do przeczytania jest komentarz nad tym wzorcem, bo wylicza on cztery żądania
+i mówi, przed czym każde broni, a piąte ma powiedzieć to samo o sobie.
+
+Pytanie zależne z czołem narzędnikowym albo przyimkowym
+ma dwa wyprowadzenia, które różnią się samą rolą `grupa_pytajna`.
+`Pyta, czym jest witryna.` wychodzi dwoma odczytaniami
+o tych samych formach i tej samej morfologii,
+a `--readings` pokazuje w jednym `orzecznik: czym, grupa_pytajna: czym`,
+w drugim samo `orzecznik: czym`;
+tak samo `Pyta, do czego służy przycisk.` i `Mówi, po co jest ta odpowiedź.`,
+gdzie `Czym jest parser?`, `Do czego służy przycisk?` i `Pyta, kim jest autor.`
+wychodzą jednym odczytaniem.
+Nie jest to wieloznaczność polszczyzny, tylko dwa ciała jednego napisu,
+więc werdykt zgłasza znalezisko, którego zdanie nie ma.
+Ruchem jest jedno ciało zamiast dwóch, a do przeczytania są ciała czoła
+w `olski/subset/podrzędne.py` obok pozycji orzecznika wysuniętego,
+z pytaniem, czemu drugie z nich bierze `czym`, a nie bierze `kim`:
+`Pyta, kim jest autor.` wychodzi samym `orzecznik: kim`, bez roli `grupa_pytajna`.
+
+Zdanie podrzędne z `że` stoi tylko tuż za czasownikiem, który go żąda.
+`Dokument mówi, że cena jest niska.` wyprowadza się,
+a `Mówi ono, że cena jest niska.`, `Mówi dokument, że cena jest niska.`
+i `Mówi też, że cena jest niska.` stają na `że`,
+bo podmiot odłożony za czasownik albo cząstka wchodzą między orzeczenie
+i zdanie, które ono bierze.
+Tym samym brakiem jest koordynacja dwóch zdań z `że`:
+`Mówi, że cena jest niska i że koszt jest wysoki.` staje na drugim `że`.
+Dopełnienie między nimi nie przeszkadza:
+`requirements.txt mówi jej, że to jest aplikacja Pythona.` wyprowadza się.
+Naprawą po stronie autora jest podmiot przed czasownikiem
+i cząstka gdzie indziej, czyli szyk, którego reguły prozy nie żądają.
+Ruchem jest miejsce na to wypełnienie za podmiotem odłożonym i za cząstką,
+i przed nim pomiar, bo `grupa_orzeczenia` w `olski/subset/zdanie.py`
+wylicza swoje szyki wprost.
+Okolicznik zdaniowy dochodzi do zdania, a nie do orzeczenia,
+więc `Rusza ono gramatykę, bo cena jest niska.` wyprowadza się,
+a `Rusza też gramatykę, bo cena jest niska.` staje na `bo` tak samo jak tamte:
+cząstka za czasownikiem zamyka zdanie przed każdym zdaniem podrzędnym,
+a podmiot odłożony tylko przed wypełnieniem.
+Do przeczytania są przez to dwa miejsca, szyk wypełnienia zdaniowego
+i pozycja cząstki przy orzeczeniu, bo są to dwa braki pod jednym objawem.
+
+Nazwa własna pisana wielką literą, której słownik nie zna,
+nie ma do olskiego żadnej drogi.
+`Uruchamia go z tego repozytorium Scalingo.` pada na `Scalingo`,
+tak samo `Flask`, `FastAPI`, `React`, `Procfile` i `PyPI`,
+a `README` i `WSGI` przechodzą, bo są pisane samymi wersalikami.
+Czytania nieodmiennego taka forma nie dostaje, bo warunek pyta o wersalik
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)),
+a do leksykonu projektu nie wejdzie z dwóch powodów:
+`Scalingo` polszczyzna nie odmienia, więc świadek nie może różnić się od lematu,
+czego żąda `_sprawdź_świadka` w `olski/projekt.py`,
+a `Flask` i `React` ta proza pisze w samym mianowniku,
+więc świadka nie ma skąd wziąć.
+Wpis o nazwie angielskiej pisanej małą literą tego nie obejmuje,
+bo tam czytanie nieodmienne byłoby fałszywe, a tu jest jedyne prawdziwe.
+Ruchem jest albo trzeci warunek obok notacji i wersalika,
+czyli wielka litera na czele formy, której słownik nie czyta wcale,
+albo wpis leksykonu bez świadka dla słowa deklarowanego jako nieodmienne.
+Do przeczytania jest cena pierwszego nad Składnicą,
+bo rejestr prasowy pisze wielką literą nazwisko, którego SGJP nie ma,
+i takie nazwisko dostałoby czytanie nieodmienne, choć polszczyzna je odmienia.
