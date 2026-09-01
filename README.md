@@ -36,11 +36,12 @@ Nie ma aplikacji, która napędzałaby to wszystko.
 ## Co działa
 
 **Gramatyka podzbioru polszczyzny** stoi nad Morfeuszem 2.
-Zdanie jest w niej olskie dopiero wtedy, gdy ma dokładnie jedno odczytanie.
-Nie chodzi o samo jedno wyprowadzenie:
-zdanie o programie ma kilka odczytań,
+Zdanie jest olskie, gdy gramatyka je wyprowadza.
+Narzędzie sprawdza zdania polskiego tekstu.
+Wieloznaczność jest jego znaleziskiem.
+Zdanie o programie ma trzy odczytania,
 a dwa odczytania mówią rzecz przeciwną,
-więc olski nie bierze tego zdania.
+więc narzędzie zgłasza to autorowi.
 
 ```sh
 python3 -m olski.check --readings -c "Zapisz plik konfiguracyjny.
@@ -59,7 +60,7 @@ Nowa program zapisuje ustawienia."
                   - podmiot: Program otwierający, orzeczenie: się psuje
 <text>: rejected  Nowa program zapisuje ustawienia.
                   brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-olskie: 1 z 3 zdań; z odczytaniem: 2
+zdań: 3; wieloznaczne: 1; bez odczytania: 1
 ```
 
 Pierwsze czytanie i drugie dzieli sama rola:
@@ -90,13 +91,15 @@ Program otwierający psuje się."
 <text>: valid     Program otwierający psuje się.
                   jedno odczytanie
                   - podmiot: Program otwierający, orzeczenie: psuje się
-olskie: 3 z 3 zdań; z odczytaniem: 3
+zdań: 3; wieloznaczne: 0; bez odczytania: 0
 ```
 
 Zgodność form jest tu parsowaniem.
 `Nowa program` nie ma wyprowadzenia.
 Nie ma tu reguły, która strzeliła.
 Werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka.
+Zdanie bez wyprowadzenia nie jest znaleziskiem.
+Olski go nie czyta i o jego polszczyźnie milczy.
 Całą tę różnicę trzyma
 [docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
 
@@ -112,7 +115,7 @@ python3 -m olski.check --zatrzymania -c "Cena rośnie, i linter sprawdza tekst, 
 <text>: rejected  Cena rośnie, i linter sprawdza tekst, i parser czyta tekst.
                   brak odczytania: analiza staje na „i”
                   analiza staje też na „i”
-olskie: 0 z 1 zdania; z odczytaniem: 0
+zdań: 1; wieloznaczne: 0; bez odczytania: 1
 ```
 
 Cięcie nie jest granicą konstrukcji.

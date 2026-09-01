@@ -204,7 +204,7 @@ python3 -m olski.check --readings -c "Ustawa mówi, że organ gminy wydaje przep
                   „organ gminy wydaje przepis” czyta się tak:
                     - podmiot: organ gminy, dopełnienie: przepis, orzeczenie: wydaje
                     - podmiot: przepis, dopełnienie: organ gminy, orzeczenie: wydaje
-olskie: 0 z 1 zdania; z odczytaniem: 1
+zdań: 1; wieloznaczne: 1; bez odczytania: 0
 ```
 
 Granicy między konstytuentem a różnicą pod nim lista nie rusza:

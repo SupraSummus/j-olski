@@ -369,7 +369,7 @@ The ambiguous ones are almost all one of two classes:
 a prepositional phrase either the noun or the verb could host,
 and a nominative read as an accusative,
 which are the two classes
-[open-questions.md](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
+[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 counts over a whole register;
 `--readings` is what shows them, as readings olski has and a reader does not.
 A sentence carrying both at once, once in each of its clauses,
@@ -1054,9 +1054,9 @@ Morfeusz analyses and does not choose,
 so the live column holds its readings minus the exclusion above,
 and the gold column holds an annotator's answer rather than a program's.
 How much of the gold column a tagger recovers is a third figure neither run has,
-and it is the one that says what
-[the uniqueness property](subset.md#validity-is-uniqueness-not-just-derivability)
-costs outside a treebank.
+and it is the one that says how often
+[the ambiguity finding](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
+fires outside a treebank.
 [Concraft](prior-art.md#polish-language-resources) is the candidate for taking it.
 
 ## What this number is not

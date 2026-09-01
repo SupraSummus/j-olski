@@ -37,7 +37,7 @@ Choosing is what olski declines to do before the parser sees a sentence,
 so this is not a component of the analysis:
 `olski/morph.py` hands every reading forward on purpose,
 and a path marked upstream would settle
-[the uniqueness property](subset.md#validity-is-uniqueness-not-just-derivability)
+[what olski reports as ambiguity](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
 in the analyser instead of in the grammar.
 What it is a candidate for is the measurement,
 where [neither column](corpus.md#what-morphological-ambiguity-costs)

@@ -100,7 +100,7 @@ Co kosztuje przekład statusu, trzyma [`todo/`](../todo/README.md).
 Strona jest klientem API, a nie jego wnętrzem.
 Serwer oddaje JSON, więc odpowiada tak samo curlowi i przeglądarce,
 a strona wybiera, co z tych danych pokazać:
-zdanie olskie dostaje swoje jedno czytanie rozwinięte,
+zdanie jednoznaczne dostaje swoje jedno czytanie rozwinięte,
 a zdanie, którego streszczeń jest kilka, dostaje je zwinięte pod podpisem.
 
 Odrzucone zostało oddawanie fragmentów HTML,
@@ -224,11 +224,11 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
   }
  ],
  "podsumowanie": {
-  "olskie": 1,
   "zdań": 1,
-  "z_czytaniem": 1,
+  "wieloznaczne": 0,
+  "bez_odczytania": 0,
   "fragmentów": 0,
-  "wyjaśnienie": "olskie: 1 z 1 zdania; z odczytaniem: 1"
+  "wyjaśnienie": "zdań: 1; wieloznaczne: 0; bez odczytania: 0"
  },
  "granica_znaków": 4000
 }

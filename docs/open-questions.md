@@ -32,7 +32,7 @@ after the conjunctions that admit one
 Closeness to Polish argues for the other half,
 and what it costs nobody has measured.
 
-### Własność jednoznaczności żąda jej od zdania, które jej nie ma
+### Znalezisko wieloznaczności nie mówi, czy ma ją też czytelnik
 
 `Cały wywód prowadzi docs/linter.md.` ma dwa czytania,
 SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
@@ -40,20 +40,18 @@ Zdanie naprawdę nie mówi, co tu prowadzi co,
 i [warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
 trzyma to jako cenę przyjętą świadomie.
 
-Dwie rzeczy, każda obroniona osobno, mówią o takim zdaniu co innego.
-Zdanie jest olskie wtedy, gdy ma dokładnie jedno czytanie,
-i to ta własność czyni olskiego podzbiorem
-([subset.md](subset.md#validity-is-uniqueness-not-just-derivability)).
-A olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,
+Olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,
 bo deklaracja, że pierwsza grupa imienna jest podmiotem,
 czytałaby się jednoznacznie tylko temu, kto zna konwencję
-(tamże).
-Zdanie wieloznaczne w polszczyźnie wychodzi więc odrzucone
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+Zdanie wieloznaczne w polszczyźnie dostaje więc znalezisko
 za wieloznaczność, którą naprawdę ma,
-a autor nie ma z takim werdyktem co zrobić,
-bo drugie czytanie nie jest usterką jego zdania.
+i znalezisko to brzmi tak samo jak nad zdaniem,
+którego drugie czytanie czytelnik by odrzucił.
+Autor czyta oba czytania i zostawia zdanie, jeżeli oba są jego,
+ale werdykt mu tej różnicy nie nazywa.
 
-Żadnemu tekstowi to żądanie przy tym nie ciąży,
+Żadnemu tekstowi to znalezisko przy tym nie ciąży,
 bo kryterium wyjścia toru gramatycznego nie ma
 ([roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca)),
 więc zostaje pytanie o sam werdykt: czy taki jest dla autora użyteczny.
@@ -228,7 +226,7 @@ i to ona prowadzi do pytania niżej.
 
 ### Warstwa kontekstowa zabiera werdyktowi jednostkę
 
-Werdykt olskiego jest o zdaniu: zdanie jest olskie, gdy ma dokładnie jedno czytanie.
+Werdykt olskiego jest o zdaniu: liczy czytania, które to jedno zdanie ma.
 Warstwa zdejmująca czytanie, któremu przeczy zdanie sąsiednie
 ([disambiguation.md](disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem)),
 odpowiada o zdaniu na swoim miejscu, a to jest inna jednostka i inna obietnica.
@@ -264,7 +262,7 @@ zostawia go z kilkoma rozbiorami naraz,
 dopóki dalsze słowo ich nie unieważni.
 
 Mierzy to co innego niż
-[kryterium jednoznaczności](subset.md#validity-is-uniqueness-not-just-derivability),
+[znalezisko wieloznaczności](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
 i obie wielkości rozjeżdżają się w obie strony.
 `Koszt samej szynki przewyższa koszt szynki z dodatkami.`
 czyta się gładko i ma kilka czytań,

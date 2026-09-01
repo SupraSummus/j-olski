@@ -15,7 +15,7 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 
 ## Tor gramatyczny
 
-- [subset.md](subset.md) mówi, czym jest ważność,
+- [subset.md](subset.md) mówi, kiedy zdanie jest olskie i czym jest znalezisko,
   co gramatyka wpuszcza i ile kosztuje przyłączanie wyrażeń przyimkowych.
 - [konstrukcje-gramatyczne/](konstrukcje-gramatyczne/README.md)
   wycenia każdą wpuszczoną konstrukcję osobno.

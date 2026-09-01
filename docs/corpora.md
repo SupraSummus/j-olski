@@ -8,7 +8,7 @@ what Polish is obtainable, and what each body of it can and cannot support.
 The track it was written for is gone,
 and the survey outlives it because the grammar is measured over Polish too:
 the audit corpus it argues for is where
-[the register's own ambiguity](open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)
+[the register's own ambiguity](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 is counted.
 
 The answer it arrives at is that no existing corpus serves.

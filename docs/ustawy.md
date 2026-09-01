@@ -39,7 +39,7 @@ czyli tak, jak [wyznaczał go linter](linter.md#this-is-the-same-subset-approach
 składnia polska wolna, a jedna konstrukcja zabroniona.
 § 6 jest kryterium jednoznaczności:
 zrozumiały dla adresata jest przepis, który czyta się jednym sposobem,
-i to samo mówi olski, gdy każe zdaniu mieć dokładnie jedno czytanie.
+i to samo mówi olski, gdy zgłasza zdaniu drugie czytanie.
 § 55 ust. 2 żąda przy tym, żeby artykuł był w miarę możliwości jednozdaniowy,
 czyli żeby jednostce redakcyjnej wystarczyło jedno zdanie.
 
@@ -563,7 +563,7 @@ Prawie wszystkie są wieloznaczne w polszczyźnie i olski melduje to słusznie.
 Zdanie o gospodarce finansowej wychodzi trzema czytaniami,
 bo dopełniacz `gminy` ma gdzie stać poza pozycją dopełnienia,
 a kiedy tam stoi, `zarząd` jest i mianownikiem, i biernikiem, czyli tym synkretyzmem,
-który [własność jednoznaczności](subset.md#validity-is-uniqueness-not-just-derivability) odrzuca.
+który [olski zgłasza jako wieloznaczność](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
 Jedno czytanie miało ono nie dlatego, że jest jednoznaczne,
 tylko dlatego, że gramatyka nie miała gdzie tego dopełniacza postawić.
 

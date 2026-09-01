@@ -110,7 +110,8 @@ def _dalsze(verdict: Verdict) -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-check",
-        description="Sprawdź, czy każde zdanie polskiego tekstu jest olskie.",
+        description="Sprawdź zdania polskiego tekstu: zgłoś wieloznaczne i powiedz, "
+        "gdzie olski nie czyta.",
     )
     parser.add_argument("paths", nargs="*", help="pliki zwykłego polskiego tekstu")
     parser.add_argument("-c", "--text", help="sprawdź ten tekst zamiast pliku")
@@ -182,7 +183,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     podsumowanie = Podsumowanie.z_werdyktów(wszystkie)
     print(podsumowanie.explain())
-    return 0 if podsumowanie.olskie == podsumowanie.zdań else 1
+    #  Kod wyjścia niesie znaleziska, a nie milczenie
+    #  (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+    return 0 if podsumowanie.wieloznaczne == 0 else 1
 
 
 if __name__ == "__main__":

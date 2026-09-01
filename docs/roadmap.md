@@ -29,14 +29,16 @@ i żaden nie mówi, na co drugi czeka.
 
 Tor gramatyczny:
 parser zaprojektowanego podzbioru polszczyzny,
-który zwraca wszystkie odczytania zdania i zostawia wybór autorowi.
-Zdanie jest olski wtedy, gdy ma dokładnie jedno czytanie,
-więc werdykt takiego parsera jest wypowiedzią o zdaniu:
-mówi, że się nie wyprowadza, albo że wyprowadza się na kilka sposobów, i na jakie.
-[subset.md](subset.md#validity-is-uniqueness-not-just-derivability)
-trzyma decyzję, która czyni tę własność olskiego własnością,
+który zwraca wszystkie odczytania zdania i zostawia wybór autorowi,
+oraz narzędzie nad nim, które sprawdza zdania polskiego tekstu i zgłasza znaleziska.
+Wieloznaczność jest znaleziskiem:
+werdykt mówi, że zdanie wyprowadza się na kilka sposobów, i na jakie.
+Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest,
+a werdykt mówi o nim tyle, dokąd analiza doszła.
+[subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
+trzyma tę decyzję,
 a [swigra.md](swigra.md#what-it-leaves-open) miejsce, w którym przegląd zastał puste pole:
-najbliższy istniejący parser polszczyzny rozstrzyga tam, gdzie olski by zgłaszał.
+najbliższy istniejący parser polszczyzny rozstrzyga tam, gdzie olski zgłasza.
 Maszyneria jest tym wszystkim, co [parsowanie.md](parsowanie.md)
 mówi o Earleyu, lesie rozbiorów i swobodnym szyku,
 oraz tym, co [design-notes.md](design-notes.md) mówi o LCFRS.
@@ -65,9 +67,12 @@ Linter stylu dla polskiej dokumentacji technicznej stał obok, na torze opcjonal
 Jego pakiet reguł jest wycofany, o czym [niżej](#wycofany-jest-pakiet-reguł).
 Sam linter został celem.
 [Lista celów](#cele) nazywa go wykrywaczem wzorców prozy.
-Dwa odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
+Trzy odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
-a potem odwrotnie.
+potem odwrotnie,
+a na końcu narzędzie nad gramatyką zgłasza znaleziska,
+wśród których wieloznaczność jest jednym, a nie definicją olskiego
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
 
 ## Po co tory są dwa
 
@@ -415,7 +420,7 @@ a wykrywacz, który ma stać na zerze, skraca tylko poprawione zdanie.
 ## Etap 0: gramatyka, która stoi
 
 Gramatyka podzbioru nad Morfeuszem 2,
-w której zdanie jest olskie dopiero przy jednym odczytaniu,
+która zwraca każde odczytanie zdania,
 polecenie wydające werdykt zdanie po zdaniu,
 i pomiar tego wszystkiego na banku drzew.
 
@@ -517,7 +522,7 @@ ale o to, co produkcja licencjonuje.
 Jedna klasa ma wycenę i nie ma decyzji.
 Orzecznik zgodny bierze u olskiego każdy czasownik,
 więc `Trwa akcja protestacyjna.` orzeka `protestacyjna` o akcji,
-a zawężenie tej pozycji do leksykonu daje zdań olskich więcej
+a zawężenie tej pozycji do leksykonu daje zdań jednoznacznych więcej
 i zabiera przy tym orzeczenie wtórne, czyli zwyczajną polszczyznę
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
 

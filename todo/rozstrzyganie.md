@@ -30,7 +30,7 @@ a klasa synkretyzmu zostawia `gospodarze` puste, bo wyborem nie jest tam przył�
 więc `Koszt szynki i sera przewyższa koszt bułki.` nie stawia warstwie ani jednego pytania,
 choć werdykt nad nim mówi `różne w rolach: dopełnienie, podmiot`.
 Nad korpusem audytowym pozycję tej klasy niesie 21,1% zdań
-([`docs/open-questions.md`](../docs/open-questions.md#własność-jednoznaczności-żąda-jej-od-zdania-które-jej-nie-ma)),
+([`docs/open-questions.md`](../docs/open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)),
 a ile z odrzuceń nad Składnicą zostawia ją jako całą decyzję, nie liczy nikt:
 tabela klas liczy tam nazwy z werdyktu, a nie decyzje,
 i osobnej kolumny na szyk nie ma
