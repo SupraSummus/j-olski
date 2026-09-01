@@ -84,7 +84,7 @@ bo w jednym i w drugim zdanie składowe obsadza role własnym materiałem.
 Jednoznaczności ta produkcja nie odbiera ani jednemu zdaniu,
 a wynika to z gramatyki, nie z przebiegu:
 dwukropka nie bierze żaden inny terminal.
-Pilnuje tego zera `tests/test_subset.py`,
+Pilnuje tego zera `tests/test_zdanie_złożone.py`,
 i pilnuje go warunkiem, a nie liczbą ciał:
 symbole stojące za dwukropkiem mają być rozłączne,
 więc napis wzięty jednym nie ma wyprowadzenia pozostałymi.

@@ -79,7 +79,7 @@ polszczyzna ma `żebym napisał`.
 Ceną jest ta cecha w każdej produkcji zdania.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc ciało, które trybu nie przepuści, wpuszcza pod ten spójnik każdy tryb.
-Niezmiennika pilnuje `tests/test_subset.py`:
+Niezmiennika pilnuje `tests/test_orzeczenie.py`:
 ciało zdania bez tej cechy wywraca suitę,
 bo pojedyncze zdanie tego nie łapie, a ciał zdania jest kilkadziesiąt.
 
@@ -434,7 +434,7 @@ nie takie, które orzekają kategorię.
 Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem,
 więc liczby wyżej biorą się sprzed niego i żadna z nich się nie rusza;
 sąd, który on wykonuje, wypisuje `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`.
-Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/test_subset.py`,
+Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/test_orzeczenie.py`,
 pytając o streszczenie sprzed przekładu.
 
 Grupa przed łącznikiem dostaje własną rolę,

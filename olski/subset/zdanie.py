@@ -72,7 +72,7 @@ def _szyki_zdania_składowego(
     # Rodzaj przechodzi przez każdy szyk, bo żąda go czas przeszły, i dlatego
     # podmiot jest tu jeden zamiast dwóch; wywód trzyma
     # docs/konstrukcje-gramatyczne/orzeczenie.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku,
-    # a niezmiennik pilnuje test w tests/test_subset.py.
+    # a niezmiennik pilnuje test w tests/test_orzeczenie.py.
     #
     # Tryb przechodzi przez każdy szyk tą samą drogą i z tego samego powodu: żąda
     # go spójnik, który cząstkę tego trybu niesie sam (:data:`SPÓJNIKI_TRYBU`), a

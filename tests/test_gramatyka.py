@@ -10,7 +10,8 @@ raz nad gramatyką napisaną w teście, raz nad :data:`olski.subset.GRAMMAR` —
 bo osobno łatwo o obie pomyłki: sprawdzenie, które nie łapie,
 i gramatyka, która pod nie nie podpada.
 
-Co gramatyka wpuszcza, a co odrzuca, pyta ``tests/test_subset.py``;
+Co gramatyka wpuszcza, a co odrzuca, pyta ``tests/test_subset.py``
+wraz z plikami warstw, które on wylicza;
 co z lasu wychodzi nad zdaniem wieloznacznym, ``tests/test_las.py``.
 """
 
