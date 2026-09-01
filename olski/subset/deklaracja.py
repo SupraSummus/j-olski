@@ -56,6 +56,18 @@ OKOLICZNIK_ZDANIOWY = "okolicznik_zdaniowy"
 GRUPA_PYTAJNA = "grupa_pytajna"
 
 
+#: Rola przysłówka, którym zdanie pyta o okoliczność:
+#: `Dlaczego` w `Dlaczego gramatyka rośnie?`
+#:
+#: Rola jest osobna od :data:`GRUPA_PYTAJNA`, bo tamta nazywa rzecz, o którą
+#: zdanie pyta, a ta okoliczność, i osobna od :data:`OKOLICZNIK_PRZYSŁÓWKOWY`,
+#: bo ten przysłówek zdania nie określa, tylko o nie pyta: gospodarza nie ma,
+#: skoro stoi on przed całym zdaniem, a nie w którymś jego miejscu.
+#: Bez tej etykiety pytanie o okoliczność wychodziłoby `valid` bez słowa o tym,
+#: że jest pytaniem.
+OKOLICZNIK_PYTAJNY = "okolicznik_pytajny"
+
+
 #: Rola rzeczownika, który orzeka bez czasownika:
 #: `mowa` w `zadania, o których mowa w ustawie`.
 #: Zdanie z tym rzeczownikiem nie ma ani podmiotu, ani czasownika,
@@ -267,6 +279,7 @@ DEKLARACJA = Deklaracja(
         SPÓJNIK,
         OKOLICZNIK_ZDANIOWY,
         GRUPA_PYTAJNA,
+        OKOLICZNIK_PYTAJNY,
         WTRĄCENIE,
         WTRĄCENIE_MYŚLNIKOWE,
         ELIPSA,

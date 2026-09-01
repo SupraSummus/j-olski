@@ -387,6 +387,16 @@ drugie czytanie
 ([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
 więc zawężenie `int` do leksykonu odbiera ją tym z nich,
 których czasownik pytania nie żąda.
+Czeka na ten wpis pytanie o miejsce.
+`Gdzie są przetrzymywani zakładnicy?` zostaje odrzucone dlatego,
+że `gdzie` dopisane do przysłówków pytajnych daje drugie czytanie
+każdemu zdaniu, w którym ta forma otwiera okolicznik pod czasownikiem spoza
+leksykonu — `Wchodzi w roadmap.md, gdzie linter sprawdza regułę.` —
+a czytania tego polszczyzna nie ma
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
+Nad prozą tego repozytorium sam lemat kosztuje w werdyktach zero
+i wyciąga z odrzucenia pojedyncze zdania,
+więc po zawężeniu wchodzi bez pomiaru drugiego.
 Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `harness/walenty.py`,
 i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
 Czym ten wariant zmierzyć, jest rozstrzygnięte:
@@ -802,3 +812,26 @@ więc gramatyka celująca w tamten rejestr ma prawo ich nie brać.
 Obronę tę osłabia `My to szczęściarze.`, które wyprowadza się dziś:
 konstrukcja z dwiema grupami jest w zakresie, a wypada z niego dopiero forma osobowa,
 i granicy biegnącej właśnie tędy nie widać czym uzasadnić.
+
+Wypełnienie ramy wyrażone zdaniem nie stoi przed zdaniem nadrzędnym.
+`Dlaczego parser stoi tu świadkiem, rozstrzyga design-notes.md.` jest odrzucone,
+`Że cena jest niska, mówi dokument.` tak samo,
+a `Dokument mówi, że cena jest niska.` wyprowadza się,
+więc brak jest w szyku, a nie w żadnym z tych dwóch zdań podrzędnych.
+Miejsca wypełnienia wylicza `grupa_orzeczenia` w `olski/subset/zdanie.py`,
+a czasownik stoi w niej przed tym, co bierze, i jedynym ciałem z wypełnieniem
+przed czasownikiem jest `grupa_orzeczenia_odwrócona`, które bierze samo dopełnienie.
+Ruchem jest ciało z wypełnieniem przed czasownikiem, wraz z przecinkiem po nim,
+i wraz z pomiarem: szyk wysunięty mnoży czytania,
+bo wypełnień jest pięć i każde weszłoby w to miejsce.
+Ciało dopisane do `zdanie_pytajne` samo nie wystarcza i zmierzono to —
+nad prozą tego repozytorium nie rusza ani jednego zdania —
+bo szyk zdania takiego wypełnienia na czoło nie wpuszcza.
+Do przeczytania jest, ile zdań ta proza pisze tym szykiem:
+garść zeszła razem z wykluczeniem przysłówka pytajnego
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)),
+a wszystkie poza jednym są tego kształtu.
+Tym jednym jest `Jest nią to, dlaczego zdanie jest olskie.`,
+które stawia pytanie za zaimkiem `to`,
+czyli za zapowiednikiem, którego ta gramatyka nie ma,
+więc wpis ten go nie zamyka.

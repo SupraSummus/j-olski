@@ -600,6 +600,74 @@ i obsadza `Który aktor` podmiotem.
 Streszczenie wypisuje przez to jedną rozpiętość dwa razy,
 i tyle ta pozycja kosztuje w wydruku.
 
+## Pytanie o okoliczność wysuwa przysłówek, a zdanie pod nim jest całe
+
+Pytanie o rolę wysuwa tę rolę i zostawia po niej lukę
+([wyżej](#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
+a pytanie o okoliczność luki nie zostawia:
+przysłówek stoi przed zdaniem, a zdanie pod nim ma wszystkie swoje role.
+
+```text
+Dlaczego gramatyka rośnie?
+Pyta, dlaczego gramatyka rośnie.
+```
+
+Ciało ma przez to kształt wysuniętego wyrażenia przyimkowego, a nie kształt czoła:
+rozwinięcie szyku wypisuje zdanie, któremu jednej roli brakuje,
+a temu zdaniu nie brakuje żadnej.
+Pary poprzednika ciało nie niesie, bo pytanie poprzednika nie ma.
+
+Etykieta nad przysłówkiem jest osobną rolą.
+Od grupy pytajnej różni ją to, o co zdanie pyta —
+tamta nazywa rzecz, a ta okoliczność —
+a od okolicznika przysłówkowego to,
+że gospodarza nie ma i mieć go nie może:
+przysłówek stoi przed całym zdaniem, a nie w którymś jego miejscu.
+Bez tej etykiety pytanie wychodzi `valid` i o pytaniu nie mówi nic.
+
+**Wykluczenie z pozycji okolicznika wchodzi razem z tym ciałem,**
+tak samo jak wykluczenie zaimka rzeczownego weszło razem ze swoimi czołami
+([niżej](#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+Bez niego `Pyta, dlaczego gramatyka rośnie.` wychodzi ciągiem dwóch zdań
+współrzędnych, w którym `dlaczego` określa czasownik członu drugiego,
+a pytania zależnego nie ma w tym zdaniu wcale.
+Czytania tego polszczyzna nie ma, a olski wydaje na nim `valid`,
+czyli werdykt, który ten pomiar liczy jako najgorszy
+([corpus.md](../corpus.md#what-morphological-ambiguity-costs)).
+
+**Lematy wchodzą tu pojedynczo, bo rozdziela je reszta czytań, które mają.**
+`dlaczego` ma u Morfeusza czytanie jedno i tylko ono weszło.
+`jak` jest zarazem spójnikiem porównania — `tak samo jak reguła` —
+a to czytanie gramatyka bierze,
+więc lemat dopisany tutaj odbierałby zdania, które ta proza pisze.
+`jaki` jest przymiotnikiem i żąda kształtu grupy pytajnej, a nie tego,
+a `ile` liczebnikiem, który rządzi dopełniaczem.
+Każdy z tych trzech jest przez to osobną robotą,
+a nie lematem dopisanym do zbioru.
+
+**`gdzie` zmierzono i zostaje na zewnątrz, dopóki nie zawęzi się rama domyślna.**
+Pytanie o miejsce nad prozą tego repozytorium nic nie kosztuje w werdyktach —
+pojedyncze zdania wychodzą z odrzucenia, a nie traci ani jedno —
+a kosztuje czytaniem nieprawdziwym, którego po werdykcie nie widać:
+`Wchodzi w roadmap.md, gdzie linter sprawdza regułę.` dostaje drugie czytanie,
+w którym zdanie z `gdzie` jest pytaniem zależnym pod `wchodzi`.
+Bierze się ono stąd, że pytanie zależne stoi w ramie domyślnej,
+czyli dostaje je każdy czasownik spoza leksykonu
+([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+a `wchodzić` pytania zależnego nie bierze.
+Lemat ten wraca więc razem z zawężeniem tamtej pozycji do leksykonu;
+`todo/` trzyma ten przebieg.
+
+**Zostaje po tym pytanie zależne wysunięte przed zdanie nadrzędne.**
+`Dlaczego parser stoi tu świadkiem, rozstrzyga design-notes.md.`
+wyprowadzało się przedtem tym samym czytaniem nieprawdziwym,
+a po wykluczeniu nie wyprowadza się wcale.
+Pozycji tej nie ma przy tym żadne wypełnienie ramy:
+`Że cena jest niska, mówi dokument.` jest odrzucone tak samo,
+więc jest to jedna konstrukcja, a nie osobna dla pytania.
+Zdań tego kształtu ta proza pisze garść i wszystkie zeszły razem;
+`todo/` trzyma ruch i cenę, którą ten szyk sam ma.
+
 ## Kopułę opuszczoną wpuszcza wpis na lemat
 
 Rejestr ustaw odsyła zwrotem `o którym mowa`:

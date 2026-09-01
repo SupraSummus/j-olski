@@ -91,6 +91,19 @@ SPÓJNIKI_OKOLICZNIKOWE = SPÓJNIKI_WYSUWANE | SPÓJNIKI_PO_ZDANIU
 PRZYSŁÓWEK_WZGLĘDNY = "gdzie"
 
 
+#: Przysłówki, którymi ten rejestr pyta o okoliczność:
+#: `Dlaczego gramatyka rośnie?`, `Pyta, dlaczego gramatyka rośnie.`
+#:
+#: Kształt pytania jest dla nich wspólny — przysłówek wysunięty przed zdanie,
+#: a zdanie pod nim całe (`okolicznik_pytajny` w ``olski/subset/podrzędne.py``) —
+#: i dlatego zbiór, a nie lemat. Wpuszcza się je za to pojedynczo,
+#: bo rozdziela je reszta czytań, które Morfeusz daje każdemu z nich,
+#: i osobno się każdy wycenia; `dlaczego` ma czytanie jedno i weszło samo.
+#: Kto czeka poza zbiorem i na co, wylicza
+#: docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe.
+PRZYSŁÓWKI_PYTAJNE = frozenset({"dlaczego"})
+
+
 #: Spójniki, które niosą cząstkę trybu przypuszczającego: `żeby` to `że` i `by`,
 #: `gdyby` to `gdy` i `by`, `aby` to `a` i `by`, a `jakby` to `jak` i `by`.
 #: Cząstka stoi w nich raz, więc pod nimi stoi forma na -ł bez własnej cząstki i
@@ -485,18 +498,22 @@ SPÓJNIK_NA_CZELE = word(
 PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 
 
-#: Przysłówek w okoliczniku: cała część mowy bez przysłówka względnego. Stopnia
-#: nie żąda, bo `teraz` stopnia nie niesie, a `bardzo` niesie `pos`, i oba są
-#: okolicznikami zdania.
+#: Przysłówek w okoliczniku: cała część mowy bez przysłówka względnego i bez
+#: pytajnych. Stopnia nie żąda, bo `teraz` stopnia nie niesie, a `bardzo` niesie
+#: `pos`, i oba są okolicznikami zdania.
 #:
-#: `gdzie` zostaje na zewnątrz z tego samego powodu, z którego pozycji rzeczownej
-#: nie mają `kto` i `co` (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`): okolicznikiem zdania
-#: oznajmującego ono nie bywa, a wpuszczone tutaj daje każdemu zdaniu z nim
-#: czytanie ciągu współrzędnego, w którym `gdzie` określa człon drugi. Czytania
-#: tego polszczyzna nie ma, a jest ono jedynym, jakie ta forma dostaje bez
-#: własnego ciała (:data:`PRZYSŁÓWEK_WZGLĘDNY`), więc wykluczenie i to ciało
-#: wchodzą razem.
-PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWEK_WZGLĘDNY)
+#: Wykluczenie stoi tu z tego samego powodu, z którego pozycji rzeczownej nie mają
+#: `kto` i `co` (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`): okolicznikiem zdania
+#: oznajmującego żaden z tych lematów nie bywa, a wpuszczony tutaj daje każdemu
+#: zdaniu z nim czytanie ciągu współrzędnego, w którym przysłówek określa człon
+#: drugi. Czytania tego polszczyzna nie ma, a jest ono jedynym, jakie te formy
+#: dostają bez własnych ciał (:data:`PRZYSŁÓWEK_WZGLĘDNY`,
+#: :data:`PRZYSŁÓWKI_PYTAJNE`), więc każde wykluczenie i jego ciało wchodzą razem.
+PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWKI_PYTAJNE | {PRZYSŁÓWEK_WZGLĘDNY})
+
+
+#: Przysłówek, którym zaczyna się pytanie o okoliczność (:data:`PRZYSŁÓWKI_PYTAJNE`).
+PRZYSŁÓWEK_PYTAJNY = word("adv", lemma=PRZYSŁÓWKI_PYTAJNE)
 
 
 #: Przymiotnik w formie poprzyimkowej: `polsku`, `cichu`, `prostu`, `bliska`.

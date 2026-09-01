@@ -384,23 +384,25 @@ czyli spina same orzeczenia, a takiej pozycji koordynacja nie ma.
 Polszczyzna pisze oba szyki, a autor płaci tu przestawieniem podmiotu
 przed pierwszy spójnik.
 
-**Słowo pytające poza tymi czterema.**
+**Słowo pytające poza tymi pięcioma.**
 Pozycja ta stoi tu inaczej niż pozostałe, bo zdania z nią nie padają:
-`Pyta, ile ta gramatyka kosztuje.` i `Pyta, dlaczego gramatyka rośnie.`
+`Pyta, ile ta gramatyka kosztuje.` i `Pyta, jak to działa.`
 wychodzą przyjęte, a wychodzą na czytaniu, którego polszczyzna nie ma.
-Morfeusz daje `ile` i `dlaczego` część mowy `adv`, a `jaki` przymiotnikową,
+Morfeusz daje `ile` i `jak` część mowy `adv`, a `jaki` przymiotnikową,
 i olski bierze te części mowy całe, więc słowo pytające staje okolicznikiem
 albo przydawką, a pytania zależnego w tym zdaniu nie ma wcale.
 Autor nie ma po czym poznać, że napisał zdanie poza olskim,
 i dlatego pozycja ta jest droższa od tych, które zawracają.
 Dopisane słowo pytające ma to czytanie zdjąć, a nie stanąć obok niego;
 `todo/` trzyma ruch.
-Pytanie ma w gramatyce trzy kształty — zaimek przy rzeczowniku,
+Pytanie ma w gramatyce cztery kształty — zaimek przy rzeczowniku,
 `kto` i `co` same
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))
-oraz `czy` nad całym zdaniem
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)) —
-a `jak`, `jaki`, `ile` i `dlaczego` żądają każde innego
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
+`czy` nad całym zdaniem
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą))
+oraz `dlaczego` przed zdaniem całym
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)) —
+a `jak`, `jaki` i `ile` żądają każde innego
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Dokument, który opisuje rolę czytelnika, pisze te zdania zdanie po zdaniu,
 bo rola pyta, a pytanie jest jej definicją.
@@ -410,8 +412,11 @@ bo rola pyta, a pytanie jest jej definicją.
 a `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.` przechodzi.
 Okolicznik z `gdzie` gramatyka ma
 ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
-a pytania o miejsce nie ma, bo rolą wysuniętą jest tam okolicznik,
-i tym różni się ono od pytania o podmiot albo o dopełnienie.
+a kształt pytania o okoliczność ma od `dlaczego`,
+więc zostaje tu sam lemat i wraca on razem z zawężeniem ramy domyślnej:
+dopisany dziś daje drugie czytanie każdemu zdaniu z okolicznikiem tego kształtu
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
+Naprawą jest tu na razie zdanie oznajmujące o tym samym.
 
 **Bezokolicznik pod słowem, które orzeka bez podmiotu.**
 `To jest stan, którego warto pilnować.` pada,
