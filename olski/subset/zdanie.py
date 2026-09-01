@@ -8,7 +8,6 @@ zdanie mówi, jakie córki bierze, a warunek nad nimi mówi, w jakiej kolejnośc
 from __future__ import annotations
 
 from olski.grammar import Grammar, Głowa, Sym, V, Var, nt, word
-from olski.lematy import KOPULA
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     CZĄSTKA_ZDANIA,
@@ -56,6 +55,7 @@ from olski.subset.słowa import (
     TRYB_OZNAJMUJĄCY,
     ŁĄCZNIK,
 )
+from olski.walencja import KOPULA
 
 
 def _szyki_zdania_składowego(

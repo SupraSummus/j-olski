@@ -9,7 +9,6 @@ a olski tego wyboru nie robi i oddaje go czytelnikowi
 from __future__ import annotations
 
 from olski.grammar import Grammar, Głowa, Sym, V, nt, word
-from olski.lematy import KOPULA
 from olski.subset.deklaracja import (
     CZĄSTKA_ZDANIA,
     OKOLICZNIK_NARZĘDNIKOWY,
@@ -41,6 +40,7 @@ from olski.subset.słowa import (
     ZAIMEK_RZECZOWNY,
     ZWROTNY,
 )
+from olski.walencja import KOPULA
 
 
 def _przydawka(grammar: Grammar) -> None:

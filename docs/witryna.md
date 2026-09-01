@@ -265,7 +265,7 @@ curl -s 'localhost:8000/makieta?ziarno=1871&akapity=1'
 {
  "ziarno": 1871,
  "akapitów": 1,
- "tekst": "Czeladnik zapłakał w wąskiej piwnicy. Próbował wrócić na ulicę. Sukno znalazło bochenki i nie stało w nocy. Czeladnik zasnął. Ponieważ córka zeszła od młodej wdowy, nie zamknął zegara. Sukno podniosło beczki i dużą skrzynię."
+ "tekst": "Czeladnik zapłakał w wąskiej piwnicy. Dziewczyna zgubiła glinianą skrzynię, ponieważ czeladnik zszedł. Zdążyła mieszkać przed ciężkim młynem. Córka dała dziewczynie koszyk. Zdążyła wrócić od młodej wdowy. Czeladnik zważył kufry gospodarza i sukno."
 }
 ```
 

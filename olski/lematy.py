@@ -18,13 +18,6 @@ Lemat, o który pyta sama gramatyka, zostaje przy swoim terminalu w tamtym modul
 
 from __future__ import annotations
 
-#: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
-#: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
-#: Pytają o nią klasy walencyjne gramatyki (``olski/subset/rama.py``)
-#: oraz świadek kontekstowy, który przy tym czasowniku milczy
-#: (``olski/rozstrzyganie.py``).
-KOPULA = frozenset({"być", "bywać", "zostać", "zostawać", "pozostać", "pozostawać"})
-
 #: Rozdzielające `a`, czyli to z `dwa bilety a pięć złotych`: Morfeusz daje mu
 #: czytanie przyimka rządzącego mianownikiem, a wyrażenie przyimkowe olskiego tego
 #: czytania nie bierze, bo bez tego warunku każde `, a` wychodzi okolicznikiem

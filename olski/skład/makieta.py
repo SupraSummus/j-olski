@@ -52,6 +52,7 @@ from olski.skład.składnia import (
     Czyj,
     Jaki,
     Jest,
+    Komu,
     Kontekst,
     Okolicznik,
     Opis,
@@ -218,6 +219,13 @@ CZYNY_Z_BIERNIKIEM = (
     "znaleźć",
     "zważyć",
 )
+
+#: Czasowniki, które biorą dopełnienie w celowniku obok tego w bierniku,
+#: czyli te, przy których staje i rzecz, i ten, komu się ją daje.
+#: Tabela jest osobna od biernikowej, bo celownik jest osobną pozycją ramy
+#: i `Kowal zgasił sąsiadowi świecę.` mówi o celowniku, którego rama nie ma
+#: (docs/warstwa-leksykalna.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem).
+CZYNY_Z_CELOWNIKIEM = ("dać", "oddać", "pokazać", "przynieść", "sprzedać", "zostawić")
 
 #: Czasowniki, które biorą bezokolicznik pod kontrolą własnego podmiotu.
 #: Czasownika żądającego bezokolicznika niedokonanego ta tabela nie wymienia,
@@ -552,6 +560,24 @@ def _para(los: random.Random, obsada: Obsada) -> Zdanie:
     )
 
 
+def _przysługa(los: random.Random, obsada: Obsada) -> Zdanie:
+    """Ktoś dał komuś rzecz: `Kowal sprzedał sąsiadowi stary dzban.`
+
+    Dający i biorący są różnymi osobami, bo `Kowal oddał kowalowi klucz.`
+    wypisuje jedną rzecz dwa razy w dwóch rolach, a nie mówi o dwóch ludziach.
+    Biorący jest osobą, bo celownik tych czasowników nazywa tego,
+    komu się rzecz daje, a `Kowal sprzedał dzbanowi klucz.` nie mówi nic.
+    """
+    kto, biorący = _różne(los, obsada.osoby, 2)
+    return _zdarzenie(
+        los,
+        kto,
+        los.choice(CZYNY_Z_CELOWNIKIEM),
+        Komu(biorący),
+        _grupa(los, RZECZY),
+    )
+
+
 def _ciąg(los: random.Random, obsada: Obsada) -> Zdanie:
     """Dwa zdarzenia jednym zdaniem, o tej samej rzeczy, więc z podmiotem raz.
 
@@ -677,6 +703,7 @@ def _orzecznik(los: random.Random, obsada: Obsada) -> Zdanie:
 KSZTAŁTY = (
     _czynność,
     _praca,
+    _przysługa,
     _para,
     _ciąg,
     _powód,

@@ -259,6 +259,13 @@ kategorią, którą on już ma, a nie kategorią nową.
 Okolicznik niesie relację i to, co pod nią stoi,
 a stanąć może rzecz albo zdarzenie, bo pytanie stawia się jedno:
 `w nocy` i `gdy zgasła świeca` odpowiadają, kiedy.
+Z tego samego powodu dochodzi ona jednakowo do zdania o czynności
+i do orzeczenia imiennego: `Kot jest zwierzęciem w piwnicy.`
+mówi, gdzie, i pytanie o to nie zależy od tego, czym zdanie orzeka.
+Pod orzecznikiem taka okoliczność nie stoi i jest to rozstrzygnięcie:
+`w piwnicy` czyta się w tym zdaniu i o byciu, i o zwierzęciu,
+a drzewo mówi jedno, bo okolicznik dochodzi w nim do orzekania,
+tak jak dochodzi do zdarzenia, a do rzeczy nie dochodzi nigdzie.
 
 Różnica między nimi jest różnicą w polszczyźnie, a nie w drzewie,
 i cała siedzi w słowie, którym relacja wychodzi na wierzch.
@@ -350,6 +357,20 @@ a nie tym, że do drugiego doczepiono zdanie.
 Że wychodzi z tego raz biernik, a raz bezokolicznik bez podmiotu,
 rozstrzyga linearyzacja, tak samo jak rozstrzyga przypadek.
 
+Przypadek tej pozycji przychodzi z ramy, a nie z drzewa,
+i jest to ta sama zasada, którą niesie cały ten zapis:
+przypadek bierze się z pozycji, a nie z tego, co autor napisał.
+`Czeladnik szukał córki krawca.` i `Czeladnik zasłonił twarz.`
+wychodzą przez to z drzew jednego kształtu i stoją w dwóch przypadkach,
+bo `szukać` biernika nie bierze i dopełniacz jest tym, co jego rama ma.
+Widać na tej parze i to, dokąd sięga przeczenie:
+dopełniacz negacji wchodzi w miejsce biernika i dopełniacza z leksykonu nie rusza,
+bo nie ma tam czego zmienić.
+Rama wychodzi przy tym z leksykonu zbiorem pozycji (`rama` w `olski/walencja.py`),
+więc pytanie pada tu raz na pozycję postawioną w drzewie,
+a nie raz na pozycję, którą ta kategoria zna,
+i pozycja dopisana do leksykonu nie dokłada gałęzi w konstruktorze.
+
 Wykonawca jest tu tym, czego bezokolicznik o sobie nie mówi,
 i dlatego stoi w drzewie, a nie w formie.
 Autor pisze tę samą zmienną dwa razy, raz przy czasowniku i raz pod nim,
@@ -403,6 +424,53 @@ Granica tej kategorii leży tam, gdzie granica wskazywania, i z innego powodu.
 bo rzecz wskazana stoi w bezokoliczniku, czyli o dwa piętra od czoła,
 a `Opis` schodzi po nią jedno.
 Zgłasza się to przy budowaniu drzewa, jak każda z tych granic.
+
+## Kopulę wybiera autor, bo bycie i stawanie się są dwiema rzeczami
+
+`Jan jest nauczycielem.` i `Jan zostaje nauczycielem.` orzekają o tym samym
+i różnią się tym, czy mówią o zmianie,
+a różnica ta jest kategorią dziedziny, a nie formą do policzenia.
+Kopula stoi więc w drzewie polem, tak samo jak czynność,
+i wybiera ją autor, a nie kompilator.
+
+Wybór ogranicza leksykon i jest to ta sama odmowa, którą dostaje czynność:
+orzecznik w narzędniku bierze kopula i nikt poza nią,
+więc `zapisywać` postawione w tym miejscu zgłasza się.
+Odmowa idzie i w drugą stronę: czasownik, który orzeka orzecznikiem,
+nie orzeka czynnością, więc `Parser jest.` nie wychodzi ze składu tak samo,
+jak nie wyprowadza się z olskiego.
+Jest to jedyny wpis tego leksykonu pisany ręką,
+bo Walenty mówi o `być` to samo, co o każdym innym lemacie,
+i dlatego odjęcie kopuli stoi w jednym miejscu na oba kierunki
+([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+
+## Uczestników bywa dwóch i rozdziela ich kategoria, a nie kolejność
+
+`Parser pokazuje autorowi czytania.` ma poza działającym dwóch uczestników
+i nie są oni wymienni:
+ten, komu się rzecz pokazuje, jest kimś innym niż to, co się pokazuje.
+Drzewo ma więc powiedzieć, który jest który, a ma na to dwa sposoby:
+kolejność argumentów albo kategorię.
+
+Kolejność odpada, bo ten zapis nie mówi kolejnością nic nigdzie indziej.
+Role czyta się w nim z nazw i rozstrzyga o tym
+[`olski/skład/słownik.py`](../olski/skład/słownik.py),
+a argument dopisany w środku zmieniałby wtedy zdanie
+bez żadnego śladu w miejscu, w którym go dopisano.
+Kategorią jest `Komu`, a nazwą jest w niej pytanie —
+tak samo jak przy relacjach okolicznikowych — bo polszczyzna nie ma na tego
+uczestnika jednego słowa:
+`dawać` stawia tam odbiorcę, `pomagać` tego, komu się pomaga,
+a `dziękować` tego, komu się dziękuje.
+
+Że wychodzi z tego celownik, rozstrzyga rama, i jest to ta sama droga,
+którą przypadek dostaje
+[dopełnienie](#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie).
+Rama wychodzi z leksykonu zbiorem pozycji, a nie odpowiedzią na jedno pytanie,
+i widać to na parze czasowników:
+`pokazywać` ma w niej biernik obok celownika, a `pomagać` ma sam celownik,
+więc `Linter pomaga autorowi.` wychodzi ze składu,
+a to samo drzewo z rzeczą w miejscu dopełnienia zgłasza się.
 
 ## Treść jest zdarzeniem, o którym ktoś coś sądzi
 
@@ -833,6 +901,10 @@ a relacją celu nie wraca, bo ta żąda biernika, którego w napisie nie ma.
 Znacznik tematu jest drugą taką rzeczą: postawiony tam,
 gdzie konstytuent i tak stoi, nie przestawia niczego,
 a jest tym, co autor napisał.
+Trzecią jest pozycja, którą grupa imienna zajmuje w ramie:
+gramatyka nazywa dopełnieniem i biernik, i celownik,
+a przypadka rozbiór nie czyta, więc jedna grupa wraca w obu pozycjach naraz
+i odsiewa je dopiero wypisanie.
 Odpowiedzią jest więc lista drzew, a nie wybór między nimi,
 bo wybierać musiałby ranking, a czy go budować,
 trzyma [`open-questions.md`](open-questions.md#the-round-trip-guarantee)
@@ -882,7 +954,7 @@ Który z dwóch mówi tu prawdę, pyta [`todo/`](../todo/README.md).
 
 Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
 Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
-cząstki, drugiego dopełnienia, spójnika na czele zdania,
+cząstki, spójnika na czele zdania,
 okoliczności przy orzeczeniu imiennym
 oraz wyrażenia przyimkowego pod grupą imienną ten zapis nie ma czym powiedzieć.
 Przymiotnik po rzeczowniku kategorię ma, a wraca z niej inny szyk,
@@ -1014,7 +1086,8 @@ więc `z strychu` wychodzi tam, gdzie polszczyzna mówi `ze strychu`.
 Przymiotnik dzieli się na te, którymi opisuje się rzecz, i te, którymi opisuje się człowieka,
 więc `pusta wdowa` zgadza się rodzajem, liczbą i przypadkiem, a mówi o człowieku to,
 co mówi się o suknie.
-Rama czasownika sięga dalej niż trzy pozycje, o które pyta `Robi`,
+Rama czasownika sięga dalej niż pozycje, o które pyta `Robi`,
+bo wyrażenia przyimkowego nie ma wśród nich ani jednego,
 więc `czekał na izbach` czyta się przez `czekać na kogoś`,
 a nie jako okoliczność miejsca, którą autor drzewa tam postawił.
 
@@ -1287,7 +1360,7 @@ Identyfikatora nie potrzebuje tam nic:
 `Rosół ma oka.` i `Bazyliszek ma oczy.` wyprowadzają się po jednym czytaniu,
 a reguły o zbiorowość nie pytają.
 Leksem wpuszczony do czytania sięgnąłby za to każdego szukania po lemacie,
-czyli leksykonu walencyjnego i `KOPULA` w `olski/lematy.py`,
+czyli leksykonu walencyjnego i `KOPULA` w `olski/walencja.py`,
 i każde z nich musiałoby powiedzieć, którą połowę identyfikatora dopasowuje.
 Wchodzi on tam wtedy, gdy będzie reguła, która tożsamości leksemu zażąda.
 Kryterium, które po tamtej stronie już stoi, jest innego rodzaju i nie zastępuje tego:

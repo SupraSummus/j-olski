@@ -13,7 +13,6 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 from olski.grammar import Głowa, Part, V, Var, word
-from olski.lematy import KOPULA
 from olski.segmentacja import EVERY_CASE
 from olski.subset.słowa import (
     CZĄSTKA_TRYBU,
@@ -24,6 +23,8 @@ from olski.subset.słowa import (
 from olski.walencja import (
     BEZ_BIERNIKA,
     BEZ_BIERNIKA_ZWROTNE,
+    KOPULA,
+    RAMA_KOPULI,
     Z_BEZOKOLICZNIKIEM_ZWROTNE,
     Z_CELOWNIKIEM,
     Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU,
@@ -182,6 +183,9 @@ def _walencja() -> tuple[
     na ramę, a nie raz na lemat. Kopula zabiera leksykonowi swoje lematy, zamiast
     stanąć obok nich, bo klasy mają się nie zachodzić: Walenty mówi o niej to samo
     co leksykon o każdym innym lemacie, a rama kopuli mówi ponadto o narzędniku.
+    Sam narzędnik przychodzi z ``olski/walencja.py`` (:data:`RAMA_KOPULI`), bo
+    odjęcie kopuli od leksykonu robią po tej zmianie oba kierunki; podmiot dokłada
+    ta produkcja, bo pozycji podmiotu tamten plik nie ma.
 
     Zdania leksykonu są tu cztery — o bierniku, o celowniku, o dopełniaczu i o
     bezokoliczniku — a plik mówi pięć. Bezokolicznik czyta sama strona zwrotna;
@@ -190,7 +194,7 @@ def _walencja() -> tuple[
     return (
         {
             **_klasy_walencyjne(RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), KOPULA),
-            frozenset({"nom", "inst"}): KOPULA,
+            frozenset({"nom", *RAMA_KOPULI}): KOPULA,
         },
         _klasy_walencyjne(RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
     )

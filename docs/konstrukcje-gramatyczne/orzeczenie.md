@@ -301,7 +301,7 @@ bo cząstkę polszczyzna stawia przy czasowniku dowolnym: `myśli się`, `pije s
 Kopula wchodzi tamtędy razem z nimi, a `być się` czasownikiem nie jest,
 więc bez odmowy wyprowadza się `Cena się jest niska.`
 Odmowa stoi przy tej klasie i wymienia lematy kopuli
-(`KOPULA` w `olski/lematy.py`);
+(`KOPULA` w `olski/walencja.py`);
 jest to jedyny czasownik, któremu ta gramatyka cząstki odmawia wprost.
 Lematu `zostać` nie tyka, bo leksykon zwrotny go wymienia,
 a klasa domyślna po lemat wymieniony nie sięga.
