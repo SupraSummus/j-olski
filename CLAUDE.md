@@ -106,8 +106,10 @@ or a reason not to be written down at all.
   Test: what do I show someone who asks how I know?
 - **The reader's time.**
   A passage is paid for by everyone who reads past it,
-  whether it was needed or not.
-  Test: what does this passage buy someone who has read what stands above it?
+  whether it was needed or not,
+  and a pointer by everyone who has to follow it to act.
+  Test: what does this passage buy someone who has read what stands above it,
+  and what does this pointer cost someone who cannot act without it?
 
 A failure mode that derives from none of the six
 means either that a seventh force is missing
@@ -217,6 +219,10 @@ The same few things cause the confusion:
   A pointer says where a fact's owner lives, and nothing else.
   If a sentence makes no sense until you follow it,
   the order is wrong and the pointer hid it.
+  Reordering is the repair while the owner is further down this document;
+  where it lives in another one, no order fixes it,
+  and the repair belongs to
+  [one owner per fact](#one-owner-per-fact-repeat-narrative-freely).
 
 Hence frame before detail.
 The README states what olski is, why it is a subset,
@@ -266,6 +272,23 @@ a reader cannot tell which copy is current,
 which is how two documents come to contradict each other.
 The document list in the README is the reference example —
 a sentence or two per document, no numbers, and every entry links its owner.
+
+**Wskazanie ma cenę i płaci ją czytelnik.**
+Reguła wyżej jest zakazem drugiej kopii faktu, czyli zasadą DRY.
+Przeciwwagą DRY jest locality of behaviour:
+co zrobić, ma być widać z samego miejsca, które czytasz
+([esej Carsona Grossa](https://htmx.org/essays/locality-of-behaviour/)).
+Fakt, którego nie powtórzyliśmy, czytelnik musi znaleźć u właściciela,
+czyli otworzyć jego dokument.
+Wskazanie oddające wywód właścicielowi tej ceny nie ma,
+bo czytelnik nie musi za nim iść.
+Ma ją zdanie, którego bez pójścia wykonać się nie da:
+przepisz z właściciela jedno zdanie i zachowaj wskazanie obok niego.
+Powtórzyć wolno w ten sposób fakt, na którym ktoś działa w tym miejscu:
+próg, granicę, nazwę, decyzję.
+Liczby powtórzyć nie wolno, bo jej kopia cichnie i nikt tego nie zauważa
+([liczba krucha](#pomiar-i-liczba-która-po-nim-zostaje)).
+Odległość podnosi tę cenę: akapit dalej, sekcja dalej, plik dalej.
 
 **A list owns its length.**
 "Five reasons follow" copies what stands in plain sight below it,
