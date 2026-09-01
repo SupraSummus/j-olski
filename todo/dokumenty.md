@@ -152,20 +152,18 @@ które tamta sekcja wylicza.
 Ceną są dwie rzeczy: wyliczenie stoi wtedy drugi raz,
 a test czerwienieje po redakcji README, a nie po zmianie w gramatyce.
 
-Liczby sond stojące nad prozą README zmierzono nad tekstem sprzed redakcji.
-Zdania `nad README nie rusza ani jednego werdyktu` w
+Zdanie `nad README nie rusza ani jednego werdyktu` w
 [`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)
-oraz liczby luki i podłoża więzowego w
-[`docs/design-notes.md`](../docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
-mówią o pliku, który stracił sekcję o dwóch listach,
-a akapit o parserze ma przepisany na twierdzący.
-Ruchem jest przebieg tych sond nad prozą dzisiejszą
+zmierzono nad tekstem sprzed redakcji,
+czyli nad plikiem, który miał jeszcze sekcję o dwóch listach i spis dokumentów.
+Ruchem jest sonda różnicowa nad prozą dzisiejszą
 (`python3 -m harness.markdown README.md --into proza/`)
-i poprawka tych zdań, które przebieg zastanie nieprawdziwymi.
+i poprawka tego zdania, o ile przebieg zastanie je nieprawdziwym.
 Predykat sondy do drzewa nie wchodzi, więc pisze się go na nowo
 ([`CLAUDE.md`](../CLAUDE.md#code)).
-Wpis waży tyle, ile ważą te zdania:
-większość mówi kierunek albo rząd wielkości i redakcję przeżyje bez zmiany.
+Wpis waży tyle, ile waży to jedno zdanie:
+zdania skreślone werdyktu mu nie odbiorą,
+więc ruszyć je może tylko zdanie dopisane po pomiarze.
 
 Orzekanie przez zaprzeczenie stoi w prozie tego repozytorium setki razy.
 Zdanie tej klasy niesie predykację w członie zanegowanym,

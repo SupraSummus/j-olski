@@ -8,7 +8,7 @@ Na końcu stoi to, co tę drogę psuje, oraz obsada tej roli.
 
 Potrzeba jest jedna i konkretna.
 Zmiana w dokumencie nie ma jak odpowiedzieć, na czyjej drodze leży.
-Lista dokumentów w [README](../README.md) mówi, co stoi w każdym pliku.
+Lista dokumentów w [docs/README.md](README.md) mówi, co stoi w każdym pliku.
 Nie mówi, kto po ten plik przychodzi.
 Dopisanie akapitu jest przez to tanie.
 Przecięcie cudzej drogi jest przy tym niewidoczne.
@@ -50,7 +50,8 @@ Każda rola niżej mówi więc, kto ją obsadza.
 
 Pyta, co to jest i czy go to dotyczy.
 Wchodzi na początek [README](../README.md) i czyta w dół.
-Lista dokumentów na jego końcu jest wyjściem, a nie treścią.
+Wskazanie na [listę dokumentów](README.md) na jego końcu
+jest wyjściem, a nie treścią.
 Cała droga tej roli mieści się w jednym pliku.
 Drugim wejściem jest witryna, o ile ktoś postawi ją pod adresem.
 Strona zaczyna od tego samego wprowadzenia i prowadzi do pola tekstowego

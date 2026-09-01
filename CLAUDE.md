@@ -270,7 +270,7 @@ volatile detail is not re-enumerated at full precision a second time.
 If a restatement is as precise as its owner,
 a reader cannot tell which copy is current,
 which is how two documents come to contradict each other.
-The document list in the README is the reference example —
+The document list in [`docs/README.md`](docs/README.md) is the reference example —
 a sentence or two per document, no numbers, and every entry links its owner.
 
 **Wskazanie ma cenę i płaci ją czytelnik.**

@@ -816,7 +816,7 @@ a każde poniżej dziesiątej części sekundy,
 więc przebieg z takim budżetem kończy je tak samo —
 i dlatego zamiast najwolniejszego czasu stoi tu próg,
 bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt dostaje od obu programów mniej niż co czwarte zdanie tej prozy,
+Ten sam werdykt dostaje od obu programów mniej niż co trzecie zdanie tej prozy,
 a tę samą liczbę czytań jeszcze mniej,
 i to drugie jest mocniejszym z dwóch odczytów:
 werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
