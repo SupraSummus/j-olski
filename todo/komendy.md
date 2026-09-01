@@ -11,6 +11,28 @@ Do rozstrzygnięcia jest przy tym język flag,
 bo `harness/komenda.py` pyta o `--przykłady`, a ten przebieg o `--examples`,
 i jest to ta sama decyzja, co przekład wydruku, więc oba wpisy podnosi się razem.
 
+Ten sam stan dzieli sześć dalszych sond,
+a docstring `harness/komenda.py` opisuje ich rozjazd na argumencie pozycyjnym:
+`harness/attachment.py` i `harness/skłonności.py` biorą katalog Składnicy jako `root`,
+`harness/rama.py` jako `korpus`,
+a `harness/świgra.py`, `harness/podłoża.py` i `harness/wieloznaczność.py`
+biorą pliki prozy albo zdania z `-c`,
+czyli dokładnie tryby, które tamten moduł już rozdaje.
+Każda powtarza przy tym którąś z jego flag:
+`--limit`, `-c` albo `--przykłady`.
+Ruchem jest deklaracja `Komenda` w każdej z nich,
+z pytaniami własnymi podanymi funkcją dopisującą argumenty,
+tak jak `--czasowniki` i `--rzeczowniki` w `harness/rama.py`.
+Dwie sondy tego ruchu nie biorą wprost i mówią, gdzie tamten protokół się kończy.
+`harness/powtórzenie.py` bierze katalog z prozą w plikach,
+a `rozdaj` w `harness/corpus.py` czyta jeden katalog jako bank drzew,
+więc albo protokół dostaje trzeci rodzaj wejścia, albo ta sonda bierze pliki jak reszta.
+`harness/skłonności.py` z `--zbuduj` zapisuje plik zamiast drukować,
+a `Komenda` zna same wydruki.
+Do przeczytania są te dwa miejsca, bo od nich zależy,
+czy wspólny wiersz poleceń obejmie wszystkie sondy nad korpusem,
+czy dwie zostaną poza nim z nazwanego powodu.
+
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
 Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
 (`Verdict.punktowane` w `olski/werdykt.py`),
