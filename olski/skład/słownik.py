@@ -47,6 +47,7 @@ from olski.skład.składnia import (
     Ciąg,
     Jaki,
     Jest,
+    Komu,
     Nominalne,
     Okolicznik,
     Opis,
@@ -74,6 +75,7 @@ __all__ = [
     "Treść",
     "V",
     "jest",
+    "komu",
     "nie",
     "opis",
     "potem",
@@ -255,6 +257,30 @@ def opis(rzecz: Rola, zdanie) -> Opis:
     return Opis(byt(rzecz), zdanie)
 
 
-def jest(co: Nominalne | Rola, czym: Nominalne | Rola) -> Jest:
-    """Orzeczenie imienne wraz z domyślnością, że rzecz znaczy jeden egzemplarz."""
-    return Jest(co=byt(co), czym=byt(czym))
+def komu(kto: Nominalne | Rola) -> Komu:
+    """Ten, komu zdarzenie się przydarza, wraz z domyślnością, że rzecz znaczy jeden egzemplarz.
+
+    Funkcją, a nie kategorią wołaną wprost, z tego samego powodu co ``jest`` niżej:
+    dokłada domyślną liczbę, a tyle wystarcza, żeby autor nie pisał jej sam.
+    """
+    return Komu(byt(kto))
+
+
+def jest(
+    co: Nominalne | Rola,
+    czym: Nominalne | Rola,
+    *okoliczności,
+    czasownik: str = Jest.CZASOWNIK,
+) -> Jest:
+    """Orzeczenie imienne wraz z domyślnością, że rzecz znaczy jeden egzemplarz.
+
+    Kopula jest tu argumentem nazwanym, bo autor wybiera ją rzadziej,
+    niż pisze samo orzekanie: `zostawać` mówi o zmianie, a `być` o niej milczy.
+    Okoliczności wchodzą tak jak do zdarzenia, czyli po tyle, ile autor postawi.
+    """
+    return Jest(
+        co=byt(co),
+        czym=byt(czym),
+        czasownik=czasownik,
+        okoliczniki=tuple(okoliczności),
+    )

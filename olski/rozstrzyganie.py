@@ -65,10 +65,9 @@ from typing import Protocol
 
 from olski import projekt
 from olski.document import Document
-from olski.lematy import KOPULA
 from olski.morph import analyse
 from olski.parse import Przyłączenie
-from olski.walencja import przyimki_czasownika, przyimki_rzeczownika
+from olski.walencja import KOPULA, przyimki_czasownika, przyimki_rzeczownika
 
 #: Plik z tabelą skłonności, generowany i czytany przy pierwszym pytaniu.
 SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"

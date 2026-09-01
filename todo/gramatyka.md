@@ -307,7 +307,7 @@ i `Człowiek staje się wyleniałym tygrysem.` są przez to odrzucone,
 i są to dwa z 75 zdań, które zawężenie narzędnika odrzuca nad Składnicą,
 a jedyne dwa, które odrzuca niesłusznie
 ([`docs/corpus.md`](../docs/corpus.md#agreement-which-matters-more-than-acceptance)).
-Przeszkodą nie jest lista, tylko cząstka: `KOPULA` w `olski/lematy.py` jest
+Przeszkodą nie jest lista, tylko cząstka: `KOPULA` w `olski/walencja.py` jest
 warunkiem na lemat, a te dwa czasowniki są kopulami wyłącznie z `się`,
 którego produkcja kopuli nie ma gdzie postawić —
 [`docs/subset.md`](../docs/subset.md#what-the-grammar-covers) mówi to przy liście.
@@ -318,7 +318,7 @@ gdzie orzecznik zgodny stoi dziś przy czasowniku zwrotnym niebędącym kopulą.
 
 Klasa kopuli zabiera lematowi wpis z leksykonu (`_walencja` w `olski/subset/rama.py`),
 więc kopula nie bywa naraz czasownikiem, który bierze zdanie z `że`.
-Widać to na `bywać`, odkąd lemat ten stoi w `KOPULA` w `olski/lematy.py`:
+Widać to na `bywać`, odkąd lemat ten stoi w `KOPULA` w `olski/walencja.py`:
 `Odpowiedzią bywa decyzja.` przechodzi z odrzuconego na przyjęte,
 a `bywa tak, że` zostaje bez ani jednego czytania —
 jedno zdanie Składnicy i jedno zdanie `docs/subset.md`.
@@ -391,7 +391,8 @@ Czym ten wariant zmierzyć, jest rozstrzygnięte:
 zawężenie ramy jest zmianą danych, a nie grupą produkcji,
 i takiemu wariantowi `Sonda` podaje gramatykę funkcją (`Sonda.gramatyki`).
 Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
-`bierze_zdanie` w `olski/walencja.py` czyta ono, a pytania zależnego
+zdanie o zdaniu podrzędnym czyta ono (`rama` w `olski/walencja.py`),
+a pytania zależnego
 `olski/skład/składnia.py` nie ma czym postawić,
 więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
 

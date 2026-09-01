@@ -15,7 +15,6 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.grammar import Sym, Var
-from olski.lematy import KOPULA
 from olski.morph import analyse, generuj
 from olski.parse import streszczenia
 from olski.segmentacja import bez_licencji, morphology
@@ -29,6 +28,7 @@ from olski.subset import (
     WALENCJA,
     WALENCJA_ZWROTNA,
 )
+from olski.walencja import KOPULA
 from tests.test_werdykt import role, verdict
 
 

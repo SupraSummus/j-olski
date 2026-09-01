@@ -19,6 +19,7 @@ from olski.skład.słownik import (
     Treść,
     V,
     jest,
+    komu,
     nie,
     potem,
     razem,
@@ -32,7 +33,12 @@ from olski.werdykt import check
         jest(A.zwykły * A.polski * R.tekst, R.wejście),
         jest(R.parser / R.podzbiór, R.cel),
         jest(R.parser / ~R.podzbiór, R.cel),
+        jest(R.Jan, R.nauczyciel, czasownik="zostawać"),
+        jest(R.kot, R.zwierzę, Gdzie.w(R.piwnica)),
         V.zapisywać(R.program, ~R.ustawienie),
+        V.żądać(R.wpis, R.dowód),
+        V.pomagać(R.linter, komu(R.autor)),
+        V.pokazywać(R.parser, komu(R.autor), ~R.czytanie),
         V.sprawdzać(R.linter, ~(A.polski * R.tekst)),
         V.mieszkać(R.kot, Gdzie.w(R.piwnica)),
         V.mieszkać(R.kot, Gdzie.w(R.piwnica).temat),
@@ -157,6 +163,23 @@ def test_dopełniacz_negacji_wraca_spod_bezokolicznika(chcieć_sprawdzać):
     przebieg = obieg(nie(chcieć_sprawdzać))
     assert przebieg.napis == "Linter nie chce sprawdzać dobrego kodu."
     assert przebieg.wróciło, przebieg.opisz()
+
+
+def test_grupa_imienna_wraca_w_tej_pozycji_ramy_którą_daje_leksykon():
+    """Napis nie mówi, którą pozycję ta grupa zajęła, bo przypadka ten plik nie czyta.
+
+    Gramatyka daje obu zdaniom jedną pozycję i jedną nazwę,
+    więc rozbiór wypuszcza oba przydziały, a odsiewa je porównanie form:
+    `służyć` bierze celownik i nie bierze biernika, `zasłaniać` odwrotnie.
+    """
+    assert {
+        (drzewo.co is None, drzewo.komu is None)
+        for drzewo in rozbierz("Werdykt służy czytelnikowi.").drzewa
+    } == {(True, False)}
+    assert {
+        (drzewo.co is None, drzewo.komu is None)
+        for drzewo in rozbierz("Werdykt zasłania czytelnika.").drzewa
+    } == {(False, True)}
 
 
 def test_pozycja_bezokolicznika_wraca_ramą_a_nie_brakiem_kategorii():

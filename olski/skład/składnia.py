@@ -48,7 +48,15 @@ from dataclasses import dataclass, fields, is_dataclass, replace
 from olski.skład.morfologia import odmień, rodzaj_rzeczownika
 from olski.skład.przyimki import przypadek
 from olski.skład.spójniki import staje_na_czele, wprowadza
-from olski.walencja import bierze_bezokolicznik_podmiotu, bierze_biernik, bierze_zdanie
+from olski.walencja import (
+    BEZOKOLICZNIK,
+    BIERNIK,
+    CELOWNIK,
+    DOPEŁNIACZ,
+    ORZECZNIK,
+    ZDANIE_PODRZĘDNE,
+    rama,
+)
 
 #: Czas jako żądanie postawione morfologii, a nie jako gałąź w linearyzacji:
 #: forma przeszła zgadza się z podmiotem rodzajem, a teraźniejsza osobą,
@@ -77,6 +85,24 @@ def forma_czasownika(czasownik: str, podmiot: Rola, kontekst: Kontekst) -> str:
         return odmień(czasownik, "inf")
     pos, cechy = CZASY[kontekst.czas](podmiot)
     return odmień(czasownik, pos, **cechy)
+
+
+#: Przypadki, którymi rola wypełnia pozycję dopełnienia, w kolejności pierwszeństwa.
+#: Biernik stoi w ramie domyślnej, a dopełniacz dochodzi tam, gdzie leksykon
+#: biernika odmawia, więc autor pisze jedno drzewo, a przypadek liczy się z ramy.
+#: Czasownik, któremu Walenty daje oba, dostaje przez to biernik i nikt tego nie
+#: zgłasza — `chcieć` wychodzi stąd jako `Kot chce mysz.`; trzyma to ``todo/``.
+PRZYPADKI_DOPEŁNIENIA = (BIERNIK, DOPEŁNIACZ)
+
+#: Czym zgłoszenie nazywa pozycję, której czasownik nie bierze. Napisu z leksykonu
+#: w nim nie ma, bo ten, kto je czyta, pisze drzewo, a nie cechy morfologii.
+NAZWY_POZYCJI = {
+    BIERNIK: "dopełnienia w bierniku",
+    DOPEŁNIACZ: "dopełnienia w dopełniaczu",
+    CELOWNIK: "dopełnienia w celowniku",
+    BEZOKOLICZNIK: "bezokolicznika",
+    ZDANIE_PODRZĘDNE: "zdania podrzędnego",
+}
 
 
 class PozaRamą(Exception):
@@ -575,6 +601,36 @@ class Okolicznik(Wyróżnialne):
 
 
 @dataclass(frozen=True)
+class Komu(Wyróżnialne):
+    """Ten, komu zdarzenie się przydarza: parser pokazuje autorowi czytania.
+
+    Kategorią dziedziny jest tu uczestnik, a nie przypadek, i dlatego stoi tu
+    kategoria osobna, a nie druga rola wrzucona obok pierwszej.
+    Zdarzenie ma uczestników dwóch i nie są oni wymienni:
+    ten, komu się coś daje, mówi się albo pokazuje, jest kimś innym niż to,
+    co się daje, i drzewo ma powiedzieć, który jest który.
+    Że wychodzi z tego celownik, rozstrzyga rama, tak samo jak rozstrzyga ona
+    o przypadku dopełnienia (``Robi`` niżej).
+
+    Nazwą jest pytanie, bo polszczyzna nie ma na tego uczestnika jednego słowa:
+    ``dawać`` stawia tam odbiorcę, ``pomagać`` tego, komu się pomaga,
+    a ``dziękować`` tego, komu się dziękuje, i wszyscy trzej odpowiadają, komu.
+    Tyle jest w tej konwencji nazw, ile jest w niej pytań,
+    i tak samo nazywają się relacje okolicznikowe w ``olski/skład/słownik.py``.
+
+    Zdarzenia ta pozycja nie bierze i tym różni się od okoliczności:
+    w celowniku stoi w polszczyźnie grupa imienna,
+    a zdarzenie wypełnia pozycję ramy bezokolicznikiem albo treścią,
+    czyli pozycją osobną (``Treść`` wyżej).
+    """
+
+    co: Rola
+
+    def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
+        return wypisz(self.co, CELOWNIK, kontekst)
+
+
+@dataclass(frozen=True)
 class Przysłówek(Wyróżnialne):
     """Okoliczność wyrażona jednym słowem: wkrótce, nagle.
 
@@ -638,7 +694,8 @@ def _goły(konstytuent):
 def _wskazany(konstytuent, kontekst: Kontekst) -> bool:
     """Czy to ten konstytuent niesie rzecz, którą wypisywane zdanie wskazuje.
 
-    Rola stoi w zdaniu na dwóch głębokościach: sama albo pod okolicznikiem,
+    Rola stoi w zdaniu na dwóch głębokościach: sama albo pod pozycją,
+    czyli pod okolicznikiem albo pod celownikiem,
     bo `w której mieszkał bazyliszek` wskazuje piwnicę spod przyimka.
     Głębiej ta funkcja nie schodzi, i dlatego ``Opis`` pyta o to samo,
     zanim zdanie powstanie: rzecz wskazana spod grupy imiennej
@@ -649,6 +706,8 @@ def _wskazany(konstytuent, kontekst: Kontekst) -> bool:
     goły = _goły(konstytuent)
     if isinstance(goły, Okolicznik):
         return not goły.zdarzeniem and kontekst.wskazuje(goły.co)
+    if isinstance(goły, Komu):
+        return kontekst.wskazuje(goły.co)
     return kontekst.wskazuje(goły)
 
 
@@ -705,6 +764,18 @@ def _podmiot(pole, kontekst: Kontekst) -> list[tuple[str | None, Kawałek]]:
     return [(_miejsce(pole, kontekst), wypisz(rola, "nom", kontekst))]
 
 
+def _okoliczności(okoliczniki: tuple, kontekst: Kontekst) -> list[tuple[str | None, Kawałek]]:
+    """Okoliczności wypisane wraz z miejscem każdej z nich.
+
+    Stoi w jednym miejscu, bo okoliczność dochodzi tak samo do zdania o czynności
+    i do orzeczenia imiennego: pytanie, na które odpowiada, jest w obu to samo.
+    """
+    return [
+        (_miejsce(okolicznik, kontekst), _goły(okolicznik).linearyzuj(kontekst))
+        for okolicznik in okoliczniki
+    ]
+
+
 def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
     """Kolejność wypisania: czoło, środek w porządku domyślnym, koniec.
 
@@ -754,6 +825,8 @@ def _zdania_pod(konstytuent, kontekst: Kontekst = TERAZ):
         if goły.zdarzeniem:
             yield goły.co, kontekst.podrzędne()
             return
+        goły = goły.co
+    if isinstance(goły, Komu):
         goły = goły.co
     if isinstance(goły, Opis):
         yield goły.zdanie, goły.wewnątrz(kontekst)
@@ -894,15 +967,34 @@ class Jest(Zdanie):
     Szyk wychodzi z wyróżnień tak samo jak przy zdarzeniu,
     więc `Wejściem jest zwykły tekst polski.` jest tu orzecznikiem postawionym
     na czele wraz z podmiotem odesłanym na koniec, a nie wariantem linearyzacji.
+
+    Kopula jest polem, a nie stałą, bo autor wybiera między orzekaniem
+    o tym, co jest, a orzekaniem o tym, co się kimś staje albo kimś zostaje,
+    i jest to wybór dziedziny, a nie forma do policzenia.
+    Wybór ogranicza leksykon, tak samo jak przy czynności:
+    orzecznik w narzędniku bierze kopula i nikt poza nią,
+    więc lemat, którego rama go nie ma, zgłasza się tutaj
+    (:data:`olski.walencja.KOPULA`).
+
+    Okoliczność dochodzi do orzekania tak samo jak do czynności,
+    bo pytanie, na które ona odpowiada, jest w obu wypadkach to samo,
+    i dlatego `Kot jest zwierzęciem w piwnicy.` wychodzi z tej kategorii.
     """
+
+    #: Kopula, którą to zdanie orzeka, gdy autor żadnej nie wybrał.
+    #: Bycie jest tu domyślnością, bo o zmianie nie mówi nic,
+    #: a każda pozostała kopula mówi o niej coś ponadto.
+    CZASOWNIK = "być"
 
     co: Rola | Wyróżnienie
     czym: Rola | Wyróżnienie
+    czasownik: str = CZASOWNIK
+    okoliczniki: tuple = ()
     przeczenie: bool = False
 
-    #: Lemat kopuli, wpisany na stałe, bo drzewo go nie niesie.
-    #: Kopula jest tu jedna, a gramatyka bierze pięć; trzyma to ``todo/``.
-    czasownik = "być"
+    def __post_init__(self) -> None:
+        if ORZECZNIK not in rama(self.czasownik):
+            raise PozaRamą(f"{self.czasownik} nie bierze orzecznika w narzędniku")
 
     @property
     def podmiot(self) -> Rola:
@@ -910,10 +1002,10 @@ class Jest(Zdanie):
 
     @property
     def konstytuenty(self) -> tuple:
-        return (self.co, self.czym)
+        return (self.co, self.czym, *self.okoliczniki)
 
     def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
-        return ((self.podmiot, "nom"), (_goły(self.czym), "inst"))
+        return ((self.podmiot, "nom"), (_goły(self.czym), ORZECZNIK))
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         return _szyk(
@@ -922,10 +1014,41 @@ class Jest(Zdanie):
                 (None, Kawałek(self._orzeczenie(kontekst))),
                 (
                     _miejsce(self.czym, kontekst),
-                    wypisz(_goły(self.czym), "inst", kontekst),
+                    wypisz(_goły(self.czym), ORZECZNIK, kontekst),
                 ),
+                *_okoliczności(self.okoliczniki, kontekst),
             ]
         )
+
+
+def _żądanie(wypełnienie) -> tuple[str, ...]:
+    """Pozycje ramy, którymi ten konstytuent bywa, w kolejności pierwszeństwa.
+
+    Kategoria rozstrzyga tu o pozycji i jest to jedyne miejsce, w którym o niej
+    rozstrzyga: pyta stąd konstruktor, żeby ramy zażądać, i linearyzacja, żeby
+    wypisać przypadek, bo przypadek dopełnienia jest tą samą odpowiedzią,
+    co pozycja, którą ono w ramie zajęło.
+    """
+    if isinstance(wypełnienie, Treść):
+        return (ZDANIE_PODRZĘDNE,)
+    if isinstance(wypełnienie, Zdanie):
+        return (BEZOKOLICZNIK,)
+    return PRZYPADKI_DOPEŁNIENIA
+
+
+def _pozycja(czyn: str, żądane: tuple[str, ...]) -> str:
+    """Pozycja, którą to żądanie zajmuje w ramie tego czasownika.
+
+    Żądanie jest krotką, a nie jedną pozycją, bo dopełnienie stoi w przypadku,
+    który daje rama, a nie w tym, który autor wybrał: jedna rola do postawienia
+    pyta o dwa przypadki i staje w tym, który czasownik ma.
+    Kolejność krotki jest przez to pierwszeństwem, a nie zapisem zbioru.
+    """
+    for pozycja in żądane:
+        if pozycja in rama(czyn):
+            return pozycja
+    nazwy = " ani ".join(NAZWY_POZYCJI[pozycja] for pozycja in żądane)
+    raise PozaRamą(f"{czyn} nie bierze {nazwy}")
 
 
 @dataclass(frozen=True)
@@ -941,16 +1064,31 @@ class Robi(Zdanie):
     Trzecią rzeczą, która tam stoi, jest ``Treść`` wyżej,
     czyli zdarzenie, o którym podmiot coś orzeka, zamiast je wykonywać.
 
-    Pytany o wszystkie trzy jest leksykon walencyjny, bo wszystkie są pozycjami ramy:
-    czy ten czasownik bierze dopełnienie w bierniku,
-    czy bierze bezokolicznik, którego wykonawcą jest jego własny podmiot,
-    i czy bierze zdanie podrzędne.
+    Pytana o wszystkie trzy jest rama z leksykonu walencyjnego, bo wszystkie są jej
+    pozycjami, a pytanie pada jedno: czy pozycja, którą ten konstytuent zajmuje,
+    stoi w ramie tego czasownika.
+    Rama jest zbiorem, więc pozycja dopisana do leksykonu nie dokłada tu gałęzi
+    (``rama`` w ``olski/walencja.py``).
     Pytany jest ten sam plik, o który pyta parser po drugiej stronie,
-    bo rama jest faktem o słowie, a nie o kierunku;
-    ``olski/walencja.py`` czyta go dla obu i trzyma wywód.
+    bo rama jest faktem o słowie, a nie o kierunku.
     Ostatnie z tych pytań waży najwięcej przy czasowniku, który bierze i biernik:
     ``zamykać`` biernik bierze, a `Zamykał, że okno stało.` nie jest zdaniem,
     i to leksykon jest jedyną rzeczą, która te dwa czasowniki rozdziela.
+
+    Dopełnienie pyta przy tym o dwa przypadki naraz i staje w tym, który rama ma,
+    bo przypadek bierze się tu z pozycji jak wszędzie indziej:
+    `Czeladnik szukał córki krawca.` i `Czeladnik zasłonił twarz.`
+    wychodzą z drzewa tego samego kształtu, a autor nie pisze przypadka w żadnym
+    (:data:`PRZYPADKI_DOPEŁNIENIA`).
+
+    Uczestnik w celowniku stoi obok tego dopełnienia, a nie zamiast niego,
+    i dlatego ma tu osobne pole:
+    `Parser pokazuje autorowi czytania.` wypełnia dwie pozycje ramy naraz,
+    a o tym, która rzecz stoi w której, mówi ``Komu`` wyżej.
+
+    Kopuli ta kategoria nie bierze wcale, i jest to ta sama odmowa co powyższe:
+    rama kopuli ma orzecznik, a orzecznikiem orzeka ``Jest`` obok,
+    więc `Parser jest.` nie wychodzi stąd tak samo, jak nie wyprowadza się z olskiego.
 
     Sprawca bezokolicznika stoi w drzewie, a nie w leksykonie,
     i jest nim ta sama zmienna postawiona dwa razy, jak w ``Opis`` i w ``Postać``.
@@ -974,21 +1112,32 @@ class Robi(Zdanie):
     kto: Rola | Wyróżnienie
     czyn: str
     co: Rola | Wyróżnienie | Zdanie | Treść | None = None
+    komu: Komu | Wyróżnienie | None = None
     okoliczniki: tuple = ()
     przeczenie: bool = False
 
     def __post_init__(self) -> None:
+        if ORZECZNIK in rama(self.czyn):
+            raise PozaRamą(f"{self.czyn} orzeka orzecznikiem, a nie czynnością")
+        for żądane in self._żądania():
+            _pozycja(self.czyn, żądane)
         dopełnienie = _goły(self.co)
-        if isinstance(dopełnienie, Treść):
-            if not bierze_zdanie(self.czyn):
-                raise PozaRamą(f"{self.czyn} nie bierze zdania podrzędnego")
-        elif isinstance(dopełnienie, Zdanie):
-            if not bierze_bezokolicznik_podmiotu(self.czyn):
-                raise PozaRamą(f"{self.czyn} nie bierze bezokolicznika")
-            if any(sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy):
-                raise PozaRamą(f"bezokolicznik przy {self.czyn} orzeka o kimś innym")
-        elif dopełnienie is not None and not bierze_biernik(self.czyn):
-            raise PozaRamą(f"{self.czyn} nie bierze dopełnienia w bierniku")
+        if isinstance(dopełnienie, Zdanie) and any(
+            sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy
+        ):
+            raise PozaRamą(f"bezokolicznik przy {self.czyn} orzeka o kimś innym")
+
+    def _żądania(self):
+        """Pozycje, których to drzewo żąda od ramy: po jednym żądaniu na wypełnioną pozycję.
+
+        Pętla, a nie pytanie na pozycję, i to jest tu cała treść:
+        pozycja dopisana do tej kategorii dokłada wiersz tutaj,
+        a nie gałąź w konstruktorze i drugą w leksykonie.
+        """
+        if self.co is not None:
+            yield _żądanie(_goły(self.co))
+        if self.komu is not None:
+            yield (CELOWNIK,)
 
     @property
     def czasownik(self) -> str:
@@ -1006,8 +1155,8 @@ class Robi(Zdanie):
 
     @property
     def konstytuenty(self) -> tuple:
-        dopełnienie = () if self.co is None else (self.co,)
-        return (self.kto, *dopełnienie, *self.okoliczniki)
+        wypełnione = tuple(pole for pole in (self.komu, self.co) if pole is not None)
+        return (self.kto, *wypełnione, *self.okoliczniki)
 
     def _dopełnienie(self, kontekst: Kontekst) -> Kawałek:
         """Dopełnienie wypisane jako grupa imienna, bezokolicznik albo treść.
@@ -1045,36 +1194,48 @@ class Robi(Zdanie):
         return self.przeczenie or kontekst.pod_przeczeniem
 
     def _przypadek(self, kontekst: Kontekst) -> str:
-        """Przypadek, w którym staje dopełnienie: biernik, a pod przeczeniem dopełniacz.
+        """Przypadek, w którym staje dopełnienie: ten z ramy, a pod przeczeniem dopełniacz.
 
         Pytają o to dwa miejsca i muszą dostać tę samą odpowiedź:
         linearyzacja, żeby dopełnienie wypisać,
         i ``uczestnicy``, żeby powiedzieć, jaką formą ono stanęło.
         Druga kopia rozjechałaby się z pierwszą zmianą przeczenia
         i nie zgłosiłaby tego nigdzie, bo obie odpowiedzi są poprawnymi przypadkami.
+
+        Dopełniacz negacji wchodzi w miejsce biernika i dopełniacza z leksykonu
+        nie rusza, bo nie ma tam czego zmienić:
+        `Czeladnik nie szukał córki krawca.` stoi w tym samym przypadku,
+        co to samo zdanie bez przeczenia.
         """
-        return "gen" if self._przeczone(kontekst) else "acc"
+        if self._przeczone(kontekst):
+            return DOPEŁNIACZ
+        return _pozycja(self.czyn, PRZYPADKI_DOPEŁNIENIA)
 
     def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
-        """Podmiot, a wraz z nim dopełnienie, o ile jest rzeczą, a nie zdarzeniem.
+        """Podmiot, a wraz z nim ci uczestnicy, którzy są rzeczą, a nie zdarzeniem.
 
         Bezokolicznik podmiotem nie stanie, więc uczestnikiem nie jest:
         pytanie, dla którego ta lista istnieje, jest pytaniem o role wymienne.
+        Celownik stanąć nim nie może z innego powodu i wchodzi tu mimo to,
+        bo powód ten jest formą, a nie kategorią: rzeczownik ma celownik różny
+        od mianownika i to rozstrzyga ``olski/skład/przegląd.py``, a nie ta lista.
         """
+        role = [(self.podmiot, "nom")]
         dopełnienie = _goły(self.co)
-        if not isinstance(dopełnienie, Rola):
-            return ((self.podmiot, "nom"),)
-        return ((self.podmiot, "nom"), (dopełnienie, self._przypadek(kontekst)))
+        if isinstance(dopełnienie, Rola):
+            role.append((dopełnienie, self._przypadek(kontekst)))
+        if self.komu is not None:
+            role.append((_goły(self.komu).co, CELOWNIK))
+        return tuple(role)
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         pozycje = _podmiot(self.kto, kontekst)
         pozycje.append((None, Kawałek(self._orzeczenie(kontekst))))
+        if self.komu is not None:
+            pozycje.append((_miejsce(self.komu, kontekst), _goły(self.komu).linearyzuj(kontekst)))
         if self.co is not None:
             pozycje.append((_miejsce(self.co, kontekst), self._dopełnienie(kontekst)))
-        for okolicznik in self.okoliczniki:
-            pozycje.append(
-                (_miejsce(okolicznik, kontekst), _goły(okolicznik).linearyzuj(kontekst))
-            )
+        pozycje.extend(_okoliczności(self.okoliczniki, kontekst))
         return _szyk(pozycje)
 
 
@@ -1083,28 +1244,39 @@ class Robi(Zdanie):
 OKOLICZNOŚCI = (Okolicznik, Przysłówek)
 
 
+def _pole(część) -> str:
+    """Pole ``Robi``, do którego ten konstytuent należy.
+
+    Kategoria mówi tu o pozycji i nic poza nią o niej nie mówi,
+    bo pozycji autor nie pisze: pisze, czym rzecz w zdarzeniu jest.
+    """
+    if isinstance(część, OKOLICZNOŚCI):
+        return "okoliczniki"
+    return "komu" if isinstance(część, Komu) else "co"
+
+
 def zdarzenie(kto, czyn: str, *reszta) -> Robi:
     """Zdarzenie złożone z tego, co dostało, po kategoriach, a nie po pozycjach.
 
     Pierwszy argument jest tym, kto działa, i stoi zawsze.
-    Reszta rozdziela się kategorią: okoliczności może być wiele,
-    a uczestnik zdarzenia poza działającym jest jeden,
+    Reszta rozdziela się kategorią (:func:`_pole`): okoliczności może być wiele,
+    a uczestnik jest w każdej pozycji jeden,
     więc liczenie pozycji zostaje po tej stronie, a nie po stronie autora.
     Czasownik nieprzechodni składa się więc tak samo jak przechodni,
-    a o dopełnienie pyta rama z leksykonu, którą sprawdza ``Robi``.
+    a o pozycje pyta rama z leksykonu, którą sprawdza ``Robi``.
     """
-    dopełnienia: list = []
-    okoliczniki: list = []
+    pola: dict[str, list] = {"co": [], "komu": [], "okoliczniki": []}
     for część in reszta:
-        cel = okoliczniki if isinstance(_goły(część), OKOLICZNOŚCI) else dopełnienia
-        cel.append(część)
-    if len(dopełnienia) > 1:
-        raise PozaRamą(f"{czyn} dostaje {len(dopełnienia)} dopełnienia zamiast jednego")
+        pola[_pole(_goły(część))].append(część)
+    for nazwa in ("co", "komu"):
+        if len(pola[nazwa]) > 1:
+            raise PozaRamą(f"{czyn} dostaje {len(pola[nazwa])} uczestników w jednej pozycji")
     return Robi(
         kto=byt(kto),
         czyn=czyn,
-        co=byt(dopełnienia[0]) if dopełnienia else None,
-        okoliczniki=tuple(okoliczniki),
+        co=byt(pola["co"][0]) if pola["co"] else None,
+        komu=pola["komu"][0] if pola["komu"] else None,
+        okoliczniki=tuple(pola["okoliczniki"]),
     )
 
 

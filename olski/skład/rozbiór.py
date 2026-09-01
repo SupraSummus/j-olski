@@ -64,6 +64,7 @@ from olski.skład.składnia import (
     Czyj,
     Jaki,
     Jest,
+    Komu,
     Kontekst,
     Koordynacja,
     Nominalne,
@@ -84,11 +85,9 @@ from olski.subset import (
     OKOLICZNIK_NARZĘDNIKOWY,
     OKOLICZNIK_PRZYSŁÓWKOWY,
     OKOLICZNIK_ZDANIOWY,
+    PARA_WYPEŁNIEŃ,
 )
-
-#: Kopula, którą ``Jest`` wypisuje, czyli jedyny lemat, z którego to zdanie wraca.
-#: Gramatyka bierze pięć, a skład umie ten jeden; trzyma to ``todo/``.
-KOPULA = "być"
+from olski.walencja import KOPULA
 
 #: Znaki, którymi ten zapis pisze listę: spójnik przed ostatnim członem,
 #: przecinek przed każdym wcześniejszym. Spójnik inny stoi w innej relacji,
@@ -151,8 +150,16 @@ ZDANIOWE = (FRAZA_BEZOKOLICZNIKOWA, ZDANIE_PODRZĘDNE)
 #: i przysłówek, a ani ``Zdanie``, ani ``Treść`` z niego nie dziedziczy.
 NIERUCHOME = ("orzeczenie", *ZDANIOWE)
 
-#: Symbole, które pozycji nie są, bo grupują te, które są.
-GRUPUJĄCE = ("grupa_orzeczenia", "wypełnienia", "okoliczniki", "zdanie_składowe")
+#: Symbole, które pozycji nie są, bo grupują te, które są. Para wypełnień jest
+#: wśród nich, bo grupuje dwa dopełnienia, a które z nich zajmuje którą pozycję,
+#: rozstrzyga tu przydział (:func:`_przydziały`), a nie symbol nad nimi.
+GRUPUJĄCE = (
+    "grupa_orzeczenia",
+    "wypełnienia",
+    "okoliczniki",
+    "zdanie_składowe",
+    PARA_WYPEŁNIEŃ,
+)
 
 #: Etykieta liścia, bo liść stoi w ciele produkcji formą, a nie symbolem.
 #: Nazwana, żeby kształt ciała czytał się tam, gdzie się go dopasowuje.
@@ -615,6 +622,7 @@ def _złóż(
     """
     pola: dict[str, object] = {}
     okoliczniki: list = []
+    dopełnienia: list = []
     sprawca = podmiot
     czasownik, przeczenie = konstytuenty[pozycje.index("orzeczenie")]
     for numer, (pozycja, konstytuent) in enumerate(zip(pozycje, konstytuenty, strict=True)):
@@ -624,6 +632,12 @@ def _złóż(
             if postać:
                 konstytuent = Postać(konstytuent)
             sprawca = konstytuent
+        #  Dopełnienie wychodzi stąd nieoznaczone, bo znacznik obejmuje kategorię,
+        #  a która to kategoria, rozstrzyga dopiero przydział pozycji niżej:
+        #  ta sama grupa imienna staje raz dopełnieniem, a raz celownikiem.
+        if pozycja == "dopełnienie":
+            dopełnienia.append((konstytuent, znaczniki.get(numer)))
+            continue
         oznaczony = _oznacz(konstytuent, znaczniki.get(numer))
         #  Okoliczność i przysłówek stoją w ``Robi`` jedną listą, bo obie mówią,
         #  jak albo gdzie coś się dzieje, więc obie idą tutaj, a nie polem.
@@ -641,34 +655,109 @@ def _złóż(
     kto = pola.get("podmiot", podmiot)
     if kto is None:
         raise PozaZapisem("zdanie bez podmiotu nie ma tu kategorii")
-    if czasownik == KOPULA and "orzecznik" in pola and not okoliczniki:
-        yield Jest(co=kto, czym=pola["orzecznik"], przeczenie=przeczenie)
-        return
-    if czasownik == KOPULA or "orzecznik" in pola:
-        raise PozaZapisem(f"{czasownik} nie składa tu orzeczenia imiennego")
-    for dopełnienie in _dopełnienia(pola, sprawca):
-        yield Robi(
-            kto=kto,
-            czyn=czasownik,
-            co=dopełnienie,
+    if czasownik in KOPULA and "orzecznik" in pola and not dopełnienia:
+        yield Jest(
+            co=kto,
+            czym=pola["orzecznik"],
+            czasownik=czasownik,
             okoliczniki=tuple(okoliczniki),
             przeczenie=przeczenie,
         )
+        return
+    if czasownik in KOPULA or "orzecznik" in pola:
+        raise PozaZapisem(f"{czasownik} nie składa tu orzeczenia imiennego")
+    #  Kandydat, którego rama nie bierze, odpada tutaj, a nie wywraca reszty:
+    #  grupa imienna wychodzi z przydziału w obu pozycjach naraz, więc jedna z
+    #  nich prawie zawsze żąda pozycji, której ten czasownik nie ma. Zgłoszenie
+    #  wraca dopiero wtedy, gdy nie ostał się żaden, bo pustka bez powodu nie mówi,
+    #  czego temu zdaniu brakuje (:class:`Odczyt`).
+    ostatnia: PozaRamą | None = None
+    powstałe = 0
+    for dopełnienie, celownik in _wypełnienia(pola, dopełnienia, sprawca):
+        try:
+            zdanie = Robi(
+                kto=kto,
+                czyn=czasownik,
+                co=dopełnienie,
+                komu=celownik,
+                okoliczniki=tuple(okoliczniki),
+                przeczenie=przeczenie,
+            )
+        except PozaRamą as błąd:
+            ostatnia = błąd
+            continue
+        powstałe += 1
+        yield zdanie
+    if not powstałe and ostatnia is not None:
+        raise ostatnia
 
 
-def _dopełnienia(pola: dict[str, object], sprawca: Rola | None) -> Iterator:
-    """Czym bywa dopełnienie tego zdania: zdarzeniem, treścią, rzeczą albo niczym.
+def _wypełnienia(pola: dict[str, object], dopełnienia: list, sprawca: Rola | None) -> Iterator:
+    """Pary: czym bywa dopełnienie tego zdania i czym pozycja celownikowa obok niego.
 
+    Dopełnienie bywa zdarzeniem, treścią, rzeczą albo niczym.
     Trzy pierwsze wykluczają się, bo pod ``wypełnienia`` staje jedno wypełnienie,
     więc pytania idą tu jedno po drugim, a nie w iloczynie.
     Kilka odpowiedzi daje samo zdarzenie, bo jedyne z trzech powstaje tutaj:
     czeka na wykonawcę, którym jest podmiot zdania nad nim.
+
+    Grupa imienna nie mówi napisem, którą z dwóch pozycji zajęła,
+    bo przypadka ten plik nie czyta, więc wychodzą stąd oba przydziały,
+    a odsiewa je porównanie form: `Parser mówi autorowi.` z pozycji dopełnienia
+    wypisałoby się jako `Parser mówi autora.` i tamten kandydat odpada.
+    Wypełnienie inne niż grupa imienna przydział rozstrzyga,
+    bo pozycję dopełnienia zajmuje samo.
     """
     if FRAZA_BEZOKOLICZNIKOWA in pola:
         pozycje = list(_pozycje_bezokolicznika(pola[FRAZA_BEZOKOLICZNIKOWA]))
-        yield from _zdania(pozycje, podmiot=sprawca)
+        wypełnienia: list = list(_zdania(pozycje, podmiot=sprawca))
+    elif ZDANIE_PODRZĘDNE in pola:
+        wypełnienia = [pola[ZDANIE_PODRZĘDNE]]
+    else:
+        wypełnienia = []
+    if wypełnienia:
+        _zmieszczone(dopełnienia, 1)
+        for wypełnienie in wypełnienia:
+            yield wypełnienie, _celownik(dopełnienia[0]) if dopełnienia else None
         return
-    yield pola.get(ZDANIE_PODRZĘDNE, pola.get("dopełnienie"))
+    _zmieszczone(dopełnienia, 2)
+    yield from _przydziały(dopełnienia)
+
+
+def _zmieszczone(dopełnienia: list, pozycji: int) -> None:
+    """Zgłasza grupy imienne, dla których nie ma tu tylu pozycji ramy.
+
+    Wolnych pozycji jest dwie, a wypełnienie inne niż grupa imienna zajmuje jedną
+    z nich, więc liczba zależy od tego, co pod czasownikiem stanęło.
+    Gramatyka stawia obok siebie najwyżej dwie takie grupy
+    (``PARA_WYPEŁNIEŃ`` w ``olski/subset/zdanie.py``),
+    więc ciało szersze ma się zgłosić, zamiast gubić grupę po cichu.
+    """
+    if len(dopełnienia) > pozycji:
+        raise PozaZapisem("dopełnień stoi tu więcej, niż ten zapis ma na nie pozycji")
+
+
+def _przydziały(dopełnienia: list) -> Iterator:
+    """Grupy imienne rozłożone na dwie pozycje ramy: dopełnienie i celownik."""
+    if not dopełnienia:
+        yield None, None
+        return
+    miejsca = [*dopełnienia, *[None] * (2 - len(dopełnienia))]
+    for dopełnienie, celownik in itertools.permutations(miejsca):
+        yield _oznacz(*dopełnienie) if dopełnienie else None, _celownik(celownik)
+
+
+def _celownik(para) -> object:
+    """Grupa imienna postawiona w pozycji celownikowej wraz ze swoim znacznikiem.
+
+    Kategoria stoi pod znacznikiem, a nie nad nim, bo tak samo pisze ją autor:
+    ``Komu`` jest konstytuentem, który da się wyróżnić, a nie zawinięciem
+    dopisanym do wyróżnionego (``Wyróżnialne`` w ``olski/skład/składnia.py``).
+    """
+    if para is None:
+        return None
+    konstytuent, miejsce = para
+    return _oznacz(Komu(konstytuent), miejsce)
 
 
 def _zdania(
@@ -688,14 +777,30 @@ def _zdania(
     albo pod bezokolicznikiem, który podmiotu nie ma nigdy;
     tylko w pierwszym z tych dwóch przychodzi deklaracja tożsamości,
     bo bez niej ten sam napis by z tego drzewa nie wyszedł.
+
+    Wybór, którego rama nie bierze, nie zabiera reszty i to jest tu cała ostrożność.
+    Lematów bywa u jednej formy kilka i biorą co innego — ``pokazuje`` jest formą
+    ``pokazywać`` i ``pokazować``, a celownik ma z nich jeden — więc odmowa
+    wypuszczona stąd wprost gasiłaby wraz z tym jednym wyborem wszystkie następne.
+    Zgłoszenie wraca dopiero wtedy, gdy nie powstał żaden kandydat,
+    bo pustka bez powodu nie mówi, czego temu zdaniu brakuje (:class:`Odczyt`).
     """
     nazwy = [nazwa for nazwa, _ in pozycje]
     if nazwy.count("orzeczenie") != 1:
         raise PozaZapisem("zdanie tego zapisu orzeka jednym czasownikiem")
     warianty = [_konstytuenty(nazwa, węzeł) for nazwa, węzeł in pozycje]
+    ostatnia: PozaRamą | None = None
+    powstałe = 0
     for wybór in itertools.product(*warianty):
         for znaczniki in _znaczniki(nazwy):
-            yield from _złóż(nazwy, wybór, znaczniki, podmiot, postać)
+            try:
+                for zdanie in _złóż(nazwy, wybór, znaczniki, podmiot, postać):
+                    powstałe += 1
+                    yield zdanie
+            except PozaRamą as błąd:
+                ostatnia = błąd
+    if not powstałe and ostatnia is not None:
+        raise ostatnia
 
 
 def _członowie(drzewo: Node) -> list[Node]:

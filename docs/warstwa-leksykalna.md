@@ -635,9 +635,12 @@ zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964,
 o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
 o bezokoliczniku 363, o bezokoliczniku pod kontrolą podmiotu 285,
 a o zdaniu podrzędnym 2 498.
-Ramy ten plik nie niesie, bo rama jest słowem gramatyki, a nie słownika.
-Nazywa ją `olski/subset/rama.py` razem z domyślną, od której ją odejmuje.
-Czyta go `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
+Ramy ten plik nie niesie, bo rama składa się dopiero ze zdań, które on mówi.
+Nazywają ją dwa moduły, po jednym na kierunek, bo każdy z nich czyta inne zdania:
+`olski/subset/rama.py` wypisuje klasy walencyjne razem z domyślną,
+od której je odejmuje, a `rama` w `olski/walencja.py` wydaje składowi
+zbiór pozycji jednego lematu.
+Czyta ten plik `olski/walencja.py`, i czyta dla wszystkich, którzy pytają,
 bo rama jest faktem o słowie, a nie o kierunku, w którym się go używa;
 wywód trzyma [design-notes.md](design-notes.md#the-round-trip-invariant).
 
@@ -660,14 +663,11 @@ i o rzeczowniku nie orzekają żadnego,
 a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
 
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
+Biernik, celownik i dopełniacz czytają oba kierunki,
 zdanie podrzędne sam skład,
 a zdania o bezokoliczniku rozchodzą się na dwa: szersze czyta parser
 przy czasowniku zwrotnym, węższe skład,
 i nie jest to niezgoda o fakt, tylko różnica w tym, co ten fakt komu kupuje.
-Skład o dwa pierwsze nie pyta, bo `Robi` w `olski/skład/składnia.py`
-stawia rolę w bierniku i nie ma czym postawić jej w przypadku innym;
-co to kosztuje po tamtej stronie, trzyma [todo/](../todo/README.md).
 Po stronie generatora jest bezokolicznik jedyną obroną przed drzewem,
 które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.

@@ -174,7 +174,7 @@ a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest
 Lista kopul, którą `olski/rozstrzyganie.py` odejmuje od dowodu,
 jest pożyczona i cztery piąte jej nie zmierzono.
 Świadek kontekstowy nie bierze za dowód powtórzenia przy kopuli, a listę kopul bierze
-z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/lematy.py` wylicza czasowniki
+z gramatyki, gdzie kryterium jest inne: `KOPULA` w `olski/walencja.py` wylicza czasowniki
 biorące orzecznik w narzędniku, a tutaj chodzi o czasownik, przy którym okolicznik stoi
 bez związku z rzeczą. Nad korpusem audytowym rozstrzyga to samo `być`, a `zostać`, `zostawać`, `pozostać`
 i `pozostawać` ruszają wyłącznie wariant sondy pytający o cały prefiks zdania,

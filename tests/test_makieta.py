@@ -14,6 +14,7 @@ from olski.skład.makieta import (
     CZYNY_STANU,
     CZYNY_Z_BEZOKOLICZNIKIEM,
     CZYNY_Z_BIERNIKIEM,
+    CZYNY_Z_CELOWNIKIEM,
     CZYNY_ZE_ZDANIEM,
     MIEJSCA,
     OKOLICZNOŚCI_CZYNNE,
@@ -31,7 +32,7 @@ from olski.skład.opowieść import Postać
 from olski.skład.przegląd import przejrzyj
 from olski.skład.przyimki import przypadek
 from olski.skład.składnia import Okolicznik, Przysłówek, Rzecz, byt, zdarzenie
-from olski.walencja import bierze_bezokolicznik_podmiotu, bierze_biernik, bierze_zdanie
+from olski.walencja import BEZOKOLICZNIK, BIERNIK, CELOWNIK, ZDANIE_PODRZĘDNE, rama
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -56,23 +57,21 @@ RODZAJE = ("f", "m1", "m3", "n")
 #: losowań, czyli wszystko, co rozstrzyga, jak ta makieta czyta się jako proza.
 MAKIETA = """\
 Czeladnik zapłakał w wąskiej piwnicy. \
-Próbował wrócić na ulicę. \
-Sukno znalazło bochenki i nie stało w nocy. \
-Czeladnik zasnął. \
-Ponieważ córka zeszła od młodej wdowy, nie zamknął zegara. \
-Sukno podniosło beczki i dużą skrzynię.
+Dziewczyna zgubiła glinianą skrzynię, ponieważ czeladnik zszedł. \
+Zdążyła mieszkać przed ciężkim młynem. \
+Córka dała dziewczynie koszyk. \
+Zdążyła wrócić od młodej wdowy. \
+Czeladnik zważył kufry gospodarza i sukno.
 
-Zanim kucharka zeszła z podwórza, czeladnik schował ciężki zegar. \
-Klucz schował okno. \
-Kucharka zasnęła pod krzywą kamienicą sąsiadki. \
-Klucz nie otworzył lustra i nie zasnął w ogrodach. \
-Zasłonił okno.
+Skrzynia podniosła ciężki kufer i duży klucz. \
+Kucharka schowała ciężki zegar, gdy skrzynia nie zeszła. \
+Skrzynia policzyła kufer.
 
-Zegar wziął skrzynię, którą wdowa znalazła. \
-Czeladnik był cichym chłopcem. \
-Wyszedł. \
-Szal zamknął skrzynię, którą zegar rozbił. \
-Zegar przyniósł klucze i krzywy dzban."""
+Mieszczanin pamiętał, że dziewczyna wyszła na targi. \
+Beczka rozbiła deskę aptekarza i lustro. \
+W nocy list nie mieszkał. \
+Beczka zasłoniła wiadro, które mieszczanin podniósł. \
+Zasłoniła świecę i zeszła na mokry próg kupca."""
 
 #: Kategorie, które niesie zapis z ``olski/skład/składnia.py`` wraz z ``Postać`` nad nim,
 #: czyli wszystko, z czego wolno zbudować drzewo.
@@ -82,6 +81,7 @@ KATEGORIE = {
     "Czyj",
     "Jaki",
     "Jest",
+    "Komu",
     "Koordynacja",
     "Okolicznik",
     "Opis",
@@ -165,18 +165,28 @@ def test_czasownik_z_tabeli_biernikowej_biernik_bierze(lemat):
     której lemat nie ma, więc wpis chybiony zabiera losowaniu zdanie,
     zamiast wypuścić tekst, którego polszczyzna nie ma.
     """
-    assert bierze_biernik(lemat)
+    assert BIERNIK in rama(lemat)
+
+
+@pytest.mark.parametrize("lemat", CZYNY_Z_CELOWNIKIEM)
+def test_czasownik_z_tabeli_celownikowej_bierze_obie_pozycje(lemat):
+    """Tabela obiecuje dwie pozycje naraz, więc świadek pyta o obie.
+
+    Sam celownik nie wystarcza, bo kształt stawia obok niego rzecz,
+    a `Kowal pomógł sąsiadowi klucz.` zgłosiłoby ``PozaRamą`` dopiero w losowaniu.
+    """
+    assert {BIERNIK, CELOWNIK} <= rama(lemat)
 
 
 @pytest.mark.parametrize("lemat", CZYNY_Z_BEZOKOLICZNIKIEM)
 def test_czasownik_z_tabeli_bezokolicznikowej_bezokolicznik_bierze(lemat):
-    assert bierze_bezokolicznik_podmiotu(lemat)
+    assert BEZOKOLICZNIK in rama(lemat)
     assert odmień(lemat, "inf")
 
 
 @pytest.mark.parametrize("lemat", CZYNY_ZE_ZDANIEM)
 def test_czasownik_z_tabeli_zdaniowej_zdanie_podrzędne_bierze(lemat):
-    assert bierze_zdanie(lemat)
+    assert ZDANIE_PODRZĘDNE in rama(lemat)
 
 
 #: Wszystkie wiersze okoliczności, bez powtórzeń, bo czas wchodzi do obu tabel.

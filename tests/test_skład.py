@@ -31,12 +31,13 @@ from olski.skład.słownik import (
     Treść,
     V,
     jest,
+    komu,
     opis,
     potem,
     razem,
 )
 from olski.subset import WALENCJA
-from olski.walencja import bierze_biernik
+from olski.walencja import BIERNIK, rama
 from olski.werdykt import check
 
 
@@ -107,14 +108,92 @@ def test_czasownik_któremu_leksykon_odmawia_biernika_nie_wypuszcza_dopełnienia
         V.pomagać(R.linter, A.dobry * R.kod)
 
 
-def test_kopuli_biernik_odmówiony_jest_po_obu_stronach_tak_samo():
+def test_przypadek_dopełnienia_bierze_się_z_ramy_a_nie_z_kształtu_drzewa():
+    """Dwa czasowniki, jedno drzewo, dwa przypadki, i autor nie pisze żadnego.
+
+    Przypadek bierze się tu z pozycji jak wszędzie indziej,
+    a którą pozycję czasownik ma, mówi leksykon (``rama`` w ``olski/walencja.py``).
+    Bez tego dopełniacz z ramy nie ma jak stanąć,
+    bo `Czeladnik szuka klucz.` nie jest zdaniem, a `Czeladnik szuka.` mówi mniej.
+    """
+    assert kompiluj(V.szukać(R.czeladnik, R.klucz)) == "Czeladnik szuka klucza."
+    assert kompiluj(V.zasłaniać(R.czeladnik, R.klucz)) == "Czeladnik zasłania klucz."
+
+
+def test_dopełniacz_negacji_wchodzi_w_miejsce_biernika_i_dopełniacza_nie_rusza():
+    """Zasięg negacji widać dopiero na parze, bo osobno każde z tych zdań wygląda tak samo.
+
+    Ta sama para czasowników, co wyżej: pod przeczeniem `zasłaniać` przypadek
+    zmienia, a `szukać` nie ma czego zmienić.
+    """
+    assert kompiluj(nie(V.zasłaniać(R.czeladnik, R.klucz))) == "Czeladnik nie zasłania klucza."
+    assert kompiluj(nie(V.szukać(R.czeladnik, R.klucz))) == "Czeladnik nie szuka klucza."
+
+
+def test_celownik_jest_osobną_pozycją_a_nie_drugim_dopełnieniem():
+    """Dwie pozycje ramy naraz, a autor mówi kategorią, która rzecz stoi w której.
+
+    Bez ``Komu`` te dwie role rozdzielałaby kolejność argumentów,
+    czyli to, czego drzewo tego zapisu nie niesie nigdzie indziej.
+    """
+    dar = V.pokazywać(R.parser, komu(R.autor), ~R.czytanie)
+    assert kompiluj(dar) == "Parser pokazuje autorowi czytania."
+
+
+def test_odmowa_nazywa_pozycję_której_rama_nie_ma():
+    """Odmowa jest jedna na wszystkie pozycje, więc jej treść jest jedyną różnicą.
+
+    Świadkiem są dwa czasowniki o ramach rozłącznych:
+    `szukać` bierze dopełniacz i nie bierze celownika, `pomagać` odwrotnie.
+    Sprawdzany jest napis, bo bez niego autor wie tylko tyle,
+    że drzewo jest poza ramą, a nie to, której pozycji ten czasownik nie ma;
+    dopełnienie wymienia przy tym oba przypadki, bo o oba pyta naraz.
+    """
+    with pytest.raises(PozaRamą, match="szukać nie bierze dopełnienia w celowniku"):
+        V.szukać(R.czeladnik, komu(R.autor))
+    with pytest.raises(PozaRamą, match="w bierniku ani dopełnienia w dopełniaczu"):
+        V.pomagać(R.czeladnik, R.klucz)
+
+
+def test_kopula_orzeka_orzecznikiem_a_nie_czynnością():
     """Kopula jest lematem, na którym kopia leksykonu rozjechałaby się najpierw.
 
-    Czemu akurat ona, mówi ``olski/walencja.py``;
-    tutaj stoi zdanie, które by z tego rozjazdu wyszło.
+    Walenty mówi o `być` to samo, co o każdym innym lemacie,
+    więc kierunek liczący ramę bez odjęcia kopuli wypuściłby stąd
+    `Program jest ustawienia.`; czemu odjęcie stoi raz, mówi ``olski/walencja.py``.
+    Drugie zdanie jest tą samą odmową bez dopełnienia:
+    `Parser jest.` nie wyprowadza się z olskiego i nie wychodzi ze składu.
     """
     with pytest.raises(PozaRamą):
         V.być(R.program, ~R.ustawienie)
+    with pytest.raises(PozaRamą):
+        V.być(R.program)
+
+
+def test_kopulę_wybiera_autor_spośród_tych_które_leksykon_wymienia():
+    """Bycie i stawanie się są dwiema rzeczami, więc lemat stoi w drzewie polem.
+
+    Odmowa jest tu tą samą odmową, którą dostaje czynność:
+    orzecznik w narzędniku bierze kopula i nikt poza nią,
+    a `zapisywać` nie ma go w ramie.
+    """
+    assert kompiluj(jest(R.Jan, R.nauczyciel, czasownik="zostawać")) == (
+        "Jan zostaje nauczycielem."
+    )
+    with pytest.raises(PozaRamą):
+        jest(R.kot, R.zwierzę, czasownik="zapisywać")
+
+
+def test_okoliczność_dochodzi_do_orzeczenia_imiennego_tak_jak_do_czynności():
+    """Jedno pytanie, jedna kategoria i jedna pętla na obu zdaniach.
+
+    Zdanie to olski czyta i czyta je dwojako,
+    więc bez tej pozycji obieg nie zamyka się na całej klasie zdań,
+    które o czymś orzekają i mówią, gdzie albo kiedy.
+    """
+    assert kompiluj(jest(R.kot, R.zwierzę, Gdzie.w(R.piwnica))) == (
+        "Kot jest zwierzęciem w piwnicy."
+    )
 
 
 def test_biernika_odmawiają_oba_kierunki_tym_samym_lematom():
@@ -125,15 +204,15 @@ def test_biernika_odmawiają_oba_kierunki_tym_samym_lematom():
     """
     odmawia_parser = {
         lemat
-        for rama, lematy in WALENCJA.items()
-        if "acc" not in rama
+        for pozycje, lematy in WALENCJA.items()
+        if BIERNIK not in pozycje
         for lemat in lematy
     }
-    assert {lemat for lemat in odmawia_parser if bierze_biernik(lemat)} == set()
+    assert {lemat for lemat in odmawia_parser if BIERNIK in rama(lemat)} == set()
     #  Odmowa postawiona każdemu lematowi przeszłaby powyższe, więc świadek
     #  z drugiej strony: `zapisywać` bierze ramę domyślną po obu.
     assert "zapisywać" not in odmawia_parser
-    assert bierze_biernik("zapisywać")
+    assert BIERNIK in rama("zapisywać")
 
 
 def test_przestrzenie_nazw_niczego_w_składni_nie_zmieniają():

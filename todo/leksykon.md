@@ -35,7 +35,7 @@ Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mó
 Narzędnika [przekład](../docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 nie bierze, bo `inst` jest u olskiego pozycją orzecznika,
 a Walenty nie odróżnia jej od argumentu narzędnikowego,
-więc kopula zostaje listą pisaną ręcznie w `olski/subset/rama.py`.
+więc kopula zostaje listą pisaną ręcznie w `olski/walencja.py`.
 Do przeczytania jest, czy bank drzew tę różnicę widzi:
 pozycja `adjp(pred)` stoi w polu `tfw` obok `np(inst)`,
 a `harness/corpus.py` czyta dziś z tego pola podmiot i dopełnienie.

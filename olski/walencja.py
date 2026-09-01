@@ -10,18 +10,14 @@ wywód trzyma docs/design-notes.md.
 Wspólny jest leksykon, a nie odpowiedź, bo pytający pytają o co innego.
 Parser pyta o klasę: które lematy dzielą ramę,
 bo z klasy powstaje produkcja, a nie z lematu.
-Skład pyta o jeden lemat:
-czy ten czasownik weźmie to, co autor postawił w drzewie.
+Skład pyta o jeden lemat i dostaje zbiór pozycji (:func:`rama`):
+które z nich ten czasownik bierze, bo tyle wystarcza,
+żeby powiedzieć o drzewie, czy on weźmie to, co autor w nim postawił.
 Warstwa rozstrzygająca pyta o jeden lemat i o jedną pozycję:
 czy rama tego słowa żąda tego przyimka.
-Kopula pokazuje, ile ta różnica waży,
-bo po stronie parsera zabiera leksykonowi swoje lematy i dostaje ramę z narzędnikiem:
-kierunek dostający leksykon już po tym odjęciu
-miałby ``być`` za czasownik biorący biernik
-i wypuszczałby ``Program jest ustawienia.``
 
 Wspólny jest też plik, a nie każde zdanie, które on mówi.
-Biernik czytają oba kierunki, celownik i dopełniacz czyta sam parser,
+Biernik, celownik i dopełniacz czytają oba kierunki,
 zdanie podrzędne sam skład,
 a o bezokoliczniku plik mówi dwoma zdaniami i każdy czyta swoje.
 Skład czyta węższe, o kontroli podmiotu, bo jest ono po tamtej stronie
@@ -43,6 +39,14 @@ spornego wyrażenia przyimkowego.
 Gramatyka ich nie czyta, bo wyrażenie przyimkowe przyłącza się u olskiego
 wszędzie, gdzie polszczyzna je stawia, a wybór miejsca należy do czytelnika
 (docs/subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie).
+
+Ręcznie stoi w tym leksykonie jeden wpis i jest nim kopula (:data:`KOPULA`).
+Walenty mówi o ``być`` to samo, co o każdym innym lemacie,
+a rama kopuli mówi o narzędniku, którego rama domyślna nie ma,
+więc kierunek biorący ten plik bez odjęcia kopuli
+wypuszczałby ``Program jest ustawienia.``
+Odjęcie stoi tutaj i dlatego stoi raz, a nie po jednym na kierunek;
+czym rama kopuli jest dla gramatyki, mówi ``olski/subset/rama.py``.
 
 Wpisy rozdziela klasa słowa, bo jeden lemat bywa kilkoma słowami naraz.
 Forma z cząstką ``się`` jest innym czasownikiem —
@@ -83,6 +87,26 @@ BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU = "bierze_celownik_przy_wypełnieniu"
 CZASOWNIK = "czasownik"
 CZASOWNIK_ZWROTNY = "czasownik się"
 RZECZOWNIK = "rzeczownik"
+
+#: Kopula: czasownik, który bierze orzecznik w narzędniku, i jedyny, który go
+#: bierze. Lista jest zamknięta i docs/subset.md wywodzi, czego na niej nie ma.
+#: Stoi w tym pliku, bo jest tym jednym wpisem leksykonu, którego nie ma w
+#: Walentym, a pytają o nią klasy walencyjne gramatyki (``olski/subset/rama.py``),
+#: orzeczenie imienne składu (``olski/skład/składnia.py``) oraz świadek
+#: kontekstowy, który przy tym czasowniku milczy (``olski/rozstrzyganie.py``).
+KOPULA = frozenset({"być", "bywać", "zostać", "zostawać", "pozostać", "pozostawać"})
+
+#: Pozycje ramy, każda pod napisem, którym morfologia nazywa to, czego ta pozycja
+#: żąda: przypadek grupy imiennej, formę czasownika, część mowy spójnika. Napisu
+#: tego ten plik nie dobiera i nie ma po co: pozycja przypadkowa oddaje go wprost
+#: do ``odmień`` w ``olski/skład/morfologia.py``, bo przypadek jest dokładnie tym,
+#: czego ona od roli żąda.
+BIERNIK = "acc"
+CELOWNIK = "dat"
+DOPEŁNIACZ = "gen"
+ORZECZNIK = "inst"
+BEZOKOLICZNIK = "inf"
+ZDANIE_PODRZĘDNE = "comp"
 
 
 class Wpis(NamedTuple):
@@ -203,53 +227,46 @@ def _przyimki(lemat: str, klasa: str) -> frozenset[str]:
     return wpis.przyimki if wpis is not None else frozenset()
 
 
-def bierze_biernik(lemat: str) -> bool:
-    """Czy czasownik bez cząstki ``się`` weźmie dopełnienie w bierniku.
+#: Rama kopuli: orzecznik w narzędniku i nic poza nim. Biernika nie ma, bo
+#: `Program jest ustawienia.` nie jest zdaniem; pozycji, które leksykon dokłada,
+#: nie ma z tego samego powodu, a Walenty daje kopuli je wszystkie.
+RAMA_KOPULI = frozenset({ORZECZNIK})
 
-    Pyta o formę bez cząstki, bo o taką pyta ``Robi`` w ``olski/skład/składnia.py``,
-    czyli jedyny konstruktor, który dopełnienie stawia.
-    Formy z cząstką składnia nie ma czym zapisać,
-    więc drugi zbiór czyta po tej stronie nikt, a po tamtej czyta go gramatyka.
+#: Pozycje, które leksykon do ramy dokłada, każda wraz z lematami, które ją mają.
+#: Zdania te są twierdzące, a zdanie o bierniku ujemne, i odwrotność ta jest w
+#: domyślności, od której każde odejmuje: rama domyślna ma biernik i nie ma
+#: pozycji żadnej z tych czterech.
+POZYCJE_LEKSYKONU = (
+    (CELOWNIK, Z_CELOWNIKIEM),
+    (DOPEŁNIACZ, Z_DOPEŁNIACZEM),
+    (BEZOKOLICZNIK, Z_BEZOKOLICZNIKIEM_PODMIOTU),
+    (ZDANIE_PODRZĘDNE, ZE_ZDANIEM),
+)
 
-    Odpowiedź twierdząca należy się także lematowi, którego ten leksykon nie wymienia,
-    i to jest rama domyślna, a nie brak wiedzy:
-    plik wylicza czasowniki o ramie węższej,
-    więc milczenie o czasowniku jest tu zdaniem o nim.
+
+def rama(lemat: str) -> frozenset[str]:
+    """Pozycje, które ten czasownik bierze, czyli rama widziana przez skład.
+
+    Zbiorem, a nie pytaniem na pozycję, bo drzewo żąda tylu pozycji, ile w nim
+    stanęło: pytań byłoby po jednym na pozycję, a każde z nich stoi u pytającego
+    osobną gałęzią, więc lista rośnie wtedy w dwóch miejscach naraz.
+    Zbiór porównuje się raz i tak go czyta ``Robi`` w ``olski/skład/składnia.py``.
+
+    Pyta się o formę bez cząstki ``się``, bo taką stawia składnia; formy z cząstką
+    nie ma ona czym zapisać, więc zbiory zwrotne czyta po tej stronie nikt.
+
+    Kopula ma ramę wypisaną (:data:`RAMA_KOPULI`), a nie liczoną z pliku, i mówi o
+    tym docstring tego modułu. Odjęcie to jest przy tym całą odmową, jaką skład
+    kopuli wydaje: czasownik, który orzeka orzecznikiem, nie orzeka czynnością.
+
+    Bezokolicznik wchodzi tu zdaniem węższym, o kontroli podmiotu, bo drzewo
+    wykonawcę stawia i musi wiedzieć, czy jest nim ten sam, o kim orzeka czasownik
+    nad nim: ``kazać`` bierze w polszczyźnie bezokolicznik, a wykonawcą jest ten,
+    komu kazano, i tego ten zapis nie ma czym powiedzieć.
     """
-    return lemat not in BEZ_BIERNIKA
-
-
-def bierze_bezokolicznik_podmiotu(lemat: str) -> bool:
-    """Czy czasownik weźmie bezokolicznik, którego wykonawcą jest jego podmiot.
-
-    Odpowiedź przecząca należy się lematowi, którego leksykon nie wymienia,
-    czyli odwrotnie niż przy bierniku, i odwrotność ta jest w domyślności,
-    a nie w sposobie czytania: rama domyślna ma dopełnienie w bierniku
-    i nie ma bezokolicznika, więc jedno zdanie odejmuje, a drugie dokłada.
-
-    Kontrolę leksykon już rozstrzygnął, więc to pytanie o nią nie pyta:
-    ``kazać`` bierze w polszczyźnie bezokolicznik, a wykonawcą jest ten,
-    komu kazano, i tego skład nie ma czym zapisać.
-    Parser bierze `córce` za dopełnienie `kazał`, bo celownik stoi obok
-    wypełnienia, a kto ten bezokolicznik wykonuje, nie pyta ani jedna produkcja,
-    więc po tamtej stronie czyta się zdanie szersze
-    (:data:`Z_BEZOKOLICZNIKIEM_ZWROTNE`).
-    """
-    return lemat in Z_BEZOKOLICZNIKIEM_PODMIOTU
-
-
-def bierze_zdanie(lemat: str) -> bool:
-    """Czy czasownik weźmie zdanie podrzędne wprowadzone przez ``że``.
-
-    Domyślność jest ta sama co przy bezokoliczniku i z tego samego powodu:
-    drzewo składu takiej pozycji nie stawia, dopóki ktoś jej nie postawi,
-    więc milczenie o lemacie odmawia.
-    Gramatyka podzbioru czyta to inaczej i pyta o to innym pytaniem:
-    tam pozycja stoi w ramie domyślnej i to zawężenie zmierzono,
-    o czym mówi ``RAMA_DOMYŚLNA`` w ``olski/subset/rama.py``.
-
-    O kontrolę to pytanie nie pyta i pytać nie ma czego:
-    zdanie podrzędne niesie własny podmiot, więc nie ma tu nikogo,
-    kogo czasownik nad nim musiałby wskazać.
-    """
-    return lemat in ZE_ZDANIEM
+    if lemat in KOPULA:
+        return RAMA_KOPULI
+    domyślna = frozenset() if lemat in BEZ_BIERNIKA else {BIERNIK}
+    return frozenset(domyślna) | {
+        pozycja for pozycja, lematy in POZYCJE_LEKSYKONU if lemat in lematy
+    }

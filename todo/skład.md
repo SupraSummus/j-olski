@@ -159,54 +159,43 @@ Ruchem jest antecedens liczony z uczestników zdania poprzedniego i nadrzędnego
 a nie z samych ich podmiotów, wraz z testem na parę zdań,
 w której rodzaj tych dwóch ról jest wspólny, bo tam opuszczenie ma się nie stać.
 
-Rama czasownika, o którą pyta `Robi` w `olski/skład/składnia.py`,
-odpowiada na trzy pytania z listy: o biernik, o bezokolicznik i o zdanie podrzędne,
-więc rola w przypadku innym nie ma po tej stronie o co zapytać
-i nie ma jak stanąć w drzewie.
-Kosztuje to trzy klasy zdań, a wszystkich trzech chciała druga wersja legendy,
-trzecia poprosiła o dwie z nich znowu i wszystkie trzy z niej wypadły.
-`Czeladnik nie powiedział nikomu.` żąda celownika,
-`Czeladnik szukał córki krawca.` żąda dopełniacza,
-i oba przypadki leksykon dziś wymienia,
-bo wpuściła je gramatyka podzbioru
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu));
-`Robi` o żaden z nich nie pyta i przez to odrzuca oba zdania.
-`Córka krawca nie wierzyła w bazyliszka.` żąda wyrażenia przyimkowego,
-którego czasownik wymaga, a nie takiego, które autor dokłada jako okoliczność,
-i ta klasa jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
+Rama, o którą pyta `Robi` w `olski/skład/składnia.py`, wylicza pozycje,
+których żąda sam czasownik, i nie ma wśród nich wyrażenia przyimkowego,
+więc `Córka krawca nie wierzyła w bazyliszka.` z drzewa nie wyjdzie.
+Klasa ta jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
 czyli powie, że ktoś w coś wierzy tak, jak mówi się, że ktoś dokądś idzie.
 Czwarta wersja legendy obeszła to zdanie z drugiej strony,
 bo `nie wierzyła, że w piwnicy mieszkał bazyliszek` bierze
 [treść](../docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)
 zamiast wyrażenia przyimkowego, a mówi to samo o postaci;
 klasa zostaje jednak w tej samej cenie, bo wiara w rzecz zdaniem podrzędnym nie wyjdzie.
-Czwarty koszt jest cichy i przez to najgorszy z nich:
-`chcieć` ma u Walentego i dopełniacz, i przypadek strukturalny,
-więc przechodzi tu przez pytanie o biernik i wypuszcza `Kot chce mysz.`,
-czyli zdanie, którego polszczyzna woli nie mówić, a nikt tego nie zgłasza.
-Jedna pozycja znaczy tu więc nie tylko odmowę tam, gdzie brakuje przypadka,
-ale i wybór najgorszej z ram, które lemat ma.
-Piątą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
+Drugą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
 w którym `na izbach` jest okolicznością miejsca,
 a czyta się przez `czekać na kogoś`, czyli przez ramę, której tu nie ma,
 więc `olski/skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
-Po stronie leksykonu ta zmiana jest zrobiona:
-plik niesie zdanie o celowniku i zdanie o dopełniaczu,
-a czyta je sama gramatyka podzbioru
+Kolumnę przyimków leksykon niesie i czyta ją dziś świadek ramowy
 ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
 więc zostaje strona składu i to ona jest tym wpisem.
-Zdanie podrzędne dopisane po bezokoliczniku przesądziło ten wpis,
-bo pokazało, ile z tej zmiany jest zrobione, a ile nie:
-przekład umie wziąć trzecie zdanie, plik umie je unieść, a `Robi` umie o nie zapytać,
-i mimo to każde nowe pytanie jest osobną gałęzią w konstruktorze,
-a `_dopełnienie` obok rozdziela dziś trzy kształty tam, gdzie rozdzielało dwa.
-Ta sama gałąź powtarza się po drugiej stronie obiegu,
-bo tam każda z tych trzech pozycji jest osobnym symbolem gramatyki:
-`_dopełnienia` w `olski/skład/rozbiór.py` rozdziela je tak samo
-i pójdzie tą samą zmianą.
-Ruchem jest rama jako zbiór pozycji, a nie lista pytań,
-oraz `zdarzenie` w tym samym pliku rozdzielające argumenty po tym zbiorze,
-a nie po kategorii okoliczności.
+Do przeczytania jest `rama` w `olski/walencja.py`, bo pozycja przyimkowa
+jest pierwszą, której nie da się nazwać jednym napisem morfologii:
+przyimek i przypadek są tu dwiema rzeczami naraz.
+Ruchem jest ta pozycja w tym zbiorze wraz z kategorią, która ją wypełnia,
+i rozstrzygnięciem, czym ta kategoria różni się od `Okolicznik`,
+bo autor pisze dziś jedno i drugie tym samym `Dokąd.w`.
+
+`chcieć` ma u Walentego i dopełniacz, i przypadek strukturalny,
+więc `PRZYPADKI_DOPEŁNIENIA` w `olski/skład/składnia.py` daje mu biernik
+i wychodzi z tego `Kot chce mysz.`,
+czyli zdanie, którego polszczyzna woli nie mówić, a nikt tego nie zgłasza.
+Pierwszeństwo biernika jest w tej krotce wyborem na przeszło trzysta lematów
+i dla większości z nich jest wyborem dobrym:
+`brać` i `dawać` mają u Walentego oba przypadki, a `brać chleba` mówi co innego
+niż `brać chleb`, więc odmowa w tym miejscu kosztowałaby te zdania.
+Do zmierzenia jest, ile z tych lematów woli dopełniacz i po czym je poznać,
+bo bez tej liczby nie widać, czy jest to wybór złej ramy, czy wyjątek.
+Ruchem jest kryterium wybierające przypadek albo zgłoszenie żądające go od autora;
+drugie z nich żąda przy tym zapisu na przypadek, którego to drzewo nie ma nigdzie,
+więc tańsze jest tylko z pozoru.
 
 Treść bierze jeden spójnik i przez to jedną z dwóch rzeczy, które ta pozycja mówi.
 `że` orzeka, że tak jest, a `żeby` — że tak ma być,
@@ -274,22 +263,6 @@ Ruchem jest ta kategoria wraz z linearyzacją stawiającą `niż`,
 a nie przełącznik wybierający między dwoma zdaniami za autora:
 przegląd zgłasza, żeby autor napisał drugie drzewo,
 a nie żeby kompilator podmienił mu pierwsze.
-
-`Jest` w `olski/skład/składnia.py` umie jedną kopulę, a gramatyka bierze pięć.
-`Jan zostaje nauczycielem.` wyprowadza się w olskim i stoi w `PRZYJMOWANE`
-w `tests/test_subset.py`, a ze składu nie wyjdzie,
-bo lemat kopuli stoi w tym konstruktorze jako stała, a nie jako pole drzewa.
-Widać to dopiero od zmiany, po której rama czasownika przychodzi z leksykonu:
-`KOPULA` w `olski/lematy.py` jest tą częścią walencji, której Walenty nie niesie,
-i [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)
-nazywa ją jedynym wpisem leksykonu pisanym ręcznie,
-a stoi ona w gramatyce, a nie w `olski/walencja.py`, czyli tam, gdzie leksykon.
-Do przeczytania jest ta sekcja wraz z wpisem o narzędniku,
-bo ten sam przekład rozstrzyga, czy kopula w ogóle zostaje listą.
-Ruchem jest `KOPULA` przeniesiona do `olski/walencja.py`
-oraz `Jest` biorące lemat tak, jak bierze go `Robi`,
-wraz z odmową dla czasownika, którego ta lista nie wymienia.
-Czyta ją stamtąd także `harness/polszczyzna.py`, więc import idzie razem z nią.
 
 `odmień` w `olski/skład/morfologia.py` bierze pierwszą z form jednego leksemu,
 gdy żądaniu odpowiada ich kilka, i nie mówi o tym nigdzie.
@@ -416,8 +389,8 @@ Kosztuje to dziś czasownik w tabeli `olski/skład/makieta.py`,
 która `zacząć` i `przestać` pomija, żeby losowanie takiego zdania nie wypuściło.
 Do przeczytania jest to, co `harness/walenty.py` bierze z Walentego,
 bo słownik ten aspekt przy pozycji `infp` wypisuje,
-oraz `bierze_bezokolicznik_podmiotu` w `olski/walencja.py`,
-czyli zdanie, które to pytanie zadaje.
+oraz `POZYCJE_LEKSYKONU` w `olski/walencja.py`,
+czyli zdanie leksykonu, które tę pozycję wpuszcza.
 Ruchem jest czwarta kolumna leksykonu wraz z żądaniem postawionym `odmień`,
 albo rozstrzygnięcie, że aspekt jest wyborem lematu i że wybiera go autor,
 a wtedy ruchem jest zdanie o tym w docstringu `Robi`.
@@ -446,21 +419,6 @@ bo trzeci warunek pyta o formę, którą rola z czasownika wyciąga,
 a bezokolicznik nie wydaje żadnej i obu rolom oddałby tę samą;
 formą, która te dwie rozdziela, jest `chciał` ze zdania nadrzędnego.
 Dzisiaj obie strony tego porównania biorą się z jednego zdania i tylko stamtąd.
-
-`Jest` w `olski/skład/składnia.py` nie ma pozycji na okoliczność,
-choć `Robi` obok ma ich tyle, ile autor postawi,
-więc `Kot jest zwierzęciem w piwnicy.` nie wyjdzie ze składu,
-a olski to zdanie czyta i czyta je dwojako.
-Kosztuje to każde zdanie, które o czymś orzeka i mówi, gdzie albo kiedy,
-czyli klasę, której README nie żąda, a opowieść żądałaby jej w pierwszym akapicie.
-Do przeczytania jest `linearyzuj` w obu tych klasach,
-bo różnią się one o tę jedną pętlę, i
-[okoliczność](../docs/sklad.md#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie),
-która trzyma wywód o tym, że okoliczność dochodzi do zdarzenia.
-Ruchem jest to samo pole na obu, wraz z rozstrzygnięciem,
-czy okoliczność przy orzeczeniu imiennym mówi o byciu czymś,
-czy o rzeczy, która czymś jest, bo `w piwnicy` przy `Kot jest zwierzęciem.`
-czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 
 `abstrahuj` w `olski/skład/rozbiór.py` nie ma pozycji na `orzecznik_łącznika`,
 więc `Flaga to kawałek tkaniny.` wraca brakiem kategorii,

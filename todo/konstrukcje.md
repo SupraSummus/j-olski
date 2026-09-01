@@ -352,3 +352,21 @@ bo proza tego repozytorium tej konstrukcji nie pisze.
 Wpis ten jest zablokowany rzeczownikiem `soba`, o który pyta wpis w sekcji
 o gramatyce i pomiarze: dopóki ten lemat bierze `sobą`, pomiar tej pozycji
 liczy zamianę jednego czytania na dwa, a nie zakup.
+
+Para wypełnień nie rozdziela się szykiem, więc żaden jej człon nie wychodzi
+przed podmiot: `Autorowi parser pokazuje czytania.` jest odrzucone
+i `Czytania parser pokazuje autorowi.` tak samo,
+choć oba zdania polszczyzna ma, a `Autorowi linter pomaga.` wyprowadza się,
+bo sam celownik idzie zwykłym szykiem dopełnienia.
+Ciała pary wylicza `PARA_WYPEŁNIEŃ` w `olski/subset/zdanie.py`
+i wszystkie stawiają oba człony w grupie orzeczenia,
+czyli za podmiotem, a szyki zdania o parze nie wiedzą.
+Skład tę dziurę odsłania, odkąd celownik jest w nim pozycją:
+`Komu` w `olski/skład/składnia.py` bierze znacznik tematu jak każdy konstytuent,
+więc drzewo z celownikiem na czele wychodzi napisem i z obiegu nie wraca.
+Do przeczytania jest rozwinięcie szyku
+([`docs/subset.md`](../docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+bo para jest symbolem, a nie dwiema córkami zdania, i to ono rozstrzyga,
+czy ruchem jest szyk dopisany parze, czy para rozpisana na córki.
+Ruch żąda pomiaru, bo szyk wysunięty jest w tej gramatyce kosztowny
+i mnoży czytania tam, gdzie grupy są synkretyczne.
