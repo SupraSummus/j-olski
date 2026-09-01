@@ -426,7 +426,7 @@ Where the gold tree meets a packed position is settled there by the roles:
 a position stands for a shape rather than for a tree,
 and two grammars share no bracketing to compare shape by shape.
 The verdict is what asked for the forest first
-([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+([parsowanie.md](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 and this is the reason for it that comes from the measurement instead.
 
 ## Którędy GFJP wchodzi do olskiego

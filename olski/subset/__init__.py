@@ -122,7 +122,7 @@ def build() -> Grammar:
     # czasownik bierze. Czasownik ogłasza, czy przeczy, dopełnienie mówi, przy
     # jakim przeczeniu stoi. Zgodnością to nie jest — rządzenie nie jest ani
     # symetryczne, ani lokalne — więc dlaczego kanał cech ją mimo to bierze,
-    # wywodzi docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
+    # wywodzi docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
     cechy_ramy = {**cechy_zdania, "valency": V("w"), "negacja": V("z"), "druga": V("d")}
     czasownik_ramy = nt("orzeczenie", **cechy_ramy)
     # Ten sam czasownik wraz z cechą, którą stawia mu wypełnienie

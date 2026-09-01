@@ -192,6 +192,8 @@ po drabinę kosztów i po urwisko nieciągłości.
 Sąsiedztwo tego toru opisują [swigra.md](swigra.md),
 [glr-in-practice.md](glr-in-practice.md) oraz [prior-art.md](prior-art.md).
 W kodzie są to `olski/grammar.py` i `olski/check.py`.
+Kto wchodzi stąd w `olski/parse/`, czyta [parsowanie.md](parsowanie.md),
+bo ten dokument wywodzi las i to, co werdykt nad nim mówi.
 
 **Psuje ją** dokument tego toru otwierający się zastrzeżeniem,
 że tor jest opcjonalny i czyta się go drugi.

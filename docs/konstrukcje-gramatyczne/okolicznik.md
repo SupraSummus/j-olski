@@ -258,7 +258,7 @@ Rozdziela te czytania morfologia, a nie struktura:
 pierwsze żąda mianownika, drugie narzędnika, a formy, o które idzie, mają oba.
 Produkcja nie ma więc czego zażądać,
 bo unifikacja przecina zbiory i nie umie zażądać przypadku jedynego
-([design-notes.md](../design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+([parsowanie.md](../parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
 
 Sonda mówi to samo liczbą: ciało to wyciąga z odrzucenia jeszcze kilkadziesiąt zdań,
 a jednoznaczność odbiera niemal tylu, ilu ją daje,
@@ -417,7 +417,7 @@ Formalizm ma na to warunek i jest nim `niesie`:
 Wypisanie wszystkich wartości cechy tego nie mówi,
 bo `word("adv", degree={"pos", "com", "sup"})` bierze `tu` tak samo jak `bardzo`.
 Dlaczego warunek nie mieszka w unifikacji i co jeszcze jest obok niej,
-wywodzi [kanał cech](../design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
+wywodzi [kanał cech](../parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
 
 Naprawa jest z góry niepełna i taka wypadła.
 Warunek oddaje pierwszemu gospodarzowi niespełna piątą część zdań,

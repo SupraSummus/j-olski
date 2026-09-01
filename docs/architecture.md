@@ -3,7 +3,8 @@
 Ten dokument wylicza warstwy, przez które przechodzi zdanie w obu kierunkach.
 Nazywa przy tym typ wyniku, który jedna warstwa przekazuje dalej.
 Uzasadnień tu nie ma.
-Mechanikę toru gramatycznego opisuje [design-notes.md](design-notes.md).
+Mechanikę toru gramatycznego opisuje [parsowanie.md](parsowanie.md),
+a cenę tego toru opisuje [design-notes.md](design-notes.md).
 Poziomy kompilatora opisuje [sklad.md](sklad.md).
 Cenę warstwy rozstrzygającej liczy [disambiguation.md](disambiguation.md).
 O tym, co jest budowane, mówi [roadmap.md](roadmap.md#co-jest-budowane).

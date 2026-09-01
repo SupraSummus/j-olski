@@ -63,7 +63,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     (:func:`_zakresy` dzieli między nie zdanie),
     i widać w nich przez to całe zdanie współrzędne.
     Czemu nie jedno na zdanie i co ten podział kosztuje, mówi
-    docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
+    docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
 
     Dwa czytania jednego zdania gdzieś się różnią,
     a streszczenie pokazuje tę różnicę temu, kto ma zdanie poprawić.

@@ -347,7 +347,7 @@ które wisi pod bezokolicznikiem, i tak samo przez łańcuch dowolnej długości
 Rządzenie przechodzi więc przez konstytuent, czego zgodność nie robi nigdzie,
 a mimo to jedzie kanałem cech, tym samym, którym jedzie rama.
 Na jakich warunkach ten kanał je wpuścił, wywodzi
-[design-notes.md](../design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
+[parsowanie.md](../parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne).
 
 Fraza bezokolicznikowa z własną cząstką tej cechy nie wypuszcza wcale
 i tym zamyka przenoszenie:

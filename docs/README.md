@@ -25,6 +25,8 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 - [design-notes.md](design-notes.md) mówi,
   co czyni polszczyznę trudną do parsowania.
   Pokazuje drabinę kosztów i urwisko nieciągłości.
+- [parsowanie.md](parsowanie.md) mówi, co jest między gramatyką a werdyktem.
+  Wybiera parser i nazywa to, co pakuje się pod jedną pozycję lasu.
 - [disambiguation.md](disambiguation.md) nazywa to,
   co warstwa za parserem musi rozstrzygnąć.
 - [corpus.md](corpus.md) mierzy gramatykę na Składnicy.

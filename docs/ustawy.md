@@ -290,7 +290,7 @@ spiętych przecinkiem i spójnikiem —
 a olski bierze [współrzędność na pięciu poziomach](konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it),
 więc ciąg tej długości ma sam z siebie wiele czytań o jednym znaczeniu.
 Wiersza ciąg nie dostaje, bo granicę członu pokazuje nawias w napisie roli
-([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
+([parsowanie.md](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)).
 Ile czytań ciąg tu wnosi, nikt nie policzył,
 i to jest ta wieloznaczność, o którą werdykt tego rejestru pytać nie umie.
 
@@ -310,7 +310,7 @@ jako rolę, o którą czytania tego zdania się różnią,
 a streszczenia, które `--readings` nad nim wypisuje,
 są co do dopełnienia zgodne.
 Rolę tę bierze
-[z lasu](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+[z lasu](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
 a nie z tej listy, tak samo jak liczbę czytań obok niej.
 
 Kształt tej wieloznaczności widać najkrócej nad zdaniami,
@@ -588,7 +588,7 @@ bo Morfeusz zna `zainteresowana` jako rzeczownik, a `rada` jako formę `rad`,
 i [wykluczenie](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not) tam nie sięga,
 bo żadne z tych dwóch czytań nie jest nieodmienne.
 Werdykt nazywa nad nim konstytuent, właśnie dlatego, że streszczenia są tu jednym napisem
-([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+([parsowanie.md](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 i tak samo nazywa `Szefa Krajowego Biura Wyborczego` w zdaniu o wynagrodzeniu.
 
 ## Pakiet typograficzny nad tym rejestrem milczał

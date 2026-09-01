@@ -8,7 +8,7 @@ a miejsce na okolicznik, wypisane w każdym ciele z osobna,
 bywa w którymś zapomniane.
 Zdanie wychodzi wtedy jednym czytaniem, bo drugie nie miało gdzie się wyprowadzić,
 i po werdykcie tego nie widać
-(docs/design-notes.md#wyliczone-ciało-myli-się-w-stronę-werdyktu).
+(docs/parsowanie.md#wyliczone-ciało-myli-się-w-stronę-werdyktu).
 
 Deklaracja niżej mówi te dwie rzeczy osobno.
 :class:`Rozwinięcie` niesie to, co jest wspólne całej rodzinie zdaniowej:
@@ -30,7 +30,7 @@ Preprocesorem jest to dlatego, że rozwinięcie kończy się przed rozbiorem:
 tablica Earleya dostaje ciała wypisane, takie same jak pisane ręką.
 Warunek sprawdzany dopiero w lesie zdjąłby rozwinięcie i zmieniłby liczbę czytań,
 i tam czeka drugi odbiorca takich warunków, czyli luka
-(docs/design-notes.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje).
+(docs/parsowanie.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje).
 """
 
 from __future__ import annotations

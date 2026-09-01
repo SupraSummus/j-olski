@@ -849,7 +849,7 @@ więc kryterium postawione tam zdejmuje czytania nieprawdziwe,
 nie zabierając ani jednego orzeczenia wtórnego.
 Różnica ta jest własnością przymiotnika odrzeczownikowego,
 której tagset nie niesie, więc `niesie` po nią nie sięga
-([kanał cech](design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
+([kanał cech](parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
 a rejestr techniczny pisze takie przymiotniki gęsto:
 `plik konfiguracyjny`, `leksykon walencyjny`.
 Kryterium takie mógłby dać katalog przymiotnikowy Walentego,

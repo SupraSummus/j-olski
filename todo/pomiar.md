@@ -80,7 +80,7 @@ a oba okazały się cechą albo pozycją nie wartą ceny
 oraz [tamże](../docs/konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
 Luka jest tu ostatnia, bo cechą jej zrobić nie da się wcale,
 i dlaczego, mówi
-[pakowanie czytań](../docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
+[pakowanie czytań](../docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
 
 Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `harness/pomiar.py` woła `podsumuj` bez deklaracji,

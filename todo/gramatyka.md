@@ -446,7 +446,7 @@ a przymiotnika, który licencjonuje tu wzgląd, nie ma w pliku czasownikowym,
 z którego leksykon powstaje,
 choć archiwum obok tego pliku niesie katalog przymiotnikowy.
 Kryterium wejścia ma ten ruch to samo, co każda warstwa więzowa:
-[wyprowadza się z gramatyki albo jest gramatyką pisaną drugi raz](../docs/design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej),
+[wyprowadza się z gramatyki albo jest gramatyką pisaną drugi raz](../docs/parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej),
 a leksykalnie znaczy to tyle, że pozycję wypisuje słownik.
 Jeśli Walenty jej nie wypisuje, ruchu nie ma i cały wpis zamyka skasowanie,
 bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
@@ -684,7 +684,7 @@ więc brak tej pozycji nie odrzuca zdania, tylko odbiera mu drugie czytanie.
 Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kosztuje.
 Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
 córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
-([`docs/design-notes.md`](../docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+([`docs/parsowanie.md`](../docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
 Sonda więzowa płaci za to samo dwoma polami sprawdzanymi nad drzewem gotowym,
 czyli `wymaga` i `zakazuje` w `harness/wiezy.py`,
 i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,

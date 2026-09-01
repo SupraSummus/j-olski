@@ -255,8 +255,8 @@ def _szyki_zdania_składowego(
     # tym jednym, który składa podmiot z orzeczeniem (:func:`_poza_orzeczeniem`).
     # Szyk spoza olskiego ma być wykluczony warunkiem, a nie brakiem produkcji,
     # bo wykluczenia przez przemilczenie zabrania tej gramatyce
-    # docs/design-notes.md#angle-one-parsing, i wykluczony jest tu jeden szyk,
-    # który ten warunek wypowiada.
+    # docs/parsowanie.md#earley-wydaje-las-a-glr-zostaje-optymalizacją,
+    # i wykluczony jest tu jeden szyk, który ten warunek wypowiada.
     zdanie.dominacja(
         "zdanie_składowe",
         [podmiot, dopełnienie, Głowa(czasownik_ramy)],

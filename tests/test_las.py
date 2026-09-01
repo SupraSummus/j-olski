@@ -5,7 +5,7 @@ czytań bywa więcej, niż wydruk wypisuje
 (``MAX_READINGS`` w ``olski/parse/las.py``),
 więc liczba, numer czytania i to, czym czytania się różnią,
 biorą się z lasu, a nie z tej listy
-(docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
+(docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
 
 Wydruk werdyktu stoi tu razem z lasem, a nie osobno w ``tests/test_werdykt.py``:
 wiersz o przyłączeniu i wiersz o konstytuencie rozbieżnym są zapytaniem o las
@@ -47,7 +47,7 @@ def test_czytania_liczy_się_po_kształtach_a_nie_po_wyprowadzeniach(zdanie: str
     """Oba nadmiary są z przeciwnych stron, i las nie ma prawa na żaden z nich wpaść.
 
     Zdanie, które przestało pokazywać swój nadmiar, zabiera podstawę wywodowi z
-    docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania, i nie widać
+    docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania, i nie widać
     tego po żadnej liczbie: test przechodziłby wtedy sam z siebie.
     """
     wynik = parse(GRAMMAR, morphology(zdanie))
@@ -375,7 +375,7 @@ def test_werdykt_nazywa_przyimek_i_głowy_a_nie_wylicza_iloczynu():
 
     Iloczyn rośnie tu z każdym wyrażeniem przyimkowym, a wyborów jest po jednym na
     wyrażenie, i to jest ta różnica, dla której werdykt pyta las, a nie listę
-    czytań (docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
+    czytań (docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań).
     """
     zdanie = "Program zapisuje ustawienia w pliku w katalogu w systemie w sieci w firmie w kraju."
     wynik = parse(GRAMMAR, morphology(zdanie), deklaracja=DEKLARACJA)
@@ -415,7 +415,7 @@ def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
 
     Grupa imienna otwierająca pierwsze z tych zdań dzieli ten materiał z całym
     zdaniem, więc nazwa wzięta z materiału daje na oboje jeden napis; wywód
-    mieści docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
+    mieści docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
     Oba zdania są wypisane razem z werdyktem w
     docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem.
     """
