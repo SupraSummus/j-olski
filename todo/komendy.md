@@ -225,7 +225,8 @@ w którym łańcuchy jednoelementowe pomija się.
 Druga decyzja jest o zakresie: docstring sondy deklaruje, że rzeczą mierzoną jest
 czas, a nie kształt drzewa, więc ten wpis go odwraca, a nie dopracowuje.
 Do przeczytania jest jedno zdanie puszczone obiema stronami: zdanie o koszcie szynki
-z README wychodzi u Świgry tysiącami drzew, a u olskiego kilkoma odczytaniami,
+z [`docs/subset.md`](../docs/subset.md#validity-is-uniqueness-not-just-derivability)
+wychodzi u Świgry tysiącami drzew, a u olskiego kilkoma odczytaniami,
 a dopóki kwota nie jest wybrana, tych dwóch liczb nie ma jak zestawić.
 
 Flaga `--readings` w `olski/check.py` jest po angielsku,

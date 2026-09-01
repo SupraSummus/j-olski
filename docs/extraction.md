@@ -270,9 +270,7 @@ dochodzi do olskiego jako dwa, z których drugie zaczyna się małą literą.
 Poprawka należy do zdania, a nie do tego kroku,
 bo kropka w spanie kodu jest znakiem, który ktoś napisał,
 i nic tutaj nie odgadnie, że nie kończy ona zdania.
-Dlatego przykład cytowany w środku zdania stoi bez kropki,
-jak `Koszt samej szynki przewyższa koszt szynki z dodatkami` w README,
-a blok pod tym zdaniem pokazuje go tak, jak olski go czyta.
+Dlatego przykład cytowany w środku zdania stoi bez kropki.
 
 ## Where the prose parts from the page
 

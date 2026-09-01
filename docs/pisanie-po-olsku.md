@@ -347,6 +347,9 @@ Naprawą jest tu wymiana szyku na zgodny.
 Rejestr techniczny nazywa tak każdy artefakt zewnętrzny —
 korpus Składnica, słownik Morfeusz, wydanie takie a takie —
 a olski żąda na to osobnego zdania.
+Tą samą drogą pada zdanie, które cytuje inne zdanie,
+więc [README](../README.md#co-działa) nie zapowiada przykładu jego słowami,
+tylko blokiem pod spodem.
 Spójnika apozycja nie ma, więc od członu bez czasownika, który wszedł,
 różni ją to, że nie ma czym wpuścić jej osobno
 ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
