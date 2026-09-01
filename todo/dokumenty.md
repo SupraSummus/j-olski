@@ -1,6 +1,6 @@
 # Dokumenty i konwencje
 
-Wskazania między `docs/konstrukcje-gramatyczne.md` i `olski/subset/`
+Wskazania między `docs/konstrukcje-gramatyczne/` i `olski/subset/`
 idą w obie strony,
 a pilnowane są tylko w jedną.
 Ćwierć wskazań z `olski/subset/` nie ma anchora,
@@ -56,11 +56,24 @@ jest w obu tych zbiorach.
 Najtrudniejszy jest `Zaimki kto i co wchodzą wszystkimi pozycjami naraz`,
 bo „naraz” niesie tam tezę o pomiarze:
 pozycja wpuszczona sama obniża pokrycie.
-Ruchem jest przejście nagłówków `docs/konstrukcje-gramatyczne.md`
+Ruchem jest przejście nagłówków `docs/konstrukcje-gramatyczne/`
 testem podstawieniowym, po kilka na commit,
 bo każde przemianowanie rusza kotwicę i wszystkie wskazania na nią.
 Do przeczytania jest pierwszy akapit sekcji, bo teza skreślona z nagłówka
 ma tam stać, a zwykle już stoi.
+
+`Czoło` jest w `docs/konstrukcje-gramatyczne/podrzędność.md` terminem,
+a nie ma w tym rejestrze zdania, które by je wprowadzało:
+pierwszy raz pada w sekcji o zaimku względnym jako nazwa znana,
+a sekcja `Czoło niesie etykietę roli, którą zajmuje, a werdyktu nie rusza`
+mówi, co czoło robi, nie mówiąc, czym ono jest.
+Kto wchodzi po kotwicy `#dopełniacz-z-ramy-wysuwa-się-na-czoło-a-celownik-nie`,
+czyta przez to nazwę nigdzie tu nie zdefiniowaną
+([CLAUDE.md](../CLAUDE.md#the-reader-goes-sentence-by-sentence)).
+Ruchem jest jedno zdanie przy pierwszym wystąpieniu.
+Do przeczytania są dwie rodziny czół w `olski/subset/podrzędne.py`,
+bo to zdanie ma powiedzieć, co rozdziela cecha `czoło`,
+a nie tylko że konstytuent stoi wysunięty.
 
 Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
 nazwy w kodzie i nazwy plików
@@ -141,7 +154,7 @@ a test czerwienieje po redakcji README, a nie po zmianie w gramatyce.
 
 Liczby sond stojące nad prozą README zmierzono nad tekstem sprzed redakcji.
 Zdania `nad README nie rusza ani jednego werdyktu` w
-[`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md)
+[`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)
 oraz liczby luki i podłoża więzowego w
 [`docs/design-notes.md`](../docs/design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)
 mówią o pliku, który stracił sekcję o dwóch listach,
@@ -158,7 +171,7 @@ Orzekanie przez zaprzeczenie stoi w prozie tego repozytorium setki razy.
 Zdanie tej klasy niesie predykację w członie zanegowanym,
 a po skreśleniu tego członu nie mówi nic:
 `Cięcie nie jest granicą konstrukcji.` w README stoi tak dalej,
-a sam zwrot „a nie” pada w `docs/konstrukcje-gramatyczne.md` przeszło sto razy.
+a sam zwrot „a nie” pada w `docs/konstrukcje-gramatyczne/` przeszło sto razy.
 Ruchem jest przebieg z jednym pytaniem na zdanie —
 co zostaje po skreśleniu członu zanegowanego —
 i zdanie twierdzące tam, gdzie nie zostaje nic;
@@ -194,15 +207,16 @@ a rozwinięcie szyku wypisuje ich od tamtej pory rząd wielkości więcej,
 więc zostaje po nim sama krotność: przeczenie podwaja te ciała.
 Cen wpuszczenia ten wpis nie obejmuje:
 właścicielem każdej z nich jest sekcja konstrukcji
-w `docs/konstrukcje-gramatyczne.md`,
+w `docs/konstrukcje-gramatyczne/`,
 a plan etapów i dokumenty rejestrów ich nie powtarzają: cena stoi przy konstrukcji,
 a przebieg, którym ją policzono, stoi w gicie
 ([`docs/ustawy.md`](../docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)).
 Właściciel trzyma ją w rzędzie wielkości albo granicą, a nie w pełnej precyzji,
-i mówi to [jego wstęp](../docs/konstrukcje-gramatyczne.md).
+i mówi to [jego wstęp](../docs/konstrukcje-gramatyczne/README.md).
 Jedna cena stoi poza tą regułą i stoi tak dlatego, że nie ma sekcji:
 koordynację wycenia [etap 4](../docs/roadmap.md#etap-4-zdanie-złożone),
-bo `docs/konstrukcje-gramatyczne.md` ma sekcję o tym, co ją dzieli od podrzędności,
+bo `docs/konstrukcje-gramatyczne/podrzędność.md` ma sekcję o tym,
+co ją dzieli od podrzędności,
 a nie o tym, co jej wpuszczenie kosztowało.
 
 Nazwa `parser` obejmuje w tych dokumentach cały tor gramatyczny,
@@ -307,7 +321,7 @@ a właściciela nie wyznaczył nikt.
 W `docs/subset.md` wylicza je punkt listy
 [czego olski nie bierze](../docs/subset.md#what-it-does-not-cover-yet),
 kolejka zamykająca sekcję
-[o zaimkach `kto` i `co`](../docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
+[o zaimkach `kto` i `co`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
 oraz akapit sekcji
 [o wolnym celowniku](../docs/warstwa-leksykalna.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem),
 a czwarty raz, ułożone częstością zawrócenia, wylicza je
@@ -390,7 +404,7 @@ Dwa zdania [`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop) wskazuj
 [listę braków](../docs/subset.md#what-it-does-not-cover-yet), a nazywają konstrukcje wpuszczone.
 Zdanie o `czy` przy wierszu `qub` mówi, że pytania o rozstrzygnięcie ta gramatyka nie ma,
 a `Czy to działa?` i `Pyta, czy to działa.` wyprowadzają się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
 Zdanie o spójnikach, pod którymi stoi tryb przypuszczający, przy wierszu `comp`
 mówi to samo o nich, a `Gdyby ustawa obowiązywała, cena byłaby niska.`
 i `Poseł mówi, żeby ustawa obowiązywała.` wyprowadzają się.

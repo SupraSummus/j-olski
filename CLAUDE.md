@@ -912,6 +912,10 @@ a jej rozejścia nie łapie żaden check.
 Każde z nich tnie się przez to osobno:
 `olski/subset/` po warstwie, czyli po tym, co dany moduł deklaruje,
 a `tests/` po tym, o którą warstwę test pyta.
+Zakaz obejmuje przy tym nazwy, a nie samą oś.
+Rejestr otwartej roboty i rejestr konstrukcji dzielą swoje pliki po warstwie,
+czyli po tej samej osi co kod, a mapy nazw z tego nie ma:
+plik takiego rejestru nazywa warstwę, a nie moduł, i obejmuje kilka modułów naraz.
 
 **Printed output does not take its order from a set.**
 String hashing is randomised at startup,

@@ -284,7 +284,7 @@ Olski tej pozycji nie ma i nie jest to przeoczenie.
 Każda fraza czytania obsadza u niego rolę, którą werdykt nazywa:
 modyfikator dostaje nazwanego gospodarza,
 okolicznik wyrażony zdaniem dochodzi do zdania składowego
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
 a przysłówki dostają wspólną listę.
 Frazy bez roli streszczenie nie ma czym nazwać,
 więc analiza dochodzi do końca zdania i nic go nie zamyka:
@@ -308,7 +308,7 @@ werdykt, który role nazywa, i wieloznaczność, którą taka pozycja mnoży.
 Konstrukcje z listy wyżej wchodzą więc do olskiego pojedynczo, każda ze swoją rolą,
 a to, co ta pozycja robi z liczbą czytań, olski ma już u siebie o rozmiar mniejsze:
 płaska lista przysłówków daje zdaniu kształt, który mówi o nim nieprawdę
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
 
 ### The comma as a grammatical attribute
 
@@ -469,7 +469,7 @@ Nazywa część mowy, na której analiza stanęła
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 a wpuszczenia powołują się na jej wiersze wprost:
 czas przyszły wszedł stamtąd
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
 Wiersz liczy jednak tylko zdania z drzewem wzorcowym, bo tyle mierzy przebieg,
 a drzewa nie ma tam, gdzie Świgra dobrego nie znalazła
 ([corpus.md](corpus.md#what-the-corpus-contains)),

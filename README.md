@@ -215,9 +215,9 @@ Te dokumenty opisują **tor gramatyczny**.
 
 - [docs/subset.md](docs/subset.md) mówi, czym jest ważność,
   co gramatyka wpuszcza i ile kosztuje przyłączanie wyrażeń przyimkowych.
-- [docs/konstrukcje-gramatyczne.md](docs/konstrukcje-gramatyczne.md)
+- [docs/konstrukcje-gramatyczne/](docs/konstrukcje-gramatyczne/README.md)
   wycenia każdą wpuszczoną konstrukcję osobno.
-  Czytelnik przebiega go do swojego wpisu.
+  Czytelnik przebiega ten rejestr do swojego wpisu.
 - [docs/warstwa-leksykalna.md](docs/warstwa-leksykalna.md) mówi,
   co olski bierze za słowo i czego czasownik żąda od swojego leksykonu.
 - [docs/design-notes.md](docs/design-notes.md) mówi,

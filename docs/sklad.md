@@ -313,7 +313,7 @@ bo SGJP nie odróżnia tych dwóch słów niczym.
 Świadka daje jej za to bank drzew:
 `gdyż` nie otwiera w nim ani jednego zdania, a `gdy` dwie piąte swoich wystąpień
 i to samo rozstrzygnięcie stoi po stronie analizy, w dwóch listach lematów
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
 bo jest to fakt o słowie, a nie o kierunku, w którym się go używa.
 
 Okoliczność wyrażoną zdarzeniem gramatyka od niedawna wyprowadza,

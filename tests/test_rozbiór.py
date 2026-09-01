@@ -286,7 +286,7 @@ def test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii(
 
     Narzędnik stoi tu wysunięty przed zdanie, bo ten zapis nazwał go tematem,
     a wysuniętego narzędnika ta gramatyka nie bierze i nie bierze go z pomiaru
-    (docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika),
+    (docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika),
     więc to zdanie nie ma ani jednego czytania,
     i wtedy pustka jest werdyktem olskiego, a nie zdaniem o tym zapisie.
     """

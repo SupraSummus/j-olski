@@ -97,7 +97,7 @@ którego nie stawia tu żadna zasada.
 Polska interpunkcja stawia go przed `i` tylko tam,
 gdzie domyka on zdanie podrzędne albo wtrącenie,
 i olski ma dokładnie te dwa miejsca
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
 W `architecture.md` pięć zdań miało ten przecinek bez żadnego z tych dwóch powodów.
 
 Płaci tu autor i ten rachunek się zwraca.
@@ -161,7 +161,7 @@ Sonda różnicowa wycenia pozycję, zdejmując ją z gramatyki,
 więc wycenia ją wobec wszystkiego, co w gramatyce zostaje,
 a pozycja wpuszczona samotnie mierzy się przez to blisko zera,
 choć obok pozycji, o którą jej zdania i tak się potykają, kupuje wielokrotnie więcej
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
 Cena pozycji nie jest przez to liczbą, którą raz się zapisuje,
 a dwie pozycje wpuszczone razem bywają warte więcej niż z osobna.
 
@@ -329,7 +329,7 @@ Płaci więc za nią autor i będzie płacił, a wpis zostaje na liście po to,
 `Czasem granica jest granicą modułu.` pada,
 `Granica jest czasem granicą modułu.` przechodzi.
 Narzędnik bez przyimka gramatyka bierze i bierze go na każdym miejscu okolicznika
-poza tym jednym ([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+poza tym jednym ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
 bo przed zdaniem stoi już orzecznik wysunięty przed kopulę.
 Naprawą jest tu przestawienie okolicznika za czasownik.
 
@@ -338,7 +338,7 @@ Naprawą jest tu przestawienie okolicznika za czasownik.
 Zgodny orzeka i orzeka razem z dwukropkiem, który wylicza —
 `Tory są dwa: gramatyka i skład.` —
 a rządzący stawia podmiot w dopełniaczu i nie zgadza orzeczenia z niczym
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
 Naprawą jest tu wymiana szyku na zgodny.
 
 **Apozycja z nazwą.**
@@ -349,7 +349,7 @@ korpus Składnica, słownik Morfeusz, wydanie takie a takie —
 a olski żąda na to osobnego zdania.
 Spójnika apozycja nie ma, więc od członu bez czasownika, który wszedł,
 różni ją to, że nie ma czym wpuścić jej osobno
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
 cenę tej produkcji trzyma [`todo/`](../todo/README.md).
 
 **Cząstka `się` oddalona od swojego czasownika.**
@@ -358,14 +358,14 @@ cenę tej produkcji trzyma [`todo/`](../todo/README.md).
 i tak samo pada `Nie mogłem się na niczym skupić.`,
 gdzie cząstka należy do `skupić`, a odgradza ją od niego wyrażenie przyimkowe.
 Obie pozycje tuż przy czasowniku gramatyka ma i ma je przy każdej jego formie
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 więc naprawą jest przysunięcie cząstki do czasownika, do którego należy.
 
 **Cząstka `tylko` wewnątrz grupy imiennej.**
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,
 `Istnieją te konstrukcje, które stoją na liście.` przechodzi.
 Pozycję wewnątrz grupy cząstka ma
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 a `tylko` zostaje poza listą cząstek,
 bo Morfeusz czyta je także jako spójnik;
 w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
@@ -374,7 +374,7 @@ w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
 `Ani werdykt nie wnosi, ani nie zdejmuje.` przechodzi.
 Spójnik powtórzony przed każdym członem gramatyka ma
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
 a te dwa zdania rozdziela miejsce, w którym ciąg się zaczyna:
 w drugim otwiera on zdanie składowe, w pierwszym stoi za jego podmiotem,
 czyli spina same orzeczenia, a takiej pozycji koordynacja nie ma.
@@ -394,9 +394,9 @@ Dopisane słowo pytające ma to czytanie zdjąć, a nie stanąć obok niego;
 `todo/` trzyma ruch.
 Pytanie ma w gramatyce trzy kształty — zaimek przy rzeczowniku,
 `kto` i `co` same
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz))
 oraz `czy` nad całym zdaniem
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)) —
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)) —
 a `jak`, `jaki`, `ile` i `dlaczego` żądają każde innego
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Dokument, który opisuje rolę czytelnika, pisze te zdania zdanie po zdaniu,
@@ -406,7 +406,7 @@ bo rola pyta, a pytanie jest jej definicją.
 `Gdzie są przetrzymywani zakładnicy?` pada,
 a `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.` przechodzi.
 Okolicznik z `gdzie` gramatyka ma
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
 a pytania o miejsce nie ma, bo rolą wysuniętą jest tam okolicznik,
 i tym różni się ono od pytania o podmiot albo o dopełnienie.
 
@@ -428,7 +428,7 @@ którego słownik nie ma, a takiemu czytania nieodmiennego dać nie wolno
 Dokumentacja przytacza je w cudzysłowie albo w backtickach,
 i te dwa sposoby olski rozdziela.
 Cudzysłów licencjonuje przytoczenie, więc `Sekcja mówi o „build”.` przechodzi
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
 a `` `build` `` wraca z Morfeusza jednym napisem razem z backtickami.
 
 **Drugi leksem do napisu, który słownik zna.**

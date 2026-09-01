@@ -57,7 +57,7 @@ Ruchem jest luka wskazująca zaimek, który ją wiąże, a nie miejsce, w który
 etykieta roli nad zaimkiem, a nie nad pustym węzłem,
 czyli to, co bank drzew robi na tych zdaniach.
 Olski poza wariantem stawia tę etykietę produkcją
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
 więc pytanie, czy niesie ją produkcja, czy porównanie ról, ma tu odpowiedź z precedensu,
 a wariant z luką tamtych ciał nie ma i musi ją postawić po swojemu:
 `rdzeń_względny` składa tam zaimek ze zdaniem,
@@ -76,8 +76,8 @@ Wpis jest przez to o warunek sprawdzany po rozbiorze, a nie o preprocesor przed 
 Odbiorca takiego warunku jest przy tym jeden i mówi to pomiar, a nie przeoczenie:
 tryb w ciągu współrzędnym i zagnieżdżenie liczebnika prosiły o tę samą maszynerię,
 a oba okazały się cechą albo pozycją nie wartą ceny
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#tryb-przypuszczający-jest-jedną-cząstką)
-oraz [tamże](../docs/konstrukcje-gramatyczne.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#tryb-przypuszczający-jest-jedną-cząstką)
+oraz [tamże](../docs/konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-złożony-przyłącza-się-wedle-ostatniego-członu)).
 Luka jest tu ostatnia, bo cechą jej zrobić nie da się wcale,
 i dlaczego, mówi
 [pakowanie czytań](../docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
@@ -218,7 +218,7 @@ Piąte przyszło z okolicznikiem narzędnikowym i zabrało tej kopii zdanie,
 którym mierzyła współrzędność: `Zobacz docs/design-notes.md oraz docs/roadmap.md.`
 wychodzi u olskiego wieloznaczne, bo notacja czyta się nieodmiennie
 i staje przez to także w tym okoliczniku, a sonda tej pozycji nie ma
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie.
 Wpis czekał na to, aż szyk zejdzie do warunków precedencji,
 i tamten ruch jest zrobiony
@@ -254,7 +254,7 @@ więc kto wpis podnosi, albo je przelicza, albo zdejmuje.
 
 Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
 Etykieta roli nad wysuniętym czołem nie rusza ani jednego
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)),
 a `Raport.zapisz` w `harness/ruch.py` notuje zgodność ról pod zdaniem nowo przyjętym,
 czyli dokładnie tam, gdzie werdykt się ruszył,
 i `Outcome.ocalenie` nie bierze wcale.
@@ -477,7 +477,7 @@ bo rozstrzyga jedno pytanie na całej liście naraz.
 
 Przydawka imiesłowowa podniosła liczbę zdań, w których przyjęte czytanie
 przeczy drzewu wzorcowemu, a przebieg, który to pokazał, nie mówi, czym te zdania są
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)).
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)).
 Kierunek żąda od werdyktu prawdy o zdaniu
 ([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 więc pozycja, która kupuje pokrycie i sprzedaje zgodność, żąda odczytania,
@@ -495,7 +495,7 @@ mówią o zatrzymaniach, których olski już nie ma: `Co mamy wziąć?` i `To ch
 podkreślić.` stają dziś na bezokoliczniku, a nie na zaimku rzeczownym, więc zdanie
 o tym, że wszystkie trzy staną na pierwszym słowie, jest nieprawdziwe — pierwsze
 z nich stawało na zaimku, którego pozycji rzeczownej nie ma
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Ruchem jest przebieg nad tamtym zbiorem 323 zdań i przepisanie tych przykładów na
 takie, które dziś stają tam, gdzie akapit mówi; sam akapit twierdzi rzecz szerszą —
 że nieciągłość jest w tych zdaniach brakiem ostatnim — i tej ta poprawka nie tyka.

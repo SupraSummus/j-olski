@@ -16,7 +16,7 @@ bo wyrażenie przyimkowe ma tam dwa miejsca przyłączenia, a nie jedno.
 Przeczenie przy łączniku `to` nie ma ciała w zdaniu bez grupy przed łącznikiem.
 `To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się
 i gdzie `To nie są oczywistości.` też
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
 Ruchem jest piąte ciało tej konstrukcji wraz z pomiarem,
 bo cena każdego ciała jest osobną liczbą ([CLAUDE.md](../CLAUDE.md#code)).
 Do przeczytania jest przedtem rozkład zakupu na cztery ciała, które weszły:
@@ -28,7 +28,7 @@ Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszeg
 `Pyta, co to jest i czy to działa.` staje na `czy`,
 a `Pyta, co to jest.` oraz `Pyta, kto płaci i czy to działa.` wyprowadzają się,
 więc brak jest w samym złożeniu, a nie w żadnym z dwóch czół
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą)).
 Do przeczytania jest `ciąg_pytajny` w `olski/subset/podrzędne.py` obok pozycji
 orzecznika wysuniętego, bo pytanie jest o to, czy człon z orzecznikiem
 wypuszcza cechę, której ciało ciągu żąda od członu pierwszego.
@@ -48,7 +48,7 @@ i do zdania nad nim, czyli tak samo jak drugą pozycję nawiasu wyżej.
 
 Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
 nie ma ani pozycji, ani ceny, bo deklaracja tej pozycji bierze samo dopełnienie
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu)).
 Populacji, której to dotyczy, nie przeczytał nikt:
 wiersz `imps` został po wpuszczeniu formy nieosobowej z blisko setką zdań Składnicy,
 a wysunięte dopełnienie zabrało z niego część i nie wiadomo którą.
@@ -69,7 +69,7 @@ więc lemat dopisany do listy nie wystarcza,
 a wpis jest przez to o produkcję, a nie o dane.
 Ruchem jest lista wyczytana z korpusu, a nie z pamięci,
 a materiał do jej wyczytania daje pozycja ogólna dopisana do gramatyki:
-[`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
+[`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat)
 nazywa dwie produkcje, które ona dopisuje,
 a zdanie, które dzięki nim przechodzi, pokazuje rzeczownik w nim orzekający.
 Do przeczytania jest, ile z tych zdań jest ciągiem współrzędnym grup imiennych,
@@ -145,7 +145,7 @@ rozdzielony przecinkiem już się wyprowadza.
 czyli czytaniem, którego polszczyzna nie ma,
 bo Morfeusz daje formie `co` czytanie przyimka rządzącego dopełniaczem.
 Przydawka za tym zaimkiem tego napisu nie odzyskała i odzyskać nie mogła
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)):
 `innego` jest dopełniaczem, więc zgadza się z `co` w dopełniaczu,
 a rola, w której ta grupa stoi, żąda mianownika.
 Ruchem jest wykluczenie po stronie słownika, czyli ta sama droga,
@@ -171,7 +171,7 @@ i licząca, którym zdaniom werdykt się przez to zmienia.
 Zdanie względne bez poprzednika stoi tylko w roli podmiotu, więc `Bezokolicznik ma
 dwa kształty, czyli to, kto wykonuje to, o czym mówi pozycja podrzędna.` pada, a
 `Kto wchodzi w środek, poprzedniego zdania nie przeczytał.` wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Ruchem jest drugie ciało dopełnienia obok tego podmiotu, i cena jest widoczna
 przed pomiarem: pytanie zależne stoi w tej samej pozycji ramy, więc każde zdanie
 z `kto` za czasownikiem dostanie drugie czytanie — pytanie i zdanie względne bez
@@ -182,7 +182,7 @@ w `olski/subset/zdanie.py`.
 
 Zaimek pytajny stoi tylko na czele swojego zdania, więc drugie pytanie w tym samym
 zdaniu nie ma pozycji: `Kto jest kim?` pada, a `Czym jest parser?` wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)).
 Pozycję na miejscu odbiera zaimkowi wykluczenie z pozycji rzeczownej, a czoło jest
 w zdaniu jedno, bo tyle wysuwa polszczyzna.
 Ruchem jest pozycja zaimka pytajnego w roli wypełnionej na miejscu, czyli cecha
@@ -194,15 +194,15 @@ czy druga wartość wystarczy, czy trzeba trzeciej.
 Wpis ma zdanie banku drzew, które ten brak odrzuca:
 `Kiedyś zapytałem kierowcę naszego gazika, kim właściwie jest mój przewodnik?`
 pada pod żywą morfologią, bo `co` nie bierze poprzednika rzeczownikowego
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
 a pytanie zależne z orzecznikiem za przecinkiem jest jedyną rzeczą,
 której temu zdaniu brakuje.
 
 Przytoczenie samego wyrazu funkcyjnego nie ma czytania, bo `kto` i `co` nie stoją
 w pozycji rzeczownej: `nikt, kto, nic, coś i ktoś mają u Morfeusza czytanie
 jedno` pada, a ten sam ciąg bez `kto` w środku wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
-Ruchem jest albo cudzysłów w tym zdaniu `docs/konstrukcje-gramatyczne.md`,
+([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+Ruchem jest albo cudzysłów w tym zdaniu `docs/konstrukcje-gramatyczne/grupa-imienna.md`,
 czyli poprawka w prozie,
 albo licencja dla wyrazu przytoczonego backtickami, czyli ta sama robota, którą
 trzyma wpis o angielskiej nazwie pisanej małą literą; drugie rozstrzyga o obu.
@@ -210,7 +210,7 @@ trzyma wpis o angielskiej nazwie pisanej małą literą; drugie rozstrzyga o obu
 Ciąg rozdzielny przymiotników nie ma ciała przecinkowego, więc `Warstwy trzecia,
 czwarta i piąta pracują.` jest odrzucone, a `Warstwy trzecia i czwarta pracują.`
 wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#przydawka-koordynuje-się-i-rozdziela-rzeczownik-tylko-za-nim)),
 choć polszczyzna trzeci człon pisze właśnie przecinkiem.
 Ruchem byłoby czwarte ciało tej rodziny, a pomiar przed nim mówi, żeby go nie pisać:
 zakup jest zerowy.
@@ -241,7 +241,7 @@ na końcu, bo tam da się go przyłączyć do zdania składowego i do zdania nad
 Spójnik skorelowany nie zaczyna się za podmiotem:
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
 gdzie `Ani werdykt nie wnosi, ani nie zdejmuje.` wyprowadza się
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)).
+([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)).
 Dwa ciała, które weszły, spinają zdania składowe i grupy imienne,
 a w tym napisie ciąg zaczyna się za podmiotem, czyli spina same orzeczenia,
 a takiej pozycji koordynacja olskiego nie ma na żadnym poziomie.
@@ -252,7 +252,7 @@ i cena jest widoczna przed pomiarem: orzeczenie niesie ramę czasownika,
 więc ciąg musiałby powiedzieć, którą ramę wypuszcza w górę,
 a dwa czasowniki o różnych ramach dzielą wtedy jedno wypełnienie.
 Do przeczytania jest `wypełnienia` w `olski/subset/zdanie.py` obok
-[`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#nothing-above-a-coordination-distributes-into-it),
+[`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it),
 bo zasięg koordynacji rozstrzyga się tam, gdzie stoi to, co człon zawiera.
 
 Wolny celownik nie ma u olskiego pozycji żadnej:
@@ -271,7 +271,7 @@ niesie w Składnicy 10 zdań z rzeczownikiem i 54 z zaimkiem,
 na 13035 mających drzewo wzorcowe (`python3 -m harness.kształty`).
 Pozycji, którą wpis proponuje, żąda pierwsza z tych liczb, a nie ich suma:
 zaimek zwrotny olski ma już terminalem
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)),
 a `Rozbiłaś mi samochód!` żąda zaimka osobowego, nie grupy imiennej.
 Rozdzielić te dwie liczby trzeba przy tym lematem, a nie klasą głowy,
 którą bank drzew przy frazie wypisuje: `siebie` liczy on do klasy rzeczownika,
@@ -284,25 +284,25 @@ Liczebnik za rzeczownikiem nie ma pozycji, a zasłania to czytanie rzeczownikowe
 `po którym zostaje czytań kilka` wychodzi przyjęte,
 bo Morfeusz zna `kilka` także rzeczownikiem,
 a grupa liczebnikowa stawia liczebnik przed rzeczownikiem
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 czyli brak zasłania tam czytanie, którego polszczyzna nie ma
 ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)).
 Kolejka blokerów tego nie pokazuje, bo zdanie się wyprowadza,
 więc podnosi ten brak czytanie werdyktów, a nie przebieg.
 Czego się po ruchu spodziewać, mówi zaimek zwrotny, czyli ten sam brak wpuszczony
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)):
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)):
 pozycja dopisana zabiera zdaniu jednoznaczność i zabiera mu zarazem werdykt
 nieprawdziwy, a wybór między tymi dwiema liczbami rozstrzyga kierunek
 ([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
 
 Szyk `Będzie trzeba zmierzyć cenę.` nie ma ciała, a wywód i zdanie odrzucone stoją
-w [`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem).
+w [`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem).
 Ruchem jest drugie ciało tej samej pary produkcji wraz z pomiarem,
 bo cena każdego ciała jest osobną liczbą.
 Do przeczytania jest przedtem, czy ten szyk nie daje drugiego czytania zdaniu,
 które dziś wychodzi jednoznaczne:
 `bedzie` orzeka też samo
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
 a predykatyw za nim stanąłby wtedy tam, gdzie stoi orzecznik.
 
 Okolicznik narzędnikowy nie ma pozycji przed zdaniem, a polszczyzna go tam stawia:
@@ -311,7 +311,7 @@ i pierwszy szyk wypisuje tor składu, więc obieg na nim nie zamyka się
 (`tests/test_rozbiór.py`).
 Ciało zmierzono i odrzucono, bo grupa wysunięta jest wtedy jedyną grupą przed
 czasownikiem, tak samo jak w szyku od czasownika i w zdaniu o opuszczonym podmiocie
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
 Ruchem nie jest więc ani samo ciało, ani znacznik na grupie:
 czytania rozdziela przypadek, a nie kształt, i formy, o które idzie,
 mają mianownik obok narzędnika, więc żądanie musiałoby mówić o przypadku jedynym,
@@ -326,12 +326,12 @@ jest zarazem miejscownikiem, więc rozstrzygnięcie zapada dla obu naraz.
 
 Liczebnik rządzący nie orzeka: `Torów jest dwa.` pada,
 a `Tory są dwa.` przechodzi zgodnym
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
 Podmiot stoi tam w dopełniaczu, a orzeczenie nie zgadza się z niczym,
 więc ciało jest osobne i osobna jest jego cena, której nikt nie policzył.
 Do przeczytania jest, czy nie zderzy się ono z czasownikiem nieosobowym:
 tamten też orzeka bez zgodności z podmiotem
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)).
 
 Słowa pytające `jak`, `jaki`, `ile` i `dlaczego` nie mają pozycji,
 a zdania z nimi nie padają, tylko przechodzą czytaniem, którego polszczyzna nie ma:
@@ -346,7 +346,7 @@ bo wylicza on formy, które ten rejestr pisze inaczej, i te cztery słowa
 są jego dalszym ciągiem.
 
 Zaimek zwrotny nie ma pozycji orzecznika narzędnikowego,
-a wywód stoi w [`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym).
+a wywód stoi w [`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym).
 Ruchem jest jedno ciało wraz z pomiarem nad bankiem drzew,
 bo proza tego repozytorium tej konstrukcji nie pisze.
 Wpis ten jest zablokowany rzeczownikiem `soba`, o który pyta wpis w sekcji

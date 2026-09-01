@@ -23,7 +23,7 @@ i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
 a nie ta pozycja.
 Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
 i jest to ta sama konstrukcja, którą gramatyka po drugiej stronie już ma
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 czyli tor składu jest tu za nią, a nie przed.
 Relacja `przyczyna` nie ma w `olski/skład/przyimki.py` wpisu pod żadnym przyimkiem,
 a ma wpis w `olski/skład/spójniki.py`, więc wychodzi zdaniem i nie wychodzi frazą:
@@ -465,7 +465,7 @@ czyta się i tak, i tak, a drzewo ma powiedzieć jedno.
 `abstrahuj` w `olski/skład/rozbiór.py` nie ma pozycji na `orzecznik_łącznika`,
 więc `Flaga to kawałek tkaniny.` wraca brakiem kategorii,
 choć gramatyka to zdanie wyprowadza
-([`docs/konstrukcje-gramatyczne.md`](../docs/konstrukcje-gramatyczne.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim)).
 Rola stoi w `DEKLARACJA` w `olski/subset/deklaracja.py` i nie stoi w `POZYCJE`,
 czyli jest to ta usterka, którą komentarz nad `POZYCJE` opisuje.
 Samo dopisanie pozycji nie kupuje jednak nic i dlatego wpis jest jeden, a nie dwa:

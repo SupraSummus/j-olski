@@ -28,7 +28,7 @@ where Polish also coordinates unlike ones and gaps a repeated verb.
 Gapping is the half already taken, and taken as ellipsis rather than as coordination:
 a conjunct whose verb this register drops derives
 after the conjunctions that admit one
-([konstrukcje-gramatyczne.md](konstrukcje-gramatyczne.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze)).
 Closeness to Polish argues for the other half,
 and what it costs nobody has measured.
 

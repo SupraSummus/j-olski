@@ -38,7 +38,7 @@ def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
     # tutaj rozgraniczenie jest za darmo.
     #
     # Zakup, cenę i to, czemu lematy są listą, trzyma
-    # docs/konstrukcje-gramatyczne.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
+    # docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim.
     grammar.rule("wypowiedzenie", [SPÓJNIK_NA_CZELE, Głowa(nt("zdanie")), KONIEC_ZDANIA])
 
     # Dwukropek otwierający zdanie: `Cena jest niska: gramatyka jest
@@ -48,7 +48,7 @@ def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
     #
     # Niezmiennik — że jednoznaczności nie odbiera ani jedno z tych ciał —
     # pilnuje tests/test_subset.py, a wywód wraz z zakupem trzyma
-    # docs/konstrukcje-gramatyczne.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają.
+    # docs/konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają.
     # Ciała są trzy, a nie jedno biorące trzy znaki, bo zakup każdego z nich jest
     # osobną liczbą i sonda bierze ją zdejmowaniem ciał.
     for znak in (DWUKROPEK, ŚREDNIK, MYŚLNIK):
@@ -114,7 +114,7 @@ def _koordynacja_zdań(grammar: Grammar) -> None:
     # drugą listą lematów, bo polszczyzna stawia spójnik dwa razy i przed drugim
     # żąda przecinka, gdzie koordynacja wyżej stawia go raz i między członami.
     # Zakup i cenę trzyma
-    # docs/konstrukcje-gramatyczne.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
+    # docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem.
     grammar.rule(
         "zdanie",
         [SPÓJNIK_SKORELOWANY, Głowa(człon), PRZECINEK, SPÓJNIK_SKORELOWANY, nt("zdanie")],
