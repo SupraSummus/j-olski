@@ -149,6 +149,28 @@ class Word:
 Part = Sym | Word
 
 
+def _nazwa(część: Part) -> str:
+    """Nazwa, którą część nosi w zgłoszeniu: symbol swoją, terminal częścią mowy."""
+    return część.name if isinstance(część, Sym) else "|".join(sorted(część.pos))
+
+
+def _niesione(
+    część: Part,
+    cecha: str,
+    wypuszczane: Mapping[tuple[str, str], frozenset[str] | None],
+    inwentarz: Mapping[str, frozenset[str]],
+) -> frozenset[str] | None:
+    """Wartości, którymi ta część niesie cechę, albo ``None``, gdy nie wiadomo.
+
+    Terminal i symbol odpowiadają tu jednakowo, choć skąd indziej:
+    wartości formy zamyka inwentarz morfologii,
+    a wartości symbolu jego produkcje (:meth:`Grammar._wartości_wypuszczane`).
+    """
+    if isinstance(część, Word):
+        return inwentarz.get(cecha)
+    return wypuszczane.get((część.name, cecha))
+
+
 @dataclass(frozen=True)
 class Głowa:
     """Znacznik na tej córce, którą konstytuent jest.
@@ -547,13 +569,108 @@ class Grammar:
         bo nazywa cechę tego samego inwentarza.
         """
         return frozenset(
-            ("|".join(sorted(part.pos)), cecha)
+            (_nazwa(part), cecha)
             for production in self.productions
             for part in production.body
             if isinstance(part, Word)
             for cecha in {name for name, _spec in part.constraints} | set(part.niesione or ())
             if cecha not in cechy
         )
+
+    def więzy_niespełnialne(
+        self, wartości: Mapping[str, str]
+    ) -> frozenset[tuple[str, str, frozenset[str]]]:
+        """Trójki części, cechy i wartości, których żąda więz, a część ich nie niesie.
+
+        Unifikacja przecina zbiory, więc taki więz nie domknie ciała przy żadnym
+        środowisku cech, a produkcja z nim nie odbiera ani zdania, ani czytania.
+        Tyle zostaje po literówce w wartości i po pozycji napisanej nie tak, jak chciano:
+        takim ciałem stało tu ``dopełnienie → grupa_imienna[case=inf]``
+        (``DOKŁADANE_PRZYPADKI`` w ``olski/subset/rama.py``).
+        Znalazła je ręka, bo :meth:`nieosiągalne` pyta o symbol,
+        a nieosiągalny jest tu układ cech pod symbolem osiągalnym.
+        Sprawdzenie milczy przy tym o więzie,
+        którego :meth:`_wartości_wypuszczane` nie rozstrzyga.
+
+        Inwentarz wartości formy podaje wołający, tak samo jak nazwy cech podaje
+        :meth:`więzy_terminali_niesprawdzane` i z tego samego powodu:
+        cechy formy przychodzą z morfologii, o której ten formalizm nie wie nic.
+        Kształt argumentu jest kształtem tamtego inwentarza — wartość → nazwa cechy.
+        """
+        inwentarz: dict[str, frozenset[str]] = {}
+        for wartość, cecha in wartości.items():
+            inwentarz[cecha] = inwentarz.get(cecha, frozenset()) | {wartość}
+        wypuszczane = self._wartości_wypuszczane(inwentarz)
+        return frozenset(
+            (_nazwa(część), cecha, spec)
+            for production in self.productions
+            for część in production.body
+            for cecha, spec in część.constraints
+            if not isinstance(spec, Var)
+            if (niesione := _niesione(część, cecha, wypuszczane, inwentarz)) is not None
+            if not spec & niesione
+        )
+
+    def _wartości_wypuszczane(
+        self, inwentarz: Mapping[str, frozenset[str]]
+    ) -> dict[tuple[str, str], frozenset[str]]:
+        """Wartości, którymi symbol wypuszcza cechę; para nierozstrzygnięta nie ma wpisu.
+
+        Odpowiedź żąda punktu stałego po całej gramatyce, bo cecha idzie zwykle
+        zmienną wspólną z córką: co wypuszcza symbol, zależy od tego,
+        co wypuszczają symbole stojące w jego ciałach, a bywa nim on sam.
+        Zbiory rosną i nie maleją, a wartości jest skończenie wiele,
+        więc obrotów jest skończenie wiele.
+
+        Nierozstrzygnięta jest para, której zbioru z gramatyki nie widać.
+        Cechy nieobecnej :func:`unify` nie sprawdza,
+        więc symbol, którego choć jedna produkcja o cesze milczy,
+        przechodzi pod każdy więz na nią właśnie tamtą produkcją.
+        Z tego samego powodu zmienną wiąże suma po córkach, a nie ich przecięcie:
+        córka milcząca o cesze zmiennej nie zawęża.
+        """
+        wypisane: dict[str, list[frozenset[str]]] = {}
+        for production in self.productions:
+            wypisane.setdefault(production.head, []).append(
+                frozenset(name for name, _spec in production.features)
+            )
+        stan: dict[tuple[str, str], frozenset[str]] = {
+            (head, cecha): frozenset()
+            for head, kolejne in wypisane.items()
+            for cecha in frozenset.intersection(*kolejne)
+        }
+
+        def wiązanie(production: Production, zmienna: Var) -> frozenset[str] | None:
+            """Wartości, jakie może przyjąć ta zmienna, albo ``None``, gdy nie wiadomo."""
+            wartości: frozenset[str] | None = None
+            for część in production.body:
+                for cecha, spec in część.constraints:
+                    if not (isinstance(spec, Var) and spec.name == zmienna.name):
+                        continue
+                    niesione = _niesione(część, cecha, stan, inwentarz)
+                    if niesione is None:
+                        return None
+                    wartości = niesione if wartości is None else wartości | niesione
+            #  Zmiennej, której nie wiąże ani jedna córka, nie wypuszcza
+            #  :func:`features_of`, a zgłasza :meth:`wypuszczane_bez_wiązania`.
+            return wartości
+
+        rosło = True
+        while rosło:
+            rosło = False
+            for production in self.productions:
+                for cecha, spec in production.features:
+                    klucz = (production.head, cecha)
+                    if klucz not in stan:
+                        continue
+                    nowe = wiązanie(production, spec) if isinstance(spec, Var) else spec
+                    if nowe is None:
+                        del stan[klucz]
+                        rosło = True
+                    elif not nowe <= stan[klucz]:
+                        stan[klucz] |= nowe
+                        rosło = True
+        return stan
 
     def __len__(self) -> int:
         return len(self.productions)

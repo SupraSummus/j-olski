@@ -99,9 +99,9 @@ DOKŁADANE = (
 #: Warunek pyta o listę przypadków (:data:`EVERY_CASE`), a nie wylicza pozycji,
 #: których na niej nie ma. Cała lista czytana jako przypadki wypuszczała
 #: ``dopełnienie → grupa_imienna[case=inf]`` — ciało, którego nie dopasuje żadna grupa imienna —
-#: i nie widziała go ani suita, ani :meth:`Grammar.nieosiągalne`, bo nieosiągalny
-#: jest tu układ cech, a nie symbol. Pozycja dopisana do leksykonu poza
-#: przypadkami wpadłaby w to samo, gdyby warunek nazywał wyjątki.
+#: i znalazła je dopiero ręka, bo nieosiągalny jest tu układ cech, a nie symbol;
+#: dziś zgłasza takie ciało :meth:`Grammar.więzy_niespełnialne`. Pozycja dopisana
+#: do leksykonu poza przypadkami wpadłaby w to samo, gdyby warunek nazywał wyjątki.
 DOKŁADANE_PRZYPADKI = tuple(
     nazwa for nazwa, _zwykli, _zwrotni in DOKŁADANE if nazwa in EVERY_CASE
 )

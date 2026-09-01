@@ -705,26 +705,6 @@ a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commic
 Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
 zmierzoną tak, jak mierzy się wpuszczenie pozycji.
 
-Produkcji, której żadne ciało nie dopasuje, nie pilnuje nic.
-`dopełnienie → grupa_imienna[case=inf]` stała w gramatyce tak długo,
-ile trwało czytanie
-`DOKŁADANE` jako listy przypadków, i nie odbierała ani zdania, ani czytania:
-grupa imienna przypadka `inf` nie niesie, więc ciało po prostu nie domykało się
-nigdy.
-Suita tego nie widzi, bo werdykty wychodzą te same,
-a `nieosiągalne` w `olski/grammar.py` też nie, bo pyta o symbol,
-a tu nieosiągalny jest układ cech pod symbolem osiągalnym.
-Znalazła ją ręka, czytając trzy miejsca, które wypisywały jedną listę.
-Ruchem jest check pytający o wartość, a nie o nazwę:
-dla każdej pozycji ciała będącej `Sym` z wartością wypisaną wprost
-ma istnieć produkcja tego symbolu, która tę wartość wypuszcza.
-Do przeczytania jest przedtem, ile taki check kosztuje wyprowadzenia:
-cecha idzie zwykle zmienną wspólną z córką, więc odpowiedź żąda punktu stałego
-po całej gramatyce, a nie spojrzenia na jedną produkcję,
-i to rozstrzyga, czy jest to check, czy sonda puszczana ręką.
-Wynikiem pierwszego przebiegu jest lista produkcji martwych,
-a każda z nich jest albo skreśleniem, albo pozycją napisaną nie tak, jak chciano.
-
 Rzeczownik `soba` zabiera kilkunastu zdaniom banku drzew jednoznaczność,
 odkąd zaimek zwrotny ma pozycję
 ([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)).
@@ -836,3 +816,23 @@ Tym jednym jest
 które stawia pytanie za zaimkiem `to`,
 czyli za zapowiednikiem, którego ta gramatyka nie ma,
 więc wpis ten go nie zamyka.
+
+Gramatyka umie powiedzieć, że symbol cechę wypuszcza, a nie umie, że wypuszcza ją zawsze.
+`_wartości_wypuszczane` w `olski/grammar.py` liczy zbiór wartości tylko dla tej pary
+symbolu i cechy, którą wypisuje każda produkcja tego symbolu,
+bo cechy nieobecnej `unify` nie sprawdza,
+a więz na nią domyka się właśnie na produkcji, która o niej milczy.
+O tyle więzów milczy przez to `więzy_niespełnialne`
+i jest ich w dzisiejszej gramatyce kilkaset.
+Wypisanie cechy przez każdą produkcję samo jeszcze nie starczy:
+cechę wypisaną zmienną, której nie związała żadna córka, `features_of` zdejmuje,
+a przy terminalu odpowiada za to morfologia, bo forma nieodmienna przypadka nie ma.
+Ruchem jest drugi punkt stały, po tym, co część niesie na pewno,
+wraz z inwentarzem cech, które dana część mowy niesie zawsze,
+podanym tą samą drogą co inwentarz wartości.
+Kupuje on dwie rzeczy: tamte więzy oraz sprawdzenie drugiego rodzaju.
+Produkcja, w której dwie córki wiążą jedną zmienną do zbiorów rozłącznych,
+nie domyka się tak samo jak ta z więzem martwym, a dziś nie widzi jej nic,
+bo `wiązanie` sumuje wtedy córki, zamiast je przecinać, i sumuje rozmyślnie.
+Do przeczytania jest, ile ta druga klasa jest warta:
+nad dzisiejszą gramatyką pada zero, więc jest to zabezpieczenie, a nie naprawa.
