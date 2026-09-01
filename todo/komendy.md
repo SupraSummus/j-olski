@@ -30,7 +30,7 @@ o słowniku na każde składowe (`describe` w `olski/parse/streszczenie.py`),
 więc dwa składowe wieloznaczne każde na swój sposób dają tyle wpisów,
 ile jest par ich odmian, po tyle wierszy każdy, ile zdanie ma składowych.
 Cenę tę opisuje
-[`docs/design-notes.md`](../docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+[`docs/parsowanie.md`](../docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
 i bierze ją świadomie, więc ten wpis odwraca decyzję, a nie naprawia przeoczenie.
 Ruchem jest wpis na zdanie składowe wraz z odmianami tego jednego składowego,
 czyli ten sam kształt, jaki ma wiersz o konstytuencie rozbieżnym

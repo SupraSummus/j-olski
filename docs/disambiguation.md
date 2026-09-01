@@ -329,7 +329,7 @@ Ciąg nie dostaje wiersza o konstytuencie rozmyślnie,
 bo granicę członu pokazuje nawias w napisie roli;
 nawias obejmuje jednak ciąg, którym jest sama rola,
 a nie ciąg stojący w wypełnieniu głębiej
-([design-notes.md](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
+([parsowanie.md](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)),
 i tam — w dopełnieniu albo w okoliczniku — stoją wszystkie trzy.
 Najkrócej widać tę klasę na zdaniu z ustaw, bo czyta się je bez banku drzew:
 `Ustawa określa zadania ochrony ludności i obrony cywilnej.`

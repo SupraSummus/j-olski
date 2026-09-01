@@ -223,10 +223,12 @@ Właścicielem nazwy jest [`docs/roadmap.md`](../docs/roadmap.md#co-jest-budowan
 który pisze „parser zaprojektowanego podzbioru polszczyzny”,
 a używają jej README, `docs/disambiguation.md`, `docs/design-notes.md`
 oraz trzy dokumenty podzbioru, razem w kilkudziesięciu miejscach.
+`docs/parsowanie.md` ma to słowo w nazwie i obejmuje nim cały kierunek.
+Przemianowanie toru sięga więc i tego pliku.
 Do przeczytania jest tabela warstw w
 [`docs/architecture.md`](../docs/architecture.md#pięć-warstw-toru-gramatycznego),
 gdzie składnia jest warstwą drugą, a werdykt wypowiedzią o czterech pod nim, oraz
-[`docs/design-notes.md`](../docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
+[`docs/parsowanie.md`](../docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań),
 gdzie wyjściem jest zapytanie o las, a nie drzewo ani lista drzew.
 Ruchem jest albo przemianowanie toru na werdykt, czyli na to, co polecenie wydaje,
 albo zdanie u właściciela mówiące, że jedna warstwa nazywa tu cały tor.

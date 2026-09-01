@@ -328,7 +328,7 @@ BEZ_ROZDZIELNEJ = "brak"
 #: Para taka jest w tej gramatyce zwykłym sposobem na powiedzenie „nie”
 #: — tak samo stoją :data:`BEZ_CZOŁA`, :data:`BEZ_DOSTAWKI` i :data:`BEZ_CIĄGU` —
 #: a czemu warunek ujemny nie wchodzi do samej unifikacji, wywodzi
-#: docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
+#: docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
 #:
 #: Żądają jej dwa ciała i oba są zdaniem, w którym przy czasowniku nie stoi
 #: żadne wypełnienie ramy (``build``): orzeczenie z samego czasownika oraz

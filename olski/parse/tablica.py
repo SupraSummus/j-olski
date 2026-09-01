@@ -36,7 +36,7 @@ class _Tablica:
     lewą rekursję i produkcję o pustym ciele włącznie,
     i oddaje las ze współdzielonymi węzłami sam z siebie, bez budowania automatu.
     Dla gramatyki, która się jeszcze zmienia, ten ostatni punkt jest całym argumentem
-    (docs/design-notes.md#angle-one-parsing).
+    (docs/parsowanie.md#earley-wydaje-las-a-glr-zostaje-optymalizacją).
 
     Segmenty są krawędziami grafu, a nie listą, więc pozycją jest węzeł grafu:
     ``ktoś`` daje naraz jeden segment i trzy,

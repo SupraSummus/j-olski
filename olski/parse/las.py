@@ -151,7 +151,7 @@ class Las:
     liczba z jednej pozycji łączy się z liczbą z sąsiedniej tak, jak łączy je unifikacja,
     o czym rozstrzyga :meth:`klasy`.
     Wywód obu i pomiar, którym wybrano drugi, mieści
-    docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania.
+    docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania.
     """
 
     def __init__(self, tablica: _Tablica) -> None:

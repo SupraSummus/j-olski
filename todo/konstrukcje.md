@@ -319,7 +319,7 @@ a unifikacja przecina zbiory i tego powiedzieć nie umie.
 Dwa obejścia, które ta gramatyka ma poza `unify`, tu nie sięgają:
 oba pytają o formę — jedno odmawia lematowi, drugie formie bez cechy —
 a żadne nie pyta, ile wartości ta cecha niesie
-([`docs/design-notes.md`](../docs/design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+([`docs/parsowanie.md`](../docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
 Do przeczytania jest ta sekcja wraz z wpisem o wolnym celowniku:
 tamten stoi na tej samej przeszkodzie, bo forma celownika żeńskiego
 jest zarazem miejscownikiem, więc rozstrzygnięcie zapada dla obu naraz.

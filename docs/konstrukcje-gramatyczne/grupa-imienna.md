@@ -85,7 +85,7 @@ i wypuszczałoby ciąg tyloma wyprowadzeniami, ilu on nawiasowań dopuszcza:
 ciąg trzech członów dwoma, czterech pięcioma, a siedmiu stu trzydziestoma dwoma,
 gdzie te dwa symbole wypuszczają każdy z nich raz.
 Są to wyprowadzenia jednej struktury, więc gramatyka płaciłaby tu tym,
-czym płaci [gramatyka kategorialna](../design-notes.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje):
+czym płaci [gramatyka kategorialna](../parsowanie.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje):
 wieloznacznością pozorną, którą trzeba potem kwotować postacią normalną.
 Ciąg siedmiu członów nie jest przy tym przypadkiem z brzegu:
 tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
@@ -452,7 +452,7 @@ Morfeusz daje cyfrze tag `dig` i ani jednej cechy,
 a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc obie produkcje biorą cyfrę naraz.
 Odrzucić ją umie żądanie obecności cechy
-([design-notes.md](../design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
+([parsowanie.md](../parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)),
 tyle że odrzuca wtedy każdą cyfrę i wpuszczenia nie kupuje.
 `Termin wynosi 14 dni.` wychodzi wtedy o jedno czytanie więcej,
 bo `dni` jest i dopełniaczem mnogim, i mianownikiem mnogim,
@@ -474,7 +474,7 @@ Przypadka samej grupy nie mówi ani cyfra, ani ten rzeczownik:
 więc grupa bez tej wartości spełnia każde żądanie przypadka w zdaniu.
 Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
 która wchodzi tym samym kryterium, co każda inna
-([design-notes.md](../design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
+([parsowanie.md](../parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
 
 ## Liczebnik orzeka o tym, ile czegoś jest
 
@@ -616,14 +616,14 @@ Terminal wypowiada warunek o parze wiązek cech,
 a przyimek stoi nad zaimkiem przez całą grupę imienną,
 więc żądanie postawione na terminalu musiałoby zejść przez każde jej ciało osobno —
 tą samą drogą, którą przeszła
-[negacja](../design-notes.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne),
+[negacja](../parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne),
 i za tę samą cenę.
 Ciało, które by cechy nie przepuściło, przepuściłoby za to każdą formę,
 a takiego przeoczenia nie łapie żaden test.
 Warunek sprawdzany po rozbiorze musiałby z kolei znać kształt grupy imiennej
 i wyrażenia przyimkowego, czyli być gramatyką napisaną drugi raz,
 a to jest właśnie kryterium, po którym warstwa więzowa
-[wchodzi albo nie wchodzi](../design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
+[wchodzi albo nie wchodzi](../parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej).
 Cecha na terminalu zostaje tam, gdzie warunek jest o parę:
 zaimek dzierżawczy żąda `npraep` od formy przed rzeczownikiem
 ([niżej](#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem)),
@@ -664,7 +664,7 @@ jako zdanie bez struktury nad całością,
 bo `bloker` w `olski/pokrycie.py` nazywa część mowy pierwszego czytania,
 a tu nie ma ani jednego.
 Rozejście to jest zapowiedziane
-([design-notes.md](../design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
+([parsowanie.md](../parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
 a naprawę trzyma [todo/](../../todo/README.md) razem z wycięciem czytań bez licencji,
 które daje tę samą krawędź bez czytań na całej klasie form.
 

@@ -23,9 +23,9 @@ however many derivations stand under it,
 so six undecided attachments are six positions rather than sixty-four trees.
 The summaries come off that forest, one method of :class:`Las` each,
 and none of them needs another parser.
-docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
+docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
-and docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania
+and docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania
 owns the two conditions such a forest has to meet
 and the measurement behind the second.
 

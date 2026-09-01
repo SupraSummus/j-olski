@@ -1,6 +1,6 @@
 # GLR in practice: a field report
 
-[design-notes.md](design-notes.md#angle-one-parsing) argues
+[parsowanie.md](parsowanie.md#earley-wydaje-las-a-glr-zostaje-optymalizacją) argues
 that GLR is the right *shape* of answer for olski
 but probably the wrong specific choice,
 and that Earley is the boring correct first move.
@@ -394,7 +394,7 @@ Measured, the table is 146 states and takes 29 ms to build.
 That is not a cost anyone schedules around;
 the split is import-time hygiene,
 and probably just testability.
-[design-notes.md](design-notes.md#angle-one-parsing) gives grammar churn
+[parsowanie.md](parsowanie.md#earley-wydaje-las-a-glr-zostaje-optymalizacją) gives grammar churn
 as a decisive reason to prefer Earley,
 and that argument stands on its own.
 A 146-state table is no evidence about

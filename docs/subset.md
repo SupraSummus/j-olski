@@ -900,7 +900,7 @@ productions, symbols, and feature unification.
 A grammar is Python data rather than a notation of its own.
 It also answers whether any terminal takes a reading at all,
 which is what lets a rejected sentence say what it stood on:
-[więzy wyprowadzone z gramatyki](design-notes.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
+[więzy wyprowadzone z gramatyki](parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
 owns why that question belongs here rather than in a layer beside the grammar.
 
 That formalism is tier 0 of
@@ -925,9 +925,9 @@ is six positions rather than sixty-four trees.
 That is what the verdict wanted sooner than the grammar did:
 the reader is shown the preposition and the heads it reaches,
 one line per undecided choice.
-[Werdykt jest zapytaniem o las](design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
+[Werdykt jest zapytaniem o las](parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań)
 owns that argument,
-and [tożsamość czytania](design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
+and [tożsamość czytania](parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania)
 owns what may share a position and how the counting joins two of them.
 
 `olski/subset/` is olski itself:

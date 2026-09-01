@@ -37,8 +37,9 @@ mówi, że się nie wyprowadza, albo że wyprowadza się na kilka sposobów, i n
 trzyma decyzję, która czyni tę własność olskiego własnością,
 a [swigra.md](swigra.md#what-it-leaves-open) miejsce, w którym przegląd zastał puste pole:
 najbliższy istniejący parser polszczyzny rozstrzyga tam, gdzie olski by zgłaszał.
-Maszyneria jest tym wszystkim, co [design-notes.md](design-notes.md)
-mówi o Earleyu, lesie rozbiorów, swobodnym szyku i LCFRS.
+Maszyneria jest tym wszystkim, co [parsowanie.md](parsowanie.md)
+mówi o Earleyu, lesie rozbiorów i swobodnym szyku,
+oraz tym, co [design-notes.md](design-notes.md) mówi o LCFRS.
 
 Za budowaniem tego przemawia kształt takiego werdyktu.
 Mówi on o zdaniu, które wskazuje.

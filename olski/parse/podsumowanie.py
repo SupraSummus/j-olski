@@ -114,7 +114,7 @@ class Deklaracja:
     #: Zatrzymać się muszą oba naraz, inaczej wiersz ``differing in``
     #: nazywa rolę, której lista czytań pod nim nie nazywa.
     #: Wywód, przykład i cenę trzyma
-    #: docs/design-notes.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
+    #: docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
     podrzędne: tuple[str, ...]
 
 

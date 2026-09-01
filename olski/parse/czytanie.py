@@ -27,7 +27,7 @@ class Pozycja:
     a :meth:`Node.signature` wywodzi dlaczego;
     pozycja o jeden składnik bogatsza liczyłaby wyprowadzenia zamiast czytań.
     Ile kosztuje rozdzielanie pozycji po cechach, mierzy
-    docs/design-notes.md#co-się-pakuje-rozstrzyga-tożsamość-czytania.
+    docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania.
 
     Liść etykiety nie ma, bo czytaniem liścia jest sama rozpiętość:
     dwa czytania jednej formy są jednym liściem.
