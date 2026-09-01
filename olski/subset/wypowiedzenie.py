@@ -47,7 +47,7 @@ def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
     # prawostronnie rekurencyjna razem z przecinkiem i wypuszczała `A, (B: C)`.
     #
     # Niezmiennik — że jednoznaczności nie odbiera ani jedno z tych ciał —
-    # pilnuje tests/test_subset.py, a wywód wraz z zakupem trzyma
+    # pilnuje tests/test_zdanie_złożone.py, a wywód wraz z zakupem trzyma
     # docs/konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają.
     # Ciała są trzy, a nie jedno biorące trzy znaki, bo zakup każdego z nich jest
     # osobną liczbą i sonda bierze ją zdejmowaniem ciał.
@@ -62,7 +62,8 @@ def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
     #
     # Ciało jest osobne, a nie symbolem obejmującym zdanie i grupę, bo cena
     # każdego z nich jest osobną liczbą. Drugiego czytania nie daje żadnemu
-    # napisowi, bo grupa imienna zdaniem nie jest, i to pilnuje tests/test_subset.py.
+    # napisowi, bo grupa imienna zdaniem nie jest,
+    # i to pilnuje tests/test_zdanie_złożone.py.
     #
     # Myślnik i średnik tej pozycji nie dostają, bo ten rejestr nie pisze za nimi
     # samej grupy: myślnikiem wtrąca całe zdanie, a średnikiem rozdziela dwa.
@@ -72,7 +73,7 @@ def _interpunkcja_wypowiedzenia(grammar: Grammar) -> None:
     #
     # Ciałem jest ciąg, a nie pojedyncze pytanie, bo pytania stoją tu obok siebie
     # tak samo jak przy czasowniku, który je bierze (`ciąg_pytajny`).
-    # Rozłączności trzech symboli za tym znakiem pilnuje tests/test_subset.py,
+    # Rozłączności trzech symboli za tym znakiem pilnuje tests/test_zdanie_złożone.py,
     # a zakup i cenę trzyma docs/subset.md pod interpunkcją zdaniową.
     grammar.rule(DOPOWIEDZENIE, [DWUKROPEK, Głowa(nt("ciąg_pytajny"))])
     grammar.rule("wypowiedzenie", [Głowa(nt("zdanie")), nt(DOPOWIEDZENIE), KONIEC_ZDANIA])

@@ -772,7 +772,8 @@ lemat mający już pozycję podporządkowującą, dopisany do listy koordynacyjn
 daje drugie wyprowadzenie zdaniu, które i bez niego jest wieloznaczne.
 Tak wypadło `czy` z listy skorelowanych
 ([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
-a złapała je ręka, nie przebieg; `tests/test_subset.py` pilnuje odtąd tej jednej pary.
+a złapała je ręka, nie przebieg;
+`tests/test_zdanie_złożone.py` pilnuje odtąd tej jednej pary.
 Ruchem jest check nad wszystkimi parami naraz,
 a do rozstrzygnięcia jest jego kryterium:
 przecięcie samo w sobie usterką nie jest, więc check musi pytać o coś węższego,

@@ -553,7 +553,7 @@ choć wyprowadzają się: pierwsze stoi mianownikiem osobnego leksemu
 (`kota subst:sg:nom:f`), drugie tym, że ciało bezczasownikowe zgodności liczby
 nie żąda i żądać nie może, a trzecie ma kształt, który polszczyzna ma —
 `Rodzina to są ludzie.` — i złe jest w nim znaczenie, a nie składnia.
-Asercja w `tests/test_subset.py` może stanąć obok pliku i nic nie kosztuje,
+Asercja w `tests/test_orzeczenie.py` może stanąć obok pliku i nic nie kosztuje,
 bo łapie inną awarię — ta pilnuje każdego commita, a sonda wyboru wariantu.
 
 Sekcja zgodności ról nie pojawiła się w wydruku `harness/pomiar.py`
