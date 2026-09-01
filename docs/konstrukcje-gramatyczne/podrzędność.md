@@ -23,7 +23,7 @@ Koordynacja ma przecinek na poziomie zdania i powtarza tam własny symbol:
 Podrzędność wciąga przecinek do konstytuentu, który sama tworzy,
 więc `zdanie_podrzędne → , że zdanie` jest jednym konstytuentem wraz z przecinkiem,
 a `zdanie` się w nim nie powtarza.
-Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse.py`)
+Po tym rozpoznaje ciąg współrzędny werdykt (`_koordynuje` w `olski/parse/streszczenie.py`)
 i po tym samym rozpoznaje go sonda, która przecinek zdejmuje.
 Samo powtórzenie symbolu im nie wystarcza, bo nad ciągiem stoi jeszcze
 [okolicznik zdaniowy](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania),
@@ -184,7 +184,8 @@ rozstrzyga o dwóch rzeczach naraz, i rozstrzyga je przeciwnie:
 streszczenie nazywa ten okolicznik całym napisem, bo jest on rolą,
 a w środek jego nie zagląda, bo podmiot spod spójnika jest podmiotem tamtego zdania.
 Zejście po role zatrzymuje się więc na takim węźle, a nie przed nim
-(`Node.find` oraz `_pierwsza_rola` w `olski/parse.py`),
+(`Node.find` w `olski/parse/czytanie.py`
+oraz `_pierwsza_rola` w `olski/parse/las.py`),
 a kosztuje to jeden warunek w obu zejściach po role.
 
 Widać po tym, do którego zdania okolicznik doszedł:
@@ -538,7 +539,7 @@ ile zdań na tym stało, liczy
 [corpus.md](../corpus.md#złote-czytanie-ocalało-w-niemal-każdym-zdaniu-wieloznacznym).
 
 Etykieta jest osobnym konstytuentem nad czołem, a nie cechą na nim,
-bo rolę czyta się z etykiety węzła (`Node.find` w `olski/parse.py`),
+bo rolę czyta się z etykiety węzła (`Node.find` w `olski/parse/czytanie.py`),
 i stąd bierze się trudność tej pozycji.
 Symbol wpisany do ciała wpuszcza tam wszystkie swoje produkcje,
 a `podmiot → grupa_imienna` wpuszcza w to miejsce każdą grupę imienną w mianowniku:

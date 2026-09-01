@@ -415,7 +415,7 @@ but whether the gold reading is in the forest
 and how deeply it is buried among alternatives.
 
 Olski asks both halves, in that order.
-`Las.numer_czytania` in `olski/parse.py` walks the packed positions
+`Las.numer_czytania` in `olski/parse/las.py` walks the packed positions
 for a reading assigning the roles the gold tree assigns,
 so a gold reading past the enumeration cap comes back found rather than missing;
 only then does it walk the enumeration to the tree carrying that reading,

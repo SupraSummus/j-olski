@@ -171,7 +171,7 @@ i tę werdykt nazywa wprost, bo widać ją przed rozbiorem;
 trzyma ją osobno tak samo.
 Dwie pozostałe są strukturą,
 a rozdziela je to, dokąd doszła analiza częściowa
-(`Las.najdalszy` w `olski/parse.py`).
+(`Las.najdalszy` w `olski/parse/las.py`).
 
 Analiza staje wewnątrz zdania, przed formą, której nie wzięła żadna analiza częściowa.
 
@@ -218,7 +218,7 @@ Czego gramatyka w tym miejscu oczekiwała, werdykt nie podaje,
 i nie podaje dlatego, że na formę nie czeka tam nic.
 Analiza częściowa, która na formę czeka i tę formę bierze,
 przesuwa zatrzymanie za nią,
-więc przejście po `_przed_formą` w `olski/parse.py` oddaje w miejscu zatrzymania
+więc przejście po `_przed_formą` w `olski/parse/las.py` oddaje w miejscu zatrzymania
 zbiór pusty nad każdym zdaniem tej prozy odrzuconym na strukturze.
 Wydruk oczekiwań milczałby zatem dokładnie tam, gdzie autor jest zgubiony.
 
@@ -916,7 +916,7 @@ Tier 0 is where the implementation stands and not what the track is committed to
 [design-notes.md](design-notes.md#formalizm-jest-środkiem-a-nie-celem)
 owns that distinction.
 
-`olski/parse.py` builds the forest and summarizes it.
+`olski/parse/` builds the forest and summarizes it.
 It is an Earley chart over the segmentation graph,
 so one packed position stands for a constituent shape
 however many derivations sit under it,

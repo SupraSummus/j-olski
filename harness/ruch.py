@@ -132,7 +132,9 @@ class Sonda:
 
 
 def koordynuje(produkcja: Production) -> bool:
-    """Czy ta produkcja koordynuje; kryterium trzyma ``ciało_koordynuje`` w ``olski/parse.py``.
+    """Czy ta produkcja koordynuje.
+
+    Kryterium trzyma ``ciało_koordynuje`` w ``olski/parse/streszczenie.py``.
 
     Pytają o to sondy, które zdejmują znak koordynacji, bo sam znak w ciele na to
     nie odpowiada: polszczyzna stawia przecinek i tam, gdzie nic się nie koordynuje,

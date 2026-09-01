@@ -18,7 +18,7 @@ Komentarz w pozostałych modułach powstał pod regułą, która żądała wywod
 przy każdym ciele, a nie pytała, czy z kodu widać to samo bez niego;
 [reguła dzisiejsza](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)
 zostawia komentarz tam, gdzie rozkmina jest głębsza od kodu.
-Ruchem jest ten sam przebieg nad `olski/parse.py`, `olski/grammar.py`,
+Ruchem jest ten sam przebieg nad `olski/parse/`, `olski/grammar.py`,
 `olski/rozstrzyganie.py` i `olski/skład/`, po jednym module na commit,
 bo skreślenie wmieszane w cudzy moduł ginie w przeglądzie.
 Do przeczytania jest przy każdym module jedno pytanie:
@@ -232,7 +232,7 @@ Ruchem jest albo przemianowanie toru na werdykt, czyli na to, co polecenie wydaj
 albo zdanie u właściciela mówiące, że jedna warstwa nazywa tu cały tor.
 Jedno i drugie idzie w jednej zmianie, bo nazwa sięga wszystkich swoich wystąpień
 ([`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
-Przeciw przemianowaniu: `olski/parse.py` i `olski-check` noszą to słowo,
+Przeciw przemianowaniu: `olski/parse/` i `olski-check` noszą to słowo,
 a [`docs/swigra.md`](../docs/swigra.md) porównuje olskiego ze Świgrą jako parser z parserem,
 więc przekład nazwy rozjeżdża to porównanie z polem.
 
@@ -244,7 +244,7 @@ Napis ten jest zarazem klasą CSS strony (`witryna/styl.css`),
 wartością pod kluczem JSON-a
 oraz tym, o co pyta kilkanaście testów i sond w `harness/`,
 więc przekład sięga ich wszystkich i idzie jednym commitem.
-Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse.py`
+Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse/podsumowanie.py`
 obok `Verdict.status` w `olski/werdykt.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
 czyli daje to mieszaninę, której nazwy symboli nie mają

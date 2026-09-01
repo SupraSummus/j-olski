@@ -214,7 +214,7 @@ def przyimki_czasownika(lemat: str) -> frozenset[str]:
 
     Obie klasy naraz, bo pytający ma formę czasownikową,
     a nie zdanie o tym, czy cząstka przy niej stoi:
-    ``Przyłączenie`` w ``olski/parse.py`` niesie same głowy gospodarzy.
+    ``Przyłączenie`` w ``olski/parse/podsumowanie.py`` niesie same głowy gospodarzy.
     Suma jest tu stroną bezpieczną, bo tego zbioru świadek ramowy używa jako weta:
     przyimek żądany przez którekolwiek z tych dwóch słów
     kończy się milczeniem, a nie wskazaniem.

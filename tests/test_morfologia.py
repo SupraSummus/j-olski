@@ -67,7 +67,7 @@ def test_wykaz_zbiera_odczytania_ze_wszystkich_ciał_jednego_kształtu():
     a grupę imienną z jednej formy robi w tej gramatyce osobne ciało dla każdej z
     tych części mowy. Bez sumy po ciałach wykaz pokazuje stąd sam odsłownik
     `polecieć`, czyli czasownik, którego w tym zdaniu nie ma, a rzeczownik
-    przemilcza (`Las._wsparte_kształtu` w olski/parse.py). Klasa nie jest rzadka:
+    przemilcza (`Las._wsparte_kształtu` w olski/parse/las.py). Klasa nie jest rzadka:
     stoi w niej słownictwo, którym ten rejestr mówi o sobie samym
     (docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
     """

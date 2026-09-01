@@ -115,7 +115,7 @@ class Czytanie:
     przypadkiem, który unifikacja i tak uzgodniła, są jednym czytaniem.
 
     Część mowy jest tym, czym ta tożsamość różni się od ``signature`` w
-    ``olski/parse.py``, i robi tę różnicę podłoże. Tam część mowy, która zmienia
+    ``olski/parse/czytanie.py``, i robi tę różnicę podłoże. Tam część mowy, która zmienia
     strukturę, zmienia razem z nią produkcję, więc stoi już w kształcie drzewa.
     Tutaj rolę niesie etykieta łuku, a jeden więz bierze kilka części mowy naraz,
     więc dwa czytania różniące się samą częścią mowy mają ten sam zbiór łuków.

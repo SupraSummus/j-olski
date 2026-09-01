@@ -192,7 +192,7 @@ def domyślni() -> list[Świadek]:
 #: strona wyboru, po której ten gospodarz stoi (:func:`strona`),
 #: i lematy jego formy.
 #: Lematów jest kilka, bo warstwa stoi za parserem, który lematu nie wybrał
-#: (``signature`` w ``olski/parse.py``).
+#: (``signature`` w ``olski/parse/czytanie.py``).
 Kandydat = tuple[str, str, Iterable[str]]
 
 
@@ -637,7 +637,7 @@ class Skłonność:
 
     Kluczem jest lemat, a nie forma, bo ``o gwieździe`` i ``o gwiazdach`` mówią
     o tej samej parze. Forma gospodarza ma jednak lematów kilka, a warstwa ta
-    stoi za parserem, który lematu nie wybrał (``signature`` w ``olski/parse.py``),
+    stoi za parserem, który lematu nie wybrał (``signature`` w ``olski/parse/czytanie.py``),
     więc pytanie idzie o każdy lemat formy naraz i liczniki się sumują. Podnosi
     to wsparcie i rozmywa skłonność, a rozmycie kończy się milczeniem, czyli
     stroną bezpieczną.

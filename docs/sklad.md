@@ -913,7 +913,7 @@ jako pytanie otwarte.
 **Wartości bierze się z formy, a nie z wyprowadzenia, które zostało**,
 i żąda tego czytanie samo.
 Czytanie parsera jest swoim kształtem, a lematy i wartości cech
-są z niego wyłączone rozmyślnie, o czym mówi `signature` w `olski/parse.py`,
+są z niego wyłączone rozmyślnie, o czym mówi `signature` w `olski/parse/czytanie.py`,
 więc dwa wyprowadzenia różniące się lematem są jednym czytaniem
 i to, które z nich w nim stoi, rozstrzygnęła kolejność.
 `Kot mieszka w piwnicy.` pokazuje cenę, jaką by to miało:
@@ -1008,7 +1008,7 @@ wracają jako dwie rzeczy, co jest tą samą granicą,
 którą [`Postać`](#tekst-wie-to-czego-zdanie-o-sobie-nie-wie) zapisuje po drugiej stronie:
 tożsamość deklaruje autor.
 Dlatego porównanie stoi na `sygnatura`, a nie na równości drzew,
-i jest ono odpowiednikiem `signature` z `olski/parse.py`,
+i jest ono odpowiednikiem `signature` z `olski/parse/czytanie.py`,
 czyli mówi, co czyni dwa drzewa tego zapisu jednym drzewem.
 Różnica jest jedna i jest nią właśnie tożsamość:
 wychodzi ona numerem nadanym po kolei, a nie obiektem,

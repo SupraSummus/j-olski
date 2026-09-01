@@ -20,7 +20,7 @@ w każdym miejscu na okolicznik, jakie ten szyk ma.
 
 Ciała jednego rozwinięcia konkurują potem o to samo zdanie, więc każde dostaje tu
 koszt, czyli miejsce w kolejności, w jakiej las wyda te czytania
-(``wyprowadzenia`` w ``olski/parse.py``).
+(``wyprowadzenia`` w ``olski/parse/las.py``).
 Wylicza go rozwinięcie, a nie wypisuje deklaracja: produkcji jest tysiąc kilkaset,
 z czego siedemset samego ``orzeczenia``, więc koszt wypisany byłby drugą deklaracją
 tego samego. Dwie stałe niżej mówią to samo:
@@ -155,7 +155,7 @@ class Rozwinięcie:
 
         Miejsca kosztują wszystkie tyle samo: okolicznik postawiony w innym miejscu
         obejmuje inne słowa, więc rozstrzyga o nim cięcie, a nie koszt
-        (``_cięcie`` w ``olski/parse.py``).
+        (``_cięcie`` w ``olski/parse/las.py``).
         """
         nazwy = [_nazwa(część) for część in szyk]
         yield 0, list(szyk)

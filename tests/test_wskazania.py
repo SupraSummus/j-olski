@@ -1,7 +1,7 @@
 """Złączenie werdyktu z cudzym drzewem, czyli jedyne miejsce, gdzie ta sonda może zmilknąć.
 
 Wzorzec dobiera się tu po formach modyfikatora, bo rozpiętości werdykt nie
-niesie. Jedna strona tego napisu powstaje w ``olski/parse.py``, druga w sondzie,
+niesie. Jedna strona tego napisu powstaje w ``olski/parse/las.py``, druga w sondzie,
 i rozejść się mogą tak, że nikt tego nie zauważy: sonda wypisze wtedy „bez
 wzorca” zamiast błędu, a mianownik trafności zejdzie do zera po cichu.
 

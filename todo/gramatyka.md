@@ -141,7 +141,7 @@ której poprzednik ich żąda).
 Zdjęcie listy jest zmianą w gramatyce i pomiaru żąda osobno:
 proza tego repozytorium nie rusza się wcale, a banku drzew nie zmierzył nikt.
 Osobno stoi czas rozbioru, bo cechę wypuszczaną las rozdziela na klasy pozycji
-(`klasy` w `olski/parse.py`), a wpisów jest kilkadziesiąt.
+(`klasy` w `olski/parse/las.py`), a wpisów jest kilkadziesiąt.
 Do przeczytania jest `_wysunięta_rola` w `olski/subset/podrzędne.py` obok tej listy,
 bo tamta funkcja pisze dwie rodziny czoła jedną ręką i stąd te dwie cechy.
 
@@ -538,7 +538,7 @@ przez cechę, która odróżnia głowę biorącą przyłączenie od zaimka,
 i wtedy `grupa_imienna → grupa_imienna wyrażenie_przyimkowe`
 żąda tej cechy zamiast brać wszystko.
 Do przeczytania przed taką cechą jest jej cena w czasie rozbioru:
-klasa cech rozdziela pozycje lasu (`klasy` w `olski/parse.py`),
+klasa cech rozdziela pozycje lasu (`klasy` w `olski/parse/las.py`),
 a wpis o produkcjach formy `bedzie` mierzy, ile kosztuje jedna klasa więcej.
 Do przeczytania jest też `_role` w `olski/skład/rozbiór.py`,
 bo czyta ono kształty gramatyki po etykiecie,

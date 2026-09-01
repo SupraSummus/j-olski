@@ -75,7 +75,7 @@ Wskazania świadek przez to nie myli, tylko milczy, więc cena stoi w zasięgu.
 Ruchem nie jest drugie kryterium obok `strona`:
 o `strona` pyta także `harness/wskazania.py`, więc druga reguła rozeszłaby się z nią
 cicho, a rozejście widać dopiero w liczbach.
-Ruchem jest albo rodzaj konstytuentu wniesiony do `Przyłączenie` w `olski/parse.py` —
+Ruchem jest albo rodzaj konstytuentu wniesiony do `Przyłączenie` w `olski/parse/podsumowanie.py` —
 gramatyka go zna, bo `gospodarze` w `DEKLARACJA` wylicza symbole, na których
 zejście się zatrzymuje, a wpis przyłączenia niesie same głowy —
 albo zgoda na to, że warstwa stronę zgaduje z czytań formy, wypisana w `strona`.

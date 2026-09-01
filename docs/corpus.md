@@ -751,7 +751,7 @@ Odpowiada na nie las, a nie lista czytań.
 Lista urywa się na `MAX_READINGS`,
 a wieloznaczne są dokładnie te zdania, na których ta granica pada,
 więc odpowiedź policzona po liście myliłaby brak czytania z jego numerem;
-`Las.ma_czytanie` w `olski/parse.py` pyta o to las.
+`Las.ma_czytanie` w `olski/parse/las.py` pyta o to las.
 
 Miarą są role, czyli to, czym mierzy zgodność sekcja wyżej.
 Nawiasowanie miarą być nie może, bo dwie gramatyki grupują materiał każda po swojemu
@@ -784,7 +784,7 @@ więc numer rozstrzyga, czy czytelnik złote czytanie w ogóle zobaczy.
 Ocalenie i numer liczy razem ewaluacja Świgry
 ([swigra.md](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)).
 Numerem jest miejsce w kolejności, w jakiej las wydaje drzewa,
-i nadaje go samo wyliczanie (`Las.numer_czytania` w `olski/parse.py`),
+i nadaje go samo wyliczanie (`Las.numer_czytania` w `olski/parse/las.py`),
 bo numer policzony obok byłby tą kolejnością wypisaną drugi raz.
 
 Tam, gdzie złote czytanie ocalało, jest nim w trzech wypadkach na cztery

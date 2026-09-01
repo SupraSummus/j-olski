@@ -109,7 +109,7 @@ def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():
 
 @pytest.mark.parametrize("symbol", DEKLARACJA.współrzędne)
 def test_symbol_stojący_nad_sobą_ze_słowem_w_ciele_ma_w_nim_znak_koordynacji(symbol):
-    #  Kryterium, na którym stoją dwie rzeczy naraz: `_koordynuje` w `olski/parse.py`
+    #  Kryterium, na którym stoją dwie rzeczy naraz: `_koordynuje` w `olski/parse/streszczenie.py`
     #  poznaje ciąg współrzędny po tym, że symbol stoi nad sobą i że znak spinający
     #  go stoi w ciele słowem, a po tym samym poznaje go pomiar różnicowy, żeby
     #  wiedzieć, którą produkcję zdjąć. Produkcja, która to rozdziela, psuje jedno

@@ -211,7 +211,7 @@ class Production:
         """Hasz policzony raz, bo gramatyka powstaje raz i już się nie zmienia.
 
         Produkcja jest częścią każdego stanu tablicy Earleya, a jej części
-        stoją w zbiorze, którym rozbiór odsiewa stany (``olski/parse.py``),
+        stoją w zbiorze, którym rozbiór odsiewa stany (``olski/parse/tablica.py``),
         więc każde z tych trojga haszuje się po kilka milionów razy na dokument.
         Hasz wywiedziony z pól przechodziłby za każdym razem całe ciało,
         a w nim więzy każdej części.
@@ -380,7 +380,7 @@ class Grammar:
         zaczynające się bez żadnego terminala, czyli te o wyprowadzeniu pustym,
         i klucz ten stoi tu nawet pusty, bo odsiew sięga po niego bez pytania.
         Odsiewa on stan, którego następna córka nie ma w swojej pozycji grafu
-        od czego się zacząć (``olski/parse.py``): taki stan ciała nie dokończy,
+        od czego się zacząć (``olski/parse/tablica.py``): taki stan ciała nie dokończy,
         więc nie wejdzie do żadnego czytania. Pyta o to pozycja grafu, a nie
         stan, więc odpowiedź jest ułożona po terminalach.
         """

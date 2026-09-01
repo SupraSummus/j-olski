@@ -238,7 +238,7 @@ Lista pod kluczem `czytania` niesie streszczenia różne, każde raz
 (`Verdict.readings` w `olski/werdykt.py`),
 a `liczba_czytań` wychodzi z lasu i mówi, ile czytań zdanie ma.
 Jedna z drugiej się przez to nie wylicza,
-więc o granicy wyliczania z `MAX_READINGS` w `olski/parse.py`
+więc o granicy wyliczania z `MAX_READINGS` w `olski/parse/las.py`
 mówi osobne pole `urwane`, a strona wpisuje je do podpisu zwoju.
 Samo streszczenie jest listą po jednym wpisie na zdanie składowe,
 bo każde składowe obsadza role własnym materiałem.

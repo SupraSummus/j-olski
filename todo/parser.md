@@ -6,11 +6,11 @@ wyliczaniem w głąb, więc kolejność czytań jest leksykograficzna:
 koszt produkcji przy korzeniu waży więcej niż każdy koszt produkcji pod nim,
 choćby ich było kilka.
 Koszt morfologii sumuje się już dziś i jest minimum po poddrzewie
-(`koszt_morfologii` w `olski/parse.py`), więc pytanie o sumę stawia się teraz
+(`koszt_morfologii` w `olski/parse/las.py`), więc pytanie o sumę stawia się teraz
 o drugą połowę kosztu, a nie o cały.
 Porządek po sumie kosztów całego drzewa jest inną odpowiedzią i wymaga innego wyliczania,
 bo minimum globalne żąda kolejki nad lasem, a nie przejścia w głąb,
-i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse.py`:
+i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse/las.py`:
 wyliczanie przystaje dziś na pierwszym drzewie, które trafia, i granicy nie potrzebuje.
 Ruchem jest wariant napisany w sondzie, a nie w parserze,
 i jedna liczba obok tamtej: złote czytanie Składnicy pod jednym porządkiem i pod drugim.
@@ -23,7 +23,7 @@ przyimkowym. Sądów jest kilkanaście i pomiarem to nie jest, więc trop mówi 
 że sondę warto puścić, zanim ktoś napisze kolejkę.
 
 Przedstawiciel pozycji może stać w klasie, której żadne czytanie nie bierze.
-`_przedstawiciel` w `olski/parse.py` bierze pierwsze drzewo pozycji bez odsiewu po
+`_przedstawiciel` w `olski/parse/las.py` bierze pierwsze drzewo pozycji bez odsiewu po
 klasach żywych, a `_kształty` obok niego ten odsiew ma, więc nazwa konstytuenta
 bierze się czasem z kształtu, którego werdykt nie liczy.
 Rozpiętość jest w obu ta sama, więc formy różni w nich tylko podział na segmenty.
@@ -33,7 +33,7 @@ Do przeczytania jest, czy nad Składnicą taka pozycja pada i czy pada z innymi 
 bo od tego zależy, czy to usterka, czy sam porządek w kodzie.
 
 Wykaz morfologii sumuje odczytania po ciałach jednej klasy, a klasy sąsiedniej nie widzi.
-`Las._wsparte_kształtu` w `olski/parse.py` idzie po produkcjach spakowanych
+`Las._wsparte_kształtu` w `olski/parse/las.py` idzie po produkcjach spakowanych
 pod jedną parą pozycji i klasy cech, więc ciało, które ten sam kształt buduje,
 wypuszczając cechy z klasy obok, do sumy nie wchodzi.
 Widać to na lemacie, którego leksykon walencyjny nie zna:
@@ -52,7 +52,7 @@ zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 
 Zatrzymanie kosztuje nad zdaniem odrzuconym więcej niż zbudowanie tablicy,
-bo `najdalszy` w `olski/parse.py` przechodzi tablicę drugi raz
+bo `najdalszy` w `olski/parse/las.py` przechodzi tablicę drugi raz
 i unifikuje przy tym przebyte ciała, czego samo jej budowanie nie robi wcale.
 Płaci to każdy, kto pyta o werdykt, a drukuje tylko ten, kto pokazuje odrzucenie.
 Jednym ruchem jest pytanie leniwe zamiast flagi `zatrzymanie`:
@@ -75,5 +75,5 @@ Przybliżenie tańsze od tego, czyli najdalsza pozycja o jakimkolwiek stanie tab
 jest zmierzone i odpada: myli się w co czwartym zdaniu, i to w obie strony,
 bo tablica trzyma stan bez oglądania się na unifikację i na to,
 czy analiza częściowa ten stan w ogóle przewidziała.
-Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse.py`:
+Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse/las.py`:
 to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.

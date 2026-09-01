@@ -116,7 +116,7 @@ def _wysunięta_rola(zdanie: Rozwinięcie, symbol: str, czoło: str) -> None:
     # Etykieta roli nad czołem: `podmiot` i `dopełnienie`, czyli te same nazwy, które
     # zdanie daje rolom wypełnionym na miejscu. Konstytuentem, a nie cechą na
     # czole, bo rolę czyta się z etykiety węzła (``Node.find`` w
-    # ``olski/parse.py``), a wpuszcza ją cecha `czoło` (:data:`BEZ_CZOŁA`).
+    # ``olski/parse/czytanie.py``), a wpuszcza ją cecha `czoło` (:data:`BEZ_CZOŁA`).
     zdanie.grammar.rule(
         "podmiot",
         [nt(czoło, case="nom", number=V("n"), gender=V("g"), **zaimek)],
