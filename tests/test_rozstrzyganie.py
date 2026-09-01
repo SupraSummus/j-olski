@@ -135,7 +135,7 @@ def test_warstwa_nie_rusza_werdyktu():
 
 #: Przyłączenie, jakie werdykt wydaje nad ``Operator zgłosił awarię w systemie.``
 #: Zdanie to czyta się po polsku dwojako, a dlaczego akurat takie, a nie
-#: przykładowe z ``z`` i narzędnikiem, mówi ``docs/disambiguation.md``.
+#: przykładowe z ``z`` i narzędnikiem, mówi ``docs/rozstrzyganie.md``.
 AWARIA = Przyłączenie(modyfikator="w systemie", gospodarze=("zgłosił", "awarię"))
 
 
@@ -181,7 +181,7 @@ def test_słowo_z_leksykonu_projektu_dopasowuje_się_lematem_jak_każde_inne():
 
 
 #: Sąsiedztwo z łańcuchem dopełniaczowym przed frazą, wzorowane na zdaniu korpusu
-#: audytowego, na którym ten świadek raz się pomylił (``docs/disambiguation.md``).
+#: audytowego, na którym ten świadek raz się pomylił (``docs/rozstrzyganie.md``).
 #: Głową grupy jest ``wymiany``, a sąsiadem bezpośrednim frazy ``danych``.
 ŁAŃCUCH = Sąsiedztwo(("Opisano sposób wymiany danych z systemami zewnętrznymi.",))
 
@@ -247,7 +247,7 @@ def test_imiesłów_przymiotnikowy_nie_jest_tą_samą_frazą_co_odsłownik():
 
     Bez warunku na część mowy w tagu świadek wskazuje tu gospodarza po dowodzie
     mówiącym o czym innym, a wskazanie samo nie różni się wtedy niczym od
-    trafnego: nad korpusem audytowym raz tak wskazał (``docs/disambiguation.md``).
+    trafnego: nad korpusem audytowym raz tak wskazał (``docs/rozstrzyganie.md``).
     """
     sąsiedztwo = Sąsiedztwo(("Przekazujemy informacje o żądającym.",))
     assert rozstrzygnij([ŻĄDANIA], [Powtórzenie()], sąsiedztwo) == [ŻĄDANIA]
@@ -258,7 +258,7 @@ def test_kopula_dowodem_nie_jest_bo_okolicznik_przyłącza_się_do_niej_wszędzi
 
     Oba zdania mają tu za orzeczenie kopulę, a fraza dochodzi w obu do rzeczy.
     Bez tego warunku świadek wskazuje ``jest`` i nad korpusem audytowym tak
-    właśnie wskazał, raz na osiem odpowiedzi (``docs/disambiguation.md``).
+    właśnie wskazał, raz na osiem odpowiedzi (``docs/rozstrzyganie.md``).
     """
     sąsiedztwo = Sąsiedztwo(("Wymaga się, aby opisy tworzone były w 3 osobie.",))
     przyłączenie = Przyłączenie(modyfikator="w 1 osobie", gospodarze=("jest", "tworzenie"))
@@ -341,7 +341,7 @@ def test_żądanie_samego_czasownika_nie_wskazuje_go_choć_świadek_je_widzi():
     """Połowa kryterium, której świadek nie bierze, i to jest połowa wyceniona.
 
     Rama czasownika trafia nad bankiem drzew tyle, ile rzut monetą nad wyborem
-    dwóch stron, więc wskazania z niej nie ma; ``docs/disambiguation.md`` liczy,
+    dwóch stron, więc wskazania z niej nie ma; ``docs/rozstrzyganie.md`` liczy,
     ile ta odmowa oddaje.
     """
     świadek = rama({("zapisywać", "clause"): {"o"}})

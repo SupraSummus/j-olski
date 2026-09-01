@@ -852,7 +852,7 @@ którą `harness/skłonności.py` liczy nad Składnicą.
 Polecenie i wejścia podaje przy pierwszym
 [sekcja o leksykonie](docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a przy drugim
-[sekcja o świadku](docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+[sekcja o świadku](docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
 Wpis dopisany do takiego pliku wprost ginie przy następnym przebiegu generatora,
 a razem z nim ginie powód, dla którego go dopisano.
 Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któregoś:

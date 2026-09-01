@@ -315,7 +315,7 @@ Wzorca nie ma dla 184 z 695 przyłączeń, a dwie kategorie Składnicy to tłuma
 `_dokąd_doszło` w `harness/attachment.py` daje `noun` albo `clause`, a `Auta są
 kradzione dla okupu.` przyłącza frazę do węzła imiesłowowego, którego `CLAUSE`
 nie wylicza, więc zdanie wypada z mianownika trafności
-([tamże](../docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
+([tamże](../docs/rozstrzyganie.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)).
 Druga jest fraza werbalna z bezokolicznikiem: `Muszę jechać do domu.` przyłącza
 frazę dokładnie tam, gdzie stawia ją werdykt, i mimo to wzorca stąd nie ma.
 Ruchem jest przeczytanie, które kategorie Składnicy stoją nad imiesłowem
@@ -345,7 +345,7 @@ Stopa pomyłek warstwy jest zmierzona na 29 odpowiedziach i tyle nie odróżnia
 rejestru od banku drzew, więc
 [druga połowa hipotezy](../docs/disambiguation.md#dobre-ujednoznacznianie-jest-odczytaniem-i-jest-to-hipoteza)
 zostaje nierozstrzygnięta; liczby trzyma
-[częstość nad dokumentacją](../docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
+[częstość nad dokumentacją](../docs/rozstrzyganie.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania).
 Ruchem jest `python3 -m harness.wybory --zbuduj proza/ --z-odpowiedzią` na większe `--ile`
 i przeczytanie tego, co dojdzie; pozycji z odpowiedzią jest w tym korpusie 122,
 więc cała populacja mieści się w czterech takich próbach.
@@ -361,7 +361,7 @@ a nie dokumentacja techniczna w ogóle.
 Wsparcie dwóch wypadków banku drzew jest nad dokumentacją progiem, przy którym
 tabela skłonności myli się częściej, niż trafia:
 cztery pomyłki z siedmiu odpowiedzi opartych na tym wsparciu, wobec jednej z 22 powyżej
-([częstość nad dokumentacją](../docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
+([częstość nad dokumentacją](../docs/rozstrzyganie.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
 Ruchem jest `WSPARCIE` w `olski/rozstrzyganie.py` podniesione do trzech,
 a przed nim cena po drugiej stronie, bo próg jest punktem na krzywej i tam jest jego właściciel:
 `python3 -m harness.skłonności <Składnica> --oceń` wypisuje zasięg i trafność
@@ -371,14 +371,14 @@ wszystkie trzy są liczebnikiem cząstkowym (`jednego z kilku uprawnień`),
 czyli klasą, którą rozstrzyga reguła, a nie częstość,
 więc próg podniesiony zabiera odpowiedzi, których tabela i tak nie powinna wydawać.
 Zmiana rusza przy tym tabelę nad werdyktami banku drzew, obie próby czytane ręką
-i figury w `docs/disambiguation.md`, które je cytują,
+i figury w `docs/rozstrzyganie.md`, które je cytują,
 a `próbę zawężoną do odpowiedzi` przerysowuje w całości, bo losowanie idzie po odpowiedziach.
 
 Próba wyborów jest losowaniem nad populacją, której `pytania` już nie daje.
 Wpisy w `próba/wybory.txt` padły nad populacją mniejszą i przy innej propozycji gospodarza,
 niż daje dzisiejsze `pytania` w `harness/wieloznaczność.py`, więc ta sama komenda z `--ile 30`
 dzieli z tym plikiem dwa zdania z trzydziestu
-([tamże](../docs/disambiguation.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)).
+([tamże](../docs/rozstrzyganie.md#wzorzec-dla-rejestru-czyta-się-ręką-i-jest-go-trzydzieści-wyborów)).
 Sądów to nie unieważnia, bo zdanie i fraza stoją we wpisie w całości,
 a psuje powiększanie: `rozrzucona` w `harness/próbka.py` bierze co którąś pozycję,
 więc próba większa jest siatką przerysowaną od zera, a nie tą siatką z wpisami między nimi.
@@ -391,7 +391,7 @@ Tego samego rozstrzygnięcia żąda `próba/wybory-z-odpowiedzią.txt`, i ostrze
 bo tam populację rusza każda zmiana w warstwie, a nie tylko zmiana w szukaczu pozycji.
 Ruszyła ją już jedna: świadek ramowy stanął przed tabelą, więc część odpowiedzi
 przeczytanych w tym pliku jako odpowiedzi tabeli wydaje teraz rama, i wniosek
-[tamtej sekcji](../docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
+[tamtej sekcji](../docs/rozstrzyganie.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)
 mówi o tym, co tabela robiła, a nie o tym, co warstwa robi.
 
 Maskowanie nieciągłości zmierzono nad Składnicą, a nad rejestrem docelowym nie,

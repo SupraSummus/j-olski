@@ -5,6 +5,7 @@ rozstrzyga się słownikiem, a nie rankingiem: fraza, której schemat jednej ze
 stron żąda, przeczytana po drugiej stronie łamie ten schemat. Ten przebieg wycenił
 świadka ramowego przed dopisaniem go i wycenia go dalej: świadek wskazuje po
 stronie rzeczownika, a co byłby wart po drugiej, mówi ten przebieg.
+Wynik czyta ``docs/rozstrzyganie.md``.
 
 **Wyceniane jest pytanie, a nie odpowiedź warstwy.** Sonda pyta bank drzew o to,
 dokąd wyrażenie doszło u anotatora, i zestawia to z samym kryterium, a nie

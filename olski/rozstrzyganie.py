@@ -33,13 +33,13 @@ Fraza, której rzeczownik żąda swoim schematem, przeczytana po stronie czasown
 łamie ten schemat, a nad Składnicą pozycję taką ma kilkaset z kilku tysięcy
 wyrażeń spornych (``docs/subset.md``). Wskazuje sam rzeczownik i jest to połowa
 kryterium, o którą pytano: po stronie czasownika ta sama rama trafia tyle, ile
-rzut monetą, więc zostaje tam wetem, a nie wskazaniem (``docs/disambiguation.md``).
+rzut monetą, więc zostaje tam wetem, a nie wskazaniem (``docs/rozstrzyganie.md``).
 
 **Świadek kontekstowy odpowiada powtórzeniem, a nie znajomością rzeczy.**
 :class:`Powtórzenie` szuka w akapicie miejsca, w którym ta sama fraza stała już
 przy którymś z gospodarzy, i wtedy wskazuje tego gospodarza. Regułę szerszą —
 rzecz raz wprowadzona jest znana, więc fraza dochodzi do czasownika — odrzucono
-na kontrprzykładzie, który wraz z całym wywodem trzyma ``docs/disambiguation.md``.
+na kontrprzykładzie, który wraz z całym wywodem trzyma ``docs/rozstrzyganie.md``.
 
 **Świadek statystyczny nazywa własną częstość pomyłek.** :class:`Skłonność`
 liczy, jak często ta para przyimka i gospodarza przyłączała się w banku drzew
@@ -85,7 +85,7 @@ SKŁONNOŚCI = Path(__file__).parent / "skłonności.txt"
 #:
 #: Ta sama para progów jest przeczytana ręką nad dokumentacją techniczną i pomyłki
 #: padają tam wyłącznie na pozycjach, których nie rozstrzyga żadne słowo zdania;
-#: liczby i wywód trzyma ``docs/disambiguation.md``.
+#: liczby i wywód trzyma ``docs/rozstrzyganie.md``.
 WSPARCIE = 2
 PRÓG = 0.85
 
@@ -460,14 +460,14 @@ class Powtórzenie:
     #: Reguła kandydata, czyli to, co w sąsiedztwie liczy się za miejsce
     #: „przy gospodarzu”. Podstawiana po to, żeby dała się wycenić wariantem,
     #: a nie po to, żeby ją zmieniać w werdykcie: cenę drukuje
-    #: ``harness/powtórzenie.py``, a wywód nad nią trzyma ``docs/disambiguation.md``.
+    #: ``harness/powtórzenie.py``, a wywód nad nią trzyma ``docs/rozstrzyganie.md``.
     kandydaci: Kandydaci = _łańcuch
     #: Lematy, którymi gospodarz dowodu się nie dopasuje: kopula sama nic nie
     #: orzeka, więc powtórzenie przy niej mówi tylko tyle, że oba zdania mają to
     #: samo orzeczenie. Gospodarzem kopula zostaje, bo okolicznik zdania wisi na
     #: orzeczeniu; odpada dowód, a nie pozycja, i dlaczego tak, wywodzi
-    #: ``docs/disambiguation.md``. Lista jest pożyczona od gramatyki
-    #: (``KOPULA`` w ``olski/lematy.py``), więc lemat dopisany tam przestaje być
+    #: ``docs/rozstrzyganie.md``. Lista jest pożyczona od gramatyki
+    #: (``KOPULA`` w ``olski/walencja.py``), więc lemat dopisany tam przestaje być
     #: dowodem i tutaj.
     #: Podstawiane tą samą drogą i z tego samego powodu co :attr:`kandydaci`.
     kopuly: frozenset[str] = KOPULA
@@ -551,7 +551,7 @@ class Rama:
     a kupuje powód pod wskazaniem:
     bez weta powód mówi o jednej stronie i milczy o drugiej.
     Obie ceny wypisuje ``--oceń``,
-    a wywód nad nimi trzyma ``docs/disambiguation.md``.
+    a wywód nad nimi trzyma ``docs/rozstrzyganie.md``.
 
     Milczy, gdy przyimka żąda rama więcej niż jednego gospodarza imiennego,
     bo dowód wskazujący dwie strony naraz nie wskazuje żadnej —

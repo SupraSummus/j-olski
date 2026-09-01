@@ -5,7 +5,7 @@ choć warstwa powstała po to, żeby odpowiadać czymś ponad składnią
 ([`docs/architecture.md`](../docs/architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)).
 Widać to na kopuli: powtórzenie frazy przy `być` nie dowodzi niczego o tym czasowniku,
 więc lista kopul odbiera dowód, zamiast dać świadkowi pytanie, na które kopuła odpowiada
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Świadka pytającego o drzewo dziedziny zamiast o gospodarza zmierzono przed napisaniem
 i wyszło, że nie miałby o co pytać:
 warstwa znacząca tego rejestru nie dosięga,
@@ -62,7 +62,7 @@ Do przeczytania jest, ile ten zwrot zdejmuje: pod `--tylko-pewne` żadna liczba
 sondy nie ruszyła się o więcej niż pół punktu, więc pewność schematu tej klasy nie
 odróżnia, a przypadek jest drugim zwężeniem, jakie ten słownik daje bez czytania
 schematów ręką
-([`docs/disambiguation.md`](../docs/disambiguation.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)).
 Wpis jest winien przebiegi `harness/rama.py` oraz `--oceń`, bo rusza obie ich pary liczb.
 
 Świadek ramowy nie widzi gospodarza imiennego, którego forma ma czytanie czasownikowe.
@@ -91,7 +91,7 @@ ile pozycji spornych `harness/wieloznaczność.py` wypuszcza nad korpusem audyto
 z rzeczownikiem wypisanym w Walentym, i na ilu z nich świadek odpowiada.
 Ruchem jest wiersz w `harness/wskazania.py` albo osobny przebieg nad `proza/`,
 wzorowany na `harness/powtórzenie.py`, który tę populację już liczy
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Do rozstrzygnięcia jest, czy ta liczba jest wierszem tabeli świadków,
 czy figurą osobną: tabela liczy odpowiedzi, a to jest pytanie o mianownik pod nimi.
 
@@ -99,13 +99,13 @@ czy figurą osobną: tabela liczy odpowiedzi, a to jest pytanie o mianownik pod 
 `harness/powtórzenie.py` nad korpusem audytowym dostaje od niego 7 wskazań w granicy
 akapitu i 127 bez niej, a przeczytane ręką jest siedem pierwszych i dziesięć
 rozrzuconych po pozostałych
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
 czyli odczyt, a nie stopa pomyłek: nad 1 126 pozycjami siedemnaście sądów nie jest częstością.
 Wzorzec, przy którym byłaby, jest dwojaki i oba są cudzą robotą.
 `próba/wybory.txt` daje trzydzieści sądów, a wskazania tego świadka są w nich dwa,
 i losowanie go nie dosięga z żadnej strony: nad 1 126 pozycjami odzywa się siedem razy,
 a próba zawężona do samych odpowiedzi warstwy wzięła trzydzieści ze 123 i nie trafiła w ani jedno
-([częstość nad dokumentacją](../docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
+([częstość nad dokumentacją](../docs/rozstrzyganie.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)),
 więc po tej stronie zostaje przeczytanie wszystkich siedmiu, a nie próba.
 Drugim jest [wzorzec po drugiej stronie](../docs/disambiguation.md#wzorzec-na-tę-warstwę-jest-po-drugiej-stronie),
 bo tekst złożony przez `olski/skład` niesie czytanie, o które w nim chodziło,
@@ -120,7 +120,7 @@ wyrażenie przyimkowe, które skład umie postawić wewnątrz grupy imiennej.
 a wylosowano ją nad jednym.
 Wpisy były odpowiedziami tabeli skłonności, a po wpuszczeniu świadka ramowego
 ponad połowę z nich oddaje rama, bo stoi przed tabelą w kolejności świadków
-([`docs/disambiguation.md`](../docs/disambiguation.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#częstość-nad-dokumentacją-myli-się-tam-gdzie-nie-rozstrzyga-żadne-słowo-zdania)).
 Pięć pomyłek na 29 odpowiedziach jest przez to stopą warstwy, a nie tabeli,
 więc zestawienie jej z trafnością tabeli na połowie banku drzew
 mierzy po dwóch stronach co innego, a dokument notuje samo to, że mówi mniej.
@@ -140,7 +140,7 @@ Atrybuty kategorii.` uchodzi przez to za zdanie, w którym stała fraza
 choć fraza tego zdania jest `w dokumencie`, a między nimi stoi przecinek i dwukropek.
 Wyszło to nad korpusem audytowym przy wycenie reguły kandydata, w wariancie szerszym,
 gdzie takie dopasowanie kończyło się wskazaniem na `jest`
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Wskazania tego nie ma żaden wariant, bo dowód z kopuli dowodem nie jest,
 a samo dopasowanie stoi: warunek na kopulę zdjął wskazanie, a nie usterkę pod nim,
 i nad tym korpusem nie widać jej w żadnym przebiegu.
@@ -167,7 +167,7 @@ czyli takie, które formę o czytaniu osobowym zatrzymuje —
 Do przeczytania jest przedtem, ile ten warunek zabiera, bo łańcuch urwany za wcześnie
 odbiera gospodarza głowie grupy, czyli to, po co ten łańcuch tam stoi;
 mianownikiem jest cała populacja pozycji, którą drukuje `python3 -m harness.powtórzenie`
-([`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Ten sam warunek czyta `_łańcuch` w `olski/rozstrzyganie.py`, bo kryterium jest jedno,
 a tam urwanie łańcucha kończy się milczeniem, nie pomyłką, więc cena jest inna po obu stronach.
 
@@ -195,7 +195,7 @@ Trafność warstwy nad werdyktami mierzy się na materiale, który tabela widzia
 `harness/wskazania.py` puszcza świadków z `domyślni`, czyli z
 `olski/skłonności.txt`, a ten plik powstaje z całej Składnicy, po której ten
 przebieg idzie, więc 96,1% spod
-[tabeli nad werdyktami](../docs/disambiguation.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
+[tabeli nad werdyktami](../docs/rozstrzyganie.md#werdykt-pyta-warstwę-o-inny-wybór-niż-bank-drzew)
 jest sufitem, a nie pomiarem.
 Dotyczy to samej tabeli, a nie każdego świadka:
 `Rama` czyta leksykon wyprowadzony z Walentego, więc materiału tego przebiegu nie
@@ -225,7 +225,20 @@ którą oba pytają dziś o leksykon projektu.
 Wpis jest winien przebieg nad korpusem audytowym,
 bo dokumentacja techniczna pisze notację gęsto,
 a wskazania warstwy nad tym korpusem liczy `harness/powtórzenie.py`
-i cytuje je [`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
+i cytuje je [`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
 Do rozstrzygnięcia jest przy tym, czy warstwa ma widzieć dwa pozostałe kroki analizy:
 `admissible` odbiera czytania, których polszczyzna nie ma,
 a `po_przyimku` pyta o sąsiada, którego przy gospodarzu wziętym z werdyktu nie ma.
+
+Ile wyborów werdykty stawiają nad korpusem audytowym, mówią trzy miejsca w dwóch
+wartościach: `docs/rozstrzyganie.md` pisze przy losowaniu wzorca 49 wyborów na 2 915 zdań,
+a `harness/wieloznaczność.py` i `tests/test_powtórzenie.py` piszą 38 na tyle samo zdań.
+Jedna z nich jest sprzed zmiany w gramatyce albo w szukaczu pozycji
+i nie widać której, bo żadna nie mówi, którym przebiegiem padła.
+Dowodem do przeczytania jest liczba dzisiejsza:
+`olski-check --rozstrzygaj` nad prozą [korpusu audytowego](../docs/audit-corpus.md#the-list)
+wypisuje werdykty, a wyborem jest ten, który nazywa przyłączenie.
+Ruchem tańszym od przeliczenia jest zejście obu komentarzy do rzędu wielkości,
+bo obie liczby są tam przesłanką jednego zdania o populacji morfologicznej,
+a właścicielem liczby jest dokument
+([`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).

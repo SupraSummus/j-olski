@@ -42,7 +42,7 @@ Ruchem jest check przeliczający je z tego pliku, wzorowany na tym,
 czym `tests/test_docs.py` trzyma [blok checków](../CLAUDE.md#checks) równy workflowowi.
 Do rozstrzygnięcia jest, czy warto: klasa jest dziś tą jedną sekcją
 i jedną liczbą poza nią, czyli `998 par` w
-[`docs/disambiguation.md`](../docs/disambiguation.md#zalążek-stoi-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+[`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
 a check czytający liczbę z prozy wyrażeniem regularnym
 czerwienieje po przeredagowaniu zdania, a nie po zmianie w danych.
 
@@ -276,7 +276,7 @@ modułów, którego właścicielem jest według
 a `harness/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
 Skreślić tego nie wolno, bo drugiej kopii nie ma,
 więc ruchem jest, per docstring, albo zdanie ze wskaźnikiem na sekcję,
-która ten wywód przyjmuje — `docs/sklad.md`, `docs/disambiguation.md`,
+która ten wywód przyjmuje — `docs/sklad.md`, `docs/rozstrzyganie.md`,
 `docs/warstwa-leksykalna.md` — albo powód zapisany przy docstringu,
 czemu wywód czyta się przy kodzie, a nie w dokumencie.
 Do przeczytania jest ten trzeci:

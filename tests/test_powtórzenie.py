@@ -68,7 +68,7 @@ def test_populacja_nie_wychodzi_z_werdyktu(tmp_path: Path):
     """Zdanie, którego gramatyka nie przyjmuje, ma świadka o co zapytać.
 
     Populacja wzięta z werdyktów daje nad tym rejestrem 38 pytań na 2 915 zdań
-    (``docs/disambiguation.md``), więc zasięg mierzony na niej jest w większości
+    (``docs/rozstrzyganie.md``), więc zasięg mierzony na niej jest w większości
     liczbą o gramatyce. Sonda wpięta z powrotem w ``check`` przechodzi każdy inny
     test w tym pliku i wypisuje zasięg z powrotem bliski zeru.
 
@@ -104,7 +104,7 @@ def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_pa
     reguła wypuszczana i wygląda przez to na wycenę, której nie ma. Łańcuch
     dopełniaczowy jest tu miejscem, w którym reguły się rozchodzą: świadek
     wypuszczany widzi w nim dwóch gospodarzy i milczy, a pytający o sąsiada
-    bezpośredniego wskazuje ogon grupy (``docs/disambiguation.md``).
+    bezpośredniego wskazuje ogon grupy (``docs/rozstrzyganie.md``).
     """
     łańcuch = (
         "Opisano sposób wymiany danych z systemami zewnętrznymi. "

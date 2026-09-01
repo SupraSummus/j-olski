@@ -7,7 +7,7 @@ Kryterium przyimkowe ma tu własne testy, bo odpowiedzieć na jego pytanie
 twierdząco można z trzech powodów, z których dwa ramą lematu nie są: przyimek
 w pozycji podmiotu oraz przyimek zleksykalizowany wraz ze swoim rzeczownikiem.
 Oba zawyżałyby zasięg świadka ramowego po cichu, bo wydruk wygląda tak samo,
-a różnicę widać dopiero w liczbach `docs/disambiguation.md`.
+a różnicę widać dopiero w liczbach `docs/rozstrzyganie.md`.
 """
 
 import pytest

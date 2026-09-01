@@ -29,6 +29,9 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   Wybiera parser i nazywa to, co pakuje się pod jedną pozycję lasu.
 - [disambiguation.md](disambiguation.md) nazywa to,
   co warstwa za parserem musi rozstrzygnąć.
+  Wycenia trzy pytania, na które ujednoznacznianie się rozpada, i odrzuca ranking.
+- [rozstrzyganie.md](rozstrzyganie.md) opisuje warstwę rozstrzygającą za parserem.
+  Świadek wskazuje gospodarza obok werdyktu, a dokument liczy jego pomyłki.
 - [corpus.md](corpus.md) mierzy gramatykę na Składnicy.
   Mówi, co daje pierwszy pomiar i czego nie dowodzi liczba pokrycia.
   Składnica jest tam bankiem drzew.

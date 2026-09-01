@@ -10,7 +10,7 @@ wraca przy następnej budowie w wersji starszej i nadpisuje tę prawdziwą.
 
 Osobna własność jest o warstwie, a nie o pliku: nad próbą losowaną z całej
 populacji warstwa nie myli się ani razu. Jest to jedyne, co
-``docs/disambiguation.md`` z tej próby bierze jako własność, a nie jako pomiar, i
+``docs/rozstrzyganie.md`` z tej próby bierze jako własność, a nie jako pomiar, i
 jest to własność, którą świadek poluzowany poza swój dowód traci pierwszą. Test
 jest przez to bramką rozmyślnie: świadek dopisany jutro ma nad tą próbą albo
 trafiać, albo milczeć, a jeśli nie trafia, to czyta się wpis, a nie poprawia test.
