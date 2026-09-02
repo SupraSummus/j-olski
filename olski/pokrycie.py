@@ -35,6 +35,7 @@ from olski.morph import Segment
 from olski.parse import Result, las, podsumuj
 from olski.segmentacja import licencjonowane, morphology, na_czym_stanęło, sentences
 from olski.subset import GRAMMAR
+from olski.wejście import proza
 
 #: Length buckets for the coverage curve, as upper bounds in tokens.
 BUCKETS = (5, 10, 20, 40)
@@ -295,7 +296,7 @@ def nad_prozą(text: str, przykładów: int = 0) -> Raport:
 
     Fragment, którego nic nie punktuje jako zdania, wchodzi do wiersza
     niemierzonych, a nie do odrzuconych: nagłówek i pozycja listy dochodzą tu
-    akapitem tak samo jak zdanie (``harness/markdown.py``), a policzone jako
+    akapitem tak samo jak zdanie (``olski/markdown.py``), a policzone jako
     odrzucone mierzyłyby ekstrakcję zamiast podzbioru.
     """
     report = Raport(przykładów=przykładów)
@@ -333,7 +334,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         prog="olski-pokrycie",
         description="Zmierz pokrycie gramatyki nad plikami polskiej prozy.",
     )
-    parser.add_argument("ścieżki", nargs="+", metavar="ścieżka", help="pliki polskiej prozy")
+    parser.add_argument(
+        "ścieżki", nargs="+", metavar="ścieżka", help="pliki polskiej prozy albo dokumenty"
+    )
     parser.add_argument("--blockers", type=int, default=12, help="how many blockers to rank")
     parser.add_argument("--examples", type=int, default=0, help="sentences to show per outcome")
     args = parser.parse_args(argv)
@@ -346,7 +349,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
 
     raporty = [
-        nad_prozą(ścieżka.read_text(encoding="utf-8"), args.examples) for ścieżka in ścieżki
+        nad_prozą(proza(ścieżka), args.examples) for ścieżka in ścieżki
     ]
     nad = ", ".join(ścieżka.name for ścieżka in ścieżki)
     print(render(scal(raporty, args.examples), nad, args.blockers))

@@ -33,7 +33,7 @@ import argparse
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
-from harness.markdown import PARSER
+from olski.markdown import PARSER
 from olski.werdykt import check
 
 KORZEŃ = Path(__file__).resolve().parent.parent
@@ -63,7 +63,7 @@ def wstawki(tekst: str) -> Iterator[str]:
     """Treść każdej wstawki kodowej i każdy wiersz bloku ``text``.
 
     Gdzie stoi wstawka, mówi parser, a nie wzorzec w tym pliku, z tego samego
-    powodu, dla którego mówi to w ``harness/markdown.py``: ciąg backticków bywa
+    powodu, dla którego mówi to w ``olski/markdown.py``: ciąg backticków bywa
     otwarciem bloku, a bywa wstawką, i rozstrzyga to specyfikacja.
     """
     for token in PARSER.parse(tekst):

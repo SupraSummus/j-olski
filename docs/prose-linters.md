@@ -260,7 +260,7 @@ which is how it gets around the wall proselint's copyrighted corpus hit.
 Vale, textlint and RedPen parse the markup themselves
 and let a rule name the elements it applies to.
 olski settled that question the other way:
-formats stayed outside the linter,
+formats stayed outside the rules,
 and a check that needed prose declined on a file whose format could not give it.
 The separation outlived the linter,
 because the grammar takes plain sentences on the same terms

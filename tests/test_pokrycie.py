@@ -74,6 +74,18 @@ def test_przebieg_nad_prozą_nazywa_pliki_a_nie_bank_drzew(tmp_path, capsys):
     assert "forests" not in wydruk
 
 
+def test_dokument_liczy_się_zdaniami_a_nie_znacznikami(tmp_path, capsys):
+    #  Obie komendy paczki czytają plik autora tak samo (``olski/wejście.py``),
+    #  więc bez ekstrakcji zdanie wpadłoby tu do odrzuconych, a nagłówek do
+    #  niemierzonych.
+    ścieżka = tmp_path / "notatka.md"
+    ścieżka.write_text("# Nagłówek\n\nZapisz **plik** konfiguracyjny.\n", encoding="utf-8")
+    assert main([str(ścieżka)]) == 0
+    wydruk = capsys.readouterr().out
+    assert "olski over 1 measured sentences" in wydruk
+    assert "100.0%  valid" in wydruk
+
+
 def test_katalog_podany_obok_pliku_jest_odmówiony_a_nie_czytany(tmp_path, capsys):
     #  Ten przebieg czyta pliki prozy i nic poza nimi, więc katalog jest tu
     #  pomyłką, której nie wolno przeczytać jako pliku. Bank drzew chodzi osobną

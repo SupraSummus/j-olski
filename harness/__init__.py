@@ -35,11 +35,13 @@ bo ``[project.scripts]`` jest wykazem tego, co dostaje użytkownik.
 Skryptu pisanego na jeden pomiar to nie obejmuje:
 ten zostaje w sesji, która mierzyła (``CLAUDE.md#code``).
 
-The grammar takes plain Polish sentences, and a corpus arrives as Markdown or as
-an act of parliament served in HTML, so a body of text reaches the grammar
-through here rather than through olski: reading a document format is a different
-job from deriving a sentence, and keeping it out is what lets the grammar hold no
-view of any format. What an extraction invents on the way is docs/extraction.md.
+Korpus przychodzi w Markdownie albo ustawą podaną w HTML-u, a gramatyka bierze
+zdania, więc przed nią pracuje ekstrakcja. Kryterium wyżej dzieli ją na dwoje.
+Czytanie dokumentu należy do ``olski/markdown.py``, bo o prozę swojego pliku
+pyta ten, kto olskiego używa. Tutaj zostaje przygotowanie korpusu: obejście
+drzewa, wybór po języku i wyjście powtarzające kształt wejścia, a wraz z nimi
+format, którego własnym tekstem nie sprawdza nikt — rejestr ustaw podany stroną
+HTML. Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
 
 Only the reading of one file differs between formats. The walk over a tree, the
 selection by language and the mirrored output are the same step every time, so

@@ -690,7 +690,7 @@ and several belong to a corpus *build* or to an extraction:
 the CRLF endings, the asterisk emphasis, the space-aligned tables
 and the licence notice were all put there by whoever made the text export,
 and a path standing where a reader sees a link's text
-is what `harness/markdown.py` keeps on purpose.
+is what `olski/markdown.py` keeps on purpose.
 [corpora.md](corpora.md#what-the-survey-settles) states the general form of this,
 having measured it on corpora that announce themselves as builds.
 What these runs add is that a plain-text file carries the same freight,

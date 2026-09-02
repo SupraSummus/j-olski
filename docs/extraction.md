@@ -3,9 +3,17 @@
 The grammar takes plain Polish sentences,
 and the bodies it is measured against
 include documentation and notes kept in Markdown.
-So a step before the grammar turns a corpus into files olski reads as prose:
-`harness/markdown.py`, outside the `olski` package,
-because reading a document format is a different job from deriving a sentence.
+Prozę wyjmuje z dokumentu `olski/markdown.py`,
+a robi to w locie pod komendą,
+więc dokument sprawdza się tak, jak leży:
+
+```sh
+python3 -m olski.check korpus/*.md
+```
+
+Krok osobny zostaje przy korpusie,
+bo pomiar żąda dwóch rzeczy, których sprawdzenie pliku nie żąda:
+wyboru po języku i drzewa plików prozy, po którym potem chodzą sondy.
 
 ```sh
 python3 -m harness.markdown korpus/ --into proza/
@@ -66,11 +74,14 @@ i dlatego trzecia klasa mogła tam siedzieć nienazwana.
 Znalazło ją przeliczenie: przebieg przed zmianą i po niej
 nad tym samym korpusem, plik po pliku.
 
-Cena stoi w [`pyproject.toml`](../pyproject.toml).
-Parser jest zależnością harnessu, a nie olskiego —
-gramatyka czyta czysty tekst i o formacie dokumentu zdania nie ma —
-więc deklaruje się tam, gdzie instalują się narzędzia do testów,
-a powierzchnia zależności samego pakietu zostaje jednym wpisem, jakim była.
+Cena stoi w [`pyproject.toml`](../pyproject.toml) i jest jednym wpisem:
+parser jest zależnością paczki, bo dokument czyta `olski-check`.
+Wpis ten kupuje obsługę formatu, której nie piszemy,
+i po tym biegnie granica: czy format czyta biblioteka, czy my.
+Ekstrakcja stała przedtem poza paczką z granicy poprzedniej,
+czyli z tego, że czytanie formatu jest inną robotą niż wyprowadzanie zdania.
+Kosztowało to autora krok przed sprawdzeniem własnego pliku,
+a nie broniło przed niczym: własnego Markdownu i tak nie piszemy.
 
 ## What it drops and what it keeps
 
@@ -82,7 +93,7 @@ list and blockquote markers are dropped and their text kept,
 and the lines of a paragraph are joined with single spaces,
 so a line of the result is a paragraph
 and where the author's editor wrapped leaves no trace in what comes out.
-`harness/markdown.py` is the truthful copy of all of that;
+`olski/markdown.py` is the truthful copy of all of that;
 what follows is what the code cannot show.
 
 ## An inline construct leaves its text, or takes the space with it

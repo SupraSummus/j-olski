@@ -362,7 +362,7 @@ Bloki Markdowna czyta w tym repozytorium jeden program wzorcem, a drugi parserem
 bo `_wydruki` obok potrzebuje numeru wiersza:
 paruje blok poleceń z wydrukiem stojącym pod nim.
 `wstawki` w `harness/cytaty.py` pyta o to samo `markdown_it`,
-czyli tak, jak granicę między parserem a decyzją stawia `harness/markdown.py`.
+czyli tak, jak granicę między parserem a decyzją stawia `olski/markdown.py`.
 Różnica nie jest kosmetyczna: wzorzec po wierszach czyta ciąg backticków
 otwierający blok tak samo jak wstawkę i nie schodzi do pozycji listy.
 Ruchem jest przepisanie tamtego czytnika na tokeny,

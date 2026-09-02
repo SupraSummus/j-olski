@@ -17,16 +17,15 @@ requires-python = ">=3.11"
 #  którą licencją, mówi `REUSE.toml` i on jest właścicielem tej deklaracji.
 license = "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
 license-files = ["LICENSES/*.txt"]
-dependencies = ["morfeusz2>=1.99"]
+#  Parser Markdownu jest zależnością paczki, bo `olski-check` bierze plik, który
+#  autor napisał, i prozę wyjmuje z niego sam (`olski/markdown.py`). Ceną jest ten
+#  jeden wpis, i tyle ma być tej ceny: własnej obsługi formatu nie piszemy.
+dependencies = ["markdown-it-py>=3", "morfeusz2>=1.99"]
 
 [project.optional-dependencies]
-#  markdown-it-py is the harness's parser rather than olski's: the grammar reads
-#  plain text and takes no view of a document format. It is declared here because
-#  this is what the checks install, and harness/ is not a package anybody
-#  installs.
 #  `reuse` sprawdza deklarację z `REUSE.toml` i wchodzi tędy z tego samego powodu
 #  co reszta: instaluje ją blok checków.
-dev = ["markdown-it-py>=3", "pytest>=8", "reuse>=6", "ruff>=0.5"]
+dev = ["pytest>=8", "reuse>=6", "ruff>=0.5"]
 #  Serwer HTTP witryny, czyli jedyna zależność bocznego toru. Aplikacja jest
 #  funkcją WSGI ze standardowej biblioteki, więc suita nie woła gunicorna, a
 #  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.

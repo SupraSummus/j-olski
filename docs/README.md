@@ -41,7 +41,7 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   zbiera feedback z fotela użytkownika.
   Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
 - [extraction.md](extraction.md)
-  prowadzi korpus w Markdownie do gramatyki
+  prowadzi dokument w Markdownie do gramatyki
   i mówi, co ten krok po drodze zmyśla.
 - [corpora.md](corpora.md) przegląda polszczyznę pisaną przez ludzi
   i mówi, co każdy kandydat na korpus niesie w swoim rejestrze.

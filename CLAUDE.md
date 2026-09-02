@@ -737,9 +737,9 @@ reuse lint
 npx --yes markdownlint-cli@0.45.0 '**/*.md'
 ```
 
-Morfeusz 2 jest zależnością wykonawczą i instaluje się z PyPI,
-więc instalacja edytowalna przynosi go razem z pytestem, ruffem
-i parserem, którym harness czyta Markdown.
+Morfeusz 2 i parser Markdownu są zależnościami wykonawczymi
+i instalują się z PyPI,
+więc instalacja edytowalna przynosi je razem z pytestem i ruffem.
 Gdzie jego wheel się nie buduje,
 każdy plik testowy dochodzący do analizatora jest pomijany,
 zamiast wywracać zbiórkę,

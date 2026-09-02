@@ -1,5 +1,9 @@
 """Sprawdzenie tekstu wobec gramatyki, z wiersza poleceń.
 
+Komenda bierze plik, który autor napisał, i prozę wyjmuje z niego sama
+(:func:`olski.wejście.proza`), więc dokumentu nikt nie przepisuje wcześniej na
+zwykły tekst.
+
 Wydruk zgłasza znaleziska i milczy o zdaniu, o którym nie ma nic do powiedzenia
 (:func:`_wiersze`), a ile tego milczenia było, mówi ostatni wiersz przebiegu
 (:class:`olski.werdykt.Podsumowanie`).
@@ -13,6 +17,7 @@ from collections.abc import Iterator, Sequence
 from pathlib import Path
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
+from olski.wejście import proza
 from olski.werdykt import (
     OdczytaniaFormy,
     Podsumowanie,
@@ -143,7 +148,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Sprawdź zdania polskiego tekstu: zgłoś wieloznaczne, "
         "a o zdaniach, których olski nie czyta, milcz do flagi.",
     )
-    parser.add_argument("paths", nargs="*", help="pliki zwykłego polskiego tekstu")
+    parser.add_argument("paths", nargs="*", help="pliki polskiego tekstu albo dokumenty")
     parser.add_argument("-c", "--text", help="sprawdź ten tekst zamiast pliku")
     parser.add_argument(
         "--readings",
@@ -178,7 +183,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     for raw in args.paths:
         path = Path(raw)
         try:
-            sources.append((raw, path.read_text(encoding="utf-8")))
+            sources.append((raw, proza(path)))
         except (OSError, UnicodeDecodeError) as error:
             print(f"olski-check: nie udało się przeczytać {raw}: {error}", file=sys.stderr)
             return 2
