@@ -624,15 +624,15 @@ Rzecz, która ma te trzy, kosztuje jedną zmienną.
 Rzecz, której którejś brakuje, kanału cech nie dostaje,
 i w tym repozytorium widać każdą taką wychodzącą bokiem.
 
-Warunek ujemny nie zawęża, więc stoi poza `unify`.
+Wykluczenie lematu nie zawęża, więc stoi poza `unify`.
 `bez_lematów` w `olski/grammar.py` jest osobnym polem i osobnym testem,
-bo przecięcie zbiorów nie ma jak powiedzieć „nie”.
+bo przecięcie zbiorów nie ma jak powiedzieć „nie” o lemacie.
 Monotoniczność, spod której ten warunek ucieka, jest przy tym nośna:
 `licencjonuje` pyta wobec `EMPTY` i odpowiada poprawnie tylko dlatego,
 że unifikacja nigdy nie poszerza,
 co [więzy wyprowadzone z gramatyki](#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)
 biorą za darmo.
-Warunek ujemny tej gramatyki płaci więc polem za to,
+Wykluczenie płaci więc polem za to,
 z czego wszystko obok niego żyje,
 i płaci nim na każdy zasięg, o jaki pyta:
 osobne pole ma wykluczenie czytania, osobne wykluczenie całej formy
@@ -651,6 +651,27 @@ Kupuje to klasę, którą tagset rozdziela, a produkcja nie umiała zażądać �
 przysłówek odprzymiotnikowy niesie stopień, a pierwotny nie —
 i tyle wystarcza, żeby przymiotnik brał jednego z nich
 ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#naprawę-niesie-tagset-a-formalizm-ją-bierze)).
+
+Żądanie odwrotne — że część tej cechy nie niesie — pola nie potrzebuje,
+bo jest dolnym krańcem żądania wartości, które unifikacja ma.
+Więz na zbiór wpuszcza konstytuent niosący którąś z wypisanych wartości,
+a obok niego ten, który cechy nie niesie wcale i przez to się z nią nie kłóci.
+Więz na zbiór pusty wpuszcza więc tego drugiego i tylko jego
+(`NIE_NIESIE` w `olski/grammar.py`).
+Żąda tak gramatyka gospodarza bez dostawki
+oraz wypełnienia bez drugiej pozycji ramy,
+czyli tam, gdzie cechę niesie jedna strona, a druga o niej milczy.
+
+Powiedzieć to samo wartością, której nikt nie wypuszcza, też się da,
+i jest to alternatywa odrzucona.
+Płaci się za nią sprawdzeniem martwych więzów:
+taka wartość wygląda dokładnie tak jak literówka w wartości,
+więc sprawdzenie musi wtedy milczeć o każdym więzie na cechę,
+o której choć jedna produkcja gospodarza milczy
+(`więzy_niespełnialne` w `olski/grammar.py`).
+Rozdzielone mówią po jednej rzeczy,
+a sprawdzenie orzeka o każdym więzie na wartość, nie tylko o części z nich;
+że nie pomija żadnego, wypisuje `więzy_nierozstrzygnięte` obok niego.
 
 Rodzaj grupy współrzędnej nie jest symetryczny między członami,
 bo polszczyzna wylicza go regułami, których unifikacja nie umie powiedzieć,
