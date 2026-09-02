@@ -382,6 +382,21 @@ def test_przyimek_dopasowuje_się_lematem_a_nie_napisem():
     assert odpowiedź.gospodarz == "wymiany"
 
 
+def test_powód_ramy_wybiera_lemat_kolejnością_a_nie_z_worka():
+    """Powód ma być ten sam w każdym przebiegu, a zbiór lematów kolejności nie ma.
+
+    ``systemie`` żąda tu i przez ``system``, i przez ``systema``,
+    a gospodarz o dwóch lematach żądających jest jednym wskazaniem, nie dwoma,
+    więc lemat w powodzie jest wyborem między nimi
+    (``_żądający`` w ``olski/rozstrzyganie.py``).
+    """
+    przyłączenie = Przyłączenie(modyfikator="z awarią", gospodarze=("wymienia", "systemie"))
+    świadek = rama({("system", "noun"): {"z"}, ("systema", "noun"): {"z"}})
+    (odpowiedź,) = rozstrzygnij([przyłączenie], [świadek])
+    assert odpowiedź.gospodarz == "systemie"
+    assert "„system”" in odpowiedź.powód
+
+
 def test_powtórzenie_bije_skłonność_przeciwnego_zdania():
     """Dowód o tym tekście bije dowód o cudzym korpusie, więc kolejność jest ta.
 
