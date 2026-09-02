@@ -763,6 +763,18 @@ więc `Mysz goni ogon.` i `Kufer zasłania lustro.` są dla tej warstwy niewidzi
 Jest to ta sama luka, którą prior-art nazywa przy `być`, `mieć` i `czytać`:
 ramy nie mają czasowniki najczęstsze, a rejestr stoi właśnie na nich.
 
+Miarę osoby ta warstwa dostała lepszą, a czytania zdejmuje dalej tak samo, czyli wcale.
+Deklaracja osób projektu orzeka o klasach osobowych bez wordnetu
+([warstwa-leksykalna.md](warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+więc `któryś etap` przestaje być nie-człowiekiem przez samą swoją odmianę:
+orzeka o nim to, czy autor wpisał go między osoby.
+Przesłanki filtra to jednak nie naprawia, bo zła była w nim nie miara,
+tylko założenie, że rzecz w pozycji osoby jest usterką.
+Ta proza pisze `reguła żąda` rozmyślnie,
+więc czytanie zdjęte na żądaniu osoby ginęłoby i tam, gdzie autor je napisał,
+i tak właśnie zginęły czytania zdaniom, które pomiar wyżej wypisał.
+Deklaracja wypisuje przez to pozycję i zostawia sąd czytelnikowi.
+
 **Temat.**
 Skład wyprowadza szyk z tego, co w zdaniu jest tematem, a co nowe
 ([README](../README.md)),

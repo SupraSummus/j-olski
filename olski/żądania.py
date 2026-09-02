@@ -18,6 +18,9 @@ i bez niego działa też przekład, który ten plik pisze.
 Warstwa nazywa żądanie i nie pyta, czy słowo stojące w pozycji je spełnia;
 orzekłby o tym wordnet, którego to repozytorium nie ma
 (docs/open-questions.md#shared-questions).
+Wyjątkiem są klasy osobowe (:data:`OSOBOWE`), bo tam odpowiada projekt sam,
+deklaracją swoich osób (``olski/osoby.py``); żądanie i tam wychodzi stąd,
+a spełnienie stamtąd.
 
 **Milczenie jest odpowiedzią pełnoprawną**, tak samo jak w warstwie
 rozstrzygającej (``olski/rozstrzyganie.py``), i jest odpowiedzią domyślną
@@ -53,6 +56,14 @@ DOWOLNA = "ALL"
 SYNSETY = "synsety"
 RELACJA = "relacja"
 NIENAZWANE = frozenset({SYNSETY, RELACJA})
+
+#: Klasy, które Walenty stawia tam, gdzie w pozycji ma stanąć ktoś: człowiek,
+#: istota żywa oraz podmiot, czyli ten, kto działa jak człowiek, a człowiekiem
+#: nie jest — organ, spółka, państwo. Trzy razem, bo pytanie, na które projekt
+#: odpowiada deklaracją (``olski/osoby.py``), jest jedno: czy słowo stojące
+#: w pozycji nazywa kogoś. Rozdzielenie ich żądałoby taksonomii, a ta jest
+#: właśnie tym, czego bez wordnetu nie ma.
+OSOBOWE = frozenset({"LUDZIE", "ISTOTY", "PODMIOTY"})
 
 #: Pozycje, których nazwą jest przypadek wypełnienia, czyli te, o które pyta
 #: rola nazywająca kilka pozycji naraz (:attr:`olski.parse.Obsada.przypadkowe`).
@@ -117,3 +128,18 @@ def żądane(słowa: Iterable[tuple[str, str]], pozycja: str) -> frozenset[str]:
             return frozenset()
         zebrane |= klasy
     return frozenset(zebrane)
+
+
+def żąda_osoby(klasy: Iterable[str]) -> bool:
+    """Czy tej alternatywy nie spełnia nic poza kimś (:data:`OSOBOWE`).
+
+    Odpowiedź jest połową pytania także tutaj: mówi ona o żądaniu, a o słowie
+    stojącym w pozycji orzeka deklaracja projektu (``olski/osoby.py``).
+
+    Klasa nienazwana znosi żądanie w całości, tak samo jak :data:`DOWOLNA`
+    w :func:`żądane`, i tym ta odpowiedź jest węższa od wiersza, który klasy
+    wypisuje: pozycja żądająca w jednym znaczeniu ludzi, a w drugim zbioru
+    synsetów, bywa obsadzona rzeczą i o tej rzeczy plik nie mówi nic.
+    """
+    zbiór = frozenset(klasy)
+    return bool(zbiór) and zbiór <= OSOBOWE

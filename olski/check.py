@@ -26,6 +26,7 @@ from olski.werdykt import (
     Żądanie,
     check,
     dalsze_zatrzymania,
+    niespełnione_żądania,
 )
 from olski.żądania import NIENAZWANE
 
@@ -112,6 +113,26 @@ def _wiersz_żądania(wiersz: Żądanie, wcięcie: str) -> str:
     return f"{wcięcie}{wiersz.rola} „{wiersz.wypełnienie}”: „{wiersz.czasownik}” żąda klasy {klasy}"
 
 
+def _wiersz_osoby(wiersz: Żądanie) -> str:
+    """Żądanie osoby, którego wypełnienie nie spełnia, jako wiersz wydruku.
+
+    Wiersz nazywa klasę tak jak :func:`_wiersz_żądania`, bo bez niej nie da się
+    go sprawdzić w Walentym, a kończy się lematem, bo deklaracja projektu jest
+    o lemacie, a nie o formie stojącej w zdaniu (``olski/osoby.py``).
+
+    Klasy nienazwanej ten wiersz nie ma czym wypisać i nie ma po co:
+    alternatywa z nią nie jest żądaniem osoby
+    (:func:`olski.żądania.żąda_osoby`), więc tutaj taka klasa nie dochodzi.
+    Lematy idą alfabetycznie, bo stoją w zbiorze
+    (:func:`olski.werdykt._zwinięte`), a wydruk kolejności ze zbioru nie bierze.
+    """
+    lematy = ALBO.join(f"„{lemat}”" for lemat in sorted(wiersz.lematy))
+    return (
+        f"{wiersz.rola} „{wiersz.wypełnienie}”: „{wiersz.czasownik}” żąda klasy "
+        f"{ALBO.join(wiersz.klasy)}, a {lematy} nikogo nie nazywa"
+    )
+
+
 def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
@@ -173,6 +194,9 @@ def _wiersze(
     #  Żądania za morfologią, bo mówią o pozycji, którą czytanie już obsadziło.
     if args.żądania:
         yield from _wykaz(verdict.żądania, _wiersz_żądania)
+    #  Osoby za żądaniami, bo są tymi żądaniami, na które projekt odpowiedział.
+    if args.osoby:
+        yield from map(_wiersz_osoby, niespełnione_żądania(verdict))
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo)
 
@@ -204,6 +228,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--żądania",
         action="store_true",
         help="pokaż, czego czasownik żąda od słowa stojącego w jego pozycji",
+    )
+    parser.add_argument(
+        "--osoby",
+        action="store_true",
+        help="pokaż pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz",
     )
     parser.add_argument(
         "--zatrzymania",
