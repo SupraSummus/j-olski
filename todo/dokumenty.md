@@ -280,7 +280,7 @@ modułów, którego właścicielem jest według
 a `harness/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
 Skreślić tego nie wolno, bo drugiej kopii nie ma,
 więc ruchem jest, per docstring, albo zdanie ze wskaźnikiem na sekcję,
-która ten wywód przyjmuje — `docs/sklad.md`, `docs/rozstrzyganie.md`,
+która ten wywód przyjmuje — `docs/po-wypisaniu.md`, `docs/rozstrzyganie.md`,
 `docs/warstwa-leksykalna.md` — albo powód zapisany przy docstringu,
 czemu wywód czyta się przy kodzie, a nie w dokumencie.
 Do przeczytania jest ten trzeci:
@@ -444,3 +444,22 @@ Do przeczytania jest sekcja o czterech osiach z tego samego dokumentu:
 głębokość jest tam osią każdej reguły, więc dopisany wiersz rusza i ją.
 Reguł to nie dotyczy ani jednej:
 każda, która weszła do wycofanego pakietu, rozstrzygała się na znaku.
+
+Lista ośmiu checków w
+[`docs/formy-i-leksemy.md`](../docs/formy-i-leksemy.md#checks-that-are-cheap-deterministic-and-explainable)
+jest planem pisanym przed kompilatorem, a pięć jej pozycji opisuje dziś kod:
+zgodność w grupie imiennej, zgodność podmiotu z orzeczeniem, rząd czasownika,
+rząd przyimka i dopełniacz negacji są w linearyzacji policzone, a nie sprawdzane,
+i właścicielem tego jest moduł, a nie ta lista
+([`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)).
+Skreślić jej mimo to nie wolno wprost, bo jest dowodem tezy nad nią —
+że te checki są skończone, liniowe i umieją powiedzieć, czemu zawiodły —
+a tezy tej nie powtarza żaden inny akapit.
+Ruchem jest przejść osiem pozycji przeciw kodowi
+i przepisać sekcję na samą tezę wraz z akapitem o diagnostyce pod nią,
+zostawiając z listy te pozycje, których kod nie ma.
+Do przeczytania są trzy pozostałe, bo one rozstrzygają, ile z listy zostaje:
+aspekt bezokolicznika, o którym `olski/skład/makieta.py` mówi, że nikt go nie sprawdza,
+uzgodnienie rodzaju pod koordynacją, którego `razem` w `olski/skład/słownik.py`
+albo żąda, albo nie żąda,
+oraz miejsce cząstki `się`, o które nie pytał dotąd nikt.

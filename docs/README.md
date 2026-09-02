@@ -62,8 +62,15 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 
 ## Tor składu
 
-- [sklad.md](sklad.md) mówi, co tekst wie ponad zdaniem
-  i czego brakuje w leksykonie.
+- [sklad.md](sklad.md) rozstrzyga, na jakim poziomie stoją kategorie zapisu,
+  i mówi, który z trzech pozostałych plików czytać.
+- [kategorie-zapisu.md](kategorie-zapisu.md) jest rejestrem tych kategorii
+  wraz z tym, skąd wzięła się kolejka, w której powstawały.
+  Czytelnik przebiega go do swojego wpisu.
+- [po-wypisaniu.md](po-wypisaniu.md) opisuje przegląd ról, obieg zamknięty
+  i makietę, czyli to, czego nie widać przed wypisaniem napisu.
+- [formy-i-leksemy.md](formy-i-leksemy.md) mówi, co się liczy zamiast sprawdzać
+  i czego pod kategoriami brakuje w leksykonie i w formach.
 
 ## Oba tory
 

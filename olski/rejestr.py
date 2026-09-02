@@ -4,7 +4,7 @@ Kwalifikator mówi o formie więcej niż jedną rzecz i tylko jedna z nich jest
 rejestrem: `daw.` przy `ócz` odsyła formę poza tę prozę, a `anat.` przy `oczy`
 nazywa dziedzinę. Dlatego :data:`POZA_REJESTREM` wypisuje kwalifikatory
 odsyłające, a nie przyjmowane; wywód tego podziału wraz z ceną trzyma
-``docs/sklad.md``.
+``docs/formy-i-leksemy.md``.
 
 Obie strony słownika czytają tę listę i robią z niej co innego.
 Synteza formę odesłaną zdejmuje, bo wybiera jedną z kilku poprawnych
@@ -23,7 +23,7 @@ from collections.abc import Iterable
 #: nazwa rejestru, której tu nie ma, przechodzi jak nazwa dziedziny,
 #: a nazwa wpisana tu z literówką nie odsiewa niczego i nie zgłasza tego nigdzie,
 #: bo świadka w słowniku ta lista nie ma, a leksykon przyimków obok ma połowę swojego.
-#: Skąd się wzięła i czym ją przeliczyć, mówi ``docs/sklad.md``.
+#: Skąd się wzięła i czym ją przeliczyć, mówi ``docs/formy-i-leksemy.md``.
 POZA_REJESTREM = frozenset(
     {
         "daw.",

@@ -226,7 +226,7 @@ bo czytelnik dostaje najpierw las rozbiorów, a potem to, po co przyszedł.
 **Obsadza ją** autor.
 Widać to po tym, że kolejkę konstrukcji ustawił tekst,
 a nie lista spisana z góry
-([sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
+([kategorie-zapisu.md](kategorie-zapisu.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
 
 ## Ktoś, kto zestawia to z tym, co już istnieje
 

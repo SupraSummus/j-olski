@@ -212,7 +212,7 @@ ciąg imienny robi ją tak samo, a wpis o apozycji trzyma
 `olski/skład/rozbiór.py` schodzi przez ciąg i człon do przyimka,
 a ciąg o kilku członach zgłasza brakiem kategorii,
 bo okoliczność mówi w tamtym zapisie o jednej relacji i o jednej rzeczy
-([sklad.md](../sklad.md)).
+([kategorie-zapisu.md](../kategorie-zapisu.md#okoliczność-nie-pyta-czy-stoi-pod-nią-rzecz-czy-zdarzenie)).
 Gałąź ta jest ceną, którą tamten kierunek płaci za każdy nowy poziom gramatyki,
 i płaci ją niezależnie od tego, czy sam ten poziom umie powiedzieć.
 

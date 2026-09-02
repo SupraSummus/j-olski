@@ -213,7 +213,7 @@ def _obojętny(segment: Segment, orzeczenie: Reading) -> bool:
     jako jedno ``subst:sg:nom.acc:m3``. Warunek pytany o czytanie mijał więc
     ``Mysz goni ogon.``, czyli mylił się w stronę mniejszą tam, gdzie ten pomiar
     nazywa swoją liczbę górnym oszacowaniem. Zgłosił to skład, który tę samą
-    klasę liczy porównaniem napisów (``docs/sklad.md``).
+    klasę liczy porównaniem napisów (``docs/po-wypisaniu.md``).
 
     Dwa węższe warianty tego warunku są zmierzone i po jednym zdaniu każdy;
     ceny i wnioski trzyma ``docs/open-questions.md``.

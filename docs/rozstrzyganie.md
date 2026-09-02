@@ -103,7 +103,7 @@ bo wskazuje czytanie, które polszczyzna wybrała już bez niego.
 Sąsiedztwem jest akapit, a granicę tę bierzemy stąd, skąd bierze ją druga strona:
 skład opuszcza podmiot wtedy, gdy o rzeczy była mowa w zdaniu obok,
 a akapit jest tym, w czym „obok” się kończy
-([sklad.md](sklad.md)).
+([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
 Czyta się je wstecz, bo czytelnik idzie od początku do końca,
 i lematami, bo `w systemach` i `w systemie` są tą samą frazą o tej samej rzeczy.
 Pytanie idzie przy tym o to, co stało przed frazą, a nie o część mowy,

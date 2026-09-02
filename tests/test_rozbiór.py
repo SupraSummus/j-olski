@@ -407,7 +407,7 @@ def test_sygnatura_mówi_które_wystąpienia_są_jedną_rzeczą_a_nie_którą():
 
 
 def test_dwa_szyki_jednego_zdania_logicznego_wychodzą_jednym_znaczeniem():
-    """Para, o której ``docs/sklad.md`` mówi, że znaczy to samo, wychodzi tu równa.
+    """Para, o której ``docs/po-wypisaniu.md`` mówi, że znaczy to samo, wychodzi tu równa.
 
     Oba zdania mają ten sam komplet ról i różni je to,
     co która z nich stawia na czele.

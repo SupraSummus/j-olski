@@ -325,7 +325,7 @@ Czwarty warunek `pomijalny` pyta, czy tej samej formy nie wyciąga z czasownika 
 i jest to test na zbiór dystraktorów,
 czyli to samo, na czym stoi przyrostowy algorytm Dale'a i Reitera (1995).
 Wywód o tym warunku trzyma
-[sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie);
+[kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie);
 ten akapit mówi tylko tyle, że nie jest on domowy.
 Ten sam mechanizm poza tradycją lingwistyczną ma RosaeNLG,
 gdzie wyrażenie referencyjne jest funkcją szablonu,

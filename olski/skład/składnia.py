@@ -656,7 +656,7 @@ class Treść:
     ``V.chcieć(kot, V.spać(kot))`` i ``V.wiedzieć(kot, Treść(V.spać(kot)))``
     stawiają pod czasownikiem to samo zdarzenie i mówią dwie różne rzeczy,
     więc nie ma jak policzyć tego z tego, kto w zdarzeniu działa.
-    Po co ta kategoria jest opowieści, mówi ``docs/sklad.md``.
+    Po co ta kategoria jest opowieści, mówi ``docs/kategorie-zapisu.md``.
 
     Zdaniem ta klasa nie jest, choć zdanie w sobie trzyma,
     i jest to rozstrzygnięcie, a nie wygoda dziedziczenia.
@@ -1094,7 +1094,7 @@ class Robi(Zdanie):
     i jest nim ta sama zmienna postawiona dwa razy, jak w ``Opis`` i w ``Postać``.
     Drzewo, które postawiło tam kogoś innego, zgłasza się,
     bo bezokolicznik podmiotu nie ma i wyszedłby tekstem o kimś innym;
-    czego polszczyzna mówi tam zamiast niego, trzyma ``docs/sklad.md``.
+    czego polszczyzna mówi tam zamiast niego, trzyma ``docs/kategorie-zapisu.md``.
 
     Pytania padają w konstruktorze, a nie w linearyzacji,
     bo to konstruktor mówi, co z czym wolno złożyć,

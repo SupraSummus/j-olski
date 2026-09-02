@@ -6,7 +6,7 @@ zgodność jest policzona, rama sprawdzona, forma wzięta ze słownika,
 a mimo to ``Koszt szynki przewyższa koszt bułki.`` nie mówi, co tu jest większe.
 Ten moduł jest miejscem, w którym takie zdanie się zgłasza,
 a dlaczego zgłasza, zamiast się nie skompilować,
-rozstrzyga ``docs/sklad.md`` wraz z resztą postawy tego przeglądu.
+rozstrzyga ``docs/po-wypisaniu.md`` wraz z resztą postawy tego przeglądu.
 
 Liczone jest to z form, które skład sam wypisał, i nic poza nimi nie wchodzi.
 Rola wraca czytelnikowi z formy i z czasownika, więc pyta się o jedno i o drugie:

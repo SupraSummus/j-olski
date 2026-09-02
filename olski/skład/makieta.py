@@ -7,7 +7,7 @@ Losowane jest tu drzewo, a nie napis, bo gramatyczności nie ma czym naruszyć �
 zgodność w tym kierunku jest policzona, a nie sprawdzona.
 Odsiewa się jedno, czyli zdanie, z którego czytelnik nie odzyska ról,
 i pyta o to ``olski/skład/przegląd.py``.
-Po co ten moduł jest i czego zażądał od tego pakietu, mówi ``docs/sklad.md``.
+Po co ten moduł jest i czego zażądał od tego pakietu, mówi ``docs/po-wypisaniu.md``.
 
 Sensu ten moduł nie pilnuje i pilnować nie ma.
 `Wiadro kupiło nóż.` jest zdaniem polskim, a nie zdaniem o wiadrze,
@@ -17,7 +17,7 @@ Tabele niżej dobierają więc lematy pod formę i pod rytm,
 a nie pod to, kto co komu robi; o wyjątkach mówi ``Obsada``.
 Fakt o polszczyźnie, który do takiej tabeli wszedł albo z niej wypadł,
 jest przy tym faktem o każdym drzewie, a nie o tym jednym programie,
-i mówi o tym ``docs/sklad.md`` wraz z tym, gdzie taki fakt należy.
+i mówi o tym ``docs/po-wypisaniu.md`` wraz z tym, gdzie taki fakt należy.
 
 Rytm jest za to wyborem, bo makieta pokazuje właśnie go.
 Kształty zdania wyczerpują kategorie, które niesie ``olski.skład.składnia``,

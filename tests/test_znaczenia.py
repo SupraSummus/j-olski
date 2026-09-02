@@ -53,7 +53,7 @@ def test_wieloznaczność_ról_wychodzi_rozłączna_choć_drzew_jest_więcej_ni�
 
 
 def test_zwinięcie_przez_brak_kategorii_nie_wchodzi_do_zestawienia():
-    """Zdanie, którym `docs/sklad.md` pokazuje przyłączenie rozstrzygnięte w drzewie.
+    """Zdanie, którym `docs/po-wypisaniu.md` pokazuje przyłączenie rozstrzygnięte w drzewie.
 
     Wyrażenie przyimkowe dochodzi w olskim i do zdarzenia, i do rzeczy, a do
     rzeczy ten zapis nie ma czym dojść, więc jedno z dwóch czytań nie wraca
