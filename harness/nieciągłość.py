@@ -1,9 +1,9 @@
-"""Ilu zdaniom nieciągłość jest potrzebna, ile kosztuje i co ukrywa, nad Składnicą.
+"""Ilu zdaniom nieciągłość jest potrzebna i co odmowa jej ukrywa, nad Składnicą.
 
 Wielkie rozwidlenie pytało, czy olski wpuszcza konstytuent nieciągły, i żądało
-odpowiedzi z pomiaru, a nie z gustu. Pomiar dzieli się na części, bo jednoznaczność
-jest tu warunkiem poprawności: konstrukcja kupuje zdania, płaci zdaniami, a
-odmowa jej kosztuje osobno i w drugą stronę.
+odpowiedzi z pomiaru, a nie z gustu. Odpowiedź zapadła i brzmi „nie”, więc sonda
+liczy odtąd te dwie części pomiaru, które mówią, kiedy rozwidlenie wraca:
+zdania, którym szczelinę wybrano, i zdania, którym ją odrzucono.
 
 **Potrzeba.** Świgra, gramatyka, z której powstała Składnica, ma nieciągłość jako
 nieterminal ``ξ``: fraza postawiona przy zdaniu, a wymagana przez coś w jego
@@ -13,26 +13,16 @@ drzewo z lasu. Sonda liczy te drzewa i pyta olskiego, co o tych zdaniach mówi,
 bo potrzeba zakupem nie jest: konstrukcja, która nie jest ich najbliższym
 blokerem, nie kupuje ich, choćby ją dopisać.
 
-**Cena.** Zdanie, które ma dokładnie jedno czytanie, po zdjęciu spójności ma tyle
-czytań, ile miejsc, w których wolno zawiesić przymiotnik, przyimek i dopełniacz —
-a wolno wszędzie, bo bez spójności między frazą a jej gospodarzem nie musi już nic
-stać. Sonda przepuszcza więc zdania przyjęte przez olskiego przez podłoże więzowe
-dwa razy, ze spójnością i bez niej, i liczy tabelę przejść między werdyktami.
-
-Cena idzie po podłożu z ``harness/wiezy.py``, a nie po gramatyce olskiego, bo
-spójność da się zdjąć tylko tam: produkcja wyprowadza jeden odcinek tekstu i
-zdjąć tego nie umie, a podłoże ma spójność jednym więzem globalnym. Kosztuje to
-tyle, że podłoże jest deklaracją węższą od gramatyki i odrzuca część zdań, które
-olski przyjmuje, więc mianownikiem ceny jest przecięcie obu, wypisane w tabeli.
-
-**Maskowanie.** Odmowa nieciągłości ma cenę własną, o którą tamte dwie liczby nie
-pytają: zdanie, którego drugie czytanie potrzebuje szczeliny, wychodzi olskiemu
+**Maskowanie.** Odmowa nieciągłości ma cenę własną, o którą tamta liczba nie
+pyta: zdanie, którego drugie czytanie potrzebuje szczeliny, wychodzi olskiemu
 jednoznaczne, więc ``valid`` obiecuje jedno czytanie zdaniu, które ma dwa. Sonda
 liczy takie zdania osobno od tych, którym szczelinę wybrano, bo to dwa różne
 pytania nad tym samym plikiem: tam nieciągłość jest czytaniem właściwym, a tutaj
 drugim z dwóch.
 
-Wynik czyta ``docs/design-notes.md``, gdzie stoi też to, na co nie odpowiada.
+Ceny — ile zdań traci jednoznaczność po zdjęciu spójności — sonda nie liczy:
+mierzyło ją podłoże więzowe skasowane wraz ze swoją deklaracją podzbioru, a
+liczbę, przy której rozwidlenie zapadło, trzyma ``docs/design-notes.md``.
 
     python3 -m harness.nieciągłość Składnica-frazowa-180723/
 """
@@ -43,16 +33,13 @@ import argparse
 import collections
 import functools
 import re
-import signal
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness.corpus import constituents, parse_forest, read_forest
 from harness.komenda import Komenda, uruchom
-from harness.polszczyzna import GRAMATYKA
 from harness.pomiar import Outcome, po_kawałkach, segments_for
-from harness.wiezy import rozbierz
 from olski.parse import parse
 from olski.subset import GRAMMAR
 
@@ -68,37 +55,12 @@ SZCZELINA = "ξ"
 SZCZELINA_W_LESIE = re.compile(f"<category>{SZCZELINA}</category>".encode())
 
 #: Ile zdań pokazać przy liczbie. Liczba bez przykładu nie mówi, co ją wywołało,
-#: a tutaj trzeba przeczytać i to, co sonda wzięła za szczelinę, i to, co za ruch.
+#: a tutaj trzeba przeczytać, co sonda wzięła za szczelinę wybraną, a co za odrzuconą.
 PRZYKŁADY = 8
-
-#: Ile czytań zbierać po każdej stronie. Dwa, bo pytanie jest o to, czy czytanie
-#: jest jedno, i werdykt zamyka się na drugim. Liczba czytań ponad dwa nie wchodzi
-#: do tabeli przejść, a kosztuje przeszukanie całej przestrzeni tam, gdzie
-#: zdjęta spójność właśnie ją rozdmuchała.
-LIMIT = 2
-
-#: Ile sekund dostaje jedno zdanie po jednej stronie. Budżet stoi tu, bo
-#: przeszukiwanie więzów nie ma ograniczenia, które ma parser tablicowy, a
-#: najdroższy jest werdykt „jedno czytanie”: zamyka się dopiero po wyczerpaniu
-#: przestrzeni, którą zdjęta spójność powiększa. Zdanie, które budżetu nie
-#: dowiozło, wchodzi do tabeli jako urwane, a nie jako odrzucone.
-BUDŻET = 10.0
-
-#: Werdykt zdania, którego podłoże nie rozstrzygnęło w budżecie. Nie „odrzucone”,
-#: bo to dwie różne odpowiedzi.
-URWANE = "urwane"
 
 #: Zdanie do pokazania przy liczbie, długością do przodu, żeby sortowanie
 #: wybierało najkrótsze. Długość jest w segmentach, tak jak wszystko inne tutaj.
 Przykład = tuple[int, str]
-
-
-class Urwane(Exception):
-    """Zdanie nie zmieściło się w budżecie."""
-
-
-def _alarm(*_):
-    raise Urwane()
 
 
 @dataclass
@@ -126,10 +88,6 @@ class Raport:
     #: szczeliną wybraną, i porównanie obu jest tym, po czym widać, czy maskowanie
     #: ma własny wyzwalacz, czy rośnie razem z zakupem.
     blokery_maskowanych: collections.Counter = field(default_factory=collections.Counter)
-    #: (werdykt ze spójnością, werdykt bez niej) → ile zdań tak przeszło. Para, a
-    #: nie napis z nią w środku, bo wydruk pyta o obie strony osobno i rozklejanie
-    #: napisu byłoby czytaniem tego, co ten sam moduł właśnie skleił.
-    przejścia: collections.Counter = field(default_factory=collections.Counter)
     #: Klucz → najkrótsze zdania, na których to widać.
     przykłady: dict[tuple, list[Przykład]] = field(default_factory=dict)
     #: Zdania, których nie zmierzono, po powodzie. Wypisane, a nie odjęte po
@@ -175,36 +133,15 @@ def w_lesie(ścieżka: Path) -> bool:
     return bool(SZCZELINA_W_LESIE.search(ścieżka.read_bytes()))
 
 
-def podłoże(segmenty: list, spójne: bool, budżet: float) -> str:
-    """Werdykt podłoża nad tym zdaniem, albo ``urwane``, gdy nie zmieścił się w budżecie."""
-    # Uchwyt ustawiany przy każdym wołaniu, bo przebieg idzie po procesach
-    # roboczych, a żaden z nich nie zaczyna od `main`, gdzie stanąłby raz.
-    signal.signal(signal.SIGALRM, _alarm)
-    try:
-        signal.setitimer(signal.ITIMER_REAL, budżet)
-        return rozbierz(segmenty, GRAMATYKA, limit=LIMIT, spójne=spójne).status
-    except Urwane:
-        return URWANE
-    finally:
-        signal.setitimer(signal.ITIMER_REAL, 0)
-
-
-def zmierz(
-    ścieżki: Iterable[Path],
-    przykłady: int = PRZYKŁADY,
-    budżet: float = BUDŻET,
-) -> Raport:
-    """Policz obie połowy pomiaru nad tymi lasami.
+def zmierz(ścieżki: Iterable[Path], przykłady: int = PRZYKŁADY) -> Raport:
+    """Policz obie części pomiaru nad tymi lasami.
 
     Jeden przebieg na obie, bo obie czytają to samo drzewo wzorcowe i ta sama
-    morfologia złota wchodzi do obu. Zdanie ze szczeliną i zdanie przyjęte przez
-    olskiego są przy tym dwiema populacjami, a nie jedną: pierwsza mówi, ile
-    nieciągłość kupuje, druga, ile kosztuje.
+    morfologia złota wchodzi do obu, a różni je miejsce szczeliny: w drzewie
+    wybranym albo obok niego.
 
     Populacja jest ta sama, co w ``harness.pomiar.measure``: każde zdanie z
-    drzewem wzorcowym, bez granicy na długość. Podłoże więzowe zostaje przy tym
-    pod :data:`BUDŻET`, bo ograniczenia parsera tablicowego nie ma, a zdanie,
-    które budżetu nie dowiozło, wchodzi do tabeli jako urwane.
+    drzewem wzorcowym, bez granicy na długość.
     """
     raport = Raport(przykłady)
     for ścieżka in ścieżki:
@@ -237,35 +174,17 @@ def zmierz(
             raport.zanotuj(("maskowanie", wynik.status), przykład)
             if wynik.blocker:
                 raport.blokery_maskowanych[wynik.blocker] += 1
-        if wynik.status != "valid":
-            continue
-
-        przejście = (
-            podłoże(list(segmenty), True, budżet),
-            podłoże(list(segmenty), False, budżet),
-        )
-        raport.przejścia[przejście] += 1
-        raport.zanotuj(("przejście", *przejście), przykład)
     return raport
 
 
-def _kawałek(ścieżki: Sequence[Path], przykłady: int, budżet: float):
-    return zmierz(ścieżki, przykłady, budżet)
-
-
-def przebieg(
-    ścieżki: Sequence[Path],
-    jobs: int,
-    przykłady: int = PRZYKŁADY,
-    budżet: float = BUDŻET,
-) -> Raport:
+def przebieg(ścieżki: Sequence[Path], jobs: int, przykłady: int = PRZYKŁADY) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport.
 
     Podział na kawałki jest ten sam, którym idzie ``harness.pomiar``, i stoi tam,
     bo decyzja o jego rozmiarze jest jedna. Składanie zostaje tutaj, bo licznik,
     który z kawałka wraca, jest licznikiem tej sondy.
     """
-    praca = functools.partial(_kawałek, przykłady=przykłady, budżet=budżet)
+    praca = functools.partial(zmierz, przykłady=przykłady)
     return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
 
 
@@ -284,7 +203,6 @@ def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
         scalony.blokery.update(raport.blokery)
         scalony.maskowanie.update(raport.maskowanie)
         scalony.blokery_maskowanych.update(raport.blokery_maskowanych)
-        scalony.przejścia.update(raport.przejścia)
         scalony.pominięte.update(raport.pominięte)
         for klucz, zachowane in raport.przykłady.items():
             for przykład in zachowane:
@@ -322,17 +240,6 @@ def wydruk(raport: Raport, nagłówek: str, blokery: int = 10) -> str:
     wiersze += _tabela("na czym stanęły analizy odrzuconych:", raport.blokery_maskowanych, blokery)
     wiersze += _przykłady(raport, ("maskowanie", "valid"), "najkrótsze przyjęte")
 
-    zmierzone = sum(raport.przejścia.values())
-    wiersze += ["", f"cena: {zmierzone} zdań, które olski przyjmuje jednym czytaniem"]
-    # Werdykty w tej tabeli są podłoża, a nie olskiego, i wiersz to mówi: olski
-    # wydał je wszystkie wyżej, przyjmując te zdania, więc czytelnik, który tego
-    # nie widzi, czyta pierwszy wiersz jako sprzeczność.
-    wiersze.append("  werdykt podłoża więzowego, ze spójnością → bez niej:")
-    for (przed, po), zdań in raport.przejścia.most_common():
-        wiersze.append(f"  {zdań:>7}    {przed} → {po}")
-    for przed, po in raport.przejścia:
-        if przed != po:
-            wiersze += _przykłady(raport, ("przejście", przed, po), f"najkrótsze {przed} → {po}")
     return "\n".join(wiersze)
 
 
@@ -351,7 +258,7 @@ def _przykłady(raport: Raport, klucz: tuple, nazwa: str) -> list[str]:
     """Zdania zachowane pod kluczem, z długością, bo po niej je wybrano.
 
     Zdania stoją tu po to, żeby liczba nad nimi dała się sprawdzić:
-    to one, a nie liczba, mówią, co sonda uznała za szczelinę i za ruch.
+    to one, a nie liczba, mówią, co sonda uznała za szczelinę.
     """
     zachowane = raport.przykłady.get(klucz)
     if not zachowane:
@@ -359,28 +266,17 @@ def _przykłady(raport: Raport, klucz: tuple, nazwa: str) -> list[str]:
     return [f"  {nazwa}:", *(f"    {ile:>3}  {tekst}" for ile, tekst in zachowane)]
 
 
-def _budżet(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument(
-        "--budżet",
-        type=float,
-        default=BUDŻET,
-        dest="budżet",
-        help=f"ile sekund dostaje jedno zdanie po jednej stronie (domyślnie {BUDŻET:.0f})",
-    )
-
-
 def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
-    raport = przebieg(ścieżki, args.jobs, przykłady=args.przykłady, budżet=args.budżet)
+    raport = przebieg(ścieżki, args.jobs, przykłady=args.przykłady)
     return wydruk(raport, "Składnica, morfologia złota")
 
 
 KOMENDA = Komenda(
     nazwa="harness.nieciągłość",
-    opis="Policz, ile nieciągłość kupuje zdań i ile ich kosztuje.",
+    opis="Policz, ilu zdaniom nieciągłość jest potrzebna i co odmowa jej ukrywa.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
     pula=True,
-    argumenty=_budżet,
 )
 
 

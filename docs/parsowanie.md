@@ -465,7 +465,8 @@ Napisana obok niej jest gramatyką napisaną dwa razy,
 czyli tym drugim właścicielem faktu, przed którym broni
 [`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
 i jest to ten sam zarzut, który przewraca obudowanie Świgry
-oraz ten, który [`todo/`](../todo/README.md) stawia `harness/polszczyzna.py`.
+oraz ten, na którym skasowała się sonda więzowa,
+gdy jej deklaracja przestała nadążać za produkcjami.
 Wyprowadzona nie kosztuje ani jednej deklaracji.
 
 Najtańszym kawałkiem takiej warstwy jest licencja terminala,
@@ -524,7 +525,7 @@ i [`todo/`](../todo/README.md) trzyma je razem z przebiegiem, który jest winne.
 
 Wychodzi z tego kierunek i nie jest nim zmiana podłoża.
 Produkcja zlewa w jedno trzy rzeczy,
-i te trzy [sonda](design-notes.md#podłoże-więzowe-zmierzone-sondą) rozdziela:
+i te trzy [sonda](design-notes.md#podłoże-więzowe-zmierzone-sondą) rozdzieliła:
 zgodność, porządek i to, że konstytuent jest jednym odcinkiem tekstu.
 Każda z nich ma wyjście, które zostaje przy szczeblu 2
 [drabiny](design-notes.md#the-cost-ladder).
@@ -551,7 +552,7 @@ a rama, która się zużywa, jest tym, czego olski nie ma i co pokazuje
 [Świgra](swigra.md#valency-as-a-resource-that-gets-consumed).
 
 Między dwoma wyjściami z nieciągłości rozstrzyga wydruk.
-Sonda zdejmuje spójność jednym warunkiem globalnym
+Podłoże zdejmuje spójność jednym warunkiem globalnym
 i traci nazwanie podmiotu napisem,
 bo poddrzewo bez spójności jest zbiorem słów, a nie odcinkiem tekstu.
 Luka oddaje pożyczone żądanie frazie, która je pożyczyła,
@@ -704,9 +705,9 @@ Walencja weszła tym kanałem i wypadła na lokalności.
 Rama jest stanem, a nie zasobem, więc pozycji już zajętej nie ma jak odnotować,
 a zajęcie zależy od pozostałych córek, a nie od samej pary głowy i zależnego.
 Sonda zapłaciła za to samo dwoma polami:
-`wymaga` i `zakazuje` w `harness/wiezy.py` mówią o łukach jednej głowy naraz,
-więc sprawdza je `_dopuszczalne`, gdy drzewo stoi już całe,
-a nie tablica licencji, która stoi policzona przed szukaniem.
+łuk wymagany i łuk zakazany mówiły tam o łukach jednej głowy naraz,
+więc sprawdzały się nad drzewem stojącym już całym,
+a nie w tablicy licencji, która stoi policzona przed szukaniem.
 Co z tego zostaje po stronie produkcji,
 mówi [kierunek](#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje) wyżej.
 
