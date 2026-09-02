@@ -423,22 +423,33 @@ i słownika na to nie potrzebuje;
 ten odpowiada na pytanie, czemu wzorzec jest w tym zdaniu usterką.
 Sprawdza się garścią zdań, którym przegląd wymienił czasownik, przeczytaną ręką:
 werdykt ma nazwać żądaną cechę i słowo, które jej nie niesie.
-Czeka na dwie rzeczy.
-Na drugą połowę słownika, bo pierwszą już ma.
+Żądanie pozycji werdykt już nazywa.
 Czego czasownik żąda poza przypadkiem, nazywa warstwa semantyczna wydania TEI Walentego,
 i nazywa to klasą rzeczy — `MIEJSCE` jest tam tą przestrzenią fizyczną —
 a wydanie tekstowe, z którego powstaje leksykon, tej warstwy nie niesie
 ([prior-art.md](prior-art.md#polish-language-resources)).
-Czy rzecz stojąca w zdaniu do żądanej klasy należy, rozstrzygnąłby wordnet,
-i to jest pytanie do świata
+Przekład tej warstwy stoi w `olski/żądania.txt`,
+a `--żądania` mówi obok streszczenia, czego czasownik żąda od tego,
+co w jego pozycji stanęło
+([warstwa-leksykalna.md](warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+Czeka więc na dwie rzeczy, i obie należą do drugiej połowy pytania.
+Na wordnet, bo tego, czy rzecz stojąca w zdaniu do żądanej klasy należy,
+nie rozstrzyga żaden zasób, który to repozytorium ma,
+i jest to pytanie do świata
 ([open-questions.md](open-questions.md#shared-questions)).
+Oraz na samo żądanie miejsca, którego w tym przekładzie nie ma,
+bo nie ma w nim pozycji okolicznikowej
+([warstwa-leksykalna.md](warstwa-leksykalna.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)):
+przykład z tego celu przechodzi przez nią i przez czasownik,
+któremu Walenty nie daje ramy żadnej.
 Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
 rozstrzyga się razem z tamtym pytaniem:
 metafora wystygła jest w polszczyźnie zwykłym użyciem,
 a próg między nią a usterką stawia
 [CLAUDE.md](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen).
-I na odpowiedź, która żądanie nazywa:
-odrzucenie mówi dziś, dokąd analiza doszła, a nie czego pozycja żądała
+Wiersz żądania idzie przy tym obok streszczenia, a nie w odrzuceniu:
+zdanie odrzucone nie obsadza żadnej pozycji, więc mówi dalej,
+dokąd analiza doszła
 ([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 
 Czego na tej liście nie ma.

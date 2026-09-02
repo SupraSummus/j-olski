@@ -7,7 +7,8 @@ wychodzą, mówi :func:`zdania`.
 
 Warstwy semantycznej nie ma tu czego czytać: wydanie tekstowe, na które ten
 moduł patrzy, jej nie niesie, a niesie ją wydanie TEI z tej samej daty
-(docs/prior-art.md#polish-language-resources).
+(docs/prior-art.md#polish-language-resources). Czyta ją ``harness/żądania.py``,
+osobnym przekładem do osobnego pliku, i mówi, czemu osobnym.
 
 Zdanie o bierniku jest ujemne i mówi, że czasownik nie bierze dopełnienia w
 bierniku, a zdania o bezokoliczniku twierdzące. Kierunki są przeciwne, bo
@@ -65,7 +66,8 @@ zostaje przez to listą pisaną ręcznie w ``olski/subset/rama.py``, i to ta lis
 ten moduł, wyłącza swoje lematy stąd.
 
 Pliki, które to czyta, nie stoją w repozytorium: pobiera się je tak, jak bank
-drzew, i docs/subset.md trzyma polecenie.
+drzew, i polecenie trzyma
+docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
 """
 
 from __future__ import annotations
@@ -86,12 +88,9 @@ from olski.walencja import (
     CZASOWNIK,
     CZASOWNIK_ZWROTNY,
     NIE_BIERZE_BIERNIKA,
+    PODMIOT,
     RZECZOWNIK,
 )
-
-#: Pozycja podmiotu. Podmiot ma u olskiego własną produkcję, a nie pozycję ramy,
-#: więc to czytanie go pomija i pyta tylko o to, co przy czasowniku stoi obok niego.
-PODMIOT = "subj"
 
 #: Przypadek strukturalny. Walenty pisze tak biernik dopełnienia, żeby ująć jego
 #: wymianę na dopełniacz pod zaprzeczeniem, więc pozycja niepodmiotowa z ``str``
@@ -160,9 +159,10 @@ PRZYIMKOWA = re.compile(r"prepnp\(([^,)]+),")
 #: dotyczy słowa stojącego w tej pozycji, więc odpada cała, a nie sam jej przyimek.
 ZLEKSYKALIZOWANA = "lex("
 
-#: Kwalifikatory pewności, pod którymi schemat wchodzi. Walenty pisze ich pięć, a
-#: ``zły`` i ``archaiczny`` nazywają schemat, którego ten rejestr nie ma;
-#: ``potoczny`` zostaje, bo mówi o rejestrze, a nie o poprawności schematu.
+#: Kwalifikatory pewności, pod którymi schemat wchodzi. Walenty pisze ich sześć, a
+#: ``zły`` i ``archaiczny`` nazywają schemat, którego ten rejestr nie ma, a
+#: ``wulgarny`` polszczyznę, której ta proza nie pisze; ``potoczny`` zostaje, bo
+#: mówi o rejestrze, a nie o poprawności schematu.
 #:
 #: Zwężenie do samego ``pewny`` zmierzono sondą i nie rusza ono żadnej liczby
 #: o więcej niż pół punktu, więc kolumna go nie bierze;
@@ -443,8 +443,8 @@ NAGŁÓWEK = f"""\
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
-# ramę nazywa `olski/subset/rama.py`, a docs/subset.md trzyma polecenie wraz z tym,
-# skąd wziąć pliki wejściowe.
+# ramę nazywa `olski/subset/rama.py`, a docs/warstwa-leksykalna.md trzyma polecenie
+# wraz z tym, skąd wziąć pliki wejściowe.
 """
 
 

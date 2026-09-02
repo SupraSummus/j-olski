@@ -113,7 +113,7 @@ zabrakło podmiotu, a nie to, w którym zabrano czytanie
 ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)).
 Kierunek `wpuszczane` umie przez to napisać ten, kto już wie, co napisać.
 Ruchem jest wiersz wykazu morfologii o czytaniu zdjętym przez wykluczenie.
-Do przeczytania jest przedtem `_morfologia` w `olski/check.py`,
+Do przeczytania jest przedtem `Verdict.morfologia` w `olski/werdykt.py`,
 bo wykaz ten wypisuje czytania, które do rozbioru weszły,
 a odpowiedzi trzeba tu o czytanie, którego w nim nie ma.
 
@@ -147,3 +147,56 @@ w `Czekał godzinę.`, choć wygląda tak samo:
 tam zła jest struktura, bo biernik zajmuje pozycję dopełnienia naprawdę,
 a nie nazwa nad strukturą dobrą, i wpis o czwartym werdykcie porównania ról
 trzyma tamto razem z jego parą.
+
+Wiersz żądania nazywa dwie pozycje ramy, a plik żądań ma ich osiem.
+`--żądania` mówi o podmiocie i o dopełnieniu, bo tyle nazywa streszczenie
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)),
+a poza wierszem zostaje wyrażenie przyimkowe wraz z bezokolicznikiem,
+zdaniem podrzędnym i pytaniem zależnym.
+Pierwsze z nich jest w pliku pozycją drugą co do wielkości, zaraz po podmiocie,
+więc to ono jest tu całym ruchem, a trzy pozostałe idą przy okazji.
+Przeszkodą jest przy nim gospodarz, a nie sam przekład nazwy:
+wyrażenie przyimkowe przyłącza się u olskiego wszędzie, gdzie polszczyzna je stawia,
+więc żądanie stoi po stronie czasownika tylko w tym czytaniu,
+w którym wyrażenie doszło do niego, a nie do rzeczownika obok
+(`_attachment` w `olski/parse/streszczenie.py` nazywa gospodarza formą głowy).
+Do przeczytania jest, czy wiersz taki mówi coś, czego nie mówi wiersz obok:
+żądanie pozycji przyimkowej pokrywa się z tym, co o tej parze mówi już
+świadek ramowy warstwy rozstrzygającej
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#rama-rozstrzyga-po-stronie-rzeczownika-a-po-stronie-czasownika-nie)),
+tyle że tamten mówi o przyimku, a ten o klasie rzeczy pod nim.
+
+Zdanie bywa jednoznaczne strukturalnie i przemilcza przy tym, o kogo idzie.
+`Wynajmę mieszkanie.` ma w `olski/żądania.txt` dwie pozycje wykluczające się —
+`Initiator.Goal` w celowniku i `Initiator.Source` pod `od` — i żadnej nie obsadza,
+więc czytelnik nie wie, czy wynajmuje się komuś, czy od kogoś.
+Znaleziska są dziś dwa, wieloznaczność i poprawka jednego znaku
+([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
+a to byłoby trzecie i wordnetu nie żąda:
+role stoją w pliku, a nieobsadzoną pozycję widzi rozbiór.
+Bliskie jest ono regule o zdaniu spakowanym
+([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)),
+z tą różnicą, że tamta mówi o słowie wyrzuconym ze zdania,
+a to o uczestniku, którego zdanie nie nazwało.
+Zawężenie jest tu całą robotą, bo wersja naiwna zapala się wszędzie:
+pozycji nieobsadzonych ma każde zdanie i większość z nich niczego nie przemilcza.
+Kandydatem na kryterium jest para pozycji, które różni samo uszczegółowienie roli,
+czyli dwie strony jednego zdarzenia,
+a do przeczytania jest, ile lematów taką parę w tym pliku ma
+i czy zdania z nimi naprawdę czyta się dwojako —
+sonda konwersów mierzyła to kształtem pozycji i wyszła jej liczba za wysoka
+([`docs/disambiguation.md`](../docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)).
+
+Fraza bezokolicznikowa nie dostaje wiersza żądania, choć ma własną ramę.
+Zejście po role staje na niej (`własna_rama` w `DEKLARACJA`), żeby dopełnienie
+`edytować` nie dostało żądania czasownika stojącego nad nim, więc `Autor zamierzył
+edytować dokument.` milczy o dopełnieniu w ogóle
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+Ruchem jest ta fraza czytana jak zdanie składowe: jej głowa rządzi ramą,
+a jej rozpiętość jest zakresem, w którym szuka się wypełnień.
+Przeszkodą jest to, gdzie stoi zespół czasownikowy tej frazy:
+przy formie osobowej zamyka go symbol `orzeczenie`, więc cząstkę zwrotną i
+przeczenie widać po jego liściach, a bezokolicznik stoi liściem wprost pod frazą,
+obok swoich wypełnień, więc pytanie o liście tej frazy odpowiada o całym zdaniu.
+Do rozstrzygnięcia jest, czy tańszy jest symbol nad tym zespołem w gramatyce,
+czy warunek na liście stojące przed pierwszym konstytuentem frazy.

@@ -73,6 +73,36 @@ class Rozbieżność:
 
 
 @dataclass(frozen=True)
+class Obsada:
+    """Które role czytania obsadzają pozycje ramy czasownika.
+
+    Czyta to warstwa nad plikiem żądań (``olski/żądania.py``):
+    żeby powiedzieć, czego czasownik żąda od słowa stojącego w jego pozycji,
+    trzeba wiedzieć, która rola niesie ten czasownik, a która jego pozycję wypełnia.
+    Rolami, bo warstwa ta ogląda gotowe czytanie, a nie gramatykę,
+    a w czytaniu pozycja ramy jest właśnie etykietą roli.
+    """
+
+    #: Role, których głowa rządzi ramą zdania składowego.
+    #: Jest ich kilka, bo orzeka też forma nieosobowa i predykatyw
+    #: (``ORZECZENIE_BEZOSOBOWE`` w ``olski/subset/deklaracja.py``);
+    #: w jednym zdaniu składowym stoi jedna z nich.
+    orzeczenia: tuple[str, ...]
+    #: Rola stojąca w pozycji podmiotu.
+    podmiot: str
+    #: Role, których pozycję nazywa przypadek wypełnienia,
+    #: bo jedna nazwa roli pokrywa kilka pozycji ramy:
+    #: `dopełnienie` nie mówi, w którym przypadku stoi.
+    przypadkowe: tuple[str, ...]
+    #: Symbole, których wnętrze obsadza ramę własnego czasownika:
+    #: `dokument` w `Autor zamierzył edytować dokument.` jest dopełnieniem
+    #: bezokolicznika, a nie formy osobowej nad nim.
+    #: Zejście po role staje na nich, więc wiersz o tym dopełnieniu nie powstaje
+    #: wcale, zamiast powstać z żądaniem cudzego czasownika.
+    własna_rama: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class Deklaracja:
     """Co gramatyka mówi o sobie podsumowaniom werdyktu.
 
@@ -116,6 +146,8 @@ class Deklaracja:
     #: Wywód, przykład i cenę trzyma
     #: docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
     podrzędne: tuple[str, ...]
+    #: Które role obsadzają pozycje ramy czasownika (:class:`Obsada`).
+    obsada: Obsada
 
 
 @dataclass

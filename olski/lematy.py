@@ -41,9 +41,18 @@ ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
 #: drugi raz (``_cudzysłów`` w ``olski/werdykt.py``).
 ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
 
+#: Cząstka przecząca jako lemat, bo pyta o nią terminal, którym olski przeczy,
+#: wykluczenie w klasie spójników bez przecinka (``olski/subset/słowa.py``)
+#: oraz warstwa nad plikiem żądań: pod przeczeniem dopełnienie w bierniku staje
+#: w dopełniaczu, więc przypadek wypełnienia nazywa wtedy dwie pozycje ramy naraz
+#: (``olski/żądania.py``).
+LEMAT_PRZECZENIA = "nie"
+
 #: Lemat cząstki czasownika zwrotnego. Leksykon czyta tę cząstkę jako drugi wymiar
 #: lematu, a nie jako określenie: `otwierać` bierze dopełnienie w bierniku,
 #: a `otwierać się` go nie bierze.
-#: Pyta o niego terminal cząstki wraz z klasami walencyjnymi (``olski/subset/słowa.py``)
-#: oraz warunek na pozycję tej cząstki (``olski/segmentacja.py``).
+#: Pyta o niego terminal cząstki wraz z klasami walencyjnymi (``olski/subset/słowa.py``),
+#: warunek na pozycję tej cząstki (``olski/segmentacja.py``)
+#: oraz warstwa nad plikiem żądań, bo czasownik z cząstką jest tam innym słowem
+#: (``olski/żądania.py``).
 LEMAT_ZWROTNY = "się"

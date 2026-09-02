@@ -108,6 +108,18 @@ ORZECZNIK = "inst"
 BEZOKOLICZNIK = "inf"
 ZDANIE_PODRZĘDNE = "comp"
 
+#: Pozycja pytania zależnego. Nazwa jest tu nazwą Walentego — pisze on tę pozycję
+#: kształtem ``cp(int)`` — bo morfologia nie ma czym jej nazwać: pytanie zależne
+#: podporządkowuje sam zaimek, a nie spójnik (``olski/subset/podrzędne.py``).
+PYTANIE_ZALEŻNE = "int"
+
+#: Pozycja podmiotu, pod nazwą Walentego. Podmiot ma u olskiego własną produkcję,
+#: a nie pozycję ramy, więc leksykon go pomija i pyta tylko o to, co przy
+#: czasowniku stoi obok niego. Nazwa stoi tu mimo to, bo czytają ją trzy miejsca:
+#: oba przekłady Walentego (``harness/walenty.py`` i ``harness/żądania.py``) oraz
+#: plik żądań, który tę pozycję ma (``olski/żądania.py``).
+PODMIOT = "subj"
+
 
 class Wpis(NamedTuple):
     """Co leksykon mówi o jednym słowie."""

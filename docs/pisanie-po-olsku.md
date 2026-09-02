@@ -288,6 +288,11 @@ a `Chłopiec lubi piwo.` ma jedno odczytanie.
 Wykaz mówi mu przy tym, którą formę wymienić,
 bo odczytanie z siedmioma przypadkami widać w nim po samym znaczniku.
 
+Pytanie sąsiednie zadaje `--żądania`:
+czego czasownik żąda od słowa, które autor postawił w jego pozycji.
+Czy to słowo żądanie spełnia, ten wykaz nie mówi
+([warstwa-leksykalna.md](warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+
 ## Kolejka czytana po formie mówi to, czego nie mówi po części mowy
 
 Kolejka blokerów grupuje zatrzymania po części mowy formy

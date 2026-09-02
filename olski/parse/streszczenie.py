@@ -60,7 +60,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
 
     Streszczeń jest tyle, ile zdanie ma zdań składowych, po jednym na składowe,
     bo każde z nich obsadza role własnym materiałem
-    (:func:`_zakresy` dzieli między nie zdanie),
+    (:func:`zakresy` dzieli między nie zdanie),
     i widać w nich przez to całe zdanie współrzędne.
     Czemu nie jedno na zdanie i co ten podział kosztuje, mówi
     docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
@@ -101,7 +101,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     zdania; osobne jest tylko streszczenie, w którym one stoją.
     """
     return tuple(
-        _streszcz(node, deklaracja, zakres) for zakres in _zakresy(node, deklaracja.składowe)
+        _streszcz(node, deklaracja, zakres) for zakres in zakresy(node, deklaracja.składowe)
     )
 
 
@@ -122,11 +122,7 @@ def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> di
     """
     streszczenie = {}
     for rola in deklaracja.role:
-        znalezione = [
-            węzeł
-            for węzeł in node.find(rola, deklaracja.podrzędne)
-            if zakres[0] <= węzeł.span[0] < zakres[1]
-        ]
+        znalezione = w_zakresie(node, rola, deklaracja.podrzędne, zakres)
         if not znalezione:
             continue
         if rola in deklaracja.przyłączane:
@@ -178,7 +174,24 @@ def streszczone(
     return wynik
 
 
-def _zakresy(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
+def w_zakresie(
+    node: Node, rola: str, podrzędne: Sequence[str], zakres: tuple[int, int]
+) -> list[Node]:
+    """Węzły tej roli, które należą do tej części zdania, w porządku zdania.
+
+    Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość, i mówi to
+    :func:`_streszcz`. Pytają o to dwa podsumowania — streszczenie oraz wiersz
+    żądania (``olski/werdykt.py``) — więc kryterium jest jedno: oba mówią o tym
+    samym zdaniu składowym i wiersz jednego ma stać obok wiersza drugiego.
+    """
+    return [
+        węzeł
+        for węzeł in node.find(rola, podrzędne)
+        if zakres[0] <= węzeł.span[0] < zakres[1]
+    ]
+
+
+def zakresy(node: Node, symbole: Sequence[str]) -> list[tuple[int, int]]:
     """Zdanie podzielone na tyle części, ile ma zdań składowych, po jednej na składowe.
 
     Granicą jest początek składowego następnego, a nie koniec poprzedniego,
@@ -203,7 +216,7 @@ def _początki_składowych(node: Node, symbole: Sequence[str]) -> list[int]:
     Zdanie podrzędne jest wewnątrz składowego, więc zejście do niego nie dochodzi
     i nie trzeba go tu odejmować osobno.
     Sam początek, bo granicą podziału jest początek składowego następnego
-    (:func:`_zakresy`), a końca nie pyta nikt.
+    (:func:`zakresy`), a końca nie pyta nikt.
     """
     if node.label in symbole:
         return [node.span[0]]

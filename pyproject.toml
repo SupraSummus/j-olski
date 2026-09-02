@@ -40,14 +40,15 @@ include = ["olski*"]
 
 #  Leksykon walencyjny jest danymi, a nie kodem, więc wchodzi do paczki stąd.
 #  Gramatyka czyta go przy imporcie, więc instalacja bez niego nie startuje.
-#  Tabela skłonności przyłączeniowych idzie tą samą drogą i z tym się różni, że
-#  bez niej warstwa rozstrzygająca milczy, zamiast nie wstać.
-#  Oba mówią o polszczyźnie, więc są te same dla każdego, kto olskiego zainstaluje.
+#  Tabela skłonności przyłączeniowych i plik żądań idą tą samą drogą i z tym się
+#  różnią, że bez nich warstwa nad nimi milczy, zamiast nie wstać.
+#  Wszystkie trzy mówią o polszczyźnie, więc są te same dla każdego, kto olskiego
+#  zainstaluje.
 #  Leksykon projektu tędy nie idzie i dlatego, że mówi o jednym projekcie:
 #  `olski.toml` leży w katalogu, nad którym olskiego uruchomiono
 #  (`znajdź` w `olski/konfiguracja.py`).
 [tool.setuptools.package-data]
-olski = ["leksykon.txt", "skłonności.txt"]
+olski = ["leksykon.txt", "skłonności.txt", "żądania.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

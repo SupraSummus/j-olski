@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from olski.grammar import Part, V, word
 from olski.lematy import (
+    LEMAT_PRZECZENIA,
     LEMAT_ZWROTNY,
     PRZYIMEK_ROZDZIELAJĄCY,
     ZNAK_CUDZYSŁOWU_OTWIERAJĄCY,
@@ -130,13 +131,6 @@ SPÓJNIKI_TRYBU = frozenset({"aby", "ażeby", "żeby", "by", "gdyby", "jakby"})
 SPÓJNIKI_PRZECINKOWE = frozenset({
     "ale", "a", "lecz", "natomiast", "więc", "zatem", "toteż", "czyli",
 })
-
-
-#: Cząstka przecząca jako lemat, bo pytają o nią dwa miejsca: terminal, którym
-#: olski przeczy (:data:`PRZECZENIE`), i wykluczenie w klasie spójników bez
-#: przecinka (:data:`SPÓJNIK_BEZ_PRZECINKA`). Napisana dwa razy rozeszłaby się
-#: po pierwszej zmianie któregoś z nich.
-LEMAT_PRZECZENIA = "nie"
 
 
 #: Spójniki, za którymi ten rejestr opuszcza czasownik (:data:`ELIPSA`):

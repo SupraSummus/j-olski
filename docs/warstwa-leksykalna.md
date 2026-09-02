@@ -1053,3 +1053,151 @@ python3 -m olski.check --readings -c "Parser pokazuje autorowi oba czytania."
 <text>: Parser pokazuje autorowi oba czytania.
         - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
 ```
+
+## Żądanie pozycji jest osobnym plikiem, a nie kolumną leksykonu
+
+Leksykon mówi, co czasownik bierze, a nie mówi, czego od tego żąda.
+`zażądać` bierze dopełnienie w dopełniaczu,
+a w podmiocie żąda człowieka,
+i to drugie zdanie stoi w wydaniu TEI Walentego:
+rama nazywa tam pozycję rolą i żąda od niej klasy rzeczy,
+a wydanie tekstowe, z którego powstaje leksykon, tej warstwy nie niesie
+([prior-art.md](prior-art.md#polish-language-resources)).
+Wychodzi ono z tamtego wydania osobnym plikiem — `olski/żądania.txt` —
+a nie kolumną leksykonu.
+
+Rozstrzyga o tym to, kto który plik czyta.
+Leksykon czyta gramatyka przy imporcie i bez niego nie startuje,
+a żądania nie czyta ani jedna produkcja: czyta je werdykt, i to na żądanie flagi
+([niżej](#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+Kolumna dokładałaby przez to megabajt do pliku, od którego zależy start,
+a czytałby ten megabajt ktoś, kogo na tej drodze nie ma.
+Wiersz leksykonu przestałby też być zdaniem o jednym słowie:
+żądanie mówi o pozycji, a jedno słowo obsadza ich kilka,
+więc wiersz jest tu jeden na rolę w pozycji, a nie jeden na słowo.
+Do paczki plik wchodzi tak samo jak leksykon,
+bo `pyproject.toml` wpuszcza tam dane, które czyta kod paczki.
+
+Kolumn jest pięć i mówią, czego czasownik żąda od słowa w swojej pozycji:
+lemat, klasa słowa, pozycja, rola tej pozycji oraz klasy rzeczy, których żąda.
+Pozycje noszą nazwy olskiego tam, gdzie olski je ma,
+a `subj` i `prepnp(od)` nazwy Walentego, bo pozycji podmiotu ani przyimkowej
+olski w ramie nie ma.
+Klasy zbierają się po wszystkich ramach lematu, więc kolumna jest alternatywą:
+`ALL` obok klasy nazwanej znaczy, że w jednym znaczeniu pozycja nie żąda niczego.
+
+Czytanie jest złączeniem trzech warstw, a nie odczytaniem wiersza,
+i tym jest droższe od przekładu obok:
+argument niesie rolę wraz z żądaniem, pozycja wraz z frazą stoi w warstwie
+składniowej, a wiąże je trzecia warstwa, po jednym spięciu na parę.
+Co to czytanie bierze, a czego nie, mówi `harness/żądania.py`.
+Wydanie TEI waży rozpakowane kilkaset megabajtów
+i nie stoi w repozytorium, tak samo jak wydanie tekstowe i bank drzew:
+
+```sh
+curl -L -o walenty-tei.zip \
+  'http://zil.ipipan.waw.pl/Walenty?action=AttachFile&do=get&target=walenty_20160418-TEI.zip'
+unzip walenty-tei.zip
+python3 -m harness.żądania walenty_20160418-TEI/walenty_20160418.xml > olski/żądania.txt
+```
+
+Wpis wyprowadzony z Walentego jest utworem zależnym od niego,
+więc `olski/żądania.txt` niesie w nagłówku atrybucję i tę samą licencję,
+tak samo jak leksykon.
+
+### Przekład ma pozycje ramy, a okolicznika nie ma
+
+Pozycję dostaje w tym pliku podmiot, dopełnienie w trzech przypadkach,
+bezokolicznik, zdanie podrzędne, pytanie zależne i wyrażenie przyimkowe.
+Poza plikiem zostaje argument narzędnikowy, bo `inst` jest u olskiego pozycją
+orzecznika i jest to ten sam brak, który ma
+[leksykon](#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
+oraz zdanie pod zaimkiem i pozycja zleksykalizowana, których olski nie ma czym wypisać.
+
+Największym brakiem jest okolicznik.
+Walenty pisze go osobnym kształtem — `xp(locat)` jest okolicznikiem miejsca —
+a olski nie ma takiej pozycji ramy,
+bo wyrażenie przyimkowe przyłącza się u niego wszędzie, gdzie polszczyzna je stawia,
+więc żądanie doszłoby do zdania tylko przez przyimek.
+Tego przyimka ten kształt nie nazywa:
+nazywa go dopiero tabela rozwinięć z tego samego wydania,
+gdzie jedna pozycja miejsca rozwija się w trzydzieści przyimków,
+czyli w trzydzieści wierszy mówiących jedno.
+Klasy `MIEJSCE` żąda przy tym w większości właśnie pozycja okolicznikowa,
+więc żądanie przestrzeni fizycznej zostaje poza tym plikiem,
+a razem z nim przykład z celu o [żądaniu czasownika](roadmap.md#cele).
+Ten przykład i tak by w nim nie stanął:
+`stać` jest jednym z czasowników, którym Walenty ramy nie daje wcale
+([prior-art.md](prior-art.md#polish-language-resources)),
+więc żądanie przestrzeni fizycznej trzeba by wziąć skądinąd.
+
+Druga połowa celu nie jest przy tym w tym pliku i nie może być.
+Więcej niż co czwarty wiersz żąda klasy, której ten plik nie umie nazwać,
+bo Walenty pisze ją zbiorem synsetów plWordNetu, a nie klasą nazwaną;
+takie żądanie wychodzi znacznikiem, żeby zbiór klas nie kłamał milczeniem.
+Czy słowo stojące w zdaniu do klasy należy, orzeka wordnet,
+którego to repozytorium nie ma,
+i jest to pytanie do świata
+([open-questions.md](open-questions.md#shared-questions)).
+
+### Werdykt nazywa żądanie obsadzonej pozycji
+
+Werdykt mówi, czego czasownik żąda od tego, co w jego pozycji stanęło,
+i mówi to pod flagą, obok streszczenia czytania:
+
+```sh
+python3 -m olski.check --readings --żądania -c "Autor doradza czytelnikowi poprawkę."
+python3 -m olski.check --żądania -c "Program zażądał raportu."
+```
+
+```text
+<text>: Autor doradza czytelnikowi poprawkę.
+        - podmiot: Autor, dopełnienie: czytelnikowi + poprawkę, orzeczenie: doradza
+        podmiot „Autor”: „doradza” żąda klasy PODMIOTY
+        dopełnienie „czytelnikowi”: „doradza” żąda klasy LUDZIE
+        dopełnienie „poprawkę”: „doradza” żąda klasy KOMUNIKAT albo SYTUACJA albo WYTWÓR
+<text>: Program zażądał raportu.
+        podmiot „Program”: „zażądał” żąda klasy LUDZIE albo klasy, której olski nie nazywa
+        dopełnienie „raportu”: „zażądał” żąda klasy CZYNNOŚĆ albo OBIEKTY
+```
+
+Werdykt nazywa żądanie i nie pyta, czy słowo w pozycji je spełnia.
+Drugie zdanie wydruku pokazuje, ile to zostawia autorowi i ile mu zabiera:
+`zażądać` żąda w podmiocie ludzi, a stoi tam program,
+więc czytelnik tego wiersza widzi, czego czasownik chciał,
+i sam rozstrzyga, czy metafora jest tu na miejscu.
+Rozstrzygnąć to za niego mógłby wordnet, którego to repozytorium nie ma
+([open-questions.md](open-questions.md#shared-questions)),
+i dlatego wiersz idzie pod flagą, a nie w samym werdykcie:
+nie jest znaleziskiem, tylko materiałem do przeczytania
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+
+Adresatem tego wiersza jest reguła o wymyślonym sprawcy, a nie ta o czasowniku
+domowym ([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)).
+Czasownikowi domowemu tamta reguła każe podstawić czasownik dokładny,
+a `stać`, `trzymać`, `brać` i `nieść` nie mają w Walentym ramy semantycznej wcale,
+więc test podstawieniowy zostaje przy człowieku.
+Regule sąsiedniej wiersz ma za to co powiedzieć:
+`kupować` żąda w podmiocie ludzi albo podmiotów, a `rozstrzygać` bierze tam
+i komunikat, więc „leksykon kupuje jednoznaczność” dostaje świadka,
+a „dokument rozstrzyga” nie.
+
+Wiersz jest jeden na obsadzoną pozycję, a nie jeden na rolę:
+`dopełnienie` nie mówi, w którym przypadku stoi,
+a `Autor doradza czytelnikowi poprawkę.` obsadza nim celownik i biernik naraz,
+i czasownik żąda od nich czego innego.
+Pozycję nazywa więc przypadek wypełnienia, a pod przeczeniem dwa naraz,
+bo dopełnienie w bierniku staje tam w dopełniaczu.
+Fraza bezokolicznikowa zostaje przy tym cała poza wierszem:
+`dokument` w `Autor zamierzył edytować dokument.` obsadza pozycję `edytować`,
+a nie tego czasownika, przy którym stoi podmiot,
+więc wiersz o nim mówiłby o żądaniu cudzej ramy.
+
+Milczenie jest odpowiedzią częstą, a kryterium trzyma `olski/żądania.py`.
+Nad prozą tego repozytorium wiersz dostaje kilka procent zdań
+i bierze się to głównie z zasięgu samego pliku:
+`mówić`, `stać`, `brać`, `czytać` i `mieć` nie mają w tym wydaniu ramy żadnej,
+a to nimi ten rejestr orzeka najczęściej.
+Alternatywa nienazwana zostaje za to w wierszu — `zażądał` wyżej ma ją obok
+klasy `LUDZIE` — bo wiersz o samych ludziach byłby żądaniem ostrzejszym,
+niż Walenty stawia.

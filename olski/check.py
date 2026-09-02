@@ -13,8 +13,9 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections.abc import Iterator, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from pathlib import Path
+from typing import TypeVar
 
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
 from olski.wejście import proza
@@ -22,14 +23,28 @@ from olski.werdykt import (
     OdczytaniaFormy,
     Podsumowanie,
     Verdict,
+    Żądanie,
     check,
     dalsze_zatrzymania,
 )
+from olski.żądania import NIENAZWANE
+
+#: Wpis wykazu drukowanego na odczytanie (:func:`_wykaz`).
+T = TypeVar("T")
 
 #: Znak, którym wiersz morfologii oddziela dwa odczytania jednej formy.
 #: Przecinka tu nie ma, bo przecinek jest formą i ma w tym wykazie własny
 #: wiersz, a średnikiem rozdziela werdykt własne człony.
 MIĘDZY_ODCZYTANIAMI = " | "
+
+#: Słowo, którym wiersz żądania oddziela dwie klasy. Przecinka tu nie ma, bo
+#: klasy stoją w alternatywie: czasownik żąda jednej z nich, a nie obu naraz.
+ALBO = " albo "
+
+#: Napis, którym wiersz żądania nazywa klasę, której plik żądań nie nazywa
+#: (:data:`olski.żądania.NIENAZWANE`). Stoi w alternatywie obok klas nazwanych,
+#: bo przemilczana czytałaby się jak żądanie ostrzejsze, niż Walenty stawia.
+KLASA_NIENAZWANA = "klasy, której olski nie nazywa"
 
 #: Znak przed wierszem warstwy rozstrzygającej. Wiersz ten nie jest werdyktem
 #: i nie może się na werdykt czytać, bo werdykt mówi, co olski o zdaniu wie,
@@ -84,22 +99,39 @@ def _wiersz_formy(wiersz: OdczytaniaFormy, wcięcie: str) -> str:
     return f"{wcięcie}„{wiersz.forma}”: {MIĘDZY_ODCZYTANIAMI.join(wiersz.odczytania)}"
 
 
-def _morfologia(verdict: Verdict) -> Iterator[str]:
-    """Wiersze, którymi ``--morfologia`` mówi, czym forma w odczytaniu stoi.
+def _wiersz_żądania(wiersz: Żądanie, wcięcie: str) -> str:
+    """Żądanie jednej pozycji jako wiersz wydruku.
 
-    Odczytania są numerowane tak, jak je numeruje ``--readings``, bo obie flagi
-    biorą tę samą listę streszczeń (``Verdict.readings`` w ``olski/werdykt.py``).
+    Rola i wypełnienie otwierają wiersz tak, jak je nazywa streszczenie, bo obok
+    niego się go czyta; cudzysłów jest treścią, bo wypełnienie jest ciągiem
+    wziętym ze zdania i samo zawiera odstępy.
+    """
+    klasy = ALBO.join(
+        KLASA_NIENAZWANA if klasa in NIENAZWANE else klasa for klasa in wiersz.klasy
+    )
+    return f"{wcięcie}{wiersz.rola} „{wiersz.wypełnienie}”: „{wiersz.czasownik}” żąda klasy {klasy}"
+
+
+def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
+    """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
+
+    Obie flagi, które ten wykaz drukują, biorą tę samą listę streszczeń
+    (``Verdict.readings`` w ``olski/werdykt.py``), więc numer znaczy w nich to
+    samo, a wypisany osobno w każdej rozjechałby się po cichu.
     Numeru nie ma tam, gdzie wpis jest jeden: nie ma go od czego odróżnić,
     a nad zdaniem odrzuconym nie byłby numerem odczytania
     (``Verdict.morfologia`` mówi, co taki wpis niesie).
+    Wpis pusty nie dostaje nawet numeru, bo nagłówek bez wierszy pod sobą
+    zapowiada wykaz, którego nie ma.
     """
-    tabele = verdict.morfologia
     numerowane = len(tabele) > 1
     for numer, tabela in enumerate(tabele, start=1):
+        if not tabela:
+            continue
         if numerowane:
             yield f"odczytanie {numer}:"
-        for wiersz in tabela:
-            yield _wiersz_formy(wiersz, "  " if numerowane else "")
+        for wpis in tabela:
+            yield wiersz(wpis, "  " if numerowane else "")
 
 
 def _dalsze(verdict: Verdict) -> Iterator[str]:
@@ -137,7 +169,10 @@ def _wiersze(
         yield from _czytania(verdict)
     #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
     if args.morfologia:
-        yield from _morfologia(verdict)
+        yield from _wykaz(verdict.morfologia, _wiersz_formy)
+    #  Żądania za morfologią, bo mówią o pozycji, którą czytanie już obsadziło.
+    if args.żądania:
+        yield from _wykaz(verdict.żądania, _wiersz_żądania)
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo)
 
@@ -164,6 +199,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--morfologia",
         action="store_true",
         help="pokaż lemat i znacznik form, czyli czym stoją w odczytaniu",
+    )
+    parser.add_argument(
+        "--żądania",
+        action="store_true",
+        help="pokaż, czego czasownik żąda od słowa stojącego w jego pozycji",
     )
     parser.add_argument(
         "--zatrzymania",

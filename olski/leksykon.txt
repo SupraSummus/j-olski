@@ -31,8 +31,8 @@
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
-# ramę nazywa `olski/subset.py`, a docs/subset.md trzyma polecenie wraz z tym,
-# skąd wziąć pliki wejściowe.
+# ramę nazywa `olski/subset/rama.py`, a docs/warstwa-leksykalna.md trzyma polecenie
+# wraz z tym, skąd wziąć pliki wejściowe.
 Oscar	rzeczownik		dla,za
 abdykować	czasownik	nie_bierze_biernika	z
 abonament	rzeczownik		na,u,w,za
