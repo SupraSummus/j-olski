@@ -1,26 +1,5 @@
 # Werdykt i wydruk
 
-Znaleziska poza wieloznacznością nie mają ani jednego wykrywacza,
-a dwa pierwsze są nazwane: wielka litera na czele zdania i znak cudzysłowu.
-Każde wchodzi ze swoim pomiarem nad prozą repozytorium,
-której trafienia czyta się wszystkie
-([`docs/linter.md`](../docs/linter.md#cztery-osie-każdej-reguły)).
-Wielka litera stoi na podziale na zdania z `olski/document.py`,
-więc skrót przed kropką — `np.`, `tzw.` — daje trafienie fałszywe,
-i ile ich jest nad `docs/`, nikt nie policzył.
-Cudzysłów ma pomiar z wycofanego pakietu:
-442 trafienia nad korpusem audytowym, z czego 296 słusznych,
-a resztą były cale, kod i cytaty angielskie
-([`docs/firing-rates.md`](../docs/firing-rates.md#quote-straight-fired-442-times-and-was-right-about-296)),
-więc wykrywacz pyta Morfeusza, czy w cudzysłowie stoi polskie słowo.
-Werdykt przemyca dziś tę regułę pod odrzuceniem:
-`_podpowiedź` w `olski/werdykt.py` dopisuje uwagę o cudzysłowie do formy bez licencji,
-czyli zgłasza znalezisko tam, gdzie olski ma milczeć,
-i ruch przenosi ją do wykrywacza.
-Nad cudzą polszczyzną obie reguły żądają kalibracji,
-której poprzedni pakiet się nie doczekał
-([`docs/linter.md`](../docs/linter.md#co-zamknęło-pakiet-reguł)).
-
 Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
 `Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
 daje wiersz `„do udziału” → „może”, „przedstawiciela”`,

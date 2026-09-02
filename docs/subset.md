@@ -13,7 +13,7 @@ For the theory behind the track, see [design-notes.md](design-notes.md).
 Zdanie jest olskie, gdy gramatyka je wyprowadza.
 Narzędzie nad tą gramatyką sprawdza zdania polskiego tekstu
 i zgłasza autorowi znaleziska.
-Wieloznaczność jest jednym z nich i jedynym, które narzędzie zgłasza:
+Wieloznaczność jest jednym z nich:
 zdanie o kilku odczytaniach różnego kształtu
 ([niżej](#co-się-liczy-jako-jedno-odczytanie))
 dostaje werdykt z tymi odczytaniami, a wybór zostaje przy autorze.
@@ -45,7 +45,9 @@ więc OVS nie ma gdzie się wyprowadzić.
 Znalezisko nad pierwszym zdaniem mówi o tym zdaniu prawdę,
 a nad drugim nie pada, i tego od znaleziska się żąda.
 
-Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest.
+Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest,
+dopóki nie dzieli go od czytania jeden znak
+([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)).
 Olski go nie czyta i o jego polszczyźnie milczy,
 a werdykt mówi wtedy, dokąd analiza doszła
 ([niżej](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
@@ -76,8 +78,10 @@ Ta jedna własność ustawiała wiersz podsumowania, kod wyjścia i pierwsze zda
 więc zdanie wieloznaczne w polszczyźnie wychodziło odrzucone
 za wieloznaczność, którą naprawdę ma
 ([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
-Znalezisk poza wieloznacznością — wielkiej litery, znaku cudzysłowu —
-narzędzie nie zgłasza, a ruch trzyma [`todo/`](../todo/README.md).
+Drugim znaleziskiem jest poprawka jednego znaku
+([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+Wielkiej litery na początku zdania nie zgłasza nic,
+a ruch trzyma [`todo/`](../todo/README.md).
 
 ## Co się liczy jako jedno odczytanie
 
@@ -240,18 +244,87 @@ więc przejście po `_przed_formą` w `olski/parse/las.py` oddaje w miejscu zatr
 zbiór pusty nad każdym zdaniem tej prozy odrzuconym na strukturze.
 Wydruk oczekiwań milczałby zatem dokładnie tam, gdzie autor jest zgubiony.
 
-Inaczej jest przy pierwszej z tych trzech przyczyn:
-do formy, po którą nie sięga żadna produkcja,
-werdykt dokłada podpowiedź, gdy cudzysłów otwiera tę formę albo ją zamyka.
-Cudzysłowem maszynowym, pojedynczym, angielskim i ostrokątnym cytuje się
-poza tym rejestrem, a ta gramatyka bierze samą parę `„ ”`
+Zdanie odrzucone bywa przy tym oddalone od czytania o jeden znak,
+i wtedy werdykt mówi nie tylko, dokąd analiza doszła, ale i co poprawić
+([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+
+## Poprawkę jednego znaku poświadcza gramatyka
+
+Autor cytuje cudzysłowem maszynowym tam, gdzie ten rejestr pisze `„ ”`,
+albo nie stawia kropki na końcu zdania.
+Olski takiego zdania nie czyta, a dzieli je od czytania jeden znak,
+i taka poprawka jest drugim znaleziskiem obok wieloznaczności
+([wyżej](#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+
+```sh
+python3 -m olski.check -c 'Przepisem "Zasad techniki prawodawczej" jest ustawa.
+Przepisem „Zasad techniki prawodawczej” jest ustawa.'
+```
+
+```text
+<text>: Przepisem "Zasad techniki prawodawczej" jest ustawa.
+        jedno odczytanie po poprawce jednego znaku: cudzysłów „ i ” w miejsce tego, którym zdanie cytuje
+zdań: 2; wieloznaczne: 0; bez odczytania: 1; do poprawki jednym znakiem: 1
+```
+
+Zdanie drugie jest tym pierwszym po poprawce i werdykt o nim milczy,
+bo gramatyka bierze parę `„ ”` i żadnej innej
 ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
-Sama nazwana forma odpowiada wtedy autorowi, że jego cudzysłów nie przechodzi,
-i nie odpowiada, który przechodzi.
-Łącznika podpowiedź nie obejmuje, choć myślnik ten rejestr pisze pauzą:
-formę `-` bez licencji daje także nazwa pliku i flaga
+
+Świadkiem jest tu gramatyka, a nie znak,
+bo poprawka wchodzi do werdyktu dopiero wtedy,
+gdy rozbiór poprawionego napisu daje odczytanie.
+Reguła stojąca na takim świadku nie orzeka o niczym, czego przedtem nie sprawdziła,
+więc nie żąda kalibracji, której brak zamknął pakiet reguł
+([linter.md](linter.md#co-zamknęło-pakiet-reguł)).
+
+Reguła na samym znaku odpowiada inaczej i jest to zmierzone.
+Poprzednia wersja tej reguły dopisywała zdanie o cudzysłowie do każdej formy
+bez licencji, którą cudzysłów otwierał albo zamykał,
+i nad prozą tego repozytorium padała tak kilkadziesiąt razy, ani razu trafnie:
+za każdym razem nad zdaniem angielskim,
+w którym cudzysłów nie jest jedyną rzeczą, przez którą olski go nie czyta.
+Ta sama proza nie daje dziś ani jednego trafienia.
+Rejestrem, dla którego reguła powstała, jest korpus audytowy,
+gdzie znak liczono i gdzie ma on rację w dwóch trzecich wystąpień
+([firing-rates.md](firing-rates.md#quote-straight-fired-442-times-and-was-right-about-296)),
+a poprawki poświadczonej gramatyką nad tym korpusem nikt nie zmierzył.
+
+Poprawki są dwie i żaden napis nie pyta o obie.
+Napis, którego nic nie punktuje jako zdania, pyta o znak na końcu,
+i to ta poprawka rozdziela nagłówek od zdania bez kropki
+([extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)).
+Zdanie punktowane i odrzucone pyta o cudzysłów.
+Napis, w którym stoi jedno i drugie, wychodzi bez poprawki i tak ma być:
+dzieli go od czytania nie jeden znak, tylko dwa.
+Ceną każdej z nich jest drugi rozbiór nad tym samym zdaniem,
+więc obie stoją za warunkiem tańszym od niego.
+Poprawka cudzysłowu pyta przedtem o pierwszy i ostatni znak formy bez licencji.
+
+Zdanie naprawialne zostaje odrzucone i pokrycie liczy je tak samo jak przedtem,
+bo znalezisko mówi o autorze, a podzbiór mierzy się tym, co gramatyka wyprowadza.
+Wiersz podsumowania liczy je przez to dwa razy,
+raz jako znalezisko i raz jako milczenie.
+
+Łącznika żadna poprawka nie obejmuje, choć myślnik ten rejestr pisze pauzą,
+i nie stoi za tym kryterium, tylko cena.
+Nazwa pliku i flaga, które też dają formę `-` bez licencji
 ([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)),
-a odróżnia je od myślnika sam odstęp, którego w formie nie ma.
+odsiewają się przy takim świadku same:
+podmiana, po której zdanie się nie wyprowadza, poprawki nie wydaje.
+Zostaje rachunek i ten jest zmierzony.
+Nad prozą tego repozytorium formę `-` bez licencji ma kilkaset zdań odrzuconych,
+a myślnik w jej miejsce nie daje odczytania ani jednemu z nich,
+więc taka poprawka płaciłaby rozbiór za każde i nie zgłaszała nic.
+Odwróci to rejestr, w którym ta podmiana zdanie wyprowadza,
+a pomiar nad nim trzyma [`todo/pomiar.md`](../todo/pomiar.md).
+
+Poprawka odstępu po kropce stoi poza tą klasą, a wyklucza ją rachuba zdań.
+Kropka bez odstępu za nią — `niska.Cena` — nie jest granicą zdania
+(`SENTENCE_END` w `olski/document.py`),
+więc po poprawce olski czyta nie to zdanie, tylko dwa,
+a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić.
+Wpis o niej trzyma [`todo/gramatyka.md`](../todo/gramatyka.md).
 
 ## What the grammar covers
 

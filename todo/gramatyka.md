@@ -15,21 +15,25 @@ a dziedzina rejestru nie odsyła i odsyłać nie może,
 bo `anat.` przy `oczy` wskazuje czytanie trafne
 ([`docs/sklad.md`](../docs/sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
 
-Trzy naprawy jednego znaku odrzucenie zgłasza trzema kształtami zamiast jednym.
-`unclosed` nazywa napis, który olski czyta po domknięciu, i podaje znak
-(`_domknięcie` w `olski/werdykt.py`),
-cudzysłów prosty dostaje podpowiedź wpisaną osobno w `_podpowiedź` tam samo,
-a brak spacji po kropce nie dostaje nic i wychodzi jako zatrzymanie na formie,
+Kropka bez odstępu za nią jest naprawą jednego znaku i jako jedyna nie ma kształtu.
+Napis niedomknięty i zdanie cytujące spoza rejestru dostają poprawkę
+poświadczoną rozbiorem (`Naprawa` w `olski/werdykt.py`),
+a `niska.Cena` wychodzi zatrzymaniem na formie,
 która z pomyłką autora nie ma nic wspólnego.
-Świadkiem jest w każdym z trzech gramatyka — reguła strzela tam,
-gdzie podmieniony znak zmienia werdykt z „no reading” na czytanie —
-więc żadna nie potrzebuje kalibracji, której brak zamknął pakiet reguł
-([`docs/linter.md`](../docs/linter.md#co-zamknęło-pakiet-reguł)).
-Ruchem jest jedna klasa napraw wraz z jednym kształtem wypowiedzi o niej,
-a decyzją, którą to wymusza, czy zdanie naprawialne zostaje w `rejected`:
-zostawione tam mierzy podzbiór jak dziś, a wyjęte rusza pokrycie nad korpusami.
-Do przeczytania jest więc to, ile zdań Składnicy i korpusu audytowego
-odrzucenie bierze za sam cudzysłów albo za brakującą spację.
+Poza tę klasę wypadła przez rachubę zdań:
+kropka bez odstępu nie jest granicą zdania (`SENTENCE_END` w `olski/document.py`),
+więc po poprawce olski czyta dwa zdania zamiast jednego,
+a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić
+([`docs/subset.md`](../docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+Ruchy są dwa i różnią się adresatem.
+Albo poprawka wchodzi do podziału na zdania i mówi o niej wykrywacz nad dokumentem,
+a nie werdykt o zdaniu.
+Albo `Naprawa` niesie odczytania kilku zdań,
+i wtedy jej wiersz przestaje mówić jedną rzecz o jednym zdaniu.
+Do przeczytania przed wyborem jest
+[`docs/firing-rates.md`](../docs/firing-rates.md#missing-space-after-full-stop-read-the-text-of-a-link)
+wraz z sekcją o trafieniach słusznych tej samej reguły,
+bo mierzy ona ten sam odstęp nad korpusem audytowym, tyle że samym znakiem.
 
 Odrzucenie nie widzi małej litery na początku zdania.
 `cena jest niska.` wychodzi jednym czytaniem, choć zdaniem pisanej polszczyzny nie jest.

@@ -5,6 +5,8 @@ bo autor ma na niego zareagować.
 Zdanie o dwóch odczytaniach jest znaleziskiem
 (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
 a :meth:`Verdict.explain` pokazuje, gdzie te odczytania się rozchodzą;
+znaleziskiem jest też zdanie, które od odczytania dzieli jeden znak
+(:class:`Naprawa`);
 zdanie odrzucone dostaje miejsce, na którym rozbiór stanął,
 a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
 Skąd te odczytania się biorą, mówi ``Verdict.morfologia``:
@@ -64,42 +66,126 @@ FRAGMENT = "fragment"
 #: a nie o autorze, wywodzi docs/extraction.md.
 NIEDOMKNIĘTE = "unclosed"
 
-#: Znaki, którymi :func:`_domknięcie` domyka napis, w tej kolejności. Wykrzyknika
-#: nie ma, bo terminal końca zdania bierze każdy z trzech, więc kropka zamyka
-#: każde czytanie, które zamknąłby on, i mówi przy tym o gramatyce, a nie o tonie
+#: Znaki, którymi :func:`_domknięcie` domyka napis, wraz z nazwą, pod którą
+#: werdykt je wypisuje; kolejność jest kolejnością prób. Wykrzyknika nie ma, bo
+#: terminal końca zdania bierze każdy z trzech, więc kropka zamyka każde
+#: czytanie, które zamknąłby on, i mówi przy tym o gramatyce, a nie o tonie
 #: autora. Pytajnik jest, bo pytanie zamyka się tylko nim
 #: (`KONIEC_ZDANIA` i `PYTAJNIK` w ``olski/subset/słowa.py``).
-DOMKNIĘCIA = (".", "?")
+DOMKNIĘCIA = {".": "kropka na końcu", "?": "pytajnik na końcu"}
 
 
 @dataclass(frozen=True)
-class Domknięcie:
-    """Znak, który z napisu robi zdanie, wraz z liczbą czytań, jakie mu daje.
+class Naprawa:
+    """Poprawka jednego znaku, po której olski to zdanie czyta.
 
-    Liczba idzie ze znakiem, bo policzona drugi raz żądałaby drugiego rozbioru
-    nad napisem, który werdykt już rozebrał.
+    Klasa jest jedna na wszystkie takie poprawki, bo autorowi mówią one to samo:
+    olski tego zdania nie czyta, a od czytania dzieli je jeden znak. Świadkiem
+    jest w każdej z nich gramatyka, bo poprawka wchodzi tutaj dopiero wtedy, gdy
+    rozbiór poprawionego napisu daje odczytanie. Reguła stojąca na takim świadku
+    nie żąda kalibracji, której brak zamknął pakiet reguł
+    (docs/linter.md#co-zamknęło-pakiet-reguł).
+
+    Liczba odczytań idzie razem z poprawką, bo policzona drugi raz żądałaby
+    trzeciego rozbioru nad zdaniem, które werdykt rozebrał już dwa razy.
     """
 
-    znak: str
+    #: Co autor ma poprawić, tak jak to stoi w wierszu werdyktu.
+    poprawka: str
+    #: Liczba odczytań, które olski nad poprawionym napisem czyta.
     czytań: int
 
 
-def _domknięcie(zdanie: str, grammar: Grammar, doszło_do_końca: bool) -> Domknięcie | None:
-    """Domknięcie, po którym olski ten napis czyta, albo ``None``.
+def _domknięcie(zdanie: str, grammar: Grammar) -> Naprawa | None:
+    """Poprawka napisu, którego nic nie punktuje jako zdania: znak na jego końcu.
 
-    Pytanie to żąda drugiego rozbioru, więc pada tylko za tanim warunkiem:
-    analiza doszła do końca napisu i każda forma ma licencję. Warunek jest
-    konieczny, bo czytanie nad domkniętym bierze każdą formę, więc bierze ją i
-    analiza częściowa nad napisem bez znaku. Nie wystarcza: analiza dochodzi do
-    końca także tam, gdzie żadnego konstytuentu nie domyka, więc werdykt stoi na
-    rozbiorze, a nie na samym warunku.
+    Warunek na to pytanie stawia :func:`_naprawa`, bo drugi rozbiór jest tu
+    całym kosztem.
     """
-    if not doszło_do_końca or SENTENCE_CLOSE.search(zdanie):
-        return None
-    for znak in DOMKNIĘCIA:
+    for znak, poprawka in DOMKNIĘCIA.items():
         wynik = parse(grammar, morphology(zdanie + znak), deklaracja=DEKLARACJA)
         if not wynik.rejected:
-            return Domknięcie(znak, wynik.ile)
+            return Naprawa(poprawka, wynik.ile)
+    return None
+
+
+def _przecytowane(zdanie: str) -> str:
+    """To samo zdanie cytowane parą znaków, którą bierze gramatyka.
+
+    Który znak otwiera, a który zamyka, wychodzi z kolejności, a nie z samego
+    znaku, bo cudzysłów maszynowy cytuje w obie strony. Apostrof w środku słowa
+    tę kolejność przewraca i nie pilnuje tego nic: napis, który stąd wyjdzie,
+    odczytania nie ma, więc poprawki :func:`_cudzysłów` z niego nie zrobi.
+    """
+    otwarty = False
+    znaki: list[str] = []
+    for znak in zdanie:
+        if znak in ZAMIENNIKI_CUDZYSŁOWU:
+            znaki.append(ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY if otwarty else ZNAK_CUDZYSŁOWU_OTWIERAJĄCY)
+            otwarty = not otwarty
+        else:
+            znaki.append(znak)
+    return "".join(znaki)
+
+
+def _cudzysłów(
+    zdanie: str, nielicencjonowane: tuple[str, ...], grammar: Grammar
+) -> Naprawa | None:
+    """Poprawka zdania, które cytuje znakiem spoza tego rejestru: para z gramatyki.
+
+    Czemu poprawka dotyczy tego znaku, a nie łącznika, mówi
+    docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka.
+
+    Warunek tani stoi przed rozbiorem i pyta o pierwszy oraz ostatni znak formy
+    bez licencji. Pyta o oba, bo Morfeusz scala cudzysłów pojedynczy ze słowem w
+    jedną formę: ``'Zasad'`` wychodzi jednym segmentem. Nie pyta o samo
+    zawieranie, bo apostrof w środku słowa nie cytuje, a ``fact's`` kosztowałby
+    wtedy rozbiór.
+    """
+    if not any(
+        forma[0] in ZAMIENNIKI_CUDZYSŁOWU or forma[-1] in ZAMIENNIKI_CUDZYSŁOWU
+        for forma in nielicencjonowane
+    ):
+        return None
+    poprawione = _przecytowane(zdanie)
+    wynik = parse(grammar, morphology(poprawione), deklaracja=DEKLARACJA)
+    if wynik.rejected:
+        return None
+    return Naprawa(
+        f"cudzysłów {ZNAK_CUDZYSŁOWU_OTWIERAJĄCY} i {ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY}"
+        " w miejsce tego, którym zdanie cytuje",
+        wynik.ile,
+    )
+
+
+def _naprawa(
+    zdanie: str,
+    grammar: Grammar,
+    odrzucone: bool,
+    nielicencjonowane: tuple[str, ...],
+    doszło_do_końca: bool,
+) -> Naprawa | None:
+    """Poprawka jednego znaku, po której olski ten napis czyta, albo ``None``.
+
+    Poprawki są dwie, a pyta się o jedną z nich, bo każda kosztuje drugi rozbiór:
+    napis bez znaku kończącego pyta o ten znak, a zdanie punktowane o cudzysłów.
+    Rozłączności pilnuje sama gramatyka, bo napisu, któremu brakuje obu znaków,
+    nie wyprowadzi żadna z tych poprawek z osobna, więc warunki niżej oszczędzają
+    rozbiór, a nie strzegą odpowiedzi. Na tej rozłączności stoi
+    :attr:`Verdict.status`: o niedomknięciu rozstrzyga tam sama obecność poprawki.
+
+    Domknięcie żąda warunku tańszego jeszcze: analiza doszła do końca napisu i
+    każda forma ma licencję. Warunek jest konieczny, bo czytanie nad napisem
+    domkniętym bierze każdą formę, więc bierze ją i analiza częściowa nad napisem
+    bez znaku. Nie wystarcza: analiza dochodzi do końca także tam, gdzie żadnego
+    konstytuentu nie domyka.
+    """
+    if not odrzucone:
+        return None
+    if SENTENCE_CLOSE.search(zdanie):
+        return _cudzysłów(zdanie, nielicencjonowane, grammar)
+    if doszło_do_końca and not nielicencjonowane:
+        return _domknięcie(zdanie, grammar)
     return None
 
 
@@ -167,28 +253,13 @@ def _nazwy_szkolne(rola: str) -> tuple[str, ...]:
     return (rola,)
 
 
-def _podpowiedź(nielicencjonowane: tuple[str, ...]) -> str:
-    """Znaki, którymi ten rejestr cytuje, gdy autor zacytował innymi; inaczej nic.
+def _naprawiony(naprawa: Naprawa) -> str:
+    """Poprawka jednego znaku jako wiersz werdyktu.
 
-    Czemu podpowiedź dostaje ten znak, a nie łącznik, mówi
-    docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka.
-
-    Pytanie jest o pierwszy i ostatni znak formy, bo Morfeusz scala cudzysłów
-    pojedynczy ze słowem w jedną formę — ``'Zasad'`` wychodzi jednym segmentem —
-    a apostrof w środku słowa nie cytuje: ``fact's`` brałby podpowiedź, gdyby
-    warunek pytał o samo zawieranie.
+    Wiersz zaczyna się liczbą odczytań tak samo jak wiersz o wieloznaczności, bo
+    obydwa mówią najpierw to samo: ile odczytań olski nad tym zdaniem ma.
     """
-    if not any(
-        forma[0] in ZAMIENNIKI_CUDZYSŁOWU or forma[-1] in ZAMIENNIKI_CUDZYSŁOWU
-        for forma in nielicencjonowane
-    ):
-        return ""
-    #  Średnik otwiera podpowiedź, bo tym znakiem wycina ją kolejka form bez
-    #  licencji (docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze).
-    return (
-        f"; a cytat otwiera się znakiem {ZNAK_CUDZYSŁOWU_OTWIERAJĄCY}"
-        f" i zamyka znakiem {ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY}"
-    )
+    return f"{_odczytań(naprawa.czytań)} po poprawce jednego znaku: {naprawa.poprawka}"
 
 
 @dataclass(frozen=True)
@@ -213,10 +284,10 @@ class Verdict:
     #: Przebieg, który nie pytał (:func:`werdykt`), zostawia tu również ``None``.
     #: Rozdziela te dwa ``Result.furthest`` i o niego pyta :meth:`explain`.
     zatrzymanie: str | None
-    #: Domknięcie, po którym olski ten napis czyta, albo ``None``. Pole, a nie
-    #: właściwość, bo :func:`_domknięcie` kosztuje rozbiór, a właściwość płaciłaby
-    #: tyle razy, ile razy ktoś ją przeczyta.
-    domknięcie: Domknięcie | None
+    #: Poprawka jednego znaku, po której olski ten napis czyta, albo ``None``.
+    #: Pole, a nie właściwość, bo :func:`_naprawa` kosztuje rozbiór, a właściwość
+    #: płaciłaby tyle razy, ile razy ktoś ją przeczyta.
+    naprawa: Naprawa | None
 
     @property
     def punktowane(self) -> bool:
@@ -232,11 +303,17 @@ class Verdict:
     def znalezisko(self) -> bool:
         """Czy narzędzie ma o tym zdaniu coś do powiedzenia.
 
-        Znaleziskiem jest dziś sama wieloznaczność
+        Znaleziska są dwa: wieloznaczność oraz poprawka jednego znaku
         (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
-        Warunek stoi tu raz, bo pyta o niego i wydruk, i :class:`Podsumowanie`.
+        Warunek stoi tu raz, bo pyta o niego wydruk nad każdym zdaniem osobno;
+        :class:`Podsumowanie` liczy oba znaleziska nad tekstem i liczy je osobno.
+
+        Napis niepunktowany zostaje poza znaleziskiem także wtedy, gdy poprawkę
+        ma, bo nagłówek i pozycja listy dochodzą tu jako takie napisy i żadne z
+        nich nie jest zdaniem, którego autor nie domknął
+        (docs/extraction.md); wydruk pokazuje je do flagi ``--zatrzymania``.
         """
-        return self.punktowane and self.result.ambiguous
+        return self.punktowane and (self.result.ambiguous or self.naprawa is not None)
 
     @property
     def czytane(self) -> bool:
@@ -258,7 +335,7 @@ class Verdict:
         i znaczek na stronie (``witryna/skrypt.js``).
         """
         if not self.punktowane:
-            return NIEDOMKNIĘTE if self.domknięcie else FRAGMENT
+            return NIEDOMKNIĘTE if self.naprawa else FRAGMENT
         return self.result.status
 
     @property
@@ -314,11 +391,11 @@ class Verdict:
         return [r for r in self.result.rozbieżności if len(r.czytania) > 1]
 
     def explain(self) -> str:
-        if self.status == NIEDOMKNIĘTE:
-            return (
-                f"nic tego nie domyka: „{self.domknięcie.znak}” na końcu"
-                f" daje {_odczytań(self.domknięcie.czytań)}"
-            )
+        #  Poprawka wyprzedza każde inne wyjaśnienie i wyprzedza je nad zdaniem
+        #  odrzuconym tak samo jak nad napisem niedomkniętym: zatrzymanie mówi,
+        #  dokąd doszła analiza, a poprawka mówi, co z tym zrobić.
+        if self.naprawa is not None:
+            return _naprawiony(self.naprawa)
         if self.status == FRAGMENT:
             return "to nie zdanie: nic go nie punktuje jako zdania"
         if self.result.valid:
@@ -328,8 +405,7 @@ class Verdict:
                 # Cudzysłów jest treścią: najczęstszą formą bez licencji jest
                 # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
-                podpowiedź = _podpowiedź(self.nielicencjonowane)
-                return f"brak odczytania: żadna produkcja nie bierze {formy}{podpowiedź}"
+                return f"brak odczytania: żadna produkcja nie bierze {formy}"
             if self.result.furthest is None:
                 #  Tak samo odmawia ``bloker`` w ``olski/pokrycie.py`` i z tego
                 #  samego powodu: milczenie o zatrzymaniu czytałoby się tu jako
@@ -429,8 +505,8 @@ def werdykt(
     (``zmierz_zdanie`` w ``harness/pomiar.py``).
 
     Napis bez znaku kończącego pyta o zatrzymanie mimo flagi, bo od niego zależy
-    wtedy sam status: domknięcie stawia się nad analizą, która doszła do końca
-    (:func:`_domknięcie`), a nad napisem punktowanym nie stawia się go wcale.
+    wtedy sam status: poprawki domykającej szuka się nad analizą, która doszła
+    do końca (:func:`_naprawa`), a nad napisem punktowanym nie szuka się jej wcale.
     """
     grammar = grammar or GRAMMAR
     pytane = zatrzymanie or not SENTENCE_CLOSE.search(zdanie)
@@ -445,7 +521,7 @@ def werdykt(
         result=result,
         nielicencjonowane=nielicencjonowane,
         zatrzymanie=stanęło.form if stanęło is not None else None,
-        domknięcie=_domknięcie(zdanie, grammar, doszło_do_końca and not nielicencjonowane),
+        naprawa=_naprawa(zdanie, grammar, result.rejected, nielicencjonowane, doszło_do_końca),
     )
 
 
@@ -542,16 +618,25 @@ class Podsumowanie:
     """Znaleziska nad tekstem i to, o czym olski milczy, dla tego, kto pyta o cały tekst.
 
     Liczby te wychodzą z werdyktów jedną regułą — fragment nie jest zdaniem, więc
-    nie wchodzi do mianownika, a zdanie odrzucone nie jest znaleziskiem — i pyta
-    o nie więcej niż jeden wołający, więc policzone u każdego z nich rozjeżdżają
-    się po cichu: mianownik mniejszy o fragment czyta się jak pomiar, a nie jak
-    pomyłka.
+    nie wchodzi do mianownika, a zdanie odrzucone jest milczeniem, dopóki nie ma
+    poprawki — i pyta o nie więcej niż jeden wołający, więc policzone u każdego z
+    nich rozjeżdżają się po cichu: mianownik mniejszy o fragment czyta się jak
+    pomiar, a nie jak pomyłka.
+
+    Zdanie naprawialne stoi w dwóch licznikach naraz, w :attr:`naprawialne` i w
+    :attr:`bez_odczytania`, bo gramatyka go nie wyprowadza i pokrycie liczy je
+    tak samo jak przedtem: znalezisko mówi o autorze, a nie o podzbiorze.
     """
 
     #: Zdania, czyli to, o czym werdykt orzeka: fragmentów nie ma tu ani w liczniku.
     zdań: int
-    #: Zdania o kilku odczytaniach, czyli znaleziska.
+    #: Zdania o kilku odczytaniach, czyli znaleziska wieloznaczności.
     wieloznaczne: int
+    #: Zdania, które od odczytania dzieli jeden znak, czyli drugie ze znalezisk
+    #: (:class:`Naprawa`). Liczba jest osobna od :attr:`wieloznaczne`, bo mówi o
+    #: zdaniu rzecz przeciwną: tamto olski czyta i ma o nim za dużo do
+    #: powiedzenia, a to zdanie czyta dopiero po poprawce.
+    naprawialne: int
     #: Zdania, których gramatyka nie wyprowadza. Olski o nich milczy, a milczenie
     #: liczy się osobno, bo bez tej liczby przebieg nad tekstem, którego nie
     #: przeczytał, czytałby się jak czysty.
@@ -561,12 +646,23 @@ class Podsumowanie:
     #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
     fragmentów: int
 
+    @property
+    def znalezisk(self) -> int:
+        """Ile zdań tekstu narzędzie zgłasza, bez względu na to, które znalezisko.
+
+        Pyta o to kod wyjścia (``olski/check.py``), bo o samym zgłoszeniu
+        rozstrzyga tu jedno miejsce, a znalezisko dopisane później dostaje ten
+        kod wyjścia razem z własnym licznikiem.
+        """
+        return self.wieloznaczne + self.naprawialne
+
     @classmethod
     def z_werdyktów(cls, werdykty: Sequence[Verdict]) -> Podsumowanie:
         zdania = [verdict for verdict in werdykty if verdict.punktowane]
         return cls(
             zdań=len(zdania),
-            wieloznaczne=sum(verdict.znalezisko for verdict in zdania),
+            wieloznaczne=sum(verdict.result.ambiguous for verdict in zdania),
+            naprawialne=sum(verdict.naprawa is not None for verdict in zdania),
             bez_odczytania=sum(verdict.result.rejected for verdict in zdania),
             fragmentów=len(werdykty) - len(zdania),
         )
@@ -578,6 +674,10 @@ class Podsumowanie:
             f"zdań: {self.zdań}; wieloznaczne: {self.wieloznaczne};"
             f" bez odczytania: {self.bez_odczytania}"
         )
+        #  Wiersz rośnie o tę parę dopiero tam, gdzie poprawka pada, bo nad
+        #  tekstem bez ani jednej mówiłaby zero o znalezisku, którego nie ma.
+        if self.naprawialne:
+            podsumowanie += f"; do poprawki jednym znakiem: {self.naprawialne}"
         if self.fragmentów:
             #  Nie „fragmenty, które nie są zdaniami”: napis niedomknięty jest w tej
             #  liczbie, a werdykt nad nim mówi, że olski to zdanie czyta.

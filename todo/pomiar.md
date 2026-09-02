@@ -514,3 +514,27 @@ licznik ten zapełnia się tylko nad zdaniem przyjętym, porównywalnym
 i mającym w drzewie wzorcowym rolę, więc pusty bywa odpowiedzią prawdziwą,
 a wydrukiem nieodróżnialną od nieodpalonej sekcji.
 Ruchem jest wiersz mówiący zero tam, gdzie dziś nie ma wiersza.
+
+Poprawka cudzysłowu nie ma pomiaru nad rejestrem, dla którego powstała.
+Nad prozą tego repozytorium nie pada ani raz i to jest odpowiedź prawdziwa,
+bo ta proza cytuje parą, którą gramatyka bierze
+([`docs/subset.md`](../docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+Rejestrem docelowym jest korpus audytowy, gdzie sam znak liczono
+i gdzie ma on rację w dwóch trzecich wystąpień
+([`docs/firing-rates.md`](../docs/firing-rates.md#quote-straight-fired-442-times-and-was-right-about-296)),
+a poprawka poświadczona rozbiorem pyta o co innego niż tamten znak:
+nie o to, czy autor zacytował źle, tylko o to, czy cudzysłów jest jedyną rzeczą,
+przez którą olski tego zdania nie czyta.
+Ruchem jest `olski-check` nad `proza/ksef-docs` i `proza/rit-dokumentacja`
+wraz z przeczytaniem każdego trafienia,
+bo populacja jest tam cudza i pomiar bez czytania mówi o niej tyle,
+że reguła ma co robić
+([`docs/linter.md`](../docs/linter.md#cztery-osie-każdej-reguły)).
+Liczbą, którą to daje, jest ta część odrzuceń rejestru,
+którą autor zdejmuje jednym znakiem.
+Ten sam przebieg wycenia poprawkę, której nie ma: myślnik w miejsce łącznika.
+Nad prozą tego repozytorium ma ona kilkaset kandydatów i ani jednego trafienia,
+więc nie została napisana, i tam też stoi warunek, który to odwraca
+([`docs/subset.md`](../docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+Kandydatów liczy się tam kolejką form bez licencji, czyli tym samym poleceniem,
+którym liczy je [`docs/ustawy.md`](../docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze).
