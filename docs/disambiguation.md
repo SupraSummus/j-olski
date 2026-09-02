@@ -630,6 +630,13 @@ więc podchodzi pod wszystkie cztery naraz.
 Rozróżnienie, którego werdykt nie ma, leży więc w słowniku, z którego olski leksykon bierze,
 a zdania, na które ten przekład Walentego zawęża (tamże), nie są o nim.
 
+Deklaracji nie trzeba przy tym wymyślać, bo wydanie TEI z tej samej daty ma ją gotową:
+`wynająć` dostaje tam cztery nazwane znaczenia, `ktoś komuś` i `od kogoś` wśród nich,
+a osobna warstwa wiąże argument ramy z pozycją schematu
+([prior-art.md](prior-art.md#polish-language-resources)).
+Warstwę tę mają dwie piąte lematów tego słownika,
+więc ruch pierwszy ma źródło dla części czasowników, a nie dla wszystkich.
+
 Cena pierwszego ruchu jest widoczna od razu:
 zdania, które dziś wychodzą `valid`, wychodziłyby `ambiguous`.
 Ilu lematów to dotyczy, liczy sonda nad tym samym plikiem.
@@ -641,9 +648,9 @@ python3 -m harness.konwersy walenty_20160418-text/verbs/walenty_20160418_verbs_a
 
 Wraca 144 lematy z 17 224, każdy z parą schematów,
 z których jeden ma odbiorcę w celowniku, a drugi źródło pod `od` albo `u`.
-Kryterium jest zgadywaniem z kształtu pozycji, bo Walenty ról nie nazywa,
-a warstwy semantycznej wydanie tekstowe z 18 kwietnia 2016 nie niesie —
-własne README wylicza jego pliki i są to schematy dla czterech części mowy.
+Kryterium jest zgadywaniem z kształtu pozycji, bo role nazywa wydanie TEI,
+a sonda chodzi po wydaniu tekstowym z 18 kwietnia 2016,
+którego README wylicza jego pliki i są to schematy dla czterech części mowy.
 Liczba jest przez to górnym oszacowaniem, a przeczytanie mówi, jak wysokim.
 Z dwunastu par, które sonda wypisuje,
 dwie zostawiają zdanie przechodnie z dwoma czytaniami:
@@ -664,8 +671,11 @@ Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go [`todo/`](../todo/R
 Schematy, które `znać` u Walentego ma, różnią się kształtem dopełnienia,
 a nie tym, jak się kogoś zna,
 więc oba czytania mieszczą się pod tym samym.
+Milczy tam i warstwa semantyczna wydania TEI, bo `znać` nie ma w niej ani jednej ramy.
 Źródłem byłby wobec tego słownik znaczeń, a nie słownik walencyjny,
-i pierwszym kandydatem jest plWordNet, o który ten przegląd nie pytał.
+i pierwszym kandydatem zostaje plWordNet,
+na którym waży już nie licencja, tylko pobranie
+([prior-art.md](prior-art.md#polish-language-resources)).
 
 ## Kontekst rozstrzyga wykluczeniem, a nie rankingiem
 
@@ -697,6 +707,29 @@ Wersja trudniejsza — `Szukam ułożonego lokatora.` — żąda jednego kroku w
 bo `lokator` jest tym, kto stoi w pozycji celownikowej,
 a tego, że nim jest, Walenty nie mówi;
 mówi to dopiero słownik wiążący rolę ze słowem, czyli to samo źródło, którego żąda `znać`.
+
+Połowa tego kroku jest zrobiona i leży w warstwie semantycznej wydania TEI:
+pozycja schematu niesie tam rolę wraz z klasą rzeczy, której żąda
+([prior-art.md](prior-art.md#polish-language-resources)).
+Połowy drugiej — czy słowo stojące w tej pozycji do tej klasy należy —
+morfologia nie zastępuje.
+Świadkiem osoby jest w niej rodzaj męskoosobowy i nic poza nim,
+bo `Anna` ma ten sam znacznik co `szafa`.
+Filtr zdejmujący czytanie, w którym podmiot pozycji żądającej człowieka
+jest rzeczownikiem męskim nieosobowym,
+zdejmuje nad prozą tego repozytorium coś w czterech zdaniach,
+przeczytanych potem co do jednego,
+a dwóm z nich zabiera wszystkie czytania.
+Te dwa są polszczyzną — `Odpadają przez to dwa rodzaje schematu.`
+oraz zdanie, w którym `zażąda` czegoś `któryś etap` —
+czyli filtr trafia w metonimię, którą
+[CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) zostawia w prozie wprost.
+Ten sam pomiar odrzuca zarazem
+[świadka odpowiadającego obok werdyktu](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+bo pomyłką są dwa trafienia z czterech, a świadek ma nazywać swoją częstość pomyłek.
+Miejsca na taki filtr nie brakuje, bo czytania tej prozy
+spierają się o głowę podmiotu często;
+brakuje słownika, bo ram nie mają czasowniki najczęstsze (tamże).
 
 **Temat.**
 Skład wyprowadza szyk z tego, co w zdaniu jest tematem, a co nowe

@@ -464,21 +464,35 @@ a repozytorium nie ma ich w żadnej postaci:
 Morfeusz wydaje formy i lematy, Walenty schematy,
 i żadne z dwojga tezaurusem nie jest.
 Kandydatem jest plWordNet, nazwany już przy pytaniu o to,
-[czym rozstrzygnąć znaczenie czasownika](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma),
-i jedno źródło obsłużyłoby oba pytania albo żadnego.
-Pytanie ma trzy części: czy licencja pozwala na użycie w tym repozytorium,
-czy relacja synonimii wychodzi na lematy, którymi ten rejestr mówi,
-i czy da się ją odsiać tym, co już czytamy —
-rodzajem i aspektem z Morfeusza, schematem z Walentego, kwalifikatorem ze słownika.
-Bez odpowiedzi cel nie upada, tylko czeka:
+[czym rozstrzygnąć znaczenie czasownika](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma).
+Pytanie ma trzy części i dwie mają odpowiedź.
+
+Licencja pozwala i wiąże słabiej niż ta, którą repozytorium już przyjęło;
+warunki i resztę tego, co to źródło niesie, trzyma
+[prior-art.md](prior-art.md#polish-language-resources).
+Lematy tego rejestru w sieci są — `plik`, `parser`, `moduł` i `polecenie` mają hasło —
+a nie ma w niej tych, których nie ma i SGJP,
+więc pytanie o pokrycie zamyka się tam, gdzie zamknął je leksykon projektu.
+Nierozstrzygnięte zostaje odsianie:
+czy bliskoznaczność da się przyciąć tym, co już czytamy —
+rodzajem i aspektem z Morfeusza, schematem z Walentego, kwalifikatorem ze słownika —
+i tego bez pobranej sieci nikt nie sprawdzi.
+
+Blokuje więc pobranie, a nie licencja i nie pokrycie:
+wydania stoją w repozytorium CLARIN-PL, którego stan trzyma tamten dokument,
+a rzut na Princeton WordNet, który pobrać się da, przychodzi bez relacji,
+czyli bez tego jednego, po co się po tezaurus idzie.
+Cel przez to nie upada, tylko czeka:
 sprawdzian ma — drzewo, które po podmianie ma wrócić to samo —
 a nie ma czym podmieniać.
 
-Trzeci pytający pyta to samo źródło o co innego:
-cel o [żądaniu czasownika](roadmap.md#cele) potrzebuje klasy rzeczy,
-którą pozycja obsadza, a nie słowa bliskoznacznego.
-Licencja rozstrzyga o nim tak samo, bo obejmuje całe źródło,
-a pytania o samą synonimię jego nie dotyczą.
+Trzeci pytający pytał to samo źródło o co innego
+i dostał odpowiedź z Walentego.
+Cel o [żądaniu czasownika](roadmap.md#cele) potrzebuje klasy rzeczy,
+którą pozycja obsadza, a nie słowa bliskoznacznego,
+i klasę tę nazywa warstwa semantyczna wydania TEI (tamże).
+Wordnetu potrzebuje odtąd sama strona odpowiadająca, czyli rozstrzygnięcie,
+czy słowo stojące w zdaniu do tej klasy należy.
 
 ## Sources
 

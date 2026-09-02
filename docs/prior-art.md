@@ -93,6 +93,71 @@ for the reasons
 [warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
 <http://walenty.ipipan.waw.pl/>
 
+Warstwę semantyczną niesie wydanie TEI z 18 kwietnia 2016,
+a nie wydanie tekstowe z tej samej daty, z którego powstaje leksykon olskiego.
+Nagłówek tego pliku liczy 83 960 schematów i 12 024 ramy dla 15 169 lematów,
+a warstwę semantyczną ma 6 365 z nich —
+i nie ma jej `być`, `mieć`, `mówić`, `stać`, `brać` ani `czytać`,
+czyli czasowniki, które ten rejestr niesie najczęściej.
+Rama nazywa znaczenia czasownika, obsadza pozycje jedną z 18 ról —
+`Theme` i `Initiator` są najczęstsze — i żąda od każdej klasy rzeczy,
+albo zbiorem synsetów plWordNet, albo jedną z dwudziestu klas nazwanych:
+`LUDZIE`, `MIEJSCE`, `KOMUNIKAT` i tak dalej.
+Osobna warstwa spina argument ramy z pozycją konkretnego schematu,
+więc rola dochodzi do pozycji, którą rozbiór naprawdę obsadził.
+Praca o tej warstwie definiuje klasy nazwane jako zbiory synsetów plWordNet 2.1,
+więc żądanie czyta się z samego Walentego,
+a o tym, czy słowo w zdaniu klasę spełnia, orzeka dopiero wordnet.
+Co ta warstwa daje olskiemu, wycenia
+[disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma).
+<https://aclanthology.org/L16-1418.pdf>
+
+**plWordNet**, czyli Słowosieć —
+relacyjny słownik znaczeń polszczyzny:
+jednostki leksykalne skupione w synsety,
+powiązane hiponimią, meronimią i resztą relacji,
+i zrzutowane na Princeton WordNet.
+Jest to źródło, o które pyta
+[open-questions.md](open-questions.md#shared-questions),
+a licencja pozwala je tu wziąć: wzorowana na princetońskiej,
+pozwala używać, modyfikować i rozpowszechniać w każdym celu i bez opłat,
+byle nota copyright została na kopii.
+Warunku ShareAlike nie ma, więc plik wyprowadzony z niej
+nie wyszedłby pod warunkiem źródła, jak wychodzi leksykon walencyjny
+([README.md](../README.md#licencja)).
+
+Cena jest w pobraniu.
+Wydania od 3.0 do 4.5 stoją w repozytorium CLARIN-PL,
+które 2 września 2026 odpowiada komunikatem o pracach serwisowych,
+a `plwordnet.pwr.wroc.pl` przekierowuje na witrynę bez pobierania.
+Ściągnąć da się rzut na Princeton WordNet,
+który Open Multilingual Wordnet wydaje jako `omw-pl` —
+w wersji 1.4 jest to 45 456 haseł i 33 826 synsetów pod tą samą licencją —
+a rzut ten nie niesie ani relacji, ani definicji,
+bo strukturę bierze z zasobu angielskiego, którego wymaga.
+Rejestr, o który olskiemu chodzi, ma za to pełna sieć:
+`plik`, `parser` i `moduł` mają w niej hasło, a `lintować` i `commit` nie mają,
+czyli milczy tam, gdzie milczy SGJP, i te słowa wpuszcza
+[leksykon projektu](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+<https://slowosiec.pl/>
+<https://clarin-pl.eu/license/plwordnet>
+<https://github.com/omwn/omw-data>
+
+**Wikisłownik** —
+słownik pisany społecznie, na CC BY-SA i GFDL,
+w którym hasło ma numerowane znaczenia,
+a przy nich osobne pola na synonimy, antonimy, hiperonimy i hiponimy.
+Wyciąg maszynowy wydaje kaikki.org narzędziem `wiktextract`:
+polszczyzna to 172 309 znaczeń w jednym pliku JSONL, przebudowanym 31 sierpnia 2026.
+Sięga rejestru, do którego rzut plWordNet nie sięga —
+`plik` ma tam znaczenie informatyczne wraz z synonimami `dokument` i `dane` —
+a pole bywa puste, bo hasło pisze kto chce:
+hiperonimów `plik` nie ma ani jednego.
+Share-alike wiąże przy tym jak Walenty,
+czyli tezaurus wzięty stąd wydałby plik na warunkach źródła (tamże).
+<https://kaikki.org/plwiktionary/>
+<https://github.com/tatuylonen/wiktextract>
+
 **Składnica** —
 a constituency treebank of Polish, aligned with Świgra's output.
 Useful as a source of test sentences
