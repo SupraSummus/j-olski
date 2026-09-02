@@ -1,5 +1,8 @@
 [build-system]
-requires = ["setuptools>=68"]
+#  Wyrażenie SPDX w polu `license` niżej jest z PEP 639, a rozumie je setuptools
+#  od wydania 77; starsze przepuszcza je jako nazwę licencji i metadane wychodzą
+#  wtedy nieprawdziwe.
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +10,13 @@ name = "olski"
 version = "0.0.1"
 description = "A parser for a designed subset of Polish"
 requires-python = ">=3.11"
+#  Wyrażenie mówi o tym, co niesie paczka, a nie o tym, co stoi w repozytorium:
+#  kod idzie na MIT, a razem z nim jadą dwa pliki danych na warunkach swoich
+#  źródeł (`[tool.setuptools.package-data]` niżej). Zdania cudze z `próba/` do
+#  paczki nie wchodzą, więc nie ma ich w tym wyrażeniu. Który plik stoi pod
+#  którą licencją, mówi `REUSE.toml` i on jest właścicielem tej deklaracji.
+license = "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
+license-files = ["LICENSES/*.txt"]
 dependencies = ["morfeusz2>=1.99"]
 
 [project.optional-dependencies]
@@ -14,7 +24,9 @@ dependencies = ["morfeusz2>=1.99"]
 #  plain text and takes no view of a document format. It is declared here because
 #  this is what the checks install, and harness/ is not a package anybody
 #  installs.
-dev = ["markdown-it-py>=3", "pytest>=8", "ruff>=0.5"]
+#  `reuse` sprawdza deklarację z `REUSE.toml` i wchodzi tędy z tego samego powodu
+#  co reszta: instaluje ją blok checków.
+dev = ["markdown-it-py>=3", "pytest>=8", "reuse>=6", "ruff>=0.5"]
 #  Serwer HTTP witryny, czyli jedyna zależność bocznego toru. Aplikacja jest
 #  funkcją WSGI ze standardowej biblioteki, więc suita nie woła gunicorna, a
 #  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.

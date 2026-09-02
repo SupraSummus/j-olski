@@ -16,8 +16,8 @@ proza/
 # z dokumentu żądającego go: bank drzew i jego archiwum z docs/corpus.md,
 # akty i „Zasady techniki prawodawczej” z docs/ustawy.md, klony korpusu
 # audytowego z docs/audit-corpus.md. Żaden z nich nie jest tu wendorowany
-# i pierwszy z nich nie może być: stoi pod GPL, a to repozytorium nie ma pliku
-# licencji, o czym docs/corpus.md mówi w sekcji o pobieraniu. Dwa ostatnie są
+# i pierwszy z nich nie może być: stoi pod GPL, a to repozytorium rozprowadza
+# kod na MIT, o czym docs/corpus.md mówi w sekcji o pobieraniu. Dwa ostatnie są
 # repozytoriami git przypiętymi do commitu, więc katalog niewpisany tutaj
 # wchodzi do `git status` cudzą historią.
 Składnica-frazowa-180723/

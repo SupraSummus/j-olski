@@ -1,0 +1,50 @@
+#  Licencja domyślna i wyjątki od niej, czyli cała deklaracja licencyjna drzewa.
+#  Nagłówka licencyjnego nie ma tutaj żaden plik: wpis obejmuje ścieżki,
+#  a plik dopisany później dostaje licencję domyślną.
+#  Format opisuje <https://reuse.software/spec-3.3/>.
+#  Wpis późniejszy zastępuje wcześniejszy, a nie dokłada się do niego,
+#  więc wyjątki stoją pod domyślną, a nie nad nią.
+version = 1
+
+SPDX-PackageName = "olski"
+SPDX-PackageDownloadLocation = "https://github.com/SupraSummus/j-olski"
+
+#  Kod, testy, proza i dane pisane ręką.
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Jan Rydzewski"
+SPDX-License-Identifier = "MIT"
+
+#  Utwór zależny od Walentego: warunek ShareAlike obejmuje go wprost, a §4 tamtej
+#  licencji rozciąga ją także na pobranie istotnej części bazy.
+#  Skąd plik powstaje, mówi
+#  docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
+[[annotations]]
+path = "olski/leksykon.txt"
+SPDX-FileCopyrightText = [
+  "Zespół Inżynierii Lingwistycznej IPI PAN (Walenty)",
+  "2026 Jan Rydzewski",
+]
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+#  Warunki źródła, czyli banku drzew. Czy tabela liczności jest utworem zależnym
+#  od niego, nie zostało rozstrzygnięte (docs/open-questions.md#shared-questions),
+#  a obietnica szersza nie miałaby pokrycia.
+[[annotations]]
+path = "olski/skłonności.txt"
+SPDX-FileCopyrightText = [
+  "Zespół Inżynierii Lingwistycznej IPI PAN (Składnica)",
+  "2026 Jan Rydzewski",
+]
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+#  Zdania cudze, wylosowane z korpusu audytowego (docs/audit-corpus.md).
+#  Sąd o zdaniu jest tutejszy i idzie na MIT, a samego zdania nie licencjonujemy.
+[[annotations]]
+path = "próba/wybory*.txt"
+SPDX-FileCopyrightText = [
+  "2025 Ministerstwo Finansów (ksef-docs)",
+  "Polska Organizacja Turystyczna (rit-dokumentacja)",
+  "2026 Jan Rydzewski",
+]
+SPDX-License-Identifier = "LicenseRef-cytat"

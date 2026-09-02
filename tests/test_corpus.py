@@ -1,10 +1,11 @@
 """Reading Składnica, and measuring the grammar against it.
 
 The forests here are written by hand rather than copied out of the treebank.
-Składnica is distributed under the GPL and this repository carries no licence
-file, so vendoring even a few of its trees would decide a licensing question that
-is not the tests' to decide. Hand-written fixtures also let a single forest carry
-exactly the one property under test, which a real one never does.
+Składnica is distributed under the GPL and this repository ships its code under
+MIT, so vendoring even a few of its trees would put somebody else's corpus under
+this repository's licence declaration (``REUSE.toml``). Hand-written fixtures
+also let a single forest carry exactly the one property under test, which a real
+one never does.
 
 The format is not invented, though. It is what the 2018 release actually
 contains: a forest of nodes, a gold tree marked by ``chosen`` links between them

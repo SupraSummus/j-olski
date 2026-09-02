@@ -733,6 +733,7 @@ because one decision reaches wherever its number went.
 pip install -e '.[dev]'
 python3 -m pytest
 ruff check .
+reuse lint
 npx --yes markdownlint-cli@0.45.0 '**/*.md'
 ```
 
@@ -864,6 +865,11 @@ a razem z nim ginie powód, dla którego go dopisano.
 Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któregoś:
 gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
 a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
+
+Plik wyprowadzony z cudzego zasobu podlega warunkom tego zasobu,
+więc dostaje własny wpis w [`REUSE.toml`](REUSE.toml).
+`reuse lint` pyta tylko o to, czy jakiś wpis go obejmuje,
+więc plik dopisany bez wyjątku wychodzi na MIT i nikt tego nie mówi.
 
 Reguła ta obejmuje dane paczki, a nie każdy plik, który kod czyta.
 `olski.toml` w korzeniu jest konfiguracją projektu i pisze się go ręką,

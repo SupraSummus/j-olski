@@ -279,6 +279,9 @@ python3 -m harness.skłonności Składnica-frazowa-180723/ --oceń
 python3 -m harness.skłonności Składnica-frazowa-180723/ --zbuduj --wsparcie 2
 ```
 
+Tabela zbudowana tą komendą podlega warunkom banku drzew, czyli GPL v3,
+i tak jest zadeklarowana ([README.md](../README.md#licencja)).
+
 Ocena buduje tabelę na połowie banku drzew i sprawdza ją na drugiej,
 dzieląc po parzystości numeru pliku, żeby ta sama komenda dwa razy dała tę samą liczbę.
 Nad 2 000 wyborami z połowy, której świadek nie widział:

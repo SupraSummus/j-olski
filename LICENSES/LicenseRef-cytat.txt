@@ -1,0 +1,23 @@
+Cytat
+
+Identyfikator ten obejmuje pliki, w których stoi cudze zdanie wzięte z korpusu
+audytowego, a obok niego sąd o tym zdaniu przeczytany ręką w tym repozytorium.
+
+Zdania i ich kontekst pochodzą z dwóch repozytoriów, przy commitach, które
+nazywa docs/audit-corpus.md:
+
+  - CIRFMF/ksef-docs, dokumentacja KSeF,
+    na licencji MIT, Copyright (c) 2025 Ministerstwo Finansów
+  - pot-gov-pl/rit-dokumentacja, dokumentacja RIT
+    Polskiej Organizacji Turystycznej, bez pliku licencji
+
+Stoją tu w całości dlatego, że mierzy się na nich warstwę rozstrzygającą, a
+wpisu, którego zdania nie widać, nie sprawdzi już nikt. Tyle pozwala prawo
+cytatu, czyli art. 29 ustawy o prawie autorskim i prawach pokrewnych, i na nim
+to użycie stoi.
+
+Repozytorium to licencjonuje w tych plikach własną robotę: kolumny `wzorzec`,
+`powód`, `fraza` i `gospodarze`, czyli sądy o zdaniach, idą na MIT
+(LICENSES/MIT.txt). Zdań nie licencjonuje, bo nie są jego. Kto chce je
+rozprowadzać dalej, idzie po pozwolenie do źródeł wymienionych wyżej, a przy
+drugim z nich nie zastępuje go nic, bo tamto repozytorium pliku licencji nie ma.

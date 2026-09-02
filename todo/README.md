@@ -97,4 +97,4 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 - [konstrukcje.md](konstrukcje.md) — konstrukcje polszczyzny,
   których gramatyka nie wyprowadza.
 - [skład.md](skład.md) — realizacja powierzchniowa i opowieści.
-- [pakiet.md](pakiet.md) — paczka, licencja i przebieg checków.
+- [pakiet.md](pakiet.md) — paczka, instalacja i przebieg checków.

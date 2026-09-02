@@ -276,6 +276,21 @@ Ta gramatyka spotkała problemy, w które olski wchodzi.
 Monografia nazywa przy tym ceny, których kod nie pokazuje.
 Zobacz [docs/swigra.md](docs/swigra.md).
 
+## Licencja
+
+Kod, testy i proza są na licencji MIT.
+Dwa pliki danych podlegają warunkom swoich źródeł,
+bo plik wyprowadzony z cudzego zasobu jest utworem zależnym od niego:
+`olski/leksykon.txt` powstaje z Walentego i jest na CC BY-SA 4.0,
+a `olski/skłonności.txt` powstaje ze Składnicy i jest na GPL v3.
+Zdania w `próba/wybory*.txt` są cudze i to repozytorium ich nie licencjonuje.
+
+Wszystko to deklaruje [REUSE.toml](REUSE.toml):
+wpis domyślny obejmuje całe drzewo, a wyjątek nazywa ścieżkę,
+więc nagłówka licencyjnego nie ma tutaj żaden plik.
+Teksty licencji są w katalogu `LICENSES/`, nazwane identyfikatorem SPDX,
+i pliku licencyjnego w korzeniu nie ma.
+
 ## Konwencje
 
 Prozę w tym repozytorium łamiemy według

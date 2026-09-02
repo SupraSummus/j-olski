@@ -37,15 +37,6 @@ albo skrypt zostaje bez testu, a regułą staje się to,
 Przeczytaj przed decyzją `tests/test_wydruki.py`,
 bo pokazuje on, ile pilnowania da się zrobić bez drugiego środowiska.
 
-The repository ships no licence.
-`pyproject.toml` carries no `license` field and there is no `LICENSE` file,
-so the terms under which any of this may be used are unstated.
-The move is to pick one, add the file,
-and set `license` in `pyproject.toml` to match.
-Reading a GPL v3 parser of Polish is what raised it
-(see [`docs/swigra.md`](../docs/swigra.md#why-wrapping-it-does-not-get-there)),
-and the answer decides whether olski could ever link against such a thing.
-
 `ruff format` nie stoi w [bloku checków](../CLAUDE.md#checks),
 a nad kilkudziesięcioma plikami ma zdanie inne niż to,
 co w nich stoi: wypisuje je `ruff format --check .`,

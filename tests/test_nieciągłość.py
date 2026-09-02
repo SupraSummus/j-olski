@@ -1,7 +1,7 @@
 """Sonda nieciągłości: skąd liczy szczeliny wybrane, a skąd odrzucone.
 
 Lasy są tu pisane ręcznie z tego samego powodu, co w ``tests/test_corpus.py``:
-Składnica stoi pod GPL, a to repozytorium nie ma pliku licencji.
+Składnica stoi pod GPL, a to repozytorium rozprowadza kod na MIT.
 
 Sonda może skłamać po cichu dwa razy, i oba kłamstwa czytają się jak dobra
 wiadomość. Szczelina policzona z pliku, a nie z drzewa wybranego, daje zakup
