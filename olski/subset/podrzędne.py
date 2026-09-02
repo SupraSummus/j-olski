@@ -7,7 +7,7 @@ nazwy każdej z tych rodzin wylicza :class:`olski.subset.deklaracja.Rodzina`.
 
 from __future__ import annotations
 
-from olski.grammar import Grammar, Głowa, Part, V, Var, nt, word
+from olski.grammar import NIE_NIESIE, Grammar, Głowa, Part, V, Var, nt, word
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     GRUPA_PYTAJNA,
@@ -23,7 +23,6 @@ from olski.subset.rama import _bez_orzecznika, _klasy
 from olski.subset.słowa import (
     AGREE,
     BEZ_CZOŁA,
-    BEZ_DOSTAWKI,
     CIĄG,
     DOSTAWKA,
     GRUPA_ORZECZENIA_ODWRÓCONA,
@@ -372,7 +371,7 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
         "zdanie_składowe",
         [
             nt(OKOLICZNIK_ZDANIOWY, pozycja="przed"),
-            Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=BEZ_DOSTAWKI)),
+            Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=NIE_NIESIE)),
         ],
     )
 
@@ -395,7 +394,7 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
         "zdanie",
         [
             nt(OKOLICZNIK_ZDANIOWY, pozycja="przed"),
-            Głowa(nt("zdanie", tryb=V("t"), ciąg=CIĄG, dostawka=BEZ_DOSTAWKI)),
+            Głowa(nt("zdanie", tryb=V("t"), ciąg=CIĄG, dostawka=NIE_NIESIE)),
         ],
     )
 

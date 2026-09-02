@@ -7,7 +7,7 @@ zdanie mówi, jakie córki bierze, a warunek nad nimi mówi, w jakiej kolejnośc
 
 from __future__ import annotations
 
-from olski.grammar import Grammar, Głowa, Sym, V, Var, nt, word
+from olski.grammar import NIE_NIESIE, Grammar, Głowa, Sym, V, Var, nt, word
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     CZĄSTKA_ZDANIA,
@@ -36,7 +36,6 @@ from olski.subset.rama import (
 )
 from olski.subset.słowa import (
     BEZ_CZOŁA,
-    BEZ_DOSTAWKI,
     BEZ_KOPULI,
     CZĄSTKA_ZWROTNA,
     DOSTAWKA,
@@ -401,7 +400,7 @@ def _dostawki_zdania(grammar: Grammar) -> None:
         "zdanie_składowe",
         [
             nt("wyrażenie_przyimkowe"),
-            Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=BEZ_DOSTAWKI)),
+            Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=NIE_NIESIE)),
         ],
     )
     # Okolicznik narzędnikowy tej pozycji nie dostaje, choć polszczyzna go tu
@@ -413,7 +412,7 @@ def _dostawki_zdania(grammar: Grammar) -> None:
     for przy_zdaniu in (OKOLICZNIK_PRZYSŁÓWKOWY, CZĄSTKA_ZDANIA):
         grammar.rule(
             "zdanie_składowe",
-            [nt(przy_zdaniu), Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=BEZ_DOSTAWKI))],
+            [nt(przy_zdaniu), Głowa(nt("zdanie_składowe", tryb=V("t"), dostawka=NIE_NIESIE))],
         )
 
 
@@ -825,13 +824,20 @@ def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
     # samo jak grupa współrzędna, która rodzaju nie niesie.
     for zwrotne, przed, za in SZYKI_CZĄSTKI:
         for warunek, rama, druga in _klasy(zwrotne):
+            #  Klasa bez pary żąda od wypełnienia milczenia, a nie wartości:
+            #  drugą pozycję wypuszcza sama para (:data:`PARA_WYPEŁNIEŃ`),
+            #  a wypełnienie bez niej tej cechy nie niesie wcale, więc żądanie
+            #  wartości :data:`BEZ_DRUGIEJ` przechodziłoby milczeniem i tylko nim.
+            #  Czasownik ogłasza tę samą klasę wartością, bo cechę tę niesie
+            #  każde jego ciało i milczeniem nie odróżniłby jednej klasy od drugiej.
+            żądana = NIE_NIESIE if druga == BEZ_DRUGIEJ else druga
             grammar.rule(
                 "fraza_bezokolicznikowa",
                 [
                     *przed,
                     Głowa(word("inf", **warunek)),
                     *za,
-                    nt("wypełnienia", valency=rama, negacja=V("z"), druga=druga),
+                    nt("wypełnienia", valency=rama, negacja=V("z"), druga=żądana),
                 ],
                 valency="inf",
                 negacja=V("z"),
@@ -843,7 +849,7 @@ def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
                     PRZECZENIE,
                     Głowa(word("inf", **warunek)),
                     *za,
-                    nt("wypełnienia", valency=rama, negacja="neg", druga=druga),
+                    nt("wypełnienia", valency=rama, negacja="neg", druga=żądana),
                 ],
                 valency="inf",
             )

@@ -127,6 +127,10 @@ def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
 DRUGA_CELOWNIK = "dat"
 
 
+#: Klasa bez pary, ogłaszana przez czasownik. Wypełnienie tej wartości nie
+#: wypuszcza nigdy, bo drugą pozycję niesie w nim sama para, więc żąda się od
+#: niego milczenia, a nie tej wartości (:data:`olski.grammar.NIE_NIESIE`;
+#: powód stoi przy tamtym żądaniu w ``olski/subset/zdanie.py``).
 BEZ_DRUGIEJ = "bez"
 
 

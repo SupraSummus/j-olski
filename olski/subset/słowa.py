@@ -282,20 +282,21 @@ KOSZT_WYSUNIĘCIA = 1
 BEZ_CZOŁA = "żadne"
 
 
-#: Wartości cechy `dostawka`, czyli tego, czy za zdaniem składowym coś już stoi.
-#: Konstytuent dostawiony za zdanie wypuszcza :data:`DOSTAWKA`, a konstytuent
-#: wysunięty przed zdanie żąda :data:`BEZ_DOSTAWKI` od swojego gospodarza, więc
-#: wysunięty wchodzi pod dostawiony i nigdy nad niego. Zdanie składowe, które nie
-#: ma ani jednego, ani drugiego, cechy tej nie niesie, a cechy nieobecnej
-#: unifikacja nie sprawdza, więc żądanie przez takie zdanie przechodzi.
+#: Wartość cechy `dostawka`, czyli tego, że za zdaniem składowym coś już stoi.
+#: Konstytuent dostawiony za zdanie ją wypuszcza, a konstytuent wysunięty przed
+#: zdanie żąda od swojego gospodarza, żeby dostawki nie niósł
+#: (:data:`olski.grammar.NIE_NIESIE`), więc wysunięty wchodzi pod dostawiony
+#: i nigdy nad niego. Zdanie składowe, które nie ma ani jednego, ani drugiego,
+#: cechy tej nie niesie, i pod to żądanie przechodzi.
+#:
+#: Wartość jest przez to jedna: żądanie ujemne pisze się w tej gramatyce pustym
+#: więzem, a nie drugą wartością, której nikt nie wypuszcza
+#: (:meth:`olski.grammar.Grammar.więzy_niespełnialne`).
 #:
 #: Bez tego żądania jeden napis wyprowadza się dwoma kształtami; co je różni, czego
 #: nie różni i dlaczego warunek stoi tutaj, wywodzi
 #: docs/konstrukcje-gramatyczne/okolicznik.md#określenie-przed-zdaniem-wchodzi-pod-to-które-stoi-za-nim.
 DOSTAWKA = "jest"
-
-
-BEZ_DOSTAWKI = "brak"
 
 
 #: Wartości cechy `ciąg`, czyli tego, czy zdanie ma kilka członów współrzędnych.
@@ -338,9 +339,11 @@ BEZ_ROZDZIELNEJ = "brak"
 #: Wartość :data:`KOPULARNY` jest przez to nośna, choć nie żąda jej ani jedno
 #: ciało: bez niej produkcje kopuli tej cechy nie niosą wcale,
 #: a cechy nieobecnej unifikacja nie sprawdza, więc żądanie przeszłoby i przy niej.
-#: Para taka jest w tej gramatyce zwykłym sposobem na powiedzenie „nie”
-#: — tak samo stoją :data:`BEZ_CZOŁA`, :data:`BEZ_DOSTAWKI` i :data:`BEZ_CIĄGU` —
-#: a czemu warunek ujemny nie wchodzi do samej unifikacji, wywodzi
+#: Para taka jest w tej gramatyce zwykłym sposobem na powiedzenie „nie” o wartości
+#: — tak samo stoją :data:`BEZ_CZOŁA` i :data:`BEZ_CIĄGU` — a „nie” o samej cesze
+#: pisze się pustym więzem (:data:`olski.grammar.NIE_NIESIE`), bo pod niego
+#: przechodzi milczenie i tylko ono. Który warunek ujemny wchodzi do unifikacji,
+#: a który stoi poza nią, wywodzi
 #: docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne.
 #:
 #: Żądają jej dwa ciała i oba są zdaniem, w którym przy czasowniku nie stoi

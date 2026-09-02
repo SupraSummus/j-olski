@@ -19,7 +19,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.grammar import EMPTY, Grammar, Głowa, V, bierze, nt, unify, word
+from olski.grammar import EMPTY, NIE_NIESIE, Grammar, Głowa, V, bierze, nt, unify, word
 from olski.morph import VALUES, analyse
 from olski.parse import Cykl, parse
 from olski.segmentacja import morphology
@@ -203,15 +203,31 @@ def test_więz_na_wartość_której_symbol_nie_wypuszcza_jest_zgłaszany():
     assert grammar.więzy_niespełnialne(VALUES) == frozenset({("B", "case", frozenset({"inf"}))})
 
 
-def test_więz_domykający_się_na_produkcji_milczącej_o_cesze_nie_jest_zgłaszany():
-    #  Druga produkcja `B` przypadka nie niesie, a cechy nieobecnej unifikacja
-    #  nie sprawdza, więc ten sam więz co wyżej domyka się właśnie na niej.
-    #  Sprawdzenie liczące samą pierwszą produkcję żądałoby zdjęcia więzu żywego.
+def test_więz_przechodzący_samym_milczeniem_jest_zgłaszany():
+    #  Druga produkcja `B` przypadka nie niesie, więc ten sam więz co wyżej
+    #  przepuszcza konstytuent z niej i tylko jego. Wartością mówi to samo, co
+    #  żądanie ujemne, a od literówki nie odróżnia się niczym, więc żądanie
+    #  ujemne pisze się `NIE_NIESIE` i ten więz zostaje zgłoszony.
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("B", case="inf")])
     grammar.rule("B", [word("subst", case=V("c"))], case=V("c"))
     grammar.rule("B", [word("adv")])
+    assert grammar.więzy_niespełnialne(VALUES) == frozenset({("B", "case", frozenset({"inf"}))})
+
+
+def test_żądanie_ujemne_bierze_konstytuent_milczący_o_cesze_i_tylko_jego():
+    #  Pusty więz nie przecina się z żadnym zbiorem, a cechy nieobecnej
+    #  unifikacja nie sprawdza, więc przechodzi pod nim milczenie i tylko ono:
+    #  `plik` niesie przypadek i odpada, `tu` go nie niesie i wchodzi.
+    #  Sprawdzenie wartości takiego więzu nie tyka, bo pustego przecięcia
+    #  żąda on rozmyślnie.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [Głowa(nt("B", case=NIE_NIESIE)), word("interp")])
+    grammar.rule("B", [word("subst", case=V("c"))], case=V("c"))
+    grammar.rule("B", [word("adv")])
     assert grammar.więzy_niespełnialne(VALUES) == frozenset()
+    assert parse(grammar, morphology("plik.")).rejected
+    assert not parse(grammar, morphology("tu.")).rejected
 
 
 def test_ciało_o_kilku_częściach_bez_głowy_nie_powstaje():
@@ -255,4 +271,11 @@ def test_każdy_więz_na_terminalu_pyta_o_cechę_którą_morfologia_zna():
 
 def test_każdy_więz_gramatyki_żąda_wartości_którą_część_niesie():
     assert GRAMMAR.więzy_niespełnialne(VALUES) == frozenset()
+
+
+def test_o_żadnym_więzie_gramatyki_sprawdzenie_wartości_nie_milczy():
+    #  Sprawdzenie wyżej pomija więz, o którym nie umie orzec, i nie mówi tego,
+    #  więc bez tego warunku zielone znaczyłoby zarazem, że gramatyka jest czysta,
+    #  i to, że o części więzów nie było jak orzec.
+    assert GRAMMAR.więzy_nierozstrzygnięte(VALUES) == frozenset()
 

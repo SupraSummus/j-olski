@@ -818,24 +818,49 @@ czyli za zapowiednikiem, którego ta gramatyka nie ma,
 więc wpis ten go nie zamyka.
 
 Gramatyka umie powiedzieć, że symbol cechę wypuszcza, a nie umie, że wypuszcza ją zawsze.
-`_wartości_wypuszczane` w `olski/grammar.py` liczy zbiór wartości tylko dla tej pary
-symbolu i cechy, którą wypisuje każda produkcja tego symbolu,
-bo cechy nieobecnej `unify` nie sprawdza,
-a więz na nią domyka się właśnie na produkcji, która o niej milczy.
-O tyle więzów milczy przez to `więzy_niespełnialne`
-i jest ich w dzisiejszej gramatyce kilkaset.
-Wypisanie cechy przez każdą produkcję samo jeszcze nie starczy:
-cechę wypisaną zmienną, której nie związała żadna córka, `features_of` zdejmuje,
-a przy terminalu odpowiada za to morfologia, bo forma nieodmienna przypadka nie ma.
-Ruchem jest drugi punkt stały, po tym, co część niesie na pewno,
-wraz z inwentarzem cech, które dana część mowy niesie zawsze,
-podanym tą samą drogą co inwentarz wartości.
-Kupuje on dwie rzeczy: tamte więzy oraz sprawdzenie drugiego rodzaju.
 Produkcja, w której dwie córki wiążą jedną zmienną do zbiorów rozłącznych,
 nie domyka się tak samo jak ta z więzem martwym, a dziś nie widzi jej nic,
-bo `wiązanie` sumuje wtedy córki, zamiast je przecinać, i sumuje rozmyślnie.
-Do przeczytania jest, ile ta druga klasa jest warta:
+bo `wiązanie` w `olski/grammar.py` sumuje wtedy córki, zamiast je przecinać,
+i sumuje rozmyślnie: córka milcząca o cesze zmiennej nie zawęża.
+Przeciąć wolno dopiero te córki, które cechę niosą w każdym swoim wyprowadzeniu,
+więc sprawdzenie żąda drugiego punktu stałego, po tym, co część niesie na pewno,
+wraz z inwentarzem cech, które dana część mowy niesie zawsze —
+ten wychodzi z tagsetu Morfeusza, przecięciem cech tagów jednej części mowy,
+i podaje się go tą samą drogą co inwentarz wartości.
+Punkt stały liczy się przy tym po zaprzeczeniu, czyli po tym,
+że jakieś wyprowadzenie części tej cechy nie niesie:
+liczony wprost nie potwierdza symbolu, który stoi we własnym ciele,
+a stoją tam `grupa_imienna` i `zdanie_składowe`, czyli gospodarze większości więzów.
+Do przeczytania jest, ile ta klasa jest warta:
 nad dzisiejszą gramatyką pada zero, więc jest to zabezpieczenie, a nie naprawa.
+Zabezpiecza przy tym drugą rzecz, i tę wnosi dopiero żądanie ujemne pisane pustym
+zbiorem (`NIE_NIESIE` w `olski/grammar.py`): zbiór policzony i pusty przez pomyłkę
+czyta się odtąd jako to żądanie, a nie jako więz martwy.
+Połowę takich pomyłek łapie `więzy_niesprawdzane`, bo pyta o samą nazwę cechy,
+a drugiej — pustego żądania na cesze, którą część niesie zawsze — nie łapie nic.
+Więzów na wartość ten ruch nie kupuje żadnych:
+`więzy_nierozstrzygnięte` w `olski/grammar.py` wypisuje dziś pustkę,
+czyli `więzy_niespełnialne` orzeka o każdym z nich i bez tego punktu stałego.
+
+Wartość, która mówi samo „nie”, bywa do zdjęcia, odkąd żąda się milczenia wprost.
+`BEZ_KOPULI`, `BEZ_CIĄGU` i `BEZ_ROZDZIELNEJ` w `olski/subset/słowa.py`
+stoją w parze z wartością dodatnią dlatego, że żądania ujemnego nie było jak napisać
+inaczej niż wartością, a pustym więzem jest ono jednym znakiem
+(`NIE_NIESIE` w `olski/grammar.py`).
+Ruchem jest para po parze: produkcja o cesze przemilcza,
+a ta, która żądała wartości ujemnej, żąda milczenia.
+Do przeczytania jest przy każdej parze, kto tę cechę czyta i po co:
+`czoło` jest tu przypadkiem osobnym, bo wartość niesie tam etykietę roli,
+a nie samo „nie”
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#czoło-niesie-etykietę-roli-którą-zajmuje-a-werdyktu-nie-rusza)).
+Pułapką jest kanał zmienny: strona, która przemilczy, przestaje zmienną wiązać,
+a druga wiąże ją wtedy, czym chce.
+Tak stoi `druga` w `olski/subset/rama.py` i dlatego czasownik ogłasza `BEZ_DRUGIEJ`
+wartością, choć wypełnienie żąda po drugiej stronie milczenia.
+Ceną jest pomiar: cechę wypuszczaną las rozdziela na klasy pozycji
+(`klasy` w `olski/parse/las.py`), więc zdjęcie wartości rusza czas rozbioru,
+a werdyktów ruszyć nie ma prawa i dowodzi się tego odciskiem prozy
+(`harness/cytaty.py`).
 
 Czytanie nieodmienne, którym wchodzi notacja i wersalik, bierze rolę okolicznika
 narzędnikowego, bo spełnia każde żądanie przypadku, także narzędnika.

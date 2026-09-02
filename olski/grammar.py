@@ -16,7 +16,7 @@ without anything having to choose a reading up front.
 
 from __future__ import annotations
 
-from collections.abc import Collection, Iterable, Mapping
+from collections.abc import Collection, Iterable, Iterator, Mapping
 from dataclasses import dataclass
 
 
@@ -53,6 +53,16 @@ Spec = Var | frozenset
 
 def _spec(value: Var | Zbiór) -> Spec:
     return value if isinstance(value, Var) else _zbiór(value)
+
+
+#: Więz, pod który przechodzi konstytuent milczący o tej cesze i tylko on:
+#: pusty zbiór nie przecina się z żadnym, a cechy nieobecnej :func:`unify` nie
+#: sprawdza. Tym pisze się żądanie ujemne — „ta część tej cechy nie niesie” —
+#: bo wartość, której nikt nie wypuszcza, mówi to samo, a wygląda przy tym
+#: dokładnie tak jak literówka (:meth:`Grammar.więzy_niespełnialne`).
+#: Zbiór policzony i pusty czyta się tak samo, więc pod tę nazwę podpada
+#: i pomyłka: kto wypisuje więz z policzonego zbioru, sprawdza go u siebie.
+NIE_NIESIE: frozenset[str] = frozenset()
 
 
 def _wypisz(spec: Spec) -> str:
@@ -582,34 +592,78 @@ class Grammar:
     ) -> frozenset[tuple[str, str, frozenset[str]]]:
         """Trójki części, cechy i wartości, których żąda więz, a część ich nie niesie.
 
-        Unifikacja przecina zbiory, więc taki więz nie domknie ciała przy żadnym
-        środowisku cech, a produkcja z nim nie odbiera ani zdania, ani czytania.
-        Tyle zostaje po literówce w wartości i po pozycji napisanej nie tak, jak chciano:
-        takim ciałem stało tu ``dopełnienie → grupa_imienna[case=inf]``
+        Unifikacja przecina zbiory, więc pod takim więzem nie przechodzi ani jedna
+        wartość: konstytuent niosący tę cechę odpada, a przechodzi samo milczenie.
+        Symbol, który milczeć nie umie, bo cechę wypuszcza każde jego ciało, nie
+        przechodzi wtedy wcale i produkcja z takim więzem nie odbiera ani zdania,
+        ani czytania; takim ciałem stało tu ``dopełnienie → grupa_imienna[case=inf]``
         (``DOKŁADANE_PRZYPADKI`` w ``olski/subset/rama.py``).
         Znalazła je ręka, bo :meth:`nieosiągalne` pyta o symbol,
         a nieosiągalny jest tu układ cech pod symbolem osiągalnym.
-        Sprawdzenie milczy przy tym o więzie,
-        którego :meth:`_wartości_wypuszczane` nie rozstrzyga.
+        Tyle zostaje po literówce w wartości i po pozycji napisanej nie tak, jak chciano.
+
+        Więz, pod który przechodzi samo milczenie, jest zgłaszany razem z tamtym,
+        bo żądanie ujemne pisze się :data:`NIE_NIESIE` i nie wygląda przez to jak
+        literówka. O więzie, którego :meth:`_wartości_wypuszczane` nie rozstrzyga,
+        sprawdzenie milczy; że nie milczy o żadnym, mówi
+        :meth:`więzy_nierozstrzygnięte`.
 
         Inwentarz wartości formy podaje wołający, tak samo jak nazwy cech podaje
         :meth:`więzy_terminali_niesprawdzane` i z tego samego powodu:
         cechy formy przychodzą z morfologii, o której ten formalizm nie wie nic.
         Kształt argumentu jest kształtem tamtego inwentarza — wartość → nazwa cechy.
         """
+        return frozenset(
+            (nazwa, cecha, spec)
+            for nazwa, cecha, spec, niesione in self._więzy_na_wartość(wartości)
+            if niesione is not None
+            if not spec & niesione
+        )
+
+    def więzy_nierozstrzygnięte(self, wartości: Mapping[str, str]) -> frozenset[tuple[str, str]]:
+        """Pary części i cechy, o których wartościach :meth:`więzy_niespełnialne` milczy.
+
+        Tamto sprawdzenie więz na parę bez odpowiedzi pomija, nie mówiąc o tym ani
+        słowem, więc puste mówi dwie rzeczy naraz i nie rozdziela ich: że martwego
+        więzu w gramatyce nie ma, oraz że o części więzów nie było jak orzec.
+        Ta odpowiedź je rozdziela, więc pusta jest warunkiem, pod którym tamto
+        sprawdzenie mówi o całej gramatyce.
+        """
+        return frozenset(
+            (nazwa, cecha)
+            for nazwa, cecha, _spec, niesione in self._więzy_na_wartość(wartości)
+            if niesione is None
+        )
+
+    def _więzy_na_wartość(
+        self, wartości: Mapping[str, str]
+    ) -> Iterator[tuple[str, str, frozenset[str], frozenset[str] | None]]:
+        """Każdy więz na wartość wraz z tym, czym część tę cechę niesie.
+
+        Oba sprawdzenia wartości chodzą tędy, żeby granica „więz na wartość” stała
+        w jednym miejscu. Więz na zmienną nie żąda wartości, tylko zgodności, a
+        więz pusty jest żądaniem ujemnym (:data:`NIE_NIESIE`), więc pustego
+        przecięcia żąda rozmyślnie; oba wypadają tutaj.
+
+        Inwentarz morfologii przychodzi wartościami, bo tak stoi u wołającego
+        (``VALUES`` w ``olski/morph.py``), a pytanie jest o cechę, więc obraca się
+        go tu raz na całe przejście.
+        """
         inwentarz: dict[str, frozenset[str]] = {}
         for wartość, cecha in wartości.items():
             inwentarz[cecha] = inwentarz.get(cecha, frozenset()) | {wartość}
         wypuszczane = self._wartości_wypuszczane(inwentarz)
-        return frozenset(
-            (_nazwa(część), cecha, spec)
-            for production in self.productions
-            for część in production.body
-            for cecha, spec in część.constraints
-            if not isinstance(spec, Var)
-            if (niesione := _niesione(część, cecha, wypuszczane, inwentarz)) is not None
-            if not spec & niesione
-        )
+        for production in self.productions:
+            for część in production.body:
+                for cecha, spec in część.constraints:
+                    if isinstance(spec, Var) or not spec:
+                        continue
+                    yield (
+                        _nazwa(część),
+                        cecha,
+                        spec,
+                        _niesione(część, cecha, wypuszczane, inwentarz),
+                    )
 
     def _wartości_wypuszczane(
         self, inwentarz: Mapping[str, frozenset[str]]
@@ -622,22 +676,22 @@ class Grammar:
         Zbiory rosną i nie maleją, a wartości jest skończenie wiele,
         więc obrotów jest skończenie wiele.
 
-        Nierozstrzygnięta jest para, której zbioru z gramatyki nie widać.
-        Cechy nieobecnej :func:`unify` nie sprawdza,
-        więc symbol, którego choć jedna produkcja o cesze milczy,
-        przechodzi pod każdy więz na nią właśnie tamtą produkcją.
-        Z tego samego powodu zmienną wiąże suma po córkach, a nie ich przecięcie:
+        Produkcja milcząca o cesze zbioru nie zawęża ani nie poszerza: konstytuent
+        wychodzi z niej bez tej cechy, więc pod więz na nią wchodzi milczeniem, a
+        nie wartością, i o tym milczeniu mówi osobne zdanie
+        (:meth:`więzy_niespełnialne`). Zbiór jest przez to sumą po produkcjach,
+        które cechę wypisują, i wpis ma także symbol, którego pozostałe produkcje
+        o niej milczą.
+
+        Nierozstrzygnięta jest para, której zbioru z gramatyki nie widać, bo
+        zmiennej nie umie związać żadna droga: córka bez wpisu zabiera wpis
+        rodzicowi. Zmienną wiąże przy tym suma po córkach, a nie ich przecięcie:
         córka milcząca o cesze zmiennej nie zawęża.
         """
-        wypisane: dict[str, list[frozenset[str]]] = {}
-        for production in self.productions:
-            wypisane.setdefault(production.head, []).append(
-                frozenset(name for name, _spec in production.features)
-            )
         stan: dict[tuple[str, str], frozenset[str]] = {
-            (head, cecha): frozenset()
-            for head, kolejne in wypisane.items()
-            for cecha in frozenset.intersection(*kolejne)
+            (production.head, cecha): frozenset()
+            for production in self.productions
+            for cecha, _spec in production.features
         }
 
         def wiązanie(production: Production, zmienna: Var) -> frozenset[str] | None:
