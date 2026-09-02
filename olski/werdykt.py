@@ -24,7 +24,7 @@ a segmentację, po której werdykt pada, z ``olski/segmentacja.py``.
 from __future__ import annotations
 
 from collections.abc import Iterable, Iterator, Sequence
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 
 from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
@@ -36,6 +36,7 @@ from olski.lematy import (
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
 )
 from olski.morph import Reading, Segment
+from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
     PRZYŁĄCZONY_DO,
     Node,
@@ -59,7 +60,7 @@ from olski.subset import (
     WYRAŻENIE_PRZYIMKOWE,
 )
 from olski.walencja import BIERNIK, CZASOWNIK, CZASOWNIK_ZWROTNY, DOPEŁNIACZ, PODMIOT
-from olski.żądania import NIENAZWANE, PRZYPADKI, żądane
+from olski.żądania import NIENAZWANE, PRZYPADKI, żąda_osoby, żądane
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -637,6 +638,11 @@ class Żądanie:
     #: Żądane klasy jako alternatywa, nazwane przed nienazwanymi
     #: (:data:`olski.żądania.NIENAZWANE`), a w każdej z tych grup alfabetycznie.
     klasy: tuple[str, ...]
+    #: Lematy głowy wypełnienia, czyli słowa, którymi ta pozycja stoi. O nie pyta
+    #: deklaracja osób (``olski/osoby.py``), bo deklaruje się lemat, a nie formę.
+    #: Poza porównaniem, bo wiersz jest o pozycji, a nie o głowie, i dwa kształty
+    #: dają czasem tę samą pozycję o dwóch głowach (:func:`_zwinięte`).
+    lematy: frozenset[str] = field(compare=False)
 
 
 @dataclass(frozen=True)
@@ -651,6 +657,47 @@ class _Czasownik:
     przeczony: bool
 
 
+def niespełnione_żądania(
+    verdict: Verdict, deklaracja: Osoby = OSOBY_PROJEKTU
+) -> tuple[Żądanie, ...]:
+    """Pozycje, w których czasownik żąda kogoś, a nikt w nich nie stoi.
+
+    Obie połowy pytania spotykają się tutaj: żądanie przychodzi z pliku żądań
+    (:func:`olski.żądania.żąda_osoby`), a spełnienie z deklaracji projektu
+    (``olski/osoby.py``). Wiersz zostaje po tej pozycji, której żądania nie
+    spełnia nic z tego, czym jest jej głowa.
+
+    **Wiersz jest o zdaniu, a nie o odczytaniu**, i tym różni się ten wykaz od
+    :attr:`Verdict.żądania`. Pozycję obsadza czytanie, więc wiersz mówi tyle,
+    że w którymś z nich stoi rzecz tam, gdzie czasownik żąda kogoś. Zdanie
+    wieloznaczne ma czytań kilkanaście, a wiersz o jednej pozycji w każdym z nich
+    ten sam, więc wykaz na odczytanie kazałby przeczytać kilkanaście kopii
+    jednego wiersza.
+    """
+    return tuple(
+        żądanie
+        for żądanie in _zwinięte(żądanie for tabela in verdict.żądania for żądanie in tabela)
+        if żąda_osoby(żądanie.klasy) and not deklaracja.nazywają(żądanie.lematy)
+    )
+
+
+def _zwinięte(żądania: Iterable[Żądanie]) -> tuple[Żądanie, ...]:
+    """Te żądania bez powtórzeń, z lematami zebranymi po wszystkich kształtach.
+
+    Wiersz mówi o pozycji, a nie o głowie wypełnienia,
+    więc pozycja, którą dwa kształty nazywają dwiema głowami, wychodzi stąd raz:
+    podmiotem w `Wszystko to deklaruje REUSE.toml.` jest `wszystko` z określeniem
+    `to` albo `to` z określeniem `wszystko`, a żądanie stoi w obu to samo.
+    Lematy zbierają się wtedy tak, jak zbiera je żądanie po słowach czasownika
+    (:func:`olski.żądania.żądane`), i deklaracja pyta o zbiór cały
+    (:meth:`olski.osoby.Osoby.nazywają`).
+    """
+    zebrane: dict[Żądanie, frozenset[str]] = {}
+    for żądanie in żądania:
+        zebrane[żądanie] = zebrane.get(żądanie, frozenset()) | żądanie.lematy
+    return tuple(replace(żądanie, lematy=lematy) for żądanie, lematy in zebrane.items())
+
+
 def _żądania_streszczenia(drzewa: Iterable[Node]) -> tuple[Żądanie, ...]:
     """Żądania obsadzonych pozycji tych czytań, każde raz i rolami po kolei.
 
@@ -663,13 +710,12 @@ def _żądania_streszczenia(drzewa: Iterable[Node]) -> tuple[Żądanie, ...]:
     powodu: pozycje tamtego zdania są ramą tamtego czasownika
     (:attr:`olski.parse.Deklaracja.podrzędne`).
     """
-    zebrane: list[Żądanie] = []
-    for drzewo in drzewa:
-        for zakres in zakresy(drzewo, DEKLARACJA.składowe):
-            for żądanie in _żądania_składowego(drzewo, zakres):
-                if żądanie not in zebrane:
-                    zebrane.append(żądanie)
-    return tuple(zebrane)
+    return _zwinięte(
+        żądanie
+        for drzewo in drzewa
+        for zakres in zakresy(drzewo, DEKLARACJA.składowe)
+        for żądanie in _żądania_składowego(drzewo, zakres)
+    )
 
 
 def _żądania_składowego(drzewo: Node, zakres: tuple[int, int]) -> Iterator[Żądanie]:
@@ -682,7 +728,14 @@ def _żądania_składowego(drzewo: Node, zakres: tuple[int, int]) -> Iterator[Ż
         for węzeł in w_zakresie(drzewo, rola, _STOP, zakres):
             klasy = _żądane_od(węzeł, rola, czasownik)
             if klasy:
-                yield Żądanie(rola, sklej_formy(węzeł.forms()), czasownik.forma, klasy)
+                głowa = węzeł.liść_głowy()
+                yield Żądanie(
+                    rola,
+                    sklej_formy(węzeł.forms()),
+                    czasownik.forma,
+                    klasy,
+                    frozenset(czytanie.lemma for czytanie in głowa.odczytania),
+                )
 
 
 def _czasownik(drzewo: Node, zakres: tuple[int, int]) -> _Czasownik | None:

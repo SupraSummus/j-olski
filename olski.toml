@@ -67,3 +67,15 @@ wpisy = [
 [lematy]
 wpuszczane = []
 pomijane = []
+
+# Lematy, którymi ten projekt nazywa kogoś. Odpowiadają one na drugą połowę
+# pytania o żądanie czasownika: czy w pozycji żądającej osoby stoi ktoś, czy
+# rzecz. Czyta je `olski/osoby.py`, a wypisuje `olski-check --osoby`.
+#
+# Deklaracja jest zamknięta, czyli lemat spoza niej nikogo nie nazywa, więc
+# rejestr piszący o programach wypisuje tu garść słów, a nie tysiąc. Wpisem jest
+# lemat, a nie forma, i sekcję tę pisze się ręką, tak samo jak leksykon wyżej.
+# Kogo obejmuje słowo „osoba” i czemu deklaracja idzie tym kierunkiem, mówi
+# sekcja o żądaniu osoby w `docs/warstwa-leksykalna.md`.
+[osoby]
+lematy = ["anotator", "autor", "człowiek", "czytelnik", "ktoś"]

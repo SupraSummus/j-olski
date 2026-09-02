@@ -1168,7 +1168,10 @@ więc czytelnik tego wiersza widzi, czego czasownik chciał,
 i sam rozstrzyga, czy metafora jest tu na miejscu.
 Rozstrzygnąć to za niego mógłby wordnet, którego to repozytorium nie ma
 ([open-questions.md](open-questions.md#shared-questions)),
-i dlatego wiersz idzie pod flagą, a nie w samym werdykcie:
+a w tym zdaniu i on jest potrzebny, bo `zażądać` żąda ludzi albo klasy,
+której olski nie nazywa; żądanie samych klas osobowych rozstrzyga bez niego
+deklaracja projektu ([niżej](#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+Wiersz idzie przez to pod flagą, a nie w samym werdykcie:
 nie jest znaleziskiem, tylko materiałem do przeczytania
 ([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
 
@@ -1201,3 +1204,68 @@ a to nimi ten rejestr orzeka najczęściej.
 Alternatywa nienazwana zostaje za to w wierszu — `zażądał` wyżej ma ją obok
 klasy `LUDZIE` — bo wiersz o samych ludziach byłby żądaniem ostrzejszym,
 niż Walenty stawia.
+
+### Deklaracja projektu rozstrzyga żądanie osoby
+
+Wiersz wyżej nazywa żądanie i na tym staje,
+bo o przynależności do klasy orzeka wordnet.
+Klasy osobowe są tą częścią pytania, która wordnetu nie żąda:
+kto w rejestrze jest kimś, a co jest rzeczą, wie autor rejestru.
+Mówi to sekcją `osoby` w `olski.toml`, czyli tam, gdzie mówi już,
+wedle którego leksemu odmienia się słowo, którego słownik nie ma
+([wyżej](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
+Flaga wypisuje wtedy pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz.
+
+```sh
+python3 -m olski.check --osoby -c "Autor doradza czytelnikowi poprawkę.
+Sonda drukuje liczby."
+```
+
+```text
+<text>: Sonda drukuje liczby.
+        podmiot „Sonda”: „drukuje” żąda klasy PODMIOTY, a „sonda” nikogo nie nazywa
+zdań: 2; wieloznaczne: 0; bez odczytania: 0
+```
+
+Zdanie pierwsze milczy całe, bo `autor` i `czytelnik` stoją w deklaracji tego
+projektu, a żądanie od obu tych pozycji wypisuje sekcja wyżej.
+Osobą jest tu ten, kogo Walenty żąda klasami `LUDZIE`, `ISTOTY` i `PODMIOTY`,
+czyli i człowiek, i zwierzę, i organ, który działa jak człowiek,
+więc wiersz mówi, że słowo nikogo nie nazywa, a nie że nie jest człowiekiem.
+Trzy klasy razem, bo pytanie deklaracji jest jedno,
+a rozdzielenie ich żądałoby taksonomii, czyli znów wordnetu.
+Zasięg tego pytania jest przy tym większy niż trzy klasy z dwudziestu:
+6 525 wierszy o podmiocie z 10 558 nie żąda w tym pliku niczego poza kimś,
+a w celowniku 1 282 z 1 821.
+
+Alternatywa nienazwana znosi żądanie osoby w całości
+i tym odpowiedź jest węższa od wiersza materiału:
+`zażądać` żąda w podmiocie ludzi albo zbioru synsetów,
+więc rzecz stojąca tam spełnia żądanie w tym drugim znaczeniu.
+Nad prozą tego repozytorium zawężenie to odejmuje blisko połowę pozycji,
+w których żądanie jest osobowe.
+Wiersz jest przy tym o zdaniu, a nie o odczytaniu.
+Pozycję obsadza czytanie, więc wiersz mówi, że w którymś z nich stoi rzecz tam,
+gdzie czasownik żąda kogoś.
+Wykaz na odczytanie kazałby przeczytać kilkanaście kopii jednego wiersza,
+bo tyle czytań miewa zdanie wieloznaczne.
+
+Deklaracja jest zamknięta: lemat spoza niej nikogo nie nazywa.
+Kierunek odwrotny, czyli deklaracja rzeczy, jest kampanią bez końca,
+bo rzeczowników rejestr niesie tysiące, a osób garść,
+i myli się po cichu, bo słowo niezadeklarowane zostawia warstwę milczącą,
+a milczenia nikt nie czyta.
+Zamknięta myli się widocznie: osoba, której nikt nie zadeklarował, dostaje wiersz,
+a wiersz poprawia się jednym wpisem.
+Projekt bez tej sekcji nie ma nikogo,
+więc wykaz wraca u niego do materiału zawężonego do klas osobowych.
+
+Adresatem tego wykazu jest reguła o wymyślonym sprawcy
+([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)) i przegląd, który ją zadaje.
+Nad prozą tego repozytorium `--żądania` wypisuje przeszło dwa tysiące wierszy,
+a `--osoby` przeszło sto, nad sześćdziesięcioma zdaniami, i tyle czyta się ręką.
+Znaleziskiem wiersz nie jest i być nie może, bo ta sama reguła zostawia
+metonimię zwykłą wprost — `dokument mówi` i `reguła żąda` są w niej polszczyzną —
+a wykreśla dopiero to, co rzeczy przypisuje wolę albo doznanie.
+Tego rozróżnienia nie niesie żadna klasa Walentego,
+więc rozstrzyga je czytelnik, a olski podaje mu miejsca do przeczytania.

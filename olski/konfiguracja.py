@@ -1,9 +1,10 @@
 """Konfiguracja projektu: jeden plik, w którym projekt deklaruje coś olskiemu.
 
-Sekcje są dwie i obie mówią o jednym projekcie, a nie o polszczyźnie:
+Sekcje są trzy i każda mówi o jednym projekcie, a nie o polszczyźnie:
 ``leksykon`` deklaruje odmianę słowa, którego słownik nie ma
-(``olski/projekt.py``), a ``lematy`` mówi, których lematów projekt używa,
-a których nie używa wcale (``olski/słownictwo.py``).
+(``olski/projekt.py``), ``lematy`` mówi, których lematów projekt używa,
+a których nie używa wcale (``olski/słownictwo.py``),
+a ``osoby`` mówi, które z nich nazywają kogoś (``olski/osoby.py``).
 Plik jest jeden, bo projekt jest jedną rzeczą i szukanie go jest jedną regułą;
 leży w jego korzeniu, a nie w paczce, bo zainstalowany olski jest jeden dla
 wszystkich projektów naraz. Braku nie zgłasza się (:func:`znajdź`).
@@ -36,9 +37,12 @@ LEKSYKON = "leksykon"
 #: Sekcja, w której projekt orzeka o lematach w obie strony.
 LEMATY = "lematy"
 
+#: Sekcja, w której projekt mówi, które lematy nazywają kogoś.
+OSOBY = "osoby"
+
 #: Sekcje, które olski czyta. Nazwa spoza tej listy zgłasza się, zamiast
 #: przemilczeć deklarację, którą ktoś napisał i której nikt nie przeczytał.
-SEKCJE = (LEKSYKON, LEMATY)
+SEKCJE = (LEKSYKON, LEMATY, OSOBY)
 
 
 class ZłaKonfiguracja(Exception):

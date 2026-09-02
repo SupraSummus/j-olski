@@ -12,6 +12,8 @@ Wszystkie trzy mówią o napisie autora, a nie o grafie segmentacji.
 Czwartą jest żądanie pozycji, czyli to, czego czasownik żąda od słowa,
 które w jego pozycji stanęło; sam plik żądań sprawdza ``tests/test_żądania.py``,
 a tutaj pyta się o to, którą pozycję czytanie obsadziło i którym słowem.
+Tu też spotyka się ono z drugą połową pytania, czyli z deklaracją osób
+projektu (``olski/osoby.py``), bo dopiero obie razem dają odpowiedź o zdaniu.
 
 Piąte pytanie jest o podsumowanie tekstu,
 bo od niego zależy, czego pomiar pokrycia nie liczy jako zdania.
@@ -21,6 +23,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from olski.osoby import Osoby
 from olski.segmentacja import morphology
 from olski.werdykt import (
     FRAGMENT,
@@ -28,6 +31,7 @@ from olski.werdykt import (
     Naprawa,
     Podsumowanie,
     check,
+    niespełnione_żądania,
     werdykt,
     zatrzymania,
 )
@@ -320,3 +324,67 @@ def test_dopełnienie_bezokolicznika_nie_dostaje_żądania_formy_osobowej():
     assert _żądania(verdict("Autor zamierzył edytować dokument.")) == [
         ("podmiot", "Autor", ("PODMIOTY",))
     ]
+
+
+#: Projekt, który nikogo nie zadeklarował. Podaje go tu każde wywołanie, bo
+#: domyślną jest deklaracja tego repozytorium, a te testy mówią o warstwie,
+#: a nie o tym, kogo `olski.toml` w niej wypisał.
+BEZ_OSÓB = Osoby()
+
+
+def _osoby(werdykt, deklaracja=BEZ_OSÓB):
+    """Pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz."""
+    return niespełnione_żądania(werdykt, deklaracja)
+
+
+def test_deklaracja_zdejmuje_wiersz_temu_lematowi_o_który_prosi_i_żadnemu_obok():
+    """Cała treść tej deklaracji: projekt mówi, kto w jego rejestrze jest kimś.
+
+    Bez niej wiersz dostaje każde żądanie osoby, bo lemat spoza deklaracji
+    nikogo nie nazywa, a projekt bez tej sekcji nie ma nikogo.
+    """
+    zdanie = verdict("Autor doradza czytelnikowi poprawkę.")
+    assert [(w.rola, w.wypełnienie, w.lematy) for w in _osoby(zdanie)] == [
+        ("podmiot", "Autor", frozenset({"autor"})),
+        ("dopełnienie", "czytelnikowi", frozenset({"czytelnik"})),
+    ]
+    z_autorem = _osoby(zdanie, Osoby(lematy=frozenset({"autor"})))
+    assert [w.wypełnienie for w in z_autorem] == ["czytelnikowi"]
+
+
+def test_wiersz_o_pozycji_wychodzi_raz_na_zdanie_a_nie_raz_na_odczytanie():
+    """Tym ten wykaz różni się od wykazu żądań, a różnicę widać na przyłączeniu.
+
+    `w dokumencie` dochodzi raz do czasownika, raz do dopełnienia, więc zdanie
+    ma dwa odczytania i te same dwie pozycje obsadzone w każdym z nich.
+    Wykaz na odczytanie kazałby przeczytać cztery wiersze, żeby przeczytać dwa.
+    """
+    zdanie = verdict("Autor doradza czytelnikowi poprawkę w dokumencie.")
+    assert len(zdanie.readings) == 2
+    assert [w.wypełnienie for w in _osoby(zdanie)] == ["Autor", "czytelnikowi"]
+
+
+def test_pozycja_obsadzona_w_każdym_odczytaniu_inaczej_daje_wiersz_na_każde_słowo():
+    """Cena wykazu o zdaniu i granica zwijania wierszy powtórzonych.
+
+    `Program drukuje werdykt.` czyta się dwojako, bo mianownik jest tu
+    synkretyczny z biernikiem, więc podmiotem jest raz jedno słowo, raz drugie.
+    Wiersz zwinięty do jednego zataiłby przed czytelnikiem to drugie czytanie.
+    """
+    assert [w.wypełnienie for w in _osoby(verdict("Program drukuje werdykt."))] == [
+        "Program",
+        "werdykt",
+    ]
+
+
+def test_pozycja_o_dwóch_głowach_wychodzi_raz_i_zbiera_oba_lematy():
+    """Grupa `Wszystko to` ma głowę raz w jednym, raz w drugim ze swoich słów.
+
+    Wiersz jest o pozycji, a nie o głowie, więc oba kształty dają go raz;
+    bez tego `--żądania` wypisywało dwa wiersze o tym samym brzmieniu, bo
+    głowy w nim nie widać. Lematy zbierają się przy tym oba, bo o cały ich
+    zbiór pyta deklaracja osób.
+    """
+    wiersze = _osoby(verdict("Wszystko to deklaruje plik."))
+    grupa = [w for w in wiersze if w.wypełnienie == "Wszystko to"]
+    assert [w.lematy for w in grupa] == [frozenset({"to", "wszystko"})]

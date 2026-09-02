@@ -83,34 +83,20 @@ i czy zostają te, o których tamten dokument mówi, że kryterium trafiło w ni
 `wykryć komuś raka` i `wykryć u kogoś raka` mówią jedno, więc rola ma je zlać.
 Liczbę z tamtego dokumentu przelicza ta sama zmiana.
 
-Żądanie ma dwie strony, a tę drugą — czy słowo w pozycji do klasy należy —
-mogłaby wziąć ręka, i jest to myśl luźna, nie plan.
-Wordnetu ten projekt nie ma i nie ma go jak pobrać
-([`docs/open-questions.md`](../docs/open-questions.md#shared-questions)),
-a leksykon pisany ręką ma tu precedens:
-`KOPULA` w `olski/walencja.py` jest listą wpisaną z palca,
-a `olski.toml` istnieje właśnie po to, żeby odpowiadać na pytania,
-na które nie odpowiada żaden korpus.
-Pełnej taksonomii do tego nie trzeba.
-Klas nazwanych Walenty ma dwadzieścia, a regule o wymyślonym sprawcy
-([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie))
-wystarcza jedno rozróżnienie, bo resztę podziału niesie strona żądania:
-`kupować` żąda w podmiocie człowieka, a `rozstrzygać` bierze tam i komunikat.
-Miejscem takiego bitu jest `olski.toml`, a wypełniałby się przy słowie,
-które i tak wchodzi tam decyzją, więc kampanii to nie żąda;
-słowo nieznane zostawia warstwę milczącą, tak jak przy świadku przyłączeniowym.
-Pierwsze wpisy umiałby podać przebieg, zamiast ręki:
-warstwa przykładów wydania TEI wskazuje przez `sameAs` te frazy schematu,
+Deklaracja osób projektu wypełnia się ręką, a pierwsze wpisy umiałby podać przebieg.
+Sekcja `osoby` w `olski.toml` odpowiada dziś za klasy osobowe żądania
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+a warstwa przykładów wydania TEI wskazuje przez `sameAs` te frazy schematu,
 które przykład obsadza, czyli te same identyfikatory,
-po których chodzi złączenie w `harness/żądania.py`,
-a przy pozycji przyimkowej przypisanie słowa do pozycji widać z samego zdania,
+po których chodzi złączenie w `harness/żądania.py`;
+przy pozycji przyimkowej przypisanie słowa do pozycji widać z samego zdania,
 bo przyimek w nim stoi.
-Taki przebieg proponuje, a nie orzeka, i do drzewa nie wchodzi, jak każda sonda.
-Pułapki są dwie i obie stoją przed pierwszym wpisem.
-Liczby z przykładów nie są definicją klasy — definiuje ją praca o tej warstwie,
-zbiorami synsetów — więc plik z nich wzięty nazywa częstość, a nie przynależność,
-i metonimie w nim będą, bo metonimia jest właśnie tym przypadkiem,
+Ruchem jest sonda wypisująca słowa, którymi przykłady obsadzają pozycje
+żądające klas osobowych, i ona proponuje, a nie orzeka, jak każda sonda.
+Do przeczytania jest przedtem, czy takie słowa w ogóle wchodzą do rejestru,
+bo deklaracja jest o lematach, których używa ten projekt, a nie o polszczyźnie.
+Pułapka stoi przed pierwszym wpisem: liczby z przykładów nie są definicją klasy —
+definiuje ją praca o tej warstwie, zbiorami synsetów —
+więc lista z nich wzięta nazywa częstość, a nie przynależność,
+i metonimie w niej będą, bo metonimia jest właśnie tym przypadkiem,
 w którym słowo żądania nie spełnia.
-Bit pisany ręką nie może zaś znaczyć „czy to może być podmiotem czasownika”,
-bo ta proza metonimii używa rozmyślnie — `dokument mówi`, `reguła żąda` —
-i wtedy zapala się na każdym akapicie; wąskie „czy to osoba” tego nie robi.

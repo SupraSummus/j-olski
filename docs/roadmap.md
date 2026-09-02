@@ -432,9 +432,13 @@ Przekład tej warstwy stoi w `olski/żądania.txt`,
 a `--żądania` mówi obok streszczenia, czego czasownik żąda od tego,
 co w jego pozycji stanęło
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
-Czeka więc na dwie rzeczy, i obie należą do drugiej połowy pytania.
-Na wordnet, bo tego, czy rzecz stojąca w zdaniu do żądanej klasy należy,
-nie rozstrzyga żaden zasób, który to repozytorium ma,
+Druga połowa pytania — czy słowo stojące w pozycji żądanie spełnia —
+jest zamknięta dla klas osobowych, bo tam odpowiada deklaracja projektu,
+a `--osoby` wypisuje pozycje, w których czasownik żąda kogoś, a stoi tam rzecz
+([warstwa-leksykalna.md](warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+Czeka więc na dwie rzeczy, i obie zostają z tamtej połowy.
+Na wordnet, bo o klasach poza osobowymi — `MIEJSCE` jest jedną z nich —
+nie orzeka żaden zasób, który to repozytorium ma,
 i jest to pytanie do świata
 ([open-questions.md](open-questions.md#shared-questions)).
 Oraz na samo żądanie miejsca, którego w tym przekładzie nie ma,

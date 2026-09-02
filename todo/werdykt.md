@@ -153,6 +153,8 @@ Wiersz żądania nazywa dwie pozycje ramy, a plik żądań ma ich osiem.
 ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)),
 a poza wierszem zostaje wyrażenie przyimkowe wraz z bezokolicznikiem,
 zdaniem podrzędnym i pytaniem zależnym.
+Granicę tę dziedziczy `--osoby`, więc ruch kupuje dwie flagi naraz,
+a w tej drugiej dokłada pozycję przyimkową do tysiąca wierszy żądających kogoś.
 Pierwsze z nich jest w pliku pozycją drugą co do wielkości, zaraz po podmiocie,
 więc to ono jest tu całym ruchem, a trzy pozostałe idą przy okazji.
 Przeszkodą jest przy nim gospodarz, a nie sam przekład nazwy:
@@ -182,8 +184,15 @@ Zawężenie jest tu całą robotą, bo wersja naiwna zapala się wszędzie:
 pozycji nieobsadzonych ma każde zdanie i większość z nich niczego nie przemilcza.
 Kandydatem na kryterium jest para pozycji, które różni samo uszczegółowienie roli,
 czyli dwie strony jednego zdarzenia,
-a do przeczytania jest, ile lematów taką parę w tym pliku ma
-i czy zdania z nimi naprawdę czyta się dwojako —
+a policzone nad plikiem bierze ono 2 171 lematów z 8 556, czyli co czwarty,
+bo `Theme.Goal` obok `Theme.Source` jest w nim parą najczęstszą i mówi o kierunku,
+a nie o dwóch stronach.
+Zawężone do roli `Initiator` bierze 83 lematy,
+a do jednej pozycji niosącej oba uszczegółowienia naraz — 19,
+i są to `wynająć`, `wypożyczyć`, `dzierżawić`, `czarterować` wraz z resztą tej klasy.
+Ani jeden z nich nie stoi w rejestrze, o który olski pyta,
+więc znalezisko wychodzi poprawne i bezczynne, i to jest tu cena.
+Czy zdania z tymi lematami naprawdę czyta się dwojako, zostaje do przeczytania —
 sonda konwersów mierzyła to kształtem pozycji i wyszła jej liczba za wysoka
 ([`docs/disambiguation.md`](../docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)).
 
@@ -200,3 +209,18 @@ przeczenie widać po jego liściach, a bezokolicznik stoi liściem wprost pod fr
 obok swoich wypełnień, więc pytanie o liście tej frazy odpowiada o całym zdaniu.
 Do rozstrzygnięcia jest, czy tańszy jest symbol nad tym zespołem w gramatyce,
 czy warunek na liście stojące przed pierwszym konstytuentem frazy.
+
+Wiersz `--osoby` o zaimku i o liczebniku nie mówi czytelnikowi nic.
+`to`, `wszystko`, `nic`, `pierwsza` i `pięć` dostają go tak samo jak `pomiar`,
+a nie nazywają nikogo z innego powodu niż `pomiar`:
+nie nazywają one same z siebie ani kogoś, ani czegoś,
+bo to, czym są, stoi w zdaniu obok nich albo w zdaniu przed nimi.
+Nad prozą tego repozytorium jest to mniej więcej co dziesiąty wiersz tej flagi.
+Ruchem jest warunek na część mowy głowy wypełnienia,
+czyli pytanie o znacznik odczytań liścia zamiast o sam lemat,
+i wtedy zaimek milczy tak jak słowo spoza pliku żądań.
+Do rozstrzygnięcia jest, gdzie postawić granicę:
+`ktoś` deklaracja osób już wypisuje i wypisywać musi, bo kogoś nazywa,
+a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
+więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
+Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.

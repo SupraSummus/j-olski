@@ -436,8 +436,10 @@ reguła mówiąca, czego czasownik żąda od swojej pozycji,
 potrzebuje ponad rozbiorem czegoś, czego tabela nie ma w żadnym wierszu.
 Samo żądanie stoi w leksykonie walencyjnym
 ([`docs/prior-art.md`](../docs/prior-art.md#polish-language-resources)),
-a słownika znaczeń potrzebuje dopiero odpowiedź na nie,
-czyli rozstrzygnięcie, czy słowo w pozycji żądaną klasę spełnia.
+a odpowiedź na nie — czyli rozstrzygnięcie, czy słowo w pozycji żądaną klasę
+spełnia — bierze się z deklaracji projektu przy klasach osobowych
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+a przy pozostałych ze słownika znaczeń, którego nie ma.
 Ruchem jest piąty wiersz albo zdanie pod tabelą,
 że drabina kończy się tam, gdzie zaczyna się ta odpowiedź.
 Do przeczytania jest sekcja o czterech osiach z tego samego dokumentu:

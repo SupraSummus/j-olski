@@ -35,7 +35,7 @@ from olski.walencja import (
     PYTANIE_ZALEŻNE,
     ZDANIE_PODRZĘDNE,
 )
-from olski.żądania import SYNSETY, żądane
+from olski.żądania import OSOBOWE, SYNSETY, żąda_osoby, żądane
 
 
 @pytest.mark.parametrize(
@@ -350,3 +350,25 @@ def test_słowo_milczące_ucisza_żądanie_słowa_obok_siebie():
     żądające = ("absorbować", CZASOWNIK)
     assert żądane([żądające], PODMIOT)
     assert żądane([żądające, ("zapisywać", CZASOWNIK)], PODMIOT) == frozenset()
+
+
+@pytest.mark.parametrize(
+    ("lemat", "osoby"),
+    [
+        ("doradzać", True),
+        #  `zażądać` żąda ludzi albo zbioru synsetów, a `opisywać` ludzi albo
+        #  komunikatu: rzecz stojąca w takiej pozycji spełnia żądanie w tym
+        #  drugim znaczeniu, więc obie alternatywy żądania osoby nie są.
+        ("zażądać", False),
+        ("opisywać", False),
+    ],
+)
+def test_żądaniem_osoby_jest_to_którego_nie_spełnia_nic_poza_kimś(lemat, osoby):
+    """Kryterium jest zawieraniem się w klasach osobowych, a nie przecięciem z nimi.
+
+    Każdy z tych trzech lematów żąda w podmiocie którejś z tych klas, więc
+    kryterium na przecięcie odpowiadałoby przy wszystkich, że stoi tam ktoś.
+    """
+    klasy = żądane([(lemat, CZASOWNIK)], PODMIOT)
+    assert klasy & OSOBOWE
+    assert żąda_osoby(klasy) is osoby

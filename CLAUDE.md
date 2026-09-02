@@ -519,6 +519,9 @@ Powtarza się w niej kilka chwytów.
   Metonimia zwykła zostaje, bo dokument mówi i reguła żąda
   bez udawania, że któreś z nich czegoś chce.
   Wykreślamy dopiero to, co rzeczy przypisuje wolę albo doznanie.
+  Miejsca, w których rzecz stoi w pozycji żądającej kogoś,
+  wypisuje `olski-check --osoby`, a wykreśla dalej czytelnik
+  ([`docs/warstwa-leksykalna.md`](docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 - **Czasownik domowy.**
   „Stoi”, „trzyma”, „bierze”, „niesie”, „kosztuje”, „schodzi”
   obsłużyły już w tych dokumentach tyle znaczeń,
