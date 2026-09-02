@@ -248,7 +248,7 @@ Zgodność liczy skład po drodze, więc losowanie nie narusza gramatyczności,
 a odsiewa ono zdanie, z którego czytelnik nie odzyskałby ról.
 Czego takie losowanie zażądało od tego pakietu,
 a czego autor drzewa nie musiał nigdy napisać,
-mówi [docs/sklad.md](docs/sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
+mówi [docs/po-wypisaniu.md](docs/po-wypisaniu.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
 
 Szyku wewnątrz grupy imiennej skład nie niesie.
 Dziura ta stoi w samym składzie.

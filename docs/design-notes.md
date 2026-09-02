@@ -996,7 +996,7 @@ which reads a parser reading back as a tree of the abstract syntax,
 and what it recovers, what it cannot,
 and why one reading comes back as several trees
 is owned by
-[sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma).
+[po-wypisaniu.md](po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma).
 The dependency also runs the other way than it first appears:
 generation exposes what the grammar *over*generates,
 which the parsing side sees only against a treebank.

@@ -9,7 +9,7 @@ Odwrotnością linearyzacji ten plik zatem nie jest:
 jest drugą funkcją, której przeciwdziedziną jest to, co autor napisał,
 a wspólnym mają obie typ, a nie kod.
 Po co ten obieg stoi, czego z niego nie wraca i co to mówi o obu torach,
-trzyma ``docs/sklad.md``, a sam niezmiennik ``docs/design-notes.md``.
+trzyma ``docs/po-wypisaniu.md``, a sam niezmiennik ``docs/design-notes.md``.
 
 Zasady niżej rozstrzygają o kodzie i każda dotyczy każdej funkcji w nim.
 
@@ -268,7 +268,7 @@ def _cechy(drzewo: Node) -> tuple[str, ...]:
     ``Jaki`` trzyma cechę napisem, a `bardzo duży` jest stopniem tej cechy,
     czyli tym, o czym drzewo nie ma jak powiedzieć, i to jest ta cisza,
     którą ten kierunek zgłasza zamiast wypuścić drzewo mówiące mniej
-    (``docs/sklad.md``).
+    (``docs/po-wypisaniu.md``).
 
     Ciąg współrzędny kategorii nie dostaje z tego samego powodu:
     ``Jaki`` niesie jedną cechę, a `nowy i tani parser` orzeka o rzeczy dwie,
@@ -309,7 +309,7 @@ def _nominalne(drzewo: Node) -> tuple[tuple[Nominalne, str], ...]:
     Wyrażenie przyimkowe pod rzeczownikiem kategorii nie dostaje,
     bo okolicznik dochodzi w tym zapisie do zdarzenia, a nie do rzeczy,
     i to jest ta połowa przyłączenia, której ten kierunek nie mówi
-    (``docs/sklad.md``).
+    (``docs/po-wypisaniu.md``).
     """
     ciała = drzewo.children
     kształt = tuple(_etykieta(dziecko) for dziecko in ciała)
@@ -347,7 +347,7 @@ def _role(drzewo: Leaf | Node) -> tuple[Rola, ...]:
     Ciało dopasowuje się całe, tak samo jak w :func:`_nominalne`,
     bo gramatyka dopisuje ciała symbolom, które ten plik czyta,
     a ciało nierozpoznane ma się zgłosić brakiem kategorii
-    (``docs/sklad.md``).
+    (``docs/po-wypisaniu.md``).
     """
     etykieta = _etykieta(drzewo)
     if etykieta == "człon_imienny":
@@ -525,7 +525,7 @@ def _treści(drzewo: Node) -> tuple[Treść, ...]:
     przecinek należy do tego konstytuenta po obu stronach,
     a innego spójnika gramatyka w tej pozycji nie wypuszcza.
     Ciało dopasowuje się przy tym całe, tak samo jak w :func:`_nominalne`,
-    bo ciało nierozpoznane ma się zgłosić brakiem kategorii (``docs/sklad.md``).
+    bo ciało nierozpoznane ma się zgłosić brakiem kategorii (``docs/po-wypisaniu.md``).
     """
     kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
     if kształt != (SŁOWO, SŁOWO, "zdanie"):
@@ -922,7 +922,7 @@ def _rozjazd(drzewo: Zdanie, czytanie: Node, kontekst: Kontekst) -> str | None:
 class Odczyt:
     """Drzewa, którymi czytanie wraca, wraz z powodami tych, którymi nie wróciło.
 
-    Powodów jest kilka rodzajów i rozdziela je ``docs/sklad.md``,
+    Powodów jest kilka rodzajów i rozdziela je ``docs/po-wypisaniu.md``,
     a krotka drzew sama nie mówi, który zadziałał na tym zdaniu.
     Powód opisuje kandydata, który odpadł, a nie odpowiedź,
     więc zdanie z drzewami ma jedno i drugie naraz.

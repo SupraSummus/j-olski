@@ -74,7 +74,7 @@ Widać to bez żadnego pomiaru, na jednej frazie:
 README pisze `kontrolowanych języków naturalnych`,
 a to samo drzewo wypuszcza `kontrolowany naturalny język`.
 Po drugiej stronie stoi to jako czytanie, które z
-[obiegu](../docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)
+[obiegu](../docs/po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)
 nie wraca żadnym drzewem, i trzyma to `tests/test_rozbiór.py`.
 Do przeczytania jest ta para wraz z tym,
 co [`docs/sklad.md`](../docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
@@ -95,11 +95,11 @@ gdzie polszczyzna napisałaby `stoją`.
 Oba te zdania są polskie i mówią co innego,
 czyli brakuje tu kategorii dziedziny, a nie formy do policzenia:
 pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
-Widać to dopiero od [treści](../docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
+Widać to dopiero od [treści](../docs/kategorie-zapisu.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
 bo okoliczność wyrażona zdarzeniem stoi obok zdarzenia nadrzędnego w czasie,
 a treść stoi pod nim, i tam czas przestaje być własnością samego opowiadania.
 Do przeczytania jest `CZASY` oraz `Kontekst` w `olski/skład/składnia.py`
-wraz z tym, co [`docs/sklad.md`](../docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
+wraz z tym, co [`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o czasie jako własności tekstu,
 bo ta kategoria tego zdania nie odwołuje, tylko dokłada do niego drugie:
 czas opowiadania zostaje, a zdanie podrzędne dostaje go względem swojego zdania.
@@ -124,12 +124,12 @@ bo ruch ten ma tam nazwę wraz z literaturą,
 a warunek, który dziedziczy, jest testem na zbiór dystraktorów,
 czyli tym, co tamten algorytm liczy nad opisem rzeczy.
 Do przeczytania jest też `pomijalny` w `olski/skład/składnia.py`,
-który trzyma warunki [wąskiego opuszczania podmiotu](../docs/sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
+który trzyma warunki [wąskiego opuszczania podmiotu](../docs/kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie),
 bo zaimek dziedziczy stamtąd warunek, a nie tylko mechanizm,
-wraz z [ceną tego ruchu](../docs/sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy),
+wraz z [ceną tego ruchu](../docs/kategorie-zapisu.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy),
 która trzyma cztery rzeczy czyniące go innym, niż wygląda:
 ostrzejszy warunek na zaimek, szyk łączący go w jedną zmianę z
-[dopełnieniem wyrażonym zdarzeniem](../docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+[dopełnieniem wyrażonym zdarzeniem](../docs/kategorie-zapisu.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
 osobne miejsce zaimka dzierżawczego,
 oraz podmiot zdania podrzędnego, który zaimka nie bierze wcale i stoi niżej.
 Do zmierzenia jest, czy pozycja zwalnia się w tej legendzie gdziekolwiek,
@@ -166,7 +166,7 @@ Klasa ta jest gorsza niż brak, bo `Dokąd.w` wypuści to zdanie jako cel,
 czyli powie, że ktoś w coś wierzy tak, jak mówi się, że ktoś dokądś idzie.
 Czwarta wersja legendy obeszła to zdanie z drugiej strony,
 bo `nie wierzyła, że w piwnicy mieszkał bazyliszek` bierze
-[treść](../docs/sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)
+[treść](../docs/kategorie-zapisu.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)
 zamiast wyrażenia przyimkowego, a mówi to samo o postaci;
 klasa zostaje jednak w tej samej cenie, bo wiara w rzecz zdaniem podrzędnym nie wyjdzie.
 Drugą klasę dokłada losowanie: `czekał na izbach` wychodzi z drzewa,
@@ -203,7 +203,7 @@ więc `Czeladnik chciał, żeby córka krawca wróciła.` z tego drzewa nie wyjd
 choć jest to zdanie, którym polszczyzna mówi o cudzym zdarzeniu pod czyjąś wolą.
 Stoi to obok odmowy, którą `Robi` wydaje bezokolicznikowi o cudzym wykonawcy,
 i te dwie rzeczy są jedną dziurą widzianą z dwóch stron:
-[`docs/sklad.md`](../docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
+[`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
 nazywa tamto zdanie polskim, którego bezokolicznik nie wyraża,
 a wyraża je dokładnie ta pozycja i ten drugi spójnik.
 Do przeczytania jest `cp(żeby)` obok `cp(że)` u Walentego,
@@ -278,7 +278,7 @@ z których `rodzaj_rzeczownika` w tym samym pliku bierze alfabetycznie pierwszą
 `anioł` dostaje stąd rodzaj osobowy, choć słownik nie rozstrzyga, czy jest osobowy,
 a rodzaj jest tu wartością, z której liczy się zgodność całego zdania.
 Do przeczytania jest to, co
-[`docs/sklad.md`](../docs/sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)
+[`docs/formy-i-leksemy.md`](../docs/formy-i-leksemy.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)
 mówi o kryterium, które zostało zbudowane obok tej klasy,
 bo pytanie jest tu tym samym pytaniem o jedno piętro niżej:
 wybór między leksemami zapada w nazwie, a ten zapada pod jednym leksemem.
@@ -331,7 +331,7 @@ Widać to na obiegu i nigdzie więcej, bo osobno każdy z tych kierunków
 ma tylko własne zdanie i nie ma go z czym porównać;
 tym różni się ten wpis od tych, które nazywają brak po jednej stronie.
 Wywód trzyma
-[`docs/sklad.md`](../docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
+[`docs/po-wypisaniu.md`](../docs/po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
 a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
 Do przeczytania jest, co `harness/walenty.py` bierze z Walentego przy pozycji `infp`,
 bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
@@ -365,7 +365,7 @@ autor pisze `na rynku`, nie zauważając, że wybrał,
 a `olski/skład/makieta.py` wybrać musi i dlatego rozdziela `MIEJSCA_W` od `MIEJSCA_NA`,
 czyli trzyma fakt o polszczyźnie w tabeli jednego programu.
 Do przeczytania jest ta para tabel wraz z tym, co
-[`docs/sklad.md`](../docs/sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać)
+[`docs/po-wypisaniu.md`](../docs/po-wypisaniu.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać)
 wylicza jako fakty poza leksykonami tego pakietu,
 oraz `PRZYIMKI` w `olski/skład/przyimki.py`, bo pytanie jest o kolumnę, której ten plik nie ma.
 Ruchem jest ta kolumna, czyli przyimek dopisany przy rzeczowniku, a nie przy relacji,
@@ -382,7 +382,7 @@ przechodzi przez pytanie o ramę, które stawia `Robi` w `olski/skład/składnia
 i wychodzi zdaniem, którego polszczyzna nie ma.
 Rama jest tu sprawdzona co do pozycji i niesprawdzona co do formy,
 która tę pozycję wypełnia, i jest to ta sama luka, którą ma
-[dopełnienie wyrażone zdarzeniem](../docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
+[dopełnienie wyrażone zdarzeniem](../docs/kategorie-zapisu.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie),
 tylko o piętro niżej: tam leksykon mówi, czy bezokolicznik wolno postawić,
 a tutaj nie mówi, który.
 Kosztuje to dziś czasownik w tabeli `olski/skład/makieta.py`,
@@ -410,9 +410,9 @@ Ruchem jest uczestnik bezokolicznika zestawiony z podmiotem czasownika nad nim,
 a nie ze swoim, bo bezokolicznik podmiotu nie ma;
 para przechodzi więc przez piętro, czego żadna dzisiejsza para nie robi.
 Do przeczytania jest to, co
-[`docs/sklad.md`](../docs/sklad.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
+[`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#dopełnienie-nie-pyta-czy-stoi-pod-nim-rzecz-czy-zdarzenie)
 mówi o tym, że podmiot w takim zdaniu nie staje nigdy,
-oraz [postawa przeglądu](../docs/sklad.md#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
+oraz [postawa przeglądu](../docs/po-wypisaniu.md#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być),
 która o tym pomiarze mówi, że liczy się go z form, które w tekście stanęły.
 Zażąda to od `_rozróżnia` czasownika z innego zdania niż uczestnik,
 bo trzeci warunek pyta o formę, którą rola z czasownika wyciąga,

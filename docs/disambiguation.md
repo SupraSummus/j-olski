@@ -160,7 +160,7 @@ niesie on przy czytaniu nazwy i kwalifikatory, a licznika nie niesie żadnego.
 Kwalifikator mówi przy tym o formie więcej niż jedną rzecz i tylko jedna z nich
 jest rejestrem, więc odsyłające wypisuje lista, a nie wzorzec;
 wywód tego podziału wraz z ceną trzyma
-[sklad.md](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem),
+[formy-i-leksemy.md](formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem),
 a tę samą listę czyta synteza, która formę odesłaną zdejmuje zamiast liczyć ją kosztem.
 
 Koszt morfologii idzie w górę, a koszt produkcji zostaje przy swoim ciele,
@@ -564,7 +564,7 @@ Olski ma przy tym poziom nad zdaniem i ma go po drugiej stronie.
 Opowieść w `olski/skład/` wie to, czego zdanie samo o sobie nie wie:
 kiedy to było i o kim mowa była przed chwilą,
 i z tego bierze czas przeszły oraz podmiot opuszczony
-([sklad.md](sklad.md)).
+([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
 Kierunek parsujący takiego poziomu nie ma:
 `olski/document.py` dzieli tekst na zdania i każde oddaje gramatyce osobno.
 Warstwa rozstrzygająca kontekstem byłaby więc drugim kompilatorem,
@@ -788,7 +788,8 @@ Zostaje z tego wyjście innego rodzaju i nie jest nim wybór czytania.
 Temat mówi, gdzie grupa znana ma stanąć,
 więc zdanie, które stawia ją gdzie indziej, da się zgłosić autorowi —
 a to jest ten sam ruch, który po drugiej stronie robi już
-`olski/skład/przegląd.py`, kiedy napis nie oddaje ról ([sklad.md](sklad.md)).
+`olski/skład/przegląd.py`, kiedy napis nie oddaje ról
+([po-wypisaniu.md](po-wypisaniu.md#drzewo-jest-jednoznaczne-a-napis-z-niego-nie-musi-być)).
 Pomiar niderlandzki cytowany wyżej mówi tyle, że zdanie poprzednie ten wybór czytelnikowi rozstrzyga,
 i tamta para rozstrzyga go rolą, a nie kolejnością: po „pacjent wyleczył lekarza”
 znany uczestnik wraca w roli, którą tamto zdanie mu dało.
@@ -828,7 +829,7 @@ a wzorcem musiałby być tekst wraz z czytaniem, o które w nim chodziło.
 Olski taki materiał wytwarza i wytwarza go za darmo.
 Drzewo, z którego skład wypuszcza tekst, ma uczestników wymienionych,
 tożsamość rzeczy niesie w nim `Postać`, a czas i to, o kim mowa — `Kontekst`
-([sklad.md](sklad.md)),
+([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
 więc odpowiedź jest znana, zanim padnie pytanie.
 
 `olski/skład/przegląd.py` zadaje już dziś pytanie parsera z tamtej strony:

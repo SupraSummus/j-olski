@@ -382,7 +382,7 @@ i słowo bez wpisu wraca jako `ign`, czyli tak samo jak przed tą sekcją.
 
 Wpisu nie dostaje też leksem dokładany do napisu, który słownik zna,
 i tym sekcja ta różni się od `olski/skład/leksemy.py`, który wybiera między leksemami
-słownika ([sklad.md](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)).
+słownika ([formy-i-leksemy.md](formy-i-leksemy.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje)).
 Projekt piszący o agentach jako o programach żąda liczby mnogiej `agenty`,
 a `agenty` z SGJP jest formą deprecjatywną leksemu osobowego, czyli czym innym.
 Wpis na taki leksem dokłada czytanie formie, którą słownik już czyta,
@@ -395,7 +395,7 @@ Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,
 czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
 oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
-([sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
+([formy-i-leksemy.md](formy-i-leksemy.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
 a ruch trzyma [todo/](../todo/README.md).
 
 ## Słownictwo projektu orzeka o lemacie w obie strony
@@ -624,7 +624,7 @@ a węższe — że jego wykonawcą jest podmiot tego samego schematu
 ([wyżej](#walencja-jest-leksykonem-o-ramie-domyślnej) mówi, komu które służy).
 Zdanie o zdaniu podrzędnym mówi, że czasownik bierze zdanie wprowadzone przez `że`,
 czyli że stoi przy nim to, co ktoś mówi albo wie
-([sklad.md](sklad.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
+([kategorie-zapisu.md](kategorie-zapisu.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
 Kierunek zdania o bierniku jest przeciwny niż kierunek pozostałych,
 bo przeciwne są domyślności, od których one odejmują:
 rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,

@@ -9,7 +9,7 @@ znaczenia. Sonda mierzy różnicę: puszcza czytania zdania przez ``abstrahuj`` 
 
 Porównywane są zbiory drzew, a nie ich liczba. Jedno czytanie wraca kilkoma
 drzewami, bo napis milczy o relacji przyimka i o znaczniku tematu
-(``docs/sklad.md``), więc suma drzew rośnie od tej ciszy tak
+(``docs/po-wypisaniu.md``), więc suma drzew rośnie od tej ciszy tak
 samo jak od wieloznaczności; pada ona natomiast pod każdym czytaniem tak samo,
 więc porównanie zbiorów ją dzieli, a policzenie drzew miesza ją z odpowiedzią.
 

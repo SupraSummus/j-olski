@@ -13,7 +13,7 @@ Do rozstrzygnięcia jest przy tym, że lista byłaby druga i osobna od
 `POZA_REJESTREM` w `olski/rejestr.py`: `muz.` i `gry` nazywają dziedzinę,
 a dziedzina rejestru nie odsyła i odsyłać nie może,
 bo `anat.` przy `oczy` wskazuje czytanie trafne
-([`docs/sklad.md`](../docs/sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
+([`docs/formy-i-leksemy.md`](../docs/formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
 
 Kropka bez odstępu za nią jest naprawą jednego znaku i jako jedyna nie ma kształtu.
 Napis niedomknięty i zdanie cytujące spoza rejestru dostają poprawkę

@@ -222,7 +222,7 @@ zostawia zatrzymanie gramatyce, i dopiero to jest robota, a nie kandydat.
 Tak wyszła kolejka konstrukcji legendy,
 którą wypisuje tor składu (`opowieści/bazyliszek.py`),
 i wyszło z niej co innego, niż wyszłoby z listy spisanej z góry
-([sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
+([kategorie-zapisu.md](kategorie-zapisu.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
 
 Uznaniowy zostaje wybór tekstu i jest to cena tego kryterium.
 Tekst pisany pod gramatykę żądania nie postawi,
@@ -381,7 +381,7 @@ a „nie używaj tej konstrukcji” jest tym, co pomiar różnicowy robi już dz
 zdejmując produkcje i porównując werdykty (`harness/ruch.py`).
 Blokuje ten cel pytanie otwarte, a nie brak kodu:
 jedno czytanie wraca kilkoma drzewami
-([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
+([po-wypisaniu.md](po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
 a wypisać trzeba jedno,
 więc cel jest tym, co każe odpowiedzieć na
 [pytanie o ranking nad lasem](open-questions.md#the-round-trip-guarantee).
@@ -398,7 +398,7 @@ więc jest to sprawdzian obiegu tańszy niż każdy, jaki dziś mamy.
 Że przeżyje znaczenie, cel nie obiecuje, bo na to testu nie ma,
 i nie odwraca to decyzji, że tożsamość rzeczy jest deklaracją autora,
 a nie wnioskiem ze słownika synonimów
-([sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
+([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
 Kupuje przy tym mechaniczną połowę reguły, która już obowiązuje:
 przy czasowniku domowym [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)
 każe podstawić czasownik dokładny i sprawdzić, czy zdanie zyskało.
@@ -1004,7 +1004,7 @@ a `odmień` pyta o rozstrzygnięcie tam, gdzie leksemy dają różne formy.
 Trzecim jest wybór, który po tamtych dwóch zostaje,
 i dopiero on wymaga rozstrzygnięcia, czym ma być.
 Klasy te wraz z poleceniem, które je pokazuje obok siebie, trzyma
-[sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
+[formy-i-leksemy.md](formy-i-leksemy.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),
 a ruch trzyma [todo/](../todo/README.md);
 kryterium po stronie analizy stoi tam, gdzie
 [`admissible`](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not).
@@ -1015,10 +1015,10 @@ a wybór między formami, które oba kryteria zostawią, jest zapisany,
 a nie brany pierwszy z brzegu.
 Pierwsze dwa z tych trzech stoją, zob. `POZA_REJESTREM` w `olski/rejestr.py`
 oraz `WieleLeksemów` w `olski/skład/morfologia.py`, wraz z
-[kwalifikatorem](sklad.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
-oraz [nazwą leksemu](sklad.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
+[kwalifikatorem](formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)
+oraz [nazwą leksemu](formy-i-leksemy.md#nazwę-leksemu-wybiera-autor-bo-lemat-go-nie-wskazuje);
 kolejność wzięła się z tekstu, a nie z tego etapu, i mówi o tym
-[sklad.md](sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
+[kategorie-zapisu.md](kategorie-zapisu.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy).
 
 ### Etap 4: leksykon projektu
 
@@ -1027,7 +1027,7 @@ ani leksemów, które ten rejestr dokłada do słów znanych,
 więc leksykon projektu jest tym, czego brakuje pod każdym etapem wyżej.
 Czym taki plik ma być, co wpis ma nazywać
 i dlaczego nie jest to słownik dołożony Morfeuszowi, trzyma
-[sklad.md](sklad.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr).
+[formy-i-leksemy.md](formy-i-leksemy.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr).
 
 Etapu tego nie dokłada się do kryterium, tylko kryterium go żąda:
 README pisze `olski`, `commitów` i `Pythonem`,
@@ -1064,9 +1064,9 @@ zdanie podrzędne dokłada się tam, gdzie ktoś ma powód coś zrobić,
 spójnik tam, gdzie zdania mają przestać brzmieć jednakowo,
 bezokolicznik tam, gdzie postać ma czegoś chcieć,
 a treść tam, gdzie ma sądzić o świecie coś, czego świat nie potwierdza
-([sklad.md](sklad.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
+([kategorie-zapisu.md](kategorie-zapisu.md#lepszy-tekst-żąda-czego-innego-niż-dłuższy)).
 Kryterium wyjścia toru zostaje przy README z powodu, który trzyma
-[sklad.md](sklad.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
+[kategorie-zapisu.md](kategorie-zapisu.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka).
 
 **Wyjście:** każda konstrukcja z tej listy wychodzi z drzewa,
 a to, czego po nich brakuje, mówi już różnica między składem a README,
@@ -1089,7 +1089,7 @@ Jest tak dlatego, że numeracja tego toru liczy to, czego brakuje jednemu zdaniu
 a te dwie rzeczy są własnościami tekstu i żadne zdanie ich w sobie nie ma:
 zdanie nie wie, kiedy to było, ani o kim mowa była przed chwilą.
 Wywód trzyma
-[sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
+[kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie).
 
 Etapem nie jest wreszcie `olski/skład/makieta.py`, czyli tekst do makiety losowany z drzew,
 bo kryterium tego toru mierzy zdanie napisane, a losowanie mierzy co innego:
@@ -1097,7 +1097,7 @@ pokazuje, których faktów o polszczyźnie nie ma tu żaden leksykon,
 i pokazuje je dlatego, że autor drzewa wybiera je, nie zauważając, że wybrał.
 Cztery takie fakty wyszły z niego wprost do [`todo/`](../todo/README.md),
 a wywód trzyma
-[sklad.md](sklad.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
+[po-wypisaniu.md](po-wypisaniu.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
 
 ## Wycofany jest pakiet reguł
 

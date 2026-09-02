@@ -120,7 +120,7 @@ Druga odpowiedź jest o tym, jak ten pomiar wolno postawić.
 Zdanie o jednym czytaniu ma w tej warstwie kilka drzew.
 Najczęściej ma cztery drzewa,
 bo napis milczy o relacji przyimka i o znaczniku tematu
-([sklad.md](sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
+([po-wypisaniu.md](po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)),
 więc liczba drzew mierzy tę ciszę tak samo jak wieloznaczność.
 Rozdziela je dopiero porównanie zbiorów drzew czytania z czytaniem
 i na tym kryterium stoi ta sonda.
@@ -183,7 +183,7 @@ Kategorie tego drzewa należą do dziedziny, a nie do polszczyzny.
 Wywód za tym poziomem trzyma
 [sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka).
 Co tekst wie ponad zdaniem, dowodzi tamten dokument osobno
-([sklad.md](sklad.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
+([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
 
 | warstwa | gdzie | wejście | wyjście |
 | --- | --- | --- | --- |

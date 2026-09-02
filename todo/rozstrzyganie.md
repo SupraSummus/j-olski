@@ -15,7 +15,7 @@ Zostaje z tego kolejność:
 pytanie ponad składnią stawia się dopiero za kategoriami, których ten zapis nie ma,
 a pierwszą z nich jest wyrażenie przyimkowe pod grupą imienną,
 czyli to samo przyłączenie, o które świadek miałby pytać
-([`docs/sklad.md`](../docs/sklad.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)).
+([`docs/po-wypisaniu.md`](../docs/po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)).
 Dopisanie jej jest jednak odwróceniem rozstrzygnięcia, a nie załataniem dziury,
 bo okolicznik dochodzi w tym zapisie do zdarzenia, a nie do rzeczy,
 więc kto ten wpis podnosi, zaczyna od tamtej sekcji, a nie od `olski/rozstrzyganie.py`.
