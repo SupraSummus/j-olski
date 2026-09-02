@@ -239,13 +239,16 @@ a [`docs/swigra.md`](../docs/swigra.md) porównuje olskiego ze Świgrą jako par
 więc przekład nazwy rozjeżdża to porównanie z polem.
 
 Status werdyktu jest po angielsku — `valid`, `ambiguous`, `rejected`,
-`unclosed`, `fragment` — i wypisują go oba wydruki:
-kolumna `olski-check` oraz znaczek na stronie,
-gdzie polskie zdanie stoi obok niego w legendzie (`witryna/strona.html`).
+`unclosed`, `fragment` — a wydruk komendy go nie ma.
+Zostaje znaczek na stronie, gdzie polskie zdanie stoi obok niego w legendzie
+(`witryna/strona.html`), oraz słowo, którym pomiar nazywa swoją klasę.
 Napis ten jest zarazem klasą CSS strony (`witryna/styl.css`),
-wartością pod kluczem JSON-a
+wartością pod kluczem JSON-a, słowem tabeli `olski-pokrycie`
 oraz tym, o co pyta kilkanaście testów i sond w `harness/`,
 więc przekład sięga ich wszystkich i idzie jednym commitem.
+Powód przekładu zeszedł przez to do samego znaczka:
+reguła językowa obejmuje wydruk narzędzia,
+a nie słowo, po którym pomiar nazywa swoją kolumnę.
 Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse/podsumowanie.py`
 obok `Verdict.status` w `olski/werdykt.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
@@ -264,7 +267,8 @@ więc przekład obejmuje obie komendy naraz.
 Do przeczytania jest `render` w tym pliku, bo wierszy jest tam więcej niż ta para —
 nagłówki tabel, powody pominięcia, wiersze krzywej pokrycia —
 i to one mówią, ile ten przekład kosztuje.
-Wpisu tego nie zamyka commit tamtego: są to dwa wydruki i dwie komendy,
+Wpisu tego nie zamyka commit tamtego: tamten przekłada jedno słowo,
+a ten cały wydruk innej komendy,
 a bloków w dokumentach `olski-pokrycie` nie ma,
 bo `tests/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
 

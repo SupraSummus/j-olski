@@ -324,10 +324,10 @@ python3 -m olski.check -c "Sejm sprawuje kontrolę nad działalnością Rady Min
 ```
 
 ```text
-<text>: ambiguous Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
-                  4 odczytania, różne w roli: podmiot; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” ma 2 odczytania
-<text>: ambiguous Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
-                  2 odczytania, różne w roli: dopełnienie; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
+<text>: Władza zwierzchnia w Rzeczypospolitej Polskiej należy do Narodu.
+        4 odczytania, różne w roli: podmiot; „w Rzeczypospolitej Polskiej” → „Władza”, „należy”; „Rzeczypospolitej Polskiej” ma 2 odczytania
+<text>: Sejm sprawuje kontrolę nad działalnością Rady Ministrów.
+        2 odczytania, różne w roli: dopełnienie; „nad działalnością Rady Ministrów” → „sprawuje”, „kontrolę”
 ```
 
 Pierwsze niesie obok przyłączenia drugi wybór, ten słownikowy:

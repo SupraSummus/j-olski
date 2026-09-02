@@ -74,6 +74,9 @@ Wchodzi przez bloki polecenia w [README](../README.md#co-działa).
 Dalej instrukcją jest samo narzędzie.
 Flaga `--help` mówi, co program przyjmuje.
 Flaga `--readings` pokazuje, czym jedno czytanie różni się od drugiego.
+Flaga `--zatrzymania` pokazuje zdania, o których wydruk sam z siebie milczy,
+bo znaleziskiem nie jest ani odrzucenie, ani napis bez kropki
+([pisanie-po-olsku.md](pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz)).
 Osobnego podręcznika nie ma.
 Dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).

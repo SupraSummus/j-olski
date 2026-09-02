@@ -95,6 +95,10 @@ Rolami są na przykład `podmiot`, `dopełnienie`, `orzeczenie` i `wyrażenie_pr
 Po angielsku zostaje status w znaczku,
 a legenda pod polem tłumaczy każdy status na polskie zdanie.
 Statusów jest pięć: `valid`, `ambiguous`, `rejected`, `unclosed` i `fragment`.
+Znaczek jest wyborem strony, a nie drugim wydrukiem komendy:
+komenda statusu nie drukuje, bo dzieli on zdania po liczbie odczytań,
+a nie po tym, czy narzędzie ma o zdaniu co powiedzieć
+(`Verdict.status` w `olski/werdykt.py`).
 Cenę przekładu statusu trzyma wpis o statusie werdyktu
 w [`todo/dokumenty.md`](../todo/dokumenty.md).
 
@@ -105,6 +109,10 @@ Serwer oddaje JSON, więc odpowiada tak samo curlowi i przeglądarce.
 Strona wybiera, co z tych danych pokaże.
 Zdanie jednoznaczne dostaje swoje jedno czytanie rozwinięte.
 Zdanie o kilku streszczeniach dostaje zwinięty spis pod podpisem.
+Milczenia komendy strona przy tym nie powtarza.
+Kto wkleił jedno zdanie, przyszedł po odpowiedź o tym zdaniu.
+Komendę nad katalogiem puszcza się po znaleziska
+([README](../README.md#co-działa)).
 
 Odrzuciliśmy oddawanie fragmentów HTML, czyli to, co robi się dziś htmxem.
 Powód jest ten sam, który stoi nad frazą werdyktu.
@@ -174,9 +182,10 @@ Suita pyta o niego jedno: czy strona woła te adresy, które ma serwer.
 | `/werdykt` | POST | werdykt o każdym zdaniu tekstu wraz z podsumowaniem całości |
 | `/makieta` | GET | tekst do makiety z drugiego toru, wraz z ziarnem |
 
-Werdykt niesie to, co z flagami drukuje komenda:
-status, wyjaśnienie, czytania, dalsze zatrzymania, morfologię form
-oraz to, co zgaduje warstwa rozstrzygająca.
+Werdykt niesie to, co z flagami drukuje komenda —
+wyjaśnienie, czytania, dalsze zatrzymania, morfologię form
+oraz to, co zgaduje warstwa rozstrzygająca —
+a obok tego status, po którym strona rysuje znaczek.
 Domysł tej warstwy nie jest werdyktem
 ([architecture.md](architecture.md#warstwa-rozstrzygająca-wydaje-zawężenie-z-powodem-a-nie-znaczenie)),
 więc dostaje na stronie znak zapytania i osobny podpis.

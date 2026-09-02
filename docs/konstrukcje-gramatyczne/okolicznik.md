@@ -323,7 +323,7 @@ a trzeci resztę, czyli te przed przysłówkiem,
 i po nim nie zostaje ani jedno
 ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
 Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
-bo `valid` ktoś przeczyta
+bo narzędzie o nim milczy
 ([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
 więc każdy gospodarz dalszy zamienia werdykt fałszywy
 na werdykt o dwóch czytaniach.
@@ -353,10 +353,10 @@ python3 -m olski.check --readings -c "Plik jest bardzo duży."
 ```
 
 ```text
-<text>: ambiguous Plik jest bardzo duży.
-                  2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
-                  - podmiot: Plik, orzecznik: bardzo duży, orzeczenie: jest
-                  - podmiot: Plik, orzecznik: duży, orzeczenie: jest, okolicznik_przysłówkowy: bardzo → jest
+<text>: Plik jest bardzo duży.
+        2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+        - podmiot: Plik, orzecznik: bardzo duży, orzeczenie: jest
+        - podmiot: Plik, orzecznik: duży, orzeczenie: jest, okolicznik_przysłówkowy: bardzo → jest
 zdań: 1; wieloznaczne: 1; bez odczytania: 0
 ```
 

@@ -1,20 +1,5 @@
 # Werdykt i wydruk
 
-Kolumna statusu dzieli zdania po liczbie odczytań, a werdykt ma zgłaszać znaleziska.
-Po decyzji, że wieloznaczność jest znaleziskiem, a odrzucenie milczeniem
-([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
-`valid` i `ambiguous` z `olski/parse/podsumowanie.py` są tak samo olskie,
-a różni je to, czy narzędzie ma o zdaniu coś do powiedzenia.
-Ruchem jest wiersz na znalezisko zamiast kolumny statusu,
-z milczeniem nad zdaniem bez znaleziska
-i z zatrzymaniem zdania odrzuconego pod flagą.
-Cena jest w wydrukach: każdy blok werdyktu w dokumentach bierze się wtedy ręką,
-a witryna czyta status ze znaczka (`witryna/skrypt.js`),
-więc ruch idzie jedną zmianą z przekładem statusu,
-o którym mówi [`docs/witryna.md`](../docs/witryna.md).
-Kształt do przyjęcia jest już w `Podsumowanie` w `olski/werdykt.py`,
-które liczy znaleziska i milczenie osobno.
-
 Znaleziska poza wieloznacznością nie mają ani jednego wykrywacza,
 a dwa pierwsze są nazwane: wielka litera na czele zdania i znak cudzysłowu.
 Każde wchodzi ze swoim pomiarem nad prozą repozytorium,

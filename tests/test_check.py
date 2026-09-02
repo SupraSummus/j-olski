@@ -5,10 +5,13 @@ zmianie układu i nie bronił niczego, czego by czytelnik nie zobaczył. Wiersze
 przepisane do dokumentów pilnuje ``tests/test_wydruki.py``, a co robi warstwa
 rozstrzygająca dopisana obok werdyktu — ``tests/test_rozstrzyganie.py``.
 
-Zostają dwie rzeczy, których nie widzi ani czytelnik wydruku, ani tamte pliki.
-Pierwszą jest ostatni wiersz, bo liczbę fragmentów bierze z niego
+Zostają trzy rzeczy, których nie widzi ani czytelnik wydruku, ani tamte pliki.
+Pierwszą jest to, o których zdaniach wydruk mówi, a które przemilcza.
+Bloku, którego nie ma, żaden dokument nie wkleja,
+więc wydruk zgłaszający każde zdanie z powrotem przechodzi tamten plik.
+Drugą jest ostatni wiersz, bo liczbę fragmentów bierze z niego
 ``docs/extraction.md``, a formatu tego wiersza nie sprawdzało nic.
-Drugą są kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok:
+Trzecią są kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok:
 znalezisko daje jeden, a wołanie, którego nie da się wykonać, dwa,
 i te dwie odpowiedzi nie mogą się zlać w jedną.
 Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem
@@ -22,13 +25,30 @@ pytest.importorskip("morfeusz2")
 import olski.check
 
 #: Tekst o jednym zdaniu jednoznacznym, jednym odrzuconym i jednym nagłówku,
-#: czyli fragmencie, którego podsumowanie nie liczy jako zdania.
+#: czyli napisie, którego nic nie punktuje jako zdania i który podsumowanie
+#: liczy osobno.
 MIESZANY = "Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia."
 
 
 def _podsumowanie(capsys) -> str:
     """Ostatni wiersz wydruku, czyli ten, po który przychodzi dokument."""
     return capsys.readouterr().out.splitlines()[-1]
+
+
+@pytest.mark.parametrize(
+    ("flagi", "wypisane"),
+    [
+        #  Bez flagi nie ma tu ani jednego znaleziska, więc zostaje sam ostatni wiersz.
+        ((), ()),
+        (("--zatrzymania",), ("Co działa", "Nowa program zapisuje ustawienia.")),
+        (("--readings",), ("Zapisz plik.",)),
+    ],
+)
+def test_wydruk_nazywa_zdania_o_których_przebieg_ma_wiersz(flagi, wypisane, capsys):
+    """Flaga dokłada wiersze i tym samym dokłada zdania (`_wiersze` w `olski/check.py`)."""
+    assert olski.check.main([*flagi, "-c", MIESZANY]) == 0
+    nagłówki = [w for w in capsys.readouterr().out.splitlines() if w.startswith("<text>: ")]
+    assert nagłówki == [f"<text>: {zdanie}" for zdanie in wypisane]
 
 
 def test_ostatni_wiersz_wydruku_niesie_liczbę_fragmentów(capsys):

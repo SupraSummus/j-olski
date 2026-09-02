@@ -581,12 +581,10 @@ python3 -m olski.check --readings -c "Wynajmę mieszkanie. Znam go."
 ```
 
 ```text
-<text>: valid     Wynajmę mieszkanie.
-                  jedno odczytanie
-                  - dopełnienie: mieszkanie, orzeczenie: Wynajmę
-<text>: valid     Znam go.
-                  jedno odczytanie
-                  - dopełnienie: go, orzeczenie: Znam
+<text>: Wynajmę mieszkanie.
+        - dopełnienie: mieszkanie, orzeczenie: Wynajmę
+<text>: Znam go.
+        - dopełnienie: go, orzeczenie: Znam
 zdań: 2; wieloznaczne: 0; bez odczytania: 0
 ```
 

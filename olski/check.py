@@ -1,4 +1,9 @@
-"""Checking a text against the grammar, from the command line."""
+"""Sprawdzenie tekstu wobec gramatyki, z wiersza poleceń.
+
+Wydruk zgłasza znaleziska i milczy o zdaniu, o którym nie ma nic do powiedzenia
+(:func:`_wiersze`), a ile tego milczenia było, mówi ostatni wiersz przebiegu
+(:class:`olski.werdykt.Podsumowanie`).
+"""
 
 from __future__ import annotations
 
@@ -15,8 +20,6 @@ from olski.werdykt import (
     check,
     dalsze_zatrzymania,
 )
-
-STATUS_WIDTH = 9
 
 #: Znak, którym wiersz morfologii oddziela dwa odczytania jednej formy.
 #: Przecinka tu nie ma, bo przecinek jest formą i ma w tym wykazie własny
@@ -94,24 +97,51 @@ def _morfologia(verdict: Verdict) -> Iterator[str]:
             yield _wiersz_formy(wiersz, "  " if numerowane else "")
 
 
-def _dalsze(verdict: Verdict) -> str:
-    """Wiersz o zatrzymaniach poza pierwszym, które nazwał już werdykt.
+def _dalsze(verdict: Verdict) -> Iterator[str]:
+    """Wiersz o zatrzymaniach poza pierwszym, które nazwał już werdykt, albo żaden.
 
-    Zdanie o jednym zatrzymaniu dostaje wiersz mówiący to wprost, bo milczenie
-    czytałoby się tu jako flaga, która nic nie zrobiła.
+    Zdanie o jednym zatrzymaniu wiersza nie dostaje, bo flaga zrobiła nad nim
+    to, co widać: wypisała zdanie, które bez niej byłoby przemilczane.
+    Tak samo milczy o tym strona (``witryna/skrypt.js``).
+    O zdanie odrzucone pyta samo :func:`olski.werdykt.dalsze_zatrzymania`,
+    więc warunku na nie tutaj nie ma.
     """
     dalsze = dalsze_zatrzymania(verdict)
-    if not dalsze:
-        return "analiza nie staje nigdzie więcej"
-    formy = ", ".join(f"„{forma}”" for forma in dalsze)
-    return f"analiza staje też na {formy}"
+    if dalsze:
+        formy = ", ".join(f"„{forma}”" for forma in dalsze)
+        yield f"analiza staje też na {formy}"
+
+
+def _wiersze(
+    verdict: Verdict, args: argparse.Namespace, świadkowie, sąsiedztwo
+) -> Iterator[str]:
+    """Co ten przebieg ma o tym zdaniu do powiedzenia, wiersz po wierszu.
+
+    Zdanie bez ani jednego wiersza komenda przemilcza, zamiast meldować,
+    że nie ma o nim nic do powiedzenia; ile było tego milczenia,
+    mówi podsumowanie całości (:class:`olski.werdykt.Podsumowanie`).
+    Flaga dokłada wiersze i tym samym dokłada zdania:
+    kto pyta o zatrzymania, pyta o zdania, których olski nie czyta,
+    a kto pyta o czytania, pyta o każde zdanie czytane.
+    """
+    if verdict.znalezisko or (args.zatrzymania and not verdict.czytane):
+        yield verdict.explain()
+    if args.zatrzymania:
+        yield from _dalsze(verdict)
+    if args.readings:
+        yield from _czytania(verdict)
+    #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
+    if args.morfologia:
+        yield from _morfologia(verdict)
+    if świadkowie is not None:
+        yield from _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-check",
-        description="Sprawdź zdania polskiego tekstu: zgłoś wieloznaczne i powiedz, "
-        "gdzie olski nie czyta.",
+        description="Sprawdź zdania polskiego tekstu: zgłoś wieloznaczne, "
+        "a o zdaniach, których olski nie czyta, milcz do flagi.",
     )
     parser.add_argument("paths", nargs="*", help="pliki zwykłego polskiego tekstu")
     parser.add_argument("-c", "--text", help="sprawdź ten tekst zamiast pliku")
@@ -133,7 +163,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--zatrzymania",
         action="store_true",
-        help="pokaż każde miejsce, na którym staje analiza, a nie samo pierwsze",
+        help="pokaż zdania, których olski nie czyta, wraz z każdym miejscem, "
+        "na którym staje analiza",
     )
     args = parser.parse_args(argv)
 
@@ -164,22 +195,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         wszystkie += werdykty
         konteksty = sąsiedztwa(text) if świadkowie is not None else [PUSTE] * len(werdykty)
         for verdict, sąsiedztwo in zip(werdykty, konteksty, strict=True):
-            status = verdict.status
-            wcięcie = f"{' ' * len(name)}  {' ' * STATUS_WIDTH}"
-            print(f"{name}: {status:{STATUS_WIDTH}} {verdict.text}")
-            print(f"{wcięcie} {verdict.explain()}")
-            if args.zatrzymania and verdict.punktowane and verdict.result.rejected:
-                print(f"{wcięcie} {_dalsze(verdict)}")
-            if args.readings:
-                for line in _czytania(verdict):
-                    print(f"{wcięcie} {line}")
-            #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
-            if args.morfologia:
-                for line in _morfologia(verdict):
-                    print(f"{wcięcie} {line}")
-            if świadkowie is not None:
-                for line in _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo):
-                    print(f"{wcięcie} {line}")
+            wiersze = list(_wiersze(verdict, args, świadkowie, sąsiedztwo))
+            if not wiersze:
+                continue
+            print(f"{name}: {verdict.text}")
+            for wiersz in wiersze:
+                print(f"{' ' * (len(name) + 2)}{wiersz}")
 
     podsumowanie = Podsumowanie.z_werdyktów(wszystkie)
     print(podsumowanie.explain())

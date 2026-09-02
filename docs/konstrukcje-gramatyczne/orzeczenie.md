@@ -451,9 +451,8 @@ python3 -m olski.check -c "Flaga to płat tkaniny określonego kształtu." --rea
 ```
 
 ```text
-<text>: valid     Flaga to płat tkaniny określonego kształtu.
-                  jedno odczytanie
-                  - orzecznik: płat tkaniny określonego kształtu, podmiot: Flaga
+<text>: Flaga to płat tkaniny określonego kształtu.
+        - orzecznik: płat tkaniny określonego kształtu, podmiot: Flaga
 ```
 
 Zakup wynosi nad Składnicą kilkadziesiąt zdań schodzących z odrzucenia,
@@ -490,9 +489,8 @@ python3 -m olski.check -c "Kot to jest zwierzę." --readings
 ```
 
 ```text
-<text>: valid     Kot to jest zwierzę.
-                  jedno odczytanie
-                  - orzecznik: zwierzę, orzeczenie: jest, podmiot: Kot
+<text>: Kot to jest zwierzę.
+        - orzecznik: zwierzę, orzeczenie: jest, podmiot: Kot
 ```
 
 Przeczenie wchodzi tymi ciałami samo, bo cząstka stoi w tej gramatyce przy czasowniku:

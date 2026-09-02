@@ -525,7 +525,7 @@ i w rozróżnienie przydawki od orzecznika, które gramatyka utrzymuje szykiem.
 Odmowa nieciągłości ma cenę własną, o którą tamte trzy liczby nie pytają.
 Zdanie, którego drugie czytanie potrzebuje frazy nieciągłej,
 wychodzi olskiemu jednoznaczne, bo tego czytania nie ma czym wyprowadzić,
-więc `valid` obiecuje jedno czytanie zdaniu, które ma dwa.
+więc milczenie obiecuje jedno czytanie zdaniu, które ma dwa.
 Odrzucenie autor zobaczy i coś z nim zrobi,
 a takiej obietnicy po werdykcie nie widać.
 Najkrócej widać to na rzeczowniku,

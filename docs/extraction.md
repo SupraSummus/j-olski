@@ -243,8 +243,10 @@ napis, który olski czyta, kiedy się go domknie.
 Werdykt ten mówi o napisie, a nie o autorze, i musi tak być,
 bo nagłówek bywa zdaniem po domknięciu, a kropki mieć nie może;
 skąd napis przyszedł, wie dokument, a nie napis.
-Autor prozy czyta więc ten werdykt jako brakującą kropkę,
-a pomiar podzbioru nie liczy takiego napisu do mianownika tak samo jak fragmentu,
+Autor prozy czyta więc ten werdykt jako brakującą kropkę.
+Wypisuje mu go flaga `--zatrzymania`, bo znaleziskiem napis bez kropki nie jest
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+Pomiar podzbioru nie liczy takiego napisu do mianownika tak samo jak fragmentu,
 bo domknięcia nie postawił nikt.
 
 Werdykt, a nie ciche pominięcie przy podziale.

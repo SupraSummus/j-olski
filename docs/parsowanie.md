@@ -198,12 +198,12 @@ python3 -m olski.check --readings -c "Ustawa mówi, że organ gminy wydaje przep
 ```
 
 ```text
-<text>: ambiguous Ustawa mówi, że organ gminy wydaje przepis.
-                  2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania
-                  - podmiot: Ustawa, orzeczenie: mówi
-                  „organ gminy wydaje przepis” czyta się tak:
-                    - podmiot: organ gminy, dopełnienie: przepis, orzeczenie: wydaje
-                    - podmiot: przepis, dopełnienie: organ gminy, orzeczenie: wydaje
+<text>: Ustawa mówi, że organ gminy wydaje przepis.
+        2 odczytania; „organ gminy wydaje przepis” ma 2 odczytania
+        - podmiot: Ustawa, orzeczenie: mówi
+        „organ gminy wydaje przepis” czyta się tak:
+          - podmiot: organ gminy, dopełnienie: przepis, orzeczenie: wydaje
+          - podmiot: przepis, dopełnienie: organ gminy, orzeczenie: wydaje
 zdań: 1; wieloznaczne: 1; bez odczytania: 0
 ```
 
@@ -259,10 +259,9 @@ python3 -m olski.check --readings -c "Autor działa i zapisuje ustawienia."
 ```
 
 ```text
-<text>: valid     Autor działa i zapisuje ustawienia.
-                  jedno odczytanie
-                  - podmiot: Autor, orzeczenie: działa
-                    dopełnienie: ustawienia, orzeczenie: zapisuje
+<text>: Autor działa i zapisuje ustawienia.
+        - podmiot: Autor, orzeczenie: działa
+          dopełnienie: ustawienia, orzeczenie: zapisuje
 ```
 
 Kreska otwiera czytanie, a składowe następne stoją pod nim bez niej,
@@ -270,7 +269,7 @@ i widać po tym, że dopełnienie jest z innego zdania składowego niż podmiot.
 Jedno streszczenie na zdanie nazywałoby pierwsze wystąpienie każdej roli,
 czyli role zdania składowego pierwszego, i o reszcie zdania milczało:
 `Wciśnij klawisz wu i zapisz plik konfiguracyjny.` wychodziłoby wtedy
-werdyktem `valid` i wierszem `dopełnienie: klawisz wu, orzeczenie: Wciśnij`,
+jednym wierszem `dopełnienie: klawisz wu, orzeczenie: Wciśnij`,
 z którego czytelnik odczytuje, że parser drugiej połowy zdania nie rozebrał.
 Zdanie o dwóch składowych albo więcej jest w README co trzecie
 ([corpus.md](corpus.md#the-same-queue-over-prose) mówi, czym się ten plik czyta),
@@ -717,7 +716,7 @@ Lemat, którego leksykon nie wymienia, dostaje ramę domyślną wraz z jej biern
 a cecha, której forma nie niesie, jest przez `unify` pomijana:
 jedno i drugie dokłada czytania, więc zdanie wychodzi wieloznaczne,
 a wieloznaczność jest werdyktem, który ktoś przeczyta.
-`valid` czyta się inaczej, bo po niego ten tor jest.
+Zdanie przyjęte czyta się inaczej, bo po nie ten tor jest.
 Wyjątkiem jest zdanie leksykonu twierdzące — o celowniku i o dopełniaczu —
 bo tam milczenie o lemacie pozycję odbiera i zdanie z nią pada
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).

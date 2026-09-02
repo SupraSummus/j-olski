@@ -44,22 +44,40 @@ a dwa odczytania mówią rzecz przeciwną,
 więc narzędzie zgłasza to autorowi.
 
 ```sh
+python3 -m olski.check -c "Zapisz plik konfiguracyjny.
+Program otwierający się psuje.
+Nowa program zapisuje ustawienia."
+```
+
+```text
+<text>: Program otwierający się psuje.
+        3 odczytania, różne w rolach: dopełnienie, orzeczenie, podmiot
+zdań: 3; wieloznaczne: 1; bez odczytania: 1
+```
+
+Wiersz dostaje jedno z trzech zdań.
+Pierwsze ma jedno odczytanie, więc autor nie ma w nim czego wybierać.
+Trzeciego olski nie czyta.
+Ostatni wiersz liczy to milczenie.
+
+Wiersz werdyktu nazywa role, w których czytania się różnią.
+Same czytania pokazuje flaga.
+Flaga pyta o każde zdanie czytane, więc wypisuje też pierwsze zdanie.
+
+```sh
 python3 -m olski.check --readings -c "Zapisz plik konfiguracyjny.
 Program otwierający się psuje.
 Nowa program zapisuje ustawienia."
 ```
 
 ```text
-<text>: valid     Zapisz plik konfiguracyjny.
-                  jedno odczytanie
-                  - dopełnienie: plik konfiguracyjny, orzeczenie: Zapisz
-<text>: ambiguous Program otwierający się psuje.
-                  3 odczytania, różne w rolach: dopełnienie, orzeczenie, podmiot
-                  - dopełnienie: Program otwierający się, orzeczenie: psuje
-                  - podmiot: Program otwierający się, orzeczenie: psuje
-                  - podmiot: Program otwierający, orzeczenie: się psuje
-<text>: rejected  Nowa program zapisuje ustawienia.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Zapisz plik konfiguracyjny.
+        - dopełnienie: plik konfiguracyjny, orzeczenie: Zapisz
+<text>: Program otwierający się psuje.
+        3 odczytania, różne w rolach: dopełnienie, orzeczenie, podmiot
+        - dopełnienie: Program otwierający się, orzeczenie: psuje
+        - podmiot: Program otwierający się, orzeczenie: psuje
+        - podmiot: Program otwierający, orzeczenie: się psuje
 zdań: 3; wieloznaczne: 1; bez odczytania: 1
 ```
 
@@ -70,8 +88,7 @@ Cząstka należy w nim do formy osobowej, a w dwóch pierwszych do imiesłowu.
 Obie te formy są w polszczyźnie zwrotne.
 Oba miejsca cząstki trzyma
 [docs/konstrukcje-gramatyczne/orzeczenie.md](docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika).
-Wiersz werdyktu nazywa przy tym role, w których czytania się różnią.
-Samego miejsca cząstki wiersz ten nie nazywa i widać je dopiero w czytaniach.
+Samego miejsca cząstki wiersz werdyktu nie nazywa i widać je dopiero w czytaniach.
 
 Wybór zostaje przy autorze, a zdania niżej mówią te czytania osobno.
 
@@ -82,40 +99,39 @@ Program otwierający psuje się."
 ```
 
 ```text
-<text>: valid     Program otwierający się jest psuty.
-                  jedno odczytanie
-                  - podmiot: Program otwierający się, orzecznik: psuty, orzeczenie: jest
-<text>: valid     Program otwierający się psuje ustawienia.
-                  jedno odczytanie
-                  - podmiot: Program otwierający się, dopełnienie: ustawienia, orzeczenie: psuje
-<text>: valid     Program otwierający psuje się.
-                  jedno odczytanie
-                  - podmiot: Program otwierający, orzeczenie: psuje się
+<text>: Program otwierający się jest psuty.
+        - podmiot: Program otwierający się, orzecznik: psuty, orzeczenie: jest
+<text>: Program otwierający się psuje ustawienia.
+        - podmiot: Program otwierający się, dopełnienie: ustawienia, orzeczenie: psuje
+<text>: Program otwierający psuje się.
+        - podmiot: Program otwierający, orzeczenie: psuje się
 zdań: 3; wieloznaczne: 0; bez odczytania: 0
 ```
 
 Zgodność form jest tu parsowaniem.
 `Nowa program` nie ma wyprowadzenia.
 Nie ma tu reguły, która strzeliła.
-Werdykt mówi, dokąd analiza doszła, a nie gdzie stoi usterka.
 Zdanie bez wyprowadzenia nie jest znaleziskiem.
 Olski go nie czyta i o jego polszczyźnie milczy.
 Całą tę różnicę trzyma
 [docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
 
+Zdania, których olski nie czyta, wypisuje flaga.
+Werdykt mówi wtedy, dokąd analiza doszła, a nie gdzie stoi usterka.
 W długim zdaniu analiza staje w kilku miejscach.
-Werdykt nazywa pierwsze zatrzymanie.
-Osobna flaga nazywa każde zatrzymanie.
 
 ```sh
-python3 -m olski.check --zatrzymania -c "Cena rośnie, i linter sprawdza tekst, i parser czyta tekst."
+python3 -m olski.check --zatrzymania -c "Nowa program zapisuje ustawienia.
+Cena rośnie, i linter sprawdza tekst, i parser czyta tekst."
 ```
 
 ```text
-<text>: rejected  Cena rośnie, i linter sprawdza tekst, i parser czyta tekst.
-                  brak odczytania: analiza staje na „i”
-                  analiza staje też na „i”
-zdań: 1; wieloznaczne: 0; bez odczytania: 1
+<text>: Nowa program zapisuje ustawienia.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Cena rośnie, i linter sprawdza tekst, i parser czyta tekst.
+        brak odczytania: analiza staje na „i”
+        analiza staje też na „i”
+zdań: 2; wieloznaczne: 0; bez odczytania: 2
 ```
 
 Cięcie nie jest granicą konstrukcji.
