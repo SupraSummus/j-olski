@@ -343,6 +343,7 @@ KOMENDA = Komenda(
     opis="Policz, ile zdań banku drzew niesie kształt, o który pyta kolejka konstrukcji.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
 )
 
 

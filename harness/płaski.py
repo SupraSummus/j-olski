@@ -368,6 +368,7 @@ KOMENDA = Komenda(
     opis="Policz zdania, którym płaska lista okoliczników daje fałszywe czytanie.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
     proza=_proza,
     argumenty=_wariant,
 )

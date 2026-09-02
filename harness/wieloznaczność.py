@@ -50,12 +50,12 @@ from __future__ import annotations
 
 import argparse
 import collections
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness.attachment import CZASOWNIK
+from harness.komenda import Komenda, uruchom
 from harness.próbka import rozrzucona
 from olski.document import SENTENCE_CLOSE
 from olski.morph import Reading, Segment
@@ -374,25 +374,17 @@ def render(report: Raport, przykłady: int = 0) -> str:
     return "\n".join(lines)
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.wieloznaczność",
-        description="Policz zdania, które czytają się dwojako w samej polszczyźnie.",
-    )
-    parser.add_argument("paths", nargs="+", help="pliki zwykłego tekstu")
-    parser.add_argument("--przykłady", type=int, default=0, help="ile zdań wypisać na klasę")
-    args = parser.parse_args(argv)
+def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    return render(measure(tekst for _, tekst in wejścia), args.przykłady)
 
-    texts = []
-    for path in args.paths:
-        try:
-            texts.append(Path(path).read_text(encoding="utf-8"))
-        except OSError as błąd:
-            print(f"harness.wieloznaczność: {błąd}", file=sys.stderr)
-            return 2
-    print(render(measure(texts), args.przykłady))
-    return 0
+
+KOMENDA = Komenda(
+    nazwa="harness.wieloznaczność",
+    opis="Policz zdania, które czytają się dwojako w samej polszczyźnie.",
+    przykłady=0,
+    proza=_proza,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

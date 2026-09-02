@@ -11,28 +11,6 @@ Do rozstrzygnięcia jest przy tym język flag,
 bo `harness/komenda.py` pyta o `--przykłady`, a ten przebieg o `--examples`,
 i jest to ta sama decyzja, co przekład wydruku, więc oba wpisy podnosi się razem.
 
-Ten sam stan dzieli sześć dalszych sond,
-a docstring `harness/komenda.py` opisuje ich rozjazd na argumencie pozycyjnym:
-`harness/attachment.py` i `harness/skłonności.py` biorą katalog Składnicy jako `root`,
-`harness/rama.py` jako `korpus`,
-a `harness/świgra.py`, `harness/podłoża.py` i `harness/wieloznaczność.py`
-biorą pliki prozy albo zdania z `-c`,
-czyli dokładnie tryby, które tamten moduł już rozdaje.
-Każda powtarza przy tym którąś z jego flag:
-`--limit`, `-c` albo `--przykłady`.
-Ruchem jest deklaracja `Komenda` w każdej z nich,
-z pytaniami własnymi podanymi funkcją dopisującą argumenty,
-tak jak `--czasowniki` i `--rzeczowniki` w `harness/rama.py`.
-Dwie sondy tego ruchu nie biorą wprost i mówią, gdzie tamten protokół się kończy.
-`harness/powtórzenie.py` bierze katalog z prozą w plikach,
-a `rozdaj` w `harness/corpus.py` czyta jeden katalog jako bank drzew,
-więc albo protokół dostaje trzeci rodzaj wejścia, albo ta sonda bierze pliki jak reszta.
-`harness/skłonności.py` z `--zbuduj` zapisuje plik zamiast drukować,
-a `Komenda` zna same wydruki.
-Do przeczytania są te dwa miejsca, bo od nich zależy,
-czy wspólny wiersz poleceń obejmie wszystkie sondy nad korpusem,
-czy dwie zostaną poza nim z nazwanego powodu.
-
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
 Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
 (`Verdict.punktowane` w `olski/werdykt.py`),
@@ -106,27 +84,29 @@ Widać to w poleceniu, którym
 [`docs/extraction.md`](../docs/extraction.md#what-the-numbers-here-were-run-over)
 bierze liczbę fragmentów: stoi przed nim `find`, bo inaczej nie ma czego podać.
 Komenda, która po katalogu chodziła, wyszła razem z pakietem reguł,
-a chodzenia po drzewie nie ma teraz żadna z dwóch, które zostały:
-`main` w `olski/check.py` i `main` w `harness/wieloznaczność.py`
-czytają po prostu każdą podaną ścieżkę, więc obu rozwija się je powłoką.
-Ruchem jest jedno miejsce, które schodzi po `rglob`,
-bierze pliki o rozszerzeniu, które ekstrakcja pisze,
-pomija katalog o nazwie zaczynającej się kropką — bo korpus stoi w repozytorium,
-a jego kontrola wersji korpusem nie jest — i woła się z obu komend,
-po czym `find` z tamtego polecenia znika,
-a razem z nim powłoka, którą polecenia biorą tylko po to,
-żeby ktoś rozwinął im glob.
-Przeciw pominięciu: katalog z kropką podany wprost staje się wtedy nieosiągalny,
-więc należy ono do chodzenia, a nie do testu na rozszerzenie.
-Do rozstrzygnięcia jest, czy komenda mówi o plikach, które minęła:
+a zejście po `rglob` ma dziś jedno miejsce i nie jest nim ta komenda:
+`pliki_prozy` w `harness/__init__.py` bierze pod podanym katalogiem pliki
+o rozszerzeniu, które pisze ekstrakcja, i schodzi tam dla każdej sondy.
+Zawołać go stamtąd `olski/check.py` nie może:
+import idzie w jedną stronę, a paczka niesie samo `olski`,
+i oba te powody stoją w docstringu tamtego modułu.
+Ruchy są więc dwa i różnią się tym, czyim faktem jest rozszerzenie prozy.
+Albo zejście przenosi się do `olski/` razem z nim,
+a wtedy `.txt` przestaje być faktem o ekstrakcji i staje się faktem o tym,
+co `olski-check` podnosi z katalogu;
+albo ta komenda dostaje własne zejście, a rozszerzenie zostaje w dwóch kopiach.
+Po którymkolwiek z nich `find` z tamtego polecenia znika,
+a razem z nim powłoka, którą polecenie bierze tylko po to,
+żeby ktoś rozwinął mu glob.
+Do rozstrzygnięcia zostają wtedy dwie rzeczy, których tamto zejście nie ma.
+Pierwszą jest katalog o nazwie zaczynającej się kropką:
+korpus stoi w repozytorium, a jego kontrola wersji korpusem nie jest,
+więc pominięcie należy do chodzenia, a nie do testu na rozszerzenie,
+i katalog z kropką podany wprost staje się przez nie nieosiągalny.
+Drugą są pliki, które komenda minęła:
 `olski-check` ma mianownik, który tamten dokument cytuje,
-więc pominięcie w ciszy zmienia figurę, o której nikt się nie dowie.
-Sondy z `harness/` odpowiedziały na to pytanie odwrotnie i nie jest to niezgoda:
-biorą one wiele plików prozy i rozwija im je powłoka,
-bo katalog znaczy tam bank drzew i chodzenia po drzewie nie ma dla nich wolnego
-(`harness/komenda.py`).
-Kto ten wpis podnosi, ma więc precedens po obu stronach
-i rozstrzyga, czy `olski-check` jest bliższy sondzie, czy dawnej komendzie.
+więc pominięcie w ciszy zmienia figurę, o której nikt się nie dowie,
+a sonda mianownika stamtąd nie cytuje nigdzie i milczy o tym bez ceny.
 
 Werdykt mówi jednym zdaniem trzy rzeczy, które są trzema różnymi robotami.
 `no production takes „X”` pada i wtedy, gdy słownik czytania formy nie ma wcale,

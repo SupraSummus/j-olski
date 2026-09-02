@@ -19,13 +19,13 @@ from __future__ import annotations
 
 import argparse
 import collections
-import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
 from harness.attachment import attachments
-from harness.corpus import pliki, read_forest
+from harness.corpus import read_forest
+from harness.komenda import Komenda, uruchom
 from olski.rozstrzyganie import (
     SKŁONNOŚCI,
     STRONA_CZASOWNIKOWA,
@@ -219,49 +219,53 @@ def oceń(
     return krzywe, warianty, podłoga
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.skłonności",
-        description="Zbuduj albo oceń tabelę skłonności przyłączeniowych.",
-    )
-    parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
+def _argumenty(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--zbuduj", type=Path, nargs="?", const=SKŁONNOŚCI, help="zapisz tabelę")
     parser.add_argument("--oceń", action="store_true", help="sprawdź świadka na drugiej połowie")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
     parser.add_argument(
         "--wsparcie",
         type=int,
         default=WSPARCIE,
         help="ile wystąpień minimum trafia do budowanej tabeli; oceny nie rusza",
     )
-    args = parser.parse_args(argv)
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f"harness.skłonności: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("harness.skłonności: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
-        return 2
-    ścieżki = pliki(root)[: args.limit]
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    """Zbuduj tabelę, oceń świadka, albo jedno i drugie tym samym przebiegiem.
+
+    Budowa zapisuje plik, a wydruk nazywa go razem z tym, ile par w nim stanęło:
+    wiersz poleceń rozdaje wejście i drukuje wynik, więc to, co sonda po drodze
+    zapisuje, zostaje jej sprawą.
+    """
+    wiersze = []
     if args.zbuduj:
         licznik = zbuduj(wypadki(ścieżki), args.wsparcie)
         zapisz(licznik, args.zbuduj)
-        print(f"{len(licznik)} par o wsparciu co najmniej {args.wsparcie} → {args.zbuduj}")
+        wiersze.append(f"{len(licznik)} par o wsparciu co najmniej {args.wsparcie} → {args.zbuduj}")
     if args.oceń or not args.zbuduj:
         krzywe, warianty, podłoga = oceń(ścieżki)
-        print(f"ocena na połowie, której świadek nie widział: {podłoga.wypadków} wyborów")
-        print(f"  podłoga: zawsze do rzeczownika, trafia w {podłoga.trafność:.1%}")
+        wiersze.append(f"ocena na połowie, której świadek nie widział: {podłoga.wypadków} wyborów")
+        wiersze.append(f"  podłoga: zawsze do rzeczownika, trafia w {podłoga.trafność:.1%}")
         for wsparcie, próg, ocena in krzywe:
-            print(
+            wiersze.append(
                 f"  wsparcie {wsparcie}, próg {próg:.0%}: "
                 f"odpowiada w {ocena.zasięg:>5.1%}, trafia w {ocena.trafność:>5.1%}"
             )
         for etykieta, ocena in warianty:
-            print(
+            wiersze.append(
                 f"  {etykieta}: "
                 f"odpowiada w {ocena.zasięg:>5.1%}, trafia w {ocena.trafność:>5.1%}"
             )
-    return 0
+    return "\n".join(wiersze)
+
+
+KOMENDA = Komenda(
+    nazwa="harness.skłonności",
+    opis="Zbuduj albo oceń tabelę skłonności przyłączeniowych.",
+    korpus=_korpus,
+    argumenty=_argumenty,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

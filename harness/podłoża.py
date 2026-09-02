@@ -15,11 +15,11 @@ from __future__ import annotations
 
 import argparse
 import signal
-import sys
 import time
 from collections.abc import Sequence
 from pathlib import Path
 
+from harness.komenda import Komenda, uruchom
 from harness.polszczyzna import GRAMATYKA
 from harness.wiezy import Rozbiór, rozbierz
 from olski.segmentacja import morphology, sentences
@@ -56,13 +56,7 @@ def _alarm(*_):
     raise Urwane()
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.podłoża",
-        description="Porównaj werdykt olskiego z werdyktem podłoża więzowego.",
-    )
-    parser.add_argument("paths", nargs="*", help="pliki zwykłego tekstu polskiego")
-    parser.add_argument("-c", "--text", help="sprawdź ten tekst zamiast pliku")
+def _argumenty(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--nieciągłe",
         action="store_true",
@@ -82,22 +76,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         dest="luki",
         help="wypisz łuki każdego czytania",
     )
-    args = parser.parse_args(argv)
 
-    if not args.paths and args.text is None:
-        parser.print_usage(sys.stderr)
-        return 2
 
-    źródła: list[tuple[str, str]] = []
-    if args.text is not None:
-        źródła.append(("<text>", args.text))
-    for surowa in args.paths:
-        try:
-            źródła.append((surowa, Path(surowa).read_text(encoding="utf-8")))
-        except (OSError, UnicodeDecodeError) as błąd:
-            print(f"podłoża: nie da się przeczytać {surowa}: {błąd}", file=sys.stderr)
-            return 2
+def przebieg(źródła: Sequence[tuple[str, str]], args: argparse.Namespace) -> str:
+    """Przepuść każde zdanie przez oba podłoża i wypisz, gdzie się rozchodzą.
 
+    Zdanie schodzi na wyjście od razu, a nie razem z podsumowaniem: przebieg nad
+    prozą trwa tyle, ile najdroższe zdanie razy ich liczba, więc czytelnik ma
+    widzieć, na którym stanął. Wraca stąd samo podsumowanie, czyli to, co sonda
+    ma do powiedzenia o całości.
+    """
     signal.signal(signal.SIGALRM, _alarm)
     zgodne = tyle_samo = doszły = zdań = 0
     najdłuższe = 0.0
@@ -134,13 +122,20 @@ def main(argv: Sequence[str] | None = None) -> int:
                 if args.luki:
                     print(f"      {_łuki(czytanie)}")
 
-    print(
+    return (
         f"{doszły} of {zdań} sentences finished inside {args.budzet:.0f}s, "
         f"the slowest in {najdłuższe:.2f}s, "
         f"and {zgodne} of those get the same verdict from both, "
         f"{tyle_samo} the same number of readings"
     )
-    return 0 if zgodne == zdań else 1
+
+
+def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    return przebieg([(str(ścieżka), tekst) for ścieżka, tekst in wejścia], args)
+
+
+def _zdania(tekst: str, args: argparse.Namespace) -> str:
+    return przebieg([("<text>", tekst)], args)
 
 
 def _zgodne(werdykt, rozbiór: Rozbiór) -> bool:
@@ -171,5 +166,14 @@ def _łuki(czytanie) -> str:
     )
 
 
+KOMENDA = Komenda(
+    nazwa="harness.podłoża",
+    opis="Porównaj werdykt olskiego z werdyktem podłoża więzowego.",
+    proza=_proza,
+    zdania=_zdania,
+    argumenty=_argumenty,
+)
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

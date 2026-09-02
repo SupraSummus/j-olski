@@ -218,3 +218,14 @@ def _sources(paths: Sequence[str], suffix: str) -> Iterator[tuple[Path, Path]]:
                 yield file.relative_to(path), file
         elif path.is_file():
             yield Path(path.name), path
+
+
+def pliki_prozy(katalog: Path) -> list[Path]:
+    """Pliki prozy pod tym katalogiem, w stałym porządku.
+
+    Zejście jest jedno, bo rozszerzenie jest jedno (:data:`PROSE_SUFFIX`): sonda
+    z własnym rglobem czytałaby inny korpus niż sonda obok, a wydruk każdej z nich
+    mówi, że ten sam. Drzewa nie odtwarza, bo czytającemu wystarczy ścieżka;
+    odtwarza je :func:`_sources` wyżej, i po to, żeby ekstrakcja miała gdzie pisać.
+    """
+    return sorted(katalog.rglob(f"*{PROSE_SUFFIX}"))

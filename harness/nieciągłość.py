@@ -379,6 +379,7 @@ KOMENDA = Komenda(
     opis="Policz, ile nieciągłość kupuje zdań i ile ich kosztuje.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
     argumenty=_budżet,
 )
 

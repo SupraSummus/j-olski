@@ -298,6 +298,7 @@ KOMENDA = Komenda(
     opis="Policz, czym różnią się czytania zdań odrzuconych za wieloznaczność.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
 )
 
 

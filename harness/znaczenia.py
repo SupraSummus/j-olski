@@ -456,6 +456,7 @@ KOMENDA = Komenda(
     opis="Policz, ile z meldowanej wieloznaczności zostaje w kategoriach dziedziny.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
     proza=_proza,
     argumenty=_morfologia,
 )

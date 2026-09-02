@@ -22,13 +22,13 @@ from harness.komenda import Komenda, uruchom
 
 def _komenda(**pola) -> Komenda:
     """Sonda, która wypisuje, co dostała, żeby test miał co przeczytać."""
-    return Komenda(
-        nazwa="harness.próba",
-        opis="Sonda do testu.",
-        przykłady=6,
-        korpus=lambda ścieżki, args: f"korpus: {[p.name for p in ścieżki]}",
-        **pola,
-    )
+    deklaracja = {
+        "nazwa": "harness.próba",
+        "opis": "Sonda do testu.",
+        "przykłady": 6,
+        "korpus": lambda ścieżki, args: f"korpus: {[p.name for p in ścieżki]}",
+    }
+    return Komenda(**(deklaracja | pola))
 
 
 def _sondy() -> list:
@@ -53,14 +53,14 @@ def test_deklaracja_nazywa_moduł_w_którym_stoi(sonda):
 
 def test_zdania_podane_wprost_nie_żądają_ścieżki(capsys):
     """Tryb `-c` mierzy to, co podano, więc argument pozycyjny jest przy nim wolny."""
-    kod = uruchom(_komenda(zdania=lambda tekst: f"zdania: {tekst}"), ["-c", "Plik jest duży."])
+    kod = uruchom(_komenda(zdania=lambda tekst, args: f"zdania: {tekst}"), ["-c", "Plik jest duży."])
     assert kod == 0
     assert capsys.readouterr().out == "zdania: Plik jest duży.\n"
 
 
 def test_bez_ścieżki_i_bez_zdań_wiersz_poleceń_kończy_użyciem():
     with pytest.raises(SystemExit) as podniesione:
-        uruchom(_komenda(zdania=lambda tekst: tekst), [])
+        uruchom(_komenda(zdania=lambda tekst, args: tekst), [])
     assert podniesione.value.code == 2
 
 
@@ -131,3 +131,50 @@ def test_sonda_bez_trybu_prozy_nie_bierze_pliku(tmp_path, capsys):
     błędy = capsys.readouterr().err
     assert "katalog z rozpakowaną Składnicą" in błędy
     assert "prozą" not in błędy
+    assert "docs/corpus.md" in błędy
+
+
+def test_sonda_bez_banku_drzew_czyta_katalog_jako_prozę(tmp_path, capsys):
+    """Katalog jest tym, co sonda w nim czyta, więc trzeciego wejścia nie ma.
+
+    Korpus audytowy przychodzi drzewem plików, a nie jednym plikiem, i podaje się
+    go katalogiem, tak samo jak bank drzew. Który z dwóch to katalog, mówi
+    deklaracja sondy: ta, która banku drzew nie czyta, ma dla niego jedno czytanie.
+    """
+    (tmp_path / "głębiej").mkdir()
+    (tmp_path / "głębiej" / "a.txt").write_text("Plik jest duży.", encoding="utf-8")
+    (tmp_path / "b.md").write_text("Tego nie liczymy.", encoding="utf-8")
+
+    assert uruchom(_komenda(korpus=None, proza=_proza), [str(tmp_path)]) == 0
+    assert capsys.readouterr().out == "a.txt: Plik jest duży. (6)\n"
+
+
+def test_katalog_bez_prozy_mówi_gdzie_wziąć_prozę(tmp_path, capsys):
+    """Pusty katalog jest pomyłką, o której komunikat mówi, czego w nim brakuje."""
+    assert uruchom(_komenda(korpus=None, proza=_proza), [str(tmp_path)]) == 2
+    błędy = capsys.readouterr().err
+    assert f"nie ma tu prozy: {tmp_path}/*.txt" in błędy
+    assert "docs/audit-corpus.md" in błędy
+
+
+@pytest.mark.parametrize(
+    ("deklaracja", "flagi"),
+    [
+        ({"pula": True}, ("--limit", "--jobs", "--przykłady")),
+        ({}, ("--limit", "--przykłady")),
+        ({"korpus": None, "proza": _proza, "przykłady": None}, ()),
+    ],
+    ids=["bank drzew z pulą", "bank drzew bez puli", "sama proza bez przykładów"],
+)
+def test_pomoc_wypisuje_tylko_te_flagi_które_przebieg_czyta(deklaracja, flagi, capsys):
+    """Pomoc obiecuje tyle, ile ta sonda naprawdę zrobi.
+
+    ``--limit`` tnie listę lasów, a ``--jobs`` dzieli ją na procesy, więc nad samą
+    prozą nie mają czego ruszyć; ``--jobs`` nie ma także sonda, która lasy czyta
+    jednym procesem. Flaga wypisana mimo to niczego nie robi, a przebieg kończy się
+    liczbą jak zwykle, więc pomyłki nie widać po niczym poza wydrukiem pomocy.
+    """
+    with pytest.raises(SystemExit):
+        uruchom(_komenda(**deklaracja), ["--help"])
+    pomoc = capsys.readouterr().out
+    assert {flaga for flaga in ("--limit", "--jobs", "--przykłady") if flaga in pomoc} == set(flagi)

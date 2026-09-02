@@ -44,12 +44,10 @@ from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness.komenda import Komenda, uruchom
 from harness.wieloznaczność import pytania
 from olski.document import Document
 from olski.rozstrzyganie import Powtórzenie, Rozstrzygnięcie, Sąsiedztwo, sąsiedztwa
-
-#: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
-PROZA = "*.txt"
 
 
 def _sąsiad(słowa: Sequence[str], i: int) -> Iterator[str]:
@@ -86,6 +84,8 @@ class Odpowiedź:
 class Pomiar:
     """Co świadek zastał w rejestrze i ile z tego wykorzystał."""
 
+    #: Pliki, po których wyszły liczby niżej.
+    plików: int = 0
     #: Zdania korpusu, czyli mianownik całego przebiegu.
     zdań: int = 0
     #: Zdania stojące pierwsze w swoim akapicie, czyli te bez czego przeczytać.
@@ -104,21 +104,24 @@ class Pomiar:
     warianty: dict[str, list[Odpowiedź]] = field(default_factory=dict)
 
 
-def przebieg(paths: Iterable[Path]) -> Pomiar:
+def przebieg(wejścia: Iterable[tuple[Path, str]]) -> Pomiar:
     """Przejdź prozę zdanie po zdaniu i zapytaj świadka o każde przyłączenie.
 
     Świadek jest tu tym samym, którego wypuszcza ``olski-check``, a nie kopią
     przepisaną tutaj: sonda mierząca własny odpis mierzyłaby siebie. Warianty
     różnią się od niego jednym polem, więc i one są nim, a nie jego odpisem.
+
+    Tekst przychodzi razem ze ścieżką, bo pliki czyta wiersz poleceń
+    (``harness/komenda.py``), a ścieżka nazywa potem miejsce każdej odpowiedzi.
     """
     pomiar = Pomiar(warianty={nazwa: [] for nazwa, _ in REGUŁY})
-    for path in sorted(paths):
-        _plik(path, pomiar)
+    for path, text in sorted(wejścia):
+        _plik(path, text, pomiar)
     return pomiar
 
 
-def _plik(path: Path, pomiar: Pomiar) -> None:
-    text = path.read_text(encoding="utf-8")
+def _plik(path: Path, text: str, pomiar: Pomiar) -> None:
+    pomiar.plików += 1
     document = Document(text)
     akapity = sąsiedztwa(text)
     #  Wariant bez granicy akapitu jest prefiksem zdań tego pliku, więc zdania
@@ -148,47 +151,47 @@ def _plik(path: Path, pomiar: Pomiar) -> None:
                     gdzie.append(Odpowiedź(path, zdanie, odpowiedź))
 
 
-def _wypisz(nagłówek: str, odpowiedzi: Sequence[Odpowiedź], przyłączeń: int) -> None:
+def _wiersze(nagłówek: str, odpowiedzi: Sequence[Odpowiedź], przyłączeń: int) -> list[str]:
     udział = len(odpowiedzi) / przyłączeń if przyłączeń else 0.0
-    print(f"  {nagłówek}: {len(odpowiedzi)}, czyli {udział:.1%} przyłączeń")
+    wiersze = [f"  {nagłówek}: {len(odpowiedzi)}, czyli {udział:.1%} przyłączeń"]
     for o in odpowiedzi:
-        print(f"    {o.plik}: {o.zdanie}")
-        print(f"      „{o.rozstrzygnięcie.modyfikator}” → „{o.rozstrzygnięcie.gospodarz}”")
-        print(f"      {o.rozstrzygnięcie.powód}")
+        wiersze.append(f"    {o.plik}: {o.zdanie}")
+        wskazanie = f"„{o.rozstrzygnięcie.modyfikator}” → „{o.rozstrzygnięcie.gospodarz}”"
+        wiersze.append(f"      {wskazanie}")
+        wiersze.append(f"      {o.rozstrzygnięcie.powód}")
+    return wiersze
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.powtórzenie",
-        description="Policz, ile świadek kontekstowy odpowiada nad prozą.",
-    )
-    parser.add_argument("root", help="katalog z prozą wyekstrahowaną do plików .txt")
-    args = parser.parse_args(argv)
-
-    root = Path(args.root)
-    ścieżki = sorted(root.rglob(PROZA))
-    if not ścieżki:
-        print(f"harness.powtórzenie: nie ma tu prozy: {root}/{PROZA}")
-        print("harness.powtórzenie: skąd wziąć korpus, mówi docs/audit-corpus.md")
-        return 2
-
-    pomiar = przebieg(ścieżki)
-    print(f"{len(ścieżki)} plików, {pomiar.zdań} zdań")
-    print(
+def wydruk(pomiar: Pomiar) -> str:
+    """Zasięg świadka wraz z każdą jego odpowiedzią, bo trafność czyta się ręką."""
+    wiersze = [
+        f"{pomiar.plików} plików, {pomiar.zdań} zdań",
         f"  pierwszych w akapicie: {pomiar.bez_sąsiedztwa} "
-        f"({pomiar.bez_sąsiedztwa / pomiar.zdań:.1%}), czyli bez czego przeczytać"
-    )
-    print(
+        f"({pomiar.bez_sąsiedztwa / pomiar.zdań:.1%}), czyli bez czego przeczytać",
         f"  przyłączeń: {pomiar.przyłączeń}, z tego z sąsiedztwem: "
-        f"{pomiar.przyłączeń_z_sąsiedztwem}"
-    )
-    _wypisz("odpowiedzi w granicy akapitu", pomiar.odpowiedzi, pomiar.przyłączeń)
-    _wypisz("to samo bez warunku na kopulę", pomiar.odpowiedzi_z_kopulą, pomiar.przyłączeń)
-    _wypisz("odpowiedzi bez granicy akapitu", pomiar.odpowiedzi_bez_granicy, pomiar.przyłączeń)
-    for nazwa, _ in REGUŁY:
-        _wypisz(f"to samo przy regule „{nazwa}”", pomiar.warianty[nazwa], pomiar.przyłączeń)
-    return 0
+        f"{pomiar.przyłączeń_z_sąsiedztwem}",
+    ]
+    listy = [
+        ("odpowiedzi w granicy akapitu", pomiar.odpowiedzi),
+        ("to samo bez warunku na kopulę", pomiar.odpowiedzi_z_kopulą),
+        ("odpowiedzi bez granicy akapitu", pomiar.odpowiedzi_bez_granicy),
+        *((f"to samo przy regule „{nazwa}”", pomiar.warianty[nazwa]) for nazwa, _ in REGUŁY),
+    ]
+    for nagłówek, odpowiedzi in listy:
+        wiersze += _wiersze(nagłówek, odpowiedzi, pomiar.przyłączeń)
+    return "\n".join(wiersze)
+
+
+def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    return wydruk(przebieg(wejścia))
+
+
+KOMENDA = Komenda(
+    nazwa="harness.powtórzenie",
+    opis="Policz, ile świadek kontekstowy odpowiada nad prozą.",
+    proza=_proza,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

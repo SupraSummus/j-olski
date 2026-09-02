@@ -437,12 +437,15 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
     return "\n".join(wiersze)
 
 
-def wydruk_zdań(tekst: str) -> str:
+def wydruk_zdań(tekst: str, args: argparse.Namespace) -> str:
     """Werdykt każdego wariantu nad podanymi zdaniami, po jednym wierszu na zdanie.
 
     Po to, żeby cena i zakup dały się przeczytać na zdaniu, a nie tylko policzyć
     nad korpusem: nad Składnicą luka rusza kilka zdań, a minimalna para pokazuje,
     czym rusza.
+
+    Wyborów z wiersza poleceń ta sonda w tym trybie nie czyta, bo warianty ma
+    wypisane, a przykładów nad jednym zdaniem nie ma z czego brać.
     """
     wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
     wiersze = []
@@ -470,6 +473,7 @@ KOMENDA = Komenda(
     opis="co kupuje i co kosztuje luka w zdaniu względnym",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
     proza=_proza,
     zdania=wydruk_zdań,
 )

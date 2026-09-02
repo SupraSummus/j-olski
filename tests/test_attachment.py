@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from harness.attachment import Report, attachments, main, measure, render
+from harness.attachment import Report, attachments, measure, render
 from tests.test_corpus import forest, phrase, terminal
 
 
@@ -148,8 +148,3 @@ def test_raport_liczy_udział_przyimka_i_frazy_wymaganej(tmp_path):
     wydruk = render(report)
     assert "3 wyrażeń przyimkowych za grupą imienną" in wydruk
     assert "66.7% do rzeczownika" in wydruk
-
-
-def test_polecenie_nad_katalogiem_którego_nie_ma_mówi_gdzie_wziąć_korpus(capsys, tmp_path):
-    assert main([str(tmp_path / "nie-ma")]) == 2
-    assert "docs/corpus.md" in capsys.readouterr().err
