@@ -695,8 +695,9 @@ Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kos
 Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
 córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
 ([`docs/parsowanie.md`](../docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
-Sonda więzowa płaci za to samo dwoma polami sprawdzanymi nad drzewem gotowym,
-czyli `wymaga` i `zakazuje` w `harness/wiezy.py`,
+Sonda więzowa płaciła za to samo dwoma polami sprawdzanymi nad drzewem gotowym —
+łukiem wymaganym i łukiem zakazanym
+([`docs/design-notes.md`](../docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)) —
 i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,
 a warstwa za parserem umiałaby.
 Do przeczytania jest przedtem, czy w tej gramatyce jest w ogóle co zdejmować:

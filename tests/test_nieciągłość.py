@@ -1,15 +1,13 @@
-"""Sonda nieciągłości: skąd liczy szczeliny i czym różni od siebie dwie strony ceny.
+"""Sonda nieciągłości: skąd liczy szczeliny wybrane, a skąd odrzucone.
 
 Lasy są tu pisane ręcznie z tego samego powodu, co w ``tests/test_corpus.py``:
 Składnica stoi pod GPL, a to repozytorium nie ma pliku licencji.
 
-Sonda może skłamać po cichu trzy razy, i wszystkie trzy kłamstwa czytają się jak
-dobra wiadomość. Szczelina policzona z pliku, a nie z drzewa wybranego, daje
-zakup kilka razy większy, niż jest, bo annotator odrzucał właśnie ją. Ta sama
-pomyłka na odwrót zeruje maskowanie, bo szukana jest tam szczelina odrzucona, a
-drzewo wybrane ma ją tylko w zdaniach, których to pytanie nie dotyczy. A dwie
-strony ceny puszczone z tym samym warunkiem spójności dają tabelę samych przejść
-``x → x``, czyli wydruk mówiący, że nieciągłość nie kosztuje nic.
+Sonda może skłamać po cichu dwa razy, i oba kłamstwa czytają się jak dobra
+wiadomość. Szczelina policzona z pliku, a nie z drzewa wybranego, daje zakup
+kilka razy większy, niż jest, bo annotator odrzucał właśnie ją. Ta sama pomyłka
+na odwrót zeruje maskowanie, bo szukana jest tam szczelina odrzucona, a drzewo
+wybrane ma ją tylko w zdaniach, których to pytanie nie dotyczy.
 """
 
 import xml.etree.ElementTree as ET
@@ -19,8 +17,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.corpus import read_forest
-from harness.nieciągłość import SZCZELINA, podłoże, szczeliny, w_lesie
-from olski.segmentacja import morphology
+from harness.nieciągłość import SZCZELINA, szczeliny, w_lesie
 from tests.test_corpus import forest, phrase, terminal
 
 
@@ -87,16 +84,3 @@ def test_maskowanie_liczy_szczelinę_odrzuconą_a_nie_wybraną(tmp_path):
     assert szczeliny(read_forest(maskowane)) == 0
     assert w_lesie(maskowane)
     assert not w_lesie(ciągłe)
-
-
-def test_zdjęcie_spójności_odbiera_zdaniu_jednoznaczność():
-    """Dwie strony ceny są dwiema stronami, a nie dwoma przebiegami jednej.
-
-    ``do poprzedniej wagi`` dochodzi do ``Człowiek`` ponad czasownikiem, gdy
-    fraza nie musi już być odcinkiem tekstu, i to jest ta jedna wartość logiczna,
-    na której cała cena stoi. Sonda, która oba przebiegi puszcza tak samo,
-    wypisuje tabelę bez ani jednego ruchu i czyta się jak wynik.
-    """
-    segmenty = morphology("Człowiek wraca do poprzedniej wagi.")
-    assert podłoże(segmenty, spójne=True, budżet=10.0) == "valid"
-    assert podłoże(segmenty, spójne=False, budżet=10.0) == "ambiguous"

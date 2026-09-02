@@ -82,7 +82,7 @@ Luka jest tu ostatnia, bo cechą jej zrobić nie da się wcale,
 i dlaczego, mówi
 [pakowanie czytań](../docs/parsowanie.md#co-się-pakuje-rozstrzyga-tożsamość-czytania).
 
-Cztery przebiegi budują nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
+Pięć przebiegów buduje nad Składnicą te same lasy, bo jeden z nich pyta las o mniej.
 `zmierz_zdanie` w `harness/pomiar.py` woła `podsumuj` bez deklaracji,
 więc `Outcome` nie niesie ani ról różniących, ani przyłączeń, ani rozbieżności,
 a `harness/czytania.py` rozbiera przez to cały bank drzew drugi raz po to samo.
@@ -103,6 +103,10 @@ Rusztowanie to przepisuje także `harness/płaski.py`, a lasów olskiego nie bud
 wcale, bo mierzy wariant gramatyki, więc scalenie przebiegów go nie obejmie
 i zostanie po nim sam duplikat rusztowania — to on mówi, ile ono jest warte
 osobno.
+Piąty jest `harness/nieciągłość.py`: buduje ten sam las nad tą samą populacją,
+a bierze z niego werdykt i bloker zdań, którym Świgra dała szczelinę.
+Rusztowanie przepisuje tak samo, a poza werdyktem i blokerem nie bierze z lasu nic,
+czego przebieg zbiorczy nie umiałby oddać: o samą szczelinę pyta plik korpusu.
 Ruchem jest deklaracja podana tam, gdzie las i tak stoi zbudowany,
 po którym tabela z
 [`docs/disambiguation.md`](../docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)
@@ -195,62 +199,6 @@ The column is not its only caller: every criterion weighed in
 [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)
 is an exclusion measured this way,
 and each was measured with a probe written for the one session that priced it.
-
-`harness/polszczyzna.py` jest drugą deklaracją podzbioru,
-który deklaruje `olski/subset/`,
-czyli tym drugim właścicielem faktu, przed którym broni
-[`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
-i pilnuje jej tylko siedem zdań z `tests/test_sonda.py`.
-Te dwie deklaracje rozeszły się na koordynacji przecinkiem
-— olski bierze przecinek na pięciu poziomach, a sonda spójnik —
-i drugi raz na podrzędności, której sonda nie ma wcale,
-a nad prozą README nie widać po żadnej liczbie ani jednego z tych rozejść.
-Trzecie rozejście jest grupą liczebnikową:
-`Działają dwie rzeczy.` olski wyprowadza jednym czytaniem, a sonda odrzuca.
-README tego zdania nie ma, więc liczba zdań zgodnych rozejścia nie pokazuje,
-a same opisy różnią się dalej
-([`docs/design-notes.md`](../docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)).
-Czwarte przyszło z interpunkcją zdaniową i tą samą liczbą się pokazuje,
-przez co jest dowodem, że kopia starzeje się przy każdej produkcji:
-dwa zdania README olski wyprowadza od tej pory, a sonda odrzuca oba,
-bo dwukropka ani przecinka przed spójnikiem nie ma po tamtej stronie.
-Piąte przyszło z okolicznikiem narzędnikowym i zabrało tej kopii zdanie,
-którym mierzyła współrzędność: `Zobacz docs/design-notes.md oraz docs/roadmap.md.`
-wychodzi u olskiego wieloznaczne, bo notacja czyta się nieodmiennie
-i staje przez to także w tym okoliczniku, a sonda tej pozycji nie ma
-([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
-Póki liczby z niej cokolwiek trzymają, kopia zarabia na siebie.
-Wpis czekał na to, aż szyk zejdzie do warunków precedencji,
-i tamten ruch jest zrobiony
-([`docs/subset.md`](../docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-więc kopia trzyma odtąd samą liczbę zdań zgodnych,
-czyli to, co po każdej produkcji mówi coraz mniej o różnicy dwóch formalizmów,
-a coraz więcej o tym, czego sonda nie ma.
-Ruchem jest wtedy `git rm harness/podłoża.py harness/polszczyzna.py harness/wiezy.py`
-wraz z `tests/test_sonda.py`,
-wraz z liczbami [tamtej sekcji](../docs/design-notes.md#podłoże-więzowe-zmierzone-sondą).
-Zostaje z niej to, co pomiaru nie potrzebuje:
-że nieciągłość jest warunkiem zdejmowanym, a nie szczeblem,
-i że jednoznaczność bywa osiągana bez trafności.
-Kasowanie zabiera przy tym jedyny mechanizm w repozytorium,
-który wypuszcza konstytuent nieciągły:
-`spójne` w `harness/wiezy.py` jest warunkiem zdejmowanym,
-a produkcja z `olski/subset/` spójności zdjąć nie umie.
-Tym warunkiem zmierzono cenę nieciągłości i zamknięto
-[rozwidlenie o przestawianiu](../docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
-a liczy ją `harness/nieciągłość.py`, czyli trzeci plik tego katalogu,
-który `harness/wiezy.py` i `harness/polszczyzna.py` czyta.
-Lista plików wyżej nie obejmuje więc tego, co kasowanie naprawdę zabiera,
-a [sekcja o pomiarze](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) każe tę cenę przeliczać razem z gramatyką.
-Ruch dopisuje sobie przez to jedno rozstrzygnięcie:
-albo cena nieciągłości przestaje być figurą przeliczaną
-i tamta sekcja mówi o niej to, co `docs/firing-rates.md` mówi o sobie,
-czyli że jest ceną, przy której decyzja zapadła,
-albo podłoże zostaje po to jedno, a kasowanie obejmuje samo porównanie deklaracji.
-Rozstrzygnięcie to ma termin, bo liczby tamtej sekcji rozeszły się już z sondą:
-werdykty nad zdaniami ze szczeliną, mianownik ceny i liczba zdań tracących
-jednoznaczność są w niej inne niż w dzisiejszym przebiegu,
-więc kto wpis podnosi, albo je przelicza, albo zdejmuje.
 
 Cenę pozycji, która nie rusza werdyktu, bierze ręka, bo sonda różnicowa liczy werdykty.
 Etykieta roli nad wysuniętym czołem nie rusza ani jednego

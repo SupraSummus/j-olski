@@ -477,36 +477,28 @@ Robi to również [kolejka odrzuceń](corpus.md#where-the-analyses-stop) olskieg
 którą prowadzi interpunkcja, a zapisuje ona w tym korpusie
 głównie dialog i mowę niezależną.
 
-**Cena: 100 z 348 zdań przestaje mieć jedno czytanie.**
-Cenę mierzy podłoże więzowe, czyli ten sam podzbiór powiedziany
+**Cena: 100 z 348 zdań przestało mieć jedno czytanie.**
+Cenę zmierzyło podłoże więzowe, czyli ten sam podzbiór powiedziany
 łukami zależności zamiast produkcjami.
 Nie gramatyka olskiego, bo spójność da się zdjąć tylko tam:
 produkcja wyprowadza jeden odcinek tekstu i zdjąć tego nie umie,
 a podłoże ma spójność jednym więzem globalnym.
 Czym to podłoże jest i co jeszcze o nim wiadomo, mówi
 [sonda](#podłoże-więzowe-zmierzone-sondą) niżej.
-Z 1623 zdań, które olski przyjmuje jednym czytaniem,
-podłoże czyta jednoznacznie 348 — deklaracja jest w nim węższa,
-więc 1226 odrzuca, a 49 czyta dwojako —
-i po zdjęciu spójności 100 z tych 348 przestaje mieć jedno czytanie.
-Mianownik rośnie z gramatyką, a te dwie liczby rosną z nim wtedy,
-gdy gramatyka dopisuje kształt, który podłoże już miało.
-Grupy liczebnikowej podłoże nie ma
-([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
-więc każde zdanie, które ona olskiemu kupiła, odrzuca i tych liczb nie rusza;
-cztery szyki ruszyły je, bo łuk podmiotu o kolejności nie mówi nic
-i podłoże czytało te zdania, zanim olski dostał na nie ciała.
+Z 1623 zdań, które olski przyjmował wtedy jednym czytaniem,
+podłoże czytało jednoznacznie 348 — deklaracja była w nim węższa,
+więc 1226 odrzucało, a 49 czytało dwojako —
+i po zdjęciu spójności 100 z tych 348 przestawało mieć jedno czytanie.
+Liczby te są ceną, przy której rozwidlenie zapadło, i nie ruszają się już wcale:
+podłoże jest skasowane wraz ze swoją deklaracją podzbioru.
+Kto chce ceny dzisiejszej, pisze przyrząd na nowo,
+bo innego mechanizmu wypuszczającego konstytuent nieciągły to repozytorium nie ma.
 
-Płaci się przy tym nie czasem rozbioru, a określeniem,
+Płaciło się przy tym nie czasem rozbioru, a określeniem,
 które sięga ponad czasownik do rzeczownika po drugiej stronie.
-Najkrócej widać to na zdaniu definicyjnym:
-
-```sh
-python3 -m harness.podłoża -c "Dom jest nieocieplony." --łuki --nieciągłe
-```
-
-Bez tej flagi zdanie ma jedno czytanie, z orzecznikiem przy kopuli.
-Z nią dochodzi drugie, w którym `nieocieplony` jest przydawką przy `Dom`,
+Najkrócej widać to na zdaniu definicyjnym `Dom jest nieocieplony.`
+Ze spójnością ma ono jedno czytanie, z orzecznikiem przy kopuli.
+Bez niej dochodzi drugie, w którym `nieocieplony` jest przydawką przy `Dom`,
 a podmiotem wychodzi fraza nieciągła,
 więc wzorzec `X jest Y`, którym pisze się definicje, przestaje mieć jedno czytanie.
 Tak samo idzie wyrażenie przyimkowe:
@@ -530,13 +522,9 @@ Odrzucenie autor zobaczy i coś z nim zrobi,
 a takiej obietnicy po werdykcie nie widać.
 Najkrócej widać to na rzeczowniku,
 który wybiera ten sam przyimek co rama czasownika przed nim:
-
-```sh
-python3 -m harness.podłoża -c "Dziadek wraca do orzechów." --łuki --nieciągłe
-```
-
-Bez tej flagi zdanie ma jedno czytanie, z `do orzechów` przy czasowniku.
-Z nią dochodzi drugie, w którym podmiotem jest nieciągłe `dziadek do orzechów`.
+`Dziadek wraca do orzechów.`
+Ze spójnością zdanie to ma jedno czytanie, z `do orzechów` przy czasowniku.
+Bez niej dochodzi drugie, w którym podmiotem jest nieciągłe `dziadek do orzechów`.
 Samo to czytanie dochodzi w każdym takim zdaniu,
 bo podłoże bez spójności przyłącza wyrażenie przyimkowe do każdego rzeczownika,
 i jest to cena mierzona wyżej.
@@ -586,8 +574,9 @@ dwójka jest mała dlatego, że olski odrzuca 121 z tych 128 zdań,
 a odrzuca je na tych samych częściach mowy, tyle że w innej kolejności:
 znak przestankowy, cząstka i czas przeszły
 zamiast cząstki oraz znaku i bezokolicznika po równo.
-Sonda liczy jedno i drugie razem z tymi blokerami po to,
-żeby ten moment dało się zauważyć bez powtarzania całego pomiaru:
+Sonda liczy potrzebę i maskowanie razem z tymi blokerami po to,
+żeby ten moment dało się zauważyć bez powtarzania całego pomiaru;
+ceny nie liczy już wcale, bo przyrządu, który ją mierzył, nie ma:
 
 ```sh
 python3 -m harness.nieciągłość Składnica-frazowa-180723/
@@ -795,65 +784,32 @@ a nie przez to, że stoi wyżej niż gramatyka bezkontekstowa.
 ### Podłoże więzowe zmierzone sondą
 
 Otwartość środków jest deklaracją, dopóki nikt żadnego innego nie wyceni.
-`harness/wiezy.py` wycenia jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
+Sonda więzowa wyceniła jeden: ten sam podzbiór powiedziany łukami nad grafem segmentów,
 gdzie zgodność jest warunkiem na parę słów,
 szyk osobnym polem deklaracji,
 a spójność frazy jednym warunkiem globalnym, który wolno zdjąć.
 Zyski i ceny stoją niżej, a podłoża tego żąda z nich tylko nieciągłość:
 szyk i przyłączenie kupuje rozdzielenie dominacji od precedencji,
 czyli szczebel 1 [drabiny](#the-cost-ladder), sześcian i gramatyka bezkontekstowa.
-Decyzji o przeniesieniu olskiego na to podłoże nie ma,
-a ruch, który z sondy wynika, kosztuje mniej niż ona sama:
+Ruch, który z sondy wyszedł, kosztował mniej niż ona sama i jest zrobiony:
 zdanie deklaruje córki, a kolejność deklaruje warunek nad nimi
 ([subset.md](subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)).
 
-Powtarzają to te polecenia, a ostatnie warto puścić także bez flagi:
-
-```sh
-python3 -m harness.markdown README.md --into proza/
-python3 -m harness.podłoża proza/README.txt
-python3 -m harness.podłoża proza/README.txt --budżet 0.1
-python3 -m harness.podłoża -c "Dobrą Jan pisze polszczyznę." --nieciągłe --łuki
-python3 -m harness.podłoża -c "Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem polszczyzny w jednym i w drugim przypadku."
-```
-
-Każde zdanie tej prozy sonda rozbiera w budżecie 10 sekund,
-a każde poniżej dziesiątej części sekundy,
-więc przebieg z takim budżetem kończy je tak samo —
-i dlatego zamiast najwolniejszego czasu stoi tu próg,
-bo zegar rusza się między przebiegami, a próg nie.
-Ten sam werdykt dostaje od obu programów mniej niż co trzecie zdanie tej prozy,
-a tę samą liczbę czytań jeszcze mniej,
-i to drugie jest mocniejszym z dwóch odczytów:
-werdykt zgadza się już wtedy, gdy jedna strona ma dwa czytania, a druga sześć,
-a liczba nie, i `Koszt samej szynki przewyższa koszt szynki z dodatkami`
-wychodzi po obu stronach dokładnie sześcioma —
-co widać dopiero po `-c`, bo w README to zdanie stoi w bloku,
-którego ekstrakcja nie wypuszcza.
-
-Większość rozejść staje na przecinku, którego sonda nie ma do czego przyłączyć.
-Granica biegnie tam, gdzie olski bierze
-[przecinek jako znak koordynacji](subset.md#what-the-grammar-covers)
-oraz [interpunkcję zdaniową](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają),
-a sonda po swojej stronie ma spójnik i nic poza nim.
-Reszta rozejść nie mówi o formalizmie nic i mówi coś o samej sondzie:
-liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego
-ani cudzysłowu `harness/polszczyzna.py` nie ma,
-a olski ma każde z nich i wyprowadza nimi zdania tego pliku.
-Deklaracja stojąca obok gramatyki jest drugim zapisem tego podzbioru,
-więc starzeje się po cichu przy każdym dopisaniu do olskiego,
-produkcji czy wiersza leksykonu.
-Czy deklaracje mają iść za produkcjami, czy sonda ma się skasować,
-trzyma [`todo/`](../todo/README.md); dopóki to nie zapadnie,
-liczba zgodnych zdań spada z każdą taką zmianą i nie mówi o niej nic.
-
-Ta liczba ma drugą przyczynę i jest nią sama proza:
-README omija konstrukcje, których olski nie wyprowadza
-([README](../README.md#konwencje)),
-więc zdanie względne i zdanie współrzędne stoją w tym pliku gęsto,
-a przecinek jest tym, czego sonda nie bierze.
-Tak właśnie kosztuje figura brana nad własną prozą,
-przed czym [`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) ostrzega.
+Sonda jest skasowana, a ta sekcja jest ceną, przy której zapadły dwa rozstrzygnięcia:
+odmowa nieciągłości i to, że kierunkiem nie jest zmiana podłoża
+([parsowanie.md](parsowanie.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje)).
+Rozbiór po łukach żądał własnej deklaracji podzbioru, stojącej obok `olski/subset/`,
+czyli drugiego właściciela faktu, przed którym broni
+[`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
+Kopia ta nie rosła razem z gramatyką:
+liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego,
+cudzysłowu ani interpunkcji zdaniowej nie miała.
+Jedyną liczbą, którą jeszcze wydawała, było to,
+ilu zdaniom prozy oba programy dają ten sam werdykt.
+Liczba ta spadała z każdą produkcją dopisaną do olskiego,
+więc mierzyła braki kopii, a nie różnicę dwóch formalizmów.
+Żadnego przebiegu stąd nie da się powtórzyć,
+a kod, który te liczby wydał, trzyma git.
 
 **Szyk i przyłączenie schodzą z produkcji na nic.**
 Kilka deklaracji wypisuje zdanie olskiego,
@@ -871,7 +827,7 @@ biorą się z tego, że dozwolone są oba łuki.
 
 Zysk pierwszy jest więc wzięty i wzięło go rozwinięcie szyku,
 a nie przeniesienie olskiego na to podłoże.
-Rozwinięcie nie tyka zysku drugiego ani trzeciego, bo żaden nie jest o szyk.
+Rozwinięcie nie tyka zysku drugiego, bo ten nie jest o szyk.
 
 **Nieciągłość przestaje być szczeblem.**
 `Dobrą Jan pisze polszczyznę` nie wyprowadza się w olskim wcale,
@@ -882,20 +838,10 @@ bo spójność jest tu warunkiem wystawianym, a nie własnością formalizmu.
 [Urwisko](#the-cliff-discontinuity) wycenia to samo na szósty stopień
 i wycenia poprawnie, tylko że wycenia szczebel, a nie zjawisko:
 przy tym podłożu fan-out nie jest pokrętłem, którym się cokolwiek kręci.
-To jedno pole jest przy tym tym, czym zmierzono cenę nieciągłości,
-i sonda tego pomiaru stoi obok
-([nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)):
-podłoże zarobiło więc na siebie rozstrzygnięciem rozwidlenia,
-a nie samym porównaniem deklaracji.
-
-**Odrzucenie zaczyna mówić, na czym stanęło.**
-Słowo, do którego żaden łuk nie dochodzi, wypisuje się przy werdykcie,
-i nad zdaniem o konwencjach z README wychodzą z tego dwa przecinki.
-Jest to ta sama informacja, którą `harness.pomiar` liczy jako bloker,
-a `olski-check` mówi osobnym zdaniem werdyktu
-([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)),
-tylko wzięta nie z najdalszego osiągniętego punktu, a z pustej dziedziny.
-Podłoże daje ją przy tym za darmo, bo licencja łuku i tak stoi policzona.
+To jedno pole jest przy tym tym, czym zmierzono cenę nieciągłości
+([nieciągłość zmierzono](#nieciągłość-zmierzono-i-olski-jej-nie-bierze)),
+i tym podłoże zarobiło na siebie:
+rozstrzygnięciem rozwidlenia, a nie porównaniem deklaracji.
 
 **Cena pierwsza: cztery rodzaje deklaracji ponad licencję łuku.**
 Każdy z nich nazywa coś, co produkcja ma darmo,
@@ -918,14 +864,15 @@ dopełnienie przed czasownikiem bez podmiotu,
 dwa dopełniacze przy jednym rzeczowniku,
 i dopełnienie doczepione do dalszego bezokolicznika w łańcuchu
 `ma pomagać pisać`.
-Dwa pierwsze zamyka deklaracja i są w `harness/polszczyzna.py` zamknięte.
+Dwa pierwsze zamyka deklaracja i podłoże ma je zamknięte.
 Trzeciego nie zamyka nic poza leksykonem walencyjnym,
 i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
-a w sondzie trzema czytaniami różniącymi się tym, który czasownik bierze biernik.
+a w sondzie wychodziło trzema czytaniami różniącymi się tym,
+który czasownik bierze biernik.
 [Leksykon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
 po stronie olskiego, bo mówi, że `pomagać` biernika nie bierze,
-a sonda ma po swojej stronie warunek na sam lemat kopuli,
+a podłoże ma po swojej stronie warunek na sam lemat kopuli,
 więc rozbieżność jest tym, o ile leksykon wyprzedził tamtą deklarację.
 Wpisem, a nie produkcją: to jest to, co ten etap kupił.
 
@@ -939,16 +886,16 @@ Takim zdaniem jest to, w którym odrzucenie stoi na kształcie, a nie na słowni
 czyli takie, w którym każda forma ma czytanie brane przez jakąś produkcję:
 `Zbiór tekstów przechodzących przez wszystkie reguły jest podzbiorem
 polszczyzny w jednym i w drugim przypadku`.
-README tego zdania nie ma i podaje się je sondzie przez `-c`.
-Sonda liczy je kilka sekund,
-a każdemu zdaniu prozy README wydaje werdykt w setnych częściach sekundy,
+README tego zdania nie ma, więc sonda dostawała je osobno.
+Liczyła je kilka sekund,
+a werdykt każdemu zdaniu prozy README wydawała w setnych częściach sekundy,
 czyli o dwa rzędy wielkości szybciej;
 ten plik pisze tę samą myśl zdaniem względnym z drugim członem,
-którego sonda nie przyłącza, więc dziedziny przycinają się tam wcześnie.
-Ten czas trzyma warunek na lemat kopuli w deklaracji dopełnienia,
+którego podłoże nie przyłącza, więc dziedziny przycinają się tam wcześnie.
+Ten czas trzymał warunek na lemat kopuli w deklaracji dopełnienia,
 czyli walencja powiedziana po tej stronie:
-bez niego to samo zdanie liczy się przeszło trzy razy dłużej
-i budżetu domyślnego nie dowozi wcale,
+bez niego to samo zdanie liczyło się przeszło trzy razy dłużej
+i dziesięciu sekund nie dowoziło wcale,
 więc przestrzeń, którą przycina jedna pozycja ramy,
 jest tutaj przeszło dwiema trzecimi najgorszego przypadku.
 Tej różnicy nie zdejmie lepsze przycinanie,
@@ -961,9 +908,9 @@ werdykt „dwa czytania” zamyka się na drugim modelu i wychodzi tanio,
 a werdykt „jedno czytanie” wymaga przeszukania wszystkiego i nie tanieje wcale.
 
 To samo zdanie mówi jeszcze coś, czego sonda nie miała mierzyć.
-Wychodzi z niej jednym czytaniem, którego olski nie ma wcale,
+Wyszło z niej jednym czytaniem, którego olski nie ma wcale,
 a to czytanie nie jest tym, które ma czytelnik:
-`w jednym i w drugim przypadku` wychodzi tam współrzędnością rzeczowników
+`w jednym i w drugim przypadku` wyszło tam współrzędnością rzeczowników
 zamiast dwoma wyrażeniami przyimkowymi.
 Jednoznaczność bez trafności jest więc osiągalna,
 i to jest ten argument, dla którego pomiar pokrycia
@@ -971,12 +918,11 @@ chce wiedzieć, czy złote czytanie jest wśród czytań,
 a nie tylko ile ich jest
 ([swigra.md](swigra.md#failure-is-diagnosable-and-coverage-is-measured-against-gold)).
 
-Zostaje przy tym poza pomiarem to,
-czego sonda nie umie i o czym nie da się przez to powiedzieć nic.
-Współrzędność wisi w niej pierwszym członem,
+Poza pomiarem zostało to, czego podłoże nie umie, i pomiar nie mówi o tym nic.
+Współrzędność wisi w nim pierwszym członem,
 więc liczba całej grupy jest liczbą pierwszego członu,
 a `rozum i sumienie` w roli podmiotu mnogiego przez parę słów nie przechodzi.
-Zdania, którego graf segmentacji się rozchodzi, sonda nie rozbiera wcale.
+Zdania, którego graf segmentacji się rozchodzi, podłoże nie rozbiera wcale.
 I trzecia rzecz, ta najbliższa temu, po co olski jest:
 raport nazywa podmiot napisem tylko dopóki spójność stoi,
 bo poddrzewo bez niej jest zbiorem słów, a nie odcinkiem tekstu.

@@ -895,10 +895,11 @@ kto chce tej sprzed roku, czyta commit, który konstrukcję wpuścił.
 Produkcję pyta i predykat sondy, i kod chodzący po gramatyce,
 a nie listę nazw wypisaną obok niej,
 bo lista milczy o produkcji dopisanej później.
-Podzbiór deklaruje na nowo jeden program i jest to wybór z ceną:
-co kupił `harness/polszczyzna.py`, mówi
-[`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą),
-a [`todo/pomiar.md`](todo/pomiar.md), czy zostaje.
+Podzbiór ma jedną deklarację i wyjątku od tego nie ma.
+Druga deklaracja nie odpowiada za produkcję dopisaną po niej,
+a liczby wydaje dalej, więc mierzy własne braki i nie widać tego po nich.
+Tak skończyło podłoże więzowe: wyceniło to, co miało wycenić, i zostało skasowane
+([`design-notes.md`](docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)).
 
 **Pozycja, której cena ma być osobną liczbą, musi być osobnym ciałem.**
 Sonda mierzy zdjęciem produkcji,
