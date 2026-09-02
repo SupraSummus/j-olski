@@ -424,3 +424,15 @@ Ruchem jest porównanie zbiorów zdań przyjętych pod obiema morfologiami,
 po którym zdanie dostaje z powrotem stopień albo traci go na dobre.
 Polecenia na to porównanie nie ma i jest to ten sam brak,
 o którym mówi wpis o dwóch przebiegach całego korpusu.
+
+Drabina głębokości w [`docs/linter.md`](../docs/linter.md#how-deep-does-each-rule-have-to-see)
+kończy się na pełnym rozbiorze, a cel o żądaniu czasownika
+([`docs/roadmap.md`](../docs/roadmap.md#cele)) nie mieści się na niej:
+reguła mówiąca, czego czasownik żąda od swojej pozycji,
+potrzebuje słownika znaczeń ponad rozbiorem, a takiego wiersza tabela nie ma.
+Ruchem jest piąty wiersz albo zdanie pod tabelą,
+że drabina kończy się tam, gdzie zaczyna się słownik znaczeń.
+Do przeczytania jest sekcja o czterech osiach z tego samego dokumentu:
+głębokość jest tam osią każdej reguły, więc dopisany wiersz rusza i ją.
+Reguł to nie dotyczy ani jednej:
+każda, która weszła do wycofanego pakietu, rozstrzygała się na znaku.

@@ -405,6 +405,39 @@ Czeka na tezaurus, którego to repozytorium nie ma w żadnej postaci,
 a że jest to pytanie do świata, zapisuje je
 [open-questions.md](open-questions.md#shared-questions).
 
+**Olski mówi, czego czasownik żąda od swojej pozycji, a czego zdanie tam nie podaje.**
+Test podstawieniowy z reguły o czasowniku domowym
+([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)) ma dwa kroki,
+a cel o podmianie synonimu kupuje pierwszy, mechaniczny.
+Drugi krok — czy zdanie po podstawieniu zyskało —
+dostaje w przeglądzie odpowiedź w rodzaju
+„«stać» nie jest tu dobrym czasownikiem, bo żąda przestrzeni fizycznej,
+a nic w tym zdaniu na przestrzeń fizyczną nie wskazuje”.
+Mówi ją człowiek.
+Cel żąda, żeby powiedział ją werdykt.
+Olski poprawia w ten sposób zdanie przed napisaniem,
+tak jak przy celu o wykrywaczu wzorców prozy.
+Tamten cel odpowiada na pytanie, czy wzorzec w zdaniu jest,
+i słownika na to nie potrzebuje;
+ten odpowiada na pytanie, czemu wzorzec jest w tym zdaniu usterką.
+Sprawdza się garścią zdań, którym przegląd wymienił czasownik, przeczytaną ręką:
+werdykt ma nazwać żądaną cechę i słowo, które jej nie niesie.
+Czeka na dwie rzeczy.
+Na słownik mówiący, czego czasownik żąda poza przypadkiem
+i czym jest rzecz, którą pozycja obsadza:
+wydanie Walentego, z którego powstaje leksykon, nie niesie warstwy semantycznej
+([disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)),
+a czy odpowie na to plWordNet, jest pytaniem do świata
+([open-questions.md](open-questions.md#shared-questions)).
+Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
+rozstrzyga się razem z tamtym pytaniem:
+metafora wystygła jest w polszczyźnie zwykłym użyciem,
+a próg między nią a usterką stawia
+[CLAUDE.md](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen).
+I na odpowiedź, która żądanie nazywa:
+odrzucenie mówi dziś, dokąd analiza doszła, a nie czego pozycja żądała
+([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+
 Czego na tej liście nie ma.
 Kierunku, bo prowadzi on tor, zamiast stać na jego końcu,
 i ma [własną sekcję](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).

@@ -462,6 +462,12 @@ Bez odpowiedzi cel nie upada, tylko czeka:
 sprawdzian ma — drzewo, które po podmianie ma wrócić to samo —
 a nie ma czym podmieniać.
 
+Trzeci pytający pyta to samo źródło o co innego:
+cel o [żądaniu czasownika](roadmap.md#cele) potrzebuje klasy rzeczy,
+którą pozycja obsadza, a nie słowa bliskoznacznego.
+Licencja rozstrzyga o nim tak samo, bo obejmuje całe źródło,
+a pytania o samą synonimię jego nie dotyczą.
+
 ## Sources
 
 - <https://aclanthology.org/N01-1021/> —
