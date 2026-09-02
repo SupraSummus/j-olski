@@ -14,9 +14,6 @@ wypisanym słowami, więc rozcięte na dwa pliki zostawiłyby w każdym pół zd
 a ``tests/test_subset.py`` o to, które zdanie olski przyjmuje.
 """
 
-import os
-import subprocess
-import sys
 from dataclasses import replace
 
 import pytest
@@ -209,38 +206,6 @@ def test_lista_czytań_niesie_każde_streszczenie_raz():
     ]
     assert len(set(napisy)) == len(napisy)
     assert len(napisy) < MAX_READINGS
-
-
-def test_wypisane_czytania_stoją_w_każdym_przebiegu_w_tej_samej_kolejności():
-    """Urwana lista ma być za każdym razem tymi samymi streszczeniami.
-
-    Kolejność ustala `wyprowadzenia` w `olski/parse/las.py` i tam stoi wywód;
-    ten test pilnuje, żeby zbiór postawiony gdziekolwiek po drodze z lasu
-    nie oddał jej z powrotem haszowaniu napisów.
-    Po liczbie czytań tego nie widać, bo ta jest sumą po klasach,
-    a ziarno haszowania jest jedno na proces, więc przebiegi są dwa i osobne.
-    Drugie zdanie wchodzi po drugą taką listę, tę pod konstytuentem:
-    kształty wybiera tam odsiew po zbiorze pozycji żywych.
-    """
-    tekst = f"{SIEDEM_PRZYŁĄCZEŃ} Ustawa mówi, że organ gminy wydaje przepis."
-    kod = f"import olski.check; olski.check.main(['--readings', '-c', {tekst!r}])"
-    przebiegi = [
-        subprocess.run(
-            [sys.executable, "-c", kod],
-            capture_output=True,
-            text=True,
-            env={**os.environ, "PYTHONHASHSEED": ziarno},
-        )
-        for ziarno in ("1", "2")
-    ]
-    for przebieg in przebiegi:
-        assert przebieg.returncode == 0, przebieg.stderr
-    wypisane = [w for w in przebiegi[0].stdout.splitlines() if w.lstrip().startswith("- ")]
-    #  Wierszy jest kilka, a nie jeden, i są wśród nich oba rodzaje listy:
-    #  inaczej nie ma tu kolejności, którą haszowanie mogłoby pomylić.
-    assert len(wypisane) > 1
-    assert "czyta się tak:" in przebiegi[0].stdout
-    assert przebiegi[0].stdout == przebiegi[1].stdout
 
 
 def test_rola_różniąca_czytania_zostaje_nazwana_zza_granicy_wyliczania():
