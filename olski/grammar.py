@@ -233,7 +233,7 @@ class Production:
         """Hasz policzony raz, bo gramatyka powstaje raz i już się nie zmienia.
 
         Produkcja jest częścią każdego stanu tablicy Earleya, a jej części
-        stoją w zbiorze, którym rozbiór odsiewa stany (``olski/parse/tablica.py``),
+        rozbiór sprawdza w zbiorze, którym odsiewa stany (``olski/parse/tablica.py``),
         więc każde z tych trojga haszuje się po kilka milionów razy na dokument.
         Hasz wywiedziony z pól przechodziłby za każdym razem całe ciało,
         a w nim więzy każdej części.
