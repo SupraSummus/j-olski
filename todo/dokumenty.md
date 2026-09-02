@@ -433,9 +433,13 @@ Drabina głębokości w [`docs/linter.md`](../docs/linter.md#how-deep-does-each-
 kończy się na pełnym rozbiorze, a cel o żądaniu czasownika
 ([`docs/roadmap.md`](../docs/roadmap.md#cele)) nie mieści się na niej:
 reguła mówiąca, czego czasownik żąda od swojej pozycji,
-potrzebuje słownika znaczeń ponad rozbiorem, a takiego wiersza tabela nie ma.
+potrzebuje ponad rozbiorem czegoś, czego tabela nie ma w żadnym wierszu.
+Samo żądanie stoi w leksykonie walencyjnym
+([`docs/prior-art.md`](../docs/prior-art.md#polish-language-resources)),
+a słownika znaczeń potrzebuje dopiero odpowiedź na nie,
+czyli rozstrzygnięcie, czy słowo w pozycji żądaną klasę spełnia.
 Ruchem jest piąty wiersz albo zdanie pod tabelą,
-że drabina kończy się tam, gdzie zaczyna się słownik znaczeń.
+że drabina kończy się tam, gdzie zaczyna się ta odpowiedź.
 Do przeczytania jest sekcja o czterech osiach z tego samego dokumentu:
 głębokość jest tam osią każdej reguły, więc dopisany wiersz rusza i ją.
 Reguł to nie dotyczy ani jednej:

@@ -424,11 +424,13 @@ ten odpowiada na pytanie, czemu wzorzec jest w tym zdaniu usterką.
 Sprawdza się garścią zdań, którym przegląd wymienił czasownik, przeczytaną ręką:
 werdykt ma nazwać żądaną cechę i słowo, które jej nie niesie.
 Czeka na dwie rzeczy.
-Na słownik mówiący, czego czasownik żąda poza przypadkiem
-i czym jest rzecz, którą pozycja obsadza:
-wydanie Walentego, z którego powstaje leksykon, nie niesie warstwy semantycznej
-([disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)),
-a czy odpowie na to plWordNet, jest pytaniem do świata
+Na drugą połowę słownika, bo pierwszą już ma.
+Czego czasownik żąda poza przypadkiem, nazywa warstwa semantyczna wydania TEI Walentego,
+i nazywa to klasą rzeczy — `MIEJSCE` jest tam tą przestrzenią fizyczną —
+a wydanie tekstowe, z którego powstaje leksykon, tej warstwy nie niesie
+([prior-art.md](prior-art.md#polish-language-resources)).
+Czy rzecz stojąca w zdaniu do żądanej klasy należy, rozstrzygnąłby wordnet,
+i to jest pytanie do świata
 ([open-questions.md](open-questions.md#shared-questions)).
 Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
 rozstrzyga się razem z tamtym pytaniem:

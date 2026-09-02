@@ -57,3 +57,19 @@ więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
 a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
 Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
 ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
+
+Żądanie pozycji stoi w wydaniu TEI Walentego i nikt go stąd nie czyta.
+`harness/walenty.py` czyta wydanie tekstowe, które warstwy semantycznej nie niesie,
+a rama z TEI wiąże pozycję schematu z rolą i z klasą rzeczy, której ta pozycja żąda
+([`docs/prior-art.md`](../docs/prior-art.md#polish-language-resources)).
+Ruchem jest drugi przekład obok tamtego, i jest on droższy o złączenie:
+argument niesie preferencję, spięcie wiąże go z frazą, a fraza stoi w pozycji schematu,
+więc czytelnik tego pliku musi zejść przez trzy warstwy zamiast czytać wiersz.
+Kupuje to połowę celu o [żądaniu czasownika](../docs/roadmap.md#cele) —
+werdykt nazwałby żądanie, nie pytając, czy słowo w pozycji je spełnia,
+bo tamtej połowy bez wordnetu nie ma
+([`docs/disambiguation.md`](../docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)).
+Do rozstrzygnięcia jest, czy klasa wchodzi do `olski/leksykon.txt` kolumną,
+czy osobnym plikiem.
+Leksykon czyta gramatyka przy imporcie i bez niego nie startuje,
+a żądania nie czyta ani jedna produkcja: czytać je ma werdykt.

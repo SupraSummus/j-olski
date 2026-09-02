@@ -1,9 +1,13 @@
 """Walenty odczytany do zdań o lemacie i do kolumny przyimków.
 
 Walenty jest słownikiem walencyjnym polszczyzny i mówi o czasowniku znacznie
-więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację, warstwę
-semantyczną. Olski ma ramę o kilku pozycjach, więc czytanie jest zejściem w dół,
-a które zdania stąd wychodzą, mówi :func:`zdania`.
+więcej, niż ta gramatyka bierze: typ frazy, kontrolę, koordynację. Olski ma ramę
+o kilku pozycjach, więc czytanie jest zejściem w dół, a które zdania stąd
+wychodzą, mówi :func:`zdania`.
+
+Warstwy semantycznej nie ma tu czego czytać: wydanie tekstowe, na które ten
+moduł patrzy, jej nie niesie, a niesie ją wydanie TEI z tej samej daty
+(docs/prior-art.md#polish-language-resources).
 
 Zdanie o bierniku jest ujemne i mówi, że czasownik nie bierze dopełnienia w
 bierniku, a zdania o bezokoliczniku twierdzące. Kierunki są przeciwne, bo
