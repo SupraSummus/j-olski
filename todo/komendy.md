@@ -91,6 +91,8 @@ Zawołać go stamtąd `olski/check.py` nie może:
 import idzie w jedną stronę, a paczka niesie samo `olski`,
 i oba te powody stoją w docstringu tamtego modułu.
 Ruchy są więc dwa i różnią się tym, czyim faktem jest rozszerzenie prozy.
+Rozszerzenie dokumentu jest już faktem olskiego (`CZYTNIKI` w `olski/wejście.py`),
+więc pierwszy z nich ma precedens.
 Albo zejście przenosi się do `olski/` razem z nim,
 a wtedy `.txt` przestaje być faktem o ekstrakcji i staje się faktem o tym,
 co `olski-check` podnosi z katalogu;
@@ -285,3 +287,30 @@ bo błąd jest w tym, że rozjazdu nie widać.
 Do przeczytania jest `Podsumowanie` w `olski/werdykt.py`,
 bo wiersz o konfiguracji stanąłby obok liczby zdań,
 a `tests/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.
+
+`olski-check` czyta dokument w Markdownie, a modułu nie czyta.
+Docstring i blok komentarza są prozą tych samych reguł
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)),
+więc `.py` jest następnym rozszerzeniem w `CZYTNIKI` w `olski/wejście.py`.
+Czytnika nie trzeba pisać od nowa: wyszedł razem z pakietem reguł i trzyma go git,
+a polecenie wyjmujące go stamtąd stoi w
+[`docs/roadmap.md`](../docs/roadmap.md#cele).
+Ruchem jest przeniesienie samej ekstrakcji do pakietu, obok `olski/markdown.py`,
+tak jak przeszedł Markdown: `Jednostka` zostaje po stronie harnessu,
+bo jest jednostką wyboru po języku, a nie sprawdzenia pliku.
+Do rozstrzygnięcia jest jedna rzecz, której dokument nie stawia:
+proza modułu leży kawałkami rozsypanymi po pliku,
+a wydruk nazywa sam plik, więc autor szuka potem zdania po całym module.
+Wiersz każdego kawałka jest już policzony (`Jednostka` w `harness/__init__.py`)
+i jest kandydatem na drugie pole nagłówka wydruku.
+
+Obie komendy paczki biorą ścieżki i czytają je tak samo, a odpowiadają inaczej.
+Plik nie do przeczytania jest dla `olski/check.py` tym, czego „nie udało się przeczytać”,
+a katalog podany zamiast pliku dla `olski/pokrycie.py` tym, czego „nie ma”;
+obie kończą wtedy kodem dwa.
+Samo czytanie mają wspólne, odkąd prozę wyjmuje `proza` w `olski/wejście.py`,
+więc niewspólny został komunikat i to, czego każda z nich od ścieżki żąda.
+Ruchem jest druga funkcja obok tamtej, biorąca ścieżki
+i wracająca parami (nazwa, proza) albo kodem dwa.
+Do rozstrzygnięcia jest, czy komunikat ma dalej nazywać komendę,
+bo funkcja wspólna nie wie, kto ją zawołał, dopóki nie dostanie nazwy argumentem.

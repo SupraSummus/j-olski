@@ -45,7 +45,7 @@ bo granicę zdania pokazuje kropka poprzedniego
 czyli to samo, co u nas rozstrzyga o `FRAGMENT`.
 Pozycja wyliczenia zamknięta przecinkiem albo średnikiem zaczyna się małą literą,
 bo ciągnie zdanie zaczęte przed dwukropkiem.
-Blokerem jest ekstrakcja: `harness/markdown.py` zdejmuje backticki
+Blokerem jest ekstrakcja: `olski/markdown.py` zdejmuje backticki
 i nie mówi nikomu, że token nimi stał,
 a bez tego wyjątku pierwszego nie da się napisać —
 i nie zastąpi go test na polskie słowo,

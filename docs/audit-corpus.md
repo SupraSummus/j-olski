@@ -41,7 +41,7 @@ and the fourth is what the extraction needs.
   The pin is also what makes a figure here reproducible,
   since a repository goes on being written after it is admitted.
 - **A format the extraction reads.**
-  `harness/markdown.py` reads Markdown,
+  `olski/markdown.py` reads Markdown,
   so admitting a repository is the step that decides
   whether a second extraction gets written.
   The `Markdown files` column below is where that shows:

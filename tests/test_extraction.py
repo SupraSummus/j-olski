@@ -1,4 +1,4 @@
-"""What the harness does to a document and to a statute, and what it must not invent.
+"""What an extraction does to a document and to a statute, and what it must not invent.
 
 The fixture beside this file carries one instance of every construct each
 extraction handles, and the prose beside it is the whole answer: a change in
@@ -18,6 +18,7 @@ from pathlib import Path
 import pytest
 
 from harness import PROSE_SUFFIX, markdown, ustawy
+from olski.markdown import prose
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -38,7 +39,7 @@ CLOSING_LIST = "Wnioski:\n\n- {first}\n- {second}\n"
 def test_the_markdown_fixture_extracts_to_the_prose_beside_it():
     source = (FIXTURES / "extraction.md").read_text(encoding="utf-8")
     expected = (FIXTURES / f"extraction{PROSE_SUFFIX}").read_text(encoding="utf-8")
-    assert markdown.prose(source) == expected
+    assert prose(source) == expected
 
 
 def test_the_markdown_extraction_leaves_no_mark_behind_where_markup_stood():
@@ -50,7 +51,7 @@ def test_the_markdown_extraction_leaves_no_mark_behind_where_markup_stood():
     link before a question mark and an image with no description mid-paragraph
     for exactly that reason.
     """
-    extracted = markdown.prose((FIXTURES / "extraction.md").read_text(encoding="utf-8"))
+    extracted = prose((FIXTURES / "extraction.md").read_text(encoding="utf-8"))
     assert ŚLAD_PO_KASOWANIU.findall(extracted) == []
 
 
@@ -63,7 +64,7 @@ def test_the_markdown_extraction_leaves_no_mark_behind_where_markup_stood():
     ids=["sentences", "links"],
 )
 def test_a_list_closing_a_document_goes_only_when_its_items_are_links(first, second, survives):
-    extracted = markdown.prose(CLOSING_LIST.format(first=first, second=second))
+    extracted = prose(CLOSING_LIST.format(first=first, second=second))
     assert ("wniosek" in extracted) is survives
     assert "Wnioski:" in extracted
 

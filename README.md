@@ -159,16 +159,23 @@ Czemu świadkiem jest gramatyka, a nie znak, mówi
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).
 
-Ekstrakcja zamienia korpus w Markdownie w prozę.
+Ekstrakcja zamienia dokument w Markdownie w prozę.
 Jest ona krokiem przed gramatyką, a nie jest częścią gramatyki.
+Komenda czyta dokument i wyjmuje jego prozę.
 
 ```sh
-python3 -m harness.markdown korpus/ --into proza/
-python3 -m olski.check proza/*.txt
+python3 -m olski.check README.md
 ```
 
 Co ekstrakcja po drodze zmyśla,
 mówi [docs/extraction.md](docs/extraction.md).
+
+Korpus przechodzi przez osobną komendę.
+Pomiar żąda wyboru po języku i drzewa plików prozy.
+
+```sh
+python3 -m harness.markdown korpus/ --into proza/
+```
 
 Ustawa przechodzi przez ten sam krok.
 Ustawa jest drzewem jednostek redakcyjnych, a nie jest ciągiem zdań.

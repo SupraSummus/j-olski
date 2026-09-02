@@ -5,7 +5,7 @@ zmianie układu i nie bronił niczego, czego by czytelnik nie zobaczył. Wiersze
 przepisane do dokumentów pilnuje ``tests/test_wydruki.py``, a co robi warstwa
 rozstrzygająca dopisana obok werdyktu — ``tests/test_rozstrzyganie.py``.
 
-Zostają trzy rzeczy, których nie widzi ani czytelnik wydruku, ani tamte pliki.
+Zostają cztery rzeczy, których nie widzi ani czytelnik wydruku, ani tamte pliki.
 Pierwszą jest to, o których zdaniach wydruk mówi, a które przemilcza.
 Bloku, którego nie ma, żaden dokument nie wkleja,
 więc wydruk zgłaszający każde zdanie z powrotem przechodzi tamten plik.
@@ -16,6 +16,9 @@ znalezisko daje jeden, a wołanie, którego nie da się wykonać, dwa,
 i te dwie odpowiedzi nie mogą się zlać w jedną.
 Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem
 (``docs/subset.md``), więc kodu nie rusza.
+Czwartą jest to, czym komenda czyta plik: dokument dochodzi do gramatyki bez
+swojego aparatu, a plik prozy tak, jak leży, i wydruk nie mówi, którą drogą
+tekst przyszedł.
 """
 
 import pytest
@@ -72,6 +75,32 @@ def test_tekst_bez_fragmentów_nie_mówi_o_nich_ani_słowa(capsys):
     """Wiersz o fragmentach pada wtedy, gdy tekst je ma, a nie zawsze."""
     assert olski.check.main(["-c", "Zapisz plik."]) == 0
     assert "fragment" not in _podsumowanie(capsys)
+
+
+#: Nagłówek i znacznik w środku zdania, czyli aparat, który dokument niesie, a
+#: proza nie. Wyekstrahowany daje jedno zdanie i nic poza nim; przeczytany
+#: wprost daje gwiazdki w zdaniu i nagłówek policzony jako fragment.
+DOKUMENT = "# Co działa\n\nZapisz **plik**.\n"
+
+
+def test_dokument_dochodzi_do_gramatyki_bez_swojego_aparatu(capsys, tmp_path):
+    plik = tmp_path / "notatka.md"
+    plik.write_text(DOKUMENT, encoding="utf-8")
+    #  Zdanie wyekstrahowane olski wyprowadza, więc bez flagi wydruk o nim milczy.
+    assert olski.check.main(["--readings", str(plik)]) == 0
+    wypisane = capsys.readouterr().out.splitlines()
+    assert f"{plik}: Zapisz plik." in wypisane
+    assert wypisane[-1].startswith("zdań: 1;") and "fragment" not in wypisane[-1]
+
+
+def test_plik_o_nieznanym_rozszerzeniu_dochodzi_tak_jak_stoi(capsys, tmp_path):
+    """Ekstrakcja idzie za rozszerzeniem, a nie za tym, co w pliku wygląda na aparat."""
+    plik = tmp_path / "notatka.txt"
+    plik.write_text(DOKUMENT, encoding="utf-8")
+    assert olski.check.main(["--zatrzymania", str(plik)]) == 0
+    wypisane = capsys.readouterr().out.splitlines()
+    assert f"{plik}: Zapisz **plik**." in wypisane
+    assert "fragmenty, których nic nie punktuje jako zdania: 1" in wypisane[-1]
 
 
 def test_ścieżka_której_nie_da_się_przeczytać_daje_kod_dwa(capsys, tmp_path):
