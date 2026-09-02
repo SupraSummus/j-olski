@@ -988,7 +988,9 @@ So the parser stays a witness rather than a dependency.
 Where a generated sentence happens to fall inside the subset,
 the round trip tests it and reports whichever way it reads;
 outside, it has nothing to say and the compiler is unaffected.
-`tests/test_skład.py` uses it in exactly that posture.
+`tests/test_rozbiór.py` uses it in exactly that posture:
+a sentence the grammar does not derive comes back with a reason about the grammar,
+and the compiler's own assertions in `tests/test_skład.py` never touch the parser.
 The membership test itself is `olski/skład/rozbiór.py`,
 which reads a parser reading back as a tree of the abstract syntax,
 and what it recovers, what it cannot,
