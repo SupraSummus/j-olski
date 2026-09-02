@@ -478,13 +478,22 @@ czy bliskoznaczność da się przyciąć tym, co już czytamy —
 rodzajem i aspektem z Morfeusza, schematem z Walentego, kwalifikatorem ze słownika —
 i tego bez pobranej sieci nikt nie sprawdzi.
 
-Blokuje więc pobranie, a nie licencja i nie pokrycie:
-wydania stoją w repozytorium CLARIN-PL, którego stan trzyma tamten dokument,
+Blokuje więc pobranie samej Słowosieci, a nie licencja i nie pokrycie:
+pełny zrzut wydaje zgłoszenie, którego stan trzyma tamten dokument,
 a rzut na Princeton WordNet, który pobrać się da, przychodzi bez relacji,
-czyli bez tego jednego, po co się po tezaurus idzie.
-Cel przez to nie upada, tylko czeka:
-sprawdzian ma — drzewo, które po podmianie ma wrócić to samo —
-a nie ma czym podmieniać.
+czyli bez tego jednego, po co się po tę sieć idzie.
+
+Odsiania ta bramka jednak nie blokuje,
+bo płaską listę bliskoznaczników wydaje bez zgłoszenia
+[słownik synonimów LibreOffice](prior-art.md#polish-language-resources),
+a pytanie o odsianie brzmi, czy taką listę przycina rodzaj z Morfeusza
+i schemat z Walentego.
+Rozstrzyga to więc sonda puszczona przed pobraniem, a nie po nim,
+i tyle z tego pytania da się zamknąć bez odpowiedzi z Wrocławia.
+Cena tamtej listy jest w copylefcie:
+plik wyprowadzony z niej wyszedłby pod LGPL 2.1,
+a Słowosieć zostaje tym, po co się idzie po relacje
+i po licencję bez tego warunku.
 
 Trzeci pytający pytał to samo źródło o co innego
 i dostał odpowiedź z Walentego.

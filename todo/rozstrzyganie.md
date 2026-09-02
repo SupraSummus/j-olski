@@ -48,6 +48,14 @@ wskazuje po `Bułka jest tania.` na `koszt bułki` jako podmiot,
 czyli odwrotnie, niż czyta czytelnik.
 Wpis jest więc o pytaniu, a nie o odpowiedzi:
 warstwa, która pytania nie dostaje, nie umie nawet przemilczeć.
+Wzorzec ma przy tym dwa wiersze gotowe do przeczytania:
+`Program drukuje werdykt.` rozstrzyga się jednym pytaniem o klasę,
+a `Dokument opisuje pomiar.` nie rozstrzyga się nią wcale,
+choć żądanie stoi nad obydwoma
+([`docs/disambiguation.md`](../docs/disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem)).
+Zdania celu bierze się z lematów `olski/żądania.txt`,
+bo nad czasownikiem, którego ten plik nie ma, warstwa milczy z drugiego powodu,
+a pomiar tych dwóch powodów nie rozdzieli.
 
 Świadek ramowy pyta o przyimek i nie pyta o przypadek grupy pod nim,
 więc jego zasięg jest oszacowaniem górnym po obu stronach sporu.

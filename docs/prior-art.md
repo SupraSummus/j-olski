@@ -128,11 +128,23 @@ byle nota copyright została na kopii.
 Warunku ShareAlike nie ma, więc plik wyprowadzony z niej
 nie wyszedłby pod warunkiem źródła, jak wychodzi leksykon walencyjny
 ([README.md](../README.md#licencja)).
+Nota obejmuje jednak `modifications which you make for internal use
+or for wider distribution`, więc plik wyprowadzony niesie ją dalej
+i na samo MIT też nie wychodzi.
 
-Cena jest w pobraniu.
-Wydania od 3.0 do 4.5 stoją w repozytorium CLARIN-PL,
-które 2 września 2026 odpowiada komunikatem o pracach serwisowych,
-a `plwordnet.pwr.wroc.pl` przekierowuje na witrynę bez pobierania.
+Cena jest w pobraniu, a od 2 września 2026 nie ma go skąd wziąć samemu.
+Wydanie bieżące to 5.0, a wydania od 3.0 do 4.5 stoją w repozytorium CLARIN-PL,
+które odpowiada komunikatem o pracach serwisowych i reorganizacji,
+a adres pojedynczego wydania w nim daje 404.
+`plwordnet.pwr.wroc.pl/wordnet/download`, czyli dawny formularz pobierania,
+przekierowuje na witrynę, a `nlp.pwr.wroc.pl/plwordnet/download`,
+który podają biblioteki czytające plwnxml, odpowiada 503.
+Kanałem zostaje zgłoszenie:
+witryna udostępnia pełne zrzuty po jego weryfikacji,
+a sprawy licencyjne kieruje na `plwordnet@clarin-pl.eu`.
+Zgłoszenie obejmuje i wydanie starsze:
+biblioteki czytające plwnxml odsyłają po zrzut do tych samych dwóch adresów,
+więc obejście tej bramki nie jest znane.
 Ściągnąć da się rzut na Princeton WordNet,
 który Open Multilingual Wordnet wydaje jako `omw-pl` —
 w wersji 1.4 jest to 45 456 haseł i 33 826 synsetów pod tą samą licencją —
@@ -160,6 +172,27 @@ Share-alike wiąże przy tym jak Walenty,
 czyli tezaurus wzięty stąd wydałby plik na warunkach źródła (tamże).
 <https://kaikki.org/plwiktionary/>
 <https://github.com/tatuylonen/wiktextract>
+
+**Słownik synonimów** z pakietu słowników LibreOffice —
+tezaurus, który pobiera się jednym poleceniem i bez zgłoszenia.
+Plik `pl_PL/th_pl_PL_v2.dat` jest w formacie MyThes:
+wpisem jest lemat wraz z liczbą swoich znaczeń,
+a znaczeniem płaska lista bliskoznaczników,
+gdzie kwalifikator stoi w nawiasie przed słowem —
+`wiersz` ma dwa znaczenia, a drugie to `linia|rząd|linijka|szereg|wers`.
+Plik wygenerowany 7 maja 2017 niesie 27 060 wpisów.
+Relacji nie ma tam żadnej, części mowy też nie,
+a pozycja bywa wielowyrazowa (`wartość bezwzględna`, `maszyna licząca`),
+więc podmiana bierze przycięcie skądinąd.
+W rejestr tego projektu ten słownik trafia częściowo:
+`polecenie`, `wcięcie`, `katalog` i `wiersz` mają wpis,
+`plik` i `moduł` mają go bez znaczenia informatycznego,
+a `parser`, `lintować` i `commit` nie mają wcale.
+Cena jest w licencji i jest wyższa niż przy Słowosieci:
+LGPL 2.1 wiąże copyleftem, więc plik wyprowadzony wyszedłby pod nią,
+jak `olski/skłonności.txt` wychodzi pod GPL v3.
+<https://github.com/LibreOffice/dictionaries/tree/master/pl_PL>
+<https://dobryslownik.pl>
 
 **Składnica** —
 a constituency treebank of Polish, aligned with Świgra's output.

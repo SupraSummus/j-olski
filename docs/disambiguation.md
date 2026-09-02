@@ -732,6 +732,37 @@ Miejsca na taki filtr nie brakuje, bo czytania tej prozy
 spierają się o głowę podmiotu często;
 brakuje słownika, bo ram nie mają czasowniki najczęstsze (tamże).
 
+Żądanie człowieka trafia przy tym w tę klasę i trafia w niej źle,
+a powód jest mechaniczny.
+Synkretyzm mianownika z biernikiem żąda formy synkretycznej po obu stronach sporu,
+a mają ją rzeczownik męski nieosobowy, nijaki oraz żeński na spółgłoskę.
+Nie-człowiekiem filtr czyta pierwszy z tych trzech rodzajów,
+czyli strzela w środek tej klasy, a nie obok niej.
+`Anna zapisuje plik.` ma przez to jedno czytanie, bo biernikiem jest `Annę`,
+a `Program zapisuje plik.` ma dwa.
+Filtr żądający człowieka zdejmuje więc czytania tam, gdzie ta klasa jest,
+a tam, gdzie jej nie ma, nie zdejmuje żadnego —
+i widać to po tym, w co trafił, bo `któryś etap` i `dwa rodzaje schematu`
+są rzeczownikami tej właśnie odmiany.
+Czego ta klasa żąda od wordnetu, mówią dwa zdania, a żądanie nad nimi olski już czyta.
+`Program drukuje werdykt.` ma dwa czytania,
+a `drukować` żąda w podmiocie klasy `PODMIOTY`, a w dopełnieniu `KOMUNIKAT`,
+więc jedno pytanie — czy `werdykt` do pierwszej z nich należy — zdejmuje czytanie drugie.
+`Dokument opisuje pomiar.` ma dwa czytania i żądanie ich nie dzieli:
+`opisywać` bierze w podmiocie pięć klas, a w dopełnieniu jedenaście,
+i obie grupy mieszczą się po obu stronach.
+Drugie z tych zdań jest przykładem negatywnym i jest mocniejsze
+niż zdanie, którego czasownik żądania nie ma:
+żądanie tu jest, zostało przeczytane i nie wystarczyło,
+więc warstwa, która to zdanie rozstrzygnie, ma na nim pomyłkę, a nie zasięg.
+
+Zdanie celu wybiera się przy tym z lematów tego pliku, a nie z prozy repozytorium.
+`olski/żądania.txt` niesie przeszło sześć tysięcy lematów,
+a nie ma wśród nich `gonić`, `zapisywać`, `sprawdzać` ani `zasłaniać`,
+więc `Mysz goni ogon.` i `Kufer zasłania lustro.` są dla tej warstwy niewidzialne.
+Jest to ta sama luka, którą prior-art nazywa przy `być`, `mieć` i `czytać`:
+ramy nie mają czasowniki najczęstsze, a rejestr stoi właśnie na nich.
+
 **Temat.**
 Skład wyprowadza szyk z tego, co w zdaniu jest tematem, a co nowe
 ([README](../README.md)),
