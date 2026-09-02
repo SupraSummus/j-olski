@@ -74,10 +74,12 @@ import subprocess
 import sys
 import tempfile
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
 from itertools import product
 from pathlib import Path
 
+from harness.komenda import Komenda, uruchom
 from olski.morph import analyse
 from olski.segmentacja import sentences
 from olski.werdykt import check
@@ -269,13 +271,7 @@ def wydruk(pomiary: list[Pomiar], przykłady: int, budżet: float) -> str:
     return "\n".join(wiersze)
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.świgra",
-        description="ile Świgra liczy jedno zdanie, obok tego samego zdania w olskim",
-    )
-    parser.add_argument("ścieżka", nargs="?", help="plik z prozą do przeczytania")
-    parser.add_argument("-c", dest="zdania", help="zmierz te zdania zamiast pliku")
+def _świgra(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--świgra",
         required=True,
@@ -288,27 +284,22 @@ def main(argv: list[str] | None = None) -> int:
         default=BUDŻET,
         help=f"ile sekund na zdanie (domyślnie {BUDŻET:g})",
     )
-    parser.add_argument(
-        "--przykłady",
-        type=int,
-        default=PRZYKŁADY,
-        help=f"ile zdań pokazać pod liczbą (domyślnie {PRZYKŁADY})",
-    )
-    args = parser.parse_args(argv)
 
-    if not (args.świgra / "gfjp2-bin").exists():
+
+def przebieg(zdania: list[str], args: argparse.Namespace) -> str:
+    """Zmierz każde zdanie i złóż z pomiarów jeden wydruk.
+
+    Brak binarki kończy przebieg kodem 2, czyli tym samym, którym wiersz poleceń
+    kończy pomyłkę w ścieżkach: jest to pomyłka tego samego rodzaju, a pyta o tę
+    ścieżkę ta jedna sonda, więc i sprawdza się ją tutaj.
+    """
+    binarka = args.świgra / "gfjp2-bin"
+    if not binarka.exists():
         print(
-            f"harness.świgra: nie ma binarki {args.świgra / 'gfjp2-bin'}; "
-            "docstring mówi, jak ją zbudować",
+            f"harness.świgra: nie ma binarki {binarka}; docstring mówi, jak ją zbudować",
             file=sys.stderr,
         )
-        return 2
-    if args.zdania:
-        zdania = sentences(args.zdania)
-    elif args.ścieżka:
-        zdania = sentences(Path(args.ścieżka).read_text(encoding="utf-8"))
-    else:
-        parser.error("podaj ścieżkę albo -c")
+        raise SystemExit(2)
 
     # Pierwsze zdanie olskiego jest o rząd wielkości droższe od następnych, bo
     # dopiero ono zagrzewa pamięci nad znacznikami i nad leksykonem, i przy
@@ -325,9 +316,26 @@ def main(argv: list[str] | None = None) -> int:
         ostatni = pomiary[-1]
         stan = ostatni.brak or f"{ostatni.świgra:.2f} s"
         print(f"{i}/{len(zdania)} {stan}", file=sys.stderr, flush=True)
-    print(wydruk(pomiary, args.przykłady, args.budżet))
-    return 0
+    return wydruk(pomiary, args.przykłady, args.budżet)
+
+
+def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
+    return przebieg([z for _, tekst in wejścia for z in sentences(tekst)], args)
+
+
+def _zdania(tekst: str, args: argparse.Namespace) -> str:
+    return przebieg(sentences(tekst), args)
+
+
+KOMENDA = Komenda(
+    nazwa="harness.świgra",
+    opis="ile Świgra liczy jedno zdanie, obok tego samego zdania w olskim",
+    przykłady=PRZYKŁADY,
+    proza=_proza,
+    zdania=_zdania,
+    argumenty=_świgra,
+)
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

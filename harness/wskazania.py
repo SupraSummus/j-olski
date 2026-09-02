@@ -299,6 +299,7 @@ KOMENDA = Komenda(
     opis="Policz, ile warstwa rozstrzygająca odpowiada nad werdyktami olskiego.",
     przykłady=PRZYKŁADY,
     korpus=_korpus,
+    pula=True,
 )
 
 

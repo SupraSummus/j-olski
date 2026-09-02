@@ -52,7 +52,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from harness.attachment import LUŹNA, STRONA_CZASOWNIKOWA, STRONA_IMIENNA, WYMAGANA, attachments
-from harness.corpus import pliki, read_forest
+from harness.corpus import read_forest
+from harness.komenda import Komenda, uruchom
 from harness.próbka import rozrzucona
 from harness.walenty import PEWNY, przyimki, schematy
 
@@ -172,12 +173,7 @@ def render(wszystkie: Sequence[Odpowiedź], przykłady: int = PRZYKŁADY) -> str
     return "\n".join(wiersze)
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.rama",
-        description="Wyceń świadka ramowego: ile spornych przyłączeń rozstrzyga rama.",
-    )
-    parser.add_argument("korpus", help="katalog Składnicy")
+def _walenty(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--czasowniki", required=True, help="walenty_*_verbs_all.txt z wydania tekstowego"
     )
@@ -190,28 +186,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         dest="tylko_pewne",
         help=f"bierz same schematy o kwalifikatorze `{PEWNY}`",
     )
-    parser.add_argument(
-        "--przykłady",
-        type=int,
-        default=PRZYKŁADY,
-        dest="przykłady",
-        help=f"ile odpowiedzi wypisać do przeczytania (domyślnie {PRZYKŁADY})",
-    )
-    args = parser.parse_args(argv)
 
-    print(
-        render(
-            odpowiedzi(
-                pliki(Path(args.korpus)),
-                schematy(args.czasowniki),
-                schematy(args.rzeczowniki),
-                args.tylko_pewne,
-            ),
-            args.przykłady,
-        )
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    padłe = odpowiedzi(
+        ścieżki,
+        schematy(args.czasowniki),
+        schematy(args.rzeczowniki),
+        args.tylko_pewne,
     )
-    return 0
+    return render(padłe, args.przykłady)
+
+
+KOMENDA = Komenda(
+    nazwa="harness.rama",
+    opis="Wyceń świadka ramowego: ile spornych przyłączeń rozstrzyga rama.",
+    przykłady=PRZYKŁADY,
+    korpus=_korpus,
+    argumenty=_walenty,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

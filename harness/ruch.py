@@ -573,6 +573,7 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
             opis=sonda.opis,
             przykłady=PRZYKŁADY,
             korpus=functools.partial(_korpus, sonda),
+            pula=True,
             proza=functools.partial(_proza, sonda),
             argumenty=_morfologia,
         ),

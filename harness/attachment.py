@@ -24,13 +24,16 @@ from __future__ import annotations
 
 import argparse
 import collections
-import sys
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from harness.corpus import Constituent, constituents, parse_forest, pliki, read_forest
+from harness.corpus import Constituent, constituents, parse_forest, read_forest
+from harness.komenda import Komenda, uruchom
+
+#: Ile przyimków wchodzi pod rozkład, gdy wiersz poleceń nie mówi inaczej.
+PRZYIMKI = 10
 
 #: Kategoria wyrażenia przyimkowego w gramatyce, z której Składnica powstała.
 PP = "fpm"
@@ -212,7 +215,7 @@ def measure(paths: Iterable[Path]) -> Report:
     return report
 
 
-def render(report: Report, preps: int = 10) -> str:
+def render(report: Report, preps: int = PRZYIMKI) -> str:
     po = sum(report.postverbal.values())
     lines = [
         f"{report.seen} wyrażeń przyimkowych za grupą imienną,",
@@ -239,24 +242,21 @@ def render(report: Report, preps: int = 10) -> str:
     return "\n".join(lines)
 
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        prog="python3 -m harness.attachment",
-        description="Policz, dokąd Składnica przyłącza wyrażenie przyimkowe za grupą imienną.",
-    )
-    parser.add_argument("root", help="katalog z rozpakowaną Składnicą")
-    parser.add_argument("--limit", type=int, help="zatrzymaj się po tylu lasach")
-    parser.add_argument("--preps", type=int, default=10, help="ile przyimków wypisać")
-    args = parser.parse_args(argv)
+def _przyimki(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--przyimki", type=int, default=PRZYIMKI, help="ile przyimków wypisać")
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f"harness.attachment: nie ma takiego katalogu: {root}", file=sys.stderr)
-        print("harness.attachment: skąd wziąć korpus, mówi docs/corpus.md", file=sys.stderr)
-        return 2
-    print(render(measure(pliki(root)[: args.limit]), args.preps))
-    return 0
+
+def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
+    return render(measure(ścieżki), args.przyimki)
+
+
+KOMENDA = Komenda(
+    nazwa="harness.attachment",
+    opis="Policz, dokąd Składnica przyłącza wyrażenie przyimkowe za grupą imienną.",
+    korpus=_korpus,
+    argumenty=_przyimki,
+)
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(main())
+    raise SystemExit(uruchom(KOMENDA))

@@ -41,10 +41,18 @@ Operator zgłosił awarię w systemie.
 """
 
 
+def _pomiar(tekst: str):
+    """Przebieg nad jednym plikiem prozy, którego nie trzeba zapisywać.
+
+    Tekst przychodzi do sondy razem ze ścieżką, bo pliki czyta wiersz poleceń
+    (``harness/komenda.py``), więc ścieżka jest tu samą nazwą w wydruku.
+    """
+    return przebieg([(Path("rejestr.txt"), tekst)])
+
+
 @pytest.fixture
-def pomiar(tmp_path: Path):
-    (tmp_path / "rejestr.txt").write_text(TEKST, encoding="utf-8")
-    return przebieg([tmp_path / "rejestr.txt"])
+def pomiar():
+    return _pomiar(TEKST)
 
 
 def test_zasięg_rozkłada_się_na_zdania_z_sąsiedztwem_i_bez_niego(pomiar):
@@ -64,7 +72,7 @@ def test_granica_akapitu_odbiera_świadkowi_zdanie_z_akapitu_obok(pomiar):
     assert len(pomiar.odpowiedzi_bez_granicy) == 2
 
 
-def test_populacja_nie_wychodzi_z_werdyktu(tmp_path: Path):
+def test_populacja_nie_wychodzi_z_werdyktu():
     """Zdanie, którego gramatyka nie przyjmuje, ma świadka o co zapytać.
 
     Populacja wzięta z werdyktów daje nad tym rejestrem 38 pytań na 2 915 zdań
@@ -76,13 +84,12 @@ def test_populacja_nie_wychodzi_z_werdyktu(tmp_path: Path):
     która je przyjmie, odbiera temu testowi dowód, a nie tylko materiał.
     """
     odrzucone = "Zabronione jest tworzenie opisów w 1 osobie.\n"
-    (tmp_path / "rejestr.txt").write_text(odrzucone, encoding="utf-8")
     (werdykt,) = check(odrzucone)
     assert werdykt.result.status == "rejected"
-    assert przebieg([tmp_path / "rejestr.txt"]).przyłączeń == 1
+    assert _pomiar(odrzucone).przyłączeń == 1
 
 
-def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony(tmp_path: Path):
+def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony():
     """Zdanie, którego czytelnik jeszcze nie przeczytał, dowodem nie jest.
 
     Dowód stoi tu za zdaniem spornym, a stoi bez czasownika przed frazą, więc sam
@@ -90,14 +97,13 @@ def test_wariant_bez_granicy_czyta_wstecz_a_nie_w_obie_strony(tmp_path: Path):
     obie strony rozstrzygnęłaby mimo to zdanie pierwsze.
     """
     odwrotnie = "Operator zgłosił awarię w systemie.\n\nAwaria w systemie.\n"
-    (tmp_path / "rejestr.txt").write_text(odwrotnie, encoding="utf-8")
-    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    pomiar = _pomiar(odwrotnie)
     assert pomiar.przyłączeń == 1, "drugie zdanie nie ma czasownika przed frazą"
     assert pomiar.odpowiedzi == []
     assert pomiar.odpowiedzi_bez_granicy == []
 
 
-def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_path: Path):
+def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana():
     """Trzy wiersze tej tabeli mają mierzyć trzy reguły, a nie trzy razy jedną.
 
     Wariant wpięty bez podstawienia ``kandydaci`` odpowiada tyle samo razy co
@@ -110,14 +116,13 @@ def test_wariant_reguły_kandydata_mierzy_regułę_inną_niż_wypuszczana(tmp_pa
         "Opisano sposób wymiany danych z systemami zewnętrznymi. "
         "Wpływa to na sposób wymiany danych z systemem RIT.\n"
     )
-    (tmp_path / "rejestr.txt").write_text(łańcuch, encoding="utf-8")
-    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    pomiar = _pomiar(łańcuch)
     assert pomiar.odpowiedzi_bez_granicy == []
     (odpowiedź,) = pomiar.warianty["sąsiad bezpośredni"]
     assert odpowiedź.rozstrzygnięcie.gospodarz == "danych"
 
 
-def test_wariant_z_kopulą_wycenia_warunek_w_granicy_akapitu(tmp_path: Path):
+def test_wariant_z_kopulą_wycenia_warunek_w_granicy_akapitu():
     """Wiersz o kopuli ma mierzyć ten sam akapit co wiersz nad nim.
 
     Wariant wpięty poza granicą akapitu wypisałby cenę warunku nad inną
@@ -128,14 +133,13 @@ def test_wariant_z_kopulą_wycenia_warunek_w_granicy_akapitu(tmp_path: Path):
         "Wymaga się, aby opisy tworzone były w 3 osobie. "
         "Zabronione jest tworzenie opisów w 1 osobie.\n"
     )
-    (tmp_path / "rejestr.txt").write_text(kopula, encoding="utf-8")
-    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    pomiar = _pomiar(kopula)
     assert pomiar.odpowiedzi == []
     (odpowiedź,) = pomiar.odpowiedzi_z_kopulą
     assert odpowiedź.rozstrzygnięcie.gospodarz == "jest"
 
 
-def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
+def test_mianownik_liczy_przyłączenia_a_nie_zdania():
     """Zdanie z dwoma wyrażeniami przyimkowymi stawia więcej niż jeden wybór.
 
     Liczby dokładnej nie ma w asercji celowo: ile pozycji stoi w tym zdaniu,
@@ -144,7 +148,6 @@ def test_mianownik_liczy_przyłączenia_a_nie_zdania(tmp_path: Path):
     czyta dokument.
     """
     dwa = "Rozdział zawiera informacje o awariach w systemie.\n"
-    (tmp_path / "rejestr.txt").write_text(dwa, encoding="utf-8")
-    pomiar = przebieg([tmp_path / "rejestr.txt"])
+    pomiar = _pomiar(dwa)
     assert pomiar.zdań == 1
     assert pomiar.przyłączeń > 1

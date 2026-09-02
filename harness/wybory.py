@@ -45,6 +45,13 @@ je wszystkie; nowe wpisy przenosi się do niego ręką.
     python3 -m harness.wybory --zbuduj proza/ --ile 30 --z-odpowiedzią > nowe.txt
     python3 -m harness.wybory próba/wybory.txt
     python3 -m harness.wybory próba/wybory-z-odpowiedzią.txt
+
+Wiersza poleceń z ``harness/komenda.py`` ta sonda nie bierze i jest to wybór.
+Tamten moduł rozdaje wejście przed sondą i zna dwa rodzaje: bank drzew i prozę,
+a argument pozycyjny znaczy tutaj raz jedno, raz drugie — bez ``--zbuduj`` plik
+wzorca, z nim katalog z prozą — więc plik wzorca doszedłby tam jako proza.
+Trzeci rodzaj wejścia płaci za to każda sonda, która go czyta, a wzorzec czyta ta
+jedna; odwróci to dopiero druga sonda pytająca o plik przeczytany ręką.
 """
 
 from __future__ import annotations
@@ -56,6 +63,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from harness import PROSE_SUFFIX, pliki_prozy
 from harness.próbka import rozrzucona
 from harness.wieloznaczność import pytania
 from olski.document import Document
@@ -68,9 +76,6 @@ from olski.rozstrzyganie import (
     rozstrzygnij,
     sąsiedztwa,
 )
-
-#: Rozszerzenie, którym ekstrakcja pisze prozę (``harness/markdown.py``).
-PROZA = "*.txt"
 
 #: Pliki z wyborami przeczytanymi ręką, czyli jedyny wzorzec, jaki ta warstwa ma.
 #: Pierwszy jest losowaniem z całej populacji, drugi zawężonym do samych odpowiedzi.
@@ -440,9 +445,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     root = Path(args.root or ".")
-    ścieżki = sorted(root.rglob(PROZA))
+    ścieżki = pliki_prozy(root)
     if not ścieżki:
-        print(f"harness.wybory: nie ma tu prozy: {root}/{PROZA}", file=sys.stderr)
+        print(f"harness.wybory: nie ma tu prozy: {root}/*{PROSE_SUFFIX}", file=sys.stderr)
         print("harness.wybory: skąd wziąć korpus, mówi docs/audit-corpus.md", file=sys.stderr)
         return 2
     populacja = kandydaci(ścieżki, root)
