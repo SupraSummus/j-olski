@@ -1,6 +1,7 @@
-"""Werdykt o zdaniu: status wraz z tym, co autor ma przeczytać.
+"""Werdykt o zdaniu: znalezisko wraz z tym, co autor ma przeczytać.
 
-Werdykt mówi o zdaniu więcej niż sam status, bo autor ma na niego zareagować.
+Werdykt mówi o zdaniu więcej niż to, do której klasy je liczy,
+bo autor ma na niego zareagować.
 Zdanie o dwóch odczytaniach jest znaleziskiem
 (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
 a :meth:`Verdict.explain` pokazuje, gdzie te odczytania się rozchodzą;
@@ -228,7 +229,34 @@ class Verdict:
         return bool(SENTENCE_CLOSE.search(self.text))
 
     @property
+    def znalezisko(self) -> bool:
+        """Czy narzędzie ma o tym zdaniu coś do powiedzenia.
+
+        Znaleziskiem jest dziś sama wieloznaczność
+        (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+        Warunek stoi tu raz, bo pyta o niego i wydruk, i :class:`Podsumowanie`.
+        """
+        return self.punktowane and self.result.ambiguous
+
+    @property
+    def czytane(self) -> bool:
+        """Czy olski to zdanie czyta.
+
+        Nieczytane są trzy: zdanie odrzucone, napis, którego nic nie domyka,
+        i fragment. O polszczyźnie żadnego z nich olski nie orzeka,
+        więc wydruk milczy o nich do flagi (``olski/check.py``).
+        """
+        return self.punktowane and not self.result.rejected
+
+    @property
     def status(self) -> str:
+        """Klasa, do której werdykt to zdanie liczy, czyli słowo pomiaru.
+
+        Wydruk komendy go nie podaje, bo dzieli zdania po liczbie odczytań,
+        a nie po tym, czy narzędzie ma o zdaniu co powiedzieć (:attr:`znalezisko`).
+        Czytają je pomiar pokrycia (``olski/pokrycie.py``), sondy w ``harness/``
+        i znaczek na stronie (``witryna/skrypt.js``).
+        """
         if not self.punktowane:
             return NIEDOMKNIĘTE if self.domknięcie else FRAGMENT
         return self.result.status
@@ -538,7 +566,7 @@ class Podsumowanie:
         zdania = [verdict for verdict in werdykty if verdict.punktowane]
         return cls(
             zdań=len(zdania),
-            wieloznaczne=sum(verdict.result.ambiguous for verdict in zdania),
+            wieloznaczne=sum(verdict.znalezisko for verdict in zdania),
             bez_odczytania=sum(verdict.result.rejected for verdict in zdania),
             fragmentów=len(werdykty) - len(zdania),
         )

@@ -862,21 +862,21 @@ a czasownik, któremu Walenty daje pozycję celownikową albo dopełniaczową,
 dostaje ją wpisem w leksykonie.
 
 ```sh
-python3 -m olski.check -c "Werdykt służy czytelnikowi.
+python3 -m olski.check --readings --zatrzymania -c "Werdykt służy czytelnikowi.
 Parser wyprowadza czytelnikowi.
 Wpis żąda dowodu.
 Sonda mierzy dowodu."
 ```
 
 ```text
-<text>: valid     Werdykt służy czytelnikowi.
-                  jedno odczytanie
-<text>: rejected  Parser wyprowadza czytelnikowi.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-<text>: valid     Wpis żąda dowodu.
-                  jedno odczytanie
-<text>: rejected  Sonda mierzy dowodu.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Werdykt służy czytelnikowi.
+        - podmiot: Werdykt, dopełnienie: czytelnikowi, orzeczenie: służy
+<text>: Parser wyprowadza czytelnikowi.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Wpis żąda dowodu.
+        - podmiot: Wpis, dopełnienie: dowodu, orzeczenie: żąda
+<text>: Sonda mierzy dowodu.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 ```
 
 Rozdziela te pary leksykon, a nie przypadek:
@@ -980,21 +980,21 @@ i dlatego stoi tutaj, a nie w
 a nie ciało napisane ręką.
 
 ```sh
-python3 -m olski.check -c "Parser pokazuje autorowi oba czytania.
+python3 -m olski.check --readings --zatrzymania -c "Parser pokazuje autorowi oba czytania.
 Parser pokazuje oba czytania autorowi.
 Reguła pomaga autorowi oba czytania.
 Parser pokazuje autorowi autorowi."
 ```
 
 ```text
-<text>: valid     Parser pokazuje autorowi oba czytania.
-                  jedno odczytanie
-<text>: valid     Parser pokazuje oba czytania autorowi.
-                  jedno odczytanie
-<text>: rejected  Reguła pomaga autorowi oba czytania.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-<text>: rejected  Parser pokazuje autorowi autorowi.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Parser pokazuje autorowi oba czytania.
+        - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
+<text>: Parser pokazuje oba czytania autorowi.
+        - podmiot: Parser, dopełnienie: oba czytania + autorowi, orzeczenie: pokazuje
+<text>: Reguła pomaga autorowi oba czytania.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Parser pokazuje autorowi autorowi.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 ```
 
 Parę wpuszcza własne zdanie leksykonu, a nie koniunkcja dwóch tamtych,
@@ -1050,7 +1050,6 @@ python3 -m olski.check --readings -c "Parser pokazuje autorowi oba czytania."
 ```
 
 ```text
-<text>: valid     Parser pokazuje autorowi oba czytania.
-                  jedno odczytanie
-                  - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
+<text>: Parser pokazuje autorowi oba czytania.
+        - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
 ```

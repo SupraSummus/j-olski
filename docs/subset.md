@@ -53,8 +53,9 @@ Nad prozą, której większości ten podzbiór nie bierze,
 jest to zwykły przypadek, a nie sąd o zdaniu.
 Czym milczenie z braku pokrycia różni się od wstrzymania się, wywodzi
 [linter.md](linter.md#abstention-is-allowed).
-Z tego samego powodu podsumowanie i kod wyjścia `olski-check`
-liczą znaleziska, a milczenie liczą osobno.
+Z tego samego powodu wydruk, podsumowanie i kod wyjścia `olski-check`
+stoją na znalezisku: zdanie bez znaleziska nie dostaje ani wiersza,
+a milczenie liczy się osobno.
 
 Znalezisko ma mówić o zdaniu, a nie o gramatyce.
 Odczytanie, którego polszczyzna nie ma, zdejmuje się więc z gramatyki,
@@ -75,10 +76,8 @@ Ta jedna własność ustawiała wiersz podsumowania, kod wyjścia i pierwsze zda
 więc zdanie wieloznaczne w polszczyźnie wychodziło odrzucone
 za wieloznaczność, którą naprawdę ma
 ([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
-Kolumna statusu dzieli zdania dalej po liczbie odczytań,
-a znalezisk poza wieloznacznością — wielkiej litery, znaku cudzysłowu —
-narzędzie nie zgłasza;
-oba ruchy trzyma [`todo/`](../todo/README.md).
+Znalezisk poza wieloznacznością — wielkiej litery, znaku cudzysłowu —
+narzędzie nie zgłasza, a ruch trzyma [`todo/`](../todo/README.md).
 
 ## Co się liczy jako jedno odczytanie
 
@@ -530,7 +529,7 @@ w którym `program ustawienia` jest dopełnieniem,
 i nie wychodzi tym, w którym `program` zapisuje `ustawienia`.
 Drugie z tych dwóch jest tą samą pomyłką,
 przed którą broni [reguła o obu czytaniach](#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
-a po werdykcie jej nie widać, bo werdykt brzmi wtedy `valid`.
+a po werdykcie jej nie widać, bo o takim zdaniu narzędzie milczy.
 Zawężenie takiego kształtu mieści się po rozwinięciu w jednym argumencie
 deklaracji, a nie w kilkudziesięciu ciałach, z których żadne go nie wypowiada,
 i dopiero wtedy da się je wycenić jednym przebiegiem.
@@ -540,7 +539,7 @@ miejsc na okolicznik jest tam za wysuniętą rolą trzy,
 a bez trzeciego `Ustawa, którą organ w tym trybie wydaje, jest tania.`
 wychodzi jednym czytaniem, w którym `w tym trybie` dochodzi do `organ`,
 a czytania z okolicznikiem przy `wydaje` nie ma skąd wziąć —
-czyli werdykt `valid` nad zdaniem, które czytelnik czyta dwojako.
+czyli milczenie nad zdaniem, które czytelnik czyta dwojako.
 
 ## Przyłączanie wyrażeń przyimkowych: olski nie wybiera
 

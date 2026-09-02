@@ -33,9 +33,9 @@ python3 -m olski.check --rozstrzygaj -c "Daj przepis na faworki."
 ```
 
 ```text
-<text>: ambiguous Daj przepis na faworki.
-                  2 odczytania, różne w roli: dopełnienie; „na faworki” → „Daj”, „przepis”
-                  ? „na faworki” → „przepis”: „na” przy „przepis” doszło tam w 4 z 4 wypadków banku drzew, 100%
+<text>: Daj przepis na faworki.
+        2 odczytania, różne w roli: dopełnienie; „na faworki” → „Daj”, „przepis”
+        ? „na faworki” → „przepis”: „na” przy „przepis” doszło tam w 4 z 4 wypadków banku drzew, 100%
 ```
 
 **Jednostką jest świadek, a nie model.**
@@ -68,11 +68,11 @@ python3 -m olski.check --rozstrzygaj -c "Wystąpiła awaria w systemie. Operator
 ```
 
 ```text
-<text>: ambiguous Wystąpiła awaria w systemie.
-                  2 odczytania, różne w roli: podmiot; „w systemie” → „Wystąpiła”, „awaria”
-<text>: ambiguous Operator zgłosił awarię w systemie.
-                  2 odczytania, różne w roli: dopełnienie; „w systemie” → „zgłosił”, „awarię”
-                  ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
+<text>: Wystąpiła awaria w systemie.
+        2 odczytania, różne w roli: podmiot; „w systemie” → „Wystąpiła”, „awaria”
+<text>: Operator zgłosił awarię w systemie.
+        2 odczytania, różne w roli: dopełnienie; „w systemie” → „zgłosił”, „awarię”
+        ? „w systemie” → „awarię”: „w systemie” stało już przy „awaria” wyżej w tekście: „Wystąpiła awaria w systemie.”
 zdań: 2; wieloznaczne: 2; bez odczytania: 0
 ```
 

@@ -17,7 +17,7 @@ Autor, który pisze pod gramatykę, płaci za każde odrzucenie sam
 i kończy z rejestrem, którego nikt nie wybrał.
 Kto gramatyce dopisuje każdy brak zgłoszony mu przez jeden dokument,
 wpuszcza w końcu napis, którego polszczyzna nie ma,
-a wtedy werdykt `valid` niczego już nie obiecuje.
+a wtedy milczenie werdyktu niczego już nie obiecuje.
 
 Oba fotele obsadza jedna osoba i to ona wymusza równowagę
 ([roles.md](roles.md#rola-jest-postawą-nie-osobą)):
@@ -217,13 +217,17 @@ Odpowiada na nie nazwane miejsce zatrzymania,
 a werdykt nazywa je dwoma zdaniami, bo zatrzymanie na formie
 i zdanie, którego nic nie domyka, są dwoma zdarzeniami
 ([`subset.md`](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+Oba te zdania wypisuje flaga `--zatrzymania`,
+bo odrzucenie znaleziskiem nie jest i wydruk sam z siebie o nim milczy
+([`subset.md`](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
+więc kto pisze pod tę gramatykę, trzyma tę flagę włączoną.
 
 Drugie pytanie brzmi: ile jeszcze.
 Jedno zatrzymanie zasłania każde następne,
 bo analiza przerywa się na pierwszym i o resztę zdania nie pyta,
 więc kto poprawi to jedno miejsce, dostaje zdanie odrzucone drugi raz.
-Odpowiada na to `--zatrzymania`:
-ta sama analiza rusza od nowa za każdym zatrzymaniem,
+Odpowiada na to ta sama flaga:
+pod nią ta sama analiza rusza od nowa za każdym zatrzymaniem,
 więc wychodzi z niej zdanie pocięte na kawałki, z których każdy się analizuje,
 wraz z formami, na których leżą cięcia.
 Liczba cięć mówi, ile miejsc trzeba tknąć, i tyle ta flaga odpowiada.
@@ -245,16 +249,16 @@ python3 -m olski.check --readings --morfologia -c "Janek lubi piwo."
 ```
 
 ```text
-<text>: ambiguous Janek lubi piwo.
-                  2 odczytania, różne w rolach: dopełnienie, podmiot
-                  - podmiot: Janek, dopełnienie: piwo, orzeczenie: lubi
-                  - podmiot: piwo, dopełnienie: Janek, orzeczenie: lubi
-                  odczytanie 1:
-                    „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f | Janek subst:sg:nom:m1
-                    „lubi”: lubić fin:sg:ter:imperf
-                  odczytanie 2:
-                    „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f
-                    „lubi”: lubić fin:sg:ter:imperf
+<text>: Janek lubi piwo.
+        2 odczytania, różne w rolach: dopełnienie, podmiot
+        - podmiot: Janek, dopełnienie: piwo, orzeczenie: lubi
+        - podmiot: piwo, dopełnienie: Janek, orzeczenie: lubi
+        odczytanie 1:
+          „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f | Janek subst:sg:nom:m1
+          „lubi”: lubić fin:sg:ter:imperf
+        odczytanie 2:
+          „Janek”: Janek subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:f
+          „lubi”: lubić fin:sg:ter:imperf
 ```
 
 Odpowiada odczytanie drugie, czyli to z dopełnieniem `Janek`:
@@ -472,8 +476,8 @@ Wieloznaczność przestaje być przy tym po dwudziestu zdaniach sygnałem:
 prawie każda bierze się z przyłączenia albo ze synkretyzmu,
 o czym projekt rozstrzygnął
 ([subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
-więc `ambiguous` czyta się jak brak werdyktu.
-Nagroda `valid` bywa zaś nie za składnię, a za dobór słów:
+więc znalezisko czyta się jak brak werdyktu.
+Nagrodą jest zaś milczenie, które bywa nie za składnię, a za dobór słów:
 to samo zdanie z dopełnieniem żeńskim wychodzi jednoznaczne,
 a z rzeczownikiem rodzaju m3 nie.
 

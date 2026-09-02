@@ -104,21 +104,21 @@ Ciąg rozdzielny dzieli rzeczownik między swoje człony:
 Pierwszy stoi w obu szykach przydawki, drugi tylko za rzeczownikiem.
 
 ```sh
-python3 -m olski.check -c "Nowy i tani parser zapisuje ustawienia.
+python3 -m olski.check --readings --zatrzymania -c "Nowy i tani parser zapisuje ustawienia.
 Warstwy trzecia i czwarta pracują.
 Warstwy trzecia, czwarta i piąta pracują.
 Nowy i tania parser zapisuje ustawienia."
 ```
 
 ```text
-<text>: valid     Nowy i tani parser zapisuje ustawienia.
-                  jedno odczytanie
-<text>: valid     Warstwy trzecia i czwarta pracują.
-                  jedno odczytanie
-<text>: rejected  Warstwy trzecia, czwarta i piąta pracują.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-<text>: rejected  Nowy i tania parser zapisuje ustawienia.
-                  brak odczytania: analiza staje na „zapisuje”
+<text>: Nowy i tani parser zapisuje ustawienia.
+        - podmiot: Nowy i tani parser, dopełnienie: ustawienia, orzeczenie: zapisuje
+<text>: Warstwy trzecia i czwarta pracują.
+        - podmiot: Warstwy trzecia i czwarta, orzeczenie: pracują
+<text>: Warstwy trzecia, czwarta i piąta pracują.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Nowy i tania parser zapisuje ustawienia.
+        brak odczytania: analiza staje na „zapisuje”
 ```
 
 Para symboli jest tu ta sama, którą ma grupa imienna i przymiotnikowa:
@@ -595,7 +595,7 @@ i bywa tak, że takie czytanie zostaje jedynym.
 Jedno czytanie zdania przeczytanego na opak jest werdyktem najgorszym,
 jaki ten pomiar wydaje
 ([corpus.md](../corpus.md#what-morphological-ambiguity-costs)),
-bo `valid` czytelnik przyjmuje bez sprawdzania.
+bo milczenie czytelnik przyjmuje bez sprawdzania.
 
 Warunek stoi przez to w warstwie morfologicznej i przed rozbiorem,
 a nie na terminalu zaimka;

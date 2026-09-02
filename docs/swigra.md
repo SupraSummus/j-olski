@@ -290,15 +290,15 @@ Frazy bez roli streszczenie nie ma czym nazwać,
 więc analiza dochodzi do końca zdania i nic go nie zamyka:
 
 ```sh
-python3 -m olski.check -c "Czytałaś, dziewczyno.
+python3 -m olski.check --zatrzymania -c "Czytałaś, dziewczyno.
 Gotuj mieszaninę dwie godziny."
 ```
 
 ```text
-<text>: rejected  Czytałaś, dziewczyno.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
-<text>: rejected  Gotuj mieszaninę dwie godziny.
-                  brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Czytałaś, dziewczyno.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Gotuj mieszaninę dwie godziny.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
 zdań: 2; wieloznaczne: 0; bez odczytania: 2
 ```
 

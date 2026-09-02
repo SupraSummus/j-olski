@@ -739,9 +739,8 @@ python3 -m olski.check -c "Mowa o zadaniach." --readings
 ```
 
 ```text
-<text>: valid     Mowa o zadaniach.
-                  jedno odczytanie
-                  - orzeczenie_rzeczownikowe: Mowa, wyrażenie_przyimkowe: o zadaniach → Mowa
+<text>: Mowa o zadaniach.
+        - orzeczenie_rzeczownikowe: Mowa, wyrażenie_przyimkowe: o zadaniach → Mowa
 ```
 
 Rola ta stoi obok orzecznika, a nie jest nim, i rozdziela je rama czasownika.
