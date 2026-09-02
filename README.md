@@ -111,7 +111,7 @@ zdań: 3; wieloznaczne: 0; bez odczytania: 0
 Zgodność form jest tu parsowaniem.
 `Nowa program` nie ma wyprowadzenia.
 Nie ma tu reguły, która strzeliła.
-Zdanie bez wyprowadzenia nie jest znaleziskiem.
+Zdanie bez wyprowadzenia nie jest znaleziskiem, dopóki jeden znak go nie zdejmuje.
 Olski go nie czyta i o jego polszczyźnie milczy.
 Całą tę różnicę trzyma
 [docs/subset.md](docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
@@ -137,6 +137,24 @@ zdań: 2; wieloznaczne: 0; bez odczytania: 2
 Cięcie nie jest granicą konstrukcji.
 Po co ta flaga jest, mówi
 [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz).
+
+Poprawka jednego znaku jest drugim znaleziskiem.
+Autor cytuje cudzysłowem maszynowym, a olski bierze inną parę znaków.
+
+```sh
+python3 -m olski.check -c 'Przepisem "Zasad techniki prawodawczej" jest ustawa.'
+```
+
+```text
+<text>: Przepisem "Zasad techniki prawodawczej" jest ustawa.
+        jedno odczytanie po poprawce jednego znaku: cudzysłów „ i ” w miejsce tego, którym zdanie cytuje
+zdań: 1; wieloznaczne: 0; bez odczytania: 1; do poprawki jednym znakiem: 1
+```
+
+Zdanie zostaje przy tym odrzucone, bo gramatyka go nie wyprowadza.
+Poprawkę poświadcza rozbiór poprawionego zdania.
+Czemu świadkiem jest gramatyka, a nie znak, mówi
+[docs/subset.md](docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka).
 
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).

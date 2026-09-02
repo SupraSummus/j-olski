@@ -21,7 +21,7 @@ from olski.segmentacja import morphology
 from olski.werdykt import (
     FRAGMENT,
     NIEDOMKNIĘTE,
-    Domknięcie,
+    Naprawa,
     Podsumowanie,
     check,
     werdykt,
@@ -71,13 +71,13 @@ def test_napis_który_olski_czyta_po_domknięciu_nie_jest_fragmentem():
     """
     niedomknięte = verdict("Cena jest niska")
     assert niedomknięte.status == NIEDOMKNIĘTE
-    assert niedomknięte.domknięcie == Domknięcie(".", 1)
+    assert niedomknięte.naprawa == Naprawa("kropka na końcu", 1)
 
 
 def test_niedomknięte_pytanie_dostaje_pytajnik_a_nie_kropkę():
     #  Kropka stoi w DOMKNIĘCIA pierwsza, więc pytajnik wychodzi tylko tam, gdzie
     #  kropka czytania nie daje: PYTAJNIK bierze jeden znak, a KONIEC_ZDANIA trzy.
-    assert verdict("Który program zapisuje ustawienia").domknięcie == Domknięcie("?", 1)
+    assert verdict("Który program zapisuje ustawienia").naprawa == Naprawa("pytajnik na końcu", 1)
 
 
 def test_domknięcie_wieloznaczne_też_jest_niedomknięciem_a_nie_fragmentem():
@@ -90,7 +90,67 @@ def test_domknięcie_wieloznaczne_też_jest_niedomknięciem_a_nie_fragmentem():
     """
     niedomknięte = verdict("Program zapisuje ustawienia w pliku")
     assert niedomknięte.status == NIEDOMKNIĘTE
-    assert niedomknięte.domknięcie.czytań > 1
+    assert niedomknięte.naprawa.czytań > 1
+
+
+# --------------------------------------------------------------------------- #
+# Poprawka jednego znaku, czyli drugie ze znalezisk
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        'Przepisem "Zasad techniki prawodawczej" jest ustawa.',
+        #  Cudzysłów pojedynczy Morfeusz scala ze słowem w jedną formę, więc
+        #  warunek pytający o samą formę nie widzi go wcale.
+        "Przepisem 'Zasad techniki prawodawczej' jest ustawa.",
+    ],
+)
+def test_zdanie_cytujące_spoza_rejestru_jest_znaleziskiem_i_zostaje_odrzucone(zdanie):
+    """Poprawka mówi autorowi, co zrobić, a status mówi, że gramatyka tego nie bierze."""
+    naprawialne = verdict(zdanie)
+    assert naprawialne.status == "rejected"
+    assert naprawialne.znalezisko
+    assert naprawialne.naprawa == Naprawa("cudzysłów „ i ” w miejsce tego, którym zdanie cytuje", 1)
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
+        #  Łącznik: myślnik w jego miejsce dałby tu odczytanie, a poprawki na
+        #  niego nie ma i cenę tego trzyma docs/subset.md.
+        "Cena jest niska - gramatyka jest tania.",
+        #  Apostrof w środku słowa: warunek pytający o samo zawieranie brał go za
+        #  cytat nad kilkunastoma zdaniami prozy tego repozytorium.
+        "Reguła nazywa document's own list.",
+        #  Zdanie angielskie: reguła stojąca na samym znaku strzelała nad prozą
+        #  tego repozytorium kilkadziesiąt razy i za każdym razem właśnie tak.
+        'A reference with no antecedent, "this difference".',
+    ],
+)
+def test_poprawki_nie_dostaje_zdanie_któremu_podmiana_znaku_odczytania_nie_daje(zdanie):
+    assert verdict(zdanie).naprawa is None
+
+
+def test_napis_któremu_brakuje_dwóch_znaków_zostaje_fragmentem_bez_poprawki():
+    #  Usterka, którą to łapie: poprawka składana z dwóch znaków naraz. Napis
+    #  jest tu bez kropki i cytuje spoza rejestru, więc po jednej poprawce dalej
+    #  nie ma odczytania, a po obu naraz stałby się `unclosed` i wypadł z
+    #  fragmentów, którymi mierzy się ekstrakcja (docs/extraction.md).
+    napis = verdict('Przepisem "Zasad techniki prawodawczej" jest ustawa')
+    assert napis.status == FRAGMENT
+    assert napis.naprawa is None
+
+
+def test_zdanie_naprawialne_liczy_się_i_do_znalezisk_i_do_milczenia():
+    #  Dwa liczniki, bo mówią o czym innym: znalezisko o autorze, a milczenie o
+    #  podzbiorze. Zdanie zliczone tylko w pierwszym podniosłoby pokrycie o
+    #  konstrukcję, której gramatyka nie wyprowadza.
+    tekst = 'Przepisem "Zasad techniki prawodawczej" jest ustawa.'
+    podsumowanie = Podsumowanie.z_werdyktów(check(tekst))
+    assert (podsumowanie.naprawialne, podsumowanie.bez_odczytania) == (1, 1)
+    assert podsumowanie.wieloznaczne == 0
 
 
 # --------------------------------------------------------------------------- #
@@ -154,7 +214,7 @@ def test_napis_bez_znaku_pyta_o_zatrzymanie_mimo_że_wołający_nie_prosił():
     zdanie = "Cena jest niska"
     milczący = werdykt(zdanie, morphology(zdanie), zatrzymanie=False)
     assert milczący.status == NIEDOMKNIĘTE
-    assert milczący.domknięcie == Domknięcie(".", 1)
+    assert milczący.naprawa == Naprawa("kropka na końcu", 1)
 
 
 # --------------------------------------------------------------------------- #

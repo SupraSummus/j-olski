@@ -33,8 +33,9 @@ który zwraca wszystkie odczytania zdania i zostawia wybór autorowi,
 oraz narzędzie nad nim, które sprawdza zdania polskiego tekstu i zgłasza znaleziska.
 Wieloznaczność jest znaleziskiem:
 werdykt mówi, że zdanie wyprowadza się na kilka sposobów, i na jakie.
-Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest,
-a werdykt mówi o nim tyle, dokąd analiza doszła.
+Zdanie, którego gramatyka nie wyprowadza, jest znaleziskiem tylko wtedy,
+gdy dzieli je od czytania jeden znak;
+poza tym werdykt mówi o nim tyle, dokąd analiza doszła.
 [subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
 trzyma tę decyzję,
 a [swigra.md](swigra.md#what-it-leaves-open) miejsce, w którym przegląd zastał puste pole:

@@ -206,7 +206,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(podsumowanie.explain())
     #  Kod wyjścia niesie znaleziska, a nie milczenie
     #  (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
-    return 0 if podsumowanie.wieloznaczne == 0 else 1
+    return 0 if podsumowanie.znalezisk == 0 else 1
 
 
 if __name__ == "__main__":

@@ -236,6 +236,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
  "podsumowanie": {
   "zdań": 1,
   "wieloznaczne": 0,
+  "naprawialne": 0,
   "bez_odczytania": 0,
   "fragmentów": 0,
   "wyjaśnienie": "zdań: 1; wieloznaczne: 0; bez odczytania: 0"

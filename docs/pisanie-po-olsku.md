@@ -218,7 +218,8 @@ a werdykt nazywa je dwoma zdaniami, bo zatrzymanie na formie
 i zdanie, którego nic nie domyka, są dwoma zdarzeniami
 ([`subset.md`](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 Oba te zdania wypisuje flaga `--zatrzymania`,
-bo odrzucenie znaleziskiem nie jest i wydruk sam z siebie o nim milczy
+bo odrzucenie, którego nie zdejmuje jeden znak, znaleziskiem nie jest
+i wydruk sam z siebie o nim milczy
 ([`subset.md`](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
 więc kto pisze pod tę gramatykę, trzyma tę flagę włączoną.
 

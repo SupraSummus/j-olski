@@ -57,9 +57,14 @@ def test_ostatni_wiersz_wydruku_niesie_liczbę_fragmentów(capsys):
     assert "fragmenty, których nic nie punktuje jako zdania: 1" in _podsumowanie(capsys)
 
 
-def test_zdanie_wieloznaczne_daje_kod_jeden_a_odrzucone_nie():
-    """Kod wyjścia niesie znaleziska, a zdanie poza gramatyką znaleziskiem nie jest."""
+def test_kod_jeden_dostaje_każde_znalezisko_a_odrzucenie_bez_poprawki_nie():
+    """Kod wyjścia niesie znaleziska, a zdanie poza gramatyką znaleziskiem nie jest.
+
+    Zdanie naprawialne stoi tu obok wieloznacznego, bo kod wyjścia jest pytaniem
+    o znalezisko, a nie o wieloznaczność (`Podsumowanie.znalezisk`).
+    """
     assert olski.check.main(["-c", "Program otwierający się psuje."]) == 1
+    assert olski.check.main(["-c", 'Przepisem "Zasad techniki prawodawczej" jest ustawa.']) == 1
     assert olski.check.main(["-c", "Nowa program zapisuje ustawienia."]) == 0
 
 

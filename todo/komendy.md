@@ -132,7 +132,6 @@ Kosztem jest wydruk, z którego jeden dokument wycina formy poleceniem:
 [`docs/ustawy.md`](../docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
 bierze wszystko, co stoi za frazą `no production takes` do średnika,
 więc drugi komunikat rozsypuje tamto polecenie, jeżeli nie da się go wyciąć tak samo.
-Za tym średnikiem dopisuje się podpowiedź o cudzysłowie.
 Do przeczytania jest `explain` w `olski/werdykt.py`
 obok `bez_licencji` w `olski/segmentacja.py`:
 formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pola

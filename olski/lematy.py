@@ -31,13 +31,14 @@ PRZYIMEK_ROZDZIELAJĄCY = "a"
 #: cudzysłów innym znakiem, niż go zamyka.
 #: Pyta o nie terminal (``olski/subset/słowa.py``), warunek, którym cudzysłów
 #: licencjonuje napis przytoczony (``olski/segmentacja.py``),
-#: oraz podpowiedź werdyktu nad cytatem z innych znaków (``olski/werdykt.py``).
+#: oraz poprawka, którą werdykt daje zdaniu cytującemu innymi (``olski/werdykt.py``).
 ZNAK_CUDZYSŁOWU_OTWIERAJĄCY = "„"
 ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
 
 #: Znaki, którymi cytuje się poza tym rejestrem: cudzysłów maszynowy, pojedynczy,
-#: angielski i ostrokątny. Gramatyka bierze samą parę wyżej, a nad którymkolwiek
-#: z tych znaków werdykt dopowiada, którą (``olski/werdykt.py``).
+#: angielski i ostrokątny. Gramatyka bierze samą parę wyżej, a zdanie cytujące
+#: którymkolwiek z tych znaków werdykt przecytowuje nią i pyta o nie gramatykę
+#: drugi raz (``_cudzysłów`` w ``olski/werdykt.py``).
 ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
 
 #: Lemat cząstki czasownika zwrotnego. Leksykon czyta tę cząstkę jako drugi wymiar
