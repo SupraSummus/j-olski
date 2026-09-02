@@ -30,6 +30,7 @@ więc nic w Markdownie nie czerwienieje.
 """
 
 import re
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -191,3 +192,19 @@ def test_the_checks_a_person_runs_are_the_checks_a_push_runs():
     listed = LISTED_CHECKS.search((ROOT / "CLAUDE.md").read_text())
     assert listed, "CLAUDE.md has no Checks section carrying a shell block"
     assert listed.group(1).splitlines() == WORKFLOW_STEP.findall(WORKFLOW.read_text())
+
+
+def test_every_path_in_reuse_toml_matches_a_file():
+    """Ścieżka wyjątku jest nazwą prywatną i rusza ją przemianowanie pliku.
+
+    ``reuse lint`` pyta o pokrycie, więc plik, do którego wyjątek przestał trafiać,
+    bierze po cichu licencję domyślną, czyli cudze dane wychodzą wtedy na MIT.
+    """
+    with (ROOT / "REUSE.toml").open("rb") as plik:
+        annotations = tomllib.load(plik)["annotations"]
+    declared = [
+        path
+        for entry in annotations
+        for path in ([entry["path"]] if isinstance(entry["path"], str) else entry["path"])
+    ]
+    assert [path for path in declared if not any(ROOT.glob(path))] == []

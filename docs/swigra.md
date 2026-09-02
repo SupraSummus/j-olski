@@ -178,9 +178,11 @@ forests serialized against `forest.xsd`,
 and a Morfeusz glue library compiled against SWI-Prolog 7.4 and 7.6.
 A wrapper inherits the seconds a sentence as well,
 which is the whole of what a checker in an editor has to spend.
-And Świgra is GPL v3,
-so embedding it is a licensing decision
-rather than a detail to discover afterwards.
+And Świgra is GPL v3
+while this repository ships its code under MIT
+([README.md](../README.md#licencja)),
+so embedding it would put olski's own distribution under GPL v3
+rather than add a dependency to it.
 
 None of which is a criticism.
 If the goal were parsing arbitrary Polish this project should not exist,

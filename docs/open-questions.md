@@ -446,6 +446,18 @@ Both tracks need one, and it need not be the same one.
 - The project is for fun,
   so enjoying the language matters more than it usually would.
 
+**Tabela skłonności a licencja Składnicy.**
+`olski/skłonności.txt` powstaje z banku drzew na GPL v3,
+a jego wierszem jest liczba, a nie zdanie korpusu:
+przyimek, gospodarz i dwa liczniki.
+Czy taka tabela jest utworem zależnym od banku drzew,
+czy zbiorem faktów wziętym z bazy danych, nie wiadomo.
+Deklaracja w [`REUSE.toml`](../REUSE.toml) podaje dziś warunki źródła,
+bo obietnica szersza nie miałaby pokrycia,
+a odpowiedź zdejmuje z tego pliku GPL albo ją potwierdza.
+Rozstrzyga to Zespół Inżynierii Lingwistycznej IPI PAN albo prawnik,
+więc nie zamknie tego żaden commit w tym repozytorium.
+
 **Tezaurus.**
 Podmiana synonimu ([roadmap.md](roadmap.md#cele)) żąda słów bliskoznacznych,
 a repozytorium nie ma ich w żadnej postaci:

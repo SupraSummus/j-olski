@@ -24,6 +24,9 @@ jobs:
       - run: pip install -e '.[dev]'
       - run: python3 -m pytest
       - run: ruff check .
+      #  Plik bez wpisu w `REUSE.toml` wywraca ten krok, więc dane dopisane do
+      #  drzewa bez deklaracji nie dojadą do wydania po cichu.
+      - run: reuse lint
       #  Pinned, so a run goes red because somebody pushed something
       #  rather than because a linter shipped a new default rule.
       - run: npx --yes markdownlint-cli@0.45.0 '**/*.md'

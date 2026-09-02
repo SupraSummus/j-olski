@@ -1,7 +1,7 @@
 """Dokąd gold tree przyłącza wyrażenie przyimkowe, czytane z kształtu drzewa.
 
 Lasy są tu pisane ręcznie z tego samego powodu, co w ``tests/test_corpus.py``:
-Składnica stoi pod GPL, a to repozytorium nie ma pliku licencji. Kształt, o który
+Składnica stoi pod GPL, a to repozytorium rozprowadza kod na MIT. Kształt, o który
 tu chodzi, jest przy tym mniejszy niż cokolwiek, co korpus naprawdę zawiera —
 jedna grupa imienna, jedno wyrażenie za nią i jeden węzeł nad nimi — więc las
 prawdziwy niósłby przy okazji dziesięć innych rzeczy.

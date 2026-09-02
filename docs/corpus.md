@@ -30,7 +30,7 @@ It also decides what the corpus cannot prove, which is covered below.
 
 Not vendored, and not downloaded by any code here.
 The corpus is 92 MB compressed and 2.4 GB extracted,
-it is distributed under the GPL while this repository carries no licence file,
+it is distributed under the GPL while this repository ships its code under MIT,
 and a parser is not a download manager.
 
 ```sh
@@ -71,7 +71,9 @@ it stands as the class it found and not as the count.
 
 The tests do not need any of this.
 They use hand-written forests in `tests/test_corpus.py`,
-so the suite stays offline and the licensing question stays undecided.
+so the suite stays offline and the corpus stays out of a repository
+that ships under different terms
+([README.md](../README.md#licencja)).
 
 ## What the corpus contains
 
