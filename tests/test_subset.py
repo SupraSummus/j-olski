@@ -22,7 +22,7 @@ Formalizm, którym podzbiór jest napisany, sprawdza ``tests/test_gramatyka.py``
 a to, co z lasu wychodzi nad zdaniem wieloznacznym, ``tests/test_las.py``.
 """
 
-from dataclasses import fields
+from dataclasses import fields, is_dataclass
 
 import pytest
 
@@ -89,15 +89,23 @@ def test_deklaracje_nazywają_wyłącznie_symbole_które_gramatyka_definiuje():
     którego gramatyka nie ma, nie wywraca ani jednego wyprowadzenia: odbiera
     tylko wiersz streszczeniu, tak samo cicho jak wpis pominięty. Pola bierzemy
     z klasy, a nie z listy nazw, żeby pole dopisane później weszło pod ten check
-    samo.
+    samo, i z tego samego powodu schodzimy do deklaracji zagnieżdżonej
+    (``Obsada`` w ``olski/parse/podsumowanie.py``).
     """
     zdefiniowane = {produkcja.head for produkcja in GRAMMAR.productions}
     wypisane: set[str] = set(MIJANE)
     for deklaracja in (DEKLARACJA, *RODZINY):
-        for pole in fields(deklaracja):
-            wartość = getattr(deklaracja, pole.name)
-            wypisane |= {wartość} if isinstance(wartość, str) else set(wartość)
+        wypisane |= _nazwy(deklaracja)
     assert wypisane - zdefiniowane == set()
+
+
+def _nazwy(wartość) -> set[str]:
+    """Nazwy symboli wypisane w tej wartości, wraz z zagnieżdżonymi w niej deklaracjami."""
+    if isinstance(wartość, str):
+        return {wartość}
+    if is_dataclass(wartość):
+        return set().union(*(_nazwy(getattr(wartość, pole.name)) for pole in fields(wartość)))
+    return set(wartość)
 
 
 def test_konstytuenty_przyłączenia_są_symbolami_tej_gramatyki():

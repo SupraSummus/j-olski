@@ -708,9 +708,10 @@ bo `lokator` jest tym, kto stoi w pozycji celownikowej,
 a tego, że nim jest, Walenty nie mówi;
 mówi to dopiero słownik wiążący rolę ze słowem, czyli to samo źródło, którego żąda `znać`.
 
-Połowa tego kroku jest zrobiona i leży w warstwie semantycznej wydania TEI:
-pozycja schematu niesie tam rolę wraz z klasą rzeczy, której żąda
-([prior-art.md](prior-art.md#polish-language-resources)).
+Połowa tego kroku jest zrobiona i leży w `olski/żądania.txt`:
+pozycja schematu niesie tam rolę wraz z klasą rzeczy, której żąda,
+przełożoną z warstwy semantycznej wydania TEI
+([warstwa-leksykalna.md](warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu)).
 Połowy drugiej — czy słowo stojące w tej pozycji do tej klasy należy —
 morfologia nie zastępuje.
 Świadkiem osoby jest w niej rodzaj męskoosobowy i nic poza nim,

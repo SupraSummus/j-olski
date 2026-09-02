@@ -27,6 +27,17 @@ SPDX-FileCopyrightText = [
 ]
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
+#  Utwór zależny od tego samego słownika, tylko od wydania TEI: rola i klasa
+#  rzeczy, których pozycja żąda. Skąd plik powstaje, mówi
+#  docs/warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
+[[annotations]]
+path = "olski/żądania.txt"
+SPDX-FileCopyrightText = [
+  "Zespół Inżynierii Lingwistycznej IPI PAN (Walenty)",
+  "2026 Jan Rydzewski",
+]
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
 #  Warunki źródła, czyli banku drzew. Czy tabela liczności jest utworem zależnym
 #  od niego, nie zostało rozstrzygnięte (docs/open-questions.md#shared-questions),
 #  a obietnica szersza nie miałaby pokrycia.

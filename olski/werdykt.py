@@ -23,12 +23,14 @@ a segmentację, po której werdykt pada, z ``olski/segmentacja.py``.
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, replace
 
 from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
 from olski.lematy import (
+    LEMAT_PRZECZENIA,
+    LEMAT_ZWROTNY,
     ZAMIENNIKI_CUDZYSŁOWU,
     ZNAK_CUDZYSŁOWU_OTWIERAJĄCY,
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
@@ -42,8 +44,11 @@ from olski.parse import (
     Rozbieżność,
     liście,
     parse,
+    sklej_formy,
     streszczenia,
     streszczone,
+    w_zakresie,
+    zakresy,
 )
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło, sentences
 from olski.subset import (
@@ -53,6 +58,8 @@ from olski.subset import (
     ORZECZNIK_ŁĄCZNIKA,
     WYRAŻENIE_PRZYIMKOWE,
 )
+from olski.walencja import BIERNIK, CZASOWNIK, CZASOWNIK_ZWROTNY, DOPEŁNIACZ, PODMIOT
+from olski.żądania import NIENAZWANE, PRZYPADKI, żądane
 
 #: Werdykt o tym, czego nikt nie napisał jako zdania: nagłówku, pozycji listy,
 #: wierszu tabeli. Odrzucone znaczy „olski tego nie wyprowadza”, a to jest inne
@@ -73,6 +80,12 @@ NIEDOMKNIĘTE = "unclosed"
 #: autora. Pytajnik jest, bo pytanie zamyka się tylko nim
 #: (`KONIEC_ZDANIA` i `PYTAJNIK` w ``olski/subset/słowa.py``).
 DOMKNIĘCIA = {".": "kropka na końcu", "?": "pytajnik na końcu"}
+
+#: Symbole, na których staje zejście po role wiersza żądania: zdanie podrzędne
+#: oraz konstytuent obsadzający ramę własnego czasownika
+#: (:class:`olski.parse.Obsada`). Streszczenie staje na pierwszej z tych list,
+#: a nie na drugiej, bo nazywa rolę wraz z wypełnieniem i nie pyta, czyja ona jest.
+_STOP = (*DEKLARACJA.podrzędne, *DEKLARACJA.obsada.własna_rama)
 
 
 @dataclass(frozen=True)
@@ -380,6 +393,23 @@ class Verdict:
         ]
 
     @property
+    def żądania(self) -> list[tuple[Żądanie, ...]]:
+        """Czego czasownik żąda od obsadzonych pozycji: wpis na streszczenie z :attr:`readings`.
+
+        Po co ta odpowiedź autorowi i czego ona nie mówi, wywodzi
+        ``olski/żądania.py``; wpis jest na streszczenie z tego samego powodu, co
+        przy :attr:`morfologia`, i grupuje go to samo pytanie o las.
+
+        Warunku na zdanie odrzucone nie ma i nie ma go czemu stawiać: pozycję
+        obsadza czytanie, a takie zdanie nie ma ani jednego, więc lista wychodzi
+        stąd pusta sama. Morfologia ma tam wpis, bo mówi o formach, a nie o rolach.
+        """
+        return [
+            _żądania_streszczenia(drzewa)
+            for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
+        ]
+
+    @property
     def rozbieżne(self) -> list[Rozbieżność]:
         """Konstytuenty rozbieżne, którym streszczenia naprawdę się różnią.
 
@@ -587,6 +617,138 @@ def _pod_streszczeniem(drzewa: Iterable[Node]) -> tuple[OdczytaniaFormy, ...]:
         for _span, (segment, odczytania) in sorted(zebrane.items())
         if len(segment.readings) > 1
     )
+
+
+@dataclass(frozen=True)
+class Żądanie:
+    """Czego czasownik zdania żąda od tego, co w jego pozycji stanęło.
+
+    Wiersz jest jeden na obsadzoną pozycję, a nie jeden na rolę, bo jedna rola
+    obsadza czasem dwie pozycje naraz: `Autor doradza czytelnikowi poprawkę.`
+    ma dopełnienie w celowniku obok dopełnienia w bierniku, a czasownik żąda
+    od nich czego innego.
+    """
+
+    #: Rola, którą streszczenie nazywa to wypełnienie.
+    rola: str
+    #: Formy wypełnienia i forma czasownika, tak jak stoją w zdaniu.
+    wypełnienie: str
+    czasownik: str
+    #: Żądane klasy jako alternatywa, nazwane przed nienazwanymi
+    #: (:data:`olski.żądania.NIENAZWANE`), a w każdej z tych grup alfabetycznie.
+    klasy: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class _Czasownik:
+    """Czasownik zdania składowego: słowa, którymi bywa, jego forma i przeczenie."""
+
+    #: Pary lematu i klasy słowa, czyli klucze, którymi pyta się pliku żądań.
+    #: Jest ich kilka tam, gdzie formę licencjonuje w tym kształcie kilka odczytań.
+    słowa: frozenset[tuple[str, str]]
+    forma: str
+    #: Czy przy tym czasowniku stoi przeczenie (:data:`olski.lematy.LEMAT_PRZECZENIA`).
+    przeczony: bool
+
+
+def _żądania_streszczenia(drzewa: Iterable[Node]) -> tuple[Żądanie, ...]:
+    """Żądania obsadzonych pozycji tych czytań, każde raz i rolami po kolei.
+
+    Drzew jest kilka z tego samego powodu co w :func:`_pod_streszczeniem`:
+    jedno streszczenie zbiera czasem kilka kształtów, a wiersz powtórzony nie
+    mówi nic ponad ten nad sobą.
+
+    Zdanie składowe pyta o swój czasownik osobno, tak samo jak osobno się
+    streszcza, a zdania podrzędnego ta warstwa nie otwiera i z tego samego
+    powodu: pozycje tamtego zdania są ramą tamtego czasownika
+    (:attr:`olski.parse.Deklaracja.podrzędne`).
+    """
+    zebrane: list[Żądanie] = []
+    for drzewo in drzewa:
+        for zakres in zakresy(drzewo, DEKLARACJA.składowe):
+            for żądanie in _żądania_składowego(drzewo, zakres):
+                if żądanie not in zebrane:
+                    zebrane.append(żądanie)
+    return tuple(zebrane)
+
+
+def _żądania_składowego(drzewo: Node, zakres: tuple[int, int]) -> Iterator[Żądanie]:
+    """Żądania jednego zdania składowego, po jednym na obsadzoną pozycję."""
+    obsada = DEKLARACJA.obsada
+    czasownik = _czasownik(drzewo, zakres)
+    if czasownik is None:
+        return
+    for rola in (obsada.podmiot, *obsada.przypadkowe):
+        for węzeł in w_zakresie(drzewo, rola, _STOP, zakres):
+            klasy = _żądane_od(węzeł, rola, czasownik)
+            if klasy:
+                yield Żądanie(rola, sklej_formy(węzeł.forms()), czasownik.forma, klasy)
+
+
+def _czasownik(drzewo: Node, zakres: tuple[int, int]) -> _Czasownik | None:
+    """Czasownik, który rządzi ramą tego zdania składowego, albo ``None``.
+
+    ``None`` znaczy, że zdanie orzeka bez czasownika: orzeczeniem rzeczownikowym
+    albo orzecznikiem przy kopuli, i ramy nie ma wtedy o co pytać.
+
+    Cząstka zwrotna i przeczenie stoją w tym samym konstytuencie co czasownik —
+    ``orzeczenie → się otwiera`` — więc obie widać po jego liściach.
+    Pierwsza z nich czyni z niego inne słowo, więc wchodzi do klucza pliku żądań,
+    a druga zostaje osobno, bo mówi o przypadku dopełnienia, a nie o słowie.
+    """
+    for rola in DEKLARACJA.obsada.orzeczenia:
+        for węzeł in w_zakresie(drzewo, rola, _STOP, zakres):
+            lematy = {czytanie.lemma for liść in liście(węzeł) for czytanie in liść.odczytania}
+            klasa = CZASOWNIK_ZWROTNY if LEMAT_ZWROTNY in lematy else CZASOWNIK
+            głowa = węzeł.liść_głowy()
+            return _Czasownik(
+                słowa=frozenset((czytanie.lemma, klasa) for czytanie in głowa.odczytania),
+                forma=głowa.segment.form,
+                przeczony=LEMAT_PRZECZENIA in lematy,
+            )
+    return None
+
+
+def _żądane_od(węzeł: Node, rola: str, czasownik: _Czasownik) -> tuple[str, ...]:
+    """Klasy, których czasownik żąda od tego wypełnienia; krotka pusta jest milczeniem.
+
+    Pozycji kandydujących bywa kilka (:func:`_pozycje`), a wiersz wychodzi stąd
+    dopiero wtedy, gdy żąda dokładnie jedna z nich: przy dwóch żądających nie
+    widać, które z tych żądań autor ma przeczytać.
+    """
+    żądające = [
+        klasy
+        for pozycja in _pozycje(węzeł, rola, czasownik)
+        if (klasy := żądane(czasownik.słowa, pozycja))
+    ]
+    if len(żądające) != 1:
+        return ()
+    return tuple(sorted(żądające[0], key=lambda klasa: (klasa in NIENAZWANE, klasa)))
+
+
+def _pozycje(węzeł: Node, rola: str, czasownik: _Czasownik) -> tuple[str, ...]:
+    """Pozycje ramy, w których to wypełnienie stać może.
+
+    Podmiot nazywa swoją pozycję sam, a rola przypadkowa nazywa ją przypadkiem
+    głowy wypełnienia: `ustawienia` w bierniku obsadza pozycję ``acc``.
+    Przypadek bierze się z odczytań licencjonujących ten kształt, a nie z jednego
+    z nich, bo forma bywa dwoma słowami naraz — `ustawienia` jest rzeczownikiem
+    i odsłownikiem — i pozycję obsadza w obu tak samo.
+
+    Pozycje są dwie tam, gdzie przy czasowniku stoi przeczenie: dopełnienie
+    w bierniku staje pod nim w dopełniaczu
+    (docs/konstrukcje-gramatyczne/orzeczenie.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+    więc dopełniacz nazywa tam obie pozycje naraz.
+    """
+    if rola == DEKLARACJA.obsada.podmiot:
+        return (PODMIOT,)
+    przypadki = frozenset.intersection(
+        *(czytanie.tag.get("case") for czytanie in węzeł.liść_głowy().odczytania)
+    )
+    kandydaci = set(przypadki) & set(PRZYPADKI)
+    if czasownik.przeczony and DOPEŁNIACZ in kandydaci:
+        kandydaci.add(BIERNIK)
+    return tuple(sorted(kandydaci))
 
 
 def _morfologia_zdania(zdanie: str) -> tuple[OdczytaniaFormy, ...]:

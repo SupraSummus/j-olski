@@ -99,7 +99,7 @@ Nagłówek tego pliku liczy 83 960 schematów i 12 024 ramy dla 15 169 lematów,
 a warstwę semantyczną ma 6 365 z nich —
 i nie ma jej `być`, `mieć`, `mówić`, `stać`, `brać` ani `czytać`,
 czyli czasowniki, które ten rejestr niesie najczęściej.
-Rama nazywa znaczenia czasownika, obsadza pozycje jedną z 18 ról —
+Rama nazywa znaczenia czasownika, obsadza pozycje jedną z 17 ról —
 `Theme` i `Initiator` są najczęstsze — i żąda od każdej klasy rzeczy,
 albo zbiorem synsetów plWordNet, albo jedną z dwudziestu klas nazwanych:
 `LUDZIE`, `MIEJSCE`, `KOMUNIKAT` i tak dalej.
@@ -108,6 +108,9 @@ więc rola dochodzi do pozycji, którą rozbiór naprawdę obsadził.
 Praca o tej warstwie definiuje klasy nazwane jako zbiory synsetów plWordNet 2.1,
 więc żądanie czyta się z samego Walentego,
 a o tym, czy słowo w zdaniu klasę spełnia, orzeka dopiero wordnet.
+Żądanie wychodzi stąd do `olski/żądania.txt`,
+a co ten przekład bierze, a czego nie, mówi
+[warstwa-leksykalna.md](warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu).
 Co ta warstwa daje olskiemu, wycenia
 [disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma).
 <https://aclanthology.org/L16-1418.pdf>

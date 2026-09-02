@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from olski.parse import Deklaracja
+from olski.parse import Deklaracja, Obsada
 from olski.subset.słowa import GRUPA_ORZECZENIA_ODWRÓCONA
 
 #: Rola, którą gramatyka zostawia nierozstrzygniętą rozmyślnie,
@@ -370,6 +370,15 @@ DEKLARACJA = Deklaracja(
         WTRĄCENIE_MYŚLNIKOWE,
         ELIPSA,
         DOPOWIEDZENIE,
+    ),
+    # Orzecznika ani okolicznika nie ma tu ani jednego, i nie jest to przeoczenie:
+    # pozycję ramy wypełnia u olskiego podmiot i dopełnienie, a orzecznik stoi w
+    # narzędniku, którego plik żądań nie ma (``olski/żądania.py``).
+    obsada=Obsada(
+        orzeczenia=("orzeczenie", ORZECZENIE_BEZOSOBOWE),
+        podmiot="podmiot",
+        przypadkowe=("dopełnienie",),
+        własna_rama=("fraza_bezokolicznikowa", FRAZA_BEZOKOLICZNIKOWA_OTWARTA),
     ),
 )
 

@@ -81,9 +81,9 @@ class Leaf:
     def forms(self) -> list[str]:
         return [self.segment.form]
 
-    def forma_głowy(self) -> str:
+    def liść_głowy(self) -> Leaf:
         """Głową słowa jest ono samo, i tu schodzenie po głowach się kończy."""
-        return self.segment.form
+        return self
 
 
 @dataclass(frozen=True)
@@ -135,14 +135,21 @@ class Node:
     def forms(self) -> list[str]:
         return [form for child in self.children for form in child.forms()]
 
-    def forma_głowy(self) -> str:
-        """Forma głowy tego konstytuenta: jedno słowo, którym się go nazywa.
+    def liść_głowy(self) -> Leaf:
+        """Liść głowy tego konstytuenta: jedno słowo, którym się go nazywa.
 
         Schodzi po głowach aż do liścia,
         bo głową grupy jest słowo, a nie podgrupa:
         gospodarzem przyłączenia jest ``koszt``, a nie ``koszt szynki``.
+
+        Liściem, a nie samą formą, bo pytający pytają o dwie różne rzeczy o tym
+        samym słowie: streszczenie o formę (:meth:`forma_głowy`), a wiersz żądania
+        o odczytania, którymi ono w tym kształcie stoi (``olski/werdykt.py``).
         """
-        return self.children[self.głowa].forma_głowy()
+        return self.children[self.głowa].liść_głowy()
+
+    def forma_głowy(self) -> str:
+        return self.liść_głowy().segment.form
 
     def find(self, label: str, skip: Sequence[str] = ()) -> list[Node]:
         """Every node with this label, this one included, outermost first.

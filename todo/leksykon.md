@@ -58,18 +58,59 @@ a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
 Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
 ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
 
-Żądanie pozycji stoi w wydaniu TEI Walentego i nikt go stąd nie czyta.
-`harness/walenty.py` czyta wydanie tekstowe, które warstwy semantycznej nie niesie,
-a rama z TEI wiąże pozycję schematu z rolą i z klasą rzeczy, której ta pozycja żąda
-([`docs/prior-art.md`](../docs/prior-art.md#polish-language-resources)).
-Ruchem jest drugi przekład obok tamtego, i jest on droższy o złączenie:
-argument niesie preferencję, spięcie wiąże go z frazą, a fraza stoi w pozycji schematu,
-więc czytelnik tego pliku musi zejść przez trzy warstwy zamiast czytać wiersz.
-Kupuje to połowę celu o [żądaniu czasownika](../docs/roadmap.md#cele) —
-werdykt nazwałby żądanie, nie pytając, czy słowo w pozycji je spełnia,
-bo tamtej połowy bez wordnetu nie ma
+Okolicznik nie ma w żądaniach ani jednej pozycji, a właśnie tam siedzi klasa `MIEJSCE`.
+Walenty pisze go kształtem `xp(locat)`, a przyimka w tym kształcie nie nazywa;
+nazywa go tabela rozwinięć z tego samego wydania — `phrase_types_expand_20160418.txt` —
+gdzie pozycja miejsca rozwija się w trzydzieści przyimków
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)).
+Tego samego brakuje kolumnie przyimków leksykonu, bo `przyimki` w `harness/walenty.py`
+czyta sam `prepnp`: rama, która żąda przyimka okolicznikiem, nie daje świadkowi ramowemu nic.
+Ruchem jest rozwinięcie czytane z tej tabeli, jedno dla obu przekładów, bo kryterium jest jedno.
+Do przeczytania jest, ile przyimków to dokłada świadkowi ramowemu i ile wierszy plikowi żądań,
+bo trzydzieści wierszy mówiących jedno na każdą pozycję miejsca jest ceną,
+a alternatywą jest pozycja pod nazwą Walentego, którą czytelnik rozwija sam.
+
+Sonda szukająca konwersów zgaduje rolę z kształtu pozycji, a rola stoi już w pliku.
+`harness/konwersy.py` bierze parę schematów, z których jeden ma odbiorcę w celowniku,
+a drugi źródło pod `od` albo `u`, i liczba, którą wraca, jest przez to górnym oszacowaniem
 ([`docs/disambiguation.md`](../docs/disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma)).
-Do rozstrzygnięcia jest, czy klasa wchodzi do `olski/leksykon.txt` kolumną,
-czy osobnym plikiem.
-Leksykon czyta gramatyka przy imporcie i bez niego nie startuje,
-a żądania nie czyta ani jedna produkcja: czytać je ma werdykt.
+`olski/żądania.txt` rozdziela obie strony wprost:
+`wynająć` ma pod `od` rolę `Initiator.Source`, a w celowniku `Initiator.Goal`.
+Ruchem jest kryterium na uszczegółowienie roli w miejsce kryterium na kształt,
+i wtedy sonda chodzi po tym pliku, a nie po wydaniu tekstowym.
+Do przeczytania jest, ile lematów zostaje z tych, które sonda wypisuje dzisiaj,
+i czy zostają te, o których tamten dokument mówi, że kryterium trafiło w nich obok:
+`wykryć komuś raka` i `wykryć u kogoś raka` mówią jedno, więc rola ma je zlać.
+Liczbę z tamtego dokumentu przelicza ta sama zmiana.
+
+Żądanie ma dwie strony, a tę drugą — czy słowo w pozycji do klasy należy —
+mogłaby wziąć ręka, i jest to myśl luźna, nie plan.
+Wordnetu ten projekt nie ma i nie ma go jak pobrać
+([`docs/open-questions.md`](../docs/open-questions.md#shared-questions)),
+a leksykon pisany ręką ma tu precedens:
+`KOPULA` w `olski/walencja.py` jest listą wpisaną z palca,
+a `olski.toml` istnieje właśnie po to, żeby odpowiadać na pytania,
+na które nie odpowiada żaden korpus.
+Pełnej taksonomii do tego nie trzeba.
+Klas nazwanych Walenty ma dwadzieścia, a regule o wymyślonym sprawcy
+([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie))
+wystarcza jedno rozróżnienie, bo resztę podziału niesie strona żądania:
+`kupować` żąda w podmiocie człowieka, a `rozstrzygać` bierze tam i komunikat.
+Miejscem takiego bitu jest `olski.toml`, a wypełniałby się przy słowie,
+które i tak wchodzi tam decyzją, więc kampanii to nie żąda;
+słowo nieznane zostawia warstwę milczącą, tak jak przy świadku przyłączeniowym.
+Pierwsze wpisy umiałby podać przebieg, zamiast ręki:
+warstwa przykładów wydania TEI wskazuje przez `sameAs` te frazy schematu,
+które przykład obsadza, czyli te same identyfikatory,
+po których chodzi złączenie w `harness/żądania.py`,
+a przy pozycji przyimkowej przypisanie słowa do pozycji widać z samego zdania,
+bo przyimek w nim stoi.
+Taki przebieg proponuje, a nie orzeka, i do drzewa nie wchodzi, jak każda sonda.
+Pułapki są dwie i obie stoją przed pierwszym wpisem.
+Liczby z przykładów nie są definicją klasy — definiuje ją praca o tej warstwie,
+zbiorami synsetów — więc plik z nich wzięty nazywa częstość, a nie przynależność,
+i metonimie w nim będą, bo metonimia jest właśnie tym przypadkiem,
+w którym słowo żądania nie spełnia.
+Bit pisany ręką nie może zaś znaczyć „czy to może być podmiotem czasownika”,
+bo ta proza metonimii używa rozmyślnie — `dokument mówi`, `reguła żąda` —
+i wtedy zapala się na każdym akapicie; wąskie „czy to osoba” tego nie robi.

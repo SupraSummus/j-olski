@@ -56,7 +56,7 @@ from olski.grammar import Grammar
 from olski.morph import Segment
 from olski.parse.czytanie import Cykl, Leaf, Node, Pozycja, Tree
 from olski.parse.las import MAX_READINGS, Las
-from olski.parse.podsumowanie import Deklaracja, Przyłączenie, Result, Rozbieżność
+from olski.parse.podsumowanie import Deklaracja, Obsada, Przyłączenie, Result, Rozbieżność
 from olski.parse.streszczenie import (
     OBOK,
     PRZYŁĄCZONY_DO,
@@ -66,6 +66,8 @@ from olski.parse.streszczenie import (
     sklej_formy,
     streszczenia,
     streszczone,
+    w_zakresie,
+    zakresy,
 )
 from olski.parse.tablica import _Tablica
 
@@ -160,6 +162,7 @@ __all__ = [
     "liście",
     "MAX_READINGS",
     "Node",
+    "Obsada",
     "OBOK",
     "parse",
     "podsumuj",
@@ -172,4 +175,6 @@ __all__ = [
     "streszczenia",
     "streszczone",
     "Tree",
+    "w_zakresie",
+    "zakresy",
 ]

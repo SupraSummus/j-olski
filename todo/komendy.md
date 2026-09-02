@@ -314,3 +314,15 @@ Ruchem jest druga funkcja obok tamtej, biorąca ścieżki
 i wracająca parami (nazwa, proza) albo kodem dwa.
 Do rozstrzygnięcia jest, czy komunikat ma dalej nazywać komendę,
 bo funkcja wspólna nie wie, kto ją zawołał, dopóki nie dostanie nazwy argumentem.
+
+Witryna nie pokazuje żądań pozycji, choć `--żądania` je drukuje.
+API oddaje przeglądarce wykaz morfologii pod własnym kluczem
+(`_zdanie` w `witryna/werdykty.py`), a wiersz żądania nie idzie tam wcale,
+więc czytelnik strony widzi mniej niż czytelnik wiersza poleceń
+([`docs/witryna.md`](../docs/witryna.md)).
+Ruchem jest klucz obok tamtego wraz ze zwojem w `witryna/skrypt.js`,
+bo wykaz na odczytanie strona już rysuje i wystarczy mu drugie źródło.
+Do rozstrzygnięcia jest, czy napis o klasie nienazwanej powtarza się po stronie
+przeglądarki, czy idzie z API gotowy:
+frazę werdyktu ma na własność kod paczki, a ten napis wybiera dziś wydruk
+(`KLASA_NIENAZWANA` w `olski/check.py`), więc strona wzięłaby go drugą kopią.

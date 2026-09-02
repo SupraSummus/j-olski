@@ -1,4 +1,4 @@
-"""Trzy odpowiedzi, które werdykt dokłada nad rozbiorem, i podsumowanie nad tekstem.
+"""Cztery odpowiedzi, które werdykt dokłada nad rozbiorem, i podsumowanie nad tekstem.
 
 O zdaniu przyjętym i o odrzuconym rozstrzyga gramatyka,
 więc pyta o nie ``tests/test_subset.py``.
@@ -9,7 +9,11 @@ Zatrzymanie nazywa formę, na której stanęła analiza zdania odrzuconego,
 a po co ta odpowiedź jest, mówi ``docs/pisanie-po-olsku.md``.
 Wszystkie trzy mówią o napisie autora, a nie o grafie segmentacji.
 
-Czwarte pytanie jest o podsumowanie tekstu,
+Czwartą jest żądanie pozycji, czyli to, czego czasownik żąda od słowa,
+które w jego pozycji stanęło; sam plik żądań sprawdza ``tests/test_żądania.py``,
+a tutaj pyta się o to, którą pozycję czytanie obsadziło i którym słowem.
+
+Piąte pytanie jest o podsumowanie tekstu,
 bo od niego zależy, czego pomiar pokrycia nie liczy jako zdania.
 """
 
@@ -251,3 +255,68 @@ def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
     )
     assert (podsumowanie.zdań, podsumowanie.bez_odczytania) == (2, 1)
     assert (podsumowanie.wieloznaczne, podsumowanie.fragmentów) == (0, 1)
+
+
+def _żądania(werdykt):
+    """Żądania jedynego odczytania zdania, po jednym wpisie na obsadzoną pozycję."""
+    (jedno,) = werdykt.żądania
+    return [(w.rola, w.wypełnienie, w.klasy) for w in jedno]
+
+
+def test_para_wypełnień_dostaje_wiersz_na_każdą_pozycję_a_nie_na_rolę():
+    """Jedna rola obsadza tu dwie pozycje ramy, a czasownik żąda od nich czego innego.
+
+    `dopełnienie` nie mówi, w którym przypadku stoi, więc wiersz wzięty raz na
+    rolę nazwałby żądanie jednej z tych pozycji i przypisał je obu wypełnieniom.
+    """
+    assert _żądania(verdict("Autor doradza czytelnikowi poprawkę.")) == [
+        ("podmiot", "Autor", ("PODMIOTY",)),
+        ("dopełnienie", "czytelnikowi", ("LUDZIE",)),
+        ("dopełnienie", "poprawkę", ("KOMUNIKAT", "SYTUACJA", "WYTWÓR")),
+    ]
+
+
+def test_czasownik_z_cząstką_zwrotną_pyta_o_własną_ramę():
+    """Cząstka czyni z czasownika inne słowo, a plik żądań rozdziela je klasą słowa.
+
+    `destabilizować` żąda w podmiocie podmiotu albo sytuacji, a `destabilizować
+    się` samej sytuacji, więc wiersz wzięty bez cząstki mówiłby o zdaniu z nią
+    to, co Walenty mówi o zdaniu bez niej.
+    """
+    assert _żądania(verdict("Rynek się destabilizuje.")) == [
+        ("podmiot", "Rynek", ("SYTUACJA",))
+    ]
+    assert _żądania(verdict("Ustawa destabilizuje rynek."))[0] == (
+        "podmiot",
+        "Ustawa",
+        ("PODMIOTY", "SYTUACJA"),
+    )
+
+
+def test_dopełniacz_pod_przeczeniem_czyta_się_jako_pozycja_biernikowa():
+    """Przeczenie wymienia biernik dopełnienia na dopełniacz, a pozycja zostaje ta sama.
+
+    Pozycję nazywa tu przypadek wypełnienia, więc bez tej wymiany zdanie
+    zaprzeczone milczałoby o dopełnieniu, o którym zdanie twierdzące mówi.
+    """
+    assert _żądania(verdict("Autor nie edytuje dokumentu.")) == [
+        ("podmiot", "Autor", ("PODMIOTY",)),
+        ("dopełnienie", "dokumentu", ("KOMUNIKAT", "KONCEPCJA")),
+    ]
+    #  To samo żądanie, którym odpowiada zdanie twierdzące: różni je sama forma.
+    assert _żądania(verdict("Autor edytuje dokument."))[1] == (
+        "dopełnienie",
+        "dokument",
+        ("KOMUNIKAT", "KONCEPCJA"),
+    )
+
+
+def test_dopełnienie_bezokolicznika_nie_dostaje_żądania_formy_osobowej():
+    """Pozycje pod bezokolicznikiem obsadzają jego ramę, a nie ramę formy nad nim.
+
+    `dokument` stoi w bierniku `edytować`, a `zamierzyć` też biernika żąda,
+    więc bez zatrzymania zejścia wychodzi stąd wiersz o żądaniu cudzego czasownika.
+    """
+    assert _żądania(verdict("Autor zamierzył edytować dokument.")) == [
+        ("podmiot", "Autor", ("PODMIOTY",))
+    ]
