@@ -46,11 +46,17 @@ DOCUMENTS = (
 #: is a document, or in a test's docstring.
 #: Plik danych stoi tu obok modułów, bo nagłówek wyprowadzony przez generator
 #: cytuje sekcję tak samo jak docstring, a poza tą listą nie widzi go nic.
+#: Skrypt w korzeniu stoi tu obok pakietów, bo cytuje dokument tak samo jak moduł
+#: w środku: ``dokumentacja.py`` nazywa dokument, który jest właścicielem decyzji
+#: o stronie, a ``README.py`` nazywa ten, który trzyma kryterium wyjścia.
 SOURCES = sorted(
-    path
-    for package in ("olski", "harness", "opowieści", "tests", "witryna")
-    for wzorzec in ("*.py", "*.txt")
-    for path in (ROOT / package).rglob(wzorzec)
+    [
+        path
+        for package in ("olski", "harness", "opowieści", "tests", "witryna")
+        for wzorzec in ("*.py", "*.txt")
+        for path in (ROOT / package).rglob(wzorzec)
+    ]
+    + list(ROOT.glob("*.py"))
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
@@ -62,11 +68,13 @@ RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")
 #: Plik danych stojący w korzeniu, a nie w pakiecie: konfiguracja projektu leży
 #: tam, bo mówi o projekcie, a nie o polszczyźnie (``olski/konfiguracja.py``).
 #: Nazwany wprost, bo wzorzec na samą nazwę pliku łapałby każde `plik.toml`
-#: z bloku polecenia.
+#: z bloku polecenia. Skrypty w korzeniu stoją obok niego z tego samego powodu:
+#: proza nazywa je tak jak moduł, a wzorzec na `*.py` bez katalogu łapałby
+#: każdą nazwę pliku z polecenia.
 #: Pakiet nazywa się ukośnikiem na końcu — `olski/subset/` — i zdanie o nim
 #: rotuje tak samo jak zdanie o module, bo przemianowany katalog zostawia
 #: żywo wyglądającą nazwę.
-W_KORZENIU = r"olski\.toml"
+W_KORZENIU = r"olski\.toml|README\.py|dokumentacja\.py|mkdocs\.yml"
 CITED_PATH = re.compile(
     r"`((?:olski|harness|tests|opowieści|próba|witryna)"
     r"/[\w./ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]+?(?:\.(?:py|txt|html|css|js)|/)"
@@ -101,8 +109,13 @@ WORKFLOW_STEP = re.compile(r"(?m)^\s*- run: (.*)$")
 
 
 def anchor_of(heading: str) -> str:
-    """Slug a heading as GitHub does for ordinary headings: fold case, drop punctuation."""
-    return re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", heading.strip().lower()))
+    """Slug a heading as GitHub does for ordinary headings: fold case, drop punctuation.
+
+    Odstęp idzie na kreskę pojedynczo, a nie ciągiem, bo tak robi `github-slugger`:
+    znak interpunkcyjny odpada razem ze sobą, a odstępy po obu jego stronach zostają
+    i dają dwie kreski. Zwijanie ciągu przepuszczało link, który na GitHubie jest martwy.
+    """
+    return re.sub(r"[^\w\s-]", "", heading.strip().lower()).replace(" ", "-")
 
 
 def assert_resolves(destination: Path, anchor: str, origin: str) -> None:

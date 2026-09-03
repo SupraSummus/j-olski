@@ -1,0 +1,41 @@
+name: dokumentacja
+
+on: push
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dokumentacja-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  #  Idzie przy każdym pushu, bo `--strict` jest tu sprawdzeniem prozy:
+  #  martwy link wywraca je na gałęzi, a nie po scaleniu (docs/publikacja.md).
+  budowa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e '.[dokumentacja]'
+      - run: python3 -m dokumentacja
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _strona
+
+  #  Na serwer jedzie tylko main, bo adres jest jeden.
+  wydanie:
+    if: github.ref == 'refs/heads/main'
+    needs: budowa
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.wydanie.outputs.page_url }}
+    steps:
+      - id: wydanie
+        uses: actions/deploy-pages@v4

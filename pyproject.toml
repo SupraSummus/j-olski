@@ -30,6 +30,19 @@ dev = ["pytest>=8", "reuse>=6", "ruff>=0.5"]
 #  funkcją WSGI ze standardowej biblioteki, więc suita nie woła gunicorna, a
 #  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.
 witryna = ["gunicorn>=22"]
+#  Strona dokumentów, czyli drugi tor poza paczką: mkdocs składa prozę
+#  repozytorium, a pdoc wypisuje referencję z docstringów. Suita ich nie
+#  instaluje, tak jak nie instaluje gunicorna, bo blok checków nie buduje strony
+#  (docs/publikacja.md). pymdown-extensions przychodzi z motywem, a stoi tu
+#  wprost, bo `mkdocs.yml` woła z niego slugify.
+#  Górna granica na mkdocs jest nazwana: wydanie 2.0 zdejmuje system wtyczek
+#  i przepisuje motywy, a strona stoi na motywie i na wtyczce wyszukiwania.
+dokumentacja = [
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9",
+  "pdoc>=15",
+  "pymdown-extensions>=10",
+]
 
 [project.scripts]
 olski-check = "olski.check:main"

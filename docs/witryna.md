@@ -346,6 +346,10 @@ a pomiar zrobiony przed pierwszym żądaniem mówi o połowie tej pamięci.
 
 ## Wdrożenie
 
+Witryna stoi pod `olski.pl`.
+Dokumentacja stoi pod osobnym adresem i jedzie osobną drogą, z GitHub Pages
+([publikacja.md](publikacja.md)).
+
 Platforma czyta z repozytorium trzy pliki.
 `requirements.txt` mówi jej, że to jest aplikacja Pythona.
 W środku ma jeden wiersz `.[witryna]`, czyli wskazanie na `pyproject.toml`.
@@ -366,22 +370,15 @@ bo gramatyka czyta słownik przy imporcie
 
 ## Nie zapadło
 
-Wdrożenia nikt nie puścił.
-Kod, `Procfile` i `requirements.txt` są napisane pod Scalingo,
-a to, czy slug się zbuduje i czy proces wstanie,
-mówi dopiero pierwsze `git push scalingo`.
-Do sprawdzenia są przy tym dwie rzeczy naraz:
-czy buildpack instaluje wheel Morfeusza
-i czy kontener S wystarcza pod obciążeniem, a nie na pustym przebiegu.
+Czy kontener S wystarcza pod obciążeniem, nie zostało zmierzone:
+liczby z sekcji o pamięci wychodzą z przebiegu na pustej witrynie,
+a nie z witryny, do której ktoś naraz wkleja tekst.
 
-Adresu nie ma.
-Nie wiadomo, czy witryna go dostanie.
 Strona pod adresem publicznym jest zaproszeniem dla czytelnika spoza projektu.
 [roles.md](roles.md#rola-jest-postawą-nie-osobą) mówi,
 że tutaj każdą rolę obsadza jedna osoba.
 Warto pilnować tego stanu.
 Witryna sama tego nie łamie, bo obsługuje tę samą osobę w przeglądarce.
-Rozstrzygnie to dopiero wpisanie domeny.
 
 ## Sources
 

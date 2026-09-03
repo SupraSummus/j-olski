@@ -7,6 +7,12 @@ build/
 dist/
 .venv/
 
+# Strona dokumentów: katalog, z którego buduje mkdocs, i to, co zbudował.
+# Oba składa `python3 -m dokumentacja`, a pierwszy z nich jest kopią prozy stojącej
+# obok w repozytorium, więc po każdej zmianie w niej jest nieprawdziwy.
+_dokumentacja/
+_strona/
+
 # Proza wyjęta z Markdownu przez `harness.markdown`, którą czytają polecenia
 # z docs/corpus.md i z sond. Jest kopią tekstu, który stoi obok w repozytorium,
 # i po każdej zmianie w nim jest nieprawdziwa, więc bierze się ją przebiegiem.

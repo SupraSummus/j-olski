@@ -112,7 +112,7 @@ Idzie o to, że enumerator zstępujący nie umiał go wydać tanio.
 wyliczał pod pozycją każde wyprowadzenie, zanim oddał pierwsze,
 więc granica ucinała wydruk, a nie pracę.
 Zdanie ustawy o 28 042 czytaniach pod gramatyką z tamtej chwili —
-[jedno z tych, w których liczba czytań przestaje o czymkolwiek mówić](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem) —
+[jedno z tych, w których liczba czytań przestaje o czymkolwiek mówić](ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem) —
 kosztowało go 76 s, żeby oddać sześćdziesiąt cztery drzewa i napis `64+`.
 Las podaje nad nim liczbę dokładną w 0,05 s.
 Sekundy zależą od maszyny, a krotność jest trzema rzędami wielkości,
@@ -143,7 +143,7 @@ więc rola, którą rozdziela dopiero sześćdziesiąte piąte czytanie,
 nie zostałaby z nich nazwana,
 a liczba obok niej granicy nie ma i tej niezgody po sobie nie pokazuje.
 Tak stoi
-[przepis o dziesiątkach tysięcy czytań](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem):
+[przepis o dziesiątkach tysięcy czytań](ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem):
 werdykt nazywa tam dopełnienie, którego wypisane czytania nie rozdzielają.
 Kosztuje to jedno rozstrzygnięcie, którego lista czytań nie potrzebuje.
 Etykieta roli pada w jednym czytaniu kilka razy,

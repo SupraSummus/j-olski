@@ -443,3 +443,14 @@ aspekt bezokolicznika, o którym `olski/skład/makieta.py` mówi, że nikt go ni
 uzgodnienie rodzaju pod koordynacją, którego `razem` w `olski/skład/słownik.py`
 albo żąda, albo nie żąda,
 oraz miejsce cząstki `się`, o które nie pytał dotąd nikt.
+
+Docstringi pakietu cytują dokument gołym napisem — `docs/subset.md#…` —
+i na [stronie referencji](../docs/publikacja.md#referencja-api-powstaje-z-docstringów)
+jest to martwy tekst, którego czytelnik nie kliknie.
+Ruchem jest link markdownowy w miejsce napisu, bo pdoc renderuje docstring Markdownem.
+Cena stoi po drugiej stronie i dlatego ruch nie zapadł:
+docstring czyta się przede wszystkim w edytorze i w `help()`,
+gdzie link jest dłuższy od napisu i niesie ścieżkę dwa razy.
+Do przeczytania jest `CITED_DOCUMENT` w `tests/test_docs.py`:
+cytat zamieniony na link ma dalej wpadać w ten wzorzec,
+bo inaczej ruch zdejmuje pilnowanie z każdego cytatu, który przepisze.

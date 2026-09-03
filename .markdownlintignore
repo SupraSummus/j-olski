@@ -4,6 +4,10 @@
 #  say about it.
 tests/fixtures/
 
+#  Kopia prozy, z której `python3 -m dokumentacja` buduje stronę. Check puszczony
+#  po budowaniu zgłaszałby każdą usterkę dwa razy, raz w oryginale i raz w kopii.
+_dokumentacja/
+
 #  Korpus audytowy, klonowany do katalogu repozytorium poleceniem, które drukuje
 #  docs/audit-corpus.md. Jest cudzym Markdownem, więc check puszczony po jego
 #  pobraniu zgłasza cudze usterki. Pozostałe pobierane korpusy stoją w

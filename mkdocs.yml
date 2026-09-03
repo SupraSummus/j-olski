@@ -1,0 +1,50 @@
+#  Konfiguracja strony dokumentów. Buduje ją `python3 -m dokumentacja`, bo katalog
+#  niżej powstaje przebiegiem, a nie leży w repozytorium (docs/publikacja.md).
+site_name: olski
+site_description: Parser zaprojektowanego podzbioru polszczyzny
+#  Adres jest tu raz: `CNAME` wychodzi z tego wiersza przebiegiem (`dokumentacja.py`).
+site_url: https://dokumentacja.olski.pl/
+repo_url: https://github.com/SupraSummus/j-olski
+docs_dir: _dokumentacja
+site_dir: _strona
+
+#  Ostrzeżenie wywraca budowanie, więc martwy link i martwa kotwica nie dojadą
+#  na stronę po cichu.
+strict: true
+
+#  Domyślnie mkdocs wyklucza ścieżkę kropkową, a `CLAUDE.md` linkuje do workflowu.
+exclude_docs: |
+  !/.github/
+
+validation:
+  links:
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
+
+theme:
+  name: material
+  language: pl
+  features:
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Ciemny motyw
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Jasny motyw
+
+markdown_extensions:
+  - tables
+  - toc:
+      #  Kotwica ma wyjść tak samo jak na GitHubie, bo pod GitHuba pisane są linki.
+      #  Domyślny slugify kasuje diakrytyki (docs/publikacja.md).
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+      permalink: true
