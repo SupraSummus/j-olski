@@ -447,10 +447,13 @@ oraz miejsce cząstki `się`, o które nie pytał dotąd nikt.
 Docstringi pakietu cytują dokument gołym napisem — `docs/subset.md#…` —
 i na [stronie referencji](../docs/publikacja.md#referencja-api-powstaje-z-docstringów)
 jest to martwy tekst, którego czytelnik nie kliknie.
-Ruchem jest link markdownowy w miejsce napisu, bo pdoc renderuje docstring Markdownem.
-Cena stoi po drugiej stronie i dlatego ruch nie zapadł:
+Ruchem jest przekład cytatu na link przy budowaniu strony,
+czyli drugi wzorzec w `Odsyłacze` w `dokumentacja.py`, obok roli reStructuredText.
+Link napisany w samym docstringu jest ruchem gorszym i dlatego nie zapadł:
 docstring czyta się przede wszystkim w edytorze i w `help()`,
-gdzie link jest dłuższy od napisu i niesie ścieżkę dwa razy.
+gdzie link jest dłuższy od napisu i niesie ścieżkę dwa razy,
+a strona modułu leży w innym katalogu niż moduł,
+więc ścieżka dobra dla jednego z nich jest martwa u drugiego.
 Do przeczytania jest `CITED_DOCUMENT` w `tests/test_docs.py`:
-cytat zamieniony na link ma dalej wpadać w ten wzorzec,
-bo inaczej ruch zdejmuje pilnowanie z każdego cytatu, który przepisze.
+przekład ma brać ten sam cytat, który pilnuje suita,
+bo inaczej referencja linkuje do kotwicy, której nie sprawdza nikt.

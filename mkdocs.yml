@@ -22,6 +22,29 @@ validation:
     absolute_links: warn
     unrecognized_links: warn
 
+plugins:
+  #  Wyszukiwarka jest domyślna, a wpisana tu dlatego, że lista wtyczek zdejmuje
+  #  domyślne. Obejmuje referencję, bo mkdocstrings wypisuje ją tą samą stroną
+  #  co prozę (docs/publikacja.md).
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            #  Rolę reStructuredText z docstringu przekłada na odsyłacz
+            #  `dokumentacja.py`, bo mkdocstrings zna tylko własną składnię.
+            extensions:
+              - dokumentacja:Odsyłacze
+            #  Referencja mówi o całej powierzchni pakietu, a niejeden symbol
+            #  docstringu nie ma, więc bez tego wiersza strona modułu bywa samym
+            #  jego docstringiem.
+            show_if_no_docstring: true
+            #  Kolejność deklaracji, bo moduł czyta się w niej i w niej stoją
+            #  komentarze, które o sąsiedztwie symboli mówią.
+            members_order: source
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+
 theme:
   name: material
   language: pl

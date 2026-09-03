@@ -3,17 +3,20 @@
 Jedno polecenie, ``python3 -m dokumentacja``, robi to samo, co robi
 ``.github/workflows/dokumentacja.yml``, więc workflow nie niesie drugiego przepisu.
 Czemu strona nie stoi na domyślnym Jekyllu, co sprawdza jej budowanie
-i ile kosztuje referencja API, mówi docs/publikacja.md.
+i czemu referencja idzie przez mkdocs, a nie obok niego, mówi docs/publikacja.md.
 """
 
 from __future__ import annotations
 
-import pkgutil
 import re
 import shutil
 import subprocess
 import sys
+from collections.abc import Iterator
+from functools import partial
 from pathlib import Path
+
+import griffe
 
 KORZEŃ = Path(__file__).resolve().parent
 KONFIGURACJA = KORZEŃ / "mkdocs.yml"
@@ -30,19 +33,103 @@ SITE_URL = re.compile(r"(?m)^site_url:\s*https://([^/\s]+)")
 PROZA = ("README.md", "CLAUDE.md", "docs", "todo")
 #: Link względny bez kotwicy. Kotwica odpada tutaj, bo pytamy o plik do skopiowania.
 LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s#]+)")
-#: Strona, z której czytelnik wchodzi do referencji, i jedyne miejsce, które ją
-#: linkuje: pdoc wypisuje drzewo HTML, o którym mkdocs nie wie nic poza tym, że
-#: je przenosi.
-REFERENCJA = """# Referencja API
+#: Katalog referencji jest jej adresem: wejście wychodzi pod `/referencja/`,
+#: a każdy moduł pod `/referencja/<nazwa modułu>/`.
+REFERENCJA = "referencja"
+#: Strona wejściowa referencji. Spisu modułów nie ma tu ręką: wypisuje go
+#: mkdocstrings z pakietu, więc moduł dopisany jutro sam do niego wchodzi.
+WEJŚCIE = """# Referencja API
 
-Strony pod tym adresem wypisuje pdoc z docstringów pakietu `olski`,
+Strony niżej wypisuje mkdocstrings z docstringów pakietu `olski`,
 więc mówią to, co mówi kod w chwili budowania.
 Dokumenty obok mówią to, czego kod nie pokaże:
 cenę, granicę podzbioru i alternatywę odrzuconą
-([docs/publikacja.md](docs/publikacja.md)).
+([docs/publikacja.md](../docs/publikacja.md)).
 
-[Wejście do referencji](api/index.html)
+::: olski
+    options:
+      summary:
+        modules: true
 """
+#: Strona modułu. Nagłówek stoi w niej wprost, bo z niego bierze mkdocs
+#: podpis w nawigacji i w wyszukiwarce.
+STRONA_MODUŁU = """# {moduł}
+
+::: {moduł}
+"""
+#: Rola reStructuredText, którą docstringi pakietu cytują symbol.
+ROLA = re.compile(r":(?:attr|class|const|data|exc|func|meth|mod|obj):`([^`]+)`")
+#: Nazwa prywatna, czyli taka, której mkdocstrings nie wypisuje. Dunder przechodzi,
+#: bo domyślny filtr handlera odrzuca sam pojedynczy podkreślnik.
+PRYWATNA = re.compile(r"^_[^_]")
+
+
+class Odsyłacze(griffe.Extension):
+    """Zamienia rolę reStructuredText na odsyłacz mkdocstrings, gdy cel jest na stronie.
+
+    Docstringi pakietu cytują symbol rolą reStructuredText,
+    bo czyta się je przede wszystkim w edytorze i w ``help()``,
+    gdzie ta konwencja jest krótsza od linku i niesie ścieżkę raz.
+    mkdocstrings zna tylko ``[cel][]``, więc przekład stoi tutaj:
+    inaczej płaciłby za stronę każdy docstring pakietu.
+
+    Rola z celem, którego na stronie nie ma — nazwą prywatną albo modułem spoza
+    pakietu — schodzi do samego napisu w backtickach, tak jak wypisywał ją pdoc.
+    Link do celu, którego nie ma, byłby błędem `--strict`, a rola nietknięta
+    trafiłaby na stronę jako `:func:` z napisem obok.
+    """
+
+    def on_package(self, *, pkg: griffe.Module, **_) -> None:
+        wszystkie = list(obiekty(pkg))
+        strony = {
+            obiekt.path
+            for obiekt in wszystkie
+            if not any(PRYWATNA.match(człon) for człon in obiekt.path.split("."))
+        }
+        for obiekt in wszystkie:
+            if obiekt.docstring:
+                obiekt.docstring.value = ROLA.sub(
+                    partial(odsyłacz, obiekt=obiekt, strony=strony), obiekt.docstring.value
+                )
+
+
+def obiekty(obiekt: griffe.Object) -> Iterator[griffe.Object]:
+    """Wylicza obiekt i wszystko, co pod nim zadeklarowano.
+
+    Alias jest nazwą zaimportowaną, a nie deklaracją:
+    bez tego warunku symbol wychodziłby stąd tyle razy, ile modułów go bierze,
+    a ``import re`` w module wciągnąłby tu bibliotekę standardową.
+    """
+    yield obiekt
+    for pod in obiekt.members.values():
+        if not pod.is_alias:
+            yield from obiekty(pod)
+
+
+def odsyłacz(rola: re.Match, obiekt: griffe.Object, strony: set[str]) -> str:
+    """Składa odsyłacz do celu roli, rozwiązując nazwę tak, jak rozwiązuje ją Python.
+
+    Rola cytuje symbol nazwą z zasięgu, w którym docstring stoi — samą ``Las``,
+    a nie całą ścieżką — a nazwa ta bywa zaimportowana.
+    Szuka jej więc od obiektu w górę i schodzi aliasem do miejsca deklaracji,
+    bo tam, a nie u importującego, wypisuje symbol mkdocstrings.
+    """
+    cel = rola.group(1)
+    if cel in strony:
+        return f"[`{cel}`][{cel}]"
+    głowa, _, reszta = cel.partition(".")
+    for zasięg in rodzice(obiekt):
+        if głowa in zasięg.members:
+            pełna = ".".join(filter(None, (zasięg.members[głowa].canonical_path, reszta)))
+            return f"[`{cel}`][{pełna}]" if pełna in strony else f"`{cel}`"
+    return f"`{cel}`"
+
+
+def rodzice(obiekt: griffe.Object) -> Iterator[griffe.Object]:
+    """Wylicza obiekt i jego przodków, od najbliższego."""
+    while obiekt is not None:
+        yield obiekt
+        obiekt = obiekt.parent
 
 
 def zbierz_prozę() -> None:
@@ -84,24 +171,35 @@ def wpisz_adres() -> None:
     (ŹRÓDŁO / "CNAME").write_text(f"{adres.group(1)}\n", encoding="utf-8")
 
 
-def moduły() -> list[str]:
-    """Wylicza moduły pakietu, bo pdoc nie schodzi do tych, których `__all__` nie wylicza.
+def moduły(pakiet: griffe.Module) -> Iterator[str]:
+    """Wylicza moduły pod pakietem, bo strona powstaje na moduł.
 
-    Warstwa jest jedna: podpakiet `__all__` nie deklaruje, więc pdoc schodzi do jego
-    modułów sam, a nazwa wypisana tu drugi raz mówi mu o dwóch modułach o jednej nazwie.
+    Podpakiet schodzi tędy tak samo jak moduł, więc `olski.skład.składnia` ma
+    swoją stronę, a odsyłacz do symbolu z niego ma dokąd prowadzić.
     """
-    import olski
+    for pod in pakiet.modules.values():
+        yield pod.path
+        yield from moduły(pod)
 
-    return ["olski", *(m.name for m in pkgutil.iter_modules(olski.__path__, "olski."))]
+
+def wypisz_referencję(pakiet: griffe.Module) -> None:
+    """Wypisuje stronę na moduł, żeby mkdocs objął referencję nawigacją i wyszukiwarką."""
+    katalog = ŹRÓDŁO / REFERENCJA
+    katalog.mkdir()
+    (katalog / "index.md").write_text(WEJŚCIE, encoding="utf-8")
+    for moduł in sorted(moduły(pakiet)):
+        (katalog / f"{moduł}.md").write_text(STRONA_MODUŁU.format(moduł=moduł), encoding="utf-8")
 
 
-def wypisz_referencję() -> None:
-    """Puszcza pdoc do katalogu, który mkdocs przenosi na stronę bez zmian."""
-    subprocess.run(
-        [sys.executable, "-m", "pdoc", "--output-directory", str(ŹRÓDŁO / "api"), *moduły()],
-        check=True,
-    )
-    (ŹRÓDŁO / "referencja.md").write_text(REFERENCJA, encoding="utf-8")
+def sprawdź_przekład(pakiet: griffe.Module) -> None:
+    """Żąda, żeby żadna rola nie wyszła na stronę napisem.
+
+    Rola, która została w docstringu, znaczy, że griffe nie zawołał `Odsyłaczy`,
+    bo hak zmienił nazwę między wydaniami — i awaria jest wtedy cicha:
+    strona buduje się zielono i wypisuje `:func:` w środku zdania.
+    """
+    zostały = [o.path for o in obiekty(pakiet) if o.docstring and ROLA.search(o.docstring.value)]
+    assert not zostały, f"rola została w docstringu, więc przekładu nie było: {zostały}"
 
 
 def zbuduj() -> None:
@@ -113,7 +211,16 @@ def main() -> None:
     zbierz_prozę()
     dołóż_cele_linków()
     wpisz_adres()
-    wypisz_referencję()
+    #  Pakiet czyta się tu raz i tym samym rozszerzeniem, którym czyta go
+    #  mkdocstrings przy budowaniu, żeby żądanie niżej mierzyło to, co wyjdzie
+    #  na stronę. Importu nie ma: griffe czyta źródło, a import żądałby Morfeusza.
+    pakiet = griffe.load(
+        "olski",
+        search_paths=[str(KORZEŃ)],
+        extensions=griffe.load_extensions(Odsyłacze),
+    )
+    wypisz_referencję(pakiet)
+    sprawdź_przekład(pakiet)
     zbuduj()
 
 

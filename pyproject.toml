@@ -31,16 +31,19 @@ dev = ["pytest>=8", "reuse>=6", "ruff>=0.5"]
 #  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.
 witryna = ["gunicorn>=22"]
 #  Strona dokumentów, czyli drugi tor poza paczką: mkdocs składa prozę
-#  repozytorium, a pdoc wypisuje referencję z docstringów. Suita ich nie
-#  instaluje, tak jak nie instaluje gunicorna, bo blok checków nie buduje strony
-#  (docs/publikacja.md). pymdown-extensions przychodzi z motywem, a stoi tu
-#  wprost, bo `mkdocs.yml` woła z niego slugify.
+#  repozytorium, a mkdocstrings wypisuje w niej referencję z docstringów. Suita
+#  ich nie instaluje, tak jak nie instaluje gunicorna, bo blok checków nie buduje
+#  strony (docs/publikacja.md). pymdown-extensions przychodzi z motywem, a stoi
+#  tu wprost, bo `mkdocs.yml` woła z niego slugify. Tak samo griffe: przychodzi
+#  z mkdocstrings, a `dokumentacja.py` czyta nim drzewo modułów i przekłada rolę
+#  reStructuredText na odsyłacz. Paczka nazywa się `griffelib`, a moduł `griffe`.
 #  Górna granica na mkdocs jest nazwana: wydanie 2.0 zdejmuje system wtyczek
-#  i przepisuje motywy, a strona stoi na motywie i na wtyczce wyszukiwania.
+#  i przepisuje motywy, a strona stoi na motywie i na dwóch wtyczkach.
 dokumentacja = [
+  "griffelib>=2",
   "mkdocs>=1.6,<2",
   "mkdocs-material>=9",
-  "pdoc>=15",
+  "mkdocstrings[python]>=1",
   "pymdown-extensions>=10",
 ]
 
