@@ -76,6 +76,6 @@ pomijane = []
 # rejestr piszący o programach wypisuje tu garść słów, a nie tysiąc. Wpisem jest
 # lemat, a nie forma, i sekcję tę pisze się ręką, tak samo jak leksykon wyżej.
 # Kogo obejmuje słowo „osoba” i czemu deklaracja idzie tym kierunkiem, mówi
-# sekcja o żądaniu osoby w `docs/warstwa-leksykalna.md`.
+# sekcja o żądaniu osoby w `docs/walencja.md`.
 [osoby]
 lematy = ["anotator", "autor", "człowiek", "czytelnik", "ktoś"]

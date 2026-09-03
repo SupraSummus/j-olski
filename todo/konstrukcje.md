@@ -259,7 +259,7 @@ bo zasięg koordynacji rozstrzyga się tam, gdzie stoi to, co człon zawiera.
 Wolny celownik nie ma u olskiego pozycji żadnej:
 `Kompilator wyprowadza psa agentowi.` pada, `Kompilator wyprowadza psa.` przechodzi,
 a pierwsze jest polszczyzną
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem)).
+([`docs/walencja.md`](../docs/walencja.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem)).
 Leksykonem tego nie wpuścić, bo Walenty wypisuje pozycje żądane,
 a ten celownik dochodzi do orzeczenia dowolnego czasownika,
 więc ruchem jest pozycja okolicznika obok wyrażenia przyimkowego i przysłówka.

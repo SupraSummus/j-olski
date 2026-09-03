@@ -115,7 +115,7 @@ co widać po zawartości katalogu, w który się instaluje,
 więc tamta droga żąda łańcucha narzędzi spoza PyPI
 i zabiera to, co [`CLAUDE.md`](../CLAUDE.md#checks) ma za instalację jednym poleceniem.
 Plik czytany przez oba kierunki kupuje przy tym to samo,
-co kupuje [leksykon walencyjny](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+co kupuje [leksykon walencyjny](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej):
 że `komit` jest słowem raz, a nie dwa razy.
 
 Czym wpis jest, zapadło po stronie analizy i wpis wskazuje leksem:

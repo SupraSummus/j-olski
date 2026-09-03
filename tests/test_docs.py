@@ -44,10 +44,13 @@ DOCUMENTS = (
 #: Every module the repository holds, because a citation rots wherever it
 #: stands: in the grammar, in the harness beside it, in a spike whose whole point
 #: is a document, or in a test's docstring.
+#: Plik danych stoi tu obok modułów, bo nagłówek wyprowadzony przez generator
+#: cytuje sekcję tak samo jak docstring, a poza tą listą nie widzi go nic.
 SOURCES = sorted(
     path
     for package in ("olski", "harness", "opowieści", "tests", "witryna")
-    for path in (ROOT / package).rglob("*.py")
+    for wzorzec in ("*.py", "*.txt")
+    for path in (ROOT / package).rglob(wzorzec)
 )
 WORKFLOW = ROOT / ".github" / "workflows" / "checks.yml"
 RELATIVE_LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s]+)\)")

@@ -18,7 +18,7 @@ SPDX-License-Identifier = "MIT"
 #  Utwór zależny od Walentego: warunek ShareAlike obejmuje go wprost, a §4 tamtej
 #  licencji rozciąga ją także na pobranie istotnej części bazy.
 #  Skąd plik powstaje, mówi
-#  docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
+#  docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
 [[annotations]]
 path = "olski/leksykon.txt"
 SPDX-FileCopyrightText = [
@@ -29,7 +29,7 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 #  Utwór zależny od tego samego słownika, tylko od wydania TEI: rola i klasa
 #  rzeczy, których pozycja żąda. Skąd plik powstaje, mówi
-#  docs/warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
+#  docs/walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
 [[annotations]]
 path = "olski/żądania.txt"
 SPDX-FileCopyrightText = [

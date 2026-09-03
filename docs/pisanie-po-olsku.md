@@ -137,7 +137,7 @@ i nie zależy od tego, kto go zdjął.
 Zasłanianie widać najlepiej na pozycji, którą zmierzono z obu stron naraz.
 Dopełnienie w celowniku i w dopełniaczu jest taką pozycją.
 Nad bankiem drzew kupuje przeszło sto zdań
-([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+([walencja.md](walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
 a nad prozą tego repozytorium podnosi liczbę zdań przyjętych o pojedyncze sztuki,
 choć z tego fotela była brakiem najdroższym.
 Zdania tej prozy mają po kilka zatrzymań naraz,
@@ -291,7 +291,7 @@ bo odczytanie z siedmioma przypadkami widać w nim po samym znaczniku.
 Pytanie sąsiednie zadaje `--żądania`:
 czego czasownik żąda od słowa, które autor postawił w jego pozycji.
 Czy to słowo żądanie spełnia, ten wykaz nie mówi
-([warstwa-leksykalna.md](warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+([walencja.md](walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
 
 ## Kolejka czytana po formie mówi to, czego nie mówi po części mowy
 

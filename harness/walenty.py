@@ -25,7 +25,7 @@ Zdanie o celowniku i zdanie o dopełniaczu są twierdzące jak to o bezokoliczni
 mówią, że czasownik bierze dopełnienie w tym przypadku. Rama domyślna przypadka
 poza biernikiem nie ma, więc milczenie o lemacie odmawia mu tej pozycji, a
 gramatyka wpuszcza ją tym lematom, które Walenty tu wymienia
-(docs/warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu).
+(docs/walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu).
 
 Zdanie o zdaniu podrzędnym wprowadzonym przez ``że`` jest twierdzące tak samo i
 mówi, że stoi przy czasowniku to, co ktoś mówi, wie albo w co nie wierzy.
@@ -67,7 +67,7 @@ ten moduł, wyłącza swoje lematy stąd.
 
 Pliki, które to czyta, nie stoją w repozytorium: pobiera się je tak, jak bank
 drzew, i polecenie trzyma
-docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
+docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on.
 """
 
 from __future__ import annotations
@@ -292,7 +292,7 @@ def bierze_celownik_przy_wypełnieniu(schematy_lematu: Sequence[str]) -> bool:
     Które wypełnienie przy nim stoi, to zdanie przemilcza, i jest to ta sama
     zgrubność, którą ma :data:`olski.subset.RAMA_DOMYŚLNA`.
     Co każde z tych trzech zawężeń kosztuje w lematach, trzyma
-    docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+    docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
     """
     for schemat in _ramowe(schematy_lematu):
         stoi_celownik = stoi_wypełnienie = False
@@ -443,7 +443,7 @@ NAGŁÓWEK = f"""\
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/walenty.py`, który mówi, co stąd bierze, a czego nie;
-# ramę nazywa `olski/subset/rama.py`, a docs/warstwa-leksykalna.md trzyma polecenie
+# ramę nazywa `olski/subset/rama.py`, a docs/walencja.md trzyma polecenie
 # wraz z tym, skąd wziąć pliki wejściowe.
 """
 

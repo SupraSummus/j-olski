@@ -90,7 +90,7 @@ whose lexicons are generated from it.
 Olski's valency lexicon is derived from it,
 taking the handful of facts its own frame can carry and leaving the rest,
 for the reasons
-[warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
+[walencja.md](walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on) gives.
 <http://walenty.ipipan.waw.pl/>
 
 Warstwę semantyczną niesie wydanie TEI z 18 kwietnia 2016,
@@ -110,7 +110,7 @@ więc żądanie czyta się z samego Walentego,
 a o tym, czy słowo w zdaniu klasę spełnia, orzeka dopiero wordnet.
 Żądanie wychodzi stąd do `olski/żądania.txt`,
 a co ten przekład bierze, a czego nie, mówi
-[warstwa-leksykalna.md](warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu).
+[walencja.md](walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu).
 Co ta warstwa daje olskiemu, wycenia
 [disambiguation.md](disambiguation.md#rozstrzygnąć-da-się-tylko-to-co-las-trzyma).
 <https://aclanthology.org/L16-1418.pdf>

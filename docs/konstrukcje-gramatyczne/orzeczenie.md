@@ -146,7 +146,7 @@ Polszczyzna stawia tę formę w dwóch rolach i olski bierze obie.
 Sama orzeka o podmiocie tak jak każda inna forma `być`:
 `Cena będzie niska.`, `Testem będzie konkurs krajowy.`
 Ramę bierze przy tym z leksykonu razem z resztą form tego lematu
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc biernika nie weźmie i `Cena będzie plik.` nie ma wyprowadzenia.
 Nad czasownikiem niedokonanym składa czas przyszły złożony:
 `Program będzie zapisywał ustawienia.`, `Program będzie zapisywać ustawienia.`
@@ -199,7 +199,7 @@ razem z resztą tego, czego ta cząstka nie obejmuje
 
 Cząstka `się` jest dla leksykonu drugim wymiarem lematu, a nie określeniem:
 `otwierać` bierze dopełnienie w bierniku, a `otwierać się` go nie bierze
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 Należy przez to do czasownika, a nie do formy, w jakiej on stoi,
 więc pozycję ma przy formie osobowej, przy bezokoliczniku i przy imiesłowie
 czynnym, a ile ich jest przy każdej z nich, mówi polszczyzna.
@@ -283,7 +283,7 @@ zwrotne, a wybiera między nimi znaczenie.
 Tam, gdzie wybiera leksykon, wypuszcza jedno:
 `Zebranie ma się odbyć.` ma odczytanie z `odbyć się`
 i nie ma go z `mieć się`, bo `mieć się` bezokolicznika nie bierze
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 Zostaje przez to konkurencja przy czasowniku zwrotnym,
 któremu Walenty bezokolicznik daje: `Nie daj się schwytać.`
 wychodzi dwoma odczytaniami, bo `dać się` bierze bezokolicznik
@@ -623,7 +623,7 @@ Orzekają one bez podmiotu tak samo jak predykatyw wyżej,
 więc rolę i oba ciała zdania biorą te same co on,
 a różnica jest jedna: ta forma jest czasownikiem,
 więc ramę bierze z leksykonu swojego lematu
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 a nie z jednej ramy wpisanej obok zamkniętej listy słów.
 Widać ją na lemacie, o którym leksykon mówi, że biernika nie bierze:
 `Pomagano usterkę.` jest odrzucone tam, gdzie `Zgłoszono usterkę.` się wyprowadza.
@@ -744,7 +744,7 @@ Szerokość ramy domyślnej pozycja dziedziczy i nie pogarsza.
 w roli dopełnienia, choć `zejść` dopełnienia nie bierze,
 a to samo czytanie ma już `Córka chciała zejść krawca.`,
 bo biernik daje każdemu czasownikowi
-[rama domyślna](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+[rama domyślna](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej).
 Zawężenie postawione w tej jednej pozycji nie naprawiłoby tego,
 tylko odebrałoby jeden szyk temu, co gramatyka dopuszcza w drugim,
 więc naprawa jest po stronie leksykonu.

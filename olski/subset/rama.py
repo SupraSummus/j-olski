@@ -5,7 +5,7 @@ dopełnienie mówi, którą pozycję zajmuje, a przecina jedno z drugim unifikac
 Ramę czasownika podaje leksykon (``olski/leksykon.txt``),
 a ramę domyślną — tę, którą dostaje czasownik spoza leksykonu — deklaruje ten moduł;
 wywód, czemu leksykon ma ramę domyślną nad sobą, trzyma
-docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 """
 
 from __future__ import annotations
@@ -123,7 +123,7 @@ def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
 #:
 #: Wartość jest jedna, bo jeden przypadek ma tę parę zmierzoną: dopełniacz obok
 #: wypełnienia bierze u Walentego kilkadziesiąt lematów, a celownik kilka tysięcy;
-#: liczby trzyma docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+#: liczby trzyma docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
 DRUGA_CELOWNIK = "dat"
 
 
@@ -207,7 +207,7 @@ def _walencja() -> tuple[
 #: Walencja: co czasownik bierze, wypisane lematami, a nie produkcjami.
 #: Leksykon jest otwarty i ma ramę domyślną, więc czasownik dopisuje się wpisem, a
 #: nie produkcją; czym taki leksykon jest, a czym nie jest, wywodzi
-#: docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+#: docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 WALENCJA, WALENCJA_ZWROTNA = _walencja()
 
 
@@ -239,7 +239,7 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     Pyta on o formę, a nie o jedno jej czytanie, bo rama jest własnością formy:
     zapytany o czytanie rozdziela lematy zamiast form i wpuszcza ramę domyślną
     formie, której lemat leksykon wymienia. Reprodukcję, cenę i zysk trzyma
-    docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+    docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej.
 
     Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo

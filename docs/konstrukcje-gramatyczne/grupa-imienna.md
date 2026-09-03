@@ -273,7 +273,7 @@ Lemat leży poza unifikacją, bo jest osobnym testem w `bierze`
 z `olski/grammar.py`, więc negacja jest tam tym samym testem odwróconym.
 Symetria jest zatem z `lemmas`, a nie z cechami,
 i to samo rozstrzygnęło, czym jest klasa domyślna
-[leksykonu walencyjnego](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej):
+[leksykonu walencyjnego](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej):
 bierze ona każdą formę, której lematów leksykon nie wymienia,
 i jest to drugi warunek ujemny, jaki ta gramatyka stawia.
 
@@ -282,7 +282,7 @@ Wykluczenie zaimka mówi „tym słowem nie bądź”, więc pyta o jedno czytan
 klasa domyślna mówi „tą formą nie bądź”, więc pyta o wszystkie jej lematy naraz.
 Klasa domyślna bez tego zasięgu przepuszcza formę, którą miała zatrzymać,
 a co jej tą drogą przeszło, mówi
-[sekcja o leksykonie](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+[sekcja o leksykonie](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej).
 Wykluczenia leksykalne zostają przy czytaniu, bo o czytaniu mówią.
 Czytanie i forma nie są tym samym słowem:
 `nie` jest u Morfeusza cząstką `nie` i formą `on`,
@@ -733,7 +733,7 @@ a polszczyzna nie daje mu ani jednego, ani drugiego.
 Pozycje są dwie: dopełnienie oraz grupa pod przyimkiem.
 Dopełnienie powtarza ciała grupy imiennej —
 biernik, dopełniacz negacji oraz celownik i dopełniacz z leksykonu
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)) —
+([walencja.md](../walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)) —
 a stoją one wypisane, bo z listy leksykonu wchodzą tu dwie pozycje z trzech:
 bezokolicznik przypadkiem nie jest.
 Mianownika ta część mowy nie ma i mieć nie może,

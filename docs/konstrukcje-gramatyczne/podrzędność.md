@@ -70,7 +70,7 @@ a nie stałą, którą raz się zapisuje
 
 Czym jest zdanie podrzędne dopełnieniowe dla czasownika,
 tym jest dopełnienie i bezokolicznik:
-pozycją ramy, którą [leksykon walencyjny](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+pozycją ramy, którą [leksykon walencyjny](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 czasownikowi daje albo odbiera.
 Wchodzi więc jako czwarta pozycja ramy domyślnej,
 a nie jako produkcja dopisana do każdego szyku zdania z osobna,
@@ -397,7 +397,7 @@ Pod żywą morfologią jedno z tych zdań wchodzi przy tym
 nie tym czytaniem, o które szło.
 `Myślę o tym człowieku, który mnie podglądał.` wychodzi
 pytaniem zależnym w pozycji, którą każdemu czasownikowi daje
-[rama domyślna](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+[rama domyślna](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a nie zdaniem względnym:
 zdanie względne z wysuniętym podmiotem stawia dopełnienie za czasownikiem,
 więc `mnie podglądał` nie ma w nim gdzie stanąć.
@@ -496,7 +496,7 @@ niesie narzędnik, którego olski bez przyimka nie bierze
 ([subset.md](../subset.md#what-it-does-not-cover-yet)),
 a celownik na czole czyta ten napis jako dopełnienie `wychodzić`.
 Bezokolicznik z tej samej listy
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu))
+([walencja.md](../walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu))
 zostaje na zewnątrz z powodu ogólniejszego:
 wypełnienie inne niż dopełnienie na czoło się nie wysuwa.
 
@@ -653,7 +653,7 @@ a kosztuje czytaniem nieprawdziwym, którego po werdykcie nie widać:
 w którym zdanie z `gdzie` jest pytaniem zależnym pod `wchodzi`.
 Bierze się ono stąd, że pytanie zależne stoi w ramie domyślnej,
 czyli dostaje je każdy czasownik spoza leksykonu
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 a `wchodzić` pytania zależnego nie bierze.
 Lemat ten wraca więc razem z zawężeniem tamtej pozycji do leksykonu;
 `todo/` trzyma ten przebieg.
@@ -834,7 +834,7 @@ nieprawdziwe i nie daje im nic w zamian.
 - **Ciąg pytań zależnych pod jednym czasownikiem.**
   `Drzewo mówi, co jest tematem, a co jest nowe.`
   Drugie wypełnienie bierze przy czasowniku sam celownik
-  ([warstwa-leksykalna.md](../warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+  ([walencja.md](../walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
   więc pozycję ramy zajmuje ciąg cały,
   a znakiem tego ciągu jest spójnik, a nie sam przecinek
   ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)).
@@ -939,7 +939,7 @@ któremu ta pozycja dokłada drugie czytanie,
 bo `, co` z pytaniem zależnym dzieli napis co do znaku.
 Właścicielem tej ceny nie jest ta pozycja, tylko rama domyślna:
 pozycję pytania zależnego daje ona każdemu czasownikowi
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc drugie czytanie wychodzi i tam, gdzie czasownik pytania nie żąda.
 Zawężenie tej pozycji do leksykonu trzyma `todo/`,
 i ten pomiar jest argumentem za nim.

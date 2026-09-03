@@ -150,7 +150,7 @@ trzyma tamto razem z jego parą.
 
 Wiersz żądania nazywa dwie pozycje ramy, a plik żądań ma ich osiem.
 `--żądania` mówi o podmiocie i o dopełnieniu, bo tyle nazywa streszczenie
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)),
+([`docs/walencja.md`](../docs/walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)),
 a poza wierszem zostaje wyrażenie przyimkowe wraz z bezokolicznikiem,
 zdaniem podrzędnym i pytaniem zależnym.
 Granicę tę dziedziczy `--osoby`, więc ruch kupuje dwie flagi naraz,
@@ -200,7 +200,7 @@ Fraza bezokolicznikowa nie dostaje wiersza żądania, choć ma własną ramę.
 Zejście po role staje na niej (`własna_rama` w `DEKLARACJA`), żeby dopełnienie
 `edytować` nie dostało żądania czasownika stojącego nad nim, więc `Autor zamierzył
 edytować dokument.` milczy o dopełnieniu w ogóle
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+([`docs/walencja.md`](../docs/walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
 Ruchem jest ta fraza czytana jak zdanie składowe: jej głowa rządzi ramą,
 a jej rozpiętość jest zakresem, w którym szuka się wypełnień.
 Przeszkodą jest to, gdzie stoi zespół czasownikowy tej frazy:
