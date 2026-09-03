@@ -77,8 +77,9 @@ class Raport:
     szczeliny: collections.Counter = field(default_factory=collections.Counter)
     #: Werdykt olskiego nad zdaniami ze szczeliną.
     werdykty: collections.Counter = field(default_factory=collections.Counter)
-    #: Na czym stanęła analiza tych z nich, których olski nie wyprowadza. To jest
-    #: ta liczba, po której widać, czy nieciągłość jest ich najbliższym blokerem.
+    #: Na czym stanęła analiza tych z nich, których olski nie wyprowadza.
+    #: Zatrzymanie jest tą liczbą, po której widać,
+    #: czy nieciągłość jest ich najbliższym blokerem.
     blokery: collections.Counter = field(default_factory=collections.Counter)
     #: Werdykt olskiego nad zdaniami, którym szczelina wypadła poza drzewem
     #: wybranym. Werdykt, a nie sama suma, bo cała ta liczba jest o zdania

@@ -311,7 +311,7 @@ Wprowadzenie mówi o samym parserze, więc czytelnik z zewnątrz
 ([`docs/roles.md`](../docs/roles.md#ktoś-kto-trafia-tu-pierwszy-raz))
 dostaje nazwę, której nikt mu nie przedstawił
 ([`CLAUDE.md`](../CLAUDE.md#the-reader-goes-sentence-by-sentence)).
-To samo dotyka zdania nad listą: obiecuje ono jeden komponent,
+Usterka ta dotyka też zdania nad listą: obiecuje ono jeden komponent,
 a ostatnia pozycja mówi o składzie, czyli nie o nim.
 Ruchem jest jedno zdanie we wprowadzeniu strony, które nazywa oba tory,
 oraz przepisane zdanie nad listą.

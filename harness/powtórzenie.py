@@ -95,11 +95,11 @@ class Pomiar:
     #: Z nich te, które mają za sobą choć jedno zdanie tego samego akapitu.
     przyłączeń_z_sąsiedztwem: int = 0
     odpowiedzi: list[Odpowiedź] = field(default_factory=list)
-    #: To samo bez warunku na kopulę, czyli cena tego warunku w granicy akapitu.
+    #: Te same odpowiedzi bez warunku na kopulę, czyli cena tego warunku w granicy akapitu.
     odpowiedzi_z_kopulą: list[Odpowiedź] = field(default_factory=list)
-    #: To samo, gdy granicą sąsiedztwa jest dokument, a nie akapit.
+    #: Te same odpowiedzi, gdy granicą sąsiedztwa jest dokument, a nie akapit.
     odpowiedzi_bez_granicy: list[Odpowiedź] = field(default_factory=list)
-    #: To samo dla każdej reguły kandydata z :data:`REGUŁY`, po nazwie reguły.
+    #: Te same odpowiedzi dla każdej reguły kandydata z :data:`REGUŁY`, po nazwie reguły.
     #: Bez granicy akapitu, bo w jej granicy każda z nich milczy tak czy owak.
     warianty: dict[str, list[Odpowiedź]] = field(default_factory=dict)
 

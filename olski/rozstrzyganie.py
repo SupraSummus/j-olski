@@ -110,7 +110,7 @@ CZASOWNIKOWE = frozenset(
 #: bez tego warunku ``żądań`` i ``żądającym`` są jednym słowem.
 IMIENNE = frozenset({"subst", "ger", "depr"})
 
-#: To samo wraz z formą, której słownik nie zna, czyli czym wolno przedłużyć
+#: Te same części mowy wraz z formą, której słownik nie zna, czyli czym wolno przedłużyć
 #: łańcuch imienny: rejestr, o który chodzi, pisze nazwy własne i skróty,
 #: a Morfeusz oddaje je z ``ign`` w tagu.
 IMIENNE_LUB_NIEZNANE = IMIENNE | {"ign"}

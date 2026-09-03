@@ -159,7 +159,7 @@ def test_odczytanie_liścia_spoza_licencjonujących_zabiera_drzewu_wyprowadzenie
 
 
 def test_pozycja_odrzucona_przez_rodzica_zostaje_w_tablicy():
-    #  To jest przesłanka pierwszego z tych dwóch zdań i nie widać jej po liczbie
+    #  Przesłanka pierwszego z tych dwóch zdań stoi tu i nie widać jej po liczbie
     #  czytań: tablica domyka pozycję, gdy produkcja doszła do końca ciała, a o
     #  cechy pyta dopiero unifikacja po lesie. `zobacz` ma ramę domyślną, bez
     #  narzędnika, a notacja rejestru dostaje czytanie nieodmienne i przechodzi w

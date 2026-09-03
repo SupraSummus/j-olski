@@ -24,7 +24,7 @@ Nie ma wydania ani pakietu.
 Nie ma aplikacji, która to wszystko napędza
 ([README](../README.md#kierunek)).
 
-To jest stan, którego warto pilnować, a nie brak do nadrobienia.
+Stan ten warto pilnować, zamiast go nadrabiać.
 Użytkownik i twórca są zwykle dwiema osobami.
 O narzędziu decyduje wtedy ktoś, kto go nie używa.
 Używa go ktoś, kto nie ma o nim nic do powiedzenia.

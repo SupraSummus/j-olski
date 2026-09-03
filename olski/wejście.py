@@ -12,7 +12,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-from olski.markdown import MARKDOWN_SUFFIX, prose
+from olski import markdown, python
 
 
 def _wprost(tekst: str) -> str:
@@ -22,7 +22,10 @@ def _wprost(tekst: str) -> str:
 #: Rozszerzenie nazwy pliku → czym wyjąć z niego prozę. Rozszerzenia, którego tu
 #: nie ma, nie zgadujemy: plik zwykłego tekstu jest prozą w całości, a format
 #: przeczytany na chybił trafił dochodziłby do gramatyki ze swoim aparatem.
-CZYTNIKI: dict[str, Callable[[str], str]] = {MARKDOWN_SUFFIX: prose}
+CZYTNIKI: dict[str, Callable[[str], str]] = {
+    markdown.MARKDOWN_SUFFIX: markdown.prose,
+    python.PYTHON_SUFFIX: python.proza,
+}
 
 
 def proza(ścieżka: Path) -> str:

@@ -24,9 +24,8 @@ dependencies = ["markdown-it-py>=3", "morfeusz2>=1.99"]
 
 [project.optional-dependencies]
 #  `reuse` sprawdza deklarację z `REUSE.toml` i wchodzi tędy z tego samego powodu
-#  co reszta: instaluje ją blok checków. `pytest-xdist` też, bo ten blok puszcza
-#  suitę równolegle (CLAUDE.md, sekcja `Checks`).
-dev = ["pytest>=8", "pytest-xdist>=3", "reuse>=6", "ruff>=0.5"]
+#  co reszta: instaluje ją blok checków.
+dev = ["pytest>=8", "reuse>=6", "ruff>=0.5"]
 #  Serwer HTTP witryny, czyli jedyna zależność bocznego toru. Aplikacja jest
 #  funkcją WSGI ze standardowej biblioteki, więc suita nie woła gunicorna, a
 #  klon bez tego dodatku uruchamia witrynę przez `python3 -m witryna`.

@@ -107,9 +107,9 @@ def _inline(nodes: Iterable[SyntaxTreeNode]) -> str:
     """Złóż prozę akapitu z tego, co zostawiają po sobie jego konstrukcje.
 
     Konstrukcja, po której nic nie zostaje — obrazek bez opisu, komentarz HTML,
-    surowy tag — zabiera ze sobą odstęp, który przed nią stał. To jest ta
-    usterka, przeciw której moduł powstał: kasowanie, które odstęp zostawia,
-    dochodzi do gramatyki jako znak, który ktoś wpisał.
+    surowy tag — zabiera ze sobą odstęp, który przed nią stał. Kasowanie, które
+    ten odstęp zostawia, jest usterką, przeciw której moduł powstał: dochodzi
+    ono do gramatyki jako znak, który ktoś wpisał.
 
     Tekst idzie osobną gałęzią właśnie dlatego, a nie dla porządku. Parser
     stawia węzeł tekstu pustej długości tam, gdzie sam nic nie zjadł — za twardym

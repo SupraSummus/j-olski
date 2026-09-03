@@ -63,7 +63,7 @@ from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 
 from olski.document import Document
-from olski.morph import Reading
+from olski.morph import Reading, zgadza
 from olski.parse import Leaf, Node, Tree, liście
 from olski.subset import DEKLARACJA
 from olski.werdykt import Verdict
@@ -79,8 +79,9 @@ ZAIMEK = "ppron3"
 #: kandydat odsyłałby czytelnika do jeszcze wcześniejszego zdania.
 IMIENNE = frozenset({"subst", "depr"})
 
-#: Cechy, którymi zaimek zgadza się z rzeczą. Przypadka wśród nich nie ma,
-#: bo przypadka żąda pozycja, w której zaimek stoi, a nie rzecz, którą on podejmuje.
+#: Cechy, którymi zaimek zgadza się z rzeczą (:func:`olski.morph.zgadza`).
+#: Przypadka wśród nich nie ma, bo przypadka żąda pozycja, w której zaimek stoi,
+#: a nie rzecz, którą on podejmuje.
 ZGODNE = ("number", "gender")
 
 
@@ -144,32 +145,16 @@ def _zgłoszenia(verdict: Verdict, obok: Verdict | None) -> tuple[Odniesienie, .
     for zaimek in zaimki:
         odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]
         if any(
-            głowa.span[1] <= zaimek.span[0] and _zgadza(odczytania, _imienne(głowa))
+            głowa.span[1] <= zaimek.span[0] and zgadza(odczytania, _imienne(głowa), ZGODNE)
             for głowa in własne
         ):
             continue
-        zgodne = [rzecz for rzecz in rzeczy if _zgadza(odczytania, rzecz.odczytania)]
+        zgodne = [rzecz for rzecz in rzeczy if zgadza(odczytania, rzecz.odczytania, ZGODNE)]
         if len(zgodne) > 1:
             zgłoszenia.append(
                 Odniesienie(zaimek.segment.form, tuple(rzecz.forma for rzecz in zgodne))
             )
     return tuple(zgłoszenia)
-
-
-def _zgadza(zaimek: Sequence[Reading], rzecz: Sequence[Reading]) -> bool:
-    """Czy któreś odczytanie zaimka zgadza się z którymś odczytaniem rzeczy.
-
-    Parami odczytań, a nie sumą cech po obu stronach.
-    `je` jest liczbą pojedynczą rodzaju nijakiego
-    albo liczbą mnogą rodzaju niemęskoosobowego,
-    a suma tych dwóch odczytań wpuszcza pojedynczą męską, której to słowo nie ma,
-    i zgadza `je` wtedy z `program`.
-    """
-    return any(
-        all(jedno.tag.get(cecha) & drugie.tag.get(cecha) for cecha in ZGODNE)
-        for jedno in zaimek
-        for drugie in rzecz
-    )
 
 
 def _rzeczy(czytania: Sequence[Node]) -> list[_Rzecz]:
@@ -201,7 +186,7 @@ def _głowy(drzewa: Iterable[Tree]) -> Iterator[Leaf]:
     wywód trzyma docstring modułu.
     Głowa bez odczytania imiennego odpada tutaj, a nie u pytającego,
     bo zgodność liczy się nad odczytaniami imiennymi i nad żadnymi innymi
-    (:func:`_zgadza`), więc taka głowa nie zgodziłaby się z niczym.
+    (:func:`olski.morph.zgadza`), więc taka głowa nie zgodziłaby się z niczym.
     """
     for drzewo in drzewa:
         if isinstance(drzewo, Leaf):

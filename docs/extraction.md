@@ -1,4 +1,4 @@
-# Markdown in, prose out
+# Dokument i moduł wchodzą, proza wychodzi
 
 The grammar takes plain Polish sentences,
 and the bodies it is measured against
@@ -10,6 +10,17 @@ więc dokument sprawdza się tak, jak leży:
 ```sh
 python3 -m olski.check korpus/*.md
 ```
+
+Moduł dochodzi tą samą drogą, przez `olski/python.py`,
+bo docstring i blok komentarza są prozą tych samych reguł
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)):
+
+```sh
+python3 -m olski.check olski/wejście.py
+```
+
+Które rozszerzenie czym się czyta, mówi `CZYTNIKI` w `olski/wejście.py`,
+a rozszerzenia, którego tam nie ma, ten krok nie zgaduje.
 
 Krok osobny zostaje przy korpusie,
 bo pomiar żąda dwóch rzeczy, których sprawdzenie pliku nie żąda:
@@ -82,6 +93,39 @@ Ekstrakcja stała przedtem poza paczką z granicy poprzedniej,
 czyli z tego, że czytanie formatu jest inną robotą niż wyprowadzanie zdania.
 Kosztowało to autora krok przed sprawdzeniem własnego pliku,
 a nie broniło przed niczym: własnego Markdownu i tak nie piszemy.
+
+## W module jednostką jest docstring, a reST czyta wzorzec
+
+Moduł miesza dwa języki z założenia:
+słowa kluczowe, klucze konfiguracji i API bibliotek zostają po angielsku,
+a prozę i nazwy bierzemy po polsku
+([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Udział diakrytyków liczony nad całym plikiem nie ma więc nad czym stanąć,
+i dlatego jednostką jest tu docstring albo blok komentarza,
+a nie plik jak po tamtej stronie.
+Co jest jednym blokiem, mówi `olski/python.py`.
+
+Wyrzucony jest przykład, czyli blok zaczynający się od wcięcia:
+polecenie powłoki pod dwukropkiem albo kawałek kodu.
+Wiersze akapitu sklejają się w jeden, tak jak po tamtej stronie,
+a powód jest tu inny: pliku źródłowego nikt nie składa,
+więc złamanie wiersza w komentarzu nie jest tym, co czytelnik widzi jako koniec wiersza.
+
+Znaczniki reST w wierszu zdejmuje wzorzec,
+i odwraca to decyzję, którą [sekcja wyżej](#markdown-czyta-parser-a-nie-wzorzec)
+wywodzi dla Markdownu.
+Ceną są dokładnie te trzy klasy, o które płaci tamta decyzja:
+emfaza połykająca następną, wstawka kodowa czytana jako płotek
+i znacznik w zagnieżdżeniu.
+Wzorzec zostaje mimo to, bo parser reST nie jest zależnością tej paczki,
+a różni te dwa wejścia to, kto pisze czytany tekst:
+Markdown przychodzi z cudzego korpusu,
+a moduł piszemy tutaj i piszemy w nim jeden kształt komentarza.
+
+Prozy jest w modułach tego repozytorium przeszło trzy tysiące zdań,
+czyli więcej niż czwarta część tego, co niosą jego dokumenty.
+Sprawdza się ją tą samą komendą i osobno,
+bo `proza_repozytorium` w `harness/__init__.py` schodzi po samych dokumentach.
 
 ## What it drops and what it keeps
 
@@ -352,7 +396,7 @@ The counts of single marks beside it — the dashes, the Polish quotation marks 
 were taken with a pack of counting rules that went with the linter,
 so those columns are figures this repository no longer has a command for.
 
-Markdown is the only format this reads,
+Markdown and Python are the formats this reads,
 and the corpora that come in others still reach their figures by hand:
 [corpora.md](corpora.md#how-the-counts-here-were-taken)
 says which of them that is,

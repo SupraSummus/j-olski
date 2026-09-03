@@ -114,7 +114,7 @@ def odmień(nazwa: str, pos: str, **żądane: str) -> str:
     czyli w miejscu, w którym autor o żaden wybór nie pytał.
 
     Gdzie zostaje kilka form jednego leksemu, bierze pierwszą.
-    To zostaje jedynym miejscem, w którym kompilator wybiera i nie mówi o tym,
+    Wybór ten zostaje jedynym miejscem, w którym kompilator wybiera i nie mówi o tym,
     a reszta wyborów stoi w drzewie, które napisał autor; trzyma to ``todo/``.
     Wybiera przy tym z form, które ``paradygmat`` już przepuścił,
     więc forma odesłana poza rejestr nie stoi tu ani pierwsza, ani żadna:

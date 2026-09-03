@@ -122,7 +122,7 @@ def test_pierwszy_świadek_z_odpowiedzią_wygrywa_z_dalszymi():
 def test_warstwa_nie_rusza_werdyktu():
     """Zdanie rozstrzygnięte przez warstwę zostaje dla olskiego wieloznaczne.
 
-    To jest cała różnica między tą warstwą a rankingiem wstawionym w werdykt,
+    Różnica między tą warstwą a rankingiem wstawionym w werdykt jest tu cała,
     i jest to różnica, którą ``docs/disambiguation.md`` wywodzi z pomiaru.
     """
     (werdykt,) = check("Daj przepis na faworki.")

@@ -44,7 +44,7 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   zbiera feedback z fotela użytkownika.
   Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
 - [extraction.md](extraction.md)
-  prowadzi dokument w Markdownie do gramatyki
+  prowadzi dokument w Markdownie i prozę modułu do gramatyki
   i mówi, co ten krok po drodze zmyśla.
 - [corpora.md](corpora.md) przegląda polszczyznę pisaną przez ludzi
   i mówi, co każdy kandydat na korpus niesie w swoim rejestrze.
@@ -100,8 +100,9 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 Linter jest wykrywaczem wzorców prozy
 i jednym z [celów](roadmap.md#cele).
 
-- [linter.md](linter.md) wylicza cztery osie reguły
-  i mówi, co zamknęło wycofany pakiet reguł.
+- [linter.md](linter.md) wylicza cztery osie reguły,
+  mówi, co zamknęło wycofany pakiet reguł,
+  i trzyma pierwszy wykrywacz wzorca prozy wraz z tym, co pomiar odrzucił.
 - [firing-rates.md](firing-rates.md) mówi,
   co pakiet typograficzny robił nad polszczyzną, którą ktoś napisał.
   Nazywa cenę, za którą pakiet został wycofany.

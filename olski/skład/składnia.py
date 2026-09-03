@@ -302,7 +302,7 @@ def wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
 class Wyróżnienie:
     """Konstytuent wraz z tym, czym jest w zdaniu: tematem albo rematem.
 
-    To jest ta kategoria, którą polszczyzna niesie szykiem.
+    Kategorię tę polszczyzna niesie szykiem.
     Drzewo mówi, o czym zdanie jest i co o tym dokłada,
     a kolejność słów jest z tego wnioskiem, wyciąganym przy linearyzacji.
     Wariantu szyku dopisanego do linearyzacji tu nie ma i nie ma być,

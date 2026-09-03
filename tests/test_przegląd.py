@@ -66,7 +66,7 @@ def test_zdanie_któremu_polszczyzna_role_przypina_nie_zgłasza_się(drzewo, kon
 
 
 def test_rzecz_spod_przyimka_nie_staje_w_parze_z_podmiotem():
-    """To jest ta różnica, dla której przegląd bierze drzewo, a nie napis.
+    """Różnica ta jest tą, dla której przegląd bierze drzewo, a nie napis.
 
     `Wzrok` i `kamień` stoją tu w formach nierozróżnialnych i przy jednym czasowniku,
     czyli tak samo jak para, którą przegląd zgłasza.
