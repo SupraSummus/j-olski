@@ -89,7 +89,7 @@ czym płaci [gramatyka kategorialna](../parsowanie.md#kierunek-produkcja-się-ro
 wieloznacznością pozorną, którą trzeba potem kwotować postacią normalną.
 Ciąg siedmiu członów nie jest przy tym przypadkiem z brzegu:
 tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
-([ustawy.md](../ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)),
+([ustawy.md](../ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem)),
 i tamta liczba mówi, ile taki mnożnik znaczy przy zdaniu,
 które wieloznaczność ma już z innego powodu.
 

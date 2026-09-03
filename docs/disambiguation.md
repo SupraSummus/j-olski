@@ -337,7 +337,7 @@ Najkrócej widać tę klasę na zdaniu z ustaw, bo czyta się je bez banku drzew
 wychodzi dwoma czytaniami, `zadania [ochrony ludności] i [obrony cywilnej]`
 oraz `zadania ochrony [ludności i obrony cywilnej]`,
 i werdykt milczy nad nim tak samo
-([ustawy.md](ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)).
+([ustawy.md](ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem)).
 Czy jest to ta sama pomyłka, którą
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
 opisuje w cudzym systemie — liczenie prób zamiast wyników —

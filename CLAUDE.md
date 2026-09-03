@@ -717,6 +717,11 @@ a `tests/test_docs.py` utrzymuje je równe,
 więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
 Workflow nie nosi znaczka.
 
+Push puszcza obok tego drugi workflow, który buduje dokumentację pod adresem.
+Wywraca go martwy link, więc jest sprawdzeniem prozy.
+Do bloku wyżej nie wchodzi, bo mkdocs i pdoc instaluje osobny dodatek.
+Decyzje o stronie trzyma [`docs/publikacja.md`](docs/publikacja.md).
+
 ## Pomiar i liczba, która po nim zostaje
 
 **Liczby kruchej nie wpisujemy do dokumentu.**

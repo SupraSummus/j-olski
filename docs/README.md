@@ -91,6 +91,9 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   na których nie zapadła decyzja.
 - [similar-work.md](similar-work.md) mówi,
   które obietnice stu kontrolowanych języków naturalnych ktoś naprawdę zmierzył.
+- [publikacja.md](publikacja.md) mówi, skąd bierze się dokumentacja pod adresem
+  i czemu nie stoi na domyślnym Jekyllu.
+  Referencja API wychodzi tam z docstringów.
 
 ## Linter
 

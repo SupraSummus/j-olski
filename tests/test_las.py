@@ -212,7 +212,7 @@ def test_rola_różniąca_czytania_zostaje_nazwana_zza_granicy_wyliczania():
     """Werdykt liczony po streszczeniach milczałby o wyborze, który to zdanie zostawia.
 
     Zdanie jest przepisem z rejestru ustaw
-    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem)
+    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem)
     i ma czytań więcej, niż `MAX_READINGS` wypisuje, a wypisane zgadzają się co
     do podmiotu. Ta zgoda jest przesłanką testu: gdy zniknie, zdanie przestaje
     pokazywać, o co tu idzie, a asercja niżej przechodzi sama z siebie.
@@ -382,7 +382,7 @@ def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
     zdaniem, więc nazwa wzięta z materiału daje na oboje jeden napis; wywód
     mieści docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań.
     Oba zdania są wypisane razem z werdyktem w
-    docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem.
+    docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem.
     """
     found = verdict(zdanie)
     [przyłączenie] = found.result.przyłączenia
@@ -479,7 +479,7 @@ def test_wiersz_o_konstytuencie_nazywa_najwęższy_z_nich(zdanie: str, ile: int,
     zarządu`, czyli konstytuent o innym początku. Naprawić trzeba w obu wypadkach
     jedno słowo, więc wiersz jest jeden i nazywa napis najkrótszy. Pierwsze
     zdanie jest ze Składnicy, drugie z ustawy o samorządzie gminnym
-    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z-6-ale-nie-jest-zarzutem).
+    (docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem).
     """
     found = verdict(zdanie)
     assert found.result.ile == ile, found.explain()
