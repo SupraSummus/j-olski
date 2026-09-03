@@ -226,7 +226,7 @@ mierzył, ile kosztuje orzecznik wpuszczony pod każdy czasownik:
 olski czyta je teraz tak, jak czyta je czytelnik — handel kwitnie w paszportach —
 a drzewo wzorcowe znaczy tam co innego.
 Odrzucenie zamieniło się więc na czytanie prawdziwe, a nie na zgodność
-([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Pod żywą morfologią rachunek jest inny i cała różnica jest w słowniku.
 Zdań z odczytaniem przybywa tam podobnie wiele, a przyjętych ubywa kilkanaście:
@@ -324,7 +324,7 @@ i po nim nie zostaje ani jedno
 ([niżej](#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
 Zdanie przyjęte z takim drzewem jest droższe od wieloznacznego,
 bo narzędzie o nim milczy
-([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
 więc każdy gospodarz dalszy zamienia werdykt fałszywy
 na werdykt o dwóch czytaniach.
 Kurs wychodzi przez to bliski jednemu do jednego:

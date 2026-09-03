@@ -253,7 +253,7 @@ i odbiera je bez produkcji, która by go zabraniała:
 więc nie ma czym być podmiotem zdania po przecinku.
 Tańsza z dwóch dróg do czytania, którego polszczyzna nie ma,
 prowadzi tędy, a nie przez wykluczenie w `admissible`
-([roadmap.md](../roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Cena była ceną pozycji, której gramatyka nie miała, a którą ten warunek nazwał.
 Pozycję tę stawia pytanie, więc `Który aktor robi na tobie największe wrażenie?`
@@ -814,7 +814,7 @@ nieprawdziwe i nie daje im nic w zamian.
   Zakupem jest jedno zdanie banku drzew, ceną zero pod obiema morfologiami,
   a szersze ciało kupowałoby więcej i kupowałoby właśnie tamtym czytaniem,
   więc rozstrzyga tu
-  [kierunek](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę), a nie pokrycie.
+  [kierunek](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście), a nie pokrycie.
 - **Zaimek względny o poprzedniku zaimkowym.**
   `To, co mogło się zepsuć, jest tanie.`,
   `Program zapisuje wszystko, co widzi.`
@@ -844,7 +844,7 @@ nieprawdziwe i nie daje im nic w zamian.
 
 Zakup i cena są różnicą wobec gramatyki bez tych pozycji,
 a między rejestrami rozchodzą się w tę stronę,
-którą [kierunek](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę) przewiduje.
+którą [kierunek](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście) przewiduje.
 Nad prozą tego repozytorium przybywa zdań przyjętych jednoznacznie,
 a każde z nich ma w tamtej gramatyce także czytanie ciągu współrzędnego;
 kilka zdań dostaje czytanie tam, gdzie tamta nie daje żadnego,

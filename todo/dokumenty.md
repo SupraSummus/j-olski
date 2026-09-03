@@ -212,7 +212,8 @@ a przebieg, którym ją policzono, stoi w gicie
 Właściciel trzyma ją w rzędzie wielkości albo granicą, a nie w pełnej precyzji,
 i mówi to [jego wstęp](../docs/konstrukcje-gramatyczne/README.md).
 Jedna cena stoi poza tą regułą i stoi tak dlatego, że nie ma sekcji:
-koordynację wycenia [etap 4](../docs/roadmap.md#etap-4-zdanie-złożone),
+koordynację wycenia
+[przelicznik kolejki](../docs/corpus.md#kolejka-obiecuje-więcej-niż-pozycja-oddaje),
 bo `docs/konstrukcje-gramatyczne/podrzędność.md` ma sekcję o tym,
 co ją dzieli od podrzędności,
 a nie o tym, co jej wpuszczenie kosztowało.

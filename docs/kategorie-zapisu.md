@@ -451,7 +451,7 @@ a rzecz pokazana bez podsumowania jest rzeczą, którą trzeba wskazać,
 i tego jedno zdanie proste nie robi.
 Wyszedł z tego `Opis` [powyżej](#zdanie-podrzędne-jest-tu-wskazaniem-rzeczy),
 czyli kategoria dziedziny w miejscu, w którym
-[roadmap.md](roadmap.md#etap-5-konstrukcje-których-żąda-readme) trzymała podrzędność,
+[roadmap.md](roadmap.md#czego-brakuje-pod-tym-kryterium) trzymała podrzędność,
 i pokrywa on z niej tyle, ile podrzędność wskazuje rzecz, a nie więcej.
 
 Drugie żądanie jest o rytm i stoi w tamtym katalogu wprost.

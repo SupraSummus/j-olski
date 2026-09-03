@@ -96,7 +96,7 @@ traconemu i gałęzi w `_role` ważą tyle samo.
 Zamyka go pytanie o czytanie: to, które ten ciąg dokłada, polszczyzna ma,
 więc dopisanie produkcji odbiera werdykt nieprawdziwy, a nie samą jednoznaczność,
 i po tej stronie stoi
-[kierunek](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+[kierunek](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
 
 Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
 `Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
@@ -294,7 +294,7 @@ Czego się po ruchu spodziewać, mówi zaimek zwrotny, czyli ten sam brak wpuszc
 ([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#zaimek-zwrotny-jest-terminalem-bo-nie-zgadza-się-z-niczym)):
 pozycja dopisana zabiera zdaniu jednoznaczność i zabiera mu zarazem werdykt
 nieprawdziwy, a wybór między tymi dwiema liczbami rozstrzyga kierunek
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Szyk `Będzie trzeba zmierzyć cenę.` nie ma ciała, a wywód i zdanie odrzucone stoją
 w [`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem).
@@ -341,7 +341,7 @@ przysłówkowym, bo Morfeusz daje `jak` oraz `ile` część mowy `adv`, a `jaki`
 przymiotnikową, i olski bierze te części mowy całe.
 Ruch ma przez to dwie połowy i pierwsza jest zawężeniem:
 czytanie okolicznikowe ma zejść, zanim wejdzie czoło, które je zastąpi
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 Czwarte z tych słów, `dlaczego`, weszło i zostawiło po sobie kształt,
 w który `jak` wchodzi wprost, bo pyta tak samo o okoliczność
 ([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)),
@@ -395,7 +395,7 @@ wychodzi z podmiotem `rekordy spodziewane`, a bank drzew orzeka tym imiesłowem
 Ruchem jest ciało z tym szykiem wraz z pomiarem, a cena jest widoczna przed nim:
 przydawka za rzeczownikiem zostaje, więc każde takie zdanie dostanie drugie czytanie
 zamiast pierwszego prawdziwego, czyli zamieni werdykt nieprawdziwy na wieloznaczność
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 Do przeczytania jest przedtem, ile zdań banku drzew stoi na tym czytaniu:
 wpis znalazło jedno, które przyszło do wiersza niezgodnych razem z ciągiem
 współrzędnym wyrażeń przyimkowych, a przebiegu po całym wierszu nikt nie zrobił.
@@ -417,7 +417,7 @@ a nie lemat dopisany do `CZĄSTKI`, bo tamta lista stawia cząstkę przy orzecze
 i nie odebrałaby ani wyrażenia przyimkowego, ani okolicznika.
 Do przeczytania jest, ile zdań banku drzew wychodzi dziś przez te dwa czytania,
 bo pozycja ma je zdjąć, a nie stanąć obok nich
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Cząstka `ani` przed liczebnikiem `jeden` nie ma ciała.
 `Rdzeń nie ma ani jednego wiersza.` i `Ani jeden wiersz nie woła witryny.` padają,

@@ -3,7 +3,7 @@
 Decisions that have been taken are marked as such;
 everything still open lives in [open-questions.md](open-questions.md).
 The direction this grammar is grown in, which has no end target, is in
-[roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
+[roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście),
 and the linter that stands beside it, whose rule pack is retired,
 is in [linter.md](linter.md#co-zamknęło-pakiet-reguł).
 The other direction over the same subset —
@@ -672,7 +672,7 @@ Role widoczne są przy tym dobre i o znaczeniu zdania luka nie kłamie:
 rozchodzi się drzewo, a nie odczyt.
 Rola wypełniona niczym nie jest jednak analizą, którą zatwierdził annotator,
 a [zdanie przeczytane odwrotnie zakupem nie
-jest](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+jest](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
 
 **Na wydruku ta cena nie wypada, choć luka napisu nie ma.**
 Streszczenie czytania nazywa rolę napisem wziętym ze zdania,
@@ -738,7 +738,7 @@ Gramatyka bezkontekstowa z cechami jest tym, na czym olski stoi,
 a nie tym, do czego zmierza:
 kierunek tego toru mówi, co ma zajść nad zdaniem,
 a nie czym ma być wyprowadzone,
-i trzyma go [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+i trzyma go [roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
 Wybór szczebla jest więc rachunkiem, a nie deklaracją.
 
 Ruszyć wolno obie warstwy.

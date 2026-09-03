@@ -541,8 +541,7 @@ z czego konstytuent się składa.
 
 Walencji produkcja nie mówi wcale, i jest to brak innego rodzaju niż tamte trzy.
 Nie ma jej skąd wyprowadzić, bo stoi w leksykonie,
-a dopisana produkcjami mnoży je przez czasowniki,
-co [etap 2](roadmap.md#etap-2-walencja) liczy jako powód swojej kolejności.
+a dopisana produkcjami mnoży je przez czasowniki.
 Wchodzi więc cechą, którą czasownik niesie z leksykonu,
 a to, co przy nim stoi, żąda w niej swojej pozycji
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).

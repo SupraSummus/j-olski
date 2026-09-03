@@ -555,7 +555,7 @@ Dla dwóch pierwszych zdań olski czytania prawdziwego nie ma,
 bo nie ma predykatywu `pora` ani `nie sposób` na swojej liście
 (`PREDYKATYWY` w `olski/subset/słowa.py`; co z tym zrobić, notuje `todo/`),
 więc odrzucenie mówi o nich prawdę, której `valid` nie mówiło
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Rama domyślna nie jest wygodą, tylko warunkiem, żeby żądanie było żądaniem.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,

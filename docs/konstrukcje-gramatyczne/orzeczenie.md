@@ -173,8 +173,8 @@ a większość tego, co zdejmują z odrzuconych, wychodzi wieloznaczna.
 Pod złotą morfologią ani jedno zdanie banku drzew nie rusza się pod obiema naraz,
 a pod żywą jedno, więc liczba jednej pozycji nie zależy od drugiej.
 Razem oddają przeszło jedną trzecią tego, co obiecywał wiersz kolejki,
-i jest to pierwszy pomiar, który oddał więcej, niż obiecywał przelicznik
-[etapu 6](../roadmap.md#etap-6-reszta-konstrukcji).
+i jest to pierwszy pomiar, który oddał więcej, niż obiecywał
+[przelicznik kolejki](../corpus.md#kolejka-obiecuje-więcej-niż-pozycja-oddaje).
 Ani jedno nowo przyjęte zdanie nie czyta się odwrotnie niż drzewo wzorcowe.
 Nad prozą tego repozytorium zdejmują z odrzuconych jedno zdanie
 i wychodzi ono wieloznaczne, bo ten rejestr pisze czas teraźniejszy.
@@ -718,7 +718,7 @@ a polszczyzna oba te czytania ma.
 Gramatyka bez tej pozycji wyprowadza samo drugie,
 czyli oddaje to zdanie werdyktem `valid` i przeczytane odwrotnie,
 niż czyta je czytelnik, a tego zabrania
-[kierunek toru](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+[kierunek toru](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
 
 Pozycję niesie osobny symbol, a nie ciało `wypełnienia`,
 i nie jest to wybór między dwoma zapisami jednej rzeczy:

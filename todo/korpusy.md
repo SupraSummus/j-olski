@@ -105,3 +105,20 @@ Do przeczytania jest
 [`docs/extraction.md`](../docs/extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem),
 bo druga ekstrakcja odpowiada na to samo pytanie odwrotnie
 i werdykt `fragment` jest tam odpowiedzią wybraną.
+
+Ekstrakcja oddaje zdania pojedynczo, a jednostką sprawdzaną jest tekst
+([`docs/roadmap.md`](../docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)),
+więc kolejność zdań i to, co je rozdziela, zaczyna ważyć na werdykcie.
+Nagłówek, pozycja listy i wiersz tabeli wychodzą stąd jako akapity,
+których nic nie punktuje, i przebieg liczy je osobno
+([`docs/extraction.md`](../docs/extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)),
+a rachunek nad tekstem potrzebuje o każdym z nich jednej rzeczy:
+czy niesie grupę imienną, do której wolno odesłać, czy odesłanie przerywa.
+Nagłówek niesie ją zwykle, a wiersz tabeli sąsiaduje z wierszem,
+którego autor nie czytał po kolei.
+Ruchem jest granica akapitu przenoszona przez ekstrakcję razem z jego rodzajem,
+zamiast samego ciągu zdań,
+oraz decyzja, które rodzaje rachunek nad tekstem przeskakuje.
+Do przeczytania jest, ile takich pozycji ma proza tego repozytorium
+i ile z nich rozdziela dwa zdania mówiące o sobie,
+bo dopiero ta druga liczba mówi, czy rzecz w ogóle boli.

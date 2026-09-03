@@ -224,3 +224,26 @@ Do rozstrzygnięcia jest, gdzie postawić granicę:
 a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
 więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
+
+Werdykt nie mówi o zaimku, którego tekst nie pozwala rozwiązać,
+a [cel](../docs/roadmap.md#cele) tego żąda, i jednostką tego żądania jest tekst
+([`docs/roadmap.md`](../docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
+`Są one czerwone.` przechodzi dziś samo, bez żadnego zdania przed sobą,
+bo `olski.check` liczy czytania jednego zdania i o sąsiedztwo nie pyta.
+Kandydatów na antecedens wylicza zgodność, a nie znaczenie:
+`one` żąda liczby mnogiej i rodzaju niemęskoosobowego,
+więc kandydatem jest każda grupa imienna przed nim, która jedno i drugie niesie.
+Ruchem jest przebieg po zdaniach jednego pliku,
+który zbiera grupy imienne przyjętych czytań i przy każdym zaimku liczy kandydatów,
+a zgłasza zero oraz więcej niż jednego, wypisując przy drugim ich listę;
+zgłoszenie idzie przy zaimku, bo drugie czytanie całego tekstu
+mnożyłoby się przez każdy zaimek w nim.
+Do przeczytania jest `pomijalny` w `olski/skład/składnia.py` wraz z `Kontekst`,
+bo skład prowadzi ten rachunek w drugą stronę
+i ma już warunek na rodzaj rozdzielający uczestników zdania obok
+([`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
+a wpis o zasięgu antecedensu przy opuszczonym podmiocie zdania podrzędnego
+mówi, czego ten warunek nie obejmuje.
+Do rozstrzygnięcia jest, czy zaimek bez ani jednego kandydata
+jest zgłoszeniem tej samej nazwy co zaimek o dwóch,
+bo pierwszy mówi, że tekst czegoś nie podaje, a drugi, że podaje dwie rzeczy.

@@ -103,10 +103,13 @@ Witryna tego nie zmienia, dopóki nikt nie postawi jej pod adresem
 ## Planista
 
 Pyta, co jest na horyzoncie i co jest następne.
-Wchodzi w [roadmap.md](roadmap.md), gdzie każdy etap ma kryterium wyjścia.
-Numeracja jest tam kolejnością i jest nośna.
-Całego toru gramatycznego nie zamyka żaden etap
-([tamże](roadmap.md#tor-gramatyczny-nie-ma-końca)).
+Wchodzi w [roadmap.md](roadmap.md), gdzie stoją umowa z autorem, cele i kierunek.
+Numerowanych etapów nie ma tam żaden tor gramatyczny,
+bo tor ten nie ma końca
+([tamże](roadmap.md#tor-gramatyczny-nie-ma-końca)),
+a odcinków z kryterium wyjścia dla czegoś, co się nie kończy, nikt nie podnosił.
+Kryterium wyjścia ma tam jeden tor i jest nim skład
+([tamże](roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)).
 Dalej rozchodzą się trzy listy.
 Granicę między nimi trzyma [nagłówek rejestru](../todo/README.md).
 Co zamyka commit w tym repozytorium, jest tam.

@@ -320,8 +320,9 @@ Pierwsza to czytanie, którego polszczyzna nie ma.
 bo `protestacyjna` czyta się raz jako przydawka, a raz jako orzecznik,
 a orzecznika w tym miejscu polszczyzna nie stawia.
 Nie jest to wieloznaczność do rozstrzygnięcia, tylko nadgeneracja do zdjęcia,
-i tym zajmuje się [etap 3](roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma),
-a nie żadna warstwa za parserem.
+a zdejmuje się ją słownikiem albo produkcją
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
+a nie warstwą za parserem.
 
 Druga to trzy zdania, nad którymi werdykt nie mówi nic poza liczbą czytań,
 a w każdym z nich czytania różni ciąg współrzędny.
@@ -503,8 +504,7 @@ Olski taki leksykon ma i sięga nim po tę klasę.
 i niesie ją po obu stronach sporu: przy czasowniku i przy rzeczowniku
 ([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 bo Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika.
-Kolumna jest rozszerzeniem generatora, a nie nową maszyną,
-i mieści się w tym, co [etap 2](roadmap.md#etap-2-walencja) obejmuje.
+Kolumna jest rozszerzeniem generatora, a nie nową maszyną.
 Rozstrzygnięcie, które z niej wychodzi, jest deterministyczne i da się wyjaśnić
 jednym wierszem leksykonu, czyli jest tym rodzajem odpowiedzi,
 którą ten parser obiecuje w README.
@@ -693,9 +693,10 @@ Werdykt przestaje być o zdaniu:
 `Wynajmę mieszkanie.` ma samo dwa czytania, a w tamtym tekście jedno,
 więc to samo zdanie dostaje dwie odpowiedzi zależnie od tego, co je otacza,
 i przestawienie akapitu rusza werdykt bez ruszania zdania.
-Czy jednoznaczność jest własnością zdania, czy zdania na swoim miejscu,
-nie jest rozstrzygnięte i pyta o to
-[open-questions.md](open-questions.md#warstwa-kontekstowa-zabiera-werdyktowi-jednostkę).
+Jednoznaczność jest własnością zdania na swoim miejscu, a nie zdania samego,
+bo jednostką sprawdzaną jest tekst
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)),
+i tę właśnie cenę ta decyzja przyjęła.
 
 Dowody, na których taka warstwa mogłaby stanąć, są trzy
 i idą w tej samej kolejności co u świadka, czyli od słownikowego w dół.

@@ -424,7 +424,7 @@ między rządzącym i zgodnym, czyli w formach męskoosobowych i przypadkach zal
 `Dwadzieścia dwa chleby leżą.` wychodzi jednym czytaniem.
 Przed tą pozycją zdanie o dwudziestu dwóch przechodziło pod samym zagnieżdżeniem,
 więc łańcuch zamienia tu werdykt nieprawdziwy na odmowę
-([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Odróżnia te dwa czytania cecha dopisana, czyli znacznik taki jak
 [`ciąg`](podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania):
@@ -535,7 +535,7 @@ zdania, w których przyjęte czytanie przeczy drzewu wzorcowemu,
 oraz zdania wieloznaczne, którym złote czytanie z lasu wypada.
 Werdykt mówi więc o zdaniu nieprawdę częściej niż przed tą pozycją,
 a kierunek ten trzyma
-[roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę);
+[roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście);
 czym te zdania są, ten przebieg nie mówi, a wpis trzyma [todo/](../../todo/README.md).
 Obie liczby drukuje `harness.pomiar`, a te sprzed tej pozycji trzyma git.
 
