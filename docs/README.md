@@ -80,6 +80,7 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 - [roles.md](roles.md) nazywa role,
   w których ktoś to repozytorium czyta.
   Wszystkie te role obsadza jedna osoba.
+  Planista dzieli tam partię wpisów między sesje.
 - [architecture.md](architecture.md) wylicza warstwy,
   przez które zdanie przechodzi w obu kierunkach.
   Oba tory mają dwie warstwy wspólne.

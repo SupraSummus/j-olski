@@ -65,7 +65,7 @@ Name the evidence to read as well, and not only the files to change,
 because two entries over disjoint files can turn on one judgment
 that a file list does not show,
 and what such an overlap costs is in
-[splitting work across sessions](../CLAUDE.md#splitting-work-across-sessions).
+[podział partii wpisów](../docs/roles.md#planista).
 
 Wpis nie jest rozstrzygnięciem, bo autor pisał go przy innej robocie
 i dał mu tyle uwagi, ile zostało.

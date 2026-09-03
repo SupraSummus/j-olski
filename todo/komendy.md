@@ -243,7 +243,7 @@ Do przeczytania jest przy tym
 [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
 
-[Zdanie spakowane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) wykrywa dziś tylko czytelnik,
+[Zdanie spakowane](../CLAUDE.md#katalog-chwytów-rejestru) wykrywa dziś tylko czytelnik,
 a pierwszy z dwóch ruchów tej reguły jest policzalny:
 formy osobowe w zdaniu daje Morfeusz,
 a spójnik między nimi widać bez rozbioru.

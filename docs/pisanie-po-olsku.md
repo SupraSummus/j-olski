@@ -102,7 +102,7 @@ W `architecture.md` pięć zdań miało ten przecinek bez żadnego z tych dwóch
 
 Płaci tu autor i ten rachunek się zwraca.
 Zdania te były niepoprawne przed olskim i nikt tego nie zauważył:
-[reguły prozy](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) o interpunkcji nie mówią,
+[reguły prozy](../CLAUDE.md#katalog-chwytów-rejestru) o interpunkcji nie mówią,
 `markdownlint` czyta Markdown, a nie polszczyznę,
 a `tests/test_docs.py` sprawdza nazwy plików i sekcji.
 O tym przecinku powiedział w tym repozytorium tylko werdykt `rejected`.
@@ -493,7 +493,7 @@ Pisanie pod olskiego popycha w pięć chwytów:
 zdanie krótkie, kopułę z narzędnikiem, wyrażenie przyimkowe na czele zdania,
 dopełnienie w rodzaju żeńskim i orzekanie przez zaprzeczenie.
 Trzy pierwsze widać w README po przepisaniu,
-a [reguły prozy](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) każą unikać
+a [reguły prozy](../CLAUDE.md#katalog-chwytów-rejestru) każą unikać
 jednego rytmu na wszystko.
 Gramatyka nagradza więc rejestr, który reguły prozy karzą.
 
@@ -504,7 +504,7 @@ przez który olski daje zdaniu dwa czytania:
 `Pokrycia gramatyki skład nie dziedziczy.` wychodzi jednoznaczne,
 a `Skład dziedziczy pokrycie gramatyki.` wieloznaczne.
 Zdanie zanegowane jest przez to tańsze o jedno czytanie od tego samego twierdzenia,
-a [kontrastowa rama](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)
+a [kontrastowa rama](../CLAUDE.md#katalog-chwytów-rejestru)
 jest tym, co reguły prozy wykreślają.
 
 Płaci tu gramatyka, bo zdanie długie jest polszczyzną

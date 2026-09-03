@@ -177,7 +177,7 @@ Znaleziska są dziś dwa, wieloznaczność i poprawka jednego znaku
 a to byłoby trzecie i wordnetu nie żąda:
 role stoją w pliku, a nieobsadzoną pozycję widzi rozbiór.
 Bliskie jest ono regule o zdaniu spakowanym
-([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)),
+([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)),
 z tą różnicą, że tamta mówi o słowie wyrzuconym ze zdania,
 a to o uczestniku, którego zdanie nie nazwało.
 Zawężenie jest tu całą robotą, bo wersja naiwna zapala się wszędzie:
@@ -226,7 +226,7 @@ więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
 
 `to` w miejscu podmiotu akapitu jest usterką, której nie zgłasza nic.
-Wylicza ją [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie),
+Wylicza ją [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru),
 a `olski/odniesienia.py` bierze sam zaimek trzeciej osoby
 ([`docs/subset.md`](../docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
 Maszyneria tamtej warstwy nad `to` nie działa i nie chodzi o samo rozpoznanie zaimka:

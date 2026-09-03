@@ -318,11 +318,9 @@ Podział ten idzie za [jednostką umowy](#podzbiór-jest-umową-a-nie-zasięgiem
 i mówi, ile każdy cel potrzebuje zobaczyć, a nie który jest ważniejszy.
 
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
-CLAUDE.md wylicza wzorce, których w prozie nie chcemy —
-zdanie echo i wzmacniacz bez treści wśród
-[fraz gotowych](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen),
-peryfrazę i czasownik domowy wśród tego,
-[dla kogo zdanie jest napisane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) —
+Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
+peryfrazę, czasownik domowy — wylicza
+[katalog chwytów](../CLAUDE.md#katalog-chwytów-rejestru) w CLAUDE.md,
 a sprawdza je przegląd zmian, czyli człowiek czytający zdanie po zdaniu.
 Cel żąda, żeby wzorzec raz nazwany dostał wykrywacz,
 a wykrywacz przeszedł po całej prozie repozytorium i stanął na zerze.
@@ -381,7 +379,7 @@ a nie wnioskiem ze słownika synonimów
 
 **Olski mówi, czego czasownik żąda od swojej pozycji, a czego zdanie tam nie podaje.**
 Test podstawieniowy z reguły o czasowniku domowym
-([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)) ma dwa kroki,
+([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)) ma dwa kroki,
 a cel o propozycji kupuje pierwszy, mechaniczny.
 Drugi krok — czy zdanie po podstawieniu zyskało —
 dostaje w przeglądzie odpowiedź w rodzaju
@@ -424,7 +422,7 @@ Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
 rozstrzyga się razem z tamtym pytaniem:
 metafora wystygła jest w polszczyźnie zwykłym użyciem,
 a próg między nią a usterką stawia
-[CLAUDE.md](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen).
+[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru).
 Wiersz żądania idzie przy tym obok streszczenia, a nie w odrzuceniu:
 zdanie odrzucone nie obsadza żadnej pozycji, więc mówi dalej,
 dokąd analiza doszła
@@ -450,7 +448,7 @@ Drugą są dwie pozycje CLAUDE.md, których ta warstwa nie tyka:
 „to” w miejscu podmiotu akapitu podejmuje całe zdanie, a nie grupę imienną,
 więc zgodność nie ma nad nim czego liczyć,
 a orzeczenie domyślne nie jest zaimkiem wcale
-([dla kogo zdanie jest napisane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie));
+([katalog chwytów](../CLAUDE.md#katalog-chwytów-rejestru));
 oba trzyma [`todo/`](../todo/README.md).
 Czego zgodność nie rozstrzygnie, cel nie obiecuje:
 przy dwóch kandydatach zgodnych wybiera znaczenie,

@@ -47,10 +47,9 @@ a check czytający liczbę z prozy wyrażeniem regularnym
 czerwienieje po przeredagowaniu zdania, a nie po zmianie w danych.
 
 Dwanaście nagłówków rejestru ma w orzeczeniu czasownik domowy —
-„stoi”, „wchodzi”, „niesie”, „bierze” — którego nagłówek znosi najgorzej
-([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)),
-a sześć bierze precyzję z tego, co wyklucza
-([CLAUDE.md](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen));
+„stoi”, „wchodzi”, „niesie”, „bierze” — którego nagłówek znosi najgorzej,
+a sześć bierze precyzję z tego, co wyklucza;
+oba chwyty wylicza [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru).
 `Czoło niesie etykietę roli, którą zajmuje, a werdyktu nie rusza`
 jest w obu tych zbiorach.
 Najtrudniejszy jest `Zaimki kto i co wchodzą wszystkimi pozycjami naraz`,
@@ -174,7 +173,7 @@ Ruchem jest przebieg z jednym pytaniem na zdanie —
 co zostaje po skreśleniu członu zanegowanego —
 i zdanie twierdzące tam, gdzie nie zostaje nic;
 wykluczenie, które ktoś naprawdę by zaproponował, zostaje
-([`CLAUDE.md`](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)).
+([`CLAUDE.md`](../CLAUDE.md#katalog-chwytów-rejestru)).
 Do przeczytania jest cena po stronie gramatyki:
 zdanie zanegowane wychodzi jednoznaczne przez dopełniacz,
 więc taki przebieg kupuje czytelność kosztem jednoznaczności
@@ -357,6 +356,15 @@ bo [`CLAUDE.md`](../CLAUDE.md#the-reader-goes-sentence-by-sentence),
 i [`docs/fiction.md`](../docs/fiction.md)
 linkują tabelę poziomów jako rzecz dzisiejszą,
 a resztę tamtego dokumentu jako zapis.
+Rozcięcie nie pada przy tym na granicę, którą tamto jedno zdanie nazywa.
+Sekcje o pakiecie są właścicielem nazw używanych dzisiaj:
+abstencję cytuje `olski/odniesienia.py`,
+drabinę poziomów bierze [`CLAUDE.md`](../CLAUDE.md#the-reader-goes-sentence-by-sentence)
+za własny przykład nagłówka, który zarabia na siebie,
+a kalibrację cytuje kilka dokumentów, które zostają.
+Każda taka sekcja rozstrzyga się przez to osobno,
+a sesja, która pójdzie za tamtym zdaniem, wyniesie z dokumentu nazwy,
+których używa kod.
 
 Bloki Markdowna czyta w tym repozytorium jeden program wzorcem, a drugi parserem.
 `_ogrodzone` w `tests/test_wydruki.py` szuka ogrodzeń po wierszach,
@@ -373,37 +381,6 @@ Zbiór plików wypisują przy tym trzy miejsca i nie jest on w nich ten sam:
 `DOCUMENTS` w `tests/test_docs.py` oraz `domyślne` w `harness/cytaty.py`
 biorą korzeń wraz z `docs/` i `todo/`, a `_wydruki` pomija `CLAUDE.md` i `todo/`,
 więc bloku wydruku wklejonego do tych dwóch nie pilnuje nic.
-
-Dwie sekcje `CLAUDE.md` opisują jedną rodzinę usterek rejestru
-i odsyłają do siebie nawzajem:
-[fraza gotowa](../CLAUDE.md#a-phrase-that-arrived-ready-made-was-not-chosen)
-pyta, czy słowo zostało wybrane,
-a [adresat](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) pyta, dla kogo zdanie napisano.
-Razem zajmują siódmą część pliku, który każda sesja czyta w całości.
-Ruchem jest jeden katalog chwytów zamiast dwóch,
-zamknięty jednym akapitem, bo oba akapity zamykające mówią dziś to samo:
-że trafienie jest wezwaniem do przeczytania zdania, a nie werdyktem.
-Do przeczytania jest, które pary chwytów są tą samą usterką —
-urzędowa fraza gubi wykonawcę, a wymyślony sprawca wstawia w jego miejsce abstrakcję —
-oraz czy zwinięcie zachowa granicę między wywodem a instrukcją,
-bo ona rozstrzyga, gdzie te chwyty wolno zostawić.
-
-[Splitting work across sessions](../CLAUDE.md#splitting-work-across-sessions)
-odpowiada planiście dzielącemu partię wpisów,
-a `CLAUDE.md` pisany jest pod sesję, która podział dostaje już zrobiony
-([docs/roles.md](../docs/roles.md#sesja-agenta)).
-Każda sesja czyta przez to kilkadziesiąt wierszy,
-a potrzebuje ich tylko ta, która taką partię układa.
-Ruchem jest przeniesienie sekcji do właściciela i zdanie z linkiem w jej miejscu,
-bo [sesja agenta](../docs/roles.md#sesja-agenta) wskazuje ją
-jako jedną z trzech rzeczy, które robią tej roli całą drogę.
-Do rozstrzygnięcia jest właściciel, a dwaj kandydaci różnią się ceną.
-[Planista](../docs/roles.md#planista) już nazywa tę postawę,
-a do `docs/roles.md` wchodzi tylko ten, kto po niego przyszedł.
-Nagłówek tego pliku mówi, czym jest pojedynczy wpis,
-a sekcja mówi, co robi się z partią wpisów — tylko że
-[sesja agenta](../docs/roles.md#sesja-agenta) czyta i ten plik w całości,
-więc przeniesienie tam zostawia te wiersze w każdej sesji.
 
 Dwa zdania [`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop) wskazują
 [listę braków](../docs/subset.md#what-it-does-not-cover-yet), a nazywają konstrukcje wpuszczone.
