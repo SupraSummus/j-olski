@@ -96,17 +96,20 @@ Podpisy strony, nazwa motywu i przełącznik motywu należą do `mkdocs.yml`,
 tak jak podpisy demo należą do jego strony
 ([witryna.md](witryna.md#werdykt-idzie-w-tych-słowach-w-których-drukuje-go-olski-check)).
 
-## Push buduje stronę, a wydaje ją tylko main
+## Pull request buduje stronę, a wydaje ją tylko main
 
 Robi to [`.github/workflows/dokumentacja.yml`](../.github/workflows/dokumentacja.yml).
-Buduje przy każdym pushu, bo `--strict` jest sprawdzeniem:
-martwy link ma wywrócić przebieg na gałęzi, a nie po scaleniu.
+Buduje na każdym pull requeście, bo `--strict` jest sprawdzeniem:
+martwy link ma wywrócić przebieg przed scaleniem, a nie po nim.
+Push na gałąź bez pull requesta budowania nie uruchamia,
+bo minuty runnera liczą się za każdy przebieg
+([CLAUDE.md](../CLAUDE.md#checks)).
 Wydanie jest osobnym zadaniem i czeka na `main`, bo adres jest jeden.
 
 Do [bloku checków](../CLAUDE.md#checks) budowanie nie wchodzi.
 mkdocs i pdoc instaluje dodatek `dokumentacja` z `pyproject.toml`,
 a suita go nie instaluje — tak samo jak nie instaluje gunicorna dla demo.
-Ceną jest to, że o martwym linku mówi dopiero push,
+Ceną jest to, że o martwym linku mówi dopiero pull request,
 a nie lokalny przebieg bloku checków.
 
 ## Nie zapadło

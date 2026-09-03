@@ -708,7 +708,7 @@ Przebieg zielony w takim środowisku nie sprawdza niczego,
 co do analizatora dochodzi, i widać to po liczbie pominięć.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)
-uruchamia te same checki przy każdym pushu,
+uruchamia te same checki na każdym pull requeście i przy pushu na `main`,
 i to on sprawdza złożenie dwóch sesji, które się nie widziały.
 Jego krok instalacyjny bierze Morfeusza z PyPI i wywraca zadanie, kiedy to zawiedzie,
 więc ostatni commit gałęzi nie opiera się nigdy na samym przebiegu częściowym.
@@ -717,10 +717,16 @@ a `tests/test_docs.py` utrzymuje je równe,
 więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
 Workflow nie nosi znaczka.
 
-Push puszcza obok tego drugi workflow, który buduje dokumentację pod adresem.
+Pull request puszcza obok tego drugi workflow,
+który buduje dokumentację pod adresem.
 Wywraca go martwy link, więc jest sprawdzeniem prozy.
 Do bloku wyżej nie wchodzi, bo mkdocs i pdoc instaluje osobny dodatek.
 Decyzje o stronie trzyma [`docs/publikacja.md`](docs/publikacja.md).
+
+Push na gałąź bez pull requesta nie uruchamia żadnego z tych dwóch,
+bo runner liczy minuty za każdy przebieg z osobna.
+Ceną jest to, że gałąź przed otwarciem pull requesta
+sprawdza się blokiem poleceń wyżej u siebie.
 
 ## Pomiar i liczba, która po nim zostaje
 

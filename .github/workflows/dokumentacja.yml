@@ -1,6 +1,9 @@
 name: dokumentacja
 
-on: push
+on:
+  pull_request:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -10,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  #  Idzie przy każdym pushu, bo `--strict` jest tu sprawdzeniem prozy:
-  #  martwy link wywraca je na gałęzi, a nie po scaleniu (docs/publikacja.md).
+  #  Idzie na każdym pull requeście, bo `--strict` jest tu sprawdzeniem prozy:
+  #  martwy link wywraca je przed scaleniem, a nie po nim (docs/publikacja.md).
   budowa:
     runs-on: ubuntu-latest
     steps:
