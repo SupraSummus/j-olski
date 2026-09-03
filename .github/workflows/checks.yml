@@ -27,7 +27,7 @@ jobs:
           #  fails here rather than in somebody's install.
           python-version: "3.11"
       - run: pip install -e '.[dev]'
-      - run: python3 -m pytest
+      - run: python3 -m pytest -n auto --dist worksteal
       - run: ruff check .
       #  Plik bez wpisu w `REUSE.toml` wywraca ten krok, więc dane dopisane do
       #  drzewa bez deklaracji nie dojadą do wydania po cichu.
