@@ -106,6 +106,44 @@ Wszystkie cztery osie nazywaliśmy przedtem słowem „linter”.
 Dlatego wycofanie pakietu wyglądało jak wycofanie celu.
 Gdzie linter wypadnie na tych osiach, rozstrzygnie reguła, którą ktoś napisze.
 
+## Kolejna reguła zaczyna się od pomiaru, a nie od pomysłu
+
+Katalog zasad dobrego pisania jest długi, a każda z nich brzmi rozsądnie,
+dopóki się jej nie zmierzy — i to jest ta sama pułapka,
+w którą wpadł [wycofany pakiet](#co-zamknęło-pakiet-reguł).
+Kolejność jest więc taka, i pomiar stoi w niej przed pisaniem.
+
+1. **Wypisz kilka kandydatek, a nie jedną.**
+   Bierz je z prostej polszczyzny, z katalogów angielskich,
+   z [CLAUDE.md](../CLAUDE.md) i z tego, co wyłapuje przegląd zmian.
+2. **Zapytaj o każdą, czego żąda od maszynerii.**
+   Regułę, która rozstrzyga się na rozbiorze, warto pisać tutaj
+   ([niżej](#suffixes-buy-more-than-expected));
+   regułę, której wystarczy znacznik, można pisać wszędzie.
+3. **Puść każdą sondą nad prozą tego repozytorium.**
+   Predykat pisze się na jeden przebieg i do drzewa nie wchodzi,
+   tak jak przy [sondzie różnicowej](../CLAUDE.md#code).
+4. **Przeczytaj trafienia, a nie samą ich liczbę.**
+   Reguła, która trafia często, a każde trafienie jest chybione,
+   jest gorsza od reguły, która milczy.
+5. **Ustaw wybraną na [czterech osiach](#cztery-osie-każdej-reguły).**
+   Kiedy wyjdzie z tego próg, reguła wraca do kolejki, dopóki nie ma korpusu.
+6. **Zawężaj ją tak, żeby myliła się w jedną stronę.**
+   Zawężenie, które zdejmuje trafienia, może zgłoszenie schować;
+   takie, które je dokłada, umie zgłoszenie wymyślić,
+   a wymyślone kosztuje zaufanie do wszystkich pozostałych reguł.
+
+Trzy kandydatki odpadły na kroku czwartym i wracać nie mają.
+Odległość podmiotu od orzeczenia trafia nad README kilka razy,
+a za każdym razem stoi między nimi zwykły okolicznik albo szyk odwrócony.
+Jedno twierdzenie na zdanie trafia co kilka zdań i rozstrzyga się rejestrem:
+[CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) pozwala tak pisać wywód,
+a zakazuje instrukcji, więc reguła ta żąda progu, którego nie ma czym skalibrować.
+Zdanie podrzędne zagnieżdżone w podrzędnym trafia nad tą prozą raz
+i nie ma czego robić.
+Liczb tu nie ma, bo rusza je przeredagowanie akapitu;
+kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
+
 ## Gdzie na tych osiach wypada reguła o zaimku
 
 Pierwsza reguła wydana po zamknięciu pakietu zgłasza zaimek,
