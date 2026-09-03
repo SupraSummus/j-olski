@@ -334,7 +334,9 @@ której się nie doczekał,
 a ten chodzi po tekście, za który odpowiadamy,
 więc trafienia czyta się wszystkie, zamiast progować ich stopę.
 Tę różnicę rozkłada na osie
-[linter.md](linter.md#cztery-osie-każdej-reguły).
+[linter.md](linter.md#cztery-osie-każdej-reguły),
+a jak dobrać i wycenić następną regułę, mówi
+[ten sam plik](linter.md#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
 Milczenie kosztuje przy tym zero:
 zdanie, którego olski nie wyprowadza, zostaje przy przeglądzie,
 czyli przy tym, co je dziś sprawdza,
