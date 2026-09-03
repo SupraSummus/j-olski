@@ -17,6 +17,7 @@ pytest.importorskip("morfeusz2")
 
 from olski.grammar import EMPTY, bierze, word
 from olski.morph import analyse
+from olski.subset.słowa import CZĄSTKI, CZĄSTKI_PRZY_LICZEBNIKU
 from tests.test_werdykt import role, verdict
 
 
@@ -158,6 +159,43 @@ def test_łańcuch_liczebnikowy_żąda_jednego_przypadka_od_każdego_członu():
     #  wspólną. Bez niej `dwadzieścia dwóch` wyprowadza się tak samo jak
     #  `dwudziestu dwóch`, czyli mianownik miesza się z dopełniaczem.
     assert verdict("Dwadzieścia dwóch mężczyzn przyszło.").status == "rejected"
+
+
+def test_cząstka_przybliżająca_przepuszcza_cechy_liczebnika_pod_sobą():
+    #  Cząstka ma być przezroczysta, więc każde zdanie tu pyta o jedną cechę, którą
+    #  ciało wypuszcza w górę, i pyta o nią zdaniem, które bez cząstki wychodzi tak
+    #  samo. Pierwsza para pyta o zgodność: cechy wzięte z cząstki zamiast z
+    #  liczebnika — znacznik głowy na cząstce albo :data:`AGREE` zdjęte z liczebnika
+    #  — zostawiają grupę bez przypadka, liczby i rodzaju, a cechy, której
+    #  konstytuent nie niesie, unifikacja nie sprawdza, więc zdanie drugie
+    #  przechodzi. Zdanie trzecie pyta o przyłączenie zgodne, bo pierwsza para stoi
+    #  na rządzącym. Czwarte pyta o samo `accommodability`: bez niego grupę bierze
+    #  ciało rządzące nad ciałem zgodnym i `dwóch chlebów` czyta się dwojako,
+    #  dokładnie tak, jak czyta się zagnieżdżony łańcuch wyżej.
+    assert verdict("Przeszło pięć kobiet przyszło.").status == "valid"
+    assert verdict("Przeszło pięć kobiet przyszły.").status == "rejected"
+    assert verdict("Przeszło dwie kobiety przyszły.").status == "valid"
+    assert verdict("Brakuje przeszło dwóch chlebów.").status == "valid"
+
+
+def test_cząstka_przybliżająca_żąda_liczebnika_a_nie_grupy_imiennej():
+    #  Ciało dopisane poziom wyżej, czyli przy grupie imiennej, przechodzi oba te
+    #  zdania i przechodzi tak samo zgodność wyżej, więc bez tej pary nie widać, na
+    #  którym poziomie pozycja stanęła. `setka` jest rzeczownikiem, a `tysiąc` czyta
+    #  się i liczebnikiem, i rzeczownikiem, więc ciało żądające liczebnika czytanie
+    #  rzeczownikowe zdejmuje, zamiast dołożyć swoje.
+    assert verdict("Rejestr pisze przeszło setkę zdań.").status == "rejected"
+    assert verdict("Wiersz ma przeszło tysiąc zdań.").result.ile < (
+        verdict("Wiersz ma tysiąc zdań.").result.ile
+    )
+
+
+def test_cząstka_przy_liczebniku_nie_powtarza_lematu_cząstki_przy_zdaniu():
+    #  Lemat postawiony na obu listach ma dwie drogi do jednej grupy — przez
+    #  liczebnik i przez grupę imienną — więc `Kupuje niemal sto zdań.` wychodzi
+    #  dwoma wyprowadzeniami jednego kształtu, a zdanie to jest wieloznaczne i bez
+    #  nich, więc po statusie tego nie widać.
+    assert not CZĄSTKI & CZĄSTKI_PRZY_LICZEBNIKU
 
 
 def test_pięć_nie_jest_dopełniaczem_rzeczownika_odczasownikowego():

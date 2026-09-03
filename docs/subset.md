@@ -597,6 +597,9 @@ zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
   `Nawet ptaki przestały śpiewać.`
   ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę))
+- Cząstka przybliżająca przed liczebnikiem, czyli granica, którą ten rejestr
+  pisze zamiast liczby dokładnej: `Kupuje przeszło sto zdań.`
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła.

@@ -534,6 +534,19 @@ CZĄSTKI = frozenset({
 CZĄSTKA = word("part", lemma=CZĄSTKI)
 
 
+#: Cząstki, które przybliżają liczbę i stoją przed liczebnikiem: `przeszło sto zdań`.
+#: Lista jest rozłączna z :data:`CZĄSTKI` i rozłączna być musi: cząstka tamtej listy
+#: dochodzi do grupy imiennej całej, więc lemat stojący na obu dałby `niemal sto zdań`
+#: dwa wyprowadzenia jednego kształtu, a po statusie żadnego zdania tego nie widać.
+#: Kryterium na wejście, cenę i to, kto zostaje na zewnątrz, trzyma
+#: docs/konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna.
+CZĄSTKI_PRZY_LICZEBNIKU = frozenset({"przeszło"})
+
+
+#: Cząstka przybliżająca jako terminal (:data:`CZĄSTKI_PRZY_LICZEBNIKU`).
+CZĄSTKA_PRZY_LICZEBNIKU = word("part", lemma=CZĄSTKI_PRZY_LICZEBNIKU)
+
+
 #: Cząstka czasownika zwrotnego jako terminal.
 CZĄSTKA_ZWROTNA = word("part", lemma=LEMAT_ZWROTNY)
 

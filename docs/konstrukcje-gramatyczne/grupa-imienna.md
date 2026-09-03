@@ -444,6 +444,64 @@ a rejestr docelowy pisze liczebnik złożony
 Liczbę pierwszą daje przejście po złotej morfologii banku drzew,
 a pozostałe wariant gramatyki z tą cechą, puszczony przez `harness/ruch.py`.
 
+### Cząstkę przybliżającą przyłącza liczebnik, a nie grupa imienna
+
+`przeszło sto zdań`, `przeszło trzy tysiące lematów` —
+tak ten rejestr pisze granicę zamiast liczby dokładnej,
+bo [liczby kruchej](../../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
+nie wpisuje do dokumentu, a granicę od dołu nazywa właśnie `przeszło`.
+Bez tej pozycji całe takie zdanie jest odrzucone, a odrzucenie staje na tym słowie.
+
+Ciało wchodzi w łańcuch liczebnika, a nie przed grupę imienną,
+choć drugiego gospodarza cząstka
+[już ma](okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę).
+Ciało dopisane tam obejmowałoby oba przyłączenia liczebnika naraz,
+więc lemat postawiony na obu listach dawałby `niemal sto zdań`
+dwa wyprowadzenia jednego kształtu, i dlatego listy są rozłączne.
+
+Lista ma jeden lemat, a kryterium na wejście jest to samo co przy cząstce zdania:
+czytanie konkurujące.
+Odpowiada ono tutaj inaczej, bo pozycja jest węższa.
+`przeszło` czyta się jeszcze formą czasownika `przejść`,
+a w łańcuchu liczebnika tego czytania nie bierze nic,
+więc o samo miejsce cząstka z nikim nie konkuruje.
+Zdaniu czytanie czasownikowe zostaje:
+`Przeszło dwadzieścia dwa chleby leżą.` wychodzi i cząstką, i z `Przeszło`
+w orzeczeniu, bo to drugie czytanie zdanie miało już przedtem.
+Ani bank drzew, ani ta proza zdania tego kształtu nie mają.
+
+`ponad`, `blisko` i `około` mają w tym samym miejscu przyimek albo przysłówek:
+`Kupuje ponad sto zdań.` wyprowadza się dziś wyrażeniem przyimkowym,
+a `Kupuje blisko sto zdań.` z `blisko` w okoliczniku przysłówkowym,
+czyli czytaniami, których polszczyzna w tych zdaniach nie ma.
+Wpuszczenie tych trzech postawiłoby drugie wyprowadzenie obok nieprawdziwego,
+zamiast je zdjąć, a zdejmuje się je wykluczeniem po stronie słownika;
+[`todo/`](../../todo/README.md) trzyma tę połowę osobno.
+
+Rzeczownika nazywającego wielkość ta pozycja nie obejmuje:
+`przeszło setkę zdań` odpada, bo `setka` jest rzeczownikiem, a ciało żąda liczebnika.
+Odpada też `przeszło trzy razy dłużej`,
+a odpada bez udziału cząstki: `trzy razy dłużej` nie wyprowadza się i bez niej.
+
+Nad bankiem drzew pod złotą morfologią wychodzą z odrzucenia pojedyncze zdania,
+złote czytanie ma każde z nich,
+a jednoznaczności nie traci ani jedno zdanie przyjęte.
+Pod żywą morfologią nie zmienia się werdykt ani jednego zdania
+i przesuwa się sam bloker: odrzucenie staje dalej niż na `przeszło`.
+Nad prozą tego repozytorium nie staje na tym słowie ani jedno odrzucenie,
+a bez tej pozycji staje ich tam przeszło dwadzieścia;
+czytanie dostaje z nich kilka, jednoznaczności nie traci żadne zdanie,
+a reszta pada dalej, na przecinku albo na spójniku.
+Liczby daje przejście po banku drzew pod obiema morfologiami
+([corpus.md](../corpus.md#fetching-it) trzyma polecenia) oraz przebieg `olski-check`
+nad prozą, oba porównane między dwoma drzewami roboczymi.
+
+Liczba czytań maleje przy tym tam, gdzie forma za cząstką
+czyta się także rzeczownikiem.
+`Wiersz ma tysiąc zdań.` wychodzi i grupą liczebnikową, i rzeczownikiem `tysiąc`
+z dopełniaczem pod sobą, a `Wiersz ma przeszło tysiąc zdań.` samą pierwszą z tych dwóch,
+bo ciało żąda liczebnika i czytanie rzeczownikowe pod cząstkę nie wchodzi.
+
 ### Cyfry olski nie bierze, bo cyfra nie niesie morfologii
 
 Rejestr, o który olskiemu chodzi, pisze liczebnik cyfrą:
