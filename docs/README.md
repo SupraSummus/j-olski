@@ -80,7 +80,8 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 - [architecture.md](architecture.md) wylicza warstwy,
   przez które zdanie przechodzi w obu kierunkach.
   Oba tory mają dwie warstwy wspólne.
-- [roadmap.md](roadmap.md) wylicza cele oraz etapy dwóch torów.
+- [roadmap.md](roadmap.md) mówi, co olski obiecuje autorowi, i wylicza cele.
+  Umowa nazywa cenę podzbioru.
   Jeden tor ma kierunek, a drugi ma kryterium wyjścia.
 - [open-questions.md](open-questions.md) wylicza rozwidlenia,
   na których nie zapadła decyzja.

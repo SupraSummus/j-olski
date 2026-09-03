@@ -192,7 +192,7 @@ a `SPÓJNIKI` w `olski/skład/spójniki.py` o kilku, których używa skład,
 i obie listy zgadzają się dziś tam, gdzie się przecinają.
 Rama czasownika poszła tą samą drogą i zeszła do jednego pliku,
 bo jest faktem o słowie, a nie o kierunku, w którym się go używa
-([`docs/roadmap.md`](../docs/roadmap.md#etap-2-walencja-czytana-raz)),
+([`docs/roadmap.md`](../docs/roadmap.md#czego-brakuje-pod-tym-kryterium)),
 a spójnik jest takim samym faktem.
 Ruchem jest leksykon spójników czytany przez oba kierunki,
 wzorowany na `olski/walencja.py`, i przed nim jedno rozstrzygnięcie:
@@ -678,7 +678,7 @@ której ten rejestr używa jako przyimka albo spójnika,
 bo oba pytają, co wykluczeniu w `admissible` wolno powiedzieć,
 więc rozstrzyga je jedna sesja, a nie dwie.
 Zdanie to jest przy tym warunkiem pod
-[kierunkiem toru](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę),
+[kierunkiem toru](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście),
 bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
 czego werdykt meldować nie powinien.
 

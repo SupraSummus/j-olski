@@ -106,7 +106,7 @@ because every production admitted moves them
 and does not move them all one way:
 a host admitted so that a reading stops being false
 takes sentences out of the first count and puts them in the second
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
 so uniqueness is not a number that only rises.
 The run owns the counts and this document owns their order,
 because a figure quoted here would be stale by the commit after it
@@ -328,8 +328,8 @@ and the row counts where an analysis stopped
 rather than what admitting the construction buys.
 So a row does say which sentences an addition can reach —
 it just does not say how many of them it will take.
-What the two rankings promise against what they deliver is priced in
-[roadmap.md](roadmap.md#etap-6-reszta-konstrukcji).
+What the two rankings promise against what they deliver is priced
+[below](#kolejka-obiecuje-więcej-niż-pozycja-oddaje).
 
 A preposition does not rank near the top of this queue at all,
 and two groups of productions are why.
@@ -479,6 +479,83 @@ prose carries no disambiguated tags, so the gold column has no meaning over it,
 and the queue is approximate for the reason the gold column exists —
 the row names the first reading Morfeusz listed for the form
 where the analysis stopped because no reading of it could continue.
+
+## Kolejka obiecuje więcej, niż pozycja oddaje
+
+Wiersz kolejki wycenia pozycję, zanim się ją napisze,
+a po dopisaniu zysk wypada na ułamek tego, co wiersz obiecywał.
+Zmierzone są tym samym wiersze `num`, `praet`, `qub`, `adv`, `imps` i `bedzie`.
+Trzy pierwsze oddały jedną piątą albo jedną czwartą tego, co obiecywały,
+a `adv` oraz `imps` niemal jedną trzecią,
+więc przelicznik wychodzi trzy- do pięciokrotnego.
+Wypadł z niego dopiero `bedzie`, i wypadł w drugą stronę:
+czas przyszły oddał więcej, niż przelicznik obiecywał
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)).
+Każda z tych par jest wzięta nad gramatyką z chwili, w której konstrukcja wchodziła,
+bo obietnicą jest wiersz liczony wtedy, gdy konstrukcji jeszcze nie ma,
+i dlatego pary z siebie nie wynikają:
+dopisanie kolejnej konstrukcji zmienia i wiersz, i to, ile z niego zostaje do wzięcia.
+Par tych jest garść, a nie rozkład,
+więc kolejność w kolejce dalej rozstrzyga się pomiarem, a nie tym przelicznikiem.
+Dwie kolejki, które wyceniają jedną pozycję — ta nad bankiem drzew
+i [ta nad prozą](#the-same-queue-over-prose) — nie zgadzają się co do kolejności,
+i jest to wynik pomiaru o dwóch rejestrach, a nie usterka w którejś z nich.
+
+Jedna para wypadła poza przelicznik w drugą stronę niż `bedzie`.
+Wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem
+oddał z niego niecałą dziesiątą część.
+Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, ten okolicznik
+i spójniki trybu przypuszczającego, które weszły po nim —
+i tym różni się od tamtych, z których każdy stał za jedną.
+Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
+a tego kolejka o sobie nie mówi i mówić nie może:
+nazywa część mowy, na której analiza stanęła, a nie konstrukcję, której zabrakło.
+
+Mierzy się przez to każde dopisanie z osobna, a nie listę konstrukcji na końcu.
+Czas przeszły stał w tej kolejce pierwszy, a kolejka nazywała go
+najtańszym dużym zyskiem;
+zapłacił on rodzajem wchodzącym do każdego szyku zdania
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czas-przeszły-żąda-rodzaju-od-każdego-szyku)),
+czego kolejka nie widziała i widzieć nie mogła.
+Koordynacja przecinkiem poszła w drugą stronę i dlatego weszła osobno:
+nie odbiera nad tym bankiem ani jednego zdania już przyjętego
+i dokłada dwadzieścia kilka nowych.
+
+Trzy rzeczy widać dopiero na takich parach i żadnej nie mówi sam wiersz.
+
+**Zero po stronie ceny bywa własnością gramatyki, a nie wynikiem przebiegu.**
+Dwukropka ani średnika nie brała przedtem żadna produkcja,
+więc zdanie z takim znakiem nie miało czytania,
+z którego dałoby się je wytrącić.
+Cena zerowa nie mówi wtedy, że konstrukcja niczego nie psuje,
+tylko że nie miała czego zepsuć.
+
+**Zakup bywa poza obiema walutami, którymi mierzy pokrycie i lista wieloznacznych.**
+Przecinek przed spójnikiem nie kupowałby prawie nic,
+dopóki `a` czyta się jako przyimek rządzący mianownikiem,
+a warunek, który to czytanie odbiera, sam odbiera zdanie README —
+i to samo zdanie wraca z tą parą, z trzema czytaniami w miejsce trzech,
+tylko że prawdziwymi
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#rozdzielające-a-nie-jest-przyimkiem-tego-rejestru)).
+Para ta kupuje prawdę o zdaniu, a prawdy nie liczy żadna z tych dwóch liczb,
+i po to jest [kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
+
+**Zakup liczony pojedynczymi zdaniami na korpus jest odczytem o rejestrze,
+a nie o produkcjach.**
+Pytań jest w tym banku jedno na piętnaście zdań,
+a otwiera je `czy`, `kto`, `co`, `jak` albo `dlaczego`,
+czyli słowa żądające każde innego kształtu niż grupa imienna na czole zdania,
+więc kolejka po tym dopisaniu jest kolejką kształtów pytania,
+a nie listą lematów do dopisania obok jednego, który olski ma.
+Tak samo `o którym mowa` obiecuje w rejestrze ustaw 851 wystąpień,
+a oddaje przeszło o dwa rzędy wielkości mniej,
+bo prawodawca pisze ten zwrot razem z adresem przepisu,
+a cyfry olski nie bierze
+([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)).
+Rejestr rozstrzyga zarazem, którą pozycję konstrukcji pomiar w ogóle zobaczy.
+Grupa wysunięta ma dwie, pod przyimkiem i bez niego,
+a rozporządzenie odpowiada tylko na pierwszą, siedem ustaw tylko na drugą,
+a ten bank na obie, choć kształt grupy jest w obu ten sam.
 
 ## Agreement, which matters more than acceptance
 
@@ -900,7 +977,7 @@ Zabrane stały na czytaniu, które ta pozycja zdejmuje —
 `Nie było go wtedy w domu.` wychodziło dwoma czytaniami,
 a w obu gra `go` była podmiotem albo orzecznikiem —
 więc odrzucenie jest nad nimi werdyktem prawdziwym,
-czyli tym, czego [kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)
+czyli tym, czego [kierunek toru](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)
 żąda od werdyktu.
 
 Six times in the corpus the exclusion removes the reading

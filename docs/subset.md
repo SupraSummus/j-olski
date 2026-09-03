@@ -63,7 +63,7 @@ Znalezisko ma mówić o zdaniu, a nie o gramatyce.
 Odczytanie, którego polszczyzna nie ma, zdejmuje się więc z gramatyki,
 a odczytanie, które polszczyzna ma, zostaje w werdykcie,
 choćby zdanie wychodziło przez nie wieloznaczne
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 Jedno wykluczenie ogranicza zasięg znaleziska.
 Fraza musi być ciągłym odcinkiem tekstu,
 więc zdanie, którego drugie odczytanie potrzebuje frazy nieciągłej,
@@ -916,7 +916,7 @@ Every one of these is a sentence that gets rejected and should not be:
   albo przydawką, a pytania zależnego w takim zdaniu nie ma.
   Dopisanie ma więc dwie połowy i pierwsza z nich jest zawężeniem:
   czytanie okolicznikowe ma zejść przed czołem, które je zastąpi
-  ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)).
+  ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
   Każde z tych słów żąda przy tym innego kształtu,
   więc jest to kolejka konstrukcji, a nie jedna pozycja:
   `jak` i `ile` mają poza pytaniem czytania, które ta gramatyka bierze —

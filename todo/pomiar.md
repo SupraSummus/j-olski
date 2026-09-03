@@ -177,7 +177,7 @@ Comparing two runs of the whole corpus has no command,
 and it is what the grammar track asks of every addition before it lands.
 A point on [the coverage curve](../docs/design-notes.md#making-the-trade-measurable)
 is a net of what an addition buys against what it costs in uniqueness
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
 so the shape wanted is two runs and what moved between them,
 not one run printed twice and diffed by eye.
 `harness/ruch.py` is that shape for a group of productions removed from olski,
@@ -427,7 +427,7 @@ Przydawka imiesłowowa podniosła liczbę zdań, w których przyjęte czytanie
 przeczy drzewu wzorcowemu, a przebieg, który to pokazał, nie mówi, czym te zdania są
 ([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#przydawka-imiesłowowa-stoi-tam-gdzie-przymiotnik)).
 Kierunek żąda od werdyktu prawdy o zdaniu
-([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę)),
+([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
 więc pozycja, która kupuje pokrycie i sprzedaje zgodność, żąda odczytania,
 a nie samej liczby.
 Do przeczytania jest `python3 -m harness.pomiar <korpus> --examples`

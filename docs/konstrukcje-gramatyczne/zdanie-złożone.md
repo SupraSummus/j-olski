@@ -555,7 +555,7 @@ stoi w tej gramatyce także przy
 [zaimku rzeczownym](grupa-imienna.md#zaimek-rzeczowny-nie-rządzi-dopełniaczem).
 Tańsza z dwóch dróg pyta właśnie o to, co produkcja licencjonuje,
 a nie o to, co słownik oferuje
-([roadmap.md](../roadmap.md#etap-3-czytania-których-polszczyzna-nie-ma)).
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 Kryterium ogólniejsze wygląda tu na tańsze: żądanie „rządź jednym z pozostałych
 sześciu przypadków” powiedziałoby to samo o każdym słowie naraz.

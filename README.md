@@ -6,8 +6,10 @@ przez które jest ona trudna dla sztywnych, zimnych maszyn.
 
 Repozytorium jest projektem wokół tego języka.
 Narzędzia tego projektu biorą podzbiór, a nie całą polszczyznę.
-Żaden cel nie żąda pełnego pokrycia.
-Cele wylicza [docs/roadmap.md](docs/roadmap.md#cele).
+Podzbiór jest umową z autorem.
+Autor rezygnuje z części polszczyzny, a olski pilnuje jakości reszty.
+Umowę opisuje [docs/roadmap.md](docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem).
+Cele wylicza [ten sam plik](docs/roadmap.md#cele).
 
 **Parser tego podzbioru** zwraca wszystkie odczytania zdania.
 Wieloznaczność widać po ich liczbie, a wybór zostaje przy autorze.
