@@ -24,6 +24,7 @@ from olski.subset.słowa import (
     CUDZYSŁÓW_OTWIERAJĄCY,
     CUDZYSŁÓW_ZAMYKAJĄCY,
     CZĄSTKA,
+    CZĄSTKA_PRZY_LICZEBNIKU,
     CZĄSTKA_ZWROTNA,
     FORMA_POPRZYIMKOWA,
     PIĘCIE,
@@ -354,6 +355,18 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
     grammar.rule(
         "liczebnik",
         [word("num", **AGREE), Głowa(nt("liczebnik", accommodability=V("a"), **AGREE))],
+    )
+    # Cząstka przybliżająca przed liczebnikiem: `przeszło sto zdań`. Ciało wchodzi
+    # w łańcuch, a nie przed grupę imienną, bo tamtą pozycję cząstka ma już
+    # (`człon_imienny → part człon_imienny` niżej), a wpisane tam brałoby oba
+    # przyłączenia liczebnika naraz; rozłączności obu list pilnuje
+    # :data:`CZĄSTKI_PRZY_LICZEBNIKU`. Cechy idą w górę z liczebnika, tak samo jak
+    # w łańcuchu wyżej, więc oba przyłączenia pytają grupy z cząstką tym samym,
+    # czym pytają jej bez. Co ta pozycja kupuje i czego nie bierze, mówi
+    # docs/konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna.
+    grammar.rule(
+        "liczebnik",
+        [CZĄSTKA_PRZY_LICZEBNIKU, Głowa(nt("liczebnik", accommodability=V("a"), **AGREE))],
     )
     grammar.rule(
         "człon_imienny",

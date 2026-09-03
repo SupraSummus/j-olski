@@ -400,24 +400,41 @@ Do przeczytania jest przedtem, ile zdań banku drzew stoi na tym czytaniu:
 wpis znalazło jedno, które przyszło do wiersza niezgodnych razem z ciągiem
 współrzędnym wyrażeń przyimkowych, a przebiegu po całym wierszu nikt nie zrobił.
 
-Cząstka przybliżająca przed liczebnikiem nie ma pozycji,
-a rejestr pisze ją stale: `przeszło sto zdań` stoi w
-[`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md) i w README.
-`Kupuje przeszło sto zdań.` staje na `przeszło`.
-`Kupuje ponad sto zdań.` i `Kupuje blisko sto zdań.` wyprowadzają się,
-tylko że na czytaniach, których polszczyzna tam nie ma:
-`ponad sto zdań` wychodzi wyrażeniem przyimkowym bez dopełnienia w zdaniu,
-a `blisko` okolicznikiem przysłówkowym obok `sto zdań` w dopełnieniu.
-Morfeusz daje wszystkim trzem czytanie cząstki,
-a `CZĄSTKI` w `olski/subset/słowa.py` ma `niemal` i `niespełna`,
-a `przeszło`, `ponad` i `blisko` nie ma.
-Ruchem jest pozycja cząstki przed liczebnikiem w grupie liczebnikowej
-([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
-a nie lemat dopisany do `CZĄSTKI`, bo tamta lista stawia cząstkę przy orzeczeniu
-i nie odebrałaby ani wyrażenia przyimkowego, ani okolicznika.
-Do przeczytania jest, ile zdań banku drzew wychodzi dziś przez te dwa czytania,
-bo pozycja ma je zdjąć, a nie stanąć obok nich
+Cząstka przybliżająca `ponad` i `blisko` zostaje poza gramatyką,
+a zdania z nią nie padają, tylko wychodzą na czytaniu, którego polszczyzna nie ma:
+`Kupuje ponad sto zdań.` wychodzi wyrażeniem przyimkowym bez dopełnienia w zdaniu,
+a `Kupuje blisko sto zdań.` z `blisko` w okoliczniku przysłówkowym
+obok `sto zdań` w dopełnieniu.
+Pozycję cząstki przed liczebnikiem gramatyka ma i `przeszło` przez nią wchodzi
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna)),
+a te dwa lematy dopisane do jej listy postawiłyby drugie wyprowadzenie
+obok nieprawdziwego, zamiast je zdjąć
 ([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
+Ruchem jest przez to wykluczenie po stronie słownika, czyli ta sama droga,
+którą `admissible` w `olski/segmentacja.py` odbiera czytania spoza polszczyzny,
+i to samo rozstrzygnięcie, o które pyta wpis o czytaniu przyimkowym formy `co`:
+kryterium ma pytać o parę cząstki z liczebnikiem, a nie o sam lemat,
+bo `ponad chmurami` i `blisko domu` są w polszczyźnie właśnie tym przyimkiem.
+`około` czeka razem z tamtymi dwoma i z tego samego powodu.
+Do przeczytania jest przedtem, ile zdań banku drzew wychodzi dziś przez te czytania,
+bo bez tej liczby wpis jest samą ceną,
+a pyta o nią przebieg werdyktów, nie kolejka blokerów: zdania te się wyprowadzają.
+
+Grupa liczebnikowa nie mierzy stopnia, a ten rejestr mierzy nią stopień co kilka
+dokumentów: `kilka razy większy`, `przeszło trzy razy dłużej`
+i `przeszło dwa razy większej liczbie` padają.
+Ruchem jest ta sama para pozycji, którą ma przysłówek stopnia
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#przysłówek-dostaje-wszystkich-trzech-gospodarzy)):
+`trzy razy większa` stoi tam, gdzie `bardzo duża`,
+a `trzy razy dłużej` tam, gdzie `bardzo długo`,
+więc grupa wchodzi obok tamtego terminala, a nie kolejnym ciałem grupy imiennej.
+Do przeczytania jest przedtem, czy pozycja ma żądać stopnia wyższego:
+`trzy razy lepszy` jest polszczyzną, a `trzy razy dobry` nie jest.
+Obok tego stoi brak drugi, mierzony osobno: ta sama grupa w okoliczniku.
+`Zdanie liczy się dwa razy.` pada, a `Kupuje trzy razy.` wyprowadza się,
+bo `trzy razy` stoi tam w dopełnieniu, którego żąda rama czasownika,
+i okolicznik biernikowy zderzy się z tym dopełnieniem tak samo, jak
+[narzędnikowy z orzecznikiem](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika).
 
 Cząstka `ani` przed liczebnikiem `jeden` nie ma ciała.
 `Rdzeń nie ma ani jednego wiersza.` i `Ani jeden wiersz nie woła witryny.` padają,
@@ -431,6 +448,11 @@ Ruchem jest cząstka przy liczebniku, wraz z pomiarem,
 a do przeczytania jest lista cząstek przy grupie imiennej
 ([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 bo `ani` żąda przeczenia przy orzeczeniu, a tamta lista o przeczeniu nie mówi.
+Cząstka przybliżająca ma przy liczebniku ciało swoje
+([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna)),
+a lemat dopisany do jego listy tego zdania nie kupuje:
+Morfeusz czyta `jeden` przymiotnikiem i rzeczownikiem, a liczebnikiem nie czyta go wcale,
+więc ciało żądające liczebnika `ani jednego` nie obejmuje.
 
 Zaimek z wyrażeniem partytywnym nie ma pozycji tam, gdzie zaimek stoi sam.
 `Który z nich obowiązuje?` i `Nie widać, który z nich obowiązuje.` stają na `z`,
