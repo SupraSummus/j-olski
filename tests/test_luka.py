@@ -1,12 +1,13 @@
 """Te własności sondy luki, na których stoi jej werdykt.
 
-Sonda może skłamać po cichu trzy razy, i każde kłamstwo czyta się jak dobra
-wiadomość. Wariant ``olski`` przepisany, a nie wzięty, przestaje być olskim, i
+Sonda kłamie po cichu, a każde takie kłamstwo czyta się jak dobra wiadomość.
+Wariant ``olski`` przepisany, a nie wzięty, przestaje być olskim, i
 wtedy każde przejście w tabeli jest przejściem między dwiema cudzymi gramatykami.
 Zamknięcie, które nie zatrzyma się na zaimku, wpuszcza wyjęcie z wnętrza zdania
-względnego, czyli wariant szerszy, niż sonda o sobie mówi. A luka wypuszczona
+względnego, czyli wariant szerszy, niż sonda o sobie mówi. Luka wypuszczona
 spod symbolu, który jej nie niesie, nie zostaje domknięta przez żaden zaimek i
-mnoży czytania zdaniom, w których zaimka nie ma wcale.
+mnoży czytania zdaniom, w których zaimka nie ma wcale. A wariant z luką ogłoszony
+najszerszym zabiera tabeli te przejścia, po które ta sonda stoi.
 
 Zdania niżej są zarazem tym, na czym stoi wywód w ``docs/design-notes.md``, więc
 przestawiony werdykt psuje tam akapit, a nie sam test. Cenę i zakup trzymają
@@ -20,7 +21,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from harness.luka import WARIANTY, gramatyka, niosące
+from harness.luka import LUKA_SONDA, WARIANTY, niosące
+from harness.ruch import gramatyka
 from olski.subset import GRAMMAR
 from olski.werdykt import check
 
@@ -34,15 +36,32 @@ DOPEŁNIENIE = "Polszczyzna, którą ktoś napisał, jest trudna."
 #: napotkane: nie ma go ani jeden korpus, jaki to repozytorium czyta, i dlatego
 #: jest tym jednym zdaniem, które luka wyprowadza, a wypisane ciała nie.
 Z_GŁĘBI = "Ustawa, którą organ gminy może wydać, jest tania."
+#: Wysunięta grupa z zaimkiem w środku, a nie sam zaimek. Ciało, które ten szyk
+#: wypisuje, wariant zdejmuje razem z resztą rodziny i luką go nie zastępuje, bo
+#: luka wiąże się z zaimkiem stojącym samotnie.
+GRUPA_NA_CZOLE = "Reguła, której koszt ktoś zna, jest tania."
 
 
 def werdykt(wariant: str, zdanie: str):
-    (jeden,) = check(zdanie, gramatyka(wariant))
+    (jeden,) = check(zdanie, gramatyka(LUKA_SONDA, wariant))
     return jeden
 
 
 def test_wariant_olskiego_jest_gramatyką_która_stoi():
-    assert gramatyka("olski").productions == GRAMMAR.productions
+    assert gramatyka(LUKA_SONDA, "olski").productions == GRAMMAR.productions
+
+
+def test_wariant_z_luką_odrzuca_zdanie_które_olski_wyprowadza():
+    """Wariantu najszerszego ta sonda przez to nie ma, a asercja niżej to trzyma.
+
+    Wpisany dla przyspieszenia liczyłby to zdanie za odrzucone także pod olskim,
+    czyli zabrałby tabeli przejście, które jest mierzoną ceną
+    (``_bez_zbędnych`` w ``harness/ruch.py``).
+    """
+    assert werdykt("olski", GRUPA_NA_CZOLE).status == "valid"
+    for wariant in WARIANTY[1:]:
+        assert werdykt(wariant, GRUPA_NA_CZOLE).status == "rejected"
+    assert LUKA_SONDA.najszerszy is None
 
 
 def test_luki_nie_unosi_grupa_imienna_choć_niesie_zdanie_względne():

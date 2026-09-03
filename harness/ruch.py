@@ -79,13 +79,11 @@ MORFOLOGIA = {"gold": "złota", "live": "żywa"}
 class Sonda:
     """Co jedna sonda różnicowa mówi o sobie wspólnemu przebiegowi.
 
-    Warianty stoją w kolejności wydruku. Pierwszy jest mianownikiem, wobec
-    którego liczone są przejścia, a ostatni ma wyprowadzać najwięcej, bo na nim
-    stoi pomijanie zbędnych rozbiorów (:func:`_bez_zbędnych`). Sonda zdejmująca
-    grupy ma tam samego olskiego, bo grupy nie zdejmuje żadnej, po jednym
-    wariancie na grupę między nim a mianownikiem, i na nim jednym widać
-    konkurencję grup (:attr:`pytania`); sonda wyceniająca pozycję, której olski
-    nie ma, stawia ją za olskim, a zawężenie przed nim.
+    Warianty stoją w kolejności wydruku, a pierwszy jest mianownikiem, wobec
+    którego liczone są przejścia.
+    Sonda zdejmująca grupy stawia na końcu samego olskiego, bo grupy nie zdejmuje
+    żadnej, a między nim a mianownikiem po jednym wariancie na grupę.
+    Na tym najszerszym widać konkurencję grup (:attr:`pytania`).
     """
 
     #: Nazwa modułu, czyli ``harness.płaski``. Wiersz poleceń robi z niej i pomoc,
@@ -114,21 +112,35 @@ class Sonda:
     #: Puste, kiedy grupa jest jedna: nie ma wtedy z czym konkurować, a pomiar na
     #: jednej grupie jest tym, co pisze się w sesji najczęściej.
     pytania: tuple[str, ...] = ()
+    #: Wariant wyprowadzający wszystko, co wyprowadza którykolwiek inny.
+    #: Sonda zdejmująca grupy ma tu samego olskiego,
+    #: bo każdy jej wariant ma podzbiór jego produkcji.
+    #: ``None`` znaczy, że takiego wariantu nie ma,
+    #: i takie pole ma sonda, której warianty jedne ciała zdejmują, a dopisują drugie
+    #: (``harness/luka.py``).
+    #: Czytają je dwa miejsca: pominięcie zbędnych rozbiorów i konkurencja grup.
+    #: Wypisany, a nie brany numerem: kolejność wydruku mówi, co się czyta obok czego,
+    #: a wzięty numerem rozjechałby się w ciszy przy pierwszym przestawieniu wiersza.
+    najszerszy: str | None = None
 
     @property
     def osobne(self) -> tuple[str, ...]:
-        """Warianty zdejmujące po jednej grupie, czyli te między mianownikiem a całością."""
-        return self.warianty[1:-1]
+        """Warianty zdejmujące po jednej grupie, czyli te między mianownikiem a najszerszym."""
+        return tuple(wariant for wariant in self.warianty[1:] if wariant != self.najszerszy)
 
-    @property
-    def czysty(self) -> str:
-        """Wariant, który jest dokładnie gramatyką olskiego, czyli ten, co nie zdejmuje nic.
+    def __post_init__(self) -> None:
+        """Deklaracja niespójna wywraca się tutaj, a nie w połowie przebiegu.
 
-        Nazwany, a nie brany numerem, bo pyta o niego także ``harness/płaski.py``,
-        która nad tą gramatyką liczy drzewa, a nie werdykty; niezmiennik pilnuje
-        ``tests/test_ruch.py``.
+        Literówka w nazwie najszerszego wywróciłaby przebieg dopiero przy pierwszym
+        zdaniu (:func:`gramatyka`),
+        a pytania o konkurencję bez najszerszego nie wywróciłyby go nigdy:
+        drugie z nich mówi o wariancie ze wszystkimi grupami naraz,
+        więc bez niego wyszedłby wiersz zerowy, którego nikt nie zmierzył.
         """
-        return self.warianty[-1]
+        if self.najszerszy is not None and self.najszerszy not in self.warianty:
+            raise ValueError(f"{self.nazwa}: najszerszy nie jest wariantem: {self.najszerszy}")
+        if self.pytania and self.najszerszy is None:
+            raise ValueError(f"{self.nazwa}: konkurencja grup żąda wariantu najszerszego")
 
 
 def koordynuje(produkcja: Production) -> bool:
@@ -271,16 +283,16 @@ class Raport:
         self._konkurencja(tekst, stany, mianownik)
 
     def _konkurencja(self, tekst: str, stany: dict[str, str], mianownik: str) -> None:
+        if len(self.sonda.pytania) < 2:
+            return
         ruszone = {
             wariant: stany[wariant]
             for wariant in self.sonda.osobne
             if stany[wariant] != mianownik
         }
-        if len(self.sonda.pytania) < 2:
-            return
         if len(ruszone) >= 2:
             self._policz(self.sonda.pytania[0], tekst)
-        if stany[self.sonda.warianty[-1]] not in {mianownik, *ruszone.values()}:
+        if stany[self.sonda.najszerszy] not in {mianownik, *ruszone.values()}:
             self._policz(self.sonda.pytania[1], tekst)
 
     def _policz(self, nazwa: str, tekst: str) -> None:
@@ -304,29 +316,33 @@ Wynik = TypeVar("Wynik", Outcome, Verdict)
 def _bez_zbędnych(sonda: Sonda, wynik: Callable[[str], Wynik]) -> dict[str, Wynik]:
     """Wynik każdego wariantu, bez rozbiorów, których odpowiedź jest już znana.
 
-    Wariant ostatni wyprowadza najwięcej, a każdy inny wyprowadza podzbiór tego,
-    co on, więc zdanie odrzucone przez niego jest odrzucone pod wszystkimi.
-    Jego rozbiór idzie przez to pierwszy, a odrzucenie zamyka pozostałe warianty
-    jedną odpowiedzią, bo o zdaniu odrzuconym mówią one to samo.
+    Wariant najszerszy wyprowadza wszystko, co wyprowadza którykolwiek inny, więc
+    zdanie przez niego odrzucone jest odrzucone pod wszystkimi.
+    Rozbiór najszerszego idzie przez to pierwszy,
+    a odrzucenie zamyka pozostałe warianty jedną odpowiedzią,
+    bo o zdaniu odrzuconym mówią one to samo.
     Olski odrzuca większość zdań banku drzew, co drukuje ``harness.pomiar``,
-    więc z przebiegu wypada przeszło połowa rozbiorów.
+    więc u sondy zdejmującej grupy wypada z przebiegu przeszło połowa rozbiorów.
 
-    Kolejność tę deklaruje sonda i odpowiada za nią sama (:class:`Sonda`):
-    wariant rozszerzający postawiony przed ostatnim dostałby wiersz o zdaniach,
-    których nikt nie rozebrał, a wydruk milczałby o tym.
-    U sondy zdejmującej grupy wariantem ostatnim jest sam olski
-    i tego pilnuje ``tests/test_ruch.py``.
+    Który wariant to jest, deklaruje sonda i odpowiada za to sama
+    (:attr:`Sonda.najszerszy`). Sonda, która najszerszego nie ma, rozbiera każdym
+    wariantem: pominięcie oparte na wariancie, który cudzych zdań nie
+    wyprowadza, zabrałoby tabeli właśnie te przejścia, po które ona stoi, i żaden
+    wiersz wydruku by tego nie powiedział.
 
     Pytanie to jest jedno dla obu korpusów, więc i odpowiedź stoi tu jedna: bank
     drzew i proza różnią się tym, co wariant nad zdaniem wydaje, a nie tym, które
     rozbiory są zbędne.
     """
-    czysty = wynik(sonda.czysty)
-    if czysty.result.rejected:
-        return dict.fromkeys(sonda.warianty, czysty)
-    wyniki = {wariant: wynik(wariant) for wariant in sonda.warianty[:-1]}
-    wyniki[sonda.czysty] = czysty
-    return wyniki
+    if sonda.najszerszy is None:
+        return {wariant: wynik(wariant) for wariant in sonda.warianty}
+    najszerszy = wynik(sonda.najszerszy)
+    if najszerszy.result.rejected:
+        return dict.fromkeys(sonda.warianty, najszerszy)
+    return {
+        wariant: najszerszy if wariant == sonda.najszerszy else wynik(wariant)
+        for wariant in sonda.warianty
+    }
 
 
 def _warianty(
@@ -478,11 +494,10 @@ def scal(sonda: Sonda, raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) 
 def wydruk(raport: Raport, nagłówek: str) -> str:
     """Tabela werdyktów, a przed nią to, ile produkcji ma każdy wariant.
 
-    Kolumna produkcji stoi tu z tego samego powodu, dla którego stoi w
-    ``harness/luka.py``: wariant, który nie zdjął ani jednej produkcji, drukuje
-    tabelę bez ani jednego przejścia, czyli wydruk nie do rozróżnienia od
-    konstrukcji, która nic nie kosztuje. Sonda pisana pod jedną decyzję dostaje
-    nazwy wariantów ręką, więc pomylić je z nazwą grupy jest łatwo.
+    Kolumna produkcji stoi tu dlatego, że wariant, który nie zdjął ani jednej
+    produkcji, drukuje tabelę bez ani jednego przejścia, czyli wydruk nie do
+    rozróżnienia od konstrukcji, która nic nie kosztuje. Sonda pisana pod jedną
+    decyzję dostaje nazwy wariantów ręką, więc pomylić je z nazwą grupy jest łatwo.
     """
     sonda = raport.sonda
     szerokość = max(len("wariant"), *(len(wariant) for wariant in sonda.warianty))
@@ -520,7 +535,10 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
 
     # Zero wypisane, a nie pominięte: liczba, której nie ma, czyta się jak
     # pomiar, którego nie było, a to jest ta liczba, po którą sonda stoi.
-    wiersze += ["", "konkurencja, nad zdaniem po zdaniu:"]
+    # Sonda bez pytań traci za to całą sekcję, bo nagłówek nad niczym obiecuje
+    # pomiar, którego ona nie robi.
+    if sonda.pytania:
+        wiersze += ["", "konkurencja, nad zdaniem po zdaniu:"]
     for nazwa in sonda.pytania:
         wiersze.append(f"  {raport.konkurencja.get(nazwa, 0):>7}  {nazwa}")
 
@@ -538,6 +556,30 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
             wiersze += ["", f"{wariant}, {przejście}:"]
             wiersze += [f"  {tekst}" for tekst in zachowane]
 
+    return "\n".join(wiersze)
+
+
+def wydruk_zdań(sonda: Sonda, tekst: str, _args: argparse.Namespace) -> str:
+    """Werdykt każdego wariantu nad podanymi zdaniami, po jednym wierszu na zdanie.
+
+    Po to, żeby cena i zakup dały się przeczytać na zdaniu, a nie tylko policzyć
+    nad korpusem: konstrukcja rusza nad bankiem drzew kilka zdań, a minimalna
+    para pokazuje, czym rusza.
+
+    Liczba czytań stoi obok werdyktu, bo cena bywa czytaniem dołożonym zdaniu,
+    które i tak było wieloznaczne, a werdykt o tym milczy.
+
+    Wyborów z wiersza poleceń ten tryb nie czyta, a bierze je,
+    bo tego żąda ``Komenda.zdania`` w ``harness/komenda.py``.
+    """
+    wiersze = []
+    for zdanie in sentences(tekst):
+        werdykty = _werdykty(sonda, zdanie, morphology(zdanie))
+        opis = "  ".join(
+            f"{wariant}: {wynik.status} ({wynik.result.ile})"
+            for wariant, wynik in werdykty.items()
+        )
+        wiersze.append(f"{werdykty[sonda.warianty[0]].text}\n  {opis}")
     return "\n".join(wiersze)
 
 
@@ -561,11 +603,14 @@ def _proza(sonda: Sonda, wejścia: Sequence[tuple[Path, str]], args: argparse.Na
 
 
 def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
-    """Puszcza sondę różnicową nad bankiem drzew albo nad plikiem prozy.
+    """Puszcza sondę różnicową nad bankiem drzew, nad plikiem prozy albo nad ``-c``.
 
     Sonda pisana pod jedną decyzję woła to jednym wierszem,
     bo od sond wpisanych do drzewa różni się tym, co zdejmuje,
     a nie tym, o co pyta w wierszu poleceń (``CLAUDE.md#code``).
+
+    ``-c`` dostaje każda sonda, bo minimalna para jest tym, czym sprawdza się
+    liczbę z tabeli, i nie zależy od tego, co ta sonda zdejmuje.
     """
     return uruchom(
         Komenda(
@@ -575,6 +620,7 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
             korpus=functools.partial(_korpus, sonda),
             pula=True,
             proza=functools.partial(_proza, sonda),
+            zdania=functools.partial(wydruk_zdań, sonda),
             argumenty=_morfologia,
         ),
         argv,

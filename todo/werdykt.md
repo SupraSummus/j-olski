@@ -33,6 +33,29 @@ Tej samej nazwy żąda wpis o gospodarzu o dwóch głowach, a wydać ją raz jes
 Do przeczytania jest, ile wierszy `„…” reads N ways` rejestr ustaw wydaje nad grupą
 imienną, a ile nad zdaniem podrzędnym, bo pierwsza z tych liczb jest ceną milczenia.
 
+Konstytuent, którego głową jest luka, nie ma czym się nazwać,
+a streszczenie pyta go o nazwę i wywraca wyjątkiem cały przebieg.
+`liść_głowy` w `olski/parse/czytanie.py` schodzi po głowach do liścia,
+a węzeł produkcji o pustym ciele córek nie ma,
+więc `_attachment` w `olski/parse/streszczenie.py` dostaje `IndexError`.
+Gramatyka olskiego produkcji o pustym ciele nie ma,
+więc wywraca się tylko wariant z luką (`harness/luka.py`):
+`Jest reguła, którą ktoś zna po cichu.` wywraca się tam pod `luka wszędzie`,
+bo gospodarzem okolicznika jest `wypełnienia`, a jego głową puste `dopełnienie`,
+i sonda nie dochodzi przez to do końca nad znaczną częścią prozy tego repozytorium.
+Przeoczeniem to nie jest: komentarze nad `Node.span` i nad `Production.głowa`
+mówią już, że pustego ciała żąda luka, że nikt tego żądania nie zaspokoił
+i że zero nie nazywa w takim ciele żadnej córki.
+Ruchem nie jest napis zastępczy w miejsce wyjątku,
+bo o nazwę pyta streszczenie po to, żeby wypisać ją czytelnikowi.
+Zamyka ten wpis tamten o luce wskazującej zaimek, który ją wiąże,
+a nie miejsce, w którym stoi:
+etykieta roli postawiona nad zaimkiem daje głowie liść,
+a przy okazji tę samą rolę, którą na tych zdaniach stawia bank drzew.
+Do przeczytania jest `_host` obok `_attachment`, bo gospodarza wybiera on,
+więc on mówi, czy pytanie pada tu o konstytuent, którego nazwać się nie da,
+czy o cudzy konstytuent, na którym zejście miało się zatrzymać.
+
 Przyimka wysuniętego wyrażenia nie widać w werdykcie, a innego przyimka widać:
 `O czym poseł mówi?` streszcza się jako `grupa_pytajna: czym`,
 a `Poseł mówi o ustawie.` jako `wyrażenie_przyimkowe: o ustawie → mówi`.
