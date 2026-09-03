@@ -1,30 +1,16 @@
 # Pomiar pokrycia
 
-Kolejność czytań zmierzono nad cudzym rejestrem i tylko nad nim.
-Koszt produkcji i późne domknięcie wyceniono złotym czytaniem Składnicy
-([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
-a rejestr, do którego olski celuje, nie mówi o kolejności nic,
-choć to w nim czytelnik ogląda czytanie pierwsze.
-Wzorzec na to jest jeden i już stoi: `próba/wybory.txt` nazywa ręką gospodarza,
+Kolejność czytań nad własnym rejestrem nie ma wzorca, więc kierunek czyta człowiek.
+Które zdania przeczytać, mówi `harness/cena.py`, a czy przestawiło je w dobrą stronę,
+nie mówi żadna sonda: drzewa wzorcowego proza nie niesie
+([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Wzorzec jest jeden i już stoi: `próba/wybory.txt` nazywa ręką gospodarza,
 o którego w danym zdaniu korpusu audytowego chodziło (`harness/wybory.py`).
 Ruchem jest pytanie tamtego pliku o co innego niż warstwa rozstrzygająca:
 czy czytanie pierwsze obsadza tego gospodarza, którego nazwał czytający.
-Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr,
-a liczba mówi, czy dzisiejsze koszty są dobrane pod Składnicę,
-czy pod dokumentację techniczną.
-
-Sonda różnicowa mierzy zdejmowaniem produkcji, a cennik otwiera tańszy wariant.
-`harness/ruch.py` składa gramatykę bez grupy produkcji i porównuje werdykty,
-więc odpowiada na pytanie o to, ile konstrukcja kupuje zdań.
-Pytanie o cenę jest inne: która pozycja cennika przestawia czytanie pierwsze
-i w którą stronę.
-Wariantem jest tam gramatyka z jedną pozycją wycenioną na zero
-(`CENNIK` w `olski/cennik.py`), a nie gramatyka bez produkcji,
-bo zdjęta produkcja zabiera czytanie, a pozycja darmowa przestawia je w kolejce.
-Porównuje się przez to nie werdykty, a czytanie pierwsze każdego zdania,
-i to jest ta różnica, przez którą nie wchodzi to do `harness/ruch.py` wprost.
-Do przeczytania przedtem jest, czy `Sonda` w tamtym pliku uniesie wariant,
-który gramatyki nie okrawa, bo `Zdejmowanie` zakłada, że okraja.
+Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr:
+z trzydziestu zdań tamtego pliku olski czyta kilka,
+więc powiększyć go umie tylko gramatyka, a nie następne losowanie.
 
 Kosztu morfologii nie widzi ani jeden pomiar nad bankiem drzew.
 `harness/czytania.py` mierzy złote czytanie morfologią złotą, czyli czytaniem

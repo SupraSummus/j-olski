@@ -231,6 +231,42 @@ a większość przestawia w obrębie zdań, których gramatyka i tak nie czyta d
 To jedno zdanie trzyma `tests/test_kolejność.py`, bo nad Składnicą nie ma czego
 trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`todo/`](../todo/README.md).
 
+**Koszt produkcji mierzy nad tą samą prozą osobna sonda, pozycja po pozycji**
+(`harness/cena.py`): wycenia jedną pozycję na zero i porównuje czytanie pierwsze
+każdego zdania.
+Liczb tych nie porównuje się z liczbami z pomiaru wyżej, bo mierzą co innego:
+tam liczy się trafienie w złote czytanie, a tu samo przestawienie.
+Kierunku sonda nie podaje, bo proza drzewa wzorcowego nie niesie —
+wypisuje oba czytania pierwsze, a czyta je człowiek.
+
+Pozycje ważą nad tą prozą nierówno.
+Przestawienie rusza przeszło dwieście zdań wieloznacznych,
+opuszczony podmiot blisko sto, okolicznik kilkadziesiąt,
+czasownik przed podmiotem kilkanaście, wysunięty orzecznik dwa,
+a wysunięte dopełnienie bezokolicznika ani jednego.
+Ostatnia została mimo to, bo tamtego szyku żąda bank drzew
+([orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
+a zero nad jednym rejestrem nie jest przeciw niemu dowodem.
+
+**Tą sondą wyceniono opuszczenie podmiotu w szyku, w którym za czasownikiem coś stoi**,
+i wpuszczono cenę, której to ciało wcześniej nie płaciło
+(`zdanie_składowe → grupa_orzeczenia` w `olski/subset/zdanie.py`).
+Darmowe orzeka rzecz, której nikt nie zadeklarował:
+że opuszczenie podmiotu jest w tym szyku zwyklejsze niż postawienie go za czasownikiem,
+bo ciało konkurujące płaci `czasownik przed podmiotem`.
+Cena rusza czytanie pierwsze przeszło stu zdań wieloznacznych tej prozy,
+z czego przeczytano dwadzieścia pięć,
+a więcej niż połowę przestawia w stronę czytania trafnego:
+`Jaki nagłówek jest zły, mówi katalog chwytów rejestru.` bez niej wychodzi z nazwą
+katalogu w dopełnieniu, a z nią w podmiocie.
+Traci na niej jedna klasa zdań — czasownik przechodni, którego podmiot autor
+naprawdę opuścił, jak `Kosztuje to jedno rozstrzygnięcie.` —
+bo cennik mówi o produkcji, a nie o formie czasownika.
+Zdanie podrzędne tej ceny nie dostało, choć opuszcza podmiot tym samym prawem:
+wyceniono je i nie rusza ani jednego zdania,
+bo przypadek zaimka mówi tam, którą rolę zajmuje czoło,
+więc ciało bez podmiotu i ciało z podmiotem rzadko biorą jeden napis.
+
 Kolejności dopisań nie widać w żadnej z tych trzech rzeczy i to jest cel.
 Przestawiona zmieniałaby pierwsze czytanie mniej więcej w połowie zdań
 wieloznacznych README, a werdyktu nie ruszała w żadnym;

@@ -114,7 +114,7 @@ function podpisRachunku(rachunek) {
 }
 
 //  Rachunki albo żadne: zdanie, którego ani jedno czytanie nic nie płaci, dostawałoby
-//  pod każdym z nich ten sam wiersz bez treści, a większość zdań jest właśnie taka.
+//  pod każdym z nich ten sam wiersz bez treści.
 function rachunkiCzytań(dane) {
   return dane.koszty.some((rachunek) => rachunek.length) ? dane.koszty : null;
 }

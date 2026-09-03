@@ -215,7 +215,13 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
     ]
    ],
    "koszty": [
-    []
+    [
+     {
+      "pozycja": "opuszczony podmiot",
+      "ile": 1,
+      "koszt": 200
+     }
+    ]
    ],
    "liczba_czytań": 1,
    "urwane": false,

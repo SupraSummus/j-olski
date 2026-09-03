@@ -359,8 +359,11 @@ class Verdict:
         return self.result.status
 
     @property
-    def readings(self) -> list[dict[str, str]]:
+    def readings(self) -> list[tuple[dict[str, str], ...]]:
         """Streszczenia odczytań, każde raz (:func:`streszczenia`).
+
+        Odczytanie jest krotką streszczeń, po jednym na zdanie składowe, więc
+        wpisem tej listy jest krotka, a nie jedno streszczenie.
 
         Lista jest po to, żeby pokazać różnicę między odczytaniami,
         a różnicę spoza zasięgu streszczenia nazywa wiersz o konstytuencie

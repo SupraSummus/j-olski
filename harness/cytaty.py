@@ -33,30 +33,13 @@ import argparse
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
+from harness import proza_repozytorium
 from olski.markdown import PARSER
 from olski.werdykt import check
-
-KORZEŃ = Path(__file__).resolve().parent.parent
 
 #: Znaki, którymi ta proza kończy zdanie; te same, po których tnie
 #: ``sentences`` w ``olski/segmentacja.py``.
 KOŃCZY_ZDANIE = (".", "?", "!")
-
-
-def domyślne() -> list[Path]:
-    """Cała proza repozytorium, czyli to, co obejmują reguły pisania (CLAUDE.md).
-
-    Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
-    ``docs/`` albo do ``todo/`` wszedł tu sam; ten sam zbiór bierze
-    ``tests/test_docs.py``.
-    Rejestr konstrukcji jest katalogiem w ``docs/``, więc zejście tam jest
-    rekurencyjne: bez tego odcisk minąłby cały ten rejestr.
-    """
-    return (
-        sorted(KORZEŃ.glob("*.md"))
-        + sorted((KORZEŃ / "docs").rglob("*.md"))
-        + sorted((KORZEŃ / "todo").glob("*.md"))
-    )
 
 
 def wstawki(tekst: str) -> Iterator[str]:
@@ -125,7 +108,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="pliki Markdown; bez nich cała proza repozytorium",
     )
     args = parser.parse_args(argv)
-    ścieżki = [Path(nazwa) for nazwa in args.ścieżki] or domyślne()
+    ścieżki = [Path(nazwa) for nazwa in args.ścieżki] or proza_repozytorium()
     print(wydruk(ścieżki))
     return 0
 

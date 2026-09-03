@@ -19,7 +19,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.cennik import CENNIK, OKOLICZNIK, OPUSZCZONY_PODMIOT
+from olski.cennik import CENNIK, CZASOWNIK_PRZED_PODMIOTEM, OKOLICZNIK, OPUSZCZONY_PODMIOT
 from olski.grammar import Grammar, Głowa, nt, word
 from olski.parse import parse
 from olski.rejestr import POZA_REJESTREM, pozycje
@@ -135,6 +135,27 @@ def test_czytanie_oparte_na_formie_spoza_rejestru_wychodzi_z_lasu_później():
     assert [sorted(zdanie) for (zdanie,) in werdykt.readings] == [
         ["orzeczenie", "orzecznik", "podmiot"],
         ["okolicznik_przysłówkowy", "orzeczenie", "orzecznik"],
+    ]
+
+
+def test_podmiot_za_czasownikiem_wychodzi_przed_czytaniem_bez_podmiotu():
+    """Opuszczenie podmiotu płaci w każdym szyku, więc i tam, gdzie za czasownikiem coś stoi.
+
+    `Rozstrzyga odsłownik.` czyta się dwojako: z `odsłownik` w podmiocie za
+    czasownikiem albo w dopełnieniu, z podmiotem opuszczonym.
+    Bez ceny drugie czytanie było darmowe, a pierwsze płaciło `czasownik przed
+    podmiotem`, więc gramatyka orzekała rzecz, której nikt nie zadeklarował:
+    że szukanie podmiotu w zdaniu obok jest zwyklejsze od podmiotu, który stoi
+    na miejscu.
+    """
+    (werdykt,) = check("Rozstrzyga odsłownik.")
+    assert [sorted(zdanie) for (zdanie,) in werdykt.readings] == [
+        ["orzeczenie", "podmiot"],
+        ["dopełnienie", "orzeczenie"],
+    ]
+    assert werdykt.rachunki == [
+        ((CZASOWNIK_PRZED_PODMIOTEM, 1),),
+        ((OPUSZCZONY_PODMIOT, 1),),
     ]
 
 
