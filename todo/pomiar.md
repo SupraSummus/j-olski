@@ -1,16 +1,21 @@
 # Pomiar pokrycia
 
-Kolejność czytań nad własnym rejestrem nie ma wzorca, więc kierunek czyta człowiek.
-Które zdania przeczytać, mówi `harness/cena.py`, a czy przestawiło je w dobrą stronę,
-nie mówi żadna sonda: drzewa wzorcowego proza nie niesie
+Kolejność czytań ma nad własnym rejestrem wzorzec, a mierzy nim garść wpisów.
+`harness/kolejność.py` pyta `próba/wybory.txt`, czy czytanie pierwsze przyłącza frazę
+do gospodarza przeczytanego ręką, i odpowiada nad wpisami, których zdanie olski czyta.
+Reszta zdań tego rejestru jest za długa, więc mianownik powiększa gramatyka,
+a nie następne losowanie
 ([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Wzorzec jest jeden i już stoi: `próba/wybory.txt` nazywa ręką gospodarza,
-o którego w danym zdaniu korpusu audytowego chodziło (`harness/wybory.py`).
-Ruchem jest pytanie tamtego pliku o co innego niż warstwa rozstrzygająca:
-czy czytanie pierwsze obsadza tego gospodarza, którego nazwał czytający.
-Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr:
-z trzydziestu zdań tamtego pliku olski czyta kilka,
-więc powiększyć go umie tylko gramatyka, a nie następne losowanie.
+Wpisów ubywa jeszcze jedną drogą i tę wolno odwrócić bez gramatyki.
+Fraza wzorca jest poprawiana ręką, więc wychodzi krótsza od konstytuentu,
+który bierze gramatyka — `na kategorie` wobec `na kategorie nadanych uprawnień` —
+a sonda dopasowuje po całej frazie i wpisy takie wypisuje w klasie `inny konstytuent`.
+Ruchem jest najwęższy z konstytuentów zawierających frazę,
+bo gospodarza wybiera on i tak dla całego przyłączenia.
+Do przeczytania są wpisy tej klasy w obu próbach:
+gospodarz konstytuentu szerszego bywa tym, którego wskazał czytający,
+a bywa gospodarzem czegoś, o co czytający nie pytał,
+i od tego zależy, czy ruch dokłada wpisy, czy dokłada trafienia pozorne.
 
 Kosztu morfologii nie widzi ani jeden pomiar nad bankiem drzew.
 `harness/czytania.py` mierzy złote czytanie morfologią złotą, czyli czytaniem
