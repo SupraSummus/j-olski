@@ -87,6 +87,10 @@ Wiersz morfologii składają te same dwa miejsca z tego samego powodu:
 pod tym kluczem idzie forma wraz ze swoimi odczytaniami,
 a nie gotowy wiersz o niej.
 
+Tak samo należy do kodu nazwa pozycji cennika, którą płaci czytanie.
+Strona bierze ją taką, jaka przyszła, i pisze wokół niej swoje:
+zwój o tym, czym kolejność czytań jest, a czym nie.
+
 Klucze odpowiedzi wybiera ten projekt, więc są po polsku.
 Nazwa roli w odczytaniu jest po polsku,
 bo jest nazwą symbolu gramatyki,
@@ -210,6 +214,9 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
      }
     ]
    ],
+   "koszty": [
+    []
+   ],
    "liczba_czytań": 1,
    "urwane": false,
    "rozbieżne": [],
@@ -273,6 +280,15 @@ bo odsiewa je dopiero odczytanie zdania.
 Komenda żąda na to flagi, a odpowiedź niesie to zawsze.
 Strona zwija to do podpisu i rozwija jednym kliknięciem,
 czego wydruk w terminalu nie umie.
+Pod `koszty` idzie wpis na każde streszczenie z `czytania`,
+a w nim pozycje cennika, którymi to czytanie płaci,
+każda wraz z liczbą wystąpień i tym, ile te wystąpienia kosztują.
+Liczy tę cenę serwer, bo cennik jest w `olski/cennik.py`,
+a strona licząca ją sama miałaby drugą kopię tabeli cen.
+Sumy na czytanie odpowiedź nie podaje, bo kolejność czytań rozstrzyga koszt
+czytany od góry drzewa, a nie suma rachunku
+([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
+więc suma czytałaby się na miejsce w kolejce, którym nie jest.
 Granicę znaków oddaje sama odpowiedź, bo licznik pod polem liczy przy niej.
 Granica wpisana w skrypcie byłaby drugą kopią liczby z serwera.
 

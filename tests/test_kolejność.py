@@ -19,8 +19,10 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from olski.cennik import CENNIK, OKOLICZNIK, OPUSZCZONY_PODMIOT
 from olski.grammar import Grammar, Głowa, nt, word
 from olski.parse import parse
+from olski.rejestr import POZA_REJESTREM, pozycje
 from olski.segmentacja import morphology
 from olski.subset import build
 from olski.werdykt import check
@@ -67,10 +69,10 @@ def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
     rozstrzygnęłoby ją zwykle cięcie i test nie mierzyłby kosztu.
     """
     kolejność = []
-    for koszt_lewego in (0, 1):
+    for lewe, prawe in (((), (OKOLICZNIK,)), ((OKOLICZNIK,), ())):
         grammar = Grammar(start="zdanie")
-        grammar.rule("zdanie", [Głowa(nt("lewe"))], koszt=koszt_lewego)
-        grammar.rule("zdanie", [Głowa(nt("prawe"))], koszt=1 - koszt_lewego)
+        grammar.rule("zdanie", [Głowa(nt("lewe"))], koszty=lewe)
+        grammar.rule("zdanie", [Głowa(nt("prawe"))], koszty=prawe)
         grammar.rule("lewe", [Głowa(word("subst")), word("interp")])
         grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
         czytania = parse(grammar, morphology("plik.")).readings
@@ -90,10 +92,35 @@ def test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica():
     grammar = Grammar(start="zdanie")
     grammar.rule("zdanie", [Głowa(nt("lewe"))])
     grammar.rule("zdanie", [Głowa(nt("prawe"))])
-    grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszt=5)
+    grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszty=(OKOLICZNIK,))
     grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
     czytania = parse(grammar, morphology("plik.")).readings
     assert [drzewo.children[0].label for drzewo in czytania] == ["lewe", "prawe"]
+
+
+def test_każdą_pozycję_cennika_ktoś_płaci():
+    """Cennik nie trzyma pozycji, której nie płaci ani produkcja, ani forma.
+
+    Nazwa wpisana do produkcji, a nie do cennika, wywraca budowanie gramatyki
+    (`cena` w `olski/cennik.py`), więc pilnowania żąda druga strona:
+    pozycja, której nikt nie płaci, zostaje po konstrukcji wycofanej z gramatyki
+    i wycenia coś, czego już nie ma.
+    """
+    płacone = {nazwa for produkcja in build().productions for nazwa in produkcja.koszty}
+    #  Kwalifikatory odsyłające, bo pozycji morfologii nie płaci żadna produkcja.
+    płacone.update(pozycje(POZA_REJESTREM))
+    assert set(CENNIK) == płacone
+
+
+def test_rachunek_stoi_przy_tym_odczytaniu_które_płaci():
+    """Rachunek jest wpisem na odczytanie, a nie jedną odpowiedzią o zdaniu.
+
+    `Program otwierający się psuje.` czyta się na trzy sposoby, a płaci jeden:
+    ten, który grupę przed czasownikiem bierze za dopełnienie i każe szukać
+    podmiotu w zdaniu obok.
+    """
+    (werdykt,) = check("Program otwierający się psuje.")
+    assert werdykt.rachunki == [(), (), ((OPUSZCZONY_PODMIOT, 1),)]
 
 
 def test_czytanie_oparte_na_formie_spoza_rejestru_wychodzi_z_lasu_później():

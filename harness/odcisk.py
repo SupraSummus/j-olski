@@ -9,7 +9,7 @@ dowieść jej trzeba tak samo, i wtedy jedynym przyrządem jest odcisk gramatyki
 
 Odcisk, który o jakimś polu milczy, jest gorszy od jego braku: mówi, że nie
 ruszyło się nic, o zmianie, której nie umiał zobaczyć. Dlatego ``repr`` produkcji
-tu nie wystarcza — wypisuje głowę i ciało, a przemilcza cechy, koszt i lematy
+tu nie wystarcza — wypisuje głowę i ciało, a przemilcza cechy, koszty i lematy
 terminala — a :func:`wypisz` pyta o pola samą klasę.
 
 Kolejność produkcji jest kolejnością gramatyki, a nie posortowaną, bo gramatyka
@@ -33,6 +33,7 @@ import argparse
 from collections.abc import Sequence
 from dataclasses import MISSING, Field, fields, is_dataclass
 
+from olski.cennik import CENNIK
 from olski.grammar import Grammar
 from olski.parse import Deklaracja
 from olski.subset import DEKLARACJA, GRAMMAR
@@ -73,13 +74,18 @@ def wypisz(wartość: object) -> str:
 def odcisk(grammar: Grammar, deklaracja: Deklaracja) -> str:
     """Cała gramatyka jednym tekstem, po jednej produkcji na wiersz.
 
-    Deklaracja stoi nad produkcjami, bo mówi, co werdykt z nich czyta, a jest od
-    nich o dwa rzędy wielkości krótsza: diff pokazujący samą jej zmianę mieści
-    się wtedy na ekranie.
+    Deklaracja i cennik stoją nad produkcjami, bo mówią, co werdykt z nich czyta
+    i w jakiej kolejności je wydaje, a są od nich o dwa rzędy wielkości krótsze:
+    diff pokazujący samą ich zmianę mieści się wtedy na ekranie.
+    Cennik jest tu dlatego, że produkcja niesie same nazwy pozycji: cena
+    przestawiona w nim samym nie ruszyłaby bez niego ani jednego wiersza niżej,
+    a przestawia kolejność czytań (``olski/cennik.py``).
     """
     wiersze = ["deklaracja:"]
     for pole in fields(deklaracja):
         wiersze.append(f"  {pole.name} = {wypisz(getattr(deklaracja, pole.name))}")
+    wiersze += ["", "cennik:"]
+    wiersze += [f"  {nazwa} = {cena}" for nazwa, cena in CENNIK.items()]
     wiersze += ["", "gramatyka:"]
     #  Pola idą z ``vars``, żeby atrybut dopisany do gramatyki wszedł do odcisku
     #  sam. Odpadają dwa: podkreślone jest tym, co gramatyka o sobie policzyła,

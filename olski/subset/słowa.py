@@ -260,11 +260,6 @@ AGREE = {"case": V("c"), "number": V("n"), "gender": V("g")}
 POPRZEDNIK = {"number": V("nz"), "gender": V("gz")}
 
 
-#: O ile niżej stoi czytanie konstrukcji nacechowanej. Jedyny koszt wypisany w tej
-#: gramatyce ręką; resztę wylicza z deklaracji `olski/precedencja.py`.
-KOSZT_WYSUNIĘCIA = 1
-
-
 #: Wartość cechy `czoło` dla roli, którą wypełnia konstytuent stojący na swoim
 #: miejscu; rola wysunięta niesie tam nazwę czoła, którym ją wypełniono.
 #:

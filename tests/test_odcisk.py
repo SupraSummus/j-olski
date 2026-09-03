@@ -11,7 +11,7 @@ Widać to wyłącznie między procesami, bo w jednym ziarno jest jedno, i dlateg
 własność ta sprawdza się podprocesem, nad całą gramatyką naraz.
 
 Drugi: przemilcza różnicę, która jest. ``repr`` produkcji wypisuje głowę i
-ciało, a przemilcza cechy, koszt i lematy terminala, więc odcisk pisany z niego
+ciało, a przemilcza cechy, koszty i lematy terminala, więc odcisk pisany z niego
 przechodzi nad zmianą walencji tak samo jak nad zmianą żadną.
 """
 
@@ -28,6 +28,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.odcisk import wypisz
+from olski.cennik import OKOLICZNIK
 from olski.grammar import Production, V, Word, word
 
 KORZEŃ = Path(__file__).resolve().parent.parent
@@ -61,7 +62,7 @@ def _z_terminalem(terminal: Word) -> Production:
 #: wypisuje. Po jednej na pole, bo pominąć w odcisku da się każde z osobna,
 #: a pominięte jest zmianą, o której odcisk milczy.
 RÓŻNI_SIĘ_POLEM = {
-    "koszt": replace(BAZA, koszt=1),
+    "koszty": replace(BAZA, koszty=(OKOLICZNIK,)),
     "głowa": replace(BAZA, głowa=1),
     "features": replace(BAZA, features=(("case", frozenset({"nom"})),)),
     "constraints terminala": _z_terminalem(word("subst", case=V("c"))),
