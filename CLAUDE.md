@@ -720,7 +720,7 @@ Workflow nie nosi znaczka.
 Pull request puszcza obok tego drugi workflow,
 który buduje dokumentację pod adresem.
 Wywraca go martwy link, więc jest sprawdzeniem prozy.
-Do bloku wyżej nie wchodzi, bo mkdocs i pdoc instaluje osobny dodatek.
+Do bloku wyżej nie wchodzi, bo mkdocs i mkdocstrings instaluje osobny dodatek.
 Decyzje o stronie trzyma [`docs/publikacja.md`](docs/publikacja.md).
 
 Push na gałąź bez pull requesta nie uruchamia żadnego z tych dwóch,
