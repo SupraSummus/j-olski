@@ -137,7 +137,7 @@ Trzy kandydatki odpadły na kroku czwartym i wracać nie mają.
 Odległość podmiotu od orzeczenia trafia nad README kilka razy,
 a za każdym razem stoi między nimi zwykły okolicznik albo szyk odwrócony.
 Jedno twierdzenie na zdanie trafia co kilka zdań i rozstrzyga się rejestrem:
-[CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) pozwala tak pisać wywód,
+[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) pozwala tak pisać wywód,
 a zakazuje instrukcji, więc reguła ta żąda progu, którego nie ma czym skalibrować.
 Zdanie podrzędne zagnieżdżone w podrzędnym trafia nad tą prozą raz
 i nie ma czego robić.

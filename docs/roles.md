@@ -116,6 +116,44 @@ Co zamyka commit w tym repozytorium, jest tam.
 Co zamyka świat zewnętrzny, siedzi w [open-questions.md](open-questions.md)
 albo w sekcji `Not yet decided` dokumentu, który jest właścicielem tematu.
 
+Partię wpisów rozdziela decyzja, którą sesja rozstrzyga,
+a nie zbiór plików, które rusza.
+Sesji naraz może pracować kilka.
+Dwie sesje piszące jeden dokument kosztują merge.
+Dwie sesje odpowiadające na jedno pytanie kosztują odpowiedź dwa razy,
+a obie odpowiedzi nie muszą się zgadzać,
+czego nie zgłasza żaden merge ani żaden test.
+Podział nazywa więc, per sesja, decyzję, którą ta sesja zamyka —
+na przykład to, co czyni dwa wyprowadzenia jednym odczytaniem,
+o czym mówi docstring `Node.signature` w `olski/parse/czytanie.py`.
+Gdzie dwie sesje wychodzą na tę samą decyzję, jest to jedna sesja.
+Tego samego [nagłówek rejestru](../todo/README.md) żąda od pojedynczego wpisu,
+czyli żeby nazywał dowód do przeczytania, a nie tylko pliki do zmiany.
+
+Konstrukcja wpuszczona sama płaci cały stały koszt swojej sekcji —
+nagłówek, ramę, wpis na liście pokrycia — a wpuszczone razem dzielą go,
+więc kilka wolno wziąć do jednej sesji, o ile jedna z nich nie blokuje pozostałych.
+Razem są też warte więcej niż osobno,
+bo sonda wycenia każdą przeciwko temu, co gramatyka już ma,
+więc pozycja wpuszczona sama mierzy blisko zera
+i zasłania to, że jest warta wpuszczenia
+([pisanie-po-olsku.md](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
+Sesję warto zaczynać wtedy, gdy jedna decyzja zamyka kilka wpisów.
+Wpisu, którego nie da się zamknąć przed odpowiedzią innej sesji,
+nie zrównoleglamy, tylko parkujemy:
+zostaje na liście z nazwanym blokerem,
+żeby ten, kto go podnosi, nie zaczynał na zimno.
+Sesja, która odpowiada, kasuje bloker,
+bo wpisu zaparkowanego nie czyta nikt, dopóki go nie podniesie.
+
+Gdzie dwie sesje poprawiają liczby w jednym dokumencie,
+dzielimy je po rodzaju liczby, a nie po sekcji,
+bo sekcja jest miejscem, a liczba ma przyczynę:
+jedna rusza liczby trafień, druga mianowniki,
+a ta, która ląduje druga, przelicza tabele.
+Podział po sekcjach czyta się jak czysty i czysty nie jest,
+bo jedna decyzja sięga wszędzie, gdzie poszła jej liczba.
+
 **Psuje ją** wpis na złej liście.
 Wpis czekający na czyjś pomiar, postawiony między pliki do napisania,
 czyta się jak następny ruch i nie jest nim.
@@ -258,7 +296,7 @@ bo to jedyna kopia konwencji.
 Potem wchodzi w [todo/](../todo/README.md).
 Ta rola różni się od pozostałych trzema rzeczami, które robią jej całą drogę.
 Przychodzi za każdym razem na zimno.
-[Nie widzi innych sesji](../CLAUDE.md#splitting-work-across-sessions).
+[Nie widzi innych sesji](#planista).
 Dostaje klon,
 [który pokazuje historię obciętą albo nieświeżą](../CLAUDE.md#git-w-sesji-zdalnej).
 

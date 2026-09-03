@@ -725,7 +725,7 @@ a dwóm z nich zabiera wszystkie czytania.
 Te dwa są polszczyzną — `Odpadają przez to dwa rodzaje schematu.`
 oraz zdanie, w którym `zażąda` czegoś `któryś etap` —
 czyli filtr trafia w metonimię, którą
-[CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) zostawia w prozie wprost.
+[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) zostawia w prozie wprost.
 Ten sam pomiar odrzuca zarazem
 [świadka odpowiadającego obok werdyktu](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
 bo pomyłką są dwa trafienia z czterech, a świadek ma nazywać swoją częstość pomyłek.

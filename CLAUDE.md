@@ -80,7 +80,7 @@ Przekład całego dokumentu jest osobną zmianą.
 
 ## Six forces
 
-Every rule below follows from one of six forces.
+Every rule below follows from the six forces named here.
 A rule you can derive from a force needs no separate justification,
 and a newly noticed failure mode has an obvious place to go —
 or a reason not to be written down at all.
@@ -433,95 +433,80 @@ each superseded section gets a one-line pointer forward,
 and the instruction to merge them is written into the section itself.
 Executing that merge is part of the change that implements the decision.
 
-## A phrase that arrived ready-made was not chosen
+## Katalog chwytów rejestru
 
-Prose can be assembled from parts that come with the topic:
-the obvious image, the word that sounds equal to the gravity of the matter,
-the sentence added for the rhythm of the paragraph.
-It reads smoothly and is not a choice —
-nobody checked whether the image fits the thing
-or whether the word predicates what it was meant to predicate.
-The recurring patterns:
-
-- **The worn metaphor.**
-  An image used without a thought for its literal meaning
-  stops being checked,
-  and in technical prose it smuggles in mechanics nobody meant to claim.
-  A fresh metaphor that does work stays.
-- **The echo sentence.**
-  A second sentence saying what the first said in other words,
-  usually a plain version and a rhetorical one side by side.
-  The better one stays, not both.
-- **The intensifier with no content.**
-  "Key", "crucial", "it is worth noting", "absolutely central"
-  sound like information about weight and are often decoration.
-  A statement of weight stays when it carries a decision
-  ("the only rule that must not fire on human Polish");
-  bare emphasis goes.
-- **Ready-made officialese.**
-  A nominalization where a verb would do,
-  and a construction with no agent ("a decision was made", "it was agreed").
-  Where an action has an actor, the actor is the content,
-  so a sentence that drops it drops the next move along with it.
-  A technical term doing its job is not decoration:
-  "abstention", "false-positive rate", "type-token ratio" are precise and stay.
-- **The contrastive frame.**
-  A sentence taking its precision from what it excludes
-  rather than from what it asserts:
-  "X does Y, not Z", "the reading Polish does not have".
-  Strike the negated half and read what is left standing.
-  An exclusion somebody would actually propose survives that,
-  since a subset is documented by exclusion;
-  a foil invented to give the sentence a shape does not.
-  Where what is left says nothing definite,
-  the frame was doing the predicating and the verb under it was never chosen,
-  so the repair is a sharper assertion rather than a shorter sentence.
-
-Each pattern is a prompt to reread, not a verdict.
-The test: strike the suspect word, parenthesis or sentence
-and read the place without it.
-If nothing was lost, the deletion stands,
-and of two versions carrying the same content the shorter one is better.
-
-Shorter does not mean telegraphic.
-The other forces spend words deliberately:
-repeated context buys a document that stands on its own,
-and frame before detail buys comprehension.
-The cutting applies to words that buy nothing.
-
-## Dla kogo jest napisane zdanie
-
-Reguła wyżej pyta, czy fraza została wybrana.
-Ta reguła pyta o adresata: czy zdanie jest napisane dla kogoś,
+Dwie z [sześciu sił](#six-forces) pytają o to samo zdanie.
+Wybór słowa pyta, czy fraza została wybrana:
+prozę można złożyć z części, które przychodzą razem z tematem —
+z obrazu oczywistego, ze słowa brzmiącego na miarę wagi sprawy,
+ze zdania dopisanego dla rytmu akapitu.
+Czyta się to gładko i wyborem nie jest,
+bo nikt nie sprawdził, czy obraz pasuje do rzeczy
+ani czy słowo orzeka to, co miało orzec.
+Prostota pyta o adresata: czy zdanie jest napisane dla kogoś,
 kto ma z nim coś zrobić,
 czy dla kogoś, kto ma docenić, że autor umie pisać.
+Popis jest napisany starannie, więc jednym testem się go nie łapie.
 
-Popis jest napisany starannie, więc tamten test go nie łapie.
-Test jest tu inny: przepisz zdanie najprostszą polszczyzną, jaką umiesz,
-i sprawdź, co ubyło.
-Jeżeli ubyło samo wrażenie, zostaje wersja prosta.
+Testy są przez to dwa.
+Skreśl podejrzane słowo, nawias albo zdanie i przeczytaj miejsce bez niego:
+jeżeli nic nie ubyło, skreślenie zostaje,
+a z dwóch wersji o tej samej treści lepsza jest krótsza.
+Przepisz potem zdanie najprostszą polszczyzną, jaką umiesz, i sprawdź, co ubyło:
+jeżeli ubyło samo wrażenie, zostaje wersja prosta.
 
 Rejestr, który przeważa w tych dokumentach,
-to stylizacja na esejistykę inteligencką.
-Powtarza się w niej kilka chwytów.
+to stylizacja na esejistykę inteligencką,
+a powtarzają się w niej te chwyty:
 
-- **Peryfraza w miejscu nazwy.**
-  Zdanie omawia rzecz, którą umie nazwać.
-  Najbardziej szkodzi w temacie commita i w nagłówku,
-  bo tam zdanie czyta się bez akapitu pod spodem.
-  Naprawą jest rzeczownik, a nie skrócenie zdania.
-- **Wymyślony sprawca.**
-  Reguła o urzędowej frazie wyżej gubi wykonawcę,
-  a tutaj wykonawcą zostaje abstrakcja:
+- **Zużyta metafora.**
+  Obraz użyty bez namysłu nad tym, co znaczy dosłownie,
+  przestaje być sprawdzany,
+  a w prozie technicznej przemyca mechanizm, którego nikt nie chciał orzec.
+  Metafora świeża, która pracuje, zostaje.
+- **Zdanie echo.**
+  Drugie zdanie mówi to, co pierwsze, innymi słowami,
+  zwykle jako wersja prosta obok wersji retorycznej.
+  Zostaje lepsze z nich, a nie oba.
+- **Wzmacniacz bez treści.**
+  „Kluczowy”, „istotny”, „warto zauważyć”, „absolutnie centralny”
+  brzmią jak informacja o wadze i bywają ozdobą.
+  Zdanie o wadze zostaje wtedy, gdy niesie decyzję
+  („jedyna reguła, która nie ma strzelać nad polszczyzną człowieka”);
+  sam nacisk wychodzi.
+- **Fraza urzędowa bez wykonawcy.**
+  Rzeczownik odczasownikowy tam, gdzie wystarczy czasownik,
+  oraz konstrukcja bez sprawcy: „podjęto decyzję”, „zostało ustalone”.
+  Gdzie czynność ma wykonawcę, wykonawca jest treścią,
+  więc zdanie, które go gubi, gubi razem z nim następny ruch.
+  Drugą połową tego chwytu jest wykonawca wymyślony,
+  czyli abstrakcja wstawiona na miejsce zgubionego:
   pomiar rusza się sam, zdanie gubi role, dokument dostaje wskazanie.
-  Skutek jest ten sam co przy zgubionym wykonawcy,
-  czyli nie widać, kto ma co zrobić.
+  Skutek jest ten sam, czyli nie widać, kto ma co zrobić.
   Metonimia zwykła zostaje, bo dokument mówi i reguła żąda
   bez udawania, że któreś z nich czegoś chce.
   Wykreślamy dopiero to, co rzeczy przypisuje wolę albo doznanie.
   Miejsca, w których rzecz stoi w pozycji żądającej kogoś,
   wypisuje `olski-check --osoby`, a wykreśla dalej czytelnik
   ([`docs/walencja.md`](docs/walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+  Termin techniczny, który pracuje, ozdobą nie jest:
+  „abstencja”, „częstość fałszywych trafień” i „type-token ratio”
+  są dokładne i zostają.
+- **Rama kontrastowa.**
+  Zdanie bierze precyzję z tego, co wyklucza, a nie z tego, co orzeka:
+  „X robi Y, a nie Z”, „czytanie, którego polszczyzna nie ma”.
+  Skreśl człon zanegowany i przeczytaj, co zostaje.
+  Wykluczenie, które ktoś naprawdę by zaproponował, ten test przechodzi,
+  bo podzbiór opisuje się przez wykluczenia;
+  przeciwnik wymyślony dla kształtu zdania tego testu nie przechodzi.
+  Gdzie po skreśleniu nie zostaje nic określonego,
+  orzekała rama, a czasownika pod nią nikt nie wybrał,
+  więc naprawą jest twierdzenie ostrzejsze, a nie zdanie krótsze.
+- **Peryfraza w miejscu nazwy.**
+  Zdanie omawia rzecz, którą umie nazwać.
+  Najbardziej szkodzi w temacie commita i w nagłówku,
+  bo tam zdanie czyta się bez akapitu pod spodem.
+  Naprawą jest rzeczownik, a nie skrócenie zdania.
 - **Czasownik domowy.**
   „Stoi”, „trzyma”, „bierze”, „niesie”, „kosztuje”, „schodzi”
   obsłużyły już w tych dokumentach tyle znaczeń,
@@ -543,7 +528,7 @@ Powtarza się w niej kilka chwytów.
   Autor wyrzuca z niego to, co czytelnik w zasadzie umie odtworzyć:
   granicę między dwoma zdaniami, powtórzony rzeczownik, powtórzony czasownik.
   Sam tego nie zauważa, bo zna treść i niczego nie odtwarza.
-  Tędy biegnie granica cięcia z reguły wyżej:
+  Tędy biegnie granica pierwszego testu:
   skreślone słowo, którego czytelnik nie odtwarza, jest zyskiem,
   a skreślone słowo, które musi odtworzyć, jest kosztem.
   Policz twierdzenia: w instrukcji ma być jedno na zdanie.
@@ -572,8 +557,14 @@ Powtarza się w niej kilka chwytów.
   Krótkie zdanie po trzech długich robi więcej niż „warto zauważyć”.
   Test: przeczytaj trzy kolejne zdania na głos.
 
-Nie każde takie zdanie jest usterką.
-Tekst, który się dobrze czyta, jest tu jednym z celów.
+Trafienie jest wezwaniem do przeczytania zdania, a nie werdyktem,
+i nie każde takie zdanie jest usterką.
+Tekst, który się dobrze czyta, jest tu jednym z celów,
+a krótszy nie znaczy telegraficzny:
+powtórzony kontekst kupuje dokument stojący sam,
+a rama przed szczegółem kupuje zrozumienie.
+Cięcie obejmuje słowa, które nie kupują nic.
+
 Granica biegnie między wywodem a instrukcją.
 Wywód wolno tak pisać: README i te dokumenty, które o coś argumentują,
 czyta się w jednym ciągu, i tam dobrze napisane zdanie się opłaca.
@@ -686,49 +677,13 @@ czytelnik, który tam wchodzi, alternatywy nie zna,
 więc porównania z nią nie wyceni,
 a akapity o niej czyta przed zdaniem o tym, co projekt robi.
 
-## Splitting work across sessions
-
-Several sessions can run at once,
-and what decides whether they may is the judgment each one settles
-rather than the files each one touches.
-Two sessions editing one document cost a merge.
-Two sessions answering one question cost the answer twice,
-and the two answers need not agree,
-which no merge tool reports and no test catches.
-
-So a split names, per session, the decision that session settles —
-what makes two derivations one reading, say,
-which the docstring of `Node.signature` in `olski/parse/czytanie.py` settles.
-Where two come out the same, it is one session.
-This is the demand [`todo/`](todo/README.md) makes of a single entry —
-that it name the evidence it reads and not only the files it changes —
-applied to a batch of them.
-
-A construction admitted alone pays the whole fixed cost of its own section —
-the heading, the frame, the entry on the coverage list,
-the clause in the stage plan — where several admitted together divide it,
-so several may go into one session unless one of them blocks the others.
-Several are also worth more together than apart,
-because the probe prices each one against whatever else the grammar has,
-so a position admitted alone can measure near zero
-and hide that it is worth having
-([docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
-
-A session is worth starting when one decision settles several entries.
-An entry that cannot be settled until another session answers
-is parked rather than parallelised,
-and stays on the list with the blocker named,
-so that whoever picks it up next does not start it cold.
-The session that answers deletes the blocker,
-because nothing rereads a parked entry until somebody picks it up.
-
-Where two sessions both correct figures in one document,
-split by the kind of number rather than by the section,
-since a section is a place and a number has a cause:
-one moves hit counts, the other denominators,
-and whoever lands second reruns the tables.
-Splitting by section reads as clean and is not,
-because one decision reaches wherever its number went.
+Partię wpisów dzieli między sesje ta rola, która ją układa,
+a nie ta, która dostaje podział zrobiony,
+więc właścicielem tego podziału jest
+[planista](docs/roles.md#planista).
+Jedno zdanie z niego obowiązuje w każdej sesji:
+sesje naraz może pracować kilka, i wolno im wtedy,
+gdy każda rozstrzyga inną decyzję, a nie wtedy, gdy ruszają inne pliki.
 
 ## Checks
 
@@ -1068,7 +1023,7 @@ a których nie zadaje żadna sekcja wyżej.
   Czytasz od miejsca, w którym zaczęła się edycja, a nagłówek jest nad nim,
   więc bez tego pytania nie przeczyta go nikt.
   Jaki nagłówek jest zły, mówi
-  [dla kogo jest napisane zdanie](#dla-kogo-jest-napisane-zdanie).
+  [katalog chwytów rejestru](#katalog-chwytów-rejestru).
 - **Poza zasięgiem suity.** Czego `tests/test_docs.py` nie sprawdzi:
   nazwy napisanej bez backticków, nazwy sekcji
   ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie))

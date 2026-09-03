@@ -694,8 +694,9 @@ Wiersz idzie przez to pod flagą, a nie w samym werdykcie:
 nie jest znaleziskiem, tylko materiałem do przeczytania
 ([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
 
-Adresatem tego wiersza jest reguła o wymyślonym sprawcy, a nie ta o czasowniku
-domowym ([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)).
+Adresatem tego wiersza jest reguła o frazie urzędowej bez wykonawcy,
+a nie ta o czasowniku domowym
+([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)).
 Czasownikowi domowemu tamta reguła każe podstawić czasownik dokładny,
 a `stać`, `trzymać`, `brać` i `nieść` nie mają w Walentym ramy semantycznej wcale,
 więc test podstawieniowy zostaje przy człowieku.
@@ -779,8 +780,8 @@ a wiersz poprawia się jednym wpisem.
 Projekt bez tej sekcji nie ma nikogo,
 więc wykaz wraca u niego do materiału zawężonego do klas osobowych.
 
-Adresatem tego wykazu jest reguła o wymyślonym sprawcy
-([CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie)) i przegląd, który ją zadaje.
+Adresatem tego wykazu jest reguła o frazie urzędowej bez wykonawcy
+([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)) i przegląd, który ją zadaje.
 Nad prozą tego repozytorium `--żądania` wypisuje przeszło dwa tysiące wierszy,
 a `--osoby` przeszło sto, nad sześćdziesięcioma zdaniami, i tyle czyta się ręką.
 Znaleziskiem wiersz nie jest i być nie może, bo ta sama reguła zostawia

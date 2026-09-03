@@ -379,7 +379,7 @@ Zaimek wskazujący nie wchodzi:
 `to` i `ten` niosą w polszczyźnie łącznik, cząstkę i przydawkę,
 a rozdzielenie tych robót jest osobną robotą.
 Poza granicą zostaje przez to `to` w pozycji podmiotu akapitu,
-które [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) wylicza jako usterkę,
+które [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) wylicza jako usterkę,
 a ruch trzyma [`todo/`](../todo/README.md).
 
 ## What the grammar covers
