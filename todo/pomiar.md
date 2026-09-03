@@ -180,7 +180,7 @@ is a net of what an addition buys against what it costs in uniqueness
 so the shape wanted is two runs and what moved between them,
 not one run printed twice and diffed by eye.
 `harness/ruch.py` is that shape for a group of productions removed from olski,
-and the declaration in `harness/płaski.py` is written against it,
+and the declarations in `harness/płaski.py` and `harness/luka.py` are written against it,
 while `harness/nieciągłość.py` computes its own net beside that machinery rather than on it.
 What it does not take is a morphology switched off,
 which is neither a group nor a production,
@@ -244,6 +244,10 @@ zdanie względne wiąże ją zaimkiem, którego liczbę i rodzaj podejmuje poprz
 a pytanie poprzednika nie ma, więc te dwie cechy nie mają się z czym zejść.
 Wpis jest winien przebiegi, których żąda ta sekcja tamtego dokumentu,
 bo rusza w niej każdą liczbę.
+Wraca przy nim pominięcie zbędnych rozbiorów:
+wariant zastępujący każde zdjęte ciało wyprowadzałby wszystko, co wyprowadza olski,
+i wtedy sonda dostałaby wariant najszerszy, którego dziś nie ma
+(`Sonda.najszerszy` w `harness/ruch.py`).
 
 Lista w [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)
 jest ułożona częstością zawrócenia, a jednej pozycji ta częstość spadła

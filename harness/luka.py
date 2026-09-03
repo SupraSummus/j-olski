@@ -28,20 +28,9 @@ zdejmuje, czyta ``docs/design-notes.md``.
 
 from __future__ import annotations
 
-import argparse
-import collections
-import functools
-from collections.abc import Iterable, Sequence
-from dataclasses import dataclass, field
-from pathlib import Path
-
-from harness.corpus import Sentence, read
-from harness.komenda import Komenda, nagłówek, uruchom
-from harness.pomiar import Outcome, po_kawałkach
+from harness import ruch
 from olski.grammar import Grammar, Production, Sym, Var, nt
-from olski.parse import parse
 from olski.subset import BEZ_CZOŁA, build
-from olski.werdykt import check
 
 #: Cecha niosąca przypadek luki, czyli to, czego temu konstytuentowi w środku
 #: brakuje. ``brak`` stoi wypisany, a nie pominięty: cechy, której konstytuent
@@ -70,12 +59,6 @@ ZASTĘPOWANE = ("rdzeń_względny",)
 KORZEŃ = "wypowiedzenie"
 
 WARIANTY = ("olski", "luka wszędzie", "luka kanoniczna")
-
-#: Ile zdań pokazać przy przejściu. Przejście bez przykładu jest liczbą, o której
-#: nie wiadomo, co ją wywołało, a cena jest tu tym, co trzeba przeczytać.
-PRZYKŁADY = 6
-
-STANY = ("valid", "ambiguous", "rejected")
 
 
 # --------------------------------------------------------------------------- #
@@ -197,15 +180,15 @@ def _przepisz(produkcja: Production, luka: int | None, niosące: frozenset[str])
     )
 
 
-@functools.cache
-def gramatyka(wariant: str) -> Grammar:
+def przeciąganie(wariant: str) -> Grammar:
     """Gramatyka tego wariantu; ``olski`` jest tą, która stoi.
 
-    Budowana raz na proces roboczy, bo budowa jest droższa niż rozbiór jednego
-    zdania, a gramatyka po zbudowaniu się nie zmienia.
+    Tę funkcję woła ``gramatyka`` w ``harness/ruch.py``, więc nazwa wariantu jest
+    tam sprawdzona, a gramatyka budowana raz na proces roboczy.
+
+    Funkcją, a nie domknięciem: przebieg posyła sondę do procesu roboczego
+    (:class:`ruch.Zdejmowanie` mówi, co to kosztuje).
     """
-    if wariant not in WARIANTY:
-        raise ValueError(f"nieznany wariant: {wariant}")
     pełna = build()
     if wariant == "olski":
         return pełna
@@ -278,206 +261,29 @@ def gramatyka(wariant: str) -> Grammar:
 
 
 # --------------------------------------------------------------------------- #
-# Przebieg
+# Sonda
 # --------------------------------------------------------------------------- #
 
 
-@dataclass
-class Raport:
-    """Liczniki jednego przebiegu, wraz ze zdaniami, które je czynią czytelnymi."""
-
-    ile_przykładów: int = PRZYKŁADY
-    stany: dict[str, collections.Counter] = field(default_factory=dict)
-    przejścia: dict[str, collections.Counter] = field(default_factory=dict)
-    przykłady: dict[tuple[str, str], list[str]] = field(default_factory=dict)
-    #: Wariant → jak role zdań nowo przyjętych mają się do drzewa wzorcowego.
-    #: Zdanie przyjęte odwrotnie niż w banku drzew nie jest zakupem, i po to ten
-    #: licznik tu stoi: na nim stanął ten pomiar.
-    zgodność: dict[str, collections.Counter] = field(default_factory=dict)
-    pominięte: collections.Counter = field(default_factory=collections.Counter)
-
-    @property
-    def zmierzone(self) -> int:
-        return sum(self.stany.get(WARIANTY[0], collections.Counter()).values())
-
-    def zapisz(self, tekst: str, stany: dict[str, str], role: dict[str, str | None]) -> None:
-        mianownik = stany[WARIANTY[0]]
-        for wariant, stan in stany.items():
-            self.stany.setdefault(wariant, collections.Counter())[stan] += 1
-            if wariant == WARIANTY[0] or stan == mianownik:
-                continue
-            przejście = f"{mianownik} → {stan}"
-            self.przejścia.setdefault(wariant, collections.Counter())[przejście] += 1
-            self.zanotuj((wariant, przejście), tekst)
-            if stan == "valid":
-                zgoda = role.get(wariant) or "brak roli"
-                self.zgodność.setdefault(wariant, collections.Counter())[zgoda] += 1
-
-    def zanotuj(self, klucz: tuple[str, str], tekst: str) -> None:
-        zachowane = self.przykłady.setdefault(klucz, [])
-        if len(zachowane) < self.ile_przykładów:
-            zachowane.append(tekst)
-
-
-def zmierz(zdania: Iterable[Sentence], przykłady: int = PRZYKŁADY) -> Raport:
-    """Przepuść zdania banku drzew przez każdy wariant i policz, co się rusza.
-
-    Populacja jest ta sama, co w ``harness.pomiar.measure``: każde zdanie z
-    drzewem wzorcowym, bez granicy na długość.
-    """
-    raport = Raport(przykłady)
-    for zdanie in zdania:
-        if not zdanie.annotated:
-            continue
-        segmenty = list(zdanie.segments)
-        if not segmenty:
-            raport.pominięte["bez morfologii"] += 1
-            continue
-        wyniki = {
-            wariant: Outcome(
-                sentence=zdanie,
-                result=parse(gramatyka(wariant), segmenty, zatrzymanie=False),
-                segments=tuple(segmenty),
-            )
-            for wariant in WARIANTY
-        }
-        raport.zapisz(
-            zdanie.text,
-            {wariant: wynik.status for wariant, wynik in wyniki.items()},
-            {wariant: wynik.agreement for wariant, wynik in wyniki.items()},
-        )
-    return raport
-
-
-def nad_prozą(tekst: str, przykłady: int = PRZYKŁADY) -> Raport:
-    """To samo porównanie nad prozą, którą olski ma czytać.
-
-    Ról nie ma czym porównać, bo drzewa wzorcowego proza nie niesie, a fragment
-    nie jest zdaniem i do mianownika nie wchodzi.
-    """
-    raport = Raport(przykłady)
-    wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
-    for kolejne in zip(*wyniki.values(), strict=True):
-        werdykty = dict(zip(WARIANTY, kolejne, strict=True))
-        if not werdykty[WARIANTY[0]].punktowane:
-            raport.pominięte["fragment, a nie zdanie"] += 1
-            continue
-        raport.zapisz(
-            werdykty[WARIANTY[0]].text,
-            {wariant: werdykt.status for wariant, werdykt in werdykty.items()},
-            {},
-        )
-    return raport
-
-
-def _kawałek(ścieżki: Sequence[Path], przykłady: int) -> Raport:
-    return zmierz((read(ścieżka) for ścieżka in ścieżki), przykłady)
-
-
-def scal(raporty: Iterable[Raport], przykłady: int = PRZYKŁADY) -> Raport:
-    scalony = Raport(przykłady)
-    for raport in raporty:
-        for pole in ("stany", "przejścia", "zgodność"):
-            for wariant, licznik in getattr(raport, pole).items():
-                getattr(scalony, pole).setdefault(wariant, collections.Counter()).update(licznik)
-        scalony.pominięte.update(raport.pominięte)
-        for klucz, zachowane in raport.przykłady.items():
-            for tekst in zachowane:
-                scalony.zanotuj(klucz, tekst)
-    return scalony
-
-
-def przebieg(ścieżki: Sequence[Path], jobs: int, przykłady: int = PRZYKŁADY) -> Raport:
-    praca = functools.partial(_kawałek, przykłady=przykłady)
-    return scal(po_kawałkach(ścieżki, jobs, praca), przykłady)
-
-
-# --------------------------------------------------------------------------- #
-# Wydruk
-# --------------------------------------------------------------------------- #
-
-
-def wydruk(raport: Raport, nagłówek: str) -> str:
-    szerokość = max(len(wariant) for wariant in WARIANTY)
-    wiersze = [
-        f"{nagłówek}, {raport.zmierzone} zdań",
-        "",
-        f"{'wariant':>{szerokość}}  {'produkcji':>9} {'przyjęte':>9}"
-        f" {'wieloznaczne':>13} {'odrzucone':>10}",
-    ]
-    for wariant in WARIANTY:
-        licznik = raport.stany.get(wariant, collections.Counter())
-        przyjęte, wieloznaczne, odrzucone = (licznik.get(stan, 0) for stan in STANY)
-        wiersze.append(
-            f"{wariant:>{szerokość}}  {len(gramatyka(wariant)):>9} {przyjęte:>9}"
-            f" {wieloznaczne:>13} {odrzucone:>10}"
-        )
-    for powód, ile in raport.pominięte.most_common():
-        wiersze.append(f"{ile:>7}          niezmierzone: {powód}")
-
-    for wariant in WARIANTY[1:]:
-        wiersze += ["", f"ruch wobec wariantu „{WARIANTY[0]}” — {wariant}:"]
-        przejścia = raport.przejścia.get(wariant, collections.Counter())
-        if not przejścia:
-            wiersze.append("  żadne zdanie nie zmieniło werdyktu")
-        for przejście, ile in przejścia.most_common():
-            wiersze.append(f"  {ile:>7}  {przejście}")
-        zgodność = raport.zgodność.get(wariant)
-        if zgodność:
-            wiersze.append("  role zdań nowo przyjętych wobec drzewa wzorcowego:")
-            for nazwa, ile in zgodność.most_common():
-                wiersze.append(f"  {ile:>7}    {nazwa}")
-
-    for wariant in WARIANTY[1:]:
-        for przejście, _ in raport.przejścia.get(wariant, collections.Counter()).most_common():
-            zachowane = raport.przykłady.get((wariant, przejście), [])
-            if zachowane:
-                wiersze += ["", f"{wariant}, {przejście}:"]
-                wiersze += [f"  {tekst}" for tekst in zachowane]
-    return "\n".join(wiersze)
-
-
-def wydruk_zdań(tekst: str, args: argparse.Namespace) -> str:
-    """Werdykt każdego wariantu nad podanymi zdaniami, po jednym wierszu na zdanie.
-
-    Po to, żeby cena i zakup dały się przeczytać na zdaniu, a nie tylko policzyć
-    nad korpusem: nad Składnicą luka rusza kilka zdań, a minimalna para pokazuje,
-    czym rusza.
-
-    Wyborów z wiersza poleceń ta sonda w tym trybie nie czyta, bo warianty ma
-    wypisane, a przykładów nad jednym zdaniem nie ma z czego brać.
-    """
-    wyniki = {wariant: check(tekst, gramatyka(wariant)) for wariant in WARIANTY}
-    wiersze = []
-    for kolejne in zip(*wyniki.values(), strict=True):
-        werdykty = dict(zip(WARIANTY, kolejne, strict=True))
-        opis = "  ".join(
-            f"{wariant}: {werdykt.status} ({werdykt.result.ile})"
-            for wariant, werdykt in werdykty.items()
-        )
-        wiersze.append(f"{werdykty[WARIANTY[0]].text}\n  {opis}")
-    return "\n".join(wiersze)
-
-
-def _korpus(ścieżki: Sequence[Path], args: argparse.Namespace) -> str:
-    return wydruk(przebieg(ścieżki, args.jobs, args.przykłady), "Składnica, morfologia złota")
-
-
-def _proza(wejścia: Sequence[tuple[Path, str]], args: argparse.Namespace) -> str:
-    raporty = (nad_prozą(tekst, args.przykłady) for _, tekst in wejścia)
-    return wydruk(scal(raporty, args.przykłady), f"{nagłówek(wejścia)}, proza")
-
-
-KOMENDA = Komenda(
+#: Deklaracja różnicowa luki. Przebieg, tabelę przejść i wiersz poleceń bierze z
+#: ``harness/ruch.py``, bo różni ją od sond obok to, jaką gramatykę składa każdy
+#: wariant, a nie to, co się nad tymi wariantami liczy.
+#:
+#: Wariantu najszerszego nie ma tu żadnego i stąd ``None``
+#: w :attr:`ruch.Sonda.najszerszy`.
+#: Luka staje pod podmiotem i dopełnieniem (:data:`PUSTE`), a zdejmowane są całe
+#: ciała ``rdzeń_względny``, więc bez zastąpienia zostają te, które wysuwają
+#: orzecznik, oraz te, które wysuwają grupę z zaimkiem, a nie sam zaimek.
+#: Olski wyprowadza przez to zdania, których wariant z luką nie wyprowadza —
+#: ``Reguła, której koszt ktoś zna, jest tania.`` — a co by z takiego wariantu
+#: wzięło pominięcie rozbiorów, mówi :func:`ruch._bez_zbędnych`.
+LUKA_SONDA = ruch.Sonda(
     nazwa="harness.luka",
     opis="co kupuje i co kosztuje luka w zdaniu względnym",
-    przykłady=PRZYKŁADY,
-    korpus=_korpus,
-    pula=True,
-    proza=_proza,
-    zdania=wydruk_zdań,
+    warianty=WARIANTY,
+    gramatyki=przeciąganie,
 )
 
 
 if __name__ == "__main__":  # pragma: no cover
-    raise SystemExit(uruchom(KOMENDA))
+    raise SystemExit(ruch.main(LUKA_SONDA))

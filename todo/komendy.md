@@ -141,30 +141,6 @@ w `Verdict`, a nie samego drugiego napisu.
 Ruch ten stoi przed przekładem wydruku albo za nim, ale nie razem z nim:
 tamta zmiana bierze na nowo ręką każdy blok werdyktu w dokumentach.
 
-`harness/luka.py` przepisuje z `harness/ruch.py` cały przebieg różnicowy:
-liczniki, przejścia, scalanie kawałków, tryb nad prozą i tabelę,
-czyli przeszło sto wierszy stojących drugi raz.
-Wiersz poleceń zszedł z tej listy razem z `harness/komenda.py`,
-który jest wspólny wszystkim sondom mierzącym nad korpusem,
-a gramatyka wariantu zeszła z niej razem z `Sonda.gramatyki`:
-wariant z luką jest dopiskiem, nie grupą zdejmowaną, i tamta sonda dopisek bierze.
-Ruchem jest więc przepisanie tego pliku na tamten przebieg.
-Do przeczytania są `pytania` i `Raport._konkurencja`, bo to one się nie generalizują:
-warianty luki są dwiema wersjami jednego dopisku, a nie grupą na wariant,
-więc pytanie o wchodzenie sobie w drogę nad nimi nie pada i pola zostają puste.
-Ta sama `Sonda` zamyka drugie rozejście, które kopia zdążyła już zebrać:
-oba tryby nad prozą w tym pliku wołają `check` raz na wariant,
-więc segmentują ten sam tekst tyle razy, ile wariantów,
-i tyle samo razy rozbierają zdanie, które olski odrzucił.
-`harness/ruch.py` przestał tak robić i pomijanie zbędnych rozbiorów
-ma tam jednego właściciela (`_bez_zbędnych`),
-a bierze on `Sonda`, której ten plik nie ma.
-Tej samej maszynerii żąda z drugiej strony wpis o porównaniu dwóch przebiegów
-bez polecenia:
-tam wariantem jest morfologia, a nie grupa produkcji zdjęta z olskiego,
-więc ten, kto podnosi którykolwiek z dwóch, wybiera kształt dla drugiego,
-i jest to jedna sesja.
-
 `harness/konwersy.py` liczy lematy, a pytanie pod nią jest o zdania.
 Wraca ona ze 144 lematami z 17 224,
 czyli mówi, ilu czasowników dotyczy rama, której zdanie przechodnie samo nie wybiera,

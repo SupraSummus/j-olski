@@ -7,10 +7,10 @@ wyglądał, więc widać je dopiero w liczbach `docs/subset.md`. Trzecia własno
 o zdaniach, którymi te dwie są sprawdzane: zdanie stojące na jednej grupie ma
 wychodzić jednoznaczne także pod wszystkimi grupami naraz.
 
-Idą po `SONDY`, bo są własnościami deklaracji, a nie przysłówka: deklaracja
-dopisana do tej listy dostaje je za darmo. Stoi w niej jedna, bo przebieg
-wyceniający wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi
-(`CLAUDE.md#code`), a ta jedna została, bo `harness/płaski.py` buduje nią wariant.
+Idą po listach deklaracji, a nie po przysłówku, bo są własnościami deklaracji:
+sonda dopisana do listy dostaje je za darmo. Listy są dwie, bo dwie z tych
+własności mówią o podzbiorze produkcji olskiego, a sonda, której warianty jedne
+ciała zdejmują i dopisują drugie, podzbiorem nie jest.
 """
 
 from __future__ import annotations
@@ -21,13 +21,21 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from harness import płaski
+from harness import luka, płaski
 from harness.corpus import FULL, Sentence
 from harness.ruch import Sonda, gramatyka, nad_prozą, zmierz
 from olski.subset import GRAMMAR
 from olski.werdykt import check
 
-SONDY = [płaski.PRZYSŁÓWEK_SONDA]
+#: Deklaracje różnicowe, które to drzewo trzyma. Dwie, bo sonda wyceniająca
+#: wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi
+#: (`CLAUDE.md#code`); te dwie zostały, bo `harness/płaski.py` buduje swoją
+#: gramatykę wariantu, a wynik `harness/luka.py` cytuje `docs/design-notes.md`.
+SONDY = [płaski.PRZYSŁÓWEK_SONDA, luka.LUKA_SONDA]
+
+#: Sondy zdejmujące grupy produkcji: każdy ich wariant ma podzbiór produkcji
+#: olskiego, a wariantem najszerszym jest sam olski.
+ZDEJMUJĄCE = [płaski.PRZYSŁÓWEK_SONDA]
 
 #: Deklaracja, wariant i zdanie, które stoi dokładnie na tej jednej grupie
 #: produkcji. Po jednym zdaniu na grupę zdejmowaną osobno, bo grupa bez zdania
@@ -50,12 +58,12 @@ def test_sonda_przechodzi_do_procesu_roboczego(sonda: Sonda):
     assert pickle.loads(pickle.dumps(sonda)) == sonda
 
 
-@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)
-def test_wariant_czysty_jest_dokładnie_gramatyką_olskiego(sonda: Sonda):
-    assert gramatyka(sonda, sonda.czysty).productions == GRAMMAR.productions
+@pytest.mark.parametrize("sonda", ZDEJMUJĄCE, ids=lambda sonda: sonda.nazwa)
+def test_najszerszy_wariant_sondy_zdejmującej_jest_dokładnie_gramatyką_olskiego(sonda: Sonda):
+    assert gramatyka(sonda, sonda.najszerszy).productions == GRAMMAR.productions
 
 
-@pytest.mark.parametrize("sonda", SONDY, ids=lambda sonda: sonda.nazwa)
+@pytest.mark.parametrize("sonda", ZDEJMUJĄCE, ids=lambda sonda: sonda.nazwa)
 def test_wariant_jest_podzbiorem_olskiego_i_nie_dopisuje_ani_jednej_produkcji(sonda: Sonda):
     """Pominięcie rozbiorów w `_warianty` opiera się na tej własności i nie bada jej.
 
@@ -65,10 +73,10 @@ def test_wariant_jest_podzbiorem_olskiego_i_nie_dopisuje_ani_jednej_produkcji(so
     pod każdym wariantem.
     Produkcja dopisana wariantowi z tej listy dałaby więc wiersz o zdaniach,
     których nikt nie rozebrał, i nic w wydruku by tego nie pokazało.
-    Sondzie wyceniającej pozycję, której olski nie ma, dopisywać wolno,
-    a kolejność wariantów odpowiada tam za to samo (`Sonda` w `harness/ruch.py`).
+    Sondzie, której warianty produkcje dopisują, wolno tu nie stać,
+    a wtedy odpowiada za to samo `Sonda.najszerszy` (`harness/ruch.py`).
     """
-    olski = gramatyka(sonda, sonda.czysty).productions
+    olski = gramatyka(sonda, sonda.najszerszy).productions
     for wariant in sonda.warianty:
         assert set(gramatyka(sonda, wariant).productions) <= set(olski), wariant
 
@@ -86,10 +94,10 @@ def test_zdanie_stojące_na_jednej_grupie_wychodzi_jednoznaczne_pod_wszystkimi_g
     czytanie i wtedy pierwsza dalej je kupuje, a gramatyka z obiema je odrzuca.
     Bez tej linii taką stratę widać dopiero w tabeli `docs/subset.md`.
 
-    Pytamy wariant ostatni, który jest samym olskim, bo żądanie jest o
+    Pytamy wariant najszerszy, który jest samym olskim, bo żądanie jest o
     jednoznaczność pod wszystkim, co sonda mierzy razem.
     """
-    pełna = gramatyka(sonda, sonda.czysty)
+    pełna = gramatyka(sonda, sonda.najszerszy)
     assert [w.status for w in check(zdanie, pełna)] == ["valid"]
 
 
@@ -125,7 +133,7 @@ def test_przebieg_po_morfologii_żywej_nie_porównuje_ról_z_drzewem_wzorcowym()
         roles=(("podmiot", 0, 1),),
     )
     raport = zmierz(płaski.PRZYSŁÓWEK_SONDA, [zdanie], źródło="live")
-    assert raport.przejścia[płaski.PRZYSŁÓWEK_SONDA.czysty] == {"rejected → valid": 1}
+    assert raport.przejścia[płaski.PRZYSŁÓWEK_SONDA.najszerszy] == {"rejected → valid": 1}
     assert not raport.zgodność
 
 
@@ -153,9 +161,19 @@ def test_zdanie_przyjęte_przez_wariant_przeżywa_pominięcie_zbędnych_rozbior�
     """
     raport = nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA)
     sonda = płaski.PRZYSŁÓWEK_SONDA
-    assert raport.stany[sonda.czysty] == {"valid": 1, "rejected": 1}
+    assert raport.stany[sonda.najszerszy] == {"valid": 1, "rejected": 1}
     assert raport.stany[sonda.warianty[0]] == {"rejected": 2}
-    assert raport.przejścia[sonda.czysty] == {"rejected → valid": 1}
+    assert raport.przejścia[sonda.najszerszy] == {"rejected → valid": 1}
+
+
+def test_przebieg_nad_prozą_nie_porównuje_ról_z_drzewem_wzorcowym():
+    """Proza drzewa wzorcowego nie niesie, więc nie ma tu czego z czym porównać.
+
+    Kopia tego przebiegu, którą miała sonda luki, wypisywała nad prozą sekcję
+    o rolach zdań nowo przyjętych i liczyła je wszystkie jako `brak roli`,
+    czyli wydruk mówił o porównaniu, którego nie było.
+    """
+    assert not nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA).zgodność
 
 
 def test_napis_bez_znaku_kończącego_nie_wchodzi_do_mianownika_przebiegu_nad_prozą():

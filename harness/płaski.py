@@ -94,6 +94,7 @@ PRZYSŁÓWEK_SONDA = ruch.Sonda(
     opis="Przy którym gospodarzu stoi przysłówek w mierzonej gramatyce.",
     warianty=PRZYSŁÓWEK_WARIANTY,
     gramatyki=ruch.Zdejmowanie(gospodarz, PRZYSŁÓWEK_WARIANTY),
+    najszerszy=PRZYSŁÓWEK_WARIANTY[-1],
     pytania=(
         "obaj gospodarze ruszają to samo zdanie",
         "razem wychodzi co innego niż osobno",
@@ -217,7 +218,7 @@ class Raport:
         del zachowane[self.ile_przykładów :]
 
 
-def wariant(nazwa: str = PRZYSŁÓWEK_SONDA.czysty) -> Grammar:
+def wariant(nazwa: str = PRZYSŁÓWEK_SONDA.najszerszy) -> Grammar:
     """Gramatyka olskiego z przysłówkiem u tego gospodarza, którego nazwa mówi.
 
     Bierze się z sondy różnicowej, a nie z produkcji wypisanych tutaj, bo wariant
@@ -236,7 +237,7 @@ def wariant(nazwa: str = PRZYSŁÓWEK_SONDA.czysty) -> Grammar:
 def zmierz(
     ścieżki: Sequence[Path],
     przykłady: int = PRZYKŁADY,
-    nazwa: str = PRZYSŁÓWEK_SONDA.czysty,
+    nazwa: str = PRZYSŁÓWEK_SONDA.najszerszy,
 ) -> Raport:
     """Jeden przebieg po lasach banku drzew, bez procesów pod spodem."""
     raport = Raport(przykłady)
@@ -255,7 +256,7 @@ def zmierz(
 
 
 def nad_prozą(
-    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = PRZYSŁÓWEK_SONDA.czysty
+    tekst: str, przykłady: int = PRZYKŁADY, nazwa: str = PRZYSŁÓWEK_SONDA.najszerszy
 ) -> Raport:
     """To samo pytanie nad prozą, którą olski ma czytać.
 
@@ -281,7 +282,7 @@ def przebieg(
     ścieżki: Sequence[Path],
     jobs: int,
     przykłady: int = PRZYKŁADY,
-    nazwa: str = PRZYSŁÓWEK_SONDA.czysty,
+    nazwa: str = PRZYSŁÓWEK_SONDA.najszerszy,
 ) -> Raport:
     """Zmierz listę lasów na tylu procesach, ile podano, i złóż jeden raport."""
     praca = functools.partial(_kawałek, przykłady=przykłady, nazwa=nazwa)
@@ -346,7 +347,7 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
 def _wariant(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--wariant",
-        default=PRZYSŁÓWEK_SONDA.czysty,
+        default=PRZYSŁÓWEK_SONDA.najszerszy,
         choices=PRZYSŁÓWEK_SONDA.warianty,
         help="u którego gospodarza stoi przysłówek w mierzonej gramatyce",
     )
