@@ -34,7 +34,7 @@ przyimek, którego ten kształt nie nazywa: nazywa go dopiero tabela rozwinięć
 tego samego wydania, a tam jedna pozycja miejsca rozwija się w trzydzieści
 przyimków. Klasa ``MIEJSCE`` siedzi przy tym głównie na tych pozycjach, więc
 żądanie przestrzeni fizycznej zostaje poza tym plikiem; co za tym idzie, trzyma
-docs/warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
+docs/walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
 
 Żądanie oparte o synsety plWordNetu nie ma klasy nazwanej, więc wychodzi stąd
 sam znacznik (:data:`olski.żądania.NIENAZWANE`). Zbiór milczący o
@@ -46,7 +46,7 @@ orzeka i tak dopiero wordnet, którego to repozytorium nie ma
 
 Plik wejściowy nie stoi w repozytorium, tak samo jak wydanie tekstowe i bank
 drzew, a polecenie wraz z adresem trzyma
-docs/warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
+docs/walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
 """
 
 from __future__ import annotations
@@ -421,7 +421,7 @@ NAGŁÓWEK = f"""\
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/żądania.py`, który mówi, co stąd bierze, a czego nie;
-# docs/warstwa-leksykalna.md trzyma polecenie wraz z tym, skąd wziąć plik
+# docs/walencja.md trzyma polecenie wraz z tym, skąd wziąć plik
 # wejściowy, i mówi, po co ten plik jest.
 """
 

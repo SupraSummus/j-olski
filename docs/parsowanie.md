@@ -544,7 +544,7 @@ Nie ma jej skąd wyprowadzić, bo stoi w leksykonie,
 a dopisana produkcjami mnoży je przez czasowniki.
 Wchodzi więc cechą, którą czasownik niesie z leksykonu,
 a to, co przy nim stoi, żąda w niej swojej pozycji
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 Mówi przez to, co czasownik bierze, i nie mówi, ile tego bierze:
 liczba dopełnień zostaje w produkcjach,
 a rama, która się zużywa, jest tym, czego olski nie ma i co pokazuje
@@ -740,7 +740,7 @@ a wieloznaczność jest werdyktem, który ktoś przeczyta.
 Zdanie przyjęte czyta się inaczej, bo po nie ten tor jest.
 Wyjątkiem jest zdanie leksykonu twierdzące — o celowniku i o dopełniaczu —
 bo tam milczenie o lemacie pozycję odbiera i zdanie z nią pada
-([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
+([walencja.md](walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
 Odrzucenie nazywa formę, na której analiza stanęła, więc czyta je ten sam ktoś,
 a wpis dopisany do leksykonu jest tańszy niż produkcja.
 

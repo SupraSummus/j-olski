@@ -198,7 +198,7 @@ def test_rama_bezokolicznika_rozdziela_orzecznik_od_okolicznika_narzędnikowego(
     #  narzędnik ma pozycję okolicznika przy każdym czasowniku: oba zdania mają
     #  odczytanie, a różni je rola, którą narzędnik w nich zajmuje. `zostać` jest
     #  kopulą i bierze go orzecznikiem, `zapisać` nie jest i zostawia mu samą
-    #  pozycję okolicznika (docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej).
+    #  pozycję okolicznika (docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej).
     kopula = verdict("Program pozwala zostać nauczycielem.")
     assert any("orzecznik" in czytanie for czytanie in role(kopula)), kopula.explain()
     zwykły = verdict("Program pozwala zapisać nauczycielem.")

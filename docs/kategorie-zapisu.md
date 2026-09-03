@@ -255,7 +255,7 @@ którego bezokolicznik nie wyraża,
 więc drzewo żądające go dla cudzego zdarzenia nie ma wyjść tekstem,
 w którym wróciłby czeladnik.
 Tego, że pytanie o kontrolę pada raz, nie zawdzięcza przy tym drzewo sobie:
-[Walenty rozdziela kontrolę](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
+[Walenty rozdziela kontrolę](walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 więc `chcieć` bezokolicznik dostaje, a `kazać` nie dostaje go wcale,
 bo jego wykonawca stoi w celowniku,
 a celownik obok bezokolicznika jest drugą pozycją ramy,
@@ -293,7 +293,7 @@ jak nie wyprowadza się z olskiego.
 Jest to jedyny wpis tego leksykonu pisany ręką,
 bo Walenty mówi o `być` to samo, co o każdym innym lemacie,
 i dlatego odjęcie kopuli stoi w jednym miejscu na oba kierunki
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 
 ## Uczestników bywa dwóch i rozdziela ich kategoria, a nie kolejność
 
@@ -549,7 +549,7 @@ Wyszło z tego coś, czego niezmiennik obiegu nie zapowiadał:
 plik leksykonu jest wspólny, a dwa z trzech zdań, które on mówi, czyta jeden kierunek.
 Bezokolicznik parser zmierzył i nie kupiło mu to zawężenie ani jednej jednoznaczności,
 a zdania podrzędnego tamta gramatyka nie ma wcale, więc nie ma tam czego mierzyć;
-liczby trzyma [warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
+liczby trzyma [walencja.md](walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 ### Co zapłaciło samym zapisem
 

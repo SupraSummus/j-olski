@@ -404,7 +404,7 @@ a ruch trzyma [`todo/`](../todo/README.md).
 - A nominal predicative in the instrumental, under the copula and nowhere else:
   `Jan jest nauczycielem.`
   The copula is a closed list of lemmas
-  ([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+  ([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
   which is what keeps the instrumental of `Kwitnie handel paszportami.`
   out of the predicative under every other verb;
   where it does stand under one, it is an adjunct
@@ -434,7 +434,7 @@ a ruch trzyma [`todo/`](../todo/README.md).
 - Dopełnienie w celowniku obok drugiego wypełnienia, tam gdzie leksykon parę wpuszcza:
   `Parser pokazuje autorowi oba czytania.`,
   `Parser mówi autorowi, że zdanie czyta się dwojako.`
-  ([warstwa-leksykalna.md](warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia))
+  ([walencja.md](walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia))
 - The register's own notation as an indeclinable noun:
   `Zobacz docs/subset.md.`, argued above
 - Forma pisana wersalikami, której słownik nie czyta wcale,
@@ -898,7 +898,7 @@ rozeszła się już raz i nikt tego nie zauważył.
 Klasa nie jest przez to zamknięta:
 576 z 4 517 wyrażeń wyżej, czyli 13%, to frazy, których czasownik żąda swoim schematem,
 a tam odczytanie rzeczownikowe schemat łamie, zamiast z nim konkurować.
-Tyle zdjąłby [leksykon walencyjny](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) dochodzący do każdej pozycji,
+Tyle zdjąłby [leksykon walencyjny](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej) dochodzący do każdej pozycji,
 a ten nie zdejmuje z klasy nic,
 bo mówi o bierniku, a fraza wymagana jest tu przyimkowa.
 

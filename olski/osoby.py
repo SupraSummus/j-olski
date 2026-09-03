@@ -6,7 +6,7 @@ Dla klas osobowych odpowiada ta deklaracja, a dla pozostałych wordnet,
 którego to repozytorium nie ma.
 Deklaracja jest zamknięta, czyli lemat spoza niej nikogo nie nazywa,
 a wywód tego kierunku wraz z jego ceną trzyma
-docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby.
+docs/walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby.
 
 Sekcję czyta ten moduł, a jej strukturę ``olski/konfiguracja.py``,
 tak samo jak przy słownictwie projektu (``olski/słownictwo.py``).

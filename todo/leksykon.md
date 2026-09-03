@@ -16,7 +16,7 @@ Do przeczytania jest, ile ta kolumna zmienia świadkowi:
 schematów z tymi pozycjami jest 2 407, a lematów 1 464.
 
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
-[Liczba, na której leksykon stoi](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
+[Liczba, na której leksykon stoi](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 — 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
 bo `_slot_role` w `harness/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
@@ -32,7 +32,7 @@ Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w
 `harness/walenty.py`: czy nowe czytanie Walentego dalej zgadza się z bankiem.
 
 Leksykon walencyjny mówi o bierniku i o bezokoliczniku, a o przypadkach nie mówi.
-Narzędnika [przekład](../docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)
+Narzędnika [przekład](../docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)
 nie bierze, bo `inst` jest u olskiego pozycją orzecznika,
 a Walenty nie odróżnia jej od argumentu narzędnikowego,
 więc kopula zostaje listą pisaną ręcznie w `olski/walencja.py`.
@@ -44,7 +44,7 @@ i wtedy pytaniem jest, ile czasowników poza nią orzecznik w narzędniku bierze
 
 Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
 więc lemat z parą bierze wszystkie cztery naraz
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
 Walenty rozdziela je i mówi to o tysiącach lematów, których rozkład trzyma
 tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
 a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
@@ -62,7 +62,7 @@ Okolicznik nie ma w żądaniach ani jednej pozycji, a właśnie tam siedzi klasa
 Walenty pisze go kształtem `xp(locat)`, a przyimka w tym kształcie nie nazywa;
 nazywa go tabela rozwinięć z tego samego wydania — `phrase_types_expand_20160418.txt` —
 gdzie pozycja miejsca rozwija się w trzydzieści przyimków
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)).
+([`docs/walencja.md`](../docs/walencja.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)).
 Tego samego brakuje kolumnie przyimków leksykonu, bo `przyimki` w `harness/walenty.py`
 czyta sam `prepnp`: rama, która żąda przyimka okolicznikiem, nie daje świadkowi ramowemu nic.
 Ruchem jest rozwinięcie czytane z tej tabeli, jedno dla obu przekładów, bo kryterium jest jedno.
@@ -85,7 +85,7 @@ Liczbę z tamtego dokumentu przelicza ta sama zmiana.
 
 Deklaracja osób projektu wypełnia się ręką, a pierwsze wpisy umiałby podać przebieg.
 Sekcja `osoby` w `olski.toml` odpowiada dziś za klasy osobowe żądania
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+([`docs/walencja.md`](../docs/walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
 a warstwa przykładów wydania TEI wskazuje przez `sameAs` te frazy schematu,
 które przykład obsadza, czyli te same identyfikatory,
 po których chodzi złączenie w `harness/żądania.py`;

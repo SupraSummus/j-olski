@@ -477,7 +477,7 @@ i klasę tę nazywa warstwa semantyczna wydania TEI (tamże).
 Wordnetu potrzebuje odtąd sama strona odpowiadająca, czyli rozstrzygnięcie,
 czy słowo stojące w zdaniu do tej klasy należy —
 i to poza klasami osobowymi, bo o nich orzeka deklaracja projektu
-([warstwa-leksykalna.md](warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 
 ## Sources
 

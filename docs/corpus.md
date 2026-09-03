@@ -416,7 +416,7 @@ A prediction made before an addition can be checked against one sentence,
 and `Działają dwie rzeczy.` is the sentence it was checked on:
 it needed the numeral phrase and nothing else.
 The reason the prediction could be made at all was
-[the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) —
+[the valency lexicon](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej) —
 `dwie rzeczy` is nominative or accusative and a subjectless clause takes an object,
 so without the entry saying `działać` takes none
 the numeral would have made this sentence ambiguous rather than accepted.
@@ -764,7 +764,7 @@ has the trade predicated of passports rather than blooming in them.
 Two things keep that reading out and neither is about the predicative.
 `Kwitnąć` takes no instrumental,
 which is what the copula's frame says, the copula being the lexicon's hand-written entry
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 and the verb-initial order with a predicative takes the agreeing one alone,
 which is a second refusal of the same reading.
 The sentence itself now derives, and derives the way a reader reads it:
@@ -798,7 +798,7 @@ Człowiek staje się wyleniałym tygrysem.
 
 `Stawać się` predicates an instrumental exactly as `zostawać` does,
 and the closed list of copulas
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej))
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej))
 does not carry it,
 so a sentence with either verb is refused by a lexicon entry that is missing
 rather than by a decision anybody took.
@@ -1074,7 +1074,7 @@ finding most of them ambiguous and rejecting the rest.
 
 The sentences live accepts alone are the warning in that comparison,
 and a large part of them turn on the reading
-[the valency lexicon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
+[the valency lexicon](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej) refuses:
 
 ```text
 To są oczywistości.

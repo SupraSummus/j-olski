@@ -224,7 +224,7 @@ CZYNY_Z_BIERNIKIEM = (
 #: czyli te, przy których staje i rzecz, i ten, komu się ją daje.
 #: Tabela jest osobna od biernikowej, bo celownik jest osobną pozycją ramy
 #: i `Kowal zgasił sąsiadowi świecę.` mówi o celowniku, którego rama nie ma
-#: (docs/warstwa-leksykalna.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem).
+#: (docs/walencja.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem).
 CZYNY_Z_CELOWNIKIEM = ("dać", "oddać", "pokazać", "przynieść", "sprzedać", "zostawić")
 
 #: Czasowniki, które biorą bezokolicznik pod kontrolą własnego podmiotu.

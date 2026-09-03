@@ -521,7 +521,7 @@ Powtarza się w niej kilka chwytów.
   Wykreślamy dopiero to, co rzeczy przypisuje wolę albo doznanie.
   Miejsca, w których rzecz stoi w pozycji żądającej kogoś,
   wypisuje `olski-check --osoby`, a wykreśla dalej czytelnik
-  ([`docs/warstwa-leksykalna.md`](docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+  ([`docs/walencja.md`](docs/walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 - **Czasownik domowy.**
   „Stoi”, „trzyma”, „bierze”, „niesie”, „kosztuje”, „schodzi”
   obsłużyły już w tych dokumentach tyle znaczeń,
@@ -860,7 +860,7 @@ który `harness/walenty.py` wyprowadza z Walentego,
 a `olski/skłonności.txt` tabelą skłonności,
 którą `harness/skłonności.py` liczy nad Składnicą.
 Polecenie i wejścia podaje przy pierwszym
-[sekcja o leksykonie](docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+[sekcja o leksykonie](docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 a przy drugim
 [sekcja o świadku](docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek).
 Wpis dopisany do takiego pliku wprost ginie przy następnym przebiegu generatora,
@@ -868,6 +868,12 @@ a razem z nim ginie powód, dla którego go dopisano.
 Jedną rzeczą różnią się na tyle, żeby wiedzieć to przed skasowaniem któregoś:
 gramatyka czyta leksykon przy imporcie i bez niego nie startuje,
 a brak tabeli skłonności czyni tylko warstwę nad nią milczącą.
+
+Nagłówek nie jest wpisem i reguła tam nie sięga.
+Sekcję cytowaną w nagłówku przemianowujesz w generatorze i w pliku jednym commitem,
+bo przebieg żąda cudzego zasobu,
+a plik czekałby z martwym wskazaniem do następnego pobrania.
+Że nagłówek cytuje sekcję żywą, pilnuje `tests/test_docs.py`.
 
 Plik wyprowadzony z cudzego zasobu podlega warunkom tego zasobu,
 więc dostaje własny wpis w [`REUSE.toml`](REUSE.toml).

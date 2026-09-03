@@ -30,7 +30,7 @@ i żadnego z tych dwóch nie łapie suita, tylko grep po skreślonej frazie.
 
 Liczba przepisana z pliku danych do dokumentu rozjeżdża się z nim po cichu.
 Liczby, którymi
-[`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
+[`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 opisuje `olski/leksykon.txt`, przeliczają się z tego pliku jednym `cut`-em,
 a trzy z nich rozeszły się z nim w commicie, który pisał obie strony;
 znalazło je dopiero przeliczenie ręką.
@@ -282,7 +282,7 @@ a `harness/walenty.py` opowiada, od jakich domyślności odejmują jego zdania.
 Skreślić tego nie wolno, bo drugiej kopii nie ma,
 więc ruchem jest, per docstring, albo zdanie ze wskaźnikiem na sekcję,
 która ten wywód przyjmuje — `docs/po-wypisaniu.md`, `docs/rozstrzyganie.md`,
-`docs/warstwa-leksykalna.md` — albo powód zapisany przy docstringu,
+`docs/walencja.md` — albo powód zapisany przy docstringu,
 czemu wywód czyta się przy kodzie, a nie w dokumencie.
 Do przeczytania jest ten trzeci:
 czytania Walentego nie powtarza żaden dokument,
@@ -328,7 +328,7 @@ W `docs/subset.md` wylicza je punkt listy
 kolejka zamykająca sekcję
 [o zaimkach `kto` i `co`](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)
 oraz akapit sekcji
-[o wolnym celowniku](../docs/warstwa-leksykalna.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem),
+[o wolnym celowniku](../docs/walencja.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem),
 a czwarty raz, ułożone częstością zawrócenia, wylicza je
 [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej).
 Sześć wpisów sekcji o konstrukcjach, których gramatyka nie ma,
@@ -439,7 +439,7 @@ Samo żądanie stoi w leksykonie walencyjnym
 ([`docs/prior-art.md`](../docs/prior-art.md#polish-language-resources)),
 a odpowiedź na nie — czyli rozstrzygnięcie, czy słowo w pozycji żądaną klasę
 spełnia — bierze się z deklaracji projektu przy klasach osobowych
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+([`docs/walencja.md`](../docs/walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
 a przy pozostałych ze słownika znaczeń, którego nie ma.
 Ruchem jest piąty wiersz albo zdanie pod tabelą,
 że drabina kończy się tam, gdzie zaczyna się ta odpowiedź.

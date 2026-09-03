@@ -87,7 +87,7 @@ def _szyki_zdania_składowego(
     # Orzecznik zgodny, wraz z żądaniem, które stawia czasownikowi. Dwa razy
     # ``nom``, a nie wspólna zmienna, bo rama nie zastępuje pozycji: wspólna
     # zmienna wpuszcza tu kopulę z narzędnikiem. Co ona wtedy przyjmuje nad
-    # Składnicą, mierzy docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej.
+    # Składnicą, mierzy docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej.
     orzecznik = nt("orzecznik", valency="nom", number=V("n"), gender=V("g"))
     czasownik_orzecznika = nt(
         "orzeczenie", number=V("n"), gender=V("g"), person=V("p"), valency="nom", tryb=V("t")

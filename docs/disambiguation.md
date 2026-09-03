@@ -502,7 +502,7 @@ przeczytanie frazy wymaganej po drugiej stronie łamie schemat tego, kto jej ż�
 Olski taki leksykon ma i sięga nim po tę klasę.
 `olski/leksykon.txt` niesie kolumnę przyimków, których żąda rama słowa,
 i niesie ją po obu stronach sporu: przy czasowniku i przy rzeczowniku
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 bo Walenty, z którego ten plik powstaje, ma ramy także dla rzeczownika.
 Kolumna jest rozszerzeniem generatora, a nie nową maszyną.
 Rozstrzygnięcie, które z niej wychodzi, jest deterministyczne i da się wyjaśnić
@@ -614,7 +614,7 @@ Dopiero to, co po nim zostaje, jest ujednoznacznianiem.
 
 Pierwszy ruch jest pytaniem do leksykonu i źródło już na nie odpowiada.
 Walenty, ściągnięty tak, jak mówi
-[warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
+[walencja.md](walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on),
 daje `wynająć` cztery schematy:
 
 ```text
@@ -712,7 +712,7 @@ mówi to dopiero słownik wiążący rolę ze słowem, czyli to samo źródło, 
 Połowa tego kroku jest zrobiona i leży w `olski/żądania.txt`:
 pozycja schematu niesie tam rolę wraz z klasą rzeczy, której żąda,
 przełożoną z warstwy semantycznej wydania TEI
-([warstwa-leksykalna.md](warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu)).
+([walencja.md](walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu)).
 Połowy drugiej — czy słowo stojące w tej pozycji do tej klasy należy —
 morfologia nie zastępuje.
 Świadkiem osoby jest w niej rodzaj męskoosobowy i nic poza nim,
@@ -766,7 +766,7 @@ ramy nie mają czasowniki najczęstsze, a rejestr stoi właśnie na nich.
 
 Miarę osoby ta warstwa dostała lepszą, a czytania zdejmuje dalej tak samo, czyli wcale.
 Deklaracja osób projektu orzeka o klasach osobowych bez wordnetu
-([warstwa-leksykalna.md](warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
+([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)),
 więc `któryś etap` przestaje być nie-człowiekiem przez samą swoją odmianę:
 orzeka o nim to, czy autor wpisał go między osoby.
 Przesłanki filtra to jednak nie naprawia, bo zła była w nim nie miara,

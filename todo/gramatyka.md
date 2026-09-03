@@ -80,7 +80,7 @@ oraz `Nie sposób nie żywić uczucia podziwu dla odwagi pierwszych żeglarzy.`
 Wszystkie przechodziły, dopóki `pora` czytała się czasownikiem `porać`,
 a `sposób` rozkaźnikiem od `sposobić`;
 zawężenie ramy do lematów całej formy te czytania zdjęło
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
+([`docs/walencja.md`](../docs/walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)),
 więc dziś są odrzucone i werdykt mówi o nich prawdę.
 Ruchem jest dopisanie obu do `PREDYKATYWY` w `olski/subset/słowa.py`,
 a czytanie `pred` obie formy u Morfeusza mają, więc terminal ma o co zapytać.
@@ -202,7 +202,7 @@ albo relacje dochodzą do niego dopiero z kategoriami składu,
 których dziś nie ma na warunek ani na przyzwolenie.
 Do przeczytania jest `olski/walencja.py` wraz z tym,
 co obu kierunkom z leksykonu walencyjnego wyszło różnego
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
+([`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 Okolicznik przysłówkowy bierze całą część mowy, a Morfeusz daje czytanie `adv`
 formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`, `sam`.
@@ -435,7 +435,7 @@ Tę samą obserwację robi nad `przewyższać`
 gdzie porównanie mówi, w czym jedno przewyższa drugie,
 i nie ma jej dziś gdzie zapisać.
 Leksykon walencyjny mówi o pozycjach ramy, które czasownik bierze albo których nie bierze
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
+([`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
 a okolicznik pozycji ramy nie zajmuje i przyłącza się do każdego czasownika za darmo,
 więc żaden wpis nie odbiera czytania,
 w którym wzgląd dochodzi do `rodzą się`.
@@ -574,7 +574,7 @@ biernik z bezokolicznikiem naraz zmierzono i nad Składnicą pod złotą morfolo
 przyjmuje 289 zdań zamiast 293, a wieloznacznych ma 116 zamiast 110,
 bo grupa imienna za bezokolicznikiem dochodzi wtedy i do niego, i do formy osobowej.
 Pozycja, która z inną naprawdę stoi, jest już wpuszczona i jest nią celownik obok
-wypełnienia ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+wypełnienia ([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
 tyle że licencji nie niesie tam rama, tylko cecha obok niej,
 bo ramy unifikacja nie zużywa, a przecina.
 Ruch jest przez to odwróceniem tamtej decyzji, a nie dopisaniem do niej:
@@ -683,7 +683,7 @@ bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
 czego werdykt meldować nie powinien.
 
 Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
 Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
 i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
 Ruchem jest druga wartość cechy `druga` w `olski/subset/rama.py`

@@ -30,7 +30,7 @@
 # Źródło: http://zil.ipipan.waw.pl/Walenty
 #
 # Wyprowadza go `harness/żądania.py`, który mówi, co stąd bierze, a czego nie;
-# docs/warstwa-leksykalna.md trzyma polecenie wraz z tym, skąd wziąć plik
+# docs/walencja.md trzyma polecenie wraz z tym, skąd wziąć plik
 # wejściowy, i mówi, po co ten plik jest.
 abdykować	czasownik	prepnp(z)	Attribute	synsety
 abdykować	czasownik	subj	Initiator	synsety

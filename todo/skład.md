@@ -174,7 +174,7 @@ w którym `na izbach` jest okolicznością miejsca,
 a czyta się przez `czekać na kogoś`, czyli przez ramę, której tu nie ma,
 więc `olski/skład/makieta.py` ten czasownik pomija, zamiast wypuszczać takie zdania.
 Kolumnę przyimków leksykon niesie i czyta ją dziś świadek ramowy
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
+([`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
 więc zostaje strona składu i to ona jest tym wpisem.
 Do przeczytania jest `rama` w `olski/walencja.py`, bo pozycja przyimkowa
 jest pierwszą, której nie da się nazwać jednym napisem morfologii:
@@ -212,7 +212,7 @@ oraz `Treść` w `olski/skład/składnia.py`, gdzie spójnik stoi stałą.
 Ruchem jest kategoria dziedziny na to, czy treść jest orzekana, czy żądana,
 wraz z osobnym zdaniem leksykonu o `cp(żeby)`; wpis jest przez to winien
 przebieg `harness/walenty.py` oraz poprawkę liczb w
-[`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
+[`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on).
 
 `Przysłówek` w `olski/skład/składnia.py` żąda od słownika formy przysłówkowej,
 a część okoliczności polszczyzna wyraża partykułą:
@@ -336,7 +336,7 @@ a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
 Do przeczytania jest, co `harness/walenty.py` bierze z Walentego przy pozycji `infp`,
 bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
 czy ma go w kształcie, którego ten przekład nie bierze,
-wraz z tym, co [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
+wraz z tym, co [`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
 mówi o granicach tego przekładu.
 Ruchem jest jedno z dwóch, zależnie od tego, co słownik powie:
 przekład biorący ten kształt, wraz z przebiegiem generatora
@@ -437,3 +437,18 @@ a niezmiennik obiegu żąda przynależności po obu stronach
 ([`docs/design-notes.md`](../docs/design-notes.md#the-round-trip-invariant)).
 Pomiar nad Składnicą daje do tego rozkład obu konstrukcji, a nie samo rozstrzygnięcie,
 bo to jest osąd o polszczyźnie.
+
+`olski/skład/składnia.py` jest najdłuższym plikiem, którego nie pisze generator,
+a wyjąć bez cyklu importów da się z niego dwie rzeczy.
+Pierwszą jest `Kawałek` wraz ze sklejaniem i `_szyk`, czyli powierzchnia,
+której żadna kategoria nie zna, a woła ją każda.
+Drugą jest `Kontekst` wraz z `CZASY` i `forma_czasownika`,
+bo pytają one rolę o pola, a nie o typ.
+Zostają po tym same kategorie.
+Do przeczytania są `pomijalny`, `_wskazany` i `_miejsce`:
+tematycznie należą do kontekstu, a sprawdzają `isinstance` na `Opis`,
+`Okoliczniku`, `Komu` i `Treści`, więc wyniesione robią cykl,
+i to one rozstrzygają, czy dwa moduły są warte swojej ceny.
+Po konstrukcji tego pliku dzielić nie wolno
+([`CLAUDE.md`](../CLAUDE.md#code)),
+a wyniesienie samych `linearyzuj` zabrałoby mechanizm ciału, które go niesie.

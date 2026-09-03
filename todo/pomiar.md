@@ -466,7 +466,7 @@ a granica trzyma się tylko pod jedną z nich.
 
 Zawężenie orzecznika zgodnego ma wycenę nad prozą repozytorium i nie ma decyzji,
 bo populacja jest tam tej wielkości, że czterema zdaniami przewraca wniosek
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)
+([`docs/walencja.md`](../docs/walencja.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)
 trzyma cenę wraz z tym, co przy niej przeczytano).
 Ruchem jest ten sam wariant puszczony nad Składnicą — rama bez pozycji `nom`
 wszędzie poza kopulą — z pytaniem, ilu zdaniom ginie czytanie złote,

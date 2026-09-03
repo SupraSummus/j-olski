@@ -21,7 +21,10 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   wycenia każdą wpuszczoną konstrukcję osobno.
   Czytelnik przebiega ten rejestr do swojego wpisu.
 - [warstwa-leksykalna.md](warstwa-leksykalna.md) mówi,
-  co olski bierze za słowo i czego czasownik żąda od swojego leksykonu.
+  co olski bierze za słowo i których odczytań słownika nie bierze wcale.
+- [walencja.md](walencja.md) mówi,
+  które dopełnienia czasownik bierze i czego żąda od słowa, które w nich stanie.
+  Leksykon walencyjny i plik żądań wychodzą tam z Walentego.
 - [design-notes.md](design-notes.md) mówi,
   co czyni polszczyznę trudną do parsowania.
   Pokazuje drabinę kosztów i urwisko nieciągłości.

@@ -186,7 +186,7 @@ a `Wziął lustro wieczorem.` mówi, kiedy wziął,
 i polszczyzna wyraża jedno i drugie samym narzędnikiem, bez przyimka.
 Olski brał ten przypadek pod przyimkiem i nie brał go bez niego,
 bo `inst` było u niego pozycją orzecznika i niczym więcej
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](../walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 
 Pozycja jest okolicznikiem, czyli stoi tam, gdzie stoi wyrażenie przyimkowe
 i przysłówek, i wchodzi tą samą listą co one.

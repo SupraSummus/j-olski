@@ -4,7 +4,7 @@ Leksykon walencyjny mówi, co czasownik bierze, a nie mówi, czego od tego żąd
 ``zażądać`` bierze dopełnienie w dopełniaczu, a w podmiocie żąda człowieka.
 To drugie stoi w ``olski/żądania.txt``, który wychodzi z wydania TEI Walentego
 (``harness/żądania.py``), a czemu jest plikiem osobnym od leksykonu, mówi
-docs/warstwa-leksykalna.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
+docs/walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu.
 
 Moduł ten czyta sam plik i odpowiada na pytanie o jedno słowo w jednej pozycji.
 Które słowo w zdaniu jest czasownikiem i którą pozycję obsadza które wypełnienie,

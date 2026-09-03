@@ -287,7 +287,7 @@ które ją realizują, i tak weszła walencja przed konstrukcjami,
 w których każdy czasownik stoi:
 wieloznaczność, którą wnosi jej brak, nie jest jedna na gramatykę,
 tylko jedna na czasownik razy konstrukcje, w których ten czasownik stoi
-([warstwa-leksykalna.md](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
+([walencja.md](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej)).
 Tak samo czytanie, którego polszczyzna nie ma,
 zdejmuje się przed konstrukcjami, w których by wróciło.
 Formalizm tej kolejności nie ma,
@@ -405,11 +405,11 @@ a wydanie tekstowe, z którego powstaje leksykon, tej warstwy nie niesie
 Przekład tej warstwy stoi w `olski/żądania.txt`,
 a `--żądania` mówi obok streszczenia, czego czasownik żąda od tego,
 co w jego pozycji stanęło
-([warstwa-leksykalna.md](warstwa-leksykalna.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+([walencja.md](walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
 Druga połowa pytania — czy słowo stojące w pozycji żądanie spełnia —
 jest zamknięta dla klas osobowych, bo tam odpowiada deklaracja projektu,
 a `--osoby` wypisuje pozycje, w których czasownik żąda kogoś, a stoi tam rzecz
-([warstwa-leksykalna.md](warstwa-leksykalna.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 Czeka więc na dwie rzeczy, i obie zostają z tamtej połowy.
 Na wordnet, bo o klasach poza osobowymi — `MIEJSCE` jest jedną z nich —
 nie orzeka żaden zasób, który to repozytorium ma,
@@ -417,7 +417,7 @@ i jest to pytanie do świata
 ([open-questions.md](open-questions.md#shared-questions)).
 Oraz na samo żądanie miejsca, którego w tym przekładzie nie ma,
 bo nie ma w nim pozycji okolicznikowej
-([warstwa-leksykalna.md](warstwa-leksykalna.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)):
+([walencja.md](walencja.md#przekład-ma-pozycje-ramy-a-okolicznika-nie-ma)):
 przykład z tego celu przechodzi przez nią i przez czasownik,
 któremu Walenty nie daje ramy żadnej.
 Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
@@ -775,7 +775,7 @@ a `Robi` w `olski/skład/składnia.py` pyta o jeden lemat, bo tyle jest w drzewi
 `Linter pomaga dobry kod.`
 Wspólny jest przy tym plik, a nie każde zdanie, które on mówi:
 bezokolicznik czyta stąd sam skład, bo tylko jemu to zdanie coś kupuje
-([warstwa-leksykalna.md](warstwa-leksykalna.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
+([walencja.md](walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 ### Czego ten tor nie obejmuje
 

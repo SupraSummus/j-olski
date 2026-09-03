@@ -768,7 +768,7 @@ ani produkcja, ani wyższa klasa złożoności.
 Orzecznik zgodny jest tego przykładem: czytanie, które trzeba by zdjąć,
 rozstrzyga własność przymiotnika, a leksykon walencyjny mówi o czasowniku,
 więc ani produkcja, ani warstwa za parserem nie mają czym zapytać
-([warstwa-leksykalna.md](warstwa-leksykalna.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
+([walencja.md](walencja.md#zawężenie-orzecznika-zgodnego-wyceniono-i-decyzji-nie-ma)).
 
 Otwarte są środki, a nie własności.
 Wiąże to, [czym olski jest](#what-olski-is):
@@ -870,7 +870,7 @@ i to jest ta jedna rozbieżność, która nad próbką została:
 `To ma pomagać pisać dobrą polszczyznę` wychodzi w olskim jednoznaczne,
 a w sondzie wychodziło trzema czytaniami różniącymi się tym,
 który czasownik bierze biernik.
-[Leksykon](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
+[Leksykon](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej) sięga do tego
 po stronie olskiego, bo mówi, że `pomagać` biernika nie bierze,
 a podłoże ma po swojej stronie warunek na sam lemat kopuli,
 więc rozbieżność jest tym, o ile leksykon wyprzedził tamtą deklarację.
@@ -967,7 +967,7 @@ the naturalness the project is aiming for.
 It follows that the **lexicon** is one declarative source read in both
 directions: what `używać` governs is a fact about a word,
 and a second copy of it drifts.
-[Walenty is that source](warstwa-leksykalna.md#walencja-jest-leksykonem-o-ramie-domyślnej),
+[Walenty is that source](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej),
 and `olski/walencja.py` is what each direction reads it through:
 the parser turns it into the valency classes its productions need,
 and `Robi` in `olski/skład/składnia.py` asks it about the one lemma it was handed.
