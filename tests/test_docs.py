@@ -35,12 +35,10 @@ from pathlib import Path
 
 import pytest
 
+from harness import proza_repozytorium
+
 ROOT = Path(__file__).resolve().parent.parent
-DOCUMENTS = (
-    sorted(ROOT.glob("*.md"))
-    + sorted((ROOT / "docs").rglob("*.md"))
-    + sorted((ROOT / "todo").glob("*.md"))
-)
+DOCUMENTS = proza_repozytorium()
 #: Every module the repository holds, because a citation rots wherever it
 #: stands: in the grammar, in the harness beside it, in a spike whose whole point
 #: is a document, or in a test's docstring.

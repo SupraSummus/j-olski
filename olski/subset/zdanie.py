@@ -121,7 +121,19 @@ def _szyki_zdania_składowego(
 
     zdanie.dominacja("zdanie_składowe", [podmiot, Głowa(orzeczenie)])
 
-    zdanie.dominacja("zdanie_składowe", [nt("grupa_orzeczenia", tryb=V("t"))])
+    # Podmiot opuszczony w szyku, w którym za czasownikiem coś stoi: `Liczymy cenę.`
+    # Pozycja cennika jest ta sama, co przy dopełnieniu wysuniętym przed czasownik,
+    # bo konstrukcja jest ta sama: podmiotu każe szukać w zdaniu obok.
+    # Ciało konkuruje tu z `zdanie_składowe → czasownik podmiot`, które płaci
+    # `czasownik przed podmiotem`, więc darmowe orzeka, że opuszczenie podmiotu
+    # jest zwyklejsze niż podmiot stojący na miejscu.
+    # Cenę tej pozycji nad prozą trzyma
+    # docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
+    zdanie.dominacja(
+        "zdanie_składowe",
+        [nt("grupa_orzeczenia", tryb=V("t"))],
+        koszty=(OPUSZCZONY_PODMIOT,),
+    )
 
     # Mianownika pojedynczego żąda ten terminal, bo tyle mówi o tej konstrukcji
     # polszczyzna: zwrot ma jedną formę, a każda inna forma tego lematu stoi pod

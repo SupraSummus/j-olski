@@ -805,11 +805,14 @@ produkcje wraz z deklaracją wypisuje `harness/odcisk.py`.
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/werdykt.py`
 albo pole dopisane w `Deklaracja` w `olski/parse/podsumowanie.py` —
-a także cena przestawiona w `olski/cennik.py`, bo ona rusza kolejność czytań;
+a także rachunek czytania: rusza go i cena przestawiona w `olski/cennik.py`,
+i pozycja cennika dopisana do produkcji;
 i wtedy każdy taki blok bierze się ręką.
-Który to blok, mówi `tests/test_wydruki.py`:
-puszcza komendę stojącą nad wydrukiem
-i żąda, żeby komenda drukowała każdy wypisany wiersz i drukowała je w tej kolejności.
+Który to blok, mówią dwa testy.
+`tests/test_wydruki.py` puszcza komendę stojącą nad wydrukiem
+i żąda, żeby komenda drukowała każdy wypisany wiersz i drukowała je w tej kolejności,
+a `tests/test_witryna.py` żąda tego samego od bloku JSON stojącego pod curlem
+w [`docs/witryna.md`](docs/witryna.md).
 Blok bez takiej komendy rozjeżdża się po cichu, więc go nie wklejamy.
 Arytmetyki pod nim test nie widzi:
 dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.

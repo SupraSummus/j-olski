@@ -186,7 +186,10 @@ Kryterium trzyma
 Droga jest za każdym razem ta sama.
 Tyle o niej trzeba wiedzieć.
 Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi.
-Ciało dochodzi do modułu swojego gospodarza w `olski/subset/`.
+Ciało dochodzi do modułu swojego gospodarza w `olski/subset/`,
+a nacechowane nazywa przy tym pozycję z `olski/cennik.py`,
+bo nienazwane orzeka, że jest zwyklejsze od ciała, które płaci
+([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
 Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
 ([CLAUDE.md](../CLAUDE.md#code)).
 Korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)

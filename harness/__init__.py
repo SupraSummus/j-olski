@@ -231,3 +231,26 @@ def pliki_prozy(katalog: Path) -> list[Path]:
     odtwarza je :func:`_sources` wyżej, i po to, żeby ekstrakcja miała gdzie pisać.
     """
     return sorted(katalog.rglob(f"*{PROSE_SUFFIX}"))
+
+
+#: Korzeń repozytorium, czyli katalog nad tym pakietem.
+KORZEŃ = Path(__file__).resolve().parent.parent
+
+
+def proza_repozytorium() -> list[Path]:
+    """Cała proza repozytorium, czyli to, co obejmują reguły pisania (CLAUDE.md).
+
+    Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
+    ``docs/`` albo do ``todo/`` wszedł tu sam.
+    Rejestr konstrukcji jest katalogiem w ``docs/``, więc zejście tam jest
+    rekurencyjne: bez tego odcisk minąłby cały ten rejestr.
+
+    Stoi tu obok :func:`pliki_prozy` i z tego samego powodu: dwie sondy mierzące
+    „całą prozę repozytorium” mają mierzyć ten sam zbiór, a wydruk każdej z nich
+    mówi, że ten sam.
+    """
+    return (
+        sorted(KORZEŃ.glob("*.md"))
+        + sorted((KORZEŃ / "docs").rglob("*.md"))
+        + sorted((KORZEŃ / "todo").glob("*.md"))
+    )

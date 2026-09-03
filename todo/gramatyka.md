@@ -981,13 +981,15 @@ gdzie czasownik podmiotu mieć nie może.
 ma czytanie bez podmiotu jako jedyne poprawne,
 a cennik stawia je pod czytaniem, które podmiot obsadza
 ([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Nad prozą tego repozytorium jest to jedyne takie zdanie na dwadzieścia osiem,
-którym ta pozycja przestawiła czytanie pierwsze, i pozostałe dwadzieścia siedem
-przestawiła w stronę czytania trafnego, więc wpis jest o resztce, a nie o pozycji.
+Nad prozą tego repozytorium pada jedno takie zdanie,
+a pozycja przestawia czytanie pierwsze wielokrotnie częściej
+i w większości przeczytanych trafnie, więc wpis jest o resztce, a nie o pozycji.
+Liczbę dzisiejszą wypisuje `harness/cena.py`, pozycja po pozycji.
 Ruchem jest zdjęcie tej pozycji z ciała, którego czasownik mianownika nie bierze,
-czyli warunek na ramę, a nie na produkcję:
-`zdanie_składowe → dopełnienie czasownik_ramy` w `olski/subset/zdanie.py`
-wchodzi dziś jednym ciałem dla każdej ramy.
+czyli warunek na ramę, a nie na produkcję.
+Ciała są dwa, bo pozycję tę płaci i `zdanie_składowe → dopełnienie czasownik_ramy`,
+i `zdanie_składowe → grupa_orzeczenia` w `olski/subset/zdanie.py`,
+a każde wchodzi jednym ciałem dla każdej ramy.
 Do przeczytania jest, czy rama to mówi:
 `PODMIOT` w `olski/walencja.py` nazywa pozycję podmiotu,
 a leksykon walencyjny wypisuje ją przy czasowniku, który ją ma,
