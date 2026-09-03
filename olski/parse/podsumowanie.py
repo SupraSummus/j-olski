@@ -148,6 +148,13 @@ class Deklaracja:
     podrzędne: tuple[str, ...]
     #: Które role obsadzają pozycje ramy czasownika (:class:`Obsada`).
     obsada: Obsada
+    #: Symbol konstytuenta, którym tekst nazywa rzecz.
+    #: Pyta o niego warstwa szukająca tego, na co zaimek wskazuje
+    #: (``olski/odniesienia.py``): kandydatem jest głowa takiego konstytuenta
+    #: wziętego najszerzej, bo `duże pole maków` nazywa pole, a nie maki.
+    #: Rolą ten symbol nie jest, bo rzecz nazwana stoi w każdej z ról imiennych
+    #: i pod przyimkiem także, a pytanie jest o nią samą, a nie o jej pozycję.
+    grupa_imienna: str
 
 
 @dataclass

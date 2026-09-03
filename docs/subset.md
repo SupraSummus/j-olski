@@ -79,7 +79,9 @@ więc zdanie wieloznaczne w polszczyźnie wychodziło odrzucone
 za wieloznaczność, którą naprawdę ma
 ([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
 Drugim znaleziskiem jest poprawka jednego znaku
-([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)),
+a trzecim zaimek, który wskazuje na dwie rzeczy naraz
+([niżej](#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
 Wielkiej litery na początku zdania nie zgłasza nic,
 a ruch trzyma [`todo/`](../todo/README.md).
 
@@ -325,6 +327,60 @@ Kropka bez odstępu za nią — `niska.Cena` — nie jest granicą zdania
 więc po poprawce olski czyta nie to zdanie, tylko dwa,
 a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić.
 Wpis o niej trzyma [`todo/gramatyka.md`](../todo/gramatyka.md).
+
+## Zaimek wskazujący na dwie rzeczy jest trzecim znaleziskiem
+
+Dwa pierwsze znaleziska mieszczą się w jednym zdaniu, a trzecie nie mieści się.
+`Są one czerwone.` dostaje ten sam werdykt po `Widzimy pole maków.`
+i po `Maki rosną w garnkach.`,
+choć po pierwszym z nich czytelnik ma jedną rzecz do wyboru, a po drugim dwie.
+Rozbiór zdania z zaimkiem o zdaniu obok nic nie wie,
+więc pyta o nie warstwa nad werdyktem (`olski/odniesienia.py`),
+a kryterium bierze to samo, którym olski liczy odczytania: więcej niż jedno.
+
+```sh
+python3 -m olski.check -c "Narzędzie sprawdza zdania tekstu.
+Autor poprawia je sam."
+```
+
+```text
+<text>: Autor poprawia je sam.
+        „je” wskazuje na „Narzędzie” albo „zdania”
+zdań: 2; wieloznaczne: 0; bez odczytania: 0; niejasne odniesienia: 1
+```
+
+Zgłoszenie mówi o zdaniu prawdę sprawdzalną bez zaglądania czytelnikowi w głowę:
+te dwie rzeczy naprawdę stoją w zdaniu obok i naprawdę zgadzają się z zaimkiem.
+Czy czytelnik waha się nad nimi, mówi ono tak samo mało,
+jak mówi o tym znalezisko wieloznaczności
+([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)),
+i jest to ta sama cena wzięta drugi raz.
+Rozdziela je częstość.
+Wieloznaczność melduje się nad prawie każdym zdaniem z pozycją przyłączeniową (tamże),
+bo gramatyka wypisuje wszystkie czytania, jakie zdanie ma.
+Zaimek melduje się rzadko: ta sama komenda puszczona na prozę tego repozytorium
+zgłasza go raz na kilkadziesiąt zdań czytanych,
+bo rzeczy podaje samo zdanie obok, a zaimek rozstrzygnięty na miejscu milczy.
+
+Kandydatów ubywa przy tym tam, gdzie gramatyka zdania obok nie wyprowadza,
+i ubywa ich wyłącznie w jedną stronę:
+milczenie z braku pokrycia może zgłoszenie schować, a wymyślić go nie może.
+Ilu zgłoszeń nie widzieliśmy, nie mówi żaden przebieg, bo mówiłby o zdaniach,
+których olski nie czyta.
+Dlatego zaimek bez ani jednego kandydata zgłoszenia nie dostaje,
+choć odniesienie wiszące jest usterką
+([CLAUDE.md](../CLAUDE.md#the-reader-goes-sentence-by-sentence)):
+zero kandydatów znaczy i „nikt tej rzeczy nie nazwał”,
+i „olski tamtego zdania nie przeczytał”, a warstwa tych dwóch nie rozróżnia.
+
+Granicę stawia część mowy i stawia ją wąsko.
+Wchodzi tu zaimek trzeciej osoby, czyli `on` wraz z każdą formą przypadkową.
+Zaimek wskazujący nie wchodzi:
+`to` i `ten` niosą w polszczyźnie łącznik, cząstkę i przydawkę,
+a rozdzielenie tych robót jest osobną robotą.
+Poza granicą zostaje przez to `to` w pozycji podmiotu akapitu,
+które [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie) wylicza jako usterkę,
+a ruch trzyma [`todo/`](../todo/README.md).
 
 ## What the grammar covers
 

@@ -158,6 +158,26 @@ Poprawkę poświadcza rozbiór poprawionego zdania.
 Czemu świadkiem jest gramatyka, a nie znak, mówi
 [docs/subset.md](docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka).
 
+Zaimek wskazujący na dwie rzeczy naraz jest trzecim znaleziskiem.
+Rzeczy nazywa zdanie obok, a nie zdanie z zaimkiem.
+
+```sh
+python3 -m olski.check -c "Narzędzie sprawdza zdania tekstu.
+Autor poprawia je sam."
+```
+
+```text
+<text>: Autor poprawia je sam.
+        „je” wskazuje na „Narzędzie” albo „zdania”
+zdań: 2; wieloznaczne: 0; bez odczytania: 0; niejasne odniesienia: 1
+```
+
+Oba zdania mają po jednym odczytaniu.
+Wieloznaczność jest tu własnością tekstu, a nie zdania.
+Jednostką umowy jest przez to tekst.
+Zaimki, które olski bierze, wylicza
+[docs/subset.md](docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem).
+
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).
 

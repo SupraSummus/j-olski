@@ -225,25 +225,30 @@ a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
 więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
 
-Werdykt nie mówi o zaimku, którego tekst nie pozwala rozwiązać,
-a [cel](../docs/roadmap.md#cele) tego żąda, i jednostką tego żądania jest tekst
-([`docs/roadmap.md`](../docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
-`Są one czerwone.` przechodzi dziś samo, bez żadnego zdania przed sobą,
-bo `olski.check` liczy czytania jednego zdania i o sąsiedztwo nie pyta.
-Kandydatów na antecedens wylicza zgodność, a nie znaczenie:
-`one` żąda liczby mnogiej i rodzaju niemęskoosobowego,
-więc kandydatem jest każda grupa imienna przed nim, która jedno i drugie niesie.
-Ruchem jest przebieg po zdaniach jednego pliku,
-który zbiera grupy imienne przyjętych czytań i przy każdym zaimku liczy kandydatów,
-a zgłasza zero oraz więcej niż jednego, wypisując przy drugim ich listę;
-zgłoszenie idzie przy zaimku, bo drugie czytanie całego tekstu
-mnożyłoby się przez każdy zaimek w nim.
-Do przeczytania jest `pomijalny` w `olski/skład/składnia.py` wraz z `Kontekst`,
-bo skład prowadzi ten rachunek w drugą stronę
-i ma już warunek na rodzaj rozdzielający uczestników zdania obok
-([`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
-a wpis o zasięgu antecedensu przy opuszczonym podmiocie zdania podrzędnego
-mówi, czego ten warunek nie obejmuje.
-Do rozstrzygnięcia jest, czy zaimek bez ani jednego kandydata
-jest zgłoszeniem tej samej nazwy co zaimek o dwóch,
-bo pierwszy mówi, że tekst czegoś nie podaje, a drugi, że podaje dwie rzeczy.
+`to` w miejscu podmiotu akapitu jest usterką, której nie zgłasza nic.
+Wylicza ją [CLAUDE.md](../CLAUDE.md#dla-kogo-jest-napisane-zdanie),
+a `olski/odniesienia.py` bierze sam zaimek trzeciej osoby
+([`docs/subset.md`](../docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+Maszyneria tamtej warstwy nad `to` nie działa i nie chodzi o samo rozpoznanie zaimka:
+`on` podejmuje rzecz nazwaną grupą imienną, więc kandydatów wylicza zgodność
+liczby i rodzaju, a `to` podejmuje w tych dokumentach całe zdanie przed sobą,
+które ani liczby, ani rodzaju nie niesie.
+Ruchem jest więc inny kształt zgłoszenia, a nie druga część mowy w `ZAIMEK`.
+Do przeczytania jest sama reguła w `CLAUDE.md`:
+naprawą jest tam rzeczownik wstawiony w miejsce zaimka,
+a nie wybór między dwiema rzeczami, więc zgłoszenie nie ma czego wypisać obok.
+
+Kandydat miejscowy wycisza zaimek także tam, gdzie polszczyzna go z nim nie łączy.
+`olski/odniesienia.py` milczy nad zaimkiem, przed którym w tym samym zdaniu stoi
+rzecz zgodna z nim liczbą i rodzajem, i jest to warunek bez składni:
+w `Olski go nie czyta i o jego polszczyźnie milczy.` wycisza go `Olski`,
+choć `go` nie może tam znaczyć `Olski` — polszczyzna żąda w tej pozycji `siebie`,
+bo podmiot i dopełnienie stoją w jednej ramie.
+Ruchem jest ten warunek zawężony do kandydatów spoza ramy zaimka:
+role zdania składowego werdykt już nazywa (`Obsada` w `olski/parse/podsumowanie.py`),
+a zaimek jest liściem o znanej rozpiętości, więc zdanie składowe obu wskazuje
+`zakresy` w `olski/parse/streszczenie.py`.
+Do przeczytania jest, ile zdań to odsłania: nad README zdanie jest dziś jedno,
+więc ruch opłaca się dopiero wtedy, gdy przebieg nad rejestrem pokaże ich więcej,
+a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
+bo różnica między nimi jest całą mierzoną rzeczą.

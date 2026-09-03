@@ -105,6 +105,31 @@ class Document:
         """Zdania, których żadne nie przechodzi przez granicę akapitu."""
         return tuple(_sentences(self.text, self.paragraphs))
 
+    @cached_property
+    def wcześniejsze(self) -> tuple[tuple[int, ...], ...]:
+        """Numery zdań stojących przed każdym zdaniem w jego akapicie, po jednej krotce na zdanie.
+
+        Wstecz, a nie w obie strony, bo czytelnik idzie od początku do końca,
+        i do granicy akapitu, bo akapit jest tym, w czym „obok” się kończy;
+        oba wywody trzyma :class:`olski.rozstrzyganie.Sąsiedztwo`.
+        Numerami, a nie napisami, bo pytają o to dwie warstwy i pytają o co
+        innego: warstwa rozstrzygająca o formy, jakie w tych zdaniach stały,
+        a niejasne odniesienie o ich rozbiór (``olski/odniesienia.py``).
+        """
+        wynik: list[tuple[int, ...]] = []
+        akapity = iter(self.paragraphs)
+        akapit = next(akapity, None)
+        bieżące: list[int] = []
+        #  Jedno przejście, bo zdania i akapity idą w tej samej kolejności: zdanie
+        #  nie przechodzi przez granicę akapitu (:attr:`sentences`).
+        for numer, span in enumerate(self.sentences):
+            while akapit is not None and akapit.end < span.end:
+                akapit = next(akapity, None)
+                bieżące = []
+            wynik.append(tuple(bieżące))
+            bieżące.append(numer)
+        return tuple(wynik)
+
     def slice(self, span: Span | None = None) -> str:
         return self.text if span is None else self.text[span.start : span.end]
 

@@ -317,10 +317,13 @@ class Verdict:
     def znalezisko(self) -> bool:
         """Czy narzędzie ma o tym zdaniu coś do powiedzenia.
 
-        Znaleziska są dwa: wieloznaczność oraz poprawka jednego znaku
+        Znaleziska widoczne z jednego zdania są dwa: wieloznaczność oraz poprawka
+        jednego znaku
         (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+        Trzecie — zaimek wskazujący na dwie rzeczy naraz — pada obok werdyktu,
+        bo rzeczy nazywa zdanie obok (``olski/odniesienia.py``), więc tutaj go nie ma.
         Warunek stoi tu raz, bo pyta o niego wydruk nad każdym zdaniem osobno;
-        :class:`Podsumowanie` liczy oba znaleziska nad tekstem i liczy je osobno.
+        :class:`Podsumowanie` liczy każde z tych znalezisk nad tekstem i liczy je osobno.
 
         Napis niepunktowany zostaje poza znaleziskiem także wtedy, gdy poprawkę
         ma, bo nagłówek i pozycja listy dochodzą tu jako takie napisy i żadne z
@@ -860,6 +863,13 @@ class Podsumowanie:
     #: werdykty o takim napisie, :data:`FRAGMENT` i :data:`NIEDOMKNIĘTE`, bo o
     #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
     fragmentów: int
+    #: Zdania z zaimkiem, który wskazuje na dwie rzeczy naraz, czyli trzecie ze
+    #: znalezisk (``olski/odniesienia.py``). Podawane, a nie liczone z werdyktów:
+    #: znalezisko to pada o zdaniu, którego werdykt sam z siebie nie zna, bo
+    #: rzeczy nazywa zdanie obok. Zdanie wieloznaczne z takim zaimkiem stoi w
+    #: dwóch licznikach naraz, tak samo jak zdanie naprawialne, i z tego samego
+    #: powodu: znaleziska są dwa i mówią o zdaniu co innego.
+    niejasnych_odniesień: int = 0
 
     @property
     def znalezisk(self) -> int:
@@ -869,10 +879,12 @@ class Podsumowanie:
         rozstrzyga tu jedno miejsce, a znalezisko dopisane później dostaje ten
         kod wyjścia razem z własnym licznikiem.
         """
-        return self.wieloznaczne + self.naprawialne
+        return self.wieloznaczne + self.naprawialne + self.niejasnych_odniesień
 
     @classmethod
-    def z_werdyktów(cls, werdykty: Sequence[Verdict]) -> Podsumowanie:
+    def z_werdyktów(
+        cls, werdykty: Sequence[Verdict], niejasnych_odniesień: int = 0
+    ) -> Podsumowanie:
         zdania = [verdict for verdict in werdykty if verdict.punktowane]
         return cls(
             zdań=len(zdania),
@@ -880,6 +892,7 @@ class Podsumowanie:
             naprawialne=sum(verdict.naprawa is not None for verdict in zdania),
             bez_odczytania=sum(verdict.result.rejected for verdict in zdania),
             fragmentów=len(werdykty) - len(zdania),
+            niejasnych_odniesień=niejasnych_odniesień,
         )
 
     def explain(self) -> str:
@@ -893,6 +906,9 @@ class Podsumowanie:
         #  tekstem bez ani jednej mówiłaby zero o znalezisku, którego nie ma.
         if self.naprawialne:
             podsumowanie += f"; do poprawki jednym znakiem: {self.naprawialne}"
+        #  Ta para rośnie pod tym samym warunkiem i z tego samego powodu.
+        if self.niejasnych_odniesień:
+            podsumowanie += f"; niejasne odniesienia: {self.niejasnych_odniesień}"
         if self.fragmentów:
             #  Nie „fragmenty, które nie są zdaniami”: napis niedomknięty jest w tej
             #  liczbie, a werdykt nad nim mówi, że olski to zdanie czyta.
