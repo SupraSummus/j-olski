@@ -10,15 +10,19 @@ Demo parsera stoi osobno, pod `olski.pl`, i opisuje je [witryna.md](witryna.md).
 
 Buduje to `python3 -m dokumentacja`, jednym poleceniem i lokalnie.
 Workflow woła to samo polecenie, więc przepis jest jeden, a nie dwa.
-Adres stoi w `mkdocs.yml` jeden raz:
+Konfiguracja nosi adres jeden raz, w `mkdocs.yml`:
 plik `CNAME`, którego żąda GitHub Pages, wychodzi z tamtego wiersza przebiegiem.
+Poza konfiguracją adres jest linkiem dla czytelnika,
+w [README](../README.md#co-działa) i w stopce demo (`witryna/strona.html`).
+Kopie adresu utrzymuje równe `tests/test_docs.py`,
+więc adres zmieniony w konfiguracji wywraca suitę, dopóki nie wejdzie do nich.
 
 Samą prozę GitHub renderuje już dziś, w tej konwencji kotwic,
 w której pisane są linki.
 Strona dokłada do tego adres dla czytelnika, który o projekcie nie słyszał
 ([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)),
-wyszukiwarkę po całej prozie naraz
-oraz referencję API, której GitHub nie pokaże w ogóle,
+jedną wyszukiwarkę po prozie i po referencji naraz
+oraz samą referencję API, której GitHub nie pokaże w ogóle,
 bo docstring jest w pliku `.py`.
 
 Dokument mówi, czemu strona nie stoi na domyślnym Jekyllu,
@@ -70,7 +74,7 @@ suita nad GitHubem, a budowanie nad stroną.
 
 ## Referencja API powstaje z docstringów
 
-Wypisuje ją pdoc z pakietu `olski`, i nie jest to druga kopia faktu:
+Wypisuje ją mkdocstrings z pakietu `olski`, i nie jest to druga kopia faktu:
 kod jest właścicielem tego, co zaimplementowane
 ([CLAUDE.md](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)),
 a referencja powstaje z niego przy każdym budowaniu.
@@ -78,8 +82,25 @@ Docstringi są tu prozą pod
 [łamaniem wierszy](../CLAUDE.md#semantic-line-breaks),
 a pojedynczy nowy wiersz zwija się w spację, więc renderują się jak akapit.
 
-Cena jest jedna i widać ją na stronie:
-docstring cytuje dokument gołym napisem, a nie linkiem,
+Referencja jest częścią tej strony, a nie drzewem obok niej.
+Każdy moduł dostaje stronę Markdown — nagłówek i wiersz `::: olski.check` —
+więc mkdocs zna te strony tak samo jak dokumenty:
+wciąga je do nawigacji, indeksuje jedną wyszukiwarką i renderuje tym samym motywem,
+a symbol cytowany w docstringu prowadzi linkiem tam, gdzie go zadeklarowano.
+Generator wypisujący własne drzewo HTML tego nie umie i dlatego tu go nie ma:
+pdoc wystawiał referencję z własnym motywem i własnym oknem szukania,
+a mkdocs nie wiedział o niej nic poza tym, że przenosi jej pliki.
+Odwraca tę decyzję wydruk, którego mkdocstrings nie umie:
+referencja wraca wtedy obok strony, a razem z nią drugie okno szukania.
+
+Docstringi cytują symbol rolą reStructuredText, a mkdocstrings zna tylko własną składnię:
+przekłada ją `dokumentacja.py`, a nie autor docstringu,
+i tam też stoi powód, dla którego konwencja w kodzie zostaje ta sama.
+Że przekład się wykonał, żąda samo budowanie,
+bo rola przepuszczona na stronę nie wywraca przebiegu sama z siebie.
+
+Ceną jest cytat dokumentu i widać ją na stronie:
+docstring cytuje go gołym napisem, a nie linkiem,
 i robi to kilkadziesiąt modułów pakietu,
 więc w referencji te cytaty są martwym tekstem.
 Wpis o tym trzyma [`todo/dokumenty.md`](../todo/dokumenty.md).
@@ -91,6 +112,11 @@ Wypisana w `mkdocs.yml` byłaby drugą kopią spisu z [README](README.md),
 a spis ten mówi o każdym dokumencie zdanie i wskazuje właściciela faktu.
 Dwie listy tych samych dokumentów rozjeżdżają się przy pierwszym dopisanym pliku,
 a suita żąda wiersza tylko w tej pierwszej.
+
+Referencja wchodzi do tej nawigacji tą samą drogą,
+bo strony modułów wypisuje `dokumentacja.py` z drzewa modułów pakietu.
+Moduł dopisany jutro dostaje przez to stronę bez wiersza dopisanego gdziekolwiek,
+a spis modułów na wejściu do referencji liczy z pakietu mkdocstrings.
 
 Podpisy strony, nazwa motywu i przełącznik motywu należą do `mkdocs.yml`,
 tak jak podpisy demo należą do jego strony
@@ -107,7 +133,7 @@ bo minuty runnera liczą się za każdy przebieg
 Wydanie jest osobnym zadaniem i czeka na `main`, bo adres jest jeden.
 
 Do [bloku checków](../CLAUDE.md#checks) budowanie nie wchodzi.
-mkdocs i pdoc instaluje dodatek `dokumentacja` z `pyproject.toml`,
+mkdocs i mkdocstrings instaluje dodatek `dokumentacja` z `pyproject.toml`,
 a suita go nie instaluje — tak samo jak nie instaluje gunicorna dla demo.
 Ceną jest to, że o martwym linku mówi dopiero pull request,
 a nie lokalny przebieg bloku checków.
@@ -118,13 +144,11 @@ Czy DNS-y wskazują, czy GitHub Pages przyjmuje adres własny z pliku `CNAME`
 i czy artefakt tej wielkości przechodzi,
 mówi dopiero pierwszy przebieg na `main`.
 
-Wyszukiwarka strony nie sięga do referencji, a referencja ma własną.
-Są to dwa okna szukania na jednej stronie i nikt tego nie rozstrzygnął.
-
 ## Sources
 
 - <https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site> — czego GitHub Pages żąda od adresu własnego i skąd bierze plik `CNAME`
 - <https://kramdown.gettalong.org/converter/html.html#auto-ids> — jak kramdown liczy kotwicę z nagłówka
 - <https://github.com/Flet/github-slugger> — kotwica w konwencji GitHuba, wraz z kodem, który ją liczy
 - <https://www.mkdocs.org/user-guide/configuration/#validation> — co mkdocs sprawdza w linkach i w kotwicach
-- <https://pdoc.dev/docs/pdoc.html> — co pdoc bierze z pakietu i czego żąda od `__all__`
+- <https://mkdocstrings.github.io/python/usage/> — co mkdocstrings wypisuje z modułu i którą opcją
+- <https://mkdocstrings.github.io/griffe/extensions/> — czego griffe żąda od rozszerzenia i kiedy woła jego haki
