@@ -328,6 +328,81 @@ więc po poprawce olski czyta nie to zdanie, tylko dwa,
 a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić.
 Wpis o niej trzyma [`todo/gramatyka.md`](../todo/gramatyka.md).
 
+## Naprawa całego słowa nie jest jednoznaczna
+
+O naprawę całego słowa prosi autor, który chce, żeby olski wciągnął tekst z usterką.
+Zdanie odrzucone dostaje wtedy jedno słowo w innej formie tego samego lematu,
+jedno słowo skreślone albo jedno słowo dołożone,
+a świadkiem zostaje ta sama gramatyka co przy poprawce znaku:
+naprawa liczy się dopiero wtedy, gdy rozbiór poprawionego zdania daje odczytanie.
+Formy, której słownik nie zna, naprawa ta nie dotyczy —
+o niej rozstrzyga warstwa morfologiczna, a nie drugi rozbiór
+([warstwa-leksykalna.md](warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)).
+
+Naprawa prawie nigdy nie jest jedna i dlatego znaleziskiem nie jest.
+Mierzy się to nad zdaniem zepsutym, a nie odrzuconym, bo odpowiedź ma być znana:
+zdanie, które olski czyta, dostaje jedną formę podmienioną na inną formę
+tego samego lematu, aż wypadnie z podzbioru.
+Nad prozą tych dokumentów zepsutą w ten sposób
+naprawa znajduje się w dziewięciu zdaniach na dziesięć,
+a jednoznaczna jest w mniej niż co czwartym z nich.
+W pozostałych zbiór ma kilka pozycji i każda z nich jest zdaniem polskim:
+`Nowa program zapisuje ustawienia.` naprawia i `Nowy program`, i `Nowa programu`,
+a oba te zdania olski czyta jednym odczytaniem.
+
+Wyróżnić naprawę mogłaby miara jej naturalności, a kandydat jest jeden:
+koszt, po którym las porządkuje czytania
+([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Suma kosztów całego drzewa, o którą pyta [`todo/parser.md`](../todo/parser.md),
+nie postawiła naprawy prawdziwej za żadną konkurentką ani raz,
+a wyróżniła ją rzadziej niż raz na pięćdziesiąt zdań:
+jest bezpieczna i prawie bezczynna.
+Wychodzi tak dlatego, że koszt jest zadeklarowany dla szyku,
+dla miejsca okolicznika i dla formy odesłanej poza rejestr,
+a podmiana jednej formy nie rusza żadnej z tych trzech rzeczy.
+Dwie miary, które rozstrzygają częściej, rozstrzygają fałszywie:
+liczba czytań stawia naprawę prawdziwą za konkurentką w co czwartym zdaniu,
+a odległość znakowa w co trzecim.
+Miara naturalności musiałaby przez to być kosztem zadeklarowanym dla naprawy,
+a nie dla produkcji, i taka deklaracja żąda własnego pomiaru.
+Sonda liczy przy tym sumę nad lasem przed unifikacją,
+więc może ją zaniżyć, a nie zawyżyć.
+
+Ruch ten kosztuje również tam, gdzie usterki nie ma.
+Zdanie polskie, którego olski nie wyprowadza, bo brakuje produkcji,
+też bywa oddalone o jedno słowo od odczytania —
+nad tą prozą rzadziej niż jedno odrzucone na dziesięć —
+a naprawy przeczytane ręką mówią o formie tam, gdzie brak jest w gramatyce.
+`Dwa pierwsze zamyka deklaracja i podłoże ma je zamknięte.` naprawia `me`,
+a `Środka nie wybiera się natomiast tam, gdzie fakt rozstrzygający nie stoi w żadnym słowniku.` naprawia `Środek`,
+i oba zdania olski po takiej naprawie czyta jednym odczytaniem.
+Zdaniu zdrowemu naprawa zmienia przez to znaczenie,
+a brak w gramatyce nazywa usterką autora.
+
+Miejsca naprawy nie podaje też zatrzymanie i to jest zmierzone.
+Nad zdaniami zepsutymi jedną formą analiza staje na tej właśnie formie
+rzadziej niż raz na pięćdziesiąt zdań,
+a nad blisko trzecią częścią z nich dochodzi do końca i nie staje wcale.
+Sekcja wyżej wywodzi to na przykładzie `Nowa program`,
+a liczba mówi, że przykład ten nie jest wyjątkiem:
+niezgodność cech nie wypada w przedrostku,
+bo unifikacja przechodzi po lesie, a nie po tablicy.
+
+Brakującego słowa naprawa nie nazywa, tylko wylicza.
+Krawędź o dowolnych cechach dołożona do grafu segmentacji
+domyka zdanie w kilku miejscach naraz i kilkoma częściami mowy,
+bo szyk jest swobodny: `Program ustawienia.` domyka czasownik przed grupą imienną,
+między grupami i za nimi, i to każdą formą osobową, jaką gramatyka bierze.
+Takie dołożenie przyjmuje przy tym i zdanie, któremu nie brakuje nic:
+`Program zapisuje ustawienia.` przyjmuje je kilkudziesięcioma sposobami,
+więc pytanie „czy brakuje słowa” ma odpowiedź twierdzącą i nad zdaniem całym.
+
+Odwróci ten ruch klasa napraw jednoznaczna z budowy,
+taka jak dwie poprawki znaku wyżej, gdzie kandydat jest jeden,
+albo rejestr, w którym usterka jest częsta.
+Ten drugi warunek jest ten sam, który sekcja wyżej stawia poprawce znaku,
+i mierzy się go na tym samym korpusie audytowym.
+
 ## Zaimek wskazujący na dwie rzeczy jest trzecim znaleziskiem
 
 Dwa pierwsze znaleziska mieszczą się w jednym zdaniu, a trzecie nie mieści się.

@@ -14,6 +14,10 @@ i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse/las.py`:
 wyliczanie przystaje dziś na pierwszym drzewie, które trafia, i granicy nie potrzebuje.
 Ruchem jest wariant napisany w sondzie, a nie w parserze,
 i jedna liczba obok tamtej: złote czytanie Składnicy pod jednym porządkiem i pod drugim.
+Suma liczona po `wyprowadzenia` w `olski/parse/las.py` odpowiedzi nie da,
+bo ta metoda czyta tablicę, czyli las przed unifikacją,
+i minimum wypada w niej czasem na kształcie, którego unifikacja nie przepuszcza;
+sumę bierze się przez to po krawędziach klas, a nie po ciałach pozycji.
 Dopiero różnica mówi, czy warto płacić za kolejkę.
 Trop jest jeden i jest przeciw: sesja, która wpuściła koszt morfologii, sumowała
 przez pomyłkę także koszty produkcji i przestawiła wtedy nad prozą repozytorium

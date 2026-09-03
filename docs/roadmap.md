@@ -645,6 +645,12 @@ którą wypisuje `harness/walenty.py`
 ([disambiguation.md](disambiguation.md#leksykon-rozstrzyga-część-i-rozstrzyga-ją-deterministycznie)).
 Odpowiedź wyczytana ze słownika jest częścią leksykonu, a nie warstwą nad nim.
 
+Rozbioru rozmytego, czyli takiego, który zdanie z usterką wciąga i naprawia,
+olski też nie ma, i tu powodem jest znów pomiar.
+Naprawa jednego znaku wchodzi do werdyktu dlatego, że kandydat jest w niej jeden,
+a naprawa całego słowa daje ich kilku nad jednym zdaniem
+([subset.md](subset.md#naprawa-całego-słowa-nie-jest-jednoznaczna)).
+
 ## Tor składu: drzewo wchodzi, polskie zdanie wychodzi
 
 ### Kryterium wyjścia toru składu to znów README
