@@ -87,9 +87,23 @@ def _wydruki() -> list:
 
 @pytest.mark.parametrize(("wywołania", "wydruk"), _wydruki())
 def test_wydruk_w_dokumencie_jest_tym_co_komenda_drukuje(wywołania, wydruk, capsys):
+    """Wiersze bloku idą w wydruku w tej samej kolejności, w jakiej stoją w nim.
+
+    Kolejnością, a nie samą obecnością, bo akapit pod blokiem mówi o czytaniu
+    pierwszym i o różnicy między nim a drugim, więc blok przestawiony unieważnia
+    ten akapit tak samo jak wiersz, którego komenda nie drukuje. Przestawia go
+    każda zmiana cennika (``olski/cennik.py``), a widać ją wyłącznie tutaj.
+    Blok wolno przy tym skrócić: wiersz pominięty przesuwa tylko miejsce, od
+    którego szuka się następnego.
+    """
     assert wywołania, "nad wydrukiem nie stoi blok poleceń wołający komendę"
     for argumenty in wywołania:
         main(argumenty)
     naprawdę = capsys.readouterr().out.splitlines()
-    brakujące = [wiersz for wiersz in wydruk if wiersz not in naprawdę]
-    assert not brakujące, f"tych wierszy komenda nie drukuje: {brakujące}"
+    gdzie = 0
+    for wiersz in wydruk:
+        ogon = naprawdę[gdzie:]
+        assert wiersz in ogon, (
+            f"tego wiersza komenda nie drukuje albo drukuje go wcześniej: {wiersz}"
+        )
+        gdzie += ogon.index(wiersz) + 1

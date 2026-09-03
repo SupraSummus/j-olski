@@ -18,6 +18,7 @@ import random
 from dataclasses import asdict
 from typing import Any
 
+from olski.cennik import cena
 from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.rozstrzyganie import (
     Rozstrzygnięcie,
@@ -88,6 +89,17 @@ def _zdanie(
         #  ``MAX_READINGS`` (``olski/parse/las.py``), mówi osobne pole: po długości
         #  listy tego nie widać, bo skraca ją także samo powtórzenie napisu.
         "czytania": verdict.readings,
+        #  Czym każde czytanie jest nacechowane, wpis na wpis z ``czytania``
+        #  (``Verdict.rachunki`` w ``olski/werdykt.py``). Pozycje policzone, a nie
+        #  jedna suma na czytanie: kolejność rozstrzyga koszt czytany od góry
+        #  drzewa, więc suma czytałaby się na miejsce w kolejce, którym nie jest.
+        "koszty": [
+            [
+                {"pozycja": nazwa, "ile": ile, "koszt": cena(nazwa) * ile}
+                for nazwa, ile in rachunek
+            ]
+            for rachunek in verdict.rachunki
+        ],
         "liczba_czytań": verdict.result.ile,
         "urwane": verdict.result.truncated,
         #  Konstytuenty, których wieloznaczność lista czytań zostawia

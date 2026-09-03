@@ -13,6 +13,19 @@ Mianownik jest tam mały i to jest cena, którą ten pomiar płaci za rejestr,
 a liczba mówi, czy dzisiejsze koszty są dobrane pod Składnicę,
 czy pod dokumentację techniczną.
 
+Sonda różnicowa mierzy zdejmowaniem produkcji, a cennik otwiera tańszy wariant.
+`harness/ruch.py` składa gramatykę bez grupy produkcji i porównuje werdykty,
+więc odpowiada na pytanie o to, ile konstrukcja kupuje zdań.
+Pytanie o cenę jest inne: która pozycja cennika przestawia czytanie pierwsze
+i w którą stronę.
+Wariantem jest tam gramatyka z jedną pozycją wycenioną na zero
+(`CENNIK` w `olski/cennik.py`), a nie gramatyka bez produkcji,
+bo zdjęta produkcja zabiera czytanie, a pozycja darmowa przestawia je w kolejce.
+Porównuje się przez to nie werdykty, a czytanie pierwsze każdego zdania,
+i to jest ta różnica, przez którą nie wchodzi to do `harness/ruch.py` wprost.
+Do przeczytania przedtem jest, czy `Sonda` w tamtym pliku uniesie wariant,
+który gramatyki nie okrawa, bo `Zdejmowanie` zakłada, że okraja.
+
 Kosztu morfologii nie widzi ani jeden pomiar nad bankiem drzew.
 `harness/czytania.py` mierzy złote czytanie morfologią złotą, czyli czytaniem
 wziętym z drzewa wzorcowego, a `_segment` w `harness/corpus.py` buduje je bez

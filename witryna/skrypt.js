@@ -103,6 +103,22 @@ function podpisOdczytania(numer) {
   return `odczytanie ${numer}:`;
 }
 
+//  Rachunek mówi, czym odczytanie jest nacechowane i ile to kosztuje.
+//  Odczytanie, które nie płaci nic, mówi to słowem. Wiersz pusty pod jednym
+//  czytaniem, a wypełniony pod drugim, czytałby się jak brak danych.
+function podpisRachunku(rachunek) {
+  if (!rachunek.length) return "bez nacechowania";
+  return rachunek
+    .map((wpis) => `${wpis.pozycja}${wpis.ile > 1 ? ` ×${wpis.ile}` : ""}: ${wpis.koszt}`)
+    .join(" · ");
+}
+
+//  Rachunki albo żadne: zdanie, którego ani jedno czytanie nic nie płaci, dostawałoby
+//  pod każdym z nich ten sam wiersz bez treści, a większość zdań jest właśnie taka.
+function rachunkiCzytań(dane) {
+  return dane.koszty.some((rachunek) => rachunek.length) ? dane.koszty : null;
+}
+
 function wierszMorfologii(wiersz) {
   return `„${wiersz.forma}”: ${wiersz.odczytania.join(MIĘDZY_ODCZYTANIAMI)}`;
 }
@@ -110,7 +126,7 @@ function wierszMorfologii(wiersz) {
 //  Streszczenie czytania jest listą streszczeń zdań składowych, po jednym na
 //  składowe (`describe` w `olski/parse.py`), więc każde stoi w osobnym wierszu
 //  jednej pozycji spisu: pozycji jest tyle, ile czytań.
-function czytanie(streszczenie) {
+function czytanie(streszczenie, rachunek) {
   const wiersz = element("li");
   for (const składowe of streszczenie) {
     const część = element("div");
@@ -119,12 +135,15 @@ function czytanie(streszczenie) {
     }
     wiersz.append(część);
   }
+  //  Rachunku nie ma pod kształtami konstytuentu rozbieżnego: koszt porządkuje
+  //  czytania zdania, a tamten spis mówi, czego streszczenie zdania nie nazwało.
+  if (rachunek) wiersz.append(element("div", "rachunek", podpisRachunku(rachunek)));
   return wiersz;
 }
 
-function spisCzytań(lista) {
+function spisCzytań(lista, rachunki) {
   const spis = element("ol", "czytanie-lista");
-  lista.forEach((streszczenie) => spis.append(czytanie(streszczenie)));
+  lista.forEach((streszczenie, numer) => spis.append(czytanie(streszczenie, rachunki?.[numer])));
   return spis;
 }
 
@@ -136,7 +155,7 @@ function czytania(dane) {
   const zwój = element("details", "czytania");
   zwój.open = dane.czytania.length <= 2;
   zwój.append(element("summary", null, podpisOdczytań(dane.czytania.length, dane.urwane)));
-  zwój.append(spisCzytań(dane.czytania));
+  zwój.append(spisCzytań(dane.czytania, rachunkiCzytań(dane)));
   for (const wpis of dane.rozbieżne) {
     const blok = element("div", "rozbieżny");
     blok.append(element("span", "podpis", podpisRozbieżności(wpis.konstytuent)));
@@ -199,7 +218,11 @@ function tekstWerdyktu(dane) {
   for (const odniesienie of dane.odniesienia) wiersze.push(podpisOdniesienia(odniesienie));
   if (dane.czytania.length) {
     wiersze.push(podpisOdczytań(dane.czytania.length, dane.urwane));
-    for (const streszczenie of dane.czytania) wiersze.push(...wierszeCzytania(streszczenie, ""));
+    const rachunki = rachunkiCzytań(dane);
+    dane.czytania.forEach((streszczenie, numer) => {
+      wiersze.push(...wierszeCzytania(streszczenie, ""));
+      if (rachunki) wiersze.push(`  ${podpisRachunku(rachunki[numer])}`);
+    });
   }
   for (const wpis of dane.rozbieżne) {
     wiersze.push(podpisRozbieżności(wpis.konstytuent));

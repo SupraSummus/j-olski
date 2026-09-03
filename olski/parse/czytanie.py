@@ -104,6 +104,10 @@ class Node:
     #: bo streszczenie czytania gramatyki nie dostaje,
     #: a węzeł powstaje tam, gdzie produkcja jest pod ręką.
     głowa: int
+    #: Pozycje cennika, którymi płaci produkcja tego węzła (``olski/cennik.py``).
+    #: Niesione tu z tego samego powodu co głowa: rachunek czytania składa się nad
+    #: drzewem, a drzewo gramatyki już nie widzi.
+    koszty: tuple[str, ...]
 
     def signature(self):
         """Co czyni dwa czytania jednym czytaniem.

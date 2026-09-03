@@ -81,6 +81,23 @@ Nowa program zapisuje ustawienia.</textarea>
           Tam zgłasza ono znaleziska, a o zdaniu przyjętym milczy.
         </p>
 
+        <details class="więcej">
+          <summary>Czemu odczytania stoją w tej kolejności</summary>
+          <p>
+            Odczytań parser nie ocenia i żadnego nie odrzuca.
+            Układa je za to od najzwyklejszego:
+            zdanie napisane szykiem podstawowym stoi nad tym samym zdaniem
+            przeczytanym konstrukcją nacechowaną.
+            Gdzie któreś odczytanie za coś płaci,
+            pod każdym stoi rachunek: czym jest nacechowane i ile to kosztuje.
+          </p>
+          <p>
+            Ceny są wpisane ręką i są deklaracją o polszczyźnie, a nie wynikiem pomiaru.
+            Sumy rachunku parser przy tym nie porównuje:
+            kolejność rozstrzyga się od góry drzewa, konstytuent po konstytuencie.
+          </p>
+        </details>
+
         <p id="stan" class="stan" role="status" aria-live="polite"></p>
         <div id="werdykty"></div>
       </section>

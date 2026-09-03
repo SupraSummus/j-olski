@@ -26,6 +26,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field, replace
 
+from olski import cennik, rejestr
 from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
 from olski.lematy import (
@@ -39,10 +40,12 @@ from olski.morph import Reading, Segment
 from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
     PRZYŁĄCZONY_DO,
+    Leaf,
     Node,
     Przyłączenie,
     Result,
     Rozbieżność,
+    Tree,
     liście,
     parse,
     sklej_formy,
@@ -397,6 +400,24 @@ class Verdict:
         ]
 
     @property
+    def rachunki(self) -> list[tuple[tuple[str, int], ...]]:
+        """Za co płaci każde odczytanie: wpis na streszczenie z :attr:`readings`.
+
+        Wychodzą stąd pozycje policzone, a nie ich suma, bo kolejność czytań
+        rozstrzyga koszt czytany od góry drzewa
+        (``test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica``),
+        więc suma czytałaby się na miejsce w kolejce, którym nie jest.
+
+        Streszczenie zbiera czasem kilka kształtów, a rachunek jest tego, który
+        wyszedł z lasu pierwszy, czyli tego, przez którego to streszczenie stoi
+        tam, gdzie stoi.
+        """
+        return [
+            cennik.rachunek(_koszty_drzewa(drzewa[0]))
+            for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
+        ]
+
+    @property
     def żądania(self) -> list[tuple[Żądanie, ...]]:
         """Czego czasownik żąda od obsadzonych pozycji: wpis na streszczenie z :attr:`readings`.
 
@@ -601,6 +622,25 @@ def _napisy(segment: Segment, odczytania: Iterable[Reading]) -> tuple[str, ...]:
         if czytanie in wybrane and napis not in napisy:
             napisy.append(napis)
     return tuple(napisy)
+
+
+def _koszty_drzewa(drzewo: Tree) -> Iterator[str]:
+    """Pozycje cennika, którymi płaci to drzewo: węzeł swoją produkcją, liść swoją formą.
+
+    Liść płaci najtańszym ze swoich odczytań, bo tak liczy go las
+    (:meth:`olski.parse.Las.koszt_morfologii`): forma, którą ten kształt bierze
+    i w rejestrze, i poza nim, nie płaci nic.
+    """
+    if isinstance(drzewo, Leaf):
+        yield from min(
+            (rejestr.pozycje(czytanie.kwalifikatory) for czytanie in drzewo.odczytania),
+            key=cennik.suma,
+            default=(),
+        )
+        return
+    yield from drzewo.koszty
+    for dziecko in drzewo.children:
+        yield from _koszty_drzewa(dziecko)
 
 
 def _pod_streszczeniem(drzewa: Iterable[Node]) -> tuple[OdczytaniaFormy, ...]:

@@ -77,17 +77,21 @@ Nowa program zapisuje ustawienia."
         - dopełnienie: plik konfiguracyjny, orzeczenie: Zapisz
 <text>: Program otwierający się psuje.
         3 odczytania, różne w rolach: dopełnienie, orzeczenie, podmiot
-        - dopełnienie: Program otwierający się, orzeczenie: psuje
         - podmiot: Program otwierający się, orzeczenie: psuje
         - podmiot: Program otwierający, orzeczenie: się psuje
+        - dopełnienie: Program otwierający się, orzeczenie: psuje
 zdań: 3; wieloznaczne: 1; bez odczytania: 1
 ```
 
-Pierwsze czytanie i drugie dzieli sama rola:
-program jest w pierwszym psuty, a w drugim psuje ustawienia.
-Trzecie dzieli od nich miejsce cząstki zwrotnej.
-Cząstka należy w nim do formy osobowej, a w dwóch pierwszych do imiesłowu.
+Pierwsze czytanie i drugie dzieli miejsce cząstki zwrotnej.
+W drugim cząstka należy do formy osobowej, a w pierwszym do imiesłowu.
 Obie te formy są w polszczyźnie zwrotne.
+Trzecie dzieli od pierwszego sama rola:
+program jest w nim psuty, a w pierwszym psuje ustawienia.
+Czytanie trzecie stoi na końcu, bo podmiotu nie obsadza wcale.
+Konstrukcja bez podmiotu jest w olskim nacechowana.
+Cenę tej konstrukcji trzyma
+[docs/disambiguation.md](docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
 Oba miejsca cząstki trzyma
 [docs/konstrukcje-gramatyczne/orzeczenie.md](docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika).
 Samego miejsca cząstki wiersz werdyktu nie nazywa i widać je dopiero w czytaniach.

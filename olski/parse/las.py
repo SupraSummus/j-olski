@@ -689,6 +689,7 @@ class Las:
                 children=zebrane,
                 span=pozycja.span,
                 głowa=production.głowa,
+                koszty=production.koszty,
             )
             return
         miejsce = len(zebrane)

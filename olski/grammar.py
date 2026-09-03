@@ -19,6 +19,8 @@ from __future__ import annotations
 from collections.abc import Collection, Iterable, Iterator, Mapping
 from dataclasses import dataclass
 
+from olski import cennik
+
 
 @dataclass(frozen=True)
 class Var:
@@ -227,17 +229,27 @@ class Production:
     #: językach na dwie różne rzeczy. Ciało puste głowy nie ma, a zero nie
     #: nazywa w nim niczego, bo nie ma tam żadnej córki.
     głowa: int = 0
-    #: O ile niżej stoi czytanie z tej produkcji. Czytań nie ubywa i werdykt tego
-    #: nie widzi, więc koszt rozstrzyga sam porządek — ten u góry wydruku i ten
-    #: przed granicą wypisywania. Całkowity, bo jest deklaracją, a nie wagą
-    #: wyuczoną; skąd się bierze i ile znaczy, mówi
+    #: Pozycje cennika, którymi ta produkcja płaci, czyli co w niej jest
+    #: nacechowane; pozycja powtórzona płaci tyle razy, ile razy tu stoi.
+    #: Nazwy, a nie liczba: cenę ma na własność ``olski/cennik.py``, więc
+    #: kalibruje się ją tam, a produkcja mówi to, o czym wie sama.
+    #: Czytań koszt nie ubywa i werdykt go nie widzi, więc rozstrzyga on sam
+    #: porządek — ten u góry wydruku i ten przed granicą wypisywania;
     #: docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
-    koszt: int = 0
+    koszty: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
+        #  Koszt liczony raz, tak jak hasz i z tego samego powodu: pyta o niego las
+        #  nad każdą pozycją. Nazwa spoza cennika podnosi tu wyjątek, czyli przy
+        #  budowaniu gramatyki, a nie nad zdaniem, które tę produkcję wzięło.
+        object.__setattr__(self, "_koszt", cennik.suma(self.koszty))
         object.__setattr__(
-            self, "_hasz", hash((self.head, self.body, self.features, self.głowa, self.koszt))
+            self, "_hasz", hash((self.head, self.body, self.features, self.głowa, self.koszty))
         )
+
+    @property
+    def koszt(self) -> int:
+        return self._koszt
 
     def __hash__(self) -> int:
         """Hasz policzony raz, bo gramatyka powstaje raz i już się nie zmienia.
@@ -321,7 +333,9 @@ class Grammar:
         self._zaczynane: dict[Word | None, frozenset[Part]] | None = None
         self._nieokreślone: frozenset[str] | None = None
 
-    def rule(self, head: str, body: list[Part | Głowa], koszt: int = 0, **features) -> Production:
+    def rule(
+        self, head: str, body: list[Part | Głowa], koszty: tuple[str, ...] = (), **features
+    ) -> Production:
         części, głowa = _głowa(head, body)
         return self.dopisz(
             Production(
@@ -329,7 +343,7 @@ class Grammar:
                 body=części,
                 features=self._wypuszczane(head, features, części[głowa] if części else None),
                 głowa=głowa,
-                koszt=koszt,
+                koszty=koszty,
             )
         )
 

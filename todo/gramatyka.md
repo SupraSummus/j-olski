@@ -974,3 +974,24 @@ bo nazwy nieznane przedłużają łańcuch imienny jedna za drugą.
 Do przeczytania zostaje cena nad Składnicą,
 bo rejestr prasowy pisze wielką literą nazwisko, którego SGJP nie ma,
 i takie nazwisko dostałoby czytanie nieodmienne, choć polszczyzna je odmienia.
+
+Pozycja `opuszczony podmiot` w cenniku płaci także tam,
+gdzie czasownik podmiotu mieć nie może.
+`brakować` żąda dopełniacza, więc `Miejsca na taki filtr nie brakuje.`
+ma czytanie bez podmiotu jako jedyne poprawne,
+a cennik stawia je pod czytaniem, które podmiot obsadza
+([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Nad prozą tego repozytorium jest to jedyne takie zdanie na dwadzieścia osiem,
+którym ta pozycja przestawiła czytanie pierwsze, i pozostałe dwadzieścia siedem
+przestawiła w stronę czytania trafnego, więc wpis jest o resztce, a nie o pozycji.
+Ruchem jest zdjęcie tej pozycji z ciała, którego czasownik mianownika nie bierze,
+czyli warunek na ramę, a nie na produkcję:
+`zdanie_składowe → dopełnienie czasownik_ramy` w `olski/subset/zdanie.py`
+wchodzi dziś jednym ciałem dla każdej ramy.
+Do przeczytania jest, czy rama to mówi:
+`PODMIOT` w `olski/walencja.py` nazywa pozycję podmiotu,
+a leksykon walencyjny wypisuje ją przy czasowniku, który ją ma,
+więc pytanie jest o to, czy czasownik bez tej pozycji da się odróżnić
+przed rozbiorem, czy dopiero unifikacja to rozstrzyga.
+Przedtem warto policzyć, ile takich zdań pada nad Składnicą,
+bo nad tą prozą pada jedno.

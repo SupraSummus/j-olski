@@ -7,6 +7,12 @@ zdanie mówi, jakie córki bierze, a warunek nad nimi mówi, w jakiej kolejnośc
 
 from __future__ import annotations
 
+from olski.cennik import (
+    CZASOWNIK_PRZED_PODMIOTEM,
+    OPUSZCZONY_PODMIOT,
+    WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA,
+    WYSUNIĘTY_ORZECZNIK,
+)
 from olski.grammar import NIE_NIESIE, Grammar, Głowa, Sym, V, Var, nt, word
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
@@ -41,7 +47,6 @@ from olski.subset.słowa import (
     DOSTAWKA,
     GRUPA_ORZECZENIA_ODWRÓCONA,
     KOPULARNY,
-    KOSZT_WYSUNIĘCIA,
     MYŚLNIK,
     NAWIAS_OTWIERAJĄCY,
     NAWIAS_ZAMYKAJĄCY,
@@ -270,7 +275,14 @@ def _szyki_zdania_składowego(
     # Szyku odwrotnego ta deklaracja nie ma z tego samego powodu, dla którego nie
     # ma go deklaracja z podmiotem (:func:`_poza_orzeczeniem`): czasownik wraz z
     # dopełnieniem za nim składa `grupa_orzeczenia`, a zdanie bez podmiotu jest nim samym.
-    zdanie.dominacja("zdanie_składowe", [dopełnienie, Głowa(czasownik_ramy)])
+    #
+    # Pozycja cennika stoi tu dlatego, że ta deklaracja i deklaracja z podmiotem
+    # biorą ten sam napis wszędzie tam, gdzie grupa przed czasownikiem jest
+    # mianownikiem i biernikiem naraz: `Program otwierający się psuje.` Zdanie z
+    # podmiotem obsadzonym stoi nad zdaniem, które podmiotu każe szukać obok.
+    zdanie.dominacja(
+        "zdanie_składowe", [dopełnienie, Głowa(czasownik_ramy)], koszty=(OPUSZCZONY_PODMIOT,)
+    )
 
     # Dopełnienie bezokolicznika, wysunięte przed formę osobową, która ten
     # bezokolicznik bierze: `premier większości nie może ruszyć`. Wywód i cenę trzyma
@@ -292,6 +304,7 @@ def _szyki_zdania_składowego(
             Głowa(czasownik_bezokolicznika),
             nt(FRAZA_BEZOKOLICZNIKOWA_OTWARTA, wysunięte=V("w")),
         ],
+        koszty=(WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA,),
     )
 
     # Czasownik przed podmiotem: Nadchodzi druga rewolucja, Są oni obdarzeni
@@ -299,8 +312,17 @@ def _szyki_zdania_składowego(
     # ustawienia się nie wyprowadza i żadne zdanie SVO nie konkuruje z czytaniem
     # samego siebie od czasownika. Szyku odwrotnego te dwie deklaracje nie mają
     # z tego samego powodu co deklaracja wyżej.
-    zdanie.dominacja("zdanie_składowe", [Głowa(czasownik), podmiot])
-    zdanie.dominacja("zdanie_składowe", [Głowa(czasownik_orzecznika), podmiot, orzecznik])
+    #
+    # Pozycja cennika mówi to, co szyk: podmiot za czasownikiem stoi pod podmiotem
+    # przed nim wszędzie tam, gdzie ten sam napis wychodzi oboma ciałami.
+    zdanie.dominacja(
+        "zdanie_składowe", [Głowa(czasownik), podmiot], koszty=(CZASOWNIK_PRZED_PODMIOTEM,)
+    )
+    zdanie.dominacja(
+        "zdanie_składowe",
+        [Głowa(czasownik_orzecznika), podmiot, orzecznik],
+        koszty=(CZASOWNIK_PRZED_PODMIOTEM,),
+    )
 
     # Predykatyw przed swoją kopulą: Wejściem jest zwykły tekst polski, W metodzie
     # Cieszyńskiej najważniejsza jest rozmowa. Lustro reguły OVS, którego
@@ -314,12 +336,14 @@ def _szyki_zdania_składowego(
     # je rama, a nie kolejność: kopula żąda narzędnika, a czasownik orzecznika
     # zgodnego żąda mianownika, więc przestawiona jedna z nich wypisałaby szyk,
     # który ma już druga, i jednemu napisowi dałaby dwa wyprowadzenia.
-    # Koszt mówi tu to, co wysunięcie: konstrukcja jest nacechowana. Bez niego
+    # Pozycja cennika mówi tu to, co wysunięcie: konstrukcja jest nacechowana. Bez niej
     # `On jest wolny.` wychodzi pierwszym czytaniem z `wolny` w podmiocie, bo oba
     # ciała mają córki tej samej rozpiętości i rozstrzyga między nimi alfabet
     # etykiet. Czytań przy tym nie ubywa i zdanie zostaje wieloznaczne.
     zdanie.dominacja(
-        "zdanie_składowe", [orzecznik_wysunięty, Głowa(kopula), podmiot], koszt=KOSZT_WYSUNIĘCIA
+        "zdanie_składowe",
+        [orzecznik_wysunięty, Głowa(kopula), podmiot],
+        koszty=(WYSUNIĘTY_ORZECZNIK,),
     )
 
 

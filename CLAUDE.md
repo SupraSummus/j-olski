@@ -799,10 +799,11 @@ produkcje wraz z deklaracją wypisuje `harness/odcisk.py`.
 Rusza go to, co werdykt drukuje obok swoich liczb —
 wiersz dopisany w `explain` w `olski/werdykt.py`
 albo pole dopisane w `Deklaracja` w `olski/parse/podsumowanie.py` —
+a także cena przestawiona w `olski/cennik.py`, bo ona rusza kolejność czytań;
 i wtedy każdy taki blok bierze się ręką.
 Który to blok, mówi `tests/test_wydruki.py`:
 puszcza komendę stojącą nad wydrukiem
-i żąda, żeby każdy wypisany wiersz komenda naprawdę drukowała.
+i żąda, żeby komenda drukowała każdy wypisany wiersz i drukowała je w tej kolejności.
 Blok bez takiej komendy rozjeżdża się po cichu, więc go nie wklejamy.
 Arytmetyki pod nim test nie widzi:
 dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.
@@ -813,6 +814,9 @@ Werdykt i liczbę czytań każdego takiego zdania wypisuje `harness/cytaty.py`,
 znów do porównania między dwoma drzewami roboczymi;
 zdanie, którego werdykt się zmienił, czyta się potem wraz z akapitem nad nim,
 bo dopisanie bywa naprawą tego zdania, a bywa unieważnieniem tamtego akapitu.
+Zmiany ceny ten wydruk nie widzi, bo cena nie rusza ani werdyktu, ani liczby czytań.
+Kolejność porównuje się przez to wydrukiem `--readings` nad całą prozą repozytorium,
+znów między dwoma drzewami roboczymi, a zdanie przestawione czyta się ręką.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,

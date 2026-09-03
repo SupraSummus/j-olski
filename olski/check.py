@@ -17,6 +17,7 @@ from collections.abc import Callable, Iterator, Sequence
 from pathlib import Path
 from typing import TypeVar
 
+from olski.cennik import cena
 from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
 from olski.wejście import proza
@@ -114,6 +115,17 @@ def _wiersz_żądania(wiersz: Żądanie, wcięcie: str) -> str:
     return f"{wcięcie}{wiersz.rola} „{wiersz.wypełnienie}”: „{wiersz.czasownik}” żąda klasy {klasy}"
 
 
+def _wiersz_pozycji(wpis: tuple[str, int], wcięcie: str) -> str:
+    """Jedna pozycja rachunku: za co to odczytanie płaci, ile razy i ile to razem.
+
+    Liczba stoi przy każdej, bo pozycje kosztują różnie i to o nią w tym wydruku
+    chodzi (``olski/cennik.py``).
+    """
+    nazwa, ile = wpis
+    razy = f" ×{ile}" if ile > 1 else ""
+    return f"{wcięcie}{nazwa}{razy}: {cena(nazwa) * ile}"
+
+
 def _wiersz_osoby(wiersz: Żądanie) -> str:
     """Żądanie osoby, którego wypełnienie nie spełnia, jako wiersz wydruku.
 
@@ -137,7 +149,7 @@ def _wiersz_osoby(wiersz: Żądanie) -> str:
 def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
-    Obie flagi, które ten wykaz drukują, biorą tę samą listę streszczeń
+    Każda flaga, która ten wykaz drukuje, bierze tę samą listę streszczeń
     (``Verdict.readings`` w ``olski/werdykt.py``), więc numer znaczy w nich to
     samo, a wypisany osobno w każdej rozjechałby się po cichu.
     Numeru nie ma tam, gdzie wpis jest jeden: nie ma go od czego odróżnić,
@@ -209,6 +221,9 @@ def _wiersze(
         yield from _dalsze(verdict)
     if args.readings:
         yield from _czytania(verdict)
+    #  Rachunek zaraz za czytaniami, bo mówi o kolejności, w jakiej one stoją.
+    if args.koszt:
+        yield from _wykaz(verdict.rachunki, _wiersz_pozycji)
     #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
     if args.morfologia:
         yield from _wykaz(verdict.morfologia, _wiersz_formy)
@@ -234,6 +249,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--readings",
         action="store_true",
         help="pokaż, co stoi w której roli, raz na streszczenie odczytania",
+    )
+    parser.add_argument(
+        "--koszt",
+        action="store_true",
+        help="pokaż, czym każde odczytanie jest nacechowane i ile to kosztuje",
     )
     parser.add_argument(
         "--rozstrzygaj",

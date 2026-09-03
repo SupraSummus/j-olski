@@ -141,17 +141,33 @@ Całkowitą, bo jest deklaracją, a nie wagą wyuczoną:
 koszt ułamkowy byłby logarytmem prawdopodobieństwa,
 czyli tym modelem, którego [ten dokument nie chce](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje).
 
-Kosztu produkcji nie sposób wypisywać przy każdej,
+Kosztu nie sposób wypisywać przy każdej produkcji,
 bo jest ich tysiąc kilkaset, z czego blisko połowa to samo `orzeczenie`,
 a wypisuje je rozwinięcie z jednej deklaracji.
-Liczby są przez to trzy i wszystkie mówią to samo:
-ciało wypisane w deklaracji jest tym podstawowym.
-Dwie wyliczają koszt z deklaracji (`olski/precedencja.py`) —
-konstytuent bierze okolicznik, a jego córki stoją w innym szyku niż wypisany —
-a trzecia mówi o jednej rodzinie produkcji, że jest konstrukcją nacechowaną,
-i jest nią orzecznik wysunięty przed kopulę (`olski/subset/zdanie.py`).
+Produkcja nazywa więc konstrukcję, którą jest nacechowana,
+a cenę tej konstrukcji trzyma cennik (`olski/cennik.py`).
+Podział ten oddziela dwie decyzje, które inaczej stoją w jednym miejscu:
+która produkcja jest nacechowana, rozstrzyga deklaracja gramatyki,
+a ile to nacechowanie waży wobec innego, rozstrzyga jedna tabela.
+Kalibracja jest przez to edycją tej tabeli, a nie przeglądem deklaracji,
+i widać w niej naraz cały porządek: co kosztuje tyle samo, a co więcej.
 
-Czwarta liczba wycenia morfologię i orzeka o słowniku, a nie o gramatyce:
+Pozycje cennika mówią wszystkie to samo:
+ciało wypisane w deklaracji jest tym podstawowym.
+Część z nich wylicza rozwinięcie szyku (`olski/precedencja.py`),
+czyli `przestawienie` i `okolicznik`,
+a resztę nazywa deklaracja zdania (`olski/subset/zdanie.py`):
+`wysunięty orzecznik`, `czasownik przed podmiotem`, `opuszczony podmiot`
+oraz `wysunięte dopełnienie bezokolicznika`.
+
+Cennik mówi o produkcji, a nie o czasowniku, który w niej stoi,
+i tam trafia na własny wyjątek:
+`brakuje` żąda dopełniacza i podmiotu mieć nie może,
+więc czytanie bez podmiotu jest tam jedynym poprawnym, a mimo to płaci.
+Czym ten warunek postawić,
+trzyma wpis o opuszczonym podmiocie w [`todo/gramatyka.md`](../todo/gramatyka.md).
+
+Pozycja morfologii wycenia słownik, a nie gramatykę:
 czytanie oparte na formie, którą SGJP opatrzył kwalifikatorem odsyłającym ją
 poza ten rejestr, schodzi niżej od czytania, które na takiej formie się nie opiera
 (`olski/rejestr.py`).

@@ -11,12 +11,14 @@ Synteza formę odesłaną zdejmuje, bo wybiera jedną z kilku poprawnych
 i forma spoza rejestru nie jest tam wyborem gorszym, tylko żadnym
 (``olski/skład/morfologia.py``).
 Analiza jej nie zdejmuje, bo zdanie z taką formą polszczyzna ma,
-tylko liczy ją kosztem (:data:`KOSZT_POZA_REJESTREM`).
+tylko liczy ją kosztem (:func:`pozycje`).
 """
 
 from __future__ import annotations
 
 from collections.abc import Iterable
+
+from olski import cennik
 
 #: Kwalifikatory, którymi słownik odsyła formę poza rejestr tego projektu.
 #: Podział ten kosztuje dwa razy i oba razy cicho:
@@ -45,12 +47,6 @@ POZA_REJESTREM = frozenset(
     }
 )
 
-#: O ile niżej stoi czytanie stojące na formie, którą słownik odesłał poza rejestr.
-#: Całkowity i wypisany ręką z tego samego powodu co koszty produkcji
-#: (docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie):
-#: jest deklaracją o rejestrze, a nie częstością, bo częstości słownik nie zna.
-KOSZT_POZA_REJESTREM = 1
-
 
 def poza_rejestrem(kwalifikatory: Iterable[str]) -> bool:
     """Czy któryś kwalifikator tej formy odsyła ją poza rejestr.
@@ -66,5 +62,16 @@ def poza_rejestrem(kwalifikatory: Iterable[str]) -> bool:
     return bool(nazwy & POZA_REJESTREM)
 
 
+def pozycje(kwalifikatory: Iterable[str]) -> tuple[str, ...]:
+    """Pozycje cennika, którymi płaci czytanie o tych kwalifikatorach.
+
+    Nazwy, a nie liczba, bo pyta o nie i las, który po nich porządkuje czytania,
+    i rachunek, który pod czytaniem wypisuje, za co ono płaci
+    (``Verdict.rachunki`` w ``olski/werdykt.py``). Cenę ma na własność cennik,
+    a to, które kwalifikatory odsyłają, ten plik.
+    """
+    return (cennik.FORMA_SPOZA_REJESTRU,) if poza_rejestrem(kwalifikatory) else ()
+
+
 def koszt(kwalifikatory: Iterable[str]) -> int:
-    return KOSZT_POZA_REJESTREM if poza_rejestrem(kwalifikatory) else 0
+    return cennik.suma(pozycje(kwalifikatory))
