@@ -106,6 +106,13 @@ W_GÓRĘ = frozenset({"above", "wyżej", "powyżej"})
 DEIKTYCZNE = re.compile(rf"\[({'|'.join(sorted(W_DÓŁ | W_GÓRĘ))})\]\(#([\w-]+)\)")
 LISTED_CHECKS = re.compile(r"(?ms)^## Checks\n.*?^```sh\n(.*?)^```")
 WORKFLOW_STEP = re.compile(r"(?m)^\s*- run: (.*)$")
+#: Adres strony dokumentów, który deklaruje `mkdocs.yml`, wraz z plikami, które
+#: go powtarzają: proza mówi, pod czym strona stoi, a stopka demo linkuje tam
+#: czytelnika (docs/publikacja.md). Wzorzec stoi tu drugi raz, obok tego samego
+#: w `dokumentacja.py`, bo tamten skrypt importuje griffe, a blok checków
+#: instaluje sam dodatek `dev`.
+ADRES_STRONY = re.compile(r"(?m)^site_url:\s*https://([^/\s]+)")
+Z_ADRESEM_STRONY = ("README.md", "docs/publikacja.md", "witryna/strona.html")
 
 
 def anchor_of(heading: str) -> str:
@@ -208,6 +215,20 @@ def test_the_checks_a_person_runs_are_the_checks_a_push_runs():
     listed = LISTED_CHECKS.search((ROOT / "CLAUDE.md").read_text())
     assert listed, "CLAUDE.md has no Checks section carrying a shell block"
     assert listed.group(1).splitlines() == WORKFLOW_STEP.findall(WORKFLOW.read_text())
+
+
+@pytest.mark.parametrize("ścieżka", Z_ADRESEM_STRONY)
+def test_kopia_adresu_strony_zgadza_się_z_konfiguracją(ścieżka: str):
+    """Adres zmieniony w `mkdocs.yml` zostawia w kopiach link wyglądający żywo.
+
+    Prowadzi on pod adres, którego strona nie ma,
+    a najdroższa z tych kopii stoi w stopce demo, czyli na cudzym ekranie.
+    """
+    adres = ADRES_STRONY.search((ROOT / "mkdocs.yml").read_text())
+    assert adres, "mkdocs.yml nie deklaruje site_url, więc kopie nie mają się z czym zgadzać"
+    assert adres.group(1) in (ROOT / ścieżka).read_text(), (
+        f"{ścieżka} nie nazywa adresu, który deklaruje mkdocs.yml"
+    )
 
 
 def test_every_path_in_reuse_toml_matches_a_file():

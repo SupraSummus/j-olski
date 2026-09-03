@@ -10,8 +10,12 @@ Demo parsera stoi osobno, pod `olski.pl`, i opisuje je [witryna.md](witryna.md).
 
 Buduje to `python3 -m dokumentacja`, jednym poleceniem i lokalnie.
 Workflow woła to samo polecenie, więc przepis jest jeden, a nie dwa.
-Adres stoi w `mkdocs.yml` jeden raz:
+Konfiguracja nosi adres jeden raz, w `mkdocs.yml`:
 plik `CNAME`, którego żąda GitHub Pages, wychodzi z tamtego wiersza przebiegiem.
+Poza konfiguracją adres jest linkiem dla czytelnika,
+w [README](../README.md#co-działa) i w stopce demo (`witryna/strona.html`).
+Kopie adresu utrzymuje równe `tests/test_docs.py`,
+więc adres zmieniony w konfiguracji wywraca suitę, dopóki nie wejdzie do nich.
 
 Samą prozę GitHub renderuje już dziś, w tej konwencji kotwic,
 w której pisane są linki.

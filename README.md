@@ -284,6 +284,7 @@ Zobacz [docs/sklad.md](docs/sklad.md).
 
 Witryna pokazuje ten sam werdykt w przeglądarce.
 Jest ona bocznym torem i olski nie zależy od niej.
+Adres wdrożonej witryny to [olski.pl](https://olski.pl).
 Serwer bierze się ze standardowej biblioteki, więc strona wstaje bez zależności.
 
 ```sh
@@ -297,6 +298,11 @@ Zobacz [docs/witryna.md](docs/witryna.md).
 Resztą repozytorium są notatki projektowe, przegląd pola,
 plan i otwarte pytania.
 Co stoi w którym pliku, mówi [docs/README.md](docs/README.md).
+
+Prozę repozytorium wydaje strona
+pod adresem [dokumentacja.olski.pl](https://dokumentacja.olski.pl).
+Strona ma przy tym referencję API pakietu.
+Zobacz [docs/publikacja.md](docs/publikacja.md).
 
 ## Na czym olski stoi
 

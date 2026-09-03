@@ -362,7 +362,7 @@ a pomiar zrobiony przed pierwszym żądaniem mówi o połowie tej pamięci.
 
 ## Wdrożenie
 
-Witryna stoi pod `olski.pl`.
+Witryna stoi pod [olski.pl](https://olski.pl).
 Dokumentacja stoi pod osobnym adresem i jedzie osobną drogą, z GitHub Pages
 ([publikacja.md](publikacja.md)).
 
