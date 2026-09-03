@@ -17,6 +17,7 @@ from collections.abc import Callable, Iterator, Sequence
 from pathlib import Path
 from typing import TypeVar
 
+from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
 from olski.wejście import proza
 from olski.werdykt import (
@@ -170,8 +171,24 @@ def _dalsze(verdict: Verdict) -> Iterator[str]:
         yield f"analiza staje też na {formy}"
 
 
+def _odniesienia(zgłoszenia: Sequence[Odniesienie]) -> Iterator[str]:
+    """Wiersze o zaimkach wskazujących na dwie rzeczy naraz, po jednym na zaimek.
+
+    Wiersz nazywa rzeczy formami, w których stoją w zdaniu obok, bo tam autor je
+    odszuka; czemu wypisane są wszystkie, a nie sama ich liczba, mówi
+    ``olski/odniesienia.py``.
+    """
+    for zgłoszenie in zgłoszenia:
+        rzeczy = ALBO.join(f"„{rzecz}”" for rzecz in zgłoszenie.rzeczy)
+        yield f"„{zgłoszenie.zaimek}” wskazuje na {rzeczy}"
+
+
 def _wiersze(
-    verdict: Verdict, args: argparse.Namespace, świadkowie, sąsiedztwo
+    verdict: Verdict,
+    args: argparse.Namespace,
+    świadkowie,
+    sąsiedztwo,
+    zgłoszenia: Sequence[Odniesienie] = (),
 ) -> Iterator[str]:
     """Co ten przebieg ma o tym zdaniu do powiedzenia, wiersz po wierszu.
 
@@ -184,6 +201,10 @@ def _wiersze(
     """
     if verdict.znalezisko or (args.zatrzymania and not verdict.czytane):
         yield verdict.explain()
+    #  Zaraz za werdyktem, bo jest znaleziskiem tak samo jak on, a nie odpowiedzią
+    #  warstwy obok (:func:`_rozstrzygnięcia`); flagi go nie chowają z tego samego
+    #  powodu, dla którego nie chowają wieloznaczności.
+    yield from _odniesienia(zgłoszenia)
     if args.zatrzymania:
         yield from _dalsze(verdict)
     if args.readings:
@@ -262,21 +283,27 @@ def main(argv: Sequence[str] | None = None) -> int:
     świadkowie = domyślni() if args.rozstrzygaj else None
 
     wszystkie: list[Verdict] = []
+    niejasnych = 0
     for name, text in sources:
         #  Sąsiedztwa liczą się dla całego tekstu naraz, bo akapit jest jego
         #  własnością, a nie zdania: zdanie samo nie wie, co stoi przed nim.
+        #  Z tego samego powodu liczą się tu odniesienia.
         werdykty = check(text)
         wszystkie += werdykty
         konteksty = sąsiedztwa(text) if świadkowie is not None else [PUSTE] * len(werdykty)
-        for verdict, sąsiedztwo in zip(werdykty, konteksty, strict=True):
-            wiersze = list(_wiersze(verdict, args, świadkowie, sąsiedztwo))
+        odniesienia = niejasne_odniesienia(text, werdykty)
+        niejasnych += sum(1 for zgłoszenia in odniesienia if zgłoszenia)
+        for verdict, sąsiedztwo, zgłoszenia in zip(
+            werdykty, konteksty, odniesienia, strict=True
+        ):
+            wiersze = list(_wiersze(verdict, args, świadkowie, sąsiedztwo, zgłoszenia))
             if not wiersze:
                 continue
             print(f"{name}: {verdict.text}")
             for wiersz in wiersze:
                 print(f"{' ' * (len(name) + 2)}{wiersz}")
 
-    podsumowanie = Podsumowanie.z_werdyktów(wszystkie)
+    podsumowanie = Podsumowanie.z_werdyktów(wszystkie, niejasnych)
     print(podsumowanie.explain())
     #  Kod wyjścia niesie znaleziska, a nie milczenie
     #  (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).

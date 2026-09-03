@@ -230,6 +230,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
      }
     ]
    ],
+   "odniesienia": [],
    "domysły": []
   }
  ],
@@ -239,6 +240,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
   "naprawialne": 0,
   "bez_odczytania": 0,
   "fragmentów": 0,
+  "niejasnych_odniesień": 0,
   "wyjaśnienie": "zdań: 1; wieloznaczne: 0; bez odczytania: 0"
  },
  "granica_znaków": 4000
@@ -253,6 +255,11 @@ O granicy wyliczania z `MAX_READINGS` w `olski/parse/las.py`
 mówi więc osobne pole `urwane`, a strona wpisuje je do podpisu zwoju.
 Samo streszczenie jest listą po jednym wpisie na zdanie składowe,
 bo każde składowe obsadza role własnym materiałem.
+Pod `odniesienia` idą zaimki, które wskazują na dwie rzeczy naraz,
+wraz z formami tych rzeczy (`olski/odniesienia.py`).
+Klucz ten mówi o zdaniu obok, a nie o tym zdaniu, i dlatego stoi poza werdyktem.
+Strona dopisuje go pod wyjaśnieniem, a nie pod zwojem,
+bo jest on znaleziskiem tak samo jak wyjaśnienie.
 Pod `rozbieżne` idą konstytuenty, których wieloznaczności ta lista nie nazywa,
 wraz ze streszczeniami ich kształtów.
 Strona daje każdemu konstytuentowi własny spis pod tym samym zwojem.

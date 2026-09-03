@@ -100,11 +100,14 @@ Autor, który olskiego tylko używa, tego drugiego ruchu nie ma
 i zostaje mu jeden: przepisać zdanie albo odpowiadać za nie sam.
 
 **Jednostką umowy jest tekst, bo jednostką sprawdzaną jest tekst.**
-Czy zdanie dostanie zgłoszenie, rozstrzygają zdania przed nim.
+Czy zdanie dostanie zgłoszenie, rozstrzyga zdanie przed nim.
 `Są one czerwone.` jest zdaniem dobrym po `Widzimy pole maków.`
 i wieloznacznym po `Maki rosną w garnkach.`,
 bo `one` zgadza się tam z dwiema grupami imiennymi naraz,
 a przed pierwszym zdaniem tekstu nie ma czym rozwiązać `one` w ogóle.
+Zgłoszenie to olski wydaje i jest ono trzecim z jego znalezisk;
+zaimki, które bierze, i granicę sąsiedztwa trzyma
+[subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem).
 Rachunek prowadzi zgodność, a nie znaczenie:
 `one` niesie liczbę mnogą i rodzaj niemęskoosobowy,
 więc kandydatów wylicza morfologia, a wybór między dwoma zostaje przy autorze,
@@ -427,27 +430,26 @@ dokąd analiza doszła
 
 **Olski nazywa zaimek, którego tekst nie pozwala rozwiązać.**
 `Są one czerwone.` ma tylu kandydatów na antecedens,
-ile grup imiennych przed nim zgadza się z `one` liczbą i rodzajem
+ile grup imiennych w zdaniu obok zgadza się z `one` liczbą i rodzajem
 ([wyżej](#podzbiór-jest-umową-a-nie-zasięgiem)).
-Zero kandydatów jest zgłoszeniem, kilku jest zgłoszeniem wraz z ich listą,
-a jeden jest ciszą.
-Zgłoszenie idzie przy zaimku, a nie jako drugie czytanie tekstu,
-bo drugie czytanie tekstu mnożyłoby się przez każdy zaimek w nim.
-Cel bierze przy tym trzy pozycje CLAUDE.md,
-których żaden przyrząd na jedno zdanie nie sprawdzi:
-odesłanie bez antecedensu wśród tego,
-[jak czyta czytelnik](../CLAUDE.md#the-reader-goes-sentence-by-sentence),
-oraz „to” w miejscu podmiotu akapitu i orzeczenie domyślne wśród tego,
-[dla kogo zdanie jest napisane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie).
-Warunek na tę pozycję jest już policzony po drugiej stronie:
-`pomijalny` w `olski/skład/składnia.py` opuszcza podmiot,
-gdy rodzaj rozdziela go od pozostałych uczestników zdania obok,
-a `Kontekst` wybiera antecedens
-([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)),
-więc ruchem jest ten sam rachunek odwrócony, a nie nowy pomysł.
-Sprawdza go garść tekstów przeczytana ręką:
+Kilku jest zgłoszeniem wraz z ich listą, a jeden jest ciszą,
+i to zgłoszenie olski wydaje: jest ono trzecim z jego znalezisk
+([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką
+([CLAUDE.md](../CLAUDE.md#the-reader-goes-sentence-by-sentence)),
+bo zdanie obok, którego gramatyka nie wyprowadza, kandydata nie podaje żadnego,
+więc zero znaczy tam co innego niż w tekście przeczytanym w całości (tamże).
+Ta połowa celu wraca razem z pokryciem, a nie osobnym pomysłem.
+Nieosiągnięte zostają dwie rzeczy.
+Pierwszą jest sprawdzian, czyli garść tekstów przeczytana ręką:
 nad każdym zgłoszonym zaimkiem czytelnik mówi, ilu kandydatów widzi sam,
 a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie nie ma ich dokładnie jednego.
+Drugą są dwie pozycje CLAUDE.md, których ta warstwa nie tyka:
+„to” w miejscu podmiotu akapitu podejmuje całe zdanie, a nie grupę imienną,
+więc zgodność nie ma nad nim czego liczyć,
+a orzeczenie domyślne nie jest zaimkiem wcale
+([dla kogo zdanie jest napisane](../CLAUDE.md#dla-kogo-jest-napisane-zdanie));
+oba trzyma [`todo/`](../todo/README.md).
 Czego zgodność nie rozstrzygnie, cel nie obiecuje:
 przy dwóch kandydatach zgodnych wybiera znaczenie,
 a olski melduje obu i oddaje wybór autorowi.

@@ -6,7 +6,7 @@ a dwie leżą luzem w `olski/`:
 morfologia w czterech modułach, które wylicza tabela w
 [`docs/architecture.md`](../docs/architecture.md#pięć-warstw-toru-gramatycznego),
 oraz to, co nad parserem, czyli `olski/werdykt.py`, `olski/rozstrzyganie.py`,
-`olski/pokrycie.py` i `olski/check.py`.
+`olski/odniesienia.py`, `olski/pokrycie.py` i `olski/check.py`.
 Obok nich leżą moduły, którym tabela nie przypisuje żadnej warstwy,
 a `olski/lematy.py` mówi w docstringu, że pyta o niego więcej niż jedna.
 Usterką to nie jest, bo granica warstwy jest tam granicą modułu albo pakietu,

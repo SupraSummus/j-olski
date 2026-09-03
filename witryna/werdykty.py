@@ -18,6 +18,7 @@ import random
 from dataclasses import asdict
 from typing import Any
 
+from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.rozstrzyganie import (
     Rozstrzygnięcie,
     Sąsiedztwo,
@@ -46,12 +47,18 @@ def zbadaj(tekst: str) -> dict[str, Any]:
     werdykty = check(tekst)
     #  Sąsiedztwa liczą się dla całego tekstu naraz, bo akapit jest jego
     #  własnością: zdanie samo nie wie, co stoi przed nim.
+    #  Z tego samego powodu liczą się tu odniesienia.
     konteksty = sąsiedztwa(tekst)
-    podsumowanie = Podsumowanie.z_werdyktów(werdykty)
+    odniesienia = niejasne_odniesienia(tekst, werdykty)
+    podsumowanie = Podsumowanie.z_werdyktów(
+        werdykty, sum(1 for zgłoszenia in odniesienia if zgłoszenia)
+    )
     return {
         "zdania": [
-            _zdanie(verdict, sąsiedztwo)
-            for verdict, sąsiedztwo in zip(werdykty, konteksty, strict=True)
+            _zdanie(verdict, sąsiedztwo, zgłoszenia)
+            for verdict, sąsiedztwo, zgłoszenia in zip(
+                werdykty, konteksty, odniesienia, strict=True
+            )
         ],
         "podsumowanie": asdict(podsumowanie) | {"wyjaśnienie": podsumowanie.explain()},
     }
@@ -68,7 +75,9 @@ def makieta(ziarno: int | None, akapitów: int) -> dict[str, Any]:
     return {"ziarno": ziarno, "akapitów": akapitów, "tekst": losuj(ziarno, akapitów).kompiluj()}
 
 
-def _zdanie(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> dict[str, Any]:
+def _zdanie(
+    verdict: Verdict, sąsiedztwo: Sąsiedztwo, odniesienia: tuple[Odniesienie, ...]
+) -> dict[str, Any]:
     """Jedno zdanie tak, jak je widzi strona: werdykt, czytania i to, co otwarte."""
     return {
         "zdanie": verdict.text,
@@ -98,6 +107,13 @@ def _zdanie(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> dict[str, Any]:
                 for wiersz in tabela
             ]
             for tabela in verdict.morfologia
+        ],
+        #  Zaimki wskazujące na dwie rzeczy naraz (``olski/odniesienia.py``).
+        #  Stoją obok werdyktu, a nie w nim, bo rzeczy nazywa zdanie obok,
+        #  a werdykt jest o tym jednym zdaniu.
+        "odniesienia": [
+            {"zaimek": zgłoszenie.zaimek, "rzeczy": list(zgłoszenie.rzeczy)}
+            for zgłoszenie in odniesienia
         ],
         "domysły": _domysły(verdict, sąsiedztwo),
     }

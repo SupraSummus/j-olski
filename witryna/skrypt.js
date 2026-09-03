@@ -67,6 +67,14 @@ function podpisZatrzymania(forma) {
   return `analiza staje też na „${forma}”`;
 }
 
+//  Zaimek wskazujący na dwie rzeczy naraz, tym samym napisem, którym pisze ten
+//  wiersz `_odniesienia` w `olski/check.py`: API oddaje pod tym kluczem sam
+//  zaimek i rzeczy, a nie zdanie o nich.
+function podpisOdniesienia(odniesienie) {
+  const rzeczy = odniesienie.rzeczy.map((rzecz) => `„${rzecz}”`).join(" albo ");
+  return `„${odniesienie.zaimek}” wskazuje na ${rzeczy}`;
+}
+
 function podpisDomysłu(domysł) {
   return `„${domysł.modyfikator}” → „${domysł.gospodarz}”`;
 }
@@ -188,6 +196,7 @@ function wierszeCzytania(streszczenie, wcięcie) {
 function tekstWerdyktu(dane) {
   const wiersze = [`${dane.status}  ${dane.zdanie}`, dane.wyjaśnienie];
   for (const forma of dane.dalsze_zatrzymania) wiersze.push(podpisZatrzymania(forma));
+  for (const odniesienie of dane.odniesienia) wiersze.push(podpisOdniesienia(odniesienie));
   if (dane.czytania.length) {
     wiersze.push(podpisOdczytań(dane.czytania.length, dane.urwane));
     for (const streszczenie of dane.czytania) wiersze.push(...wierszeCzytania(streszczenie, ""));
@@ -237,6 +246,11 @@ function zdanie(dane) {
   const wyjaśnienie = element("p", "wyjaśnienie", dane.wyjaśnienie);
   for (const forma of dane.dalsze_zatrzymania) {
     wyjaśnienie.append(element("br"), document.createTextNode(podpisZatrzymania(forma)));
+  }
+  //  Odniesienie stoi przy wyjaśnieniu, a nie pod zwojem: jest znaleziskiem tak
+  //  samo jak ono, a nie odpowiedzią warstwy obok, którą rysuje `domysły`.
+  for (const odniesienie of dane.odniesienia) {
+    wyjaśnienie.append(element("br"), document.createTextNode(podpisOdniesienia(odniesienie)));
   }
   blok.append(wyjaśnienie);
   if (dane.czytania.length) blok.append(czytania(dane));

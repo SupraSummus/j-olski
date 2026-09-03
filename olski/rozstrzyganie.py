@@ -413,18 +413,11 @@ def sąsiedztwa(text: str) -> list[Sąsiedztwo]:
     niego pyta (``Document`` w ``olski/document.py``).
     """
     document = Document(text)
-    akapity = iter(document.paragraphs)
-    akapit = next(akapity, None)
-    zebrane, wcześniejsze = [], []
-    #  Jedno przejście, bo zdania i akapity idą w tej samej kolejności: zdanie
-    #  nie przechodzi przez granicę akapitu (``Document.sentences``).
-    for span in document.sentences:
-        while akapit is not None and akapit.end < span.end:
-            akapit = next(akapity, None)
-            wcześniejsze = []
-        zebrane.append(Sąsiedztwo(tuple(wcześniejsze)))
-        wcześniejsze.append(document.slice(span))
-    return zebrane
+    zdania = [document.slice(span) for span in document.sentences]
+    return [
+        Sąsiedztwo(tuple(zdania[numer] for numer in wcześniejsze))
+        for wcześniejsze in document.wcześniejsze
+    ]
 
 
 # --------------------------------------------------------------------------- #

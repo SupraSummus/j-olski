@@ -106,6 +106,36 @@ Wszystkie cztery osie nazywaliśmy przedtem słowem „linter”.
 Dlatego wycofanie pakietu wyglądało jak wycofanie celu.
 Gdzie linter wypadnie na tych osiach, rozstrzygnie reguła, którą ktoś napisze.
 
+## Gdzie na tych osiach wypada reguła o zaimku
+
+Pierwsza reguła wydana po zamknięciu pakietu zgłasza zaimek,
+który zgadza się z dwiema rzeczami nazwanymi w zdaniu obok
+([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+Na każdej z [czterech osi](#cztery-osie-każdej-reguły)
+wypada inaczej niż reguły wycofanego pakietu,
+i to jest powód, dla którego weszła.
+
+Głębokością jest rozbiór, czyli ten poziom,
+pod który gdzie indziej trzeba najpierw napisać parser polszczyzny.
+Zdanie obok wydaje tylu kandydatów, ile ma najszerszych grup imiennych,
+a nie tylu, ile ma rzeczowników,
+i tej różnicy nie pokaże ani znacznik, ani lepsze wyrażenie regularne:
+w `Ogrodnik ogląda pole maków w doniczce bratków.`
+rzeczowniki są cztery, a rzeczy nazwane dwie.
+
+Kształtem jest werdykt o zdaniu, a nie stopa nad tekstem.
+Progu ta reguła przez to nie ma i kalibracji nie potrzebuje,
+czyli nie brakuje jej tego, czego brak zamknął pakiet.
+Kryterium „więcej niż jedno” progiem wybranym nie jest:
+tym samym kryterium olski liczy odczytania jednego zdania.
+
+Pytanie jest o strukturę, a nie o uzus,
+bo o zgodności liczby i rodzaju rozstrzyga znacznik, a nie częstość.
+Populacją jest i proza własna, i cudza, a rozdziela je to samo, co przy pakiecie.
+Nad prozą tego repozytorium wszystkie trafienia się czyta.
+Nad cudzą reguła stopy nie obiecuje, bo żadnej nie liczy:
+zgłasza pojedyncze zdanie i wypisuje przy nim rzeczy, o które chodzi.
+
 Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 
 ## The target register: technical documentation
@@ -253,6 +283,8 @@ Zostaje jedna rzecz, której nie da się zbudować gdzie indziej.
 Jest to reguła, która rozstrzyga się na rozbiorze polskiego zdania.
 U nas poziom C i D kosztuje tyle, co napisanie samej reguły, bo parser już jest.
 Gdzie indziej trzeba do tego napisać parser polszczyzny.
+Pierwszą taką regułą jest
+[zaimek na dwie rzeczy](#gdzie-na-tych-osiach-wypada-reguła-o-zaimku).
 
 ### What the nominalization endings match
 

@@ -21,6 +21,12 @@ from olski.subset.słowa import GRUPA_ORZECZENIA_ODWRÓCONA
 WYRAŻENIE_PRZYIMKOWE = "wyrażenie_przyimkowe"
 
 
+#: Konstytuent, którym tekst nazywa rzecz. Rolą nie jest, bo stoi w każdej z ról
+#: imiennych i pod przyimkiem także; do czego jest pytany, mówi
+#: :attr:`olski.parse.Deklaracja.grupa_imienna`.
+GRUPA_IMIENNA = "grupa_imienna"
+
+
 #: Człon ciągu współrzędnego wyrażeń przyimkowych: `o bierniku` w `Leksykon mówi
 #: o bierniku i o bezokoliczniku.` Rolą ta nazwa nie jest, bo rolą jest cały ciąg,
 #: tak samo jak przy członie imiennym: werdykt nazywa wyrażenie przyimkowe wraz
@@ -330,7 +336,7 @@ DEKLARACJA = Deklaracja(
     # `sprawdzając zgodność z dokumentem` nazywa gospodarzem orzeczenie zdania
     # nadrzędnego i dwa czytania wychodzą jednym napisem.
     gospodarze=(
-        "grupa_imienna",
+        GRUPA_IMIENNA,
         "grupa_przymiotnikowa",
         "zdanie_składowe",
         "fraza_bezokolicznikowa",
@@ -349,7 +355,7 @@ DEKLARACJA = Deklaracja(
     # (``_nawiasuj`` w ``olski/parse/streszczenie.py``),
     # a przydawka stoi pod rzeczownikiem, czyli w ciele o kilku córkach,
     # więc wpisana tu odbierałaby wiersz o konstytuencie, nie dając w zamian nawiasu.
-    współrzędne=("grupa_imienna", "grupa_przymiotnikowa", "zdanie"),
+    współrzędne=(GRUPA_IMIENNA, "grupa_przymiotnikowa", "zdanie"),
     # Streszczenie pyta o rozpiętość jednego zdania, a nie o ciąg, w którym ono stoi,
     # więc symbolem jest tu człon, a nie ciąg nad nim.
     # Czoło pytania członem tego ciągu nie bywa, więc dopisane tutaj
@@ -380,6 +386,7 @@ DEKLARACJA = Deklaracja(
         przypadkowe=("dopełnienie",),
         własna_rama=("fraza_bezokolicznikowa", FRAZA_BEZOKOLICZNIKOWA_OTWARTA),
     ),
+    grupa_imienna=GRUPA_IMIENNA,
 )
 
 
