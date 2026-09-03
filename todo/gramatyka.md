@@ -954,7 +954,23 @@ Wpis o nazwie angielskiej pisanej małą literą tego nie obejmuje,
 bo tam czytanie nieodmienne byłoby fałszywe, a tu jest jedyne prawdziwe.
 Ruchem jest albo trzeci warunek obok notacji i wersalika,
 czyli wielka litera na czele formy, której słownik nie czyta wcale,
-albo wpis leksykonu bez świadka dla słowa deklarowanego jako nieodmienne.
-Do przeczytania jest cena pierwszego nad Składnicą,
+a nie na czele zdania, albo wpis leksykonu bez świadka
+dla słowa deklarowanego jako nieodmienne.
+Zakup pierwszego jest zmierzony nad prozą tego repozytorium i jest to kilkanaście zdań,
+z tego jedenaście przeczytanych ręką i wszystkie polskie —
+`Opróżnia więzienie Qasr ze wszystkich kryminalistów.`
+oraz `Kończy się ono przed tablicą Earleya, więc tablica dostaje ciała wypisane.` —
+a ani jedno nie jest zdaniem angielskim,
+bo forma angielska stoi w środku zdania małą literą.
+Warunek bez wielkiej litery, czyli czytanie nieodmienne dla każdej formy nieznanej,
+odpada właśnie na tym: kupuje wielokrotnie więcej zdań,
+a przeczytane są w większości angielskie
+i `The cutting applies to words that buy nothing.` wychodzi wtedy jednym odczytaniem.
+Cena warunku z wielką literą jest widoczna bez Składnicy i jest podwójna:
+`Punkty gromadzi Beenhakkera.` wyprowadza się z tą formą w podmiocie,
+bo czytanie nieodmienne spełnia każde żądanie przypadku,
+a `Cena Scalingo Beenhakkera Qasr rośnie.` wychodzi kilkunastoma odczytaniami,
+bo nazwy nieznane przedłużają łańcuch imienny jedna za drugą.
+Do przeczytania zostaje cena nad Składnicą,
 bo rejestr prasowy pisze wielką literą nazwisko, którego SGJP nie ma,
 i takie nazwisko dostałoby czytanie nieodmienne, choć polszczyzna je odmienia.
