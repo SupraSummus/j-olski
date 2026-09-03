@@ -456,6 +456,34 @@ zdanie odrzucone nie obsadza żadnej pozycji, więc mówi dalej,
 dokąd analiza doszła
 ([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 
+**Kto przychodzi z własną prozą, czyta wszystkie zgłoszenia nad nią.**
+Ten sam warunek stawia cel o wykrywaczu wzorców
+i płaci za niego populacją: tam trafienia czyta się wszystkie,
+bo tekst napisaliśmy sami.
+Tu tekst jest cudzy, a warunek zostaje ten sam.
+Zdanie prawdziwie wieloznaczne i zdanie, którego drugie czytanie
+czytelnik odrzuca bez namysłu, dostają dziś znalezisko tej samej nazwy:
+`Koszt samej szynki przewyższa koszt szynki z dodatkami.`
+oraz `Operator ustala priorytet.` wychodzą oba
+jako `różne w rolach: dopełnienie, podmiot`.
+Pierwsze z nich rozstrzygnęło, że wieloznaczność jest znaleziskiem
+([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
+a drugie jest zwykłym zdaniem SVO o podmiocie osobowym i rzeczowym dopełnieniu.
+Cel o wyprowadzeniu raz tego nie obejmuje:
+czytanie OVS polszczyzna naprawdę ma,
+więc zostawia je [kierunek toru](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).
+Czy dzisiejszy werdykt autorowi mimo to wystarcza, zostaje pytaniem otwartym
+i prowadzi je
+[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik),
+a cel tej odpowiedzi nie przesądza.
+Sprawdza go garść zdań korpusu audytowego przeczytana ręką
+([audit-corpus.md](audit-corpus.md#the-list)):
+nad każdym zgłoszonym zdaniem czytelnik mówi, ile czytań ma sam,
+a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie ma ich dwa.
+Rejestr jest przypięty, a sąd czytelnika nad zdaniem raz przeczytanym
+nie starzeje się, więc dopisanie produkcji każe doczytać zdania nowo zgłoszone,
+a nie przeczytać rejestr od nowa.
+
 Czego na tej liście nie ma.
 Kierunku, bo prowadzi on tor, zamiast stać na jego końcu,
 i ma [własną sekcję](#kierunek-werdykt-ma-mówić-o-zdaniu-prawdę).

@@ -315,6 +315,26 @@ i wracająca parami (nazwa, proza) albo kodem dwa.
 Do rozstrzygnięcia jest, czy komunikat ma dalej nazywać komendę,
 bo funkcja wspólna nie wie, kto ją zawołał, dopóki nie dostanie nazwy argumentem.
 
+`olski-check` nie daje wyboru znalezisk,
+więc autor cudzej prozy dostaje albo wszystkie naraz, albo żadnego.
+Każda flaga tej komendy dokłada wiersze,
+a kod wyjścia niesie samą obecność znalezisk (`main` w `olski/check.py`).
+Pierwszego kroku żąda od tej komendy cel o czytaniu wszystkich zgłoszeń
+([roadmap.md](../docs/roadmap.md#cele)).
+Ruchem jest flaga wybierająca klasę znaleziska,
+bo rozdziału nie trzeba wyprowadzać:
+`Result` w `olski/parse/podsumowanie.py` trzyma `przyłączenia` osobno od `rozbieżności`,
+a zlewa je dopiero wydruk.
+Świadka, który na wieloznaczność przyłączenia odpowiada, komenda ma już dziś:
+`--rozstrzygaj` odpowiada nad przyłączeniem częstością banku drzew,
+a znalezisko pada obok tej odpowiedzi tak samo jak bez niej.
+Do rozstrzygnięcia jest, co wtedy niesie kod wyjścia,
+bo dziś niesie każde znalezisko, a po wyborze niósłby wybrane.
+Do przeczytania jest `harness/wieloznaczność.py`:
+sonda liczy przyłączenie osobno od synkretyzmu,
+więc mówi, ile które wyciszenie zdejmie,
+a bez tej liczby flaga wybiera między klasami w ciemno.
+
 Witryna nie pokazuje żądań pozycji, choć `--żądania` je drukuje.
 API oddaje przeglądarce wykaz morfologii pod własnym kluczem
 (`_zdanie` w `witryna/werdykty.py`), a wiersz żądania nie idzie tam wcale,
