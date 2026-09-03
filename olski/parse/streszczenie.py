@@ -127,7 +127,7 @@ def _streszcz(node: Node, deklaracja: Deklaracja, zakres: tuple[int, int]) -> di
             continue
         if rola in deklaracja.przyłączane:
             napis = _nawiasuj(znalezione[0], deklaracja.współrzędne)
-            napis += PRZYŁĄCZONY_DO + _attachment(node, znalezione[0], deklaracja.gospodarze)
+            napis += PRZYŁĄCZONY_DO + gospodarz(node, znalezione[0], deklaracja.gospodarze)
         else:
             napis = OBOK.join(_nawiasuj(węzeł, deklaracja.współrzędne) for węzeł in znalezione)
         streszczenie[rola] = napis
@@ -308,7 +308,7 @@ def _koordynuje(node: Node, współrzędne: Sequence[str]) -> bool:
     )
 
 
-def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
+def gospodarz(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
     """Co modyfikator określa: konstytuent, do którego doszedł, nazwany swoją głową.
 
     Ani węzeł, pod którym modyfikator stoi bezpośrednio,
@@ -316,6 +316,11 @@ def _attachment(root: Node, modifier: Node, hosts: tuple[str, ...]) -> str:
     okolicznik zdania stoi w drzewie tuż obok dopełnienia, którego nie określa.
     Odpowiada konstytuent wyliczony w :attr:`Deklaracja.gospodarze`,
     czyli ten, w którego produkcji to przyłączenie stoi.
+
+    Publiczna, bo o gospodarza pyta poza streszczeniem sonda kolejności
+    (``harness/kolejność.py``): wzorzec przeczytany ręką nazywa gospodarza
+    także tam, gdzie streszczenie o pozycji milczy, a dwa odczyty tej samej
+    reguły rozeszłyby się po cichu.
     """
     return _host(root, modifier, hosts, root).forma_głowy()
 

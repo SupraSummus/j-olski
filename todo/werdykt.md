@@ -37,7 +37,7 @@ Konstytuent, którego głową jest luka, nie ma czym się nazwać,
 a streszczenie pyta go o nazwę i wywraca wyjątkiem cały przebieg.
 `liść_głowy` w `olski/parse/czytanie.py` schodzi po głowach do liścia,
 a węzeł produkcji o pustym ciele córek nie ma,
-więc `_attachment` w `olski/parse/streszczenie.py` dostaje `IndexError`.
+więc `gospodarz` w `olski/parse/streszczenie.py` dostaje `IndexError`.
 Gramatyka olskiego produkcji o pustym ciele nie ma,
 więc wywraca się tylko wariant z luką (`harness/luka.py`):
 `Jest reguła, którą ktoś zna po cichu.` wywraca się tam pod `luka wszędzie`,
@@ -52,7 +52,7 @@ Zamyka ten wpis tamten o luce wskazującej zaimek, który ją wiąże,
 a nie miejsce, w którym stoi:
 etykieta roli postawiona nad zaimkiem daje głowie liść,
 a przy okazji tę samą rolę, którą na tych zdaniach stawia bank drzew.
-Do przeczytania jest `_host` obok `_attachment`, bo gospodarza wybiera on,
+Do przeczytania jest `_host`, którego `gospodarz` woła, bo gospodarza wybiera on,
 więc on mówi, czy pytanie pada tu o konstytuent, którego nazwać się nie da,
 czy o cudzy konstytuent, na którym zejście miało się zatrzymać.
 
@@ -184,7 +184,7 @@ Przeszkodą jest przy nim gospodarz, a nie sam przekład nazwy:
 wyrażenie przyimkowe przyłącza się u olskiego wszędzie, gdzie polszczyzna je stawia,
 więc żądanie stoi po stronie czasownika tylko w tym czytaniu,
 w którym wyrażenie doszło do niego, a nie do rzeczownika obok
-(`_attachment` w `olski/parse/streszczenie.py` nazywa gospodarza formą głowy).
+(`gospodarz` w `olski/parse/streszczenie.py` nazywa go formą głowy).
 Do przeczytania jest, czy wiersz taki mówi coś, czego nie mówi wiersz obok:
 żądanie pozycji przyimkowej pokrywa się z tym, co o tej parze mówi już
 świadek ramowy warstwy rozstrzygającej

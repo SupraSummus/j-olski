@@ -236,7 +236,7 @@ trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`todo/`](../todo/RE
 każdego zdania.
 Liczb tych nie porównuje się z liczbami z pomiaru wyżej, bo mierzą co innego:
 tam liczy się trafienie w złote czytanie, a tu samo przestawienie.
-Kierunku sonda nie podaje, bo proza drzewa wzorcowego nie niesie —
+Kierunku sonda nie podaje nad tą prozą, bo drzewa wzorcowego ona nie niesie —
 wypisuje oba czytania pierwsze, a czyta je człowiek.
 
 Pozycje ważą nad tą prozą nierówno.
@@ -275,6 +275,21 @@ Sama liczba trafień na tym nie zyskała, bo kolejność dopisań trafiała podo
 i nie to było pytaniem: liczba z sekcji wyżej wisiała na czymś,
 czego nikt nie zadeklarował, więc ruszało ją każde przestawienie produkcji
 i nie było tego widać w przeglądzie.
+
+**Nad jednym rejestrem kierunek ma wzorzec przeczytany ręką i pyta o niego sonda.**
+Gospodarza, o którego w zdaniu korpusu audytowego chodziło, nazywa ręką
+`próba/wybory.txt` ([rozstrzyganie.md](rozstrzyganie.md) mówi, po co ten plik powstał),
+a `harness/kolejność.py` pyta ten plik o czytanie pierwsze:
+czy fraza dochodzi w nim do tego gospodarza, którego wskazał czytający.
+Odpowiedź daje garść wpisów — zdania tego rejestru są długie i olski czyta z nich
+niewiele — więc liczba stąd nie jest stopą trafień,
+tylko świadkiem przy następnej zmianie ceny.
+Mówi ona przy tym, że cięcie bywa nad tą prozą za późne:
+w `Jest to wymagany format podpisu dla procesu uwierzytelniania.`
+czytanie pierwsze przyłącza `dla procesu uwierzytelniania` do `podpisu`,
+a czytający wskazał `format`.
+Kierunek cięcia wybrano pomiarem nad bankiem drzew, więc jedno zdanie go nie odwraca;
+zostaje ono wpisem, który ta sonda pokazuje przy każdej kalibracji.
 
 ### Cechy lekkie biją ciężkie, bo uzgodnienia sprawdziła już gramatyka
 

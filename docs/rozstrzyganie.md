@@ -523,6 +523,9 @@ i w tabeli wyżej nie odzywa się ani razu.
 Nad korpusem audytowym jest odwrotnie: tekst jest ciągły, a wzorca nie ma tam żadnego.
 `próba/wybory.txt` dokłada ten wzorzec i jest jedynym miejscem w tym repozytorium,
 w którym sąd o zdaniu pochodzi z przeczytania, a nie z cudzego korpusu ani z przebiegu.
+O kolejność czytań pyta ten sam plik `harness/kolejność.py`
+([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
+więc przerysowanie którejś z prób rusza dwie liczby, a nie jedną.
 
 Zdania są przy tym cudze, a nasz jest sam sąd.
 Zdanie wymyślone pod świadka mierzy autora, a nie rejestr,

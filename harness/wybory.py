@@ -4,8 +4,9 @@
 drzewie. Świadka kontekstowego nie można: bank drzew jest zbiorem zdań stojących
 osobno, a dowodem tego świadka jest zdanie poprzednie. Nad korpusem audytowym
 sytuacja jest odwrotna — tekst jest ciągły, a odpowiedzi nie ma tam żadnej.
-Ta sonda dokłada tę odpowiedź i jest jedynym miejscem w repozytorium, gdzie
-wzorzec pochodzi z przeczytania, a nie z cudzego korpusu ani z przebiegu.
+Ta sonda dokłada tę odpowiedź, a plik, z którego ją bierze, jest w tym
+repozytorium jedynym wzorcem pochodzącym z przeczytania, a nie z cudzego korpusu
+ani z przebiegu. O co innego pyta ten sam plik ``harness/kolejność.py``.
 
 **Zdania są cudze, a wzorzec nasz.** Zdanie wymyślone pod świadka mierzy autora,
 a nie rejestr, więc pozycje bierze się z korpusu audytowego takie, jakie tam
@@ -50,8 +51,11 @@ Wiersza poleceń z ``harness/komenda.py`` ta sonda nie bierze i jest to wybór.
 Tamten moduł rozdaje wejście przed sondą i zna dwa rodzaje: bank drzew i prozę,
 a argument pozycyjny znaczy tutaj raz jedno, raz drugie — bez ``--zbuduj`` plik
 wzorca, z nim katalog z prozą — więc plik wzorca doszedłby tam jako proza.
-Trzeci rodzaj wejścia płaci za to każda sonda, która go czyta, a wzorzec czyta ta
-jedna; odwróci to dopiero druga sonda pytająca o plik przeczytany ręką.
+Druga sonda pytająca o ten plik decyzji nie odwraca i nie odwróci:
+tamto rozdanie rozpoznaje wejście po kształcie, a plik wzorca jest plikiem
+``.txt`` jak proza (``rozdaj`` w ``harness/corpus.py``),
+więc rozpoznawałaby go dopiero deklaracja sondy.
+Płaci za to każda z nich jednym argumentem pozycyjnym.
 """
 
 from __future__ import annotations

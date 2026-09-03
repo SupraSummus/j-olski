@@ -7,6 +7,10 @@ Hasze napisów losuje start procesu, więc zbiór postawiony na drodze do wydruk
 wypisuje w każdym przebiegu co innego (CLAUDE.md#code).
 Widać to wyłącznie między procesami, bo ziarno jest jedno na proces,
 więc pyta o to podproces, i pyta dwa razy.
+
+Dwie własności na końcu należą do sondy, która tę kolejność zestawia z wzorcem
+przeczytanym ręką (harness/kolejność.py).
+Plik dzieli się po tym, o którą warstwę test pyta, a ona pyta o tę samą.
 """
 
 import os
@@ -19,6 +23,8 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness.kolejność import INNY_KONSTYTUENT, TRAFNA, osądź
+from harness.wybory import Wybór
 from olski.cennik import CENNIK, CZASOWNIK_PRZED_PODMIOTEM, OKOLICZNIK, OPUSZCZONY_PODMIOT
 from olski.grammar import Grammar, Głowa, nt, word
 from olski.parse import parse
@@ -213,3 +219,47 @@ def test_wydruk_wychodzi_ten_sam_pod_dwoma_ziarnami_haszy(tmp_path):
     wypisane = [w for w in pierwszy.splitlines() if w.lstrip().startswith("- ")]
     assert len(wypisane) > 1, "jedno czytanie nie ma kolejności, którą można pomylić"
     assert pierwszy == _wydruk("12345", ścieżka)
+
+
+#: Zdanie o dwóch wyrażeniach przyimkowych, czyli o dwóch pozycjach jednej roli.
+#: Pisane ręką, a nie wzięte z próby: zdania korpusu audytowego są długie,
+#: a obie własności niżej czyta się na jednym krótkim.
+DWA_PRZYIMKI = "Program zapisuje ustawienia w pliku na dysku."
+
+
+def _wybór(fraza: str) -> Wybór:
+    """Wpis próby o tej frazie, z gospodarzem `pliku` we wzorcu."""
+    return Wybór(
+        plik="próba",
+        kontekst=(),
+        zdanie=DWA_PRZYIMKI,
+        fraza=fraza,
+        gospodarze=("zapisuje", "ustawienia", "pliku"),
+        wzorzec="pliku",
+        powód="własność testu, a nie sąd o rejestrze",
+    )
+
+
+def test_sonda_kolejności_pyta_drzewo_tam_gdzie_streszczenie_o_pozycji_milczy():
+    """`na dysku` dochodzi w czytaniu pierwszym do `pliku`, a streszczenie o tym milczy.
+
+    Rola przyłączana jest w streszczeniu nazwana pierwszym wystąpieniem
+    (`olski/parse/streszczenie.py`), więc wypisuje się z niej `w pliku na dysku`,
+    a o pozycji drugiej mówi tam tylko drzewo.
+    Sonda czytająca samo streszczenie liczyłaby ten wpis jako przemilczany.
+    """
+    sąd = osądź(_wybór("na dysku"))
+    assert (sąd.klasa, sąd.gospodarz) == (TRAFNA, "pliku")
+
+
+def test_fraza_stojąca_w_środku_konstytuenta_nie_jest_pomyłką():
+    """`w pliku` konstytuentem tego czytania nie jest; jest nim `w pliku na dysku`.
+
+    Dopasowanie po części frazy dałoby tu gospodarza całego wyrażenia, czyli
+    `ustawienia`, i wobec wzorca `pliku` wypisałoby pomyłkę tam, gdzie czytanie
+    przyłącza dobrze. Wzorzec ma frazy poprawiane ręką, więc krótsza od tej,
+    którą bierze gramatyka, pada w nim nie raz (`harness/wybory.py`).
+    """
+    sąd = osądź(_wybór("w pliku"))
+    assert sąd.klasa == INNY_KONSTYTUENT
+    assert not sąd.gospodarz
