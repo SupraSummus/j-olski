@@ -343,11 +343,12 @@ więc cel nie żąda od tych dokumentów, żeby zmieściły się pod gramatykę
 Osiągnięty, unieważni zdanie z CLAUDE.md,
 że reguł prozy nie pilnuje żaden check, a pilnuje ich przegląd;
 póki nie jest osiągnięty, zdanie to obowiązuje.
-Czeka na czytnik prozy z modułów, bo docstring i blok komentarza
-są prozą tych samych reguł:
-taki czytnik wyszedł razem z pakietem reguł i trzyma go git,
-więc wraca poleceniem `git show f5f5561^:harness/python.py`,
-zamiast powstawać od nowa.
+Pierwszy wzorzec ma już wykrywacz i przebieg nad nim stoi na zerze
+([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
+Populacją są przy tym i dokumenty, i moduły,
+bo docstring oraz blok komentarza są prozą tych samych reguł,
+a `olski-check` czyta jedno i drugie
+([extraction.md](extraction.md#w-module-jednostką-jest-docstring-a-rest-czyta-wzorzec)).
 
 **Olski proponuje zdanie o tym samym drzewie i mniejszej liczbie czytań.**
 Autor pyta olskiego, czy da się to zdanie napisać prościej,
@@ -444,12 +445,14 @@ Nieosiągnięte zostają dwie rzeczy.
 Pierwszą jest sprawdzian, czyli garść tekstów przeczytana ręką:
 nad każdym zgłoszonym zaimkiem czytelnik mówi, ilu kandydatów widzi sam,
 a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie nie ma ich dokładnie jednego.
-Drugą są dwie pozycje CLAUDE.md, których ta warstwa nie tyka:
-„to” w miejscu podmiotu akapitu podejmuje całe zdanie, a nie grupę imienną,
-więc zgodność nie ma nad nim czego liczyć,
-a orzeczenie domyślne nie jest zaimkiem wcale
+Drugą jest orzeczenie domyślne, którego ta warstwa nie tyka,
+bo zaimkiem nie jest wcale
 ([katalog chwytów](../CLAUDE.md#katalog-chwytów-rejestru));
-oba trzyma [`todo/`](../todo/README.md).
+trzyma je [`todo/`](../todo/README.md).
+„To” w miejscu podmiotu akapitu z tej listy zeszło:
+zgodność nie ma nad nim czego liczyć, bo zdanie podjęte rzeczą nie jest,
+więc zgłasza je warstwa obok i innym kształtem
+([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
 Czego zgodność nie rozstrzygnie, cel nie obiecuje:
 przy dwóch kandydatach zgodnych wybiera znaczenie,
 a olski melduje obu i oddaje wybór autorowi.

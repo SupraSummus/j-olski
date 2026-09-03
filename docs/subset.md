@@ -179,7 +179,7 @@ dawałaby drugie wyprowadzenie tego samego kształtu;
 z odwróceniem zdanie już przyjęte nie ma jak stracić na niej jednoznaczności,
 i dlatego cena tej głowy wyszła zerowa.
 
-To jest to rozróżnienie, na którym
+Rozróżnienie to jest tym, na którym
 [glr-in-practice.md](glr-in-practice.md#ambiguity-as-a-confidence-measure)
 się przewrócił i to zapisał:
 liczenie prób zamiast wyników
@@ -454,8 +454,10 @@ Zaimek wskazujący nie wchodzi:
 `to` i `ten` niosą w polszczyźnie łącznik, cząstkę i przydawkę,
 a rozdzielenie tych robót jest osobną robotą.
 Poza granicą zostaje przez to `to` w pozycji podmiotu akapitu,
-które [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) wylicza jako usterkę,
-a ruch trzyma [`todo/`](../todo/README.md).
+które [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) wylicza jako usterkę.
+Zgłasza je osobna warstwa i osobnym kształtem, bo nie ma tam czego wyliczać:
+zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
+([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
 
 ## What the grammar covers
 

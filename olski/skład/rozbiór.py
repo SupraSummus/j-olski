@@ -897,7 +897,7 @@ def _słowa(napis: str) -> tuple[str, ...]:
 def _rozjazd(drzewo: Zdanie, czytanie: Node, kontekst: Kontekst) -> str | None:
     """Czym to drzewo rozmija się z czytaniem, albo nic, gdy wypisuje jego formy.
 
-    To jest cała obrona tego modułu i dlatego stoi na kompilatorze,
+    Obrona tego modułu jest tu cała i dlatego stoi na kompilatorze,
     a nie na drugiej kopii tego, co kompilator wie o szyku i o formach.
     Porażki linearyzacji są tu odpowiedzią, a nie błędem:
     drzewo, którego nie da się wypisać, nie jest drzewem tego czytania,

@@ -225,19 +225,6 @@ a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
 więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
 
-`to` w miejscu podmiotu akapitu jest usterką, której nie zgłasza nic.
-Wylicza ją [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru),
-a `olski/odniesienia.py` bierze sam zaimek trzeciej osoby
-([`docs/subset.md`](../docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
-Maszyneria tamtej warstwy nad `to` nie działa i nie chodzi o samo rozpoznanie zaimka:
-`on` podejmuje rzecz nazwaną grupą imienną, więc kandydatów wylicza zgodność
-liczby i rodzaju, a `to` podejmuje w tych dokumentach całe zdanie przed sobą,
-które ani liczby, ani rodzaju nie niesie.
-Ruchem jest więc inny kształt zgłoszenia, a nie druga część mowy w `ZAIMEK`.
-Do przeczytania jest sama reguła w `CLAUDE.md`:
-naprawą jest tam rzeczownik wstawiony w miejsce zaimka,
-a nie wybór między dwiema rzeczami, więc zgłoszenie nie ma czego wypisać obok.
-
 Kandydat miejscowy wycisza zaimek także tam, gdzie polszczyzna go z nim nie łączy.
 `olski/odniesienia.py` milczy nad zaimkiem, przed którym w tym samym zdaniu stoi
 rzecz zgodna z nim liczbą i rodzajem, i jest to warunek bez składni:

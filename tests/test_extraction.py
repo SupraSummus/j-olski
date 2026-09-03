@@ -17,8 +17,9 @@ from pathlib import Path
 
 import pytest
 
-from harness import PROSE_SUFFIX, markdown, ustawy
+from harness import PROSE_SUFFIX, markdown, python, ustawy
 from olski.markdown import prose
+from olski.python import jednostki, proza
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -100,6 +101,81 @@ def test_the_command_mirrors_a_tree_into_files_olski_reads_as_prose(tmp_path, ca
     assert (tmp_path / "prose" / "deep" / f"two{PROSE_SUFFIX}").read_text(
         encoding="utf-8"
     ) == "Drugie zdanie.\n"
+
+
+#: Moduł pisany w dwóch językach, czyli tak, jak pisany jest każdy moduł tego
+#: repozytorium, plus komentarz za krótki, żeby udział diakrytyków cokolwiek
+#: nad nim znaczył.
+MODUŁ = '''\
+"""A module mixes two languages by design, so the selection has to go below the
+file to see which of its parts are Polish and which of them are not."""
+
+#  Komentarz po polsku, dostatecznie długi, żeby udział znaków diakrytycznych
+#  cokolwiek nad nim znaczył, bo nad ośmioma słowami nie znaczy on nic ponad
+#  to, ile ich jest.
+
+#  Zdanie za krótkie.
+STAŁA = 1
+'''
+
+
+def test_moduł_próbny_wychodzi_prozą_która_stoi_obok_niego():
+    source = (FIXTURES / "moduł.py").read_text(encoding="utf-8")
+    expected = (FIXTURES / f"moduł{PROSE_SUFFIX}").read_text(encoding="utf-8")
+    assert proza(source) == expected
+
+
+def test_ekstrakcja_z_modułu_nie_zostawia_śladu_po_tym_co_skasowała():
+    """Proza fixture'u jest czysta, więc każdy ślad nad nią jest ekstrakcji.
+
+    Znacznik reST skasowany tak, że odstęp przed nim zostaje, jest właśnie takim
+    śladem, i po to fixture stawia pytajnik tuż za rolą Sphinksa oraz cztery
+    znaczniki w jednym zdaniu.
+    """
+    wyszło = proza((FIXTURES / "moduł.py").read_text(encoding="utf-8"))
+    assert ŚLAD_PO_KASOWANIU.findall(wyszło) == []
+
+
+def test_jednostka_modułu_wie_w_którym_wierszu_stoi():
+    """Wiersza nie ma z czego odtworzyć po ekstrakcji, bo w prozie nie ma już kodu.
+
+    Kolejność jest kolejnością pliku, a nie kolejnością dwóch przebiegów po nim:
+    docstringi zbiera ``ast``, a komentarze ``tokenize``, więc bez sortowania
+    proza mówiłaby o stałej przed docstringiem funkcji stojącej pod nią.
+    """
+    wiersze = [wiersz for wiersz, _ in jednostki((FIXTURES / "moduł.py").read_text("utf-8"))]
+    assert wiersze == sorted(wiersze)
+    assert wiersze[0] == 1
+
+
+@pytest.fixture
+def proza_modułu(tmp_path):
+    (tmp_path / "pakiet").mkdir()
+    (tmp_path / "pakiet" / "moduł.py").write_text(MODUŁ, encoding="utf-8")
+    python.main(
+        [str(tmp_path / "pakiet"), "--into", str(tmp_path / "proza"),
+         "--polish", "0.12", "--min-words", "20"]
+    )
+    return (tmp_path / "proza" / f"moduł{PROSE_SUFFIX}").read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("fragment", "zostaje"),
+    [
+        ("Komentarz po polsku", True),
+        ("A module mixes two languages", False),
+        ("Zdanie za krótkie", False),
+    ],
+    ids=["polski", "angielski", "krótszy niż podłoga"],
+)
+def test_wybór_po_języku_schodzi_do_jednostki_i_ma_podłogę(proza_modułu, fragment, zostaje):
+    """Nad plikiem ten wybór nie ma nad czym stanąć, a nad ośmioma słowami nie ma czym mierzyć.
+
+    Docstring po angielsku jest dłuższy niż podłoga, a komentarz za krótki jest
+    polski na tyle, na ile trzy słowa mogą być, więc każdy z nich wypada z
+    innego powodu i żaden nie wypada przez ten drugi.
+    """
+    assert (fragment in proza_modułu) is zostaje
 
 
 #: Jednostka redakcyjna z jednostką pod sobą, w której typ tej niższej jest do

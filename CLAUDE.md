@@ -689,7 +689,7 @@ gdy każda rozstrzyga inną decyzję, a nie wtedy, gdy ruszają inne pliki.
 
 ```sh
 pip install -e '.[dev]'
-python3 -m pytest -n auto --dist worksteal
+python3 -m pytest
 ruff check .
 reuse lint
 npx --yes markdownlint-cli@0.45.0 '**/*.md'
@@ -706,16 +706,6 @@ Pilnuje tego `tests/test_zbiórka.py`, bo dochodzi się tam
 przez cudzy import i pominięcia brakującego nie widać w przebiegu z Morfeuszem.
 Przebieg zielony w takim środowisku nie sprawdza niczego,
 co do analizatora dochodzi, i widać to po liczbie pominięć.
-
-Suita idzie równolegle, a workerów jest tyle, ile rdzeni,
-bo więcej niż rdzeni wydłuża przebieg.
-`worksteal` rozdaje testy w biegu, temu workerowi, który już skończył,
-i nad ogonem tysięcy krótkich testów wypada lepiej niż podział z góry.
-Tyle razy, ile jest rdzeni, przebieg się przez to nie skraca,
-bo całą suitę zbiera każdy worker osobno.
-Ceną jest wydruk porażki: wiersze przeplatają się między workerami,
-a worker, który padł, czyta się trudniej niż test, który nie przeszedł,
-więc kto czyta porażkę, puszcza suitę bez tych dwóch flag.
 
 [`.github/workflows/checks.yml`](.github/workflows/checks.yml)
 uruchamia te same checki na każdym pull requeście i przy pushu na `main`,

@@ -173,7 +173,7 @@ class Las:
         self._liczone: set[Pozycja] = set()
         self._klasy: dict[Pozycja, dict[Klasa, int]] = {}
         #: (pozycja, klasa) → kombinacja klas córek → produkcje, którymi przeszła.
-        #: To jest las już po unifikacji:
+        #: Las jest tu już po unifikacji:
         #: kombinacji, której ona nie przepuszcza, nie ma tu wcale,
         #: więc każda gałąź kończy się czytaniem.
         #: Produkcji jest tu kilka, bo dwie o jednym ciele są jednym kształtem,

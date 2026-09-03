@@ -268,7 +268,7 @@ def test_te_drzewa_wychodzą_zdaniem_o_jednym_czytaniu(drzewo):
 def test_liczba_mnoga_jest_powodem_dla_którego_tamte_czytają_się_raz(drzewo, zdanie):
     """Lista wyżej przechodzi nie dlatego, że skład wypuszcza polszczyznę jednoznaczną.
 
-    To są te same dwa drzewa z liczbą pojedynczą zamiast mnogiej,
+    Drzewa są tu te same, z liczbą pojedynczą zamiast mnogiej,
     i czytają się dwojako, bo bez liczby, która podmiot odsiewa,
     obie role stoją w formie równej mianownikowi i biernikowi naraz.
     Bez tego przypadku tamta lista czyta się jak własność składu,

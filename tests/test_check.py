@@ -103,6 +103,22 @@ def test_plik_o_nieznanym_rozszerzeniu_dochodzi_tak_jak_stoi(capsys, tmp_path):
     assert "fragmenty, których nic nie punktuje jako zdania: 1" in wypisane[-1]
 
 
+#: Moduł, którego docstring jest zdaniem, a kod pod nim nie jest prozą niczyją.
+#: Nazwa i przypisanie są tym, co ta ekstrakcja zostawia za sobą, więc do
+#: gramatyki nie dochodzi ani jedno, ani drugie.
+MODUŁ = '''"""Zapisz plik."""\n\nSTAŁA = 1\n'''
+
+
+def test_moduł_dochodzi_do_gramatyki_swoim_docstringiem(capsys, tmp_path):
+    """Docstring jest prozą tych samych reguł co dokument (CLAUDE.md)."""
+    plik = tmp_path / "moduł.py"
+    plik.write_text(MODUŁ, encoding="utf-8")
+    assert olski.check.main(["--readings", str(plik)]) == 0
+    wypisane = capsys.readouterr().out.splitlines()
+    assert f"{plik}: Zapisz plik." in wypisane
+    assert wypisane[-1].startswith("zdań: 1;") and "fragment" not in wypisane[-1]
+
+
 def test_ścieżka_której_nie_da_się_przeczytać_daje_kod_dwa(capsys, tmp_path):
     assert olski.check.main([str(tmp_path / "nie-ma.txt")]) == 2
     assert "nie udało się przeczytać" in capsys.readouterr().err

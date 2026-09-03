@@ -223,7 +223,7 @@ def test_osób_każdego_rodzaju_jest_więcej_niż_obsada_zabiera():
 
 @pytest.mark.parametrize("ziarno", range(24))
 def test_żadna_makieta_nie_niesie_kolizji_ról(ziarno):
-    """To jest cała obrona tego modułu i dlatego stoi nad dwudziestoma czterema ziarnami.
+    """Obrona tego modułu jest cała tutaj i dlatego stoi nad dwudziestoma czterema ziarnami.
 
     Zdanie, którego role czytają się na dwa sposoby, wypada z losowania
     i wraca do puli, więc nad wyjściem nie ma ani jednego zgłoszenia.

@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import TypeVar
 
 from olski.cennik import cena
+from olski.chwyty import chwyty
 from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
 from olski.wejście import proza
@@ -48,6 +49,11 @@ ALBO = " albo "
 #: (:data:`olski.żądania.NIENAZWANE`). Stoi w alternatywie obok klas nazwanych,
 #: bo przemilczana czytałaby się jak żądanie ostrzejsze, niż Walenty stawia.
 KLASA_NIENAZWANA = "klasy, której olski nie nazywa"
+
+#: Znak przed wierszem o chwycie rejestru. Werdyktem ten wiersz nie jest tak
+#: samo jak :data:`DOMYSŁ`, a z innego powodu: werdykt mówi o polszczyźnie
+#: zdania, a chwyt o rejestrze, w którym je napisano (``olski/chwyty.py``).
+CHWYT = "~"
 
 #: Znak przed wierszem warstwy rozstrzygającej. Wiersz ten nie jest werdyktem
 #: i nie może się na werdykt czytać, bo werdykt mówi, co olski o zdaniu wie,
@@ -238,6 +244,11 @@ def _wiersze(
         yield from map(_wiersz_osoby, niespełnione_żądania(verdict))
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo)
+    #  Chwyt na końcu, bo o polszczyźnie tego zdania nie mówi nic.
+    if args.chwyty:
+        yield from (
+            f"{CHWYT} „{chwyt.forma}” {chwyt.naprawa}" for chwyt in chwyty(verdict.text)
+        )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -277,6 +288,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--osoby",
         action="store_true",
         help="pokaż pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz",
+    )
+    parser.add_argument(
+        "--chwyty",
+        action="store_true",
+        help="pokaż chwyty rejestru, których w prozie tego repozytorium nie chcemy",
     )
     parser.add_argument(
         "--zatrzymania",

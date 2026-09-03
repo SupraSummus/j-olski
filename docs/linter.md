@@ -133,14 +133,35 @@ Kolejność jest więc taka, i pomiar stoi w niej przed pisaniem.
    takie, które je dokłada, umie zgłoszenie wymyślić,
    a wymyślone kosztuje zaufanie do wszystkich pozostałych reguł.
 
-Trzy kandydatki odpadły na kroku czwartym i wracać nie mają.
+Sześć kandydatek odpadło na kroku czwartym i wracać nie mają.
 Odległość podmiotu od orzeczenia trafia nad README kilka razy,
 a za każdym razem stoi między nimi zwykły okolicznik albo szyk odwrócony.
-Jedno twierdzenie na zdanie trafia co kilka zdań i rozstrzyga się rejestrem:
-[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) pozwala tak pisać wywód,
-a zakazuje instrukcji, więc reguła ta żąda progu, którego nie ma czym skalibrować.
 Zdanie podrzędne zagnieżdżone w podrzędnym trafia nad tą prozą raz
 i nie ma czego robić.
+Czasownik domowy trafia nie rzadziej niż w co czwarte zdanie tej prozy,
+więc wskazuje dokument, a nie zdanie w nim.
+Nominalizacja w pozycji imiennej trafia w większość zdań,
+bo rzeczownik odczasownikowy jest w tym rejestrze zwykłym terminem:
+`przeliczenie` i `zatrzymanie` nazywają tu rzeczy, których inaczej nie ma jak nazwać.
+Wzmacniacz bez treści nie trafia w tej prozie ani raz poza `słowo kluczowe`,
+czyli poza kolokacją, która wzmacniaczem nie jest.
+
+Jedno twierdzenie na zdanie odpadło dwoma predykatami, a nie jednym,
+i warto powiedzieć, na czym stanął każdy.
+Liczba twierdzeń rozstrzyga się rejestrem:
+[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) pozwala tak pisać wywód,
+a zakazuje instrukcji, więc reguła ta żąda progu, którego nie ma czym skalibrować.
+Dwa człony spięte spójnikiem trafiają przy tym w ponad połowę zdań instrukcji,
+a przeczytane mówią, że `Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.`
+jest zdaniem dobrym.
+Drugim predykatem jest sam skrót, czyli słowo wzięte z członu wcześniejszego,
+i jego trafienia są w większości zaimkiem przymiotnym stojącym bez rzeczownika —
+`którego`, `ta`, `każda` — albo zwykłą koordynacją o wspólnym podmiocie.
+Rozdzielić jedno od drugiego umie dopiero rozbiór,
+bo pyta się tu o to, czy przymiotnik jest głową grupy, czy orzecznikiem,
+a tego morfologia nie mówi.
+Tej głębokości żąda [cel o żądaniu pozycji](roadmap.md#cele) i tam ten predykat wraca.
+
 Liczb tu nie ma, bo rusza je przeredagowanie akapitu;
 kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
 
@@ -173,6 +194,47 @@ Populacją jest i proza własna, i cudza, a rozdziela je to samo, co przy pakiec
 Nad prozą tego repozytorium wszystkie trafienia się czyta.
 Nad cudzą reguła stopy nie obiecuje, bo żadnej nie liczy:
 zgłasza pojedyncze zdanie i wypisuje przy nim rzeczy, o które chodzi.
+
+## Wykrywacz chwytu zgłasza „to” bez rzeczownika przy sobie
+
+Reguła o zaimku wskazującym na dwie rzeczy jest znaleziskiem,
+czyli mówi o polszczyźnie zdania.
+Druga reguła wydana po zamknięciu pakietu mówi o rejestrze, w którym je napisano,
+i jest jedynym wzorcem z [katalogu chwytów](../CLAUDE.md#katalog-chwytów-rejestru),
+który wytrzymał [pomiar](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
+`To` otwierające zdanie, które nie ma przy sobie rzeczownika,
+podejmuje całe zdanie obok, a naprawą jest rzeczownik wstawiony w jego miejsce.
+Wykrywa go `olski/chwyty.py`, a wypisuje flaga `--chwyty`.
+
+Na [czterech osiach](#cztery-osie-każdej-reguły) wypada to tak:
+głębokością jest morfologia, kształtem werdykt o zdaniu,
+populacją nasza własna proza, a pytanie jest o strukturę.
+Progu przez to nie ma i kalibracji ta reguła nie potrzebuje.
+Rozstrzyga ją jeden warunek: czy rzeczownik zgodny z zaimkiem stoi przy nim,
+czyli przed orzeczeniem zdania.
+`To zdanie ma dwa czytania.` przechodzi, bo zaimek określa tam rzeczownik,
+a `To jest miejsce, gdzie olski milczy.` nie przechodzi,
+bo rzeczownik za orzeczeniem zaimka nie określa.
+
+Wiersz o chwycie pada obok werdyktu i tylko pod flagą.
+Populacją jest proza, za którą odpowiadamy,
+a autor sprawdzający swój tekst tego katalogu nie zna.
+Chwyt czyta się przy tym z morfologii, więc pada też nad zdaniem,
+którego gramatyka nie wyprowadza, czyli nad większością tych dokumentów,
+a werdykt mówi tam, dokąd doszła analiza.
+
+Nad prozą tego repozytorium przebieg stanął na zerze,
+a kosztowało to kilkadziesiąt zdań przepisanych w dokumentach, w modułach i w testach.
+Zostają w nim same zdania przytoczone w grawisach jako przykład:
+ekstrakcja zdejmuje grawisy, a kropka w środku przykładu punktuje prozę wokół niego
+([extraction.md](extraction.md#what-the-reader-sees-is-not-always-polish)),
+więc wykrywacz dostaje `To jest tanie.` jako zdanie tego dokumentu.
+Odróżnić ich nie ma czym, dopóki ekstrakcja nie mówi, co było przytoczeniem.
+
+```sh
+python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*.md
+python3 -m olski.check --chwyty $(find olski harness tests witryna opowieści -name '*.py')
+```
 
 Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 

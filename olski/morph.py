@@ -21,6 +21,7 @@ what makes unification the right operation later.
 from __future__ import annotations
 
 import functools
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 import morfeusz2
@@ -168,6 +169,26 @@ def tag(raw: str) -> Tag:
             merged = features[category] & merged
         features[category] = merged
     return Tag(pos=pos, features=frozenset(features.items()), raw=raw)
+
+
+def zgadza(jedne: Sequence[Reading], drugie: Sequence[Reading], cechy: Sequence[str]) -> bool:
+    """Czy któreś czytanie z jednej strony zgadza się z którymś z drugiej.
+
+    Parami czytań, a nie sumą cech po obu stronach. `je` jest liczbą pojedynczą
+    rodzaju nijakiego albo liczbą mnogą rodzaju niemęskoosobowego, a suma tych
+    dwóch odczytań wpuszcza pojedynczą męską, której to słowo nie ma, i zgadza
+    `je` wtedy z `program`.
+
+    Które cechy liczyć, rozstrzyga pytający, bo o to różnią się dwie warstwy
+    pytające tu o zaimek: ``olski/odniesienia.py`` przypadka nie liczy, bo żąda
+    go pozycja zaimka, a ``olski/chwyty.py`` liczy, bo zaimek stoi tam przy
+    swoim rzeczowniku.
+    """
+    return any(
+        all(jedno.tag.get(cecha) & drugi.tag.get(cecha) for cecha in cechy)
+        for jedno in jedne
+        for drugi in drugie
+    )
 
 
 @functools.lru_cache(maxsize=1)

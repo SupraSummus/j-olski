@@ -537,3 +537,20 @@ więc nie została napisana, i tam też stoi warunek, który to odwraca
 ([`docs/subset.md`](../docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
 Kandydatów liczy się tam kolejką form bez licencji, czyli tym samym poleceniem,
 którym liczy je [`docs/ustawy.md`](../docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze).
+
+`proza_repozytorium` w `harness/__init__.py` schodzi po samych dokumentach,
+a reguły pisania obejmują docstring i blok komentarza tak samo
+([`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)),
+więc odcisk prozy i wydruk cytatów mierzą dziś dwie trzecie tego,
+za co ktoś w przeglądzie odpowiada.
+Czytnik jest, odkąd `olski-check` bierze moduł
+([`docs/extraction.md`](../docs/extraction.md#w-module-jednostką-jest-docstring-a-rest-czyta-wzorzec)),
+więc zostaje samo zejście.
+Do przeczytania są trzy miejsca, które tę listę wołają, bo każde chce czego innego:
+`harness/cena.py` i `harness/cytaty.py` chcą prozy, nad którą liczy się werdykt,
+a `tests/test_docs.py` chce dokumentów, bo sprawdza nagłówki i wskazania między nimi.
+Rozstrzygnąć trzeba, czy moduły wchodzą do tej jednej listy,
+czy dostają drugą obok niej,
+i osobno, czy nazwa sekcji cytowana w docstringu wchodzi pod ten test:
+docstring pisze ją ścieżką bez nawiasów, a nie odnośnikiem Markdownu,
+więc test nie ma dziś czym jej znaleźć.

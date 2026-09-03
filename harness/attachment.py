@@ -1,6 +1,6 @@
 """Dokąd bank drzew przyłącza wyrażenie przyimkowe stojące po grupie imiennej.
 
-To jest pomiar korpusu, a nie gramatyki, i tym różni się od
+Sonda ta mierzy korpus, a nie gramatykę, i tym różni się od
 ``harness/pomiar.py`` obok. Pyta o samą polszczyznę: gdy zdanie stawia wyrażenie
 przyimkowe tuż za grupą imienną, a więc daje czytelnikowi dwa przyłączenia do
 wyboru, to które z nich wybiera człowiek, który to zdanie rozbierał. Liczba stąd

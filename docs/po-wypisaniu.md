@@ -57,7 +57,7 @@ Zgłoszenie niesie przez to jeden napis zamiast dwóch —
 podmiot dopisany do niego byłby formą wziętą z drzewa,
 czyli dokładnie tym, czego ten przegląd nie mierzy.
 
-To jest ten sam pomiar, który stoi w `pomijalny`, i warto to nazwać.
+Pomiar jest tu ten sam, który stoi w `pomijalny`, i warto to nazwać.
 Tamten pyta, czy podmiot wróci czytelnikowi z formy czasownika,
 i liczy to, wypisując tę formę dla każdego, kto mógłby ją z niego wyciągnąć.
 Tutaj pytanie jest o rolę zamiast o podmiot, a sposób jest ten sam.

@@ -43,18 +43,18 @@ bo dopiero on mówi, czego warstwie kontekstowej robić nie wolno.
 Trzy pytania stoją pod jednym słowem, każde ma inny wynik i inną cenę.
 
 **Które czytanie jest tym, o które autorowi chodziło.**
-To jest ranking, czyli maszyna, która porządkuje las i zwraca pierwsze czytanie.
+Zadaniem jest tu ranking, czyli maszyna, która porządkuje las i zwraca pierwsze czytanie.
 Wzorcem odpowiedzi jest drzewo wybrane przez anotatora,
 więc jest to zadanie z bankiem drzew pod spodem.
 
 **Czy dwa czytania mówią to samo.**
-To jest tożsamość czytania, a nie wybór między nimi.
+Pytanie to dotyczy tożsamości czytania, a nie wyboru między nimi.
 Wzorcem odpowiedzi jest sąd o znaczeniu,
 którego żaden bank drzew nie zapisuje,
 bo anotator wybierał drzewo, a nie orzekał o parze drzew.
 
 **Czy czytelnik widzi tu wybór.**
-To jest pytanie o człowieka nad zdaniem, a nie o zdanie.
+Pytamy tu o człowieka nad zdaniem, a nie o zdanie.
 Wzorca nie ma nigdzie
 i [czego by trzeba, żeby powstał](#czego-brakuje-żeby-odpowiedzieć-pomiarem),
 stoi na końcu tego dokumentu.

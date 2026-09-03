@@ -1,6 +1,6 @@
 """Przestrzenie nazw nad składnią: lemat jako nazwa, a nie jako łańcuch.
 
-To jest cała zdejmowalna warstwa tego pakietu.
+Przestrzenie te są całą zdejmowalną warstwą tego pakietu.
 Operatory stoją w ``olski.skład.składnia``, bo są zapisem konstruktorów,
 a tutaj zostaje to, co da się odjąć, nie tracąc języka.
 Import tego modułu nie zmienia zachowania tamtego i tę własność trzyma test.
@@ -34,7 +34,7 @@ Zmienna nazywa poddrzewo i pozwala postawić je w dwóch zdaniach.
 Funkcja jest wzorcem zdania, a funkcja zwracająca listę jest wzorcem akapitu.
 Lista wchodzi do zdania przez ``razem``, więc człony koordynacji
 mogą powstać z tego, co program dopiero policzył.
-To jest cała odpowiedź tej biblioteki na pytanie,
+Zwykły Python jest całą odpowiedzią tej biblioteki na pytanie,
 skąd wziąć powtórzenie i abstrakcję.
 """
 

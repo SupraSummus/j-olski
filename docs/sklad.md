@@ -127,7 +127,7 @@ przypadek bierze się z pozycji, a rodzaj rzeczownika z leksykonu.
 
 Jednoznaczności ten zapis nie musi sprawdzać, bo ją ma:
 drzewo dobrze złożone jest jednoznaczne z definicji.
-To zdejmuje przy okazji wieloznaczność, której sam worek słów nie odróżnia,
+Jednoznaczność ta zdejmuje przy okazji wieloznaczność, której sam worek słów nie odróżnia,
 a która nad polszczyzną jest zwyczajna:
 `parser podzbioru` i `podzbiór parsera` są dwoma różnymi drzewami,
 choć stoją w nich te same lematy w tych samych rolach.

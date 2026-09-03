@@ -5,7 +5,7 @@ polszczyźnie ma dwa. Rozwidlenie, które z tego wychodzi, wraz z tym, co pomiar
 stąd nad nim rozstrzygnął, trzyma docs/open-questions.md; liczbę, na której to
 rozstrzygnięcie stanęło, podaje ten moduł.
 
-To jest pomiar rejestru, a nie gramatyki, i tym różni się od harness/pomiar.py,
+Sonda ta mierzy rejestr, a nie gramatykę, i tym różni się od harness/pomiar.py,
 tak samo jak harness/attachment.py obok. Liczone są pozycje w tekście, a nie
 werdykty nad nim, więc zdanie liczy się i wtedy, gdy gramatyka nie umie go
 rozebrać wcale. Inaczej się nie da: takich zdań jest w tym rejestrze większość,

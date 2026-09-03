@@ -269,7 +269,7 @@ SVO i OVS, i jest to ta sama wieloznaczność,
 którą polszczyzna ma na `Koszt samej szynki przewyższa koszt szynki`:
 zdanie naprawdę nie mówi, co tu prowadzi co.
 
-To jest połowa klasy, a nie cała.
+Czytanie nieodmienne bierze przez to połowę klasy, a nie całą.
 Drugą połową jest polskie słowo odmienione, którego słownik nie ma,
 i tej czytania nieodmiennego dać nie wolno;
 wpuszcza ją [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).

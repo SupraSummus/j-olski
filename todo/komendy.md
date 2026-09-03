@@ -288,21 +288,19 @@ Do przeczytania jest `Podsumowanie` w `olski/werdykt.py`,
 bo wiersz o konfiguracji stanąłby obok liczby zdań,
 a `tests/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.
 
-`olski-check` czyta dokument w Markdownie, a modułu nie czyta.
-Docstring i blok komentarza są prozą tych samych reguł
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)),
-więc `.py` jest następnym rozszerzeniem w `CZYTNIKI` w `olski/wejście.py`.
-Czytnika nie trzeba pisać od nowa: wyszedł razem z pakietem reguł i trzyma go git,
-a polecenie wyjmujące go stamtąd stoi w
-[`docs/roadmap.md`](../docs/roadmap.md#cele).
-Ruchem jest przeniesienie samej ekstrakcji do pakietu, obok `olski/markdown.py`,
-tak jak przeszedł Markdown: `Jednostka` zostaje po stronie harnessu,
-bo jest jednostką wyboru po języku, a nie sprawdzenia pliku.
-Do rozstrzygnięcia jest jedna rzecz, której dokument nie stawia:
-proza modułu leży kawałkami rozsypanymi po pliku,
-a wydruk nazywa sam plik, więc autor szuka potem zdania po całym module.
-Wiersz każdego kawałka jest już policzony (`Jednostka` w `harness/__init__.py`)
+Wydruk `olski-check` nazywa plik, a proza modułu leży w nim kawałkami,
+więc autor dostaje zdanie i szuka go potem po całym module.
+Dokument tego nie stawia, bo tam proza jest jedna i idzie w kolejności pliku.
+Wiersz każdego kawałka jest policzony (`jednostki` w `olski/python.py`)
 i jest kandydatem na drugie pole nagłówka wydruku.
+Do przeczytania jest `main` w `olski/check.py`,
+gdzie nagłówek wiersza jest nazwą źródła,
+a wcięcie wierszy pod nim liczy się z jej długości,
+więc numer dopisany do nagłówka rusza każdy blok wydruku w dokumentach,
+a te pilnuje `tests/test_wydruki.py`.
+Do rozstrzygnięcia jest, czy numer idzie do nagłówka przy każdym pliku,
+czy tylko tam, gdzie proza przyszła kawałkami:
+`proza` w `olski/wejście.py` wydaje dziś napis i o kawałkach nie mówi nic.
 
 Obie komendy paczki biorą ścieżki i czytają je tak samo, a odpowiadają inaczej.
 Plik nie do przeczytania jest dla `olski/check.py` tym, czego „nie udało się przeczytać”,
@@ -346,3 +344,21 @@ Do rozstrzygnięcia jest, czy napis o klasie nienazwanej powtarza się po stroni
 przeglądarki, czy idzie z API gotowy:
 frazę werdyktu ma na własność kod paczki, a ten napis wybiera dziś wydruk
 (`KLASA_NIENAZWANA` w `olski/check.py`), więc strona wzięłaby go drugą kopią.
+
+`--chwyty` bierze zdanie przytoczone w grawisach za zdanie dokumentu.
+Przebieg nad prozą repozytorium stoi na zerze poza trzema takimi napisami —
+`To jest tanie.`, `To jest stan, którego warto pilnować.` i `To nie kot.` —
+bo ekstrakcja zdejmuje grawisy, a kropka w środku przykładu punktuje prozę wokół niego
+([`docs/extraction.md`](../docs/extraction.md#what-the-reader-sees-is-not-always-polish)).
+Odpowiedź na to pytanie repozytorium już ma, tylko po drugiej stronie granicy pakietów:
+`wstawki` w `harness/cytaty.py` wyjmuje treść każdej wstawki kodowej parserem,
+a `cytat` obok niej orzeka, czy ta treść jest zdaniem zacytowanym.
+Do przeczytania są te dwie funkcje wraz z `_inline` w `olski/markdown.py`,
+gdzie treść wstawki zostaje w prozie świadomie i gdzie ta wiedza już przechodzi.
+Ruchem jest przeniesienie tego pytania do pakietu, bo `olski` z harnessu nie czyta nic
+(`harness/__init__.py`), i wtedy warstwa chwytów pyta o nie zamiast zgadywać z wielkiej litery.
+Do rozstrzygnięcia jest, czym ekstrakcja ma o tym mówić:
+dziś wydaje napis, a rozpiętości wstawek nie ma w nim jak podać,
+więc albo wraca parą, albo `olski-check` czyta dokument dwa razy.
+Ceną drugiego wyjścia jest to, że zdanie zacytowane liczy się wtedy nad dokumentem,
+a nie nad prozą, więc nie widzi go przebieg nad plikiem `.txt`.
