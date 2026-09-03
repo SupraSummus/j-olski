@@ -172,14 +172,17 @@ def wpisz_adres() -> None:
 
 
 def moduły(pakiet: griffe.Module) -> Iterator[str]:
-    """Wylicza moduły pod pakietem, bo strona powstaje na moduł.
+    """Wylicza moduły zadeklarowane pod pakietem, bo strona powstaje na moduł.
 
     Podpakiet schodzi tędy tak samo jak moduł, więc `olski.skład.składnia` ma
     swoją stronę, a odsyłacz do symbolu z niego ma dokąd prowadzić.
+    Moduły wybiera z przebiegu ``obiekty``, bo tam odpada alias:
+    `pakiet.modules` wylicza także moduł zaimportowany i dawałby mu drugą stronę.
+    Samego pakietu tu nie ma, bo jego stroną jest wejście do referencji.
     """
-    for pod in pakiet.modules.values():
-        yield pod.path
-        yield from moduły(pod)
+    for obiekt in obiekty(pakiet):
+        if obiekt.is_module and obiekt is not pakiet:
+            yield obiekt.path
 
 
 def wypisz_referencję(pakiet: griffe.Module) -> None:
