@@ -808,6 +808,8 @@ a trwa dość długo, żeby zaprosić do puszczenia go i edytowania dalej.
 Przebieg wystartowany przed edycją zmierzył kod z tamtej chwili,
 dwa przebiegi za jedną komendą nie muszą mierzyć tego samego kodu,
 a żaden z nich nie mówi tego w swoim wydruku.
+Prozę czyta za to w trakcie, plik po pliku,
+więc dokument ruszony obok przebiegu wchodzi do jednego wydruku dwoma stanami.
 Przeliczaj po ostatniej edycji, a nie obok niej.
 
 **Zmianę, która ma tylko przyspieszyć, mierzy się na przemian i dowodzi odciskiem.**
@@ -827,6 +829,13 @@ podłoga schodzi do kilku procent, kiedy oba warianty idą w jednym procesie.
 werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdaniu.
 Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,
 a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
+
+**Zmianę, która ma nie ruszyć niczego, dowodzi sam odcisk.**
+Przestawienie kodu między modułami czasu nie obiecuje,
+więc nie ma tu czego mierzyć na przemian;
+zostaje żądanie, żeby diff odcisku był pusty.
+Baza z jednego przebiegu służy każdej następnej takiej zmianie w tej samej sesji,
+więc druga kosztuje jeden przebieg, a nie dwa.
 
 Odcisk nad prozą pokazuje różnicę dopiero na zdaniu, którego werdykt się zmienił,
 więc zmiana przestawiająca same produkcje potrzebuje odcisku samej gramatyki:

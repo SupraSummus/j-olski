@@ -318,7 +318,7 @@ DEKLARACJA = Deklaracja(
     ),
     rozstrzygany=WYRAŻENIE_PRZYIMKOWE,
     # Konstytuenty, na których zatrzymuje się zejście w górę od modyfikatora
-    # (``_gospodarze`` w ``olski/parse/las.py``).
+    # (``_gospodarze`` w ``olski/parse/decyzje.py``).
     # Streszczenie nazywa ten z nich, który stoi najbliżej, bo tam przyłączenie zapadło,
     # a okolicznik zdania nie ma nad sobą ani grupy imiennej, ani przymiotnikowej
     # i zostaje przy zdaniu.

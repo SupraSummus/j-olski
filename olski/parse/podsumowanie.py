@@ -108,7 +108,7 @@ class Deklaracja:
 
     Które symbole są rolami i gdzie szukać przyłączenia, wie gramatyka, a nie rozbiór,
     więc każde podsumowanie bierze to jedną wartością —
-    :func:`parse`, :func:`describe` i obie metody :class:`Las` pod nimi —
+    :func:`parse`, :func:`describe` i :class:`Decyzje` pod nimi —
     a podsumowanie następne dokłada tutaj pole i nie rusza żadnej z tych sygnatur.
     Wypełnia ją gramatyka, a typ definiuje rozbiór,
     bo formalizm z ``olski/grammar.py`` niesie produkcje i o werdykcie nic nie wie.
@@ -122,7 +122,7 @@ class Deklaracja:
     #: Symbole konstytuentów, w których produkcjach przyłączenie stoi.
     gospodarze: tuple[str, ...]
     #: Ta z ról przyłączanych, której nierozstrzygniętego gospodarza werdykt liczy
-    #: osobnym wierszem (:meth:`Las.przyłączenia`),
+    #: osobnym wierszem (:meth:`Decyzje.przyłączenia`),
     #: a warstwa za parserem zgaduje (``olski/rozstrzyganie.py``).
     #: Jest nią jedna, bo tabela skłonności i leksykon walencyjny
     #: mówią o wyrażeniu przyimkowym, a nie o każdym okoliczniku;
@@ -136,7 +136,7 @@ class Deklaracja:
     #: więc widać w nich całe zdanie współrzędne (:func:`describe`).
     składowe: tuple[str, ...]
     #: Symbole zdań podrzędnych, czyli tych, których wnętrze jest osobnym zdaniem.
-    #: Streszczenie i :meth:`Las.różniące` zatrzymują się na nich,
+    #: Streszczenie i :meth:`Decyzje.różniące` zatrzymują się na nich,
     #: bo rola z wnętrza takiego zdania jest jego rolą, a nie rolą zdania nad nim.
     #: Zatrzymują się na nich, a nie przed nimi: symbol stojący i tutaj, i w
     #: :attr:`role` nazywa się w streszczeniu całym sobą i wnętrza nie otwiera,
@@ -180,7 +180,7 @@ class Result:
     truncated: bool = False
     #: Role, o które czytania się różnią, o ile :func:`parse` dostał :class:`Deklaracja`.
     #: Wzięte z lasu, a nie ze streszczeń, których jest najwyżej :data:`MAX_READINGS`;
-    #: dlaczego, mówi :meth:`Las.różniące`.
+    #: dlaczego, mówi :meth:`Decyzje.różniące`.
     różniące: tuple[str, ...] = ()
     #: Przyłączenia, których czytania nie rozstrzygają,
     #: z tej samej deklaracji co :attr:`różniące`.

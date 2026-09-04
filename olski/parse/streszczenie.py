@@ -92,7 +92,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     tej samej roli wychodzą stąd jednym napisem.
     Streszczeń wychodzi przez to nie więcej niż czytań, bo powtórzone na listę
     nie wchodzi (``Verdict.readings`` w ``olski/werdykt.py``);
-    zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Las.przyłączenia`,
+    zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Decyzje.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
 
     Zdanie podrzędne jest z tego wyszukiwania wyjęte
@@ -291,7 +291,7 @@ def ciało_koordynuje(etykieta: str | None, córki: Iterable[str | None]) -> boo
 
     Pytają o to kryterium trzy miejsca:
     nawias w napisie roli (:func:`_koordynuje`),
-    wybór przemilczany wśród rozbieżności (:meth:`Las._nazwany_gdzie_indziej`)
+    wybór przemilczany wśród rozbieżności (:meth:`Decyzje._nazwany_gdzie_indziej`)
     i pomiar różnicowy (``koordynuje`` w ``harness/ruch.py``).
     Stoi w jednym, bo rozejście tych trzech widać dopiero w liczbach,
     a niezmiennik, na którym ono stoi, pilnuje ``tests/test_subset.py``.
