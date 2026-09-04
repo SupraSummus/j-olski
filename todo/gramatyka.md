@@ -15,6 +15,21 @@ a dziedzina rejestru nie odsyła i odsyłać nie może,
 bo `anat.` przy `oczy` wskazuje czytanie trafne
 ([`docs/formy-i-leksemy.md`](../docs/formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)).
 
+`POZA_REJESTREM` w `olski/rejestr.py` nie ma nazw, które analiza nad korpusami wydaje.
+Listę zebrano syntezą nad lematami, które to repozytorium ma
+([`docs/formy-i-leksemy.md`](../docs/formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem)),
+a analiza nad prozą tego repozytorium i nad Składnicą wydaje obok niej
+`daw._dziś_fraz.` przy `wobec`, `daw._dziś_rzad.` przy `nadziejny`
+oraz `niepopr.` przy `czym` i przy `te`.
+Dwie pierwsze są nazwami rejestru, więc przechodzą dziś jak nazwa dziedziny.
+Trzecia jest do rozstrzygnięcia, bo `niepopr.` orzeka o normie, a nie o rejestrze,
+i wpisana odsyłałaby formę, której ten rejestr używa.
+Ruchem jest przebieg analizy po obu korpusach wypisujący nazwy spoza listy,
+a po nim decyzja o każdej z osobna.
+Do przeczytania jest przedtem, komu nazwa dopisana zmienia odpowiedź:
+skład formę odesłaną zdejmuje (`olski/skład/morfologia.py`),
+a analiza dokłada jej pozycję cennika i czytania nie zabiera.
+
 Kropka bez odstępu za nią jest naprawą jednego znaku i jako jedyna nie ma kształtu.
 Napis niedomknięty i zdanie cytujące spoza rejestru dostają poprawkę
 poświadczoną rozbiorem (`Naprawa` w `olski/werdykt.py`),
@@ -205,7 +220,8 @@ co obu kierunkom z leksykonu walencyjnego wyszło różnego
 ([`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
 
 Okolicznik przysłówkowy bierze całą część mowy, a Morfeusz daje czytanie `adv`
-formom, których ten rejestr używa jako przyimka albo spójnika: `wobec`, `gdy`, `sam`.
+formom, których ten rejestr używa jako przyimka, spójnika albo przymiotnika:
+`wobec`, `gdy`, `sam`.
 Wychodzą z tego czytania, których polszczyzna w tych miejscach nie ma —
 `postępować wobec innych w duchu braterstwa` dostaje trzy czytania z `wobec`
 w roli okolicznika, a `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
@@ -215,25 +231,24 @@ Cena tej klasy jest przez to zmierzona i wynosi sześć zdań Składnicy:
 tyle straciło jednoznaczność pod morfologią żywą, kiedy weszła podrzędność
 okolicznikowa, i wszystkie sześć niesie `gdy` albo `kiedy`.
 Kryterium słownikowe `admissible` w `olski/segmentacja.py` po nie nie sięga,
-bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego.
-Ruchem jest warunek na tę klasę, a dwa kandydujące są zmierzone i żaden nie jest darmowy.
-Odsiew czytania przysłówkowego przy czytaniu przyimkowym kupuje nad Składnicą
-pod morfologią żywą jednoznaczność dwunastu zdaniom, a jedenastu odbiera wyprowadzenie
-(sześciu przyjętym i pięciu wieloznacznym); odsiew przy czytaniu spójnikowym kupuje
-tyle samo i odbiera trzydziestu pięciu, bo zabiera `jak` w pytaniu.
-Pod morfologią złotą oba nie ruszają niczego, bo anotator wybrał tam jedno czytanie
-na token, więc pomiar tej klasy idzie po morfologii żywej i po prozie.
-Do przeczytania jest lista form, które warunek dotknie: `blisko` i `naprzeciw`
-niosą czytanie przysłówkowe, którego polszczyzna używa,
-więc cena stoi w zdaniach, a nie w samych czytaniach.
-Kandydat trzeci wyszedł z czytania zdań przyjętych i nie ma pomiaru:
-czytanie przysłówkowe stojące przy czytaniu rzeczownikowym tej samej formy.
-Zabiera ono `Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.`
-oraz `Czego na tej liście nie ma.`, czyli zdania przyjęte na czytaniu,
-którego polszczyzna nie ma
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#kilka-procent-zdań-przyjętych-opiera-się-na-czytaniu-którego-polszczyzna-nie-ma)),
-a dwa kandydujące wyżej po nie nie sięgają,
-bo przy przysłówku stoi w nich rzeczownik, a nie przyimek ani spójnik.
+bo pyta o czytanie rzeczownikowe stojące obok wyrazu funkcyjnego,
+a rozszerzyć go nie ma czym: kryteria zaproponowane dla tej klasy
+[zmierzono i odrzucono](../docs/warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi),
+a każde odbiera anotatorom Składnicy czytanie, które sami wybrali.
+Zostaje ruch, który kryterium nie jest, a klasę nazywa.
+Słownik odróżnia przysłówkowe `sam` od przymiotnikowego identyfikatorem leksemu —
+`sam:D` wobec `sam:A`, `oraz:D` wobec `oraz:C`, `wszystko:D` wobec `wszystko:S` —
+a `analyse` w `olski/morph.py` ten identyfikator obcina,
+więc deklaracja o lemacie (`pomijane` w `olski.toml`)
+sięga obu czytań naraz i żadnego z osobna
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)).
+Do rozstrzygnięcia jest, czy deklaracja o czytaniu jest tym, czego ta klasa żąda:
+wpis o `wszystko` i o `taki` zamyka nad obydwoma korpusami całą rodzinę `reg.`,
+a dwa wpisy to za mało, żeby wiedzieć, czy taka lista rośnie, czy stoi.
+Do przeczytania jest przedtem wpis o orzeczniku `ten sam`,
+bo `sam` jest w tej klasie najczęstszy nad prozą tego repozytorium:
+`Sposób jest ten sam.` zostaje po odebraniu przysłówka bez ani jednego czytania,
+a wpis tamten mówi, jakiej pozycji temu zdaniu brakuje.
 
 Dopełnienie bezokolicznika wysunięte przed formę osobową ma szyk jeden,
 a polszczyzna ma ich kilka: `Większości premier nie może ruszyć.`
@@ -667,16 +682,17 @@ Zostaje więc sąsiad, nie głowa:
 pary nie ma bez dopełniacza `kod`, czyli bez lematu `koda`,
 którego ten rejestr nie zna,
 a rzadkość formalnego znamienia nie ma.
-Do przeczytania jest, czy da się ją policzyć tak,
-żeby liczba mówiła o polszczyźnie, a nie o korpusie, w którym się ją policzyło,
-i pierwszym pytaniem jest, czy jakiekolwiek kryterium tu jest;
-wykluczenie zbyt szerokie zabiera zwyczajne polskie słowa,
+Wykluczenia leksykalnego z tego nie będzie i to jest już rozstrzygnięte:
+`dobry` w czytaniu `subst` niesie przypadek, liczbę i rodzaj,
+a `admissible` odbiera czytanie, które spełnia każde żądanie,
+więc z dwóch rzeczy, których ono żąda naraz, ta klasa nie ma nawet pierwszej
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi)).
+Zostaje pytanie o rzadkość sąsiada i ono jest całym tym wpisem:
+czy da się ją policzyć tak,
+żeby liczba mówiła o polszczyźnie, a nie o korpusie, w którym się ją policzyło.
+Kryterium zbyt szerokie zabiera zwyczajne polskie słowa,
 co [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)
 pokazuje na `jury` i `menu`.
-Ten sam sąd niesie wpis o czytaniu przysłówkowym formy,
-której ten rejestr używa jako przyimka albo spójnika,
-bo oba pytają, co wykluczeniu w `admissible` wolno powiedzieć,
-więc rozstrzyga je jedna sesja, a nie dwie.
 Zdanie to jest przy tym warunkiem pod
 [kierunkiem toru](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście),
 bo czytanie, którego polszczyzna nie ma, jest dokładnie tym,
