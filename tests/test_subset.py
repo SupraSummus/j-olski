@@ -304,9 +304,13 @@ PRZYJMOWANE = [
     #  ta część mowy zajmuje. Przypadek jest jedyną cechą, którą ona niesie.
     "Widzę siebie.",
     "Osie są od siebie niezależne.",
-    #  Czas przyszły predykatywu, czyli forma `bedzie` za słowem, które orzeka bez
-    #  podmiotu i bez czasownika.
+    #  Czas przyszły predykatywu, czyli forma `bedzie` przy słowie, które orzeka bez
+    #  podmiotu i bez czasownika. Oba szyki, bo cena każdego z nich jest osobna.
     "Trzeba będzie zmierzyć cenę.",
+    "Będzie trzeba zmierzyć cenę.",
+    #  Łącznik `to` bez grupy przed sobą, w twierdzeniu i w przeczeniu.
+    "To prawda.",
+    "To nie kot.",
     #  Imiesłów przysłówkowy w obu miejscach okolicznika, i osobno bez wypełnienia.
     "Program zapisuje ustawienia, sprawdzając zgodność.",
     "Sprawdzając zgodność, program zapisuje ustawienia.",
@@ -430,6 +434,9 @@ def test_a_valid_sentence_says_what_fills_each_role():
         #  się wyprowadzają.
         "Trzeba będą zmierzyć cenę.",
         "Trzeba będziesz zmierzyć cenę.",
+        #  Ten sam warunek w szyku odwrotnym, bo ciała są dwa i każde wpisuje
+        #  te dwie wartości u siebie.
+        "Będą trzeba zmierzyć cenę.",
         #  Mianownika ta część mowy nie ma, więc podmiotem ten zaimek nie bywa.
         "Siebie zapisuje ustawienia.",
         #  Zaimek zwrotny wchodzi terminalem właśnie po to: jako ciało grupy

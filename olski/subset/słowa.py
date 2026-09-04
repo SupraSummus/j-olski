@@ -515,16 +515,18 @@ FORMA_POPRZYIMKOWA = word("adjp")
 
 #: Cząstki, które ten rejestr stawia przy zdaniu: `już`, `dopiero`, `także`.
 #: Lista jest zamknięta, bo ``part`` niesie całą klasę cząstek naraz, a kryterium
-#: na wejście jest jedno: cząstka ma nie mieć czytania, które gramatyka bierze już
-#: gdzie indziej. `tylko` go ma — Morfeusz czyta je także jako spójnik, a spójnik
-#: bierze koordynacja — więc wpuszczone tutaj dałoby jednemu napisowi dwa
-#: wyprowadzenia, i tym samym warunkiem stoi lista spójników przecinkowych obok
+#: na wejście jest jedno: lemat ma nie dawać jednemu napisowi dwóch wyprowadzeń.
+#: `tylko` je daje — Morfeusz czyta je także jako spójnik, a spójnik bierze
+#: koordynacja — i tym samym warunkiem stoi lista spójników przecinkowych obok
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
-#: Kto zostaje poza listą i z jakiego powodu, wylicza
+#: `prawie` niesie obok cząstki miejscownik od `prawo` i wchodzi mimo to,
+#: bo tego przypadku bez przyimka przed sobą nie bierze żadna rola.
+#: Kto zostaje poza listą, kto wchodzi z drugim czytaniem i za ile, wylicza
 #: docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
 CZĄSTKI = frozenset({
     "już", "jeszcze", "dopiero", "także", "również", "nawet", "zarazem", "naprawdę",
     "znowu", "wreszcie", "ponadto", "jedynie", "niemal", "niespełna", "zresztą", "przynajmniej",
+    "prawie",
 })
 
 

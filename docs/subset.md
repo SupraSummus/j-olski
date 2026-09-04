@@ -660,7 +660,8 @@ zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
   ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#kopułę-opuszczoną-wpuszcza-wpis-na-lemat))
 - Łącznik `to` między dwiema grupami w mianowniku, czyli drugie zdanie bez czasownika:
   `Flaga to płat tkaniny określonego kształtu.`, `Parser to nie kompilator.`
-  Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim
+  Podmiotem jest grupa za łącznikiem, a orzecznikiem ta przed nim,
+  a grupa przed łącznikiem jest córką opuszczalną: `To prawda.`, `To nie kot.`
   ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim))
 - Ten sam łącznik przy formie osobowej kopuli, w trzech szykach:
   `Był to nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.`
@@ -896,6 +897,8 @@ i każda z nich jest zwyczajną polszczyzną:
   (`Trwa dochodzenie w tej sprawie.`)
 - po orzeczniku wysuniętym przed kopulę i po podmiocie za nią
   (`Wejściem w tym trybie jest zwykły tekst.`)
+- wokół łącznika `to`, w każdym jego ciele
+  (`Był to w tej sprawie problem.`, `Są to w przeważającej większości lasy sosnowe.`)
 - przed dopełnieniem, wewnątrz orzeczenia
   (`Program zapisuje w pliku ustawienia.`)
 - po czasowniku w szykach z czasownikiem na czele
@@ -1074,13 +1077,6 @@ Every one of these is a sentence that gets rejected and should not be:
   [cyfry olski nie bierze](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
   z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
-- Przeczenie przy łączniku `to`, w zdaniu bez czasownika i bez grupy przed łącznikiem:
-  `To nie kot.` jest odrzucone,
-  gdzie `Parser to nie kompilator.` wyprowadza się
-  i gdzie `To nie są oczywistości.` też
-  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
-  Pozycja jest osobnym ciałem i osobną liczbą, której nikt nie policzył;
-  `todo/` trzyma ten przebieg.
 - Narzędnik bez przyimka wysunięty przed zdanie:
   `Wieczorem wziął lustro.` jest odrzucone,
   gdzie `Wziął lustro wieczorem.` wyprowadza się.
@@ -1118,12 +1114,6 @@ Every one of these is a sentence that gets rejected and should not be:
   słownik Morfeusz — a od członu bez czasownika różni tę konstrukcję to,
   że spójnika nie ma, więc nie ma czym jej wpuścić bez wpuszczenia zarazem
   dwóch rzeczowników postawionych obok siebie przez pomyłkę.
-- Predykatyw postawiony za formą `bedzie`, a nie przed nią:
-  `Będzie trzeba zmierzyć cenę.` jest odrzucone,
-  gdzie `Trzeba będzie zmierzyć cenę.` wyprowadza się
-  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem)).
-  Szyk odwrotny jest osobnym ciałem i osobną liczbą,
-  której nikt nie policzył; `todo/` trzyma ten przebieg.
 
 ## Implementation
 

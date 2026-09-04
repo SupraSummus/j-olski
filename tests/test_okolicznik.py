@@ -234,7 +234,13 @@ def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
     assert "Nawet ja" in {czytanie.get("podmiot") for czytanie in role(found)}, found.explain()
 
 
-@pytest.mark.parametrize("lemat", sorted(CZĄSTKI))
+#: Lemat, którego drugie czytanie ten test widzi, a kryterium listy nie zatrzymuje;
+#: wywód i pomiar trzyma
+#: docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
+CZĄSTKA_Z_DRUGIM_CZYTANIEM = frozenset({"prawie"})
+
+
+@pytest.mark.parametrize("lemat", sorted(CZĄSTKI - CZĄSTKA_Z_DRUGIM_CZYTANIEM))
 def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     #  Kryterium na wejście do tej listy, postawione lemat po lemacie: cząstka,
     #  której inne czytanie gramatyka bierze, daje jednemu napisowi dwa
@@ -246,6 +252,26 @@ def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     brane = [c for c in czytania if GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
     assert {pos for pos, *_ in brane} == {"part"}, (lemat, brane)
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "status"),
+    [
+        ("Prawie każda usterka siedzi po stronie Pythona.", "ambiguous"),
+        #  Pod przyimkiem stoi jedyne miejsce, w którym gramatyka bierze miejscownik
+        #  od `prawo`, a cząstka grupy imiennej nie zastępuje, więc `valid`: drugiego
+        #  wyprowadzenia lemat nie dokłada, i to jest cały powód, dla którego wszedł.
+        ("Ustawa stoi w prawie.", "valid"),
+        ("Po prawie dwóch godzinach znaleźli dziecko.", "valid"),
+    ],
+)
+def test_prawie_stoi_cząstką_i_pod_przyimkiem_zostaje_rzeczownikiem(zdanie, status):
+    #  Usterka, którą to łapie: lemat wpuszczony na listę cząstek bez sprawdzenia,
+    #  co robi jego drugie czytanie. Kryterium listy pyta o czytanie licencjonowane,
+    #  a to jest szersze niż drugie wyprowadzenie, więc `prawie` wchodzi wbrew niemu
+    #  i pilnuje go zdanie, a nie lista (:data:`CZĄSTKA_Z_DRUGIM_CZYTANIEM`).
+    found = verdict(zdanie)
+    assert found.status == status, found.explain()
 
 
 @pytest.mark.parametrize(
