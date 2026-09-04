@@ -50,6 +50,7 @@ from olski.parse import (
     Result,
     Rozbieżność,
     Tree,
+    las,
     liście,
     parse,
     sklej_formy,
@@ -517,27 +518,53 @@ def zatrzymania(segmenty: list[Segment], grammar: Grammar | None = None) -> tupl
     werdyktu, ile jeszcze poprawek to zdanie zabierze; po co ta odpowiedź jest,
     mówi docs/pisanie-po-olsku.md.
 
+    Cięcie nie wskazuje usterki ani granicy konstrukcji, tak samo jak jedno
+    zatrzymanie jej nie wskazuje.
+    """
+    grammar = grammar or GRAMMAR
+    return _od_zatrzymania(segmenty, grammar, _pierwsze_zatrzymanie(segmenty, grammar))
+
+
+def _pierwsze_zatrzymanie(segmenty: list[Segment], grammar: Grammar) -> Segment | None:
+    """Krawędź, na której staje analiza tego kawałka; ``None``, gdy nie staje nigdzie.
+
+    Las odpowiada tu samym :meth:`olski.parse.Las.najdalszy`, a nie całym ``Result``:
+    czyta się stąd jedną liczbę,
+    a :func:`olski.parse.podsumuj` policzyłby obok niej czytania kawałka
+    i wyliczył z nich drzewa.
+    Kawałek ostatni bywa zdaniem, więc drzewa te naprawdę powstają.
+
+    Kawałek pusty nie staje, bo nie ma na czym.
+    """
+    if not segmenty:
+        return None
+    return na_czym_stanęło(segmenty, las(grammar, segmenty).najdalszy())
+
+
+def _od_zatrzymania(
+    segmenty: list[Segment], grammar: Grammar, stanęło: Segment | None
+) -> tuple[str, ...]:
+    """Formy zatrzymań tego zdania, licząc od tego, na którym analiza już stanęła.
+
+    Pierwsze zatrzymanie przychodzi argumentem, bo tylko nim wołający się różnią:
+    :func:`zatrzymania` rozbiera je z segmentów,
+    a :func:`dalsze_zatrzymania` bierze je z werdyktu, który je już policzył.
+
     Analiza rusza od nowa **za** formą zatrzymania, a nie na niej: formy, której
     nie wzięła żadna analiza częściowa, nie weźmie też analiza zaczęta od niej, a
     przebieg stałby na miejscu. Krawędź przekraczającą cięcie trzeba przy tym
     zdjąć, bo graf segmentacji rozchodzi się na kilka dróg — ``ktoś`` wychodzi
     także jako ``kto`` i ``ś`` — a takiej krawędzi nie ma z czym w kawałku złożyć.
-
-    Cięcie nie wskazuje usterki ani granicy konstrukcji, tak samo jak jedno
-    zatrzymanie jej nie wskazuje.
     """
-    grammar = grammar or GRAMMAR
     formy: list[str] = []
-    while segmenty:
-        stanęło = na_czym_stanęło(segmenty, parse(grammar, segmenty).furthest)
-        if stanęło is None:
-            break
+    while stanęło is not None:
         formy.append(stanęło.form)
         segmenty = [
             replace(segment, start=segment.start - stanęło.end, end=segment.end - stanęło.end)
             for segment in segmenty
             if segment.start >= stanęło.end
         ]
+        stanęło = _pierwsze_zatrzymanie(segmenty, grammar)
     return tuple(formy)
 
 
@@ -594,10 +621,25 @@ def dalsze_zatrzymania(verdict: Verdict, grammar: Grammar | None = None) -> tupl
     Zdanie z czytaniem nie stanęło nigdzie, więc krotka jest wtedy pusta, i tak
     samo pusta jest nad fragmentem. Segmentacja idzie tu drugi raz, bo werdykt
     segmentów nie niesie (:func:`werdykt`).
+
+    Pierwsze zatrzymanie bierze się z ``Result.furthest``, a nie z rozbioru:
+    werdykt tę liczbę już policzył,
+    a rozbiór po całym zdaniu jest najdroższy z całej pętli.
+    Węzeł stamtąd nazywa tutaj tę samą krawędź,
+    bo oba wołania :func:`olski.segmentacja.morphology` biorą ten sam napis.
     """
     if not verdict.punktowane or not verdict.result.rejected:
         return ()
-    return zatrzymania(morphology(verdict.text), grammar)[1:]
+    if verdict.result.furthest is None:
+        #  Tak samo odmawiają ``Verdict.explain`` i ``bloker`` (``olski/pokrycie.py``):
+        #  krotka pusta czytałaby się jak zdanie stające raz.
+        raise ValueError(
+            "zatrzymania dalsze liczą się od pierwszego, "
+            "a ten przebieg o zatrzymanie nie pytał (werdykt w olski/werdykt.py)"
+        )
+    segmenty = morphology(verdict.text)
+    stanęło = na_czym_stanęło(segmenty, verdict.result.furthest)
+    return _od_zatrzymania(segmenty, grammar or GRAMMAR, stanęło)[1:]
 
 
 @dataclass(frozen=True)

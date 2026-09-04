@@ -31,6 +31,7 @@ from olski.werdykt import (
     Naprawa,
     Podsumowanie,
     check,
+    dalsze_zatrzymania,
     nad_tekstem,
     niespełnione_żądania,
     werdykt,
@@ -192,6 +193,37 @@ def test_analiza_wznawia_się_za_formą_zatrzymania_a_nie_na_niej():
     #  i wznowieniu błędnemu.
     zdanie = "Cena rośnie, i linter sprawdza tekst, i parser czyta tekst."
     assert zatrzymania(morphology(zdanie)) == ("i", "i")
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "wszystkie"),
+    [
+        #  Zdanie o dwóch zatrzymaniach, czyli jedyne z niepustą odpowiedzią.
+        ("Czym milczenie z braku pokrycia różni się od wstrzymania się, wywodzi linter.md.", ("się", ",")),
+        #  Zdanie o jednym: kawałek za nim rozbiera się i nie staje już nigdzie.
+        ("Czego olski nie obiecuje, mówią dwie sekcje o tym, po jednej na tor.", ("na",)),
+        #  Zdanie, które nie staje wcale, bo dochodzi do końca i nic go nie domyka.
+        ("Nowa program zapisuje ustawienia.", ()),
+    ],
+)
+def test_zatrzymania_dalsze_nazywają_to_samo_co_przebieg_od_początku_zdania(zdanie, wszystkie):
+    #  Usterka, którą to łapie: ``Result.furthest`` przestaje nazywać ten węzeł,
+    #  na którym staje rozbiór całości, bo na tej jednej przesłance stoi skrót.
+    #  Krotka pełna stoi obok, żeby przypadek nie zszedł po cichu do pustej,
+    #  w której porównanie nie może wypaść źle.
+    assert zatrzymania(morphology(zdanie)) == wszystkie
+    assert dalsze_zatrzymania(verdict(zdanie)) == wszystkie[1:]
+
+
+def test_zatrzymania_dalsze_bez_pytania_o_zatrzymanie_odmawiają_zamiast_milczeć():
+    #  Usterka, którą to łapie: krotka pusta oddana przebiegowi, który o pierwsze
+    #  zatrzymanie nie pytał. Czyta się ona jak zdanie stające raz, a nie jak brak
+    #  odpowiedzi, i tak samo odmawia ``Verdict.explain``.
+    zdanie = "Dokument nazywa role, w jakich ktoś czyta, a dla każdej: pytanie."
+    milczący = werdykt(zdanie, morphology(zdanie), zatrzymanie=False)
+    assert milczący.result.rejected
+    with pytest.raises(ValueError, match="o zatrzymanie nie pytał"):
+        dalsze_zatrzymania(milczący)
 
 
 def test_werdykt_bez_pytania_o_zatrzymanie_daje_ten_sam_status():

@@ -285,3 +285,22 @@ podnosi go wpis o powiększeniu bazy w [pomiar.md](pomiar.md).
 Do przeczytania jest przy tym, co po zmianie zostaje w wydruku:
 znaleziska są wtedy dwa — poprawka jednego znaku i zaimek wskazujący na dwie rzeczy —
 i README ma to powiedzieć wprost, a nie przemilczeć.
+
+Werdykt nie niesie segmentów, więc nad jednym napisem segmentacja idzie drugi raz.
+`dalsze_zatrzymania` w `olski/werdykt.py` woła `morphology` nad `Verdict.text` ponownie,
+a pod `--morfologia` woła ją tam jeszcze `_morfologia_zdania`;
+obie tłumaczą się z tego własnym zdaniem wskazującym na `werdykt`.
+`werdykt` mówi jednak tylko, czemu segmenty przychodzą do niego argumentem,
+a nie czemu u niego nie zostają,
+więc fakt ten stoi w dwóch kopiach i nie ma właściciela.
+Ruchem jest pole na segmenty w `Verdict`, a obok niego krawędź zatrzymania
+w miejsce samej jej formy: odpadają wtedy oba wołania
+oraz `na_czym_stanęło` liczone drugi raz.
+Ceną jest pamięć, bo werdyktów trzyma się tyle, ile dokument ma zdań
+(`nad_tekstem` w tym samym pliku), a segment niesie każde odczytanie swojej formy;
+tym samym argumentem `werdykt` porzuca las.
+Czasu ruch ten nie kupuje prawie wcale,
+bo segmentacja jednego zdania waży drobny ułamek jego rozbioru,
+więc powodem są dwa zdania tłumaczące się z jednego braku, a nie przebieg.
+Do przeczytania jest, ile ta pamięć waży nad najdłuższym dokumentem repozytorium,
+bo cena jest tu jedynym argumentem, a nikt jej nie zmierzył.
