@@ -16,6 +16,11 @@
 # `znalezisko` jest wierszem, który wypisał `olski-check` nad tym zdaniem;
 # same czytania pokazuje `--readings` po podstawieniu zdania pod `-c`
 #
+# Wiersz ten rusza każde dopisanie do gramatyki, a sąd przeczytano przy wierszu
+# zapisanym, więc rozejście się obu jest wezwaniem do przeczytania wpisu na
+# nowo. Wypisuje je `python3 -m harness.sądy` i on też mówi, ile z dzisiejszych
+# znalezisk te sądy potwierdzają
+#
 # Zdania są cudze, żeby rozkład był rejestru, a nie autora: pochodzą z
 # podkorpusu milionowego NKJP w wydaniu 1.2, wyjęte przez `harness/nkjp.py`,
 # a odcisk pobrania stoi w docs/corpora.md#the-national-corpus-of-polish.
@@ -47,9 +52,9 @@ powód: poszukiwanie metod nie umożliwia, a `Metody te` otwiera zdanie mianowni
 
 plik: typ_nd/320-2-000000094/txt_19-div.txt
 zdanie: Z powyższych pierwotnych produktów kondensacji pary wodnej w postaci mikroskopijnych kropelek wody i kryształków lodu są zbudowane główne ich skupiska w atmosferze w formie mgieł i chmur.
-znalezisko: 216 odczytań, różne w roli: podmiot; „w postaci mikroskopijnych kropelek wody” → „powyższych”, „produktów”, „kondensacji”, „pary”, „są”; „w atmosferze” → „są”, „skupiska”; „w formie mgieł i chmur” → „są”, „atmosferze”
+znalezisko: 216 odczytań, różne w roli: podmiot; „w postaci mikroskopijnych kropelek wody” → „powyższych”, „produktów”, „kondensacji”, „pary”, „są”; „w atmosferze” → „są”, „skupiska”; „w formie mgieł i chmur” → „są”, „atmosferze”; „powyższych pierwotnych produktów kondensacji pary wodnej” ma 3 odczytania
 sąd: jednoznaczne
-powód: cztery wyrażenia przyimkowe mnożą się na siebie, a każde ma tylko jednego gospodarza, przy którym coś znaczy: kropelki są postacią produktów, mgły są formą skupisk
+powód: cztery wyrażenia przyimkowe mnożą się na siebie, a każde ma tylko jednego gospodarza, przy którym coś znaczy: kropelki są postacią produktów, mgły są formą skupisk; łańcuch dopełniaczowy `produktów kondensacji pary wodnej` mnoży czytania tym samym zagnieżdżeniem, a `pary wodnej` należy w nim do kondensacji, nie do produktów
 
 plik: typ_nd/320-2-000002/txt_2-div.txt
 zdanie: Chłop małorolny ze sprzedaży wieprzka i nabiału miał na ogół większy dochód w gotówce niż z produkcji ziarna.

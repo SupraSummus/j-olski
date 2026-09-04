@@ -565,6 +565,9 @@ a sądu czytelnika nad zdaniem raz przeczytanym
 nie unieważnia ani produkcja dopisana potem, ani nowsze wydanie korpusu;
 warunek na każdy cel gramatyki opiera się już na tej różnicy
 ([roadmap.md](roadmap.md#cele)).
+Produkcja rusza natomiast werdykt zapisany obok sądu, a sąd wydano nad tym werdyktem,
+więc rozejście się obu żąda przeczytania wpisu na nowo;
+zestawia je `harness/sądy.py`.
 Dziś takie czytanie kosztuje sesję i zostaje po nim akapit:
 [open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 nazywa własną próbkę za wąską, żeby na niej stanąć,
