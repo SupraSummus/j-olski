@@ -265,16 +265,7 @@ Z_ODPOWIEDZIĄ = """\
 def czytaj(path: Path = WYBORY) -> list[Wybór]:
     """Wpisy z pliku; wpis bez zdania albo bez frazy jest błędem, a nie ciszą."""
     wybory = []
-    for numer, blok in bloki(path.read_text(encoding="utf-8")):
-        pola: dict[str, list[str]] = {}
-        for wiersz in blok:
-            klucz, _, wartość = wiersz.partition(":")
-            if klucz not in KLUCZE:
-                raise ValueError(f"{path}:{numer}: nieznany klucz {klucz!r}")
-            pola.setdefault(klucz, []).append(wartość.strip())
-        brakujące = {"zdanie", "fraza", "gospodarze"} - pola.keys()
-        if brakujące:
-            raise ValueError(f"{path}:{numer}: wpis bez {', '.join(sorted(brakujące))}")
+    for pola in wpisy(path, KLUCZE, ("zdanie", "fraza", "gospodarze")):
         wybory.append(
             Wybór(
                 plik=" ".join(pola.get("plik", ())),
@@ -289,13 +280,34 @@ def czytaj(path: Path = WYBORY) -> list[Wybór]:
     return wybory
 
 
-def bloki(tekst: str) -> list[tuple[int, list[str]]]:
-    """Wpisy pliku, każdy ze swoim pierwszym wierszem, żeby błąd miał adres.
+def wpisy(
+    path: Path, klucze: Sequence[str], wymagane: Sequence[str]
+) -> list[dict[str, list[str]]]:
+    """Pola każdego wpisu pliku; klucz nieznany albo wymagany brakujący jest błędem.
 
-    Publiczna, bo tę samą umowę — jeden klucz na wiersz, wpisy rozdzielone pustą
-    linią, komentarz od kratki — czyta baza sądów (``harness/sądy.py``).
-    Dwie kopie tego podziału rozjechałyby się na komentarzu wewnątrz wpisu.
+    Umowa jest jedna — jeden klucz na wiersz, wpisy rozdzielone pustą linią,
+    komentarz od kratki — i czyta ją stąd także baza sądów (``harness/sądy.py``),
+    bo dwie kopie rozjechałyby się na komentarzu wewnątrz wpisu.
+    Klucz spoza listy nie jest przemilczany, bo literówka w kluczu gubi pole
+    i nie widać tego po niczym.
     """
+    wszystkie = []
+    for numer, blok in bloki(path.read_text(encoding="utf-8")):
+        pola: dict[str, list[str]] = {}
+        for wiersz in blok:
+            klucz, _, wartość = wiersz.partition(":")
+            if klucz not in klucze:
+                raise ValueError(f"{path}:{numer}: nieznany klucz {klucz!r}")
+            pola.setdefault(klucz, []).append(wartość.strip())
+        brakujące = set(wymagane) - pola.keys()
+        if brakujące:
+            raise ValueError(f"{path}:{numer}: wpis bez {', '.join(sorted(brakujące))}")
+        wszystkie.append(pola)
+    return wszystkie
+
+
+def bloki(tekst: str) -> list[tuple[int, list[str]]]:
+    """Wpisy pliku jako wiersze, każdy ze swoim pierwszym wierszem, żeby błąd miał adres."""
     bloki, blok, numer = [], [], 0
     for i, wiersz in enumerate(tekst.splitlines(), start=1):
         if wiersz.startswith("#") or not wiersz.strip():

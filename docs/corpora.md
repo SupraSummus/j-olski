@@ -10,7 +10,7 @@ and the survey outlives it because the grammar is measured over Polish too:
 the audit corpus it argues for is where
 [the register's own ambiguity](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 is counted,
-and [a base of hand-read findings](#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)
+and [a base of hand-read findings](#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
 takes its text from here as well.
 
 The answer it arrives at is that no existing corpus serves that pairing.
@@ -551,13 +551,38 @@ With an unedited generated half obtainable,
 a body edited against style detectors is not needed as the generated half,
 and stays what that document calls it: a floor, and the harder case.
 
-## Trafienia czytamy tak, jakby każdy tekst był informatywny
+## Baza sądów ocenia znaleziska, a ocenione nie wracają
 
-Baza sądów jest zbiorem trafień przeczytanych ręką.
-Wpis podaje zdanie w całości, werdykt czytającego i powód tego werdyktu,
-a pierwsze wpisy stoją w `próba/nkjp-wieloznaczność.txt`.
-Rośnie ona o trafienia reguły, którą ktoś właśnie napisał,
-a nie o przebieg nad korpusem puszczony od nowa.
+Baza sądów jest zbiorem znalezisk olskiego nad zdaniami tego korpusu,
+ocenionych ręką jako trafne albo fałszywe,
+i stoi w `próba/nkjp-sądy.txt`.
+Wpis podaje zdanie wraz ze zdaniami, które stoją przed nim w tej samej sekcji,
+nazwę znaleziska, wiersz werdyktu z chwili oceny, sąd i jego powód.
+
+Baza rośnie przebiegami, a nie sesją czytania.
+Przebieg nad prozą korpusu wypisuje znaleziska, których baza jeszcze nie ma,
+ktoś ocenia każde z nich i dopisuje do bazy,
+a następny przebieg tych znalezisk już nie wypisuje.
+Nikt nie czyta przez to lawiny znalezisk, bo widzi tylko nowe,
+a baza rośnie o tyle, ile ktoś przeczytał.
+Wypisuje je `harness/sądy.py` i on też zestawia sądy z dzisiejszym werdyktem.
+Ceną jest pobranie podkorpusu i przebieg gramatyki nad jego prozą,
+bo które zdanie ma znalezisko, mówi dopiero rozbiór.
+
+**Sąd jest o znalezisku, więc znalezisko dopisane do olskiego wchodzi bez zmiany bazy.**
+Wpis nazywa znalezisko słowem olskiego, tym samym, którym liczy je `olski-check`,
+a nie osobnym słownikiem tej bazy.
+Wieloznaczność nie jest przez to niczym szczególnym:
+poprawka jednego znaku i zaimek wskazujący na dwie rzeczy oceniają się tak samo,
+a czwarte znalezisko pierwszy przebieg po jego dopisaniu wypisze jako nowe.
+`trafne` znaczy, że czytelnik poprawiłby to, co znalezisko wskazuje;
+przy wieloznaczności ma dwa rozumienia, które mówią o świecie co innego,
+a zdanie wraz ze swoim akapitem nie mówi, które.
+Dwa drzewa, które mówią o świecie to samo, są jednym rozumieniem:
+`leży w szpitalu w Gryficach` czyta się raz,
+choćby wyrażenie przyimkowe miało dwóch gospodarzy.
+`fałszywe` znaczy, że nie poprawiłby nic,
+a powód nazywa czytanie, które odpada, i mówi, czemu odpada.
 
 Baza jest tego warta dlatego, że sąd żyje dłużej niż liczba pod nim.
 Liczbę unieważnia następne przeliczenie i nikt nie widzi, kiedy to się stało,
@@ -565,14 +590,32 @@ a sądu czytelnika nad zdaniem raz przeczytanym
 nie unieważnia ani produkcja dopisana potem, ani nowsze wydanie korpusu;
 warunek na każdy cel gramatyki opiera się już na tej różnicy
 ([roadmap.md](roadmap.md#cele)).
-Produkcja rusza natomiast werdykt zapisany obok sądu, a sąd wydano nad tym werdyktem,
-więc rozejście się obu żąda przeczytania wpisu na nowo;
-zestawia je `harness/sądy.py`.
-Dziś takie czytanie kosztuje sesję i zostaje po nim akapit:
-[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
-nazywa własną próbkę za wąską, żeby na niej stanąć,
-a [firing-rates.md](firing-rates.md) otwiera się zdaniem,
-że żadnego z tamtych przebiegów nie da się powtórzyć.
+Produkcja rusza natomiast to, czy znalezisko dalej pada,
+i sonda liczy to osobno: znalezisko fałszywe, które zeszło, jest zakupem,
+a trafne, które zeszło, stratą, i obie liczby wychodzą z jednej zmiany.
+
+Nowe znaleziska idą w porządku odcisku zdania, a nie po plikach,
+żeby ocenione były próbą z całego korpusu, a nie z jego pierwszego pliku;
+czemu tak, mówi `harness/sądy.py`.
+
+**Ile ocen wystarcza, mówi reguła trzech.**
+Baza, w której żaden sąd nie potwierdza znaleziska,
+ogranicza udział trafień z góry do około trzech na liczbę ocen,
+więc pytanie o to, czy znalezisko zgłaszać, nie czeka na setki sądów.
+Podział wieloznaczności po kształcie — przyłączenie, role, budowa grupy —
+żąda tyle ocen na kształt, a nie na całość,
+bo odpowiedź bywa inna dla każdego z nich.
+
+**Baza mierzy to, co olski zgłosił, i nie mierzy tego, czego nie zgłosił.**
+Wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje,
+nie ma w tej bazie ani jednego wpisu i mieć nie może,
+bo wpis powstaje ze znaleziska
+([disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje)).
+Oceniający jest przy tym jeden i widzi werdykt, zanim oceni,
+więc powód czyni sąd sprawdzalnym przez drugą osobę, a drugiej oceny nie zastępuje.
+Sądy wydała dotąd sesja agenta, a nie rodzimy czytelnik,
+więc baza mierzy dziś rozumienie modelu,
+a rozumienie czytelnika dopiero od pierwszej oceny, którą wyda człowiek.
 
 **Sąd wydaje się nad tekstem czytanym jako informatywny,
 choćby tekst informatywny nie był.**
@@ -604,11 +647,14 @@ a warstwę nazywa taksonomia z archiwum
 Brak proweniencji przestaje ciążyć, bo znaleziska tej gramatyki są strukturalne:
 tekst tłumaczony jest dalej polszczyzną, którą czytelnik czyta,
 a wraca ten zarzut przy pierwszej regule pytającej o uzus.
-Zarzut trzeci wiąże ostro.
+Zarzut trzeci wiąże inaczej niż dwa pierwsze.
 Znaki w warstwie tekstowej postawił build korpusu
 ([wyżej](#its-text-layer-has-been-character-normalized)),
-więc poprawki jednego znaku nad tym korpusem nie osądzi nikt,
-i to jedno znalezisko zostawia w bazie warstwę z kontroli wersji,
+więc sąd o poprawce jednego znaku nad tym korpusem mówi o tej warstwie,
+a nie o tym, co autor napisał:
+czytelnik ocenia tekst, jaki ma przed sobą, i cudzysłów maszynowy poprawia,
+ale ile autorów tak cytuje, ta baza nie powie.
+O autorze mówi dopiero warstwa z kontroli wersji,
 czyli [korpus audytowy](audit-corpus.md).
 
 **Ten dokument nie miał dotąd zarzutu, który wiąże najmocniej:

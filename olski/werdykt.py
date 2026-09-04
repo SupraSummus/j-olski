@@ -26,6 +26,7 @@ a segmentację, po której werdykt pada, z ``olski/segmentacja.py``.
 
 from __future__ import annotations
 
+import collections
 from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field, replace
 
@@ -883,6 +884,14 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     return [werdykt(zdanie, morphology(zdanie), grammar) for zdanie in sentences(text)]
 
 
+#: Nazwy znalezisk, tak jak pisze je czytelnik bazy sądów i jak liczy je
+#: podsumowanie. Krotka, bo kolejność jest kolejnością wydruku.
+WIELOZNACZNE = "wieloznaczne"
+POPRAWKA = "poprawka jednego znaku"
+ODNIESIENIE = "niejasne odniesienie"
+ZNALEZISKA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE)
+
+
 @dataclass(frozen=True)
 class Zdanie:
     """Jedno zdanie tekstu: werdykt o nim wraz z tym, co dokłada tekst wokół.
@@ -896,6 +905,23 @@ class Zdanie:
     sąsiedztwo: Sąsiedztwo
     #: Zaimki wskazujące na dwie rzeczy naraz, trzecie ze znalezisk (``olski/odniesienia.py``).
     odniesienia: tuple[Odniesienie, ...]
+
+    @property
+    def znaleziska(self) -> tuple[str, ...]:
+        """Nazwy znalezisk, które olski ma o tym zdaniu, w kolejności :data:`ZNALEZISKA`.
+
+        Jedno miejsce mówi, co jest znaleziskiem nad zdaniem: liczy z niego
+        :class:`Podsumowanie` i ocenia je baza sądów (``harness/sądy.py``).
+        Napis niepunktowany nie ma żadnego, jak w :attr:`Verdict.znalezisko`.
+        """
+        if not self.werdykt.punktowane:
+            return ()
+        obecne = {
+            WIELOZNACZNE: bool(self.werdykt.result.ambiguous),
+            POPRAWKA: self.werdykt.naprawa is not None,
+            ODNIESIENIE: bool(self.odniesienia),
+        }
+        return tuple(nazwa for nazwa in ZNALEZISKA if obecne[nazwa])
 
 
 def nad_tekstem(text: str) -> list[Zdanie]:
@@ -976,13 +1002,14 @@ class Podsumowanie:
     def ze_zdań(cls, zdania: Sequence[Zdanie]) -> Podsumowanie:
         """Podsumowanie tych zdań, choćby przyszły z kilku plików naraz."""
         punktowane = [wpis.werdykt for wpis in zdania if wpis.werdykt.punktowane]
+        ile = collections.Counter(nazwa for wpis in zdania for nazwa in wpis.znaleziska)
         return cls(
             zdań=len(punktowane),
-            wieloznaczne=sum(verdict.result.ambiguous for verdict in punktowane),
-            naprawialne=sum(verdict.naprawa is not None for verdict in punktowane),
+            wieloznaczne=ile[WIELOZNACZNE],
+            naprawialne=ile[POPRAWKA],
             bez_odczytania=sum(verdict.result.rejected for verdict in punktowane),
             fragmentów=len(zdania) - len(punktowane),
-            niejasnych_odniesień=sum(1 for wpis in zdania if wpis.odniesienia),
+            niejasnych_odniesień=ile[ODNIESIENIE],
         )
 
     def explain(self) -> str:

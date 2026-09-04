@@ -225,12 +225,14 @@ i za wąską, żeby na nim stanąć.
 Druga próbka zdejmuje z tej wąskości jedną połowę.
 Zdania zgłoszone nad podkorpusem NKJP, przeczytane po kolei,
 wychodzą tak samo — ani jedno nie zostawia czytelnika z dwoma rozumieniami —
-i stoją wraz z powodami w `próba/nkjp-wieloznaczność.txt`.
+i stoją wraz z powodami w `próba/nkjp-sądy.txt`.
 Korpus jest tam inny w rejestrze, w epoce i w etapie produkcji naraz
-([corpora.md](corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
 mówi, czemu ten korpus w ogóle wchodzi),
 więc wniosek nie jest już własnością jednej dokumentacji.
-Czytającym była przy tym znów jedna osoba, i tej połowy nie zdejmuje nic.
+Czytającą była przy tym znów jedna sesja, a nie rodzimy czytelnik,
+i tej połowy nie zdejmuje nic poza wpisami, które przeczyta człowiek
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
 
 Odwrotną stronę tej pary — wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje —
 opisuje [disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje),

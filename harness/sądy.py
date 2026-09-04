@@ -1,73 +1,79 @@
-"""Czy znalezisko wieloznaczności zgadza się z zapisanym sądem.
+"""Ocena znalezisk olskiego nad korpusem: ocenione nie wracają, a baza rośnie.
 
-Baza sądów w ``próba/nkjp-wieloznaczność.txt`` mówi przy każdym zgłoszonym
-zdaniu, ile rozumień ma nad nim czytelnik. Sąd ten wydała ręka i żaden przebieg
-go nie odtworzy, a werdykt nad tym samym zdaniem rusza każde dopisanie do
-gramatyki, więc bez tej sondy baza cichnie: wpis mówi o znalezisku, którego już
-nie ma, albo milczy o tym, że znalezisko urosło. Sonda zestawia jedno z drugim.
+``--nowe`` wypisuje znaleziska nad prozą korpusu, których baza w
+``próba/nkjp-sądy.txt`` jeszcze nie ma; ktoś ocenia każde jako trafne albo
+fałszywe i dopisuje do bazy, a następny przebieg tych znalezisk już nie wypisuje.
+Bez flag sonda zestawia bazę z dzisiejszym werdyktem, bo werdykt rusza każde
+dopisanie do gramatyki, a sąd nie. Po co ta baza jest i co jest w niej sądem,
+mówi docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają.
 
-**Klasy odpowiadają na dwa różne pytania.** Dwie mówią o samej regule:
-:data:`POTWIERDZONE` i :data:`NAD_CZYSTYM` dzielą dzisiejsze znaleziska na
-trafne i fałszywe, a to jest liczba, na której opiera się pytanie o to, czy
-wieloznaczność ma być zgłaszana
-(docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma).
-Dwie następne mówią o gramatyce, która się od czasu sądu ruszyła:
-:data:`PRZEOCZONE` jest zawężeniem, które zeszło za daleko, a :data:`ZDJĘTE`
-trafieniem fałszywym, które zeszło samo. Wpis, którego zdania olski przestał
-czytać, nie mówi o żadnym z tych dwóch i liczy się osobno (:data:`NIECZYTANE`).
+Jednostką jest znalezisko nad zdaniem, nazwane słowem z
+:data:`olski.werdykt.ZNALEZISKA`, więc znalezisko dopisane do olskiego wchodzi
+tu bez zmiany w tym module. Zdanie o dwu znaleziskach stoi w bazie dwa razy.
 
-**Wiersz werdyktu porównuje się w całości, a nie samą klasę.** Znalezisko urosłe
-z dwóch odczytań do sześciu zostaje w tej samej klasie, a sąd nad nim
-przeczytano przy dwóch, więc wydruk pokazuje oba wiersze wszędzie tam, gdzie się
-rozeszły, i to jest wezwanie do przeczytania wpisu na nowo.
+Klas jest pięć, bo mówią o dwu rzeczach naraz: :data:`POTWIERDZONE` i
+:data:`NAD_CZYSTYM` o regule, :data:`PRZEOCZONE` i :data:`ZDJĘTE` o gramatyce,
+która od czasu sądu znalezisko zabrała — pierwsze jest stratą, drugie zakupem,
+a obie liczby wychodzą z jednej zmiany — i :data:`NIECZYTANE` o zdaniu, którego
+olski przestał czytać, bo ono o regule nie mówi nic.
+
+Nowe idą w porządku ``sha256`` zdania, a nie po plikach: pierwszych ``--ile`` po
+plikach byłoby pierwszym plikiem korpusu, a odcisk daje próbę rozrzuconą po
+całości, tę samą w każdym przebiegu, z której ocenione wypadają same.
 
     python3 -m harness.sądy
-    python3 -m harness.sądy próba/nkjp-wieloznaczność.txt
+    python3 -m harness.sądy --nowe proza/nkjp --ile 40 > nowe.txt
 """
 
 from __future__ import annotations
 
 import argparse
 import collections
+import concurrent.futures
+import hashlib
+import os
 import sys
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness.wybory import bloki
-from olski.werdykt import Verdict, nad_tekstem
+from harness import pliki_prozy
+from harness.wybory import wpisy
+from olski.subset.deklaracja import WYRAŻENIE_PRZYIMKOWE
+from olski.werdykt import WIELOZNACZNE, ZNALEZISKA, Verdict, Zdanie, nad_tekstem
 
-#: Baza sądów o trafieniach, czyli jedyne miejsce, w którym ktoś powiedział, ile
-#: rozumień ma nad zgłoszonym zdaniem czytelnik.
-SĄDY = Path(__file__).parent.parent / "próba" / "nkjp-wieloznaczność.txt"
+#: Baza sądów, czyli jedyne miejsce, w którym ktoś ocenił znalezisko olskiego.
+SĄDY = Path(__file__).parent.parent / "próba" / "nkjp-sądy.txt"
 
-#: Czytelnik ma nad tym zdaniem jedno rozumienie, więc znalezisko jest trafieniem
-#: fałszywym.
-JEDNOZNACZNE = "jednoznaczne"
+#: Czytelnik poprawiłby to, co znalezisko wskazuje.
+TRAFNE = "trafne"
 
-#: Czytelnik ma nad tym zdaniem dwa rozumienia i zdanie nie mówi, które,
-#: więc znalezisko jest trafne.
-WIELOZNACZNE = "wieloznaczne"
+#: Czytelnik nie poprawiłby nic: znalezisko jest trafieniem fałszywym.
+FAŁSZYWE = "fałszywe"
 
-#: Wartości, które klucz ``sąd`` przyjmuje. Trzeciej nie ma: wpis bez sądu jest
-#: wpisem nieprzeczytanym, a taki do bazy nie wchodzi.
-WARTOŚCI_SĄDU = (JEDNOZNACZNE, WIELOZNACZNE)
+#: Sąd jeszcze niewydany. Wpis z nim czeka na przeczytanie, nie wchodzi do
+#: żadnej liczby i nie zdejmuje znaleziska z następnego przebiegu.
+PUSTY = "?"
+
+#: Wartości, które klucz ``sąd`` przyjmuje.
+WARTOŚCI_SĄDU = (TRAFNE, FAŁSZYWE, PUSTY)
 
 #: Klucze, które wpis niesie; klucza spoza tej listy czytnik nie przemilcza,
 #: bo literówka w kluczu gubi pole i nie widać tego po niczym.
-KLUCZE = ("plik", "zdanie", "znalezisko", "sąd", "powód")
+#: ``kontekst`` bywa kilkoma wierszami, bo akapit bywa kilkoma zdaniami.
+KLUCZE = ("plik", "kontekst", "zdanie", "znalezisko", "werdykt", "sąd", "powód")
 
-#: Sąd mówi ``wieloznaczne`` i znalezisko dalej pada: reguła trafiła.
+#: Sąd mówi ``trafne`` i znalezisko dalej pada: reguła trafiła.
 POTWIERDZONE = "potwierdzone"
 
-#: Sąd mówi ``jednoznaczne`` i znalezisko dalej pada: trafienie fałszywe.
+#: Sąd mówi ``fałszywe`` i znalezisko dalej pada: trafienie fałszywe.
 NAD_CZYSTYM = "nad czystym"
 
-#: Sąd mówi ``wieloznaczne``, a znaleziska nie ma, choć olski zdanie czyta:
-#: zawężenie zeszło za daleko i zabrało wieloznaczność, którą czytelnik ma.
+#: Sąd mówi ``trafne``, a znaleziska nie ma, choć olski zdanie czyta:
+#: zmiana w gramatyce zabrała znalezisko, które czytelnik potwierdził.
 PRZEOCZONE = "przeoczone"
 
-#: Sąd mówi ``jednoznaczne`` i znaleziska już nie ma: trafienie fałszywe zeszło.
+#: Sąd mówi ``fałszywe`` i znaleziska już nie ma: trafienie fałszywe zeszło.
 ZDJĘTE = "zdjęte"
 
 #: Zdania olski nie czyta, więc znaleziska nie ma z powodu, który o regule nie
@@ -78,20 +84,39 @@ NIECZYTANE = "nieczytane"
 #: do wydruku wypisuje w każdym przebiegu co innego.
 KLASY = (POTWIERDZONE, NAD_CZYSTYM, PRZEOCZONE, ZDJĘTE, NIECZYTANE)
 
+#: Kształty wieloznaczności, czyli to, czym czytania się różnią. Zdanie niesie
+#: czasem kilka naraz i wtedy kształtem jest ich złożenie, ``przyłączenie+role``.
+PRZYŁĄCZENIE = "przyłączenie"
+ROLE = "role"
+BUDOWA = "budowa"
+
 
 @dataclass(frozen=True)
 class Sąd:
-    """Jedno zgłoszone zdanie wraz z tym, ile rozumień ma nad nim czytelnik."""
+    """Jedno znalezisko nad jednym zdaniem wraz z tym, co o nim powiedział czytelnik."""
 
     #: Warstwa i sekcja korpusu, z której zdanie wyszło.
     plik: str
+    #: Zdania tego akapitu stojące przed zdaniem, w kolejności.
+    kontekst: tuple[str, ...]
     zdanie: str
-    #: Wiersz, który ``olski-check`` wypisał nad tym zdaniem w chwili czytania.
+    #: Nazwa znaleziska z :data:`olski.werdykt.ZNALEZISKA`.
     znalezisko: str
+    #: Wiersz, który ``olski-check`` wypisał nad tym zdaniem w chwili oceny.
+    werdykt: str
     #: Jedna z :data:`WARTOŚCI_SĄDU`.
     sąd: str
     #: Na czym sąd stanął, bo sąd bez powodu jest zdaniem, którego nikt nie sprawdzi.
     powód: str
+
+    @property
+    def przeczytany(self) -> bool:
+        return self.sąd != PUSTY
+
+    @property
+    def klucz(self) -> tuple[str, str]:
+        """To, po czym następny przebieg poznaje znalezisko już ocenione."""
+        return (self.zdanie, self.znalezisko)
 
 
 @dataclass(frozen=True)
@@ -102,41 +127,39 @@ class Zestawienie:
     klasa: str
     #: Dzisiejszy wiersz werdyktu nad tym zdaniem.
     dzisiejsze: str
+    #: Kształt dzisiejszej wieloznaczności, albo pusty napis, gdy jej nie ma.
+    kształt: str
 
     @property
     def rozeszło_się(self) -> bool:
-        """Czy werdykt ruszył się od chwili, w której ten sąd przeczytano."""
-        return self.dzisiejsze != self.sąd.znalezisko
+        """Czy werdykt ruszył się od chwili, w której ten sąd wydano."""
+        return self.dzisiejsze != self.sąd.werdykt
 
 
 def czytaj(path: Path = SĄDY) -> list[Sąd]:
     """Wpisy z pliku; wpis niepełny jest błędem, a nie ciszą.
 
-    Umowa jest ta sama, którą czyta ``czytaj`` w ``harness/wybory.py``, i podział
-    na wpisy bierze się stamtąd (``bloki``). Wartości sądu pilnuje się tutaj, bo
-    literówka w niej nie wywraca niczego, tylko cicho wypycha wpis z mianownika.
+    Wartości sądu i nazwy znaleziska pilnuje się tutaj, bo literówka w nich nie
+    wywraca niczego, tylko cicho wypycha wpis z mianownika albo wpuszcza
+    znalezisko z powrotem do przebiegu.
     """
     sądy = []
-    for numer, blok in bloki(path.read_text(encoding="utf-8")):
-        pola: dict[str, list[str]] = {}
-        for wiersz in blok:
-            klucz, _, wartość = wiersz.partition(":")
-            if klucz not in KLUCZE:
-                raise ValueError(f"{path}:{numer}: nieznany klucz {klucz!r}")
-            pola.setdefault(klucz, []).append(wartość.strip())
-        brakujące = {"zdanie", "znalezisko", "sąd"} - pola.keys()
-        if brakujące:
-            raise ValueError(f"{path}:{numer}: wpis bez {', '.join(sorted(brakujące))}")
-        sąd = pola["sąd"][0]
-        if sąd not in WARTOŚCI_SĄDU:
+    for pola in wpisy(path, KLUCZE, ("zdanie", "znalezisko", "werdykt", "sąd")):
+        znalezisko = pola["znalezisko"][0]
+        if znalezisko not in ZNALEZISKA:
             raise ValueError(
-                f"{path}:{numer}: sąd {sąd!r} nie jest jednym z {', '.join(WARTOŚCI_SĄDU)}"
+                f"{path}: znalezisko {znalezisko!r} nie jest jednym z {', '.join(ZNALEZISKA)}"
             )
+        sąd = pola["sąd"][0] or PUSTY
+        if sąd not in WARTOŚCI_SĄDU:
+            raise ValueError(f"{path}: sąd {sąd!r} nie jest jednym z {', '.join(WARTOŚCI_SĄDU)}")
         sądy.append(
             Sąd(
                 plik=" ".join(pola.get("plik", ())),
+                kontekst=tuple(pola.get("kontekst", ())),
                 zdanie=pola["zdanie"][0],
-                znalezisko=pola["znalezisko"][0],
+                znalezisko=znalezisko,
+                werdykt=pola["werdykt"][0],
                 sąd=sąd,
                 powód=" ".join(pola.get("powód", ())),
             )
@@ -144,38 +167,98 @@ def czytaj(path: Path = SĄDY) -> list[Sąd]:
     return sądy
 
 
-def zestaw(sąd: Sąd) -> Zestawienie:
-    """Zapytaj olskiego o zdanie tego wpisu i przyłóż odpowiedź do sądu.
+def werdykt_wpisu(sąd: Sąd) -> Zdanie:
+    """Co olski mówi o zdaniu tego wpisu, czytanym za jego akapitem.
 
     Werdykt bierze się przez ``nad_tekstem``, czyli tą samą drogą, którą idzie
-    ``olski-check``, bo zapisane ``znalezisko`` jest wierszem tamtej komendy i
-    druga droga do niego rozeszłaby się z nią po cichu.
+    ``olski-check``, bo zapisany ``werdykt`` jest wierszem tamtej komendy i druga
+    droga do niego rozeszłaby się z nią po cichu. Akapit idzie przed zdaniem, bo
+    znalezisko odniesieniowe czyta zdanie obok, a wpis je niesie.
     """
-    zdania = nad_tekstem(sąd.zdanie)
-    if not zdania:
-        raise ValueError(f"wpis, którego napis nie jest zdaniem: {sąd.zdanie}")
-    verdict = zdania[0].werdykt
-    return Zestawienie(sąd=sąd, klasa=_klasa(sąd, verdict), dzisiejsze=verdict.explain())
+    zdania = nad_tekstem(" ".join((*sąd.kontekst, sąd.zdanie)))
+    if not zdania or zdania[-1].werdykt.text != sąd.zdanie:
+        raise ValueError(f"wpis, którego napis nie jest zdaniem swojego akapitu: {sąd.zdanie}")
+    return zdania[-1]
 
 
-def _klasa(sąd: Sąd, verdict: Verdict) -> str:
-    if verdict.punktowane and verdict.result.ambiguous:
-        return POTWIERDZONE if sąd.sąd == WIELOZNACZNE else NAD_CZYSTYM
-    if not verdict.czytane:
+def zestaw(sąd: Sąd) -> Zestawienie:
+    """Zapytaj olskiego o zdanie tego wpisu i przyłóż odpowiedź do sądu."""
+    zdanie = werdykt_wpisu(sąd)
+    return Zestawienie(
+        sąd=sąd,
+        klasa=_klasa(sąd, sąd.znalezisko in zdanie.znaleziska, zdanie.werdykt.czytane),
+        dzisiejsze=zdanie.werdykt.explain(),
+        kształt=kształt(zdanie.werdykt) if sąd.znalezisko == WIELOZNACZNE else "",
+    )
+
+
+def _klasa(sąd: Sąd, pada: bool, czytane: bool) -> str:
+    if pada:
+        return POTWIERDZONE if sąd.sąd == TRAFNE else NAD_CZYSTYM
+    if not czytane:
         return NIECZYTANE
-    return PRZEOCZONE if sąd.sąd == WIELOZNACZNE else ZDJĘTE
+    return PRZEOCZONE if sąd.sąd == TRAFNE else ZDJĘTE
 
 
-def wydruk(zestawienia: Sequence[Zestawienie]) -> str:
-    """Liczby klas, a pod nimi wpis po wpisie, bo kierunek czyta człowiek.
+def kształt(verdict: Verdict) -> str:
+    """Czym różnią się czytania zdania wieloznacznego, tak jak nazywa to werdykt.
+
+    Trzy składniki idą za trzema wierszami ``explain`` w ``olski/werdykt.py``:
+    przyłączenie nierozstrzygnięte, rola obsadzona inaczej i konstytuent o kilku
+    czytaniach, ten ostatni z każdej rozbieżności, którą werdykt wypisuje, a nie
+    tylko z tych, którym różnią się streszczenia. Rola wyrażenia przyimkowego nie
+    liczy się osobno tam, gdzie nazywa ją przyłączenie, z tego samego powodu, dla
+    którego tamten wiersz jej tam nie wypisuje.
+    """
+    if not (verdict.punktowane and verdict.result.ambiguous):
+        return ""
+    result = verdict.result
+    składniki = []
+    if result.przyłączenia:
+        składniki.append(PRZYŁĄCZENIE)
+    if any(
+        not (result.przyłączenia and rola == WYRAŻENIE_PRZYIMKOWE) for rola in result.różniące
+    ):
+        składniki.append(ROLE)
+    if result.rozbieżności:
+        składniki.append(BUDOWA)
+    return "+".join(składniki) or "inne"
+
+
+# --------------------------------------------------------------------------- #
+# Wydruk
+# --------------------------------------------------------------------------- #
+
+
+def wydruk(zestawienia: Sequence[Zestawienie], czekające: int = 0) -> str:
+    """Klasy na znalezisko, kształty wieloznaczności, a pod nimi wpis po wpisie.
 
     Zero wypisane, a nie pominięte: klasa, do której nie wpadł ani jeden wpis,
-    jest odpowiedzią o tej bazie, a nie brakiem odpowiedzi.
+    jest odpowiedzią o tej bazie, a nie brakiem odpowiedzi. Znalezisko bez ani
+    jednego sądu nie dostaje tabeli, bo tabela z samych zer mówi tylko tyle,
+    że nikt jeszcze nie czytał.
     """
-    ile = collections.Counter(z.klasa for z in zestawienia)
     szerokość = max(len(klasa) for klasa in KLASY)
-    wiersze = [f"{len(zestawienia)} sądów o znalezisku wieloznaczności", ""]
-    wiersze += [f"  {ile[klasa]:>4}  {klasa}" for klasa in KLASY]
+    wiersze = [f"{len(zestawienia)} sądów o znaleziskach"]
+    if czekające:
+        wiersze[0] += f", a {czekające} wpisów czeka na sąd i nie wchodzi do liczb"
+    for nazwa in ZNALEZISKA:
+        swoje = [z for z in zestawienia if z.sąd.znalezisko == nazwa]
+        if not swoje:
+            continue
+        ile = collections.Counter(z.klasa for z in swoje)
+        wiersze += ["", f"  {nazwa}, {len(swoje)} sądów:"]
+        wiersze += [f"  {ile[klasa]:>4}  {klasa}" for klasa in KLASY]
+
+    kształty = sorted({z.kształt for z in zestawienia if z.kształt})
+    if kształty:
+        wiersze += ["", f"  {WIELOZNACZNE} po kształcie, potwierdzone / nad czystym:"]
+        for k in kształty:
+            klasy = [z.klasa for z in zestawienia if z.kształt == k]
+            wiersze.append(
+                f"  {klasy.count(POTWIERDZONE):>4} / {klasy.count(NAD_CZYSTYM):<4} {k}"
+            )
+
     wiersze += ["", "  wpis po wpisie:"]
     wiersze += [_wypis(z, szerokość) for z in zestawienia]
     return "\n".join(wiersze)
@@ -184,13 +267,13 @@ def wydruk(zestawienia: Sequence[Zestawienie]) -> str:
 def _wypis(zestawienie: Zestawienie, szerokość: int) -> str:
     """Wpis wraz z jego powodem, a wiersz werdyktu raz albo dwa razy.
 
-    Dwa razy tam, gdzie werdykt ruszył się od chwili czytania: sąd przeczytano
-    przy wierszu zapisanym i to on mówi, czego ten sąd dotyczył.
+    Dwa razy tam, gdzie werdykt ruszył się od chwili oceny: sąd wydano przy
+    wierszu zapisanym i to on mówi, czego ten sąd dotyczył.
     """
     sąd = zestawienie.sąd
-    wiersze = [f"  {zestawienie.klasa:>{szerokość}}  {sąd.zdanie}"]
+    wiersze = [f"  {zestawienie.klasa:>{szerokość}}  {sąd.znalezisko}: {sąd.zdanie}"]
     if zestawienie.rozeszło_się:
-        wiersze.append(f"    zapisane: {sąd.znalezisko}")
+        wiersze.append(f"    zapisane: {sąd.werdykt}")
         wiersze.append(f"    dzisiaj:  {zestawienie.dzisiejsze}")
     else:
         wiersze.append(f"    {zestawienie.dzisiejsze}")
@@ -199,22 +282,154 @@ def _wypis(zestawienie: Zestawienie, szerokość: int) -> str:
     return "\n".join(wiersze)
 
 
+# --------------------------------------------------------------------------- #
+# Nowe znaleziska
+# --------------------------------------------------------------------------- #
+
+
+@dataclass(frozen=True)
+class Znalezisko:
+    """Jedno znalezisko olskiego nad zdaniem korpusu, wraz z akapitem i werdyktem."""
+
+    plik: str
+    kontekst: tuple[str, ...]
+    zdanie: str
+    znalezisko: str
+    werdykt: str
+
+    @property
+    def klucz(self) -> tuple[str, str]:
+        return (self.zdanie, self.znalezisko)
+
+    @property
+    def odcisk(self) -> str:
+        return hashlib.sha256(f"{self.znalezisko}\n{self.zdanie}".encode()).hexdigest()
+
+
+def _znaleziska_pliku(para: tuple[Path, Path]) -> list[Znalezisko]:
+    korzeń, path = para
+    return [
+        Znalezisko(
+            plik=str(path.relative_to(korzeń)),
+            kontekst=zdanie.sąsiedztwo.zdania,
+            zdanie=zdanie.werdykt.text,
+            znalezisko=nazwa,
+            werdykt=zdanie.werdykt.explain(),
+        )
+        for zdanie in nad_tekstem(path.read_text(encoding="utf-8"))
+        for nazwa in zdanie.znaleziska
+    ]
+
+
+def znaleziska(korzeń: Path, jobs: int = 1) -> list[Znalezisko]:
+    """Każde znalezisko olskiego pod tym katalogiem, w porządku odcisku.
+
+    Akapit idzie z tej samej funkcji, która podaje go świadkowi w ``olski-check``,
+    więc oceniający widzi to, co narzędzie.
+    """
+    pliki = [(korzeń, path) for path in pliki_prozy(korzeń)]
+    with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pula:
+        listy = pula.map(_znaleziska_pliku, pliki, chunksize=8)
+    return sorted((z for lista in listy for z in lista), key=lambda z: z.odcisk)
+
+
+def nowe(
+    znaleziska: Iterable[Znalezisko], ocenione: Iterable[tuple[str, str]]
+) -> list[Znalezisko]:
+    """Znaleziska, których baza jeszcze nie ma, w porządku podanym.
+
+    To samo zdanie stoi w korpusie czasem w dwu sekcjach, a ocenia się je raz:
+    drugie wystąpienie tego samego klucza nie wychodzi, bo wpis w bazie ma być
+    jeden na znalezisko i sonda liczyłaby jeden sąd dwa razy.
+    """
+    widziane = set(ocenione)
+    wybrane = []
+    for z in znaleziska:
+        if z.klucz not in widziane:
+            widziane.add(z.klucz)
+            wybrane.append(z)
+    return wybrane
+
+
+NAGŁÓWEK_NOWYCH = """\
+# Znaleziska olskiego nad {korzeń}, których baza sądów jeszcze nie ma:
+# {wypisane} z {nowych} nieocenionych, w porządku odcisku; ocenionych jest {ocenionych}.
+# Wpisz `sąd` (trafne albo fałszywe) i `powód` i przenieś wpisy do próba/nkjp-sądy.txt.
+"""
+
+
+def zapisz(znaleziska: Sequence[Znalezisko], nagłówek: str = "") -> str:
+    """Wpisy jako tekst pliku, z werdyktem i pustym sądem."""
+    bloki = []
+    for z in znaleziska:
+        wiersze = [f"plik: {z.plik}"]
+        wiersze += [f"kontekst: {zdanie}" for zdanie in z.kontekst]
+        wiersze += [
+            f"zdanie: {z.zdanie}",
+            f"znalezisko: {z.znalezisko}",
+            f"werdykt: {z.werdykt}",
+            f"sąd: {PUSTY}",
+            "powód:",
+        ]
+        bloki.append("\n".join(wiersze))
+    return nagłówek + "\n" + "\n\n".join(bloki) + "\n"
+
+
+# --------------------------------------------------------------------------- #
+# Wiersz poleceń
+# --------------------------------------------------------------------------- #
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python3 -m harness.sądy",
-        description="Zestaw dzisiejsze znaleziska wieloznaczności z sądami przeczytanymi ręką.",
+        description="Zestaw dzisiejsze znaleziska olskiego z sądami przeczytanymi ręką.",
     )
     parser.add_argument(
-        "plik",
+        "ścieżka",
         nargs="?",
-        help=f"baza sądów (domyślnie {SĄDY.parent.name}/{SĄDY.name})",
+        help=f"baza sądów (domyślnie {SĄDY.parent.name}/{SĄDY.name}); "
+        "przy --nowe katalog z prozą",
+    )
+    parser.add_argument(
+        "--nowe",
+        action="store_true",
+        help="wypisz znaleziska nad prozą, których baza jeszcze nie ocenia",
+    )
+    parser.add_argument("--ile", type=int, default=40, help="ile znalezisk (domyślnie 40)")
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=os.cpu_count() or 1,
+        help="na ile procesów podzielić rozbiór przy --nowe",
     )
     args = parser.parse_args(argv)
-    path = Path(args.plik) if args.plik else SĄDY
+
+    if args.nowe:
+        if not args.ścieżka or not Path(args.ścieżka).is_dir():
+            print("harness.sądy: --nowe żąda katalogu z prozą", file=sys.stderr)
+            return 2
+        korzeń = Path(args.ścieżka)
+        ocenione = {sąd.klucz for sąd in czytaj()}
+        wszystkie = znaleziska(korzeń, args.jobs)
+        nieocenione = nowe(wszystkie, ocenione)
+        wybrane = nieocenione[: args.ile]
+        nagłówek = NAGŁÓWEK_NOWYCH.format(
+            korzeń=korzeń,
+            wypisane=len(wybrane),
+            nowych=len(nieocenione),
+            ocenionych=len(wszystkie) - len(nieocenione),
+        )
+        print(zapisz(wybrane, nagłówek), end="")
+        return 0
+
+    path = Path(args.ścieżka) if args.ścieżka else SĄDY
     if not path.is_file():
         print(f"harness.sądy: nie ma takiego pliku: {path}", file=sys.stderr)
         return 2
-    print(wydruk([zestaw(sąd) for sąd in czytaj(path)]))
+    sądy = czytaj(path)
+    przeczytane = [sąd for sąd in sądy if sąd.przeczytany]
+    print(wydruk([zestaw(sąd) for sąd in przeczytane], len(sądy) - len(przeczytane)))
     return 0
 
 
