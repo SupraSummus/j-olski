@@ -23,7 +23,7 @@ as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
 That decision is taken for NKJP: it joined as `harness/nkjp.py`,
 because the base of hand-read findings takes its trunk from it
-([`docs/corpora.md`](../docs/corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)).
+([`docs/corpora.md`](../docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
 
 Archiwum Składnicy jest przypięte adresem i niczym więcej.
 [Pobranie](../docs/corpus.md#fetching-it) nazywa wydanie w adresie załącznika wiki,

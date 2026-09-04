@@ -1,0 +1,434 @@
+# Sądy o znaleziskach olskiego nad NKJP: trafne albo fałszywe
+#
+# Plik stoi poza `harness/`, bo program jest kasowalny, a sąd o zdaniu nie —
+# ten sam powód, który podaje nagłówek `próba/wybory.txt`
+#
+# Nowe wpisy wypisuje `python3 -m harness.sądy --nowe` nad prozą korpusu,
+# z pustym sądem; ocenione przenosi się tutaj ręką i przebieg ich już nie wypisuje.
+# Po co ta baza jest i co jest w niej sądem, mówi
+# docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają
+#
+# `znalezisko` jest nazwą znaleziska, tą samą, którą liczy je `olski-check`.
+# `werdykt` jest wierszem, który `olski-check` wypisał nad zdaniem w chwili oceny;
+# same czytania pokazuje `--readings` po podstawieniu zdania pod `-c`.
+# `sąd` to `trafne`, gdy czytelnik poprawiłby to, co znalezisko wskazuje,
+# `fałszywe`, gdy nie poprawiłby nic,
+# i `?`, gdy wpisu nikt jeszcze nie ocenił — taki czeka i do liczb nie wchodzi.
+# `powód` mówi, na czym sąd stanął, bo sąd bez powodu jest zdaniem,
+# którego nikt nie sprawdzi; przy `fałszywe` nazywa czytanie, które odpada
+#
+# Zdania są cudze, żeby rozkład był rejestru, a nie autora:
+# pochodzą z podkorpusu milionowego NKJP w wydaniu 1.2, wyjęte przez `harness/nkjp.py`,
+# a odcisk pobrania stoi w docs/corpora.md#the-national-corpus-of-polish.
+# `plik` nazywa warstwę i sekcję, a `kontekst` zdania tej sekcji stojące przed zdaniem.
+# Zdanie stoi tu w całości, więc wydanie następne wpisu nie unieważnia.
+# Pierwsze wpisy nie mają `kontekst`, bo wzięto je ze zdań zgłoszonych,
+# a nie z przebiegu, który akapit niesie
+
+plik: typ_nd/320-1-000036/txt_1-div.txt
+zdanie: Wprowadzenie dyszy i nadmuchu gazu zmienia kształt plazmy i podnosi maksymalną temperaturę.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: kształt plazmy niczego nie wprowadza, więc czytanie OVS odpada na znaczeniu
+
+plik: typ_nd/320-1-000036/txt_1-div.txt
+zdanie: Jednak temperatura ta jest niższa od wartości otrzymanych w pomiarach.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w roli: orzecznik; „od wartości otrzymanych” → „jest”, „niższa”; „w pomiarach” → „jest”, „wartości”
+sąd: fałszywe
+powód: wartości otrzymano w pomiarach, a nie temperatura jest w nich niższa
+
+plik: typ_nd/320-2-000000090/txt_8-div.txt
+zdanie: Metody te umożliwiają samodzielne poszukiwanie wiedzy i rozwijanie zdolności poznawczych.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: poszukiwanie metod nie umożliwia, a `Metody te` otwiera zdanie mianownikiem
+
+plik: typ_nd/320-2-000000094/txt_19-div.txt
+zdanie: Z powyższych pierwotnych produktów kondensacji pary wodnej w postaci mikroskopijnych kropelek wody i kryształków lodu są zbudowane główne ich skupiska w atmosferze w formie mgieł i chmur.
+znalezisko: wieloznaczne
+werdykt: 216 odczytań, różne w roli: podmiot; „w postaci mikroskopijnych kropelek wody” → „powyższych”, „produktów”, „kondensacji”, „pary”, „są”; „w atmosferze” → „są”, „skupiska”; „w formie mgieł i chmur” → „są”, „atmosferze”; „powyższych pierwotnych produktów kondensacji pary wodnej” ma 3 odczytania
+sąd: fałszywe
+powód: cztery wyrażenia przyimkowe mnożą się na siebie, a każde ma tylko jednego gospodarza, przy którym coś znaczy: kropelki są postacią produktów, mgły są formą skupisk; łańcuch dopełniaczowy `produktów kondensacji pary wodnej` mnoży czytania tym samym zagnieżdżeniem, a `pary wodnej` należy w nim do kondensacji, nie do produktów
+
+plik: typ_nd/320-2-000002/txt_2-div.txt
+zdanie: Chłop małorolny ze sprzedaży wieprzka i nabiału miał na ogół większy dochód w gotówce niż z produkcji ziarna.
+znalezisko: wieloznaczne
+werdykt: 64 odczytania, różne w rolach: dopełnienie, podmiot; „ze sprzedaży wieprzka i nabiału” → „Chłop”, „miał”; „w gotówce niż” → „miał”, „dochód”; „z produkcji ziarna” → „miał”, „gotówce”, „niż”
+sąd: fałszywe
+powód: dochód jest ze sprzedaży, a chłop ze sprzedaży nie jest niczym, co polszczyzna tutaj mówi
+
+plik: typ_nd/320-2-000000095/txt_8-div.txt
+zdanie: Analiza krzywych wysychania ma duże znaczenie w aspekcie poznania reżimu cieków i rzek oraz rezerw wód podziemnych.
+znalezisko: wieloznaczne
+werdykt: 12 odczytań, różne w roli: dopełnienie; „w aspekcie poznania reżimu cieków i rzek oraz rezerw wód podziemnych” → „ma”, „znaczenie”
+sąd: fałszywe
+powód: znaczenie jest w aspekcie, a nie posiadanie w nim zachodzi, i obu czytaniom wychodzi na to samo
+
+plik: typ_publ/SuperExpress/txt_131-div.txt
+zdanie: Sanepid ostrzega: nie przebywajmy zbyt długo na dworze.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: ostrzega instytucja, a nie ktoś ostrzega instytucję, i mówi to dwukropek za nią
+
+plik: typ_publ/130-5-000001372/txt_1-div.txt
+zdanie: Niefortunne strzały padły podczas zmiany warty.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: dopełnienie, podmiot, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: `padać` nie bierze dopełnienia w bierniku, a zmiana warty jest czasem, w którym strzały padły, i innego gospodarza to wyrażenie tu nie ma
+
+plik: typ_publ/SuperExpress/txt_270-div.txt
+zdanie: Janina Michaluk leży w szpitalu w Gryficach.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: okolicznik_narzędnikowy, podmiot; „w Gryficach” → „leży”, „szpitalu”
+sąd: fałszywe
+powód: szpital w Gryficach i leżenie w Gryficach mówią o świecie to samo, więc czytelnik nie ma tu czego wybierać
+
+plik: typ_publ/130-2-900005/txt_107-div.txt
+zdanie: Czekają nagrody.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: nagrody czekają, a `czekać` żąda dopełnienia z przyimkiem `na`, więc czytanie dopełnieniowe jest tym, którego polszczyzna tu nie ma
+
+plik: typ_net_interakt/620-3-010001873/txt_11-div.txt
+zdanie: Postanowienia dobrze robią.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: podmiot opuszczony robiący postanowienia zrobiłby je, a nie robiłby dobrze, więc zostaje czytanie z postanowieniami w mianowniku
+
+plik: typ_publ/Rzeczpospolita/txt_203-div.txt
+kontekst: - Żywca.
+kontekst: To było w latach siedemdziesiątych.
+kontekst: Browar żywiecki, książęcy, ma ponad sto lat.
+kontekst: Jego założycielem był książę Albrecht Habsburg.
+zdanie: Do dzisiaj w moich rodzinnych stronach przetrwało o nim dobre wspomnienie.
+znalezisko: wieloznaczne
+werdykt: 8 odczytań, różne w rolach: dopełnienie, podmiot; „w moich rodzinnych stronach” → „dzisiaj”, „przetrwało”
+sąd: fałszywe
+powód: dobre wspomnienie jest podmiotem, bo przetrwać nie bierze biernika, a rodzinne strony są miejscem przetrwania, a nie określeniem dzisiaj
+
+plik: typ_publ/120-2-900124/txt_1-div.txt
+kontekst: - Stadion opanowali Chińczycy.
+zdanie: Sprzedają swój towar poniżej naszych kosztów.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w roli: dopełnienie; „poniżej naszych kosztów” → „Sprzedają”, „towar”; „naszych kosztów” ma 2 odczytania
+sąd: fałszywe
+powód: sprzedawanie poniżej kosztów i towar poniżej kosztów mówią o świecie to samo, więc czytelnik nie ma czego wybierać
+
+plik: typ_publ/130-5-000000549/txt_1-div.txt
+kontekst: Będzie polonez na 82 wodzirejów, podczas mszy świętej dwie pary złożą sobie przyrzeczenie "miłości, wierności i uczciwości małżeńskiej", a na samym końcu zaplanowano nabożeństwo przemiany wody w wino.
+kontekst: Na Lednicy będzie jak w Kanie Galilejskiej.
+zdanie: Młodzież przywiezie ze sobą wodę ze swojego miejsca zamieszkania, która trafi do pierwszej chrzcielnicy Polski.
+znalezisko: wieloznaczne
+werdykt: 36 odczytań, różne w roli: dopełnienie; „do pierwszej” → „przywiezie”, „trafi”; „ze sobą” ma 2 odczytania; „swojego miejsca zamieszkania” ma 2 odczytania; „pierwszej chrzcielnicy” ma 2 odczytania
+sąd: fałszywe
+powód: do chrzcielnicy trafia woda, bo mówi to zdanie względne, a przywiezienie do chrzcielnicy nie ma w zdaniu miejsca
+
+plik: typ_publ/NIE/txt_95-div.txt
+kontekst: I, oczywiście, nie dotyczy to całego ludu, w większości bardzo porządnego.
+kontekst: Ale (powtarzam: na szczęście!)
+kontekst: istnieją w nim liczni osobnicy zdolni z byle powodu do zamordowania bliźniego i rola elit polega na tym, by skłonić ich, by w razie potrzeby mordowali wrogów, a nie niewinnych ludzi.
+zdanie: Narodowi socjaliści jako okupanci postąpili dokładnie odwrotnie.
+znalezisko: wieloznaczne
+werdykt: 6 odczytań, różne w rolach: okolicznik_przysłówkowy, podmiot; „jako okupanci” → „socjaliści”, „postąpili”
+sąd: fałszywe
+powód: jako okupanci określa socjalistów i to, jak postąpili, naraz, a oba czytania mówią o świecie to samo
+
+plik: typ_publ/130-3-910001/txt_64-div.txt
+zdanie: Izrael zagroził wczoraj, że wkroczy zbrojnie na tereny Autonomii, jeśli Arafat nie zapanuje nad terrorem.
+znalezisko: wieloznaczne
+werdykt: 21 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, okolicznik_przysłówkowy, okolicznik_zdaniowy; „na tereny” → „zagroził”, „wkroczy”; „nad terrorem” → „zagroził”, „zapanuje”
+sąd: fałszywe
+powód: wkroczy na tereny i zapanuje nad terrorem, bo oba wyrażenia stoją tuż za swoimi czasownikami, a zagrożenie na tereny nic nie znaczy
+
+plik: typ_publ/130-5-000001842/txt_1-div.txt
+zdanie: Akcja zbierania podpisów jest prowadzona od wtorku.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: orzecznik; „od wtorku” → „jest”, „prowadzona”
+sąd: fałszywe
+powód: od wtorku przy jest i przy prowadzona mówi o świecie to samo
+
+plik: typ_publ/130-5-000000338/txt_1-div.txt
+zdanie: Krakowska policja odnalazła ciało poszukiwanego od soboty noworodka z Nowej Huty.
+znalezisko: wieloznaczne
+werdykt: 32 odczytania, różne w roli: dopełnienie; „od soboty noworodka” → „odnalazła”, „ciało”, „poszukiwanego”; „z Nowej Huty” → „odnalazła”, „ciało”, „poszukiwanego”, „od”, „soboty”, „noworodka”; „Nowej Huty” ma 2 odczytania
+sąd: fałszywe
+powód: noworodka poszukiwano od soboty, a jest on z Nowej Huty; odnalezienie od soboty ani ciało od soboty nie mają czytania, którego polszczyzna tu ma
+
+plik: typ_publ/SuperExpress/txt_406-div.txt
+kontekst: Olsztyn.
+kontekst: W pięciu kąpieliskach na Warmii i Mazurach tego lata nie będzie można się kąpać ani uprawiać sportów wodnych.
+zdanie: Tak zdecydowali po przebadaniu jakości wody inspektorzy sanepidu w Olsztynie.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „w Olsztynie” → „inspektorzy”, „sanepidu”
+sąd: fałszywe
+powód: inspektorzy sanepidu w Olsztynie i inspektorzy w Olsztynie mówią o świecie to samo
+
+plik: typ_lit/200-4-000062/txt_4-div.txt
+kontekst: Na dworze było ciepło i wszyscy chodzili już w letnich ubraniach.
+kontekst: Raz czy dwa zobaczyła Hankę i Agnieszkę wracające ze szkoły, ale zanim zdążyła pomachać z okna, poznikały w swoich klatkach.
+kontekst: Mani wciąż nie było i Beata pomyślała, że wyjechała już na wakacje.
+zdanie: Chyba pierwsze w życiu, bo dotąd zawsze zostawała na osiedlu.
+znalezisko: wieloznaczne
+werdykt: 6 odczytań, różne w rolach: dopełnienie, orzecznik, podmiot; „w życiu” → „Chyba”, „pierwsze”
+sąd: fałszywe
+powód: pierwsze w życiu wakacje, bo zdanie dopowiada poprzednie; w życiu przy chyba nic nie znaczy
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_137-div.txt
+kontekst: Od stłumienia siłą buntu parlamentu w 1993 roku nic już w Rosji nie było takie samo.
+zdanie: Młoda demokracja została siłą wtłoczona w ramy  półautorytarnej  republiki prezydenckiej.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: orzecznik; „w ramy półautorytarnej republiki prezydenckiej” → „została”, „wtłoczona”
+sąd: fałszywe
+powód: w ramy przy została i przy wtłoczona mówi o świecie to samo
+
+plik: typ_lit/200-2-000152/txt_3-div.txt
+kontekst: Kurtz widział, jak Hoffman wychodzi przed kasyno.
+kontekst: Opuszkami paców głaskał brzegi kart i obserwował scenę przez wielką szybę przeszklonego parteru.
+kontekst: Siedemnasty, w niedzielnych garniturach, wysiadał z samochodu Hoffmana.
+kontekst: Pistol poprawiał krawat, a Fanga wręczał kluczyki.
+kontekst: Hoffman wsiadł do samochodu i zaczął dotykać kierownicy.
+zdanie: Otworzył półkę, puścił radio, jakby nie chciał wierzyć własnym oczom.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: dopełnienie, okolicznik_narzędnikowy; „własnym oczom” ma 2 odczytania
+sąd: fałszywe
+powód: własnym oczom jest jedną grupą w celowniku, której żąda wierzyć, a narzędnik własnym bez rzeczownika nic tu nie znaczy
+
+plik: typ_publ/130-5-000001835/txt_1-div.txt
+zdanie: Są też zastrzeżenia do stanu zabezpieczeń na wypadek pęknięcia rur z wodą lub parą.
+znalezisko: wieloznaczne
+werdykt: 26 odczytań, różne w roli: podmiot; „do stanu zabezpieczeń” → „Są”, „zastrzeżenia”; „na wypadek pęknięcia rur” → „Są”, „stanu”, „zabezpieczeń”; „z wodą lub parą” → „Są”, „stanu”, „wypadek”, „pęknięcia”, „rur”
+sąd: fałszywe
+powód: zastrzeżenia do stanu, zabezpieczenia na wypadek pęknięcia i rury z wodą lub parą, bo każde wyrażenie ma jednego gospodarza, przy którym coś znaczy
+
+plik: typ_publ/NIE/txt_105-div.txt
+zdanie: Patrzcie, jak nisko upadliśmy.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: okolicznik_przysłówkowy
+sąd: fałszywe
+powód: jak nisko jest jednym okolicznikiem stopnia przy upadliśmy, a drugie czytanie nie mówi o świecie nic innego
+
+plik: typ_qmow/712-1-900006/txt_25-div.txt
+kontekst: Informuję równocześnie, że protokół czternastego posiedzenia Senatu, zgodnie z art. 34 ust. 3 Regulaminu Senatu, jest przygotowany do udostępnienia państwu senatorom.
+zdanie: Jeżeli nikt z państwa senatorów nie zgłosi do niego zastrzeżeń, zostanie zatwierdzony przez Wysoką Izbę na następnym posiedzeniu.
+znalezisko: wieloznaczne
+werdykt: 8 odczytań, różne w roli: orzecznik; „z państwa senatorów” → „nikt”, „zgłosi”; „przez Wysoką Izbę” → „zostanie”, „zatwierdzony”; „na następnym posiedzeniu” → „zostanie”, „Izbę”
+sąd: fałszywe
+powód: nikt z państwa senatorów jest jedną grupą, przez Izbę przy została i przy zatwierdzony to samo, a Izba na posiedzeniu i zatwierdzenie na posiedzeniu mówią o świecie to samo
+
+plik: typ_publ/Rzeczpospolita/txt_55-div.txt
+zdanie: Inwazja imigrantów jest przyczyną powstawania rozmaitych ruchów na rzecz obrony angielskiego.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w roli: orzecznik; „na rzecz obrony angielskiego” → „jest”, „przyczyną”, „powstawania”, „ruchów”
+sąd: fałszywe
+powód: ruchów na rzecz obrony angielskiego, bo przyczyna, powstawanie ani istnienie na rzecz obrony nic nie znaczą
+
+plik: typ_lit/200-2-000019/txt_4-div.txt
+kontekst: Kiedy mijali ostatnie domy, Kajaki zbliżył się do wozu i położył łokieć na drabince.
+zdanie: Spotkali się wzrokiem z Polkiem.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: okolicznik_narzędnikowy; „z Polkiem” → „Spotkali”, „wzrokiem”
+sąd: fałszywe
+powód: spotkali się z Polkiem wzrokiem, a wzrok z Polkiem nic nie znaczy
+
+plik: typ_qmow/712-1-900001/txt_36-div.txt
+kontekst: - Pragnę poinformować Wysoką Izbę, iż Prezydium Sejmu uznaje, że wniosek jest uzasadniony.
+zdanie: Prezydium Sejmu przed podjęciem decyzji w tej sprawie odbyło spotkanie z panem posłem sprawozdawcą, panem posłem wnioskodawcą, przewodniczącą Komisji Ustawodawczej panią poseł Teresą Liszcz, a także grupą ekspertów.
+znalezisko: wieloznaczne
+werdykt: 120 odczytań, różne w rolach: dopełnienie, podmiot; „przed podjęciem decyzji” → „Prezydium”, „odbyło”, „Sejmu”; „w tej sprawie” → „Prezydium”, „odbyło”, „podjęciem”, „decyzji”; „z panem” → „odbyło”, „spotkanie”
+sąd: fałszywe
+powód: Prezydium odbyło spotkanie, bo czytanie odwrotne kazałoby spotkaniu odbyć Prezydium; wyrażenia przyimkowe stoją przy podjęciem i przy odbyło, a każde ma jednego gospodarza, przy którym coś znaczy
+
+plik: typ_publ/DP2002/txt_1-div.txt
+zdanie: Roszczenie kasy chorych o zwrot kosztów świadczeń zdrowotnych przedawnia się po trzech latach od dnia doręczenia zobowiązanemu wezwania do zapłaty.
+znalezisko: wieloznaczne
+werdykt: 36 odczytań, różne w rolach: dopełnienie, podmiot; „o zwrot kosztów świadczeń zdrowotnych” → „Roszczenie”, „przedawnia”, „kasy”, „chorych”; „od dnia doręczenia” → „przedawnia”, „latach”; „do zapłaty” → „przedawnia”, „zobowiązanemu”, „wezwania”
+sąd: fałszywe
+powód: roszczenie o zwrot, od dnia doręczenia liczą się lata, a wezwanie do zapłaty jest nazwą pisma; przedawnia się nie bierze biernika, więc czytanie dopełnieniowe odpada
+
+plik: typ_lit/200-2-000072/txt_6-div.txt
+zdanie: Wiele takich poczwórności znalazł w Biblii.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „Wiele takich poczwórności” ma 2 odczytania
+sąd: fałszywe
+powód: wiele takich poczwórności jest jedną grupą liczebnikową i oba jej rozbiory mówią o świecie to samo
+
+plik: typ_publ/130-5-000001448/txt_1-div.txt
+zdanie: Lubelska Prokuratura Apelacyjna zarzuca mu, że w grudniu zniszczył wiele dokumentów z dyrektorskiego sejfu i usunął ważne zapisy z komputera w sekretariacie, przez co zatarł ślady i utrudnił prokuraturze prowadzenie postępowania.
+znalezisko: wieloznaczne
+werdykt: 52 odczytania, różne w roli: dopełnienie; „z dyrektorskiego sejfu” → „zarzuca”, „zniszczył”, „dokumentów”; „z komputera” → „zarzuca”, „usunął”, „zapisy”; „w sekretariacie” → „zarzuca”, „usunął”, „komputera”
+sąd: fałszywe
+powód: dokumenty z sejfu i zapisy z komputera w sekretariacie, a zniszczenie z sejfu mówi o świecie to samo, co dokumenty z sejfu
+
+plik: typ_lit/200-2-000096/txt_18-div.txt
+zdanie: Przechodził obojętnie wobec piękna istnych pejzaży z kamienia.
+znalezisko: wieloznaczne
+werdykt: 9 odczytań, różne w rolach: dopełnienie, okolicznik_przysłówkowy; „z kamienia” → „Przechodził”, „piękna”, „pejzaży”
+sąd: fałszywe
+powód: pejzaże z kamienia, bo przechodzenie z kamienia ani piękno z kamienia nic tu nie znaczą
+
+plik: typ_publ/130-5-000001535/txt_1-div.txt
+kontekst: Gospodarcza mapa Hindenberga ma wymiary około 2,7 na 3 metry.
+kontekst: Obecnie składa się z 13 części.
+zdanie: Została wykonana z różnych rodzajów płótna i papieru.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w roli: orzecznik; „z różnych rodzajów płótna i papieru” → „Została”, „wykonana”
+sąd: fałszywe
+powód: z płótna i papieru przy została i przy wykonana mówi o świecie to samo
+
+plik: typ_publ/120-4-900010/txt_2-div.txt
+zdanie: Dostojna jubilatka od kilku lat działa wspólnie z Gimnazjum Powiatowym pod szyldem Zespołu Szkół Ogólnokształcących.
+znalezisko: wieloznaczne
+werdykt: 6 odczytań, różne w roli: podmiot; „od kilku lat” → „jubilatka”, „działa”; „pod szyldem Zespołu Szkół Ogólnokształcących” → „działa”, „Gimnazjum”
+sąd: fałszywe
+powód: działa wspólnie z Gimnazjum pod szyldem Zespołu, więc oba czytania stawiają oba pod jednym szyldem i mówią o świecie to samo; od kilku lat przy jubilatce i przy działa tak samo
+
+plik: typ_media/711-3-010000047/txt_9-div.txt
+kontekst: – ja jeżeli można tylko jedno słóweczko bo.
+zdanie: teraz sobie przypominam.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „sobie” ma 2 odczytania
+sąd: fałszywe
+powód: sobie jest celownikiem przy przypominać, a drugi rozbiór tej formy nic tu nie zmienia
+
+plik: typ_nklas/040-2-000000302/txt_21-div.txt
+kontekst: A ja jestem w środku.
+kontekst: Mało w środku: w samym jądrze tego środka.
+kontekst: A moja sytuacja jest nieprawdopodobnie luksusowa.
+kontekst: Owo żwawo tańcujące lustro, kierujące odbicie ku sobie i przemieniające je w zaczyn tworzenia, to wszak właśnie...
+kontekst: ja!
+kontekst: Los uczynił wszystko, co mógł, bym ujarzmił kurtynę ciemności.
+kontekst: Okoliczności ułożyły się idealnie, bym przekroczył próg.
+kontekst: Nie muszę na nic zerkać, niczego podglądać, o nic pytać.
+zdanie: Sam jestem odpowiedzią na pytanie.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: orzecznik; „na pytanie” → „jestem”, „odpowiedzią”
+sąd: fałszywe
+powód: odpowiedzią na pytanie, bo jestem na pytanie nic nie znaczy
+
+plik: typ_publ/130-3-900001/txt_441-div.txt
+kontekst: Teraz chłopcy noszą karabiny i popalają papierosy, kiedy nie widzą ich starsi.
+zdanie: Chodzenie z karabinem jest tu zajęciem samym w sobie.
+znalezisko: wieloznaczne
+werdykt: 8 odczytań, różne w rolach: orzecznik, podmiot; „z karabinem” → „Chodzenie”, „jest”; „w sobie” → „jest”, „zajęciem”; „w sobie” ma 2 odczytania
+sąd: fałszywe
+powód: chodzenie z karabinem jest podmiotem, samym w sobie jest zwrotem przy zajęciu, a odwrócenie łącznika mówi o świecie to samo
+
+plik: typ_inf-por/330-2-000013/txt_16-div.txt
+kontekst: Pozostawanie świadomością "tu i teraz" jest podstawą każdej medytacji, medytacji będącej niczym innym, jak tylko świadomym życiem.
+zdanie: Kiedy wdychasz powietrze, czuj to.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: dopełnienie, okolicznik_przysłówkowy, okolicznik_zdaniowy, orzeczenie, orzecznik
+sąd: fałszywe
+powód: to jest dopełnieniem przy czuj, a czytania z to jako łącznikiem albo cząstką nie składają się w zdanie, które polszczyzna tu ma
+
+plik: typ_publ/120-2-900078/txt_9-div.txt
+kontekst: Takim Piotrem może być każdy z nas.
+kontekst: Kiedy jesteśmy razem, jest wesoło, radośnie, łatwo przyznać się do Chrystusa.
+kontekst: A kiedy przychodzi czas próby - trudno jest wtedy o świadectwo wiary.
+zdanie: A jak jest w moim, twoim życiu?
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: okolicznik_przysłówkowy, podmiot
+sąd: fałszywe
+powód: jak pyta o to, jak jest, a jak w roli podmiotu nic tu nie znaczy
+
+plik: typ_publ/120-2-000006/txt_61-div.txt
+kontekst: - Chwileczkę!
+kontekst: Przede wszystkim społeczeństwo powinno wiedzieć, dlaczego tak dużą część wzrostu gospodarczego musimy odkładać.
+kontekst: Jeśli zaś chodzi o moją wypowiedź...
+kontekst: Cóż, rozegrali ją ci politycy i te media, którym zależało na skłóceniu nas.
+zdanie: Z drugiej strony, po mojej wypowiedzi ceny polskiego długu na giełdach nie spadły, lecz wzrosły.
+znalezisko: wieloznaczne
+werdykt: 690 odczytań, różne w rolach: dopełnienie, elipsa, orzecznik, podmiot; „na giełdach” → „wypowiedzi”, „spadły”, „ceny”, „polskiego”, „długu”; „drugiej strony” ma 2 odczytania; „mojej wypowiedzi” ma 2 odczytania; „polskiego długu” ma 2 odczytania
+sąd: fałszywe
+powód: ceny długu na giełdach i spadek na giełdach mówią o świecie to samo, a wypowiedź na giełdach nic nie znaczy; reszta czytań mnoży się z rozbiorów grup, które znaczą to samo
+
+plik: typ_publ/SuperExpress/txt_474-div.txt
+zdanie: Ruch w tym miejscu odbywał się wahadłowo.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: podmiot; „w tym miejscu” → „Ruch”, „odbywał”
+sąd: fałszywe
+powód: ruch w tym miejscu i odbywanie się w tym miejscu mówią o świecie to samo
+
+plik: typ_inf-por/330-1-000001/txt_22-div.txt
+kontekst: Inną przyczyną masturbacji dzieci może być wprowadzenie w tę praktykę przez rówieśników czy też deprawacja ze strony osób dorosłych.
+kontekst: Dziecko bezbronne wobec przewagi, jaką posiada nad nim człowiek dorosły, może łatwo podlegać deprawacji seksualnej.
+zdanie: Nawet pojedyncze seksualne wykorzystanie dziecka przez osobę dorosłą powoduje zwykle koncentrację dziecka na sferze erotycznej, co może prowadzić do masturbacji.
+znalezisko: wieloznaczne
+werdykt: 72 odczytania, różne w rolach: cząstka_zdania, dopełnienie, okolicznik_narzędnikowy, podmiot; „przez osobę” → „wykorzystanie”, „powoduje”, „dziecka”; „na sferze erotycznej” → „powoduje”, „koncentrację”, „dziecka”; „do masturbacji” → „może”, „prowadzić”
+sąd: fałszywe
+powód: wykorzystanie przez osobę dorosłą, koncentracja na sferze erotycznej i prowadzić do masturbacji, bo każde wyrażenie ma jednego gospodarza, przy którym coś znaczy
+
+plik: typ_publ/130-5-000001978/txt_1-div.txt
+kontekst: Pięcioletnia dziewczynka, porwana wczoraj przez 65-letniego mężczyznę w Chorzowie na Śląsku, odzyskała wieczorem przytomność.
+kontekst: Dziecko przez kilka godzin było w śpiączce.
+kontekst: Jego życiu nie zagraża już niebezpieczeństwo.
+zdanie: Według dyżurnego Komendy Miejskiej Policji w Chorzowie po przebudzeniu dziecka stwierdzono, że zostało ono upite.
+znalezisko: wieloznaczne
+werdykt: 56 odczytań; „w Chorzowie” → „dyżurnego”, „Komendy”, „Miejskiej”, „Policji”, „stwierdzono”; „po przebudzeniu dziecka” → „dyżurnego”, „Komendy”, „Miejskiej”, „Chorzowie”, „stwierdzono”; „Miejskiej Policji” ma 2 odczytania
+sąd: fałszywe
+powód: Komenda w Chorzowie i stwierdzono po przebudzeniu, bo dyżurny po przebudzeniu dziecka ani policja po przebudzeniu nic nie znaczą
+
+plik: typ_qmow/712-1-900004/txt_40-div.txt
+kontekst: - Także w trakcie senackiej debaty ustawa wzbudziła wiele emocji, wskutek czego Senat zgłosił 72 poprawki.
+kontekst: Komisja Nadzwyczajna powołana do rozpatrzenia projektów ustaw ˝Przedsiębiorczość - Rozwój - Praca˝ na swym posiedzeniu 6 ze zgłoszonych poprawek zaopiniowała negatywnie, pozostałe poprawki rekomenduje przyjąć.
+kontekst: Zdecydowana większość zgłoszonych poprawek ma charakter doprecyzowujący i eliminujący błędy oraz sprzeczności.
+zdanie: Chciałbym zwrócić szczególną uwagę na kilka poprawek merytorycznych.
+znalezisko: wieloznaczne
+werdykt: 3 odczytania, różne w roli: dopełnienie; „na kilka poprawek merytorycznych” → „Chciał”, „zwrócić”, „uwagę”
+sąd: fałszywe
+powód: zwrócić uwagę na kilka poprawek jest jednym zwrotem, a chcieć na poprawki nic nie znaczy
+
+plik: typ_publ/120-2-900001010/txt_27-div.txt
+zdanie: Dobrze się dzieje, że coraz częściej sołtysi dbają również o rozrywkę dla mieszkańców swoich wsi.
+znalezisko: wieloznaczne
+werdykt: 21 odczytań, różne w roli: cząstka_zdania; „o rozrywkę” → „dzieje”, „dbają”; „dla mieszkańców swoich wsi” → „dzieje”, „dbają”, „rozrywkę”; „swoich wsi” ma 2 odczytania
+sąd: fałszywe
+powód: dbają o rozrywkę dla mieszkańców, bo dzieje się o rozrywkę nic nie znaczy
+
+plik: typ_inf-por/330-2-000003/txt_15-div.txt
+kontekst: W przedstawiony powyżej sposób nie usuniesz jednak indeksów górnych i dolnych.
+zdanie: Tu TAG jest dziwnie tępy i wymaga od Ciebie podwójnego wysiłku.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: orzecznik
+sąd: fałszywe
+powód: tępy jest orzecznikiem przy TAG, a drugie czytanie nie mówi o świecie nic innego
+
+plik: typ_publ/GazetaKociewska/txt_6-div.txt
+kontekst: KOCIEWIE.
+zdanie: Zima to czas zabaw na lodzie i śniegu.
+znalezisko: wieloznaczne
+werdykt: 13 odczytań, różne w rolach: dopełnienie, orzeczenie, orzecznik, podmiot; „na lodzie” → „to”, „czas”, „zabaw”
+sąd: fałszywe
+powód: czas zabaw na lodzie i śniegu, bo zima na lodzie ani czas na lodzie nie mówią nic innego; odwrócenie łącznika mówi o świecie to samo
+
+plik: typ_qmow/712-1-900004/txt_5-div.txt
+kontekst: - Na koniec chcę powiedzieć, że bez wsparcia, bez możliwości sięgnięcia po środki z Funduszu Spójności nie widzę możliwości zrealizowania przynajmniej znaczącej części programu Odra - 2006.
+kontekst: Dlatego też trzeba zrobić wszystko, aby jak największa ilość projektów została tak przygotowana, aby po prostu możliwe było dofinansowanie z Funduszu Spójności.
+zdanie: Tyle mam do powiedzenia w tej sprawie.
+znalezisko: wieloznaczne
+werdykt: 4 odczytania, różne w rolach: dopełnienie, okolicznik_przysłówkowy; „w tej sprawie” → „mam”, „powiedzenia”
+sąd: fałszywe
+powód: do powiedzenia w tej sprawie i mam w tej sprawie mówią o świecie to samo
+
+plik: typ_net_interakt/620-3-010000836/txt_7-div.txt
+zdanie: O czym mówi Rydzyk według "Gazety Wyborczej"?
+znalezisko: poprawka jednego znaku
+werdykt: 6 odczytań po poprawce jednego znaku: cudzysłów „ i ” w miejsce tego, którym zdanie cytuje
+sąd: trafne
+powód: cudzysłów maszynowy jest w polskim tekście informatywnym do poprawki i poprawka jest dokładnie tą, którą wskazuje znalezisko; znak postawił build korpusu, więc sąd mówi o warstwie tekstowej, a nie o autorze
+
+plik: typ_publ/120-2-900062/txt_3-div.txt
+kontekst: Nasz stały konkurs "Okaz miesiąca" budzi coraz większe zainteresowanie.
+kontekst: Do redakcji "Kwietnika" nadchodzi mnóstwo zdjęć pięknych, nierzadko wręcz imponujących roślin, ale niestety - z racji niewielkiej objętości pisma - nie wszystkie fotografie możemy opublikować.
+zdanie: Okazuje się, że ulubioną rośliną  wielu naszych Czytelników jest difenbachia.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „naszych Czytelników” ma 2 odczytania
+sąd: fałszywe
+powód: naszych Czytelników jest jedną grupą w dopełniaczu przy wielu, a drugi rozbiór tej grupy mówi o świecie to samo

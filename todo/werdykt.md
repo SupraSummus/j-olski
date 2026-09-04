@@ -264,16 +264,24 @@ a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
 bo różnica między nimi jest całą mierzoną rzeczą.
 
 Wieloznaczność jest znaleziskiem, a mierzona baza sądów nie ma dla tego ani jednego potwierdzenia.
-`python3 -m harness.sądy` wypisuje dziś jedenaście trafień nad zdaniem osądzonym jako czyste
+`python3 -m harness.sądy` wypisuje same trafienia nad zdaniem osądzonym jako czyste
 i zero potwierdzonych,
 a dwie próbki przeczytane ręką idą w tę samą stronę
 ([`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
 trzyma je wraz z udziałem zdań, w których pozycja stoi).
+Nad podkorpusem NKJP znalezisko pada przy tym nad większością zdań, które olski czyta,
+więc reguła o zerowej precyzji nad taką populacją zgłasza autorowi co drugie zdanie bez powodu.
 Regułę o takim profilu ten projekt raz już wycofał
 ([`docs/firing-rates.md`](../docs/firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)),
 więc pytanie brzmi, czy wieloznaczność ma dalej iść w kod wyjścia i w wiersz znalezisk.
+Odpowiedź bywa inna dla każdego kształtu znaleziska,
+a sonda dzieli już potwierdzenia po kształcie — przyłączenie, role, budowa grupy —
+więc ruch może zdjąć jeden kształt ze znaleziska, a inny zostawić:
+zgłoszenie samego przyłączenia jest pierwszym kandydatem do zdjęcia,
+bo nad obu przeczytanymi próbkami czytelnik nie zawahał się nad nim ani razu.
 Ruchem, gdy stopa się nad większą bazą utrzyma,
-jest `Podsumowanie.znalezisk` w `olski/werdykt.py` przestające sumować `wieloznaczne`;
+jest `Podsumowanie.znalezisk` w `olski/werdykt.py` przestające sumować `wieloznaczne`
+albo sumujące je tylko dla kształtów, które baza potwierdza;
 wiersz werdyktu i osobny licznik podsumowania zostają, bo mówią, co olski o zdaniu wie,
 a znaleziskiem przestaje być samo zgłoszenie.
 Ceną jest proza: właścicielem faktu jest

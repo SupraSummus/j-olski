@@ -582,29 +582,27 @@ bo zostaje w każdej kopii, która go przeżyje.
 Do przeczytania jest, czy któraś z tych ośmiu pomija dziś pole naprawdę,
 bo dopiero to mówi, czy jest to usterka, czy pułapka na pole następne.
 
-Baza sądów o znalezisku wieloznaczności ma jedenaście wpisów
-i tyle nie unosi liczby, o którą się ją pyta
-([`docs/corpora.md`](../docs/corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)).
-Wszystkie jedenaście brzmią `jednoznaczne`, czyli ani jedno dzisiejsze znalezisko
-nie ma w tej bazie potwierdzenia.
-Próbkę dwudziestu czterech zdań nazywa za wąską, żeby na niej stanąć,
-[`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma),
-a tych sądów jest mniej.
-Ruchem jest `harness/nkjp.py` puszczony na większą próbę,
-`olski-check` nad wylosowanymi zdaniami i sądy dopisane ręką do pięćdziesięciu wpisów;
-`python3 -m harness.sądy` wypisuje potem stopę nad całością,
-a rozbicie jej na przyłączenie i na różnicę ról jest częścią tego ruchu,
-bo pytanie o regułę bywa pytaniem o jedną jej połowę
-i dopiero nad pięćdziesięcioma wpisami taka kolumna cokolwiek mówi.
-Werdykt niesie oba te pola (`przyłączenia` i `różniące` w `olski/parse/`),
-więc kolumna nie żąda niczego poza wyborem, czy zdanie z obiema liczy się dwa razy.
-Ceną jest pobranie podkorpusu milionowego NKJP, czyli sesja z fetchem.
-Do przeczytania są przy tym oba pliki próby `harness/wybory.py`,
-bo `--zbuduj` pokazuje pułapkę, w którą wejdzie każde budowanie wpisów stąd:
-wypisuje całość na wyjście, więc puszczone w plik z sądami
-skasowałoby każdy sąd, jaki w nim stoi.
-Losowanie rozstrzyga się przed dopisaniem:
-`rozrzucona` w `harness/próbka.py` bierze co którąś pozycję,
-więc próba większa jest siatką przerysowaną od zera,
-a nie tą siatką z wpisami między nimi,
-i ten sam wybór stoi przy próbie wyborów opisanej wyżej.
+Baza sądów o znaleziskach ma kilkadziesiąt ocen
+i tyle nie unosi liczby, o którą się ją pyta osobno dla każdego kształtu wieloznaczności
+([`docs/corpora.md`](../docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
+mówi, co jest sądem i skąd biorą się nowe wpisy).
+Ruchem jest `python3 -m harness.sądy --nowe` nad prozą z `harness/nkjp.py`,
+ocena wypisanych znalezisk i przeniesienie wpisów do `próba/nkjp-sądy.txt`,
+po czym `python3 -m harness.sądy` liczy klasy i kształty nad całością.
+Ceną jest pobranie podkorpusu milionowego i przebieg gramatyki nad jego prozą,
+kilkanaście minut na czterech rdzeniach.
+Do rozstrzygnięcia jest, kto ocenia.
+Dotychczasowe sądy wydała sesja agenta,
+a pytanie jest o czytelnika, więc pierwsza ocena przez człowieka
+mówi więcej niż następne czterdzieści przez model,
+i najtańszą drogą do niej jest wydruk `--nowe` oddany komuś,
+kto po polsku czyta, a gramatyki nie zna.
+Druga ocena tych samych wpisów przez inną osobę albo sesję jest ruchem następnym:
+zgodność dwóch ocen mówi, ile sąd jest własnością zdania, a ile oceniającego,
+i bez niej żadna stopa z tej bazy nie ma błędu pomiaru.
+Format na drugi sąd w tym samym wpisie nie jest rozstrzygnięty
+i wchodzi razem z pierwszą taką oceną.
+Osobno stoi pytanie, czy `olski-check` ma brać bazę jako listę znalezisk ocenionych
+i milczeć o nich nad własną prozą repozytorium,
+bo ten sam obieg — ocenić raz, nie widzieć więcej — służyłby przeglądowi dokumentów;
+dziś obieg ma tylko sonda w `harness/`.
