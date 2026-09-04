@@ -49,6 +49,18 @@ SPDX-FileCopyrightText = [
 ]
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
+#  Zdania cudze, wylosowane z podkorpusu milionowego NKJP, który wydano na CC BY
+#  4.0 (docs/corpora.md#the-national-corpus-of-polish). Warunki źródła są tu
+#  nazwane, a nie zastąpione obietnicą własną: ta licencja żąda wskazania autora
+#  i tyle, a wskazanie stoi w nagłówku pliku. Sąd o zdaniu jest tutejszy.
+[[annotations]]
+path = "próba/nkjp-*.txt"
+SPDX-FileCopyrightText = [
+  "IPI PAN, Instytut Języka Polskiego PAN, PWN, Uniwersytet Łódzki (NKJP)",
+  "2026 Jan Rydzewski",
+]
+SPDX-License-Identifier = "CC-BY-4.0"
+
 #  Zdania cudze, wylosowane z korpusu audytowego (docs/audit-corpus.md).
 #  Sąd o zdaniu jest tutejszy i idzie na MIT, a samego zdania nie licencjonujemy.
 [[annotations]]

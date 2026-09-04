@@ -222,6 +222,16 @@ Dwadzieścia cztery zdania przeczytane przez jedną osobę
 są podstawą wystarczającą, żeby pytanie postawić,
 i za wąską, żeby na nim stanąć.
 
+Druga próbka zdejmuje z tej wąskości jedną połowę.
+Zdania zgłoszone nad podkorpusem NKJP, przeczytane po kolei,
+wychodzą tak samo — ani jedno nie zostawia czytelnika z dwoma rozumieniami —
+i stoją wraz z powodami w `próba/nkjp-wieloznaczność.txt`.
+Korpus jest tam inny w rejestrze, w epoce i w etapie produkcji naraz
+([corpora.md](corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)
+mówi, czemu ten korpus w ogóle wchodzi),
+więc wniosek nie jest już własnością jednej dokumentacji.
+Czytającym była przy tym znów jedna osoba, i tej połowy nie zdejmuje nic.
+
 Odwrotną stronę tej pary — wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje —
 opisuje [disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje),
 i to ona prowadzi do pytania niżej.

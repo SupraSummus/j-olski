@@ -9,9 +9,11 @@ The track it was written for is gone,
 and the survey outlives it because the grammar is measured over Polish too:
 the audit corpus it argues for is where
 [the register's own ambiguity](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
-is counted.
+is counted,
+and [a base of hand-read findings](#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)
+takes its text from here as well.
 
-The answer it arrives at is that no existing corpus serves.
+The answer it arrives at is that no existing corpus serves that pairing.
 The register olski is scoped to is nearly absent from the corpora that exist,
 the corpus that would say whether a text is a translation does not record it,
 and the typography a linter would measure
@@ -113,6 +115,15 @@ curl -L -o nkjp1m.tar.gz \
   'http://clip.ipipan.waw.pl/NationalCorpusOfPolish?action=AttachFile&do=get&target=NKJP-PodkorpusMilionowy-1.2.tar.gz'
 tar xzf nkjp1m.tar.gz
 ```
+
+Adres nazywa wydanie i nie nazywa bajtów, więc bajty nazywa odcisk pobrania:
+`sha256sum` daje na wydaniu 1.2
+`1ad87f5a653bf30c986bd791fa64d0b93989f8056887dbc28957596747ef953e`
+na 170 796 368 bajtach,
+a odcisk inny znaczy, że wydawca podmienił załącznik.
+Serwer nie odpowiada przy tym na żądanie zakresu bajtów,
+więc pobranie przerwane zaczyna się od początku,
+a `gzip -t` mówi, czy trzeba je powtórzyć.
 
 ### Its register composition, from the file it ships
 
@@ -539,6 +550,90 @@ it measures.
 With an unedited generated half obtainable,
 a body edited against style detectors is not needed as the generated half,
 and stays what that document calls it: a floor, and the harder case.
+
+## Trafienia czytamy tak, jakby każdy tekst był informatywny
+
+Baza sądów jest zbiorem trafień przeczytanych ręką.
+Wpis podaje zdanie w całości, werdykt czytającego i powód tego werdyktu,
+a pierwsze wpisy stoją w `próba/nkjp-wieloznaczność.txt`.
+Rośnie ona o trafienia reguły, którą ktoś właśnie napisał,
+a nie o przebieg nad korpusem puszczony od nowa.
+
+Baza jest tego warta dlatego, że sąd żyje dłużej niż liczba pod nim.
+Liczbę unieważnia następne przeliczenie i nikt nie widzi, kiedy to się stało,
+a sądu czytelnika nad zdaniem raz przeczytanym
+nie unieważnia ani produkcja dopisana potem, ani nowsze wydanie korpusu;
+warunek na każdy cel gramatyki opiera się już na tej różnicy
+([roadmap.md](roadmap.md#cele)).
+Dziś takie czytanie kosztuje sesję i zostaje po nim akapit:
+[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
+nazywa własną próbkę za wąską, żeby na niej stanąć,
+a [firing-rates.md](firing-rates.md) otwiera się zdaniem,
+że żadnego z tamtych przebiegów nie da się powtórzyć.
+
+**Sąd wydaje się nad tekstem czytanym jako informatywny,
+choćby tekst informatywny nie był.**
+Wiersz przepuszczony przez olskiego dostaje wiele trafień
+i każde z nich jest prawdziwym zdaniem o zasięgu tej gramatyki.
+Rama jest jedna, bo rama druga — ta, która pyta, czy autor formę wybrał —
+każe czytającemu zgadywać cudzy zamiar,
+a sądu wydanego na zgadnięciu nie sprawdzi druga osoba.
+Wpis w `próba/wybory.txt` żąda od czytającego tego, czego zgadnięcie nie da:
+powodu, na którym sąd stanął.
+
+**Ceną jest pytanie, na które ta baza nie odpowiada.**
+Autor, który archaizmem, rymem albo dwuznacznością mówi coś obok samych zdarzeń,
+używa tego, co olski odbiera, więc umowy podzbioru nie podpisuje
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
+Ile z jego prozy olski wyprowadza, ta baza mierzy.
+Czy jest mu przez to potrzebny, nie mierzy ani ona,
+ani udział trafień, które w niej zapisano.
+Co w prozie twórczej jest usterką, a co jej rejestrem, trzyma
+[fiction.md](fiction.md#what-this-means-for-olski).
+
+**Pod tą ramą NKJP służy, a zarzuty tego dokumentu przestają wiązać poza jednym.**
+Rejestr przestaje dyskwalifikować, bo dyskwalifikował przez próg,
+a werdykt o zdaniu progu nie ma
+([linter.md](linter.md#cztery-osie-każdej-reguły)),
+więc udział publicystyki jest sprawą warstwy, a nie wykluczenia,
+a warstwę nazywa taksonomia z archiwum
+([wyżej](#its-register-composition-from-the-file-it-ships)).
+Brak proweniencji przestaje ciążyć, bo znaleziska tej gramatyki są strukturalne:
+tekst tłumaczony jest dalej polszczyzną, którą czytelnik czyta,
+a wraca ten zarzut przy pierwszej regule pytającej o uzus.
+Zarzut trzeci wiąże ostro.
+Znaki w warstwie tekstowej postawił build korpusu
+([wyżej](#its-text-layer-has-been-character-normalized)),
+więc poprawki jednego znaku nad tym korpusem nie osądzi nikt,
+i to jedno znalezisko zostawia w bazie warstwę z kontroli wersji,
+czyli [korpus audytowy](audit-corpus.md).
+
+**Ten dokument nie miał dotąd zarzutu, który wiąże najmocniej:
+podkorpus wydaje wycinki, a nie teksty.**
+Próbka nie jest ciągła.
+Składa się z sekcji `div`, a każda z nich jest garścią akapitów
+wziętych z innego miejsca książki albo gazety;
+numer akapitu w źródle stoi przy każdym z nich w atrybucie `n`,
+więc rozrzut widać w samym pliku.
+Ciągłość sięga jednego `div`-a, a nie próbki,
+a wydanie 1.2 ma ich 18 484, o medianie 54 słów i maksimum 157;
+sto słów przekraczają cztery z nich.
+Zaimek z pierwszego zdania takiej sekcji ma antecedens za cięciem,
+a zero kandydatów znaczy nad tekstem przeczytanym w całości co innego
+niż nad wycinkiem ([roadmap.md](roadmap.md#cele)).
+Znalezisko odniesieniowe zgłasza tu przez to tyle co nic —
+nad próbką z czterech warstw pada kilka razy —
+więc bierze teksty spoza tego korpusu, a nie jego warstwę.
+
+**Tekst z usterkami jest materiałem, a nie zanieczyszczeniem.**
+Bank drzew niesie wyłącznie zdania poprawne,
+więc pomiar nad nim nie ukarze gramatyki za przyjęcie ciągu,
+którego polszczyzna nie ma;
+zestaw takich ciągów wokół jednego łącznika stoi w `próba/łącznik-odrzucane.txt`,
+a tamten plik nazywa zestaw dla całej gramatyki osobnym przedsięwzięciem.
+Po nazwach typów najbliżej polszczyzny pisanej bez korekty
+są typy konwersacyjny i internetowy,
+a ile w nich usterek, mówi dopiero czytanie.
 
 ## Not yet decided
 

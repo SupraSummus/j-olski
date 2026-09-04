@@ -21,25 +21,24 @@ The move is to decide, per corpus, whether it joins the harness
 as an extraction beside the Markdown one,
 as a fetch-and-select command in the document that cites it,
 or not at all because the survey has already ruled the corpus out.
+That decision is taken for NKJP: it joined as `harness/nkjp.py`,
+because the base of hand-read findings takes its trunk from it
+([`docs/corpora.md`](../docs/corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)).
 
-The corpus archives these documents send a reader to fetch
-are pinned by URL and by nothing else.
-[Składnica](../docs/corpus.md#fetching-it)
-and [NKJP](../docs/corpora.md#the-national-corpus-of-polish)
-name a release in the query string of a wiki attachment,
-which says which release without saying which bytes.
-`harness/świgra.py` is the one fetch that carries a digest,
-and it needed one worst: `swigra_current.zip` names no release at all.
-[The audit corpus](../docs/audit-corpus.md#the-list) pins its members to a commit
-and says what a pin is for:
-so that a second person fetches the same bytes.
-The corpus archives make that promise
-and give a reader no way to hold anyone to it.
-The move is `sha256sum` over Składnica and over NKJP,
-with the digest beside the command that fetches it,
-the way `harness/świgra.py` carries one,
-which turns a substitution upstream into a failed check
-rather than a figure that quietly stops reproducing.
+Archiwum Składnicy jest przypięte adresem i niczym więcej.
+[Pobranie](../docs/corpus.md#fetching-it) nazywa wydanie w adresie załącznika wiki,
+czyli mówi, które to wydanie, nie mówiąc, które to bajty.
+Odcisk pobrania niosą dziś dwa fetche: `harness/świgra.py`,
+któremu był potrzebny najbardziej, bo `swigra_current.zip` nie nazywa wydania wcale,
+oraz [NKJP](../docs/corpora.md#the-national-corpus-of-polish).
+[Korpus audytowy](../docs/audit-corpus.md#the-list) przypina swoje człony do commita
+i mówi, po co przypięcie jest: żeby druga osoba pobrała te same bajty.
+Archiwum Składnicy tę obietnicę składa
+i nie daje czytelnikowi, czym kogokolwiek z niej rozliczyć.
+Ruchem jest `sha256sum` nad Składnicą, z odciskiem obok komendy, która ją pobiera,
+tak jak niosą go tamte dwa,
+bo wtedy podmiana u wydawcy jest przewróconym sprawdzeniem,
+a nie liczbą, która po cichu przestała się odtwarzać.
 
 The corpora these documents send a reader to fetch
 come from hosts that gain nothing by serving them,
@@ -122,3 +121,16 @@ oraz decyzja, które rodzaje rachunek nad tekstem przeskakuje.
 Do przeczytania jest, ile takich pozycji ma proza tego repozytorium
 i ile z nich rozdziela dwa zdania mówiące o sobie,
 bo dopiero ta druga liczba mówi, czy rzecz w ogóle boli.
+
+`harness/nkjp.py` nie bierze deklaracji `Czytnik` i wypisuje pliki sam,
+bo dwa założenia tamtego rozdania nad tym korpusem nie zachodzą:
+plik wychodzi na sekcję, a nie na plik wejściowy,
+i pliki wejściowe rozpoznaje nazwa, a nie sufiks.
+Ceną jest druga ścieżka przez wypisywanie prozy,
+czyli to, przed czym ostrzega reguła o zdejmowaniu gałęzi.
+Do rozstrzygnięcia jest, czy `Czytnik` da się poszerzyć o jednostkę wychodzącą
+własnym plikiem, i wtedy tamten moduł traci swoje `main`,
+czy różnica jest na tyle duża, że dwa wypisywania są tańsze od jednego z warunkiem.
+Do przeczytania jest `uruchom` w `harness/__init__.py`
+obok `harness/ustawy.py`, bo ustawa jest drugim formatem, który tam wszedł,
+i mówi, ile tamto rozdanie unosi bez zmiany.
