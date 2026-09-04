@@ -37,8 +37,11 @@ Nazw przy tym nie ukuwamy:
 kalka czyta się jak termin, którego nikt tu nie zdefiniował,
 więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 
-Żaden check nie pilnuje tej reguły ani żadnej innej reguły prozy:
-sprawdzamy je w przeglądzie zmian, a nie w testach.
+Żaden check nie pilnuje tej reguły:
+sprawdzamy ją w przeglądzie zmian, a nie w testach.
+Tak jest z każdą regułą prozy, która pyta o treść zdania;
+co rozstrzyga się mechanicznie — nazwa, wskazanie, jego kierunek —
+pilnuje `tests/test_docs.py`.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają.
 
@@ -369,6 +372,27 @@ Na rzecz prywatną wolno się oprzeć tam, gdzie pilnuje jej test:
 blok wydruku wszedł do dokumentu dlatego, że `tests/test_wydruki.py`
 puszcza komendę i porównuje wiersze.
 
+## Dokument i kod nie wskazują na CLAUDE.md ani na todo/
+
+Kod i dokumenty mają sens bez tego pliku i bez rejestru otwartej roboty,
+a ten plik i `todo/` bez kodu i dokumentów sensu nie mają,
+bo każde ich zdanie mówi, co zrobić z jednym albo z drugim.
+Wskazanie prowadzi w tę samą stronę co ta zależność:
+ten plik i `todo/` wskazują dokument i moduł, a one ich nie wskazują.
+Wprowadza je jednym zdaniem README, bo kto tam wchodzi, nie zna żadnego z nich.
+
+Naprawą jest jedno zdanie przepisane z właściciela, bez wskazania obok niego,
+i tym różni się ta reguła od
+[ceny wskazania](#one-owner-per-fact-repeat-narrative-freely):
+tam wskazanie zostaje przy powtórzonym zdaniu, a tutaj odpada.
+Gdzie wskazanie mówiło tylko tyle, że ruch jest zapisany,
+zostaje samo skreślenie
+([skreślenie bywa całą naprawą](#skreślenie-bywa-całą-naprawą)).
+
+Wskazaniem jest w dokumencie link, bo tylko link prowadzi czytelnika dalej,
+a w module sam cytat, bo modułu nikt nie czyta w przeglądarce.
+Pilnuje tego `tests/test_docs.py` i on wypisuje wyjątki.
+
 ## Documents describe the present; git owns the past
 
 A document that narrates its own evolution becomes a changelog,
@@ -666,7 +690,9 @@ If the outside world closes the entry, it belongs in the list
 in the document that owns the topic,
 in [`docs/open-questions.md`](docs/open-questions.md)
 or in a document's own `Not yet decided`.
-The other list may carry a one-line pointer, and nothing more.
+`todo/` may carry a one-line pointer at the other list, and nothing more;
+the pointer does not run the other way
+([one direction](#dokument-i-kod-nie-wskazują-na-claudemd-ani-na-todo)).
 
 Alternatywy odrzuconej nie zamyka nikt, więc nie jest wpisem na żadnej z tych list.
 Jest [wywodem o stanie dzisiejszym](#documents-describe-the-present-git-owns-the-past)

@@ -52,7 +52,7 @@ PUSTE = ("podmiot", "dopełnienie")
 DOMYKA = ("rdzeń_względny", "rdzeń_względny_rzeczowny")
 #: Rodzina, której ciała luka zastępuje, czyli zasięg tej sondy. Węższa od
 #: :data:`DOMYKA` i tym zaniża pomiar, bo zdanie z `co` na czole wychodzi w
-#: wariancie odrzucone tak samo jak bez luki; todo/ trzyma ten brak.
+#: wariancie odrzucone tak samo jak bez luki.
 ZASTĘPOWANE = ("rdzeń_względny",)
 #: Symbol, pod którym luki stanąć nie wolno, bo jest korzeniem: zdanie z luką
 #: niedomkniętą zdaniem nie jest.

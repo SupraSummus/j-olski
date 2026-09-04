@@ -189,7 +189,7 @@ def _szyki_zdania_składowego(
     # więc pozycja niewypełniona córki nie żąda.
     #
     # Ciała są trzy, a nie jedno z pozycją opuszczalną, bo cena każdego szyku jest
-    # osobną liczbą (CLAUDE.md#code); ile który kupił, mówi dokument wyżej.
+    # osobną liczbą; ile który kupił, mówi dokument wyżej.
     grammar.rule("zdanie_składowe", [Głowa(kopula), ŁĄCZNIK, podmiot])
     grammar.rule("zdanie_składowe", [ŁĄCZNIK, Głowa(kopula), podmiot])
     grammar.rule(
@@ -282,7 +282,7 @@ def _szyki_zdania_składowego(
     # Dopełnienie przed czasownikiem, którego podmiot jest opuszczony: `Cenę
     # liczymy.`, `Ustawienia zapisujemy.` Polszczyzna opuszcza podmiot w każdym
     # szyku, a nie w tym jednym, w którym za czasownikiem nic nie stoi; ten
-    # rejestr mówi tym szykiem o swoich konwencjach (CLAUDE.md).
+    # rejestr mówi tym szykiem o swoich konwencjach.
     #
     # Szyku odwrotnego ta deklaracja nie ma z tego samego powodu, dla którego nie
     # ma go deklaracja z podmiotem (:func:`_poza_orzeczeniem`): czasownik wraz z

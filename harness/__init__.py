@@ -33,7 +33,7 @@ więc kto chce tutejszego programu, ma klon, a nie instalację.
 Komendy stąd wołają się przez ``python3 -m harness.<moduł>``,
 bo ``[project.scripts]`` jest wykazem tego, co dostaje użytkownik.
 Skryptu pisanego na jeden pomiar to nie obejmuje:
-ten zostaje w sesji, która mierzyła (``CLAUDE.md#code``).
+ten zostaje w sesji, która mierzyła.
 
 Korpus przychodzi w Markdownie albo ustawą podaną w HTML-u, a gramatyka bierze
 zdania, więc przed nią pracuje ekstrakcja. Kryterium wyżej dzieli ją na dwoje.
@@ -73,7 +73,7 @@ class Jednostka:
     Jednostką jest tyle tekstu, ile stoi w jednym języku, bo tyle właśnie waży
     wybór po języku. Dokument jest nią w całości, a w module jest nią docstring
     albo blok komentarza z osobna: słowa kluczowe i klucze konfiguracji zostają
-    po angielsku, a prozę i nazwy bierzemy po polsku (zob. CLAUDE.md), więc moduł
+    po angielsku, a prozę i nazwy bierzemy po polsku, więc moduł
     miesza dwa języki z założenia i próg nad całym plikiem nie ma nad czym stanąć.
 
     Wiersz idzie razem z tekstem, bo po ekstrakcji nie ma z czego go odtworzyć:
@@ -238,7 +238,7 @@ KORZEŃ = Path(__file__).resolve().parent.parent
 
 
 def proza_repozytorium() -> list[Path]:
-    """Cała proza repozytorium, czyli to, co obejmują reguły pisania (CLAUDE.md).
+    """Cała proza repozytorium, czyli to, co obejmują reguły pisania.
 
     Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
     ``docs/`` albo do ``todo/`` wszedł tu sam.

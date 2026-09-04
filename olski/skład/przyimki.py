@@ -26,7 +26,7 @@ Czego ten świadek nie sprawdza, jest doborem:
 który z przypadków należy się której relacji, rozstrzyga ten plik i nic poza nim.
 
 Przyimka w postaci zgłoskotwórczej — ``we``, ``ze``, ``pode`` — ten leksykon nie ma,
-więc ``we Wrocławiu`` z drzewa nie wyjdzie; trzyma to ``todo/``.
+więc ``we Wrocławiu`` z drzewa nie wyjdzie.
 """
 
 from __future__ import annotations

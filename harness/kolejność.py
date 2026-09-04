@@ -64,7 +64,7 @@ INNY_KONSTYTUENT = "inny konstytuent"
 NIECZYTANE = "nieczytane"
 
 #: Klasy sądu w kolejności wydruku. Krotka, a nie zbiór, bo zbiór postawiony na
-#: drodze do wydruku wypisuje w każdym przebiegu co innego (CLAUDE.md#code).
+#: drodze do wydruku wypisuje w każdym przebiegu co innego.
 KLASY = (TRAFNA, POMYŁKA, INNY_KONSTYTUENT, NIECZYTANE)
 
 

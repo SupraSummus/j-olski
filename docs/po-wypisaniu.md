@@ -128,7 +128,7 @@ bo o wyrażeniu przyimkowym drzewo mówi to, czego przy rolach nie mówi:
 okolicznik dochodzi w nim do zdarzenia zawsze,
 więc każde takie miejsce byłoby trafieniem,
 a raport zgłaszający każde zdanie z przyimkiem nie oddziela niczego od niczego.
-Czym to zawęzić, trzyma [`todo/`](../todo/README.md).
+Czym to zawęzić, trzyma `todo/`.
 
 ## Czytanie parsera wraca drzewem, a jedno czytanie kilkoma
 
@@ -212,7 +212,7 @@ każda klasa walencyjna prócz kopuli, a skład pyta o niego leksykon;
 `Linter pomaga pisać dobry kod.` stoi przez to w komentarzu `olski/subset/zdanie.py`
 jako przykład ciał produkcji `wypełnienia` i ze składu nie wychodzi wcale,
 bo `pomagać` bezokolicznika w tym leksykonie nie bierze.
-Który z dwóch mówi tu prawdę, pyta [`todo/`](../todo/README.md).
+Który z dwóch mówi tu prawdę, pyta `todo/`.
 
 Odpowiedź pusta jest odpowiedzią i ma trzy przyczyny, z których jedna jest brakiem.
 Zaimka, orzecznika przymiotnego, zdania bez podmiotu,
@@ -285,7 +285,7 @@ a nie o jedno drzewo, i zdejmuje w tym celu znacznik tematu:
 Obieg zostaje przy sygnaturze, bo żąda z powrotem tego drzewa,
 które napis wypuściło, a nie tego samego zdania logicznego.
 Czy łącznik `to` schodzi tą samą drogą co znacznik,
-nie rozstrzygnięto, i trzyma to [`todo/`](../todo/README.md).
+nie rozstrzygnięto, i trzyma to `todo/`.
 
 `harness/znaczenia.py` zostaje przy sygnaturze i jest to pomiar, a nie przeoczenie.
 Przestawiona na drugie kryterium nie rusza ani jednego werdyktu,
@@ -358,7 +358,7 @@ Rozstrzygają je wszystkie tabele `olski/skład/makieta.py`, przez wpis albo prz
 czyli miejsce, które leksykonem nie jest i nim nie będzie:
 tabela wymienia lematy, których ten jeden program używa,
 a fakt o przyimku dotyczy każdego drzewa, jakie ktokolwiek napisze.
-Każdy z nich prócz jednego ma przez to wpis w [`todo/`](../todo/README.md),
+Każdy z nich prócz jednego ma przez to wpis w `todo/`,
 a przymiotnik go nie ma i nie ma mieć:
 o tym, którym przymiotnikiem opisuje się człowieka, nie rozstrzyga ani forma,
 ani rama, ani czytanie, więc nie ma go gdzie zapisać jako faktu o polszczyźnie.

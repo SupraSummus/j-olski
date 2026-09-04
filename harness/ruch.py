@@ -607,7 +607,7 @@ def main(sonda: Sonda, argv: Sequence[str] | None = None) -> int:
 
     Sonda pisana pod jedną decyzję woła to jednym wierszem,
     bo od sond wpisanych do drzewa różni się tym, co zdejmuje,
-    a nie tym, o co pyta w wierszu poleceń (``CLAUDE.md#code``).
+    a nie tym, o co pyta w wierszu poleceń.
 
     ``-c`` dostaje każda sonda, bo minimalna para jest tym, czym sprawdza się
     liczbę z tabeli, i nie zależy od tego, co ta sonda zdejmuje.

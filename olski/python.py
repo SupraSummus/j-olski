@@ -1,7 +1,7 @@
 """Moduł wchodzi, polska proza wychodzi.
 
 Repozytorium pisze o sobie nie tylko w dokumentach: docstring i blok komentarza
-są prozą, którą CLAUDE.md obejmuje tymi samymi regułami, a przybywa jej przy
+są prozą, którą reguły pisania obejmują tak samo, a przybywa jej przy
 każdej zmianie w kodzie, bo prozę i nazwy bierzemy po polsku. Nad dokumentem
 sprowadza tę prozę pod ``olski-check`` ``olski/markdown.py``; nad modułem
 sprowadza ją ten krok, więc ``olski-check olski/parse/las.py`` mówi o docstringu

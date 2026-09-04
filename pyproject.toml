@@ -78,7 +78,7 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 # Komentarz i docstring są prozą pod sembr, a ta każe wierszom się różnić,
-# więc stała szerokość mierzy tu nie to, co trzeba
-# (CLAUDE.md#semantic-line-breaks). Kodu to nie rozprzęga, bo `line-length`
+# więc stała szerokość mierzy tu nie to, co trzeba.
+# Kodu to nie rozprzęga, bo `line-length`
 # wyżej zostaje i wedle niego łamią się importy.
 ignore = ["E501"]

@@ -110,7 +110,7 @@ MODUŁ = '''"""Zapisz plik."""\n\nSTAŁA = 1\n'''
 
 
 def test_moduł_dochodzi_do_gramatyki_swoim_docstringiem(capsys, tmp_path):
-    """Docstring jest prozą tych samych reguł co dokument (CLAUDE.md)."""
+    """Docstring jest prozą tych samych reguł co dokument."""
     plik = tmp_path / "moduł.py"
     plik.write_text(MODUŁ, encoding="utf-8")
     assert olski.check.main(["--readings", str(plik)]) == 0

@@ -83,7 +83,7 @@ Drugim znaleziskiem jest poprawka jednego znaku
 a trzecim zaimek, który wskazuje na dwie rzeczy naraz
 ([niżej](#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
 Wielkiej litery na początku zdania nie zgłasza nic,
-a ruch trzyma [`todo/`](../todo/README.md).
+a ruch trzyma `todo/`.
 
 ## Co się liczy jako jedno odczytanie
 
@@ -98,7 +98,7 @@ projekt ustawy ma w Sejmie pierwsze czytanie —
 więc jako nazwa wyniku było kalką z angielskiego `reading`.
 Odczytaniem polszczyzna nazywa wynik i tak mówi o przepisie,
 który dopuszcza dwa odczytania.
-Dawną nazwę poprawiamy [przy okazji](../CLAUDE.md#reguły-przyjmujemy-leniwie),
+Dawną nazwę poprawiamy przy okazji,
 a nowy tekst pisze się od razu nową.
 
 Z liczenia odczytań wyłączone są rozmyślnie trzy rzeczy,
@@ -319,14 +319,14 @@ Nad prozą tego repozytorium formę `-` bez licencji ma kilkaset zdań odrzucony
 a myślnik w jej miejsce nie daje odczytania ani jednemu z nich,
 więc taka poprawka płaciłaby rozbiór za każde i nie zgłaszała nic.
 Odwróci to rejestr, w którym ta podmiana zdanie wyprowadza,
-a pomiar nad nim trzyma [`todo/pomiar.md`](../todo/pomiar.md).
+a pomiar nad nim trzyma `todo/pomiar.md`.
 
 Poprawka odstępu po kropce stoi poza tą klasą, a wyklucza ją rachuba zdań.
 Kropka bez odstępu za nią — `niska.Cena` — nie jest granicą zdania
 (`SENTENCE_END` w `olski/document.py`),
 więc po poprawce olski czyta nie to zdanie, tylko dwa,
 a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić.
-Wpis o niej trzyma [`todo/gramatyka.md`](../todo/gramatyka.md).
+Wpis o niej trzyma `todo/gramatyka.md`.
 
 ## Naprawa całego słowa nie jest jednoznaczna
 
@@ -353,7 +353,7 @@ a oba te zdania olski czyta jednym odczytaniem.
 Wyróżnić naprawę mogłaby miara jej naturalności, a kandydat jest jeden:
 koszt, po którym las porządkuje czytania
 ([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Suma kosztów całego drzewa, o którą pyta [`todo/parser.md`](../todo/parser.md),
+Suma kosztów całego drzewa, o którą pyta `todo/parser.md`,
 nie postawiła naprawy prawdziwej za żadną konkurentką ani raz,
 a wyróżniła ją rzadziej niż raz na pięćdziesiąt zdań:
 jest bezpieczna i prawie bezczynna.
@@ -443,8 +443,7 @@ milczenie z braku pokrycia może zgłoszenie schować, a wymyślić go nie może
 Ilu zgłoszeń nie widzieliśmy, nie mówi żaden przebieg, bo mówiłby o zdaniach,
 których olski nie czyta.
 Dlatego zaimek bez ani jednego kandydata zgłoszenia nie dostaje,
-choć odniesienie wiszące jest usterką
-([CLAUDE.md](../CLAUDE.md#the-reader-goes-sentence-by-sentence)):
+choć odniesienie wiszące jest usterką:
 zero kandydatów znaczy i „nikt tej rzeczy nie nazwał”,
 i „olski tamtego zdania nie przeczytał”, a warstwa tych dwóch nie rozróżnia.
 
@@ -454,7 +453,7 @@ Zaimek wskazujący nie wchodzi:
 `to` i `ten` niosą w polszczyźnie łącznik, cząstkę i przydawkę,
 a rozdzielenie tych robót jest osobną robotą.
 Poza granicą zostaje przez to `to` w pozycji podmiotu akapitu,
-które [CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) wylicza jako usterkę.
+które `CLAUDE.md` wylicza jako usterkę.
 Zgłasza je osobna warstwa i osobnym kształtem, bo nie ma tam czego wyliczać:
 zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
 ([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
@@ -466,8 +465,7 @@ zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
 - Subjectless clauses, both imperative (`Zapisz plik.`)
   and pro-drop indicative (`Zapisuje ustawienia.`),
   with the object in front of the verb as well: `Cenę liczymy.`,
-  the order [CLAUDE.md](../CLAUDE.md#reguły-przyjmujemy-leniwie)
-  writes its own rules in
+  the order `CLAUDE.md` writes its own rules in
 - A verb before its subject, with an agreeing predicative after it or without one:
   `Są oni obdarzeni rozumem.`, `Nadchodzi druga rewolucja.`
 - A predicative before the copula, which is the mirror of OVS:

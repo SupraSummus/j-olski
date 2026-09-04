@@ -269,7 +269,7 @@ czyli konstrukcja, [której olski nie ma](subset.md#what-it-does-not-cover-yet).
 Liczby tego akapitu bierze się ręcznie nad tym samym bankiem,
 tak jak te, o których mówi [corpus.md](corpus.md#fetching-it),
 bo `harness/corpus.py` czyta z pola `tfw` dwie role, a nie całą ramę;
-co by kosztowało polecenie, trzyma [todo/](../todo/README.md).
+co by kosztowało polecenie, trzyma `todo/`.
 
 Cena i zysk są zmierzone nad Składnicą i idą w obie strony;
 liczby niżej wzięto nad gramatyką z chwili, w której leksykon wchodził,
@@ -695,8 +695,7 @@ nie jest znaleziskiem, tylko materiałem do przeczytania
 ([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
 
 Adresatem tego wiersza jest reguła o frazie urzędowej bez wykonawcy,
-a nie ta o czasowniku domowym
-([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)).
+a nie ta o czasowniku domowym.
 Czasownikowi domowemu tamta reguła każe podstawić czasownik dokładny,
 a `stać`, `trzymać`, `brać` i `nieść` nie mają w Walentym ramy semantycznej wcale,
 więc test podstawieniowy zostaje przy człowieku.
@@ -781,7 +780,7 @@ Projekt bez tej sekcji nie ma nikogo,
 więc wykaz wraca u niego do materiału zawężonego do klas osobowych.
 
 Adresatem tego wykazu jest reguła o frazie urzędowej bez wykonawcy
-([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)) i przegląd, który ją zadaje.
+i przegląd, który ją zadaje.
 Nad prozą tego repozytorium `--żądania` wypisuje przeszło dwa tysiące wierszy,
 a `--osoby` przeszło sto, nad sześćdziesięcioma zdaniami, i tyle czyta się ręką.
 Znaleziskiem wiersz nie jest i być nie może, bo ta sama reguła zostawia

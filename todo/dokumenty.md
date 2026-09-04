@@ -457,3 +457,36 @@ więc ścieżka dobra dla jednego z nich jest martwa u drugiego.
 Do przeczytania jest `CITED_DOCUMENT` w `tests/test_docs.py`:
 przekład ma brać ten sam cytat, który pilnuje suita,
 bo inaczej referencja linkuje do kotwicy, której nie sprawdza nikt.
+
+Wskazanie na rejestr otwartej roboty zostało w `docs/` samą nazwą bez adresu —
+„a ruch trzyma `todo/`”, „pyta wpis w `todo/`” —
+i jest tego kilkadziesiąt zdań w dwudziestu kilku dokumentach.
+Wpisu ta nazwa nie identyfikuje, bo wpis nazywa się tym, o czym mówi,
+a rejestr jest dłuższy, niż ktokolwiek czyta,
+więc czytelnik dostaje kierunek zamiast miejsca.
+Ruchem jest przebieg po jednym dokumencie na commit,
+w którym każde takie zdanie rozstrzyga się osobno:
+gdzie zdanie bez tej klauzuli mówi to samo, klauzula schodzi,
+a gdzie nazwa jest tematem zdania, zostaje.
+Do przeczytania jest przy każdym zdaniu jedno pytanie:
+co czytelnik z tą nazwą zrobi, jeżeli rejestru nie otworzy.
+Do rozstrzygnięcia jest przy tym, czy po takim przebiegu
+`LINK_INSTRUKCJI` w `tests/test_docs.py` ma pytać o samą nazwę, a nie o link:
+dokument orzekający o regułach prozy nazwę mieć musi,
+a wzorzec nie odróżni go od dokumentu, który się na tych regułach opiera.
+
+`docs/roles.md` mówi o pracy w tym repozytorium, a nie o polszczyźnie,
+więc reguła kierunku zabrała mu kilka adresów, na których stały jego zdania:
+„Przegląd zmian pyta, jaki problem znika ze zmianą”
+nie mówi już, gdzie ten przegląd opisano, a „Granicę między nimi
+trzyma nagłówek rejestru” nie mówi, którego pliku ten nagłówek jest nagłówkiem.
+Tym samym kryterium, na którym reguła stoi — dokument ma sens bez instrukcji,
+a instrukcja bez dokumentu nie — ten jeden dokument wychodzi po drugiej stronie:
+bez instrukcji nie ma o czym mówić.
+Ruchem jest rozstrzygnięcie, gdzie on należy: zostaje w `docs/` bez adresów,
+wchodzi do wyjątków checku, albo staje obok instrukcji i wtedy wolno mu wskazywać.
+Do przeczytania są przy tym dwa miejsca:
+spis w `docs/README.md`, który żąda wiersza dla każdego pliku tego katalogu,
+oraz `docs/publikacja.md`, bo strona bierze prozę w układzie katalogów repozytorium.
+Ten sam kształt, tylko słabszy, mają `docs/linter.md` i `docs/pisanie-po-olsku.md`:
+oba orzekają o regułach prozy, a nazwy sekcji im zostały.

@@ -62,8 +62,7 @@ SPÓJNIKI_WYSUWANE = frozenset({
 #: Fakt ten jest faktem o słowie, a nie o kierunku, w którym się go używa,
 #: i skład trzyma go już o `bo` oraz o `ponieważ`
 #: (``staje_na_czele`` w ``olski/skład/spójniki.py``);
-#: todo/ trzyma ruch, którym oba kierunki przeczytałyby jeden leksykon,
-#: bo tą samą drogą poszła walencja.
+#: Oba kierunki przeczytałby jeden leksykon, bo tą samą drogą poszła walencja.
 #: Świadka nad bankiem drzew czyta docs/subset.md.
 SPÓJNIKI_PO_ZDANIU = frozenset({"bo", "gdyż", "albowiem", "aż"})
 

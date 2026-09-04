@@ -453,8 +453,7 @@ def zapisz(wpisy: Sequence[tuple[str, str, tuple[str, ...], frozenset[str]]], ou
 
     Zbiór przyimków wychodzi posortowany,
     bo kolejność zbioru jest inna w każdym przebiegu,
-    a plik generowany ma się nie różnić od przebiegu do przebiegu
-    (CLAUDE.md, o porządku wypisywanego wyjścia).
+    a plik generowany ma się nie różnić od przebiegu do przebiegu.
     """
     out.write(NAGŁÓWEK)
     for lemat, klasa, orzeczone, żądane in wpisy:

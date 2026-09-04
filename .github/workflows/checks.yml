@@ -1,7 +1,7 @@
 name: checks
 
 #  Gałąź bez pull requesta przebiegu nie dostaje, bo minuty runnera liczą się
-#  za każdy przebieg z osobna (CLAUDE.md, sekcja `Checks`).
+#  za każdy przebieg z osobna.
 on:
   pull_request:
   push:

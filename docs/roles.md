@@ -12,7 +12,7 @@ Lista dokumentów w [docs/README.md](README.md) mówi, co stoi w każdym pliku.
 Nie mówi, kto po ten plik przychodzi.
 Dopisanie akapitu jest przez to tanie.
 Przecięcie cudzej drogi jest przy tym niewidoczne.
-[Przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku)
+Przegląd zmian
 pyta, jaki problem znika ze zmianą.
 Tu stoi druga połowa tego pytania, czyli to, kogo ta zmiana dotyczy.
 
@@ -61,7 +61,7 @@ Strona zaczyna od tego samego wprowadzenia i prowadzi do pola tekstowego
 Psuje ją też nazwa użyta przed wprowadzeniem.
 Czytanie i walencja na pierwszej stronie są taką nazwą.
 Obie rzeczy są niewidoczne dla autora, bo autor wie, co stoi niżej.
-Dlatego [reguła o czytaniu zdanie po zdaniu](../CLAUDE.md#the-reader-goes-sentence-by-sentence)
+Dlatego reguła o czytaniu zdanie po zdaniu
 każe czytać od miejsca edycji tak, jakby dalszej części nie było.
 
 **Obsady** ta rola nie ma.
@@ -80,7 +80,7 @@ ani napis bez kropki
 ([pisanie-po-olsku.md](pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz)).
 Osobnego podręcznika nie ma.
 Dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
-bo [kod jest właścicielem tego, co zaimplementowane](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
+bo kod jest właścicielem tego, co zaimplementowane.
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać.
 Jest nią to,
 [dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
@@ -111,7 +111,7 @@ a odcinków z kryterium wyjścia dla czegoś, co się nie kończy, nikt nie podn
 Kryterium wyjścia ma tam jeden tor i jest nim skład
 ([tamże](roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)).
 Dalej rozchodzą się trzy listy.
-Granicę między nimi trzyma [nagłówek rejestru](../todo/README.md).
+Granicę między nimi trzyma nagłówek rejestru.
 Co zamyka commit w tym repozytorium, jest tam.
 Co zamyka świat zewnętrzny, siedzi w [open-questions.md](open-questions.md)
 albo w sekcji `Not yet decided` dokumentu, który jest właścicielem tematu.
@@ -127,7 +127,7 @@ Podział nazywa więc, per sesja, decyzję, którą ta sesja zamyka —
 na przykład to, co czyni dwa wyprowadzenia jednym odczytaniem,
 o czym mówi docstring `Node.signature` w `olski/parse/czytanie.py`.
 Gdzie dwie sesje wychodzą na tę samą decyzję, jest to jedna sesja.
-Tego samego [nagłówek rejestru](../todo/README.md) żąda od pojedynczego wpisu,
+Tego samego nagłówek rejestru żąda od pojedynczego wpisu,
 czyli żeby nazywał dowód do przeczytania, a nie tylko pliki do zmiany.
 
 Konstrukcja wpuszczona sama płaci cały stały koszt swojej sekcji —
@@ -190,8 +190,7 @@ Ciało dochodzi do modułu swojego gospodarza w `olski/subset/`,
 a nacechowane nazywa przy tym pozycję z `olski/cennik.py`,
 bo nienazwane orzeka, że jest zwyklejsze od ciała, które płaci
 ([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`
-([CLAUDE.md](../CLAUDE.md#code)).
+Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`.
 Korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)
 oraz z [ustawy.md](ustawy.md#skąd-bierze-się-korpus).
 Wywód wraca do sekcji, która tę konstrukcję trzyma,
@@ -213,8 +212,6 @@ Korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
 Dwa programy tego pakietu do repozytorium jednak piszą i pomiarem nie są.
 Pliki, które gramatyka potem czyta, wypisują `harness/walenty.py`
 oraz `harness/skłonności.py`.
-Co z tego wynika, mówi
-[CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
 Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia.
 Zdanie w dokumencie mówi więc rząd wielkości, a przebieg mówi liczbę.
 Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z pakietem reguł.
@@ -285,7 +282,7 @@ W [swigra.md](swigra.md) szuka tej samej rzeczy na torze gramatycznym.
 
 **Psuje ją** ocena stopniująca bez podstawy.
 Ta rola przyszła sprawdzić właśnie takie zdania,
-a [jedno niepodparte kosztuje wiarygodność reszty](../CLAUDE.md#a-claim-about-the-world-says-how-to-check-it).
+a jedno niepodparte kosztuje wiarygodność reszty.
 
 **Obsady** ta rola nie ma.
 Sprzężona jest najsłabiej z całej listy.
@@ -294,35 +291,35 @@ Trzy dokumenty pisane dla kogoś z zewnątrz czytał tylko ten, kto je napisał.
 ## Sesja agenta
 
 Pyta, jaka jest konwencja i którą decyzję ta sesja rozstrzyga.
-Wchodzi w [CLAUDE.md](../CLAUDE.md) i czyta całość,
+Wchodzi w `CLAUDE.md` i czyta całość,
 bo to jedyna kopia konwencji.
-Potem wchodzi w [todo/](../todo/README.md).
+Potem wchodzi w `todo/`.
 Ta rola różni się od pozostałych trzema rzeczami, które robią jej całą drogę.
 Przychodzi za każdym razem na zimno.
 [Nie widzi innych sesji](#planista).
 Dostaje klon,
-[który pokazuje historię obciętą albo nieświeżą](../CLAUDE.md#git-w-sesji-zdalnej).
+który pokazuje historię obciętą albo nieświeżą.
 
 **Psuje ją** konwencja, która istnieje tylko w komunikacie commita
 albo w pamięci innej sesji.
 Psuje ją też podział pracy zrobiony po plikach zamiast po rozstrzyganych decyzjach,
 bo dwie sesje dochodzą wtedy do tego samego wniosku dwa razy
 i żaden merge tego nie zgłasza.
-Psuje ją wreszcie wpis z [todo/](../todo/README.md) wykonany tak, jak stoi,
+Psuje ją wreszcie wpis z `todo/` wykonany tak, jak stoi,
 bo nie ma kogo zapytać, czy nazwany w nim ruch jest czymś więcej niż zgadnięciem.
 
 **Obsadzają ją** sesje agenta, które mają w gicie własne commity.
-Cały [CLAUDE.md](../CLAUDE.md) jest pisany pod tę rolę.
+Cały `CLAUDE.md` jest pisany pod tę rolę.
 
 ## Czego na tej liście nie ma
 
 Recenzent nie jest rolą, tylko fazą.
 Kończy ją każda postawa cokolwiek pisząca.
-Opisuje ją [przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku).
+Opisuje ją przegląd zmian.
 Nie ma autora reguły, bo wyszedł razem z pakietem reguł.
 Kto chciałby tę rolę obsadzić na nowo,
 zaczyna od tego, [co ją zamknęło](linter.md#co-zamknęło-pakiet-reguł),
 a nie od formatu, w którym reguła kiedyś stała.
 Nie ma też roli osoby dokładającej się z zewnątrz.
-Rozdzielenie CLAUDE.md na wersję dla autora i wersję dla gości
+Rozdzielenie `CLAUDE.md` na wersję dla autora i wersję dla gości
 kosztowałoby dwie kopie tych samych reguł, żeby obsłużyć nikogo.

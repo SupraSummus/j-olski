@@ -28,7 +28,7 @@ a rozstrzyga je tak, że rusza obie strony naraz
 i zatrzymuje się w [punkcie kompromisu](#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu).
 
 Planem to nie jest.
-Właścicielem ruchu jest [`todo/`](../todo/README.md),
+Właścicielem ruchu jest `todo/`,
 kolejności [`roadmap.md`](roadmap.md),
 a ceny wpuszczenia konstrukcji
 [`subset.md`](subset.md#what-the-grammar-covers);
@@ -102,7 +102,7 @@ W `architecture.md` pięć zdań miało ten przecinek bez żadnego z tych dwóch
 
 Płaci tu autor i ten rachunek się zwraca.
 Zdania te były niepoprawne przed olskim i nikt tego nie zauważył:
-[reguły prozy](../CLAUDE.md#katalog-chwytów-rejestru) o interpunkcji nie mówią,
+reguły prozy o interpunkcji nie mówią,
 `markdownlint` czyta Markdown, a nie polszczyznę,
 a `tests/test_docs.py` sprawdza nazwy plików i sekcji.
 O tym przecinku powiedział w tym repozytorium tylko werdykt `rejected`.
@@ -114,7 +114,7 @@ Który z tych dwóch wypadków zachodzi, rozstrzyga czytelnik i po to ten fotel 
 
 Przecinek przed `i` stoi w tej prozie setki razy,
 a które z tych miejsc nie domykają niczego, widać dopiero po przeczytaniu każdego;
-ruch trzyma [`todo/`](../todo/README.md).
+ruch trzyma `todo/`.
 
 ## Zasłanianie działa w obie strony
 
@@ -188,7 +188,7 @@ Słowo wymienione na takie, które Morfeusz czyta jak trzeba — `niekiedy` za `
 `identyczne` za `te same` — rusza rejestr, a nie treść.
 Nazwa funkcji zdjęta na rzecz nazwy modułu nie kosztuje nic
 i jest to jedyny z czterech ruchów, którego
-[reguły prozy](../CLAUDE.md#na-czym-wolno-oprzeć-zdanie) chciały i bez olskiego.
+reguły prozy chciały i bez olskiego.
 
 Zdania odrzucone zostają i zostać muszą,
 a granica przebiega przez nie dwiema drogami.
@@ -196,11 +196,11 @@ Jedne niosą po kilka zatrzymań naraz i rozbite na krótsze straciłyby wywód.
 Drugie przeszłyby, gdyby powiedzieć w nich mniej, i te nazywają granicę wprost.
 Zdanie o warstwie pierwszej, drugiej i piątej żąda liczby mnogiej,
 a ciągu rozdzielnego przydawek gramatyka nie ma
-i wpis o nim trzyma [`todo/`](../todo/README.md).
+i wpis o nim trzyma `todo/`.
 Zdanie o populacji kilka razy większej przechodzi bez `kilka razy`,
 tylko że wtedy rzędu wielkości nie mówi,
 a rząd wielkości jest tu tym, po co ono stoi.
-Granicę tę stawia [`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
+Granicę tę stawia `CLAUDE.md`,
 i to ona rozstrzyga, kiedy przebieg po dokumencie się kończy.
 
 ## Odrzucenie mówi, na czym stanęło, i mówi to raz
@@ -302,7 +302,7 @@ a nad zamkniętymi zbiera pod jedną nazwą formy żądające każda innej konst
 wiersz `conj` prowadzą w tym rejestrze `i` oraz `a`,
 a pod nimi stoją `czy`, `czyli` i `ani`
 ([corpus.md](corpus.md#where-the-analyses-stop) trzyma, które wiersze prowadzą).
-Ruch nad tym wierszem trzyma [`todo/`](../todo/README.md).
+Ruch nad tym wierszem trzyma `todo/`.
 
 Kolejka policzona po samej formie odpowiada zarazem na pytanie o rachunek.
 Forma nazywa słowo, a słowo da się przeczytać:
@@ -363,7 +363,7 @@ tylko blokiem pod spodem.
 Spójnika apozycja nie ma, więc od członu bez czasownika, który wszedł,
 różni ją to, że nie ma czym wpuścić jej osobno
 ([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
-cenę tej produkcji trzyma [`todo/`](../todo/README.md).
+cenę tej produkcji trzyma `todo/`.
 
 **Cząstka `się` oddalona od swojego czasownika.**
 `Rachunek się dotąd nie zwraca.` pada,
@@ -454,7 +454,7 @@ a `` `build` `` wraca z Morfeusza jednym napisem razem z backtickami.
 SGJP zna `linter` i daje mu dopełniacz `linteru`,
 a ta proza odmienia go wedle drugiego leksemu.
 Leksykon projektu takiego wiersza nie przyjmuje z powodu, który sam podaje,
-a ruch trzyma [`todo/`](../todo/README.md).
+a ruch trzyma `todo/`.
 
 **Notacja z jednoliterowym członem.**
 `docs/pisanie-po-olsku.md jest raportem.` przechodzi,
@@ -493,7 +493,7 @@ Pisanie pod olskiego popycha w pięć chwytów:
 zdanie krótkie, kopułę z narzędnikiem, wyrażenie przyimkowe na czele zdania,
 dopełnienie w rodzaju żeńskim i orzekanie przez zaprzeczenie.
 Trzy pierwsze widać w README po przepisaniu,
-a [reguły prozy](../CLAUDE.md#katalog-chwytów-rejestru) każą unikać
+a reguły prozy każą unikać
 jednego rytmu na wszystko.
 Gramatyka nagradza więc rejestr, który reguły prozy karzą.
 
@@ -504,7 +504,7 @@ przez który olski daje zdaniu dwa czytania:
 `Pokrycia gramatyki skład nie dziedziczy.` wychodzi jednoznaczne,
 a `Skład dziedziczy pokrycie gramatyki.` wieloznaczne.
 Zdanie zanegowane jest przez to tańsze o jedno czytanie od tego samego twierdzenia,
-a [kontrastowa rama](../CLAUDE.md#katalog-chwytów-rejestru)
+a kontrastowa rama
 jest tym, co reguły prozy wykreślają.
 
 Płaci tu gramatyka, bo zdanie długie jest polszczyzną

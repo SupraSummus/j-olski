@@ -137,8 +137,7 @@ def render(wszystkie: Sequence[Odpowiedź], przykłady: int = PRZYKŁADY) -> str
     """Zasięg i trafność, a pod nimi odpowiedzi do przeczytania.
 
     Kolejność wierszy jest napisana tutaj, a nie wzięta ze zbioru, bo zbiór
-    wypisywałby je w każdym przebiegu inaczej (``CLAUDE.md``, o porządku
-    wypisywanego wyjścia).
+    wypisywałby je w każdym przebiegu inaczej.
     """
     padłe = [o for o in wszystkie if o.wskazany]
     trafne = [o for o in padłe if o.trafna]

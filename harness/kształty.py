@@ -1,6 +1,6 @@
-"""Ile zdań banku drzew niesie konstrukcję, o którą pyta kolejka z ``todo/``.
+"""Ile zdań banku drzew niesie konstrukcja, której gramatyka nie ma.
 
-Wpis o konstrukcji, której gramatyka nie ma, kończy się zwykle tym, że bez tej
+Wpis o takiej konstrukcji kończy się zwykle tym, że bez tej
 liczby jest samą ceną. Kolejka blokerów jej nie podaje, bo nazywa formę, na
 której analiza stanęła, a nie konstrukcję, której zabrakło
 (``olski/pokrycie.py``). Nad drzewem wzorcowym liczy się ją wprost.

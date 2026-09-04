@@ -430,8 +430,7 @@ def zapisz(wpisy: Sequence[tuple[str, str, str, str, frozenset[str]]], out) -> N
     """Wypisz wpisy w tej kolejności, w której przyszły.
 
     Zbiór klas wychodzi posortowany, bo kolejność zbioru jest inna w każdym
-    przebiegu, a plik generowany ma się nie różnić od przebiegu do przebiegu
-    (CLAUDE.md, o porządku wypisywanego wyjścia).
+    przebiegu, a plik generowany ma się nie różnić od przebiegu do przebiegu.
     """
     out.write(NAGŁÓWEK)
     for lemat, klasa, nazwa, rola, klasy in wpisy:

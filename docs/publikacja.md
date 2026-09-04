@@ -3,8 +3,8 @@
 Dokumentacja stoi pod `dokumentacja.olski.pl`,
 a wydaje ją GitHub Pages z tego repozytorium.
 Na stronę idzie proza, którą repozytorium już ma —
-[README](../README.md), ten katalog, [`todo/`](../todo/README.md)
-i [CLAUDE.md](../CLAUDE.md) —
+[README](../README.md), ten katalog, `todo/`
+i `CLAUDE.md` —
 oraz referencja API wypisana z docstringów pakietu.
 Demo parsera stoi osobno, pod `olski.pl`, i opisuje je [witryna.md](witryna.md).
 
@@ -47,7 +47,7 @@ pilnuje konwencji GitHuba, a nie tego, co wystawi strona.
 ## Korzeniem strony jest korzeń repozytorium
 
 Z `docs/` i z `todo/` wychodzi kilkaset linków ponad swój katalog:
-do README, do CLAUDE.md i do rejestru otwartej roboty.
+do README z obu, a z `todo/` także do `CLAUDE.md` i do każdego dokumentu.
 Katalog `docs/` wydany sam urywa je wszystkie,
 więc na stronę idzie proza w tym układzie katalogów, w którym stoi w repozytorium.
 
@@ -75,11 +75,9 @@ suita nad GitHubem, a budowanie nad stroną.
 ## Referencja API powstaje z docstringów
 
 Wypisuje ją mkdocstrings z pakietu `olski`, i nie jest to druga kopia faktu:
-kod jest właścicielem tego, co zaimplementowane
-([CLAUDE.md](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)),
+kod jest właścicielem tego, co zaimplementowane,
 a referencja powstaje z niego przy każdym budowaniu.
-Docstringi są tu prozą pod
-[łamaniem wierszy](../CLAUDE.md#semantic-line-breaks),
+Docstringi są tu prozą pod semantycznym łamaniem wierszy,
 a pojedynczy nowy wiersz zwija się w spację, więc renderują się jak akapit.
 
 Referencja jest częścią tej strony, a nie drzewem obok niej.
@@ -103,7 +101,7 @@ Ceną jest cytat dokumentu i widać ją na stronie:
 docstring cytuje go gołym napisem, a nie linkiem,
 i robi to kilkadziesiąt modułów pakietu,
 więc w referencji te cytaty są martwym tekstem.
-Wpis o tym trzyma [`todo/dokumenty.md`](../todo/dokumenty.md).
+Wpis o tym trzyma `todo/dokumenty.md`.
 
 ## Nawigacji nie piszemy ręką
 
@@ -128,11 +126,10 @@ Robi to [`.github/workflows/dokumentacja.yml`](../.github/workflows/dokumentacja
 Buduje na każdym pull requeście, bo `--strict` jest sprawdzeniem:
 martwy link ma wywrócić przebieg przed scaleniem, a nie po nim.
 Push na gałąź bez pull requesta budowania nie uruchamia,
-bo minuty runnera liczą się za każdy przebieg
-([CLAUDE.md](../CLAUDE.md#checks)).
+bo minuty runnera liczą się za każdy przebieg.
 Wydanie jest osobnym zadaniem i czeka na `main`, bo adres jest jeden.
 
-Do [bloku checków](../CLAUDE.md#checks) budowanie nie wchodzi.
+Do bloku checków budowanie nie wchodzi.
 mkdocs i mkdocstrings instaluje dodatek `dokumentacja` z `pyproject.toml`,
 a suita go nie instaluje — tak samo jak nie instaluje gunicorna dla demo.
 Ceną jest to, że o martwym linku mówi dopiero pull request,

@@ -1,6 +1,6 @@
 """Że zbiórka testów przechodzi tam, gdzie wheel Morfeusza się nie buduje.
 
-[Sekcja Checks](CLAUDE.md#checks) obiecuje, że w takim środowisku plik testowy
+Blok checków obiecuje, że w takim środowisku plik testowy
 dochodzący do analizatora pomija się sam, a przebieg melduje testy stojące obok
 niego, a nie zero testów. Obietnicy tej nie pilnowało nic i raz już się
 rozeszła, bo przebieg z Morfeuszem przechodzi tak samo z pominięciem i bez

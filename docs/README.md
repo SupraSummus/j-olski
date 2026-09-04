@@ -8,8 +8,7 @@ Dzielimy go po torach, bo czytelnik przychodzi po jeden tor.
 Kto po który dokument sięga, mówi [roles.md](roles.md).
 
 Dokument dostaje tu zdanie albo dwa i nie powtarza swoich liczb,
-bo właścicielem faktu jest ten dokument, a nie spis
-([CLAUDE.md](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)).
+bo właścicielem faktu jest ten dokument, a nie spis.
 Dokument, którego tu nie ma, nie leży na niczyjej drodze,
 więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 

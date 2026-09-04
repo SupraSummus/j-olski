@@ -18,7 +18,7 @@ Tor gramatyczny końca nie ma, więc jego odcinki dostawały kryteria wyjścia
 dla czegoś, co się nie kończy, a numeracja obiecywała kolejność zależności,
 której dwa z tych odcinków u siebie zaprzeczały.
 Co z nich zostało, rozeszło się do właścicieli:
-otwarta robota do [`todo/`](../todo/README.md),
+otwarta robota do `todo/`,
 wiedza o cenie pozycji do
 [corpus.md](corpus.md#kolejka-obiecuje-więcej-niż-pozycja-oddaje),
 a wywód o konstrukcji do jej sekcji w [subset.md](subset.md).
@@ -218,8 +218,7 @@ a to, że z trzech wyjść wybrano właśnie to, zapisuje
 Zbiór zdań, którym się mierzyło, był przy tym w rękach tego, kto mierzy.
 Każdy inny korpus tego repozytorium jest przypięty —
 wydaniem, commitem albo adresem ELI — a README rusza każdy commit,
-który dotyka jego prozy, i nie dogoni tego żadna reguła przeliczania
-([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+który dotyka jego prozy, i nie dogoni tego żadna reguła przeliczania.
 Odległość do takiego celu skraca i dopisana produkcja, i przeredagowany akapit,
 a wydruk nie mówi, które z dwojga zaszło.
 Zdanie „README stoi, a rusza się gramatyka” było więc obietnicą,
@@ -320,7 +319,7 @@ i mówi, ile każdy cel potrzebuje zobaczyć, a nie który jest ważniejszy.
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
 Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
 peryfrazę, czasownik domowy — wylicza
-[katalog chwytów](../CLAUDE.md#katalog-chwytów-rejestru) w CLAUDE.md,
+katalog chwytów w `CLAUDE.md`,
 a sprawdza je przegląd zmian, czyli człowiek czytający zdanie po zdaniu.
 Cel żąda, żeby wzorzec raz nazwany dostał wykrywacz,
 a wykrywacz przeszedł po całej prozie repozytorium i stanął na zerze.
@@ -338,10 +337,9 @@ a jak dobrać i wycenić następną regułę, mówi
 Milczenie kosztuje przy tym zero:
 zdanie, którego olski nie wyprowadza, zostaje przy przeglądzie,
 czyli przy tym, co je dziś sprawdza,
-więc cel nie żąda od tych dokumentów, żeby zmieściły się pod gramatykę
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
-Osiągnięty, unieważni zdanie z CLAUDE.md,
-że reguł prozy nie pilnuje żaden check, a pilnuje ich przegląd;
+więc cel nie żąda od tych dokumentów, żeby zmieściły się pod gramatykę.
+Osiągnięty, unieważni zdanie z `CLAUDE.md`,
+że treści reguł prozy nie pilnuje żaden check, a pilnuje jej przegląd;
 póki nie jest osiągnięty, zdanie to obowiązuje.
 Pierwszy wzorzec ma już wykrywacz i przebieg nad nim stoi na zerze
 ([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
@@ -379,8 +377,7 @@ a nie wnioskiem ze słownika synonimów
 ([kategorie-zapisu.md](kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)).
 
 **Olski mówi, czego czasownik żąda od swojej pozycji, a czego zdanie tam nie podaje.**
-Test podstawieniowy z reguły o czasowniku domowym
-([CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru)) ma dwa kroki,
+Test podstawieniowy z reguły o czasowniku domowym ma dwa kroki,
 a cel o propozycji kupuje pierwszy, mechaniczny.
 Drugi krok — czy zdanie po podstawieniu zyskało —
 dostaje w przeglądzie odpowiedź w rodzaju
@@ -390,7 +387,7 @@ Mówi ją człowiek.
 Cel żąda, żeby powiedział ją werdykt.
 Do tego samego celu należy zdanie spakowane, czyli drugi rodzaj skrótu,
 w którym autor wyrzuca to, co czytelnik ma odtworzyć.
-Sygnał jest tu strukturalny i CLAUDE.md nazywa go wprost:
+Sygnał jest tu strukturalny i `CLAUDE.md` nazywa go wprost:
 w instrukcji ma być jedno twierdzenie na zdanie,
 a znakiem ostrzegawczym są dwa człony spięte przez „a”, „więc” albo „i”,
 każdy z innym podmiotem.
@@ -423,7 +420,7 @@ Czy „stać” żąda przestrzeni fizycznej, czy żąda jej tylko w tym domu,
 rozstrzyga się razem z tamtym pytaniem:
 metafora wystygła jest w polszczyźnie zwykłym użyciem,
 a próg między nią a usterką stawia
-[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru).
+`CLAUDE.md`.
 Wiersz żądania idzie przy tym obok streszczenia, a nie w odrzuceniu:
 zdanie odrzucone nie obsadza żadnej pozycji, więc mówi dalej,
 dokąd analiza doszła
@@ -436,8 +433,7 @@ ile grup imiennych w zdaniu obok zgadza się z `one` liczbą i rodzajem
 Kilku jest zgłoszeniem wraz z ich listą, a jeden jest ciszą,
 i to zgłoszenie olski wydaje: jest ono trzecim z jego znalezisk
 ([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
-Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką
-([CLAUDE.md](../CLAUDE.md#the-reader-goes-sentence-by-sentence)),
+Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką,
 bo zdanie obok, którego gramatyka nie wyprowadza, kandydata nie podaje żadnego,
 więc zero znaczy tam co innego niż w tekście przeczytanym w całości (tamże).
 Ta połowa celu wraca razem z pokryciem, a nie osobnym pomysłem.
@@ -446,9 +442,8 @@ Pierwszą jest sprawdzian, czyli garść tekstów przeczytana ręką:
 nad każdym zgłoszonym zaimkiem czytelnik mówi, ilu kandydatów widzi sam,
 a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie nie ma ich dokładnie jednego.
 Drugą jest orzeczenie domyślne, którego ta warstwa nie tyka,
-bo zaimkiem nie jest wcale
-([katalog chwytów](../CLAUDE.md#katalog-chwytów-rejestru));
-trzyma je [`todo/`](../todo/README.md).
+bo zaimkiem nie jest wcale;
+trzyma je `todo/`.
 „To” w miejscu podmiotu akapitu z tej listy zeszło:
 zgodność nie ma nad nim czego liczyć, bo zdanie podjęte rzeczą nie jest,
 więc zgłasza je warstwa obok i innym kształtem
@@ -583,7 +578,7 @@ i tego, co przebieg mówi dzisiaj.
 
 **Plik jest odtąd pisany pod gramatykę i to zmienia, co przebieg mierzy.**
 Zdania omijają w nim konstrukcje, których olski nie wyprowadza
-([README](../README.md#konwencje), [CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)),
+([README](../README.md#konwencje), `CLAUDE.md`),
 więc pokrycie nad tym plikiem mierzy pisanie tak samo jak gramatykę,
 a wydruk nie mówi, które z dwojga je ruszyło.
 Jest to ta sama cena, którą płacił cel nad tekstem pisanym u siebie
@@ -700,7 +695,7 @@ Za samym przełącznikiem szyku dopisanym do linearyzacji nie przemawia nic:
 taki parametr opisuje zdanie, a to drzewo opisuje to, o czym zdanie jest.
 Drugie: przepisane zdanie README unieważnia drzewo, które je wypuszczało,
 więc co tor gramatyczny płaci przy zmianie kodu, ten płaci przy zmianie prozy.
-Reguły przeliczania tego rodzaju są w [CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje),
+Reguły przeliczania tego rodzaju są w `CLAUDE.md`,
 a ta dojdzie tam razem z pierwszym plikiem drzew pisanym pod README.
 Drzewa, które już stoją, są opowieścią, a nie kopią README
 ([`opowieści/bazyliszek.py`](../opowieści/bazyliszek.py)),
@@ -714,7 +709,7 @@ a pokazuje to polecenie, które jedno z drugim porównuje.
 ### Czego brakuje pod tym kryterium
 
 Trzy braki dzielą kryterium od wyjścia i każdy ma wpis w
-[`todo/`](../todo/README.md), gdzie stoi razem z dowodem do przeczytania.
+`todo/`, gdzie stoi razem z dowodem do przeczytania.
 Porządkuje je jedna zasada: to, co zmienia drzewo,
 idzie przed tym, co zmienia linearyzację.
 Kategoria dopisana do składni każe przepisać każde drzewo napisane wcześniej,
@@ -808,7 +803,7 @@ Poza kryterium jest wreszcie `olski/skład/makieta.py`, czyli tekst do makiety l
 z drzew, bo kryterium mierzy zdanie napisane, a losowanie mierzy co innego:
 pokazuje, których faktów o polszczyźnie nie ma tu żaden leksykon,
 i pokazuje je dlatego, że autor drzewa wybiera je, nie zauważając, że wybrał.
-Cztery takie fakty wyszły z niego wprost do [`todo/`](../todo/README.md),
+Cztery takie fakty wyszły z niego wprost do `todo/`,
 a wywód prowadzi
 [po-wypisaniu.md](po-wypisaniu.md#tekst-losowany-żąda-tego-czego-autor-nie-musiał-napisać).
 

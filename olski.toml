@@ -6,8 +6,8 @@
 # zwykłym projektem.
 #
 # Nazwy sekcji i kluczy nie mają znaków diakrytycznych, bo klucz nagi w TOML-u
-# jest ASCII. Jest to jedyne miejsce, w którym reguła o polskich nazwach z
-# `CLAUDE.md` ustępuje formatowi; `olski/konfiguracja.py` mówi to samo obok kodu.
+# jest ASCII. Jest to jedyne miejsce, w którym reguła o polskich nazwach
+# ustępuje formatowi; `olski/konfiguracja.py` mówi to samo obok kodu.
 
 # Słowa, których SGJP nie ma, a rejestr ich używa.
 #

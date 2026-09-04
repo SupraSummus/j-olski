@@ -189,7 +189,7 @@ def test_pozycja_bezokolicznika_wraca_ramą_a_nie_brakiem_kategorii():
     a mówi o tym powód, nie sama pustka: kategorię ten zapis ma,
     a leksykon jej temu czasownikowi nie daje.
     Tę różnicę między kierunkami opisuje `olski/walencja.py`,
-    a co z niej wynika dla tego zdania, pyta `todo/`.
+    a co z niej wynika dla tego zdania, nie rozstrzygnął nikt.
     """
     zdanie = "Linter pomaga pisać dobry kod."
     assert check(zdanie)[0].status in ("valid", "ambiguous")

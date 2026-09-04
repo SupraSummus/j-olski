@@ -294,7 +294,7 @@ def _przysłówki(drzewo: Node) -> tuple[Przysłówek, ...]:
     Ciało dopasowuje się całe, tak samo jak w :func:`_nominalne`:
     przysłówek określający drugi przysłówek stanie tu kiedyś ciałem o dwóch
     częściach, a ten zapis ma wtedy zgłosić brak kategorii, a nie przeczytać
-    pierwszą część za całość; ``todo/`` trzyma tamten ruch.
+    pierwszą część za całość.
     """
     kształt = tuple(_etykieta(dziecko) for dziecko in drzewo.children)
     if kształt != (SŁOWO,):
@@ -946,8 +946,7 @@ class Odczyt:
 def _bez_powtórzeń(powody: list[str]) -> tuple[str, ...]:
     """Powody w kolejności, w której padły, każdy raz.
 
-    Zbiór wypisywałby je w każdym przebiegu inaczej
-    (``CLAUDE.md``, o porządku wypisywanego wyjścia).
+    Zbiór wypisywałby je w każdym przebiegu inaczej.
     """
     return tuple(dict.fromkeys(powody))
 
@@ -1045,8 +1044,7 @@ def znaczenie(drzewo) -> tuple:
     Lemat, liczba, relacja okolicznika i tożsamość zostają,
     bo każde z nich mówi, o czym zdanie jest, a nie jak zostało napisane.
     Łącznik ``to`` byłby drugim takim kandydatem i nie jest nim,
-    bo o tym, czy niesie coś ponad kopulę, nie rozstrzygnął nikt;
-    trzyma to ``todo/``.
+    bo o tym, czy niesie coś ponad kopulę, nie rozstrzygnął nikt.
     """
     return _sygnatura(drzewo, {}, znacznik=False)
 

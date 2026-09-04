@@ -12,8 +12,7 @@ python3 -m olski.check korpus/*.md
 ```
 
 Moduł dochodzi tą samą drogą, przez `olski/python.py`,
-bo docstring i blok komentarza są prozą tych samych reguł
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)):
+bo docstring i blok komentarza są prozą tych samych reguł:
 
 ```sh
 python3 -m olski.check olski/wejście.py
@@ -98,8 +97,7 @@ a nie broniło przed niczym: własnego Markdownu i tak nie piszemy.
 
 Moduł miesza dwa języki z założenia:
 słowa kluczowe, klucze konfiguracji i API bibliotek zostają po angielsku,
-a prozę i nazwy bierzemy po polsku
-([CLAUDE.md](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+a prozę i nazwy bierzemy po polsku.
 Udział diakrytyków liczony nad całym plikiem nie ma więc nad czym stanąć,
 i dlatego jednostką jest tu docstring albo blok komentarza,
 a nie plik jak po tamtej stronie.
@@ -400,4 +398,4 @@ Markdown and Python are the formats this reads,
 and the corpora that come in others still reach their figures by hand:
 [corpora.md](corpora.md#how-the-counts-here-were-taken)
 says which of them that is,
-and [todo/](../todo/README.md) holds what to do about it.
+and `todo/` holds what to do about it.

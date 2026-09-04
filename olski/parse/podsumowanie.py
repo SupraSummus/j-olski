@@ -59,7 +59,7 @@ class Rozbieżność:
     podmiotem jest raz ``organ gminy``, a raz ``przepis``.
     Grupa imienna roli zdania nie nosi, więc oba jej kształty streszczają się
     pustym słownikiem i po odsianiu powtórzeń zostaje z nich jedno streszczenie:
-    różnicę niesie tam głowa, której streszczenie nie nazywa (``todo/``).
+    różnicę niesie tam głowa, której streszczenie nie nazywa.
     """
 
     #: Formy konstytuenta, czyli to, co autor ma przepisać.
@@ -126,7 +126,7 @@ class Deklaracja:
     #: a warstwa za parserem zgaduje (``olski/rozstrzyganie.py``).
     #: Jest nią jedna, bo tabela skłonności i leksykon walencyjny
     #: mówią o wyrażeniu przyimkowym, a nie o każdym okoliczniku;
-    #: czy wiersz werdyktu ma być szerszy od warstwy, trzyma ``todo/``.
+    #: czy wiersz werdyktu ma być szerszy od warstwy, nie rozstrzygnął nikt.
     rozstrzygany: str
     #: Symbole, których produkcje koordynują, czyli te, po których streszczenie
     #: nawiasuje człon ciągu współrzędnego.

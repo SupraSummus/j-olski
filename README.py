@@ -27,7 +27,7 @@ i po to samo: tekst pisany ręką w tych kategoriach mówi, czego im brakuje
 Kolejności, którą tamten plik deklaruje, ten nie dochował:
 drzewa powstały przed tekstem, a nie po nim,
 więc mierzy on, co skład powiedzieć umie, a nie co powiedzieć trzeba.
-Odwrócenie tej kolejności, po którym napis dostanie właściciela, trzyma ``todo/``.
+Odwrócenia tej kolejności, po którym napis dostanie właściciela, nikt nie zrobił.
 
 Brakuje kilku rzeczy i każdą widać w tym, co niżej wyszło inaczej,
 niż wyszłoby w prozie.
@@ -35,7 +35,6 @@ Lematu ``olski`` Morfeusz nie zna wcale i czyta go jako ``ign``,
 więc nazwa własna tego języka nie wyjdzie z drzewa w żadnej roli,
 i podmiotem stoi tu gramatyka tam, gdzie ``README.md`` pisze o olskim.
 Liczebnika skład nie ma, więc jedno odczytanie mówi się tu przez brak drugiego.
-Ruch przy każdej z nich trzyma ``todo/``.
 
 Część zdań, które stąd wychodzą, parser czyta dwojako,
 i nie jest to usterka ani tego pliku, ani tamtego kierunku:

@@ -4,7 +4,7 @@ Czym ta kolejność jest i po co, mówi
 docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
 
 Hasze napisów losuje start procesu, więc zbiór postawiony na drodze do wydruku
-wypisuje w każdym przebiegu co innego (CLAUDE.md#code).
+wypisuje w każdym przebiegu co innego.
 Widać to wyłącznie między procesami, bo ziarno jest jedno na proces,
 więc pyta o to podproces, i pyta dwa razy.
 

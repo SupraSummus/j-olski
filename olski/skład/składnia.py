@@ -38,7 +38,7 @@ Dziura jest jedna i jest dziurą, a nie decyzją.
 Wewnątrz grupy imiennej szyku nie ma,
 bo ``Jaki`` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
-Trzyma to ``todo/``, a miejsce w torze ``docs/roadmap.md``.
+Miejsce tego w torze nazywa ``docs/roadmap.md``.
 """
 
 from __future__ import annotations
@@ -91,7 +91,7 @@ def forma_czasownika(czasownik: str, podmiot: Rola, kontekst: Kontekst) -> str:
 #: Biernik stoi w ramie domyślnej, a dopełniacz dochodzi tam, gdzie leksykon
 #: biernika odmawia, więc autor pisze jedno drzewo, a przypadek liczy się z ramy.
 #: Czasownik, któremu Walenty daje oba, dostaje przez to biernik i nikt tego nie
-#: zgłasza — `chcieć` wychodzi stąd jako `Kot chce mysz.`; trzyma to ``todo/``.
+#: zgłasza — `chcieć` wychodzi stąd jako `Kot chce mysz.`
 PRZYPADKI_DOPEŁNIENIA = (BIERNIK, DOPEŁNIACZ)
 
 #: Czym zgłoszenie nazywa pozycję, której czasownik nie bierze. Napisu z leksykonu
@@ -679,7 +679,7 @@ class Treść:
 
     #: Spójnik, którym polszczyzna wprowadza treść orzekaną wprost. Stoi tu stałą,
     #: a nie w leksykonie jak słowo okoliczności, bo autor nie ma tu czego wybierać:
-    #: ``żeby`` mówi, że tak ma być, czyli jest inną kategorią, i trzyma to ``todo/``.
+    #: ``żeby`` mówi, że tak ma być, czyli jest inną kategorią.
     SŁOWO = "że"
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:

@@ -12,7 +12,7 @@ site_dir: _strona
 #  na stronę po cichu.
 strict: true
 
-#  Domyślnie mkdocs wyklucza ścieżkę kropkową, a `CLAUDE.md` linkuje do workflowu.
+#  Domyślnie mkdocs wyklucza ścieżkę kropkową, a proza linkuje do workflowu.
 exclude_docs: |
   !/.github/
 

@@ -115,7 +115,7 @@ def odmień(nazwa: str, pos: str, **żądane: str) -> str:
 
     Gdzie zostaje kilka form jednego leksemu, bierze pierwszą.
     Wybór ten zostaje jedynym miejscem, w którym kompilator wybiera i nie mówi o tym,
-    a reszta wyborów stoi w drzewie, które napisał autor; trzyma to ``todo/``.
+    a reszta wyborów stoi w drzewie, które napisał autor.
     Wybiera przy tym z form, które ``paradygmat`` już przepuścił,
     więc forma odesłana poza rejestr nie stoi tu ani pierwsza, ani żadna:
     ``któren`` i ``zgasnęła`` wychodziły stąd, dopóki kwalifikatora nikt nie czytał.
@@ -181,7 +181,7 @@ def rodzaj_rzeczownika(nazwa: str) -> str:
     Zostaje po tym rodzaj, który sam słownik wypisuje dwiema wartościami,
     i tu ta funkcja bierze pierwszą alfabetycznie, nie mówiąc o tym nigdzie.
     Tamto jest wyborem autora, a to jest słownik mówiący „albo tak, albo tak”,
-    więc drugiego ``olski/skład/leksemy.py`` nie rozstrzyga; trzyma to ``todo/``.
+    więc drugiego ``olski/skład/leksemy.py`` nie rozstrzyga.
     """
     rodzaje = _rodzaje(nazwa, "sg") or _rodzaje(nazwa, "pl")
     if not rodzaje:

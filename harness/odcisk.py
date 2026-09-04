@@ -17,11 +17,10 @@ tę kolejność widzi: czytania o równym koszcie idą tak, jak ``for_head`` odd
 produkcje (:meth:`olski.parse.Las.wyprowadzenia`), więc samo przestawienie
 dopisań rusza kolejność czytań i ma się w odcisku pokazać. Zbiór wypisuje się za
 to posortowany, bo hasze napisów są losowane przy starcie i nieposortowany
-pokazywałby różnicę, której nie ma (CLAUDE.md#code).
+pokazywałby różnicę, której nie ma.
 
 Dwa drzewa robocze stawia się przy tym obok siebie, a nie jedno po drugim, tak
-samo jak przy zmianie, która ma tylko przyspieszyć
-(CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje):
+samo jak przy zmianie, która ma tylko przyspieszyć:
 
     git worktree add ../baza HEAD
     diff <(cd ../baza && python3 -m harness.odcisk) <(python3 -m harness.odcisk)

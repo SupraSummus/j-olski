@@ -137,8 +137,8 @@ CZĄSTKA_ZDANIA = "cząstka_zdania"
 #: Rola okoliczności wyrażonej narzędnikiem bez przyimka:
 #: `deskami` w `Mieszczanie zabili okna deskami.`, `Wieczorem`, `czasem`, `ręką`.
 #: Symbol jest osobny od :data:`OKOLICZNIK_PRZYSŁÓWKOWY`, choć pozycję ma tę samą, bo cena
-#: tej pozycji ma być osobną liczbą, a sonda mierzy zdjęciem ciał
-#: (CLAUDE.md#code); pod jednym symbolem zdjęcie zabrałoby obie naraz.
+#: tej pozycji ma być osobną liczbą, a sonda mierzy zdjęciem ciał;
+#: pod jednym symbolem zdjęcie zabrałoby obie naraz.
 #: Od orzecznika narzędnikowego różni ją to, kto jej udziela licencji:
 #: orzecznika żąda ramą kopula, a okolicznik stoi przy każdym czasowniku
 #: i przy żadnym nie wypełnia pozycji
@@ -196,8 +196,8 @@ PARA_WYPEŁNIEŃ = "para_wypełnień"
 #: frazy w górę cechą `wysunięte`, bo o pozycję pyta dopełnienie stojące poza nią.
 #:
 #: Symbolem, a nie ciałem obok pozostałych ciał `fraza_bezokolicznikowa`, bo cena tej
-#: pozycji ma być osobną liczbą, a sonda różnicowa bierze ją zdejmowaniem ciał
-#: (CLAUDE.md#code): ciała dopisane tamtemu symbolowi schodziłyby razem z frazą,
+#: pozycji ma być osobną liczbą, a sonda różnicowa bierze ją zdejmowaniem ciał:
+#: ciała dopisane tamtemu symbolowi schodziłyby razem z frazą,
 #: która pozycję ramy wypełnia sama.
 FRAZA_BEZOKOLICZNIKOWA_OTWARTA = "fraza_bezokolicznikowa_otwarta"
 
@@ -442,7 +442,7 @@ MIJANE = (
 #: wydaje werdykt i liczbę czytań co do zdania te same.
 #: Wpisy zostają, bo cechę wypuszczaną rozdziela las na klasy pozycji
 #: (`klasy` w ``olski/parse/las.py``), więc niesiona bez czytelnika kosztuje rozbiór;
-#: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno (todo/).
+#: zdjęcie ich jest zmianą w gramatyce i pomiaru żąda osobno.
 NIE_WYPUSZCZANE = {
     "zdanie_składowe": ("number", "gender", "person", "valency", "negacja", "druga", "dostawka"),
     "zdanie": ("dostawka",),
