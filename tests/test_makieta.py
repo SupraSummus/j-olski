@@ -7,6 +7,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.skład import Kontekst, Opowieść, kompiluj
+from olski.skład.grupa import Rzecz, byt
 from olski.skład.makieta import (
     CECHY,
     CECHY_OSÓB,
@@ -31,7 +32,7 @@ from olski.skład.morfologia import odmień, rodzaj_rzeczownika
 from olski.skład.opowieść import Postać
 from olski.skład.przegląd import przejrzyj
 from olski.skład.przyimki import przypadek
-from olski.skład.składnia import Okolicznik, Przysłówek, Rzecz, byt, zdarzenie
+from olski.skład.składnia import Okolicznik, Przysłówek, zdarzenie
 from olski.walencja import BEZOKOLICZNIK, BIERNIK, CELOWNIK, ZDANIE_PODRZĘDNE, rama
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -73,7 +74,8 @@ W nocy list nie mieszkał. \
 Beczka zasłoniła wiadro, które mieszczanin podniósł. \
 Zasłoniła świecę i zeszła na mokry próg kupca."""
 
-#: Kategorie, które niesie zapis z ``olski/skład/składnia.py`` wraz z ``Postać`` nad nim,
+#: Kategorie, które niosą ``olski/skład/grupa.py`` oraz ``olski/skład/składnia.py``
+#: wraz z ``Postać`` nad nimi,
 #: czyli wszystko, z czego wolno zbudować drzewo.
 KATEGORIE = {
     "Byt",

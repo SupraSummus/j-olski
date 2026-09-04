@@ -31,7 +31,9 @@ dostaje pełną nazwę, a akapit jest tym, w czym „obok” się kończy.
 
 from __future__ import annotations
 
-from olski.skład.składnia import TERAZ, Kontekst, Rola, byt, kompiluj, po_poprzednim
+from olski.skład.grupa import Rola, byt
+from olski.skład.kontekst import TERAZ, Kontekst
+from olski.skład.składnia import kompiluj, po_poprzednim
 
 
 class Postać(Rola):

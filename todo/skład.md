@@ -21,7 +21,7 @@ i sam mówi, że leksem nieznany nie ma ani jednej formy.
 Odmianę tego słowa deklaruje `olski.toml`, a skład go nie czyta,
 i tym zajmuje się wpis o leksykonie projektu czytanym przez oba kierunki,
 a nie ta pozycja.
-Liczebnika nie ma `olski/skład/składnia.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
+Liczebnika nie ma `olski/skład/grupa.py`, więc `jedno odczytanie` z drzewa nie wyjdzie,
 i jest to ta sama konstrukcja, którą gramatyka po drugiej stronie już ma
 ([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#grupa-liczebnikowa-zgadza-się-tym-czego-nie-ma-w-środku)),
 czyli tor składu jest tu za nią, a nie przed.
@@ -67,7 +67,7 @@ Rozstrzygnąć trzeba przy tym, czy skład bierze stąd same formy,
 czy pyta jeszcze wzorzec o kwalifikatory, których wpis nie niesie.
 
 Skład nie ma czym powiedzieć, co jest tematem wewnątrz grupy imiennej,
-więc `Jaki` w `olski/skład/składnia.py` zawsze stawia przymiotnik przed rzeczownikiem,
+więc `Jaki` w `olski/skład/grupa.py` zawsze stawia przymiotnik przed rzeczownikiem,
 choć polszczyzna ma oba szyki i różnią się one tym, co niosą:
 przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to bez żadnego pomiaru, na jednej frazie:
@@ -80,7 +80,7 @@ Do przeczytania jest ta para wraz z tym,
 co [`docs/sklad.md`](../docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
 Ruchem jest ta sama kategoria, którą zdanie już ma, wpuszczona do grupy imiennej:
-`Wyróżnienie` stoi w `olski/skład/składnia.py` i przestawia konstytuenty zdania,
+`Wyróżnienie` stoi w `olski/skład/grupa.py` i przestawia konstytuenty zdania,
 a wewnątrz grupy nie sięga niczego, bo `Cechy` w `olski/skład/słownik.py`
 zwija przymiotniki, zanim spotkają rzeczownik.
 Rozstrzygnięcia żąda przy tym co innego niż w zdaniu:
@@ -98,7 +98,8 @@ pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
 Widać to dopiero od [treści](../docs/kategorie-zapisu.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi),
 bo okoliczność wyrażona zdarzeniem stoi obok zdarzenia nadrzędnego w czasie,
 a treść stoi pod nim, i tam czas przestaje być własnością samego opowiadania.
-Do przeczytania jest `CZASY` oraz `Kontekst` w `olski/skład/składnia.py`
+Do przeczytania jest `CZASY` w `olski/skład/składnia.py`
+oraz `Kontekst` w `olski/skład/kontekst.py`
 wraz z tym, co [`docs/kategorie-zapisu.md`](../docs/kategorie-zapisu.md#tekst-wie-to-czego-zdanie-o-sobie-nie-wie)
 mówi o czasie jako własności tekstu,
 bo ta kategoria tego zdania nie odwołuje, tylko dokłada do niego drugie:
@@ -250,8 +251,8 @@ albo rozstrzygnięcie, że takiego kryterium nie ma
 i że ta klasa do przeglądu nie wchodzi.
 
 Stopnia nie ma w składzie żadnego, a jest on kategorią dziedziny.
-`Jaki` w `olski/skład/składnia.py` żąda od przymiotnika stopnia równego na stałe,
-`Przysłówek` obok żąda tego samego i mówi w docstringu,
+`Jaki` w `olski/skład/grupa.py` żąda od przymiotnika stopnia równego na stałe,
+`Przysłówek` w `olski/skład/składnia.py` żąda tego samego i mówi w docstringu,
 że stopień wyższy „mówi co innego” i czeka na kategorię.
 Bez niego nie da się powiedzieć `Koszt szynki jest wyższy niż koszt bułki.`,
 czyli tego zdania, które mówi to samo co `Koszt szynki przewyższa koszt bułki.`
@@ -352,7 +353,7 @@ Do przeczytania jest `_nominalne` w `olski/skład/rozbiór.py`,
 czyli lista ciał grupy imiennej, które ten kierunek mówi,
 wraz z ceną liczebnika, którą trzyma commit, który go wpuścił,
 bo tamta strona ma go zmierzonego od strony gramatyki.
-Ruchem jest kategoria w `olski/skład/składnia.py`, a nie samo ciało w rozbiorze:
+Ruchem jest kategoria w `olski/skład/grupa.py`, a nie samo ciało w rozbiorze:
 liczebnik rządzi liczbą i przypadkiem rzeczownika, którego dotyczy,
 więc bez niej nie ma z czego wypisać tego, co ma wrócić.
 
@@ -438,17 +439,23 @@ a niezmiennik obiegu żąda przynależności po obu stronach
 Pomiar nad Składnicą daje do tego rozkład obu konstrukcji, a nie samo rozstrzygnięcie,
 bo to jest osąd o polszczyźnie.
 
-`olski/skład/składnia.py` jest najdłuższym plikiem, którego nie pisze generator,
-a wyjąć bez cyklu importów da się z niego dwie rzeczy.
-Pierwszą jest `Kawałek` wraz ze sklejaniem i `_szyk`, czyli powierzchnia,
-której żadna kategoria nie zna, a woła ją każda.
-Drugą jest `Kontekst` wraz z `CZASY` i `forma_czasownika`,
-bo pytają one rolę o pola, a nie o typ.
-Zostają po tym same kategorie.
-Do przeczytania są `pomijalny`, `_wskazany` i `_miejsce`:
-tematycznie należą do kontekstu, a sprawdzają `isinstance` na `Opis`,
-`Okoliczniku`, `Komu` i `Treści`, więc wyniesione robią cykl,
-i to one rozstrzygają, czy dwa moduły są warte swojej ceny.
+`olski/skład/składnia.py` niesie po wyjęciu kontekstu, powierzchni i grupy imiennej
+same kategorie orzekające: pozycje zdania oraz zdania, w których one stają.
+Rozciąć tych dwóch grup nie da się dziś, bo splatają je pytania `isinstance`
+biegnące w obie strony.
+`Okolicznik.zdarzeniem` pyta, czy pod nim stoi `Zdanie`, a `Zdanie` trzyma okoliczniki;
+`_zdania_pod` pyta o `Opis`, a `Opis` jest rolą, którą zdanie wypełnia swoją pozycję.
+Ruchem jest zdjęcie tych pytań, zanim cokolwiek się przeniesie:
+`_goły`, `_wskazany`, `_miejsce` i `_żądanie` pytają kategorię o to,
+co ona umie o sobie powiedzieć sama,
+więc każda gałąź schodzi na tę klasę, o którą pyta,
+tak samo jak zszedł `rdzeń`, który odciął kontekst.
+Do przeczytania przedtem jest `_zdania_głębiej`:
+ono jedno chodzi po polach zamiast po liście kategorii i mówi w docstringu, czemu tak,
+a to samo kryterium rozstrzyga o każdej gałęzi zdejmowanej wyżej.
+Rozstrzygnąć trzeba przy tym, czy po zdjęciu tych pytań warto jeszcze ciąć:
+pozycja i zdanie są jednym mechanizmem,
+więc podział bez własnego wywodu byłby samym przestawieniem tekstu.
 Po konstrukcji tego pliku dzielić nie wolno
 ([`CLAUDE.md`](../CLAUDE.md#code)),
 a wyniesienie samych `linearyzuj` zabrałoby mechanizm ciału, które go niesie.

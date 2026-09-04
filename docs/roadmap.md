@@ -701,7 +701,7 @@ i tekst, który mają wypuszczać, pilnuje test, a nie inny dokument,
 więc reguły przeliczania tamte drzewa nie potrzebują.
 
 **Wyjście:** każde zdanie [README](../README.md) wychodzi znak w znak
-z drzewa napisanego w kategoriach `olski.skład.składnia`,
+z drzewa napisanego w kategoriach `olski.skład`,
 a pokazuje to polecenie, które jedno z drugim porównuje.
 
 ### Czego brakuje pod tym kryterium
@@ -715,7 +715,7 @@ a poprawka wewnątrz linearyzacji sięga wszystkich drzew, nie ruszając żadneg
 więc kolejność jest tu ceną przepisywania, a nie rankingiem ważności.
 
 Szyku wewnątrz grupy imiennej nie niesie nic.
-`Jaki` w `olski/skład/składnia.py` stawia przymiotnik przed rzeczownikiem zawsze,
+`Jaki` w `olski/skład/grupa.py` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Widać to na jednej frazie, bez żadnego pomiaru:
 README pisze `kontrolowanych języków naturalnych`,

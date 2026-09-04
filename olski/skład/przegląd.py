@@ -50,7 +50,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from olski.skład.składnia import TERAZ, Kontekst, Zdanie, forma_czasownika, wypisz
+from olski.skład.grupa import wypisz
+from olski.skład.kontekst import TERAZ, Kontekst
+from olski.skład.składnia import Zdanie, forma_czasownika
 
 
 @dataclass(frozen=True)

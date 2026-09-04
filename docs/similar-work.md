@@ -338,12 +338,14 @@ a na końcu przez ortografię.
 Część składniowa wybiera odmianę, dostawia słowa funkcyjne i rozstrzyga szyk,
 morfologiczna wylicza z tego formę,
 a ortograficzna odpowiada za wielką literę, interpunkcję i formatowanie.
-Dwie pierwsze mają w pakiecie `olski.skład` po module,
-`olski.skład.składnia` i `olski.skład.morfologia`,
+Pierwsza ma w pakiecie `olski.skład` trzy moduły:
+`olski.skład.grupa` i `olski.skład.składnia` niosą kategorie,
+a `olski.skład.powierzchnia` sam napis wraz z przecinkami.
+Druga ma jeden, `olski.skład.morfologia`,
 a trzeciej osobno nie ma i siedzi ona wewnątrz pierwszej.
 Interpunkcja stoi wewnątrz linearyzacji jako pole `Kawałek`,
 czyli jako żądanie konstytuenta wobec sąsiada, a nie jako znak w gotowym napisie,
-i wywód o tym trzyma docstring `Kawałek` w `olski/skład/składnia.py`;
+i wywód o tym trzyma docstring `Kawałek` w `olski/skład/powierzchnia.py`;
 etap puszczony po morfologii jest na to za późny.
 Wielka litera wraz z kropką staje za to na końcu, w `kompiluj`.
 Trójwarstwowy podział, który `olski/skład/__init__.py` ogłasza swoją decyzją,

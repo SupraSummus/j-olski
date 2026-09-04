@@ -6,9 +6,16 @@ Wywód, po co ten kierunek stoi obok parsera, trzyma
 ``docs/design-notes.md``.
 
 Podział na warstwy jest tu decyzją.
-``olski.skład.składnia`` trzyma kategorie i konstruktory, czyli to, co da się
-powiedzieć, i nie ma w sobie ani przypadka, ani rodzaju, ani szyku.
+Moduły niżej idą od tego, który wie najmniej, do tego, który wie najwięcej.
+``olski.skład.kontekst`` trzyma to, czego wypisywane drzewo o sobie nie wie.
+``olski.skład.powierzchnia`` trzyma napis wraz z przecinkami,
+czyli to, czego żadna kategoria nie zna, a woła każda.
 ``olski.skład.morfologia`` trzyma formy, które z tego wychodzą.
+``olski.skład.grupa`` trzyma kategorie niosące rzecz, czyli to,
+czym wypełnia się pozycje zdania.
+``olski.skład.składnia`` trzyma kategorie orzekające i ich konstruktory,
+czyli zdanie wraz z tym, co w nim staje,
+i nie ma w sobie ani przypadka, ani rodzaju, ani szyku.
 ``olski.skład.opowieść`` trzyma to, co widać dopiero nad kilkoma zdaniami naraz:
 czas opowiadania i tożsamość tego, o kim mowa.
 Autor pisze drzewo, a zgodność jest liczona po drodze, a nie sprawdzana po niej.
@@ -20,6 +27,18 @@ a który leksem stoi pod nazwą, mówi ``olski.skład.leksemy``,
 bo lemat go nie wskazuje, a od wyboru zależy znaczenie zdania.
 """
 
+from olski.skład.grupa import (
+    Byt,
+    Czyj,
+    Jaki,
+    Koordynacja,
+    Nominalne,
+    Rola,
+    Rzecz,
+    Wyróżnienie,
+    byt,
+)
+from olski.skład.kontekst import Kontekst
 from olski.skład.leksemy import LEKSEMY, leksem
 from olski.skład.morfologia import (
     BrakFormy,
@@ -28,30 +47,20 @@ from olski.skład.morfologia import (
     rodzaj_rzeczownika,
 )
 from olski.skład.opowieść import Akapit, Opowieść, Postać
+from olski.skład.powierzchnia import Kawałek
 from olski.skład.przegląd import Kolizja, przejrzyj
 from olski.skład.przyimki import PRZYIMKI, przypadek
 from olski.skład.składnia import (
-    Byt,
     Ciąg,
-    Czyj,
-    Jaki,
     Jest,
-    Kawałek,
     Komu,
-    Kontekst,
-    Koordynacja,
-    Nominalne,
     Okolicznik,
     Opis,
     PozaRamą,
     Przysłówek,
     Robi,
-    Rola,
-    Rzecz,
     Treść,
-    Wyróżnienie,
     Zdanie,
-    byt,
     kompiluj,
     nie,
     po_poprzednim,

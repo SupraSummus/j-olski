@@ -54,28 +54,20 @@ from dataclasses import dataclass, fields, is_dataclass
 
 from olski.parse import Leaf, Node, parse
 from olski.segmentacja import morphology
+from olski.skład.grupa import Byt, Czyj, Jaki, Koordynacja, Nominalne, Rola, Rzecz, Wyróżnienie
+from olski.skład.kontekst import TERAZ, Kontekst
 from olski.skład.morfologia import BrakFormy, WieleLeksemów
 from olski.skład.opowieść import Postać
 from olski.skład.przyimki import PRZYIMKI
 from olski.skład.składnia import (
-    TERAZ,
-    Byt,
     Ciąg,
-    Czyj,
-    Jaki,
     Jest,
     Komu,
-    Kontekst,
-    Koordynacja,
-    Nominalne,
     Okolicznik,
     PozaRamą,
     Przysłówek,
     Robi,
-    Rola,
-    Rzecz,
     Treść,
-    Wyróżnienie,
     Zdanie,
     kompiluj,
 )
@@ -148,7 +140,7 @@ ZDANIOWE = (FRAZA_BEZOKOLICZNIKOWA, ZDANIE_PODRZĘDNE)
 
 #: Pozycje, których znacznik tematu nie obejmuje, bo szyk ich nie przestawia.
 #: Czasownik nie rusza się w tym zapisie nigdy, a zdania nie da się wyróżnić:
-#: ``Wyróżnialne`` w ``olski/skład/składnia.py`` obejmuje role, okoliczności
+#: ``Wyróżnialne`` w ``olski/skład/grupa.py`` obejmuje role, okoliczności
 #: i przysłówek, a ani ``Zdanie``, ani ``Treść`` z niego nie dziedziczy.
 NIERUCHOME = ("orzeczenie", *ZDANIOWE)
 
@@ -600,7 +592,8 @@ def _znaczniki(pozycje: list[str]) -> Iterator[dict[int, str]]:
     """Znaczniki tematu i rematu, których ten szyk może chcieć.
 
     Wyróżnić da się to, co stoi pierwsze, i to, co stoi ostatnie,
-    bo tyle robi ``_szyk``: bierze jeden konstytuent na czoło, jeden na koniec,
+    bo tyle robi ``szyk`` w ``olski/skład/składnia.py``:
+    bierze jeden konstytuent na czoło, jeden na koniec,
     a resztę wypisuje w porządku, którego nikt nie wybierał.
     Wydawana jest każda z nich, a nie ta jedna, którą szyk zdradza,
     bo znacznik postawiony tam, gdzie konstytuent i tak stoi, niczego nie przestawia,
@@ -1037,7 +1030,7 @@ def znaczenie(drzewo) -> tuple:
     Schodzi wyłącznie znacznik tematu i schodzi dlatego,
     że niesie go szyk, a nie to, o czym zdanie jest:
     `Celem jest parser.` i `Parser jest celem.` mówią to samo zdanie logiczne
-    i co innego stawiają na czele (``Wyróżnienie`` w ``olski/skład/składnia.py``).
+    i co innego stawiają na czele (``Wyróżnienie`` w ``olski/skład/grupa.py``).
     Wypada przy tym cała kategoria, a nie samo pole ``miejsce``,
     bo konstytuent wyróżniony ma stanąć równo z tym samym konstytuentem gołym.
 

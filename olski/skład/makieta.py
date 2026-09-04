@@ -20,7 +20,8 @@ jest przy tym faktem o każdym drzewie, a nie o tym jednym programie,
 i mówi o tym ``docs/po-wypisaniu.md`` wraz z tym, gdzie taki fakt należy.
 
 Rytm jest za to wyborem, bo makieta pokazuje właśnie go.
-Kształty zdania wyczerpują kategorie, które niesie ``olski.skład.składnia``,
+Kształty zdania wyczerpują kategorie, które niosą
+``olski.skład.grupa`` oraz ``olski.skład.składnia``,
 a ten sam nie wypada dwa razy pod rząd,
 bo jednostajność jest usterką i wylicza ją ``docs/fiction.md``.
 Obsadę akapitu niosą ``Postać``, bo dopiero one pozwalają opuścić podmiot,
@@ -43,24 +44,20 @@ import sys
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+from olski.skład.grupa import Byt, Czyj, Jaki, Rzecz, byt
+from olski.skład.kontekst import Kontekst
 from olski.skład.morfologia import rodzaj_rzeczownika
 from olski.skład.opowieść import Akapit, Opowieść, Postać
 from olski.skład.przegląd import przejrzyj
 from olski.skład.składnia import (
-    Byt,
     Ciąg,
-    Czyj,
-    Jaki,
     Jest,
     Komu,
-    Kontekst,
     Okolicznik,
     Opis,
     Przysłówek,
-    Rzecz,
     Treść,
     Zdanie,
-    byt,
     nie,
     po_poprzednim,
     zdarzenie,

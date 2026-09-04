@@ -5,7 +5,8 @@ co każda z nich mówi, czego odmawia i co kosztowała.
 Rejestru nie czyta się od góry — czytelnik przebiega go do swojego wpisu.
 Na jakim poziomie te kategorie stoją i czemu nie są kategoriami polszczyzny,
 rozstrzyga [sklad.md](sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka).
-Deklarują je `olski/skład/składnia.py` oraz `olski/skład/opowieść.py`.
+Deklarują je `olski/skład/grupa.py`, `olski/skład/składnia.py`
+oraz `olski/skład/opowieść.py`.
 
 Dwie sekcje ostatnie mówią, skąd wzięła się kolejka,
 w której te kategorie powstawały.
