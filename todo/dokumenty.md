@@ -464,6 +464,8 @@ i jest tego kilkadziesiąt zdań w dwudziestu kilku dokumentach.
 Wpisu ta nazwa nie identyfikuje, bo wpis nazywa się tym, o czym mówi,
 a rejestr jest dłuższy, niż ktokolwiek czyta,
 więc czytelnik dostaje kierunek zamiast miejsca.
+Pod adresem nie ma przy tym czego otworzyć, bo strona rejestru nie wydaje
+([`docs/publikacja.md`](../docs/publikacja.md#strona-nie-wydaje-instrukcji-sesji-ani-rejestru-otwartej-roboty)).
 Ruchem jest przebieg po jednym dokumencie na commit,
 w którym każde takie zdanie rozstrzyga się osobno:
 gdzie zdanie bez tej klauzuli mówi to samo, klauzula schodzi,
