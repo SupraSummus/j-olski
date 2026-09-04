@@ -262,3 +262,26 @@ Do przeczytania jest, ile zdań to odsłania: nad README zdanie jest dziś jedno
 więc ruch opłaca się dopiero wtedy, gdy przebieg nad rejestrem pokaże ich więcej,
 a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
 bo różnica między nimi jest całą mierzoną rzeczą.
+
+Wieloznaczność jest znaleziskiem, a mierzona baza sądów nie ma dla tego ani jednego potwierdzenia.
+`python3 -m harness.sądy` wypisuje dziś jedenaście trafień nad zdaniem osądzonym jako czyste
+i zero potwierdzonych,
+a dwie próbki przeczytane ręką idą w tę samą stronę
+([`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
+trzyma je wraz z udziałem zdań, w których pozycja stoi).
+Regułę o takim profilu ten projekt raz już wycofał
+([`docs/firing-rates.md`](../docs/firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)),
+więc pytanie brzmi, czy wieloznaczność ma dalej iść w kod wyjścia i w wiersz znalezisk.
+Ruchem, gdy stopa się nad większą bazą utrzyma,
+jest `Podsumowanie.znalezisk` w `olski/werdykt.py` przestające sumować `wieloznaczne`;
+wiersz werdyktu i osobny licznik podsumowania zostają, bo mówią, co olski o zdaniu wie,
+a znaleziskiem przestaje być samo zgłoszenie.
+Ceną jest proza: właścicielem faktu jest
+[`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
+a wniosek stąd powtarza kilkanaście dokumentów wraz z README,
+i wszystkie idą jednym commitem, bo inaczej przez chwilę kłamią.
+Blokerem jest baza sądów za mała, żeby na niej stanąć;
+podnosi go wpis o powiększeniu bazy w [pomiar.md](pomiar.md).
+Do przeczytania jest przy tym, co po zmianie zostaje w wydruku:
+znaleziska są wtedy dwa — poprawka jednego znaku i zaimek wskazujący na dwie rzeczy —
+i README ma to powiedzieć wprost, a nie przemilczeć.

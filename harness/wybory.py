@@ -265,7 +265,7 @@ Z_ODPOWIEDZIĄ = """\
 def czytaj(path: Path = WYBORY) -> list[Wybór]:
     """Wpisy z pliku; wpis bez zdania albo bez frazy jest błędem, a nie ciszą."""
     wybory = []
-    for numer, blok in _bloki(path.read_text(encoding="utf-8")):
+    for numer, blok in bloki(path.read_text(encoding="utf-8")):
         pola: dict[str, list[str]] = {}
         for wiersz in blok:
             klucz, _, wartość = wiersz.partition(":")
@@ -289,8 +289,13 @@ def czytaj(path: Path = WYBORY) -> list[Wybór]:
     return wybory
 
 
-def _bloki(tekst: str) -> list[tuple[int, list[str]]]:
-    """Wpisy pliku, każdy ze swoim pierwszym wierszem, żeby błąd miał adres."""
+def bloki(tekst: str) -> list[tuple[int, list[str]]]:
+    """Wpisy pliku, każdy ze swoim pierwszym wierszem, żeby błąd miał adres.
+
+    Publiczna, bo tę samą umowę — jeden klucz na wiersz, wpisy rozdzielone pustą
+    linią, komentarz od kratki — czyta baza sądów (``harness/sądy.py``).
+    Dwie kopie tego podziału rozjechałyby się na komentarzu wewnątrz wpisu.
+    """
     bloki, blok, numer = [], [], 0
     for i, wiersz in enumerate(tekst.splitlines(), start=1):
         if wiersz.startswith("#") or not wiersz.strip():

@@ -582,22 +582,29 @@ bo zostaje w każdej kopii, która go przeżyje.
 Do przeczytania jest, czy któraś z tych ośmiu pomija dziś pole naprawdę,
 bo dopiero to mówi, czy jest to usterka, czy pułapka na pole następne.
 
-Baza sądów o trafieniach ma ramę czytania i pierwsze wpisy,
-a nie ma przebiegu, który by je z werdyktem zestawił
+Baza sądów o znalezisku wieloznaczności ma jedenaście wpisów
+i tyle nie unosi liczby, o którą się ją pyta
 ([`docs/corpora.md`](../docs/corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)).
-Wpisy stoją w `próba/nkjp-wieloznaczność.txt` i dziś czyta je człowiek, a nie program,
-więc dopisanie produkcji unieważnia je bez śladu w żadnym przebiegu.
-Sonda ma zestawiać trafienia dzisiejsze z zapisanymi i wypisywać trzy klasy —
-trafienie potwierdzone, trafienie nad zdaniem osądzonym jako czyste
-oraz usterkę osądzoną, której nikt już nie zgłasza —
-bo dwie pierwsze mówią o regule, a trzecia o zawężeniu, które zeszło za daleko.
-Dopasowuje się po zdaniu w całości, i tak stoi ono we wpisie:
-pozycję w pliku rusza każda zmiana w segmentacji i w ekstrakcji,
-więc po niej baza traciłaby kotwicę bez tknięcia jednego znaku tekstu.
-Czytania wpisów nie trzeba przy tym pisać na nowo:
-plik sądów trzyma jeden klucz na wiersz i nieznanego klucza nie ma,
-czyli tę samą umowę, którą czyta `czytaj` w `harness/wybory.py`.
-Do przeczytania jest tamten moduł wraz z oboma swoimi plikami próby,
-bo `--zbuduj` pokazuje pułapkę, w którą sonda nowa wejdzie tak samo:
-wypisuje całość na wyjście, więc puszczony w plik z wzorcami
-skasowałby każdy sąd, jaki w nim stoi.
+Wszystkie jedenaście brzmią `jednoznaczne`, czyli ani jedno dzisiejsze znalezisko
+nie ma w tej bazie potwierdzenia.
+Próbkę dwudziestu czterech zdań nazywa za wąską, żeby na niej stanąć,
+[`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma),
+a tych sądów jest mniej.
+Ruchem jest `harness/nkjp.py` puszczony na większą próbę,
+`olski-check` nad wylosowanymi zdaniami i sądy dopisane ręką do pięćdziesięciu wpisów;
+`python3 -m harness.sądy` wypisuje potem stopę nad całością,
+a rozbicie jej na przyłączenie i na różnicę ról jest częścią tego ruchu,
+bo pytanie o regułę bywa pytaniem o jedną jej połowę
+i dopiero nad pięćdziesięcioma wpisami taka kolumna cokolwiek mówi.
+Werdykt niesie oba te pola (`przyłączenia` i `różniące` w `olski/parse/`),
+więc kolumna nie żąda niczego poza wyborem, czy zdanie z obiema liczy się dwa razy.
+Ceną jest pobranie podkorpusu milionowego NKJP, czyli sesja z fetchem.
+Do przeczytania są przy tym oba pliki próby `harness/wybory.py`,
+bo `--zbuduj` pokazuje pułapkę, w którą wejdzie każde budowanie wpisów stąd:
+wypisuje całość na wyjście, więc puszczone w plik z sądami
+skasowałoby każdy sąd, jaki w nim stoi.
+Losowanie rozstrzyga się przed dopisaniem:
+`rozrzucona` w `harness/próbka.py` bierze co którąś pozycję,
+więc próba większa jest siatką przerysowaną od zera,
+a nie tą siatką z wpisami między nimi,
+i ten sam wybór stoi przy próbie wyborów opisanej wyżej.
