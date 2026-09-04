@@ -702,7 +702,7 @@ def test_dopełnienie_wysunięte_pyta_o_ramę_bezokolicznika_a_o_przeczenie_form
     assert verdict("Program autorowi musi pomagać.").status == "valid"
     assert verdict("Program autorowi musi znać.").status == "rejected"
     assert verdict("Program autorowi musi.").status == "rejected"
-    #  Przeczenie odwrotnie: dopełniacza żąda cząstka stojąca przy formie osobowej.
+    #  Przeczenie czyta forma osobowa: dopełniacza żąda cząstka stojąca przy niej.
     assert verdict("Premier ustawień może zapisać.").result.ile == 1
     assert verdict("Premier ustawień nie może zapisać.").result.ile == 2
 

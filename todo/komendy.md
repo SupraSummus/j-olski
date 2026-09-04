@@ -219,30 +219,21 @@ Do przeczytania jest przy tym
 [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
 
-[Zdanie spakowane](../CLAUDE.md#katalog-chwytów-rejestru) wykrywa dziś tylko czytelnik,
-a pierwszy z dwóch ruchów tej reguły jest policzalny:
-formy osobowe w zdaniu daje Morfeusz,
-a spójnik między nimi widać bez rozbioru.
-Na [czterech osiach](../docs/linter.md#cztery-osie-każdej-reguły)
-wypada to inaczej niż pakiet, który się zamknął:
-pytanie jest o strukturę, a nie o uzus,
-kształtem jest werdykt o zdaniu, a nie stopa nad tekstem,
-a populacją jest nasza własna proza,
-więc próg jest niepotrzebny i wszystkie trafienia i tak się czyta.
-Głębokością jest morfologia, bo rozbioru nad tymi plikami nie ma:
-gramatyka wyprowadza zdania README,
-a `CLAUDE.md` i `docs/` pisane są bez tej ambicji.
-Ruchem jest komenda nad prozą repozytorium, wzorowana na `olski/check.py`,
-który już chodzi po zdaniach pliku, i na `harness/markdown.py`, który go czyta.
-Drugi ruch reguły dzieli się na części o różnej cenie:
-„tak samo”, „też” i „odwrotnie” w miejscu orzeczenia są listą słów,
-a „napisane”, „go” i „co ją” żądają anafory, a anafory nikt tu nie zbudował.
-Do rozstrzygnięcia jest, czy wpis kończy się na tej liście słów,
-czy anafora dostaje własny wpis.
-Do przeczytania są dwa zdania wiodące w
-[sekcji o pomiarze](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) —
-o stosunku zgrubnym i o mierzeniu na przemian —
-bo oba są spakowane i mówią, czego ta komenda ma nie przepuścić.
+Dwa miejsca tną zdanie interpunkcją na człony, a zbiory znaków mają różne.
+`GRANICE_CZŁONÓW` w `olski/chwyty.py` bierze nawias i znak kończący zdanie,
+`GRANICA` w `harness/wieloznaczność.py` bierze dywiz i żadnego z tych dwóch,
+a różnicy nie zmierzył nikt.
+Ruchem jest jedno cięcie w `olski/`, z którego sonda bierze swoje,
+bo import idzie w tę stronę, a paczka niesie samo `olski`;
+zbiór znaków staje się wtedy argumentem, jeżeli obie strony chcą różnych.
+Do przeczytania są oba docstringi, bo deklarują różne rzeczy:
+sonda myli się świadomie w stronę mniejszej liczby członów
+i dywiz w środku formy jest tam ceną tej deklaracji,
+a reguła chwytu pyta tylko o człon zamknięty zwrotem, więc dywiza nie potrzebuje.
+Przed podmianą trzeba puścić sondę oboma cięciami:
+jej liczby cytuje
+[`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
+więc cięcie zmienione bez pomiaru rusza figurę i nikt tego nie zobaczy.
 
 `olski-check` szuka `olski.toml` od katalogu roboczego, a proza,
 którą sprawdza, leży zwykle gdzie indziej.
@@ -322,10 +313,16 @@ frazę werdyktu ma na własność kod paczki, a ten napis wybiera dziś wydruk
 (`KLASA_NIENAZWANA` w `olski/check.py`), więc strona wzięłaby go drugą kopią.
 
 `--chwyty` bierze zdanie przytoczone w grawisach za zdanie dokumentu.
-Przebieg nad prozą repozytorium stoi na zerze poza trzema takimi napisami —
-`To jest tanie.`, `To jest stan, którego warto pilnować.` i `To nie kot.` —
+Przebieg nad prozą repozytorium stoi na zerze poza kilkoma takimi napisami,
+z których jednym jest `To jest tanie.`,
 bo ekstrakcja zdejmuje grawisy, a kropka w środku przykładu punktuje prozę wokół niego
 ([`docs/extraction.md`](../docs/extraction.md#what-the-reader-sees-is-not-always-polish)).
+Reguła zastępująca orzeczenie dokłada tu drugi przypadek:
+wyliczenie jej własnych zwrotów trafia w samo siebie,
+bo przecinek za wstawką zamyka człon zwrotem.
+Proza o tej regule — sekcja `docs/linter.md` i komentarz w `olski/chwyty.py` —
+nazywa przez to te zwroty zdaniem z czasownikiem,
+zamiast wyliczyć je po przecinku albo przytoczyć w przykładzie.
 Odpowiedź na to pytanie repozytorium już ma, tylko po drugiej stronie granicy pakietów:
 `wstawki` w `harness/cytaty.py` wyjmuje treść każdej wstawki kodowej parserem,
 a `cytat` obok niej orzeka, czy ta treść jest zdaniem zacytowanym.

@@ -317,7 +317,7 @@ def _szyki_zdania_składowego(
     # Dopełnienie wchodzi tu tym samym symbolem, co w szykach bez bezokolicznika, i
     # dzieli z nimi obie swoje zmienne. Ramę czyta jednak nie forma osobowa, a
     # bezokolicznik, bo pozycja, którą to dopełnienie zajmuje, jest w jego ramie;
-    # przeczenie odwrotnie, bo dopełniacza żąda cząstka stojąca przy formie osobowej
+    # przeczenie czyta forma osobowa, bo dopełniacza żąda cząstka stojąca przy niej
     # (docs/konstrukcje-gramatyczne/orzeczenie.md#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem).
     #
     # Szyk jest jeden, ten wypisany, bo cena każdego jest osobną liczbą, a ten

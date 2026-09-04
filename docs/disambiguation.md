@@ -497,7 +497,7 @@ czyli obroną jest dokładnie to, co kryterium kupuje.
 Druga połowa jest zmierzona raz i próba tej wielkości jej nie rozstrzyga.
 Dwa korpusy dają po jednej połowie tego, czego pomiar żąda:
 bank drzew ma wzorzec i nie ma kontekstu,
-a [korpus audytowy](audit-corpus.md#the-list) odwrotnie,
+a [korpus audytowy](audit-corpus.md#the-list) ma kontekst i nie ma wzorca,
 więc wzorzec dla rejestru czyta się ręką, a odpowiedzi
 padają nad losowaniem z całej populacji rzadziej niż milczenie.
 Stopę pomyłek daje dopiero losowanie zawężone do samych odpowiedzi

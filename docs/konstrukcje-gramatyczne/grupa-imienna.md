@@ -743,7 +743,8 @@ więc `skutki jego` wychodzi tak samo jak `skutki wyboru`
 
 Zgodności ta pozycja nie ma i mieć nie może,
 bo zaimek zgadza się ze swoim poprzednikiem, a ten stoi w zdaniu obok:
-`Jego skutki` ma zaimek pojedynczy przy rzeczowniku mnogim, a `Ich cena` odwrotnie.
+`Jego skutki` ma zaimek pojedynczy przy rzeczowniku mnogim,
+a `Ich cena` ma zaimek mnogi przy rzeczowniku pojedynczym.
 Zmienna wspólna — ta, którą wypuszcza przymiotnik i liczebnik zgodny obok —
 wygląda tu poprawnie i odbiera polszczyźnie prawie każdą taką parę;
 niezmiennik pilnuje test w `tests/test_grupa_imienna.py`.

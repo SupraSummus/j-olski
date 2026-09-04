@@ -7,7 +7,7 @@ przychodzi z liczbami, i że werdykt zostaje nietknięty.
 
 Osobno pilnowana jest kolejność świadków, bo na niej stoi obietnica z docstringa
 ``olski/rozstrzyganie.py``: dowód o tym tekście bije dowód o cudzym korpusie,
-a nie odwrotnie.
+a dowód o cudzym korpusie tamtego nie bije.
 
 Świadek kontekstowy ma tu własne, bo jego dowodem jest sąsiedztwo, a sąsiedztwo
 da się źle przeczytać na kilka sposobów naraz: wziąć zdanie zza granicy akapitu,

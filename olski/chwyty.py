@@ -6,8 +6,10 @@ przestaje tego czekać.
 
 Wiersz o chwycie pada obok werdyktu i tylko pod flagą, bo populacją jest proza,
 za którą odpowiadamy: autor sprawdzający swój tekst tego katalogu nie zna.
-Czemu ta jedna reguła progu nie potrzebuje i co odrzucił pomiar, który ją wybrał,
+Czemu reguła o zaimku progu nie potrzebuje i co odrzucił pomiar, który ją wybrał,
 mówi docs/linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie.
+O regule zastępującej orzeczenie mówi to samo
+docs/linter.md#drugi-wykrywacz-zgłasza-zwrot-zastępujący-orzeczenie-członu.
 """
 
 from __future__ import annotations
@@ -38,22 +40,43 @@ ZGODNE = ("number", "gender", "case")
 #: stoi za przecinkiem, więc rzeczownika w miejsce tego `to` nie ma jak wstawić.
 ZAPOWIEDŹ_PODRZĘDNEGO = ","
 
-#: Formy, którymi zdanie stawia orzeczenie, czyli granica grupy podmiotu
-#: (:func:`_grupa`). Wartości ``pred`` tu nie ma, bo `to` samo ją niesie.
+#: Formy osobowe, czyli granica grupy podmiotu (:func:`_grupa`).
+#: Wartości ``pred`` tu nie ma, bo `to` samo ją niesie.
 OSOBOWE = frozenset({"fin", "praet", "impt", "imps", "winien", "bedzie"})
+
+#: Formy, którymi człon stawia orzeczenie (:func:`_domyślne_orzeczenia`).
+#: ``pred`` jest tu, a przy granicy grupy podmiotu go nie ma:
+#: `Dowieść jej trzeba tak samo.` orzeka słowem `trzeba`, więc zwrot określa
+#: tam orzeczenie, zamiast stać w jego miejsce.
+ORZEKAJĄCE = OSOBOWE | {"pred"}
+
+#: Zwroty, którymi człon orzeka bez czasownika: orzeczenie czytelnik ma wziąć
+#: z członu wcześniejszego. Zwrot jest krotką form, bo Morfeusz wydaje formy,
+#: a `tak samo` jest dwiema.
+ZASTĘPUJĄCE_ORZECZENIE = frozenset({("tak", "samo"), ("też",), ("odwrotnie",)})
+
+#: Znaki, którymi interpunkcja rozdziela człony zdania (:func:`_człony`).
+#: Nawias jest wśród nich, bo wtrącenie zamknięte zwrotem orzeka bez czasownika,
+#: a bez tej granicy człon wziąłby orzeczenie zdania, w które wtrącenie wpadło.
+GRANICE_CZŁONÓW = frozenset({",", ";", ":", "—", "–", "(", ")", ".", "!", "?", "…"})
+
+#: Spójniki porównania. Zwrot, za którym stoi jeden z nich, porównuje rzecz
+#: z rzeczą i orzeczenia nie zastępuje; pytamy o człon następny, bo porównanie
+#: bywa odcięte przecinkiem: `czyli tak samo, jak czyta do przyimkiem i nutą`.
+PORÓWNANIE = frozenset({"jak", "niż"})
 
 
 @dataclass(frozen=True)
 class Chwyt:
-    """Chwyt rejestru w jednym zdaniu: forma, na której stoi, i co z nią zrobić.
+    """Chwyt rejestru w jednym zdaniu: forma albo zwrot wraz z naprawą.
 
     Naprawa idzie razem z formą, bo katalog ją nazywa, a wiersz bez niej mówiłby
     autorowi tyle, że coś jest nie tak.
     """
 
-    #: Forma tak, jak stoi w zdaniu.
+    #: Forma albo zwrot dwóch form, tak jak je zdanie zapisuje.
     forma: str
-    #: Co z nią zrobić, jednym zdaniem.
+    #: Co z tym zrobić, jednym zdaniem.
     naprawa: str
 
 
@@ -64,11 +87,11 @@ def chwyty(zdanie: str) -> tuple[Chwyt, ...]:
     (:func:`olski.segmentacja.morphology`), bo zdanie ma być czytane raz i
     jednakowo: czytanie odebrane formie przez leksykon projektu nie ma tu wracać.
     """
-    chwyt = _podjęte_zdanie(morphology(zdanie))
-    return (chwyt,) if chwyt else ()
+    segmenty = morphology(zdanie)
+    return _podjęte_zdanie(segmenty) + _domyślne_orzeczenia(segmenty)
 
 
-def _podjęte_zdanie(segmenty: list[Segment]) -> Chwyt | None:
+def _podjęte_zdanie(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
     """Zaimek `to` otwierający zdanie, a nie mający przy sobie rzeczownika.
 
     Zaimek ten odsyła wtedy do całego zdania poprzedniego, a nie do rzeczy
@@ -81,13 +104,15 @@ def _podjęte_zdanie(segmenty: list[Segment]) -> Chwyt | None:
     rozbiór, którego nad tą prozą nie ma.
     """
     if not segmenty or segmenty[0].form != PODEJMUJĄCE:
-        return None
+        return ()
     zaimek = segmenty[0].with_pos("subst")
     if not zaimek or (len(segmenty) > 1 and segmenty[1].form == ZAPOWIEDŹ_PODRZĘDNEGO):
-        return None
+        return ()
     if any(zgadza(zaimek, _imienne(segment), ZGODNE) for segment in _grupa(segmenty)):
-        return None
-    return Chwyt(segmenty[0].form, "podejmuje całe zdanie obok: wstaw w jego miejsce rzeczownik")
+        return ()
+    return (
+        Chwyt(segmenty[0].form, "podejmuje całe zdanie obok: wstaw w jego miejsce rzeczownik"),
+    )
 
 
 def _grupa(segmenty: list[Segment]) -> list[Segment]:
@@ -100,10 +125,95 @@ def _grupa(segmenty: list[Segment]) -> list[Segment]:
     czym postawić.
     """
     for numer, segment in enumerate(segmenty[1:], start=1):
-        if any(czytanie.tag.pos in OSOBOWE for czytanie in segment.readings):
+        if _orzeka(segment, OSOBOWE):
             return segmenty[1:numer]
     return segmenty[1:]
 
 
 def _imienne(segment: Segment) -> list[Reading]:
     return [czytanie for czytanie in segment.readings if czytanie.tag.pos in IMIENNE]
+
+
+def _orzeka(segment: Segment, klasy: frozenset[str]) -> bool:
+    return any(czytanie.tag.pos in klasy for czytanie in segment.readings)
+
+
+def _domyślne_orzeczenia(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
+    """Zwroty, którymi człon bez orzeczenia orzeka o rzeczy nazwanej w nim.
+
+    `a korpus audytowy odwrotnie` każe czytelnikowi wziąć orzeczenie z członu
+    wcześniejszego, a kto wszedł w środek akapitu, tamtego członu nie przeczytał.
+    Naprawą jest powtórzony czasownik, choćby zdanie wyszło dłuższe.
+
+    Warunki są trzy i każdy zdejmuje inną klasę zdań poprawnych.
+    Zwrot zamyka człon, bo `tak samo jak przy dwukropku` porównuje rzecz z rzeczą
+    i nazywa przy tym drugi jej człon.
+    Orzeczenia w członie nie ma, bo `Tak samo przyjmujemy reguły prozy.`
+    orzeczenie stawia i zwrot tylko je określa (:data:`ORZEKAJĄCE`).
+    Człon następny nie zaczyna się od spójnika porównania, bo taki spójnik bywa
+    odcięty przecinkiem (:data:`PORÓWNANIE`).
+
+    Zdanie zaczynające się małą literą oddajemy bez werdyktu, tak samo jak przy
+    zaimku podejmującym (:data:`PODEJMUJĄCE`) i z tego samego powodu: ekstrakcja
+    cięła prozę na kropce, którą postawił przykład przytoczony w grawisach.
+    """
+    if not segmenty or not segmenty[0].form[:1].isupper():
+        return ()
+    człony = _człony(segmenty)
+    znalezione = []
+    for numer, człon in enumerate(człony):
+        if any(_orzeka(segment, ORZEKAJĄCE) for segment in człon):
+            continue
+        zwrot = _zwrot_na_końcu(człon)
+        if zwrot and not _porównanie(człony[numer + 1 :]):
+            znalezione.append(Chwyt(zwrot, "zastępuje orzeczenie: powtórz czasownik"))
+    return tuple(znalezione)
+
+
+def _człony(segmenty: list[Segment]) -> list[list[Segment]]:
+    """Segmenty pocięte interpunkcją na człony, bez znaków, które je rozdzielają.
+
+    Cięcie to nie jest rozbiorem i zdania składowego nie wyznacza: człon wychodzi
+    z niego i przed zdaniem względnym, i przed okolicznikiem odciętym przecinkiem.
+    Regule to wystarcza, bo pyta ona tylko o człon zamknięty zwrotem,
+    a nie o to, czym ten człon jest w zdaniu.
+
+    Lista idzie tu tak, jak ją wydała segmentacja, więc segmentacja niejednoznaczna
+    wkłada do jednego członu krawędzie równoległe. Reguła myli się przez to w
+    stronę milczenia: forma dołożona albo postawi w członie orzeczenie, albo
+    stanie za zwrotem, a jednym i drugim zgłoszenie zdejmuje.
+    """
+    człony: list[list[Segment]] = [[]]
+    for segment in segmenty:
+        if segment.form in GRANICE_CZŁONÓW:
+            człony.append([])
+        else:
+            człony[-1].append(segment)
+    return człony
+
+
+def _zwrot_na_końcu(człon: list[Segment]) -> str | None:
+    """Zwrot zamykający ten człon, tak jak go zdanie zapisuje, albo nic.
+
+    Zwroty różnią się ostatnią formą, więc na jednym ogonie stanie co najwyżej
+    jeden i kolejność sprawdzania nie rusza wyniku.
+    """
+    formy = [segment.form for segment in człon]
+    for zwrot in ZASTĘPUJĄCE_ORZECZENIE:
+        ogon = formy[-len(zwrot) :]
+        if tuple(forma.lower() for forma in ogon) == zwrot:
+            return " ".join(ogon)
+    return None
+
+
+def _porównanie(dalsze: list[list[Segment]]) -> bool:
+    """Czy człon następny zaczyna się od spójnika porównania.
+
+    Człon pusty jest tu tym, co daje kropka na końcu zdania, i porównaniem nie
+    jest; pusty w środku zdania daje para znaków przestankowych obok siebie.
+    """
+    for człon in dalsze:
+        if człon:
+            return człon[0].form.lower() in PORÓWNANIE
+    return False
+

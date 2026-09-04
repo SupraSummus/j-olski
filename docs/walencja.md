@@ -198,7 +198,7 @@ które je biorą, więc odjęcie reszty jest wobec Walentego prawdziwe:
 Nad Składnicą to odjęcie kosztuje jedno zdanie —
 `Wystarczy, że ujmiesz w swej pracy twarz i ręce.`, bo `wystarczyć` na liście
 nie stoi — a jednoznaczności nie kupuje ani jednej,
-pod złotą morfologią i pod Morfeuszem tak samo.
+i pod złotą morfologią, i pod Morfeuszem.
 Rama zostaje więc szeroka, tak jak przy bezokoliczniku i z tego samego powodu:
 zawężenie prawdziwe, które nie odbiera ani jednego drugiego czytania,
 płaci pokryciem za nic.

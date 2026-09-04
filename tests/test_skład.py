@@ -144,7 +144,8 @@ def test_odmowa_nazywa_pozycję_której_rama_nie_ma():
     """Odmowa jest jedna na wszystkie pozycje, więc jej treść jest jedyną różnicą.
 
     Świadkiem są dwa czasowniki o ramach rozłącznych:
-    `szukać` bierze dopełniacz i nie bierze celownika, `pomagać` odwrotnie.
+    `szukać` bierze dopełniacz i nie bierze celownika,
+    a `pomagać` bierze celownik i nie bierze dopełniacza.
     Sprawdzany jest napis, bo bez niego autor wie tylko tyle,
     że drzewo jest poza ramą, a nie to, której pozycji ten czasownik nie ma;
     dopełnienie wymienia przy tym oba przypadki, bo o oba pyta naraz.

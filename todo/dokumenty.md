@@ -492,3 +492,16 @@ spis w `docs/README.md`, który żąda wiersza dla każdego pliku tego katalogu,
 oraz `docs/publikacja.md`, bo strona bierze prozę w układzie katalogów repozytorium.
 Ten sam kształt, tylko słabszy, mają `docs/linter.md` i `docs/pisanie-po-olsku.md`:
 oba orzekają o regułach prozy, a nazwy sekcji im zostały.
+
+Dwa zdania wiodące
+[sekcji o pomiarze](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) —
+o stosunku zgrubnym i o mierzeniu na przemian — niosą po dwa twierdzenia,
+a instrukcja ma nieść jedno na zdanie.
+Wykrywacza na to nie ma i mieć nie będzie:
+dwa człony spięte spójnikiem trafiają w tej prozie zbyt często, żeby coś wskazać
+([`docs/linter.md`](../docs/linter.md#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu)),
+więc rozdziela je czytelnik.
+Ruchem jest w każdym z tych dwóch miejsc zdanie na twierdzenie.
+Do przeczytania jest akapit pod każdym z nich:
+drugie twierdzenie zdania wiodącego bywa powiedziane niżej całym akapitem,
+a wtedy zdanie wiodące oddaje je bez straty.

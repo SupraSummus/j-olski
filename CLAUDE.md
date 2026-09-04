@@ -574,6 +574,9 @@ a powtarzają się w niej te chwyty:
   więc powtórz czasownik, choćby zdanie wyszło dłuższe:
   „a zdanie, które i tak poprawiasz, tak samo” →
   „Te same reguły stosujemy do zdania, które poprawiamy z innego powodu”.
+  Zwrot zamykający człon bez orzeczenia wypisuje `olski-check --chwyty`,
+  a zwrot z przeczeniem za sobą — „części mowy też nie” — wykreśla czytelnik
+  ([`docs/linter.md`](docs/linter.md#drugi-wykrywacz-zgłasza-zwrot-zastępujący-orzeczenie-członu)).
 - **Jeden rytm na wszystko.**
   Trzy zdania pod rząd o tym samym kształcie —
   teza, przecinek, człon spięty przez „a”, „bo” albo „więc”,
