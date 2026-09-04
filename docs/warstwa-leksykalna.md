@@ -120,7 +120,7 @@ Zostaje drugie miejsce, w którym tę parę da się rozciąć, czyli sąsiad:
 `koda` jest wyrazem, którego ten rejestr nie zna,
 a rzadkość formalnego znamienia nie ma,
 więc kryterium na nią żąda liczby z korpusu, której olski nie ma.
-[todo/](../todo/README.md) trzyma to, co z tej klasy zostaje otwarte,
+`todo/` trzyma to, co z tej klasy zostaje otwarte,
 wraz z pomiarem mówiącym, że nad prozą tego repozytorium
 niesie ją paradygmat zaimkowy, a nie przymiotnik.
 
@@ -190,7 +190,7 @@ w którym `ostoi` czyta się formą osobową lematu `ostać`.
 a `Sącz` rozkaźnikiem — więc klasy te nie są podziałem.
 Wykluczenie ze słownika po tę klasę nie sięga z innego powodu niż po tamtą:
 czytanie czasownikowe nie jest nieodmienne,
-a co z nią zrobić po stronie ekstrakcji, trzyma [todo/](../todo/README.md).
+a co z nią zrobić po stronie ekstrakcji, trzyma `todo/`.
 
 **Wyraz funkcyjny albo zaimek czytany wyrazem treściowym.**
 `Wszystko wyżej pyta o zdanie, po którym zostaje czytań kilka.` jest jednoznaczne,
@@ -389,14 +389,14 @@ Wpis na taki leksem dokłada czytanie formie, którą słownik już czyta,
 więc łamie własność całej sekcji:
 ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
-Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma [todo/](../todo/README.md).
+Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma `todo/`.
 
 Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,
 czyli to samo miejsce, w którym notacja dostaje swoją krawędź,
 oraz warstwa rozstrzygająca, kiedy pyta o lemat gospodarza.
 Skład go nie czyta, choć tego samego pliku żąda i po swojej stronie
 ([formy-i-leksemy.md](formy-i-leksemy.md#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr)),
-a ruch trzyma [todo/](../todo/README.md).
+a ruch trzyma `todo/`.
 
 ## Słownictwo projektu orzeka o lemacie w obie strony
 

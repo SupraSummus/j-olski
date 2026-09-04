@@ -1381,8 +1381,7 @@ class Las:
         pokazuje. Głowa tak daleko nie sięga: ``dobry kod`` jest raz
         przymiotnikiem przed rzeczownikiem, a raz rzeczownikiem z dopełniaczem
         po nim, więc jedna rozpiętość ma tam dwie głowy, a nazwa bierze tę z
-        pierwszego drzewa i tego wyboru nie ogłasza. Co z tym zrobić, jest
-        otwarte w todo/.
+        pierwszego drzewa i tego wyboru nie ogłasza.
         """
         gotowe = self._przedstawiciele.get(pozycja)
         if gotowe is not None:

@@ -53,8 +53,7 @@ python3 -m harness.pomiar Składnica-frazowa-180723/ --morphology live
 ```
 
 Those two runs own every count this document is about,
-which is why the document states orders of magnitude and directions instead
-([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)):
+which is why the document states orders of magnitude and directions instead:
 a figure copied into a paragraph here goes stale at the next production admitted,
 and nothing tells the reader that it has.
 So the shape of a result is written down and the size of it is run for.
@@ -64,8 +63,7 @@ the forms leading a blocker, the two runs' accepted sets compared,
 a row read again with a group of productions dropped.
 Each of those wants a per-sentence verdict rather than a total,
 and half of them want two runs compared rather than one printed,
-so each is a script written for one question and thrown away
-([CLAUDE.md](../CLAUDE.md#code)).
+so each is a script written for one question and thrown away.
 Where such a reading stands in this document,
 it stands as the class it found and not as the count.
 
@@ -109,8 +107,7 @@ takes sentences out of the first count and puts them in the second
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)),
 so uniqueness is not a number that only rises.
 The run owns the counts and this document owns their order,
-because a figure quoted here would be stale by the commit after it
-([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+because a figure quoted here would be stale by the commit after it.
 
 The curve by length matters more than the total,
 because it is the shape the coverage actually has.
@@ -721,7 +718,7 @@ nie ma wyprowadzenia, a czytanie przydawkowe zostaje w tym zdaniu samo.
 Jest to ten sam brak, o którym mówi
 [przyjąć koszt](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie),
 widziany od strony zgodności, a nie od strony liczby czytań;
-ruch trzyma [todo/](../todo/README.md).
+ruch trzyma `todo/`.
 
 Drop the positions that hang a prepositional phrase on a noun or on an adjective —
 `wyrażenie_przyimkowe` under `człon_imienny` and under `człon_przymiotnikowy`,
@@ -802,7 +799,7 @@ and the closed list of copulas
 does not carry it,
 so a sentence with either verb is refused by a lexicon entry that is missing
 rather than by a decision anybody took.
-[todo/](../todo/README.md) holds them.
+`todo/` holds them.
 
 The rest of the lexicon — every entry but the copula's —
 moves dozens of sentences here and moves them the same way.
@@ -888,7 +885,7 @@ i złotemu nie równałoby się nigdy, a wiersz `lost` liczyłby kilkadziesiąt 
 i byłby to odczyt o mierze, a nie o gramatyce,
 bo etykieta nie zmienia ani jednego czytania ani jednego z tych zdań.
 Tą samą miarą płacą zdania z gniazdem `np(part)` w wierszu `disagrees` wyżej,
-i [todo/](../todo/README.md) trzyma tamto.
+i `todo/` trzyma tamto.
 
 To, co po złotym czytaniu zostaje, rozkłada się na cztery klasy,
 a dwie z nich wiersze zgodności wyżej już opisują.

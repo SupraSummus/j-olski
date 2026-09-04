@@ -150,7 +150,7 @@ i dlatego README pisze `kontrolowanych języków naturalnych`,
 a kompilator z tego samego drzewa wypuszcza `kontrolowany naturalny język`.
 Języki o szyku ustalonym tego wyboru nie mają,
 więc biblioteka wzięta od kogoś, kto go nie miał, nie odpowie za nas.
-Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to [`todo/`](../todo/README.md).
+Co ma go rozstrzygać wewnątrz grupy, nie zapadło, i trzyma to `todo/`.
 
 Szyk, który z tego drzewa wychodzi, ma z czym się porównać,
 bo rozkład szyków polszczyzny ktoś policzył.

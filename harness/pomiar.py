@@ -144,7 +144,7 @@ class Outcome(Wynik):
         #  jest pułapka, a nie skrót: funkcję wypisuje dopiero `NAZWY_SZKOLNE`
         #  w `olski/subset/deklaracja.py`, za granicą werdyktu. Porównanie musi
         #  iść pozycja do pozycji, bo innych drzewo wzorcowe nie ma. Że nazwa po
-        #  tej stronie ma brzmieć `subj`, trzyma todo/.
+        #  tej stronie ma brzmieć `subj`, jest osobnym pytaniem.
 
         # Taken apart from the extent disagreements below, because this is the
         # failure the whole ambiguity design exists to prevent: olski admits SVO

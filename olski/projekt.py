@@ -27,7 +27,7 @@ Czytania leksykonu dochodzą do czytań słownika w :func:`z_leksykonu`
 i woła ją cała analiza.
 Funkcja jest jedna, bo dołożona osobno w każdym z wołających
 byłaby tą samą regułą napisaną dwa razy.
-Skład go nie czyta i o tym, co mu z tego zostaje, mówi ``todo/``.
+Skład go nie czyta, a co mu z tego zostaje, jest pytaniem otwartym.
 """
 
 from __future__ import annotations

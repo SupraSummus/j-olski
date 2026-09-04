@@ -46,8 +46,7 @@ from olski.walencja import (
 #: Pytanie zależne jest pozycją osobną od zdania z `że`, a nie tym samym `comp`,
 #: bo Walenty rozdziela je kształtem i mówi to o kilkuset lematach; wywód i
 #: polecenie trzyma docs/subset.md. Stoi ono w ramie domyślnej tak samo jak `comp`,
-#: a zawężenia tej pozycji do leksykonu nikt nie zmierzył — todo/ trzyma ten
-#: przebieg.
+#: a zawężenia tej pozycji do leksykonu nikt nie zmierzył.
 RAMA_DOMYŚLNA = frozenset({"nom", "acc", "inf", "comp", "int"})
 
 
@@ -163,7 +162,7 @@ def _klasy_walencyjne(
     Klucz sortowania jest wypisany, bo rama jest zbiorem, a ``<`` na zbiorach
     porównuje zawieraniem: ``sorted`` bez klucza oddaje kolejność wejścia i nie
     wywraca się przy tym. Kolejność klas ustala kolejność produkcji, a ta
-    kolejność, w jakiej las wydaje czytania (CLAUDE.md#code).
+    kolejność, w jakiej las wydaje czytania.
     """
     klasy: dict[frozenset[str], set[str]] = {}
     for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:

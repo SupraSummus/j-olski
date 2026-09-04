@@ -715,7 +715,7 @@ a zacznie wskazywać zaimek, który ją wiąże:
 zakup przestaje wtedy przeczyć bankowi drzew, a wydruk dostaje nazwę roli.
 Zostaje po tym ta reszta pierwszej ceny,
 której warunek precedencji nie zdjął.
-Ruch trzyma [todo/](../todo/README.md),
+Ruch trzyma `todo/`,
 a zdania składowego bez podmiotu ten ruch nie dotyczy,
 bo wypisuje je sama gramatyka.
 
@@ -799,8 +799,7 @@ Sonda jest skasowana, a ta sekcja jest ceną, przy której zapadły dwa rozstrzy
 odmowa nieciągłości i to, że kierunkiem nie jest zmiana podłoża
 ([parsowanie.md](parsowanie.md#kierunek-produkcja-się-rozwarstwia-a-podłoże-zostaje)).
 Rozbiór po łukach żądał własnej deklaracji podzbioru, stojącej obok `olski/subset/`,
-czyli drugiego właściciela faktu, przed którym broni
-[`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely).
+czyli drugiego właściciela faktu, przed którym broni reguła o jednym właścicielu.
 Kopia ta nie rosła razem z gramatyką:
 liczebnika, formy z leksykonu projektu, rzeczownika odczasownikowego,
 cudzysłowu ani interpunkcji zdaniowej nie miała.

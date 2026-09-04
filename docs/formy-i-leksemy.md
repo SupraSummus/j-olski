@@ -113,7 +113,7 @@ ale przyjmuje go skompilowanego,
 a pakiet z PyPI wydaje bibliotekę wraz z wiązaniem do Pythona i nic poza tym,
 co widać po zawartości katalogu, w który się instaluje,
 więc tamta droga żąda łańcucha narzędzi spoza PyPI
-i zabiera to, co [`CLAUDE.md`](../CLAUDE.md#checks) ma za instalację jednym poleceniem.
+i zabiera to, co `CLAUDE.md` ma za instalację jednym poleceniem.
 Plik czytany przez oba kierunki kupuje przy tym to samo,
 co kupuje [leksykon walencyjny](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej):
 że `komit` jest słowem raz, a nie dwa razy.
@@ -126,7 +126,7 @@ schodzi na sam wzorzec, a to, czego takie wskazanie nie kupuje,
 trzyma [warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
 Czyta tę sekcję strona analizy, a skład jej nie czyta,
 więc obietnica z akapitu wyżej — że `komit` jest słowem raz, a nie dwa razy —
-czeka na drugiego czytelnika, i ruch do niej trzyma [`todo/`](../todo/README.md).
+czeka na drugiego czytelnika, i ruch do niej trzyma `todo/`.
 
 ## Kwalifikator mówi o formie dwie rzeczy i tylko jedna jest rejestrem
 
@@ -239,8 +239,7 @@ Otwarte zostaje to, na co to kryterium nie sięga,
 i jest to słownik mówiący „albo tak, albo tak” pod jednym leksemem:
 `postaci` obok `postacie` w jednej komórce
 oraz `anioł` z rodzajem wypisanym dwiema wartościami w jednym tagu.
-Identyfikator nie rozstrzyga ani jednego, ani drugiego, i trzyma to
-[`todo/`](../todo/README.md).
+Identyfikator nie rozstrzyga ani jednego, ani drugiego, i trzyma to `todo/`.
 
 Leksykon ten jest przy tym innym plikiem niż
 [leksykon projektu](#leksykon-projektu-sgjp-nie-zna-słów-których-używa-rejestr),

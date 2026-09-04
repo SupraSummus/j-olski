@@ -36,7 +36,7 @@ Składnicą docs/subset.md. Wchodzi tu wreszcie każde czytanie, które słownik
 oferuje, a polszczyzna go nie ma: liczone jest to, co zostawia ``admissible`` w
 olski/segmentacja.py, a zostawia ono nazwisko nieodmienne z formy ``Nowy`` i grę z
 formy ``go``. Obie te grupy są otwarte i obie mają swoje miejsce — pierwsza jest
-etapem 3 z docs/roadmap.md, drugą trzyma todo/ — więc ten pomiar ruszy się,
+etapem 3 z docs/roadmap.md, a druga otwartą robotą — więc ten pomiar ruszy się,
 kiedy się zamkną.
 
 Policzona pozycja jest zarazem pytaniem i ``pytania`` oddaje ją w tej postaci,
@@ -152,7 +152,7 @@ def _grupa(sąsiad: Segment, imienne: dict[int, Segment]) -> tuple[str, ...]:
     osobową, i celownikiem od ``stan``, więc w ``dokument stanowi kompendium
     wiedzy dla deweloperów`` łańcuch przechodzi przez orzeczenie: świadek płaci za
     to milczeniem, a pozycja stąd traci gospodarza czasownikowego, bo orzeczenie
-    stoi wtedy po obu stronach wyboru. Wpis o zawężeniu kryterium trzyma todo/.
+    stoi wtedy po obu stronach wyboru.
     """
     grupa = [sąsiad]
     while _ma(grupa[-1], IMIENNE_LUB_NIEZNANE) and grupa[-1].start in imienne:

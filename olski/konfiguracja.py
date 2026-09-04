@@ -13,7 +13,7 @@ Format jest TOML-em, bo czyta go biblioteka standardowa (``tomllib`` od 3.11),
 więc ani składni, ani jej komunikatów o błędach nie pisze ten moduł.
 Nazwy sekcji i kluczy nie mają znaków diakrytycznych i mieć ich nie mogą:
 klucz nagi w TOML-u jest ASCII, a klucz cytowany zapraszałby do pomyłki.
-Jest to jedyne miejsce, w którym reguła o polskich nazwach z CLAUDE.md
+Jest to jedyne miejsce, w którym reguła o polskich nazwach
 ustępuje formatowi.
 
 Ten moduł zna sam plik i podział na sekcje.

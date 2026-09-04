@@ -19,8 +19,8 @@ def jednostki(text: str) -> list[Jednostka]:
 
     Ekstrakcja z modułu tnie plik na docstringi i komentarze, każdy z osobna,
     a dokument tnie się na sekcje, których ten krok nie zna: sekcja jest
-    nagłówkiem plus prozą pod nim, a tu nagłówki już poszły. todo/ trzyma to
-    jako wpis, bo płaci za to dokument pisany w dwóch językach naraz.
+    nagłówkiem plus prozą pod nim, a tu nagłówki już poszły,
+    a płaci za to dokument pisany w dwóch językach naraz.
     """
     return [Jednostka(1, prose(text).rstrip("\n"))]
 

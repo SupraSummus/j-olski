@@ -375,7 +375,7 @@ czyli odwrotnie niż przy okoliczności, gdzie autor wybiera między `bo` i `pon
 Polszczyzna wybiera go tu za autora: `że` mówi, że tak jest, a `żeby`, że tak ma być,
 i to drugie jest inną kategorią dziedziny, której to drzewo nie ma.
 Odsłoniła ta pozycja jeszcze jedną, i jest nią czas zdania podrzędnego;
-obie trzyma [`todo/`](../todo/README.md), a co pokazały,
+obie trzyma `todo/`, a co pokazały,
 mówi [czego nie spełniono](#czego-nie-spełniono).
 
 ## Następstwo zdarzeń jest kategorią, a spójnik jego wnioskiem
@@ -580,7 +580,7 @@ Drugą połową ceny jest szyk, i to ona jest tu nowa:
 `Chciał ją znaleźć.` stawia zaimek przed czasownikiem osobowym,
 czyli poza zdaniem, do którego on należy,
 więc zaimek i bezokolicznik są jedną zmianą, a nie dwiema stojącymi obok siebie.
-Ruch trzyma [todo/](../todo/README.md), a `jego wzrok` jest przy tym trzecią rzeczą:
+Ruch trzyma `todo/`, a `jego wzrok` jest przy tym trzecią rzeczą:
 zaimek dzierżawczy przestawia grupę imienną, a nie wypełnia pozycję w zdaniu.
 Czwartą odsłoniła treść i jest z tych czterech najtańsza,
 bo polszczyzna nie pisze tam zaimka wcale, tylko opuszcza podmiot:
@@ -597,4 +597,4 @@ a polszczyzna liczy czas zdania podrzędnego wobec zdania nad nim:
 `Wiedział, że pod ścianą stały postaci.` mówi co innego niż to samo ze `stoją`.
 Oba te zdania są polskie, więc jest to kategoria dziedziny, a nie forma do policzenia,
 i pyta ona o to, czy rzecz z dołu trwała wtedy, czy skończyła się przedtem.
-Trzyma to [todo/](../todo/README.md), a legenda stoi na razie na wersji przeszłej.
+Trzyma to `todo/`, a legenda stoi na razie na wersji przeszłej.

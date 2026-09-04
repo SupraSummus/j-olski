@@ -8,7 +8,7 @@ a czym jest ważność i co mówi odrzucenie, wykłada [subset.md](../subset.md)
 Cenę i zakup piszemy tu w rzędzie wielkości albo granicą, a nie liczbą dokładną,
 bo liczbę dokładną unieważnia dopisanie do gramatyki i unieważnia ją po cichu.
 Która liczba zostaje mimo to dokładna, wylicza
-[CLAUDE.md](../../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje).
+`CLAUDE.md`.
 Ten rejestr dokłada do tamtej listy jedną:
 liczbę przypiętą do gramatyki, której już nie ma,
 o ile zdanie obok mówi, że żaden przebieg jej nie powtarza.
@@ -17,8 +17,7 @@ a nie figurą o gramatyce dzisiejszej.
 Zero i jedno zostają zawsze, bo mówią kierunek, a nie wielkość.
 Pełną precyzję ten rejestr miał i zszedł z niej dlatego,
 że nie pilnuje jej żaden check: cenę przelicza przebieg nad korpusem,
-a korpus jest archiwem, którego suita nie pobiera
-([CLAUDE.md](../../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+a korpus jest archiwem, którego suita nie pobiera.
 Wróci ona wtedy, gdy cenę będzie przeliczał check —
 tak jak `tests/test_wydruki.py` przelicza blok wydruku.
 

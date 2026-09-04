@@ -138,7 +138,7 @@ powtórzenie frazy przy kopuli nie dowodzi niczego o tym czasowniku,
 więc świadek kontekstowy nad taką parą milczy
 ([rozstrzyganie.md](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)).
 Ruch, który z tego wychodzi, opisuje wpis o świadkach pytających o obiekt składniowy
-w [todo/rozstrzyganie.md](../todo/rozstrzyganie.md).
+w `todo/rozstrzyganie.md`.
 
 ## Warstwa znacząca leży w pakiecie drugiego toru
 

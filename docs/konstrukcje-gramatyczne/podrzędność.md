@@ -162,7 +162,7 @@ Listy są przez to dwie, a nie jedna, bo wysunięcie jest faktem o słowie:
 i tak samo dzieli się `gdyż` od `ponieważ`, choć oba mówią o przyczynie.
 Fakt ten skład trzyma o dwóch z tych lematów
 (`olski/skład/spójniki.py`),
-i [todo/](../../todo/README.md) trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
+i `todo/` trzyma ruch, którym oba kierunki czytałyby jeden leksykon,
 tak jak czytają jeden leksykon walencyjny.
 Sam podział ma przy tym świadka zmierzonego:
 nad Składnicą `gdyż` nie otwiera ani jednego zdania,
@@ -588,7 +588,7 @@ bo tam rozdziela je przeczenie, oraz `orzecznik → czoło` po jednej,
 a wraz z nimi wychodzi cecha `czoło` z ról, które ją niosą.
 `python3 -m harness.pomiar Składnica-frazowa-180723/` puszczony nad taką gramatyką
 wydaje obie tabele bez etykiety, a różnica wierszy jest tymi dwoma przejściami.
-Czego brakuje, żeby wzięło je polecenie, trzyma [todo/](../../todo/README.md).
+Czego brakuje, żeby wzięło je polecenie, trzyma `todo/`.
 
 Grupa pytajna niesie dwie etykiety naraz i obie są potrzebne.
 `grupa_pytajna` mówi, o co zdanie pyta,
@@ -952,8 +952,7 @@ a liczbę na dziś drukuje kolumna `produkcji` w wydruku sondy luki
 Kosztu tego dałoby się uniknąć jednym czołem i cechą przy nim,
 mówiącą, który zaimek to czoło niesie,
 a odrzuca tę wersję pomiar, nie liczba produkcji:
-sonda wycenia pozycję zdjęciem produkcji, więc cena osobna żąda symbolu osobnego
-([CLAUDE.md](../../CLAUDE.md#code)).
+sonda wycenia pozycję zdjęciem produkcji, więc cena osobna żąda symbolu osobnego.
 Pod jednym czołem zdjęcie ciał zabrałoby razem z `co` także `który`,
 czyli tę pozycję dałoby się wpuścić, a nie dałoby się jej wycenić.
 Odwraca ten wybór jedno: gdy o cenę tej pozycji nikt już nie pyta,

@@ -28,7 +28,7 @@ Kto psuje witrynę, gramatyki nie rusza, bo gramatyka nie zna witryny.
 Kto psuje gramatykę, psuje witrynę.
 Ten kierunek zależności jest właściwy.
 
-[Blok checków](../CLAUDE.md#checks) nie rośnie od tego toru.
+Blok checków nie rośnie od tego toru.
 Aplikacja jest zwykłą funkcją WSGI,
 więc suita woła ją wprost i nie potrzebuje serwera ani portu.
 `tests/test_witryna.py` podaje jej słownik środowiska i czyta odpowiedź.
@@ -47,8 +47,7 @@ Tłumaczy on nazwę, a przeczytany pierwszy nie tłumaczy niczego.
 Wprowadzenie jest streszczeniem [README](../README.md).
 Mówi ono mniej dokładnie niż tamten plik.
 Ani liczb, ani wywodu strona nie powtarza, a odsyła do repozytorium,
-więc zmiana README nie zostawia tutaj kopii nieaktualnej
-([CLAUDE.md](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely)).
+więc zmiana README nie zostawia tutaj kopii nieaktualnej.
 Wyjaśnienie dłuższe niż dwa zdania wchodzi zwinięte,
 bo czytelnik przyszedł po werdykt o własnym zdaniu,
 a nie po akapit o wieloznaczności.
@@ -104,7 +103,7 @@ komenda statusu nie drukuje, bo dzieli on zdania po liczbie odczytań,
 a nie po tym, czy narzędzie ma o zdaniu co powiedzieć
 (`Verdict.status` w `olski/werdykt.py`).
 Cenę przekładu statusu trzyma wpis o statusie werdyktu
-w [`todo/dokumenty.md`](../todo/dokumenty.md).
+w `todo/dokumenty.md`.
 
 ## API oddaje dane, a nie HTML
 
@@ -129,7 +128,7 @@ Zostawia też API zamknięte dla wszystkiego poza tą jedną stroną.
 
 Każde zdanie ma przycisk, który kopiuje jego werdykt do schowka.
 Blok na stronie czyta się okiem,
-a do zgłoszenia albo do [rejestru otwartej roboty](../todo/README.md) wkleja się tekst.
+a do zgłoszenia albo do rejestru otwartej roboty wkleja się tekst.
 Tekst ten składa strona, a nie serwer.
 Powód jest ten sam: pole z gotowym tekstem w odpowiedzi byłoby drugą warstwą prezentacji.
 Schowek wymaga kontekstu bezpiecznego, czyli HTTPS albo localhosta.
@@ -172,7 +171,7 @@ Wtedy biblioteka wchodzi.
 
 Cena tej decyzji jest jedna i suita jej nie łapie: `witryna/skrypt.js` nie ma testu.
 W blokach checków nie ma Node.js.
-Wpis o tym pliku trzyma [`todo/pakiet.md`](../todo/pakiet.md).
+Wpis o tym pliku trzyma `todo/pakiet.md`.
 Robocza odpowiedź jest taka: skrypt rysuje dane i nie liczy niczego,
 więc niemal każda usterka siedzi po stronie Pythona.
 Wyjątkiem jest tekst dla schowka, bo składa go sama strona.
@@ -312,8 +311,7 @@ curl -s 'localhost:8000/makieta?ziarno=1871&akapity=1'
 
 Bloki te odtwarza `tests/test_witryna.py`.
 Puszcza on polecenie nad blokiem i porównuje odpowiedź z blokiem pod nim.
-Blok wklejony ręką rozjeżdża się po cichu z każdą zmianą w werdykcie
-([CLAUDE.md](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+Blok wklejony ręką rozjeżdża się po cichu z każdą zmianą w werdykcie.
 
 Sond witryna nie wystawia.
 Pomiar czyta bank drzew albo korpus audytowy,
@@ -387,8 +385,7 @@ Sprawdza się to bez wdrożenia:
 `pip download --only-binary :all: morfeusz2` na Linuksie x86-64
 albo pobiera koło, albo mówi, że go nie ma.
 Bez Morfeusza witryna nie wstanie w ogóle,
-bo gramatyka czyta słownik przy imporcie
-([CLAUDE.md](../CLAUDE.md#checks)).
+bo gramatyka czyta słownik przy imporcie.
 
 ## Nie zapadło
 

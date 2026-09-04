@@ -11,8 +11,7 @@ tylko to, za co ono płaci (``witryna/skrypt.js``).
 
 Cena jest deklaracją o polszczyźnie, a nie częstością wziętą z korpusu:
 mówi, że jedno czytanie tego samego napisu jest zwyklejsze od drugiego.
-Nikt jej nie zmierzył; czym się ją mierzy i czego ten pomiar dziś nie widzi,
-mówi wpis o kolejności czytań w ``todo/pomiar.md``.
+Nikt jej nie zmierzył.
 
 Pozycje dzielą się na dwie rodziny i różni je to, dokąd cena sięga.
 Pozycję produkcji płaci ciało i płaci ją na miejscu:

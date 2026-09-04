@@ -115,14 +115,14 @@ Kolejność jest więc taka, i pomiar stoi w niej przed pisaniem.
 
 1. **Wypisz kilka kandydatek, a nie jedną.**
    Bierz je z prostej polszczyzny, z katalogów angielskich,
-   z [CLAUDE.md](../CLAUDE.md) i z tego, co wyłapuje przegląd zmian.
+   z `CLAUDE.md` i z tego, co wyłapuje przegląd zmian.
 2. **Zapytaj o każdą, czego żąda od maszynerii.**
    Regułę, która rozstrzyga się na rozbiorze, warto pisać tutaj
    ([niżej](#suffixes-buy-more-than-expected));
    regułę, której wystarczy znacznik, można pisać wszędzie.
 3. **Puść każdą sondą nad prozą tego repozytorium.**
    Predykat pisze się na jeden przebieg i do drzewa nie wchodzi,
-   tak jak przy [sondzie różnicowej](../CLAUDE.md#code).
+   tak jak przy sondzie różnicowej.
 4. **Przeczytaj trafienia, a nie samą ich liczbę.**
    Reguła, która trafia często, a każde trafienie jest chybione,
    jest gorsza od reguły, która milczy.
@@ -149,7 +149,7 @@ czyli poza kolokacją, która wzmacniaczem nie jest.
 Jedno twierdzenie na zdanie odpadło dwoma predykatami, a nie jednym,
 i warto powiedzieć, na czym stanął każdy.
 Liczba twierdzeń rozstrzyga się rejestrem:
-[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) pozwala tak pisać wywód,
+`CLAUDE.md` pozwala tak pisać wywód,
 a zakazuje instrukcji, więc reguła ta żąda progu, którego nie ma czym skalibrować.
 Dwa człony spięte spójnikiem trafiają przy tym w ponad połowę zdań instrukcji,
 a przeczytane mówią, że `Skreślony tekst zostaje w gicie, więc pomyłka jest odwracalna.`
@@ -200,7 +200,7 @@ zgłasza pojedyncze zdanie i wypisuje przy nim rzeczy, o które chodzi.
 Reguła o zaimku wskazującym na dwie rzeczy jest znaleziskiem,
 czyli mówi o polszczyźnie zdania.
 Druga reguła wydana po zamknięciu pakietu mówi o rejestrze, w którym je napisano,
-i jest jedynym wzorcem z [katalogu chwytów](../CLAUDE.md#katalog-chwytów-rejestru),
+i jest jedynym wzorcem z katalogu chwytów,
 który wytrzymał [pomiar](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
 `To` otwierające zdanie, które nie ma przy sobie rzeczownika,
 podejmuje całe zdanie obok, a naprawą jest rzeczownik wstawiony w jego miejsce.

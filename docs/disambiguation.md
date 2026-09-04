@@ -165,7 +165,7 @@ i tam trafia na własny wyjątek:
 `brakuje` żąda dopełniacza i podmiotu mieć nie może,
 więc czytanie bez podmiotu jest tam jedynym poprawnym, a mimo to płaci.
 Czym ten warunek postawić,
-trzyma wpis o opuszczonym podmiocie w [`todo/gramatyka.md`](../todo/gramatyka.md).
+trzyma wpis o opuszczonym podmiocie w `todo/gramatyka.md`.
 
 Pozycja morfologii wycenia słownik, a nie gramatykę:
 czytanie oparte na formie, którą SGJP opatrzył kwalifikatorem odsyłającym ją
@@ -229,7 +229,7 @@ Kilka z nich przestawia w stronę czytania trafnego —
 w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem —
 a większość przestawia w obrębie zdań, których gramatyka i tak nie czyta dobrze.
 To jedno zdanie trzyma `tests/test_kolejność.py`, bo nad Składnicą nie ma czego
-trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi [`todo/`](../todo/README.md).
+trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi `todo/`.
 
 **Koszt produkcji mierzy nad tą samą prozą osobna sonda, pozycja po pozycji**
 (`harness/cena.py`): wycenia jedną pozycję na zero i porównuje czytanie pierwsze
@@ -411,7 +411,7 @@ opisuje w cudzym systemie — liczenie prób zamiast wyników —
 rozstrzyga się osobno nad każdym takim ciągiem:
 to zdanie z ustaw znaczy pod dwoma nawiasowaniami dwie różne rzeczy,
 a ciąg `równych praw kobiet i mężczyzn` z jednego ze zdań Składnicy — jedną.
-Ile jest których, notuje [`todo/`](../todo/README.md).
+Ile jest których, notuje `todo/`.
 
 ## Ranking nie jest wyjściem, którego ten parser potrzebuje
 
@@ -505,7 +505,7 @@ Stopę pomyłek daje dopiero losowanie zawężone do samych odpowiedzi
 a tabela z banku drzew myli się nad tą próbą tyle,
 ile jej własna ocena dopuszcza na próbie tej wielkości.
 Przenoszenie się częstości zostaje przez to pytaniem o liczbę przeczytanych odpowiedzi,
-a ile ich potrzeba, mówi wpis w [`todo/`](../todo/README.md).
+a ile ich potrzeba, mówi wpis w `todo/`.
 
 Ten sam przebieg mówi o kryterium powodu coś, czego stopa pomyłek nie mówi.
 Odpowiedzi z powodem leżącym w słowach zdania jest tam większość i żadna nie jest pomyłką,
@@ -732,7 +732,7 @@ Cenę pierwszego ruchu ta liczba wycenia przy tym po jednej stronie i tylko po j
 Mówi, że klasa jest w słowniku wąska — 144 lematy z 17 224 —
 a nie mówi, ile zdań rejestru niesie taki czasownik,
 bo `brać` i `wziąć` stoją na tej liście obok `wyczarterować`.
-Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go [`todo/`](../todo/README.md).
+Drugą stronę zmierzyłby przebieg nad korpusem i trzyma go `todo/`.
 
 `Znam go.` jest drugą połową tej klasy i tam leksykon walencyjny milczy.
 Schematy, które `znać` u Walentego ma, różnią się kształtem dopełnienia,
@@ -792,7 +792,7 @@ a dwóm z nich zabiera wszystkie czytania.
 Te dwa są polszczyzną — `Odpadają przez to dwa rodzaje schematu.`
 oraz zdanie, w którym `zażąda` czegoś `któryś etap` —
 czyli filtr trafia w metonimię, którą
-[CLAUDE.md](../CLAUDE.md#katalog-chwytów-rejestru) zostawia w prozie wprost.
+`CLAUDE.md` zostawia w prozie wprost.
 Ten sam pomiar odrzuca zarazem
 [świadka odpowiadającego obok werdyktu](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
 bo pomyłką są dwa trafienia z czterech, a świadek ma nazywać swoją częstość pomyłek.

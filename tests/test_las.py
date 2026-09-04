@@ -398,7 +398,7 @@ def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():
     lista czytań niesie jeden wpis. Roli zdania grupa imienna nie nosi, więc oba
     jej kształty streszczają się pustym słownikiem i listy pod wierszem nie
     dostaje: wiersz jest tu całą odpowiedzią, a różnicę niesie głowa, której
-    streszczenie nie nazywa (todo/). Zdanie jest z rejestru ustaw
+    streszczenie nie nazywa. Zdanie jest z rejestru ustaw
     (docs/ustawy.md#co-gramatyka-z-tego-wyprowadza).
     """
     found = verdict("Dodatkowych przedstawicieli wyznacza zainteresowana rada gminy.")

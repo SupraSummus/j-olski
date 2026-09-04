@@ -28,8 +28,8 @@ from olski.subset import GRAMMAR
 from olski.werdykt import check
 
 #: Deklaracje różnicowe, które to drzewo trzyma. Dwie, bo sonda wyceniająca
-#: wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi
-#: (`CLAUDE.md#code`); te dwie zostały, bo `harness/płaski.py` buduje swoją
+#: wpuszczenie konstrukcji jest skryptem sesji i do drzewa nie wchodzi;
+#: te dwie zostały, bo `harness/płaski.py` buduje swoją
 #: gramatykę wariantu, a wynik `harness/luka.py` cytuje `docs/design-notes.md`.
 SONDY = [płaski.PRZYSŁÓWEK_SONDA, luka.LUKA_SONDA]
 

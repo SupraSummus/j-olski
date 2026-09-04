@@ -85,7 +85,7 @@ def test_konstytuent_z_rolą_przyłączaną_jest_gospodarzem_albo_stoi_wśród_m
 def test_deklaracje_nazywają_wyłącznie_symbole_które_gramatyka_definiuje():
     """Symbol przemianowany zostaje w deklaracji martwym napisem.
 
-    Deklaracje są listami nazw stojącymi obok gramatyki (CLAUDE.md#code) i wpis,
+    Deklaracje są listami nazw stojącymi obok gramatyki i wpis,
     którego gramatyka nie ma, nie wywraca ani jednego wyprowadzenia: odbiera
     tylko wiersz streszczeniu, tak samo cicho jak wpis pominięty. Pola bierzemy
     z klasy, a nie z listy nazw, żeby pole dopisane później weszło pod ten check
@@ -644,8 +644,7 @@ def test_the_second_article_sentence_derives_and_is_still_not_olski():
     #  daje formie `wobec` czytanie przysłówkowe obok przyimkowego, więc okolicznik
     #  zdania bierze ją jako słowo, a `innych` zostaje wtedy dopełnieniem. Jest to
     #  czytanie, którego polszczyzna w tym miejscu nie ma, i klasa, po którą
-    #  `admissible` nie sięga, bo tamten warunek pyta o czytanie rzeczownikowe;
-    #  todo/ trzyma ruch i pomiar, którego on żąda.
+    #  `admissible` nie sięga, bo tamten warunek pyta o czytanie rzeczownikowe.
     assert {drugie["wyrażenie_przyimkowe"] for _pierwsze, drugie in found.readings} == {
         "wobec innych → postępować",
         "wobec innych w duchu → postępować",

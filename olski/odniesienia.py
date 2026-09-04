@@ -49,7 +49,7 @@ a rzecz podejmowana stoi w zdaniu obok.
 Warunek zostaje mimo to, bo zdejmuje w większości trafienia chybione,
 a chybione kosztuje więcej:
 autor przepisuje przez nie zdanie bez powodu (docs/roadmap.md#cele).
-Zawężenie, po którym `Olski` przestaje być kandydatem, trzyma ``todo/``.
+Zawężenia, po którym `Olski` przestaje być kandydatem, nikt nie napisał.
 
 Wszystkie trzy warunki mylą się w jedną stronę: zdejmują kandydatów,
 a nie dokładają ich, i tak samo myli się zdanie obok,
@@ -211,7 +211,7 @@ def _zaimki(czytania: Sequence[Node]) -> list[Leaf]:
     zaimek powtórzony w jednym zdaniu wskazuje na to samo,
     więc drugi wiersz nie mówiłby nic ponad ten nad sobą.
     Kolejność jest kolejnością zdania, a nie kolejnością zbioru,
-    bo dwa przebiegi mają wypisywać to samo (CLAUDE.md#code).
+    bo dwa przebiegi mają wypisywać to samo.
     """
     znalezione: dict[str, Leaf] = {}
     for czytanie in czytania:

@@ -131,8 +131,7 @@ i jest to [nieciągłość](../design-notes.md#nieciągłość-zmierzono-i-olski
 a nie brak pozycji.
 Zostaje też aglutynant przy spójniku, czyli `żebym napisał`:
 Morfeusz tnie ten napis na `żeby` i `m`,
-a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi
-([todo/](../../todo/README.md)).
+a końcówka dochodzi w tej gramatyce do czasownika, przy którym stoi.
 
 ## Forma `bedzie` orzeka sama albo składa czas przyszły złożony
 
@@ -166,8 +165,7 @@ polszczyzna składa ten czas z czasownikiem niedokonanym i z żadnym innym,
 więc `Program będzie zapisał ustawienia.` zostaje na zewnątrz.
 
 Pozycje są dwie, a nie jedna z formą dopisaną do `fin`,
-bo cena każdej z nich ma być osobną liczbą
-([CLAUDE.md](../../CLAUDE.md#code)).
+bo cena każdej z nich ma być osobną liczbą.
 Obie kupują nad Składnicą po kilkanaście zdań przyjętych,
 a większość tego, co zdejmują z odrzuconych, wychodzi wieloznaczna.
 Pod złotą morfologią ani jedno zdanie banku drzew nie rusza się pod obiema naraz,
@@ -274,7 +272,7 @@ tuż przy swoim czasowniku: wnętrze czasu przyszłego złożonego,
 czyli `Fabryki będą się znajdować we Włoszech.`
 Cząstka stoi tam między dwiema częściami jednego orzeczenia
 ([wyżej](#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
-a pozycji między nimi nie ma ani jedno ciało; ruch trzyma [todo/](../../todo/README.md).
+a pozycji między nimi nie ma ani jedno ciało; ruch trzyma `todo/`.
 
 Gdzie cząstka może należeć do dwóch czasowników naraz, olski wypuszcza oba
 odczytania. `Program otwierający się psuje.` czyta się i z `otwierający się`
@@ -525,7 +523,7 @@ niż dopisanie przyjmuje: zdanie dalej odrzucone zatrzymuje się odtąd gdzie in
 Poza ciałami zostaje przeczenie bez czasownika i bez grupy przed łącznikiem:
 `To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się.
 Jest to osobne ciało i osobna liczba, której nikt nie policzył;
-[todo/](../../todo/README.md) trzyma ten przebieg.
+`todo/` trzyma ten przebieg.
 
 ## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
 
@@ -603,7 +601,7 @@ Trzecia osoba pojedyncza jest jedyną, w której polszczyzna to zdanie pisze.
 Ciało jest jedno i stawia `bedzie` za predykatywem.
 `Będzie trzeba zmierzyć cenę.` polszczyzną jest i zostaje odrzucone:
 szyk odwrotny jest osobnym ciałem i osobną liczbą,
-której nikt nie policzył, a wpis trzyma [todo/](../../todo/README.md).
+której nikt nie policzył, a wpis trzyma `todo/`.
 
 Zakup jest liczony w pojedynczych zdaniach banku drzew
 i po stronie ceny nie ma nic: ani jedno zdanie przyjęte nie staje się
@@ -643,8 +641,7 @@ bo zgadza się on z podmiotem, którego takie zdanie nie ma:
 
 Rola wspólna z predykatywem kosztuje pomiar różnicowy:
 zdjęcie ciała zdania zabiera obie głowy naraz,
-więc cenę każdej z nich mierzy się zdjęciem jej terminali
-([CLAUDE.md](../../CLAUDE.md#code)).
+więc cenę każdej z nich mierzy się zdjęciem jej terminali.
 
 Zakup rozkłada się na te dwa ciała tak samo jak przy predykatywie:
 ciało z wypełnieniem zdejmuje nad Składnicą z listy odrzuconych kilkadziesiąt zdań,

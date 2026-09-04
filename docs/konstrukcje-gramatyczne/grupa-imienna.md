@@ -162,7 +162,7 @@ Ciała przecinkowego rodzina rozdzielna nie ma, bo jej ogonem jest ciąg zgodny
 w liczbie pojedynczej i rozdział pada w takim ciągu raz,
 więc `Warstwy trzecia, czwarta i piąta pracują.` jest odrzucone,
 choć polszczyzna trzeci człon pisze właśnie przecinkiem;
-ile to ciało kosztuje, trzyma [todo/](../../todo/README.md).
+ile to ciało kosztuje, trzyma `todo/`.
 
 ## Wyrażenie przyimkowe koordynuje się tak jak grupa imienna
 
@@ -206,7 +206,7 @@ Przecinek bierze zarazem zawężenie: `Działa w Polsce, w okolicach Kielc.`
 mówi o jednym miejscu, a nie o dwóch, i jest to apozycja, której olski nie ma.
 Zamiana ta nie jest tu nowa i nie jest tu do naprawienia:
 ciąg imienny robi ją tak samo, a wpis o apozycji trzyma
-[todo/](../../todo/README.md).
+`todo/`.
 
 **Skład tego poziomu nie ma i mówi to wprost.**
 `olski/skład/rozbiór.py` schodzi przez ciąg i człon do przyimka,
@@ -448,7 +448,7 @@ a pozostałe wariant gramatyki z tą cechą, puszczony przez `harness/ruch.py`.
 
 `przeszło sto zdań`, `przeszło trzy tysiące lematów` —
 tak ten rejestr pisze granicę zamiast liczby dokładnej,
-bo [liczby kruchej](../../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)
+bo liczby kruchej
 nie wpisuje do dokumentu, a granicę od dołu nazywa właśnie `przeszło`.
 Bez tej pozycji całe takie zdanie jest odrzucone, a odrzucenie staje na tym słowie.
 
@@ -476,7 +476,7 @@ a `Kupuje blisko sto zdań.` z `blisko` w okoliczniku przysłówkowym,
 czyli czytaniami, których polszczyzna w tych zdaniach nie ma.
 Wpuszczenie tych trzech postawiłoby drugie wyprowadzenie obok nieprawdziwego,
 zamiast je zdjąć, a zdejmuje się je wykluczeniem po stronie słownika;
-[`todo/`](../../todo/README.md) trzyma tę połowę osobno.
+`todo/` trzyma tę połowę osobno.
 
 Rzeczownika nazywającego wielkość ta pozycja nie obejmuje:
 `przeszło setkę zdań` odpada, bo `setka` jest rzeczownikiem, a ciało żąda liczebnika.
@@ -594,7 +594,7 @@ oraz zdania wieloznaczne, którym złote czytanie z lasu wypada.
 Werdykt mówi więc o zdaniu nieprawdę częściej niż przed tą pozycją,
 a kierunek ten trzyma
 [roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście);
-czym te zdania są, ten przebieg nie mówi, a wpis trzyma [todo/](../../todo/README.md).
+czym te zdania są, ten przebieg nie mówi, a wpis trzyma `todo/`.
 Obie liczby drukuje `harness.pomiar`, a te sprzed tej pozycji trzyma git.
 
 ## Rzeczownik odczasownikowy jest głową grupy imiennej, a nie pozycją przy czasowniku
@@ -632,7 +632,7 @@ więc po tej stronie nie ma czego wykluczać.
 Jednej pozycji ta głowa nie ma i jest nią grupa wysunięta przed zdanie względne:
 `którego przyłączenia` nie ma wyprowadzenia, gdzie `którego wyrażenia` ma.
 Czoło zdania względnego bierze rzeczownik, a tej głowy nie bierze,
-i wpuszczenie jej tam trzyma [todo/](../../todo/README.md).
+i wpuszczenie jej tam trzyma `todo/`.
 
 ## Forma przyimkowa zaimka żąda przyimka przed sobą
 
@@ -723,7 +723,7 @@ bo `bloker` w `olski/pokrycie.py` nazywa część mowy pierwszego czytania,
 a tu nie ma ani jednego.
 Rozejście to jest zapowiedziane
 ([parsowanie.md](../parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)),
-a naprawę trzyma [todo/](../../todo/README.md) razem z wycięciem czytań bez licencji,
+a naprawę trzyma `todo/` razem z wycięciem czytań bez licencji,
 które daje tę samą krawędź bez czytań na całej klasie form.
 
 ## Zaimek dzierżawczy jest dopełniaczem przed rzeczownikiem
@@ -801,7 +801,7 @@ Orzecznika narzędnikowego ten zaimek nie dostał,
 a zdanie z nim mimo to się wyprowadza:
 `Parser jest sobą.` wychodzi jednoznaczne na rzeczowniku `soba` w narzędniku.
 Pozycja i ten lemat schodzą się przez to w jedno pytanie, a wpis trzyma
-[todo/](../../todo/README.md).
+`todo/`.
 
 Zakup jest tu kilkudziesięcioma zdaniami banku drzew wyciągniętymi z odrzucenia,
 w większości przyjętymi, i po stronie ceny nie ma pod złotą morfologią nic:

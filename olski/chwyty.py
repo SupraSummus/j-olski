@@ -1,6 +1,6 @@
 """Chwyt rejestru, czyli wzorzec prozy, którego w tym repozytorium nie chcemy.
 
-Katalog takich wzorców stoi w CLAUDE.md, a sprawdza je przegląd zmian, czyli
+Katalog takich wzorców jest konwencją repozytorium, a sprawdza je przegląd zmian, czyli
 człowiek czytający zdanie po zdaniu. Wzorzec, który dostanie tu wykrywacz,
 przestaje tego czekać.
 
@@ -72,7 +72,7 @@ def _podjęte_zdanie(segmenty: list[Segment]) -> Chwyt | None:
     """Zaimek `to` otwierający zdanie, a nie mający przy sobie rzeczownika.
 
     Zaimek ten odsyła wtedy do całego zdania poprzedniego, a nie do rzeczy
-    nazwanej w nim (CLAUDE.md#katalog-chwytów-rejestru), i tym różni się od
+    nazwanej w nim, i tym różni się od
     zaimka, o który pyta ``olski/odniesienia.py``: tam kandydatów wylicza
     zgodność, a tu nie ma czego wyliczać, bo zdanie rzeczą nie jest.
 

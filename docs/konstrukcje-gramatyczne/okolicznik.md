@@ -191,8 +191,7 @@ bo `inst` było u niego pozycją orzecznika i niczym więcej
 Pozycja jest okolicznikiem, czyli stoi tam, gdzie stoi wyrażenie przyimkowe
 i przysłówek, i wchodzi tą samą listą co one.
 Symbol ma własny, choć pozycję dzieli z przysłówkiem,
-bo cena każdej z nich ma być osobną liczbą, a sonda bierze ją zdejmowaniem ciał
-([CLAUDE.md](../../CLAUDE.md#code)).
+bo cena każdej z nich ma być osobną liczbą, a sonda bierze ją zdejmowaniem ciał.
 
 Od orzecznika różni ten okolicznik to, kto mu udziela licencji.
 Orzecznika żąda ramą kopula i nikt poza nią,
@@ -400,7 +399,7 @@ a `admissible` po nie nie sięga, bo pyta o czytanie rzeczownikowe.
 Kryterium na tę klasę nie jest przy tym oczywiste:
 `blisko` i `jak` niosą czytanie przysłówkowe, którego polszczyzna używa,
 więc warunek odsiewający przysłówek przy czytaniu przyimkowym zabrałby i je.
-[todo/](../../todo/README.md) trzyma ruch wraz z ceną obu kryteriów, które mu się nasuwają.
+`todo/` trzyma ruch wraz z ceną obu kryteriów, które mu się nasuwają.
 
 ### Naprawę niesie tagset, a formalizm ją bierze
 
@@ -431,7 +430,7 @@ Te trzy liczby wzięto nad gramatyką, w której przysłówka jeszcze nie było,
 i żaden przebieg ich dziś nie powtarza:
 wariant bez tego warunku nie jest grupą produkcji, tylko innym terminalem w tej samej,
 więc sonda różnicowa nie ma go czym zdjąć,
-a gramatyki wariantu branej funkcją żąda od tej maszynerii [todo/](../../todo/README.md).
+a gramatyki wariantu branej funkcją żąda od tej maszynerii `todo/`.
 Są przez to ceną, przy której warunek zapadł, a nie figurą o dzisiejszej gramatyce.
 
 ### Płaska lista okoliczników mówi o zdaniu nieprawdę

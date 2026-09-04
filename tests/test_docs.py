@@ -27,10 +27,16 @@ and the check that reads it found a deleted test file named in ``todo/``.
 Wskazanie mówiące, w którą stronę przewijać, jest zdaniem o kolejności w pliku.
 Sekcja przestawiona czyni je nieprawdą, a link rozwiązuje się dalej,
 więc nic w Markdownie nie czerwienieje.
+
+Wskazanie z ``docs/`` albo z modułu na ``CLAUDE.md`` i na ``todo/``
+jest usterką, choć nic w nim nie zgasło:
+zależność między nimi jest jednostronna,
+a wskazanie ma prowadzić w tę samą stronę.
 """
 
 import re
 import tomllib
+from collections.abc import Iterable
 from pathlib import Path
 
 import pytest
@@ -83,13 +89,20 @@ CITED_PATH = re.compile(
 #: to be recomputed. A module name there is about that program, not about this
 #: one, so it outlives the file the same way its figures do.
 O_USUNIĘTYM = "firing-rates.md"
-#: Rejestr otwartej roboty jest katalogiem, a nie plikiem, więc kod cytujący go
-#: nazywa katalog; ``todo/README.md`` jest jego nagłówkiem i cytuje się tak samo.
 #: Rejestr konstrukcji jest katalogiem wewnątrz ``docs/``, więc cytat z kodu
 #: nazywa plik w nim: sam katalog nie mówi, która warstwa jest właścicielem.
-CITED_DOCUMENT = re.compile(
-    r"(?:docs/[\w-]+(?:/[\w-]+)?|CLAUDE)\.md(?:#[\w-]+)?|todo/(?:README\.md)?"
-)
+#: Instrukcji sesji ani rejestru otwartej roboty ten wzorzec nie obejmuje,
+#: bo kod ich nie cytuje wcale i pilnuje tego test kierunku niżej.
+CITED_DOCUMENT = re.compile(r"docs/[\w-]+(?:/[\w-]+)?\.md(?:#[\w-]+)?")
+#: Wskazanie na ``CLAUDE.md`` albo na rejestr otwartej roboty w ``todo/``.
+#: W dokumencie jest nim link, bo tylko link prowadzi czytelnika dalej,
+#: a w module sam cytat, bo modułu nikt nie czyta w przeglądarce.
+LINK_INSTRUKCJI = re.compile(r"\]\([^)]*(?:CLAUDE\.md|todo/)")
+CYTAT_INSTRUKCJI = re.compile(r"(?<![\w-])(?:CLAUDE\.md|todo/)")
+#: Pliki, których wejściem jest cała proza repozytorium, więc nazywają te dwie
+#: ścieżki jako dane: strona kopiuje je pod adres, odcisk mierzy je wszystkie,
+#: a ten plik pilnuje cytatów z nich.
+NAD_CAŁĄ_PROZĄ = ("dokumentacja.py", "harness/__init__.py", "tests/test_docs.py")
 #: An entry in the docs register's list of documents, which is the only place
 #: that puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
 #: więc wchodzi na tę listę tak jak dokument, a wiersz nazywa katalog:
@@ -148,6 +161,15 @@ def cited_documents():
     ]
 
 
+def wskazania(pliki: Iterable[Path], wzorzec: re.Pattern) -> list[str]:
+    return [
+        f"{plik.relative_to(ROOT)}:{numer}: {wiersz.strip()}"
+        for plik in pliki
+        for numer, wiersz in enumerate(plik.read_text().split("\n"), 1)
+        if wzorzec.search(wiersz)
+    ]
+
+
 def cited_paths():
     return [
         pytest.param(document, cited.group(1), id=f"{document.name} -> {cited.group(1)}")
@@ -199,6 +221,22 @@ def test_every_relative_link_resolves(document: Path, target: str):
 def test_every_document_cited_from_code_resolves(source: Path, target: str):
     path, _, anchor = target.partition("#")
     assert_resolves(ROOT / path, anchor, source.name)
+
+
+def test_dokument_nie_linkuje_instrukcji_ani_rejestru_otwartej_roboty():
+    trafienia = wskazania(
+        (document for document in DOCUMENTS if document.is_relative_to(ROOT / "docs")),
+        LINK_INSTRUKCJI,
+    )
+    assert not trafienia, "dokument linkuje instrukcję albo rejestr:\n" + "\n".join(trafienia)
+
+
+def test_moduł_nie_cytuje_instrukcji_ani_rejestru_otwartej_roboty():
+    trafienia = wskazania(
+        (source for source in SOURCES if str(source.relative_to(ROOT)) not in NAD_CAŁĄ_PROZĄ),
+        CYTAT_INSTRUKCJI,
+    )
+    assert not trafienia, "moduł cytuje instrukcję albo rejestr:\n" + "\n".join(trafienia)
 
 
 def test_every_document_is_listed_in_the_docs_register():

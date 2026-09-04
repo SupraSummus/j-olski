@@ -15,7 +15,7 @@ przestawione czyta się ręką. Co z tego wyszło i co przy tym zmierzono,
 trzyma docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
 
     python3 -m harness.cena
-    python3 -m harness.cena --pozycja okolicznik CLAUDE.md
+    python3 -m harness.cena --pozycja okolicznik README.md
 """
 
 from __future__ import annotations
@@ -49,8 +49,8 @@ def pozycje_produkcji() -> tuple[str, ...]:
     """Pozycje cennika, którymi płaci choć jedna produkcja, w kolejności cennika.
 
     Pytamy gramatyki, a nie listy wypisanej obok cennika: pozycja dopisana do
-    produkcji zgłasza się tu sama, a lista milczałaby o niej
-    (``CLAUDE.md#code``). Pozycja, której nie płaci ani jedna produkcja, jest
+    produkcji zgłasza się tu sama, a lista milczałaby o niej.
+    Pozycja, której nie płaci ani jedna produkcja, jest
     pozycją morfologii i tej sondy nie dotyczy (``olski/rejestr.py``).
     """
     płacone = {nazwa for produkcja in GRAMMAR.productions for nazwa in produkcja.koszty}

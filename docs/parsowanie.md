@@ -216,8 +216,7 @@ Głębiej zagnieżdżenie nie sięga, bo wpis dostaje konstytuent najwęższy,
 więc dwa wpisy jednego zdania stoją obok siebie, a nie jeden w drugim.
 Bez listy zostaje grupa imienna, bo roli zdania nie nosi.
 Jej streszczenia wychodzą puste i sobie równe, więc zostaje z nich jedno,
-a różnicę niesie tam głowa, której streszczenie nie nazywa
-([`todo/`](../todo/README.md)).
+a różnicę niesie tam głowa, której streszczenie nie nazywa.
 
 Wykluczenia są trzy i każde odpowiada jednemu wierszowi,
 który werdykt drukuje bez tego podsumowania.
@@ -292,7 +291,7 @@ zdanie `valid` ma jedno czytanie, więc dostaje po jednym wierszu na składowe.
 Wpisu na składowe zamiast wiersza na czytanie ta lista nie ma,
 choć zamieniłby ten iloczyn na sumę,
 tak jak zamienia go wiersz o konstytuencie rozbieżnym;
-co za to płaci, mówi [`todo/`](../todo/README.md).
+co za to płaci, mówi `todo/`.
 
 Gospodarza nazywa jego głowa, czyli jedno słowo.
 `w Rzeczypospolitej Polskiej` dochodzi do `Władza` albo do `należy`,
@@ -463,7 +462,7 @@ Kryterium, po którym taka warstwa wchodzi, jest jedno:
 musi się wyprowadzać z gramatyki.
 Napisana obok niej jest gramatyką napisaną dwa razy,
 czyli tym drugim właścicielem faktu, przed którym broni
-[`CLAUDE.md`](../CLAUDE.md#one-owner-per-fact-repeat-narrative-freely),
+`CLAUDE.md`,
 i jest to ten sam zarzut, który przewraca obudowanie Świgry
 oraz ten, na którym skasowała się sonda więzowa,
 gdy jej deklaracja przestała nadążać za produkcjami.
@@ -519,7 +518,7 @@ nazywa część mowy pierwszego czytania formy,
 więc formie wyciętej do zera nazwałby brak struktury zamiast braku licencji,
 a na tym odczycie stoi kolejka z [corpus.md](corpus.md#where-the-analyses-stop).
 Wycięcie jest więc zmianą w kolejce, a nie w parserze,
-i [`todo/`](../todo/README.md) trzyma je razem z przebiegiem, który jest winne.
+i `todo/` trzyma je razem z przebiegiem, który jest winne.
 
 ## Kierunek: produkcja się rozwarstwia, a podłoże zostaje
 
