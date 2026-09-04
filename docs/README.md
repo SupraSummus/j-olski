@@ -47,6 +47,7 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   i mówi, co ten krok po drodze zmyśla.
 - [corpora.md](corpora.md) przegląda polszczyznę pisaną przez ludzi
   i mówi, co każdy kandydat na korpus niesie w swoim rejestrze.
+  Trzyma też ramę, w której czyta się trafienia zapisywane ręką.
 - [audit-corpus.md](audit-corpus.md) nazywa repozytoria,
   z których zrobiony jest korpus audytowy.
   Podaje commity, na których stoją liczby.

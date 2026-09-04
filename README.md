@@ -322,7 +322,8 @@ Dwa pliki danych podlegają warunkom swoich źródeł,
 bo plik wyprowadzony z cudzego zasobu jest utworem zależnym od niego:
 `olski/leksykon.txt` powstaje z Walentego i jest na CC BY-SA 4.0,
 a `olski/skłonności.txt` powstaje ze Składnicy i jest na GPL v3.
-Zdania w `próba/wybory*.txt` są cudze i to repozytorium ich nie licencjonuje.
+Zdania w `próba/wybory*.txt` są cudze i to repozytorium ich nie licencjonuje,
+a zdania w `próba/nkjp-*.txt` są cudze i wydano je na CC BY 4.0.
 
 Wszystko to deklaruje [REUSE.toml](REUSE.toml):
 wpis domyślny obejmuje całe drzewo, a wyjątek nazywa ścieżkę,

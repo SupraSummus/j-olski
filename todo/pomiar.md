@@ -581,3 +581,23 @@ ta usterka jest jednak od niego niezależna,
 bo zostaje w każdej kopii, która go przeżyje.
 Do przeczytania jest, czy któraś z tych ośmiu pomija dziś pole naprawdę,
 bo dopiero to mówi, czy jest to usterka, czy pułapka na pole następne.
+
+Baza sądów o trafieniach ma ramę czytania i pierwsze wpisy,
+a nie ma przebiegu, który by je z werdyktem zestawił
+([`docs/corpora.md`](../docs/corpora.md#trafienia-czytamy-tak-jakby-każdy-tekst-był-informatywny)).
+Wpisy stoją w `próba/nkjp-wieloznaczność.txt` i dziś czyta je człowiek, a nie program,
+więc dopisanie produkcji unieważnia je bez śladu w żadnym przebiegu.
+Sonda ma zestawiać trafienia dzisiejsze z zapisanymi i wypisywać trzy klasy —
+trafienie potwierdzone, trafienie nad zdaniem osądzonym jako czyste
+oraz usterkę osądzoną, której nikt już nie zgłasza —
+bo dwie pierwsze mówią o regule, a trzecia o zawężeniu, które zeszło za daleko.
+Dopasowuje się po zdaniu w całości, i tak stoi ono we wpisie:
+pozycję w pliku rusza każda zmiana w segmentacji i w ekstrakcji,
+więc po niej baza traciłaby kotwicę bez tknięcia jednego znaku tekstu.
+Czytania wpisów nie trzeba przy tym pisać na nowo:
+plik sądów trzyma jeden klucz na wiersz i nieznanego klucza nie ma,
+czyli tę samą umowę, którą czyta `czytaj` w `harness/wybory.py`.
+Do przeczytania jest tamten moduł wraz z oboma swoimi plikami próby,
+bo `--zbuduj` pokazuje pułapkę, w którą sonda nowa wejdzie tak samo:
+wypisuje całość na wyjście, więc puszczony w plik z wzorcami
+skasowałby każdy sąd, jaki w nim stoi.
