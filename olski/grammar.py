@@ -447,7 +447,7 @@ class Grammar:
                         if None not in pod:
                             break
                     else:
-                        #  Każda córka schodzi do niczego, więc ciało też.
+                        #  Każda córka schodzi do niczego, więc schodzi i ciało.
                         nowe |= {None}
                     if not nowe <= rogi[production.head]:
                         rogi[production.head] |= nowe

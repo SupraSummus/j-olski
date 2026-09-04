@@ -76,7 +76,7 @@ Sam linter został celem.
 [Lista celów](#cele) nazywa go wykrywaczem wzorców prozy.
 Trzy odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
-potem odwrotnie,
+potem gramatyka stała jako cel, a linter jako tor,
 a na końcu narzędzie nad gramatyką zgłasza znaleziska,
 wśród których wieloznaczność jest jednym, a nie definicją olskiego
 ([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
@@ -341,7 +341,7 @@ więc cel nie żąda od tych dokumentów, żeby zmieściły się pod gramatykę.
 Osiągnięty, unieważni zdanie z `CLAUDE.md`,
 że treści reguł prozy nie pilnuje żaden check, a pilnuje jej przegląd;
 póki nie jest osiągnięty, zdanie to obowiązuje.
-Pierwszy wzorzec ma już wykrywacz i przebieg nad nim stoi na zerze
+Wykrywacz mają już pierwsze wzorce i przebieg nad nimi stoi na zerze
 ([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
 Populacją są przy tym i dokumenty, i moduły,
 bo docstring oraz blok komentarza są prozą tych samych reguł,
@@ -437,17 +437,15 @@ Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką,
 bo zdanie obok, którego gramatyka nie wyprowadza, kandydata nie podaje żadnego,
 więc zero znaczy tam co innego niż w tekście przeczytanym w całości (tamże).
 Ta połowa celu wraca razem z pokryciem, a nie osobnym pomysłem.
-Nieosiągnięte zostają dwie rzeczy.
-Pierwszą jest sprawdzian, czyli garść tekstów przeczytana ręką:
+Nieosiągnięty zostaje sprawdzian, czyli garść tekstów przeczytana ręką:
 nad każdym zgłoszonym zaimkiem czytelnik mówi, ilu kandydatów widzi sam,
 a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie nie ma ich dokładnie jednego.
-Drugą jest orzeczenie domyślne, którego ta warstwa nie tyka,
-bo zaimkiem nie jest wcale;
-trzyma je `todo/`.
-„To” w miejscu podmiotu akapitu z tej listy zeszło:
-zgodność nie ma nad nim czego liczyć, bo zdanie podjęte rzeczą nie jest,
-więc zgłasza je warstwa obok i innym kształtem
-([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
+Dwa wzorce z tej listy zeszły, bo zgodność nie ma nad nimi czego liczyć,
+i zgłasza je warstwa obok, innym kształtem.
+„To” w miejscu podmiotu akapitu zeszło, bo zdanie podjęte rzeczą nie jest
+([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)),
+a orzeczenie domyślne, bo zaimkiem nie jest wcale
+([tamże](linter.md#drugi-wykrywacz-zgłasza-zwrot-zastępujący-orzeczenie-członu)).
 Czego zgodność nie rozstrzygnie, cel nie obiecuje:
 przy dwóch kandydatach zgodnych wybiera znaczenie,
 a olski melduje obu i oddaje wybór autorowi.

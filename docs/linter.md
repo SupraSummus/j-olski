@@ -200,7 +200,7 @@ zgłasza pojedyncze zdanie i wypisuje przy nim rzeczy, o które chodzi.
 Reguła o zaimku wskazującym na dwie rzeczy jest znaleziskiem,
 czyli mówi o polszczyźnie zdania.
 Druga reguła wydana po zamknięciu pakietu mówi o rejestrze, w którym je napisano,
-i jest jedynym wzorcem z katalogu chwytów,
+i jest pierwszym wzorcem z katalogu chwytów,
 który wytrzymał [pomiar](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
 `To` otwierające zdanie, które nie ma przy sobie rzeczownika,
 podejmuje całe zdanie obok, a naprawą jest rzeczownik wstawiony w jego miejsce.
@@ -230,6 +230,45 @@ ekstrakcja zdejmuje grawisy, a kropka w środku przykładu punktuje prozę wokó
 ([extraction.md](extraction.md#what-the-reader-sees-is-not-always-polish)),
 więc wykrywacz dostaje `To jest tanie.` jako zdanie tego dokumentu.
 Odróżnić ich nie ma czym, dopóki ekstrakcja nie mówi, co było przytoczeniem.
+
+## Drugi wykrywacz zgłasza zwrot zastępujący orzeczenie członu
+
+Zwrot `tak samo` zamykający człon, w którym nie ma orzeczenia,
+zastępuje orzeczenie tego członu:
+czytelnik ma je wziąć z członu wcześniejszego, a kto wszedł w środek akapitu,
+tamtego członu nie przeczytał.
+Tak samo działają `też` i `odwrotnie`, więc wykrywacz bierze wszystkie trzy.
+Naprawą jest powtórzony czasownik, choćby zdanie wyszło dłuższe.
+Wykrywa ten zwrot `olski/chwyty.py`,
+a wypisuje go ta sama flaga `--chwyty` co zaimek wyżej.
+
+Na [czterech osiach](#cztery-osie-każdej-reguły) reguła ta wypada tam,
+gdzie reguła o zaimku: kształtem jest werdykt o zdaniu,
+populacją nasza własna proza, pytanie jest o strukturę,
+a głębokością morfologia, bo orzeczenie w członie poznaje się ze znacznika,
+a człony rozdziela interpunkcja.
+Progu przez to nie ma i kalibracji ta reguła nie potrzebuje.
+
+Zawężenia są trzy — zwrot zamyka człon, w członie nie ma orzeczenia,
+a człon następny nie otwiera się spójnikiem porównania — i każde zdejmuje
+inną klasę zdań poprawnych; przykład przy każdym stoi w `olski/chwyty.py`.
+Wzięły się z pomiaru, a nie z wywodu:
+predykat bez nich zgłasza kilkakrotnie więcej zdań tej prozy,
+a jego trafienia są w większości porównaniami `tak samo jak X`.
+
+Myli się ta reguła w jedną stronę:
+zwrot, za którym stoi przeczenie — `części mowy też nie` — mówi to samo
+i wykrywacz go nie widzi, bo człon zamyka tam przeczenie.
+Zdanie zaczynające się małą literą reguła oddaje bez werdyktu z tego powodu,
+z którego oddaje je reguła wyżej: takie zdanie ucięła ekstrakcja na kropce,
+którą postawił przykład przytoczony w grawisach.
+
+Zdania, które reguła ta zgłosiła nad prozą repozytorium, przepisano —
+kilkanaście w dokumentach, w modułach i w testach —
+a nad prozą przepisaną reguła milczy.
+Zwrot ten jest tanią częścią reguły o jednym twierdzeniu na zdanie,
+a co odrzuciło resztę tamtej reguły,
+mówi [krok czwarty](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
 
 ```sh
 python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*.md

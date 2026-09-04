@@ -170,7 +170,8 @@ def test_grupa_imienna_wraca_w_tej_pozycji_ramy_którą_daje_leksykon():
 
     Gramatyka daje obu zdaniom jedną pozycję i jedną nazwę,
     więc rozbiór wypuszcza oba przydziały, a odsiewa je porównanie form:
-    `służyć` bierze celownik i nie bierze biernika, `zasłaniać` odwrotnie.
+    `służyć` bierze celownik i nie bierze biernika,
+    a `zasłaniać` bierze biernik i nie bierze celownika.
     """
     assert {
         (drzewo.co is None, drzewo.komu is None)

@@ -159,7 +159,7 @@ class Akt(HTMLParser):
     """Drzewo jednostek jednej ustawy, złożone z tego, co wydawca znaczy klasą.
 
     Głębokość jest liczona, a nie zgadywana ze wcięcia:
-    jednostka stoi w jednostce, poddrzewo pomijane też,
+    jednostka stoi w jednostce, a w niej stoi poddrzewo pomijane,
     a bez licznika koniec zagnieżdżonego odsyłacza zamykałby cały przypis.
     """
 

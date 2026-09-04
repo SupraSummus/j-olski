@@ -106,7 +106,7 @@ podczas gdy `ogon` niesie oba jednym.
 Porównanie napisów o wpisy nie pyta i widzi ją bez żadnego warunku,
 więc `_obojętny` w tamtym module pyta dziś o segment, a nie o czytanie.
 Że obie strony widzą tę parę, sprawdza `tests/test_przegląd.py`.
-Skład jest tu zatem świadkiem dla parsera, a nie odwrotnie,
+Skład jest tu zatem świadkiem dla parsera, a nie parser dla składu,
 co jest tą samą wymianą, którą zapowiada
 [niezmiennik obiegu](design-notes.md#the-round-trip-invariant):
 generowanie pokazuje, czego druga strona nie widzi.
