@@ -12,8 +12,11 @@ a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
 Skąd te odczytania się biorą, mówi ``Verdict.morfologia``:
 rozchodzą się w rolach, a zaczynają w lemacie i znaczniku formy.
 
-Kto pyta o cały tekst, dostaje :func:`check` i :class:`Podsumowanie`,
-czyli tyle werdyktów, ile zdań, oraz jedną odpowiedź policzoną z nich regułą.
+Kto pyta o cały tekst, dostaje :func:`nad_tekstem` i :class:`Podsumowanie`,
+czyli tyle wpisów (:class:`Zdanie`), ile zdań,
+oraz jedną odpowiedź policzoną z nich regułą.
+Wpis niesie obok werdyktu to, czego z jednego zdania nie widać:
+zdania stojące przed nim w akapicie i zaimek wskazujący na dwie rzeczy naraz.
 
 Warstwa ta ani nie wnosi wieloznaczności, ani jej nie zdejmuje,
 bo jest wypowiedzią o warstwach pod nią (docs/architecture.md).
@@ -37,6 +40,7 @@ from olski.lematy import (
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
 )
 from olski.morph import Reading, Segment
+from olski.odniesienia import Odniesienie, niejasne_odniesienia
 from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
     PRZYŁĄCZONY_DO,
@@ -54,6 +58,7 @@ from olski.parse import (
     w_zakresie,
     zakresy,
 )
+from olski.rozstrzyganie import Sąsiedztwo, sąsiedztwa
 from olski.segmentacja import bez_licencji, morphology, na_czym_stanęło, sentences
 from olski.subset import (
     DEKLARACJA,
@@ -870,15 +875,60 @@ def _morfologia_zdania(zdanie: str) -> tuple[OdczytaniaFormy, ...]:
 
 
 def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
-    """Check every sentence of a text against the grammar."""
+    """Check every sentence of a text against the grammar.
+
+    Bare verdicts and nothing else:
+    what the surrounding text adds comes with :func:`nad_tekstem`.
+    """
     return [werdykt(zdanie, morphology(zdanie), grammar) for zdanie in sentences(text)]
+
+
+@dataclass(frozen=True)
+class Zdanie:
+    """Jedno zdanie tekstu: werdykt o nim wraz z tym, co dokłada tekst wokół.
+
+    Werdykt orzeka o samym zdaniu, a dwa pozostałe pola biorą się z akapitu,
+    bo zdanie samo nie wie, co stoi przed nim.
+    """
+
+    werdykt: Verdict
+    #: Zdania, które w tym akapicie stoją przed tym; czyta je ``olski/rozstrzyganie.py``.
+    sąsiedztwo: Sąsiedztwo
+    #: Zaimki wskazujące na dwie rzeczy naraz, trzecie ze znalezisk (``olski/odniesienia.py``).
+    odniesienia: tuple[Odniesienie, ...]
+
+
+def nad_tekstem(text: str) -> list[Zdanie]:
+    """Co narzędzie ma do powiedzenia o tekście: wpis na zdanie, w kolejności zdań.
+
+    Wejście jest jedno na oba wyjścia — wiersz poleceń (``olski/check.py``)
+    i witrynę (``witryna/werdykty.py``) — bo różnią się one brzegiem, a nie
+    środkiem: pierwsze drukuje wiersze, drugie składa JSON. Znalezisko dopisane
+    czwarte dochodzi przez to w jednym miejscu i w jednym się liczy
+    (:meth:`Podsumowanie.ze_zdań`).
+
+    Sąsiedztwa liczą się zawsze, choć wiersz poleceń pyta o warstwę
+    rozstrzygającą dopiero pod flagą: obok rozbioru nie kosztują nic, bo tną
+    tekst na zdania, a słowa liczą w nich dopiero pod świadkiem
+    (:class:`olski.rozstrzyganie.Sąsiedztwo`).
+    """
+    werdykty = check(text)
+    return [
+        Zdanie(verdict, sąsiedztwo, odniesienia)
+        for verdict, sąsiedztwo, odniesienia in zip(
+            werdykty,
+            sąsiedztwa(text),
+            niejasne_odniesienia(text, [verdict.result for verdict in werdykty]),
+            strict=True,
+        )
+    ]
 
 
 @dataclass(frozen=True)
 class Podsumowanie:
     """Znaleziska nad tekstem i to, o czym olski milczy, dla tego, kto pyta o cały tekst.
 
-    Liczby te wychodzą z werdyktów jedną regułą — fragment nie jest zdaniem, więc
+    Liczby te wychodzą z wpisów jedną regułą — fragment nie jest zdaniem, więc
     nie wchodzi do mianownika, a zdanie odrzucone jest milczeniem, dopóki nie ma
     poprawki — i pyta o nie więcej niż jeden wołający, więc policzone u każdego z
     nich rozjeżdżają się po cichu: mianownik mniejszy o fragment czyta się jak
@@ -907,12 +957,10 @@ class Podsumowanie:
     #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
     fragmentów: int
     #: Zdania z zaimkiem, który wskazuje na dwie rzeczy naraz, czyli trzecie ze
-    #: znalezisk (``olski/odniesienia.py``). Podawane, a nie liczone z werdyktów:
-    #: znalezisko to pada o zdaniu, którego werdykt sam z siebie nie zna, bo
-    #: rzeczy nazywa zdanie obok. Zdanie wieloznaczne z takim zaimkiem stoi w
-    #: dwóch licznikach naraz, tak samo jak zdanie naprawialne, i z tego samego
-    #: powodu: znaleziska są dwa i mówią o zdaniu co innego.
-    niejasnych_odniesień: int = 0
+    #: znalezisk (``olski/odniesienia.py``). Zdanie wieloznaczne z takim zaimkiem
+    #: stoi w dwóch licznikach naraz, tak samo jak zdanie naprawialne, i z tego
+    #: samego powodu: znaleziska są dwa i mówią o zdaniu co innego.
+    niejasnych_odniesień: int
 
     @property
     def znalezisk(self) -> int:
@@ -925,17 +973,16 @@ class Podsumowanie:
         return self.wieloznaczne + self.naprawialne + self.niejasnych_odniesień
 
     @classmethod
-    def z_werdyktów(
-        cls, werdykty: Sequence[Verdict], niejasnych_odniesień: int = 0
-    ) -> Podsumowanie:
-        zdania = [verdict for verdict in werdykty if verdict.punktowane]
+    def ze_zdań(cls, zdania: Sequence[Zdanie]) -> Podsumowanie:
+        """Podsumowanie tych zdań, choćby przyszły z kilku plików naraz."""
+        punktowane = [wpis.werdykt for wpis in zdania if wpis.werdykt.punktowane]
         return cls(
-            zdań=len(zdania),
-            wieloznaczne=sum(verdict.result.ambiguous for verdict in zdania),
-            naprawialne=sum(verdict.naprawa is not None for verdict in zdania),
-            bez_odczytania=sum(verdict.result.rejected for verdict in zdania),
-            fragmentów=len(werdykty) - len(zdania),
-            niejasnych_odniesień=niejasnych_odniesień,
+            zdań=len(punktowane),
+            wieloznaczne=sum(verdict.result.ambiguous for verdict in punktowane),
+            naprawialne=sum(verdict.naprawa is not None for verdict in punktowane),
+            bez_odczytania=sum(verdict.result.rejected for verdict in punktowane),
+            fragmentów=len(zdania) - len(punktowane),
+            niejasnych_odniesień=sum(1 for wpis in zdania if wpis.odniesienia),
         )
 
     def explain(self) -> str:

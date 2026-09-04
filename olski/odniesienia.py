@@ -64,9 +64,8 @@ from dataclasses import dataclass, field
 
 from olski.document import Document
 from olski.morph import Reading, zgadza
-from olski.parse import Leaf, Node, Tree, liście
+from olski.parse import Leaf, Node, Result, Tree, liście
 from olski.subset import DEKLARACJA
-from olski.werdykt import Verdict
 
 #: Część mowy zaimka trzeciej osoby: `on`, `ona`, `ono`, `oni`, `one`
 #: wraz z każdą formą przypadkową — `go`, `jej`, `nim`, `nich` i resztą.
@@ -114,33 +113,35 @@ class _Rzecz:
     odczytania: list[Reading] = field(default_factory=list)
 
 
-def niejasne_odniesienia(
-    text: str, werdykty: Sequence[Verdict]
-) -> list[tuple[Odniesienie, ...]]:
-    """Zgłoszenia o zaimkach, po jednej krotce na werdykt i w kolejności zdań.
+def niejasne_odniesienia(text: str, wyniki: Sequence[Result]) -> list[tuple[Odniesienie, ...]]:
+    """Zgłoszenia o zaimkach, po jednej krotce na zdanie i w kolejności zdań.
 
     Tekstem, a nie samym podziałem, bo tak bierze go druga warstwa tekstowa
     (:func:`olski.rozstrzyganie.sąsiedztwa`), i tak samo buduje sobie dokument.
     Zdanie obok wskazuje ostatni z numerów, które podaje
     :attr:`olski.document.Document.wcześniejsze`.
+
+    Rozbiór, a nie werdykt nad nim: i zaimki, i kandydatów wyjmuje się z czytań,
+    a werdykt czyta stąd (:func:`olski.werdykt.nad_tekstem`), więc import
+    w tamtą stronę zamykałby krąg.
     """
     return [
-        _zgłoszenia(verdict, werdykty[poprzednie[-1]] if poprzednie else None)
-        for verdict, poprzednie in zip(werdykty, Document(text).wcześniejsze, strict=True)
+        _zgłoszenia(wynik, wyniki[poprzednie[-1]] if poprzednie else None)
+        for wynik, poprzednie in zip(wyniki, Document(text).wcześniejsze, strict=True)
     ]
 
 
-def _zgłoszenia(verdict: Verdict, obok: Verdict | None) -> tuple[Odniesienie, ...]:
+def _zgłoszenia(wynik: Result, obok: Result | None) -> tuple[Odniesienie, ...]:
     """Zgłoszenia o zaimkach jednego zdania; pusta krotka jest milczeniem.
 
     Zdanie bez zaimka wychodzi stąd po jednym przejściu po liściach, bo takich
     zdań jest większość, a obie listy niżej kosztują przejście po drzewie.
     """
-    zaimki = _zaimki(verdict.result.readings)
+    zaimki = _zaimki(wynik.readings)
     if obok is None or not zaimki:
         return ()
-    rzeczy = _rzeczy(obok.result.readings)
-    własne = list(_głowy(verdict.result.readings))
+    rzeczy = _rzeczy(obok.readings)
+    własne = list(_głowy(wynik.readings))
     zgłoszenia = []
     for zaimek in zaimki:
         odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]

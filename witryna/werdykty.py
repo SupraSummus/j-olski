@@ -19,17 +19,9 @@ from dataclasses import asdict
 from typing import Any
 
 from olski.cennik import cena
-from olski.odniesienia import Odniesienie, niejasne_odniesienia
-from olski.rozstrzyganie import (
-    Rozstrzygnięcie,
-    Sąsiedztwo,
-    Świadek,
-    domyślni,
-    rozstrzygnij,
-    sąsiedztwa,
-)
+from olski.rozstrzyganie import Rozstrzygnięcie, Świadek, domyślni, rozstrzygnij
 from olski.skład.makieta import losuj
-from olski.werdykt import Podsumowanie, Verdict, check, dalsze_zatrzymania
+from olski.werdykt import Podsumowanie, Zdanie, dalsze_zatrzymania, nad_tekstem
 
 #: Ile akapitów makieta wypisuje najwyżej. Losowanie akapitu jest tanie, więc
 #: granica jest tu przeciw liczbie z żądania: `akapity=100000` zajęłoby workera.
@@ -45,22 +37,10 @@ def _świadkowie() -> tuple[Świadek, ...]:
 
 def zbadaj(tekst: str) -> dict[str, Any]:
     """Werdykt o każdym zdaniu tekstu wraz z podsumowaniem całości."""
-    werdykty = check(tekst)
-    #  Sąsiedztwa liczą się dla całego tekstu naraz, bo akapit jest jego
-    #  własnością: zdanie samo nie wie, co stoi przed nim.
-    #  Z tego samego powodu liczą się tu odniesienia.
-    konteksty = sąsiedztwa(tekst)
-    odniesienia = niejasne_odniesienia(tekst, werdykty)
-    podsumowanie = Podsumowanie.z_werdyktów(
-        werdykty, sum(1 for zgłoszenia in odniesienia if zgłoszenia)
-    )
+    zdania = nad_tekstem(tekst)
+    podsumowanie = Podsumowanie.ze_zdań(zdania)
     return {
-        "zdania": [
-            _zdanie(verdict, sąsiedztwo, zgłoszenia)
-            for verdict, sąsiedztwo, zgłoszenia in zip(
-                werdykty, konteksty, odniesienia, strict=True
-            )
-        ],
+        "zdania": [_zdanie(zdanie) for zdanie in zdania],
         "podsumowanie": asdict(podsumowanie) | {"wyjaśnienie": podsumowanie.explain()},
     }
 
@@ -76,10 +56,9 @@ def makieta(ziarno: int | None, akapitów: int) -> dict[str, Any]:
     return {"ziarno": ziarno, "akapitów": akapitów, "tekst": losuj(ziarno, akapitów).kompiluj()}
 
 
-def _zdanie(
-    verdict: Verdict, sąsiedztwo: Sąsiedztwo, odniesienia: tuple[Odniesienie, ...]
-) -> dict[str, Any]:
+def _zdanie(zdanie: Zdanie) -> dict[str, Any]:
     """Jedno zdanie tak, jak je widzi strona: werdykt, czytania i to, co otwarte."""
+    verdict = zdanie.werdykt
     return {
         "zdanie": verdict.text,
         "status": verdict.status,
@@ -125,13 +104,13 @@ def _zdanie(
         #  a werdykt jest o tym jednym zdaniu.
         "odniesienia": [
             {"zaimek": zgłoszenie.zaimek, "rzeczy": list(zgłoszenie.rzeczy)}
-            for zgłoszenie in odniesienia
+            for zgłoszenie in zdanie.odniesienia
         ],
-        "domysły": _domysły(verdict, sąsiedztwo),
+        "domysły": _domysły(zdanie),
     }
 
 
-def _domysły(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> list[dict[str, str]]:
+def _domysły(zdanie: Zdanie) -> list[dict[str, str]]:
     """Wskazania warstwy rozstrzygającej, po jednym na przyłączenie, albo żadne.
 
     Milczenie warstwy zostaje nienazwane, bo werdykt nad tym zdaniem nazwał już
@@ -144,6 +123,8 @@ def _domysły(verdict: Verdict, sąsiedztwo: Sąsiedztwo) -> list[dict[str, str]
             "powód": wskazanie.powód,
             "świadek": wskazanie.świadek,
         }
-        for wskazanie in rozstrzygnij(verdict.result.przyłączenia, _świadkowie(), sąsiedztwo)
+        for wskazanie in rozstrzygnij(
+            zdanie.werdykt.result.przyłączenia, _świadkowie(), zdanie.sąsiedztwo
+        )
         if isinstance(wskazanie, Rozstrzygnięcie)
     ]

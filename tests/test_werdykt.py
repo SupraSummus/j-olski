@@ -31,6 +31,7 @@ from olski.werdykt import (
     Naprawa,
     Podsumowanie,
     check,
+    nad_tekstem,
     niespełnione_żądania,
     werdykt,
     zatrzymania,
@@ -156,7 +157,7 @@ def test_zdanie_naprawialne_liczy_się_i_do_znalezisk_i_do_milczenia():
     #  podzbiorze. Zdanie zliczone tylko w pierwszym podniosłoby pokrycie o
     #  konstrukcję, której gramatyka nie wyprowadza.
     tekst = 'Przepisem "Zasad techniki prawodawczej" jest ustawa.'
-    podsumowanie = Podsumowanie.z_werdyktów(check(tekst))
+    podsumowanie = Podsumowanie.ze_zdań(nad_tekstem(tekst))
     assert (podsumowanie.naprawialne, podsumowanie.bez_odczytania) == (1, 1)
     assert podsumowanie.wieloznaczne == 0
 
@@ -237,7 +238,7 @@ def test_niedomknięte_stoi_poza_mianownikiem_tak_samo_jak_fragment():
     wyprowadza, a `docs/extraction.md` mierzy tym mianownikiem podzbiór, a nie
     ekstrakcję.
     """
-    podsumowanie = Podsumowanie.z_werdyktów(check("Cena jest niska\n\nZapisz plik."))
+    podsumowanie = Podsumowanie.ze_zdań(nad_tekstem("Cena jest niska\n\nZapisz plik."))
     assert (podsumowanie.zdań, podsumowanie.bez_odczytania) == (1, 0)
     assert podsumowanie.fragmentów == 1
 
@@ -254,11 +255,21 @@ def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
     stronach repozytorium — wiersz poleceń i witryna — a policzona u każdego z
     nich osobno daje mianownik większy o nagłówek i czyta się jak pomiar.
     """
-    podsumowanie = Podsumowanie.z_werdyktów(
-        check("Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia.")
+    podsumowanie = Podsumowanie.ze_zdań(
+        nad_tekstem("Co działa\n\nZapisz plik. Nowa program zapisuje ustawienia.")
     )
     assert (podsumowanie.zdań, podsumowanie.bez_odczytania) == (2, 1)
     assert (podsumowanie.wieloznaczne, podsumowanie.fragmentów) == (0, 1)
+
+
+def test_niejasne_odniesienie_liczy_się_tam_gdzie_dwa_pozostałe_znaleziska():
+    """Usterka, którą to łapie: znalezisko policzone przez wydruk, a wydruki są dwa.
+
+    Liczba idzie do kodu wyjścia razem z wieloznacznością, więc pytamy o obie.
+    """
+    podsumowanie = Podsumowanie.ze_zdań(nad_tekstem("Maki rosną w garnkach. Są one czerwone."))
+    assert podsumowanie.niejasnych_odniesień == 1
+    assert podsumowanie.znalezisk == podsumowanie.wieloznaczne + 1
 
 
 def _żądania(werdykt):
