@@ -73,3 +73,20 @@ bo tablica trzyma stan bez oglądania się na unifikację i na to,
 czy analiza częściowa ten stan w ogóle przewidziała.
 Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse/las.py`:
 to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.
+
+Krawędzie lasu wypełniają się przy okazji liczenia klas, a czyta je osiem metod.
+Do `self._krawędzie` w `olski/parse/las.py` pisze wyłącznie `klasy`,
+a czytają je `_drzewa`, `_pierwsza_rola`, `_rozdania`, `_pod`, `_ciała_pozycji`,
+`_widoczne`, `_składowe_lasu` i `_żywe`.
+Żadna z nich nie odpowiada dziś pustką, bo każda woła wcześniej `klasy`
+na pozycji dominującej te pary, o które potem pyta, a `klasy` schodzi rekurencyjnie.
+Warunku tego nie widać jednak w żadnej sygnaturze i wychodzi on dopiero z lektury ciał:
+siedem czytelników bierze `.get(para, {})`, czyli po pomyłce odpowie cicho pustką,
+a `_drzewa` bierze klucz wprost i podniesie wyjątek.
+Ruchem jest liczenie krawędzi na żądanie, tak jak liczy się `_żywe`,
+po którym czytelnik przestaje zależeć od tego, czy ktoś przed nim policzył czytania.
+Zabiera to przy okazji `_rodzicielskie`, które istnieje tylko po to,
+żeby wyprać pole ustawiane obok tego, które `_żywe` zwraca.
+Do przeczytania jest, czy krawędzie wolno liczyć od korzenia raz:
+dziś każda z tych metod woła `klasy` na swojej pozycji,
+a liczenie od korzenia objęłoby pozycje, o które nikt w danym przebiegu nie pyta.
