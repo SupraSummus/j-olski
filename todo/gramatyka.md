@@ -997,3 +997,26 @@ więc pytanie jest o to, czy czasownik bez tej pozycji da się odróżnić
 przed rozbiorem, czy dopiero unifikacja to rozstrzyga.
 Przedtem warto policzyć, ile takich zdań pada nad Składnicą,
 bo nad tą prozą pada jedno.
+
+O kształt produkcji pyta jedenaście plików i każdy pisze własną pętlę.
+Po `GRAMMAR.productions` chodzą `harness/ruch.py`, `harness/luka.py`,
+`harness/cena.py` i `harness/odcisk.py` oraz siedem plików testowych,
+a każdy z nich sam rozstrzyga, co liczy jako ciało koordynujące
+albo jako parę ciał okalających.
+Kryterium jest przez to napisane kilka razy, a rozjazdu nie łapie żaden check,
+bo każda kopia odpowiada nad swoim wycinkiem produkcji.
+Ruchem są pytania w `olski/grammar.py` — o ciała danego symbolu,
+o ciała koordynujące, o głowę ciała — zadawane zamiast pętli;
+tak samo pyta się dziś o nazwy pozycji, których `olski/skład/rozbiór.py`
+nie przepisuje, tylko bierze z `olski/subset/deklaracja.py`.
+Drugą połową ruchu jest sześć nazw, którymi gramatyka odpowiada o własnych usterkach
+(`undefined`, `nieosiągalne` i cztery o więzach w `olski/grammar.py`):
+odpowiadają w trzech różnych kształtach,
+a zależności między dwiema z nich, którą nazywa wpis o drugim punkcie stałym,
+nie widać w żadnej z tych sygnatur.
+Do przeczytania jest przedtem, czy te kopie pytają o to samo:
+predykat sondy odsiewa produkcje po to, żeby je zdjąć,
+a test podzbioru po to, żeby o nie zapytać,
+więc wspólne pytanie opłaca się dopiero wtedy, gdy kryterium jest jedno.
+Nie jest to druga deklaracja podzbioru:
+pytanie odpowiada także za produkcję dopisaną po nim, a lista nazw nie odpowiada.

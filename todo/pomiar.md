@@ -563,3 +563,21 @@ czy dostają drugą obok niej,
 i osobno, czy nazwa sekcji cytowana w docstringu wchodzi pod ten test:
 docstring pisze ją ścieżką bez nawiasów, a nie odnośnikiem Markdownu,
 więc test nie ma dziś czym jej znaleźć.
+
+Raport scalany między procesami wypisuje swoje pola z nazwy, więc dziewiąte przemilczy.
+`scal` mają osobno `harness/czytania.py`, `harness/kształty.py`,
+`harness/nieciągłość.py`, `harness/płaski.py`, `harness/pomiar.py`, `harness/ruch.py`,
+`harness/wskazania.py` i `harness/znaczenia.py`,
+i każda z tych ośmiu kopii składa nowy raport,
+dodając pole po polu te, które ktoś w niej wypisał.
+`Raport` w `harness/czytania.py` ma ich dokładnie tyle, ile wypisuje jego `scal`,
+więc licznik dopisany do klasy nie wywróci niczego:
+przebieg jednowątkowy wyda o nim prawdę, a przebieg pod pulą procesów wyda zero,
+i różnicy nie widać bez puszczenia obu.
+Ruchem jest scalanie liczone po polach klasy zamiast po nazwach wypisanych w ciele.
+Wpis o scaleniu pięciu przebiegów nad Składnicą odkłada samo rusztowanie za siebie
+i słusznie, bo połowa duplikatu zejdzie razem z tamtym ruchem;
+ta usterka jest jednak od niego niezależna,
+bo zostaje w każdej kopii, która go przeżyje.
+Do przeczytania jest, czy któraś z tych ośmiu pomija dziś pole naprawdę,
+bo dopiero to mówi, czy jest to usterka, czy pułapka na pole następne.
