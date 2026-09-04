@@ -28,9 +28,10 @@ KONFIGURACJA = KORZEŃ / "mkdocs.yml"
 #: na serwer. Wdrożenie bez tego pliku zdejmuje adres własny z ustawień.
 SITE_URL = re.compile(r"(?m)^site_url:\s*https://([^/\s]+)")
 #: Proza w układzie katalogów z repozytorium. Układ jest tu treścią, a nie
-#: wygodą: `../CLAUDE.md` z `docs/` rozwiązuje się tylko wtedy, gdy korzeniem
-#: strony jest korzeń repozytorium.
-PROZA = ("README.md", "CLAUDE.md", "docs", "todo")
+#: wygodą: `../README.md` z `docs/` rozwiązuje się tylko wtedy, gdy korzeniem
+#: strony jest korzeń repozytorium. Lista jest wyliczeniem, więc instrukcja sesji
+#: i rejestr otwartej roboty nie wchodzą tam pod żadną nazwą (docs/publikacja.md).
+PROZA = ("README.md", "docs")
 #: Link względny bez kotwicy. Kotwica odpada tutaj, bo pytamy o plik do skopiowania.
 LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s#]+)")
 #: Katalog referencji jest jej adresem: wejście wychodzi pod `/referencja/`,

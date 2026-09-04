@@ -379,7 +379,9 @@ a ten plik i `todo/` bez kodu i dokumentów sensu nie mają,
 bo każde ich zdanie mówi, co zrobić z jednym albo z drugim.
 Wskazanie prowadzi w tę samą stronę co ta zależność:
 ten plik i `todo/` wskazują dokument i moduł, a one ich nie wskazują.
-Wprowadza je jednym zdaniem README, bo kto tam wchodzi, nie zna żadnego z nich.
+README nie jest tu wyjątkiem, bo idzie na stronę dokumentów.
+Ten plik i `todo/` na stronę nie idą, więc link z README wywraca jej budowanie
+([`docs/publikacja.md`](docs/publikacja.md)).
 
 Naprawą jest jedno zdanie przepisane z właściciela, bez wskazania obok niego,
 i tym różni się ta reguła od

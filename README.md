@@ -339,5 +339,3 @@ więc czytelnik trafia na oba języki naraz.
 Ten plik omija przy tym konstrukcje, których olski nie wyprowadza,
 a cenę tej konwencji trzyma
 [docs/roadmap.md](docs/roadmap.md#readme-jest-przyrządem-pomiarowym).
-Konwencje prozy, kodu, testów i commitów trzyma [CLAUDE.md](CLAUDE.md),
-a otwartą robotę trzyma [todo/](todo/README.md).

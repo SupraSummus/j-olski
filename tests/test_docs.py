@@ -28,10 +28,12 @@ Wskazanie mówiące, w którą stronę przewijać, jest zdaniem o kolejności w 
 Sekcja przestawiona czyni je nieprawdą, a link rozwiązuje się dalej,
 więc nic w Markdownie nie czerwienieje.
 
-Wskazanie z ``docs/`` albo z modułu na ``CLAUDE.md`` i na ``todo/``
+Wskazanie z prozy poza instrukcją albo z modułu na ``CLAUDE.md`` i na ``todo/``
 jest usterką, choć nic w nim nie zgasło:
 zależność między nimi jest jednostronna,
 a wskazanie ma prowadzić w tę samą stronę.
+README idzie przy tym pod adres, a te dwie ścieżki nie idą,
+więc link z niego wywraca budowanie strony (``docs/publikacja.md``).
 """
 
 import re
@@ -100,9 +102,10 @@ CITED_DOCUMENT = re.compile(r"docs/[\w-]+(?:/[\w-]+)?\.md(?:#[\w-]+)?")
 LINK_INSTRUKCJI = re.compile(r"\]\([^)]*(?:CLAUDE\.md|todo/)")
 CYTAT_INSTRUKCJI = re.compile(r"(?<![\w-])(?:CLAUDE\.md|todo/)")
 #: Pliki, których wejściem jest cała proza repozytorium, więc nazywają te dwie
-#: ścieżki jako dane: strona kopiuje je pod adres, odcisk mierzy je wszystkie,
-#: a ten plik pilnuje cytatów z nich.
-NAD_CAŁĄ_PROZĄ = ("dokumentacja.py", "harness/__init__.py", "tests/test_docs.py")
+#: ścieżki jako dane: odcisk mierzy je wszystkie, a ten plik pilnuje cytatów z nich.
+NAD_CAŁĄ_PROZĄ = ("harness/__init__.py", "tests/test_docs.py")
+#: Proza, która sama jest instrukcją albo rejestrem, więc wolno jej wskazywać oba.
+INSTRUKCJA = ("CLAUDE.md", "todo/")
 #: An entry in the docs register's list of documents, which is the only place
 #: that puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
 #: więc wchodzi na tę listę tak jak dokument, a wiersz nazywa katalog:
@@ -225,7 +228,11 @@ def test_every_document_cited_from_code_resolves(source: Path, target: str):
 
 def test_dokument_nie_linkuje_instrukcji_ani_rejestru_otwartej_roboty():
     trafienia = wskazania(
-        (document for document in DOCUMENTS if document.is_relative_to(ROOT / "docs")),
+        (
+            document
+            for document in DOCUMENTS
+            if not str(document.relative_to(ROOT)).startswith(INSTRUKCJA)
+        ),
         LINK_INSTRUKCJI,
     )
     assert not trafienia, "dokument linkuje instrukcję albo rejestr:\n" + "\n".join(trafienia)

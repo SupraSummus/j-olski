@@ -3,8 +3,7 @@
 Dokumentacja stoi pod `dokumentacja.olski.pl`,
 a wydaje ją GitHub Pages z tego repozytorium.
 Na stronę idzie proza, którą repozytorium już ma —
-[README](../README.md), ten katalog, `todo/`
-i `CLAUDE.md` —
+[README](../README.md) i ten katalog —
 oraz referencja API wypisana z docstringów pakietu.
 Demo parsera stoi osobno, pod `olski.pl`, i opisuje je [witryna.md](witryna.md).
 
@@ -25,9 +24,22 @@ jedną wyszukiwarkę po prozie i po referencji naraz
 oraz samą referencję API, której GitHub nie pokaże w ogóle,
 bo docstring jest w pliku `.py`.
 
-Dokument mówi, czemu strona nie stoi na domyślnym Jekyllu,
+Dokument mówi, czego strona nie wydaje, czemu nie stoi na domyślnym Jekyllu,
 co sprawdza jej budowanie i ile kosztuje referencja API.
 Wylicza na koniec to, na czym decyzja nie zapadła.
+
+## Strona nie wydaje instrukcji sesji ani rejestru otwartej roboty
+
+Instrukcja mówi, jak się w tym repozytorium pracuje,
+a rejestr wylicza otwartą robotę.
+Pod adres nie idzie ani jedno, ani drugie.
+Co na stronę idzie, wypisuje lista w `dokumentacja.py`,
+więc plik dopisany do korzenia nie wchodzi tam sam.
+
+Ceną jest zakaz: prozie wydawanej pod adresem nie wolno linkować
+ani instrukcji, ani rejestru, bo martwy link wywraca budowanie strony.
+Zakaz ten obowiązuje i bez strony, więc pilnuje go także `tests/test_docs.py`:
+dokument ma sens bez instrukcji, a instrukcja bez dokumentu sensu nie ma.
 
 ## Domyślny Jekyll kasuje diakrytyki z kotwic
 
@@ -46,8 +58,7 @@ pilnuje konwencji GitHuba, a nie tego, co wystawi strona.
 
 ## Korzeniem strony jest korzeń repozytorium
 
-Z `docs/` i z `todo/` wychodzi kilkaset linków ponad swój katalog:
-do README z obu, a z `todo/` także do `CLAUDE.md` i do każdego dokumentu.
+Z `docs/` wychodzi kilkadziesiąt linków ponad ten katalog, najwięcej do README.
 Katalog `docs/` wydany sam urywa je wszystkie,
 więc na stronę idzie proza w tym układzie katalogów, w którym stoi w repozytorium.
 
@@ -101,7 +112,6 @@ Ceną jest cytat dokumentu i widać ją na stronie:
 docstring cytuje go gołym napisem, a nie linkiem,
 i robi to kilkadziesiąt modułów pakietu,
 więc w referencji te cytaty są martwym tekstem.
-Wpis o tym trzyma `todo/dokumenty.md`.
 
 ## Nawigacji nie piszemy ręką
 
