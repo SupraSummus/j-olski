@@ -254,7 +254,8 @@ Wchodzi w [sklad.md](sklad.md), a stamtąd w
 [etapy tego toru](roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Gramatyki po drodze nie potrzebuje, bo parser stoi tu świadkiem, a nie zależnością
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).
-W kodzie są to `olski/skład/składnia.py` i `olski/skład/morfologia.py`.
+W kodzie są to `olski/skład/grupa.py`, `olski/skład/składnia.py`
+i `olski/skład/morfologia.py`.
 Tekstem, na którym widać braki, jest `opowieści/bazyliszek.py`.
 Czego nie ma pod nim w żadnym leksykonie, pokazuje losowanie
 w `olski/skład/makieta.py`.

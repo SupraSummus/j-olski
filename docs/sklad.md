@@ -132,7 +132,8 @@ a która nad polszczyzną jest zwyczajna:
 `parser podzbioru` i `podzbiór parsera` są dwoma różnymi drzewami,
 choć stoją w nich te same lematy w tych samych rolach.
 
-Buduje to `olski/skład/`, a `olski/skład/składnia.py` trzyma kategorie i konstruktory.
+Buduje to `olski/skład/`: `olski/skład/grupa.py` trzyma kategorie niosące rzecz,
+a `olski/skład/składnia.py` te, które orzekają o niej zdaniem.
 Zgodność jest tam liczona, a nie sprawdzana,
 więc gramatyki podzbioru ten kierunek nie potrzebuje
 ([design-notes.md](design-notes.md#the-round-trip-invariant)).

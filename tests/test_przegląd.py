@@ -4,9 +4,11 @@ pytest.importorskip("morfeusz2")
 
 from harness.wieloznaczność import miejsca
 from olski.skład import kompiluj
+from olski.skład.grupa import Rzecz, byt
+from olski.skład.kontekst import TERAZ, Kontekst
 from olski.skład.opowieść import Akapit, Postać
 from olski.skład.przegląd import przejrzyj
-from olski.skład.składnia import TERAZ, Kontekst, Rzecz, byt, nie
+from olski.skład.składnia import nie
 from olski.skład.słownik import Dokąd, Kiedy, R, V, jest, opis, potem
 from olski.werdykt import check
 from opowieści.bazyliszek import OPOWIEŚĆ

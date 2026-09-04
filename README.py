@@ -4,7 +4,7 @@ Eksperyment stojący obok ``README.md``, a nie zamiast niego.
 Treść, o której tamten plik mówi na wstępie —
 dlaczego olski jest podzbiorem, kiedy zdanie jest w nim poprawne,
 komu werdykt oddaje wybór i co repozytorium mierzy —
-stoi tu jako drzewa w kategoriach ``olski.skład.składnia``,
+stoi tu jako drzewa w kategoriach ``olski.skład``,
 a polski tekst jest tym, co z nich wychodzi.
 Wypisuje go ``python3 README.py``.
 README repozytorium jest dalej tamten plik i nic tutaj tego nie zmienia.

@@ -145,7 +145,7 @@ w `todo/rozstrzyganie.md`.
 Warstwa trzecia toru gramatycznego przechodzi z czytania parsera
 na drzewo kategorii dziedziny.
 Wypuszcza ją `olski/skład/rozbiór.py`, czyli moduł z pakietu toru składu,
-i importuje z tego pakietu morfologię, opowieść, przyimki oraz składnię.
+i importuje z tego pakietu morfologię, opowieść, przyimki oraz sam zapis kategorii.
 Wzięło się to z pytania, dla którego ta warstwa powstała:
 obieg zamknięty pyta, czy z napisu wraca drzewo, które ten napis wypuściło.
 O jedno znaczenie zdania obieg nie pyta.
@@ -161,7 +161,7 @@ Wołanie z toru gramatycznego przechodzi tę granicę w drugą stronę,
 więc jest przestawieniem granicy pakietu, a nie przeniesieniem funkcji.
 
 Warstwa ta jest przy tym cząstkowa, a cztery warstwy pozostałe nie są cząstkowe.
-Ogranicza jej dziedzinę to, co `olski/skład/składnia.py` umie powiedzieć,
+Ogranicza jej dziedzinę to, co kategorie z `olski/skład/` umieją powiedzieć,
 a gramatyka wyprowadza więcej.
 Krotka krótsza od liczby czytań wraca stąd z dwóch różnych powodów:
 dwa czytania zeszły się w jedno albo któreś czytanie nie mieści się w tym zapisie.
@@ -177,9 +177,12 @@ Tę cenę płaci przestawienie kolejności warstw.
 
 Warstwy trzecia i czwarta są w obu kierunkach identyczne,
 bo w obu kierunkach chodzi o te same dwa typy.
-Typami tymi są `Zdanie` oraz `Kontekst`, a deklaruje je `olski/skład/składnia.py`.
-`Kontekst` leży tam, a nie w `olski/skład/opowieść.py`,
+Typami tymi są `Zdanie`, które deklaruje `olski/skład/składnia.py`,
+oraz `Kontekst` z własnego modułu `olski/skład/kontekst.py`.
+`Kontekst` nie leży w `olski/skład/opowieść.py`,
 bo niesie naraz to, co o zdaniu wie tekst, oraz to, co wie o nim drzewo nad nim.
+Nie leży też przy kategoriach, bo żadnej z nich nie rozpoznaje po typie:
+pyta rolę o tożsamość i o rdzeń, a odpowiada każda kategoria sama.
 Tekst wie czas zdarzenia i podmiot do pominięcia.
 Dwa pola tekstowe wypełnia `Akapit` w `olski/skład/opowieść.py`,
 a tożsamość, której lemat nie daje, niesie stojąca tam `Postać`.
@@ -192,7 +195,7 @@ Co tekst wie ponad zdaniem, dowodzi tamten dokument osobno
 | warstwa | gdzie | wejście | wyjście |
 | --- | --- | --- | --- |
 | tekst | `olski/skład/opowieść.py` | `Akapit`, czyli ciąg drzew `Zdanie` | `Kontekst` na każde zdanie, wraz z czasem i z tym, kogo wolno pominąć |
-| znaczenie | `olski/skład/składnia.py` | konstruktory, które pisze autor | `Zdanie` |
+| znaczenie | `olski/skład/grupa.py` i `olski/skład/składnia.py` | konstruktory, które pisze autor | `Zdanie` |
 | składnia | `kompiluj` w `olski/skład/__init__.py` | `Zdanie` | formy w kolejności, wraz z policzoną zgodnością |
 | morfologia | `olski/skład/morfologia.py` | lemat wraz z żądanymi cechami | napis |
 | przegląd | `olski/skład/przegląd.py` | napis w swoim tekście | role, których czytelnik z napisu nie odzyska |

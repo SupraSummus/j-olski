@@ -2,7 +2,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-import olski.skład.składnia as składnia
+import olski.skład.grupa as grupa
 from olski.skład import (
     BrakFormy,
     Byt,
@@ -223,8 +223,8 @@ def test_przestrzenie_nazw_niczego_w_składni_nie_zmieniają():
     przez sam import, więc to samo drzewo znaczyłoby co innego zależnie od tego,
     co jeszcze zostało zaimportowane.
     """
-    assert składnia.Rzecz.__truediv__ is składnia.Nominalne.__truediv__
-    assert składnia.Rzecz.__invert__ is składnia.Nominalne.__invert__
+    assert grupa.Rzecz.__truediv__ is grupa.Nominalne.__truediv__
+    assert grupa.Rzecz.__invert__ is grupa.Nominalne.__invert__
     assert R.parser / R.podzbiór == Czyj(Rzecz("parser"), byt(Rzecz("podzbiór")))
     assert ~R.ustawienie == Byt(Rzecz("ustawienie"), "pl")
     assert A.dobry * R.kod == Jaki("dobry", Rzecz("kod"))

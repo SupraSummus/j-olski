@@ -1,7 +1,7 @@
 """Przestrzenie nazw nad składnią: lemat jako nazwa, a nie jako łańcuch.
 
 Przestrzenie te są całą zdejmowalną warstwą tego pakietu.
-Operatory stoją w ``olski.skład.składnia``, bo są zapisem konstruktorów,
+Operatory stoją w ``olski.skład.grupa``, bo są zapisem konstruktorów,
 a tutaj zostaje to, co da się odjąć, nie tracąc języka.
 Import tego modułu nie zmienia zachowania tamtego i tę własność trzyma test.
 
@@ -22,7 +22,7 @@ co dopisano ostatnio, więc staje się pozycyjny,
 a formater dokleja go do wywołania następnego,
 i wtedy źródło wyróżnia co innego, niż wygląda, że wyróżnia.
 Znacznik przyrostkowy tego nie ma, bo nie sięga poza konstytuent, przy którym stoi,
-i stoi razem z operatorami w ``olski.skład.składnia``.
+i stoi razem z operatorami w ``olski.skład.grupa``.
 
 Wielka litera odróżnia tu kategorię od funkcji, która coś nad argumentem liczy.
 Funkcja składa listę, zwija człon do samego siebie albo dokłada domyślną liczbę,
@@ -42,20 +42,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from olski.skład.grupa import Byt, Jaki, Nominalne, Rola, Rzecz, byt
 from olski.skład.składnia import (
-    Byt,
     Ciąg,
-    Jaki,
     Jest,
     Komu,
-    Nominalne,
     Okolicznik,
     Opis,
     Przysłówek,
-    Rola,
-    Rzecz,
     Treść,
-    byt,
     nie,
     zdarzenie,
 )

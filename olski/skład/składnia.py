@@ -6,10 +6,14 @@ Drzewo dobrze złożone jest jednoznaczne z definicji,
 więc jednoznaczność tego zapisu nie potrzebuje żadnego sprawdzenia:
 kształt drzewa jest tym, co niesie znaczenie.
 
+Kategorie dzielą się na dwa moduły po tym, co która niesie.
+Tutaj są te, które orzekają: zdanie, jego pozycje i to, co do niego dochodzi.
+Te, które niosą rzecz, trzyma ``olski/skład/grupa.py``.
+
 Poziomem tych kategorii jest dziedzina, a nie polszczyzna.
-``Czyj`` mówi, że jedna rzecz jest określeniem drugiej,
-a że wyjdzie z tego dopełniacz, rozstrzyga linearyzacja niżej.
-Tak samo ``Okolicznik``: drzewo mówi, że coś jest celem,
+``Czyj`` w ``olski/skład/grupa.py`` mówi, że jedna rzecz jest określeniem drugiej,
+a że wyjdzie z tego dopełniacz, rozstrzyga linearyzacja.
+Tak samo ``Okolicznik`` tutaj: drzewo mówi, że coś jest celem,
 a przypadek po przyimku przychodzi z ``olski/skład/przyimki.py``.
 Ten poziom jest tym, co odróżnia ten zapis od rozbioru zdania pisanego z góry;
 wywód trzyma
@@ -32,11 +36,11 @@ stoi za całym zdaniem nadrzędnym i nie ma czym wyjść przed nie.
 Czego drzewo nie niesie, jest tu decyzją, a nie brakiem.
 Nie ma w nim przypadka, bo przypadek bierze się z pozycji.
 Nie ma rodzaju, bo rodzaj rzeczownika jest leksykalny.
-Nie ma osoby ani czasu, bo obie te rzeczy niesie ``Kontekst``:
+Nie ma osoby ani czasu, bo obie te rzeczy niesie ``olski/skład/kontekst.py``:
 czas jest własnością opowiadania, a nie pojedynczego zdarzenia.
 Dziura jest jedna i jest dziurą, a nie decyzją.
 Wewnątrz grupy imiennej szyku nie ma,
-bo ``Jaki`` stawia przymiotnik przed rzeczownikiem zawsze,
+bo ``Jaki`` w ``olski/skład/grupa.py`` stawia przymiotnik przed rzeczownikiem zawsze,
 choć przymiotnik po rzeczowniku nazywa, a przed nim określa.
 Miejsce tego w torze nazywa ``docs/roadmap.md``.
 """
@@ -45,7 +49,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass, fields, is_dataclass, replace
 
-from olski.skład.morfologia import odmień, rodzaj_rzeczownika
+from olski.skład.grupa import Rola, Wyróżnialne, Wyróżnienie, byt, wypisz
+from olski.skład.kontekst import TERAZ, Kontekst
+from olski.skład.morfologia import odmień
+from olski.skład.powierzchnia import Kawałek, lista, podrzędne, sklej
 from olski.skład.przyimki import przypadek
 from olski.skład.spójniki import staje_na_czele, wprowadza
 from olski.walencja import (
@@ -123,421 +130,6 @@ class PozaRamą(Exception):
 
 
 @dataclass(frozen=True)
-class Kontekst:
-    """Czego linearyzacja nie znajduje w drzewie, które właśnie wypisuje.
-
-    Pierwsze dwie rzeczy są własnościami tekstu, a nie zdania,
-    więc zdanie ich w sobie nie trzyma:
-    ta sama rzecz opowiedziana raz jako to, co się stało, a raz jako to, co się dzieje,
-    jest jednym drzewem i dwoma czasami.
-    Kto tymi dwoma steruje, mówi ``olski/skład/opowieść.py``.
-
-    Pozostałe są własnościami miejsca, w którym zdanie stoi.
-    Zdanie wypisywane jako opis rzeczy mówi o tej rzeczy zaimkiem, a nie nazwą.
-    Zdanie wypisywane jako dopełnienie czasownika nad nim nie ma podmiotu wcale,
-    bo wykonawcę bierze stamtąd, i wychodzi bezokolicznikiem;
-    to samo miejsce niesie przeczenie tamtego czasownika,
-    bo dopełniacz negacji sięga przez bezokolicznik do jego dopełnienia.
-    Steruje tym wszystkim drzewo, a nie tekst,
-    a mechanizmy trzymają ``Opis`` oraz ``Robi`` niżej.
-    Stoją tu obok czasu, bo pytanie jest jedno:
-    czego wypisywane drzewo o sobie nie wie.
-
-    Wartość domyślna jest zdaniem stojącym samo:
-    dzieje się teraz, nie ma za sobą nikogo, kogo dałoby się pominąć,
-    niczego nie opisuje, orzeka o własnym podmiocie i nikt go nie przeczy.
-    """
-
-    czas: str = "teraz"
-    pomijany: object = None
-    wskazywany: object = None
-    sprawca: object = None
-    pod_przeczeniem: bool = False
-
-    def podrzędne(self) -> Kontekst:
-        """Kontekst, który dostaje zdanie postawione pod tym zdaniem.
-
-        Czas dziedziczy się, bo jest własnością opowiadania, a nie zdania.
-        Reszta nie dziedziczy się i każde pole ma na to własny powód:
-        zaimek względny wyszedłby z niższego zdania na czoło, którego ono nie ma,
-        podmiot opuszczony odsyłałby tam, gdzie stoi ktoś inny,
-        a bezokolicznik i przeczenie sięgają jednego piętra,
-        bo tyle sięga czasownik, który je narzucił.
-        Stoi to jedną metodą, bo pole dopisane do tej klasy i tu pominięte
-        przeciekłoby w dół po cichu, i to w miejscu, którego autor nie widzi.
-        """
-        return Kontekst(czas=self.czas)
-
-    def pomija(self, rola: Rola) -> bool:
-        """Czy podmiot jest tym, o kim mowa była zdanie wcześniej.
-
-        Pominięty podmiot jest w polszczyźnie zwykłym sposobem mówienia dalej
-        o tym samym, bo osobę i rodzaj niesie sam czasownik,
-        więc nie ma czego powtarzać.
-        """
-        return self.pomijany is not None and rola.tożsamość is self.pomijany
-
-    def wypisuje(self, rola: Rola) -> bool:
-        """Czy podmiot wyjdzie w tekście, czy czytelnik odzyska go bez niego.
-
-        Powody są dwa i schodzą się tutaj, bo pytają o nie dwa miejsca:
-        linearyzacja, żeby podmiotu nie wypisać,
-        i ``olski/skład/przegląd.py``, żeby nie liczyć formy, której nikt nie zobaczy.
-        Zdanie obok orzekało o tym samym i wtedy mówi o tym ``pomija`` wyżej,
-        albo wykonawcę wskazał czasownik nad tym zdaniem i wtedy wychodzi
-        bezokolicznik, który podmiotu nie ma wcale.
-        """
-        return self.sprawca is None and not self.pomija(rola)
-
-    def wskazuje(self, rola: Rola) -> bool:
-        """Czy to ta rola, którą wypisywane zdanie wskazuje.
-
-        Porównaniem jest tożsamość obiektu, a nie równość,
-        bo tą samą rzeczą jest tu ta sama zmienna, tak samo jak przy ``Postać``:
-        dwie równe grupy imienne są dwiema rzeczami, dopóki autor nie użyje jednej.
-        """
-        return self.wskazywany is not None and _rdzeń(rola) is _rdzeń(self.wskazywany)
-
-
-TERAZ = Kontekst()
-
-
-def _rdzeń(rola: Rola):
-    """Rzecz spod roli, bo dopiero ona jest tym, co autor nazwał zmienną.
-
-    ``byt`` zawija rzecz od nowa w każdym miejscu, w którym ona stoi,
-    więc jedna zmienna trzymająca samą rzecz stoi w dwóch różnych rolach,
-    a porównanie samych ról orzekłoby o niej, że jest dwiema rzeczami.
-    Zejście pod rolę zdejmuje autorowi pytanie, którego nie ma po co sobie zadawać:
-    czy zmienna, którą napisał, trzyma rzecz, czy rzecz wraz z liczbą.
-    Pod ``Postać`` to zejście nie schodzi, bo tam żądanie jest odwrotne:
-    dwie postaci o jednej rzeczy są dwiema rzeczami z rozmysłu,
-    bo opowieść bywa o dwóch braciach.
-    """
-    return rola.rzecz if isinstance(rola, Byt) else rola
-
-
-@dataclass(frozen=True)
-class Kawałek:
-    """Wypisany konstytuent wraz z przecinkami, których żąda od sąsiadów.
-
-    Przecinek jest tu własnością kawałka, a nie znakiem w napisie,
-    bo o tym, czy staje, rozstrzyga dopiero to, co obok niego stanie,
-    a tego kawałek o sobie nie wie.
-    Zdanie podrzędne żąda przecinka z obu stron i dostaje go z żadnej,
-    gdy stoi samo; opis żąda go z jednej,
-    bo przecinek otwierający stoi w środku samego opisu.
-    Krawędź zdania przecinka nie stawia, i tyle wystarcza,
-    żeby kropka nie stanęła po przecinku, a lista nie dostała dwóch.
-
-    Bez tego pola przecinek jedzie wewnątrz napisu, a każde miejsce,
-    które po konstytuencie coś stawia, musi o nim wiedzieć z ogona tego napisu.
-    Miejsce dopisane bez tej wiedzy stawia drugi przecinek tuż za pierwszym,
-    czyli wypuszcza tekst błędny i nigdzie nie zgłoszony.
-    """
-
-    napis: str
-    przed: bool = False
-    po: bool = False
-
-
-def _rozdziela(lewy: Kawałek, prawy: Kawałek) -> str:
-    """Czym stoją obok siebie dwa kawałki: przecinkiem, gdy któryś go żąda.
-
-    Dość jednego żądania, bo polszczyzna stawia tu jeden przecinek, a nie dwa:
-    zamknięcie zdania podrzędnego jest tym samym przecinkiem, co rozdzielenie listy.
-    """
-    return ", " if lewy.po or prawy.przed else " "
-
-
-def _sklej(kawałki: list[Kawałek]) -> Kawałek:
-    """Kawałki jeden po drugim, wraz z żądaniami skrajnych, bo te zostają niespełnione.
-
-    Przecinek wewnętrzny staje tutaj, a zewnętrzny czeka na to,
-    co stanie obok całości, więc kawałek sklejony żąda tego samego,
-    co żądały jego krańce.
-    """
-    napis, poprzedni = kawałki[0].napis, kawałki[0]
-    for kawałek in kawałki[1:]:
-        napis += _rozdziela(poprzedni, kawałek) + kawałek.napis
-        poprzedni = kawałek
-    return Kawałek(napis, przed=kawałki[0].przed, po=kawałki[-1].po)
-
-
-def _podrzędne(słowo: str, zdanie, kontekst: Kontekst) -> Kawałek:
-    """Zdanie podrzędne wraz ze słowem, które je wprowadza, i przecinkami z obu stron.
-
-    Stoi w jednym miejscu, bo zdanie podrzędne oddziela się przecinkiem z każdej
-    strony, przy której coś stoi, i nie zależy to od tego, czym to zdanie jest
-    w zdaniu nadrzędnym: okoliczność wyrażona zdarzeniem i treść czyjejś wiedzy
-    piszą się tu identycznie i różnią się tylko słowem oraz pozycją.
-    Żądanie idzie z obu stron, a krańce zdania go nie spełniają.
-
-    Co zdanie podrzędne z tego kontekstu dziedziczy, a czego nie,
-    rozstrzyga ``Kontekst.podrzędne`` i rozstrzyga to samo dla każdego z nich.
-    """
-    return replace(
-        _sklej([Kawałek(słowo), zdanie.linearyzuj(kontekst.podrzędne())]), przed=True, po=True
-    )
-
-
-def wypisz(rola: Rola, case: str, kontekst: Kontekst) -> Kawałek:
-    """Rola wypisana nazwą albo zaimkiem, gdy to ją wypisywane zdanie wskazuje.
-
-    Tędy idzie każde miejsce, które rolę stawia,
-    bo zaimek jest jedną decyzją i ma jedno miejsce, w którym zapada.
-    Zgadza się on z rzeczą rodzajem i liczbą, a przypadek dostaje z pozycji,
-    czyli tak samo jak wszystko inne w tym pliku.
-    Osobne w ``Opis`` jest tylko to, że pozycja ta stoi w zdaniu podrzędnym,
-    a rzecz, której zaimek dotyczy, w nadrzędnym.
-    """
-    if kontekst.wskazuje(rola):
-        return Kawałek(
-            odmień("który", "adj", case=case, number=rola.number, gender=rola.rodzaj, degree="pos")
-        )
-    return rola.linearyzuj(case, kontekst)
-
-
-@dataclass(frozen=True)
-class Wyróżnienie:
-    """Konstytuent wraz z tym, czym jest w zdaniu: tematem albo rematem.
-
-    Kategorię tę polszczyzna niesie szykiem.
-    Drzewo mówi, o czym zdanie jest i co o tym dokłada,
-    a kolejność słów jest z tego wnioskiem, wyciąganym przy linearyzacji.
-    Wariantu szyku dopisanego do linearyzacji tu nie ma i nie ma być,
-    bo taki parametr opisywałby zdanie, a to drzewo opisuje to, o czym zdanie jest.
-    """
-
-    co: object
-    miejsce: str
-
-
-class Wyróżnialne:
-    """Znacznik tematu i rematu, dopisywany za konstytuentem.
-
-    Znacznik stoi za konstytuentem i wolno mu tam stać,
-    bo o tym, gdzie wypadną słowa wyróżnionego konstytuenta, nie mówi nic:
-    mówi ``_szyk`` niżej.
-    Zapis przedrostkowy kazałby czytelnikowi wracać po nawiasach do tego,
-    co znacznik objął,
-    a dopisany z tyłu czyta się tam, gdzie konstytuent się skończył.
-    Przeczenie z tyłu nie stanie i dlatego zostaje wywołaniem:
-    ``nie`` wypada w tekście przed czasownikiem,
-    więc zapis, który je tam stawia, mówi o wyjściu prawdę.
-
-    Znacznikiem, a nie wywołaniem, bo mówi, czym konstytuent w zdaniu jest,
-    a nie co się z nim robi.
-    Dochodzą tędy wszystkie kategorie, które konstytuentem bywają,
-    bo zawinięcie w rolę (``byt`` niżej) rzecz zawija,
-    a okoliczność i przysłówek przepuszcza nietknięte.
-    ``Wyróżnienie`` tych znaczników nie dziedziczy i nie ma dziedziczyć:
-    drugi znacznik na jednym konstytuencie łamie się wtedy na samym znaczniku,
-    a nie dopiero pod ``_goły``, który z zagnieżdżonego wyróżnienia
-    zdejmuje jedną warstwę.
-
-    Płaci się za to nawiasem tam, gdzie grupę zbudowały operatory.
-    Kropka wiąże mocniej niż tylda i niż gwiazdka,
-    więc liczba mnoga i określenie żądają nawiasu przed znacznikiem:
-    ``(~R.mieszczanin).remat`` i ``(A.duży * R.lustro).remat``.
-    """
-
-    @property
-    def temat(self) -> Wyróżnienie:
-        """To, o czym zdanie jest: staje na czele."""
-        return Wyróżnienie(byt(self), "czoło")
-
-    @property
-    def remat(self) -> Wyróżnienie:
-        """To, co zdanie o temacie dokłada: staje na końcu.
-
-        Nazwa jest tu parą do ``temat`` i dlatego jest terminem, a nie słowem zwykłym:
-        `nowe` nie zgadza się rodzajem z niczym, co się w nie wkłada,
-        a rozstrzygnięcie, które ten znacznik zapisuje, jest jedno z dwóch,
-        więc czyta się je z pary albo nie czyta się wcale.
-        """
-        return Wyróżnienie(byt(self), "koniec")
-
-
-class Nominalne(Wyróżnialne):
-    """Wszystko, co może stanąć w grupie imiennej, wraz z zapisem operatorowym.
-
-    Operatory stoją tutaj, a nie warstwę wyżej, bo są zapisem konstruktorów,
-    a nie drugim sposobem mówienia: ``a / b`` buduje dokładnie ``Czyj(a, byt(b))``.
-    Zdejmowalną warstwą są same przestrzenie nazw w ``olski.skład.słownik``.
-
-    Kontekst wchodzi do każdej linearyzacji poniżej, choć rzeczownik go nie czyta.
-    Bierze się to z ``Czyj``: określeniem bywa rzecz opisana zdaniem,
-    a zdanie pyta o czas i o to, czy mówić o rzeczy zaimkiem,
-    więc gałąź, która kontekstu nie przekazuje, gubi go dopiero pod sobą.
-    """
-
-    def __truediv__(self, inne) -> Czyj:
-        """Dopełniacz, czyli określenie po głowie: parser przez podzbiór."""
-        return Czyj(self, byt(inne))
-
-    def __invert__(self) -> Byt:
-        """Liczba mnoga."""
-        return Byt(self, "pl")
-
-    def __and__(self, inne) -> Koordynacja:
-        """Koordynacja: koguci dziób oraz wężowy ogon."""
-        return byt(self) & inne
-
-
-@dataclass(frozen=True)
-class Rzecz(Nominalne):
-    """Rodzaj bytu, bez rozstrzygnięcia, ile go i który."""
-
-    lemat: str
-
-    @property
-    def rodzaj(self) -> str:
-        return rodzaj_rzeczownika(self.lemat)
-
-    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return Kawałek(odmień(self.lemat, "subst", case=case, number=number))
-
-
-@dataclass(frozen=True)
-class Jaki(Nominalne):
-    """Rzecz wraz z określeniem przymiotnikowym: zwykły tekst, dobry kod.
-
-    Przymiotnik zgadza się z rzeczą w przypadku, liczbie i rodzaju,
-    a wszystkie trzy przychodzą policzone: dwa z pozycji, rodzaj z leksykonu.
-    """
-
-    cecha: str
-    rzecz: Nominalne
-
-    @property
-    def rodzaj(self) -> str:
-        return self.rzecz.rodzaj
-
-    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        przymiotnik = odmień(
-            self.cecha, "adj", case=case, number=number, gender=self.rodzaj, degree="pos"
-        )
-        return _sklej([Kawałek(przymiotnik), self.rzecz.linearyzuj(case, number, kontekst)])
-
-
-@dataclass(frozen=True)
-class Czyj(Nominalne):
-    """Rzecz określona drugą rzeczą: parser podzbioru.
-
-    Kierunek tej relacji jest kształtem drzewa, a nie kolejnością słów,
-    więc parser podzbioru i podzbiór parsera są dwoma różnymi drzewami.
-    Nad samym workiem lematów te dwa zdania są nie do rozróżnienia,
-    i to jest ta wieloznaczność, którą ten poziom zdejmuje za darmo.
-
-    Określenie jest rolą, a nie rzeczą, bo niesie własną liczbę:
-    bez tego parser podzbiorów nie miałby jak powstać.
-    """
-
-    głowa: Nominalne
-    określenie: Rola
-
-    @property
-    def rodzaj(self) -> str:
-        return self.głowa.rodzaj
-
-    def linearyzuj(self, case: str, number: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        głowa = self.głowa.linearyzuj(case, number, kontekst)
-        return _sklej([głowa, wypisz(self.określenie, "gen", kontekst)])
-
-
-class Rola(Wyróżnialne):
-    """To, co wypełnia w zdaniu jedną rolę: jeden byt albo kilka bytów naraz.
-
-    Rola niesie liczbę i rodzaj, bo tego żąda od niej zgodność z czasownikiem,
-    i odpowiada na jeden przypadek, bo tyle daje jej pozycja, w której stoi.
-
-    Tożsamości rola z zasady nie ma.
-    Ma ją dopiero ``Postać`` w ``olski/skład/opowieść.py``, czyli ten, do kogo tekst wraca,
-    i to jest jedyne miejsce, w którym dwa wystąpienia jednego lematu
-    są tą samą rzeczą, a nie dwiema takimi samymi.
-    """
-
-    tożsamość = None
-
-    def __and__(self, inne) -> Koordynacja:
-        return Koordynacja((self, byt(inne)))
-
-
-@dataclass(frozen=True)
-class Byt(Rola):
-    """Rzecz wraz z liczbą.
-
-    Liczba stoi w drzewie, bo jest znaczeniem: jeden plik i wiele plików
-    to dwie różne rzeczy do powiedzenia, a nie dwie formy jednej.
-    """
-
-    rzecz: Nominalne
-    number: str = "sg"
-
-    @property
-    def rodzaj(self) -> str:
-        return self.rzecz.rodzaj
-
-    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return self.rzecz.linearyzuj(case, self.number, kontekst)
-
-
-def _lista(człony: list[Kawałek]) -> Kawałek:
-    """Człony przecinkami, a przed ostatnim spójnik: polska interpunkcja listy.
-
-    Stoi ona w jednym miejscu, bo koordynacja bytów i ciąg zdarzeń
-    dzielą ją co do znaku, choć łączą rzeczy różnego rodzaju.
-    Przecinka żąda każdy człon od swojego poprzednika,
-    więc człon, który zażądał go sam, nie dostaje drugiego.
-    """
-    początek = _sklej([człony[0], *(replace(człon, przed=True) for człon in człony[1:-1])])
-    return _sklej([początek, Kawałek("i"), człony[-1]])
-
-
-@dataclass(frozen=True)
-class Koordynacja(Rola):
-    """Kilka bytów w jednej roli: koguci dziób, wężowy ogon i żabie oczy.
-
-    Przypadek dostają wszystkie człony ten sam, bo daje go jedna pozycja,
-    a liczbę każdy własną, bo każdy jest osobną rzeczą.
-    Rodzaj wychodzi z członów i wychodzi po polsku:
-    dość jednego męskoosobowego, żeby cała grupa była męskoosobowa,
-    a bez niego rodzaj bierze się z pierwszego,
-    bo formy niemęskoosobowe czasownik ma wspólne.
-
-    Przecinek stoi między wszystkimi członami prócz ostatniego,
-    a przed ostatnim staje spójnik, i to jest polska interpunkcja tej listy.
-    """
-
-    człony: tuple[Rola, ...]
-
-    #: Liczba grupy, a nie któregokolwiek z członów: dwie rzeczy to więcej niż jedna.
-    number = "pl"
-
-    @property
-    def rodzaj(self) -> str:
-        rodzaje = [człon.rodzaj for człon in self.człony]
-        return "m1" if "m1" in rodzaje else rodzaje[0]
-
-    def __and__(self, inne) -> Koordynacja:
-        return Koordynacja((*self.człony, byt(inne)))
-
-    def linearyzuj(self, case: str, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return _lista([wypisz(człon, case, kontekst) for człon in self.człony])
-
-
-def byt(rzecz):
-    """Rzecz postawiona tam, gdzie stoi rola, znaczy jeden egzemplarz.
-
-    Domyślność zapisana raz, a nie zgadywanie: liczbę mnogą trzeba napisać.
-    Co rolą już jest, przechodzi tędy nietknięte,
-    więc ta jedna funkcja stoi wszędzie tam, gdzie konstruktor bierze rolę.
-    """
-    return Byt(rzecz) if isinstance(rzecz, Nominalne) else rzecz
-
-
-@dataclass(frozen=True)
 class Okolicznik(Wyróżnialne):
     """Okoliczność w relacji: w piwnicy, wzrokiem, gdy bazyliszek otworzył oczy.
 
@@ -595,9 +187,9 @@ class Okolicznik(Wyróżnialne):
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
         """Słowo wraz z tym, co po nim stoi: zdanie podrzędne albo grupa imienna."""
         if self.zdarzeniem:
-            return _podrzędne(self.słowo, self.co, kontekst)
+            return podrzędne(self.słowo, self.co, kontekst)
         grupa = wypisz(self.co, przypadek(self.słowo, self.relacja), kontekst)
-        return _sklej([Kawałek(self.słowo), grupa]) if self.słowo else grupa
+        return sklej([Kawałek(self.słowo), grupa]) if self.słowo else grupa
 
 
 @dataclass(frozen=True)
@@ -683,7 +275,7 @@ class Treść:
     SŁOWO = "że"
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return _podrzędne(self.SŁOWO, self.zdanie, kontekst)
+        return podrzędne(self.SŁOWO, self.zdanie, kontekst)
 
 
 def _goły(konstytuent):
@@ -702,13 +294,15 @@ def _wskazany(konstytuent, kontekst: Kontekst) -> bool:
     nie miałaby jak wyjść na czoło, więc jest błędem, a nie zdaniem o dziwnym szyku.
     Okoliczność wyrażona zdarzeniem żadnej roli nie wskazuje z tego samego powodu:
     zaimek stojący w zdaniu podrzędnym drugiego stopnia nie ma dokąd wyjść.
+    Konstytuent, który rolą nie jest, odpada na kategorii,
+    bo wskazywana bywa tylko rola (``Opis``).
     """
     goły = _goły(konstytuent)
     if isinstance(goły, Okolicznik):
         return not goły.zdarzeniem and kontekst.wskazuje(goły.co)
     if isinstance(goły, Komu):
         return kontekst.wskazuje(goły.co)
-    return kontekst.wskazuje(goły)
+    return isinstance(goły, Rola) and kontekst.wskazuje(goły)
 
 
 def _miejsce(konstytuent, kontekst: Kontekst):
@@ -730,7 +324,7 @@ def _miejsce(konstytuent, kontekst: Kontekst):
     więc `Powiedział, że zszedł, wieczorem.` nie jest zdaniem o innej kolejności,
     tylko zdaniem, którego polszczyzna nie ma.
     Wychodzi to pozycją, a nie znakiem w napisie, i dzięki temu drzewo,
-    które za tym zdaniem stawia jeszcze remat, zgłasza się w ``_szyk``,
+    które za tym zdaniem stawia jeszcze remat, zgłasza się w ``szyk`` niżej,
     zamiast wypuścić tekst z konstytuentem za przecinkiem zamykającym.
     """
     goły = _goły(konstytuent)
@@ -776,7 +370,7 @@ def _okoliczności(okoliczniki: tuple, kontekst: Kontekst) -> list[tuple[str | N
     ]
 
 
-def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
+def szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
     """Kolejność wypisania: czoło, środek w porządku domyślnym, koniec.
 
     Środek jest tu porządkiem, którego nikt nie wybierał,
@@ -798,7 +392,7 @@ def _szyk(pozycje: list[tuple[str | None, Kawałek]]) -> Kawałek:
             raise PozaRamą(f"dwa konstytuenty stają jako {miejsce}")
         wyróżnione[miejsce] = kawałek
     kolejność = (wyróżnione.get("czoło"), *środek, wyróżnione.get("koniec"))
-    return _sklej([część for część in kolejność if część is not None])
+    return sklej([część for część in kolejność if część is not None])
 
 
 def _zdania_pod(konstytuent, kontekst: Kontekst = TERAZ):
@@ -906,7 +500,7 @@ class Zdanie:
         Zdanie proste ma jednego sprawcę, a ciąg zdarzeń ma po jednym na zdarzenie,
         bo bezokoliczników w nim wyjdzie tyle samo.
         """
-        return (_rdzeń(self.podmiot),)
+        return (self.podmiot.rdzeń,)
 
     def uczestnicy(self, kontekst: Kontekst = TERAZ) -> tuple[tuple[Rola, str], ...]:
         """Role, które w tym zdaniu stoją jako uczestnik zdarzenia, wraz z przypadkiem.
@@ -1008,7 +602,7 @@ class Jest(Zdanie):
         return ((self.podmiot, "nom"), (_goły(self.czym), ORZECZNIK))
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return _szyk(
+        return szyk(
             [
                 *_podmiot(self.co, kontekst),
                 (None, Kawałek(self._orzeczenie(kontekst))),
@@ -1123,7 +717,7 @@ class Robi(Zdanie):
             _pozycja(self.czyn, żądane)
         dopełnienie = _goły(self.co)
         if isinstance(dopełnienie, Zdanie) and any(
-            sprawca is not _rdzeń(self.podmiot) for sprawca in dopełnienie.sprawcy
+            sprawca is not self.podmiot.rdzeń for sprawca in dopełnienie.sprawcy
         ):
             raise PozaRamą(f"bezokolicznik przy {self.czyn} orzeka o kimś innym")
 
@@ -1183,7 +777,7 @@ class Robi(Zdanie):
             return dopełnienie.linearyzuj(
                 replace(
                     kontekst.podrzędne(),
-                    sprawca=_rdzeń(self.podmiot),
+                    sprawca=self.podmiot.rdzeń,
                     pod_przeczeniem=self._przeczone(kontekst),
                 )
             )
@@ -1236,7 +830,7 @@ class Robi(Zdanie):
         if self.co is not None:
             pozycje.append((_miejsce(self.co, kontekst), self._dopełnienie(kontekst)))
         pozycje.extend(_okoliczności(self.okoliczniki, kontekst))
-        return _szyk(pozycje)
+        return szyk(pozycje)
 
 
 
@@ -1384,7 +978,7 @@ class Ciąg(Zdanie):
             yield from zdarzenie.konteksty(jego)
 
     def linearyzuj(self, kontekst: Kontekst = TERAZ) -> Kawałek:
-        return _lista([zdarzenie.linearyzuj(jego) for zdarzenie, jego in self._kolejno(kontekst)])
+        return lista([zdarzenie.linearyzuj(jego) for zdarzenie, jego in self._kolejno(kontekst)])
 
 
 @dataclass(frozen=True)
@@ -1442,8 +1036,9 @@ class Opis(Rola):
         """Rzecz, przecinek, zdanie o niej, a przecinek zamykający jako żądanie.
 
         Przypadek dostaje sama rzecz, bo to ona stoi w zdaniu nadrzędnym,
-        a zdanie podrzędne rozdaje przypadki własne i dostaje od ``podrzędne``
-        czas oraz od tej metody to, którą rzecz ma powiedzieć zaimkiem.
+        a zdanie podrzędne rozdaje przypadki własne.
+        Czas dostaje ono od ``podrzędne`` w ``olski/skład/powierzchnia.py``,
+        a od tej metody to, którą rzecz ma powiedzieć zaimkiem.
         Pomijanie podmiotu w nim nie działa, i to nie jest brak:
         podmiot opuszczony w zdaniu podrzędnym czytałby się jako ten,
         którego zaimek właśnie zastąpił.
@@ -1453,7 +1048,7 @@ class Opis(Rola):
         i rozstrzyga o nim to, co obok stanie.
         """
         zdanie = replace(self.zdanie.linearyzuj(self.wewnątrz(kontekst)), przed=True)
-        return replace(_sklej([wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
+        return replace(sklej([wypisz(self.rzecz, case, kontekst), zdanie]), po=True)
 
 
 def pomijalny(zdanie: Zdanie, poprzednie: Zdanie | None, kontekst: Kontekst):
