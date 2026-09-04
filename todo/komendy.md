@@ -338,21 +338,3 @@ dziś wydaje napis, a rozpiętości wstawek nie ma w nim jak podać,
 więc albo wraca parą, albo `olski-check` czyta dokument dwa razy.
 Ceną drugiego wyjścia jest to, że zdanie zacytowane liczy się wtedy nad dokumentem,
 a nie nad prozą, więc nie widzi go przebieg nad plikiem `.txt`.
-
-Rurę od tekstu do znalezisk składa osobno wiersz poleceń i osobno witryna.
-`main` w `olski/check.py` woła po kolei `check`, `sąsiedztwa`, `niejasne_odniesienia`,
-licznik zdań z niejasnym odniesieniem oraz `zip` po tych trzech ciągach naraz,
-a `zbadaj` w `witryna/werdykty.py` woła to samo i w tej samej kolejności.
-Powtórzony jest przy tym komentarz o tym, czemu sąsiedztwa liczą się dla tekstu,
-a nie dla zdania.
-Wołający różnią się dopiero wyjściem: pierwszy drukuje wiersze, drugi składa JSON,
-czyli różnią się brzegiem, a nie środkiem
-([`CLAUDE.md`](../CLAUDE.md#code)).
-Ruchem jest jedno wejście w `olski/werdykt.py`, które nad tekstem wydaje
-werdykty, sąsiedztwa, odniesienia i podsumowanie, i przez które przechodzą obaj.
-Do przeczytania jest przedtem, czy sąsiedztwa wolno liczyć zawsze:
-wiersz poleceń liczy je tylko pod `--rozstrzygaj`, a witryna przy każdym pytaniu,
-więc wspólne wejście albo liczy je zawsze i płaci za to nad każdym dokumentem,
-albo bierze to pytanie parametrem i wtedy nie jest bezgałęziowe.
-Sprawdzianem tej zmiany jest czwarte znalezisko nad tekstem, którekolwiek nim będzie:
-dziś dopisuje się je w dwóch miejscach.

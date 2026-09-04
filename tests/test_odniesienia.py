@@ -11,15 +11,13 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.odniesienia import niejasne_odniesienia
-from olski.werdykt import check
+from olski.werdykt import nad_tekstem
 
 
 def zgłoszenia(tekst: str) -> list[tuple[tuple[str, tuple[str, ...]], ...]]:
     """Zgłoszenia nad tekstem jako pary (zaimek, rzeczy), po jednej krotce na zdanie."""
     return [
-        tuple((o.zaimek, o.rzeczy) for o in nad_zdaniem)
-        for nad_zdaniem in niejasne_odniesienia(tekst, check(tekst))
+        tuple((o.zaimek, o.rzeczy) for o in zdanie.odniesienia) for zdanie in nad_tekstem(tekst)
     ]
 
 
@@ -80,5 +78,5 @@ def test_zdanie_bez_odczytania_nie_podaje_ani_jednej_rzeczy():
     kandydata nie zgłaszać: zero kandydatów znaczy tu dwie różne rzeczy.
     """
     tekst = "Nowa program zapisuje ustawienia w garnkach. Są one czerwone."
-    assert check(tekst)[0].result.rejected
+    assert nad_tekstem(tekst)[0].werdykt.result.rejected
     assert zgłoszenia(tekst)[1] == ()

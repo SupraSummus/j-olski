@@ -19,16 +19,17 @@ from typing import TypeVar
 
 from olski.cennik import cena
 from olski.chwyty import chwyty
-from olski.odniesienia import Odniesienie, niejasne_odniesienia
-from olski.rozstrzyganie import PUSTE, Rozstrzygnięcie, domyślni, rozstrzygnij, sąsiedztwa
+from olski.odniesienia import Odniesienie
+from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
 from olski.werdykt import (
     OdczytaniaFormy,
     Podsumowanie,
     Verdict,
+    Zdanie,
     Żądanie,
-    check,
     dalsze_zatrzymania,
+    nad_tekstem,
     niespełnione_żądania,
 )
 from olski.żądania import NIENAZWANE
@@ -204,13 +205,7 @@ def _odniesienia(zgłoszenia: Sequence[Odniesienie]) -> Iterator[str]:
         yield f"„{zgłoszenie.zaimek}” wskazuje na {rzeczy}"
 
 
-def _wiersze(
-    verdict: Verdict,
-    args: argparse.Namespace,
-    świadkowie,
-    sąsiedztwo,
-    zgłoszenia: Sequence[Odniesienie] = (),
-) -> Iterator[str]:
+def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[str]:
     """Co ten przebieg ma o tym zdaniu do powiedzenia, wiersz po wierszu.
 
     Zdanie bez ani jednego wiersza komenda przemilcza, zamiast meldować,
@@ -220,12 +215,13 @@ def _wiersze(
     kto pyta o zatrzymania, pyta o zdania, których olski nie czyta,
     a kto pyta o czytania, pyta o każde zdanie czytane.
     """
+    verdict = zdanie.werdykt
     if verdict.znalezisko or (args.zatrzymania and not verdict.czytane):
         yield verdict.explain()
     #  Zaraz za werdyktem, bo jest znaleziskiem tak samo jak on, a nie odpowiedzią
     #  warstwy obok (:func:`_rozstrzygnięcia`); flagi go nie chowają z tego samego
     #  powodu, dla którego nie chowają wieloznaczności.
-    yield from _odniesienia(zgłoszenia)
+    yield from _odniesienia(zdanie.odniesienia)
     if args.zatrzymania:
         yield from _dalsze(verdict)
     if args.readings:
@@ -243,7 +239,7 @@ def _wiersze(
     if args.osoby:
         yield from map(_wiersz_osoby, niespełnione_żądania(verdict))
     if świadkowie is not None:
-        yield from _rozstrzygnięcia(verdict, świadkowie, sąsiedztwo)
+        yield from _rozstrzygnięcia(verdict, świadkowie, zdanie.sąsiedztwo)
     #  Chwyt na końcu, bo o polszczyźnie tego zdania nie mówi nic.
     if args.chwyty:
         yield from (
@@ -321,28 +317,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     #  wchodzi z pliku, a dokument ma tyle zdań, ile ma.
     świadkowie = domyślni() if args.rozstrzygaj else None
 
-    wszystkie: list[Verdict] = []
-    niejasnych = 0
+    wszystkie: list[Zdanie] = []
     for name, text in sources:
-        #  Sąsiedztwa liczą się dla całego tekstu naraz, bo akapit jest jego
-        #  własnością, a nie zdania: zdanie samo nie wie, co stoi przed nim.
-        #  Z tego samego powodu liczą się tu odniesienia.
-        werdykty = check(text)
-        wszystkie += werdykty
-        konteksty = sąsiedztwa(text) if świadkowie is not None else [PUSTE] * len(werdykty)
-        odniesienia = niejasne_odniesienia(text, werdykty)
-        niejasnych += sum(1 for zgłoszenia in odniesienia if zgłoszenia)
-        for verdict, sąsiedztwo, zgłoszenia in zip(
-            werdykty, konteksty, odniesienia, strict=True
-        ):
-            wiersze = list(_wiersze(verdict, args, świadkowie, sąsiedztwo, zgłoszenia))
+        zdania = nad_tekstem(text)
+        wszystkie += zdania
+        for zdanie in zdania:
+            wiersze = list(_wiersze(zdanie, args, świadkowie))
             if not wiersze:
                 continue
-            print(f"{name}: {verdict.text}")
+            print(f"{name}: {zdanie.werdykt.text}")
             for wiersz in wiersze:
                 print(f"{' ' * (len(name) + 2)}{wiersz}")
 
-    podsumowanie = Podsumowanie.z_werdyktów(wszystkie, niejasnych)
+    podsumowanie = Podsumowanie.ze_zdań(wszystkie)
     print(podsumowanie.explain())
     #  Kod wyjścia niesie znaleziska, a nie milczenie
     #  (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
