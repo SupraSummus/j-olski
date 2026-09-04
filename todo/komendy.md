@@ -79,6 +79,19 @@ nad rejestrem ustaw nie sprawdził tego nikt, a bez tego podmiana rusza figury
 i nic o tym nie mówi.
 Wpis podnosi więc sesja, która ten rejestr ma.
 
+Przebieg puszczony spoza korzenia mierzy olskiego bez konfiguracji projektu
+i nie mówi tego w wydruku.
+`znajdź` w `olski/konfiguracja.py` szuka `olski.toml` od katalogu roboczego w górę,
+a nagłówek wydruku (`render` w `olski/pokrycie.py`) nazywa sam korpus i morfologię,
+więc ta sama komenda puszczona z dwóch katalogów wydaje dwie różne tabele,
+a różnicy nie widać po żadnej z nich.
+Ruchem jest nazwa czytanego pliku w tym nagłówku, wraz z odpowiedzią o jego braku,
+bo brak konfiguracji jest odpowiedzią, a nie milczeniem.
+Do przeczytania jest przedtem, czy `render` jest tu właściwym miejscem:
+czyta go i pomiar nad korpusem, i `olski-pokrycie` nad jednym plikiem,
+a wiersz dopisany rusza każdy blok, który stoi w dokumencie pod tą komendą
+(`tests/test_wydruki.py`).
+
 `olski` chodził po katalogu, a `olski-check` bierze tylko pliki.
 Widać to w poleceniu, którym
 [`docs/extraction.md`](../docs/extraction.md#what-the-numbers-here-were-run-over)

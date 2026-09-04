@@ -365,6 +365,35 @@ Do przeczytania jest przedtem, ile zdań banku drzew stoi na tym czytaniu:
 wpis znalazło jedno, które przyszło do wiersza niezgodnych razem z ciągiem
 współrzędnym wyrażeń przyimkowych, a przebiegu po całym wierszu nikt nie zrobił.
 
+Orzecznik z dwóch przymiotników nie ma ciała, a przysłówkowe `sam` to zasłania.
+`Cena jest ta sama.` i `Wywód jest ten drugi.` są odrzucone,
+a `Wywód jest ten sam.` wychodzi jednym czytaniem — i różnicy tej nie ma w polszczyźnie,
+tylko w słowniku: `sama` i `drugi` niosą u Morfeusza samo czytanie przymiotnikowe,
+a `sam` niesie obok niego przysłówkowe, więc `ten` zostaje orzecznikiem,
+a `sam` okolicznikiem przy `jest`.
+Czytania tego polszczyzna nie ma, a Składnica wybiera dla `sam` przymiotnik
+we wszystkich 59 wystąpieniach.
+Para przed rzeczownikiem przechodzi — `Ten sam sposób jest tani.` ma jedno czytanie —
+więc brakuje jej tam, gdzie głowa jest opuszczona.
+`grupa_przymiotnikowa` w `olski/subset/grupa.py` koordynuje przymiotniki
+i bierze pod nie narzędnik oraz wyrażenie przyimkowe,
+a dwóch przymiotników obok siebie nie bierze,
+więc ruchem jest to jedno ciało wraz z pomiarem.
+Do przeczytania jest przy nim `człon_przydawki` w tym samym pliku:
+symbol jest osobny od orzecznikowego, więc para dopisana tu przydawki nie ruszy,
+a dosięgnie członu bez czasownika, który tę grupę bierze wnętrzem
+(`olski/subset/zdanie.py`).
+Tym samym kształtem jest `zarówno ... jak i`:
+`Parser bierze zarówno cenę, jak i wywód.` jest odrzucone,
+`SPÓJNIKI_SKORELOWANE` w `olski/subset/słowa.py` niesie sam lemat `ani`,
+a te zdania Składnicy z tym spójnikiem, które olski przyjmuje,
+wyprowadzają się dziś przez to samo czytanie przysłówkowe co `sam`:
+`Prawdopodobnie powiaty będą wykonywać zarówno zadania zlecone przez rząd, jak i zadania gmin.`
+Anotator wybrał tam spójnik we wszystkich 18 wystąpieniach.
+Ruchu drugiego tu nie ma: tego czytania nie odbierze wykluczenie leksykalne,
+bo [kryteria na nie zmierzono i odrzucono](../docs/warstwa-leksykalna.md#każde-szersze-kryterium-zmierzono-i-żadne-nie-stoi),
+więc oba te zdania będą przyjęte nieprawdziwie, dopóki pozycji nie ma.
+
 Cząstka przybliżająca `ponad` i `blisko` zostaje poza gramatyką,
 a zdania z nią nie padają, tylko wychodzą na czytaniu, którego polszczyzna nie ma:
 `Kupuje ponad sto zdań.` wychodzi wyrażeniem przyimkowym bez dopełnienia w zdaniu,

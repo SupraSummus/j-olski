@@ -79,6 +79,10 @@ Każda z tych liczb jest ceną, przy której kryterium odrzucono,
 i wzięto je nad gramatyką z tamtej chwili, czyli dwie pierwsze bez przysłówka:
 kryterium odrzucone zostaje odrzucone, kiedy jego cena się rusza,
 więc przeliczenie broniłoby liczby, a nie decyzji.
+Ceny dwóch ostatnich nie rusza żadna produkcja:
+kryterium odbiera czytanie przed gramatyką,
+więc pytanie, czy przy formie zostaje czytanie tej części mowy, którą wybrał anotator,
+rozstrzyga sama morfologia.
 Tą samą miarą [corpus.md](corpus.md#what-morphological-ambiguity-costs)
 liczy wykluczenie, które stoi, i wychodzi mu sześć.
 
@@ -116,6 +120,10 @@ Kryterium, które kasuje czytanie `subst` formy znanej też jako przymiotnik,
 gdy stoi ona przed rzeczownikiem z czytaniem w dopełniaczu,
 traci 155 zdań, i tracą je te, w których taki rzeczownik dopełniaczem rządzi:
 `przewodniczący Rady`, `ministrowi spraw`, `prawa jazdy`, `dobra kraju`.
+Zawężeniem tego kryterium klasy nie uratować,
+bo wykluczenie żąda dwóch rzeczy naraz, a pierwszej z nich ta klasa nie ma:
+czytanie `subst` formy `dobry` niesie przypadek, liczbę i rodzaj,
+a wykluczenie odbiera czytanie, które spełnia każde żądanie.
 Zostaje drugie miejsce, w którym tę parę da się rozciąć, czyli sąsiad:
 `koda` jest wyrazem, którego ten rejestr nie zna,
 a rzadkość formalnego znamienia nie ma,
@@ -143,6 +151,43 @@ nad prozą tego repozytorium rusza sześć zdań z 6 110,
 a nad korpusem audytowym ani jednego.
 Płaci więc nad bankiem drzew,
 a nad rejestrem, dla którego olski powstaje, nie kupuje nic.
+
+**Wykluczenie żąda dwóch rzeczy naraz, a czytanie przysłówkowe ma tylko pierwszą.**
+Przysłówek nie niesie ani przypadku, ani liczby, ani rodzaju,
+a okolicznik przysłówkowy przyjmuje całą część mowy,
+więc czytanie to spełnia każde żądanie, tak samo jak nuta.
+Drugą jest para, w której jedno czytanie jest tym, czym forma prawie zawsze jest,
+i takiej pary ta klasa nie ma.
+`obok`, `wokół`, `wewnątrz` i `zewnątrz` są naprawdę i przyimkiem, i przysłówkiem;
+`jak`, `kiedy`, `inaczej` i `tymczasem` naprawdę i spójnikiem, i przysłówkiem;
+`tak`, `tam`, `dziś`, `wczoraj` i `potem` są przysłówkami obok czytania rzeczownikowego.
+Każde z tych trzech sąsiedztw ma cenę policzoną tą samą miarą:
+czytanie przysłówkowe odebrane przy przyimkowym traci 234 zdania,
+przy spójnikowym 322, a przy rzeczownikowym 1099.
+Miara pyta o część mowy, a nie o cały tag,
+bo anotator wybrał jedno czytanie na token,
+a pozycja okolicznika nie pyta o stopień.
+
+**Kwalifikator odsyłający orzeka o leksemie, a nie o tym, czym forma jest w zdaniu.**
+Słownik opatruje `daw.` dokładnie te czytania przysłówkowe,
+których polszczyzna w tym rejestrze nie ma: `oraz`, `sam`, `zarówno`, `skoro`.
+Bank drzew potwierdza to za każdym razem:
+przysłówka nie wybrał tam anotator ani razu na 128 wystąpieniach `oraz`,
+59 `sam`, 18 `zarówno` i 14 `skoro`.
+Kryterium zdaje się przez to leżeć w danych gotowe,
+bo listę kwalifikatorów odsyłających to repozytorium już ma
+(`POZA_REJESTREM` w `olski/rejestr.py`),
+a traci 22 zdania i 21 z nich niesie `wraz`:
+słownik nazywa `wraz` dawnym w obu jego czytaniach,
+`wraz z` pisze i ten rejestr, i bank drzew,
+a przysłówek jest tym czytaniem, które anotator wybrał we wszystkich 21.
+Kwalifikator potoczny traci sześć zdań z tego samego powodu:
+`Czemu Kryśka beczy?` ktoś napisał, a `czemu` jest w tym zdaniu przysłówkiem.
+Rodzina, która nie traci ani jednego — `reg.` — obejmuje nad obydwoma korpusami
+dwie formy, `wszystko` i `taki`, czyli jest listą lematów, a nie kryterium.
+Decyzję, że analiza czytania odesłanego nie zdejmuje, tylko liczy je kosztem,
+ma na własność `olski/rejestr.py`; pomiar dokłada do niej jedno:
+nie zdejmuje go także wtedy, gdy formie zostaje czytanie drugie.
 
 ### Kilka procent zdań przyjętych opiera się na czytaniu, którego polszczyzna nie ma
 
