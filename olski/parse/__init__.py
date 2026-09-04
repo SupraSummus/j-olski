@@ -21,7 +21,7 @@ An Earley chart over the segmentation graph builds a forest with shared nodes:
 one :class:`Pozycja` per constituent shape,
 however many derivations stand under it,
 so six undecided attachments are six positions rather than sixty-four trees.
-The summaries come off that forest, one method of :class:`Las` each,
+The summaries come off that forest, one method each,
 and none of them needs another parser.
 docs/parsowanie.md#werdykt-jest-zapytaniem-o-las-a-nie-listą-czytań
 owns the argument for asking the forest rather than a list of trees,
@@ -36,15 +36,21 @@ pozycję, liść i węzeł.
 deklarację, którą dostaje od gramatyki, i wynik, który oddaje.
 ``olski.parse.tablica`` rozbiera zdanie tablicą Earleya,
 ``olski.parse.las`` odpowiada na pytania o las, który z tej tablicy wychodzi,
+``olski.parse.decyzje`` liczy z tego lasu decyzje, których czytania nie rozstrzygają,
 a ``olski.parse.streszczenie`` składa napis, którym werdykt nazywa jedno czytanie.
 Nazwa z podkreśleniem przechodzi tu przez granicę modułu,
 bo znaczy prywatne dla pakietu, a nie dla modułu:
 poza pakiet wychodzą same nazwy wyliczone w ``__all__``.
 
-Las zostaje jednym modułem, choć jest z nich największy.
-Każda jego metoda czyta prywatny stan tej samej tablicy i tych samych pamięci podręcznych,
-więc rozcięcie go dałoby drugi moduł sięgający do wnętrza pierwszego,
-a taki podział kosztuje więcej niż długość, którą zdejmuje.
+Rozcięcie między lasem a decyzjami idzie po stronie czytającej:
+:class:`Decyzje` do stanu lasu nie pisze i do jego pamięci podręcznych nie sięga.
+Ceną jest granica modułu, przez którą przechodzi cały odczyt lasu.
+Kupuje to jedną deklarację w konstruktorze zamiast w kluczu każdej pamięci podręcznej,
+którą te trzy podsumowania trzymają.
+
+Wyliczanie drzew zostaje przy lesie:
+przeplata się z jego krawędziami klasa po klasie i pisze do jego pamięci podręcznych,
+więc rozcięcie dałoby tam drugi moduł sięgający do wnętrza pierwszego.
 
 Funkcje wejściowe składają tablicę, las i podsumowania w jedną odpowiedź,
 więc są tutaj, i jest to jedyne miejsce, które je składa.
@@ -55,6 +61,7 @@ from __future__ import annotations
 from olski.grammar import Grammar
 from olski.morph import Segment
 from olski.parse.czytanie import Cykl, Leaf, Node, Pozycja, Tree
+from olski.parse.decyzje import Decyzje
 from olski.parse.las import MAX_READINGS, Las
 from olski.parse.podsumowanie import Deklaracja, Obsada, Przyłączenie, Result, Rozbieżność
 from olski.parse.streszczenie import (
@@ -131,15 +138,14 @@ def podsumuj(
         readings.append(tree)
         if len(readings) >= MAX_READINGS:
             break
-    różniące, przyłączenia, rozbieżności = (
-        ((), (), ())
-        if deklaracja is None
-        else (
-            zbudowany.różniące(deklaracja),
-            tuple(zbudowany.przyłączenia(deklaracja)),
-            tuple(zbudowany.rozbieżności(deklaracja)),
-        )
-    )
+    różniące: tuple[str, ...] = ()
+    przyłączenia: tuple[Przyłączenie, ...] = ()
+    rozbieżności: tuple[Rozbieżność, ...] = ()
+    if deklaracja is not None:
+        decyzje = Decyzje(zbudowany, deklaracja)
+        różniące = decyzje.różniące()
+        przyłączenia = tuple(decyzje.przyłączenia())
+        rozbieżności = tuple(decyzje.rozbieżności())
     return Result(
         ile,
         readings,

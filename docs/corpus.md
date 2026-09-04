@@ -827,7 +827,7 @@ Odpowiada na nie las, a nie lista czytań.
 Lista urywa się na `MAX_READINGS`,
 a wieloznaczne są dokładnie te zdania, na których ta granica pada,
 więc odpowiedź policzona po liście myliłaby brak czytania z jego numerem;
-`Las.ma_czytanie` w `olski/parse/las.py` pyta o to las.
+`Las.numer_czytania` w `olski/parse/las.py` pyta o to las.
 
 Miarą są role, czyli to, czym mierzy zgodność sekcja wyżej.
 Nawiasowanie miarą być nie może, bo dwie gramatyki grupują materiał każda po swojemu

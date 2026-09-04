@@ -185,7 +185,7 @@ streszczenie nazywa ten okolicznik całym napisem, bo jest on rolą,
 a w środek jego nie zagląda, bo podmiot spod spójnika jest podmiotem tamtego zdania.
 Zejście po role zatrzymuje się więc na takim węźle, a nie przed nim
 (`Node.find` w `olski/parse/czytanie.py`
-oraz `_pierwsza_rola` w `olski/parse/las.py`),
+oraz `_pierwsza_rola` w `olski/parse/decyzje.py`),
 a kosztuje to jeden warunek w obu zejściach po role.
 
 Widać po tym, do którego zdania okolicznik doszedł:

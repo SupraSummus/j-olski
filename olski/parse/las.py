@@ -1,6 +1,7 @@
-"""Pakowanie czytań, wyliczanie ich i podsumowania, o które werdykt pyta las.
+"""Pakowanie czytań, liczenie ich, wyliczanie i punkt, na którym stanęło odrzucenie.
 
 Czemu pyta się lasu, a nie listy czytań, wywodzi :class:`Las`.
+Decyzje, których czytania nie rozstrzygają, liczy z tego lasu ``olski.parse.decyzje``.
 """
 
 from __future__ import annotations
@@ -8,13 +9,11 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import replace
-from itertools import islice, product
+from itertools import product
 
 from olski.grammar import EMPTY, Env, Part, Production, Sym, Word, bierze, features_of, unify
 from olski.morph import Reading, Segment
 from olski.parse.czytanie import Cykl, Leaf, Node, Pozycja
-from olski.parse.podsumowanie import Deklaracja, Przyłączenie, Rozbieżność
-from olski.parse.streszczenie import ciało_koordynuje, sklej_formy, streszczenia
 from olski.parse.tablica import _Stan, _Tablica
 
 #: Cechy, z jakimi konstytuent wychodzi do rodzica, w postaci dającej się zahaszować.
@@ -38,11 +37,6 @@ Wybór = Leaf | Cechy
 #: and the answer past the second one is always the same: too many.
 #: The count itself is not capped, the forest giving it without walking the trees.
 MAX_READINGS = 64
-
-
-def _wewnątrz(węższa: tuple[int, int], szersza: tuple[int, int]) -> bool:
-    """Czy pierwsza rozpiętość mieści się w drugiej; rozpiętość równa mieści się w sobie."""
-    return węższa[0] >= szersza[0] and węższa[1] <= szersza[1]
 
 
 def _cięcie(ciało: tuple[Pozycja, ...]) -> tuple[tuple[int, int, str], ...]:
@@ -181,7 +175,8 @@ class Las:
         #: i wyliczenie drzewa wybiera stąd tę, która wypuszcza żądane
         #: (:meth:`_drzewa`).
         #: Odczytania form czyta za to z każdej z nich (:meth:`_wsparte_kształtu`).
-        self._krawędzie: dict[tuple[Pozycja, Klasa], dict[tuple, tuple[Production, ...]]] = {}
+        #: Wpisuje tu sama :meth:`klasy`, a czyta się przez :meth:`_krawędzie`.
+        self._krawędzie_lasu: dict[tuple[Pozycja, Klasa], dict[tuple, tuple[Production, ...]]] = {}
         self._czynne: set[Pozycja] = set()
         self._żywe_pary: set[tuple[Pozycja, Klasa]] | None = None
         self._rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] | None = None
@@ -195,12 +190,6 @@ class Las:
         #: takiego słownika nie ma: pyta o nie sama ta suma, więc jego klucz nie
         #: powtórzyłby się nigdy.
         self._wsparcia_kształtów: dict[tuple, tuple[frozenset, ...]] = {}
-        #: (para, etykieta, symbole mijane) → rozpiętości,
-        #: jakie pierwszy węzeł tej etykiety pod nią bierze.
-        self._pierwsze_role: dict[
-            tuple[tuple[Pozycja, Klasa], str, tuple[str, ...]],
-            frozenset[tuple[int, int] | None],
-        ] = {}
         #: (para, etykiety, żądane rozdanie) → rozdania, jakie ta para umie złożyć.
         #: Żądane jest w kluczu, bo to ono odsiewa:
         #: rozdania spoza niego nie ma tu wcale (:meth:`_rozdania`).
@@ -213,18 +202,6 @@ class Las:
         self._wybory_ciał: dict[tuple, tuple[Wybór, ...] | None] = {}
         self._przedstawiciele: dict[Pozycja, Node] = {}
         self._najdalszy: int | None = None
-        #: Pozycja → ciała, jakimi stoi w czytaniach (:meth:`_ciała_pozycji`).
-        self._ciała_pozycji_lasu: dict[Pozycja, set[tuple[Pozycja, ...]]] | None = None
-        #: Symbole zdań podrzędnych → pozycje, do których streszczenie zagląda.
-        self._widoczne_pozycje: dict[tuple[str, ...], set[Pozycja]] = {}
-        #: Symbole zdań składowych → pozycje, które streszczenie streszcza osobno.
-        self._składowe_pozycje: dict[tuple[str, ...], set[Pozycja]] = {}
-        #: (pozycja, deklaracja) → co pod nią widzą dwa pozostałe podsumowania (:meth:`_pod`).
-        self._pod_pozycją: dict[tuple[Pozycja, Deklaracja], tuple[bool, frozenset[int]]] = {}
-        #: Deklaracja → wybory przyłączenia, którym werdykt daje wiersz.
-        self._przyłączenia_lasu: dict[
-            Deklaracja, dict[int, tuple[Pozycja, tuple[str, ...]]]
-        ] = {}
 
     # -- tablica -------------------------------------------------------------#
 
@@ -370,13 +347,31 @@ class Las:
                     klasa = frozenset(wypuszczane)
                     ile = math.prod(liczba for _klasa, liczba in kombinacja)
                     klasy[klasa] = klasy.get(klasa, 0) + ile
-                    self._krawędzie.setdefault((pozycja, klasa), {}).setdefault(
+                    self._krawędzie_lasu.setdefault((pozycja, klasa), {}).setdefault(
                         tuple(zip(ciało, wybór, strict=True)), tuple(przeszłe)
                     )
         finally:
             self._czynne.discard(pozycja)
         self._klasy[pozycja] = klasy
         return klasy
+
+    def _krawędzie(self, para: tuple[Pozycja, Klasa]) -> dict[tuple, tuple[Production, ...]]:
+        """Kombinacje klas córek pod tą parą → produkcje, którymi każda z nich przeszła.
+
+        Krawędzie wpisuje :meth:`klasy`, więc pytanie o parę zaczyna się od
+        policzenia klas jej pozycji.
+        Kto czyta las, nie musi przez to wiedzieć,
+        czy ktoś przed nim policzył czytania.
+        Liczymy pozycję pytaną, a nie las od korzenia.
+        Liczeniem od korzenia jest samo :meth:`klasy` na korzeniu,
+        więc objęłoby ono pozycje, o które nikt w tym przebiegu nie pyta.
+
+        Para spoza klas swojej pozycji podnosi tu wyjątek.
+        Pustka udawałaby konstytuent, który stoi w czytaniu bez ani jednego ciała.
+        Liść tu nie dochodzi, bo klas nie ma (:meth:`wyprowadzenia`).
+        """
+        self.klasy(para[0])
+        return self._krawędzie_lasu[para]
 
     def _sposoby(
         self, część: Part, dziecko: Pozycja, cechy: Sequence[Cechy], env: Env
@@ -450,11 +445,13 @@ class Las:
                 return set()
         return {frozenset(features_of(production, env).items()) for env in środowiska}
 
-    # -- podsumowania ------------------------------------------------------- #
+    # -- liczba czytań ------------------------------------------------------ #
 
     def ile_czytań(self) -> int:
         """Ile czytań ma zdanie: suma po klasach korzenia, bez wyliczania drzew."""
         return sum(self.klasy(self.korzeń).values())
+
+    # -- zatrzymanie -------------------------------------------------------- #
 
     def najdalszy(self) -> int:
         """Dokąd doszła jakakolwiek analiza częściowa, czyli na czym odrzucenie stanęło.
@@ -602,6 +599,8 @@ class Las:
         self._prefiksy[klucz] = frozenset(środowiska)
         return self._prefiksy[klucz]
 
+    # -- wyliczanie drzew --------------------------------------------------- #
+
     def czytania(self) -> Iterator[Node]:
         """Czytania jako drzewa, po jednym na kształt.
 
@@ -618,7 +617,7 @@ class Las:
         """Drzewa tego konstytuentu, po jednym na kształt.
 
         Klasa, której żaden rodzic nie przyjmuje, nie wchodzi (:meth:`_żywe`),
-        więc drzew wychodzi tyle, ile mówi :meth:`_ile_kształtów`:
+        więc drzew wychodzi tyle, ile czytań ten konstytuent ma w czytaniach zdania:
         kształty pod taką klasą stoją w tablicy,
         a w żadnym czytaniu zdania nie stoją.
         Korzeń przechodzi przez ten odsiew bez straty, bo jego klasy są żywe wszystkie,
@@ -650,7 +649,7 @@ class Las:
         cała klasa, i idą osobno od żądanych, bo osobno od kształtu liczą się
         odczytania form pod nim (:meth:`_wsparte_kształtu`).
         """
-        for kombinacja, produkcje in self._krawędzie[(pozycja, klasa)].items():
+        for kombinacja, produkcje in self._krawędzie((pozycja, klasa)).items():
             wsparte = self._wsparte_kształtu(produkcje, kombinacja, dozwolone)
             for production in produkcje:
                 wybory = self._wybory_ciała(production, kombinacja, wymagane)
@@ -873,104 +872,6 @@ class Las:
                 return (wybór, *reszta)
         return None
 
-    # -- role, o które czytania się różnią ---------------------------------- #
-
-    def różniące(self, deklaracja: Deklaracja) -> tuple[str, ...]:
-        """Te z ról, które nie mają w każdym czytaniu tego samego wypełnienia.
-
-        Pytamy las, a nie streszczenia czytań.
-        Streszczeń jest najwyżej :data:`MAX_READINGS`,
-        a zdanie ustawy ma czytań dziesiątki tysięcy,
-        więc rola różniąca się dopiero za tą granicą nie zostałaby nazwana,
-        choć liczba obok niej granicy nie ma.
-
-        Jednym wystąpieniem roli jest to, które nazywa :func:`describe`,
-        czyli pierwsze w zdaniu składowym i spoza zdań podrzędnych.
-        Etykieta pada w czytaniu kilka razy, bo zdanie współrzędne ma własny podmiot,
-        a dwa podmioty stojące obok siebie w jednym czytaniu
-        nie mówią nic o różnicy między czytaniami.
-        Pytamy więc o zdanie całe i o każde jego składowe osobno.
-        Bez pytania o składowe werdykt milczy o roli, którą lista czytań rozdziela:
-        czytania różne dopiero w składowym drugim mają w pierwszym to samo.
-        Bez pytania o zdanie całe milczy o rozcięciu zdania na dwa,
-        bo każde składowe niesie wtedy jedną rozpiętość, stojąc w jednym z czytań.
-        Iloczynu po składowych stąd nie ma:
-        pytanie zadane każdemu osobno kosztuje tyle, ile ich jest,
-        a rozpiętości brane naraz mnożyłyby się jak czytania.
-
-        Porównujemy rozpiętości, a nie formy:
-        formy nad jedną rozpiętością są w każdym czytaniu te same,
-        a różni je podział na segmenty, którego streszczenie i tak nie pokazuje.
-        Rozpiętość ``None`` jest czytaniem bez tej roli,
-        tak jak streszczenie bez tego klucza.
-        """
-        składowe = self._składowe_lasu(deklaracja.składowe)
-        return tuple(
-            etykieta
-            for etykieta in deklaracja.role
-            if self._niezgodna(self.korzeń, etykieta, deklaracja.podrzędne)
-            or any(
-                self._niezgodna(pozycja, etykieta, deklaracja.podrzędne) for pozycja in składowe
-            )
-        )
-
-    def _niezgodna(self, pozycja: Pozycja, etykieta: str, podrzędne: tuple[str, ...]) -> bool:
-        """Czy pierwszy węzeł tej etykiety jest pod tą pozycją w kilku miejscach.
-
-        Klasa martwa nie wchodzi, i z tego samego powodu co w :meth:`_ile_kształtów`:
-        niezgoda ma być niezgodą między czytaniami.
-        Korzenia to nie dotyczyło, bo jego klasy są żywe wszystkie,
-        a pozycja zdania składowego bywa i martwa.
-        """
-        żywe = self._żywe()
-        wystąpienia = {
-            rozpiętość
-            for klasa in self.klasy(pozycja)
-            if (pozycja, klasa) in żywe
-            for rozpiętość in self._pierwsza_rola((pozycja, klasa), etykieta, podrzędne)
-        }
-        return len(wystąpienia) > 1
-
-    def _pierwsza_rola(
-        self, para: tuple[Pozycja, Klasa], etykieta: str, podrzędne: tuple[str, ...]
-    ) -> frozenset[tuple[int, int] | None]:
-        """Czym bywa pierwszy węzeł tej etykiety pod tą parą; ``None``, gdy go nie ma.
-
-        Ciało przechodzi się od lewej i kończy na pierwszej córce,
-        która tę rolę niesie w każdym swoim czytaniu:
-        dalsze córki są wtedy za pierwszym wystąpieniem i nie nazywają go.
-        Wyborów córek nic nie wiąże, więc suma po nich jest tym, co dają czytania,
-        a wyników jest tyle, ile rozpiętości, a nie ile drzew.
-
-        Córkę ze zdaniem podrzędnym mijamy tak jak liść,
-        bo rola z jej wnętrza jest rolą tamtego zdania (:attr:`Deklaracja.podrzędne`),
-        chyba że ta córka sama jest szukaną rolą:
-        okolicznik wyrażony zdaniem jest rolą, w której nazywa się całe zdanie,
-        a jego wnętrze zostaje mimo to nieotwarte, tak samo jak w :meth:`Node.find`.
-        """
-        pozycja, _klasa = para
-        if pozycja.label == etykieta:
-            return frozenset({pozycja.span})
-        klucz = (para, etykieta, podrzędne)
-        gotowe = self._pierwsze_role.get(klucz)
-        if gotowe is not None:
-            return gotowe
-        znalezione: set[tuple[int, int] | None] = set()
-        for kombinacja in self._krawędzie.get(para, {}):
-            bez_roli = True
-            for dziecko, klasa in kombinacja:
-                if dziecko.liść or (dziecko.label in podrzędne and dziecko.label != etykieta):
-                    continue
-                pod_córką = self._pierwsza_rola((dziecko, klasa), etykieta, podrzędne)
-                znalezione |= pod_córką - {None}
-                if None not in pod_córką:
-                    bez_roli = False
-                    break
-            if bez_roli:
-                znalezione.add(None)
-        self._pierwsze_role[klucz] = frozenset(znalezione)
-        return self._pierwsze_role[klucz]
-
     # -- czytanie nazwane rolami z zewnątrz --------------------------------- #
 
     def numer_czytania(self, role: Mapping[str, frozenset[tuple[int, int]]]) -> int | None:
@@ -1046,7 +947,7 @@ class Las:
         )
         zebrane: set[Rozdanie] = set()
         if not _ponad(własne, żądane):
-            for kombinacja in self._krawędzie.get(para, {}):
+            for kombinacja in self._krawędzie(para):
                 złożone = {własne}
                 for dziecko, klasa in kombinacja:
                     if dziecko.liść:
@@ -1059,288 +960,6 @@ class Las:
         self._rozdania_pary[klucz] = frozenset(zebrane)
         return self._rozdania_pary[klucz]
 
-    # -- przyłączenia ------------------------------------------------------- #
-
-    def przyłączenia(self, deklaracja: Deklaracja) -> list[Przyłączenie]:
-        """Modyfikatory, którym czytania dają więcej niż jednego gospodarza.
-
-        Jeden wpis na wybór, bo tyle wyborów zdanie zostawia.
-        Modyfikator występuje w każdym czytaniu raz,
-        więc dwóch gospodarzy jednej pozycji to dwa czytania różniące się tym przyłączeniem,
-        i zdanie o sześciu wyrażeniach przyimkowych
-        daje sześć wpisów wobec sześćdziesięciu czterech czytań.
-
-        Wyborem jest przyimek, a nie pozycja,
-        i dlatego pozycje o jednym początku wchodzą tu razem.
-        ``w pliku`` i ``w pliku w katalogu`` to dwie pozycje z dwóch różnych czytań,
-        a decyzja pod nimi jest jedna: gdzie przyłącza się wyrażenie otwarte przez ``w``.
-        Licząc po pozycjach, dostalibyśmy wpis na każdą parę przyimków,
-        czyli znów kwadrat zamiast długości zdania.
-        """
-        wybory = self._nazwane_przyłączenia(deklaracja)
-        return [
-            Przyłączenie(sklej_formy(self._przedstawiciel(pozycja).forms()), nazwy)
-            for _początek, (pozycja, nazwy) in sorted(wybory.items())
-        ]
-
-    def _nazwane_przyłączenia(
-        self, deklaracja: Deklaracja
-    ) -> dict[int, tuple[Pozycja, tuple[str, ...]]]:
-        """Początek modyfikatora → jego najkrótsza pozycja i głowy, o które czytania się spierają.
-
-        Osobno od :meth:`przyłączenia`, bo pyta o to samo drugi raz :meth:`rozbieżności`:
-        wybór nazwany tutaj jest wyborem, którego ona nie ma nazywać po raz drugi.
-        """
-        gotowe = self._przyłączenia_lasu.get(deklaracja)
-        if gotowe is not None:
-            return gotowe
-        u_kogo: dict[int, set[Pozycja]] = {}
-        najkrótsze: dict[int, Pozycja] = {}
-        for pozycja in sorted({para[0] for para in self._żywe()}, key=lambda p: p.span):
-            if pozycja.label != deklaracja.rozstrzygany:
-                continue
-            początek = pozycja.span[0]
-            najkrótsze.setdefault(początek, pozycja)
-            u_kogo.setdefault(początek, set()).update(
-                self._gospodarze(pozycja, deklaracja.gospodarze)
-            )
-        znalezione: dict[int, tuple[Pozycja, tuple[str, ...]]] = {}
-        for początek, pozycja in sorted(najkrótsze.items()):
-            # Etykieta rozstrzyga remis: `W skład rady wchodzą radni w liczbie.`
-            # daje gospodarzy `grupa_przymiotnikowa` i `grupa_imienna` o jednej rozpiętości,
-            # a zbiór ich nie porządkuje.
-            gospodarze_pozycji = sorted(u_kogo[początek], key=lambda p: (p.span, p.label))
-            if len(gospodarze_pozycji) < 2:
-                continue
-            # Dwie pozycje o jednej głowie są jednym wyborem,
-            # bo grupa imienna dłuższa o inny modyfikator jest tą samą grupą imienną.
-            nazwy = list(
-                dict.fromkeys(
-                    self._przedstawiciel(gospodarz).forma_głowy()
-                    for gospodarz in gospodarze_pozycji
-                )
-            )
-            if len(nazwy) < 2:
-                continue
-            znalezione[początek] = (pozycja, tuple(nazwy))
-        self._przyłączenia_lasu[deklaracja] = znalezione
-        return znalezione
-
-    def _gospodarze(self, pozycja: Pozycja, gospodarze: Sequence[str]) -> set[Pozycja]:
-        """Konstytuenty z ``gospodarze``, w których ten modyfikator stoi w którymś czytaniu.
-
-        Szukamy w górę, bo pytanie dotyczy tego, co modyfikator określa,
-        a nie tego, pod czym się znalazł:
-        okolicznik zdania sąsiaduje w drzewie z dopełnieniem, którego nie określa.
-        Modyfikator bez żadnego z tych konstytuentów nad sobą określa całe czytanie
-        i wychodzi stąd korzeniem, tak samo jak w :func:`_host`.
-        """
-        znalezione: set[Pozycja] = set()
-        obejrzane: set[tuple[Pozycja, Klasa]] = set()
-        stos = [para for para in self._żywe() if para[0] == pozycja]
-        while stos:
-            para = stos.pop()
-            if para in obejrzane:
-                continue
-            obejrzane.add(para)
-            rodzice = self._rodzicielskie().get(para, set())
-            if not rodzice:
-                znalezione.add(self.korzeń)
-            for rodzic in rodzice:
-                if rodzic[0].label in gospodarze:
-                    znalezione.add(rodzic[0])
-                else:
-                    stos.append(rodzic)
-        return znalezione
-
-    # -- rozbieżności poza zasięgiem streszczenia ---------------------------- #
-
-    def rozbieżności(self, deklaracja: Deklaracja) -> list[Rozbieżność]:
-        """Konstytuenty, którym czytania dają kilka kształtów tam, gdzie streszczenie nie zagląda.
-
-        Jeden wpis na wybór, tak jak w :meth:`przyłączenia`,
-        i wyborem jest tu konstytuent o kilku ciałach:
-        rozpiętość pozycja ma jedną, więc rozstrzygane jest w takim miejscu to,
-        z czego ona się składa, a nie to, gdzie stoi.
-        Ciała są po unifikacji, więc wpis dostaje konstytuent,
-        który naprawdę czyta się kilkoma sposobami;
-        po co werdyktowi ten wiersz, mówi :class:`Rozbieżność`.
-
-        Wykluczenia są trzy, po jednym na wiersz, który werdykt drukuje bez tego
-        podsumowania (:meth:`_nazwany_gdzie_indziej`), a po nich zostaje najwęższy
-        z konstytuentów: wpis, którego napis obejmuje napis innego wpisu, mówi o tym
-        samym słowie i o kilku obok niego, bo wieloznaczność wychodzi w górę.
-        ``równych praw kobiet`` czyta się dwoma sposobami przez samo ``równych``,
-        a ``równych praw kobiet i mężczyzn`` trzema, i naprawić trzeba jedno słowo.
-        """
-        kandydaci = [
-            pozycja
-            for pozycja, ciała in self._ciała_pozycji().items()
-            if len(ciała) > 1 and not self._nazwany_gdzie_indziej(pozycja, ciała, deklaracja)
-        ]
-        wybrani: list[Pozycja] = []
-        # Od najkrótszego, żeby każdy kandydat zastał już wybrane wszystko, co
-        # obejmuje. Remis rozstrzyga etykieta: dwie pozycje o jednej rozpiętości
-        # mówią o tych samych słowach, więc wpis dostaje jedna z nich.
-        for pozycja in sorted(kandydaci, key=lambda p: (p.span[1] - p.span[0], p.span, p.label)):
-            if not any(_wewnątrz(inny.span, pozycja.span) for inny in wybrani):
-                wybrani.append(pozycja)
-        return [
-            Rozbieżność(
-                sklej_formy(self._przedstawiciel(pozycja).forms()),
-                self._ile_kształtów(pozycja),
-                #  Kształtów wyliczamy tyle, ile czytań wylicza się nad zdaniem,
-                #  bo granica jest tu z tego samego powodu: wieloznaczność
-                #  konstytuentu mnoży się jak wieloznaczność zdania.
-                tuple(streszczenia(islice(self._kształty(pozycja), MAX_READINGS), deklaracja)),
-            )
-            for pozycja in sorted(wybrani, key=lambda p: (p.span, p.label))
-        ]
-
-    def _ile_kształtów(self, pozycja: Pozycja) -> int:
-        """Ile czytań ten konstytuent ma w czytaniach zdania.
-
-        Klasa, której żaden rodzic nie przyjmuje, nie wchodzi:
-        kształty pod nią stoją w tablicy, a w żadnym czytaniu zdania nie stoją
-        (:meth:`_żywe`), i liczba obok konstytuenta ma mówić o czytaniach.
-        Klasy żywej to nie dotyczy w środku,
-        bo klasą jest zbiór cech wypuszczanych,
-        więc rodzic przyjmuje każdy kształt z niej albo żaden.
-        """
-        żywe = self._żywe()
-        return sum(ile for klasa, ile in self.klasy(pozycja).items() if (pozycja, klasa) in żywe)
-
-    def _nazwany_gdzie_indziej(
-        self, pozycja: Pozycja, ciała: set[tuple[Pozycja, ...]], deklaracja: Deklaracja
-    ) -> bool:
-        """Czy o wyborze pod tą pozycją mówi już któryś z pozostałych wierszy werdyktu.
-
-        Ciąg współrzędny mówi go nawiasem w napisie roli,
-        więc kryterium jest tu to samo, co w :func:`ciało_koordynuje`.
-        Rolę nazywa :meth:`różniące`, a gospodarza modyfikatora :meth:`przyłączenia`,
-        i oba widzą dokładnie to, co :meth:`_pod` znajduje w ciałach tej pozycji.
-        Modyfikator o jednym gospodarzu wiersza tam nie ma,
-        więc wybór nad nim zostaje temu podsumowaniu.
-        """
-        if pozycja.label in deklaracja.współrzędne and any(
-            ciało_koordynuje(pozycja.label, (dziecko.label for dziecko in ciało))
-            for ciało in ciała
-        ):
-            return True
-        pod = [self._pod(dziecko, deklaracja) for ciało in ciała for dziecko in ciało]
-        if pozycja in self._widoczne(deklaracja.podrzędne) and any(rola for rola, _ in pod):
-            return True
-        nazwane = set(self._nazwane_przyłączenia(deklaracja))
-        return any(przyłączane & nazwane for _rola, przyłączane in pod)
-
-    def _pod(self, pozycja: Pozycja, deklaracja: Deklaracja) -> tuple[bool, frozenset[int]]:
-        """Co pod tą pozycją, ją samą licząc, widzą dwa pozostałe podsumowania.
-
-        Pierwsza odpowiedź mówi, czy stoi tu rola, którą nazwie :meth:`różniące`,
-        i zejście po nią kończy się na zdaniu podrzędnym, bo tam kończy je tamto
-        podsumowanie (:attr:`Deklaracja.podrzędne`).
-        Druga wylicza początki modyfikatorów, po których liczy wybory
-        :meth:`przyłączenia`, i granicy zdania podrzędnego nie zna, bo tamto też jej nie zna.
-        Jedno przejście na dwie odpowiedzi, bo obie pytają o to samo wnętrze,
-        a różni je tylko miejsce, w którym się zatrzymują.
-
-        Spamiętywanie jest tu bezpieczne bez straży na cykl:
-        pozycja stojąca sama pod sobą przerywa :meth:`klasy` wyjątkiem :class:`Cykl`,
-        więc pozycje żywe składają się w graf bez cyklu.
-        """
-        gotowe = self._pod_pozycją.get((pozycja, deklaracja))
-        if gotowe is not None:
-            return gotowe
-        przyłączane = {pozycja.span[0]} if pozycja.label == deklaracja.rozstrzygany else set()
-        rola = pozycja.label in deklaracja.role
-        # Liść klas nie ma, więc pętla nad nim się nie wykonuje i liść nie potrzebuje warunku.
-        for klasa in self.klasy(pozycja):
-            for kombinacja in self._krawędzie.get((pozycja, klasa), {}):
-                for dziecko, _klasa in kombinacja:
-                    rola_pod, przyłączane_pod = self._pod(dziecko, deklaracja)
-                    rola = rola or (rola_pod and pozycja.label not in deklaracja.podrzędne)
-                    przyłączane |= przyłączane_pod
-        self._pod_pozycją[(pozycja, deklaracja)] = (rola, frozenset(przyłączane))
-        return self._pod_pozycją[(pozycja, deklaracja)]
-
-    def _ciała_pozycji(self) -> dict[Pozycja, set[tuple[Pozycja, ...]]]:
-        """Pozycja → ciała, jakimi ona w czytaniach stoi, czyli same krotki córek.
-
-        Klasy z ciała schodzą, bo dwa ciała różne samą klasą córki
-        są jednym wyborem tej pozycji i różnym wyborem tamtej córki,
-        a wpisów ma być tyle, ile wyborów.
-        Liścia nie ma tu ani wśród kluczy, ani w ciele:
-        czytaniem liścia jest sama rozpiętość, więc etykiety i ciała nie ma (:class:`Pozycja`).
-        """
-        if self._ciała_pozycji_lasu is not None:
-            return self._ciała_pozycji_lasu
-        zebrane: dict[Pozycja, set[tuple[Pozycja, ...]]] = {}
-        for para in self._żywe():
-            for kombinacja in self._krawędzie.get(para, {}):
-                ciało = tuple(dziecko for dziecko, _klasa in kombinacja)
-                zebrane.setdefault(para[0], set()).add(ciało)
-        self._ciała_pozycji_lasu = zebrane
-        return zebrane
-
-    def _widoczne(self, podrzędne: tuple[str, ...]) -> set[Pozycja]:
-        """Pozycje, do których streszczenie zagląda: od korzenia i bez wchodzenia w podrzędne.
-
-        Tą samą drogą chodzi :meth:`Node.find` po drzewie,
-        więc pozycja spoza tego zbioru jest pozycją, o której streszczenie milczy.
-        Zdanie podrzędne samo do zbioru wchodzi, bo mijane jest jego wnętrze,
-        i nie ma to znaczenia: etykietą roli ono nie jest.
-        """
-        gotowe = self._widoczne_pozycje.get(podrzędne)
-        if gotowe is not None:
-            return gotowe
-        znalezione: set[Pozycja] = set()
-        stos = [self.korzeń]
-        while stos:
-            pozycja = stos.pop()
-            if pozycja in znalezione:
-                continue
-            znalezione.add(pozycja)
-            if pozycja.label in podrzędne:
-                continue
-            for klasa in self.klasy(pozycja):
-                for kombinacja in self._krawędzie.get((pozycja, klasa), {}):
-                    stos.extend(
-                        dziecko for dziecko, _klasa in kombinacja if not dziecko.liść
-                    )
-        self._widoczne_pozycje[podrzędne] = znalezione
-        return znalezione
-
-    def _składowe_lasu(self, składowe: tuple[str, ...]) -> set[Pozycja]:
-        """Pozycje zdań składowych, czyli te, które streszczenie streszcza osobno.
-
-        Od korzenia i bez wchodzenia w składowe już znalezione,
-        bo składowym ciągu jest zdanie najwyższe w gałęzi,
-        i tą samą drogą chodzi po drzewie :func:`_początki_składowych`.
-        Pozycje z różnych czytań stoją tu obok siebie i nie zlewają się:
-        zdanie, którego czytania rozcinają je w różnych miejscach,
-        daje jedną pozycję na każde takie rozcięcie,
-        a pytanie o rolę zadaje się każdej z nich osobno.
-        """
-        gotowe = self._składowe_pozycje.get(składowe)
-        if gotowe is not None:
-            return gotowe
-        znalezione: set[Pozycja] = set()
-        odwiedzone: set[Pozycja] = set()
-        stos = [self.korzeń]
-        while stos:
-            pozycja = stos.pop()
-            if pozycja in odwiedzone:
-                continue
-            odwiedzone.add(pozycja)
-            if pozycja.label in składowe:
-                znalezione.add(pozycja)
-                continue
-            for klasa in self.klasy(pozycja):
-                for kombinacja in self._krawędzie.get((pozycja, klasa), {}):
-                    stos.extend(dziecko for dziecko, _klasa in kombinacja if not dziecko.liść)
-        self._składowe_pozycje[składowe] = znalezione
-        return znalezione
-
     def _żywe(self) -> set[tuple[Pozycja, Klasa]]:
         """Pary pozycja–klasa, które stoją w którymś czytaniu.
 
@@ -1351,27 +970,34 @@ class Las:
         if self._żywe_pary is not None:
             return self._żywe_pary
         żywe: set[tuple[Pozycja, Klasa]] = set()
-        rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] = {}
         stos = [(self.korzeń, klasa) for klasa in self.klasy(self.korzeń)]
         while stos:
             para = stos.pop()
             if para in żywe:
                 continue
             żywe.add(para)
-            for kombinacja in self._krawędzie.get(para, {}):
-                for dziecko, klasa in kombinacja:
-                    if dziecko.liść:
-                        continue
-                    rodzice.setdefault((dziecko, klasa), set()).add(para)
-                    stos.append((dziecko, klasa))
+            for kombinacja in self._krawędzie(para):
+                stos.extend((dziecko, klasa) for dziecko, klasa in kombinacja if not dziecko.liść)
         self._żywe_pary = żywe
-        self._rodzice = rodzice
         return żywe
 
     def _rodzicielskie(self) -> dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]]:
-        self._żywe()
-        assert self._rodzice is not None
-        return self._rodzice
+        """Para pozycja–klasa → pary, w których ciałach ona stoi.
+
+        Z par żywych, a nie osobnym zejściem od korzenia:
+        rodzicem ma być ten, kto sam stoi w którymś czytaniu.
+        Liść klucza nie dostaje, bo klasy nie ma i parą lasu nie jest.
+        """
+        if self._rodzice is not None:
+            return self._rodzice
+        rodzice: dict[tuple[Pozycja, Klasa], set[tuple[Pozycja, Klasa]]] = {}
+        for para in self._żywe():
+            for kombinacja in self._krawędzie(para):
+                for dziecko, klasa in kombinacja:
+                    if not dziecko.liść:
+                        rodzice.setdefault((dziecko, klasa), set()).add(para)
+        self._rodzice = rodzice
+        return rodzice
 
     def _przedstawiciel(self, pozycja: Pozycja) -> Node:
         """Jedno z drzew tej pozycji, do nazwania jej.

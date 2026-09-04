@@ -74,19 +74,19 @@ czy analiza częściowa ten stan w ogóle przewidziała.
 Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse/las.py`:
 to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.
 
-Krawędzie lasu wypełniają się przy okazji liczenia klas, a czyta je osiem metod.
-Do `self._krawędzie` w `olski/parse/las.py` pisze wyłącznie `klasy`,
-a czytają je `_drzewa`, `_pierwsza_rola`, `_rozdania`, `_pod`, `_ciała_pozycji`,
-`_widoczne`, `_składowe_lasu` i `_żywe`.
-Żadna z nich nie odpowiada dziś pustką, bo każda woła wcześniej `klasy`
-na pozycji dominującej te pary, o które potem pyta, a `klasy` schodzi rekurencyjnie.
-Warunku tego nie widać jednak w żadnej sygnaturze i wychodzi on dopiero z lektury ciał:
-siedem czytelników bierze `.get(para, {})`, czyli po pomyłce odpowie cicho pustką,
-a `_drzewa` bierze klucz wprost i podniesie wyjątek.
-Ruchem jest liczenie krawędzi na żądanie, tak jak liczy się `_żywe`,
-po którym czytelnik przestaje zależeć od tego, czy ktoś przed nim policzył czytania.
-Zabiera to przy okazji `_rodzicielskie`, które istnieje tylko po to,
-żeby wyprać pole ustawiane obok tego, które `_żywe` zwraca.
-Do przeczytania jest, czy krawędzie wolno liczyć od korzenia raz:
-dziś każda z tych metod woła `klasy` na swojej pozycji,
-a liczenie od korzenia objęłoby pozycje, o które nikt w danym przebiegu nie pyta.
+Zatrzymanie stoi w module o lesie, a lasu nie pyta prawie o nic.
+`najdalszy` wraz z `_przechodzi`, `_przed_formą`, `_zaczyna_się_tu` i `_prefiks`
+w `olski/parse/las.py` chodzi po stanach tablicy i unifikuje przebyte ciała,
+a z lasu bierze `klasy` oraz `_dołóż`, czyli samą unifikację nad córką.
+Bliżej mu przez to do `olski/parse/tablica.py` niż do modułu o kształtach.
+Warunkiem jest wyniesienie tej unifikacji:
+`_sposoby`, `_dołóż` i `_przejdź` wraz z `_czytania_liścia`
+składają się na jednego współpracownika, którego wołają i las, i zatrzymanie,
+a docstring `_sposoby` mówi, że unifikacja dotyka lasu w tym jednym miejscu,
+więc kawałek jest już nazwany.
+Ceny nie widać z góry i to jest tu przeszkoda:
+`_sposoby` leży na najgorętszej ścieżce parsera —
+woła je liczenie klas, wyliczanie drzew i to drugie przejście —
+więc wyniesienie ich za granicę modułu żąda pomiaru czasu, a nie samego odcisku.
+Do przeczytania jest wpis o kolejce symboli w `_przed_formą`:
+rusza ten sam kod, więc oba ruchy wolno zrobić jednym.

@@ -80,7 +80,7 @@ Ciąg współrzędny wewnątrz wypełnienia roli nie ma po werdykcie żadnego wi
 Nawias pokazuje granicę członu tylko nad ciągiem, którym jest sama rola
 (`_nawiasuj` w `olski/parse/streszczenie.py`),
 a wiersz o konstytuencie ustępuje mu miejsca nad każdym ciągiem
-(`_nazwany_gdzie_indziej` tamże),
+(`_nazwany_gdzie_indziej` w `olski/parse/decyzje.py`),
 więc `Ustawa określa zadania ochrony ludności i obrony cywilnej.`
 zostaje samą liczbą czytań i tak zostaje garść werdyktów rejestru ustaw
 oraz pojedyncze zdania wieloznaczne Składnicy
@@ -115,7 +115,7 @@ więc `Począł myśleć gorączkowo.` tego wiersza nie ma,
 choć różnicę ma tę samą co `Począł myśleć nad ranem.`, gdzie on stoi,
 i `harness.czytania` liczy takie zdanie w klasie „sama liczba czytań”.
 Rolę tę trzyma `rozstrzygany` w `DEKLARACJA` (`olski/subset/deklaracja.py`),
-a czyta ją `Las.przyłączenia` wraz z warstwą rozstrzygającą.
+a czyta ją `Decyzje.przyłączenia` wraz z warstwą rozstrzygającą.
 Ruchem jest wpuszczenie do tego pola pozostałych ról z `przyłączane`,
 a cena jest podwójna: warstwa nad takim przyłączeniem milczy,
 bo tabela skłonności i leksykon walencyjny mówią o przyimkach,
