@@ -463,6 +463,24 @@ i obu wieloznaczność daje przyłączenie wewnątrz grupy, a nie sam łącznik.
 `To jest tanie.` wyprowadza się przy tym bez tej produkcji,
 bo `to` jest w nim rzeczownikiem w podmiocie.
 
+### Grupa przed łącznikiem jest córką opuszczalną
+
+`To prawda.`, `To nie kot.`, `Przekonał się, że to gra interesów.` —
+łącznik orzeka i wtedy, gdy przed nim nie stoi nic,
+bo orzeka wtedy o tym, co padło w zdaniu obok.
+
+Kilkadziesiąt zdań Składnicy schodzi przez to ciało z odrzucenia,
+w większości przyjętych jednoznacznie,
+a role nowo przyjętych zgadzają się z drzewem wzorcowym niemal wszędzie.
+Pod złotą morfologią ceny nie ma żadnej:
+ani jedno zdanie przyjęte wcześniej nie traci jednoznaczności.
+Pod żywą traci ją kilka zdań, a płaci za nie słowo stojące za łącznikiem:
+`To była istna makabra!` czyta się odtąd także z `była istna makabra` w podmiocie,
+bo `była` jest u Morfeusza zarazem przymiotnikiem `były`,
+a anotator banku drzew wybrał tam czas przeszły.
+Nad prozą tego repozytorium zakupu nie ma, a jedno zdanie płaci tak samo:
+`Pyta, kto płaci i czy to działa.` bierze `działa` za mianownik mnogi od `działo`.
+
 ### Przy kopuli ten sam łącznik ma trzy szyki, a zgodność wybiera podmiot
 
 `Był to nieforemny chłopak.`, `To są oczywistości.`, `Kot to jest zwierzę.` —
@@ -520,10 +538,39 @@ a po tym dopisaniu schodzi poniżej dwunastu wierszy, które
 Zdań przyjętych przybyło kilkadziesiąt, czyli wiersz spadł o więcej,
 niż dopisanie przyjmuje: zdanie dalej odrzucone zatrzymuje się odtąd gdzie indziej.
 
-Poza ciałami zostaje przeczenie bez czasownika i bez grupy przed łącznikiem:
-`To nie kot.` jest odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się.
-Jest to osobne ciało i osobna liczba, której nikt nie policzył;
-`todo/` trzyma ten przebieg.
+### Zdanie z łącznikiem dostaje miejsce na okolicznik jak każde inne
+
+`Był to wczoraj problem.`, `Są to w przeważającej większości lasy sosnowe.`,
+`Nie jest to jednak recepta.` —
+okolicznik stoi w zdaniu z łącznikiem tam, gdzie stoi w zdaniu z czasownikiem.
+Miejsca te wylicza rozwinięcie szyku
+([subset.md](../subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
+więc ciało wpisane obok rozwinięcia nie ma ani jednego z nich,
+a po samym ciele tego nie widać: miejsc nie wypisuje żadne.
+
+Cena jest tu wyższa od zakupu.
+Nad Składnicą pod złotą morfologią schodzi z odrzucenia kilkanaście zdań,
+a jednoznaczność traci kilkanaście innych.
+Pod żywą morfologią tyle samo schodzi z odrzucenia,
+a jednoznaczność traci kilka zdań mniej.
+Nad prozą tego repozytorium ani jedno zdanie nie schodzi z odrzucenia do przyjęcia:
+kilka schodzi z niego do wieloznaczności, a kilka traci jednoznaczność.
+
+Czytania, które te zdania dostają, dzielą się na dwa rodzaje.
+Cząstka i przysłówek orzekający o całym zdaniu dostają czytanie prawdziwe:
+`To jest dopiero przyjemność!` znaczy jedno z `dopiero` przy zdaniu,
+a drugie z `dopiero przyjemność` w jednej grupie, i olski wypisuje odtąd oba,
+gdzie wcześniej wybierał drugie przez przeoczenie
+([subset.md](../subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
+Przysłówek stopnia dostaje czytanie fałszywe:
+`Sebastian to niesłychanie ciepły, pracowity i dobry człowiek.` czyta się odtąd
+także z `niesłychanie` przy całym zdaniu.
+Jest to [płaska lista okoliczników](okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę),
+czyli usterka starsza od tej pozycji, a pozycja daje jej nowy kształt zdania.
+
+Cenę tę przyjmujemy, bo odrzucenie widać w kolejce blokerów,
+a wyboru przez przeoczenie nie widać nigdzie
+([roadmap.md](../roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
 ## Predykatyw orzeka bez podmiotu i rządzi ramą czasownika
 
@@ -598,15 +645,15 @@ a cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc bez tych dwóch wartości `Trzeba będą zmierzyć cenę.` się wyprowadza.
 Trzecia osoba pojedyncza jest jedyną, w której polszczyzna to zdanie pisze.
 
-Ciało jest jedno i stawia `bedzie` za predykatywem.
-`Będzie trzeba zmierzyć cenę.` polszczyzną jest i zostaje odrzucone:
-szyk odwrotny jest osobnym ciałem i osobną liczbą,
-której nikt nie policzył, a wpis trzyma `todo/`.
+Ciała są dwa i różni je miejsce formy `bedzie`:
+obok zdania wyżej stoi `Będzie trzeba zmierzyć cenę.`
+Dwa, a nie jedno z pozycją przestawną, bo cena każdego szyku jest osobną liczbą.
 
-Zakup jest liczony w pojedynczych zdaniach banku drzew
-i po stronie ceny nie ma nic: ani jedno zdanie przyjęte nie staje się
+Zakup każdego z nich jest liczony w pojedynczych zdaniach banku drzew,
+a po stronie ceny nie ma nic: ani jedno zdanie przyjęte nie staje się
 wieloznaczne, pod żadną z dwóch morfologii.
-Nad prozą tego repozytorium nie rusza ani jednego werdyktu,
+Szyk odwrotny prowadzi przy tym `będzie można`, a nie `będzie trzeba`.
+Nad prozą tego repozytorium nie rusza ani jednego werdyktu żaden z dwóch,
 bo ten rejestr tej formy nie pisze.
 Wiersz `bedzie` w kolejce blokerów po tej konstrukcji nie pustoszeje:
 zostaje w nim garść zdań, a dlaczego, mówi

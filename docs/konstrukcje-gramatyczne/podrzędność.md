@@ -508,7 +508,7 @@ nie wysuwa niczego: podporządkowuje je spójnik, a zdanie pod nim jest całe.
 ```text
 Czy program zapisuje ustawienia?
 Pyta, czy go to dotyczy.
-Pyta, kto płaci i czy to działa.
+Pyta, kto płaci i czy program działa.
 ```
 
 Czoło jest przez to osobnym ciałem, a nie lematem dopisanym do listy zaimków,

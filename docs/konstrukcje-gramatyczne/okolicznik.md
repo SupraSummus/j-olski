@@ -66,11 +66,25 @@ a w niej cztery słowa, które olski bierze albo wyklucza osobno:
 a `by` żąda trybu przypuszczającego, którego ta gramatyka nie ma
 ([subset.md](../subset.md#what-it-does-not-cover-yet)).
 Lista jest więc zamknięta, a kryterium na wejście jedno:
-cząstka ma nie mieć czytania, które gramatyka bierze już gdzie indziej,
+lemat ma nie dawać jednemu napisowi dwóch wyprowadzeń,
 i tym samym warunkiem stoją obok siebie dwie klasy
 [spójnika zdaniowego](zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają).
 Poza listą zostaje przez to `to`, które ma ponadto własną pozycję,
 a tej olski nie ma ([subset.md](../subset.md#what-it-does-not-cover-yet)).
+
+Samo drugie czytanie kryterium nie łamie, i pokazuje to `prawie`.
+Morfeusz czyta ten lemat zarazem miejscownikiem od `prawo`,
+a miejscownika bez przyimka przed sobą nie bierze żadna rola,
+więc dwa wyprowadzenia jednego napisu z tego czytania nie wychodzą:
+`Ustawa stoi w prawie.` czyta się rzeczownikiem, i tylko nim,
+a `Prawie każda usterka siedzi po stronie Pythona.` cząstką.
+Pomiar mówi to samo.
+Nad Składnicą kilkanaście zdań schodzi przez ten lemat z odrzucenia
+pod jedną morfologią i pod drugą, nad prozą tego repozytorium kilka,
+a jednoznaczności nie traci ani jedno zdanie w żadnym z tych trzech przebiegów.
+Sprawdzenie po stronie listy pyta o czytanie, a kryterium o wyprowadzenie,
+więc tego jednego lematu sprawdzenie nie obejmuje; pilnuje go zdanie
+(`tests/test_okolicznik.py`).
 
 ## Określenie przed zdaniem wchodzi pod to, które stoi za nim
 

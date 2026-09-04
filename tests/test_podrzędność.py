@@ -652,7 +652,10 @@ def test_pytanie_o_rozstrzygnięcie_nie_dubluje_się_z_koordynacją():
     #  tego pilnuje ta para.
     pytanie = verdict("Pyta, czy go to dotyczy.")
     assert pytanie.status == "valid", pytanie.explain()
-    ciąg = verdict("Pyta, kto płaci i czy to działa.")
+    #  Drugi człon ma podmiot rzeczownikowy, a nie `to`: łącznik `to` bierze
+    #  rzeczownik za sobą (``olski/subset/zdanie.py``), więc `czy to działa`
+    #  wychodzi dwoma czytaniami i mierzyłoby tu co innego niż czoło pytania.
+    ciąg = verdict("Pyta, kto płaci i czy program działa.")
     assert ciąg.status == "valid", ciąg.explain()
 
 

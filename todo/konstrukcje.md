@@ -1,30 +1,5 @@
 # Konstrukcje, których gramatyka nie ma
 
-Zdanie z łącznikiem `to` nie ma miejsca na okolicznik.
-`Był to wczoraj problem.` jest odrzucone, gdzie `Był to problem w Warszawie.`
-wyprowadza się, a to drugie kontrprzykładem nie jest:
-wyrażenie przyimkowe dochodzi tam do rzeczownika, a nie do zdania.
-Ciała tej konstrukcji pisze `grammar.rule` w `olski/subset/zdanie.py`,
-a nie rozwinięcie szyku, które miejsca na okolicznik wylicza
-([`docs/subset.md`](../docs/subset.md#zdanie-deklaruje-córki-a-warunek-deklaruje-szyk)),
-więc dziury tej nie widać po żadnym z ciał z osobna.
-Ruchem jest ta sama córka, którą bierze reszta zdań składowych, wraz z pomiarem.
-Do przeczytania jest przedtem, ile czytań to miejsce dokłada:
-`Flaga to płat tkaniny w muzeum.` jest wieloznaczne już bez niego,
-bo wyrażenie przyimkowe ma tam dwa miejsca przyłączenia, a nie jedno.
-
-Przeczenie przy łączniku `to` nie ma ciała w zdaniu bez grupy przed łącznikiem,
-a twierdzenie nie ma go tak samo.
-`To nie kot.` i `To kot.` są odrzucone, gdzie `Parser to nie kompilator.` wyprowadza się
-i gdzie `To nie są oczywistości.` i `To jest kot.` też
-([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
-Ruchem jest piąte ciało tej konstrukcji wraz z pomiarem,
-bo cena każdego ciała jest osobną liczbą ([CLAUDE.md](../CLAUDE.md#code)).
-Do przeczytania jest przedtem rozkład zakupu na cztery ciała, które weszły:
-przeczenie z grupą przed łącznikiem wzięło zdanie albo dwa nad Składnicą
-i ani jednego nad prozą tego repozytorium,
-więc piąte ciało wycenia się wobec tamtej liczby, a nie wobec szyku `Był to`.
-
 Ciąg pytań zależnych nie bierze pytania z orzecznikiem jako członu pierwszego.
 `Pyta, co to jest i czy to działa.` staje na `czy`,
 a `Pyta, co to jest.` oraz `Pyta, kto płaci i czy to działa.` wyprowadzają się,
@@ -296,16 +271,6 @@ pozycja dopisana zabiera zdaniu jednoznaczność i zabiera mu zarazem werdykt
 nieprawdziwy, a wybór między tymi dwiema liczbami rozstrzyga kierunek
 ([`docs/roadmap.md`](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 
-Szyk `Będzie trzeba zmierzyć cenę.` nie ma ciała, a wywód i zdanie odrzucone stoją
-w [`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem).
-Ruchem jest drugie ciało tej samej pary produkcji wraz z pomiarem,
-bo cena każdego ciała jest osobną liczbą.
-Do przeczytania jest przedtem, czy ten szyk nie daje drugiego czytania zdaniu,
-które dziś wychodzi jednoznaczne:
-`bedzie` orzeka też samo
-([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony)),
-a predykatyw za nim stanąłby wtedy tam, gdzie stoi orzecznik.
-
 Okolicznik narzędnikowy nie ma pozycji przed zdaniem, a polszczyzna go tam stawia:
 `Wieczorem wziął lustro.` pada, `Wziął lustro wieczorem.` przechodzi,
 i pierwszy szyk wypisuje tor składu, więc obieg na nim nie zamyka się
@@ -468,20 +433,3 @@ Ruchem jest ciało zaimka z tym jednym wyrażeniem, a nie elipsa głowy w ogóle
 i cena jest inna niż tamtej, bo `z nich` jest napisem, którego przydawka nie bierze.
 Do przeczytania jest, ile takich zdań ma bank drzew, bo proza repozytorium
 pisze `który z nich` i `każdy z nich` co kilka dokumentów, a Składnicy nikt nie zapytał.
-
-Cząstka `prawie` przed grupą imienną nie ma pozycji.
-`Każda usterka siedzi po stronie Pythona.` wyprowadza się,
-a `Prawie każda usterka siedzi po stronie Pythona.` staje na `siedzi`,
-gdzie `Niemal każda usterka siedzi po stronie Pythona.` wyprowadza się.
-Morfeusz daje obu słowom część mowy `part`,
-a `CZĄSTKI` w `olski/subset/słowa.py` ma `niemal` i nie ma `prawie`,
-i to jest cała różnica.
-Jest to ten sam brak co `tylko` wewnątrz grupy
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)),
-tyle że `tylko` zostaje poza listą przez czytanie spójnikowe,
-a `prawie` niesie obok cząstki czytanie miejscownika od `prawo`,
-którego bez przyimka nie bierze nic.
-Ruchem jest lemat dopisany do tej listy wraz z pomiarem,
-a do przeczytania jest przedtem, ile zdań banku drzew stawia `prawie`
-przed czasownikiem, bo lista daje cząstce oba miejsca naraz
-i tam zdanie dostanie drugie czytanie.

@@ -169,12 +169,17 @@ def _szyki_zdania_składowego(
     # Wartości cechy `negacja` ciało z cząstką nie wypuszcza, choć reszta gramatyki
     # wypuszcza ją razem z cząstką (:data:`PRZECZENIA`): czyta tę cechę dopełnienie,
     # a dopełnienia zdanie z łącznikiem nie bierze.
+    #
+    # Grupa przed łącznikiem jest córką opuszczalną: `To kot.` i `To nie kot.`
+    # są polszczyzną. Rozwinięciem szyku, a nie ciałem wypisanym, bo miejsca na
+    # okolicznik wylicza tylko ono, a `Był to wczoraj problem.` jest polszczyzną.
     for przeczenie, _ in PRZECZENIA:
-        grammar.rule(
-            "zdanie_składowe",
-            [nt(ORZECZNIK_ŁĄCZNIKA), Głowa(ŁĄCZNIK), *przeczenie, podmiot],
-            tryb=TRYB_OZNAJMUJĄCY,
-        )
+        for grupa in ((), (nt(ORZECZNIK_ŁĄCZNIKA),)):
+            zdanie.dominacja(
+                "zdanie_składowe",
+                [*grupa, Głowa(ŁĄCZNIK), *przeczenie, podmiot],
+                tryb=TRYB_OZNAJMUJĄCY,
+            )
     grammar.rule(ORZECZNIK_ŁĄCZNIKA, [nt("grupa_imienna", case="nom")])
 
     # Ten sam łącznik przy formie osobowej kopuli, w trzech szykach: `Był to
@@ -190,9 +195,13 @@ def _szyki_zdania_składowego(
     #
     # Ciała są trzy, a nie jedno z pozycją opuszczalną, bo cena każdego szyku jest
     # osobną liczbą; ile który kupił, mówi dokument wyżej.
-    grammar.rule("zdanie_składowe", [Głowa(kopula), ŁĄCZNIK, podmiot])
-    grammar.rule("zdanie_składowe", [ŁĄCZNIK, Głowa(kopula), podmiot])
-    grammar.rule(
+    #
+    # Rozwinięciem szyku, tak jak ciała wyżej. Kopula stoi tu samym orzeczeniem,
+    # a nie grupą orzeczenia, więc okolicznika nie bierze sama i miejsce obok niej
+    # drugim wyprowadzeniem jednego napisu nie jest.
+    zdanie.dominacja("zdanie_składowe", [Głowa(kopula), ŁĄCZNIK, podmiot])
+    zdanie.dominacja("zdanie_składowe", [ŁĄCZNIK, Głowa(kopula), podmiot])
+    zdanie.dominacja(
         "zdanie_składowe",
         [nt(ORZECZNIK_ŁĄCZNIKA), ŁĄCZNIK, Głowa(kopula), podmiot],
     )
@@ -210,6 +219,7 @@ def _szyki_zdania_składowego(
     # Wywody trzymają
     # docs/konstrukcje-gramatyczne/orzeczenie.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika oraz
     # docs/konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
+    forma_przyszła = word("bedzie", number="sg", person="ter")
     for przeczenie, negacja in PRZECZENIA:
         grammar.rule(
             ORZECZENIE_BEZOSOBOWE,
@@ -218,19 +228,23 @@ def _szyki_zdania_składowego(
             negacja=negacja,
             druga=BEZ_DRUGIEJ,
         )
-        # Czas przyszły tej głowy: `Trzeba będzie zmierzyć cenę.` Liczba i osoba
-        # stoją wypisane wartością, a nie zmienną, bo predykatyw nie niesie ani
-        # jednej, a cechy, której konstytuent nie niesie, unifikacja nie sprawdza:
-        # bez tych dwóch wartości `Trzeba będą zmierzyć cenę.` się wyprowadza.
-        # Szyk odwrotny i cenę trzyma
+        # Czas przyszły tej głowy, w obu szykach: `Trzeba będzie zmierzyć cenę.`
+        # i `Będzie trzeba zmierzyć cenę.` Liczba i osoba stoją wypisane wartością,
+        # a nie zmienną, bo predykatyw nie niesie ani jednej, a cechy, której
+        # konstytuent nie niesie, unifikacja nie sprawdza: bez tych dwóch wartości
+        # `Trzeba będą zmierzyć cenę.` się wyprowadza. Cenę każdego szyku osobno mówi
         # docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
-        grammar.rule(
-            ORZECZENIE_BEZOSOBOWE,
-            [*przeczenie, Głowa(PREDYKATYW), word("bedzie", number="sg", person="ter")],
-            valency=RAMA_BEZOSOBOWA,
-            negacja=negacja,
-            druga=BEZ_DRUGIEJ,
-        )
+        for ciało in (
+            [*przeczenie, Głowa(PREDYKATYW), forma_przyszła],
+            [*przeczenie, forma_przyszła, Głowa(PREDYKATYW)],
+        ):
+            grammar.rule(
+                ORZECZENIE_BEZOSOBOWE,
+                ciało,
+                valency=RAMA_BEZOSOBOWA,
+                negacja=negacja,
+                druga=BEZ_DRUGIEJ,
+            )
         for zwrotne, cząstka in ((False, ()), (True, (CZĄSTKA_ZWROTNA,))):
             for warunek, rama, druga in _klasy(zwrotne):
                 grammar.rule(

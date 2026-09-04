@@ -503,6 +503,28 @@ def test_przeczenie_stoi_przy_łączniku_i_bez_czasownika_i_z_czasownikiem():
     assert bez_czasownika.status == "valid", bez_czasownika.explain()
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Problem to bowiem gramatyka.",
+        "Problem to bowiem nie gramatyka.",
+        "To bowiem problem.",
+        "To bowiem nie problem.",
+        "Był to bowiem problem.",
+        "To był bowiem problem.",
+        "Kot to jest bowiem zwierzę.",
+    ],
+)
+def test_okolicznik_wchodzi_w_każde_ciało_zdania_z_łącznikiem(text):
+    #  Usterka, którą to łapie: ciało łącznika wpisane przez `grammar.rule` zamiast
+    #  przez rozwinięcie szyku. Miejsca na okolicznik wylicza rozwinięcie
+    #  (``olski/precedencja.py``), więc ciało wpisane obok niego ich nie ma,
+    #  a po samym ciele tego nie widać: miejsc na okolicznik nie wypisuje ani jedno.
+    #  Zdanie na ciało, bo ciało pominięte gubi dokładnie jedno z nich.
+    found = verdict(text)
+    assert found.status == "valid", found.explain()
+
+
 def test_łącznik_żąda_lematu_a_nie_samej_części_mowy():
     #  Usterka, którą to łapie: ciało łącznika napisane na samą część mowy `pred`.
     #  Predykatyw stoi wtedy między dwiema grupami w mianowniku i olski przyjmuje
