@@ -96,9 +96,12 @@ def test_klasa_bierze_się_ze_zdania_i_z_poprawki_naraz(wpis, klasa):
 @pytest.mark.parametrize(
     ("zdanie", "grupa"),
     [
-        #  Nazwy własnej ani angielskiego czasownika nie bierze ani jedna produkcja,
-        #  więc wpis o takim zdaniu żąda licencji formy, a nie produkcji.
-        ("Robocopy kompaktuje pliki.", BEZ_LICENCJI),
+        #  Formy przyimkowej zaimka postawionej bez przyimka nie bierze żaden
+        #  terminal, bo wykluczenie opróżniło ją z czytań, więc wpis o takim
+        #  zdaniu żąda licencji formy, a nie produkcji. Nazwa, której słownik nie
+        #  zna, tej klasy nie robi: czyta się rzeczownikiem nieoznaczonym
+        #  (docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym).
+        ("Cena niego rośnie.", BEZ_LICENCJI),
         #  Licencję ma tu każda forma, a analiza staje na bezokoliczniku.
         ("Kot jadać rybę.", ZATRZYMANIE),
         #  Analiza dochodzi do końca zdania, a nic go nie domyka,

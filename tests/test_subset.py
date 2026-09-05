@@ -383,8 +383,6 @@ def test_a_valid_sentence_says_what_fills_each_role():
         "Nowa program zapisuje ustawienia.",
         #  The verb is plural and neither noun is.
         "Program zapisują ustawienie.",
-        #  A form Morfeusz does not know cannot be given a part of speech.
-        "Program zapisuje plikx.",
         #  The predicative disagrees with the subject in gender.
         "Ludzie są wolna.",
         #  So does the modal, which inflects for gender and not for person.
@@ -456,15 +454,17 @@ def test_these_have_no_reading(text):
 
 def test_odrzucenie_odróżnia_formę_bez_produkcji_od_struktury_bez_produkcji():
     #  Dwie odpowiedzi, które Świgra trzyma osobno, i dwie różne roboty do
-    #  zrobienia. Formy, której Morfeusz odmienioną nie zna, nie bierze żaden
+    #  zrobienia. Formy, którą wykluczenie opróżniło z czytań, nie bierze żaden
     #  terminal; Nowa program ma każdą formę wziętą i stoi na zgodności rodzaju,
     #  więc test pilnuje, żeby zdania zostały dwa.
     #
-    #  Formą jest tu nazwa obca, a nie `commitów`, bo słowo, które leksykon
-    #  projektu nazywa, ma czytania i licencję (`olski.toml`), więc
-    #  odpowiedź pierwszą pokazuje dopiero forma spoza tego leksykonu.
-    forma = verdict("Modele stawiają prozę wyżej od New Yorkera.")
-    assert forma.nielicencjonowane == ("Yorkera",)
+    #  Formą jest tu forma przyimkowa zaimka postawiona bez przyimka, a nie napis
+    #  spoza słownika: o tym drugim słownik milczy, a milczenie słownika daje mu
+    #  czytanie rzeczownika nieoznaczonego
+    #  (docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym),
+    #  więc odpowiedź pierwszą pokazuje dopiero czytanie odebrane.
+    forma = verdict("Cena niego rośnie.")
+    assert forma.nielicencjonowane == ("niego",)
     assert "żadna produkcja nie bierze" in forma.explain()
     struktura = verdict("Nowa program zapisuje ustawienia.")
     assert struktura.nielicencjonowane == ()

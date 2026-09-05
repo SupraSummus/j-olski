@@ -27,6 +27,8 @@ from olski.subset.słowa import (
     CZĄSTKA_PRZY_LICZEBNIKU,
     CZĄSTKA_ZWROTNA,
     FORMA_POPRZYIMKOWA,
+    JEDNOSTKA,
+    LICZBA,
     PIĘCIE,
     PRZECINEK,
     PRZYIMEK,
@@ -383,6 +385,18 @@ def _grupa_imienna(grammar: Grammar, przydawka: Sym, przydawka_nierozdzielna: Sy
         gender="n",
         person="ter",
     )
+
+    # Liczba z jednostką: `2 GB`, `5 km`. Cyfra sama nie niesie morfologii, więc
+    # liczebnikiem pisanym cyfrą ta gramatyka nie liczy niczego
+    # (docs/konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
+    # a para z jednostką wchodzi mimo to, bo jest całą grupą imienną: nie rządzi
+    # niczym pod sobą i niczego pod sobą nie uzgadnia.
+    #
+    # Cech ta pozycja nie wypuszcza żadnych i jest to ta sama odpowiedź, którą
+    # dostaje forma nieznana (`NIEOZNACZONY` w ``olski/segmentacja.py``): o
+    # przypadku, rodzaju ani liczbie takiej pary nie mówi tu nic, bo nie mówi tego
+    # ani cyfra, ani skrót. Głową jest jednostka, bo to ona jest rzeczownikiem.
+    grammar.rule("człon_imienny", [LICZBA, Głowa(JEDNOSTKA)], person="ter")
 
     # Zaimek jest tym jednym członem, który niesie własną osobę, i po to jedno tu
     # stoi: bez niego podmiot w pierwszej i w drugiej osobie nie ma czym być.

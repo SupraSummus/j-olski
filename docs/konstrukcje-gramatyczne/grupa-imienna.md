@@ -521,8 +521,7 @@ i po werdykcie czyta się to jak usterka narzędzia,
 a nie jak zdanie, które da się poprawić.
 
 Odmowa jest więc rozstrzygnięciem, a nie przeoczeniem,
-i cena jest po jej stronie: cyfra zostaje formą,
-której żadna produkcja nie bierze, i werdykt tak o niej mówi.
+i cena jest po jej stronie: `Termin wynosi 14 dni.` zostaje odrzucone.
 Wejście żąda dwóch rzeczy, których cyfra sama nie mówi, i tylko jedną da się odczytać.
 Które z dwóch przyłączeń zachodzi, mówi rzeczownik po cyfrze:
 `14 dni` ma dopełniacz mnogi, więc liczebnik jest tam rządzący,
@@ -533,6 +532,28 @@ więc grupa bez tej wartości spełnia każde żądanie przypadka w zdaniu.
 Wejście stoi na tym drugim i jest to warstwa nad morfologią, a nie produkcja,
 która wchodzi tym samym kryterium, co każda inna
 ([parsowanie.md](../parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej)).
+
+Jedna para z cyfrą wchodzi mimo to i jest nią liczba z jednostką:
+`2 GB`, `5 km`, `10 zł`.
+Cyfrę niesie tu ta sama krawędź `dig`, a po niej stoi skrót o tagu `brev`,
+i para ta niczym pod sobą nie rządzi ani niczego pod sobą nie uzgadnia,
+więc dwóch przyłączeń, których cyfra nie rozstrzyga, nie ma tu wcale:
+ciało jest jedno i jest nim cały człon imienny.
+Cech ta pozycja nie wypuszcza żadnych i jest to ta sama odpowiedź,
+którą dostaje forma, o której słownik milczy
+([warstwa-leksykalna.md](../warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)):
+o przypadku, rodzaju ani liczbie nie mówi tu nic ani cyfra, ani skrót.
+Granicą jest tag, a nie znaczenie słowa:
+`14 dni` ma po cyfrze rzeczownik i pada dalej,
+a skrót pisany z kropką — `7 proc.`, `2 tys.` — zostaje na zewnątrz,
+bo jego kropkę bierze już koniec zdania i pary nie ma wtedy czym domknąć.
+
+Cenę tej pozycji płaci werdykt nad zdaniem odrzuconym.
+Cyfra ma odtąd terminal, więc nie jest już formą, o której werdykt mówi,
+że nie bierze jej żadna produkcja,
+i `Termin wynosi 14 dni.` nazywa miejsce, do którego analiza doszła,
+zamiast nazywać `14`
+([subset.md](../subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 
 ## Liczebnik orzeka o tym, ile czegoś jest
 

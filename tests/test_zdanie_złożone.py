@@ -371,14 +371,21 @@ def test_zdanie_bierze_jeden_znak_rozdzielający_a_nie_ciąg_takich_znaków():
     assert dwa.status == "rejected", dwa.explain()
 
 
-@pytest.mark.parametrize(("znak", "status"), [("—", "valid"), ("–", "valid"), ("-", "rejected")])
-def test_myślnik_rozdziela_zdanie_a_łącznik_nie(znak, status):
-    #  Usterka, którą to łapie: łącznik dopisany do lematów myślnika. Polszczyzna
-    #  spaja nim wewnątrz wyrazu — `UTF-8` — a rozdzielanie zdania należy do pauzy
-    #  i półpauzy, więc znaki są trzy i tylko dwa z nich rozdzielają
-    #  (:data:`olski.subset.MYŚLNIK`).
+@pytest.mark.parametrize("znak", ["—", "–", "-"])
+def test_myślnik_rozdziela_zdanie_każdym_ze_swoich_trzech_znaków(znak):
+    #  Terminal bierze pauzę i półpauzę (:data:`olski.subset.MYŚLNIK`), a łącznik
+    #  dostaje ich lemat w warstwie morfologicznej, bo tylko tam widać spacje
+    #  wokół niego.
     found = verdict(f"Cena jest niska {znak} gramatyka jest bezkontekstowa.")
-    assert found.status == status, found.explain()
+    assert found.status == "valid", found.explain()
+
+
+def test_łącznik_w_środku_wyrazu_zdania_nie_rozdziela():
+    #  Usterka, którą to łapie: łącznik dopisany do lematów myślnika. Polszczyzna
+    #  spaja nim wewnątrz wyrazu — `UTF-8` — więc rozdziela dopiero ten, wokół
+    #  którego stoją spacje (`ŁĄCZNIK_ROZDZIELAJĄCY` w ``olski/segmentacja.py``).
+    found = verdict("Cena jest niska-gramatyka jest bezkontekstowa.")
+    assert found.status == "rejected", found.explain()
 
 
 @pytest.mark.parametrize("lemat", sorted(SPÓJNIKI_PRZECINKOWE))

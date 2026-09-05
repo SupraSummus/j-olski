@@ -369,8 +369,8 @@ niż ma ich to zdanie.
 `wypełnienia` nad `docs/subset.md` budują się trzema produkcjami
 z `olski/subset/zdanie.py` — przez `dopełnienie`, przez `orzecznik`
 i przez okolicznik narzędnikowy —
-bo [notacja rejestru](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
-dostaje czytanie nieodmienne i stoi przez to w każdym przypadku.
+bo [notacja rejestru](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)
+przypadka nie niesie i stoi przez to w każdym.
 Czytania są z tego dwa, bo okolicznik narzędnikowy dochodzi tu do czasownika
 ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
 a orzecznik ginie u rodzica.

@@ -249,10 +249,10 @@ Zdań z odczytaniem przybywa tam podobnie wiele, a przyjętych ubywa kilkanaści
 forma czytana w kilku przypadkach naraz staje odtąd i w tym okoliczniku,
 więc drugie czytanie dostaje każde zdanie, w którym taka forma zajmuje rolę.
 Nazwa własna i nazwa urzędu mają to po Morfeuszu — `Jan`, `minister` i `redaktor`
-niosą czytanie żeńskie nieodmienne obok męskiego — a w tym rejestrze mają to
-[notacja](../warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+niosą czytanie żeńskie nieodmienne obok męskiego — a w tym rejestrze ma to
+[forma, o której słownik milczy](../warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)
 oraz [napis przytoczony](zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
-bo czytanie nieodmienne spełnia każde żądanie przypadku i spełnia też to.
+bo czytanie, które przypadka nie rozstrzyga, spełnia każde jego żądanie i spełnia też to.
 `Zobacz docs/subset.md.` traci przez to jednoznaczność,
 a `tests/test_subset.py` trzyma tę cenę wypisaną zdaniami.
 Nad prozą tego repozytorium ubywa przez to kilku zdań przyjętych,

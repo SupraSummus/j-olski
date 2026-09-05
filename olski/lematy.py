@@ -41,6 +41,13 @@ ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
 #: drugi raz (``_cudzysłów`` w ``olski/werdykt/odrzucone.py``).
 ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
 
+#: Znaki myślnika: pauza i półpauza. Polszczyzna rozdziela nimi zdanie, a łącznik
+#: spaja jej wewnątrz wyrazu. Ten rejestr pisze przy tym myślnik także łącznikiem,
+#: i rozstrzyga to warstwa morfologiczna, bo tylko ona widzi spacje wokół znaku
+#: (``olski/segmentacja.py``); terminal pyta o sam lemat (``olski/subset/słowa.py``).
+ZNAK_MYŚLNIKA = "—"
+ZNAK_PÓŁPAUZY = "–"
+
 #: Cząstka przecząca jako lemat, bo pyta o nią terminal, którym olski przeczy,
 #: wykluczenie w klasie spójników bez przecinka (``olski/subset/słowa.py``)
 #: oraz warstwa nad plikiem żądań: pod przeczeniem dopełnienie w bierniku staje

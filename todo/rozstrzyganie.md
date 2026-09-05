@@ -221,7 +221,7 @@ Warstwa rozstrzygająca tnie gospodarza inaczej niż gramatyka, kiedy jest nim n
 `_czytania` w `olski/rozstrzyganie.py` woła `analyse`,
 więc `docs/linter.md` wraca pięcioma lematami —
 `docs`, `linter`, `md` oraz kropka i ukośnik —
-a `morphology` w `olski/segmentacja.py` ma tam jedną krawędź o czytaniu nieodmiennym.
+a `morphology` w `olski/segmentacja.py` ma tam jedną krawędź o czytaniu nieoznaczonym.
 Nie kończy się to milczeniem:
 gospodarz `docs/linter.md` dopasowuje się do słowa `linter`
 stojącego w akapicie gdziekolwiek,

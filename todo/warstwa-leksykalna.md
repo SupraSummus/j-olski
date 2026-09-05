@@ -144,71 +144,33 @@ Do rozstrzygnięcia jest przedtem cena: `olski/konfiguracja.py` czyta się przy
 imporcie i nie żąda dziś Morfeusza w żadnym trybie,
 a check ten kazałby żądać go każdemu, kto pyta o samą konfigurację.
 
-Czytanie nieodmienne, którym wchodzi notacja i wersalik, bierze rolę okolicznika
-narzędnikowego, bo spełnia każde żądanie przypadku, także narzędnika.
-`Wprowadzenie streszcza README.` wychodzi czworgiem odczytań,
-a dwa z nich stawiają `README` w okoliczniku narzędnikowym przy `streszcza`;
-`Cały wywód prowadzi docs/linter.md.` wychodzi sześcioma,
-choć [`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
-mówi o dwóch, SVO i OVS, i zdanie to jest tam nieaktualne.
-Polszczyzna nie stawia nazwy pliku w narzędniku sposobu,
+Czytanie nieoznaczone, które dostaje forma nieznana słownikowi, bierze rolę
+okolicznika narzędnikowego, bo przypadka nie niesie, a więc nie odmawia żadnemu.
+`Wprowadzenie streszcza README.` wychodzi z czytaniem, w którym `README` jest
+narzędnikiem sposobu przy `streszcza`, i tak samo `Cały wywód prowadzi docs/linter.md.`
+Polszczyzna nazwy pliku w narzędniku sposobu nie stawia,
 więc jest to czytanie, którego czytelnik nie ma, a nie cena wieloznaczności.
-Ruchem jest `NIEODMIENNY` w `olski/segmentacja.py` bez narzędnika
-albo warunek na okoliczniku narzędnikowym odmawiający czytaniu nieodmiennemu,
-i przed nim pomiar nad prozą repozytorium, bo notacja stoi w niej gęsto
+Ruchem jest warunek na okoliczniku narzędnikowym odmawiający czytaniu,
+które przypadka nie rozstrzyga
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)),
+a przed nim pomiar nad prozą repozytorium, bo notacja stoi w niej gęsto
 i liczba zdań, którym ubędzie odczytań, jest tym, co ten ruch kupuje.
+Warunku nie ma gdzie postawić po stronie samego czytania:
+nie niesie ono ani jednego przypadka, więc nie ma czego mu odjąć.
 Do przeczytania jest przedtem, czy tego samego czytania nie bierze orzecznik
 narzędnikowy przy kopuli, bo `Wprowadzenie jest streszczeniem README.`
-wychodzi trojgiem odczytań i jedno z nich orzeka samym `README`.
+ma wśród czytań to, które orzeka samym `README`.
 
-Nazwa z podkreśleniem nie jest notacją i nie ma czytania:
-`Pole liczba_czytań wychodzi z lasu.` pada na `liczba_czytań`,
-a `Pole urwane wychodzi z lasu.` przechodzi.
-Morfeusz oddaje taki napis jednym segmentem `ign`,
-a `NOTACJA` w `olski/segmentacja.py` żąda kropki albo ukośnika między członami,
-więc klucz JSON-a, nazwa symbolu gramatyki i nazwa stałej pisana małymi literami
-nie wchodzą, choć wersalik z podkreśleniem — `NAJWIĘCEJ_ZNAKÓW` — wchodzi
-[warunkiem na wersalik](../docs/warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym).
-Rejestr pisze te nazwy wprost: `docs/witryna.md` nazywa klucze odpowiedzi,
-a każdy dokument o gramatyce nazywa `wyrażenie_przyimkowe` i `okolicznik_zdaniowy`.
-Ruchem jest podkreślenie jako trzeci znak spajający we wzorcu notacji,
-a ceny po stronie polszczyzny nie ma, bo żadne polskie słowo podkreślenia nie niesie.
-Do przeczytania jest komentarz nad tym wzorcem, bo wylicza on cztery żądania
-i mówi, przed czym każde broni, a piąte ma powiedzieć to samo o sobie.
-
-Nazwa własna pisana wielką literą, której słownik nie zna,
-nie ma do olskiego żadnej drogi.
-`Uruchamia go z tego repozytorium Scalingo.` pada na `Scalingo`,
-tak samo `Flask`, `FastAPI`, `React`, `Procfile` i `PyPI`,
-a `README` i `WSGI` przechodzą, bo są pisane samymi wersalikami.
-Czytania nieodmiennego taka forma nie dostaje, bo warunek pyta o wersalik
-([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)),
-a do leksykonu projektu nie wejdzie z dwóch powodów:
-`Scalingo` polszczyzna nie odmienia, więc świadek nie może różnić się od lematu,
-czego żąda `_sprawdź_świadka` w `olski/projekt.py`,
-a `Flask` i `React` ta proza pisze w samym mianowniku,
-więc świadka nie ma skąd wziąć.
-Wpis o nazwie angielskiej pisanej małą literą tego nie obejmuje,
-bo tam czytanie nieodmienne byłoby fałszywe, a tu jest jedyne prawdziwe.
-Ruchem jest albo trzeci warunek obok notacji i wersalika,
-czyli wielka litera na czele formy, której słownik nie czyta wcale,
-a nie na czele zdania, albo wpis leksykonu bez świadka
-dla słowa deklarowanego jako nieodmienne.
-Zakup pierwszego jest zmierzony nad prozą tego repozytorium i jest to kilkanaście zdań,
-z tego jedenaście przeczytanych ręką i wszystkie polskie —
-`Opróżnia więzienie Qasr ze wszystkich kryminalistów.`
-oraz `Kończy się ono przed tablicą Earleya, więc tablica dostaje ciała wypisane.` —
-a ani jedno nie jest zdaniem angielskim,
-bo forma angielska stoi w środku zdania małą literą.
-Warunek bez wielkiej litery, czyli czytanie nieodmienne dla każdej formy nieznanej,
-odpada właśnie na tym: kupuje wielokrotnie więcej zdań,
-a przeczytane są w większości angielskie
-i `The cutting applies to words that buy nothing.` wychodzi wtedy jednym odczytaniem.
-Cena warunku z wielką literą jest widoczna bez Składnicy i jest podwójna:
-`Punkty gromadzi Beenhakkera.` wyprowadza się z tą formą w podmiocie,
-bo czytanie nieodmienne spełnia każde żądanie przypadku,
-a `Cena Scalingo Beenhakkera Qasr rośnie.` wychodzi kilkunastoma odczytaniami,
-bo nazwy nieznane przedłużają łańcuch imienny jedna za drugą.
-Do przeczytania zostaje cena nad Składnicą,
-bo rejestr prasowy pisze wielką literą nazwisko, którego SGJP nie ma,
-i takie nazwisko dostałoby czytanie nieodmienne, choć polszczyzna je odmienia.
+Sekcja angielska tej dokumentacji czyta się jako łańcuch nieoznaczonych rzeczowników.
+Wynika to wprost z rozstrzygnięcia o formie, której słownik nie zna,
+i przeczytane jest co do zdania: z blisko dwustu zdań prozy repozytorium,
+które to rozstrzygnięcie wyprowadza, mniej niż co czwarte jest angielskie
+([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
+Do rozstrzygnięcia jest, czy przebieg nad prozą ma takie zdanie mijać.
+Reguły pisania mówią, w jakim języku ma powstawać nowy akapit,
+a nie mówią, co olski ma czytać, więc kryterium trzeba by napisać osobno,
+i najtańsze pyta o samo zdanie: zdanie bez ani jednej polskiej formy odmiennej
+jest zdaniem, o którym olski nie ma nic do powiedzenia.
+Ceny tego kryterium nie zmierzył nikt, a widać ją bez pomiaru:
+zabiera ono zdanie polskie zbudowane z samych nazw.
+Wpis zamyka się także przekładem sekcji angielskich na polski.

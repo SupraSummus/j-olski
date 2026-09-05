@@ -243,7 +243,3 @@ def analyse(text: str) -> list[Segment]:
         for (start, end, form), readings in sorted(edges.items())
     ]
 
-
-def unknown(segments: list[Segment]) -> list[Segment]:
-    """Return the segments Morfeusz could not recognize at all."""
-    return [segment for segment in segments if not segment.known]

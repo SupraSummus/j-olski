@@ -215,8 +215,13 @@ a `czy` jest pytaniem o rozstrzygnięcie, którego ta gramatyka nie ma
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
 Pod Morfeuszem wiersz ten schodzi niżej,
 bo przed nim staje zdanie, którego całości nic nie domyka,
-spójnik otwierający zdanie, forma nieznana słownikowi i liczba.
-Dalej w obu kolejkach idą czas przeszły, przyimek i bezokolicznik,
+rzeczownik, bezokolicznik, przyimek i czas przeszły.
+Wiersz rzeczownika niesie tam formę, o której słownik milczy,
+bo czytanie dostaje ona rzeczownikowe
+([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)),
+więc zatrzymanie na nazwie narzędzia nazywa się tak samo
+jak zatrzymanie na rzeczowniku, który w słowniku stoi.
+Dalej idą w obu kolejkach spójnik i forma osobowa,
 a przy samym dole stoją `pcon` oraz `siebie`, każdy z garścią zdań.
 Konstrukcje, po których te dwa wiersze się nazywają, gramatyka ma
 ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)),
@@ -364,9 +369,9 @@ so without the entry saying `działać` takes none
 the numeral would have made this sentence ambiguous rather than accepted.
 
 One thing in that run belongs to the register and not to the queue.
-A form Morfeusz does not know stops a sentence,
+A form Morfeusz does not know is a form the grammar has to place,
 and gold morphology leaves a treebank no such form to rank,
-which is why [warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+which is why [warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)
 and [the lexicon beside it](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)
 own it.
 It is a demand on the grammar that this register makes and the treebank cannot,
@@ -375,10 +380,12 @@ rather than to read the queue alone.
 Both halves of it are met.
 The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
-reaches the grammar as one indeclinable noun rather than as five segments,
-and the inflected Polish word Morfeusz lacks — `commitów`, `Pythonem` —
+reaches the grammar as one noun rather than as five segments,
+and that noun declares no case, number or gender,
+because the dictionary knows nothing about the form and neither does olski;
+the inflected Polish word Morfeusz lacks — `commitów`, `Pythonem` —
 is declared word by word instead,
-because an indeclinable reading would be wrong for it rather than merely unknown.
+which is what narrows it from that noun to the case it actually stands in.
 The treebank could not have raised the first of those:
 notation occurs in these 13,035 sentences a handful of times,
 web addresses and `10.000zł` and `II.16`,
@@ -1057,9 +1064,11 @@ Składnica's tags are NKJP's and Morfeusz 2's are its own,
 and the reader translates the four names they differ on
 [above](#where-the-analyses-stop),
 so the two blocker rankings carry the same labels.
-What stays asymmetric is the live run's `ign` row —
-hundreds of sentences stopped on a form Morfeusz does not know —
-which the gold run cannot have.
+What stays asymmetric is the live run's noun row,
+which carries the forms Morfeusz does not know on top of the ones it does:
+a form the dictionary is silent about reads as a noun
+([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)),
+and a treebank's gold tags leave no such form to rank.
 The live blocker is also less precise than it looks:
 a rejected sentence stopped because *no* reading of that form could continue,
 and where the gold run has one reading to name
