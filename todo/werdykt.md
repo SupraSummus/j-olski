@@ -337,14 +337,3 @@ Ruchem jest więc najpierw ta informacja przeniesiona przez ekstrakcję,
 a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repozytorium:
 bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
 i ani razu trafnie.
-
-Wykrywacz imiesłowu bez podmiotu trafia nad cudzym tekstem w zdania, których nikt nie poprawia:
-trafienia nad NKJP przeczytano co do jednego i żadnego czytelnik nie potwierdził
-([`docs/subset.md`](../docs/subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
-Ruchem oczywistym jest zawężenie po głowie roli i ono nie wystarcza:
-zdjęcie predykatywu zabiera większość trafień fałszywych, resztę zostawia,
-a przy tym przeczy wpisowi korpusu usterek, który nazywa usterką `można`.
-Do rozstrzygnięcia jest, czy tożsamość wykonawcy domyślnego obu orzeczeń
-da się orzec z czegokolwiek, co to repozytorium ma;
-jeżeli nie, ruchem jest zdjęcie reguły z kodu,
-a dwa wpisy korpusu usterek wracają wtedy do ciszy.

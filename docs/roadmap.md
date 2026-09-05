@@ -29,7 +29,7 @@ i mówi o tym [jego sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
 
 Sprawdzacz polskiego tekstu dla autora, który pisze po polsku
 i chce znaleźć w tekście usterki głębsze niż literówka i błąd składni:
-zaimek, którego nie da się rozwiązać, imiesłów bez podmiotu,
+zaimek, którego nie da się rozwiązać,
 orzeczenie, które nie nazywa wykonawcy.
 Autorem bywa człowiek, a bywa agent AI,
 i dla tego drugiego narzędzie jest sposobem na dobrą polszczyznę,
@@ -365,9 +365,7 @@ Zdjęta została natomiast wieloznaczność ze znalezisk,
 bo baza nie potwierdziła ani jednego jej zgłoszenia
 ([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 Ta sama liczba trzyma za flagą regułę o rzeczach z tego samego zdania
-([subset.md](subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą))
-i regułę o imiesłowie przy orzeczeniu bezosobowym
-([subset.md](subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
+([subset.md](subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
 
 Liczbą drugą jest wykrycie nad korpusem usterek.
 `próba/usterki.txt` wylicza zdania z usterką, którą czytelnik by poprawił,
@@ -380,9 +378,10 @@ a liczba jest pełna, gdy każdy wpis wychodzi wykryty albo czysty.
 Drugą jest dlatego, że wykrywacz pisze się pod wpis tego korpusu
 i w ten wpis trafia z założenia.
 Czy ma trafiać nad cudzym tekstem, mówi dopiero baza sądów:
-wykrywacz imiesłowu bez podmiotu zgłasza dwa zdania korpusu,
-a z trzynastu zdań, które zgłosił nad NKJP, czytelnik nie potwierdził żadnego
-([subset.md](subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
+wykrywacz imiesłowu bez podmiotu zgłaszał dwa zdania korpusu,
+a z trzynastu zdań, które zgłosił nad NKJP, czytelnik nie potwierdził żadnego,
+i wycofaliśmy go
+([linter.md](linter.md#reguła-o-imiesłowie-bez-podmiotu-myliła-się-w-każdym-trafieniu)).
 Sumy z tych dwóch liczb nie ma: wykrycie bez trafności awansuje regułę,
 która strzela nad polszczyzną autora.
 Przebieg nad korpusem ustawia za to kolejkę roboty
