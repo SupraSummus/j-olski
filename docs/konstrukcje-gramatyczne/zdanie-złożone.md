@@ -393,8 +393,10 @@ więc `„to nie zdanie”` zostaje na zewnątrz.
 Cudzysłów obejmuje w tej prozie także `„B”`, `„nie”` i `„Daj”`,
 czyli napisy, o których zdanie orzeka, a nie słowa, którymi orzeka.
 Polszczyzna ich nie odmienia, więc produkcja nie ma tu czego przepuszczać,
-a napis dostaje rzeczownik nieodmienny, ten sam, który dostaje wersalik
-([warstwa-leksykalna.md](../warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)).
+a napis dostaje rzeczownik nieodmienny: wszystkie siedem przypadków i rodzaj nijaki.
+Nieodmienność jest tu wiedzą i tym różni się przytoczenie od formy,
+o której słownik milczy, a która przypadka nie niesie wcale
+([warstwa-leksykalna.md](../warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
 Nazwa litery zapisana słownie wyprowadza się bez tej pozycji,
 bo `wu` i `ce` słownik daje jako rzeczowniki nieodmienne,
 a litera zapisana znakiem jest u słownika skrótem — `B` pod lematem `bajt` —
@@ -417,7 +419,9 @@ więc `Znam „szybko”.` pada dalej:
 słownik daje tej formie wołacz rzeczownika `szybka`,
 którym dopełnienia nikt nie zbuduje, a przytoczenia on już nie dopuszcza.
 
-Cena jest ta sama, którą płaci wersalik, a do niej dochodzi jedna osobna:
+Cena jest ta sama, którą płaci forma, o której słownik milczy
+([warstwa-leksykalna.md](../warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)),
+a do niej dochodzi jedna osobna:
 zdanie jednowyrazowe jest w cudzysłowie tym samym napisem co forma przytoczona,
 więc `Znam „Płacę”.` wychodzi jednym czytaniem,
 w którym mowa niezależna jest rzeczownikiem.

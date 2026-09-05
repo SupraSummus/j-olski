@@ -269,27 +269,144 @@ pozycja wyliczenia z dopisaną kropką w ustawach,
 urwany przykład w prozie tego repozytorium —
 a nad bankiem drzew, gdzie zdania przychodzą całe, udział przez to nie spada.
 
-## Notacja tego rejestru jest słowem, którego słownik nie ma
+## Forma, o której słownik milczy, jest rzeczownikiem nieoznaczonym
 
 Wykluczenie wyżej odbiera formie czytanie, którego Polak nie ma.
-Notacja jest przypadkiem odwrotnym:
-słownik nie ma tu czytania żadnego, a czytelnik ma jedno.
+Tu jest odwrotnie: czytania nie ma słownik, a czytelnik ma jedno.
 
+`docs` nie jest polskim słowem, `README` nie jest, `Robocopy` ani `garbage` też nie,
+a wszystkie stoją w zdaniach tego rejestru na miejscu rzeczownika,
+bo tym w takim zdaniu są.
+Morfeusz oddaje taką formę jako `ign`, którego nie bierze ani jedna produkcja,
+a prosi się go wprost, żeby jej nie zgadywał (`olski/morph.py`),
+więc bez tego rozstrzygnięcia zdanie z nią pada,
+a werdykt mówi o niej tyle, że nie bierze jej nic.
+
+Olski daje więc takiej formie jedno czytanie i jest to rzeczownik.
+Przypadka, rodzaju ani liczby to czytanie nie niesie
+(`NIEOZNACZONY` w `olski/segmentacja.py`),
+bo o odmianie takiej formy olski nie wie nic:
+`Robocopy` jedni odmieniają, drudzy nie,
+a `garbage` nie odmienia się wcale, bo nie jest słowem polskim.
+Cechy nieobecnej unifikacja nie sprawdza (`unify` w `olski/grammar.py`),
+więc forma taka staje wszędzie, gdzie staje rzeczownik:
+w podmiocie, w dopełnieniu i w dopełniaczu pod rzeczownikiem, czyli nazwą przy nim.
+`Narzędzie Robocopy kopiuje pliki.` wyprowadza się przez to bez pozycji dopisanej
+gramatyce, a `Robocopy` jest w tym czytaniu nazwą pod `narzędzie`.
+
+Klasa jest jedna, a słownik milczy w niej z dwóch powodów.
+Formę Morfeusz widzi i nie zna jej, albo nie widzi jej wcale,
+bo notację sklejamy sami, zanim ją dostanie
+([niżej](#notację-i-łącznik-rozstrzyga-segmentacja)).
+
+Warunek pyta jeszcze o to, czy napis jest słowem, czyli czy ma same znaki wyrazowe,
+a wśród nich przynajmniej jedną literę.
+Nieznany bywa bowiem napis, który słowem nie jest:
+cudzysłów pojedynczy Morfeusz scala z wyrazem w jedną formę — `'Zasad` —
+a zdanie z takim znakiem jest zdaniem cytującym spoza rejestru
+i werdykt daje mu poprawkę zamiast czytania (`olski/werdykt/odrzucone.py`).
+
+**Rzeczownik nieodmienny orzekałby o jedno za dużo.**
+Tag, który Morfeusz daje `menu` i `atelier`, mówi o formie trzy rzeczy naraz:
+że ma wszystkie siedem przypadków, obie liczby i rodzaj nijaki.
+Dwie pierwsze wychodzą na to samo, co milczenie,
+bo przecięcie z każdym żądaniem jest niepuste, a trzecia nie:
+pod nią `Zmieniony README jest tani.` nie ma wyprowadzenia,
+a `Zmienione README jest tanie.` ma, choć polszczyzna ma oba
+i rodzaj bierze w nich z rzeczownika, którego zdanie nie wymawia —
+z pliku albo z wprowadzenia.
+Nieodmienność zostaje przy przytoczeniu, bo tam jest wiedzą, a nie domyślnością:
+napis objęty cudzysłowem nie odmienia się i jest rodzaju nijakiego —
+`to „nie” jest krótkie`
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)).
+
+**Osobnej pozycji na nazwę przy rzeczowniku nie ma, bo nie kupuje ani jednego zdania.**
+[subset.md](subset.md#what-it-does-not-cover-yet) wylicza wśród nieobjętego
+nazwę postawioną przy rzeczowniku bez spójnika i mówi, czego jej brakowało:
+znamienia, po którym widać, że to nazwa, a nie dwa rzeczowniki postawione obok
+siebie przez pomyłkę.
+Forma nieoznaczona to znamię ma, bo przypadka nie niesie,
+więc ciało z nazwą po rzeczowniku da się dziś napisać.
+Napisane nie kupuje ani jednego zdania:
+nazwa bez przypadka przechodzi już pod żądaniem dopełniacza,
+więc `Narzędzie Robocopy kopiuje pliki.` wyprowadza się i bez niej,
+a z nią wychodzi drugim czytaniem tego samego kształtu —
+`Parser GLR jest tani.` ma dwa odczytania, a z tym ciałem trzy.
+Wpis w tamtym wykazie zostaje przez to otwarty:
+`Bank drzew Składnica mierzy gramatykę.` pada dalej,
+bo `Składnica` stoi w słowniku i przypadek niesie.
+Werdykt nazywa za to taką nazwę przydawką dopełniaczową
+i mówi wtedy o zdaniu nieprawdę
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
+
+Własność, przez którą wykluczenie wyżej istnieje, jest tu ceną.
+Forma bez przypadka spełnia każde żądanie, jakie unifikacja umie postawić,
+więc stoi w zdaniu wszędzie tam, gdzie stoi jakikolwiek rzeczownik.
+`Cały wywód prowadzi docs/linter.md.` ma wśród swoich czytań SVO i OVS,
+i jest to ta sama wieloznaczność,
+którą polszczyzna ma na `Koszt samej szynki przewyższa koszt szynki`:
+zdanie naprawdę nie mówi, co tu prowadzi co.
+Ceny osobne płaci się rozmyślnie i stoją nazwane niżej.
+
+**Nazwa staje okolicznikiem narzędnikowym.**
+Czytanie bez przypadka spełnia każde żądanie, także narzędnika,
+a okolicznik narzędnikowy licencji od nikogo nie żąda
+([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+więc `Wprowadzenie streszcza README.` wychodzi z czytaniem,
+w którym `README` jest narzędnikiem sposobu, a takiego czytania polszczyzna nie ma.
+Klasa ta jest starsza od tego rozstrzygnięcia, a rozstrzygnięcie ją poszerza,
+i ruch trzyma `todo/`.
+
+**Zdanie angielskie dostaje czytanie.**
+Sekcje angielskie tej dokumentacji składają się ze słów, których słownik nie ma,
+więc czytają się odtąd jako łańcuchy nieoznaczonych rzeczowników.
+`The cutting applies to words that buy nothing.` wychodzi wieloznaczne,
+bo `to` jest po polsku łącznikiem orzecznika.
+Nad prozą tego repozytorium rozstrzygnięcie to daje czytanie blisko dwustu
+zdaniom, które przedtem padały; przeczytano je wszystkie,
+a zdaniem angielskim jest mniej niż co czwarte z nich.
+Reszta jest polska i padała na nazwie narzędzia, na nazwie pliku
+albo na nazwisku, którego SGJP nie ma —
+`Opróżnia więzienie Qasr ze wszystkich kryminalistów.`,
+`Uruchamia go z tego repozytorium Scalingo.`
+Cena ta maleje razem z przekładem sekcji angielskich na polski.
+
+**Obietnica podzbioru sięga tylko tam, dokąd sięga słownik.**
+Olski obiecuje, że każde zdanie, które wyprowadza, jest polszczyzną,
+a o formie, której słownik nie zna, nie ma czym tego orzec:
+`Robocopy rośnie.` może być polszczyzną i olski tego nie rozstrzyga.
+Granicę tę przesuwa deklaracja: słowo wpisane do leksykonu projektu dostaje
+odmianę prawdziwą i czytanie nieoznaczone go już nie dotyczy
+([niżej](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)),
+więc `Commitów rośnie.` pada dalej, bo `commitów` jest dopełniaczem liczby mnogiej.
+
+Nad Składnicą pod morfologią złotą nie rusza to ani jednego zdania,
+bo tagi przychodzą tam od anotatorów.
+Pod morfologią żywą zdejmuje z odrzucenia kilkaset zdań,
+a wiersz `ign` znika z kolejki blokerów cały — prowadził w niej setkami zatrzymań
+([corpus.md](corpus.md#where-the-analyses-stop)).
+
+## Notację i łącznik rozstrzyga segmentacja
+
+Ukośnik i łącznik rozstrzygają się poza gramatyką, w trzech miejscach.
+Dwa pierwsze pytają o spacje wokół znaku i stoją przez to przed Morfeuszem,
+bo woła się go bez spacji (`olski/morph.py`),
+więc po analizie nie ma już czym odróżnić kropki w ścieżce od kropki kończącej zdanie
+ani łącznika w wyrazie od myślnika.
+Trzecie stoi za analizą, bo pyta o czytania,
+i mówi niżej, czemu spacji nie potrzebuje.
+
+**Notacja tego rejestru jest jedną krawędzią.**
 `docs/linter.md` jest dla Morfeusza pięcioma segmentami,
 bo ukośnik i kropka są dla niego interpunkcją,
-a `docs` nie jest żadnym polskim słowem, więc wraca jako `ign`,
-którego nie bierze ani jedna produkcja.
+a `docs` nie jest żadnym polskim słowem.
 Rejestr, o który olskiemu chodzi, jest takich form pełen —
-ścieżka, nazwa pliku, nazwa modułu, nazwa polecenia —
-i stoją one w zdaniach na miejscach rzeczownika,
-bo tym w takim zdaniu są.
+ścieżka, nazwa pliku, nazwa modułu, nazwa polecenia, nazwa flagi —
+więc wzorzec skleja je w jedną krawędź (`NOTACJA` w `olski/segmentacja.py`),
+a czytanie dostają one to samo, co każda forma, o której słownik milczy
+([wyżej](#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
 
-Olski daje więc takiej formie jedną krawędź i jedno czytanie nieodmienne.
-Rzeczownikiem nieodmiennym taka forma jest w polszczyźnie naprawdę,
-a jedno czytanie znaczy, że nie ona daje zdaniu drugie.
-
-Wzorzec, który to rozpoznaje, stoi w `NOTACJA` w `olski/segmentacja.py`,
-a tu stoi to, przed czym każde jego żądanie broni,
+Wzorzec stoi w module, a tu stoi to, przed czym każde jego żądanie broni,
 bo z samego wzorca tego nie widać.
 `np.` i `r.` mają kropkę i nie są notacją,
 więc kropka spaja tylko wtedy, gdy nie ma po niej spacji.
@@ -297,79 +414,60 @@ więc kropka spaja tylko wtedy, gdy nie ma po niej spacji.
 więc człon musi być dłuższy niż litera —
 za co płaci się ścieżką, której człon jest jednoznakowy,
 i takiej olski nie sklei.
-`czarno-biały` Morfeusz zna po członach
-i sklejony w jedno wypadłby ze słownika razem z gramatyką,
+`czarno-biały` Morfeusz zna po członach,
 więc łącznik spaja tylko wewnątrz ścieżki, którą trzyma już kropka:
 `design-notes.md` wchodzi całe.
 `2018.07.23` spaja się kropkami jak ścieżka, a rzeczownikiem nie jest,
 i Morfeusz zna tę formę jako liczbę,
 więc notacja musi nieść przynajmniej jedną literę.
 
-Własność, przez którą wykluczenie wyżej istnieje, jest tu ceną.
-Forma nieodmienna spełnia każde żądanie przypadku,
-jakie unifikacja umie postawić,
-więc notacja stoi w zdaniu wszędzie tam, gdzie stoi jakikolwiek rzeczownik.
-`Cały wywód prowadzi docs/linter.md.` wychodzi z tego dwoma czytaniami,
-SVO i OVS, i jest to ta sama wieloznaczność,
-którą polszczyzna ma na `Koszt samej szynki przewyższa koszt szynki`:
-zdanie naprawdę nie mówi, co tu prowadzi co.
+Ukośnik spaja przy tym także wtedy, gdy człon stoi po jednej jego stronie:
+`docs/`, `LICENSES/`, `/LFSM`.
+Żadne polskie słowo ukośnika nie niesie, więc cena tej strony jest zerowa,
+a bez niej ukośnik zostaje krawędzią, po którą nie sięga ani jedna produkcja,
+i pada na nim zdanie, w którym ten rejestr nazywa katalog albo flagę.
 
-Czytanie nieodmienne bierze przez to połowę klasy, a nie całą.
-Drugą połową jest polskie słowo odmienione, którego słownik nie ma,
-i tej czytania nieodmiennego dać nie wolno;
-wpuszcza ją [leksykon projektu](#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma).
+**Łącznik rozdzielony spacjami jest myślnikiem.**
+Polszczyzna rozdziela zdanie pauzą, a klawiatura ma jeden znak na pauzę i łącznik,
+więc ten rejestr pisze nim oba.
+Odróżnia je spacja i nic poza nią, więc łącznik, wokół którego ona stoi,
+dostaje tu lemat pauzy i bierze go terminal myślnika bez żadnego warunku o sobie
+(`MYŚLNIK` w `olski/subset/słowa.py`).
+Łącznik w środku wyrazu — `UTF-8`, `16-latków` — zostaje przy swoim.
 
-## Wersalik bez czytania jest tym samym rzeczownikiem nieodmiennym
+**Złożenie przymiotnikowe skleja się z powrotem w jeden wyraz.**
+`ewangelicko-reformowanego` Morfeusz oddaje trzema krawędziami:
+`adja`, łącznik i przymiotnik.
+Po pierwszą nie sięga ani jedna produkcja, a drugiej nie bierze terminal myślnika,
+więc bez sklejenia zdanie ze złożeniem pada z dwóch powodów naraz.
+Sklejone bierze czytania członu drugiego, bo tym się ten wyraz odmienia,
+a lemat składa z obu: `czarno-biały`, `ewangelicko-reformowany`.
+Warunek ten stoi za analizą, a nie przed nią, i spacji nie pyta:
+`adja` poza złożeniem nie stoi wcale,
+więc łącznik za nim jest łącznikiem wyrazu, choćby ktoś postawił wokół niego spacje.
 
-Notacja wyżej poznaje się po znaku, który ją spaja.
-`README` nie niesie ani kropki, ani ukośnika,
-więc wzorzec notacji go nie widzi,
-a Morfeusz oddaje go jako `ign`, którego nie bierze ani jedna produkcja.
-Rejestr, o który olskiemu chodzi, stawia takich form kilka na dokument —
-`README`, `GLR`, `SGJP`, `LCFRS` — i stoją one na miejscach rzeczownika.
-
-Warunek jest więc drugi i pyta o dwie rzeczy:
-forma ma być pisana wersalikami i słownik ma jej nie czytać wcale.
-Pierwsze pytanie zadaje już wykluczenie słownikowe,
-które wersalik ze swojego zasięgu wyłącza,
-bo w wersalikach forma rzeczownikiem właśnie jest
-([wyżej](#the-dictionary-offers-readings-polish-does-not)).
-Drugie pytanie broni polszczyzny: `NIE` i `PAN` słownik czyta,
-więc czytania nieodmiennego nie dostają
-i zdanie z nimi nie traci tego, które ma.
-Nieodmienna taka forma jest przy tym w polszczyźnie naprawdę:
-akronim odmieniony pisze się z łącznikiem i małą końcówką — `PKB-u` —
-czyli już nie samymi wersalikami.
-
-Cena jest ta sama, którą płaci notacja, i płaci się ją z tego samego powodu.
-`Parser GLR jest tani.` wychodzi z tego jednym czytaniem,
-w którym `GLR` jest dopełniaczem przy `parser`,
-a czytelnik ma tam dopowiedzenie
-([subset.md](subset.md#what-it-does-not-cover-yet) trzyma tę pozycję).
-Werdykt mówi więc o tym zdaniu tyle, że się wyprowadza,
-a o tym, czym w nim jest `GLR`, mówi nieprawdę.
-
-Bank drzew tej ceny nie mierzy i nie zmierzy.
-Przebieg nad Składnicą 180723 wychodzi z tym warunkiem i bez niego
-tymi samymi liczbami, co do jednego zdania:
-rejestr prasowy pisze wersalikiem akronim, który słownik zna,
-a formy nieznanej pisanej wersalikami nie ma tam ani jednej.
-Zakup jest przez to widoczny wyłącznie nad prozą tego repozytorium,
-gdzie liczbę drukuje `olski.check`,
-i tyle właśnie o tym warunku wiadomo.
+Członów bierze dwa, więc `społeczno-kulturalno-oświatowy` pada dalej:
+człon środkowy jest tam znowu `adja`, a sklejenie żąda przymiotnika po łączniku.
+Zakup jest zmierzony sondą różnicową i wynosi dwadzieścia kilka zdań Składnicy,
+a odebranego czytania nie ma w niej ani jednego.
+Nad prozą tego repozytorium złożenie pada natomiast rzadziej niż raz na tysiąc zdań,
+więc pozycja ta jest wpuszczona dla polszczyzny prasowej, a nie dla tego rejestru.
 
 ## Leksykon projektu wpuszcza polskie słowo, którego słownik nie ma
 
 `olski`, `commitów`, `Pythonem` — SGJP nie ma ani jednego z tych słów,
-więc Morfeusz oddaje je jako `ign`, którego nie bierze ani jedna produkcja.
-Czytania nieodmiennego, którym wchodzi notacja, dać im nie wolno,
-i tą jedną rzeczą ta połowa klasy różni się od tamtej:
-`commitów` jest dopełniaczem liczby mnogiej,
-więc czytanie nieodmienne nie byłoby tu tylko nieznane, ale fałszywe,
-a olski obiecuje, że każde jego zdanie jest polszczyzną.
-Zgadywanie odmiany po zakończeniu wyrazu odpada z tego samego powodu:
+więc Morfeusz oddaje je jako `ign`, a olski czyta je rzeczownikiem nieoznaczonym
+([wyżej](#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
+Czytanie to orzeka o `commitów` tyle, że jest rzeczownikiem,
+a `commitów` jest dopełniaczem liczby mnogiej i podmiotem stanąć nie może.
+Sekcja ta wpuszcza więc słowo i zarazem je zawęża:
+odmiana zadeklarowana zdejmuje formie czytanie nieoznaczone i stawia na jego
+miejscu przypadek, liczbę i rodzaj, które ta forma naprawdę ma,
+więc `Commitów rośnie.` pada, a bez deklaracji by się wyprowadziło.
+Zgadywania odmiany po zakończeniu wyrazu nie ma tu żadnego:
 Morfeusza prosi się wprost, żeby formy nieznanej nie zgadywał (`olski/morph.py`),
-bo czytanie zgadnięte jest czytaniem, którego nikt nie zadeklarował.
+bo czytanie zgadnięte jest czytaniem, którego nikt nie zadeklarował,
+a czytanie nieoznaczone o odmianie milczy, zamiast ją zmyślać.
 
 Zostaje deklaracja, a zapisuje ją sekcja `leksykon` w `olski.toml`
 w korzeniu repozytorium.
@@ -423,7 +521,9 @@ więc nie ma czego wskazać i żaden wpis by ich nie wpuścił;
 `New Yorkera` i `Morfologik` paradygmat mieć mogłyby i wpisu nie mają,
 bo README pisze je w pozycji listy, a nie w zdaniu, na które czeka jakiś werdykt.
 Sekcja jest przez to rejestrem tego, co ktoś rozstrzygnął, a nie listą zamkniętą,
-i słowo bez wpisu wraca jako `ign`, czyli tak samo jak przed tą sekcją.
+a słowo bez wpisu zostaje rzeczownikiem nieoznaczonym,
+czyli stoi w zdaniu wszędzie i nie mówi o sobie nic
+([wyżej](#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
 
 Wpisu nie dostaje też leksem dokładany do napisu, który słownik zna,
 i tym sekcja ta różni się od `olski/skład/leksemy.py`, który wybiera między leksemami
@@ -434,6 +534,10 @@ Wpis na taki leksem dokłada czytanie formie, którą słownik już czyta,
 więc łamie własność całej sekcji:
 ani jednej jego formy słownik nie czyta,
 a zdanie już przyjęte nie ma przez to jak stracić na nim jednoznaczności.
+`Cena lintera jest niska.` pokazuje, co ta granica kosztuje dzisiaj:
+`lintera` odmienia ta proza wedle drugiego leksemu, a SGJP daje `linteru`,
+więc forma ta jest dla słownika nieznana i wychodzi rzeczownikiem nieoznaczonym —
+zdanie przechodzi, a dopełniaczem `lintera` w nim nie jest.
 Ta połowa klasy zostaje przez to poza tą sekcją, a ruch trzyma `todo/`.
 
 Czyta ten leksykon cała analiza: `morphology` w `olski/segmentacja.py`,

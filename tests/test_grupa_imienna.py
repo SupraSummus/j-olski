@@ -212,9 +212,17 @@ def test_cyfra_nie_jest_liczebnikiem_bo_nie_niesie_ani_przypadka_ani_liczby():
     #  tag `dig` bez ani jednej cechy, więc oba ciała biorą ją naraz i `14 dni`
     #  wychodzi dwoma wyprowadzeniami o jednym streszczeniu. Odmowa jest przez to
     #  rozstrzygnięciem, a nie przeoczeniem, i docs/subset.md trzyma jej cenę.
-    werdykt = verdict("Termin wynosi 14 dni.")
-    assert werdykt.status == "rejected"
-    assert werdykt.nielicencjonowane == ("14",)
+    assert verdict("Termin wynosi 14 dni.").status == "rejected"
+
+
+def test_liczbę_z_jednostką_bierze_skrót_pisany_bez_kropki():
+    #  Para cyfry ze skrótem niczym pod sobą nie rządzi i niczego nie uzgadnia,
+    #  więc jest całą grupą imienną, gdzie liczebnik pisany cyfrą rządziłby
+    #  dopełniaczem i tego ta gramatyka nie bierze (test wyżej).
+    assert verdict("Alokacja wymaga 2 GB.").status == "ambiguous"
+    #  Skrót pisany z kropką zostaje na zewnątrz, bo jego kropkę bierze już koniec
+    #  zdania i pary nie ma wtedy czym domknąć.
+    assert verdict("Alokacja wymaga 7 proc.").status == "rejected"
 
 
 def test_rzeczownik_odczasownikowy_stoi_w_każdej_pozycji_rzeczownika():

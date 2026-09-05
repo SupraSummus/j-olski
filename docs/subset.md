@@ -365,7 +365,7 @@ a świadkiem zostaje ta sama gramatyka co przy poprawce znaku:
 naprawa liczy się dopiero wtedy, gdy rozbiór poprawionego zdania daje odczytanie.
 Formy, której słownik nie zna, naprawa ta nie dotyczy —
 o niej rozstrzyga warstwa morfologiczna, a nie drugi rozbiór
-([warstwa-leksykalna.md](warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)).
+([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
 
 Naprawa prawie nigdy nie jest jedna i dlatego znaleziskiem nie jest.
 Mierzy się to nad zdaniem zepsutym, a nie odrzuconym, bo odpowiedź ma być znana:
@@ -721,12 +721,19 @@ a za flagą płaci za nią repozytorium jedną funkcją i jednym testem
 - Zdanie podrzędne obok dopełnienia w bierniku, tam gdzie leksykon tę parę wpuszcza:
   `Kierownik poinformował pracownika, że wniosek został odrzucony.`
   ([walencja.md](walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy))
-- The register's own notation as an indeclinable noun:
-  `Zobacz docs/subset.md.`, argued above
-- Forma pisana wersalikami, której słownik nie czyta wcale,
-  jako ten sam rzeczownik nieodmienny: `README mówi o podzbiorze.`, `Parser GLR
-  jest tani.`
-  ([warstwa-leksykalna.md](warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym))
+- Forma, o której słownik milczy, jako rzeczownik o nieoznaczonym przypadku,
+  rodzaju i liczbie — notacja tego rejestru, wersalik i nazwa narzędzia:
+  `Zobacz docs/subset.md.`, `README mówi o podzbiorze.`,
+  `Narzędzie Robocopy kopiuje pliki.`
+  ([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym))
+- Liczba pisana cyfrą wraz z jednostką pisaną skrótem, jako cała grupa imienna:
+  `Alokacja wymaga 2 GB.`
+  ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii))
+- Złożenie przymiotnikowe pisane łącznikiem: `Kościół ewangelicko-reformowany rośnie.`
+  ([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja))
+- Myślnik pisany łącznikiem, czyli tak, jak pisze go klawiatura:
+  `Cena jest niska - gramatyka jest bezkontekstowa.`
+  ([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja))
 - A modal with its infinitive: `Program powinien zapisać ustawienia.`
 - An infinitive as what any other verb takes,
   and a chain of them with no rule of its own:
@@ -1298,9 +1305,10 @@ Every one of these is a sentence that gets rejected and should not be:
   daje ono drugie czytanie każdemu zdaniu, w którym `gdzie` otwiera okolicznik
   pod czasownikiem spoza leksykonu, bo pytanie zależne stoi w ramie domyślnej.
   Wraca razem z zawężeniem tamtej pozycji, a `todo/` trzyma i pomiar, i ruch.
-- Liczebnik pisany cyfrą, czyli ten, którym ten rejestr liczy:
+- Liczebnik pisany cyfrą przed rzeczownikiem, czyli ten, którym ten rejestr liczy:
   `Termin wynosi 14 dni.` jest odrzucone,
-  gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami.
+  gdzie `Termin wynosi czternaście dni.` wyprowadza się dwoma czytaniami
+  i gdzie `Alokacja wymaga 2 GB.` wyprowadza się, bo po cyfrze stoi tam skrót.
   Cenę i warunek wejścia trzyma
   [cyfry olski nie bierze](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
@@ -1335,13 +1343,19 @@ Every one of these is a sentence that gets rejected and should not be:
   a przecinek zamykający jest w tej gramatyce ciałem osobnym, nie cechą,
   więc pozycja wpuściłaby w środek zdania także człon niedomknięty;
   `todo/` trzyma ten przebieg.
-- Nazwa postawiona przy rzeczowniku bez spójnika:
+- Nazwa postawiona przy rzeczowniku bez spójnika, kiedy słownik tę nazwę zna:
   `Bank drzew Składnica mierzy gramatykę.` jest odrzucone,
-  gdzie `Składnica jest bankiem drzew.` wyprowadza się.
+  gdzie `Składnica jest bankiem drzew.` wyprowadza się
+  i gdzie `Narzędzie Robocopy kopiuje pliki.` wyprowadza się,
+  bo `Robocopy` przypadka nie niesie i przechodzi pod żądaniem dopełniacza
+  ([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
   Ten rejestr nazywa tak każdy artefakt zewnętrzny — korpus Składnica,
   słownik Morfeusz — a od członu bez czasownika różni tę konstrukcję to,
   że spójnika nie ma, więc nie ma czym jej wpuścić bez wpuszczenia zarazem
   dwóch rzeczowników postawionych obok siebie przez pomyłkę.
+  Znamię to ma nazwa, o której słownik milczy, bo przypadka nie niesie,
+  a ciało pisane na nią zmierzono i nie kupuje ono ani jednego zdania,
+  więc zostaje z tej pozycji nazwa, którą słownik zna, i jej znamienia nie ma.
 
 ## Implementation
 

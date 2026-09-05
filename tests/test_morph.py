@@ -2,7 +2,7 @@ import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.morph import analyse, tag, unknown
+from olski.morph import analyse, tag
 
 
 def test_a_tag_becomes_a_part_of_speech_and_feature_sets():
@@ -84,6 +84,8 @@ def test_czytanie_niesie_kwalifikatory_ze_słownika_a_nie_nazwy_obok_nich():
 
 
 def test_an_unknown_form_is_reported_rather_than_guessed_at():
+    #  Morfeusz is asked not to guess, so the layer above gets a form it can
+    #  declare something about rather than an invented paradigm
+    #  (`nieznane` in olski/segmentacja.py).
     segments = analyse("Program zapisuje plikx.")
-    assert [segment.form for segment in unknown(segments)] == ["plikx"]
-    assert not segments[2].known
+    assert [segment.form for segment in segments if not segment.known] == ["plikx"]

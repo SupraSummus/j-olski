@@ -36,10 +36,10 @@ and what it costs nobody has measured.
 
 ### Odpowiedź o wieloznaczności nie mówi, czy ma ją też czytelnik
 
-`Cały wywód prowadzi docs/linter.md.` ma dwa czytania,
-SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
+`Cały wywód prowadzi docs/linter.md.` ma wśród swoich czytań SVO i OVS,
+bo notacja nie niesie przypadka, a `wywód` ma biernik równy mianownikowi.
 Zdanie naprawdę nie mówi, co tu prowadzi co,
-i [warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)
+i [warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)
 trzyma to jako cenę przyjętą świadomie.
 
 Olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,

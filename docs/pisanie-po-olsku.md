@@ -434,25 +434,16 @@ Naprawą jest tu na razie zdanie oznajmujące o tym samym.
 Predykatyw bierze bezokolicznik na swoim miejscu,
 a nie bierze go tam, gdzie zdanie względne wysunęło przed niego dopełnienie.
 
-**Angielska nazwa pisana małą literą.**
-`README mówi o podzbiorze.` przechodzi,
-a `Sekcja mówi o build w olski/subset/__init__.py.` pada na `build`.
-Czytanie nieodmienne dostaje forma pisana wersalikami i nieznana słownikowi
-([warstwa-leksykalna.md](warstwa-leksykalna.md#wersalik-bez-czytania-jest-tym-samym-rzeczownikiem-nieodmiennym)),
-a `build`, `merge` i `yet decided` pierwszego z tych dwóch żądań nie spełniają:
-pisane małą literą nie różnią się niczym od polskiego słowa,
-którego słownik nie ma, a takiemu czytania nieodmiennego dać nie wolno
-([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
-Dokumentacja przytacza je w cudzysłowie albo w backtickach,
-i te dwa sposoby olski rozdziela.
-Cudzysłów licencjonuje przytoczenie, więc `Sekcja mówi o „build”.` przechodzi
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania)),
-a `` `build` `` wraca z Morfeusza jednym napisem razem z backtickami.
-
 **Drugi leksem do napisu, który słownik zna.**
-`Linter sprawdza tekst.` przechodzi, `Cena lintera jest niska.` pada na `lintera`.
+`Linter sprawdza tekst.` przechodzi i `Cena lintera jest niska.` przechodzi,
+a dopełniaczem `lintera` w tym drugim nie jest.
 SGJP zna `linter` i daje mu dopełniacz `linteru`,
-a ta proza odmienia go wedle drugiego leksemu.
+a ta proza odmienia go wedle drugiego leksemu,
+więc `lintera` jest dla słownika formą nieznaną
+i wychodzi rzeczownikiem o nieoznaczonym przypadku
+([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
+Pozycja ta stoi przez to tu razem ze słowem pytającym wyżej:
+zdanie nie pada, więc autor nie ma po czym poznać, że werdykt o nim milczy.
 Leksykon projektu takiego wiersza nie przyjmuje z powodu, który sam podaje,
 a ruch trzyma `todo/`.
 
@@ -460,7 +451,7 @@ a ruch trzyma `todo/`.
 `docs/pisanie-po-olsku.md jest raportem.` przechodzi,
 a `docs/pisanie-w-olskim.md jest raportem.` pada na `-`.
 Wzorzec notacji nie przyjmuje członu z jednej litery i mówi, za co tak płaci
-([warstwa-leksykalna.md](warstwa-leksykalna.md#notacja-tego-rejestru-jest-słowem-którego-słownik-nie-ma)),
+([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja)),
 więc nazwy pliku z `w` albo `i` w środku nie da się w olskim wymówić.
 Ten dokument nazywa się tak, jak się nazywa, właśnie dlatego.
 Tak samo pada flaga: `--readings` rozpada się na `-`, `-` i słowo.

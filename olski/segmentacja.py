@@ -26,6 +26,7 @@ Warstwę tę wraz z typem, którym oddaje wynik następnej, wylicza docs/archite
 from __future__ import annotations
 
 import re
+from collections.abc import Iterator
 from dataclasses import replace
 
 from olski import projekt
@@ -36,6 +37,7 @@ from olski.lematy import (
     PRZYIMEK_ROZDZIELAJĄCY,
     ZNAK_CUDZYSŁOWU_OTWIERAJĄCY,
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
+    ZNAK_MYŚLNIKA,
 )
 from olski.morph import Reading, Segment, analyse, tag
 from olski.słownictwo import SŁOWNICTWO, Słownictwo
@@ -77,7 +79,7 @@ def _acronym(form: str) -> bool:
     """Whether a form is written the way Polish writes an acronym.
 
     ``PO``, ``AA`` and ``UP`` inflect for nothing either, and their letters spell
-    function words, so the exclusion below would take exactly the reading that is
+    function words, so :func:`admissible` would take exactly the reading that is
     right. In capitals the noun is what the form is. One capital says nothing,
     every sentence starting with one.
     """
@@ -238,39 +240,159 @@ def po_słowie(segments: list[Segment]) -> list[Segment]:
     ]
 
 
-#: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu. Człony spaja
-#: ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe albo
-#: więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko wewnątrz
-#: takiej ścieżki. docs/subset.md wywodzi, co każde z tych czterech żądań trzyma na
-#: zewnątrz i dlaczego. Klasa w podglądzie jest sumą pozostałych, bo litery szuka
-#: dokładnie tam, gdzie sięgnie dopasowanie: znak spajający dodany do wzorca
-#: dodaje się i tam.
-CZŁON = r"\w{2,}"
-NOTACJA = re.compile(
-    rf"(?<![\w./])(?=[\w./_-]*[^\W\d_]){CZŁON}(?:[-_]{CZŁON})*(?:[./]{CZŁON}(?:[-_]{CZŁON})*)+"
-)
+#: Łącznik, czyli znak, który polszczyzna stawia wewnątrz wyrazu, a ten rejestr
+#: stawia nim także myślnik. Pyta o niego ta warstwa i tylko ona, bo terminal
+#: myślnika bierze lemat pauzy (``olski/subset/słowa.py``), a łącznik wewnątrz
+#: wyrazu znika w sklejeniu.
+ŁĄCZNIK = "-"
 
-#: Czytanie, które dostaje notacja, wersalik i przytoczenie: rzeczownik
-#: nieodmienny, dokładnie ten tag, który Morfeusz daje `menu` i `atelier`.
+#: Część mowy pierwszego członu złożenia przymiotnikowego: `czarno` w
+#: `czarno-biały`, `ewangelicko` w `ewangelicko-reformowany`. Poza złożeniem forma
+#: ta nie stoi wcale, więc cała klasa jest tu warunkiem dokładnym.
+CZŁON_ZŁOŻENIA = "adja"
+
+#: Część mowy członu drugiego, czyli ta, którą całe złożenie wychodzi.
+#: Imiesłowu biernego tu nie ma i nie jest to przeoczenie: `społeczno-wychowawczy`
+#: jest przymiotnikiem, a złożenia z imiesłowem ten rejestr nie pisze.
+ZŁOŻENIE = "adj"
+
+
+def złożenie(segments: list[Segment]) -> list[Segment]:
+    """Sklej złożenie przymiotnikowe pisane łącznikiem w jedną krawędź.
+
+    Morfeusz oddaje `ewangelicko-reformowanego` trzema krawędziami — `adja`,
+    łącznik i przymiotnik — a polszczyzna ma tam jeden wyraz, który odmienia się
+    członem drugim. Sklejony bierze przez to czytania członu drugiego, a lemat
+    składa z obu, bo lematem tego wyrazu jest `ewangelicko-reformowany`.
+
+    Bez tego sklejenia zdanie ze złożeniem pada z dwóch powodów naraz: po `adja`
+    nie sięga ani jedna produkcja, a łącznika w środku wyrazu nie bierze terminal
+    myślnika (:data:`olski.subset.słowa.MYŚLNIK`).
+
+    Spacji ten warunek nie widzi i widzieć nie musi, więc stoi za analizą, a nie
+    przed nią jak sklejenie notacji: `adja` poza złożeniem nie stoi, więc łącznik
+    za nim jest łącznikiem wyrazu, choćby ktoś postawił wokół niego spacje.
+    """
+    scalone: list[Segment] = []
+    for segment in segments:
+        if len(scalone) > 1 and _złożone(scalone[-2], scalone[-1], segment):
+            scalone[-2:] = [_scal(scalone[-2], segment)]
+            continue
+        scalone.append(segment)
+    return scalone
+
+
+def _złożone(pierwszy: Segment, łącznik: Segment, drugi: Segment) -> bool:
+    """Czy te trzy krawędzie idą po sobie i są złożeniem przymiotnikowym."""
+    if pierwszy.end != łącznik.start or łącznik.end != drugi.start:
+        return False
+    if łącznik.form != ŁĄCZNIK:
+        return False
+    if not all(reading.tag.pos == CZŁON_ZŁOŻENIA for reading in pierwszy.readings):
+        return False
+    return all(reading.tag.pos == ZŁOŻENIE for reading in drugi.readings)
+
+
+def _scal(pierwszy: Segment, drugi: Segment) -> Segment:
+    """Złożenie jako jedna krawędź: rozpiętość obu członów, czytania drugiego."""
+    forma = f"{pierwszy.form}{ŁĄCZNIK}{drugi.form}"
+    return replace(
+        drugi,
+        start=pierwszy.start,
+        form=forma,
+        readings=tuple(
+            replace(reading, form=forma, lemma=f"{pierwszy.form}{ŁĄCZNIK}{reading.lemma}")
+            for reading in drugi.readings
+        ),
+    )
+
+
+#: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu, nazwa flagi. Człony
+#: spaja ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe
+#: albo więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko
+#: wewnątrz takiej ścieżki. docs/subset.md wywodzi, co każde z tych czterech żądań
+#: trzyma na zewnątrz i dlaczego. Klasa w podglądzie jest sumą pozostałych, bo
+#: litery szuka dokładnie tam, gdzie sięgnie dopasowanie: znak spajający dodany do
+#: wzorca dodaje się i tam.
+#:
+#: Ukośnik spaja przy tym także wtedy, gdy człon stoi po jednej jego stronie, bo
+#: tak ten rejestr pisze katalog i flagę: `docs/`, `LICENSES/`, `/LFSM`. Żadne polskie
+#: słowo ukośnika nie niesie, więc cena tej strony jest zerowa, a bez niej ukośnik
+#: zostaje krawędzią, po którą nie sięga ani jedna produkcja. Kolejność w
+#: alternatywie jest przez to od najdłuższego: bez niej `docs/subset.md` skleiłoby
+#: się do `docs/`, a reszta wypadła krawędziami osobnymi.
+CZŁON = r"\w{2,}"
+GRONO = rf"{CZŁON}(?:[-_]{CZŁON})*"
+ŚCIEŻKA = rf"{GRONO}(?:[./]{GRONO})+"
+NOTACJA = rf"(?<![\w./])(?=[\w./_-]*[^\W\d_])(?:{ŚCIEŻKA}/?|/{GRONO}|{GRONO}/)"
+
+#: Łącznik, wokół którego stoją spacje, czyli myślnik pisany łącznikiem:
+#: `brak pewności decydował - był ugruntowany od dzieciństwa`. Znaku tego
+#: polszczyzna nie ma dwóch — pauza i łącznik są dla niej jednym myślnikiem i
+#: jednym łącznikiem — a klawiatura ma jeden, więc ten rejestr pisze nim oba.
+#: Rozdziela je spacja i tylko ona, więc rozstrzyga się to tutaj, a nie na
+#: terminalu (:data:`olski.subset.słowa.MYŚLNIK`).
+ŁĄCZNIK_ROZDZIELAJĄCY = rf"(?<=\s){ŁĄCZNIK}(?=\s)"
+
+#: Napisy, które ta warstwa bierze przed Morfeuszem, każdy pod swoją nazwą, bo
+#: nazwa wybiera czytanie (:data:`CZYTANIA_PRZED_MORFEUSZEM`). Wzorzec jest jeden
+#: i przejście jedno, bo kawałki nie mogą się zachodzić.
+PRZED_MORFEUSZEM = re.compile(rf"(?P<notacja>{NOTACJA})|(?P<myślnik>{ŁĄCZNIK_ROZDZIELAJĄCY})")
+
+#: Tag, którym Morfeusz opatruje znak przestankowy; dostaje go łącznik wzięty za
+#: myślnik, bo myślnikiem właśnie jest.
+ZNAK_PRZESTANKOWY = tag("interp")
+
+#: Czytanie, które dostaje przytoczenie: rzeczownik nieodmienny, dokładnie ten
+#: tag, który Morfeusz daje `menu` i `atelier`. Rodzaj nijaki jest tu wiedzą, a
+#: nie domyślnością — `to „nie” jest krótkie` — i tym różni się przytoczenie od
+#: formy, o której słownik milczy (:data:`NIEOZNACZONY`).
 NIEODMIENNY = tag("subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol")
 
+#: Czytanie, które dostaje forma, o której słownik milczy: rzeczownik o
+#: nieoznaczonym przypadku, rodzaju i liczbie. Cechy nie ma tu żadnej, bo
+#: unifikacja cechy nieobecnej nie sprawdza (``unify`` w ``olski/grammar.py``),
+#: a olski o odmianie takiej formy nie wie nic: `Robocopy` polszczyzna odmienia
+#: albo nie, zależnie od tego, kto pisze, a `Semantic` nie jest polskim słowem
+#: wcale. Nieodmienności tu nie orzekamy i to jest cała różnica wobec
+#: :data:`NIEODMIENNY`: tamten tag mówi, że forma ma wszystkie siedem przypadków
+#: i rodzaj nijaki, a ten nie mówi o niej nic.
+NIEOZNACZONY = tag("subst")
 
-def wersalik(segment: Segment) -> Segment:
-    """Daj formie pisanej wersalikami czytanie nieodmienne, gdy słownik jej nie ma.
+#: Lemat i tag, jakie dostaje napis wzięty przed Morfeuszem, pod nazwą grupy
+#: wzorca (:data:`PRZED_MORFEUSZEM`). Lemat ``None`` znaczy, że lematem jest sam
+#: napis, bo notacja jest słowem, którego nikt nie sprowadza do innego.
+CZYTANIA_PRZED_MORFEUSZEM = {
+    "notacja": (None, NIEOZNACZONY),
+    "myślnik": (ZNAK_MYŚLNIKA, ZNAK_PRZESTANKOWY),
+}
 
-    ``README``, ``GLR`` i ``SGJP`` są w tym rejestrze codzienne i wracają jako
-    ``ign``, którego nie bierze ani jedna produkcja. Notacja wyżej dostaje to samo
-    czytanie i różni się znakiem, który ją spaja (:data:`NOTACJA`).
+#: Napis, który ta warstwa bierze za słowo: same znaki wyrazowe, a wśród nich
+#: przynajmniej jedna litera. Żądanie to jest drugą połową warunku niżej, bo
+#: nieznany bywa napis, który słowem nie jest: cudzysłów pojedynczy Morfeusz
+#: scala z wyrazem w jedną formę — `'Zasad` — a rzeczownikiem taki napis nie
+#: jest, tylko zdaniem cytowanym znakiem spoza tego rejestru
+#: (``olski/werdykt/odrzucone.py``).
+SŁOWO = re.compile(r"(?=\w*[^\W\d_])\w+")
 
-    Warunek pyta o milczenie słownika, a nie o samo pismo formy, i tym broni
-    polszczyzny: ``NIE`` i ``PAN`` słownik czyta, więc zdanie z nimi nie traci
-    czytania, które ma. Wywód i cenę trzyma docs/subset.md pod wersalikiem.
+
+def nieznane(segment: Segment) -> Segment:
+    """Daj formie, o której słownik milczy, czytanie rzeczownika nieoznaczonego.
+
+    ``README``, ``Robocopy`` i ``garbage`` wracają z Morfeusza jako ``ign``,
+    którego nie bierze ani jedna produkcja, a stoją w zdaniu na miejscu
+    rzeczownika, bo tym w takim zdaniu są. Notacja dostaje to samo czytanie
+    tą samą decyzją (:data:`NOTACJA`), a różni ją to, że sklejamy ją sami.
+
+    Warunek pyta o milczenie słownika i o to, czy napis jest słowem
+    (:data:`SŁOWO`). Polszczyzny broni pytanie pierwsze: ``NIE`` i ``PAN``
+    słownik czyta, więc zdanie z nimi nie traci czytania, które ma. Wywód i cenę
+    trzyma
+    docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym.
     """
-    if not _acronym(segment.form):
+    if segment.known or not SŁOWO.fullmatch(segment.form):
         return segment
-    if any(reading.tag.known for reading in segment.readings):
-        return segment
-    return replace(segment, readings=(Reading(segment.form, segment.form, NIEODMIENNY),))
+    return replace(segment, readings=(Reading(segment.form, segment.form, NIEOZNACZONY),))
 
 
 #: Części mowy, którymi grupa imienna staje sama jednym słowem. Napisu z takim
@@ -326,43 +448,48 @@ def morphology(text: str, słownictwo: Słownictwo = SŁOWNICTWO) -> list[Segmen
     krawędź z jednym czytaniem, bo Morfeusz rozbija ``docs/linter.md`` na pięć
     krawędzi, a czytelnik ma tam jedno słowo. Słowo, którego słownik nie ma,
     dostaje czytania z leksykonu projektu (:mod:`olski.projekt`), bo ``commitów``
-    jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieodmiennego.
-    Forma pisana wersalikami, której słownik nie czyta wcale, dostaje czytanie
-    nieodmienne (:func:`wersalik`). Reszta idzie do Morfeusza i traci te czytania,
+    jest dopełniaczem liczby mnogiej i nikt nie ma tam czytania nieoznaczonego.
+    Forma, o której słownik milczy i po tamtym wpisie, dostaje czytanie
+    rzeczownika nieoznaczonego (:func:`nieznane`). Reszta idzie do Morfeusza i traci te czytania,
     które odrzuca :func:`admissible`, po nich te, których lematu projekt nie używa
     (:func:`w_słownictwie`), a po nich te, które :func:`po_przyimku`
     odrzuca formie stojącej bez przyimka oraz :func:`po_słowie` cząstce zwrotnej
     stojącej bez słowa przed sobą, a na końcu napis objęty cudzysłowem dostaje
     czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
 
-    Trzy ostatnie warunki pytają o sąsiada, a nie o samą formę, więc idą po liście
-    gotowej, a nie po jednym segmencie jak te przed nimi. Przytoczenie idzie
-    ostatnie, bo pyta o czytania, które zostały: ``be`` traci rzeczownik w
-    :func:`admissible` i przytoczenie zastaje tam sam przymiotnik.
+    Cztery z tych warunków pytają o sąsiada, a nie o samą formę, więc idą po liście
+    gotowej, a nie po jednym segmencie jak te przed nimi. Złożenie przymiotnikowe
+    (:func:`złożenie`) idzie z nich pierwsze, bo skleja trzy krawędzie w jedną i
+    reszta ma zastać graf gotowy. Przytoczenie idzie ostatnie, bo pyta o czytania,
+    które zostały: ``be`` traci rzeczownik w :func:`admissible` i przytoczenie
+    zastaje tam sam przymiotnik.
 
     Słownictwo projektu wchodzi tu argumentem, a nie stałą czytaną w dwóch
     warunkach, bo bez tego nie da się przeczytać jednego zdania dwoma
     deklaracjami, a takiego pytania żąda i suita, i każdy, kto tę deklarację
     wycenia (``olski/słownictwo.py``).
 
-    Sklejenie stoi przed analizą, a nie za nią. Segment niesie numery węzłów
-    grafu, a nie przesunięcia w tekście, więc po analizie nie ma już czym zobaczyć
-    spacji, która ukośnik w ścieżce odróżnia od ukośnika między dwoma słowami.
+    Sklejenie notacji stoi przed analizą, a nie za nią, i tam samo stoi łącznik
+    wzięty za myślnik. Segment niesie numery węzłów grafu, a nie przesunięcia w
+    tekście, więc po analizie nie ma już czym zobaczyć spacji, która ukośnik w
+    ścieżce odróżnia od ukośnika między dwoma słowami, a łącznik w wyrazie od
+    myślnika. Złożenie przymiotnikowe skleja się za to za analizą, bo pyta o
+    czytania, a spacji nie potrzebuje (:func:`złożenie`).
     """
     return przytoczenie(
         po_słowie(
             po_przyimku([
                 w_słownictwie(
-                    admissible(wersalik(projekt.z_leksykonu(segment)), słownictwo), słownictwo
+                    admissible(nieznane(projekt.z_leksykonu(segment)), słownictwo), słownictwo
                 )
-                for segment in _segmenty(text)
+                for segment in złożenie(_segmenty(text))
             ])
         )
     )
 
 
 def _segmenty(text: str) -> list[Segment]:
-    """Krawędzie grafu segmentacji, notację liczące za jedną z nich.
+    """Krawędzie grafu segmentacji, napis wzięty przed Morfeuszem licząc za jedną.
 
     Grafy kolejnych kawałków stają jeden za drugim, przesunięte o numer węzła, na
     którym poprzedni się skończył. Wolno tak, bo każdy z nich ma jedno źródło i
@@ -371,8 +498,12 @@ def _segmenty(text: str) -> list[Segment]:
     """
     segmenty: list[Segment] = []
     węzeł = 0
-    for kawałek, notacja in _kawałki(text):
-        krawędzie = _krawędzie(kawałek) if notacja else analyse(kawałek)
+    for kawałek, czytanie in _kawałki(text):
+        krawędzie = (
+            [Segment(start=0, end=1, form=kawałek, readings=(czytanie,))]
+            if czytanie is not None
+            else analyse(kawałek)
+        )
         segmenty.extend(
             replace(segment, start=segment.start + węzeł, end=segment.end + węzeł)
             for segment in krawędzie
@@ -381,18 +512,25 @@ def _segmenty(text: str) -> list[Segment]:
     return segmenty
 
 
-def _kawałki(text: str):
-    """Tnie tekst na kawałki, każdy z odpowiedzią, czy jest notacją."""
+def _kawałki(text: str) -> Iterator[tuple[str, Reading | None]]:
+    """Tnie tekst na kawałki, każdy z czytaniem, które ta warstwa mu daje, albo bez.
+
+    Kawałek bez czytania idzie do Morfeusza, a kawałek z czytaniem jest jedną
+    krawędzią i Morfeusz go nie widzi. Rozstrzygają się tu dwie rzeczy i obie
+    tylko tu się rozstrzygnąć dają, bo obie pytają o spacje wokół znaku, a po
+    analizie nie ma już czym ich zobaczyć (``SKIP_WHITESPACES`` w
+    ``olski/morph.py``): notacja, czyli napis spojony ukośnikiem albo kropką bez
+    spacji (:data:`NOTACJA`), oraz łącznik postawiony w miejscu myślnika
+    (:data:`ŁĄCZNIK_ROZDZIELAJĄCY`).
+    """
     znak = 0
-    for match in NOTACJA.finditer(text):
-        yield text[znak : match.start()], False
-        yield match.group(), True
+    for match in PRZED_MORFEUSZEM.finditer(text):
+        yield text[znak : match.start()], None
+        napis = match.group()
+        lemat, znacznik = CZYTANIA_PRZED_MORFEUSZEM[match.lastgroup]
+        yield napis, Reading(napis, lemat or napis, znacznik)
         znak = match.end()
-    yield text[znak:], False
-
-
-def _krawędzie(forma: str) -> list[Segment]:
-    return [Segment(start=0, end=1, form=forma, readings=(Reading(forma, forma, NIEODMIENNY),))]
+    yield text[znak:], None
 
 
 def licencjonowane(segment: Segment, grammar: Grammar) -> tuple[Reading, ...]:

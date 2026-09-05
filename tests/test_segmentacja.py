@@ -21,7 +21,7 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.morph import analyse
-from olski.segmentacja import admissible, morphology, sentences, wersalik
+from olski.segmentacja import admissible, morphology, nieznane, sentences
 from tests.test_werdykt import role, verdict
 
 
@@ -148,9 +148,13 @@ def test_wykluczenie_przyimkowe_zostawia_formę_której_polszczyzna_tam_używa(z
         #  niego interpunkcją, a czytelnik ma tam jedno słowo, którego rozbitego
         #  nie bierze żadna produkcja. Łącznik idzie z nią, bo stoi w jej środku.
         ("Zobacz docs/design-notes.md.", ["Zobacz", "docs/design-notes.md", "."]),
-        #  Łącznik sam ścieżki nie robi, a złożenie przymiotnikowe Morfeusz zna po
-        #  członach: sklejone w jedno wypadłoby ze słownika i z gramatyki.
-        ("czarno-biały", ["czarno", "-", "biały"]),
+        #  Łącznik sam ścieżki nie robi, a złożenie przymiotnikowe skleja dopiero
+        #  warunek za analizą, i skleja je z czytaniami członu drugiego.
+        ("czarno-biały", ["czarno-biały"]),
+        #  Ukośnik spaja także wtedy, gdy człon stoi po jednej jego stronie, bo
+        #  tak ten rejestr pisze katalog i flagę.
+        ("Teksty licencji stoją w LICENSES/.", ["Teksty", "licencji", "stoją", "w", "LICENSES/", "."]),
+        ("Użycie /LFSM żąda robocopy.", ["Użycie", "/LFSM", "żąda", "robocopy", "."]),
         #  Skrót z kropką w środku ma człony jednoliterowe, więc wzorzec go mija.
         ("m.in.", ["m.in", "."]),
         #  Data spaja się kropkami tak samo jak ścieżka, a rzeczownikiem nie jest.
@@ -177,28 +181,35 @@ def test_graf_kawałka_niejednoznacznego_zszywa_się_z_notacją_bez_przesunięci
     ]
 
 
-def test_wykluczenie_słownikowe_nie_zdejmuje_czytaniu_notacji():
-    #  Notacja niesie jedno czytanie, i to nieodmienne, czyli dokładnie to, co
-    #  admissible odrzuca — broni jej przed tym drugi warunek, ten o wyrazie
-    #  funkcyjnym obok. Bez niego notacja wychodziłaby stąd bez czytań, a to jest
-    #  werdykt o formie, której Morfeusz nie zna, i tutaj byłby fałszywy.
-    segment = morphology("docs/subset.md")[0]
-    assert [reading.tag.raw for reading in segment.readings] == [
-        "subst:sg.pl:nom.gen.dat.acc.inst.loc.voc:n:ncol"
-    ]
+@pytest.mark.parametrize("napis", ["docs/subset.md", "README"])
+def test_notacja_i_forma_nieznana_dostają_to_samo_czytanie(napis):
+    #  Klasa jest jedna, a drogi do niej dwie: notację sklejamy sami, a `README`
+    #  wraca z Morfeusza jako `ign`. Rozejście się tych dwóch dróg nie wywraca
+    #  żadnego zdania, bo oba czytania stoją wszędzie, więc pyta o nie ten test.
+    segment = morphology(napis)[0]
+    assert [reading.tag.raw for reading in segment.readings] == ["subst"]
 
 
-def test_forma_wersalikowa_której_słownik_nie_ma_jest_rzeczownikiem_nieodmiennym():
-    #  Druga połowa tej samej myśli co notacja: `README` nie niesie ani kropki,
-    #  ani ukośnika, więc wzorzec notacji go nie widzi, a Morfeusz oddaje `ign`,
-    #  którego nie bierze ani jedna produkcja.
-    found = verdict("README mówi o podzbiorze.")
-    assert found.readings, found.explain()
+def test_forma_nieznana_nie_narzuca_rodzaju_swojej_przydawce():
+    #  Usterka, którą to łapie: rodzaj wpisany do czytania formy nieznanej.
+    #  Rodzaj bierze się tu z rzeczownika, którego zdanie nie wymawia — z pliku
+    #  albo z wprowadzenia — więc polszczyzna ma oba te zdania, a czytanie o
+    #  jednym rodzaju odbiera jedno z nich.
+    assert verdict("Zmieniony README jest tani.").status == "valid"
+    assert verdict("Zmienione README jest tanie.").status == "valid"
 
 
-def test_wersalik_nie_dokłada_czytania_formie_którą_słownik_czyta():
+def test_złożenie_przymiotnikowe_zgadza_się_swoim_członem_drugim():
+    #  Usterka, którą to łapie: sklejenie biorące czytania członu pierwszego.
+    #  `adja` nie niesie ani przypadka, ani liczby, ani rodzaju, więc zgodność
+    #  z rzeczownikiem wychodzi wyłącznie z członu drugiego.
+    assert verdict("Kościół ewangelicko-reformowany rośnie.").status == "valid"
+    assert verdict("Kościoły ewangelicko-reformowany rosną.").status == "rejected"
+
+
+def test_czytania_nieoznaczonego_nie_dostaje_forma_którą_słownik_czyta():
     #  Usterka, którą to łapie: warunek postawiony na samym piśmie formy. `NIE`
-    #  słownik czyta jako cząstkę przeczącą, a czytanie nieodmienne postawione na
-    #  jej miejscu odbiera zdaniu przeczenie.
+    #  słownik czyta jako cząstkę przeczącą, a czytanie rzeczownikowe postawione
+    #  na jej miejscu odbiera zdaniu przeczenie.
     segment = analyse("NIE")[0]
-    assert wersalik(segment) is segment
+    assert nieznane(segment) is segment

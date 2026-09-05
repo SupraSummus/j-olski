@@ -18,6 +18,8 @@ from olski.lematy import (
     PRZYIMEK_ROZDZIELAJĄCY,
     ZNAK_CUDZYSŁOWU_OTWIERAJĄCY,
     ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY,
+    ZNAK_MYŚLNIKA,
+    ZNAK_PÓŁPAUZY,
 )
 
 #: Rzeczownik, przy którym polszczyzna opuszcza kopułę: `o których mowa`.
@@ -248,6 +250,20 @@ ZAIMEK_RZECZOWNY = frozenset({
 ZWROTNY = word("siebie", case=V("c"))
 
 
+#: Liczba pisana cyfrą, w parze z jednostką: `2 GB`, `5 km`, `10 zł`.
+#: Cyfry samej ta gramatyka nie bierze, bo nie niesie ona morfologii
+#: (docs/konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
+#: a para z jednostką morfologii nie niesie tak samo i wchodzi mimo to, bo jest
+#: całą grupą imienną, a nie liczebnikiem rządzącym czymś pod sobą.
+LICZBA = word("dig")
+
+
+#: Jednostka pisana skrótem, czyli drugi człon tej pary. Skrót pisany z kropką —
+#: `np.`, `godz.`, `tys.` — zostaje na zewnątrz warunkiem na ``npun``, bo jego
+#: kropkę bierze już koniec zdania, a wtedy pary nie ma czym domknąć.
+JEDNOSTKA = word("brev", fullstoppedness="npun")
+
+
 #: The three features a Polish noun or adjective phrase agrees in, as the
 #: variables every production sharing them uses. Spelling them out once is what
 #: keeps two parts of one phrase demonstrably talking about the same agreement.
@@ -386,9 +402,11 @@ NAWIAS_ZAMYKAJĄCY = word("interp", lemma=")")
 #: bezkontekstowa.` Stoi obok dwukropka i średnika (:data:`ŚREDNIK`).
 #:
 #: Znaki są dwa, bo polszczyzna pisze myślnik pauzą i półpauzą, a łącznik spaja
-#: wewnątrz wyrazu — `16-latków`, `UTF-8` — więc tego warunek nie bierze. Co to
-#: wykluczenie kosztuje, mierzy docs/subset.md.
-MYŚLNIK = word("interp", lemma={"—", "–"})
+#: wewnątrz wyrazu — `16-latków`, `UTF-8` — więc tego warunek nie bierze. Łącznik
+#: postawiony w miejscu myślnika bierze mimo to, bo lemat pauzy dostaje on już w
+#: warstwie morfologicznej, czyli tam, gdzie widać spacje wokół niego
+#: (``olski/segmentacja.py``). Co to wykluczenie kosztuje, mierzy docs/subset.md.
+MYŚLNIK = word("interp", lemma={ZNAK_MYŚLNIKA, ZNAK_PÓŁPAUZY})
 
 
 #: Znak, którym ktoś zamknął zdanie. Nazwany raz, bo bierze go każde ciało zdania.
