@@ -135,6 +135,8 @@ Kolejność jest więc taka, i pomiar stoi w niej przed awansem, a nie przed pis
    i mówi o każdym, czy poprawiłby to, co zgłoszenie wskazuje.
    Reguła, która trafia często, a każde trafienie jest chybione,
    jest gorsza od reguły, która milczy, i schodzi z kodu.
+   Chybienie, które stoi przy zdaniu nieczytanym, liczy się przy tym osobno:
+   mówi o granicy podzbioru, a nie o regule, i żadne zawężenie go nie zdejmie.
 5. **Awansuj do znalezisk po sądach.**
    Zgłoszenie wchodzi do wydruku domyślnego i do kodu wyjścia,
    gdy sądy je potwierdzają, a ile ich trzeba, mówi
@@ -409,55 +411,66 @@ Dwa z nich napisano ręką pod ten korpus i to one regułę uwiarygodniły,
 a nagłówek `próba/usterki.txt` żąda zdań cudzych właśnie po to:
 zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia.
 
-## Wykrywacz zaimka niezwrotnego został za flagą, bo trafienie od chybienia dzieli znaczenie słowa
+## Reguła o zaimku niezwrotnym zeszła z kodu, bo posiadacza wybiera znaczenie słowa
 
 O rzeczy podmiotu polszczyzna mówi `swój`,
 więc `jego`, `jej` i `ich` nazywają rzecz kogoś innego niż podmiot zdania składowego.
 `Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby bezpieczeństwa.`
 nie mówi przez to o stosunku kandydata,
 choć nikogo innego to zdanie nie nazywa, a poprawką jest `swojego`.
-To zdanie i dwa takie stoją w `próba/usterki.txt`
-i to one postawiły ten wykrywacz w kolejce
-([roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
-Znalazł je nad NKJP sam wykrywacz, a nie wycinek przeczytany w całości,
-więc jego trafienie w nie jest obiegiem zamkniętym
-i dowodu o regule tamte trzy zdania nie niosą — niesie go baza sądów niżej.
-Warunek czyta z drzewa `olski/odniesienia.py`, a wiersz wypisuje flaga `--dzierżawcze`.
+Reguła zgłaszała takie zdanie za własną flagą i czekała na sądy,
+które ją awansują albo zdejmą; zdjęły ją.
+Sądy zostają w `próba/nkjp-sądy.txt` pod nazwą, której olski już nie ma
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)),
+a razem z regułą wyszły z korpusu usterek trzy wpisy, które ją zamawiały.
 
-Na [czterech osiach](#cztery-osie-każdej-reguły) wypada tam,
-gdzie [reguła o zaimku](#gdzie-na-tych-osiach-wypada-reguła-o-zaimku) obok niego:
-głębokością jest rozbiór, bo i podmiot, i głowę grupy imiennej nazywa dopiero drzewo,
-kształtem jest werdykt o zdaniu, a pytanie jest o strukturę.
-Progu przez to nie ma i kalibracji ta reguła nie potrzebuje —
-potrzebuje jej awans, i to on stanął.
-Populacją jest cudza polszczyzna,
-więc o regule rozstrzyga baza sądów, a nie przeczytanie wszystkich trafień.
-
-Zgłoszenie pada tam, gdzie podmiot składowego zgadza się z zaimkiem
-liczbą i rodzajem, a żadna inna rzecz stojąca przed zaimkiem się z nim nie zgadza.
-Zawężenia, którymi kandydatów ubywa, oraz cenę każdego z nich
-trzyma `olski/odniesienia.py`; każde zdejmuje trafienia, a żadne ich nie dokłada.
-
-Kryterium postawiono przed pomiarem:
+Kryterium postawiono przed pomiarem, dwa razy i za każdym razem tak samo:
 dwadzieścia sądów trafnych na trzydzieści awansuje wykrywacz do wydruku domyślnego,
-a mniej niż dziesięć zostawia go za flagą.
-Trzydzieści trafień nad podkorpusem milionowym NKJP przeczytano
-i czytelnik potwierdził jedno (`próba/nkjp-sądy.txt`).
+a mniej niż dziesięć zdejmuje go z kodu.
+Pierwsze trzydzieści sądów dało jedno potwierdzenie,
+a reguła została za flagą dlatego, że chybienia miały jeden kształt
+i ten kształt wyglądał na zawężalny.
+Drugie trzydzieści zapadło już nad regułą zawężoną i dało trzy potwierdzenia.
 
-Chybienia są jednym kształtem i widać po nim, czego regule brakuje.
-Zaimek podejmuje w nich osobę nazwaną zdanie albo dwa wcześniej,
-a w podmiocie stoi rzecz, której czytelnik na posiadacza nie bierze:
-`Przeszywający ból, cierpienie widoczne na jego spoconej twarzy są oznaką łaski.`
-mówi o twarzy szamana, bo ból twarzy nie ma,
-a `Przez długi czas będą jeszcze trudności z ich nabyciem.`
-mówi o sadzonkach, bo trudności się nie nabywa.
-Zgodność liczby i rodzaju tego nie rozdziela i rozdzielić nie może:
-`jego` zgadza się z każdym rzeczownikiem męskim i nijakim w liczbie pojedynczej.
-Rozdziela to znaczenie słowa — czy rzecz stojąca w podmiocie bywa posiadaczem —
-a nie kształt zdania, więc zawężenia z drzewa na to nie ma
+**Zawężenie do tekstu zdjęło ponad połowę chybień i reguły nie uratowało.**
+Kandydatów na posiadacza szukała ona w składowym zaimka,
+a czytelnik szuka ich tam, gdzie szuka rzeczy: w zdaniu i w zdaniu obok
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
+Po zawężeniu kandydatem była każda głowa grupy imiennej stojąca przed zaimkiem,
+rzeczownik spod głowy podmiotu oraz rzecz nazwana w zdaniu obok.
+Z dwudziestu dziewięciu chybień przeczytanych przedtem zeszło szesnaście,
+a jedyne potwierdzone trafienie zostało:
+nad `Dziś centrum nosi jego imię.` reguła zamilkła, bo biskupa nazywa zdanie obok,
+a nad `Struktura nauki powinna stanowić uogólnienie jej zasięgu przedmiotowego
+i zakresu treściowego.` — bo nauka stoi pod głową podmiotu.
+
+Zawężenie kosztowało przy tym jeden z trzech wpisów korpusu usterek.
+`Spotkanie w urzędzie wywarło na wszystkich jego uczestnikach niesamowite wrażenie.`
+nazywa urząd pod głową swojego podmiotu, a urząd uczestników mieć może,
+więc reguła zawężona nad tym zdaniem milczy.
+Odciąć tego od zysku nie ma czym, bo kształt obu zdań jest ten sam:
+to samo zejście pod głowę podmiotu zdejmuje `Spotkanie z Ojcem Świętym otworzyło
+nowy rozdział w jego chorobie.`, gdzie posiadaczem jest właśnie rzecz spod tej głowy.
+
+**Zostały chybienia dwóch kształtów i żadnego z nich nie tyka żadne zawężenie.**
+Pierwszym jest brak pokrycia:
+w `Ściana łez zasłania mi jego postać.` posiadaczem jest wujek ze zdania obok,
+a olski tamtego zdania nie czyta, więc kandydata z niego nie wydaje.
+Osiem z trzynastu chybień, które po zawężeniu zostały, jest tym właśnie kształtem,
+a nie jest to wada reguły, tylko granica podzbioru.
+Drugim jest znaczenie słowa, czyli to, co regułę zamknęło.
+Czy rzecz stojąca w podmiocie bywa posiadaczem, zgodność orzec nie może:
+`jego` zgadza się z każdym rzeczownikiem męskim i nijakim w liczbie pojedynczej,
+a zdanie ma takich zwykle kilka.
+W `Kofeina zawarta w ziarnie kawy pobudza już kilkanaście minut po jej wypiciu.`
+posiadaczem jest kawa, bo kofeiny się nie pije,
+a w `To był pierwszy samochód w jego życiu.` — osoba, o której mówi artykuł,
+bo samochód życia nie ma.
+Rozdziela te zdania od trafień znaczenie słowa, a nie kształt zdania,
+więc zawężenia z drzewa na to nie ma
 ([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 
-Zawężenie do podmiotu nazywającego osobę tego nie ratuje.
+**Zawężenie do podmiotu nazywającego osobę tego nie ratuje.**
 Osoba stoi w podmiocie także w chybieniach:
 `Witold poszedł w jego ślady i również poświęcił się dziennikarstwu.`
 mówi o śladach ojca.
@@ -466,22 +479,13 @@ więc `jej` zostałoby bez zawężenia,
 a deklaracja osób tego projektu jest zamknięta i poza jego rejestr nie sięga
 ([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 
-Za flagą reguła stoi, a rozstrzygnięcia, czy ma stać dalej, ten dokument nie ma.
-[Krok czwarty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)
-każe takiej regule zejść z kodu,
-gdy trafia często, a każde trafienie jest chybione,
-i tym krokiem wycofano [regułę o imiesłowie](#reguła-o-imiesłowie-bez-podmiotu-myliła-się-w-każdym-trafieniu)
-stojącą w tym dokumencie wyżej.
-Ta reguła jest głośniejsza od tamtej — nad tym samym podkorpusem
-tamta trafia kilkanaście razy, a ta kilkadziesiąt —
-a przeczytana część jej trafień daje jedno potwierdzenie,
-gdzie tamta nie dała ani jednego nad całą swoją populacją.
-Za jej pozostaniem stoi to jedno potwierdzenie oraz cena, którą płaci
-repozytorium, a nie autor: jedna funkcja, garść testów i nazwa poza
-znaleziskami, więc ani podsumowanie, ani kod wyjścia `olski-check` się nie ruszają.
-Za wycofaniem stoi ta sama arytmetyka, którą wycofano tamtą.
-Rozstrzygnie to przeczytanie następnych sądów: potwierdzenie drugie regułę broni,
-a trzydzieści sądów bez ani jednego zdejmuje ją tak jak tamtą.
+Reguła ta była głośniejsza od [reguły o imiesłowie](#reguła-o-imiesłowie-bez-podmiotu-myliła-się-w-każdym-trafieniu)
+i zeszła z kodu przy czterech potwierdzeniach, a nie przy zerze,
+więc [krok czwarty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)
+waży tu inaczej niż tam: tamta myliła się nad całą swoją populacją co do trafienia,
+a w tej trafne jest rzadziej niż co dziesiąte przeczytane trafienie.
+Wraca wtedy, gdy ktoś napisze warunek, który te cztery zdania oddziela od reszty,
+a nie wtedy, gdy dołoży kandydatów: kandydatów dołożono i to właśnie zmierzono.
 
 Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 
