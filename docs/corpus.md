@@ -205,11 +205,9 @@ and neither is Polish, so neither is what a press corpus is made of.
 
 Wiersz cząstki stoi pod znacznikami złotymi wysoko w tej kolejce,
 a prowadzą go `też`, `jednak`, `czy` i `tylko`.
-`się` prowadziło ten wiersz, dopóki cząstki nie brał bezokolicznik;
-z tamtej pozycji został sam ogon, czyli cząstka oddalona od swojego czasownika
-([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
-i wiersz spadł przez to o rząd wielkości i o miejsce w kolejce.
-Cztery formy, które go teraz prowadzą, nazywają dwie różne roboty:
+Z `się` został w nim sam ogon, czyli cząstka oddalona od swojego czasownika
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)).
+Cztery formy, które go prowadzą, nazywają dwie różne roboty:
 `jednak`, `też` i `tylko` są cząstkami,
 których zamknięta lista olskiego nie bierze
 ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
@@ -225,68 +223,18 @@ Konstrukcje, po których te dwa wiersze się nazywają, gramatyka ma
 a wiersze przez to nie znikają i tym mówią o tej kolejce rzecz najważniejszą:
 nazywa ona część mowy, na której analiza stanęła,
 a nie konstrukcję, której zabrakło.
-Ile wart jest każdy taki wiersz, mierzy się po jednym,
-a nie odczytuje z jego wysokości.
 
-Clause-level punctuation is the addition that showed
-how little a row says about what admitting its construction buys.
-The colon and the comma standing in front of a conjunction came in together
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#interpunkcja-zdaniowa-spina-zdania-które-już-się-wyprowadzają)),
-the `interp` row they belong to barely moved,
-the `conj` row lost several times more sentences than that,
-and the particle row *rose*.
-The three forms leading the `conj` row were the same three after that addition,
-all of them capitalized:
-what left that row is the conjunction standing between two clauses,
-and what stayed is the conjunction opening a sentence,
-which is another construction and has since been admitted
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)).
-So the row a construction is admitted out of is not the row that records it,
-and most of what left the `conj` row
-moved onto another blocker instead of being accepted.
-The second addition read the row before writing anything,
-which is how the two constructions turned out to be one:
-the lemmas opening a sentence in this treebank are the lemmas
-the two lists of clause-level conjunctions already carried, plus two.
-
-Five constructions have left this queue outright —
-the adverb, the gerund, the impersonal verb
-([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)),
-the future tense
-([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-orzeka-sama-albo-składa-czas-przyszły-złożony))
-and the sentence-initial conjunction
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)) —
-and their rows are gone from the front of it.
-The last of those emptied a row that had been fourth,
-and it shows the paragraph above once more:
-the rows for the particle and for a sentence with no structure over it
-both rose, because most of what left the `conj` row
-stopped further along rather than being accepted.
-The impersonal shows the paragraph above from the other side:
-its row fell to about a third of itself,
-the addition accepted well under half of what fell out of it,
-and the rows above it rose,
-because a sentence it did not buy stopped further along instead.
-The future tense is the addition that emptied its own row:
-what is left of `bedzie` is a handful of sentences at the bottom of the queue,
-and under half of what left it was accepted,
-the rest having stopped further along.
-Others took part of a row with them:
+What stands in such a row is what the admitted shape leaves out:
 the particle, the subordinator, clause-level punctuation,
-the adverbial participle, the reflexive pronoun,
-and the predicative's future tense
-are admitted in a shape narrower than Polish,
-so their rows stay and what stands in them is what the shape leaves out.
-The linker `to` is the one that left the printed queue instead.
-Its verbless body took about a fifth of the `pred` row and moved that row two
-places down; the orders that stand `to` beside a finite copula took what was
-left of it — `Był to nieforemny chłopak.`, `To są oczywistości.`
-([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)) —
-and the row now stands below the twelve this document prints.
-It fell by more than twice the sentences those bodies accept,
-which is the point of the paragraph above.
+the adverbial participle, the reflexive pronoun
+and the predicative's future tense are all admitted in a shape narrower than Polish.
+The linker `to` is the one that left the printed queue instead,
+its verbless body and the orders that stand it beside a finite copula
+taking the `pred` row between them —
+`Był to nieforemny chłopak.`, `To są oczywistości.`
+([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#przy-kopuli-ten-sam-łącznik-ma-trzy-szyki-a-zgodność-wybiera-podmiot)).
 
-The subordinator row is where that shows on today's queue.
+The subordinator row shows it.
 `że` leads it, and the grammar has `że`:
 those sentences hang the clause on a noun or on a predicative —
 `nadzieja, że odzyska syna`, `Możliwe, że miałam zostać królikiem` —
@@ -294,6 +242,12 @@ and the grammar has that position in a verb's frame and nowhere else.
 Behind it stand the subordinators the conditional stands under,
 which are left out for a reason of their own
 ([subset.md](subset.md#what-it-does-not-cover-yet)).
+
+A row can hold two constructions, and the `conj` row does:
+the conjunction between two clauses and the conjunction opening a sentence share it
+([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-na-czele-zdania-wiąże-je-z-poprzednim)).
+So the row a construction is admitted out of is not the row that records it.
+Most of what leaves a row stops on another blocker rather than being accepted.
 
 The rows are named as Morfeusz names a part of speech,
 and the treebank names four of them otherwise.
@@ -321,9 +275,6 @@ into the particle row, and putting it back takes a fraction of them
 off the rejected list, the rest moving rightward onto another blocker,
 where every sentence the numeral phrase reaches comes out of the numeral's own row
 and it takes a fifth of them.
-A sentence carries more than one missing construction,
-and the row counts where an analysis stopped
-rather than what admitting the construction buys.
 So a row does say which sentences an addition can reach —
 it just does not say how many of them it will take.
 What the two rankings promise against what they deliver is priced
@@ -384,13 +335,7 @@ That is a dictionary reading Polish does not have here,
 the class this register shows the same way the treebank shows it on `wobec`.
 
 What stops each of those is named.
-This file used to rank the forms no production takes,
-and construction after construction took that ranking apart —
-the gerund, the adverb, the numeral written as a word,
-clause-level punctuation, the wrapping kind beside it, the project lexicon,
-each argued in the section of [subset.md](subset.md#what-the-grammar-covers)
-that admitted it.
-What is left of the ranking is single occurrences:
+The forms no production takes amount here to single occurrences:
 the bare letter *p* that the title's joke turns on,
 the digit in `Morfeusz 2`,
 and the English title this file cites beside the form `polsku`.
@@ -410,10 +355,9 @@ and disagree on what admitting one is worth.
 Most sentences either run rejects carry two missing classes or more,
 so a production added by itself leaves them where they stand,
 and the row the treebank ranks first rates at nothing here.
-A prediction made before an addition can be checked against one sentence,
-and `Działają dwie rzeczy.` is the sentence it was checked on:
-it needed the numeral phrase and nothing else.
-The reason the prediction could be made at all was
+`Działają dwie rzeczy.` is the sentence that needed one production and no other,
+which is what makes it the one an addition can be predicted against.
+What makes such a prediction possible at all is
 [the valency lexicon](walencja.md#walencja-jest-leksykonem-o-ramie-domyślnej) —
 `dwie rzeczy` is nominative or accusative and a subjectless clause takes an object,
 so without the entry saying `działać` takes none
@@ -428,7 +372,7 @@ own it.
 It is a demand on the grammar that this register makes and the treebank cannot,
 and it is the reason to take this run at all
 rather than to read the queue alone.
-Both halves of it are met, and this run is what said which half to meet first.
+Both halves of it are met.
 The notation the register writes —
 `docs/linter.md`, `CLAUDE.md`, `harness/markdown.py` —
 reaches the grammar as one indeclinable noun rather than as five segments,
@@ -440,11 +384,7 @@ notation occurs in these 13,035 sentences a handful of times,
 web addresses and `10.000zł` and `II.16`,
 so nothing in the live column below turns on it.
 
-That run is the grammar track's other instrument beside this treebank.
-The track has no exit criterion
-([roadmap.md](roadmap.md#readme-jest-przyrządem-pomiarowym)),
-so what the run prices is each addition rather than a distance to a finish.
-What it counts as a sentence is what the run reports as one,
+What that run counts as a sentence is what it reports as one,
 and nothing in this file comes back `fragment` and stands outside the denominator.
 [extraction.md](extraction.md#nie-każdy-akapit-który-stąd-wychodzi-jest-zdaniem)
 owns that class and how much of this register it is.

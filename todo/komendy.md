@@ -194,8 +194,8 @@ Ruchem jest `bloker` w `olski/pokrycie.py` nazywający formę tam, gdzie każde
 jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/segmentacja.py`),
 a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
 Do przeczytania jest, co taki wiersz zrobi z tabelami, które ten wydruk cytują —
-[`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop) czyta wiersze `interp`,
-`conj` i `part` po nazwie — bo przemianowany wiersz żąda przeliczenia obu przebiegów
+[`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop) czyta wiersze `conj`
+i `part` po nazwie — bo przemianowany wiersz żąda przeliczenia obu przebiegów
 nad bankiem drzew, a nie samego dopisania zdania.
 Wpis waży mniej, odkąd wiersz nazywa czytanie licencjonowane,
 bo `interj` jest wierszem prawdziwych wykrzykników, a nie kryjówką dla `i`.
