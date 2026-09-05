@@ -347,13 +347,20 @@ Sprawdza go `python3 -m harness.usterki`,
 a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
 Ten sam przebieg ustawia kolejkę roboty
 ([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)):
-wpis nieczytany żąda produkcji, wpis w ciszy żąda wykrywacza,
+wpis nieczytany żąda produkcji albo naprawy, wpis w ciszy żąda wykrywacza,
 a szum żąda zawężenia tego, co już pada.
 Cel mierzy zdolność, a nie udział,
 bo zdania korpusu nikt nie przepisuje pod gramatykę:
 przepisać wolno poprawkę, a zdanie z usterką ma zostać usterką.
 Korpus rośnie zdaniem, które autor chciał zgłoszone, a olski przemilczał,
 i nie rośnie zdaniem dopisanym pod wykrywacz, który już stoi.
+Nie rośnie też zdaniem, którego zgłoszenia nie poświadcza ani odczytanie,
+ani naprawa: takiego wpisu nie zamyka żadna robota,
+więc cel przestaje przy nim mówić, co by go osiągnęło.
+Poznać go po jednym pytaniu — co wykrywacz musiałby wiedzieć nad tym zdaniem —
+a wpis, którego odpowiedzią jest znaczenie słowa, a nie kształt zdania,
+schodzi do wariantu, w którym usterka jest kształtem, albo z korpusu wypada
+([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
 Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
@@ -539,6 +546,10 @@ Wpis nieczytany nazywa zdanie, którego gramatyka nie wyprowadza,
 a którego autor potrzebuje przeczytanego, bo stoi w nim usterka do zgłoszenia;
 produkcja, która je wpuszcza, ma pierwszeństwo przed produkcją,
 która kupuje kilkadziesiąt zdań banku drzew bez ani jednej usterki.
+Zdania, którego polszczyzna nie ma, nie wpuszcza za to żadna produkcja
+i wpuścić go nie wolno, więc wpis o nim nazywa naprawę:
+zgłoszenie poświadcza wtedy odczytanie poprawionego napisu
+([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 Wpis w ciszy nazywa wykrywacz do napisania.
 Szum nazywa zgłoszenie, które pada obok usterki, a nie na nią, i żąda zawężenia.
 Pokrycie zostaje skutkiem, tak jak mówi

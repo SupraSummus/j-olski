@@ -706,6 +706,10 @@ the pointer does not run the other way
 Zdanie z usterką, którą czytelnik by poprawił, a olski o niej milczy,
 nie jest wpisem na żadnej z tych list, tylko wpisem korpusu usterek (`próba/usterki.txt`),
 wraz z poprawką i z nazwą zgłoszenia, które ma paść.
+Wpisem jest wtedy, gdy usterka jest kształtem zdania;
+o tej, o której orzeka znaczenie słowa, olski będzie milczał
+i nie zapisujemy jej nigdzie
+([`docs/subset.md`](docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 Ten korpus ustawia kolejkę toru gramatycznego, a nie kolejka blokerów
 ([`docs/roadmap.md`](docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)),
 więc produkcję i wykrywacz dopisuje się dla zdania, które w nim stoi.

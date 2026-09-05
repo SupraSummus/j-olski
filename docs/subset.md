@@ -431,6 +431,87 @@ albo rejestr, w którym usterka jest częsta.
 Ten drugi warunek jest ten sam, który sekcja wyżej stawia poprawce znaku,
 i mierzy się go na tym samym korpusie audytowym.
 
+## Wpis korpusu usterek nazywa kształt zdania, a nie znaczenie słowa
+
+`próba/usterki.txt` wylicza zgłoszenia, których autor potrzebuje,
+i jest kolejką roboty, a nie listą życzeń.
+Wpis wchodzi tam wtedy, gdy jego zgłoszenie ma świadka,
+a świadka dają dwie drogi.
+Pierwszą jest odczytanie: gramatyka zdanie wyprowadza,
+a wykrywacz czyta jego drzewo — albo sam napis, kiedy drzewa nie potrzebuje.
+Drugą jest naprawa: gramatyka zdania nie wyprowadza,
+wyprowadza jedno zdanie poprawione,
+i to odczytanie poświadcza zgłoszenie tak samo jak przy
+[poprawce jednego znaku](#poprawkę-jednego-znaku-poświadcza-gramatyka).
+Wpisu, którego zgłoszenia nie poświadcza ani jedna droga, ani druga,
+nie zamyka żadna robota, więc kolejki nie ustawia,
+a cel nad tym korpusem przestaje mówić, co by go osiągnęło
+([roadmap.md](roadmap.md#cele)).
+Rozstrzyga to jedno pytanie: co wykrywacz musiałby wiedzieć nad tym zdaniem?
+Odpowiedź „kształt tego zdania” wpis w korpusie zostawia,
+a odpowiedź „znaczenie tego słowa” zabiera go stamtąd.
+
+**Zgłoszenie o zdaniu, którego polszczyzna nie ma, poświadcza naprawa, a nie produkcja.**
+`Zespół programistów spotkali się rano.` jest zdaniem z usterką,
+a gramatyka pilnująca zgodności takiego zdania nie wyprowadza.
+Produkcja, która by je wpuściła, zdejmuje zgodność wszystkim zdaniom naraz,
+czyli zabiera dokładnie ten warunek, o który wpis prosi,
+i łamie obietnicę, że każde zdanie olskiego jest zdaniem polskim
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
+Odczytanie, które takiemu zdaniu ta gramatyka daje,
+jest czytaniem, którego polszczyzna nie ma, i zabiera je kierunek
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
+Samo odrzucenie zgłoszenia nie zastępuje, bo mówi tylko,
+[dokąd analiza doszła](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
+Zostaje naprawa, i to jej wpisy o niezgodności żądają:
+zgłoszenie o parze, która się nie zgadza, poświadcza odczytanie napisu,
+w którym orzeczenie dostało formę, której żąda podmiot.
+
+**Zgłoszenie jest jedno, choćby naprawa nie była.**
+Naprawą jest tu całe orzeczenie, a nie jedno słowo:
+`Lista błędów i ostrzeżeń zostały zapisane.` naprawia `została zapisana`,
+czyli obie formy naraz, bo obie mają tę samą liczbę i ten sam rodzaj.
+Formę tę rozstrzyga podmiot, więc przy jednym podmiocie naprawa jest jedna,
+a przy dwóch kandydatach na podmiot są dwie
+i każda nazywa tę samą parę, która się nie zgadza.
+Ruszyć wolno przy tym samo orzeczenie:
+to zdanie naprawia także `Listy` w miejsce `Lista`,
+ale zdanie z `Listy` mówi co innego, bo list jest w nim kilka.
+Werdykt nazywa przy tym parę, a nie napis do przepisania,
+więc druga naprawa nie dokłada autorowi wyboru.
+Tym ta klasa różni się od naprawy całego słowa, gdzie każdy kandydat
+mówi co innego i wybór między nimi zostaje przy autorze
+([wyżej](#naprawa-całego-słowa-nie-jest-jednoznaczna)).
+
+**Usterka, o której orzeka znaczenie słowa, zostaje poza korpusem.**
+`Idąc do pracy, padał deszcz.` olski wyprowadza
+i po składni nie ma w tym zdaniu czego poprawić:
+imiesłów zajmuje miejsce okolicznika, a zdanie nadrzędne ma podmiot.
+Usterką jest to, że deszcz do pracy nie chodzi,
+a orzeka o tym znaczenie, którego olski nie rozstrzyga
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
+Zdanie to podchodzi przez to nie pod imiesłów bez podmiotu,
+tylko pod żądanie pozycji, a ono czeka na zasób, którego to repozytorium nie ma
+([walencja.md](walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+Korpus stawia więc wariant, w którym usterka jest kształtem:
+`Idąc do pracy, zgubiono klucze.` ma zdanie nadrzędne bez podmiotu,
+bo orzeczenie bezosobowe podmiotu nie ma,
+więc imiesłów nie ma go skąd wziąć,
+a wykrywacz czyta ten warunek z drzewa i nie pyta o żadne słowo z osobna.
+Ceną jest usterka, której autor nie dostanie zgłoszonej:
+umowa jej nie obejmuje, więc odpowiada za nią sam.
+
+**Wariant „poza gramatyką” odrzucamy, bo korpus jest kolejką.**
+Rodzaj wpisu, którego cel nie liczy, zostawiłby usterkę znaczeniową w korpusie
+i nie zobowiązywał nikogo.
+Klasa wyjęta spod celu rośnie jednak każdą usterką, której nie umiemy zgłosić,
+więc cel liczony bez niej mierzy w końcu to, co i tak umiemy.
+Odwróci to plik osobny, który jest rejestrem usterek poza umową, a nie kolejką;
+ceną są wtedy dwa pliki i pytanie, kto czyta ten drugi.
+Wariant drugi — cel zostawiony nieosiągalnym — odrzuca zasada,
+że cel nazywa, czym się go sprawdza
+([roadmap.md](roadmap.md#cele)).
+
 ## Zaimek wskazujący na dwie rzeczy jest drugim znaleziskiem
 
 Poprawka jednego znaku mieści się w jednym zdaniu, a to znalezisko nie mieści się.
