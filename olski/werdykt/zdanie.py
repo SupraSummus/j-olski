@@ -59,6 +59,11 @@ FRAGMENT = "fragment"
 #: a nie o autorze, wywodzi docs/extraction.md.
 NIEDOMKNIĘTE = "unclosed"
 
+#: Czym :meth:`Verdict.explain` otwiera wiersz o zdaniu, którego gramatyka nie
+#: wyprowadza. Nazwa orzeka o olskim: odczytania nie ma. Tryb ścisły orzeka tym
+#: wierszem o zdaniu autora i podaje wtedy nazwę własną (``olski/check.py``).
+BRAK_ODCZYTANIA = "brak odczytania"
+
 
 def _nierozstrzygnięte(przyłączenie: Przyłączenie) -> str:
     """Modyfikator i głowy, do których dochodzi, jako jeden wiersz werdyktu.
@@ -306,7 +311,14 @@ class Verdict:
         """
         return [r for r in self.result.rozbieżności if len(r.czytania) > 1]
 
-    def explain(self) -> str:
+    def explain(self, brak_odczytania: str = BRAK_ODCZYTANIA) -> str:
+        """Co narzędzie ma o tym zdaniu do powiedzenia, jednym wierszem.
+
+        Nazwa braku przychodzi argumentem, bo dwa tryby nazywają go różnie, a
+        mówią pod obiema nazwami to samo o analizie, więc powód stoi tu raz.
+        Bierze ją samo zdanie odrzucone: poprawka jednego znaku i napis, którego
+        nic nie punktuje jako zdania, mówią autorowi co innego i idą przed nim.
+        """
         #  Poprawka wyprzedza każde inne wyjaśnienie i wyprzedza je nad zdaniem
         #  odrzuconym tak samo jak nad napisem niedomkniętym: zatrzymanie mówi,
         #  dokąd doszła analiza, a poprawka mówi, co z tym zrobić.
@@ -321,7 +333,7 @@ class Verdict:
                 # Cudzysłów jest treścią: najczęstszą formą bez licencji jest
                 # przecinek, a lista rozdzielana przecinkami gubi bez niego granice.
                 formy = ", ".join(f"„{forma}”" for forma in self.nielicencjonowane)
-                return f"brak odczytania: żadna produkcja nie bierze {formy}"
+                return f"{brak_odczytania}: żadna produkcja nie bierze {formy}"
             if self.result.furthest is None:
                 #  Tak samo odmawia ``bloker`` w ``olski/pokrycie.py`` i z tego
                 #  samego powodu: milczenie o zatrzymaniu czytałoby się tu jako
@@ -331,8 +343,8 @@ class Verdict:
                     "a ten przebieg o zatrzymanie nie pytał (werdykt w olski/werdykt/zdanie.py)"
                 )
             if self.zatrzymanie is None:
-                return "brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania"
-            return f"brak odczytania: analiza staje na „{self.zatrzymanie}”"
+                return f"{brak_odczytania}: analiza dochodzi do końca, a nic nie domyka zdania"
+            return f"{brak_odczytania}: analiza staje na „{self.zatrzymanie}”"
         przyłączenia = self.result.przyłączenia
         # Przekład idzie i tutaj (:func:`_nazwy_szkolne`), bo wiersz ten nie ma
         # nazywać roli, której lista czytań pod nim nie nazywa.

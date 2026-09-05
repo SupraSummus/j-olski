@@ -116,6 +116,20 @@ Rachunek ma tam trzy strony, bo autor jest zarazem tym, kto dopisuje produkcje.
 Autor, który olskiego tylko używa, tego drugiego ruchu nie ma
 i zostaje mu jeden: przepisać zdanie albo odpowiadać za nie sam.
 
+**Tryb ścisły jest tą umową w wydruku.**
+Wydruk domyślny o zdaniu odrzuconym milczy,
+bo olski nie orzeka o polszczyźnie zdania, którego nie wyprowadza.
+Jest to odpowiedź dla tego, kto umowy nie podpisał.
+Kto ją podpisał, chce odpowiedzi przeciwnej,
+więc pod `--ścisły` zdanie bez odczytania jest niesprawdzone
+i wchodzi do kodu wyjścia razem ze znaleziskami.
+Samo odrzucenie nie staje się przez to znaleziskiem:
+werdykt mówi w nim dalej, dokąd doszła analiza, a nie gdzie stoi usterka
+([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+Wieloznaczności tryb nie rusza, bo jest ona odpowiedzią pod obiema umowami.
+Napisu, którego nic nie punktuje jako zdania, tryb nie liczy,
+bo umowa jest o zdaniach, a nagłówek zdaniem nie jest.
+
 **Jednostką umowy jest tekst, bo jednostką sprawdzaną jest tekst.**
 Czy zdanie dostanie zgłoszenie, rozstrzyga zdanie przed nim.
 `Są one czerwone.` jest zdaniem dobrym po `Widzimy pole maków.`

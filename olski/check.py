@@ -7,6 +7,8 @@ zwykły tekst.
 Wydruk zgłasza znaleziska i milczy o zdaniu, o którym nie ma nic do powiedzenia
 (:func:`_wiersze`), a ile tego milczenia było, mówi ostatni wiersz przebiegu
 (:class:`olski.werdykt.Podsumowanie`).
+Tryb ścisły (:data:`NIESPRAWDZONE`) tego milczenia nie przyjmuje: nazywa każde
+zdanie bez odczytania niesprawdzonym i liczy je do kodu wyjścia.
 """
 
 from __future__ import annotations
@@ -23,6 +25,7 @@ from olski.odniesienia import Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
 from olski.werdykt import (
+    BRAK_ODCZYTANIA,
     OdczytaniaFormy,
     Podsumowanie,
     Verdict,
@@ -55,6 +58,12 @@ KLASA_NIENAZWANA = "klasy, której olski nie nazywa"
 #: samo jak :data:`DOMYSŁ`, a z innego powodu: werdykt mówi o polszczyźnie
 #: zdania, a chwyt o rejestrze, w którym je napisano (``olski/chwyty.py``).
 CHWYT = "~"
+
+#: Czym tryb ścisły otwiera wiersz o zdaniu, którego gramatyka nie wyprowadza;
+#: wydruk domyślny otwiera go przez :data:`olski.werdykt.BRAK_ODCZYTANIA`.
+#: Do :data:`olski.werdykt.ZGŁOSZENIA` nazwa nie wchodzi, bo baza sądów ocenia
+#: reguły, które bywają nietrafne, a nieczytanie sądu nie potrzebuje.
+NIESPRAWDZONE = "niesprawdzone"
 
 #: Znak przed wierszem warstwy rozstrzygającej. Wiersz ten nie jest werdyktem
 #: i nie może się na werdykt czytać, bo werdykt mówi, co olski o zdaniu wie,
@@ -216,8 +225,11 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
     a kto pyta o czytania, pyta o każde zdanie czytane.
     """
     verdict = zdanie.werdykt
-    if verdict.zgłoszenie or (args.zatrzymania and not verdict.czytane):
-        yield verdict.explain()
+    #  Nieczytane pokazuje flaga zatrzymań, a tryb ścisły pokazuje z nich same
+    #  zdania, bo napis, którego nic nie punktuje, zdaniem autora nie jest.
+    nieczytane_widać = args.zatrzymania or (args.ścisły and verdict.punktowane)
+    if verdict.zgłoszenie or (nieczytane_widać and not verdict.czytane):
+        yield verdict.explain(NIESPRAWDZONE if args.ścisły else BRAK_ODCZYTANIA)
     #  Zaraz za werdyktem, bo jest zgłoszeniem tak samo jak on, a nie odpowiedzią
     #  warstwy obok (:func:`_rozstrzygnięcia`); flagi go nie chowają z tego samego
     #  powodu, dla którego nie chowają wieloznaczności.
@@ -297,6 +309,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="pokaż zdania, których olski nie czyta, wraz z każdym miejscem, "
         "na którym staje analiza",
     )
+    parser.add_argument(
+        "--ścisły",
+        action="store_true",
+        help="zgłoś każde zdanie bez odczytania jako niesprawdzone "
+        "i policz je do kodu wyjścia",
+    )
     args = parser.parse_args(argv)
 
     if not args.paths and args.text is None:
@@ -334,7 +352,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(podsumowanie.explain())
     #  Kod wyjścia niesie znaleziska, a nie milczenie ani wieloznaczność
     #  (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
-    return 0 if podsumowanie.znalezisk == 0 else 1
+    #  Tryb ścisły dokłada do niego milczenie, bo w nim za zdanie bez odczytania
+    #  płaci autor (docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem).
+    #  Drugiego licznika nie dokłada: liczbę ma to milczenie w podsumowaniu już dziś.
+    niesprawdzonych = podsumowanie.bez_odczytania if args.ścisły else 0
+    return 0 if podsumowanie.znalezisk + niesprawdzonych == 0 else 1
 
 
 if __name__ == "__main__":

@@ -15,7 +15,9 @@ Trzecią są kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok:
 znalezisko daje jeden, a wołanie, którego nie da się wykonać, dwa,
 i te dwie odpowiedzi nie mogą się zlać w jedną.
 Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem,
-a zdanie wieloznaczne też nie (``docs/subset.md``), więc żadne kodu nie rusza.
+i zdanie wieloznaczne nie jest znaleziskiem (``docs/subset.md``),
+więc kodu nie rusza żadne z nich.
+Tryb ścisły rusza go odrzuceniem; wieloznaczność kodu nie rusza w żadnym trybie.
 Czwartą jest to, czym komenda czyta plik: dokument dochodzi do gramatyki bez
 swojego aparatu, a plik prozy tak, jak leży, i wydruk nie mówi, którą drogą
 tekst przyszedł.
@@ -73,6 +75,33 @@ def test_kod_jeden_dostaje_znalezisko_a_wieloznaczność_i_odrzucenie_nie(capsys
     assert olski.check.main(["-c", 'Przepisem "Zasad techniki prawodawczej" jest ustawa.']) == 1
     assert olski.check.main(["-c", "Maki rosną w garnkach. Są one czerwone."]) == 1
     assert olski.check.main(["-c", "Nowa program zapisuje ustawienia."]) == 0
+
+
+def test_tryb_ścisły_dokłada_odrzucenie_i_nie_zabiera_znaleziska_ani_odpowiedzi(capsys):
+    """Wiersz o poprawce ma pierwszeństwo przed nazwą niesprawdzonego.
+
+    Zdanie z poprawką jest odrzucone, więc tryb liczy je razem z resztą
+    milczenia; nazwane niesprawdzonym zgubiłoby to, co autor ma zrobić
+    (`Verdict.explain` w `olski/werdykt/zdanie.py`).
+    """
+    assert olski.check.main(["--ścisły", "-c", "Nowa program zapisuje ustawienia."]) == 1
+    assert "niesprawdzone: analiza dochodzi do końca" in capsys.readouterr().out
+    assert olski.check.main(["-c", "Nowa program zapisuje ustawienia."]) == 0
+    assert olski.check.main(["--ścisły", "-c", "Program otwierający się psuje."]) == 0
+    tekst = 'Przepisem "Zasad techniki prawodawczej" jest ustawa.'
+    assert olski.check.main(["--ścisły", "-c", tekst]) == 1
+    assert "po poprawce jednego znaku" in capsys.readouterr().out
+
+
+def test_tryb_ścisły_przemilcza_napis_którego_nic_nie_punktuje_jako_zdania(capsys):
+    """Umowa jest o zdaniach, a nagłówek zdaniem nie jest.
+
+    Tryb liczący napis niepunktowany zgłaszałby każdy nagłówek dokumentu,
+    czyli wywracałby przebieg nad `docs/` bez jednego zdania do przepisania.
+    """
+    assert olski.check.main(["--ścisły", "-c", MIESZANY]) == 1
+    nagłówki = [w for w in capsys.readouterr().out.splitlines() if w.startswith("<text>: ")]
+    assert nagłówki == ["<text>: Nowa program zapisuje ustawienia."]
 
 
 def test_tekst_bez_fragmentów_nie_mówi_o_nich_ani_słowa(capsys):

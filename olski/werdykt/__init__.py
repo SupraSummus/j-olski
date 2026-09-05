@@ -54,6 +54,7 @@ from olski.werdykt.tekst import (
 )
 from olski.werdykt.wykazy import OdczytaniaFormy, Żądanie
 from olski.werdykt.zdanie import (
+    BRAK_ODCZYTANIA,
     FRAGMENT,
     NIEDOMKNIĘTE,
     Verdict,
@@ -63,6 +64,7 @@ from olski.werdykt.zdanie import (
 )
 
 __all__ = [
+    "BRAK_ODCZYTANIA",
     "check",
     "dalsze_zatrzymania",
     "FRAGMENT",

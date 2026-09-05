@@ -158,6 +158,25 @@ Cięcie nie jest granicą konstrukcji.
 Po co ta flaga jest, mówi
 [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz).
 
+Tryb ścisły tego milczenia nie przyjmuje.
+Zdanie bez odczytania jest w nim zgłoszeniem i autor je przepisuje.
+Kod wyjścia liczy takie zdanie tak samo jak znalezisko.
+
+```sh
+python3 -m olski.check --ścisły -c "Zapisz plik konfiguracyjny.
+Cena rośnie, i linter sprawdza tekst."
+```
+
+```text
+<text>: Cena rośnie, i linter sprawdza tekst.
+        niesprawdzone: analiza staje na „i”
+zdań: 2; wieloznaczne: 0; bez odczytania: 1
+```
+
+Wieloznaczności tryb nie rusza.
+Umowę autora z olskim opisuje
+[docs/roadmap.md](docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem).
+
 Poprawka jednego znaku jest pierwszym znaleziskiem.
 Autor cytuje cudzysłowem maszynowym, a olski bierze inną parę znaków.
 
