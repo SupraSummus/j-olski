@@ -8,6 +8,11 @@
 # Po co kolejka stoi tu, a nie w banku drzew, mówi
 # docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów
 #
+# Wpis stoi tu wtedy, gdy jego zgłoszenie ma świadka: odczytanie zdania albo
+# odczytanie zdania naprawionego. Usterka, o której orzeka znaczenie słowa,
+# a nie kształt zdania, wpisem nie jest, bo takiego wpisu nie zamyka żadna robota:
+# docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa
+#
 # `zdanie` niesie usterkę, którą czytelnik by poprawił.
 # `usterka` mówi jednym zdaniem, co jest nie tak.
 # `zgłoszenie` nazywa zgłoszenie, które ma paść: nazwą, którą je nazywa olski,
@@ -29,15 +34,15 @@
 # Zdania są pisane ręką pod ten plik, a nie brane z korpusu, bo usterka ma tu
 # być jedna i nazwana; rozkład rejestru mierzy baza sądów, nie ten plik.
 
-zdanie: Idąc do pracy, padał deszcz.
-usterka: imiesłów przysłówkowy ma inny podmiot niż zdanie, więc deszcz idzie do pracy
+zdanie: Idąc do pracy, zgubiono klucze.
+usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
 zgłoszenie: imiesłów bez podmiotu
-poprawka: Kiedy szedłem do pracy, padał deszcz.
+poprawka: Idąc do pracy, zgubiłem klucze.
 
-zdanie: Czytając raport, zgasło światło.
-usterka: imiesłów przysłówkowy ma inny podmiot niż zdanie
+zdanie: Czytając raport, znaleziono błąd.
+usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
 zgłoszenie: imiesłów bez podmiotu
-poprawka: Kiedy czytałem raport, zgasło światło.
+poprawka: Czytając raport, znalazłem błąd.
 
 zdanie: Zespół programistów spotkali się rano.
 usterka: orzeczenie stoi w liczbie mnogiej, a podmiot w pojedynczej
