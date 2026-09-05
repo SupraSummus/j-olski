@@ -48,6 +48,8 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 - [corpora.md](corpora.md) przegląda polszczyznę pisaną przez ludzi
   i mówi, co każdy kandydat na korpus niesie w swoim rejestrze.
   Trzyma też ramę, w której czyta się trafienia zapisywane ręką.
+- [adnotacje.md](adnotacje.md) mówi, co adnotacja nad zdaniem NKJP ma zapisywać,
+  żeby przeżyła gramatykę, i które wybory rozstrzyga sam anotator korpusu.
 - [audit-corpus.md](audit-corpus.md) nazywa repozytoria,
   z których zrobiony jest korpus audytowy.
   Podaje commity, na których stoją liczby.

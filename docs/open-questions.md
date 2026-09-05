@@ -233,6 +233,10 @@ więc wniosek nie jest już własnością jednej dokumentacji.
 Czytającą była przy tym znów jedna sesja, a nie rodzimy czytelnik,
 i tej połowy nie zdejmuje nic poza wpisami, które przeczyta człowiek
 ([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
+Które z czytań wziął rodzimy czytelnik, mówi natomiast anotator korpusu
+tam, gdzie czytania różnią się odczytaniem formy,
+a czy drugie było dla niego czytaniem, nie mówi i on
+([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
 
 Odwrotną stronę tej pary — wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje —
 opisuje [disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje),
