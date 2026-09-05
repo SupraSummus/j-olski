@@ -606,6 +606,15 @@ Produkcja rusza natomiast to, czy znalezisko dalej pada,
 i sonda liczy to osobno: znalezisko fałszywe, które zeszło, jest zakupem,
 a trafne, które zeszło, stratą, i obie liczby wychodzą z jednej zmiany.
 
+Sądu nie unieważnia także wycofanie reguły z kodu.
+Reguła wraca czasem w innym kształcie,
+a zdania raz przeczytanego nikt nie czyta drugi raz,
+więc wpis zostaje w bazie pod nazwą, której olski już nie ma.
+Sonda liczy go w klasie `wycofane`
+i nie przykłada do niego dzisiejszego werdyktu, bo tej reguły werdykt nie ma.
+Klasa jest osobna od tej, która liczy zakup,
+bo wycofanie reguły zakupem nie jest.
+
 Nowe znaleziska idą w porządku odcisku zdania, a nie po plikach,
 żeby ocenione były próbą z całego korpusu, a nie z jego pierwszego pliku;
 czemu tak, mówi `harness/sądy.py`.

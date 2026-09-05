@@ -11,6 +11,8 @@ Jednostką jest znalezisko nad zdaniem, nazwane słowem z
 :data:`olski.werdykt.ZGŁOSZENIA`, więc zgłoszenie dopisane do olskiego wchodzi
 tu bez zmiany w tym module. Baza ocenia zgłoszenia, a nie same znaleziska,
 bo to ona rozstrzyga, które zgłoszenie znaleziskiem zostaje. Zdanie o dwu znaleziskach stoi w bazie dwa razy.
+Nazwa spoza tej krotki jest regułą wycofaną, a jej sądy zostają w bazie, bo sąd
+czytelnika nad zdaniem się nie starzeje.
 
 Sonda pyta przy tym o zgłoszenia wraz z tymi, których wydruk domyślny nie ma:
 ``w_zdaniu`` niżej włącza rozszerzenie warstwy zaimkowej stojące za flagą
@@ -18,11 +20,12 @@ Sonda pyta przy tym o zgłoszenia wraz z tymi, których wydruk domyślny nie ma:
 dostać, bo awansują ją sądy z tej bazy, a wpisy do niej wypisuje ten przebieg.
 Zgłoszenie spod flagi ma własną nazwę, więc obie reguły liczą się tu osobno.
 
-Klas jest pięć, bo mówią o dwu rzeczach naraz: :data:`POTWIERDZONE` i
+Klas jest sześć. Pięć z nich mówi o dwu rzeczach naraz: :data:`POTWIERDZONE` i
 :data:`NAD_CZYSTYM` o regule, :data:`PRZEOCZONE` i :data:`ZDJĘTE` o gramatyce,
 która od czasu sądu znalezisko zabrała — pierwsze jest stratą, drugie zakupem,
 a obie liczby wychodzą z jednej zmiany — i :data:`NIECZYTANE` o zdaniu, którego
-olski przestał czytać, bo ono o regule nie mówi nic.
+olski przestał czytać, bo ono o regule nie mówi nic. Szósta, :data:`WYCOFANE`,
+o dzisiejszym werdykcie milczy, bo reguły, o której ten sąd zapadł, w kodzie nie ma.
 
 Nowe idą w porządku ``sha256`` zdania, a nie po plikach: pierwszych ``--ile`` po
 plikach byłoby pierwszym plikiem korpusu, a odcisk daje próbę rozrzuconą po
@@ -86,9 +89,17 @@ ZDJĘTE = "zdjęte"
 #: mówi nic. Osobno od :data:`ZDJĘTE`, bo tamto jest zakupem, a to stratą.
 NIECZYTANE = "nieczytane"
 
-#: Klasy w kolejności wydruku. Krotka, a nie zbiór, bo zbiór postawiony na drodze
-#: do wydruku wypisuje w każdym przebiegu co innego.
-KLASY = (POTWIERDZONE, NAD_CZYSTYM, PRZEOCZONE, ZDJĘTE, NIECZYTANE)
+#: Klasy wpisu o zgłoszeniu, które olski ma. Krotka, a nie zbiór, bo zbiór
+#: postawiony na drodze do wydruku wypisuje w każdym przebiegu co innego.
+KLASY_ŻYWE = (POTWIERDZONE, NAD_CZYSTYM, PRZEOCZONE, ZDJĘTE, NIECZYTANE)
+
+#: Reguły, o której ten sąd zapadł, olski już nie ma, więc sonda nie ma czego
+#: przyłożyć do tego sądu i o zdanie nie pyta. Osobno od :data:`ZDJĘTE`, bo tamto
+#: liczy zakup gramatyki, a wycofanie reguły zakupem nie jest.
+WYCOFANE = "wycofane"
+
+#: Obie grupy naraz, czyli każda klasa, w której wpis bazy może stanąć.
+KLASY = (*KLASY_ŻYWE, WYCOFANE)
 
 #: Kształty wieloznaczności, czyli to, czym czytania się różnią. Zdanie niesie
 #: czasem kilka naraz i wtedy kształtem jest ich złożenie, ``przyłączenie+role``.
@@ -106,7 +117,7 @@ class Sąd:
     #: Zdania tego akapitu stojące przed zdaniem, w kolejności.
     kontekst: tuple[str, ...]
     zdanie: str
-    #: Nazwa zgłoszenia z :data:`olski.werdykt.ZGŁOSZENIA`.
+    #: Nazwa zgłoszenia z :data:`olski.werdykt.ZGŁOSZENIA` albo reguły wycofanej.
     znalezisko: str
     #: Wiersz, który ``olski-check`` wypisał nad tym zdaniem w chwili oceny.
     werdykt: str
@@ -131,7 +142,7 @@ class Zestawienie:
 
     sąd: Sąd
     klasa: str
-    #: Dzisiejszy wiersz werdyktu nad tym zdaniem.
+    #: Dzisiejszy wiersz werdyktu nad tym zdaniem; pusty w klasie :data:`WYCOFANE`.
     dzisiejsze: str
     #: Kształt dzisiejszej wieloznaczności, albo pusty napis, gdy jej nie ma.
     kształt: str
@@ -145,17 +156,13 @@ class Zestawienie:
 def czytaj(path: Path = SĄDY) -> list[Sąd]:
     """Wpisy z pliku; wpis niepełny jest błędem, a nie ciszą.
 
-    Wartości sądu i nazwy znaleziska pilnuje się tutaj, bo literówka w nich nie
-    wywraca niczego, tylko cicho wypycha wpis z mianownika albo wpuszcza
-    znalezisko z powrotem do przebiegu.
+    Wartości sądu pilnuje się tutaj, bo literówka w niej nie wywraca niczego,
+    tylko cicho wypycha wpis z mianownika. Nazwy znaleziska nie pilnuje nic,
+    bo nazw reguł wycofanych nie ma gdzie sprawdzić; ceną jest literówka w nazwie
+    reguły żywej, która wpis przenosi między wycofane.
     """
     sądy = []
     for pola in wpisy(path, KLUCZE, ("zdanie", "znalezisko", "werdykt", "sąd")):
-        znalezisko = pola["znalezisko"][0]
-        if znalezisko not in ZGŁOSZENIA:
-            raise ValueError(
-                f"{path}: znalezisko {znalezisko!r} nie jest jednym z {', '.join(ZGŁOSZENIA)}"
-            )
         sąd = pola["sąd"][0] or PUSTY
         if sąd not in WARTOŚCI_SĄDU:
             raise ValueError(f"{path}: sąd {sąd!r} nie jest jednym z {', '.join(WARTOŚCI_SĄDU)}")
@@ -164,7 +171,7 @@ def czytaj(path: Path = SĄDY) -> list[Sąd]:
                 plik=" ".join(pola.get("plik", ())),
                 kontekst=tuple(pola.get("kontekst", ())),
                 zdanie=pola["zdanie"][0],
-                znalezisko=znalezisko,
+                znalezisko=pola["znalezisko"][0],
                 werdykt=pola["werdykt"][0],
                 sąd=sąd,
                 powód=" ".join(pola.get("powód", ())),
@@ -188,7 +195,12 @@ def werdykt_wpisu(sąd: Sąd) -> Zdanie:
 
 
 def zestaw(sąd: Sąd) -> Zestawienie:
-    """Zapytaj olskiego o zdanie tego wpisu i przyłóż odpowiedź do sądu."""
+    """Zapytaj olskiego o zdanie tego wpisu i przyłóż odpowiedź do sądu.
+
+    Wpisu o regule wycofanej nie ma o co zapytać, więc jego zdania nikt nie rozbiera.
+    """
+    if sąd.znalezisko not in ZGŁOSZENIA:
+        return Zestawienie(sąd=sąd, klasa=WYCOFANE, dzisiejsze="", kształt="")
     zdanie = werdykt_wpisu(sąd)
     return Zestawienie(
         sąd=sąd,
@@ -242,19 +254,23 @@ def wydruk(zestawienia: Sequence[Zestawienie], czekające: int = 0) -> str:
     Zero wypisane, a nie pominięte: klasa, do której nie wpadł ani jeden wpis,
     jest odpowiedzią o tej bazie, a nie brakiem odpowiedzi. Znalezisko bez ani
     jednego sądu nie dostaje tabeli, bo tabela z samych zer mówi tylko tyle,
-    że nikt jeszcze nie czytał.
+    że nikt jeszcze nie czytał. Reguła wycofana dostaje samą :data:`WYCOFANE`,
+    a zgłoszenie żywe same :data:`KLASY_ŻYWE`, bo zero w klasie, w której taki wpis
+    stanąć nie może, o bazie nie mówi nic.
     """
     szerokość = max(len(klasa) for klasa in KLASY)
     wiersze = [f"{len(zestawienia)} sądów o znaleziskach"]
     if czekające:
         wiersze[0] += f", a {czekające} wpisów czeka na sąd i nie wchodzi do liczb"
-    for nazwa in ZGŁOSZENIA:
+    wycofane = sorted({z.sąd.znalezisko for z in zestawienia if z.klasa == WYCOFANE})
+    for nazwa in (*ZGŁOSZENIA, *wycofane):
         swoje = [z for z in zestawienia if z.sąd.znalezisko == nazwa]
         if not swoje:
             continue
         ile = collections.Counter(z.klasa for z in swoje)
         wiersze += ["", f"  {nazwa}, {len(swoje)} sądów:"]
-        wiersze += [f"  {ile[klasa]:>4}  {klasa}" for klasa in KLASY]
+        klasy = KLASY_ŻYWE if nazwa in ZGŁOSZENIA else (WYCOFANE,)
+        wiersze += [f"  {ile[klasa]:>4}  {klasa}" for klasa in klasy]
 
     kształty = sorted({z.kształt for z in zestawienia if z.kształt})
     if kształty:
@@ -274,11 +290,14 @@ def _wypis(zestawienie: Zestawienie, szerokość: int) -> str:
     """Wpis wraz z jego powodem, a wiersz werdyktu raz albo dwa razy.
 
     Dwa razy tam, gdzie werdykt ruszył się od chwili oceny: sąd wydano przy
-    wierszu zapisanym i to on mówi, czego ten sąd dotyczył.
+    wierszu zapisanym i to on mówi, czego ten sąd dotyczył. Wpis o regule
+    wycofanej ma sam wiersz zapisany, bo dzisiejszego nie ma.
     """
     sąd = zestawienie.sąd
     wiersze = [f"  {zestawienie.klasa:>{szerokość}}  {sąd.znalezisko}: {sąd.zdanie}"]
-    if zestawienie.rozeszło_się:
+    if not zestawienie.dzisiejsze:
+        wiersze.append(f"    zapisane: {sąd.werdykt}")
+    elif zestawienie.rozeszło_się:
         wiersze.append(f"    zapisane: {sąd.werdykt}")
         wiersze.append(f"    dzisiaj:  {zestawienie.dzisiejsze}")
     else:

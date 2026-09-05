@@ -27,6 +27,7 @@ from harness.sądy import (
     PUSTY,
     ROLE,
     TRAFNE,
+    WYCOFANE,
     ZDJĘTE,
     Sąd,
     czytaj,
@@ -103,6 +104,21 @@ def test_klasa_bierze_się_z_sądu_i_z_dzisiejszego_znaleziska(sąd, zdanie, kla
     #  znaleziska nie ma, a mówią rzecz przeciwną, więc zamienione miejscami
     #  odwracają wniosek, który sonda wydaje, i nie widać tego po wydruku.
     assert zestaw(wpis(zdanie, sąd)).klasa == klasa
+
+
+def test_sąd_o_regule_wycofanej_wstaje_i_staje_w_klasie_wycofanych(tmp_path):
+    #  Reguła zdjęta z kodu zabierała stąd swoje sądy, bo czytnik odrzucał nazwę
+    #  spoza ZGŁOSZENIA, a zdania raz przeczytanego nikt nie czyta drugi raz.
+    plik = tmp_path / "sądy.txt"
+    plik.write_text(
+        f"zdanie: {ZGŁOSZONE}\nznalezisko: imiesłów bez podmiotu\n"
+        "werdykt: jedno odczytanie\nsąd: fałszywe\npowód: powód\n",
+        encoding="utf-8",
+    )
+    (wpis,) = czytaj(plik)
+    zestawienie = zestaw(wpis)
+    assert zestawienie.klasa == WYCOFANE
+    assert not zestawienie.dzisiejsze
 
 
 def test_odniesienie_ocenia_się_za_swoim_akapitem():

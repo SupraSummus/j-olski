@@ -361,7 +361,9 @@ Sądy są tu całą populacją, a nie próbą z niej.
 Konstrukcja jest w tym rejestrze rzadka,
 więc trafienia nad całym podkorpusem milionowym NKJP przeczytano co do jednego:
 trzynaście sądów, ani jednego potwierdzenia.
-Same sądy wraz z powodami czyta się z historii `próba/nkjp-sądy.txt`.
+Same sądy wraz z powodami czyta się z `próba/nkjp-sądy.txt`,
+gdzie zostały po wycofaniu reguły, w klasie `wycofane`
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
 Wszystkie trzynaście są jednym kształtem, którego czytelnik nie poprawia:
 wykonawca domyślny imiesłowu jest w nich wykonawcą domyślnym orzeczenia,
 więc nikt, kogo zdanie miało nazwać, z niego nie wypadł.
