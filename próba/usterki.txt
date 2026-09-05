@@ -10,7 +10,10 @@
 #
 # Wpis stoi tu wtedy, gdy jego zgłoszenie ma świadka: odczytanie zdania albo
 # odczytanie zdania naprawionego. Usterka, o której orzeka znaczenie słowa,
-# a nie kształt zdania, wpisem nie jest, bo takiego wpisu nie zamyka żadna robota:
+# a nie kształt zdania, wpisem nie jest, bo takiego wpisu nie zamyka żadna robota.
+# Wpisem nie jest tak samo sam błąd gramatyczny — forma niezgodna z sąsiadem,
+# przypadek, którego czasownik nie żąda — bo świadek naprawionej formy nie mówi,
+# którą z dwóch form autor pomylił, a olski obiecuje usterkę głębszą:
 # docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa
 #
 # `zdanie` niesie usterkę, którą czytelnik by poprawił.
@@ -55,16 +58,6 @@ zdanie: Czytając raport, znaleziono błąd.
 usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
 zgłoszenie: imiesłów bez podmiotu
 poprawka: Czytając raport, znalazłem błąd.
-
-zdanie: Zespół programistów spotkali się rano.
-usterka: orzeczenie stoi w liczbie mnogiej, a podmiot w pojedynczej
-zgłoszenie: niezgodność podmiotu z orzeczeniem
-poprawka: Zespół programistów spotkał się rano.
-
-zdanie: Lista błędów i ostrzeżeń zostały zapisane.
-usterka: orzeczenie zgadza się z bliższym rzeczownikiem, a nie z podmiotem
-zgłoszenie: niezgodność podmiotu z orzeczeniem
-poprawka: Lista błędów i ostrzeżeń została zapisana.
 
 kontekst: Pies gonił kota.
 zdanie: On uciekł.
@@ -178,16 +171,6 @@ usterka: zaimek stoi w jednym zdaniu ze swoim rzeczownikiem, więc czyta się ja
 zgłoszenie: zaimek wskazujący rzeczownik tego samego zdania
 poprawka: Do bloku pamięci nic się nie odwołuje, więc jest on dostępny do alokacji.
 
-zdanie: Sterta można uznać za akumulację dwóch stert: sterta dużego obiektu i stertę małego obiektu.
-usterka: „uznać” żąda biernika, a rzecz uznawana stoi w mianowniku
-zgłoszenie: mianownik w pozycji dopełnienia
-poprawka: Stertę można uznać za akumulację dwóch stert: sterty dużych obiektów i sterty małych obiektów.
-
-zdanie: Nawet jeśli masz 2 GB wolnego miejsca, alokacja, która wymaga 2 GB, nie powiedzie się, chyba że wszystkie wolne miejsce znajduje się w jednym bloku adresowym.
-usterka: „wszystkie” stoi w liczbie mnogiej, a „miejsce” w pojedynczej
-zgłoszenie: przydawka niezgodna z rzeczownikiem
-poprawka: Nawet jeśli masz 2 GB wolnego miejsca, alokacja, która wymaga 2 GB, nie powiedzie się, chyba że całe wolne miejsce znajduje się w jednym bloku adresowym.
-
 zdanie: Ponieważ środowisko uruchomieniowe przydziela pamięć dla obiektu przez dodanie wartości do wskaźnika, jest niemal tak szybko, jak przydzielanie pamięci ze stosu.
 usterka: „jest szybko” orzeka przysłówkiem, a zdanie nie nazywa rzeczy, o której to orzeka
 zgłoszenie: przysłówek w miejscu orzecznika
@@ -225,11 +208,6 @@ poprawka: Ilość pamięci zwolnionej przez efemeryczną kolekcję śmieci jest 
 
 # learn.microsoft.com/pl-pl/windows-server/administration/windows-commands/robocopy
 
-zdanie: Te opcje ograniczania służą do określania maksymalnej przepustowości we/wy, którą narzędzie Robocopy umożliwia użycie w bajtach na sekundę.
-usterka: zaimek względny stoi w bierniku, a „użycie” żąda przy sobie dopełniacza
-zgłoszenie: zaimek względny w niezgodnym przypadku
-poprawka: Te opcje ograniczania służą do określania w bajtach na sekundę maksymalnej przepustowości we/wy, której narzędzie Robocopy może użyć.
-
 zdanie: Wyklucza dodatkowe pliki i katalogi obecne w miejscu docelowym, ale nie źródło.
 usterka: człon po „ale nie” zgubił przyimek i czyta się jako drugie dopełnienie „Wyklucza”
 zgłoszenie: człon współrzędny bez przyimka
@@ -249,13 +227,6 @@ zdanie: Użycie /LFSM żąda robocopy do działania w trybie małej ilości woln
 usterka: „żądać” bierze dopełniacz rzeczy i „od” tego, kto ma ją dać, a tu stoi przy nim nazwa narzędzia i wyrażenie z „do”
 zgłoszenie: dopełnienie w przypadku, którego czasownik nie żąda
 poprawka: Użycie /LFSM żąda od robocopy działania w trybie małej ilości wolnego miejsca.
-
-# NKJP 1.2, typ_nd/320-3-000264/txt_1-div.txt
-
-zdanie: Współczesna geografia jest skierowana na badania nie tyle trwałości i całościowości wzorów kulturowych, ile procesów, transformacji, zmienności jaki one podlegają
-usterka: „podlegać” żąda celownika, a zaimek względny stoi w mianowniku
-zgłoszenie: zaimek względny w niezgodnym przypadku
-poprawka: Współczesna geografia jest skierowana na badania nie tyle trwałości i całościowości wzorów kulturowych, ile procesów, transformacji, zmienności, jakim one podlegają.
 
 # NKJP 1.2, typ_net_nieinterakt/620-3-010000038/txt_10-div.txt
 

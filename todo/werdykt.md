@@ -338,25 +338,6 @@ a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repo
 bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
 i ani razu trafnie.
 
-Naprawy formy, którą wpisy o niezgodności biorą za świadka, nie robi żaden kod.
-`docs/subset.md` rozstrzyga, że zgłoszenie o parze niezgodnej poświadcza odczytanie napisu,
-w którym orzeczenie dostało formę, której żąda podmiot
-([`docs/subset.md`](../docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)),
-a rozbiór drugi robi dziś tylko `olski/werdykt/odrzucone.py`
-i robi go dla jednego znaku, nie dla formy.
-Ruchem jest ten sam rozbiór drugi nad napisem,
-w którym forma osobowa dostaje liczbę i rodzaj podmiotu,
-a kandydatów daje synteza tego samego lematu;
-zgłoszenie nazywa parę, a nie napis do przepisania, bo naprawa bywa dwojaka.
-Zacząć można od razu, bo poprawki obu wpisów o niezgodności
-(`Zespół programistów spotkał się rano.`, `Lista błędów i ostrzeżeń została zapisana.`)
-olski czyta, więc świadek stoi.
-Uogólnienia na inne pary — przypadek dopełnienia, przypadek zaimka względnego,
-liczbę przydawki — ten wpis nie obejmuje, bo ich poprawki w korpusie są dziś nieczytane
-i świadka nie ma czym postawić;
-ile poprawek korpusu olski czyta, mówi `python3 -m harness.usterki`,
-a wpis o tych parach pisze się dopiero wtedy, gdy ich poprawki wchodzą.
-
 Wykrywacz imiesłowu bez podmiotu trafia nad cudzym tekstem w zdania, których nikt nie poprawia:
 trafienia nad NKJP przeczytano co do jednego i żadnego czytelnik nie potwierdził
 ([`docs/subset.md`](../docs/subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
