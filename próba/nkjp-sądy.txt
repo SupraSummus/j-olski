@@ -872,3 +872,60 @@ znalezisko: imiesłów bez podmiotu
 werdykt: jedno odczytanie
 sąd: fałszywe
 powód: pamięta o tym i wychowuje dzieci ten sam czytelnik, do którego zwraca się `Warto`
+
+plik: typ_publ/120-2-000001/txt_25-div.txt
+kontekst: Wes: Po pierwsze, nastolatki to generacja, która najczęściej chodzi do kina.
+kontekst: Po drugie, jest bardziej otwarta i szczera niż dorośli.
+zdanie: Ma w sobie więcejadrenaliny.
+znalezisko: wieloznaczne
+werdykt: 7 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot, wyrażenie_przyimkowe; „w sobie” ma 2 odczytania
+sąd: fałszywe
+powód: `więcejadrenaliny` jest zlepkiem `więcej adrenaliny` i czytelnik czyta tam dopełnienie, a podmiotem, okolicznikiem narzędnikowym ani członem `w sobie` ten zlepek nie stoi; poprawia się tu spację, a nie wieloznaczność
+
+plik: typ_publ/120-2-000001/txt_3-div.txt
+kontekst: P: Raczej powściągliwie.
+zdanie: Nie lubię, gdy ktoś jest natarczywy.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: okolicznik_przysłówkowy, okolicznik_zdaniowy, orzecznik, podmiot
+sąd: fałszywe
+powód: `gdy` wprowadza zdanie podrzędne przy `lubię`, więc czytanie stawiające je jako okolicznik przy `jest`, a `Nie lubię` osobno, odpada
+
+plik: typ_publ/120-2-000001/txt_36-div.txt
+kontekst: 19.Z pewnością zostaniemy przyjaciółmi.
+kontekst: Będziemy się widywać z okazji świąt.
+zdanie: Nikt jak ty nie umie pastować podłóg!
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w roli: podmiot; „jak ty” → „Nikt”, „umie”
+sąd: fałszywe
+powód: `jak ty` przy `Nikt` żądałoby `Nikt taki jak ty`, więc czytelnik wiesza je przy `umie` i czyta jedno zdanie
+
+plik: typ_publ/120-2-000001/txt_36-div.txt
+zdanie: 20.Zanim wyjdziesz, daj mi telefon do twej najlepszej przyjaciółki.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „do twej najlepszej przyjaciółki” → „daj”, „telefon”
+sąd: fałszywe
+powód: `telefon do kogoś` jest numerem tej osoby, a dawanie ma tu adresata w `mi`, więc czytanie z `do twej najlepszej przyjaciółki` przy `daj` odpada
+
+plik: typ_publ/120-2-000001/txt_33-div.txt
+kontekst: - Nic z tych rzeczy, ojciec z bratem wszędzie wysyłali ze mną mamę.
+zdanie: Jest bardzo przystojna i odwracała ode mnie odwagę.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+sąd: fałszywe
+powód: oba czytania różni tylko to, czy `bardzo` stoi przy `przystojna`, czy przy `Jest`, a mówią to samo; poprawia się tu `odwagę` na `uwagę`, czyli słowo, a nie kształt zdania
+
+plik: typ_publ/120-2-000001/txt_32-div.txt
+kontekst: Firma gwarantuje jakość, a technologia DVD pozwala zmieścić na jednej płycie olbrzymi materiał (m.in. aż 5 godzin filmów).
+zdanie: Żadne pytanie nie pozostaje bez odpowiedzi: swobodnie poruszasz się w czasie i przestrzeni, korzystasz z zasobów Sieci.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania
+sąd: fałszywe
+powód: `przestrzeni` jest tu rzeczownikiem spiętym z `czasie`, więc czytanie biorące je za orzeczenie trzeciego członu odpada
+
+plik: typ_publ/120-2-000001/txt_30-div.txt
+kontekst: K.P.: Tyś troszkę zbladł, ale tylko w sobie, w środku.
+zdanie: I to jest najwięcej, co może zrobić Bardzo Małe Zwierzątko, żeby nie zblednąć naprawdę.
+znalezisko: wieloznaczne
+werdykt: 2 odczytania; „Bardzo Małe Zwierzątko” ma 2 odczytania
+sąd: fałszywe
+powód: `Bardzo Małe Zwierzątko` jest nazwą własną z książek Milne'a, więc czytanie robiące z `Bardzo` osobny okolicznik odpada
