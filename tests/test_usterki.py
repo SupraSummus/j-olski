@@ -15,6 +15,7 @@ from harness.usterki import (
     NIECZYTANE,
     SZUM,
     WYKRYTE,
+    ŹLE_CZYTANE,
     ŻADNE,
     Usterka,
     czytaj,
@@ -44,13 +45,14 @@ def test_zdanie_stoi_w_korpusie_raz():
     assert len(zdania) == len(set(zdania))
 
 
-def wpis(zdanie, zgłoszenie, poprawka=None, kontekst=()):
+def wpis(zdanie, zgłoszenie, poprawka=None, kontekst=(), odczytanie=()):
     return Usterka(
         kontekst=kontekst,
         zdanie=zdanie,
         usterka="usterka" if zgłoszenie != ŻADNE else "",
         zgłoszenie=zgłoszenie,
         poprawka=poprawka,
+        odczytanie=odczytanie,
     )
 
 
@@ -87,8 +89,127 @@ def test_klasa_bierze_się_ze_zdania_i_z_poprawki_naraz(wpis, klasa):
     assert zbadaj(wpis).klasa == klasa
 
 
-def test_wpis_z_usterką_bez_poprawki_jest_błędem(tmp_path):
+@pytest.mark.parametrize(
+    ("wpis", "klasa"),
+    [
+        #  Rola obsadzona tak, jak wpis prosi: zgłoszenie miałoby co przeczytać,
+        #  więc brakuje samego wykrywacza.
+        (
+            wpis(
+                "Chałka przewyższa zwykłą bułkę.",
+                "brak chałki",
+                "Bułka jest zwykła.",
+                odczytanie=(("podmiot", "Chałka"),),
+            ),
+            CISZA,
+        ),
+        #  Ta sama rola obsadzona czym innym: wykrywacz nie ma czego przeczytać.
+        (
+            wpis(
+                "Chałka przewyższa zwykłą bułkę.",
+                "brak chałki",
+                "Bułka jest zwykła.",
+                odczytanie=(("podmiot", "zwykłą bułkę"),),
+            ),
+            ŹLE_CZYTANE,
+        ),
+        #  Role mają się spotkać w jednym odczytaniu: te dwie obsadza to zdanie
+        #  każdą z osobna, a razem żadne z jego dwóch odczytań.
+        (
+            wpis(
+                "Operator ustala priorytet.",
+                "brak operatora",
+                "Priorytet jest ustalony.",
+                odczytanie=(("podmiot", "Operator"), ("dopełnienie", "Operator")),
+            ),
+            ŹLE_CZYTANE,
+        ),
+        #  Zdanie składowe jest przezroczyste: obie role stoją w jednym odczytaniu,
+        #  a streszczenia mają osobne.
+        (
+            wpis(
+                "Pies gonił kota, a on uciekł.",
+                "niejasne odniesienie",
+                "Pies gonił kota, a kot uciekł.",
+                odczytanie=(("podmiot", "Pies"), ("podmiot", "on")),
+            ),
+            CISZA,
+        ),
+        #  Nieczytanie wyprzedza złe czytanie: zdanie bez odczytań żąda produkcji,
+        #  a nie roli przestawionej w odczytaniu, którego nie ma.
+        (
+            wpis(
+                "Nowa program zapisuje ustawienia.",
+                "niezgodność",
+                "Program zapisuje.",
+                odczytanie=(("podmiot", "Nowa program"),),
+            ),
+            NIECZYTANE,
+        ),
+    ],
+    ids=lambda x: x if isinstance(x, str) else x.zdanie[:30],
+)
+def test_role_wpisu_odróżniają_ciszę_od_złego_czytania(wpis, klasa):
+    assert zbadaj(wpis).klasa == klasa
+
+
+def korpus(tmp_path, *wiersze):
     plik = tmp_path / "u.txt"
-    plik.write_text("zdanie: Czekają nagrody.\nusterka: coś\nzgłoszenie: wieloznaczne\n", encoding="utf-8")
+    plik.write_text("\n".join(wiersze) + "\n", encoding="utf-8")
+    return plik
+
+
+def test_wpis_z_usterką_bez_poprawki_jest_błędem(tmp_path):
+    plik = korpus(
+        tmp_path,
+        "zdanie: Czekają nagrody.",
+        "usterka: coś",
+        "zgłoszenie: wieloznaczne",
+    )
+    with pytest.raises(ValueError):
+        czytaj(plik)
+
+
+def test_odczytanie_rozpada_się_na_rolę_i_wypełnienie(tmp_path):
+    #  Wypełnienie przychodzi z odstępem po dwukropku, a porównuje się je
+    #  z napisem roli co do znaku, więc odstęp nieobcięty wywracałby każdy wpis
+    #  w źle czytane.
+    plik = korpus(
+        tmp_path,
+        "zdanie: Zespół programistów spotkali się rano.",
+        "usterka: coś",
+        "zgłoszenie: niezgodność",
+        "odczytanie: podmiot: Zespół programistów",
+        "odczytanie: orzeczenie: spotkali się",
+        "poprawka: Zespół programistów spotkał się rano.",
+    )
+    (wpis,) = czytaj(plik)
+    assert wpis.odczytanie == (("podmiot", "Zespół programistów"), ("orzeczenie", "spotkali się"))
+
+
+def test_odczytanie_bez_wypełnienia_jest_błędem(tmp_path):
+    #  Rola bez wypełnienia nie ma czego porównać z odczytaniem, więc wpis
+    #  wychodziłby źle czytany, cokolwiek olski nad tym zdaniem przeczyta.
+    plik = korpus(
+        tmp_path,
+        "zdanie: Czekają nagrody.",
+        "usterka: coś",
+        "zgłoszenie: wieloznaczne",
+        "odczytanie: podmiot",
+        "poprawka: Program otwierający się psuje.",
+    )
+    with pytest.raises(ValueError):
+        czytaj(plik)
+
+
+def test_wpis_czysty_z_odczytaniem_jest_błędem(tmp_path):
+    #  Wpis czysty nie ma zgłoszenia, więc nie ma ról, których by ono potrzebowało,
+    #  a pole przemilczane leżałoby w nim bez żadnego skutku.
+    plik = korpus(
+        tmp_path,
+        "zdanie: Operator ustala priorytet.",
+        "zgłoszenie: żadne",
+        "odczytanie: podmiot: Operator",
+    )
     with pytest.raises(ValueError):
         czytaj(plik)

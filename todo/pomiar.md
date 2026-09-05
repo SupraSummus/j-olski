@@ -662,3 +662,14 @@ czy wpisy o wieloznaczności schodzą z korpusu razem z pytaniem,
 po co autorowi ten wiersz.
 Wpis zamknie `_klasa` w `harness/usterki.py` albo trzy wpisy korpusu,
 a przed tym zdanie w nagłówku korpusu, bo on tę klasę dziś opisuje.
+
+Pole `odczytanie` niosą w `próba/usterki.txt` te wpisy,
+którym dopisano je razem z klasą `źle czytane`,
+a reszta ciszy nie mówi, czy brakuje wykrywacza, czy odczytania.
+Ruchem jest przeczytanie odczytań każdego wpisu, który wychodzi w ciszy,
+i wpisanie do niego ról, których jego zgłoszenie potrzebuje.
+Rola bywa przy tym poza zasięgiem streszczenia, a nie tylko obsadzona inaczej:
+`Prezes zwolnił dyrektora, ponieważ był niekompetentny.` pyta o podmiot
+zdania podrzędnego, a streszczenie opisuje zdanie zewnętrzne
+(`describe` w `olski/parse/streszczenie.py`),
+więc wpis o takiej roli wyjdzie źle czytany przez sam ten zasięg.

@@ -3,13 +3,15 @@
 ``próba/usterki.txt`` jest kolejką roboty toru gramatycznego.
 Wpis niesie zdanie z usterką, nazwę zgłoszenia, które ma nad nim paść,
 i poprawkę, nad którą to zgłoszenie ma milczeć.
-Sonda puszcza oba zdania przez ``olski-check`` i mówi o każdym wpisie jedno słowo:
+Sonda puszcza oba zdania przez ``olski-check`` i wydaje o każdym wpisie jeden werdykt:
 
 - :data:`WYKRYTE`: zgłoszenie pada nad zdaniem i nie pada nad poprawką;
 - :data:`SZUM`: zgłoszenie pada nad obojgiem, więc nie widzi usterki, tylko coś obok;
 - :data:`NIECZYTANE`: zgłoszenia nie ma, a olski zdania nie czyta,
   więc o usterce nie mówi nic gramatyka, a nie wykrywacz;
-- :data:`CISZA`: olski zdanie czyta i zgłoszenia nie wydaje.
+- :data:`ŹLE_CZYTANE`: olski zdanie czyta, a żadne odczytanie nie obsadza ról,
+  o które wpis prosi swoim polem ``odczytanie``;
+- :data:`CISZA`: olski czyta zdanie w tych rolach i zgłoszenia nie wydaje.
 
 Wpis czysty (``zgłoszenie: żadne``) dostaje :data:`CZYSTE`, gdy nic, co autor ma
 poprawić, nad nim nie pada, a :data:`SZUM`, gdy pada cokolwiek takiego. Wiersz
@@ -19,8 +21,8 @@ Zgłoszeniem jest tu wszystko, co ``olski-check`` wypisuje nad zdaniem
 z jakąkolwiek flagą: nazwy z :data:`olski.werdykt.ZGŁOSZENIA`,
 nazwa chwytu spod ``--chwyty`` (``olski/chwyty.py``)
 i rzecz w pozycji osoby spod ``--osoby``.
-Nazwa, której olski nie wydaje wcale, jest wpisem kolejki i wychodzi ciszą
-albo nieczytaniem, i to jest liczba, po którą się tę sondę puszcza.
+Nazwa, której olski nie wydaje wcale, jest wpisem kolejki i wychodzi ciszą,
+złym czytaniem albo nieczytaniem, i to jest liczba, po którą się tę sondę puszcza.
 
     python3 -m harness.usterki
 """
@@ -36,7 +38,7 @@ from pathlib import Path
 
 from harness.wybory import wpisy
 from olski.chwyty import chwyty
-from olski.werdykt import WIELOZNACZNE, Zdanie, nad_tekstem, niespełnione_żądania
+from olski.werdykt import WIELOZNACZNE, Verdict, Zdanie, nad_tekstem, niespełnione_żądania
 
 #: Korpus usterek.
 USTERKI = Path(__file__).parent.parent / "próba" / "usterki.txt"
@@ -52,17 +54,19 @@ OSOBA = "rzecz w pozycji osoby"
 #: (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
 ODPOWIEDZI = frozenset({WIELOZNACZNE})
 
-KLUCZE = ("kontekst", "zdanie", "usterka", "zgłoszenie", "poprawka")
+KLUCZE = ("kontekst", "zdanie", "usterka", "zgłoszenie", "poprawka", "odczytanie")
 
 WYKRYTE = "wykryte"
 SZUM = "szum"
 NIECZYTANE = "nieczytane"
+ŹLE_CZYTANE = "źle czytane"
 CISZA = "cisza"
 CZYSTE = "czyste"
 
-#: Klasy w kolejności wydruku. Krotka, a nie zbiór, bo zbiór postawiony na drodze
+#: Klasy w kolejności wydruku, czyli od zgłoszenia gotowego do zdania, którego
+#: gramatyka nie wyprowadza. Krotka, a nie zbiór, bo zbiór postawiony na drodze
 #: do wydruku wypisuje w każdym przebiegu co innego.
-KLASY = (WYKRYTE, CISZA, NIECZYTANE, SZUM, CZYSTE)
+KLASY = (WYKRYTE, CISZA, ŹLE_CZYTANE, NIECZYTANE, SZUM, CZYSTE)
 
 
 @dataclass(frozen=True)
@@ -74,6 +78,9 @@ class Usterka:
     usterka: str
     zgłoszenie: str
     poprawka: str | None
+    #: Role, których zgłoszenie potrzebuje, wraz z ich wypełnieniami; pusta,
+    #: kiedy wpis o nie nie prosi.
+    odczytanie: tuple[tuple[str, str], ...] = ()
 
     @property
     def czysty(self) -> bool:
@@ -105,10 +112,13 @@ def czytaj(path: Path = USTERKI) -> list[Usterka]:
         zgłoszenie = pola["zgłoszenie"][0]
         poprawka = pola.get("poprawka", [None])[0]
         usterka = " ".join(pola.get("usterka", ()))
+        odczytanie = _odczytanie(path, pola)
         if zgłoszenie != ŻADNE and not (poprawka and usterka):
             raise ValueError(f"{path}: wpis z usterką bez poprawki albo bez usterki: {pola['zdanie'][0]}")
-        if zgłoszenie == ŻADNE and (poprawka or usterka):
-            raise ValueError(f"{path}: wpis czysty z poprawką albo usterką: {pola['zdanie'][0]}")
+        if zgłoszenie == ŻADNE and (poprawka or usterka or odczytanie):
+            raise ValueError(
+                f"{path}: wpis czysty z poprawką, usterką albo odczytaniem: {pola['zdanie'][0]}"
+            )
         usterki.append(
             Usterka(
                 kontekst=tuple(pola.get("kontekst", ())),
@@ -116,9 +126,26 @@ def czytaj(path: Path = USTERKI) -> list[Usterka]:
                 usterka=usterka,
                 zgłoszenie=zgłoszenie,
                 poprawka=poprawka,
+                odczytanie=odczytanie,
             )
         )
     return usterki
+
+
+def _odczytanie(path: Path, pola: dict[str, list[str]]) -> tuple[tuple[str, str], ...]:
+    """Role wpisu wraz z wypełnieniami, po jednej na wiersz ``odczytanie``.
+
+    Wiersz bez wypełnienia jest błędem, a nie rolą pustą: nie ma czego porównać
+    z odczytaniem, więc wpis z takim wierszem wychodziłby źle czytany, cokolwiek
+    olski nad tym zdaniem przeczyta.
+    """
+    role = []
+    for wiersz in pola.get("odczytanie", ()):
+        rola, _, treść = wiersz.partition(":")
+        if not rola.strip() or not treść.strip():
+            raise ValueError(f"{path}: odczytanie nie jest parą „rola: wypełnienie”: {wiersz}")
+        role.append((rola.strip(), treść.strip()))
+    return tuple(role)
 
 
 def zgłoszenia(zdanie: Zdanie) -> tuple[str, ...]:
@@ -149,7 +176,7 @@ def zbadaj(wpis: Usterka) -> Wynik:
     nad_poprawką = zgłoszenia(ostatnie(wpis.kontekst, wpis.poprawka)) if wpis.poprawka else ()
     return Wynik(
         wpis=wpis,
-        klasa=_klasa(wpis, nad_zdaniem, nad_poprawką, zdanie.werdykt.czytane),
+        klasa=_klasa(wpis, nad_zdaniem, nad_poprawką, zdanie.werdykt),
         nad_zdaniem=nad_zdaniem,
         nad_poprawką=nad_poprawką,
         werdykt=zdanie.werdykt.explain(),
@@ -157,13 +184,44 @@ def zbadaj(wpis: Usterka) -> Wynik:
 
 
 def _klasa(
-    wpis: Usterka, nad_zdaniem: Sequence[str], nad_poprawką: Sequence[str], czytane: bool
+    wpis: Usterka, nad_zdaniem: Sequence[str], nad_poprawką: Sequence[str], werdykt: Verdict
 ) -> str:
+    """Klasa wpisu; nieczytanie wyprzedza złe czytanie, bo mówi o zdaniu więcej.
+
+    Zdanie bez ani jednego odczytania nie obsadza ról tak samo jak zdanie czytane
+    inaczej, a kolejka straciłaby na zwinięciu tych dwóch klas różnicę między
+    produkcją do napisania a rolą przestawioną w produkcji, która już jest.
+    """
     if wpis.czysty:
         return SZUM if any(nazwa not in ODPOWIEDZI for nazwa in nad_zdaniem) else CZYSTE
     if wpis.zgłoszenie in nad_zdaniem:
         return SZUM if wpis.zgłoszenie in nad_poprawką else WYKRYTE
-    return CISZA if czytane else NIECZYTANE
+    if not werdykt.czytane:
+        return NIECZYTANE
+    return CISZA if _obsadza_role(werdykt.readings, wpis.odczytanie) else ŹLE_CZYTANE
+
+
+def _obsadza_role(
+    odczytania: Sequence[tuple[dict[str, str], ...]], role: Sequence[tuple[str, str]]
+) -> bool:
+    """Czy któreś odczytanie obsadza każdą z tych ról tak, jak prosi wpis.
+
+    Role mają się spotkać w jednym odczytaniu, a nie każda w innym,
+    bo zgłoszenie czyta jedno odczytanie naraz:
+    `Operator ustala priorytet.` obsadza `Operator` raz podmiotem, a raz
+    dopełnieniem, i nie ma odczytania, w którym stoi w obu.
+    Zdanie składowe jest za to przezroczyste, bo odczytanie ma streszczenie
+    na każde z nich, a wpis nazywa rolę, nie składowe, w którym ona stoi.
+    """
+    if not role:
+        return True
+    return any(
+        all(
+            any(streszczenie.get(rola) == treść for streszczenie in odczytanie)
+            for rola, treść in role
+        )
+        for odczytanie in odczytania
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -201,6 +259,10 @@ def _wypis(wynik: Wynik, szerokość: int) -> str:
     if wpis.usterka:
         wiersze.append(f"    usterka: {wpis.usterka}")
     wiersze.append(f"    dziś: {wynik.werdykt}")
+    if wynik.klasa == ŹLE_CZYTANE:
+        #  Werdykt nad zdaniem nazywa role rozbieżne, a nie obsadzone.
+        role = "; ".join(f"{rola}: {treść}" for rola, treść in wpis.odczytanie)
+        wiersze.append(f"    odczytanie: {role}")
     obok = [n for n in wynik.nad_zdaniem if n != wpis.zgłoszenie]
     if obok:
         wiersze.append(f"    obok: {', '.join(obok)}")

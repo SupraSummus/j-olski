@@ -347,8 +347,8 @@ Sprawdza go `python3 -m harness.usterki`,
 a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
 Ten sam przebieg ustawia kolejkę roboty
 ([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)):
-wpis nieczytany żąda produkcji albo naprawy, wpis w ciszy żąda wykrywacza,
-a szum żąda zawężenia tego, co już pada.
+wpis nieczytany żąda produkcji albo naprawy, wpis źle czytany żąda ról,
+wpis w ciszy żąda wykrywacza, a szum żąda zawężenia tego, co już pada.
 Cel mierzy zdolność, a nie udział,
 bo zdania korpusu nikt nie przepisuje pod gramatykę:
 przepisać wolno poprawkę, a zdanie z usterką ma zostać usterką.
@@ -550,6 +550,10 @@ Zdania, którego polszczyzna nie ma, nie wpuszcza za to żadna produkcja
 i wpuścić go nie wolno, więc wpis o nim nazywa naprawę:
 zgłoszenie poświadcza wtedy odczytanie poprawionego napisu
 ([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
+Wpis źle czytany nazywa zdanie wyprowadzone, ale nie w tych rolach,
+o które prosi jego pole `odczytanie`:
+wykrywacz czytający takie odczytanie nie ma czego przeczytać,
+więc robotą jest tam gramatyka, a nie wykrywacz.
 Wpis w ciszy nazywa wykrywacz do napisania.
 Szum nazywa zgłoszenie, które pada obok usterki, a nie na nią, i żąda zawężenia.
 Pokrycie zostaje skutkiem, tak jak mówi

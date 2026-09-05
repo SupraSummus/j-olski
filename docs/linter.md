@@ -125,6 +125,9 @@ Kolejność jest więc taka, i pomiar stoi w niej przed awansem, a nie przed pis
    ([niżej](#suffixes-buy-more-than-expected));
    regułę, której wystarczy znacznik, można pisać wszędzie,
    a pisze się ją tu wtedy, gdy stoi na niej zdanie z korpusu.
+   Role, których taka reguła potrzebuje, wpisz do wpisu korpusu:
+   sonda odpowie wtedy `źle czytane` zamiast ciszy,
+   a to znaczy, że przed regułą stoi gramatyka.
 3. **Napisz wykrywacz za flagą.**
    Wchodzi do kodu, gdy trafia w swoje zdania korpusu i milczy nad ich poprawkami
    (`python3 -m harness.usterki`).

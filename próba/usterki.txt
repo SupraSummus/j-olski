@@ -25,7 +25,13 @@
 # zgłoszenie padające nad obojgiem nie widzi usterki, tylko coś obok niej.
 # `kontekst` niesie zdania stojące przed zdaniem, kiedy usterki nie widać bez nich,
 # i stoi tak samo przed poprawką.
-# Wpis czysty ma `zgłoszenie: żadne` i poprawki nie ma: jest zdaniem bez usterki,
+# `odczytanie` nazywa role, których zgłoszenie potrzebuje, po jednej na wiersz,
+# w postaci `rola: wypełnienie`, i nazywa je tak, jak nazywa je werdykt;
+# rola, której gramatyka nie zna, jest wpisem kolejki tak samo jak nowa nazwa
+# zgłoszenia. Wpis, którego ról nie obsadza naraz żadne odczytanie, wychodzi
+# `źle czytane`, a wpis bez tego pola zostaje w ciszy.
+# Wpis czysty ma `zgłoszenie: żadne`, a poprawki ani odczytania nie ma:
+# jest zdaniem bez usterki,
 # a szumem jest nad nim każde zgłoszenie poza wierszem o odczytaniach.
 # Wiersz ten szumem nie jest, bo wieloznaczność jest odpowiedzią, a nie
 # znaleziskiem, i poprawiać nad nią nie ma czego:
